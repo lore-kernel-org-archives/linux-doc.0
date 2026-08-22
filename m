@@ -1,103 +1,475 @@
-Received: from sender5-op-o12.zoho.com (sender5-op-o12.zoho.com [165.173.182.12])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C332D5436;
-	Sat, 22 Aug 2026 18:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787424932; cv=pass; b=eI+DlKbNX1rPRV+h/5MvT2eI5DRbG58kwdR7HsXHlJqqW9nQqsnhujgeNnGggSEz4XpqzRyWzUy4wwMFXLe7XhYqYxtH7yx+tj0mEeLJPofE4HdUJpOOO2dL69CdP6ycv2b4fnc06nykIsoVPjrgFqaa0CPqvezepEXTO7ODrsk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787424932; c=relaxed/simple;
-	bh=DtUzewz4kPWCsaEI6F5G3C8sTFGQByZppVyaSTNJogI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Mmp+ZSzt1IpunmwzBY4lANRagHSCj0sxl9HOHLIHDEkfTrN2EVZ0TKQ7YP+7yh85vswuanueSPiDytCF5tr7GwpOLnWdF5IfF7PBwv/0RJDJpVgTmnDjSyx84mS45uGEa/NtOLgzch0fppOiqzTAFhCrmRqxXxhAfovT5m6OufQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=dxxV+VuU; arc=pass smtp.client-ip=165.173.182.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="dxxV+VuU"
-ARC-Seal: i=1; a=rsa-sha256; t=1787424797; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=NrOLy/73bsqy0rF0ewkTpbhm0fEKME1WuhJ6d4IznUreVjVnh68h6LF30mz6Ph1W8MXkvFdgHnqBt6mjsJwq4dUM3GujoMuUxJUb6HB92t86WAURp2v6VZz1bt9/iiRD6AnltFzXzIh70Cw2BGBZ2GZkISQ+Xx/uEwFv3Cuc96Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1787424797; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=q8+AIGPDn/JT1v8hFgnJvEM7aLOu5SjphAk6HaDD/Tw=; 
-	b=W2qHA33ZeT7Il3iu16IxpI6jFibcYzIcncOdyV8VkRcqZ4yhOe1Qa8fKly6AShUHNyi2HH4f3buIqx4oRjYemo+oplWkqjcDwe3lraDjchJajns7lsU6fRJ88WQAc3JaCPPdUj/TfJXGxNuX3WF+MKzdlNiegp8eXJkg8N42Dmo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1787424796;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=q8+AIGPDn/JT1v8hFgnJvEM7aLOu5SjphAk6HaDD/Tw=;
-	b=dxxV+VuUFyiHqiQCeAOoT1fvPosqxyHragNEm8gsLZV14Ega0jewmh8nBM5zgvvF
-	ZyLLhZv9yjmA4O+kK4KtK7U/hExLcla+U9DqmY7hzIEPGJiI83xrd4LUxQINhAhB52D
-	KH4B281mqqJBvZogrWELlNGyt/h1FLN2i8VOFV3j5oZkzxIj9G5gJyYkr3WYOXpHk+B
-	FL4WOmBLfMv6KQkQpPbj/l8Irl470txto+Fm4ienDisU6OXOuz01glvH2yChMyMZgnz
-	LmIj8Y+Gr0n9RyqpJOmAC1gqB27RuOTbxJSwAb48o1fIkanv+Dlf14WxW0GM6xwsRNl
-	Od0pFU9V9g==
-Received: by mx.zohomail.com with SMTPS id 1787424795955118.86889977473345;
-	Sat, 22 Aug 2026 11:53:15 -0700 (PDT)
-From: Rong Zhang <i@rong.moe>
-Date: Sun, 23 Aug 2026 02:52:31 +0800
-Subject: [PATCH 4/4] ALSA: usb-audio: Add quirk flags for Logitech PRO X
- Wireless
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC7E3242B2;
+	Sat, 22 Aug 2026 19:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787426663; cv=none; b=Rf9p0ZM8obdJmZ64lqqBJFYMGz4BrRghgTyxcBDMhtKTW+5EW8vAymhctWn3lMJJe9vR43wIU6A+onWrqTjkJkhnexaeMBlgbywlftFZvVF0uBP8FOWKAxqOKR+cRt0SPpUFcITxiFiRABevVz4Z21M9/vt99k03ZBvwoHNkk3Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787426663; c=relaxed/simple;
+	bh=EnVTf8gwPDT5HYwqYo0yJy/jFSm9GDsLPStDR83Xyjo=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=VcSRyCU+f6xmp9JT3tsOxTZbktWsfOucH8NZisPOniOdfGuoYGWgdahtS3eWCLygZbDtcAJwxP9wxILxPMtTYVbSSpzih2OQllppH8Jg7CCz5/Lf51mIWgYZrA2Bj+nozPlUPhRK2FxTTdKYUSTIk6Z7HSsGFZ4/S4xGQ9uhET8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf09.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 709901C09D0;
+	Sat, 22 Aug 2026 19:24:19 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf09.hostedemail.com (Postfix) with ESMTPA id 9797B2002A;
+	Sat, 22 Aug 2026 19:24:17 +0000 (UTC)
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 0CE2FF40066;
+	Sat, 22 Aug 2026 15:24:17 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-09.internal (MEProxy); Sat, 22 Aug 2026 15:24:17 -0400
+X-ME-Sender: <xms:YPeJahArSvkCKCnPnF_5z1Hkbp4wpYWbf3znzTJCT2C5LTQdQEH9CA>
+    <xme:YPeJaqWJkzUg0AJJimVh4SX9aRfmhnRMc-zQX8F2z_BB8FiR0t2N3WfHSoIgAVHL7
+    gdyaV5TKnfcSZp-O68Xt1FhRHnY3FUV65Rf7TQllrvGv1gz0uyBrxT7>
+X-ME-Proxy-Cause: dmFkZTEvraoE52QKgzrjVZx7y1Nh26WxfrVWVx85I0tKnFYu7wPFkalH5pSmF7ZtXe4VUL
+    V/YGxhEfKMPG1RQ2WEl/BDCnPB87I6zqJ4aefcoSgQsNxJMU6CoWC8Twi27v30pNXO7Cx9
+    +w3yTS4nYyBumtAGmrjoue4GwJ+x1mhOkLk26vcGJECcNo6A8QyqD6gdF+4Cbf4GBjzKOn
+    3bgvC9drrdeBXNKSCGjWDW7mM/8ufJw4aZQJm92g3zdjbXtvsPkYAl1U5nGwLLEngyqStC
+    rJsmWyvHmVV24l3NNw1/L5z3y9FB2iMGQGb7wvuzLvvWgttZBIP3eEnMuGDZdihc2dVFsN
+    5UsMPN9JDV+SYkeJQKuMvdBaSzilehL9HlZpqg2owCsoxOjV6rFUHzZbHyjj9uClCY7+em
+    RD73hKLXVV7ldsWilEwMNyHdCCU3MckK20504N3nDeDMdfrEaYqMF8rchRAXCS0abss2rT
+    WhdTpkvlhxeZurUXdQ08tfwcROlqzr0HqdFBWDaBqPhMzPEeCO6e0QiqlCFYnO75txcA2s
+    d/SFAKMeu8Dpovwn07sshv7LpSFfZ/SyJZISOeRSr6JWM707VibYcaVlEPQTSydl3xLKGY
+    L5JKz/63Ra14ouspjlg7Lt+PBcbBpx2aF8ZrwXsrNRpq9K0Vr8MSDm8BZ5Dg
+X-ME-Proxy: <xmx:YPeJaoN1xxt0EiNG0EW0miCjq900ovGHIp6SxB8bLKLOXXtwWE2mEg>
+    <xmx:YfeJan4UQfr_JoK1YQxY7BDPj3AK0kiGrojN6HoCQ_Ry6s9wcwDaQQ>
+    <xmx:YfeJaq01gIS-BAujEhkPKaKrg8IyoXFX01WoHbeWWOlMkYWCkh6_4A>
+    <xmx:YfeJagyKvRNeZ3lrcc4__u-YdMVmtHu04foIf-uQpXWew_BEUOjywg>
+    <xmx:YfeJasvpjaXz_eLO3plXj4iclSHJeELj5f3reLm0V2xb0fme6wAtDIH3>
+Feedback-ID: i3a164872:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id D23D9700065; Sat, 22 Aug 2026 15:24:16 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Date: Sat, 22 Aug 2026 14:23:56 -0500
+From: "John Groves" <john@groves.net>
+To: "Darrick J . Wong" <djwong@kernel.org>
+Cc: "Richard Cheng" <icheng@nvidia.com>, "John Groves" <john@jagalactic.com>,
+ "Miklos Szeredi" <miklos@szeredi.hu>, "Dan Williams" <djbw@kernel.org>,
+ "Bernd Schubert" <bschubert@ddn.com>,
+ "Alison Schofield" <alison.schofield@intel.com>,
+ "John Groves (jgroves)" <jgroves@micron.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Jake Edge" <jake@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Vishal Verma" <vishal.l.verma@intel.com>,
+ "Dave Jiang" <dave.jiang@intel.com>,
+ "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "David Hildenbrand" <david@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Jonathan Cameron" <jic23@kernel.org>,
+ "Stefan Hajnoczi" <shajnocz@redhat.com>,
+ "Joanne Koong" <joannelkoong@gmail.com>,
+ "Josef Bacik" <josef@toxicpanda.com>,
+ "Bagas Sanjaya" <bagasdotme@gmail.com>,
+ "Chen Linxuan" <chenlinxuan@uniontech.com>,
+ "James Morse" <james.morse@arm.com>, "Fuad Tabba" <tabba@google.com>,
+ "Sean Christopherson" <seanjc@google.com>,
+ "Shivank Garg" <shivankg@amd.com>,
+ "Ackerley Tng" <ackerleytng@google.com>,
+ "Gregory Price" <gourry@gourry.net>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Lorenzo Stoakes" <ljs@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Ira Weiny" <iweiny@kernel.org>,
+ "Pasha Tatashin" <pasha.tatashin@soleen.com>,
+ "Haren Myneni" <haren@linux.ibm.com>,
+ "Pratyush Yadav" <pratyush@kernel.org>,
+ "Giovanni Cabiddu" <giovanni.cabiddu@intel.com>,
+ "Jiri Slaby" <jirislaby@kernel.org>,
+ "Ethan Nelson-Moore" <enelsonmoore@gmail.com>,
+ "Gabriel Whigham" <gabewhigham@gmail.com>,
+ "Aravind Ramesh" <arramesh@micron.com>,
+ "Ajay Joshi" <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Message-Id: <95c95a40-fd7f-4a4e-b257-818caddcb3f1@app.fastmail.com>
+In-Reply-To: <20260822001723.GC6047@frogsfrogsfrogs>
+References: 
+ <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
+ <20260810202510.96332-1-john@jagalactic.com>
+ <0100019fed59de28-dde6a382-affe-4bc6-a91d-d4054a7c61a5-000000@email.amazonses.com>
+ <anrUDcyctLFe8dZL@MWDK4CY14F> <ant9osbVPJyUPdWB@groves.net>
+ <20260822001723.GC6047@frogsfrogsfrogs>
+Subject: Re: [PATCH v13 07/12] famfs: MAP_CREATE ioctl and fmap ingest (ABI 44)
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260823-uac-demote-sticky-check-v1-4-a8cbe572edff@rong.moe>
-References: <20260823-uac-demote-sticky-check-v1-0-a8cbe572edff@rong.moe>
-In-Reply-To: <20260823-uac-demote-sticky-check-v1-0-a8cbe572edff@rong.moe>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Alexander Niemeyer <adventureFAN@gmx.de>, Rong Zhang <i@rong.moe>
-X-Mailer: b4 0.17-dev-1f2f7
-X-ZohoMailClient: External
+X-Stat-Signature: 64en7acjof16s9wcfxefh8ihdtbguwyj
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: 9797B2002A
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1+3pFRhriOVOENpbcgb600B3/Cigfvb/HE=
+X-HE-Tag: 1787426657-749633
+X-HE-Meta: U2FsdGVkX19jEgntu6Cf53RaD2DMvrvqkdr0cAfO6Aukd3vn2tbRSg4PmH2A562kSjv4crXfh4f6puI1iJ/a7P19UCV/UNgu+sXWPLH4nR2leb/R4Sjks8SbDOaCjHepL7C7ZK3d+JiQnQ0UN3Bs3qoCvyfmTOCeoPfayQLNn8CkNsFNeMgPOeYzyy2bLWUSQyWBxpaU7HrHPOLe1b/GQUcFugDKYX1jywNsvtCGPfV9Zx/MgimjQ6CnmofWUtW85f1TR+p3fSI127LpikPKEQvGadJQJjL0KelagNasnNsbhGdVAzFeGLZ/nIQIN5jL
 
-The Logitech PRO X Wireless is a wireless headset with a hotpluggable
-microphone.
 
-Its Playback mixer's GET_CUR somehow becomes broken when the microphone
-is detached, so set QUIRK_FLAG_MIXER_GET_CUR_OK to prevent the mixer
-behavior from depending on whether the microphone is attached.
 
-Meanwhile, the Playback mixer's minimum value doesn't work properly,
-thus set QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE to prevent userspace audio
-stack from using the minimum mixer value to tune volume (setting it
-when muted is OK).
+On Fri, Aug 21, 2026, at 7:17 PM, Darrick J. Wong wrote:
+> On Tue, Aug 11, 2026 at 05:17:50PM -0500, John Groves wrote:
+> 
+> <snip>
+> 
+> > > > + switch (fmh.ext_type) {
+> > > > + case FAMFS_IOC_EXT_SIMPLE: {
+> > > > + struct famfs_ioc_simple_ext *se_in = fmap_buf + next_offset;
+> > > > +
+> > > > + next_offset += (size_t)fmh.nextents * sizeof(*se_in);
+> > > > + if (next_offset > fmh.fmap_size) {
+> > > > + rc = -EINVAL;
+> > > > + goto out;
+> > > > + }
+> > > > +
+> > > > + meta->fm_nextents = fmh.nextents;
+> > > > + meta->se = kcalloc(meta->fm_nextents, sizeof(*meta->se),
+> > > > +    GFP_KERNEL);
+> > > > + if (!meta->se) {
+> > > > + rc = -ENOMEM;
+> > > > + goto out;
+> > > > + }
+> > > > +
+> > > > + for (i = 0; i < fmh.nextents; i++) {
+> > > > + meta->se[i].dev_index  = se_in[i].se_devindex;
+> > > > + meta->se[i].ext_offset = se_in[i].se_offset;
+> > > > + meta->se[i].ext_len    = se_in[i].se_len;
+> > > > +
+> > > > + if (meta->se[i].dev_index >= FAMFS_MAX_DAXDEVS) {
+> > > > + rc = -EINVAL;
+> > > > + goto out;
+> > > > + }
+> > > > + meta->dev_bitmap |= BIT_ULL(meta->se[i].dev_index);
+> > > > + errs += famfs_check_ext_alignment(&meta->se[i]);
+> > > > + extent_total += meta->se[i].ext_len;
+> > > 
+> > > offset + length + entent_total can overflow, and file_size can be larger
+> > > than MAX_LFS_FILESIZE. And overflow can wrap the DAX address back to 0
+> > > and map the wrong memory.
+> > > 
+> > > Maybe check_add_overflow() can be utilized ?
+> > 
+> > Good idea, thanks!
+> 
+> Yes, all those arithmetics should catch overflows.
+> 
+> > > 
+> > > 
+> > > > + }
+> > > > + break;
+> > > > + }
+> > > > +
+> > > > + case FAMFS_IOC_EXT_INTERLEAVE: {
+> > > > + s64 size_remainder = meta->file_size;
+> > > > + u32 niext = fmh.nextents;
+> > > > +
+> > > > + meta->fm_niext = niext;
+> > > > + meta->ie = kcalloc(niext, sizeof(*meta->ie), GFP_KERNEL);
+> > > > + if (!meta->ie) {
+> > > > + rc = -ENOMEM;
+> > > > + goto out;
+> > > > + }
+> > > > +
+> > > > + /* Outer loop is over the separate interleaved extents */
+> > > > + for (i = 0; i < niext; i++) {
+> > > > + struct famfs_ioc_iext *ie_in = fmap_buf + next_offset;
+> > > > + struct famfs_ioc_simple_ext *sie_in;
+> > > > + u64 nstrips;
+> > > > +
+> > > > + next_offset += sizeof(*ie_in);
+> > > > + if (next_offset > fmh.fmap_size) {
+> > > > + rc = -EINVAL;
+> > > > + goto out;
+> > > > + }
+> > > > +
+> > > > + /* chunk_size must be exactly one supported alloc unit */
+> > > > + if (ie_in->ie_chunk_size != PAGE_SIZE &&
+> > > > +     ie_in->ie_chunk_size != PMD_SIZE) {
+> > > > + rc = -EINVAL;
+> > > > + goto out;
+> > > > + }
+> > > > + if (ie_in->ie_nbytes == 0) {
+> > > > + rc = -EINVAL;
+> > > > + goto out;
+> > > > + }
+> > > > +
+> > > > + nstrips = ie_in->ie_nstrips;
+> > > > + if (nstrips < 1) {
+> > > > + rc = -EINVAL;
+> > > > + goto out;
+> > > > + }
+> > > > +
+> > > > + meta->ie[i].fie_chunk_size = ie_in->ie_chunk_size;
+> > > > + meta->ie[i].fie_nstrips    = ie_in->ie_nstrips;
+> > > > + meta->ie[i].fie_nbytes     = ie_in->ie_nbytes;
+> > > > +
+> > > > + /* The strip extents follow the interleaved-ext header */
+> > > > + sie_in = fmap_buf + next_offset;
+> > > > + next_offset += nstrips * sizeof(*sie_in);
+> > > > + if (next_offset > fmh.fmap_size) {
+> > > > + rc = -EINVAL;
+> > > > + goto out;
+> > > > + }
+> > > > +
+> > > > + meta->ie[i].ie_strips =
+> > > > + kcalloc(nstrips,
+> > > > + sizeof(meta->ie[i].ie_strips[0]),
+> > > > + GFP_KERNEL);
+> > > > + if (!meta->ie[i].ie_strips) {
+> > > > + rc = -ENOMEM;
+> > > > + goto out;
+> > > > + }
+> > > > +
+> > > > + /* Inner loop is over the strips */
+> > > > + for (j = 0; j < nstrips; j++) {
+> > > > + struct famfs_meta_simple_ext *so =
+> > > > + &meta->ie[i].ie_strips[j];
+> > > > +
+> > > > + so->dev_index  = sie_in[j].se_devindex;
+> > > > + so->ext_offset = sie_in[j].se_offset;
+> > > > + so->ext_len    = sie_in[j].se_len;
+> > > > +
+> > > > + if (so->dev_index >= FAMFS_MAX_DAXDEVS) {
+> > > > + rc = -EINVAL;
+> > > > + goto out;
+> > > > + }
+> > > > + meta->dev_bitmap |= BIT_ULL(so->dev_index);
+> > > > + errs += famfs_check_ext_alignment(so);
+> > > > + extent_total += so->ext_len;
+> > > > + size_remainder -= so->ext_len;
+> > > 
+> > > We use physical allocation size here to check logical file coverage,
+> > > it doesn't make sense to me.
+> > > For example, file_size can be 1MB and ie_nbytes only 4KB, but a 1MB ext_len makes this check pass, and you access the area after the first 4 KB will fail,
+> > > because it has no logical mapping.
+> > > 
+> > > Maybe we should make sure the sum of ie_nbytes covers file_size, and
+> > > separately check that each strip's ext_len is large enough for its assigned
+> > > chunks ?
+> > 
+> > Chapeau to you for actually studying this code. Not many have gone
+> > there. It's arcane, but logically not too complicated.
+> > 
+> > You're right that famfs_file_init_dax() doesn't check for pathological
+> > strip sizes or overflows. It does do some basic checking, but would
+> > not catch a short strip followed by one or more "correct" strips.
+> > That stuff would indicate a buggy or malicious caller, since it
+> > violates the fmap logic.
+> > 
+> > However, the vma fault handler for interleaved files, 
+> > famfs_meta_to_dax_offset_interleaved(), *does* check for strip 
+> > overflows. It resolves a file offset to an offset in a specific
+> > strip (based on strip count and chunk size), and then checks that 
+> > it falls within the strip and not past the end.
+> > 
+> > Here is that code:
+> > 
+> > /*
+> > * MAP_CREATE only checks that the strips' combined
+> > * length covers the file, not that each strip is large
+> > * enough for the chunks striped onto it. Guard against a
+> > * malformed fmap with an undersized strip so we never
+> > * resolve to a dax offset past the strip's extent.
+> > */
+> > if (strip_offset >= strip->ext_len)
+> > goto err_out;
+> > 
+> > daxdev = famfs_daxdev_from_index(fsi, strip->dev_index, &rc);
+> > if (!daxdev) {
+> > meta->error = true;
+> > return rc;
+> > }
+> > 
+> > iomap->addr    = strip->ext_offset + strip_offset;
+> > iomap->offset  = file_offset;
+> > iomap->length  = min_t(loff_t, len, chunk_remainder);
+> > iomap->length  = min_t(loff_t, iomap->length,
+> >        strip->ext_len - strip_offset);
+> > iomap->dax_dev = daxdev;
+> > iomap->type    = IOMAP_MAPPED;
+> > 
+> > return 0;
+> > 
+> > Since this condition is an error or malice on the part of the 
+> > MAP_CREATE caller, I'm comfortable with catching it at fault time.
+> 
+> I think you should reject *any* bad mapping data at MAP_CREATE time
+> because then you can catch application bugs early with an immediate
+> error being sent to the famfs server.  Don't let bad data into the
+> kernel.
 
-Reported-by: Alexander Niemeyer <adventureFAN@gmx.de>
-Closes: https://msgid.link/6262cbbd-d1f2-4c9d-a1c7-9c5d12636f4b@gmx.de
-Closes: https://msgid.link/7984832b-86f6-4934-bfc0-1ed70218973a@gmx.de
-Signed-off-by: Rong Zhang <i@rong.moe>
----
- sound/usb/quirks.c | 3 +++
- 1 file changed, 3 insertions(+)
+I can do that. I will note that the only application that does this (file creation
+during creat, cp or logplay in the famfs cli) definitively never has a shorter strip 
+extent followed by a longer one (which would be true for there to be a strip 
+overflow that wasn't caught till fault() time.
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index b62168a11e32..1e5a261f9c10 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2254,6 +2254,9 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	DEVICE_FLG(0x046d, 0x0a8f, /* Logitech H390 headset */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M |
- 		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-+	DEVICE_FLG(0x046d, 0x0aba, /* Logitech PRO X Wireless */
-+		   QUIRK_FLAG_MIXER_GET_CUR_OK |
-+		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
- 	DEVICE_FLG(0x0499, 0x1506, /* Yamaha THR5 */
- 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
- 	DEVICE_FLG(0x0499, 0x1509, /* Steinberg UR22 */
+but it's easy enough to check at MAP_CREATE so will do.
 
--- 
-2.55.0
+> 
+> > > > + }
+> > > > + }
+> > > > +
+> > > > + if (size_remainder > 0) {
+> > > > + /* Strips do not cover the whole file */
+> > > > + rc = -EINVAL;
+> > > > + goto out;
+> > > > + }
+> > > > + break;
+> > > > + }
+> > > > +
+> > > > + default:
+> > > > + rc = -EINVAL;
+> > > > + goto out;
+> > > > + }
+> > > > +
+> > > > + if (errs > 0) {
+> > > > + rc = -EINVAL;
+> > > > + goto out;
+> > > > + }
+> > > > + if (extent_total < meta->file_size) {
+> > > > + rc = -EINVAL;
+> > > > + goto out;
+> > > > + }
+> > > > +
+> > > > + /* Publish the famfs metadata on inode->i_private */
+> > > > + inode_lock(inode);
+> > > > + if (inode->i_private) {
+> > > > + rc = -EEXIST; /* file already has famfs metadata */
+> > > > + } else {
+> > > > + inode->i_private = meta;
+> > > > + i_size_write(inode, meta->file_size);
+> > > > + inode->i_flags |= S_DAX;
+> > > > + meta = NULL; /* owned by the inode now */
+> > > > + rc = 0;
+> > > > + }
+> > > > + inode_unlock(inode);
+> > > > +
+> > > > +out:
+> > > > + kvfree(fmap_buf);
+> > > > + if (meta)
+> > > > + famfs_meta_free(meta);
+> > > > + return rc;
+> > > > +}
+> > > > +
+> > > > +/**
+> > > > + * famfs_file_ioctl() - Top-level famfs file ioctl handler
+> > > > + * @file: the file
+> > > > + * @cmd:  ioctl opcode
+> > > > + * @arg:  ioctl opcode argument (if any)
+> > > > + */
+> > > > +static long
+> > > > +famfs_file_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+> > > > +{
+> > > > + struct inode *inode = file_inode(file);
+> > > > + struct famfs_fs_info *fsi = inode->i_sb->s_fs_info;
+> > > > + long rc;
+> > > > +
+> > > > + if (fsi->deverror && (cmd != FAMFSIOC_NOP))
+> > > > + return -ENODEV;
+> > > > +
+> > > > + switch (cmd) {
+> > > > + case FAMFSIOC_NOP:
+> > > > + rc = 0;
+> > > > + break;
+> > > > +
+> > > > + case FAMFSIOC_MAP_CREATE:
+> > > > + rc = famfs_file_init_dax(file, (void __user *)arg);
+> > > > + break;
+> > > > +
+> > > > + default:
+> > > > + rc = -ENOTTY;
+> > > > + break;
+> > > > + }
+> > > > +
+> > > > + return rc;
+> > > > +}
+> > > > +
+> > > >  /*********************************************************************
+> > > >   * vm_operations
+> > > >   */
+> > > > @@ -94,9 +400,25 @@ const struct vm_operations_struct famfs_file_vm_ops = {
+> > > >  static ssize_t
+> > > >  famfs_file_invalid(struct inode *inode)
+> > > >  {
+> > > > + struct famfs_file_meta *meta = inode->i_private;
+> > > > + size_t i_size = i_size_read(inode);
+> > > > +
+> > > > + if (!meta) {
+> > > > + pr_debug("%s: un-initialized famfs file\n", __func__);
+> > > > + return -EIO;
+> > > > + }
+> > > > + if (meta->error) {
+> > > > + pr_debug("%s: previously detected metadata errors\n", __func__);
+> > > > + return -EIO;
+> > > > + }
+> > > > + if (i_size != meta->file_size) {
+> > > > + pr_warn("%s: i_size overwritten from %ld to %ld\n",
+> > > > +        __func__, meta->file_size, i_size);
+> > > > + meta->error = true;
+> > > > + return -ENXIO;
+> > > > + }
+> > > >  if (!IS_DAX(inode)) {
+> > > > - pr_debug("%s: inode %llx IS_DAX is false\n",
+> > > > - __func__, (u64)inode);
+> > > > + pr_debug("%s: inode %llx IS_DAX is false\n", __func__, (u64)inode);
+> > > >  return -ENXIO;
+> > > >  }
+> > > >  return 0;
+> > > > @@ -233,7 +555,7 @@ const struct file_operations famfs_file_operations = {
+> > > >  /* Custom famfs operations */
+> > > >  .write_iter    = famfs_dax_write_iter,
+> > > >  .read_iter    = famfs_dax_read_iter,
+> > > > - .unlocked_ioctl    = NULL /*famfs_file_ioctl*/,
+> > > > + .unlocked_ioctl    = famfs_file_ioctl,
+> > > >  .mmap    = famfs_file_mmap,
+> > > > 
+> > > 
+> > > We don't have compat_ioctl handler, a 32-bit application on a 64-bit
+> > > kernel will get ENOTTY, if we will have that scenario I think the handler
+> > > should be added.
+> > > 
+> > > Best regards,
+> > > Richard Cheng.
+> > 
+> > This one is simple but arcane. Here are the kconfig deps:
+> > 
+> > FAMFS -> FS_DAX -> ZONE_DEVICE -> MEMORY_HOTPLUG
+> > 
+> > And MEMORY_HOTPLUG is depends on 64BIT. So famfs is definitively 64BIT-only.
+> > 
+> > In this series I added a direct dependency on 64BIT, to make it more 
+> > clear...
+> 
+> compat_ioctl is for 32-bit programs calling into a 64-bit kernel.
+> 
+> Granted a 32-bit program is probably not a good contender for famfs due
+> to limited address space, and you could simply declare that you don't
+> support 32-bit programs.
+> 
+> --D
+> 
 
+V13 already depends on 64BIT, so I think this is already done.
+
+32 bit address space is not big enough to cover any of the intended use 
+cases for famfs. 
+
+Thanks Darrick!
+John
