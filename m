@@ -1,78 +1,77 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4D43A4F26
-	for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 12:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D146E332638
+	for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 12:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787401029; cv=none; b=SW9HRkF4BUVo2Ptc6iK6Xrf/MPrXBlXYLY2yIcv0aRDTsG3m1jT7yKrODeqv0NE32ODTuowWhB93Z7KbHZTb/OGx7O7DCf0CC/wwnCG8M7QUmG43Izd2hcrwWCWlUk3axgZMsg9P1HQr5QU86z4fZUJdgylqrDZKMa/hOXn4uWA=
+	t=1787401032; cv=none; b=IwV3kJhSWtg86Szqrw5RLWe5CxR0jK/rUfWWzYXbNSjbPBcOL1JUqyzjgtZcFIku/3HxM2LLne+SPIXVPxZu0vUFZj3GKVzEVTsoJa+plynd/p22EuqSbPpsg2RQmg1KW50yrZ+N4qTRnkIcFiRVaX3jCRYBzUixQskbZCFogHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787401029; c=relaxed/simple;
-	bh=1fy1LurvBpSQJ0IcnuRbBQ6HFaqNycpADyEu7PtWEG4=;
+	s=arc-20240116; t=1787401032; c=relaxed/simple;
+	bh=FSHFaf84+K1WEeLxw+lt7p4CyHZ1xmh8ft4DVc489SA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=E4c2lW1ldGiUcDI5VOxYLDt7r9lYcZ3kc4oGdnvei+1Ny7AB/C9IvQrCAuUUsVa+JMqTAqh81FT0/n0RN/YjQOn7V+Smof5eEs2MPWHR68SAft0ij7IGWAu/sDGWOsgsS1QRBmV98Hy8zPk7FORfbzEWWzTXnze2WUutXSczqlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cEpzgvXU; arc=none smtp.client-ip=209.85.208.41
+	 MIME-Version; b=lwaHmMXPFXjNKlgMtf//XoLPzfVVDbUhHtKFM2LbBzQiJRt0/yJauxL66LI9xWttjtGSPpAlIYps5RcII0ee8HF+3FIsHrpCNHfUm4Z7NcsIWPeklDCyHp1T5XVKtnc37DHDUlI7k5ytUAw61H0lPUxnFy5/WkJCAyasxfB+dqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZtpacSKD; arc=none smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cEpzgvXU"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6a17211b9ecso5233049a12.2
-        for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 05:17:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZtpacSKD"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6a3efa2b38aso3595065a12.2
+        for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 05:17:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787401026; x=1788005826; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787401027; x=1788005827; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=AdgDDmcZIE8pZ9Isk6EdPIHs99JVC5TC+2vV1P6Q/oA=;
-        b=cEpzgvXULn4lJxEFcirFmyR+SJymgM9OGfy6GxAtanB09ra8Hpywp9hfU0jkJrrm9E
-         swgtecsy655AXOwKzqi1oKIDKA8+FrJ9fACUQHU4ul1s/yP/VOu9CltQcRONhT0H3QUU
-         aWor+pour6xObDbZ5g0ozs/9YjI14HaBOUijBlY0O6hERDqXBc13V+7UdNVpqzLs/Amz
-         SZkodg+fkQTWyVuaIkhSp9nSmYSTEz6tapNGcMkUgS/TjLgSbxQHfW2BPCPDfq2kl83j
-         4FiDWpUUjQSM8eUzyxhHK0F/j3I3Ulc19v43qVoBE/+LzDcZpP26q7QGFKqndU1SbpDl
-         a4Bw==
+        bh=MCK7+BAcRGf3cJd5hC9mXgWW8o3rf0I1eoOWIWB/QlM=;
+        b=ZtpacSKDpcbVkxoyRlaCUvy76+YPFFw4UrZjHGK72wiLRpM7z9Zb9CSY/KPrbrkYLz
+         vtuO6j2VXTWORMser2fCN6Oy/c0qMR3/twyX6iuXMZYgicg9ytSbB+gTeE4FETmSP6nb
+         Mg6ZbLHhhkwhcAIBB5QnnhVPgAQpAPLq+tYz2JHFsdiC/emVsojxCN2lkPmAWdlT12RU
+         2mV3+UiIeT8xti6Fc1MXEXM92F/ZVN297FDRBxeWDP8eE2dHUiige/B9dfbFj78TZcHs
+         oRCHBAkOW2zHpirOkL+oeqhW/U2UT3NfN93eW7brBMXs9Gbj1mOS17K5WKEIebot5MPg
+         Ey0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787401026; x=1788005826;
+        d=1e100.net; s=20251104; t=1787401027; x=1788005827;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AdgDDmcZIE8pZ9Isk6EdPIHs99JVC5TC+2vV1P6Q/oA=;
-        b=aE3FX+Z4sZ4xnz9uaEPg//UrgHsRHPa4GgFqebTBlFXNSbsrydVTACpAZvXFMYNbYG
-         DzkhpIp8z1U66e7EpeeqwJiFJmSO2pYzWan2RibadCqRYmC88UvMS6AUOokhsp+njsjW
-         QsYA5zWaMjYnHfV+HtLmdR0fufr8fhif3m/MhNGUL85tIs1v28G+q/WkhHaM4NNypwLT
-         TdcGY160r1CetSUDHe2a4Dod6XEU3lpnsRcYZFYJPGzgNAY88Nuv9/g36CRmZzNfm0eG
-         PcsEOG+vC4fUxZYrVZe28PxctHCsp5kpM2+lyql47SVRLbBuSToDYq5PujvE3epXvPRx
-         FGcw==
-X-Forwarded-Encrypted: i=1; AHgh+RrgpjFWue23igJQQWctnsqVZ4lJCgUzCMHI65BAG8+++zgjsDQlXgE5wgt/FWUqSCizy1TV3ESCZUg=@vger.kernel.org
-X-Gm-Message-State: AFuF++lRqLumMpc00/YmarsaOmL5H1N7cmaw8FflJTNogrZve4Kma63N
-	WlYVrnWoDh26qBT0dYMv/1vfzObkiA3d5Z0ZKIWfn0GQuuKJV43FgNBO
-X-Gm-Gg: AR+sD12lEhheDYH5/+4NtRbJRp1JkCsMrMVEx4mWTXKBjOKGhtH2v1KEM3N3bj7xaEB
-	z+poBd7f09ayKNKsSHqma6Bj/JY1CjjkR2pg6dCtY/MXi6ckuxojZShK7KTJYFtfjEP0hMiqzNl
-	RJBPSMsJn5Wo5MK06Vsc291CHBF4Iik5k4y2FSImzihLPXL547XOmWu+nsOP6a7tSuoI22FuMqm
-	kaDH348SMvLrCci2t1/aB3L0+OL628bdU78K4Ua3jOguqf3kCIOB0Iwu/mHI5Hssio2odYnIgyA
-	kXGKP6CG06IOrOjEyly7Zu+f/Fwe40MXwfOMExipEWJ517nvE2zhvfilfJi+jsA5yPx84U91HaJ
-	3xJl0+B/KiEdFrME/h8D9D7FK7mZo9eJWBLsGpUkgw5XQhJj5pEal6FZuFvN/6t3aYrjcL/KWOM
-	Mdm1D8lBE89zdNUxp+ZhmkIg0sZ4PrHaNkA3cqHtzfk3v9e++7VwtF0j1jRSf4Nm4OpyDIsrj8A
-	4mjMkjwg2nQleoFrzz0J0g3vmZEPC2FftufaKeVOvVwJOzHh9Gau82i5fbpLokSHXQKY8zUZ5FT
-	UXusyG9xOk4/OXMvOO3lqAjLnOHRq8KjZPRwiJFzJtMbKldxIKm12zteidvwnMmYxWAi
-X-Received: by 2002:a05:6402:e93:b0:6a0:584f:454c with SMTP id 4fb4d7f45d1cf-6a42f28ebaemr15388763a12.16.1787401025799;
-        Sat, 22 Aug 2026 05:17:05 -0700 (PDT)
+        bh=MCK7+BAcRGf3cJd5hC9mXgWW8o3rf0I1eoOWIWB/QlM=;
+        b=EXigAJ1ZAyMVkYwO29v/ZUP4cV+T7yixWF28w3/5VMgJ+1zFIBQeRg/+NrzDLxkgBx
+         8ZOPq1JmwN5dNZkGLKVm/L00POpzrXwky7xIwIRNC4yESdpw8Ygy6L0vZoGmWSD9w06j
+         tWIWYkmlqZxsxyQWMZxYTa8G21E5Weaom9TQHauyxFtfGR9/UA646Oz0DDBl0wKEYP+i
+         28SHjkowojcP1VObYkxbmXewqj+jKPrUz4sT6FhiAr0iSpzVtQIFeIFRzGNdjkCYOftp
+         Yeooj3PRMY+n9Ja5t9tY63X80DONRMue54016/jNvaA2k57rK+B46vH/iakpEsx2jUQI
+         70ww==
+X-Forwarded-Encrypted: i=1; AHgh+Rp18BdhSWi7vdl0PQkyg4SBOyrK4DuVAaK13ynZ7PuqaOfXObps4ST3TzvK3Bvp9HFzdUNsifisLU8=@vger.kernel.org
+X-Gm-Message-State: AFuF++nNtXjmc99LXqBfKpRqQs5+COM3NUUcJnkQuSRywAL3jj61/1nC
+	1FxlkzZ8ZQTHLhZX2T0nPvoxcIvzY9RA8xOIIBbhiqw1vpyEPTSXrHfVCLmiIIr5
+X-Gm-Gg: AR+sD13vdr8+9wJDaf9QmQcm3dfuihFGBxrmfbPD8T4XYNyc+YtRPTplMVKNzcamh8N
+	LSFdqsBaETKrrSHTCmnaujc16rxZOGotkCtekYRUY+ddEjSF5MR5FBIGU2RFkaKu3xmSGUMb8c9
+	Qi7bbWUjaW9TWu0v0fk3XP7X4mmIR6mAIglCV4pvfsw5MEPBzQhkj92WFYFActQ1xsK2Sg6EBLh
+	TMTo62hGTQFCUav+yDWK2j9FTWx70EnWwVyfdmx1qV7p25cBiUIPtKfMBgUrSjnyLSsoLi875nz
+	NwTQiR+Hz0UPWd+u+oaZfhdWvETPe904Rv6jC3TwWGCb4Wj/Y1olszlHDF9RYOmN+qikgckDfjc
+	JyzZEiohZMC0XDSm2j/tcEb1c4o3zNya5Cef0LXsGHGRqBBv53biHzXgtO9eADQrHywhMofWO2a
+	xu9TXHuNFx3fmdulGgW3A+j/2oxYZKcXH+1F7FdsuKIRFBsVcZOy+I6beVrtIJx1NfVHyZbXel+
+	5XHpAzrlZVa47nyUOn4o4JSn0dBeqNbvfZhh5NAxXpY1OMi82K/o0k+Tg/ckP9Le7HQVlaaVeo2
+	M6rv1QalbQP7/eknoat52YUhngMBiRlQ1TrrCQ6++0Wrbh7BukFG/iPorv90kb26aUME
+X-Received: by 2002:a05:6402:4613:b0:698:9e5e:5df8 with SMTP id 4fb4d7f45d1cf-6a42f1aca88mr12849258a12.7.1787401026969;
+        Sat, 22 Aug 2026 05:17:06 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a0f5-8c01-3de3-cd62-aa6f-2fb0.310.pool.telefonica.de. [2a02:3100:a0f5:8c01:3de3:cd62:aa6f:2fb0])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff0c30casm10998322a12.7.2026.08.22.05.17.03
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff0c30casm10998322a12.7.2026.08.22.05.17.06
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 22 Aug 2026 05:17:04 -0700 (PDT)
+        Sat, 22 Aug 2026 05:17:06 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Petr Tesarik <petr@tesarici.cz>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Michael Kelley <mhklinux@outlook.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/7] docs: swiotlb: Fix maximum mapping size helper
-Date: Sat, 22 Aug 2026 14:16:48 +0200
-Message-Id: <20260822121651.1559-5-kmehltretter@gmail.com>
+Subject: [PATCH 5/7] docs: this_cpu_ops: Fix SRCU helper names
+Date: Sat, 22 Aug 2026 14:16:49 +0200
+Message-Id: <20260822121651.1559-6-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260822121651.1559-1-kmehltretter@gmail.com>
 References: <20260822121651.1559-1-kmehltretter@gmail.com>
@@ -84,29 +83,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The DMA helper is named dma_max_mapping_size(), not
-dma_map_mapping_size().
+Use the actual srcu_read_lock_nmisafe() and atomic_long_inc()
+helper names.
 
-Fixes: c93f261dfc39 ("Documentation/core-api: add swiotlb documentation")
+Fixes: df0cee43114b ("docs: Improve discussion of this_cpu_ptr(), add raw_cpu_ptr()")
 Assisted-by: Codex:gpt-5.6-sol
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- Documentation/core-api/swiotlb.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/core-api/this_cpu_ops.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/core-api/swiotlb.rst b/Documentation/core-api/swiotlb.rst
-index 9e0fe027dd3bd..303999f09ea03 100644
---- a/Documentation/core-api/swiotlb.rst
-+++ b/Documentation/core-api/swiotlb.rst
-@@ -107,7 +107,7 @@ A single allocation from swiotlb is limited to IO_TLB_SIZE * IO_TLB_SEGSIZE
- bytes, which is 256 KiB with current definitions. When a device's DMA settings
- are such that the device might use swiotlb, the maximum size of a DMA segment
- must be limited to that 256 KiB. This value is communicated to higher-level
--kernel code via dma_map_mapping_size() and swiotlb_max_mapping_size(). If the
-+kernel code via dma_max_mapping_size() and swiotlb_max_mapping_size(). If the
- higher-level code fails to account for this limit, it may make requests that
- are too large for swiotlb, and get a "swiotlb full" error.
+diff --git a/Documentation/core-api/this_cpu_ops.rst b/Documentation/core-api/this_cpu_ops.rst
+index 533ac5dd57507..367706d1714b1 100644
+--- a/Documentation/core-api/this_cpu_ops.rst
++++ b/Documentation/core-api/this_cpu_ops.rst
+@@ -150,10 +150,10 @@ preemptible code are addressed by raw_cpu_ptr(), but such use cases need
+ to handle cases where two different CPUs are accessing the same per cpu
+ variable, which might well be that of a third CPU.  These use cases are
+ typically performance optimizations.  For example, SRCU implements a pair
+-of counters as a pair of per-CPU variables, and rcu_read_lock_nmisafe()
++of counters as a pair of per-CPU variables, and srcu_read_lock_nmisafe()
+ uses raw_cpu_ptr() to get a pointer to some CPU's counter, and uses
+-atomic_inc_long() to handle migration between the raw_cpu_ptr() and
+-the atomic_inc_long().
++atomic_long_inc() to handle migration between the raw_cpu_ptr() and
++the atomic_long_inc().
  
+ Per cpu variables and offsets
+ -----------------------------
 -- 
 2.53.0
 
