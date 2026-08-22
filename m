@@ -1,147 +1,125 @@
-Received: from latitanza.investici.org (latitanza.investici.org [185.218.207.228])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364A32C11CA;
-	Sat, 22 Aug 2026 17:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.218.207.228
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0362749E6;
+	Sat, 22 Aug 2026 17:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787420250; cv=none; b=RIRuoWJ+RQq5NfwqIKvwaFHVe5QHphiqGd/yq6YN1x7gMfe9EZWG2EOfhCajysy26BHwww/Z30iLolkkXP60umUOthIC0VBcq5hLdoEaT1srmZDRZI0CV3vOSkEmmOWHBdBgQQqgddv3q339I3XkOQVbtXnqEtoSeYFtTHJzoP4=
+	t=1787420431; cv=none; b=iBKhANkymQ3H/8MwsGEiLu5JFITxlOgLQGFFB/BGkWTuDkaOSbMUOLdBkf8TZpjRIiwsfPC6V/ksjhIgIJNu4FU7if7coEyw4ax4C94CvFx+oY97eddz538HA6XXrPyLEhR+So6nhwICqBLqi0isaTEv3eTgn52B430wZvx4waY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787420250; c=relaxed/simple;
-	bh=Q3uuJ/RFrjE6Lg7u7r50e4s4sh+7k173dIGVQbus0k8=;
-	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=hF+ZpShNq+OMrBlTfLwj6VW3r3RuJGt66IiJfPtonQLe8xyUKpvWcD6bpTfDGT67hm9t4xhT/NswM0LsqcWpBtqCa7II2QVHFRvoz0sk47FiTVlcbBtFOBLZVdb5ZkDQxzJ/YyX1TB6VN03aARBpmcY7/asT7lwKLRJRwQXgsyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=grrlz.net; spf=pass smtp.mailfrom=grrlz.net; dkim=pass (1024-bit key) header.d=grrlz.net header.i=@grrlz.net header.b=muFrv4Wn; arc=none smtp.client-ip=185.218.207.228
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=grrlz.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=grrlz.net
+	s=arc-20240116; t=1787420431; c=relaxed/simple;
+	bh=ZeaG3d8C/dRlsdbnek4+Mt7ZXOo+f+HVPe+1S2rLlyQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CclazupiLt1m813+JKYjvz7z5+/4RbcyKp4BmbAhFWKOKImOJLI9R31IBu9SK4btzUTgnWiruDHPqlfvf3M1+SNDTjGwzfLShYeuRRDJp/PjMRbhy+lR0d5SNEYT0Dr6EIkeGx8Du73KvnRNIaVrU1adwba4wz8zBIGx2+iMwxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pm7zCPmZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=grrlz.net header.i=@grrlz.net header.b="muFrv4Wn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=grrlz.net;
-	s=stigmate; t=1787420244;
-	bh=M4gUnE+3vszmWag4HQ91TLvwrlgK5uPffnqbceHVcbY=;
-	h=Date:From:To:CC:Subject:In-Reply-To:From;
-	b=muFrv4WnQkuzLrfBjbGoR9SbHbDnfHHV2NJI0SPU4Ym3CTXgUjnn9NOkkvCpfFH3q
-	 8PopYMp6dkE4wuoMPsvmmuVp1CDtfJEKNZ/lZ3NvNArrqZmcbRYpSQk5/2BfEaW8YP
-	 /4EtP+a3N8JnS5ItU0EzzDZhvkl6SV+AVlhOgaKw=
-Received: from mx3.investici.org (unknown [127.0.0.1])
-	by latitanza.investici.org (Postfix) with ESMTP id 4hS4BD4tf6zGp9s;
-	Sat, 22 Aug 2026 17:37:24 +0000 (UTC)
-Received: by mx3.investici.org (Postfix) id 4hS4BD1nX6zGp9q;
-	Sat, 22 Aug 2026 17:37:24 +0000 (UTC)
-Date: Sat, 22 Aug 2026 18:37:24 +0100
-From: Bradley Morgan <include@grrlz.net>
-To: rdunlap@infradead.org
-CC: broonie@kernel.org, corbet@lwn.net, gourry@gourry.net,
- joel.granados@kernel.org, kees@kernel.org, kmehltretter@gmail.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-next@vger.kernel.org, luto@kernel.org, oleg@redhat.com,
- peterz@infradead.org, sfr@canb.auug.org.au, skhan@linuxfoundation.org,
- tglx@kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2=5D_syscall=5Fuser=5Fdispatch?=
- =?US-ASCII?Q?=3A_Use_CONFIG=5FSYSCTL_for_sysctl_guard?=
-In-Reply-To: <1842ee57-ff3b-42df-b6c7-c93d395a3944@infradead.org>
-Message-ID: <CDF0DEFD-3136-48AD-BEE6-B01C709E5739@grrlz.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pm7zCPmZ"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 32DFE1F000E9;
+	Sat, 22 Aug 2026 17:40:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787420430;
+	bh=2fVmAFwgP/RzGE9tCrs/WJ4ZQQ7r5DhZEh60n3vG5sU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Pm7zCPmZ3EpXPLgeuc0Ze5FazXehjopXqHFcFtsPWNfNS3tTzLCY38WNVsmanbyW1
+	 t/L/9u/79loC0LqRDkPJTA/X/cAJIEqgcaK1o3dXT9ESU19sU5/sUShPurFSAFrUnT
+	 gQMxBYCbwWTyuYlsjnJ8Dmgs9jLMeIUJR7WV/KXmqVCT/QwzqZZ8c8a8AE8Yfsx6FG
+	 rkOVez6sd0GDw3bvFaD4yEqTF+edRuJgPBEC9KKfjTd8Lt4zdGloVEocTHQGPaPLUn
+	 1NxjzycuIpBgOepicbLQnhGkeORygTGzLs8neXZTKo1UXXs4Zbq23M4UDG+Q6ILsnT
+	 SNPl3IPwd2vQg==
+Date: Sat, 22 Aug 2026 10:40:29 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Gregory Price <gourry@gourry.net>
+Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>,
+	Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <djbw@kernel.org>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ira Weiny <iweiny@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Haren Myneni <haren@linux.ibm.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Gabriel Whigham <gabewhigham@gmail.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>,
+	"venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH v13 10/12] famfs: Add runtime operation-permission (opts)
+ framework
+Message-ID: <20260822174029.GC6110@frogsfrogsfrogs>
+References: <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
+ <20260810202539.96378-1-john@jagalactic.com>
+ <0100019fed5a5210-a09f1bdb-c705-44fc-8108-a7e7995a7af0-000000@email.amazonses.com>
+ <20260822000728.GB6047@frogsfrogsfrogs>
+ <aokdSo9li0RtEt35@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aokdSo9li0RtEt35@gourry-fedora-PF4VCD3F>
 
-On 22 August 2026 18:35:14 BST, Randy Dunlap <rdunlap@infradead.org> wrote:
->
->
->On 8/22/26 12:23 AM, Karl Mehltretter wrote:
->> Commit 8d75c338f0bc ("sysctl: remove CONFIG_PROC_SYSCTL, it just mirrors
->> CONFIG_SYSCTL") removed CONFIG_PROC_SYSCTL, but the sysctl added by
->> commit 5b6e32ba7b59 ("syscall_user_dispatch: Add
->> kernel.syscall_user_dispatch sysctl") is still guarded by it. Now that
->> both commits are merged, kernel.syscall_user_dispatch is no longer
->> registered.
->> 
->> syscall_user_dispatch_allowed defaults to true. SUD therefore remains
->> available, but administrators cannot disable new activations.
->> 
->> Use CONFIG_SYSCTL for the guard and documentation.
->> 
->> Fixes: 5b6e32ba7b59 ("syscall_user_dispatch: Add
->kernel.syscall_user_dispatch sysctl")
->> Assisted-by: Codex:gpt-5.6-sol
->> Acked-by: Oleg Nesterov <oleg@redhat.com>
->> Reviewed-by: Joel Granados <joel.granados@kernel.org>
+On Sat, Aug 22, 2026 at 12:18:58AM -0400, Gregory Price wrote:
+> On Fri, Aug 21, 2026 at 05:07:28PM -0700, Darrick J. Wong wrote:
+> > 
+> > But what prevents a malicious program that is /not/ the famfs client
+> > software but has CAP_SYS_ADMIN from doing that?
+> > 
+> 
+> Such a program can already unmount famfs, rebind the device to
+> device_dax, and mmap the whole range directly. MAP_CREATE isn't
+> handing it reach it didn't have.
 
-Reviewed-by: Bradley Morgan <include@grrlz.net>
+Thinking about this a little more -- some random root process that
+accidentally tries to create/modify a directory tree on a famfs mount
+will just end up with fmap-less files that won't work for IO or
+mmapping.  That's dorky, but I think you're right that it's no big deal.
 
+A bigger question I just thought of is sharing cxlmem between files (aka
+reflink).  Is that allowed?  I could see a theoretical usecase for
+programs A and B wanting to share some cxlmem for communication or
+heartbeats whilst having their own /a and /b files for their private
+memory.  Probably you'd just create a /common file to do that and not
+map the same cxlmem page into /a and /b, right?
 
->> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
->
->Acked-by: Randy Dunlap <rdunlap@infradead.org>
->Thanks.
->
->> ---
->> Changes in v2:
->>   - Reword changelog and rebase onto mainline now that both commits
->>     are merged there (v7.2 is unaffected, it has neither commit).
->>   - Collected Acked-by/Reviewed-by tags from v1. No code change.
->> 
->> v1:
->https://lore.kernel.org/all/20260813062039.14567-1-kmehltretter@gmail.com/
->> 
->>  Documentation/admin-guide/sysctl/kernel.rst | 2 +-
->>  kernel/entry/syscall_user_dispatch.c        | 4 ++--
->>  2 files changed, 3 insertions(+), 3 deletions(-)
->> 
->> diff --git a/Documentation/admin-guide/sysctl/kernel.rst
->b/Documentation/admin-guide/sysctl/kernel.rst
->> index b6328cd0f43e..ffea61d448eb 100644
->> --- a/Documentation/admin-guide/sysctl/kernel.rst
->> +++ b/Documentation/admin-guide/sysctl/kernel.rst
->> @@ -1416,7 +1416,7 @@ Controls whether userspace may arm Syscall User
->Dispatch via
->>    == 
->===================================================================
->>  
->>  Only present when the kernel is built with
->``CONFIG_SYSCALL_USER_DISPATCH``
->> -and ``CONFIG_PROC_SYSCTL``.
->> +and ``CONFIG_SYSCTL``.
+But having said that, the fsdax code /can/ support sharing between
+files, so I wonder if famfs is prepared either (a) to enable that
+sharing or (b) reject a mapping that would overlap with an existing
+mapping?  Things will go very badly in the kernel if famfs doesn't set
+up the dax_folio state correctly.
 
-Ack.
-
->>  
->>  
->>  sysctl_writes_strict
->> diff --git a/kernel/entry/syscall_user_dispatch.c
->b/kernel/entry/syscall_user_dispatch.c
->> index 2002c7aae435..59c861866941 100644
->> --- a/kernel/entry/syscall_user_dispatch.c
->> +++ b/kernel/entry/syscall_user_dispatch.c
->> @@ -178,7 +178,7 @@ int syscall_user_dispatch_set_config(struct
->task_struct *task, unsigned long siz
->>  					      (char __user *)(uintptr_t)cfg.selector);
->>  }
->>  
->> -#ifdef CONFIG_PROC_SYSCTL
->> +#ifdef CONFIG_SYSCTL
-
-Ack.
-
->>  static const struct ctl_table syscall_user_dispatch_sysctls[] = {
->>  	{
->>  		.procname	= "syscall_user_dispatch",
->> @@ -195,4 +195,4 @@ static int __init
->syscall_user_dispatch_sysctl_init(void)
->>  	return 0;
->>  }
->>  late_initcall(syscall_user_dispatch_sysctl_init);
->> -#endif /* CONFIG_PROC_SYSCTL */
->> +#endif /* CONFIG_SYSCTL */
->> 
->> base-commit: 26260251022fbc2f248a3d747a9b2b961b18d2d8
->
->
-
-Thanks!
+--D
