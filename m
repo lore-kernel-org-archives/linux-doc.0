@@ -1,217 +1,122 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62B02F616B
-	for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 18:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09222D5436;
+	Sat, 22 Aug 2026 18:53:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787424669; cv=pass; b=YkaaC2Ox8R4XZFIsSd495cdO2zXYkOjV8l6k9d9NRTunhf7ENIH/Hd9DHBSwuKjY/VMfr5x/zzQElyybRNkRpAqOug9LlXhuvj0ciSQP6gSvAJ0pHi/+Ekh/kkptWc7ABjSFedto13SmIKsYk1ayCwtZRIcUWdjkEvGMcRj6vUE=
+	t=1787424816; cv=pass; b=sIFFxFZPi4AkcrBMZeRLRcAWtZlXLI8OpkPapor3zMSbQf9j3Bn0WlTEx0rerCSKHKBS7ic905MgzGYHuxpplUCHcghFY36MEZk5as1gFVZPc8qGdbJj6xQ7BhNPguuJckGebPNk9ar/ugIe2/eICE0wUYp7jzFOp/jijRmsve0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787424669; c=relaxed/simple;
-	bh=E/lkGrE8eFxhCKksz8IOVxr+kG9Nmr7WqYo4ZLAYDU4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R/aJ7TDyDfBEwmj5K582jTWb+5UWUgsmK24a0aXoDOTpPBvWUr6s5pxwIexf9Y1dZXEBoe+jTRLcrOR8gcM5vLkvh5NkT7G+w9DB1t7wt0ltpaJC5ymlBpjNkvQZlNoRfcEFrPk3aYBKepPhHE2ctTGcQB06+DMv2FSVv3C3v3g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TJQNjDuZ; arc=pass smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787424816; c=relaxed/simple;
+	bh=pzIyJLV+giO1eX51T/f5Mgy4rEV6pAN6D+5uITZV+78=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WT1y2eiUSUEt8DlwZb67AiDZWTMv6R/jkbkpkuWZFwXlTUBL3wOKTAcdPvzWbdZsGWDailBUGuW5nFI7mADZ6IS/+5R4C1gk2nLim287julmWGf/MzpU8EG1ACTzhruMDk37DwI/j5vAnHQ40t4cFocdbZwMRSlIaNnBcQvESDg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=mQ5B1drP; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TJQNjDuZ"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38e58034d05so1701257a91.2
-        for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 11:51:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787424666; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eDDLBKVj9gsZVhc9t4U2YXZ/p4loWUF4xZwf0w5Arr/lqzSBn5AGyUuuGNkw0sRqQT
-         PE9FXqa5Zzv2OSj0mNL3sfoxPrR3piOxPF9PXDB6Sfznam9fqMQ31pWoH4nqEydeHC4E
-         PUPdUdWhCDyXc8YGIoseTO20io07WOZENVNu4BWTF2Gs8x0/v/9zPLfIbRd567uSKZ5T
-         dt/2GQ4C7HV4t3UnY6N1Jgqz1mj5jh2d5+OB+IwtLVqv2UHgQMsajW3SERoZsQGm0G4J
-         Q/DKBg7GZg0xG2A4LJdOtIOrEARSyRedYRlnEZMplFXdrJn7VHxESPkl/ZRpdyNVQsof
-         5nbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=PM4LvgfnDHomfkNR74SqlliaUgcMVm2TRU5JeRJ88y0=;
-        fh=+yeHfoMvq8RxjPQjqZ2pIesIs/BKXHWvlTTzFsgg9tQ=;
-        b=VuiNlL/DgFbT/hAJfvgRh3QvEBkjpxnbMaX4SSrKCVC5wroi1cuS45pYETSWgDMgQz
-         Yk90LYbXu09L6RZhI9OZQXbH5F6Jm1KYivqTbCeq/bxarOmbe/roIXbKYMHgBxjBdjhN
-         A7kSB/mdgJI8U2HY5fwBXaNQsvhQdkuXlH5SA8hOWJab8hfeU+UGKfJgMrTZYiAR7Ew7
-         iF2RsGI6idwrcFazvU+GZYU5yAvYXz9uRA+Cyy6gDkkf9pLpTJkWz+HgBGIdiDXQrlbi
-         G5lEskmo70+7majznct1Cba5nIN2wM7qgcepWbvOM0ljY7vYNnzJ7PKiDU4HCkeN81FD
-         GtGA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787424666; x=1788029466; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PM4LvgfnDHomfkNR74SqlliaUgcMVm2TRU5JeRJ88y0=;
-        b=TJQNjDuZF6SjP6/hYQk4g2M34v5uD48ggHjGsJfGg10AZxkMtbo1LZwo/hgPo5Wxf6
-         8392av4akhX1mKOvZ++XwRc+jZcOOJ9tDalETOhKj1xjttsLHgVn1Kq4NnOBoaTxYpnH
-         b3U2iTj9J79w1E2Jk6w96K5THWbS51r5Qn3PH9ScwdjPhSyTYSJK9sL/K2ZvM2SqOJX+
-         eaX4QjcUwVAWZW9svw7dlyF5NhXpaAJmDiHAtX/wnycSUxoRpakpduNDDGma6jn3C4IQ
-         B3wC3t+cUYZ8M4Uz5biMXjVhTQjepptf1e/n2i/Wjuuo9TYf1Jl6hRInbucPbZ7XAYLN
-         prbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787424666; x=1788029466;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=PM4LvgfnDHomfkNR74SqlliaUgcMVm2TRU5JeRJ88y0=;
-        b=aTll/qlzGjLA3mc5cahi28clwYAMNSFloPu2C8IB6ghDxgCWuMGDKVpOVzImmxlQCn
-         cy9842RVafSmMnsoa40BGVqjjdMPGqBR2pRYo+t+gqxWuddjV5zXlnLMAf39w8acjCyi
-         INvG4gUJhjTpU31EmVJvZm6ww4aNsB1Dh4WkZtAKTaLiwE+4Ko/yW0g0S0m26pgRGOic
-         L0b67HDLOOX81oHbdFYq/TLAtrLtgpp23zPTnFJtOs1C/nnhr5izSZB8rZgqxdWmLNQq
-         xU9is7OTeoFgFrwSNEcRAhQDXalE7z7kdvURK3eplS60gWteLmLg23b5U6l9cHFmIWB9
-         wS+g==
-X-Forwarded-Encrypted: i=1; AHgh+RpEp1LlmaQhjrNwl5fqsGhV+pWg+6nhybE/KaJSPGOu+MyPKgb6nT3MiwVgmEuZiEIqCBAeLgabzT4=@vger.kernel.org
-X-Gm-Message-State: AFuF++kQxvzfdX5/gKRAqeYMNmOPYLsv1jlNgceZV3VZPV5iduImFQxY
-	Asu0/rwNUXV644mEffFcLieN16+dQWgSHd95pS72v0Lm9hBKhPETDedCIfLkCtgdP9SHucg+4Mi
-	FnYCcqqqLd3YT2rd5JzZFkMb2R4x+UaUrzdNr
-X-Gm-Gg: AR+sD12pVyL6+bPFu0THG8vbgFoEUx6TXrJuAhJv9RW4tFBmoOk0uM7b/k2hUTDbbut
-	GOOODCa8wK47NxuNA4CuKcKvppiTEBDo0PMqDnh3ntNp9sjcdxBWKJNlRq3BYdEXcEzh945I8Yn
-	05/WPAhDkbtKJBbuRyxXs8vUSQbykEq4AvV8yZZwNvQHO+Wj6R6uI7zUvmQq+zjMG98UwJXI9Ev
-	DmJgcATU4M5rmE2A7hNCBcnPmdObcfX0jTc9KjaqLUeZDQ5b4eYAxkgce8eXCj4irV9p5sApc2b
-	KYdGiGVY86XCGlFu3CGq+n70tW0VK4XHpPD5+I8ARkgiJVsj9VI3o985vhFQsLDyv8nsy86Hgq1
-	OQM5ONuyndkBWYUWBocdHfIy+14nNAZGZbvFBPgIZKod6PC9FJSC18TdZUj7EmpqM/anCR+Z48g
-	TGPRTcbyRkqfQ=
-X-Received: by 2002:a17:90b:6cb:b0:366:3517:1aa2 with SMTP id
- 98e67ed59e1d1-395c2f13243mr29676360a91.0.1787424665924; Sat, 22 Aug 2026
- 11:51:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="mQ5B1drP"
+ARC-Seal: i=1; a=rsa-sha256; t=1787424773; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=bEPjoqnyV7SKvFzw/1vCUCHcmIXtrgGeIQwndh2tcK+hCMdmFHtfuiQP1pMG+kL0qWkdMPZW+QaXYHebOXEBHPnT4OiNk3y9klO917ZZ1VHmnLZ1ghLJQ6AYDoeDez6qfNnWBwP5RfAdlgBKx/PzSY35Km+6k8XmunPoasndj7U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1787424773; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=hf8O44JfqGxaW/TpZGF/KACS2NubdfSbktCZrdcD9XM=; 
+	b=J2hXVhT3EHySDmobqiCQLfnVMec1m0peUz9iTrtDpvpQFrLlJqSYuGS6C7kIiQmBNcAkxdJ1eqe6Pg8jsQvaSL3GFQuCsGKU2cauNOkMaSkePPuvLdvPDbXWoGv8sFeVRTvlJz8E7kIeHqE9491iLHv0prNGjtG3erXYd53rQQY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1787424773;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+	bh=hf8O44JfqGxaW/TpZGF/KACS2NubdfSbktCZrdcD9XM=;
+	b=mQ5B1drPo2HBYvppVlzy8qdoAJzrdy9EkIH/OAa1OoMRACYokoo2E0jocB3KcEkJ
+	iDT67IaQFgRMwiVno5Knf+M4SViXLlzNT61wQfK1VfiNo7jGZHXHsLzW7bD4p3Z7Dzv
+	Er1gKgfsvAFz/c2NF8nQlUKBCiFs0RTTGnAgJwKNU0F85I5GvHssRSgLWdBoOYJg3sI
+	qHHmlZ9DtkjqAlIXF+3e5LxR1tjG4HeyOVOI1Q3z6nRyGyQrwqu0tz/JBbuUuCCkgqU
+	VOMMVtLgZMJNEnBBlVK5uqVM1lPu+Q7XJx3TspPd7EssztDvKb+clcoRvCPrZKGiXJT
+	v7O0Jg+Izg==
+Received: by mx.zohomail.com with SMTPS id 17874247706264.015905758761846;
+	Sat, 22 Aug 2026 11:52:50 -0700 (PDT)
+From: Rong Zhang <i@rong.moe>
+Subject: [PATCH 0/4] ALSA: usb-audio: Demote the severity of sticky GET_CUR
+Date: Sun, 23 Aug 2026 02:52:27 +0800
+Message-Id: <20260823-uac-demote-sticky-check-v1-0-a8cbe572edff@rong.moe>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260821214728.87773-1-mradityadash@gmail.com> <20260821214728.87773-3-mradityadash@gmail.com>
-In-Reply-To: <20260821214728.87773-3-mradityadash@gmail.com>
-From: Antheas Kapenekakis <kapenekakis@gmail.com>
-Date: Sat, 22 Aug 2026 20:50:54 +0200
-X-Gm-Features: AcwNN1XQ7EsxVcjRV_5T832h_iYQ8bKUtDKzRFxBgEr078sh1UYgIpkbXJ8sBMo
-Message-ID: <CAGwozwFxcek8q1r7wXDmOOnt8HmNh3pFgY1fY169+SQi-_6MYA@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/3] platform/x86: lenovo-wmi-other: Add Legion Go fan
- RPM fallback
-To: Aditya Dash <mradityadash@gmail.com>
-Cc: "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Armin Wolf <W_Armin@gmx.de>, Hans de Goede <hansg@kernel.org>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, Guenter Roeck <linux@roeck-us.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMMQ7CMAxG4atUnvFAQVRwFcTgOH+oqWhRnCJQ1
+ bsTYPyG9xZyZIPTqVko42lu01ix3TSkvYxXsMVqCim03U6VZ1GOuE8F7MV0eLP20IHTsY17EZU
+ OB6r1IyPZ63c+X/72Odyg5bujdf0AVVncKnsAAAA=
+X-Change-ID: bfb273cc-uac-demote-sticky-check-f92d4aaca7e6
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Alexander Niemeyer <adventureFAN@gmx.de>, Rong Zhang <i@rong.moe>
+X-Mailer: b4 0.17-dev-1f2f7
+X-ZohoMailClient: External
 
-On Fri, 21 Aug 2026 at 23:47, Aditya Dash <mradityadash@gmail.com> wrote:
->
-> Some Legion Go firmware does not mark fan 1 RPM as readable in Capability
-> Data, although Other Mode feature 0x04030001 returns the current RPM. As a
-> result, lenovo-wmi-other hides fan1_input.
->
-> When the normal VALID and GET flags are missing on a supported product,
-> try one read from the Other Mode feature. Expose fan1_input as read-only
-> if the read succeeds and does not return 0xffffffff. Treat a later
-> 0xffffffff reply as an unavailable reading.
+Currently, a mixer is disabled when its GET_CUR is sticky, causing
+userspace to fall back to soft mixers, unless
+QUIRK_FLAG_MIXER_GET_CUR_BROKEN is set. This leads to issues on some
+wireless headphones with broken GET_CUR but effective SET_CUR, which use
+poorly-performed lossy codecs and are prone to audible distortion at low
+volume. They have to set the quirk flag to reeanble the mixer.
 
-What is your source for 0xffffffff doing this, assuming your device
-does not report it? Do you know of a device in-field that does this?
-It might be preferable to quirk here or just live without rpm for the
-affected bioses and have the vendor push an update and drop this
-patch. Not reporting the fan speed is not the end of the world. @Mark
-might be able to help here. Legion participates in fwupd, so they
-should be able to fix this, at least for the Go S and Go 2 moving
-forward. For the original Go, it is not the end of the world.
+Considering that users can always opt into soft mixers if they need it,
+i.e., when SET_CUR is stubbed, demote the severity of sticky GET_CUR by
+marking GET_CUR as broken and only provide mixer values from the cache.
+The mixer itself is still registered.
 
-Antheas
+The default behavior of sticky check now becomes what
+QUIRK_FLAG_MIXER_GET_CUR_BROKEN originally does, so the quirk flag is no
+longer needed.
 
-> Assisted-by: Pi:gpt-5.6-sol
-> Signed-off-by: Aditya Dash <mradityadash@gmail.com>
-> ---
->  Documentation/wmi/devices/lenovo-wmi-other.rst |  4 ++++
->  drivers/platform/x86/lenovo/wmi-other.c        | 14 +++++++++++++-
->  2 files changed, 17 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst b/Documentation/wmi/devices/lenovo-wmi-other.rst
-> index 75f2deaaef16..c93e9e6f3fd0 100644
-> --- a/Documentation/wmi/devices/lenovo-wmi-other.rst
-> +++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
-> @@ -56,6 +56,10 @@ On supported Legion Go models, Other Mode feature ``0x04020000`` controls
->  Full Speed mode in firmware. The driver exposes it as ``pwm1_enable``. Value 0
->  enables Full Speed, and value 2 returns fan control to firmware.
->
-> +Some Legion Go firmware does not advertise fan 1 RPM through Capability
-> +Data. In that case, the driver reads Other Mode feature ``0x04030001`` for
-> +``fan1_input``. Value ``0xffffffff`` means that RPM is unavailable.
-> +
->  LENOVO_CAPABILITY_DATA_01
->  -------------------------
->
-> diff --git a/drivers/platform/x86/lenovo/wmi-other.c b/drivers/platform/x86/lenovo/wmi-other.c
-> index c180933e1d18..b4be7739b243 100644
-> --- a/drivers/platform/x86/lenovo/wmi-other.c
-> +++ b/drivers/platform/x86/lenovo/wmi-other.c
-> @@ -98,6 +98,7 @@ enum lwmi_feature_id_psu {
->  #define LWMI_FAN_ID(x) ((x) + LWMI_FAN_ID_BASE)
->
->  #define LWMI_FAN_DIV 100
-> +#define LWMI_FAN_RPM_NORMAL_SUPPORT (LWMI_SUPP_VALID | LWMI_SUPP_GET)
->
->  #define LWMI_CHARGE_BEHAVIOR_DISCHARGE 0x00
->  #define LWMI_CHARGE_BEHAVIOR_AUTO      0x01
-> @@ -195,6 +196,7 @@ struct lwmi_om_priv {
->
->         struct lwmi_fan_info fan_info[LWMI_FAN_NR];
->         bool fullspeed_supported;
-> +       bool fan0_input_fallback;
->
->         struct {
->                 bool capdata00_collected : 1;
-> @@ -343,6 +345,8 @@ static umode_t lwmi_om_hwmon_is_visible(const void *drvdata, enum hwmon_sensor_t
->                 return 0644;
->
->         if (type == hwmon_fan) {
-> +               if (channel == 0 && priv->fan0_input_fallback && attr == hwmon_fan_input)
-> +                       return 0444;
->                 if (!(priv->fan_info[channel].supported & LWMI_SUPP_VALID))
->                         return 0;
->
-> @@ -419,6 +423,8 @@ static int lwmi_om_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
->                         err = lwmi_om_fan_get_set(priv, channel, &retval, false);
->                         if (err)
->                                 return err;
-> +                       if (channel == 0 && priv->fan0_input_fallback && retval == U32_MAX)
-> +                               return -EIO;
->
->                         *val = retval;
->                         return 0;
-> @@ -542,6 +548,7 @@ static const struct hwmon_chip_info lwmi_om_hwmon_chip_info = {
->   */
->  static void lwmi_om_hwmon_add(struct lwmi_om_priv *priv)
->  {
-> +       u32 rpm;
->         long enable;
->         int i, valid;
->
-> @@ -563,6 +570,11 @@ static void lwmi_om_hwmon_add(struct lwmi_om_priv *priv)
->
->         priv->fullspeed_supported =
->                 lwmi_fan_supported() && !lwmi_om_fullspeed_get(priv, &enable);
-> +       priv->fan0_input_fallback =
-> +               lwmi_fan_supported() &&
-> +               (priv->fan_info[0].supported & LWMI_FAN_RPM_NORMAL_SUPPORT) !=
-> +               LWMI_FAN_RPM_NORMAL_SUPPORT &&
-> +               !lwmi_om_fan_get_set(priv, 0, &rpm, false) && rpm != U32_MAX;
->
->         valid = 0;
->         for (i = 0; i < LWMI_FAN_NR; i++) {
-> @@ -580,7 +592,7 @@ static void lwmi_om_hwmon_add(struct lwmi_om_priv *priv)
->                 }
->         }
->
-> -       if (valid == 0 && !priv->fullspeed_supported) {
-> +       if (valid == 0 && !priv->fullspeed_supported && !priv->fan0_input_fallback) {
->                 dev_warn(&priv->wdev->dev,
->                          "fan reporting/tuning is unsupported on this device\n");
->                 return;
-> --
-> 2.55.0
->
+On some devices, whether their GET_CUR being sticky depends on whether
+hotpluggable components are present. When the hotpluggable components
+are missing on probe, their GET_CUR behavior is classified as broken.
+Therefore, reverse QUIRK_FLAG_MIXER_GET_CUR_BROKEN as
+QUIRK_FLAG_MIXER_GET_CUR_OK, so that it can be set to prevent the
+heuristics from gating GET_CUR.
+
+Note that even if the quirk flag is set, init_cur_mix_raw() should still
+initialize the mixer value to cval->min, otherwise restoring the bogus
+saved value on the first channel could lead to unbalanced channels.
+
+The first user of QUIRK_FLAG_MIXER_GET_CUR_OK is Logitech PRO X
+Wireless, whose Playback mixer's GET_CUR somehow becomes broken when the
+microphone is detached, so set QUIRK_FLAG_MIXER_GET_CUR_OK to prevent
+the mixer behavior from depending on whether the microphone is attached.
+The device also needs QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE as the minimum
+mixer value doesn't work properly.
+
+Reported-by: Alexander Niemeyer <adventureFAN@gmx.de>
+Closes: https://msgid.link/6262cbbd-d1f2-4c9d-a1c7-9c5d12636f4b@gmx.de
+Closes: https://msgid.link/7984832b-86f6-4934-bfc0-1ed70218973a@gmx.de
+Signed-off-by: Rong Zhang <i@rong.moe>
+---
+Rong Zhang (4):
+      ALSA: doc: usb-audio: Add doc for QUIRK_FLAG_ALWAYS_SET_RATE
+      ALSA: usb-audio: Demote the severity of sticky GET_CUR
+      ALSA: usb-audio: Reverse MIXER_GET_CUR_BROKEN as MIXER_GET_CUR_OK
+      ALSA: usb-audio: Add quirk flags for Logitech PRO X Wireless
+
+ Documentation/sound/alsa-configuration.rst | 25 ++++-----
+ sound/usb/mixer.c                          | 82 ++++++++++--------------------
+ sound/usb/quirks.c                         | 19 +++----
+ sound/usb/usbaudio.h                       | 24 ++++-----
+ 4 files changed, 56 insertions(+), 94 deletions(-)
+---
+base-commit: 26260251022fbc2f248a3d747a9b2b961b18d2d8
+change-id: bfb273cc-uac-demote-sticky-check-f92d4aaca7e6
+
+Thanks,
+Rong
+
