@@ -1,142 +1,171 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F228E2798F8;
-	Sun, 23 Aug 2026 19:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787513861; cv=pass; b=MLnsXUvQ5ZuOqwD/WlvVKNEI8c2xSsJtUhUSUNjurgKYZl/aRxacHYKKPLuDwPXgJa3Dj7mpcmpJMtHuSZ1VeaG5aKPQHPcVq0iOgaFgphg4BgQqxa9/HHdWICxm5MYFbidTBZ6H6g6Qea2HQDj5HhEtV6K0ruYyS4H7/iIs+G0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787513861; c=relaxed/simple;
-	bh=bAiHAReixFtpcHlW+VsThIabsxqRx9/76w+PXnWBhVE=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=VtlNFcMfeiNVhKbXvgCGUoUtLMY4IEK64rkJ2XddEtCFRkR0hx3ttZVP794t/3dx5RYC6M84cgFafLjhK2ZTi+Fa1NWJ/JqB/ozFHejof9C8huLHyASj/ShjW5bRJsM4ALvFaYuFltMcWQwEHyfAYqvmYMRW2KAR5QuCwSxOAZU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=NQ3s9zo6; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF3A3515EF;
+	Sun, 23 Aug 2026 19:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787513995; cv=none; b=squY2UzcXkOdnQWao+FDqvFc34bFHpYraXstUcxvayJIk0IiCklyXnlc3UQcIUHwo2TeFVBaMtJlhda5a0pVJL0DNiDxuPIY1CPP0qal5m3yDu/MNsbBUSCNLgTyeCZ0DRgwvSIrpvjHexUkZM1JU7esXc02/tZNdLBfSKfqbp8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787513995; c=relaxed/simple;
+	bh=itzQ5jV4BN8Ss0Lby1cpZAmO5kE4SoO0NCU8doihEM4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l0WZTVgxBeXgQ7JQEzSWeu+6eRW/YjjTqVPBIbwjg7olGLUojbVOCTDwBU3aTZjItCbEzjmwD//+4vmXUALX+i+FbgzMyUDfzHYbGqfl3XHhipuylGubezdCHRs9MenfknCFBhkfmI5d1Keie80EUX5KXsB/Ryj9ZFJGG43E3jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QqvdhyI5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="NQ3s9zo6"
-ARC-Seal: i=1; a=rsa-sha256; t=1787513835; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=nWYEsloNRtF2/6MF63/rjT8qZfvGrq3urKzEQIYNejikcKPYV6HxfxK8y2GixuYIq84C26MXP8ifcriaQo9WucDgMUN40BNwFjJNgLtPrBr6AoluHTyNkSacJf4+EYpGD2rDrl4eifr5jXPDRwymUkH+WNDrtQhj6oui7SlXljA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1787513835; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=ixJ/17tbXgiE3w2WZkj8mELCwvbcDJWZHLD9OPH99Es=; 
-	b=cHYX/SUR2QFUzEO1qO6tDmoh1E8u0sxrv2k9ODMSBU5e5lADbJy+h0mqlsHSzBkPp6Ff2XcgaCRMSGxJzjIlxhQO5ZjsVaAta0RqpseLzVw5bSmw6ZtFYchvozppC6x/bZ0fYA2ZDLHFcWwTBV2y5xFfc9jJQeVRxsH7eBb4czI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1787513835;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=ixJ/17tbXgiE3w2WZkj8mELCwvbcDJWZHLD9OPH99Es=;
-	b=NQ3s9zo6trjzI+e6AwEteDDfMscY2rWaFsRa10uDEpfQ/rd7I3sJL5tgZvXqhAhm
-	XbbLzsqiZQyFJ3e90O++86FiZWLl8xVE6GGJ91iBFyuojK35VWZ1Yxe5vm+UURXRSnI
-	BWBlkLH9KB9xdagErw3WkofhVwV/7fPZHkggxRag9YVU2XGE+AM7eLtaxVM78UCDC1B
-	CMVmv0NfMlyewS1R0P/1nyY7o2lTzenohLhYkgBUjumInmcbgGcMc2gECQMk1z2sagU
-	mNzQgyxA84VCvYVRR8Tz6sBa7tkPfEqax3R4TqwrkVnLrsNY54orE0F1NeAlbOD0YgH
-	ENym3SK5DQ==
-Received: by mx.zohomail.com with SMTPS id 1787513832172546.4160006730991;
-	Sun, 23 Aug 2026 12:37:12 -0700 (PDT)
-Message-ID: <3dca1e1efa285d8644b8ac681a5fb41742ce06a6.camel@rong.moe>
-Subject: Re: [RFC PATCH 0/3] platform/x86: lenovo: Add Legion Go fan
- controls
-From: Rong Zhang <i@rong.moe>
-To: Aditya Dash <mradityadash@gmail.com>, "Derek J. Clark"	
- <derekjohn.clark@gmail.com>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
- <ilpo.jarvinen@linux.intel.com>, Armin Wolf <W_Armin@gmx.de>, Hans de Goede
-	 <hansg@kernel.org>, Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-hwmon@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org
-In-Reply-To: <20260821214728.87773-1-mradityadash@gmail.com>
-References: <20260821214728.87773-1-mradityadash@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 24 Aug 2026 03:32:02 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QqvdhyI5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75EAC1F000E9;
+	Sun, 23 Aug 2026 19:39:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787513994;
+	bh=zLEE0is5dWhs16wMe34Vd1UXOLmD5Wu3lEF7TZ/ozEw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=QqvdhyI55iVZzRF/c9RS8/5Xfb6HEMEYsDvqw5w0N9ZQbQlzyNhN6sRRWQv55njuU
+	 S5v4k24oadl7iOdoQmQeCjwtoCgeyYo0ZA+EPy1r9z2eyw3MV78SdH4TgV+i0c7qFg
+	 WsUtXvXSmOp60fecJfJus22teLnW1p/y8CAd8jjFe3Fwp4GmAd++rpOii2eXjcgbFu
+	 41dn8xvejS3PRVIA3Wo6isZJOEXnAzR4ktiAXC0A0D8r6zgte1gBzHRCimFEiygx5p
+	 3KCESm982FAmu+OqpZqE21uuXa/9E9mbcwj+tun4nHZ8k254fMrCgj/JyqiNla9v8b
+	 rB9mm0gUoGFLA==
+Date: Sun, 23 Aug 2026 20:39:47 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, "David Lechner" <dlechner@baylibre.com>,
+ Andy Shevchenko <andy@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, Olivier Moysan <olivier.moysan@foss.st.com>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>, Bartosz
+ Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Michael Walle <mwalle@kernel.org>,
+ <linux@analog.com>, <linux-iio@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <jananisunil.dev@gmail.com>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v4 13/14] gpio: ad7768: Add AD7768 GPIO auxiliary driver
+Message-ID: <20260823203947.3ecdc448@jic23-huawei>
+In-Reply-To: <20260821-ad7768-driver-v4-13-bb8fbd06d4eb@analog.com>
+References: <20260821-ad7768-driver-v4-0-bb8fbd06d4eb@analog.com>
+	<20260821-ad7768-driver-v4-13-bb8fbd06d4eb@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-10+b1 
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Aditya,
+On Fri, 21 Aug 2026 16:07:06 +0200
+Janani Sunil <janani.sunil@analog.com> wrote:
 
-On Sat, 2026-08-22 at 03:17 +0530, Aditya Dash wrote:
-> Capability Data does not cover all fan controls on the Legion Go. Full
-> Speed uses a separate Other Mode feature, some firmware exposes an RPM
-> reading that Capability Data does not advertise,=C2=A0
->=20
+> The AD7768 provides five GPIOs controlled through registers shared
+> with the parent IIO device. Register an auxiliary gpio-regmap driver
+> and use the parent device for runtime PM.
+> 
+> The device has separate input-state and output-latch registers. Add a
+> reg_mask_xlate() callback that checks the line direction and reads the
+> programmed output latch for output lines while retaining input-state
+> reads for input lines.
+> 
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
 
-"does not advertise"
+Linus W, for I think that (when you are happy) you can pick up this
+and the previous two enabling patches via the gpio tree and I'll take
+the rest via IIO.  One small wrinkle around the maintainers entry that
+we can fudge in various ways.
 
-Really? Please dump capdata via debugfs and attach it.
+> ---
+>  MAINTAINERS                |   1 +
+>  drivers/gpio/Kconfig       |  12 +++++
+>  drivers/gpio/Makefile      |   1 +
+>  drivers/gpio/gpio-ad7768.c | 118 +++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 132 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index dc94e7803a7c..3de7ebcc4ee7 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1639,6 +1639,7 @@ L:	linux-iio@vger.kernel.org
+>  S:	Supported
+>  W:	https://ez.analog.com/linux-software-drivers
+>  F:	Documentation/devicetree/bindings/iio/adc/adi,ad7768.yaml
+> +F:	drivers/gpio/gpio-ad7768.c
 
-> and the custom fan table
-> uses a separate Fan Method WMI interface.
->=20
+This may be the only reason we can't merge the gpio driver via
+the gpio tree, independent of the rest.
 
-The hwmon part of lenovo-wmi-other was done by me. Please CC me in your
-next revision.
+Maybe drop this for now, or break it out as a separately patch that I can
+pick up via IIO.
 
-> Patches 1 and 2 add Full Speed and the RPM fallback to the existing HWMON
-> device. Patch 3 adds a Fan Method driver and attaches the ten curve point=
-s
-> to that device when both WMI interfaces belong to the same provider. Othe=
-r
-> Mode continues to work without Fan Method.
->=20
-> The open question is how the firmware control range should map to HWMON.
-> On the tested Legion Go 8APU1, values from 0 through 115 produce the
-> observable fan response and correspond to Lenovo's 0 through 115 percent
-> range. Lenovo software shows 0 through 100 percent to the user, and 115
-> reaches the RPM observed in Full Speed mode. Firmware accepts values
-> through 255, but no RPM increase was observed above 115.
+>  F:	drivers/iio/adc/ad7768.c
+>  
+>  ANALOG DEVICES INC AD7780 DRIVER
 
-This is what we've observed in Fan Test Data. We chose to enforce
-constraints according to it and relax it when users set an module
-parameter.
+> diff --git a/drivers/gpio/gpio-ad7768.c b/drivers/gpio/gpio-ad7768.c
+> new file mode 100644
+> index 000000000000..710739e33dff
+> --- /dev/null
+> +++ b/drivers/gpio/gpio-ad7768.c
 
->=20
-> This series keeps the native values unchanged and exposes the fixed
-> temperatures as read-only automatic points. Should the driver map the
-> effective 0 through 115 range to the standard HWMON 0 through 255 scale,
-> or keep the native firmware values unchanged?
+> +static int ad7768_gpio_probe(struct auxiliary_device *adev,
+> +			     const struct auxiliary_device_id *id)
+> +{
+> +	struct device *parent = adev->dev.parent;
+> +	struct gpio_regmap_config config = {
+> +		.parent = &adev->dev,
+> +		.label = dev_name(parent),
+> +		.ngpio = AD7768_NUM_GPIOS,
+> +		.reg_dat_base = AD7768_REG_GPIO_READ,
+> +		.reg_set_base = AD7768_REG_GPIO_WRITE,
+> +		.reg_dir_out_base = AD7768_REG_GPIO_CONTROL,
+> +		.pm_dev = parent,
+> +		.reg_mask_xlate = ad7768_gpio_reg_mask_xlate,
+> +		.init_valid_mask = ad7768_gpio_init_valid_mask,
+> +	};
+> +	struct gpio_regmap *gpio;
+> +	struct regmap *map;
+> +	int ret;
+> +
+> +	map = dev_get_regmap(parent, NULL);
+> +	if (!map)
+> +		return -ENODEV;
+> +
+> +	PM_RUNTIME_ACQUIRE_AUTOSUSPEND(parent, pm);
+> +	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_set_bits(map, AD7768_REG_GPIO_CONTROL, AD7768_GPIO_UGPIO_ENABLE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	config.regmap = map;
+> +	config.drvdata = map;
 
-In your case, if there is no range data to query, I'd prefer enforcing 0-
-100 by default and relaxing it=C2=A0when appropriate range data is provided=
- by
-module parameters or DMI table.
+Why not do all this in one place rather than init then later
+modify?
 
-The range should always map to hwmon pwm 0-255.
+	config = (struct gpio_regmap_config) {
+		.parent = &adev->dev,
+		.regmap = map,
+		.label = dev_name(parent),
+		.ngpio = AD7768_NUM_GPIOS,
+		.reg_dat_base = AD7768_REG_GPIO_READ,
+		.reg_set_base = AD7768_REG_GPIO_WRITE,
+		.reg_dir_out_base = AD7768_REG_GPIO_CONTROL,
+		.pm_dev = parent,
+		.reg_mask_xlate = ad7768_gpio_reg_mask_xlate,
+		.init_valid_mask = ad7768_gpio_init_valid_mask,
+		.drvdata = map,
+	};
 
-As far as I can recall, Derek once said that he planed to introduce fan
-curve support for Legion Go, so I think he has some helpful ideas.
+> +	gpio = devm_gpio_regmap_register(&adev->dev, &config);
+> +	return PTR_ERR_OR_ZERO(gpio);
+Could do
+	return PTR_ERR_OR_ZERO(devm_gpio_regmap_register(&adev->dev, &config));
 
-Thanks,
-Rong
+Though maybe it looses some readability?
 
->=20
-> Aditya Dash (3):
->   platform/x86: lenovo-wmi-other: Add Legion Go Full Speed control
->   platform/x86: lenovo-wmi-other: Add Legion Go fan RPM fallback
->   platform/x86: lenovo: Add Legion Go Fan Method curve driver
->=20
->  .../wmi/devices/lenovo-wmi-fan-method.rst     |  34 ++
->  .../wmi/devices/lenovo-wmi-other.rst          |  14 +
->  MAINTAINERS                                   |   1 +
->  drivers/platform/x86/lenovo/Kconfig           |  11 +
->  drivers/platform/x86/lenovo/Makefile          |   1 +
->  drivers/platform/x86/lenovo/wmi-fan-method.c  | 380 ++++++++++++++++++
->  drivers/platform/x86/lenovo/wmi-other.c       | 215 +++++++++-
->  7 files changed, 649 insertions(+), 7 deletions(-)
->  create mode 100644 Documentation/wmi/devices/lenovo-wmi-fan-method.rst
->  create mode 100644 drivers/platform/x86/lenovo/wmi-fan-method.c
->=20
->=20
-> base-commit: aca39607c1734ed976fdd65deb75b3555a5a0326
+> +}
