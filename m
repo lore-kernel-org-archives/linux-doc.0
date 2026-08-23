@@ -1,49 +1,102 @@
-Received: from mta0.migadu.com (out-192.mta0.migadu.com [91.218.175.192])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90AA31F98E
-	for <linux-doc@vger.kernel.org>; Sun, 23 Aug 2026 15:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.192
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6548D3164B7
+	for <linux-doc@vger.kernel.org>; Sun, 23 Aug 2026 16:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787500692; cv=none; b=I1IgK5RfDm2COV0ktL61xn0oEr76okbpHgSm0+4nKnfLX6xACwS7Tp87dos8+rhv6P2oQlnLUUCfrGaiqQqcn2WYOB7Sn5KiuZuLb3o6tGI5rPAqj9yo+6DjFgrssa69ube9vlnLAQsy6o8ij7XC2woAH8jcOHjhfwC8Jq5tYpg=
+	t=1787503401; cv=none; b=d0uQFaZZsasiLdvaV3LIvtoH7ITIyaAOGoOMORmz+MiGDu9BrH+CBLOJdJawyb4OaC/zHGIhNZi/9j/uw5qGrieszsEmXPuWm+2pUPYREknJAUzQqZd/lohnFoGhLJFL2362bTJl1v0ijU/MQnraeXplhn/z+XsNIEcpH+LOCQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787500692; c=relaxed/simple;
-	bh=KyYEFiaplUX1+FT41+Zr80qnwqNbDWUgKZSbnVYSy+U=;
+	s=arc-20240116; t=1787503401; c=relaxed/simple;
+	bh=pWDzkQYpINPFTZeR8thS8nOa7PK6nZSbqUQipGA4xXM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J0Mnb0hV5er9Y0KRYHBzMZcJg1K47i+dcqjWOwEEA5C797uO6VfgFMW+TI/+U7WsIvgK4P3PFmVyuX8NUvt/acjkjWpQAyx6eMKUFsfntgtYzoxgzmyesVmNvwrtp7xCfrsiGxhSPWtrhf/zu+feC5x9W2sfVrOF8yuxf3Qza40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=dm6oYOFJ; arc=none smtp.client-ip=91.218.175.192
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=qXjpRPBZf5UTb4MIb0bGkP7lLIOXQvx0H6977tfO7kuMEEZsatKgZS8yIxYxRYoxPXhP5WFsh8AOt0REwflp4UsdnGlleC0aGIgGszZ7Iaq7qKb/pxFJowhl6DuU1qc0ViSaqJNnRaNYBX7A3a6C0Lf9UWl4IrTlTXNCbJ1bNfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=D3oYCTlz; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="dm6oYOFJ"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=KyYEFiaplUX1+FT41+Zr80qnwqNbDWUgKZSbnVYSy+U=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787500686; v=1; x=1788105486;
- b=dm6oYOFJUxEUPynAQM0gVSnqLYH6c+M77HYH+/DCRH+3/uLsKlBWJFf1+HxpAxWA0ipsiM+W
- dJtY/Ll33rGTXkw/dNgw4NxDVmMQjNOhhPiI49470P3uCkF4oBbPvc0XdPrUQpjmgAJRnB7mEX/
- Dv9YjRcKzOUO2699/6Hxlan3aHVZo58KS49ApcYpzMUAuyqtlWryIW6wEm4FnbEhT1CFdk0Q6YL
- XwK0N+tp7fHdm5TkY+xGUT2Y048/GY0vFjDDOJDSmpaLFSlOPTu9ugt1JOxxV2AaJZ5ZbHTd6FZ
- QAEk7c5RuksUcBDsanc9tT/pzcKItpZsL7VOEtTw+800w==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: from localhost (117.176.242.187)
-	by smtp.migadu.com with ESMTPS id 8e63290d184e8428;
-	Sun, 23 Aug 2026 15:57:56 +0000
-X-Mizu-Trace-ID: 8e63290d184e8428
-X-Migadu-Flow: FLOW_OUT
-Date: Sun, 23 Aug 2026 23:57:49 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Manuel Ebner <manuelebnerli@mailbox.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [Issue] sphinx: incorrect high-lighting
-Message-ID: <aosYfdfH6Z7ai5M2@wyuan.org>
-References: <bba57d51c72d9387ccef2b5979fa618e980c3ebf.camel@mailbox.org>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="D3oYCTlz"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-52d8679c149so22887801cf.2
+        for <linux-doc@vger.kernel.org>; Sun, 23 Aug 2026 09:43:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1787503398; x=1788108198; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4EA5wtk151L22kFWX4iHeihngZ8TcErsEBYYtEmRpXE=;
+        b=D3oYCTlz7ZV/CP8G0eG7QNXAoBrIdfkDLHRo+V+aL5ugG28nejEPsP1eNMKS/brxA1
+         WeW8zr3GnTTPNXbO+bYNvs09T0J/cnUU+zlsIF7Fqd8aa02uhuwWO1ZM8EvgyE4k0Z/p
+         6gfNs4RnxepRMu4lJr093Kr2yX/067r54D4+Eg7QVN4z+tD2qGKKihOEEmcmecOoQ6ed
+         3HwpG7ytChYL/0RILqtER+MvdyCH8C0rJWP3pePI6O1VwSkZHuaqhJWjSM05KHRInsED
+         vkbylTcdZmmN2ysybcTKO5NM8OxpeUjplAheXrTpkM/8fUg8/znHDMt/UXkvdyAKTHyM
+         fgaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787503398; x=1788108198;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4EA5wtk151L22kFWX4iHeihngZ8TcErsEBYYtEmRpXE=;
+        b=DRaJ3vMCVkZrJUl9KmUUnuQIQ01doA7JBKw7ZZ2apr2cUzoQn+e86Bj3hjKhMIpD+N
+         cnCbmA0cerTVSVkt7BzkecVumCCYPvQ0mVAzQd5bigCthxdC5HEiWsMDJj4H4162kg83
+         qRihFqzpm94UPTgM6xIthBLm0ItiIKDyBn4r/JczfmFGPrg+6Tc6u4foFdVlhEL9VRcF
+         lfgwDTMrI3dxED72CgONMvsovclsSOIcPW2Tkyeumqcbu1mfRV38129uR+FWnRV0wQDc
+         hprygxzZQewy9/2lVap//4rKMpNgQ+Nl0/Qxp+pbUXrNbjEpiL8fv2uIBBXywCTAXRaK
+         3kJw==
+X-Forwarded-Encrypted: i=1; AHgh+RpnXdYEjS+kUWdNrWwr9Gxho19YoIUiGwqt5rJCUUL59Asu03G0KYXQEXDrAzRPBSNJpT86Ar2VhLc=@vger.kernel.org
+X-Gm-Message-State: AFuF++nlhgAEEQxEpaN8uU+JhHX1vQ5WSpLBuY3CN9NKdUnDZbeBTohH
+	wpYe6zQW0Gx2Zg64Zyb5RlxufV9UurFG1V6lDu3EufxFU0Du5wqHt23ndasZXn87bJQ=
+X-Gm-Gg: AR+sD104rCA2cpU/KRjTtG2idJb26yNbyZUCTH0ULrAVlp9CxbUH79HU92Pmf9wl2ce
+	rglidmunjXvNoRnsi6v+4kj8TIpdk80Jv1stBnzOgjDI+j5LAAZbKC5J78WAAK9NPPkfUy7vrxO
+	Mp/lXFeDOBfNRZDYOzMXVP4cm4OqSIWfM8LsY+QqVF0EvLJayssgfX3sar4lxrRLgTdXOUEEF/g
+	NWJTr8skr384dGHZ9UTvmqxgE2IiecFDl1RgYXMM6x8d6KTc1ETyzgzjSsIZC4xIfvSlxytRUpP
+	gaJ2I7BwrDfOXBVQrV2L/skDBrK41hRNuMksy66UER2nw4hDG3xtc5eYUR/vKfOaIL9Pcpx/jhO
+	sfOwy/mpuzlckv3SqWSLQ3oGk/UF14NXsde7wHIp1ETFQqX7Z+fNogry/y0WjfWAaOUQAF/vh96
+	fwKRsr8yXrXgxKK334ipfaZWTDVofkA2yBHi4ardZsITEdh9ax1C8APZi5diHqUXxDhkMwoZt9n
+	kSGzdkDlO5RI+Jg8uFWCcjUP8DXw/AmcfTlkufcqnx6UY3NLFINQCo=
+X-Received: by 2002:a05:622a:90e:b0:51c:1fd1:e755 with SMTP id d75a77b69052e-52df59e7e7amr219365661cf.36.1787503398278;
+        Sun, 23 Aug 2026 09:43:18 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c9361720bsm41074616d6.21.2026.08.23.09.43.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Aug 2026 09:43:17 -0700 (PDT)
+Date: Sun, 23 Aug 2026 12:43:14 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <djbw@kernel.org>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ira Weiny <iweiny@kernel.org>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Haren Myneni <haren@linux.ibm.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>, 
+	Jiri Slaby <jirislaby@kernel.org>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
+	Gabriel Whigham <gabewhigham@gmail.com>, Aravind Ramesh <arramesh@micron.com>, 
+	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH v13 10/12] famfs: Add runtime operation-permission (opts)
+ framework
+Message-ID: <aosejKmNJxCIpQho@gourry-fedora-PF4VCD3F>
+References: <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
+ <20260810202539.96378-1-john@jagalactic.com>
+ <0100019fed5a5210-a09f1bdb-c705-44fc-8108-a7e7995a7af0-000000@email.amazonses.com>
+ <20260822000728.GB6047@frogsfrogsfrogs>
+ <aokdSo9li0RtEt35@gourry-fedora-PF4VCD3F>
+ <20260822174029.GC6110@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,47 +105,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bba57d51c72d9387ccef2b5979fa618e980c3ebf.camel@mailbox.org>
+In-Reply-To: <20260822174029.GC6110@frogsfrogsfrogs>
 
-On Sun, Aug 23, 2026 at 05:14:20PM +0200, Manuel Ebner wrote:
-> I think in the documentation is some incorrect auto high-lighting.
+On Sat, Aug 22, 2026 at 10:40:29AM -0700, Darrick J. Wong wrote:
 > 
-> https://docs.kernel.org/process/deprecated.html
+> A bigger question I just thought of is sharing cxlmem between files (aka
+> reflink).  Is that allowed?  I could see a theoretical usecase for
+> programs A and B wanting to share some cxlmem for communication or
+> heartbeats whilst having their own /a and /b files for their private
+> memory.  Probably you'd just create a /common file to do that and not
+> map the same cxlmem page into /a and /b, right?
 > 
-> Line 272:
-> > when such a struct was in unions, structs of structs, etc).
-> with 'struct was' bold.
-> 
-> Line 358:
-> > alone in a struct or is part of a union. These are disallowed by the C99
-> with 'struct or' bold as well.
-> 
-> Other files have the same issue:
-> E.g.: https://docs.kernel.org/process/adding-syscalls.html
-> 
-> Unfortunately I don't know how to fix this.
 
-Hi Manuel,
+If the underlying memory hardware is hardware-coherent, then this would
+be supportable because the coherence domains of all the hosts connected
+to the large pool would extend to one another.
 
-I think we can just add "or" and "was" to Skipidentifiers, so that it
-won't be treated as C identifiers.
+In our current world, these huge-memory distributed memory systems are
+non-coherent and each host's coherence domain stops more or less at the
+head it uses to connect to the shared media (it's probably more accurate
+to say it's "device dependant" but that's besides the point).
 
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -51,7 +51,7 @@ Skipnames = [ 'for', 'if', 'register', 'sizeof', 'struct', 'unsigned' ]
- # when following struct/union/enum/typedef keywords.
- # Example: "a simple struct that" in workqueue.rst should not be marked as code.
- #
--Skipidentifiers = [ 'that', 'which', 'where', 'whose' ]
-+Skipidentifiers = [ 'or', 'that', 'was', 'which', 'where', 'whose' ]
- 
- #
- # Many places in the docs refer to common system calls.  It is
+Anyway, there's "allowed" and "useful".  You could technically do it
+(maybe not with FAMFS' current guard rails) - but it would be useless
+unless Process A and Process B were in the same coherence domain.
 
-But I find more words needs to be added when looking at
-process/adding-syscalls.rst. Adding the falsely highlighted words one by
-one may not be a perfect solution, since it could potentially affect
-other places where those words should actually be highlighted. So I'm
-not quite sure what the best approach is either now.
-
-Thanks.
+~Gregory
