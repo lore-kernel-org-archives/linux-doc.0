@@ -1,135 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4676F29BD8C;
-	Sun, 23 Aug 2026 17:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B23B2D1F40;
+	Sun, 23 Aug 2026 18:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787507235; cv=none; b=X9CkjlZo6yHhZNCYwTqXorCxhNOtMGbd3K607Jp/M2wNECdQPRSodwGDv5pLT1p8N77zylUZUQIhHnP7FuyCUn0/gxJkmSJkWgWG0CMDq8+xW4QGnvIR4wwYCZUckJ70QDlY0rPMtb9BA/IvNlBHHMEHn77GKmd+vkCbdo7Fz8U=
+	t=1787508522; cv=none; b=dKGT2OFqm/vkTa3tGUZL8xcn9kTUOgCHrIi8VeF1AFY0wADkgwa1Flj0hr2cz4H/Cz/0RrACHAqg1IBzVkMS4OQv0EVYNpqLlEa+JcgSWXBCYDmrbqP1lsOcyKQdAJGtzYtqGeK1rXdVs8LzfCsTls/RDGarC4q1GHO6FYrBnDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787507235; c=relaxed/simple;
-	bh=TeNf06ookgA5TFwyT2G9JQ1FvWBQEnxHZyq6UUc4bJI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lbwJxFKWsVNVcMIS7JQOtDxY1KZBR7pX0/7O/gmqaIVKV5tmN2Qmy94iR9CKSbl8Stqt2y0PqaIKyozrKfWEGGY92OfRConkoYHlkgP+dxzan3wHo+lb9FQwjY52JyDC+OC55nbP0vIDyPSYzVgwsUIc3BPiP7Sheww1ExiUrgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d2RVOlcq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787508522; c=relaxed/simple;
+	bh=ky7SUIbZAyiQYWSAhMhDpHJkHvPUnjpTMtydqiER4p4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WNoqAui04EnJRQhooaELRIO3bREibUYBsMbvP4a+ITe4ML4DwA/AxJ7cdWuY/Js6HbhECMGPZjeoP+RgHRlH6Ew/FhgIOWy4beV+7Z01rWHqHXqh4/dtpe/3m4CTIWJMqkJPULWXuYI+Ik0ahn0ipXQJTcv+VK/O1qqCfRWm9t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=JqFP+hxc; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d2RVOlcq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D18A41F000E9;
-	Sun, 23 Aug 2026 17:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787507233;
-	bh=xWIXHOow0xAi0RxxpnmWp8ONbEwrRcraYhzxuEhH2hg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=d2RVOlcqhfwIQdF8q4vSyFlTjRSdRPDx+ylHlMWOmFYTlyOb2pY5RvjpSU0fWt9/V
-	 iqRPU3BDh+BiVI/F1tDBXWemOTOUZkhCNx3eWDwXOqjYWQoPaAhbgtZIW7QGYBz58E
-	 JBE3/8arIB7tRwy+YE21rHs8eIM9GjjGz7pJlb2GIWQpLMV/GFkJo7c7xLVk3nRPma
-	 7BvPdjfOejDMQMXQgYKAi5ceiBDRtFIDBePkD5hDzVcXCGdgcwgxbjgckjS1dmXs0A
-	 6RPsLYThEEx21IQ451cTHVixb3/KECv/69KkAUrazdDoY+0x56Ec5CyxJDvxuEtVci
-	 Z01PpTD+9BKTw==
-Date: Sun, 23 Aug 2026 18:47:08 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: David Lechner <dlechner@baylibre.com>, Karl Mehltretter
- <kmehltretter@gmail.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Antoniu Miclaus <antoniu.miclaus@analog.com>,
- Ramona Gradinariu <ramona.gradinariu@analog.com>,
- linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: iio: Correct ADXL380 filter descriptions
-Message-ID: <20260823184708.41150cdf@jic23-huawei>
-In-Reply-To: <1c0ea889-3a06-4691-a759-0cff624ccc92@infradead.org>
-References: <20260822073653.54545-1-kmehltretter@gmail.com>
-	<a1eb791e-64b5-4602-8b5f-afe1ac15b7db@infradead.org>
-	<32545533-b792-41a9-91e0-5353112cbb62@baylibre.com>
-	<1c0ea889-3a06-4691-a759-0cff624ccc92@infradead.org>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="JqFP+hxc"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hShqf3gNDzMlCM;
+	Sun, 23 Aug 2026 20:08:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1787508510;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VU+xqJRWmZ/xxY8XurbKkfTBA3VxjPU04iwkIUadVF0=;
+	b=JqFP+hxciiXp8QDoPgGIpwUx+LgAWDo/I/Y+Q/EZLDcZW1bMwiwJPg/ujVCizkRXlYYiZO
+	a983rlASpC14A9z+BZYqATQgFUuSVkJY31ymYoA/Le1cCZSSyzrNWwBD4MPRZIBjogmvG3
+	PT3aDTVvRIPkH16OGrbqz7k9Lz69Smw9YMIVlCg4WYZsScfqBKhzSkkmpFIxUj0VwklrYu
+	DAj2eXxcpJolmZ1UNpuytQYPSTRruXQ0v2gNgGmCBITyMEBgM42H1YJm+pMwC0KXveYuyI
+	TfYP08CXkPXBMI0g6waZ9mVJXuGvk5Y0SpBA4ZNPwGW7PbLvpHD9TpcxG1UdHg==
+Message-ID: <c7a3db22f56c598ef35676288d10303af21098bf.camel@mailbox.org>
+Subject: Re: [Issue] sphinx: incorrect high-lighting
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: Weijie Yuan <wy@wyuan.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>,  Shuah Khan <skhan@linuxfoundation.org>, "open
+ list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,  "open
+ list:DOCUMENTATION"	 <linux-doc@vger.kernel.org>, open list
+ <linux-kernel@vger.kernel.org>
+Date: Sun, 23 Aug 2026 20:08:25 +0200
+In-Reply-To: <aosYfdfH6Z7ai5M2@wyuan.org>
+References: <bba57d51c72d9387ccef2b5979fa618e980c3ebf.camel@mailbox.org>
+	 <aosYfdfH6Z7ai5M2@wyuan.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 5de3e1c066931fa53c4
+X-MBO-RS-META: uojbxydot3c3qq86wic8dw5w5xfs5ash
 
-On Sat, 22 Aug 2026 11:19:09 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Sun, 2026-08-23 at 23:57 +0800, Weijie Yuan wrote:
+> On Sun, Aug 23, 2026 at 05:14:20PM +0200, Manuel Ebner wrote:
+> > I think in the documentation is some incorrect auto high-lighting.
+> >=20
+> > https://docs.kernel.org/process/deprecated.html
+> >=20
+> > Line 272:
+> > > when such a struct was in unions, structs of structs, etc).
+> > with 'struct was' bold.
+> >=20
+> > Line 358:
+> > > alone in a struct or is part of a union. These are disallowed by the =
+C99
+> > with 'struct or' bold as well.
+> >=20
+> > Other files have the same issue:
+> > E.g.: https://docs.kernel.org/process/adding-syscalls.html
+> >=20
+> > Unfortunately I don't know how to fix this.
+>=20
+> Hi Manuel,
+>=20
+> I think we can just add "or" and "was" to Skipidentifiers, so that it
+> won't be treated as C identifiers.
+>=20
+> --- a/Documentation/sphinx/automarkup.py
+> +++ b/Documentation/sphinx/automarkup.py
+> @@ -51,7 +51,7 @@ Skipnames =3D [ 'for', 'if', 'register', 'sizeof', 'str=
+uct', 'unsigned' ]
+> =C2=A0# when following struct/union/enum/typedef keywords.
+> =C2=A0# Example: "a simple struct that" in workqueue.rst should not be ma=
+rked as code.
+> =C2=A0#
+> -Skipidentifiers =3D [ 'that', 'which', 'where', 'whose' ]
+> +Skipidentifiers =3D [ 'or', 'that', 'was', 'which', 'where', 'whose' ]
+> =C2=A0
+> =C2=A0#
+> =C2=A0# Many places in the docs refer to common system calls.=C2=A0 It is
+>=20
+> But I find more words needs to be added when looking at
+> process/adding-syscalls.rst.=C2=A0
 
-> On 8/22/26 11:07 AM, David Lechner wrote:
-> > On 8/22/26 12:00 PM, Randy Dunlap wrote:  
-> >> Hi,
-> >>
-> >> On 8/22/26 12:36 AM, Karl Mehltretter wrote:  
-> >>> The high-pass attributes were described as low-pass filters and vice
-> >>> versa. Correct all four descriptions.
-> >>>
-> >>> Fixes: b6a097a9af00 ("docs: iio: add documentation for adxl380 driver")
-> >>> Assisted-by: Codex:gpt-5.6-sol
-> >>> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> >>> ---
-> >>>  Documentation/iio/adxl380.rst | 8 ++++----
-> >>>  1 file changed, 4 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/iio/adxl380.rst b/Documentation/iio/adxl380.rst
-> >>> index 654d4c0e84a19..a1c249dc2e51c 100644
-> >>> --- a/Documentation/iio/adxl380.rst
-> >>> +++ b/Documentation/iio/adxl380.rst
-> >>> @@ -39,13 +39,13 @@ specific device folder path ``/sys/bus/iio/devices/iio:deviceX``.
-> >>>  +---------------------------------------------------+----------------------------------------------------------+
-> >>>  | in_accel_scale                                    | Scale for the accelerometer channels.                    |
-> >>>  +---------------------------------------------------+----------------------------------------------------------+
-> >>> -| in_accel_filter_high_pass_3db_frequency           | Low pass filter bandwidth.                               |
-> >>> +| in_accel_filter_high_pass_3db_frequency           | High pass filter bandwidth.                              |
-> >>>  +---------------------------------------------------+----------------------------------------------------------+
-> >>> -| in_accel_filter_high_pass_3db_frequency_available | Available low pass filter bandwidth configurations.      |
-> >>> +| in_accel_filter_high_pass_3db_frequency_available | Available high pass filter bandwidth configurations.     |
-> >>>  +---------------------------------------------------+----------------------------------------------------------+
-> >>> -| in_accel_filter_low_pass_3db_frequency            | High pass filter bandwidth.                              |
-> >>> +| in_accel_filter_low_pass_3db_frequency            | Low pass filter bandwidth.                               |
-> >>>  +---------------------------------------------------+----------------------------------------------------------+
-> >>> -| in_accel_filter_low_pass_3db_frequency_available  | Available high pass filter bandwidth configurations.     |
-> >>> +| in_accel_filter_low_pass_3db_frequency_available  | Available low pass filter bandwidth configurations.      |
-> >>>  +---------------------------------------------------+----------------------------------------------------------+
-> >>>  | in_accel_x_calibbias                              | Calibration offset for the X-axis accelerometer channel. |
-> >>>  +---------------------------------------------------+----------------------------------------------------------+  
-> >>
-> >> These changes LGTM. Thanks.
-> >>
-> >> Although I am a bit confused. When I look at the adxl380 driver,
-> >> I don't see any of these device attributes.
-> >> The attributes with these names are in other drivers/iio/accel/
-> >> drivers: bma180.c, mma8452.c, and sca3000.c
-> >> Can someone try to explain this, please?
-> >> thanks.
-> >>  
-> > 
-> > The attributes come from:
-> > 
-> > 	.info_mask_shared_by_type =					\
-> > 		BIT(IIO_CHAN_INFO_SCALE) |				\
-> > 		BIT(IIO_CHAN_INFO_LOW_PASS_FILTER_3DB_FREQUENCY) |	\
-> > 		BIT(IIO_CHAN_INFO_HIGH_PASS_FILTER_3DB_FREQUENCY),	\
-> > 	.info_mask_shared_by_type_available =				\
-> > 		BIT(IIO_CHAN_INFO_SCALE) |				\
-> > 		BIT(IIO_CHAN_INFO_LOW_PASS_FILTER_3DB_FREQUENCY) |	\
-> > 		BIT(IIO_CHAN_INFO_HIGH_PASS_FILTER_3DB_FREQUENCY),	\
-> > 
-> > in adxl380.c  
-> 
-> Thanks, David.
-> 
-> for the patch:
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-Applied to the testing branch of iio.git.
+It would be this list:
+Skipidentifiers =3D [ 'and', 'are', 'as', 'containing', 'element', 'in',
+                    'including', 'is', 'name', 'needs', 'of', 'or',  'page'=
+,
+                    'pages', 'passed', 'randomization', 'request', 'that',
+                    'to', 'where', 'which', 'whose', 'will' ]
 
-That will get rebased on rc1 once available.
+> Adding the falsely highlighted words one by
+> one may not be a perfect solution, since it could potentially affect
+> other places where those words should actually be highlighted. So I'm
+> not quite sure what the best approach is either now.
 
-Thanks,
+Me neither.
 
-Jonathan
+Thanks
+ Manuel
 
-
-
-
+> Thanks.
