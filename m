@@ -1,127 +1,98 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E2D1A682E;
-	Sun, 23 Aug 2026 18:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652702D739C;
+	Sun, 23 Aug 2026 18:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787510879; cv=none; b=il2n7R2j+8qVu21fR8pjjVEDcyjeEMFAjSv4FlFHjPmiMIZrJOCpU/RWHtwhlGYtflZj8IXpmxSykh6uFfK/QgCTJltu+7l6++rskg/gKGitZDWL7DiCr74CvMTzENwOdKn6KWa4fmRSNnHu7SfNC0CCUWmbL/56Qc+zjGIHzlY=
+	t=1787511144; cv=none; b=UCJLEcCI8ShTHL5wTRL0WkLgES3mwVVESlwGyMeTu+YoaWzGiyjY5NiHQAyTy95ORwMMV7UyKLGkzSoPhG81n47MQAmzxdfFQU+KikAyBUq+uyHH+2akiDKZZTtqJovm49SxwzhkPk29mwr3XsQRT5pb6Q8ysB9YVeoM4gUcaBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787510879; c=relaxed/simple;
-	bh=Nxn14vEQBkUfYIBtyjiuvA7sEIBtZ1PfWA3p9j7I1jQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YpoOReevcW9CuEHJaXxXQoGEJPomOUYYiHdXRwXMoGt3H/sDKyVu5eI1kliVr6rCpQ1bircM6obIU3WP+jMwhESN1XS5DEVEzuf78V1+OZF/YO4lLc6aJbjRAkob6T/nSPQhJZkKTBiCznTblD/jiAPnVvi/YCUvYBzl7B1QYYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dgstOy8P; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1787511144; c=relaxed/simple;
+	bh=KUl1AqtWTXQbecNndtyBJEf66uctYoL0wVkb9y1c8lc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eHANsxyvN2WFutze79MHHMXCFZr8jA1YHEKxFjulUM45PeU0L87I+gEVy+rG7fImaILQrnagOnHz9s7Xsz2rcXYwamlRQL41prBmtkNqDEzvo/KOaBwrgMU2K2icB86fcAxozUsNK9vhEazf8VzZfXo8++AQnJOesTxxGUGshoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dc6yP20G; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dgstOy8P"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=tcMG4Z1+uf2vCda9VNuPmzBQzEqrpv/FGEvFZYtKNCw=; b=dgstOy8PAAPRGrdi8H+DusOB2m
-	N+0IECov5q2YdEuFgLhoIPOXfq1+dc9T1LoDuXK3R2BlQd/EPBD/dl7mBV+yW8NBGni405y3BtW/e
-	3cOs/KqmgeH1yNyPbumDmumPPGr7aZLKVJRgL97m0RWSwNUPsZWqP8lcJmCLTYympom8sMz7Ztt0J
-	GD32aoV9CCuQp5ARZW3NBowpBpcdiD8o3tlLhTnNZVNZiPa6OChSbXxcSa8Tccoco3ynM/1y/B+jh
-	i2k+sjG++eP0OikLNPLlepsUeHYYnN4VrSo6FBMZdhJZVJRbtaNJYkR3Lle3C3gnq/9u28ZdQsHWF
-	mnNWam8g==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyDEM-0000000FXJw-2oPA;
-	Sun, 23 Aug 2026 18:47:42 +0000
-Message-ID: <2b3b259b-d9a0-435a-b250-9d216ae504c7@infradead.org>
-Date: Sun, 23 Aug 2026 11:47:41 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dc6yP20G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B761F000E9;
+	Sun, 23 Aug 2026 18:52:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787511143;
+	bh=kjIxxffX32/hEkhg7SnBH0Nz1LhdUYxOfTcqBKNNbT8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=dc6yP20Gg0umiHpjBFeL//ktLswGPmmu4GTYw2QNozPkfSVz+yfOI/p43FMz9hfMC
+	 fluLK8LADs4O+gNKmhQpgOPlXSGvCyQNXozTXHzc4z/AOkSTvITXDwxF1QGRVKVN3I
+	 un1kN2B4JK8ujoiolmV8PunE3tWH4loUkposWPGNS6Zv2fe8kscBy321klnspojmE5
+	 /SBBBhQ/FWADkFCueY4Z1rMp4Kxxf1960CIk1zPH3H0P+QWZr8LwTyBFkdSrFGXB3D
+	 sh/nvwjRLOdnChZpnmGJJc12AxaGyDA6C2tzyYl0OSQjexz1eDwiZHZrPnB/BkBkgQ
+	 FCrvxAYgJ3Wxw==
+Date: Sun, 23 Aug 2026 19:52:15 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Olivier
+ Moysan <olivier.moysan@foss.st.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>, Bartosz
+ Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Michael Walle <mwalle@kernel.org>,
+ <linux@analog.com>, <linux-iio@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <jananisunil.dev@gmail.com>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v4 01/14] iio: adc: adi-axi-adc: Initialize state mutex
+Message-ID: <20260823195215.5c73a417@jic23-huawei>
+In-Reply-To: <20260821-ad7768-driver-v4-1-bb8fbd06d4eb@analog.com>
+References: <20260821-ad7768-driver-v4-0-bb8fbd06d4eb@analog.com>
+	<20260821-ad7768-driver-v4-1-bb8fbd06d4eb@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Issue] sphinx: incorrect high-lighting
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Weijie Yuan <wy@wyuan.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <bba57d51c72d9387ccef2b5979fa618e980c3ebf.camel@mailbox.org>
- <aosYfdfH6Z7ai5M2@wyuan.org>
- <c7a3db22f56c598ef35676288d10303af21098bf.camel@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <c7a3db22f56c598ef35676288d10303af21098bf.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Fri, 21 Aug 2026 16:06:54 +0200
+Janani Sunil <janani.sunil@analog.com> wrote:
 
-
-On 8/23/26 11:08 AM, Manuel Ebner wrote:
-> On Sun, 2026-08-23 at 23:57 +0800, Weijie Yuan wrote:
->> On Sun, Aug 23, 2026 at 05:14:20PM +0200, Manuel Ebner wrote:
->>> I think in the documentation is some incorrect auto high-lighting.
->>>
->>> https://docs.kernel.org/process/deprecated.html
->>>
->>> Line 272:
->>>> when such a struct was in unions, structs of structs, etc).
->>> with 'struct was' bold.
->>>
->>> Line 358:
->>>> alone in a struct or is part of a union. These are disallowed by the C99
->>> with 'struct or' bold as well.
->>>
->>> Other files have the same issue:
->>> E.g.: https://docs.kernel.org/process/adding-syscalls.html
->>>
->>> Unfortunately I don't know how to fix this.
->>
->> Hi Manuel,
->>
->> I think we can just add "or" and "was" to Skipidentifiers, so that it
->> won't be treated as C identifiers.
->>
->> --- a/Documentation/sphinx/automarkup.py
->> +++ b/Documentation/sphinx/automarkup.py
->> @@ -51,7 +51,7 @@ Skipnames = [ 'for', 'if', 'register', 'sizeof', 'struct', 'unsigned' ]
->>  # when following struct/union/enum/typedef keywords.
->>  # Example: "a simple struct that" in workqueue.rst should not be marked as code.
->>  #
->> -Skipidentifiers = [ 'that', 'which', 'where', 'whose' ]
->> +Skipidentifiers = [ 'or', 'that', 'was', 'which', 'where', 'whose' ]
->>  
->>  #
->>  # Many places in the docs refer to common system calls.  It is
->>
->> But I find more words needs to be added when looking at
->> process/adding-syscalls.rst. 
+> The AXI ADC register access paths serialize transactions with st->lock,
+> but probe does not initialize it. Initialize the mutex before registering
+> the backend.
 > 
-> It would be this list:
-> Skipidentifiers = [ 'and', 'are', 'as', 'containing', 'element', 'in',
->                     'including', 'is', 'name', 'needs', 'of', 'or',  'page',
->                     'pages', 'passed', 'randomization', 'request', 'that',
->                     'to', 'where', 'which', 'whose', 'will' ]
+> Fixes: 7ecb8ee5c93b ("iio: adc: adi-axi-adc: support digital interface calibration")
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> ---
+Where a patch has already been queued, please add a note here to say so.
 
-We have a struct page, so this would interfere with it being
-highlighted correctly, I guess.
+Until the bots get a little more clever about dependencies than I think
+they are today, it makes sense to keep the patches in the series but I
+don't want anyone to waste their time checking again stuff we already have
+headed for upstream!
 
-Oh, and there is a struct element (not currently used as
-kernel-doc).
+Jonathan
 
->> Adding the falsely highlighted words one by
->> one may not be a perfect solution, since it could potentially affect
->> other places where those words should actually be highlighted. So I'm
->> not quite sure what the best approach is either now.
+>  drivers/iio/adc/adi-axi-adc.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> Me neither.
+> diff --git a/drivers/iio/adc/adi-axi-adc.c b/drivers/iio/adc/adi-axi-adc.c
+> index 26b9c75bd4d8..b5e59b1871b6 100644
+> --- a/drivers/iio/adc/adi-axi-adc.c
+> +++ b/drivers/iio/adc/adi-axi-adc.c
+> @@ -684,6 +684,10 @@ static int adi_axi_adc_probe(struct platform_device *pdev)
+>  	if (!st)
+>  		return -ENOMEM;
+>  
+> +	ret = devm_mutex_init(dev, &st->lock);
+> +	if (ret)
+> +		return ret;
+> +
+>  	base = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(base))
+>  		return PTR_ERR(base);
 > 
-> Thanks
->  Manuel
-> 
->> Thanks.
-> 
-
--- 
-~Randy
 
