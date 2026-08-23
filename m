@@ -1,41 +1,41 @@
-Received: from mta0.migadu.com (out-69.mta0.migadu.com [91.218.175.69])
+Received: from mta0.migadu.com (out-74.mta0.migadu.com [91.218.175.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4E529992A
-	for <linux-doc@vger.kernel.org>; Sun, 23 Aug 2026 07:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EA2379974
+	for <linux-doc@vger.kernel.org>; Sun, 23 Aug 2026 07:15:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787469336; cv=none; b=uosfHuC6Rygu+BFkgKWHiQDDi3//89W7C0+ytAOJHklDFEJ49pGbCvnJRgj/Nu06ysUfhkaOu6GsNiDoRLUMVp+W9G3wUCQRxpd/N0SJnV3exFATpNK7UKZ9IdddwwmOH+y9NxDRJT9hFOJO5uL8jxfOgCXwHJ+eN2dHRgXH3ow=
+	t=1787469343; cv=none; b=bfa7IfvxIwknLjp7Vw6ctg0KTJ23/aQyxzM8/dWapuzwiOqmO4T472ROD8pxRiy+dyISzKXz6FFu7E5duwPU6DbZWx9ce+7ufi6FXti+7m+4oe3TemsQETQp2k+oed+HVIdYHxMAEHIE4qYcyvS1V2VMs4miwLf8FnBUekTqrr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787469336; c=relaxed/simple;
-	bh=qexJyGJfCaiZjqvk9M9QZdvbtlJ5LbUJLqvPsvZZkRw=;
+	s=arc-20240116; t=1787469343; c=relaxed/simple;
+	bh=sgwfqA9sAjgSBgQ/O6bwV3Csq7CjVG+v9NkaeSLCyvk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=r0INCy+YVDXC/OnBd3m8w3rNea6DUv64Qf0V15HkBsH6SakcxrGnrgQqcAN0slemUk1i/SfFrZ+52c5szbgwhb8HgwRoxnAzvCU49smGY6dz0FuJRXR6Pj+40Zt+J/pcoJbk4ym2nsdaKt/u0sX/MMicCeYntpp9tgyKEYkKgzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=YG939+cG; arc=none smtp.client-ip=91.218.175.69
+	 In-Reply-To:To:Cc; b=anNjnruemsW0o4JDI/bwgCbOXHa58qp2tFUrSQi6Y6hyyocir55lbefDk5F5nUeeufHhGxxwbbT6kgaD3beg0g6pMRYziyytK9Dcf4S2wWjc78i9GevhYmT+l5PHmHFXrZwCPZF7LVVxFenu7gHckOIVvmQTV7/CtXDBA1vxIIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=T+jjI9xR; arc=none smtp.client-ip=91.218.175.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="YG939+cG"
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="T+jjI9xR"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=qexJyGJfCaiZjqvk9M9QZdvbtlJ5LbUJLqvPsvZZkRw=;
+DKIM-Signature: a=rsa-sha256; bh=sgwfqA9sAjgSBgQ/O6bwV3Csq7CjVG+v9NkaeSLCyvk=;
  c=simple/simple; d=wyuan.org;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787469332; v=1; x=1788074132;
- b=YG939+cGRo8CtaXapfGoNgjVlaOQwJVwLFT6+oVoCswLPW5bYjkVeArSMsTx/zVVLHlUPfry
- V7xhZ/4BDk8IrHnOUWnprNi0s/E8iAzxlGhvaWJkrMI6O9iFSdXOVh/e2QkcP9MIDZvYF9uwbV7
- DAhklV9Mjcs8oA1cZq2qXN8DFdS8N0hwb/bewtTkHyhXk+8ZoaRi9iYvO7kWmg0ExdB+1dsxxJi
- kQEGVXYpQDTO4uCAmy33Fs1Zbx4bQkLFa6hPg5S+eK2E/nCY1t4FNCS4dq8ggYoZfpooWU6iejV
- ogFmt6BTJu6RpP9jwag7oFZdvBZg6lBnaL/2fhdO7P+KA==
+ t=1787469339; v=1; x=1788074139;
+ b=T+jjI9xRPabguPxSlja/WQbzHJdwcQ6mOsYDQ0SNjhb3+gFF38g3gqlH0OcZ0XKXcf6bbtRg
+ Cgc9BMkJIR2me17JO4CYAXlAidZpRfTCnvdn5eohPr+vL9kaoNre0+No1DU9tEYDsBeD83R0Jbw
+ uJtbvqZ7VUSvnG7QSlE+CVCR9Re25AaxxxmjzmrShUmlcPqzEK126/Xau6k+PlP4BhIpWieLMtA
+ patTOLDrWlbc/hV/KULMXkbOHbU+KjRKA+lnnK0NEGCrw0r9mdGahPzUl2HhGsBZ2WOL+m3oWr6
+ pI+GEkcAJStGrJsy/BI8/Eg9GcFEPqbuDtM2svH2uYwlg==
 X-Envelope-To: linux-doc@vger.kernel.org
 Received: from yuanweijie-macmini-2058.local (117.176.242.187)
-	by smtp.migadu.com with ESMTPS id cdb8c1e5da88d3f1;
-	Sun, 23 Aug 2026 07:15:32 +0000
-X-Mizu-Trace-ID: cdb8c1e5da88d3f1
+	by smtp.migadu.com with ESMTPS id e40a9d944dd2d7a0;
+	Sun, 23 Aug 2026 07:15:39 +0000
+X-Mizu-Trace-ID: e40a9d944dd2d7a0
 X-Migadu-Flow: FLOW_OUT
 From: Weijie Yuan <wy@wyuan.org>
-Date: Sun, 23 Aug 2026 15:14:59 +0800
-Subject: [PATCH v2 3/5] docs/zh_CN: update maintainer-pgp-guide kernel.org
- link
+Date: Sun, 23 Aug 2026 15:15:00 +0800
+Subject: [PATCH v2 4/5] docs/zh_CN: add kernel.org trust repository
+ reference
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,7 +44,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260823-maintainer-pgp-guide-v2-3-bea33b2ece54@wyuan.org>
+Message-Id: <20260823-maintainer-pgp-guide-v2-4-bea33b2ece54@wyuan.org>
 References: <20260823-maintainer-pgp-guide-v2-0-bea33b2ece54@wyuan.org>
 In-Reply-To: <20260823-maintainer-pgp-guide-v2-0-bea33b2ece54@wyuan.org>
 To: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
@@ -55,42 +55,30 @@ To: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.17-dev
 
-Update the kernel.org documentation link for adding a kernel.org UID.
-The SPDX identifier added upstream already exists in the Chinese
+Add the kernel.org trust repository reference to the Chinese
 translation.
 
-Update the translation through commit 6c5c07bc8589
-("docs: process: maintainer-pgp-guide: update kernel.org docs link")
+Update the translation through commit 54857c52452a
+("docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign")
 
 Signed-off-by: Weijie Yuan <wy@wyuan.org>
 ---
-The SPDX identifier of this translation was added at its birth, while
-the SPDX identifier of its original English version was added this year
-2026. Although it has been added, I'm quite curious about whether it is
-"legal" to add the identifier on top of the Chinese translation while
-the English original does not have one back in 2023.
-
-I know Jon has been a little bit careful about it, so I'd better leave
-my thoughts here for future reference.
-
-Thanks.
----
- Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst b/Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
-index b329755cc960..6e29c9a74f4c 100644
+index 6e29c9a74f4c..79f8de3c1f5e 100644
 --- a/Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
 +++ b/Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
-@@ -753,7 +753,7 @@ Greg Kroah-Hartman 的密钥（如果你还没有它们）::
- 如果你有 kernel.org 帐户，那么你应该 `添加 kernel.org UID 到你的密钥中`_
- 添加到你的密钥中，以使 WKD 对其他内核开发人员更有用。
+@@ -778,6 +778,8 @@ SSH 的信任方法”。使用 SSH，第一次连接到远程系统时，其密
  
--.. _`添加 kernel.org UID 到你的密钥中`: https://korg.wiki.kernel.org/userdoc/mail#adding_a_kernelorg_uid_to_your_pgp_key
-+.. _`添加 kernel.org UID 到你的密钥中`: https://korg.docs.kernel.org/mail.html#adding-a-kernel-org-uid-to-your-pgp-key
+     trust-model tofu+pgp
  
- 信任网 (WOT) 与首次使用信任 (TOFU)
- -----------------------------------
++.. _cn_kernel_org_trust_repository:
++
+ 使用 kernel.org 信任网仓库
+ --------------------------
+ 
 
 -- 
 2.55.0.822.g20453c30eb
