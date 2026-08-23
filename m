@@ -1,124 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCC0313267;
-	Sun, 23 Aug 2026 19:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787513136; cv=none; b=mo+T00Af6/sb/hRjcPW8IwS7mKMUKNYt+MQ+o/BGWBKzDEJdErgNvhln8j3YDH0ia+m80QL6DtOpcLjBP1yPFUYUWxDkbq8G316kbNWvBmnYKMVr4eOeAkOjdV2gGGk8HMIbm1gsGZoWersIUOfTqXPf1xO8YqSYwy9viTXDVxI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787513136; c=relaxed/simple;
-	bh=u7U4CAhCSXaMrVki6po0VO+G7qnMnr5lcvy2xyJhbTc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AFWaN8to2rPswVbEcZyY2VopPS6ngisfW/Vq+R98lWOkmfrnJWDf+N5NcUyTyHbIAm206bTOLfvnhRckQ28uGlQb5bGIBRlv6Sv3KjUq3Q5n1YBx9Ez4E5nlxLgc0QRnfKAaTt1n+jphPmP6+8pxo26nCLGja09cb4CnIAFv3cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YxyOi3GY; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F228E2798F8;
+	Sun, 23 Aug 2026 19:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787513861; cv=pass; b=MLnsXUvQ5ZuOqwD/WlvVKNEI8c2xSsJtUhUSUNjurgKYZl/aRxacHYKKPLuDwPXgJa3Dj7mpcmpJMtHuSZ1VeaG5aKPQHPcVq0iOgaFgphg4BgQqxa9/HHdWICxm5MYFbidTBZ6H6g6Qea2HQDj5HhEtV6K0ruYyS4H7/iIs+G0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787513861; c=relaxed/simple;
+	bh=bAiHAReixFtpcHlW+VsThIabsxqRx9/76w+PXnWBhVE=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=VtlNFcMfeiNVhKbXvgCGUoUtLMY4IEK64rkJ2XddEtCFRkR0hx3ttZVP794t/3dx5RYC6M84cgFafLjhK2ZTi+Fa1NWJ/JqB/ozFHejof9C8huLHyASj/ShjW5bRJsM4ALvFaYuFltMcWQwEHyfAYqvmYMRW2KAR5QuCwSxOAZU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=NQ3s9zo6; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YxyOi3GY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 396DB1F000E9;
-	Sun, 23 Aug 2026 19:25:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787513134;
-	bh=j29QskVYdEiLxu4ve4piAcLrA6al4W9RQUnAtxaMrVY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=YxyOi3GYYqAUbll+k7OEV72OYqp0s7m5YK/napBESyfK+TmmuZzlap6bWrWIesI1b
-	 +laQHDZ4LeFmkDHydGnwwUlrFXcq8Vk7vClUPmusmdTRbEkpA7ErwWCSnCgUCVASaa
-	 88x+2v4ve9l8wT6itDYwXyPuN6jpnINuU7a7NbrdI19lU0gp9shB75OjF46PyHCO2N
-	 OxrHU67Rs5yV00IVKVuAC807f9mkZhVyxiOw6Ro5T4sXsgDoZRLsPSWLCVJDL3HHnh
-	 75Szuq4saQ6jIG+EZCohKVXs8OGHwdV7zr3NLR48zmDWWR7Xxd404/dr9aO9WprfRQ
-	 31Fu2lvkqIDEQ==
-Date: Sun, 23 Aug 2026 20:25:27 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Michael Hennerich
- <Michael.Hennerich@analog.com>, "David Lechner" <dlechner@baylibre.com>,
- Andy Shevchenko <andy@kernel.org>, "Rob Herring" <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, Olivier Moysan <olivier.moysan@foss.st.com>, Philipp
- Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>, Bartosz
- Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Michael Walle <mwalle@kernel.org>,
- <linux@analog.com>, <linux-iio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <jananisunil.dev@gmail.com>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v4 06/14] iio: adc: ad7768: Add configurable sampling
- modes
-Message-ID: <20260823202527.29881ee4@jic23-huawei>
-In-Reply-To: <20260821-ad7768-driver-v4-6-bb8fbd06d4eb@analog.com>
-References: <20260821-ad7768-driver-v4-0-bb8fbd06d4eb@analog.com>
-	<20260821-ad7768-driver-v4-6-bb8fbd06d4eb@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="NQ3s9zo6"
+ARC-Seal: i=1; a=rsa-sha256; t=1787513835; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=nWYEsloNRtF2/6MF63/rjT8qZfvGrq3urKzEQIYNejikcKPYV6HxfxK8y2GixuYIq84C26MXP8ifcriaQo9WucDgMUN40BNwFjJNgLtPrBr6AoluHTyNkSacJf4+EYpGD2rDrl4eifr5jXPDRwymUkH+WNDrtQhj6oui7SlXljA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1787513835; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=ixJ/17tbXgiE3w2WZkj8mELCwvbcDJWZHLD9OPH99Es=; 
+	b=cHYX/SUR2QFUzEO1qO6tDmoh1E8u0sxrv2k9ODMSBU5e5lADbJy+h0mqlsHSzBkPp6Ff2XcgaCRMSGxJzjIlxhQO5ZjsVaAta0RqpseLzVw5bSmw6ZtFYchvozppC6x/bZ0fYA2ZDLHFcWwTBV2y5xFfc9jJQeVRxsH7eBb4czI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1787513835;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
+	bh=ixJ/17tbXgiE3w2WZkj8mELCwvbcDJWZHLD9OPH99Es=;
+	b=NQ3s9zo6trjzI+e6AwEteDDfMscY2rWaFsRa10uDEpfQ/rd7I3sJL5tgZvXqhAhm
+	XbbLzsqiZQyFJ3e90O++86FiZWLl8xVE6GGJ91iBFyuojK35VWZ1Yxe5vm+UURXRSnI
+	BWBlkLH9KB9xdagErw3WkofhVwV/7fPZHkggxRag9YVU2XGE+AM7eLtaxVM78UCDC1B
+	CMVmv0NfMlyewS1R0P/1nyY7o2lTzenohLhYkgBUjumInmcbgGcMc2gECQMk1z2sagU
+	mNzQgyxA84VCvYVRR8Tz6sBa7tkPfEqax3R4TqwrkVnLrsNY54orE0F1NeAlbOD0YgH
+	ENym3SK5DQ==
+Received: by mx.zohomail.com with SMTPS id 1787513832172546.4160006730991;
+	Sun, 23 Aug 2026 12:37:12 -0700 (PDT)
+Message-ID: <3dca1e1efa285d8644b8ac681a5fb41742ce06a6.camel@rong.moe>
+Subject: Re: [RFC PATCH 0/3] platform/x86: lenovo: Add Legion Go fan
+ controls
+From: Rong Zhang <i@rong.moe>
+To: Aditya Dash <mradityadash@gmail.com>, "Derek J. Clark"	
+ <derekjohn.clark@gmail.com>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
+ <ilpo.jarvinen@linux.intel.com>, Armin Wolf <W_Armin@gmx.de>, Hans de Goede
+	 <hansg@kernel.org>, Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org
+In-Reply-To: <20260821214728.87773-1-mradityadash@gmail.com>
+References: <20260821214728.87773-1-mradityadash@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 24 Aug 2026 03:32:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Evolution 3.56.2-10+b1 
+X-ZohoMailClient: External
 
-On Fri, 21 Aug 2026 16:06:59 +0200
-Janani Sunil <janani.sunil@analog.com> wrote:
+Hi Aditya,
 
-> Derive the available output data rates from MCLK and expose per-channel
-> sampling frequency and filter controls.
-> 
-> Select the fastest compatible power mode for the enabled channels and
-> map matching sampling frequency and filter combinations onto the two
-> hardware channel profiles. Configure the data clock divider and wait for
-> the selected filters to settle before capture.
-> 
-> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-More minor stuff.
+On Sat, 2026-08-22 at 03:17 +0530, Aditya Dash wrote:
+> Capability Data does not cover all fan controls on the Legion Go. Full
+> Speed uses a separate Other Mode feature, some firmware exposes an RPM
+> reading that Capability Data does not advertise,=C2=A0
+>=20
 
-J
-> ---
->  drivers/iio/adc/ad7768.c | 580 ++++++++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 543 insertions(+), 37 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/ad7768.c b/drivers/iio/adc/ad7768.c
-> index 34233ad6cfca..08d8e97d58fc 100644
-> --- a/drivers/iio/adc/ad7768.c
-> +++ b/drivers/iio/adc/ad7768.c
+"does not advertise"
 
-> +static int ad7768_apply_channel_modes(struct iio_dev *indio_dev,
-> +				      const unsigned long *scan_mask)
-> +{
-> +	enum ad7768_filter_type mode_filter[AD7768_NUM_CHANNEL_MODES];
-> +	unsigned int mode_freq[AD7768_NUM_CHANNEL_MODES];
-> +	bool mode_used[AD7768_NUM_CHANNEL_MODES] = { };
->  	struct ad7768_state *st = iio_priv(indio_dev);
->  	unsigned int channel_mask;
->  	unsigned int standby_mask;
-> +	unsigned int max_freq = 0;
-> +	struct device *dev;
-> +	unsigned int c;
->  	int ret;
->  
-> +	guard(mutex)(&st->lock);
-> +	dev = regmap_get_device(st->regmap);
+Really? Please dump capdata via debugfs and attach it.
 
-I can't see why this needs to be under the lock.  I'd just do
-it at declaration above.
+> and the custom fan table
+> uses a separate Fan Method WMI interface.
+>=20
 
-> +
+The hwmon part of lenovo-wmi-other was done by me. Please CC me in your
+next revision.
 
+> Patches 1 and 2 add Full Speed and the RPM fallback to the existing HWMON
+> device. Patch 3 adds a Fan Method driver and attaches the ten curve point=
+s
+> to that device when both WMI interfaces belong to the same provider. Othe=
+r
+> Mode continues to work without Fan Method.
+>=20
+> The open question is how the firmware control range should map to HWMON.
+> On the tested Legion Go 8APU1, values from 0 through 115 produce the
+> observable fan response and correspond to Lenovo's 0 through 115 percent
+> range. Lenovo software shows 0 through 100 percent to the user, and 115
+> reaches the RPM observed in Full Speed mode. Firmware accepts values
+> through 255, but no RPM increase was observed above 115.
 
-> +
-> +static struct iio_chan_spec_ext_info ad7768_ext_info[] = {
-> +	IIO_ENUM("filter_type", IIO_SEPARATE,
-> +		 &ad7768_filter_types_enum),
+This is what we've observed in Fan Test Data. We chose to enforce
+constraints according to it and relax it when users set an module
+parameter.
 
-	IIO_ENUM("filter_type", IIO_SEPARATE, &ad7768_filter_types_enum),
-	IIO_ENUM_AVAILABLE("filter_type", IIO_SEPARATE, &ad7768_filter_types_enum),
+>=20
+> This series keeps the native values unchanged and exposes the fixed
+> temperatures as read-only automatic points. Should the driver map the
+> effective 0 through 115 range to the standard HWMON 0 through 255 scale,
+> or keep the native firmware values unchanged?
 
-First line easily fits and second is only just over 80 chars. So i'd
-do one line for each.
+In your case, if there is no range data to query, I'd prefer enforcing 0-
+100 by default and relaxing it=C2=A0when appropriate range data is provided=
+ by
+module parameters or DMI table.
 
+The range should always map to hwmon pwm 0-255.
 
-> +	IIO_ENUM_AVAILABLE("filter_type", IIO_SEPARATE,
-> +			   &ad7768_filter_types_enum),
-> +	{ }
-> +};
+As far as I can recall, Derek once said that he planed to introduce fan
+curve support for Legion Go, so I think he has some helpful ideas.
 
+Thanks,
+Rong
+
+>=20
+> Aditya Dash (3):
+>   platform/x86: lenovo-wmi-other: Add Legion Go Full Speed control
+>   platform/x86: lenovo-wmi-other: Add Legion Go fan RPM fallback
+>   platform/x86: lenovo: Add Legion Go Fan Method curve driver
+>=20
+>  .../wmi/devices/lenovo-wmi-fan-method.rst     |  34 ++
+>  .../wmi/devices/lenovo-wmi-other.rst          |  14 +
+>  MAINTAINERS                                   |   1 +
+>  drivers/platform/x86/lenovo/Kconfig           |  11 +
+>  drivers/platform/x86/lenovo/Makefile          |   1 +
+>  drivers/platform/x86/lenovo/wmi-fan-method.c  | 380 ++++++++++++++++++
+>  drivers/platform/x86/lenovo/wmi-other.c       | 215 +++++++++-
+>  7 files changed, 649 insertions(+), 7 deletions(-)
+>  create mode 100644 Documentation/wmi/devices/lenovo-wmi-fan-method.rst
+>  create mode 100644 drivers/platform/x86/lenovo/wmi-fan-method.c
+>=20
+>=20
+> base-commit: aca39607c1734ed976fdd65deb75b3555a5a0326
