@@ -1,207 +1,160 @@
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE7D361DA8;
-	Mon, 24 Aug 2026 20:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=204.191.154.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB55F377EBA
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 20:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787603403; cv=none; b=uL+3QutDTgZ2EQEEraGxDhD5fmpMXIN+K01HEir4XVKek16tZhb4XkaN6Ltrvs18lLQZUOCO0qNPhb4UxwD1juONnqLjr+Se/3vHqgAQGfSzkJBwvCEB2JSC5Y9zvFUsAUZ5WpC+pvd9XrgpOBhh76NlURLIg0xrr2a/o/HRYoc=
+	t=1787603719; cv=none; b=NS1ajyFwKunjdkadvRAq5HoAZsCdogoUqHt/3M7ZVBFdw8n9A93+TVwnxfjSBo3xYcMUfVgOwbYHxYdASn1EtCqWeXwvM04DgTEn1+pZ2TOS3t1/pr11Lrts9/M3W9WcLjIPFYNOSX5fHSRzKEvl35yAvMvIfLFCJwiUc8oj9fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787603403; c=relaxed/simple;
-	bh=nfy1kAgZM25iOXAp95QNMPx7GbJYyCFTsLS93VWg9B4=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Subject; b=V9AQXqE5y9OM6IyfmukPoiBgY2UWqAs9Wp2AVR5+39bU81NjihF6URmO2g+8YbNHEPSon4VW3fP6wNjOznd7j/YrNlKnZ9XE7cHeH/USzDs4NsTeuvzni7ZicqT5nOJsnCsUVqK0H+HcYHqiVPpBwvt1n4MFCc0IIPXTiICDoZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=n9WT5Hfe; arc=none smtp.client-ip=204.191.154.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
+	s=arc-20240116; t=1787603719; c=relaxed/simple;
+	bh=nbT5dzntacKFRQSPqk1p9+anOK/Ykfp9XH6Z31bA46Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hy9SueC52zyo4JhgUzMpvrT0GXhU2r3fIlcjMC32pfn3cGvcieB9lWpHtPDgp3hZGOJ+1q6Ms03kHWbF8pcmE9i8CiLAxAIAoNBTEdk+ypRlc8KKmES7HXJDL43o5G8rX0RTZdO9q7eecdErCxxzBRG9NGEpTqEAb3zHQflU4cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QBqX2cXE; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IWAZNghB; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="n9WT5Hfe"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=ttrN7yudHYdE+P6Y7Hk+L4cL67VsRPH1HuuP89qulVk=; b=n9WT5HfeDEh5VKNVwJ+kveNnkY
-	3aZPomnCEOJ/kPb6Ox8sFtVvHmZTs7RLBxihuIB7SoVvEmsLnj+8TCVMiUllBkSRNa7zzwimaazMQ
-	QEViQHHDoq22NajHMNV8FuJcAY5p7oe+axyQ0v2AWjD3aSLZBdwZb95NhPa6PkwlUxQmCiaYwhxqx
-	M3grSKey4/ZHqmqwd0d981oZmYybDkB6bc+O+F9P9R3lckZSwo7rkFQTnldQJwfUrdDfaEdV3iJ2Z
-	mXpRQyKIXb7bIu/7thaiSoQAtDMw5+t8CPQRUfDoVScKunXqieE8VPq5f43/X3NUiSbDgAp8y37VD
-	QOeH3JPg==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1wybIl-00000005ZN8-0MU4;
-	Mon, 24 Aug 2026 14:29:51 -0600
-Message-ID: <d559d41c-5cba-4a95-bc8b-b1f78a49a18c@deltatee.com>
-Date: Mon, 24 Aug 2026 14:29:34 -0600
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QBqX2cXE";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IWAZNghB"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67OJGqPp2724688
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 20:35:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Qwb6Za5Jh+xtMbV4sA0pv+cTfOUaw+dS3gVnx/6DE8A=; b=QBqX2cXECxUzM1XJ
+	WfAsxafAL+U8LEeWZY7aYFIKxDLTk4DcUmrnCyCoW58Pz5k3D3UlMkYAC0j67KJl
+	7zPXbCweJtUkOaNOLlz0oVTXYJYkl+R7RMjJUJaO0gEtBVh7TauGUrG4XKUX/pTd
+	7ShltVXv6/Yl1zUW+XyYWKRnIFE13cCXgbWIpYjE2U0ANx+SoM5cmX5LvEvjY8Sm
+	XoCni4S81gqE10Sn2LpzgTRyGQSKeNoOxwqQt86klnZbOSg5WFLnGvFMiytKiszQ
+	cmid8zGuAZu8JXpZSJVt1TiEyaw+JIPEwRHQirkaqr5HMBc9j5WIDA7A5uhQABIg
+	v6RQrw==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8huf37yy-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 20:35:12 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-c89704da8c7so5779486a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 13:35:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787603711; x=1788208511; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Qwb6Za5Jh+xtMbV4sA0pv+cTfOUaw+dS3gVnx/6DE8A=;
+        b=IWAZNghBJuGwbwfhWUmiw22uakA6zMAVQIAFR8JnZZv/soqp06aWEgBNtgo3dGwDIe
+         gBCZS7AqSq8cvDG+kvPgz4l8DLh4gFmFh/4Ig2wPPMJqNxdB+TM6AHeoM230UkLvW9BQ
+         0u/WhU4WJdOOs73ZeYWiRoAvOApRRBcDkco0IQqg2sEiEhzueChXvVs302/FNFwpn2Qp
+         u+6LEm7exrotzaNAd02Mo71Bd3xNE4zwYpwYCtGjLPsOUaanJ7wjx2T+0ylAFG7En1m3
+         Jb0Kj5DX9YdSg04WVAHNloHWVRqu8/D0Iy7XhOct+UmaYR6ycU6IKtEHAz01HKKpvy3R
+         RZxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787603711; x=1788208511;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Qwb6Za5Jh+xtMbV4sA0pv+cTfOUaw+dS3gVnx/6DE8A=;
+        b=XFXMJ8HsicnCtwSOTvZSiOBvK7uRe1HNvIuE78QIT1ZHCGmofd8znYIL194yO9jWnw
+         rCKEAo9+g00CKVB+zyrIVKafxBL0UrETUriaLl0KpUEcNwbk6lyRpILOKRoZP+I7DdKM
+         5xIHisaAv86r+ZcaH7REHLJRf1oqQvkPJBG5JXTKaHnZeS1CxtrpYtsLJHMndBLWuVXR
+         0r5n4lzFOXNr3yJ49bsDNOtyQR0dMkgwkYzZa37vU9GJtwioGdddmY+Yw3KvnQGrAYCV
+         HGrC7qM1usYe3ELak/hHjKMlvK5q9IAhc78/H86KKd6WXcQxQ5OIKe8Oe70aJXHX7xzE
+         UdZQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpZNn8f+tAsdPHiMrUQGDBu9koqqaQERwc5R9TssyhefiDjjy59g1eAlksTh6On6AgkzsnyTEOmBFY=@vger.kernel.org
+X-Gm-Message-State: AFuF++klOUo/WffoRsyYRGLOB5gh9NRZaoHUVANGxGOTe5GsXKCYRnee
+	DY3cYaQ9aUywyG522oFGY3C3kij7O9qwfGGCc+qyuib4Yhk8IPDZK2dGJmFEBoE+60IwZlA2QK8
+	PgqlQt85WjiHy4z7eB0W/gpqEDfUA32k8eReYOTx5Bhnu4fngEPGP1gM1Q9UrW2Y=
+X-Gm-Gg: AR+sD11LSvUZy3jCLvrADyP5C6DkRfR6Ymmw2ZYCPChtWUvOjt3HdLNWBZG5LdWrUqu
+	kvlkEZa3C/8KazpTWnKKe6Avobt71S8Iza6L9L1AoBPmCjopu5S5d93SDFO5yYqnGJvKfPdyH2v
+	pS7u7O7M53KDiIRey8zBWx2BHvvNrZc0nrkOMNsKGMiN1LLdPWmJ1UXB6Mm5voRbevXnBDK4g2N
+	q2aQMrOlPsRFQHeNuArHI8ALsCDHG5E0gd8VDp+Rx/2YURDyhRnhesJe0OTEy4UEa6BxtUTUHGm
+	l1wnhpbRKJ94R88fxk5XYfd9CTWsBw0FuZlIW6JXqu26VjhNofK+vGOlehwlrdcQ6X7AQKVQx/4
+	6gZQnyWTuOMi1ztSUK+6xUSgo4A==
+X-Received: by 2002:a05:6a20:7292:b0:3b4:7e2d:a3c2 with SMTP id adf61e73a8af0-3cd301c72f7mr44771640637.18.1787603711136;
+        Mon, 24 Aug 2026 13:35:11 -0700 (PDT)
+X-Received: by 2002:a05:6a20:7292:b0:3b4:7e2d:a3c2 with SMTP id adf61e73a8af0-3cd301c72f7mr44771557637.18.1787603710735;
+        Mon, 24 Aug 2026 13:35:10 -0700 (PDT)
+Received: from localhost ([50.35.46.84])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1418600535csm25139612c88.0.2026.08.24.13.35.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 13:35:10 -0700 (PDT)
+Date: Mon, 24 Aug 2026 13:35:06 -0700
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+        f.fainelli@gmail.com, vincent.guittot@linaro.org,
+        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+        d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
+        lukasz.luba@arm.com, philip.radford@arm.com, david@kernel.org,
+        souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+        puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v10 03/24] firmware: arm_scmi: Introduce protocol
+ instance notifiers
+Message-ID: <20260824133506.000053ed@oss.qualcomm.com>
+In-Reply-To: <20260815232604.3730754-4-cristian.marussi@arm.com>
+References: <20260815232604.3730754-1-cristian.marussi@arm.com>
+	<20260815232604.3730754-4-cristian.marussi@arm.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Chaitanya Kulkarni <kch@nvidia.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jens Axboe
- <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
- Ankit Agrawal <ankita@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, iommu@lists.linux.dev,
- Tushar Dave <tdave@nvidia.com>, Matt Evans <matt@ozlabs.org>
-References: <20260821-fix-p2p-acs-v4-0-v4-0-94426b96de73@nvidia.com>
- <20260821-fix-p2p-acs-v4-0-v4-5-94426b96de73@nvidia.com>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20260821-fix-p2p-acs-v4-0-v4-5-94426b96de73@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: leon@kernel.org, bhelgaas@google.com, kch@nvidia.com, gregkh@linuxfoundation.org, axboe@kernel.dk, alex@shazbot.org, ankita@nvidia.com, jgg@ziepe.ca, corbet@lwn.net, skhan@linuxfoundation.org, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, iommu@lists.linux.dev, tdave@nvidia.com, matt@ozlabs.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Level: 
-Subject: I
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDE3MyBTYWx0ZWRfX63gwBwRJQssg
+ +azQHwHwQtrnXw5myL7M6nTotA/wsPeF3s/s5DCueBT+gRlCYBwYU/R9BmZgIt52PswI8YwrKLn
+ aMDWtfWP58vG9Y+MceH6qtXcgbPgWQ8=
+X-Authority-Analysis: v=2.4 cv=Wac8rUhX c=1 sm=1 tr=0 ts=6a8cab00 cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=qC1CW/w66vtJz1P9yTJxNA==:17
+ a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8 a=aGd6ziPyllhe5ofM85oA:9 a=CjuIK1q_8ugA:10
+ a=x9snwWr2DeNwDh03kgHS:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-ORIG-GUID: 9PMS-pTD04osnzG4PjP0GjddMewPHBrf
+X-Proofpoint-GUID: 9PMS-pTD04osnzG4PjP0GjddMewPHBrf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDE3MyBTYWx0ZWRfXzXlLMCvjhotw
+ GgOpoUuQaIQDu51Jcq7ISi9ZUEEZfCUk6eyIgwA++rtArQv9uFWIrXIBIZ/YVHImDg0i3U8Ymi7
+ 7yEcUy/AYSpH2N9WaB3D0FqDIsnAY2Ko9G97tWinszzp/qZP5F3erdvXRjWDeyzzPFBTx49mycm
+ 1SjkPII7RbRjp0OTdKhsBa8cjfmAX5M4OwvoTYZruFqE/qdOtciaTXSQabmHEc/C1ZgY9KgNPYk
+ F9VbVRXA2absmb54xiU5ysjN/q5xK5qbevGApDFGtVqaCDnYOCQX6YncDGxNFmmGide5mML9/0m
+ lgX2KwMuajoDF/xa9vUjxQqmIhR8wREaquljXYODF02KLPqZhGbWvlFGXY5PolaZKvN8elu2B13
+ Jv04ClClamr+q3PHH5p7nrFmlvbh29RcKkRRh6Q59cUUtgxgQidUZK6P2Jki3x3SQm+v9ao02AE
+ d7/HeNIEPBgd+OMXiMQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-24_06,2026-08-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 impostorscore=0 adultscore=0 priorityscore=1501
+ bulkscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608240173
 
+On Sun, 16 Aug 2026 00:25:43 +0100
+Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-
-On 2026-08-21 13:38, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+> SCMI Protocol notifications are typically used by SCMI drivers to detect
+> and react to particular conditions: this was the assumption and the classic
+> usage scenario upon which the SCMI notification framework was built.
 > 
-> pdev->p2pdma has two lifetime models. Provider-based entry points are
-> quiesced by their driver before remove completes. pci_p2pmem_find_many()
-> and the p2pmem sysfs attributes can race with unbind and therefore rely
-> on the teardown grace period.
+> Some protocols like Telemetry, though, could be interested in enabling and
+> registering for such notifications: in such a scenario each initialized
+> protocol instance could want to register a common protocol notifier.
 > 
-> Document publication, teardown, and how the grace period protects both
-> the struct pci_p2pdma object and its optional gen_pool.
+> In order to reuse the existing SCMI Notifications machinery, allow
+> protocols themselves to register for their own notifications and provide
+> their own notifier callbacks.
 > 
-> Tested-by: Tushar Dave <tdave@nvidia.com>
-> Cc: Alex Williamson <alex@shazbot.org>
-> Cc: Matt Evans <matt@ozlabs.org>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/pci/p2pdma.c | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 53 insertions(+), 1 deletion(-)
+> Each protocol, at the end of its initialization phase, can now provide one
+> unique per-protocol-instance notifier block, which will be registered, by
+> the core SCMI stack, on the related notification chain: such notifier will
+> be automatically removed during the protocol de-initialization phase.
 > 
-> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> index a77ef9deb3c6..49bc8cf06240 100644
-> --- a/drivers/pci/p2pdma.c
-> +++ b/drivers/pci/p2pdma.c
-> @@ -21,6 +21,39 @@
->  #include <linux/seq_buf.h>
->  #include <linux/xarray.h>
->  
-> +/*
-> + * Lifetime and RCU usage
-> + *
-> + * Within one driver bind, pdev->p2pdma is published exactly once, by
-
-Is published the right verb here? Seems like we use published for
-different purposes in p2pdma and calling pcim_p2pdma_init() publishing
-reads strangely.
-
-> + * pcim_p2pdma_init(), and cleared exactly once, by the pci_p2pdma_release()
-> + * devres action that the same function installs. It is never re-pointed at a
-
-"It is never re-pointed at" is some strange wording. I had to read it a
-few times to understand what it is saying.
-
-> + * second struct pci_p2pdma, so a reader that observes a non-NULL pointer
-> + * always observes the same, fully initialised object. That object is devres
-> + * memory allocated before the action is installed, so devres frees it only
-> + * after pci_p2pdma_release() has returned.
-
-I don't quite follow the point of this paragraph. It's like it's
-building to some kind of gotcha, but all it seems to be saying is is the
-life cycle of pdev->p2pdma is the same as the lifecycle of pdev.
-
-> + * Most exported entry points reach pdev->p2pdma through a struct pci_dev or a
-> + * struct p2pdma_provider owned by the provider driver, and
-> + * pcim_p2pdma_provider() requires callers to drop those references before the
-> + * driver's remove() completes. Those cannot run concurrently with
-> + * pci_p2pdma_release(), and their rcu_dereference() calls are simply how an
-> + * __rcu pointer is read.
-> + *
-> + * pci_p2pmem_find_many() and the p2pmem sysfs attributes are the exceptions.
-> + * The first walks every PCI device, so it can reach a provider whose driver is
-> + * unbinding: pci_get_device() pins the struct pci_dev, not the driver. The
-> + * second is reachable from userspace until sysfs_remove_group() runs at the end
-> + * of the release. pci_has_p2pmem() must dereference the object to determine
-> + * whether it owns a gen_pool, so even a poolless object must remain alive until
-
-Maybe a hyphen with pool-less or maybe better to use plain language: "so
-even a device without a pool must remain alive..."
-
-> + * that RCU reader exits. The sysfs group is created with the pool.
-> + *
-> + * The grace period in pci_p2pdma_release() first protects the struct
-> + * pci_p2pdma itself from being freed while pci_has_p2pmem() is using it. For a
-> + * pool-backed provider it also fences the gen_pool: gen_pool_alloc_owner()
-> + * walks pool->chunks under RCU and gen_pool_destroy() frees those chunks
-> + * without waiting for a grace period of its own, so pci_alloc_p2pmem() and
-> + * p2pmem_alloc_mmap() hold rcu_read_lock() across the allocation.
-> + */
->  struct pci_p2pdma {
->  	struct gen_pool *pool;
->  	bool p2pmem_published;
-> @@ -235,9 +268,19 @@ static void pci_p2pdma_release(void *data)
->  	if (!p2pdma)
->  		return;
->  
-> -	/* Flush and disable pci_alloc_p2p_mem() */
-> +	/*
-> +	 * Stop new RCU readers and wait for readers that observed p2pdma before
-> +	 * allowing devres to free it. This is required even without a pool,
-> +	 * because pci_has_p2pmem() dereferences every non-NULL p2pdma it finds.
-> +	 * For a pool-backed provider this also fences gen_pool_destroy().
-> +	 */
->  	RCU_INIT_POINTER(pdev->p2pdma, NULL);
->  	synchronize_rcu();
-> +
-> +	/*
-> +	 * The grace period also ensures no RCU reader can still be accessing
-> +	 * map_types here.
-> +	 */
->  	xa_destroy(&p2pdma->map_types);
->  
->  	if (!p2pdma->pool)
-> @@ -255,6 +298,9 @@ static void pci_p2pdma_release(void *data)
->   * for a PCI device. It allocates and sets up the necessary data
->   * structures to support P2PDMA operations, including mapping type
->   * tracking.
-> + *
-> + * The state is published once per driver bind and torn down by a devres
-
-I still find the use of "published" here a bit odd and I'm not sure what
-"state" it is referring to.
-
-> + * action on unbind. Repeated calls for the same device are a no-op.
->   */
->  int pcim_p2pdma_init(struct pci_dev *pdev)
->  {
-> @@ -786,6 +832,12 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
->  		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
->  	}
->  done:
-> +	/*
-> +	 * pci_p2pmem_find_many() reaches this with a provider whose driver may
-> +	 * be unbinding, so the store runs under RCU: pci_p2pdma_release()
-> +	 * clears the pointer and waits for readers before destroying
-> +	 * map_types. See "Lifetime and RCU usage" above.
-> +	 */
-
-I don't know, but this seems like we're just describing basic RCU usage
-here. I'm not sure I personally find much value in the comment.
-
->  	rcu_read_lock();
->  	p2pdma = rcu_dereference(provider->p2pdma);
->  	if (p2pdma)
-> 
-
-Thanks,
-
-Logan
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+I skipped a few versions but what you have now looks good to me.
+Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
