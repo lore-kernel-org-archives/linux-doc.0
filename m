@@ -1,100 +1,76 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7463468C0E
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 16:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942D246DFEB;
+	Mon, 24 Aug 2026 16:57:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787590314; cv=none; b=sHBmA+2AI6spMoQqF7c7o8rz0GspX1XQvsW/jHb0lLDQY6ccqZag2BXsIa5Mlg8ZFYNIoSiOdU+7O6rNnRkx96+ZtnPBgcwN6TUSa2vP+jBqt6cEVTVOncyRZU0OcVhItuJL+DL3MrdIIAU9PbeAt20ZTyOYmTf9z6Tmq53x+XM=
+	t=1787590650; cv=none; b=k/pWfl1UPQhjIc7igd9lapPRMZqEUgQLzGcBPTAr/HRwNGYwjZUPSQvfXcoMOAUlL0Vl9keC80MIl6PUyikb/O+p+p8t1+zquw1NAA+gJTxAhAg7X4JruTqC8niXTTgp7esMwDKWZTDtwaKvv9XZ0sOeo3GcFVLeNKOIrxD+Xas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787590314; c=relaxed/simple;
-	bh=KFlqA2gUyV3JMnR54UZpHgN2Pl0cnTXQe/Lvl2YZkE8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hxoUofkFm2JJMfAo62KF51q/NTYaFVGWy7cBwb7lKEwxJ7tGIvtXzKUFQPMzlTQFMUCuSYtFnuAcjUUiHtCc/zzReCngb+UFoQdzq1ISD9rV3Mwa9ZPEjHlwy2jdJXPQ/ZAbIUoPDtjBCZiTy+aSAHR7DMS97QUb7IkKpMtEjnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bG+n8mRv; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1787590650; c=relaxed/simple;
+	bh=UScjwLeiP7F1DeJq1yHi/xkbYrMFx9cLnEUluagHNIM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=tj7Ng71r+CsSi8E9cPEVVfjqPfo55qYhjh2v+BcjZw6x8oB/iQAA2qTBwyGp09BiRQO3UAbgddXvRGQhfQLx87o+pMXYhViMSGA+p9kYksB71Ep6jQLRYzo/SjW4CkbVYo49O3jzllt+8J76QlYCBJHsrPXYQvW83IZ0Ub68XOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OcpdICNP; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bG+n8mRv"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=/pRcrUPOXsyrdeVukIWc4SE+545428m5LfB8zUsy5Ao=; b=bG+n8mRvz3YPeVpOAFdo2e8pEs
-	G5B5WFMth9vxiAb8J4pdP2TPxa0bunQlK+XfFvGl2wRkWoAoOcNe+z2J9cpH9wCzBa6RvgMP/3613
-	JsL4Gkm6bxP+/zz1mhs+NssNNrrfwVjKnrxpg3ZHtjG6qsfMOMh+PV1Pf/ftzXJQNFN0ivrhTb/ug
-	+lTiI1/a5a3HzNUl/SR12F0tVZ4xDLsUo7RWgVT3cUC17ZseFBYFvdhd7F2DmN/AqPr1uG45kbO+9
-	rp7ArQwdOb3Jq85FUCrBVqHZ7ZfxNqBb4aH3CreWqPWyEgHvbxc/cn+dysHn5fvTN0y62hAURNCEm
-	JGfv3Juw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyXtX-0000000H59U-3tBK;
-	Mon, 24 Aug 2026 16:51:36 +0000
-Message-ID: <6075472a-9ec5-48b9-bfbd-c3d8ac29d98d@infradead.org>
-Date: Mon, 24 Aug 2026 09:51:35 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OcpdICNP"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 66A2040904
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1787590642; bh=4j2Rd4lvkbfF/2bOc/1tm0GlFWbqaGiHE0d0aL+bCm0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OcpdICNP9r7jzDw+IchTMgA7YSgT6LbwZLRUXsXmqKWt6CF2Tt6haljjRI3mQ88gT
+	 ujGGGJdDWBLUKNBI/jEhk4aMVML72zN8ets6/K7FQ0rRu0F5GjHMqdCtpkaEPVRnqh
+	 W06ztS4OaiOwFxKRB41C6IyoKTtNIcrh7C0SmBAS0uJMGbyHXtdp1HSN74BKM9Mg/M
+	 FimfUC9WRY1XiV4Lx62lOhhRqVDAyqVCqG4EFlZ0vpQM3y67hRk0P73me1UMd+gPcQ
+	 ltSpXXbg/lFkfZljUHn1Dd/bMZ0XwdW5/AVJW78wCO5k1mcyloJ60IFAH5kqnWZnyF
+	 24zmGv+TXziBQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 66A2040904;
+	Mon, 24 Aug 2026 16:57:22 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Thomas
+ Gleixner <tglx@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/7] docs: cpu_hotplug: Fix multi-instance removal calls
+In-Reply-To: <20260822121651.1559-2-kmehltretter@gmail.com>
+References: <20260822121651.1559-1-kmehltretter@gmail.com>
+ <20260822121651.1559-2-kmehltretter@gmail.com>
+Date: Mon, 24 Aug 2026 10:57:21 -0600
+Message-ID: <87fr03zcb2.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] docs: ksm: fix typos in sysfs knob names
-To: Jinjiang Tu <tujinjiang@huawei.com>, akpm@linux-foundation.org,
- david@kernel.org, xu.xin16@zte.com.cn, chengming.zhou@linux.dev,
- ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, corbet@lwn.net,
- skhan@linuxfoundation.org, shr@devkernel.io, linux-mm@kvack.org,
- linux-doc@vger.kernel.org
-Cc: wangkefeng.wang@huawei.com, sunnanyong@huawei.com
-References: <20260824061010.3343959-1-tujinjiang@huawei.com>
- <20260824061010.3343959-2-tujinjiang@huawei.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260824061010.3343959-2-tujinjiang@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Karl Mehltretter <kmehltretter@gmail.com> writes:
 
-
-On 8/23/26 11:10 PM, Jinjiang Tu wrote:
-> The sysfs knob names in mm/ksm.c are "advisor_max_cpu" and
-> "advisor_max_pages_to_scan", but the ksm.rst documentation spelled
-> both as "adivsor_*", fix the two typos.
-> 
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
-
+> The function is named cpuhp_state_remove_instance(), not
+> cpuhp_remove_instance().
+>
+> Fixes: c9871c800f65 ("Documentation: core-api/cpuhotplug: Rewrite the API section")
+> Assisted-by: Codex:gpt-5.6-sol
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 > ---
->  Documentation/admin-guide/mm/ksm.rst | 4 ++--
+>  Documentation/core-api/cpu_hotplug.rst | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
-> index ad8e7a41f3b5..c9f533b10f6f 100644
-> --- a/Documentation/admin-guide/mm/ksm.rst
-> +++ b/Documentation/admin-guide/mm/ksm.rst
-> @@ -174,7 +174,7 @@ advisor_mode
->          The section about ``advisor`` explains in detail how the scan time
->          advisor works.
->  
-> -adivsor_max_cpu
-> +advisor_max_cpu
->          specifies the upper limit of the cpu percent usage of the ksmd
->          background thread. The default is 70.
->  
-> @@ -186,7 +186,7 @@ advisor_min_pages_to_scan
->          specifies the lower limit of the ``pages_to_scan`` parameter of the
->          scan time advisor. The default is 500.
->  
-> -adivsor_max_pages_to_scan
-> +advisor_max_pages_to_scan
->          specifies the upper limit of the ``pages_to_scan`` parameter of the
->          scan time advisor. The default is 30000.
->  
 
--- 
-~Randy
+These patches could really benefit from Fixes tags.  For this one, it
+should be:
+
+  Fixes: c9871c800f65 ("Documentation: core-api/cpuhotplug: Rewrite the API section")
+
+Can I trouble you to fix the rest of them as well?
+
+Thanks,
+
+jon
