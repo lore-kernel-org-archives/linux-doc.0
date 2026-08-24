@@ -1,116 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-111.mta1.migadu.com [95.215.58.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE2633C502
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 05:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B81E34404E
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 05:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787548196; cv=none; b=kXlgv4NJfZQ/+RoWC0xsJbSryPBPGdcQ3YygoHLAjbDXvPM9/p7Uu75ldCZ3BWZes8z0SQ/7EodLZOp/bK1a03zUFxcJJX1XYQrO0UbQYyVykEY3Uoxl5fF5FpH/76R39YAhOWcpDsBHCLWbpJkcfn/DYXH7zOop8+hdgxXLAMM=
+	t=1787550450; cv=none; b=aeOztDws+nBXqJ2TrYuqnMmu60BitJJS0798tLj9vkIgZjBI/wWZKxxPWHeY2pkVQydBDapdoorB37eU9ZYjjdlunzHMxJh0r2R+Vf8QISJj/slbH6AqxHxD9fHg6N5Cp57UrO84wV9v0kVh8AiyjhEdRVw3WqWwusKj31/H4Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787548196; c=relaxed/simple;
-	bh=GxNO+qsymD6De4pGyXfuYg9sTEiWod9UnJP0MPkHhyA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=V15ZYlTZpTYcf3YhBqH7twU1CIJm2e5zrQ1TyCZbv/ubIVZk2da4UanL8uNJFVw/hXSeGj1+F4QjZTZSflHfNx2bS+F4Y9fIOWllpRdzNSEktwmLdfdaCRqo/LFS64yvuaxcPo2b16HLu1dD6IviClCLwP5mYELyu8lm3qrSnlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4Lq0BPT; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787550450; c=relaxed/simple;
+	bh=ww4m+1C9cWp0jhCZrHJPvxxmsl7vr657BDYSroysXow=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bZA+NnEyryho4wO2drG3lXJPIU7OyigVs002whvXKW60DqdlIdZfyhPcUJSXAUN24qOpc0jzOI2TFzec+9cWb74smmRq0JrPFpiC40mAO1Um1LdUSQtnjE+ihEClgIR0lLi7MQFB9jFTJPY4NfpWaIn5lCBnX0wWP9m03vv9Tx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=gFNV7ZOu; arc=none smtp.client-ip=95.215.58.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4Lq0BPT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787548193; x=1819084193;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=GxNO+qsymD6De4pGyXfuYg9sTEiWod9UnJP0MPkHhyA=;
-  b=H4Lq0BPTBPF0UWSBBUe2q298ykKRahvLOmhfxjL/eLVtqiBx+fYooNzI
-   piR+mWn5mT/6x54IgF82lfFEsjuVPN0+fUdkYNdLgy5ClgQrOrMu5GhG6
-   6TlIes8Fk8pMtKFqyRaPD6Xg8SI4URdLyuOv6bowzOczxJutgylEDRW2w
-   VVbhW7X1Wk3uKdi79B9ueE33RGjP0ai3NqL2eLCp+xWxLcQkIt3nNWzCP
-   Qf+IKlHrcAnzLhtcvfpCBfTe8jTbClIq5OOYRsbqF2Bw+UJ1I/fZB+A3q
-   IjHpLq7VxnHaf7Q7kCJrBruvXVF0jh1rWGXVE3EawlQjcyDZa75CMdGIN
-   g==;
-X-CSE-ConnectionGUID: bcdqXMaASMKpb1iIy3rKkw==
-X-CSE-MsgGUID: B+SSd379QFOoM62qx6+nFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="91665342"
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="91665342"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 22:09:53 -0700
-X-CSE-ConnectionGUID: UYxxw4D/QvyGWAwYyJNvxg==
-X-CSE-MsgGUID: 0cF/qHWSQQWYH9wLjoB2Ng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="263623179"
-Received: from igk-lkp-server01.igk.intel.com (HELO b49262788783) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 23 Aug 2026 22:09:51 -0700
-Received: from kbuild by b49262788783 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wyMwP-000000000HH-3g0p;
-	Mon, 24 Aug 2026 05:09:49 +0000
-Date: Mon, 24 Aug 2026 07:08:56 +0200
-From: kernel test robot <lkp@intel.com>
-To: Weijie Yuan <wy@wyuan.org>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs:
- Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst:773:
- WARNING: duplicate label kernel_org_trust_repository, other instance in
- Documentation/process/maintainer-pgp-guide.rst
-Message-ID: <202608240726.cBe6kj27-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="gFNV7ZOu"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=ww4m+1C9cWp0jhCZrHJPvxxmsl7vr657BDYSroysXow=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787550444; v=1; x=1788155244;
+ b=gFNV7ZOuWIJ9NHLqmMlhftWTP3p+xH5KXQBDYNtqNTHuSMzMkCRKKHjrXtQ+3pLs4Gb1Ede4
+ 9RtjejjbiYQ9uU9xqxKaYk1rw0vUUs2abblCr/QA/5upSmv5hM3J1qfBO4QujQlYRKWDxnQv3E3
+ MOS9Ij/4eesKoOm/ah5xjDEFFMHwjDLeNZ9om7awE8cIaoAf2116fvJtB04/KojFemadxobDtJI
+ rAARbNES8kCSWAmL+WGwjsDLlwuF6B9hpUJ6pMIZ929B8g0iPu/4glxgduAgb82qFex1ozzhbmX
+ LppUDTZtATSqtYt3S/b3N0Vto2nkHWX6TJtpyYUk/1LiQ==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: from localhost (117.176.242.187)
+	by smtp.migadu.com with ESMTPS id 0d9f46d43ee1f983;
+	Mon, 24 Aug 2026 05:47:24 +0000
+X-Mizu-Trace-ID: 0d9f46d43ee1f983
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 24 Aug 2026 13:47:19 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Alex Shi <seakeel@gmail.com>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Wu XiangCheng <bobwxc@email.cn>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: update maintainer/configure-git.rst
+ translation
+Message-ID: <aova5zNnu4tGHeRJ@wyuan.org>
+References: <20260823-configure-git-v1-1-3c65eefcc585@wyuan.org>
+ <6c674f81-35ca-4074-b22a-b9ed6122ce6c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6c674f81-35ca-4074-b22a-b9ed6122ce6c@gmail.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Weijie-Yuan/docs-zh_=
-CN-clarify-free-Nitrokey-requirements/20260821-011321
-head:   a88007053f65ab396839b4e3084e6925a9be0894
-commit: a88007053f65ab396839b4e3084e6925a9be0894 docs/zh_CN: add kernel.org=
- trust repository reference
-date:   3 days ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933=
-e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260824/202608240726.c=
-Be6kj27-lkp@intel.com/reproduce)
+On Mon, Aug 24, 2026 at 09:59:47AM +0800, Alex Shi wrote:
+> 
+> 
+> On 2026/8/23 23:13, Weijie Yuan wrote:
+> > Upstream documented the common 'git tag -s' workflow and cleaned up
+> > unneeded RST markup. It briefly updated the automatic lore Link: hook
+> > for Git 2.41 and HTTPS, then removed that guidance because Link: tags
+> > should only point to useful additional information.
+> > 
+> > Add a SPDX-License-Identifier.
+> > 
+> > Remove a useless top-of-file label, as Jon always tries to do.
+> > 
+> > Update the translation through commit 944df7a31452
+> > ("docs: update the guidance for Link: tags").
+> > 
+> > Signed-off-by: Weijie Yuan<wy@wyuan.org>
+> > ---
+> > Hi Jon, I added a SPDX-License-Identifier for this file while the
+> > original English one doesn't have one yet. Should I do that? / Is it
+> > "legal" to do so? , if XiangCheng would be happy with what I'm doing.
+> > 
+> 
+> I am not Jon. but usually changes should start from the original file. we
+> don't add or change anything different from it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608240726.cBe6kj27-lkp@i=
-ntel.com/
+Thanks, Alex. The reason why I asked Jon is because I have witnessed him
+make some comments on this matter several times. And of course, you also
+have much more experience. ;-)
 
-All warnings (new ones prefixed by >>):
+And it seems that I haven't quite figured out how to handle this
+identifier in different situations for our translation.
 
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
-   WARNING: ./include/net/page_pool/types.h:105 Excess struct member 'fast'=
- description in 'page_pool_params' (did you mean one of: 'flags', 'offset')
-   WARNING: ./include/net/page_pool/types.h:105 Excess struct member 'slow'=
- description in 'page_pool_params'
-   WARNING: ./security/landlock/ruleset.h:48 Excess struct member 'quiet' d=
-escription in 'landlock_layer' (did you mean one of: 'flags.quiet')
-   WARNING: ./security/landlock/ruleset.h:48 Excess struct member 'quiet' d=
-escription in 'landlock_layer' (did you mean one of: 'flags.quiet')
->> Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst:773: W=
-ARNING: duplicate label kernel_org_trust_repository, other instance in Docu=
-mentation/process/maintainer-pgp-guide.rst
-   Documentation/userspace-api/landlock:550: ./security/landlock/errata/abi=
--4.h:5: ERROR: Unexpected section title.
+I also asked this question on another topic. The original English text
+at that time did not have this identifier, but the Chinese translation
+added it:
 
+Quote [1]:
 
-vim +773 Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
+| The SPDX identifier of this translation was added at its birth, while
+| the SPDX identifier of its original English version was added this year
+| 2026. Although it has been added, I'm quite curious about whether it is
+| "legal" to add the identifier on top of the Chinese translation while
+| the English original does not have one back in 2023.
+| 
+| I know Jon has been a little bit careful about it, so I'd better leave
+| my thoughts here for future reference.
+| 
+| Thanks.
 
-a88007053f65ab Weijie Yuan 2026-08-21  771 =20
-87ef333c0c046b Yanteng Si  2023-11-20  772  =E4=BD=BF=E7=94=A8 kernel.org =
-=E4=BF=A1=E4=BB=BB=E7=BD=91=E4=BB=93=E5=BA=93
-87ef333c0c046b Yanteng Si  2023-11-20 @773  --------------------------
-87ef333c0c046b Yanteng Si  2023-11-20  774 =20
+Also, I need to take a closer look at the description of this
+identifier.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ultimately, however, I agree that our top principle should be to
+maintain consistency with the original text.
+
+Thanks!
+
+[1] https://lore.kernel.org/linux-doc/20260823-maintainer-pgp-guide-v2-3-bea33b2ece54@wyuan.org/
