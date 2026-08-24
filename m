@@ -1,49 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B158407CEF;
-	Mon, 24 Aug 2026 13:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE3A3DDDDA;
+	Mon, 24 Aug 2026 13:23:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787577659; cv=none; b=b5BxtMnC1uzysO4FSogPIjxMyeZdEAYplltD9Czo1EXA/qJbmsfVHUbmdB9gMwkOFg8ge6VDTOPN0F9CoJRMLpc5pSax0+TfvjP8mADjZWCDHdxJtopvfm4E71q/TWmfkJ1HpVudUhgEPmxZkc7nyXnxUUvmCUPGeHCPvgPk9GE=
+	t=1787577820; cv=none; b=erfhX7/vl+1meRD2S83E3vNSdbeli8VSzBoImRkGtv0wlCQi7/okH/hhzD48rhFpxbpguQt4lwkXNnRxKVt97LzFLeOUq+XMNc/qpWbuJu02wE9b0D9+PKytCPcfhWmJuFaapbUC07plDKjUAf5j5X+D0NFTxv3AehzVC22k6yM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787577659; c=relaxed/simple;
-	bh=gyIOtOesJBYQZwqd9/K2nQeo7/BnefvJZqwgH/ESOlY=;
+	s=arc-20240116; t=1787577820; c=relaxed/simple;
+	bh=D38NhbEvvjCV4Wb2MhAfuMZTgMdgWL9L/US1BBG1kKw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VkyC58DIdJHBwvYd4V9+k0G3BsCmss/swJ6f592lM44LlTAfN7GPBTTl18vV0FkGcnWTXM75BPRiAwBt5ELks3eOcLN8KJp7+JlpyqMBxNw/VQVktV8kjJn5uqpfP3L/uFek4hiFqISe3iwtIpVKriyHgri8uKcqDXgw4iHGeZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nSavjAqk; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=T1He0gF8jWkZgBYRqMrKqpD5azbLbIcsdvZRKjtdONN/1LWV5urMVMEHyPASK1SmvLYYFYC5hoiK3JuA6RYVNEX8xJqUx/7lpxJ8qoiBsMAnOsfKlUA1/hvWzd6YXE5P7N5GOMCI9ykKJmu9LjQDVKivmzm12TD1FlC0+65wkI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sQT/trm5; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nSavjAqk"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EF4BE408E5
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sQT/trm5"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CACB5408E5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1787577657; bh=i5X3pzs7RtTuErmmZ1df8+PUm7E1LX2Oyzi3Nf+x61U=;
+	t=1787577816; bh=0LEKe5hNJ1f3iunNWrhWO6P3rECilwP+8je46qkQ7/s=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nSavjAqkUp6cx7XfaiiOz5iTAp7tOldge4wtRiZiSijgOBv4RR/gCuogcbMi22xeq
-	 AR/03JTyBLVIfPXyVngLoHrfOoq3CiamQNqwsVndVaCVa5U7LxrK4aas5jzWJJ8Fuz
-	 fO/UzeeJRKjs91Q7aDYuUwGsAOQKelzQsdh7Ej9FplRbrKRDgauQ57hTAeB/OL+Fdr
-	 b1J5oWU+BZn9ms0CXTm8XLQR4ftVZmZIsBcq/CdORPNIuUlv6ZJrrT5kdwi3mmXb73
-	 U3kGVUcw3490ueGT5RmxncYB8jYkI+y4fLTr+JQ8sRxDzzOUwZ3pSHxmONC8RDfql+
-	 IhtLlafn+pN0g==
+	b=sQT/trm5tq6yFz7dkHM/b/+kmc6qFXaHnL8DHVCy9Vw9Sklb8kPsjV++FE4zTbELs
+	 O6VN88GnywUGlpEFwr/P0C++AcZWemw+TY1aLa2JIGgpx37GnPAO/NpqgHMPvjr+p4
+	 QiptOagBUFbltil1hTW+chPDsab3fEMDxAKDyiEXQ8o2q/g5MZ2Fz/UL+17ix4c5y8
+	 W4AZSolHGAXmZ+5Fp/zHeErG1QVNAT0HKgCN2IfNgyJAvjDygsHyja1k1f4kruQ2a5
+	 N/+vs/SQUtn0eQ/2gaJWVAUst9mKLksBHuzZkq5kePsaBcdr4uyIcp62VHGDZG/QCE
+	 k7UnDPKhDSLDg==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EF4BE408E5;
-	Mon, 24 Aug 2026 13:20:56 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id CACB5408E5;
+	Mon, 24 Aug 2026 13:23:35 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Weijie Yuan <wy@wyuan.org>, Alex Shi <alexs@kernel.org>, Yanteng Si
- <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Wu
- XiangCheng <bobwxc@email.cn>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: update maintainer/configure-git.rst
- translation
-In-Reply-To: <20260823-configure-git-v1-1-3c65eefcc585@wyuan.org>
-References: <20260823-configure-git-v1-1-3c65eefcc585@wyuan.org>
-Date: Mon, 24 Aug 2026 07:20:56 -0600
-Message-ID: <87y0dv1wp3.fsf@trenco.lwn.net>
+To: weibu@redadmin.org, Akira Yokosawa <akiyks@gmail.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/ja_JP: translate submitting-patches.rst (tag usage)
+In-Reply-To: <3000b5678dea68fc42d5f7c2484ded30@redadmin.org>
+References: <20260730130030.1078990-1-weibu@redadmin.org>
+ <a13ae6e3-1f84-477a-9bfc-0a4a55152400@gmail.com>
+ <3000b5678dea68fc42d5f7c2484ded30@redadmin.org>
+Date: Mon, 24 Aug 2026 07:23:34 -0600
+Message-ID: <87qzjn1wkp.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,43 +51,16 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Weijie Yuan <wy@wyuan.org> writes:
+weibu@redadmin.org writes:
 
-> Upstream documented the common 'git tag -s' workflow and cleaned up
-> unneeded RST markup. It briefly updated the automatic lore Link: hook
-> for Git 2.41 and HTTPS, then removed that guidance because Link: tags
-> should only point to useful additional information.
->
-> Add a SPDX-License-Identifier.
->
-> Remove a useless top-of-file label, as Jon always tries to do.
->
-> Update the translation through commit 944df7a31452
-> ("docs: update the guidance for Link: tags").
->
-> Signed-off-by: Weijie Yuan <wy@wyuan.org>
-> ---
-> Hi Jon, I added a SPDX-License-Identifier for this file while the
-> original English one doesn't have one yet. Should I do that? / Is it
-> "legal" to do so? , if XiangCheng would be happy with what I'm doing.
+> Hi Jon,
+> Just a gentle ping on this patch.
+> Akira has already provided his Acked-by.
+> Please let me know if I should resend it.
 
-It's sort of an interesting case, actually.
+Somehow that one appears to have fallen through the cracks...my
+apologies, I'm not sure how that happened.  I will apply it soon.
 
-We don't know what license the original contributor intended, so it is
-hard to add an SPDX line to the original file.  That contributor hasn't
-been seen in the community for a while, so it may or may not be easy to
-track him down and ask.
-
-A translation, though, is a derived product.  Since everything in the
-kernel *can* be distributed under GPLv2, it is fair to say that your
-work is GPLv2, so the result of the translation effort must be too.
-
-That said, I think it's better to stick with the original where
-possible.
-
-Note, however, that I am *not* a lawyer, and that taking legal advice
-from me is probably a bad idea :)
-
-Thanks,
+Thanks for the ping,
 
 jon
