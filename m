@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4F7DF76;
-	Mon, 24 Aug 2026 16:46:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7463468C0E
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 16:51:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787589995; cv=none; b=pkFYWGMCVpAAHd86n9fHfMNIzL4amogBG3b2VLLrBAC4O8MHe0+rRaX9akldNA90DjG4BsGdrPu5F3ZuF5E1YdJc9ac3ptG1Yntb//w0BoMCBwSYbp3NdkMEHtDXrDGheKsRjbYx02Sms3fxMV47keKjN73Sm+7nb9vXxCEVDmc=
+	t=1787590314; cv=none; b=sHBmA+2AI6spMoQqF7c7o8rz0GspX1XQvsW/jHb0lLDQY6ccqZag2BXsIa5Mlg8ZFYNIoSiOdU+7O6rNnRkx96+ZtnPBgcwN6TUSa2vP+jBqt6cEVTVOncyRZU0OcVhItuJL+DL3MrdIIAU9PbeAt20ZTyOYmTf9z6Tmq53x+XM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787589995; c=relaxed/simple;
-	bh=0j6enbSa/iOYzZVaFS991N/5wFduNv2P7B+4iTZDi54=;
+	s=arc-20240116; t=1787590314; c=relaxed/simple;
+	bh=KFlqA2gUyV3JMnR54UZpHgN2Pl0cnTXQe/Lvl2YZkE8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gh2ANohPBCt9jFPQuuv51mtlQsJQKS7HWiHNPbyEnR+TS9OPharp5/3Cn9ZsCE2qWPEy2U/IDTwuWnP0B1PejkSnoi4/Z/oJsgTm6nfLw3vRI07Ri3RTaB5EBHxN/RHSYCAV2stP8kWZzazX8h2kMq0KSdHTIalb69DaTHtQrhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=D9QpKNG9; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=hxoUofkFm2JJMfAo62KF51q/NTYaFVGWy7cBwb7lKEwxJ7tGIvtXzKUFQPMzlTQFMUCuSYtFnuAcjUUiHtCc/zzReCngb+UFoQdzq1ISD9rV3Mwa9ZPEjHlwy2jdJXPQ/ZAbIUoPDtjBCZiTy+aSAHR7DMS97QUb7IkKpMtEjnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bG+n8mRv; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="D9QpKNG9"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bG+n8mRv"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=LbSUqeyoNlKdvh0/9E/r5iDG/b05kEEhXVw9S4DWR20=; b=D9QpKNG97LkrqhsBQ+HjdOzlCO
-	SctfWmdpRBfWXPin0DJvxGc8YT1BR9sOfJA5U1bT0O9TPWfDwTPCkYAawDhe3XU2cBEMdVJuo6mEg
-	OZ38bYPrOHOihrGXVAZB5Ee2NfIhZrUpllTGJl330on7MAVI8Hfnk+QW6oEbNldZkMuee6Xr1Kzn5
-	VE8lN/iwvaIr01pelkT4Vr+wTFQHScJq/nXz0tR2bNfPT958+Oas9Qp+Qx0zheBzpsVivO0UY9Q7Q
-	SNQCRyCo/QxcOh7qKmkOHgSqa771j+9k6rqsWUki6VC/q+sqJdBwixXkp2/7dkokWgkO6QBp0U8fD
-	wX5mjp/w==;
+	bh=/pRcrUPOXsyrdeVukIWc4SE+545428m5LfB8zUsy5Ao=; b=bG+n8mRvz3YPeVpOAFdo2e8pEs
+	G5B5WFMth9vxiAb8J4pdP2TPxa0bunQlK+XfFvGl2wRkWoAoOcNe+z2J9cpH9wCzBa6RvgMP/3613
+	JsL4Gkm6bxP+/zz1mhs+NssNNrrfwVjKnrxpg3ZHtjG6qsfMOMh+PV1Pf/ftzXJQNFN0ivrhTb/ug
+	+lTiI1/a5a3HzNUl/SR12F0tVZ4xDLsUo7RWgVT3cUC17ZseFBYFvdhd7F2DmN/AqPr1uG45kbO+9
+	rp7ArQwdOb3Jq85FUCrBVqHZ7ZfxNqBb4aH3CreWqPWyEgHvbxc/cn+dysHn5fvTN0y62hAURNCEm
+	JGfv3Juw==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyXoY-0000000H4dt-31TY;
-	Mon, 24 Aug 2026 16:46:26 +0000
-Message-ID: <98f56a3d-ad14-4ee3-9c36-3eb4b758e6f9@infradead.org>
-Date: Mon, 24 Aug 2026 09:46:25 -0700
+	id 1wyXtX-0000000H59U-3tBK;
+	Mon, 24 Aug 2026 16:51:36 +0000
+Message-ID: <6075472a-9ec5-48b9-bfbd-c3d8ac29d98d@infradead.org>
+Date: Mon, 24 Aug 2026 09:51:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,54 +39,62 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Documentation: process: Capitalize Git, Quilt, and
- Mercurial consistently
-To: Nguyen Duc Thinh <ducthinh100812@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Weijie Yuan <wy@wyuan.org>, Shuah Khan <skhan@linuxfoundation.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260824133826.13934-1-ducthinh100812@gmail.com>
+Subject: Re: [PATCH v3 1/2] docs: ksm: fix typos in sysfs knob names
+To: Jinjiang Tu <tujinjiang@huawei.com>, akpm@linux-foundation.org,
+ david@kernel.org, xu.xin16@zte.com.cn, chengming.zhou@linux.dev,
+ ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, shr@devkernel.io, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org
+Cc: wangkefeng.wang@huawei.com, sunnanyong@huawei.com
+References: <20260824061010.3343959-1-tujinjiang@huawei.com>
+ <20260824061010.3343959-2-tujinjiang@huawei.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260824133826.13934-1-ducthinh100812@gmail.com>
+In-Reply-To: <20260824061010.3343959-2-tujinjiang@huawei.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 8/24/26 6:38 AM, Nguyen Duc Thinh wrote:
-> Update various process documentation files to properly capitalize "Git",
-> "Quilt", and "Mercurial" as proper nouns when referring to the source
-> management tools themselves.
+On 8/23/26 11:10 PM, Jinjiang Tu wrote:
+> The sysfs knob names in mm/ksm.c are "advisor_max_cpu" and
+> "advisor_max_pages_to_scan", but the ksm.rst documentation spelled
+> both as "adivsor_*", fix the two typos.
 > 
-> Instances explicitly referring to literal command-line invocations
-> (such as "git log" or "git bisect") have been left lowercase.
-> 
-> Signed-off-by: Nguyen Duc Thinh <ducthinh100812@gmail.com>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
 
 Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
 
 > ---
-> v3:
->   - Fixed the un-staged git commit state; the 'git switch' changes are now officially gone from the diff.
->   - Disclosure regarding tools: I DID NOT USE ANY KIND OF AI AS AN ASSISTANT IN THIS CONTRIBUTION, the mistake occured because I don't frequently use Git to send patches, I use it to open pull requests so sometimes it feels unfamiliar to migrate.
-
-"occurred", but it's not part of the commit message, so don't
-bother correcting it.
-
->   - Is there any mistakes that I'm still having in this patch because everyone make mistakes.
+>  Documentation/admin-guide/mm/ksm.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
->  Documentation/process/1.Intro.rst             |  2 +-
->  Documentation/process/2.Process.rst           | 18 ++++-----
->  Documentation/process/3.Early-stage.rst       |  2 +-
->  Documentation/process/5.Posting.rst           | 10 ++---
->  Documentation/process/7.AdvancedTopics.rst    | 36 +++++++++---------
->  Documentation/process/backporting.rst         | 18 ++++-----
->  .../process/embargoed-hardware-issues.rst     |  2 +-
->  .../process/maintainer-pgp-guide.rst          | 38 +++++++++----------
->  8 files changed, 63 insertions(+), 63 deletions(-)
+> diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+> index ad8e7a41f3b5..c9f533b10f6f 100644
+> --- a/Documentation/admin-guide/mm/ksm.rst
+> +++ b/Documentation/admin-guide/mm/ksm.rst
+> @@ -174,7 +174,7 @@ advisor_mode
+>          The section about ``advisor`` explains in detail how the scan time
+>          advisor works.
+>  
+> -adivsor_max_cpu
+> +advisor_max_cpu
+>          specifies the upper limit of the cpu percent usage of the ksmd
+>          background thread. The default is 70.
+>  
+> @@ -186,7 +186,7 @@ advisor_min_pages_to_scan
+>          specifies the lower limit of the ``pages_to_scan`` parameter of the
+>          scan time advisor. The default is 500.
+>  
+> -adivsor_max_pages_to_scan
+> +advisor_max_pages_to_scan
+>          specifies the upper limit of the ``pages_to_scan`` parameter of the
+>          scan time advisor. The default is 30000.
+>  
 
-thanks.
 -- 
 ~Randy
