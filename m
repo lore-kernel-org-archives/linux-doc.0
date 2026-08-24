@@ -1,53 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32036403AF0;
-	Mon, 24 Aug 2026 11:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCE336604B
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 11:15:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787569925; cv=none; b=SyL4DuBG8TlP8QuPtSwvjLLA5PBzGUmfuZD4vQFNeaqjDXdO48rtoan+Awlw+b4R5r7xVvZZdJsNcKk5k2ywZUEZ7q8bw37CYopaFgKibrNIuCR7DRWblMMGKUkh4Wn7NzYN+YWSJoCYy1xvEwjEmANug0Ok7byTj8UEkw56kcE=
+	t=1787570108; cv=none; b=JD1Kv7ok/vAG9M9OgXa4yPsW5FbBWg4CqEk2PMJyw42qe1GO7T1jzSifrhzkuxdpKWO9M0qQywiFXV0TIbVEko3d5xm9hhu++SjWOCUP1FTajXUr0ojLAagMwvvPDr/O+uUaB0ge8/NBX9CoFC05gvM4ZLvd4izjylugJjcue/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787569925; c=relaxed/simple;
-	bh=m+morNN8RGBMipO5t+xTLWNLDa2XTQgVC0dfxL3TCxU=;
+	s=arc-20240116; t=1787570108; c=relaxed/simple;
+	bh=oRJiAzViir+kVKHmOKnk6SlV+utqT2r3sgM5NS339/4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VVps+ouzwKttoDxxj8Bpz9Yr9yUpOwUSs1nK4+1bCH5utMkx07moj4y4Uwk6DnwEnqkxU4pRievRlQAg+VX1OUz25oOr+VE10vX97fpKDdCxOlhTmg+ZVlc+vDYH5c8ix9QQxuwuSsxsJuKu4KITZcL8EbNFcuPtQtZIejVJtiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AMLFr5yZ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gEXr1k+8kphdvCON/jlHLtATMI4iKNKHObgHQsSlykt/8P3uO7AD5/xSsV+SUtn+uwx0NfR20nALEZDsPcjfSaq/3dCII6PBmQo0uF79JsQwXF0CgT3SdTs1d0F5XVoPUAhhQIq5aKGf0IGmm6CVW3HbA+uoOHZpEBPVDRk6KP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=A6UPhr0E; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AMLFr5yZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9641E1F000E9;
-	Mon, 24 Aug 2026 11:12:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787569923;
-	bh=mx+rPoWvI9AkDoOzj5LLsBB5vj6AWlJD0KdPs8BiNks=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AMLFr5yZzIs0z67GZnwj0OMggnSxwjtK/svgoRHvLnZJLflICjZ7c2H/0ZLr8XRBQ
-	 5peiDCre1Ou8Z17lQI6z7iqe4HP79Am7rOUrqCSkivt2tlw6V656d0fFf3inVa0ilc
-	 LREZ5spgc8ePqqERgIM4DGL+XM8vLXJBlXG7T9t2XLYv3UCSLqOzHVPmG7Aab4KDho
-	 pGz1SEWBqKdmf0x9ghpwGzEbRm5UTisGHBnqw+0ZmEMpGEaT2tebudhm35NtO/NbMN
-	 dcCnvz2BRnKAmLUzV4NpD/iZKt0SLlKiWMhpo5BFzjprSZTMUVGSp89AAcFK1kRU3W
-	 NSVohXySukHMw==
-Date: Mon, 24 Aug 2026 12:11:57 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Wei-Lin Chang <weilin.chang@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>, Fuad Tabba <tabba@google.com>,
-	Oliver Upton <oupton@kernel.org>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Yao Yuan <yaoyuan@linux.alibaba.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="A6UPhr0E"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c15d3cd51b2so499515666b.3
+        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 04:15:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1787570104; x=1788174904; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=w6C0CZnkn3wpgcl7INjKPJg3z/EOZac/GnIdlTsK7Uk=;
+        b=A6UPhr0ESK+MKSMSLgbDSir05TtVEm5VNHxKipO6D677BZLFS3tu2pyRTiFSAHX3fB
+         URqJrSOsA32fMMN1Jlp1rXr8+i0mo0IQb5Wa4tUOwZ9y32VXqCqkLvY+9MH/QqDCkvqD
+         dsKQBYTdk1opK6zcSj3RJ7plGbfJuKAWCNANNK8twwHJzQF4f5IYf5GQ+FJvwuBePm8o
+         JrIFvURwk71Xl2JJKAyE0P8ZpyR2PDMo3A1ya6ZPEtW6jr41cba3bQ8opc2uUp8Dt8eO
+         pkwENcIZP9Fl37Gs6fVbhf7jtl68V6fnLmdbTD+b2E+7nf9KPCTf8gVYXQbE7OaVWbGb
+         IYpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787570104; x=1788174904;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=w6C0CZnkn3wpgcl7INjKPJg3z/EOZac/GnIdlTsK7Uk=;
+        b=iCqvkzO6WgcLuK5ZU/xZZJV+SMy1fHCAI9RIqvb4PztvTSLN7xtKFA+rGn7Q7CLe+E
+         N+dwhifeBfCxeKE6e3djqdpE7JCs0+trodyfNov51Zw4Trh6XK5WcU2H+GfICdogZ35E
+         nBDVCBuVfhR0Agk5pbyMsxNB8aFStsRyC6FRGu8KWOvvv9U65qyBWsUPFzRB4VbZS34t
+         26R1hdacO+uOhy4bsw5vqiUOvcjq7IziFXLeC2j+2JxZQB/Ci/5VsBdMuePffmzDxF4r
+         C40sWc3SB++RirZkcfdGHLfIEDfoOhXJN3flSMJdBdWgFfZlMVXXDhLDqOWklP+Shyg/
+         eDeA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro2d7d/ITrjLXinJOqL9t4bFanzlVicvFDIkqtQzLnFxosgjsS8oeHaGg1yb5HSbSM7Hhgja86PAMY=@vger.kernel.org
+X-Gm-Message-State: AFuF++nU5a0yEV0lQQC2vtIXhwO4WUh/L53iXl5n2+uuORLsDbymjQ5H
+	9J0b3OeCUFtgpmQSVSX0J5rPKzqezwWdCEKGhm0HYrkXdCm40ahQOGnTIY2rxJvCvNVqJyuaYt9
+	k9sOVIzY=
+X-Gm-Gg: AR+sD11K+6Lm+7x5lkSuKz/JzQzLdRFtcu3VNdZaTXopNjVyUzFifGEkTS9Gi+n4MCN
+	WzSlOGAl+//5NHgd8NZPQouthb00KPh/sn6lNdCeu7Z4Qbu5rP/FrI1gCn/swBaS02iXpeibbBI
+	++OampPREpaBdrBSePBDcjefvGY/V1+mOC/RkJLluUccceaS2L4sXYCSEnd5KLj4iu48F5MunQt
+	zy1prgjIO7Y/zMXBob/A/Uys9MOILQ0csXXmtHGd9r6VUQpBlBxfLrRCq8Z2AQSxW3gIkvDu6Av
+	EBywdRzFU9K30VEgBASp50e3ljhhBDusx3uAHjlwLo00LBk6k/prOD3bP6NH1Ycuq3GSvCBx88U
+	JgtMyE1O9Q7smyrMz0uW9qdv+4d9PYDIsZDiNYTlMy9xzKoiS1R/ZnDWKmPzShMjYXy6P+OCK+r
+	l4mtvH9/mz3V+OWoFA8C9ZaYJWRy0fuaCkoR+xBWm5LiHlCoUBTf2r6bshOCYtIgsEj3lVFSUmB
+	A==
+X-Received: by 2002:a17:907:72c3:b0:c20:2d38:e518 with SMTP id a640c23a62f3a-c249238c382mr2060850266b.2.1787570103710;
+        Mon, 24 Aug 2026 04:15:03 -0700 (PDT)
+Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a59e025158sm8989092a12.11.2026.08.24.04.15.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 04:15:03 -0700 (PDT)
+Date: Mon, 24 Aug 2026 13:15:01 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: chenglingfei@foxmail.com
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v19 06/14] KVM: arm64: Validate GCS exception lock when
- emulating ERET
-Message-ID: <e0decd21-bd0e-4eab-aa94-b9e97e7b4d7d@sirena.org.uk>
-References: <20260812-arm64-gcs-v19-0-9105afd828ac@kernel.org>
- <20260812-arm64-gcs-v19-6-9105afd828ac@kernel.org>
- <vdmz43ogvmwu4liilfqzdrgsf5v765bucl7mybhfdxj7yrywkd@5mssukdegdwg>
- <02b970b2-dbd9-490f-bfc0-be10708e0f9b@sirena.org.uk>
- <q3lxbu2palhkejnkvncs2iili6vvkcl7boftn4snf4fjy6fhvg@ehrwmqt6eh3m>
+Subject: Re: [PATCH] docs: cgroup-v2: fix misc.events key format description
+Message-ID: <aowmLvkC3xed2QQI@localhost.localdomain>
+References: <20260824-master-v1-1-6866b77e1f62@foxmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,56 +78,71 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="TdbCqlH/hxhqcRtu"
+	protocol="application/pgp-signature"; boundary="4gvoy4outf2w4u4m"
 Content-Disposition: inline
-In-Reply-To: <q3lxbu2palhkejnkvncs2iili6vvkcl7boftn4snf4fjy6fhvg@ehrwmqt6eh3m>
-X-Cookie: Accuracy, n.:
+In-Reply-To: <20260824-master-v1-1-6866b77e1f62@foxmail.com>
 
 
---TdbCqlH/hxhqcRtu
-Content-Type: text/plain; charset=us-ascii
+--4gvoy4outf2w4u4m
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] docs: cgroup-v2: fix misc.events key format description
+MIME-Version: 1.0
 
-On Sun, Aug 23, 2026 at 02:18:15PM +0100, Wei-Lin Chang wrote:
-> On Fri, Aug 21, 2026 at 11:19:30PM +0100, Mark Brown wrote:
+Hi Lingfei.
 
-> > As the comment mentions it's not quite that - ELFromSPSR() in the
-> > pseudocode has rather more going on in it that I'd managed to convince
-> > myself wasn't relevant in this specific context.  I didn't want to give
-> > it a name that would cause someone to think it did the full thing and
-> > trip them up using it in a different context where those things do
-> > matter.  I do agree that this results in awkward naming.
+On Mon, Aug 24, 2026 at 06:55:04PM +0800, Cheng Lingfei via B4 Relay <devnu=
+ll+chenglingfei.foxmail.com@kernel.org> wrote:
+>    misc.events
+> -	A read-only flat-keyed file which exists on non-root cgroups. The
+> -	following entries are defined. Unless specified otherwise, a value
+> -	change in this file generates a file modified event. All fields in
+> -	this file are hierarchical.
+> +        A read-only flat-keyed file which exists on non-root cgroups. It
+> +        shows, per resource, the number of times the resource usage of t=
+he
+> +        cgroup and its children was about to go over the max boundary.
+> +        Unless specified otherwise, a value change in this file generate=
+s a
+> +        file modified event. All fields in this file are hierarchical::
+> =20
+> -	  max
+> -		The number of times the cgroup's resource usage was
+> -		about to go over the max boundary.
+> +          $ cat misc.events
+> +          res_a.max 0
+> +          res_b.max 0
+> +
+> +        Each entry is keyed by the resource name suffixed with ``.max``.
 
-> Right sorry, I missed the pseudocode part. ELFromSPSR pseudocode is
-> doing more than what its name indicates...
+I reckon the docs won't list the key names verbatim. The proposed change
+somewhat hides the potentiality of multiple types of events.
+To correct the printed key name, I think a smaller change would make do.
 
-> If we want to stick with the pseudocode then what do you think about
-> el_from_spsr_nocheck/el_from_spsr_raw?
+@@ -2991,7 +2991,7 @@ resources (res_a and res_b) are registered then:
+ 	change in this file generates a file modified event. All fields in
+ 	this file are hierarchical.
+=20
+-	  max
++	  <res>.max
+ 		The number of times the cgroup's resource usage was
+ 		about to go over the max boundary.
+=20
 
-Yeah, those names could help though given your other comment about this
-not looking the same as the code in exception.c I ended up changing it
-to this:
+Thanks,
+Michal
 
-        /* Check the EL only, ignore thread mode */
-        pstate = vcpu->arch.ctxt.regs.pstate;
-        cur_mode = (pstate & PSR_MODE_MASK) | PSR_MODE_THREAD_BIT;
-        target_mode = (spsr & PSR_MODE_MASK) | PSR_MODE_THREAD_BIT;
-
-instead.
-
---TdbCqlH/hxhqcRtu
+--4gvoy4outf2w4u4m
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqMJv0ACgkQJNaLcl1U
-h9CjOQf/QMmd6D+ASrY8SyYNHelRK0EJIwW4oBSv0gXC6TA0EC73stA7cfWcDeY6
-U23YT5yN83tHNVoYDjoFrCutJf47NIZNcOJtQbUdTekGUcr5t/upVCOo2nrS5SJg
-syjCHDN8fK+T/qD6u3qWQSbJAe/K5lr67Olv4W9Oxg+qwAiMvb14NtuSQWu+RLwk
-hJpyPCK+UCYOB4XM3rEYX+6O2zkJa1SfhUHPdR+yGguBA7I4kAeimhpttufCkTTr
-UDY/P7qmfzE5jrgnh/NFDKWxClVFO6Rh+N/S+Qre6cY9PVPT8G1A3n9HGPxYPzdd
-n2Jqdfo3C3vbaigTCWrY2B4EwG8l5w==
-=YW/9
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaownsBsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ai4uQD/RrY84oBJ8Bs84pOzH7FB
+rHTP8CDMfg5CJTS6eAoPcsUA/2X9rTi382aQqXYBW9yPdA2hZ1iwAX8sR7Z3vN8L
+JMUO
+=NO3C
 -----END PGP SIGNATURE-----
 
---TdbCqlH/hxhqcRtu--
+--4gvoy4outf2w4u4m--
