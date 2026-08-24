@@ -1,198 +1,476 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE459388881;
-	Mon, 24 Aug 2026 20:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787604445; cv=fail; b=Gii31iIp5KD59DS5immcInhYqzFi/Qk/fugkjvgEgFwhlBSU0bKjLab74eZVFPHSY5EbQ7Hrz5TYjAsR0TEji8ox4UVBGmslQTfdUVR1fPUIJ/Qh3guXxC2S6j4eZSOCN94j3XxuPp7iQ92n/its1lz9iOCF2V6WcvS+89f0DPI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787604445; c=relaxed/simple;
-	bh=NiFEXIHVvDo4rCf0eY5IDNVYhdaOptRZ98nMNh00Hhg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=rM32+7hAQr+rOda4pxh5ZPy8n5UHP34LUoFanQYFqllQmJBQrrHkK0hYq9obuqeL3iNZxE7lj24CoWVlh5ffvADNY3WtNffXz3S+nxKzpodO7iDpYg+LR9CvIIa7CspyrnsxNx66F7+IbbYTZHoeEuxTppzHcaTivoNbkET1QQo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZQy+xf+I; arc=fail smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C613A38AC78
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 21:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787605509; cv=none; b=q8ehDQoIQKIBuQ2g5rV1a7RzGEGT+/FxNUK9o9BMbkrEvvmCJpBC2Ed1E7e6NIJsi7dLM9g7OfgfDP05FjgUMlkGeftXrtO2uAXkrya5nQQG07zcOqPHpQx6UlH4eLJ8ps+0DV/C1RLmttv3woyFJV2gvDGoHlqY/aGh7w+vq/I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787605509; c=relaxed/simple;
+	bh=KlJxc/73Za/tL4QF/6j8LrFHxkyNqTyno9oNxMFSMng=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OmySt+qXMJ2Rd5gKxol1kVjuKzdvCZXTRvdyiv1qLmfjPjlNd5mj2ujQIhfOweNnfgWOVN2JIEskFTkf3VOjo9FrDJJTIOvMezbdoJvbvFJ4azvy/1UTlwgav2epHy3zt1GHQZse94RmNHON13kNUpoUDFgjjeeRdTKWta6wB5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=j5Wg91Ai; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VK7ylde4; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZQy+xf+I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787604443; x=1819140443;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=NiFEXIHVvDo4rCf0eY5IDNVYhdaOptRZ98nMNh00Hhg=;
-  b=ZQy+xf+IqfhTF3XQOC603tGBRHbac8EGTd50WS0jFW1sV9aP0l0oJ61H
-   oO/9Jw/UvET8M3p60ncA5Jdob+mZ7E3rlmYbi8tyHDOQfSVGpPFLEugdi
-   1ZQ+javbcUclOXqI7udM0UqzdCe8fKHrR6bd03+TaF2fgF1bH+MloeT59
-   p/iBfWD9XI02o0qczbsFGjJORN5L5y2zDbkVXefzS+/Do/SpJbHlsVKpd
-   jT9R6R2ZZ7ZSHc3SW9XBFdP0vGBelxbkmAWVPbjrgBpV35zaht2WR2SbD
-   qDdiW+VRbk5xfVkDk1oc3YiWXLb299XXtxgBXK8SZ0x+q75SLLpatINds
-   A==;
-X-CSE-ConnectionGUID: 2WjdrgNHTNWxFKnkxnrN5A==
-X-CSE-MsgGUID: GFgD5iXMQu2XIreFs8j7rQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="91743551"
-X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="91743551"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 13:47:21 -0700
-X-CSE-ConnectionGUID: NDhNkxxQQVGxpx2GGO6J0A==
-X-CSE-MsgGUID: 357VeSmWRDeRqM4nYDm/yg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="263370525"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 13:47:21 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Mon, 24 Aug 2026 13:47:19 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Mon, 24 Aug 2026 13:47:19 -0700
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.20) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Mon, 24 Aug 2026 13:47:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VUzZZpDuGx07aPK5NJP2L5UBTbmjeD/LGyQXlCmgMPV/WoEosKDFINGLpS+VALB4ylxZtFDKoikvBGkb6XFnAF+d6+9NEAOF/RhTZh7OmPo9jFpQgTkidYkx5P07jgfpvNEhdLjooXv7B8o4hBxRCwLBbR4sL3hlmnE4DloY3tfkmhFIxF/9NWLsspHSuzHg0Mt3E+Shi4cTmZdZNatCSU+6om7uFb1+sBb5JUk/L3kdqNX3eikZbYSNPhm4SHnsUg8GbqAAJNWmYA31QVWvTdjLUEZPMbR5xjQkNnxHH9ZAAWEc38wzv/OykIyJrOKg5YoYkYM91oN4vI1AbCi+JA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JMTwjMRmnyKWW2+ZD1e9mgnOaFEDk5R8tiNvJ4sfj14=;
- b=V6jtM5QyiolVPipK9aP2dR+AbSwPwPz2uhVNle/AHmpMT7KF6dPz5MYkbk6EvDVclAZYIF/QkrcoDrRTAZvLv5ugmHZfT3xtYPwe4J5pAk/587FkbtuXm4NWvN1lFZUbvmKDKcNqzdPRBb+EnTO5oJo0s5JNDXPfq5T0X97W9MeRGMG3YbbgrBcxjXTPWX0t93ml4vWnaNJQ7Q4rUlSQX2CrIms8X9rv+gFPN2RyKSg6mi+yH166qqyy+8MJx+5zHEC8zgymxtbLngwtTgPYmuSOy+9CDfxn4uoFVMHYOh12ZymcLh5PqRcXPW2MdjrQRBc6ZugdiKaL2UdZe0pukA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by IA1PR11MB8803.namprd11.prod.outlook.com (2603:10b6:208:59a::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Mon, 24 Aug
- 2026 20:47:15 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6%4]) with mapi id 15.21.0339.012; Mon, 24 Aug 2026
- 20:47:15 +0000
-Date: Mon, 24 Aug 2026 13:47:13 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Breno Leitao <leitao@debian.org>
-CC: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@kernel.org>, "Ingo
- Molnar" <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
-	<rdunlap@infradead.org>, <linux-edac@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<kernel-team@meta.com>
-Subject: Re: [PATCH 2/2] x86/mce: Add mce=panic_on_ce_count to panic on a
- corrected error flood
-Message-ID: <aoyt0bpXGQf1Y8GH@agluck-desk3>
-References: <20260821-mce-panic-on-storm-v1-0-7a465c708d82@debian.org>
- <20260821-mce-panic-on-storm-v1-2-7a465c708d82@debian.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260821-mce-panic-on-storm-v1-2-7a465c708d82@debian.org>
-X-ClientProxiedBy: SJ0PR13CA0050.namprd13.prod.outlook.com
- (2603:10b6:a03:2c2::25) To SJ1PR11MB6083.namprd11.prod.outlook.com
- (2603:10b6:a03:48a::9)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="j5Wg91Ai";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VK7ylde4"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67OJGrDd3421455
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 21:05:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	dY4LDVqEdH5RNMCgK81yobfpThMPmEumfnbZe+5z5us=; b=j5Wg91AiUCvpf9z0
+	GCHp8sZbfASpFvC3YB8g6D0OzFR1sTydswybv9P1aMHb58BL//s4J69OvusczLkj
+	dA6ljc9/XfzBWbLQ/FAgwrTEXMTofgaX39asu2cXvk3bg/8BcZUCHZh8WXVyAE5T
+	OqIA3y1ZjFhFzdPbeeMKqTZGd49UaGDotjaqBCkyuSzX4IbamOmBCyqNUKsUDysY
+	beHxoWNdCDcufAZzic1AaJApJt299P4NdhzkNHJixAScQb4un3cd6spCTW63vKWE
+	YZCu0M89kd5f/a7uyoDw4i5+PaVVMUmC2L7viwJ5JbMGiNuv++Lr0aEjH/JvbWzU
+	tz1ojw==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8rquhak0-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 21:05:06 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38e7ff7b375so5931004a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 14:05:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787605504; x=1788210304; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=dY4LDVqEdH5RNMCgK81yobfpThMPmEumfnbZe+5z5us=;
+        b=VK7ylde4joyzo1Z6asm12O+YkGN5bBGyFlc4pxoeGh5P9ienT5bO97/NaylZ8Y3BQv
+         POen2i1d9eBghD7mTq1oKSNe/XW/cyccxNH7h1C8vdi7QNrRQxrpUbv9LX4a3/R+IYgk
+         WGTfb/A6MKeOUHXI2/695RUTe4O/4kNC3Z0FgrrWGw2CZGD4rg93LyJ1iUT9ppESA+u3
+         aMwDAfLSMPFVSstdSME7RgT3W/GOTwOp/r3b4Mtjr+7byUgPxn/UMcO9PhGT2lnEEMKT
+         hteONA1y2ZauNVe9DdVCUk1EgOuc3m/qhindKphDJdaI+8Ng1U8T+ntJG2Jt1TVsdpSe
+         tMXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787605504; x=1788210304;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dY4LDVqEdH5RNMCgK81yobfpThMPmEumfnbZe+5z5us=;
+        b=s9g1808N5YCa1GX61KAgiwLr+nUwuyRSe3iBVoCd/04Kn5wi1DEiWVB3pNnoeZRBRk
+         OCexTAx0ABMDSPohQRHMgEMeMG7InNwGCifC8QjX8CvrduhkybkuaSe9MLoNDNhFNNDd
+         ksxA7OYUPam07TqaIo+P3iZ0xb36fXOPCT+8ad3qs+PFByOlyPu9N4sgi9JxNmT79ODu
+         JZbFxXjjSyzaHhEE0JJ+UssXgl2cy0dw4ncTQJP5Pm7mXDSCGp6TayhhCE47ArjJHyCu
+         jjx0kqeZu5w3pCe1zrAAAEbCSZPOzYHkyigFduOouFu+w99AIjUZyLfl/CafwFw3kYpa
+         hJsw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp6i+7UV+fvSUKvolDTvg+7nzS3hTPdqHdb2VGzxuAMJKBqKanubS7M5zqp8NcyCK6PampZy80zhSU=@vger.kernel.org
+X-Gm-Message-State: AFuF++mRxXk72Y0QjdJGC6DIRtzPJoREDtyx7hLgfMs9NZCtIx5Qt20s
+	pZkeqiR8pvqRFf2Sd9spDdlzhT6GUmfxsQzMoHc1mmCmuS/DSN/ThkavBq2vgrI778QD54xQ57D
+	T4p1lCxChwQcrJxmZKRSnHmkDZ602ou9/zYKgVnnBySy2MX4bYjGNEUPwo85jqJU=
+X-Gm-Gg: AR+sD10FNDYtXk65CXH1wterfO6DJme9flEFmalt7fzwZ0A0IRDky8j836LgKFR1ZDT
+	JPHLdIgYryue5CfMwsxxjqMRCs1P5UF/ahFmiJVJ8yeLl3WEfdlw6perplnTLJnqXX0PI6UcaUh
+	CR+NHIFeQvM6PqLu41wn8HKEUSlbPySH001L0GuTzRtl83irQ24cYqKK+5fTRcEaktFSFhg7IjV
+	sPcGlnjb311jL6sNz7Tq6ogbE/tD+ntNhdl5lzs1lOyS3KRGjHptveY5COD9KobavcmL+HJTRib
+	3FF6fCpWpZJ3dc7oIRVVKuwJ9J6g2Gzz3IMynuGLbW1a4IQd/tw63pxEiaK86dsZZkCi41s+kid
+	OsToCU3vHqAZFeuMBYZRYLbgnRw==
+X-Received: by 2002:a17:90b:5745:b0:380:f389:447b with SMTP id 98e67ed59e1d1-396464ce7bcmr3158205a91.11.1787605503954;
+        Mon, 24 Aug 2026 14:05:03 -0700 (PDT)
+X-Received: by 2002:a17:90b:5745:b0:380:f389:447b with SMTP id 98e67ed59e1d1-396464ce7bcmr3158126a91.11.1787605503492;
+        Mon, 24 Aug 2026 14:05:03 -0700 (PDT)
+Received: from localhost ([50.35.46.84])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1418619d6ecsm27307004c88.14.2026.08.24.14.05.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 14:05:03 -0700 (PDT)
+Date: Mon, 24 Aug 2026 14:04:58 -0700
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+        f.fainelli@gmail.com, vincent.guittot@linaro.org,
+        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+        d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
+        lukasz.luba@arm.com, philip.radford@arm.com, david@kernel.org,
+        souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+        puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v10 06/24] firmware: arm_scmi: Add basic Telemetry
+ support
+Message-ID: <20260824140458.000072d3@oss.qualcomm.com>
+In-Reply-To: <20260815232604.3730754-7-cristian.marussi@arm.com>
+References: <20260815232604.3730754-1-cristian.marussi@arm.com>
+	<20260815232604.3730754-7-cristian.marussi@arm.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|IA1PR11MB8803:EE_
-X-MS-Office365-Filtering-Correlation-Id: 42b15dbb-236d-4d09-6151-08df0220e14f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|23010399003|56012099006|10067099003|22082099003|18002099003|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info: kx2zaHxJaBPYjeuZAijposQan93xeeDv78nGeQH+Tdn5psaT5JddUiDyaDGe8EJGwEx+96rDSkRAltOEn/wm59afp1Gq6j9INbS6oQ0kbMtaxn5l2CRPtBkbFMZnsjoh5B5osaodS6gisSPEEYRRIx6kcvJunmQIEoPzrzE/0qRCSiE95cLmgwVCuhBaPhsjetvRKCzvT/n6tkyySAlMq5ywjav9EJGOT/oUoA0bhVzv6SexQVrAlxoNUNerOTz4+LXuW8xMVlEfLecKC8jCcPjgbR2rTGdHtdijB6xhjqUHJBg123NGZ4YJh2kERaCqXoTJhnjXjFQZRXLe+xFAKcW4pKa7z6lJU0mV7V0aTDhuZY+5zDNpurJWCf+LBtK1RkMYLGYwIZAdSslPZd7de7Umwwoph+i5Agi2YjnR7cVs/jYbrrZoTgY1C7t6iWcGgRN5Q9AQhYnbrMh+QpLGlTQiU1vutFvRLU27lF8lBKiU11IOPFK1l5BuRiUoBAn3n7eX8hYNwZNEeslL43eG0FmW7IWRYaCGJnoTAg5IJCB/OcqqGsPIsZppMfgbBQo0BzpVtOtvEdlckzKPmi2H17U+Gpk1FA75JLoPyGwj03w7Uq6+MMoRqe8YzK7zEsjweypeEuVAtVTIJgbwL36uH6xGyeqIQLD8Xg33KQnKJrU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(23010399003)(56012099006)(10067099003)(22082099003)(18002099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Md3v0AfDc6WNhP4bxacUYnVVVPPK5lY1o4FacWlAZ1arNqke/nQjJvh7Rerw?=
- =?us-ascii?Q?9pz/72fX1h+5Ua9Bpo7TbcmeMxk92zufL4bW5Kl5JdYtRjukV8UlG6r4VlLN?=
- =?us-ascii?Q?ncleGhlnNL9iTf21G4o1GhazJIU7T7RbnaJC3CuqOFdD9bUvQJnjzyykE5Us?=
- =?us-ascii?Q?s9kS/dMwLauAZnOxY3kpYIEuWkhSr0C0kHOcVDP23MswXfIpVfkEg2Z1cl8a?=
- =?us-ascii?Q?9L0nfpGYujpYXvWglNlX6DKi25Q6ieTAYYtnjo8L0g9mv9nxm/lOunzN7n/4?=
- =?us-ascii?Q?YsILKbTnTN/mOo69U283q5AHLZBPW0MfOm5Cwsnkz21M0E6LxHr3EoRIL0GQ?=
- =?us-ascii?Q?v4l6E3ifw/PIwqj4ciCTzIB6jJizDqGgKTNztNXYXvgVuOeFiDRRGDnke9Xs?=
- =?us-ascii?Q?WeFlZBVNSb3I8cD90ah9K1edI12oFQE07VGFmu3ojQ+MPrXQQJ60AaIHgert?=
- =?us-ascii?Q?egqEnpyRiSLDvy+pxW1BolaF3aQFmZqwrYo2v6WfxfaAbP4kAezHoItZkaV8?=
- =?us-ascii?Q?CRbGflG90IaAJrmGRtGV20qtBrp9dhOtWGoaFVIJdihuISH7hPRiaEONmDfs?=
- =?us-ascii?Q?5q0FO9MNwGDs9L1bNzsjWoxo353AmZI72ciKp21J8+SNeB9SpAQwBXw8gTZ7?=
- =?us-ascii?Q?k1+VgpT4Z8bIziAOhPvQjGIG5vSoqgjCW5J92TP0FTLFwPqu6pmG4poOhxaX?=
- =?us-ascii?Q?H4lwo3KDVLugws+rQnsnOytyfFBVLoOOVijLxSb2Cep23rag7MuiXbuaf7rb?=
- =?us-ascii?Q?cVFAYAV7EiYZ/INPKczBQuWJd/ZqWuXp6LTBT4q82uQjZKDRPUzmpaN6jGQ+?=
- =?us-ascii?Q?ri/zBeD4jtSL91B6nUegt9yxl5bWgsnBW+QfOShJAfwjj8GL00x0JgZufTJ5?=
- =?us-ascii?Q?x7X/s8nQ0gwn0xksAS5h0jnIY/HebA3t5uaSyP4tXP5job9QGYg3aQdMsQx/?=
- =?us-ascii?Q?GttiGX6eDkhJ1936xypKZn0GC5FZO13U4z89RfNH2nxmEbj6+lKczryFGtJ5?=
- =?us-ascii?Q?ijaM+5TPAsjyNS/OmqfdhRi5DbFonR/muPbLib23wfj40fjkVwBCh2Qn+px9?=
- =?us-ascii?Q?/AxuQLyErpGk5IuFgBveM3Dy7N6IEmvQOSfHCUdr9zV+hdIqktolCi5LgIlc?=
- =?us-ascii?Q?UVyq2OA1+XqHPM6lHpze9W1majZX327z6UZ/TeqAl9DSm8KzvZbUyvtr2SsN?=
- =?us-ascii?Q?Eq7/iIWtbEIfiUboCUFxUrgeQJGfIXtkPjN6h7nu1kORtak1jFUT/52U7zS9?=
- =?us-ascii?Q?cyop88jIqNNlppifEmZg3YtrcetNisyNSboeg0Lt6wEj3Tq74KDM6pS9U57n?=
- =?us-ascii?Q?cr0uZQfDuQS3XPGulP753EThFTo41u9yUhG/zLnRDHtlO8DwHFcoaEZ+cFdU?=
- =?us-ascii?Q?I96A4NFt0fpry7PBp5BtITrHGahPSAHNxQYvreTxyLJi1kVJm6LKvn34bFe5?=
- =?us-ascii?Q?k1jwVrNa/zRcNERr4Iuzj+BiwTbHoA3J8giQ6DP0Q5LpfB+EQlfkZnEZOuwU?=
- =?us-ascii?Q?fJZP8L+vYgPLwVp6+q3P/6SvwqfZaUnNj+6tqkhUDsn8D+UxEsbzUN2gw/J6?=
- =?us-ascii?Q?DcbTxch0Cx9eObRRYx6cgC6xLoXnxIaLrjoFDnzA6ldON5J1sjdEtXKz4lyN?=
- =?us-ascii?Q?6boQJLJU9uHcWyiSPe5Pk/+4VJOp3ZvhKoHCxDN6L0QVItgsekAxFVhX7jVw?=
- =?us-ascii?Q?zEFf0xVxxw+38PfU8jn7DZFkD6CE4DaN3aAMF21Zw7RzO0AbiF/sH1KPDWqB?=
- =?us-ascii?Q?VqM7uLAmLQ=3D=3D?=
-X-Exchange-RoutingPolicyChecked: MPnHMnGSVXm5WUqQ4D+HkiNnZklETojiw/lc8eFIe6K2Ttpy2hppqiCslxQ1F+UPc0W5/lyiyzE+56y4Du5FSe1yWewjlTPhAAZdbxqpiMQaIO8rBe7JyewqjYb+0f+sJ91WApoMc/Z9YNm8YjTjWuieCPLEX2s2ROrmIFaFk/wbcse3jUZieq9kzSTFz0e6srlQwGK/0EaHkMbnyhbMDE0WZex75TSE69Pyko2ZoOrBRYhnTgxcD1cLZR6VILMOlm7dXppylUdZSlAGXp3xzCLXnz16s6TlObYSv8OEOUdd17rW3JOWPSfQwxeLf2e0B/s5SVQFAw+bZwshPkE5Vg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42b15dbb-236d-4d09-6151-08df0220e14f
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 20:47:15.4037
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l4EirCatMFxngxqgy0irGN19zJX1dV2mrUYlKxolwfuD+ogcMzU/J8Qg8orYCp/3i5IssnKLMuAl2H3E9fiUhg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8803
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: pa-tQOMxr5BhJvq3L4U_2bw5MJBB7jEN
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDE3OCBTYWx0ZWRfX+hORqfMOipN8
+ kEd653cG0d9fmTeBgCEEqIwJByYM1Y9xx7yasmwvcaoCB8fe9cpLufDAkkKY2N9EYlX+vZ9zGrU
+ nUuIbI0E/n/+6rBLp+QXWGC6cmZZPHM=
+X-Authority-Analysis: v=2.4 cv=CbQ4Irrl c=1 sm=1 tr=0 ts=6a8cb202 cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=qC1CW/w66vtJz1P9yTJxNA==:17
+ a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=7CQSdrXTAAAA:8 a=y3yABLib4jnuYGgama0A:9 a=CjuIK1q_8ugA:10
+ a=rl5im9kqc5Lf4LNbBjHf:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-GUID: pa-tQOMxr5BhJvq3L4U_2bw5MJBB7jEN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDE3OCBTYWx0ZWRfX7Xowci/hTi4h
+ QrTm/h587JNdm2wPD9UvnmuQaCJY7dEM4tc86OV2LriXlXcrbJy1VPMALLrGskwjVaXbgRBkD6w
+ smycv56qQofAZvM7Zsvfq0ilHEiVPlql0n39UCaIvtc6Nfi47g2kOK+jlgf3JuqwHGN5Z0bP7Xu
+ ZH4fKmfbg5JxeshyP/g5RtCIytroEFxEu3msiNgjFARJy1ddtZQVWE5GxvwPhuDTuFMN+ba2puV
+ wqws/0zb9fFO8zsftE9QJbgg1P0/D+I4Z6vfY8xiYY9NR98N75+u+r3yBJm4RHNEQsvBZYjgsJ3
+ D97wvrY2nxQexVOixndfHXIE/p1mq5vcqYm1esj/CZyXh423tRfr01mXSLkYcbwemQpfZfz5B2V
+ C4MWT2CJKkMjGL/WUjT1NfYVX5uqD/ONLi/ujus1v0jnXNWXICZE2DB7/6CPDXqYL798soaP/1J
+ KKMnIn79vVSsUGaNk4Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-24_06,2026-08-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0 suspectscore=0
+ impostorscore=0 malwarescore=0 spamscore=0 clxscore=1015 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608240178
 
-On Fri, Aug 21, 2026 at 03:24:08AM -0700, Breno Leitao wrote:
-> +/*
-> + * A bank that keeps reporting corrected errors is repairing them faster than
-> + * anything acts on it. Count them and let the admin put a ceiling on it.
-> + */
-> +void mce_track_ce_count(struct mce *mce)
+On Sun, 16 Aug 2026 00:25:46 +0100
+Cristian Marussi <cristian.marussi@arm.com> wrote:
+
+> Add SCMIv4.0 Telemetry basic support to enable initialization and resources
+> enumeration: add all the telemetry messages definitions and parsing logic
+> but only a few simple state gathering protocol operations.
+> 
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+Obviously this is huge. I'm not going to look through it all today, but
+some quick comments form the part I did look at.
+
+Jonathan
+
+...
+
+> +static void scmi_telemetry_resources_free(void *arg)
 > +{
-> +	struct storm_bank *bank = &this_cpu_ptr(&storm_desc)->banks[mce->bank];
-> +	int limit = READ_ONCE(mca_cfg.panic_on_ce_count);
+> +	struct telemetry_info *ti = arg;
+> +	struct scmi_telemetry_res_info *rinfo = ti->rinfo;
 > +
-> +	if (limit <= 0)
-> +		return;
+> +	/* Ensure rinfo is no more accessible upfront */
+> +	smp_store_release(&ti->rinfo, NULL);
 > +
-> +	if (!(mce->status & MCI_STATUS_VAL) || !mce_is_correctable(mce))
-> +		return;
+> +	for (int i = 0; i < rinfo->num_des; i++) {
+> +		struct telemetry_de *tde = to_tde(rinfo->des[i]);
 > +
-> +	if (++bank->ce_count < (u64)limit)
+> +		scmi_telemetry_free_tde_put(ti, tde);
 
-If errors are happening faster than Linux can service CMCI interrupts,
-then the corrected error count in bits {52:38} will be some number
-bigger than "1".[*] You should add that number here, rather than simply
-incrementing +bank->ce_count.
+		scmi_telemetry_free_tde_put(ti, to_tde(rinfo->des[i]));
+Seems resonable to me and avoids the need for the local variable.
 
-> +		return;
+> +	}
+> +	xa_destroy(&ti->xa_des);
+> +	kfree(ti->tdes);
+> +	kfree(rinfo->des);
+> +	kfree(rinfo->dei_store);
+> +	scmi_telemetry_groups_free(rinfo);
+> +	kfree(rinfo->grps);
+> +	kfree(rinfo->grps_store);
 > +
-> +	printk_deferred(KERN_EMERG "CPU%d BANK%d logged %llu corrected errors\n",
-> +			smp_processor_id(), mce->bank, bank->ce_count);
-> +	mce_panic("Too many corrected errors", NULL, NULL);
+> +	kfree(rinfo);
+> +}
+
+> +
+> +/**
+> + * scmi_telemetry_resources_enumerate  - Enumeration helper
+> + * @ti: A reference to the telemetry info descriptor for this instance
+> + *
+> + * This helper is configured to be called once on the first enumeration
+> + * attempt, when triggered by invoking ti->res_get() from somewhere else.
+> + * Once run it substitues itself in ti->res_get() with the simple accessor
+> + * __scmi_telemetry_resources_get, which returns a descriptor to the resources
+> + * that were possibly discovered.
+> + *
+> + * Note that, while it attempts to fully enumerate Data Events and Groups, it
+> + * does NOT fail when such enumerations fail, instead it simply gives up with
+> + * the end result that only a partially populated, but consistent, resources
+> + * descriptor will be returned; in such a case the incomplete descriptor will
+> + * be marked as NOT fully_enumerated: this design enables the kernel to deal
+> + * with badly implemented out-of-spec firmware support while keep on providing
+> + * a minimal sane, albeit possibly incomplete, set of telemetry respources.
+> + *
+> + * Return: A reference to a fully or partially populated resources descriptor
+> + */
+> +static struct scmi_telemetry_res_info *
+> +scmi_telemetry_resources_enumerate(struct telemetry_info *ti)
+> +{
+> +	struct scmi_telemetry_res_info *rinfo;
+> +	struct device *dev = ti->ph->dev;
+> +	int ret;
+> +
+> +	/* Ensure local rinfo is initialized */
+> +	rinfo = smp_load_acquire(&ti->rinfo);
+> +
+> +	/*
+> +	 * Ensure this init function can be called only once and
+> +	 * handles properly concurrent calls.
+> +	 */
+> +	if (atomic_cmpxchg(&ti->rinfo_initializing, 0, 1)) {
+> +		if (!completion_done(&ti->rinfo_initdone))
+
+What's the logic here?  This waits only if others are already
+waiting. Why?
+
+> +			wait_for_completion(&ti->rinfo_initdone);
+> +		goto out;
+
+return 0;
+
+> +	}
+> +
+> +	ret = scmi_telemetry_de_descriptors_get(ti);
+> +	if (ret) {
+> +		dev_err(dev, FW_BUG "Cannot fully enumerate DEs resources. Degraded system.\n");
+> +		goto done;
+> +	}
+> +
+> +	ret = scmi_telemetry_enumerate_groups_intervals(ti);
+> +	if (ret) {
+> +		dev_err(dev, FW_BUG "Cannot fully enumerate group intervals. Degraded system.\n");
+> +		goto done;
+> +	}
+> +
+> +	/* Enumeration was fully successful, ensure this is visbile */
+> +	smp_store_release(&rinfo->fully_enumerated, true);
+> +done:
+> +	/* Disable initialization permanently */
+> +	smp_store_mb(ti->res_get, __scmi_telemetry_resources_get);
+> +	complete_all(&ti->rinfo_initdone);
+> +
+> +out:
+
+labels that just result in returns rarely add to readability of code.
+I'd just return early instead.
+
+> +	return rinfo;
 > +}
 > +
->  void mce_track_storm(struct mce *mce)
->  {
->  	struct mca_storm_desc *storm = this_cpu_ptr(&storm_desc);
-> 
-> -- 
-> 2.53.0-Meta
+> +/**
+> + * scmi_telemetry_instance_init  - Instance initializer
+> + * @ti: A reference to the telemetry info descriptor for this instance
+> + *
+> + * Note that this allocates and initialize all the resources possibly needed
+> + * and then setups the @scmi_telemetry_resources_enumerate helper as the
 
--Tony
+sets up
 
-[*] My personal record is several hundred. But that was on a debug
-system that had been poked to signal an error on every cache access!
+> + * default method for the first call to ti->res_get(): this mechanism enables
+> + * the possibility of optionally implementing deferred enumeration policies
+> + * which optionally delay the discovery phase and related SCMI message exchanges
+> + * to a later point in time.
+> + *
+> + * Return: 0 on Success, errno otherwise
+> + */
+> +static int scmi_telemetry_instance_init(struct telemetry_info *ti)
+> +{
+...
+
+> diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
+> index 5ab73b1ab9aa..2850b018da0d 100644
+> --- a/include/linux/scmi_protocol.h
+> +++ b/include/linux/scmi_protocol.h
+> @@ -2,16 +2,18 @@
+>  /*
+>   * SCMI Message Protocol driver header
+>   *
+> - * Copyright (C) 2018-2021 ARM Ltd.
+> + * Copyright (C) 2018-2026 ARM Ltd.
+>   */
+>  
+>  #ifndef _LINUX_SCMI_PROTOCOL_H
+>  #define _LINUX_SCMI_PROTOCOL_H
+>  
+>  #include <linux/bitfield.h>
+> +#include <linux/bitops.h>
+>  #include <linux/device.h>
+>  #include <linux/notifier.h>
+>  #include <linux/types.h>
+> +#include <linux/uuid.h>
+>  
+>  #define SCMI_MAX_STR_SIZE		64
+>  #define SCMI_SHORT_NAME_MAX_SIZE	16
+> @@ -824,6 +826,184 @@ struct scmi_pinctrl_proto_ops {
+>  	int (*pin_free)(const struct scmi_protocol_handle *ph, u32 pin);
+>  };
+>  
+> +enum scmi_telemetry_de_type {
+
+There is quite a bit of stuff here. Seems only related to telemetry
+so maybe a more specific header makes sense for just scmi_telemetry?
+
+The same applies for some of the other stuff already in this header
+like the sensors protocol elements.
+
+> +	SCMI_TLM_DE_TYPE_USPECIFIED,
+> +	SCMI_TLM_DE_TYPE_ACCUMUL_IDLE_RESIDENCY,
+> +	SCMI_TLM_DE_TYPE_ACCUMUL_IDLE_COUNTS,
+> +	SCMI_TLM_DE_TYPE_ACCUMUL_OTHERS,
+> +	SCMI_TLM_DE_TYPE_INSTA_IDLE_STATE,
+> +	SCMI_TLM_DE_TYPE_INSTA_OTHERS,
+> +	SCMI_TLM_DE_TYPE_AVERAGE,
+> +	SCMI_TLM_DE_TYPE_STATUS,
+> +	SCMI_TLM_DE_TYPE_RESERVED_START,
+> +	SCMI_TLM_DE_TYPE_RESERVED_END = 0xef,
+> +	SCMI_TLM_DE_TYPE_OEM_START = 0xf0,
+> +	SCMI_TLM_DE_TYPE_OEM_END = 0xff,
+> +};
+> +
+> +enum scmi_telemetry_compo_type {
+> +	SCMI_TLM_COMPO_TYPE_USPECIFIED,
+> +	SCMI_TLM_COMPO_TYPE_CPU,
+> +	SCMI_TLM_COMPO_TYPE_CLUSTER,
+> +	SCMI_TLM_COMPO_TYPE_GPU,
+> +	SCMI_TLM_COMPO_TYPE_NPU,
+> +	SCMI_TLM_COMPO_TYPE_INTERCONNECT,
+> +	SCMI_TLM_COMPO_TYPE_MEM_CNTRL,
+> +	SCMI_TLM_COMPO_TYPE_L1_CACHE,
+> +	SCMI_TLM_COMPO_TYPE_L2_CACHE,
+> +	SCMI_TLM_COMPO_TYPE_L3_CACHE,
+> +	SCMI_TLM_COMPO_TYPE_LL_CACHE,
+> +	SCMI_TLM_COMPO_TYPE_SYS_CACHE,
+> +	SCMI_TLM_COMPO_TYPE_DISP_CNTRL,
+> +	SCMI_TLM_COMPO_TYPE_IPU,
+> +	SCMI_TLM_COMPO_TYPE_CHIPLET,
+> +	SCMI_TLM_COMPO_TYPE_PACKAGE,
+> +	SCMI_TLM_COMPO_TYPE_SOC,
+> +	SCMI_TLM_COMPO_TYPE_SYSTEM,
+> +	SCMI_TLM_COMPO_TYPE_SMCU,
+> +	SCMI_TLM_COMPO_TYPE_ACCEL,
+> +	SCMI_TLM_COMPO_TYPE_BATTERY,
+> +	SCMI_TLM_COMPO_TYPE_CHARGER,
+> +	SCMI_TLM_COMPO_TYPE_PMIC,
+> +	SCMI_TLM_COMPO_TYPE_BOARD,
+> +	SCMI_TLM_COMPO_TYPE_MEMORY,
+> +	SCMI_TLM_COMPO_TYPE_PERIPH,
+> +	SCMI_TLM_COMPO_TYPE_PERIPH_SUBC,
+> +	SCMI_TLM_COMPO_TYPE_LID,
+> +	SCMI_TLM_COMPO_TYPE_DISPLAY,
+> +	SCMI_TLM_COMPO_TYPE_RESERVED_START = 0x1d,
+> +	SCMI_TLM_COMPO_TYPE_RESERVED_END = 0xdf,
+> +	SCMI_TLM_COMPO_TYPE_OEM_START = 0xe0,
+> +	SCMI_TLM_COMPO_TYPE_OEM_END = 0xff,
+> +};
+> +
+> +#define	SCMI_TLM_GET_UPDATE_INTERVAL_SECS(x)	(FIELD_GET(GENMASK(20, 5), (x)))
+> +#define SCMI_TLM_GET_UPDATE_INTERVAL_EXP(x)	(sign_extend32((x), 4))
+> +
+> +#define SCMI_TLM_GET_UPDATE_INTERVAL(x)		(FIELD_GET(GENMASK(20, 0), (x)))
+> +#define SCMI_TLM_BUILD_UPDATE_INTERVAL(s, e)				    \
+> +	(FIELD_PREP(GENMASK(20, 5), (s)) | FIELD_PREP(GENMASK(4, 0), (e)))
+> +
+> +enum scmi_telemetry_collection {
+> +	SCMI_TLM_ONDEMAND,
+> +	SCMI_TLM_NOTIFICATION,
+> +	SCMI_TLM_SINGLE_READ,
+> +};
+> +
+> +#define SCMI_TLM_GRP_INVALID		0xFFFFFFFF
+> +
+> +struct scmi_telemetry_intervals {
+> +	unsigned int grp_id;
+> +	bool discrete;
+> +	unsigned int num_intervals;
+> +#define SCMI_TLM_UPDATE_INTVL_SEGMENT_LOW	0
+> +#define SCMI_TLM_UPDATE_INTVL_SEGMENT_HIGH	1
+> +#define SCMI_TLM_UPDATE_INTVL_SEGMENT_STEP	2
+> +	unsigned int update_intervals[] __counted_by(num_intervals);
+> +};
+> +
+> +struct scmi_telemetry_grp_info {
+> +	unsigned int grp_id;
+> +	unsigned int num_des;
+> +	unsigned int num_intervals;
+> +};
+> +
+> +struct scmi_telemetry_group {
+> +	bool enabled;
+> +	bool tstamp_enabled;
+> +	unsigned int *des;
+> +	char *des_str;
+> +	struct scmi_telemetry_grp_info *info;
+> +	unsigned int active_update_interval;
+> +	struct scmi_telemetry_intervals *intervals;
+> +	enum scmi_telemetry_collection current_mode;
+> +};
+> +
+> +struct scmi_telemetry_de_info {
+> +	unsigned int id;
+> +	unsigned int grp_id;
+> +	unsigned int data_sz;
+> +	unsigned int type;
+> +	unsigned int unit;
+> +	int unit_exp;
+> +	unsigned int ts_rate;
+> +	unsigned int instance_id;
+> +	unsigned int compo_instance_id;
+> +	unsigned int compo_type;
+> +	bool persistent;
+> +	char name[16];
+> +};
+> +
+> +struct scmi_telemetry_de {
+> +	bool tstamp_support;
+> +	bool fc_support;
+> +	bool name_support;
+> +	struct scmi_telemetry_de_info *info;
+> +	struct scmi_telemetry_group *grp;
+> +	bool enabled;
+> +	bool tstamp_enabled;
+> +};
+> +
+> +struct scmi_telemetry_res_info {
+> +	bool fully_enumerated;
+> +	unsigned int num_des;
+> +	struct scmi_telemetry_de **des;
+> +	struct scmi_telemetry_de_info *dei_store;
+> +	unsigned int num_groups;
+> +	struct scmi_telemetry_group *grps;
+> +	struct scmi_telemetry_grp_info *grps_store;
+> +};
+> +
+> +struct scmi_telemetry_base_info {
+> +	unsigned int version;
+> +	uuid_t primary_revision;
+> +	unsigned int num_des;
+> +	unsigned int num_groups;
+> +	unsigned int num_intervals;
+> +	unsigned int num_shmtis;
+> +};
+> +
+> +struct scmi_telemetry_shmti_info {
+> +	unsigned int sid;
+> +	unsigned int len;
+> +	unsigned long offset;
+> +	phys_addr_t phys;
+> +};
+> +
+> +struct scmi_telemetry_info {
+> +	bool single_read_support;
+> +	bool continuos_update_support;
+> +	bool per_group_config_support;
+> +	bool reset_support;
+> +	bool fc_support;
+> +	struct scmi_telemetry_base_info base;
+> +	unsigned int active_update_interval;
+> +	struct scmi_telemetry_intervals *intervals;
+> +	struct scmi_telemetry_shmti_info **shmtis;
+> +	unsigned int num_uuids;
+> +	uuid_t **uuids;
+
+I'm going to guess a __counted_by_ptr marking makes sense here.
+(I haven't checked!) I won't bother calling out other cases, but
+looks like there may well be some above.
+
+> +	bool enabled;
+> +	bool notif_enabled;
+> +	enum scmi_telemetry_collection current_mode;
+> +};
+
