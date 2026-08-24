@@ -1,55 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DAC367B65;
-	Mon, 24 Aug 2026 15:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CDD36F91B;
+	Mon, 24 Aug 2026 15:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787583818; cv=none; b=rJegAFUQTDke+xiex4pIGpZN4cUVqPQs0yiQTzYrSQSc/6kYLSqgFweaxCoK9Tqp1mNdVolIrWYuPk/z8af7hAlTXM+UTIu3JQ+EjiKeOeUisDANnELuF0rtP2yrroeuwK5GLy0EsmfA4lLWHYdi9SIYn5gHref2+GhuECOEYvM=
+	t=1787584018; cv=none; b=L+RyImYmZ8spZPtoINXz7bWFBaoC7XBaQkN2qsH0PAYkv+89X8iV8N0tDznCNuIFA4HkS1UyLGD9abb2+VT20mOOk1ccLYgxYYCbSBqoujSjl9QTgGU3sg6BH7uFllr1mVupq2rRltVHgNbaj1LwNDNpBuoqrNY9jrcj0/HmA2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787583818; c=relaxed/simple;
-	bh=nCOLP+pUnNDn8FZg6i8N2Ia0JL+HQa7bBLFp4M6nYSQ=;
+	s=arc-20240116; t=1787584018; c=relaxed/simple;
+	bh=yKUnYbg/8SK/30O7cmDvkg9NK7A9m6n/C5vk+v6dJaA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lHshu/j5wC/p4ymisGiV28VZV9Pu7wxd5MrMtCAMGL3znInC8GYRuq94Dv7kj9uNBL+azLmfI4ZKw3Zys0MIxlUUssti3lZomSo8rThTbkd66+7KNiKSuW4lYd/1Lh9e2eulZx9dsui6+zCNpdMblLnLH2kAQ+aVUe66X5/TxZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KI0vHaFK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=K2tNztccTFnLMtsnM/ZUD7yCZGqi0yqJfjF0juGwYIYwP404otnwknEoU7U6R/03dEVFsPfmu+8qN9e29v1YKjRUl2ry5OQqyEnU58I9i/5aPrH+u2llsEBkhagXut0NgEWSzghFhq6Vnb+VHqAVKC6k8qHFXxoWJyrBxghPVzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ewS9Wosn; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KI0vHaFK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F33F81F000E9;
-	Mon, 24 Aug 2026 15:03:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787583816;
-	bh=1N4Dgg6M9ZUavS0An6jb6rtj/L03r3LLP7KAMFYdsrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KI0vHaFKs2iuJuLBxJTIK9hzpbfb70XWVZdAMV9ZNmSB1s5dX3EODo6iK2rwMvff3
-	 o1zo4uNkOUy09uxeY227ljEze1a3rJTOdghr5kYtStFuCASrN68C5wXq15sm38+bAT
-	 Ws7tjHRZmtjHfxUXLJR7Yuwo/17LwBS6i/9QuCr3b4J8f6QnJnCtXixlT8ArO6Iz1s
-	 Om22oh+E7kYUjI76NqdsR4QjPcwMNRS1j/ASCgkr8ipXbaMycJ7ls7Hc1vaozvBhem
-	 V9GLPj4tNytQrv1bFOrJFpWnbWNOhms6MCk2QEG6JzFO7PgXOtlsfOddDdj7QhxkAg
-	 YQKYaFLUEoNJg==
-Date: Mon, 24 Aug 2026 16:03:28 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>, Hugh Dickins <hughd@google.com>, 
-	Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Lance Yang <lance.yang@linux.dev>, "Liam R. Howlett" <liam@infradead.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] userfaultfd: constify VMA parameter of
- userfaultfd_*() helpers
-Message-ID: <aoxcY5n99-Pzlw_b@gremlin>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-2-3086981b33cf@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ewS9Wosn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787584018; x=1819120018;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yKUnYbg/8SK/30O7cmDvkg9NK7A9m6n/C5vk+v6dJaA=;
+  b=ewS9WosnODLF/VYBuEmrVNHfBF4C6eO93400sJFcaNO6+Myfw0CNbDIx
+   RlY6pochOBvvre9SDjI7MpsNUmUvAUa67APtn6P5P6EAAusWzTk3T/Ol1
+   hX0o3D896WprwB7CRNnm8FG6Vvv7Ze/OUg4ASf+HIvmWe1UnUMarsOEqy
+   TCC3WPVW6FGi1PQq8jGRvV1PjEj4d6XciYNM7roy4i416EIgRovbZAtsj
+   SnsU5M0M2yxYX4h9QkcbcdhtiOLR7V/+zIi2TKg4r00hV3Ek2ZfVC6M7c
+   hdGfVKHuj212Dy52y73n/KSogfBDzSFXx1ODDWZMFbUIsZfq6TrQQHP8g
+   w==;
+X-CSE-ConnectionGUID: MIBa/CrrSSasyrCDepUOhQ==
+X-CSE-MsgGUID: r/yeLOQ4T2W7G19Yfi0kXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="88051817"
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="88051817"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 08:06:57 -0700
+X-CSE-ConnectionGUID: +O3VUrxiRTKEzR8XNqG2Sw==
+X-CSE-MsgGUID: tE2pJXz3QTetpGJ5NTAsyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="271235995"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.130])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 08:06:50 -0700
+Date: Mon, 24 Aug 2026 18:06:48 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Janani Sunil <janani.sunil@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Michael Walle <mwalle@kernel.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v3 05/14] iio: adc: Add AD7768 and AD7768-4 core support
+Message-ID: <aoxeCDspYo_jaBhx@ashevche-desk.local>
+References: <20260813-ad7768-driver-v3-0-cb554399ad26@analog.com>
+ <20260813-ad7768-driver-v3-5-cb554399ad26@analog.com>
+ <20260816201049.480143e1@jic23-huawei>
+ <31aa140058fde422c12e34fe926e7df01ba448df.camel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,104 +78,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260823-uffd-vm-flags-v1-v1-2-3086981b33cf@kernel.org>
+In-Reply-To: <31aa140058fde422c12e34fe926e7df01ba448df.camel@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, Aug 23, 2026 at 03:17:39PM +0300, Mike Rapoport (Microsoft) wrote:
-> userfaultfd_{missing,wp,minor,rwp}() and userfaultfd_protected() only
-> read the VMA.
->
-> Make their vma parameter const.
->
-> No functional change.
->
-> Assisted-by: copilot:claude-opus-5
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+On Mon, Aug 24, 2026 at 04:45:01PM +0200, Philipp Zabel wrote:
+> On So, 2026-08-16 at 20:10 +0100, Jonathan Cameron wrote:
+> > On Thu, 13 Aug 2026 15:56:58 +0200
+> > Janani Sunil <janani.sunil@analog.com> wrote:
 
-LGTM and compiles GTM so:
+[...]
 
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > > +static int ad7768_reset(struct ad7768_state *st)
+> > > +{
+> > > +	struct reset_control *reset_ctrl;
+> > > +	unsigned long reset_low_us;
+> > > +	unsigned long mclk;
+> > > +	int ret;
+> > > +
+> > > +	reset_ctrl = devm_reset_control_get_optional_exclusive(regmap_get_device(st->regmap),
+> > 
+> > Probably use a local variable for struct device *dev = regmap_get_device(st->regmap);
+> > to reduce line length.
+> 
+> Or just pass dev into ad7768_reset() as an additional parameter.
 
-> ---
->  include/linux/userfaultfd_k.h | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> index a4351cffc60c..3396d270b159 100644
-> --- a/include/linux/userfaultfd_k.h
-> +++ b/include/linux/userfaultfd_k.h
-> @@ -204,22 +204,22 @@ static inline bool uffd_disable_fault_around(struct vm_area_struct *vma)
->  					VMA_UFFD_MINOR));
->  }
->
-> -static inline bool userfaultfd_missing(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_missing(const struct vm_area_struct *vma)
->  {
->  	return vma_test_any_mask(vma, VMA_UFFD_MISSING);
->  }
->
-> -static inline bool userfaultfd_wp(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_wp(const struct vm_area_struct *vma)
->  {
->  	return vma_test_any_mask(vma, VMA_UFFD_WP);
->  }
->
-> -static inline bool userfaultfd_minor(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_minor(const struct vm_area_struct *vma)
->  {
->  	return vma_test_any_mask(vma, VMA_UFFD_MINOR);
->  }
->
-> -static inline bool userfaultfd_rwp(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_rwp(const struct vm_area_struct *vma)
->  {
->  	/*
->  	 * Callers gate PAGE_NONE usage on this; PAGE_NONE is a BUILD_BUG()
-> @@ -230,7 +230,7 @@ static inline bool userfaultfd_rwp(struct vm_area_struct *vma)
->  	return vma_test_single_mask(vma, VMA_UFFD_RWP);
->  }
->
-> -static inline bool userfaultfd_protected(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_protected(const struct vm_area_struct *vma)
->  {
->  	return userfaultfd_wp(vma) || userfaultfd_rwp(vma);
->  }
-> @@ -353,27 +353,27 @@ static inline bool is_mergeable_vm_userfaultfd_ctx(struct vm_area_struct *vma,
->  	return true;
->  }
->
-> -static inline bool userfaultfd_missing(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_missing(const struct vm_area_struct *vma)
->  {
->  	return false;
->  }
->
-> -static inline bool userfaultfd_wp(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_wp(const struct vm_area_struct *vma)
->  {
->  	return false;
->  }
->
-> -static inline bool userfaultfd_minor(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_minor(const struct vm_area_struct *vma)
->  {
->  	return false;
->  }
->
-> -static inline bool userfaultfd_rwp(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_rwp(const struct vm_area_struct *vma)
->  {
->  	return false;
->  }
->
-> -static inline bool userfaultfd_protected(struct vm_area_struct *vma)
-> +static inline bool userfaultfd_protected(const struct vm_area_struct *vma)
->  {
->  	return false;
->  }
->
-> --
-> 2.53.0
->
+It might make code be less understandable as this function is not something
+like devm_*(). I slightly prefer my suggestion over this one.
 
---
-Cheers, Lorenzo
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
