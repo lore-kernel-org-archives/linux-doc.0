@@ -1,118 +1,209 @@
-Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F377A3DFC80
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 06:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796B5212FAD;
+	Mon, 24 Aug 2026 06:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787553450; cv=none; b=iSWOxOIvuD6ro3t1h6ygmwdCQodiH4clh6tOoc0O6OdLHV3q3Qf4jhX1YLYl11G3K+FbzQ71Fz5FnLeaF3y0pBZQHL2eqsRc1/hS3EyhZ5rpKPNJwjQBjhZqumUI1+Ucx2P7Pa1k8NSZR4Vek6Irlo/SKWiagBt7+/enbK42v/E=
+	t=1787553823; cv=none; b=ihYSh1Srb2d5fFemfjOi8jlz+Q35aZW9Nhgc6TmtQRnAteeag20ZGVi85t89ycp5EU4uHGAtQmI4IeYPyXOvfhJEdMkcZxbGjlM+uCv9iNmOb8lzwwV8DHM4VSfC/Dr0hvq0dqbVDnhXe9XN9e2GVSDlYQGjX5Pi9TP/Vfuk3/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787553450; c=relaxed/simple;
-	bh=LvGJXhwrwPX3gpnAY18S8trb9axGHCnj6WyHARLlcJU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oZcz/FmjrW9DDwjVVW7f0DPfBHZElwowRIaYoCM333wo4qccOqdU+dD/28K4ZZFmnwjaEQwgkEKynZ9eAnO0BZLd88AUAK6U5RX0A4WAt+LIHCVvC99cTR4Qo/TKSgpURU5LDGCxlEA7qM3HMmYCECW3dGKdIzEG1eVCEL1ThJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=DKFhCyrX; arc=none smtp.client-ip=113.46.200.225
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1787553823; c=relaxed/simple;
+	bh=H/fQcrk7c3SnAmeYuIsx7bdCGnHpk5GYqdoF0xGSUP4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ckS+gah/B0kOCqquQ6Sb2gAbTW3NiklcAHk2RhbupEj5aL4ihUArkL9Cwhd7solb62aqFyDH1k11euHAxzhq4MJs5HAVcgNmV0MvuITNLHeqyuvByHniJkWZUzb0/Si9OKCabrcqUkiyDpVmS5PsqThoZeJioQLg+ZgucdLV7As=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U1laeqe5; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="DKFhCyrX"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=YoZYmxUiL1Mjzl5GKAt2FPQ4t7mEjRszWa8yWlQtOVo=;
-	b=DKFhCyrXpytqlvHZG4S++sZJhdUbLqxUdStsmCEe3eX9ctG243jMTsz9pzReiVTPz2vJLLVTt
-	4oAoAJ0izqx5nPOoh6aAS/dUv9RE1m7xoFjsDU3rjv8fF54mSEnWS4df9l+SPO1bfpnXG6uiKP2
-	kgzhM9zx/fnidttoxVQgIlg=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4hT1CD6Sl1z1K9BV;
-	Mon, 24 Aug 2026 14:26:32 +0800 (CST)
-Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5866D40578;
-	Mon, 24 Aug 2026 14:37:17 +0800 (CST)
-Received: from huawei.com (10.50.85.135) by kwepemr500001.china.huawei.com
- (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 24 Aug
- 2026 14:37:16 +0800
-From: Jinjiang Tu <tujinjiang@huawei.com>
-To: <akpm@linux-foundation.org>, <david@kernel.org>, <xu.xin16@zte.com.cn>,
-	<chengming.zhou@linux.dev>, <ljs@kernel.org>, <liam@infradead.org>,
-	<vbabka@kernel.org>, <rppt@kernel.org>, <surenb@google.com>,
-	<mhocko@suse.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<shr@devkernel.io>, <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>
-CC: <wangkefeng.wang@huawei.com>, <sunnanyong@huawei.com>,
-	<tujinjiang@huawei.com>
-Subject: [PATCH v3 2/2] mm/ksm: fix advisor_min_pages_to_scan description
-Date: Mon, 24 Aug 2026 14:10:10 +0800
-Message-ID: <20260824061010.3343959-3-tujinjiang@huawei.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260824061010.3343959-1-tujinjiang@huawei.com>
-References: <20260824061010.3343959-1-tujinjiang@huawei.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U1laeqe5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787553821; x=1819089821;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H/fQcrk7c3SnAmeYuIsx7bdCGnHpk5GYqdoF0xGSUP4=;
+  b=U1laeqe5AW1/vKVLHQytSWJ9RtJ5eLJT+yWhUAM6zTSfjcXTRjEJtcU4
+   uqOJnSphEinhRdVsDobSt0+5Rv/34NlzENL2RhjtXY7lzyRs05CPf9OYZ
+   2O5c2DkK3OxMivWXJL37ghEbR0S/noS3e+axk714Zl8AsUN35szUdCBel
+   9YjnoGyC/O4Il0FoVLWpy6QJMOORs76VvV4equ+R8FziyGykurgXn8804
+   rS7s6tLYjXl9HADQ0myzE4Rq1rOKxpHELgrb6qK6MQbB/0qth9TdA1BLL
+   fQakHbQjUQkJyc/UHFpg61M9hTsQvGPJ3wBV1tOJ506ec5fKKzgr23CRF
+   Q==;
+X-CSE-ConnectionGUID: kPl1JY9IT4uRuih6PVBCfg==
+X-CSE-MsgGUID: pV0MaYNhRiCutylN12anZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="98670350"
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="98670350"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 23:43:40 -0700
+X-CSE-ConnectionGUID: JT0yDN/HRaOrhrDbjvyvyA==
+X-CSE-MsgGUID: S5fBD4wRRu6pxlHZJ0of3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="262633266"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.130])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 23:43:35 -0700
+Date: Mon, 24 Aug 2026 09:43:33 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Michael Walle <mwalle@kernel.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v4 06/14] iio: adc: ad7768: Add configurable sampling
+ modes
+Message-ID: <aovoFUBRRpZZPILZ@ashevche-desk.local>
+References: <20260821-ad7768-driver-v4-0-bb8fbd06d4eb@analog.com>
+ <20260821-ad7768-driver-v4-6-bb8fbd06d4eb@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemr500001.china.huawei.com (7.202.194.229)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260821-ad7768-driver-v4-6-bb8fbd06d4eb@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Both Documentation/admin-guide/mm/ksm.rst and the comment next to the
-variable definition in mm/ksm.c describe advisor_min_pages_to_scan as a
-lower limit of the pages_to_scan parameter, but that is not how the
-scan-time advisor actually uses it. commit 4e5fa4f5eff6 ("mm/ksm: add ksm
-advisor") only uses it to initialize ksm_thread_pages_to_scan when the
-scan-time advisor is enabled.
+On Fri, Aug 21, 2026 at 04:06:59PM +0200, Janani Sunil wrote:
+> Derive the available output data rates from MCLK and expose per-channel
+> sampling frequency and filter controls.
+> 
+> Select the fastest compatible power mode for the enabled channels and
+> map matching sampling frequency and filter combinations onto the two
+> hardware channel profiles. Configure the data clock divider and wait for
+> the selected filters to settle before capture.
 
-ksm_thread_pages_to_scan is adjusted by scan_time_advisor() after a full
-scan finishes. ksm_thread_pages_to_scan could be increased or decreased
-depend on the real scan time is longer or shorter than the target scan
-time. The min value of ksm_thread_pages_to_scan is only limited by
-KSM_ADVISOR_MIN_CPU, so ksm_thread_pages_to_scan could be smaller than
-ksm_advisor_min_pages_to_scan.
+...
 
-The semantics of advisor_min_pages_to_scan was updated in the v2 patchset
-[1], but the documentation wasn't updated.
+> -static int ad7768_configure_capture(struct ad7768_state *st)
+> +static int ad7768_set_power_mode(struct ad7768_state *st, unsigned int mode)
+>  {
+> -	unsigned int dclk_div_reg;
+> -	unsigned int mode_config;
+> -	unsigned int dclk_div;
+> +	unsigned int mode_idx;
+>  	int ret;
 
-Update the documentation and comment to match the semantics of
-advisor_min_pages_to_scan.
+> +	for (mode_idx = 0; mode_idx < ARRAY_SIZE(ad7768_power_modes);
+> +	     mode_idx++) {
 
-Link: https://lore.kernel.org/linux-mm/20231028000945.2428830-2-shr@devkernel.io/ [1]
-Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
----
- Documentation/admin-guide/mm/ksm.rst | 4 ++--
- mm/ksm.c                             | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+I would dare to put these on a single line.
 
-diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
-index c9f533b10f6f..c329ca747b8c 100644
---- a/Documentation/admin-guide/mm/ksm.rst
-+++ b/Documentation/admin-guide/mm/ksm.rst
-@@ -183,8 +183,8 @@ advisor_target_scan_time
-         pages. The default value is 200 seconds.
- 
- advisor_min_pages_to_scan
--        specifies the lower limit of the ``pages_to_scan`` parameter of the
--        scan time advisor. The default is 500.
-+        specifies the initial value of the ``pages_to_scan`` parameter of
-+        the scan time advisor. The default is 500.
- 
- advisor_max_pages_to_scan
-         specifies the upper limit of the ``pages_to_scan`` parameter of the
-diff --git a/mm/ksm.c b/mm/ksm.c
-index 7d5b76478f0b..4a6cf8cf5d60 100644
---- a/mm/ksm.c
-+++ b/mm/ksm.c
-@@ -342,7 +342,7 @@ static enum ksm_advisor_type ksm_advisor;
-  * Only called through the sysfs control interface:
-  */
- 
--/* At least scan this many pages per batch. */
-+/* Initial number of pages to scan per batch. */
- static unsigned long ksm_advisor_min_pages_to_scan = 500;
- 
- static void set_advisor_defaults(void)
+> +		if (ad7768_power_modes[mode_idx].mode == mode)
+> +			break;
+> +	}
+> +
+> +	if (mode_idx == ARRAY_SIZE(ad7768_power_modes))
+> +		return -EINVAL;
+
+But this whole piece looks quite similar to
+ad7768_freq_supported_in_any_mode(). Can that be refactored to cover
+this and that cases?
+
+...
+
+> -static int ad7768_update_scan_mode(struct iio_dev *indio_dev,
+> -				   const unsigned long *scan_mask)
+> +static bool ad7768_freq_supported(const struct ad7768_state *st,
+> +				  unsigned int mode_idx, unsigned int freq)
+
+Can you try to make the patch changes cleaner in terms what is put where,
+so we will see less of such a mess in the diff? Perhaps it will require
+to split series even more.
+
+> +{
+> +	for (unsigned int i = 0;
+> +	     i < st->avail_freq[mode_idx].n_freqs; i++) {
+
+A single line.
+
+> +		if (freq == st->avail_freq[mode_idx].freq_cfg[i].freq_hz)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+
+...
+
+> +		mask = ad7768_channel_mode_mask(st, c);
+> +		ret = regmap_update_bits(st->regmap, AD7768_REG_CH_MODE_SEL,
+> +					 mask, mode ? mask : 0);
+> +		if (ret)
+> +			return ret;
+
+assign_bits()?
+
+...
+
+> +	for (unsigned int mode = 0; mode < AD7768_NUM_CHANNEL_MODES;
+> +	     mode++) {
+
+One line.
+
+> +		unsigned int filter_config;
+> +
+> +		if (!mode_used[mode])
+> +			continue;
+> +
+> +		ret = ad7768_set_mode_decimation(st, mode_freq[mode], mode);
+> +		if (ret)
+> +			return ret;
+> +
+> +		filter_config = FIELD_PREP(AD7768_CH_MODE_FILTER_TYPE_MSK,
+> +					   mode_filter[mode]);
+> +		ret = regmap_update_bits(st->regmap, AD7768_REG_CH_MODE(mode),
+> +					 AD7768_CH_MODE_FILTER_TYPE_MSK,
+> +					 filter_config);
+> +		if (ret)
+> +			return ret;
+> +
+> +		max_freq = max(max_freq, mode_freq[mode]);
+> +	}
+
+...
+
+> +	/*
+> +	 * Start in fast mode; capture setup may select another
+> +	 * compatible mode.
+> +	 */
+> +	scoped_guard(mutex, &st->lock) {
+> +		ret = ad7768_set_power_mode(st,
+> +					    AD7768_POWER_MODE_POWER_MODE_FAST);
+> +	}
+
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to set power mode\n");
+
+Move this inside the {}.
+
+>  static int ad7768_reset(struct ad7768_state *st)
+
+...
+
+Maybe it's only me, but this is completely unreviewable change (at least
+by a human being). Please, refactor, split this to 5+ patches or so and
+make each of them more or less reviewable.
+
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
