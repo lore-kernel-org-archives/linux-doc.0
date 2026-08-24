@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68525412276;
-	Mon, 24 Aug 2026 14:13:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4914B43553A;
+	Mon, 24 Aug 2026 14:25:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787580798; cv=none; b=GHBhVo3o5nDKcHiEEET+HJ4k8Da3Rrpf7SXeIAJQn0DykPfPzZo8tDQtsfyPgkoEHSsh8C6neUUBwZR7JhDcSL/pCWPAu1F0D0VKNG89TcY8p/oMZBVG5fyaKLiwVBbyh/eVqAPm42D8Gp35Qn1HO7NbbeWlKyA8dflPrPdPZRE=
+	t=1787581521; cv=none; b=P5Q1htna//nQCCMefrEI8EZ7m8TB3hh7FPTnkBlxyoqZM0jsWkB6eDBcimfkVSHc/NHlW1CadTE4Dxj/BOzTX+JeLW5ktiSwUiuznEBftpGqoz4WL8gCNaQPrUVSggc8hgQ11evpyebYnEM4VVkRaEwuTHy6jG79tXUM6Pw8UmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787580798; c=relaxed/simple;
-	bh=5H0nEc59Q986HZLlpGguY+/gdQ4VjP7DPXfE8/3QAyQ=;
+	s=arc-20240116; t=1787581521; c=relaxed/simple;
+	bh=esKFE2dLfD7i26+NbesYp0TnsWSV4i+ufozFlUg2USE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IAYmEdBjYaEHeOX5D1ANvN/9yzRV6J502Tc7FuhLvNAm0hGfP1f5FoOWkTQVIP4paZcJSemOG7oy+f2LQSF+VN3EUOpWN1hoveAukDuW/P6KtZOotn8ns1eo8dUNf04zWQ3H9YxgL64tul/1cqk0cl0si+xQCaMiSm462OipKhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dtElHEPw; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=iEBcJV6zCt6vj9eBKWa1Me3eQ7CMqedS8wSK1T7+tBQjmv6Oj4rrIxJNK0t5bqaxRgvOdueKy92MRGihJ1YpkDCxkYFx2l0n1VRKPEVIMGbamPTYuQDq9Fg14awE6P4AFHK7MWkRs7TN/E/U7fVcn1gDMppirntX4ayIw5fDnzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G+KJ2E6T; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dtElHEPw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A325F1F000E9;
-	Mon, 24 Aug 2026 14:12:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G+KJ2E6T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 852921F000E9;
+	Mon, 24 Aug 2026 14:25:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787580797;
-	bh=UwPdrh+01Xqj47dnasafGAdC09bKCXp4sZUyzRQNWvc=;
+	s=k20260515; t=1787581519;
+	bh=kx7nJEikJd2gAo7BYzCy7HT2bzgfxWIFVO4K1fhLNjI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=dtElHEPwNBnUAjSebU6MFkk5JZ7wdxDH0pEu5d85rPPv2hTujo2yfk9UH2/+wIjqv
-	 MjTyMq9G4xqDacg2PwrjhRfrpgSvPAVrvTLPSoTjD4e3MFiZ6KKWsUoDlwnlRvbvzf
-	 dQ8AECA2WmANRDlw6APiZmu5Lo8JRraWXZz55CqnDE6bKhO5zrB+OU68b7V1rfaOLr
-	 2CyCTmXc4Dz7bwNos8WCzsX6/iElz8tZUBUWB9J+widR5o/CBGoZLI9IOm8CpTT7OR
-	 ZUk5UYSBeF2a9pXwVwIimwiupWnRbUcKZmhqo1P5zkLpkRrtaATyfoxZScTMsgfy+X
-	 rqC2jWaDhsoIA==
-Message-ID: <3d58eb3c-7a9d-4183-907b-46172664631c@kernel.org>
-Date: Mon, 24 Aug 2026 16:12:29 +0200
+	b=G+KJ2E6TIDYSCodKeXSegNEfNhDILpnmt10ek/yTqJuG37bTXWi9OAf/f7dyDOpSg
+	 3xamtGf2DEYEUwIyHfkl+ZGx3O39oIRrBHSSxUAvfwWWWdpq9eC/YO9tMwLvaf4rui
+	 6mapgKJk+K6fRTJE9Arfmm/dJyAObm/kY/orCTisBk9UfSV7C/6eLEAfTe/vc6I9iL
+	 j1cSmIjSszUIQUKXhg9K5gvpywJPV5Vb4vktf3OpHJvOaI9dDLwwz478TxF8bniwoc
+	 +vvF2rzbWJx1TcPY+xGgJ7i/P1JwHVlsMTMf3LH1Vq3itRk+Glr84qWCBbDNdJpS2A
+	 uiLGrIAliyIKQ==
+Message-ID: <8b916c0f-a2ae-45df-90c1-f712bc4fffd9@kernel.org>
+Date: Mon, 24 Aug 2026 16:25:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,71 +35,53 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v19 00/40] DEPT(DEPendency Tracker)
-To: NeilBrown <neil@brown.name>
-Cc: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org,
- max.byungchul.park@gmail.com, kernel_team@skhynix.com,
- torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
- will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
- joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
- duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
- willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
- gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
- akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
- hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
- jglisse@redhat.com, dennis@kernel.org, cl@linux.com, penberg@kernel.org,
- rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
- linux-block@vger.kernel.org, josef@toxicpanda.com,
- linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
- dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
- chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com, boqun.feng@gmail.com,
- longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
- yeoreum.yun@arm.com, netdev@vger.kernel.org, matthew.brost@intel.com,
- her0gyugyu@gmail.com, corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de,
- x86@kernel.org, hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
- gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
- arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- rppt@kernel.org, surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
- da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org,
- frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
- josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com,
- jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com,
- okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
- anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
- clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
- kristina.martsenko@arm.com, wangkefeng.wang@huawei.com, broonie@kernel.org,
- kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
- ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
- baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
- joel.granados@kernel.org, richard.weiyang@gmail.com,
- geert+renesas@glider.be, tim.c.chen@linux.intel.com, linux@treblig.org,
- alexander.shishkin@linux.intel.com, lillian@star-ark.net,
- chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
- link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
- brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
- mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, rcu@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
- bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
- dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
- alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, rust-for-linux@vger.kernel.org
-References: <20260706061928.66713-1-byungchul@sk.com>
- <359ea967-9b97-4584-88e6-bddb4044de2e@kernel.org>
- <20260821042143.GA40890@system.software.com>
- <825134a8-ceae-430c-b2fc-d1d0c7240f39@kernel.org>
- <178730572084.2852630.7732425311008244683@noble.neil.brown.name>
+Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
+To: John Groves <john@groves.net>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: Christian Brauner <brauner@kernel.org>,
+ "Darrick J . Wong" <djwong@kernel.org>, John Groves <john@jagalactic.com>,
+ Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ "John Groves (jgroves)" <jgroves@micron.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
+ Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <jic23@kernel.org>,
+ Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
+ <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>,
+ Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
+ Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+ Gregory Price <gourry@gourry.net>, Andrew Morton
+ <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>,
+ Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Gabriel Whigham <gabewhigham@gmail.com>, Aravind Ramesh
+ <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022828.75776-1-john@jagalactic.com>
+ <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
+ <20260806043712.GB3560084@frogsfrogsfrogs>
+ <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
+ <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
+ <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
+ <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
+ <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -146,73 +128,47 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <178730572084.2852630.7732425311008244683@noble.neil.brown.name>
+In-Reply-To: <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi!
-
->>>
->>> That's a good news for lockdep.  (And even for DEPT :)
+On 8/22/26 23:55, John Groves wrote:
+> 
+> 
+> On Fri, Aug 21, 2026, at 2:39 PM, Miklos Szeredi wrote:
+>> On Fri, 21 Aug 2026 at 13:40, David Hildenbrand (Arm) <david@kernel.org> wrote:
 >>
->> He :) Where do you currently store the additional per-page information?
-> 
-> lockdep doesn't need to store per-page information.  Possibly DEPT
-> doesn't either.
+>>> (a) Whether a fuse-based approach is feasible.
+>>>
+>>>     Are there any major blockers remaining?
+>>
+>> No.
 
-That would be even better.
 
-[...]
-
-> 
-> maybe you put the folio which is locked on a queue or an lru or
-> whatever.
-
-For readahead, I think that queues / lru are not involved. We submit the I/O,
-and once the I/O is done, we unlock the folio from interrupt context.
-
-end_buffer_async_read() / iomap_finish_folio_read() end up calling
-folio_end_read(), where we do the magic
-
-	folio_wake_bit(folio, PG_locked);
-
-It's interesting, that for writeback we never unlock the folio on the I/O path,
-but instead have the dedicated page flag to tell us when writeback is complete.
+Thanks both for your input. I see still some disagreement, but ...
 
 > 
-> There is no way to say "that queue owns this lock".  Maybe that could
-> usefully be added - assuming coherent semantics can be designed.
+> Famfs does work in fuse, but some of the asks are things that I don't see
+> how I can agree to. I think Miklos and I should discuss those 1:1, to figure
+> out if there is a way forward.
+
+... I think this is the right approach. If you want more people involved, just
+speak up.
+
+>>
+>> We (Amir, Joanne, me) explained to John how this is exactly what's
+>> needed to make famfs work.  We've not seen an acceptance of that yet.
 > 
-> Somewhere else some other task takes responsibility for that folio and
-> the lock.  maybe it dequeues a page, or maybe an lru callback gives the
-> locked page to some code.
-> That code then calls
->    lock_map_acquire_try(&the_lock_map)
-
-I'd assume that's what the unlock path would do from interrupt context.
-
+> I am not feeling that my technical concerns have been heard and 
+> understood, and I have not thought that the suggested changes to famfs 
+> would preserve its fitness for purpose. 
 > 
-> This says "this task is now holding this lock" (or more accurately "now
-> holding a lock of this class").
-> Note the "_try" - that says that the task didn't have to wait for the
-> lock, it just got it for free, which in fact it did.
-> 
-> Now if that task takes some other lock, lockdep will see a dependency
-> between the page lock and the new lock, and will accept or reject it as
-> you would expect.
+> Whether I'm right or wrong can be figured out if we discuss it 1:1. The 
+> on-list conversations have been something that my cardiologist asked
+> me to stop reading. (only semi-joking)
 
-I guess on the interrupt path, we primarily unlock the folio lock only. But we
-might take some other spinlocks temporarily indeed, like
-iomap_finish_folio_read() does.
-
-
->  But I'd like to see a coherent
-> explanation of how the functionality offered by DEPT is clearly better.
-
-Yes, that's also what I am missing.
-
-Stating that lockdep is stable and should not be destabilized is not really a
-good argument.
+Yeah, I think there are some misunderstandings, and if you can figure that out
+in a 1:1, and let the outcome be known to the rest of us, that would be great.
 
 -- 
 Cheers,
