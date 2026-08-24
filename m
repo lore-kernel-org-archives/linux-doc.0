@@ -1,223 +1,178 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mta1.migadu.com (out-124.mta1.migadu.com [95.215.58.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC8B2853F3
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 16:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787587740; cv=pass; b=V4CP9AbtZvQZPOCTtvNTpUx8ofkG08PM9rKJjcqvJH+D5TSqsnA1+icKQX50/bavuQSDzCJ/qkwTSM0e+VjonYOujjsUqn7+n4n0jazx4nz6DMeYn69kbN/MRd7xGD4d2fu9h33FJlM7eKOQtuypoF43KlR1qCDOu9DkIXCGhAg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787587740; c=relaxed/simple;
-	bh=SLByKNE+iyqFj/f2/XSBS1vO5wCST7NUp64XyeqzhTI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i1RbW5SRaVFBGjWl5yXVeZ7hjRwgf97aMJ9xBIXPt8GB1+k08qnpUrrB9yvmd+zABfjQxEQ4nQ0uwEsXB2jd4KwgVuDQkygoYO9AHoc7zAZj4AnIugnm1N3fZhAB04Avp0Rl56TMNQqSYEQ5QgWo6BkbIDtkynut7b7VC/wHkr4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S8piObZU; arc=pass smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7800D367293
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 16:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787588859; cv=none; b=fZIWYf4jGcL32t0TGHmMoIUFeLYLIP1g2kTeBj67r5uAXzfHre9FihX1cYpF9OUhWh4bG9ZPXhBpW6/hpSOirueSGN2vxeWICdnufyD6VvhsPJuY7IXtxddbfkLIJXTWHhssUgZGIgTEO9vRRilSRe1/ki5uIh1gplBzY1t62/Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787588859; c=relaxed/simple;
+	bh=sprgsfzrs/7IhK9Lar1M59wV3GF+sASkTuKp0ItDHos=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gkduK8UbTvAFfOoEPQw+UtAR4IgtD4mRdgneb95BpyBoDHviOR0bo+5lDU6X3iBL3b93X3g4mTFgruMs4vgioE5TqosfJQfYvnd+2IYrRhAdeuZ1JfhhyeCLuDzHa0SVly0zEL4usdmJH0vFXKeF44BDiqUPWUnLFwBSwwjoAo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IIWBQts0; arc=none smtp.client-ip=95.215.58.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S8piObZU"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6a0c8283146so6302604a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 09:08:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787587737; cv=none;
-        d=google.com; s=arc-20260327;
-        b=T5JtfQeQwazzNAVygd+VGa5mE/cJWIa9fkgDZIbmcVw7PJIU/9Jc1Pv6rWBhCJtVTU
-         4m2wBxKPGnuJtxvIHoisA640mTB4QEazWsfl1CoAiTFemEisn9ggXa0b0g/BWIIb5cXo
-         bLwAoHviOItG7Mf+x24gRpLZy0FXn8z46xHLPoGsRkkdP+u/SkHmuWar/PvM46bbSjfx
-         4hlap5oStAo0lMbtaHxHNuQjUXN1k22hWb6fqVIAAOl/oVV0NYyKQoQ/1KGEjp5Jgyl9
-         ZUWtXoPq4G9KgX9HtGiImQIgPQWnwPDSmNMYsnM2vCLIfssFr7ecN9zw04yp17B+gEf0
-         H9OQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0W5q9JFccKIuoTxyIlvb1CNjf7arEqYMbmUndz72Edg=;
-        fh=97HwkE56NsY2EFCUbVsYbJUlRtV9LJNDcnpFe2d8UCs=;
-        b=Tymx1iPYz1WQ8pIah9wqd2jE0+7CjqEJxJGxpQR5DLDpD33Tk79rrFqi9E8VlQGH67
-         94nqLUVEPyfyLxI6YR+9PtjnTHVIgO9rCexxzm8A4iu+YOk8K0iBNBw8JDqOdQ9JLAyS
-         ixc8za2Z4HavBlXfc34DdnT24YcqizxytD5wgXkPStNe1vwN2iobNCA5g6H0aD25X4vW
-         OdmeM1bKHVw0fnRo+MB1/m8ZO2CPfptI/7e7EYORw28R67mDnmixe4BzBmzNR/ymNjqT
-         ICtL27FqigWYxfYXAYL/BdE5ack/AXxJVVC23V+fIEfSb2Pg1/RYLSprrPArIBiOYn0m
-         e+Ng==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787587737; x=1788192537; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0W5q9JFccKIuoTxyIlvb1CNjf7arEqYMbmUndz72Edg=;
-        b=S8piObZUqPCWeWNzZM63rQVa8NJAv+3R3bPgEo9ebVCLzNn38RtiEmXFD99OzeUs6q
-         urMix47R46kNQ+Lx4zHolSthBLcoF8wboqc/X47UTB1TP0XV2L+WkwSgiKb30eOof7ts
-         T9qBZC5O/DnvInyBbluRKNnQe4CiqGqt1cw+OzVcDIHBfnP4j9ONK9QkuNk0mIzN9h4q
-         UuPuTYTda4GfbtigD69jh3FIaMneNnB2qR5nR9hizUgwo16EEN02q15w2XMacEVp/YTp
-         Ftv++80mnI7tVfVjRWxX1rEeaFy2dI9YMIBqxpsCIXUZoD+RPWZOS7MwNHnpa0kvOyrZ
-         d3Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787587737; x=1788192537;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0W5q9JFccKIuoTxyIlvb1CNjf7arEqYMbmUndz72Edg=;
-        b=rXVzeKAZ1suOJ5qrlVKNmol4d9lUxPRNFrgQgO9fSCT4ITfXJ3Fx8rS2bx/vL0Ycge
-         5RjheL7Hbk/sWcOXaKthhDSxsFZBrNqWyzh4SDkqxGPFcF/wPCGOHg05Ysj5PUoY2d1T
-         dMY0JOVV7UztH0RKGTVaWQTXhezcxwR5k1vlgTI5TiZl/0Gym2yKMxXLU+lbcYuCkcgM
-         uhFSg9AZIe84xXfqxuc/LH3uKNIczDuSXteX5XoG+Sg36AzfoR36iACoSLsox0K6XXad
-         CIAkIEk5lJ7xXjjbWWuCOSaejH+dAPcZOhoO2tEE03pTCQ/vS25iHpWujMFYeySKRvah
-         szBw==
-X-Forwarded-Encrypted: i=1; AHgh+RqsUk0NgIXn31c5UmzDmUK6RafM/4JOxtMWFM4uv5Lk/wVIn0KskY3Zs4o8jK0jRsBgQQV9MCMuBXA=@vger.kernel.org
-X-Gm-Message-State: AFuF++lTA9PolVRQSLtXDLwaM7OXRbfGER3zAT9jHnpuGlaZuoY7Ayc8
-	l3Z72g3fa+saY4vEfq7bTYnqg59Lun5w/qa+i3jqwn2/PPsEJYkEoqGVRO/RmTYsTYq+qu5q7FY
-	QMqry09GqwEriR8+ENh8UKj+0p9efCic=
-X-Gm-Gg: AR+sD11c+SObjo6CEUKar7DVdxu4VWaM7zvmeSMPhU5fOFb3tupgXB2JHv60gW26Qkh
-	pOaPRz9ySTIlTjm6kTpI5Me8X2Gnw0nyP/+3Gd8k3Uk30/niz8W7MsO0PfBOAZsHNn9tPG2u9Xj
-	OKcTN1bjPxUXnjQvWsh5JPTKHVcrzgKTOxDOUFdCmhuWCz20UIT3dWzGcEYlEe5QxLdx6p7YXkx
-	U5iZztrFlDS6fLhsRlCBfTgotB2GeB46XrBqqrTqyP6WzRw5K+8vdRmcSOGObrNZpaoihvTTUvI
-	RGnFqlLkM+Y5PmK0l2OVEbiSQPndXuC9a0lDmKRXjDLOjQ==
-X-Received: by 2002:a05:6402:e93:b0:6a0:584f:454c with SMTP id
- 4fb4d7f45d1cf-6a42f28ebaemr31545775a12.16.1787587736646; Mon, 24 Aug 2026
- 09:08:56 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IIWBQts0"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=sprgsfzrs/7IhK9Lar1M59wV3GF+sASkTuKp0ItDHos=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787588855; v=1; x=1788193655;
+ b=IIWBQts0KmqdqBnqGUqXxFPTIcwy7ig1RMMtYy3mOph7Q1VR3v8bchDS1rc5GJiKsBnlYobV
+ EwoH6BC/2oMr2OTNa7ZvEKWglK2lZpiDXRPum3uYrTEIjS5Nt0v+6yrBIPAoWKIa4IbWyG4kLVK
+ FSL7//xp9CcWDbig2jBgU3k4=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: from [IPV6:2601:282:1e00:c920::a061] (2601:282:1e00:c920::a061)
+	by smtp.migadu.com with ESMTPS id ba7b8166db5dd483;
+	Mon, 24 Aug 2026 16:27:25 +0000
+X-Mizu-Trace-ID: ba7b8166db5dd483
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <9038f552-926b-4c4c-b023-69271f45e3d5@linux.dev>
+Date: Mon, 24 Aug 2026 10:27:20 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260806184254.3790858-3-nphamcs@gmail.com> <20260820041940.443214-1-kunwu.chan@linux.dev>
- <CAKEwX=Mj7QVArjKVvKOKnuQoTmN1Wu=vXe4jkLshnzKoYF4XkA@mail.gmail.com>
-In-Reply-To: <CAKEwX=Mj7QVArjKVvKOKnuQoTmN1Wu=vXe4jkLshnzKoYF4XkA@mail.gmail.com>
-From: KunWu Chan <kunwu.chan@gmail.com>
-Date: Tue, 25 Aug 2026 00:08:44 +0800
-X-Gm-Features: AcwNN1UwGPQAC4xmpw6qspF5xlvAI6xHm0KWte_rbifou6WEZwEBSX5eypRKXJ4
-Message-ID: <CAN_Opa_o6y7LnRNF0Ow66E99QKkvdo1iV3fbgk5YCqtcoFa66Q@mail.gmail.com>
-Subject: Re: [PATCH v3 02/11] mm, swap: support zswap and zeroswap as vswap backends
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Kunwu Chan <kunwu.chan@linux.dev>, akpm@linux-foundation.org, chrisl@kernel.org, 
-	kasong@tencent.com, hannes@cmpxchg.org, mhocko@kernel.org, 
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev, yosry@kernel.org, 
-	david@kernel.org, muchun.song@linux.dev, shikemeng@huaweicloud.com, 
-	baoquan.he@linux.dev, baohua@kernel.org, youngjun.park@lge.com, 
-	chengming.zhou@linux.dev, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, qi.zheng@linux.dev, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
-	riel@surriel.com, gourry@gourry.net, haowenchao22@gmail.com, corbet@lwn.net, 
-	kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/7] mm/khugepaged: extract reference check into
+ folio_pte_referenced() helper
+To: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260811-khugepaged_pte_refactor-v4-0-ddac39d61c4a@linux.dev>
+ <20260811-khugepaged_pte_refactor-v4-2-ddac39d61c4a@linux.dev>
+Content-Language: en-US, en-ZM
+From: "Nico Pache (Red Hat)" <nico.pache@linux.dev>
+In-Reply-To: <20260811-khugepaged_pte_refactor-v4-2-ddac39d61c4a@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Aug 22, 2026 at 1:09=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
-:
->
-> On Wed, Aug 19, 2026 at 9:21=E2=80=AFPM Kunwu Chan <kunwu.chan@gmail.com>=
- wrote:
-> >
-> > On Thu,  6 Aug 2026 11:42:45 -0700 Nhat Pham <nphamcs@gmail.com> wrote:
-> >
-> > Hi Nhat,
-> > [...]
-> > syzbot reported a NULL dereference in the v3 series:
-> >
-> >   __vtable_get()
-> >     vswap_to_phys()
-> >       swap_entry_backend_has_flag()
-> >
-> > Seems like the underlying issue is introduced by this patch's
-> > `virtual_table` lifetime management.
-> >
-> > This patch adds:
-> >
-> > > @@ -70,6 +70,7 @@ struct swap_cluster_info_dynamic {
-> > >       struct swap_cluster_info ci;
-> > >       unsigned int index;             /* for cluster_index() */
-> > >       struct rcu_head rcu;
-> > > +     atomic_long_t *virtual_table;   /* Backing pointers for vswap s=
-lots */
-> > >  };
-> >
-> > [...]
-> >
-> > while the read side does:
-> >
-> > > +static inline unsigned long __vtable_get(struct swap_cluster_info_dy=
-namic *ci_dyn,
-> > > +                                      unsigned int off)
-> > > +{
-> > > +     VM_WARN_ON_ONCE(off >=3D SWAPFILE_CLUSTER);
-> > > +     return atomic_long_read(&ci_dyn->virtual_table[off]);
-> > > +}
-> > > +
-> >
-> > `atomic_long_read()` only makes the access atomic; it does not protect
-> > the lifetime of the allocation being accessed.
-> >
-> > [...]
-> >
-> > > +static inline void vswap_cluster_free_vtable(struct swap_cluster_inf=
-o *ci)
-> > > +{
-> > > +     struct swap_cluster_info_dynamic *ci_dyn;
-> > > +
-> >
-> > and frees it synchronously:
-> >
-> > > +     ci_dyn =3D container_of(ci, struct swap_cluster_info_dynamic, c=
-i);
-> > > +     kfree(ci_dyn->virtual_table);
-> > > +     ci_dyn->virtual_table =3D NULL;
-> > > +}
-> > > +
-> >
-> > The existing `ci->table` already has an RCU-aware lifetime: readers use
-> > the corresponding RCU access rules, and the storage is not freed until
-> > after the appropriate grace period. `virtual_table` introduced here doe=
-s
-> > not have an equivalent lifetime rule.
-> >
-> > The syzbot crash shows that the current teardown/read-side synchronizat=
-ion
-> > is insufficient: `__vtable_get()` can observe a torn-down
-> > `virtual_table` and dereference NULL.
-> >
-> > I don't think a NULL check in `__vtable_get()` alone would be the right
-> > fix. The NULL dereference is a symptom of the missing lifetime guarante=
-e.
-> > `virtual_table` needs to remain valid for as long as a reader can reach
-> > and access the corresponding dynamic cluster.
->
-> Thanks for taking a look, Kunwu.
->
-> Null-check by itself is not sufficient, correct. But I think a full
-> dance of: rcu read section + spin_lock + checking for
-> CLUSTER_FLAG_DEAD should suffice. As long as cluster is valid inside
-> this rcu read section, we can get the lock. Once we have the lock, no
-> one can free the cluster under us. and as long as the
-> "CLUSTER_FLAG_DEAD" flag checks out under the lock, we can exit the
-> rcu_read_section(), and proceed with reading the vtable. I already
-> fixed this in (to-be-sent) v4.
->
 
-Hi Nhat,
-Thanks for the clarification. That makes sense.
 
-I agree that the NULL check alone would only mask the underlying lifetime
-issue. I see the lifetime dependency now: virtual_table is protected by the
-lifetime of the containing cluster, rather than by an independent RCU lifet=
-ime.
+On 8/11/26 6:48 AM, Nico Pache (Red Hat) wrote:
+> This change deduplicates the "is this PTE/folio referenced enough to be
+> considered for a collapse" condition that was repeated in both
+> __collapse_huge_page_isolate() and collapse_scan_pmd(), extracting it into
+> a single inline helper function.
+> 
+> Also move the comment and use it as the function header. While we are at
+> it, updated the comment to clarify that a young pte is a recently accessed
+> one.
+> 
+> Acked-by: Usama Arif <usama.arif@linux.dev>
+> Signed-off-by: Nico Pache (Red Hat) <nico.pache@linux.dev>
+> ---
 
-> Note that this is actually only required where we don't have any
-> reference pin. One example is the one syzbot detected phys swap device
-> backend flag check, because at do_swap_time() we don't actually have
-> any reference pins. The PTE is not locked, so swap entry can gets
-> released underneath us. But if we have a pin - for e.g if we own the
-> swap cache folio, then we don't really need this dance.
+Hi Andrew, 
 
-I also understand the distinction between the unpinned path, such as
-the syzbot-reported physical-swap backend flag check, and paths where
-we already have a reference pin, such as owning the swap cache folio.
+Can you please append the following fixup!
 
-I'll take a closer look at the v4 implementation once it is posted,
-particularly the lock/CLUSTER_FLAG_DEAD ordering and the teardown
-path.
+Thank you :) 
 
-Thanks,
-KunWu
+commit 20fa354b27d9be91e12c3c3144f6b3d8d38542f3
+Author: Nico Pache (Red Hat) <nico.pache@linux.dev>
+Date:   Fri Aug 21 04:27:18 2026 -0600
+
+    fixup! mm/khugepaged: extract reference check into folio_pte_referenced() helper
+    
+    Drop the trivial helper kerneldoc and inline marker per review.
+    
+    Signed-off-by: Nico Pache (Red Hat) <nico.pache@linux.dev>
+
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 8babd4c97db6..34654d1c1259 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -672,13 +672,7 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
+ 	}
+ }
+ 
+-/*
+- * folio_pte_referenced() - Check if a folio or its PTE mapping was recently used
+- *
+- * Return: true if recent access was observed through either the folio state
+- * or the current PTE mapping.
+- */
+-static inline bool folio_pte_referenced(struct folio *folio,
++static bool folio_pte_referenced(struct folio *folio,
+ 		struct vm_area_struct *vma, unsigned long addr, pte_t pteval)
+ {
+ 	/* The folio was referenced previously ... */
+
+
+>  mm/khugepaged.c | 32 ++++++++++++++++++--------------
+>  1 file changed, 18 insertions(+), 14 deletions(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 1e26ea97381a..8babd4c97db6 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -672,6 +672,22 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
+>  	}
+>  }
+>  
+> +/*
+> + * folio_pte_referenced() - Check if a folio or its PTE mapping was recently used
+> + *
+> + * Return: true if recent access was observed through either the folio state
+> + * or the current PTE mapping.
+> + */
+> +static inline bool folio_pte_referenced(struct folio *folio,
+> +		struct vm_area_struct *vma, unsigned long addr, pte_t pteval)
+> +{
+> +	/* The folio was referenced previously ... */
+> +	if (folio_test_young(folio) || folio_test_referenced(folio))
+> +		return true;
+> +	/* ... or the PTE mapping was recently used */
+> +	return pte_young(pteval) || mmu_notifier_test_young(vma->vm_mm, addr);
+> +}
+> +
+>  static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>  		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
+>  		unsigned int order, struct list_head *compound_pagelist)
+> @@ -810,14 +826,8 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>  		if (folio_test_large(folio))
+>  			list_add_tail(&folio->lru, compound_pagelist);
+>  next:
+> -		/*
+> -		 * If collapse was initiated by khugepaged, check that there is
+> -		 * enough young pte to justify collapsing the page
+> -		 */
+>  		if (cc->is_khugepaged &&
+> -		    (pte_young(pteval) || folio_test_young(folio) ||
+> -		     folio_test_referenced(folio) ||
+> -		     mmu_notifier_test_young(vma->vm_mm, addr)))
+> +		    folio_pte_referenced(folio, vma, addr, pteval))
+>  			referenced++;
+>  	}
+>  
+> @@ -1766,14 +1776,8 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+>  			goto out_unmap;
+>  		}
+>  
+> -		/*
+> -		 * If collapse was initiated by khugepaged, check that there is
+> -		 * enough young pte to justify collapsing the page
+> -		 */
+>  		if (cc->is_khugepaged &&
+> -		    (pte_young(pteval) || folio_test_young(folio) ||
+> -		     folio_test_referenced(folio) ||
+> -		     mmu_notifier_test_young(vma->vm_mm, addr)))
+> +		    folio_pte_referenced(folio, vma, addr, pteval))
+>  			referenced++;
+>  	}
+>  	if (cc->is_khugepaged &&
+> 
+
