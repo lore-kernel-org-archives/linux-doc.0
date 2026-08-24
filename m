@@ -1,189 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-106.mta0.migadu.com [91.218.175.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D921A682E;
-	Mon, 24 Aug 2026 07:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018B03EC836
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 07:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787555446; cv=none; b=Oemj//tebwYyCGXHYS+0Eh8zgpsoM+XzG9RZr8e+k9N+SG5Fs04G3l1RjHyvrAGLZMLzv/Q7HT0rum6C+uBNY5pC4j78d1Z4ia4T0zAI+jf4d0/NJo3T0KWimbEX7ja44s+if9m+8olgOTe4tSb9nSsnh8Mq5X7o+zJqRoFd7Sw=
+	t=1787555503; cv=none; b=MitzIT60vJpP9JKcGD8ziLSu6E9ZA6bv+8cvFuac9/QKDYqktSUc5aRlKGSJjz4bsJnidWZC1VHS324TP2MVQjqaapsyCPRc/nUnTgFFtkHL14WpJ8WwGU9zenZEauEkQ7O0CMNtJMWBIqqgCusTxgcsktge8QFhi/nTHHZCLe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787555446; c=relaxed/simple;
-	bh=fpHciuKFxrDpGxi6XvkP47uMh6llOLS6pWUt/AwpxnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=To2R82QWsAe126wkfUOxFh4OqcBX9Ln404PUTw1dp/8anEBPrVOEnWeK+880m9D1Jy+ukTomGzUW4OBGGD9xr/qQEssBwa2JEEwQYTdbSWBqCwpOVCidb1tFizF2Bsg6qK/zBDslEXUtoGjaUfUXsqtcqNWhgRwhM4Qs8b8liEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bVDEpAmq; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787555503; c=relaxed/simple;
+	bh=upHHen4ux8L9irT5wAQCPUOo8cd6TtLi7blsQg4Qp0c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tm0A0+34fFRDm8c9QOpWndJyy66ukbF1jdc/h3Ds2leXPeRlQOvsh4sEZ47iSirDVl6gX8E3zRbUnwl+rdiwcIL2p6l8uUkCFfUVQvtm8hWCC6YRb25MJu6cD/GBGwHxF5dyIhOXnRSR3LuyST2F1bPh6qxhi4ZoXHh5gjoIZMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BBiXNL4l; arc=none smtp.client-ip=91.218.175.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bVDEpAmq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787555444; x=1819091444;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fpHciuKFxrDpGxi6XvkP47uMh6llOLS6pWUt/AwpxnY=;
-  b=bVDEpAmqd7XH4QoinEENwQ2KPGOycyoVzm9rEPxpUk0ouLvQnahLGlVF
-   6ljyAUtLS2SBAtU0ytFskK4N2pLRjLZchmpb8yiHB20fjagcHRRQbyBYa
-   8NiIYI3wxzb9KhoAXFGSiIJX2sUV1FddfGIfvdMVq2lZJZVCSFlHRPJnK
-   G1va1DCaRBwdD3wZwyb3Jt76IDc0ujpRy7d10Iu9W3zb3rAAxT5S1tgJF
-   yrbNPC5oSQodiSCOAaGkbJRVjfmj58HfiN9X8AuoL3FI+dyeDYuDxaICB
-   xh9GF1caNsVqOr1seBo35pQTYfpqCxULUR34grIXI/xEY2W2iKVQyp9md
-   A==;
-X-CSE-ConnectionGUID: jlev98B3QA+rR6QRoLW2GA==
-X-CSE-MsgGUID: 8WNufDBDRZKNQuGeQdkGJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="87867517"
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="87867517"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 00:10:43 -0700
-X-CSE-ConnectionGUID: 81PysIvMRLSoj0YxzKm4bg==
-X-CSE-MsgGUID: 931OPkOORtWThlWmswNCJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="265143916"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.130])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 00:10:37 -0700
-Date: Mon, 24 Aug 2026 10:10:35 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Michael Walle <mwalle@kernel.org>, linux@analog.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v4 08/14] iio: adc: ad7768: Add per-channel conversion
- delay
-Message-ID: <aovua1sy4sm6RmSt@ashevche-desk.local>
-References: <20260821-ad7768-driver-v4-0-bb8fbd06d4eb@analog.com>
- <20260821-ad7768-driver-v4-8-bb8fbd06d4eb@analog.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BBiXNL4l"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=upHHen4ux8L9irT5wAQCPUOo8cd6TtLi7blsQg4Qp0c=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787555497; v=1; x=1788160297;
+ b=BBiXNL4lNREsQ2300oMM+gr2YknnB9p1+MuIdmYBJamkt9iNgJYESP2ang0LIez/h3JLyx5F
+ axQqA/FmBM/eA1KsGNvZQkK9FEz9pcH1QOUTMEPpNq5KsU3KKIwRfT/D+oO+iwFLMi+SF/r+w9h
+ tt+Q+gJvYFqEsmwROXDciLSo=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: from localhost (2602:fce1:44f:115e::)
+	by smtp.migadu.com with ESMTPS id bf7ef9951ffd2d20;
+	Mon, 24 Aug 2026 07:11:37 +0000
+X-Mizu-Trace-ID: bf7ef9951ffd2d20
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: rppt@kernel.org
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	baohua@kernel.org,
+	dev.jain@arm.com,
+	hughd@google.com,
+	jannh@google.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	corbet@lwn.net,
+	liam@infradead.org,
+	ljs@kernel.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	mhocko@suse.com,
+	muchun.song@linux.dev,
+	nico.pache@linux.dev,
+	osalvador@suse.de,
+	pfalcato@suse.de,
+	peterx@redhat.com,
+	ryan.roberts@arm.com,
+	shakeel.butt@linux.dev,
+	skhan@linuxfoundation.org,
+	rostedt@goodmis.org,
+	surenb@google.com,
+	usama.arif@linux.dev,
+	vbabka@kernel.org,
+	ziy@nvidia.com,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	Lance Yang <lance.yang@linux.dev>
+Subject: Re: [PATCH 6/6] userfaultfd: collapse VM_UFFD_{MISSING,WP,MINOR,RWP} into single VM_UFFD
+Date: Mon, 24 Aug 2026 15:11:26 +0800
+Message-Id: <20260824071126.41979-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
+References: <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260821-ad7768-driver-v4-8-bb8fbd06d4eb@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 21, 2026 at 04:07:01PM +0200, Janani Sunil wrote:
-> Expose the per-channel synchronization phase offset through the IIO
-> conversion-delay attribute.
+
+On Sun, Aug 23, 2026 at 03:17:43PM +0300, Mike Rapoport (Microsoft) wrote:
+[...]
+>diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+>index 83587d34b189..193f6e65d875 100644
+>--- a/mm/userfaultfd.c
+>+++ b/mm/userfaultfd.c
+>@@ -50,10 +50,10 @@ struct mfill_state {
+> 	pmd_t *pmd;
+> };
 > 
-> Derive the delay resolution from MCLK, power mode and decimation rate.
-> Validate the requested delay and program the corresponding phase
-> register when applying the active channel configuration.
+>-static bool anon_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags)
+>+static bool anon_can_userfault(struct vm_area_struct *vma, unsigned int mode)
+> {
+> 	/* anonymous memory does not support MINOR mode */
+>-	if (vm_flags & VM_UFFD_MINOR)
+>+	if (mode & UFFD_MODE_MINOR)
+> 		return false;
+> 	return true;
+> }
+>@@ -462,7 +462,7 @@ static int mfill_copy_folio_locked(struct folio *folio, unsigned long src_addr)
+> }
+> 
+> #define MFILL_RETRY_STATE_VMA_FLAGS \
+>-	append_vma_flags(__VMA_UFFD_FLAGS, VMA_SHARED_BIT)
+>+	append_vma_flags(VMA_UFFD, VMA_SHARED_BIT)
 
-...
+Looks like this drops registration mode from the retry snapshot. Assume a
+shared shmem VMA is registered for MISSING and COPY reaches
+mfill_copy_folio_retry(). While locks are dropped, the same userfaultfd|
+can re-register the range for MINOR. VMA_UFFD, VM_SHARED, ops, file and
+pgoff all stay unchanged, so the old COPY can continue instead of
+returning -EAGAIN ... no?
 
-> +static int ad7768_get_convdelay_params(struct ad7768_state *st, unsigned int ch,
-> +				       struct ad7768_convdelay_params *params)
-> +{
-> +	struct ad7768_freq_config f_cfg;
-> +	unsigned int dec_rate;
-> +	unsigned int mclk_div;
-> +	unsigned int mult;
-> +	u64 mclk;
-> +	int ret;
-> +
-> +	ret = ad7768_get_freq_cfg(st, st->ch_freq[ch], &f_cfg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	dec_rate = ad7768_dec_rate[f_cfg.dec_rate];
-> +	switch (dec_rate) {
-> +	case 32:
-> +		params->shift = 3;
-> +		params->max_raw = 31;
-> +		mult = 1;
-> +		break;
-> +	case 64:
-> +		params->shift = 2;
-> +		params->max_raw = 63;
-> +		mult = 1;
-> +		break;
-> +	case 128:
-> +		params->shift = 1;
-> +		params->max_raw = 127;
-> +		mult = 1;
-> +		break;
-> +	case 256:
-> +		params->shift = 0;
-> +		params->max_raw = 255;
-> +		mult = 1;
-> +		break;
-> +	case 512:
-> +		params->shift = 0;
-> +		params->max_raw = 255;
-> +		mult = 2;
-> +		break;
-> +	case 1024:
-> +		params->shift = 0;
-> +		params->max_raw = 255;
-> +		mult = 4;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
+The snapshot and comparison bracket the unlocked copy:
 
-So, this is just a bit twiddling of the dec_rate.
+static int mfill_copy_folio_retry(struct mfill_state *mfill_state,
+				  struct folio *folio)
+{
+	...
+	mfill_retry_state_save(&retry_state, mfill_state->vma);
 
-Can be written like
+	/* retry copying with mm_lock dropped */
+	mfill_put_vma(mfill_state);
+	...
+	/* reget VMA and PMD, they could change underneath us */
+	err = mfill_get_vma(mfill_state);
+	if (err)
+		return err;
 
-	/* Optional, perhaps shouldn't appear */
-	if (!dec_rate)
-		return -EINVAL;
+	if (mfill_retry_state_changed(&retry_state, mfill_state->vma))
+		return -EAGAIN;
+	...
+}
 
-	/* Same? What does table allow to have? */
-	if (!is_power_of_two(dec_rate))
-		return -EINVAL;
+Since mode now lives in vm_uffd_state.mode, could we save it before
+mfill_put_vma() and compare it after mfill_get_vma()? The UFFD flags
+comment also needs an update, since the mask no longer contains per mode
+flags.
 
-	mult = ilog2(dec_rate);
-	if (mult > 10) {
-		return -EINVAL;
-	} else if (mult > 8) {
-		params->shift = 0;
-		params->max_raw = 255;
-		mult = BIT(mult - 8);
-	} else if (mult > 5) {
-		params->shift = 8 - mult;
-		params->max_raw = dec_rate - 1;
-		mult = 1;
-	} else {
-		return -EINVAL;
-	}
+Maybe something like this?
 
-TBH, I don't know which looks easier to read. It all depends on what datasheet
-says about these parameters and multiplier and what the table allows to have.
+---8<---
+diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+index 193f6e65d875..5e3c86fe8aee 100644
+--- a/mm/userfaultfd.c
++++ b/mm/userfaultfd.c
+@@ -493,7 +493,7 @@ static bool mfill_retry_state_changed(struct mfill_retry_state *state,
+ 	vma_flags_t flags = vma_flags_and_mask(&vma->flags,
+ 					       MFILL_RETRY_STATE_VMA_FLAGS);
 
-> +	mclk = clk_get_rate(st->mclk);
-> +	if (!mclk)
-> +		return -EINVAL;
-> +
-> +	mclk_div = ad7768_power_modes[st->power_mode_idx].mclk_div;
-> +	params->step_ps = DIV_ROUND_CLOSEST_ULL((u64)mult * PSEC_PER_SEC *
-> +						mclk_div, mclk);
-> +
-> +	return 0;
-> +}
+-	/* Have any UFFD flags (missing, WP, minor) changed? */
++	/* Has UFFD registration or VMA sharing changed? */
+ 	if (!vma_flags_same_pair(&state->flags, &flags))
+ 		return true;
 
--- 
-With Best Regards,
-Andy Shevchenko
+@@ -528,6 +528,7 @@ static int mfill_copy_folio_retry(struct mfill_state *mfill_state,
+ 	struct mfill_retry_state retry_state = { 0 };
+ 	struct mfill_retry_state *for_free __free(retry_put) = &retry_state;
+ 	unsigned long src_addr = mfill_state->src_addr;
++	unsigned int saved_mode = uffd_mode(mfill_state->vma);
+ 	void *kaddr;
+ 	int err;
 
+@@ -549,7 +550,8 @@ static int mfill_copy_folio_retry(struct mfill_state *mfill_state,
+ 	if (err)
+ 		return err;
 
+-	if (mfill_retry_state_changed(&retry_state, mfill_state->vma))
++	if (saved_mode != uffd_mode(mfill_state->vma) ||
++	    mfill_retry_state_changed(&retry_state, mfill_state->vma))
+ 		return -EAGAIN;
+
+ 	err = mfill_establish_pmd(mfill_state);
+---
+
+Cheers, Lance
