@@ -1,233 +1,268 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C47D42E410
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 14:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787581987; cv=none; b=qo3NwAXh1klgr1m6xPBNSBZ+loY71Ga69D0x/Uh3CdDT2M50CkAYTGdlp0vmGK96b9cFVYJOWy/kL3DmxySkHlFVV4ho1ABvoNuQvXvtGdtrrhh5gn7FWLj8A7KuGdQUXnoba33NszuAm3INkYXxBxRy7syz1FrHX9ifDIkFcpY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787581987; c=relaxed/simple;
-	bh=PVDXdi1GKGCSwFU6W7af+RYQVaijTr+noajlf620EsY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=exOl4pVCDOn0bq7XGB/N0cX3FaPvoeY/NZxjPjkIvqhj51KdzOdiXtgz/KrQFukOgcDv4/fQ5fwnptc7LhLHGOH9/BsjrnQqw3wAsjgtee8eiHiCo/dAGL/dFeIsTazVZTaykLzYeuWygeUAeR0IYpvjgD8QyzArPV1PGucZq0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=y35+dDTB; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8BB43CE69
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 14:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787582335; cv=pass; b=pNPhJGE+vLnRRp9Oxi3ZymRRMG9baJ71MOzVOf2gygzjALj2XW/+iErb/IOFJAB1+uHc/8bRwZrMcSmd+VAR7/+xp/JwF06dKEviGpFQT8LjZDNRI7X5CQ6vf/UogArsiZQ9VdGQkvd3UPJAGcKnkJIl1SzWYzdprjQEKJhidOI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787582335; c=relaxed/simple;
+	bh=uIVVpMDmMGX0h/fu4HXu0BYDldpKQW0ZxH1umBAPys0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ECAHotUGr438acyxBIZ9/LwFO+728zUOwI0K+LjncZ6GmPF9iGDwoDzeW9Xiu9o6j+SoUIdgrDtM9pzdJbOFNOMx3ZruC3hQUio0SeaqRm5r5uFVSIiI/e7kTfTqmIMW4dpc+Iso/sMjKrCYBWhCt/80cAotFzDgn6LwT/x7fYA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VvZkwirj; arc=pass smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y35+dDTB"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4998590d392so13043225e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 07:33:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VvZkwirj"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6a0a4aa99bdso6066301a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 07:38:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787582330; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jP2MZ6vGHFeL62wqzUEEmIC8seVHnfFgrOAKvFtu5lkk0GdlqfDdqlxXRmXmZTpKPE
+         EPdcERvJMo8vP9rSm5rsHG1NKlAWfDR5UOqQONIHQ4mDnIVMNQY10yCvsyRbJRKbHv7z
+         hWVjWcZmzd9mdsgat7KEge6L0TAzVvc8qkC9U+EtNu5Us/GF2Mhf7AWEIeLpnWz69G3q
+         DGy5+yFXvNlHvVcO5RRaJB4x6f24Jd3OWcfShk20f/K2P6RE2NmQo0AGU6q7T9cJiLkc
+         1yMob6lmg+JwhcyXK/TLeDmCNPRLHSElW8UCGCtmkyfNLez4of7mVfUv3h6znViGcPxZ
+         sHFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Vm1p9M4lR0nH2xefCtH9dUaY37Y2P9W6T0kJp4WGVyI=;
+        fh=FL5duxCkcKZrFz80cBZCgQq7vBUX7GcoXs3OciQVCdc=;
+        b=izuAHkFVjczubBjI3LURdSA11bAS2IHU15c49CgXoLkxHsk4VcQgDbKV+p/9pPRV4i
+         hgm8GPhGpIDEOghTnoa7gda7b4xopgSiWNwVHMTEvPP1b0X1opx44r1A1rPtkFI4VNNr
+         XPJh3hr5oqmxFfSG1T4XRvdI182eZkxpHykNGUxYSW2nT0aUcTKNBatjYjKWtSc5SUz7
+         L+rETkFCkYWJiAIr+53fxGwFf6xX3gwsnrfjsuPxZCNZP0pfYqSEFi7GyKGGpg2oVTKJ
+         d8Iih9hCIOuwKDYYMDH6iv870ZNpapGe04EZZJdA/lGlLzyRqRO4T0Wblu6GQ6EV7kSp
+         KAsQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1787581984; x=1788186784; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=linaro.org; s=google; t=1787582330; x=1788187130; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=MfQu1oI+X/Avl4cDAoicLu7vQUMqyVuYyYc7hYijVqA=;
-        b=y35+dDTBbSk1h9zLCD316pqLUTGMHUcuCmteifoVDU6P/Aw299ZG8RopGlO/diuLAO
-         VThLP+Iad6eaMzkk3xQwNh95rVK6PNkMs0fo9coxSTrY6h5gh4jjPoAeAXWaCU4nzVJ0
-         KnyIByXrb8kUByLfFUTCR/TT7FHSH0zNzmPNoWU3ZItui0IyBe6K1d8Dpyn0p5iOExXq
-         o0Nd8ruyIaUgHno5ndD5amrcg3aa46UY4KI0bdLJQXK+dpp/JnmEHVxe4ksNzuiw2dNF
-         stzueDu7pBCdA6fIk2Q5Fu1yXttiG1SK5qItTbPCJt2IpfCOT6ewWcRcORkpppmDUXkn
-         8r5g==
+        bh=Vm1p9M4lR0nH2xefCtH9dUaY37Y2P9W6T0kJp4WGVyI=;
+        b=VvZkwirjYSsd3dI2r3gNzvi5pI3wSfJrsSArNnW9Y2ROIlS/8QRqNL7LGDH9aypVsc
+         23FFX6uhpzplKWd9Tpj7WM7Upx/qo58j3lnRS+OpS2bSjfCKL2vV60oEyXYqJFvszkS3
+         sOj43oeVmWALH3aG3FgepLaidHbJf1cZ1J2UMl+DbxeRlgCMuebqjY0i3h492P9LXFSD
+         Ku5qlv5/1IaE5Bryclv5tUNCFYY1gbwZYrSNXeAWy40WyrDTiPMH0h9YsmThxk+ATW1s
+         pzvzRncB89LCfhFdxCyWHj2T2ytuIhdFRSNun2OBa5y4UKTa9XL1y6pTWgkNMqdkytUa
+         Tqzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787581984; x=1788186784;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MfQu1oI+X/Avl4cDAoicLu7vQUMqyVuYyYc7hYijVqA=;
-        b=mh3ojhzfEONFMOC+rXP9ZmWQicoTj7eFwUmITTo54hmswJnWWirffB96OrE+nCR3Mw
-         7EbOHQMxbT0kxbQrrQVMvOk/PegjxyzEaw3JukBeEYk6ZsZx6HicpslYdBUI2R44JkU0
-         nf28gfN+7F2KBWelmTAuh66HjcTTuXQbmTyxxgjjJK2fnNkDz7nS2Ng68PQSG2xR6q/I
-         v4kGj7DDIbY2J1KRpYlPrqSJf+yRzvej3H2aiEJ4/vyowIL6gI1kNsjvkRlf6sl6LYQo
-         +vWC2tddC6aN10K29IxWyYoQc17X/EW/t1kQHUoYA8fWX2scyL4lD0oRLl/VKekLCrTU
-         D40Q==
-X-Forwarded-Encrypted: i=1; AHgh+RoAYGDR96/hyM3Hqjb423cgM6pn+aO5iTqecWnT4oLgHkNUoR6WJnT8cmZWtJ5Kg0QpZcw5WiutEbc=@vger.kernel.org
-X-Gm-Message-State: AFuF++kVU9tlHKkkjbpyOEgVf6YneMhrq42yqS/GPhkm30eEEWKo1ueG
-	oge/MRJHOPkgJZtrq9spBnLmz1dsCmg/PBWf4Pla4TsHLLW6KYzcBAwQvqqfpufUJQg=
-X-Gm-Gg: AR+sD13G1JiX8inyyEx48qV1muJ/OLHPFGgeqcgmeMvbY8QphOQEnWNeqGYoYrIpJlC
-	4LCOHJ9WLY1zAfZTAffJwyjioR8RZn6qNJZcema8DtH5ASKleaSXoUspXh/Wku5TNZUv20WYMWk
-	Bgjwa24e+SIvxhaGynGQih467G1XpDDYr3cppanS1NRKMSII4kv6dlJTwnZkTvaAQeT9PNWQBqt
-	wZmDQq7M6eXctz2Rf5Vv0blUrOl1z1DS7vllepjED6W5+syC8EuI4vBqJsVkseSLaK8jzaIqED/
-	6mh2Eba1VWl+NRfxbIZzgxL4W1nUUXBmXZ3sDi9W+RMdD/XuhXbQiKN+Er5ATOc1pPq6vlqsq18
-	ccyoyVmG0ZatDowHkpzrnmevu56/iQ3Jm4pRmxGBfB7mHYoTgVIxYvbXE08r0Sh7P8hoTnCyq+0
-	9ni+TLqFqVz/Vjo+XAeRfIqENT2M5iatXzI3xoybzUAETitHxUFTzxw+SeprLmqKP/pQ==
-X-Received: by 2002:a05:600c:1554:b0:496:c06b:9fb4 with SMTP id 5b1f17b1804b1-499b844b578mr320097935e9.14.1787581983590;
-        Mon, 24 Aug 2026 07:33:03 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499c35a1e35sm84180155e9.13.2026.08.24.07.32.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Aug 2026 07:33:02 -0700 (PDT)
-Message-ID: <f1f4447e-4253-4a9c-b410-fc339b4947cc@linaro.org>
-Date: Mon, 24 Aug 2026 15:32:59 +0100
+        d=1e100.net; s=20251104; t=1787582330; x=1788187130;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Vm1p9M4lR0nH2xefCtH9dUaY37Y2P9W6T0kJp4WGVyI=;
+        b=F3FI6Jxb5N2JYgOIetDqvQyfE+zT8sNxB4vrbkB5xZR+kN5agmVqqppWL3HU85nkSV
+         EmvwACwywmGrZiJlZMKIl/+l/4r+zaoBYG03a++oips00mAYFBshCB/jggwoq3RPNlX/
+         lBs6Q8+ubdVO8Mo01wrBV7Zxivt8lQ9/vUKyZeBJMEViCm9V4hAsSkHoNkxUXN7MPQvj
+         nwgZPur08yiiRD9REGxkAQ1WQnmy0M2fmlt8JCyzFLe6rMUt0GFCZYJLEQahBSWw5RkZ
+         o0mVo1CqnE1pN3R9TPZSn+mMam3zw7T+GFldmCV05Aj5X+baUX1lI2DR4q2URohYW/dr
+         Lb6g==
+X-Forwarded-Encrypted: i=1; AHgh+RrsuvyN++P0uO5wIHLuv3iufG99ROjvbearBK2wzrFYmRbjvIQFsU2qSzjvU5wJPI2Qj5zwno96eG8=@vger.kernel.org
+X-Gm-Message-State: AFuF++mUZNw6bLIPKrZFosiYnDLRw/orMr7y/TNUdis3mzX0JdZ1F7Zq
+	zQTQd86TUpU8t2/u62nGCi0XdqXMkVxE46IMukHPROXs06crzET7yRQCrLY8Qs/qTsGy9UZtvKu
+	fTlSxsDdXvFfD4C2TxOHZHqZJk8SWxOqGV8ZO7Pt4tQ==
+X-Gm-Gg: AR+sD1094vUif+CnVebcqUYs1VcEKtIJPf1zubGjzRC8CcESrKblV3UwwdbDDNWvwtI
+	FP1SYdylJ98wIlQLty4RtJnx+qVPM4MYwVz2vec8Sk8D9QnEZDpPlK76KQ09a23l69r4Mq15Zt6
+	6CKMa5lIW2Xd+slPe4dMnzvQgRxfC+luqF80j+Nm0Kd6h3qku2WTrywTMKpnxUSaeYvLtPkP/mK
+	RdYZ4AgJGOvBKNgYrzyjq9X+lYFOnUE5uKDyzwrASQFpkb6A6dl1sC4N3jcTBl714MxyimuYdAY
+	OG+ftJhkt6byYneg9Q9tDif5lIuedOx5C2oj+fY3S84j8xGoK5KhTADinoZl20lJlddvgTuvfOt
+	C41E=
+X-Received: by 2002:a05:6402:a50a:10b0:6a4:cc9:e32b with SMTP id
+ 4fb4d7f45d1cf-6a582b608b0mr13946214a12.9.1787582330522; Mon, 24 Aug 2026
+ 07:38:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/14] perf auxtrace: cs-etm: Capture wrapped snapshots
-To: Adrian Hunter <adrian.hunter@intel.com>
-Cc: Leo Yan <leo.yan@linux.dev>, linux-arm-kernel@lists.infradead.org,
- coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org, Arnaldo Carvalho de Melo <acme@redhat.com>,
- linux-doc@vger.kernel.org, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Mike Leach <mike.leach@arm.com>, Leo Yan <leo.yan@arm.com>,
- John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
-References: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
- <20260821-james-cs-unformatted-per-thread-fix-v2-11-00c4fd0701b4@linaro.org>
- <568a14ed-161d-4f67-842a-c671e7f4c409@intel.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <568a14ed-161d-4f67-842a-c671e7f4c409@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260721204704.400781-1-shenwei.wang@oss.nxp.com> <20260721204704.400781-3-shenwei.wang@oss.nxp.com>
+In-Reply-To: <20260721204704.400781-3-shenwei.wang@oss.nxp.com>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+Date: Mon, 24 Aug 2026 08:38:38 -0600
+X-Gm-Features: AcwNN1WkCFZbvWxe4PQA8OwbQcV2Qi4oWD0S_a9VEHwbP89HadQ5rWBGiqMxI74
+Message-ID: <CANLsYkxZbr9hKaJJGXwYXErLwQ-A07eb-oeNXY1CceHHa0Tdmg@mail.gmail.com>
+Subject: Re: [PATCH v15 2/5] dt-bindings: remoteproc: imx_rproc: Add "rpmsg"
+ subnode support
+To: Shenwei Wang <shenwei.wang@oss.nxp.com>
+Cc: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com, 
+	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, b-padhi@ti.com, Andrew Lunn <andrew@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
 
+On Tue, 21 Jul 2026 at 14:48, Shenwei Wang <shenwei.wang@oss.nxp.com> wrote:
+>
+> From: Shenwei Wang <shenwei.wang@nxp.com>
+>
+> Remote processors may announce multiple GPIO controllers over an RPMSG
+> channel. These GPIO controllers may require corresponding device tree
+> nodes, especially when acting as providers, to supply phandles for their
+> consumers.
+>
+> Define an RPMSG node to work as a container for a group of RPMSG channels
+> under the imx_rproc node. Each subnode within "rpmsg" represents an
+> individual RPMSG channel. The name of each subnode corresponds to the
+> channel name as defined by the remote processor.
+>
+> All remote devices associated with a given channel are defined as child
+> nodes under the corresponding channel node.
+>
+> Signed-off-by: Shenwei Wang <shenwei.wang@nxp.com>
+> ---
+>  .../devicetree/bindings/gpio/gpio-rpmsg.yaml  | 55 +++++++++++++++++++
+>  .../bindings/remoteproc/fsl,imx-rproc.yaml    | 53 ++++++++++++++++++
+>  2 files changed, 108 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-rpmsg.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/gpio/gpio-rpmsg.yaml b/Documentation/devicetree/bindings/gpio/gpio-rpmsg.yaml
+> new file mode 100644
+> index 000000000000..41eb2e149942
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpio/gpio-rpmsg.yaml
+> @@ -0,0 +1,55 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpio/gpio-rpmsg.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Generic RPMSG GPIO Controller
+> +
+> +maintainers:
+> +  - Shenwei Wang <shenwei.wang@nxp.com>
+> +
+> +description:
+> +  On an AMP platform, some GPIO controllers are exposed by the remote processor
+> +  through the RPMSG bus. The RPMSG GPIO transport protocol defines the packet
+> +  structure and communication flow between Linux and the remote firmware. Those
+> +  controllers are managed via this transport protocol. For more details of the
+> +  protocol, check the document below.
+> +  Documentation/driver-api/gpio/gpio-rpmsg.rst
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - fsl,rpmsg-gpio
+> +          - const: rpmsg-gpio
+> +      - const: rpmsg-gpio
+> +
+> +  reg:
+> +    description:
+> +      The reg property represents the index of the GPIO controllers. Since
+> +      the driver manages controllers on a remote system, this index tells
+> +      the remote system which controller to operate.
+> +    maxItems: 1
+> +
+> +  "#gpio-cells":
+> +    const: 2
+> +
+> +  gpio-controller: true
+> +
+> +  interrupt-controller: true
+> +
+> +  "#interrupt-cells":
+> +    const: 2
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#gpio-cells"
+> +  - gpio-controller
+> +
+> +allOf:
+> +  - $ref: /schemas/gpio/gpio.yaml#
+> +
+> +unevaluatedProperties: false
+> diff --git a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+> index c18f71b64889..b9b559b186af 100644
+> --- a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+> +++ b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+> @@ -88,6 +88,34 @@ properties:
+>        This property is to specify the resource id of the remote processor in SoC
+>        which supports SCFW
+>
+> +  rpmsg:
+> +    type: object
+> +    additionalProperties: false
+> +    description:
+> +      Represents the RPMSG bus between Linux and the remote system. Contains
+> +      a group of RPMSG channel devices running on the bus.
+> +
+> +    properties:
+> +      rpmsg-io:
+> +        type: object
+> +        additionalProperties: false
+> +        properties:
+> +          '#address-cells':
+> +            const: 1
+> +
+> +          '#size-cells':
+> +            const: 0
+> +
+> +        patternProperties:
+> +          "^gpio@[0-9a-f]+$":
+> +            type: object
+> +            $ref: /schemas/gpio/gpio-rpmsg.yaml#
+> +            unevaluatedProperties: false
+> +
+> +        required:
+> +          - '#address-cells'
+> +          - '#size-cells'
+> +
+>  required:
+>    - compatible
+>
+> @@ -150,5 +178,30 @@ examples:
+>                  &mu 3 1>;
+>        memory-region = <&vdev0buffer>, <&vdev0vring0>, <&vdev0vring1>, <&rsc_table>;
+>        syscon = <&src>;
+> +
+> +      rpmsg {
+> +        rpmsg-io {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          gpio@0 {
+> +            compatible = "rpmsg-gpio";
+> +            reg = <0>;
+> +            gpio-controller;
+> +            #gpio-cells = <2>;
+> +            #interrupt-cells = <2>;
+> +            interrupt-controller;
+> +          };
+> +
+> +          gpio@1 {
+> +            compatible = "rpmsg-gpio";
+> +            reg = <1>;
+> +            gpio-controller;
+> +            #gpio-cells = <2>;
+> +            #interrupt-cells = <2>;
+> +            interrupt-controller;
+> +          };
+> +        };
 
+As I (and Arnaud) have stated before, I don't think this is the best
+way to lay out bindings for rpmsg-gpio nodes.  I am currently thinking
+about a representation that aligns better with other virtio devices.
 
-On 24/08/2026 13:21, Adrian Hunter wrote:
-> On 21/08/2026 12:49, James Clark wrote:
->> snapshot_has_wrapped() isn't implemented for Coresight, so when a wrap
->> occurs we only save from offset 0 to current head, modulo buffer size,
->> rather than capturing the whole buffer. Coresight drivers currently use
->> a monotonic head pointer even in snapshot mode, which gives a lot more
->> information for taking snapshots than a wrapped pointer. It means we
->> don't need to search for data at the end of the buffer to guess if a
->> wrap has occurred, and we can go back to saving partial buffers after a
->> wrap by checking if the next size to take is less than the buffer
->> size.
->>
->> The drivers will always be able to generate a monotonic head because
->> TRBE has a bytes written counter, so even if we stop generating an AUX
->> record on every overflow, we can check if the counter indicated an
->> overwrite and offset head by a whole buffer size if it wrapped. This
->> forces userspace to read the whole buffer rather than between last and
->> current head. ETR and other sinks use software double buffering, so can
->> continue as they are.
->>
->> Add a much simpler 'monotonic_snapshot_head' path for tracers to use,
->> and use it for Coresight.
->>
->> Signed-off-by: James Clark <james.clark@linaro.org>
->> ---
->>   tools/perf/arch/arm/util/cs-etm.c                  |  1 +
->>   .../perf/tests/shell/coresight/raw_dump_stress.sh  |  5 -----
->>   tools/perf/util/auxtrace.c                         | 22 ++++++++++++++++------
->>   tools/perf/util/auxtrace.h                         |  2 ++
->>   4 files changed, 19 insertions(+), 11 deletions(-)
->>
->> diff --git a/tools/perf/arch/arm/util/cs-etm.c b/tools/perf/arch/arm/util/cs-etm.c
->> index d36b7e41399b..dbf76dd3349e 100644
->> --- a/tools/perf/arch/arm/util/cs-etm.c
->> +++ b/tools/perf/arch/arm/util/cs-etm.c
->> @@ -918,6 +918,7 @@ struct auxtrace_record *cs_etm_record_init(int *err)
->>   	ptr->itr.info_fill		= cs_etm_info_fill;
->>   	ptr->itr.snapshot_start		= cs_etm_snapshot_start;
->>   	ptr->itr.snapshot_finish	= cs_etm_snapshot_finish;
->> +	ptr->itr.monotonic_snapshot_head = true;
->>   	ptr->itr.reference		= cs_etm_reference;
->>   	ptr->itr.free			= cs_etm_recording_free;
->>   	ptr->itr.read_finish		= auxtrace_record__read_finish;
->> diff --git a/tools/perf/tests/shell/coresight/raw_dump_stress.sh b/tools/perf/tests/shell/coresight/raw_dump_stress.sh
->> index bea70d825596..c9459ded4cbe 100755
->> --- a/tools/perf/tests/shell/coresight/raw_dump_stress.sh
->> +++ b/tools/perf/tests/shell/coresight/raw_dump_stress.sh
->> @@ -48,11 +48,6 @@ read -r size offset last_idx <<< "$(awk '
->>   # everything was dumped. Allow 48 bytes difference to cover 3 frames: current
->>   # frame length, a partial frame and a final empty one, all of which aren't
->>   # dumped.
->> -#
->> -# TODO: for a single snapshot, offset should always be zero. However, we
->> -# currently output AUX records in snapshot mode when we shouldn't, which
->> -# increments the offset. Allow for that until it's fixed so we can test raw
->> -# dumping.
->>   decode_size=$((1 + last_idx - offset))
->>   if [ "$decode_size" -gt "$((size - 48))" ] && [ "$decode_size" -le "$((size))" ]; then
->>   	echo "PASS: AUXTRACE buffer length matches dumped packet index"
->> diff --git a/tools/perf/util/auxtrace.c b/tools/perf/util/auxtrace.c
->> index 8ca872e6d465..e3c770b46e94 100644
->> --- a/tools/perf/util/auxtrace.c
->> +++ b/tools/perf/util/auxtrace.c
->> @@ -2051,9 +2051,9 @@ static int __auxtrace_mmap__read(struct mmap *map,
->>   				 bool snapshot, size_t snapshot_size)
->>   {
->>   	struct auxtrace_mmap *mm = &map->auxtrace_mmap;
->> -	u64 head, old = mm->prev, offset, ref;
->> +	u64 head, old = mm->prev, offset, ref, size;
->>   	unsigned char *data = mm->base;
->> -	size_t size, head_off, old_off, len1, len2, padding;
->> +	size_t head_off, old_off, len1, len2, padding;
->>   	union perf_event ev;
->>   	void *data1, *data2;
->>   	int kernel_is_64_bit = perf_env__kernel_is_64_bit(env);
->> @@ -2061,10 +2061,20 @@ static int __auxtrace_mmap__read(struct mmap *map,
->>   
->>   	head = auxtrace_mmap__read_head(mm, kernel_is_64_bit);
->>   
->> -	if (snapshot && itr->snapshot_has_wrapped) {
->> -		err = auxtrace_find_snapshot(itr, mm->idx, mm, data, &head, &old);
->> -		if (err)
->> -			return err;
->> +	if (snapshot) {
->> +		if (itr->snapshot_has_wrapped) {
->> +			err = auxtrace_find_snapshot(itr, mm->idx, mm, data, &head, &old);
->> +			if (err)
->> +				return err;
->> +		} else if (itr->monotonic_snapshot_head) {
->> +			size = head - old;
->> +			/* Force a full buffer read if a wrap has occurred */
->> +			if (size > mm->len) {
->> +				pr_debug3("%s: wrap detected, adjusting old from 0x%"PRIx64" to 0x%"PRIx64"\n",
->> +					  __func__, old, head - mm->len);
->> +				old = head - mm->len;
->> +			}
->> +		}
-> 
-> I feel like this is asking to keep the ->find_snapshot() callback.
-> i.e. basically the same thing, but add a helper that BTS and SPE
-> can call directly, like auxtrace_record__default_find_snapshot().
-> For PT, add/use auxtrace_record__snapshot_fixup() that does the
-> common old/head adjustment.
-> 
-> Then ->monotonic_snapshot_head is not needed.
-> 
-
-Hmm yeah I suppose that makes sense. I can give it a go.
-
->>   	}
->>   
->>   	if (old == head)
->> diff --git a/tools/perf/util/auxtrace.h b/tools/perf/util/auxtrace.h
->> index a9d0c84184c5..971b817d3396 100644
->> --- a/tools/perf/util/auxtrace.h
->> +++ b/tools/perf/util/auxtrace.h
->> @@ -385,6 +385,7 @@ struct auxtrace_mmap_params {
->>    * @evlist: selected events list
->>    * @snapshot_wrapped_len: number of bits in @snapshot_wrapped
->>    * @snapshot_wrapped: bitmap indicating if each aux buffer has wrapped
->> + * @monotonic_snapshot_head: driver doesn't wrap head pointer on overflow
->>    */
->>   struct auxtrace_record {
->>   	int (*recording_options)(struct auxtrace_record *itr,
->> @@ -412,6 +413,7 @@ struct auxtrace_record {
->>   	int snapshot_wrapped_len;
->>   	unsigned long *snapshot_wrapped;
->>   	int snapshot_search_bytes;
->> +	bool monotonic_snapshot_head;
->>   };
->>   
->>   /**
->>
-> 
-
+> +      };
+>      };
+>  ...
+> --
+> 2.43.0
+>
