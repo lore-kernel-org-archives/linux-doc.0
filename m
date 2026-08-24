@@ -1,106 +1,163 @@
-Received: from mta0.migadu.com (out-229.mta0.migadu.com [91.218.175.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE2029B77E
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 08:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA59C18DB01;
+	Mon, 24 Aug 2026 08:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787559187; cv=none; b=R+ZjMZE2N/tWDaScjImE46vH6RguqsLGXlJxu2jFt5DJlzEPvMM+gBQdeQ4iJJxGuNjWeGb2xJFE6FqgPZOV3pm6CQGD4RR8rl2RRjnQ0p7aRNcka3jpeoeil6smUDFunyfhlMIe/iYvVqACuEjBszwOeK6w/35R0TJzaCyPhMw=
+	t=1787559231; cv=none; b=XDwxnDhbnywbJMmA767qsg1LO+NH7IRqAGa3FbyILHYsn64U0iCauN0Xw9dvNrhGY6X7mX+tWTmNH++vRr16GGxCU0PnxjJ7Xtm3vSh8oVraP/8L8iu9cOu4ytJDA6mw/tsq4uRIojUEgdIcMzMnczS6s8ndI2myiD+aNdh0FQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787559187; c=relaxed/simple;
-	bh=IVeVPbKL49TCH2itDpGWCx8+AacsU4ms6FDLHw/oas4=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=HWoB1KUG3WzamJM1swjlOW4iXGoxPe8UIjl+7AuJ1gfM/dHV6Y7iHGy+J8kMnC+dcbd4IkT0kTLAfMa2W82H7fM1QhFPmENLNInoexhWF7mj9yymfXRPVVl2dRoEwgx/nfbrPlBlhbrKjMCfw95fmDPEBx37khQPIoLhWcQhJ9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=D64uBYFF; arc=none smtp.client-ip=91.218.175.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1787559231; c=relaxed/simple;
+	bh=28tdcNeYvivqfO6xmJCs3eQvMTf7EWGHzRJJZsjamd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oSz20zDbQRMpLxWQDQl6bj8R7Jj8JB/v7nq4r/m/T4E8OQmoh+GlpiMVdVm0uHJbvOkY1Rlz1//kGjehdEZ2IrcZqHd1PyRY/+PwZnqgqh1JjggzKCIZj0koWMdMK9rKKMd8ZofwXaA6PsOU+gmFOi8Zm+OLjIl5w1pnRRMwEQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MDItu8eq; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="D64uBYFF"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=IVeVPbKL49TCH2itDpGWCx8+AacsU4ms6FDLHw/oas4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787559183; v=1; x=1788163983;
- b=D64uBYFFU4XpP33tb6/GlRXBwpFZIcWCQ7zIRVvZktmyso8yaditLPs0T7sN4ptGVpE/Nggo
- 94WDo1o9YUOk45Ug7pJmUy/icIkUEiRMYAXQD5WVCEiFoElhQoyefrc6hOy8rGCTf18+6+ZNRah
- 4AveuR10o5CcXfabOHBqNqcs=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: from smtpclient.apple (114.251.196.97)
-	by mta12.migadu.com with ESMTPS id 03a5a03ad4541403;
-	Mon, 24 Aug 2026 08:13:02 +0000
-X-Mizu-Trace-ID: 03a5a03ad4541403
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MDItu8eq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787559230; x=1819095230;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=28tdcNeYvivqfO6xmJCs3eQvMTf7EWGHzRJJZsjamd0=;
+  b=MDItu8eqZgxNg0K32gVYOof0GEcNswvu+FDJJMUEZfc2ETr4t9QKOxFd
+   GfDyqBoZazd/9SlS5+rbjPnfrvNGkP1zbxhMs1PSgfC+iSkhKCVHjCVeS
+   VSyvZ/p6z1HTOojqrd1Z0tP/8Odmf8zR242Vd+QWJmaLcLFnEfQySrotn
+   IpDC/pIg4qXYbndhL5g1L8Lf3d1k80+N+kvnQP+W6BqEJiB7mN8zJVhrQ
+   ukSvWAvMLZwOuCUi9LpuKGQOuyW8BZWPGluYc4cJ9dugbpcZPeXNwdfkp
+   z/LE/KeEFQnee2lnxnLrq97q54bWDZeGpvIq/55L87a5WVhj3GjjG96E/
+   g==;
+X-CSE-ConnectionGUID: q8YICUUMR4SVgMjSdZcWgg==
+X-CSE-MsgGUID: Fd0ezUfCQdmyBcXDOMYEag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="87769170"
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="87769170"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 01:13:49 -0700
+X-CSE-ConnectionGUID: NYnPaUjXT9K2smj8J4yUxQ==
+X-CSE-MsgGUID: ig49bFpbSOKtqUFni+Zl3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="264316491"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.130])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 01:13:44 -0700
+Date: Mon, 24 Aug 2026 11:13:41 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Janani Sunil <janani.sunil@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Michael Walle <mwalle@kernel.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v4 13/14] gpio: ad7768: Add AD7768 GPIO auxiliary driver
+Message-ID: <aov9NcmRhx3XgJpl@ashevche-desk.local>
+References: <20260821-ad7768-driver-v4-0-bb8fbd06d4eb@analog.com>
+ <20260821-ad7768-driver-v4-13-bb8fbd06d4eb@analog.com>
+ <20260823203947.3ecdc448@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
-Subject: Re: [PATCH 5/6] userfaultfd: decouple fault reason from VMA flags
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
-Date: Mon, 24 Aug 2026 16:12:41 +0800
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Barry Song <baohua@kernel.org>,
- Dev Jain <dev.jain@arm.com>,
- Hugh Dickins <hughd@google.com>,
- Jann Horn <jannh@google.com>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- John Hubbard <jhubbard@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Lance Yang <lance.yang@linux.dev>,
- "Liam R. Howlett" <liam@infradead.org>,
- Lorenzo Stoakes <ljs@kernel.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Michal Hocko <mhocko@suse.com>,
- Nico Pache <nico.pache@linux.dev>,
- Oscar Salvador <osalvador@suse.de>,
- Pedro Falcato <pfalcato@suse.de>,
- Peter Xu <peterx@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Usama Arif <usama.arif@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>,
- Zi Yan <ziy@nvidia.com>,
- linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <CB35D894-1B3B-4D48-BCEF-38BB091F65FF@linux.dev>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-X-Mailer: Apple Mail (2.3864.600.51.1.1)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260823203947.3ecdc448@jic23-huawei>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+
+On Sun, Aug 23, 2026 at 08:39:47PM +0100, Jonathan Cameron wrote:
+> On Fri, 21 Aug 2026 16:07:06 +0200
+> Janani Sunil <janani.sunil@analog.com> wrote:
+> 
+> > The AD7768 provides five GPIOs controlled through registers shared
+> > with the parent IIO device. Register an auxiliary gpio-regmap driver
+> > and use the parent device for runtime PM.
+> > 
+> > The device has separate input-state and output-latch registers. Add a
+> > reg_mask_xlate() callback that checks the line direction and reads the
+> > programmed output latch for output lines while retaining input-state
+> > reads for input lines.
+
+...
+
+> > +static int ad7768_gpio_probe(struct auxiliary_device *adev,
+> > +			     const struct auxiliary_device_id *id)
+> > +{
+> > +	struct device *parent = adev->dev.parent;
+> > +	struct gpio_regmap_config config = {
+> > +		.parent = &adev->dev,
+> > +		.label = dev_name(parent),
+> > +		.ngpio = AD7768_NUM_GPIOS,
+> > +		.reg_dat_base = AD7768_REG_GPIO_READ,
+> > +		.reg_set_base = AD7768_REG_GPIO_WRITE,
+> > +		.reg_dir_out_base = AD7768_REG_GPIO_CONTROL,
+> > +		.pm_dev = parent,
+> > +		.reg_mask_xlate = ad7768_gpio_reg_mask_xlate,
+> > +		.init_valid_mask = ad7768_gpio_init_valid_mask,
+> > +	};
+> > +	struct gpio_regmap *gpio;
+> > +	struct regmap *map;
+> > +	int ret;
+
+> > +	map = dev_get_regmap(parent, NULL);
+> > +	if (!map)
+> > +		return -ENODEV;
 
 
+^^^^
 
-> On Aug 23, 2026, at 20:17, Mike Rapoport (Microsoft) <rppt@kernel.org> =
-wrote:
->=20
-> Introduce enum uffd_reason to define reasons for user faults rather =
-than
-> overload VM_UFFD_* VMA flags for that.
->=20
-> Using a dedicated enum makes the code clearer and decoupling the fault
-> reason from VMA flags clears the way for moving the uffd mode bits out
-> of VMA namespace.
->=20
-> No functional change.
->=20
-> Assisted-by: copilot:claude-opus-4.6
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > +	PM_RUNTIME_ACQUIRE_AUTOSUSPEND(parent, pm);
+> > +	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = regmap_set_bits(map, AD7768_REG_GPIO_CONTROL, AD7768_GPIO_UGPIO_ENABLE);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	config.regmap = map;
+> > +	config.drvdata = map;
+> 
+> Why not do all this in one place rather than init then later
+> modify?
 
-Acked-by: Muchun Song <muchun.song@linux.dev> # for HugeTLB.
+See above the answer :-)
 
-Thanks.
+...
+
+> > +	gpio = devm_gpio_regmap_register(&adev->dev, &config);
+> > +	return PTR_ERR_OR_ZERO(gpio);
+> Could do
+> 	return PTR_ERR_OR_ZERO(devm_gpio_regmap_register(&adev->dev, &config));
+> 
+> Though maybe it looses some readability?
+
+Fine with me. Taking into account my previous suggestion (in another reply)
+
+	return PTR_ERR_OR_ZERO(devm_gpio_regmap_register(dev, &config));
+
+which bumps readability back to track a bit.
+
+> > +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
