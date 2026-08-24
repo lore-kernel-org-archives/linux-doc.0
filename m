@@ -1,74 +1,117 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDB24048B1;
-	Mon, 24 Aug 2026 10:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E583537D0
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 11:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787568935; cv=none; b=pjlyswrjAPzlU4j7W2+PjhsRniN32GagbJSOLF4Epq7kc1/iMAzzvbT3WhDsV3fXzKrJ1hzlPO+Sl5jJ/02G+lkTZgBivkrjEW7HEh/ZfWKzMl7i+M0wpG/JqOCwtA+xQAnRNQcG7UVx70QeA+gDv+2cvCaETZDtG+o/OlhfVZQ=
+	t=1787569392; cv=none; b=M4d/5Sc7C3KcY10QEWVh2qQX8ta4ufPSwsIKaFQgki4+OCDgjTWo39Ovu7wcZILrW6hiUuWQ1E4eryuVXPQOetDwWYuF3EBB6Z2Qg4IuGf2NHh5j9dEeVWEfTB06AdMSzfBJb+wLlrAIgOPwv9eYfJknBJ8L11MWOqPwQBKSkCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787568935; c=relaxed/simple;
-	bh=Y7q7Y0Ijr81nht1B72jaufflBHfR+4lBnvpXhqwLMNQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kzSWshRIsEQafKxp6GumARo9mDcP4xjzrgOaQSlzPGuKkOkibDBQ3jMwe92FiG4eJ2BoBxE1E1xR/w9hjOqb16h1HfxcjTKZElRuXvVplv5iNSqmBBPQhub2uyBHAwvY3YHQnZUaaB86+5LpTENYIXls3bjHP54w1DP3553iS6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=OXTtm5U9; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+	s=arc-20240116; t=1787569392; c=relaxed/simple;
+	bh=Ut9h7TWlUTrEIkPphu4EqaRJcc2broKStGh7BpCJbvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dP/sXvQa4sCYbOxrTGyiCLnxXSwUP4oKRO8U4hBnY8z6Tw74Bt2PwqXs+4T8KJTwyZ0rzlfXnf2VMX5Oeb29444iATmnznZG21vbtNMFGF9lu+BggW45PRxq5T23zkOYOBhb3DW+V/4v8/MmQNTIZHbEea9ltksqOU48QZZU384=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SzPCSzAJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="OXTtm5U9"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0175D3E97F;
-	Mon, 24 Aug 2026 10:55:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1787568926;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TFAQi+kBIPkmL5TMXRPYXiW26z6Ks1atuHVz2zpZ5ts=;
-	b=OXTtm5U9juHSNzDcCwQuS2TZbeAH5X0WJmNc2PAwHUdE6O0SHGIxvrJqZe9y1z/ZQueca1
-	5v4+/Wmns4+bnIldZGeBFb95aQj+fGu+nr44OpfP5ME22cKd/BJ7AJlRsBJy13cW2tL+CK
-	9oRtHJyIFzq0pFIG1rdbVsAUIfGnM30WuYe1OuDyhKwIjLmeYqhIesvYgmJU5r9VHPyx/4
-	rdEK8ETbyNd3cov4BDji4yhplkFzeJPiyaVd9lMrVpcLvwMDLntneCCAS7rRbqLPSx1jpw
-	ccDrAGTrsoqrHbZsK7WLAgFvFsh8uHbnYkbVfnDhm9IvsLbYlHEuKRAZf+3sIQ==
-Message-ID: <fa01a427-a73b-460b-9b11-d2e92cb8ea9a@gtucker.io>
-Date: Mon, 24 Aug 2026 12:55:24 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SzPCSzAJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1039E1F000E9;
+	Mon, 24 Aug 2026 11:03:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787569391;
+	bh=UdCOtUzK9WsMiHEbiXYD8f6q2FcIgH+IdV2r7/ydGwo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SzPCSzAJGs3UGrpf2l5Ux5IkhIojvbrune2DyFgFdqytpk8KxvGYe4xy0mn9cvJpc
+	 kTKyQ431BDuqkXn823kR2GrIbjkA5YAe1Els36lu393h7RjRapU5wFEyLCOoGLYhMW
+	 f4PoB9ugcvMcYFUp1hEaBnvhfXG+Ul5AgPhr+hXG5ox0OaE1ExDs0fE8arUZslL4+F
+	 mJQVLeXzSeHbrF4NiYc8JvdDxe/+yCIj/132zC6+zLpIeitDTEWvzJNLafHfTAdB78
+	 pFgxBJluHzQ0in44PHlF27OJWnRNTy16WwoInCMPZyA3CXaZepPvqKrzQ7uFg0x8VN
+	 4TkDhS5adwhow==
+Date: Mon, 24 Aug 2026 12:03:05 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Jinjiang Tu <tujinjiang@huawei.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, xu.xin16@zte.com.cn, 
+	chengming.zhou@linux.dev, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
+	surenb@google.com, mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	shr@devkernel.io, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	wangkefeng.wang@huawei.com, sunnanyong@huawei.com
+Subject: Re: [PATCH v3 2/2] mm/ksm: fix advisor_min_pages_to_scan description
+Message-ID: <aowk3FVFNAT1EIsE@gremlin>
+References: <20260824061010.3343959-1-tujinjiang@huawei.com>
+ <20260824061010.3343959-3-tujinjiang@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] Documentation: dev-tools: update container.rst with
- config file
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Nick Desaulniers <ndesaulniers@google.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- automated-testing@lists.yoctoproject.org
-References: <7d8ba914cd174d716340bb2b88723bef0f330627.1787565460.git.gtucker@gtucker.io>
- <13dc85e4d0b1b1f6fcfc7782238b137061f2dd7c.1787565460.git.gtucker@gtucker.io>
-Content-Language: en-GB
-From: Guillaume Tucker <gtucker@gtucker.io>
-Organization: gtucker.io
-In-Reply-To: <13dc85e4d0b1b1f6fcfc7782238b137061f2dd7c.1787565460.git.gtucker@gtucker.io>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: dmFkZTFm1MaMI2m/joxcKaeoOZCNrpHCicyrMcsWV2F/rKFb1kojbr/l+BF2aRIUgPETl/OJTTVBhN0qQuocJxskdg2d/PQs6OK6nmO8C2b1WVi5OXNqVjlJbrQPKpnFzsu3rGXmVfVQrxr58H4gDXjfL8hPuWQXVE+v8h8k+xWtwTczlIxylG1gHlytS3hRzxJl02wM+3ge6Fo9aHwtrARFjbUzt6wlGuydHMshHvLh4G7yY68CpHTznWaViLxEilo7kX+8QF+73Fy5BDiiZjR7lBzUjb3SVH98g2Q+k6tGbtElr2vgh9gY44r1Oifkp76C8+MnAyG5N4TbttmvNyxnYBR6EQu4lzWpng4Auq97oItXODDbaqvMZC5mCNN1sERByWyk0lYXjCbGOFL1xfZl6RVo3JUBxkTn7+6i1tkRu6CTi01bIpT/H+GYoyTdQUxyYS8yuap2zITaAR53DI3rcrCTo8iYLSdyROtQPkh4c6QGLtNuPgovJeMbwQU1Yxo3jSxKaOGW9fXDKynWRofOueZSv7/Kyg8p8hA3hYfCL41OnU/8IXRBt+bTo86SCr0EGOm8a4IxLhOaK24XilrKjbI61wSpMc2WVgRyDdCkCDe1AlaI3ldsZlkw9Ga5eCsgDCxsZKbTosHtkqDkOvSrIw1YgH4k0LrYPgpei4FlTRdnkw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260824061010.3343959-3-tujinjiang@huawei.com>
 
-On 24/08/2026 12:05, Guillaume Tucker wrote:
-> +By default, the tool will look for configuration a file named
-> +``.container.toml`` in the current working directory.  If not found, it will be
+On Mon, Aug 24, 2026 at 02:10:10PM +0800, Jinjiang Tu wrote:
+> Both Documentation/admin-guide/mm/ksm.rst and the comment next to the
+> variable definition in mm/ksm.c describe advisor_min_pages_to_scan as a
+> lower limit of the pages_to_scan parameter, but that is not how the
+> scan-time advisor actually uses it. commit 4e5fa4f5eff6 ("mm/ksm: add ksm
+> advisor") only uses it to initialize ksm_thread_pages_to_scan when the
+> scan-time advisor is enabled.
+>
+> ksm_thread_pages_to_scan is adjusted by scan_time_advisor() after a full
+> scan finishes. ksm_thread_pages_to_scan could be increased or decreased
+> depend on the real scan time is longer or shorter than the target scan
+> time. The min value of ksm_thread_pages_to_scan is only limited by
+> KSM_ADVISOR_MIN_CPU, so ksm_thread_pages_to_scan could be smaller than
+> ksm_advisor_min_pages_to_scan.
+>
+> The semantics of advisor_min_pages_to_scan was updated in the v2 patchset
+> [1], but the documentation wasn't updated.
+>
+> Update the documentation and comment to match the semantics of
+> advisor_min_pages_to_scan.
+>
+> Link: https://lore.kernel.org/linux-mm/20231028000945.2428830-2-shr@devkernel.io/ [1]
+> Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
 
-Sorry, a small typo crept in:
+LGTM so:
 
--By default, the tool will look for configuration a file named
-+By default, the tool will look for a configuration file named
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Guillaume
+> ---
+>  Documentation/admin-guide/mm/ksm.rst | 4 ++--
+>  mm/ksm.c                             | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+> index c9f533b10f6f..c329ca747b8c 100644
+> --- a/Documentation/admin-guide/mm/ksm.rst
+> +++ b/Documentation/admin-guide/mm/ksm.rst
+> @@ -183,8 +183,8 @@ advisor_target_scan_time
+>          pages. The default value is 200 seconds.
+>
+>  advisor_min_pages_to_scan
+> -        specifies the lower limit of the ``pages_to_scan`` parameter of the
+> -        scan time advisor. The default is 500.
+> +        specifies the initial value of the ``pages_to_scan`` parameter of
+> +        the scan time advisor. The default is 500.
+>
+>  advisor_max_pages_to_scan
+>          specifies the upper limit of the ``pages_to_scan`` parameter of the
+> diff --git a/mm/ksm.c b/mm/ksm.c
+> index 7d5b76478f0b..4a6cf8cf5d60 100644
+> --- a/mm/ksm.c
+> +++ b/mm/ksm.c
+> @@ -342,7 +342,7 @@ static enum ksm_advisor_type ksm_advisor;
+>   * Only called through the sysfs control interface:
+>   */
+>
+> -/* At least scan this many pages per batch. */
+> +/* Initial number of pages to scan per batch. */
+>  static unsigned long ksm_advisor_min_pages_to_scan = 500;
+>
+>  static void set_advisor_defaults(void)
+> --
+> 2.43.0
+>
 
+--
+Cheers, Lorenzo
