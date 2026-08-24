@@ -1,106 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE0B416854;
-	Mon, 24 Aug 2026 12:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE862372B2B;
+	Mon, 24 Aug 2026 12:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787575550; cv=none; b=WNj9J7a6qR5cEtfRDqsUi31bsrtCrkdT8+HkHpKG+g75nTHQMIBqvS2/RfC3B95+jn/wo9hQt+H17mPwm1STNKfVSV6ENO+wiT7mtM4tNyMIgCEb0NSiiFbXFV2VcioGTSDIXnW/ON159UxG+TgurpsSiIOvG+V7iVMeNzaVYtI=
+	t=1787575588; cv=none; b=k5RIHZi9zY7p9ifLeE6Xxh+hcg+Tqyz2pJL3y2JEZm72CL4PzdVASSIdzrFehRbAWAZWgjw/S4VDDIk0kExbuMViAGYCpPzvw+IFw68yBvY2tBViFAmoLd5eB4uQyzrRD/Hg+BnZ4bmhUIhWRC4euIwW4gQTby7JDYdFJ8dvt4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787575550; c=relaxed/simple;
-	bh=LBo0kWmjSEJdr3w8AkZS50jaJ1zo0MsrBSgNPFGFXV0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TlSEKovNLhMGdNxY0uk+TyfUBDcLkOKFJqIU7hQEYwt0Ly/jrobGoNPKWyNPZeHniL1u4eReLv5o6zQvfKeX3MHn8Tk4XGJGJPzTjSS/ZOPBq/FA81ZChPebqT5S5Jhf3f48vthrmphqkVSJTsVFp5esXBgR1vUE7C8hY/4Hkng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FITCu/EF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1787575588; c=relaxed/simple;
+	bh=EKaXdLhZSTc3+XNNykxVWxk2GQ/l4RcUR3L4VKL3b/w=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=TgHO4BNhnUQQkRZWZTHyHB+gJWecZAdu6kW9prwrSd56blMtgRmq7N1AOLE5uWBWe8EPKzti1FYapFsI1xE+1YkGcs6EQXvRAMoNdpERO3TcE0ZnSFWYpOwo/wFYmadupsg3l3lomT7RSZmDo6TQHX81QMpF87sYpZFYCo6fQtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BxqYjOUO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FITCu/EF"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 647ACC19425;
-	Mon, 24 Aug 2026 12:45:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787575550;
-	bh=LBo0kWmjSEJdr3w8AkZS50jaJ1zo0MsrBSgNPFGFXV0=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=FITCu/EFTQWX/iAA+dFi65aluwiEweJnRL3swB3zreB19w7GjfRRhJSqKr0pThQPJ
-	 whNTv6ZintmZSOlDHpwbIGtNOD09Z7KcXXpQWMfioVqLJFHjXsyW6gcDo4bdAX9OV1
-	 CKlP+pg7qcGJTP7FsjTs4hlmWnRvWlByYVOd3XK1+uauwz1skJ8NyTAC4mdDmDIPBX
-	 q/wvHhF8/nytFWobsq6SPM8hFl8+PouzjARt07j04XjfJ9wY46v7Fbbd4HQkpUXLYO
-	 Bk2UIU1przs0MQx2+USPKMpcDOennrylbOLAAIn07YA78OSu2iEq0T0Lq9XwYkwe92
-	 uFVHwd7Qfl0/w==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F072C5DF81;
-	Mon, 24 Aug 2026 12:45:50 +0000 (UTC)
-From: Cheng Lingfei via B4 Relay <devnull+chenglingfei.foxmail.com@kernel.org>
-Date: Mon, 24 Aug 2026 20:45:46 +0800
-Subject: [PATCH v2] docs: cgroup-v2: fix misc.events key format description
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BxqYjOUO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 643C91F000E9;
+	Mon, 24 Aug 2026 12:46:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787575587;
+	bh=bRQGSjjBJibHPfHafVx/NE1y6G3aD6gkYt/uM4eeX3g=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=BxqYjOUO7lcXfRW6FW4IH7kaV6g/BTKu6zVvjrnVq+BVnYq0ta8+NQZfh5+dn5QsZ
+	 LMC6+Qd5wjaUNOIGXYu/H+rExXm4CV8TMI9/ZC62qCg0Q1+81Ee9ENIXd8txi+6iyA
+	 XrpvYXYWxTgq13q2OOkxOUOAkONAgHnX19addWbAHc/eNl7XCSk/0+qH1ITUktjxjK
+	 V3si3tzFGiGlTElfETLbCLr9Zi5X8AD6xzgYxxtZzIsIERkMxxAKH59SASIMPkSJN3
+	 IPuF0NO9Pqola0ZTihoomzykEzfAE5gtqGCF08+BtMeunCfBKKnxS+UywSWr2Xo2Ai
+	 WGlhpDc+fenFw==
+Message-ID: <f649df704abcd8f2a972fb91bd24c29afd9e17dd.camel@kernel.org>
+Subject: Re: [PATCH] NFSD: docs: Fix pNFS SCSI Kconfig symbol
+From: Jeff Layton <jlayton@kernel.org>
+To: Karl Mehltretter <kmehltretter@gmail.com>, Chuck Lever <cel@kernel.org>
+Cc: NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Christoph
+ Hellwig <hch@lst.de>, 	linux-nfs@vger.kernel.org, Jonathan Corbet
+ <corbet@lwn.net>, 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Mon, 24 Aug 2026 08:46:24 -0400
+In-Reply-To: <20260822081033.82098-1-kmehltretter@gmail.com>
+References: <20260822081033.82098-1-kmehltretter@gmail.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
+ n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
+ egyjnSsFt7EGoDjdKqr1TS9syJYFjagYtvWk/UfHlW09X+jOh4vYtfX7iYSx/NfqV3W1D7EDi0PqV
+ T2h6v8i8YqsATFPwO4nuiTmL6I40ZofxVd+9wdRI4Db8yUNA4ZSP2nqLcLtFjClYRBoJvRWvsv4lm
+ 0OX6MYPtv76hka8lW4mnRmZqqx3UtfHX/hF/zH24Gj7A6sYKYLCU3YrI2Ogiu7/ksKcl7goQjpvtV
+ YrOOI5VGLHge0awt7bhMCTM9KAfPc+xL/ZxAMVWd3NCk5SamL2cE99UWgtvNOIYU8m6EjTLhsj8sn
+ VluJH0/RcxEeFbnSaswVChNSGa7mXJrTR22lRL6ZPjdMgS2Km90haWPRc8Wolcz07Y2se0xpGVLEQ
+ cDEsvv5IMmeMe1/qLZ6NaVkNuL3WOXvxaVT9USW1+/SGipO2IpKJjeDZfehlB/kpfF24+RrK+seQf
+ CBYyUE8QJpvTZyfUHNYldXlrjO6n5MdOempLqWpfOmcGkwnyNRBR46g/jf8KnPRwXs509yAqDB6sE
+ LZH+yWr9LQZEwARAQABtCVKZWZmIExheXRvbiA8amxheXRvbkBwb29jaGllcmVkcy5uZXQ+iQI7BB
+ MBAgAlAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUCTpXWPAIZAQAKCRAADmhBGVaCFc65D/4
+ gBLNMHopQYgG/9RIM3kgFCCQV0pLv0hcg1cjr+bPI5f1PzJoOVi9s0wBDHwp8+vtHgYhM54yt43uI
+ 7Htij0RHFL5eFqoVT4TSfAg2qlvNemJEOY0e4daljjmZM7UtmpGs9NN0r9r50W82eb5Kw5bc/r0km
+ R/arUS2st+ecRsCnwAOj6HiURwIgfDMHGPtSkoPpu3DDp/cjcYUg3HaOJuTjtGHFH963B+f+hyQ2B
+ rQZBBE76ErgTDJ2Db9Ey0kw7VEZ4I2nnVUY9B5dE2pJFVO5HJBMp30fUGKvwaKqYCU2iAKxdmJXRI
+ ONb7dSde8LqZahuunPDMZyMA5+mkQl7kpIpR6kVDIiqmxzRuPeiMP7O2FCUlS2DnJnRVrHmCljLkZ
+ Wf7ZUA22wJpepBligemtSRSbqCyZ3B48zJ8g5B8xLEntPo/NknSJaYRvfEQqGxgk5kkNWMIMDkfQO
+ lDSXZvoxqU9wFH/9jTv1/6p8dHeGM0BsbBLMqQaqnWiVt5mG92E1zkOW69LnoozE6Le+12DsNW7Rj
+ iR5K+27MObjXEYIW7FIvNN/TQ6U1EOsdxwB8o//Yfc3p2QqPr5uS93SDDan5ehH59BnHpguTc27Xi
+ QQZ9EGiieCUx6Zh2ze3X2UW9YNzE15uKwkkuEIj60NvQRmEDfweYfOfPVOueC+iFifbQgSmVmZiBM
+ YXl0b24gPGpsYXl0b25AcmVkaGF0LmNvbT6JAjgEEwECACIFAk6V0q0CGwMGCwkIBwMCBhUIAgkKC
+ wQWAgMBAh4BAheAAAoJEAAOaEEZVoIViKUQALpvsacTMWWOd7SlPFzIYy2/fjvKlfB/Xs4YdNcf9q
+ LqF+lk2RBUHdR/dGwZpvw/OLmnZ8TryDo2zXVJNWEEUFNc7wQpl3i78r6UU/GUY/RQmOgPhs3epQC
+ 3PMJj4xFx+VuVcf/MXgDDdBUHaCTT793hyBeDbQuciARDJAW24Q1RCmjcwWIV/pgrlFa4lAXsmhoa
+ c8UPc82Ijrs6ivlTweFf16VBc4nSLX5FB3ls7S5noRhm5/Zsd4PGPgIHgCZcPgkAnU1S/A/rSqf3F
+ LpU+CbVBDvlVAnOq9gfNF+QiTlOHdZVIe4gEYAU3CUjbleywQqV02BKxPVM0C5/oVjMVx3bri75n1
+ TkBYGmqAXy9usCkHIsG5CBHmphv9MHmqMZQVsxvCzfnI5IO1+7MoloeeW/lxuyd0pU88dZsV/riHw
+ 87i2GJUJtVlMl5IGBNFpqoNUoqmvRfEMeXhy/kUX4Xc03I1coZIgmwLmCSXwx9MaCPFzV/dOOrju2
+ xjO+2sYyB5BNtxRqUEyXglpujFZqJxxau7E0eXoYgoY9gtFGsspzFkVNntamVXEWVVgzJJr/EWW0y
+ +jNd54MfPRqH+eCGuqlnNLktSAVz1MvVRY1dxUltSlDZT7P2bUoMorIPu8p7ZCg9dyX1+9T6Muc5d
+ Hxf/BBP/ir+3e8JTFQBFOiLNdFtB9KZWZmIExheXRvbiA8amxheXRvbkBzYW1iYS5vcmc+iQI4BBM
+ BAgAiBQJOldK9AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRAADmhBGVaCFWgWD/0ZRi4h
+ N9FK2BdQs9RwNnFZUr7JidAWfCrs37XrA/56olQl3ojn0fQtrP4DbTmCuh0SfMijB24psy1GnkPep
+ naQ6VRf7Dxg/Y8muZELSOtsv2CKt3/02J1BBitrkkqmHyni5fLLYYg6fub0T/8Kwo1qGPdu1hx2BQ
+ RERYtQ/S5d/T0cACdlzi6w8rs5f09hU9Tu4qV1JLKmBTgUWKN969HPRkxiojLQziHVyM/weR5Reu6
+ FZVNuVBGqBD+sfk/c98VJHjsQhYJijcsmgMb1NohAzwrBKcSGKOWJToGEO/1RkIN8tqGnYNp2G+aR
+ 685D0chgTl1WzPRM6mFG1+n2b2RR95DxumKVpwBwdLPoCkI24JkeDJ7lXSe3uFWISstFGt0HL8Eew
+ P8RuGC8s5h7Ct91HMNQTbjgA+Vi1foWUVXpEintAKgoywaIDlJfTZIl6Ew8ETN/7DLy8bXYgq0Xzh
+ aKg3CnOUuGQV5/nl4OAX/3jocT5Cz/OtAiNYj5mLPeL5z2ZszjoCAH6caqsF2oLyAnLqRgDgR+wTQ
+ T6gMhr2IRsl+cp8gPHBwQ4uZMb+X00c/Amm9VfviT+BI7B66cnC7Zv6Gvmtu2rEjWDGWPqUgccB7h
+ dMKnKDthkA227/82tYoFiFMb/NwtgGrn5n2vwJyKN6SEoygGrNt0SI84y6hEVbQlSmVmZiBMYXl0b
+ 24gPGpsYXl0b25AcHJpbWFyeWRhdGEuY29tPokCOQQTAQIAIwUCU4xmKQIbAwcLCQgHAwIBBhUIAg
+ kKCwQWAgMBAh4BAheAAAoJEAAOaEEZVoIV1H0P/j4OUTwFd7BBbpoSp695qb6HqCzWMuExsp8nZjr
+ uymMaeZbGr3OWMNEXRI1FWNHMtcMHWLP/RaDqCJil28proO+PQ/yPhsr2QqJcW4nr91tBrv/MqItu
+ AXLYlsgXqp4BxLP67bzRJ1Bd2x0bWXurpEXY//VBOLnODqThGEcL7jouwjmnRh9FTKZfBDpFRaEfD
+ FOXIfAkMKBa/c9TQwRpx2DPsl3eFWVCNuNGKeGsirLqCxUg5kWTxEorROppz9oU4HPicL6rRH22Ce
+ 6nOAON2vHvhkUuO3GbffhrcsPD4DaYup4ic+DxWm+DaSSRJ+e1yJvwi6NmQ9P9UAuLG93S2MdNNbo
+ sZ9P8k2mTOVKMc+GooI9Ve/vH8unwitwo7ORMVXhJeU6Q0X7zf3SjwDq2lBhn1DSuTsn2DbsNTiDv
+ qrAaCvbsTsw+SZRwF85eG67eAwouYk+dnKmp1q57LDKMyzysij2oDKbcBlwB/TeX16p8+LxECv51a
+ sjS9TInnipssssUDrHIvoTTXWcz7Y5wIngxDFwT8rPY3EggzLGfK5Zx2Q5S/N0FfmADmKknG/D8qG
+ IcJE574D956tiUDKN4I+/g125ORR1v7bP+OIaayAvq17RP+qcAqkxc0x8iCYVCYDouDyNvWPGRhbL
+ UO7mlBpjW9jK9e2fvZY9iw3QzIPGKtClKZWZmIExheXRvbiA8amVmZi5sYXl0b25AcHJpbWFyeWRh
+ dGEuY29tPokCOQQTAQIAIwUCU4xmUAIbAwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEAAOa
+ EEZVoIVzJoQALFCS6n/FHQS+hIzHIb56JbokhK0AFqoLVzLKzrnaeXhE5isWcVg0eoV2oTScIwUSU
+ apy94if69tnUo4Q7YNt8/6yFM6hwZAxFjOXR0ciGE3Q+Z1zi49Ox51yjGMQGxlakV9ep4sV/d5a50
+ M+LFTmYSAFp6HY23JN9PkjVJC4PUv5DYRbOZ6Y1+TfXKBAewMVqtwT1Y+LPlfmI8dbbbuUX/kKZ5d
+ dhV2736fgyfpslvJKYl0YifUOVy4D1G/oSycyHkJG78OvX4JKcf2kKzVvg7/Rnv+AueCfFQ6nGwPn
+ 0P91I7TEOC4XfZ6a1K3uTp4fPPs1Wn75X7K8lzJP/p8lme40uqwAyBjk+IA5VGd+CVRiyJTpGZwA0
+ jwSYLyXboX+Dqm9pSYzmC9+/AE7lIgpWj+3iNisp1SWtHc4pdtQ5EU2SEz8yKvDbD0lNDbv4ljI7e
+ flPsvN6vOrxz24mCliEco5DwhpaaSnzWnbAPXhQDWb/lUgs/JNk8dtwmvWnqCwRqElMLVisAbJmC0
+ BhZ/Ab4sph3EaiZfdXKhiQqSGdK4La3OTJOJYZphPdGgnkvDV9Pl1QZ0ijXQrVIy3zd6VCNaKYq7B
+ AKidn5g/2Q8oio9Tf4XfdZ9dtwcB+bwDJFgvvDYaZ5bI3ln4V3EyW5i2NfXazz/GA/I/ZtbsigCFc
+ 8ftCBKZWZmIExheXRvbiA8amxheXRvbkBrZXJuZWwub3JnPokCOAQTAQIAIgUCWe8u6AIbAwYLCQg
+ HAwIGFQgCCQoLBBYCAwECHgECF4AACgkQAA5oQRlWghUuCg/+Lb/xGxZD2Q1oJVAE37uW308UpVSD
+ 2tAMJUvFTdDbfe3zKlPDTuVsyNsALBGclPLagJ5ZTP+Vp2irAN9uwBuacBOTtmOdz4ZN2tdvNgozz
+ uxp4CHBDVzAslUi2idy+xpsp47DWPxYFIRP3M8QG/aNW052LaPc0cedYxp8+9eiVUNpxF4SiU4i9J
+ DfX/sn9XcfoVZIxMpCRE750zvJvcCUz9HojsrMQ1NFc7MFT1z3MOW2/RlzPcog7xvR5ENPH19ojRD
+ CHqumUHRry+RF0lH00clzX/W8OrQJZtoBPXv9ahka/Vp7kEulcBJr1cH5Wz/WprhsIM7U9pse1f1g
+ Yy9YbXtWctUz8uvDR7shsQxAhX3qO7DilMtuGo1v97I/Kx4gXQ52syh/w6EBny71CZrOgD6kJwPVV
+ AaM1LRC28muq91WCFhs/nzHozpbzcheyGtMUI2Ao4K6mnY+3zIuXPygZMFr9KXE6fF7HzKxKuZMJO
+ aEZCiDOq0anx6FmOzs5E6Jqdpo/mtI8beK+BE7Va6ni7YrQlnT0i3vaTVMTiCThbqsB20VrbMjlhp
+ f8lfK1XVNbRq/R7GZ9zHESlsa35ha60yd/j3pu5hT2xyy8krV8vGhHvnJ1XRMJBAB/UYb6FyC7S+m
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260824-master-v2-1-00331c3cfb6e@foxmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2WNwQ7CIBAFf6XZs5hCFKon/8P0ALjYNbYYQFLT8
- O/SevQ4ybx5C0QMhBHOzQIBM0XyUwWxa8AOerojo1tlEK2QbScObNQxYWCtQXt06oTSdlDlV0B
- H8xa69j+Ob/NAm9b1agwUkw+f7Snz1fuLZs44k52URinkToqL8/Oo6bm3foS+lPIF725UxLAAA
- AA=
-X-Change-ID: 20260824-master-0bec5f79e6c8
-To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
- =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Cheng Lingfei <chenglingfei@foxmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787575549; l=1345;
- i=chenglingfei@foxmail.com; s=20260824; h=from:subject:message-id;
- bh=9EdW2zRd1zyz6uqGRm1e2H1GPoLMd2RzHiRdXSbyxsM=;
- b=pb+yUPVe3/hm6yx1unRjXXbNHgcVIXaQfUPZniMPlcNHkNWRQMhxqeuWl1QqvVNGTQk4FIV1V
- JWPZOwPGd7wB40i1DJDGuRg9zk2jD2MxUmSmE/UGs3bZ/4bYLLSiCCg
-X-Developer-Key: i=chenglingfei@foxmail.com; a=ed25519;
- pk=jJFtzwUiUOhTRJNlFx9WjsWHIYGk49Br17a7AD8MH2I=
-X-Endpoint-Received: by B4 Relay for chenglingfei@foxmail.com/20260824 with
- auth_id=972
-X-Original-From: Cheng Lingfei <chenglingfei@foxmail.com>
-Reply-To: chenglingfei@foxmail.com
 
-From: Cheng Lingfei <chenglingfei@foxmail.com>
+On Sat, 2026-08-22 at 10:10 +0200, Karl Mehltretter wrote:
+> The pNFS SCSI layout server is controlled by NFSD_SCSILAYOUT.
+> NFSD_SCSI has never existed.
+>=20
+> Fixes: f99d4fbdae67 ("nfsd: add SCSI layout support")
+> Assisted-by: Codex:gpt-5.6-sol
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+> ---
+>  Documentation/admin-guide/nfs/pnfs-scsi-server.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/admin-guide/nfs/pnfs-scsi-server.rst b/Documen=
+tation/admin-guide/nfs/pnfs-scsi-server.rst
+> index b202508d281d5..a3074450ac158 100644
+> --- a/Documentation/admin-guide/nfs/pnfs-scsi-server.rst
+> +++ b/Documentation/admin-guide/nfs/pnfs-scsi-server.rst
+> @@ -16,7 +16,7 @@ addition to the MDS.  As of now the file system needs t=
+o sit directly on the
+>  exported LUN, striping or concatenation of LUNs on the MDS and clients
+>  is not supported yet.
+> =20
+> -On a server built with CONFIG_NFSD_SCSI, the pNFS SCSI volume support is
+> +On a server built with CONFIG_NFSD_SCSILAYOUT, the pNFS SCSI volume supp=
+ort is
+>  automatically enabled if the file system is exported using the "pnfs"
+>  option and the underlying SCSI device support persistent reservations.
+>  On the client make sure the kernel has the CONFIG_PNFS_BLOCK option
 
-In misc cgroup, misc.events does not output a simple "max" key. Instead,
-each registered misc resource outputs a separate key suffixed with ".max"
-(i.e., "<res>.max").
-Update the documentation to clarify that the entry key is "<res>.max".
-
-Suggested-by: Michal Koutný <mkoutny@suse.com>
-Signed-off-by: Cheng Lingfei <chenglingfei@foxmail.com>
----
-Changes in v2:
-- Use "<res>.max" entry name instead of expanding with explicit examples (Michal Koutný).
-- Link to v1: https://patch.msgid.link/20260824-master-v1-1-6866b77e1f62@foxmail.com
----
- Documentation/admin-guide/cgroup-v2.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 7c2a8ed80..6a6fd2017 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -3064,7 +3064,7 @@ resources (res_a and res_b) are registered then:
- 	change in this file generates a file modified event. All fields in
- 	this file are hierarchical.
- 
--	  max
-+	  <res>.max
- 		The number of times the cgroup's resource usage was
- 		about to go over the max boundary.
- 
-
----
-base-commit: 0a0d1d55dad570724bf8c7ea83409639cfb4be9b
-change-id: 20260824-master-0bec5f79e6c8
-
-Best regards,
---  
-Cheng Lingfei <chenglingfei@foxmail.com>
-
-
+Reviewed-by: Jeff Layton <jlayton@kernel.org>
