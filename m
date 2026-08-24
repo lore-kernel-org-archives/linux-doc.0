@@ -1,28 +1,29 @@
 Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C906035AC09;
-	Mon, 24 Aug 2026 04:38:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 677AA372691;
+	Mon, 24 Aug 2026 04:38:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787546332; cv=none; b=GURmXaBySkM9jg4LezkusQ/uo9FxxjIGcc5CQZ3KlhBHOvGlbWmttAKtOO7GuwmmISQbCAO+WSvsbXRQear1AYpFGF0PlVqGcN6/F0qqHPqUpnhpjm9ey/1z3sbBnHWpRslM6eWsy62Kyv3DqFSKrGTsb4+n4Nbs1cw9FYy4WoA=
+	t=1787546332; cv=none; b=MlH8GQQcD44dsytnc0BWnM94rqtsFtX5B/NozEo81luDEkGNt26JYTsZ/A6PlaaIGP47WPJR9/fDDtLq7lsKOpXhisedSeW8al64Z+PbayauSoPNXvfkGvySvq25nvL9ARgK+1FjU5LggwkyoQmnwiVTvpSNXOZwth5CgK92NME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1787546332; c=relaxed/simple;
-	bh=CGAICcSRseD7Wf+MuVYGKawnvakWII93NoigH/ccd5I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NcYE67LioJH6bVI0XjlILBVXMeYeeiAvn8QIw/9fKQm1y3rhCen7BsPbBpunHAGEf+2yGjWINiRWK4Wgz92MBf1Ifz6+lU+/b9fLRZRyH6+uytohB91+2p+3fNDFT98yx51q8Hye5ISfPM+NBfV+k8ONjjwljg3DLeY1KDv5vZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn; spf=none smtp.mailfrom=stu.cdut.edu.cn; dkim=fail (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b=ROoEJp7P reason="key not found in DNS"; arc=none smtp.client-ip=162.243.164.118
+	bh=rzkVPPoFrZ0KGsQBc3+AaNr6sDvilBUZHBf4FyanzNw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=V5ns9yyzGYOZkTjrH5mbBaAx35PpnZOMbXqvkStN3Wl077n+opVlu6W3msau/NKe0/4RsUTjN2cYrDJZpuv52M4Hq4oDQu1jXjzWz2imEjiIzN+qYCL6q9t1hT8j+e/pPwvrWHyQNurUyTzsbjrxsT5hFWaT8OIVDgws1ICTWo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn; spf=none smtp.mailfrom=stu.cdut.edu.cn; dkim=fail (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b=RrGs+abk reason="key not found in DNS"; arc=none smtp.client-ip=162.243.164.118
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=stu.cdut.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b="ROoEJp7P"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b="RrGs+abk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=stu.cdut.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=1YfWsKMQb296UCv3w/zzf60InRM1HBO9ym3Q+Fz/PgQ=; b=ROoEJp7PyCiDS
-	4nyTleSghvF/NZmp8zj0jNixPRzGqPRwRyx4oJEol+VD1sj2mBKQcHTuB35G3q94
-	yR/X2XePVi5KB4mUJVp6AY6WuspQ5hIRDbb2NnhB6aoIV7Y/iAc/m5HY+bH1lAHP
-	V+4YDdSVruUXGktKIyYt3jc9XDU3JM=
+	Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
+	Content-Transfer-Encoding; bh=1XS9TaGF8kGbdkDehS7w616ZEFsnbeQPeL
+	a/l7rsbvI=; b=RrGs+abkonO7NIO5zZYE8v8X7LLS+SdS9crRgNAev/G8JB1Hk/
+	UE9Dkg1Yse09xC0KYJjWIZtYX76jDnKhP+QrK5k2SiegDRGkjQo4RM7bY83jzzb1
+	RhS7iwjxc/FToCcVSOOcRz6/sCT3uzLej+G+CFRYWUzqQ1+UiuxaFf5aM=
 Received: from anka-20eya00ycd (unknown [182.139.166.197])
-	by hzbj-edu-front-4.icoremail.net (Coremail) with SMTP id BrQMCkB22cTAyotq7CuVAA--.65162S2;
-	Mon, 24 Aug 2026 12:38:25 +0800 (CST)
+	by hzbj-edu-front-4.icoremail.net (Coremail) with SMTP id BrQMCkB22cTAyotq7CuVAA--.65162S4;
+	Mon, 24 Aug 2026 12:38:36 +0800 (CST)
 From: Siwei Chen <anka@stu.cdut.edu.cn>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev,
@@ -33,10 +34,12 @@ Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	wy@wyuan.org,
 	Siwei Chen <businiaoanka@anka1.top>
-Subject: [PATCH v5 0/5] docs/zh_CN: Add Chinese translations for five networking documents
-Date: Mon, 24 Aug 2026 12:37:59 +0800
-Message-ID: <20260824043806.46731-1-anka@stu.cdut.edu.cn>
+Subject: [PATCH v5 2/5] docs/zh_CN: Add NIC SR-IOV APIs Chinese translation
+Date: Mon, 24 Aug 2026 12:38:01 +0800
+Message-ID: <20260824043806.46731-3-anka@stu.cdut.edu.cn>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260824043806.46731-1-anka@stu.cdut.edu.cn>
+References: <20260824043806.46731-1-anka@stu.cdut.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,81 +48,100 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BrQMCkB22cTAyotq7CuVAA--.65162S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXFyfZF47ZFyUXF47CF43GFg_yoW5Wr1Dpa
-	15KrWfJ3W7AF17tws7Gw47ZF1rA3WxG39xGw12qwnYqrs0yFyrtr42yF9I9asIqrW0qFy5
-	XF4SkFy5uryUArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvFb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4
-	A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
-	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl
-	c2xSY4AK67AK6r45MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
-	0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
-	tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
-	CY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
-	wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj
-	xU4ZjjDUUUU
-X-CM-SenderInfo: ysqsjiqyqsiiiqr623vxofv3vwohv3gofq/1tbiAgUPCWqLOJRfWAAAsL
+X-CM-TRANSID:BrQMCkB22cTAyotq7CuVAA--.65162S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxAw1rWr18Gr1xuF13ZF18Krg_yoW5GF15pF
+	WDKryfKF4xW34Utw4fGF1UG345GF1xCw45Wrn2q3ZYqrs5Aa48tFsrtr9xtw1xCrWFyFy5
+	ZFsagFW5uryjy37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPFb7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
+	8067AKxVWUXwA2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF
+	64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcV
+	CY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY
+	1x0267AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I
+	8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCF
+	s4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4
+	vE14v_Gryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
+	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
+	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
+	14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
+	W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUseHq
+	DUUUU
+X-CM-SenderInfo: ysqsjiqyqsiiiqr623vxofv3vwohv3gofq/1tbiAgUPCWqLOJRfXQAAsO
 
 From: Siwei Chen <businiaoanka@anka1.top>
 
-This series adds Simplified Chinese translations for five documents
-under Documentation/networking/:
+Translate .../networking/sriov.rst into Chinese.
 
-  - team.rst: Team devices driven from userspace via libteam
-  - sriov.rst: NIC SR-IOV APIs (switchdev model and legacy API)
-  - driver.rst: Softnet driver issues (probing, close/stop,
-    transmit path guidelines, and extack error reporting)
-  - ipv6.rst: ipv6 module parameters (disable, autoconf,
-    disable_ipv6)
-  - secid.rst: LSM/SELinux secid usage in the flowi structure
+Update the translation through commit 4558645d139c
+("docs: net: document guidance of implementing the SR-IOV NDOs")
 
-Changes in v5:
-  - Use direct link instead of ":ref:" to fix the warning of 
-    "undefined label" in the translation of "sriov.rst" since "switchdev" 
-    documentation has no translation in the same directory.
-  - Revise the commit title: "SeLinux" -> "SELinux".
-  - Translate "flowi structure" and "flow structure" into 
-    "flowi structure" uniformly in the translation of "secid.rst".
-  - Link to v4: https://lore.kernel.org/linux-doc/20260817021340.17318-1-anka@stu.cdut.edu.cn/
-
-Changes in v4:
-  - Fix two minor issues in the translation of "ipv6.rst" and "secid.rst".
-  - Link to v3: https://lore.kernel.org/linux-doc/20260811071200.54062-1-anka@stu.cdut.edu.cn/
-
-Changes in v3:
-  - Remove spaces before and after "（".
-  - Add a missing space after "IPv6".
-  - Update the translation of "secid".
-  - Link to v2: https://lore.kernel.org/linux-doc/20260727073538.56951-1-anka@stu.cdut.edu.cn/
-
-Changes in v2:
-  - Add translated documents to corresponding index file.
-  - Link to v1: https://lore.kernel.org/linux-doc/cover.1784866896.git.businiaoanka@anka1.top/
-
-Siwei Chen (5):
-  docs/zh_CN: Add networking team documentation Chinese translation
-  docs/zh_CN: Add NIC SR-IOV APIs Chinese translation
-  docs/zh_CN: Add Softnet Driver Issues Chinese translation
-  docs/zh_CN: Add ipv6 Chinese translation
-  docs/zh_CN: Add LSM/SELinux secid Chinese translation
-
- .../translations/zh_CN/networking/driver.rst  | 138 ++++++++++++++++++
- .../translations/zh_CN/networking/index.rst   |  10 +-
- .../translations/zh_CN/networking/ipv6.rst    |  76 ++++++++++
- .../translations/zh_CN/networking/secid.rst   |  24 +++
- .../translations/zh_CN/networking/sriov.rst   |  34 +++++
- .../translations/zh_CN/networking/team.rst    |  16 ++
- 6 files changed, 293 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/networking/driver.rst
- create mode 100644 Documentation/translations/zh_CN/networking/ipv6.rst
- create mode 100644 Documentation/translations/zh_CN/networking/secid.rst
+Signed-off-by: Siwei Chen <businiaoanka@anka1.top>
+---
+ .../translations/zh_CN/networking/index.rst   |  2 +-
+ .../translations/zh_CN/networking/sriov.rst   | 34 +++++++++++++++++++
+ 2 files changed, 35 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/translations/zh_CN/networking/sriov.rst
- create mode 100644 Documentation/translations/zh_CN/networking/team.rst
 
+diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
+index fcb8dc8f2c72..ae374c4cb144 100644
+--- a/Documentation/translations/zh_CN/networking/index.rst
++++ b/Documentation/translations/zh_CN/networking/index.rst
+@@ -29,6 +29,7 @@
+    alias
+    mptcp-sysctl
+    generic-hdlc
++   sriov
+    team
+    timestamping
+ 
+@@ -128,7 +129,6 @@ Todolist:
+ *   secid
+ *   seg6-sysctl
+ *   smc-sysctl
+-*   sriov
+ *   statistics
+ *   strparser
+ *   switchdev
+diff --git a/Documentation/translations/zh_CN/networking/sriov.rst b/Documentation/translations/zh_CN/networking/sriov.rst
+new file mode 100644
+index 000000000000..d5e16a099b07
+--- /dev/null
++++ b/Documentation/translations/zh_CN/networking/sriov.rst
+@@ -0,0 +1,34 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/networking/sriov.rst
++
++:翻译:
++
++	陈思为 Siwei Chen <businiaoanka@anka1.top>
++
++===============
++网卡 SR-IOV API
++===============
++
++强烈建议现代网卡专注于实现 ``switchdev`` 模型
++（参见 `以太网交换机设备驱动模型（switchdev）`_）
++来配置 SR-IOV 功能的转发与安全。
++
++传统 API
++========
++
++旧的 SR-IOV API 在 ``rtnetlink`` Netlink 协议族中实现，是 ``RTM_GETLINK`` 和
++``RTM_SETLINK`` 命令的一部分。在驱动侧，它由若干 ``ndo_set_vf_*`` 和
++``ndo_get_vf_*`` 回调组成。
++
++由于传统 API 与协议栈其余部分集成不佳，该 API 被视为已冻结；不再接受任何新功能或扩展。
++新驱动不应实现那些不常用的回调；
++即以下回调禁止使用：
++
++ - ``ndo_get_vf_port``
++ - ``ndo_set_vf_port``
++ - ``ndo_set_vf_rss_query_en``
++
++.. _`以太网交换机设备驱动模型（switchdev）`: https://docs.kernel.org/networking/switchdev.html#switchdev
 -- 
 2.53.0
 
