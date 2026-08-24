@@ -1,108 +1,164 @@
-Received: from mta0.migadu.com (out-175.mta0.migadu.com [91.218.175.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744D13988EB
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 12:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06BD1A7264;
+	Mon, 24 Aug 2026 12:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787572957; cv=none; b=l9hMHaNbdic5Ln8rOsWBFn2eav+AnrdnXiOVt5fDA9xFbx6cqRqM5164Duuk3Xrs5KkM/vbV1aoGq8sfCJ9TqL0aiK6PKSMGfxyW9vv79DijpuJxDoknx2RwhRMxJrqggy23sq3CDML5c7RXUhKVCO8twM7TZ3kHutyRHJKU/Lo=
+	t=1787573835; cv=none; b=lHzLnit+azQeSRP0C2KXyjW0oa5JuZJp7E6e1HeNIL37/u9/BR7CkqdLhOxLxqDMn17P2p9x3TtBv4qigHao54HmPI/EmEjDVSFHB3s4+br8yehROTJTC/MmIYvTOBfwaB7lcWgZct55uD2x4+ngqPBIpjAD1sHp+9XKCRezY2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787572957; c=relaxed/simple;
-	bh=B2RGeXABwxiX83QA7bO5Q1sJq8lQtsYmlXwf+SlYyP8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hxCz8xwYE2nnDDhWm+mbxj//y+Cslis3wLqvtvPHW6t6WUTUhPwj6oJkT6HwLu8EILv9zOdTRC6IB6IhDhm4UQwvP7ic94WU5i0CCnOqJ4EHVynfIJbp9oagYGCsqIGriYj8JehAUQSLYxSArkVu5syZ27wHXM+UgnmqonIEVvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=neK3kwQU; arc=none smtp.client-ip=91.218.175.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1787573835; c=relaxed/simple;
+	bh=5dpYqYzR5hpkg2iQBtqh8qx/SDXcXWfDGbxoyeWxE3w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cL3RJg3kh6Gh6CQrDBBAaQtFQ8PugVtxOaPfFnVQvPDjVBL7AEhSo7MwwMedi44GG+WlVXwW+h4NUUa+bi8C70ohdhtQhRc/+BsOPZ+03nuuomxcb9+OoNJIuUOtOfX6Lj2S9dVUr+lRyEoqxT/8wnNOAkfKdB1SZ1AxikGaQXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mW/hFf5G; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="neK3kwQU"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=B2RGeXABwxiX83QA7bO5Q1sJq8lQtsYmlXwf+SlYyP8=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787572953; v=1; x=1788177753;
- b=neK3kwQUHK/dBLjSwcaA6FaPILOC0OqENrEhVm8F8iCEVYITPOCKsmdbTIVKDK0NNlCwNo+q
- OvO9fraiAAnPC8kNf7pJ4Z8+Am1/cxDHWnQdNFkqgXpdRSj//Ibc90u6DdgmyfWOw3MlIQdw2D/
- uXijIhXTXd5p3bU1vhrZkvjgjXIbfHbSclwdXNsLMkyAT5BxygC0abaaGD3bgz4NZBMkBJ3JdRT
- ++sdEJJFeyX8Kv5Diu8bXUmWvyKObQOml/Ury9o81izLO7Su0RHhI+hmYwvV7cYukko6ry5lufR
- bkwEskJVcXFJBMJxebC96tSqTxAmOK13kwZK9LASP8liA==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: from localhost (117.176.242.187)
-	by smtp.migadu.com with ESMTPS id 56456962caa09406;
-	Mon, 24 Aug 2026 12:02:23 +0000
-X-Mizu-Trace-ID: 56456962caa09406
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 24 Aug 2026 20:02:19 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Nguyen Duc Thinh <ducthinh100812@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: process: Capitalize Git, Quilt, and
- Mercurial consistently
-Message-ID: <aowyywsvZD_-rqSu@wyuan.org>
-References: <20260824100050.12315-1-ducthinh100812@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mW/hFf5G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 594591F00A3A;
+	Mon, 24 Aug 2026 12:17:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787573833;
+	bh=I9G+2pR4S+ko3JJWwpOLkXez1wvJqD3jZzDSrEX5v8M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=mW/hFf5GQRaQ9wugKNZZrfdTcCRiHg95Gg5mArsWXJg+ZyTkK1fCiQsevUocW2+kk
+	 w98u41xT9vSlJ0tnn1GnY7HZ9rQMESvfWKfMHZFr2LUkwz+v+XlYn+i1IpUrCldS0I
+	 g8ZKkihlumtUH2TQjqznlLAWOtes98bfAzxMX5LJiM0nxrBsEtd3PGnUl6jXOY0bdv
+	 q6aPdnkeO+vy3Bjw89c0oDIUApCOi4iirPuNPSsJuUuAQlh6l2gD6aQQZ2nvBdHsiz
+	 fjrYFbh5HPIcvsh62m8kCUvV9SvJ07ajA/FfsKfP52LBp+M8G/CBgjkiXUNIg7KmG6
+	 skGXj7cd6v4Ug==
+Message-ID: <75738049-24f9-4056-98c8-b4075552ab78@kernel.org>
+Date: Mon, 24 Aug 2026 14:17:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260824100050.12315-1-ducthinh100812@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/6] selftests/mm: make file helpers return errors
+To: Sarthak Sharma <sarthak.sharma@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>,
+ John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260813181230.483746-1-sarthak.sharma@arm.com>
+ <20260813181230.483746-2-sarthak.sharma@arm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260813181230.483746-2-sarthak.sharma@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 24, 2026 at 05:00:50PM +0700, Nguyen Duc Thinh wrote:
-> Update various process documentation files to properly capitalize "Git",
-> "Quilt", and "Mercurial" as proper nouns when referring to the source
-> management tools themselves.
+On 8/13/26 20:12, Sarthak Sharma wrote:
+> Change read_file(), write_file(), read_num(), write_num() and
+> write_num_ignore_einval() in vm_util.c to report failures to callers
+> instead of exiting from the helper.
 > 
-> Instances explicitly referring to literal command-line invocations
-> (such as "git log" or "git bisect") have been left lowercase.
+> Make read_file() return a negative errno on failure and 0 on success, so
+> callers can distinguish a successful read from an I/O error. Also make
+> read_num() reject negative and malformed values.
 > 
-> Signed-off-by: Nguyen Duc Thinh <ducthinh100812@gmail.com>
+> Keep write_num_ignore_einval() silent for -EINVAL while returning other
+> errors to its caller.
+> 
+> Update callers to print diagnostics and fail wherever required. Also add
+> a helper print_file_access_error() in hugepage_settings.c to print
+> TAP-compatible errors without a kselftest dependency. This prepares the
+> helpers to be moved to tools/lib/mm without a kselftest dependency.
+> 
+> Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
 > ---
-> v2:
->   - Fixed the extra spaces before ':' in the subject line.
 
-Alright, thanks.
+[...]
 
->   - Reverted the accidental 'git switch' changes in submitting-patches.rst to keep the patch logically clean.
-
-Really? But I see that is still here in your patch below.
-
-That said, I suspect that some agents might simply prefer to do such
-convenient things without informing the user. If you have used it, it
-would be better to take a look at the corresponding policy, btw.
-
->   - Regarding the scope: I did not fix every single instance across the entire documentation subsystem because the list is very long. I am primarily submitting this patch to gain hands-on experience with the Linux kernel contribution workflow.
-
-Fair enough, welcome.
-
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 7ae79452e..b6ca49437 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -866,7 +866,7 @@ automatically include the base tree information in your submission by
->  using the ``--base`` flag. The easiest and most convenient way to use
->  this option is with topical branches::
+> -unsigned long read_num(const char *path)
+> +int read_num(const char *path, unsigned long *num)
+>  {
+> +	unsigned long val;
+> +	int ret;
+>  	char buf[21];
+> +	char *end;
 >  
-> -    $ git checkout -t -b my-topical-branch master
-> +    $ git switch -t -c my-topical-branch master
->      Branch 'my-topical-branch' set up to track local branch 'master'.
->      Switched to a new branch 'my-topical-branch'
+> -	if (!read_file(path, buf, sizeof(buf)))
+> -		ksft_exit_fail_perror("read_file()");
+> +	if (!num)
+> +		return -EINVAL;
 >  
-> @@ -882,7 +882,7 @@ notice that it will have the ``base-commit:`` trailer at the very
->  bottom, which provides the reviewer and the CI tools enough information
->  to properly perform ``git am`` without worrying about conflicts::
->  
-> -    $ git checkout -b patch-review [base-commit-id]
-> +    $ git switch -c patch-review [base-commit-id]
->      Switched to a new branch 'patch-review'
->      $ git am patches.mbox
->      Applying: First Commit
-> -- 
-> 2.50.1 (Apple Git-155)
+> -	return strtoul(buf, NULL, 10);
+> +	ret = read_file(path, buf, sizeof(buf));
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (buf[0] < '0' || buf[0] > '9')
+> +		return -EINVAL;
 
-Thanks.
+This is to reject any negative or hexadecimal numbers I assume?
+
+(essentially anything that's not a valid number)
+
+Worth adding a comment.
+
+
+Apart from that LGTM
+
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+-- 
+Cheers,
+
+David
