@@ -1,236 +1,198 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83989369D57;
-	Mon, 24 Aug 2026 15:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787584261; cv=none; b=YQNH+cV+wLEiWj7MfVlyOuYpcPDIqwY2N7v+KVDpJz8yRtkTKU21lfkl92rY4x+/hkaMjHAm4cIzZGVJ5av6Yi5W+wtyIyvj3tctdv3xp/RbO66nrHnnfTNgGeOV1sTG6J6OzkHPHtxRByi83AxL0AqqanuBtpqkf5q3oyfXba0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787584261; c=relaxed/simple;
-	bh=N5HeBxgaLz7/XZFrGAR2Ht9zy4LD5buaaVV/LUpd5fM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WI0Vt+Cy/x5bXIVi36OKpk8Fl8oOYFsip68nEIsu0VnQ2dDvXAQGcfpYxAHPdJXV5a0zBpw+PfNhh0bfR0Sky4moKhnJGsxle0mHpcFvGrAkX1gp5klwImNNQEb9NA8R9BIKd8mKV61uIduqjN4brWT5iFTSt8b6rRFaffpcnA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aIeM4nw9; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8733F822F
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 15:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787584999; cv=pass; b=fU5CF8VKayoyLQxgC3gSw03b+V5iM/z5XVUNOjRA13+jVF7HQ1JGRqEhkfGDq3Kr/FsIXoVQURhs9+zK5FU0RdqM1pwkmlfn4W9GH3PoAlOjbAzbLX4xT12G3vtMSKFggdtraZA9fQI9YvxzXsIe5AytNxMQNRVsoiMH7KzSBQw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787584999; c=relaxed/simple;
+	bh=w4M3PCOM2gpUz97sjX5Lbk112SdjbcxEFkrd/Swveds=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WNWzfbiN8hi2T/k5BBKw5CekToqYTp31mYGKRlJcXCvxnF1/NHbRGMOMA6T7WF7wkWIe1MsMyV7V/p9+HZpSEYGNB0yUoeXt3Lv2tOhRFLFOiS+J2Nikf/+U6jXG0cLHLGDPqbd/oCeS9oA7Ej8IaTgIKQgplerA3L8dkGqeYh4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pRt+m5jJ; arc=pass smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aIeM4nw9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2423E1F000E9;
-	Mon, 24 Aug 2026 15:10:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787584260;
-	bh=Wx9f9XPX6UaTsyTsSp+lWebUiETju9PeSHKWEVZrKvQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aIeM4nw9zSLp14C7Qg/aoWJ+Gibkr1HmmR0ckBQ4y26T1NYNtGBzmDSU3/xnRFaoV
-	 TuzTZNLgmDM9Q08D5Yzggqivp3V83HsLluIKSwBD+aVrE53Ku2YeWV1SMVRw1b+oVv
-	 WlqOq3JhDUknsD4U/dUlvXguIpg2M9YY9kuprCHgTPYml9GsRiKR1abr4/MGUglhw8
-	 P0swNBzh5TBanefQbSD7CTT9M15MwtjMlbZh8xrpLK5szSEfkcbGMw9vqK000/4003
-	 /mbEjamc8pSlzLFaYVI9BuaqwBPBc18xTuyi5oze1LI6PTCMFPD1qLTgli+1JpTkhb
-	 q10MUO6pdJrJQ==
-Date: Mon, 24 Aug 2026 16:10:51 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>, Hugh Dickins <hughd@google.com>, 
-	Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Lance Yang <lance.yang@linux.dev>, "Liam R. Howlett" <liam@infradead.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/6] userfaultfd: use userfaultfd_*() helpers instead of
- open coded flag tests
-Message-ID: <aoxdWWMEeQbcG5Pq@gremlin>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-3-3086981b33cf@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pRt+m5jJ"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-69f7fa1c548so6620198a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 08:23:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787584995; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fAFGDbg43StQgjVdIhij2ejh4hXN4JZgh0Fs+fIZtybqOipr8kpcm5k/IdB8ja4DSn
+         XqrlF/gtBQ6Z6dbtTT5M180lQvBfdRvrn57TDKBVFuGUjSel6YC+6KoTDOL36lUl0WqL
+         n5D1EYtKqelN5WAixHeIQmD+QWBSaji+F9Z6VMa+WjUbycC72JoxM/VcdokVA3hsrBdf
+         eSWe2FjsWa+S3S0Q+Z2lNcL+R3njCLyt74TqZOQW99rsmBFFDUzgJnTn/w1E03GWwAPN
+         //whUtIER9MIHBBsZAt7XBbStkxswXwgtRodwMkdbPzEqIGOuF2jVT2ZBiUgi1xwbBvQ
+         OFSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jH77beqs+5zKV6amTfBDwxpeesgjCtaEPDf8Q4m2/ZM=;
+        fh=3bEwhzJ1jBeWjNI3FvGQ/dgm+tANem8s+k3GAgfdnxk=;
+        b=XkZwHbz12ivPuIBYDTF9+0OCC1UUgISsTS47HFNCUO6wiSm/9r31BUu33HuA8ECDni
+         /AAS5JWx5cLL2iolPyzuuXY5GEjFDZzAKs81EQvt+V1zmNw44iMLHz+cb1N8DU36krbq
+         0vRUWIKc27sw0PWkiGduFdoUhbkCRtTMJ3eBU86XgemMzDRbQhBuYhiAcGI8EIK3h8kB
+         akBo0DfWVPTpPzMjOkLP/0TLH1OV2vAHg/RNcT9NZdnCfpU3RHY0EJZZhnbrtGeaoj9k
+         lOj8SCpHlzJm8nuS8Qs2g4fE7s6jCKS/rZGhYAN5BU5cHP3OXCfyC2MZ6IWnIaihJ9xw
+         x8gw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787584995; x=1788189795; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jH77beqs+5zKV6amTfBDwxpeesgjCtaEPDf8Q4m2/ZM=;
+        b=pRt+m5jJjAF0QPb07aYupEH6c8WnELMbvAFZg3f87zGuBcnVdlpXaiwXgx//lyABGH
+         NQbvv9XSA4ozmMh4K3jewFE7msc0yBr39T1XBEv4wKA58sQQkzJy4jB+E9vmytMpNFKo
+         hhvp8pMUUTfBoQXaSsHhMp/W4mr/vrgp5Nnxav7WXwoNqbKPoJaxpIS9jSfn9G0UEncX
+         JHCp4OeNorHXRUs5tIIXnE8yBWA4QjtDPgYYOSyYkqPXodeqLYR8EqpnmHg94RJMfZ57
+         ZygZpeCxg981btx62GpGuLfNswNxd5d5i5xi0+OMtygym4b06jmRG61fmuNLzzngS0qI
+         1I2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787584995; x=1788189795;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jH77beqs+5zKV6amTfBDwxpeesgjCtaEPDf8Q4m2/ZM=;
+        b=YBsBg6a2sEWmOx7G9JwBhAbTumClpvnenYVx5rthVLmk8TgjSeDBWR+1Srk7qxYV5K
+         +AWI3z4msRH3nfnuToIKHVigbS0Y9jM9Ym9ikUH0JryPveKyvQJN8BjBondYoj6fEKc9
+         VL1CuuBA+j+md4GEfsLA/NSb0lCkmgqeYG2rVnVN85kKeJCd2BPKIOAG6nKzGMk2evJZ
+         PPUT7Bs/f0DhvoLP7ty2Iy8frwDoLqR8SmBvODnp9AZwzGuro2Ztp6/PA7OsORmT7WhD
+         6zGPisIj728xaX/ws4Ta3m3WA6X5xUQR9g2U7m4oWspvL+hWnCNgzkTl6EFMMAnnNioH
+         Qfgw==
+X-Forwarded-Encrypted: i=1; AHgh+RrQpj3LycocDiTQosR2J4YLahS5qgEHMz9aRP/3KPrWC9m5KsaVqcpRZuCl9gZmbgMM2Axg2tYMQaY=@vger.kernel.org
+X-Gm-Message-State: AFuF++l6Hu6OMEXPXN3IH9arTF+tX0PaBRbEmlvkGBaF4nweoMrTMeK4
+	eH/yJM04iOfrD3B3vfuDojx3keFdLqBAoWBgoG3tRruFP3dXidnzGp2Mv3S4zxnYC+ikVADEohJ
+	Tj5YJx6ilLxYIr9tq7112BFzwgRAVD0A=
+X-Gm-Gg: AR+sD13LWiJGsVcn0AtycS9umVvLCFW8eTzD3i+8h2c0XhiUlzKTOqLbPxaGTS6CyZT
+	zR8ODF+lheQ9itMgJQYTsOheHrvtDDjU0cFZ7uTWCwAdo3gRFeictgJ/a04Padj7TJ7aVifdu9r
+	GBTbtIbrBKE3Wmg5RJy224sL83Eks82fnhqr7PKEP6aRznlgeZDyCo5j/VdkRobegDeunWalRsJ
+	PNm8DlxL0VoU7xTKFUljXF2PJhLS4VkI2mBukFUCzOUQ/iz1iy/FBfAGYbDC9Yx8Pe1VXx4rrzu
+	OvFhyeGt/5OK4JghC0a5nkBF4DRetsXjlyLQxr5PJLfvTw==
+X-Received: by 2002:a05:6402:3705:b0:698:8847:e2f8 with SMTP id
+ 4fb4d7f45d1cf-6a582ba7883mr23687259a12.15.1787584995174; Mon, 24 Aug 2026
+ 08:23:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260823-uffd-vm-flags-v1-v1-3-3086981b33cf@kernel.org>
+References: <CALa+Y15zNhpubyH5GQgu_BHesrwRdH0B8k5cqT3o_U0h5A2e-w@mail.gmail.com>
+ <20260822003237.88274-1-sj@kernel.org>
+In-Reply-To: <20260822003237.88274-1-sj@kernel.org>
+From: KunWu Chan <kunwu.chan@gmail.com>
+Date: Mon, 24 Aug 2026 23:23:03 +0800
+X-Gm-Features: AcwNN1UfGZhL6wlAt_EY1z_vCXyRGndLOrHHNLYnegIDLisoABbScauoZxjolc8
+Message-ID: <CAN_Opa9dQsz0hA_-+SS7hyHHtrYu2esK2Cp5X=G-YNFr5vgVZA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/6] mm/damon: hardware-sampled access reports
+To: SJ Park <sj@kernel.org>
+Cc: Ravi Jonnalagadda <ravis.opensrc@gmail.com>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	akinobu.mita@gmail.com, damon@lists.linux.dev, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	akpm@linux-foundation.org, corbet@lwn.net, bijan311@gmail.com, 
+	ajayjoshi@micron.com, honggyu.kim@sk.com, yunjeong.mun@sk.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 23, 2026 at 03:17:40PM +0300, Mike Rapoport (Microsoft) wrote:
-> Move userfaultfd_{missing,wp,minor,rwp}() and userfaultfd_protected()
-> ahead of uffd_disable_huge_pmd_share() and uffd_disable_fault_around()
-> and make the latter two use the helpers rather than open coded VMA flag
-> masks.
+On Sat, Aug 22, 2026 at 8:32=E2=80=AFAM SJ Park <sj@kernel.org> wrote:
 >
-> Convert open coded VMA flag test in mfill_get_vma() to userfaultfd_wp()
-> as well.
-
-It'd be better to do the moves and the reworks separately. We don't have a limit
-on patch count :)
-
+> On Fri, 21 Aug 2026 09:32:02 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail=
+.com> wrote:
 >
-> With every user of the per-VMA uffd modes going through the helpers,
-> their underlying representation can be changed in the next step.
->
-> No functional change.
-
-There is a functional change, or at least seems to be, see below.
-
->
-> Assisted-by: copilot:claude-opus-5
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> ---
->  include/linux/userfaultfd_k.h | 70 +++++++++++++++++++++----------------------
->  mm/userfaultfd.c              |  2 +-
->  2 files changed, 35 insertions(+), 37 deletions(-)
->
-> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> index 3396d270b159..d8262e3dc134 100644
-> --- a/include/linux/userfaultfd_k.h
-> +++ b/include/linux/userfaultfd_k.h
-> @@ -168,42 +168,6 @@ static inline bool is_mergeable_vm_userfaultfd_ctx(struct vm_area_struct *vma,
->  	return vma->vm_userfaultfd_ctx.ctx == vm_ctx.ctx;
->  }
->
-> -/*
-> - * Never enable huge pmd sharing on some uffd registered vmas:
-> - *
-> - * - VM_UFFD_WP and VM_UFFD_RWP VMAs, because the write protect / access
-> - *   tracking information is per pgtable entry.
-> - *
-> - * - VM_UFFD_MINOR VMAs, because otherwise we would never get minor faults for
-> - *   VMAs which share huge pmds. (If you have two mappings to the same
-> - *   underlying pages, and fault in the non-UFFD-registered one with a write,
-> - *   with huge pmd sharing this would *also* setup the second UFFD-registered
-> - *   mapping, and we'd not get minor faults.)
-> - */
-> -static inline bool uffd_disable_huge_pmd_share(struct vm_area_struct *vma)
-> -{
-> -	return vma_test_any_mask(vma,
-> -		mk_vma_flags_from_masks(VMA_UFFD_WP, VMA_UFFD_RWP,
-> -					VMA_UFFD_MINOR));
-> -}
-> -
-> -/*
-> - * Don't do fault around for WP, RWP or MINOR registered uffd range.  For
-> - * MINOR registered range, fault around will be a total disaster and ptes can
-> - * be installed without notifications; for WP it should mostly be fine as long
-> - * as the fault around checks for pte_none() before the installation, however
-> - * to be super safe we just forbid it; for RWP, pre-faulted neighbours would
-> - * be indistinguishable from accessed pages in PAGEMAP_SCAN (PAGE_IS_ACCESSED)
-> - * and pollute the tracked working set, so each page must be populated by its
-> - * own fault.
-> - */
-> -static inline bool uffd_disable_fault_around(struct vm_area_struct *vma)
-> -{
-> -	return vma_test_any_mask(vma,
-> -		mk_vma_flags_from_masks(VMA_UFFD_WP, VMA_UFFD_RWP,
-> -					VMA_UFFD_MINOR));
-> -}
-> -
->  static inline bool userfaultfd_missing(const struct vm_area_struct *vma)
->  {
->  	return vma_test_any_mask(vma, VMA_UFFD_MISSING);
-> @@ -235,6 +199,40 @@ static inline bool userfaultfd_protected(const struct vm_area_struct *vma)
->  	return userfaultfd_wp(vma) || userfaultfd_rwp(vma);
->  }
->
-> +/*
-> + * Never enable huge pmd sharing on some uffd registered vmas:
-> + *
-> + * - uffd-WP and uffd-RWP VMAs, because the write protect / access tracking
-> + *   information is per pgtable entry.
-> + *
-> + * - uffd-MINOR VMAs, because otherwise we would never get minor faults for
-> + *   VMAs which share huge pmds. (If you have two mappings to the same
-> + *   underlying pages, and fault in the non-UFFD-registered one with a write,
-> + *   with huge pmd sharing this would *also* setup the second UFFD-registered
-> + *   mapping, and we'd not get minor faults.)
-> + */
-> +static inline bool uffd_disable_huge_pmd_share(struct vm_area_struct *vma)
-> +{
-> +	return userfaultfd_minor(vma) || userfaultfd_wp(vma) ||
-> +	       userfaultfd_rwp(vma);
-> +}
-> +
-> +/*
-> + * Don't do fault around for WP, RWP or MINOR registered uffd range.  For
-> + * MINOR registered range, fault around will be a total disaster and ptes can
-> + * be installed without notifications; for WP it should mostly be fine as long
-> + * as the fault around checks for pte_none() before the installation, however
-> + * to be super safe we just forbid it; for RWP, pre-faulted neighbours would
-> + * be indistinguishable from accessed pages in PAGEMAP_SCAN (PAGE_IS_ACCESSED)
-> + * and pollute the tracked working set, so each page must be populated by its
-> + * own fault.
-> + */
-> +static inline bool uffd_disable_fault_around(struct vm_area_struct *vma)
-> +{
-> +	return userfaultfd_minor(vma) || userfaultfd_wp(vma) ||
-> +	       userfaultfd_rwp(vma);
-
-This is changing the logic.
-
-Before we were testing only the flags, now we have:
-
-static inline bool userfaultfd_rwp(const struct vm_area_struct *vma)
-{
-	/*
-	 * Callers gate PAGE_NONE usage on this; PAGE_NONE is a BUILD_BUG()
-	 * without CONFIG_ARCH_HAS_PTE_PROTNONE, so fold to false.
-	 */
-	if (!IS_ENABLED(CONFIG_ARCH_HAS_PTE_PROTNONE))
-		return false;
-	return vma_test_single_mask(vma, VMA_UFFD_RWP);
-}
-
-I.e. adding in a CONFIG_ARCH_HAS_PTE_PROTNONE check.
-
-BTW side-note these:
-
-static inline bool userfaultfd_missing(const struct vm_area_struct *vma)
-{
-	return vma_test_any_mask(vma, VMA_UFFD_MISSING);
-}
-
-static inline bool userfaultfd_wp(const struct vm_area_struct *vma)
-{
-	return vma_test_any_mask(vma, VMA_UFFD_WP);
-}
-
-static inline bool userfaultfd_minor(const struct vm_area_struct *vma)
-{
-	return vma_test_any_mask(vma, VMA_UFFD_MINOR);
-}
-
-Should all use vma_test_single_mask() really :)
-
-
-> +}
-> +
->  static inline bool userfaultfd_pte_wp(struct vm_area_struct *vma,
->  				      pte_t pte)
->  {
-> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-> index 74f04c323c50..32003aa04943 100644
-> --- a/mm/userfaultfd.c
-> +++ b/mm/userfaultfd.c
-> @@ -261,7 +261,7 @@ static int mfill_get_vma(struct mfill_state *state)
->  	 * validate 'mode' now that we know the dst_vma: don't allow
->  	 * a wrprotect copy if the userfaultfd didn't register as WP.
->  	 */
-> -	if ((flags & MFILL_ATOMIC_WP) && !(dst_vma->vm_flags & VM_UFFD_WP))
-> +	if ((flags & MFILL_ATOMIC_WP) && !userfaultfd_wp(dst_vma))
->  		goto out_unlock;
->
->  	if (is_vm_hugetlb_page(dst_vma))
->
-> --
-> 2.53.0
+> > On Fri, Aug 21, 2026 at 2:55=E2=80=AFAM KunWu Chan <kunwu.chan@gmail.co=
+m> wrote:
+> > >
+> > > Hi Ravi,
+> > >
+> > > Thanks for the detailed reply.  The fan-in diagnosis makes perfect se=
+nse.
+> > >
+> > > > Your series is based on the v1 substrate, and the way an event is
+> > > > configured is the part that moves most.
+> > > >
+> > > > [...]
+> > >
+> > > Glad to hear v2 is on the way.  The probe-based model is actually
+> > > something I encountered while building the AUX backend. When multiple
+> > > sources can feed the same region (e.g. PTE scanning + SPE/IBS), the
+> > > question of how to combine their reports becomes interesting.
+> > >
+> > > For example, CXL tiering may care about physical-address locality, wh=
+ile
+> > > per-process monitoring may need virtual-address attribution.  How do =
+you
+> > > see probe weights being determined =E2=80=94 is that expected to be
+> > > scenario-specific, or is there a more general principle behind the
+> > > weighting?
+> >
+> > Hello KunWu,
+> >
+> > SJ can answer that authoritatively -- the probe and weight interface
+> > is his. Here is my understanding which SJ can confirm later:
+> >
+> > Weights are relative, and only among probes. A context can hold up to f=
+our;
+> > each report carries its probe index and credits that probe's own hit co=
+unt,
+> > so two PMU-based probes in one context are scored in proportion to thei=
+r
+> > weights, and that is where a scenario-specific choice belongs.
+> >
+> > What does not mix is a weighted probe with the other two sources. Any
+> > nonzero weight switches the whole context to probe-weighted scoring, wh=
+ich
+> > turns page-table access checking off -- so SPE cannot be blended with P=
+TE
+> > scanning, it replaces it. Page-fault reports carry no probe index; they
+> > credit the region's access rate but have no hit count, so under weighte=
+d
+> > scoring they are not part of the score either. Both coexist with a prob=
+e
+> > only at weight zero, where everything feeds the same access rate and is
+> > indistinguishable afterwards.
+> >
+> > So for your case I would read it as: PA locality and VA attribution are
+> > different targets and different address kinds, which points at separate
+> > contexts rather than one context with tuned weights.
 >
 
---
-Cheers, Lorenzo
+Thanks, SJ and Ravi, for the detailed clarification.
+
+> Thank you for detailed response, Ravi.  Ravi is correct.  Physical addres=
+s and
+> virtual addresses wouldn't be able to be monitored with a single DAMON co=
+ntext.
+> The user may need to have a DAMON context for physical address space, and
+> another DAMON context for virtual address spaces.
+>
+
+This also corrects an assumption I had about how the DAMON access reporting
+model currently combines different sources.
+
+I had previously understood the new push model as something that could
+be combined with the existing pull model within the same context. I now
+understand that, in the current design, probe-weighted scoring switches
+the context away from the existing PTE-based access checking rather than
+blending the two.
+
+My previous understanding was therefore off. Thanks for the clarification.
+
+I'll update this point in the blog I'm currently working on, which I've
+been writing on and off for almost a month. I'm using it to document the
+evolution of the DAMON architecture and the transition from the
+traditional pull-based access monitoring toward the new push/probe-based
+reporting model.
+
+Thanks,
+KunWu
+
+>
+> Thanks,
+> SJ
+>
+> [...]
