@@ -1,152 +1,192 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B002A43F8B2;
-	Mon, 24 Aug 2026 14:46:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617DF239E60;
+	Mon, 24 Aug 2026 14:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787582786; cv=none; b=VnnyCo1spV00yUb1RwtY7zNBAb4mgjf3o/xm/yVeBh0BeBh1GOqQbhdNwoJINAe93HysoAezVXRlaBt5HAz8Ti39LVcoMzFOo/BexeNIDohbs3GlEH960rFUF7/58+WH7f2EbObaWrWQNSyAc13sRADV3eli4N2473PLiqRjXgc=
+	t=1787583575; cv=none; b=QN8Xad0zwSuQebgy9AuoIUJxc7aGJY5tljVchDxoPiMY5VRpaNswST6zMcGRTN1KLdtk86hioF+vxle77gwSSOZSK4cXT1pV6WH6Vr93SbwU/HNJqWaTyQfdi607lqxTUY+Zevp6HMFNLu8+99c+TROUhA8J45dQwXbpC6hAsQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787582786; c=relaxed/simple;
-	bh=8nLoyii0J8BYKAAct5Xda7iv5em4yS6sroncW2zsEWE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KACKXH7vmvun8sAwT0GKV8iygulUyQNSarauWRYjZQnXyaX3cj5J1P1mGP2HJ3E7TgBYXJBsIQ6dEm26Xn89SQhbRAGsuTxAAkmR0xkm3tftlHPpc+4jn1pkdu5wg1PVvaJ4vZS3idsZZMXAMb7UbwDvaPcxJm5PekUKMbFvYMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b41+8o8I; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787583575; c=relaxed/simple;
+	bh=2xbYWWA2A5lp9vXQmXIPtL6kb0IJD+kCExBxK7q+77Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M/Wm0OvBXvXDvhPxD3C33TIThq64ows/UlPiW5jPk4PBrHj8ryZkmkUN724es6kZf7P0RzEYdnzHkSPt0yMvcXAL5Vz7aFZBzpaFCy/RNrqGCfzW5rfgf0D6/GkAWwFKY4zvjjU4OFtWMLosWPhcPAdWsD3AhRwjAy3HPp2KK/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WGFVkLHL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b41+8o8I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D06261F00A3A;
-	Mon, 24 Aug 2026 14:46:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WGFVkLHL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2CC1F000E9;
+	Mon, 24 Aug 2026 14:59:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787582785;
-	bh=uOdefC3ft+rIrM+lRzrzTelVuZoqvjKq0Pla1Vm3VSg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=b41+8o8IJgBxDHtRI6Tjnf9CM9J5j7Wpr08L9h4SkEN4zb9xlhboO6fa2EYO4zIZl
-	 sdWw3YJjUhNAWD7KdcvLEZNGcsRQNWqOlGqMHDg+TxRG7kNVkA+vdr2xJkdvknL/qB
-	 mPvP33WQVDJrkciOrZybBGyyh/1NNq6U9ywOoci9m/Q3TcZzdua8N1wZAAdGBDITuS
-	 jyCSP2oFp9YGQG4Qp6ZlxchyScmDZfKO3PAMS5HdMhTNdpNBVxuw/MfqzoNwwFWoi5
-	 KIHkUfgwAZ2DybB6RBTPsGah/+63Ev53H6zpuWubJqmj3Waob9OZxqaLdwmRjAM5AU
-	 1A47zHPy7WF3g==
-Message-ID: <5bb86e34-6196-4b50-b553-be2ff7c1fa32@kernel.org>
-Date: Mon, 24 Aug 2026 16:46:14 +0200
+	s=k20260515; t=1787583574;
+	bh=AccNNgKH6mpdiOZn+TQ6yi+YTRFl1ckABXXlP5qNp0s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WGFVkLHLt8glwJyNyzpbegLiEczgB3KRRpoxrsKbnYBufxLJsdfqDhjhdP7T16Tx5
+	 bqxKzSNDAJCPhN/X/3zf+HiOu+g0MnTXFumI1OQd9LYWSCC54AQS8bvMlvM7Q7DEdB
+	 F6+Y9XiTmfKwR+wo5sGnM0dgZnSkFBQxie7k+L7q0HtnN0kovChN6zZm2ic4jGevda
+	 Hkd+WMr6ZxnA/yTIZcDJL8LfULRtlUE+8UlWLZyr4gIuAu5E7JTeg9qNc7tLpPrH+L
+	 z5FuXi7SjxSz37zwDb/a62Uf6rEkWJgcBNM1Kin4Iwuk7WW72JJ2lAu6X7xGJJIEi9
+	 2kVhcK32BgG3Q==
+Date: Mon, 24 Aug 2026 15:59:26 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>, Hugh Dickins <hughd@google.com>, 
+	Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Lance Yang <lance.yang@linux.dev>, "Liam R. Howlett" <liam@infradead.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
+	Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
+	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] mm/gup: move gup_can_follow_protnone() to gup.c
+Message-ID: <aoxcRstdSy99lNEA@gremlin>
+References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
+ <20260823-uffd-vm-flags-v1-v1-1-3086981b33cf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] userfaultfd: decouple fault reason from VMA flags
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>,
- Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
- Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt
- <rostedt@goodmis.org>, Suren Baghdasaryan <surenb@google.com>,
- Usama Arif <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
- Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260823-uffd-vm-flags-v1-v1-1-3086981b33cf@kernel.org>
 
-On 8/23/26 14:17, Mike Rapoport (Microsoft) wrote:
-> Introduce enum uffd_reason to define reasons for user faults rather than
-> overload VM_UFFD_* VMA flags for that.
-> 
-> Using a dedicated enum makes the code clearer and decoupling the fault
-> reason from VMA flags clears the way for moving the uffd mode bits out
-> of VMA namespace.
-> 
+On Sun, Aug 23, 2026 at 03:17:38PM +0300, Mike Rapoport (Microsoft) wrote:
+> gup_can_follow_protnone() is defined in include/linux/mm.h but only used
+> by mm/gup.c.
+>
+> First, there is no reason to have it in already gigantic header.
+>
+> Next, the upcoming refactoring of userfaultfd flags will make
+> gup_can_follow_protnone() depend on userfaultfd_k.h which would cause a
+> cyclic header dependency.
+>
+> Move gup_can_follow_protnone() to mm/gup.c.
+>
 > No functional change.
-> 
-> Assisted-by: copilot:claude-opus-4.6
+>
+> Assisted-by: copilot:claude-opus-5
 > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+
+LGTM so:
+
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
 > ---
->  include/linux/userfaultfd_k.h    | 16 ++++++++++++++--
->  include/uapi/linux/userfaultfd.h |  6 +++---
->  mm/huge_memory.c                 |  6 +++---
->  mm/hugetlb.c                     | 10 +++++-----
->  mm/memory.c                      | 10 +++++-----
->  mm/shmem.c                       |  4 ++--
->  mm/userfaultfd.c                 | 30 +++++++++++++++---------------
->  7 files changed, 47 insertions(+), 35 deletions(-)
-> 
-> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> index 45355bdb4ec7..f401623f315d 100644
-> --- a/include/linux/userfaultfd_k.h
-> +++ b/include/linux/userfaultfd_k.h
-> @@ -9,6 +9,18 @@
->  #ifndef _LINUX_USERFAULTFD_K_H
->  #define _LINUX_USERFAULTFD_K_H
->  
-> +#include <linux/bits.h>
+>  include/linux/mm.h | 38 --------------------------------------
+>  mm/gup.c           | 38 ++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 38 insertions(+), 38 deletions(-)
+>
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 0829e0d3b2d1..4daf9cd6ae8e 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -4860,44 +4860,6 @@ static inline int vm_fault_to_errno(vm_fault_t vm_fault, int foll_flags)
+>  	return 0;
+>  }
+>
+> -/*
+> - * Indicates whether GUP can follow a PROT_NONE mapped page, or whether
+> - * a (NUMA hinting or userfaultfd RWP) fault is required.
+> - */
+> -static inline bool gup_can_follow_protnone(const struct vm_area_struct *vma,
+> -					   unsigned int flags)
+> -{
+> -	/*
+> -	 * VM_UFFD_RWP uses protnone as an access-tracking marker, not for
+> -	 * NUMA hinting. GUP must always take a fault so the access is
+> -	 * delivered to userfaultfd, regardless of FOLL_HONOR_NUMA_FAULT.
+> -	 *
+> -	 * Only do so while the VMA is accessible. If it has been made
+> -	 * inaccessible (e.g. mprotect(PROT_NONE)), fall through to the guard
+> -	 * below: forcing a fault there would loop, as handle_mm_fault() makes
+> -	 * no progress on protnone in an inaccessible VMA, and the access is
+> -	 * denied regardless of RWP anyway.
+> -	 */
+> -	if (vma_test_single_mask(vma, VMA_UFFD_RWP) && vma_is_accessible(vma))
+> -		return false;
+> -
+> -	/*
+> -	 * If callers don't want to honor NUMA hinting faults, no need to
+> -	 * determine if we would actually have to trigger a NUMA hinting fault.
+> -	 */
+> -	if (!(flags & FOLL_HONOR_NUMA_FAULT))
+> -		return true;
+> -
+> -	/*
+> -	 * NUMA hinting faults don't apply in inaccessible (PROT_NONE) VMAs.
+> -	 *
+> -	 * Requiring a fault here even for inaccessible VMAs would mean that
+> -	 * FOLL_FORCE cannot make any progress, because handle_mm_fault()
+> -	 * refuses to process NUMA hinting faults in inaccessible VMAs.
+> -	 */
+> -	return !vma_is_accessible(vma);
+> -}
+> -
+>  typedef int (*pte_fn_t)(pte_t *pte, unsigned long addr, void *data);
+>  extern int apply_to_page_range(struct mm_struct *mm, unsigned long address,
+>  			       unsigned long size, pte_fn_t fn, void *data);
+> diff --git a/mm/gup.c b/mm/gup.c
+> index eb898ea1ee22..500e2aa99e48 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -633,6 +633,44 @@ static struct page *no_page_table(struct vm_area_struct *vma,
+>  	return NULL;
+>  }
+>
+> +/*
+> + * Indicates whether GUP can follow a PROT_NONE mapped page, or whether
+> + * a (NUMA hinting or userfaultfd RWP) fault is required.
+> + */
+> +static inline bool gup_can_follow_protnone(const struct vm_area_struct *vma,
+> +					   unsigned int flags)
+> +{
+> +	/*
+> +	 * VM_UFFD_RWP uses protnone as an access-tracking marker, not for
+> +	 * NUMA hinting. GUP must always take a fault so the access is
+> +	 * delivered to userfaultfd, regardless of FOLL_HONOR_NUMA_FAULT.
+> +	 *
+> +	 * Only do so while the VMA is accessible. If it has been made
+> +	 * inaccessible (e.g. mprotect(PROT_NONE)), fall through to the guard
+> +	 * below: forcing a fault there would loop, as handle_mm_fault() makes
+> +	 * no progress on protnone in an inaccessible VMA, and the access is
+> +	 * denied regardless of RWP anyway.
+> +	 */
+> +	if (vma_test_single_mask(vma, VMA_UFFD_RWP) && vma_is_accessible(vma))
+> +		return false;
 > +
-> +/* Fault reason #PF handler passes to handle_userfault() */
-> +enum uf_reason {
+> +	/*
+> +	 * If callers don't want to honor NUMA hinting faults, no need to
+> +	 * determine if we would actually have to trigger a NUMA hinting fault.
+> +	 */
+> +	if (!(flags & FOLL_HONOR_NUMA_FAULT))
+> +		return true;
+> +
+> +	/*
+> +	 * NUMA hinting faults don't apply in inaccessible (PROT_NONE) VMAs.
+> +	 *
+> +	 * Requiring a fault here even for inaccessible VMAs would mean that
+> +	 * FOLL_FORCE cannot make any progress, because handle_mm_fault()
+> +	 * refuses to process NUMA hinting faults in inaccessible VMAs.
+> +	 */
+> +	return !vma_is_accessible(vma);
+> +}
+> +
+>  #ifdef CONFIG_PGTABLE_HAS_HUGE_LEAVES
+>  /* FOLL_FORCE can write to even unwritable PUDs in COW mappings. */
+>  static inline bool can_follow_write_pud(pud_t pud, struct page *page,
+>
+> --
+> 2.53.0
+>
 
-Can we just call this "userfault_reason" or "uffd_reason" ? Maybe the latter is
-actually what we want?
-
--- 
-Cheers,
-
-David
+--
+Cheers, Lorenzo
