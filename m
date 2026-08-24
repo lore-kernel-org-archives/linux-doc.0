@@ -1,156 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37FD368D79;
-	Mon, 24 Aug 2026 12:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE0B416854;
+	Mon, 24 Aug 2026 12:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787575090; cv=none; b=RWq9yXdd7QcoGK2S7Awjy1Glw4Xz3ifwoPi2Alv07oREmVUp5DMfWVil+EXIg/lWZlbrM0PQ3iK4Znc5SOzPscZ2cWXY13AhdbjI1IqQ+aoAuGbFjhmUgKM3K1RZxGoPDoJsAwd0DTeH8vU27Wb4AG0bVxpJd5ZShEHuR9TLCMI=
+	t=1787575550; cv=none; b=WNj9J7a6qR5cEtfRDqsUi31bsrtCrkdT8+HkHpKG+g75nTHQMIBqvS2/RfC3B95+jn/wo9hQt+H17mPwm1STNKfVSV6ENO+wiT7mtM4tNyMIgCEb0NSiiFbXFV2VcioGTSDIXnW/ON159UxG+TgurpsSiIOvG+V7iVMeNzaVYtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787575090; c=relaxed/simple;
-	bh=8mAqcc3ir7PcKwU2jc+bF9EnuGTpwLLlfOQ4fs5HX/A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ihnmsa5dLDHnph/cnQ2XnayhlKCciDxheVv8GRQnyLFlcHuejzbKXObUdpKfN9Xg1y3vbP7alKwTCwopNhrCFXOmdgUNsycIwrkDhfqTnYMBm6cA0c9xYzfSLq5nHOpmb7PiROa5ajkAW5ECT6pai2sOxyVsBQ0R4M17dhFHa6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVwXi/Me; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787575550; c=relaxed/simple;
+	bh=LBo0kWmjSEJdr3w8AkZS50jaJ1zo0MsrBSgNPFGFXV0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TlSEKovNLhMGdNxY0uk+TyfUBDcLkOKFJqIU7hQEYwt0Ly/jrobGoNPKWyNPZeHniL1u4eReLv5o6zQvfKeX3MHn8Tk4XGJGJPzTjSS/ZOPBq/FA81ZChPebqT5S5Jhf3f48vthrmphqkVSJTsVFp5esXBgR1vUE7C8hY/4Hkng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FITCu/EF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVwXi/Me"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F32211F000E9;
-	Mon, 24 Aug 2026 12:38:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787575088;
-	bh=X8d4MJxLvYDEQndMVgXp8CoVUrqM1yJn/BvKkNr5Xyk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=dVwXi/Me8zOrF7K3foN9mE65PVGdyQ1Lgr+8+32xwxvaha8cJxPNCTjMIAAZVfiLX
-	 YHEfnbeJFbD1uweJ9gNTWd2Ub/xUVxHCZuhGL8g6Qn8VbciQTypFRtOAphKnW8SuyB
-	 cgso8N2hRX5yX50Dd1DWSEYiA78momtYHGD2bk1Bm6QqSA+e3KWFCS1bEG60MnPEvM
-	 1FHqBRJQI4kiGunR80bgtwQkDvhglBBdywKWm84i0fl3xRGVtUyU4FvHCXnRG2V0pj
-	 V4YX+qOKTpOmXHHzgjFihMprEAZIcuKWnEahhTA9cS8FE/ugJ60htTnqOkh3NAfjGF
-	 JY81Lwn7Hd5Kw==
-Message-ID: <c635db29-9067-4783-b706-92e81ba8ce88@kernel.org>
-Date: Mon, 24 Aug 2026 14:37:58 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FITCu/EF"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 647ACC19425;
+	Mon, 24 Aug 2026 12:45:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787575550;
+	bh=LBo0kWmjSEJdr3w8AkZS50jaJ1zo0MsrBSgNPFGFXV0=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=FITCu/EFTQWX/iAA+dFi65aluwiEweJnRL3swB3zreB19w7GjfRRhJSqKr0pThQPJ
+	 whNTv6ZintmZSOlDHpwbIGtNOD09Z7KcXXpQWMfioVqLJFHjXsyW6gcDo4bdAX9OV1
+	 CKlP+pg7qcGJTP7FsjTs4hlmWnRvWlByYVOd3XK1+uauwz1skJ8NyTAC4mdDmDIPBX
+	 q/wvHhF8/nytFWobsq6SPM8hFl8+PouzjARt07j04XjfJ9wY46v7Fbbd4HQkpUXLYO
+	 Bk2UIU1przs0MQx2+USPKMpcDOennrylbOLAAIn07YA78OSu2iEq0T0Lq9XwYkwe92
+	 uFVHwd7Qfl0/w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F072C5DF81;
+	Mon, 24 Aug 2026 12:45:50 +0000 (UTC)
+From: Cheng Lingfei via B4 Relay <devnull+chenglingfei.foxmail.com@kernel.org>
+Date: Mon, 24 Aug 2026 20:45:46 +0800
+Subject: [PATCH v2] docs: cgroup-v2: fix misc.events key format description
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 5/6] tools/mm: make gup_bench a benchmark only tool
-To: Sarthak Sharma <sarthak.sharma@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
- <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>,
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
- Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260813181230.483746-1-sarthak.sharma@arm.com>
- <20260813181230.483746-6-sarthak.sharma@arm.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260813181230.483746-6-sarthak.sharma@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260824-master-v2-1-00331c3cfb6e@foxmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2WNwQ7CIBAFf6XZs5hCFKon/8P0ALjYNbYYQFLT8
+ O/SevQ4ybx5C0QMhBHOzQIBM0XyUwWxa8AOerojo1tlEK2QbScObNQxYWCtQXt06oTSdlDlV0B
+ H8xa69j+Ob/NAm9b1agwUkw+f7Snz1fuLZs44k52URinkToqL8/Oo6bm3foS+lPIF725UxLAAA
+ AA=
+X-Change-ID: 20260824-master-0bec5f79e6c8
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Cheng Lingfei <chenglingfei@foxmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787575549; l=1345;
+ i=chenglingfei@foxmail.com; s=20260824; h=from:subject:message-id;
+ bh=9EdW2zRd1zyz6uqGRm1e2H1GPoLMd2RzHiRdXSbyxsM=;
+ b=pb+yUPVe3/hm6yx1unRjXXbNHgcVIXaQfUPZniMPlcNHkNWRQMhxqeuWl1QqvVNGTQk4FIV1V
+ JWPZOwPGd7wB40i1DJDGuRg9zk2jD2MxUmSmE/UGs3bZ/4bYLLSiCCg
+X-Developer-Key: i=chenglingfei@foxmail.com; a=ed25519;
+ pk=jJFtzwUiUOhTRJNlFx9WjsWHIYGk49Br17a7AD8MH2I=
+X-Endpoint-Received: by B4 Relay for chenglingfei@foxmail.com/20260824 with
+ auth_id=972
+X-Original-From: Cheng Lingfei <chenglingfei@foxmail.com>
+Reply-To: chenglingfei@foxmail.com
 
-On 8/13/26 20:12, Sarthak Sharma wrote:
-> Remove the functional modes (GUP_BASIC_TEST, PIN_BASIC_TEST and
-> DUMP_USER_PAGES_TEST) from gup_bench. Drop the kselftest dependency
-> and use normal diagnostics and exit statuses.
-> 
-> When no arguments are supplied, run a single GUP_FAST_BENCHMARK
-> with the existing default values. Let users select other
-> configurations through command-line options. Report ioctl failures
-> and handle errors without relying on assert().
-> 
-> Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
-> Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
-> ---
+From: Cheng Lingfei <chenglingfei@foxmail.com>
+
+In misc cgroup, misc.events does not output a simple "max" key. Instead,
+each registered misc resource outputs a separate key suffixed with ".max"
+(i.e., "<res>.max").
+Update the documentation to clarify that the entry key is "<res>.max".
+
+Suggested-by: Michal Koutný <mkoutny@suse.com>
+Signed-off-by: Cheng Lingfei <chenglingfei@foxmail.com>
+---
+Changes in v2:
+- Use "<res>.max" entry name instead of expanding with explicit examples (Michal Koutný).
+- Link to v1: https://patch.msgid.link/20260824-master-v1-1-6866b77e1f62@foxmail.com
+---
+ Documentation/admin-guide/cgroup-v2.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 7c2a8ed80..6a6fd2017 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -3064,7 +3064,7 @@ resources (res_a and res_b) are registered then:
+ 	change in this file generates a file modified event. All fields in
+ 	this file are hierarchical.
+ 
+-	  max
++	  <res>.max
+ 		The number of times the cgroup's resource usage was
+ 		about to go over the max boundary.
+ 
+
+---
+base-commit: 0a0d1d55dad570724bf8c7ea83409639cfb4be9b
+change-id: 20260824-master-0bec5f79e6c8
+
+Best regards,
+--  
+Cheng Lingfei <chenglingfei@foxmail.com>
 
 
-[...]
-
->  	free(tid);
->  
-> -	ksft_exit_pass();
-> +	if (thread_error)
-> +		goto err_unmap;
-> +
-> +	munmap((void *)gup.addr, size);
-> +	close(gup_fd);
-> +	close(filed);
-> +	return 0;
-> +
-> +err_unmap:
-> +	munmap((void *)gup.addr, size);
-> +err_close_gup_fd:
-> +	close(gup_fd);
-> +err_close_filed:
-> +	close(filed);
-> +	return 1;
->  }
-
-Why not have a "int ret = 1;" and just befor ethe err_unmap, do ret = 0;
-
-That way you avoid the duplicate exit code.
-
-
-Apart from that
-
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-
--- 
-Cheers,
-
-David
