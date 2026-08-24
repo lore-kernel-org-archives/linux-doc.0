@@ -1,96 +1,189 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751E81A9F85;
-	Mon, 24 Aug 2026 07:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D921A682E;
+	Mon, 24 Aug 2026 07:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787555067; cv=none; b=W5qDIrowl88V/4QqrMn701pualfMBZt3MnJBHft8u9i+dr0tCxolJPfsCKTOQL6ckjsvFuBy6AE/olCEsRcrSTDuKi4zSgI9n73tkoW8OsHmq30cQ0nW2tSzQj9Cttvq4tV0OfID+DDyAmiwEU2Kk8NdqPbuLi8546viN4xnqc0=
+	t=1787555446; cv=none; b=Oemj//tebwYyCGXHYS+0Eh8zgpsoM+XzG9RZr8e+k9N+SG5Fs04G3l1RjHyvrAGLZMLzv/Q7HT0rum6C+uBNY5pC4j78d1Z4ia4T0zAI+jf4d0/NJo3T0KWimbEX7ja44s+if9m+8olgOTe4tSb9nSsnh8Mq5X7o+zJqRoFd7Sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787555067; c=relaxed/simple;
-	bh=q/MK3OL/7L5bAdi8Kr2WaFMj5bGhDSJSCVcljstFFLM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bIge6jLDznX1ps1vRHvc1uPGEaFag5hLS+5Ktzj6iw3TO7eB3Y7JGbPlPlI/XcvjeHVrj05xHozHC7DJVFH3L1TcL8rGiyky0nNqRT0mhOh85GR0XPdo5tuGKduOllCwBAYgt2Ro/a4gXfCpF+84WlbzWeVUn8Q79Ua61mwp16A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=lly2NkSj; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=TvPCCpJV; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1787555446; c=relaxed/simple;
+	bh=fpHciuKFxrDpGxi6XvkP47uMh6llOLS6pWUt/AwpxnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=To2R82QWsAe126wkfUOxFh4OqcBX9Ln404PUTw1dp/8anEBPrVOEnWeK+880m9D1Jy+ukTomGzUW4OBGGD9xr/qQEssBwa2JEEwQYTdbSWBqCwpOVCidb1tFizF2Bsg6qK/zBDslEXUtoGjaUfUXsqtcqNWhgRwhM4Qs8b8liEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bVDEpAmq; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="lly2NkSj";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="TvPCCpJV"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4hT22l4GC1z8sYl;
-	Mon, 24 Aug 2026 09:04:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1787555055;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=JcDa0IHrFVs2lonWyMOr3u1P3rP4Vv/HhBKVTpznk/o=;
-	b=lly2NkSjZPymky/xmG04VkcqCp053/d5JmBFU0VS7u6jtsr8Bs3zo6wNfYQhFpWqS+ktyu
-	vkZUgT9piR7GnF2rllN0ymXzJl6uOrh+3SmIp1wiHoMFHLyJA0zqavKUxg33W5czJQ/HRT
-	9K2E3acNGvEu4OBZh5HN+LpXuPVwA43p97WNvjv85shbaN4e+Kf2SuILE1hqDID32KJGvL
-	4nn9TxXPOABX/eDSWVyqQ35YfTFAa9HRx9zZ8NCMPSsfIhtZhWMGfAsXgW8z+9AB0mrNdi
-	R2ZFxnzmkmaeZwtO9/aJU3GocV28L9zxhbDsXp/Ftu3bKYeKpbratmr3FLfpSQ==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1787555053;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=JcDa0IHrFVs2lonWyMOr3u1P3rP4Vv/HhBKVTpznk/o=;
-	b=TvPCCpJV/N3QJy2X772+t4shRMtrZK6f53P9pWB3diD2g8GtBanM67TBmDtRqKRb9E0iDP
-	U2qQNyypGvtfPYLgTfuXf6fAISaWsyYBjsA7pc5OyIuldRTF3PIBR6m/XoGvVLKrxebrzI
-	rfuz9kgeM67BFTD86SQg+ZTQcPe5TUHcBNb5dzjvfl9uq6Bcbc5IDP2dEaICUyyMkHap8x
-	wlkNkrcA60gCefG84PDYZcq/WJfG812P108HXxnoS+Qb7wuYN64YYJNDa+75o2JrwbYQgm
-	9dE4XdpMvC55hOf3y4e7nmpwWGK7Z04BnWzTSj46w912laENzDEMVMGGnLtAyA==
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bVDEpAmq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787555444; x=1819091444;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fpHciuKFxrDpGxi6XvkP47uMh6llOLS6pWUt/AwpxnY=;
+  b=bVDEpAmqd7XH4QoinEENwQ2KPGOycyoVzm9rEPxpUk0ouLvQnahLGlVF
+   6ljyAUtLS2SBAtU0ytFskK4N2pLRjLZchmpb8yiHB20fjagcHRRQbyBYa
+   8NiIYI3wxzb9KhoAXFGSiIJX2sUV1FddfGIfvdMVq2lZJZVCSFlHRPJnK
+   G1va1DCaRBwdD3wZwyb3Jt76IDc0ujpRy7d10Iu9W3zb3rAAxT5S1tgJF
+   yrbNPC5oSQodiSCOAaGkbJRVjfmj58HfiN9X8AuoL3FI+dyeDYuDxaICB
+   xh9GF1caNsVqOr1seBo35pQTYfpqCxULUR34grIXI/xEY2W2iKVQyp9md
+   A==;
+X-CSE-ConnectionGUID: jlev98B3QA+rR6QRoLW2GA==
+X-CSE-MsgGUID: 8WNufDBDRZKNQuGeQdkGJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="87867517"
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="87867517"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 00:10:43 -0700
+X-CSE-ConnectionGUID: 81PysIvMRLSoj0YxzKm4bg==
+X-CSE-MsgGUID: 931OPkOORtWThlWmswNCJw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="265143916"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.130])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 00:10:37 -0700
+Date: Mon, 24 Aug 2026 10:10:35 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: automarkup.py: add skipidentifiers
-Date: Mon, 24 Aug 2026 09:03:09 +0200
-Message-ID: <20260824070312.332802-2-manuelebnerli@mailbox.org>
+	Michael Walle <mwalle@kernel.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v4 08/14] iio: adc: ad7768: Add per-channel conversion
+ delay
+Message-ID: <aovua1sy4sm6RmSt@ashevche-desk.local>
+References: <20260821-ad7768-driver-v4-0-bb8fbd06d4eb@analog.com>
+ <20260821-ad7768-driver-v4-8-bb8fbd06d4eb@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 67a63fb6ac519fdd17b
-X-MBO-RS-META: u91mu7kzxb4uf8yjbf3emtrkkey9q5x9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260821-ad7768-driver-v4-8-bb8fbd06d4eb@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Add skipidentifiers to reduce wrongfully high-lighted (bold) words.
+On Fri, Aug 21, 2026 at 04:07:01PM +0200, Janani Sunil wrote:
+> Expose the per-channel synchronization phase offset through the IIO
+> conversion-delay attribute.
+> 
+> Derive the delay resolution from MCLK, power mode and decimation rate.
+> Validate the requested delay and program the corresponding phase
+> register when applying the active channel configuration.
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
----
-Pre-patch discussion:
- https://lore.kernel.org/all/bba57d51c72d9387ccef2b5979fa618e980c3ebf.camel@mailbox.org/
----
- Documentation/sphinx/automarkup.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+...
 
-diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-index c2227ab0a..8a6174950 100644
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -51,7 +51,10 @@ Skipnames = [ 'for', 'if', 'register', 'sizeof', 'struct', 'unsigned' ]
- # when following struct/union/enum/typedef keywords.
- # Example: "a simple struct that" in workqueue.rst should not be marked as code.
- #
--Skipidentifiers = [ 'that', 'which', 'where', 'whose' ]
-+Skipidentifiers = [ 'and', 'are', 'as', 'containing', 'in', 'including',
-+                    'is', 'name', 'needs', 'of', 'or',  'pages',
-+                    'passed', 'randomization', 'request', 'that',
-+                    'to', 'where', 'which', 'whose', 'will' ]
- 
- #
- # Many places in the docs refer to common system calls.  It is
+> +static int ad7768_get_convdelay_params(struct ad7768_state *st, unsigned int ch,
+> +				       struct ad7768_convdelay_params *params)
+> +{
+> +	struct ad7768_freq_config f_cfg;
+> +	unsigned int dec_rate;
+> +	unsigned int mclk_div;
+> +	unsigned int mult;
+> +	u64 mclk;
+> +	int ret;
+> +
+> +	ret = ad7768_get_freq_cfg(st, st->ch_freq[ch], &f_cfg);
+> +	if (ret)
+> +		return ret;
+> +
+> +	dec_rate = ad7768_dec_rate[f_cfg.dec_rate];
+> +	switch (dec_rate) {
+> +	case 32:
+> +		params->shift = 3;
+> +		params->max_raw = 31;
+> +		mult = 1;
+> +		break;
+> +	case 64:
+> +		params->shift = 2;
+> +		params->max_raw = 63;
+> +		mult = 1;
+> +		break;
+> +	case 128:
+> +		params->shift = 1;
+> +		params->max_raw = 127;
+> +		mult = 1;
+> +		break;
+> +	case 256:
+> +		params->shift = 0;
+> +		params->max_raw = 255;
+> +		mult = 1;
+> +		break;
+> +	case 512:
+> +		params->shift = 0;
+> +		params->max_raw = 255;
+> +		mult = 2;
+> +		break;
+> +	case 1024:
+> +		params->shift = 0;
+> +		params->max_raw = 255;
+> +		mult = 4;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+
+So, this is just a bit twiddling of the dec_rate.
+
+Can be written like
+
+	/* Optional, perhaps shouldn't appear */
+	if (!dec_rate)
+		return -EINVAL;
+
+	/* Same? What does table allow to have? */
+	if (!is_power_of_two(dec_rate))
+		return -EINVAL;
+
+	mult = ilog2(dec_rate);
+	if (mult > 10) {
+		return -EINVAL;
+	} else if (mult > 8) {
+		params->shift = 0;
+		params->max_raw = 255;
+		mult = BIT(mult - 8);
+	} else if (mult > 5) {
+		params->shift = 8 - mult;
+		params->max_raw = dec_rate - 1;
+		mult = 1;
+	} else {
+		return -EINVAL;
+	}
+
+TBH, I don't know which looks easier to read. It all depends on what datasheet
+says about these parameters and multiplier and what the table allows to have.
+
+> +	mclk = clk_get_rate(st->mclk);
+> +	if (!mclk)
+> +		return -EINVAL;
+> +
+> +	mclk_div = ad7768_power_modes[st->power_mode_idx].mclk_div;
+> +	params->step_ps = DIV_ROUND_CLOSEST_ULL((u64)mult * PSEC_PER_SEC *
+> +						mclk_div, mclk);
+> +
+> +	return 0;
+> +}
+
 -- 
-2.54.0
+With Best Regards,
+Andy Shevchenko
+
 
