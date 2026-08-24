@@ -1,206 +1,152 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C83369236
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 14:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787582751; cv=pass; b=SnGxx0PbQolSMXKIOXWcFT6cTkfwyXRYQbi3irSObdMwkyfl6Y4Ml8QX68extjmVVYvN16zEOdI7xoDXtlZn6FfiGujXVdZoixRAyoLyDtGGLPJwMXv8v8gYor/LOUlx4LEymt/XJ5Nt8RNUtEjGVm62yInQqhk1Ziy5kBmFWoU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787582751; c=relaxed/simple;
-	bh=HjYwTd5kWmHq4WzayeX05JXI6uq7QkVWkmVqyAOIZIg=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gzgIuSUPBA0tIdJpVj656ui2g1ta4nt/j/m8VZB8fsPe+fEmYod4+LJkCCDdwiazLtS8UUMF1JoybpjGeakwMz7Q1Us1XdiSBOUXeKLU8RmsYHxFYtRFx/HQBd83taz6eNIkFnMf9Imi+oNLSsPJlKUSG79HIrPLHeKnt+2RcEY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bP0h7Zqh; arc=pass smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B002A43F8B2;
+	Mon, 24 Aug 2026 14:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787582786; cv=none; b=VnnyCo1spV00yUb1RwtY7zNBAb4mgjf3o/xm/yVeBh0BeBh1GOqQbhdNwoJINAe93HysoAezVXRlaBt5HAz8Ti39LVcoMzFOo/BexeNIDohbs3GlEH960rFUF7/58+WH7f2EbObaWrWQNSyAc13sRADV3eli4N2473PLiqRjXgc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787582786; c=relaxed/simple;
+	bh=8nLoyii0J8BYKAAct5Xda7iv5em4yS6sroncW2zsEWE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KACKXH7vmvun8sAwT0GKV8iygulUyQNSarauWRYjZQnXyaX3cj5J1P1mGP2HJ3E7TgBYXJBsIQ6dEm26Xn89SQhbRAGsuTxAAkmR0xkm3tftlHPpc+4jn1pkdu5wg1PVvaJ4vZS3idsZZMXAMb7UbwDvaPcxJm5PekUKMbFvYMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b41+8o8I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bP0h7Zqh"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-9063b380982so41598856d6.0
-        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 07:45:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787582748; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fxXVs6QQ2w9jW1hYTtvLsevXCqXhqA1gBCLvZWnIG34wHryijLIkXZK58ipmyffLf2
-         vIt8dm3qIzaE9LXYyQGZNcc1jkZfdE2Y9WrA/c7wKZSOJ+GknC2R5RMjeIkhmz9mcQ86
-         R10N7JJ3LaaEWCVaqhpVI3P0SAIYB6eX5H3PI+dBhxjpjXCglMpHe/bLyGOPc5a/dnPR
-         d0ZzbbzQzHZ9PVUHBnUEeHlnbYx9whrRG8F5B/o60A7DVylq/kWFytkC2IKRhqateMWk
-         GBv4kgm5iDxlGSe/ohCxPgJZP73iRUSOZdi9mo8x+cmK6U0OTElKGbqXbgKM1wr+bPML
-         DHVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=skkP3oMbeet6bj4bc4/M8i6L8abYIXvlg1WGbPCJGYM=;
-        fh=SOx7ftwkx0CrEFq8Z8PcOXHFjOZgo/taKRX/DDQ7gwo=;
-        b=dkRc+H8BTdF3xdL2HxF1GSa5Xp0qy5Sc/9ZfHUOjK2zsktA429mtz3eOY5a702Qh5e
-         335m1TXAamuB/X9zv2KSD4Nz4Gg0Sk4S4gGTJvteadkiXG7A+52BEO5wKZUVHG1fy4Gm
-         C3DzFNvo4d36ySBlqRJQBvN3uIv7BMzm2zno1rrwoImpj/oM8dHrHe0p3nmIQX0Sf7dx
-         YKLDzRx5hRCNQM4166hTM7QNDrhJ8iqC2nBjR5xsLnP2QRM68Bg2BKn+pXud/r916bMQ
-         aJ49mCFYqJlziL2fL2W4KWJYdHiad2hwh9Zp36lNUhD8jvP+vMfgdiWi0OJQQOUNn+En
-         yITQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787582748; x=1788187548; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=skkP3oMbeet6bj4bc4/M8i6L8abYIXvlg1WGbPCJGYM=;
-        b=bP0h7ZqhRP2YZvqVZFGgMR0GPc6dwH6/vzBF6W2hb+DmQUHbkyzIIorUyBAK/VYuoS
-         khNXL66K3q3Dbw1lqJVp87tc+5faJbejMLEd5pbky8AHTNu/qv0+CzWTXfiL7NoF1wO9
-         gIn8WMJMzMPTvdevPI06JkZ8qaL+ezt+fkYRBb/RNi/bGHuK7fJ4CkYqnOkRJAP++Tsx
-         vKWmYJtP/phj0tMvhrH/J1pqucckN7zM3HYb/UqD7CkgP3PpFNhPDwou/xc5GuMhJSaC
-         wOBR1ynPpBCfH2eBAWSB3KrKWOSLJGpIpIKTGRRZ2dIawrhmIy8md6FJvyzmo6p9n1wT
-         O06w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787582748; x=1788187548;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=skkP3oMbeet6bj4bc4/M8i6L8abYIXvlg1WGbPCJGYM=;
-        b=PZzJVMIhbUFmnYTjmaJc3LUR+3iS1gCZ0h/ULyYxh+OaSgpN8moOy0WdDP2qJXsCPJ
-         cGCdHWQCtW7WcgmnBJeo7yOw7ebTiPt7NPWP9tyohnbJ7X2Uu1dy3LJVzXe4/C/iXaLf
-         EFTDomDNlbY++0/z0L/C8TrKAeu+QQs2xZ9X4ZDLWrADLQiCbcVkOSh2WgpqV17BiXaK
-         +vAB88Au3WNTejp2Tc0CQudcQGPTGJgSrd8urQKUCaMv0gG0WZfxcHJFJgpLh5OCDUZk
-         pSGs9Z8pcIfb1M7VfwERvH9kFaBLq1qzZxuuEKWHh8n5OAhpe3ZNaAbcqMmdKRj9TjIE
-         y0gQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpAWl5Zr+mCpt2QCGdXD+4++TUPzvHB05zQp3rujpKl9ZM4AsyEfRMo9LUv5OZ9NE+oscN0j0PnT9I=@vger.kernel.org
-X-Gm-Message-State: AFuF++mWUSgqdn9xLgx3mwlEoceCssLknTgcmOHU52Yxu6rKChRkQpEl
-	IUiJABXRbm8wha2Hl4olgQMVqewJgKaM7h3rEJsT7IcQnXmq3Y3D+2JJRMOE272QWRagLoRbDTz
-	uTvNQ+/+gWw+xhThk20EV5D8h0h4NpmfGSfecXebL
-X-Gm-Gg: AR+sD11+V/Z6X3uopStroPQ5TfR4XAH+CpJcXX5InsB9jCEbgVQ3gV4+ecg2Hcdlyt8
-	S23aX0p8iUuYWU/XgsphIwJrUcyITVAaXcOzfNpJyBAT47PNCDw/GfBjdj9mqKcMstRsvwrxm90
-	Onxs+NHXiab9d/8B0qmq+c0jBuj2sqloTAuRnjvGKlPfJyG0aDMah0X7iYMbdOwTVEDw3qclaCb
-	QIYHWLqkQkrLr4/7QPScpvG7kuJkaoDaEdlYCS8WiaR8qjVbx8+7N1dDjk8S4tjorkcgyFg6v8N
-	BpAwmRugtswgbG1EjHuUrtX1H5+k/LkooB+M8653X7VuPvdpKgEoJax14tsGLK7bAuHSq6douQh
-	f1wE=
-X-Received: by 2002:a05:6214:246a:b0:908:2369:df1c with SMTP id
- 6a1803df08f44-90c8f9f6e2amr182627906d6.20.1787582747578; Mon, 24 Aug 2026
- 07:45:47 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 24 Aug 2026 07:45:46 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 24 Aug 2026 07:45:46 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <a410cca6-0776-44af-8353-9b7375e2fd4e@intel.com>
-References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
- <20260807-gmem-inplace-conversion-v10-7-2fc18ee6d3ba@google.com> <a410cca6-0776-44af-8353-9b7375e2fd4e@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b41+8o8I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D06261F00A3A;
+	Mon, 24 Aug 2026 14:46:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787582785;
+	bh=uOdefC3ft+rIrM+lRzrzTelVuZoqvjKq0Pla1Vm3VSg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=b41+8o8IJgBxDHtRI6Tjnf9CM9J5j7Wpr08L9h4SkEN4zb9xlhboO6fa2EYO4zIZl
+	 sdWw3YJjUhNAWD7KdcvLEZNGcsRQNWqOlGqMHDg+TxRG7kNVkA+vdr2xJkdvknL/qB
+	 mPvP33WQVDJrkciOrZybBGyyh/1NNq6U9ywOoci9m/Q3TcZzdua8N1wZAAdGBDITuS
+	 jyCSP2oFp9YGQG4Qp6ZlxchyScmDZfKO3PAMS5HdMhTNdpNBVxuw/MfqzoNwwFWoi5
+	 KIHkUfgwAZ2DybB6RBTPsGah/+63Ev53H6zpuWubJqmj3Waob9OZxqaLdwmRjAM5AU
+	 1A47zHPy7WF3g==
+Message-ID: <5bb86e34-6196-4b50-b553-be2ff7c1fa32@kernel.org>
+Date: Mon, 24 Aug 2026 16:46:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 24 Aug 2026 07:45:46 -0700
-X-Gm-Features: AcwNN1X5oDcPBaq55pm-MNepv-y7g9QlVSIhzW239c93dbXJQTRPUD7hBagIvPo
-Message-ID: <CAEvNRgGvxMus6pp=xuDYOumH3Ge4oi0=YKjTaFykFHwXuzRDwg@mail.gmail.com>
-Subject: Re: [PATCH v10 07/41] KVM: guest_memfd: Stub in ability to enable
- in-place shared<=>private conversion
-To: Xiaoyao Li <xiaoyao.li@intel.com>, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/6] userfaultfd: decouple fault reason from VMA flags
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
+ Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+ Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt
+ <rostedt@goodmis.org>, Suren Baghdasaryan <surenb@google.com>,
+ Usama Arif <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
+References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
+ <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Xiaoyao Li <xiaoyao.li@intel.com> writes:
+On 8/23/26 14:17, Mike Rapoport (Microsoft) wrote:
+> Introduce enum uffd_reason to define reasons for user faults rather than
+> overload VM_UFFD_* VMA flags for that.
+> 
+> Using a dedicated enum makes the code clearer and decoupling the fault
+> reason from VMA flags clears the way for moving the uffd mode bits out
+> of VMA namespace.
+> 
+> No functional change.
+> 
+> Assisted-by: copilot:claude-opus-4.6
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
+>  include/linux/userfaultfd_k.h    | 16 ++++++++++++++--
+>  include/uapi/linux/userfaultfd.h |  6 +++---
+>  mm/huge_memory.c                 |  6 +++---
+>  mm/hugetlb.c                     | 10 +++++-----
+>  mm/memory.c                      | 10 +++++-----
+>  mm/shmem.c                       |  4 ++--
+>  mm/userfaultfd.c                 | 30 +++++++++++++++---------------
+>  7 files changed, 47 insertions(+), 35 deletions(-)
+> 
+> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
+> index 45355bdb4ec7..f401623f315d 100644
+> --- a/include/linux/userfaultfd_k.h
+> +++ b/include/linux/userfaultfd_k.h
+> @@ -9,6 +9,18 @@
+>  #ifndef _LINUX_USERFAULTFD_K_H
+>  #define _LINUX_USERFAULTFD_K_H
+>  
+> +#include <linux/bits.h>
+> +
+> +/* Fault reason #PF handler passes to handle_userfault() */
+> +enum uf_reason {
 
-> On 8/8/2026 5:52 AM, Ackerley Tng via B4 Relay wrote:
->> From: Sean Christopherson <seanjc@google.com>
->>
->> Stub in global variable to enable in-place guest_memfd private<=>shared
->> memory conversion, which will eventually be exposed to userspace via a
->> module param, and wire up the __kvm_mem_is_private() static call to the
->> guest_memfd version when in-place conversion is enabled, i.e. when gmem is
->> the sole authority on private vs. shared memory.
->
-> I find this patch changes the default memory type for a @gfn.
->
-> - When memory attribute is tracked per-VM, the default memory type is
-> always shared.
->
-> - when gmem_in_place_conversion is true,
->    - if the @gfn has no memslot, or the memslot where the @gfn locates
->      doesn't have gmem bound, the default memory type is shared,
->    - otherwise, the default memory type is determined by the
->      GUEST_MEMFD_FLAG_INIT_SHARED flag.
->
-> I think we should document this change.
->
+Can we just call this "userfault_reason" or "uffd_reason" ? Maybe the latter is
+actually what we want?
 
-In a way it's not really a "change" since gmem_in_place_conversion is
-set up as false in this patch.
+-- 
+Cheers,
 
-When it is enabled in a later patch, another way to see it is that the
-default remains "shared unless defined as private".
-
-Before:
-
-+ no memslot, or memslot not bound to gmem => shared
-+ memory is shared unless VM ioctl used to make gfn private.
-
-After:
-
-+ no memslot, or memslot not bound to gmem => still shared
-+ otherwise, ask gmem about status, which I think is already captured in
-  the module param concept.
-    + The very usage of gmem (without INIT_SHARED) is defining memory as
-      private, I think that is already documented elsewhere when
-      INIT_SHARED was introduced, that now the default is private.
-
-So in summary, I feel that this has already been documented in various
-places. I'll also add the following in v11's "KVM: Let userspace disable
-per-VM mem attributes, enable per-gmem attributes", in
-Documentation/admin-guide/kernel-parameters.txt:
-
-	kvm.gmem_in_place_conversion=
-			[KVM] Controls whether KVM enables in-place conversion
-			support for guest_memfd and tracks the private/shared
-			state of memory per guest_memfd instead of per VM.
-
-			If enabled (the default), KVM enables the
-			KVM_SET_MEMORY_ATTRIBUTES2 ioctl on guest_memfd file
-			descriptors and disables the legacy VM-scoped
-			KVM_SET_MEMORY_ATTRIBUTES ioctl for private memory state
-			tracking. Only the KVM_MEMORY_ATTRIBUTE_PRIVATE
-			attribute moves to per-guest_memfd tracking; other
-			attributes remain per-VM.
-
-			This parameter toggles KVM's in-place conversion
-			capability support. Whether a VMM uses separate backends
-			or out-of-place memory management is determined by
-			userspace VMM design.
-
-			Note, this parameter is only available when
-			CONFIG_KVM_VM_MEMORY_ATTRIBUTES=y. When
-			CONFIG_KVM_VM_MEMORY_ATTRIBUTES is not set, in-place
-			conversion is unconditionally enabled.
-
-			Default is Y (on).
-
-
->>
->> [...snip...]
->>
+David
