@@ -1,74 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA59C18DB01;
-	Mon, 24 Aug 2026 08:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B63B346E7A;
+	Mon, 24 Aug 2026 08:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787559231; cv=none; b=XDwxnDhbnywbJMmA767qsg1LO+NH7IRqAGa3FbyILHYsn64U0iCauN0Xw9dvNrhGY6X7mX+tWTmNH++vRr16GGxCU0PnxjJ7Xtm3vSh8oVraP/8L8iu9cOu4ytJDA6mw/tsq4uRIojUEgdIcMzMnczS6s8ndI2myiD+aNdh0FQE=
+	t=1787559435; cv=none; b=JORIu3qqwkUjebGpa3RrOoXKqeaCvZfwZVczkEW+LFicZGK9VOAgBo7V6IZvYX7JM4XF3rnQxTAbt3HsQj+UpeOzzKh1cq4SS3/nOjlH9ERfK+Gq0d93zqPHR5fcGjv51+uXSpnthEPTuIFV6nY7q/cD8SRjqQT+tHra2KhTQgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787559231; c=relaxed/simple;
-	bh=28tdcNeYvivqfO6xmJCs3eQvMTf7EWGHzRJJZsjamd0=;
+	s=arc-20240116; t=1787559435; c=relaxed/simple;
+	bh=l5DE0vLKC2aO/UHzn1eUKYSOSLzkqDEzUDKrM/QvHwE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oSz20zDbQRMpLxWQDQl6bj8R7Jj8JB/v7nq4r/m/T4E8OQmoh+GlpiMVdVm0uHJbvOkY1Rlz1//kGjehdEZ2IrcZqHd1PyRY/+PwZnqgqh1JjggzKCIZj0koWMdMK9rKKMd8ZofwXaA6PsOU+gmFOi8Zm+OLjIl5w1pnRRMwEQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MDItu8eq; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ji206NvkeSBWidy/JWhzyRYbXxoITk8JMXhpPOskDVouZKFsAwEsrYQsTeW357IjFDXv2RN5bPKEM+ZqzEe2s++I6wzq2SGrkw0aMQLXnB/USpf8624kGFT0/sh4WamZXHgg31FUt/uk8SvCHJuFND3O15OuIIxTWOZ5GwkHvpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qpl6pTLo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MDItu8eq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787559230; x=1819095230;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=28tdcNeYvivqfO6xmJCs3eQvMTf7EWGHzRJJZsjamd0=;
-  b=MDItu8eqZgxNg0K32gVYOof0GEcNswvu+FDJJMUEZfc2ETr4t9QKOxFd
-   GfDyqBoZazd/9SlS5+rbjPnfrvNGkP1zbxhMs1PSgfC+iSkhKCVHjCVeS
-   VSyvZ/p6z1HTOojqrd1Z0tP/8Odmf8zR242Vd+QWJmaLcLFnEfQySrotn
-   IpDC/pIg4qXYbndhL5g1L8Lf3d1k80+N+kvnQP+W6BqEJiB7mN8zJVhrQ
-   ukSvWAvMLZwOuCUi9LpuKGQOuyW8BZWPGluYc4cJ9dugbpcZPeXNwdfkp
-   z/LE/KeEFQnee2lnxnLrq97q54bWDZeGpvIq/55L87a5WVhj3GjjG96E/
-   g==;
-X-CSE-ConnectionGUID: q8YICUUMR4SVgMjSdZcWgg==
-X-CSE-MsgGUID: Fd0ezUfCQdmyBcXDOMYEag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="87769170"
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="87769170"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 01:13:49 -0700
-X-CSE-ConnectionGUID: NYnPaUjXT9K2smj8J4yUxQ==
-X-CSE-MsgGUID: ig49bFpbSOKtqUFni+Zl3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="264316491"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.130])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 01:13:44 -0700
-Date: Mon, 24 Aug 2026 11:13:41 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Janani Sunil <janani.sunil@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Michael Walle <mwalle@kernel.org>, linux@analog.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v4 13/14] gpio: ad7768: Add AD7768 GPIO auxiliary driver
-Message-ID: <aov9NcmRhx3XgJpl@ashevche-desk.local>
-References: <20260821-ad7768-driver-v4-0-bb8fbd06d4eb@analog.com>
- <20260821-ad7768-driver-v4-13-bb8fbd06d4eb@analog.com>
- <20260823203947.3ecdc448@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qpl6pTLo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8F411F000E9;
+	Mon, 24 Aug 2026 08:17:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787559433;
+	bh=IXaDWANMBlI65kh+v9rkRtQjLvm/PKZVB63CiqD6Ees=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Qpl6pTLoaAeBpcbEKuwh7r8MjAtDrlHX9jbAvcFpcR3CrHgdYxXx4sNdOyT+5UBKY
+	 hwZq5M/8DVldhkxcUcUBBVJpFFJx65vumAzWROkhZFaJiuN/Go9Oo5qBngNafk2Hnz
+	 4Kxq6N+gG+DKLwsJ0rRHEZidN7GEYCsTMgChe8YBhRjImyKcBI3UrAtavVAVigyJLv
+	 z676QZZTMwHGh3tA/ERm62yiT+TLykLWSMuKPn3ZFlO4phL6vWjYq5HA7PXoJyoZ/A
+	 GP89f/3ADUV4wdxx07Q2m2351EcJIaNzyIUdQOg2KcUhJ+DF4PThf+Jgvs99hwVs8n
+	 TfuPMAbNrQQ5Q==
+Date: Mon, 24 Aug 2026 11:17:00 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Lance Yang <lance.yang@linux.dev>
+Cc: akpm@linux-foundation.org, david@kernel.org,
+	baolin.wang@linux.alibaba.com, baohua@kernel.org, dev.jain@arm.com,
+	hughd@google.com, jannh@google.com, jgg@ziepe.ca,
+	jhubbard@nvidia.com, corbet@lwn.net, liam@infradead.org,
+	ljs@kernel.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+	mhocko@suse.com, muchun.song@linux.dev, nico.pache@linux.dev,
+	osalvador@suse.de, pfalcato@suse.de, peterx@redhat.com,
+	ryan.roberts@arm.com, shakeel.butt@linux.dev,
+	skhan@linuxfoundation.org, rostedt@goodmis.org, surenb@google.com,
+	usama.arif@linux.dev, vbabka@kernel.org, ziy@nvidia.com,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/6] userfaultfd: collapse VM_UFFD_{MISSING,WP,MINOR,RWP}
+ into single VM_UFFD
+Message-ID: <aov9_DIHLHynm7tN@kernel.org>
+References: <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
+ <20260824071126.41979-1-lance.yang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,87 +55,86 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260823203947.3ecdc448@jic23-huawei>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260824071126.41979-1-lance.yang@linux.dev>
 
-On Sun, Aug 23, 2026 at 08:39:47PM +0100, Jonathan Cameron wrote:
-> On Fri, 21 Aug 2026 16:07:06 +0200
-> Janani Sunil <janani.sunil@analog.com> wrote:
+Hi Lance, 
+
+On Mon, Aug 24, 2026 at 03:11:26PM +0800, Lance Yang wrote:
 > 
-> > The AD7768 provides five GPIOs controlled through registers shared
-> > with the parent IIO device. Register an auxiliary gpio-regmap driver
-> > and use the parent device for runtime PM.
+> On Sun, Aug 23, 2026 at 03:17:43PM +0300, Mike Rapoport (Microsoft) wrote:
+> [...]
+> >diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+> >index 83587d34b189..193f6e65d875 100644
+> >--- a/mm/userfaultfd.c
+> >+++ b/mm/userfaultfd.c
+> >@@ -50,10 +50,10 @@ struct mfill_state {
+> > 	pmd_t *pmd;
+> > };
 > > 
-> > The device has separate input-state and output-latch registers. Add a
-> > reg_mask_xlate() callback that checks the line direction and reads the
-> > programmed output latch for output lines while retaining input-state
-> > reads for input lines.
-
-...
-
-> > +static int ad7768_gpio_probe(struct auxiliary_device *adev,
-> > +			     const struct auxiliary_device_id *id)
-> > +{
-> > +	struct device *parent = adev->dev.parent;
-> > +	struct gpio_regmap_config config = {
-> > +		.parent = &adev->dev,
-> > +		.label = dev_name(parent),
-> > +		.ngpio = AD7768_NUM_GPIOS,
-> > +		.reg_dat_base = AD7768_REG_GPIO_READ,
-> > +		.reg_set_base = AD7768_REG_GPIO_WRITE,
-> > +		.reg_dir_out_base = AD7768_REG_GPIO_CONTROL,
-> > +		.pm_dev = parent,
-> > +		.reg_mask_xlate = ad7768_gpio_reg_mask_xlate,
-> > +		.init_valid_mask = ad7768_gpio_init_valid_mask,
-> > +	};
-> > +	struct gpio_regmap *gpio;
-> > +	struct regmap *map;
-> > +	int ret;
-
-> > +	map = dev_get_regmap(parent, NULL);
-> > +	if (!map)
-> > +		return -ENODEV;
-
-
-^^^^
-
-> > +	PM_RUNTIME_ACQUIRE_AUTOSUSPEND(parent, pm);
-> > +	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = regmap_set_bits(map, AD7768_REG_GPIO_CONTROL, AD7768_GPIO_UGPIO_ENABLE);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	config.regmap = map;
-> > +	config.drvdata = map;
+> >-static bool anon_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags)
+> >+static bool anon_can_userfault(struct vm_area_struct *vma, unsigned int mode)
+> > {
+> > 	/* anonymous memory does not support MINOR mode */
+> >-	if (vm_flags & VM_UFFD_MINOR)
+> >+	if (mode & UFFD_MODE_MINOR)
+> > 		return false;
+> > 	return true;
+> > }
+> >@@ -462,7 +462,7 @@ static int mfill_copy_folio_locked(struct folio *folio, unsigned long src_addr)
+> > }
+> > 
+> > #define MFILL_RETRY_STATE_VMA_FLAGS \
+> >-	append_vma_flags(__VMA_UFFD_FLAGS, VMA_SHARED_BIT)
+> >+	append_vma_flags(VMA_UFFD, VMA_SHARED_BIT)
 > 
-> Why not do all this in one place rather than init then later
-> modify?
+> Looks like this drops registration mode from the retry snapshot. Assume a
+> shared shmem VMA is registered for MISSING and COPY reaches
+> mfill_copy_folio_retry(). While locks are dropped, the same userfaultfd|
+> can re-register the range for MINOR. VMA_UFFD, VM_SHARED, ops, file and
+> pgoff all stay unchanged, so the old COPY can continue instead of
+> returning -EAGAIN ... no?
 
-See above the answer :-)
+Good catch, thanks!
+ 
+> Maybe something like this?
 
-...
+I prefer to add mode to the retry_state:
 
-> > +	gpio = devm_gpio_regmap_register(&adev->dev, &config);
-> > +	return PTR_ERR_OR_ZERO(gpio);
-> Could do
-> 	return PTR_ERR_OR_ZERO(devm_gpio_regmap_register(&adev->dev, &config));
-> 
-> Though maybe it looses some readability?
-
-Fine with me. Taking into account my previous suggestion (in another reply)
-
-	return PTR_ERR_OR_ZERO(devm_gpio_regmap_register(dev, &config));
-
-which bumps readability back to track a bit.
-
-> > +}
+diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+index 193f6e65d875..a0377f7ecc69 100644
+--- a/mm/userfaultfd.c
++++ b/mm/userfaultfd.c
+@@ -471,6 +471,7 @@ static int mfill_copy_folio_locked(struct folio *folio, unsigned long src_addr)
+  */
+ struct mfill_retry_state {
+ 	const struct vm_uffd_ops *ops;
++	unsigned long mode;
+ 	struct file *file;
+ 	vma_flags_t flags;
+ 	pgoff_t pgoff;
+@@ -482,6 +483,7 @@ static void mfill_retry_state_save(struct mfill_retry_state *s,
+ 	s->flags = vma_flags_and_mask(&vma->flags, MFILL_RETRY_STATE_VMA_FLAGS);
+ 	s->ops = vma_uffd_ops(vma);
+ 	s->pgoff = vma_start_pgoff(vma);
++	s->mode = uffd_mode(vma);
+ 
+ 	if (vma->vm_file)
+ 		s->file = get_file(vma->vm_file);
+@@ -493,8 +495,9 @@ static bool mfill_retry_state_changed(struct mfill_retry_state *state,
+ 	vma_flags_t flags = vma_flags_and_mask(&vma->flags,
+ 					       MFILL_RETRY_STATE_VMA_FLAGS);
+ 
+-	/* Have any UFFD flags (missing, WP, minor) changed? */
+-	if (!vma_flags_same_pair(&state->flags, &flags))
++	/* UFFD registration mode or VMA sharing changed */
++	if (!vma_flags_same_pair(&state->flags, &flags) ||
++	    s->mode != uffd_mode(vma))
+ 		return true;
+ 
+ 	/* VMA type or effective uffd_ops changed while the lock was dropped */
+ 
+> Cheers, Lance
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Sincerely yours,
+Mike.
