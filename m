@@ -1,588 +1,578 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4695A3AE6EE
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 10:01:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787565665; cv=none; b=oRS2schk7wbrxFA18eMXl7CSEgQMrZvfC5ockM8nvpJRdFH46txKzaZDG3IwfC9VcFtdveMX1GmV7AicY28bJafubK013Z1kyiJ3zkYcnEQII8Q+49vPmygr7dqqHhJpmCyrHUc4fvmUIwbPjZtvbT7z0cedPvyEUTTPEknvSfs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787565665; c=relaxed/simple;
-	bh=TDzvTd0j92UXcVgHi+g/Qyu43S4z4QKND98+gRGOi4A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Iw9e/DwO+05xlfEftMXzvuj3unPzdmPxOj1zqWL7qGvPhKHnp2uIzvWNkA6k6+BVCB8weKpx8Xy51vPM4X9Hf/giTLO6OC8n+n9vVfypWt+R/Ng9JzHTF+2jOQfzxo5alG7rJJ9/DKmSlSwxGNYgL4ZDDYoRhqkG5mt5g5AYo+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IZ09PykT; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC323AFB19;
+	Mon, 24 Aug 2026 10:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787565774; cv=fail; b=ZWbw85lKDPbylGRISdvfIa6jvoDLpMYE/5Dn9jgR5aGKbzba92au1FY00wN8BAVwGitZBlWOes5U110oQG3grAciptQoAW5YjibsHGbO1r86h7A7PXgNOd8gcTfOLU4oEI1K05Ccfo0OUrx68K6h+vkgmM/7kwUb4zQ/dvTEwKM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787565774; c=relaxed/simple;
+	bh=VVKU1N2ZxiLGEWZ02StzfUWerurhSN02W4wzJfatS6k=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=T8D3tCIHyCSs1GpYHJaGz26y62QyD3bU9Zs42thtaKlvMKY3FQZ8QRP6jwHT7MpBywWD9cWSSyVFJp5JEXk4zFWdwIch7JT7qlYeCLMhDdEnS0eiCW5vaTgXO5jPdr8BUvQxiaiNFmgF+3XK6Z1bxDRKQ6JLmtkQNpFWWn7/HXo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PbC0Xa42; arc=fail smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IZ09PykT"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cbeea240819so1858741a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 03:01:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787565661; x=1788170461; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GUTvO6lN0MF4emLUe1MUC8mgqZCrNtS78wfoNqz4lFs=;
-        b=IZ09PykToigtr+D8CAdhUbZf5yVSIJ55s928GRZG2cjPxC2C2upK82l3bCYiobjUpT
-         JS4KXqdW4+qbbE1DretuvM1EsbokB6twoxVtyFc/fvH9uH60KhDkWmFfnCbJND6me56Z
-         nz5xkTCIdHtGgud2B1bMFK6/fXzbERVL6sDMKD8gPfh3GwJo+jVlyHM7cmAn1ajJlSAo
-         977TQ8g93retK/unUGcEW/HxEs3I01EzkFLyumm6T9dLNtcNZAG1ajvXc4yZ/5eLjI/r
-         yN4Z7xEm4rXV5+fjSDnh0/NLS0CY/LjfMyE1QLLMD/FbXCShU8q55NfeZ/2/c0LHXOiJ
-         So2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787565661; x=1788170461;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GUTvO6lN0MF4emLUe1MUC8mgqZCrNtS78wfoNqz4lFs=;
-        b=dHjULVel0Nf+/XUGskk8BEMjez1Y9k80yAPkCqYyCM1Z+ibp6LOzVBLxHfMVLdTdqp
-         zSg4uf+J+cptGFrZBqBcmV9w8lEf+Uo611zGOTVpVE6unyvQ8hVkw1fP7z2qstJGtbXU
-         qU+mIWdlN0hi3BHkzAcC2nYTkB6w2hfnc2dRk0WbmiAhPm1YQbwMJTclyzZlXrLrJGdA
-         u2zYyM5SVtScGyAg/grTcZiJ3++LMKnP/20L4XAQ49A2ruvLiNdLX4VXtX+gWHqAwIxS
-         KseIfLxK2IqrQ76BUiaECLb/JWK49Wn9DA8zEcZIyRl/tXdJCnxCikOlcUX2pspFbh3d
-         JalA==
-X-Forwarded-Encrypted: i=1; AHgh+RowxgelKgU1sahhIKMDiFlVw/dWjK76i6SEUMiD/1hfC7CDUnWSXkEOhQSlb+CawzJsz8FnpPOnKGI=@vger.kernel.org
-X-Gm-Message-State: AFuF++kxETjBuwq0dskw0zkujVoPSJnPpM+mB4IE9TkFVT+vkMJTrEdU
-	hzAD9hR2TwdyrQwm3tmKkSZplAF5svQx21PJtAoAdc9+b1it9d2d9/bN/DxeT+Bq
-X-Gm-Gg: AR+sD13319QZsKaav7sZqnlYghaP1mSDz/3lGwjpMXBB4fCc0BIvPIJomquCYSYVcWe
-	eCkNt4YiB5QHKlrDHZhW/XKITuQVgVbcqxVpXMl1CG7471X04gcSFVmPxTcOPfHYzXhe5RXfrPQ
-	XzRHQeE29DAOVjVDIyK6m8YqlZD/yd+nHLEzKJspt0OcPlVZqyCN9UJeF6Znf7mJnAPbKh4LS3E
-	SzVe/uo6khNF9ve+6lEzaTBSIGD71Yy0q6l/GTeeOejlKgJaEjNObo1jACt1+MPflfUTUfkgCHj
-	8bENqI2OD5wXOs4XJ/dwqAqVt3qxgin6HihusXSfG5oz7ZT2udpcGZSSbyVOqAKqEhP1/4LgEqO
-	lUELaI0ji1p10iJinIBF0VANYHkW54fuXnbjtgSvFax8jZD2sFo7EDPyXvWDJbZ057On1WoJs15
-	jG9WqVv9iqJgoBMb3GNip8zOaZSuOL3CNFGjnIHTohz84uqZFHRf9HjMDalvwzijLKD304UlVTK
-	wyL0by7abZ9iyuBGLFCKZPTm/b/XTKn
-X-Received: by 2002:a05:6a20:938c:b0:3c3:9c4e:de3a with SMTP id adf61e73a8af0-3cd2febd396mr43177549637.6.1787565661005;
-        Mon, 24 Aug 2026 03:01:01 -0700 (PDT)
-Received: from localhost.localdomain ([2001:ee0:505b:c770:709a:9e9a:e679:fe1e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f90cb8e3sm36705946eec.12.2026.08.24.03.00.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 03:01:00 -0700 (PDT)
-From: Nguyen Duc Thinh <ducthinh100812@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Weijie Yuan <wy@wyuan.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nguyen Duc Thinh <ducthinh100812@gmail.com>
-Subject: [PATCH v2] Documentation: process: Capitalize Git, Quilt, and Mercurial consistently
-Date: Mon, 24 Aug 2026 17:00:50 +0700
-Message-ID: <20260824100050.12315-1-ducthinh100812@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PbC0Xa42"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787565772; x=1819101772;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=VVKU1N2ZxiLGEWZ02StzfUWerurhSN02W4wzJfatS6k=;
+  b=PbC0Xa42rIbfD4qdo46JDly5lm//J1LFnd2AWm0OjiK4w3Tk/tyLmuIo
+   BsZbXMVla6ElVOnO3ZQBuXk6TtAX8nTLfwWa7zFmqJu6ST2csswkfJy9C
+   rK48nskSBePIol6esBkaKPRU1IyY9KiA+UK0rQ76mfUvk1925HcuTxHhq
+   vJJ3GopAhX0sbTy/dGWUNwW876muVob46OBziObDR0MHxVUFNIyfYWC24
+   dPzIOqeKI6cMQiu2jzIJumvpKBuzXxOIphYSt4wO1xnJY8T+b66Lt3Pz7
+   9wVjCEa3FUtfJFnfsPPlNbpC+MrNfP1BqChnvPkyQn+JKE8QJJPsmG51t
+   Q==;
+X-CSE-ConnectionGUID: c9dekYmsT06wH1pmuBwFiw==
+X-CSE-MsgGUID: Xc8mFU0DSa+Jzw+nLR4GeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="87778409"
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="87778409"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 03:02:52 -0700
+X-CSE-ConnectionGUID: 1mzwLxpIR2ira1drCldvRQ==
+X-CSE-MsgGUID: hnfxSTvLSi6ahNdFe02d4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="267005286"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 03:02:51 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Mon, 24 Aug 2026 03:02:50 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45 via Frontend Transport; Mon, 24 Aug 2026 03:02:50 -0700
+Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.33) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Mon, 24 Aug 2026 03:02:49 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pDQn8XLQK38W+SjlGH3wows/Ftz2Ls9+r+G+Ys/JNk6+h2PhXjwCbPUAgVRHDETvBoc+eVGUr7rDw8SoRzeF7O6MPD9tDA9Aw2PqIGENz5muj8v+EQ9etDBhzSvvExaw+78NpaVRSZLdw5iCZsZ8MRZf3EOmJjGCfsb1lDSC8TraUUqFeFiEBriirOJ/ZC0XP97jpETRbbbe4iQ32CLLkXCUcGgwtFsDNLjZqFfliEMgiQZ+xDG8y3KbpEd8woLAr4C1XOKipJyfzynBBizQYBWEI9cCr59aKgrHrlyQIcbgdolQf/Ds4ML6SO2h1scKCOYOjy2++BRFbOUnpXEtBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fpq0xPjefQMrzLD3yw5kLszuFfSe0eJ7PSPXZPcYbnY=;
+ b=qIgfgeU26XahPRWuwuUoFdWkbWql6ZOUgFkFeyxnKdbqUy4PY6xARd9Lf/5fAR+Z7eom6OqDZVU3fl+kTYCR1Ko1F93a4qC6y6JG5PSIvzjBzwu37EQTSs2huSt1fndl0KX2OJZtTCgFv88EbvclGMARRL+e41ClgpTiDLJesEZCQO0/jeOudasvDBCRAJT+3Ii7K2Voahv44eS36t5unDVoQzSXVUdeo0+me0ikygdbMCsVB0RicG76sE5Fi8m2eGAnGN48HShDI/paD84i73US4UgGVzkAJ0+nsA48ry5r/TVrHY/zqV1a773ZXwnI3gGPHoMsDA/cgFFGBnxXag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from IA1PR11MB7198.namprd11.prod.outlook.com (2603:10b6:208:419::15)
+ by LV3PR11MB8505.namprd11.prod.outlook.com (2603:10b6:408:1b7::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Mon, 24 Aug
+ 2026 10:02:46 +0000
+Received: from IA1PR11MB7198.namprd11.prod.outlook.com
+ ([fe80::2c4e:e92a:4fa:a456]) by IA1PR11MB7198.namprd11.prod.outlook.com
+ ([fe80::2c4e:e92a:4fa:a456%3]) with mapi id 15.21.0339.012; Mon, 24 Aug 2026
+ 10:02:46 +0000
+Message-ID: <00f023a5-37da-4884-a92a-f4b35b4be1cb@intel.com>
+Date: Mon, 24 Aug 2026 13:02:38 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/5] perf cs-etm: Add branch history to existing
+ samples
+To: Amir Ayupov <aaupov@fb.com>, <linux-perf-users@vger.kernel.org>,
+	<coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>, "Suzuki
+ K Poulose" <suzuki.poulose@arm.com>, James Clark <james.clark@linaro.org>,
+	"Leo Yan" <leo.yan@arm.com>, Peter Zijlstra <peterz@infradead.org>, Ingo
+ Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	"Alexander Shishkin" <alexander.shishkin@linux.intel.com>, Jiri Olsa
+	<jolsa@kernel.org>, Ian Rogers <irogers@google.com>, John Garry
+	<john.g.garry@oracle.com>, "Will Deacon" <will@kernel.org>
+CC: <linux-doc@vger.kernel.org>, Mike Leach <mike.leach@arm.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, "Swapnil
+ Sapkal" <swapnil.sapkal@amd.com>
+References: <cover.1787005265.git.aaupov@fb.com>
+ <454bc49f51eeef9f758fc2d2c7af75889d8aff46.1787005265.git.aaupov@fb.com>
+Content-Language: en-US
+From: Adrian Hunter <adrian.hunter@intel.com>
+Organization: Intel Finland Oy, Registered Address: c/o Alberga Business Park,
+ 6 krs, Bertel Jungin Aukio 5, 02600 Espoo, Business Identity Code: 0357606 -
+ 4, Domiciled in Helsinki
+In-Reply-To: <454bc49f51eeef9f758fc2d2c7af75889d8aff46.1787005265.git.aaupov@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DUZPR01CA0332.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b8::18) To IA1PR11MB7198.namprd11.prod.outlook.com
+ (2603:10b6:208:419::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR11MB7198:EE_|LV3PR11MB8505:EE_
+X-MS-Office365-Filtering-Correlation-Id: 048c8d2f-8a70-433c-d7a0-08df01c6d888
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|18002099003|22082099003|11063799006|5023799004|56012099006|3023799007|6133799003|4143699003|10067099003|921020;
+X-Microsoft-Antispam-Message-Info: R1T/7Aa5LUy9ZqlAdT3NIc0gj/gFX7wk5nYV5vg0cOm3EuM+RlheBGNrS6IjUE8X8FUfEShaHej74nQfb2DD402wrxGuzz3yV2cOQBm3PdOpAxUMtvPfJiKG9Xffdl0JAsQfN67Jp48a53SQtQq5c4zZjyrHUDq5fhUS1YTSLE5uX/wjLwOYXwSIn9x5HUoxTd+Tdw+5Z6xszCRlJ85Eq5xbHaM+eCKjU6MIYQ/aRL8i+gbex2O9nQVtNR0sT/QiOm7/0tT+fdiyyJHj87X11ddWG1LeYoWSjGrR9qaj4WuYbcqikQ9gk44HfVOnISAchnSbnQmNxiCh6Zb1NUUvfVEqrllm5fnCUUIwSz2Uvo6+kRenJ1fa7emVBsu0XINcuC86ACF3k+Nq+h9Q6p9BgLqf4GUVmkvx6X4J+LWw/RYoWK1VUnF2Tv1p1MsUJo2/jTSY1+RdSFHIJrjM8ECyT1eVFEpFtxu7mcYdw6dM6lMusJ4nj+nmpub8VBfNy4o8WiSKDD+I5V5sq1oPwKSDNE8HblksvlpEk/X8XeTpg75bHXbf4EmAHTlRes7qOh+YH6S7c9bc3IeV0YdfIU2qqvAQHtV6Z4LYKs1hwxg+DrYwW3DufUVEtjUzfPt+K2DUKqAfz4mvqCQvuj8gBZaZ/h/kZ9A3YD4r3QTtbCMihS9N9B64N4ZKHM2w2LkUVDKLUs/NkYtpNOfN1vu5GLrshQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB7198.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(18002099003)(22082099003)(11063799006)(5023799004)(56012099006)(3023799007)(6133799003)(4143699003)(10067099003)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y202cHhKcmk0MUpwcnUvaW1jUlFKZ1VnUVFGS1Jzbmpud3NpRFJzb05WUU40?=
+ =?utf-8?B?N0RzQnRXUVlKbDBhV280Z3ZJK2VMa1J0dmFBUThaMVo0MG5uWXpFeTM2ekg2?=
+ =?utf-8?B?d1RvTTE5ODFid04rb3dTeHRaYUFiWlZWS09ZL25rNFBGc25vTFVQNGRIN1or?=
+ =?utf-8?B?U0N0dXZlLzlmZVFUb3J1QzhtaFc1VWtTTDhUM3NnNDBoaDU3SjhpOFFkQmR5?=
+ =?utf-8?B?aHcrY3Brc0FMcHc5clpNaDl6OVlGS1Rma2lYRnhXa3hqSTR3M0FXZmZNTllR?=
+ =?utf-8?B?YS95VG9sUG1uWlNtUFZUNEZBbEVKVFpyRm41enA1Uys3SVpWYzRYM3I2SUdP?=
+ =?utf-8?B?OGZOWFRWdGJUR3BhcHk3RjJmUjQ5MWVxZkxyU2NvYTFVRlBIeE1NcFY0Q1N3?=
+ =?utf-8?B?K1Zya2x2VGlBbDBKYkpqM3BsS29aQUlBQjNYUVN2ZFdDWGQ1MzVwVklVS2l0?=
+ =?utf-8?B?UlZNUWdrdjNnQ2JKTzRWSk1IeXJHMjErUkpCcXRVSFp1dnZtT3hQb25iaVRY?=
+ =?utf-8?B?QW9uam5kY1NJK3daVWJ4Q3d6bWExcGFnSWRJb3ZTc2c0TUlZZ3hxZmxuVEpD?=
+ =?utf-8?B?UlA3bWxSbU0rVFEybDlTWEJ4amhpdGNlS0ZHNGxSWlZzSjZOVHBWbmtaOWpF?=
+ =?utf-8?B?ajczWWx2ZWkwR2Q1ZWpVU0xxZU50NHJHOWRzeGgwRWpKd0RsdG5tUWx0d2tG?=
+ =?utf-8?B?WHN3cnBCQ3pLSEVqNlFlbWxjOGNhMCsySUhpbWY1NGp6QW04NHNBRVZ4b2NP?=
+ =?utf-8?B?dlZKdU9adUwvYWJsNzN6VlVZdDY2UXdPOVQ2RHlnWXIrVTdXY3ZBbnIrcWEz?=
+ =?utf-8?B?QTk2bHlYMjljSGJZN3c0eFRQVHNXeXEvZlZYWmgvY0hZSlJoa2NKL1dFQUVx?=
+ =?utf-8?B?M0NNU1VnaHZyY2NrQzJQamNKVkptMTlxZFNzYzlmSnBCL1c3SXNLa3BYUU51?=
+ =?utf-8?B?SVBsTXpxS0pDZjAxOUk3N254M0QyRG5aYk9DdU9nZXlqd1lQeEZSNU1ZY3pT?=
+ =?utf-8?B?bGhTSU04aHZIWUNBVm1HVmpPeXJtY1R4M0s0RklRZkhuSlRBdFlwN2FwT1RQ?=
+ =?utf-8?B?L0hTU1kzTUt6L3VTdUdmS21lUVBpVFNxSFllQ2JBUzZPcHRXZHlDRE1rMzdi?=
+ =?utf-8?B?aEZQQWFKbk9oL1dUQktsT3JGQ1IzZHhSbDFnQzltZDZVZERXNFJacFBFWFVi?=
+ =?utf-8?B?dlptWGhVWk01Ly9KMUFVSXBIb0JjM0dGRXVBWExsamVKamg0eDRKOVpaeUJs?=
+ =?utf-8?B?TGI4Q1IvK3RRazl4ck9yOFRpa2pralpNbld1MkpjZCs0L1hqbFJVckp1eVha?=
+ =?utf-8?B?TjNjaHIrN0s1Ykg1MTlZSi9PRkp3SDR0a0w3UE9CSEZkRnU0Y2F4cWp4am10?=
+ =?utf-8?B?Q3libFlqOVJaY2t3ZFViL0FXVW8xZkFKTEcwbzdtSEg3bjRXTVNPUE45ZFRX?=
+ =?utf-8?B?bVNJYWJZcmdLRlo2STNVMjJIS1JUenFUTjMxbG93ZnBVYWlVS3N6ZlRjaVVY?=
+ =?utf-8?B?K1BySWROem51SGdoUWlhZy9lSWxWNmV2dk5RSjRWdytXeGRIQ1BzeEFxOW0y?=
+ =?utf-8?B?NVlPUGx4bEFqNGl3VW1HTXZnRXQxOS9oNTFYOWh3MUE3aThaVjdPVnYxb1Jr?=
+ =?utf-8?B?clNIbklYNWtIZnJUNks5K3VYcjZZTEtVZkNhWGorRzQ4eG1XMGtGNXBIZTFS?=
+ =?utf-8?B?cUErNTdXYzQrVStZY1Rqd3NQZFl1STA5ZFNKOXBIb1E1K29qSXNJZ25OQzZO?=
+ =?utf-8?B?WjhTZnZmMlRDZ3lGNko5ZlJOQ0FMUDVXMnJkZjhITmtrVnFrOGhqTmVvNlR6?=
+ =?utf-8?B?SEE4S2t5TkxjT3JwZDZ4aFF6NDN3WFFFN292N0NkcXN2eUtwclhEUmxtWjJJ?=
+ =?utf-8?B?ZUlZMHhDakVkN3VZVTZNbFlSTVFaUFJOL0I5OGIrMmJwaWYrZ1kzKzQwNGla?=
+ =?utf-8?B?SzA1SjdoVTdRNW9iZ3dQc1U1WEFINlRuTGdhd0pOQUNBQlEvVWF1ZHBkWE1M?=
+ =?utf-8?B?dHQrTFg0NU1XcmJsTXl5NjRoNnJDZW1LUmRJQ3ZWU3JYbnd3MHMwdkZoSGdo?=
+ =?utf-8?B?ZVNHTkxVQ0QyOEQvd0dWei9TYkEya0VmZGJJY2lzQ1JtYmo2eEQ3Tmx3cFI2?=
+ =?utf-8?B?YlZ2SFE0dUJEcndTY0NWNHZpemZJczRYZWY2NC9RWVg3WXhaU3dxc3FRNzZI?=
+ =?utf-8?B?UlZDZFdQelk1bTU3c2xBVVJmRzBKOWl5cXAwSmdIK21KTndlMzJxODZRZjdG?=
+ =?utf-8?B?N1NtbmNEUmM5NG1ja01hTk5Ea1BSOGhucXJWeG9acEJtQUIyMW4yWURsd3Zi?=
+ =?utf-8?B?ZUZUUWR1WUJlcHV4VDd0N3NpS0g2djllc2M2RHRBTkNNdHRLOEZzNVJjVktL?=
+ =?utf-8?Q?26nIAcuCmiWMEp5s=3D?=
+X-Exchange-RoutingPolicyChecked: LefbKPkq5sDLISCvaH1jSqWXSrDabX1cbKpAKDRlQgwRZ4y3NDHuS1G5TJbns88YazYH1urmilPwrvPuYQDoqY9AuGA2MEa8NYej8if53E4xgXSLLJrvEr8iWD/sqYIb5L4vGWE0E4dE3WZgWiQDkPoYWJArL3p6BLLFG13EGqJRp6CLnb+kX/cxh2dVFNH1r2pRc26HSJNs1YhSW8VpI1YsVQQuADw2jBPfrWMu8UxvQfVRPsjTVA8GplOkAP4VZDb82QrDsCv/9QvGfsljE41tcGx28uEbi6RCCm4a0u/Cs5XMgk3zHvnGrTH0QHJQIxIMpuVVE86+WitBv9ZqfQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 048c8d2f-8a70-433c-d7a0-08df01c6d888
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB7198.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 10:02:46.0254
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vBYZToREnMX45d1KzMqGX/AfGrh0VBm3ojicXZLEvU5bPGo88JYcvOA8KQqHt6hVixEKa6ty2WWgEr2e1j6aHg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8505
+X-OriginatorOrg: intel.com
 
-Update various process documentation files to properly capitalize "Git",
-"Quilt", and "Mercurial" as proper nouns when referring to the source
-management tools themselves.
+On 18/08/2026 01:22, Amir Ayupov wrote:
+> Implement --itrace=L for CoreSight ETM: decode timestamped trace up to
+> each existing PMU sample and attach the branch history that led to it.
+> The sample keeps its own ip, callchain and event identity, and a sample
+> that already carries a branch stack is left alone.
+> 
+> Samples are correlated with the trace by time, so this requires virtual
+> ETM timestamps that are correlated to perf time; timeless decoding is
+> rejected. The decode loop, which the previous patch left on its own in
+> cs_etm__process_timestamped_queues(), grows a timestamp argument and
+> stops once the decode frontier reaches it, so on return the
+> thread stack holds the branches that executed before the sample and none
+> that executed after. Attaching then reduces to the same
+> thread_stack__br_sample_late() call intel-pt uses.
+> 
+> No explicit sample-to-queue matching is needed:
+> thread_stack__br_sample_late() keys on the thread, and the thread stack
+> is already emptied whenever the decoder reports a discontinuity. The one
+> case that was not covered is a queue whose trace runs out: flush the
+> thread stack there too, otherwise samples recorded after the last trace
+> would pick up stale history.
+> 
+> Take the branch history when attaching it rather than leaving it in the
+> thread stack. With AUX pause and resume, a pause sample ends a completed
+> trace window and that window belongs to the sample. Execution while AUX
+> is paused is not traced, so retaining the window would let a later sample
+> reuse branches from before the untraced gap. Consuming it ensures that a
+> sample with no newly decoded trace gets an empty branch stack instead.
+> 
+> As with intel-pt, the internal reconstruction ring is kept deeper than
+> the requested output depth to cover branches decoded between the sampled
+> ip and the point at which the sample time was recorded, so --itrace=L<n>
+> can actually return n entries. Kernel-inclusive trace gets the same
+> conservative 1024-entry headroom that intel-pt uses.
+> 
+> Assisted-by: Devmate:GPT-5.6
+> Signed-off-by: Amir Ayupov <aaupov@fb.com>
+> ---
+>  tools/perf/util/cs-etm.c       | 185 +++++++++++++++++++++++++++++++--
+>  tools/perf/util/thread-stack.c |  17 +++
+>  tools/perf/util/thread-stack.h |   1 +
+>  3 files changed, 195 insertions(+), 8 deletions(-)
+> 
+> diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
+> index 4d895f11deb7f..00407a80933e1 100644
+> --- a/tools/perf/util/cs-etm.c
+> +++ b/tools/perf/util/cs-etm.c
+> @@ -72,6 +72,11 @@ struct cs_etm_auxtrace {
+>  	bool use_callchain;
+>  
+>  	int num_cpu;
+> +	/* Output depth requested with --itrace=L<n> */
+> +	unsigned int br_stack_sz;
+> +	/* Internal reconstruction depth, see cs_etm__br_stack_init() */
+> +	unsigned int br_stack_sz_plus;
+> +	struct branch_stack *br_stack;
+>  	u64 latest_kernel_timestamp;
+>  	u32 auxtrace_type;
+>  	u32 branches_filter;
+> @@ -91,6 +96,7 @@ struct cs_etm_traceid_queue {
+>  	u64 kernel_start;
+>  	union perf_event *event_buf;
+>  	unsigned int br_stack_sz;
+> +	unsigned int br_stack_sz_plus;
+>  	struct branch_stack *last_branch;
+>  	struct ip_callchain *callchain;
+>  	struct cs_etm_packet *prev_packet;
+> @@ -141,7 +147,8 @@ struct cs_etm_queue {
+>  };
+>  
+>  static int cs_etm__update_queues(struct cs_etm_auxtrace *etm);
+> -static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm);
+> +static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm,
+> +					      u64 timestamp);
+>  static int cs_etm__flush_timestamped_queues(struct cs_etm_auxtrace *etm);
+>  static int cs_etm__process_timeless_queues(struct cs_etm_auxtrace *etm,
+>  					   pid_t tid);
+> @@ -165,6 +172,7 @@ static int cs_etm__metadata_set_trace_id(u8 trace_chan_id, u64 *cpu_metadata);
+>  #define TO_QUEUE_NR(cs_queue_nr) (cs_queue_nr >> 16)
+>  #define TO_TRACE_CHAN_ID(cs_queue_nr) (cs_queue_nr & 0x0000ffff)
+>  #define SINK_UNSET ((u32) -1)
+> +#define MAX_TIMESTAMP (~0ULL)
+>  
+>  static u32 cs_etm__get_v7_protocol_version(u32 etmidr)
+>  {
+> @@ -674,7 +682,8 @@ static int cs_etm__init_traceid_queue(struct cs_etm_queue *etmq,
+>  		if (!tidq->last_branch)
+>  			goto out_free;
+>  
+> -		tidq->br_stack_sz = etm->synth_opts.last_branch_sz;
+> +		tidq->br_stack_sz = etm->br_stack_sz;
+> +		tidq->br_stack_sz_plus = etm->br_stack_sz_plus;
+>  	}
+>  
+>  	if (etm->synth_opts.callchain) {
+> @@ -794,7 +803,7 @@ static void cs_etm__packet_swap(struct cs_etm_auxtrace *etm,
+>  	struct cs_etm_packet *tmp;
+>  
+>  	if (etm->synth_opts.branches || etm->synth_opts.last_branch ||
+> -	    etm->synth_opts.instructions) {
+> +	    etm->synth_opts.add_last_branch || etm->synth_opts.instructions) {
+>  		/*
+>  		 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
+>  		 * the next incoming packet.
+> @@ -963,7 +972,7 @@ static int cs_etm__flush_events(struct perf_session *session,
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = cs_etm__process_timestamped_queues(etm);
+> +	ret = cs_etm__process_timestamped_queues(etm, MAX_TIMESTAMP);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1060,6 +1069,7 @@ static void cs_etm__free(struct perf_session *session)
+>  		zfree(&aux->metadata[i]);
+>  
+>  	zfree(&aux->metadata);
+> +	zfree(&aux->br_stack);
+>  	zfree(&aux);
+>  }
+>  
+> @@ -1597,7 +1607,8 @@ static void cs_etm__add_stack_event(struct cs_etm_queue *etmq,
+>  	u64 from, to;
+>  	int size;
+>  
+> -	if (!etm->synth_opts.branches && !etm->synth_opts.instructions)
+> +	if (!etm->synth_opts.branches && !etm->synth_opts.instructions &&
+> +	    !etm->synth_opts.add_last_branch)
+>  		return;
+>  
+>  	if (!cs_etm__packet_has_taken_branch(tidq->prev_packet))
+> @@ -1614,7 +1625,7 @@ static void cs_etm__add_stack_event(struct cs_etm_queue *etmq,
+>  				    tidq->prev_packet->flags, from, to, size,
+>  				    etmq->buffer->buffer_nr + 1,
+>  				    etmq->etm->use_callchain,
+> -				    tidq->br_stack_sz, 0);
+> +				    tidq->br_stack_sz_plus, 0);
+>  	} else {
+>  		thread_stack__set_trace_nr(tidq->frontend_thread,
+>  					   tidq->prev_packet->cpu,
+> @@ -2817,7 +2828,8 @@ static int cs_etm__update_queues(struct cs_etm_auxtrace *etm)
+>  	return ret;
+>  }
+>  
+> -static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm)
+> +static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm,
+> +					      u64 timestamp)
+>  {
+>  	int ret = 0;
+>  	unsigned int cs_queue_nr, queue_nr;
+> @@ -2831,6 +2843,9 @@ static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm)
+>  		if (!etm->heap.heap_cnt)
+>  			break;
+>  
+> +		if (etm->heap.heap_array[0].ordinal >= timestamp)
+> +			break;
+> +
+>  		/* Take the entry at the top of the min heap */
+>  		cs_queue_nr = etm->heap.heap_array[0].queue_nr;
+>  		queue_nr = TO_QUEUE_NR(cs_queue_nr);
+> @@ -2878,8 +2893,25 @@ static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm)
+>  		 * No more auxtrace_buffers to process in this etmq, simply
+>  		 * move on to another entry in the auxtrace_heap.
+>  		 */
+> -		if (!ret)
+> +		if (!ret) {
+> +			/*
+> +			 * The trace for this physical queue is exhausted. Drop
+> +			 * branch history for every trace ID it carried so that
+> +			 * samples arriving later cannot pick up entries decoded
+> +			 * before the gap.
+> +			 */
+> +			if (etm->synth_opts.add_last_branch) {
+> +				struct int_node *inode;
+> +
+> +				intlist__for_each_entry(inode, etmq->traceid_queues_list) {
+> +					int idx = (int)(intptr_t)inode->priv;
+> +
+> +					tidq = etmq->traceid_queues[idx];
+> +					thread_stack__flush(tidq->frontend_thread);
+> +				}
+> +			}
+>  			continue;
+> +		}
+>  
+>  		ret = cs_etm__decode_data_block(etmq);
+>  		if (ret)
+> @@ -3011,6 +3043,116 @@ static int cs_etm__process_switch_cpu_wide(struct cs_etm_auxtrace *etm,
+>  	return 0;
+>  }
+>  
+> +static bool cs_etm__tracing_kernel(struct cs_etm_auxtrace *etm,
+> +				   struct perf_session *session)
+> +{
+> +	struct evsel *evsel;
+> +
+> +	evlist__for_each_entry(session->evlist, evsel) {
+> +		if (evsel->core.attr.type == etm->pmu_type &&
+> +		    !evsel->core.attr.exclude_kernel)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static int cs_etm__br_stack_init(struct cs_etm_auxtrace *etm,
+> +				 struct perf_session *session)
+> +{
+> +	struct evsel *evsel;
+> +
+> +	evlist__for_each_entry(session->evlist, evsel) {
+> +		/*
+> +		 * Only timestamped events can be matched against the decoded
+> +		 * trace, so do not advertise a branch stack on any other.
+> +		 */
+> +		if (!(evsel->core.attr.sample_type & PERF_SAMPLE_TIME))
+> +			continue;
+> +		if (!(evsel->core.attr.sample_type & PERF_SAMPLE_BRANCH_STACK))
+> +			evsel->synth_sample_type |= PERF_SAMPLE_BRANCH_STACK;
+> +	}
+> +
+> +	/*
+> +	 * Additional branch stack depth to cater for the branches decoded
+> +	 * between the sampled ip and the point at which the sample time was
+> +	 * recorded. Those are trimmed by thread_stack__br_sample_late(), so
+> +	 * the extra depth keeps the requested output depth achievable. If
+> +	 * kernel space is not traced, only the branch into the kernel needs
+> +	 * to be accounted for.
+> +	 */
+> +	if (cs_etm__tracing_kernel(etm, session))
+> +		etm->br_stack_sz_plus += 1024;
+> +	else
+> +		etm->br_stack_sz_plus += 1;
+> +
+> +	etm->br_stack = zalloc(sizeof(struct branch_stack) +
+> +			       etm->br_stack_sz * sizeof(struct branch_entry));
+> +	if (!etm->br_stack)
+> +		return -ENOMEM;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Add decoded branch history to an existing sample. The sample keeps its own
+> + * ip, callchain and event identity; only an absent branch stack is filled in.
+> + */
+> +static int cs_etm__process_sample(struct cs_etm_auxtrace *etm,
+> +				  struct perf_session *session,
+> +				  struct perf_sample *sample)
+> +{
+> +	struct machine *machine = &session->machines.host;
+> +	struct thread *thread;
+> +	int err;
+> +
+> +	if (!etm->synth_opts.add_last_branch || sample->branch_stack ||
+> +	    !sample->ip || !sample->time || sample->time == (u64)-1)
+> +		return 0;
+> +
+> +	/* Adding branch history to existing samples supports the host only */
+> +	if (sample->cpumode == PERF_RECORD_MISC_GUEST_KERNEL ||
+> +	    sample->cpumode == PERF_RECORD_MISC_GUEST_USER)
+> +		return 0;
+> +
+> +	err = cs_etm__update_queues(etm);
+> +	if (err)
+> +		return err;
+> +
+> +	/*
+> +	 * Decode every queue up to this sample's time. Afterwards the thread
+> +	 * stack holds the branches that executed before the sample, and
+> +	 * nothing that executed after it.
+> +	 */
+> +	err = cs_etm__process_timestamped_queues(etm, sample->time);
+> +	if (err)
+> +		return err;
+> +
+> +	thread = machine__findnew_thread(machine, sample->pid, sample->tid);
+> +	if (!thread)
+> +		return -ENOMEM;
+> +
+> +	/*
+> +	 * Take the branch history rather than copying it. The trace window
+> +	 * belongs to the sample that ends it, so once it has been attached a
+> +	 * later sample with nothing newly decoded finds an empty stack rather
+> +	 * than being given an earlier window's branches. That is the common
+> +	 * case whenever the trace is duty cycled, by AUX pause/resume or by
+> +	 * ETM strobing.
+> +	 */
+> +	thread_stack__br_sample_late(thread, sample->cpu, etm->br_stack,
+> +				     etm->br_stack_sz, sample->ip,
+> +				     machine__kernel_start(machine));
+> +	thread_stack__br_stack_consume(thread, sample->cpu);
 
-Instances explicitly referring to literal command-line invocations
-(such as "git log" or "git bisect") have been left lowercase.
+Did you consider using the existing thread_stack__set_trace_nr()?
 
-Signed-off-by: Nguyen Duc Thinh <ducthinh100812@gmail.com>
----
-v2:
-  - Fixed the extra spaces before ':' in the subject line.
-  - Reverted the accidental 'git switch' changes in submitting-patches.rst to keep the patch logically clean.
-  - Regarding the scope: I did not fix every single instance across the entire documentation subsystem because the list is very long. I am primarily submitting this patch to gain hands-on experience with the Linux kernel contribution workflow.
-
- Documentation/process/1.Intro.rst             |  2 +-
- Documentation/process/2.Process.rst           | 18 ++++-----
- Documentation/process/3.Early-stage.rst       |  2 +-
- Documentation/process/5.Posting.rst           | 10 ++---
- Documentation/process/7.AdvancedTopics.rst    | 36 +++++++++---------
- Documentation/process/backporting.rst         | 18 ++++-----
- .../process/embargoed-hardware-issues.rst     |  2 +-
- .../process/maintainer-pgp-guide.rst          | 38 +++++++++----------
- Documentation/process/submitting-patches.rst  |  4 +-
- 9 files changed, 65 insertions(+), 65 deletions(-)
-
-diff --git a/Documentation/process/1.Intro.rst b/Documentation/process/1.Intro.rst
-index 2c93caea0..847fbe76b 100644
---- a/Documentation/process/1.Intro.rst
-+++ b/Documentation/process/1.Intro.rst
-@@ -42,7 +42,7 @@ avoid problems at this important stage.  Developers are cautioned against
- assuming that the job is done when a patch is merged into the mainline.
- 
- :ref:`development_advancedtopics` introduces a couple of "advanced" topics:
--managing patches with git and reviewing patches posted by others.
-+managing patches with Git and reviewing patches posted by others.
- 
- :ref:`development_conclusion` concludes the document with pointers to sources
- for more information on kernel development.
-diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
-index 77f3f80e7..d09fa23d6 100644
---- a/Documentation/process/2.Process.rst
-+++ b/Documentation/process/2.Process.rst
-@@ -223,8 +223,8 @@ of the kernel they manage; they are the ones who will (usually) accept a
- patch for inclusion into the mainline kernel.
- 
- Subsystem maintainers each manage their own version of the kernel source
--tree, usually (but certainly not always) using the git source management
--tool.  Tools like git (and related tools like quilt or mercurial) allow
-+tree, usually (but certainly not always) using the Git source management
-+tool.  Tools like Git (and related tools like Quilt or Mercurial) allow
- maintainers to track a list of patches, including authorship information
- and other metadata.  At any given time, the maintainer can identify which
- patches in his or her repository are not found in the mainline.
-@@ -343,13 +343,13 @@ are well beyond the scope of this document, but there is space for a few
- pointers.
- 
- By far the dominant source code management system used by the kernel
--community is git.  Git is one of a number of distributed version control
-+community is Git.  Git is one of a number of distributed version control
- systems being developed in the free software community.  It is well tuned
- for kernel development, in that it performs quite well when dealing with
- large repositories and large numbers of patches.  It also has a reputation
- for being difficult to learn and use, though it has gotten better over
--time.  Some sort of familiarity with git is almost a requirement for kernel
--developers; even if they do not use it for their own work, they'll need git
-+time.  Some sort of familiarity with Git is almost a requirement for kernel
-+developers; even if they do not use it for their own work, they'll need Git
- to keep up with what other developers (and the mainline) are doing.
- 
- Git is now packaged by almost all Linux distributions.  There is a home
-@@ -359,12 +359,12 @@ page at:
- 
- That page has pointers to documentation and tutorials.
- 
--Among the kernel developers who do not use git, the most popular choice is
-+Among the kernel developers who do not use Git, the most popular choice is
- almost certainly Mercurial:
- 
- 	https://www.selenic.com/mercurial/
- 
--Mercurial shares many features with git, but it provides an interface which
-+Mercurial shares many features with Git, but it provides an interface which
- many find easier to use.
- 
- The other tool worth knowing about is Quilt:
-@@ -374,9 +374,9 @@ The other tool worth knowing about is Quilt:
- Quilt is a patch management system, rather than a source code management
- system.  It does not track history over time; it is, instead, oriented
- toward tracking a specific set of changes against an evolving code base.
--Some major subsystem maintainers use quilt to manage patches intended to go
-+Some major subsystem maintainers use Quilt to manage patches intended to go
- upstream.  For the management of certain kinds of trees (-mm, for example),
--quilt is the best tool for the job.
-+Quilt is the best tool for the job.
- 
- 
- Mailing lists
-diff --git a/Documentation/process/3.Early-stage.rst b/Documentation/process/3.Early-stage.rst
-index 894a92004..87fa7875e 100644
---- a/Documentation/process/3.Early-stage.rst
-+++ b/Documentation/process/3.Early-stage.rst
-@@ -138,7 +138,7 @@ the place to start.  That file tends to not always be up to date, though,
- and not all subsystems are represented there.  The person listed in the
- MAINTAINERS file may, in fact, not be the person who is actually acting in
- that role currently.  So, when there is doubt about who to contact, a
--useful trick is to use git (and "git log" in particular) to see who is
-+useful trick is to use Git (and "git log" in particular) to see who is
- currently active within the subsystem of interest.  Look at who is writing
- patches, and who, if anybody, is attaching Signed-off-by lines to those
- patches.  Those are the people who will be best placed to help with a new
-diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-index 07d7dbed1..b8a449980 100644
---- a/Documentation/process/5.Posting.rst
-+++ b/Documentation/process/5.Posting.rst
-@@ -21,7 +21,7 @@ There is a constant temptation to avoid posting patches before they are
- completely "ready."  For simple patches, that is not a problem.  If the
- work being done is complex, though, there is a lot to be gained by getting
- feedback from the community before the work is complete.  So you should
--consider posting in-progress work, or even making a git tree available so
-+consider posting in-progress work, or even making a Git tree available so
- that interested developers can catch up with your work at any time.
- 
- When posting code which is not yet considered ready for inclusion, it is a
-@@ -71,7 +71,7 @@ even in the short term.
- 
- Patches must be prepared against a specific version of the kernel.  As a
- general rule, a patch should be based on the current mainline as found in
--Linus's git tree.  When basing on mainline, start with a well-known release
-+Linus's Git tree.  When basing on mainline, start with a well-known release
- point - a stable or -rc release - rather than branching off the mainline at
- an arbitrary spot.
- 
-@@ -320,7 +320,7 @@ copies should go to:
-    the MAINTAINERS file is the first place to look for these people.
- 
-  - Other developers who have been working in the same area - especially
--   those who might be working there now.  Using git to see who else has
-+   those who might be working there now.  Using Git to see who else has
-    modified the files you are working on can be helpful.
- 
-  - If you are responding to a bug report or a feature request, copy the
-@@ -362,7 +362,7 @@ that the patches, themselves, have complete changelog information.
- 
- In general, the second and following parts of a multi-part patch should be
- sent as a reply to the first part so that they all thread together at the
--receiving end.  Tools like git and quilt have commands to mail out a set of
-+receiving end.  Tools like Git and Quilt have commands to mail out a set of
- patches with the proper threading.  If you have a long series, though, and
--are using git, please stay away from the --chain-reply-to option to avoid
-+are using Git, please stay away from the --chain-reply-to option to avoid
- creating exceptionally deep nesting.
-diff --git a/Documentation/process/7.AdvancedTopics.rst b/Documentation/process/7.AdvancedTopics.rst
-index 185651d87..066655e5d 100644
---- a/Documentation/process/7.AdvancedTopics.rst
-+++ b/Documentation/process/7.AdvancedTopics.rst
-@@ -8,7 +8,7 @@ works.  There is still more to learn, however!  This section will cover a
- number of topics which can be helpful for developers wanting to become a
- regular part of the Linux kernel development process.
- 
--Managing patches with git
-+Managing patches with Git
- -------------------------
- 
- The use of distributed version control for the kernel began in early 2002,
-@@ -17,17 +17,17 @@ application.  While BitKeeper was controversial, the approach to software
- version management it embodied most certainly was not.  Distributed version
- control enabled an immediate acceleration of the kernel development
- project.  In current times, there are several free alternatives to
--BitKeeper.  For better or for worse, the kernel project has settled on git
-+BitKeeper.  For better or for worse, the kernel project has settled on Git
- as its tool of choice.
- 
--Managing patches with git can make life much easier for the developer,
-+Managing patches with Git can make life much easier for the developer,
- especially as the volume of those patches grows.  Git also has its rough
- edges and poses certain hazards; it is a young and powerful tool which is
- still being civilized by its developers.  This document will not attempt to
--teach the reader how to use git; that would be sufficient material for a
--long document in its own right.  Instead, the focus here will be on how git
-+teach the reader how to use Git; that would be sufficient material for a
-+long document in its own right.  Instead, the focus here will be on how Git
- fits into the kernel development process in particular.  Developers who
--wish to come up to speed with git will find more information at:
-+wish to come up to speed with Git will find more information at:
- 
- 	https://git-scm.com/
- 
-@@ -36,20 +36,20 @@ wish to come up to speed with git will find more information at:
- and on various tutorials found on the web.
- 
- The first order of business is to read the above sites and get a solid
--understanding of how git works before trying to use it to make patches
-+understanding of how Git works before trying to use it to make patches
- available to others.  A git-using developer should be able to obtain a copy
- of the mainline repository, explore the revision history, commit changes to
--the tree, use branches, etc.  An understanding of git's tools for the
-+the tree, use branches, etc.  An understanding of Git's tools for the
- rewriting of history (such as rebase) is also useful.  Git comes with its
--own terminology and concepts; a new user of git should know about refs,
-+own terminology and concepts; a new user of Git should know about refs,
- remote branches, the index, fast-forward merges, pushes and pulls, detached
- heads, etc.  It can all be a little intimidating at the outset, but the
- concepts are not that hard to grasp with a bit of study.
- 
--Using git to generate patches for submission by email can be a good
-+Using Git to generate patches for submission by email can be a good
- exercise while coming up to speed.
- 
--When you are ready to start putting up git trees for others to look at, you
-+When you are ready to start putting up Git trees for others to look at, you
- will, of course, need a server that can be pulled from.  Setting up such a
- server with git-daemon is relatively straightforward if you have a system
- which is accessible to the Internet.  Otherwise, free, public hosting sites
-@@ -57,9 +57,9 @@ which is accessible to the Internet.  Otherwise, free, public hosting sites
- developers can get an account on kernel.org, but those are not easy to come
- by; see https://kernel.org/faq/ for more information.
- 
--The normal git workflow involves the use of a lot of branches.  Each line
-+The normal Git workflow involves the use of a lot of branches.  Each line
- of development can be separated into a separate "topic branch" and
--maintained independently.  Branches in git are cheap, there is no reason to
-+maintained independently.  Branches in Git are cheap, there is no reason to
- not make free use of them.  And, in any case, you should not do your
- development in any branch which you intend to ask others to pull from.
- Publicly-available branches should be created with care; merge in patches
-@@ -72,7 +72,7 @@ say, or which has some other sort of obvious bug) can be fixed in place or
- made to disappear from the history entirely.  A patch series can be
- rewritten as if it had been written on top of today's mainline, even though
- you have been working on it for months.  Changes can be transparently
--shifted from one branch to another.  And so on.  Judicious use of git's
-+shifted from one branch to another.  And so on.  Judicious use of Git's
- ability to revise history can help in the creation of clean patch sets with
- fewer problems.
- 
-@@ -111,16 +111,16 @@ perform test merges in a private branch.  The git "rerere" tool can be
- useful in such situations; it remembers how merge conflicts were resolved
- so that you don't have to do the same work twice.
- 
--One of the biggest recurring complaints about tools like git is this: the
-+One of the biggest recurring complaints about tools like Git is this: the
- mass movement of patches from one repository to another makes it easy to
- slip in ill-advised changes which go into the mainline below the review
- radar.  Kernel developers tend to get unhappy when they see that kind of
--thing happening; putting up a git tree with unreviewed or off-topic patches
-+thing happening; putting up a Git tree with unreviewed or off-topic patches
- can affect your ability to get trees pulled in the future.  Quoting Linus:
- 
- ::
- 
--	You can send me patches, but for me to pull a git patch from you, I
-+	You can send me patches, but for me to pull a Git patch from you, I
- 	need to know that you know what you're doing, and I need to be able
- 	to trust things *without* then having to go and check every
- 	individual change by hand.
-@@ -130,7 +130,7 @@ can affect your ability to get trees pulled in the future.  Quoting Linus:
- To avoid this kind of situation, ensure that all patches within a given
- branch stick closely to the associated topic; a "driver fixes" branch
- should not be making changes to the core memory management code.  And, most
--importantly, do not use a git tree to bypass the review process.  Post an
-+importantly, do not use a Git tree to bypass the review process.  Post an
- occasional summary of the tree to the relevant list, and, when the time is
- right, request that the tree be included in linux-next.
- 
-diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
-index 0de9eacd4..abc5f8925 100644
---- a/Documentation/process/backporting.rst
-+++ b/Documentation/process/backporting.rst
-@@ -40,8 +40,8 @@ edit the patch to make it apply.
- 
- It is strongly recommended to instead find an appropriate base version
- where the patch applies cleanly and *then* cherry-pick it over to your
--destination tree, as this will make git output conflict markers and let
--you resolve conflicts with the help of git and any other conflict
-+destination tree, as this will make Git output conflict markers and let
-+you resolve conflicts with the help of Git and any other conflict
- resolution tools you might prefer to use. For example, if you want to
- apply a patch that just arrived on LKML to an older stable kernel, you
- can apply it to the most recent mainline kernel and then cherry-pick it
-@@ -54,7 +54,7 @@ problem with applying the patch to the "wrong" base is that it may pull
- in more unrelated changes in the context of the diff when cherry-picking
- it to the older branch.
- 
--A good reason to prefer ``git cherry-pick`` over ``git am`` is that git
-+A good reason to prefer ``git cherry-pick`` over ``git am`` is that Git
- knows the precise history of an existing commit, so it will know when
- code has moved around and changed the line numbers; this in turn makes
- it less likely to apply the patch to the wrong place (which can result
-@@ -69,7 +69,7 @@ article will assume that you are doing a plain ``git cherry-pick``.
- .. _b4: https://people.kernel.org/monsieuricon/introducing-b4-and-patch-attestation
- .. _b4 presentation: https://youtu.be/mF10hgVIx9o?t=2996
- 
--Once you have the patch in git, you can go ahead and cherry-pick it into
-+Once you have the patch in Git, you can go ahead and cherry-pick it into
- your source tree. Don't forget to cherry-pick with ``-x`` if you want a
- written record of where the patch came from!
- 
-@@ -101,7 +101,7 @@ backporting from contains patches not in the branch you are backporting
- to. However, the reverse is also possible. In any case, the result is a
- conflict that needs to be resolved.
- 
--If your attempted cherry-pick fails with a conflict, git automatically
-+If your attempted cherry-pick fails with a conflict, Git automatically
- edits the files to include so-called conflict markers showing you where
- the conflict is and how the two branches have diverged. Resolving the
- conflict typically means editing the end result in such a way that it
-@@ -128,7 +128,7 @@ pointers to various tools that you could use:
- -  `IntelliJ <https://www.jetbrains.com/help/idea/resolve-conflicts.html>`__
- -  `VSCode <https://code.visualstudio.com/docs/editor/versioncontrol>`__
- 
--To configure git to work with these, see ``git mergetool --help`` or
-+To configure Git to work with these, see ``git mergetool --help`` or
- the official `git-mergetool documentation`_.
- 
- .. _git-mergetool documentation: https://git-scm.com/docs/git-mergetool
-@@ -326,7 +326,7 @@ style, which looks like this::
-     this is what the patch wants it to be after being applied
-     >>>>>>> <commit> (title)
- 
--As you can see, this has 3 parts instead of 2, and includes what git
-+As you can see, this has 3 parts instead of 2, and includes what Git
- expected to find there but didn't. It is *highly recommended* to use
- this conflict style as it makes it much clearer what the patch actually
- changed; i.e., it allows you to compare the before-and-after versions
-@@ -382,7 +382,7 @@ Dealing with file renames
- 
- One of the most annoying things that can happen while backporting a
- patch is discovering that one of the files being patched has been
--renamed, as that typically means git won't even put in conflict markers,
-+renamed, as that typically means Git won't even put in conflict markers,
- but will just throw up its hands and say (paraphrased): "Unmerged path!
- You do the work..."
- 
-@@ -393,7 +393,7 @@ other hand, if the change is big or complicated, you definitely don't
- want to do it by hand.
- 
- As a first pass, you can try something like this, which will lower the
--rename detection threshold to 30% (by default, git uses 50%, meaning
-+rename detection threshold to 30% (by default, Git uses 50%, meaning
- that two files need to have at least 50% in common for it to consider
- an add-delete pair to be a potential rename)::
- 
-diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-index d07f16c3c..2c244a6d1 100644
---- a/Documentation/process/embargoed-hardware-issues.rst
-+++ b/Documentation/process/embargoed-hardware-issues.rst
-@@ -187,7 +187,7 @@ security issues in the past.
- 
- The mailing list operates in the same way as normal Linux development.
- Patches are posted, discussed, and reviewed and if agreed upon, applied to
--a non-public git repository which is only accessible to the participating
-+a non-public Git repository which is only accessible to the participating
- developers via a secure connection. The repository contains the main
- development branch against the mainline kernel and backport branches for
- stable kernel versions as necessary.
-diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
-index 652dfbe64..9f6fff2a7 100644
---- a/Documentation/process/maintainer-pgp-guide.rst
-+++ b/Documentation/process/maintainer-pgp-guide.rst
-@@ -25,16 +25,16 @@ communication channels between developers via PGP-signed email exchange.
- 
- The Linux kernel source code is available in two main formats:
- 
--- Distributed source repositories (git)
-+- Distributed source repositories (Git)
- - Periodic release snapshots (tarballs)
- 
--Both git repositories and tarballs carry PGP signatures of the kernel
-+Both Git repositories and tarballs carry PGP signatures of the kernel
- developers who create official kernel releases. These signatures offer a
- cryptographic guarantee that downloadable versions made available via
- kernel.org or any other mirrors are identical to what these developers
- have on their workstations. To this end:
- 
--- git repositories provide PGP signatures on all tags
-+- Git repositories provide PGP signatures on all tags
- - tarballs provide detached PGP signatures with all downloads
- 
- .. _devs_not_infra:
-@@ -660,12 +660,12 @@ impersonate you without having access to your PGP keys.
- 
- .. _`nothing to do with it`: https://github.com/jayphelps/git-blame-someone-else
- 
--Configure git to use your PGP key
-+Configure Git to use your PGP key
- ---------------------------------
- 
- If you only have one secret key in your keyring, then you don't really
- need to do anything extra, as it becomes your default key.  However, if
--you happen to have multiple secret keys, you can tell git which key
-+you happen to have multiple secret keys, you can tell Git which key
- should be used (``[fpr]`` is the fingerprint of your key)::
- 
-     $ git config --global user.signingKey [fpr]
-@@ -677,8 +677,8 @@ To create a signed tag, pass the ``-s`` switch to the tag command::
- 
-     $ git tag -s [tagname]
- 
--Our recommendation is to always sign git tags, as this allows other
--developers to ensure that the git repository they are pulling from has
-+Our recommendation is to always sign Git tags, as this allows other
-+developers to ensure that the Git repository they are pulling from has
- not been maliciously altered.
- 
- How to verify signed tags
-@@ -689,7 +689,7 @@ To verify a signed tag, use the ``verify-tag`` command::
-     $ git verify-tag [tagname]
- 
- If you are pulling a tag from another fork of the project repository,
--git should automatically verify the signature at the tip you're pulling
-+Git should automatically verify the signature at the tip you're pulling
- and show you the results during the merge operation::
- 
-     $ git pull [url] tags/sometag
-@@ -703,15 +703,15 @@ The merge message will contain something like this::
-     # gpg: Signature made [...]
-     # gpg: Good signature from [...]
- 
--If you are verifying someone else's git tag, you will first need to
-+If you are verifying someone else's Git tag, you will first need to
- import their PGP key. Please refer to the ":ref:`verify_identities`"
- section below.
- 
--Configure git to always sign annotated tags
-+Configure Git to always sign annotated tags
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- Chances are, if you're creating an annotated tag, you'll want to sign
--it. To force git to always sign annotated tags, you can set a global
-+it. To force Git to always sign annotated tags, you can set a global
- configuration option::
- 
-     $ git config --global tag.forceSignAnnotated true
-@@ -722,15 +722,15 @@ How to work with signed commits
- It is also possible to create signed commits, but they have limited
- usefulness in Linux kernel development. The kernel contribution workflow
- relies on sending in patches, and converting commits to patches does not
--preserve git commit signatures. Furthermore, when rebasing your own
-+preserve Git commit signatures. Furthermore, when rebasing your own
- repository on a newer upstream, PGP commit signatures will end up
- discarded. For this reason, most kernel developers don't bother signing
- their commits and will ignore signed commits in any external
- repositories that they rely upon in their work.
- 
--That said, if you have your working git tree publicly available at some
--git hosting service (kernel.org, infradead.org, ozlabs.org, or others),
--then the recommendation is that you sign all your git commits even if
-+That said, if you have your working Git tree publicly available at some
-+Git hosting service (kernel.org, infradead.org, ozlabs.org, or others),
-+then the recommendation is that you sign all your Git commits even if
- upstream developers do not directly benefit from this practice.
- 
- We recommend this for the following reasons:
-@@ -752,10 +752,10 @@ command (it's capital ``-S`` due to collision with another flag)::
- 
-     $ git commit -S
- 
--Configure git to always sign commits
-+Configure Git to always sign commits
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--You can tell git to always sign commits::
-+You can tell Git to always sign commits::
- 
-     git config --global commit.gpgSign true
- 
-@@ -790,7 +790,7 @@ Installing and configuring patatt
- Patatt is packaged for many distributions already, so please check there
- first. You can also install it from pypi using "``pip install patatt``".
- 
--If you already have your PGP key configured with git (via the
-+If you already have your PGP key configured with Git (via the
- ``user.signingKey`` configuration parameter), then patatt requires no
- further configuration. You can start signing your patches by installing
- the git-send-email hook in the repository you want::
-@@ -902,7 +902,7 @@ the new default in GnuPG v2). To set it, add (or modify) the
- Using the kernel.org web of trust repository
- --------------------------------------------
- 
--Kernel.org maintains a git repository with developers' public keys as a
-+Kernel.org maintains a Git repository with developers' public keys as a
- replacement for replicating keyserver networks that have gone mostly
- dark in the past few years. The full documentation for how to set up
- that repository as your source of public keys can be found here:
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 7ae79452e..b6ca49437 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -866,7 +866,7 @@ automatically include the base tree information in your submission by
- using the ``--base`` flag. The easiest and most convenient way to use
- this option is with topical branches::
- 
--    $ git checkout -t -b my-topical-branch master
-+    $ git switch -t -c my-topical-branch master
-     Branch 'my-topical-branch' set up to track local branch 'master'.
-     Switched to a new branch 'my-topical-branch'
- 
-@@ -882,7 +882,7 @@ notice that it will have the ``base-commit:`` trailer at the very
- bottom, which provides the reviewer and the CI tools enough information
- to properly perform ``git am`` without worrying about conflicts::
- 
--    $ git checkout -b patch-review [base-commit-id]
-+    $ git switch -c patch-review [base-commit-id]
-     Switched to a new branch 'patch-review'
-     $ git am patches.mbox
-     Applying: First Commit
--- 
-2.50.1 (Apple Git-155)
+> +
+> +	if (etm->br_stack->nr)
+> +		sample->branch_stack = etm->br_stack;
+> +
+> +	thread__put(thread);
+> +
+> +	return 0;
+> +}
+> +
+>  static int cs_etm__process_event(struct perf_session *session,
+>  				 union perf_event *event,
+>  				 struct perf_sample *sample,
+> @@ -3049,6 +3191,9 @@ static int cs_etm__process_event(struct perf_session *session,
+>  	case PERF_RECORD_SWITCH_CPU_WIDE:
+>  		return cs_etm__process_switch_cpu_wide(etm, event);
+>  
+> +	case PERF_RECORD_SAMPLE:
+> +		return cs_etm__process_sample(etm, session, sample);
+> +
+>  	case PERF_RECORD_AUX:
+>  		/*
+>  		 * Record the latest kernel timestamp available in the header
+> @@ -3752,11 +3897,34 @@ int cs_etm__process_auxtrace_info_full(union perf_event *event,
+>  
+>  	etm->use_thread_stack = etm->synth_opts.thread_stack ||
+>  				etm->synth_opts.last_branch ||
+> +				etm->synth_opts.add_last_branch ||
+>  				etm->synth_opts.callchain;
+>  
+>  	etm->use_callchain = etm->synth_opts.thread_stack ||
+>  			     etm->synth_opts.callchain;
+>  
+> +	if (etm->synth_opts.last_branch || etm->synth_opts.add_last_branch) {
+> +		etm->br_stack_sz = etm->synth_opts.last_branch_sz;
+> +		etm->br_stack_sz_plus = etm->br_stack_sz;
+> +	}
+> +
+> +	if (etm->synth_opts.add_last_branch) {
+> +		/*
+> +		 * Existing samples are matched to decoded trace by time, so
+> +		 * the trace must carry timestamps that are correlated to perf
+> +		 * time and the queues must be decoded in time order.
+> +		 */
+> +		if (etm->timeless_decoding || !etm->has_virtual_ts) {
+> +			pr_err("CS ETM Trace: --itrace=L requires virtual timestamped trace\n");
+> +			err = -EINVAL;
+> +			goto err_free_queues;
+> +		}
+> +
+> +		err = cs_etm__br_stack_init(etm, session);
+> +		if (err)
+> +			goto err_free_queues;
+> +	}
+> +
+>  	err = cs_etm__synth_events(etm, session);
+>  	if (err)
+>  		goto err_free_queues;
+> @@ -3812,6 +3980,7 @@ int cs_etm__process_auxtrace_info_full(union perf_event *event,
+>  	auxtrace_queues__free(&etm->queues);
+>  	session->auxtrace = NULL;
+>  err_free_etm:
+> +	zfree(&etm->br_stack);
+>  	zfree(&etm);
+>  err_free_metadata:
+>  	/* No need to check @metadata[j], free(NULL) is supported */
+> diff --git a/tools/perf/util/thread-stack.c b/tools/perf/util/thread-stack.c
+> index 1360f44421ef8..2713a2ad70b69 100644
+> --- a/tools/perf/util/thread-stack.c
+> +++ b/tools/perf/util/thread-stack.c
+> @@ -614,6 +614,23 @@ void thread_stack__sample_late(struct thread *thread, int cpu,
+>  	}
+>  }
+>  
+> +/*
+> + * Branch history belongs to the sample that ends the trace window, so a
+> + * decoder that attaches it to an existing sample should take it rather than
+> + * copy it. A later sample with no newly decoded trace then finds an empty
+> + * branch stack instead of the previous window's branches.
+> + */
+> +void thread_stack__br_stack_consume(struct thread *thread, int cpu)
+> +{
+> +	struct thread_stack *ts = thread__stack(thread, cpu);
+> +
+> +	if (!ts || !ts->br_stack_rb)
+> +		return;
+> +
+> +	ts->br_stack_pos = 0;
+> +	ts->br_stack_rb->nr = 0;
+> +}
+> +
+>  void thread_stack__br_sample(struct thread *thread, int cpu,
+>  			     struct branch_stack *dst, unsigned int sz)
+>  {
+> diff --git a/tools/perf/util/thread-stack.h b/tools/perf/util/thread-stack.h
+> index b3cd09beb62f0..2aec292bd1bcb 100644
+> --- a/tools/perf/util/thread-stack.h
+> +++ b/tools/perf/util/thread-stack.h
+> @@ -88,6 +88,7 @@ void thread_stack__sample(struct thread *thread, int cpu, struct ip_callchain *c
+>  void thread_stack__sample_late(struct thread *thread, int cpu,
+>  			       struct ip_callchain *chain, size_t sz, u64 ip,
+>  			       u64 kernel_start);
+> +void thread_stack__br_stack_consume(struct thread *thread, int cpu);
+>  void thread_stack__br_sample(struct thread *thread, int cpu,
+>  			     struct branch_stack *dst, unsigned int sz);
+>  void thread_stack__br_sample_late(struct thread *thread, int cpu,
 
