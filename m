@@ -1,117 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E243B212FAD;
-	Mon, 24 Aug 2026 10:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDB24048B1;
+	Mon, 24 Aug 2026 10:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787568906; cv=none; b=k2j6xBaI1gVfvjI/swXQmUqR7WkcrshBr/UZSQNs51hOK5fnhCpZiWbVmIP9WxMj7vrr2/cBarNco3gTTUe4Tp5XTkljVocaWP7tnvFNLA8u1fN5SWFhO/57VO6bb5Lrf7AVQEucq5tINHX1bGvSpHdYqqgeY+VwkbVasHCSDtU=
+	t=1787568935; cv=none; b=pjlyswrjAPzlU4j7W2+PjhsRniN32GagbJSOLF4Epq7kc1/iMAzzvbT3WhDsV3fXzKrJ1hzlPO+Sl5jJ/02G+lkTZgBivkrjEW7HEh/ZfWKzMl7i+M0wpG/JqOCwtA+xQAnRNQcG7UVx70QeA+gDv+2cvCaETZDtG+o/OlhfVZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787568906; c=relaxed/simple;
-	bh=fkpmiuvZvy8KJgwZoYnlsiK5bivcJAsMIxHfupu4BEE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=p3PCUgAck+otbLdB6Nv/FqQuNZxQoF7sA9ntDzzj1shdpChpCYwxoV6ZbvKQbeIDGaSABIwLyTS3+n/dLQLtJS2NZtX5NixWlxYOwhth79elH1CMtR9hrRhRPv7c/PAE1mVXaGKcvOGWil5gSqKiUl0HRXWh3J1PcKFW1onSLV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j47cE2MZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1787568935; c=relaxed/simple;
+	bh=Y7q7Y0Ijr81nht1B72jaufflBHfR+4lBnvpXhqwLMNQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kzSWshRIsEQafKxp6GumARo9mDcP4xjzrgOaQSlzPGuKkOkibDBQ3jMwe92FiG4eJ2BoBxE1E1xR/w9hjOqb16h1HfxcjTKZElRuXvVplv5iNSqmBBPQhub2uyBHAwvY3YHQnZUaaB86+5LpTENYIXls3bjHP54w1DP3553iS6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=OXTtm5U9; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j47cE2MZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6E80EC19425;
-	Mon, 24 Aug 2026 10:55:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787568905;
-	bh=fkpmiuvZvy8KJgwZoYnlsiK5bivcJAsMIxHfupu4BEE=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=j47cE2MZlpEWiyZC1otWBKfZrT/JCNvDkpA8RZR0wld1n2MjCNxma3+CuvLla3WtM
-	 MFfsuA6RiSbsx/F4hFwK5J0/Z0nxgOLkp3XPvYAVfQEhx2+HRFLTbvBO0YKNMbNk8H
-	 zCXdcyuUN4x6SjViPJYndIiRCp0ILnR9Y23K3RTGuDvOlE8ux0G1Jhmxt0LY/7r6p7
-	 7NZ/avZrYMbAaZcMS9yFV4NdvQFPnh7dwanh/BUQeUWTgnlpiiC9mTEWqZEZ+UDnMh
-	 dhNYGgBch1RFfARMowgJOaaifzySnv3vQylIIeQPrYWlCUK9/mXNejR/NNrnolOlIT
-	 qOscGL+cf8cnQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47998C5DF81;
-	Mon, 24 Aug 2026 10:55:05 +0000 (UTC)
-From: Cheng Lingfei via B4 Relay <devnull+chenglingfei.foxmail.com@kernel.org>
-Date: Mon, 24 Aug 2026 18:55:04 +0800
-Subject: [PATCH] docs: cgroup-v2: fix misc.events key format description
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="OXTtm5U9"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0175D3E97F;
+	Mon, 24 Aug 2026 10:55:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1787568926;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TFAQi+kBIPkmL5TMXRPYXiW26z6Ks1atuHVz2zpZ5ts=;
+	b=OXTtm5U9juHSNzDcCwQuS2TZbeAH5X0WJmNc2PAwHUdE6O0SHGIxvrJqZe9y1z/ZQueca1
+	5v4+/Wmns4+bnIldZGeBFb95aQj+fGu+nr44OpfP5ME22cKd/BJ7AJlRsBJy13cW2tL+CK
+	9oRtHJyIFzq0pFIG1rdbVsAUIfGnM30WuYe1OuDyhKwIjLmeYqhIesvYgmJU5r9VHPyx/4
+	rdEK8ETbyNd3cov4BDji4yhplkFzeJPiyaVd9lMrVpcLvwMDLntneCCAS7rRbqLPSx1jpw
+	ccDrAGTrsoqrHbZsK7WLAgFvFsh8uHbnYkbVfnDhm9IvsLbYlHEuKRAZf+3sIQ==
+Message-ID: <fa01a427-a73b-460b-9b11-d2e92cb8ea9a@gtucker.io>
+Date: Mon, 24 Aug 2026 12:55:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] Documentation: dev-tools: update container.rst with
+ config file
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Nick Desaulniers <ndesaulniers@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ automated-testing@lists.yoctoproject.org
+References: <7d8ba914cd174d716340bb2b88723bef0f330627.1787565460.git.gtucker@gtucker.io>
+ <13dc85e4d0b1b1f6fcfc7782238b137061f2dd7c.1787565460.git.gtucker@gtucker.io>
+Content-Language: en-GB
+From: Guillaume Tucker <gtucker@gtucker.io>
+Organization: gtucker.io
+In-Reply-To: <13dc85e4d0b1b1f6fcfc7782238b137061f2dd7c.1787565460.git.gtucker@gtucker.io>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260824-master-v1-1-6866b77e1f62@foxmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDCyMT3dzE4pLUIl2DpNRk0zRzy1SzZAsloOKCotS0zAqwQdGxEH5xaVJ
- WanIJSLdSbS0AaDjCvmoAAAA=
-X-Change-ID: 20260824-master-0bec5f79e6c8
-To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
- =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Cheng Lingfei <chenglingfei@foxmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787568904; l=1986;
- i=chenglingfei@foxmail.com; s=20260824; h=from:subject:message-id;
- bh=bJaj3sDirKHBVj+n44LMo9qeP3F5hcHM4o9UGDzSx74=;
- b=spZdIoOvb0lu29m40uvXEaSglJuDFY8+PmPwGpb0SosQ5MGLU8trU4eneQJj+l/IPYu45yxYL
- GfynoEP+vd+ASU/hf6cauZc2kWUriAJnyuEjxHu810DPfCJcTbxm0jI
-X-Developer-Key: i=chenglingfei@foxmail.com; a=ed25519;
- pk=jJFtzwUiUOhTRJNlFx9WjsWHIYGk49Br17a7AD8MH2I=
-X-Endpoint-Received: by B4 Relay for chenglingfei@foxmail.com/20260824 with
- auth_id=972
-X-Original-From: Cheng Lingfei <chenglingfei@foxmail.com>
-Reply-To: chenglingfei@foxmail.com
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: dmFkZTFm1MaMI2m/joxcKaeoOZCNrpHCicyrMcsWV2F/rKFb1kojbr/l+BF2aRIUgPETl/OJTTVBhN0qQuocJxskdg2d/PQs6OK6nmO8C2b1WVi5OXNqVjlJbrQPKpnFzsu3rGXmVfVQrxr58H4gDXjfL8hPuWQXVE+v8h8k+xWtwTczlIxylG1gHlytS3hRzxJl02wM+3ge6Fo9aHwtrARFjbUzt6wlGuydHMshHvLh4G7yY68CpHTznWaViLxEilo7kX+8QF+73Fy5BDiiZjR7lBzUjb3SVH98g2Q+k6tGbtElr2vgh9gY44r1Oifkp76C8+MnAyG5N4TbttmvNyxnYBR6EQu4lzWpng4Auq97oItXODDbaqvMZC5mCNN1sERByWyk0lYXjCbGOFL1xfZl6RVo3JUBxkTn7+6i1tkRu6CTi01bIpT/H+GYoyTdQUxyYS8yuap2zITaAR53DI3rcrCTo8iYLSdyROtQPkh4c6QGLtNuPgovJeMbwQU1Yxo3jSxKaOGW9fXDKynWRofOueZSv7/Kyg8p8hA3hYfCL41OnU/8IXRBt+bTo86SCr0EGOm8a4IxLhOaK24XilrKjbI61wSpMc2WVgRyDdCkCDe1AlaI3ldsZlkw9Ga5eCsgDCxsZKbTosHtkqDkOvSrIw1YgH4k0LrYPgpei4FlTRdnkw
 
-From: Cheng Lingfei <chenglingfei@foxmail.com>
+On 24/08/2026 12:05, Guillaume Tucker wrote:
+> +By default, the tool will look for configuration a file named
+> +``.container.toml`` in the current working directory.  If not found, it will be
 
-In misc cgroup, misc.events does not output a simple "max" key. Instead,
-each registered misc resource outputs a separate key suffixed with ".max"
-(e.g., "res_a.max <val>").
-Update the documentation to clarify the per-resource nature of the events
-file and provide an example matching the rest of the Misc section.
+Sorry, a small typo crept in:
 
-Signed-off-by: Cheng Lingfei <chenglingfei@foxmail.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+-By default, the tool will look for configuration a file named
++By default, the tool will look for a configuration file named
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 7c2a8ed80..cfd6cdc0e 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -3059,14 +3059,17 @@ resources (res_a and res_b) are registered then:
-         file.
- 
-   misc.events
--	A read-only flat-keyed file which exists on non-root cgroups. The
--	following entries are defined. Unless specified otherwise, a value
--	change in this file generates a file modified event. All fields in
--	this file are hierarchical.
-+        A read-only flat-keyed file which exists on non-root cgroups. It
-+        shows, per resource, the number of times the resource usage of the
-+        cgroup and its children was about to go over the max boundary.
-+        Unless specified otherwise, a value change in this file generates a
-+        file modified event. All fields in this file are hierarchical::
- 
--	  max
--		The number of times the cgroup's resource usage was
--		about to go over the max boundary.
-+          $ cat misc.events
-+          res_a.max 0
-+          res_b.max 0
-+
-+        Each entry is keyed by the resource name suffixed with ``.max``.
- 
-   misc.events.local
-         Similar to misc.events but the fields in the file are local to the
-
----
-base-commit: 0a0d1d55dad570724bf8c7ea83409639cfb4be9b
-change-id: 20260824-master-0bec5f79e6c8
-
-Best regards,
---  
-Cheng Lingfei <chenglingfei@foxmail.com>
-
+Guillaume
 
