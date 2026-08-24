@@ -1,157 +1,93 @@
-Received: from mta1.migadu.com (out-31.mta1.migadu.com [95.215.58.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488B73AAF57
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 08:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E953A1E81;
+	Mon, 24 Aug 2026 08:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787560086; cv=none; b=CVJp5qnwONGZRowseh/tFqJPixN7tmZ57HkqYnytql+24oj1PvXxVP7IJoq/CkW6txaoJPCpa8wwbd0/veFxu0hn/0zmliqjmXR05hYOzqLHhd3N2PrvVi+czCj8A4jMhYmkxSYV+qwwUaSPh9OnpuOKcnf8rWaBiBMCXqt3vTk=
+	t=1787560210; cv=none; b=orNOhyfsENOFSJUJjZoT+tv1uqtQMROtFutcJ+jk0bXKUxHjYFLaEl6zkUctx8DtuzUncu3001cuzBlUseL6qblixK2XjHRhKNb0uohJysAXhkx3E0zkwUztIW/TyVefNQuyU93OvJvxfgt0AYfsrGQ5/dpswC2JeAqcn8hIq1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787560086; c=relaxed/simple;
-	bh=8Pl7rmcIvwX+tzegpkwJKg5akKbpn9WU8gbrZ1f0X8M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=trmSpn9kPkr9LNL+iSOhoTz8O7Pd4OZBeF/9TbCb1CqpXRzRtBcFIi3PCQCJKRMNxvW6dqpv9jX1vWgPSnwGeC3rfL67qJSKR6l3/1/5isW3xdFfpcwa1j5Ef2YD5ug0ae/ObrC4iQG00Bm8EoQSleQsSNyqhJHOqT6Uikkfu1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LjJ6LwxO; arc=none smtp.client-ip=95.215.58.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1787560210; c=relaxed/simple;
+	bh=EmNcUE6ntNjDi9vw4ZAjOwbHBEykjJu5SLby3HaW7nc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PSjC50JWzHzOSL/8V1Ejun72rClJhWeDe51djxfleu/z1ib2cU+WlL5isg6hB7zFFsOH0xx/IwxjpmioYTzSSn7qdCFXc7YGVcLJ06c2jKpwKwwQdWlqOeFT/PwX8SoXbW7s6VBIeJ4FPZcumNSM6TGLdxfhXbdAPwnO6Elx9XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=mrh4Gxi5; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LjJ6LwxO"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=8Pl7rmcIvwX+tzegpkwJKg5akKbpn9WU8gbrZ1f0X8M=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787560081; v=1; x=1788164881;
- b=LjJ6LwxO2XPMd9oUysjq8G0CYOWF4VzDt09U8RGs0WH8lFAhfhCHNMnUTeQ9JE83869mX1TK
- EWbZLkG1UPpibY/1ZklwKooBXY18Nt44P586BiTfw2lnPLEfxfMBS2E71xXXxoPUwK4t3VHGXSd
- huWKoKD2Z72W8xJ1K0wdXGvU=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: from [10.244.244.3] (2602:fce1:44f:115e::)
-	by smtp.migadu.com with ESMTPS id 8e0a79e38506ea9a;
-	Mon, 24 Aug 2026 08:28:00 +0000
-X-Mizu-Trace-ID: 8e0a79e38506ea9a
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <cff17006-b534-440a-8be7-651fb0a940cd@linux.dev>
-Date: Mon, 24 Aug 2026 16:27:39 +0800
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="mrh4Gxi5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=qihzHf9kJxwgDVSR87wX0TBc1uAoNiY+X4mEXiuFwvs=; b=mrh4Gxi5n0gvWw077NNmIjkvVT
+	+9WoTCxxeXJrHfArbcpfZxahbSUVFfwTH+aavWPNAOUL1E2ziu/JfAwFXTptrUIHj2wLV0LwM00uV
+	PG/57jPkfHG/a9P+RbZyDTtLWnqXsIVouGgG4bhN5mZhgqoMxxpVVHJ86dKwdrkOr69d7E37M2fls
+	eHiCiwfXMViNqNwJrIGbXZ5Ac4ICh9KVpgy468obekxAZ92h9/6j3lP9v0l7xMWiSxLmQe8KApAED
+	tyJwmuML0cwxvbBQN+/SMXrVFmEbC44m01YhR5TAC55z4/vSJI0Qtlgt6n7GgYRNllC9jJ2X3lqKj
+	zRMMMf4A==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wyQ3Y-00DXEa-2h;
+	Mon, 24 Aug 2026 08:29:25 +0000
+Date: Mon, 24 Aug 2026 01:29:18 -0700
+From: Breno Leitao <leitao@debian.org>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, linux-edac@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 2/2] x86/mce: Add mce=panic_on_ce_count to panic on a
+ corrected error flood
+Message-ID: <aowABmagul44ENde@gmail.com>
+References: <20260821-mce-panic-on-storm-v1-0-7a465c708d82@debian.org>
+ <20260821-mce-panic-on-storm-v1-2-7a465c708d82@debian.org>
+ <aoiBy3vg9eSvGhIu@agluck-desk3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] userfaultfd: collapse VM_UFFD_{MISSING,WP,MINOR,RWP}
- into single VM_UFFD
-To: Mike Rapoport <rppt@kernel.org>
-Cc: akpm@linux-foundation.org, david@kernel.org,
- baolin.wang@linux.alibaba.com, baohua@kernel.org, dev.jain@arm.com,
- hughd@google.com, jannh@google.com, jgg@ziepe.ca, jhubbard@nvidia.com,
- corbet@lwn.net, liam@infradead.org, ljs@kernel.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, mhocko@suse.com, muchun.song@linux.dev,
- nico.pache@linux.dev, osalvador@suse.de, pfalcato@suse.de,
- peterx@redhat.com, ryan.roberts@arm.com, shakeel.butt@linux.dev,
- skhan@linuxfoundation.org, rostedt@goodmis.org, surenb@google.com,
- usama.arif@linux.dev, vbabka@kernel.org, ziy@nvidia.com,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org
-References: <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
- <20260824071126.41979-1-lance.yang@linux.dev> <aov9_DIHLHynm7tN@kernel.org>
-Content-Language: en-US
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <aov9_DIHLHynm7tN@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aoiBy3vg9eSvGhIu@agluck-desk3>
+X-Debian-User: leitao
 
+On Fri, Aug 21, 2026 at 09:50:19AM -0700, Luck, Tony wrote:
 
-
-On 2026/8/24 16:17, Mike Rapoport wrote:
-> Hi Lance,
+> > Count corrected errors per bank and add mce=panic_on_ce_count=<count>
+> > and panic the host if we have more events than set.
 > 
-> On Mon, Aug 24, 2026 at 03:11:26PM +0800, Lance Yang wrote:
->>
->> On Sun, Aug 23, 2026 at 03:17:43PM +0300, Mike Rapoport (Microsoft) wrote:
->> [...]
->>> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
->>> index 83587d34b189..193f6e65d875 100644
->>> --- a/mm/userfaultfd.c
->>> +++ b/mm/userfaultfd.c
->>> @@ -50,10 +50,10 @@ struct mfill_state {
->>> 	pmd_t *pmd;
->>> };
->>>
->>> -static bool anon_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags)
->>> +static bool anon_can_userfault(struct vm_area_struct *vma, unsigned int mode)
->>> {
->>> 	/* anonymous memory does not support MINOR mode */
->>> -	if (vm_flags & VM_UFFD_MINOR)
->>> +	if (mode & UFFD_MODE_MINOR)
->>> 		return false;
->>> 	return true;
->>> }
->>> @@ -462,7 +462,7 @@ static int mfill_copy_folio_locked(struct folio *folio, unsigned long src_addr)
->>> }
->>>
->>> #define MFILL_RETRY_STATE_VMA_FLAGS \
->>> -	append_vma_flags(__VMA_UFFD_FLAGS, VMA_SHARED_BIT)
->>> +	append_vma_flags(VMA_UFFD, VMA_SHARED_BIT)
->>
->> Looks like this drops registration mode from the retry snapshot. Assume a
->> shared shmem VMA is registered for MISSING and COPY reaches
->> mfill_copy_folio_retry(). While locks are dropped, the same userfaultfd|
->> can re-register the range for MINOR. VMA_UFFD, VM_SHARED, ops, file and
->> pgoff all stay unchanged, so the old COPY can continue instead of
->> returning -EAGAIN ... no?
+> FYI. I don't think this needs to be fixed, but you should be aware and
+> perhaps document the shared bank details.
 > 
-> Good catch, thanks!
-
-Cheers!
-
->   
->> Maybe something like this?
+> This won't count accurately for banks that are shared by multiple logical
+> CPUs (you've inherited this from the storm detection code that introduces
+> this problem).
 > 
-> I prefer to add mode to the retry_state:
-> 
-> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-> index 193f6e65d875..a0377f7ecc69 100644
-> --- a/mm/userfaultfd.c
-> +++ b/mm/userfaultfd.c
-> @@ -471,6 +471,7 @@ static int mfill_copy_folio_locked(struct folio *folio, unsigned long src_addr)
->    */
->   struct mfill_retry_state {
->   	const struct vm_uffd_ops *ops;
-> +	unsigned long mode;
->   	struct file *file;
->   	vma_flags_t flags;
->   	pgoff_t pgoff;
-> @@ -482,6 +483,7 @@ static void mfill_retry_state_save(struct mfill_retry_state *s,
->   	s->flags = vma_flags_and_mask(&vma->flags, MFILL_RETRY_STATE_VMA_FLAGS);
->   	s->ops = vma_uffd_ops(vma);
->   	s->pgoff = vma_start_pgoff(vma);
-> +	s->mode = uffd_mode(vma);
->   
->   	if (vma->vm_file)
->   		s->file = get_file(vma->vm_file);
-> @@ -493,8 +495,9 @@ static bool mfill_retry_state_changed(struct mfill_retry_state *state,
->   	vma_flags_t flags = vma_flags_and_mask(&vma->flags,
->   					       MFILL_RETRY_STATE_VMA_FLAGS);
->   
-> -	/* Have any UFFD flags (missing, WP, minor) changed? */
-> -	if (!vma_flags_same_pair(&state->flags, &flags))
-> +	/* UFFD registration mode or VMA sharing changed */
-> +	if (!vma_flags_same_pair(&state->flags, &flags) ||
-> +	    s->mode != uffd_mode(vma))
+> E.g. a machine check bank reporting L2 errors is shared by both logical CPUs
+> on a core on P-core systems, and by all cores on a module on E-core systems.
 
-I assume you meant
+Good point, thanks. I had not thought about the shared bank case.
 
-s/s->mode/state->mode/
+I will document it in v2, roughly like this under panic_on_ce_count=
+in kernel-parameters.txt:
 
-With that, LGTM :)
+        The count is kept per CPU and per bank. A bank shared by
+        several logical CPUs -- an L2 bank is shared by the SMT
+	siblings, for instance -- has its errors split across those
+	CPUs.
 
->   		return true;
->   
->   	/* VMA type or effective uffd_ops changed while the lock was dropped */
->   
->> Cheers, Lance
->
+plus a line in the changelog noting that the count inherits the
+<per-CPU,per-bank> granularity of the storm tracking. Thus, there may be
+more errors logged than you expect before your panic fires. Would it be better?
 
-Cheers, Lance
+One question while I am here: is the approach itself something you are
+willing to take, or, just a just send patch [1/2]?
+
+Thanks for the review,
+--breno
