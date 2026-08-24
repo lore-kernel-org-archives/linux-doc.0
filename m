@@ -1,159 +1,588 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010015.outbound.protection.outlook.com [52.101.46.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3903515CD;
-	Mon, 24 Aug 2026 09:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787565268; cv=fail; b=N2Hb3VT1zULJH92iFPt7s405SIeWQOSA/Uwo9af3xJUysULjMdEiPA2O/vH5JqUlcdqvidR4Q5J0l40bIIzTnvw68XgAnXAoOCkrer8SbGVcxRZAijhrkt+CHK/dGTo33uZ74O7nFbppXJfjeYlGU/36baJE+eahj2eP6dP0O6I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787565268; c=relaxed/simple;
-	bh=wzb6tRJHrDVJQGqbEkCo5jb01Nj4kloA91RfnwZIyDU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=o80ojS7rTU6bE1N0rTIMlhiUE8dKX4+anpVVlohOzSwk6ogsCtICQ6dc3qluPajQvVPc3VGTuqaTBq+AODN0nM6PXEUsFPzR+w8H3xiaWNGDUkAbLF1uIbri1a/HENoOfl3ELP8btZf/WT2b1I7p9UR5eZNaBzTr5PwrrcGX9U4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IVdiyYjY; arc=fail smtp.client-ip=52.101.46.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4695A3AE6EE
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 10:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787565665; cv=none; b=oRS2schk7wbrxFA18eMXl7CSEgQMrZvfC5ockM8nvpJRdFH46txKzaZDG3IwfC9VcFtdveMX1GmV7AicY28bJafubK013Z1kyiJ3zkYcnEQII8Q+49vPmygr7dqqHhJpmCyrHUc4fvmUIwbPjZtvbT7z0cedPvyEUTTPEknvSfs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787565665; c=relaxed/simple;
+	bh=TDzvTd0j92UXcVgHi+g/Qyu43S4z4QKND98+gRGOi4A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Iw9e/DwO+05xlfEftMXzvuj3unPzdmPxOj1zqWL7qGvPhKHnp2uIzvWNkA6k6+BVCB8weKpx8Xy51vPM4X9Hf/giTLO6OC8n+n9vVfypWt+R/Ng9JzHTF+2jOQfzxo5alG7rJJ9/DKmSlSwxGNYgL4ZDDYoRhqkG5mt5g5AYo+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IZ09PykT; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IVdiyYjY"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QUqZm6o5P8rS3uTMmNniau+wK1AHWnd9Rj0cIKqR/ghKC9N8WNGEZw8AICsBC4HPd3k0cJHyC+azpMTaZRqYzL7fZFBtVUrUCSQ4+IWCn9yrqQtr/MhAEwYngPaEUebeO++6HEyuN+bxhag5MrWnPEuBiiz9vBySz3lVosR8daXvuaXwLYRWD0Egplp89akNRixjKvhQQlfyPZdt/vkUHruM0PtMeJUK/Ez5fHDISzuWq9LR/w5mVONlCQdHAnBpKiTxEHNnMY68htDuSnfcGsFulgdQnn9m0adu9KJeGZ4cJ85bnuAi33LD1TBqsuWmxzKG0ynlShc55dz/WpRJ0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wzb6tRJHrDVJQGqbEkCo5jb01Nj4kloA91RfnwZIyDU=;
- b=RQADQwIOinmpw5FmgJPf4Tpxdk8P6Uo1GaUhXOgm1dmZHUqsdUkejZiipTBg6bGUwXTiQq9A6g17/3WuDkeIRPdW3QRsmjRcSt1lvMy+nGNcSFVzR1tcfowtYu6CTnn+EbTGF18NKblbLGEaBtQlyTdL//uf7b+1yipT2NSsBCAC6C1gxxTZ6yqblkjSOo5Bjg9ZHWmSC3IG5bZhtTQ1qSh2qCWB+9vO2W/kFLUkGDXlWnkVayKUhcE+7MvROVAO/ptnyqpnl4Tnwnuz+p6MDGBrW0ktv0eNDL4aaN4O1wLHHLkVHWuWyxz+o/CVS7WiWGbN0eGgc7oWAdrpe2PHjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wzb6tRJHrDVJQGqbEkCo5jb01Nj4kloA91RfnwZIyDU=;
- b=IVdiyYjYhXda3lbzW81gBJvtlapT4hIRdxG/5g2HbwGVIMBpew52LANp5xJUQz5amb4fQfcolP0IqXKMCCY0x3sZNtyWQu57IdIZsw8AwPg+yqtGEHZDLPYKMZmcxnSoEK41x7lTbuNpwdBTMGDn6BULFCzxr3RcWBgOxyHjUJa2IfCxOj4hpdPyKqkIiM03PIzKhQHpmoOJfJXJja41FifLa49Dka2gZiRhMkrLlkkf7jopONVCzw+zUyM91d85USNpxnAr1a9fjv4QDyHV4t5Ec+K/wH5uDqYlxdt+JE2XXc76oK4iuSaoxESZOD2Gz/MTB8m/YIFrPQASDkMAlA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CHXPR12MB999244.namprd12.prod.outlook.com
- (2603:10b6:610:2fc::17) by DS7PR12MB8275.namprd12.prod.outlook.com
- (2603:10b6:8:ec::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Mon, 24 Aug
- 2026 09:54:23 +0000
-Received: from CHXPR12MB999244.namprd12.prod.outlook.com
- ([fe80::168f:599c:f74d:7688]) by CHXPR12MB999244.namprd12.prod.outlook.com
- ([fe80::168f:599c:f74d:7688%4]) with mapi id 15.21.0339.010; Mon, 24 Aug 2026
- 09:54:23 +0000
-From: KobaK <kobak@nvidia.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IZ09PykT"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cbeea240819so1858741a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 03:01:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787565661; x=1788170461; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GUTvO6lN0MF4emLUe1MUC8mgqZCrNtS78wfoNqz4lFs=;
+        b=IZ09PykToigtr+D8CAdhUbZf5yVSIJ55s928GRZG2cjPxC2C2upK82l3bCYiobjUpT
+         JS4KXqdW4+qbbE1DretuvM1EsbokB6twoxVtyFc/fvH9uH60KhDkWmFfnCbJND6me56Z
+         nz5xkTCIdHtGgud2B1bMFK6/fXzbERVL6sDMKD8gPfh3GwJo+jVlyHM7cmAn1ajJlSAo
+         977TQ8g93retK/unUGcEW/HxEs3I01EzkFLyumm6T9dLNtcNZAG1ajvXc4yZ/5eLjI/r
+         yN4Z7xEm4rXV5+fjSDnh0/NLS0CY/LjfMyE1QLLMD/FbXCShU8q55NfeZ/2/c0LHXOiJ
+         So2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787565661; x=1788170461;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GUTvO6lN0MF4emLUe1MUC8mgqZCrNtS78wfoNqz4lFs=;
+        b=dHjULVel0Nf+/XUGskk8BEMjez1Y9k80yAPkCqYyCM1Z+ibp6LOzVBLxHfMVLdTdqp
+         zSg4uf+J+cptGFrZBqBcmV9w8lEf+Uo611zGOTVpVE6unyvQ8hVkw1fP7z2qstJGtbXU
+         qU+mIWdlN0hi3BHkzAcC2nYTkB6w2hfnc2dRk0WbmiAhPm1YQbwMJTclyzZlXrLrJGdA
+         u2zYyM5SVtScGyAg/grTcZiJ3++LMKnP/20L4XAQ49A2ruvLiNdLX4VXtX+gWHqAwIxS
+         KseIfLxK2IqrQ76BUiaECLb/JWK49Wn9DA8zEcZIyRl/tXdJCnxCikOlcUX2pspFbh3d
+         JalA==
+X-Forwarded-Encrypted: i=1; AHgh+RowxgelKgU1sahhIKMDiFlVw/dWjK76i6SEUMiD/1hfC7CDUnWSXkEOhQSlb+CawzJsz8FnpPOnKGI=@vger.kernel.org
+X-Gm-Message-State: AFuF++kxETjBuwq0dskw0zkujVoPSJnPpM+mB4IE9TkFVT+vkMJTrEdU
+	hzAD9hR2TwdyrQwm3tmKkSZplAF5svQx21PJtAoAdc9+b1it9d2d9/bN/DxeT+Bq
+X-Gm-Gg: AR+sD13319QZsKaav7sZqnlYghaP1mSDz/3lGwjpMXBB4fCc0BIvPIJomquCYSYVcWe
+	eCkNt4YiB5QHKlrDHZhW/XKITuQVgVbcqxVpXMl1CG7471X04gcSFVmPxTcOPfHYzXhe5RXfrPQ
+	XzRHQeE29DAOVjVDIyK6m8YqlZD/yd+nHLEzKJspt0OcPlVZqyCN9UJeF6Znf7mJnAPbKh4LS3E
+	SzVe/uo6khNF9ve+6lEzaTBSIGD71Yy0q6l/GTeeOejlKgJaEjNObo1jACt1+MPflfUTUfkgCHj
+	8bENqI2OD5wXOs4XJ/dwqAqVt3qxgin6HihusXSfG5oz7ZT2udpcGZSSbyVOqAKqEhP1/4LgEqO
+	lUELaI0ji1p10iJinIBF0VANYHkW54fuXnbjtgSvFax8jZD2sFo7EDPyXvWDJbZ057On1WoJs15
+	jG9WqVv9iqJgoBMb3GNip8zOaZSuOL3CNFGjnIHTohz84uqZFHRf9HjMDalvwzijLKD304UlVTK
+	wyL0by7abZ9iyuBGLFCKZPTm/b/XTKn
+X-Received: by 2002:a05:6a20:938c:b0:3c3:9c4e:de3a with SMTP id adf61e73a8af0-3cd2febd396mr43177549637.6.1787565661005;
+        Mon, 24 Aug 2026 03:01:01 -0700 (PDT)
+Received: from localhost.localdomain ([2001:ee0:505b:c770:709a:9e9a:e679:fe1e])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f90cb8e3sm36705946eec.12.2026.08.24.03.00.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 03:01:00 -0700 (PDT)
+From: Nguyen Duc Thinh <ducthinh100812@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Weijie Yuan <wy@wyuan.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-arm-kernel@lists.infradead.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Fenghua Yu <fenghuay@nvidia.com>,
-	Tushar Dave <tdave@nvidia.com>,
-	Kai-Heng Feng <kaihengf@nvidia.com>,
-	Rupak Roy <rupakr@nvidia.com>,
-	Mohammed Karamathulla <mohammedk@nvidia.com>
-Subject: Re: [RFC PATCH 1/3] arm64: add CPU prefetch and cache modulation sysfs interface
-Date: Mon, 24 Aug 2026 17:54:05 +0800
-Message-ID: <20260824095405.3-3-kobak@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <aoXEBXXvTDBimnHi@gmail.com>
-References: <20260817022335.3-1-kobak@nvidia.com> <20260817022335.3-2-kobak@nvidia.com> <aoXAdSY_EyPlOOnK@gmail.com> <aoXEBXXvTDBimnHi@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2P153CA0049.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::18)
- To CHXPR12MB999244.namprd12.prod.outlook.com (2603:10b6:610:2fc::17)
+	Nguyen Duc Thinh <ducthinh100812@gmail.com>
+Subject: [PATCH v2] Documentation: process: Capitalize Git, Quilt, and Mercurial consistently
+Date: Mon, 24 Aug 2026 17:00:50 +0700
+Message-ID: <20260824100050.12315-1-ducthinh100812@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CHXPR12MB999244:EE_|DS7PR12MB8275:EE_
-X-MS-Office365-Filtering-Correlation-Id: b828092d-f06f-4e3a-f164-08df01c5acd6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|10067099003|6133799003|18002099003|22082099003|4143699003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	xaNPL85BCvYArdTfosugma9minjTzoB0iNWK+haPhiJ5KXWya3C0knRILsebmbs3lVZqsOkctb0eJAdK+XD7iWFkK6rKJSL7GBMnt3Yue4fLBRt79FsS//8XwHkauGlRGJXV0jLmcn1LGoUJqGA2hfwyQQGM87m63BN9EwySG7GZ6w938BrTX8y9GhY5taDeJZzxXxClCRlzUBrcCUVkwykz2iAoenZ/PbAL+Q8a4q4ruLPk8kuWr13Ib1D0W+1g+294Y/R+2XsX6hBmHRrS8y5CbCXp6m8S92l/hnrJxd1Ksz1JDGWKpoxxCRV8GLnqtYtiIODQkdJSQC0tEzi2GdtjNKhN/+3pcLj8rvpfjrt/JZrfNGNCxqsGyWMuserK9RviPWl5xuXHlYLJ3q8J8z2HOvaRcwIldInUR7FWFySJE0NrYFgmn5iSwd6GJvJ+QLLasuTgBfjwMH9PiZ6XR5cLAVPljHdVzHLS/PVXQRvlMmJfnkx/GXUpFz+ZkUUaDqU7KQENRbv7n5OnAy8Htx8SByDvAqelZ4m/QUR509sjruApEIecDXauqsnDvapLdTRUmYq3bUSC1gZOqN+XnaTZqK2iE61O8ZUIbcgHQQB1mypiq/oxg+5qBMzuDiYoTJXWCjl4RlULBmRodXXf7S/UF4nR79P4PugHvCTqUM0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHXPR12MB999244.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(10067099003)(6133799003)(18002099003)(22082099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Y09rK09mamJyKzMwRlo2cmhHRHpvdTE5MEp0NnFpSFBnSVdGMEJDOG1rUDBo?=
- =?utf-8?B?ckpCZXpPR2V6UkNRcndqMDdaUTgvSjBVQkFJMUo1Q05scW1nVFFFbVAyUEl1?=
- =?utf-8?B?VmFiWVBublk4MW9HL2xjcitXakpPdHJtc2YvWGMwNEE1VFMweEZRQmlTdHJ4?=
- =?utf-8?B?QzY2OFdlYWU2SkowTUZWVEp6OEczckFoYUQ0TGtkaEVjWEF6ejl4cDZacU5l?=
- =?utf-8?B?ZnVJQVhOd085ZlhBNDdpRzZvd282NHUyYUFaY0VVZW5WZXRIM0NOZEZVSngr?=
- =?utf-8?B?QzgzeDY3L1B0R2xvcXZORGQ2dWJvdkloMHNWSkNFTHBsQTBEdmhCeEhZVkw4?=
- =?utf-8?B?V09GSmZTZEU1SkNaNE1QSXdGTnBVOTlwNXNzNTY5WTJ0c0hIWUhwU3NLQkkw?=
- =?utf-8?B?YlNxZVliWjl5cFBmdGFCcDNEanBCQnpHTU1lVDNSZU9BV3lBdEJnSXFHbStR?=
- =?utf-8?B?M3FRVjkwbVBvRFpYVmlDd2g2MTFtcjJkZmJPMDU3UVNpYkZCQWdaME1zVC9N?=
- =?utf-8?B?WHV1K3BqbE9vRk9oRzVVcFZuT0w3bFBWU0k4amExQkhnK1dtNWNIKy9qN0xq?=
- =?utf-8?B?Wi9pVkhPVzhjS1Z3VFBKY3JaelRtNWdSdDZBY1ArR1Z2YmcxcTRMQnN6T2Rz?=
- =?utf-8?B?ZGxzTFgwMk5HQjZWMzY2c2x6YXM2SWpVNkQ3a0dwczZiZVMyQ0xXeE5USDcz?=
- =?utf-8?B?b3l0WFl4Rzd0dVY2aENkSUl6bmNXSzdvQ2Y3NlB1S29veTl5c2lIN2ZvU1cv?=
- =?utf-8?B?Vm5aVHlyOTF2dWlvK01sVzJnd0xGTTYxdEpjTmtScG1DbEV6L3BkRjlYZTVC?=
- =?utf-8?B?dzNHVGxST09rc1NFNDJ6UWxoaGc2U2NpYUVuVkt3YTRJQ3Z1WWdTY1pmQTRC?=
- =?utf-8?B?eDBrN3NoV2piaUpzUjZTcUlpbHZSRktDYlc2dzlJZkt5ZXVUMGc3eFlMbXNL?=
- =?utf-8?B?SXNMVGlDSEJnaWJVQzBJRHI3SzJ2M3R2RElFSW8vL2hPQytkcFlOa2NCM002?=
- =?utf-8?B?a0N4VWVlenJkeW9CVEZkY1BXMGQrb1dXREMwSC85ZWgzZlZaZHdQSENWWDE5?=
- =?utf-8?B?YkQzM3VWNFN5NWo3ckxPb2lDbVdtbVhZOHAxTHFxanlydjBKYWpjLzRFU0hp?=
- =?utf-8?B?RXBHb1RPdTdGOHZlc0RZNzlBZE5TMGFWVE1yTEswc3pBSEdnYm5tTW1RbEtO?=
- =?utf-8?B?MUs2U2VXVFR3MjFOU0JjT08wZyt2VVRITis2dEVCZnNLcTFTQlo1a2dyVFpa?=
- =?utf-8?B?cEZhbTBGR0g4cmhjc3hPTlhOYWt3RXRXc2hKMGk3ajg2c0hFM3h6SFdnR1hl?=
- =?utf-8?B?TVMvcC96OHJaYTBkM1FodlVnSGlTVzFHN2xEM1Jvd0JneUt1Tk5Nc3o0eEth?=
- =?utf-8?B?Vk42eU9ncU1mdGxyZkdoY2tzZnp2Y0xDTlF4RDEzTnFBdlpsQlhWaWtkT0M0?=
- =?utf-8?B?b1VGVEd0R3ptOTVaKzdXQVRXMHBOTmlzeXJxd2FBY1ZOOEtOZVZQSzNjMUxS?=
- =?utf-8?B?Q2FTL2N5eENUNWpUdGhIcllHYU4yN2Z4TUt2SHB3WHlZZ25ld2tEaS9ZU3N5?=
- =?utf-8?B?eFdHNStQUU92angxZkJMQnJkZGx6NHZuRzVYUnlPQ0hVcGtySDNyQ2JTei9u?=
- =?utf-8?B?MW0vcnhNYk13Y0wwcGcwSmxKMThScXlFRXNZa2tpZC84U1pya01vNi9OMDdH?=
- =?utf-8?B?c25uSWUyaTNFdjFqZTdYbzJHK0tCTGZHbVBNQ0xBbUo0YW9qNTFmNWpvZmFM?=
- =?utf-8?B?Y1hBcUFDUCtBL1IrOU9iUTUwR3JUTmViYkhjb1hldDRzdHNHckIwK0hGb2pL?=
- =?utf-8?B?VGdKYjc1TFVTZkdPWFhEVytFN1YvOXI0QVl5d2xEdFU1M1RMblV3UG54eVFm?=
- =?utf-8?B?Uld6NWhqMFN1OVI5QXJQSlRnNkVsWW1TczZEQkRDZmVVWEI0azhRa0VIU3d4?=
- =?utf-8?B?UnIxU2Q3b0NCbDcvcHprUklCWTN6ZnIxbi9CbHpQUXlFWFN4Y1BFUm9nR29O?=
- =?utf-8?B?ME9pdWRIU0FuVU1Nc3Nxc1RWVmNQM3V4em5JWTM4ZEp4Z1U5MzBocWxOVWNG?=
- =?utf-8?B?VlRVOXlJaVVOMnlJRDFZTDZQam1QL1hWeE1RaCtwQ2lxN0pQUmFIaHpraW92?=
- =?utf-8?B?S0U1SC9aUDFiRElRM3ljQ2ZRekl0L3U1Yk96VG5PNm5aSFpIMFRybXpIeCty?=
- =?utf-8?B?aUtKdXhSZVI2K1RVRXpkNkhXUloxQ2p2Q1ZZcnNVa2l5QldSZWU5YjhlSU9k?=
- =?utf-8?B?SnRQN01teitWY1YxS3NVWjl0TWtlYlYxa2NzQTVYZ2ZvcVIyZmhQczVScUpy?=
- =?utf-8?Q?44hYZNGKwcLQ8meGV0?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b828092d-f06f-4e3a-f164-08df01c5acd6
-X-MS-Exchange-CrossTenant-AuthSource: CHXPR12MB999244.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 09:54:23.0615
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gG7+CZOFFrYqvNAmmxEWsrdGllUlRf1eQM3SZBkvm48CCZMUKpXSpiHyAeyQiLhCbRLljk+XhdPohIKSOjMJug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8275
+Content-Transfer-Encoding: 8bit
 
-Hi Breno,
+Update various process documentation files to properly capitalize "Git",
+"Quilt", and "Mercurial" as proper nouns when referring to the source
+management tools themselves.
 
-Thanks for reviewing and testing this.
+Instances explicitly referring to literal command-line invocations
+(such as "git log" or "git bisect") have been left lowercase.
 
-The current read result is consumed by cpumod_attr_show(), but you are right
-that the persistent cached-value plumbing is unnecessary. For v2, I plan to
-return the value through call.value, emit it directly, and remove the cached
-fields and helpers that no longer have a consumer.
+Signed-off-by: Nguyen Duc Thinh <ducthinh100812@gmail.com>
+---
+v2:
+  - Fixed the extra spaces before ':' in the subject line.
+  - Reverted the accidental 'git switch' changes in submitting-patches.rst to keep the patch logically clean.
+  - Regarding the scope: I did not fix every single instance across the entire documentation subsystem because the list is very long. I am primarily submitting this patch to gain hands-on experience with the Linux kernel contribution workflow.
 
-I also agree about the permissions issue. The register-backed reads perform a
-synchronous IPI, so allowing unprivileged reads could generate a steady IPI
-stream. I plan to change the six register-backed controls to 0600 and retain
-affected_cpus as 0444 metadata.
+ Documentation/process/1.Intro.rst             |  2 +-
+ Documentation/process/2.Process.rst           | 18 ++++-----
+ Documentation/process/3.Early-stage.rst       |  2 +-
+ Documentation/process/5.Posting.rst           | 10 ++---
+ Documentation/process/7.AdvancedTopics.rst    | 36 +++++++++---------
+ Documentation/process/backporting.rst         | 18 ++++-----
+ .../process/embargoed-hardware-issues.rst     |  2 +-
+ .../process/maintainer-pgp-guide.rst          | 38 +++++++++----------
+ Documentation/process/submitting-patches.rst  |  4 +-
+ 9 files changed, 65 insertions(+), 65 deletions(-)
 
-I have recorded your Tested-by, but I will confirm that it still applies after
-these changes before carrying it into v2. The resend is currently on hold
-pending arm64 maintainer direction.
+diff --git a/Documentation/process/1.Intro.rst b/Documentation/process/1.Intro.rst
+index 2c93caea0..847fbe76b 100644
+--- a/Documentation/process/1.Intro.rst
++++ b/Documentation/process/1.Intro.rst
+@@ -42,7 +42,7 @@ avoid problems at this important stage.  Developers are cautioned against
+ assuming that the job is done when a patch is merged into the mainline.
+ 
+ :ref:`development_advancedtopics` introduces a couple of "advanced" topics:
+-managing patches with git and reviewing patches posted by others.
++managing patches with Git and reviewing patches posted by others.
+ 
+ :ref:`development_conclusion` concludes the document with pointers to sources
+ for more information on kernel development.
+diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
+index 77f3f80e7..d09fa23d6 100644
+--- a/Documentation/process/2.Process.rst
++++ b/Documentation/process/2.Process.rst
+@@ -223,8 +223,8 @@ of the kernel they manage; they are the ones who will (usually) accept a
+ patch for inclusion into the mainline kernel.
+ 
+ Subsystem maintainers each manage their own version of the kernel source
+-tree, usually (but certainly not always) using the git source management
+-tool.  Tools like git (and related tools like quilt or mercurial) allow
++tree, usually (but certainly not always) using the Git source management
++tool.  Tools like Git (and related tools like Quilt or Mercurial) allow
+ maintainers to track a list of patches, including authorship information
+ and other metadata.  At any given time, the maintainer can identify which
+ patches in his or her repository are not found in the mainline.
+@@ -343,13 +343,13 @@ are well beyond the scope of this document, but there is space for a few
+ pointers.
+ 
+ By far the dominant source code management system used by the kernel
+-community is git.  Git is one of a number of distributed version control
++community is Git.  Git is one of a number of distributed version control
+ systems being developed in the free software community.  It is well tuned
+ for kernel development, in that it performs quite well when dealing with
+ large repositories and large numbers of patches.  It also has a reputation
+ for being difficult to learn and use, though it has gotten better over
+-time.  Some sort of familiarity with git is almost a requirement for kernel
+-developers; even if they do not use it for their own work, they'll need git
++time.  Some sort of familiarity with Git is almost a requirement for kernel
++developers; even if they do not use it for their own work, they'll need Git
+ to keep up with what other developers (and the mainline) are doing.
+ 
+ Git is now packaged by almost all Linux distributions.  There is a home
+@@ -359,12 +359,12 @@ page at:
+ 
+ That page has pointers to documentation and tutorials.
+ 
+-Among the kernel developers who do not use git, the most popular choice is
++Among the kernel developers who do not use Git, the most popular choice is
+ almost certainly Mercurial:
+ 
+ 	https://www.selenic.com/mercurial/
+ 
+-Mercurial shares many features with git, but it provides an interface which
++Mercurial shares many features with Git, but it provides an interface which
+ many find easier to use.
+ 
+ The other tool worth knowing about is Quilt:
+@@ -374,9 +374,9 @@ The other tool worth knowing about is Quilt:
+ Quilt is a patch management system, rather than a source code management
+ system.  It does not track history over time; it is, instead, oriented
+ toward tracking a specific set of changes against an evolving code base.
+-Some major subsystem maintainers use quilt to manage patches intended to go
++Some major subsystem maintainers use Quilt to manage patches intended to go
+ upstream.  For the management of certain kinds of trees (-mm, for example),
+-quilt is the best tool for the job.
++Quilt is the best tool for the job.
+ 
+ 
+ Mailing lists
+diff --git a/Documentation/process/3.Early-stage.rst b/Documentation/process/3.Early-stage.rst
+index 894a92004..87fa7875e 100644
+--- a/Documentation/process/3.Early-stage.rst
++++ b/Documentation/process/3.Early-stage.rst
+@@ -138,7 +138,7 @@ the place to start.  That file tends to not always be up to date, though,
+ and not all subsystems are represented there.  The person listed in the
+ MAINTAINERS file may, in fact, not be the person who is actually acting in
+ that role currently.  So, when there is doubt about who to contact, a
+-useful trick is to use git (and "git log" in particular) to see who is
++useful trick is to use Git (and "git log" in particular) to see who is
+ currently active within the subsystem of interest.  Look at who is writing
+ patches, and who, if anybody, is attaching Signed-off-by lines to those
+ patches.  Those are the people who will be best placed to help with a new
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index 07d7dbed1..b8a449980 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -21,7 +21,7 @@ There is a constant temptation to avoid posting patches before they are
+ completely "ready."  For simple patches, that is not a problem.  If the
+ work being done is complex, though, there is a lot to be gained by getting
+ feedback from the community before the work is complete.  So you should
+-consider posting in-progress work, or even making a git tree available so
++consider posting in-progress work, or even making a Git tree available so
+ that interested developers can catch up with your work at any time.
+ 
+ When posting code which is not yet considered ready for inclusion, it is a
+@@ -71,7 +71,7 @@ even in the short term.
+ 
+ Patches must be prepared against a specific version of the kernel.  As a
+ general rule, a patch should be based on the current mainline as found in
+-Linus's git tree.  When basing on mainline, start with a well-known release
++Linus's Git tree.  When basing on mainline, start with a well-known release
+ point - a stable or -rc release - rather than branching off the mainline at
+ an arbitrary spot.
+ 
+@@ -320,7 +320,7 @@ copies should go to:
+    the MAINTAINERS file is the first place to look for these people.
+ 
+  - Other developers who have been working in the same area - especially
+-   those who might be working there now.  Using git to see who else has
++   those who might be working there now.  Using Git to see who else has
+    modified the files you are working on can be helpful.
+ 
+  - If you are responding to a bug report or a feature request, copy the
+@@ -362,7 +362,7 @@ that the patches, themselves, have complete changelog information.
+ 
+ In general, the second and following parts of a multi-part patch should be
+ sent as a reply to the first part so that they all thread together at the
+-receiving end.  Tools like git and quilt have commands to mail out a set of
++receiving end.  Tools like Git and Quilt have commands to mail out a set of
+ patches with the proper threading.  If you have a long series, though, and
+-are using git, please stay away from the --chain-reply-to option to avoid
++are using Git, please stay away from the --chain-reply-to option to avoid
+ creating exceptionally deep nesting.
+diff --git a/Documentation/process/7.AdvancedTopics.rst b/Documentation/process/7.AdvancedTopics.rst
+index 185651d87..066655e5d 100644
+--- a/Documentation/process/7.AdvancedTopics.rst
++++ b/Documentation/process/7.AdvancedTopics.rst
+@@ -8,7 +8,7 @@ works.  There is still more to learn, however!  This section will cover a
+ number of topics which can be helpful for developers wanting to become a
+ regular part of the Linux kernel development process.
+ 
+-Managing patches with git
++Managing patches with Git
+ -------------------------
+ 
+ The use of distributed version control for the kernel began in early 2002,
+@@ -17,17 +17,17 @@ application.  While BitKeeper was controversial, the approach to software
+ version management it embodied most certainly was not.  Distributed version
+ control enabled an immediate acceleration of the kernel development
+ project.  In current times, there are several free alternatives to
+-BitKeeper.  For better or for worse, the kernel project has settled on git
++BitKeeper.  For better or for worse, the kernel project has settled on Git
+ as its tool of choice.
+ 
+-Managing patches with git can make life much easier for the developer,
++Managing patches with Git can make life much easier for the developer,
+ especially as the volume of those patches grows.  Git also has its rough
+ edges and poses certain hazards; it is a young and powerful tool which is
+ still being civilized by its developers.  This document will not attempt to
+-teach the reader how to use git; that would be sufficient material for a
+-long document in its own right.  Instead, the focus here will be on how git
++teach the reader how to use Git; that would be sufficient material for a
++long document in its own right.  Instead, the focus here will be on how Git
+ fits into the kernel development process in particular.  Developers who
+-wish to come up to speed with git will find more information at:
++wish to come up to speed with Git will find more information at:
+ 
+ 	https://git-scm.com/
+ 
+@@ -36,20 +36,20 @@ wish to come up to speed with git will find more information at:
+ and on various tutorials found on the web.
+ 
+ The first order of business is to read the above sites and get a solid
+-understanding of how git works before trying to use it to make patches
++understanding of how Git works before trying to use it to make patches
+ available to others.  A git-using developer should be able to obtain a copy
+ of the mainline repository, explore the revision history, commit changes to
+-the tree, use branches, etc.  An understanding of git's tools for the
++the tree, use branches, etc.  An understanding of Git's tools for the
+ rewriting of history (such as rebase) is also useful.  Git comes with its
+-own terminology and concepts; a new user of git should know about refs,
++own terminology and concepts; a new user of Git should know about refs,
+ remote branches, the index, fast-forward merges, pushes and pulls, detached
+ heads, etc.  It can all be a little intimidating at the outset, but the
+ concepts are not that hard to grasp with a bit of study.
+ 
+-Using git to generate patches for submission by email can be a good
++Using Git to generate patches for submission by email can be a good
+ exercise while coming up to speed.
+ 
+-When you are ready to start putting up git trees for others to look at, you
++When you are ready to start putting up Git trees for others to look at, you
+ will, of course, need a server that can be pulled from.  Setting up such a
+ server with git-daemon is relatively straightforward if you have a system
+ which is accessible to the Internet.  Otherwise, free, public hosting sites
+@@ -57,9 +57,9 @@ which is accessible to the Internet.  Otherwise, free, public hosting sites
+ developers can get an account on kernel.org, but those are not easy to come
+ by; see https://kernel.org/faq/ for more information.
+ 
+-The normal git workflow involves the use of a lot of branches.  Each line
++The normal Git workflow involves the use of a lot of branches.  Each line
+ of development can be separated into a separate "topic branch" and
+-maintained independently.  Branches in git are cheap, there is no reason to
++maintained independently.  Branches in Git are cheap, there is no reason to
+ not make free use of them.  And, in any case, you should not do your
+ development in any branch which you intend to ask others to pull from.
+ Publicly-available branches should be created with care; merge in patches
+@@ -72,7 +72,7 @@ say, or which has some other sort of obvious bug) can be fixed in place or
+ made to disappear from the history entirely.  A patch series can be
+ rewritten as if it had been written on top of today's mainline, even though
+ you have been working on it for months.  Changes can be transparently
+-shifted from one branch to another.  And so on.  Judicious use of git's
++shifted from one branch to another.  And so on.  Judicious use of Git's
+ ability to revise history can help in the creation of clean patch sets with
+ fewer problems.
+ 
+@@ -111,16 +111,16 @@ perform test merges in a private branch.  The git "rerere" tool can be
+ useful in such situations; it remembers how merge conflicts were resolved
+ so that you don't have to do the same work twice.
+ 
+-One of the biggest recurring complaints about tools like git is this: the
++One of the biggest recurring complaints about tools like Git is this: the
+ mass movement of patches from one repository to another makes it easy to
+ slip in ill-advised changes which go into the mainline below the review
+ radar.  Kernel developers tend to get unhappy when they see that kind of
+-thing happening; putting up a git tree with unreviewed or off-topic patches
++thing happening; putting up a Git tree with unreviewed or off-topic patches
+ can affect your ability to get trees pulled in the future.  Quoting Linus:
+ 
+ ::
+ 
+-	You can send me patches, but for me to pull a git patch from you, I
++	You can send me patches, but for me to pull a Git patch from you, I
+ 	need to know that you know what you're doing, and I need to be able
+ 	to trust things *without* then having to go and check every
+ 	individual change by hand.
+@@ -130,7 +130,7 @@ can affect your ability to get trees pulled in the future.  Quoting Linus:
+ To avoid this kind of situation, ensure that all patches within a given
+ branch stick closely to the associated topic; a "driver fixes" branch
+ should not be making changes to the core memory management code.  And, most
+-importantly, do not use a git tree to bypass the review process.  Post an
++importantly, do not use a Git tree to bypass the review process.  Post an
+ occasional summary of the tree to the relevant list, and, when the time is
+ right, request that the tree be included in linux-next.
+ 
+diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
+index 0de9eacd4..abc5f8925 100644
+--- a/Documentation/process/backporting.rst
++++ b/Documentation/process/backporting.rst
+@@ -40,8 +40,8 @@ edit the patch to make it apply.
+ 
+ It is strongly recommended to instead find an appropriate base version
+ where the patch applies cleanly and *then* cherry-pick it over to your
+-destination tree, as this will make git output conflict markers and let
+-you resolve conflicts with the help of git and any other conflict
++destination tree, as this will make Git output conflict markers and let
++you resolve conflicts with the help of Git and any other conflict
+ resolution tools you might prefer to use. For example, if you want to
+ apply a patch that just arrived on LKML to an older stable kernel, you
+ can apply it to the most recent mainline kernel and then cherry-pick it
+@@ -54,7 +54,7 @@ problem with applying the patch to the "wrong" base is that it may pull
+ in more unrelated changes in the context of the diff when cherry-picking
+ it to the older branch.
+ 
+-A good reason to prefer ``git cherry-pick`` over ``git am`` is that git
++A good reason to prefer ``git cherry-pick`` over ``git am`` is that Git
+ knows the precise history of an existing commit, so it will know when
+ code has moved around and changed the line numbers; this in turn makes
+ it less likely to apply the patch to the wrong place (which can result
+@@ -69,7 +69,7 @@ article will assume that you are doing a plain ``git cherry-pick``.
+ .. _b4: https://people.kernel.org/monsieuricon/introducing-b4-and-patch-attestation
+ .. _b4 presentation: https://youtu.be/mF10hgVIx9o?t=2996
+ 
+-Once you have the patch in git, you can go ahead and cherry-pick it into
++Once you have the patch in Git, you can go ahead and cherry-pick it into
+ your source tree. Don't forget to cherry-pick with ``-x`` if you want a
+ written record of where the patch came from!
+ 
+@@ -101,7 +101,7 @@ backporting from contains patches not in the branch you are backporting
+ to. However, the reverse is also possible. In any case, the result is a
+ conflict that needs to be resolved.
+ 
+-If your attempted cherry-pick fails with a conflict, git automatically
++If your attempted cherry-pick fails with a conflict, Git automatically
+ edits the files to include so-called conflict markers showing you where
+ the conflict is and how the two branches have diverged. Resolving the
+ conflict typically means editing the end result in such a way that it
+@@ -128,7 +128,7 @@ pointers to various tools that you could use:
+ -  `IntelliJ <https://www.jetbrains.com/help/idea/resolve-conflicts.html>`__
+ -  `VSCode <https://code.visualstudio.com/docs/editor/versioncontrol>`__
+ 
+-To configure git to work with these, see ``git mergetool --help`` or
++To configure Git to work with these, see ``git mergetool --help`` or
+ the official `git-mergetool documentation`_.
+ 
+ .. _git-mergetool documentation: https://git-scm.com/docs/git-mergetool
+@@ -326,7 +326,7 @@ style, which looks like this::
+     this is what the patch wants it to be after being applied
+     >>>>>>> <commit> (title)
+ 
+-As you can see, this has 3 parts instead of 2, and includes what git
++As you can see, this has 3 parts instead of 2, and includes what Git
+ expected to find there but didn't. It is *highly recommended* to use
+ this conflict style as it makes it much clearer what the patch actually
+ changed; i.e., it allows you to compare the before-and-after versions
+@@ -382,7 +382,7 @@ Dealing with file renames
+ 
+ One of the most annoying things that can happen while backporting a
+ patch is discovering that one of the files being patched has been
+-renamed, as that typically means git won't even put in conflict markers,
++renamed, as that typically means Git won't even put in conflict markers,
+ but will just throw up its hands and say (paraphrased): "Unmerged path!
+ You do the work..."
+ 
+@@ -393,7 +393,7 @@ other hand, if the change is big or complicated, you definitely don't
+ want to do it by hand.
+ 
+ As a first pass, you can try something like this, which will lower the
+-rename detection threshold to 30% (by default, git uses 50%, meaning
++rename detection threshold to 30% (by default, Git uses 50%, meaning
+ that two files need to have at least 50% in common for it to consider
+ an add-delete pair to be a potential rename)::
+ 
+diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+index d07f16c3c..2c244a6d1 100644
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -187,7 +187,7 @@ security issues in the past.
+ 
+ The mailing list operates in the same way as normal Linux development.
+ Patches are posted, discussed, and reviewed and if agreed upon, applied to
+-a non-public git repository which is only accessible to the participating
++a non-public Git repository which is only accessible to the participating
+ developers via a secure connection. The repository contains the main
+ development branch against the mainline kernel and backport branches for
+ stable kernel versions as necessary.
+diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
+index 652dfbe64..9f6fff2a7 100644
+--- a/Documentation/process/maintainer-pgp-guide.rst
++++ b/Documentation/process/maintainer-pgp-guide.rst
+@@ -25,16 +25,16 @@ communication channels between developers via PGP-signed email exchange.
+ 
+ The Linux kernel source code is available in two main formats:
+ 
+-- Distributed source repositories (git)
++- Distributed source repositories (Git)
+ - Periodic release snapshots (tarballs)
+ 
+-Both git repositories and tarballs carry PGP signatures of the kernel
++Both Git repositories and tarballs carry PGP signatures of the kernel
+ developers who create official kernel releases. These signatures offer a
+ cryptographic guarantee that downloadable versions made available via
+ kernel.org or any other mirrors are identical to what these developers
+ have on their workstations. To this end:
+ 
+-- git repositories provide PGP signatures on all tags
++- Git repositories provide PGP signatures on all tags
+ - tarballs provide detached PGP signatures with all downloads
+ 
+ .. _devs_not_infra:
+@@ -660,12 +660,12 @@ impersonate you without having access to your PGP keys.
+ 
+ .. _`nothing to do with it`: https://github.com/jayphelps/git-blame-someone-else
+ 
+-Configure git to use your PGP key
++Configure Git to use your PGP key
+ ---------------------------------
+ 
+ If you only have one secret key in your keyring, then you don't really
+ need to do anything extra, as it becomes your default key.  However, if
+-you happen to have multiple secret keys, you can tell git which key
++you happen to have multiple secret keys, you can tell Git which key
+ should be used (``[fpr]`` is the fingerprint of your key)::
+ 
+     $ git config --global user.signingKey [fpr]
+@@ -677,8 +677,8 @@ To create a signed tag, pass the ``-s`` switch to the tag command::
+ 
+     $ git tag -s [tagname]
+ 
+-Our recommendation is to always sign git tags, as this allows other
+-developers to ensure that the git repository they are pulling from has
++Our recommendation is to always sign Git tags, as this allows other
++developers to ensure that the Git repository they are pulling from has
+ not been maliciously altered.
+ 
+ How to verify signed tags
+@@ -689,7 +689,7 @@ To verify a signed tag, use the ``verify-tag`` command::
+     $ git verify-tag [tagname]
+ 
+ If you are pulling a tag from another fork of the project repository,
+-git should automatically verify the signature at the tip you're pulling
++Git should automatically verify the signature at the tip you're pulling
+ and show you the results during the merge operation::
+ 
+     $ git pull [url] tags/sometag
+@@ -703,15 +703,15 @@ The merge message will contain something like this::
+     # gpg: Signature made [...]
+     # gpg: Good signature from [...]
+ 
+-If you are verifying someone else's git tag, you will first need to
++If you are verifying someone else's Git tag, you will first need to
+ import their PGP key. Please refer to the ":ref:`verify_identities`"
+ section below.
+ 
+-Configure git to always sign annotated tags
++Configure Git to always sign annotated tags
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ Chances are, if you're creating an annotated tag, you'll want to sign
+-it. To force git to always sign annotated tags, you can set a global
++it. To force Git to always sign annotated tags, you can set a global
+ configuration option::
+ 
+     $ git config --global tag.forceSignAnnotated true
+@@ -722,15 +722,15 @@ How to work with signed commits
+ It is also possible to create signed commits, but they have limited
+ usefulness in Linux kernel development. The kernel contribution workflow
+ relies on sending in patches, and converting commits to patches does not
+-preserve git commit signatures. Furthermore, when rebasing your own
++preserve Git commit signatures. Furthermore, when rebasing your own
+ repository on a newer upstream, PGP commit signatures will end up
+ discarded. For this reason, most kernel developers don't bother signing
+ their commits and will ignore signed commits in any external
+ repositories that they rely upon in their work.
+ 
+-That said, if you have your working git tree publicly available at some
+-git hosting service (kernel.org, infradead.org, ozlabs.org, or others),
+-then the recommendation is that you sign all your git commits even if
++That said, if you have your working Git tree publicly available at some
++Git hosting service (kernel.org, infradead.org, ozlabs.org, or others),
++then the recommendation is that you sign all your Git commits even if
+ upstream developers do not directly benefit from this practice.
+ 
+ We recommend this for the following reasons:
+@@ -752,10 +752,10 @@ command (it's capital ``-S`` due to collision with another flag)::
+ 
+     $ git commit -S
+ 
+-Configure git to always sign commits
++Configure Git to always sign commits
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-You can tell git to always sign commits::
++You can tell Git to always sign commits::
+ 
+     git config --global commit.gpgSign true
+ 
+@@ -790,7 +790,7 @@ Installing and configuring patatt
+ Patatt is packaged for many distributions already, so please check there
+ first. You can also install it from pypi using "``pip install patatt``".
+ 
+-If you already have your PGP key configured with git (via the
++If you already have your PGP key configured with Git (via the
+ ``user.signingKey`` configuration parameter), then patatt requires no
+ further configuration. You can start signing your patches by installing
+ the git-send-email hook in the repository you want::
+@@ -902,7 +902,7 @@ the new default in GnuPG v2). To set it, add (or modify) the
+ Using the kernel.org web of trust repository
+ --------------------------------------------
+ 
+-Kernel.org maintains a git repository with developers' public keys as a
++Kernel.org maintains a Git repository with developers' public keys as a
+ replacement for replicating keyserver networks that have gone mostly
+ dark in the past few years. The full documentation for how to set up
+ that repository as your source of public keys can be found here:
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 7ae79452e..b6ca49437 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -866,7 +866,7 @@ automatically include the base tree information in your submission by
+ using the ``--base`` flag. The easiest and most convenient way to use
+ this option is with topical branches::
+ 
+-    $ git checkout -t -b my-topical-branch master
++    $ git switch -t -c my-topical-branch master
+     Branch 'my-topical-branch' set up to track local branch 'master'.
+     Switched to a new branch 'my-topical-branch'
+ 
+@@ -882,7 +882,7 @@ notice that it will have the ``base-commit:`` trailer at the very
+ bottom, which provides the reviewer and the CI tools enough information
+ to properly perform ``git am`` without worrying about conflicts::
+ 
+-    $ git checkout -b patch-review [base-commit-id]
++    $ git switch -c patch-review [base-commit-id]
+     Switched to a new branch 'patch-review'
+     $ git am patches.mbox
+     Applying: First Commit
+-- 
+2.50.1 (Apple Git-155)
 
-Thanks,
-Koba
