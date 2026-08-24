@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED364195C8;
-	Mon, 24 Aug 2026 12:33:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37FD368D79;
+	Mon, 24 Aug 2026 12:38:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787574822; cv=none; b=DYXXYSYGvVapny6dPEFs7klsWLPmnqTKtV05PMIrMlgLPRRq1XyUPkDxGF/ZShQiRZDmqFFi6fJzFX8qRPSnU/ZYANFZSy1Nh97AdXK5TyaP/CQEapdnoSlwpa4teYl+nvrunWpz/s/Tskdepm5Tsn1U8nkjOdg8Uyoaqhcb4Cs=
+	t=1787575090; cv=none; b=RWq9yXdd7QcoGK2S7Awjy1Glw4Xz3ifwoPi2Alv07oREmVUp5DMfWVil+EXIg/lWZlbrM0PQ3iK4Znc5SOzPscZ2cWXY13AhdbjI1IqQ+aoAuGbFjhmUgKM3K1RZxGoPDoJsAwd0DTeH8vU27Wb4AG0bVxpJd5ZShEHuR9TLCMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787574822; c=relaxed/simple;
-	bh=+lYwBuFfOP5nqqXZ2ZJY3xBMlPBULvKlmZmUUoQJnQo=;
+	s=arc-20240116; t=1787575090; c=relaxed/simple;
+	bh=8mAqcc3ir7PcKwU2jc+bF9EnuGTpwLLlfOQ4fs5HX/A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uptVjYvfbTRdP9CrzRlglcwrLHFdGUFG7p1e3RR+2Prptltq8PC68rAFz2knBHryhKZ0kF5YiEyZZ+vDQxE3nuTqjg21DO/51PmSuyYOSn7igh2kbXcMgEQrv7E+gd4UVbGI1dzeBFZWDfSi2N4TQGhlZXXsnQZy6bpTAT6sQaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F+tF29nw; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=ihnmsa5dLDHnph/cnQ2XnayhlKCciDxheVv8GRQnyLFlcHuejzbKXObUdpKfN9Xg1y3vbP7alKwTCwopNhrCFXOmdgUNsycIwrkDhfqTnYMBm6cA0c9xYzfSLq5nHOpmb7PiROa5ajkAW5ECT6pai2sOxyVsBQ0R4M17dhFHa6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVwXi/Me; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F+tF29nw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEB5F1F000E9;
-	Mon, 24 Aug 2026 12:33:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVwXi/Me"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F32211F000E9;
+	Mon, 24 Aug 2026 12:38:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787574820;
-	bh=8vpukjlWR+PMzdNZ1W3YPHPHq8x2wf/T1Pima1mpBR0=;
+	s=k20260515; t=1787575088;
+	bh=X8d4MJxLvYDEQndMVgXp8CoVUrqM1yJn/BvKkNr5Xyk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=F+tF29nwIuQv1aVvflAgq+bILiTSbnwQ8lYomNjhMzXw3jXHvugTukYJsgcrOFJCx
-	 2AQJYKCtezFme7T7wlnjVvZag3Xw1L9zQRdJ3fFmZgsrsi7YKnOrPxgVgU/BGK9QvW
-	 +seVY2QXqG0dr2y8oxlc+RcWo6i43OhGsD+SKPdQXzUebhZObFdDPJhawq5Ybyryrz
-	 w6ajQkl0YTSQCrHupD2b67JYx3Ogm5bgi+9Zp0NC8Le1g7AWyqeMzI5XeXz6gL/VjH
-	 0SHWAVYOt4iHvta6SQgBjLWxjQ0MEaHqB6y6H04BaNryNHj7VPUMaWYE/Lg/J835Vm
-	 uQsWWEgDlz6QA==
-Message-ID: <8aa0e0c6-bc6d-478d-981f-3e0d5907eb11@kernel.org>
-Date: Mon, 24 Aug 2026 14:33:30 +0200
+	b=dVwXi/Me8zOrF7K3foN9mE65PVGdyQ1Lgr+8+32xwxvaha8cJxPNCTjMIAAZVfiLX
+	 YHEfnbeJFbD1uweJ9gNTWd2Ub/xUVxHCZuhGL8g6Qn8VbciQTypFRtOAphKnW8SuyB
+	 cgso8N2hRX5yX50Dd1DWSEYiA78momtYHGD2bk1Bm6QqSA+e3KWFCS1bEG60MnPEvM
+	 1FHqBRJQI4kiGunR80bgtwQkDvhglBBdywKWm84i0fl3xRGVtUyU4FvHCXnRG2V0pj
+	 V4YX+qOKTpOmXHHzgjFihMprEAZIcuKWnEahhTA9cS8FE/ugJ60htTnqOkh3NAfjGF
+	 JY81Lwn7Hd5Kw==
+Message-ID: <c635db29-9067-4783-b706-92e81ba8ce88@kernel.org>
+Date: Mon, 24 Aug 2026 14:37:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 4/6] tools/mm: move gup_test from selftests/mm to
- tools/mm
+Subject: Re: [PATCH v7 5/6] tools/mm: make gup_bench a benchmark only tool
 To: Sarthak Sharma <sarthak.sharma@arm.com>,
  Andrew Morton <akpm@linux-foundation.org>
 Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
@@ -54,7 +53,7 @@ Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
  linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260813181230.483746-1-sarthak.sharma@arm.com>
- <20260813181230.483746-5-sarthak.sharma@arm.com>
+ <20260813181230.483746-6-sarthak.sharma@arm.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -101,27 +100,53 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260813181230.483746-5-sarthak.sharma@arm.com>
+In-Reply-To: <20260813181230.483746-6-sarthak.sharma@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 8/13/26 20:12, Sarthak Sharma wrote:
-> Move tools/testing/selftests/mm/gup_test.c to tools/mm/gup_bench.c.
-> This is the first step in separating its benchmarking and
-> functional testing components. Later patches will make this a
-> purely benchmarking tool and introduce a new functional selftest
-> under selftests/mm.
+> Remove the functional modes (GUP_BASIC_TEST, PIN_BASIC_TEST and
+> DUMP_USER_PAGES_TEST) from gup_bench. Drop the kselftest dependency
+> and use normal diagnostics and exit statuses.
 > 
-> Include hugepage_settings.h directly instead of vm_util.h and
-> use getpagesize() instead of psize().
-> 
-> Adjust the Makefiles in both locations and add gup_bench to
-> tools/mm/.gitignore. Remove the gup_test invocations from
-> run_vmtests.sh and update MAINTAINERS.
+> When no arguments are supplied, run a single GUP_FAST_BENCHMARK
+> with the existing default values. Let users select other
+> configurations through command-line options. Report ioctl failures
+> and handle errors without relying on assert().
 > 
 > Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
 > Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
 > ---
+
+
+[...]
+
+>  	free(tid);
+>  
+> -	ksft_exit_pass();
+> +	if (thread_error)
+> +		goto err_unmap;
+> +
+> +	munmap((void *)gup.addr, size);
+> +	close(gup_fd);
+> +	close(filed);
+> +	return 0;
+> +
+> +err_unmap:
+> +	munmap((void *)gup.addr, size);
+> +err_close_gup_fd:
+> +	close(gup_fd);
+> +err_close_filed:
+> +	close(filed);
+> +	return 1;
+>  }
+
+Why not have a "int ret = 1;" and just befor ethe err_unmap, do ret = 0;
+
+That way you avoid the duplicate exit code.
+
+
+Apart from that
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
