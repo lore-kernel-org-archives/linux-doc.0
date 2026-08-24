@@ -1,125 +1,94 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C6C41D127
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 13:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B158407CEF;
+	Mon, 24 Aug 2026 13:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787577540; cv=none; b=Lm9kYdpKiLd2upSn17sBg16qIWl2Uea5B4Oe1k0dIRYMKcrubxGSHfhTdkNm09Huoo2x9ReOmacu101h1cntEZTHX1gU5OeSmvt4v+H48ZbLjNcdn7D+AQsWn6ze4/sMnw6HSP7t1M4H2W1EO2u5tv+4Ed+h8G2Bj95toX3a58A=
+	t=1787577659; cv=none; b=b5BxtMnC1uzysO4FSogPIjxMyeZdEAYplltD9Czo1EXA/qJbmsfVHUbmdB9gMwkOFg8ge6VDTOPN0F9CoJRMLpc5pSax0+TfvjP8mADjZWCDHdxJtopvfm4E71q/TWmfkJ1HpVudUhgEPmxZkc7nyXnxUUvmCUPGeHCPvgPk9GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787577540; c=relaxed/simple;
-	bh=8RHTXuRYUUKOJBcAw84Ji+ZmzZO1dHfvXXjiERNb6fU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jUYVFL5WVsF09wKZaeoXuvOUpMMHSA3qBEHeK1zU1w3eDkBrNeCul21LXe2eirrj3y8dff+ds21D3GK5H5JFY956J+VBGr86yFXtr/wUnMf9djoIHMDgFHu15MoZ1EQJP4KrcweGAAOMcZFZDcYyoraf5e+u73FzN0ARbUFQ6Y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=HYA6NXXn; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1787577659; c=relaxed/simple;
+	bh=gyIOtOesJBYQZwqd9/K2nQeo7/BnefvJZqwgH/ESOlY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VkyC58DIdJHBwvYd4V9+k0G3BsCmss/swJ6f592lM44LlTAfN7GPBTTl18vV0FkGcnWTXM75BPRiAwBt5ELks3eOcLN8KJp7+JlpyqMBxNw/VQVktV8kjJn5uqpfP3L/uFek4hiFqISe3iwtIpVKriyHgri8uKcqDXgw4iHGeZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nSavjAqk; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="HYA6NXXn"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c15cb6f5c12so617524666b.0
-        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 06:18:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1787577537; x=1788182337; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8RHTXuRYUUKOJBcAw84Ji+ZmzZO1dHfvXXjiERNb6fU=;
-        b=HYA6NXXn3PEP73gl9xwOatTV4UNwR8HC3CjDK8MSZLjph6rsc73XvL1E+XYSzBcTHS
-         Yrutpl70LJzJJx0PghEGd6IJQBNfRj+bJ/G+EnbKN9kWRR1mAA+mKWe3rPh1UDanYxTu
-         ecaMIl9ehCR8ERg1UjQru/RzLHNX01/lMrfWR/Xx4v/UnaZr/RdsGrQGHroQly/aJ/hw
-         cBYv0JcTyQbv62/s5ZOBlvHs4oca1S282N4U+AM4BftCtmb00B+3KFxBrvAnGmWCG+85
-         eqR50CM74PHXanyzjiuywr8lI/5aOCB3Bqdk3pMFaly+oxbh6jycL0IL/FVgRsvGQgXe
-         uyTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787577537; x=1788182337;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8RHTXuRYUUKOJBcAw84Ji+ZmzZO1dHfvXXjiERNb6fU=;
-        b=CSETGm0QZ6cJ07rCFeTO6kNUbIzU9beBkYiNjs0nNXW1tNpJeKXQpvyPqQCY1eWRdj
-         60vIjo66KJLyt1wcURYqFaBC5f50gNpbs0W35nBnX87oKYDfu+ksNieNniNlJOWyqCrB
-         95bA2071F3wJk00w7CR1Pm7hhzWqJF/HnDVoIjT3H+wwUfGCztCLl6uODwbnl5vJwjPD
-         wmlIlb1Mw7DaObMGahmYZaCT9ULD04E60phGKaDXrvDeNHIb1gaLp8JKva7Gg2J6N23g
-         8Q8nYXe1PqSpcA0J96X+1cgA59A2e26KK5RSmu0SYgiC0DwNF6NxHkbTXk0PFGysBF17
-         Qmog==
-X-Forwarded-Encrypted: i=1; AHgh+Rr5K/6r5LdZ/4JPaj08M7RIk2xaXZPxPXPomxiyLP/rks80hU0i23vM7jUVIKjyigXS2u9kQ3KN40g=@vger.kernel.org
-X-Gm-Message-State: AFuF++kDA+Qy8lnSMVfXuIB1kiNgkNWmLN63FQYsaOo3Kmko9roC/ZN3
-	sDhV6ZAq9DhJwmaCGB1iEN9CT4Bk3XiabDhJlj/DzR2PNkfCs2ZSwPKX9UUyZEtXyxE=
-X-Gm-Gg: AR+sD13496NIMWXOIjoZv7jdjo7wcVu/UxuiomilmivOMkiYIbqXVxLALS/ZfZgC+as
-	hpiMLzk4nEm6TIMt2pduL87xq0LAhmLd8jhkDb19YwMZrIeBhdgwwDU2/khpTWCLlXSpFdGsdit
-	h3GVUWr9f7dKGrfVvR9GVPSJHW0rtlbuf5NA1seMsa4uCKB0WpXOd9cuKWhstJ4aFDvxtqIW9Yq
-	9DhS7qJnS6+cbN+IFJ60Cr7K88UI8D/abbWNwOlbicnCuJITpnMni56EMXjiEXjU1rcAOSQFZ84
-	ZDxd1e/X7qbrD4ChEfifSrwO5U19UG/oyy1MIBz7hq4o5Gye5Plta/JIRze//c1Bn1ByAk7CTms
-	3ULIL2/6oTOfExTxBo26SztZGX5zBAUNeoiTjxnZjE7mk7+pJ64dLxHrjyMGWaLN9M9nD86O1Nc
-	DAH7XtUE9W4QVMELs9wz7pg6CSc1RSRb8Ibvra/SK7lfFuP+7nzOTA0ifqEXvf/zo=
-X-Received: by 2002:a17:907:72c3:b0:c20:2d38:e518 with SMTP id a640c23a62f3a-c249238c382mr2130827666b.2.1787577537181;
-        Mon, 24 Aug 2026 06:18:57 -0700 (PDT)
-Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24dfd91dd4sm20165366b.16.2026.08.24.06.18.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 06:18:56 -0700 (PDT)
-Date: Mon, 24 Aug 2026 15:18:54 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Eric Chanudet <echanude@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Shuah Khan <shuah@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>
-Subject: Re: [PATCH 00/11] mm/cma: charge cma allocation to memcg using per
- area counters
-Message-ID: <aoxEGzZ1eVzIU8xH@localhost.localdomain>
-References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nSavjAqk"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EF4BE408E5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1787577657; bh=i5X3pzs7RtTuErmmZ1df8+PUm7E1LX2Oyzi3Nf+x61U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=nSavjAqkUp6cx7XfaiiOz5iTAp7tOldge4wtRiZiSijgOBv4RR/gCuogcbMi22xeq
+	 AR/03JTyBLVIfPXyVngLoHrfOoq3CiamQNqwsVndVaCVa5U7LxrK4aas5jzWJJ8Fuz
+	 fO/UzeeJRKjs91Q7aDYuUwGsAOQKelzQsdh7Ej9FplRbrKRDgauQ57hTAeB/OL+Fdr
+	 b1J5oWU+BZn9ms0CXTm8XLQR4ftVZmZIsBcq/CdORPNIuUlv6ZJrrT5kdwi3mmXb73
+	 U3kGVUcw3490ueGT5RmxncYB8jYkI+y4fLTr+JQ8sRxDzzOUwZ3pSHxmONC8RDfql+
+	 IhtLlafn+pN0g==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id EF4BE408E5;
+	Mon, 24 Aug 2026 13:20:56 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Weijie Yuan <wy@wyuan.org>, Alex Shi <alexs@kernel.org>, Yanteng Si
+ <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Wu
+ XiangCheng <bobwxc@email.cn>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: update maintainer/configure-git.rst
+ translation
+In-Reply-To: <20260823-configure-git-v1-1-3c65eefcc585@wyuan.org>
+References: <20260823-configure-git-v1-1-3c65eefcc585@wyuan.org>
+Date: Mon, 24 Aug 2026 07:20:56 -0600
+Message-ID: <87y0dv1wp3.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4jd5dcmb4dfal7fx"
-Content-Disposition: inline
-In-Reply-To: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
+Content-Type: text/plain
 
+Weijie Yuan <wy@wyuan.org> writes:
 
---4jd5dcmb4dfal7fx
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH 00/11] mm/cma: charge cma allocation to memcg using per
- area counters
-MIME-Version: 1.0
+> Upstream documented the common 'git tag -s' workflow and cleaned up
+> unneeded RST markup. It briefly updated the automatic lore Link: hook
+> for Git 2.41 and HTTPS, then removed that guidance because Link: tags
+> should only point to useful additional information.
+>
+> Add a SPDX-License-Identifier.
+>
+> Remove a useless top-of-file label, as Jon always tries to do.
+>
+> Update the translation through commit 944df7a31452
+> ("docs: update the guidance for Link: tags").
+>
+> Signed-off-by: Weijie Yuan <wy@wyuan.org>
+> ---
+> Hi Jon, I added a SPDX-License-Identifier for this file while the
+> original English one doesn't have one yet. Should I do that? / Is it
+> "legal" to do so? , if XiangCheng would be happy with what I'm doing.
 
-Hi Eric.
+It's sort of an interesting case, actually.
 
-On Fri, Aug 21, 2026 at 02:56:52PM -0400, Eric Chanudet <echanude@redhat.com> wrote:
-> Finally register the per-area usage counters in the cgroupfs. Each CMA
-> area creates a memory.cma.<area>.{current,max} pair for reporting and
-> limitation for each area.
+We don't know what license the original contributor intended, so it is
+hard to add an SPDX line to the original file.  That contributor hasn't
+been seen in the community for a while, so it may or may not be easy to
+track him down and ask.
 
-These areas quite resemble dmem regions.
-What is the relation to the previous dmem double-charging [1]?
-(Successor, alternative,...)
+A translation, though, is a derived product.  Since everything in the
+kernel *can* be distributed under GPLv2, it is fair to say that your
+work is GPLv2, so the result of the translation effort must be too.
+
+That said, I think it's better to stick with the original where
+possible.
+
+Note, however, that I am *not* a lawyer, and that taking legal advice
+from me is probably a bad idea :)
 
 Thanks,
-Michal
 
---4jd5dcmb4dfal7fx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaoxEuhsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ai6WwEAt6IhJ1j5eKMrYIQuXx6H
-vcVhIKJYy4uCLIiKXOf6/zMA/jVVm1UxH8BKR0Myu49nuRzoWqbLCU9ie1WLGOPG
-nZIA
-=+xTm
------END PGP SIGNATURE-----
-
---4jd5dcmb4dfal7fx--
+jon
