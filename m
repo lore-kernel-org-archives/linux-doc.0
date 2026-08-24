@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7A140BCB6;
-	Mon, 24 Aug 2026 12:29:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451733E4C72;
+	Mon, 24 Aug 2026 12:32:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787574591; cv=none; b=tMrgdew6kyJ2QreOtl7DlXP+iDq4yo0M0SVdQL+Sp9M2CZQtTRmbWlkqiJA5kDcxGKFVMRsOJgksG6/GHr4NzGZfU/In3tR/YN3yga9DaBADyrlmV5UY8MObDr2wFWL6GTOisFs5jDWOdWC4Z8QblBdEASXprpxgT1ZC19iia/o=
+	t=1787574768; cv=none; b=oGTm0cToMLI/MyV+gFaLIS5uKERxZONUnR/RFT4jX90qyC3q7WQJXG2jZmZZdTSzFUVIpwsJAbzg/WqrZk0F7X0ef/D/hmAEyIx9KziXS1whVVwkl9Fv8HoCqOmkNJa2VtP+8uQ7+vf9yvvt0NnWhpB1YGgpFByeg9yHiBrefpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787574591; c=relaxed/simple;
-	bh=l9a8S7gEXlFG1R050zF5SonY/mJ5vBbwO2LTGoBVF0k=;
+	s=arc-20240116; t=1787574768; c=relaxed/simple;
+	bh=lm8JtATDWdBehZ+J5tkt6HtS+bYXXmBwUy/7UTKFY6Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n44lL8gJ8UpOeSj5gSvNZPalbven3s4rm9xPboH6g1c0RiVrokdjiDSTh0yNzxa3abrC556VF45uXYQlXwSvxSHkvGVcobdMew2EUYe2iH2HVZtYAvVuMar2A10Y/FdNFSk1nour/FVq9YmizJJlwTLPQmsZnFL/vJw+5gq9m4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jqN0bgAv; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=qA7RMn3nwFqbYOrVPJkl7r6Nrm10HLD+M1RTibW3eKC1Yn1rBY+1cf2JENNc0eghKeOA0cyC5Yt+MZjMe0mpHTQ+j45cAyoUT9MSh8FWUkbFGHueGV4kyo4wuAkVcYphZqMKy7q1SLUbLWj2PaeCYVXItmZpB6+KEmFV6bjPdwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lamlZeId; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jqN0bgAv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A3111F000E9;
-	Mon, 24 Aug 2026 12:29:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lamlZeId"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D73231F00A3A;
+	Mon, 24 Aug 2026 12:32:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787574587;
-	bh=5HIXWt6cHYsyYpDN3CnAjwEjdPOxdWvNmv8xtLz7Mp4=;
+	s=k20260515; t=1787574764;
+	bh=zqlFWmE7mdoPXGZ20KnqQ/XM8s+nHIOBkClz/EjLnkA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=jqN0bgAvWpo4FuZfnaVkmwwOy4A25MZ+xYiVkOk+9N1FXEUIWQVOhxKhZcmi0KFFp
-	 hH0W6yLSkhhS19gi8Yxl9oPe+L38z8k4/HHUMNqtU7bSq+OtqCtEuWnaZ/QseMqppS
-	 Qf7guI47CpnJFWQcvKPpb4Bo6xii81fnqM/7Rz1jXOPetvbGSiUUPzDkVv3KSysYB6
-	 EFK75vg6x4crFw7RMvKpVk2D80DMSwo41LFL/9Fd4YmY0e0h42siXPJMBhsrRyV/fv
-	 s1GTPpXEqNx3fTBngkHorvzYxI7be9lyFoMxj4zzYY08R+FDF+r92VDwL50SonhAGX
-	 H90yhLEXF2pPA==
-Message-ID: <e87ac26a-9712-4f6f-b144-b604b2aa643b@kernel.org>
-Date: Mon, 24 Aug 2026 14:29:37 +0200
+	b=lamlZeIden2T7H96cAGP3JYCXFRJHvO7TKYBqByTFY/tbx8hLgbafEj3FOa1hLCXo
+	 bvT47pEqO8NGGvRnREP0MZ5U9T9bw9WOSsLeWIiOOARHUkZ33tNMc2RlAuKTy9i7DV
+	 +4sUw0fKHTlEhyU5GrugvrVElTuIoxoFsnlj0eVC1caSA0h0aVd+a6BjvGupe9BBpK
+	 At97pfmODC5igqlEaRe9fpWFZw6fJ0irq6puf2fcqWrtOVyAU1YCnFuB3bCccZpPyp
+	 3dUPrV7ncUy623pmM/CqJ8KZyAetuzS9ge+y9RptHHG0wUe+Y//wNVnNWKG/YAwo3v
+	 ATZe41e10DA5g==
+Message-ID: <df35f58a-fe11-4cea-938a-f4b036a5bcc8@kernel.org>
+Date: Mon, 24 Aug 2026 14:32:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,27 +35,26 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/6] selftests/mm: make file helpers return errors
-To: Mark Brown <broonie@kernel.org>
-Cc: Sarthak Sharma <sarthak.sharma@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka
- <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+Subject: Re: [PATCH v7 3/6] tools/lib/mm: move hugepage_settings out of
+ selftests
+To: Sarthak Sharma <sarthak.sharma@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>,
+ John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>,
  Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
  linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260813181230.483746-1-sarthak.sharma@arm.com>
- <20260813181230.483746-2-sarthak.sharma@arm.com>
- <75738049-24f9-4056-98c8-b4075552ab78@kernel.org>
- <e4f8031e-20ea-46d1-914d-005595243f31@sirena.org.uk>
+ <20260813181230.483746-4-sarthak.sharma@arm.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -102,22 +101,26 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <e4f8031e-20ea-46d1-914d-005595243f31@sirena.org.uk>
+In-Reply-To: <20260813181230.483746-4-sarthak.sharma@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/24/26 14:27, Mark Brown wrote:
-> On Mon, Aug 24, 2026 at 02:17:03PM +0200, David Hildenbrand (Arm) wrote:
->> On 8/13/26 20:12, Sarthak Sharma wrote:
+On 8/13/26 20:12, Sarthak Sharma wrote:
+> Move hugepage_settings.[ch] from tools/testing/selftests/mm/ to
+> tools/lib/mm/ so the THP and HugeTLB helpers can be shared more easily
+> between selftests and other tools.
 > 
->>> +	if (buf[0] < '0' || buf[0] > '9')
->>> +		return -EINVAL;
+> Keep the helpers exposed to mm selftests through vm_util.h where possible,
+> and use direct <mm/hugepage_settings.h> includes for files that do not
+> include vm_util.h. Adjust the selftests/mm build to compile the moved
+> implementation from its new location.
 > 
->> This is to reject any negative or hexadecimal numbers I assume?
+> Remove the remaining kselftest dependency by including file_utils.h
+> directly and using EXIT_FAILURE in the signal handler.
 > 
-> That won't reject hexidecimal - 0xNNNN matches the above.
+> Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
 
-Ugh, yes (and stuff starting without 0x would not be detected consistently).
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
 Cheers,
