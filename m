@@ -1,187 +1,286 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E75B39EF20;
-	Mon, 24 Aug 2026 08:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E29F2BF3D7;
+	Mon, 24 Aug 2026 08:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787558733; cv=none; b=awB6eiXScczXggOrn7yQQH6vzDCKqqYnHreZBMblWe4lJotu2eWjtSRZHu/IW/SHymMdNCrG1VdPuxgXf6UKtPI2UqLtGGOUtl7Ia9FmoXh7gkOdqxQUqmWXUBQBekrnU7AAily3y+TxLCExKQbsyBrtqzpdIjAtk3jpIrCxc4k=
+	t=1787558986; cv=none; b=ZBclpMXiU/ZL8miXf6qbOfDPttgY7fCLEhwbBFsOSMpjZgxJrbzEqV24Yk9P/IT7nB70pF+6WXuvHXA0u76ctSTdH5QdWTOUA1+DONIFFFrl0SM+pC30xrCp0mcFesLbdg9PHP5x/70Y4batS9OImXPZBL56QrVcPmuWLEDGoYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787558733; c=relaxed/simple;
-	bh=4oh/8mRps3F9XgDqX8NjSmB9AyEsobz0Ra4YUyp0Pv8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ccAc5eW15K7MWZNd6bPLVqVXAfOiXKTdiYTVebPGdO0y5VRIDXEHZ8t4ENP2AN6l593YmcAEeQdzxBBDGb9rOh+IexEiErnFdE4ktbcEIcknjIe7MasTOgrGOul0fjSfvApeaL9nqq8JvEIRqiVCGwHwDZ67ufUtivGFqn2BF9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fcraU5qj; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787558986; c=relaxed/simple;
+	bh=+OVvpNdD2/P0iWdJMPfoBqJCWgOEdQeyrVOomD7StVQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uBinzXHzUHmOAuKnjbAXd64+nCieRMVZsifeEIfssYD6GPFHaad32dwV/WZHA93rFbI/8Wj8yHw5kk/5Ix6YKVP2GjRJ4im1MeVBL6pesW7e0VgqFms9dQqR/7Pb6kOUi6h7OScThbo/mrdTyN4y+cwP3fMxjKvdITeYRWQZnQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KVuGNOam; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fcraU5qj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787558731; x=1819094731;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4oh/8mRps3F9XgDqX8NjSmB9AyEsobz0Ra4YUyp0Pv8=;
-  b=fcraU5qju2p4voIvEtEEvrolNU1ctVOZAhuNSJBLuqWcz041I4gUFc8g
-   CnVBNql3GQnR2Yt8Pg6DTvTfqonGBrWUF5U4DTSRuH00qL25kyNp7YLbU
-   eLFrODSl2Xr0v2EoTuJ+A5SK0re5izupkDyhdpCEyKIahIPgFN6XC4uDX
-   7DQ0lDV/G/wkezgg5VLQkpZeQ/Wos76XkmIiePgMzIG2HYsFQOJ0hl6R4
-   1rppRhISTZBgplntU+A3gSldyxRjheOJcfBrV6XdD4SegjpVHXPlf4xbc
-   mQvm3QE/yauOwKdYJqTsAQyZUwwnSPr8JwwcfbnKtYaqgzDsc0oQlca4C
-   g==;
-X-CSE-ConnectionGUID: EFABZwnHQtCT0SVoYSyNJQ==
-X-CSE-MsgGUID: vNkyNtBCSW+NqdSiccg5ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="87768366"
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="87768366"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 01:05:30 -0700
-X-CSE-ConnectionGUID: LfWvfzzUTE+29Pn3Ua9PvQ==
-X-CSE-MsgGUID: 8ZudAQ4sQGKS5oMebIz82w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="264314168"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.130])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 01:05:24 -0700
-Date: Mon, 24 Aug 2026 11:05:22 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KVuGNOam"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D2D1F000E9;
+	Mon, 24 Aug 2026 08:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787558984;
+	bh=1d8Hjv+x1QYhOu2D2hHNNxA/xzc/ePDob8OGXb0XKxI=;
+	h=From:To:Cc:Subject:Date;
+	b=KVuGNOamCY2IZ8prKX95MmHaWYs1CIOJXMazB/rz5/BeIgdtq2P1bdXTx6PNk5CnW
+	 SxgtuaHo28cp3a084iHgOeXFLNWHOQu1ultpCyKTWOc/Vg1mUBIDQsC6MAMll6sOXa
+	 lQ3meDp9IR+aUyaHwmIBc1EgYoWkAYUwc3Bx72fw9O8VkJpp9LCAQRVY5VcM+qLg46
+	 G3AjoHGFzVLNr54P6R66N/RdbSZGMdnYGsVUFlNz9RT+YqUwuzN/PfZXRDTwgkJH9a
+	 9BF0yfWmAdynRCI74V2+R+kVl8wugI6E2QpcCG2UuPplSBu5YiMEbfrr66fqmvRMB3
+	 GXYksXtu2wuXw==
+From: Konstantin Sinyuk <ksinyuk@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Francois Dugast <francois.dugast@intel.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Michael Walle <mwalle@kernel.org>, linux@analog.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v4 12/14] gpio: regmap: Add optional runtime PM support
-Message-ID: <aov7QpTVLDZ9PEkw@ashevche-desk.local>
-References: <20260821-ad7768-driver-v4-0-bb8fbd06d4eb@analog.com>
- <20260821-ad7768-driver-v4-12-bb8fbd06d4eb@analog.com>
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Ilia Levi <ilia.levi@intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/12] drm/fabric: vendor-neutral topology infrastructure for scale-up accelerator interconnects
+Date: Mon, 24 Aug 2026 11:09:28 +0300
+Message-ID: <cover.1787552412.git.ksinyuk@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260821-ad7768-driver-v4-12-bb8fbd06d4eb@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 21, 2026 at 04:07:05PM +0200, Janani Sunil wrote:
-> Some gpio-regmap consumers share their regmap with a parent device that
-> may be runtime suspended. GPIO register accesses must resume that device
-> first.
-> 
-> Add an optional pm_dev field and acquire it before register translation
-> or access. Release it using runtime autosuspend after each operation.
-> Keep the device active across the complete direction-output sequence and
-> propagate failure when setting the initial output value.
+Modern GPUs and AI accelerators are increasingly connected through scale-up
+fabrics such as AMD xGMI today and emerging UALink systems [4]. Linux lacks
+common, vendor-neutral infrastructure for reporting which accelerators are
+directly connected, through which ports, and in what state.
 
-> struct gpio_regmap {
+Vendors expose fragments through driver-specific interfaces such as amdgpu's
+xGMI sysfs [3] and AMD's UALink pod-configuration sysfs [6], while prior
+per-driver proposals such as XeLink never became shared infrastructure, so
+topology semantics remain per-driver.
 
->  	unsigned int reg_clr_base;
->  	unsigned int reg_dir_in_base;
->  	unsigned int reg_dir_out_base;
+Building on the LPC 2025 "Toward Mainline Linux Support for UALink" BoF
+[1], this RFC proposes DRM Fabric: vendor-neutral, protocol-agnostic DRM
+topology infrastructure for scale-up interconnects, using the model
 
-> +	struct device *pm_dev;
+    fabric -> endpoint -> port -> peer
 
-Please, move it out of these fields, the below is coupled with reg_dir_*
-in some way.
+A fabric groups the endpoints of one provider-defined interconnect
+instance. An endpoint is one accelerator attachment holding its physical
+ports. A port reports lane capability, operational state and optional
+counters. A peer is a typed value naming the directly adjacent accelerator
+or switch port, not a reference to a live kernel object; it may identify an
+accelerator managed by another OS or an opaque switch in another trust
+domain.
 
-Having this somewhere near to
+The core records direct adjacency only, not end-to-end reachability or
+switch forwarding, which remain with the fabric controller. Vendor drivers
+retain hardware discovery, firmware interaction, memory semantics and the
+hardware-carried data path. DRM Fabric represents topology and control
+state of DRM-managed accelerators; it does not create a network device or
+own route computation, switch forwarding, transport, or congestion control.
 
-	struct gpio_chip gpio_chip;
+Generic Netlink fits this multi-object, event-driven model better than
+sysfs, which maps poorly onto dump enumeration and asynchronous
+notifications, and provides the YAML-described uAPI discipline introduced
+to DRM by DRM RAS [2]. Devlink was considered, but models devices and
+subordinate objects rather than a fabric spanning DRM devices.
 
-above makes more sense.
+Patches 1-6 form a complete, separately tested read-only milestone that can
+be merged independently while provisioning remains under review. Providers
+publish objects, adjacency, operational state and optional port statistics
+through a small in-kernel API; userspace queries the live graph but cannot
+modify it.
 
->  	unsigned long *fixed_direction_mask;
->  	unsigned long *fixed_direction_output;
+Patches 7-12 add privileged provisioning for software-defined fabrics.
+Userspace can create and delete empty fabrics, attach orphan endpoints
+registered without a fabric, request administrative state and manage peer
+adjacency, while the provider performs the hardware programming.
+Administrative state records control-plane intent, operational state
+remains provider-reported, and each port is managed either by its provider
+or by userspace. The mutation operations are fabric-new, fabric-del,
+endpoint-set, port-set, port-peer-new and port-peer-del.
 
->  };
+Provider callbacks may sleep or report state back into the core, so
+drm_fabric_lock is not held across them. Provisioning instead uses an outer
+mutation lock across validation, callback and commit. The complete locking,
+lifetime and failure contracts are documented in
+Documentation/gpu/drm-fabric.rst.
 
-...
+Every operation is confined to the initial network namespace, and mutation
+additionally requires CAP_NET_ADMIN.
 
-> +static int gpio_regmap_runtime_get(struct gpio_regmap *gpio)
-> +{
-> +	if (!gpio->pm_dev)
-> +		return 0;
-> +
-> +	return pm_runtime_get_active(gpio->pm_dev, RPM_TRANSPARENT);
-> +}
-> +
-> +static void gpio_regmap_runtime_put(struct gpio_regmap *gpio)
-> +{
-> +	if (!gpio->pm_dev)
-> +		return;
-> +
-> +	pm_runtime_put_autosuspend(gpio->pm_dev);
-> +}
+drm_fabric_sim is a software-only provider modeled on netdevsim [5]. It
+registers linear, mesh and switch-facing topologies without accelerator
+hardware and gains provisioning callbacks and fault injection. Its debugfs
+interface is not ABI; the reviewed interface is the Generic Netlink family.
 
-> +DEFINE_GUARD(gpio_regmap_runtime, struct gpio_regmap *,
-> +	     gpio_regmap_runtime_get(_T), gpio_regmap_runtime_put(_T))
+The series defines no accelerator memory sharing, MMU programming, data
+transport, route computation, switch policy, key management, live
+migration, required userspace daemon or protocol-specific commands.
 
-This is not used, it's for guard()() case.
+No production provider is included. Shipping only the synthetic provider is
+deliberate, allowing the object model and uAPI to be reviewed before being
+tied to hardware. We used the public amdgpu xGMI implementation to shape
+the provider API, but that mapping has not been validated by AMD.
 
-> +DEFINE_GUARD_COND(gpio_regmap_runtime, _try,
-> +		  gpio_regmap_runtime_get(_T), _RET == 0)
+Example queries using the in-tree YNL tool are:
 
-Yep, but also makes sense to add
+    $ ./tools/net/ynl/pyynl/cli.py \
+          --spec Documentation/netlink/specs/drm_fabric.yaml \
+          --dump fabric-get
+    $ ./tools/net/ynl/pyynl/cli.py \
+          --spec Documentation/netlink/specs/drm_fabric.yaml \
+          --dump endpoint-get --json '{"fabric-id": <id>}'
+    $ ./tools/net/ynl/pyynl/cli.py \
+          --spec Documentation/netlink/specs/drm_fabric.yaml \
+          --do port-get --json '{"endpoint-id": <id>, "port-index": 0}'
 
-#define GPIO_REGMAP_RUNTIME_ACQUIRE(_dev, _var)			\
-	ACQUIRE(gpio_regmap_runtime_try, _var)(_dev)
+Testing includes 12/12 per-commit W=1 builds, 43 passing KUnit tests and
+172 passing kselftest results across 14 programs. KASAN, UBSAN, lockdep,
+atomic-sleep and kmemleak validation completed without reports.
 
-#define GPIO_REGMAP_RUNTIME_ACQUIRE_ERR(_var_ptr)		\
-	ACQUIRE_ERR(gpio_regmap_runtime, _var_ptr)
+The series is also available from the public review tree:
 
-...
+  https://git.kernel.org/pub/scm/linux/kernel/git/ksinyuk/linux.git/tag/?h=drm-fabric-v1
 
-> +	chip->can_sleep = config->pm_dev ||
-> +			  regmap_might_sleep(config->regmap);
+We are specifically requesting feedback on:
 
-Fits a single line.
+  1. Is fabric -> endpoint -> port -> peer the right minimum common DRM
+     representation for accelerator interconnects?
 
-...
+  2. Are the Generic Netlink semantics, including dump consistency,
+     notifications and optional port statistics, aligned with YNL
+     expectations?
 
->   * @ngpio_per_reg:	(Optional) Number of GPIOs per register
->   * @irq_domain:		(Optional) IRQ domain if the controller is
->   *			interrupt-capable
-> + * @pm_dev:		(Optional) Device to use for runtime power management.
->   * @reg_mask_xlate:     (Optional) Translates base address and GPIO
->   *			offset to a register/bitmask pair. If not
->   *			given the default gpio_regmap_simple_xlate()
+  3. Do the object model and provider API cover xGMI topology-management
+     requirements, or would any xGMI requirement force protocol-specific
+     uAPI or provider semantics? AMD's assessment would be especially
+     valuable.
 
-> struct gpio_regmap_config {
+[1] LPC 2025 BoF, "Toward Mainline Linux Support for UALink":
+    https://lpc.events/event/19/contributions/2308/
 
->  	int reg_stride;
->  	int ngpio_per_reg;
->  	struct irq_domain *irq_domain;
-> +	struct device *pm_dev;
->  	unsigned long *fixed_direction_mask;
->  	unsigned long *fixed_direction_output;
+[2] Riana Tauro, "[PATCH v10 0/5] Introduce DRM_RAS using generic netlink
+    for RAS", 2026-03-04:
+    https://lore.kernel.org/dri-devel/20260304074412.464435-7-riana.tauro@intel.com
 
-Oh, this needs synchronisation of the ordering of members and kernel-doc
-descriptions. Not a problem for you or in your patch series, just let's
-try to find the best fit for a new member from day 1.
+[3] amdgpu xGMI topology:
+    drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
 
-Like in the above local structure I suggest to put this just after
+[4] UALink specification:
+    https://ualinkconsortium.org/specification/
 
-	struct regmap *regmap;
+[5] netdevsim:
+    Documentation/networking/devlink/netdevsim.rst
 
+[6] Alex Deucher, "[PATCH 00/95] Add UALink instrastructure series 1",
+    2026-08-21:
+    https://lore.kernel.org/amd-gfx/20260821193458.808626-1-alexander.deucher@amd.com/
+
+Ilia Levi (4):
+  drm/fabric: add core object model and provider API
+  drm/fabric: add query uAPI and generated headers
+  drm/fabric: add topology-provisioning core
+  drm/fabric: add provisioning netlink uAPI
+
+Konstantin Sinyuk (8):
+  drm/fabric: implement query netlink operations
+  drm/fabric: add read-only synthetic provider
+  drm/fabric: add object-model KUnit tests
+  drm/fabric: add YNL query and policy selftests
+  drm/fabric: implement mutation netlink operations
+  drm/fabric: make the synthetic provider writable
+  drm/fabric: add mutation KUnit tests
+  drm/fabric: add mutation netlink selftests
+
+ Documentation/gpu/drm-fabric.rst              |  479 +++
+ Documentation/gpu/index.rst                   |    1 +
+ Documentation/netlink/specs/drm_fabric.yaml   |  580 ++++
+ MAINTAINERS                                   |   14 +
+ drivers/gpu/drm/Kconfig                       |    1 +
+ drivers/gpu/drm/Makefile                      |    1 +
+ drivers/gpu/drm/fabric/.kunitconfig           |    5 +
+ drivers/gpu/drm/fabric/.kunitconfig.debug     |   16 +
+ drivers/gpu/drm/fabric/Kconfig                |   41 +
+ drivers/gpu/drm/fabric/Makefile               |    9 +
+ drivers/gpu/drm/fabric/drm_fabric.c           | 1045 +++++++
+ drivers/gpu/drm/fabric/drm_fabric_internal.h  |   66 +
+ drivers/gpu/drm/fabric/drm_fabric_netlink.c   | 1310 ++++++++
+ drivers/gpu/drm/fabric/drm_fabric_nl.c        |  231 ++
+ drivers/gpu/drm/fabric/drm_fabric_nl.h        |   66 +
+ drivers/gpu/drm/fabric/drm_fabric_sim.c       | 1044 +++++++
+ drivers/gpu/drm/fabric/drm_fabric_test.c      | 2635 +++++++++++++++++
+ include/drm/drm_fabric.h                      |  333 +++
+ include/uapi/drm/drm_fabric.h                 |  162 +
+ tools/testing/selftests/Makefile              |    1 +
+ .../selftests/drivers/gpu/drm_fabric/Makefile |   44 +
+ .../drivers/gpu/drm_fabric/README.rst         |  146 +
+ .../drivers/gpu/drm_fabric/cap_netadmin.py    |  314 ++
+ .../gpu/drm_fabric/check-spec-regen.sh        |  114 +
+ .../selftests/drivers/gpu/drm_fabric/config   |   13 +
+ .../drivers/gpu/drm_fabric/dump_intr_abi.py   |  361 +++
+ .../drivers/gpu/drm_fabric/dump_scale_abi.py  |  178 ++
+ .../drivers/gpu/drm_fabric/fabric_abi.py      |  553 ++++
+ .../drivers/gpu/drm_fabric/fault_abi.py       |  302 ++
+ .../gpu/drm_fabric/harness_reset_abi.py       |  113 +
+ .../drivers/gpu/drm_fabric/hotplug_abi.py     |  331 +++
+ .../drivers/gpu/drm_fabric/lib_drm_fabric.py  |  498 ++++
+ .../drivers/gpu/drm_fabric/netns_abi.py       |  294 ++
+ .../drivers/gpu/drm_fabric/nl_policy_probe.py |  651 ++++
+ .../drivers/gpu/drm_fabric/port_cursor_abi.py |  401 +++
+ .../gpu/drm_fabric/port_stats_cap_abi.py      |  374 +++
+ .../drm_fabric/provisioning_scenarios_abi.py  |  324 ++
+ .../selftests/drivers/gpu/drm_fabric/settings |    1 +
+ .../drivers/gpu/drm_fabric/switch_abi.py      |  137 +
+ 39 files changed, 13189 insertions(+)
+ create mode 100644 Documentation/gpu/drm-fabric.rst
+ create mode 100644 Documentation/netlink/specs/drm_fabric.yaml
+ create mode 100644 drivers/gpu/drm/fabric/.kunitconfig
+ create mode 100644 drivers/gpu/drm/fabric/.kunitconfig.debug
+ create mode 100644 drivers/gpu/drm/fabric/Kconfig
+ create mode 100644 drivers/gpu/drm/fabric/Makefile
+ create mode 100644 drivers/gpu/drm/fabric/drm_fabric.c
+ create mode 100644 drivers/gpu/drm/fabric/drm_fabric_internal.h
+ create mode 100644 drivers/gpu/drm/fabric/drm_fabric_netlink.c
+ create mode 100644 drivers/gpu/drm/fabric/drm_fabric_nl.c
+ create mode 100644 drivers/gpu/drm/fabric/drm_fabric_nl.h
+ create mode 100644 drivers/gpu/drm/fabric/drm_fabric_sim.c
+ create mode 100644 drivers/gpu/drm/fabric/drm_fabric_test.c
+ create mode 100644 include/drm/drm_fabric.h
+ create mode 100644 include/uapi/drm/drm_fabric.h
+ create mode 100644 tools/testing/selftests/drivers/gpu/drm_fabric/Makefile
+ create mode 100644 tools/testing/selftests/drivers/gpu/drm_fabric/README.rst
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/cap_netadmin.py
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/check-spec-regen.sh
+ create mode 100644 tools/testing/selftests/drivers/gpu/drm_fabric/config
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/dump_intr_abi.py
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/dump_scale_abi.py
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/fabric_abi.py
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/fault_abi.py
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/harness_reset_abi.py
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/hotplug_abi.py
+ create mode 100644 tools/testing/selftests/drivers/gpu/drm_fabric/lib_drm_fabric.py
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/netns_abi.py
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/nl_policy_probe.py
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/port_cursor_abi.py
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/port_stats_cap_abi.py
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/provisioning_scenarios_abi.py
+ create mode 100644 tools/testing/selftests/drivers/gpu/drm_fabric/settings
+ create mode 100755 tools/testing/selftests/drivers/gpu/drm_fabric/switch_abi.py
+
+
+base-commit: e3e05bddbe9fea67639d2a3551e7cf2d473b804c
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
