@@ -1,277 +1,205 @@
-Received: from mta1.migadu.com (out-149.mta1.migadu.com [95.215.58.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E04367F2F
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 16:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.149
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787589016; cv=none; b=mSlwvQyd00hXNscvLyciJcp2TSugo8R8GejEbAfjbMl36KFilcxSpcYsrXUtfbGJEoCIOn6hIvjP+DLi2JsYAt6il8Bl48pWK0AUnM4f/8TdU7CejCP7aqL11Os6JElRZ4TG3/yguoIC7W9a5dbgooRrBOfq4cm/aY99QJkyBB8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787589016; c=relaxed/simple;
-	bh=jgpyajVUIr2t4I9Iy5Q2sv8r1iWDEksPp99F4zQjlF8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G2qbDMlvhAEb0v5fcN/Yp5vWe12eFlmrfdo6z/J9hfmVr2/bxcfPQHkdqhfKiPhRKlb+JBov2W+udQiYyCsA6kP8bKVGea9/GcMOeCPggABbNOYUgJk6Y6MW/HwEP9WsoDHUGhhW2WLS1CRj+z6bCGlVS7tigWI/l9ON401HczE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Grkl/jbM; arc=none smtp.client-ip=95.215.58.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4837F46C4BC;
+	Mon, 24 Aug 2026 16:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787589072; cv=fail; b=fLYDWcVEIgwApdWYTtWtATn9LMSpV+GKX36v7tJDb76I3sIk8wUlIJYSZxUtRg2PHcUSZipxNEvWvZTmv+qyQz9drCvvhg0CZLaihhJYP3bH+kc/2DhSGlkY6+dbzO1OsPWrMkWF+IzrvaV5FuHBqFcQfWm0nhIsJKSGSvSR4TI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787589072; c=relaxed/simple;
+	bh=R42pBGGtwbhHRkharcLvsofEuDyGYUnB2KiwJL5aWhY=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=LIvyJQ2PVdKjt2t0Py3wZHnGKeD428K5sp6Bfq/pD1ZBDgn7QBr2+38XDJB9ApnI3W8lgphVXUB+9nhskyP34T3T+GugAdMhbR+oIYfyuP4RT45BZXr+SYiXgN5x9YxjgltUiFFCmJByguvKBLN/RRZufztgo6cu92GAfkUNgog=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQ5z9PWf; arc=fail smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Grkl/jbM"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=jgpyajVUIr2t4I9Iy5Q2sv8r1iWDEksPp99F4zQjlF8=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787589012; v=1; x=1788193812;
- b=Grkl/jbMOQ+sJYfR7ZL4G9VeCYH/dX6gdHmzn0UGcma2CwaeI8WMWErYRuafslvZRMh69AnP
- W5AqYUanb1g9IGEoq/Jy+lSN/SLQc1ei18B4tfSTFUsUB5hhxiXYkfGhDJnnAh7HCKqFMX0LQ1c
- x4RdcaW+t+S3P9pUThXZmc7A=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: from [IPV6:2601:282:1e00:c920::a061] (2601:282:1e00:c920::a061)
-	by smtp.migadu.com with ESMTPS id 547ce434333164ee;
-	Mon, 24 Aug 2026 16:30:11 +0000
-X-Mizu-Trace-ID: 547ce434333164ee
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <1c96e2f3-802f-472b-81e6-4af17a721a3c@linux.dev>
-Date: Mon, 24 Aug 2026 10:30:07 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQ5z9PWf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787589070; x=1819125070;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=R42pBGGtwbhHRkharcLvsofEuDyGYUnB2KiwJL5aWhY=;
+  b=cQ5z9PWfzjcUZKxzS2SJFwLZVpePx4iQ3MTMPYHBV1M1L43kxZR84xtI
+   OifW1jaX2AqFBmkQyy7HNpoyHyz4WEuD1SAvLp24Myt3EPMATwnelCIED
+   zVIgnFLJ4OMwAI4dbqRH90E+gOpvAjE3KlHzF+Ek1YHwNkQs6KlRtKQ4V
+   uw74VfwvK7MLA6l6FjF784BRMSPyWPtQneps74GH4qDO8ct8XR+h3cJHd
+   MuKd43DloT56hXrNgrfnUFPnzuYE+v8ZD8Nslph/qvhagryggKihfXUCS
+   fEPb9naRn5EFNPWtHyMfoVG+At6Nu5qNThvmeJhKg7ja+/HNYIAxbZSGc
+   w==;
+X-CSE-ConnectionGUID: tcAGXD4PS9Wv0UtfqOLAoQ==
+X-CSE-MsgGUID: pASMxy3TSi+BimWY1+WlBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="91917240"
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="91917240"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 09:31:10 -0700
+X-CSE-ConnectionGUID: cJMcfZgaS729z2U8uoorAQ==
+X-CSE-MsgGUID: YzBOKMdwQUKtizQUYbuhWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="260903854"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 09:31:10 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Mon, 24 Aug 2026 09:31:09 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45 via Frontend Transport; Mon, 24 Aug 2026 09:31:09 -0700
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.6) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Mon, 24 Aug 2026 09:31:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SV/GdULzQSoCyUZ47YxmzKXMruKDKGaY9A3YIvDRkceipR8r0w1emYPhnnLSHkkD0XGAVuMVza1QKbKnGYBohJSw8KnV8CM4u1JqwLn/CIAjhG6ME3cBI/Z5G/+djQuVdVJsCf25rssp9XsRTM3VSKHHY6qjFPWBr9NbNBim5B8haEwyvbSiD3plFC4YsMbtzg56DkycIrv4AJifdzV24dA6AlaiTu0ysNkcFgf5Regd2ZcllVwpWD8WIepFEyY9Ecitkfi28V7qyMlSyPRfOCqFkk+RQGOii8+GYToZsdrx1sCh5rBAVGkTkXXBJ6Gr/c/20aH9SjMiHfciOv3jrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EjoUIFcJeQ29ZLOClRnmlJkAkvPzgqwLXlJNgCbjcrQ=;
+ b=yQW4ZmM+eprQx2qHrohi1HtQTzPTekP/UN91TyDfFI/7jcvclJ686Vz8TzfVXq/pejHfQ2q9JV+m2bhB+/cgxBFoQB6Q75kYF7s54pirr4UP3CUxiC9bMwYy8eZuVf+48Okj2UWMZDdpV29SRTgjWnCySZvoU6GlAtwVrpgXu8UUSzje3unZWGfiYErTgVfNHhel86vH7vawwLzU+V2JeztWPXhTOu5uU92YvElTsESSAF+DSUyAFLFK6/2THgVz+cSWp0fupRhL5YvHHD8bpoZ1DvGO+cCRIn3WNpxz5JOTqjsVnmm9Mv96BrPJxoqhWD8wF1gfhxDCbWG5FcFUZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by CH0PR11MB5236.namprd11.prod.outlook.com (2603:10b6:610:e3::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Mon, 24 Aug
+ 2026 16:31:04 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3454:2577:75f2:60a6%4]) with mapi id 15.21.0339.012; Mon, 24 Aug 2026
+ 16:31:04 +0000
+Date: Mon, 24 Aug 2026 09:31:02 -0700
+From: "Luck, Tony" <tony.luck@intel.com>
+To: Breno Leitao <leitao@debian.org>
+CC: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@kernel.org>, "Ingo
+ Molnar" <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+	<x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+	<rdunlap@infradead.org>, <linux-edac@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<kernel-team@meta.com>
+Subject: Re: [PATCH 2/2] x86/mce: Add mce=panic_on_ce_count to panic on a
+ corrected error flood
+Message-ID: <aoxxxmM-xIpyAE_Z@agluck-desk3>
+References: <20260821-mce-panic-on-storm-v1-0-7a465c708d82@debian.org>
+ <20260821-mce-panic-on-storm-v1-2-7a465c708d82@debian.org>
+ <aoiBy3vg9eSvGhIu@agluck-desk3>
+ <aowABmagul44ENde@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <aowABmagul44ENde@gmail.com>
+X-ClientProxiedBy: SJ2PR07CA0024.namprd07.prod.outlook.com
+ (2603:10b6:a03:505::14) To SJ1PR11MB6083.namprd11.prod.outlook.com
+ (2603:10b6:a03:48a::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/7] mm/khugepaged: fix outdated comments
-To: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260811-khugepaged_pte_refactor-v4-0-ddac39d61c4a@linux.dev>
- <20260811-khugepaged_pte_refactor-v4-4-ddac39d61c4a@linux.dev>
-From: "Nico Pache (Red Hat)" <nico.pache@linux.dev>
-Content-Language: en-US, en-ZM
-In-Reply-To: <20260811-khugepaged_pte_refactor-v4-4-ddac39d61c4a@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|CH0PR11MB5236:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc8e3fa1-e5f1-4b79-7f08-08df01fd176d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|23010399003|366016|1800799024|10067099003|4143699003|11063799006|56012099006|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info: D2aCI3GYPzlJNpzSQy0hVQzx8zBMLVBTs4Fn0BVJRnkXYiVAKxAY3tfblvTy3ZHYPXoBS4y2Dj7GN2fsvNir7geQTtKo70oAdsehbofjLJDSoM+yJIKAN/6RThZXEFjDhuTgas2+JyqiUm399hZRkN48NQOuBb1TFA0qr+zEhvUYCgwtDeJSWE6Q0EdqE1ICwoILKeFjiFlRG8ObBnvDj98tR2gtG677yi+THXUvz7MuTLqsQxaHGuEVq2UpqQuF52sH5gMMShuqDQwIMWE3eQo+TmyPPpEgp5sP5AdtkCrY0auCoMzU8v5UfFd8EayQ6wiTrlAuKmAKZYyqE/Wk1kJ5nu9uMoJMLHG2JrvgjeC51KdpUSYmmE/FVdNzsMbLbiriJ8Z4hIACUD/X7Q8GjBmn7ihnxXeBDOGhPSOV5GjAfc/xA91jWsCYrLD0jOwQrBIH7OXui3ZUMOW+sB+QR7vGMzviWT6PCZOfG0MDDYgTLPM6xhXHCVtM35P87rd7sFKQXT5xdNBI6+rEzQJXIiupxXTVBIHRjZCG+/DfGmDmb+ZvvLsXG6CvUxLtKCQIASHGm7PTqkzgF5RJJCoFpl8iigxcO4LzjSM6oTNjz8gD3VgcHF20fFyBDmZeEb0tsBgOQK8YY45ZLfXYkeKcQtxeKvQ+HHChbZ7XDobTFcM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(366016)(1800799024)(10067099003)(4143699003)(11063799006)(56012099006)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?X3h5K4HXCp9GP6BbyR/6LTHwf+FaFKjodSCIvtQVCQO/WbeLu/Co9JXn3jRH?=
+ =?us-ascii?Q?f+s/ljSpcD2VLnLXcNKz8iqEm7gqmQZP2AnQ5Mf/1NfyDMM6KVHaT+4QqAKU?=
+ =?us-ascii?Q?u2xe622OrX3MXjl6ryM6iYvTvYwnkO97Y17FdZ3NJLdYCznt5WwN9sINWz0+?=
+ =?us-ascii?Q?oOXC3SPkC1VNOGXE3cyISQ2fzFEUEGhnIacp2DEX/PM1xtlyGtn68Ml8XCzJ?=
+ =?us-ascii?Q?KX7ifxm2yUzJJD4FSuLRv3/t4Ltr+Y5YOXbp5R1U0ff7LaimMatVhMrc+Fqh?=
+ =?us-ascii?Q?MFCiCITSPjYBsYTz7FN+s41HGHurGm5AZcyo3i6rHMve/CCCMzb2M0Z14EHM?=
+ =?us-ascii?Q?KrdZyKvl/5iGQUMjXYW8PXdI9llCrmbW46zJcqZ0GtZIdiS3R6VfGEPv+js0?=
+ =?us-ascii?Q?gJ7RApeyq4Hj7Gw4hAoLy/zGB2GKHptP0R6AvEURk4NP3b32y15KUxcYSKI1?=
+ =?us-ascii?Q?QUbnD7yMOey9DPkyHkYRSSw+XgWdjq6+kopynfI3/U30KmJx0H5/l8rjruNC?=
+ =?us-ascii?Q?Tf95XkV64ULZXAgWWGmbS/n96RgVcwZbh58ZAMfite/KFIrp9f+rLakk+W2o?=
+ =?us-ascii?Q?wfEAER7KpxA2cfcxgV/zRdQ2nRixExusVUygso0BRuj+hbwOcgbqHKn7vmPC?=
+ =?us-ascii?Q?WtSQiY6eTG/zpkIrkRx01nmQMra/m0diS4yE9qqteYyYhP9fCU7Wbj+plbN9?=
+ =?us-ascii?Q?bT2v37etHIaBt/LCS2Fa2mmhzXGnlms6HnuGpNXjAX3mpicemDxMAbACDHkb?=
+ =?us-ascii?Q?Qi/pWgrPKae28MeVoOBJYCjJ2wshbadWNFUW5FuJ3I86j4xYK9Th4+MNOEIC?=
+ =?us-ascii?Q?p7b/UlxOOZSt/9pBzrvk78GQCmhu01FJmY6pRcmDhWDYnYh1Mu6DVAL+WupR?=
+ =?us-ascii?Q?yuGr9Wg3yIj+ABVjw+eQ9b8oG8qxAgCthRB4uV9WZQVsI/xDlHE/gsvMoQ12?=
+ =?us-ascii?Q?o4xxv3CfbeRLupHXio7MuyhYsmTdU56W4kGdT2V51v1swjhAidYoTfNJ95KE?=
+ =?us-ascii?Q?QlXDTF1dXnW0YuK9ncYVoA/iy7gXX+NaDBBIuF1GRLRw+T4dDD4wbK0BnuhA?=
+ =?us-ascii?Q?lePeqRSU8jLUijtaRAV18qEcR7aoY3x96WLu84AN/mtFe9OY27rf1DKVcDeo?=
+ =?us-ascii?Q?Ujuhl7++t5cIW2BPWr8VmPVVtmvNkRbd6vXP/gF5mBN7HxH2NnQBOHF3nTj4?=
+ =?us-ascii?Q?tYyTwQ9LwROIRnlcQv1q3rzALqo+gm4+q3ufN8c0YPbHPtvfJAwFhNb3LbiE?=
+ =?us-ascii?Q?J1Qr4gXB19riyNn4h7ArW1fgJM9YJzgFb8eVa+YWL2ZeBGMrI/G/HA2DXGtl?=
+ =?us-ascii?Q?QT2BW127ZbdMeJHgCH0jiO79xLBb43c4v+adYK3g3uLb7ESzamcNTuspba3Z?=
+ =?us-ascii?Q?Ry1IEhk17HVDtSOoB49PL3kbbMwAgPkU0fBYywbVHwMy+fLnUA5YYfFtd3In?=
+ =?us-ascii?Q?HYHTGsVWfWtpmNaJtIYVwXixw4IuZyiaxeBxg40Jkk+r3ba6MtWNaCu+6eYZ?=
+ =?us-ascii?Q?q0lr3WXT8pwAF1RR0UtrbHUR8PoQilAsahzaENG3pY24UXqD7dtchzU6BE9m?=
+ =?us-ascii?Q?+8gkcKRyyr//EdNZI1Xi59KlGzHXbd/GaBb3IWNTbp1W5do5c8kS6yEPC+LC?=
+ =?us-ascii?Q?McTPpPOY+vFwjfW21upnLDaOUrlpwn4PjcM8cLkI1e+X8CrbtNigDvIqK7N5?=
+ =?us-ascii?Q?rOdP/c76yuKmF43Cmj7x3CX7+aF/7w0VsZpX6DaNmLjcFPfOh7Wmtx6Fqbk5?=
+ =?us-ascii?Q?YVjBbnk8Bw=3D=3D?=
+X-Exchange-RoutingPolicyChecked: JD/9qt8Ov2eJNrD1khGBGLxtbcBCxTbfMQwLvs1k/+jvgqBGQtfE15dcQiPlPgq4gvmWiDGN0mJfXtbUUb2uSNZuzKsDNhEV3aF/QrKuYjTEMcv4ed8+fkgu2+VVwDPajWFe0pod/MmHm6FTIiveQ4XZixhcq3LLMcEqEPKzrmt8A5XLQyTUABhXEEhpOO5oBxLs/2h6OZIlkvpAhifgYso9xQ+UDOnUBrUgRO8lUme//wnTku0qHSMa3F4a2YTXM+ReSUyESEixlSasjgWhGe/L7GA1bpgnSasI9z/5I8EvgZzhl+0h/B16cVzLLGPM5bcGItFxS8bbGvWcCqsN6g==
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc8e3fa1-e5f1-4b79-7f08-08df01fd176d
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 16:31:04.4759
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Qnm3GHm5J7pqJqH+7UGSmTPZRBySk4DDB2dTLbZW43BWsf8VlThtXw2NQpU/chnIkWvG670Qmvd4YVELK4uCZw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5236
+X-OriginatorOrg: intel.com
 
-
-
-On 8/11/26 6:48 AM, Nico Pache (Red Hat) wrote:
-> Fix comment in collapse_scan_pmd() that still described the old
-> folio_mapcount() > folio_ref_count() check and a "512" false-positive
-> scenario. The code now uses folio_expected_ref_count() != folio_ref_count()
-> which doesn't suffer from the same limitation.
+On Mon, Aug 24, 2026 at 01:29:18AM -0700, Breno Leitao wrote:
+> On Fri, Aug 21, 2026 at 09:50:19AM -0700, Luck, Tony wrote:
 > 
-> Fix comment in collapse_huge_page() that referenced ptep_clear_flush,
-> when the code actually uses pmdp_collapse_flush.
+> > > Count corrected errors per bank and add mce=panic_on_ce_count=<count>
+> > > and panic the host if we have more events than set.
+> > 
+> > FYI. I don't think this needs to be fixed, but you should be aware and
+> > perhaps document the shared bank details.
+> > 
+> > This won't count accurately for banks that are shared by multiple logical
+> > CPUs (you've inherited this from the storm detection code that introduces
+> > this problem).
+> > 
+> > E.g. a machine check bank reporting L2 errors is shared by both logical CPUs
+> > on a core on P-core systems, and by all cores on a module on E-core systems.
 > 
-> Fix comment in __collapse_huge_page_swapin() that referenced the old
-> function name khugepaged_scan_pmd, now collapse_scan_pmd.
+> Good point, thanks. I had not thought about the shared bank case.
 > 
-> Also clean up some simple typos and stale terminology (mmap_sem ->
-> mmap_lock, PG_lock -> folio lock, page -> folio, grammar).
+> I will document it in v2, roughly like this under panic_on_ce_count=
+> in kernel-parameters.txt:
 > 
-> We also clarify a comment regarding where the max_ptes_none check is
-> deferred to in mthp_collapse() from the original collapse_scan_pmd check.
+>         The count is kept per CPU and per bank. A bank shared by
+>         several logical CPUs -- an L2 bank is shared by the SMT
+> 	siblings, for instance -- has its errors split across those
+> 	CPUs.
 > 
-> Update all comments that references a function to include parentheses.
+> plus a line in the changelog noting that the count inherits the
+> <per-CPU,per-bank> granularity of the storm tracking. Thus, there may be
+> more errors logged than you expect before your panic fires. Would it be better?
+
+Yes. Documentation like this in the commit, and under Documentation/*
+gives fair notice to users.
+
+> One question while I am here: is the approach itself something you are
+> willing to take, or, just a just send patch [1/2]?
+
+Boris is the maintainer here. So he has the final decision. My
+opinion is that this is a bit niche for the kernel. Maybe this
+could be handled by some user agent (mcelog? rasdaemon?) to
+raise awareness to system operators about high rates of corrected
+errors.
 > 
-> Acked-by: Usama Arif <usama.arif@linux.dev>
-> Assisted-by: Cursor(claude-sonnet-4):4.6
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> Signed-off-by: Nico Pache (Red Hat) <nico.pache@linux.dev>
-> ---
+> Thanks for the review,
+> --breno
 
-Hi Andrew, 
-
-Can you please append the following fixup!
-
-Thank you :)
-
-
-commit a5b3dde4f1b1657731dc7a1908ef60f6bd6283db
-Author: Nico Pache (Red Hat) <nico.pache@linux.dev>
-Date:   Fri Aug 21 04:27:28 2026 -0600
-
-    fixup! mm/khugepaged: fix outdated comments
-    
-    Polish the refreshed GUP-pin comment wording per review.
-    
-    Signed-off-by: Nico Pache (Red Hat) <nico.pache@linux.dev>
-
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index ad7629a0216a..30f17c7494fa 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -1759,9 +1759,9 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
- 		/*
- 		 * Check if the page has any GUP (or other external) pins.
- 		 *
--		 * Here the check is racy, but such case is ephemeral and
--		 * we could always retry collapse later. Anyway the same
--		 * check will be done again later the risk seems low.
-+		 * Here the check is racy, but such cases are ephemeral and
-+		 * we can always retry collapse later. Anyway the same
-+		 * check will be done again later, so the risk seems to be low.
- 		 */
- 		if (folio_expected_ref_count(folio) != folio_ref_count(folio)) {
- 			result = SCAN_PAGE_COUNT;
-
-
->  mm/khugepaged.c | 44 +++++++++++++++++++++-----------------------
->  1 file changed, 21 insertions(+), 23 deletions(-)
-> 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index cae510aa2914..90d6e595d282 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -620,7 +620,7 @@ void __khugepaged_exit(struct mm_struct *mm)
->  		/*
->  		 * This is required to serialize against
->  		 * collapse_test_exit() (which is guaranteed to run
-> -		 * under mmap sem read mode). Stop here (after we return all
-> +		 * under mmap_lock read mode). Stop here (after we return all
->  		 * pagetables will be destroyed) until khugepaged has finished
->  		 * working on the pagetables under the mmap_lock.
->  		 */
-> @@ -788,8 +788,8 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->  
->  		/*
->  		 * We can do it before folio_isolate_lru because the
-> -		 * folio can't be freed from under us. NOTE: PG_lock
-> -		 * is needed to serialize against split_huge_page
-> +		 * folio can't be freed from under us. NOTE: folio lock
-> +		 * is needed to serialize against split_huge_page()
->  		 * when invoked from the VM.
->  		 */
->  		if (!folio_trylock(folio)) {
-> @@ -815,7 +815,7 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->  		}
->  
->  		/*
-> -		 * Isolate the page to avoid collapsing an hugepage
-> +		 * Isolate the folio to avoid collapsing a hugepage
->  		 * currently in use by the VM.
->  		 */
->  		if (!folio_isolate_lru(folio)) {
-> @@ -927,7 +927,7 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
->  	 * Re-establish the PMD to point to the original page table
->  	 * entry. Restoring PMD needs to be done prior to releasing
->  	 * pages. Since pages are still isolated and locked here,
-> -	 * acquiring anon_vma_lock_write is unnecessary.
-> +	 * acquiring anon_vma_lock_write() is unnecessary.
->  	 */
->  	pmd_ptl = pmd_lock(vma->vm_mm, pmd);
->  	pmd_populate(vma->vm_mm, pmd, pmd_pgtable(orig_pmd));
-> @@ -1101,9 +1101,9 @@ static enum scan_result hugepage_vma_revalidate(struct mm_struct *mm, unsigned l
->  		return SCAN_VMA_CHECK;
->  	/*
->  	 * Anon VMA expected, the address may be unmapped then
-> -	 * remapped to file after khugepaged reaquired the mmap_lock.
-> +	 * remapped to file after khugepaged reacquired the mmap_lock.
->  	 *
-> -	 * thp_vma_allowable_orders may return true for qualified file
-> +	 * thp_vma_allowable_orders() may return true for qualified file
->  	 * vmas.
->  	 */
->  	if (expect_anon && (!(*vmap)->anon_vma || !vma_is_anonymous(*vmap)))
-> @@ -1159,7 +1159,7 @@ static enum scan_result check_pmd_still_valid(struct mm_struct *mm,
->  
->  /*
->   * Bring missing pages in from swap, to complete THP collapse.
-> - * Only done if khugepaged_scan_pmd believes it is worthwhile.
-> + * Only done if collapse_scan_pmd() believes it is worthwhile.
->   *
->   * For mTHP orders the function bails on the first swap entry, because
->   * faulting pages back in during collapse could re-populate PTEs that
-> @@ -1227,7 +1227,7 @@ static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
->  		pte = NULL;
->  
->  		/*
-> -		 * do_swap_page returns VM_FAULT_RETRY with released mmap_lock.
-> +		 * do_swap_page() returns VM_FAULT_RETRY with released mmap_lock.
->  		 * Note we treat VM_FAULT_RETRY as VM_FAULT_ERROR here because
->  		 * we do not retry here and swap entry will remain in pagetable
->  		 * resulting in later failure.
-> @@ -1291,7 +1291,7 @@ static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_stru
->  }
->  
->  /*
-> - * collapse_huge_page expects the mmap_lock to be unlocked before entering and
-> + * collapse_huge_page() expects the mmap_lock to be unlocked before entering and
->   * will always return with the lock unlocked, to avoid holding the mmap_lock
->   * while allocating a THP, as that could trigger direct reclaim/compaction.
->   * Note that the VMA must be rechecked after grabbing the mmap_lock again.
-> @@ -1338,7 +1338,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
->  
->  	if (unmapped) {
->  		/*
-> -		 * __collapse_huge_page_swapin will return with mmap_lock
-> +		 * __collapse_huge_page_swapin() will return with mmap_lock
->  		 * released when it fails. So we jump out_nolock directly in
->  		 * that case.  Continuing to collapse causes inconsistency.
->  		 */
-> @@ -1351,8 +1351,8 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
->  	mmap_read_unlock(mm);
->  	/*
->  	 * Prevent all access to pagetables with the exception of
-> -	 * gup_fast later handled by the ptep_clear_flush and the VM
-> -	 * handled by the anon_vma lock + PG_lock.
-> +	 * gup_fast later handled by the pmdp_collapse_flush() and the VM
-> +	 * handled by the anon_vma lock + folio lock.
->  	 *
->  	 * UFFDIO_MOVE is prevented to race as well thanks to the
->  	 * mmap_lock.
-> @@ -1409,9 +1409,9 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
->  		spin_lock(pmd_ptl);
->  		VM_WARN_ON_ONCE(!pmd_none(*pmd));
->  		/*
-> -		 * We can only use set_pmd_at when establishing
-> +		 * We can only use set_pmd_at() when establishing
->  		 * hugepmds and never for establishing regular pmds that
-> -		 * points to regular pagetables. Use pmd_populate for that
-> +		 * points to regular pagetables. Use pmd_populate() for that
->  		 */
->  		pmd_populate(mm, pmd, pmd_pgtable(_pmd));
->  		spin_unlock(pmd_ptl);
-> @@ -1643,7 +1643,8 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  
->  	/*
->  	 * If PMD is the only enabled order, enforce max_ptes_none, otherwise
-> -	 * scan all pages to populate the bitmap for mTHP collapse.
-> +	 * scan all pages to populate the bitmap for mTHP collapse. The bitmap
-> +	 * is then checked again in mthp_collapse() for each attempted order.
->  	 */
->  	if (enabled_orders != BIT(HPAGE_PMD_ORDER))
->  		max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT;
-> @@ -1764,12 +1765,9 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  		/*
->  		 * Check if the page has any GUP (or other external) pins.
->  		 *
-> -		 * Here the check may be racy:
-> -		 * it may see folio_mapcount() > folio_ref_count().
-> -		 * But such case is ephemeral we could always retry collapse
-> -		 * later.  However it may report false positive if the page
-> -		 * has excessive GUP pins (i.e. 512).  Anyway the same check
-> -		 * will be done again later the risk seems low.
-> +		 * Here the check is racy, but such case is ephemeral and
-> +		 * we could always retry collapse later. Anyway the same
-> +		 * check will be done again later the risk seems low.
->  		 */
->  		if (folio_expected_ref_count(folio) != folio_ref_count(folio)) {
->  			result = SCAN_PAGE_COUNT;
-> @@ -1790,7 +1788,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  out_unmap:
->  	pte_unmap_unlock(pte, ptl);
->  	if (result == SCAN_SUCCEED) {
-> -		/* collapse_huge_page expects the lock to be dropped before calling */
-> +		/* collapse_huge_page() expects the lock to be dropped before calling */
->  		mmap_read_unlock(mm);
->  		result = mthp_collapse(mm, start_addr, referenced,
->  				       unmapped, cc, enabled_orders);
-> 
-
+-Tony
