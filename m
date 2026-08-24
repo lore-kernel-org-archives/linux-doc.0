@@ -1,66 +1,66 @@
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82970376468
-	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 22:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A88377EBA
+	for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 22:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787611043; cv=none; b=h6GT2mkW4UkyAcKRDqzIZGUtJFCbAijWJhEBtvmC5qZErYOhGyeDxzT+ZZy3BDRyqbxEJ0B42rtAfiWfzN7aD8xmePD3batSjZA7qvIKJ2jK4Y8Uydua1TR9M/qq7aM7w3wArkHEsu98NUZ8r+AG7062ge+e+1XhpRSwgKDCdcA=
+	t=1787611105; cv=none; b=PueIE4zpisITwxoywBjyJtfIqo1j5XjlJkYTFNVU7hfp696BgxNkLuHiEpjrtuoSMVqAcaKU+1eofpfLEwnIScyoBGEw/JqhuLJCyT58govjcY1CIz2cdNFVdMdxHbKX25FWS1nGR9UCoUh9/L9tDize7CiAagxFz0yEp3DhO94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787611043; c=relaxed/simple;
+	s=arc-20240116; t=1787611105; c=relaxed/simple;
 	bh=rPP7zaI/Ya8Tdt5PauYp+bRzvgvjuifx+xi0DX4ty8o=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=vFnZel5MWD/clc5sNfdDFQ2R6UkXVI5ik3Yp6QhSWNkrXbDOJqAEm05RWpD8SYsx+qN2bZ6fvb5HXXKEfKoXv3gUbPnMwkgrRNT7R3UHUq5BhIGPbbo7PsgekovxorWlwDcp0iYjl4dSo5bQoOiwXFkTs0iPvzW4Q5LPLbFe65Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XoWtBBE/; arc=none smtp.client-ip=209.85.210.197
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=eRhR33NLKZL9RhR2nUmI1ynDyR0YzXBI6yjxh2pgp36A8uC3g+2tCcYcjgakfaYIQQjVvZC7QV0rJGOqZXQNsmpkBnbvVqNh5x+mOPkBoObwI+bpOA4XE3N3nWDPBxS4P8h8Kc+gYTX9krs8+UCDdZXbgNQZj2/+XmBQPyI4bFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GgYvyB1S; arc=none smtp.client-ip=209.85.214.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XoWtBBE/"
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-8484ba00601so4556387b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 15:37:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GgYvyB1S"
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2cee1ec30f2so55669295ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 15:38:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787611038; x=1788215838; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1787611101; x=1788215901; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:mime-version:date:from:to:cc:subject:date:message-id
          :reply-to:content-type;
         bh=QDdo8HDBalimHnTFSdYVqfwNCXM9HYHt4FQ69ko/C/U=;
-        b=XoWtBBE/CgX1FNMbiWY8irXxzi+ueX/9pzg30MLMhbNRuo+98t0CYaY3OrsmFl49Vk
-         ksbEZH1gReaqCreI8K6EKOrg48/gE/P7gIPDnXwVsUIWvNuA/Bdjl0qd9mi3OZwISSo1
-         uVqqsSZPHbwDD35OuQL5MFQcRNVnqOd6jByBbpQJcFeRYmxH3UNClZJFaFryqN15r8xP
-         ANEyvfdgKu4wtWqlhht0qBlXQgPXOJOWDPbtUm6bntI3PaGPmsVKlCk3YcM/KIQGxG5K
-         6HPlep/Uh7wAoXeNBlk27EcbntPq8jidcvg5uVj3B5G2qVQTMJVCdHhLmZo2RY7sdvOR
-         tLpw==
+        b=GgYvyB1SvnR3BFlKoC0CHB9GWtMgQGrrm0L6si6Y+UOOEXabdSAkcH6KXt4sBU4dRd
+         LJVSbCaRB5FEeeD4IocZemayDFN9s6XFseisr5Qln0xeAOJrqnq6S4hvaOWM3rpqXPbb
+         jae/OpDGNQ8NCL4BqfMlApW87csVuqX90ei3XzN2caFjBWIlMJa+tSEIML1DPrqQRaW8
+         n/jwFTNMOJqJkCqL/NRZ3n5+nWzrAJVPplDV2Arc5B5Iuh/oUli3GZxcNTIGm5gVZJ2h
+         Js+qcc9dCIPask9xhW3/RRbIH+qNMz29VGFVRCAgwRvdBFVvBKHP4eNVJdtDsob9a06C
+         gykQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787611038; x=1788215838;
+        d=1e100.net; s=20251104; t=1787611101; x=1788215901;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:mime-version:date:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
         bh=QDdo8HDBalimHnTFSdYVqfwNCXM9HYHt4FQ69ko/C/U=;
-        b=ECUbrrkNhjhjMH62lAeHQ+JZ7L05o5z69XOqU2Gsd0/sVS2Xzaa/sgi5RTqkleapgS
-         ZENt3aVQfuMrst6FFT31zIO1cl5T5j5I874mBSRU5S9g+vJR7Z23kf2CgMQZpOjTdgfu
-         6fCUzYL5ia7F4/RFMArDFog64K7uRQHGOjh7vMG1k9cKWC7hj9sCPlRjWciV2G0DfBky
-         sCOblCgOOiSqeQ1tsIVQakpLUbzMz6gZFBVR3htW5SS7jdAPhrfdLFNX7oP8Yci18cXQ
-         63RRqP+469jHwCFofLzBaRi8/9JRjsLyf0MwjwQC9BZKKl/nd6rrwdUUcigyx2zKIzvJ
-         283A==
-X-Forwarded-Encrypted: i=1; AHgh+RoSW7mZM0/yIZpFTy/7TD/uICqDvI1xjMUsDzsXUByo3y/exZn6mrirf2A84LPm6hMlKbCmmmofjIY=@vger.kernel.org
-X-Gm-Message-State: AFuF++naASs3G1gXd5mTULZlmLu+LaWa0h7Eh8qAFCEtWZ18cMKM1p7k
-	H2rdj52LOeNZeIs65HI9NastnoR55MKD3pF1jnmWgqOglMxeSblxdGuInigjRvoTv1wrFmqpi+5
-	UxuykeEuRfkXuVBLy4f0T3Z0kubgTkehrhw==
-X-Received: from pgea13.prod.google.com ([2002:a05:6a02:538d:b0:c8d:1b0:ab70])
+        b=eIEsJI0wg8uMXnKAlqS9YQzJ7ebrGK7aF9eZGkqTd1+FHRLb4EeDmFAIkioIU8BiBp
+         JASlzJI3tF6t0HVvmSIAjjRhD8d5UyoJTOsHbwE/thkwbeNIHSh3AeKlWbmmpDKHwegd
+         AdUo0pvtaDH/TgAJ6yDbsF28PpDvbu5+zgeSmyjqEtvxOE/Tr1HLwh2FBt8HLVTu90x5
+         VDjwiT2oYERncI+5RqLbgKXK8bprKzfLLN4iperBmAzwlJ6IO7Pc9VYIlnMpoKAVwOs2
+         PRBTmNaEGvoI+zwL6V/965j4s5tiDtuMBR2h8oljhYmJ1LEt4PpOSO+h7NQkZBaDbRdp
+         z2Lg==
+X-Forwarded-Encrypted: i=1; AHgh+RpQ4tfGbmwHFsG1FNH9rGhIe+LBSSZCxq0mn55whXPBxq66RUYjrxTjG2ShKpLawZ2eU4RDv/5eTlE=@vger.kernel.org
+X-Gm-Message-State: AFuF++kT5lKc16fn/XQspTD3GNWb5HLGNu2dtjk59gc8yswmLSqUp1ao
+	FJ9MdS5Vj9zcvfLOX0XKtJar7KY+XYd014LV9lOBTlUk5Tvi8/1+XZ//YOMNLdhX6W+a8atKoML
+	NgjK0pcmBGxGtn108Qb0sa/MVe/hz9tCoXw==
+X-Received: from pllk12.prod.google.com ([2002:a17:902:760c:b0:2cc:6063:a658])
  (user=rathodpriyank job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:2e26:b0:847:9315:fb8b with SMTP id d2e1a72fcca58-8523c7ed9d0mr3512716b3a.6.1787611037417;
- Mon, 24 Aug 2026 15:37:17 -0700 (PDT)
-Date: Mon, 24 Aug 2026 22:37:03 +0000
+ 2002:a17:902:fdb0:b0:2d6:8d4a:3ff7 with SMTP id d9443c01a7336-2d6dcc1876amr46679715ad.12.1787611100403;
+ Mon, 24 Aug 2026 15:38:20 -0700 (PDT)
+Date: Mon, 24 Aug 2026 22:38:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAI7HjGoC/0XM0QqDIBTG8VeJcz2HqYXb1d5jdJF2sgOVoSEb4
+X-B4-Tracking: v=1; b=H4sIANPHjGoC/0XM0QqDIBTG8VeJcz2HqYXb1d5jdJF2sgOVoSEb4
  bvPxWCX/4+P3wERA2GEe3VAwESR/FqivVRgp351yGgoDYKLlutas80SsnnZmeRKDY1u+x4tlPs WcKTXST270hPF3Yf3Kafmu/4Qwf9IaljNbkoaaTjW2owP572b8Wr9Al3O+QN3NgRYoQAAAA==
 X-Change-Id: 20260818-pcie-lmt-3044d586aaec
 X-Mailer: b4 0.14.3
-Message-ID: <20260824-pcie-lmt-v6-1-86ada768b0c8@google.com>
+Message-ID: <20260824-pcie-lmt-v6-1-bab4ce233fa5@google.com>
 Subject: [PATCH v6] PCI/pcie: Add PCIe Lane Margining at Receiver (LMR) support
 From: Priyank Rathod <rathodpriyank@google.com>
 To: Bjorn Helgaas <bhelgaas@google.com>, Priyank Rathod <rathodpriyank@google.com>, 
