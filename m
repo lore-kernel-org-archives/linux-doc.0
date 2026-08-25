@@ -1,320 +1,131 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9DE2561A7
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 15:33:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4309329E55;
+	Tue, 25 Aug 2026 15:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787671988; cv=none; b=C5XcZErBrLpuCt/k1VmVC8c0TPJn4xzfeK4sSu0XOeKy8Dn3XVG030iDxg7+/XpOD+xWSjpvkIPs0EFOEE8ctR5ccpFsoT1Wuwhia7FrZxPwqpsPDB4AneMCxYPqB+Vp2CXQ0aDkL4Q4N3uUyvFwhRRj7XaFgQEkv58v2m+rsr4=
+	t=1787672769; cv=none; b=G/E1ShOtIDcWQxEjKNXPbvKCM9kiHibvkY6YYgjlXvepv0y+iaouCe0V/LC0DHN4A965y7o1CyYc3VrZKw8ZmdFA9LfYlLKY1K1/Q245kVDtxx5vhguscIcDdFdAe9v9pAb9Z6UXe+sVYDaArz+kqEA6nkV4EbVHqmr3EuXG3hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787671988; c=relaxed/simple;
-	bh=ESa/aJb+Zcb+vI6rmyLQaTfjj0+Al0OL+w/Lgyn3Yu0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=adB2n1DHRPgH7iGxMYD8KAY7Fs4leScM/pv9itZxxNarKEcUKmSb4cUG8GXPMJfTGJ3xYlUBx4LdsTkVQuIbSlIYgVJ1BLI6Q8xiY7j7P5LDsq0kj042AmIrQoHX8v6e6t9nZbUnWcn8OgnJBisCyhI5b4MiHf+vdOfRuNmjRcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hjYysJX3; arc=none smtp.client-ip=209.85.167.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787672769; c=relaxed/simple;
+	bh=d0WbU7BflUSFAq1lgwfdwjPkkfhtuopWg8NBUmO9w6Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W4MYxMQHWcAmGZP9djzOWdp70qTslonNjvIC9mbahFz/u758b/ScrU7IRCQDXHO0r/dUEuR+gmqXq1lEAEPczi/B2hvUur5VA+7O/+Wb+ojDIoT8V1IVltjfPjbIYcjWdPDsWQYpy6GJH8npecx5IebiRcguGR5q91ZZKEZbyUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ldb23ZRD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hjYysJX3"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-495b27007d0so4581003b6e.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 08:33:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787671979; x=1788276779; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uAKqLnS2duDg8f3jGAvM1PgrDRSN4wgtQcZNf8+IpfY=;
-        b=hjYysJX3IVpEhW0E6s0hQ6MM5lz7Gr5QgJO+Z38p3ugGbP3op1OHJorZsL+4FNXd9i
-         Zh7DtUPcIMP+tgyQPfvAYEk1MmEANWLOSODa4hmBhshAcP4Bs6ey76yuSTLDupxwWx65
-         sZL53TSsyXSZAx/HrBbUtHnkkR+EsLFBYNFfezy60oc3kAvH3Bs7H5zKkdBdJeX77zbT
-         AnquNzbPqdPllOMVV9TlcLmx0Ia1Zw+Cf+B+ApESH4qpKSTNrnbuF3OBK7kj1eODtgQU
-         dsjfOe08atULZl9xgFqModnWExflixhwG8SPVrQoF/ffaXgxKuT6ZCGbGc/WruJJlMet
-         TiRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787671979; x=1788276779;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uAKqLnS2duDg8f3jGAvM1PgrDRSN4wgtQcZNf8+IpfY=;
-        b=V2wiwzBjUvVsiO2+dpovs4KYTr5akVQR3VHMDvPlMY3vQ2cemkZ1Oaw3nTvIrH7Aeh
-         5jSWJIoqpNnLgMWyLX2cvZrGhRGndbMJ3hllcEjkgrvmSLKJme44MdVhAtK8xlGF/DBu
-         ImJkdnmcoemdibrmSpFVZ80D4mj2cvUaWIy4j/u4JFvm2Bwn1BUW9qvWWRTo+q5xAasG
-         x+s3SAbNUk5wq9YTJHgVrdzn9kKQefURW5jG2XWknRXUQbO994rfhoiwMuKMVmS6s40/
-         /h8QskhxZcplsZIkTWQlyWzzEu1u5flvSHhe5YW4VdkiV4ptq6dC9Z3+3gzLWg5S2b2+
-         o8WQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpcFVKRbTYSWh+cMrwMHp4zISogONR4rZn5KAV/m8rzuhCjXUiYMEfxT5vQ/jG5Qt3Evnr4ZBrxieY=@vger.kernel.org
-X-Gm-Message-State: AFuF++kuKl+cVGhTPFUNuyOKGhqm0NhuDT8kHDc4hEMzCbw9Lo4XEHCs
-	smOCbO/Pu06y3e3WFYe3yjd6ruU0YA8GlKM1gv4JMzOeXFtUcHRYlNZ5
-X-Gm-Gg: AR+sD10vzCI59kY+Eg0AKtPGjJeUL3Zp8sc6CtUcDvGEbSa22o/zS/WKgTZauy2lmLZ
-	fcXhz2p3QSEjdvKOwEQR1ZLihz1alR6szoWv+dAGIqaBecHlC1bpK5v3LCyw+vVrtUMtKw2D6R4
-	q3ZjZ2j9hsr1Nl18ll6YBi4rsrtGLJ2rUHF5dexIogFkzJF0FDjHlxxj/5MZaVpmGklXUIG007M
-	0EPJPwUuTPA+SaJF21Isvxt2nuskMstij2bpWakQ0Cppdz3a2/m4vl1pEURpEbkM0MOq6K8d4EE
-	hGgKEKMatAQYJppbPOY133erfk3Xwvj4ajXvuhwx/wX/zQ+KrkRDRQ3hlPVzvJZiivTwDDWzI7r
-	jVb5fRU4Em+QbtUS7AzZLm1RzQ1L40bXayYoEzaLBV07/yFE9KkyHJqpI+5SVLX79dIebe2YCCB
-	nnGK/RbVHGP3//7nG9eM7liySJZodUB9XW4Xhmv9JhBL5Q/8tttPmubZLk/1lf4KgQL7A8J5tFK
-	i5dFlPc1YI=
-X-Received: by 2002:a05:6808:4f49:b0:495:ff85:d33d with SMTP id 5614622812f47-4b35059a824mr7724933b6e.12.1787671978714;
-        Tue, 25 Aug 2026 08:32:58 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:28::])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b32c690f27sm5952581b6e.7.2026.08.25.08.32.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 08:32:58 -0700 (PDT)
-From: Nhat Pham <nphamcs@gmail.com>
-To: akpm@linux-foundation.org
-Cc: chrisl@kernel.org,
-	kasong@tencent.com,
-	hannes@cmpxchg.org,
-	mhocko@kernel.org,
-	roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev,
-	yosry@kernel.org,
-	david@kernel.org,
-	muchun.song@linux.dev,
-	shikemeng@huaweicloud.com,
-	baoquan.he@linux.dev,
-	baohua@kernel.org,
-	youngjun.park@lge.com,
-	chengming.zhou@linux.dev,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	qi.zheng@linux.dev,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	riel@surriel.com,
-	gourry@gourry.net,
-	haowenchao22@gmail.com,
-	corbet@lwn.net,
-	hughd@google.com,
-	baolin.wang@linux.alibaba.com,
-	tj@kernel.org,
-	mkoutny@suse.com,
-	skhan@linuxfoundation.org,
-	kunwu.chan@linux.dev,
-	kernel-team@meta.com,
-	nphamcs@gmail.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	cgroups@vger.kernel.org
-Subject: [PATCH v4 11/11] mm, swap: widen swap_info_struct max/pages to unsigned long
-Date: Tue, 25 Aug 2026 08:32:37 -0700
-Message-ID: <20260825153238.2695446-12-nphamcs@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260825153238.2695446-1-nphamcs@gmail.com>
-References: <20260825153238.2695446-1-nphamcs@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ldb23ZRD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B1A1F000E9;
+	Tue, 25 Aug 2026 15:45:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787672766;
+	bh=4ZS6vls3JJvraikbo58pM3Byu1hOLRqYEyusdsObgZQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Ldb23ZRDdCE+NR/qzf3ORdHVGJXRkcBRGijiRjYrlJNvjKXObnTdKWyPIZCDJcDzm
+	 RShkQ/flAw0okf21wCi8biSaT4GTCUqE++tZZdUD451vSrs0KdNOjPYxOI3YJWIPTC
+	 35h6QTRoKf3TIV8/UIvPUfRxBLmVNatdJUMpTsys7wgU8bf06MDm4rlS8v2RLn4OkA
+	 7m/Z/rWwqHQ7ST181CHP8FJPe9WZcGr50Zr21XKQXhc2OKsc8QknFx0H0hFZkhhlUh
+	 DDQawLEGXCDPQe1TVMTjgWHYpGCj9L7zK4OLLCM7TgypAYFxeRfD2T1/8Fjv4J4wTx
+	 l0Z6YCDKzDS/g==
+Message-ID: <5970a8d4-fe7c-4dde-bdc8-1c66bfb57f12@kernel.org>
+Date: Tue, 25 Aug 2026 17:45:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/11] mm/cma: charge cma allocation to memcg using per
+ area counters
+To: Eric Chanudet <echanude@redhat.com>, Michal Hocko <mhocko@suse.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ Shuah Khan <shuah@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>
+References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
+ <aowHqqaqK7TeexQH@tiehlicka>
+ <ao2gA_m3BCBu2esy@echanude-thinkpadx1carbongen13.rmtusma.csb>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <ao2gA_m3BCBu2esy@echanude-thinkpadx1carbongen13.rmtusma.csb>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Widen swap_info_struct->max and ->pages from unsigned int to
-unsigned long so the vswap device can exceed the previous 16 TB cap
-with 4 KB pages (ALIGN_DOWN(UINT_MAX, SWAPFILE_CLUSTER) pages).
+On 8/25/26 16:47, Eric Chanudet wrote:
+> On Mon, Aug 24, 2026 at 10:58:18AM +0200, Michal Hocko wrote:
+>> On Fri 21-08-26 14:56:52, Eric Chanudet wrote:
+>>> CMA allocations are currently unaccounted for by cgroup memory
+>>> controllers. As system resources, they should fall under memcg, but CMA
+>>> areas partition the available space for different purposes and memcg
+>>> doesn't have a good representation for that.
+>>
+>> Which CMA usecases are covered by this work? It would be also great to
+>> spend more time describing usecases.
+> 
+> We would like to offer some usage guaranties to userspace processes
+> ending up doing allocations in CMA.
 
-The new vswap cap is the cluster_info_pool xarray's allocator
-limit. XA_FLAGS_ALLOC stores allocated IDs in u32, so
-max_pages = UINT_MAX * SWAPFILE_CLUSTER (~8 PB at the typical
-SWAPFILE_CLUSTER=512 layout).
+How does this e.g., relate to hugetlb allocating from CMA, to then charge to a
+hugetlb cgroup?
 
-Signed-off-by: Nhat Pham <nphamcs@gmail.com>
----
- include/linux/swap.h |  4 +--
- mm/swapfile.c        | 63 ++++++++++++++++++++++----------------------
- 2 files changed, 34 insertions(+), 33 deletions(-)
+I always thought of CMA being a low-level allocation mechanism with various
+different use cases, and actually the higher-level users should decide how
+to/what to charge instead.
 
-diff --git a/include/linux/swap.h b/include/linux/swap.h
-index 95386a86d3fd..5310ac0f3faa 100644
---- a/include/linux/swap.h
-+++ b/include/linux/swap.h
-@@ -246,7 +246,7 @@ struct swap_info_struct {
- 	signed short	prio;		/* swap priority of this type */
- 	struct plist_node list;		/* entry in swap_active_head */
- 	signed char	type;		/* strange name for an index */
--	unsigned int	max;		/* size of this swap device */
-+	unsigned long	max;		/* size of this swap device */
- 	struct swap_cluster_info *cluster_info; /* cluster info. Only for SSD */
- 	struct list_head free_clusters; /* free clusters list */
- 	struct list_head full_clusters; /* full clusters list */
-@@ -254,7 +254,7 @@ struct swap_info_struct {
- 					/* list of cluster that contains at least one free slot */
- 	struct list_head frag_clusters[SWAP_NR_ORDERS];
- 					/* list of cluster that are fragmented or contented */
--	unsigned int pages;		/* total of usable pages of swap */
-+	unsigned long pages;		/* total of usable pages of swap */
- 	atomic_long_t inuse_pages;	/* number of those currently in use */
- 	struct swap_sequential_cluster *global_cluster; /* Use one global cluster for rotating device */
- 	spinlock_t global_cluster_lock;	/* Serialize usage of global cluster */
-diff --git a/mm/swapfile.c b/mm/swapfile.c
-index 8c80544a7d25..9860fb3b079f 100644
---- a/mm/swapfile.c
-+++ b/mm/swapfile.c
-@@ -429,10 +429,10 @@ static inline unsigned int cluster_index(struct swap_info_struct *si,
- 	return ci - si->cluster_info;
- }
- 
--static inline unsigned int cluster_offset(struct swap_info_struct *si,
--					  struct swap_cluster_info *ci)
-+static inline unsigned long cluster_offset(struct swap_info_struct *si,
-+					   struct swap_cluster_info *ci)
- {
--	return cluster_index(si, ci) * SWAPFILE_CLUSTER;
-+	return (unsigned long)cluster_index(si, ci) * SWAPFILE_CLUSTER;
- }
- 
- static void swap_cluster_free_table_folio_rcu_cb(struct rcu_head *head)
-@@ -848,7 +848,7 @@ static int swap_cluster_setup_bad_slot(struct swap_info_struct *si,
- 
- 	/* si->max may got shrunk by swap swap_activate() */
- 	if (offset >= si->max && !mask) {
--		pr_debug("Ignoring bad slot %u (max: %u)\n", offset, si->max);
-+		pr_debug("Ignoring bad slot %u (max: %lu)\n", offset, si->max);
- 		return 0;
- 	}
- 	/*
-@@ -1085,13 +1085,13 @@ static bool __swap_cluster_alloc_entries(struct swap_info_struct *si,
- }
- 
- /* Try use a new cluster for current CPU and allocate from it. */
--static unsigned int alloc_swap_scan_cluster(struct swap_info_struct *si,
--					    struct swap_cluster_info *ci,
--					    struct folio *folio,
--					    unsigned long offset,
--					    bool *nomem)
-+static unsigned long alloc_swap_scan_cluster(struct swap_info_struct *si,
-+					     struct swap_cluster_info *ci,
-+					     struct folio *folio,
-+					     unsigned long offset,
-+					     bool *nomem)
- {
--	unsigned int next = SWAP_ENTRY_INVALID, found = SWAP_ENTRY_INVALID;
-+	unsigned long next = SWAP_ENTRY_INVALID, found = SWAP_ENTRY_INVALID;
- 	unsigned long start = ALIGN_DOWN(offset, SWAPFILE_CLUSTER);
- 	unsigned int order = likely(folio) ? folio_order(folio) : 0;
- 	unsigned long end = start + SWAPFILE_CLUSTER;
-@@ -1168,12 +1168,12 @@ static unsigned int alloc_swap_scan_cluster(struct swap_info_struct *si,
- 	return found;
- }
- 
--static unsigned int alloc_swap_scan_list(struct swap_info_struct *si,
--					 struct list_head *list,
--					 struct folio *folio,
--					 bool scan_all)
-+static unsigned long alloc_swap_scan_list(struct swap_info_struct *si,
-+					  struct list_head *list,
-+					  struct folio *folio,
-+					  bool scan_all)
- {
--	unsigned int found = SWAP_ENTRY_INVALID;
-+	unsigned long found = SWAP_ENTRY_INVALID;
- 	bool nomem = false;
- 
- 	/*
-@@ -1196,8 +1196,8 @@ static unsigned int alloc_swap_scan_list(struct swap_info_struct *si,
- 	return found;
- }
- 
--static unsigned int vswap_alloc_cluster(struct swap_info_struct *si,
--					struct folio *folio)
-+static unsigned long vswap_alloc_cluster(struct swap_info_struct *si,
-+					 struct folio *folio)
- {
- 	struct swap_cluster_info_dynamic *ci_dyn;
- 	struct swap_cluster_info *ci;
-@@ -1324,7 +1324,7 @@ static unsigned long cluster_alloc_swap_entry(struct swap_info_struct *si,
- {
- 	struct swap_cluster_info *ci;
- 	unsigned int order = likely(folio) ? folio_order(folio) : 0;
--	unsigned int offset = SWAP_ENTRY_INVALID, found = SWAP_ENTRY_INVALID;
-+	unsigned long offset = SWAP_ENTRY_INVALID, found = SWAP_ENTRY_INVALID;
- 
- 	/*
- 	 * Swapfile is not block device so unable
-@@ -3423,10 +3423,10 @@ static int unuse_mm(struct mm_struct *mm, unsigned int type)
-  * Return 0 if there are no inuse entries after prev till end of
-  * the map.
-  */
--static unsigned int find_next_to_unuse(struct swap_info_struct *si,
--					unsigned int prev)
-+static unsigned long find_next_to_unuse(struct swap_info_struct *si,
-+					unsigned long prev)
- {
--	unsigned int i;
-+	unsigned long i;
- 	unsigned long swp_tb;
- 
- 	/*
-@@ -3464,7 +3464,8 @@ static int try_to_unuse(unsigned int type)
- 	struct swap_io_ctx ctx;
- 	swp_entry_t entry, vswap_entry;
- 	unsigned long swp_tb;
--	unsigned int i, j;
-+	unsigned long i;
-+	unsigned int j;
- 
- 	if (!swap_usage_in_pages(si))
- 		goto success;
-@@ -3921,7 +3922,7 @@ SYSCALL_DEFINE1(swapoff, const char __user *, specialfile)
- 	struct file *swap_file, *victim;
- 	struct address_space *mapping;
- 	struct inode *inode;
--	unsigned int maxpages;
-+	unsigned long maxpages;
- 	int err, found = 0;
- 
- 	if (!capable(CAP_SYS_ADMIN))
-@@ -4343,12 +4344,8 @@ static unsigned long read_swap_header(struct swap_info_struct *si,
- 		pr_warn("Truncating oversized swap area, only using %luk out of %luk\n",
- 			K(maxpages), K(last_page));
- 	}
--	if (maxpages > last_page) {
-+	if (maxpages > last_page)
- 		maxpages = last_page + 1;
--		/* p->max is an unsigned int: don't overflow it */
--		if ((unsigned int)maxpages == 0)
--			maxpages = UINT_MAX;
--	}
- 
- 	if (!maxpages)
- 		return 0;
-@@ -4589,7 +4586,7 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
- 		goto bad_swap_unlock_inode;
- 	}
- 	if (si->pages != si->max - 1) {
--		pr_err("swap:%u != (max:%u - 1)\n", si->pages, si->max);
-+		pr_err("swap:%lu != (max:%lu - 1)\n", si->pages, si->max);
- 		error = -EINVAL;
- 		goto bad_swap_unlock_inode;
- 	}
-@@ -4677,7 +4674,7 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
- 	/* Sets SWP_WRITEOK, resurrect the percpu ref, expose the swap device */
- 	enable_swap_info(si);
- 
--	pr_info("Adding %uk swap on %s.  Priority:%d extents:%d across:%lluk %s%s%s%s\n",
-+	pr_info("Adding %luk swap on %s.  Priority:%d extents:%d across:%lluk %s%s%s%s\n",
- 		K(si->pages), name->name, si->prio, nr_extents,
- 		K((unsigned long long)span),
- 		(si->flags & SWP_SOLIDSTATE) ? "SS" : "",
-@@ -4884,8 +4881,12 @@ static int __init vswap_init(void)
- 		return 0;
- 	}
- 
-+	/*
-+	 * One u32 xarray ID per cluster, so the device cannot be larger
-+	 * than UINT_MAX clusters.
-+	 */
- 	maxpages = min(swapfile_maximum_size,
--		       ALIGN_DOWN((unsigned long)UINT_MAX, SWAPFILE_CLUSTER));
-+		       (unsigned long)UINT_MAX * SWAPFILE_CLUSTER);
- 	/*
- 	 * SWP_WRITEOK enables slot allocation. SWP_SOLIDSTATE selects
- 	 * per-CPU cluster allocation; vswap has no si->global_cluster.
 -- 
-2.53.0-Meta
+Cheers,
 
+David
