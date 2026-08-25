@@ -1,163 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010071.outbound.protection.outlook.com [52.101.69.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F643E6DD2;
-	Tue, 25 Aug 2026 08:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787647072; cv=none; b=U9yDMra15DYDVRw3KTpGy7Wpr/+Y0Jr/hqN6Ev/YZxdOnoxCqZ1DNgjcISPa911RekXH0im5mu3p8lw9qKCN1803Hg4f1aON/kuHRwZ+ab9znAa4x67i34ELpDvHof4fiKRvM850k7ljGNrnHv+jsThYVnfM9k8n5mKMlF9rOcw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787647072; c=relaxed/simple;
-	bh=+qGab7hN0sGivwq2mXB2sEMCzxrIrFtJf0CG8z91FvE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JPQejzF1mFvuV1BBtS2RZDplfQiSXxhejj0pKSdWINc6/2AiJ+TmqkFmsCoSLjzqqQn6CNvTt1izRgHctehulZqs60ZhGM8s3/uBx/e1rgpX4l1l8n7stpjHZllQyKlqQqa/TmeCZL8zfQ/+/47ox/qzyYJ8FJCWijg0W9woyEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z//QVUE1; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5B130C168;
+	Tue, 25 Aug 2026 08:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.71
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787647311; cv=fail; b=mVR8jkM1DwjXYGFrGvnbS27UlhCjqRXSkPLpOWjvNxkEEmLHGVK9cFz2Vvjt3qrB2IeTV/M4zfFtX3/d7zBBB+he/Df2swfqhNKLo88bis2zG76kUynQqp6RJzxfQiNabAh8Xnjp4KilUx91KMhr7j45kzDqiKlwFT8A3m4Xflo=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787647311; c=relaxed/simple;
+	bh=lEq+7CRevENHYf3FjuFVJs3ZZoNBsDGHX71G7SYzjPE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=DNQxkUouRMbcEuHOOQoW0sOmLRIMCvELVYAPp856SXCKNsGl5p4BMzmBuLU7LE2+dgufqQ0jB6kWNo///NJfzHZzzwRoPtxM1jflTzrVJSIsJW8904HjzflCXemnBpaqixq85W2jOK9RThsbj2yMJVolELqioKkLTGwklfBeEtU=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=o8V6Uf0R; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=o8V6Uf0R; arc=fail smtp.client-ip=52.101.69.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z//QVUE1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C1B51F000E9;
-	Tue, 25 Aug 2026 08:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787647069;
-	bh=9COt1w3P1MdstF38GuaEny+JKaDo98J8bEQBshdYhKo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Z//QVUE1GnHBGMaWgJTJyKF7qhlNX9G/P1wEgSjJPMjcxdPbi8Iv2wQVGKz5UUDdo
-	 4zpFVmESnVz4I3S2DT764lLMxbRFjktGsFau54l92KImS2rU0NMZJv1hSdvybY0Xg5
-	 DZUCgvw5u/4bEGE2kV5+9ea/ans6d0rYLQofsBg582EX2Okl+bfym5HF/DOgijOZTv
-	 Op8yakmihGw+NiVEkZPqyLHzxwYNl1nvPRghurehhDSdb4ngiZRWYbcOyYAqWRZCoM
-	 hwO2+QPg+mTQ4xZ7bJJsEtmTJScmBjnhbovLqbwVh8MaRIxAZTbprx7VPpwsdeCED9
-	 pVLQy1kX0XuTw==
-Message-ID: <f2ac9432-4fea-4007-aab0-ad80597b284c@kernel.org>
-Date: Tue, 25 Aug 2026 10:37:41 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="o8V6Uf0R";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="o8V6Uf0R"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=hAG0z16mVbC60IFHoOnYs4zXiQSxybmpKLc53bVvkSKGvKgP416EN+NBOK++aSalspO1AJFvZ77VoDo2ECypPRvYcrh+TqPhuWXICW60zr+t2Exe3/roskyGkqbwn7YQb9v/LUiZV68nFnKAsuxalCAWRU57Gq3lVx1y4Vo+W0IOyygDNE5gpBwlni3xiQdqURDn0Qkf6eHyf7wet5eGGXBRISwagx4PP9nPaf7W7hBeLX0cr4R90TLsx0e2z/K55anpHQUu3R+UlRy8a6lSFSNU1fLa8R4d1IL6A0o2NxebaaQDGhhsVa3FjXZGIeFLyLRP2Clpk03gc+YjNWfZCQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=znrlvvrWApFTIWKpPBp5sik/nnTkVSIVWyfhYLMHGmU=;
+ b=S4z8jJH11tb2QMIp+MZ2L0ejeGLt4ck0FqmBpLwNbuazBxHRomqXP7Ifu83i41/mo9lkaUddNEiWLmAj9ok/4Vz6kG1GdkGh+CbgdCqZtzN5HN2Syz/x9zit4TGXZqKCGqpVPNh4XHVqmgsswaXfO8r8Xv7ZAVR98TDmk3R107sCyzVTnU+49QtRjd2J4hNrObREbjFP16Rtzi/EayZPAFHG4OJ4de23EbUQKFD8Pg1BHh/id4NAFXGjyhVtzcDiR5MoPGCFvfdzRajBVF/iRVAZWLyGtsFyjjYFgXPMZEH/Jc5kDyO+8j++9S8o3uk7U+Q7lCZooqP/trf+mcGcmA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=kernel.org smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=znrlvvrWApFTIWKpPBp5sik/nnTkVSIVWyfhYLMHGmU=;
+ b=o8V6Uf0RUZ3ZAkV2UyJeCwj3TSRwX1xsCzA9m1pNyDgqE7qO3e2oBRO0wR7+1aNAIaMHI9Wqcc/GvrmQLYOdefeJllJos6FEAp3bqd4tVQJCnehT6VJMulVZEMYZQl7v3RCSnP0PHCT7W50JUllnLGpz1w4CsRXoHzbO8p/SPyc=
+Received: from DU7P195CA0029.EURP195.PROD.OUTLOOK.COM (2603:10a6:10:54d::12)
+ by PAVPR08MB9307.eurprd08.prod.outlook.com (2603:10a6:102:304::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Tue, 25 Aug
+ 2026 08:41:39 +0000
+Received: from DU2PEPF0001E9C0.eurprd03.prod.outlook.com
+ (2603:10a6:10:54d:cafe::6a) by DU7P195CA0029.outlook.office365.com
+ (2603:10a6:10:54d::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.6 via Frontend Transport; Tue, 25
+ Aug 2026 08:41:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU2PEPF0001E9C0.mail.protection.outlook.com (10.167.8.69) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.3 via
+ Frontend Transport; Tue, 25 Aug 2026 08:41:38 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KNh7X2oIHaAwbxPwzXs9VXJi78+RiBBSD8MRGNI4D+jpMaLLLih0DokP9DYq38qlJJbskFIeYxtBg7g9kwz/wVsYfPT+0qRejGpul29yScInyHO1RMxXuJ+9e+MzhPqa99LSsoO9GMXCWQDn3W2+bHWXj5bz/Xh3CEgfGlREXHuQztTqOeu/h32uoGLCBGYX4GxnH0JJVGPJaqrG4MMesyin/9f/id20nix4GKocmnrJz018G4fOkYATsLVeSB/dhds42Mc/6DPW3zjOzXB9Lhy5opT2L0fhaGEocpSoIJnErT20B8Nomwta1NQHWvp6CBvglx6Aq0cgZ0VFMPTuCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=znrlvvrWApFTIWKpPBp5sik/nnTkVSIVWyfhYLMHGmU=;
+ b=HE5hArzF065ckOWR0g4Uw9rzdMzmY5ksKt35mhA6Aerfp001cY/7s4nr9CLbIJB32CnZYViZFVn7gz0JySkreJw7nQqAnD8VlZkvXcVDv8/MFCP6ugrhmrvtYJ45aFQe/HtxG4yR3rjTb+cOLvohH7YzX+vEdepZvd43R0iz9y8FmP/1K6s3zkoxfRCtUkDmhs4oKDc9n1IbNWiO/UDkbGakmfPBqnKCDCN/Jwyx8WdtwOdLjiJugk0DmpI4WXfV0Lc1kxRDTWCGEw9++8b5GfDO6/4Jj0xhhcQgPXbkkTfuuMJo0QuEHgz64aXSoGdWdIxo/KEdzSMtEu1Em4FEbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=znrlvvrWApFTIWKpPBp5sik/nnTkVSIVWyfhYLMHGmU=;
+ b=o8V6Uf0RUZ3ZAkV2UyJeCwj3TSRwX1xsCzA9m1pNyDgqE7qO3e2oBRO0wR7+1aNAIaMHI9Wqcc/GvrmQLYOdefeJllJos6FEAp3bqd4tVQJCnehT6VJMulVZEMYZQl7v3RCSnP0PHCT7W50JUllnLGpz1w4CsRXoHzbO8p/SPyc=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DU0PR08MB9203.eurprd08.prod.outlook.com (2603:10a6:10:417::12)
+ by GVXPR08MB11786.eurprd08.prod.outlook.com (2603:10a6:150:312::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Tue, 25 Aug
+ 2026 08:41:02 +0000
+Received: from DU0PR08MB9203.eurprd08.prod.outlook.com
+ ([fe80::f1e:73f2:57df:4047]) by DU0PR08MB9203.eurprd08.prod.outlook.com
+ ([fe80::f1e:73f2:57df:4047%6]) with mapi id 15.21.0360.005; Tue, 25 Aug 2026
+ 08:41:01 +0000
+Message-ID: <4ce8b956-db74-453c-bdbb-9eeeec1be9af@arm.com>
+Date: Tue, 25 Aug 2026 14:10:52 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/6] selftests/mm: make file helpers return errors
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Mark Brown <broonie@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260813181230.483746-1-sarthak.sharma@arm.com>
+ <20260813181230.483746-2-sarthak.sharma@arm.com>
+ <75738049-24f9-4056-98c8-b4075552ab78@kernel.org>
+ <e4f8031e-20ea-46d1-914d-005595243f31@sirena.org.uk>
+ <e87ac26a-9712-4f6f-b144-b604b2aa643b@kernel.org>
+Content-Language: en-US
+From: Sarthak Sharma <sarthak.sharma@arm.com>
+In-Reply-To: <e87ac26a-9712-4f6f-b144-b604b2aa643b@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5P287CA0342.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:21f::9) To DU0PR08MB9203.eurprd08.prod.outlook.com
+ (2603:10a6:10:417::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] support kselftest on nommu platform
-To: Hajime Tazaki <thehajime@gmail.com>, linux-mm@kvack.org,
- liam@infradead.org, rbm@suse.com, akpm@linux-foundation.org,
- luto@amacapital.net, brendan.jackman@linux.dev, liuhangbin@gmail.com,
- corbet@lwn.net, kees@kernel.org, ljs@kernel.org, broonie@kernel.org,
- mhocko@suse.com, rppt@kernel.org, shuah@kernel.org, surenb@google.com,
- vbabka@kernel.org, wad@chromium.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-um@lists.infradead.org
-Cc: geert@linux-m68k.org, daniel@thingy.jp
-References: <20260825015945.141739-1-thehajime@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260825015945.141739-1-thehajime@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-TrafficTypeDiagnostic:
+	DU0PR08MB9203:EE_|GVXPR08MB11786:EE_|DU2PEPF0001E9C0:EE_|PAVPR08MB9307:EE_
+X-MS-Office365-Filtering-Correlation-Id: acd44658-2d1b-4597-befd-08df0284adfe
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|7416014|376014|1800799024|366016|23010399003|10067099003|4143699003|56012099006|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info-Original:
+ owQQ+y3Bc23gDrLRSlHoizJo7W1ZpHuAdRda8OHkFZr+wZyVs+I5EE0lgs9+mOYB8lLOtMNeRqZTPG2coYaFhbQAYRebkAaONhiWb5tNtSsuus2R9IZmTBL4inR+Z8qIYPWpf4wpTtZbvoKqpGgExTAlJua1NHCqs8pmuXsLKh6uaBx006cr0dJNejYyYaaEqWoGXB+Aq5HXKlMo2+42vPPoHEOEeRZevatqjCTVcH7gecI8rCHaztd4SbLMqN3dw4KRG9PPtO5P0RM5DpCEpd/usm8AuS8ARHZWo97DepUSSTQXEqJ/S2GEA7ZGpoTDy2OzTAWiidoevsr9ayq4vlhrXCPClfCXwmWMmVsPNKoIm90sGgdFdhH/1EPM9WLHbKCl5Ty720Msaj77A9sgegF/jR3sHEzoGQnSRqdVtNy3ytSltW6b2/dbjA0evi92lTOImKTWsAeJL/i4l7ke1CBFXBH4/Aaj1F93RHVqcShFZf7sQd+xLT0ynEHF4MspW0B6UWN0BfvIJ9cJyV+I5X7yWyrwAiby7b3Z0nHfZxJB7BurxdfjtT7gf3OQSLdO86/Ulh0n2gdN9ZORgshzesa9/1VIb8svrvn5rK+skswDNBd7ollxCBTL7Ct9i0Yn9Ax54XfznJSMDPRW1Ozk7mkS3A0hQIKa94OxAlolFLI=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9203.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(23010399003)(10067099003)(4143699003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ 1HMUyQ7vtoez6mwJFPe8+L1oVXwHRtSAxW4bxe6hYt1ycTomfAyf4DSgMKGo6riyP3KVL/rXs3PpTdA/RlXQJDcIKzn7OoUlIxCLG1FIznXeVSCfKKdK8Bp0uFLINo9gbpTI9L0Aa0yFAq3rEi2loeFNWTLJpnms8t1qmCAy4D8jtngzoBEwicgAc6ik9cWoInsUy32qWArYWCGwIEXCepvE5uzQ2KUDIbwkEI/uG1GQvZQ12CeSslQmjwvNBUTFkGvpq1nubL0d5AR1N2OBMUT7eCTUfsjfmrynnGa4Xd8MCQGJHnjrxjMx0Xg0Z8AOYynU4yvEdYM0I4TMSJ3bfQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB11786
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DU2PEPF0001E9C0.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	7d8c05b6-0b64-431e-5d83-08df02849766
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|14060799003|35042699022|36860700016|82310400026|7416014|1800799024|376014|23010399003|10067099003|56012099006|22082099003|18002099003|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	q0JNiZI8M3v1v33xfBbC1KBGSUkkGbVBjYlodFkI1QN2tdfH39f6cfxG4hxebjtoFeq/iVYlk/hcjTj/9z2oqhDFPB0c3Jfu5qUPEjZ/YKknPIMpcgO0TGtwXx+VkaoAGG6cO2MASgN5NRSmq5a8C93VbWNsquXH1cmaAmskDezAn7jYcInwjG0//NwyVv1wryxa00JAxKIkXb2JR2vLUwRQfpRVQPskgsvOvQADulMeS+smNuZI4IUtZPWX/ABYgUrdDa787KJWpjpb69j4FBBAfw4O+towgK+LD9F+Se6nRNxUZJruUrgMv6uiNThcxrvrk9Q2OzIw0s1Q3cxpXngO02dB3UB/2AR5CG9KPevK1fiqWgOCFooqzC0++bsYNNtkg5f/2Z5MhD3Ql1gRb8JFutFTQH9xHNNnAqexEpxYnWrIw1vQ6egW3WNBHr5cr/NGmDVGF7I4GqHfGRTzeazHPuquKlKJIegNANLF8h3mtCY/aI5tUbEaWAfoRWNMxqU6RfVI53TMXbNN/tIRlJxWIuMJGKe1TiXuItGcExaPwlHdiLmokSvAQhzFnBTvV5A9lXiw2+cAPOPa2v5e5kRiK/G97JOBCHjvOsZynMjtQF0EU2TDAQWHI8+hHSGda7yF/MWpgOF62wbA4PUSaA8SOEwojZsrAXFNhPmXOx5zs+3o993QCD6XuQRjYjHCcxNRk3hYNFxvx8CUO4oYMw==
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(35042699022)(36860700016)(82310400026)(7416014)(1800799024)(376014)(23010399003)(10067099003)(56012099006)(22082099003)(18002099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	QlCezXYrOKdvQ44wz7TgUrIxHC9lerWrfRKT8qHCGMj/hBBAymz+nsCIu4FAQ9RdJdekAmMvKp5CQaIyCBF/cNmruyPZwI3scubmTf8L0VmPArqHskCt1QKtSOvBvVmHvXoUdB8jVDyyCRx23SGFFlCRSjYoyxSSqULA4VHCwmmInh/tL3YggHP5pdZX31HKygMrssFSokabhhGJ4A1nZ1o6mSxRabaelLx//yBFzAK7lSlpl2cx3rMjznmlb0ht6zCUSRBTNMYPQjp+y96KWHbhnE3LkUszzK29O1ZwmNXKHJREb9aVqw6NhGzGcBr75WQ8q/mlfm8cDi8z69uOklDGofMGhB1At6pJuvWi74zGs+xJTgG8yZlJbtnKpeRz/0ZQ58meVflc+kkIcHi1AAHTVwkjDoPxC1Xn/wBINuVIR7TWA5Re9dyC6zXS4uXt
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 08:41:38.6982
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: acd44658-2d1b-4597-befd-08df0284adfe
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DU2PEPF0001E9C0.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9307
 
-On 8/25/26 03:59, Hajime Tazaki wrote:
-> We add an ability to execute kselftest on nommu platforms.
-> 
-> Currently there are several issues if we wish to run kselftests on nommu
-> targets:
-> 
-> - it cannot compile/build test binaries because the current files mainly
->   assume to build with glibc,
-> - some of the tests are not able to run on nommu targets as there are no
->   fork(2) syscall.
-> 
-> The first issue can be avoided if we can build static PIE binaries (if
-> targets support it), but in our case (build on ubuntu/glibc and run on
-> alpine/musl-libc), it fails to invoke due to lack of the GNU ifunc
-> mechanism.  Thus, we need to cross-compile with musl toolchain, which
-> needs to be solved the first issue.
-> 
-> The second issue is the lack of fork(2) syscall on those platforms.
-> Especially the test harness helper (kselftest_harness.h) uses the
-> syscall, which cannot be simply with vfork(2).  `timeout` command used
-> in `runner.sh` never works for nommu platform as it uses fork(2).
-> 
-> nommu component in the mm subsystem has several known issues and having
-> test cases should help this situation, thus this patchset is very first
-> step toward enriching test environment which has not been well tested
-> for a while.  The test cases is implemented based on the document
-> (Documentation/admin-guide/mm/nommu-mmap.rst).
-> 
-> So, for the first step, nommu targets only support low-level API of
-> kselftests (kselftest.h), and implement tests in a new target,
-> TARGETS=mm/nommu.  Other targets are currently not even able to build
-> due to toolchain issues but will be addressed once the initial
-> introduction which mainly focuses on nommu test will be settled.
-> 
-> The patch was initially combined with other patches but is decoupled to
-> only focus on test framework and testcases.
-> 
-> - rfc:
-> https://lore.kernel.org/linux-mm/20260813063401.1786548-1-thehajime@gmail.com/
-> 
-> Hajime Tazaki (2):
->   selftests: run tests on nommu architecture
->   selftests/mm: add nommu mmap and mremap behavior tests
-> 
->  Documentation/dev-tools/kselftest.rst         |  14 +
->  tools/testing/selftests/Makefile              |   1 +
->  tools/testing/selftests/kselftest/runner.sh   |   9 +-
->  tools/testing/selftests/kselftest_harness.h   |   4 +
->  tools/testing/selftests/lib.mk                |   8 +
->  tools/testing/selftests/mm/nommu/Makefile     |   7 +
->  .../selftests/mm/nommu/nommu_mmap_test.c      | 265 +++++++++++++
->  .../selftests/mm/nommu/nommu_mremap_test.c    | 353 ++++++++++++++++++
+Hi David and Mark!
 
-That's odd.
+On 8/24/26 5:59 PM, David Hildenbrand (Arm) wrote:
+> On 8/24/26 14:27, Mark Brown wrote:
+>> On Mon, Aug 24, 2026 at 02:17:03PM +0200, David Hildenbrand (Arm) wrote:
+>>> On 8/13/26 20:12, Sarthak Sharma wrote:
+>>
+>>>> +	if (buf[0] < '0' || buf[0] > '9')
+>>>> +		return -EINVAL;
+>>
+>>> This is to reject any negative or hexadecimal numbers I assume?
+>>
+>> That won't reject hexidecimal - 0xNNNN matches the above.
+> 
+> Ugh, yes (and stuff starting without 0x would not be detected consistently).
+> 
 
-	tools/testing/selftests/mm
+Yup, this is to reject anything that is not a digit. This check does not
+reject hexadecimal values, but the strtoul(..., 10) stops at the x in
+0xNNNN. Then the check
 
-itself should know which tests can be built and ran on nommu. nommu-only tests
-can be placed in mm/nommu, but I would expect tools/testing/selftests/mm's
-Makefile and run script to compile and run only selftests that are supported on
-the given platform.
+if (*end != '\0')
+		return -EINVAL;
 
--- 
-Cheers,
-
-David
+makes read_num() return -EINVAL.
