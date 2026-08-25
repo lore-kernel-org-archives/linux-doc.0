@@ -1,760 +1,156 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011054.outbound.protection.outlook.com [52.101.57.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAD637D11F
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 18:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787683291; cv=none; b=cgoSWVhsy7iHHmYHDCLR22eJrwmzfdOFqC2v2y8Z0uMARUyUoXUkKZavaKJmDrAfqmqyIjnWkqybAUB7tIIcrDCzknxEtmhRBs2xAtsajC02wEJ9da8JnYGVC98fUEV8XigblEdkGyOKqvPPTL67AcANlMK2P0Hn/Bk3OCiO5cU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787683291; c=relaxed/simple;
-	bh=nKQJBUkmxntAt663u9ZwjQl61pPkAfswwiSz8iJcqt4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BzHdtZHwmoFGCfTNRsteOQJRvwF+9lUgVQefMXAkGGvyTgcceZWvZzBH4NQU0Ys3FCKDV7AuySwWmiL/YyL2ystAQV2CQZy4HDFHpTSYk4nWP/KHgK6H2JM+PSena3uYFsBhDWUlITN+MOoLzDz/mtKhtqZFMSQbZ/qL5m0YVgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=beX/uWEe; arc=none smtp.client-ip=209.85.217.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11C73AE6E9;
+	Tue, 25 Aug 2026 18:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787683628; cv=fail; b=JXgOZfQEUf28bpyJ2Ua2eBhO2HvAJLR+etctvlN4TC4Udh1OyokFKpV5RwcJ5tS9DpIybs9dckk2b/Q/kdm7zPwXEpPVnkycRPvyDDnaiWpPBJFYpPfr9N6W8VeWeLS2JcSO3pEfEPkp03OjjYjYpaVMfTNp9j7ZiO96b1PCVzY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787683628; c=relaxed/simple;
+	bh=mCQLagRMZL3/KwtL0e0SeRDPhObyOHHj9wLImSH2tCQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kOaos1bOeq7BpDDgbsvF4FIXVvK0r1uj4B+r1ekaiXwu8NULjQgJ++HBQXkqhEcx6H4JVLPSgMhri7jygpl4w6IyO0enchswcXdyCEBR+ygcIHW1wF8ym9IjNxbM4XWY8K24xxwUoekVeKeSOXmCvEZHSCnXqdr42ldGfp77/60=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=mxDaf1C2; arc=fail smtp.client-ip=52.101.57.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="beX/uWEe"
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-77bf892b496so56955137.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 11:41:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787683287; x=1788288087; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qoNGd/iqNtS0S6xSgqwIO7zyKA65u8rT39jIwYgaPwE=;
-        b=beX/uWEekzTxhi3a2+7HBuI/Y+FBFrXWGbjJOG3AiY2HdGUFQm6/pl6k43ZeCqHoew
-         p/L23beT6sJ/beFeIExvXC9atR7nDA/5LU5qyvTjbMcMbES+/AyoMoNd2WGtVvAaH+nI
-         XnYuFeLueW+MUSccOnF7sWUOg9PUuSDpl7I5fyX8RRXwGXoqMdH3UO0BYOKFwdmForS7
-         4T70YO1ERjCG8rFleSlFilyAF97PH5sy3BRdXeveQ1PA6SDonoMu/cUMWXW57vS7mxsV
-         vYGLdsnI6YqSuNGEwI+t9KCHRCPFXpTU3e/zvYGO9XTKLJ7jcHP4psuul65i/9Lt2IN4
-         LnrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787683287; x=1788288087;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qoNGd/iqNtS0S6xSgqwIO7zyKA65u8rT39jIwYgaPwE=;
-        b=lFDeYP1O8XBbcy43PTCU2nc7FxK5G/XCfNYEfZWKBCiGhEL4zCUcsZW6hZEkBPSA4T
-         oKL3OWHIARlHwajb2uVdUqinhKQz4jL8tL8mwrFwPc1LqHU86LPxBLHKoNgYnqIUfKUa
-         FQ8Le5WOuij6h3igBNt65EQnwOTmMxhcYQv/KYKJH50pKtj58Gf2yj8jCX2ziV1SJeSH
-         //TU1FZRuc1OlCkRRNPbTA7U+JymadCzm0cRgEpj8grJ8hYYhduJzGNRN9vXPHgSVqX8
-         LcLSkO0TPkvbsSszwDMRjkZxefbErPWWUOXuUyhOEBI6UTP36wJ5ddvN/9j1orlRJNeR
-         +faw==
-X-Forwarded-Encrypted: i=1; AHgh+RroeScKiHwjvjF2vpM3jDeh0HZ5yHf0sPCgJ/59KUyOPSMXokObZ2SuIBXFvEF25rpKW+xBETo9a4k=@vger.kernel.org
-X-Gm-Message-State: AFuF++lSCuQUi6Wr5eVLRInf70ypVQ0zchpAbDffCFcJVz1LK4r+7Lj+
-	PlcSaoN0Qz1cQXAI9l4cz8Is28VVe7usN2BbwtWMgCzBpAjdMqEO3mr6
-X-Gm-Gg: AR+sD13sz2/yYYrAen69e1jEyWDxiOhiv2LQ8JpJNeFplsOiDwIUCCl8wRx5eFcbQut
-	BeejKwtUPMc534BdxZrmMQxwqW0pDTwxjOWKkfJWdz2fctOTAvUwpgLKGRhuVmyGEQaxTEYngjR
-	Djd23IE82K2HTJ7SWwKn3YbHoG+bdOf7VEGxMxFpVak+XzWJKmbdf3QvExulqjxiODio6HIS6Pj
-	ChwMlalenaDOBiz9/oC11DbfDoWsWdcwplBNefatyAw+8o5Y7eNTKyz/EQVaA0+omVxj5OFk/XY
-	QqwzvDayOnF5Jc17/syCu+8D5bCDSDEJs5NmyEWAbuaI1JmJwpySSP9Bl/888j84x9MgiU0t8Mm
-	QZugYit7yX3+GMCUr575H7Nsl1kxOWNv9UOohSrP+kse14dl0FHi4sLcTw2HMbA5ZQvjk+5ZUKq
-	ATNq+YJO+PJSpzfRGhKY7HljZTugCZp6J1tJgqAo1LE3qWJv7zIOgrBunX1dh4HQc=
-X-Received: by 2002:a05:6102:6892:b0:780:5c40:71c6 with SMTP id ada2fe7eead31-782c24f86d5mr358464137.14.1787683287247;
-        Tue, 25 Aug 2026 11:41:27 -0700 (PDT)
-Received: from nixos-minipc ([2803:9810:b675:f600:452e:e094:2a4f:7300])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-97cbb258a00sm381605241.2.2026.08.25.11.41.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 11:41:26 -0700 (PDT)
-From: =?UTF-8?q?Sebasti=C3=A1n=20Peyrott?= <speyrott@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/1] hwmon: Add Minisforum UM780 XTX EC monitoring and fan control
-Date: Tue, 25 Aug 2026 15:41:07 -0300
-Message-ID: <20260825184107.355980-2-speyrott@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260825184107.355980-1-speyrott@gmail.com>
-References: <20260825184107.355980-1-speyrott@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="mxDaf1C2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tG1fmq8ipHxiMUch0NlRgcnroWaq3nlnhOWs/9FFhFbwlCfeYRTKIBmrRNCPhQgJq0/a+w7nrcc42bcwv3yex9g3EosdoN3zca69Qi6WWePeakRVCYH8bzaOa3hdg1swPkS0JBwgR+z/Hk7T2upGdVHiWFHJkuoSePBeX6kjXk7eap+inokMCP1WNY4TpEIxMKOM41U8128/pCFUW4B6VimuwnOdrcrRnebFFimg3kyad+ltq4Jmh2A6JyBt/wOcQf/qvo4xTy39+GM/WyHdkLHqeG+GN2y7kE7ZBX0gxpsU8fHoulmBnXxQbPxNJq07ZmBrbGXd0mTmX80ZNtwfGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=twnTciSsy62EOXtZ4bUfR/0vvmTWRjqLV9h8tQ1xAp8=;
+ b=Vbhtb5Ch5TD12I+gxQqZhOSf7RpIi3Of43lFpJwOGcJl03Fpe7mSpbZigdaWSotKwHwOFoQx3WQKGJdBKmuU70ZZK8GOjUJYHHO8JuwSZ45RH1wkERj7FE9I/YKLfDmbmOprBeur7Eh5HW/L4uAkQ1J5zI765A3UCXPH8idRcezgjBO1Q6PW1xerdML2pm0xwPMa+6YXlLR0q4G4p9dWLDLP4+8oN8a/Pfb3/uoer2MQRl3VQYyT/UGRZ0mlbX7dd6vMnRpEWiRDTGY3fmZisVD/2CBx9uuhpacFHNtdBLCIn/Sl8D3fBMc1nJtN+Nw1+abGlaO/sIH6ZhrImqmnfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 149.199.90.133) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com;
+ dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=twnTciSsy62EOXtZ4bUfR/0vvmTWRjqLV9h8tQ1xAp8=;
+ b=mxDaf1C2zzQMNfPRhuyVxYk1bOQ0TDw8gz5KMdnfKKisAzJTSHYx243A5Ob0B3CigU48P/Ji43IsubO78NZlL7XhwUOFoyvaL81l5VSny91ncierqCZEK7Qzoi5JVCD6O5Be1JTomDQaUaeeBlPwVbLPK19R+uMjhl9Y3PUtduc=
+Received: from SJ0PR05CA0160.namprd05.prod.outlook.com (2603:10b6:a03:339::15)
+ by MN0PR12MB5810.namprd12.prod.outlook.com (2603:10b6:208:376::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Tue, 25 Aug
+ 2026 18:46:56 +0000
+Received: from SJ1PEPF00002319.namprd03.prod.outlook.com
+ (2603:10b6:a03:339:cafe::9d) by SJ0PR05CA0160.outlook.office365.com
+ (2603:10b6:a03:339::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.6 via Frontend Transport; Tue, 25
+ Aug 2026 18:46:56 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 149.199.90.133) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=amd.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ amd.com discourages use of 149.199.90.133 as permitted sender)
+Received: from satlexmb07.amd.com (149.199.90.133) by
+ SJ1PEPF00002319.mail.protection.outlook.com (10.167.242.229) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.360.3 via Frontend Transport; Tue, 25 Aug 2026 18:46:56 +0000
+Received: from localhost (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 25 Aug
+ 2026 13:46:54 -0500
+Date: Tue, 25 Aug 2026 13:46:36 -0500
+From: Michael Roth <michael.roth@amd.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+CC: Sean Christopherson <seanjc@google.com>, Ackerley Tng
+	<ackerleytng@google.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, "David
+ Hildenbrand (Arm)" <david@kernel.org>, <aik@amd.com>,
+	<andrew.jones@linux.dev>, <binbin.wu@linux.intel.com>, <brauner@kernel.org>,
+	<chao.p.peng@linux.intel.com>, <jmattson@google.com>,
+	<jthoughton@google.com>, <oupton@kernel.org>, <pankaj.gupta@amd.com>,
+	<qperret@google.com>, <rick.p.edgecombe@intel.com>, <rientjes@google.com>,
+	<shivankg@amd.com>, <steven.price@arm.com>, <tabba@google.com>,
+	<willy@infradead.org>, <wyihan@google.com>, <yan.y.zhao@intel.com>,
+	<forkloop@google.com>, <pratyush@kernel.org>, <aneesh.kumar@kernel.org>,
+	<liam@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner
+	<tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, "Vishal
+ Annapurve" <vannapurve@google.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, Kairui Song
+	<kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham
+	<nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, Axel Rasmussen
+	<axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu
+	<weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, Qi Zheng
+	<qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, Kiryl Shutsemau
+	<kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe
+	<jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
+	<peterx@redhat.com>, <tarunsahu@google.com>, Vlastimil Babka
+	<vbabka@kernel.org>, <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-coco@lists.linux.dev>
+Subject: Re: [PATCH v10 09/41] KVM: guest_memfd: Filter both shared and
+ private when invalidating
+Message-ID: <meww2a2uf3yeevsfpicyrlg3hch2x4bsdqv2lsv3vfjxg4qzes@co5eogmhkxrk>
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-9-2fc18ee6d3ba@google.com>
+ <13ca60c6-e154-4397-8092-09f861e90fe0@kernel.org>
+ <cbf5f7ca-a960-4fb8-a760-2d2794eb6864@arm.com>
+ <CAEvNRgGOyQHnF_b8dk8E0d7_=CcwXtYUdU3ko7Qbep+_O7UC0Q@mail.gmail.com>
+ <aoZZMQ3Uc8yQWPNA@google.com>
+ <7eba513d-cdae-4832-abac-038dcdd88517@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <7eba513d-cdae-4832-abac-038dcdd88517@intel.com>
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002319:EE_|MN0PR12MB5810:EE_
+X-MS-Office365-Filtering-Correlation-Id: 68f9c75d-1801-415a-576d-08df02d93ce1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|376014|7416014|1800799024|23010399003|82310400026|6133799003|10067099003|56012099006|11063799006|4143699003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	4vF0dehcAdq99xXMo9LEZHPmjZu2EMp9ScyODm1e5fbmP2xZ4s6IZK+Wx/DP60N63ihJMZuMVkDRiO/Q6Agr9NoAMUq2Om/aJJNwtyS/roqG4LOUIX6RO0w1OozYKhseu2WUaXnlDHS5Wm7T17/tpvvWGAFQpq9eGNUtqWnwYx4wFbS96+zoJ5wdmUtYsG/xSj9tDKa5IMbv9nlwWGosUGi846q40OGtNhtB+2pDKNRLhoQwXliouFtoEqJRJjGZVPKTbF73zWCxMx9kjvQ8u1KM6ojxQoXXdol/6tUaJqyptq+VlCMowLzbGYbSyeyzo17QN+LZvRKnr9n1s7fxWEVZB4zFSzDK+tvNQKwXtW+zR0jhFRFZVBMGnabhbPd6SQn7GOsMQnUmYhqE+zgg8GDV1muVAHTLL01+tltoTiFrEpqGv27Tm845IZqz82sU9lNb35CIykSnSygIWYbx39MWixvznTnidSixK04/nTiS+WtXX7x8gfND1N3odhJKfzU5Rv9jgWxZpPhBFl7fpJ3nFOExIip48mzBgH6TbiE8SVf82oXHBg/9m8ouIxza0+un37ibwxz8WxGjNEhyxaMK13zd5+rJjfzxeBHgXSEyTgIwzk7uBhR6vX/9i5UyCRVyqc1Bg3AxXBYoKwFixF2DNe5yxv+AzBz6rsdJdx2/8vK7NZDo2DRQgj4RzToj4BjFRGkF9p3H93RmyR8Rug==
+X-Forefront-Antispam-Report:
+	CIP:149.199.90.133;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:unknown-90-133.xilinx.com;CAT:NONE;SFS:(13230040)(36860700016)(376014)(7416014)(1800799024)(23010399003)(82310400026)(6133799003)(10067099003)(56012099006)(11063799006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	49P3BRFYdeQ80SRUj5SruX+ouw7dbOtWbYAFruLiuBegSy9/mhXhB8gAJ8kQtf/k0Ymogm0iXcsoTsubbu02tfZj2ELAjnk3Sp1FhmtSev57ZPDaRWJwFRdWEEGpi5xN6v+O5qZa7QnkfZktuc7GO6Ia0rVOQQADWgpjbH0u5lXwHk+FzI9fEPG9JL1npx0fCAD5Kly4nHP1clWAqsCbg6ukiD3N1jaWPrtimJqf7jLULlm4x1t9FhyDOFfKcNZVCmNS2p3A2l5M2+jLBrm9LJ8veN16Rf03jJ3RpY1dBItIE6jJnVy2jEwO31d+zAf5rwBCq9KK+bnbsbFt+7phfC+xq4Batg0BfBF5ikRoGlGsxH8xOdsHtNOUkAA36O5a1Izp5N/kgau6IGbly1y+mMDh+BbNGUBonhBBY9A0Vih/r5w0U/nmuh0i/ghbSUYq
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 18:46:56.1135
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68f9c75d-1801-415a-576d-08df02d93ce1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[149.199.90.133];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00002319.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5810
 
-Add a DMI-gated hwmon driver for the embedded controller used by the
-Minisforum UM780 XTX with board revision 1.1 and BIOS 1.06.
+On Wed, Aug 26, 2026 at 12:13:47AM +0800, Xiaoyao Li wrote:
+> On 8/20/2026 9:32 AM, Sean Christopherson wrote:
+> > And vice versa, a PUNCH_HOLE on a SHARED gmem (if userspace is
+> > using an INIT_SHARED gmem for the shared branch of a memslot) could invalidate the
+> > PRIVATE mappings (of a different gmem instance).
+> 
+> I'm wondering now how this could happen.
+> 
+> the requirement for PUNCH_HOLE on gmem to trigger mapping invalidation is
+> the gmem is bound with the memslot. But how can a memslot bound with two
+> gmem instances?
 
-Expose the CPU and system fan control temperatures and tachometers. The
-tachometer protocol returns one byte per OEM command, so serialize
-transactions and use high-low-high sampling to reject torn values.
+I think this is for when userspace uses an mmap'able guest_memfd instance
+to handle shared memory, and a 'normal' guest_memfd instance for private
+memory. Each instance is bound to the same memslot/GPA range, and
+KVM_SET_MEMORY_ATTRIBUTES handles switching between the 2.
 
-Allow selecting either complete OEM CPU fan profile through pwm1_enable and
-changing the two validated system fan transition temperatures through
-standard automatic-curve attributes. Cache coherent settings and restore
-them after the firmware reloads defaults following resume.
-
-Signed-off-by: Sebastián Peyrott <speyrott@gmail.com>
----
- Documentation/hwmon/index.rst               |   1 +
- Documentation/hwmon/minisforum-um780xtx.rst |  68 +++
- MAINTAINERS                                 |   7 +
- drivers/hwmon/Kconfig                       |  16 +
- drivers/hwmon/Makefile                      |   1 +
- drivers/hwmon/minisforum-um780xtx.c         | 501 ++++++++++++++++++++
- 6 files changed, 594 insertions(+)
- create mode 100644 Documentation/hwmon/minisforum-um780xtx.rst
- create mode 100644 drivers/hwmon/minisforum-um780xtx.c
-
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index d979e6d6e9f2..c98cad395455 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -186,6 +186,7 @@ Hardware Monitoring Kernel Drivers
-    mcp3021
-    mcp9982
-    menf21bmc
-+   minisforum-um780xtx
-    mlxreg-fan
-    mp2856
-    mp2869
-diff --git a/Documentation/hwmon/minisforum-um780xtx.rst b/Documentation/hwmon/minisforum-um780xtx.rst
-new file mode 100644
-index 000000000000..8237d525a9c7
---- /dev/null
-+++ b/Documentation/hwmon/minisforum-um780xtx.rst
-@@ -0,0 +1,68 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+====================================
-+Kernel driver minisforum-um780xtx
-+====================================
-+
-+Supported systems:
-+
-+  * Minisforum UM780 XTX
-+
-+    * DMI product name: ``Venus series``
-+    * Mainboard: ``F7BSD``, revision ``1.1``
-+    * BIOS version: ``1.06``
-+
-+Author: Sebastián Peyrott <speyrott@gmail.com>
-+
-+Description
-+-----------
-+
-+This driver exposes hardware monitoring and fan-control data cached by the
-+IT5571E embedded controller. It uses the ACPI EC transport and only binds to
-+the exact system and firmware identity listed above.
-+
-+The two temperature channels are the values used by the EC's fan-control
-+loops. Their physical sensor placement is not known. The CPU channel is the
-+filtered AMD SB-TSI temperature, while the system channel is an external
-+thermistor input.
-+
-+The fan tachometers are read through OEM EC commands. Since each byte is
-+returned by a separate command, the driver uses a high-low-high sequence and
-+retries if the high byte changes.
-+
-+Sysfs entries
-+-------------
-+
-+==========================  ==============================================
-+``temp1_input``             CPU-fan control temperature
-+``temp2_input``             System-fan control temperature
-+``fan1_input``              CPU fan speed in RPM
-+``fan2_input``              System fan speed in RPM
-+``pwm1_enable``             CPU profile: 2 is OEM B1, 3 is OEM B2
-+``pwm2_auto_point1_temp``   Off-to-low system-fan transition temperature
-+``pwm2_auto_point2_temp``   Low-to-high system-fan transition temperature
-+==========================  ==============================================
-+
-+CPU fan profiles
-+----------------
-+
-+Values 2 and 3 of ``pwm1_enable`` select the two complete automatic profiles
-+implemented by the firmware. Writing either value reloads the whole CPU fan
-+curve, including firmware state which is not visible through the ACPI EC
-+window. Other values are rejected.
-+
-+System fan thresholds
-+---------------------
-+
-+The two writable system-fan temperatures are rounded to whole degrees Celsius
-+and clamped to preserve strict ordering between both visible thresholds and
-+the firmware's internal third threshold. The third threshold does not select
-+a new PWM target and is therefore not exposed as another auto point.
-+
-+Resume state preservation
-+-------------------------
-+
-+Fan settings are held in EC RAM. On the supported firmware, initialization
-+during s2idle resume reloads the factory system-fan curve. The driver retains
-+the last coherent CPU profile and system-fan thresholds selected through its
-+interface and restores them synchronously at resume.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6156e48e1816..f60ea9c6cfe7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18012,6 +18012,13 @@ F:	include/linux/min_heap.h
- F:	lib/min_heap.c
- F:	lib/tests/min_heap_kunit.c
- 
-+MINISFORUM UM780 XTX EC HARDWARE MONITOR DRIVER
-+M:	Sebastián Peyrott <speyrott@gmail.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/minisforum-um780xtx.rst
-+F:	drivers/hwmon/minisforum-um780xtx.c
-+
- MIPI CCS, SMIA AND SMIA++ IMAGE SENSOR DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
- L:	linux-media@vger.kernel.org
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 81a9a1d40eec..45ac04c89b23 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -1490,6 +1490,22 @@ config SENSORS_MENF21BMC_HWMON
- 	  This driver can also be built as a module. If so the module
- 	  will be called menf21bmc_hwmon.
- 
-+config SENSORS_MINISFORUM_UM780XTX
-+	tristate "Minisforum UM780 XTX EC hardware monitoring"
-+	depends on ACPI && DMI && X86
-+	help
-+	  If you say yes here you get support for the hardware monitoring
-+	  features of the embedded controller in the Minisforum UM780 XTX.
-+	  This includes CPU and system fan speeds, their control temperatures,
-+	  two CPU fan profiles, system fan temperature thresholds, and
-+	  preservation of the selected settings across suspend and resume.
-+
-+	  This driver only binds to explicitly supported board and firmware
-+	  versions.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called minisforum-um780xtx.
-+
- config SENSORS_MR75203
- 	tristate "Moortec Semiconductor MR75203 PVT Controller"
- 	select REGMAP_MMIO
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 0cad7e21634c..a690f5f97ffc 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -180,6 +180,7 @@ obj-$(CONFIG_SENSORS_TC654)	+= tc654.o
- obj-$(CONFIG_SENSORS_TPS23861)	+= tps23861.o
- obj-$(CONFIG_SENSORS_MLXREG_FAN) += mlxreg-fan.o
- obj-$(CONFIG_SENSORS_MENF21BMC_HWMON) += menf21bmc_hwmon.o
-+obj-$(CONFIG_SENSORS_MINISFORUM_UM780XTX) += minisforum-um780xtx.o
- obj-$(CONFIG_SENSORS_MR75203)	+= mr75203.o
- obj-$(CONFIG_SENSORS_NCT6683)	+= nct6683.o
- obj-$(CONFIG_SENSORS_NCT6694)	+= nct6694-hwmon.o
-diff --git a/drivers/hwmon/minisforum-um780xtx.c b/drivers/hwmon/minisforum-um780xtx.c
-new file mode 100644
-index 000000000000..f5d6e18cb651
---- /dev/null
-+++ b/drivers/hwmon/minisforum-um780xtx.c
-@@ -0,0 +1,501 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Minisforum UM780 XTX (F7BSD) embedded-controller hwmon driver.
-+ *
-+ * Copyright (C) 2026 Sebastián Peyrott <speyrott@gmail.com>
-+ */
-+
-+#include <linux/acpi.h>
-+#include <linux/cleanup.h>
-+#include <linux/dmi.h>
-+#include <linux/err.h>
-+#include <linux/hwmon.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/pm.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+
-+#define UM780XTX_EC_TEMP_SYS	0x05
-+#define UM780XTX_EC_TEMP_CPU	0x09
-+#define UM780XTX_EC_CPU_PROFILE	0x2f
-+#define UM780XTX_EC_SYS_POINT1	0x31
-+#define UM780XTX_EC_SYS_POINT2	0x34
-+#define UM780XTX_EC_SYS_POINT3	0x37
-+
-+#define UM780XTX_EC_PROFILE_B1	0xb1
-+#define UM780XTX_EC_PROFILE_B2	0xb2
-+
-+#define UM780XTX_EC_FAN1_LO	0xb6
-+#define UM780XTX_EC_FAN1_HI	0xb7
-+#define UM780XTX_EC_FAN2_LO	0xb9
-+#define UM780XTX_EC_FAN2_HI	0xba
-+
-+#define UM780XTX_EC_MAX_RPM	9000
-+#define UM780XTX_EC_RPM_RETRIES	3
-+
-+static struct platform_device *um780xtx_pdev;
-+
-+struct um780xtx_data {
-+	struct device *hwmon_dev;
-+	u8 saved_profile;
-+	u8 saved_sys_point1;
-+	u8 saved_sys_point2;
-+	u8 sys_point3;
-+};
-+
-+static const struct dmi_system_id um780xtx_dmi_table[] = {
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR,
-+					"Micro Computer (HK) Tech Limited"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Venus series"),
-+			DMI_EXACT_MATCH(DMI_BOARD_VENDOR,
-+					"Shenzhen Meigao Electronic Equipment Co.,Ltd"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "F7BSD"),
-+		},
-+	},
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(dmi, um780xtx_dmi_table);
-+
-+static bool um780xtx_firmware_match(void)
-+{
-+	const char *board_version = dmi_get_system_info(DMI_BOARD_VERSION);
-+	const char *bios_version = dmi_get_system_info(DMI_BIOS_VERSION);
-+
-+	return board_version && bios_version &&
-+		!strcmp(board_version, "1.1") && !strcmp(bios_version, "1.06");
-+}
-+
-+static int um780xtx_oem_read(u8 command, u8 *value)
-+{
-+	return ec_transaction(command, NULL, 0, value, 1);
-+}
-+
-+static int um780xtx_read_rpm(u8 command_hi, u8 command_lo, long *rpm)
-+{
-+	u8 hi_before;
-+	u8 hi_after;
-+	u8 lo;
-+	unsigned int value;
-+	int attempt;
-+	int ret;
-+
-+	for (attempt = 0; attempt < UM780XTX_EC_RPM_RETRIES; attempt++) {
-+		ret = um780xtx_oem_read(command_hi, &hi_before);
-+		if (ret)
-+			return ret;
-+		ret = um780xtx_oem_read(command_lo, &lo);
-+		if (ret)
-+			return ret;
-+		ret = um780xtx_oem_read(command_hi, &hi_after);
-+		if (ret)
-+			return ret;
-+		if (hi_before != hi_after)
-+			continue;
-+
-+		value = (hi_after << 8) | lo;
-+		if (value > UM780XTX_EC_MAX_RPM)
-+			continue;
-+
-+		*rpm = value;
-+		return 0;
-+	}
-+
-+	return -EIO;
-+}
-+
-+static int um780xtx_read_profile(long *mode)
-+{
-+	u8 profile;
-+	int ret;
-+
-+	ret = ec_read(UM780XTX_EC_CPU_PROFILE, &profile);
-+	if (ret)
-+		return ret;
-+	if (profile == UM780XTX_EC_PROFILE_B1) {
-+		*mode = 2;
-+		return 0;
-+	}
-+	if (profile == UM780XTX_EC_PROFILE_B2) {
-+		*mode = 3;
-+		return 0;
-+	}
-+
-+	return -ENODATA;
-+}
-+
-+static int um780xtx_write_profile(struct um780xtx_data *data, long mode)
-+{
-+	u8 expected;
-+	u8 profile;
-+	int ret;
-+
-+	if (mode != 2 && mode != 3)
-+		return -EINVAL;
-+	expected = mode == 2 ? UM780XTX_EC_PROFILE_B1 : UM780XTX_EC_PROFILE_B2;
-+
-+	ret = ec_transaction(expected, NULL, 0, NULL, 0);
-+	if (ret)
-+		return ret;
-+	ret = ec_read(UM780XTX_EC_CPU_PROFILE, &profile);
-+	if (ret)
-+		return ret;
-+	if (profile != expected)
-+		return -EIO;
-+
-+	data->saved_profile = profile;
-+	return 0;
-+}
-+
-+static const u8 um780xtx_sys_point_offsets[] = {
-+	UM780XTX_EC_SYS_POINT1,
-+	UM780XTX_EC_SYS_POINT2,
-+};
-+
-+static ssize_t um780xtx_sys_point_temp_show(struct device *dev,
-+					    struct device_attribute *attr,
-+					    char *buf)
-+{
-+	struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
-+	u8 value;
-+	int ret;
-+
-+	guard(hwmon_lock)(dev);
-+	ret = ec_read(um780xtx_sys_point_offsets[sattr->index], &value);
-+	if (ret)
-+		return ret;
-+
-+	return sysfs_emit(buf, "%u\n", value * 1000);
-+}
-+
-+static ssize_t um780xtx_sys_point_temp_store(struct device *dev,
-+					     struct device_attribute *attr,
-+					     const char *buf, size_t count)
-+{
-+	struct um780xtx_data *data = dev_get_drvdata(dev);
-+	struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
-+	u8 points[2];
-+	u8 readback;
-+	long value;
-+	int ret;
-+
-+	ret = kstrtol(buf, 10, &value);
-+	if (ret)
-+		return ret;
-+
-+	guard(hwmon_lock)(dev);
-+	/* Validate and clamp against the live peer threshold. */
-+	ret = ec_read(UM780XTX_EC_SYS_POINT1, &points[0]);
-+	if (ret)
-+		return ret;
-+	ret = ec_read(UM780XTX_EC_SYS_POINT2, &points[1]);
-+	if (ret)
-+		return ret;
-+	if (points[0] >= points[1] || points[1] >= data->sys_point3)
-+		return -EIO;
-+
-+	value = DIV_ROUND_CLOSEST(value, 1000);
-+	if (!sattr->index)
-+		value = clamp_val(value, 0, points[1] - 1);
-+	else
-+		value = clamp_val(value, points[0] + 1,
-+				  data->sys_point3 - 1);
-+	points[sattr->index] = value;
-+
-+	ret = ec_write(um780xtx_sys_point_offsets[sattr->index],
-+		       points[sattr->index]);
-+	if (ret)
-+		return ret;
-+	ret = ec_read(um780xtx_sys_point_offsets[sattr->index], &readback);
-+	if (ret)
-+		return ret;
-+	if (readback != points[sattr->index])
-+		return -EIO;
-+
-+	data->saved_sys_point1 = points[0];
-+	data->saved_sys_point2 = points[1];
-+	return count;
-+}
-+
-+static SENSOR_DEVICE_ATTR_RW(pwm2_auto_point1_temp,
-+			     um780xtx_sys_point_temp, 0);
-+static SENSOR_DEVICE_ATTR_RW(pwm2_auto_point2_temp,
-+			     um780xtx_sys_point_temp, 1);
-+
-+static struct attribute *um780xtx_extra_attrs[] = {
-+	&sensor_dev_attr_pwm2_auto_point1_temp.dev_attr.attr,
-+	&sensor_dev_attr_pwm2_auto_point2_temp.dev_attr.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group um780xtx_extra_group = {
-+	.attrs = um780xtx_extra_attrs,
-+};
-+
-+static const struct attribute_group *um780xtx_extra_groups[] = {
-+	&um780xtx_extra_group,
-+	NULL
-+};
-+
-+static umode_t um780xtx_is_visible(const void *data,
-+				   enum hwmon_sensor_types type,
-+				   u32 attr, int channel)
-+{
-+	if (type == hwmon_temp || type == hwmon_fan)
-+		return 0444;
-+	if (type == hwmon_pwm && attr == hwmon_pwm_enable)
-+		return 0644;
-+	return 0;
-+}
-+
-+static int um780xtx_read(struct device *dev, enum hwmon_sensor_types type,
-+			 u32 attr, int channel, long *value)
-+{
-+	u8 raw;
-+	int ret;
-+
-+	if (type == hwmon_temp) {
-+		ret = ec_read(channel ? UM780XTX_EC_TEMP_SYS :
-+			      UM780XTX_EC_TEMP_CPU, &raw);
-+		if (ret)
-+			return ret;
-+		*value = raw * 1000L;
-+		return 0;
-+	}
-+	if (type == hwmon_fan) {
-+		if (!channel)
-+			ret = um780xtx_read_rpm(UM780XTX_EC_FAN1_HI,
-+						UM780XTX_EC_FAN1_LO, value);
-+		else
-+			ret = um780xtx_read_rpm(UM780XTX_EC_FAN2_HI,
-+						UM780XTX_EC_FAN2_LO, value);
-+		return ret;
-+	}
-+	if (type == hwmon_pwm)
-+		return um780xtx_read_profile(value);
-+
-+	return -EOPNOTSUPP;
-+}
-+
-+static int um780xtx_write(struct device *dev, enum hwmon_sensor_types type,
-+			  u32 attr, int channel, long value)
-+{
-+	struct um780xtx_data *data = dev_get_drvdata(dev);
-+
-+	if (type == hwmon_pwm && attr == hwmon_pwm_enable)
-+		return um780xtx_write_profile(data, value);
-+
-+	return -EOPNOTSUPP;
-+}
-+
-+static int um780xtx_read_string(struct device *dev,
-+				enum hwmon_sensor_types type,
-+				u32 attr, int channel, const char **str)
-+{
-+	static const char * const labels[] = { "CPU", "SYS" };
-+
-+	if (type == hwmon_temp && attr == hwmon_temp_label)
-+		*str = labels[channel];
-+	else if (type == hwmon_fan && attr == hwmon_fan_label)
-+		*str = labels[channel];
-+	else
-+		return -EOPNOTSUPP;
-+	return 0;
-+}
-+
-+static const struct hwmon_ops um780xtx_hwmon_ops = {
-+	.is_visible = um780xtx_is_visible,
-+	.read = um780xtx_read,
-+	.write = um780xtx_write,
-+	.read_string = um780xtx_read_string,
-+};
-+
-+static const struct hwmon_channel_info * const um780xtx_info[] = {
-+	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL),
-+	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_LABEL),
-+	HWMON_CHANNEL_INFO(pwm, HWMON_PWM_ENABLE),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info um780xtx_chip_info = {
-+	.ops = &um780xtx_hwmon_ops,
-+	.info = um780xtx_info,
-+};
-+
-+static int um780xtx_write_sys_point(u8 offset, u8 value)
-+{
-+	u8 readback;
-+	int ret;
-+
-+	ret = ec_write(offset, value);
-+	if (ret)
-+		return ret;
-+	ret = ec_read(offset, &readback);
-+	if (ret)
-+		return ret;
-+
-+	return readback == value ? 0 : -EIO;
-+}
-+
-+static int um780xtx_restore_sys_points(struct um780xtx_data *data,
-+				       u8 current_point2)
-+{
-+	u8 point1 = data->saved_sys_point1;
-+	u8 point2 = data->saved_sys_point2;
-+	int ret;
-+
-+	/* Keep strict ordering valid after each individual EC write. */
-+	if (point1 >= current_point2) {
-+		ret = um780xtx_write_sys_point(UM780XTX_EC_SYS_POINT2, point2);
-+		if (ret)
-+			return ret;
-+		return um780xtx_write_sys_point(UM780XTX_EC_SYS_POINT1,
-+						 point1);
-+	}
-+
-+	ret = um780xtx_write_sys_point(UM780XTX_EC_SYS_POINT1, point1);
-+	if (ret)
-+		return ret;
-+	return um780xtx_write_sys_point(UM780XTX_EC_SYS_POINT2, point2);
-+}
-+
-+static int um780xtx_read_initial_state(struct um780xtx_data *data)
-+{
-+	u8 profile;
-+	u8 point1;
-+	u8 point2;
-+	int ret;
-+
-+	ret = ec_read(UM780XTX_EC_CPU_PROFILE, &profile);
-+	if (ret)
-+		return ret;
-+	if (profile != UM780XTX_EC_PROFILE_B1 &&
-+	    profile != UM780XTX_EC_PROFILE_B2)
-+		return -EINVAL;
-+
-+	ret = ec_read(UM780XTX_EC_SYS_POINT1, &point1);
-+	if (ret)
-+		return ret;
-+	ret = ec_read(UM780XTX_EC_SYS_POINT2, &point2);
-+	if (ret)
-+		return ret;
-+	if (point1 >= point2 || point2 >= data->sys_point3)
-+		return -EINVAL;
-+
-+	data->saved_profile = profile;
-+	data->saved_sys_point1 = point1;
-+	data->saved_sys_point2 = point2;
-+	return 0;
-+}
-+
-+static int um780xtx_restore_state(struct um780xtx_data *data)
-+{
-+	u8 readback;
-+	u8 point2;
-+	int ret;
-+
-+	ret = ec_transaction(data->saved_profile, NULL, 0, NULL, 0);
-+	if (ret)
-+		return ret;
-+	ret = ec_read(UM780XTX_EC_CPU_PROFILE, &readback);
-+	if (ret)
-+		return ret;
-+	if (readback != data->saved_profile)
-+		return -EIO;
-+
-+	ret = ec_read(UM780XTX_EC_SYS_POINT2, &point2);
-+	if (ret)
-+		return ret;
-+
-+	return um780xtx_restore_sys_points(data, point2);
-+}
-+
-+static int um780xtx_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct um780xtx_data *data;
-+	struct device *hwmon;
-+	int ret;
-+
-+	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+	platform_set_drvdata(pdev, data);
-+
-+	ret = ec_read(UM780XTX_EC_SYS_POINT3, &data->sys_point3);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "failed to read system fan limit\n");
-+	ret = um780xtx_read_initial_state(data);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "failed to read initial fan settings\n");
-+
-+	hwmon = devm_hwmon_device_register_with_info(dev, "um780xtx_ec", data,
-+						     &um780xtx_chip_info,
-+						     um780xtx_extra_groups);
-+	if (IS_ERR(hwmon))
-+		return PTR_ERR(hwmon);
-+	data->hwmon_dev = hwmon;
-+
-+	return 0;
-+}
-+
-+static int um780xtx_resume(struct device *dev)
-+{
-+	struct um780xtx_data *data = dev_get_drvdata(dev);
-+
-+	guard(hwmon_lock)(data->hwmon_dev);
-+	return um780xtx_restore_state(data);
-+}
-+
-+static DEFINE_SIMPLE_DEV_PM_OPS(um780xtx_pm_ops, NULL, um780xtx_resume);
-+
-+static struct platform_driver um780xtx_driver = {
-+	.driver = {
-+		.name = "um780xtx-ec-hwmon",
-+		.pm = pm_sleep_ptr(&um780xtx_pm_ops),
-+	},
-+	.probe = um780xtx_probe,
-+};
-+
-+static int __init um780xtx_init(void)
-+{
-+	int ret;
-+
-+	if (!dmi_check_system(um780xtx_dmi_table) ||
-+	    !um780xtx_firmware_match() || !ec_get_handle())
-+		return -ENODEV;
-+	ret = platform_driver_register(&um780xtx_driver);
-+	if (ret)
-+		return ret;
-+
-+	um780xtx_pdev = platform_device_register_simple("um780xtx-ec-hwmon",
-+							PLATFORM_DEVID_NONE,
-+						       NULL, 0);
-+	if (IS_ERR(um780xtx_pdev)) {
-+		ret = PTR_ERR(um780xtx_pdev);
-+		platform_driver_unregister(&um780xtx_driver);
-+		return ret;
-+	}
-+	return 0;
-+}
-+
-+static void __exit um780xtx_exit(void)
-+{
-+	platform_device_unregister(um780xtx_pdev);
-+	platform_driver_unregister(&um780xtx_driver);
-+}
-+
-+module_init(um780xtx_init);
-+module_exit(um780xtx_exit);
-+
-+MODULE_AUTHOR("Sebastián Peyrott <speyrott@gmail.com>");
-+MODULE_DESCRIPTION("Minisforum UM780 XTX EC hwmon driver");
-+MODULE_LICENSE("GPL");
--- 
-2.54.0
-
+-Mike
