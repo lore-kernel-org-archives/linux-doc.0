@@ -1,118 +1,92 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0B4459AD7
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 13:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279D42E06E4;
+	Tue, 25 Aug 2026 13:55:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787665864; cv=none; b=dS7d/SMbu7VK+Bs7ZwUvzqXNX3s85Ynwvk6z2ORSekHQNQrdiHbKjqcoRABZlruMArdgPrCffCMLUO1kgNb+S1darJC0+zVGGaCZW3E4bkwkw5qLeYdyKo7eGAjLnShD4V52IHmSwBBHI+okW7raI6INmmxPK9upc4gW1ehy4m8=
+	t=1787666154; cv=none; b=Y61XZ27p/kVB32gQCpXuqCwECpb1MFYFMtOBK9jgb8HMpe59YnlxEp/niPLEslK91bgsv9QIfGNcBKAj/jd45W63gvKOjF9ndODPIg0G17OOo1Op9WhsZzCc36zPciFHk8WORKNx3+j/utW9aUSrhxyGAKRO2doaEwdXpL7C6lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787665864; c=relaxed/simple;
-	bh=q4fmKfhNvE2e6sble7TF9RAgMQFsrD3C7OFXvi8DTWc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IVjlU57mxn978F2Z8Uz8rQhnTTPJm1EoJ/DXgoFc9TE7UxM3jQDxGYL9VSfACFEluUHilPd8LpLoq9YlLwsJRCS0NyddZknYDXaaou4mqbZWM9ybXjoII9AY1XJ9gD+tOekIZ/wf+S46Bj8EQv5La+FcniTvIsvd6iA07g4SI6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QJnLlB1i; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787666154; c=relaxed/simple;
+	bh=WV7ZKfc57R1h07KEujcR3VBJsySVYK9ucjdfQOxMXbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ntUC7GwFfvTSEU85+kYbTfmq1gCplDxQGCRlLfHOLFJNzgq0jwN9ChMK5SkmsbJ6PWI7Txu4nyX4dh41o1AffPnpJ4UfQ4oqgEVVNyHSjCdrAXFdrxgd21VMItBffNI4FDBvaktKMOytlFHtEI/J1wTomj5LWZDRVnFBvI8rrU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=GiZ30reH; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QJnLlB1i"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c1712a04ddaso795211266b.2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 06:51:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787665861; x=1788270661; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tHnWeKaj8W4Oq7BCPbYGJwG4B0bt+vGlTEM1FKI9IJg=;
-        b=QJnLlB1iyIxaXFJxASiPFKMBPGuWUVwXOZ+rqJF4VuRsxRxiVKV60LASPJLcNG4T3V
-         ezvoma0Z2DS8Sz+V8XCZ3058pmAtfhJg4g00TzajkwAcRfk/9fjJ+sqTuruMaQyH8RDj
-         /cHRjwTOVooAFLw2U8KcNr3pZEmXSx/gwz3a2nIUpDVmU4YMQTjiK1JaUT+TBsaZg9Qj
-         LaW+zC0XlAt2unj2qRnjLZZY9wU/oR70MmCIE/syTlrqK1uhrBOnULonJPaGpT8qDA/z
-         2keXIKK95fIp8Ubla02kGxrvE0QCNK33tioNVGmuquo8OiToWjzaRQXqw1IcPBj4oHPH
-         lokg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787665861; x=1788270661;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tHnWeKaj8W4Oq7BCPbYGJwG4B0bt+vGlTEM1FKI9IJg=;
-        b=UloNg0VNQp3jEryLh98lCX05lVRQeOSbWByZipoMbvSEV78hATvWEb2xI8s5k9VT4b
-         zbYCCYKqccChEqZsty46+34pFuBE5MByu19k1FdGp5Nod3hZPzaPzmyzzVOM74tw52Mb
-         wlEfngkPHox9opfnQ5fdxb5gIO8e32yuiN9nsg55pDKrjdRigJpGmNPly+F1m4/twbqo
-         7hZ7i0VLVeGEfHwT4Kg7Bre20Nns62pvCr/tA70vfbHyDZQUjFfgtvdIy1F2T/y48rbO
-         CU0AWw20TOl38P/S87Ue6kiuP2iDLhM/vyzt8UzNiDwU93iYwEu5I7Mdw0+PIagHjZN5
-         6KsA==
-X-Forwarded-Encrypted: i=1; AHgh+RqftKm0rQ1blPMkTS06q7pfiROwTuWlS31nEQEUO3pzVjZAWjPPkWU/zcZodyrkvWO3bwvAn1qdGSo=@vger.kernel.org
-X-Gm-Message-State: AFuF++lYuyCbbX9nshfXUPxWCJnWL2BAi/9rGr4LGUyMpRmkpnsJIrZC
-	TuEASvpkC6/RDQblhYXWp9xyHWIg7FFjIktW23LM6gkMHlaV/0l9V0oo
-X-Gm-Gg: AR+sD12cUlv3ifkXJOxpuOPy4NLsfwnrwVigQVSZZdC6ob78hvnSnC4eLtb0h6fwXWU
-	TYvkmzO4+rvEbM20NhScvjktQDo6b+Szkzc5r8MbuIgP0hHnlACrYviwZFQ1k3spfoWEP2rPM7J
-	mBuBLsW8Lk6cyIRGt75m0sKj8WY20XJHTf0fEhJ3OSoP+G6UN3x5Qt2IbQiwLZWmiJwPZSk4Cz4
-	z5R3Wt5Pi/ilkRoouaPbLqnxfsnOLKXZxJpwLeGPHQJm2D1IQ+8m/HLz0qArdcIO+HKmqvHphmK
-	wOwfKqovhv54tb3+x7ha/f/NqSUI5DUGywWnp8dEgjMBLpTQLh3urWNMqMYnPMeWdbOHL/LZ5Y9
-	FbMFpjv5mNGlwH1p3fnPte+f7GRfAkbr9cefHq1c+L8Wfxfn+jm5OGDrGdAbKuV2mjo4Ke7mC1O
-	h4M1D6f+yQUXtpBbIQwGqo8WGdNg/X4xZIDgrK4hR0y50G8D0hNnxUfGib2JAXC90lPnpt39n9f
-	0n7OOXUPLHs7RCmBLWUIAMUb122sdZ5psX7lFj83RRhXewuHHnaReuMZdXQBqG4YO8Z9PxLpAip
-	L64=
-X-Received: by 2002:a17:907:1c90:b0:c20:edda:ef5b with SMTP id a640c23a62f3a-c2491e839abmr2663366466b.14.1787665860484;
-        Tue, 25 Aug 2026 06:51:00 -0700 (PDT)
-Received: from [172.24.138.145] (dynamic-176-007-058-112.176.7.pool.telefonica.de. [176.7.58.112])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2496734bfcsm1958495166b.43.2026.08.25.06.50.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2026 06:51:00 -0700 (PDT)
-Message-ID: <77daa3ee-e5cd-4be9-8110-6f31c90f76d6@gmail.com>
-Date: Tue, 25 Aug 2026 15:50:56 +0200
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="GiZ30reH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=TjjqjEpzxYB01UoCtPgF1I9EB9x/HHgMY1vNhU0Lf64=; b=GiZ30reH8cnGvbwx7GtBcob2zb
+	b/IlDL7lpHzvXb8yjG+YNK81QIcirrlcnsc3FdClPXFYgI8HV/CNxKbnYYN3mhhiZFjvap8mqYGyJ
+	pszJxT/As15PSSEzps2snsuH9rE/S6r9IQ3EZ+wHpu05+YiIM3izk8V1mOxnF5HcQIiL/xG625RKz
+	vnLYBhgFvykijc/UggwDUFDeFcouLoo74HRGu15+MI6Vi+iMdYfw6gSuPlBUYSdQDIcV0coSSOHv7
+	/K6PIbI99MYQQJWs2yLGsxJH7JWMHHeNs+PXYTfHxvRQIKunkTAgBpljE8tFmkFwAyQ6BQjGmF7Nc
+	WsVuybmw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wyrcX-00EU9Y-2E;
+	Tue, 25 Aug 2026 13:55:21 +0000
+Date: Tue, 25 Aug 2026 06:55:15 -0700
+From: Breno Leitao <leitao@debian.org>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, linux-edac@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 2/2] x86/mce: Add mce=panic_on_ce_count to panic on a
+ corrected error flood
+Message-ID: <ao2eT0TWS9EaA28N@gmail.com>
+References: <20260821-mce-panic-on-storm-v1-0-7a465c708d82@debian.org>
+ <20260821-mce-panic-on-storm-v1-2-7a465c708d82@debian.org>
+ <aoiBy3vg9eSvGhIu@agluck-desk3>
+ <aowABmagul44ENde@gmail.com>
+ <aoxxxmM-xIpyAE_Z@agluck-desk3>
+ <aoynhOsTCcapwRbl@agluck-desk3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 12/14] gpio: regmap: Add optional runtime PM support
-To: Andy Shevchenko <andriy.shevchenko@intel.com>,
- Janani Sunil <janani.sunil@analog.com>
-Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Olivier Moysan <olivier.moysan@foss.st.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Michael Walle <mwalle@kernel.org>,
- linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>
-References: <20260821-ad7768-driver-v4-0-bb8fbd06d4eb@analog.com>
- <20260821-ad7768-driver-v4-12-bb8fbd06d4eb@analog.com>
- <aov7QpTVLDZ9PEkw@ashevche-desk.local>
-Content-Language: en-US
-From: Janani Sunil <jananisunil.dev@gmail.com>
-In-Reply-To: <aov7QpTVLDZ9PEkw@ashevche-desk.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aoynhOsTCcapwRbl@agluck-desk3>
+X-Debian-User: leitao
 
+On Mon, Aug 24, 2026 at 01:20:20PM -0700, Luck, Tony wrote:
+> > > One question while I am here: is the approach itself something you are
+> > > willing to take, or, just a just send patch [1/2]?
+> > 
+> > Boris is the maintainer here. So he has the final decision. My
+> > opinion is that this is a bit niche for the kernel. Maybe this
+> > could be handled by some user agent (mcelog? rasdaemon?) to
+> > raise awareness to system operators about high rates of corrected
+> > errors.
+> 
+> I chatted with someone internally. They'd be very interested in being
+> able to see these running counts via some /sys files.
+> 
+> Perhaps your use case would be better for that too? Rather than:
+> 
+> "Everything is fine"
 
-On 8/24/26 10:05, Andy Shevchenko wrote:
-> On Fri, Aug 21, 2026 at 04:07:05PM +0200, Janani Sunil wrote:
->> Some gpio-regmap consumers share their regmap with a parent device that
->> may be runtime suspended. GPIO register accesses must resume that device
->> first.
->>
->> Add an optional pm_dev field and acquire it before register translation
->> or access. Release it using runtime autosuspend after each operation.
->> Keep the device active across the complete direction-output sequence and
->> propagate failure when setting the initial output value.
->> +DEFINE_GUARD(gpio_regmap_runtime, struct gpio_regmap *,
->> +	     gpio_regmap_runtime_get(_T), gpio_regmap_runtime_put(_T))
-> This is not used, it's for guard()() case.
->
-DEFINED_GUARD() was added because DEFINE_GUARD_COND() extends that class and reuses its type, destructor and error helpers.
+Sounds good, I will restructure v2 that way: export the running counts
+first, and add the panic on top as a separate patch.
 
-Regards,
-Jan
+The count is already kept per CPU and per bank in struct storm_bank, so
+the natural fit is one read-only file per bank, next to the existing
+bank<N> knobs:
 
+      /sys/devices/system/machinecheck/machinecheckX/ce_count<N>
+
+Is this the right approach?
+
+Thanks
+--breno
