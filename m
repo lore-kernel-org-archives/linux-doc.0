@@ -1,292 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145A8449995;
-	Tue, 25 Aug 2026 13:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6865F42E40A
+	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 13:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787662822; cv=none; b=YzMsT6QON6LQsv+fYO5/8hyXJHsx1DD+/+8mT+4UFONxWKN+ICbKpDT1Vzh4GL8c5/lTwEA2M+MFahCCZSkhnPGNSMSQ834ADTfbOmRAtOa9Td/98G+TPsLwC3Z5HNKhvGlV4bdRbiBgYxwyWfKRhiOaON3jaP9xnScq8F6RIdY=
+	t=1787663099; cv=none; b=uZQPkIudSCUhLHGJLlAytVPmakwdQmkmc0OyjLi6uJz0ZnQsfJ1zjUj0XpGi9GkK/gC1OmEqgLzZYtvrqr4A7lhbgt/Grv16nLygwTVFsBLoX8bGzvpBHBj2u3XPqQgKeR04K2+MY6AuQYX/cxOLqh21A8/pEzy6wSBKUzUnX3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787662822; c=relaxed/simple;
-	bh=BsvO6iTTWjQrVrOL1twl57tQIEsJO8nfjdVXKHpEbQc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=flnShUOiTb0UyWcSHo9VXujUKP1kxgJytloGL8W+dRSHkauaP/doHfaAo+syHPzxK4Skb6XslhqRSijqjiqGYqs4vJEUkxGDSG2HEIkRsS/Lc6rrmjtZ0FlMf5yc9kv111S3+kIer0Mt3WiPTMvEyFFrQTv+OVI2GYsvWhA1K5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l0UvnAEG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787663099; c=relaxed/simple;
+	bh=S7aRfssWDQ2nLsCC53U4z8DSCtzysrcHj28aPhwBZ4U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jcERQBGRpqzbslxy0TDELOhCsO71x8easQOZ9pB9V1cJcCWKZNFzoX/SFhdHabHjwT14zMfgFpT2M7BthEiR8NprpJEqkJ6TnVVdFiAq4viKR4fZAM7L/imjHb+85EJUIH/wn8LEHat8KUG+XCe4hxblMcUNK08qaBtwlAxV3qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DGp+ZJsH; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l0UvnAEG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B46A1F00A3A;
-	Tue, 25 Aug 2026 13:00:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787662821;
-	bh=qfOKtnng6T1xYEK1VgxhBRbh9ravAjHw+w2ofwHQs5A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=l0UvnAEG/Zo8r3CykoUrq6NAVJZam1+zHgtTNyKABeLMTMIn3AIjlQxS8M8WsJ3Dk
-	 OSjtXy9nbuudzP9xJ2PWeC3iuoN3WW/WOQmRorbeMBpHg/vRGoNZselhTAkK5a2Xru
-	 0wjZvaiuiIp2XOI70jbATNae62Vr6YUBTZiA4fIHh3ftqnj6+vPzfRYnF0aJ1j1kSa
-	 iMuGLEinc55lHWlqbfHEMdnNMQ5YlymbIAoid0plZN8erqJxxUnh7lROb2Nt+m2V+c
-	 Qe5Z/t9+ljxpA9/shQurYfAeS85rvU/UZg+g36P5gF3TedFNFenR4d/NRIEIcseHfN
-	 aw52iDMO8oUGw==
-Date: Tue, 25 Aug 2026 14:00:10 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>, Hugh Dickins <hughd@google.com>, 
-	Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Lance Yang <lance.yang@linux.dev>, "Liam R. Howlett" <liam@infradead.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] userfaultfd: decouple fault reason from VMA flags
-Message-ID: <ao2Qk87AKnMKuNvg@gremlin>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
- <aoxm4jUrmL1eQlCJ@gremlin>
- <ao1waln1lklfk8th@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DGp+ZJsH"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c214321dc32so916420666b.0
+        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 06:04:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787663094; x=1788267894; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PQylkDyhUMfAxwzHJuOU6RYKfPVocoG2MM8Zczy9TIY=;
+        b=DGp+ZJsHpOzEwmDDv9uPdMPFecT4Ce+lOqvmEIAuv3ee9xYwWPJSnXDZB5E7J4k2Te
+         y7/3qvMCPNnR8iVLWIB0MT9Z9qgL3VOAR5gr1WyXFhLlTL4nH7Na0bpds6wdX8QgstrR
+         HNNfi986llysKm3M4vHdn/uL0zUY/rsZTGTtbptp1zTL9KdZ18xRqY+iDxCPhZl6VQUp
+         FgXlHHFlgsVGd/GTZU3s656V8gu5rrvCTEGiiWvLZT5iJciOLFVVRgxzfcz7mQ/Lt7AD
+         zL0s6njA33BARbtcW6nR7mupo/jJonZGGl5ECrNnx6sp3V3orF4wWMSuenwpRrf31619
+         WvBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787663094; x=1788267894;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=PQylkDyhUMfAxwzHJuOU6RYKfPVocoG2MM8Zczy9TIY=;
+        b=AJc0j+oRwJb5xBcGlY/7ggrQsEUJNmoGWp7lwkg8rOdwjnijRJIekjmLYNsrJNNGIg
+         Om3zX+l70lSj4vnt2kcKR5NiQTIjSS30WBgNpaDjEzkeD272ATJ/p7tb2c9VkI/emO9k
+         9zjEfQaoXJ3r4n2Q3sF8SQ9CD5Sc/7gQpGOgLKwiRne2r+MH6N+oF5Yc2Vjlmr1eY3TK
+         GAX4+e4xfjzCpWvLnYCupOqGQBG7DuGnEBbb3xbFlgb9Al6fWmWdpYrTY90p5/8BFP5e
+         CugN5kyglynUgjn+z5S0V50wU22kVF+gAXFdcYB480wghI3jjcqDs0sneyLh+ii8xq11
+         wizw==
+X-Forwarded-Encrypted: i=1; AHgh+Rpu62WJP/LoYpwQ46+rVAjJrZlia16zjLuQvepJQzsZwEBtFr5EyvaPrc9isAWAG94kMMDPuDyVNKQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++nPOLyFJwJRZ8WHza8qogTKY5VhLMZdQ8kt37T5aPh+fcOmpFLe
+	nXW90rn4xe6bJ2NPGowT7RSJUsub3O0MOx4ISGZAxALtgO4wEjHlevfT
+X-Gm-Gg: AR+sD11fPlF0f5aQ7TbcPzGCZZ4H58jvzr3BKybsIFBQ4JQymN92Z8TFiIP+57TSNYz
+	UhacGKsjRb6AC/Kxok9HGhKGUieMTp/kC3PTDnW+3EipTZMERpFRmANdpEH0bADkA5+dXt7cD2d
+	FQ5l602KjmPQSdgrTk/ZxweNlkCyDVzjgg60dsKPLgoViO13HZPJkGDuGL16UUE5Pdyz0DXzqgy
+	1rPIykHRpGhs7k08BpQ5Oodeb1DUOds6GP752joqZ042ek93hVk+iIL9CHIj78XG02UzwE5WUiA
+	B97mBWJII1eUT4DLF4vDuu9XOaTIqWpe3uLyCd6oK5fSOohqFfiqACkk3kDwZSl3y7Ei7DLhZSB
+	fblZI/mqWZMzrK66U5CGg2BxQzjo7RfrH1HSqSaZgPpgXZivE2b3iH9PKhxoFM8NrczGzeR6aWt
+	qCS1mVt4x+sAR6x9ld2vbmtAFX5/zjTsWw8TtnowTXlTGPreejvt889QsgqNmEVlbSPxufHBFuE
+	7ry
+X-Received: by 2002:a17:906:fd8d:b0:c25:58e:83ff with SMTP id a640c23a62f3a-c25058e8844mr45353566b.10.1787663093845;
+        Tue, 25 Aug 2026 06:04:53 -0700 (PDT)
+Received: from [10.45.28.110] ([15.248.2.30])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c249606b4f1sm1822703566b.3.2026.08.25.06.04.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Aug 2026 06:04:53 -0700 (PDT)
+Message-ID: <f81f8437-57da-4545-9046-28562df3c385@gmail.com>
+Date: Tue, 25 Aug 2026 14:04:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ao1waln1lklfk8th@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/5] KVM: arm64: Add pre_fault_memory implementation
+To: Alexandru Elisei <alexandru.elisei@arm.com>
+Cc: maz@kernel.org, oupton@kernel.org, pbonzini@redhat.com,
+ joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com,
+ yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org,
+ shuah@kernel.org, corbet@lwn.net, vladimir.murzin@arm.com,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ isaku.yamahata@intel.com, Jack Thomson <jackabt@amazon.com>
+References: <20260612162354.73378-1-jackabt.amazon@gmail.com>
+ <20260612162354.73378-3-jackabt.amazon@gmail.com> <alEXtW7w-rqlNG09@raptor>
+ <0365d77d-616b-47f7-a5f2-3388bad692a1@gmail.com> <ao2KmmUd1lVFUUkp@raptor>
+Content-Language: en-US
+From: "Thomson, Jack" <jackabt.amazon@gmail.com>
+In-Reply-To: <ao2KmmUd1lVFUUkp@raptor>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 25, 2026 at 01:37:30PM +0300, Mike Rapoport wrote:
-> On Mon, Aug 24, 2026 at 05:28:29PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > On Sun, Aug 23, 2026 at 03:17:42PM +0300, Mike Rapoport (Microsoft) wrote:
-> > > Introduce enum uffd_reason to define reasons for user faults rather than
-> > > overload VM_UFFD_* VMA flags for that.
-> > >
-> > > Using a dedicated enum makes the code clearer and decoupling the fault
-> > > reason from VMA flags clears the way for moving the uffd mode bits out
-> > > of VMA namespace.
-> > >
-> > > No functional change.
-> > >
-> > > Assisted-by: copilot:claude-opus-4.6
-> > > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > > ---
-> > >  include/linux/userfaultfd_k.h    | 16 ++++++++++++++--
-> > >  include/uapi/linux/userfaultfd.h |  6 +++---
-> > >  mm/huge_memory.c                 |  6 +++---
-> > >  mm/hugetlb.c                     | 10 +++++-----
-> > >  mm/memory.c                      | 10 +++++-----
-> > >  mm/shmem.c                       |  4 ++--
-> > >  mm/userfaultfd.c                 | 30 +++++++++++++++---------------
-> > >  7 files changed, 47 insertions(+), 35 deletions(-)
-> > >
-> > > diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> > > index 45355bdb4ec7..f401623f315d 100644
-> > > --- a/include/linux/userfaultfd_k.h
-> > > +++ b/include/linux/userfaultfd_k.h
-> > > @@ -9,6 +9,18 @@
-> > >  #ifndef _LINUX_USERFAULTFD_K_H
-> > >  #define _LINUX_USERFAULTFD_K_H
-> > >
-> > > +#include <linux/bits.h>
-> > > +
-> > > +/* Fault reason #PF handler passes to handle_userfault() */
-> > > +enum uf_reason {
-> > > +	USERFAULT_MISSING	= BIT(0),
-> > > +	USERFAULT_MINOR		= BIT(1),
-> > > +	USERFAULT_RWP		= BIT(2),
-> > > +	USERFAULT_WP		= BIT(3),
-> > > +};
-> >
-> > Hmm your commit message says uffd_reason, uf_reason makes me think of the
-> > character Ulf from House of the Dragon. But not uffd. So as per David let's
-> > rename it :)
-> >
-> > I'm also not sure if an enum is the right thing for flag values?
->
-> I'll ask LLM why it chose it :)
+Hi Alex,
 
-I mean you then introduce the same flags again seemingly with different
-names as #define's in the next patch... having several sets of flags with
-subtly different names seems unwise.
+On 25/08/2026 1:29 pm, Alexandru Elisei wrote:
 
-It seems there is a 'mode' and a 'reason', maybe I missed something but
-that just seems overly complicated.
+[...]
+> 
+> I think there's a word missing there, I meant to say that it would be useful to
+> explain *why* the x86 implementation does not mark new PTEs as accessed, while
+> arm64 marks them as accessed, and arm64 also does that for existing PTEs.
+> 
+
+Ah got you, I'll update the docs in v6 to explain that. Thanks!
+
+> I was wondering if you have any plans about posting an updated series.
 
 
-But in general I think the objection to using an enum for flags is because
-the compiler will treat a switch() {} of the enums as the only independent
-values and possibly in other places too.
+Yeah I have v6 almost ready, I've addressed the comments. While testing
+it found an issue on pKVM which would case a hyp panic if we prefaulted
+before it's first run, the EL2 context load blows up. So I've also go a
+fix for that bundled in.
 
-That's super theoretical but it is an odd thing to do potentially. I got
-(annoying) push-back on using an enum for flags on a series in the past, so
-I guess here I am paying it forwards ;)
+I'm just tidying a few bits up and hopefully have it out within the next
+couple of days.
 
->
-> > Anything that is parameterised by enum uffd_reason that combines flags will
-> > break any switch statement in there and yada yada.
-> >
-> > I wonder if better just as #define's + unsigned long or something?
-> >
-> > Or you could do (and this leads to nicer stuff later):
-> >
-> > 	enum uffd_reason {
-> > 	     USERFAULT_MISSING_BIT = 0,
-> > 	     USERFAULT_MINOR_BIT = 1,
-> > 	     USERFAULT_RWP_BIT = 2,
-> > 	     USERFAULT_WP_BIT = 3,
-> > 	};
-> >
-> > 	#define USERFAULT_MISSING BIT(USERFAULT_MISSING_BIT)
-> > etc.
->
-> Looks over-engineered to me tbh, if we drop an enum, I'd just
->
-> #define FLAG (1 << SHIFT)
->
-> and call it a day.
->
-> Also see below about aligning with uABI flags.
-
-See review on 6/6, I'm confused actually why we have several sets of these
-flags...
-
-But in general it seems like these flags (in one form or another) are being
-repeatedly referenced, so it's not really over-engineering I don't think to
-abstract some of that.
-
-Maybe can be in wrappers that make it nicer. But really the issue is the
-duplication in modes/reasons/flags...
-
->
-> > > @@ -168,9 +168,9 @@ struct uffd_msg {
-> > >
-> > >  /* flags for UFFD_EVENT_PAGEFAULT */
-> > >  #define UFFD_PAGEFAULT_FLAG_WRITE	(1<<0)	/* If this was a write fault */
-> > > -#define UFFD_PAGEFAULT_FLAG_WP		(1<<1)	/* If reason is VM_UFFD_WP */
-> > > -#define UFFD_PAGEFAULT_FLAG_MINOR	(1<<2)	/* If reason is VM_UFFD_MINOR */
-> > > -#define UFFD_PAGEFAULT_FLAG_RWP		(1<<3)	/* If reason is VM_UFFD_RWP */
-> > > +#define UFFD_PAGEFAULT_FLAG_WP		(1<<1)	/* If reason is uffd-wp */
-> > > +#define UFFD_PAGEFAULT_FLAG_MINOR	(1<<2)	/* If reason is uffd-minor */
-> > > +#define UFFD_PAGEFAULT_FLAG_RWP		(1<<3)	/* If reason is uffd-rwp */
-> >
-> > Is it worth retaining the same bit indexes as the reasons?
-> >
-> > Reasons:
-> >
-> > 	Bit number
-> > MINOR	0
-> > RWP	1
-> > WP	2
-> >
-> > Page fault flags:
-> >
-> > 	Bit number
-> > MINOR	2
-> > RWP	3
-> > WP	1
->
-> If we go this way, than it must be
->
-> #define USERFAULT_MINOR UFFD_PAGEFAULT_FLAG_MINOR
->
-> so we won't need to keep them in sync explicitly.
->
-> With a caveat of USERFAULT_MISSING that is expressed as "no flags in
-> uffd_msg" :)
-
-Ugh.
-
->
-> > > @@ -2607,7 +2607,7 @@ static inline void msg_init(struct uffd_msg *msg)
-> > >  static inline struct uffd_msg userfault_msg(unsigned long address,
-> > >  					    unsigned long real_address,
-> > >  					    unsigned int flags,
-> > > -					    unsigned long reason,
-> > > +					    enum uf_reason reason,
-> > >  					    unsigned int features)
-> > >  {
-> > >  	struct uffd_msg msg;
-> > > @@ -2629,11 +2629,11 @@ static inline struct uffd_msg userfault_msg(unsigned long address,
-> > >  	 */
-> > >  	if (flags & FAULT_FLAG_WRITE)
-> > >  		msg.arg.pagefault.flags |= UFFD_PAGEFAULT_FLAG_WRITE;
-> > > -	if (reason & VM_UFFD_WP)
-> > > +	if (reason & USERFAULT_WP)
-> > >  		msg.arg.pagefault.flags |= UFFD_PAGEFAULT_FLAG_WP;
-> > > -	if (reason & VM_UFFD_RWP)
-> > > +	if (reason & USERFAULT_RWP)
-> > >  		msg.arg.pagefault.flags |= UFFD_PAGEFAULT_FLAG_RWP;
-> > > -	if (reason & VM_UFFD_MINOR)
-> > > +	if (reason & USERFAULT_MINOR)
-> > >  		msg.arg.pagefault.flags |= UFFD_PAGEFAULT_FLAG_MINOR;
-> >
-> > With matching flags and unsigned long you could do
-> >
-> > 	msg.arg.pagefault.flags |= reason;
-> >
-> > I think?
->
-> Almost:
->
-> 	msg.arg.pagefault.flags |= (reason & ~USERFAULT_MISSING);
->
-> And define USERFAULT_MISSING as (1 << 0) with a comment why it's fine.
->
-> I don't feel strongly about it, but my preference is to define reason flags
-> independently of UFFD_PAGEFAULT_FLAGs and keep the ifs here.
-
-And also modes... Again I think fixing that mess somehow is the better way forward.
-
->
-> > > @@ -2793,14 +2793,14 @@ static inline bool userfaultfd_must_wait(struct userfaultfd_ctx *ctx,
-> > >  	 * If VMA has UFFD WP faults enabled and WP fault, wait for userspace to
-> > >  	 * resolve the fault.
-> > >  	 */
-> > > -	if (!pte_write(ptent) && (reason & VM_UFFD_WP))
-> > > +	if (!pte_write(ptent) && (reason & USERFAULT_WP))
-> >
-> > I wonder if you could actually
-> >
-> > You do this quite a lot and they read a bit horribly with the && and & on the
-> > same sight-line. With the changes to the enum proposed above you could do:
-> >
-> > 	if (!pte_write(ptent) && test_bit(reason, USERFAULT_WP_BIT))
->
-> I find && and & perfectly readable and adding _BIT defines looks really
-> excessive to me.
-
-Discussed in sub-thread. We'll agree to disagree I suppose.
-
->
-> > > @@ -2835,7 +2835,7 @@ static inline unsigned int userfaultfd_get_blocking_state(unsigned int flags)
-> > >   * fatal_signal_pending()s, and the mmap_lock must be released before
-> > >   * returning it.
-> > >   */
-> > > -vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
-> > > +vm_fault_t handle_userfault(struct vm_fault *vmf, enum uf_reason reason)
-> >
-> > Hmm what was the 'reason' here before? The flags? Maybe more reason (no pun
-> > intended) to keep the values the same?
->
-> The 'reason' before was a VM_UFFD_SOMETHING, we really can't keep the
-> values the same, but we surely can keep it unsigned long.
-
-I notice the 'mode' which is not the same as the 'reason' is an unsigned
-int in 6/6...
-
->
-> > --
-> > Cheers, Lorenzo
->
-> --
-> Sincerely yours,
-> Mike.
-
---
-Cheers, Lorenzo
+-- 
+Thanks,
+Jack
