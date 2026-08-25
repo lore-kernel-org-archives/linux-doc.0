@@ -1,179 +1,114 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB243D669F;
-	Tue, 25 Aug 2026 10:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BE223F20ED;
+	Tue, 25 Aug 2026 10:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787654513; cv=none; b=GKGb4SUj8oTOHbL0i4McnnBMXu9KB8EU9/ehPgc1xl2eTI7pptJ7MqOPj1C0MRI7y07ZkaHw6fdvvdv297ayLGlYbxHBJ7I7hp4XNGALsEpf6VpX1/P97GaFfHOC8usagxv7UtIRZn/jipvFCpHxOcTmlP1aYO54dmFKFGpi7NE=
+	t=1787654614; cv=none; b=FCbMWyBAtnYbJa38dblZSpG7G80ePQPPXAR9SCLI5wVWeqTr0U5cWA9NHW0nE492Yhg8Wg11OmjEzgZqN0KQT/x50YhMT5ALX8HPyIiu775EBz7F6jKdAKx/SnugLOxbXN7Wr/a9luper442xQK2572LrSL5VFBArOVAU5WYyNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787654513; c=relaxed/simple;
-	bh=uH+Hn7uZPJK+kiZoYAFD5EM5mgdDrTDp4nTbTBfi7JE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ABwIKxqMaSbKXY8c8E66wUCkrNcfM2/3u7IcIY7drrZLxNMdRW/i6t3TdH0APlbB+DzITRHMX1f0GQJpUKq/lncqNjwWgkrLKb3W/VmKXFeM4fLf/iJM/DFhWP5Qn5czFVVZfFpDABsmmQQyw5hHKipynJmLhUDYEM9SM7pnuNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=kc/r10UH; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1787654614; c=relaxed/simple;
+	bh=uVSJqJyxJ0TvdMw2vUR0bfwbD5X00jM75IHxQv4s/ZI=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=tNVhusp+qiWrjIWc0O7FdTEDkl6efKE9xUZfBKsHTrHiTlEM8QzM5xODHoBLin14ZZIbQ4Pb4zv0bQF1Gs9de4ft0W2zTETyMv5PTZac9w8UGu6jZPhxUUs4Vdjy3GHPX6q4aazShjNP54Iph8Nbc72ycIxRl70tvVkt8VtR570=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=V613aVVl; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="kc/r10UH"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67P8VcQt306815;
-	Tue, 25 Aug 2026 10:41:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=VLsDw6fkEnlHHXt/X
-	o79Qrq5n3tqJjESZ8GDDMjODiI=; b=kc/r10UHSi5WpR+NONfZyJ23LZdON1WB6
-	BbuEvPtts21pv4XU4dZQwnGq/ZIo4OQU7dpecm2Izg77N3dY1GKVBaX/CfSUzd3X
-	Oa82ICHtQ/pTrHuhsMFZsu0H/rbOhE6EyWBFqTFmLx1yeT59+9BCwIq9de4yNucX
-	YKZSSHFPqliS0nEqzrCX1ijkU5HB7ot+ewNXLmmwm5Q5n6c61pgbwzIseGgJP8sk
-	PVlTYrBOoO+aaJZjOqdP1t4x6nOUdRvwLgWY2bz/k6CX24HZiBVTWIOaXTyuXBrJ
-	EoLW+yju+7XpUGxdJotrBwG7cdrdZul5ErLG7rwUoSEYCGduTGrTw==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4g7393yknc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Aug 2026 10:41:29 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67PAfJN1021065;
-	Tue, 25 Aug 2026 10:41:28 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4g7qkh3mn3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Aug 2026 10:41:28 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67PAfOAh32440716
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 25 Aug 2026 10:41:24 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 854F12004D;
-	Tue, 25 Aug 2026 10:41:24 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CB9BE20040;
-	Tue, 25 Aug 2026 10:41:15 +0000 (GMT)
-Received: from li-7bb28a4c-2dab-11b2-a85c-887b5c60d769.ibm.com.com (unknown [9.39.21.103])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 25 Aug 2026 10:41:15 +0000 (GMT)
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-        corbet@lwn.net, meted@linux.ibm.com, ynorov@nvidia.com
-Cc: sshegde@linux.ibm.com, tglx@kernel.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
-        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
-        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
-        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
-        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
-        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
-        linux-doc@vger.kernel.org, jgross@suse.com,
-        virtualization@lists.linux.dev, sunlightlinux@gmail.com
-Subject: [PATCH v11 12/12] virt/steal_governor: Enable the driver
-Date: Tue, 25 Aug 2026 16:08:55 +0530
-Message-ID: <20260825103855.721013-13-sshegde@linux.ibm.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260825103855.721013-1-sshegde@linux.ibm.com>
-References: <20260825103855.721013-1-sshegde@linux.ibm.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="V613aVVl"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CE9BC1688;
+	Tue, 25 Aug 2026 03:43:27 -0700 (PDT)
+Received: from [10.2.198.93] (e142334-100.cambridge.arm.com [10.2.198.93])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A343F3F7D8;
+	Tue, 25 Aug 2026 03:43:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1787654611; bh=uVSJqJyxJ0TvdMw2vUR0bfwbD5X00jM75IHxQv4s/ZI=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=V613aVVlqKJ2ocqhG9J6MMdQH/0WsLyws3H8UwiHLi2n7Mp+K+qmCkbIUq5kBdgMB
+	 DqW5nwRjbGAKtKZlf5GhKPAaZN1VBJTd7+BCrAlYSznOkvmQpDaBsmbkAildTpJp6W
+	 6GJqarGfUwx7Nj0H0XAhHPZeWODJWgsTsAYhNXEs=
+Message-ID: <d63e0faa-77e9-4598-972b-d7d9125cfc23@arm.com>
+Date: Tue, 25 Aug 2026 11:43:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: jNZWDPDln-panWY0jQfd4q1GEeQT3aQ6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI1MDA4OSBTYWx0ZWRfXwj+8FK1K2xXP
- bfbImwah28054Zk70hsV/JoOIfwWCdDOvJvRvi44u5Apcckb40AqImEHMonowzf9SG820iQ8bk8
- 6pBFo4etul4dp2MIggPSdG1AmM5JCY8C8aHOrZsl3MiqObdmP2A5gRlDXx2IU8QdpO40MTySlj3
- MkX0GKKBGdKpOd0LMxBCO1NY/eOn10LVJn9OqrR0FA0BJPbmnjibeS+KsMY6O/zQc2Q9dyvT+3r
- uIpIF+0mLsvEj+Gd+EgszSwcQ9IWSqhRXcUi4PR0aCb1b6hcgkzKZcwqHsRdWFNQD7ITUWqhJIU
- HnoumIz/8HbqnwfLNidIt4jYlAnMNV1edzcqqICzWpWC6ec5GSnXDxQ45lA6GflGP/v8ubgrL01
- cUkNLOCFwDv8sDcLDkzZtIUYEOOYI5UCAf7FXw2imhYnv3FeQofYNXZ3WtjUyeouQ5YJjYdUlyv
- 8jEBiiMDBoYT+0qgtFw==
-X-Authority-Analysis: v=2.4 cv=Y/nIdBeN c=1 sm=1 tr=0 ts=6a8d715a cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=iQ6ETzBq9ecOQQE5vZCe:22 a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8
- a=jPZz8W9ceouySDeeKuAA:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI1MDA4OSBTYWx0ZWRfXzMnKBx3yS1IU
- gCyuwsIrPF3Iu7wF52ikDZ/f8gJhYxc5Lgw0naLKKxZL1qWJiKGLM0pfItXOHrXtvfHIWdYLRmw
- 3wWvaJTZOZaqm8Urxm7gokIp481bd+8=
-X-Proofpoint-ORIG-GUID: K76MRLkoU62FVnXVYZFQ5c3J2NKE2_LM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-25_02,2026-08-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 priorityscore=1501 adultscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608250089
+User-Agent: Mozilla Thunderbird
+Cc: usama.anjum@arm.com, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Mark Brown <broonie@kernel.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>
+Subject: Re: [PATCH v7 0/6] selftests/mm: separate GUP microbenchmarking from
+ functional testing
+To: Sarthak Sharma <sarthak.sharma@arm.com>
+References: <20260813181230.483746-1-sarthak.sharma@arm.com>
+From: Usama Anjum <usama.anjum@arm.com>
+Content-Language: en-US
+In-Reply-To: <20260813181230.483746-1-sarthak.sharma@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Provide a config option to enable the steal_governor driver.
-Since the feature targets paravirtualized environments and requires SMP,
-enforce those dependencies. The driver selects CONFIG_PREFERRED_CPU
-for the core scheduler mechanisms to work.
+On 13/08/2026 7:12 pm, Sarthak Sharma wrote:
+> gup_test.c currently serves two separate purposes: benchmarking
+> (GUP_FAST_BENCHMARK, PIN_FAST_BENCHMARK and PIN_LONGTERM_BENCHMARK) and
+> functional testing (GUP_BASIC_TEST, PIN_BASIC_TEST and
+> DUMP_USER_PAGES_TEST). Keeping both in one program makes the functional
+> tests harder to run and report individually, while run_vmtests.sh has to
+> invoke the program repeatedly with different options.
+> 
+> Separate these roles into tools/mm/gup_bench for benchmarking and
+> tools/testing/selftests/mm/gup for functional testing. Move the shared
+> file and hugepage helpers to tools/lib/mm/ so both programs can use them
+> without duplicating the implementation.
+> 
+> Patch 1 makes read_file(), write_file(), read_num(), write_num() and
+> write_num_ignore_einval() return errors to their callers instead of
+> exiting. It also makes read_num() reject negative and malformed values
+> and updates the existing callers to handle failures.
+> 
+> Patch 2 moves these file helpers from vm_util.c to tools/lib/mm/. It keeps
+> them available to the mm selftests through vm_util.h and adjusts the
+> selftests build accordingly.
+> 
+> Patch 3 moves hugepage_settings.[ch] from selftests/mm to tools/lib/mm/.
+> It also removes its kselftest dependency while preserving TAP-compatible
+> diagnostics for selftest users.
+> 
+> Patch 4 moves the existing gup_test implementation from selftests/mm to
+> tools/mm as gup_bench. This keeps the code movement separate from the
+> subsequent changes and makes it easier to review.
+> 
+> Patch 5 removes the functional test modes and kselftest dependency from
+> gup_bench. When run without arguments, it performs one GUP_FAST benchmark
+> using the existing defaults instead of running the whole matrix. Other
+> benchmark configurations can be selected through command-line options.
+> 
+> Patch 6 adds a new harness-based GUP selftest. It covers THP, non-THP and
+> HugeTLB mappings across private/shared and read/write variants. For each
+> variant, it tests get_user_pages(), get_user_pages_fast(),
+> pin_user_pages(), pin_user_pages_fast(), long-term pinning and both dump
+> modes using four batch sizes. It also preserves the existing sparse dump
+> coverage for pages 0, 19 and 0x1000. The HugeTLB variants share a one-time
+> setup of 128 default-sized huge pages.
 
-It is recommended to build the driver as a module (m) instead of
-built-in (y) due to the following reasons:
+I tested the full MM selftest suite before and after this series and found
+no regressions. The new GUP selftest and gup_bench also passed.
 
-- Module parameters are read-only after initialization. Building as a
-  module allows updating these parameters by simply reloading the module.
-  Default module parameters cannot work in all configurations.
+Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
 
-- The driver can be completely disabled by unloading the module.
-
-- This feature works best when all VMs operate in a cooperative manner.
-  Requiring an explicit module load ensures intentional deployment
-  across all VMs by the system administrator.
-
-Suggested-by: Yury Norov <yury.norov@gmail.com>
-Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
----
- drivers/virt/Kconfig  | 17 +++++++++++++++++
- drivers/virt/Makefile |  1 +
- 2 files changed, 18 insertions(+)
-
-diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
-index 52eb7e4ba71f..eeb84e578ddf 100644
---- a/drivers/virt/Kconfig
-+++ b/drivers/virt/Kconfig
-@@ -41,6 +41,23 @@ config FSL_HV_MANAGER
-           4) A kernel interface for receiving callbacks when a managed
- 	     partition shuts down.
- 
-+config STEAL_GOVERNOR
-+	tristate "Dynamic vCPU management based on steal time"
-+	depends on PARAVIRT && SMP
-+	select PREFERRED_CPU
-+	default m
-+	help
-+	  This driver helps to reduce the steal time in paravirtualized
-+	  environments, thereby reducing vCPU preemption costs.
-+
-+	  By default preferred CPUs will be same as active CPUs. Depending
-+	  on the steal time when steal_governor driver is enabled,
-+	  preferred CPUs could become subset of active CPUs.
-+	  More details are at: Documentation/driver-api/steal-governor.rst
-+
-+	  It is recommended to build it as module and load the module
-+	  to enable it.
-+
- source "drivers/virt/vboxguest/Kconfig"
- 
- source "drivers/virt/nitro_enclaves/Kconfig"
-diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-index f29901bd7820..05fb075ef5b8 100644
---- a/drivers/virt/Makefile
-+++ b/drivers/virt/Makefile
-@@ -5,6 +5,7 @@
- 
- obj-$(CONFIG_FSL_HV_MANAGER)	+= fsl_hypervisor.o
- obj-$(CONFIG_VMGENID)		+= vmgenid.o
-+obj-$(CONFIG_STEAL_GOVERNOR)	+= steal_governor.o
- obj-y				+= vboxguest/
- 
- obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
--- 
-2.47.3
+Thanks,
+Usama
 
