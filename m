@@ -1,268 +1,312 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F423EFD27
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 21:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787693246; cv=pass; b=Xocgoohq2+wEQog+XsKH8foPJd6NnPQrg9vXZpkltAYSEEUero3V1+fEKEFWER4h+sPa255wQl4v1EP33q1MubS9pKL7KWdGMxV/wtbxii11b1wF5kdQ8zwjp0SX3GYJjjbpMHa08nsT0xoaEpi6S2JYpucP/7TiZXaW7UzeO9I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787693246; c=relaxed/simple;
-	bh=9HjdICmhLtTz6k7OlzAvVfsYT+6y6EVDVq4rDGeTyx4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SIbJFGEnXpZkfBTvkNRg3rVOWueeBhEgCW8Tzl1Lquutk3UE/Aj+7AvdwhodpqmVDvleNO4uI07kVAHjmJcrI6ZrNDBx5qQ6dfWroLgpeHZul5rZluZtJTxNYZQMNjBGpXNyXYSmJY3G30IGRwOgo+Ns6cDIa9UN2ZGi5y1r3ls=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s1KvuAPs; arc=pass smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EE2446829
+	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 21:30:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787693413; cv=none; b=UKZTFLwP00H0dzURWfDRsvprtNAD3gZlaLCiCjuG35JD52fRXTh+3tshZ7CKfW12JP/ehWvJt0TIZo1MN1DrnI5MxNawN2ntcQczpMIprtxMKirX3+J66KZ5QPLe/thb0kKo1lGrrcx7hdR4GZAD5mkidnZe7ZvYTmrNtuPZELA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787693413; c=relaxed/simple;
+	bh=apf+ml9iuWzb/OpKPwCbN31d5Hp/n07jnr1CoP8vqe0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OysyrhuRSaMDNItTaU8YRdFho+KbmpBeNga6c/R15F4JsOYAzycFqPT68SZAmkLiSN7axRVhufx8UsWzRqX8vVN/79mh0OEoIyW937PPIoi11iQHcNnqIt+wrvv8ylYLJ/yCmmUC/Uzfs9s+zVbR9zFKVI4I7JAL7LWy8+affFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GhPTjidB; arc=none smtp.client-ip=209.85.217.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s1KvuAPs"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6a0de062db5so415365a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 14:27:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787693242; cv=none;
-        d=google.com; s=arc-20260327;
-        b=inBA6VFv61zob0oNGmSodySS5HaHPwIb2Uu7VMeogcdLphdORF/Z++RwQ/xue0s5NT
-         Hknd56HzxIQm9d5E4wsiqIZbQz0CgJjdPGd1syE6eZ9GDt/2LRVVerVBetUxKhA7ydAg
-         2UiE0teeVuHhBELJxbr0fvUUZRgPTSb32MPMsOSjuSFzXV/5sXdNprE/oqHjN6TSlUmf
-         ffJvUnYDFqDMn1GQ3tJ99LJyJRA81cmSai1KA79ig3UMAO70Q9q8kZK9qm0R/ksiVmFN
-         8kGQJ0qZkSczhmlrtVtRB+WcFuVv33iJaW4YZ3I0qWy5cPhW0rIXlrD+J4cUqEX6wajf
-         jlPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bE5lTVE/l+hmDFQxUEo/OmNLEGESlTEML0H1de8/2cY=;
-        fh=7hSjr3pAfh2zFGPqxLU6r5JPakpokZZvqYvQrDN40m0=;
-        b=YrsNRMq3ZAxddcU5jwUj4sKg15JUbOSCbpYGytT6RnwrOsTsgBy5KLIoUvaHcDGBvI
-         hlc9Nv6oHB3sFiXtNM93e0G2jJIdLxWL2FtrG2wTCQkSORPmwyGqUheSBM65sJcqRHFp
-         aQAvVknKDLrHopIa5QkorYaF1O5WTbxwh6GITYOYoIYvMWunDdtN3++Uwhl+sDD/tb49
-         xw4soNg/IcKuoHIU6h+2P7du49l32FXVUgMFmsDugHIWPpyEyaGJf5ZF6BoZbPVOA9ma
-         uz6PDiNWZqjrju5fb7SnGoMQyVDUrEXgdY01+vA0JvIUeYyqH+gzLFlT4w8iIso8qsU5
-         bc0w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GhPTjidB"
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-74ab99038afso192318137.3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 14:30:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787693242; x=1788298042; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bE5lTVE/l+hmDFQxUEo/OmNLEGESlTEML0H1de8/2cY=;
-        b=s1KvuAPsIex4dmM++B7O1fMeB7/FwCP64Z8UVBSNIatQmnSxhCm1aXQ+DQFAQAQZP7
-         /lZyQirMBHwvCO3kkufwE+jhr+s7cV6xq6V33fjI1T/VrK08v+KHuB9CQ2rVoVvDhVhk
-         71qhyoVs9EIx5rJB1S0LqoBjlIFUfa5HRwZmwvco+m60zzGGh1iHnFiMAJL5NtcPadZY
-         96WElsSRfahwNMx0o57zdFVk21AMh0PfHuBQhSnaWKCW9D83lQk6KUymMlBoF2GB2SI0
-         Cbg1wxYeaP1RwG1xG39Ps4m04QzddW4cU8mwIROFbtmr3H4VuvhH3B+Uq9u63gLPq9Za
-         ifnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787693242; x=1788298042;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1787693411; x=1788298211; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=bE5lTVE/l+hmDFQxUEo/OmNLEGESlTEML0H1de8/2cY=;
-        b=mxWqA3gU8ACzEctmKFz8brfVIsM2XLHW6hov2utzMFe2c4J9QSwnPj1M6W/tMPuccz
-         YS2o3L3DLisNPg9TKBuDklLUOs9xS4wPaX7DIJ19iUmhxm86iIYi5AAZOhTydHNR7JX7
-         OkG+uJlolBFyfFADxssraEw3nezE3WaWR6ox+N4D2Ih3Tia9zH1QDA7zeeMiVuIycX7h
-         fisoVhgzBvMz4sfkdmBTU1jhMNDMj9h/ZiAysnsNXWUS0ngATvto9hTeYFO4+rsCovbB
-         +s8/cRT0t6MEr7JVEjoUCh3/BmLYfe7wI0fSjoPZHGYHBlOK5d6pLdQwebigLVDM71Wy
-         BUcw==
-X-Forwarded-Encrypted: i=1; AHgh+RrdHS6F4i/wXXfcpBWGk1WEOhO0G0/Nr4cj0PDIEI0I3oUTdFwkPRKB2s3gfo9bmmHSgpluaEalRl8=@vger.kernel.org
-X-Gm-Message-State: AFuF++l7s+bXrKlRSgyiSCQJl4aYtTzdgxVuLuGMZUJtr8jV/gw8fZJs
-	9A64z7h8W5NofBqXieMb1/zEv7ZKXg1S+NC5UId9cZ62/buXfdpNwPm2P61SdywL1s+qPHWUCnY
-	AImT01Jx79ZcCVFvIRLxDNAy8X5CpKBQ=
-X-Gm-Gg: AR+sD105p2BlfZqn4Jwt/CZMbaynyNwyqFj+GzCJJEs5rMWrBJtpX7p82lCFYjUQjD7
-	TWuBeZmaNvKOdau0NC2W7p77Vt9E7vVy85GnnaOsVLc591a0zvY8inIQIgggS+0uGUVVFA1AJEd
-	5cUZaVuYZzHinv+G6W8X3KzEQVZAUnXwfcKAg5N3heFB0j24zuyE1xB3rmLN17JhvfppVH23E6a
-	17vUj7Qvm/vl6h9MiECca/Infn0rwvf3Fj0OR4NKYS5TZIe7eNLBuqz98ZS1taIHGvS/cI9fW7A
-	e9g2zt8Apn44nY9bMvHE3co1m7g5fq/6cEffox0NgxXDZw4KwMSYFNI7euzVu9OKLLmiwLUeD3a
-	6krGBTKLW3cE=
-X-Received: by 2002:a05:6402:21cc:b0:6a5:d58a:9640 with SMTP id
- 4fb4d7f45d1cf-6a5df61b209mr2046699a12.9.1787693242034; Tue, 25 Aug 2026
- 14:27:22 -0700 (PDT)
+        bh=0XdOaj2eZmYYf1LUuewzOCokVu4CIKwl/LaYlIW/bLg=;
+        b=GhPTjidBU1yZqBJkIPn1jxQh5SSQynNYyY7VbEfHz1Q0xFBcAOaURE5+IgMwLfTCjw
+         UHgQnDPhlimAzD2sew4FX3xxacgP5utDAum7sMjbIixzxvIxJHvqYh+5lxFo58RvTARI
+         zZuOeffdeQ1s7gsac6dG+EPWSp5ranoC7Q6gxSZiq2r1rYOVwEqhsEtZvT0ax8fBZurc
+         ISNdJ+3Htyy7qJj1iXdHs8SLHc0XG3qiAeeJgN25A1tzz/4cKelfNrxO25/IhDOfYiDn
+         kGo1A4XHb5icLChiZ5hvFXj9ZhfTJWL5ZeYqIsR8AUfrnPUgIKttrlQ7vtoUK8h5fE+m
+         uCUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787693411; x=1788298211;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0XdOaj2eZmYYf1LUuewzOCokVu4CIKwl/LaYlIW/bLg=;
+        b=TaDuYHfLoC6mzvQKdSrU8D6d3u8nEhl1wEDLCqf43zngDJQWRdzTCAzcAaksPq9WSU
+         H2oCf7QUFYAFRCWrbgq+YbvWhYa7FeMlOU5li5HAU1pcr36hxssD1OVJ53HgIKbu1bHA
+         xASsWSsSCZZXB9mZ+tBsAZmmCK6AAafUnjvUbXj7lkuOLRYghl4I3hfUe/Y33Ldo7fIw
+         iRIWbm34KLFmpI1yIsohKta2pGKlmjgVVlIJo6gT6+c6hOcZPwEGUbuy23JUuKp/lbQ7
+         9y6kK9m6prcM0PK+fc87uY/URywXtZkYaRSt4ftQ9YE4HiuUzs9Ji9qnDpbeVXs5ZLz0
+         uFPQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rqgb1rsfrn7psyGZRMwoWwCw68d45S9WnSGw56uXAyuT5XMaXu3yNSuA/u8F1mXZnDZvL7v73a87ss=@vger.kernel.org
+X-Gm-Message-State: AFuF++l3WQKlR8dI/+YCut+g9bocbdQvav01/elVGAl9M2IjQ4Kbmod1
+	ybo67AUH2ilfG7yIS4ezyHlnW8e4vXm2Dk9INdtQ+RzShZvRL78coRTMOfw7NQ==
+X-Gm-Gg: AR+sD10+6QX43rQrLbAf/jKixfKvVMO2jPFMHqsJpuoV3XBvQNrsBoncyQFoPJTtPWD
+	5ea3487wKx4oQT87m5IO0FLwX4nNFuSCRHFikwxbmr77UbkWLO4c2/b46juSMeo8Py+P+jOzDKx
+	zft6uWu4iBzJpFt96I9cywqLh5fhwH6ssd1S9FkWRZZCS+ggjj/2Y+vf16JcTkTGU3q/W3Im/ek
+	rW3n7EE6xRs1MPOy1MNXJetiqAGOdqWVXxOGQkGMYzVS71eoc/YrNWjY/T7h4AdJXNFwEOBgv2u
+	dCTlpAg/s9WKnwtJUSdIyGkGxrHO3EHPRXejlQDMqDE+R8GknmoK0ktwJGWT9ssiTJvu9cWaYBk
+	lZZuSpICAN7Y5O3PTYszeOEzMzM1vSQx42RXezwMABEg67IjDAAB6ara2yjTwfwtLXiMRmoZlJV
+	WFubF8zMShouIDujzrRcQHUNVk5dIFPCfSBfzZMmu7izEyqJt5jPV72VEogWDOA3CqfwU=
+X-Received: by 2002:a05:6102:3ecf:b0:77b:b14e:b6c5 with SMTP id ada2fe7eead31-782c19fbed6mr854745137.9.1787693410539;
+        Tue, 25 Aug 2026 14:30:10 -0700 (PDT)
+Received: from x-wing ([177.181.5.26])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7830581026csm97793137.3.2026.08.25.14.30.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 14:30:09 -0700 (PDT)
+From: Fabio Pereira da Silva <silvapfabio@gmail.com>
+To: Daniel Pereira <danielmaraboo@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] docs: pt_BR: process: Translate stable API nonsense
+Date: Tue, 25 Aug 2026 18:30:01 -0300
+Message-ID: <20260825213001.12714-1-silvapfabio@gmail.com>
+X-Mailer: git-send-email 2.55.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1784204592.git.me@linux.beauty> <anJE8SfBLtkh6QSa@zenbox> <1a01795b07a.1f456216580426.3401229391386650127@linux.beauty>
-In-Reply-To: <1a01795b07a.1f456216580426.3401229391386650127@linux.beauty>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Tue, 25 Aug 2026 23:27:09 +0200
-X-Gm-Features: AcwNN1VIk99DyxEcpdaJ9t08bm4LFPXj5Yk5ztu7oKocV4saiMTQcrI1RCnhRcA
-Message-ID: <CAGudoHGoOr8rvhSQK+HQp7LmNyE9vP=xTok9eA1ZbV7uaVnMEg@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/24] pidfd: add a minimal process spawn builder
-To: Li Chen <me@linux.beauty>
-Cc: Justin Suess <utilityemal77@gmail.com>, Christian Brauner <brauner@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Gabriel Krisman Bertazi <krisman@kernel.org>, 
-	Josh Triplett <josh@joshtriplett.org>, Andy Lutomirski <luto@kernel.org>, 
-	John Ericson <mail@johnericson.me>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Paul Moore <paul@paul-moore.com>, 
-	Eric Paris <eparis@redhat.com>, =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	linux-api <linux-api@vger.kernel.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-kselftest <linux-kselftest@vger.kernel.org>, linux-doc <linux-doc@vger.kernel.org>, 
-	audit <audit@vger.kernel.org>, 
-	linux-security-module <linux-security-module@vger.kernel.org>, 
-	linux-arch <linux-arch@vger.kernel.org>, linux-mm <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Whoa, this is older than I thought.
+Translate Documentation/process/stable-api-nonsense.rst into Brazilian Portuguese and link it from the pt_BR documentation index.
 
-First and a foremost apologies for radio silence, I got really busy
-with other stuff.
+Signed-off-by: Fabio Pereira da Silva <silvapfabio@gmail.com>
+---
+ Documentation/translations/pt_BR/index.rst    |   1 +
+ .../pt_BR/process/stable-api-nonsense.rst     | 205 ++++++++++++++++++
+ 2 files changed, 206 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/stable-api-nonsense.rst
 
-I did not have the time yet to go through the patchset, but I have
-some time to respond to this bit.
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+index c09afbe8e22c..71eb024fbec8 100644
+--- a/Documentation/translations/pt_BR/index.rst
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -73,6 +73,7 @@ kernel e sobre como ver seu trabalho integrado.
+    Requisitos mínimos <process/changes>
+    CVEs <process/cve>
+    Lista de verificação para patches <process/submit-checklist>
++   Interface de drivers do kernel Linux <process/stable-api-nonsense>
+    Conclave (Continuidade do projeto) <process/conclave>
+    Manuais dos mantenedores <process/maintainer-handbooks>
+    Processo do subsistema de rede (netdev) <process/maintainer-netdev>
+diff --git a/Documentation/translations/pt_BR/process/stable-api-nonsense.rst b/Documentation/translations/pt_BR/process/stable-api-nonsense.rst
+new file mode 100644
+index 000000000000..778a897e226a
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/stable-api-nonsense.rst
+@@ -0,0 +1,205 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _pt_stable_api_nonsense:
++
++A interface de drivers do kernel Linux
++======================================
++
++(todas as suas perguntas respondidas, e mais algumas)
++
++Greg Kroah-Hartman <greg@kroah.com>
++
++Este texto foi escrito para tentar explicar por que o Linux **não possui uma
++interface binária de kernel, nem possui uma interface estável de kernel**.
++
++.. note::
++
++  Entenda que este artigo descreve as interfaces **dentro do kernel**, não as
++  interfaces entre o kernel e o espaço de usuário.
++
++  A interface entre o kernel e o espaço de usuário é aquela usada pelos
++  programas de aplicação, a interface de chamadas de sistema. Essa interface é
++  **muito** estável ao longo do tempo e não será quebrada. Tenho programas
++  antigos que foram construídos em um kernel anterior à série 0.9-alguma-coisa
++  e que ainda funcionam perfeitamente no lançamento mais recente do kernel 2.6.
++  Essa é a interface com cuja estabilidade usuários e programadores de
++  aplicações podem contar.
++
++
++Resumo executivo
++----------------
++
++Você acha que quer uma interface estável de kernel, mas na verdade não quer, e
++nem sabe disso. O que você quer é um driver em execução estável, e você só
++consegue isso se o seu driver estiver na árvore principal do kernel. Você também
++obtém vários outros bons benefícios se o seu driver estiver na árvore principal
++do kernel; todos eles ajudaram a transformar o Linux em um sistema operacional
++forte, estável e maduro, que é justamente o motivo pelo qual você o utiliza.
++
++
++Introdução
++----------
++
++Somente a pessoa incomum que deseja escrever um driver de kernel precisa se
++preocupar com a mudança das interfaces internas do kernel. Para a maior parte
++do mundo, essa interface não é vista nem importa.
++
++Primeiro, não vou abordar **nenhuma** questão jurídica sobre código-fonte
++fechado, código-fonte oculto, blobs binários, wrappers de código-fonte ou
++qualquer outro termo que descreva drivers de kernel cujo código-fonte não é
++lançado sob a GPL. Consulte um advogado se tiver dúvidas jurídicas; sou
++programador e, portanto, vou descrever apenas as questões técnicas aqui (sem
++minimizar as questões jurídicas: elas são reais, e você precisa estar sempre
++ciente delas).
++
++Portanto, há dois tópicos principais aqui: interfaces binárias de kernel e
++interfaces estáveis de código-fonte do kernel. Elas dependem uma da outra, mas
++discutiremos primeiro a parte binária para resolver esse ponto primeiro.
++
++
++Interface binária de kernel
++---------------------------
++
++Supondo que tivéssemos uma interface estável de código-fonte do kernel, uma
++interface binária também surgiria naturalmente, certo? Errado. Considere os
++seguintes fatos sobre o kernel Linux:
++
++  - Dependendo da versão do compilador C usada, diferentes estruturas de dados
++    do kernel terão diferentes alinhamentos de estruturas e possivelmente
++    incluirão diferentes funções de formas diferentes (colocando funções inline
++    ou não). A organização individual das funções não é tão importante, mas o
++    preenchimento diferente das estruturas de dados é muito importante.
++
++  - Dependendo das opções de compilação do kernel selecionadas, uma ampla variedade
++    de coisas diferentes pode ser assumida pelo kernel:
++
++      - estruturas diferentes podem conter campos diferentes;
++      - algumas funções podem não ser implementadas, (isto é, algumas travas
++        desaparecem por completo em compilações não SMP);
++      - a memória dentro do kernel pode ser alinhada de formas diferentes,
++        dependendo das opções de compilação.
++
++  - O Linux executa em uma ampla variedade de arquiteturas de processador. Não
++    há como drivers binários de uma arquitetura executarem corretamente em outra
++    arquitetura.
++
++Vários desses problemas podem ser resolvidos simplesmente compilando seu módulo
++para a configuração exata e específica do kernel, usando exatamente o mesmo
++compilador C com que o kernel foi construído. Isso é suficiente se você quiser
++fornecer um módulo para uma versão específica de lançamento de uma distribuição
++Linux específica. Mas multiplique esse única compilação pelo número de diferentes
++distribuições Linux e pelo número de lançamentos suportados dessas distribuições
++e você rapidamente terá um pesadelo de diferentes opções de compilação em diferentes
++lançamentos. Perceba também que cada lançamento de uma distribuição Linux contém
++vários kernels diferentes, todos ajustados para tipos diferentes de hardware
++(tipos diferentes de processador e opções diferentes), portanto, mesmo para um
++único lançamento, você precisará criar várias versões do seu módulo.
++
++Acredite, com o tempo você ficará sobrecarregado se tentar dar suporte a esse tipo de
++lançamento; aprendi isso da pior forma há muito tempo...
++
++
++Interfaces estáveis de código-fonte do kernel
++---------------------------------------------
++
++Este é um tópico muito mais "volátil" quando você conversa com pessoas que
++tentam manter atualizado, ao longo do tempo, um driver de kernel Linux que não
++está na árvore principal do kernel.
++
++O desenvolvimento do kernel Linux é contínuo e ocorre em ritmo rápido, sem
++parar para desacelerar. Assim, os desenvolvedores do kernel encontram bugs nas
++interfaces atuais ou descobrem uma forma melhor de fazer as coisas. Quando isso
++acontece, eles corrigem as interfaces atuais para que funcionem melhor. Nesse
++processo, nomes de funções podem mudar, estruturas podem crescer ou diminuir, e
++parâmetros de funções podem ser retrabalhados. Quando isso acontece, todas as
++instâncias em que essa interface é usada dentro do kernel são corrigidas ao
++mesmo tempo, garantindo que tudo continue funcionando corretamente.
++
++Como exemplo específico, as interfaces USB internas do kernel passaram por pelo
++menos três retrabalhos diferentes durante a vida desse subsistema. Esses
++retrabalhos foram feitos para tratar vários problemas diferentes:
++
++  - Uma mudança de um modelo síncrono de fluxos de dados para um assíncrono.
++    Isso reduziu a complexidade de vários drivers e aumentou a vazão de todos
++    os drivers USB, de modo que agora executamos quase todos os dispositivos USB
++    na velocidade máxima possível.
++  - Foi feita uma mudança na forma como pacotes de dados eram alocados a partir
++    do núcleo USB pelos drivers USB, de modo que todos os drivers passaram a
++    precisar fornecer mais informações ao núcleo USB para corrigir vários
++    deadlocks documentados.
++
++Isso contrasta fortemente com vários sistemas operacionais de código fechado,
++que precisaram manter suas interfaces USB antigas ao longo do tempo. Isso
++permite que novos desenvolvedores usem acidentalmente interfaces antigas e
++façam as coisas de formas inadequadas, prejudicando a estabilidade do sistema
++operacional.
++
++Em ambos os casos, todos os desenvolvedores concordaram que essas eram mudanças
++importantes que precisavam ser feitas, e elas foram feitas com relativamente
++pouco sofrimento. Se o Linux precisasse garantir a preservação de uma interface estável
++de código-fonte, uma nova interface teria sido criada, e a antiga, quebrada,
++teria de ser mantida ao longo do tempo, levando a trabalho extra para os
++desenvolvedores USB. Como todos os desenvolvedores USB do Linux trabalham em seu
++próprio tempo, pedir a programadores que façam trabalho extra, sem ganho e de
++graça, não é uma possibilidade.
++
++Questões de segurança também são muito importantes para o Linux. Quando um
++problema de segurança é encontrado, ele é corrigido em um período muito curto.
++Várias vezes isso fez com que interfaces internas do kernel fossem retrabalhadas
++para impedir que o problema de segurança ocorresse. Quando isso acontece, todos
++os drivers que usam essas interfaces também são corrigidos ao mesmo tempo,
++garantindo que o problema de segurança seja corrigido e não possa voltar
++acidentalmente no futuro. Se as interfaces internas não pudessem mudar,
++corrigir esse tipo de problema de segurança e garantir que ele não ocorresse
++novamente não seria possível.
++
++As interfaces do kernel são limpas ao longo do tempo. Se ninguém estiver usando
++uma interface atual, ela é removida. Isso garante que o kernel permaneça tão
++pequeno quanto possível e que todas as interfaces potenciais sejam testadas da
++melhor forma possível (interfaces não usadas são praticamente impossíveis de
++testar quanto à validade).
++
++
++O que fazer
++-----------
++
++Então, se você tem um driver de kernel Linux que não está na árvore principal
++do kernel, o que você, como desenvolvedor, deve fazer? Lançar um driver binário
++para cada versão diferente de kernel em cada distribuição é um pesadelo, e
++tentar acompanhar uma interface de kernel em constante mudança também é uma
++tarefa difícil.
++
++Simples: coloque seu driver de kernel na árvore principal do kernel (lembre-se
++de que estamos falando de drivers lançados sob uma licença compatível com a GPL;
++se o seu código não se enquadra nessa categoria, boa sorte, você está por conta
++própria). Se o seu driver estiver na árvore e uma interface de kernel mudar, ele
++será corrigido pela pessoa que fez a mudança no kernel em primeiro lugar. Isso
++garante que o seu driver sempre possa ser compilado e funcione ao longo do tempo
++com muito pouco esforço da sua parte.
++
++Os efeitos colaterais muito positivos de ter seu driver na árvore principal do
++kernel são:
++
++  - A qualidade do driver aumentará, pois os custos de manutenção (para o
++    desenvolvedor original) diminuirão.
++  - Outros desenvolvedores adicionarão recursos ao seu driver.
++  - Outras pessoas encontrarão e corrigirão bugs no seu driver.
++  - Outras pessoas encontrarão oportunidades de ajuste no seu driver.
++  - Outras pessoas atualizarão o driver para você quando mudanças em interfaces
++    externas exigirem isso.
++  - O driver passa a ser distribuído automaticamente em todas as distribuições
++    Linux, sem que seja necessário pedir às distribuições que o adicionem.
++
++Como o Linux suporta um número maior de dispositivos diferentes "prontos para
++uso" do que qualquer outro sistema operacional, e suporta esses dispositivos em
++mais arquiteturas de processador diferentes do que qualquer outro sistema
++operacional, esse tipo comprovado de modelo de desenvolvimento deve estar
++fazendo alguma coisa certa :)
++
++
++
++------
++
++Agradecimentos a Randy Dunlap, Andrew Morton, David Brownell, Hanna Linder,
++Robert Love e Nishanth Aravamudan por suas revisões e comentários sobre os
++rascunhos iniciais deste artigo.
+\ No newline at end of file
+-- 
+2.55.0.windows.2
 
-On Wed, Aug 19, 2026 at 3:15=E2=80=AFAM Li Chen <me@linux.beauty> wrote:
->
-> Hi Justin,
->
->  ---- On Wed, 05 Aug 2026 04:25:25 +0800  Justin Suess <utilityemal77@gma=
-il.com> wrote ---
->  > On Thu, Jul 16, 2026 at 10:31:26PM +0800, Li Chen wrote:
->  > > Hi,
->  > >
->  > > This RFC follows feedback on my earlier spawn_template RFC [1]. That
->  > > proposal made caching the primary interface; this one starts with ge=
-neral
->  > > process construction. Christian suggested a pidfd/pidfs exec builder
->  > > modeled after fsconfig(), with enough semantics for userspace to imp=
-lement
->  > > posix_spawn() [2], and Kees agreed [3].
->  > >
->  > > This RFC is based on linux-next next-20260710 and depends on two pid=
-fs
->  > > fixes that I sent separately:
->  > >
->  > >   * pidfs: preserve thread pidfds reopened by file handle
->  > >     https://lore.kernel.org/all/20260716052726.1032092-1-me@linux.be=
-auty/
->  > >   * pidfs: handle FS_IOC32_GETVERSION in compat ioctl
->  > >     https://lore.kernel.org/all/20260716052822.1034228-1-me@linux.be=
-auty/
->  > >
->  > > The initial implementation is source-based. The executable path can =
-be
->  > > provided with the final run request:
->  > >
->  > >     struct pidfd_spawn_run_args run =3D {
->  > >         .path =3D (unsigned long)"/usr/bin/rg",
->  > This should probably be an FD for the path.
->  >
->  > This way it prevents race conditions over multiple configuration steps=
-.
->
-> Thanks, that makes sense. Using an fd avoids the pathname race and pins
-> the executable we actually want to run.
->
-
-I don't understand what race is supposed to be addressed either as
-none of the setup depends on the content binary.
-
-Regardless I don't think this is going to fly as it directly shafts
-NUMA setups. What's needed is a path to the binary + the PATH
-envifornment variable or a collection of paths to try out.
-
-Here is how it harms NUMA: In the most extreme case suppose there is a
-container bound to a specific node and you want to exec something into
-it. Further suppose none of the relevant data is in RAM yet. And
-finally the process doing all the work is running a different node.
-
-Say you are going to spawn ${container}/usr/bin/coolprog.
-
-At minimum this will allocate a dentry and an inode for usr, bin and
-coolprog itself.
-
-Afterwards any path lookup going through usr in that that container
-will have to fetch memory from a non-local node to traverse it, same
-thing for the bin subdirectory.
-
-This is a self-induced problem when using a fd.
-
-In the real world userspace notoriously performs failed execs as it
-makes its way through dirs in provided in PATH, and while you can
-patch select programs all you want, the mechanism will have to account
-for it.
-
-This is where the next NUMA issue lies its ugly head. Suppose you have
-a box with multiple nodes, but don't use anything to maintain affinity
-(as in, processes run where the scheduler sees fit).
-
-A well-known exec-heavy workload where this is fine is compilation.
-Any big project will do, to give you one trivial example, make -j
-$BIGNUM modules in the Linux kernel directory.
-
-Say you have a box with 4 domains and 32 threads per each. make -j 128
-will end up spilling on the entirety of the machine and there will be
-some loss of locality when spawning gcc and whatnot. Even then, a
-sensibly behaving scheduler will not migrate processes between nodes
-without needing to do it. Meaning after the process gets to run, you
-can assume it stays on the given node. The stock kernel with the fork
-+ exec machinery is doing a shitty job here, but the new mechanism can
-assure process-specific allocation to come form the target node as
-long as the scheduler does not mess up.
-
-To that end, the final form of the machinery needs to be in position
-to do the following:
-
-1. copy in whatever data it needs from userspace
-2. if no affinity is specified, ask the scheduler: assuming something
-forks now, where is it going to run? the answer would be speculative
-ofc
-3. to the minimum allocations needed (task_struct etc.) while passing
-the node number from above
-4. have the newly spawned task handle everything else
-
-This in particular means that a failed exec would be very expensive,
-as it would go through task creation and teardown. Meaning the child
-needs to be able to figure out where to binary to execute is. And
-user-visible part has to account for it from the get-go.
-
-I'm going to write more after I go through the patchset, should be next wee=
-k.
-
->  > >         .argv =3D (unsigned long)argv,
->  > >         .envp =3D (unsigned long)envp,
->  > >     };
->  > >
->  > >     fd =3D pidfd_open(0, PIDFD_EMPTY);
->  > >     pidfd_spawn_run(fd, &run, sizeof(run));
->  > >
->  > > Alternatively, the path can be staged before the final run step:
->  > >
->  > >     struct pidfd_spawn_run_args run =3D {
->  > >         .argv =3D (unsigned long)argv,
->  > >         .envp =3D (unsigned long)envp,
->  > >     };
->  > >
->  > >     fd =3D pidfd_open(0, PIDFD_EMPTY);
->  > >     pidfd_config(fd, PIDFD_CONFIG_SET_STRING,
->  > >                  PIDFD_CONFIG_KEY_PATH, "/usr/bin/rg", 0);
->  > Same here. Should probably be an FD to the binary instead.
->  >
->  > >     pidfd_spawn_run(fd, &run, sizeof(run));
->  > I'm worried this pidfd_spawn_run just adds another varient to the exis=
-ting
->  > myriad of exec* syscalls we already have. Would it be better to just h=
-ave this
->  > work through execveat(fd, "", argv, envp, AT_EMPTY_PATH) instead?
->  >
->  > (i.e have execveat take a pidfd directly).
->  >
->  > Then you can get rid of pidfd_spawn_run which looks almost structurall=
-y
->  > identical to execveat (with the argv and envp collapsed).
->
-> Thanks, but I'm less sure about using execveat() as the run operation, si=
-nce it
-> normally replaces the caller while the builder creates a new child and
-> returns. A separate run operation still seems clearer to me.
->
-> Regards,
-> Li
->
->
