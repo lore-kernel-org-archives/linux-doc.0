@@ -1,154 +1,107 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEA542A17F
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 14:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787670002; cv=none; b=DWGwNPOsNPg4qdITZqlGc9rspJKYtQAU5aObC4Fx2KWqA0fVNhQFz/o8s1/VqpMLZ2UzUef7Zf1Nd6F1OnUR/ShfHYfS+/zBVKz1lZqm7Ay7BbRVKpddq8/xZiIcQWg8h0nPinO5vb/yaVDiZfFFm1QQPmg0hLMzBGNHcoNUZUM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787670002; c=relaxed/simple;
-	bh=Dpw4rtPNIhmMqn7wNJpVZncgvMPX1xG1jtECbsm5Vj8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qoBQELdIPwgBqORAmdKLAbnU/2wcUvhxKMbdj/JVSSob/g4FWSf26ScrXolrtBygMT9GfroDL96l1ZSYlq01kRvRAM/zGF+qryAcgKlJhhEYclh0MfjsExoiukqeAkphlHR1smRUp/gPhBcYpZfH3AVEsATuOccZMW2Wd0o/Kb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TaE266Wd; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AFF484256
+	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 15:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787671585; cv=pass; b=n6A4NEsASh8PdWJUx4BKOwEhtY48/8ZG91AjJnviqbZ/Eh94ctPS9ui9s0s0mBtyge54i3lQFSg2FtqJc3T7bBMZxsQu/oe+zgkezUK2UanykbbGTr1VSWgTs2iF1mdjlH/Kex6PxCym792eMF65yxjNc1phEFSUU0McxZS3zlU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787671585; c=relaxed/simple;
+	bh=jTDw6n4/zXg1Lvjc9R5Av+cOtOkWj0zyRcHd9mGrOxA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mvKvgL7C8ezIEZB7MaqlpdUldzIETsaBnjSPJcNo1DXBeRLAdZ5xYnFDYoBBPH2KRSwfq0IB4uwM1IXMCsNsMkhbUN6Ft9Fql9w0GPHQv37ud6b3LrCeMB7AQEdRe45gWIsQCbMM1XwUjCp+bLldK6MzY5JnsVzO8BemQ0RTx+I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aqTAPCjC; arc=pass smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TaE266Wd"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c16794450aeso726019166b.2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 07:59:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aqTAPCjC"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-93695893ac1so298493085a.0
+        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 08:26:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787671583; cv=none;
+        d=google.com; s=arc-20260327;
+        b=W8f4SJKn21f4k11TXRD+FKGD5bgBfhuT6bchMeQnjxVFfFLTKoJWIW8uxY/aWP07JT
+         cG6gRc89z4bMeWPCxYLtaq9fWJKyDWjeRLiof8OuB8kYSQvVTR27COHEWNzRqBTVchb0
+         62/YIf5W26R4FrPpT2+kJwpEWE0walu7DN801OzKQSWDGyZyfw3x2m/Pm/ZSC4KkHVC8
+         zcnEc7KoS1aJCNTAn8lnHdmY2f43CZ6yzVicTmpQlz6GtilV+utfp/hO2fVKo6Cz1du4
+         yXkQgZUZM6JhO2kbYxBgohahBF+ieM0+6Ls8n0idDK64wi5Je3IifUCoxqQxTPlWb6bR
+         XR3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jTDw6n4/zXg1Lvjc9R5Av+cOtOkWj0zyRcHd9mGrOxA=;
+        fh=7UO4xI83uXiWK1idAa3ZXnnVQgfCbCiSV71lv8gZHDc=;
+        b=HYiWOWOs00NFgxWG0PlG5FQ9gdx63ckWi/iW1ebKXBOBn2mxC4c3KN16XBlsN3VSgR
+         aBV4+p3MxukRrToLO3nJlwt+zha0UlEGInvw5Imr3LXbHhUWELMOiAu8QK7jpTIGvy2S
+         OXnb0IK0S0ZaczqxXLOGHJ7cDmGnqWeCclLX5IjbWVSrjg+fyCg6+kXXXLdV+e0GhTsr
+         MXmPV/QHbSPJwR2bR8FGehp8qJVcJLLoKGi2WdtQbeC5BunHeYbTUkHsF824D95Bh1Vv
+         s/wSIuLaOYpsXVlwfirPr+DKf14cTG5ke9Vhjj9GoGuoKwAswDd6tBk22CH+levdDmle
+         vJSQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1787669994; x=1788274794; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1787671583; x=1788276383; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=06QgDRd3KsQRNkIC849obH3kyg/ANunDmHU+Cwu/Xpo=;
-        b=TaE266Wdpq6iQsaokirOQEe4P7Up3BdlXLynmT2tdAbixOEuLgylVj3/ONXvl240Gd
-         XOLYm886a43G/NjFMJ33EcK8dDdAF8cWS2NjjOSAOCi/rn3fBe6u1Xf46fSqOz0o12vP
-         0NCt4aZ2NjrKTVBvUJcnqgg2YsyNY3FQf6ac7Ri5KEa4HPcYlg9grx4a/Bh2eRo/ySMh
-         EfRT/nmlHsNWGm2LzStmUJKh/TnnICIE1HpJkousfGkVO80IXxLWxA2pGFPVoaN4b/E0
-         OON4P1FJEenXJhGzsZd3QJewKyf27NhyFqrq2x7/1/1Q9a2TThPF5/J+SdFoRzCBHCuh
-         SgLA==
+        bh=jTDw6n4/zXg1Lvjc9R5Av+cOtOkWj0zyRcHd9mGrOxA=;
+        b=aqTAPCjCEihfORXyKHYOELJcBU2Kb8LxpPfX6t4nt1NzmJH5tq02Eb0iRK4A9fmrmR
+         hTS9T72hESxRNpo4oU88cruI9KuA8iGUyuNCgdMTMrUjh8WGnd0I5jaGYsetUZC+ubpD
+         R9N9/as/3yCZx9aRvqpLXLNmXmrv+aRasRUFcklSf4wjHW2AefIqb8PN3GwLrHmNQJNO
+         5/GGLqJ2GRoqHmftDBgUaEHet2WkwK2LN4bFN0POV48SkvopoD4H2ZIRmvUjrjkVXaeU
+         PcEpLNyzR2eWI/WSqSuK97MHGtqlhnVsR08Abfkg3dTaCKgojioe0HKRLx8hvHt40XNy
+         D8dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787669994; x=1788274794;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1787671583; x=1788276383;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=06QgDRd3KsQRNkIC849obH3kyg/ANunDmHU+Cwu/Xpo=;
-        b=Vf05nThoO30p+WShBeVnDcokfPrpDL7cRkSVSFaI1s73CQ+EoaAljhqVpbYawyqqi5
-         QQRuK6p4RiS+SFX6MO2vOc58JGzwPLyNj5PvqywqbmTSE/vFWhVGP5OpJ2iCzJogCzER
-         pdwykdYTQCitVUJORZBZflAlER0s0ayeiw8CrnqJi++lrxp9GKKrrVwsmeKwTXXzfg3b
-         SGISihX7tZpPoaHfDYUZ/BxvGsxcT+koruj2eb3ZfZVacvwGJYWwXArMiBNn0sLgmAgG
-         tPSn1BUhmLsG0hGXbmsgnkKKEbEGcD1LZxYnN3Efsm9SciYQB2lbHeJ+lBGKO7bei7Vg
-         WC7Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpXb+fOydU0NeFCIAxvP/CKHdS1V8fO7LoFncbEP2E0oP1g/GVaStTbCY+8LVFrhy1cJ2WLPBKIDsM=@vger.kernel.org
-X-Gm-Message-State: AFuF++nBfpWZZ/J43TX6PCYKMX1q5XHxBTl4Sa/3ukVUehGC5uSsFpul
-	ArCAA99SDngU6ZyM0z4JEXs3qDi2ZUoPjXEdNKb9sjcrwGAbQMN1U7tWxvv4pA32Qzk=
-X-Gm-Gg: AR+sD13ADrUh6Fdc4m/rmPWxfaUZs3THsUYZXiRLXb//YIb+Kk5da+5fQ+eLcBQi5fd
-	78kMTx89EGzQlQBZ+FhU177aGzZ/tljntT3sT2OpogKHziUKYRS3C/Hr5xKmHO6sr6lXbHAgWc6
-	cpxS92VhIYw4EWy7PQWHw78XKrrXAtmiu1qFQD3a5Dvv9efqgkzkBOPlobSpX/Y5txS8vPWUxks
-	wceBR0KiYYI+NRhorjcvxYUWL1JpZ3QPshpZYJP1Vb0fA5QQDVF1QOadJCpcEDfUaTwW2F4er9u
-	EpDeTpsG96+oayTrPUMU9smE/dF7h6SKv/rsP2I2Z8r1YeQ+foKIcZQwPoUaWh+bc7F8TxGfh17
-	//FE1XLQ9Y7ok+/hplsZyVzNEp7/SFqEvM7jWxk3o+AcXeHvGHfLPGWSfI6WGZ7CE178TUrtyUJ
-	aAPKWdJJAEA+iKqywQOcay9q6x7RZgEZl2T1AhIsxRaJtauOH2SM9Hr7KfBoaFgSOqQNDTYGA=
-X-Received: by 2002:a17:907:b048:20b0:c20:1c9c:b36f with SMTP id a640c23a62f3a-c246a4b154amr2894042866b.8.1787669994328;
-        Tue, 25 Aug 2026 07:59:54 -0700 (PDT)
-Received: from localhost (109-81-80-32.rct.o2.cz. [109.81.80.32])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c249606a905sm2134790566b.13.2026.08.25.07.59.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 07:59:53 -0700 (PDT)
-Date: Tue, 25 Aug 2026 16:59:52 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Eric Chanudet <echanude@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>, Shuah Khan <shuah@kernel.org>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, Maxime Ripard <mripard@redhat.com>,
-	Albert Esteve <aesteve@redhat.com>
-Subject: Re: [PATCH 00/11] mm/cma: charge cma allocation to memcg using per
- area counters
-Message-ID: <ao2t6HP-Zt5KDg30@tiehlicka>
-References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
- <aowHqqaqK7TeexQH@tiehlicka>
- <ao2gA_m3BCBu2esy@echanude-thinkpadx1carbongen13.rmtusma.csb>
+        bh=jTDw6n4/zXg1Lvjc9R5Av+cOtOkWj0zyRcHd9mGrOxA=;
+        b=H2PuksMAFJwvAEQKZmCDEwIhqcRUpPcOpGIM9Nyx7pX7gotZ+MG4xPfrUaJRXa2Ehk
+         Q4IGdZhKbvRS8DmCday6TERBSTzoxtdhQ7LcUdOOAJK3V0HoK3Apm4kR8gHtPIDFnUl4
+         hoFr2GC/5RzPHnZsoR9FMGS6yA6Cd2K5vKMHCd5KdHCDaWYyA54LakmLI6Tzslmfl/b7
+         IzpTuJ2DcmJsi5PlFAGpGSEiPM0YP/jcUucZJiocs56T7Mgn/4XGCD5TbzijxYQ8QEnw
+         1DIJiSLqnmOrNa9GJKwgh9j7IS0E+JuGQQYkX+qBhz1bHVdI3drmC/GQt62kMdDQ8pvN
+         roWQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrKMVGnBQFhMr2qNK4CBlwPNbtXey4NetYCEZqIaamngKryiGBEj6mFMskBQ5KNNZf120uKiY55kaY=@vger.kernel.org
+X-Gm-Message-State: AFuF++mx7C4raDWsiw8AMrLgUtzrj6o8I6p8wsviNpxZIouHG/V0pV6w
+	rSRc1HuE0oDoNojiDYy32EdrA25DljRnlhK/nd9i8s12xHe88vucsT8S2aj56j6tnt6JGuPM0Zv
+	qBcRl0GEwivsDBQk3SqIYHSXjA4tzuX8=
+X-Gm-Gg: AR+sD100WqNAbueRQDt+JH70daQYlPH1GKlOwJ6wRnTnVqn1o/CGa7hQsUhhignnahu
+	Ei5NsPmxbi4eI5ZDtXAo3RBkmXgKLYU6gpKKr4nL2v71AHKXYa33yrn5AWdUd9vRmlOvYdcxGqJ
+	gMK+Vz4ilTfDbGHSTgmAAWvCJN/mZwZQ/aWvDV+LFWQ7fYdoRaOuHYSGTY+fN/7hzirMxVmj7py
+	wSb3IMZ+gsjyT0imYOY2Jv7T5kAc9UkSShSueaAXxds6Va/oVoxpCDYY2wFCRQMRkaqiYNRhNIk
+	umcXsHmUcOUoRzUSgZouGYhpRCcJifYNdROPRUIWGme3HeaEPrQc0AMsivJra+oiXv7BLxAftJf
+	LngHfNTMJnkvC1eZZGJabnyKJZcl/8s4ZoYnK04bCNwWRhpLHjDvcMqzRVg==
+X-Received: by 2002:a05:620a:1a1d:b0:937:6771:e7e7 with SMTP id
+ af79cd13be357-9376771e8damr1069880485a.30.1787671583123; Tue, 25 Aug 2026
+ 08:26:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ao2gA_m3BCBu2esy@echanude-thinkpadx1carbongen13.rmtusma.csb>
+References: <20260825144525.12670-1-silvapfabio@gmail.com>
+In-Reply-To: <20260825144525.12670-1-silvapfabio@gmail.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Tue, 25 Aug 2026 12:26:11 -0300
+X-Gm-Features: AcwNN1WgVZ6g0fFQ6kFeBGosaaAhFvO6L5yVtLZc-37k8t6b0AXFf7yNGyPGwR0
+Message-ID: <CAMAsx6cPZ1f5XV1+CRoAJj1mAe--5wcekOWwqCyEW+HioFfuig@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: pt_BR: process: Translate CVE documentation
+To: Fabio Pereira da Silva <silvapfabio@gmail.com>
+Cc: Kurt Borja <kuurtb@gmail.com>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue 25-08-26 10:47:53, Eric Chanudet wrote:
-> On Mon, Aug 24, 2026 at 10:58:18AM +0200, Michal Hocko wrote:
-> > On Fri 21-08-26 14:56:52, Eric Chanudet wrote:
-> > > CMA allocations are currently unaccounted for by cgroup memory
-> > > controllers. As system resources, they should fall under memcg, but CMA
-> > > areas partition the available space for different purposes and memcg
-> > > doesn't have a good representation for that.
-> > 
-> > Which CMA usecases are covered by this work? It would be also great to
-> > spend more time describing usecases.
-> 
-> We would like to offer some usage guaranties to userspace processes
-> ending up doing allocations in CMA.
-> 
-> For example, a shared CMA area is described in device-tree for an ARM64
-> platforms. Userspace components could then, for example, allocate from
-> it through the dmabuf heap, or a device or framework-specific ioctl for
-> that matter, to use the buffer with sensors. The dtb may have other CMA
-> areas described additionally that may or may not be used by that
-> component. In this context, we would like the ability to limit one of
-> the userspace component to over-allocate and choke the other(s).
+Em ter., 25 de ago. de 2026 =C3=A0s 11:45, Fabio Pereira da Silva
+<silvapfabio@gmail.com> escreveu:
+>
+> Translate Documentation/process/cve.rst into Brazilian Portuguese and
+> link it from the pt_BR documentation index.
+>
 
-How exactly is this supposed to work? How is the CMA access controled
-and opted in for accounting. What happens when memcg limits are hit. And
-many more details, please.
-
-> memcg
-> looked like a good fit to achieve this, albeit handling the areas, so a
-> cgroup has a quota in a given CMA resource.
-
-Please expand more on why do you think this fits into the memcg model.
-AFAIU we are talking about a unreclaimable memory and reservations of
-CMA areas.
-
-> This trails from an earlier post where we tried doing this using
-> dmem[1], but I was unable to reconcile the requirement for memcg
-> accounting[2] since from dmem I didn't have memory objects to charge nor
-> the guaranty there was one. Given CMA is always system memory, it looked
-> like a better fit to try something without dmem.
-> 
-> Best,
-> 
-> [1] https://lore.kernel.org/all/20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com/
-> [2] https://lore.kernel.org/all/ahB7pCu_G4vuswc0@linux.dev/
-> 
-> > -- 
-> > Michal Hocko
-> > SUSE Labs
-> > 
-> 
-> -- 
-> Eric Chanudet
-
--- 
-Michal Hocko
-SUSE Labs
+Hello Fabio, why did you translate this document, given that a few
+weeks ago you sent the same patch and it had already been applied by
+Corbet?
