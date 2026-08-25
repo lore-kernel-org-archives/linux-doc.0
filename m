@@ -1,239 +1,150 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35CA3242DF
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 14:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A5748380C
+	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 14:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787669140; cv=none; b=gYTaU6qSRF2AQZ6Rtch0zFi2nc0hdsT4uTTqGDbpqqXNHbzYWT6qXaRPAEN2Do3YHrETmh12a7gA2s0A99EIi82UWawFy2eFUJMucdZzG+hLrzZTp2FfH4iJRdhgFXP01EPeaNFSRpQ1CkIGJQt4G9at3a/V8lTmHptb8rLM3NI=
+	t=1787669288; cv=none; b=uhr/2oWrbWoFb20gZ3quweg7HoP2r2oujZtklyLB3J1TpMCUs8jsZNN+ATvfMdwexVfdqRJG2+GqLuKlvEf9MdDEak/GgMMtHHiPjlrPS+T+5llX2M1bL2sOsRMONWbrbR6zXvqYcXf2x9BGmpwCVh1Opd0BYhU9H4nsFndUVJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787669140; c=relaxed/simple;
-	bh=xW808fuPPWsltOQ2b7g49MQqOmp4eBJWZLNHomx9uzI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DEDcOgBdrRxo+PmAuJHHeNjcvpkk0W57siXYYzikMSbPKRNremx+QUWCQlr90BAfs+/a6FCqHDqJifq2bojMGD+lwAl9+3ulBmGlElxGw3rqTqZx/s0pqWtokNUGQN9spnb5NijWeHC1smT6rWRDCWXxjH2Uv3ThFPXNjqJDcno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lqB0zBWw; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787669288; c=relaxed/simple;
+	bh=pzHvhf/kcUn1uGQQoMmmsZdAbSQgFg/DB45H52WF0/w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IruUT+YQyhJ/xoOJp1Kt51SnnlAWh3GUvzSQBYa/It9WcVjRW7U6IlQfgn78vvyd96pdWYmg6eLkU5pVoUZAo1v3bfP5bG0SEVJQ1pcLqV6e4x+w7YNJri4eotZmAJrreM7Vvgj20zEW4dNQ3D7fxGtqsJsrQzmJQzmOS8+fvks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cdbz7zf7; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qZsXYCQg; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lqB0zBWw"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-38759bcd877so6113433a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 07:45:36 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cdbz7zf7";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qZsXYCQg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787669278;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6s1XusrMHrXnvzwU6UboxiHzAtGjQbneiTvP5eiCfbQ=;
+	b=cdbz7zf7rNr6bXdMkqRyUlRtrnItztwOlrbKbDknxtAy9xI2Ap2RWYHtnBludjVPbYx7Kj
+	MIkwVq5plcaypH5oPF7fdMCJFmUI5246YjjA3Hs3tskt+YPM4VXLJ+qFBarS0vCgQylV3m
+	CF46D6Y18NYQ7RWY0vmBJFnfmnHhxC8=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-100-_j09JKiaOE2_fHRt--sSTA-1; Tue, 25 Aug 2026 10:47:56 -0400
+X-MC-Unique: _j09JKiaOE2_fHRt--sSTA-1
+X-Mimecast-MFC-AGG-ID: _j09JKiaOE2_fHRt--sSTA_1787669275
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-92efd2ca21aso937081285a.0
+        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 07:47:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787669133; x=1788273933; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BOha3PyFvY0LqRGYAsh8D3QLL9jBKYEJb2OG4/6I7eI=;
-        b=lqB0zBWwwn3gzp+SpVq8PLT6AHZFjKI7WZVAuIkvd4Jr4jF5lBoectz7VftcurLXe+
-         J6sr/xxzGRhgt6Ya/GxF/ZAQBiEKFCoAIgJpetS7bet8mVm39Ss6M3tCaqdGXlzyRyFh
-         6TjosTGdOLYW1N54IYM4dsftyhpDLKYKFKdns6fUR67tdoyD7RoAaOMKE9ayFqnmNsMK
-         qWNelChubBRzADGx30q6gfcSRbGM2APUeSTQkqhAlNacp2z6cM7aknkvHGugRZK5GWiQ
-         h0g1FwGDX1zqD3CT/kxNm04TD6XF4Fv0di5XssPvvzrZqChU3GBDsmglLGDjvISrfUsr
-         NuoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787669133; x=1788273933;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=redhat.com; s=google; t=1787669275; x=1788274075; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=BOha3PyFvY0LqRGYAsh8D3QLL9jBKYEJb2OG4/6I7eI=;
-        b=q0OxjwoGy3pwYzKMb1Gc3sJSvGBKb5C6XRlbxJU3MUjdts4c/xcsOrRnaMtJv6y0ai
-         yEBOkXIc1KQUXVqWFLcADU7giD7/9zv3+/2NMmMorrZsHSnCQHqEe1u2IhIu79IRiPTF
-         NJRdlI2iCG6CwGAomAyvZuoEGu/fl2N5y6H1z8J1F04VuzSqjQm4sX1FHGTMrv0dq420
-         dabyqqx7lBfhKdadYUDZBIfj03H4TgPVbkKGMb8MQtNqghbv4UmEOrss+yCYhV5M1VHP
-         xD690EKUszIge47FtFXqMARHRQ9L/K9O97P6rPaw0Eqd3pyN3M8jDUXj/qibW0N0YQ6j
-         ljiw==
-X-Gm-Message-State: AFuF++lwuSbcgGdvAKav1/3jVJqnaqS4qbXFYxBjzpsdnSH4jEyk+pqU
-	c8+ihquJvg/pt7EuhZ72XqCNmlXOdn5yd5TI0xGYrCuqCkSWAd98H2NdopECHA==
-X-Gm-Gg: AR+sD13ewzNCSU90h5UYQbxIw8YGHInyFNHwLJSqpuKv8DW7lFVPFBGP+3DGbYkD9+O
-	7Fetveb3tLIKMHA+088/I1gVKFug3gx3U14qOKi1NXs/LkOqP2NJiR3dbpMgGT7b+9pn1LMGPuz
-	Z5hnsyRW5oF8tD91oziojQB13QhLOhLG/fjihZwQLP0Juj1VvTeQpFUZ0jkQZrBTBBmGyzlw5qG
-	XbnLW3Odl3H6KeW+o3BAPa442RWxd3acxIdZFaqIeogpdWy6S4rUQ3QGrBJBHQLBwqNqKn0i/PB
-	e58DzBk94sEENxSixYGEx+WGkRYqnQUK7wBc5eclpzivyrz78x2z/0wJTH7QuQQrvMZHpDfM3ok
-	GwgoeN3zMwzZddQ93W3DIANS0iSQYQZdziI43uVsXIsQ4I3yIRPp3cK8uEDdKMSao2GeumxHDaJ
-	HJGmtg6iAPpUZo1gSopc3aakQhum4DTL3ytoVOeKGMKY8WD9WEluMPvWltId2SxUjrxFs=
-X-Received: by 2002:a17:90b:4ac6:b0:38f:18f9:785 with SMTP id 98e67ed59e1d1-395df13ced5mr49978672a91.8.1787669132706;
-        Tue, 25 Aug 2026 07:45:32 -0700 (PDT)
-Received: from x-wing ([177.181.5.26])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141860c697esm32077206c88.3.2026.08.25.07.45.30
+        bh=6s1XusrMHrXnvzwU6UboxiHzAtGjQbneiTvP5eiCfbQ=;
+        b=qZsXYCQg0NcRrl7FoyWeU9aVLadAaFI5eoIdcamwsj3oq/aHNZllmiigvELzLiCzpL
+         K0TjfSf/+Fdlo5+wkJc2dXQIyFKRWLta9hlLN7GLmaR77QVOoouajeRg6SWDKVNIYnWO
+         dKTdm76ZRaIWWwmP1ccSTiJFapcI3SQZRzQmHx48G3XLkChevTDvHes81cPP9EUkkjs4
+         2aSyZjHysL0+zJS6OgCcKF1VBRN30520Nzws+AVKQZNwOk+hvtEXPUmh/+fJhZP6gFBf
+         e7MIOGBuNCwjBSAM/GQNdwz+bGT1d8WCj1ER6nLmXBDNK0bXBaoMozUalybvFbfLuQML
+         pHnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787669275; x=1788274075;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6s1XusrMHrXnvzwU6UboxiHzAtGjQbneiTvP5eiCfbQ=;
+        b=Ryp6S+THix/KFRvi4Hsk9rYtHfymck8IdLvmJYGv4HzmHdQ6ZKykHggGccYsTGyxS+
+         N5IUoh5emCY3esgphbElYFMKUsInhohbmiTTgi2+8v2FfhDxOSAy4056Xax3VWQaFfBr
+         YdPTF+9FZxI9eKuqCaJTTiqcThBBWYK42PqrA8Kgqm8be4islNVrmF+j/L+RNjRs2Hy4
+         kIYLX/1FvusVi5wsVY+MRnUfSiJUrYU6Yknuj32kTCarUedmVZejUt0zpFQCmOrGsGNo
+         3UAKkrExA1ujW6U3WB+D0ZyC5MsjERzGL/FYy9eafgFsKQcTbxxs04l3WX1PbCNE1cb/
+         qypQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq8P6q9ImHsdlA2hO2vxsm5boUNznxw/30NwcJkHuZWr3JsdmpVYWr382XRsX0aMxKyNacPn+3f6uw=@vger.kernel.org
+X-Gm-Message-State: AFuF++npKxQnYCd/OKzV6ezd5N5FdniPa88ccyhUab1gGsr+CFgbwBBD
+	k8VeWR3HWN53rlyy5ZmKbd3993QdLsiaFQvScWz26SJY+R4nn2QUEtV/Tpjxpg12xISoVmMVypa
+	4NXXBnU3KLrqtOjIJfNtguEfsvj9VG0KlTwv0pm0dUiMkSPGj4/DnSvkrZJ0GBw==
+X-Gm-Gg: AR+sD11rpfypZmjnNXeYD1v33b8BxiJlRA0rd+tRPjOgjCpZ2Nb0qfe/uOTFY9Ptz3k
+	T7AhqVoaIkYfltbT4ma38J5SwpxcQQe3qGzEE4yrOf/dv/hKtQ275Pw9LQToVJG6WWhpDUFlYBk
+	vdYIuHTij7jGQnKpSi+p4q+/2qtYotaUi/YYLfrB1KCe6B4GnL13nvMq9KeoRHkbo4J2sNp24yE
+	bIAbddK7woZEGyHBUHRYMCV0UForcksvWPNZQDLpNfzbNJwQ4XCPMdqHMvWwZlK3Fq9fg/actkE
+	lZVXWZ0Sh3CqJ9rwGoMt9Fvkn5aRY2TiCzm8hFrqoqn13v2TqHY+74OY8oZWHgIchzZPFa44cZ6
+	rvdo8dzy7/7WD/ynsG1yhyCNB3ruro8WpMKIuCHqNTfHM
+X-Received: by 2002:a05:620a:a413:10b0:936:d35d:204 with SMTP id af79cd13be357-937468b3248mr1928934485a.13.1787669275390;
+        Tue, 25 Aug 2026 07:47:55 -0700 (PDT)
+X-Received: by 2002:a05:620a:a413:10b0:936:d35d:204 with SMTP id af79cd13be357-937468b3248mr1928929085a.13.1787669274849;
+        Tue, 25 Aug 2026 07:47:54 -0700 (PDT)
+Received: from localhost (pool-100-17-17-231.bstnma.fios.verizon.net. [100.17.17.231])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93749abeba9sm745605585a.3.2026.08.25.07.47.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 07:45:31 -0700 (PDT)
-From: Fabio Pereira da Silva <silvapfabio@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>,
-	Kurt Borja <kuurtb@gmail.com>
-Cc: linux-doc@vger.kernel.org
-Subject: [PATCH v2] docs: pt_BR: process: Translate CVE documentation
-Date: Tue, 25 Aug 2026 11:45:25 -0300
-Message-ID: <20260825144525.12670-1-silvapfabio@gmail.com>
-X-Mailer: git-send-email 2.55.0.windows.2
+        Tue, 25 Aug 2026 07:47:54 -0700 (PDT)
+Date: Tue, 25 Aug 2026 10:47:53 -0400
+From: Eric Chanudet <echanude@redhat.com>
+To: Michal Hocko <mhocko@suse.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Shuah Khan <shuah@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>
+Subject: Re: [PATCH 00/11] mm/cma: charge cma allocation to memcg using per
+ area counters
+Message-ID: <ao2gA_m3BCBu2esy@echanude-thinkpadx1carbongen13.rmtusma.csb>
+References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
+ <aowHqqaqK7TeexQH@tiehlicka>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aowHqqaqK7TeexQH@tiehlicka>
 
-Translate Documentation/process/cve.rst into Brazilian Portuguese and
-link it from the pt_BR documentation index.
+On Mon, Aug 24, 2026 at 10:58:18AM +0200, Michal Hocko wrote:
+> On Fri 21-08-26 14:56:52, Eric Chanudet wrote:
+> > CMA allocations are currently unaccounted for by cgroup memory
+> > controllers. As system resources, they should fall under memcg, but CMA
+> > areas partition the available space for different purposes and memcg
+> > doesn't have a good representation for that.
+> 
+> Which CMA usecases are covered by this work? It would be also great to
+> spend more time describing usecases.
 
-Changes in v2:
-- replace "conhecimento especializado" with "conhecimento técnico"
-- change "atribuído contra o kernel Linux" to "atribuído ao kernel Linux"
-- reduce repetition in the applicability paragraph
-- replace "árvore de fontes" with "árvore de códigos-fonte"
-- replace "grandes números" with "grandes quantidades"
-- remove the repeated "qualquer" wording in the same paragraph
+We would like to offer some usage guaranties to userspace processes
+ending up doing allocations in CMA.
 
-Signed-off-by: Fabio Pereira da Silva <silvapfabio@gmail.com>
----
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../translations/pt_BR/process/cve.rst        | 125 ++++++++++++++++++
- 2 files changed, 126 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/cve.rst
+For example, a shared CMA area is described in device-tree for an ARM64
+platforms. Userspace components could then, for example, allocate from
+it through the dmabuf heap, or a device or framework-specific ioctl for
+that matter, to use the buffer with sensors. The dtb may have other CMA
+areas described additionally that may or may not be used by that
+component. In this context, we would like the ability to limit one of
+the userspace component to over-allocate and choke the other(s). memcg
+looked like a good fit to achieve this, albeit handling the areas, so a
+cgroup has a quota in a given CMA resource.
 
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 76936710b06e..dcc238a5ecfe 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -71,6 +71,7 @@ kernel e sobre como ver seu trabalho integrado.
-    Regras de licenciamento <process/license-rules>
-    Como começar <process/howto>
-    Requisitos mínimos <process/changes>
-+   CVEs <process/cve>
-    Conclave (Continuidade do projeto) <process/conclave>
-    Manuais dos mantenedores <process/maintainer-handbooks>
-    Processo do subsistema de rede (netdev) <process/maintainer-netdev>
-diff --git a/Documentation/translations/pt_BR/process/cve.rst b/Documentation/translations/pt_BR/process/cve.rst
-new file mode 100644
-index 000000000000..3612ec3c3679
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/cve.rst
-@@ -0,0 +1,125 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====
-+CVEs
-+====
-+
-+Os números Common Vulnerabilities and Exposure (CVE®) foram desenvolvidos
-+como uma forma inequívoca de identificar, definir e catalogar vulnerabilidades
-+de segurança divulgadas publicamente. Com o tempo, sua utilidade diminuiu em
-+relação ao projeto do kernel, e os números CVE foram frequentemente atribuídos
-+de formas inadequadas e por motivos inadequados. Por causa disso, a comunidade
-+de desenvolvimento do kernel tendeu a evitá-los. No entanto, a combinação da
-+pressão contínua para atribuir CVEs e outras formas de identificadores de
-+segurança, e abusos contínuos por indivíduos e empresas de fora da comunidade
-+do kernel, deixou claro que a comunidade do kernel deve controlar
-+essas atribuições.
-+
-+A equipe de desenvolvedores do kernel Linux tem a capacidade de atribuir CVEs
-+para possíveis problemas de segurança do kernel Linux. Essa atribuição é
-+independente do processo normal de relato de bugs de segurança do kernel
-+Linux, descrito em :ref:`securitybugs`.
-+
-+Uma lista de todos os CVEs atribuídos ao kernel Linux pode ser encontrada nos
-+arquivos da lista de discussão linux-cve, como visto em
-+https://lore.kernel.org/linux-cve-announce/. Para receber notificações sobre
-+os CVEs atribuídos, por favor, `inscreva-se
-+<https://subspace.kernel.org/subscribing.html>`_ nessa lista de discussão.
-+
-+Processo
-+========
-+
-+Como parte do processo normal de lançamento estável, alterações do kernel que
-+são potencialmente problemas de segurança são identificadas pelos
-+desenvolvedores responsáveis pelas atribuições de números CVE e recebem
-+automaticamente números CVE. Essas atribuições são publicadas na lista de
-+discussão linux-cve-announce como anúncios frequentes.
-+
-+Observe que, devido à camada em que o kernel Linux se encontra em um sistema,
-+quase qualquer bug pode ser explorável para comprometer a segurança do kernel,
-+mas a possibilidade de exploração muitas vezes não é evidente quando o bug é
-+corrigido. Por causa disso, a equipe de atribuição de CVEs é excessivamente
-+cautelosa e atribui números CVE a qualquer correção de bug que identificar.
-+Isso explica o número aparentemente grande de CVEs emitidos pela equipe do
-+kernel Linux.
-+
-+Se a equipe de atribuição de CVEs deixar passar uma correção específica que
-+qualquer usuário considere que deveria receber um CVE, por favor envie um
-+e-mail para <cve@kernel.org> e a equipe trabalhará com você nisso. Observe
-+que nenhum possível problema de segurança deve ser enviado para esse alias;
-+ele é SOMENTE para atribuição de CVEs a correções que já estejam em árvores de
-+kernel lançadas. Se você acredita ter encontrado um problema de segurança
-+ainda
-+não corrigido, por favor siga o processo normal de relato de bugs de segurança do kernel
-+Linux, descrito em :ref:`securitybugs`.
-+
-+Nenhum CVE será atribuído automaticamente para problemas de segurança ainda
-+não corrigidos no kernel Linux; a atribuição só acontecerá automaticamente
-+depois que uma correção estiver disponível e aplicada a uma árvore de kernel
-+estável, e ela será rastreada dessa forma pelo ID do commit git da correção
-+original. Se alguém desejar que um CVE seja atribuído antes que um problema
-+seja resolvido com um commit, por favor entre em contato com a equipe de
-+atribuição de CVEs do kernel em <cve@kernel.org> para obter um identificador
-+atribuído a partir de seu lote de identificadores reservados.
-+
-+Nenhum CVE será atribuído para qualquer problema encontrado em uma versão do
-+kernel que atualmente não esteja sendo mantida ativamente pela equipe de kernel
-+Stable/LTS. Uma lista dos ramos de kernel atualmente suportados pode ser
-+encontrada em https://kernel.org/releases.html
-+
-+Contestações de CVEs atribuídos
-+===============================
-+
-+A autoridade para contestar ou modificar um CVE atribuído a uma alteração
-+específica do kernel pertence exclusivamente aos mantenedores do subsistema
-+relevante afetado. Esse princípio garante um alto grau de precisão e
-+responsabilização no relato de vulnerabilidades. Somente esses indivíduos, com
-+profundo conhecimento técnico e conhecimento íntimo do subsistema, podem
-+avaliar de forma eficaz a validade e o escopo de uma vulnerabilidade relatada e
-+determinar sua designação CVE apropriada. Qualquer tentativa de modificar ou
-+contestar um CVE fora dessa autoridade designada pode levar a confusão, relato
-+impreciso e, em última análise, sistemas comprometidos.
-+
-+CVEs inválidos
-+==============
-+
-+Se um problema de segurança for encontrado em um kernel Linux que é suportado
-+apenas por uma distribuição Linux devido às alterações feitas por essa
-+distribuição, ou porque a distribuição oferece suporte a uma versão do kernel
-+que não é mais uma das versões suportadas pelo kernel.org, então um CVE não
-+pode ser atribuído pela equipe de CVEs do kernel Linux e deve ser solicitado à
-+própria distribuição Linux.
-+
-+Qualquer CVE atribuído ao kernel Linux para uma versão de kernel
-+ativamente suportada, por qualquer grupo que não seja a equipe de atribuição de
-+CVEs do kernel, não deve ser tratado como um CVE válido. Por favor, notifique
-+a equipe de atribuição de CVEs do kernel em <cve@kernel.org> para que ela
-+possa trabalhar para invalidar essas entradas por meio do processo de remediação
-+da CNA.
-+
-+Aplicabilidade de CVEs específicos
-+==================================
-+
-+Como o kernel Linux pode ser usado de múltiplas maneiras, com diversas
-+formas de acesso por usuários externos, ou sem nenhum acesso, a
-+aplicabilidade de qualquer CVE específico cabe ao usuário do Linux determinar;
-+isso não cabe à equipe de atribuição de CVEs. Por favor, não entre em contato
-+conosco para tentar determinar a aplicabilidade de qualquer CVE específico.
-+
-+Além disso, como a árvore de códigos-fonte é muito grande, e cada sistema usa
-+apenas um pequeno subconjunto dessa árvore, o usuário do Linux deve estar
-+ciente de que grandes quantidades de CVEs atribuídos não são relevantes para
-+seus sistemas.
-+
-+Em resumo, não conhecemos o seu caso de uso e não sabemos quais partes do
-+kernel você usa, portanto não há como determinarmos se um CVE específico é
-+relevante para o seu sistema.
-+
-+Como sempre, o melhor é adotar todas as alterações de kernel lançadas, pois
-+elas são testadas em conjunto como um todo unificado por muitos membros da
-+comunidade, e não como alterações individuais selecionadas. Observe também que,
-+para muitos bugs, a solução do problema geral não é encontrada em uma única
-+alteração, mas pela soma de muitas correções umas sobre as outras. Idealmente,
-+CVEs serão atribuídos a todas as correções de todos os problemas, mas às vezes
-+podemos deixar de perceber algumas correções; portanto, presuma que algumas alterações
-+sem um CVE atribuído podem ser relevantes para adotar.
-\ No newline at end of file
+This trails from an earlier post where we tried doing this using
+dmem[1], but I was unable to reconcile the requirement for memcg
+accounting[2] since from dmem I didn't have memory objects to charge nor
+the guaranty there was one. Given CMA is always system memory, it looked
+like a better fit to try something without dmem.
+
+Best,
+
+[1] https://lore.kernel.org/all/20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com/
+[2] https://lore.kernel.org/all/ahB7pCu_G4vuswc0@linux.dev/
+
+> -- 
+> Michal Hocko
+> SUSE Labs
+> 
+
 -- 
-2.43.0
+Eric Chanudet
+
