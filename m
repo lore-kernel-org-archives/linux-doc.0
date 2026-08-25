@@ -1,184 +1,142 @@
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502DF37C109
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 21:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B3E3D649C;
+	Tue, 25 Aug 2026 21:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787692702; cv=none; b=gILdpvm/R1o3YJVXhN8ao1kYS0xHPNZZpbr3Gspnbqh57zIB660ZM8Qz5FUTPSi8UXuZhXGMBMdbNRXsqhlpCEU7wZAZa9R0m51/hisbVC4tHdu7GAvPykUNqiqgcwOt2Sif6wchiK9EAjRX1CrLT9bJAAxESyW7Fp+EOvrS9W8=
+	t=1787693182; cv=none; b=Hso1R/zMB2h2V+6HsJLlMyVn+d5v0xRmXAcZw2bKyKo7CHlrPf6BZqaBzehLnLoGkDUclHOhEgglDR3CCOd2nkfFMoJBg4jFRYdZhx5hOtTKnO67g5ExA6K9fV2JSuPwwvqq7ww+juPhzLYSqXhkgCpFTtX9dj9pJ7lQZM/aw/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787692702; c=relaxed/simple;
-	bh=5DASDcrdCFVsZOprMrejQ5Q/16NZy+mOibkZO8FKsFA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=KpnGkh3hkYIEyc9k/cGWTB9TZEQkR0obVHYxp5ZT4yDIbL+Yjo/YkdcP1JKQcBM//8hR0wGieNJNiZOY+K5Xz/GnPLPd3qicmwqsXf4sTajEaVnxYw00c+Uye98uYlAe8ASZRGphefbsDer/evHrQOmhIkD2odemzc2p4YPgESE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YpNqCqgr; arc=none smtp.client-ip=209.85.215.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1787693182; c=relaxed/simple;
+	bh=fyxOKeBBeK3d6FRXyXiUs1QmsIWUVKH+V6Vz4D3pMZE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CwafAGmeBJQ7YCAnEOMMBU1A+5OEkP0RVlODiU7YEmK94AMNxvPAOsBKVBzpaXRnxydCWXNU++yaCvXn3B0ys/1rAC5+xhLPDBYA4HWOVbnNlkWlyGrlNSa8wvwZs9wsPmHHcpjMI7XRZsYZGjMoahyxwNp+lZqShzmUylUcuV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=gnuBbRks; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=B+TRJWUF; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YpNqCqgr"
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-cbb92868263so137260a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 14:18:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787692700; x=1788297500; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=96v/IU+xqfPxFBmAPsTHt7ENr2LiLEu2VL8xEjm4RVc=;
-        b=YpNqCqgr9Qi2JfAImSrI6w2yUCiAZ3opY0ZCZHEKI0g5jf7s7bdSxVYDXW/0K01Pmp
-         hzNPSYSvSPpog6sKVZ/BrbDX0xaUMSzkjDKPSqNvYOCAA2WwDd9EZ+qBj5ZAIG4Wvwph
-         +ZyWU9IlZSq4wEJx5BFdPTpaTIpohsaHamQ7tyQqBV4XCkARGvQSEy+2dLVpjEcZT3yk
-         6GxAJzpzlhCjExDTDLydwTuJw0Jm4rIm+otd919wyBypFyDK/Fn5/PFowNFZT4v00zAV
-         WVAYkii0nvMPLICihVmdUeobmjZIJoE7fQGlgXwYOa4UHqfMHUupCM9loroxWL8eG2kA
-         6hWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787692700; x=1788297500;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=96v/IU+xqfPxFBmAPsTHt7ENr2LiLEu2VL8xEjm4RVc=;
-        b=GWptzLszRHDYnHHbZ2Jaz3X8dck74YJjkgf0SXEQ8Zof9MFsJsSCK1Ju2QTSskKnPr
-         JwIFBtSF9yknFRWziqM0I0jyRnv3am3JIQtmOQnzTJDuGX4NEp7cgZ8jfQGzo8kyzufT
-         c6VK6TGWRI3ddeKnH0lyr1OHQYSi+50jkNS31SSa6IyvTErrJW6jp55+TmsXQymybcUu
-         7QvAdXn6epfJYa3eOT9j4V10fGv9pLnC1gdzr1cTkVvVWbmbXuXcmz/ARkA6e03Gbav2
-         uUbRPH1Sdswm9m16U21jMOiLByqXy92fUQCNyAYGeqywITg6ZBF4zBq45niE7ohvVrbB
-         Gobw==
-X-Forwarded-Encrypted: i=1; AHgh+RoInfhz4sIesc/vIU+6cCm6qhNWSomPeZOA/iVCE9VOKZcfc5YssOPCp/Z9hBn2nznBYLoUgdUeHt0=@vger.kernel.org
-X-Gm-Message-State: AFuF++l/Gy/TcmgR7aRPXMbELZjDkS4Npv+eQsWmmImE9rj7agy5oFem
-	ZswpY2y+TWWJM3dW62U1ZDm8d7qgZQqjUXweXpc5cVWVfn2MepiIRdhxdCwRymWdKA3n3FthwYK
-	/B+JaIg==
-X-Received: from pgp16-n2.prod.google.com ([2002:a05:6a02:62d0:20b0:c86:5f41:8c94])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:2290:b0:3cc:3d08:da3e
- with SMTP id adf61e73a8af0-3cf76286186mr2809631637.2.1787692699334; Tue, 25
- Aug 2026 14:18:19 -0700 (PDT)
-Date: Tue, 25 Aug 2026 14:18:18 -0700
-In-Reply-To: <CAEvNRgFhjbgC9Ng1qviPx4oE=qihUwiBcsYOgJG3yOU-nLG1hQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="gnuBbRks";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="B+TRJWUF"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id A882B1400028;
+	Tue, 25 Aug 2026 17:26:17 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Tue, 25 Aug 2026 17:26:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1787693177;
+	 x=1787779577; bh=TI3LYYdNPFkkgbQYpNaHoiAiGm3EHWu4t1KyT0USaQg=; b=
+	gnuBbRksEM4IVJKkNrBcekDrkwduiHEBy59k85/ZIMDNBoaXr17k7Hutww0R6KEB
+	bEPfdMJkrQIAqXwMm9KxAbamu4TJq11ir5aToXac1QgF3E9kjN2b643whh5u4o4v
+	kOE1E6fKqxODFreGRtS2jrDFy+UQ4Uvg1UuT46O3g1+j5tqN14bHo/Z5HvXpKPHX
+	XmperEbm2KPqVAFa765egvNzDfTxllWhPxAodO+bLUZ0Ss/oxzu4BNvvXGMVgdRy
+	+DC0CBkiZubnlnFXQiyNVulj2VB2jUrCZFRjQ0DS7p5L1uiUYeSh4l6sGttqla2g
+	6YJVjQjTJOreJwqlgL3JcQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787693177; x=
+	1787779577; bh=TI3LYYdNPFkkgbQYpNaHoiAiGm3EHWu4t1KyT0USaQg=; b=B
+	+TRJWUFMr7kQhUHWTf/KZh914+bi6aFlCMFomNTFT2HBbBUAlhrwxbw8bBatnTyW
+	Y9Ut1551d2miN2PdGgBbJbfYmjM4tpcHlMPOmt/TIJ3apPg8g4KUOCHtYbojv6Kz
+	78ISFzmd30iT5YB5BogrWwQnfgUG0xXErIaGgNlx5wac32gjLrkCzv58vRtKNShw
+	g855wpA+6ttHk4f6qx5hDSVky1cufwqukKyIBfASKQUcbJnZbFjfXoWToW/xDXz3
+	uK/UXO4tTiYEzdm3SQEiMkp7PvSRu0c4V8kjaHpkEC7dMsgHSZ+sHPVd8EDJXI39
+	IUpaeSKqwTBQh9xcz8/XQ==
+X-ME-Sender: <xms:eQiOarI-bJ04mimDcA6hHrNVB_ySrKFWcaQ9ohaGh0BFk6FDlo-QmQ>
+    <xme:eQiOasxYIr32WkH9UDsd79wHHmo5h9Pe_kMou3e4O3OPvI_ZRpOa5MH43wY0uhxwq
+    ijiQyPWGufcC9Ze139FKxvMUZd_yoNguVd-cFeSGFPo6dvusuSJ5_w>
+X-ME-Received: <xmr:eQiOarGor_aqez3tlDVXWfoT2b42s6KnP10PKlNVPaDPMweFd96IOi8fSaeIIg>
+X-ME-Proxy-Cause: dmFkZTFDCnzeDWsxERS9FkI6DBSsnwLXGNSWypdSO0vpo1L1cZ8qp7QTaKQyexIgzTaE7y
+    22Sl/fGmqHlnzDyaWz6mLYf7N1NKWsNS1yWa8h+RMNhmImKeztb0335u58TuenXGTYAuIM
+    EzZrRtRJnbOGSdwAORlEh7eGMi4Q/uY4YeY3hmJjacATb6krK+zMebxYE90E5xPiDyVxe2
+    lpo4XOgv+3AUMv3dwuNSn9S72Z8pgfr4gHzcI3ve+tXB+i4MgABrLXN/b0/D7mGtvP0vYc
+    sQVr8Fby7N+48sEUHUgf4xT3oIUTzbVCPMJfPtVzAI7j1tNMyPPcSuiYenxt6LN++NWQh7
+    IQS3kipUKf2kie4KllVx84HoEoBbHWbfV30SOiEFizWDgc1M0Ki1sDoGzMgDPiEGcW5CCP
+    KzhSgd4oap2TXH3vwCdby1qDPEMXf3MWws1Om9gFLvjxrcEB7jqAh2fQtpRPXEhWOFQ70T
+    7p7Hpcnnx6WUhMB00f4+rkEt65qC7BTtfuI+8u55y6+YGIltZVmq6m92LQ1d87gWe8q1qv
+    LDCTpAC9qcEq8uHJlBp/CEFqwm7WkcrPOAd5Kkx44Ul7MGpzbKoQFhN+AsMiAMYbCaO/VM
+    4M0Nvop9e8XtF/T+lvuQISTXgw3ED4ysLjLbtR8DeqPjk92R1Z1HPq7ITAMw
+X-ME-Proxy: <xmx:eQiOasmlra1DxmP3CFzeMZFlzubXYtJyp_tE9yzs5jcZ-RLKLbjrsg>
+    <xmx:eQiOaqHkFSOihEFH0PRkk1nhlBjxY9tQBY8807526HcEDl3zc5XydA>
+    <xmx:eQiOanx_tuHgMdgbSNNzDqyVxBPZWcLXyXR_e4sMA_nk_PCTPiY6dw>
+    <xmx:eQiOarb6ayr9RwBBqXNYhTVNKVvuiXmGQKxfiIWNmdQRvvvXj5OW8g>
+    <xmx:eQiOaklv75D2NAx4jFmSn2PQW2pK53_lavG9FGwr_V87iKZPc42dCb_L>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 25 Aug 2026 17:26:14 -0400 (EDT)
+Date: Tue, 25 Aug 2026 15:26:12 -0600
+From: Alex Williamson <alex@shazbot.org>
+To: <mhonap@nvidia.com>
+Cc: <jgg@ziepe.ca>, <ankita@nvidia.com>, <jic23@kernel.org>,
+ <dave.jiang@intel.com>, <alejandro.lucero-palau@amd.com>,
+ <smadhavan@nvidia.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+ <dave@stgolabs.net>, <alison.schofield@intel.com>,
+ <vishal.l.verma@intel.com>, <iweiny@kernel.org>, <ming.li@zohomail.com>,
+ <yishaih@nvidia.com>, <skolothumtho@nvidia.com>, <kevin.tian@intel.com>,
+ <bhelgaas@google.com>, <dmatlack@google.com>, <kees@kernel.org>,
+ <gustavoars@kernel.org>, <cjia@nvidia.com>, <kjaju@nvidia.com>,
+ <vsethi@nvidia.com>, <zhiw@nvidia.com>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+ <linux-cxl@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+ alex@shazbot.org
+Subject: Re: [PATCH v4 02/27] cxl/regs: Skip sub-block region request for
+ BAR-owning drivers
+Message-ID: <20260825152612.5b8452f7@shazbot.org>
+In-Reply-To: <20260813093631.2288172-3-mhonap@nvidia.com>
+References: <20260813093631.2288172-1-mhonap@nvidia.com>
+	<20260813093631.2288172-3-mhonap@nvidia.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
- <20260807-gmem-inplace-conversion-v10-7-2fc18ee6d3ba@google.com>
- <a410cca6-0776-44af-8353-9b7375e2fd4e@intel.com> <CAEvNRgGvxMus6pp=xuDYOumH3Ge4oi0=YKjTaFykFHwXuzRDwg@mail.gmail.com>
- <54d1bd0e-c27a-4033-ab97-02cd9579a620@intel.com> <CAEvNRgFhjbgC9Ng1qviPx4oE=qihUwiBcsYOgJG3yOU-nLG1hQ@mail.gmail.com>
-Message-ID: <ao4Gmn5tSZMhl_nX@google.com>
-Subject: Re: [PATCH v10 07/41] KVM: guest_memfd: Stub in ability to enable
- in-place shared<=>private conversion
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 24, 2026, Ackerley Tng wrote:
-> Xiaoyao Li <xiaoyao.li@intel.com> writes:
-> >> 			KVM_SET_MEMORY_ATTRIBUTES2 ioctl on guest_memfd file
-> >> 			descriptors and disables the legacy VM-scoped
-> >> 			KVM_SET_MEMORY_ATTRIBUTES ioctl for private memory state
-> >> 			tracking. Only the KVM_MEMORY_ATTRIBUTE_PRIVATE
-> >> 			attribute moves to per-guest_memfd tracking; other
-> >> 			attributes remain per-VM.
-> >>
-> >> 			This parameter toggles KVM's in-place conversion
-> >> 			capability support.
-> >
-> > I start to think that the term "in-place conversion" seems to read
-> > inaccurate. I think it is describing the shared/private conversion of a
-> > gfn, and in-place means when a gfn is converted between shared/private,
-> > the backend comes from the same gmem page, thus in-place. But KVM
-> > doesn't enforce the "in-place".
-> >
-> > If "in-place conversion" describes the shared/private conversion of a
-> > gmem page, then "in-place" is redundant because the conversion a
-> > specific gmem page is always in-place.
+On Thu, 13 Aug 2026 15:06:06 +0530
+<mhonap@nvidia.com> wrote:
+
+> From: Manish Honap <mhonap@nvidia.com>
 > 
-> Hmm, a few people have raised something related to this
-> gmem_in_place_conversion module param's naming: Xiaoyao, Yan, David, and
-> Sean's response is generally that it is confusing, but can't find a
-> better way out. The main consideration around module param naming is
-> that it should be named for the benefit of the admin. We want some name
-> that admins can understand at a high level (for some definition of "high
-> level") what this does.
-
-Executive decision: use gmem_in_place_conversion.  I hear (and largely agree with)
-the complaints that it's imperfect, but I don't think it's feasible to find a name
-that can perfectly describe the nuances while still being somewhat succint and
-intuitive.  I.e. gmem_in_place_conversion isn't perfect, but everything else I've
-seen is much worse.
-
-I'll make sure to call out that gmem_in_place_conversion is imperfect in the pull
-request, to give Paolo a chance to veto my executive decision.
-
-> Do you have a proposal to resolve your concern, considering naming,
-> documentation, comments, code, etc?
+> cxl_map_component_regs() claims each mapped sub-block with
+> devm_request_mem_region(). A driver that owns the whole component
+> register BAR, such as vfio-cxl, has already claimed the full BAR, so
+> the per-sub-block claim collides and the mapping fails.
 > 
-> >>                       Whether a VMM uses separate backends
-> >> 			or out-of-place memory management is determined by
-> >> 			userspace VMM design.
-> >>
-> >> 			Note, this parameter is only available when
-> >> 			CONFIG_KVM_VM_MEMORY_ATTRIBUTES=y. When
-> >> 			CONFIG_KVM_VM_MEMORY_ATTRIBUTES is not set, in-place
-> >> 			conversion is unconditionally enabled.
-> >>
-> >> 			Default is Y (on).
-> >
-> > I'm looking at the doc of KVM_SET_USER_MEMORY_REGION2, which reads
-> >
-> > # When mapping a gfn into the guest, KVM selects shared vs. private, i.e consumes
-> > # userspace_addr vs. guest_memfd, based on the gfn's KVM_MEMORY_ATTRIBUTE_PRIVATE
-> > # state.  At VM creation time, all memory is shared, i.e. the PRIVATE attribute
-> > # is '0' for all gfns.  Userspace can control whether memory is shared/private by
-> > # toggling KVM_MEMORY_ATTRIBUTE_PRIVATE via KVM_SET_MEMORY_ATTRIBUTES as needed.
-> 
-> I'm not sure how this snippet from the documentation connects with what
-> you'd like changed.
+> Add a bar_owned parameter to cxl_pci_setup_regs() and record it in
+> skip_sub_bar_request on the register map. When set, cxl-core maps the
+> sub-block without requesting the region and leaves ownership with the
+> upper driver. cxl_pci passes false and keeps its existing claim,
+> preserving /dev/mem tooling access to the rest of the component space.
 
-It's flat out wrong once in-place conversion lands, because it assumes PRIVATE
-is tracked per-VM.  Something like this?
+The bool arg itself is an undesirable shape, but then threading it
+through @bar_owned to @skip_sub_bar_request to @request is difficult to
+follow with limited utility.
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 4eb7e75a7473..c9769e5e7329 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6383,9 +6383,12 @@ on-demand.
- 
- When mapping a gfn into the guest, KVM selects shared vs. private, i.e consumes
- userspace_addr vs. guest_memfd, based on the gfn's KVM_MEMORY_ATTRIBUTE_PRIVATE
--state.  At VM creation time, all memory is shared, i.e. the PRIVATE attribute
--is '0' for all gfns.  Userspace can control whether memory is shared/private by
-+state.  If in-place conversion is disabled, i.e. PRIVATE is tracked per-VM,
-+then at VM creation time, all memory is shared, i.e. the PRIVATE attribute is
-+'0' for all gfns.  Userspace can control whether memory is shared/private by
- toggling KVM_MEMORY_ATTRIBUTE_PRIVATE via KVM_SET_MEMORY_ATTRIBUTES as needed.
-+If in-place conversion is enabled, then the starting PRIVATE vs. SHARED state
-+of a gfn is determined by the relevant guest_memfd instance.
- 
- S390:
- ^^^^^
+What if instead cxl allowed drivers to register the resources they've
+already requested into the reg_map, ex:
+
+int cxl_reg_map_add_owned_resource(struct cxl_register_map *reg_map,
+				   struct resource *res)
+
+Then before cxl does any devm_request_mem_region() calls it creates a
+temporary struct resource for the range it wants to request and
+compares it to the resources the driver already reported as owned via
+resource_contains()?
+
+I'm picking reg_map vs cxlds because it seems easier to thread through
+to where we need it.  In this flow, devm_cxl_iomap_block() could be
+split into devm_cxl_request_block() and devm_cxl_ioremap_block(), where
+cxl_map_component_regs() would conditionally call the former when
+resource_contains() finds no matches for driver owned resources, and
+the latter is called unconditionally.  devm_cxl_iomap_block() could
+remain as the unconditional user of both.  Thanks,
+
+Alex
