@@ -1,258 +1,151 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012016.outbound.protection.outlook.com [40.93.195.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D82434A78F
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 04:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7CDEEB3;
+	Tue, 25 Aug 2026 05:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.16
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787631740; cv=pass; b=uqbDm42H8cEwKKOkGLTChBgcXx96hd5cWJDDn3hByjJ4pXYTMDvJjRWJKd+snkrtb15KnAM6mad9WVWj1kfoZQWFMaeavyuHQwg0xDOATZYO11p9uR7cGAz7y2reSX1EOATHWR+P8DHOnX+iDKE8JXgV0GSnlRJQxAiKzMFj8OE=
+	t=1787635912; cv=fail; b=Zh6IW4GBGsiFj+jiEVyNaGQ2svvCzfusWMWFz50VQxVTHsc1SyCNWRra3JEQalw+7A0U7AIFsvPVBttLjGO4fFRmBTm5hzbk+7l/DDDkl5UxEaMx76w0EIP11NSCPRWkDNG+q8y7JDkTqKiFOfdojysWldjyGPaq3eZ0HnCGzoM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787631740; c=relaxed/simple;
-	bh=5wurlj8MFbDvb5ZSMmaeAsrb3WsRNTwRnHS4VgII5LM=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ohN35dDyEW13Ba4+x3VxPSrcz0bp0/RjOYxBxjQj7KfxEdXa2m7TMpZMRI1/vPIxxmvY1rJ4o5uYSYV6ghpIy1kQxcY9vghlE9gB7a06KD5L8un68783U5BjD5dSCh1QaCMsgal6gTwUkpWU+ZOoRksiXeAT6NWMpHXirXs2g5c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y2OYq+ky; arc=pass smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1787635912; c=relaxed/simple;
+	bh=k9XpU49YE9yM6XDAJenbZQvotzxIxpwnDJJou+m6mKA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=YvPkjILhkV9tfhqOwMyzDn2k3XUa13mhWab/uMi9useJEvhj4PHz7dv+s5CKTcwfTY5pFSIhGTdoMvhWiwlpZnSTtx9yz10erj2Dxf/RmThGDWGM/Ib2z9aibYULVdVMwzypCVDc4VRHfxx068yFHEO5u3P+Pb0Bi0/9V7k2Uqo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=BMqSYqcB; arc=fail smtp.client-ip=40.93.195.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y2OYq+ky"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c9e607d81fcso2653937a12.2
-        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 21:22:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787631738; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Z4SHEK7BETSPEdbpAtl2elDWLW73AqTtd7XliMuOoXfpKCue8xSi080ltVXaVxB5y6
-         87ih/Ni2KB/6WVlQFFRatJQ7I+IoOW2nu2PFrV6yeA0EJU8Kji5qtXiafiZwUPe48TGj
-         +5G0V/LhkiIWI3/CV56AtS3hMhj0tG50iHVW1jF3Z+GooCxhEZRpiOCSMOduKhkFoerH
-         /xhEt4AHw1hcPfBxXk0lOv2yPwfC9NAM14oHU4pfu8IPACBgwoqeDZgjdgrPgGKiCao8
-         vtqW/4qP4ecx9QyJmRykWnULi1YiVfYr6dy9YkdoJ8eqORqKI1CPHKew4VjZhi9wUHzm
-         c3nA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=ii2UjzWdYQBWun6iRfgoLkq7AXK2AM7SF1lOo7W5lmk=;
-        fh=ZLkQXmp13edfPVDEha09E7T9T74AWB7PMA8sBWjInoQ=;
-        b=mOkNSN77gmKys8nPuPvSraq2Vj97wTu+5c2T1Fq8bwKz2Ya76WF2E1+DOI0Qo2zU0c
-         ZQIFM4T2skMYn6EWe6hq6DAHXm5glY7FpvEg6lRCFeQ+OQ+syHwazlUvDpFRY/9s6JoS
-         C65mUXB3tox3mujs9H8fvE63WdpOBCPnAXEScaZNukzyQd1IS5Oq8E7Z02XOmBIF2dtJ
-         4l35d28NnxysyH6Of5GwZ8beVn5B6dEIHpzbr0XBoI0e2Clx4+v6IO1zNVGH99aqWZSY
-         1nyN37v+DwKXG77sAuGJM7xWhCzofBEgYXxsLwFx6uPZQrq3vRHc3E1RY2fPb1vdeHDP
-         LnIQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787631738; x=1788236538; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ii2UjzWdYQBWun6iRfgoLkq7AXK2AM7SF1lOo7W5lmk=;
-        b=Y2OYq+kyEqbKNSj6q6Dq5vgFdtnqaWT7PK/3lv5bhWe06UDmbyJxuvEC32Bjy6Vn7R
-         NlK2vT1nEMz+ujnnbjI4dMkwZm6uHEZx8/NXh0GddlTXHOaxPaE3PJaz6nbksn9vU9gm
-         Kvkkcw0UQaNGWPayxZvWvQNyCR802hrYSe5EspukffQIuBqgYTtdIs8ZQTE6Vg83GgCB
-         QzleF6zvxSmO8iWu4Oa50I6BfKj+2cQfy1ML2Th/qnOICdaXMUQP0/pfm53szXCM2l9X
-         WceuCgB2EOqwJN56aqqRyzel2by9k1RGnYuvrrxN/IAFcMmtPkfnkryI0a5ueEOkwKEi
-         6Xdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787631738; x=1788236538;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ii2UjzWdYQBWun6iRfgoLkq7AXK2AM7SF1lOo7W5lmk=;
-        b=MVNnT32m+SXuisTHn1hzcEdTY3RLfKom9UuO/5uLsosPPaCVsy+0yuA6Y8IHehH+A/
-         qH1UK3QaxUbp7VnOevttTqVPgjCz1M4DFm9eCq4yo5mSZJl/74A6wf9aIhDipYvCtHVp
-         KHrQt0CnZz286cX98+zXrkXk0ZoyIpz3iFt+Pez6daI/ndI9Zc3QcujwH0rfMCQ26Df6
-         sFnrbenQh2Zp9iJOyLlrmmG5+a8YBa9IyuQyvQ86wCvRIJL1HMHJ2us45DpTQqnjV7rB
-         Wq5e5empB/puhISfhaTrfEZpaKHWDDh6SUauVk6g2mzYHbSc9GzArhCs2hlRU6JyWtZ7
-         dquQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrbQKbrlTa6v8XdfXyOuTak6LofdYkmXKCcKgJjmZfsm1tkJcvYaoLlIeGLmSIp4JFCKodFbJbF9FU=@vger.kernel.org
-X-Gm-Message-State: AFuF++kJ67EKvHqPY6j6jzriNKcrV8muoYVGzgst+JTOHJAIcG4vQlgX
-	Zkoin1zGowlMlqCZ4zxGdeMqGhc+k6Zh7hx4SddBKcy2NEcgGHvwV7JKKGqdqYEG3c4EIYbg17B
-	xxcttHgRSSEu5D7hcoqeHqQu68wuiWzx1e5SPTpyo
-X-Gm-Gg: AR+sD11BBnsG7nr+RTvSdCV3qpFE4+3Je29PwHy0H1dK2Rddh2EPezhBfXxou4hB8rz
-	yEOJE5uRGDta7G0z+feKOcTTQ2NrRKpK/zFODeIH25HIFsgWWFvoAWYJJOL57SIyMnp1F+8GOcn
-	nG2MrEmupl4XbkuMiam5bthaLSQKueAzN+X5QUAanF28F4UhciFemOAFSVhX6JAVoCOP/X+b+Wn
-	FVkhWrrTObjwFihdeEM8C6IQPPmco9o8czX6cDCdx03V/96q+PP9v2+FPAw4uM1l5RHs9tIxvCH
-	p23YycAUFE+ACGiBTx2RLqFSt8vCjYutA2knELLKRGOiO4cG5OY9BpKqDtgfV0ml6cnoeW1boiQ
-	8Lc7AoqiVIZWs8wp1dWkihNuO2erlC5M=
-X-Received: by 2002:a17:90b:37d0:b0:395:4de9:b30 with SMTP id
- 98e67ed59e1d1-39646350ad2mr7583961a91.5.1787631737593; Mon, 24 Aug 2026
- 21:22:17 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 24 Aug 2026 21:22:15 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 24 Aug 2026 21:22:15 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <54d1bd0e-c27a-4033-ab97-02cd9579a620@intel.com>
-References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
- <20260807-gmem-inplace-conversion-v10-7-2fc18ee6d3ba@google.com>
- <a410cca6-0776-44af-8353-9b7375e2fd4e@intel.com> <CAEvNRgGvxMus6pp=xuDYOumH3Ge4oi0=YKjTaFykFHwXuzRDwg@mail.gmail.com>
- <54d1bd0e-c27a-4033-ab97-02cd9579a620@intel.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="BMqSYqcB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mXgNnoY+OGoDatPyhHsd8B+6kwi2DUfZhTxNNJtW6DOLG2MzthtaN9iJlYECAsl71UpjtT173TUMCIRoypShbVFu+G+MZutsufTbjC9oaaZhM7LFY2k12PxgPEZKKq/WQXpYhTLJvnX40YaH2jzkj3gRR552Q7IPJW8oTc8XqjgsbDkScw9/4NhW86SF04Did9xJ9hF2CjAYlSUxOhmrfNIRgdN0T5MDGT70U9G8TShcTbabvh+zVs+e0M8xRW/1GgVAF75N1l/hHTmp81XG8xp1LiI5yvzmFYgFD33T5NVsRg0TghLOBskS2t4amCyS3Li6vw9m+jYQJZ/WvQBn0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BdgvTlcFWP6g7hPNoejHtX+U0NiZ6SdX+8oVtxlMzsY=;
+ b=P41lJXXy+c9ItPQ7UdBGWgQO8xtkekf3NIpEQmWxraP2jnGvATqfxgbBzkTfRqb8utBEqseSr/Bm9zT3MuOBVA5/T6EBEk35nKv1tcMdKD+HMQjUvjpJTaTCuuI+dqfguDArGyo8ew5Pi9DPwNBNhhXYNw+eapVT2bpSY/LJ+E18fjzCbwHhC0QjEKCBE4iLgEEpuHKuDz7LmKWfXE1BK71bxfYr2We3lbN5eO0STNiGqDZhxDedJwAIfiQdJnJB5jYVZN1NMYzj6nNrsQklVSiA4ake4zJqWKAyJwXx9V/Y8TSvFyp3Tq3VXhXRU2SJgl9T3Tu7aVRXo+lDhQb3KA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 149.199.90.133) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com;
+ dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BdgvTlcFWP6g7hPNoejHtX+U0NiZ6SdX+8oVtxlMzsY=;
+ b=BMqSYqcBDmvDuZTEgRKrRItP5RuZbn+wwjK+c9ApFK9EyvSOYtotuHUiDOEM0DKABp+4rcFyLA2ETtJSuUDKmRFXh62c+iY1tvIbExMgmEPdFYJXD6Nc5eblpB42XovFEtOZN8Cr+TU5QL25E1zDs+GblYSy3o4qJuDn24Os44k=
+Received: from BN0PR04CA0126.namprd04.prod.outlook.com (2603:10b6:408:ed::11)
+ by PH7PR12MB8156.namprd12.prod.outlook.com (2603:10b6:510:2b5::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Tue, 25 Aug
+ 2026 05:31:45 +0000
+Received: from BN3PEPF00022BBD.namprd04.prod.outlook.com
+ (2603:10b6:408:ed:cafe::b) by BN0PR04CA0126.outlook.office365.com
+ (2603:10b6:408:ed::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.12 via Frontend Transport; Tue,
+ 25 Aug 2026 05:31:45 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 149.199.90.133) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=amd.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ amd.com discourages use of 149.199.90.133 as permitted sender)
+Received: from satlexmb08.amd.com (149.199.90.133) by
+ BN3PEPF00022BBD.mail.protection.outlook.com (10.167.248.117) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.360.3 via Frontend Transport; Tue, 25 Aug 2026 05:31:44 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 25 Aug
+ 2026 00:31:44 -0500
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 25 Aug
+ 2026 00:31:43 -0500
+Received: from [10.136.18.168] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.45 via Frontend
+ Transport; Tue, 25 Aug 2026 00:31:38 -0500
+Message-ID: <894e34f4-5d57-40af-86d2-c167e44f81be@amd.com>
+Date: Tue, 25 Aug 2026 11:01:38 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 24 Aug 2026 21:22:15 -0700
-X-Gm-Features: AcwNN1WQy8t54bcd0rpO36nvPxS3ceyAlSt6scpIWjMhQZqgzc7w7cgeUX3ASbs
-Message-ID: <CAEvNRgFhjbgC9Ng1qviPx4oE=qihUwiBcsYOgJG3yOU-nLG1hQ@mail.gmail.com>
-Subject: Re: [PATCH v10 07/41] KVM: guest_memfd: Stub in ability to enable
- in-place shared<=>private conversion
-To: Xiaoyao Li <xiaoyao.li@intel.com>, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 00/22] Enable FRED with KVM VMX
+To: Sohil Mehta <sohil.mehta@intel.com>, "Xin Li (Intel)" <xin@zytor.com>,
+	<linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>
+CC: <pbonzini@redhat.com>, <seanjc@google.com>, <corbet@lwn.net>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<luto@kernel.org>, <peterz@infradead.org>, <andrew.cooper3@citrix.com>,
+	<chao.gao@intel.com>, <hch@infradead.org>, Shivansh Dhiman
+	<shivansh.dhiman@amd.com>, "Dadhania, Nikunj" <nikunj.dadhania@amd.com>
+References: <20251026201911.505204-1-xin@zytor.com>
+ <930eccc8-23ca-44c8-b91d-3567708e317f@amd.com>
+ <bed0bce4-1438-439a-9db3-79ac29467e5b@intel.com>
+Content-Language: en-US
+From: Shivansh Dhiman <shivansh.dhiman@amd.com>
+In-Reply-To: <bed0bce4-1438-439a-9db3-79ac29467e5b@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF00022BBD:EE_|PH7PR12MB8156:EE_
+X-MS-Office365-Filtering-Correlation-Id: 08e191a0-c29b-453d-a809-08df026a267b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|23010399003|36860700016|1800799024|10067099003|4143699003|56012099006|11063799006|18002099003|22082099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	D/u0tzaGg8+thtpEl4nLGAcN3kMq7wWjUWsychoD7aFUdonpNxfwsiFpjg6w2svM/hzauOnt5nlYUBLj2K6RfS3TTCZ15kanom4Wwb2v3/Qflsa/HXcoBZLKfmfxwmhW4uUZ/uCwhA6FIMpfeCFCqLyXKMt8xME5h+Bdf57cQogVBgmEcEg4IIBUJXNqCzQMD8AR/UNKnEbWEH48oRlDfyyHgdj9Uu2ycLm3i1gwTtZQuddK9IpAUDJfVhhED36uyw+i+B0+1oLT2k1Rp7ja1We3vrocmrtC2cj+3XYN6Jlj2oi+QFSBnlH7UPTTYJcYXyzNVBJ3ulp82xIJkJ7Ij51QbzvSQYesKrZGiRFLJn/yQmh6YlJo6zGx8doIBmI8jpBT9wbCVs/C2wXhjsqEkssQL/KB80GNdfspf9dmHkfd0MEhCy1hND9+LRYgzKsfeSMWB/hYVKQ3nUg5efGP3mth9MqSjkHKJQQ+mr6dNZ3Q4OXY89TRiaB1AsvWU0ocugDBD1f7qPOD6R1HIFa2We/SKlAOZqpozXeIUDsYxjPXHvlb9AKKAX7OvtwecudO/PMa/5ZiNbF6p6K+Ogy1XlFpNusFxw01RCIsvf0z0pyh8syfjPumb+Qm6VteozrL3qc4secvuSOF1FGVZIg5ACVKkY0Xg2DmjkeX3Nd+y/pE58ncnNBDOlUjwzpSvF3jycGPiXY536GyG8pPzIjttw==
+X-Forefront-Antispam-Report:
+	CIP:149.199.90.133;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:unknown-90-133.xilinx.com;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(23010399003)(36860700016)(1800799024)(10067099003)(4143699003)(56012099006)(11063799006)(18002099003)(22082099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	KxCqxNmbAghCH1hnGWAZGys5Xbyll48WldDPK5AaOnUgJOh/5jt9zf6iN+iZSrWQiYILpG+YxHoUA1s5sjupSgCAGUtYzHiVB56XNvlHaDN0n2JRD14SxL21/sbqlQJPoSf3YGwRKBjiQT/6S6Xi8+zLSxj/YVrqzbUnUwYf8hr/YfrDGZaZJcewMIeNvsuI1Pp9+kjpad/RE8jk2neolKVODNjqYPhSNKn72piraX1z/sRIRTPNunKhoDyyWkMVnKj6XzG5zr7iGXc5Yj15i/sIKeyy8xaJt0uZnKmwi25pjUCx6HOhvuomwjct0rHEMbZ+48VSar7ZLPrAZHoVnQf1xI8hIgz46Fh5cZDYHZ1N68LFl6kEYaO1ucantstqLZ6tt2dDSrmeyJZETG8IW5jXrPDzUiqmMVsauICkXgZE/lb1AcSMGqFsyD6OJ9NG
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 05:31:44.3603
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08e191a0-c29b-453d-a809-08df026a267b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[149.199.90.133];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF00022BBD.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8156
 
-Xiaoyao Li <xiaoyao.li@intel.com> writes:
 
-> On 8/24/2026 10:45 PM, Ackerley Tng wrote:
->> Xiaoyao Li <xiaoyao.li@intel.com> writes:
->>
->>> On 8/8/2026 5:52 AM, Ackerley Tng via B4 Relay wrote:
->>>> From: Sean Christopherson <seanjc@google.com>
->>>>
->>>> Stub in global variable to enable in-place guest_memfd private<=>shared
->>>> memory conversion, which will eventually be exposed to userspace via a
->>>> module param, and wire up the __kvm_mem_is_private() static call to the
->>>> guest_memfd version when in-place conversion is enabled, i.e. when gmem is
->>>> the sole authority on private vs. shared memory.
->>>
->>> I find this patch changes the default memory type for a @gfn.
->>>
->>> - When memory attribute is tracked per-VM, the default memory type is
->>> always shared.
->>>
->>> - when gmem_in_place_conversion is true,
->>>     - if the @gfn has no memslot, or the memslot where the @gfn locates
->>>       doesn't have gmem bound, the default memory type is shared,
->>>     - otherwise, the default memory type is determined by the
->>>       GUEST_MEMFD_FLAG_INIT_SHARED flag.
->>>
->>> I think we should document this change.
->>>
->>
->> In a way it's not really a "change" since gmem_in_place_conversion is
->> set up as false in this patch.
->
-> I agree. It is not this patch making the change but the patch allows
-> gmem_in_place_conversion to be true.
->
->> When it is enabled in a later patch, another way to see it is that the
->> default remains "shared unless defined as private".
->>
->> Before:
->>
->> + no memslot, or memslot not bound to gmem => shared
->> + memory is shared unless VM ioctl used to make gfn private.
->>
->> After:
->>
->> + no memslot, or memslot not bound to gmem => still shared
->> + otherwise, ask gmem about status, which I think is already captured in
->>    the module param concept.
->>      + The very usage of gmem (without INIT_SHARED) is defining memory as
->>        private, I think that is already documented elsewhere when
->>        INIT_SHARED was introduced, that now the default is private.
->>
->> So in summary, I feel that this has already been documented in various
->> places. I'll also add the following in v11's "KVM: Let userspace disable
->> per-VM mem attributes, enable per-gmem attributes", in
->> Documentation/admin-guide/kernel-parameters.txt:
->>
->> 	kvm.gmem_in_place_conversion=
->> 			[KVM] Controls whether KVM enables in-place conversion
->> 			support for guest_memfd and tracks the private/shared
->> 			state of memory per guest_memfd instead of per VM.
->>
->> 			If enabled (the default), KVM enables the
->
-> I think the default is disabled?
->
 
-Ah. I'm thinking of the state in the way that we're deprecating
-non-in-place-conversion. I'll drop "(the default)", since the default
-depends on the CONFIG flag.
-
->> 			KVM_SET_MEMORY_ATTRIBUTES2 ioctl on guest_memfd file
->> 			descriptors and disables the legacy VM-scoped
->> 			KVM_SET_MEMORY_ATTRIBUTES ioctl for private memory state
->> 			tracking. Only the KVM_MEMORY_ATTRIBUTE_PRIVATE
->> 			attribute moves to per-guest_memfd tracking; other
->> 			attributes remain per-VM.
+On 25-08-26 04:01, Sohil Mehta wrote:
+> [You don't often get email from sohil.mehta@intel.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> Hi Shivansh,
+> 
+> On 8/23/2026 11:21 PM, Shivansh Dhiman wrote:
+> 
+>> Any rough idea when v10 might go out? I'm about to post v3 of the SVM side
+>> and would rather base it on your latest than on v9, so happy to wait if
+>> it's close.
 >>
->> 			This parameter toggles KVM's in-place conversion
->> 			capability support.
->
-> I start to think that the term "in-place conversion" seems to read
-> inaccurate. I think it is describing the shared/private conversion of a
-> gfn, and in-place means when a gfn is converted between shared/private,
-> the backend comes from the same gmem page, thus in-place. But KVM
-> doesn't enforce the "in-place".
->
-> If "in-place conversion" describes the shared/private conversion of a
-> gmem page, then "in-place" is redundant because the conversion a
-> specific gmem page is always in-place.
->
+> 
+> I am planning to send the v10 patchset soon after the merge window
+> closes. Recently, I received a set of updated patches from Xin
+> (offlist). I am in the process of resolving some minor issues based on
+> internal testing and AI reviews.
+> 
+> Barring any last minute hiccups, I am hoping to post the series around
+> the 7.3-rc1/rc2 timeframe. If you want an early look, the
+> work-in-progress patches are located at:
+> https://github.com/sohilmeh/linux-dev/tree/fred-kvm-next.
 
-Hmm, a few people have raised something related to this
-gmem_in_place_conversion module param's naming: Xiaoyao, Yan, David, and
-Sean's response is generally that it is confusing, but can't find a
-better way out. The main consideration around module param naming is
-that it should be named for the benefit of the admin. We want some name
-that admins can understand at a high level (for some definition of "high
-level") what this does.
+Thanks Sohil for the update and the tree. The timeline works for me. I'll
+hold v3 and post the SVM side rebased on top of v10 after you post.
 
-Do you have a proposal to resolve your concern, considering naming,
-documentation, comments, code, etc?
+Cheers,
+Shivansh
 
->>                       Whether a VMM uses separate backends
->> 			or out-of-place memory management is determined by
->> 			userspace VMM design.
->>
->> 			Note, this parameter is only available when
->> 			CONFIG_KVM_VM_MEMORY_ATTRIBUTES=y. When
->> 			CONFIG_KVM_VM_MEMORY_ATTRIBUTES is not set, in-place
->> 			conversion is unconditionally enabled.
->>
->> 			Default is Y (on).
->
-> I'm looking at the doc of KVM_SET_USER_MEMORY_REGION2, which reads
->
-> # When mapping a gfn into the guest, KVM selects shared vs. private, i.e
-> consumes
-> # userspace_addr vs. guest_memfd, based on the gfn's
-> KVM_MEMORY_ATTRIBUTE_PRIVATE
-> # state.  At VM creation time, all memory is shared, i.e. the PRIVATE
-> attribute
-> # is '0' for all gfns.  Userspace can control whether memory is
-> shared/private by
-> # toggling KVM_MEMORY_ATTRIBUTE_PRIVATE via KVM_SET_MEMORY_ATTRIBUTES as
-> needed.
+> 
+> Sohil
+> 
 
-I'm not sure how this snippet from the documentation connects with what
-you'd like changed. Let me know your suggested changes across
-naming/docs/comments/code to address your concern :)
