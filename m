@@ -1,64 +1,64 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC53C3382FC
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 15:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74ABE2FD69A
+	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 15:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787671978; cv=none; b=rBaAdkV9wdw6vXTPPjNaBh2EeLz3MbEW3ifhDvzcnPdvuHoHOOOeSDeegcuzgaOypGGaLKehnfCRGkPJbaglQ4m6gR4/9EgpYJTqcIX6rK81RFLaQmHDiyA8RRkslOAaRHKw+5u/QQ6CcNsXmYQDWs4Ix2FYaeYYvRJR5wu9Bvc=
+	t=1787671980; cv=none; b=JxaRFsvICfcfogeTRP6MDqUzabJ1sZKJx3bUJvN2FcbRUpK1zxBcsCP+IwNashRXuf/OmbzmPgqT6owKgW1mzxzriMqPoW9wEWLtvtAJ11sQQTDNPNFum+8DoPQ49eYrA1llWAyPAskxrRybpNi0oziUj9tERGXpMzkJdCgWrMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787671978; c=relaxed/simple;
-	bh=dzGLx7hmRStu+44RUZgGTXgypJylAAmdzWxuKyL5v4U=;
+	s=arc-20240116; t=1787671980; c=relaxed/simple;
+	bh=4B5CVeeW+H8xhmPHjOyG0zUr0e2Whn+FP3FajcUNunw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K0vfmjUQhae74j3/IW1CRX72oWw97r3FbRs8PZ0HjFslBY9LjbTx49SWZNW7GqDzbiY425ewiHsUY+azEeT9VzyfiF4XHZ/0sZON7d5q+PPz3TDRGfnxYD/rOWP5DuSZUvnM+vqMEHCu7Y97m9sO3yuxPte/gHDFBq4pDLwDh00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V5f9hGjb; arc=none smtp.client-ip=209.85.210.54
+	 MIME-Version; b=Cdqj2Fjs5fk6BhU8k4geOR+G31qqFLe7YaBb3otdxXRpB0MY62bKizbaUvKRh+PZ1itpHUE7FprdwNJ+Ucxuhkk39MCpokOWUBaOfe+ANkW64HH/YTeiotjK9atDIkCxl5dbdUzH4mtZnm4+6hFFHB3kGI0jNyobM4agIse4H98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c2KnE9Es; arc=none smtp.client-ip=209.85.210.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V5f9hGjb"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7e9ecd7216cso3782576a34.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 08:32:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c2KnE9Es"
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7e9eaf04bfaso2577290a34.1
+        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 08:32:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787671971; x=1788276771; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787671973; x=1788276773; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=1juMVOhJOgcK/kg6XX4IK6P14Ov4AD2HCrXjeUjkxQU=;
-        b=V5f9hGjbPzOwoM5i8m1SfnkswVKQj7oUtFUKPpLoQN5qlTiBJcuyhGbxyMf/unnn8j
-         X0Bvazpe/PLXAcIlstjDndiUMdTt4FuCcuJFEJ4uSsBx1BbmRUwRqBW3ERs7h04X8tBm
-         jVtR8iVlJSMRfJNaA2PjpuAT3KVLnNM1i93nWsWjBi8cU1FM+72xiUmBgOtCd7ZkHsfo
-         0HQv8hbxr1uCzSGlj9suqem4c2EUzA5v0WRA3f1GOW+LdJSUbzwLGr3BSXz6vUd1m5p5
-         Jz8AsEu/eOz/u2eb5dqukWVKreV18VBKx4k4zRyRWIYVh5Qra8Fy2LRzzFX5r00eoFUc
-         4L1g==
+        bh=8+Xifm4yMHmmJc4W3PmSLP73v1OoKmGISMUVeCn1vQA=;
+        b=c2KnE9Esmn4fhxz7kJ7PPEBvEyDgOv63Q9a7ULtXLhMypQrRUUUz7AableiL9FwXGt
+         DGyuT8yIKvyGO3PcP2xtHSEsKux0XNCJKKPlIm1RDGOKpfJLWH8cAdDRKf2QJ3EdrRcM
+         svF4NORS84xqmhG35MVQVafsYXshK/Wnh+nwnoFmCRVr17Pb0XmxW2uMLpSiLCsIB79F
+         MhZ4ZAGWhwpouSR2JW0e+uE4ti48tg8xVYGi7Qx4M6qQHMcaSjzn9CdEbWdXGU3oA89u
+         VtaQkdx+el1xpWu9MrUB0/3WiU+2IyTfXNwfZW5lXjT2xPW8My/S8vefqgtxDADklhS8
+         dXzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787671971; x=1788276771;
+        d=1e100.net; s=20251104; t=1787671973; x=1788276773;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1juMVOhJOgcK/kg6XX4IK6P14Ov4AD2HCrXjeUjkxQU=;
-        b=WRgKUY0yn4FrC78sOHW4sRGmck/NolKxMDPEoJBwvoY7IpM08Ce8uvq/LqWaowAvx+
-         Qqwm7alk9jv7a5YWPArlQxjzXmqkxkq3WVf6f9SQRl0aHxBuWCtn+1hDLMG8sbdVjRma
-         D9RZKHwnUzjAhChThLADEO4kl1ZfFsn4DzXqjgOLaPQlEm57qBIG1ERLTljCmJjy6nao
-         KqI9femmcupb0zozyPvU4QasSwMJK2l9hRucZxxsyQzBmIs8hmF/CX7udkZSSi6VCXl6
-         QDLXt0ymh8LwTE6Tk5l0Nvd74wCfeaGouYE4K8T3Lu1O3zt9irthpLWGt4YIG/yHmRUL
-         xhoA==
-X-Forwarded-Encrypted: i=1; AHgh+Rr43hR9LRPb+b7SsnhuceIlJHANTEWorGFb8OJ5xeuBHLWfs1sFL1CjRZSwja55ahCoL12uiNlV5ak=@vger.kernel.org
-X-Gm-Message-State: AFuF++kSWkTPJL+jx8RS51od/Olcq36gvml2IanRUGLgEaq1ZXjdd9gS
-	Y2HOcRQWymH/lwNzM05zHlpRJmLCaw1Mfge5Q+7Etpa3qAUoSUXK2IBz
-X-Gm-Gg: AR+sD11NWoxCKK0f7QSIfUYOB9EAfGD0FqaGlV2MIgZ45PkbPhg8DehuuISUba6Zjas
-	RfMvNUfq0sQ6Dawu5Rw/X6Y/bw1+QqaH5nOmiT5wa9mgU9mOpq81E9qTu7XVuLCVKqIIXpMNzsE
-	T3o63KwV1ln+uyNnsb6b0SG7CEqzXVe0TyLJeLg7dsOIWva+fXqKhpuK3ULWs4Vga7EOXKtYf+P
-	j6/n4u+9HqWnjpwh5GTDOc8HMYXYuTOJ4EsO3Q+ogt0KcdLJUxWg6/AWX7042+QMkqZIj3P2eOK
-	PJkwlyY1UBRuuF+mxfmcT6NGr/JBU28G4JbNq3dxTOLV7mN5vel85aytivCX567dg9pstfjKbSy
-	a8aT2CidQyq9oh7Aax9upVm6TvD3YVXXDooB9KMPqYQh0wVXWlJIpqgWzgrc69fdEB9NVPRbh2F
-	+g3GtVGy8C0wl2GLwws4hRZ4w3DBmYpNpR+LkPSxoO+Ogvy0pNvtZAf4vGck5rT3DKEX7C3Xxua
-	PbnGlts1vs=
-X-Received: by 2002:a05:6830:448f:b0:7eb:3af8:8c1a with SMTP id 46e09a7af769-7f4af99833dmr6541276a34.9.1787671971139;
-        Tue, 25 Aug 2026 08:32:51 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:70::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f48fc4f427sm6969227a34.16.2026.08.25.08.32.50
+        bh=8+Xifm4yMHmmJc4W3PmSLP73v1OoKmGISMUVeCn1vQA=;
+        b=CMbyFodjbqZvbHMdXYa46t5vkK/r86p0KTEkyJFpTLJdNO6FGotSV1sIeTx5HMhQkc
+         hUuCR2hBwLcNHrxyBHneY66pjpuODf20UvS041qvblKkWfwfZxipYM0ZT94keh/hO6b6
+         bVh+cpX0AGim2LCjovDRyPZ5xwmaFMw46HX+pMQpioA25qbmpZemWF8ezmTMUhVLPc3X
+         vQk8Cpn9hJG1/dDAEkD/Xc48PWZBvO35GJDjudNi6+t82gZMII8yE+2jmFyvyyo4g9xI
+         IjSLfy5z77zWV4wfp30FwQ7xI9vx8L4p+cRy7ihRpPOK92OeIPQ2256sDBkZwD+dQ7Kd
+         BDNw==
+X-Forwarded-Encrypted: i=1; AHgh+RogG1+3JM+4t2FDxAHBCxDXgbLsO+p023jBQF40M82QSys1cTLjVI5h6LcrbimkprrS/5+JQc0b/Xg=@vger.kernel.org
+X-Gm-Message-State: AFuF++lwjYEIWfzt9b8Rax2oDeIlT7Dh/T1h6/26m/ehRWQOo4kO5XGM
+	WJ3FclKRjLtEmVucdyjIzY6zqGEN6f0ihiOIyrVgJVh2QYtGfu1BrVFp
+X-Gm-Gg: AR+sD13yfDaRp0Hlo7FwCNCpPrrHYnQZmqJ7NLp/i46aLCP5TNall0KGA8ORGg+SU6B
+	oOmvuF3+21C1g/V1yzgYWLi2mB+yktOxcGlj9L8aSlVVkc4A3w2Y3vQtUMoWWNZPZfuNeUpPUOW
+	9kI4hftORpKU/z6XTtHxT9B3HKAJP50jO4Ztrl4OnyOYMblZks6ki096oqCL041cdNkblSpYs2b
+	vwJ8lMTJZRc/LHRgoPJGCsMjogsX+GtNhYUUvGm3mv2Bomio+58pC3IglTWtnJTUSjgPPIlMJ83
+	q9QQ6ZUDvZC8EgVIaM/lQ5uHFx+5EdTeAW6VbLcdpd+sTaakmdGEYNFtYKFjv0KdoSg6Vtva/0b
+	VVS1qCRLb0bGH/rFwYDEySwtFmfrW9YaPUCcab0nO6717vL+4yBTFth4Ts79sIBc3dunQZOsz1G
+	feXac0Q0m0g/W+h+Zqb8QCFWamcFuhHXllAWCyjBW+j4wp0DPEDacz/NqSWolrVFLFIVg9qiJxz
+	rZ718uxAJtyGsuS+VqKSSw=
+X-Received: by 2002:a05:6830:6af8:b0:7e9:e313:4fdb with SMTP id 46e09a7af769-7f47639d520mr29228026a34.2.1787671972520;
+        Tue, 25 Aug 2026 08:32:52 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:42::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f48fb1db63sm8021692a34.12.2026.08.25.08.32.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 08:32:50 -0700 (PDT)
+        Tue, 25 Aug 2026 08:32:52 -0700 (PDT)
 From: Nhat Pham <nphamcs@gmail.com>
 To: akpm@linux-foundation.org
 Cc: chrisl@kernel.org,
@@ -100,9 +100,9 @@ Cc: chrisl@kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	cgroups@vger.kernel.org
-Subject: [PATCH v4 06/11] mm, swap: write back vswap zswap entries to physical swap
-Date: Tue, 25 Aug 2026 08:32:32 -0700
-Message-ID: <20260825153238.2695446-7-nphamcs@gmail.com>
+Subject: [PATCH v4 07/11] mm, swap: reclaim physical slots backing cache-only vswap entries
+Date: Tue, 25 Aug 2026 08:32:33 -0700
+Message-ID: <20260825153238.2695446-8-nphamcs@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260825153238.2695446-1-nphamcs@gmail.com>
 References: <20260825153238.2695446-1-nphamcs@gmail.com>
@@ -114,179 +114,267 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for writing back zswap-backed vswap entries to physical
-swap. The mechanism mirrors the existing zswap writeback path, except
-the backing physical slot is allocated on demand at writeback time
-rather than already being pinned by the PTE.
+When a vswap entry's swap_count drops to 0 while its folio is still in
+the swap cache, the entry is cache-only and its physical slot is
+redundant. Until now such a slot was only freed when the vswap entry
+itself was freed, pinning otherwise reclaimable physical capacity.
 
-The zswap shrinker no longer skips vswap entries, unless we are out of
-physical swap space.
+Reclaim such slots from the physical reclaim scanner, once swap is more
+than half used (vm_swap_full()), to free physical capacity for new
+allocations.
 
 Signed-off-by: Nhat Pham <nphamcs@gmail.com>
 ---
- mm/zswap.c | 67 +++++++++++++++++++++++++++++++++++++-----------------
- 1 file changed, 46 insertions(+), 21 deletions(-)
+ mm/swap_table.h |  12 +++--
+ mm/swapfile.c   | 115 ++++++++++++++++++++++++++++++++++++++++++++++++
+ mm/vswap.h      |  31 +++++++++++++
+ 3 files changed, 154 insertions(+), 4 deletions(-)
 
-diff --git a/mm/zswap.c b/mm/zswap.c
-index f16c0b44b5d5..70ad8010f18a 100644
---- a/mm/zswap.c
-+++ b/mm/zswap.c
-@@ -1007,12 +1007,13 @@ static bool zswap_decompress(struct zswap_entry *entry, struct folio *folio)
- static int zswap_writeback_entry(struct zswap_entry *entry,
- 				 swp_entry_t swpentry)
+diff --git a/mm/swap_table.h b/mm/swap_table.h
+index 08d2494a8ee6..b614b1989fd9 100644
+--- a/mm/swap_table.h
++++ b/mm/swap_table.h
+@@ -31,7 +31,7 @@ struct swap_memcg_table {
+  * NULL:     |---------------- 0 ---------------| - Free slot
+  * Shadow:   |SWAP_COUNT|Z|---- SHADOW_VAL ---|1| - Swapped out slot
+  * PFN:      |SWAP_COUNT|Z|------ PFN -------|10| - Cached slot
+- * Pointer:  |-------- vswap offset --------|100| - vswap rmap
++ * Pointer:  |C|------- vswap offset -------|100| - vswap rmap
+  * Bad:      |------------- 1 -------------|1000| - Bad slot
+  *
+  * COUNT is `SWP_TB_COUNT_BITS` long, Z is the `SWP_TB_ZERO_FLAG` bit,
+@@ -376,14 +376,18 @@ static inline unsigned short __swap_cgroup_clear(struct swap_cluster_info *ci,
+  * On physical clusters, a Pointer-tagged entry stores the offset of the
+  * vswap entry that owns this physical slot (the reverse map). Only the
+  * offset is stored; the swap type is implicit (always vswap_si->type,
+- * since there is exactly one vswap device).
++ * since there is exactly one vswap device). The top bit is reserved as
++ * a cache-only flag, set when vswap swap_count drops to 0 but the folio
++ * is still in swap cache.
+  *
+- *   Pointer:  |---- vswap offset ----|100|
++ *   Pointer:  |C|---- vswap offset ----|100|
++ *              C = SWP_RMAP_CACHE_ONLY (bit 63)
+  */
+ #define SWP_TB_PTR_MARK_BITS	3
+ #define SWP_TB_PTR_MARK		0b100UL
+ #define SWP_TB_PTR_MARK_MASK	((1UL << SWP_TB_PTR_MARK_BITS) - 1)
+-#define SWP_RMAP_ENTRY_MASK	(~SWP_TB_PTR_MARK_MASK)
++#define SWP_RMAP_CACHE_ONLY	(1UL << (BITS_PER_LONG - 1))
++#define SWP_RMAP_ENTRY_MASK	(~(SWP_RMAP_CACHE_ONLY | SWP_TB_PTR_MARK_MASK))
+ 
+ static inline bool swp_tb_is_pointer(unsigned long swp_tb)
  {
--	struct xarray *tree;
- 	pgoff_t offset = swp_offset(swpentry);
- 	struct folio *folio;
- 	struct mempolicy *mpol;
- 	struct swap_info_struct *si;
- 	struct swap_io_ctx ctx = {};
-+	swp_entry_t phys = {};
-+	bool is_vswap;
- 	int ret = 0;
+diff --git a/mm/swapfile.c b/mm/swapfile.c
+index 66bcbb112142..6ec439462490 100644
+--- a/mm/swapfile.c
++++ b/mm/swapfile.c
+@@ -142,6 +142,10 @@ static DEFINE_PER_CPU(struct percpu_vswap_cluster, percpu_vswap_cluster) = {
+ };
  
- 	/* try to allocate swap cache folio */
-@@ -1020,12 +1021,7 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
- 	if (!si)
- 		return -EEXIST;
+ static bool vswap_alloc(struct folio *folio);
++static void vswap_mark_cache_only(struct swap_cluster_info *ci,
++				  unsigned int ci_off);
++static void vswap_clear_cache_only(struct swap_cluster_info *ci,
++				   unsigned int ci_start, int nr);
  
--	/* Vswap entries have no physical backing to write to. */
--	if (swap_is_vswap(si)) {
--		put_swap_device(si);
--		return -EINVAL;
--	}
--
-+	is_vswap = swap_is_vswap(si);
- 	mpol = get_task_policy(current);
- 	folio = swap_cache_alloc_folio(swpentry, GFP_KERNEL, BIT(0), NULL, mpol,
- 				       NO_INTERLEAVE_INDEX);
-@@ -1044,24 +1040,44 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
- 	/*
- 	 * folio is locked, and the swapcache is now secured against
- 	 * concurrent swapping to and from the slot, and concurrent
--	 * swapoff so we can safely dereference the zswap tree here.
-+	 * swapoff so we can safely dereference the zswap tree (or vswap
-+	 * vtable) here.
- 	 * Verify that the swap entry hasn't been invalidated and recycled
- 	 * behind our backs, to avoid overwriting a new swap folio with
- 	 * old compressed data. Only when this is successful can the entry
- 	 * be dereferenced.
- 	 */
--	tree = swap_zswap_tree(swpentry);
--	if (entry != xa_load(tree, offset)) {
-+	if (entry != zswap_entry_load(swpentry)) {
- 		ret = -ENOMEM;
- 		goto out;
- 	}
+ /* May return NULL on invalid type, caller must check for NULL return */
+ static struct swap_info_struct *swap_type_to_info(int type)
+@@ -867,6 +871,54 @@ static int swap_cluster_setup_bad_slot(struct swap_info_struct *si,
+ 	return ret;
+ }
  
-+	if (is_vswap) {
-+		/*
-+		 * Allocate physical backing before decompress so a failure
-+		 * wastes no work.
-+		 */
-+		phys = folio_realloc_swap(folio);
-+		if (!phys.val) {
-+			ret = -ENOMEM;
-+			goto out;
-+		}
++/*
++ * Try to reclaim a Pointer-tagged physical slot backing a vswap entry.
++ * The physical cluster lock must NOT be held. Returns the backing folio's
++ * page count, negated if the slots could not be reclaimed, or 0 if the
++ * folio could not be shown to own @offset (i.e. there is a race).
++ */
++static int try_to_reclaim_vswap_backing(struct swap_info_struct *si,
++					unsigned long offset,
++					swp_entry_t vswap_entry)
++{
++	swp_entry_t phys_base;
++	struct folio *folio;
++	unsigned int i;
++	int ret;
++
++	folio = swap_cache_get_folio(vswap_entry);
++	if (!folio)
++		return 0;
++
++	if (!folio_trylock(folio)) {
++		folio_put(folio);
++		return 0;
 +	}
 +
- 	if (!zswap_decompress(entry, folio)) {
- 		ret = -EIO;
-+		/*
-+		 * The phys allocation above took the entry out of the vtable.
-+		 * Restore the zswap entry to the vtable, which also frees the
-+		 * allocated physical swap space.
-+		 */
-+		if (is_vswap)
-+			vswap_zswap_store(swpentry, entry);
- 		goto out;
- 	}
- 
--	xa_erase(tree, offset);
-+	if (!is_vswap)
-+		xa_erase(swap_zswap_tree(swpentry), offset);
- 
- 	count_vm_event(ZSWPWB);
- 	if (entry->objcg)
-@@ -1076,7 +1092,10 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
- 	folio_set_reclaim(folio);
- 
- 	/* start writeback */
--	__swap_writepage(&ctx, folio, folio->swap);
-+	if (is_vswap)
-+		__swap_writepage(&ctx, folio, phys);
-+	else
-+		__swap_writepage(&ctx, folio, folio->swap);
- 	swap_write_submit(&ctx);
- 
- out:
-@@ -1091,6 +1110,15 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
- /*********************************
- * shrinker functions
- **********************************/
-+/*
-+ * vswap zswap entries get a physical slot allocated on demand at writeback
-+ * time. Skip the shrinker when none is available.
-+ */
-+static bool zswap_writeback_possible(void)
-+{
-+	return !vswap_is_enabled() || get_nr_swap_pages() > 0;
++	if (!folio_matches_swap_entry(folio, vswap_entry)) {
++		folio_unlock(folio);
++		folio_put(folio);
++		return 0;
++	}
++
++	i = vswap_entry.val - folio->swap.val;
++	phys_base = vswap_to_phys(folio->swap);
++	if (!phys_base.val || swp_type(phys_base) != si->type ||
++	    swp_offset(phys_base) + i != offset) {
++		folio_unlock(folio);
++		folio_put(folio);
++		return 0;
++	}
++
++	/* The run is ours: skip it all, whether or not the free succeeds. */
++	ret = folio_nr_pages(folio);
++	if (!folio_free_swap(folio))
++		ret = -ret;
++	folio_unlock(folio);
++	folio_put(folio);
++	return ret;
 +}
 +
  /*
-  * The dynamic shrinker is modulated by the following factors:
-  *
-@@ -1228,7 +1256,7 @@ static unsigned long zswap_shrinker_count(struct shrinker *shrinker,
- 	if (!zswap_shrinker_enabled || !mem_cgroup_zswap_writeback_enabled(memcg))
- 		return 0;
+  * Reclaim drops the ci lock, so the cluster may become unusable (freed or
+  * stolen by a lower order). @usable will be set to false if that happens.
+@@ -1148,6 +1200,7 @@ static void swap_reclaim_full_clusters(struct swap_info_struct *si, bool force)
+ 	long to_scan = 1;
+ 	unsigned long offset, end;
+ 	struct swap_cluster_info *ci;
++	swp_entry_t vswap_entry;
+ 	unsigned long swp_tb;
+ 	int nr_reclaim;
  
--	if (vswap_is_enabled())
-+	if (!zswap_writeback_possible())
- 		return 0;
- 
- 	/*
-@@ -1314,7 +1342,8 @@ static struct shrinker *zswap_alloc_shrinker(void)
-  * were scanned but none could be written back, or -ENOENT if @memcg has
-  * writeback disabled, is a zombie cgroup, or has empty zswap LRUs.
-  *
-- * Also returns -ENOENT when vswap is enabled.
-+ * Also returns -ENOENT when vswap is enabled and there is no physical
-+ * swap to write back to.
-  */
- static int shrink_memcg(struct mem_cgroup *memcg)
- {
-@@ -1323,7 +1352,7 @@ static int shrink_memcg(struct mem_cgroup *memcg)
- 	if (!mem_cgroup_zswap_writeback_enabled(memcg))
- 		return -ENOENT;
- 
--	if (vswap_is_enabled())
-+	if (!zswap_writeback_possible())
- 		return -ENOENT;
- 
- 	/*
-@@ -1354,11 +1383,7 @@ static void shrink_worker(struct work_struct *w)
- 	int ret, failures = 0, attempts = 0;
- 	unsigned long thr;
- 
--	/*
--	 * When vswap is enabled, zswap entries are almost all vswap backed,
--	 * with no slot to write back to.
--	 */
--	if (vswap_is_enabled())
-+	if (!zswap_writeback_possible())
- 		return;
- 
- 	/* Reclaim down to the accept threshold */
-@@ -1439,7 +1464,7 @@ static void shrink_worker(struct work_struct *w)
- 			break;
- resched:
- 		cond_resched();
--	} while (zswap_total_pages() > thr);
-+	} while (zswap_total_pages() > thr && zswap_writeback_possible());
+@@ -1172,6 +1225,19 @@ static void swap_reclaim_full_clusters(struct swap_info_struct *si, bool force)
+ 					offset += abs(nr_reclaim);
+ 					continue;
+ 				}
++			} else if (swp_tb_is_pointer(swp_tb) &&
++				   (swp_tb & SWP_RMAP_CACHE_ONLY)) {
++				vswap_entry = swp_tb_ptr_to_swp_entry(swp_tb);
++				spin_unlock(&ci->lock);
++				nr_reclaim = try_to_reclaim_vswap_backing(si, offset,
++									  vswap_entry);
++				ci = swap_cluster_lock(si, offset);
++				if (!ci)
++					goto next;
++				if (nr_reclaim) {
++					offset += abs(nr_reclaim);
++					continue;
++				}
+ 			}
+ 			offset++;
+ 		}
+@@ -1748,6 +1814,8 @@ static void swap_put_entries_cluster(struct swap_info_struct *si,
+ 			}
+ 			/* count will be 0 after put, slot can be reclaimed */
+ 			need_reclaim = true;
++			if (swap_is_vswap(si))
++				vswap_mark_cache_only(ci, ci_off);
+ 		}
+ 		/*
+ 		 * A count != 1 or cached slot can't be freed. Put its swap
+@@ -1854,6 +1922,8 @@ static int swap_dup_entries_cluster(struct swap_info_struct *si,
+ 			goto failed;
+ 		}
+ 	} while (++ci_off < ci_end);
++	if (swap_is_vswap(si))
++		vswap_clear_cache_only(ci, ci_start, nr);
+ 	swap_cluster_unlock(ci);
+ 	return 0;
+ failed:
+@@ -1981,6 +2051,51 @@ int folio_alloc_swap(struct folio *folio)
+ 	return 0;
  }
  
- /*********************************
++static void vswap_mark_cache_only(struct swap_cluster_info *ci,
++				  unsigned int ci_off)
++{
++	struct swap_cluster_info_dynamic *ci_dyn;
++	struct swap_cluster_info *pci;
++	swp_entry_t phys;
++	unsigned long vt;
++
++	ci_dyn = container_of(ci, struct swap_cluster_info_dynamic, ci);
++	vt = __vtable_get(ci_dyn, ci_off);
++
++	if (vtable_type(vt) == VSWAP_SWAPFILE) {
++		phys = vtable_to_phys(vt);
++		pci = __swap_entry_to_cluster(phys);
++		swap_rmap_mark_cache_only(pci, swp_cluster_offset(phys));
++	}
++}
++
++/*
++ * Clear the cache-only rmap hint for entries re-referenced from count 0 to 1
++ * (no longer reclaimable), so the physical reclaim scanner skips them.
++ */
++static void vswap_clear_cache_only(struct swap_cluster_info *ci,
++				   unsigned int ci_start, int nr)
++{
++	struct swap_cluster_info_dynamic *ci_dyn;
++	struct swap_cluster_info *pci;
++	unsigned long swp_tb, vt;
++	swp_entry_t phys;
++	unsigned int off;
++
++	ci_dyn = container_of(ci, struct swap_cluster_info_dynamic, ci);
++	for (off = ci_start; off < ci_start + nr; off++) {
++		swp_tb = __swap_table_get(ci, off);
++		if (!swp_tb_is_folio(swp_tb) || swp_tb_get_count(swp_tb) != 1)
++			continue;
++		vt = __vtable_get(ci_dyn, off);
++		if (vtable_type(vt) != VSWAP_SWAPFILE)
++			continue;
++		phys = vtable_to_phys(vt);
++		pci = __swap_entry_to_cluster(phys);
++		swap_rmap_clear_cache_only(pci, swp_cluster_offset(phys));
++	}
++}
++
+ static void __swap_cluster_free_phys_backing(struct swap_info_struct *psi,
+ 					     struct swap_cluster_info *pci,
+ 					     unsigned int ci_start,
+diff --git a/mm/vswap.h b/mm/vswap.h
+index ce35a8381ca0..c66fa34e2e60 100644
+--- a/mm/vswap.h
++++ b/mm/vswap.h
+@@ -44,6 +44,37 @@ static inline bool is_vswap_entry(swp_entry_t entry)
+ 	return swap_is_vswap(__swap_entry_to_info(entry));
+ }
+ 
++/*
++ * Rmap cache-only helpers for physical cluster Pointer-tagged entries.
++ * SWP_RMAP_CACHE_ONLY records, inline on the physical swap_table entry,
++ * that the backing vswap entry has swap_count == 0 (swap-cache-only, so
++ * reclaimable). The physical reclaim scanner reads it directly instead of
++ * chasing the rmap into the vswap layer and paying the cluster-lookup
++ * indirection.
++ *
++ * Callers hold the vswap cluster lock, not the physical one. The rmap is
++ * only touched while the vtable holds the slot as SWAPFILE, and that
++ * window is opened and closed under the vswap cluster lock, so the
++ * allocator has finished writing the entry by then.
++ */
++static inline void swap_rmap_mark_cache_only(struct swap_cluster_info *ci,
++					     unsigned int off)
++{
++	atomic_long_t *table;
++
++	table = rcu_dereference_check(ci->table, true);
++	atomic_long_or(SWP_RMAP_CACHE_ONLY, &table[off]);
++}
++
++static inline void swap_rmap_clear_cache_only(struct swap_cluster_info *ci,
++					      unsigned int off)
++{
++	atomic_long_t *table;
++
++	table = rcu_dereference_check(ci->table, true);
++	atomic_long_and(~SWP_RMAP_CACHE_ONLY, &table[off]);
++}
++
+ /*
+  * Virtual table entry encoding for vswap clusters.
+  *
 -- 
 2.53.0-Meta
 
