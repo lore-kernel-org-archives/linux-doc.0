@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982C13E9C18;
-	Tue, 25 Aug 2026 09:12:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC223E63B2;
+	Tue, 25 Aug 2026 09:26:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787649141; cv=none; b=Dy7oNMHw1+UMrJV57WP018pBkoNdpC33mM9sWDkhJ8x7kPNsAF+B7Y8ImqbsKDmBXJCeY8cmmnrPJT7MyWzjRW/TkxeH1rQDgv1rNKaEe0GRBA85K14XJ62OcXKMFzb4zL6yByxmwvEhMIOkmbOBLUsniUV5Y/XAlV2VzUMuMAg=
+	t=1787650006; cv=none; b=oDrJqIdeLf8TAcqYcddPQoh3yBsgiTxbWaq1rK1rAk9ruXaaMIm+s/rYgys/Kb1TtuIWLxVtDl5DikFyVmzT13D8XJnyAAO4hGF/MOTNbFZiKroV26KS1kQ+5R7KajwxuJIiRnfhtAuLE7+RCCS7mCCfJxQ9uJBkrQEXnQGSw4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787649141; c=relaxed/simple;
-	bh=hPlBOr2yVnxKJjNCewjC0AceQ00lsZL0pQ7jCx0QLt4=;
+	s=arc-20240116; t=1787650006; c=relaxed/simple;
+	bh=30V+cn6fgzf+80ivILxgzmmeub5NY5SAbK4RJyKrIe4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gLhTIBwWY47pvIiwO/INvZOf5EjySujBEl6G9drSh7H4Kkb1qv2pBQzQGhG62BqdRaX3rdz2uBt1QBcD5xpTzUIB5gBeZQ0mPiTFQsScG0CARMkRvZptJBS3Ww6VxAyf4jj9GmS4qRQUsJL8KMc7At8rWH9v/8K1Ojoa18CfQf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cwAeAWnt; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=u31rip6QmNMWrBLDJ9SfwpDZGhZKEeFHfkaKDaTnaCmiyQ0/aK2XLePNaRPjE0bKGLp4HavLfap3o/Y2upbSYnI41Zp4DUR+an8BrzG0AUj11K1qcEZOM+AnWWDUkqHkVjTf4ZqswnOAGfP4ux4LfFBPOU6+0I38Vh4UQiTdQHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JfmdplgB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cwAeAWnt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 647681F000E9;
-	Tue, 25 Aug 2026 09:12:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JfmdplgB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B65A61F000E9;
+	Tue, 25 Aug 2026 09:26:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787649140;
-	bh=wRKeXVgFI9gpHj5d1PdfWXdzukNPCSsx5hEFTj+qg00=;
+	s=k20260515; t=1787650002;
+	bh=UmUyVVa+WflnhGfl07gzLTmeXFopbRWv+zX6OfCXNrA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=cwAeAWntEG4CSkXdakORQrZmDCaGBhA2yzBSXui1Jn+QpYsrVqRU4IK93rLQxeLEi
-	 n5CAAP8MVGubNvAxoscmtT5mJY5mVT8gOKcs1Lbm7ks3C1DlA2cSsB7WhNaJ6aNEw9
-	 fMvtZ28zcVhB8+wM3OstJTnTS7kMM+/3qnnIbFBnrlnvNACa3SZh+2P0MlxWpv0+c+
-	 mC+tI2P9X8daW9JxY1vU1NS/SSDoLFp4okxMNLjDzcAnOh3spsc/1td1hp88Bb3jDN
-	 DjszjD5QLFC4cxa7OIc/ul+mnqTp8zXLu27KN+ctXxx+1X+gJnkx9upe9tTCqrk1ar
-	 oGS43jdW29CdA==
-Message-ID: <a7789b90-8dc5-4a66-8c51-705cdfe9856e@kernel.org>
-Date: Tue, 25 Aug 2026 11:12:10 +0200
+	b=JfmdplgBON/cgFMpk4wRz0eFysPpvZ7PIYKtve+jg8h7uMo2WPQnCll0J1Dxyu/Zi
+	 12Tem7CceWBPEfK+0DJ4sFKM7PU2Qc2N+6fA/3nrsb5DyROYlvKr3ezDj9K+VZILXT
+	 2vmjlDgwvTTcddjkCBaUYAwIWVlvb1jxnnTmY6qz48YslR1XY4BGMACZgCvs0QgscO
+	 acI6pa0AfgLwN4cg/ALtszNK+/jQag2LHQiwsgYCNDZYJlJmBXHtCgaQV+HfDIWOjx
+	 C5VZI89No/zhVkk0sYr/cqD0w3CIkN/Eo/IpHdJ/nvBsXJj2OdW6+TioZuHJArIcpX
+	 pFz1JZlG47VyQ==
+Message-ID: <787b5acb-978c-453a-be81-812269f47f40@kernel.org>
+Date: Tue, 25 Aug 2026 11:26:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,9 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/6] selftests/mm: make file helpers return errors
-To: Usama Anjum <usama.anjum@arm.com>, Sarthak Sharma <sarthak.sharma@arm.com>
+Subject: Re: [PATCH v7 6/6] selftests/mm: add a GUP selftest
+To: Sarthak Sharma <sarthak.sharma@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>
 Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
  <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
  Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
@@ -50,10 +51,9 @@ Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
  Shuah Khan <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>,
  Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
  linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+ linux-kernel@vger.kernel.org
 References: <20260813181230.483746-1-sarthak.sharma@arm.com>
- <20260813181230.483746-2-sarthak.sharma@arm.com>
- <2d81928a-3463-493f-bfa6-71869882489e@arm.com>
+ <20260813181230.483746-7-sarthak.sharma@arm.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -100,62 +100,119 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <2d81928a-3463-493f-bfa6-71869882489e@arm.com>
+In-Reply-To: <20260813181230.483746-7-sarthak.sharma@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/25/26 11:05, Usama Anjum wrote:
-> On 13/08/2026 7:12 pm, Sarthak Sharma wrote:
->> Change read_file(), write_file(), read_num(), write_num() and
->> write_num_ignore_einval() in vm_util.c to report failures to callers
->> instead of exiting from the helper.
->>
->> Make read_file() return a negative errno on failure and 0 on success, so
->> callers can distinguish a successful read from an I/O error. Also make
->> read_num() reject negative and malformed values.
->>
->> Keep write_num_ignore_einval() silent for -EINVAL while returning other
->> errors to its caller.
->>
->> Update callers to print diagnostics and fail wherever required. Also add
->> a helper print_file_access_error() in hugepage_settings.c to print
->> TAP-compatible errors without a kselftest dependency. This prepares the
->> helpers to be moved to tools/lib/mm without a kselftest dependency.
->>
->> Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
->> ---
->>  .../testing/selftests/mm/hugepage_settings.c  |  98 +++++++++++---
->>  tools/testing/selftests/mm/khugepaged.c       |  14 +-
->>  .../selftests/mm/split_huge_page_test.c       |   5 +-
->>  tools/testing/selftests/mm/vm_util.c          | 120 ++++++++++++------
->>  tools/testing/selftests/mm/vm_util.h          |   8 +-
->>  5 files changed, 178 insertions(+), 67 deletions(-)
->>
->> diff --git a/tools/testing/selftests/mm/hugepage_settings.c b/tools/testing/selftests/mm/hugepage_settings.c
->> index d7917dce3aba..5bcda01ac4f6 100644
->> --- a/tools/testing/selftests/mm/hugepage_settings.c
->> +++ b/tools/testing/selftests/mm/hugepage_settings.c
->> @@ -8,6 +8,7 @@
->>  #include <stdlib.h>
->>  #include <string.h>
->>  #include <unistd.h>
->> +#include <errno.h>
->>  
->>  #include "vm_util.h"
->>  #include "hugepage_settings.h"
->> @@ -48,6 +49,11 @@ static const char * const shmem_enabled_strings[] = {
->>  	NULL
->>  };
->>  
->> +static void print_file_access_error(const char *path, int ret)
->> +{
->> +	printf("# %s: %s (%d)\n", path, strerror(-ret), -ret);
-> ksft_print_msg() is what you want here. It adds # by default.
 
-That code is getting moved out of tools/testing/selftests/mm in a later commit.
+> diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core-api/pin_user_pages.rst
+> index c16ca163b55e..1564b16994ad 100644
+> --- a/Documentation/core-api/pin_user_pages.rst
+> +++ b/Documentation/core-api/pin_user_pages.rst
+> @@ -228,12 +228,18 @@ Unit testing
+>  ============
+>  This file::
+>  
+> - tools/testing/selftests/mm/gup_test.c
+> + tools/testing/selftests/mm/gup.c
+>  
+> -has the following new calls to exercise the new pin*() wrapper functions:
+> +contains the following test cases to exercise pin_user_pages*():
+>  
+> -* PIN_FAST_BENCHMARK (./gup_test -a)
+> -* PIN_BASIC_TEST (./gup_test -b)
+> +* pin_user_pages via PIN_BASIC_TEST
+> +* pin_user_pages_fast via PIN_FAST_BENCHMARK
+> +* pin_user_pages_longterm via PIN_LONGTERM_BENCHMARK
+> +
+> +Run with::
+> +
+> +  make -C tools/testing/selftests/mm
+> +  ./tools/testing/selftests/mm/gup
+>  
 
-(see "This prepares the helpers to be moved to tools/lib/mm without a kselftest
-dependency.") above.
+Can we just remove that testing part in that doc completely in an earlier patch?
+I don't really see the reason for documenting selftests that way.
+
+In particular, now that it's a proper standalone selftest.
+
+>  You can monitor how many total dma-pinned pages have been acquired and released
+>  since the system was booted, via two new /proc/vmstat entries: ::
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ed9a8549ae31..861504fa2e31 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17032,6 +17032,7 @@ F:	mm/gup.c
+>  F:	mm/gup_test.c
+>  F:	mm/gup_test.h
+>  F:	tools/mm/gup_bench.c
+> +F:	tools/testing/selftests/mm/gup.c
+>  F:	tools/testing/selftests/mm/gup_longterm.c
+
+[...]
+
+> +TEST_F(gup_test, dump_user_pages_with_get)
+> +{
+> +	run_gup_cmd(_metadata, self, variant, DUMP_USER_PAGES_TEST, 0, 1);
+> +}
+> +
+> +TEST_F(gup_test, dump_user_pages_with_pin)
+> +{
+> +	run_gup_cmd(_metadata, self, variant, DUMP_USER_PAGES_TEST,
+> +		    GUP_TEST_FLAG_DUMP_PAGES_USE_PIN, 1);
+> +}
+
+I really don't like DUMP_USER_PAGES_TEST: running the selftests just fills the
+kernel log with useless information. And it's not like there is real value to it
+beyond what the other tests are already testing.
+
+... or that we would verify automatically what is being dumped makes any sense.
+
+I'd vote to not add selftests that use it.
+
+It was added in
+
+commit f4f9bda418ab8b4dbc5372e9e2a28162f7777154
+Author: John Hubbard <jhubbard@nvidia.com>
+Date:   Mon Dec 14 19:05:21 2020 -0800
+
+    selftests/vm: gup_test: introduce the dump_pages() sub-test
+
+    For quite a while, I was doing a quick hack to gup_test.c (previously,
+    gup_benchmark.c) whenever I wanted to try out my changes to dump_page().
+    This makes that hack unnecessary, and instead allows anyone to easily get
+    the same coverage from a user space program.  That saves a lot of time
+    because you don't have to change the kernel, in order to test different
+    pages and options.
+
+    The new sub-test takes advantage of the existing gup_test infrastructure,
+    which already provides a simple user space program, some allocated user
+    space pages, an ioctl call, pinning of those pages (via either
+    get_user_pages or pin_user_pages) and a corresponding kernel-side test
+    invocation.  There's not much more required, mainly just a couple of
+    inputs from the user.
+
+    In fact, the new test re-uses the existing command line options in order
+    to get various helpful combinations (THP or normal, _fast or slow gup, gup
+    vs.  pup, and more).
+
+
+I can see why we might want a dedicated dump_page/dump_folio test that either
+
+(1) Is ran automatically and actually verifies (somehow automatically) what is
+being dumped checks out. More tricky.
+
+(2) Is ran manually by a suer that verifies whether what is being dumped checked
+out. More feasible.
+
+But as is, for an automated test this doesn't make sense.
+
+Maybe we'd want a dedicated dump_page test tool in tools/mm that would make use
+of DUMP_USER_PAGES_TEST. But maybe we also want to remove DUMP_USER_PAGES_TEST
+entirely and have a different way to trigger+test this.
+
+Ideally we'd have a proper automated dump_page test that actually checks
+expected output (somehow).
 
 -- 
 Cheers,
