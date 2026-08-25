@@ -1,196 +1,160 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD4E44C4EC
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 13:17:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2038A3F8234;
+	Tue, 25 Aug 2026 13:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787663855; cv=none; b=gdY7yZPnzCtv6RV3a2xloUOzInNBdRllSRjHQWYDHDbqX4JpSHAafODEX2P865+ISbdTOYpjz7PSCG76epLak9fzr4gtDrWZXNNetrbXN2wvmeOGStJDP18VzOWUMPwgr5fRr0seNL9U72sBxzbl3tVo0tavy2owoM1FTEFYBvk=
+	t=1787663954; cv=none; b=IwG6QUtDeJS4YCYlVmGeR6wcRTMZbP90WUjPgubRwlV/SPUCqJvPIQJw2zu8q8n0pEyNsOyrm0KI5SdjVqJyfKdYoL8qZZc3qVzFYiYseukAUwehvDeQnx90yoNFRsRCdpmm0jbWBjelkilJ8b9h/pvHITOn0oezuooPJuDJWxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787663855; c=relaxed/simple;
-	bh=pt9eezPeCUT7V+HzJqfo0KBN0/mjD+4aoP/HdGr69OY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cB/KJgqtLY0BX4lLzIQM6jz3ZH68m/qdaawy08Ewla6xnYVBaCIAJfcaQ++EENy6Yi6OPwIDRVB81LuupkFIy0YtbNAqGu91lZEZZ405Pxk8cTaPHTWu+DGA+vSwySrQBUZhWiZ2dFtr/uYXlFVMlvn29Yqkldzy0Axf00uGQ6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+9zZUpR; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+9zZUpR"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so43193245e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 06:17:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787663852; x=1788268652; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=py3ROtb3vVj5APnhYCyw+k54KDsBa1cNIVxX44uQqJI=;
-        b=B+9zZUpR3Zb/yz7F/XWKWBZtBgL6JzX5Givc21cs4Up+fFxlb8U5Q5QANZAu1k1qt7
-         d61UH4CzBQ+r71aPtnq4+97krk8SPK+/YgiRiHb15ZV/G4Bke5s7OYutnw1yw6RTNfy9
-         Rt5srqaP+9EXv7zbMoAQTcTFYnlAlH02qokI4xo4bGmVMyRES6y9pBeJ67nuOvq75byE
-         pzvG/uNOqv3u2wFxDoQmLcjwK4hpEMSZR2cvekRuLEaG3Y4Yvkcg5QY4vcUwWofpBVCe
-         94uZihdjF1/ix97ht17quY3uqeL5I/7Nm213Rty8ioY6arxDir/QqLH3wXKEvsv71XFq
-         jObA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787663852; x=1788268652;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=py3ROtb3vVj5APnhYCyw+k54KDsBa1cNIVxX44uQqJI=;
-        b=Nxo32q0RgRvIA5GFLW7myqAEp88Q5ljhobBw5fmjMve93OQ+TnHP9WcS3gg665lYkQ
-         JSY/NQX/4BGGkSyblhsNWmBwCHkGFzglMAoWR/7+0uHPoyF9QDERid7Zv7rA0VkbSlIh
-         FXhGL4GPKnG0E9NoXWtV8JG+/0egsvUKvkpHlRqG8/8jo8+Uio2TB/6ZPJalkNg2w+Z0
-         yt8gxbPJCdun2ltWHJqrvLjfPj2PqRMopB4/LIKSOryPdOXBg3EZt3hMBprtQFnbnp7T
-         NyuODJioAOqjmwzcYukv8MhcuPLgPpLcfdwnCFSGkTPPSGvewgzxyO2SA98OfsHY7Vy7
-         fRIg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq4Pm4YjHiuK/g8j5o81yZpFA2H1sn3ITzwHvSUaAV3vtL6KT01D23il9U4178BuR7d90WYiCkL1Xo=@vger.kernel.org
-X-Gm-Message-State: AFuF++kc0RbBfxhLH9yU4BuqoVt/p5WK5Nx+po/Xiu3ESpLVTV3Z9/3d
-	cR8LmRMgHyYviivCU/fT7lXeKohvnAvBONFJTaUUOQhMLAnz5PhMYvxx
-X-Gm-Gg: AR+sD13Ooy8OEPi1OWbMALDH1yG4ncVkQNiLDGfKDr21HP/IIEsNvVPRdp454/48WiB
-	q034Gu/Fy1M8vsEOXGgmG2+SQ7jOGMvxSrdLOfXVMcLgG1fMxmx0gNO6lbhDEgvnCCUldTLirM7
-	ptw1W3fc65yEWy+Fx4/tcKcsckm2Wfu0FoK7ToFBYREQFosMqGkWZseIT3a/aQXN53Ga3tF0CFZ
-	ptngEA5H06BkONTnmqle/9280offLilN3nH6m1odlpNAWuUoHH/40QMIHQ3rylQnVF2KQDUN9es
-	aBNpIgAsDJ5yzgjjM3P0k4cVNk9Nc/W0tRSHDkkZgmL59pV0e06k2cm3Wa/BV2sZdXfzQk6L+lG
-	Sb08s8A0G8JYUUwGBHyCqJWoZP1TcYrtG+2IL9RrDg4eETiw+XU6yTtc+aSjPhNWVk/3kZfggxt
-	mTTfyYvCE90+MEKxvvss3chiKb66O39ERP27fzHe/hVJqUCug8a4KQ8usYovwMKB0eEciL15QBK
-	kDA+81867xgTUyMYIhwQcdRbFYbSpLGPMWbEskDziUKfXsbpgrg+RCY
-X-Received: by 2002:a05:600c:3111:b0:495:7888:281c with SMTP id 5b1f17b1804b1-499c1772dd5mr302953505e9.0.1787663851572;
-        Tue, 25 Aug 2026 06:17:31 -0700 (PDT)
-Received: from [172.24.138.145] (dynamic-176-007-058-112.176.7.pool.telefonica.de. [176.7.58.112])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499d5d72d36sm23411535e9.3.2026.08.25.06.17.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2026 06:17:31 -0700 (PDT)
-Message-ID: <9e7edec5-578d-48e0-b253-e50cf848236e@gmail.com>
-Date: Tue, 25 Aug 2026 15:17:14 +0200
+	s=arc-20240116; t=1787663954; c=relaxed/simple;
+	bh=5TVEsS2ZrICCGdu5fHn5ixwm1NzymOIz9G67H0t4KAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sS5yxDhceynggZz4nDlKvnshPEPOhqnyzdUwKYchoGdZ8IxDMNSfJ3sEtqCNz1eNBiCJN+u0SSYd6guAXg8/I1XHs7O9DCkdxOfAq7IMiD14XsckXL2xYnKQ5ZhX676VN6CgA6lKbweyfedRLEo/eXXapbPKo4tVX8dRYmqbvVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c45ff70000001609-0b-6a8d964b2220
+Date: Tue, 25 Aug 2026 22:19:06 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-kernel@vger.kernel.org, max.byungchul.park@gmail.com,
+	kernel_team@skhynix.com, torvalds@linux-foundation.org,
+	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
+	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
+	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
+	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
+	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
+	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
+	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
+	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
+	jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	boqun.feng@gmail.com, longman@redhat.com, yunseong.kim@ericsson.com,
+	ysk@kzalloc.com, yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+	catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
+	hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
+	gustavo@padovan.org, christian.koenig@amd.com,
+	andi.shyti@kernel.org, arnd@arndb.de, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
+	mcgrof@kernel.org, petr.pavlu@suse.com, da.gomez@kernel.org,
+	samitolvanen@google.com, paulmck@kernel.org, frederic@kernel.org,
+	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+	josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org,
+	miguel.ojeda.sandonis@gmail.com, neilb@ownmail.net,
+	bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
+	dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
+	alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+	lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
+	tmgross@umich.edu, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v19 00/40] DEPT(DEPendency Tracker)
+Message-ID: <20260825131906.GC23086@system.software.com>
+References: <20260706061928.66713-1-byungchul@sk.com>
+ <359ea967-9b97-4584-88e6-bddb4044de2e@kernel.org>
+ <20260821042143.GA40890@system.software.com>
+ <825134a8-ceae-430c-b2fc-d1d0c7240f39@kernel.org>
+ <20260825121322.GA23086@system.software.com>
+ <e0c589d0-d17b-48c2-8e1b-d41b69ecaadc@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/14] iio: adc: ad7768: Add per-channel conversion
- delay
-To: Andy Shevchenko <andriy.shevchenko@intel.com>,
- Janani Sunil <janani.sunil@analog.com>
-Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Olivier Moysan <olivier.moysan@foss.st.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Michael Walle <mwalle@kernel.org>,
- linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>
-References: <20260821-ad7768-driver-v4-0-bb8fbd06d4eb@analog.com>
- <20260821-ad7768-driver-v4-8-bb8fbd06d4eb@analog.com>
- <aovua1sy4sm6RmSt@ashevche-desk.local>
-Content-Language: en-US
-From: Janani Sunil <jananisunil.dev@gmail.com>
-In-Reply-To: <aovua1sy4sm6RmSt@ashevche-desk.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e0c589d0-d17b-48c2-8e1b-d41b69ecaadc@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0ybZRjN+13e76Oh8bPD+W4k/qghS9BtzGzuibqL8YefITEm/tsStbHN
+	KIOytYCgISvILhQ2RpHiisxyq0DLIAWmVLpVhIIOQgsOStOGLtIicpk2ATJwQ4pZ3L+Tc85z
+	zpM8D0/LLHgvr9bkqrQaRZYcSxjJcmLj/nTT1cy08sDrcOXiBZgqdjMwMl3CwPpmHQ0X+7YY
+	eGz0cFBTjGDL5UFg8hlp8Hvv0mDvKaZg8ecYgpoHcxgeWiu2LaF5CqbXlhDMuS8jeGw6C982
+	dmOILYQRuFpLMESu99Lw2+pDDCtdGHyjiwjq64wIogEXBV82dWIw1TsYCJqMFMxaowzUdPxI
+	wSNrOwejTUEGrPoUqBubZMFjm+fg1vI4C4tRI4bZ4UssfK8Pc+CYGUJwxbnKgCvwCjRcamZg
+	0vkNhoquXhb0desseN33WJiweRkYd3aw0DLto+BB2M9C99goDWvXksFbdZWFjpVGDNUrUQQz
+	tUscTLgtFLT+XctCm2sMg8eyG7pKzdxJpWi/aUfi5oYRiS33lrC4sXofi81lG5RYNbZf7DOH
+	OLH0ToATLY48sXRwmRW7W1PFpv4FSmyIrbKio70Miw2bf9BicKoff/DqKclbSlWWOl+lPXj8
+	E0lGqLKFPediC26HKzk9qmIMKIEnwmFSHSjDT3Gfy04bEM8zQgqJRk7EaSzsI37/IzqOk4Q0
+	Mj9SQhmQhKcF20vkq9lhLi7sEo6SnmA5js9KBSDjvz4X98iETooY7/fseKTC8+SXG3M7vbSQ
+	SvxPFqi4nxaSyXdP+DidIBwn9jtzO10vCC8T9+3hnS4iRBPIn5dbqP/23EN+avUz15FgfibW
+	/Eys+f9YC6LbkUytyc9WqLMOH8go1KgLDnyak+1A239rLfrn9A8o5v1wAAk8kidKt8+VKWMV
+	+brC7AFEeFqeJP2iyJApkyoVhZ+rtDkfa/OyVLoBlMwz8helr619ppQJZxS5qrMq1TmV9qlK
+	8Ql79ej0SLCzYejgKec+U9vb1pjDkH6sVlNReyw0GAmvVVZEnYGpa56NdXSo62tbSvWRPl3B
+	ewtvvDNJH2mLsEn6MxdsStNQUFFkfdMuD5a/m3j+hO+vUGKe7EZ/80pp0u7ffQOZ79ffnE0b
+	hPSPttDd85tcnm9msHfP0dSJnJNCbkQvZ3QZikOptFan+BcD5aJdswMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTGfd/39vbS2O3aod6IWUxl0ZD4lWg8m4sf2RbvNDOaLEFnnHbj
+	RgqlaqsgW4xSaAZ1alttCa0ogq1M6mDlw3WujGAEUYitH6NRsJhciwQQo1QjUFhLYuY/J+c8
+	5/nlOX8chihiknmMWntQ0GlVGiUto2Rb1hQu2Ww/kbW82s5AsfEo9IRFCfxb0EJBdLSYgrO1
+	HhpizqtSKPaWSeBmt4GCwO81CMLRYgRvxp0EjL4pCmLWNimMvn0kBVsBgil/GwJ70EogFPiH
+	gKehAMOrukkaBq+/RGB7ItJQOlBAwYj7VwSOiFMKAzc2wnD4mgSmevsxdL8eQuAWJzGILb8g
+	iNmz4XxlfRy3v6BhvOsOgVJbAMGFJ70EXg70IWhoe4ygv3EMgb/aQMNTcyOBe+IHcD86QkOH
+	7TgNw8GzGJ7X0VBh8Esg2DmIoNxpRRB56MdQWFVLg73cS4Gv7y8pBAcnMPTYrRhqvN9A2B2h
+	4La5Esdvjrv+mAvO0kIcL88w2K5cw+vdiH9jPEnxl+ubMG+8G6N5zzkP4sfHrIgfdRUS3miO
+	j9eHRghfVJ/Hu24P0fxY9AHN+19XUPytSo6/WDKGeUvXEt7n6JVu3fCd7PMMQaPOFXTL1u6R
+	Zfaeckn2+yWHm/pOSY8hC2VCSQzHruR8fg8xIYah2E+4yNN1CZlmF3Gh0FuS6JPZ5Vz/TQM2
+	IRlD2JqPuTPhdmli8RG7mmvoOU4nWDkL3J1bHyY8CrYWc9YHDdMeOTuL6ygTp7MIm8aFJgdw
+	wk/YFO7SJJOQk9i1nKdZnM6azS7kWprasRnJHe/Rjvdox/90BSKXUbJam5ujUmtWLdVnZ+Zr
+	1YeX/rgvx4viT+k+MmH5E43e29iKWAYpZ8oDlhNZCokqV5+f04o4hiiT5T8fMWUp5Bmq/J8E
+	3b7dukMaQd+KUhhKOVe+KV3Yo2D3qg4K2YKwX9C922Imad4xZG4v2TX/i5IFXak7872z1Zlf
+	Pg6EijTN5KTPtmOoSL/z+23LtKldaYcaXdVKU2k0b05VimgNlnV7A2dM4WrX1XLVloX2Hzqp
+	zzIu8es76hbvdVZ9Onzh24ruPEPqb191bp+RHli3Rvza0pceOdCcc9r899SMzQvuh3J3Tww+
+	G+/A55WUPlO1Io3o9Kr/AKCz9huQAwAA
+X-CFilter-Loop: Reflected
 
+On Tue, Aug 25, 2026 at 03:10:28PM +0200, David Hildenbrand (Arm) wrote:
+> >> As the saying goes, it's hard to teach old dogs new tricks, but in the end
+> >> taking care of two dogs is likely harder than only a single dog? :)
+> >
+> > Or it's better to train a unmatured hunting dog than to teach a pet dog,
+> > how to hunt, for better hunting, even though the pet dog might
+> > eventually become able to.
+> 
+> I'm not sure whether "pet dog" is the right analogy to lockdep in that scenario,
+> though ;)
 
-On 8/24/26 09:10, Andy Shevchenko wrote:
-> On Fri, Aug 21, 2026 at 04:07:01PM +0200, Janani Sunil wrote:
->> Expose the per-channel synchronization phase offset through the IIO
->> conversion-delay attribute.
->>
->> Derive the delay resolution from MCLK, power mode and decimation rate.
->> Validate the requested delay and program the corresponding phase
->> register when applying the active channel configuration.
-> ...
->
->> +static int ad7768_get_convdelay_params(struct ad7768_state *st, unsigned int ch,
->> +				       struct ad7768_convdelay_params *params)
->> +{
->> +	struct ad7768_freq_config f_cfg;
->> +	unsigned int dec_rate;
->> +	unsigned int mclk_div;
->> +	unsigned int mult;
->> +	u64 mclk;
->> +	int ret;
->> +
->> +	ret = ad7768_get_freq_cfg(st, st->ch_freq[ch], &f_cfg);
->> +	if (ret)
->> +		return ret;
->> +
->> +	dec_rate = ad7768_dec_rate[f_cfg.dec_rate];
->> +	switch (dec_rate) {
->> +	case 32:
->> +		params->shift = 3;
->> +		params->max_raw = 31;
->> +		mult = 1;
->> +		break;
->> +	case 64:
->> +		params->shift = 2;
->> +		params->max_raw = 63;
->> +		mult = 1;
->> +		break;
->> +	case 128:
->> +		params->shift = 1;
->> +		params->max_raw = 127;
->> +		mult = 1;
->> +		break;
->> +	case 256:
->> +		params->shift = 0;
->> +		params->max_raw = 255;
->> +		mult = 1;
->> +		break;
->> +	case 512:
->> +		params->shift = 0;
->> +		params->max_raw = 255;
->> +		mult = 2;
->> +		break;
->> +	case 1024:
->> +		params->shift = 0;
->> +		params->max_raw = 255;
->> +		mult = 4;
->> +		break;
->> +	default:
->> +		return -EINVAL;
->> +	}
-> So, this is just a bit twiddling of the dec_rate.
->
-> Can be written like
->
-> 	/* Optional, perhaps shouldn't appear */
-> 	if (!dec_rate)
-> 		return -EINVAL;
->
-> 	/* Same? What does table allow to have? */
-> 	if (!is_power_of_two(dec_rate))
-> 		return -EINVAL;
->
-> 	mult = ilog2(dec_rate);
-> 	if (mult > 10) {
-> 		return -EINVAL;
-> 	} else if (mult > 8) {
-> 		params->shift = 0;
-> 		params->max_raw = 255;
-> 		mult = BIT(mult - 8);
-> 	} else if (mult > 5) {
-> 		params->shift = 8 - mult;
-> 		params->max_raw = dec_rate - 1;
-> 		mult = 1;
-> 	} else {
-> 		return -EINVAL;
-> 	}
->
-> TBH, I don't know which looks easier to read. It all depends on what datasheet
-> says about these parameters and multiplier and what the table allows to have.
->
-I kept the explicit switch case because it the device supports only the 6 discrete decimation ratios listed in the table 32.
-The switch directly mirrors the phase resolution, number of steps and register bit mappings from that table, which I find easier to verify against the datasheet.
+Ah.  Okay.  I will be careful in using terms.
 
-The arithmetic version is more compact, but the proposed conditions would reject the valid x32 case because ilog2(32) is 5. A corrected arithmetic version would be functionally equivalent, but I do not think it improves the readability here.
+I wanted to tell DEPT has its strength, lockdep has its own, and they
+are different.
 
-Regards,
-Jan
+	Byungchul
 
+> 
+> --
+> Cheers,
+> 
+> David
