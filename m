@@ -1,248 +1,326 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62F237B010
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 19:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E0E3C3449
+	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 19:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787684638; cv=none; b=kSAs0oMfRPlhUb1TfEdaj9KcveBlieEQs/fPJQPJ69IVbXWZJ5dM7xOAw55n2HEjgo1cN1tgdWruDu1U9MsMBzYd2n55TDLAyRniqUsDKNpmmC4VZXeJU3NzzieHJZKUg7+oc+W53lZq4xBsZkPUS5v0Bu2RJfh/Pd2N0KphjRM=
+	t=1787685165; cv=none; b=XlCLSFWg75VkO0v8Slvcu0G+c+fRvp3haccBAgihB/Z1LW2u1o0ySN++8Oy8f3zxbCQsGllyiudEIw+y5goCZ/GQt3MQob2jTI183ChiLpzNU0SlzPN34sh1DeoeGM/rs0tz+/DIiK0IdRpVW7E05pzcS/1jz0q1WZ30F1JEHeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787684638; c=relaxed/simple;
-	bh=m/Bv7QEKHJ3y2uQBbl6uJDG2L4nmxNGll7e0UhCNzVE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ii7q9iDW8w7BUUh0r9ZqcoGAYXHlqXNY8khaMjy/h0eeoVwrA8ZMdXsduwKIZBfvhgr6BFiVU80mHqgOJ3V96MoXIiFF28POX6RmDRdYJs/S05FgNKfOSZ/y/l+JpeJogDljkZfBQvD5v1rNw1Lwaif52/CDkAxGgfIX+dXEWrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=losY9X30; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787685165; c=relaxed/simple;
+	bh=XqxjJtSUdnjazM3wr5TWYfyl1LyM07ShEvX4IgZG5tU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ICGmncY2iUxBiuyrebezFJhDfHm1Nr9eelItV+6/dy/xNWU/uopHGNl6Qfl923VomAbBkyik3LZp+Vw3p0WK3SdSxgTDP17FChQqhGG+IMJ+udX1h8Ub2GRfua1Mj2icUrTiknvd30MnQGogy0uDmzW8JN9wLVsKjL3RB2qlztk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=K6s0myHo; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="losY9X30"
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5bf9506704fso70326e0c.2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 12:03:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="K6s0myHo"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6a378f90555so194316a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 12:12:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787684635; x=1788289435; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rSkqPsRHCUDzCBx06jyXwxu5c0/VmObI7O1kAM54thw=;
-        b=losY9X30LM8PKyk2Dz65cOMCLSO0MP8w0bX3pLRpLpX3tQTM8I+k7CW10ERocmNXdB
-         ao78fhfrTeOhucfQ0DXuqJgPM5Jh92+FilbHftXOOA59x4myYI3h5wxbQEiRQ3ZWD34k
-         QwZfyypYmfi+OP6SxCKNV58c79jB5S2ovvFIGV5MP5LzvRRhz4XGTdMrdUOG6RXr033v
-         RO6Qhjrhs0PUiB/xeb7onlv4jxDVTFti4tHgtzpCWPqe6fbdxituANyBCjAXx/w2PtUD
-         PCUl6u09m7JEHwTEjwMvKCw68XaohzN35h65AK7HLEtJVzSS/487IGDgeqJoCDYCvilh
-         GI1Q==
+        d=googlemail.com; s=20251104; t=1787685162; x=1788289962; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Wfkp4kamup22HCEjq1R7usjeF6wHMurRheytN/iZwsI=;
+        b=K6s0myHouwb8djJWMcjHYb06xl3aKbVn0AwHhYZTEWBACl7myWugzVDSf+k4/bgiPW
+         379LRNPcQQPhG+l3+TWrxelHC80SUVRGyMKr8+pZbJ+RD/NWwhQYAzB3vjRX+y0upnOi
+         KiH8nI/4zL7jE3M3nUa/rovRvehCZT+Uk5t9mJyBEfcKidTXjrF1zGkweggqwuVkboJs
+         i69u2E9gs3GYjDiR4A4wTEvhiICOXo4YSAdO22bLUUsdGelXBs5GU0qdGvlrEh41Govz
+         79kWy3mqnucO6JSzwDFSI8MqUwzc8NVIsYS6Jt7jVJCfd8XGyVK3sWVtm8dYLjiRzB7D
+         9oSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787684635; x=1788289435;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rSkqPsRHCUDzCBx06jyXwxu5c0/VmObI7O1kAM54thw=;
-        b=HQaKnnxFS37PsHH7ZKipj+OvJghWx5pmTe/kxzqkJPhaBEVA4950FwHJqPvnjOATHj
-         ZWrPXI4x5D0j0vcqfETRsOgG0rYlcX5Vc6DdC8P7uUIOFYN8qU111+C+UN/0HP3V4G1O
-         kbFVbvmSIB0OwW1J3YEWOh8afokFhQsW9KAnZrVSxpOYN7Yu/fszoGGJ6xIeMqwLzVTX
-         A11mfprY93ky0lT0xbpSeZWVBhxrfzsLcuWK6YixmO2qyHlqwJpjuoNVBNPB3wMPGuOu
-         8Pi/9R7Yh2RRMCjrM9kMSi9lUlQihRHCrcyJXKqYi8P8dCO9wWyCtMLE0V/VFqD03XLm
-         l5qQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoMhyjymiKFft6CYxE6rlmVnILIUenzcLweS2jUgm4Meog4d1Mk1kEtANAVXcmE3P8l91Fe2LpqBr8=@vger.kernel.org
-X-Gm-Message-State: AFuF++ntJthM87VNeyVsNM8vkKwJlYkgx2sIcNvzbxBwD5seMf+XdlGM
-	4mx4peAd24JlU1suwcOMoAzhAsj3V8Rb7mJJgeTzN6RjFBQbSKEdJ95s
-X-Gm-Gg: AR+sD11ThcRQFenJm9MLmkq7wad66gE0VoFP32PypIieVgzRl+9UVS4fG5ZictEqoNl
-	/MmSZ9eHDyKInn3QmrX8uqrIy+SyMc5iy9nbp1kaPlK8WCdYPMH4gylb58LKs4RMg5lXitliOAe
-	KK0uChQ/osOcduhDpkhDyeHPSxwwOcZIyv1wTdxoFBFUz/WGQtZLyGDWD47XTLKi7weV1kgwx93
-	6sPj2YuIK5Y+faMnvBM+GEyeibo3z96b30H90xS84PEjMEqOSqLYP9SB9cZthUem/wBFJFgcHx6
-	L4vv83U6vjGivbqPGg/Dqd/8Gpt3LnO/bV/USyYmclzJX9rTkUw9S+C7QcsTFLi3TKAbfKpMSF8
-	cE+2oULxWUy2SVrp2iLgO6Rk6nJxxLtmmXja6hoNa0kdPkHK5xDKz5ad2+n5JDgMfWUGVaCG8eP
-	sUn3S7BPsV49WIhJPaoqCb/Nohzj9/ya6m3b1MBBaXmcEPYb7inugJ/4+8sUZwql1BJ9U=
-X-Received: by 2002:a05:6122:4b01:b0:5bf:a179:b2be with SMTP id 71dfb90a1353d-5c65c3c545dmr167444e0c.7.1787684635519;
-        Tue, 25 Aug 2026 12:03:55 -0700 (PDT)
-Received: from x-wing ([177.181.5.26])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c65aa0d845sm424770e0c.1.2026.08.25.12.03.52
+        d=1e100.net; s=20251104; t=1787685162; x=1788289962;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Wfkp4kamup22HCEjq1R7usjeF6wHMurRheytN/iZwsI=;
+        b=fiByJ+kdC+vAgiYzQDcHSm+vUv3c9ZlRrIbYW1qW9UnZd8zhhfDaCqjKz1zro4zGS8
+         tK+OVcnEaSd27IKyL2/0TGyF2mSAMNNNA5rB5PwT+MkRrBQlPQlGzgq7hWogoUWp6OGU
+         OMmLD+HcLXaJ+q2ADIYnHClMbTuAAO5Wi4XLRnSoqOu2kiPRIf1lySsN5R5w14p4QSKZ
+         csaq4Q5tm3HWhzlQk/LVkOzw/n+ho03EFKwUm2bk/TQZvP4E2gU5IuDBAexoe8RAJypu
+         19+QShttq6bnP/Rf6pp4Haz+o5ittN9dnZBfrucVjUeq5ofW4HYslUYljwQO1aN9QpVC
+         4NHA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq6hzt+eYFGBEGyMftA5sqiGf/zxYQ2bLo/wkMpOnsjyx6EqL+fB1ZWcqax3kFbWws36TD5OTWU4WE=@vger.kernel.org
+X-Gm-Message-State: AFuF++mQJ8YjEMTKlHP3XvVPgiiev4X42xx7BYso/NkkW+PBiL2D6anS
+	Ks5wUAU4e0IYX0JFsUQukcUFAQQX589Hxs9GVf0yg7al+PPKzgAI21k=
+X-Gm-Gg: AR+sD129GiPlnptucSJQN/1fOd0HXlfg3XUyyvPI85IhTOV5D0omFaaoXaMd/k+pYNW
+	qCNoyo+c7M4We6yBLzZ9fkiCBOOyOYCVM9QFaZyZyIraEAIewUa6qtO3725fdR3cwDpvQ/pi6bN
+	iESQRZoUckZrBWof3oZWVL9EX4IpcU7jj7ro0emCCa8e9oVkfPm+DfDW0ouwSPxenyrwnO4xzR/
+	8SOKr6fr9cHzNwoc9bgnRKZzI8p0omkVtX8EeZbLe0RIha4hle0J26JLATxc8l+83mPWkTeQKrJ
+	WH6q/smva0ayK2qcdjIYq+CB0wJdrmcGdwtWCh0A2FXnta5pVRXMlqfDvGK7wJniK6dDITDgqoX
+	F2VdLVnk9JBJKjcWd5DryWgUVRdf+EtAjZHC2V4BC68df7Umyxw3wmtev6bgOWlfMY80yRIlba3
+	YEF8/vTHxzn4dBXuqRVE0icA7vVqUlddkNeBvcRUWpDgCMZGhKbe4DQ3kxN6wc9ceNWwyHuKKBW
+	UgIkCr7N/HitvIq5pf7wMqVPC3ASzvvsswUdFFOCzk8gA==
+X-Received: by 2002:a05:6402:3713:b0:6a0:e963:f546 with SMTP id 4fb4d7f45d1cf-6a5df65b4cdmr1546865a12.15.1787685160985;
+        Tue, 25 Aug 2026 12:12:40 -0700 (PDT)
+Received: from pit-x1 (nat-gw.rrze.uni-erlangen.de. [131.188.6.9])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a5de5f7bb8sm999980a12.0.2026.08.25.12.12.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 12:03:54 -0700 (PDT)
-From: Fabio Pereira da Silva <silvapfabio@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] docs: pt_BR: process: Translate patch submission checklist
-Date: Tue, 25 Aug 2026 16:03:48 -0300
-Message-ID: <20260825190348.12701-1-silvapfabio@gmail.com>
-X-Mailer: git-send-email 2.55.0.windows.2
+        Tue, 25 Aug 2026 12:12:39 -0700 (PDT)
+From: Pit Henrich <pithenrichmail@googlemail.com>
+X-Google-Original-From: Pit Henrich <pithenrich2d@gmail.com>
+To: hansg@kernel.org,
+	ilpo.jarvinen@linux.intel.com
+Cc: hmh@hmh.eng.br,
+	mpearson-lenovo@squebb.ca,
+	derekjohn.clark@gmail.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	platform-driver-x86@vger.kernel.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pit Henrich <pithenrich2d@gmail.com>
+Subject: [PATCH v4] platform/x86: thinkpad-acpi: Add X1 Fold keyboard attachment detection
+Date: Tue, 25 Aug 2026 21:12:10 +0200
+Message-ID: <20260825191210.55090-1-pithenrich2d@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate Documentation/process/submit-checklist.rst into Brazilian Portuguese and link it from the pt_BR documentation index.
+ThinkPad X1 Fold 16 Gen 1 firmware reports whether the keyboard is
+magnetically attached (on the screen), but thinkpad-acpi does not expose
+this to userspace. The state can be obtained via ACPI methods: GDST (get
+device state).
 
-Signed-off-by: Fabio Pereira da Silva <silvapfabio@gmail.com>
+Add a read-only keyboard_attached_on_screen sysfs attribute, gated by
+a DMI match.
+
+Cache the state and emit a sysfs notification on
+TP_HKEY_EV_TABLET_CHANGED (0x60c0) when it changes. Initialize the
+cache during hotkey setup and refresh it before the resume notification
+to keep the state consistent across suspend and resume.
+
+Signed-off-by: Pit Henrich <pithenrich2d@gmail.com>
+Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 ---
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../pt_BR/process/submit-checklist.rst        | 141 ++++++++++++++++++
- 2 files changed, 142 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/submit-checklist.rst
+This replaces the v3 patch:
+https://lore.kernel.org/all/20260731082818.1578104-1-pithenrich2d@gmail.com/
 
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index dcc238a5ecfe..c09afbe8e22c 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -72,6 +72,7 @@ kernel e sobre como ver seu trabalho integrado.
-    Como começar <process/howto>
-    Requisitos mínimos <process/changes>
-    CVEs <process/cve>
-+   Lista de verificação para patches <process/submit-checklist>
-    Conclave (Continuidade do projeto) <process/conclave>
-    Manuais dos mantenedores <process/maintainer-handbooks>
-    Processo do subsistema de rede (netdev) <process/maintainer-netdev>
-diff --git a/Documentation/translations/pt_BR/process/submit-checklist.rst b/Documentation/translations/pt_BR/process/submit-checklist.rst
-new file mode 100644
-index 000000000000..f53b76268641
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/submit-checklist.rst
-@@ -0,0 +1,141 @@
-+.. SPDX-License-Identifier: GPL-2.0
+Changes v1 -> v2:
+ * Use ACPI method instead of using the EC directly (thanks Mark).
+Changes v2 -> v3:
+ * Added documentation to thinkpad-acpi.rst
+ * Patched against current thinkpad_acpi.c
+Changes v3 -> v4:
+ * Rebased onto the current platform-drivers-x86 review-ilpo-next branch.
+ * Wrapped long lines reported by checkpatch.
+
+---
+ .../admin-guide/laptops/thinkpad-acpi.rst     | 26 +++++-
+ drivers/platform/x86/lenovo/thinkpad_acpi.c   | 86 ++++++++++++++++++-
+ 2 files changed, 109 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+index db4588af0..60bf6868b8 100644
+--- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
++++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+@@ -583,7 +583,8 @@ Events that are propagated by the driver to userspace:
+ 0x6030		System thermal table changed
+ 0x6032		Thermal Control command set completion  (DYTC, Windows)
+ 0x6040		Nvidia Optimus/AC adapter related (TO BE VERIFIED)
+-0x60C0		X1 Yoga 2016, Tablet mode status changed
++0x60C0		X1 Yoga 2016 tablet mode or X1 Fold 16 Gen 1 keyboard
++		attachment state changed
+ 0x60F0		Thermal Transformation changed (GMTS, Windows)
+ ======		=====================================================
+ 
+@@ -1658,6 +1659,29 @@ if damage detected:
+ The property is read-only. If feature is not supported then sysfs
+ attribute is not created.
+ 
++X1 Fold keyboard attachment
++---------------------------
 +
-+.. _pt_submitchecklist:
++sysfs attribute: keyboard_attached_on_screen
 +
-+=================================================================
-+Lista de verificação para submissão de patches do kernel Linux
-+=================================================================
++ThinkPad X1 Fold 16 Gen 1 systems can report whether the keyboard is
++currently attached on-screen.
 +
-+Aqui estão algumas coisas básicas que os desenvolvedores devem fazer se
-+quiserem ver suas submissões de patches para o kernel aceitas mais rapidamente.
++This attribute is currently supported on ThinkPad X1 Fold 16 Gen 1
++systems only.
 +
-+Tudo isso vai além da documentação fornecida em
-+:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-+e em outros lugares sobre a submissão de patches para o kernel Linux.
++The command to check the keyboard attachment state is::
 +
-+Revise seu código
-+=================
++	cat /sys/devices/platform/thinkpad_acpi/keyboard_attached_on_screen
 +
-+1) Se você usa uma funcionalidade, então inclua com #include o arquivo que
-+   define/declara essa funcionalidade. Não dependa de outros arquivos de
-+   cabeçalho para incluírem aqueles que você usa.
++The values are:
 +
-+2) Verifique o estilo geral do seu patch, conforme detalhado em
-+   :ref:`Documentation/process/coding-style.rst <codingstyle>`.
++- 0 if the keyboard is not attached on-screen
++- 1 if the keyboard is attached on-screen
 +
-+3) Todas as barreiras de memória {por exemplo, ``barrier()``, ``rmb()``,
-+   ``wmb()``} precisam de um comentário no código-fonte que explique a lógica
-+   do que elas estão fazendo e por quê.
++The property is read-only. If feature is not supported then the sysfs
++attribute is not created.
 +
-+Revise alterações de Kconfig
-+============================
+ Multiple Commands, Module Parameters
+ ------------------------------------
+ 
+diff --git a/drivers/platform/x86/lenovo/thinkpad_acpi.c b/drivers/platform/x86/lenovo/thinkpad_acpi.c
+index 1661f070c..61a63519a9 100644
+--- a/drivers/platform/x86/lenovo/thinkpad_acpi.c
++++ b/drivers/platform/x86/lenovo/thinkpad_acpi.c
+@@ -222,8 +222,10 @@ enum tpacpi_hkey_event_t {
+ 	TP_HKEY_EV_LID_OPEN		= 0x5002, /* laptop lid opened */
+ 	TP_HKEY_EV_TABLET_TABLET	= 0x5009, /* tablet swivel up */
+ 	TP_HKEY_EV_TABLET_NOTEBOOK	= 0x500a, /* tablet swivel down */
+-	TP_HKEY_EV_TABLET_CHANGED	= 0x60c0, /* X1 Yoga (2016):
+-						   * enter/leave tablet mode
++	TP_HKEY_EV_TABLET_CHANGED	= 0x60c0, /* posture change event:
++						   * X1 Yoga (2016): enter/leave tablet mode
++						   * X1 Fold 16 Gen 1: keyboard
++						   * attachment state changed
+ 						   */
+ 	TP_HKEY_EV_PEN_INSERTED		= 0x500b, /* tablet pen inserted */
+ 	TP_HKEY_EV_PEN_REMOVED		= 0x500c, /* tablet pen removed */
+@@ -379,6 +381,7 @@ static struct {
+ 	u32 kbd_lang:1;
+ 	u32 trackpoint_doubletap_enable:1;
+ 	u32 usbc_security_supported:1;
++	u32 has_keyboard_attached_on_screen:1;
+ 	bool usbc_security_enabled;
+ 	struct quirk_entry *quirks;
+ } tp_features;
+@@ -2893,6 +2896,63 @@ static void hotkey_tablet_mode_notify_change(void)
+ 			     "hotkey_tablet_mode");
+ }
+ 
++static bool keyboard_attached_on_screen;
++static bool keyboard_attached_on_screen_initialized;
 +
-+1) Quaisquer opções ``CONFIG`` novas ou modificadas não devem desorganizar o menu
-+   de configuração e devem vir desativadas por padrão, a menos que atendam aos
-+   critérios de exceção documentados em ``Documentation/kbuild/kconfig-language.rst``
-+   Atributos de menu: valor padrão.
++static int x1_fold_keyboard_attached_on_screen_get(bool *attached)
++{
++	int state;
 +
-+2) Todas as novas opções ``Kconfig`` devem ter texto de ajuda.
++	if (!tp_features.has_keyboard_attached_on_screen)
++		return -ENODEV;
 +
-+3) Deve ter sido revisado cuidadosamente em relação às combinações relevantes
-+   de ``Kconfig``. É muito difícil acertar isso com testes; raciocínio
-+   cuidadoso compensa aqui.
++	if (!acpi_evalf(NULL, &state, "\\_SB.DEVD.GDST", "d"))
++		return -EIO;
 +
-+Forneça documentação
-+====================
++	*attached = state != 0;
++	return 0;
++}
 +
-+1) Inclua :ref:`kernel-doc <kernel_doc>` para documentar APIs globais do kernel.
-+   (Não é obrigatório para funções estáticas, mas também é aceitável nelas.)
++static ssize_t keyboard_attached_on_screen_show(struct device *dev,
++						struct device_attribute *attr,
++						char *buf)
++{
++	bool attached;
++	int res;
 +
-+2) Todas as novas entradas em ``/proc`` devem ser documentadas em
-+   ``Documentation/``.
++	res = x1_fold_keyboard_attached_on_screen_get(&attached);
++	if (res)
++		return res;
 +
-+3) Todos os novos parâmetros de inicialização do kernel devem ser documentados
-+   em ``Documentation/admin-guide/kernel-parameters.rst``.
++	return sysfs_emit(buf, "%d\n", attached);
++}
 +
-+4) Todos os novos parâmetros de módulo devem ser documentados com
-+   ``MODULE_PARM_DESC()``.
++static DEVICE_ATTR_RO(keyboard_attached_on_screen);
 +
-+5) Todas as novas interfaces de espaço de usuário devem ser documentadas em
-+   ``Documentation/ABI/``. Veja Documentation/admin-guide/abi.rst (ou
-+   ``Documentation/ABI/README``) para mais informações.
-+   Patches que alteram interfaces de espaço de usuário devem colocar
-+   linux-api@vger.kernel.org em cópia (CC).
++static void keyboard_attached_on_screen_notify_change(void)
++{
++	if (tp_features.has_keyboard_attached_on_screen)
++		sysfs_notify(&tpacpi_pdev->dev.kobj, NULL,
++			     "keyboard_attached_on_screen");
++}
 +
-+6) Se algum ioctl for adicionado pelo patch, atualize também
-+   ``Documentation/userspace-api/ioctl/ioctl-number.rst``.
++static bool keyboard_attached_on_screen_update(void)
++{
++	bool attached;
 +
-+Verifique seu código com ferramentas
-+====================================
++	if (x1_fold_keyboard_attached_on_screen_get(&attached))
++		return false;
 +
-+1) Verifique violações triviais com o verificador de estilo de patches antes
-+   da submissão (``scripts/checkpatch.pl``). Você deve ser capaz de justificar
-+   todas as violações que permanecerem no seu patch.
++	if (keyboard_attached_on_screen_initialized &&
++	    keyboard_attached_on_screen == attached)
++		return false;
 +
-+2) Verifique limpo com sparse.
++	keyboard_attached_on_screen = attached;
++	keyboard_attached_on_screen_initialized = true;
 +
-+3) Use ``make checkstack`` e corrija quaisquer problemas encontrados.
-+   Observe que ``checkstack`` não aponta problemas explicitamente, mas qualquer
-+   função que use mais de 512 bytes na pilha é candidata a alteração.
++	return true;
++}
 +
-+Compile seu código
-+==================
+ /* sysfs wakeup reason (pollable) -------------------------------------- */
+ static ssize_t hotkey_wakeup_reason_show(struct device *dev,
+ 			   struct device_attribute *attr,
+@@ -3022,6 +3082,7 @@ static struct attribute *hotkey_attributes[] = {
+ 	&dev_attr_hotkey_adaptive_all_mask.attr,
+ 	&dev_attr_hotkey_recommended_mask.attr,
+ 	&dev_attr_hotkey_tablet_mode.attr,
++	&dev_attr_keyboard_attached_on_screen.attr,
+ 	&dev_attr_hotkey_radio_sw.attr,
+ 	&dev_attr_doubletap_enable.attr,
+ #ifdef CONFIG_THINKPAD_ACPI_HOTKEY_POLL
+@@ -3037,6 +3098,9 @@ static umode_t hotkey_attr_is_visible(struct kobject *kobj,
+ 	if (attr == &dev_attr_hotkey_tablet_mode.attr) {
+ 		if (!tp_features.hotkey_tablet)
+ 			return 0;
++	} else if (attr == &dev_attr_keyboard_attached_on_screen.attr) {
++		if (!tp_features.has_keyboard_attached_on_screen)
++			return 0;
+ 	} else if (attr == &dev_attr_hotkey_radio_sw.attr) {
+ 		if (!tp_features.hotkey_wlsw)
+ 			return 0;
+@@ -3453,6 +3517,7 @@ static int __init hotkey_init(struct ibm_init_struct *iibm)
+ 	}
+ 
+ 	tabletsw_state = hotkey_init_tablet_mode();
++	keyboard_attached_on_screen_update();
+ 
+ 	/* Set up key map */
+ 	keymap_id = tpacpi_check_quirks(tpacpi_keymap_qtable,
+@@ -3833,6 +3898,8 @@ static bool hotkey_notify_6xxx(const u32 hkey, bool *send_acpi_ev)
+ 	case TP_HKEY_EV_TABLET_CHANGED:
+ 		tpacpi_input_send_tabletsw();
+ 		hotkey_tablet_mode_notify_change();
++		if (keyboard_attached_on_screen_update())
++			keyboard_attached_on_screen_notify_change();
+ 		*send_acpi_ev = false;
+ 		return true;
+ 
+@@ -3989,6 +4056,8 @@ static void hotkey_resume(void)
+ 	tpacpi_send_radiosw_update();
+ 	tpacpi_input_send_tabletsw();
+ 	hotkey_tablet_mode_notify_change();
++	keyboard_attached_on_screen_update();
++	keyboard_attached_on_screen_notify_change();
+ 	hotkey_wakeup_reason_notify_change();
+ 	hotkey_wakeup_hotunplug_complete_notify_change();
+ 	hotkey_poll_setup_safe(false);
+@@ -4287,6 +4356,17 @@ static const struct dmi_system_id fwbug_list[] __initconst = {
+ 	{}
+ };
+ 
++static const struct dmi_system_id keyboard_attached_on_screen_list[] __initconst = {
++	{
++		.ident = "ThinkPad X1 Fold 16 Gen 1",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_FAMILY, "ThinkPad X1 Fold 16 Gen 1"),
++		},
++	},
++	{}
++};
 +
-+1) Compila sem problemas:
-+
-+  a) com as opções ``CONFIG`` aplicáveis ou modificadas como ``=y``, ``=m`` e
-+     ``=n``. Sem avisos/erros do ``gcc`` e sem avisos/erros do linker.
-+
-+  b) Passa em ``allnoconfig`` e ``allmodconfig``.
-+
-+  c) Compila com sucesso ao usar ``O=builddir``.
-+
-+  d) Quaisquer alterações em Documentation/ compilam com sucesso sem novos
-+     avisos/erros. Use ``make htmldocs`` ou ``make pdfdocs`` para verificar a
-+     compilação e corrigir quaisquer problemas.
-+
-+2) Compila em múltiplas arquiteturas de CPU usando ferramentas locais de
-+   compilação cruzada ou alguma outra infraestrutura de build.
-+   Observe que testar em arquiteturas com tamanhos de palavra diferentes
-+   (32 e 64 bits) e endianidade diferente (big-endian e little-endian) é eficaz para
-+   detectar vários problemas de portabilidade causados por falsas suposições
-+   sobre intervalo de quantidades representáveis, alinhamento de dados ou
-+   endianidade, entre outros.
-+
-+3) Código recém-adicionado foi compilado com ``gcc -W`` (use
-+   ``make KCFLAGS=-W``). Isso gerará muito ruído, mas é bom para encontrar
-+   bugs como "warning: comparison between signed and unsigned".
-+
-+4) Se o código-fonte modificado depende de ou usa qualquer API ou recurso do
-+   kernel relacionado aos seguintes símbolos ``Kconfig``, então teste múltiplas
-+   compilações com os símbolos ``Kconfig`` relacionados desativados e/ou como
-+   ``=m`` (se essa opção estiver disponível) [não todos ao mesmo tempo, apenas
-+   várias combinações aleatórias deles]:
-+
-+   ``CONFIG_SMP``, ``CONFIG_SYSFS``, ``CONFIG_PROC_FS``, ``CONFIG_INPUT``,
-+   ``CONFIG_PCI``, ``CONFIG_BLOCK``, ``CONFIG_PM``, ``CONFIG_MAGIC_SYSRQ``,
-+   ``CONFIG_NET``, ``CONFIG_INET=n`` (mas este último com ``CONFIG_NET=y``).
-+
-+Teste seu código
-+================
-+
-+1) Foi testado com ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
-+   ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
-+   ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
-+   ``CONFIG_PROVE_RCU`` e ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` todos ativados
-+   simultaneamente.
-+
-+2) Foi testado em compilação e em tempo de execução com e sem ``CONFIG_SMP`` e
-+   ``CONFIG_PREEMPT``.
-+
-+3) Todos os caminhos de código foram exercitados com todos os recursos do lockdep
-+   ativados.
-+
-+4) Foi verificado com injeção de falhas pelo menos de slab e de alocação de
-+   páginas. Veja ``Documentation/fault-injection/``. Se o novo código for
-+   substancial, a adição de injeção de falhas específica do subsistema pode ser
-+   apropriada.
-+
-+5) Testado com a tag mais recente da linux-next para garantir que ainda funciona
-+   com todos os outros patches enfileirados e várias alterações na VM, VFS e em
-+   outros subsistemas.
-\ No newline at end of file
+ static const struct pci_device_id fwbug_cards_ids[] __initconst = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x24F3) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x24FD) },
+@@ -12360,6 +12440,8 @@ static int __init thinkpad_acpi_module_init(void)
+ 	dmi_id = dmi_first_match(fwbug_list);
+ 	if (dmi_id)
+ 		tp_features.quirks = dmi_id->driver_data;
++	tp_features.has_keyboard_attached_on_screen =
++		dmi_check_system(keyboard_attached_on_screen_list);
+ 
+ 	/* Device initialization */
+ 	tpacpi_pdev = platform_device_register_simple(TPACPI_DRVR_NAME, PLATFORM_DEVID_NONE,
 -- 
-2.55.0.windows.2
+2.53.0
 
