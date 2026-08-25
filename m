@@ -1,312 +1,481 @@
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11022091.outbound.protection.outlook.com [40.93.195.91])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EE2446829
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 21:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787693413; cv=none; b=UKZTFLwP00H0dzURWfDRsvprtNAD3gZlaLCiCjuG35JD52fRXTh+3tshZ7CKfW12JP/ehWvJt0TIZo1MN1DrnI5MxNawN2ntcQczpMIprtxMKirX3+J66KZ5QPLe/thb0kKo1lGrrcx7hdR4GZAD5mkidnZe7ZvYTmrNtuPZELA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787693413; c=relaxed/simple;
-	bh=apf+ml9iuWzb/OpKPwCbN31d5Hp/n07jnr1CoP8vqe0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OysyrhuRSaMDNItTaU8YRdFho+KbmpBeNga6c/R15F4JsOYAzycFqPT68SZAmkLiSN7axRVhufx8UsWzRqX8vVN/79mh0OEoIyW937PPIoi11iQHcNnqIt+wrvv8ylYLJ/yCmmUC/Uzfs9s+zVbR9zFKVI4I7JAL7LWy8+affFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GhPTjidB; arc=none smtp.client-ip=209.85.217.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B9748823C;
+	Tue, 25 Aug 2026 22:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.91
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787696161; cv=fail; b=K7zrSQAA+MTV942BQT34Ad8CsYTeP543YxTium3Db3jdS4mZhK8BHNcMV0Imoziw1mAFjUhH/PYstxuN/RhcRwPUdz/q9TQtQzfuocxzM3YNGbkKGeCZylFHTbfI9QDqktJGXJX7eKsS14rsLrVKqgtCd+Oc/fpFRXcj1Gq8+JY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787696161; c=relaxed/simple;
+	bh=3sh2Rq1tx22uLYO9aKy0cbuniCHP37qy6UxGE3owcg0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EWSIRbg4D9/zq6ol9P7p8yK/ukOxRHUZf4iV0UMKYCXTblZ6MhFfDO3vb9CncsgGtZTFGbXdiT+2ZU+UWZ+UE3PaI8MnodYubKZjkQm5/dqCltxec1h0XcYxxtLy/B1DWIZxNtTHp1toCEwKIB15L5b8CATRPNKMKwsNcBnJTm0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=Q7TF/VJm; arc=fail smtp.client-ip=40.93.195.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=rambus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GhPTjidB"
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-74ab99038afso192318137.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 14:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787693411; x=1788298211; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0XdOaj2eZmYYf1LUuewzOCokVu4CIKwl/LaYlIW/bLg=;
-        b=GhPTjidBU1yZqBJkIPn1jxQh5SSQynNYyY7VbEfHz1Q0xFBcAOaURE5+IgMwLfTCjw
-         UHgQnDPhlimAzD2sew4FX3xxacgP5utDAum7sMjbIixzxvIxJHvqYh+5lxFo58RvTARI
-         zZuOeffdeQ1s7gsac6dG+EPWSp5ranoC7Q6gxSZiq2r1rYOVwEqhsEtZvT0ax8fBZurc
-         ISNdJ+3Htyy7qJj1iXdHs8SLHc0XG3qiAeeJgN25A1tzz/4cKelfNrxO25/IhDOfYiDn
-         kGo1A4XHb5icLChiZ5hvFXj9ZhfTJWL5ZeYqIsR8AUfrnPUgIKttrlQ7vtoUK8h5fE+m
-         uCUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787693411; x=1788298211;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0XdOaj2eZmYYf1LUuewzOCokVu4CIKwl/LaYlIW/bLg=;
-        b=TaDuYHfLoC6mzvQKdSrU8D6d3u8nEhl1wEDLCqf43zngDJQWRdzTCAzcAaksPq9WSU
-         H2oCf7QUFYAFRCWrbgq+YbvWhYa7FeMlOU5li5HAU1pcr36hxssD1OVJ53HgIKbu1bHA
-         xASsWSsSCZZXB9mZ+tBsAZmmCK6AAafUnjvUbXj7lkuOLRYghl4I3hfUe/Y33Ldo7fIw
-         iRIWbm34KLFmpI1yIsohKta2pGKlmjgVVlIJo6gT6+c6hOcZPwEGUbuy23JUuKp/lbQ7
-         9y6kK9m6prcM0PK+fc87uY/URywXtZkYaRSt4ftQ9YE4HiuUzs9Ji9qnDpbeVXs5ZLz0
-         uFPQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqgb1rsfrn7psyGZRMwoWwCw68d45S9WnSGw56uXAyuT5XMaXu3yNSuA/u8F1mXZnDZvL7v73a87ss=@vger.kernel.org
-X-Gm-Message-State: AFuF++l3WQKlR8dI/+YCut+g9bocbdQvav01/elVGAl9M2IjQ4Kbmod1
-	ybo67AUH2ilfG7yIS4ezyHlnW8e4vXm2Dk9INdtQ+RzShZvRL78coRTMOfw7NQ==
-X-Gm-Gg: AR+sD10+6QX43rQrLbAf/jKixfKvVMO2jPFMHqsJpuoV3XBvQNrsBoncyQFoPJTtPWD
-	5ea3487wKx4oQT87m5IO0FLwX4nNFuSCRHFikwxbmr77UbkWLO4c2/b46juSMeo8Py+P+jOzDKx
-	zft6uWu4iBzJpFt96I9cywqLh5fhwH6ssd1S9FkWRZZCS+ggjj/2Y+vf16JcTkTGU3q/W3Im/ek
-	rW3n7EE6xRs1MPOy1MNXJetiqAGOdqWVXxOGQkGMYzVS71eoc/YrNWjY/T7h4AdJXNFwEOBgv2u
-	dCTlpAg/s9WKnwtJUSdIyGkGxrHO3EHPRXejlQDMqDE+R8GknmoK0ktwJGWT9ssiTJvu9cWaYBk
-	lZZuSpICAN7Y5O3PTYszeOEzMzM1vSQx42RXezwMABEg67IjDAAB6ara2yjTwfwtLXiMRmoZlJV
-	WFubF8zMShouIDujzrRcQHUNVk5dIFPCfSBfzZMmu7izEyqJt5jPV72VEogWDOA3CqfwU=
-X-Received: by 2002:a05:6102:3ecf:b0:77b:b14e:b6c5 with SMTP id ada2fe7eead31-782c19fbed6mr854745137.9.1787693410539;
-        Tue, 25 Aug 2026 14:30:10 -0700 (PDT)
-Received: from x-wing ([177.181.5.26])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7830581026csm97793137.3.2026.08.25.14.30.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 14:30:09 -0700 (PDT)
-From: Fabio Pereira da Silva <silvapfabio@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] docs: pt_BR: process: Translate stable API nonsense
-Date: Tue, 25 Aug 2026 18:30:01 -0300
-Message-ID: <20260825213001.12714-1-silvapfabio@gmail.com>
-X-Mailer: git-send-email 2.55.0.windows.2
+	dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b="Q7TF/VJm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PVe2mcwg54w4Rc28GEKcbvJxhx72SX9fXhbzhXSDa8I3cfiEoOwkN2o6D5VA5mEjeOnT1Pq8b0G9d4GXtlFf1ZbfodvckmlsEazKXOxx8UMS96wmn4fqQ15LlsMcfS16HVIKGnnawCNf9Jaz9Qf0k8G7UEum8UIzAVthOfe5TgVBw9ZwWaVcZigCPDuErrBzq6GAzkrREIgqaAcwN10/XZPYRlRGRR1EHMlmMNCre5b//zmIgf9QnagS1yDK04cgvxmbykLZUPBDJcaDkheFfzxmd3W/FMlnHs0+MU4pPnuGjbwLMQBx1ZcezSdfiKtE9H6xb/4H2RS8W5G90m2Wgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CwwcBtRE1uljw0HPn8RwOtf8PSk7ACHE8ZA0Q76mNkc=;
+ b=sfcV4ftyrIQTOVgym0f6k4EpdZfcsfD3xtiYvmxlXlJzDUolmbrGbZeXlteP1oj1gQ8cyahjgBpGmz4F3h0IFrfaBqD7nTgdj6KOEGy9QAGNEp1vigddiAC11u+OvqLRTJWmKi4PZkdbYD3B9E0vHT2FaRZ/PLIXBp//a0VRK1YqPwQ2NHsFmBQADXKpQy9XKDH8onLgHym0Kion2xQ6QdjIn+MdP+oULqEJsY9tmN5LK8GfBv6VB5QKlQLx/DKdrPOpVYGcTqC21SdQkUcZ4vwFiJxcw+W3ZxttcWCS9ACoToEPIJAbdx39JUP3p5NS1bOzC149y/lu4iuPV5HPdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.86.86.210) smtp.rcpttodomain=cryptography.com smtp.mailfrom=rambus.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=rambus.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CwwcBtRE1uljw0HPn8RwOtf8PSk7ACHE8ZA0Q76mNkc=;
+ b=Q7TF/VJmqwCiH5PykAGNfjEN39aSZy15NNrTb3q77Mg6yNqV2gN5zZdiypU1q1iLpwLpkwdRyxUWsjJZY/ehplNQlq4EUNkvwo+TRFUyt+KWPi3k7e/03iiQJerMsAgCpWgd21By2sUS2rX9dtAQrUW/VFPxQlYSmaeUpr9tdm24lGiO0pVRLZOyKHXK7Xsn85fTpD80A6+VvzAROoadA6CJzZuRajwu/GLuHQaPGr45rnZUsmWtMet3SIk6bX8MF1tESh5zFEctQKF0F8Ohj+ElOehnjZv1BMCgGa0PwzhSnTeEI55afoQq7oW0mCKAPawYZ3xFaLK0e318/OmusA==
+Received: from SJ0PR05CA0046.namprd05.prod.outlook.com (2603:10b6:a03:33f::21)
+ by BY5PR04MB6614.namprd04.prod.outlook.com (2603:10b6:a03:1d3::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.7; Tue, 25 Aug
+ 2026 22:15:52 +0000
+Received: from SJ5PEPF000001D7.namprd05.prod.outlook.com
+ (2603:10b6:a03:33f:cafe::1d) by SJ0PR05CA0046.outlook.office365.com
+ (2603:10b6:a03:33f::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.6 via Frontend Transport; Tue, 25
+ Aug 2026 22:15:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.86.86.210)
+ smtp.mailfrom=rambus.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=rambus.com;
+Received-SPF: Pass (protection.outlook.com: domain of rambus.com designates
+ 192.86.86.210 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.86.86.210; helo=hqxsv-psmtppxy01.rambus.com; pr=C
+Received: from hqxsv-psmtppxy01.rambus.com (192.86.86.210) by
+ SJ5PEPF000001D7.mail.protection.outlook.com (10.167.242.59) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.3
+ via Frontend Transport; Tue, 25 Aug 2026 22:15:52 +0000
+Received: from hqxsv-cmdev3-aousherovitch.rambus.com (hqn-lb-int-float.rambus.com [10.12.20.20])
+	by hqxsv-psmtppxy01.rambus.com (Postfix) with ESMTP id 7AA331801769;
+	Tue, 25 Aug 2026 18:15:51 -0400 (EDT)
+From: Alex Ousherovitch <aousherovitch@rambus.com>
+To: Albert Ou <aou@eecs.berkeley.edu>,
+	Alex Ousherovitch <aousherovitch@rambus.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <pjw@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>,
+	Shuah Khan <shuah@kernel.org>
+Cc: Alexandre Ghiti <alex@ghiti.fr>,
+	devicetree@vger.kernel.org,
+	Joel Wittenauer <Joel.Wittenauer@cryptography.com>,
+	linux-api@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thi Nguyen <thin@rambus.com>
+Subject: [PATCH v4 11/19] crypto: cmh - add DRBG hwrng
+Date: Tue, 25 Aug 2026 15:15:30 -0700
+Message-ID: <20260825221539.255951-12-aousherovitch@rambus.com>
+X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260825221539.255951-1-aousherovitch@rambus.com>
+References: <20260825221539.255951-1-aousherovitch@rambus.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D7:EE_|BY5PR04MB6614:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: b668a00b-d423-438c-a8e6-08df02f66d20
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|82310400026|36860700016|376014|7416014|56012099006|10067099003|6133799003|3023799007|18002099003|22082099003|11063799006|921020;
+X-Microsoft-Antispam-Message-Info:
+	zn8Fgsoeq68CY/aZxst6PNoerTE4q9TArNO+hzCV2JDZK4lhGe4tjHsQ2dwcSVjcnRAyEtzKd0DGvkAHBa2M5PcPmkKWproxj8phP6OOC1JWni5ICtEsYpE9clhVhCf0jL4AaqMKL/Hgktk5jX0aLbU0Mb20nfPmgSvOK4U3idOHxH5eled6saH1afRZr9St/vXQaZmQAKFxGU7716E5P3Y1Vro5R8GU7Th5flqc4kkdtm7wxTn4L/C+Kj8CFnxtZ9/dmcQ2vGs2fFG6Z49wJF8OKjeEr9MN/Z2++nnhkvZtVELtE0Q4Y66UF9jZo/tXd890MIxl2FkpkuMRrubmyqjeywpsrpGdrSeU+aDm6dGs4xMlIAvcyyPSHOIva1CfNSGSwuKW4RjHQIOrJrkw3d4zFBrZtcImT5YXn8OdVA7MnMXI/3i5Ru1co+oanjWl/ZFHKCEQ4pm4SRwnpn4dEURKfod4/H9oZHXNMazSWIamzAdBCQr8z5lzPucIZhbtx3w1brwDztH/Vwp91QGhTaHFEJ/hNp/91q8XJTAG4uIVMn8RWn7go6Dq/4jdtgZ6zSPy5tvkbKwsafr0zecYYazltdkIkS6rNGd6h05V07fOWTrqXT/o72vq4BABPpFW08gEwU8sCiWkwcTCemwPRQh/iQPTex18Mjp8djIJWvRALSO5/43CXYltgUc46Ze9HBVQ9Whbf+nhHcC5rCGu0F1aGBLxuJF+1u8YqD3yTbaIky/IRwyO2HazjB934agH
+X-Forefront-Antispam-Report:
+	CIP:192.86.86.210;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hqxsv-psmtppxy01.rambus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(82310400026)(36860700016)(376014)(7416014)(56012099006)(10067099003)(6133799003)(3023799007)(18002099003)(22082099003)(11063799006)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	BMVlHfJlVELRIQO4A8Z1PQHIYt4iEM50w9I55PJTWArFBHo8ETExX3gkBuLqJFDn6RrbrGIZct+ya1bFqyl1SZz5Gifyzo2aP4KQwxhPCOqxmt9OYpeWkv6s0bjCGST+NNd9nsM20IgDjEdwCPcMjdWil/WkWCLj1XP3t+JBNpoVATyXbfUOkDQLjInp4X4oR+E7WqIKsGIk0+whEl3wdr2mP+HVomk9yf1Hdw55rK6MUo4LL6gPBM4eduZPCo3er2MXK6ybLMbieljjKbdN2aiwTku3bjA6sjktl4EkBqDOQaVX9nPlFFfWbXDewRtZvzdvsfGAlRqIx9gqwe2atFJTP2sy7QAHf7+et53GLe0mLw9Hj+Zsz0wxkJmy2tZ9iq60Bw2B6Txw67R3nf/CR0pdQmm1Uhj+lpXrVsTmWdXGIZVwI4FtoAQneDdfouDF
+X-OriginatorOrg: rambus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 22:15:52.5507
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b668a00b-d423-438c-a8e6-08df02f66d20
+X-MS-Exchange-CrossTenant-Id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bd0ba799-c2b9-413c-9c56-5d1731c4827c;Ip=[192.86.86.210];Helo=[hqxsv-psmtppxy01.rambus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF000001D7.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6614
 
-Translate Documentation/process/stable-api-nonsense.rst into Brazilian Portuguese and link it from the pt_BR documentation index.
+Register the CMH DRBG core (core ID 0x0f) as an hwrng provider.
+The hardware implements a NIST SP 800-90A compliant DRBG with
+automatic self-seeding.
 
-Signed-off-by: Fabio Pereira da Silva <silvapfabio@gmail.com>
+Signed-off-by: Alex Ousherovitch <aousherovitch@rambus.com>
+Co-developed-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
+Signed-off-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
 ---
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../pt_BR/process/stable-api-nonsense.rst     | 205 ++++++++++++++++++
- 2 files changed, 206 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/stable-api-nonsense.rst
+ drivers/crypto/cmh/Makefile   |   3 +-
+ drivers/crypto/cmh/cmh_main.c |   9 ++
+ drivers/crypto/cmh/cmh_rng.c  | 281 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 292 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/crypto/cmh/cmh_rng.c
 
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index c09afbe8e22c..71eb024fbec8 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -73,6 +73,7 @@ kernel e sobre como ver seu trabalho integrado.
-    Requisitos mínimos <process/changes>
-    CVEs <process/cve>
-    Lista de verificação para patches <process/submit-checklist>
-+   Interface de drivers do kernel Linux <process/stable-api-nonsense>
-    Conclave (Continuidade do projeto) <process/conclave>
-    Manuais dos mantenedores <process/maintainer-handbooks>
-    Processo do subsistema de rede (netdev) <process/maintainer-netdev>
-diff --git a/Documentation/translations/pt_BR/process/stable-api-nonsense.rst b/Documentation/translations/pt_BR/process/stable-api-nonsense.rst
+diff --git a/drivers/crypto/cmh/Makefile b/drivers/crypto/cmh/Makefile
+index ef24879ba1f1..407fd2870f6d 100644
+--- a/drivers/crypto/cmh/Makefile
++++ b/drivers/crypto/cmh/Makefile
+@@ -28,7 +28,8 @@ cmh-y := \
+ 	cmh_sm4_cmac.o \
+ 	cmh_ccp.o \
+ 	cmh_ccp_aead.o \
+-	cmh_ccp_poly.o
++	cmh_ccp_poly.o \
++	cmh_rng.o
+ 
+ # Management ioctl device (/dev/cmh_mgmt): key lifecycle, PKE, PQC ioctls.
+ cmh-$(CONFIG_CRYPTO_DEV_CMH_MGMT) += \
+diff --git a/drivers/crypto/cmh/cmh_main.c b/drivers/crypto/cmh/cmh_main.c
+index 0738b9815a11..b06a5ea0df4f 100644
+--- a/drivers/crypto/cmh/cmh_main.c
++++ b/drivers/crypto/cmh/cmh_main.c
+@@ -36,6 +36,7 @@
+ #include "cmh_cshake.h"
+ #include "cmh_kmac.h"
+ #include "cmh_sm3.h"
++#include "cmh_rng.h"
+ #include "cmh_aes.h"
+ #include "cmh_sm4.h"
+ #include "cmh_ccp.h"
+@@ -235,6 +236,11 @@ static int cmh_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_sm3_register;
+ 
++	/* Register hwrng backed by DRBG core */
++	ret = cmh_rng_register(pdev);
++	if (ret)
++		goto err_rng_register;
++
+ 	/* Register AES skcipher algorithms */
+ 	ret = cmh_aes_register();
+ 	if (ret)
+@@ -308,6 +314,8 @@ static int cmh_probe(struct platform_device *pdev)
+ err_aes_aead_register:
+ 	cmh_aes_unregister();
+ err_aes_register:
++	cmh_rng_unregister();
++err_rng_register:
+ 	cmh_sm3_unregister();
+ err_sm3_register:
+ 	cmh_kmac_unregister();
+@@ -353,6 +361,7 @@ static void cmh_remove(struct platform_device *pdev)
+ 	cmh_aes_cmac_unregister();
+ 	cmh_aes_aead_unregister();
+ 	cmh_aes_unregister();
++	cmh_rng_unregister();
+ 	cmh_sm3_unregister();
+ 	cmh_kmac_unregister();
+ 	cmh_cshake_unregister();
+diff --git a/drivers/crypto/cmh/cmh_rng.c b/drivers/crypto/cmh/cmh_rng.c
 new file mode 100644
-index 000000000000..778a897e226a
+index 000000000000..a73634024e13
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/process/stable-api-nonsense.rst
-@@ -0,0 +1,205 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/drivers/crypto/cmh/cmh_rng.c
+@@ -0,0 +1,281 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2026 Cryptography Research, Inc. (CRI).
++ * CMH LKM -- Hardware RNG (DRBG) Driver
++ *
++ * Implements a Linux hwrng backed by the CMH DRBG core.  Each .read()
++ * builds a 3-entry VCQ (header + GENERATE + FLUSH) and submits it
++ * synchronously through the Transaction Manager.
++ *
++ * DRBG configuration (CONFIG) is a management-host operation in the
++ * CMH security model.  The driver attempts CONFIG at probe with the
++ * hardcoded ratio/strength defaults; this succeeds in stateless mode
++ * (any host may CONFIG) or when this host is the management host.  On
++ * -EPERM the driver logs a notice and continues -- GENERATE works once
++ * the management host configures the DRBG.
++ *
++ * The management host (or any privileged user-space process) can also
++ * reconfigure the DRBG at runtime via CMH_IOCTL_DRBG_CONFIG.
++ */
 +
-+.. _pt_stable_api_nonsense:
++#include <linux/module.h>
++#include <linux/kernel.h>
++#include <linux/delay.h>
++#include <linux/hw_random.h>
++#include <linux/slab.h>
++#include <linux/platform_device.h>
 +
-+A interface de drivers do kernel Linux
-+======================================
++#include "cmh_rng.h"
++#include "cmh_vcq.h"
++#include "cmh_txn.h"
++#include "cmh_dma.h"
++#include "cmh_sys.h"
++#include "cmh_config.h"
 +
-+(todas as suas perguntas respondidas, e mais algumas)
++/* VCQ layout for .read(): header + GENERATE + FLUSH = 3 entries. */
++#define DRBG_READ_VCQ_CMDS	3
 +
-+Greg Kroah-Hartman <greg@kroah.com>
++/* VCQ layout for CONFIG: header + RESET + CONFIG + FLUSH = 4 entries. */
++#define DRBG_CONFIG_VCQ_CMDS	4
 +
-+Este texto foi escrito para tentar explicar por que o Linux **não possui uma
-+interface binária de kernel, nem possui uma interface estável de kernel**.
++/*
++ * DRBG parameters -- hardcoded to production defaults.
++ * Entropy ratio 0 = 1:1 (full entropy), security strength 0x10 = 256-bit.
++ */
++#define CMH_DRBG_ENTROPY_RATIO		0
++#define CMH_DRBG_SECURITY_STRENGTH	0x10
 +
-+.. note::
++static unsigned int drbg_timeout_ms = 500;
 +
-+  Entenda que este artigo descreve as interfaces **dentro do kernel**, não as
-+  interfaces entre o kernel e o espaço de usuário.
++/* VCQ Builders */
 +
-+  A interface entre o kernel e o espaço de usuário é aquela usada pelos
-+  programas de aplicação, a interface de chamadas de sistema. Essa interface é
-+  **muito** estável ao longo do tempo e não será quebrada. Tenho programas
-+  antigos que foram construídos em um kernel anterior à série 0.9-alguma-coisa
-+  e que ainda funcionam perfeitamente no lançamento mais recente do kernel 2.6.
-+  Essa é a interface com cuja estabilidade usuários e programadores de
-+  aplicações podem contar.
++static void vcq_add_drbg_generate(struct vcq_cmd *slot, u64 dst_phys, u32 len)
++{
++	memset(slot, 0, sizeof(*slot));
++	slot->magic = VCQ_CMD_MAGIC;
++	slot->id = VCQ_CMD_ID(CORE_ID_DRBG, 0, 1, DRBG_CMD_GENERATE);
++	slot->hwc.drbg.cmd_generate.dst = dst_phys;
++	slot->hwc.drbg.cmd_generate.len = len;
++}
 +
++/*
++ * Maximum bytes per DRBG GENERATE request.  The kernel calls .read()
++ * repeatedly to fill larger requests, so capping here is safe.
++ * 32 bytes matches the 256-bit security strength natural output size.
++ */
++#define CMH_DRBG_MAX_GENERATE	32U
++/* Backoff before re-issuing a blocking read after a transient DRBG error. */
++#define CMH_DRBG_RETRY_BACKOFF_MS	20U
 +
-+Resumo executivo
-+----------------
++/* hwrng .read() callback */
 +
-+Você acha que quer uma interface estável de kernel, mas na verdade não quer, e
-+nem sabe disso. O que você quer é um driver em execução estável, e você só
-+consegue isso se o seu driver estiver na árvore principal do kernel. Você também
-+obtém vários outros bons benefícios se o seu driver estiver na árvore principal
-+do kernel; todos eles ajudaram a transformar o Linux em um sistema operacional
-+forte, estável e maduro, que é justamente o motivo pelo qual você o utiliza.
++static int cmh_rng_read(struct hwrng *rng, void *data, size_t max, bool wait)
++{
++	struct cmh_dma_orphan *orphan;
++	struct vcq_cmd vcq[DRBG_READ_VCQ_CMDS];
++	dma_addr_t dma_addr;
++	void *dmabuf;
++	size_t nbytes;
++	int ret;
 +
++	if (max == 0)
++		return 0;
 +
-+Introdução
-+----------
++	/*
++	 * Our path uses GFP_KERNEL allocations and synchronous VCQ
++	 * submission -- both may sleep.  When the caller indicates
++	 * non-blocking context (!wait), return 0 ("no data yet") so
++	 * the hwrng core retries later.
++	 */
++	if (!wait)
++		return 0;
 +
-+Somente a pessoa incomum que deseja escrever um driver de kernel precisa se
-+preocupar com a mudança das interfaces internas do kernel. Para a maior parte
-+do mundo, essa interface não é vista nem importa.
++	nbytes = min_t(size_t, max, CMH_DRBG_MAX_GENERATE);
 +
-+Primeiro, não vou abordar **nenhuma** questão jurídica sobre código-fonte
-+fechado, código-fonte oculto, blobs binários, wrappers de código-fonte ou
-+qualquer outro termo que descreva drivers de kernel cujo código-fonte não é
-+lançado sob a GPL. Consulte um advogado se tiver dúvidas jurídicas; sou
-+programador e, portanto, vou descrever apenas as questões técnicas aqui (sem
-+minimizar as questões jurídicas: elas são reais, e você precisa estar sempre
-+ciente delas).
++	orphan = kmalloc_obj(*orphan, GFP_KERNEL);
++	if (!orphan)
++		return -ENOMEM;
 +
-+Portanto, há dois tópicos principais aqui: interfaces binárias de kernel e
-+interfaces estáveis de código-fonte do kernel. Elas dependem uma da outra, mas
-+discutiremos primeiro a parte binária para resolver esse ponto primeiro.
++	dmabuf = kmalloc(nbytes, GFP_KERNEL);
++	if (!dmabuf) {
++		kfree(orphan);
++		return -ENOMEM;
++	}
 +
++	dma_addr = cmh_dma_map_single(dmabuf, nbytes, DMA_FROM_DEVICE);
++	if (cmh_dma_map_error(dma_addr)) {
++		kfree(dmabuf);
++		kfree(orphan);
++		return -ENOMEM;
++	}
 +
-+Interface binária de kernel
-+---------------------------
++	orphan->buf  = dmabuf;
++	orphan->addr = dma_addr;
++	orphan->len  = nbytes;
++	orphan->dir  = DMA_FROM_DEVICE;
 +
-+Supondo que tivéssemos uma interface estável de código-fonte do kernel, uma
-+interface binária também surgiria naturalmente, certo? Errado. Considere os
-+seguintes fatos sobre o kernel Linux:
++	vcq_set_header(&vcq[0], DRBG_READ_VCQ_CMDS);
++	vcq_add_drbg_generate(&vcq[1], dma_addr, nbytes);
++	vcq_add_flush(&vcq[2], CORE_ID_DRBG);
 +
-+  - Dependendo da versão do compilador C usada, diferentes estruturas de dados
-+    do kernel terão diferentes alinhamentos de estruturas e possivelmente
-+    incluirão diferentes funções de formas diferentes (colocando funções inline
-+    ou não). A organização individual das funções não é tão importante, mas o
-+    preenchimento diferente das estruturas de dados é muito importante.
++	/*
++	 * Use the noabort variant: if the MBX is occupied by a slow
++	 * operation (e.g. SLH-DSA sign at 120 s), we must not issue
++	 * MBX_COMMAND_ABORT -- that would kill the unrelated in-flight
++	 * VCQ.  On timeout with an in-flight VCQ (-EINPROGRESS), the
++	 * orphan callback defers DMA cleanup until the RH fires.
++	 */
++	ret = cmh_tm_submit_sync_noabort(vcq, DRBG_READ_VCQ_CMDS, 1,
++					 msecs_to_jiffies(drbg_timeout_ms),
++					 cmh_dma_orphan_free, orphan);
++	if (ret == -EINPROGRESS) {
++		/*
++		 * The orphan callback owns dmabuf and frees it on VCQ
++		 * completion.  Return 0 (not -EAGAIN): .read() only runs with
++		 * wait=true (see the !wait early return above), and the hwrng
++		 * core forwards a negative errno straight to a blocking read
++		 * whereas a 0 return makes it retry.
++		 */
++		return 0;
++	}
 +
-+  - Dependendo das opções de compilação do kernel selecionadas, uma ampla variedade
-+    de coisas diferentes pode ser assumida pelo kernel:
++	/* Normal path or cancelled-from-queue: caller owns DMA */
++	cmh_dma_unmap_single(dma_addr, nbytes, DMA_FROM_DEVICE);
++	kfree(orphan);
 +
-+      - estruturas diferentes podem conter campos diferentes;
-+      - algumas funções podem não ser implementadas, (isto é, algumas travas
-+        desaparecem por completo em compilações não SMP);
-+      - a memória dentro do kernel pode ser alinhada de formas diferentes,
-+        dependendo das opções de compilação.
++	if (ret) {
++		/*
++		 * .read() only runs with wait=true (see the !wait early
++		 * return above).  For known transient conditions return 0 so
++		 * the hwrng core retries the blocking read; a negative errno
++		 * here would be forwarded to userspace on a blocking fd
++		 * (e.g. -EAGAIN violates POSIX).  Propagate genuinely
++		 * unexpected failures so real faults are not masked into an
++		 * indefinite retry loop.
++		 */
++		switch (ret) {
++		case -EAGAIN:
++		case -EBUSY:
++		case -ETIMEDOUT:
++		case -EIO:
++		/*
++		 * -ENODEV: the TM is not running -- occurs when the
++		 * hwrng kthread (PF_NOFREEZE, not frozen during
++		 * suspend) calls .read() while the device is suspended.
++		 * Treat as transient: the TM restarts on resume.
++		 */
++		case -ENODEV:
++			dev_dbg_ratelimited(cmh_dev(),
++					    "rng: transient DRBG failure (rc=%d)\n",
++					    ret);
++			kfree_sensitive(dmabuf);
++			/*
++			 * Back off before the hwrng core re-issues the
++			 * blocking read: rng_dev_read() loops on a 0 return
++			 * with only a conditional need_resched, so a persistent
++			 * transient fault would otherwise spin the CPU.
++			 */
++			msleep(CMH_DRBG_RETRY_BACKOFF_MS);
++			return 0;
++		default:
++			dev_err_ratelimited(cmh_dev(),
++					    "rng: DRBG generate failed (rc=%d)\n",
++					    ret);
++			kfree_sensitive(dmabuf);
++			return ret;
++		}
++	}
 +
-+  - O Linux executa em uma ampla variedade de arquiteturas de processador. Não
-+    há como drivers binários de uma arquitetura executarem corretamente em outra
-+    arquitetura.
++	memcpy(data, dmabuf, nbytes);
++	kfree_sensitive(dmabuf);
 +
-+Vários desses problemas podem ser resolvidos simplesmente compilando seu módulo
-+para a configuração exata e específica do kernel, usando exatamente o mesmo
-+compilador C com que o kernel foi construído. Isso é suficiente se você quiser
-+fornecer um módulo para uma versão específica de lançamento de uma distribuição
-+Linux específica. Mas multiplique esse única compilação pelo número de diferentes
-+distribuições Linux e pelo número de lançamentos suportados dessas distribuições
-+e você rapidamente terá um pesadelo de diferentes opções de compilação em diferentes
-+lançamentos. Perceba também que cada lançamento de uma distribuição Linux contém
-+vários kernels diferentes, todos ajustados para tipos diferentes de hardware
-+(tipos diferentes de processador e opções diferentes), portanto, mesmo para um
-+único lançamento, você precisará criar várias versões do seu módulo.
++	return nbytes;
++}
 +
-+Acredite, com o tempo você ficará sobrecarregado se tentar dar suporte a esse tipo de
-+lançamento; aprendi isso da pior forma há muito tempo...
++/* Registration */
 +
++static bool cmh_rng_registered;
 +
-+Interfaces estáveis de código-fonte do kernel
-+---------------------------------------------
++static struct hwrng cmh_hwrng = {
++	.name = "rambus-cmh-drbg",
++	.read = cmh_rng_read,
++};
 +
-+Este é um tópico muito mais "volátil" quando você conversa com pessoas que
-+tentam manter atualizado, ao longo do tempo, um driver de kernel Linux que não
-+está na árvore principal do kernel.
++/**
++ * cmh_rng_register() - Register the CMH hardware RNG device
++ * @pdev: Platform device for the CMH accelerator
++ *
++ * Attempt a DRBG CONFIG VCQ (best effort; -EPERM when not the management
++ * host is non-fatal), then register the hwrng device with the kernel
++ * hwrng framework.
++ *
++ * Return: 0 on success, negative errno on failure.
++ */
++int cmh_rng_register(struct platform_device *pdev)
++{
++	struct vcq_cmd cfg_vcq[DRBG_CONFIG_VCQ_CMDS];
++	int ret;
 +
-+O desenvolvimento do kernel Linux é contínuo e ocorre em ritmo rápido, sem
-+parar para desacelerar. Assim, os desenvolvedores do kernel encontram bugs nas
-+interfaces atuais ou descobrem uma forma melhor de fazer as coisas. Quando isso
-+acontece, eles corrigem as interfaces atuais para que funcionem melhor. Nesse
-+processo, nomes de funções podem mudar, estruturas podem crescer ou diminuir, e
-+parâmetros de funções podem ser retrabalhados. Quando isso acontece, todas as
-+instâncias em que essa interface é usada dentro do kernel são corrigidas ao
-+mesmo tempo, garantindo que tudo continue funcionando corretamente.
++	/*
++	 * The hwrng core elevates a zero quality to full trust (1024) for
++	 * a hardware RNG, so cmh_hwrng.quality is left at 0.  Set it in the
++	 * hwrng initializer to lower the entropy estimate if a platform
++	 * requires it.
++	 *
++	 * DRBG CONFIG is a management-host operation.  Attempt it: it
++	 * succeeds in stateless mode (any host) or when we are the
++	 * management host.  On -EPERM (not the management host) continue
++	 * without error -- GENERATE works once the management host has
++	 * configured the DRBG.
++	 */
++	vcq_set_header(&cfg_vcq[0], DRBG_CONFIG_VCQ_CMDS);
++	vcq_add_drbg_reset(&cfg_vcq[1]);
++	vcq_add_drbg_config(&cfg_vcq[2], CMH_DRBG_ENTROPY_RATIO,
++			    CMH_DRBG_SECURITY_STRENGTH);
++	vcq_add_flush(&cfg_vcq[3], CORE_ID_DRBG);
++	ret = cmh_tm_submit_sync(cfg_vcq, DRBG_CONFIG_VCQ_CMDS, 1);
++	if (ret == -EPERM)
++		dev_notice(&pdev->dev,
++			   "rng: DRBG config not permitted (not management host); assuming external configuration\n");
++	else if (ret)
++		dev_warn(&pdev->dev,
++			 "rng: DRBG config failed (rc=%d)\n", ret);
 +
-+Como exemplo específico, as interfaces USB internas do kernel passaram por pelo
-+menos três retrabalhos diferentes durante a vida desse subsistema. Esses
-+retrabalhos foram feitos para tratar vários problemas diferentes:
++	ret = hwrng_register(&cmh_hwrng);
++	if (ret) {
++		dev_err(&pdev->dev, "rng: hwrng_register failed (rc=%d)\n",
++			ret);
++		return ret;
++	}
 +
-+  - Uma mudança de um modelo síncrono de fluxos de dados para um assíncrono.
-+    Isso reduziu a complexidade de vários drivers e aumentou a vazão de todos
-+    os drivers USB, de modo que agora executamos quase todos os dispositivos USB
-+    na velocidade máxima possível.
-+  - Foi feita uma mudança na forma como pacotes de dados eram alocados a partir
-+    do núcleo USB pelos drivers USB, de modo que todos os drivers passaram a
-+    precisar fornecer mais informações ao núcleo USB para corrigir vários
-+    deadlocks documentados.
++	cmh_rng_registered = true;
++	return 0;
++}
 +
-+Isso contrasta fortemente com vários sistemas operacionais de código fechado,
-+que precisaram manter suas interfaces USB antigas ao longo do tempo. Isso
-+permite que novos desenvolvedores usem acidentalmente interfaces antigas e
-+façam as coisas de formas inadequadas, prejudicando a estabilidade do sistema
-+operacional.
++/**
++ * cmh_rng_unregister() - Unregister the CMH hardware RNG device
++ *
++ * Unregisters the hwrng device from the kernel hwrng framework if it
++ * was previously registered.
++ */
++void cmh_rng_unregister(void)
++{
++	if (!cmh_rng_registered)
++		return;
++	hwrng_unregister(&cmh_hwrng);
++	cmh_rng_registered = false;
++}
 +
-+Em ambos os casos, todos os desenvolvedores concordaram que essas eram mudanças
-+importantes que precisavam ser feitas, e elas foram feitas com relativamente
-+pouco sofrimento. Se o Linux precisasse garantir a preservação de uma interface estável
-+de código-fonte, uma nova interface teria sido criada, e a antiga, quebrada,
-+teria de ser mantida ao longo do tempo, levando a trabalho extra para os
-+desenvolvedores USB. Como todos os desenvolvedores USB do Linux trabalham em seu
-+próprio tempo, pedir a programadores que façam trabalho extra, sem ganho e de
-+graça, não é uma possibilidade.
++/* -- debugfs timeout accessor ------------------------------------------ */
 +
-+Questões de segurança também são muito importantes para o Linux. Quando um
-+problema de segurança é encontrado, ele é corrigido em um período muito curto.
-+Várias vezes isso fez com que interfaces internas do kernel fossem retrabalhadas
-+para impedir que o problema de segurança ocorresse. Quando isso acontece, todos
-+os drivers que usam essas interfaces também são corrigidos ao mesmo tempo,
-+garantindo que o problema de segurança seja corrigido e não possa voltar
-+acidentalmente no futuro. Se as interfaces internas não pudessem mudar,
-+corrigir esse tipo de problema de segurança e garantir que ele não ocorresse
-+novamente não seria possível.
-+
-+As interfaces do kernel são limpas ao longo do tempo. Se ninguém estiver usando
-+uma interface atual, ela é removida. Isso garante que o kernel permaneça tão
-+pequeno quanto possível e que todas as interfaces potenciais sejam testadas da
-+melhor forma possível (interfaces não usadas são praticamente impossíveis de
-+testar quanto à validade).
-+
-+
-+O que fazer
-+-----------
-+
-+Então, se você tem um driver de kernel Linux que não está na árvore principal
-+do kernel, o que você, como desenvolvedor, deve fazer? Lançar um driver binário
-+para cada versão diferente de kernel em cada distribuição é um pesadelo, e
-+tentar acompanhar uma interface de kernel em constante mudança também é uma
-+tarefa difícil.
-+
-+Simples: coloque seu driver de kernel na árvore principal do kernel (lembre-se
-+de que estamos falando de drivers lançados sob uma licença compatível com a GPL;
-+se o seu código não se enquadra nessa categoria, boa sorte, você está por conta
-+própria). Se o seu driver estiver na árvore e uma interface de kernel mudar, ele
-+será corrigido pela pessoa que fez a mudança no kernel em primeiro lugar. Isso
-+garante que o seu driver sempre possa ser compilado e funcione ao longo do tempo
-+com muito pouco esforço da sua parte.
-+
-+Os efeitos colaterais muito positivos de ter seu driver na árvore principal do
-+kernel são:
-+
-+  - A qualidade do driver aumentará, pois os custos de manutenção (para o
-+    desenvolvedor original) diminuirão.
-+  - Outros desenvolvedores adicionarão recursos ao seu driver.
-+  - Outras pessoas encontrarão e corrigirão bugs no seu driver.
-+  - Outras pessoas encontrarão oportunidades de ajuste no seu driver.
-+  - Outras pessoas atualizarão o driver para você quando mudanças em interfaces
-+    externas exigirem isso.
-+  - O driver passa a ser distribuído automaticamente em todas as distribuições
-+    Linux, sem que seja necessário pedir às distribuições que o adicionem.
-+
-+Como o Linux suporta um número maior de dispositivos diferentes "prontos para
-+uso" do que qualquer outro sistema operacional, e suporta esses dispositivos em
-+mais arquiteturas de processador diferentes do que qualquer outro sistema
-+operacional, esse tipo comprovado de modelo de desenvolvimento deve estar
-+fazendo alguma coisa certa :)
-+
-+
-+
-+------
-+
-+Agradecimentos a Randy Dunlap, Andrew Morton, David Brownell, Hanna Linder,
-+Robert Love e Nishanth Aravamudan por suas revisões e comentários sobre os
-+rascunhos iniciais deste artigo.
-\ No newline at end of file
++#ifdef CONFIG_CRYPTO_DEV_CMH_DEBUG
++/**
++ * cmh_rng_timeout_drbg_ptr() - Return pointer to drbg_timeout_ms for debugfs
++ *
++ * Exposes the DRBG operation timeout for runtime tuning via debugfs
++ * config/ directory.
++ *
++ * Return: pointer to the static drbg_timeout_ms variable.
++ */
++unsigned int *cmh_rng_timeout_drbg_ptr(void) { return &drbg_timeout_ms; }
++#endif
 -- 
-2.55.0.windows.2
+2.43.7
 
