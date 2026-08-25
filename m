@@ -1,34 +1,34 @@
 Received: from gentwo.org (gentwo.org [62.72.0.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95131096F;
-	Wed, 26 Aug 2026 00:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDB42264A7;
+	Wed, 26 Aug 2026 01:10:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.72.0.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787702424; cv=none; b=ZhDlFfTOXuqu/zoV+1vk5KpPrajnESl17YHrjiAqupAZM+26sgLcZzSnXoPJnaXZiMzFnV/jEyvKrkNLZDFY3FNrUI1nS6Q92MGzmnGt6Qmn5nTdztn+uDC/2v41ZdcEJ/CJCNVI14Z4zWOs9RJIgrcllWxHx57s4pJ+mXcuEgI=
+	t=1787706625; cv=none; b=rOGdXCdMjbUmqroaZfu9Ezpfs9K0KbuNFiG5XZZCI1S01NKBLSNpMTPPZdUeU5V0sZ+e92z59/Yu1dumBXh0y654qHaVlTNQ7CY4qb+IjlrzYaod5tVcYNR0OYSCGkPNZ0+NKKJDF4Sg/8IRfcwuuSLiwFbSd4CXDq4gYAOeoqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787702424; c=relaxed/simple;
-	bh=Z6aHtvQXyGKCnTQVv7nMlmByWVfeRnZRrw/SQND8FGM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=D4IChaZhQ8M+lINQzOf3I/erOUe9ZoJL6Ermv9qiZp5WJ0x/FmJgp2dznEZr/KIyyvmoYYEb0iVeb+rHerlSXfeCXXYBqkKBDfeCgOXz5LZiERxyE8x7xDQSHNH/Yw2Pe6N6OjbgR0vDj7mFQSuwl3Uxefu1UgD2VJiMGU/aha0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org; spf=pass smtp.mailfrom=gentwo.org; dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b=jRLKtJQM; arc=none smtp.client-ip=62.72.0.81
+	s=arc-20240116; t=1787706625; c=relaxed/simple;
+	bh=wNrHsjDKVfWS8zXNLUqwBHM5EXAhWqtMXDjFXL6wzKI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=sWBWYUs0X00p9ISG1N/6YNcR8reACrq1KuFETM67K+UKPhVnbb+YP8I8KQwrre1PF5hgf3ky3tb0dSb7CzPqt4Vo2UrumSwSgPbyu3+D7PHlu7A/GJPeh63TOumOxWu1olIvufVpnboBhDI089KQMarw5Gry2io+ScHVvQfY38s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org; spf=pass smtp.mailfrom=gentwo.org; dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b=pBf3A4JG; arc=none smtp.client-ip=62.72.0.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentwo.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b="jRLKtJQM"
+	dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b="pBf3A4JG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gentwo.org;
-	s=default; t=1787698183;
-	bh=Z6aHtvQXyGKCnTQVv7nMlmByWVfeRnZRrw/SQND8FGM=;
-	h=From:Subject:Date:To:Cc:From;
-	b=jRLKtJQMbd99ynRnT9wFONXVeWE74gxq2ur0Yo+srnmjJSh7FlPDmAFGKk9V6iOC2
-	 bq35RF1zdybaoWvWe/mhIbPdDrmI8xORDwC1kBmD0M9qhlCXjA4tWGCmoZsCa2G6+f
-	 Fps2JEc+q1dp1TZAelVHVVWOmhRTXroOqegvJRx8=
+	s=default; t=1787698184;
+	bh=wNrHsjDKVfWS8zXNLUqwBHM5EXAhWqtMXDjFXL6wzKI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=pBf3A4JGOkgQAWZZvQVRNnkhuAsxYPrCrO0c7pORUlBGdGb6PCttRca78GiYT576M
+	 Y4/yyPHvQVJthNN1/m47cgbN3zjiZ7hV6h1GTyyD0JLIb9rIjOXrCM1sJNEDGmFFxT
+	 pnjikTpafq0VLX4Dj0fZfDXcKRCsO0eqMhhv3yHE=
 Received: from sut02sys-r112.scc-lab.amperecomputing.com (localhost [127.0.0.1])
-	by gentwo.org (Postfix) with ESMTPS id ED20240112;
-	Tue, 25 Aug 2026 15:49:42 -0700 (PDT)
+	by gentwo.org (Postfix) with ESMTPS id 003A340BCE;
+	Tue, 25 Aug 2026 15:49:43 -0700 (PDT)
 From: "Shubhang Kaushik (Ampere)" <sh@gentwo.org>
-Subject: [RFC PATCH 0/2] sched: Document WF_SYNC wakeup placement semantics
-Date: Tue, 25 Aug 2026 15:46:55 -0700
-Message-Id: <20260825-sched-wf-sync-doc-v1-0-f899edb44ff5@gentwo.org>
+Date: Tue, 25 Aug 2026 15:46:57 -0700
+Subject: [RFC PATCH 2/2] sched/wait: Clarify WF_SYNC wakeup semantics
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,10 +37,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAF8bjmoC/x3MTQqAIBBA4avErBswicquEi1Kx5yNhgP9EN09a
- fkt3ntAKDMJjNUDmQ4WTrGgqSuwYYkbIbti0Ep3atAtig3k8PQod7TokkUyem09maH3PZRuz+T
- 5+p/T/L4fR0pHGGMAAAA=
-X-Change-ID: 20260824-sched-wf-sync-doc-e92b4fe987f7
+Message-Id: <20260825-sched-wf-sync-doc-v1-2-f899edb44ff5@gentwo.org>
+References: <20260825-sched-wf-sync-doc-v1-0-f899edb44ff5@gentwo.org>
+In-Reply-To: <20260825-sched-wf-sync-doc-v1-0-f899edb44ff5@gentwo.org>
 To: Jonathan Corbet <corbet@lwn.net>, 
  Shuah Khan <skhan@linuxfoundation.org>, 
  Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
@@ -57,46 +56,83 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
  "Shubhang Kaushik (Ampere)" <sh@gentwo.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787698182; l=1390;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787698182; l=3313;
  i=sh@gentwo.org; s=20251010; h=from:subject:message-id;
- bh=Z6aHtvQXyGKCnTQVv7nMlmByWVfeRnZRrw/SQND8FGM=;
- b=VWKuuAAoEr8Pqq75XMvPG8NDSzjmL9pmZEwb46liGrwd/mv4yZ3WzJz96W9C0j3jDtmJx0m5v
- DdSCtkg/4aYARNDTKRZkWYH1tHvSm92P5z5ivHngG1uDa8kkq6S41YC
+ bh=wNrHsjDKVfWS8zXNLUqwBHM5EXAhWqtMXDjFXL6wzKI=;
+ b=CHsLAT8NtNZVx9oZK2SXENLmbvhiX+PAdyMBo+4Jond10RzM3UYxw9ddOBtD2jPYxUhPm+tMi
+ 9mwYMV1GpiOAKkMdEFs8oOJ8CgoXk83jLH2Qxje9dSQF00NCA3RM4sh
 X-Developer-Key: i=sh@gentwo.org; a=ed25519;
  pk=jc8YIRvxPSyJaBRe5y+a4N0RXKBUEcAh8+OFhlROXPY=
 
-WF_SYNC is passed by synchronous waitqueue wakeup helpers when the
-caller expects the waker to schedule away soon. Its fair-class semantics
-are not documented.
+The synchronous waitqueue wakeup comments state that the wakee will not
+be migrated to another CPU. This is not guaranteed by the current
+scheduler wakeup path.
 
-In particular, the waitqueue API comments state that a synchronous wakee
-will not be migrated to another CPU. This is not guaranteed by the
-current wakeup path. For a blocked fair-class wakee, wake_affine() can
-select the waking CPU, but select_idle_sibling() can select another
-eligible CPU.
+The synchronous helpers pass WF_SYNC to waitqueue wake functions. The
+default wake function forwards it to the scheduler, where fair-class
+tasks can use it as a wakeup-placement and preemption hint.
 
-Document the current fair-class CPU-selection and wakeup-preemption
-behavior. Also correct the stale waitqueue API comments.
-
-This series does not change scheduler behavior. It documents WF_SYNC as
-a non-binding fair-class hint and does not define a stronger placement
-policy.
+Correct the API comments to describe this behavior and remove the
+incorrect no-migration guarantee.
 
 Signed-off-by: Shubhang Kaushik (Ampere) <sh@gentwo.org>
 ---
-Shubhang Kaushik (Ampere) (2):
-      sched: Document WF_SYNC wakeup placement semantics
-      sched/wait: Clarify WF_SYNC wakeup semantics
+ kernel/sched/wait.c | 30 ++++++++++++++++--------------
+ 1 file changed, 16 insertions(+), 14 deletions(-)
 
- Documentation/scheduler/index.rst               |   1 +
- Documentation/scheduler/sched-wake-affinity.rst | 133 ++++++++++++++++++++++++
- kernel/sched/wait.c                             |  30 +++---
- 3 files changed, 150 insertions(+), 14 deletions(-)
----
-base-commit: 66498c75b4f8017f62d720d9b59675bdf3abce91
-change-id: 20260824-sched-wf-sync-doc-e92b4fe987f7
+diff --git a/kernel/sched/wait.c b/kernel/sched/wait.c
+index d033f600f48c6fc3a0a088ea5d9f6ed95ec4c86e..ac1d260a6a37fc35b934079706819b79e20df4ba 100644
+--- a/kernel/sched/wait.c
++++ b/kernel/sched/wait.c
+@@ -174,15 +174,16 @@ EXPORT_SYMBOL_GPL(__wake_up_locked_key);
+  * @mode: which threads
+  * @key: opaque value to be passed to wakeup targets
+  *
+- * The sync wakeup differs that the waker knows that it will schedule
+- * away soon, so while the target thread will be woken up, it will not
+- * be migrated to another CPU - ie. the two threads are 'synchronized'
+- * with each other. This can prevent needless bouncing between CPUs.
++ * The caller expects the waker to schedule away soon. This helper passes
++ * WF_SYNC to waitqueue wake functions. The default wake function forwards
++ * it to the scheduler.
+  *
+- * On UP it can prevent extra preemption.
++ * For fair-class tasks, WF_SYNC is a wakeup-placement and preemption
++ * hint. It does not guarantee that the wakee will run on the waker CPU
++ * or avoid migration. On UP, this may avoid an unnecessary preemption.
+  *
+- * If this function wakes up a task, it executes a full memory barrier before
+- * accessing the task state.
++ * If this function wakes up a task, it executes a full memory barrier
++ * before accessing the task state.
+  */
+ void __wake_up_sync_key(struct wait_queue_head *wq_head, unsigned int mode,
+ 			void *key)
+@@ -200,15 +201,16 @@ EXPORT_SYMBOL_GPL(__wake_up_sync_key);
+  * @mode: which threads
+  * @key: opaque value to be passed to wakeup targets
+  *
+- * The sync wakeup differs in that the waker knows that it will schedule
+- * away soon, so while the target thread will be woken up, it will not
+- * be migrated to another CPU - ie. the two threads are 'synchronized'
+- * with each other. This can prevent needless bouncing between CPUs.
++ * The caller expects the waker to schedule away soon. This helper passes
++ * WF_SYNC to waitqueue wake functions. The default wake function forwards
++ * it to the scheduler
+  *
+- * On UP it can prevent extra preemption.
++ * For fair-class tasks, WF_SYNC is a wakeup-placement and preemption
++ * hint. It does not guarantee that the wakee will run on the waker CPU
++ * or avoid migration. On UP, this may avoid an unnecessary preemption.
+  *
+- * If this function wakes up a task, it executes a full memory barrier before
+- * accessing the task state.
++ * If this function wakes up a task, it executes a full memory barrier
++ * before accessing the task state.
+  */
+ void __wake_up_locked_sync_key(struct wait_queue_head *wq_head,
+ 			       unsigned int mode, void *key)
 
-Best regards,
 -- 
-Shubhang Kaushik (Ampere) <sh@gentwo.org>
+2.52.0
 
