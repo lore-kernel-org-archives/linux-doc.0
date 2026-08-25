@@ -1,177 +1,159 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B5335975;
-	Mon, 24 Aug 2026 23:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA85E280309
+	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 01:59:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787615645; cv=none; b=GtK2SP9/B4JTvAs5YsV1XCJ5B/ePrdRS25LusdMLYaCURg9q4I54f7i+c9E80qkttjZQgolo+n4uaWRMk3krReBzy+ip4stExBJVF6mhnJQVCoxIjD/+yt2hbYEzaNtfNdts9FHuQ8DZvSCHYmohQ1guHODl6eCVveUm6ox+Hm8=
+	t=1787623196; cv=none; b=uAonkM5S7TiKnxrwIwEmkvOQepybDhRY/3hyn2PzOq7z6/lpQJnlJC3VqRGPn2gM2Q4dydLbttrIywgxS35s1qZpIfu5w+GlmwfUhZJGlLMQ6hBZ4h7CvPkwpLYPHYAMqqRmunXw5E6kbZ+aurcmrS4P1tHytidBk+ZKX4OxQbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787615645; c=relaxed/simple;
-	bh=YMtsvaPMhaJLi9vMElcaik8XpWsWPo0DE60Oo8CIAC8=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=sW+BxmtN6cRb0LqlxPRC7TTe2WKAgTw01ilxtriBt6xAWMYRQUI3/Sb6cBaxgPQZLlL99m0tD6K/UyZbQsYCDhLQWNcl7WJGwZ2HXlEo4UGod4RaI9W4QblMUBw8BtaflWhDSmRSd7/MfQb70rS29TJiVRX1ZF16B2z4JECzIBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf17.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 66E2AA028D;
-	Mon, 24 Aug 2026 23:53:59 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf17.hostedemail.com (Postfix) with ESMTPA id BA4E117;
-	Mon, 24 Aug 2026 23:53:46 +0000 (UTC)
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 1DEB2F40067;
-	Mon, 24 Aug 2026 19:53:46 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-09.internal (MEProxy); Mon, 24 Aug 2026 19:53:46 -0400
-X-ME-Sender: <xms:idmMauRPrtUla9qRbhvt2_0s-gOtSXQJ6oW6QWzI4RYdfWKeXayTTg>
-    <xme:idmMaumvvdBBLt3x0JiN9Geb0OQe_taMdqTLqJd4Mq039O7VWz71Lnq9W55yIp8pj
-    Zx9DgY8f9Rx3fGP9TVFuMhkiwauLuxySxTBravrSpVNXrDycOq9MP0_>
-X-ME-Proxy-Cause: dmFkZTFNdvBIYoqkIophUMonGCfqR072dJfXrrSBykjE0PcM8D01g5aR2SyokIQ/29dWMV
-    +MpQ4Pd0AvzqaA3zAW7dQe1gLVJpFLwFO9Epoebc5cxJ+b9UdYVw6/cNTZIMrxvQFAH2OH
-    2M7mhaArg46OGgg3mMGu1sm3SaF/xv+Fm0dxq+tYSTWYcbWTMTeX2kgo96SMfnMnqoBLFk
-    zFnAhbFBYag4FBV6zUGEr8v1PBur7ayBAYs4kCpCVwyQG3VtEpfMMQTUU1g+Vi8zymicPl
-    NeOEkVKkd4fKLigg0edc5ZuIxSSXjv04NcSZt0l8e9URq7iG9UcXrC3mJ9a/dU8LH2pTj7
-    J4WPMxqpzGHdhO+v8lh37u9DfbVGu8EEzhvkVKbkSWnAAwqG8OBHiuConeJ45woHQ5FYx+
-    52uZ8fHY2DRTBH0qzBo/RPsqDYNmPm8K04dYGvd4zRJlmhjHSBsth4t/RelGt+mmKIT/NQ
-    2f5y4WnsRrQoMofmLuPkxeTEJ58wIoifaka0XMYRu4MNHUjXt4saQXWbHwBzthVVdjpHSt
-    IvJPP9vrf1r1pC9VveY2zScooLw4hepc4++nRXbUA3qwV0R4+tVngu9nhV+15D0K041z1d
-    WPHl1UIrzPwCoTb+ntgEvpPDm/7JViS2OFuqKy512teb2ShZC1fC/x9ZedTg
-X-ME-Proxy: <xmx:itmMapHx4ry7FcmOjVfJveQlbJbyuvXgVkhAr0jqSbYuzw8MC1y-Sw>
-    <xmx:itmMasAAsWov3rD-6ZER_fYrnKjY-cVv1aJJo_prum4A3z7WB1lzLA>
-    <xmx:itmMajO5mBMiGuP1GfHx73urD-cFZkU1ikJ1fMKOgnrNyuqXEE2BMQ>
-    <xmx:itmManeP3766O-mcCV15NJudbj-o19HeOuNh9-dENXDVv5l7ivCWPQ>
-    <xmx:itmMamgsfMaeL3UKtVOAurP9TNOCVtyWB9rL5Z90ld3thvFiGrcqGgh4>
-Feedback-ID: i3a164872:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id D36F8700069; Mon, 24 Aug 2026 19:53:45 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1787623196; c=relaxed/simple;
+	bh=T5YW5CFuBsruw60Lh0nafi6isTN65QXG8kOoB1jxyko=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fvP5CAdCTH20GNkW7wEuwwlJv9lV/XzwfFQR3D8/NTMYXIZwTCigxBv7iwQ9qBdf+uxJTwRkb1DLxCGP3wRxzfFavrWJxBe17am0ledLC34+HpnPbYV8OeXIH9PBECc25/NsOWnQu7DSsbimyzlHoB/RKuxDQxtaZrltbroIfR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S/Grd75A; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S/Grd75A"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c9e607d81fcso2597368a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2026 18:59:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787623193; x=1788227993; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nhHoz17uhzvTdXS0vYq6oOhZqGXYkYOkqCoUJ92OGtQ=;
+        b=S/Grd75Ak0VKAFbk13QHdr6H4KRrNJIT/ApSgJqFnolheseGrQTLZjokd+DDX3PDyS
+         wv/173klLh7Uba07EaSPfcX4hgNX/NzBh6F5IRLC+U/Am5nrnEjFh4i87aPvecpylNZ9
+         iyIs6VMz/E56CMEO/uO6so6jkSuXC1QPb/iENcvnL1tsaPhDLh83nggt03/aDcxQbllD
+         Im15kuw6x0VkHM7ZyakZqhvRM2BdfB27IPYoJr4wlIyJtVgAD7CyA2MpCNHMUD9l6AEF
+         qjHYcQ2tKgw/e+ovHvmj4YgSM4r2/CLI9YXfmI54iBhX7T3HNxLqS1i6RPTPF4hW9uff
+         Nm9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787623193; x=1788227993;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nhHoz17uhzvTdXS0vYq6oOhZqGXYkYOkqCoUJ92OGtQ=;
+        b=P1ICQZ1NgJNwLdhh9QqtKR7WW8lzduSZDSHseg2hzs/asO9H40QhtsCoxvrNcNhP+d
+         6DGXtIQHp+lDsskbgem2NvEqZRa+kVtoITJtHGBoUMhRipoK3/bTAGZ+QqQAlsRCraSC
+         WAT2jvqAmIbcYF9yEZh+aheqRppqFonQaRQ+ss2kBh+j4r3s0GfzJX5R5hSsWqAwr3Li
+         lPiaK0QGLQF4nA2faSjzRqP3Z95CZrAkmoh5hf11y+EwRO16p2lGkn+lLfd6D6nc0VKt
+         xNM0Hr2F7RUkE8reOwkWXUBvU/SuoE1V7vfAeabxbWyPLwSCEAjURVGutC0K1m69NjI9
+         EBUw==
+X-Forwarded-Encrypted: i=1; AHgh+RogMMYY/Tp06h5JyX9fUKuPgRY6mPo26GZtkh62yCocXDYg4JKZCM6TP8bG3rRO6MC0+gol6H/s/PA=@vger.kernel.org
+X-Gm-Message-State: AFuF++nJDKOM7ONaiVUe52pVWdgtTMWnIkJBQa6N9UWSglAE8hVYutUa
+	aZL47v57x+6x1+11ZgXjJKoIehKT32dJIqIWr5o6hAVMTZfZec9CYuOW
+X-Gm-Gg: AR+sD12uz0eQsHjcmDYNJaL4uA8GBDOXOnjXEk1K9p1g9fODLRYMW79FbEPR4UoC7Vj
+	Ims8occn36iPkvhGydwz9k36iMGEZuaeccVIhKpeAruq0l27KJZOIXGFam6c1vRJj2Dsr0fLkY2
+	tVj22T1gPjAZhBcMAEsW07U1dUqUwdiPr+TceJtvQsrqLxN3cf+qQXhSCEaNl/ep/KHOYzTVX++
+	x5gwFuKoeFmY8yrYNxyIIL+Kj9LlRnBJNxnjaD6ptnJ1Ji9X6YYoO6EpM0OxtMjeRwi4xoWMamv
+	JDOtrbTU69ABfbzVQZMKbM08/PDWR8qP2VmMkCtxi1U1Bk+DXIrkmgDhxdbvH19z2/SMEwxsSkn
+	BjKZf2T7RVkUx+wa8nR/ZQAFsh2wDT9WcE9INhBSf6Tkf6kXF+RvuSYpTYPnqObheDxsciIIfKT
+	XPD5D+LwIqZIWE99R4cAWP9IpqvFsabIyzN2G19nUeYTFcUCWUaadpAZo8cxdhemfknd5mDy8Zx
+	LIHfb1J73R4j6vbWVfnW/xUNsyorZ0GwrH9M4ysoNzV+EYIHoR0wdSFQJ7wvjxnaWa4rQyXF19E
+X-Received: by 2002:a17:90b:590b:b0:383:f52b:d616 with SMTP id 98e67ed59e1d1-396464ce7c7mr6288216a91.10.1787623193305;
+        Mon, 24 Aug 2026 18:59:53 -0700 (PDT)
+Received: from ikb-h07-29-noble.in.iijlab.net ([202.214.97.5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39645b17eeasm1704829a91.3.2026.08.24.18.59.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 18:59:52 -0700 (PDT)
+Received: by ikb-h07-29-noble.in.iijlab.net (Postfix, from userid 1010)
+	id 7A77515C677A; Tue, 25 Aug 2026 10:59:50 +0900 (JST)
+From: Hajime Tazaki <thehajime@gmail.com>
+To: linux-mm@kvack.org,
+	liam@infradead.org,
+	rbm@suse.com,
+	akpm@linux-foundation.org,
+	luto@amacapital.net,
+	brendan.jackman@linux.dev,
+	david@kernel.org,
+	liuhangbin@gmail.com,
+	corbet@lwn.net,
+	kees@kernel.org,
+	ljs@kernel.org,
+	broonie@kernel.org,
+	mhocko@suse.com,
+	rppt@kernel.org,
+	shuah@kernel.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	wad@chromium.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-um@lists.infradead.org
+Cc: geert@linux-m68k.org,
+	daniel@thingy.jp,
+	Hajime Tazaki <thehajime@gmail.com>
+Subject: [PATCH v2 0/2] support kselftest on nommu platform
+Date: Tue, 25 Aug 2026 10:59:43 +0900
+Message-ID: <20260825015945.141739-1-thehajime@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 24 Aug 2026 18:53:25 -0500
-From: "John Groves" <john@groves.net>
-To: "Miklos Szeredi" <miklos@szeredi.hu>
-Cc: "David Hildenbrand" <david@kernel.org>,
- "Christian Brauner" <brauner@kernel.org>,
- "Darrick J . Wong" <djwong@kernel.org>,
- "John Groves" <john@jagalactic.com>, "Dan Williams" <djbw@kernel.org>,
- "Bernd Schubert" <bschubert@ddn.com>,
- "Alison Schofield" <alison.schofield@intel.com>,
- "John Groves (jgroves)" <jgroves@micron.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Jake Edge" <jake@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>,
- "Vishal Verma" <vishal.l.verma@intel.com>,
- "Dave Jiang" <dave.jiang@intel.com>,
- "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Jeff Layton" <jlayton@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>,
- "Jonathan Cameron" <jic23@kernel.org>,
- "Stefan Hajnoczi" <shajnocz@redhat.com>,
- "Joanne Koong" <joannelkoong@gmail.com>,
- "Josef Bacik" <josef@toxicpanda.com>,
- "Bagas Sanjaya" <bagasdotme@gmail.com>,
- "Chen Linxuan" <chenlinxuan@uniontech.com>,
- "James Morse" <james.morse@arm.com>, "Fuad Tabba" <tabba@google.com>,
- "Sean Christopherson" <seanjc@google.com>,
- "Shivank Garg" <shivankg@amd.com>,
- "Ackerley Tng" <ackerleytng@google.com>,
- "Gregory Price" <gourry@gourry.net>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Namjae Jeon" <linkinjeon@kernel.org>,
- "Lorenzo Stoakes" <ljs@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Ira Weiny" <iweiny@kernel.org>,
- "Pasha Tatashin" <pasha.tatashin@soleen.com>,
- "Haren Myneni" <haren@linux.ibm.com>,
- "Pratyush Yadav" <pratyush@kernel.org>,
- "Giovanni Cabiddu" <giovanni.cabiddu@intel.com>,
- "Jiri Slaby" <jirislaby@kernel.org>,
- "Ethan Nelson-Moore" <enelsonmoore@gmail.com>,
- "Gabriel Whigham" <gabewhigham@gmail.com>,
- "Aravind Ramesh" <arramesh@micron.com>,
- "Ajay Joshi" <ajayjoshi@micron.com>,
- "venkataravis@micron.com" <venkataravis@micron.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Message-Id: <ed2ce261-50af-4515-99f0-51f69dc206af@app.fastmail.com>
-In-Reply-To: 
- <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
-References: 
- <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022828.75776-1-john@jagalactic.com>
- <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
- <20260806043712.GB3560084@frogsfrogsfrogs>
- <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
- <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
- <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
- <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
- <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
- <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
-Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: BA4E117
-X-Stat-Signature: q7byakz5pg5nc7rqry5nhs79cmtepzsf
-X-Rspamd-Server: rspamout03
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1/MFztRw88PMkWUbpQaFPOCrF1W5rOUeEY=
-X-HE-Tag: 1787615626-627444
-X-HE-Meta: U2FsdGVkX1/nUAzRQZz9GChlN55Gfmuc8oQWAgHe/Cuzkpc9Pkjw+7PIbX0QRcOgKA6VqrTNRiTzwhx9fRhfEm+dkWphA42Gu+nLBKwP5bi1GQrd9PRoxWku3ODNBeIDENBSWvM/nuZrAw1S8O/dx11pEkMOZnfysTpOj1G7DZtUPSTdVMVBMcHx5U07HpuLModoV46KznPRh+Tlj29wlLPdlPJmgovUk4dSp8xv4oBKcZx+eZXLa8E6W8jjUXb3vskpEuZQN7WV+OlaI19eEunOd4lv8gyi7DRdD/os9/Vwz5O0zSWCMv0KHY+Tr3P8i7gYkSS/oXNvIZ9lN34XHKw0D5GNEvoUZeTSPfeW7MLyEPc/B84jtUK2bl/zAPY3
+Content-Transfer-Encoding: 8bit
+
+We add an ability to execute kselftest on nommu platforms.
+
+Currently there are several issues if we wish to run kselftests on nommu
+targets:
+
+- it cannot compile/build test binaries because the current files mainly
+  assume to build with glibc,
+- some of the tests are not able to run on nommu targets as there are no
+  fork(2) syscall.
+
+The first issue can be avoided if we can build static PIE binaries (if
+targets support it), but in our case (build on ubuntu/glibc and run on
+alpine/musl-libc), it fails to invoke due to lack of the GNU ifunc
+mechanism.  Thus, we need to cross-compile with musl toolchain, which
+needs to be solved the first issue.
+
+The second issue is the lack of fork(2) syscall on those platforms.
+Especially the test harness helper (kselftest_harness.h) uses the
+syscall, which cannot be simply with vfork(2).  `timeout` command used
+in `runner.sh` never works for nommu platform as it uses fork(2).
+
+nommu component in the mm subsystem has several known issues and having
+test cases should help this situation, thus this patchset is very first
+step toward enriching test environment which has not been well tested
+for a while.  The test cases is implemented based on the document
+(Documentation/admin-guide/mm/nommu-mmap.rst).
+
+So, for the first step, nommu targets only support low-level API of
+kselftests (kselftest.h), and implement tests in a new target,
+TARGETS=mm/nommu.  Other targets are currently not even able to build
+due to toolchain issues but will be addressed once the initial
+introduction which mainly focuses on nommu test will be settled.
+
+The patch was initially combined with other patches but is decoupled to
+only focus on test framework and testcases.
+
+- rfc:
+https://lore.kernel.org/linux-mm/20260813063401.1786548-1-thehajime@gmail.com/
+
+Hajime Tazaki (2):
+  selftests: run tests on nommu architecture
+  selftests/mm: add nommu mmap and mremap behavior tests
+
+ Documentation/dev-tools/kselftest.rst         |  14 +
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/kselftest/runner.sh   |   9 +-
+ tools/testing/selftests/kselftest_harness.h   |   4 +
+ tools/testing/selftests/lib.mk                |   8 +
+ tools/testing/selftests/mm/nommu/Makefile     |   7 +
+ .../selftests/mm/nommu/nommu_mmap_test.c      | 265 +++++++++++++
+ .../selftests/mm/nommu/nommu_mremap_test.c    | 353 ++++++++++++++++++
+ 8 files changed, 659 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/mm/nommu/Makefile
+ create mode 100644 tools/testing/selftests/mm/nommu/nommu_mmap_test.c
+ create mode 100644 tools/testing/selftests/mm/nommu/nommu_mremap_test.c
 
 
+base-commit: 55b50d965aee5f66cefe4dde3907a0e272f96b91
+-- 
+2.43.0
 
-On Mon, Aug 24, 2026, at 2:41 AM, Miklos Szeredi wrote:
-> On Sat, 22 Aug 2026 at 23:55, John Groves <john@groves.net> wrote:
-> 
-> > Famfs does work in fuse, but some of the asks are things that I don't see
-> > how I can agree to. I think Miklos and I should discuss those 1:1, to figure
-> > out if there is a way forward.
-> >
-> > I think the virtual backing-dev thing is a non-starter,
-> 
-> The virtual backing-dev is an abstraction.
-> 
-> Is it sufficient for you if I promise that this is going to do the
-> same thing as the standalone famfs at the same performance level?
-> 
-> >  and I think that the famfs
-> > portion of the fuse ABI basically can't live without extents that are
-> > (daxdev, offset, length).
-> 
-> Sigh.  My proposal was (backing-id, offset, length).  Again this is an
-> abstraction.  A backing ID can be a daxdev, a striped logical device
-> or it can be a block dev or even a plain file.
-> 
-> > Also, I'm curious: if you don't know of a use case for the striping code outside
-> > of famfs, why ask famfs to completely rewrite that?  (and I agree, other
-> > than the eventual remote possibility of competing 'famfs-ng' fuse servers,
-> > I don't see much likelihood that this piece will be shared.)
-> 
-> Because the striping feature fits much better into a virtual device
-> API than the extent mapping API.  This is how striping has worked in
-> linux for the last 30 years.
-> 
-> > Miklos, I trust that you are a good faith actor, although you seem to be
-> > spread pretty thin. Can you commit to a series of 1:1 conversations with
-> > me to try to work through the disconnects?
-> 
-> Fine, let's find a time.
-> 
-> Thanks,
-> Miklos
-> 
-
-I'll ping you directly about times to talk. Thank you for being willing to do that.
-
-Regards,
-John
