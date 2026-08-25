@@ -1,89 +1,224 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504FB481647;
-	Tue, 25 Aug 2026 13:34:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC77480346;
+	Tue, 25 Aug 2026 13:36:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787664859; cv=none; b=HVbUxe7IHOaUcCnKwxlZoXbWR2eZEpDEOTX0oPB/YZWivfpPhTD5eI/S7hX0QNTZLuk7oMGQrx0DQQaFUXK+aAWRVuvRgdxAE7a35uZnPOF6e49UuuHMKmmUFlIr1XofREiPNBBoO8aIDrZSAetK0S0pJpP+w0S4GIeI5GxerhI=
+	t=1787664992; cv=none; b=aqTDNSC3S6N9PXOV2N5zWIdSehSVezXcP20l/cLQSPUnId3bYwz11DUtx47q8ED1zBENtjL0TraslGX8DBty7xS1Cz+10lJ7pWvkvu94DCE+CjUWcbF2U+h6yG23xmeh1ApjhiVxtq8r28PZ0VnF6i/LKbXMGAwkbfFZd/x23SE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787664859; c=relaxed/simple;
-	bh=Ur494N8tncOiuUSFJwAM1NGjeVD1akKThWH07XBptkw=;
+	s=arc-20240116; t=1787664992; c=relaxed/simple;
+	bh=DssUPjwFzh1LK0oT5JS9bOfwl8sKoL7GvMoONw+Y1f0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ypd1LyzBJFF3+F/c1ep5XzaLqoaToLn1sPxBLiiq661mEWtfamgV5OPiQdBodOaKzBLJxPTm04G8afp4X/QkloQec8HyQTgy6IPx4DZ2xT56XqdxqcLIWoDuXQlKPvGGkVwI0N7iNfHKeN5y0x3hSwUwoHZL7LQPx07uOaOc3y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANonr/2C; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=KPoXvkfkWX5zC5W3cnfrgdue5D0W8VVEtU5Tio2G3uFcDEfWw2pBhueohSVXwogxCsFpDUniJFBSbToT5h2Ud+qESzOqZAXR6dYbNkn/1DOhfThf7NoTi2zI5dLuM7hFdwI1kYTUF6efz+ltD1751FSTiL6Xto9IcJNEp5dYSGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bL/6T7Pt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANonr/2C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 430A01F000E9;
-	Tue, 25 Aug 2026 13:34:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bL/6T7Pt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996F61F000E9;
+	Tue, 25 Aug 2026 13:36:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787664858;
-	bh=8sEDHtJiuV3WEA+sVpfliu1h4A/h9boCX0oYBZXCbMk=;
+	s=k20260515; t=1787664990;
+	bh=j3O0jUa3F64kLLrL5LogQDPv2j12GdtTejlIkXela4M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ANonr/2CovldT/yYJtMwtmKZ/t8+e7ApMmSuLw+MiM7p7KYE6RnPF5lqgfWbp43if
-	 sq1+DoT3HbJ4WzE/8bjmiwHymsIeVYwA6KcX+p3OrOUpqcB+VwZkm2UG+gwTfBnLGF
-	 urLG8AvUxKvAGYdNTQvRBdCi4mDIqQBi3uC/Z+LeD+4RioLvH5lYtzaqfXwPDIwoJ6
-	 xHspLTBK6UG8TwPf2u7sMwV6FDe41CVmTbC9o33sAA58sONMHRntAnPBY5Gwz5+SZR
-	 qYxO4jEqeXm0jcQCHO8LolSc7R0KiT+oSOXfZ1v0n82Gy/AsAIBUG6xqI33EZG9i/Y
-	 SwDQ3HyyBerNg==
-Date: Tue, 25 Aug 2026 15:34:04 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
-Message-ID: <20260825-hinab-kanarienvogel-mitschnitt-04a662533a24@brauner>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022828.75776-1-john@jagalactic.com>
- <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
- <20260806043712.GB3560084@frogsfrogsfrogs>
- <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
- <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
- <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
- <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
- <20260822002111.GA6110@frogsfrogsfrogs>
+	b=bL/6T7PtIl1SE4jX/P04Rg3Ro8uDMTXBR+IfVYE+x9UAvjV6ffKU5KIi2UYbb2Azk
+	 p5jWRud8g9M6fKt/WdbCiANY8IOY6E0GO9tF+/y3HH2CIDHPBZRk4lM4v8EXdA9xIV
+	 vvdmBV3MJpokO9m4uxF0kV9DadEr5xUgE4g1MEcQyIKv4p2QffHM5m8kqMZ5wAcpr1
+	 1OFmbyY/SJk7SamSMGhyjmip1vkbS4m5jfEpR9huTf9xGy3VQG/pSuJr6VdL+amyfz
+	 85Uhn+kpEjV22Ml8U417c58fgjFzYStIqvm9LlIaMeR72+D3VnMuYgSB9ZwSdjt5wy
+	 9BywduZwpF00A==
+Date: Tue, 25 Aug 2026 14:36:22 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Hajime Tazaki <thehajime@gmail.com>
+Cc: linux-mm@kvack.org, liam@infradead.org, rbm@suse.com, 
+	akpm@linux-foundation.org, luto@amacapital.net, brendan.jackman@linux.dev, david@kernel.org, 
+	liuhangbin@gmail.com, corbet@lwn.net, kees@kernel.org, broonie@kernel.org, 
+	mhocko@suse.com, rppt@kernel.org, shuah@kernel.org, surenb@google.com, 
+	vbabka@kernel.org, wad@chromium.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-um@lists.infradead.org, geert@linux-m68k.org, 
+	daniel@thingy.jp
+Subject: Re: [PATCH v2 1/2] selftests: run tests on nommu architecture
+Message-ID: <ao2aTD1ZGObPfp4T@gremlin>
+References: <20260825015945.141739-1-thehajime@gmail.com>
+ <20260825015945.141739-2-thehajime@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260822002111.GA6110@frogsfrogsfrogs>
+In-Reply-To: <20260825015945.141739-2-thehajime@gmail.com>
 
-> > Without John's trust I'm not taking this on.
-> 
-> Whatever path you and John decide on, I would very much like to see the
-> question of Which famfs driver do we merge? to be resolved for 7.4.
+On Tue, Aug 25, 2026 at 10:59:44AM +0900, Hajime Tazaki wrote:
+> Architectures lacks MMU doesn't support fork(2) syscall and only
+> vfork(2) is available with limitations.  Thus, we cannot run kselftest
+> on nommu architecture as is.
+>
+> This commit addresses this issue with the following changes:
+>
+> - on build stage, add -DCONFIG_NOMMU to CFLAGS when NOMMU=1 variable
+>   added to the build/make argument.
+> - on test run stage, avoid calling timeout command when NOMMU=1 variable
+>   added to environmental variable, since timeout command uses fork
+>   syscall which nommu platform doesn't support.
+> - kselftest_harness.h: skip the tests if the file is include when
+>   executing on NOMMU platform, as there is no fork(2) syscall.
+> - replace "cd -" use as it is not available a shell supported on nommu
+>   (e.g., busybox hush), use cd "$OLDDIR" instead.
+> - describe the difference of nommu tests in the document.
+>
+> So command line to build/execute tests for nommu should be like below:
+>
+>  $ make ARCH=um NOMMU=1 O=build kselftest-all TARGETS=mm/nommu
+>  $ make ARCH=um NOMMU=1 O=build kselftest-install TARGETS=mm/nommu
+>  $ NOMMU=1 ./build/kselftest/kselftest_install/run_kselftest.sh -p \
+>    -c mm/nommu
+>
+> Cc: Shuah Khan <shuah@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: Andy Lutomirski <luto@amacapital.net>
+> Cc: Will Drewry <wad@chromium.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Brendan Jackman <brendan.jackman@linux.dev>
+> Cc: Hangbin Liu <liuhangbin@gmail.com>
+> Cc: "Ricardo B. Marliere" <rbm@suse.com>
+> Cc: linux-kselftest@vger.kernel.org
+> Cc: linux-um@lists.infradead.org
+> Cc: linux-mm@kvack.org
+> Cc: linux-doc@vger.kernel.org
+> Closes: https://sashiko.dev/#/patchset/20260813063401.1786548-1-thehajime%40gmail.com
+> Signed-off-by: Hajime Tazaki <thehajime@gmail.com>
 
-While it is reasonable to place limits on how long a series is pushed
-out (I like to move with some speed myself.) we have two competing
-implementations and that will have to play out. We should not merge an
-fs just to finally merge _something_. The fact that this was more
-contentious than usual doesn't imply we need to merge a version, doesn't
-matter which one it is. That's a bad reason.
+Doesn't seem too crazy, but some nitty comments below.
+
+>
+> --
+>
+> rfc => v2
+> - reformat ktap header, reported by Sashiko review
+>
+> rfc: https://lore.kernel.org/linux-mm/20260813063401.1786548-1-thehajime@gmail.com/
+> ---
+>  Documentation/dev-tools/kselftest.rst       | 14 ++++++++++++++
+>  tools/testing/selftests/kselftest/runner.sh |  9 +++++++--
+>  tools/testing/selftests/kselftest_harness.h |  4 ++++
+>  tools/testing/selftests/lib.mk              |  8 ++++++++
+>  4 files changed, 33 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+> index 64c0ec7428a2..a65f3ebc5906 100644
+> --- a/Documentation/dev-tools/kselftest.rst
+> +++ b/Documentation/dev-tools/kselftest.rst
+> @@ -230,6 +230,20 @@ section::
+>
+>  .. _tar's auto-compress: https://www.gnu.org/software/tar/manual/html_node/gzip.html#auto_002dcompress
+>
+> +Build and test on nommu target
+> +==============================
+> +
+> +If you (cross-)build kselftests for nommu targets, or run tests on nommu targets, use
+> +``NOMMU=1`` as a make variable/environment setting to tell build system to do the additional
+> +checks.  These nommu targets may differ in several ways, such as not supporting fork(2) or
+> +using musl or another libc.  Set this variable to apply the necessary build and test adjustments.
+> +
+> +::
+> +
+> +  $ make ARCH=um NOMMU=1 O=build kselftest-all TARGETS=mm/nommu  # <= build-only
+> +  $ make ARCH=um NOMMU=1 O=build kselftest-install TARGETS=mm/nommu
+> +  $ NOMMU=1 ./build/kselftest/kselftest_install/run_kselftest.sh -p -c mm/nommu
+> +
+>  Contributing new tests
+>  ======================
+>
+> diff --git a/tools/testing/selftests/kselftest/runner.sh b/tools/testing/selftests/kselftest/runner.sh
+> index 311811dc55a0..7287d8290b6c 100644
+> --- a/tools/testing/selftests/kselftest/runner.sh
+> +++ b/tools/testing/selftests/kselftest/runner.sh
+> @@ -38,8 +38,12 @@ tap_prefix()
+>
+>  tap_timeout()
+>  {
+> +	# nommu doesn't support timeout command (missing fork(2))
+> +	if [ "$NOMMU" = "1" ] ; then
+> +		echo "timeout isn't supported for nommu"
+> +		$1
+>  	# Make sure tests will time out if utility is available.
+> -	if [ -x /usr/bin/timeout ] ; then
+> +	elif [ -x /usr/bin/timeout ] ; then
+>  		/usr/bin/timeout --foreground "$kselftest_timeout" \
+>  			/usr/bin/timeout "$kselftest_timeout" $1
+>  	else
+> @@ -130,6 +134,7 @@ run_one()
+>  				return $KSFT_FAIL
+>  			fi
+>  		fi
+> +		OLDDIR=$(pwd)
+>  		cd `dirname $TEST` > /dev/null
+>  		(((( tap_timeout "$cmd" 2>&1; echo $? >&3) |
+>  			tap_prefix >&4) 3>&1) |
+> @@ -147,7 +152,7 @@ run_one()
+>  		*)
+>  			ktap_test_fail "$TEST_HDR_MSG # exit=$rc";;
+>  		esac
+> -		cd - >/dev/null
+> +		cd "$OLDDIR" >/dev/null
+
+Hmm, why are you changing this bit?
+
+>  	fi
+>
+>  	return $rc
+> diff --git a/tools/testing/selftests/kselftest_harness.h b/tools/testing/selftests/kselftest_harness.h
+> index 261e4df94d9d..0d05946a5e7a 100644
+> --- a/tools/testing/selftests/kselftest_harness.h
+> +++ b/tools/testing/selftests/kselftest_harness.h
+> @@ -1274,6 +1274,10 @@ static int test_harness_run(int argc, char **argv)
+>  	unsigned int count = 0;
+>  	unsigned int pass_count = 0;
+>
+> +#ifdef CONFIG_NOMMU
+
+Let's not prefix with CONFIG_ :) I think this is pretty confusing vs. the kernel
+CONFIG_xxx flags, esp. as this obviously inverts CONFIG_MMU.
+
+maybe just 'NOMMU'?
+
+> +	ksft_print_header();
+> +	ksft_exit_skip("kselftest harness requires fork(2), unavailable on NOMMU\n");
+> +#endif /* CONFIG_NOMMU */
+>  	ret = test_harness_argv_check(argc, argv);
+>  	if (ret != KSFT_PASS)
+>  		return ret;
+> diff --git a/tools/testing/selftests/lib.mk b/tools/testing/selftests/lib.mk
+> index f02cc8a2e4ae..fdb895967768 100644
+> --- a/tools/testing/selftests/lib.mk
+> +++ b/tools/testing/selftests/lib.mk
+> @@ -97,6 +97,14 @@ TEST_GEN_PROGS := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_PROGS))
+>  TEST_GEN_PROGS_EXTENDED := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_PROGS_EXTENDED))
+>  TEST_GEN_FILES := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_FILES))
+>
+> +# detect if users request NOMMU build or not
+> +# User can set NOMMU to 1 to build/test for NOMMU platforms
+> +NOMMU ?= 0
+> +ifeq ($(NOMMU),1)
+> +CFLAGS += -DCONFIG_NOMMU
+> +export NOMMU
+> +endif
+> +
+
+I wonder if this could be put into testing/selftests/nommu/something.mk? Though
+I guess would have to be included for all builds to account for nommu trying to
+build any kind of tests.
+
+
+>  all: $(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED) $(TEST_GEN_FILES) \
+>  	$(if $(TEST_GEN_MODS_DIR),gen_mods_dir)
+>
+> --
+> 2.43.0
+>
+
+--
+Cheers, Lorenzo
