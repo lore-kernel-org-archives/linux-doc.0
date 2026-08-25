@@ -1,131 +1,240 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from gentwo.org (gentwo.org [62.72.0.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C0918C008;
-	Wed, 26 Aug 2026 03:00:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EDA348C56;
+	Wed, 26 Aug 2026 04:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.72.0.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787713256; cv=none; b=N7WDNBgg/BI68WMcnjexrwGtcEtxph+Z/qLg8HRdWf6S4sJR23nvpaK1UC3yJQ1sdCTjMbCmcwYfTdxXHPS6oDY8FMfA1D7uFmXbI1uwLc0wmofnPF8iZdDFNra5hNieyLzqAEBjffnCT5BQuMR9cT8xQt/IujCunWzWcA191Wo=
+	t=1787719226; cv=none; b=ueG6idG9gD0tF7IhNBDt39AG23KgWNMumwirwLpb7Dg8O+//IoSu0OSHhSdGAbQ7Og33Q+MOZ1UbTMBF8kNBn+fTMELbB2vt/kRbBYLMZ5y0L97mAjKAiR27tFz1ECPABI1ctM4k+Kcf6+zTytd4k7rFzIwpGsm8EkJrDQkXIDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787713256; c=relaxed/simple;
-	bh=VA+AH5pJWPWmbh4QS86foyjWLvhMz5Hw8tan3ko3UQQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=la8l/lqYjSqZuNatbmxJVbN5ltNYCkbn5JOcjSo8ScIDS1ukyo2+gV1Q955v2pOWtfLlrI+hXinpJe4CFL8YVnC+j+B5B9Hi9b7QOZDCfOAeuOtTNpQ4VZCWVgL01OY8uIVHMDQ9+fKkgQtFvTotw2pdNN4z9U9f6kXJlBtCMQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 544bff2ca0fa11f19a56ed5b684f684d-20260826
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_8B, HR_CTT_TXT
-	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_DIGIT_LEN, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_PRE_RE, HR_SJ_WS, HR_TO_COUNT
-	HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED
-	SA_UNTRUSTED, SA_LOWREP, SA_EXISTED, SN_UNTRUSTED, SN_LOWREP
-	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:8010ee7e-c882-410b-aab3-c3e0db6b12f4,IP:10,
-	URL:0,TC:0,Content:11,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:21
-X-CID-INFO: VERSION:1.3.19,REQID:8010ee7e-c882-410b-aab3-c3e0db6b12f4,IP:10,UR
-	L:0,TC:0,Content:11,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:21
-X-CID-META: VersionHash:7db8b62,CLOUDID:b600d1a7afe962d6c665d03961dabf92,BulkI
-	D:260820194334S50I7KW6,BulkQuantity:3,SF:17|19|64|66|78|80|81|82|83|102|12
-	7|136|841|850|865|898,TC:nil,Content:3|15|50,EDM:-3|-100,IP:-2,URL:0,File:
-	nil,RT:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:
-	0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 544bff2ca0fa11f19a56ed5b684f684d-20260826
-X-User: liuzhe1@kylinos.cn
-Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
-	(envelope-from <liuzhe1@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 768919277; Wed, 26 Aug 2026 11:00:44 +0800
-From: Zhe Liu <liuzhe1@kylinos.cn>
-To: mkoutny@suse.com
-Cc: bsegall@google.com,
-	cgroups@vger.kernel.org,
-	corbet@lwn.net,
-	dietmar.eggemann@arm.com,
-	hannes@cmpxchg.org,
-	juri.lelli@redhat.com,
-	kprateek.nayak@amd.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	liuzhe1@kylinos.cn,
-	mgorman@suse.de,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	rostedt@goodmis.org,
-	skhan@linuxfoundation.org,
-	tj@kernel.org,
-	vincent.guittot@linaro.org,
-	vschneid@redhat.com
-Subject: Re: [PATCH 1/2] sched/fair: Reset incompatible burst on quota change
-Date: Wed, 26 Aug 2026 11:00:06 +0800
-Message-Id: <20260826030006.171041-1-liuzhe1@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <aobnZEh1hfIBhswD@localhost.localdomain>
-References: <aobnZEh1hfIBhswD@localhost.localdomain>
+	s=arc-20240116; t=1787719226; c=relaxed/simple;
+	bh=qfxNYo/xXOvDmDd0zHokhGPYIzupQdyzWtSqlVEPidg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=YMnP+YXBrZtVcB7OepYhJUyDE8Ep760uAkLzapy6v1wax+YU85UBCDj1NRkOFaWYn8TC1CrPa940kJTu5AWXsS4QKGGhPP3bOQcOGSCKROiXJd5ntah4z5g1XTayaSL5XoUsJ8drlqQgGD3falkDhnWC1IySS069sA6imO/Jks8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org; spf=pass smtp.mailfrom=gentwo.org; dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b=lpj1x1Di; arc=none smtp.client-ip=62.72.0.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentwo.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b="lpj1x1Di"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gentwo.org;
+	s=default; t=1787698183;
+	bh=qfxNYo/xXOvDmDd0zHokhGPYIzupQdyzWtSqlVEPidg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=lpj1x1DirhbJvLH6TTmzFBX6gxdIbCMvFFosmNGyi8fUbxE53H4Zy4hmQJiN0twi2
+	 xQF/5zwRIVh8FADKxwiFDSTEsCfPtrLgIfOZoTADayG8Yt1P0S7gjnaf4WCOlSak6T
+	 WfTyAYRSDO/dkc9BOERheKFeKTguyIVJ7FHIPjls=
+Received: from sut02sys-r112.scc-lab.amperecomputing.com (localhost [127.0.0.1])
+	by gentwo.org (Postfix) with ESMTPS id 7ACF24029C;
+	Tue, 25 Aug 2026 15:49:43 -0700 (PDT)
+From: "Shubhang Kaushik (Ampere)" <sh@gentwo.org>
+Date: Tue, 25 Aug 2026 15:46:56 -0700
+Subject: [RFC PATCH 1/2] sched: Document WF_SYNC wakeup placement semantics
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260825-sched-wf-sync-doc-v1-1-f899edb44ff5@gentwo.org>
+References: <20260825-sched-wf-sync-doc-v1-0-f899edb44ff5@gentwo.org>
+In-Reply-To: <20260825-sched-wf-sync-doc-v1-0-f899edb44ff5@gentwo.org>
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, 
+ Shubhang Kaushik <shubhang@os.amperecomputing.com>, 
+ Shrikanth Hegde <sshegde@linux.ibm.com>, 
+ Madadi Vineeth Reddy <vineethr@linux.ibm.com>, 
+ Christopher Lameter <clameter@amperecomputing.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ "Shubhang Kaushik (Ampere)" <sh@gentwo.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787698182; l=6950;
+ i=sh@gentwo.org; s=20251010; h=from:subject:message-id;
+ bh=qfxNYo/xXOvDmDd0zHokhGPYIzupQdyzWtSqlVEPidg=;
+ b=0+92670Lqv+Lzb7D8lEn058thcItHokC7GgqS0n3W0zuhHw+K9DqpXx8nPEF+f0O3VTFGLgvM
+ csA/BKCKc1xBXM5jHT4iKefsgLOz/Ij1WH7Zc0UyeFhk3bjFlrooyl8
+X-Developer-Key: i=sh@gentwo.org; a=ed25519;
+ pk=jc8YIRvxPSyJaBRe5y+a4N0RXKBUEcAh8+OFhlROXPY=
 
-On Thu, Aug 20, 2026 at 01:43:21PM +0200, Michal Koutný wrote:
+WF_SYNC is supplied by callers that expect the waker to schedule away
+soon. The fair-class wakeup path uses it as a heuristic, but its
+placement and preemption behavior is not documented.
 
-> Why not clamp the burst_us to quota_us? That's quite natural to me.
->
-> Like Sashiko said, the user configured values should not get lost, the
-> resulting burst value (0 or quota or whatever makes sense) might be
-> applied effectively (to allow configuration order independence) but not
-> overwrite what was configured.
+Document the current behavior from try_to_wake_up() through
+select_task_rq_fair(), select_idle_sibling(), and preempt_sync(). In
+particular, document that WF_SYNC does not bypass wake_wide(), does not
+make wake_affine()'s target final, and does not require immediate wakee
+preemption.
 
-Thanks for the suggestion. I agree that applying the clamp at enforcement
-time is a better fit here.
+This documents existing behavior only. It does not establish a new
+WF_SYNC placement policy.
 
-There is also a second ordering case to consider: when both quota and burst
-are being increased, writing burst first currently fails with EINVAL because
-the burst value is checked against the old quota.
+Signed-off-by: Shubhang Kaushik (Ampere) <sh@gentwo.org>
+---
+ Documentation/scheduler/index.rst               |   1 +
+ Documentation/scheduler/sched-wake-affinity.rst | 133 ++++++++++++++++++++++++
+ 2 files changed, 134 insertions(+)
 
-For v2, I plan to remove the validation which couples burst_us to the
-current quota_us. The quota upper-bound check will remain unchanged, while
-burst_us will be checked independently against max_bw_runtime_us:
+diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+index 17ce8d76befc1bb1dc289e9243bdca98c9ccb172..ac95c79617fd2c03564ea4a9dad362091b9d1b86 100644
+--- a/Documentation/scheduler/index.rst
++++ b/Documentation/scheduler/index.rst
+@@ -14,6 +14,7 @@ Scheduler
+     sched-design-CFS
+     sched-eevdf
+     sched-domains
++    sched-wake-affinity
+     sched-capacity
+     sched-energy
+     schedutil
+diff --git a/Documentation/scheduler/sched-wake-affinity.rst b/Documentation/scheduler/sched-wake-affinity.rst
+new file mode 100644
+index 0000000000000000000000000000000000000000..6b0dc83da537ad576130ef165a2bb1cf5abd814a
+--- /dev/null
++++ b/Documentation/scheduler/sched-wake-affinity.rst
+@@ -0,0 +1,133 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==============================
++WF_SYNC Wakeup Placement Hints
++==============================
++
++WF_SYNC is a wakeup flag supplied by callers that expect the waking task
++to schedule away soon after waking another task. It is a scheduler hint,
++not a CPU-placement request.
++
++The synchronous waitqueue helpers pass WF_SYNC to try_to_wake_up(). The
++wakeup path adds WF_TTWU before invoking the scheduler. WF_SYNC itself
++does not block, yield, or otherwise change the state of the waker.
++
++This document describes the current behavior for the fair scheduler.
++Other scheduler classes may ignore WF_SYNC or apply their own policy.
++
++Wakeup paths
++============
++
++A successful wakeup does not always select a CPU. If the wakee is already
++queued, try_to_wake_up() can complete the wakeup through ttwu_runnable().
++That path retains the wakee's current runqueue, although it can still
++invoke wakeup_preempt().
++
++For a wakee that is not queued, try_to_wake_up() calls
++select_task_rq(). If the wakee has one allowed CPU or migration is
++disabled, select_task_rq() bypasses the scheduler-class CPU-selection
++method and selects an allowed CPU directly.
++
++Fair-class CPU selection
++========================
++
++For a fair-class wakee, select_task_rq_fair() derives its local sync
++state as::
++
++        sync = (wake_flags & WF_SYNC) &&
++               !(current->flags & PF_EXITING);
++
++Thus, WF_SYNC does not influence wake-affine selection when the current
++task is exiting.
++
++For WF_TTWU wakeups, select_task_rq_fair() first calls record_wakee().
++It can then return before wake-affine selection in either of these cases:
++
++* WF_CURRENT_CPU is set and the waking CPU is allowed; or
++* find_energy_efficient_cpu() selects a CPU while the root domain is not
++  overutilized.
++
++Otherwise, the fair scheduler computes::
++
++        want_affine = !wake_wide(p) &&
++                      cpumask_test_cpu(cpu, p->cpus_ptr);
++
++wake_wide() uses the wakee-flip state maintained by record_wakee() to
++identify broad wakeup relationships. WF_SYNC does not override this
++classification.
++
++Wake affinity is considered only when want_affine is true, the domain has
++SD_WAKE_AFFINE set, and the wakee's previous CPU belongs to that domain.
++wake_affine() considers only two CPUs: the waking CPU and the wakee's
++previous CPU.
++
++With WF_SYNC, wake_affine_idle() can prefer the waking CPU when::
++
++        rq->nr_running - cfs_h_nr_delayed(rq) == 1
++
++wake_affine_weight() also adjusts the effective load comparison by
++removing the current task's load from the waking CPU and biasing the
++previous-CPU effective load.
++
++The result of wake_affine() is only a candidate. For WF_TTWU wakeups,
++select_task_rq_fair() passes that candidate to select_idle_sibling().
++
++Idle CPU selection
++==================
++
++select_idle_sibling() first tests whether the candidate CPU is idle and
++can run the wakee. If not, it can select:
++
++* the previous CPU when it is cache-affine and idle;
++* a recently used CPU when it is cache-affine and idle;
++* an idle SMT sibling; or
++* another idle CPU in the relevant search domain.
++
++On asymmetric-capacity systems, the search uses sd_asym_cpucapacity when
++available. Otherwise, it uses sd_llc for the candidate CPU.
++
++Consequently, WF_SYNC does not guarantee that the wakee runs on the
++waker CPU, remains on its previous CPU, avoids migration, or shares a
++core with the waker.
++
++Fair-class wakeup preemption
++============================
++
++WF_SYNC can also affect wakeup_preempt_fair(). The normal fair-class
++preemption checks run first. In particular, a non-idle wakee can preempt
++an idle entity, and PREEMPT_SHORT can select the wakee before the
++WF_SYNC-specific path is reached.
++
++If the wakee becomes the next buddy after those checks, preempt_sync()
++uses WF_SYNC to decide whether to request rescheduling. The wakee must
++be earlier than the current entity, and the current entity must have run
++for at least the applicable threshold. The threshold is
++sysctl_sched_migration_cost, divided by four when WF_RQ_SELECTED is set.
++
++If those conditions are not met, preempt_sync() returns
++PREEMPT_WAKEUP_NONE. Consequently, WF_SYNC neither guarantees nor
++prevents immediate wakee preemption. On UP, it can avoid an unnecessary
++preemption when the waker is expected to schedule away.
++
++Semantics and policy
++====================
++
++WF_SYNC is a non-binding hint. It does not guarantee that the wakee:
++
++* runs on the waker CPU;
++* remains on its previous CPU;
++* avoids migration;
++* shares a core with the waker; or
++* immediately preempts the current task.
++
++The scheduler does not verify that the waker subsequently blocks.
++Callers may therefore use WF_SYNC where the waker continues to execute,
++or where several wakeups are issued before it schedules away.
++
++The current policy leaves the locality, parallelism, topology, load, and
++capacity tradeoffs to the scheduler. It does not require the wakee to
++remain on the waker CPU when that CPU has no other runnable task.
++
++Any future policy that strengthens WF_SYNC placement semantics must
++consider the different call sites, workload patterns, and hardware
++topologies that use the flag.
 
-@@ tg_set_bandwidth()
- 	if (quota_us != RUNTIME_INF &&/path/to/YOUR_REPLY
- 	    quota_us > max_bw_runtime_us)
- 		return -EINVAL;
+-- 
+2.52.0
 
--	if (quota_us != RUNTIME_INF && (burst_us > quota_us ||
--					burst_us + quota_us > max_bw_runtime_us))
-+	if (burst_us > max_bw_runtime_us)
- 		return -EINVAL;
-
-The configured burst value will be retained, and the value used by CFS will
-be capped when the runtime is refilled:
-
-@@ __refill_cfs_bandwidth_runtime()
--	cfs_b->runtime = min(cfs_b->runtime,
--			     cfs_b->quota + cfs_b->burst);
-+	cfs_b->runtime = min(cfs_b->runtime,
-+			     cfs_b->quota +
-+			     min(cfs_b->burst, cfs_b->quota));
-
-This preserves the value configured through cpu.max.burst and
-cpu.cfs_burst_us while applying the clamp to the value used for enforcement.
-It also allows the quota and burst settings to be written in either order.
-
-I have tested both write-order sequences on linux-next next-20260824. A v2
-with the corresponding selftest update will follow.
-
-Thanks again for pointing this out.
