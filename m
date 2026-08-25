@@ -1,119 +1,248 @@
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE923B71A5
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 18:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62F237B010
+	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 19:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787684162; cv=none; b=YitZJka4p6HRdZXjNskTtvbiHxROesCrALNvbH7NepJwPLhmClJKsmtvZ1UGqn0kDKSUcaHXDRd7z157a8apNLUDfpu8d4DOU18JRfoXGV84Em6f9k86bK+tyEN9A5UCMtnQGwBaeof+KThib90EreRPqUsYmNpTZRJ7Xu9Xg5s=
+	t=1787684638; cv=none; b=kSAs0oMfRPlhUb1TfEdaj9KcveBlieEQs/fPJQPJ69IVbXWZJ5dM7xOAw55n2HEjgo1cN1tgdWruDu1U9MsMBzYd2n55TDLAyRniqUsDKNpmmC4VZXeJU3NzzieHJZKUg7+oc+W53lZq4xBsZkPUS5v0Bu2RJfh/Pd2N0KphjRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787684162; c=relaxed/simple;
-	bh=v81i0R08OhPbKwodLqy3PT8ECRERns8YsJia2mMgPmU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Mr+FNlYb8qbAYgnXrWYUWbmeLLQ0Ukcmjfz+le+6eYNdT/IqFSdrzaxxhiHDfSsmDP4af+nXmFAW28kQ8KMVYgQf+9+iZ4AE5/Qot6bUFkJEr7i30vLWT+bBzdf1aQdAvZi8Jq0m9sbO9MnzRlQHNB0FjG7Nn5IofJLmo4KQNGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sGgIdWUb; arc=none smtp.client-ip=209.85.215.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1787684638; c=relaxed/simple;
+	bh=m/Bv7QEKHJ3y2uQBbl6uJDG2L4nmxNGll7e0UhCNzVE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ii7q9iDW8w7BUUh0r9ZqcoGAYXHlqXNY8khaMjy/h0eeoVwrA8ZMdXsduwKIZBfvhgr6BFiVU80mHqgOJ3V96MoXIiFF28POX6RmDRdYJs/S05FgNKfOSZ/y/l+JpeJogDljkZfBQvD5v1rNw1Lwaif52/CDkAxGgfIX+dXEWrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=losY9X30; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sGgIdWUb"
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-ca124bf0189so1167374a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 11:55:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="losY9X30"
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5bf9506704fso70326e0c.2
+        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 12:03:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787684155; x=1788288955; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1787684635; x=1788289435; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xccKXo6SW1SbkIzehhqjd8J3GgWcAs1E82/+Xs14ta0=;
-        b=sGgIdWUb73c/AqT0Od7PZttUhmzl/K1z+Trk9csyZZTKUuB9AJnfgvEciFEwGi2GSz
-         r40w0dHoz+sUI0NWkw1RQXLydLHvEi7GAXsiSumQgC5I0EoON9A8hxXKHMuejhs/0Abq
-         RVGBMjwVtxoy+hrGodz7hw+PoWJSzgw0HTjuZfU8jz1igt09Fegq5v72EnhUTCytzoiB
-         xiuwfnRG+RNbYiqfTr6temxrgoUkWNxzshhGu4S2eqU0qg7v0V6FjenYa8nlyBbdcuw3
-         DDlrTqsQefJ+ZzvwXKAFV1vwcQ2NdPqnl/BXZmxYJ0sj9t8c2ygKLxORrssa4VVA8e18
-         3xYg==
+        bh=rSkqPsRHCUDzCBx06jyXwxu5c0/VmObI7O1kAM54thw=;
+        b=losY9X30LM8PKyk2Dz65cOMCLSO0MP8w0bX3pLRpLpX3tQTM8I+k7CW10ERocmNXdB
+         ao78fhfrTeOhucfQ0DXuqJgPM5Jh92+FilbHftXOOA59x4myYI3h5wxbQEiRQ3ZWD34k
+         QwZfyypYmfi+OP6SxCKNV58c79jB5S2ovvFIGV5MP5LzvRRhz4XGTdMrdUOG6RXr033v
+         RO6Qhjrhs0PUiB/xeb7onlv4jxDVTFti4tHgtzpCWPqe6fbdxituANyBCjAXx/w2PtUD
+         PCUl6u09m7JEHwTEjwMvKCw68XaohzN35h65AK7HLEtJVzSS/487IGDgeqJoCDYCvilh
+         GI1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787684155; x=1788288955;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xccKXo6SW1SbkIzehhqjd8J3GgWcAs1E82/+Xs14ta0=;
-        b=IogGkVlouUbwvWZfC2f37oY7sod7VDGI3//HCojY1qEmtCH+BvSFcqrR9maCiuZVIu
-         zCwlX7CNxDP+8+2yQKPcSTGrKmU3CPbssa2GC1XfLl/y1H0scQyrQEvhsxhsWfsgLaFr
-         eFizv5zwKqrWhCCWFTJx82GSwkWlv1Ekbr0fNTehhH60h2UrKZg9AmZVAQlN53UL7lLo
-         Zy8WQc44foZvpLP25gmmk9xY51BAuWc5bTm5DtdJBv7nAkIsnm1zld2R0s17/07ZB+qy
-         3GHTkn9rR6eXE0gg/KygjYCbqBcJpSD4Nw9XfkMct8Q8cDDG8lgD205YPz3v1U3EmzFV
-         J5Cw==
-X-Forwarded-Encrypted: i=1; AHgh+RobxHnSIT+bri5FDnEUuhj5lIVkfv6bs9uhSdy3pdZ4lDDOMfZTalGxCdtjozxl4Pexvc54ABsVUVE=@vger.kernel.org
-X-Gm-Message-State: AFuF++kEIPk5kzHckgz0AMmxA98pregdrfhbVehs//m75qTeMB6Jio43
-	RzdLrRM6QIfFakSPSKfAHeh0hI4+4c/hN+SMiB/8FvokpJsozeCEPD0kse9JOsq7+Br9sTg5j3n
-	b2424YQ==
-X-Received: from pgbdm4.prod.google.com ([2002:a05:6a02:d84:b0:c79:39f0:12f2])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:1398:b0:3bf:8de9:c64e
- with SMTP id adf61e73a8af0-3ceed381cdcmr1617377637.2.1787684154733; Tue, 25
- Aug 2026 11:55:54 -0700 (PDT)
-Date: Tue, 25 Aug 2026 11:55:54 -0700
-In-Reply-To: <meww2a2uf3yeevsfpicyrlg3hch2x4bsdqv2lsv3vfjxg4qzes@co5eogmhkxrk>
+        d=1e100.net; s=20251104; t=1787684635; x=1788289435;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rSkqPsRHCUDzCBx06jyXwxu5c0/VmObI7O1kAM54thw=;
+        b=HQaKnnxFS37PsHH7ZKipj+OvJghWx5pmTe/kxzqkJPhaBEVA4950FwHJqPvnjOATHj
+         ZWrPXI4x5D0j0vcqfETRsOgG0rYlcX5Vc6DdC8P7uUIOFYN8qU111+C+UN/0HP3V4G1O
+         kbFVbvmSIB0OwW1J3YEWOh8afokFhQsW9KAnZrVSxpOYN7Yu/fszoGGJ6xIeMqwLzVTX
+         A11mfprY93ky0lT0xbpSeZWVBhxrfzsLcuWK6YixmO2qyHlqwJpjuoNVBNPB3wMPGuOu
+         8Pi/9R7Yh2RRMCjrM9kMSi9lUlQihRHCrcyJXKqYi8P8dCO9wWyCtMLE0V/VFqD03XLm
+         l5qQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoMhyjymiKFft6CYxE6rlmVnILIUenzcLweS2jUgm4Meog4d1Mk1kEtANAVXcmE3P8l91Fe2LpqBr8=@vger.kernel.org
+X-Gm-Message-State: AFuF++ntJthM87VNeyVsNM8vkKwJlYkgx2sIcNvzbxBwD5seMf+XdlGM
+	4mx4peAd24JlU1suwcOMoAzhAsj3V8Rb7mJJgeTzN6RjFBQbSKEdJ95s
+X-Gm-Gg: AR+sD11ThcRQFenJm9MLmkq7wad66gE0VoFP32PypIieVgzRl+9UVS4fG5ZictEqoNl
+	/MmSZ9eHDyKInn3QmrX8uqrIy+SyMc5iy9nbp1kaPlK8WCdYPMH4gylb58LKs4RMg5lXitliOAe
+	KK0uChQ/osOcduhDpkhDyeHPSxwwOcZIyv1wTdxoFBFUz/WGQtZLyGDWD47XTLKi7weV1kgwx93
+	6sPj2YuIK5Y+faMnvBM+GEyeibo3z96b30H90xS84PEjMEqOSqLYP9SB9cZthUem/wBFJFgcHx6
+	L4vv83U6vjGivbqPGg/Dqd/8Gpt3LnO/bV/USyYmclzJX9rTkUw9S+C7QcsTFLi3TKAbfKpMSF8
+	cE+2oULxWUy2SVrp2iLgO6Rk6nJxxLtmmXja6hoNa0kdPkHK5xDKz5ad2+n5JDgMfWUGVaCG8eP
+	sUn3S7BPsV49WIhJPaoqCb/Nohzj9/ya6m3b1MBBaXmcEPYb7inugJ/4+8sUZwql1BJ9U=
+X-Received: by 2002:a05:6122:4b01:b0:5bf:a179:b2be with SMTP id 71dfb90a1353d-5c65c3c545dmr167444e0c.7.1787684635519;
+        Tue, 25 Aug 2026 12:03:55 -0700 (PDT)
+Received: from x-wing ([177.181.5.26])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c65aa0d845sm424770e0c.1.2026.08.25.12.03.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 12:03:54 -0700 (PDT)
+From: Fabio Pereira da Silva <silvapfabio@gmail.com>
+To: Daniel Pereira <danielmaraboo@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] docs: pt_BR: process: Translate patch submission checklist
+Date: Tue, 25 Aug 2026 16:03:48 -0300
+Message-ID: <20260825190348.12701-1-silvapfabio@gmail.com>
+X-Mailer: git-send-email 2.55.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
- <20260807-gmem-inplace-conversion-v10-9-2fc18ee6d3ba@google.com>
- <13ca60c6-e154-4397-8092-09f861e90fe0@kernel.org> <cbf5f7ca-a960-4fb8-a760-2d2794eb6864@arm.com>
- <CAEvNRgGOyQHnF_b8dk8E0d7_=CcwXtYUdU3ko7Qbep+_O7UC0Q@mail.gmail.com>
- <aoZZMQ3Uc8yQWPNA@google.com> <7eba513d-cdae-4832-abac-038dcdd88517@intel.com>
- <meww2a2uf3yeevsfpicyrlg3hch2x4bsdqv2lsv3vfjxg4qzes@co5eogmhkxrk>
-Message-ID: <ao3lOu8-wpGTs2wd@google.com>
-Subject: Re: [PATCH v10 09/41] KVM: guest_memfd: Filter both shared and
- private when invalidating
-From: Sean Christopherson <seanjc@google.com>
-To: Michael Roth <michael.roth@amd.com>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, Ackerley Tng <ackerleytng@google.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, "David Hildenbrand (Arm)" <david@kernel.org>, aik@amd.com, 
-	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
-	chao.p.peng@linux.intel.com, jmattson@google.com, jthoughton@google.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 25, 2026, Michael Roth wrote:
-> On Wed, Aug 26, 2026 at 12:13:47AM +0800, Xiaoyao Li wrote:
-> > On 8/20/2026 9:32 AM, Sean Christopherson wrote:
-> > > And vice versa, a PUNCH_HOLE on a SHARED gmem (if userspace is
-> > > using an INIT_SHARED gmem for the shared branch of a memslot) could invalidate the
-> > > PRIVATE mappings (of a different gmem instance).
-> > 
-> > I'm wondering now how this could happen.
-> > 
-> > the requirement for PUNCH_HOLE on gmem to trigger mapping invalidation is
-> > the gmem is bound with the memslot. But how can a memslot bound with two
-> > gmem instances?
-> 
-> I think this is for when userspace uses an mmap'able guest_memfd instance
-> to handle shared memory, and a 'normal' guest_memfd instance for private
-> memory. Each instance is bound to the same memslot/GPA range, and
-> KVM_SET_MEMORY_ATTRIBUTES handles switching between the 2.
+Translate Documentation/process/submit-checklist.rst into Brazilian Portuguese and link it from the pt_BR documentation index.
 
-Yep, exactly.
+Signed-off-by: Fabio Pereira da Silva <silvapfabio@gmail.com>
+---
+ Documentation/translations/pt_BR/index.rst    |   1 +
+ .../pt_BR/process/submit-checklist.rst        | 141 ++++++++++++++++++
+ 2 files changed, 142 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/submit-checklist.rst
+
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+index dcc238a5ecfe..c09afbe8e22c 100644
+--- a/Documentation/translations/pt_BR/index.rst
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -72,6 +72,7 @@ kernel e sobre como ver seu trabalho integrado.
+    Como começar <process/howto>
+    Requisitos mínimos <process/changes>
+    CVEs <process/cve>
++   Lista de verificação para patches <process/submit-checklist>
+    Conclave (Continuidade do projeto) <process/conclave>
+    Manuais dos mantenedores <process/maintainer-handbooks>
+    Processo do subsistema de rede (netdev) <process/maintainer-netdev>
+diff --git a/Documentation/translations/pt_BR/process/submit-checklist.rst b/Documentation/translations/pt_BR/process/submit-checklist.rst
+new file mode 100644
+index 000000000000..f53b76268641
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/submit-checklist.rst
+@@ -0,0 +1,141 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _pt_submitchecklist:
++
++=================================================================
++Lista de verificação para submissão de patches do kernel Linux
++=================================================================
++
++Aqui estão algumas coisas básicas que os desenvolvedores devem fazer se
++quiserem ver suas submissões de patches para o kernel aceitas mais rapidamente.
++
++Tudo isso vai além da documentação fornecida em
++:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
++e em outros lugares sobre a submissão de patches para o kernel Linux.
++
++Revise seu código
++=================
++
++1) Se você usa uma funcionalidade, então inclua com #include o arquivo que
++   define/declara essa funcionalidade. Não dependa de outros arquivos de
++   cabeçalho para incluírem aqueles que você usa.
++
++2) Verifique o estilo geral do seu patch, conforme detalhado em
++   :ref:`Documentation/process/coding-style.rst <codingstyle>`.
++
++3) Todas as barreiras de memória {por exemplo, ``barrier()``, ``rmb()``,
++   ``wmb()``} precisam de um comentário no código-fonte que explique a lógica
++   do que elas estão fazendo e por quê.
++
++Revise alterações de Kconfig
++============================
++
++1) Quaisquer opções ``CONFIG`` novas ou modificadas não devem desorganizar o menu
++   de configuração e devem vir desativadas por padrão, a menos que atendam aos
++   critérios de exceção documentados em ``Documentation/kbuild/kconfig-language.rst``
++   Atributos de menu: valor padrão.
++
++2) Todas as novas opções ``Kconfig`` devem ter texto de ajuda.
++
++3) Deve ter sido revisado cuidadosamente em relação às combinações relevantes
++   de ``Kconfig``. É muito difícil acertar isso com testes; raciocínio
++   cuidadoso compensa aqui.
++
++Forneça documentação
++====================
++
++1) Inclua :ref:`kernel-doc <kernel_doc>` para documentar APIs globais do kernel.
++   (Não é obrigatório para funções estáticas, mas também é aceitável nelas.)
++
++2) Todas as novas entradas em ``/proc`` devem ser documentadas em
++   ``Documentation/``.
++
++3) Todos os novos parâmetros de inicialização do kernel devem ser documentados
++   em ``Documentation/admin-guide/kernel-parameters.rst``.
++
++4) Todos os novos parâmetros de módulo devem ser documentados com
++   ``MODULE_PARM_DESC()``.
++
++5) Todas as novas interfaces de espaço de usuário devem ser documentadas em
++   ``Documentation/ABI/``. Veja Documentation/admin-guide/abi.rst (ou
++   ``Documentation/ABI/README``) para mais informações.
++   Patches que alteram interfaces de espaço de usuário devem colocar
++   linux-api@vger.kernel.org em cópia (CC).
++
++6) Se algum ioctl for adicionado pelo patch, atualize também
++   ``Documentation/userspace-api/ioctl/ioctl-number.rst``.
++
++Verifique seu código com ferramentas
++====================================
++
++1) Verifique violações triviais com o verificador de estilo de patches antes
++   da submissão (``scripts/checkpatch.pl``). Você deve ser capaz de justificar
++   todas as violações que permanecerem no seu patch.
++
++2) Verifique limpo com sparse.
++
++3) Use ``make checkstack`` e corrija quaisquer problemas encontrados.
++   Observe que ``checkstack`` não aponta problemas explicitamente, mas qualquer
++   função que use mais de 512 bytes na pilha é candidata a alteração.
++
++Compile seu código
++==================
++
++1) Compila sem problemas:
++
++  a) com as opções ``CONFIG`` aplicáveis ou modificadas como ``=y``, ``=m`` e
++     ``=n``. Sem avisos/erros do ``gcc`` e sem avisos/erros do linker.
++
++  b) Passa em ``allnoconfig`` e ``allmodconfig``.
++
++  c) Compila com sucesso ao usar ``O=builddir``.
++
++  d) Quaisquer alterações em Documentation/ compilam com sucesso sem novos
++     avisos/erros. Use ``make htmldocs`` ou ``make pdfdocs`` para verificar a
++     compilação e corrigir quaisquer problemas.
++
++2) Compila em múltiplas arquiteturas de CPU usando ferramentas locais de
++   compilação cruzada ou alguma outra infraestrutura de build.
++   Observe que testar em arquiteturas com tamanhos de palavra diferentes
++   (32 e 64 bits) e endianidade diferente (big-endian e little-endian) é eficaz para
++   detectar vários problemas de portabilidade causados por falsas suposições
++   sobre intervalo de quantidades representáveis, alinhamento de dados ou
++   endianidade, entre outros.
++
++3) Código recém-adicionado foi compilado com ``gcc -W`` (use
++   ``make KCFLAGS=-W``). Isso gerará muito ruído, mas é bom para encontrar
++   bugs como "warning: comparison between signed and unsigned".
++
++4) Se o código-fonte modificado depende de ou usa qualquer API ou recurso do
++   kernel relacionado aos seguintes símbolos ``Kconfig``, então teste múltiplas
++   compilações com os símbolos ``Kconfig`` relacionados desativados e/ou como
++   ``=m`` (se essa opção estiver disponível) [não todos ao mesmo tempo, apenas
++   várias combinações aleatórias deles]:
++
++   ``CONFIG_SMP``, ``CONFIG_SYSFS``, ``CONFIG_PROC_FS``, ``CONFIG_INPUT``,
++   ``CONFIG_PCI``, ``CONFIG_BLOCK``, ``CONFIG_PM``, ``CONFIG_MAGIC_SYSRQ``,
++   ``CONFIG_NET``, ``CONFIG_INET=n`` (mas este último com ``CONFIG_NET=y``).
++
++Teste seu código
++================
++
++1) Foi testado com ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
++   ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
++   ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
++   ``CONFIG_PROVE_RCU`` e ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` todos ativados
++   simultaneamente.
++
++2) Foi testado em compilação e em tempo de execução com e sem ``CONFIG_SMP`` e
++   ``CONFIG_PREEMPT``.
++
++3) Todos os caminhos de código foram exercitados com todos os recursos do lockdep
++   ativados.
++
++4) Foi verificado com injeção de falhas pelo menos de slab e de alocação de
++   páginas. Veja ``Documentation/fault-injection/``. Se o novo código for
++   substancial, a adição de injeção de falhas específica do subsistema pode ser
++   apropriada.
++
++5) Testado com a tag mais recente da linux-next para garantir que ainda funciona
++   com todos os outros patches enfileirados e várias alterações na VM, VFS e em
++   outros subsistemas.
+\ No newline at end of file
+-- 
+2.55.0.windows.2
+
