@@ -1,134 +1,127 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6508D37CD47
-	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 18:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787683203; cv=pass; b=K1ba8p20GhiR3cr59CPZ8VQx8I3f43Khg08nDR49rlOvZtMKgpnjwZY6HyvxyHRg53jWuCkrPU2rCq0V5YMBofCHotQV40H3yuD2befl4dhmtuKCkM9QAxgWHjTzB0bxP46vykcHDitNyxsloljE3bkepXQrTG7cAKfXhXGKOSM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787683203; c=relaxed/simple;
-	bh=SSi+4NmtMxNkZmxsfuesKYnZ20ScCmyOkzMthR0BMj0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sJRNvw1ta0SMid9Ow5nkcpcbodb7ySyCwVJDmvVMTMgUi3mR77r+3gPpKlSX+QYGEBENvCkoJL1GnuvTsgiuUL/Uej9p1vA++XodNBRnb774ZYPQeX6Spm5RkeQaKNgFR2u9LV+Ybf08cDPYqLpL35RUxwCxJ26fKZmLnuBskeo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K/WMQGl2; arc=pass smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F10B37D133
+	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 18:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787683286; cv=none; b=YdrjmkjZ9CwHKwMZk2yqwPLA/CIBX+YP5TV9x4tdEoDyJGwljO7PXV4HQQ8hDsCli8Qpm5vSZFu+PecdelO4HEJD86k2jFDnrTHTFWHkur8/HUPdpNEFjLz63g43hnkOptATt7j+z1FBZ6tO8WBAf9RpBsQMC0E6scgig0rxCdg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787683286; c=relaxed/simple;
+	bh=Tb16IgVakmc+CdnVzLzlZmsZXBKmafpDroRRtjeKCcE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GVupXBEy1nIUOXVPOkI0hJmmERMr2s+w0qB8/hS+XgTfCg56ZuF5dNF2u1XPXtFLjNJ0oNqAdwH1YF/s16LobSY7HpPQxxJ7b25jT3yPF+P6ambTE85mC0TPsalW28jGrOJE/BhbwpWibMS1wHudvHBtaZCue180QLCR78rM3uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sSjBagxz; arc=none smtp.client-ip=209.85.217.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K/WMQGl2"
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-45eb2e6402aso166183fac.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 11:40:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787683200; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ePlAdvL81r7vgf5f098HXQgJ3uu9M/1wV/zvAFC3tKKqSNasIVzSLB1sk6KRZxKeQ7
-         AqXkKhlLiSJygv5r4q5AHRn6/uSD+Mt6uIevkVlfXsNU0aNhMo/td6kF+Z3lqkqA8bT4
-         awp+GapBVfEAsxuVtbwmyZhP6xP3aMhDYDwL1n1XstmYi+KYhpFHEbhHjLvHx3JNI48G
-         MPbo2Kmcj2Ke54qyr4KHf/MBSU6MKTdqA6YBxCcpNU5yRhsCmK7pK9EGr4xaepasxR4n
-         JQXP5vFz3JJO3XI6yqhGvmO+04MdLv852w0J8ljkXvMJqMTWG80iQzLpCTFsuUWOEd6+
-         041w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=SSi+4NmtMxNkZmxsfuesKYnZ20ScCmyOkzMthR0BMj0=;
-        fh=Lj9gFzA8zTqzT+AIOxkzKAqt5PWzLKSNejW8e52mIhw=;
-        b=PIojEK/x+7SS/kb1xygdaivTrvSB+icsAVuVPQuYAN7HYoCpAk+G6BkwY2errgzRnb
-         T5slNBrwC4w8gct54a5wxRSoHzTR1RHVCIifxlsWTIBtIP1S/8ATyLoWP0H/ZiI2TJHx
-         SYiMqgNtfdJjPKnYLknvsdJush7Xe1Vk331b024jNB7g/g6V747g0Pm13QSLxkFKEudE
-         5KN8zyzhvosxLmR8DHLSICWuF+RW01STKb5hmaOetwl6F2U0gmn5Uk1O2wDakRhsDHdY
-         PtBXMl9bUOqn35wW5MUUXRyqbwYsOnKKEA9xpjGJvK/h4xfbRgzAI06oQlveB98PzSBf
-         f7eA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sSjBagxz"
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-782a16d4ea2so80159137.2
+        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 11:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787683200; x=1788288000; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1787683284; x=1788288084; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SSi+4NmtMxNkZmxsfuesKYnZ20ScCmyOkzMthR0BMj0=;
-        b=K/WMQGl2ZdGLQuaSQqD9iQu02BHFLpl/p3H3OZdZxR/bBDGQp5KNu2iVpg36hNlfhg
-         WoQEFDr8krOgQIpMU0V3j280JREazubY2O2YsEF6z+07m5w9CIaqAAjBnkdEYRlQu+y+
-         pD/XRWpuHfeGLjDfmy9Ig9pH50RXIICyAOcdw9XFFVtDZZriIcDMJqBqzBEo78Yg+k9E
-         MhhuGygE6O/X7SL+/HsL9VQ6F6OsRGK/97YA9rz8erSo/DNvgtudBgbpEEnZlI/8GUMX
-         21CmXKNzOwECkSY1y9d0pN1/DCKPfXzELHF+QyZeBKWFEePIAzj6Y9UzjhBWJQkC+VKU
-         eAGg==
+        bh=p3QyZWg1WsZH3UzmNsJ7DFfIwK6PjCgdZzJDtgoRKH0=;
+        b=sSjBagxzymuaE686txZ0W7Wx2HEQ2IeJrmCy++blG5CcADv+jJhYC4WhXB2KBjd9xU
+         ZvpTwdFKl4xd7gZi9jEc2/P+nppnd93HfZp/MQDKS+z2UblPAH25uRHT4+hnBeKERMun
+         kgInfIlfVhmtL6nNde5E0PgGmMimibS0XofHAxaMkC6aMd04Md6yrJQvQatFFsSQfB/m
+         o97QwdcfLQiX3OxI+83CrRPLRyhMj/8QD9OIMpFQABJOz5/WV8FqXWWxCvvK8ftphbaQ
+         4GbWiK9Q3Fpc1vdk7ie//bUK8NhvZDKhLCqmCGW2IhgsqY00J0+upB6zYxfktPNIb/Lx
+         Q7bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787683200; x=1788288000;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SSi+4NmtMxNkZmxsfuesKYnZ20ScCmyOkzMthR0BMj0=;
-        b=eJG63y8L9LDhpAqPwJzPrVzjVlzhc3cz06zoPrI6/o/NFIP3fHHtO/jSRKDVdh131u
-         OgCeUNladil59hmtATRVwRd1IwIxYx1xH8FPK2qdvU/j/l6rE/OtIqQNqBBjJG038X7I
-         FYZWoC+jcyQFyFY8as3W69F9VHbsqjHu+w0y5GXTPULYFIFK5GFg9ToAEm0cJHs/Vn+4
-         Ee+seXK0n3bpji3cE/dFD61idqOyM1zYWaG97eAhM/cYW3RgujDKOznxJMuqeVrhkMeh
-         gmmLP4yIjM/a5+I+wCF+pFhBeRvrtfbthfEbuszcOny+F2wY4omwYnNnABszX62IL16i
-         7G3Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrhjLOu70fu2qvoDzweS+YWonzKC8LwUQY5aE9rjEKe9RFhKiRn/dXs5VNGs0+BBHkaNGj7NRFrB5A=@vger.kernel.org
-X-Gm-Message-State: AFuF++k8WDepjPxOj0TENOn+1Xal1SsByhenGkjYtWoG4sq7NGKbY9FL
-	6y72R7NZcQYXOiC/bJUMHNe0Ey9mdH7wZJPNBJI8TubDb6c/cBv/+0kQN7o/UidWzcv2NV3RL9q
-	YXERysej1zvBkSJwwHXC/m1PluJK21pg=
-X-Gm-Gg: AR+sD11taFl6bh/jheEVlm4fUuitg3hZjzDe1toMnVF5kl3xwibaJ5VlhDoPkRUx4w5
-	mSgKScDaEX89wliXXIQZC9HeQT+sn4jssrTSlwaGTzb1Vp9dQzy8VmOH+/AHBCa8FqoRwesleb3
-	AooD2fMxqb2ToV9m7jFiu6z35vMlgmyoDbeXT6wmZwlbO2yuRZrj6hMZIDvdYzPqQsYk0DQ9kHB
-	/6+fOfblTPZJZeznXj2sRjUFUirZC7kofvMSuD68+13E/Cv2AwPCI+Z2wBl1hXC3S97fvlb8c0B
-	jyz9AYIoDJxGa2qnc1KVWPunaKHt99vfgZJkdbLrSJ4dJQ==
-X-Received: by 2002:a05:6870:f623:b0:435:16e9:f288 with SMTP id
- 586e51a60fabf-4659bb24b93mr1602806fac.20.1787683200126; Tue, 25 Aug 2026
- 11:40:00 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787683284; x=1788288084;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=p3QyZWg1WsZH3UzmNsJ7DFfIwK6PjCgdZzJDtgoRKH0=;
+        b=IxLRqGEXesXjHqsY5bNOaoTasOym5/1Vqlox3opy/6bluaP5qtMM4lFXQpoPV/uutF
+         M30QjsXG6E7Na0T6DmcIhlY+vaN+UVMgu2teJdJcvm2OUt/RDxNoyBCKrKGizA0USDkU
+         P2B7CXGF7/4GIw6mvLA0XEg7mtzzi8kvYJ2hRmBys14VpT1hzMmP0r5mWtwQmbKdw347
+         Glr2mzuCvjdvPtDP4u2Zu7wQB9tgYnxZ8fl5GUd4CSfatpvip0Gr0iM2ljg14XpMOHKI
+         1HLtXBxFP8z+6RheA+c2rSuforu5o2lwVQyx5Y2RmDUdSMYbgVTkYrG87cZKvhcFMiee
+         YYlw==
+X-Forwarded-Encrypted: i=1; AHgh+RoPJwm4DjB5ukTfrkmb/9mjGsRCraqg8V/Z771l8b+s1DanV3IO93OrLbaTiXU7r44S6sfHGWhC4mo=@vger.kernel.org
+X-Gm-Message-State: AFuF++mo+ejoSNTGJlaqyMlPLYq5GEGuLX87ZEDLz1AOmQw/bWjf6i8R
+	v0hzuvP9tsR6JrGo50YRTO4TMBiyHVyw/X+XR42B/Ph+2T66kq5OWnqW
+X-Gm-Gg: AR+sD11Ww29pOp4ibxwEnmk0bGebJGZ3wcYFhbGvDmfbpVM3OFWwFC01jrSlU/Q02iN
+	fC2Cpi2ul9vM6UpkW3/gOZhzf1RzMxz9QzN7rsvPo5L+baWsZZfaGBhd9D0QfPxAtQSPJ3lVhi2
+	g+BrnLoV8l4d/ldED99k3kaV9qbPiBhmr/7P1819k9vWuyBVq+zBBVlEREdfN+EJlNsDza1xn8y
+	8EgCsbxBqsF5+sNPMbz/QusGLaFA39L6hQLNP7WXhrj56uCOwvLgmdmdTyGjGZb8uvPragZhIXE
+	61/Vp0BFu8k4oGUPdocuemC9ycoyR5ZzAZUJ0R0Ogrv4yAIx4sJyDKr6kSFYagb1uU+nRcJD9Qv
+	x0qXh8x6IXEoUw7pNWjYIWyxNu5d5cmskpWybOiZcmUp95i2t8K4/W4tE/miV6Xs/6o+RkI0v0S
+	v3Xhuet4j+q9+ZLdx1Kev25cobgCYLkfP9FM+hWv4Ac7TUdR1deTBOdXUVpbGBgiSn
+X-Received: by 2002:a05:6102:1628:b0:74c:7fd8:73f5 with SMTP id ada2fe7eead31-782c07ff7a7mr381538137.6.1787683284313;
+        Tue, 25 Aug 2026 11:41:24 -0700 (PDT)
+Received: from nixos-minipc ([2803:9810:b675:f600:452e:e094:2a4f:7300])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-97cbb258a00sm381605241.2.2026.08.25.11.41.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 11:41:23 -0700 (PDT)
+From: =?UTF-8?q?Sebasti=C3=A1n=20Peyrott?= <speyrott@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-hwmon@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/1] hwmon: Add Minisforum UM780 XTX EC monitoring and fan control
+Date: Tue, 25 Aug 2026 15:41:06 -0300
+Message-ID: <20260825184107.355980-1-speyrott@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720-drm_simple_encoder_init-v2-0-5020b630668a@gmail.com> <e393996a-3ef1-4c43-b762-af8cd0f2a4b6@suse.de>
-In-Reply-To: <e393996a-3ef1-4c43-b762-af8cd0f2a4b6@suse.de>
-From: Diogo Silva <diogompaissilva@gmail.com>
-Date: Tue, 25 Aug 2026 20:39:49 +0200
-X-Gm-Features: AcwNN1Va3aTr02pKhzBqoinFUkwxjfSbh2WQ-EpZwUvKwCIdS5rdnwq9NOj-ZWw
-Message-ID: <CAJpoHp56yo+eQAYjvR3ez=HTSzapCd3dYppo=MdPx-Lm4J4DQg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/15] drm/drm_simple: remove drm_simple_encoder_init
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
-	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Michal Simek <michal.simek@amd.com>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, David Airlie <airlied@redhat.com>, 
-	Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
-	Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
-	Jyri Sarha <jyri.sarha@iki.fi>, Liu Ying <victor.liu@nxp.com>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Xinliang Liu <xinliang.liu@linaro.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
-	John Stultz <jstultz@google.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	virtualization@lists.linux.dev, imx@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hey,
+Add a DMI-gated hwmon driver for both fans on the Minisforum UM780 XTX. The
+EC is an ITE IT5571E, but its register layout and OEM commands are defined
+by machine-specific firmware, so the driver only binds to the exact board
+revision and BIOS version on which it was tested.
 
-> Diogo, do you want to send out another revision? Otherwise it's time to
-> get these patches merged.
+The driver exposes both fan-control temperatures and tachometers, two OEM
+automatic CPU fan profiles, and two writable system-fan transition
+temperatures. It preserves settings selected through its interface across
+s2idle.
 
-I would keep them as is, unless you see anything that should really be
-improved before merging.
+Tested on the target system with concurrent RPM reads, OEM profile changes,
+system-fan threshold changes, unload/reload stress, and s2idle resume. The
+settings were correct from the first userspace sample after resume and
+remained stable for 15 seconds.
 
-Best regards,
-Diogo
+OpenAI Codex assisted with reverse-engineering review, code editing, test
+orchestration, and patch and email preparation across a long interactive
+session. I reviewed every change, ran the live tests on the target
+hardware, and take responsibility for the submission.
+
+Link: https://lore.kernel.org/r/20260818181345.203295-1-speyrott@gmail.com
+
+Sebastián Peyrott (1):
+  hwmon: Add Minisforum UM780 XTX EC monitoring and fan control
+
+---
+Changes in v3:
+- return -EIO after bounded RPM coherence retries and -ENODATA for an
+  unknown CPU profile;
+- seed saved settings at probe, update them only after successful hwmon
+  writes, and restore them at resume without reading the EC at suspend;
+- clarify saved-state naming, live threshold validation, and resume
+  documentation.
+
+ Documentation/hwmon/index.rst               |   1 +
+ Documentation/hwmon/minisforum-um780xtx.rst |  68 +++
+ MAINTAINERS                                 |   7 +
+ drivers/hwmon/Kconfig                       |  16 +
+ drivers/hwmon/Makefile                      |   1 +
+ drivers/hwmon/minisforum-um780xtx.c         | 501 ++++++++++++++++++++
+ 6 files changed, 594 insertions(+)
+ create mode 100644 Documentation/hwmon/minisforum-um780xtx.rst
+ create mode 100644 drivers/hwmon/minisforum-um780xtx.c
+
+
+base-commit: 75f2c0b3690702c90863c2e138cb5520670845ea
+-- 
+2.54.0
