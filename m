@@ -1,33 +1,68 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BE223F20ED;
-	Tue, 25 Aug 2026 10:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57C93F9F38
+	for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 10:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787654614; cv=none; b=FCbMWyBAtnYbJa38dblZSpG7G80ePQPPXAR9SCLI5wVWeqTr0U5cWA9NHW0nE492Yhg8Wg11OmjEzgZqN0KQT/x50YhMT5ALX8HPyIiu775EBz7F6jKdAKx/SnugLOxbXN7Wr/a9luper442xQK2572LrSL5VFBArOVAU5WYyNs=
+	t=1787654634; cv=none; b=K4tKJLmI1RudVIrYOYDAsp5ihicjAOdZs1LiEv+hls2nPvL4BaQCnYZv2op7l5bhGftg/VAVcb3uMIq5Y+OIyD5RbnBazq+pxcweukZqP3LfvVb+uEjSqwW3jWUZED1Ne1QFnvDLTisfKbTehRN4n3LBvB+dOg9094Br+2xh4r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787654614; c=relaxed/simple;
-	bh=uVSJqJyxJ0TvdMw2vUR0bfwbD5X00jM75IHxQv4s/ZI=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=tNVhusp+qiWrjIWc0O7FdTEDkl6efKE9xUZfBKsHTrHiTlEM8QzM5xODHoBLin14ZZIbQ4Pb4zv0bQF1Gs9de4ft0W2zTETyMv5PTZac9w8UGu6jZPhxUUs4Vdjy3GHPX6q4aazShjNP54Iph8Nbc72ycIxRl70tvVkt8VtR570=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=V613aVVl; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1787654634; c=relaxed/simple;
+	bh=QFInQJXondlUA70nRR+VYLFa+WvVwFUjN0rN7mFQJiQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o2TBvwSDtZfuDTWmfaDuWoMJ3qjuzfwafpUcLt09vL9J2CMcldReLqk1FlIrf1rdPK4/7jPvWxlDFYNfHDeULX8/Ndb6B7aiQA513V1dx7SM8D4X2fj9xMTWS0KCGJpUcYjJfHWOAF+W5QakSVcYYTmFQkwkYgCuDvNcOfh6ri8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a/Wc1RY5; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="V613aVVl"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CE9BC1688;
-	Tue, 25 Aug 2026 03:43:27 -0700 (PDT)
-Received: from [10.2.198.93] (e142334-100.cambridge.arm.com [10.2.198.93])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A343F3F7D8;
-	Tue, 25 Aug 2026 03:43:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1787654611; bh=uVSJqJyxJ0TvdMw2vUR0bfwbD5X00jM75IHxQv4s/ZI=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=V613aVVlqKJ2ocqhG9J6MMdQH/0WsLyws3H8UwiHLi2n7Mp+K+qmCkbIUq5kBdgMB
-	 DqW5nwRjbGAKtKZlf5GhKPAaZN1VBJTd7+BCrAlYSznOkvmQpDaBsmbkAildTpJp6W
-	 6GJqarGfUwx7Nj0H0XAhHPZeWODJWgsTsAYhNXEs=
-Message-ID: <d63e0faa-77e9-4598-972b-d7d9125cfc23@arm.com>
-Date: Tue, 25 Aug 2026 11:43:26 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a/Wc1RY5"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c15d47266baso532008066b.3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2026 03:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787654631; x=1788259431; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UviVHg4iRcsv0fdKQmMFuzXb6W/9vw8IV+1dqwY6Nl4=;
+        b=a/Wc1RY5XNJNyi9xtalA395JKQG+d/KRFLbhD3MT26pBIykJU04GXtl4wMSgGelycJ
+         zAS6WKB3joeIIDyOe4rCBaxAPG7DIrUOuh/85cYs6Ksp/0l16Slw7xqde576FqGeINxH
+         w6cxm3yK090PL466jRpAbgXTzZuvmv5bXfKrJbDPhTKl8Xd3/i8KyoDSy8jQl8MdzRDr
+         nw2SpeA6Iza/3I/5fojrkDdUffa95lLQoJRf/hrx1YdEqpGTczUm/suVmYMnVu+Z9H4v
+         ecciR3KkNTFvhSLlkRgd1oi1se5GyGJvs2YkvWiRyC1lbw0FPrJ3YfffAx5968bVjzAv
+         Zeag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787654631; x=1788259431;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UviVHg4iRcsv0fdKQmMFuzXb6W/9vw8IV+1dqwY6Nl4=;
+        b=d4RWQhbLHTRsQ4FR6EPXpIy3CtdW0MjcP8aVelIcxCh9DpSebH14EtfSlzh88AGRKC
+         9xew2AgcTuHrF7wre5UlIRzOT+/koRy2fTKvk0kaXweRVwTmwP5Nlh5PLD/LQgp3/vCB
+         lCmzVv7YH2X3O6nG3LYcF26s8GZOxVKx4jN7eEVDXm9UJJljiNGfEDqNzhxEm1C5RnXG
+         9oqmjIKXnNSz5iql+5SmhqH1ceT/G3JAflQTf4s4NtVlp71uY2taozUOaOHBemdrLX5u
+         7FWF6RNZUduvu0lxHj2ZKaam5k1zOWvz/Tk1oy+CKghgGdvc50YNBeM+a78OLaJuZXAQ
+         6ypw==
+X-Forwarded-Encrypted: i=1; AHgh+RpWoOeHnSani/JWFgmrtW67KxiQxFYUbEZlIO2sDGvCgPTPXtHUfQ5BnHA/r+Ing78dJLgygdhfmQ8=@vger.kernel.org
+X-Gm-Message-State: AFuF++mIt+YzKaYgFW80jT2UxEJyzzM1WhY0Lw2RzCzYvDIek5wJdAd4
+	wkmH5pnQOVejw5YsiGcT5ffn9DF87iB8xDfZlp8yXxUEWNlRtZT66pdG
+X-Gm-Gg: AR+sD12NM4FcXOpz3srs6XLBcSeJLfHoCfH8UNA2hlchWq557yn7uXO7ZNrOSlzwCCx
+	zt6SmxscIkpj+xUvwAHxc9dlB4z25+J41DdFMFj5b5rSxe6waXPN356rMrdGTEQGZWoOS6Amnj3
+	BfAGs6AqYn/tWQqkXMR8lCS6BegQHf1HgxJYckACIbUIHor1fOWTrurJ9KCvQNoL6bVNYz1cwQt
+	vT/fSJvhnpLtTUPIwp+VqiJ4VtJ4Sdgs1G11c/1K+oT3VGUQaVjlI09UHqrlppXLEJ3JGnNdsx1
+	5ppLjTmnWpThikhcRpQwlyGmpocoaLltMUzCx4PksoQZ2+I2ha9KdMnsPdLNouDfju4n9MPiCDw
+	U1ibRWnYzKc8Tqtp439HYv7A+T4hl2ax/Y29tchRy92VsZ8pv/EeZWoNmK7yobT2EVO3JLtpYh4
+	NEW8prGlW2IhLAD5dxM80s6RVkhJ92iBbG3R+k1p3IZECqb5SMQmC/VvcJ+oxKJ8yGYquhL/Vyk
+	4Erc6nrNRmVNYDQ7wYgGV5SX38PZy9+WcYeugDeuSp+JnSiZfQnZ0ud
+X-Received: by 2002:a17:907:8995:b0:c24:4128:c19d with SMTP id a640c23a62f3a-c24e584dc37mr540823866b.4.1787654630510;
+        Tue, 25 Aug 2026 03:43:50 -0700 (PDT)
+Received: from [172.24.138.145] (dynamic-176-007-058-112.176.7.pool.telefonica.de. [176.7.58.112])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a59e1d741asm13240282a12.27.2026.08.25.03.43.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Aug 2026 03:43:50 -0700 (PDT)
+Message-ID: <79c44439-86a3-4eba-bd6f-44423c59c17d@gmail.com>
+Date: Tue, 25 Aug 2026 12:43:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,80 +70,68 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: usama.anjum@arm.com, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka
- <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Mark Brown <broonie@kernel.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>
-Subject: Re: [PATCH v7 0/6] selftests/mm: separate GUP microbenchmarking from
- functional testing
-To: Sarthak Sharma <sarthak.sharma@arm.com>
-References: <20260813181230.483746-1-sarthak.sharma@arm.com>
-From: Usama Anjum <usama.anjum@arm.com>
+Subject: Re: [PATCH v4 05/14] iio: adc: Add AD7768 and AD7768-4 core support
+To: David Lechner <dlechner@baylibre.com>,
+ Janani Sunil <janani.sunil@analog.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Michael Walle <mwalle@kernel.org>
+Cc: linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <u.kleine-koenig@baylibre.com>
+References: <20260821-ad7768-driver-v4-0-bb8fbd06d4eb@analog.com>
+ <20260821-ad7768-driver-v4-5-bb8fbd06d4eb@analog.com>
+ <10d575af-2a2c-484b-82b0-0a00de1c50be@baylibre.com>
 Content-Language: en-US
-In-Reply-To: <20260813181230.483746-1-sarthak.sharma@arm.com>
-Content-Type: text/plain; charset=UTF-8
+From: Janani Sunil <jananisunil.dev@gmail.com>
+In-Reply-To: <10d575af-2a2c-484b-82b0-0a00de1c50be@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 13/08/2026 7:12 pm, Sarthak Sharma wrote:
-> gup_test.c currently serves two separate purposes: benchmarking
-> (GUP_FAST_BENCHMARK, PIN_FAST_BENCHMARK and PIN_LONGTERM_BENCHMARK) and
-> functional testing (GUP_BASIC_TEST, PIN_BASIC_TEST and
-> DUMP_USER_PAGES_TEST). Keeping both in one program makes the functional
-> tests harder to run and report individually, while run_vmtests.sh has to
-> invoke the program repeatedly with different options.
-> 
-> Separate these roles into tools/mm/gup_bench for benchmarking and
-> tools/testing/selftests/mm/gup for functional testing. Move the shared
-> file and hugepage helpers to tools/lib/mm/ so both programs can use them
-> without duplicating the implementation.
-> 
-> Patch 1 makes read_file(), write_file(), read_num(), write_num() and
-> write_num_ignore_einval() return errors to their callers instead of
-> exiting. It also makes read_num() reject negative and malformed values
-> and updates the existing callers to handle failures.
-> 
-> Patch 2 moves these file helpers from vm_util.c to tools/lib/mm/. It keeps
-> them available to the mm selftests through vm_util.h and adjusts the
-> selftests build accordingly.
-> 
-> Patch 3 moves hugepage_settings.[ch] from selftests/mm to tools/lib/mm/.
-> It also removes its kselftest dependency while preserving TAP-compatible
-> diagnostics for selftest users.
-> 
-> Patch 4 moves the existing gup_test implementation from selftests/mm to
-> tools/mm as gup_bench. This keeps the code movement separate from the
-> subsequent changes and makes it easier to review.
-> 
-> Patch 5 removes the functional test modes and kselftest dependency from
-> gup_bench. When run without arguments, it performs one GUP_FAST benchmark
-> using the existing defaults instead of running the whole matrix. Other
-> benchmark configurations can be selected through command-line options.
-> 
-> Patch 6 adds a new harness-based GUP selftest. It covers THP, non-THP and
-> HugeTLB mappings across private/shared and read/write variants. For each
-> variant, it tests get_user_pages(), get_user_pages_fast(),
-> pin_user_pages(), pin_user_pages_fast(), long-term pinning and both dump
-> modes using four batch sizes. It also preserves the existing sparse dump
-> coverage for pages 0, 19 and 0x1000. The HugeTLB variants share a one-time
-> setup of 128 default-sized huge pages.
 
-I tested the full MM selftest suite before and after this series and found
-no regressions. The new GUP selftest and gup_bench also passed.
+On 8/22/26 19:30, David Lechner wrote:
+>
+> On 8/21/26 9:06 AM, Janani Sunil wrote:
+>> Add core support for the AD7768 and AD7768-4 simultaneous sampling ADCs.
+>> Configure supplies, clock and reset, use a custom regmap bus for the SPI
+>> protocol, and parse the enabled channels and input buffer settings from
+>> devicetree.
+>>
+>> Connect the converter to an IIO backend for buffered capture with CRC,
+>> provide a fixed safe wideband sampling configuration and add runtime
+>> power management.
+>>
+>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+>> ---
+...
+>> +static int ad7768_regmap_read(void *context, const void *reg_buf,
+>> +			      size_t reg_size, void *val_buf, size_t val_size)
+>> +{
+>> +	struct ad7768_state *st = spi_get_drvdata(context);
+>> +	struct spi_device *spi = context;
+>> +	struct spi_transfer t[] = {
+>> +		{
+>> +			.tx_buf = &st->d16,
+>> +			.len = sizeof(st->d16),
+>> +			.cs_change = 1,
+>> +		}, {
+>> +			/*
+>> +			 * Register responses are delayed by one CS frame. While
+>> +			 * receiving the response to this read, the device also
+>> +			 * decodes another command on SDI. Repeat the read
+>> +			 * command to avoid sending an unspecified dummy
+>> +			 * command.
+> Could this have unintended concequences? E.g. register writes that have
+> size-effects, like reset or clearing status registers.
 
-Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
+Repeating the command cannot trigger reset or other write side effects. The device also does not have any read-to-clear registers.
 
 Thanks,
-Usama
+Jan
 
