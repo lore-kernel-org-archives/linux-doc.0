@@ -1,251 +1,204 @@
-Received: from flow-a7-smtp.messagingengine.com (flow-a7-smtp.messagingengine.com [103.168.172.142])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5004E19005E;
-	Tue, 25 Aug 2026 03:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AA730C16A;
+	Tue, 25 Aug 2026 03:46:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787629348; cv=none; b=qJ9TL1YTd1dE16VHn/a49FZwrz2fuSMmMOVYWliYpCLQcl8k3BKM2YIKEG3UanSaIx6CKpyZ5sHndPRrQCmWrDaLVGEObpND1dNqDqgp/hFfEfA8WJEjiJT2jkCQqNeZAL3g9DQRGLfTJieyY593hB08h1Dqv33LV0aoEF40NEk=
+	t=1787629595; cv=none; b=dujZh+2uy96eXtp38cxw3klZr13NJRjSirFch1iS0sIulejCVJikoblOTnkA5CMWTwRZNfba+0ANmmDSm3N/cCfJSeAILEgovDnxynwMWzkzw1A8e1eRju7uHcm2kQ6wrlD42/Trq6S2OF4GNQ/fcUiUmcMA7AZ2PlHNex8nVNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787629348; c=relaxed/simple;
-	bh=sCIpBh96MTizUcYPbuMXVtACTZha6JEn2gtXnjiwUjA=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=NfeHhuIVqlAm7oUWFggEiHgM1iva6zwmCDE+T/BcBOKRmDuaX+7lkEqnXfjs9TOhPIA40bJkEBdX06yOhEEXiUe1h5ntSwpdw2k4oad0VjUZ1mZXS0aHwmYpBrdM51C6nmxy7XzcV1irIvjqf+LzRTXWmWtYUfrdt3BBs1qi5y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=nZITRrvU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=i2fKlB+S; arc=none smtp.client-ip=103.168.172.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1787629595; c=relaxed/simple;
+	bh=pAuHVptymQ0SSWCENqu+L5Le6YmITzmlBl28M1cNQjE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pPO4GlKhIeO2A8H44BWWzRDnWLUUruKRuyJ1ZNeXO88UW6aK2FzkYDwokvCQ821xKkaxZYNjC+URRyDs7odbzsHis0g/zR4F47g1UeMj/RjvGWPBmg/0rTSBljZQjSueJbcNsYZ9h+KDorFXca9MygLAlu6YXqfIAFkshriJ3+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XFEfKjIr; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="nZITRrvU";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="i2fKlB+S"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailflow.phl.internal (Postfix) with ESMTP id 0BB24138007E;
-	Mon, 24 Aug 2026 23:42:25 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Mon, 24 Aug 2026 23:42:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1787629345; x=1787636545; bh=rJ0oTTauqUSSV8YPrFKbEbgb4sKqhN11H0K
-	EY9B/4wg=; b=nZITRrvUtxjGhQWPCc+YBA/V8pmBB+w5+Us3WUo2duB1QjCkwy6
-	Od3rl1vmEN6CjWQXdI+LVF6d1iAm+4DrL9OTp9h1RlBs3D6V+/IauxLIjsjp+SfG
-	atFjm0T7Pm4ShnLCs6fxOMS9oT8wFJ/xRL96sxFwCz7HRTrEmcjGs3p26a65johl
-	/XjMblWc9YjjbkpPUP3nRCRfpsre50xt285l2uggtLvhBYFtsM3JycuIyW4a+KNk
-	GW3fm3db4Gdc/7dpMJtmicl+ZxfEGpOTW50nG8n6uFKJFC0MOCFXObQkxDgMjqgh
-	5+6GHD2x3e1S6f7vC+kPuUtWSJUDT4L0WbQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787629345; x=
-	1787636545; bh=rJ0oTTauqUSSV8YPrFKbEbgb4sKqhN11H0KEY9B/4wg=; b=i
-	2fKlB+SBpWvud1Q4DZ5q/7SYH1e1RfTHq46U5CSVJYzUopKQLjojsJqfVY500Qr9
-	Bkz4zrt+mFGB9IJAAurQ9cv+CcTXHtw/tRipD1i6+7Zo9+jYP1lZ+WYeLqJnZRxS
-	UwKCNLkwSQ5ct7Nf0slQ8f3PVsWPGmL7Jez2+lyUWmqaQMvnZ67lODUp+yEyyQER
-	IaGeJ6wXNzl10D45HXT+JwoDb+b+MZwQ4f+KXMpUa6U1Oj8yQYK7G7g8NfH+XIvM
-	wJANlRDjImCSDrMW8WHjyrKKgmLQwyGe4c3gtYb9zCwiM979ImVN+aLGbVd02+3H
-	clSESga4DCfuaEBZ2aerA==
-X-ME-Sender: <xms:Gg-Navde2Nm-usag5Q-qSkMeNgfOUv8lr4P5rbWgPG0MEaMExL9bRw>
-    <xme:Gg-NammFuGgk4hLw2b1WiBeXS09vpveIvJBgL5qFWeijFu5spu9zi_CFHlZsiflLu
-    dgP5g-nt50AcWKBstOc4-fxK6bi5ZizMg-pj6ZpBC9YSTzXZEU>
-X-ME-Received: <xmr:Gg-Nat_JQ_w_F6jWM44XpleuBL6IzAMQDJbZk9W4zO02LXgRLJL0N_e8_mkbRzJlNVViXi8ka_hZZDPDWBDK5XMpU0u97rY>
-X-ME-Proxy-Cause: dmFkZTGAYKKC/opulm/8vN1Pgo3asbuTyz6PzixwG0v2vNyg3v4NaUYL6GcL+dZq4gFy/i
-    iUI6IZttRvbp59MYWeAeR9ywajwoEVC/szTNNz4g5RWilAriWV9/6iACKnkefi0Xhka8ao
-    UI3wIZg37/v3uedC0JIC4liLFj+4wza2xL9MLC2hJqF8TRlk/vKNVDTEZBAmzjnpJ9Ml8I
-    5iKfDAIjNBIsPRXlRJmQO/GxM52tDp4MH6k1h4YLsvZ4+eLPTX6HVMRWl7kV15NubEgjn5
-    AOX/iV0DZoSSut8p3lT4vfzjnQ8vEu6SUzCQWqmWO17gc0q3YHwvKukMn2Jlw6OSBo39M4
-    kp2c0I58cDLCIs8+pOuxlOaG9oDQXUq/dDRSL3VnDMojcLwC7R+1UVGwM9qZvYa7Xs90Z6
-    AYna48qAPi/du6tHtGe9BEaTqDNVGp1aqwebSjpsC2ModsDqa9WM4VSQ0/0+pvNyIS6FrV
-    ytGapxE/eBv413TmuD1tDDZr63FPme2bRmO1uIcvcJaZy0zsGgJ75xaLJb1TaWS4e4tCP2
-    kUhBDjDH+bcV7bINMKq96WD1HDhh6mSovIqT6cEeBtnDlfZGx+RAiPA1VVV7JWAYktB9iN
-    Y/pMAMGvdPZ7fJVM1EBoCPRZddDsklrerz9cFnPjihjjr9174sV2sILEoZrw
-X-ME-Proxy: <xmx:Gg-NalubECiEGqnpBIMXfrvPavhWvY7Lg6urBXuqIe0ygNNYu2DD1Q>
-    <xmx:Gg-NaoAH6XiRaTgo6XZ-CO_OY5Y8erO18iTKrmzHISotHVvYHg6Luw>
-    <xmx:Gg-NanChCkA9x2FDaiSO6iQAh1f3_IpDurOSNfWVtYCEhfk_1rg9vQ>
-    <xmx:Gg-NajPWmintf1CRv95G0G7XeeVwpE53q8WgvepVBCeWJ4MZT8sQvg>
-    <xmx:IQ-NaqkzmXf-SjwABxUsJdluph06cGOFumGsbCOVtUKNRMcwiO1f9Lg2>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 24 Aug 2026 23:41:38 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XFEfKjIr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787629594; x=1819165594;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=pAuHVptymQ0SSWCENqu+L5Le6YmITzmlBl28M1cNQjE=;
+  b=XFEfKjIre49tr6S4PIntQszVk/gWLvWGfVLdON39H2HMxG4xxcKiHpCF
+   hzuhtJpHWfy7UvTMFfCFGAhQAZS0mo+qbb0zWWHOo4/3TAP5XKt4mpS0k
+   rXjjhPyXLO+Uz4qlxoOVtGfyg4iwMf9D5FAbL27/4LEi953/6A7azXnXH
+   PEvujOSVCnRC+lSKF15Bi0QzPYolTQheI+aVEwA0CtEakj1v7RsBG6AlL
+   bZEIrasLeieW3zVfCIwsgneiIp6v7Y0eU5CmGCsMC9B/nO6IlstEECEbK
+   dTLOG4B/U0uEL9g4lQATmEed24hEvA2Z34zWKVdgo6FrYCcsBdBJQjPXN
+   w==;
+X-CSE-ConnectionGUID: elwWBXeBTWSiY2NBsRYAkw==
+X-CSE-MsgGUID: iqe5mWoOQNqknPHF4DtVKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="88012620"
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="88012620"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 20:46:33 -0700
+X-CSE-ConnectionGUID: j6vbUiTHQOuZr4Uc0EJ5Mw==
+X-CSE-MsgGUID: aVjU1SuuSLqQW72KLuxDeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="263890983"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.124.240.119]) ([10.124.240.119])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 20:46:18 -0700
+Message-ID: <54d1bd0e-c27a-4033-ab97-02cd9579a620@intel.com>
+Date: Tue, 25 Aug 2026 11:46:13 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Matthew Wilcox" <willy@infradead.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
- "Byungchul Park" <byungchul@sk.com>, linux-kernel@vger.kernel.org,
- max.byungchul.park@gmail.com, kernel_team@skhynix.com,
- torvalds@linux-foundation.org, linux-ide@vger.kernel.org,
- adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
- peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
- rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org,
- daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com,
- tj@kernel.org, tytso@mit.edu, david@fromorbit.com, amir73il@gmail.com,
- gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
- akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
- hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
- jglisse@redhat.com, dennis@kernel.org, cl@linux.com, penberg@kernel.org,
- rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
- linux-block@vger.kernel.org, josef@toxicpanda.com,
- linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
- hch@infradead.org, djwong@kernel.org, dri-devel@lists.freedesktop.org,
- rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- hamohammed.sa@gmail.com, harry.yoo@oracle.com, chris.p.wilson@intel.com,
- gwan-gyeong.mun@intel.com, boqun.feng@gmail.com, longman@redhat.com,
- yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
- netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com,
- corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
- hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
- gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
- arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
- petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
- paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
- joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
- mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
- qiang.zhang@linux.dev, juri.lelli@redhat.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
- vschneid@redhat.com, chuck.lever@oracle.com, okorniev@redhat.com,
- Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org, anna@kernel.org,
- kees@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org,
- mark.rutland@arm.com, ada.coupriediaz@arm.com,
- kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
- broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
- shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
- yuzhao@google.com, baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
- joel.granados@kernel.org, richard.weiyang@gmail.com,
- geert+renesas@glider.be, tim.c.chen@linux.intel.com, linux@treblig.org,
- alexander.shishkin@linux.intel.com, lillian@star-ark.net,
- chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
- link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
- brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
- mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, rcu@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
- bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
- dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
- alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v19 00/40] DEPT(DEPendency Tracker)
-In-reply-to: <ao0AieB7zg5FKD39@casper.infradead.org>
-References: <20260706061928.66713-1-byungchul@sk.com>
-  <359ea967-9b97-4584-88e6-bddb4044de2e@kernel.org>
-  <20260821042143.GA40890@system.software.com>
-  <825134a8-ceae-430c-b2fc-d1d0c7240f39@kernel.org>
-  <178730572084.2852630.7732425311008244683@noble.neil.brown.name>
-  <3d58eb3c-7a9d-4183-907b-46172664631c@kernel.org>
-  <178761465493.3510150.12380729360578969391@noble.neil.brown.name>
-  <ao0AieB7zg5FKD39@casper.infradead.org>
-Date: Tue, 25 Aug 2026 13:41:35 +1000
-Message-id: <178762929532.3510150.18274428053274599221@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 07/41] KVM: guest_memfd: Stub in ability to enable
+ in-place shared<=>private conversion
+To: Ackerley Tng <ackerleytng@google.com>, aik@amd.com,
+ andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org,
+ chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com,
+ jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org,
+ pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com,
+ rientjes@google.com, shivankg@amd.com, steven.price@arm.com,
+ tabba@google.com, willy@infradead.org, wyihan@google.com,
+ yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org,
+ suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
+ Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-coco@lists.linux.dev
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-7-2fc18ee6d3ba@google.com>
+ <a410cca6-0776-44af-8353-9b7375e2fd4e@intel.com>
+ <CAEvNRgGvxMus6pp=xuDYOumH3Ge4oi0=YKjTaFykFHwXuzRDwg@mail.gmail.com>
+Content-Language: en-US
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <CAEvNRgGvxMus6pp=xuDYOumH3Ge4oi0=YKjTaFykFHwXuzRDwg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 25 Aug 2026, Matthew Wilcox wrote:
-> On Tue, Aug 25, 2026 at 09:37:34AM +1000, NeilBrown wrote:
-> > > For readahead, I think that queues / lru are not involved. We submit th=
-e I/O,
-> > > and once the I/O is done, we unlock the folio from interrupt context.
-> >=20
-> > "submit the I/O" means "attach the page to a "struct bio" (or similar)
-> > and attach the struct bio to a transmit queue for the device (or
-> > similar).  So there really is a queue.
-> >=20
-> > >=20
-> > > end_buffer_async_read() / iomap_finish_folio_read() end up calling
-> > > folio_end_read(), where we do the magic
-> > >=20
-> > > 	folio_wake_bit(folio, PG_locked);
-> >=20
-> > Exactly where the lock ownership should be reclaimed is not immediately
-> > clear to me.  bio_endio() might be early enough but there are probably
-> > better points.
-> >=20
-> > A small difficulty here is that a bio has multiple folios and they are
-> > all locked.  I cannot see that lockdep has a concept of holding an
-> > arbitrarily large set of related locks.
-> > We could just tell lockdep=20
-> >   "I have some folios locked"=20
-> > or maybe enhance lockdep to allow
-> >   "I have N folios locked"
-> > or even
-> >   "I have N folios in address-space A with the highest offset being O".
-> >=20
-> > This would allow lockdep to check the validity of locking another folio
-> > - only allowed if the address space is the same and the offset is larger
-> > than the previous largest.
->=20
-> It's more complex than that; see my other emails on the subject.
+On 8/24/2026 10:45 PM, Ackerley Tng wrote:
+> Xiaoyao Li <xiaoyao.li@intel.com> writes:
+> 
+>> On 8/8/2026 5:52 AM, Ackerley Tng via B4 Relay wrote:
+>>> From: Sean Christopherson <seanjc@google.com>
+>>>
+>>> Stub in global variable to enable in-place guest_memfd private<=>shared
+>>> memory conversion, which will eventually be exposed to userspace via a
+>>> module param, and wire up the __kvm_mem_is_private() static call to the
+>>> guest_memfd version when in-place conversion is enabled, i.e. when gmem is
+>>> the sole authority on private vs. shared memory.
+>>
+>> I find this patch changes the default memory type for a @gfn.
+>>
+>> - When memory attribute is tracked per-VM, the default memory type is
+>> always shared.
+>>
+>> - when gmem_in_place_conversion is true,
+>>     - if the @gfn has no memslot, or the memslot where the @gfn locates
+>>       doesn't have gmem bound, the default memory type is shared,
+>>     - otherwise, the default memory type is determined by the
+>>       GUEST_MEMFD_FLAG_INIT_SHARED flag.
+>>
+>> I think we should document this change.
+>>
+> 
+> In a way it's not really a "change" since gmem_in_place_conversion is
+> set up as false in this patch.
 
-It always is more complex that you think, isn't it...
+I agree. It is not this patch making the change but the patch allows 
+gmem_in_place_conversion to be true.
 
-though I found
- https://lore.kernel.org/all/akvueAxPl8aoLvMR@casper.infradead.org/
+> When it is enabled in a later patch, another way to see it is that the
+> default remains "shared unless defined as private".
+> 
+> Before:
+> 
+> + no memslot, or memslot not bound to gmem => shared
+> + memory is shared unless VM ioctl used to make gfn private.
+> 
+> After:
+> 
+> + no memslot, or memslot not bound to gmem => still shared
+> + otherwise, ask gmem about status, which I think is already captured in
+>    the module param concept.
+>      + The very usage of gmem (without INIT_SHARED) is defining memory as
+>        private, I think that is already documented elsewhere when
+>        INIT_SHARED was introduced, that now the default is private.
+> 
+> So in summary, I feel that this has already been documented in various
+> places. I'll also add the following in v11's "KVM: Let userspace disable
+> per-VM mem attributes, enable per-gmem attributes", in
+> Documentation/admin-guide/kernel-parameters.txt:
+> 
+> 	kvm.gmem_in_place_conversion=
+> 			[KVM] Controls whether KVM enables in-place conversion
+> 			support for guest_memfd and tracks the private/shared
+> 			state of memory per guest_memfd instead of per VM.
+> 
+> 			If enabled (the default), KVM enables the
 
-and think that you are saying the same thing as me, though I'm probably
-not saying it as clearly.
-To say what I think you were saying, but with possibly different words:
+I think the default is disabled?
 
-  We don't want to tell lockdep that we are locking a "folio".  The
-  particular folio is irrelevant.  Rather we want to tell lockdep that
-  we are locking something at a particular offset of some array of
-  folios.
+> 			KVM_SET_MEMORY_ATTRIBUTES2 ioctl on guest_memfd file
+> 			descriptors and disables the legacy VM-scoped
+> 			KVM_SET_MEMORY_ATTRIBUTES ioctl for private memory state
+> 			tracking. Only the KVM_MEMORY_ATTRIBUTE_PRIVATE
+> 			attribute moves to per-guest_memfd tracking; other
+> 			attributes remain per-VM.
+> 
+> 			This parameter toggles KVM's in-place conversion
+> 			capability support. 
 
-The vfs_lock_two_folios example is much like lock_two_nondirectories().
-We use the subclass mechanism to tell lockdep "trust me, this is OK".
+I start to think that the term "in-place conversion" seems to read 
+inaccurate. I think it is describing the shared/private conversion of a 
+gfn, and in-place means when a gfn is converted between shared/private, 
+the backend comes from the same gmem page, thus in-place. But KVM 
+doesn't enforce the "in-place".
 
->=20
-> I think we need the ability for lockdep to call a function which says "I
-> hold this lock, is that lock OK to acquire".  But the devil is in the
-> details.
+If "in-place conversion" describes the shared/private conversion of a 
+gmem page, then "in-place" is redundant because the conversion a 
+specific gmem page is always in-place.
 
-I doubt we need arbitrary callbacks.  lockdep doesn't try to prove the
-locking is correct, it just tries to prove that the information we have
-given it is consistent.  So if you say:
+>                       Whether a VMM uses separate backends
+> 			or out-of-place memory management is determined by
+> 			userspace VMM design.
+> 
+> 			Note, this parameter is only available when
+> 			CONFIG_KVM_VM_MEMORY_ATTRIBUTES=y. When
+> 			CONFIG_KVM_VM_MEMORY_ATTRIBUTES is not set, in-place
+> 			conversion is unconditionally enabled.
+> 
+> 			Default is Y (on).
 
-  spin_lock(some_lock);
-  spin_lock_nested(other_lock, 1);
+I'm looking at the doc of KVM_SET_USER_MEMORY_REGION2, which reads
 
-and later say
-
-  spin_lock(other_lock);
-  spin_lock_nested(some_lock, 1);
-
-lockdep will say "fine, that look good", while you or I would say "hang
-on, that looks weird".
-
-Similarly for folios we just need to decide what information we want to
-give lockdep, and how it should manipulate that information.
-
-I think that locks on ranges of an address-space is the sort of
-abstraction that would be most useful.  But if you thought a different
-abstraction would be more useful I would certainly be open to that.
-
-As an aside, d_walk() needs to lock a dentry, then lock a child while
-holding the parent lock, then drop the original lock and move down the
-tree. i.e. it wants an arbitrarily lock sequence of overlapping locks.
-lockdep doesn't have any direct way to express this.  It has subclasses
-so that it is OK to lock the child while holding a lock on the parent,
-but there is a smallish limit to the number of subclasses.
-So d_walk() tells lockdep it is dropping the subclass lock on a dentry,
-then taking (try_lock) a primary lock on the same dentry.  This is a
-"white lie" that leaves lockdep with almost full knowledge but without
-confusing it.
-This example highlights the idea that lockdep doesn't need to know
-exactly what is going on, it just needs to know about the stuff we
-want it to check.
-
-
-Thanks,
-NeilBrown
-
+# When mapping a gfn into the guest, KVM selects shared vs. private, i.e 
+consumes
+# userspace_addr vs. guest_memfd, based on the gfn's 
+KVM_MEMORY_ATTRIBUTE_PRIVATE
+# state.  At VM creation time, all memory is shared, i.e. the PRIVATE 
+attribute
+# is '0' for all gfns.  Userspace can control whether memory is 
+shared/private by
+# toggling KVM_MEMORY_ATTRIBUTE_PRIVATE via KVM_SET_MEMORY_ATTRIBUTES as 
+needed.
