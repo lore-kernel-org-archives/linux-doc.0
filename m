@@ -1,85 +1,117 @@
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F5C3D9545
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130693D8133
 	for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 09:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787735926; cv=none; b=YGOEoEw7QNkzNRBxtDfKQxVBefKMu0T3EZhsyrQZ1MnOG2Yk6iyFQFfXChNDjgL/0eJ/62n+Uy8FBNpqzcVmJnU2S3w4TYhNUIs1cllCisRJ1LypTw8j2kmedP0HtH52VImCh61AQklvyGV4DwJru78XOhRr8tTVPk4JHtgyo8s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787735926; c=relaxed/simple;
-	bh=ZTwn4UyMShrGZfEU90otJVup2JEojFMgiToKCnnSVVE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=dOSfNGliHsllhdit428dXLcTPcx5CwroOIInVKa1BRjEKIpq9V1sx5BDboSWrqOR62fcsLhGQq1tHXuZnifPVGdLz+jW5aLyQZxs9Fw3s0vLwnLqDRZVnjbgynPqrjEQ7KpzzjlToLANNHtAHyKiyYLJ97Cfo+IOp9Hx3tQUyoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fdcfcOy6; arc=none smtp.client-ip=209.85.215.197
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787735929; cv=pass; b=NVJIARSLSim+F8/9AQVXKlYli5fD5wUaR/dvb7aUMvV/HqQJV54AiLwHsULchcGoEsNzMBLzfcxtrr1M+qQGnKAjj/W4c68KjjNhNlzQ0jxOG3Ym9EwHk0mWr902UyQb4gyZ8Rq0kAgP1eqfHqcu1zqa8l6pgn5bnCuaUrnIKyc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787735929; c=relaxed/simple;
+	bh=PXd4FJsR6tKMFA56Q6aHGGrl17ypmJp1VW4g24+xHhM=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ow2J41Rh5reXytWAIFeNZ5wSs8Fo3bbwhHh4XwG0oIhYXTRFWUEQfzOkK4GGKqdvn6ZiAzbIpEsnmO7JfW5fGcnaCOBGzpmJZDs/1mJ4s4mHo504SG++6TylvtT6jhvUJPH7qSG3YNQESSpTMNqdOozto/uktqOL5L/UBl6gBCs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wOO38D6J; arc=pass smtp.client-ip=209.85.219.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fdcfcOy6"
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc1b8088202so767236a12.3
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wOO38D6J"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-90cca401c89so6004846d6.2
         for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 02:18:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787735919; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gxJWwnrGMgph/MKPyI4ji/PYZ435J63V9vKkmCI8Yua/mp1xG0Zm237jldh+dw9Xbb
+         vbjvRG+rZDCXC58hnLwWumb06mdUFaBxC4hLkFR6+Au6u7r17v7AqnELya0jOWBMBe4r
+         UkgpSzVSwot44NFe/IR0lNTlSeNT4ls6cG68wVip/GmXgXNl7FJXFa/Ub5HIzZyXiL+A
+         sWRb8AiLwG1HLjfUx1eEPeIhi3PRNsRZInCjIUkxdowmrcp+cwhYmUWttvKiRG6dXKsc
+         b7Ox6kbwfSJsvn+Q6ypiWcxYIQ+p98R9NvkRMP4jIImLkQzKxnWa9ARD9/DnYHfE8YY2
+         2XUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=W29gLyGYJCPLMB1l2BXhwer1rQC/3q6nHb6nCzKL89k=;
+        fh=9Co5kyKHr5Z4mlWi9TyQ51I7coIiSGkAWXlxlGYUcK4=;
+        b=QIbpD4BvtdEnuFG4kfKVfGzWY9Z+v2gjlJlNbYItjt5Xcme6NZNvAmHWdM20WJhqkj
+         CjfFF48KBCNRhB/c60TCWFPrXgxe6XQcAG3MvY2cKv+utRlZG+rAjq6gdR8KNP3H20pO
+         KMWqUCvSFkWqxir8BmozBpZSzvf+lUY/0dkcKq6X6OInT+S+Li5QfckQNmQYFkF0IutD
+         HTydhC0z6WovrWKB/XvbM1MQrSNchxCkgMpgtUoLSZ2SDRGkxVtvQXvTMTEQtI5NYKxz
+         MgJZIKZAuCfYWTsMAbpc8tHT8np8+pqMm2biIxEk+vNnW6cQXJu+CjbFxpColHEVnO1i
+         SPtQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20251104; t=1787735919; x=1788340719; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=S/nf3e4536rn08VcIwbRdla3FrzM9D86FJQTH62XB18=;
-        b=fdcfcOy6HRtOZ73daoZ5zvlxhHTJKMPmTvGcbBfkxdVGLpx3kgm6YEpnNEh81jifWj
-         CidD8pxMoBESJ7UJeWnsesrZF/vzaLA54i2t/Xqfpz2dDw4Kf9vX+RtnCjmeoT8+klXg
-         XshsxVoedZMoxvIP2qqi68MuIUINPr5nkAKdG++Iqq7QH2GGKgbhF7RTE23u8NrjklBp
-         4r55oCaQsEjXKwfMDQmdwEjkuyv9wCe9C8u0yRAcxKAWGLPmz6/AOcz42cyaLv07vgEj
-         pdd779s8A3cF3YCBTuKdRDUyvEw7KS13FAwHSzmqFa+QCIF45BaJo3JDL0cyEERLHrTJ
-         qu8Q==
+        bh=W29gLyGYJCPLMB1l2BXhwer1rQC/3q6nHb6nCzKL89k=;
+        b=wOO38D6J17F7wLoGSjmqHJqGG2iU4xH3Jq8NKDeOZpGjR+sQfTPP6zBpKK2jBGlC1j
+         8svNJV413v2Wd0IdofAGVQnbFumK7ur8t3y2kkuqCDIrhGKx1KAGJC0K+bx6R3S+vTYj
+         MRFJ7avLxXwYRHcftf3DQaltYkHgbPExnknklGttUjFNY5hZmVntDLGSjyYIbMF20Y4B
+         WCRcsvq7VhCjvr27pZFDQjdQLyUHQf9zoeNDQ1YvlPEHXvLDKseTM6CjXPL1lS4Fd6Ea
+         9To5K/g2J9vrk81jpZ9/XbG4Y8vLoKo3cYErQD8RbS9ttgqSie2jYkLRzUpzK+w6phWw
+         t8ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1787735919; x=1788340719;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=S/nf3e4536rn08VcIwbRdla3FrzM9D86FJQTH62XB18=;
-        b=il7lqrZ3CiGv57Ym1ABpd6WhtlrzLRFD+b5l7TGT5CW8QHUR0KYkn1WePLwdCd78lQ
-         NNmoY7NKSQ3+u5865YQ9Q+YY3F27LbpAvygykqvPAnsQfikJIsNqzC5abPREUfTtQzWN
-         kcUjDKbi0gYj/pRq9eIb0CvXOVYMO3wkoZSIBCBzccvVgHotjEBu+CBXdxCyHFTIjQZ/
-         mWYMs9jw68sLRdXVaNIE9c5PKjVy8M00qD319y6ED3eZr94H/7fi+PL00WvggQE/QPgO
-         HHXGPhGgBVJB7x+xBCk6GgmN6gsiZtNWpYh35rVml+EzZv4FcPOFqDoTLDkno4HqQR68
-         TIaw==
-X-Forwarded-Encrypted: i=1; AHgh+RqE7R1XNex+dAnblBAG9c9I2e2TRTOsH7/FpzUx7NFgEZfVHNNwMc9SC6s5hc8LgUcuycDAI7XHdts=@vger.kernel.org
-X-Gm-Message-State: AFuF++lve2YL5H+3+h4qsCgq1tCJztGkyKQSMJrP/nowgFHs0l/3Y/R3
-	KqQoch0LyiOt+i9BFdgS7iKbyol/mm2JZY1SlG54mXDl7VmwpYOa5VJQoGBu9m5IYh9ORb3HNy0
-	+W9PbCS+zDvbj+aldlZAhJKm8Gw==
-X-Received: from pgig7.prod.google.com ([2002:a63:f407:0:b0:cc1:c7d3:7c7b])
- (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a21:a383:b0:3cd:8d15:895e with SMTP id adf61e73a8af0-3cf84b53689mr11572460637.12.1787735918168;
- Wed, 26 Aug 2026 02:18:38 -0700 (PDT)
-Date: Wed, 26 Aug 2026 09:18:16 +0000
-In-Reply-To: <20260826-gmem-inplace-conversion-v11-0-0a15d8a799aa@google.com>
+        bh=W29gLyGYJCPLMB1l2BXhwer1rQC/3q6nHb6nCzKL89k=;
+        b=LZSx+P03RTCgzD/k5O2bAreXHP2gpcVKueTWOXqg2M/gdMrhtjYU517dmQ98KLshKj
+         MftoSomTLwErp/+BEjpzIt1mdDv/u5aMgNg8eJ4CMb9zjw+WYXejvXY9ad48AtAH36t2
+         VUjqLi9KOJVDg0jaGIF2s4HwfIMffXQ71KAahlanvJKOcOdtFvtZsGgYZHS7oift/T1r
+         b92vbLpg9k0YUG3cWcN8lRVoJjcwuXkS7TTEQrvNGkJfpEvr+9fxAdezk4/G2FQ9TWhQ
+         GjS3r3nya7AnxCIgIAQSuJNkmql72dUVftzCtJCGTALNWCOrM9e4WoF7XW30fv2MNA+M
+         YYOQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrG7kqOjesikLTWEonPQQjUK41yZG0mrOdy5zUZPzyt1xaWRtceBYp7ndVZQQ2EHggyv7Tf1a3L1OI=@vger.kernel.org
+X-Gm-Message-State: AFuF++kuoKpx+3UM8VTpcuo1IAhtQVaDsfy6Eght0rmPRxU0mlmgStIz
+	bnPle0sf2pZZScyOzaiKd+iEMouc+LfZBT7tiBvxFmt20iQVkUUGZBMDHixCXq/03SjHZvUP/91
+	i09u3VgAUcqhcwquFsT56/VRHodlgtE6AkF71ZB3U
+X-Gm-Gg: AR+sD10PiWhrmztS350XMUk6DmNaOAAJADbJ8hc0y/nPI43TZfW7SSa4XsCgIeBkeo8
+	x13rDTbqrPgk/4pfysoUSHq1zUu/5JYzDC0s0oHm3R1j9WjkbxMsP9MSZssT9xnMnMka2W0xCeB
+	2CSRW3j1+Wn8K3kMRzCmWaiuiigl85XdOzg+Km8y+U6DdMJk302RbB+ukWZ02ufLA9nqJaTkaTO
+	RUWX4KieTzmtbwqysYGL8lsylgONOCj6KZCUdElP353D3Q6D2e2SlE2rfUsfo2QsyAjJGavMgt0
+	McpiqoFY0YhENZS9Mca4AdOtQN9AaQ++Gf/CLw6z9dEFGTUfcpTivtgdpqbeNqBcET7AaKk3iqk
+	StriE+sGonoILfltAG5ZBxHOq+YGchg==
+X-Received: by 2002:a05:6214:260d:b0:907:94e6:f8bc with SMTP id
+ 6a1803df08f44-90cc79998c3mr49415816d6.15.1787735918598; Wed, 26 Aug 2026
+ 02:18:38 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 26 Aug 2026 02:18:37 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 26 Aug 2026 02:18:37 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <ba8d0441-b52f-4357-b2e7-1e352aa385a2@intel.com>
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-9-2fc18ee6d3ba@google.com>
+ <13ca60c6-e154-4397-8092-09f861e90fe0@kernel.org> <cbf5f7ca-a960-4fb8-a760-2d2794eb6864@arm.com>
+ <CAEvNRgGOyQHnF_b8dk8E0d7_=CcwXtYUdU3ko7Qbep+_O7UC0Q@mail.gmail.com>
+ <aoZZMQ3Uc8yQWPNA@google.com> <7eba513d-cdae-4832-abac-038dcdd88517@intel.com>
+ <meww2a2uf3yeevsfpicyrlg3hch2x4bsdqv2lsv3vfjxg4qzes@co5eogmhkxrk>
+ <ao3lOu8-wpGTs2wd@google.com> <ba8d0441-b52f-4357-b2e7-1e352aa385a2@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260826-gmem-inplace-conversion-v11-0-0a15d8a799aa@google.com>
-X-Developer-Key: i=ackerleytng@google.com; a=ed25519; pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787735885; l=4708;
- i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=ZTwn4UyMShrGZfEU90otJVup2JEojFMgiToKCnnSVVE=; b=dDBRMblwUg6UwX2I1hz2Tpxt+EI3WovENt6hqBknKpraB0X285GZYRtS86E6IMk5svSgepv73
- EfxqI68rjF/CyC9ce+QdXDFmPsPxg8E1UYpFu6gAUyL8f5QVEBtho9j
-X-Mailer: b4 0.16.0
-Message-ID: <20260826-gmem-inplace-conversion-v11-18-0a15d8a799aa@google.com>
-Subject: [PATCH v11 18/46] KVM: guest_memfd: Handle lru_add fbatch refcounts
- during conversion safety check
-From: Ackerley Tng <ackerleytng@google.com>
-To: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+MIME-Version: 1.0
+Date: Wed, 26 Aug 2026 02:18:37 -0700
+X-Gm-Features: AcwNN1VwWEAXm7Hyp9OqQou024-MyvsmSKreeFDqqoFiEfe8rutDN4-Z7NuYwk0
+Message-ID: <CAEvNRgFXJbV78ktsg=b4srFp1OFjtQWQGuNPjr_MmWD-wOvjgw@mail.gmail.com>
+Subject: Re: [PATCH v10 09/41] KVM: guest_memfd: Filter both shared and
+ private when invalidating
+To: Xiaoyao Li <xiaoyao.li@intel.com>, Sean Christopherson <seanjc@google.com>, 
+	Michael Roth <michael.roth@amd.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, "David Hildenbrand (Arm)" <david@kernel.org>, aik@amd.com, 
+	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
+	chao.p.peng@linux.intel.com, jmattson@google.com, jthoughton@google.com, 
 	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
 	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
 	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
 	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
 	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
@@ -92,138 +124,137 @@ To: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com,
 	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
 	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
 	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Fuad Tabba <fuad.tabba@linux.dev>, Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
 	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev, Ackerley Tng <ackerleytng@google.com>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Fuad Tabba <fuad.tabba@linux.dev>
-Content-Type: text/plain; charset="utf-8"
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-A guest_memfd folio has no outstanding references if guest_memfd holds the
-only references on it. Any other references on the folio may indicate
-another user, and guest_memfd cannot convert it to private if there may be
-an existing host user.
+Xiaoyao Li <xiaoyao.li@intel.com> writes:
 
-A folio will have outstanding references if it is present in a per-CPU
-lru_add fbatch. guest_memfd does not actually participate in LRU, but
-freshly-allocated folios are still added to the lru_add fbatch for batch
-LRU statistics processing.
+> On 8/26/2026 2:55 AM, Sean Christopherson wrote:
+>> On Tue, Aug 25, 2026, Michael Roth wrote:
+>>> On Wed, Aug 26, 2026 at 12:13:47AM +0800, Xiaoyao Li wrote:
+>>>> On 8/20/2026 9:32 AM, Sean Christopherson wrote:
+>>>>> And vice versa, a PUNCH_HOLE on a SHARED gmem (if userspace is
+>>>>> using an INIT_SHARED gmem for the shared branch of a memslot) could invalidate the
+>>>>> PRIVATE mappings (of a different gmem instance).
+>>>>
+>>>> I'm wondering now how this could happen.
+>>>>
+>>>> the requirement for PUNCH_HOLE on gmem to trigger mapping invalidation is
+>>>> the gmem is bound with the memslot. But how can a memslot bound with two
+>>>> gmem instances?
+>>>
+>>> I think this is for when userspace uses an mmap'able guest_memfd instance
+>>> to handle shared memory, and a 'normal' guest_memfd instance for private
+>>> memory. Each instance is bound to the same memslot/GPA range, and
+>>> KVM_SET_MEMORY_ATTRIBUTES handles switching between the 2.
+>
+> What I didn't figure out is exactly how the two gmem instances are bound
+> to the same memslot.
+>
+> The case I can imagine is
+>
+> 1. create gmem1 with GUEST_MEMFD_FLAG_MMAP and
+> GUEST_MEMFD_FLAG_INIT_SHARED, and get fd1. mmap the returned fd1 to get
+> a hva.
+>
+> 2. create gmem2 to get a fd2.
+>
+> 3. call KVM_SET_USER_MEMORY_REGION2 with KVM_MEM_GUEST_MEMFD flag. Pass
+> the @hva from 1) to 'userspace_addr' field and pass the gmem fd2 to
+> 'guest_memfd' field.
+>
+> However, with this case, only gmem2 is bound to the memslot while gmem1
+> is not. Following PUNCH_HOLE on gmem1 doesn't invalidate any mappings
+> because the f->bindings of it is empty.
+>
+> Do I miss anything?
 
-A folio may also have extra refcounts if it is on the mlock fbatch.
+I think Xiaoyao is right about this, the "vice versa" part is wrong,
+since gmem1 has no bindings. Even after kvm_gmem_invalidate_start(),
+going via MMU notifiers, that invalidation invalidates only
+KVM_FILTER_SHARED, so only gmem1's mappings will get invalidated.
 
-These two known "usages" of the folio are handled by calling
-lru_cache_drain_for_folio, which drains both the lru_add and mlock
-fbatches. After draining, if the refcount is still elevated, then there are
-truly outstanding references.
+The earlier sentence about PUNCH_HOLE on the PRIVATE guest_memfd (gmem2)
+is still correct.
 
-If the page may be dma pinned, DMA is using it and hence there are
-outstanding references. folio_maybe_dma_pinned() can have false positives,
-but that's only with a significant number of refcounts, at which point
-draining LRU is not going to move the needle - it can still be concluded
-that the folio has outstanding references.
+Here's a repeat of the above in pseudocode. (I wanted to make gmem2's
+flags=0 more explicit.)
 
-If the page is still mapped after guest_memfd tried to unmap it earlier in
-the conversion process, it also has outstanding references.
+gmem1 = KVM_CREATE_GUEST_MEMFD(flags=MMAP | INIT_SHARED)
+gmem2 = KVM_CREATE_GUEST_MEMFD(flags=0)
+userspace_addr = mmap(gmem1)
+KVM_SET_USER_MEMORY_REGION2(userspace_addr, gmem2)
 
-Return true and exit early to avoid unnecessary draining in these 2 cases.
+gmem2 has no MMAP flag, so that KVM will actually fault from gmem1's
+memory.
 
-Provide a drain status to only drain once ever while processing a batch of
-folios.
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-Suggested-by: David Hildenbrand <david@kernel.org>
-Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
-Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
----
- mm/swap.c              |  2 ++
- virt/kvm/guest_memfd.c | 30 ++++++++++++++++++++++--------
- 2 files changed, 24 insertions(+), 8 deletions(-)
+Walking through PUNCH_HOLE on gmem2 again:
 
-diff --git a/mm/swap.c b/mm/swap.c
-index 8e965c8ce9aa9..9f511b97ab110 100644
---- a/mm/swap.c
-+++ b/mm/swap.c
-@@ -37,6 +37,7 @@
- #include <linux/page_idle.h>
- #include <linux/local_lock.h>
- #include <linux/buffer_head.h>
-+#include <linux/kvm_types.h>
- 
- #include "internal.h"
- 
-@@ -995,6 +996,7 @@ void lru_cache_drain_for_folio(const struct folio *folio,
- 			*drained = LRU_CACHE_DRAINED_ALL;
- 	}
- }
-+EXPORT_SYMBOL_FOR_KVM(lru_cache_drain_for_folio);
- 
- atomic_t lru_disable_count = ATOMIC_INIT(0);
- 
-diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index 6dc199be0eb87..4912f90567fe8 100644
---- a/virt/kvm/guest_memfd.c
-+++ b/virt/kvm/guest_memfd.c
-@@ -8,6 +8,7 @@
- #include <linux/mempolicy.h>
- #include <linux/pseudo_fs.h>
- #include <linux/pagemap.h>
-+#include <linux/swap.h>
- 
- #include "kvm_mm.h"
- #include "guest_memfd.h"
-@@ -556,10 +557,28 @@ static int kvm_gmem_mas_preallocate(struct ma_state *mas, u64 attributes,
- 	return mas_preallocate(mas, xa_mk_value(attributes), GFP_KERNEL);
- }
- 
-+static bool __folio_has_outstanding_references(struct folio *folio,
-+					       enum lru_cache_drained *drained)
-+{
-+	if (folio_maybe_dma_pinned(folio) || folio_mapped(folio))
-+		return true;
-+
-+	/* 1 reference held by filemap_get_folios() in the folio batch. */
-+	lru_cache_drain_for_folio(folio, 1, drained);
-+
-+	/*
-+	 * Outstanding references are anything other than those from the page
-+	 * cache, plus 1 temporary reference held by filemap_get_folios() in the
-+	 * folio batch.
-+	 */
-+	return folio_ref_count(folio) != folio_nr_pages(folio) + 1;
-+}
-+
- static bool kvm_gmem_has_outstanding_references(struct inode *inode,
- 						pgoff_t start, size_t nr_pages,
- 						pgoff_t *err_index)
- {
-+	enum lru_cache_drained drained = LRU_CACHE_NOT_DRAINED;
- 	struct address_space *mapping = inode->i_mapping;
- 	pgoff_t last = start + nr_pages - 1;
- 	bool has_outstanding = false;
-@@ -570,17 +589,12 @@ static bool kvm_gmem_has_outstanding_references(struct inode *inode,
- 	folio_batch_init(&fbatch);
- 
- 	next = start;
--	while (has_outstanding && filemap_get_folios(mapping, &next, last, &fbatch)) {
-+	while (!has_outstanding && filemap_get_folios(mapping, &next, last, &fbatch)) {
- 		for (i = 0; i < folio_batch_count(&fbatch); ++i) {
- 			struct folio *folio = fbatch.folios[i];
- 
--			/*
--			 * Outstanding references are anything other than those
--			 * from the page cache, plus 1 temporary reference held
--			 * by filemap_get_folios() in the folio batch.
--			 */
--			if (folio_ref_count(folio) != folio_nr_pages(folio) + 1) {
--				has_outstanding = true;
-+			has_outstanding = __folio_has_outstanding_references(folio, &drained);
-+			if (has_outstanding) {
- 				*err_index = max(start, folio->index);
- 				break;
- 			}
+gmem_in_place_conversion=n:
+  * conversions go to the VM, shared/private tracked at VM level.
+stage 2 page tables:
+  * private mappings from gmem2
+  * shared mappings from gmem1
 
--- 
-2.55.0.887.g758fc8c411-goog
+If guest_memfd invalidates KVM_FILTER_PRIVATE | KVM_FILTER_SHARED, then
+gmem1's mappings in the stage2 page tables (which are shared) will be
+invalidated along with gmem2's private mappings. That's not great since
+we only really wanted to invalidate gmem2's mappings.
 
+If guest_memfd invalidates only KVM_FILTER_PRIVATE (since gmem2 was
+created with flags=0), so we will always invalidate just the private
+mappings, which is what we expect.
+
+
+Now I think there's an issue here: with gmem_in_place_conversion=y,
+everything is still the same as above, other than where shared/private
+is tracked.
+
+gmem_in_place_conversion=y:
+  * conversions go to gmem, shared/private tracked in gmem2.
+stage 2 page tables:
+  * private mappings from gmem2
+  * shared mappings from gmem1
+
+This time, the filter lookup will return KVM_FILTER_PRIVATE |
+KVM_FILTER_SHARED and we will still invalidate memory from gmem1.
+
+In conversions, a to-private conversion on gmem2 will invalidate
+KVM_FILTER_SHARED, which also invalidates gmem1's memory.
+
+
+Is this just a case of user error? That with gmem_in_place_conversion,
+userspace should not use userspace_addr from something other than the
+gmem for the same memslot?
+
+We previously discussed that validating userspace_addr belonging to the
+gmem for the same memslot is pointless since userspace can later remap
+userspace_addr to something else.
+
+One option is to say if the gmem doesn't have MMAP set, always only
+invalidate (filter &= KVM_FILTER_PRIVATE). That means a to-private
+conversion on gmem2 will not invalidate the shared mappings from
+gmem1. That would break implicit conversions to shared, since a
+to-shared access sees the shared mappings and doesn't cause an exit.
+
+Perhaps we can iterate the maple tree and present folios and invalidate
+exactly the folios matching the shared/private status and gmem, but this
+is quite complicated and I hope we can avoid this.
+
+What if we say, for gmem_in_place_conversion=y, set
+KVM_MEMSLOT_GMEM_ONLY for all guest_memfd memslots. This way, the host
+can still use gmem1 for userspace_addr (user error).
+
+KVM won't be using userspace_addr at all other than kvm_read_guest /
+kvm_write_guest, and for those, we previously discussed that it is a
+user error.
+
+
+Xiaoyao, any suggestions to solve the problem?
+
+
+Meanwhile, I'll still post v11 to resolve the other comments first.
