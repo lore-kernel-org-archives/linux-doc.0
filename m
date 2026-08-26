@@ -1,404 +1,199 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E9A4734CF
-	for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 16:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C346B305699;
+	Wed, 26 Aug 2026 17:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787762525; cv=none; b=dHqZdTJjhbiZ5d0qL6rAtA+dzyRXAh2mqlFP9WuGkF+75y7206oHmmUsda23lCDl8wSwmvOlc0r1dEtXi6hB99D6flMtvaRK1H04MV4ezBv1l+BE4DN6O0d5lTdg+c6K7q8vOBFRKlCrtm+94qPwk8AftMzaRDo07WesWwV+8Xc=
+	t=1787763694; cv=none; b=W5fqC8m4OUShDtN8SdC9jTWtmaX5qAd3AQYH/MtEIlLkn6UZGYlH2k60N5LHEZMgFv38gUbuGM8D8AAascqzO0X//3yUZwgSMj++PqEqC99r58+959iXDPUB+nak0EVpBRDxoaPpRkF8poaTRqcgaFH6oT3Qr0QtARix4p8wS9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787762525; c=relaxed/simple;
-	bh=hxwU9iVyxpGSAAhg2LMrI2wFBmgWHb6UAnI9L1baLjQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fW7iW3w6jwX5vxqVNSXTTfC/VY794xRZNOWsynrxGhB1FazCuxxdUK/6lprsmAgY6IskVFcNP75sEyJRyfqj4gjdbBpjYNczOExcVqngWbzMdtccFjsKz3ZtNtjn59r/uquqnWTb6p3NeZKOkOwUh8b5LjMBLbwuCSuf0r5jtGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=KqnjQgks; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fireburn.co.uk
+	s=arc-20240116; t=1787763694; c=relaxed/simple;
+	bh=lXaGdjNs5+G9yfx4rhEAta1uG9rT7QUpPERL0mnNyC4=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=L5ivEH2PEBm95H8CKclxlKRTM7+M0LlnyhzzjKnV+hnN55b+cOKDE7mfpTc0d8sbNuppOjqpSP/M/WBg7UPNl8gNeCR5ZzDmRtz88OashxNiPk4K2QA22DJDgEeQa1PRVfq7OZpXrTNwtonDjREDIAgl64RzDn1A+DaT96M4Xss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=t8h+pkH7; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="KqnjQgks"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4956242332dso9278075e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 09:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1787762488; x=1788367288; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4V2qWTIy9upPrwYp43xXrz2kFXEg2TQMUb90MextArg=;
-        b=KqnjQgksDL9ctur6p/NDvBXGUqSVjjhcNrgsHvp/PnlYAogx2xsZNEXxClC4hCpGUd
-         tB6AviICsPT5D5NNU8sp1NKeP0OP8Tulc++51XfW4uuQfruT3NgeBBewqObAX8tYmNws
-         V5r6MJQdGUOILBSzidPRPPIiaekTAJylw7GBAeoMrT6y6ngqxjHLVFfEY2mlip0sHvZX
-         Lm4Ipi6ZtGBdTG0clBepCpu6EIBZzVlw4xse8uSawmAOmyftHxby9W9/9f8u4tJjh3Lj
-         bJj5Zsul8TxMCOTSIN1LtLWHAUMXx92TiWsSYuesbDqIwDKMiNSWi539fweHp4WXps/L
-         U1ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787762488; x=1788367288;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4V2qWTIy9upPrwYp43xXrz2kFXEg2TQMUb90MextArg=;
-        b=VzIzEYNCdQcrO8y6Up1DV4fcfAf+/amy3/hp/ODiIExKwGfh4KNyeUamAmj7XKj2cq
-         vjoFjkEU6xne5UxFWUOOFQuYt74qoJqRQ2lPDu2v0vISFPfNBJzxAWw1IhMZvhlcfQlo
-         w78nR3TqzqHXG3XCyHoJ/d85TaSqPgCsW+KaLNEtQ1KeqGOK1jSogQ0kHG8AnZtxl2dX
-         mtsFA2NwyhR59fc6TF1t2l73vLAyCGcP3kBNLq+YybXp+JApE6DATAFD/3YJr99QAVHB
-         y6NcIN+f/tp7yJCDZtsItBWs3/FlbNblzTbDvnS0YQKaj+9r9nE902+4DiX4gnHMp3YQ
-         wvYA==
-X-Forwarded-Encrypted: i=1; AHgh+RquKmM+X3rVUrnGtbvmxDTKk7Rjx96j6wSb1HfbcJuTf2i5b9X7225tHkrDpYplhHINw8+qKSrVUOs=@vger.kernel.org
-X-Gm-Message-State: AFuF++mONKOQRB77Vo9YvTU99Hnx36eRr2M6XlnozEKqd2SbYfJ0qlRl
-	CL6+3Ipod7xQpHY1Zb04ySXtzkTTjLZX4gTRy6SuKNIQvqDgEuLELWVYkBUtdj1JPQ==
-X-Gm-Gg: AR+sD10ZdyfKfv0jfsu6muAFgwJnjwJTIMDdcvAke5zWYqfBbDXzY2ASs1A7otVC3Di
-	8J448DnxbHbmRLnE9yqlEPOzm7IZC8FKDioLYPB0Q/gxdMCy4wS+LVhPtwC72g7mElEM7P/3hPv
-	q2Ylui7WpGy1wbf5QcgLyhFeFFvgQk1FKq+CQl1y3QHpxipT92zZxsMrwnRxZ6FnJ4qbq9AuBhQ
-	42LXZlReTDxZF4/b2X/4gaQNTh8BJsepp8PWyt09s6tBm08KFLFh0t2UWVbocJrkscoAiZAuVi1
-	I46YaLqKpyyXfqBHoYQoCHhNlq7Wei+/Vp0mvMreTI3zD1gypD1mV9IYRCg088h4Gafje7Q9vQB
-	fl3O5J+OvQ+vt6EAHsQJUXH6UM8Y0yd5Ix3I4De30Eta/oBs8MewAO2S61u8rjJ8qw72asBvwS4
-	uldFPibbP3cFCB0YfzWc9UrjFIdLz8c9RCAIOIV8elsCOhiKLzH6HBToGpjMCnj5vMd7g2u6Flv
-	uE3fAzVU4OfqWiGAipej3mkSpIFtER25zD862YXKg6/a7Q=
-X-Received: by 2002:a05:600c:34c3:b0:495:4d88:e630 with SMTP id 5b1f17b1804b1-499dc720bd2mr92288185e9.10.1787762487943;
-        Wed, 26 Aug 2026 09:41:27 -0700 (PDT)
-Received: from axion.fireburn.co.uk ([2a01:4b00:d309:1c00:caf1:6b20:8531:818c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499dd5721a0sm21769715e9.4.2026.08.26.09.41.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 09:41:26 -0700 (PDT)
-From: Mike Lothian <mike@fireburn.co.uk>
-To: dri-devel@lists.freedesktop.org
-Cc: Mike Lothian <mike@fireburn.co.uk>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH v3 13/13] Documentation/gpu: document the Vino driver
-Date: Wed, 26 Aug 2026 17:37:38 +0100
-Message-ID: <20260826163913.7052-14-mike@fireburn.co.uk>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260826163913.7052-1-mike@fireburn.co.uk>
-References: <20260826163913.7052-1-mike@fireburn.co.uk>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="t8h+pkH7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1787763617; x=1788368417; i=markus.elfring@web.de;
+	bh=RIboMSTk0n75LOidtDXp+0aJmxZ5809SXh3wEQLUEVw=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=t8h+pkH7PgqaYDZYFI5SApGWxY0HCkSNHTF1UWcgyR+RSvPXwL3bzvXoWUR7mRNT
+	 YXkkj6Z/ghZNUtmZNPfdnXN/e83yPhz+bMemkfUjX/CFyEaDE8dJPYi3JoJY7UQ4Z
+	 BYh3fVkbM6OQCOjM0K8XsN/khzQHBcfQH4DqyouVskwfpNMmhybD+/yuMpfj1fSO+
+	 u2Z+ph4/5frcTPxZc8gA4Ajg9oOarfb4T9y6BK0GRQMApTrdz804lQbP355Xa5fRY
+	 93KBwuZkuduMEM46eGfW4eRfXppL5iikbFLdM7H71eoYIxFLHgp+u9EK6s8snFHXS
+	 DebfyP4YTkESQBIPRw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MHVaf-1xCDHF2YBF-00H2UG; Wed, 26
+ Aug 2026 19:00:16 +0200
+Message-ID: <0d6bb2d4-5f6b-4fd6-9b9f-5f5f0f687625@web.de>
+Date: Wed, 26 Aug 2026 19:00:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+ llvm@lists.linux.dev, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Bill Wendling <morbo@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?=
+ <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Oded Gabbay
+ <ogabbay@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Robin Murphy <robin.murphy@arm.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Will Deacon <will@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Bharath Kumar <quic_bkumar@quicinc.com>,
+ Chenna Kesava Raju <quic_chennak@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
+References: <20260817-qda-v2-v2-9-69a02e9090d4@oss.qualcomm.com>
+Subject: Re: [PATCH v2 09/15] accel/qda: Add DMA-backed GEM objects and memory
+ manager integration
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20260817-qda-v2-v2-9-69a02e9090d4@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:6jOP/lI1Ra5far4mgM9KTH4mvwnSgFP6QW6ZdjBSvuF6bHxgwjL
+ pZB8Rx/0lYq7VNsG+Tg+MYcrE0FXO3QyKoQ3Ccc8rdTpfyoD1batg86gMmAYa/Cw3/1zYHn
+ IDs6vojxDfmdzvIf8xyd5xpg3AqTPeqanhIrwFIM0pYe50PJgGUIHmBGGxldX3/ydENKyNu
+ udx+pNQW30rbT+n3QT/GA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ifj0B9Xdpjw=;HK1VqLd3h57EG5ErrUGya6d+KqK
+ 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
+ QJJbDTbhZC7C1aXSM6LH5iIyZ7Hr51Sz
 
-Describe how a dock is identified and placed by family rather than by
-product ID, what the driver implements in-kernel in place of EVDI and
-DisplayLinkManager, and the module parameters an unfamiliar dock or a
-converter with broken DDC may need.
+=E2=80=A6
+> +++ b/drivers/accel/qda/qda_memory_manager.c
+=E2=80=A6
+> +int qda_memory_manager_assign_device(struct qda_memory_manager *mem_mgr=
+,
+> +				     struct drm_file *file_priv)
+> +{
+=E2=80=A6
+> +	current_pid =3D qda_priv->pid;
+> 	+
+> +	mutex_lock(&mem_mgr->process_assignment_lock);
+=E2=80=A6
+> +unlock_and_return:
+> +	mutex_unlock(&mem_mgr->process_assignment_lock);
+> +
+> +	return ret;
+> +}
+=E2=80=A6
 
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
----
- Documentation/gpu/drivers.rst |   1 +
- Documentation/gpu/vino.rst    | 254 ++++++++++++++++++++++++++++++++++
- MAINTAINERS                   |   1 +
- 3 files changed, 256 insertions(+)
- create mode 100644 Documentation/gpu/vino.rst
+Under which circumstances would you become interested to apply a statement
+like =E2=80=9Cguard(mutex)(&mem_mgr->process_assignment_lock);=E2=80=9D?
+https://elixir.bootlin.com/linux/v7.2/source/include/linux/mutex.h#L253
 
-diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-index 20d2c454aa1d..4b524d6980c4 100644
---- a/Documentation/gpu/drivers.rst
-+++ b/Documentation/gpu/drivers.rst
-@@ -17,6 +17,7 @@ GPU Driver Documentation
-    tve200
-    v3d
-    vc4
-+   vino
-    vkms
-    bridge/dw-hdmi
-    xen-front
-diff --git a/Documentation/gpu/vino.rst b/Documentation/gpu/vino.rst
-new file mode 100644
-index 000000000000..98e82297a82a
---- /dev/null
-+++ b/Documentation/gpu/vino.rst
-@@ -0,0 +1,254 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+==========================
-+Vino DisplayLink DL3 driver
-+==========================
-+
-+Vino is a Rust DRM/KMS driver for DisplayLink DL3 USB display devices. Three
-+hardware families are supported: Ella (DL-3x00 silicon, e.g. the HP 3005pr),
-+Ridge (DL-6xxx silicon, e.g. the Dell Universal Dock D6000) and Navarro
-+(DL-7000 silicon, e.g. the DL-7400 quad-display docks). Each family has a
-+profile carrying the endpoints, strip geometry, connector count, link limits
-+and pacing of its hardware; the rest of the driver reads those values rather
-+than branching on the model.
-+
-+Device identification
-+=====================
-+
-+The driver binds to a DisplayLink *function*, not to a list of product IDs: any
-+device with vendor ``17e9`` exposing an interface of class ``0xff``, subclass
-+``0``, protocol ``0x03`` (a DL3 display function; ``0x00`` is the older ``udl``
-+hardware), plus that device's USB DFU interface. This matches what the vendor's
-+own udev rules key on, and means a dock nobody has tested is offered to the
-+driver rather than ignored.
-+
-+Which family a device belongs to is then read from the device itself. Every
-+DisplayLink dock carries a sixteen-byte vendor descriptor, type ``0x40``, in
-+its ordinary configuration descriptor, holding the running firmware version and
-+an eight-character platform name -- ``NavaDock``, ``RidgeDoc`` and so on. It is
-+read with a standard ``GET_DESCRIPTOR``, needing no session and no crypto, so
-+identification happens at probe.
-+
-+A device whose identity names a family the driver cannot drive is declined by
-+name, so its owner gets a log line and something worth reporting instead of a
-+driver guessing at an unknown wire format. A device whose identity cannot be
-+*read* falls back to a small product-ID quirk table, so a transient descriptor
-+failure does not cost a known dock its displays.
-+
-+The number of connectors comes from how many of the family's video endpoints
-+the device actually exposes, bounded by the profile. A dock in a known family
-+with fewer outputs is therefore driven with the outputs it has.
-+
-+The driver owns the USB device and implements the dock's initialization,
-+HDCP 2.2 authentication, encrypted control protocol, downstream monitor
-+management, mode programming, cursor updates, video compression, and USB
-+submission in the kernel. It does not use EVDI or a userspace display daemon.
-+
-+Configuration
-+=============
-+
-+The driver is selected by ``CONFIG_DRM_VINO``. It requires Rust, USB, DRM,
-+MMU support, the Rust DRM shmem helper, and the kernel crypto primitives used
-+by HDCP 2.2.
-+
-+``CONFIG_DRM_VINO=m`` builds ``vino.ko``.
-+
-+Verbose protocol and scanout diagnostics are disabled by default. Pass
-+``debug=1`` when loading the module to enable them::
-+
-+    modprobe vino debug=1
-+
-+Errors, connection changes, and session state remain visible without this
-+parameter.
-+
-+The remaining module parameters are for recovery and diagnosis:
-+
-+``edid_override``
-+  Bitmask of connectors whose EDID the dock cannot read -- typically a monitor
-+  behind a DP-to-HDMI converter that mangles DDC -- and which are described by
-+  DRM's own EDID override instead.
-+
-+``force_flash``
-+  Write the packaged dock firmware even when the dock already runs that version
-+  or newer. See `Firmware updates`_.
-+
-+``rtc_utc_offset_minutes``
-+  Local offset from UTC, in minutes east, used when synchronizing a Navarro
-+  dock's real-time clock.
-+
-+``trace_crypto``
-+  Discloses the ephemeral control and video keys of one session so that a
-+  ``usbmon`` capture can be decrypted. For protocol work only.
-+
-+The optional ``CONFIG_DRM_VINO_KUNIT_TEST`` setting builds the driver's KUnit
-+suite. It is intended for development kernels and is disabled by default.
-+
-+KMS model
-+=========
-+
-+A dock exposes independent display connectors: two on the D6000, four on the
-+DL-7400, where they are multiplexed over two video endpoints. Each has:
-+
-+* one primary plane using ``DRM_FORMAT_XRGB8888``, and ``DRM_FORMAT_XRGB2101010``
-+  as well where the dock's link carries ten bits per channel;
-+* one cursor plane using ``DRM_FORMAT_ARGB8888``;
-+* one CRTC, encoder, and connector;
-+* a downstream EDID channel; and
-+* a bulk-OUT video endpoint, which two connectors may share.
-+
-+Atomic commits record the latest desired state and wake an ordered,
-+device-owned control queue. Blocking USB transactions are never issued from
-+the atomic callback. A transient control failure retains the desired
-+generation and retries it; a newer atomic state always supersedes an older
-+retry.
-+
-+The primary plane supports the four DRM rotations and both reflection axes in
-+all valid combinations. Rotated and reflected frames are conservatively sent
-+as full updates. Their independent codec strips are still encoded in parallel;
-+identity scanout additionally supports damage updates and encoded-strip reuse.
-+
-+Mode validation
-+===============
-+
-+A mode reaches the dock as a timing plus two control words describing its sync
-+polarity and its CTA video identification code. Those words are taken verbatim
-+from decrypted vendor captures for the timings a capture covers -- 1920x1080 at
-+60 and 120 Hz, and 2560x1440 CVT-RB at 60 and 120 Hz -- and derived from the
-+mode's own sync flags and VIC otherwise, so a monitor's native timing is driven
-+rather than approximated.
-+
-+A mode is refused when it exceeds the ceilings its dock's profile names: the
-+highest pixel clock a single connector may carry, an optional refresh-rate cap
-+where the vendor driver is known to clamp, and the dock-wide pixel budget. The
-+budget is shared, so the atomic check enforces the combined rate of the
-+connectors a commit leaves enabled, while mode validation refuses only a single
-+mode too large for the whole dock.
-+
-+Framebuffer ownership and damage
-+================================
-+
-+The dock cannot scan out a GEM object directly. Vino therefore copies changed
-+strips from the shmem framebuffer into driver-owned snapshots before the
-+atomic commit completes. The compositor may reuse its source buffer after
-+that snapshot without racing the encoder.
-+
-+Each head retains at most four validated, owned shmem mappings, matching a
-+typical compositor swapchain. Repeated flips reuse those prepared mappings;
-+round-robin eviction and DPMS teardown keep pinned memory bounded. This is the
-+USB-display equivalent of preparing buffers before submission and requires no
-+driver-specific userspace API.
-+
-+Encoding and USB submission run asynchronously on per-head workers. Damage is
-+tracked against the last frame successfully submitted to the dock, not merely
-+against the previous atomic commit. This preserves changes when commits are
-+coalesced or a transfer fails.
-+
-+A strip whose content changes is charged one transmission for each buffer the
-+dock rotates through, plus one, and remains selected until that debt is paid.
-+One presentation reaches exactly one of those buffers, so a strip delivered to
-+only some of them would leave the panel alternating between old and new
-+content. A surface with no change and no debt outstanding sends nothing.
-+
-+The video path keeps a bounded, persistent USB request ring. The first
-+presentation after a mode change carries the decoder arm sequence and the
-+opening frame in one USB request, as required by the receiver.
-+
-+Control and authentication
-+==========================
-+
-+One per-device session owns the HDCP and encrypted-control counters, keys,
-+nonces, EP02 submissions, and EP84 replies. The control queue serializes
-+transactions so a KMS update cannot interleave with a heartbeat or monitor
-+operation.
-+
-+Initial transport, authentication, and encrypted-control setup is retried after
-+transient failures. Once authentication has succeeded, a timeout while
-+discovering one downstream monitor does not discard the live session. That
-+head remains disconnected until the bounded runtime re-engagement path
-+obtains a valid EDID.
-+
-+HDCP message identifiers and HDMI mode matching use the DRM display helpers.
-+AES, AES-CMAC, SHA-256, HMAC-SHA256, and RSA operations use kernel crypto
-+interfaces. Session material is stored per device and is not exposed through
-+a driver-specific userspace API.
-+
-+Colour management
-+=================
-+
-+The CRTC advertises ``CTM`` and a 256-entry ``GAMMA_LUT``, and both are applied
-+in software during encoding. A dock has no colour hardware to program, so a
-+compositor correcting through those properties -- as GNOME's Night Light and
-+KDE's Night Colour do -- would otherwise have nowhere to put the correction on
-+this output while native outputs are corrected normally.
-+
-+Colour depth and HDR
-+====================
-+
-+On a dock whose silicon carries ten bits per channel, each connector also
-+advertises ``max bpc``, ``Colorspace`` and ``HDR_OUTPUT_METADATA``. The wire
-+format is one codec parameterised by sample depth rather than two: an HDR
-+frame differs from an SDR one only in how deep its samples are, in the escape
-+ceilings the entropy coder is allowed to reach, and in the transfer function
-+and colorimetry stated in the mode set.
-+
-+The link's depth is taken from ``max bpc`` together with the PQ transfer
-+function the compositor attached, not from the committed framebuffer's format:
-+driving a ten-bit link from an eight-bit surface is ordinary, and a sample is
-+widened into the deeper link after it is decoded. A ten-bit connector costs the
-+dock a third more bandwidth per pixel, so the shared budget is priced at the
-+deepest connector in use, and where a pair of modes does not fit at ten bits
-+the depth gives way rather than the mode -- a compositor handed ``EINVAL``
-+disables the output instead of asking for a shallower link.
-+
-+Firmware updates
-+================
-+
-+A dock reports the firmware it is running in a vendor descriptor, and the
-+vendor's ``*-release.spkg`` packages state the version they carry. If the
-+kernel firmware loader can supply a package that is newer than what the dock
-+is running, vino writes it over USB DFU before opening a control session.
-+
-+Two deliberate paths exist alongside that. ``force_flash=1`` writes the
-+packaged image even when the dock already runs that version or a newer one,
-+which is how a dock left in a bad state is recovered. The
-+``/sys/class/firmware/vino-<dock>/`` upload interface takes an image from
-+userspace and writes whatever version it is, which is the only way to re-flash
-+the running version or to go back to an older one. Both refuse an image that is
-+not a DisplayLink package or is for another dock family: the DFU interface
-+supports no upload, so the running image cannot be read back and there is
-+nothing to restore from.
-+
-+Monitor handling
-+================
-+
-+EDID reads are tunneled through the dock's encrypted control protocol. An
-+unsolicited downstream event schedules a fresh presence probe. Removal,
-+reattachment, and a connector powered down by userspace are tracked separately
-+so a deliberate power transition is not reported as a physical unplug.
-+
-+The initial driver does not register a virtual I2C adapter for DDC/CI monitor
-+controls.
-+
-+Disconnect
-+==========
-+
-+USB I/O is guarded by a revocable I/O window. Disconnect closes that window
-+before workers and request queues are drained, preventing new transfers from
-+starting during teardown. The owned DRM registration, timers, work queues,
-+frame snapshots, and USB queues are then released by their Rust owners.
-+
-+Testing and validation
-+======================
-+
-+With ``CONFIG_DRM_VINO_KUNIT_TEST=y``, the protocol and codec have KUnit
-+coverage for cryptographic known-answer tests, captured control-message
-+vectors, mode profiles, decoder-arm framing, codec boundaries, damage
-+selection, USB record construction, and serial-versus-parallel output for all
-+rotation and reflection combinations.
-+
-+A focused compile check is::
-+
-+    make LLVM=1 rust/kernel.o drivers/gpu/drm/vino/vino.o
-+
-+External-module ``modpost`` also needs a completed kernel build with a
-+matching ``Module.symvers``.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 79ccf112fabd..1b0d496897ea 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8541,6 +8541,7 @@ DRM DRIVER FOR VINO DISPLAYLINK DL3 DEVICES
- M:	Mike Lothian <mike@fireburn.co.uk>
- L:	dri-devel@lists.freedesktop.org
- S:	Maintained
-+F:	Documentation/gpu/vino.rst
- F:	drivers/gpu/drm/vino/
- 
- DRM DRIVER FOR VIRTUAL KERNEL MODESETTING (VKMS)
+Regards,
+Markus
