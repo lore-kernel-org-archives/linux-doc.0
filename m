@@ -1,447 +1,220 @@
-Received: from mail.kekto.ru (mail.kekto.ru [188.242.149.39])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258EF426687;
-	Wed, 26 Aug 2026 13:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.242.149.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E61F42CB07
+	for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 13:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787751258; cv=none; b=E6WUBu5Ipu9KblSlafAuIBSeC+2l5IKZKo7Hz+SWSLdla/+EGfeAwLhNv6z9el0AG/kCC+1bnNURv20XIKc5pwkrLLURTxTwqF8GRFgCspalHH5hEttdP2e/ISvaquynNZ9/gB2fXOV4HzUui/UMHZ5x5NTxBWli0FMbI4PR1cc=
+	t=1787751932; cv=none; b=qp8ARe6r7Ld24g+RmzrYqsff0FX/BPipUzLZG3hlI3vnxmnXCi2UrynplQ3TN+9eUPPqfLrFZGc5zS/gvQcMxsROy/Ow0jm/hF7EGUyuth99cp6yn7PPqcydoahpCSfqfY9BQVKrTqo5fC095PfJqIaC3YyZ7oAUUd2eLeteadY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787751258; c=relaxed/simple;
-	bh=w57QnjDHpzExAFmVk48MeLjOazGYLxPrDSZVlF5qCUA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pNYwhxe1BBeWc8myX1Cg9YD5M+qAGvvIrXWR6LHg0SsMLUDlgQ+wDRjI6T43eqcRabd2iyNGNOINOn2aA9kKj/MCz6CEG4k6I8IoSotV0QxXOSwEsMbXh1nlqKOzZk0KhXFgCQwkSK1xXPm9ubeGsMzJTHaEL+K3FrfzUoDrKkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kekto.ru; spf=pass smtp.mailfrom=kekto.ru; dkim=pass (2048-bit key) header.d=kekto.ru header.i=@kekto.ru header.b=Zu2a/rBK; arc=none smtp.client-ip=188.242.149.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kekto.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kekto.ru
+	s=arc-20240116; t=1787751932; c=relaxed/simple;
+	bh=b3TbOLaOaVdbEoxxuz1CQtZAQmDctOUjkFHF9gAxpXw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fCWEOVIhE9DqWA7fYOKk+V3uAJcjUnfaJJ7JQ94BSrJBCssWPc6sXe4EvSBT/y/Yl4tKoPJny2p9EVR4+MEnrkYe1JVJ9KuUxKNbKrmsroo9mqHMWsMsLaT8azzqv5eLZCPfnhHYKHHX9h89fAIboFXsv40WKEodRW1+tQMLpBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hlNd3RgX; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jC/h2+QP; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kekto.ru header.i=@kekto.ru header.b="Zu2a/rBK"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 93D27254A2;
-	Wed, 26 Aug 2026 16:26:38 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kekto.ru; s=dkim;
-	t=1787750798; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=wRphR+98q9mATkUDyP5hjp+KBrOVIz8eprnDaAFhOo8=;
-	b=Zu2a/rBKfIo2F/Ui4Louu0mzDv2qZFXjQGp0rc2VbrjLNlrcO3E56JxS+MIunF0g/1KqwP
-	3wmYlmOi3wRHAteHzhJFGgD/Rc3HIx9rpJrIxOt+3dLp1h5RYyamwflDa+Ebn4fT/ndcyA
-	g15tYZz7rjL36DDc5iNETHn2XWcJcpbfcYqUIzpP7NMkhDn6vGhuJU+nzGpx5VdnY5D7Gd
-	AyZpAtzCZfqAzckG40gKXF2LL5bhQ7n5CmuoPTs+NOR8dJuP2a3YiUygXpN4o/5yonoVyC
-	WyQLIA6Kx6lJXyVeEjNLrkXewuOuLp7E66ApEjjW8SR95ED5D1M8VG2vpuyr/w==
-From: KentoNion <kento@kekto.ru>
-To: platform-driver-x86@vger.kernel.org,
-	Mingyou Chen <qby140326@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Armin Wolf <W_Armin@gmx.de>,
-	Gladyshev Ilya <foxido@foxido.dev>,
-	linux-kernel@vger.kernel.org,
-	Yuming Sun <wolf109909@outlook.com>,
-	Nabil Danial <nabildanial.93@gmail.com>,
-	Nika Krasnova <nika@ableh.moe>,
-	linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH] platform/x86: bitland-mifs-wmi: add TM2424 ops and hotkeys
-Date: Wed, 26 Aug 2026 16:26:39 +0300
-Message-ID: <20260826132639.177830-1-kento@kekto.ru>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260816100813.300450-1-qby140326@gmail.com>
-References: <20260816100813.300450-1-qby140326@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hlNd3RgX";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jC/h2+QP"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67QCCFKO1223065
+	for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 13:45:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	4jnYIpJgtFEZlWrcRFiUwalcwxZjoeOSevlSYM3+k2M=; b=hlNd3RgXSWmiQxeY
+	bbtdV+I8fqLURJiyTIgClpz0Tr8jUPb/86Dv5BytCuvpCkSiYE7mnx38abo6bJMq
+	GjE9WG8+JKCJkKlYb0RJS8sWBugJ4FbAMqRouy5blxcv1fQmCGIbm1oml9W6uyTH
+	ef8Pna7IoNIgndJZ1ObAEwbaU9/pb0zYQD3t3Y2UWWqkWOu4IwJFSUPGu1aLnhYm
+	214P6eaLNfyjtRKPHkvmniCr8A9BwTWFvK0eJ42ay9hv8UG22ttXfiGKG53RNmSF
+	MQhJEe/Hv4GgzNS9dwjZUsGE8AREGlMrUpU85qt8eCx75ccDuh9q7j208avufXzG
+	pstV8A==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g9r1gjatf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 13:45:19 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e8fee6af3so1496996a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 06:45:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787751919; x=1788356719; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4jnYIpJgtFEZlWrcRFiUwalcwxZjoeOSevlSYM3+k2M=;
+        b=jC/h2+QPo8hl2x48C929uxKU8JrlPlct4SnuE4LHjlW4kcFzkTFku/edZ2f4oYQrqy
+         FiEt+02bWDEF9s0rgh64D79/lXAag3LEJvdOWOg1SWhrIBNDa26+2tTNw2LskWsLc/v8
+         SoOM//gp7Nwm6FsCOBqIp2FiWm7qqtLOu9WEEKV2dcWLAAdDrg9gG3sXhKdNbx2D1hoC
+         lCEbzAKHnTwOFRXSEWH5lGPyIRVJoFfqvLlNWQdNooazrMzaqctpQSo3HeuzfEIOSQ0O
+         QDzsOyM1camRcV98ZzsMHI0+n8xTJfUPPZW4i6sFmPZEjVSYZCrEBdiTu2bufnUdQfRu
+         CDjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787751919; x=1788356719;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4jnYIpJgtFEZlWrcRFiUwalcwxZjoeOSevlSYM3+k2M=;
+        b=aU9dhgESLdut/Idjdh6z8RqOB8u2kAvglcQBtsJ3PM2r2J74MAOcNpfTzkl3AJN9MC
+         vMMzD5Bdn7AJbKhNNz3RyYxqeEaalQnn47xb9QPss998kbTda3y2rKz+vwGq/SLAipJC
+         Mdx6NAFqHr3XNwk8k07yarx8zK7qQ6gXJ9/NkpN3sVJ4S3HTcSDt1ZBXL1+WU7avvwQw
+         B+4TEeFP3OKXFUr1uNSNYyoi4psSDt66Wv4WjTOuwYea0vc1PHY1+I9d1dXfGHTjCSE5
+         65XTaIha6wBrqR2TxFswf7J79DDM7k+BQPpCzC0OAff0KjJSir3q0oDlB3hBB2SU40lT
+         DvIw==
+X-Forwarded-Encrypted: i=1; AHgh+RrAQzIXQEAELVDUTRgKFpohp8qhUNVIUICiPsVRCyYIkXaTAHGp0xfBRGlrNp0mB+MaI2ucVzZexyA=@vger.kernel.org
+X-Gm-Message-State: AFuF++ms5PcAyQX0UwmJw+e+SrxYb2B0uJrrtPeOM+QcnTKkumLOuIdq
+	2BDVPiUhAaoW65975Soalvb8B0mdhH4fIl6Ttw8YtJr+U7p84YBs9z8LCMb+CroT6U5T8SteBmJ
+	a/I9r59RTIg3rxfV2LM5mkab7X/kWBpwdgSI3YycClDv8SIo9qJWNlMqETAwU32k=
+X-Gm-Gg: AR+sD100lUFhSBYBjA7nqfiJY567iyGkzVqC++5CBAlfsuE0E01sfhefr8WruVRJwZz
+	VN5CAzM7coG0HAtbN25XVP0qHcUZYgLN0j8AX5w/bYINWRTqwAkQVULkv8y0jkoUvAFK1sVNx7a
+	F3W3t77ZXnnXTWjux4LtNni2Jed7fhu8NuMjMMw/8Nr80uy+6PK6Cqgz93bSVCCZX01lVc8WtjM
+	GI01y8YBuBzv9nwEkTsGFCJiU0lYsUaN2go0AjzvzHRc6xczMOtyoUHoLoUhhWhRUj8ys0MA1H4
+	GadHtRReZw5oSfA3Nc7ik0oGTe4XjOTad15g8qk3gYAaChiv5+qFQ+VDb6ieAJ8nWqagOjQY4jU
+	w5kKTi0YaQrPk53oxawlnb/8qabse9g==
+X-Received: by 2002:a17:90a:d2c6:b0:38e:5c6:4db9 with SMTP id 98e67ed59e1d1-3966d3dafb9mr15825949a91.11.1787751918699;
+        Wed, 26 Aug 2026 06:45:18 -0700 (PDT)
+X-Received: by 2002:a17:90a:d2c6:b0:38e:5c6:4db9 with SMTP id 98e67ed59e1d1-3966d3dafb9mr15825822a91.11.1787751918186;
+        Wed, 26 Aug 2026 06:45:18 -0700 (PDT)
+Received: from [10.219.57.226] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141a8f20036sm13571333c88.5.2026.08.26.06.45.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Aug 2026 06:45:17 -0700 (PDT)
+Message-ID: <2febead3-0f0c-4e0d-b11a-8c61ec027f44@oss.qualcomm.com>
+Date: Wed, 26 Aug 2026 19:15:07 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/15] accel/qda: Add DMA-backed GEM objects and memory
+ manager integration
+To: rob.clark@oss.qualcomm.com,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap
+ <rdunlap@infradead.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Bill Wendling
+ <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>,
+        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>,
+        srinivas.kandagatla@oss.qualcomm.com,
+        dmitry.baryshkov@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
+ <20260817-qda-v2-v2-9-69a02e9090d4@oss.qualcomm.com>
+ <7030a8f8-f320-4b09-b2de-2c8e897409f8@amd.com>
+ <CACSVV00MubttbkVJgMommPMorf67yqn7D1kfwpxVUZ0t-6au8Q@mail.gmail.com>
+Content-Language: en-US
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+In-Reply-To: <CACSVV00MubttbkVJgMommPMorf67yqn7D1kfwpxVUZ0t-6au8Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: c7FJ1C2DgRBPkk42Tjp26gcHghQqAEco
+X-Authority-Analysis: v=2.4 cv=FPMrAeos c=1 sm=1 tr=0 ts=6a8eedef cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=sLzL-2GVjjNmCx-rav0A:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI2MDExMyBTYWx0ZWRfX58Me8utAiNY7
+ urrjoKbthe9zR62yK5ZiRaIQ+XpOE8zlx/95N2Voi7xSdrFE9o/3cvKbNUncyIXaxUXXxlDOj2r
+ 0PXQ2QTsMxJjX8ZubM/NYcwhMfZ2r+8=
+X-Proofpoint-ORIG-GUID: c7FJ1C2DgRBPkk42Tjp26gcHghQqAEco
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI2MDExMyBTYWx0ZWRfX/2jFsvMk36JH
+ C2szGitA6Z2B2I1keuV0NB/VjQSAi6zd30Mz1b2tle2Y5csIJd8m1Cf/0L3Ipcf/lCHvghkBdVq
+ 3FgV4UTr+FStSDkbuQ96twfjL5YLKZj1im5Zk4D6scrRprSuqcTJofdoY7g13cd00KRzIISGdSh
+ u/SpRjDYfAXTW1OtpuIiiSNJ2Pyn2Qb26dXIOI6jUFywZRS7uwbtg5O1YxKLN25gCKhx2wX7Ed6
+ 9+8v9A77upOW95PHWwqKF2rlcq75hzCDomuZmeUVskMjMS3QcpgRh224NQuFfZm1b8xTPUCBbp6
+ 2c1N3+Om/pWlXO3MF9I1mvFNzHlXUiYXdj37zcSHYxC9IAcI+IF1Na7JlEQ1n3Alvpm5K7irZaB
+ KMOqdR0bRQ2Gvr8LgqWVEx5LLrJuOhwdVnJ7RU3MsyTq4fsRJJnIDPDBekmPNf4limiSF+Frv9X
+ 2Nwk0noyNWCWCM3ideA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-26_03,2026-08-26_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
+ lowpriorityscore=0 suspectscore=0 adultscore=0 spamscore=0 phishscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608260113
 
-Xiaomi Book Pro 14 2026 (DMI sys_vendor=XIAOMI, board_name=TM2424)
-uses five cmd 0x08 bytes that do not fit the four-field mode_map:
+On 24-08-2026 20:37, Rob Clark wrote:
+>>> qda_memory_dma.c / qda_memory_dma.h
+>>>   DMA coherent allocation backend. qda_dma_alloc() calls
+>>>   dma_alloc_coherent() on the CB device and encodes the stream ID
+>>>   (SID) in the upper 32 bits of the returned DMA address, following
+>>>   the Qualcomm FastRPC convention for IOMMU address space tagging.
+>>>   qda_dma_free() strips the SID prefix before calling
+>>>   dma_free_coherent().
+>>>
+>>> qda_memory_manager.c
+>>>   Adds process-to-device assignment: each DRM file (process) is
+>>>   assigned one IOMMU context bank device for the lifetime of the
+>>>   session. qda_memory_manager_assign_device() first checks whether
+>>>   the process already has a device (reusing it with a refcount
+>>>   increment), then falls back to claiming an unassigned device.
+>>>   qda_memory_manager_alloc() and qda_memory_manager_free() delegate
+>>>   to the DMA backend after resolving the correct CB device for the
+>>>   calling process.
+>> Oh, stuff like that is usually a pretty big NO-GO now.
+>>
+>> AMD has made the same mistake with KFD and it resulted in a massive chaos.
+>>
+>> The DRM file is the driver context your process uses and even if there are multiple DRM files for the same PID you should absolute *NOT* share anything between them.
+>>
+>> The general rule of thumb is to not attach anything to the process using the DRM file descriptor.
+> A couple other things to keep in mind:
+> 
+> 1. drm device fd can be passed across processes
+> 2. virtgpu/virglrenderer drm native ctx is a single process that opens
+> the drm device file N times on behalf of N guest userspace processes.
+> 
+> All that to say, Christian is right here.. drm_file is your context,
+> pgtables should be attached to the drm_file (potentially via
+> drm_gpuvm.. which you perhaps want to use).
+> 
+> BR,
+> -R
+> 
+>> Regards,
+>> Christian.
+>>
 
-  Quiet=0x02, Turbo=0x03, Full-speed=0x04, Auto=0x09, Eco=0x0A
+Hi Christian, Rob,
 
-Add a TM2424 entry to the per-machine ops table. SET maps the three
-platform_profile choices to Eco / Auto / Full-speed; GET aliases Quiet
-and Turbo. Full-speed falls back to Turbo when firmware NACKs.
+Thank you for highlighting this.
 
-The reduced firmware does not implement hwmon, keyboard LED or the
-gpu_mode/kb_mode/fan_boost attributes.
+I'll rework the CB assignment to be per-drm_file. Each open() will get a
+CB assigned from the available pool (find-first-available, not
+find-by-PID). The assigned_pid field and PID-matching logic will be
+removed entirely.
 
-Map remaining TM2424 HID_EVENT20 keys (projection value 0, AI break
-0x24, Mi button 0x25/0x26). Mic-mute 0x21 and settings 0x1B are
-already in the merged keymap.
+The hardware has a limited number of context banks that serve many
+sessions (on fastrpc, via the DT "qcom,nsessions" property), so multiple
+drm_files may end up sharing the same underlying CB due to hardware
+constraints, but while implementing that also, I'll ensure that the
+association goes through drm_file->driver_priv, never through a PID scan.
 
-This supersedes the standalone TM2424 quirk
-<20260816215825.289356-1-kento@kekto.ru>.
+I'll also look into drm_gpuvm for the longer-term address space
+management as Rob suggested.
 
-Tested on TM2424-77080: performance on AC holds ~50W package power.
-acpi_listen shows HID_EVENT20 as wmi PNP0C14:00 notify 0x20 for the
-mic, AI, projection, settings and Mi keys (see cover letter).
+Thanks,
+Ekansh
 
-Signed-off-by: KentoNion <kento@kekto.ru>
----
-
-This is a follow-up to Mingyou's v5, not a competing rewrite.
-
-v5's four-field mode_map cannot express TM2424: five firmware bytes
-(Quiet/Turbo/Full-speed/Auto/Eco) collapse to three platform_profile
-choices, GET has aliases, and SET of performance must try Full-speed
-then Turbo when firmware NACKs. The new ops callbacks stay NULL on
-the Bitland/Redmi paths.
-
-DMI is XIAOMI + TM2424. Mingyou's Xiaomi Book match is TIMI, so this
-SKU would otherwise keep the Bitland 0..3 defaults and stay broken.
-
-Yuming's 2/5 names on this machine are inverted (0x03 is Turbo, 0x09
-is Auto, 0x0A is Eco). Please do not take that SET mapping for TM2424.
-
-I did not include lid polling or EC fan tachs. On this BIOS the ACPI
-EC still starts and Lid Switch already binds; ECON is an unresolved
-External used only by _STA (not defined in DSDT or any SSDT). That
-is an ACPI firmware bug, not a WMI one. Decoded excerpts and dmesg
-are a reply on Yuming's 0/5, In-Reply-To Armin.
-
-I also left the v5 suspend hook alone. Ilpo already nacked the
-profile_valid pattern on Yuming 1/5. With this mapping GET no longer
-returns unmapped cmd 0x08 bytes on TM2424, so the existing hook
-should not abort sleep here. A global never-abort plus a status-word
-check still belongs in a separate patch; please take Ilpo's union +
-endianness nits there. This patch only looks at output.operation ==
-0x80 on TM2424 SET (the accepted byte; same field Yuming packs as
-0x8000) so Full-speed can fall back to Turbo.
-
-One regression to watch when v5 is rebased: e0d6312578e1 turned some
-redmi-wmi KE_IGNORE entries into KEY_KBDILLUMTOGGLE / KEY_PERFORMANCE
-/ KEY_FN_ESC. v5 2/6 still KE_IGNOREs those; please carry Musaev's
-mappings into the merged keymap in v6.
-
-The LKP const-qualifier error on the old standalone quirk is obsolete
-once v5's non-const DEVICE_ATTR is the base.
-
-Tested on Xiaomi Book Pro 14 2026, SKU TM2424-77080, BIOS XMAPT4B0P0707.
-
-acpi_listen on that machine (HID_EVENT20 is notify 0x20 on PNP0C14:00).
-Volume and panel brightness are standard ACPI and do not go through
-this driver. The WMI-backed keys with this keymap:
-
-  FN+F4 mic:
-    wmi PNP0C14:00 00000020 00000000
-    button/micmute MICMUTE 00000080 00000000 K
-
-  FN+F7 AI (make KEY_PROG1; break is KE_IGNORE):
-    wmi PNP0C14:00 00000020 00000000
-    button/prog1 PROG1 00000080 00000000 K
-    wmi PNP0C14:00 00000020 00000000
-
-  FN+F8 projection:
-    wmi PNP0C14:00 00000020 00000000
-    video/switchmode VMOD 00000080 00000000 K
-
-  FN+F9 settings (KEY_CONFIG, evdev only):
-    wmi PNP0C14:00 00000020 00000000
-
-  Mi button (make KEY_VENDOR; break is KE_IGNORE):
-    wmi PNP0C14:00 00000020 00000000
-    button/vendor VNDR 00000080 00000000 K
-    wmi PNP0C14:00 00000020 00000000
-
-Raw session (including power/mute/volume/brightness):
-
-  button/power PBTN 00000080 00000000
-  button/power LNXPWRBN:00 00000080 00000001
-  button/mute MUTE 00000080 00000000 K
-  button/volumeup VOLUP 00000080 00000000 K
-  button/volumeup VOLUP 00000080 00000000 K
-  button/volumedown VOLDN 00000080 00000000 K
-  wmi PNP0C14:00 00000020 00000000
-  button/micmute MICMUTE 00000080 00000000 K
-  wmi PNP0C14:00 00000020 00000000
-  button/micmute MICMUTE 00000080 00000000 K
-  video/brightnessdown BRTDN 00000087 00000000
-  video/brightnessup BRTUP 00000086 00000000
-  wmi PNP0C14:00 00000020 00000000
-  button/prog1 PROG1 00000080 00000000 K
-  wmi PNP0C14:00 00000020 00000000
-  wmi PNP0C14:00 00000020 00000000
-  video/switchmode VMOD 00000080 00000000 K
-  wmi PNP0C14:00 00000020 00000000
-  wmi PNP0C14:00 00000020 00000000
-  wmi PNP0C14:00 00000020 00000000
-  wmi PNP0C14:00 00000020 00000000
-  button/vendor VNDR 00000080 00000000 K
-  wmi PNP0C14:00 00000020 00000000
-
-diff --git a/Documentation/wmi/devices/bitland-mifs-wmi.rst b/Documentation/wmi/devices/bitland-mifs-wmi.rst
-index 9e86ecc..a89f872 100644
---- a/Documentation/wmi/devices/bitland-mifs-wmi.rst
-+++ b/Documentation/wmi/devices/bitland-mifs-wmi.rst
-@@ -93,8 +93,13 @@ The following Command IDs are used in the third byte of the buffer:
- +----------+-----------------------+------------------------------------------+
- | ID       | Name                  | Values / Description                     |
- +==========+=======================+==========================================+
--| 8        | SystemPerMode         | 0: Balance, 1: Performance, 2: Quiet,    |
--|          |                       | 3: Full-speed                            |
-+| 8        | SystemPerMode         | Bitland gaming: 0 Balance, 1             |
-+|          |                       | Performance, 2 Quiet, 3 Full-speed.      |
-+|          |                       | Redmi: 0 Performance, 1 Balanced, 2      |
-+|          |                       | Quiet, 4 Full-speed.                     |
-+|          |                       | TM2424 (Xiaomi Book Pro 14): 0x02        |
-+|          |                       | Quiet, 0x03 Turbo, 0x04 Full-speed,      |
-+|          |                       | 0x09 Auto, 0x0A Eco.                     |
- +----------+-----------------------+------------------------------------------+
- | 9        | GPUMode               | 0: Hybrid, 1: Discrete, 2: UMA           |
- +----------+-----------------------+------------------------------------------+
-@@ -188,11 +193,8 @@ Performance Modes
- -----------------
- Changing the performance mode via Command ID 0x08 (SystemPerMode) affects the
- power limits (PL1/PL2) and fan curves managed by the Embedded Controller (EC).
--Note that the "Full-speed" and "Performance" mode (1, 3) is typically only
--available when the system is connected to a DC power source (not USB-C/PD).
--
--In the driver implementation, switch to performance/full-speed mode without
--DC power connected will throw the EOPNOTSUPP error.
-+The value encoding and the AC-power requirement are machine-specific (see
-+Command ID 8 and the driver ops table).
- 
- Graphics Switching
- ------------------
-diff --git a/drivers/platform/x86/bitland-mifs-wmi.c b/drivers/platform/x86/bitland-mifs-wmi.c
-index 6031b1c..b49a6fb 100644
---- a/drivers/platform/x86/bitland-mifs-wmi.c
-+++ b/drivers/platform/x86/bitland-mifs-wmi.c
-@@ -44,6 +44,9 @@
- #define BITLAND_MIFS_GUID	"B60BFB48-3E5B-49E4-A0E9-8CFFE1B3434B"
- #define BITLAND_EVENT_GUID	"46C93E13-EE9B-4262-8488-563BCA757FEF"
- 
-+/* Firmware status in output.operation (wire OutData[1]): request accepted. */
-+#define MIFS_STATUS_OK		0x80
-+
- enum bitland_mifs_operation {
- 	WMI_METHOD_GET	= 250,
- 	WMI_METHOD_SET	= 251,
-@@ -110,8 +113,21 @@ static const struct bitland_profile_mode_map redmi_mode_map = {
- 	.full_speed	= 4,
- };
- 
-+/* TM2424 SystemPerMode bytes (Eco/Auto/Full-speed; Quiet/Turbo are GET aliases). */
-+enum bitland_mifs_tm2424_perf_mode {
-+	WMI_TM2424_QUIET	= 0x02,
-+	WMI_TM2424_TURBO	= 0x03,
-+	WMI_TM2424_FULL_SPEED	= 0x04,
-+	WMI_TM2424_AUTO		= 0x09,
-+	WMI_TM2424_ECO		= 0x0A,
-+};
-+
- static int bitland_pp_check_capability(struct bitland_mifs_wmi_data *data);
- static int redmi_pp_check_capability(struct bitland_mifs_wmi_data *data);
-+static int tm2424_profile_get(struct bitland_mifs_wmi_data *data,
-+			      enum platform_profile_option *profile);
-+static int tm2424_profile_set(struct bitland_mifs_wmi_data *data,
-+			      enum platform_profile_option profile);
- 
- /*
-  * Machine-specific operations. The MIFS WMI interface is shared by
-@@ -122,9 +138,15 @@ struct bitland_mifs_ops {
- 	const char *name;
- 	const struct bitland_profile_mode_map *mode_map;
- 	int (*check_performance_capability)(struct bitland_mifs_wmi_data *data);
-+	int (*profile_get)(struct bitland_mifs_wmi_data *data,
-+			   enum platform_profile_option *profile);
-+	int (*profile_set)(struct bitland_mifs_wmi_data *data,
-+			   enum platform_profile_option profile);
- 	bool has_full_speed;
- 	bool has_cpu_power;
- 	bool quirk_refresh_rate_toggle;
-+	/* hwmon, keyboard LED and gpu/kb/fan sysfs are unimplemented */
-+	bool reduced_fw;
- };
- 
- static const struct bitland_mifs_ops bitland_ops = {
-@@ -151,7 +173,22 @@ static const struct bitland_mifs_ops redmi_g_ops = {
- 	.quirk_refresh_rate_toggle = true,
- };
- 
-+static const struct bitland_mifs_ops tm2424_ops = {
-+	.name = "Xiaomi Book Pro 14",
-+	.profile_get = tm2424_profile_get,
-+	.profile_set = tm2424_profile_set,
-+	.reduced_fw = true,
-+};
-+
- static const struct dmi_system_id bitland_mifs_dmi_table[] = {
-+	{
-+		/* Xiaomi Book Pro 14. Vendor is XIAOMI, not TIMI. */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "XIAOMI"),
-+			DMI_MATCH(DMI_BOARD_NAME, "TM2424"),
-+		},
-+		.driver_data = (void *)&tm2424_ops,
-+	},
- 	{
- 		/* Redmi G */
- 		.matches = {
-@@ -296,11 +333,89 @@ static int bitland_mifs_wmi_call(struct bitland_mifs_wmi_data *data,
- 	return 0;
- }
- 
-+static int tm2424_wmi_perf_set(struct bitland_mifs_wmi_data *data, u8 val)
-+{
-+	struct bitland_mifs_input input = {
-+		.operation = WMI_METHOD_SET,
-+		.function = WMI_FN_SYSTEM_PER_MODE,
-+	};
-+	struct bitland_mifs_output output;
-+	int ret;
-+
-+	input.payload[0] = val;
-+
-+	ret = bitland_mifs_wmi_call(data, &input, &output);
-+	if (ret)
-+		return ret;
-+
-+	if (output.operation != MIFS_STATUS_OK) {
-+		dev_dbg(&data->wdev->dev,
-+			"perf mode %#x rejected by firmware (status=%#x)\n",
-+			val, output.operation);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
-+static int tm2424_profile_get(struct bitland_mifs_wmi_data *data,
-+			      enum platform_profile_option *profile)
-+{
-+	struct bitland_mifs_input input = {
-+		.operation = WMI_METHOD_GET,
-+		.function = WMI_FN_SYSTEM_PER_MODE,
-+	};
-+	struct bitland_mifs_output output;
-+	int ret;
-+
-+	ret = bitland_mifs_wmi_call(data, &input, &output);
-+	if (ret)
-+		return ret;
-+
-+	switch (output.data[0]) {
-+	case WMI_TM2424_ECO:
-+	case WMI_TM2424_QUIET:
-+		*profile = PLATFORM_PROFILE_LOW_POWER;
-+		break;
-+	case WMI_TM2424_AUTO:
-+		*profile = PLATFORM_PROFILE_BALANCED;
-+		break;
-+	case WMI_TM2424_FULL_SPEED:
-+	case WMI_TM2424_TURBO:
-+		*profile = PLATFORM_PROFILE_PERFORMANCE;
-+		break;
-+	default:
-+		dev_dbg(&data->wdev->dev,
-+			"unrecognized TM2424 perf mode %#x\n", output.data[0]);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int tm2424_profile_set(struct bitland_mifs_wmi_data *data,
-+			      enum platform_profile_option profile)
-+{
-+	switch (profile) {
-+	case PLATFORM_PROFILE_LOW_POWER:
-+		return tm2424_wmi_perf_set(data, WMI_TM2424_ECO);
-+	case PLATFORM_PROFILE_BALANCED:
-+		return tm2424_wmi_perf_set(data, WMI_TM2424_AUTO);
-+	case PLATFORM_PROFILE_PERFORMANCE:
-+		/* Full-speed is rejected on battery; fall back to Turbo. */
-+		if (tm2424_wmi_perf_set(data, WMI_TM2424_FULL_SPEED) == 0)
-+			return 0;
-+		return tm2424_wmi_perf_set(data, WMI_TM2424_TURBO);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
- static int laptop_profile_get(struct device *dev,
- 			      enum platform_profile_option *profile)
- {
- 	struct bitland_mifs_wmi_data *data = dev_get_drvdata(dev);
--	const struct bitland_profile_mode_map *map = data->ops->mode_map;
-+	const struct bitland_profile_mode_map *map;
- 	struct bitland_mifs_input input = {
- 		.reserved1 = 0,
- 		.operation = WMI_METHOD_GET,
-@@ -311,6 +426,10 @@ static int laptop_profile_get(struct device *dev,
- 	u8 mode;
- 	int ret;
- 
-+	if (data->ops->profile_get)
-+		return data->ops->profile_get(data, profile);
-+
-+	map = data->ops->mode_map;
- 	ret = bitland_mifs_wmi_call(data, &input, &result);
- 	if (ret)
- 		return ret;
-@@ -369,7 +488,7 @@ static int laptop_profile_set(struct device *dev,
- 			      enum platform_profile_option profile)
- {
- 	struct bitland_mifs_wmi_data *data = dev_get_drvdata(dev);
--	const struct bitland_profile_mode_map *map = data->ops->mode_map;
-+	const struct bitland_profile_mode_map *map;
- 	struct bitland_mifs_input input = {
- 		.reserved1 = 0,
- 		.operation = WMI_METHOD_SET,
-@@ -379,6 +498,11 @@ static int laptop_profile_set(struct device *dev,
- 	int ret;
- 	u8 mode;
- 
-+	if (data->ops->profile_set)
-+		return data->ops->profile_set(data, profile);
-+
-+	map = data->ops->mode_map;
-+
- 	switch (profile) {
- 	case PLATFORM_PROFILE_LOW_POWER:
- 		mode = map->quiet;
-@@ -897,6 +1021,7 @@ static const struct key_entry bitland_mifs_wmi_keymap[] = {
- 	{ KE_KEY, BI_HOTKEY_CODE(WMI_EVENT_RESERVED_3, 0, 0), { KEY_ALL_APPLICATIONS } },
- 	{ KE_KEY, BI_HOTKEY_CODE(0x1b, 0, 0), { KEY_CONFIG } },
- 	{ KE_KEY, BI_HOTKEY_CODE(0x1b, 1, 0), { KEY_CONFIG } },
-+	{ KE_KEY, BI_HOTKEY_CODE(WMI_EVENT_RESERVED_1, 0, 0), { KEY_SWITCHVIDEOMODE } },
- 	{ KE_KEY, BI_HOTKEY_CODE(WMI_EVENT_RESERVED_1, 1, 0), { KEY_SWITCHVIDEOMODE } },
- 	{ KE_KEY, BI_HOTKEY_CODE(WMI_EVENT_REFRESH_RATE, 0, 0), { KEY_REFRESH_RATE_TOGGLE } },
- 
-@@ -908,6 +1033,12 @@ static const struct key_entry bitland_mifs_wmi_keymap[] = {
- 	{ KE_KEY, BI_HOTKEY_CODE(WMI_EVENT_FN_5, 1, 0), { KEY_ASSISTANT } },
- 
- 	{ KE_KEY, BI_HOTKEY_CODE(0x19, 1, 0), { KEY_ASSISTANT } },
-+	/* TM2424 AI break event (make is 0x23 / WMI_EVENT_OPEN_APP) */
-+	{ KE_IGNORE, BI_HOTKEY_CODE(0x24, 1, 0), {} },
-+
-+	/* TM2424 Mi button: make/break pair */
-+	{ KE_KEY, BI_HOTKEY_CODE(0x25, 1, 0), { KEY_VENDOR } },
-+	{ KE_IGNORE, BI_HOTKEY_CODE(0x26, 1, 0), {} },
- 
- 	{ KE_IGNORE, BI_HOTKEY_CODE(WMI_EVENT_KBD_BRIGHTNESS, 0, 0), {} },
- 	{ KE_IGNORE, BI_HOTKEY_CODE(WMI_EVENT_KBD_BRIGHTNESS, 0, 0x80), {} },
-@@ -1085,6 +1216,9 @@ static int bitland_mifs_wmi_probe(struct wmi_device *wdev, const void *context)
- 	if (IS_ERR(drv_data->pp_dev))
- 		return PTR_ERR(drv_data->pp_dev);
- 
-+	if (drv_data->ops->reduced_fw)
-+		return 0;
-+
- 	/* Detect the keyboard type */
- 	ret = bitland_detect_kbd_type(drv_data);
- 	if (ret)
-@@ -1243,5 +1377,6 @@ static struct wmi_driver bitland_mifs_wmi_driver = {
- module_wmi_driver(bitland_mifs_wmi_driver);
- 
- MODULE_AUTHOR("Mingyou Chen <qby140326@gmail.com>");
-+MODULE_AUTHOR("KentoNion <kento@kekto.ru>");
- MODULE_DESCRIPTION("Bitland MIFS (MiInterface) WMI driver");
- MODULE_LICENSE("GPL");
--- 
-2.55.0
