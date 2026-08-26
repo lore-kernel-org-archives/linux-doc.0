@@ -1,60 +1,68 @@
-Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021126.outbound.protection.outlook.com [52.101.95.126])
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013000.outbound.protection.outlook.com [40.107.201.0])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6D13F1AD7;
-	Wed, 26 Aug 2026 11:13:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.126
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAA63F4139;
+	Wed, 26 Aug 2026 11:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.0
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787742833; cv=fail; b=GdKrMGRkxBqpv82Tt2s82kZvZ5lUn5Hzek/Gc7ERd0Vt+/wTZag0+fellPC34lJ3roo4yFxyHqv/JRtzzuy9IYXIho3KrCY3cLQvEzHeShUKGwLhkr2om/kXIvhzyUz3OMAPYBaJUOcNXtIHVgEuHuaxxJKadjICHAxHoT5l6ec=
+	t=1787744523; cv=fail; b=t7KbxwvIIJBFK7QvWnAWh23cZoES/68wmFV3P/b/Kc9TfwW4nKYmvHxETRvWARCaV5RrsTLWUvZaf4RRPI86bbfrIHbZR7KWxK78YhNW3apzmdkLxymRXA2YDxGOVmsTLRCD0QRh/3D6y0wbPUvs6JRohcyJ/s1Ydy/vtqY6YTc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787742833; c=relaxed/simple;
-	bh=OCL7ZGOaOTqRCJuOSR5+VKsFuAEEIsjEwxjFbWF6WAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Vcpmav79P43UBPJIKRKUuIH+pWTkMcdxXX6ssAIlvwHCCcOvwCI9J6+U/8DgRA6uPZaG//Sw060RHsAuHgmefhSd/KjUaKLaC1xU79lChRuADX+XVhB5dODYELUAYdbOrDvJTLZWrMmx2a7KXlnDNxWLmSsVu59g7xryLe0K4Vk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.95.126
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+	s=arc-20240116; t=1787744523; c=relaxed/simple;
+	bh=jWvBJMd3D5cMDG6+rCmapnn7SozJVbE3jl9PN+/fifY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=OuKB5FAvoqU9avoiYBriueFKyBUPMwFDYA33kcqpKqEeQ/1PT5jgr75JVCWxMGk95+mXyjdQuJI2jEHDZQmnSWagICCTsEaWf5MIY3HClLMHvYX8yLX6kfLqWDZgiiq8+9rZZM1FHKj32IRSWmNxZK7UquS0IRAEsdKaUAbI12M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1eNBL/R+; arc=fail smtp.client-ip=40.107.201.0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1eNBL/R+"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J5rGpPRYmJlHWgotasel0bqIg8T1+SlWGfRyDJrds0Qe7cz6BbN8vRmZGqLjUYzcOXuVJCfDM+SVoLplurARnHPf9u6tFqTj7w5Rrm7d9QHEbeJ+t6nGVK9fa4Lh6cGxiufLJauvWkM9wlBFRSmfHS0j78tGM6oX2o6/n74JXKAqBv55mE8Xqt+sGk8evi0b/mW1egeu6Ph6E3n26gZKFC0Uu/bm86y9aH3z4p+VNaZmkG2lpiBqtMCHKn2MxYO+bmikuytUnBhcjQMQGvB50iMr1UpXx7qxoDmvgpmyyTQrQS8gCPx5ml/2xOG3o8vLGg7kfN0wbXDTgJ4Gwua3zw==
+ b=lu+UYnNHKch1ZY6uwOnUBO24gLFZzt4RS3bNQWRaC9Y7Izcb+o+Yv4/e90bV36GoRhJJnVJwt8oXhAQ/pDfcNRBUR9wEqhY7OlVvAdWs1mBhcxn+ElWVDQ6BJrmQKNEdB8s/vmkY6faQg9Y1JqJFTTdLnOqvXf6qOa+vm/99dZ7zyW/BSgxjS6wMbt+Yzr3lVbpIwU+5fltmNm0CGClglnjN5SR8ixAnTNn4IEaGU82zXEsOoqNmfuLbdXn1bGJL6yx5GVvPO/ZupRhwWcyhsQAvPw08qBDJCP3TKSfKvcoZchspm06KvhkTyanJRkHVShzbf8jES3ig/0Po6kYUYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=lgCyyzTewM08z+JKVgY6mDDF2hnul4KNHzZ61gOalDo=;
- b=wc6MyLeiEYjfp1cKoqcC869+ZetxU3t25H3vbI98tZdQuYKxN2rS4f/1AgQhnJUMQ9J3zSVwWFdIFRMDuvRcbWtoKN39ioAMXf2IBV8GnQEk3f8v0I/iycvFJyFJ+VxjLxidTdccs4Fdw+/I+TroFzlfzXsjf8rk+GJIGVQ2evvn0p3b1pmIYdrSYhyPafaKfaVvoqpCafoh044ztw/v/XwbVixU6RON0+YOGAVIDRMCmTTaPWDX0gH3Z2dCy/z/OL5u/z5HWBo9XQobFJv5AeMrI7z6dw4O3pjLQZ6oApG72gtgk3veC7zw41l2wFSTQbjNMmTAEecR6pEPi5/9fw==
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PfRDr59s9ydvFL0JtQK/PQCJ9TqofxBePgBMVpgCNro=;
+ b=YLFegK4c4GgqAei1qJ+sIFrBeyLTwowfyGBWWF8Hdv3U2H3T4pGcLQplGJHSMe9h6iDhxHukggHAsTwtxjIqr45rzQ29OSY9yQGJCFoDW6BNy3/FSLGGrW1j5t4cSiH5lU2QRQ20fBvgvZ0oMNup0PyfHTZu41y3LvI20B/vktLq6vbUL3pMVuXkGzgXfo2wnD99c3GLP0D3/8mTXR70HAPf98M6mOkPVTPq1g9VhO/w3mDzdMZ25i7abn8ywzsSqqJZxWSNu6MAQ/4m5ZQYmd3C1Wdjeq/fldz412JU46qXTmBSfZ6C8Nf8OJcIrwhPEGO/JsOzByYrBQJli/Rdcw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PfRDr59s9ydvFL0JtQK/PQCJ9TqofxBePgBMVpgCNro=;
+ b=1eNBL/R+fExo8xllnfg/9oFC75IlJ8rcolIhhqULhzt4G70IiPCv3i7YdFtFXMypAk4pbq3S5+zq3/N6S4ynC0yqxHNPpwd9Ux0dGSooaeKMRQvdRIrLMH+x8rEOVvqJ6J9dqgMRSn2d9rjP3jEI3VZWE4vkochWucM8AN01Gt4=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:183::5)
- by LO0P123MB7937.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:42b::20) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS1PR12MB999189.namprd12.prod.outlook.com (2603:10b6:8:495::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.9; Wed, 26 Aug
- 2026 11:13:38 +0000
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230]) by CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230%4]) with mapi id 15.21.0360.008; Wed, 26 Aug 2026
- 11:13:38 +0000
-Date: Wed, 26 Aug 2026 07:13:36 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] module: pull out add_taint_module() to be public
-Message-ID: <lnbvi6d72t7zdc3w7yc34y4hyf6gnuduqpqk4q3vqzypw23j37@5zh62c4wyr6i>
-References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
- <20260826-bind_taint-v1-1-52b05f4a965c@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260826-bind_taint-v1-1-52b05f4a965c@linuxfoundation.org>
-X-ClientProxiedBy: LO4P123CA0042.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:152::11) To CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:183::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.6; Wed, 26 Aug
+ 2026 11:41:56 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%3]) with mapi id 15.21.0339.007; Wed, 26 Aug 2026
+ 11:41:56 +0000
+Message-ID: <2776f9b0-c299-45ff-bf82-89b95e73fd60@amd.com>
+Date: Wed, 26 Aug 2026 13:41:51 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] dma-buf: Document how exporters and importers agree
+ on mapping lifetime
+To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20260825-document-dma-buf-v1-0-5ecfb3e1371c@nvidia.com>
+ <20260825-document-dma-buf-v1-2-5ecfb3e1371c@nvidia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260825-document-dma-buf-v1-2-5ecfb3e1371c@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0091.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a9::11) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,148 +70,229 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB6607:EE_|LO0P123MB7937:EE_
-X-MS-Office365-Filtering-Correlation-Id: ebfb1d7e-c570-4eac-8f22-08df036313fc
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS1PR12MB999189:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81b01132-6c57-4f75-9a14-08df036707e3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|366016|7416014|376014|56012099006|10067099003|18002099003|22082099003|4143699003;
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|23010399003|4143699003|11063799006|5023799004|56012099006|10067099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	eqQQDHEWeVpm5cfe9VLNV2w+KPPbkdb5bnIe0d9snnr3zuv0oHg8jexdNq7XX98XTEsRxTU719+AD+VSZqVmmZsOFKMkLj+PHwaNwHugOOToNHgTZjnY7OEbYIBtDCVPjZB2Cf0Ueu/Ga5AgbrJ7xDn8rGADoqBbSvl2duLBAGVqVi6zwyzWemz+MV0Fkn6ATspLYxyClbIUKLQ/e6bi/Mwu4vwNiutz4OdWSBVNpBX9Cef5ymeRSClJfZhbkPvWcLTQ0QUoRVG3r4o1CxAQbYxKsNqqqjb3+SPPcPEz1N3EXFbObNB4cWbqmg9Am299/Kauw2qk0Gj0jwgtupZJ75MMkHkCi0Pqo9fD/2icKH4z8ImyVgkJulJv2If8EOwx/SMVM75pOiZNnLVgh0SlO2tJFoiWnnuGQdHd0sMVlIplE9NoW3Q4sC7aJZvEEUZIFQ/WlHZgubfsnqZ6Vn3KfWNxEZ0nshqgx99x6jbO/QUdq+FRp+ZzvhE+GIwONRzrbLfl/HEPnLxOYbKYE4yj0kCCW91fCvnaYuuiAsHwi4LLOQbnr7V289ShbYBhm7GX+aStxotmbHEZKXEAPoOdocszGqjA9v2qOw9K9CG6YxQ=
+	tuLv9dEXdXw2fV+zbFStOyciaGAmPRvO9fNJmnClHGg09FG9r0VzfuQBi3HDLAMMoeGfIwZbwhHjM33IR4W9qt12T/xN7U8QKDWZSv6KErHtNzhT4xXkMzzOdz9HCGeSnKk7wJZBy3fSn5grLObqzQ+qk2KKgOfKW2hXwR7G9hniwkILcjd/tQIGTcZW14NvgBatJgup+Fio4R+nRAshNl9cv1+iwNCnSPl9UE+MCzScPRoWw6WvXBQoDaWAIsz48v2JHTf41eJHIWc4I1sT/86hySYt5v5vfnaJogXb0JFv+iOwUX0bkDdKgJ6Ba0gkJ4VnJeBZcJLlhrLL0cqOyGEWIIZ5j33dKo+BeTjAUeEMtBIqSuxLa3KFOviw2OdVYzzDgrLELiB7BXjJdH8m/FDhpItqfo4tsPTBXLv0ox3EUGne6LLIpzT6+x9eeVOKHg65ImQ9TpxC4uNPPNQJY73+K2Ejrxj/w0vmjBhqvw9ycvQbLXIImnBCyl+jeDT4EooJ04h5L9eZe9mnMACBlVn1avQoX66V/LBF9dv1p9AlY/QjfQPU+OMelzPyFW6WjrUqe4S1sT1zfUE37maQHBdA2PNKPobpzkJPtzsFBnI/cERQ1TbErRS229xb6VI6+wpsoELTLjBG/AdfnQPeF5eUGH69g/zQR4K5smMFvv4=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(7416014)(376014)(56012099006)(10067099003)(18002099003)(22082099003)(4143699003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(23010399003)(4143699003)(11063799006)(5023799004)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aGhlbGFnZmdob0dnSk5GWkE4dHhXcjF5NHE2K2NHcThIVVg4M3BGMkQwSlQr?=
- =?utf-8?B?UTUzaDZJTlNDVmE0NlpFUkxsZllqQmVkMDNBYitCbmE0eEhNblNmRnpGdTdM?=
- =?utf-8?B?SVFaRSsrdElOT2RyWHpuVy91L3RmZjJlb2R6cDAvM1Y3Y3QxRDUwcWhoRmlx?=
- =?utf-8?B?MWxkdDVCVE9rNk9WS0VsTDRMdTVTMUdadkVLNHlWTWY0Uit4NW5ZR2YxYVFC?=
- =?utf-8?B?c1ZLVWFySkZjc2dUNzRzZlcyOS91Y2VmL2Z3MU5zcU9pRmlqT0JRSmpSSVlV?=
- =?utf-8?B?QTNCbUNsQjd1d2pPYVVpUkdQZEszMDdlMFMycklFZVlkZHpadWM0VGtUOTFu?=
- =?utf-8?B?eHI2bnp6Q0RlUTcwVFFMZEZGMzI1L2k0eHdQbkxIdWpCTlcwMkNpbHozelRR?=
- =?utf-8?B?Qk5JcjN6M0ZwbU5INER0d3ZlTmxsMUZjVnE5RnU4YXFZNjFJeHdsYk51Zm1n?=
- =?utf-8?B?NlVRUllhSTN0MVVSamNRWVdTRXltRHkxNjljMW4vZmoxSWxmd3ZiYWRiK0pm?=
- =?utf-8?B?VFRWUVA1RTVnM0MyWXAvS0RMay9wWkNQNElRM0dYc3NwL1RoREJyWWRWbFlz?=
- =?utf-8?B?Q0diS0xNWkN3cHFycGxvQWxYZHpkMklXZmhZeXRyS053QnJiQncxeERlL1VI?=
- =?utf-8?B?b0FkMjdoNlJSWGNoSnFzWXJWQ1l3NkYxeVJXRTI0K3REeDdVZS9IZXlNbFJU?=
- =?utf-8?B?QXZFZXpvR1IxWTdvV1cwcG5GYW5ubjZmc2lFL2N1NDRoU0g1OG5MeGhkRVNr?=
- =?utf-8?B?WVF0cGtyZis5eXBLZ1g0cE1SV2xZTDVnWGMzN2hrK0d1cWVObnZrVGlXYkFM?=
- =?utf-8?B?cU53ZzYxczJEMDdQTVQyYkUvV3BrbTZFcTlQUWY3U1pzdk5PYWdINjRnQlhs?=
- =?utf-8?B?THRpc2ZhV1hTR3F4eDNURVI2clc3Q3ZiT3lWL29CdjFyb05BN0x4S1J6dnE1?=
- =?utf-8?B?ZFhQOHY1ZW5JLzBzRjJweUxJTXkzR25aMEhqbXBZbURwL2FROWlOUzY3YXhX?=
- =?utf-8?B?OVJGaUlzWm5QR1AxVTRyVXpYUnN2dTJ4RzBYNFFkcXdFd291YWh2NDJPMm9B?=
- =?utf-8?B?Wi81RGdacjg4RHpPeEhISXBTSHNkdzlHZXloQU9pZlB5Y21IcXpsTTF2YlF0?=
- =?utf-8?B?Z2daemlVYnVyZzJVM1p0RDllRDJRMjY1MzRrNWVkQ0pIZ1NSTlJyK04vNjdG?=
- =?utf-8?B?OGsyL2pYZHMyang1QnJyQXJKZEVPL0ZoQnBicEpMRkZhOUc1VUUyb3I2eXdR?=
- =?utf-8?B?N2VrZTEzb0NrMm9yN3loSmhRWjJtb2ozM3hHTUNiMlR3ZUU3UFpIN09YTHVD?=
- =?utf-8?B?WnVGSUNXakpYZUdLQXZaNzQwYTJ0Z3dxdHJocXFIazBXM1BrZXNwVm93Q0FD?=
- =?utf-8?B?M3kzL1NHaUdHOWQ1NHZxUmJ0RXlUaVhidGc4MS84bW1UWUUvZ0daMEJDM0tE?=
- =?utf-8?B?TzAxVlBHdzVma0ZVME1mYU1hWVFIWldzQkU3ZEtRUEpEQXBpSmdMQktLcGlK?=
- =?utf-8?B?WVFScVlrUE9BUmttSGFENEFlRXpzWkhnMllFTk9OZm9FOXFrdzJNUFpJaTZh?=
- =?utf-8?B?ejVZY21TWVdIazVWYnp2RzY1bzdVZGhUaGJMS05FZldCdlZMalB2Y2FFOGVH?=
- =?utf-8?B?c0ZSMWlVdTBVQ2l5cGovNE5kLzZXWm5QNmRFeHE5UHFiZUQ0NjJZTDl6cEVT?=
- =?utf-8?B?WUJZWHc2TytleTh0djFNT1pTYzF2L09XY2FwZHZnZlBpN3crVm9zZTMxQnZQ?=
- =?utf-8?B?R0twQkwvaVRPOGRBV2tSbE45RzdlWS91eXg5UE1WNm82RGQwaFlWanBLTnR1?=
- =?utf-8?B?djFlZzV6MFJ6VXY5QWdZcFZqbnlPY2xST0prV05QSzJyc3VxZVhnd3lMcFQw?=
- =?utf-8?B?NXlmV011UVpYeGkzSEVac1BkZ1RqYXpKNlYzeWhocUxNeXNWZEsyT1h3K2N0?=
- =?utf-8?B?UVRBOUF2Q250dUhNWnozSW8zVEllRTdVZ0N5c0tVRENwamZlNVFmNkxqc3lL?=
- =?utf-8?B?ZGJvazg5bm45dGZQSnI4ODVCZTMvNzZNSjZQNldYbFBEb3IrMVhmMlN4bFRw?=
- =?utf-8?B?QS8rQ3k4WmhYT25SMXFZdVVKSUQ0dzlHZmV4anozeXNBNnF6cUNEQVBnSDNE?=
- =?utf-8?B?eEZXeTlGb2d1M0FXdUtwdzlBUVEyczF2S2VKUTN2eWtqZitlczU5QWg0VUZz?=
- =?utf-8?B?TityOCtWc1pncXgvWG4rcDZPS0JGUzBWcXQ1eHBQL0ovbCtBQ0FJaHFlWGJB?=
- =?utf-8?B?ejJ6OHJyOHBDSDAwMkVheUREcG1HaVB4dGZqTUlUdUNyN3hqa1A2blRBQ2ZF?=
- =?utf-8?B?YkR0bE5LNDlrdSs1QnhvYlRkcFIrS0pIcjh3eDJUMndUa1JyS2xxZz09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebfb1d7e-c570-4eac-8f22-08df036313fc
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
+	=?utf-8?B?SngzdFZkMnFLVmNwTWlSbVZXak5KdXdjaURBR2h4TGNUQnNSRHEweFZSdkFX?=
+ =?utf-8?B?eWppTGFyY1RzRkhLMmJ6RW1ucUdsRmRiZmRtK1kzekMyMnUvbFdzaUdtQ1U0?=
+ =?utf-8?B?TThqSm1PdmdnbVhkaE1YMjZycXNoaFlzVGs2bUdRdExBZGJuNk5Pb1p5T3A4?=
+ =?utf-8?B?eG1ZeWVoeXNjU3F4aHZiR1ZDRDRNNzllUzRQaGpWbmFjUVRaeDdHbzEvZE9U?=
+ =?utf-8?B?ZFRXWXdGTjUyaC96c25WOWlPblJlVEVSNVdnUFdJeTZENTQyYnZnRi9CY3hq?=
+ =?utf-8?B?NkE3Zkg4d0N6RVRDTHYzQURjak1WR2VNM2RoTGRTQkhDaWdhSWs4SGhsZUNC?=
+ =?utf-8?B?bXFodytaeGVUc3h0THdzMWJ1bUhXUHZvc2RGRWxVb1V5SGZXSCt3dzg3VFFV?=
+ =?utf-8?B?N1RocndpU3BuRVA4L1J3YjJlSFpnQmNVSkxTYUNzcjAzSXhHajVVVXAwT2U1?=
+ =?utf-8?B?L1VxTTRSd1o5NnVoak5kYmcwOWtZMXQ2V3l3djJTZGZEQm94RngwWHRqaXNZ?=
+ =?utf-8?B?Sm11UU12ZUhsdVNXNHZjNzR0N3l5Z1VRZ05BUUZTdzQ4WHdnT1o4UVlOVmZp?=
+ =?utf-8?B?Z0FHWE1qWkNONEx4ZU9tU0ZhUlhUVWNoN3pWM0UrVWc2MWErQm5BZDhtY01E?=
+ =?utf-8?B?SDJxcVpyR0pBU0JhVVN2SUxka3R0ZVcrVERLcTRtZGxsRGJwa1RUSEcyZTFF?=
+ =?utf-8?B?WjU0SGpQUjgrVzgzSTdMcnRhOTd2Z0s2UXd5cHhBQjBBTmV1YXVqOEoranNH?=
+ =?utf-8?B?K3BhbHZaeUFIMzFtT3owelc5ck5PbUVGYUh6aG5XamtCK3F2UmtBanNmSjRP?=
+ =?utf-8?B?WExxRGV4ODJBTWZ2VE5BWCtvaXRRM1JaWTlIeTJrQmFIbkswOTBZRXI3WjR1?=
+ =?utf-8?B?eVFzMkdtN1BZLzZjRElDQmlZWkxhTXBaa3h4aTlzSmFCY1Nlbk5NMU9GTXVO?=
+ =?utf-8?B?ZUtRVHpydGt3Z1dXM3hraWd0dWE2RGZLNjJlL3NPWkRYMjJxS1dPR2lzQmJI?=
+ =?utf-8?B?NHR1bWdZTFltZDZSU3ZKTjNKVEFndFh6cVpKeUxsYk9tWVdlK1ZaMHVaVEZ5?=
+ =?utf-8?B?RVJLa3VhazQvY1pTKzgwS3VzLzF4cmFTWnNqeTBIWmNoOHhaejZTYkwrT25v?=
+ =?utf-8?B?dnJFVWxGUmxMaTlua3dNbm9uWVRoTW1sa2lLZHp4WGRuVnA5QkV3K1g3aXhx?=
+ =?utf-8?B?SjEvY2NJbE9sbFFzU0lUNHY3L0NMYzFMSVJ1eXdQL1c5a0lhbFZLdUpsa1VS?=
+ =?utf-8?B?NWVrNHBmcGk1bEd2MDQ1WVphbFVnRC81dmFrZXJETUtuOWFJWVY0OVVTaXBz?=
+ =?utf-8?B?bjdpenR0cDRYYnNPYVh5RGh4aXRSMFBKSDR2YVh0TVFKWTlsb25JRXd3cXlo?=
+ =?utf-8?B?NngyTjRYRmVBdnV1OEVuRTVhT3ZrOUdoYW9Fcmhsa1Y5RkUvblVRN1o3eG5i?=
+ =?utf-8?B?K002ZTM3ZmsxL3c1OUxDd0pVQnIycVltQk4vUkVMV0JYankxSUFadEVxbkk4?=
+ =?utf-8?B?V0ljaThJTnFkMSswcXVNUXdLSjVwWUdoeGxqa0RleEluaDJKdis1KzUwemJ4?=
+ =?utf-8?B?Y1J5azBEVVlrdkR6SnRhYm40RHJLVG4vWElyNStSZ3UxRCtzcG94dWZVVEU0?=
+ =?utf-8?B?bFQybDl6MXdPVmllY3VvSnNSLzFFalZObmVoZHczTlViZC9hNnpQU3dVZzJT?=
+ =?utf-8?B?bXJWWEVVQk1KOUpueEl1M2dKVUxJcXZOdWJYTEpWMERKN2VIVTNRNWZ5bFVD?=
+ =?utf-8?B?c0syV3lLMHFwN2xhQjkrZC8xOVJUaThJVlVuZDJxMU9KckZjTGV6aFhpUzk3?=
+ =?utf-8?B?QlgrL3BteTUvWGU3c2I4b0xXMDJqOTNJbS9xeTNCQnByRUQvU1lWYVd5d2VG?=
+ =?utf-8?B?bzljS2dqNDRNcnZpdFFMNDJTa1hjOGZpbldEYkZpOFRiSkRkZWdvZUVtZXI2?=
+ =?utf-8?B?ZnphRHN0UW1HSEw2amJYMk84R1hQUlhlUDk4MDFIU0Z3UHFYNm8vM2ZnNldl?=
+ =?utf-8?B?RXU2aXZhTXdPRkJsSWIyajVwRUtSOWp4K0ppbmhxSlpjMU04aUhsc1dLaWth?=
+ =?utf-8?B?TjRxdVAvRk95R0cwclhVenRZY2RCd3B2ekg1aGpGTnNKOWtNNExhVnFZdFhl?=
+ =?utf-8?B?bHIxQmthMkZkK09KVENjK2VzV096cVpCS3V2Um1FRk1FYlQ4WXVpY2F2UVF4?=
+ =?utf-8?B?emFLb1ZIWDBMTmtLVzE2SUp3TFZScVRDdTRPS3FPZUxaYndqbElpMlVCMTg3?=
+ =?utf-8?B?QXJGNnZHeW9yd1Rjb0JvMjVUazBzREluRnRycjl2cTA1ZzF6am8wTktHd3M4?=
+ =?utf-8?Q?ZmA4u9G/3agDr0jHU5?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81b01132-6c57-4f75-9a14-08df036707e3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2026 11:13:38.3404
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2026 11:41:56.0813
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wcNVcBHNHLQwojLICsKar2XE2BHygl2Zl99nLQ8iyObDXxHcSMLEPg49G2kKViwz62KfJoU0HEkzEUgT1QW6ng==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P123MB7937
+X-MS-Exchange-CrossTenant-UserPrincipalName: QtKanBA4ha8SfgAqQNKjzpwgniOKyGPBxrcRRNQ1iZdVj1pR7QHQpB0HH6BzTl7x
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS1PR12MB999189
 
-On Wed, Aug 26, 2026 at 11:19:32AM +0200, Greg Kroah-Hartman wrote:
-> Other kernel code might want to call add_taint_module() so pull it out
-> and make it global.  If modules are not enabled, this defaults to a call
-> to add_taint(), so all is fine.
+On 8/25/26 08:28, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
 > 
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Pinned, revoked and movable mappings are selected by which optional
+> callbacks each side implements and by whether dma_buf_pin() succeeds,
+> not by any flag or enum. Nothing in Documentation/ says so, and the
+> rules are spread over the kdoc of dma_buf_ops.pin,
+> dma_buf_attach_ops.invalidate_mappings and dma_buf_invalidate_mappings(),
+> so a driver author has to know the symbol names before finding them.
+> 
+> Name, per flow, the callbacks both sides have to implement to end up in
+> it, describe dma_buf_pin() as the runtime negotiation, and record that
+> the pin is what tells a revoke from a move.
+> 
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 > ---
->  include/linux/module.h |  8 ++++++++
->  kernel/module/main.c   | 13 +++++++++++--
->  2 files changed, 19 insertions(+), 2 deletions(-)
+>  Documentation/driver-api/dma-buf.rst |  6 +++
+>  drivers/dma-buf/dma-buf.c            | 85 +++++++++++++++++++++++++++++++++++-
+>  2 files changed, 90 insertions(+), 1 deletion(-)
 > 
-> diff --git a/include/linux/module.h b/include/linux/module.h
-> index 96cc98568eea..25221539e645 100644
-> --- a/include/linux/module.h
-> +++ b/include/linux/module.h
-> @@ -29,6 +29,7 @@
->  #include <linux/srcu.h>
->  #include <linux/static_call_types.h>
->  #include <linux/dynamic_debug.h>
-> +#include <linux/panic.h>
+> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+> index 2f36c21d9948..39c201f38aa6 100644
+> --- a/Documentation/driver-api/dma-buf.rst
+> +++ b/Documentation/driver-api/dma-buf.rst
+> @@ -113,6 +113,12 @@ Basic Operation and Device DMA Access
+>  .. kernel-doc:: drivers/dma-buf/dma-buf.c
+>     :doc: dma buf device access
 >  
->  #include <linux/percpu.h>
->  #include <asm/module.h>
-> @@ -770,6 +771,8 @@ static inline bool is_livepatch_module(struct module *mod)
->  
->  void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data);
->  
-> +void add_taint_module(struct module *mod, unsigned flag, enum lockdep_ok);
+> +Mapping Lifetime Negotiation
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > +
->  #else /* !CONFIG_MODULES... */
->  
->  static inline struct module *__module_address(unsigned long addr)
-> @@ -877,6 +880,11 @@ static inline bool module_is_coming(struct module *mod)
->  static inline void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data)
->  {
->  }
+> +.. kernel-doc:: drivers/dma-buf/dma-buf.c
+> +   :doc: mapping lifetime negotiation
 > +
-> +static inline void add_taint_module(struct module *mod, unsigned flag, enum lockdep_ok)
-> +{
-> +	add_taint(flag, lockdep_ok);
-> +}
->  #endif /* CONFIG_MODULES */
+>  CPU Access to DMA Buffer Objects
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 >  
->  #ifdef CONFIG_SYSFS
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index d0e1e0bd2ad0..99cedb961898 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -191,8 +191,17 @@ static inline int strong_try_module_get(struct module *mod)
->  		return -ENOENT;
->  }
->  
-> -static inline void add_taint_module(struct module *mod, unsigned flag,
-> -				    enum lockdep_ok lockdep_ok)
-> +/**
-> + * add_taint_module: add a taint flag if not already set for a specific module
-> + * @mod: pointer to the module that caused the problem
-> + * @flag: one of the TAINT_* constants.
-> + * @lockdep_ok: whether lock debugging is still OK.
-> + *
-> + * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
-> + * some noteworthy-but-not-corrupting cases, it can be set to true.
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index d504c636dc29..30afec7365bc 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -684,7 +684,90 @@ static struct file *dma_buf_getfile(size_t size, int flags)
+>   *    reference acquired with dma_buf_get() by calling dma_buf_put().
+>   *
+>   * For the detailed semantics exporters are expected to implement see
+> - * &dma_buf_ops.
+> + * &dma_buf_ops. Whether the exporter may still move or destroy the backing
+> + * storage after step 3 depends on what exporter and importer implement, see
+> + * the mapping lifetime negotiation section below.
 > + */
-> +void add_taint_module(struct module *mod, unsigned flag,
-> +		      enum lockdep_ok lockdep_ok)
->  {
->  	add_taint(flag, lockdep_ok);
->  	set_bit(flag, &mod->taints);
+> +
+> +/**
+> + * DOC: mapping lifetime negotiation
+> + *
+> + * No flag or enum says whether the exporter may move or take away the backing
+> + * storage while an importer holds a mapping. Each side implements a set of
+> + * optional callbacks, and dma_buf_pin() settles the result at runtime. Three
+> + * flows come out of it:
+> + *
+> + * - Pinned: the storage never moves and is never taken away.
+
+That's not quite correct. The backing store can still disappear if the exporter is physically hot removed.
+
+In that case the exporter will still try to invalidate the mapping even if it is pinned. A NULL invalidate_mapping callback is of course still never called and so still optional.
+
+> + * - Revoked: the storage never moves, but the exporter may take it away.
+> + * - Movable: the exporter may relocate the storage at any time.
+> + *
+
+> + * Every exporter implements &dma_buf_ops.map_dma_buf,
+> + * &dma_buf_ops.unmap_dma_buf and &dma_buf_ops.release. dma_buf_export()
+> + * rejects an exporter missing any of them.
+
+I think that this is superfluous, the check in dma_buf_export() should make sure that all exporters follow that.
+
+> + *
+> + * An importer reaches its flow like this:
+> + *
+> + * 1. Attach with dma_buf_dynamic_attach(). Leaving
+> + *    &dma_buf_attach_ops.invalidate_mappings NULL rules out everything but the
+> + *    pinned flow, because the importer can then never be told anything.
+
+I would rather write "Leaving out the optional dma_buf_attach_ops.invalidate_mappings callback pins the buffer while the attachment is present".
+
+> + * 2. Call dma_buf_pin() under the reservation lock.
+> + * 3. On failure run the movable flow, or give up.
+> + * 4. On success the storage stays put. Whether the exporter may still take it
+> + *    away, which makes this the revoked flow instead of the pinned one, is the
+> + *    exporter's choice and is not reported back.
+
+That sentence sounds not really readable.
+
+> + *
+> + * dma_buf_attach() is the shorthand for an importer which only ever wants the
+> + * pinned flow. It passes no &dma_buf_attach_ops, and DMA-buf then pins around
+> + * every dma_buf_map_attachment() and waits for the DMA_RESV_USAGE_KERNEL
+> + * fences on the importer's behalf. Peer to peer needs
+> + * dma_buf_dynamic_attach(), because &dma_buf_attach_ops.allow_peer2peer lives
+> + * in the attach ops.
+
+That's also superfluous.
+
+> + *
+> + * Pinned flow:
+> + *
+> + * - Exporter: implement &dma_buf_ops.pin and &dma_buf_ops.unpin to hold the
+> + *   storage still on request. An exporter whose storage never moves implements
+> + *   neither, and dma_buf_pin() then succeeds on its own. An exporter which
+> + *   refuses to be pinned implements &dma_buf_ops.pin and fails it.
+> + * - Importer: nothing more. The mapping stays valid until it unmaps.
+> + *
+> + * Revoked flow:
+> + *
+> + * - Exporter: answer dma_buf_pin() as above. Call
+> + *   dma_buf_invalidate_mappings() when the storage goes away and fail
+> + *   &dma_buf_ops.map_dma_buf while it is gone. The two waits which complete a
+> + *   revocation are described in dma_buf_invalidate_mappings().
+> + * - Importer: &dma_buf_attach_ops.invalidate_mappings has to unmap within
+> + *   bounded time and drop the pin.
+> + *
+> + * Movable flow:
+> + *
+> + * - Exporter: call dma_buf_invalidate_mappings() before each move, then wait
+> + *   for the &dma_buf.resv fences. &dma_buf_ops.pin and &dma_buf_ops.unpin play
+> + *   no part here.
+> + * - Importer: hold no pin. &dma_buf_attach_ops.invalidate_mappings drops the
+> + *   cached mapping and has to lead to dma_buf_unmap_attachment() within
+> + *   bounded time. It need not stop the hardware, because access runs until the
+> + *   importer's &dma_buf.resv fences retire. Map again before the next DMA.
+
+That is also not really correct. Those flows are not separated like this.
+
+> + *
+> + * The pin tells a revoke from a move.
+> + * &dma_buf_attach_ops.invalidate_mappings carries no reason, and both flows
+> + * ask for the same unmap. An importer holding a pin can only be seeing a
+> + * revoke, because the exporter promised not to move. An importer without a pin
+> + * treats every call as a move and maps again.
+> + *
+> + * A revoke need not be forever. An exporter revoking around a temporary loss
+> + * of access takes mappings again afterwards. Giving up for good is the
+> + * importer's own choice, so an exporter must not wait for one to come back.
+> + *
+
+> + * &dma_buf_ops.attach is the only place where an exporter can turn an importer
+> + * away. An exporter which revokes rejects the importers for which
+> + * dma_buf_attach_revocable() returns false. An exporter of memory without
+> + * struct page rejects the importers which left
+> + * &dma_buf_attach_ops.allow_peer2peer clear.
+
+That is also not correct. A mapping can be rejected later on as well.
+
+Regards,
+Christian.
+
+> + *
+> + * Userspace sees none of this. The two drivers negotiate the flow between
+> + * themselves, and the DMA-buf file descriptor shows no trace of the result.
+>   */
+>  
+>  /**
 > 
-> -- 
-> 2.55.0
-> 
 
-Hi Greg,
-
-I believe Sashiko [1] found a few valid concerns.
-
-[1]: https://sashiko.dev/#/message/20260826102921.5B81B1F000E9%40smtp.kernel.org
-
-Kind regards,
--- 
-Aaron Tomlin
