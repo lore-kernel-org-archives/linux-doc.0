@@ -1,199 +1,353 @@
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C346B305699;
-	Wed, 26 Aug 2026 17:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313CD347FCD;
+	Wed, 26 Aug 2026 17:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787763694; cv=none; b=W5fqC8m4OUShDtN8SdC9jTWtmaX5qAd3AQYH/MtEIlLkn6UZGYlH2k60N5LHEZMgFv38gUbuGM8D8AAascqzO0X//3yUZwgSMj++PqEqC99r58+959iXDPUB+nak0EVpBRDxoaPpRkF8poaTRqcgaFH6oT3Qr0QtARix4p8wS9o=
+	t=1787763755; cv=none; b=gMqDaYM00Q9bt3/3n9Bjz/UPJFCIOOuNnWrFUZTyW12adq6SpCm/nR+qlx3vjLH4Dv+gPIuT4ChKCzkrb4bLjBWIxQjq+oRBXbqOfJIpwSLGfjqlHoL9lLrbpNc5IlKn7KfnocwdFnel55lOwQOJhxEkInN0ycCAbJHjWllB6sQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787763694; c=relaxed/simple;
-	bh=lXaGdjNs5+G9yfx4rhEAta1uG9rT7QUpPERL0mnNyC4=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=L5ivEH2PEBm95H8CKclxlKRTM7+M0LlnyhzzjKnV+hnN55b+cOKDE7mfpTc0d8sbNuppOjqpSP/M/WBg7UPNl8gNeCR5ZzDmRtz88OashxNiPk4K2QA22DJDgEeQa1PRVfq7OZpXrTNwtonDjREDIAgl64RzDn1A+DaT96M4Xss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=t8h+pkH7; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1787763755; c=relaxed/simple;
+	bh=u0RKM02wOzuvhntRLoFKu9oNmuIfFheu6cW7Dr4jCJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iEcEt6X6aK0VV/mHNisM6hNSIkGmvbQ+biu3WYJhuJlWOL2EzZvrtqISjw5gHSTTmvHEOqmBCtJ9qysG3DNFprQnn6GCh8ZWqniYA1CTjBxhAcA3kR+7K9pMxTzJxPmYAbDD6VjzQ7eQKPE8/WjOk2UNWGlcoOPgXFQYv2EYHkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bn/DiV/G; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="t8h+pkH7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1787763617; x=1788368417; i=markus.elfring@web.de;
-	bh=RIboMSTk0n75LOidtDXp+0aJmxZ5809SXh3wEQLUEVw=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=t8h+pkH7PgqaYDZYFI5SApGWxY0HCkSNHTF1UWcgyR+RSvPXwL3bzvXoWUR7mRNT
-	 YXkkj6Z/ghZNUtmZNPfdnXN/e83yPhz+bMemkfUjX/CFyEaDE8dJPYi3JoJY7UQ4Z
-	 BYh3fVkbM6OQCOjM0K8XsN/khzQHBcfQH4DqyouVskwfpNMmhybD+/yuMpfj1fSO+
-	 u2Z+ph4/5frcTPxZc8gA4Ajg9oOarfb4T9y6BK0GRQMApTrdz804lQbP355Xa5fRY
-	 93KBwuZkuduMEM46eGfW4eRfXppL5iikbFLdM7H71eoYIxFLHgp+u9EK6s8snFHXS
-	 DebfyP4YTkESQBIPRw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MHVaf-1xCDHF2YBF-00H2UG; Wed, 26
- Aug 2026 19:00:16 +0200
-Message-ID: <0d6bb2d4-5f6b-4fd6-9b9f-5f5f0f687625@web.de>
-Date: Wed, 26 Aug 2026 19:00:10 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bn/DiV/G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2EBA1F000E9;
+	Wed, 26 Aug 2026 17:02:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787763743;
+	bh=PvMhOpMtgahb/2g6h4rPwkBMlykF3l7pKxLhOb+mM+E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Bn/DiV/GuREkqk9gLaLx9oQOgG/zG/4wjB0MvEVME582wC2HbgYlUE3fOR/KD8sYK
+	 oCBf2UdqvnKJ9wytcgrqwQVTkbinysLZ0yZz5oPZlMo9pSqLwYCsXEQhrrzYoxBA0R
+	 wEnMTcMArz+ogjjsExgFwpAwuLvyJovUy67/4qFCwoMeD++JRnmcm4KbH+lKP2QajX
+	 C+XapE8uFFYdvM+bW+q8IsgbwPhHCO9diw1dha1JdZgQBacL8KU9dtB/xdES3J1ndv
+	 vC0o3AN8uuJla0rAs/LFvDPR/bq6bkALmlomtA/wkxeSOibPN2luyhIryddfiEse/P
+	 ilQneArTa5cxg==
+Date: Wed, 26 Aug 2026 18:02:16 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Alex Ousherovitch <aousherovitch@rambus.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>,
+	Shuah Khan <shuah@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>,
+	devicetree@vger.kernel.org,
+	Joel Wittenauer <Joel.Wittenauer@cryptography.com>,
+	linux-api@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thi Nguyen <thin@rambus.com>
+Subject: Re: [PATCH v4 01/19] dt-bindings: crypto: add Rambus CryptoManager
+ Hub
+Message-ID: <20260826-unwritten-marshland-47cdf3c17cad@spud>
+References: <20260825221539.255951-1-aousherovitch@rambus.com>
+ <20260825221539.255951-2-aousherovitch@rambus.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- llvm@lists.linux.dev, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Bill Wendling <morbo@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?=
- <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Oded Gabbay
- <ogabbay@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
- Robin Murphy <robin.murphy@arm.com>, Shuah Khan <skhan@linuxfoundation.org>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Will Deacon <will@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Bharath Kumar <quic_bkumar@quicinc.com>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-References: <20260817-qda-v2-v2-9-69a02e9090d4@oss.qualcomm.com>
-Subject: Re: [PATCH v2 09/15] accel/qda: Add DMA-backed GEM objects and memory
- manager integration
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260817-qda-v2-v2-9-69a02e9090d4@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ijLsa67cbXpBs7zp"
+Content-Disposition: inline
+In-Reply-To: <20260825221539.255951-2-aousherovitch@rambus.com>
+
+--ijLsa67cbXpBs7zp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6jOP/lI1Ra5far4mgM9KTH4mvwnSgFP6QW6ZdjBSvuF6bHxgwjL
- pZB8Rx/0lYq7VNsG+Tg+MYcrE0FXO3QyKoQ3Ccc8rdTpfyoD1batg86gMmAYa/Cw3/1zYHn
- IDs6vojxDfmdzvIf8xyd5xpg3AqTPeqanhIrwFIM0pYe50PJgGUIHmBGGxldX3/ydENKyNu
- udx+pNQW30rbT+n3QT/GA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ifj0B9Xdpjw=;HK1VqLd3h57EG5ErrUGya6d+KqK
- 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
- QJJbDTbhZC7C1aXSM6LH5iIyZ7Hr51Sz
 
-=E2=80=A6
-> +++ b/drivers/accel/qda/qda_memory_manager.c
-=E2=80=A6
-> +int qda_memory_manager_assign_device(struct qda_memory_manager *mem_mgr=
-,
-> +				     struct drm_file *file_priv)
-> +{
-=E2=80=A6
-> +	current_pid =3D qda_priv->pid;
-> 	+
-> +	mutex_lock(&mem_mgr->process_assignment_lock);
-=E2=80=A6
-> +unlock_and_return:
-> +	mutex_unlock(&mem_mgr->process_assignment_lock);
+On Tue, Aug 25, 2026 at 03:15:20PM -0700, Alex Ousherovitch wrote:
+> Add device tree binding schema for the Rambus CryptoManager Hub (CMH)
+> hardware crypto accelerator.  The binding describes the parent
+> SoC-level node with its SIC register region and one queue@N child
+> node per mailbox the host owns, each carrying a reg (mailbox instance
+> index), an optional interrupt, VCQ ring geometry (rambus,num-slots /
+> rambus,slot-stride-bytes) and a rambus,cores affinity list.  Which crypto=
+ cores
+> are present is discovered from the SIC CORE_ENABLE register at probe,
+> not described in the device tree.
+>=20
+> Register the 'rambus' vendor prefix for Rambus Inc.
+>=20
+> Signed-off-by: Alex Ousherovitch <aousherovitch@rambus.com>
+> Co-developed-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.=
+com>
+> Signed-off-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.co=
+m>
+> ---
+>  .../bindings/crypto/rambus,cmh-v1030.yaml     | 194 ++++++++++++++++++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+>  2 files changed, 196 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/crypto/rambus,cmh-v=
+1030.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/crypto/rambus,cmh-v1030.ya=
+ml b/Documentation/devicetree/bindings/crypto/rambus,cmh-v1030.yaml
+> new file mode 100644
+> index 000000000000..d9598b0f3bbc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/crypto/rambus,cmh-v1030.yaml
+> @@ -0,0 +1,194 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/crypto/rambus,cmh-v1030.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	return ret;
-> +}
-=E2=80=A6
+> +title: Rambus CryptoManager Hub (CMH) Hardware Crypto Accelerator
+> +
+> +maintainers:
+> +  - Alex Ousherovitch <aousherovitch@rambus.com>
+> +  - Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
+> +  - Joel Wittenauer <Joel.Wittenauer@cryptography.com>
+> +
+> +description: |
+> +  The Rambus CryptoManager Hub (CMH) is a hardware cryptographic acceler=
+ator
+> +  accessed via a mailbox-based VCQ (Virtual Command Queue) interface.  T=
+he
+> +  host writes VCQ command sequences into per-mailbox DMA queue buffers a=
+nd
+> +  rings a doorbell; the CMH eSW processes them and signals completion via
+> +  interrupt.
+> +
+> +  The management host statically partitions the hardware mailboxes across
+> +  the SoC's host interfaces at integration time; the set of mailboxes a
+> +  given host owns is therefore fixed and not runtime-discoverable (a
+> +  mailbox locked to a host reads as unavailable in the SIC availability
+> +  register).  Each owned mailbox is described by a child node.  Which
+> +  crypto cores are present is a fixed silicon-build property indicated by
+> +  the SIC CORE_ENABLE register, so cores are not described in the device
+> +  tree.
+> +
+> +  CMH gates access to a locked mailbox by a hardware HOST ID presented on
+> +  the bus with every access, permitting only the owning host's ID.  An
+> +  integration must present a single, stable HOST ID for all accesses to a
+> +  given mailbox, independent of the issuing CPU (relevant on SMP hosts
+> +  whose interconnect encodes the issuing CPU in the HOST ID).
+> +
+> +properties:
+> +  compatible:
+> +    const: rambus,cmh-v1030
+> +    description:
+> +      Identifies the CryptoManager Hub v1.030 IP revision (register map =
+and
+> +      command ABI).  A specific SoC integration should list its own
+> +      "<vendor>,<soc>-cmh" compatible first with "rambus,cmh-v1030" as a
+> +      fallback; that extended form will be added when such a platform is
+> +      upstreamed.
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&mem_mgr->process_assignment_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v7.2/source/include/linux/mutex.h#L253
+This commentary should just not be here.
+Instead, do what's been done in sifive,clint.yaml for the clint2. I
+don't feel great about suggesting that, and it feels like it's becoming
+more common - although maybe that's a good thing because it means IP
+vendors are being more proactive about upstreaming.
 
-Regards,
-Markus
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description:
+> +      SIC (System Interface Controller) MMIO region.  The registers of
+> +      mailbox instance N are at offset N * 0x1000 within this region.
+> +
+> +  clocks:
+> +    minItems: 1
+> +    items:
+> +      - description: Main functional clock ("core").
+> +      - description:
+> +          Half-rate "core-div2" clock (present only on configurations wi=
+th
+> +          side-channel-protected cores) or the "rt" real-time tick clock.
+> +      - description: Real-time tick clock ("rt") for the internal timer.
+> +
+> +  clock-names:
+> +    oneOf:
+> +      - items:
+> +          - const: core
+> +      - items:
+> +          - const: core
+> +          - const: core-div2
+> +      - items:
+> +          - const: core
+> +          - const: rt
+> +      - items:
+> +          - const: core
+> +          - const: core-div2
+> +          - const: rt
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Host-controlled reset for the CryptoManager Hub.  The hub has two
+> +      external, active-low reset inputs -- a power-on reset and a hard
+> +      reset; where a board routes one of them to a host GPIO, that line =
+is
+> +      described here.
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^queue@[0-9a-f]+$":
+> +    type: object
+> +    description:
+> +      One node per hardware mailbox (VCQ command queue) this host owns.
+> +      The set of owned mailboxes is fixed by the management host at
+> +      integration time and enumerated here.
+> +    properties:
+> +      reg:
+> +        maxItems: 1
+> +        description:
+> +          0-based mailbox instance index.  The instance's registers are
+> +          at reg * 0x1000 within the SIC region.
+> +
+> +      interrupts:
+> +        maxItems: 1
+> +        description: Completion/error interrupt for this mailbox.
+> +
+> +      rambus,num-slots:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        enum: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 819=
+2,
+> +               16384, 32768]
+> +        default: 64
+> +        description:
+> +          Number of VCQ ring slots for this mailbox's command queue in
+> +          host DMA memory.  This is a per-board, per-mailbox host-memory
+> +          ring geometry -- boards built around the same SoC (hence the
+> +          same compatible) may use different ring sizes, so it is
+> +          described per mailbox rather than derived from the compatible.
+> +
+> +      rambus,slot-stride-bytes:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        enum: [128, 256, 512, 1024]
+> +        default: 512
+> +        description:
+> +          Stride in bytes between consecutive VCQ ring slots for this
+> +          mailbox's command queue.  Like rambus,num-slots this is a
+> +          per-board host-memory ring geometry, not derived from the
+> +          compatible.
+> +
+> +      rambus,cores:
+> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> +        items:
+> +          enum: [0x02, 0x03, 0x04, 0x05, 0x08, 0x09, 0x0a, 0x18]
+> +        description: |
+> +          Core-affinity list: the hardware core IDs whose work is
+> +          dispatched to this mailbox.  A core ID may appear on at most o=
+ne
+> +          mailbox.  Cores not listed on any mailbox are load-balanced
+> +          across all mailboxes.  Optional (default: none -- the mailbox
+> +          only serves the load-balanced pool).
+> +
+> +          Because each core instance has a distinct ID, separate
+> +          instances of the same core type can be pinned to different
+> +          mailboxes.
+> +
+> +          Core IDs:
+> +            0x02 HC, 0x03 AES, 0x04 SM4, 0x05 SM3,
+> +            0x08 HCQ, 0x09 QSE, 0x0a PKE, 0x18 CCP.
+
+You could just make this a string array, and then you'd not need this
+mapping of unintelligible hex values. Of course then your driver has to
+do it, but I'd rather see understandable (and portable, since a new
+revision could change the IDs) values in DT.
+
+> +
+> +    required:
+> +      - reg
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+
+Surely clocks are also mandatory?
+
+pw-bot: changes-requested
+
+Cheers,
+Conor.
+
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    soc {
+> +        #address-cells =3D <2>;
+> +        #size-cells =3D <2>;
+> +
+> +        crypto@a4800000 {
+> +            compatible =3D "rambus,cmh-v1030";
+> +            reg =3D <0x0 0xa4800000 0x0 0x41000>;
+> +            clocks =3D <&cmh_core_clk>;
+> +            clock-names =3D "core";
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            /* Fast symmetric cores dedicated to mailbox 0:
+> +             * HC 0x02, AES 0x03, SM4 0x04, SM3 0x05, CCP 0x18 */
+> +            queue@0 {
+> +                reg =3D <0>;
+> +                interrupts =3D <1>;
+> +                rambus,cores =3D <0x02 0x03 0x04 0x05 0x18>;
+> +            };
+> +
+> +            /* Slow asymmetric/PQC cores dedicated to mailbox 1:
+> +             * HCQ 0x08, QSE 0x09, PKE 0x0a */
+> +            queue@1 {
+> +                reg =3D <1>;
+> +                interrupts =3D <2>;
+> +                rambus,cores =3D <0x08 0x09 0x0a>;
+> +                rambus,num-slots =3D <64>;
+> +                rambus,slot-stride-bytes =3D <512>;
+> +            };
+> +        };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
+umentation/devicetree/bindings/vendor-prefixes.yaml
+> index 396044f368e7..8b1a8f0a673d 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -1371,6 +1371,8 @@ patternProperties:
+>      description: RaidSonic Technology GmbH
+>    "^ralink,.*":
+>      description: Mediatek/Ralink Technology Corp.
+> +  "^rambus,.*":
+> +    description: Rambus Inc.
+>    "^ramtron,.*":
+>      description: Ramtron International
+>    "^raspberrypi,.*":
+> --=20
+> 2.43.7
+>=20
+
+--ijLsa67cbXpBs7zp
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCao8cGAAKCRB4tDGHoIJi
+0sjsAQCs5O4ETXRJy6kouRnk1/OQzmyoUsRPrpeb9rM/21hfJAD9EpAJQfU5xwoJ
+RERZNwRIPTsmZQlDVlrThF4+t3HV5wM=
+=dVOj
+-----END PGP SIGNATURE-----
+
+--ijLsa67cbXpBs7zp--
