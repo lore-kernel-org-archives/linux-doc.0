@@ -1,308 +1,295 @@
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D8F485CE8;
-	Wed, 26 Aug 2026 22:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7366D388E60
+	for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 22:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787782656; cv=none; b=YwF1KSdITPmK75JfjmbgWt8YOUAeESgiAffpkdTf32xt2/BJBEn90JizqwfY0ll5I4alRJJkP1JeW8+ebf7/yS4ZHHAC5Lp7TMKclwqgbguuIEGYWtrWeJt3JvJAR6eSQjFd3srUbem2uDUnFBAaFVTwp1OfOMo0IYkyi121hdA=
+	t=1787783627; cv=none; b=VCEMXhnjv7L8RB1MozFwWix5h+x/fMtPKTSAVpHpJBPx97hvHBllyQq0ar0wXFYUnKNF59+jqqNocedakD4t75nCtnGFXjCB/g8Y9FIyCwqhFnEBCPVLScWlLFUtR+F8fJurpQ5cfJ8gl5OTSjIhWBh76V/YbLdOYWOrzbK1UsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787782656; c=relaxed/simple;
-	bh=mZzIi/wlWpp+nPlHb+tzF7KaE0xhqmViUfNeeAQtN30=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q2OyqC8ORc8QPD3nnC7KK2+19/BHoKt+cc5ku3JLpmBlHp6+zJKw4KEpYoTuondqPzo2RLQyKQU+ueQnDmo4W9XHcC9st06sStotYrQwZMmAfkgunMr9SxlfApEisN3rle3WaRCdfJln4Rw6IhfTiYvg0da/ozk2JD7v5Kk0gp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=vdNxqlq/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RKY9bu4V; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	s=arc-20240116; t=1787783627; c=relaxed/simple;
+	bh=xSXyqUElRzi4ro8cHC0OBS6VEnVwYq1rEqVbqm8HcoA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=W8GeIvrbkLXVYNE53QXFr0DyzH0Bc3fajmUEaIVGZLuSVtEPeCFdCA952s6kJe0/yHha8g0A+9fIoE0R189af8IkrgVXX47vmECeb/iPpERPLrzD8v0hEXpDQmMNLL2ORyupGSSWRZbB+nQagOM/nGvSm2eO4pWxAlwfwRdTH48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AVzTjsCd; arc=none smtp.client-ip=209.85.215.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="vdNxqlq/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RKY9bu4V"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id 87146EC0246;
-	Wed, 26 Aug 2026 18:17:31 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Wed, 26 Aug 2026 18:17:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1787782651;
-	 x=1787869051; bh=6XHZKtGS9r7eVR3+1kXrY80yVGewlayF70fEl2LkXPM=; b=
-	vdNxqlq/d5/BvmpygWelbNKbnx6E/mowEDi8Q3XLolVm4hVgKna53uL93NacDRbv
-	Yi0tg47dJyJAZMnlmJchfrAjf6xCzqciEb2QYvyWOnhmWtolGvnLnL5KgaVFTway
-	PH2NX2bEkdnNwnfrIUbFCeHdQ73HSfNVBMw01qaKkoqtvbiy6avJBRfuPT56CqmC
-	ZKQx23hjlWvz29yNG5IS/fQtqZ9WY5fAd1ghwl2cSfmKxnXLu9dxzHUfHxJ/jMq7
-	Pgz52v7EsRBZ7MwF3un+ahYALEqoHe7j7cs4CliypfIK/ZLMmK+VZ1hnPSqYcM/Z
-	gMl+/z0PAo9Me7WH/q91fQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787782651; x=
-	1787869051; bh=6XHZKtGS9r7eVR3+1kXrY80yVGewlayF70fEl2LkXPM=; b=R
-	KY9bu4V80IBWIImTD/a81uvYCsOCu+1VIgaGfWhWsHOQ9VxjNNTuYZtwoDqUHBz9
-	dLcwQ5LUHInPt7mkpHKfWwIsy3CdZp6l5Ygp+XIQ/6565J6ykS+mNKSvLtDBwwCx
-	QD9GLyR4I2gBE9vnx9FnqGJxtuaehnFDpkseQowOlGEbVmY/07EuLMvtAQ7EP7u5
-	Ut++F6Psi6f2gR4sGQuzsag+Dz07yK5qJBDoSdUadrQPnRN8P/urxV7VSx9z1uIn
-	I03gZtcAd2BU40Yyo2k85ik8SPIFA6q1pcaSZKJpkWYhbKb2UR172D3yQXNBn0FC
-	/chl236vtKjhwI1khFt0g==
-X-ME-Sender: <xms:-mWPapO3u49ZhffqDXhnV_kqlBJwzRCnJ7ZjH0b4cQBfunIZqlDgxw>
-    <xme:-mWPapn2_tyzsxzajdZjFmUvyivOhO3TppAI2DAbpoB9q_yUqrSRRxq7pg7ir0fWC
-    jNfIjGbzaGu81IrTGGT12pChZOu7gMCakpkoxz3ISz7dU-GPaKk>
-X-ME-Received: <xmr:-mWPavoGYfyXbCGwXj_PVgjybx3PrC2Hhs6xAaK4NiazfVue4wmZO2TFjKsaMg>
-X-ME-Proxy-Cause: dmFkZTENpnsSKLoILcJgHHvBxLEE3Ev2YQQTKfGYXxnraj25Hq7sK/w4HvAb2OtQ3MFImJ
-    ZzYL4mT6vjcBqIm4V0+KmjVJf5a42JzLFmZ8ENJjcB7BJ7zqMfoUMibLmVsPVh5gmYTQ58
-    v6pw7vrf8rI/+I2q0N1N7tIigDUtSaFbq55Q5GDbTKPMjw4zMzb87McVEQgTCiWn4IqNzE
-    acT2DkUbvvJ3GUULXyWkQ5dqIJ7Jgi+GckfxxvIqrY9SVn6aH6K4ZbJEauEbHqj/Eh37pk
-    jDNctV0m6IEkqtNGVxN66YaeIa7IKsCmialOXmMqaZfguhllcz+cwOnMG8nZ/KstpXTskS
-    5wnklmMxZ9E8Fs+Hd2J5snu/xUoHdOTyeii11vwO0ogPNfA2ar+c2WNkeBqPMBf1Nq04UK
-    8c4WfaETCwjYhVT0sRznlVV+5sMzGDtQ8PD2qaT5lvaSHZMTycsrwgUeI87NfuPz9o5vgW
-    UuGjmgHT51RTbl4gbZ/9f/q3ZWvJPpwDjgDs4vsRqB207R2dV797PPFYaDRnzAsZpvPDqK
-    t7EtKmXTuX4feR1WPTjxmQeqRo2RwqltJoRc1UL7BJXHZo+rUiu1Eo+CckhvXu/vVqE09A
-    NuXYK83+uCvwFbPkYZBUEn2Y+oPfSerP4IFjwaHRA6nraWRbZo2YOqmijyTw
-X-ME-Proxy: <xmx:-mWPat5gNK6vNdQ8WXxQl2bAI1J5phkp8X7MyXOjk7lxK2W30ZdeFA>
-    <xmx:-mWPapJq5BXmVpPzul-sgPsrT9W91PRUyZh9i1nLvUXqn5iF-2lmKw>
-    <xmx:-mWPahkNKEj29ze__NdCAE94tGXyf_1XHcBcXxQWYiRIid5_PcNY2A>
-    <xmx:-mWPao9UvICmr1SiOvsBQvTsb9jpGYt9bxoeN64AdSMe_paczlXDdg>
-    <xmx:-2WPaq7tVC8PSP1lKAszBhxcT0ngy1PAxrs0tkEvM6kw22LKLZTcjuB0>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 26 Aug 2026 18:17:28 -0400 (EDT)
-Date: Wed, 26 Aug 2026 16:17:25 -0600
-From: Alex Williamson <alex@shazbot.org>
-To: <mhonap@nvidia.com>
-Cc: <jgg@ziepe.ca>, <ankita@nvidia.com>, <jic23@kernel.org>,
- <dave.jiang@intel.com>, <alejandro.lucero-palau@amd.com>,
- <smadhavan@nvidia.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
- <dave@stgolabs.net>, <alison.schofield@intel.com>,
- <vishal.l.verma@intel.com>, <iweiny@kernel.org>, <ming.li@zohomail.com>,
- <yishaih@nvidia.com>, <skolothumtho@nvidia.com>, <kevin.tian@intel.com>,
- <bhelgaas@google.com>, <dmatlack@google.com>, <kees@kernel.org>,
- <gustavoars@kernel.org>, <cjia@nvidia.com>, <kjaju@nvidia.com>,
- <vsethi@nvidia.com>, <zhiw@nvidia.com>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
- <linux-cxl@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
- alex@shazbot.org
-Subject: Re: [PATCH v4 07/27] vfio/pci: Detect CXL devices and load vfio-cxl
- on demand
-Message-ID: <20260826161725.7af1915b@shazbot.org>
-In-Reply-To: <20260813093631.2288172-8-mhonap@nvidia.com>
-References: <20260813093631.2288172-1-mhonap@nvidia.com>
-	<20260813093631.2288172-8-mhonap@nvidia.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AVzTjsCd"
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cc1d85c012dso147110a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 15:33:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787783625; x=1788388425; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IpUANZHm7Ku5ncYu7RPUYz8NQSkFG4aKOc/nSfGf9bs=;
+        b=AVzTjsCdZ7ZJjFIRsHm+VtHDqmrKHPqZQS2ewLb8BgMhajOAzQ/FguDzxtEQMYnwKc
+         r7anwtQTJFn/ucy+x7VRsdLtrfGJIQDc9OV9NQeOP/i/bY4LcgB+zVGfo76+WslQmHmg
+         hJCjQXt1FA7LdcfRWLzDFjaGF2akzYu+ZhCMdnmqHV21gZO4B9UFyeq2otvTZhPkC2kn
+         aR26dtEXAtPQ54EyKvmVzuKZbFI+Bkv27GlRjza5X583vVfk3fUqpIMjzesvx43gNuph
+         aEd36NIKVaDrhXWu+oRz4/h6ei0nZb1kDjo8vFe+x7GK/4kcoXvlRDWlnl6kxS9VkSiS
+         M11w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787783625; x=1788388425;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IpUANZHm7Ku5ncYu7RPUYz8NQSkFG4aKOc/nSfGf9bs=;
+        b=bPXq1h9CI2A3pNMpvqR7r/wrd+OZwp25YLzvOCtWYUmd9+r0R1tIn45qwIyuVSCpmE
+         0Ebr+myriUP12lcmsUCB1PhVxcJhPFj267wMxT5a9v9EZbyBuT1GkJGkhfdaHXqh2olg
+         vr8v5AjY0EhbCYo7x6JuvzSPqJBuQReCetQo9PF0Pa6vqs8hvxMkxH9gjGnx4cSJG4iu
+         3kY/4FcdR8zP8ArYND332tapTXpLEJIYqOU/+EL7cOPFUhCHdLjMTwkiC/tcoQrZmDTU
+         PcLTc4u7/VZ1NIY6l77yU9gvF2mcWlIaXh9jeUG/0GZ4bIo09yFsmCONfSqzxNxrz+5V
+         N9lw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr1yITHw+aM/gBgOkj+EDl2VRg+QXHpeOXEGi+S58KEbdMKU8yp4rYIuf8zS/MJlniczPZtOPQS+po=@vger.kernel.org
+X-Gm-Message-State: AFuF++mwKNGIzlVytzSVMqRmAT5yPijqBDmPPKBz71t4k3+MKl6vgTdp
+	+LCJPUILIRpvzSSgCF2eisIN39cwzTHUQ6nXFA42Nn8eVJ1BsJilr757eRL0HWdfw/XpcZ9yQjU
+	mqwQFPw==
+X-Received: from pgvi12.prod.google.com ([2002:a65:61ac:0:b0:cbe:e0a7:536b])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:c786:b0:3c3:b57b:627d
+ with SMTP id adf61e73a8af0-3cf84c5a493mr23198540637.12.1787783624481; Wed, 26
+ Aug 2026 15:33:44 -0700 (PDT)
+Date: Wed, 26 Aug 2026 15:33:43 -0700
+In-Reply-To: <mtbqvvvpwbzybgy6z47lwui6ag53kyubub3hkczui7u72zxesl@lnwsglrgwl5p>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20260826-gmem-inplace-conversion-v11-0-0a15d8a799aa@google.com>
+ <20260826-gmem-inplace-conversion-v11-15-0a15d8a799aa@google.com>
+ <ao9CKMXAX-hScRSa@google.com> <mtbqvvvpwbzybgy6z47lwui6ag53kyubub3hkczui7u72zxesl@lnwsglrgwl5p>
+Message-ID: <ao9px1j7CLYXMiGP@google.com>
+Subject: Re: [PATCH v11 15/46] KVM: guest_memfd: Call arch make_shared
+ callback for to-shared conversion
+From: Sean Christopherson <seanjc@google.com>
+To: Michael Roth <michael.roth@amd.com>
+Cc: Ackerley Tng <ackerleytng@google.com>, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
+	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
+	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
+	Fuad Tabba <fuad.tabba@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, 13 Aug 2026 15:06:11 +0530
-<mhonap@nvidia.com> wrote:
-
-> From: Manish Honap <mhonap@nvidia.com>
+On Wed, Aug 26, 2026, Michael Roth wrote:
+> On Wed, Aug 26, 2026 at 12:44:40PM -0700, Sean Christopherson wrote:
+> > On Wed, Aug 26, 2026, Ackerley Tng wrote:
+> > > Omit support for calling the arch hook to make private, since SNP, the only
+> > > implementer of the arch make-private hook today, would actually prefer
+> > > making private only just before faulting memory into the NPTs.
+> > > 
+> > > Calling the make-private arch hook would require iterating both bindings
+> > > and the filemap to find the intersection of bindings and allocated
+> > > folios.
+> > 
+> > Why would KVM need to iterate over the bindings?  Only the RMP needs to be updated,
+> > whether or not the RMP is currently reachable is irrelevant, no?
+> > 
+> > Subsequent calls to kvm_arch_gmem_make_private() from kvm_gmem_get_pfn() would be
+> > superfluous, but that's already possible, e.g. if an NPT mappings is removed for
+> > whatever reason.
+> > 
+> > > On top of that, SNP would need to figure out whether to actually
+> > > make private based on whether the memory is about to be faulted, or
+> > > whether it is a conversion.
+> > 
+> > This is a non-issue, no?  As above, sev_gmem_make_private() already bails early
+> > if the page is already assigned in the RMP.
+> > 
+> > I don't care terribly about how SNP handles this, but I do want accurate reasoning
+> > and justification so that if/when we revisit any of this in the future, we can make
+> > informed decisions.  Because unless I'm missing something, this is an optimization
+> > choice (eager vs. lazy to-private conversions), not a complexity tradeoff, and it's
+> > not clear to me how we decided the lazy approach would provide better performance.
 > 
-> A CXL device needs the vfio-cxl callbacks, but pulling vfio-cxl and the
-> CXL core in unconditionally would bloat every vfio-pci setup. At bind,
-> detect a CXL device with pcie_is_cxl() and request_module("vfio-cxl")
-> only then, and hand the device to the registered ops.
+> I'm not sure it was discussed in this context, but there was some past
+> discussion around preallocation (i.e. "should we call make-private arch
+> hooks at allocation time to allow for faster boot for prealloc guests"
+> and then that ran into the TDX side of things where that would
+> necessarily entail pre-mapping into the sEPT as well, so
+> KVM_PRE_FAULT_MEMORY ended up being the interface we adopted for this
+> purpose.
 > 
-> Each bound CXL device pins vfio-cxl through try_module_get() and drops
-> the reference at release, so vfio-cxl can unload once no CXL device is
-> bound. If vfio-cxl is absent the device is driven as plain vfio-pci.
+> Since then, KVM_PRE_FAULT_MEMORY was added on the QEMU side and gets
+> called after all conversions for both SNP/TDX, and even without
+> preallocation it's a decent performance boost to SNP. If we were to
+> switch to pre-calling the make-private arch hook then the
+> KVM_PRE_FAULT_MEMORY call because partly redundant and in practice we'd
+> probably see a small performance loss.
 > 
-> Signed-off-by: Manish Honap <mhonap@nvidia.com>
-> ---
->  drivers/vfio/pci/vfio_pci_core.c | 81 ++++++++++++++++++++++++++++++--
->  include/linux/vfio_pci_core.h    |  3 ++
->  2 files changed, 81 insertions(+), 3 deletions(-)
+> So there's real performance differences here but it's sort of been
+> addressed through a solution that offers additional performance
+> benefits on top so there's no longer as much to be gained here I think.
+
+Or another way to look at it, eager conversion would allow QEMU to drop its
+workaround.
+
+To be clear, I'm a-ok with the code as-is, I just want to make sure we document
+exactly why we're choosing this implementation.
+
+> But I guess that's a moot point...
 > 
-> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> index 88e68d43af9a..0f9b5dfeea66 100644
-> --- a/drivers/vfio/pci/vfio_pci_core.c
-> +++ b/drivers/vfio/pci/vfio_pci_core.c
-> @@ -2176,6 +2176,44 @@ static void vfio_pci_vga_uninit(struct vfio_pci_core_device *vdev)
->  					      VGA_RSRC_LEGACY_MEM);
->  }
->  
-> +static const struct vfio_cxl_ops *vfio_pci_cxl_ops;
-> +static DEFINE_MUTEX(vfio_pci_cxl_ops_lock);
-> +
-> +static const struct vfio_cxl_ops *vfio_pci_get_cxl_ops(void)
-> +{
-> +	const struct vfio_cxl_ops *ops;
-> +
-> +	mutex_lock(&vfio_pci_cxl_ops_lock);
-> +	ops = vfio_pci_cxl_ops;
-> +	if (ops && !try_module_get(ops->owner))
-> +		ops = NULL;
-> +	mutex_unlock(&vfio_pci_cxl_ops_lock);
-> +
-> +	return ops;
-> +}
+> > 
+> > > Calling the make-shared arch hook and not the make-private arch hook does
+> > > leak SNP-specific details into guest_memfd (as in, why only make-shared
+> > > during conversions but not make-private?), but the additional complexity is
+> > > not worth taking on until guest_memfd has a user actually requiring an arch
+> > > make-private call.
+> > 
+> > ...
+> > 
+> > > +#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
+> > > +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end)
+> > > +{
+> > > +	struct folio_batch fbatch;
+> > > +	pgoff_t next = start;
+> > > +	int i;
+> > > +
+> > > +	folio_batch_init(&fbatch);
+> > > +	while (filemap_get_folios(inode->i_mapping, &next, end - 1, &fbatch)) {
+> > > +		for (i = 0; i < folio_batch_count(&fbatch); ++i) {
+> > > +			struct folio *folio = fbatch.folios[i];
+> > > +			pgoff_t start_index, end_index;
+> > > +			kvm_pfn_t start_pfn;
+> > > +			kvm_pfn_t nr_pages;
+> > > +
+> > > +			start_index = max(start, folio->index);
+> > > +			end_index = min(end, folio_next_index(folio));
+> > > +			/*
+> > > +			 * end_index is either in folio or points to
+> > > +			 * the first page of the next folio. Hence,
+> > > +			 * all pages in range [start_index, end_index)
+> > > +			 * are contiguous.
+> > > +			 */
+> > > +			start_pfn = folio_file_pfn(folio, start_index);
+> > > +			nr_pages = end_index - start_index;
+> > > +
+> > > +			kvm_arch_gmem_make_shared(start_pfn, nr_pages);
+> > > +		}
+> > > +
+> > > +		folio_batch_release(&fbatch);
+> > > +		cond_resched();
+> > > +	}
+> > > +}
+> > > +#else
+> > > +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end) {}
+> > > +#endif
+> > > +
+> > >  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> > >  				     size_t nr_pages, uint64_t attrs,
+> > >  				     pgoff_t *err_index)
+> > > @@ -624,7 +661,12 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> > >  
+> > >  	filter = to_private ? KVM_FILTER_SHARED : KVM_FILTER_PRIVATE;
+> > >  	kvm_gmem_invalidate_start(inode, start, end, filter);
+> > > +
+> > > +	if (!to_private && kvm_arch_has_gmem_convert())
+> > > +		kvm_gmem_make_shared(inode, start, end);
+> > > +
+> > >  	mas_store_prealloc(&mas, xa_mk_value(attrs));
+> > > +
+> > >  	kvm_gmem_invalidate_end(inode, start, end);
+> > 
+> > The real reason I responded...
+> > 
+> > Thinking about the Secure AVIC mess made me realize zapping NPTs for SNP VMs isn't
+> > strictly necessary in this path.  The PFN isn't changing, just the attributes, and
+> > that's (obviously) tracked in the RMP.  KVM doesn't need to zap SPTEs to induce a
+> > fault, because the mismatched C-bit vs. RMP status will cause an #NPF(RMP), and
+> > AFAICT kvm_mmu_page_fault() will do the right thing.  A misbehaving guest could
+> > continue to access the shared data (assuming we stick with lazy conversions), but
+> > that should be fine?  E.g. it's not really any different than implicit conversions.
+> 
+> I think this should work in theory...
+> 
+> zapping NPTs means the vCPUs will keep retrying until they get the page first
+> vCPU that faulted is trying to grab from gmem. If we don't zap, then they will
+> instead be racing with the first vCPU, and if they lose they will be
+> generating implicit page faults that trigger conversions back to shared,
 
-Awkward flow, resolved with guards:
+Why would they trigger conversions back to shared?  Assuming the guest isn't
+being silly and accessing the memory with C-bit=0, the #NPF will be tagged ENC
+and KVM will treat it as a private access.
 
-	guard(rwsem_read)(&vfio_pci_cxl_ops_lock);
-	ops = vfio_pci_cxl_ops;
-	if (!ops || !try_module_get(ops->owner))
-		return NULL;
+	if (is_sev_snp_guest(vcpu) && (error_code & PFERR_GUEST_ENC_MASK))
+		error_code |= PFERR_PRIVATE_ACCESS;
 
-	return ops;
+kvm_mmu_faultin_pfn() will see "fault->is_private == kvm_is_private_gfn()" as
+true, i.e. won't kick out to userspace.  Same for __kvm_mmu_faultin_pfn(), which
+will call into kvm_mmu_faultin_pfn_gmem() => kvm_gmem_get_pfn(), see that the
+gfn is private, and call kvm_arch_gmem_make_private() as needed.
 
-> +
-> +/*
-> + * A CXL Type-2 device advertises both CXL.cache and CXL.mem in its CXL DVSEC.
-> + * pcie_is_cxl() is also true for Type-1 (cache only) and Type-3 (mem only)
-> + * devices, which the vfio-cxl provider does not handle, so confirm the Type-2
-> + * identity before engaging it.
-> + */
-> +static bool vfio_pci_is_cxl_type2(struct pci_dev *pdev)
-> +{
-> +	u16 dvsec, cap;
-> +
-> +	dvsec = pci_find_dvsec_capability(pdev, PCI_VENDOR_ID_CXL,
-> +					  PCI_DVSEC_CXL_DEVICE);
-> +	if (!dvsec)
-> +		return false;
-> +
-> +	if (pci_read_config_word(pdev, dvsec + PCI_DVSEC_CXL_CAP, &cap))
-> +		return false;
-> +
-> +	return (cap & PCI_DVSEC_CXL_CACHE_CAPABLE) &&
-> +	       (cap & PCI_DVSEC_CXL_MEM_CAPABLE);
-> +}
-> +
->  int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
->  {
->  	struct vfio_pci_core_device *vdev =
-> @@ -2197,6 +2235,41 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
->  	init_rwsem(&vdev->memory_lock);
->  	xa_init(&vdev->ctx);
->  
-> +	/*
-> +	 * Load vfio-cxl on demand for a CXL device. If it is absent, drive the
-> +	 * device as plain vfio-pci rather than failing the bind.
-> +	 */
-> +	if (pcie_is_cxl(vdev->pdev) && vfio_pci_is_cxl_type2(vdev->pdev)) {
+I don't see how #NPFs due to the RMP being SHARED would be handled differently
+than !PRESENT #NPFs.
 
-Nit, embed the pcie_is_cxl() test in vfio_pci_is_cxl_type2().
+> and most likely the first vCPU will re-trigger an implicit shared->private
+> conversion when it does PVALIDATE. Worst case, the guest fails PVALIDATE
+> due to racing with itself.
+> 
+> It's a bit chaotic, but it shouldn't break anything other than the guest, and
+> it's only something we'd generally expect for buggy/malicious guests anyway.
+> 
+> However...
+> 
+> > 
+> > In other words, couldn't we do this (as an on-top optimization)?  The only wrinkle
+> > I can think of is that it could delay reconstituion of a hugepage, especially if
+> > we opted for eager conversion (because the guest wouldn't hit #NPFs to trigger the
+> > hugepage promotion).
+> > 
+> > diff --git arch/x86/kvm/mmu/mmu.c arch/x86/kvm/mmu/mmu.c
+> > index 62f751952ad8..61f3e270ab61 100644
+> > --- arch/x86/kvm/mmu/mmu.c
+> > +++ arch/x86/kvm/mmu/mmu.c
+> > @@ -1670,6 +1670,7 @@ static bool __kvm_rmap_zap_gfn_range(struct kvm *kvm,
+> >  
+> >  bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+> >  {
+> > +       unsigned long shared_private =  KVM_FILTER_SHARED | KVM_FILTER_PRIVATE;
+> >         bool flush = false;
+> >  
+> >         /*
+> > @@ -1683,6 +1684,10 @@ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+> >         lockdep_assert_once(kvm->mmu_invalidate_in_progress ||
+> >                             lockdep_is_held(&kvm->slots_lock));
+> >  
+> > +       if (gmem_in_place_conversion && !kvm_has_mirrored_tdp(kvm) &&
+> > +           ((range->attr_filter & shared_private) != shared_private))
+> > +               return false;
+> > +
+> 
+> This path would also trigger for hole-punching, where we would want to
+> zap the NPT entries. So we might need to adjust the logic for more than
+> just shared vs. private to account for that.
 
-> +		const struct vfio_cxl_ops *ops;
-> +
-> +		request_module("vfio-cxl");
-> +		ops = vfio_pci_get_cxl_ops();
-> +		if (ops) {
-> +			ret = ops->init_device(vdev);
-> +			if (ret) {
-> +				module_put(ops->owner);
+No, because PUNCH_HOLE uses kvm_gmem_get_all_gfns_filter(), which does:
 
-Create a trivial vfio_pci_put_cxl_ops() for consistency.
+	if (gmem_in_place_conversion)
+		return KVM_FILTER_SHARED | KVM_FILTER_PRIVATE;
 
-> +				return ret;
-
-This looks like a regression, a device that previously worked with
-vfio-pci now fails if vfio-cxl .init returns an error.  It should
-continue with a log message.
-
-The disable_cxl option that comes later is a global opt-out, not an
-opt-in.  Users can opt-in to a feature that might fail previous
-behavior but they should not be required to opt-out to retain existing
-functionality, especially with only global granularity.
-
-> +			}
-> +			vdev->cxl_ops = ops;
-> +			/*
-> +			 * Pin the device in D0 while bound rather than let
-> +			 * the host power it down between opens.
-> +			 */
-> +			vdev->disable_idle_d3 = true;
-
-Why?  Letting the host power down the device between opens is exactly
-what we want for non-cxl devices.  If we're trying to do something
-around preserving the coherent memory configuration, it needs to be
-justified as such, and should happen at the point where it's relevant,
-ie. in the vfio-cxl .init path.
-
-However, this alone doesn't prevent the user from using low power
-states, so it also seems insufficient by itself.
-
-> +		} else if (IS_BUILTIN(CONFIG_VFIO_CXL)) {
-> +			/*
-> +			 * Only DEFER for a built-in provider so the bind
-> +			 * retries once vfio-cxl registers its ops.
-> +			 * A modular provider was already loaded synchronously
-> +			 * by request_module() above, so if it is still absent
-> +			 * it is missing, blocked, or failed to init; drive the
-> +			 * device as plain vfio-pci then rather than defer the
-> +			 * bind forever.
-> +			 */
-> +			return -EPROBE_DEFER;
-
-LLM asks if the registration function should call
-driver_deferred_probe_trigger() to make the retry explicit?
-
-> +		}
-> +	}
-> +
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(vfio_pci_core_init_dev);
-> @@ -2206,6 +2279,11 @@ void vfio_pci_core_release_dev(struct vfio_device *core_vdev)
->  	struct vfio_pci_core_device *vdev =
->  		container_of(core_vdev, struct vfio_pci_core_device, vdev);
->  
-> +	if (vdev->cxl_ops) {
-> +		vdev->cxl_ops->release_device(vdev);
-> +		module_put(vdev->cxl_ops->owner);
-> +	}
-
-Turn both of these into helpers:
-
-static int vfio_pci_core_cxl_init(struct vfio_device *core_vdev);
-static void vfio_pci_core_cxl_release(struct vfio_device *core_vdev);
-
-Include the tests is-cxl/cxl_ops tests in the helpers to
-compartmentalize cxl init/release.  Thanks,
-
-Alex
-
-> +
->  	mutex_destroy(&vdev->igate);
->  	mutex_destroy(&vdev->ioeventfds_lock);
->  	kfree(vdev->region);
-> @@ -2670,9 +2748,6 @@ static void vfio_pci_dev_set_try_reset(struct vfio_device_set *dev_set)
->  	}
->  }
->  
-> -static const struct vfio_cxl_ops *vfio_pci_cxl_ops;
-> -static DEFINE_MUTEX(vfio_pci_cxl_ops_lock);
-> -
->  int vfio_pci_core_register_cxl_ops(const struct vfio_cxl_ops *ops)
->  {
->  	int ret = 0;
-> diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
-> index 14753972e714..117cd67995d8 100644
-> --- a/include/linux/vfio_pci_core.h
-> +++ b/include/linux/vfio_pci_core.h
-> @@ -29,6 +29,7 @@ struct vfio_pci_core_device;
->  struct vfio_pci_region;
->  struct p2pdma_provider;
->  struct dma_buf_attachment;
-> +struct vfio_cxl_state;
->  
->  struct vfio_pci_eventfd {
->  	struct eventfd_ctx	*ctx;
-> @@ -109,6 +110,8 @@ struct vfio_pci_core_device {
->  	struct vfio_device	vdev;
->  	struct pci_dev		*pdev;
->  	const struct vfio_pci_device_ops *pci_ops;
-> +	const struct vfio_cxl_ops *cxl_ops;
-> +	struct vfio_cxl_state	*cxl;
->  	void __iomem		*barmap[PCI_STD_NUM_BARS];
->  	bool			bar_mmap_supported[PCI_STD_NUM_BARS];
->  	/* Flags modified at runtime - dedicated storage unit */
+i.e. won't get short-circuited.  Though I agree with the implication that this
+is super fragile/subtle.
 
