@@ -1,230 +1,240 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2587D41A914;
-	Wed, 26 Aug 2026 12:21:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8403D955F;
+	Wed, 26 Aug 2026 12:43:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787746914; cv=none; b=qFu3MGCUquUziRxo+wNfdkHZr1CFMv0rktHfdron1osxnC2zDOQa40hWlAZqOr847PQm00QneOyF4Ly0UJTgAB1zrKQuSDv5ry2xlxj22Z37nlqZkoeZEyci/6dRjZdovVuXXxBj4UNnKB1S6rpty/0/68o2UxP/qvenHB3uvJc=
+	t=1787748229; cv=none; b=GakExvVi1sHjiP0Hmri7Z7O1fdYOjcxu68V9ruz1X+ikEFRcsm/DAbPOIFMvcdYiAY5BIp57xjaoK0nak9Ks+qFy6cuStBg8JiFaOvhuvYqT1d4a37stknwrrTFl/0SYWPewcTtoEykUoSM78CzfRPNsHQcLLLIbnjcDdV4kjps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787746914; c=relaxed/simple;
-	bh=17PvMIvb+dn7B7m1Zxj74lDvEz1I2kLqVXhcrz0Tbf8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IE4d5voJpkHrzpT5Ek685lgFGqxafwmbXujzRM5z/9LykocqkewW1mzh6yMZo8VVqoGJc0K5IxrCunXbQfLVGyRxFq8xTELK7kCt7dtd2PZwElzyubQS5Cz+NfiYa9xUKr+9ZB7Xu+WaEuX0yfTb4rg4Jyit4YKzGxZTEPc2Lnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uVab0SxY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DGIuEy/C; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wPR8sBIT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XkND9Kmf; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1787748229; c=relaxed/simple;
+	bh=DkvpWssySXgIOImbdVNwuDrcbvHXIgRVF2jj72TZ9d0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OjOiCpQMKomWzQzV0G+Ip9slnqGgiyDMmtjO4y6VFj0lTQ+szr/oIpfOi/vm2B3rFoQdtwnOO98jNOmAmt8WFshc58646IyuypClycO5YfbpWCrM8TAbW5z1cKYR+NDlNZMJ2dzKocsfZ5hP7NASpdy0aiFFrJgrpg2QkpmzMRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f1LA7J7z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uVab0SxY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DGIuEy/C";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wPR8sBIT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XkND9Kmf"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 047E61F834;
-	Wed, 26 Aug 2026 12:21:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787746901; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DfJeqZ0bau7jEJJJvGO32xH5KjuTNFcBSKCpKpFG+LI=;
-	b=uVab0SxYMR/+N9UPruFWGWyG9I36bEDa8zsLoB4NzsI2qBEElaZ/5DZCHzkHWDprnCyDEw
-	R0uwjr0YDvXj1TmU5ztFzOTS3aimGNIxZeQhPLQHu8m44TyZdpaeyuhXhjH1UCW3glS4jq
-	QoTh3PYzFp8Yu2fElM0XkLc2DrUxoyU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787746901;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DfJeqZ0bau7jEJJJvGO32xH5KjuTNFcBSKCpKpFG+LI=;
-	b=DGIuEy/CudMk3cnncrFeKYGLxXCZqbeo2sEhLdK0lo6AqhJZpdU9FDJ8oCitjYM/kFqerb
-	BgKG0C2ysVE+hEAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wPR8sBIT;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XkND9Kmf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787746897; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DfJeqZ0bau7jEJJJvGO32xH5KjuTNFcBSKCpKpFG+LI=;
-	b=wPR8sBIT2frtnc6D78zAycwSBgyVdWoFRVhBygmyb2Ca3AaFUwIqp7L0gxtjypqQldZDpt
-	TU8r7AUVtuTPJWd6Ehd1CdtlHZB5ajCAnQiQ4cZ7I0+sNm6H1UgxdShzH/5l+d7CK6k95+
-	VKOtkU/ofwaRSEMNTlXBdQujjVs4L0w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787746897;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DfJeqZ0bau7jEJJJvGO32xH5KjuTNFcBSKCpKpFG+LI=;
-	b=XkND9KmfuGPt0J2MaAOPK7SXHD3tA2Y4FuRteyuP+QxvSku29ElYGIlQxEuPr3E6lQ4ScU
-	BHbmLsDpbky789DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96DAA13354;
-	Wed, 26 Aug 2026 12:21:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6vt+I0/ajmrGIwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 26 Aug 2026 12:21:35 +0000
-Message-ID: <e7522f72-69f7-4f4c-80c0-86680c0e6f54@suse.de>
-Date: Wed, 26 Aug 2026 14:21:35 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f1LA7J7z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37DFB1F000E9;
+	Wed, 26 Aug 2026 12:43:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787748225;
+	bh=VVoAHGurQKKPZnNlP/vFZS/fhM27uYGFZFI7iKs1ktM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=f1LA7J7z4NN5MtDe8cJpSCSEfDHN0j4X2vimivztBlwl/j6ouk7hOYHCj9EUMtWlD
+	 dIymlfkDC7N2CmR2kB1sXMEqQHDM1Ivz2M9KitX6UvqHKi8FyWBSuW+hG1se2QJyvM
+	 2v1z7IgnzxtP/OtnrPyAn1IRn6NQPFwD7wGFkMvX7dkLw/ZUMtVm1lEEySV0xENhEL
+	 B2mtRNdtX0cHTtji6l9z8/VWckX6wsoO7FBwnQ11UwqZJz2AEqLKizbUOL35lfEgez
+	 g3vIAkGN6kLebnYd2/eW3mqE4tHVwBlCRkNl7qMFbb1bqLqTGMzaakC8CrxBpsokXT
+	 DzOybvulib8Rw==
+Date: Wed, 26 Aug 2026 15:43:41 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>, linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 2/2] dma-buf: Document how exporters and importers agree
+ on mapping lifetime
+Message-ID: <20260826124341.GD42790@unreal>
+References: <20260825-document-dma-buf-v1-0-5ecfb3e1371c@nvidia.com>
+ <20260825-document-dma-buf-v1-2-5ecfb3e1371c@nvidia.com>
+ <2776f9b0-c299-45ff-bf82-89b95e73fd60@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/15] drm/drm_simple: remove drm_simple_encoder_init
-To: Diogo Silva <diogompaissilva@gmail.com>
-Cc: Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk@kernel.org>,
- Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Thierry Reding <thierry.reding@kernel.org>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Stefan Agner <stefan@agner.ch>,
- Alison Wang <alison.wang@nxp.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Liu Ying <victor.liu@nxp.com>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu
- <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
- imx@lists.linux.dev, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-doc@vger.kernel.org
-References: <20260720-drm_simple_encoder_init-v2-0-5020b630668a@gmail.com>
- <e393996a-3ef1-4c43-b762-af8cd0f2a4b6@suse.de>
- <CAJpoHp56yo+eQAYjvR3ez=HTSzapCd3dYppo=MdPx-Lm4J4DQg@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAJpoHp56yo+eQAYjvR3ez=HTSzapCd3dYppo=MdPx-Lm4J4DQg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 047E61F834
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,samsung.com,ffwll.ch,kernel.org,linaro.org,ideasonboard.com,linux.intel.com,amd.com,nvidia.com,agner.ch,nxp.com,intel.com,redhat.com,collabora.com,chromium.org,iki.fi,pengutronix.de,glider.be,google.com,arm.com,baylibre.com,googlemail.com,lwn.net,linuxfoundation.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[59];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+In-Reply-To: <2776f9b0-c299-45ff-bf82-89b95e73fd60@amd.com>
 
-Hi
+On Wed, Aug 26, 2026 at 01:41:51PM +0200, Christian K�nig wrote:
+> On 8/25/26 08:28, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > Pinned, revoked and movable mappings are selected by which optional
+> > callbacks each side implements and by whether dma_buf_pin() succeeds,
+> > not by any flag or enum. Nothing in Documentation/ says so, and the
+> > rules are spread over the kdoc of dma_buf_ops.pin,
+> > dma_buf_attach_ops.invalidate_mappings and dma_buf_invalidate_mappings(),
+> > so a driver author has to know the symbol names before finding them.
+> > 
+> > Name, per flow, the callbacks both sides have to implement to end up in
+> > it, describe dma_buf_pin() as the runtime negotiation, and record that
+> > the pin is what tells a revoke from a move.
+> > 
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  Documentation/driver-api/dma-buf.rst |  6 +++
+> >  drivers/dma-buf/dma-buf.c            | 85 +++++++++++++++++++++++++++++++++++-
+> >  2 files changed, 90 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+> > index 2f36c21d9948..39c201f38aa6 100644
+> > --- a/Documentation/driver-api/dma-buf.rst
+> > +++ b/Documentation/driver-api/dma-buf.rst
+> > @@ -113,6 +113,12 @@ Basic Operation and Device DMA Access
+> >  .. kernel-doc:: drivers/dma-buf/dma-buf.c
+> >     :doc: dma buf device access
+> >  
+> > +Mapping Lifetime Negotiation
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +.. kernel-doc:: drivers/dma-buf/dma-buf.c
+> > +   :doc: mapping lifetime negotiation
+> > +
+> >  CPU Access to DMA Buffer Objects
+> >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >  
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index d504c636dc29..30afec7365bc 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -684,7 +684,90 @@ static struct file *dma_buf_getfile(size_t size, int flags)
+> >   *    reference acquired with dma_buf_get() by calling dma_buf_put().
+> >   *
+> >   * For the detailed semantics exporters are expected to implement see
+> > - * &dma_buf_ops.
+> > + * &dma_buf_ops. Whether the exporter may still move or destroy the backing
+> > + * storage after step 3 depends on what exporter and importer implement, see
+> > + * the mapping lifetime negotiation section below.
+> > + */
+> > +
+> > +/**
+> > + * DOC: mapping lifetime negotiation
+> > + *
+> > + * No flag or enum says whether the exporter may move or take away the backing
+> > + * storage while an importer holds a mapping. Each side implements a set of
+> > + * optional callbacks, and dma_buf_pin() settles the result at runtime. Three
+> > + * flows come out of it:
+> > + *
+> > + * - Pinned: the storage never moves and is never taken away.
+> 
+> That's not quite correct. The backing store can still disappear if the exporter is physically hot removed.
+> 
+> In that case the exporter will still try to invalidate the mapping even if it is pinned. A NULL invalidate_mapping callback is of course still never called and so still optional.
 
-Am 25.08.26 um 20:39 schrieb Diogo Silva:
-> Hey,
->
->> Diogo, do you want to send out another revision? Otherwise it's time to
->> get these patches merged.
-> I would keep them as is, unless you see anything that should really be
-> improved before merging.
+But what does this mean for an importer that has no idea the exporter no
+longer exists? Will it crash? I think the revoke flow actually fixes this hot-remove case.
 
-I've now merged patch 1 to 13 and 15 into drm-misc-next. There was a 
-conflict with the exynos tree, which I resolved.
+> 
+> > + * - Revoked: the storage never moves, but the exporter may take it away.
+> > + * - Movable: the exporter may relocate the storage at any time.
+> > + *
+> 
+> > + * Every exporter implements &dma_buf_ops.map_dma_buf,
+> > + * &dma_buf_ops.unmap_dma_buf and &dma_buf_ops.release. dma_buf_export()
+> > + * rejects an exporter missing any of them.
+> 
+> I think that this is superfluous, the check in dma_buf_export() should make sure that all exporters follow that.
 
-Patch 14 first requires syncing with the amdgpu tree, which will happen 
-in a few days. You don't have to do anything here. After that, 
-simple_encoder_init will be gone.  Thanks for helping with this.
+Sure, will change.
 
-Best regards
-Thomas
+> 
+> > + *
+> > + * An importer reaches its flow like this:
+> > + *
+> > + * 1. Attach with dma_buf_dynamic_attach(). Leaving
+> > + *    &dma_buf_attach_ops.invalidate_mappings NULL rules out everything but the
+> > + *    pinned flow, because the importer can then never be told anything.
+> 
+> I would rather write "Leaving out the optional dma_buf_attach_ops.invalidate_mappings callback pins the buffer while the attachment is present".
+> 
+> > + * 2. Call dma_buf_pin() under the reservation lock.
+> > + * 3. On failure run the movable flow, or give up.
+> > + * 4. On success the storage stays put. Whether the exporter may still take it
+> > + *    away, which makes this the revoked flow instead of the pinned one, is the
+> > + *    exporter's choice and is not reported back.
+> 
+> That sentence sounds not really readable.
 
+I will try to rephrase in next version.
 
+> 
+> > + *
+> > + * dma_buf_attach() is the shorthand for an importer which only ever wants the
+> > + * pinned flow. It passes no &dma_buf_attach_ops, and DMA-buf then pins around
+> > + * every dma_buf_map_attachment() and waits for the DMA_RESV_USAGE_KERNEL
+> > + * fences on the importer's behalf. Peer to peer needs
+> > + * dma_buf_dynamic_attach(), because &dma_buf_attach_ops.allow_peer2peer lives
+> > + * in the attach ops.
+> 
+> That's also superfluous.
 
->
-> Best regards,
-> Diogo
+Will change.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, (HRB 36809, AG Nürnberg)
+> 
+> > + *
+> > + * Pinned flow:
+> > + *
+> > + * - Exporter: implement &dma_buf_ops.pin and &dma_buf_ops.unpin to hold the
+> > + *   storage still on request. An exporter whose storage never moves implements
+> > + *   neither, and dma_buf_pin() then succeeds on its own. An exporter which
+> > + *   refuses to be pinned implements &dma_buf_ops.pin and fails it.
+> > + * - Importer: nothing more. The mapping stays valid until it unmaps.
+> > + *
+> > + * Revoked flow:
+> > + *
+> > + * - Exporter: answer dma_buf_pin() as above. Call
+> > + *   dma_buf_invalidate_mappings() when the storage goes away and fail
+> > + *   &dma_buf_ops.map_dma_buf while it is gone. The two waits which complete a
+> > + *   revocation are described in dma_buf_invalidate_mappings().
+> > + * - Importer: &dma_buf_attach_ops.invalidate_mappings has to unmap within
+> > + *   bounded time and drop the pin.
+> > + *
+> > + * Movable flow:
+> > + *
+> > + * - Exporter: call dma_buf_invalidate_mappings() before each move, then wait
+> > + *   for the &dma_buf.resv fences. &dma_buf_ops.pin and &dma_buf_ops.unpin play
+> > + *   no part here.
+> > + * - Importer: hold no pin. &dma_buf_attach_ops.invalidate_mappings drops the
+> > + *   cached mapping and has to lead to dma_buf_unmap_attachment() within
+> > + *   bounded time. It need not stop the hardware, because access runs until the
+> > + *   importer's &dma_buf.resv fences retire. Map again before the next DMA.
+> 
+> That is also not really correct. Those flows are not separated like this.
 
+How will you split them?
 
+> 
+> > + *
+> > + * The pin tells a revoke from a move.
+> > + * &dma_buf_attach_ops.invalidate_mappings carries no reason, and both flows
+> > + * ask for the same unmap. An importer holding a pin can only be seeing a
+> > + * revoke, because the exporter promised not to move. An importer without a pin
+> > + * treats every call as a move and maps again.
+> > + *
+> > + * A revoke need not be forever. An exporter revoking around a temporary loss
+> > + * of access takes mappings again afterwards. Giving up for good is the
+> > + * importer's own choice, so an exporter must not wait for one to come back.
+> > + *
+> 
+> > + * &dma_buf_ops.attach is the only place where an exporter can turn an importer
+> > + * away. An exporter which revokes rejects the importers for which
+> > + * dma_buf_attach_revocable() returns false. An exporter of memory without
+> > + * struct page rejects the importers which left
+> > + * &dma_buf_attach_ops.allow_peer2peer clear.
+> 
+> That is also not correct. A mapping can be rejected later on as well.
+
+In API level yes, but I'm not sure that failure in map_dma_buf is equal
+logically to failure in attach. So, I won't call it "rejected later".
+
+> 
+> Regards,
+> Christian.
+> 
+> > + *
+> > + * Userspace sees none of this. The two drivers negotiate the flow between
+> > + * themselves, and the DMA-buf file descriptor shows no trace of the result.
+> >   */
+> >  
+> >  /**
+> > 
+> 
