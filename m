@@ -1,85 +1,71 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from mail.kekto.ru (mail.kekto.ru [188.242.149.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5653E2AB0;
-	Wed, 26 Aug 2026 13:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247AA379EE0;
+	Wed, 26 Aug 2026 13:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.242.149.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787750584; cv=none; b=oBALuOXdI55j6UOCTb9XO4iSuD/QCun4Eo4iNC7fFCkjZcedPZFo4GEsErgadLyC5IA6Eoxsf38T2Y7PH/O6qSeebMUpUtMlcApm9TwXSH3A2HdpmFGxHWzaZZ7Uc/8kedqJma0DDoFjiofcJOLvFKVXaVtK+On5eTJ9T8gYIMU=
+	t=1787750968; cv=none; b=jltEIFdL8XzSIRTP8TzsuDlDMBCcKqiy77GDF12p1+pcBt2XMhr6/PAkGtEKNNUNnhPuqWvFJ4a8Bi62mvBfDD41lmBRY901GpEN+xVtbjMkEFirjODu5gkPgo3x2mqbvduzR4KJac3A/VjVVVgsreY/hdcGP1bbzNplGLKyOAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787750584; c=relaxed/simple;
-	bh=dmLCNekLF7qQsx2TYXubO6nCiWrbfqtJvrZ/qU8Cp/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iV9EWbE+uYBHHBAKQ/p3j7KEMUEpsPnM5+k3wx/qRZHv3zxxlFBAKfZaEW8KeZvyPtpLfJs2LLPSoTNkwXcXHp6i4EtOh3s/PtvMPfz3OMP0wMCa8Aww8RlTKDi955pUuMdZE71QL4lTH3yTScje0x2Z6F403rRNLy+0Qi8Mwuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=NhFSvt74; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1787750968; c=relaxed/simple;
+	bh=gKkb35nV49U5xylloF8lUYhYYD8uGzOYdwhFRrI0sfM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Qxc//rP2ZUmY5g653fy1RRruVeyV5Z+xo98dJBiHpGBQNLX/ALNYm/dSj2YFAym9oFBdQrzRnayq2ufaPnuc073B5jiFv3nSDbRfM6Ph1hMYs1HQgaOuu6nq8JCF/dtdixTShpx0PC3hhfcCWDHgF14GuqtH8tmJW6KHGYlWGDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kekto.ru; spf=pass smtp.mailfrom=kekto.ru; dkim=pass (2048-bit key) header.d=kekto.ru header.i=@kekto.ru header.b=nXKBtmd+; arc=none smtp.client-ip=188.242.149.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kekto.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kekto.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="NhFSvt74"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=dmLCNekLF7qQsx2TYXubO6nCiWrbfqtJvrZ/qU8Cp/E=; b=NhFSvt74PQACFlP8GSOf5Lt7Ti
-	szltvFhI7h0BvYTmTRe1ax2uezAZgkX4ABuhd8rEcIM/afvLxD4ukXRiO8EkPWJHb0wSF6dIWZHwn
-	sN6ZcHsZIhMCGk0OdJGinf0VfXAuNfWPQLPMKd97R9AD4tE/8lmaubA7NLI1rAoHz9yaXI/UzN+iJ
-	hhCBruXvM/ymzYm3j1Db3kHcHnkoL1AHTgvmvzpVKg3kVNH8SjfcRx+dFzJCr8dKoFh5dhFVcUpn/
-	2AJDHC2CxpBg5/voRzPQJvybMojGy7Kn5V+KDu4pG/v9ier/jYMOVlyDWBNze5bC47/bKWwqVRV9p
-	qssB5zHw==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wzDaL-00FF52-1C;
-	Wed, 26 Aug 2026 13:22:33 +0000
-Date: Wed, 26 Aug 2026 06:22:27 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: "Luck, Tony" <tony.luck@intel.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	"x86@kernel.org" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"kernel-team@meta.com" <kernel-team@meta.com>
-Subject: Re: [PATCH 2/2] x86/mce: Add mce=panic_on_ce_count to panic on a
- corrected error flood
-Message-ID: <ao7nGM9sCQyxJvsD@gmail.com>
-References: <aowABmagul44ENde@gmail.com>
- <aoxxxmM-xIpyAE_Z@agluck-desk3>
- <aoynhOsTCcapwRbl@agluck-desk3>
- <ao2eT0TWS9EaA28N@gmail.com>
- <SJ1PR11MB60837D32B5D89336C87280A3FCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260825161625.GAao2_2d3U7xQFgHrw@fat_crate.local>
- <SJ1PR11MB60839657B965AC3FDA53C186FCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260825191555.GCao3p63v3fXzwa7E7@fat_crate.local>
- <SJ1PR11MB608315809B99B7194D167D8EFCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260825225202.GEao4ckknyv8nRc8Dh@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=kekto.ru header.i=@kekto.ru header.b="nXKBtmd+"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 78DF021664;
+	Wed, 26 Aug 2026 16:29:20 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kekto.ru; s=dkim;
+	t=1787750962; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=dIH4SvExnP2K41dF5iMbKo9aEPZ7uZtw6qkuX9287pY=;
+	b=nXKBtmd+79B54x2H1OKyE5115bVMIfNa8J2Uk8zfMwv5u82lML2SGJ3vwy+wC0DkoBjDLl
+	/1UtdYVpOIjsfskHYEadVeApGO38DPdK0o+uksCdkA+gblbxdxDP1+XCi4NK9o35TdrXLa
+	x8krslJ6yCjwMhdo9tHkhM8o8doGmbbjkzLybn3U9GKTYz6v4KBrcvUP+oGWO3g71UD/C5
+	wrOBM7qvlNzotc5E8MHunr1dVBugRG9PZ21N4AcyswPDdCb9JS2qvxhMUVm6VW0ambYpLM
+	GzQPq1mRbX8A/XK/K6e9cX9X56D3lTSxYfh+grVDwm5odhQ/KvTM7yiAhccwxQ==
+From: KentoNion <kento@kekto.ru>
+To: platform-driver-x86@vger.kernel.org
+Cc: Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Armin Wolf <W_Armin@gmx.de>,
+	Mingyou Chen <qby140326@gmail.com>,
+	Gladyshev Ilya <foxido@foxido.dev>,
+	linux-kernel@vger.kernel.org,
+	Nabil Danial <nabildanial.93@gmail.com>,
+	Nika Krasnova <nika@nikableh.moe>,
+	linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH] platform/x86: bitland-mifs-wmi: add TM2424 thin-ultrabook perf-mode quirk
+Date: Wed, 26 Aug 2026 16:29:19 +0300
+Message-ID: <20260826132919.179519-1-kento@kekto.ru>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260816215825.289356-1-kento@kekto.ru>
+References: <20260816215825.289356-1-kento@kekto.ru>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260825225202.GEao4ckknyv8nRc8Dh@fat_crate.local>
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, Aug 25, 2026 at 03:52:02PM -0700, Borislav Petkov wrote:
-> On Tue, Aug 25, 2026 at 08:01:23PM +0000, Luck, Tony wrote:
-> > L3 on Intel is shared by the whole socket. So you'd lose 50% of cores for an L3 cache
-> > issue on a typical two socket system
->
-> Would panicking the whole system be better?
+Please drop this patch.
 
-That's basically the approach I was going for too (just more generic).
+Mingyou Chen's v5 ("Merge redmi-wmi into bitland-mifs-wmi") is the
+right vehicle: a per-machine ops table instead of a DMI boolean fork.
+A replacement follow-up that adds TM2424 ops on top of v5 is in:
 
-When things start to go south, panic clearly. That helps people like
-me who watch for kernel health across the fleet and know how to handle
-a clean panic caused by ETOOMANY MCI and MCEs, instead of something that
-requires deeper investigation because the host is degraded.
+  [PATCH] platform/x86: bitland-mifs-wmi: add TM2424 ops and hotkeys
 
-In other words, I'm more interested in flagging that a host is a lemon
-than in keeping it limping along half-alive, thus my approach in this
-patchset.
+That also avoids the laptop_attrs const-qualifier build error the
+robot reported against this version (v5 already uses non-const
+DEVICE_ATTR). The LKP report is therefore obsolete.
+
+Thanks,
+Kento
