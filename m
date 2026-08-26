@@ -1,108 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35B7325701;
-	Wed, 26 Aug 2026 15:44:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7AE416878;
+	Wed, 26 Aug 2026 15:55:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787759052; cv=none; b=hNp663ZMF2H4FZZ0v7FGm9AfMSJbiddTF+ozqk07hslhwiTEBJlkBSN8iTNgSjsIW4ke+lAhs8IDCZoUcWmx87O1CT5YwGnPyi6NK1qXlh20QHVhz7MKkWlSFZFt2pE5EZ1JUsqN3Op6wYlHNa2PV7HEqPON5r40qZqSXLg3N/Y=
+	t=1787759760; cv=none; b=mcee/SpjfGonQrDoB8pWnJOh0tR0vqO9vlAdtSwgNGAj0RzJ71CJs++BdGZFV3IWVlRYbpnp9r1gcO2rb5j9KWSNQOKVS+zK1B/QX6wA5sVO38NVQ7a+JCwgWu0i2qJZyEyHD3f1UzvZmJHCpllZl1NeNUS6oDUO+oDex6twqRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787759052; c=relaxed/simple;
-	bh=01OA8TapfiqREWY5qdNgocQ63a1Ng3x75mPwRkL44so=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yf/wNQLcfOr1yRF+SP6rdWE41nOg8lbxsQG3GcAiEPWfDMtT/xikA5U9gqo68uGc6PmCtuisETMqVrOgVoh4ofZiqWcb0MXjcR5Dsa3O3vxE67FCYb/HzW4pk+5Wm+NI7IKHEddL+OOQugOo141BK9RM3q4Q0m2/iwJ+3LO88p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Im/eGPGy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787759760; c=relaxed/simple;
+	bh=Phb72AoqbVHIC31C23WEo20gDWkMp0/dpMPIljHQDwM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=A4bdJxmLGwBmTAiM6r7XUN3ZFxEQ4mcGdd5bC9PTkxKa1YGRkzPQe1+NpdYH7doQkMrFsxhLxhjHXaNWcqw9nBR1KPNViRwaWLrH6m18ppCi6k17bOS7UUcHb9Ft4JTEoD1ia3t/tb+BrucfTfy0d2FRzLdrmbodkhaHhYvlNr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UB7f7OhW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Im/eGPGy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACFA31F000E9;
-	Wed, 26 Aug 2026 15:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787759048;
-	bh=Vf2B2DdVbRkFpNGj3JOupYLPnXTY63U7LDwuZejwfww=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Im/eGPGy7JjkgYQUMVExoxSF3n4YW3PB2MUfI8/9+1cV+vpCCTB8H3OtGFOwTu/hQ
-	 6E2tKx6WyOk6VK3iKskPKX9JsJRgNgyBCt7fHO9xpany2fWE8NWK2f3hLgJlzLh47x
-	 i0UJwc7r7qChiUfmd+HjnfsSzsgCG8BAXq1TfogY=
-Date: Wed, 26 Aug 2026 17:44:06 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <2026082634-cloak-ambush-3861@gregkh>
-References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
- <20260826153311.6340efcd.michal.pecio@gmail.com>
- <2026082658-statue-census-dc39@gregkh>
- <20260826173549.18c8a89c.michal.pecio@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UB7f7OhW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFD141F00A3E;
+	Wed, 26 Aug 2026 15:55:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787759758;
+	bh=BwOwlrsMKFa+viIlDHPfEgFRdNQZleimxjv4DOddYv8=;
+	h=From:Subject:Date:To:Cc;
+	b=UB7f7OhWq1DxpKTgfVroj21MHn7Asx3BUizcAKwgMLDZI89Ej0SK4pvtDO+QrYvBq
+	 LUpuQp7ZGpyjzVXCp2OVa4TTmYXwP6+QGEBMkRdWcUT3UUviOFeQ++kU8MwDuj+MpU
+	 xk4iMSPnBlscuNkNry6+AtEEAL/JBFT2ENYY7sk5LnTXPOSdCKMwBGZT4iqhscLdbw
+	 qMcnDIXZpulbTFQIbJ9XMIp5nDa3BEvWTFh/NOoyR5Mf13Amwb0ymTEm/XQYAQeItP
+	 3DeakQqDplWN6tcYhTP36A3jhIKTIcU2rhwSrs2lSPslf0aIiSHgh0Fec8e1aXhmDe
+	 4s9bQvFqRFFwA==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/3] binfmt_misc: only let punctuation delimit a register
+ string
+Date: Wed, 26 Aug 2026 17:55:45 +0200
+Message-Id: <20260826-work-binfmt_misc-delim-v1-0-43618adf8599@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260826173549.18c8a89c.michal.pecio@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/03M0QrCMAyF4VcZuTal62AMX0VE2i51UddJs6kw9
+ u6288bLP5x8KwglJoFjtUKiFwtPMUd9qMAPNl4Juc8NRptWd7XG95Tu6DiGcb6MLB57evCIXRN
+ a450PZBrIz89EgT87fDr/WhZ3Iz8XrSycFUKXbPRDORVX/blqd1VZwbZ9AfjKkpGoAAAA
+X-Change-ID: 20260810-work-binfmt_misc-delim-83f62cbcfe23
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Kees Cook <kees@kernel.org>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Farid Zakaria <farid.m.zakaria@gmail.com>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-362b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1243; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=Phb72AoqbVHIC31C23WEo20gDWkMp0/dpMPIljHQDwM=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT183Qz3+6pPNDT/i0r7sXcF57JC4O2usbrec2s+HdOz
+ 8dlQt3CjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIlYX2dkeOHV7qt0W9bnfazv
+ rh2nMjKV76gViE2MzLH3cK+6+Uarn5Fh8caLLOWfL3MtXaPKqF/f/TL7zOnJO8WnL8v9wHniVuw
+ EDgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Wed, Aug 26, 2026 at 05:35:49PM +0200, Michal Pecio wrote:
-> On Wed, 26 Aug 2026 16:25:42 +0200, Greg Kroah-Hartman wrote:
-> > > I think you confused 'bind' / 'unbind' with the likes of 'new_id'
-> > > and 'driver_override'. Try binding xhci_hcd to NVMe, you won't get
-> > > far.  
-> > 
-> > It seems to result in a failure report that people keep sending random
-> > patches for :(
-> 
-> It results in write() returning -ENODEV.
-> 
-> You can't bind random drivers to random devices out of the box,
-> you need ID overrides. And then you don't need to bind manually,
-> the kernel will happily select the wrong driver by default.
-> 
-> Authors of the recent xhci and thunderbolt patches admitted that
-> 'driver_override' was involved in both cases.
+Currently we accept arbitrary delimiters which really makes no sense and
+from looking around it's an unused feature. Everytime we add a flag the
+number of possible delimiter shrinks and it makes extensions much more
+hazardous than they need to be. Stop it and only accept punctional as
+delimiters.
 
-I'll be glad to taint if driver_override is also written to, but it's
-bind() that triggers the actual action happening.  Or so the traces
-show.
+This extends commit 8e85d50ba111 ("binfmt_misc: reject a flag character
+as the field delimiter").
 
-> Meanwhile, Syzbot also found a stupid write to freed memory in USB
-> core when HCs are unbound. You may say it doesn't matter, but:
-> 
-> * USB HCs are hotpluggable thunderbolt "gadgets" these days
+Letters, digits, whitespace, control characters, bytes above 0x7f and
+the backslash now get -EINVAL. Everything deployed uses ':' anyway.
 
-We support PCI devices being removed, but that falls under the PCI
-hotplug rules/requirements, right?  Anyway, sure, we can fix those bugs
-when found, but that's not the majority of what we are seeing at the
-moment.  Look at all of the dumb platform drivers that are getting hit
-with this on the syzbot reports...
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (3):
+      binfmt_misc: only let punctuation delimit a register string
+      selftests/exec: test delimiter restrictions
+      binfmt_misc: document the field delimiter
 
-> * there were plans to alter this code so that UAF is triggered by
->   hot removal of the USB device, not its parent HC
+ Documentation/admin-guide/binfmt-misc.rst        |   3 +
+ fs/binfmt_misc.c                                 |  12 ++-
+ tools/testing/selftests/exec/Makefile            |   4 +
+ tools/testing/selftests/exec/binfmt_misc_delim.c | 127 +++++++++++++++++++++++
+ 4 files changed, 143 insertions(+), 3 deletions(-)
+---
+base-commit: 66498c75b4f8017f62d720d9b59675bdf3abce91
+change-id: 20260810-work-binfmt_misc-delim-83f62cbcfe23
 
-I don't understand what you mean by this.
-
-> IMO the actually meaningful change would be to taint driver ID
-> overrides, because that's the known risky and crash-prone madness.
-> bind/unbind taint is noise that will be ignored.
-
-it's not going to be ignored if panic_on_taint is enabled in syzbot,
-which the authors have said they will do :)
-
-thanks,
-
-greg k-h
