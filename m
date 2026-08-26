@@ -1,269 +1,199 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473FD3EB0F3
-	for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 20:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775CE175A8A;
+	Wed, 26 Aug 2026 21:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787776326; cv=none; b=tSHUkH4ds7qQcZox9vPEhYKMo1uqOng5RLRx6cSjuA6NKKEeB1DfaNu8qi8Cx2bqH6IiycjkRE9+31D3+r6ajF24UaKMEATDlFrnibbumfsLilxQh0f2YCLR3JomU7ZVi/hURB8tFuKGabSSFDLEEUowiCkiWt3HQhi7twRIz/Q=
+	t=1787778723; cv=none; b=Utm6RTtAaBY4JT+wgGgPQUSVShUHD/w8REXcOvhGMCn63fJlX8bnCq6J40PwenqRl10nJG4sgc0QLaLqVEe6OHuYOZrSFdFRXY0Q4g7aWwN9MQQtCoNlbcr/+g7dhqK0gnu46DCpfHx4EyLS9JPPd0jZtiqlkz++ltuUnjwD8oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787776326; c=relaxed/simple;
-	bh=djfsCQK+G5XbvfdJNJERVRz2CbHGho4YqI1eV0BksKI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jrfqe98sjSSUjNtoQYCPQMnbF2SZJGESBYHgPmR9N4F8eIic32GBgCLvTLV3w9w2vFqTLGmD8PShzBhlW5BmAwSwQ4BmQPl7pXIu3VfIB7/dc7GT50G7S6urmaqYN9wEDQbko4eVlkq296gf0uOkQk2XOcpohbUQ6LwufacekwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UOoyLhoX; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=aJ5JI8Lf; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787778723; c=relaxed/simple;
+	bh=uDpCg2NUdgNPB8vVggZUtXIvlUFPLoHhHi6zPWg7eks=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZCmwwACdEhYn01pM09cQE3JamCzi2/xOeijVz3lVqR55hg75peoOdPrAePWrNEoiKwTqO+V6jNZ2rYRW7N8oGEJbPCUzTiFzE8n4CMMrk9WKnvVWxDQ3UGCrTMAr1PpcMN96eY9ZXUJ9io0uPWPH+/RJ4+M1d6sczCqUWrXFVqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=Wle+fMPp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jtpsDMzZ; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UOoyLhoX";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="aJ5JI8Lf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787776323;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YpcUluZmeNlEB/De7gKA8OsQpvEQvUU+qqs19ZSEzKo=;
-	b=UOoyLhoXbhrZ4KEFncX8Tnj9zvCLvp0xsV9Sj0W+ZpZ/LvbVVxtl6bRz+3AdRxAM7/Thuk
-	Odj7UYvWzJhnbwxhQLA3zuItKiR6T+zrK4OUVfUjeSoabeaAL/zN4sxUhN1fHElLVLBhf2
-	xq1kAlU4Ub0gDpP5FYMLqXsqQg9bVY8=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-10-JaprHE4IO_2BXYL2L9-YJw-1; Wed, 26 Aug 2026 16:31:59 -0400
-X-MC-Unique: JaprHE4IO_2BXYL2L9-YJw-1
-X-Mimecast-MFC-AGG-ID: JaprHE4IO_2BXYL2L9-YJw_1787776319
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-90a602a4e6fso29316916d6.1
-        for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 13:31:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1787776319; x=1788381119; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YpcUluZmeNlEB/De7gKA8OsQpvEQvUU+qqs19ZSEzKo=;
-        b=aJ5JI8LfOItjh8VPrWS9UKAnwSCTR919fPF6SNFviMfc7sjBMC5eo6Ym3RYldqBn4P
-         C97I8afUMf4gL9NJvieaPeOsloeH3peuKsGj4ys0RFid/AhUveE4adMQ6e/w5ClNwnlO
-         SB9v+u28QORPl4Ewnry7OZ3/tptDStjCUc8KSGE4UA9BgWu9kJwhaqtvcRIdCDZk4jDE
-         W7WLFmaN3s+i6YWtgComnIzSr7QBS/fpPTvEgWQyYaAmlvXPXRP+x0o7E50TRDPWWGHg
-         sVrgvFFL04ETwgKHeXoDGXNaDbAGDQXAzUWGaMbNhyFOCYrbK+BS0Eg4gvCipVTP0+P7
-         7FOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787776319; x=1788381119;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YpcUluZmeNlEB/De7gKA8OsQpvEQvUU+qqs19ZSEzKo=;
-        b=KzCm3j/EFgT+AYvNsITODxPfwocQt2chqq1NBq/8sVyzpNN5A6k9PzDk+IT2zPbHOh
-         vZCXuMPzV0qvzasSLKqZ5+9aefcip4xg+36WxqJoZ2IPgCeyfYtmqbiGXbYN4KVy8b+w
-         KnFyTMD3slTnOVEEaNL8IS3EMMTG4CaaPwpxjCjLO+ICnU300UQf3bt2W236xl4Mg5Yd
-         t93FmUlSQEqxP7wrg06ehFsWda17SUITntgDa7Ixzp4lfPl/5sNQ20UsCvbd/HiLoJBE
-         4rq6mS9H/RfzMJOuCY9Ngcch3rIvqwQOwKjwl3DOJYkBNGqUOEvCIO6n2WRK1axyF7UX
-         nNHw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp5VnT+U1+MqFnsncZ1T47IiMYsAkVd0ITpqGjOnB+1KdEu3b0xx3KbbIQRslgrbR5q8/BgOkCLrNU=@vger.kernel.org
-X-Gm-Message-State: AFuF++nTxpD4fbAlh3xVcRCu0tDfxI1r6Nw4Q1J+prdr8USsS54jELQZ
-	apqXbxRFplurTq+0vhWzQEMSEkaXbE2VB7+idvAwh73PrGK6ZQA1ztkngL1BN9ZLWQ8RsUtX5de
-	xV2OTJ7r+EFcGcMcp6I5jICg/6Mt1NNSOdH9ZFGFk8HIrhocMoE2MPcmS6Ta2tw==
-X-Gm-Gg: AR+sD10FjzYnefI21Yl60PO2rVvwHGHZqJ/pYuic9CO3Vc9DMDrvwxM5dypcqmHPooX
-	hzS7Yg3lBGLoEJU6Rr8+4c2/r2y65wwnExFBNkVccDDIs+vpVgPu6XM8kQkFMBdzCLlg8GfGB5R
-	+1PHrtbrA5Ul71kVQEgSgXFcitoN2b7UK8+MRVitykXpXA0eejsVEqbFIJogwNE2eVNYPFPTh5h
-	v5fAdxDmlvvpkKC+9J2IHJQ1qlwXK+mLujMNqgni5K8EpmVNnMsrk+aoWysijaqPj0XnihfVCA2
-	B4kjT8I46IWzsNHRCLgNE4rX+n/SkhU1mAo0BBhw0O3j7qvs+dRKMDHqWpUInKwvBLFMxDpQ+QK
-	Fd0qtupvUqVzzk1Q+mC2YlLqaCZgVfuMtdv4+RCSP8y4y
-X-Received: by 2002:a05:6214:1cc8:b0:908:a729:73bf with SMTP id 6a1803df08f44-90cc792fe20mr112761456d6.22.1787776319046;
-        Wed, 26 Aug 2026 13:31:59 -0700 (PDT)
-X-Received: by 2002:a05:6214:1cc8:b0:908:a729:73bf with SMTP id 6a1803df08f44-90cc792fe20mr112760516d6.22.1787776318384;
-        Wed, 26 Aug 2026 13:31:58 -0700 (PDT)
-Received: from localhost (pool-100-17-17-231.bstnma.fios.verizon.net. [100.17.17.231])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90cc63bcec2sm36143716d6.5.2026.08.26.13.31.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 13:31:57 -0700 (PDT)
-Date: Wed, 26 Aug 2026 16:31:56 -0400
-From: Eric Chanudet <echanude@redhat.com>
-To: Michal Hocko <mhocko@suse.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Shuah Khan <shuah@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>
-Subject: Re: [PATCH 00/11] mm/cma: charge cma allocation to memcg using per
- area counters
-Message-ID: <ao8uZ0cNyqaAJuPB@echanude-thinkpadx1carbongen13.rmtusma.csb>
-References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
- <aowHqqaqK7TeexQH@tiehlicka>
- <ao2gA_m3BCBu2esy@echanude-thinkpadx1carbongen13.rmtusma.csb>
- <ao2t6HP-Zt5KDg30@tiehlicka>
- <ao3UKM5SbxBmxuR0@echanude-thinkpadx1carbongen13.rmtusma.csb>
- <ao3quaSze8YjPjxZ@tiehlicka>
- <ao3tFg4JLNlbylTR@echanude-thinkpadx1carbongen13.rmtusma.csb>
- <ao6eC2SUIGVz3Qct@tiehlicka>
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="Wle+fMPp";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jtpsDMzZ"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6F33814000D7;
+	Wed, 26 Aug 2026 17:11:59 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Wed, 26 Aug 2026 17:11:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1787778719;
+	 x=1787865119; bh=XBtTfHY+WDdkLyh0K0L+xi9uGC1gMRbwPFuNWOJMBXw=; b=
+	Wle+fMPpazMDVaQ9O6e0HHe9V925gAr59VZq3viP6AxzJ8JGNtiZeEkSJ7WYNWvM
+	H9mpchL11d7/J8jWZ9qK92UR78WVrEQ0TT9xKBXagxJQAAlQCooWx+dlEgnuWbIw
+	xiTEcSTpgxR2gj9v6b7z5QQaIdRnVPN/cuUqfraw0gj4o9nxcZz1JJhj7Lky0gW5
+	fgs7nfGzK+Nwyit82tjBb8I1MlOXTu48k3J4dqZbluPTlvbwav9JcCgW0xYAu4tv
+	d70mrJeTiqtkrrc0U38zv3ZpARP+foK//e2scmbwmkoXo1goPjfWHZgm05W8JWMS
+	jMpmgMp5yBnSKESYl/r3SQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787778719; x=
+	1787865119; bh=XBtTfHY+WDdkLyh0K0L+xi9uGC1gMRbwPFuNWOJMBXw=; b=j
+	tpsDMzZ1MNXp4PaxoO0GHqoB703Tqzs78CU1MQROde3JpIwwVHwJ0dgKQ3tSwXZm
+	D3JKr+GZIwdOzVOJ7GA0ihCJcgPnrR8zMNsdtJIGLOYfaW7Fb1wdGMgGW3fa3kSA
+	/JrXxiim5OxWtGr/KfpgQvrhsquTzbuATqk2hRRV2QZJvV+E3JVDmDPLFim7HJi5
+	yubb/q9ZYlJL9ImdWT6/l5oEEgUDJ63QjB09Dyznw1F2iDUNa2/bYEEcVGiIhrWE
+	zTlWng8wm0p4YYouSrPFCq+S5gBm2b6202dwKgL8SLMqysDr8jkpX3ksqUdlQtDy
+	QzI6NBfRsKFTph3xDuhKQ==
+X-ME-Sender: <xms:nlaPapR909DTYcpbfmu_jfu88i5IvPinrTNzswCnOz3MfMT_LjdaEg>
+    <xme:nlaPagYr71aYDkoF96nVdYCiwVmpFhbUg4QMcz6i52mV6quSodqByMDkh3kTqYjFv
+    -IWItd9AoLR_0R0R0DRisv_JklFDDEIIYp24xD8-uq8kdUc0FK8i2A>
+X-ME-Received: <xmr:nlaPamNHPZGQ0v-gixsoGMbKPk6hI5sV9V4abqGugTOsOzXFgPRHb4EIYCwcTA>
+X-ME-Proxy-Cause: dmFkZTEXGJSF0uJGejRe3ioHj/n4Wpef56fXiylaceh+6G7pUZPBVN+LeXmG2tRpI5AMO6
+    0TXJ/tcBYEQg7FjgK1JdTPhiduFRunWkZ9aTN0LMeVrJcLkLARNGqlOTbstprIfK3BOcBH
+    dKwhXjWL26ish5Qap4mvjQO7JVwB7dpLo0iU0B+/GT+LOyGimcRDg4jH/53EZFGOPZkz7t
+    i0EUtLTMy6Sr09by1VooXpOjqqvYf0ahP5HdwEcn8uuvHKJCUa2Lug03KOrNfkEvaBsz/z
+    Gghz1To5woz7Keoiy4nJK0fPY44FpJvSBI/9zfJ2mTmEzBgF2XWZoFJOkAKv0mGZYMRYtf
+    Qru0r/bPxGzepRCJGo4CUvXPxpt9Sdf3YWRO3V9agIYbH/Kj1s3/tmyo7l5wrFUPG8rTuw
+    2mP96umyaMt5h6L8UcDTDDMWp7NZo6li7Hx8zaIWyulK3vbmOFQKaquQgQokqPN4mXcs7h
+    PF2j+/aKNQK1anw0ZvMDb2rkfbomw16zYBT8wvVo4XAytixQLtUeYmoaCmPJFUK8ArLkkE
+    Gs/CtxdSlXDmFMQAyk0BzINzaRmZ59F+dTB2+f94EY7TISdLTLDovmoWHeK8EmUA5wL8GI
+    1/5bVYxtbPxeZJWg2lAzPnga+Wwx7ZE58CZGeRvY7tuagJ96N4EqKhvMHkdw
+X-ME-Proxy: <xmx:nlaPapMjpmCjPUqgsRSylJRG-tB6AUCgD1mGJqeuqllWT5cPrsshrg>
+    <xmx:nlaPaqPvHrrH6Rb0ZxPUTwn2HLeg8appwl54_k9EWevCS1B4nxhm8A>
+    <xmx:nlaPalb7SzKDLrm9JmH11Qie1FbqVg4m6Qu63aer23eG1IUPG-UHqQ>
+    <xmx:nlaPaoiSTwBHAZXPyoUE9gkwjC4Nq3vADfmlN3ue4M48wdY0CvIEag>
+    <xmx:n1aParMtagkqRIMVTzEg7gGMNZ49iaLrQ1TmJTDCUgSI-9KIR0svszrg>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 26 Aug 2026 17:11:56 -0400 (EDT)
+Date: Wed, 26 Aug 2026 15:11:54 -0600
+From: Alex Williamson <alex@shazbot.org>
+To: <mhonap@nvidia.com>
+Cc: <jgg@ziepe.ca>, <ankita@nvidia.com>, <jic23@kernel.org>,
+ <dave.jiang@intel.com>, <alejandro.lucero-palau@amd.com>,
+ <smadhavan@nvidia.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+ <dave@stgolabs.net>, <alison.schofield@intel.com>,
+ <vishal.l.verma@intel.com>, <iweiny@kernel.org>, <ming.li@zohomail.com>,
+ <yishaih@nvidia.com>, <skolothumtho@nvidia.com>, <kevin.tian@intel.com>,
+ <bhelgaas@google.com>, <dmatlack@google.com>, <kees@kernel.org>,
+ <gustavoars@kernel.org>, <cjia@nvidia.com>, <kjaju@nvidia.com>,
+ <vsethi@nvidia.com>, <zhiw@nvidia.com>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+ <linux-cxl@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+ alex@shazbot.org
+Subject: Re: [PATCH v4 06/27] vfio/pci: Add CXL ops registration interface
+Message-ID: <20260826151154.19486297@shazbot.org>
+In-Reply-To: <20260813093631.2288172-7-mhonap@nvidia.com>
+References: <20260813093631.2288172-1-mhonap@nvidia.com>
+	<20260813093631.2288172-7-mhonap@nvidia.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ao6eC2SUIGVz3Qct@tiehlicka>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 26, 2026 at 10:04:27AM +0200, Michal Hocko wrote:
-> On Tue 25-08-26 16:58:51, Eric Chanudet wrote:
-> > On Tue, Aug 25, 2026 at 09:19:21PM +0200, Michal Hocko wrote:
-> > > On Tue 25-08-26 14:33:48, Eric Chanudet wrote:
-> > > > On Tue, Aug 25, 2026 at 04:59:52PM +0200, Michal Hocko wrote:
-> > > > [...]
-> > > > The administrator opts in by mounting cgroupfs with
-> > > > memory_cma_accounting. At which point the cma allocator will charge CMA
-> > > > allocations against memcg and manages a per area counter depending on
-> > > > what area the allocation was made into.
-> > > 
-> > > So each CMA area will have its own counter and limits?
-> > 
-> > Yes, in order to enforce a limit per CMA area this series add a page
-> > counter for each area. Areas are fixed and discovered early so the
-> > counters are added to struct mem_cgroup and initialized when the cgroup
-> > is created.
-> > 
-> > An admin would then use the cgroupfs entries to assign an area limit to
-> > a given cgroup, something like the following, using the reserved area
-> > for example:
-> >   mount -o remount,memory_cma_accounting /sys/fs/cgroup
-> >   echo +memory > /sys/fs/cgroup/cgroup.subtree_control
-> >   mkdir /sys/fs/cgroup/mycg
-> >   echo 16M > /sys/fs/cgroup/mycg/memory.cma.reserved.max
-> >   echo 64M > /sys/fs/cgroup/mycg/memory.max
-> 
-> OK, thanks for the clarification. This confirms my initial suspicion but
-> it is better to have it clearly articulated. I can see several problems
-> with this approach. First and formost I do not think dealing with all
-> cmas this way is manageable. This can become a mess very quickly if we
-> have one limit per cma and too coarse if there is a single one. I also
-> have my doubts about space allocation control through a simple limit for
-> something that is effectively a reserved physical space.
-> 
-> I might be proven wrong but unless cma serves objects of a uniform
-> size then this will simply not work in practice. Hitting ENOSPC without
-> hitting limits and thus impractical for shared space management.
+On Thu, 13 Aug 2026 15:06:10 +0530
+<mhonap@nvidia.com> wrote:
 
-Isn't that an inherent limit with CMA as it is? If the area gets
-fragmented, some buffers may no longer be allocated since there is no
-remaining hole big enough to accommodate them? I do hear that putting
-arbitrary limits would make this worse, which might breach the threshold
-at which it becomes a problem.
+> From: Manish Honap <mhonap@nvidia.com>
+> 
+> vfio-pci-core must stay free of any CXL header dependency, so CXL
+> Type-2 handling lives in a separate vfio-cxl module that plugs in a set
+> of callbacks. Add the registration interface: vfio-cxl registers a
+> single struct vfio_cxl_ops at module_init, and vfio-pci-core stores it
+> under a mutex.
+> 
+> The owner field lets a later patch pin vfio-cxl for the lifetime of each
+> bound CXL device. No caller yet; the detection path is added next.
+> 
+> Signed-off-by: Manish Honap <mhonap@nvidia.com>
+> ---
+>  drivers/vfio/pci/vfio_pci_core.c | 27 +++++++++++++++++++++++++++
+>  include/linux/vfio_pci_core.h    | 10 ++++++++++
+>  2 files changed, 37 insertions(+)
+> 
+> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+> index 3f11a9624b9c..88e68d43af9a 100644
+> --- a/drivers/vfio/pci/vfio_pci_core.c
+> +++ b/drivers/vfio/pci/vfio_pci_core.c
+> @@ -2670,6 +2670,33 @@ static void vfio_pci_dev_set_try_reset(struct vfio_device_set *dev_set)
+>  	}
+>  }
+>  
+> +static const struct vfio_cxl_ops *vfio_pci_cxl_ops;
+> +static DEFINE_MUTEX(vfio_pci_cxl_ops_lock);
+> +
+> +int vfio_pci_core_register_cxl_ops(const struct vfio_cxl_ops *ops)
+> +{
+> +	int ret = 0;
+> +
+> +	mutex_lock(&vfio_pci_cxl_ops_lock);
+> +	if (vfio_pci_cxl_ops)
+> +		ret = -EBUSY;
+> +	else
+> +		vfio_pci_cxl_ops = ops;
+> +	mutex_unlock(&vfio_pci_cxl_ops_lock);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(vfio_pci_core_register_cxl_ops);
+> +
+> +void vfio_pci_core_unregister_cxl_ops(const struct vfio_cxl_ops *ops)
+> +{
+> +	mutex_lock(&vfio_pci_cxl_ops_lock);
+> +	if (vfio_pci_cxl_ops == ops)
+> +		vfio_pci_cxl_ops = NULL;
+> +	mutex_unlock(&vfio_pci_cxl_ops_lock);
+> +}
+> +EXPORT_SYMBOL_GPL(vfio_pci_core_unregister_cxl_ops);
+> +
 
-> 
-> [...]
-> 
-> > > > It looked consistent to use memcg since movable pages from regular
-> > > > allocations may end up in available CMA regions until a CMA allocation
-> > > > needs the space and has them moved. So in an extreme case, hogging the
-> > > > CMA space of a large enough area could trigger system memory pressure.
-> > > 
-> > > I really do not understand what you mean here. 
-> > 
-> > Non-CMA allocations can end up in CMA physical regions when necessary
-> > (ALLOC_CMA flag).
-> 
-> Correct. But those are a subject of migration so any such placement
-> should not be blocking real CMA allocations.
-> 
-> > Since both CMA allocations and other system
-> > allocations are represented the same way, with differences only in
-> > properties, and they can live in the same regions, it sounds reasonable
-> > to account for both under the same counter.
-> 
-> From the memcg POV we do account physically consumed memory. So yes,
-> it makes no difference where the memory comes from. We only care about
-> the overall capacity you can constrain or protect. Generally speaking it
-> makes sense to charge heavy memory consumers directly triggerable from
-> the userspace.
-> 
-> That is all memcg can provide you with. Specific requirements for
-> specific types of memory is a different story. We currently cannot
-> control per-numa node for example. There is an ongoing work to make
-> memcg memory tier aware. 
-> 
-> > > > > > memcg looked like a good fit to achieve this, albeit
-> > > > > > handling the areas, so a cgroup has a quota in a given CMA
-> > > > > > resource.
-> > > > > 
-> > > > > Please expand more on why do you think this fits into the memcg model.
-> > > > > AFAIU we are talking about a unreclaimable memory and reservations of
-> > > > > CMA areas.
-> > > > 
-> > > > Since memcg already accounts for some unreclaimable memory (kmem,
-> > > > hugetlb),
-> > > 
-> > > hugetlb pages have their own controller
-> > > 
-> > > > or induces failure if no reclamation is possible, I did not
-> > > > see CMA allocations being unreclaimable to be a blocker to track what is
-> > > > otherwise system memory.
-> > > 
-> > > yes, we can have unreclaimable memory charged to memcg, that is not a
-> > > real problem. We have all sorts of memory consumers that need to be
-> > > capped charged to the memcg. If dmabufs are another ones then fine, just
-> > > charge allocated pages from the cma area. It is the "make all cma users
-> > > memcg aware and have per cma limits" that I am really struggling with.
-> > 
-> > CMA is system memory independently from its usage though, and in cases
-> > with shared CMA areas multiple users can allocate from them. Yet the
-> > kernel cannot enforce usage limits.
-> 
-> Correct. Those are effectively a shared memory pools without any
-> control. I do not think memcg is a good method to enfore any usage
-> limits for that though for reasons mentioned above. Memcg is effective
-> at capping the overall memory consumption of a workload. Not really
-> great when it comes to a specific memory pool control.
+Use guards to simplify these, especially the registration path where we
+can then just return -EBUSY.
 
-Understood, that makes sense, and with the reclaim scenario mentioned
-earlier, it doesn't fit.
+I see the get function stores a per-vdev cxl_ops pointer with module
+reference held for the life of the device, so the serialization on the
+mutex is only per-device at probe time, but it might still be
+worthwhile to preempt that with a rwsem here where both these paths are
+writers and the get is a reader.
 
-> > > You cannot really assume usecase, requirements, lifetime etc. for an
-> > > arbitrary cma area. I do not think this is a viable way forward. Focus
-> > > on your real usecase, which seems to be dmabufs.
-> > 
-> > While dmabufs are indeed my main use case, they are quite generic and
-> > may not always have system memory backing them (device memory). Working
-> > at the CMA allocator alleviated these disparities.
-> > 
-> > > Explain what do you want to achieve and then we can think whether memcg
-> > > is the right model for that usecase
-> > 
-> > Hopefully I expressed this in a better way by now. In short, enforce
-> > usage limits for concurrent CMA users using shared CMA resources.
-> 
-> Thanks. Yes this is more clear now. And it resembles hugetlb situation
-> more than memcg. You simply need a memory pool specific access and usage
-> control. Dispersing that to a global memcg limit seems rather coarse and 
-> I would say impractical. So it really calls for a per pool control with
-> an understanding of how the specific pool really works.
+>  static void vfio_pci_core_cleanup(void)
+>  {
+>  	vfio_pci_uninit_perm_bits();
+> diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
+> index 9a1674c152aa..14753972e714 100644
+> --- a/include/linux/vfio_pci_core.h
+> +++ b/include/linux/vfio_pci_core.h
+> @@ -66,6 +66,16 @@ struct vfio_pci_device_ops {
+>  			       size_t nr_ranges);
+>  };
+>  
+> +struct vfio_cxl_ops {
+> +	int	(*init_device)(struct vfio_pci_core_device *vdev);
+> +	void	(*release_device)(struct vfio_pci_core_device *vdev);
+> +	/* Pinned per bound CXL device so vfio-cxl cannot unload under usage */
+> +	struct module *owner;
+> +};
 
-Thank you for the feedback. It looks like this won't work. It also
-excludes the attempt through double charging dmem[1] as it would have
-similar issues trying to use memcg.
+To mirror vfio_device_ops, should these drop _device and just become
+.init and .release?  I think that better reflects their actual usage
+while the eventual .open_device and .close_device already reflect the
+mapping into vfio_device_ops sequencing.  Thanks,
 
-From your last sentence, would this rather call for a different
-controller entirely that would handle CMA semantics? Referencing the
-other thread[2] it would also make the charging separate from the
-allocator, but simplify making it opt-in at the user's implementation,
-e.g, the dmabuf heap would call some cma_cgroup_try_charge() and
-cma_cgroup_uncharge() around cma_alloc()/cma_release().
+Alex
 
-[1] https://lore.kernel.org/all/20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com/
-[2] https://lore.kernel.org/all/7e4e9662-d876-4493-a0b3-e31640937dd1@kernel.org/
-
-> -- 
-> Michal Hocko
-> SUSE Labs
-> 
-
--- 
-Eric Chanudet
+> +
+> +int vfio_pci_core_register_cxl_ops(const struct vfio_cxl_ops *ops);
+> +void vfio_pci_core_unregister_cxl_ops(const struct vfio_cxl_ops *ops);
+> +
+>  #if IS_ENABLED(CONFIG_VFIO_PCI_DMABUF)
+>  int vfio_pci_core_fill_phys_vec(struct phys_vec *phys_vec,
+>  				struct vfio_region_dma_range *dma_ranges,
 
