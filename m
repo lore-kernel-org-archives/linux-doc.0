@@ -1,246 +1,221 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011030.outbound.protection.outlook.com [52.101.52.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00DF3955D2;
-	Wed, 26 Aug 2026 19:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787772970; cv=fail; b=sYvLkFkpX9B9GnLDcJez5hqe8Fxqmh3FKebD8wX/7pkxUhosQZxXZzySeLpceUI0Oon7COqhYqblXBM2hDngV5cgBkoFKsEPQFgZ7KOqkkCltd0912BzjzyTdxSGRp2HZMm5lunzb7JzyAyn2VQC7Ol2PvXpkBNRXyoKeZiGJ1M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787772970; c=relaxed/simple;
-	bh=6/3BpEqZjvBF6cV1saugxbAcOAvGX6AggyAEpg78D3w=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CUqklnzGQHeXAdDRPEgKtJMEZnj/mPxXj/i6L0RObGo78Y+oEadUp78k0C6wnAWVK6xXwKX9gyevPbwP8d4Lui3AHZ4qf2ddYqwZE5oCx84FEe8tNn9YNMeFwqV3pp1GqOZbf3tZWmlI1aI3NPZrilL6kaoRInfxcNT1HK0XHpo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=FFOJKtU7; arc=fail smtp.client-ip=52.101.52.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CECD48F848
+	for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 19:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787773502; cv=none; b=sFIE0atNaha67hWI8Zyv24S3SFyEUTnLRLktEF1GNInGepIXnGyxzho+JO8dapDK73bgxx2HeqUaEfWcpBs0B2XYnDZB9eEME+T0jdV4W1/D1yjTAyDNE06/3M98z5mpZum6HroKEmkHtQkXPbHMq/7jniqZOa7If96fFUBi7Pg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787773502; c=relaxed/simple;
+	bh=4uZPzlY33aYdoyT/xRZbAIP4+YBkQh6pbbwV+qhDm9o=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=NeL3A9dEvdneIWbE/G+rXKlEhB4PJ2JB7awYTJ6dwhylhHDpIWHJAPhfrbunc5jOp884z7tsQtNVhkNvDsEBZpBLQWr54xkzin2x0FCoru1Fv5DI9EXNS9x20gp7rHhFtChTnxifnyF0II9utD7bQgTpjowqTzgtxkUAfu+NTAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=F9fJ2oxk; arc=none smtp.client-ip=209.85.215.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="FFOJKtU7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pgspDWv8HybxLt3kY2s44/7mjlnZZIwX/urLIwb8kjG1nvAAbvZ79zNc4zIomNeoHJG78ghQlaPnVbZdEvD/Nj3YkvWZQZaNOUy5PS/iGLEczMyL0LeIq56V2Nc/NrisXyK1HJhB4wlnK5cAcwh2qv6iw9TsQ4IDfNIXNtCBy6F0F0HYCNRXvkB46l1ah3ktZ1m88lYQWnMLh6YQy/rrCasI2608WtwdEzdE6TjBuOLcYrMPAL4fqYrkZc7uaXpF66Wb0D86qJ9Nl3tJZEzLARLdhMHytjeUTkn3D7ncD8XUGfGP0uZ8gtnRC+UqhmxsubRKk66Es/E8ztzaQS/wgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RteATnUWzYtoSpPeQ8hqRFZW1XiiORpkJQB+/udJIzI=;
- b=AyZWwi2dx7oTYKYAocyuTv4s0uqGrtK4SStZJ6Y+gDNDQ9MTsNrza/xcS635TkQv0FzDyCMzV4ABoATXRP1HbKbYBMMUKv89Za+XjNyrdPnqFkMee3wTRCTx8gUSr8QjhQyyvIE/1gXnEF4Yezyld+K82LFESIgypy609x7JSKzZX8mVUa3n+/404tqaDgt9/Hsg5F5n+ZqzX/ckhlb0OfZL7srX6dUaoNDvQbs7iMhn0xCaGWhJtbnBAW4niFEHDRzSuekKUashXEwapb5hMSjLaHvp8Zp/X3TlQZit7RhWsW83k4AWCe5F8EPQ8WharvJPOlVUPE2nBd73We9bvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 149.199.90.133) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com;
- dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RteATnUWzYtoSpPeQ8hqRFZW1XiiORpkJQB+/udJIzI=;
- b=FFOJKtU7XX6ZnuB3Qr2Po4VDb7UAEUlYK56Kz0LTJZXUM18aLzgZAYHo0ggsRAdzDLAzcwgB/g3JtYFG1R56slF8Ir5ydDOBKOX8XdaL/UDi8fW0odx6WOkHblbR7JeWGw/Vnc1ZEa4/lvARawNMWHkaVkvkBByGZ0A20saPa+0=
-Received: from CH2PR08CA0009.namprd08.prod.outlook.com (2603:10b6:610:5a::19)
- by MN0PR12MB6317.namprd12.prod.outlook.com (2603:10b6:208:3c2::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Wed, 26 Aug
- 2026 19:35:39 +0000
-Received: from CH1PEPF0000AD74.namprd04.prod.outlook.com
- (2603:10b6:610:5a:cafe::4b) by CH2PR08CA0009.outlook.office365.com
- (2603:10b6:610:5a::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.10 via Frontend Transport; Wed,
- 26 Aug 2026 19:35:39 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
- 149.199.90.133) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=amd.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- amd.com discourages use of 149.199.90.133 as permitted sender)
-Received: from satlexmb07.amd.com (149.199.90.133) by
- CH1PEPF0000AD74.mail.protection.outlook.com (10.167.244.52) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.360.3 via Frontend Transport; Wed, 26 Aug 2026 19:35:39 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 26 Aug
- 2026 14:35:37 -0500
-From: Babu Moger <babu.moger@amd.com>
-To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
-	<james.morse@arm.com>, <bp@alien8.de>, <ben.horgan@arm.com>
-CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
-	<babu.moger@amd.com>, <tglx@kernel.org>, <mingo@redhat.com>,
-	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <fenghuay@nvidia.com>,
-	<akpm@linux-foundation.org>, <rppt@kernel.org>, <dapeng1.mi@linux.intel.com>,
-	<elver@google.com>, <jlayton@kernel.org>, <enelsonmoore@gmail.com>,
-	<kuba@kernel.org>, <ebiggers@kernel.org>, <seanjc@google.com>,
-	<peterz@infradead.org>, <chao.gao@intel.com>, <jmattson@google.com>,
-	<naveen@kernel.org>, <ricardo.neri-calderon@linux.intel.com>,
-	<tiala@microsoft.com>, <chang.seok.bae@intel.com>,
-	<prathyushi.nangia@amd.com>, <kim.phillips@amd.com>,
-	<elena.reshetova@intel.com>, <darwi@linutronix.de>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, <x86@kernel.org>
-Subject: [PATCH v5 16/16] fs/resctrl: Add documentation on kernel_mode with example
-Date: Wed, 26 Aug 2026 14:32:30 -0500
-Message-ID: <c04c7a9e2e47d472c6cf4b184ef9c3be5ef6b4c8.1787772750.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1787772750.git.babu.moger@amd.com>
-References: <cover.1787772750.git.babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="F9fJ2oxk"
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc1b8088202so1279266a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2026 12:44:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787773482; x=1788378282; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kAAUyb+BT/S16pFGAm4l7OAoO0iSt3CMmhZez+eRZtg=;
+        b=F9fJ2oxkdgl0eiteWV1ixsN6qOcIqGb+oWpZJNjNftBAzzqQi69cUHU8A49W9Ogpv3
+         tbiiWzGxOdt0zEfK+Ipt3yU+B8To3hbf0LItcX2uXJj63vWpmU7VYGRolp5RYXSTCkBO
+         vasf/F2NhQC+8YzisXODKc+uepKhB77wunWsAZtWGVHdssAR4JZdlU1+4BPWA7wsXtf/
+         fKd3a+8xXFme6yWfvA8e3BXO0klMEmAAFeFv0djfazS6KwrAYF+DF0YX0L1bfUh1cFYB
+         lZ/Mbe1ha9vEkOn8Grha7uMsL799mlM/WLXgEXzT1s+KNqCEYHNZmeaGUCGXF5syWoIv
+         lY4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787773482; x=1788378282;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kAAUyb+BT/S16pFGAm4l7OAoO0iSt3CMmhZez+eRZtg=;
+        b=sWVjwJPYsTy5QEuEmGcxjyeF6Fn2xujSfr4XFNq+7CwqW629I/NpFmkz1BwFNWswrz
+         sMs04rzC+jtvM9tYzYdvxb+9fbR+YVBMc5XXFcN9iQjp37MhRGce+0/IpvUkdT4YO0/f
+         t5AqTyi9BZhtV+yETGI2hEFLvW+bj5/qJsy0RcdS0jWX3mNGgmjjvqONfu1sSKXjzVQp
+         bxuzJrOg52aeXnvYDuzYwoq4XVgdACXFR8PL6apO+WAGiRhEd3XQOE+VKZXAOu2SARU+
+         GXtXCRIwRZBMN5nHaPTtIqYffoNU5ZEOhdxSDcwqBaJCL/VA3gzuea6ugtDPHi4v4mlr
+         n5xg==
+X-Forwarded-Encrypted: i=1; AHgh+RoOJ/XCh0UWd3U+bAZnqAiYoXo/fICSk4aL8IZa5F3wje1TFPBYPQSCI+Crwbd54UtXXVtdqkdmevw=@vger.kernel.org
+X-Gm-Message-State: AFuF++mbFX2Eq2OA85nXFh67n/XFDyfHC5nyaEiIYfNw6xlfO1810W46
+	KeP3pkDlTOqdMRYNXmB8mbtUJSnBAXEKYPrZMwLl5OoUT2XrWq+M2ymC5j7ArwKGhVPjYHiGHTg
+	rFI2KlQ==
+X-Received: from pgak6.prod.google.com ([2002:a05:6a02:6746:b0:cbe:9e80:c394])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:3216:b0:3c0:b943:f984
+ with SMTP id adf61e73a8af0-3cf76286193mr19120390637.3.1787773481481; Wed, 26
+ Aug 2026 12:44:41 -0700 (PDT)
+Date: Wed, 26 Aug 2026 12:44:40 -0700
+In-Reply-To: <20260826-gmem-inplace-conversion-v11-15-0a15d8a799aa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD74:EE_|MN0PR12MB6317:EE_
-X-MS-Office365-Filtering-Correlation-Id: 631d449a-cc13-4bb0-dc96-08df03a935ce
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|1800799024|36860700016|23010399003|7416014|56012099006|11063799006|10067099003|6133799003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	aCtZhWeRImwWt0sfvAGMo8oB6md7rA1xorISZPQUW4FP1eGRCUTeY3AG5v0udG3oi8zS7SuHt4hKJZrN2kdHaLLxEqxJGopwPVIV43vPeiR2o/u2eRoH+7e+IYKyJArr23t/qPNnQ65YdkTwDAnqBmfHyx7glVAnO+oGfQ5egJFjjBx+WNNSrtvPojCvUWu5+5dVx9UIMjHMWt+paBiaQVM4OC7iK1ck6Caqwc3vyylthCtMYF87SI6oUfRRGGnosIkxRzytYJGpkCmxacy0SEOXAsTie2PGMu8trlpuJSgGxkgkjZyiss25vDhnPVi2c4nLZaBiuRyx+EQGBdMl04ekktGCIoiU9eMQSqxfDidUouoI5sw38yB7paDx/jTfJUcipoDPeHFY13An9i6oSueGbySelF93Aa5zJv4cm2FoMZseG9hB2NqemOdngd0aws2iA7wGfJsyKPdYzvRD+nOiI4d7xyU/gn29BKYrvat9uip2c6zN/sqIC421a+a+6Kn+z5Ts6qKRwiZ2kq47AJugz6FI1yw/iWJlH+JAEf8LfSkn7WhnocN/7M9+70tDQe7FKt0CXMXSebKlmXR7zmhGnWjfdVd8eBGtkRE8HeWKSD+Dw/HlMMiqo3MP6C1Sbtq5FMc+2A75LBWXB9oEUU7oB6S4/HMaPX7PqD1LxwI1fXR1ETMbuvabq50Aufu2uTRntRsTmMl8okaT/JW+rw==
-X-Forefront-Antispam-Report:
-	CIP:149.199.90.133;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:unknown-90-133.xilinx.com;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(36860700016)(23010399003)(7416014)(56012099006)(11063799006)(10067099003)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	izuOM+8FFL/ywwdWWouvdTlEeO8nCeWCSOh9WYbVtkX4gXf2gR+0brRufGdu5P8cY5aZyiLfwMewgP9xGHqSpxR3Rkjs4lPUjLU2Q/iQ9Ma44QApwf+xEXRsQMVm4Fxr6a0Ht5TBqwYr9FenNqy6FqYhJ9dDkIVyj+LC3I9VyYahjXy84RwqUIVwvcv15J3AowOVR3FohCJJQHbcfWS4noV1oLCPoTJTPWKuNUeKxwGcAEQGjzhoQb2BSqWnqur28LKq16LBn827+0N6UWRGhW1qU0LaZRn5IBStQbxKnIjb8cZj8HHcNXE8bGcyPOQEBpwNRbjlP1FoFaHZ2cPe9lSW/h+NDdUxNIrpbIccpBN+byiL3+0pha0IFf0fUAeLH6UAnZH3mRpCuyYUJWDXlyKHPIlhSf2V9gmtrjmB/AMdKveUR03prbxplubpAOB5
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2026 19:35:39.5592
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 631d449a-cc13-4bb0-dc96-08df03a935ce
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[149.199.90.133];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000AD74.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6317
+Mime-Version: 1.0
+References: <20260826-gmem-inplace-conversion-v11-0-0a15d8a799aa@google.com> <20260826-gmem-inplace-conversion-v11-15-0a15d8a799aa@google.com>
+Message-ID: <ao9CKMXAX-hScRSa@google.com>
+Subject: Re: [PATCH v11 15/46] KVM: guest_memfd: Call arch make_shared
+ callback for to-shared conversion
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
+	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
+	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
+	Fuad Tabba <fuad.tabba@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-The kernel-mode interface spans info/kernel_mode, kmode_cpus, and
-kmode_cpus_list, but the per-file descriptions do not walk through a
-full workflow.
+On Wed, Aug 26, 2026, Ackerley Tng wrote:
+> Omit support for calling the arch hook to make private, since SNP, the only
+> implementer of the arch make-private hook today, would actually prefer
+> making private only just before faulting memory into the NPTs.
+> 
+> Calling the make-private arch hook would require iterating both bindings
+> and the filemap to find the intersection of bindings and allocated
+> folios.
 
-Add an end-to-end example showing how to discover supported policies,
-associate kernel-mode allocation and/or monitoring with a group.
+Why would KVM need to iterate over the bindings?  Only the RMP needs to be updated,
+whether or not the RMP is currently reachable is irrelevant, no?
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
----
-v5: Update the example for the collapsed kernel mode model:
-    inherit_user and assign_global_enable_per_cpu with ctrl=/mon=
-    association options, and <CTRL_MON group>/<MON group>/ paths.
+Subsequent calls to kvm_arch_gmem_make_private() from kvm_gmem_get_pfn() would be
+superfluous, but that's already possible, e.g. if an NPT mappings is removed for
+whatever reason.
 
-v4: New patch. Added examples in the documentation.
----
- Documentation/filesystems/resctrl.rst | 100 ++++++++++++++++++++++++++
- 1 file changed, 100 insertions(+)
+> On top of that, SNP would need to figure out whether to actually
+> make private based on whether the memory is about to be faulted, or
+> whether it is a conversion.
 
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index 3e886f84315b..81017858231a 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -1873,6 +1873,106 @@ View the llc occupancy snapshot::
-   11234000
+This is a non-issue, no?  As above, sev_gmem_make_private() already bails early
+if the page is already assigned in the RMP.
+
+I don't care terribly about how SNP handles this, but I do want accurate reasoning
+and justification so that if/when we revisit any of this in the future, we can make
+informed decisions.  Because unless I'm missing something, this is an optimization
+choice (eager vs. lazy to-private conversions), not a complexity tradeoff, and it's
+not clear to me how we decided the lazy approach would provide better performance.
+
+> Calling the make-shared arch hook and not the make-private arch hook does
+> leak SNP-specific details into guest_memfd (as in, why only make-shared
+> during conversions but not make-private?), but the additional complexity is
+> not worth taking on until guest_memfd has a user actually requiring an arch
+> make-private call.
+
+...
+
+> +#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
+> +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end)
+> +{
+> +	struct folio_batch fbatch;
+> +	pgoff_t next = start;
+> +	int i;
+> +
+> +	folio_batch_init(&fbatch);
+> +	while (filemap_get_folios(inode->i_mapping, &next, end - 1, &fbatch)) {
+> +		for (i = 0; i < folio_batch_count(&fbatch); ++i) {
+> +			struct folio *folio = fbatch.folios[i];
+> +			pgoff_t start_index, end_index;
+> +			kvm_pfn_t start_pfn;
+> +			kvm_pfn_t nr_pages;
+> +
+> +			start_index = max(start, folio->index);
+> +			end_index = min(end, folio_next_index(folio));
+> +			/*
+> +			 * end_index is either in folio or points to
+> +			 * the first page of the next folio. Hence,
+> +			 * all pages in range [start_index, end_index)
+> +			 * are contiguous.
+> +			 */
+> +			start_pfn = folio_file_pfn(folio, start_index);
+> +			nr_pages = end_index - start_index;
+> +
+> +			kvm_arch_gmem_make_shared(start_pfn, nr_pages);
+> +		}
+> +
+> +		folio_batch_release(&fbatch);
+> +		cond_resched();
+> +	}
+> +}
+> +#else
+> +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end) {}
+> +#endif
+> +
+>  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+>  				     size_t nr_pages, uint64_t attrs,
+>  				     pgoff_t *err_index)
+> @@ -624,7 +661,12 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+>  
+>  	filter = to_private ? KVM_FILTER_SHARED : KVM_FILTER_PRIVATE;
+>  	kvm_gmem_invalidate_start(inode, start, end, filter);
+> +
+> +	if (!to_private && kvm_arch_has_gmem_convert())
+> +		kvm_gmem_make_shared(inode, start, end);
+> +
+>  	mas_store_prealloc(&mas, xa_mk_value(attrs));
+> +
+>  	kvm_gmem_invalidate_end(inode, start, end);
+
+The real reason I responded...
+
+Thinking about the Secure AVIC mess made me realize zapping NPTs for SNP VMs isn't
+strictly necessary in this path.  The PFN isn't changing, just the attributes, and
+that's (obviously) tracked in the RMP.  KVM doesn't need to zap SPTEs to induce a
+fault, because the mismatched C-bit vs. RMP status will cause an #NPF(RMP), and
+AFAICT kvm_mmu_page_fault() will do the right thing.  A misbehaving guest could
+continue to access the shared data (assuming we stick with lazy conversions), but
+that should be fine?  E.g. it's not really any different than implicit conversions.
+
+In other words, couldn't we do this (as an on-top optimization)?  The only wrinkle
+I can think of is that it could delay reconstituion of a hugepage, especially if
+we opted for eager conversion (because the guest wouldn't hit #NPFs to trigger the
+hugepage promotion).
+
+diff --git arch/x86/kvm/mmu/mmu.c arch/x86/kvm/mmu/mmu.c
+index 62f751952ad8..61f3e270ab61 100644
+--- arch/x86/kvm/mmu/mmu.c
++++ arch/x86/kvm/mmu/mmu.c
+@@ -1670,6 +1670,7 @@ static bool __kvm_rmap_zap_gfn_range(struct kvm *kvm,
  
+ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+ {
++       unsigned long shared_private =  KVM_FILTER_SHARED | KVM_FILTER_PRIVATE;
+        bool flush = false;
  
-+Examples on working with kernel_mode
-+====================================
-+The kernel-mode interface spans three files:
-+
-+- ``info/kernel_mode`` - select the global policy and associated group
-+- ``kmode_cpus`` / ``kmode_cpus_list`` - view or adjust the CPU scope of the
-+  active association (visible only on the associated group)
-+
-+The walkthrough below covers a typical workflow on a platform with PLZA
-+(Privilege Level Zero Association) support:
-+
-+1. Discover supported policies.
-+2. Associate ``assign_global_enable_per_cpu`` with a control group.
-+3. Narrow the CPU scope through ``kmode_cpus_list``.
-+4. Move the association to a monitor group.
-+5. Return to ``inherit_user``.
-+
-+a. Discover supported kernel mode policies
-+::
-+
-+  # mount -t resctrl resctrl /sys/fs/resctrl/
-+
-+  # cat /sys/fs/resctrl/info/kernel_mode
-+  [inherit_user]
-+  assign_global_enable_per_cpu:ctrl=assign;mon=assign;group=//
-+
-+``inherit_user`` is the active policy. Kernel work inherits the resource
-+allocation and monitoring of the current user-space task. The second line
-+shows ``assign_global_enable_per_cpu`` is available; square brackets mark
-+the active entry when read back after later steps.
-+
-+b. Associate kernel mode allocation with a control group
-+::
-+
-+  # mkdir /sys/fs/resctrl/ctrl1
-+  # echo "assign_global_enable_per_cpu:ctrl=assign;mon=inherit;group=ctrl1//" > \
-+        /sys/fs/resctrl/info/kernel_mode
-+
-+  # cat /sys/fs/resctrl/info/kernel_mode
-+  inherit_user
-+  [assign_global_enable_per_cpu:ctrl=assign;mon=inherit;group=ctrl1//]
-+
-+This selects ``assign_global_enable_per_cpu`` with control assignment
-+(``ctrl=assign``) and inherited monitoring (``mon=inherit``). The group
-+path uses ``<CTRL_MON group>/<MON group>/`` syntax; a control group alone
-+is written as ``ctrl1//``.
-+
-+When the mode is active:
-+
-+- ``ctrl1/kmode_cpus`` and ``ctrl1/kmode_cpus_list`` become visible.
-+- All currently online CPUs are associated initially.
-+- CPUs that come online later are added to the association automatically.
-+
-+c. Narrow the association to CPUs 0-3
-+::
-+
-+  # echo 0-3 > /sys/fs/resctrl/ctrl1/kmode_cpus_list
-+  # cat /sys/fs/resctrl/ctrl1/kmode_cpus
-+  f
-+  # cat /sys/fs/resctrl/ctrl1/kmode_cpus_list
-+  0-3
-+
-+The write reprograms the association:
-+
-+- CPUs added to the mask are enabled.
-+- CPUs removed from the mask are disabled.
-+- Offline CPUs in the mask are rejected.
-+- An empty mask disables the association on all currently online CPUs, but
-+  later hotplug CPUs are still associated automatically.
-+
-+d. Move the association to a monitor group
-+::
-+
-+  # mkdir /sys/fs/resctrl/ctrl1/mon_groups/mon1
-+  # echo "assign_global_enable_per_cpu:ctrl=assign;mon=assign;group=ctrl1/mon1/" > \
-+        /sys/fs/resctrl/info/kernel_mode
-+
-+  # cat /sys/fs/resctrl/info/kernel_mode
-+  inherit_user
-+  [assign_global_enable_per_cpu:ctrl=assign;mon=assign;group=ctrl1/mon1/]
-+
-+Both control and monitoring are now assigned for kernel work. Changing the
-+associated group through ``info/kernel_mode``:
-+
-+- Resets the CPU scope to all currently online CPUs.
-+- Hides ``kmode_cpus`` and ``kmode_cpus_list`` on the previous group.
-+- Shows them under ``ctrl1/mon_groups/mon1/``.
-+
-+e. Return to the default inherit policy
-+::
-+
-+  # echo "inherit_user" > /sys/fs/resctrl/info/kernel_mode
-+  # cat /sys/fs/resctrl/info/kernel_mode
-+  [inherit_user]
-+  assign_global_enable_per_cpu:ctrl=assign;mon=assign;group=//
-+
-+Writing ``inherit_user`` clears the active kernel-mode association and
-+hides ``kmode_cpus`` and ``kmode_cpus_list`` because no group is
-+associated with kernel mode.
-+
- Examples on working with mbm_assign_mode
- ========================================
+        /*
+@@ -1683,6 +1684,10 @@ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+        lockdep_assert_once(kvm->mmu_invalidate_in_progress ||
+                            lockdep_is_held(&kvm->slots_lock));
  
--- 
-2.43.0
-
++       if (gmem_in_place_conversion && !kvm_has_mirrored_tdp(kvm) &&
++           ((range->attr_filter & shared_private) != shared_private))
++               return false;
++
+        if (kvm_memslots_have_rmaps(kvm))
+                flush = __kvm_rmap_zap_gfn_range(kvm, range->slot,
+                                                 range->start, range->end,
