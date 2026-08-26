@@ -1,59 +1,56 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7B002F7F14;
-	Wed, 26 Aug 2026 15:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5852C21D9;
+	Wed, 26 Aug 2026 15:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787758622; cv=none; b=Xs+gXR1vMDS7E7STcZiuBt3P9llo3FjdxyQ4HhWTai5HY1xEC8hF2/HqEn2fe9SW96ggCkHkR4ThA6I3C5791rcBSLz75xiFJAxoKnvCukcsTlfjvDAovmNJtRCmnLCAeIDRdO0NDz6Z41/DNXThmtZTFicV3PNhC1pWD9NyljM=
+	t=1787758750; cv=none; b=bJ9z612uh++wRnBSDFS5R0MaAjjgY7z8h+dW2NZDWEZDLju/i7Pe+55hRA0wgDYlbsUXPwJ4RJcHQMMyPj6ArD6USUcU2TairTg8MHOwoFEysLxYwzT6G4zcGxS4AMsDTIl0GYnCcgM3TWt6a6cDNl3FdJ8ypLLFgq0nWJfXAjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787758622; c=relaxed/simple;
-	bh=46kJdOmXXA9Z+Clpn0ggxkzOHrhLi8hXcwdHrQbxIh4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sQCA+8jMX0Np1CAd54iOSAj98PovLgCnyv6rA4LoM/jCtV+3gnonU8jYBqOhF+SR+aoZ8y8Ldc7FZvilxfbFgiMO2vjCPeEqcsPxH7V7zPEHJTVxoO28tWRL24IpDhfRMcIgfeuP7n7+vdq6IQ8GDmgha7cIEOWVa4Dc5nW5WxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=UtDqSkEP; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1787758750; c=relaxed/simple;
+	bh=PcufB80+r0hfnaaaft6SSnvoAUt8Fpms4kJHZhTB/E0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type:Content-Disposition; b=KvgFdEfXQ1qE8csA9I0b1n8X+Z2pgOJfNVJj31yBCaEUFhi7v3tldedI695WT8U1R9478Xd7JsrB2iu6WFJmrSS8YwASCmRzp3DdCLd67OcQalbVZyoK/IFWbGGXvYG7Nx5nlmmwSwuRcnPZFN08DRU/UpZi9UelEMVtdBKagkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYiMeGj1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="UtDqSkEP"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B974E16F2;
-	Wed, 26 Aug 2026 08:36:46 -0700 (PDT)
-Received: from localhost (unknown [10.2.196.114])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 39C5D3F85F;
-	Wed, 26 Aug 2026 08:36:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1787758610; bh=46kJdOmXXA9Z+Clpn0ggxkzOHrhLi8hXcwdHrQbxIh4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UtDqSkEP6QMvh9X8Jt3OFI4rFoDesCHjx1iYM8Pqo3ayQAp06DXPXTO+5x/wEQizj
-	 GXJHR0cHK6MSTuBGAiBGVTsgdj6VLzyYkLe411Ex/sT+BJ3Pc3m8GAcLjfS62aVGxg
-	 EuXQW9cuZiyiANPbLqSWFeHiWMyORfmVn4X08Xhw=
-Date: Wed, 26 Aug 2026 16:36:48 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>,
-	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYiMeGj1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30F811F000E9;
+	Wed, 26 Aug 2026 15:39:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787758741;
+	bh=PcufB80+r0hfnaaaft6SSnvoAUt8Fpms4kJHZhTB/E0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LYiMeGj1J08r+tqq+QKmSVROhE6t7j13NRjjyEGSAmItELjutpsGAAtYTcvDPpHH8
+	 rAiDRVTgnE17Upg6aVosDTEjdi+KhV2eetQ29xW4HOCRrlhxA0AVErz/dJF5FuLPH6
+	 8dnZkHTr3MhWFj2zrrvLK7AK8bN7epsgUk0kNJofuW1zfvJi7L1a9x4CV9fOjo0JIN
+	 lKM/x6hZKBiV9X0P2FuWwPsrwZb0ChXj/Wi3uDAsM0v3OBDsJ7BhRyQoeOTcbWl4fJ
+	 RE+Cbr8t1dNQKk30KJBmjG5a2UrHGPrn41S6BDN6bgmSKTHWgpp4RMT0z6I9X+LHuS
+	 qfh326u2VXerw==
+Date: Wed, 26 Aug 2026 18:38:58 +0300
+From: Konstantin Sinyuk <ksinyuk@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Francois Dugast <francois.dugast@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>,
-	Leo Yan <leo.yan@linux.dev>, linux-arm-kernel@lists.infradead.org,
-	coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 03/14] perf cs-etm: Turn on context packet timestamps
- in per-thread mode
-Message-ID: <20260826153648.GK8904@e132581.arm.com>
-References: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
- <20260821-james-cs-unformatted-per-thread-fix-v2-3-00c4fd0701b4@linaro.org>
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Ilia Levi <ilia.levi@intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/12] drm/fabric: vendor-neutral topology
+ infrastructure for scale-up accelerator interconnects
+Message-ID: <fabric-leon-reply.1787844400.ksinyuk@kernel.org>
+References: <cover.1787552412.git.ksinyuk@kernel.org>
+ <20260826093222.GC42790@unreal>
+In-Reply-To: <20260826093222.GC42790@unreal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,50 +59,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260821-james-cs-unformatted-per-thread-fix-v2-3-00c4fd0701b4@linaro.org>
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 21, 2026 at 10:49:01AM +0100, James Clark wrote:
+On Wed, Aug 26, 2026 at 12:32:22PM +0300, Leon Romanovsky wrote:
+> Tell your AI that this is not how things work in the real world. The chances
+> of multiple hardware implementations fitting a software model designed
+> without considering the actual hardware are effectively zero. This is why
+> successful subsystems have emerged from consolidating support for multiple
+> existing hardware implementations.
 
-> @@ -453,13 +453,22 @@ static int cs_etm_recording_options(struct auxtrace_record *itr,
->  	 */
->  	evsel__set_sample_bit(cs_etm_evsel, CPU);
->  
-> -	/*
-> -	 * Also the case of per-cpu mmaps, need the contextID in order to be notified
-> -	 * when a context switch happened.
-> -	 */
->  	if (!perf_cpu_map__is_any_cpu_or_is_empty(cpus)) {
-> +		/*
-> +		 * Timestamps are required to interleave samples from different
-> +		 * CPUs.
-> +		 */
->  		evsel__set_config_if_unset(cs_etm_evsel, "timestamp", 1);
-> +		/* Context IDs are required to associate trace to a process */
->  		evsel__set_config_if_unset(cs_etm_evsel, "contextid", 1);
-> +	} else {
-> +		/*
-> +		 * Enable context packet timestamps only (no periodic
+Fair point. The simulator validates the implementation, not whether the
+abstraction fits real hardware.
 
-> +		 * timestamps). Even in per-thread mode with a single process we
-> +		 * still need to correlate trace to a specific mmap around
-> +		 * execs, which can be done with just context packet timestamps.
+The model was shaped by the public amdgpu xGMI implementation, and the
+cover letter asks AMD whether it covers their requirements. It still
+needs validation against production implementations, and the read-only
+milestone will not be proposed for merge without a production provider.
+I will fix the wording in the next revision.
 
-Could we use terminology that is aligned with the ETM spec?
-
-  "Disable periodic timestamps but generate timestamps for trace
-   synchronization  ... to a specific mmap around execs, which
-   can be done with just timestamps of trace synchronization."
-
-> +		 */
-> +		evsel__set_config_if_unset(cs_etm_evsel, "timestamp", UINT64_MAX);
-
-It seems this will eventually convert UINT64_MAX to 0xf for the
-timestamp bit field. Why not use 0xf directly to avoid confusion?
-
->  	}
->  
->  	/*
-> 
-> -- 
-> 2.43.0
-> 
+Thanks,
+ Konstantin.
