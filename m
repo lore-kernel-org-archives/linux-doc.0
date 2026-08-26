@@ -1,106 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9A23BCD3C;
-	Wed, 26 Aug 2026 09:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E582DECD3;
+	Wed, 26 Aug 2026 09:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787735991; cv=none; b=sKGdwU3DX21R+kd2FP2HSTlP7E2jgACVetWHbhOMeU/XaBFZjPZccVvbG+dTUPcnmYJZQTJfVUM931bO8oyyGevLq9sL0oOfY4kOucsXP2DWVF7ljyYWq2pl0fcfCs1Vkb+pzK95ubvG+fgDufYTAvyZbMiJRCylS8D8744fAEc=
+	t=1787736748; cv=none; b=HjHJgiUGFgxGnKF+HZE6uWbDzBcqojpin+SL8+XtTXWcEhx9yKYsSiCQPcK4BRKXfzEI2nOKeHXUqMcJ0oTtSm/VRtLOjBzw9PkCPvIUNialyy2tslrKO2vMHKYfGH+M2uC0mjsOmLuGEQAGIr2Y/YUPVPEJj8bamg4rGMB+3aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787735991; c=relaxed/simple;
-	bh=+FX0Z5ui5AmSfOdLaZSq+x6dyOQhTCL5lVxKevxrmoQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mBnue71rKqvTSDesYJT0aMBQFDXsPfODT6kfi02iOTtSrWLHEkeJ5TW4WFVNTJVc5GSCaAucktVy7ptfobt8PnTS0BvbfRYrVBDENZNKG3xyItHndi2deEA3K7FH+ZKTGqGopeMHSaurGM98fE/FvUOmX1Zq4Cqv4AqJWHOswYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vRoIqWi+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787736748; c=relaxed/simple;
+	bh=2PHccR8xyLrnPaFs3pmGnj/EtIQOtajP2CR1wKuYah0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tDpv1w02eUhRbKCHft2wi70equeL9KntPQ8wBCMlSOEp3CneYXUrRuizh5lzlfijvwBCLZGLb/XTDGgCBW3j5WphmaT2JG6YY99kkQHbpYFGkwGjdabZM2VtMN+as7FvOGbR8wCYtehHFXJXkj5JvR2KXWVqKOf8nD7HhirC1Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cmU5UCZu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vRoIqWi+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 605A51F00A3D;
-	Wed, 26 Aug 2026 09:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787735990;
-	bh=n7CjhrR4nepFt9FgKpeK8cy1EypYGcZbaVX36fKlPYI=;
-	h=From:Subject:Date:To:Cc;
-	b=vRoIqWi+sCHEFU5tVyaE/XP0GYeKtXink/Aq0NtjR6ji2EoxeH9KzNVE5B0T2KpQJ
-	 LkxU06eV1JHE4Ex8CbZZqsSWxTmsXRAdeGqZWvvQ7JUROsX+c6nnT25rKL/JHI3yrW
-	 GY9dOhvnPjfcAR5DmVBJgRXZTRTdWPr365NVwh6w=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 0/2] driver core: add TAINT_FORCED_BIND for when userspace
- manually messes with devices and drivers
-Date: Wed, 26 Aug 2026 11:19:31 +0200
-Message-Id: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmU5UCZu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C58D1F000E9;
+	Wed, 26 Aug 2026 09:32:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787736746;
+	bh=2PHccR8xyLrnPaFs3pmGnj/EtIQOtajP2CR1wKuYah0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cmU5UCZuSb7me/V2S3DfVzH7U9aH4L6RsZOy2YhwofeGMdeBaoMf/quLEmPJ+urTF
+	 We3rCO4fPP8qRTmsH1oAJ70JXjBkNGHqBrtscRFoqm9rD8FomT7Dl5JiDVF3sKELJo
+	 IKfiGesxOyxBU7Y/W77pZ3+yavy7OR8Z6f98nxrNY+Q+IosEuckgSjCO2ALk5/oVxf
+	 1ow62XN1JC/P5nF8cUn52lZEH6/RJmAgSlyu2u7FMpScnXQ/kbNWjDe44LMOlHfYCq
+	 rukqHgRrOOUBrg3F7UJABiezj4u6gt+akQDgmrMsRHEev/J/x0hYAyqETiaJWWWaYf
+	 Lx0JaJfXA0ecA==
+Date: Wed, 26 Aug 2026 12:32:22 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Konstantin Sinyuk <ksinyuk@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Francois Dugast <francois.dugast@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Ilia Levi <ilia.levi@intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/12] drm/fabric: vendor-neutral topology
+ infrastructure for scale-up accelerator interconnects
+Message-ID: <20260826093222.GC42790@unreal>
+References: <cover.1787552412.git.ksinyuk@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqAIBBA0avErBNMLKOrRETqVNPCQi2C6O5ZL
- d/i/wsCesIATXaBx4MCrS6hyDMw8+AmZGSTQXBR8VqUTJOzfRzIRWYlV0rXimsjIQWbx5HOb9Z
- 2v8OuFzTxPcB9P7yrvfhuAAAA
-X-Change-ID: 20260825-bind_taint-d4077b870bc4
-To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
- driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1968;
- i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=+FX0Z5ui5AmSfOdLaZSq+x6dyOQhTCL5lVxKevxrmoQ=;
- b=kA0DAAIRMUfUDdst+ykByyZiAGqOr7Oi82jsQ8IzJfz/GbnZsoI/U7QJ6agMV/F/F6UrONzuI
- 4hdBAARAgAdFiEE9LYMxb94wiFKMT3LMUfUDdst+ykFAmqOr7MACgkQMUfUDdst+ynKegCfRLp8
- N3d5bRX0/GhNLhI7BHEBrfUAmwTNYUjSX9+qxujr24eft/pdvacn
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
- fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1787552412.git.ksinyuk@kernel.org>
 
-The ability to add and remove devices from a driver through the sysfs
-"bind" and "unbind" files was created all those decades ago as a way
-that kernel developers can iterate faster, and provide a debugging way
-for users to attempt to add a new device to a driver without having to
-rebuild their kernel.
+On Mon, Aug 24, 2026 at 11:09:28AM +0300, Konstantin Sinyuk wrote:
+> Modern GPUs and AI accelerators are increasingly connected through scale-up
+> fabrics such as AMD xGMI today and emerging UALink systems [4]. Linux lacks
+> common, vendor-neutral infrastructure for reporting which accelerators are
+> directly connected, through which ports, and in what state.
 
-This api over the years has been abused and recently come under a major
-fuzzing "attack" through tools like syzbot which decided that it would
-attempt to just randomly bind any driver to any type of device, causing
-loads of unneeded errors and pointless kernel patches to be generated by
-unsuspecting new developers.
+<...>
 
-Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
-will be set on the driver if the bind/unbind sysfs files are ever
-successfully written to.  This lets kernel developers "know" that a user
-is attempting to do something that is not normal, and as such, if the
-kernel breaks they get to keep the shiny pieces laying around on the
-floor.
+> No production provider is included. Shipping only the synthetic provider is
+> deliberate, allowing the object model and uAPI to be reviewed before being
+> tied to hardware.
 
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
-Greg Kroah-Hartman (2):
-      module: pull out add_taint_module() to be public
-      driver core: add TAINT_FORCED_BIND for when userspace manually messes with devices and drivers
+Tell your AI that this is not how things work in the real world. The chances
+of multiple hardware implementations fitting a software model designed
+without considering the actual hardware are effectively zero. This is why
+successful subsystems have emerged from consolidating support for multiple
+existing hardware implementations.
 
- Documentation/admin-guide/tainted-kernels.rst | 52 ++++++++++++++-------------
- drivers/base/bus.c                            |  3 ++
- include/linux/module.h                        |  8 +++++
- include/linux/panic.h                         |  3 +-
- include/trace/events/module.h                 |  3 +-
- kernel/module/main.c                          | 13 +++++--
- kernel/panic.c                                |  5 +--
- tools/debugging/kernel-chktaint               |  8 +++++
- 8 files changed, 65 insertions(+), 30 deletions(-)
----
-base-commit: 45c13f3f9e3bb15fd89ff2864c6f627a3b4b4229
-change-id: 20260825-bind_taint-d4077b870bc4
-
-Best regards,
---  
-Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
+Thanks
