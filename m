@@ -1,268 +1,230 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36653F660D;
-	Wed, 26 Aug 2026 11:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2587D41A914;
+	Wed, 26 Aug 2026 12:21:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787745519; cv=none; b=DqCwAv+zmc8tvCjG3vSTdwRY7SYpcI0LSc6X1hGUjBJuvYLrTPdCtZTG0kLstMzu43666nK8wXeLKspnX2J70buxNLMEMkmMQxvsdR4N6FZxzG9q2RIPkmOlHHvAMnrVPXWdq8+0bKlfAB165NisulYVtLM8uZCLbfPO+la4gBA=
+	t=1787746914; cv=none; b=qFu3MGCUquUziRxo+wNfdkHZr1CFMv0rktHfdron1osxnC2zDOQa40hWlAZqOr847PQm00QneOyF4Ly0UJTgAB1zrKQuSDv5ry2xlxj22Z37nlqZkoeZEyci/6dRjZdovVuXXxBj4UNnKB1S6rpty/0/68o2UxP/qvenHB3uvJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787745519; c=relaxed/simple;
-	bh=pouOubpzeE/eS4e+NhDcKnaQ6GcMPvRq1umrSysyCF0=;
-	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=GFMZukEsyrI7aZrmDEmN+dCsuH00iimavJJgaGnwQ5ve1V9yZQAoxuzEciIImGKPiuSxx3O3Uf+OufT+TgxLfr8YUmCj4sQ6eMvb78PYJY1izrvHPwdDlj+UnCWlx8sWSQqG3BuGDJtFgwvmCuI4wkAiDRbkMwICr09gZcUhSoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=WjxOkzSj; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=DGByaH1F; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1787746914; c=relaxed/simple;
+	bh=17PvMIvb+dn7B7m1Zxj74lDvEz1I2kLqVXhcrz0Tbf8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IE4d5voJpkHrzpT5Ek685lgFGqxafwmbXujzRM5z/9LykocqkewW1mzh6yMZo8VVqoGJc0K5IxrCunXbQfLVGyRxFq8xTELK7kCt7dtd2PZwElzyubQS5Cz+NfiYa9xUKr+9ZB7Xu+WaEuX0yfTb4rg4Jyit4YKzGxZTEPc2Lnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uVab0SxY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DGIuEy/C; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wPR8sBIT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XkND9Kmf; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="WjxOkzSj";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="DGByaH1F"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1787745480; bh=81HuOHkJZ/6XeH/5mgBHH0G
-	O6RDqXAynRuVEOzIkn/I=; b=WjxOkzSjnF1zBJoljGrh1GdoR3dxF/UL0gQeN3ud1DqydsotOX
-	DBZTiQiZwRfS9FnzGYbIVwxMbYSl/KyS3cZwEPMlK73mu4oNwVsVgpRZY3XZMshdts+hWsZLREL
-	pWRdJOQkjzvXOuf0r7aD8vHD/r1UYmSD/KyK+yfQjhsN2XFUNSHDB6J+rcDbvMO9o2yxw4R4C2t
-	fWXPmBL2C3MZGBvIaq0+BiigXDRwhUn9aLYW0GDvEx8ZfsnWF5GaMU61mOjxNGxwD4jJb+Jbg/P
-	GB+9PspPXZbKTQ75W0tQFq0bTYk3yMHIgaJh+sC5HxFLNDP8/5y7aiyoPLdAj6sn+HA==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1787745480; bh=81HuOHkJZ/6XeH/5mgBHH0G
-	O6RDqXAynRuVEOzIkn/I=; b=DGByaH1FxTnjtyUBTvcnIcEI69Ke674msqKlOH9rJCPrxyqo6j
-	+XozhIcBWI5yM1GOkqBgVKEsRgyIgDI9AhBA==;
-Date: Wed, 26 Aug 2026 12:58:00 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: gregkh@linuxfoundation.org
-CC: atomlin@atomlin.com, corbet@lwn.net, da.gomez@kernel.org, dakr@kernel.org,
- driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- mathieu.desnoyers@efficios.com, mcgrof@kernel.org, mhiramat@kernel.org,
- petr.pavlu@suse.com, rafael@kernel.org, rdunlap@infradead.org,
- rostedt@goodmis.org, samitolvanen@google.com, skhan@linuxfoundation.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_2/2=5D_driver_core?=
- =?US-ASCII?Q?=3A_add_TAINT=5FFORCED=5FBIND_for_?=
- =?US-ASCII?Q?when_userspace_manually_messes_with_devices_and_drivers?=
-In-Reply-To: <20260826-bind_taint-v1-2-52b05f4a965c@linuxfoundation.org>
-Message-ID: <C35F2CF9-9CD7-482F-8F30-2D152AB42D0B@mainlining.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uVab0SxY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DGIuEy/C";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wPR8sBIT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XkND9Kmf"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 047E61F834;
+	Wed, 26 Aug 2026 12:21:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787746901; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=DfJeqZ0bau7jEJJJvGO32xH5KjuTNFcBSKCpKpFG+LI=;
+	b=uVab0SxYMR/+N9UPruFWGWyG9I36bEDa8zsLoB4NzsI2qBEElaZ/5DZCHzkHWDprnCyDEw
+	R0uwjr0YDvXj1TmU5ztFzOTS3aimGNIxZeQhPLQHu8m44TyZdpaeyuhXhjH1UCW3glS4jq
+	QoTh3PYzFp8Yu2fElM0XkLc2DrUxoyU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787746901;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=DfJeqZ0bau7jEJJJvGO32xH5KjuTNFcBSKCpKpFG+LI=;
+	b=DGIuEy/CudMk3cnncrFeKYGLxXCZqbeo2sEhLdK0lo6AqhJZpdU9FDJ8oCitjYM/kFqerb
+	BgKG0C2ysVE+hEAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wPR8sBIT;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XkND9Kmf
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787746897; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=DfJeqZ0bau7jEJJJvGO32xH5KjuTNFcBSKCpKpFG+LI=;
+	b=wPR8sBIT2frtnc6D78zAycwSBgyVdWoFRVhBygmyb2Ca3AaFUwIqp7L0gxtjypqQldZDpt
+	TU8r7AUVtuTPJWd6Ehd1CdtlHZB5ajCAnQiQ4cZ7I0+sNm6H1UgxdShzH/5l+d7CK6k95+
+	VKOtkU/ofwaRSEMNTlXBdQujjVs4L0w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787746897;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=DfJeqZ0bau7jEJJJvGO32xH5KjuTNFcBSKCpKpFG+LI=;
+	b=XkND9KmfuGPt0J2MaAOPK7SXHD3tA2Y4FuRteyuP+QxvSku29ElYGIlQxEuPr3E6lQ4ScU
+	BHbmLsDpbky789DA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96DAA13354;
+	Wed, 26 Aug 2026 12:21:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6vt+I0/ajmrGIwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 26 Aug 2026 12:21:35 +0000
+Message-ID: <e7522f72-69f7-4f4c-80c0-86680c0e6f54@suse.de>
+Date: Wed, 26 Aug 2026 14:21:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/15] drm/drm_simple: remove drm_simple_encoder_init
+To: Diogo Silva <diogompaissilva@gmail.com>
+Cc: Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Stefan Agner <stefan@agner.ch>,
+ Alison Wang <alison.wang@nxp.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Liu Ying <victor.liu@nxp.com>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu
+ <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
+ imx@lists.linux.dev, linux-mediatek@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-doc@vger.kernel.org
+References: <20260720-drm_simple_encoder_init-v2-0-5020b630668a@gmail.com>
+ <e393996a-3ef1-4c43-b762-af8cd0f2a4b6@suse.de>
+ <CAJpoHp56yo+eQAYjvR3ez=HTSzapCd3dYppo=MdPx-Lm4J4DQg@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAJpoHp56yo+eQAYjvR3ez=HTSzapCd3dYppo=MdPx-Lm4J4DQg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 047E61F834
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,samsung.com,ffwll.ch,kernel.org,linaro.org,ideasonboard.com,linux.intel.com,amd.com,nvidia.com,agner.ch,nxp.com,intel.com,redhat.com,collabora.com,chromium.org,iki.fi,pengutronix.de,glider.be,google.com,arm.com,baylibre.com,googlemail.com,lwn.net,linuxfoundation.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[59];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On 26 August 2026 10:19:33 BST, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->The ability to add and remove devices from a driver through the sysfs
->"bind" and "unbind" files was created all those decades ago as a way
->that kernel developers can iterate faster, and provide a debugging way
->for users to attempt to add a new device to a driver without having to
->rebuild their kernel.
->
->This api over the years has been abused and recently come under a major
->fuzzing "attack" through tools like syzbot which decided that it would
->attempt to just randomly bind any driver to any type of device, causing
->loads of unneeded errors and pointless kernel patches to be generated by
->unsuspecting new developers.
->
->Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
->will be set on the driver if the bind/unbind sysfs files are ever
->successfully written to.  This lets kernel developers "know" that a user
->is attempting to do something that is not normal, and as such, if the
->kernel breaks they get to keep the shiny pieces laying around on the
->floor.
->
->Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
->as many times crashes/oops/warnings/failures happen within the callback,
->and the taint flag needs to be there to show what was being attempted.
->If it were to be set after the callback happens, the oops report would
->not properly reflect what foolishness was being attempted.
->
+Hi
 
-sashiko found a couple valid concerns for 2/2
+Am 25.08.26 um 20:39 schrieb Diogo Silva:
+> Hey,
+>
+>> Diogo, do you want to send out another revision? Otherwise it's time to
+>> get these patches merged.
+> I would keep them as is, unless you see anything that should really be
+> improved before merging.
+
+I've now merged patch 1 to 13 and 15 into drm-misc-next. There was a 
+conflict with the exynos tree, which I resolved.
+
+Patch 14 first requires syncing with the amdgpu tree, which will happen 
+in a few days. You don't have to do anything here. After that, 
+simple_encoder_init will be gone.  Thanks for helping with this.
+
+Best regards
+Thomas
 
 
->Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->---
-> Documentation/admin-guide/tainted-kernels.rst | 52
-> ++++++++++++++-------------
-> drivers/base/bus.c                            |  3 ++
-> include/linux/panic.h                         |  3 +-
-> include/trace/events/module.h                 |  3 +-
-> kernel/panic.c                                |  5 +--
-> tools/debugging/kernel-chktaint               |  8 +++++
-> 6 files changed, 46 insertions(+), 28 deletions(-)
->
->diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
->index 9ead927a37c0..d4ca8b9e3819 100644
->--- a/Documentation/admin-guide/tainted-kernels.rst
->+++ b/Documentation/admin-guide/tainted-kernels.rst
->@@ -79,30 +79,31 @@ which bits are set::
-> Table for decoding tainted state
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
->-===  ===  ======  ========================================================
->-Bit  Log  Number  Reason that got the kernel tainted
->-===  ===  ======  ========================================================
->-  0  G/P       1  proprietary module was loaded
->-  1  _/F       2  module was force loaded
->-  2  _/S       4  kernel running on an out of specification system
->-  3  _/R       8  module was force unloaded
->-  4  _/M      16  processor reported a Machine Check Exception (MCE)
->-  5  _/B      32  bad page referenced or some unexpected page flags
->-  6  _/U      64  taint requested by userspace application
->-  7  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
->-  8  _/A     256  ACPI table overridden by user
->-  9  _/W     512  kernel issued warning
->- 10  _/C    1024  staging driver was loaded
->- 11  _/I    2048  workaround for bug in platform firmware applied
->- 12  _/O    4096  externally-built ("out-of-tree") module was loaded
->- 13  _/E    8192  unsigned module was loaded
->- 14  _/L   16384  soft lockup occurred
->- 15  _/K   32768  kernel has been live patched
->- 16  _/X   65536  auxiliary taint, defined for and used by distros
->- 17  _/T  131072  kernel was built with the struct randomization plugin
->- 18  _/N  262144  an in-kernel test has been run
->- 19  _/J  524288  userspace used a mutating debug operation in fwctl
->-===  ===  ======  ========================================================
->+===  ===   ======  ========================================================
->+Bit  Log   Number  Reason that got the kernel tainted
->+===  ===   ======  ========================================================
->+  0  G/P        1  proprietary module was loaded
->+  1  _/F        2  module was force loaded
->+  2  _/S        4  kernel running on an out of specification system
->+  3  _/R        8  module was force unloaded
->+  4  _/M       16  processor reported a Machine Check Exception (MCE)
->+  5  _/B       32  bad page referenced or some unexpected page flags
->+  6  _/U       64  taint requested by userspace application
->+  7  _/D      128  kernel died recently, i.e. there was an OOPS or BUG
->+  8  _/A      256  ACPI table overridden by user
->+  9  _/W      512  kernel issued warning
->+ 10  _/C     1024  staging driver was loaded
->+ 11  _/I     2048  workaround for bug in platform firmware applied
->+ 12  _/O     4096  externally-built ("out-of-tree") module was loaded
->+ 13  _/E     8192  unsigned module was loaded
->+ 14  _/L    16384  soft lockup occurred
->+ 15  _/K    32768  kernel has been live patched
->+ 16  _/X    65536  auxiliary taint, defined for and used by distros
->+ 17  _/T   131072  kernel was built with the struct randomization plugin
->+ 18  _/N   262144  an in-kernel test has been run
->+ 19  _/J   524288  userspace used a mutating debug operation in fwctl
->+ 20  _/Y  1048576  device was manually bound or unbound from a driver
->+===  ===  =======  ========================================================
-> 
-> Note: The character ``_`` is representing a blank in this table to make reading
-> easier.
->@@ -189,3 +190,6 @@ More detailed explanation for tainting
->  19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
->      to use the devices debugging features. Device debugging features could
->      cause the device to malfunction in undefined ways.
->+
->+ 20) ``Y`` If userspace wrote to the `bind` or `unbind` sysfs files and
->+     successfully bound or removed a device from a driver.
->diff --git a/drivers/base/bus.c b/drivers/base/bus.c
->index d17bd91490ee..c51ad96d4de4 100644
->--- a/drivers/base/bus.c
->+++ b/drivers/base/bus.c
->@@ -19,6 +19,7 @@
-> #include <linux/string.h>
-> #include <linux/mutex.h>
-> #include <linux/sysfs.h>
->+#include <linux/panic.h>
-> #include "base.h"
-> #include "power/power.h"
-> 
->@@ -241,6 +242,7 @@ static ssize_t unbind_store(struct device_driver *drv, const char *buf,
-> 
-> 	dev = bus_find_device_by_name(bus, NULL, buf);
-> 	if (dev && dev->driver == drv) {
->+		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
-> 		device_driver_detach(dev);
-> 		err = count;
-> 	}
->@@ -264,6 +266,7 @@ static ssize_t bind_store(struct device_driver *drv, const char *buf,
-> 
-> 	dev = bus_find_device_by_name(bus, NULL, buf);
-> 	if (dev && driver_match_device(drv, dev)) {
->+		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
-> 		err = device_driver_attach(drv, dev);
-> 		if (!err) {
-> 			/* success */
->diff --git a/include/linux/panic.h b/include/linux/panic.h
->index f1dd417e54b2..8e7250b0e913 100644
->--- a/include/linux/panic.h
->+++ b/include/linux/panic.h
->@@ -88,7 +88,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
-> #define TAINT_RANDSTRUCT		17
-> #define TAINT_TEST			18
-> #define TAINT_FWCTL			19
->-#define TAINT_FLAGS_COUNT		20
->+#define TAINT_FORCED_BIND		20
->+#define TAINT_FLAGS_COUNT		21
-> #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
-> 
-> struct taint_flag {
->diff --git a/include/trace/events/module.h b/include/trace/events/module.h
->index e5a006be9dc6..19df3e39bba4 100644
->--- a/include/trace/events/module.h
->+++ b/include/trace/events/module.h
->@@ -26,7 +26,8 @@ struct module;
-> 	{ (1UL << TAINT_OOT_MODULE),		"O" },		\
-> 	{ (1UL << TAINT_FORCED_MODULE),		"F" },		\
-> 	{ (1UL << TAINT_CRAP),			"C" },		\
->-	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" })
->+	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" },		\
->+	{ (1UL << TAINT_FORCED_BIND),		"Y" })
-> 
-> TRACE_EVENT(module_load,
-> 
->diff --git a/kernel/panic.c b/kernel/panic.c
->index 213725b612aa..6bf60f9dd120 100644
->--- a/kernel/panic.c
->+++ b/kernel/panic.c
->@@ -826,6 +826,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
-> 	TAINT_FLAG(RANDSTRUCT,			'T', ' '),
-> 	TAINT_FLAG(TEST,			'N', ' '),
-> 	TAINT_FLAG(FWCTL,			'J', ' '),
->+	TAINT_FLAG(FORCED_BIND,			'Y', ' '),
-> };
-> 
-> #undef TAINT_FLAG
->@@ -862,9 +863,9 @@ static void print_tainted_seq(struct seq_buf *s, bool verbose)
->  * exact size is allocated dynamically; the initial buffer remains
->  * as a fallback if allocation fails.
->  *
->- * The verbose taint string currently requires up to 327 characters.
->+ * The verbose taint string currently requires up to 344 characters.
->  */
->-#define INIT_TAINT_BUF_MAX 350
->+#define INIT_TAINT_BUF_MAX 370
-> 
-> static char init_taint_buf[INIT_TAINT_BUF_MAX] __initdata;
-> static char *taint_buf __refdata = init_taint_buf;
->diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
->index e1571c04afb5..d8628be37214 100755
->--- a/tools/debugging/kernel-chktaint
->+++ b/tools/debugging/kernel-chktaint
->@@ -211,6 +211,14 @@ else
-> 	addout "J"
-> 	echo " * fwctl's mutating debug interface was used (#19)"
-> fi
->+
->+T=`expr $T / 2`
->+if [ `expr $T % 2` -eq 0 ]; then
->+	addout " "
->+else
->+	addout "Y"
->+	echo " * device was manually bound or unbound from a driver (#20)"
->+fi
-> echo "Raw taint value as int/string: $taint/'$out'"
-> 
-> # report on any tainted loadable modules
->
->
 
---- Thanks!
-https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
+>
+> Best regards,
+> Diogo
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, (HRB 36809, AG Nürnberg)
+
+
