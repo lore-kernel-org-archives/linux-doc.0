@@ -1,198 +1,107 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950A5471418
-	for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 14:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10357313E2C;
+	Thu, 27 Aug 2026 14:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787839405; cv=none; b=R+qgXSFK161bP2Xx+qn/PZMOJ8sfSPM4RDsqBTMaq4y4FcuRb2/7I5AP6um6Botk3N36VqB/n8EF2WIH/SDMdwvjId+3uiCiwCVfkamwT0KrvwXZEA6XXVX0qU2tzHaqk+PGvQ9q+TQ148EDxiSXHcPxVooRVLZQpZ3x/oWLje4=
+	t=1787839504; cv=none; b=B0Ll+QMbWFO86KUkqLOKHZJQIlhfh0rlAL1KOCP58ik7G/rR/YpSTwtjIDn1dVzVLA3F2+nxwvPEteKYAi6+QIyX8XD7rOoGekMwJFBRNTjFcYvr4bjTinqBBr+o1OPejXfdqkiUkNVHwFopHAUbkOsIBKA+dW2wR91q1Nmcz8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787839405; c=relaxed/simple;
-	bh=GxgWL05/rarsl7qmMHY1BfRfDlahGl4tISwa4ALF/BI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WdfZlT8LPZ3tO9VnOCb5g6IBCDTbQAMjhForjY9iHJKTg2r1yjhV2aR294JoIz37uVfGZDYGjYxT65cz1jDcQQtWn/dXWI963ukxTWoShxpm7rU2QOp+oQQl+OE6B4Gq60onvSFL0qX6gV+3PEk9UbA6UwJ5S47oDojh51+ymDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=fr8zB410; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1787839504; c=relaxed/simple;
+	bh=rEJaJtdN5in9yjrBAK/yUtS9KFyKGFmTneTp//W43iU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pN0Zzo8+s7CCHClXGY49XvSAmudm9ZDfG+w5XHiu+2GOQgJ/inYOs7uzPmZB9YWn+TuaAezJ6I4qzxit/jqzFS86r/DI9f+QzYeOWTywLCDIpRoELuCoAKcldyazaRavfmiCdxI3KyNCWlnDggPv+/PxjhNIQ8L55XCWhbCPD4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=XQbn0Bdq; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="fr8zB410"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493b966dd74so11696595e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 07:03:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1787839395; x=1788444195; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ALN+Th3VygsiiqX2bmJC+etz4YolkrPm7RtMfzNo3Zc=;
-        b=fr8zB410KWJECu7jlCjEEPe3kLGxHn0v63QkGXDA3NcRKF0/Y9cA71CUoKKJ6QwqQJ
-         wAPacttxGsWkRYubH4Xs0HuwuHR51/L5mmdgu0MT5gO110BsH/9DU+CG481RRkS9FgdO
-         CjZU+F0poCi8weHK+JqqhcPjmRK3arqhFYt23zIkm9ZKTnyWC8SL9l7JvBWBn86cyxRR
-         n4srMPGCEV9mpR9cf3TXIUNlBcSWH2xdyRyW09LCBGuZu2vmjA15OPBhIBVCFgMHPQhT
-         xR5oVt+Hm3ddtHzPmGCPyp1DzP/Jbgw01q/N3M0jfHA8SDKnQ3K3rbJWF2eL+63UfZKK
-         1fUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787839395; x=1788444195;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ALN+Th3VygsiiqX2bmJC+etz4YolkrPm7RtMfzNo3Zc=;
-        b=ITnLJTsAifPq8fWZH4j9lHcbJ8/Whky0KXmBMid1Mt33qxviCBDySCweDjMwXjJ8wa
-         gJOCUqle9c3jJFaJoqf72K+9wTljABaUecfq7oYi6V6xIVnrW7MWAojA/R1DMZgF/eDF
-         4cVUFrp2jXBykmoK1qgXU9cwrJUFqrdel9lRUjlnFhlGhTEDgzQqtIxwLCIhak+a8znt
-         l0T91w2Wha+E9y4/C8bwzTa5ULDTJN4B9PVBI1f2bYVcOaVzqHU7UgN5dgch8HvT0Uec
-         ZmJFuMdU9PvD/2M2vv9qRoxC63zfZcPdlMGjzZrT6mILEqINK+8aGFptlUngPpalnXti
-         NSqg==
-X-Forwarded-Encrypted: i=1; AHgh+RoIh23rbCNTFRpovTvVzh3Ym764g9kWhmwDv2rBK2wEnpipsgxEMjYkQ34Gz99DYJaKjKYffbLeMWA=@vger.kernel.org
-X-Gm-Message-State: AFuF++mPP89Q1Y+aEV45HAn0yrujInBkcVcjRIiikGevOCWc2djVJP9c
-	VLV1FaO8fs3Y/1ChunAwEBx7JXLKlTbF8ri60e+1wT4f8YnE58ru2ncI9wQndJUdJEI=
-X-Gm-Gg: AR+sD10FsXcoKt+g+YmelUFSQ4nKDpkTh4QsIDoVNzyLOLE4BeIG6oRyIGPC5KkQSiK
-	fo/ND1FICKi+rfA4MiB2FwYLxG0kQ4bsVDKDliqT1O2R/9blyl385p1sm13yhdVdhN98kDYjxwj
-	d5nJIt5B1sUBlRD31kpEBJf0sfxq1OJ6FjuXB2i5FnDXK8eJawvUFGgysIkWiIKmiOlqq5d79c0
-	HLJoJLg2UJa0+YV45zyJlh9BtTRtJA+Sry9szGHNbEq/uj+93YH1sYdrLyAHeiEu3EQWJilkiAU
-	VoDqvdOru3lw7a+0MYww1UxUalH68SOFUGuvbR2qWCjqh1mzlIue+gjjnWKM4ZOgJVx9hUmX+Eo
-	HjRPR7vLIg5k1pRw0dXE4NJnaiYeaJC3AJV5X0MclmQqwM+tUjJWHqAc5JEGv1DTHGREzeO2kwn
-	WZ64qE7qXIdlH6R7ra/N9BcRT+SzyrRkTBv4EypYH9mt4N4FE/o5yRR2nyDobFsm58xPzeiS0Af
-	A==
-X-Received: by 2002:a05:600c:4e55:b0:499:484a:81d0 with SMTP id 5b1f17b1804b1-499dc723fadmr189406965e9.9.1787839394561;
-        Thu, 27 Aug 2026 07:03:14 -0700 (PDT)
-Received: from localhost (109-81-32-216.rct.o2.cz. [109.81.32.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482e28dbe1dsm9947082f8f.22.2026.08.27.07.03.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 07:03:13 -0700 (PDT)
-Date: Thu, 27 Aug 2026 16:03:12 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Eric Chanudet <echanude@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>, Shuah Khan <shuah@kernel.org>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, Maxime Ripard <mripard@redhat.com>,
-	Albert Esteve <aesteve@redhat.com>
-Subject: Re: [PATCH 00/11] mm/cma: charge cma allocation to memcg using per
- area counters
-Message-ID: <apBDoJEq_4UuJAaP@tiehlicka>
-References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
- <aowHqqaqK7TeexQH@tiehlicka>
- <ao2gA_m3BCBu2esy@echanude-thinkpadx1carbongen13.rmtusma.csb>
- <ao2t6HP-Zt5KDg30@tiehlicka>
- <ao3UKM5SbxBmxuR0@echanude-thinkpadx1carbongen13.rmtusma.csb>
- <ao3quaSze8YjPjxZ@tiehlicka>
- <ao3tFg4JLNlbylTR@echanude-thinkpadx1carbongen13.rmtusma.csb>
- <ao6eC2SUIGVz3Qct@tiehlicka>
- <ao8uZ0cNyqaAJuPB@echanude-thinkpadx1carbongen13.rmtusma.csb>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="XQbn0Bdq"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=wUSYVC8RFXMOBblpJTxkPOOEO8+kx3KB+SF4zeqbhxs=;
+	b=XQbn0BdqJFCp5eXrsclw/2+1Ove1XReqsTNyH2vdH0yELJj4f/0S+YkVtOZtaY0MikUxpeEyJ
+	SrZQnV8ho5fkQ3tq2XFRkNfw4faZvu4trS5rhnFqKEtOZlZ8/S57l+cgJn7WlEDk5QbYpjSJHT9
+	shMLICOzS+N2kfqavFt3u20=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4hW3091WQczRhR0;
+	Thu, 27 Aug 2026 21:54:01 +0800 (CST)
+Received: from whupemo200004.china.huawei.com (unknown [7.152.184.18])
+	by mail.maildlp.com (Postfix) with ESMTPS id 92BBA4056D;
+	Thu, 27 Aug 2026 22:04:45 +0800 (CST)
+Received: from huawei.com (10.50.163.32) by whupemo200004.china.huawei.com
+ (7.152.184.18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 27 Aug
+ 2026 22:04:43 +0800
+From: Sizhe Liu <liusizhe5@huawei.com>
+To: <rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <bhelgaas@google.com>, <yangyccccc@gmail.com>,
+	<jic23@kernel.org>, <john.g.garry@oracle.com>, <will@kernel.org>,
+	<james.clark@linaro.org>, <mike.leach@arm.com>, <leo.yan@linux.dev>,
+	<peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
+	<namhyung@kernel.org>, <mark.rutland@arm.com>,
+	<alexander.shishkin@linux.intel.com>, <jolsa@kernel.org>,
+	<irogers@google.com>, <adrian.hunter@intel.com>, <wangyushan12@huawei.com>,
+	<wuzongyu1@huawei.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+	<linux-perf-users@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
+	<prime.zeng@hisilicon.com>, <liusizhe5@huawei.com>
+Subject: [PATCH v2 0/8] Enhance TLP packet decoder with field-level parsing and versioning
+Date: Thu, 27 Aug 2026 22:04:34 +0800
+Message-ID: <20260827140442.2031128-1-liusizhe5@huawei.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ao8uZ0cNyqaAJuPB@echanude-thinkpadx1carbongen13.rmtusma.csb>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ whupemo200004.china.huawei.com (7.152.184.18)
 
-On Wed 26-08-26 16:31:56, Eric Chanudet wrote:
-> On Wed, Aug 26, 2026 at 10:04:27AM +0200, Michal Hocko wrote:
-> > On Tue 25-08-26 16:58:51, Eric Chanudet wrote:
-> > > On Tue, Aug 25, 2026 at 09:19:21PM +0200, Michal Hocko wrote:
-> > > > On Tue 25-08-26 14:33:48, Eric Chanudet wrote:
-> > > > > On Tue, Aug 25, 2026 at 04:59:52PM +0200, Michal Hocko wrote:
-> > > > > [...]
-> > > > > The administrator opts in by mounting cgroupfs with
-> > > > > memory_cma_accounting. At which point the cma allocator will charge CMA
-> > > > > allocations against memcg and manages a per area counter depending on
-> > > > > what area the allocation was made into.
-> > > > 
-> > > > So each CMA area will have its own counter and limits?
-> > > 
-> > > Yes, in order to enforce a limit per CMA area this series add a page
-> > > counter for each area. Areas are fixed and discovered early so the
-> > > counters are added to struct mem_cgroup and initialized when the cgroup
-> > > is created.
-> > > 
-> > > An admin would then use the cgroupfs entries to assign an area limit to
-> > > a given cgroup, something like the following, using the reserved area
-> > > for example:
-> > >   mount -o remount,memory_cma_accounting /sys/fs/cgroup
-> > >   echo +memory > /sys/fs/cgroup/cgroup.subtree_control
-> > >   mkdir /sys/fs/cgroup/mycg
-> > >   echo 16M > /sys/fs/cgroup/mycg/memory.cma.reserved.max
-> > >   echo 64M > /sys/fs/cgroup/mycg/memory.max
-> > 
-> > OK, thanks for the clarification. This confirms my initial suspicion but
-> > it is better to have it clearly articulated. I can see several problems
-> > with this approach. First and formost I do not think dealing with all
-> > cmas this way is manageable. This can become a mess very quickly if we
-> > have one limit per cma and too coarse if there is a single one. I also
-> > have my doubts about space allocation control through a simple limit for
-> > something that is effectively a reserved physical space.
-> > 
-> > I might be proven wrong but unless cma serves objects of a uniform
-> > size then this will simply not work in practice. Hitting ENOSPC without
-> > hitting limits and thus impractical for shared space management.
-> 
-> Isn't that an inherent limit with CMA as it is? If the area gets
-> fragmented, some buffers may no longer be allocated since there is no
-> remaining hole big enough to accommodate them? I do hear that putting
-> arbitrary limits would make this worse, which might breach the threshold
-> at which it becomes a problem.
+The original hisi-ptt-decoder only prints raw hex values with generic field
+names for DW2/DW3, without classifying TLP types or decoding
+DW2/DW3 fields according to the hardware-defined packet format.
 
-I wanted to say that a limit for something that is basically a
-reservation problem for shared pool is an ineffective solution.
-Exactly for reasons you are mentioning. You might set limits for parties
-sharing the same pool but that will not ensure they will be able to use
-their promised portion - that makes low,min limits effectively
-impossible. And hard/high limits are only to stop runaways.
+This series enhances the HiSilicon PTT (PCIe Trace and Tuning) packet
+decoder in perf tool to provide detailed field-level parsing of TLP headers
+based on message type, and adds a versioning mechanism for backward
+compatibility both in hisi_ptt driver and perf tool.
 
-[...]
+---
+Changes in v2:
+- Split patch 01/10 and patch 02/10 from series v1 into independent patch
+  series for backporting.
+- Use bitwise operations instead of C bitfields for cross-platform cases.
+- Add `pattern` parameter in hisi_ptt driver for layout compatibility.
+- Link to v1: https://lore.kernel.org/linux-pci/20260604075005.2219785-1-liusizhe5@huawei.com/
 
-> > Thanks. Yes this is more clear now. And it resembles hugetlb situation
-> > more than memcg. You simply need a memory pool specific access and usage
-> > control. Dispersing that to a global memcg limit seems rather coarse and 
-> > I would say impractical. So it really calls for a per pool control with
-> > an understanding of how the specific pool really works.
-> 
-> Thank you for the feedback. It looks like this won't work. It also
-> excludes the attempt through double charging dmem[1] as it would have
-> similar issues trying to use memcg.
-> 
-> >From your last sentence, would this rather call for a different
-> controller entirely that would handle CMA semantics?
+---
+Sizhe Liu (8):
+  perf hisi-ptt: Abstract trace data buf and offset
+  perf hisi-ptt: Complete the field names for 4DW and 8DW packets
+  perf hisi-ptt: Extract the raw data printing part
+  perf hisi-ptt: Merge 4DW and 8DW HEAD0 printing
+  perf hisi-ptt: Add parsing of supported message types
+  perf hisi-ptt: Add field-level parsing for header DW2/DW3
+  hwtracing: hisi_ptt: Add pattern PMU config for trace format selection
+  perf hisi-ptt: Pass pattern version to decoder for compatibility
 
-I would recommend focusing on specific CMA users rather than trying to
-define a sane semantic for all potential CMA users because that might be
-a lot of different things.
-Then I would suggest focusing on the ultimate goal. Do you really want
-to provide any sort of guarantees (a reservation system) for a shared
-pool or merely cap maximum usage.
-Last but not least think about whether the whole sharing of a
-constrained memory area between uncooperative parties really makes sense
-in the first place. Especially when the pool serves objects of different
-sizes and fragmentation becomes a real problem.
+ Documentation/trace/hisi-ptt.rst              |  25 +-
+ drivers/hwtracing/ptt/hisi_ptt.c              |  25 +-
+ drivers/hwtracing/ptt/hisi_ptt.h              |   4 +
+ tools/perf/arch/arm64/util/hisi-ptt.c         |  18 ++
+ .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.c   | 291 ++++++++++++++----
+ .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.h   |  68 +++-
+ tools/perf/util/hisi-ptt.c                    |  51 +--
+ tools/perf/util/hisi-ptt.h                    |   9 +-
+ 8 files changed, 404 insertions(+), 87 deletions(-)
 
-> [1] https://lore.kernel.org/all/20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com/
-> [2] https://lore.kernel.org/all/7e4e9662-d876-4493-a0b3-e31640937dd1@kernel.org/
-> 
-> > -- 
-> > Michal Hocko
-> > SUSE Labs
-> > 
-> 
-> -- 
-> Eric Chanudet
 
+base-commit: bec06676f4b2a4276b6277783eb91cd3cffd4b33
 -- 
-Michal Hocko
-SUSE Labs
+2.33.0
+
