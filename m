@@ -1,223 +1,80 @@
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15FFA4746D4;
-	Thu, 27 Aug 2026 14:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 609DC47A0D7;
+	Thu, 27 Aug 2026 14:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787839530; cv=none; b=lQ3JT4cOQo5UVyM4EuLOaegQt8tr+I6xRrKB7SzNKhkuwqBElvy7efuCcUVVvQmfO8OImBSnQGz93T/XN7KO3Lbj/fAhCWlOGfh7gCAfZ3qL/5zF5RsyJhEm8OA35qsg007uIRarySA/31kdKoHhxvFkOWrFBPIdoAVohSUIhmY=
+	t=1787840842; cv=none; b=iuyZW3n4jbQ40uL4DOorwIcmwhS1iInqTtZ8N1m2XuqpE57LZ4NKRDWHR0DBGP0/j7ifY+c2AFc+ZpK4ea2K8zgdDoPV+LrRvXHK5HekExf/05fA2oPK0tqbVbL8njst6RmtyF86pzmT/ai4TqFu9ol66lgf42jHZnzrehxpI1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787839530; c=relaxed/simple;
-	bh=2Bll0pXG/BKD5FWU3/FFzzWy5NiBAgA4gUtOI+s2mIs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VrlKfWgqPhqhFpsB626RQyNcJZe2CElQ6ZKrjofD1EWgZYLb5QIVcAGt6J8kYO2rVw/YKxl0Zb7O9NA2MSzlX2YaECIMYV65gDlIL7RHNWIMMxNpJPJ3N3ugHOtKwG8o8nuR2L8Uguo/RhC3nX9YbiUNnthQK+is4lqeh2/wnbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=2SOPh4ov; arc=none smtp.client-ip=113.46.200.224
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1787840842; c=relaxed/simple;
+	bh=r0ySLqPyuNENyTpsvEaGFphpnJIcH3tX6bc1QHr9jqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=exfOroNXRZSQ1hEH3stUTk3tscAfJvZVMYNjfW25VfplgksqapX+spZW91o+T00LI4BzM1R4uA04zczAvRPPeXfKHQlsSP87dAZsXirpo48pGJpQRglZSn54E5jqFJv/tHHinq1TVat+FNg7vEZ2Dolc2Wmk3ESW8GJAHVsHKQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=IeV45dqg; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="2SOPh4ov"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=AnNsN8WiTpazO5Y4fsGAdj78/MqWIMSSlR+ih3NQDV8=;
-	b=2SOPh4ovij9EtkiNGiQgfF1B2//Opvj0WBrMKW4+1mby1nFg2LK9h6LLRCNs/tIyHvv+oN3F4
-	QB8PvGM0pzkDQa4KH9uTLuw7Ih9xtXptGA/joWNd8xc5OMxN4rXSgM2HV1cIBLVpeRwkv8j7Dbg
-	jy7UqblR2BO3Uio1b/R8Z2M=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4hW30L5psXz1cyTS;
-	Thu, 27 Aug 2026 21:54:10 +0800 (CST)
-Received: from whupemo200004.china.huawei.com (unknown [7.152.184.18])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7D01640572;
-	Thu, 27 Aug 2026 22:04:56 +0800 (CST)
-Received: from huawei.com (10.50.163.32) by whupemo200004.china.huawei.com
- (7.152.184.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 27 Aug
- 2026 22:04:54 +0800
-From: Sizhe Liu <liusizhe5@huawei.com>
-To: <rostedt@goodmis.org>, <mhiramat@kernel.org>,
-	<mathieu.desnoyers@efficios.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <bhelgaas@google.com>, <yangyccccc@gmail.com>,
-	<jic23@kernel.org>, <john.g.garry@oracle.com>, <will@kernel.org>,
-	<james.clark@linaro.org>, <mike.leach@arm.com>, <leo.yan@linux.dev>,
-	<peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
-	<namhyung@kernel.org>, <mark.rutland@arm.com>,
-	<alexander.shishkin@linux.intel.com>, <jolsa@kernel.org>,
-	<irogers@google.com>, <adrian.hunter@intel.com>, <wangyushan12@huawei.com>,
-	<wuzongyu1@huawei.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<linux-perf-users@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
-	<prime.zeng@hisilicon.com>, <liusizhe5@huawei.com>
-Subject: [PATCH v2 5/8] perf hisi-ptt: Add parsing of supported message types
-Date: Thu, 27 Aug 2026 22:04:39 +0800
-Message-ID: <20260827140442.2031128-6-liusizhe5@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20260827140442.2031128-1-liusizhe5@huawei.com>
-References: <20260827140442.2031128-1-liusizhe5@huawei.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="IeV45dqg"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 77BF71691;
+	Thu, 27 Aug 2026 07:27:12 -0700 (PDT)
+Received: from localhost (unknown [10.2.196.114])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F32CB3F7D8;
+	Thu, 27 Aug 2026 07:27:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1787840836; bh=r0ySLqPyuNENyTpsvEaGFphpnJIcH3tX6bc1QHr9jqg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IeV45dqgx4mRaxoEbmuZZLi7m359mdGCaHjEZzT8ye+3dWAGoS8D9re32lynaa88z
+	 JeSfSWhc2s3EO8J3VgE/iJvR6Od4/WQWFvSAn5IM61hKHm5org2eLQ1hd31ZLY6VFx
+	 qy4wuTAMTjSNYGKKfU4BMKZpRvEeF5DPdPO/fCsU=
+Date: Thu, 27 Aug 2026 15:27:14 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>,
+	Leo Yan <leo.yan@linux.dev>, linux-arm-kernel@lists.infradead.org,
+	coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 05/14] perf cs-etm: Increase default timestamp
+ generation period
+Message-ID: <20260827142714.GM8904@e132581.arm.com>
+References: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
+ <20260821-james-cs-unformatted-per-thread-fix-v2-5-00c4fd0701b4@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- whupemo200004.china.huawei.com (7.152.184.18)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260821-james-cs-unformatted-per-thread-fix-v2-5-00c4fd0701b4@linaro.org>
 
-Classify TLP messages by Header DW0 Format field and Type field for
-both 4DW and 8DW formats, according to PCIe r6.4 sec 2.2.1.1 & 2.2.1.2.
+On Fri, Aug 21, 2026 at 10:49:03AM +0100, James Clark wrote:
+> The original purpose of timestamps in per-CPU mode was to roughly emit
+> samples in the order they occurred across multiple CPUs, rather than
+> emit all the trace from CPU 1 followed by all from CPU 2 etc.
+> Previously there was no way to change the interval from the minimum of 1
+> cycle, but custom intervals are now supported by the driver.
+> 
+> Drastically reduce the number of timestamps emitted by increasing the
+> interval, which is more than enough to interleave sample generation.
+> This reduces the size of the trace generated.
+> 
+> Signed-off-by: James Clark <james.clark@linaro.org>
 
-Parsing packets into:
-- MWr  (Posted Memory Write request)
-- Msg  (Posted Message request)
-- Atom (Non-Posted Atomic request)
-- IO   (Non-Posted IO request)
-- CFG  (Non-Posted Configuration request)
-- CPL  (Completion request)
-
-The parsed message type is stored in pkt_buf->pkt_msg_type and will
-be used by subsequent patches to select the correct field layout for
-DW2 and DW3 printing.
-
-Signed-off-by: Sizhe Liu <liusizhe5@huawei.com>
----
- .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.c   | 62 +++++++++++++++++++
- .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.h   | 16 +++++
- tools/perf/util/hisi-ptt.c                    |  1 +
- 3 files changed, 79 insertions(+)
-
-diff --git a/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c b/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
-index 00bd9309df68..e63fe1534693 100644
---- a/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
-+++ b/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
-@@ -79,6 +79,66 @@ static const char * const hisi_ptt_4dw_pkt_field_name[] = {
- 	[HISI_PTT_4DW_HEAD3]	= "Header DW3",
- };
- 
-+/* TLP message parsers below according to PCIe r6.4 sec 2.2.1.1 & 2.2.1.2 */
-+static bool hisi_ptt_is_mwr_tlp(uint32_t format, uint32_t type)
-+{
-+	return (format == 0x2 || format == 0x3) && (type == 0);
-+}
-+
-+static bool hisi_ptt_is_msg_tlp(uint32_t format, uint32_t type)
-+{
-+	return (format == 0x1 || format == 0x3) && ((type & 0x18) == 0x10);
-+}
-+
-+static bool hisi_ptt_is_io_tlp(uint32_t format, uint32_t type)
-+{
-+	return (format == 0 || format == 0x2) && (type == 0x2);
-+}
-+
-+static bool hisi_ptt_is_atomic_tlp(uint32_t format, uint32_t type)
-+{
-+	return (format == 0x2 || format == 0x3) &&
-+	       (type == 0xc || type == 0xd || type == 0xe);
-+}
-+
-+static bool hisi_ptt_is_cfg_tlp(uint32_t format, uint32_t type)
-+{
-+	return (format == 0 || format == 0x2) && (type == 0x4 || type == 0x5);
-+}
-+
-+static bool hisi_ptt_is_cpl_tlp(uint32_t format, uint32_t type)
-+{
-+	return (format == 0  || format == 0x2) && (type == 0xa || type == 0xb);
-+}
-+
-+static int hisi_ptt_parse_pkt_msg_type(uint32_t dw,
-+				       enum hisi_ptt_pkt_type pkt_type)
-+{
-+	uint32_t format, type;
-+
-+	format = (pkt_type == HISI_PTT_4DW_PKT) ?
-+		  FIELD_GET(HISI_PTT_HEAD0_4DW_FORMAT, dw) :
-+		  FIELD_GET(HISI_PTT_HEAD0_8DW_FORMAT, dw);
-+	type = (pkt_type == HISI_PTT_4DW_PKT) ?
-+		FIELD_GET(HISI_PTT_HEAD0_4DW_TYPE, dw) :
-+		FIELD_GET(HISI_PTT_HEAD0_8DW_TYPE, dw);
-+
-+	if (hisi_ptt_is_mwr_tlp(format, type))
-+		return HISI_PTT_PKT_TYPE_MWR;
-+	else if (hisi_ptt_is_msg_tlp(format, type))
-+		return HISI_PTT_PKT_TYPE_MSG;
-+	else if (hisi_ptt_is_atomic_tlp(format, type))
-+		return HISI_PTT_PKT_TYPE_ATOM;
-+	else if (hisi_ptt_is_io_tlp(format, type))
-+		return HISI_PTT_PKT_TYPE_IO;
-+	else if (hisi_ptt_is_cfg_tlp(format, type))
-+		return HISI_PTT_PKT_TYPE_CFG;
-+	else if (hisi_ptt_is_cpl_tlp(format, type))
-+		return HISI_PTT_PKT_TYPE_CPL;
-+
-+	return HISI_PTT_PKT_TYPE_UNKNOWN;
-+}
-+
- static void hisi_ptt_print_raw_record(size_t offset, uint32_t value)
- {
- 	const char *color = PERF_COLOR_BLUE;
-@@ -114,6 +174,8 @@ static void hisi_ptt_print_head0(struct hisi_ptt_pkt_buf *pkt_buf)
- 	uint32_t dw;
- 
- 	dw = get_unaligned_le32(pkt_buf->buf + pkt_buf->pos);
-+	pkt_buf->pkt_msg_type = hisi_ptt_parse_pkt_msg_type(dw,
-+							    pkt_buf->pkt_type);
- 	hisi_ptt_print_raw_record(pkt_buf->pos, dw);
- 
- 	if (pkt_buf->pkt_type == HISI_PTT_4DW_PKT)
-diff --git a/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h b/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h
-index 6747878b030e..9d98362d76b1 100644
---- a/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h
-+++ b/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h
-@@ -27,6 +27,10 @@
- #define HISI_PTT_HEAD0_4DW_TYPE		GENMASK_U32(29, 25)
- #define HISI_PTT_HEAD0_4DW_FORMAT	GENMASK_U32(31, 30)
- 
-+/* Header DW0 fields for 8DW format */
-+#define HISI_PTT_HEAD0_8DW_TYPE		GENMASK_U32(28, 24)
-+#define HISI_PTT_HEAD0_8DW_FORMAT	GENMASK_U32(31, 29)
-+
- enum hisi_ptt_pkt_type {
- 	HISI_PTT_4DW_PKT,
- 	HISI_PTT_8DW_PKT,
-@@ -38,11 +42,23 @@ static int hisi_ptt_pkt_size[] = {
- 	[HISI_PTT_8DW_PKT]	= 32,
- };
- 
-+enum hisi_ptt_pkt_msg_type {
-+	HISI_PTT_PKT_TYPE_UNKNOWN,       /* Types do not support analysis */
-+	HISI_PTT_PKT_TYPE_MWR,           /* P-(MemWr) */
-+	HISI_PTT_PKT_TYPE_MSG,           /* P-(Message) */
-+	HISI_PTT_PKT_TYPE_ATOM,          /* NP-(Atomic) */
-+	HISI_PTT_PKT_TYPE_IO,            /* NP-(IO) */
-+	HISI_PTT_PKT_TYPE_CFG,           /* NP-(CFG) */
-+	HISI_PTT_PKT_TYPE_CPL,           /* CPL-(CPL) */
-+	HISI_PTT_PKT_TYPE_MAX
-+};
-+
- struct hisi_ptt_pkt_buf {
- 	const unsigned char *buf;
- 	size_t pos;
- 	size_t len;
- 	enum hisi_ptt_pkt_type pkt_type;
-+	enum hisi_ptt_pkt_msg_type pkt_msg_type;
- };
- 
- int hisi_ptt_pkt_desc(struct hisi_ptt_pkt_buf *pkt_buf);
-diff --git a/tools/perf/util/hisi-ptt.c b/tools/perf/util/hisi-ptt.c
-index ea659947c27f..78817ae7a8ea 100644
---- a/tools/perf/util/hisi-ptt.c
-+++ b/tools/perf/util/hisi-ptt.c
-@@ -63,6 +63,7 @@ static void hisi_ptt_dump(struct hisi_ptt *ptt __maybe_unused,
- 	pkt_buf.pos = 0;
- 	pkt_buf.pkt_type = hisi_ptt_check_packet_type(buf, len);
- 	pkt_buf.len = round_down(len, hisi_ptt_pkt_size[pkt_buf.pkt_type]);
-+	pkt_buf.pkt_msg_type = HISI_PTT_PKT_TYPE_UNKNOWN;
- 	color_fprintf(stdout, color, ". ... HISI PTT data: size %zu bytes\n",
- 		      pkt_buf.len);
- 
--- 
-2.33.0
-
+Reviewed-by: Leo Yan <leo.yan@arm.com>
