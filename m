@@ -1,178 +1,115 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F162942E43F
-	for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 09:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CB341DDEC;
+	Thu, 27 Aug 2026 09:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787823920; cv=none; b=Vjle5r7R8Lwv8yhXHcfHX+iR/sLWSjpUSWp5NoOEnPDhLpaO8nJI1X4J1AHOfl+Rnps4cuv24I/5ujiUQtgiAOVqVmRce1SNQDOlW3egpCdGjXXFdActXVzqFUcWLdd3F8ZmSq5P1TF62yt7D3jLxGthH1eMk4ksEJNPrOA0f4I=
+	t=1787824066; cv=none; b=TxTMTn67B24TUEmqJCuKd2Bi2Bcm/YPX0xq2u3qk8YN/pVNAf6E9J+SUxb5seZh/HSd3R+zvwSRG9biN+isVOZUIGAvoyEhNZ+92QwyGHUFSjJh/xHYm6LXcSeRqXSZlT1TF6tiEzSCvN4AVbxhtoDl4rwCij8Wyzu4jMprGvg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787823920; c=relaxed/simple;
-	bh=4tBaPgo2GIWAifI6EmP16VvhsBhMsaJ899ZFngZrVCs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rfSeJw2zIAlHSXTsLyPBrda/5RK1h++iDAwcj4akgHXxTtmxub7rObUT76as3nmDs9c8Sp4XE/griJmuzx5hGasoy7Q810W/WVhYsizonw8DHUiEYL/fNTBwcroqFsPOPxFq5zdct96PVXFEjXa0pE0MGeSTFQGSgEaFnDWJ3jY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NORkB91C; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1787824066; c=relaxed/simple;
+	bh=fBqBLWnj3bXA1ZbUvM2cXGwDI7zfndKWFxgY4ge5R0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=smzRPlFBiEaQkkMYnU/MaDqIZa4tRGmGuf5+fngSBWjla+NNO7TqDvyHgChmp6kEK1z43LmveKQRnqKmX9VsnSgaePw2xww2FAO+l2jzVkOGaumXephUPscjmfeN7foDvPZji9aGCl6IX9HyaL6uA3ZRziE+YV7XMV7vL/AJJ5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Wdjwg6vu; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NORkB91C"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cf452def93so6114945ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 02:45:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1787823918; x=1788428718; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vM0/L21f9tot3vpFXvyjlc2gt/uZgvIf/L0mZwOnhSg=;
-        b=NORkB91CuYbrBoiXuunNhCr/q+tRrbYzBGS2xP76wMyPzZjq8l3R7nUo87JdnYCNAa
-         7oD9s6Fkhge2SlOCYOE9WKPTmsMkN/YeEmQD/taK2TpMe3zni3Bg1jCC3SCKuyV4PjT0
-         XxldHn/WEbSp6GzB/Intm7KY/6OFDxRn7OEAk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787823918; x=1788428718;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vM0/L21f9tot3vpFXvyjlc2gt/uZgvIf/L0mZwOnhSg=;
-        b=ekQi2ZT/vvc4ziCKVn2IZ9YtS8eQSoYRUStmm4iwwDqinEaidH1AI/3BX4ia4YO9sP
-         IFfwgViKHFJcSSpjM1vdBdGOLR5oxCGtbuGT9jpUMNpYx8nQb5+2KqmVlnbejBnWGOzp
-         Upg6LFkVZv+h2FR+qnQo2gX5qBR7FGBYytPcq1lRo6XDK6UuIAT/RGqAQax1OTEohcoK
-         TXEuhNkft2liFnjUTuduFFXCigbdTAo1RioydZW2xFchY4pct+qAn/wncrdwjwB162c6
-         ob5U3JSYdFEj0wUXwmrZgSF2QoC8xbqmdtw195n4XomKNl+8C7T5qu0IoNHS+JKJKWMG
-         EUHA==
-X-Forwarded-Encrypted: i=1; AHgh+RpXOrBnoJdkUxBZkaxgkQCwWh53vVUVvHb1VboUUwRTilJYHsXpKYHDHfWuQ9qcVTRVnki/6BSYKv4=@vger.kernel.org
-X-Gm-Message-State: AFuF++kmp/emnz61GDgjYNb/Ansf/JbG3ljMXxpUhFCxO+h4hSdEAnzX
-	72hq5NAO6NGD/xJXCM5w9jUcaaRgrvEwwgjLjsYaF8lbkygsHKUBw7tIxJfc1oPLFrfbG5sUn37
-	31GTsIw==
-X-Gm-Gg: AR+sD12Yubcq+5J/RzpjFTBbAl/aeAbVwSBgY8ythp/PocLUbU0p4DIZs7QgZTyyg7J
-	ARD622xV9XOH13MELZNCxn4P+Ofw/K2dxVTbS3HvlzSb00If6WRhJbjG7tbD/K4tTf57muvfn8P
-	duQUfRp7En2CpwK83pzhx4mba0Vgp7jA907VyzUM3pGm+hupUAh844lWA5jZK6+RjDyqFhpHbof
-	7kTjOKgKrD4hY5H+mw1doYWZ04WuqTD65COwdXQmQSJzXP/K6Er2MRAS/rs3alqY+2he2Ou+u3d
-	O+xeWPlcUEovhX505Jl2axR/AtQ0zVzvrkH3rWnVGuy/OihPpfX9Mc1KvYhduD5KIfPAT0V8RIQ
-	G/ulsoOazIseO4mtsr1sWeS408Tc7LV1cT1Ml06KI9z5K5UJ1SWzeWzVsz32E5NbTSiYIyGbEAJ
-	XokOAje7xjJL5vkgCA+1sg0zH/ANIvPcl0RA9zOFY6hcYAoZMPvjRxWeaEGORy3D2FQ9dMwaehq
-	mvDmmFANbrKcEE+d9tosaYx9yaJZxp5s0PD3n10yA==
-X-Received: by 2002:a17:90b:5484:b0:385:3ab:fecb with SMTP id 98e67ed59e1d1-3969bae971bmr6306465a91.4.1787823918128;
-        Thu, 27 Aug 2026 02:45:18 -0700 (PDT)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com. [209.85.214.171])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b186803asm2078921a91.11.2026.08.27.02.45.17
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Aug 2026 02:45:17 -0700 (PDT)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2d6efd73032so7389755ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 02:45:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrvpsKr1uuvrKMmOvGS+XvONWjyUg4rCiAVtSy3Bw55iLS2DbwAl7bS1+da6y9epNjp9O2b7ch4ino=@vger.kernel.org
-X-Received: by 2002:a17:90b:5281:b0:396:4ce0:6400 with SMTP id
- 98e67ed59e1d1-3969ba3a303mr7718113a91.2.1787823916368; Thu, 27 Aug 2026
- 02:45:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Wdjwg6vu"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=AqoHi3wB+5NhjIn3E57jwOsqi45ENIQn3s5aha/P3mU=; b=Wdjwg6vuhJgaVcSfmzer492P/7
+	X93o+ya2N1fgNVRPlT99e4PXu/U7sLve9n4Ps0Qjc3cuZfN/ZHxWvzDW6inDBLej99BPnDcPsMlSn
+	7UNy3WBLYF1NFhGW8Y4TVd37I0kza1rhVP4MihEqlW3UupwIycS7oiWC54CrU1lpxrHra3RxipwQT
+	BQmYy+RxBS0oCPt6c/ytU+5MORBsYrdQYcpfge+pbQk5vREh2poYqAI71ssiJ9J8MR4H5EnaS3y6b
+	MX3wBrz9Wr1aebc0PLayOGxx+9Nc1zl00XU0lg7V25Jbs4bTWRSIfGDCqVpMh/Ykvb6vB7Ya8X0Ak
+	1kcW4Zyg==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wzWhY-00FuCT-3B;
+	Thu, 27 Aug 2026 09:47:17 +0000
+Date: Thu, 27 Aug 2026 02:47:11 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: "Luck, Tony" <tony.luck@intel.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"x86@kernel.org" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"kernel-team@meta.com" <kernel-team@meta.com>
+Subject: Re: [PATCH 2/2] x86/mce: Add mce=panic_on_ce_count to panic on a
+ corrected error flood
+Message-ID: <apAEy6c6xuXJXSEQ@gmail.com>
+References: <aoynhOsTCcapwRbl@agluck-desk3>
+ <ao2eT0TWS9EaA28N@gmail.com>
+ <SJ1PR11MB60837D32B5D89336C87280A3FCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260825161625.GAao2_2d3U7xQFgHrw@fat_crate.local>
+ <SJ1PR11MB60839657B965AC3FDA53C186FCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260825191555.GCao3p63v3fXzwa7E7@fat_crate.local>
+ <SJ1PR11MB608315809B99B7194D167D8EFCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260825225202.GEao4ckknyv8nRc8Dh@fat_crate.local>
+ <ao7nGM9sCQyxJvsD@gmail.com>
+ <20260826160934.GBao8PvsM8M-U7XuFR@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260803-hid-ff-input-configured-v1-2-1dc9bbacd88c@gmail.com>
- <20260818120428.2546810-1-ribalda@chromium.org> <2a757d6-c09d-c16c-43df-fe8fab3c1b2b@inria.fr>
-In-Reply-To: <2a757d6-c09d-c16c-43df-fe8fab3c1b2b@inria.fr>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 27 Aug 2026 11:45:00 +0200
-X-Gmail-Original-Message-ID: <CANiDSCubAtxPLft=YF4Cq2aAO9c7ZEe_gYmvSQ5yT8UxGzzSEA@mail.gmail.com>
-X-Gm-Features: AcwNN1Wg35VaoCPidKcyTWNXMAGNl7vbS8U51ZtBOmn-f-e6hSKjRXwP7gyXSqM
-Message-ID: <CANiDSCubAtxPLft=YF4Cq2aAO9c7ZEe_gYmvSQ5yT8UxGzzSEA@mail.gmail.com>
-Subject: Re: HID: add documentation and Coccinelle script for FF registration race
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: dmitry.torokhov@gmail.com, bentiss@kernel.org, cocci@inria.fr, 
-	corbet@lwn.net, hadess@hadess.net, jikos@kernel.org, lains@riseup.net, 
-	linux-doc@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nicolas.palix@imag.fr, 
-	skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260826160934.GBao8PvsM8M-U7XuFR@fat_crate.local>
+X-Debian-User: leitao
 
-[In plaintext this time, sorry for the previous HTML email[
+Hello Borislav,
 
-Hi,
-
-Just a heads-up that this this patch has landed in Linus tree, not
-only in -next:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/s=
-cripts/coccinelle/hid/ff_race.cocci?id=3D225c30812857f47cb42bfd945a15f448f5=
-8e82cc
-
-We should fix it before -rc1 is tagged
-
-Regards!
-
-On Tue, 18 Aug 2026 at 14:08, Julia Lawall <julia.lawall@inria.fr> wrote:
+On Wed, Aug 26, 2026 at 09:09:34AM -0700, Borislav Petkov wrote:
+> On Wed, Aug 26, 2026 at 06:22:27AM -0700, Breno Leitao wrote:
+> > In other words, I'm more interested in flagging that a host is a lemon
+> > than in keeping it limping along half-alive, thus my approach in this
+> > patchset.
 >
->
->
-> On Tue, 18 Aug 2026, Ricardo Ribalda wrote:
->
-> > Hi Dimitry
-> >
-> > Looks like media-ci is not particularly happy about this patch:
-> >
-> > https://gitlab.freedesktop.org/linux-media/users/ribalda/-/jobs/1081279=
-01
-> >
-> > /usr/bin/spatch -D report --no-show-diff --very-quiet --cocci-file /bui=
-lds/linux-media/users/ribalda/scripts/coccinelle/hid/ff_race.cocci --patch =
-/builds/linux-media/users/ribalda --dir . -I /builds/linux-media/users/riba=
-lda/arch/x86/include -I /builds/linux-media/users/ribalda/arch/x86/include/=
-generated -I /builds/linux-media/users/ribalda/include -I /builds/linux-med=
-ia/users/ribalda/include -I /builds/linux-media/users/ribalda/arch/x86/incl=
-ude/uapi -I /builds/linux-media/users/ribalda/arch/x86/include/generated/ua=
-pi -I /builds/linux-media/users/ribalda/include/uapi -I /builds/linux-media=
-/users/ribalda/include/generated/uapi --include /builds/linux-media/users/r=
-ibalda/include/linux/compiler-version.h --include /builds/linux-media/users=
-/ribalda/include/linux/kconfig.h --jobs 16 --chunksize 1
-> > Position variable r.p2 on line 20 must be attached to some other token =
-using @.
-> > coccicheck failed
-> >
-> >
-> > The following change fixes the issue for me... but you probably want to=
- double
-> > check it, I am not proficient at cocci.
->
-> I would also like to improve this, as suggested in a previous mail.
-> Could it be detached from the documentation change?  Then I can take this
-> part and fix it up.
->
-> julia
->
-> >
-> > diff --git a/scripts/coccinelle/hid/ff_race.cocci b/scripts/coccinelle/=
-hid/ff_race.cocci
-> > index 479f5d1e3184..7cf84936db13 100644
-> > --- a/scripts/coccinelle/hid/ff_race.cocci
-> > +++ b/scripts/coccinelle/hid/ff_race.cocci
-> > @@ -9,7 +9,8 @@ virtual report
-> >
-> >  @r@
-> >  identifier probe_fn;
-> > -expression hdev, flags;
-> > +identifier hdev;
-> > +expression flags;
-> >  position p1, p2;
-> >  @@
-> >
-> > @@ -17,7 +18,7 @@ probe_fn(struct hid_device *hdev, ...) {
-> >    <...
-> >    hid_hw_start@p1(hdev, flags)
-> >    ...
-> > -  \(input_ff_create\|input_ff_create_memless\)@p2(...)
-> > +  \(input_ff_create@p2\|input_ff_create_memless@p2\)(...)
-> >    ...>
-> >  }
-> >
-> >
-> > Regards!
-> >
+> This is your use case but I'm sure others would prefer the limping and
+> gracefully saving work the system has done until now...
 
+Right, and I'm making this configurable: users who prefer a clean
+panic over a limping machine can set the kernel up that way.
 
+> Putting my user hat on:
+>
+> +               Panic once a machine check bank has logged this many corrected
+> +               errors. 0, the default, disables it.
+> +
+> +               The setting is global rather than per-CPU, and it is compared
+> +               against a running total kept per CPU and per bank. Lowering it
+> +               below a total a bank has already reached takes the machine
+> +               down on that bank's next corrected error.
+>
+> Ah, so how many CEs is "many"?
 
---=20
-Ricardo Ribalda
+This is a user-configured option; each user picks whatever number
+works best for them.
+
+From a quick look at the Meta fleet, this follows a bi-modal curve:
+a bunch of hosts logging a dozen or so, and a few with thousands. So
+doing some napkin math, I'd say "many" is around 100ish for Meta
+fleet.
+
+> Or you simply say, after X CEs, we simply panic the machine - instead of
+> gracefully powering it off after leaving a helpful message in dmesg - and have
+> lab technicians inspect it?
+
+Correct, that's exactly my approach here.
+
+After X CE errors, we acknowledge that the machine is no longer
+stable enough to keep carrying the workload, and simply panic. It's
+the last resort: it means lab technicians haven't fixed the problem,
+and nobody has gracefully powered off the host either.
+
+Thanks for the review,
+--breno
