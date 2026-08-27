@@ -1,56 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA833264DA;
-	Thu, 27 Aug 2026 17:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42065384CED;
+	Thu, 27 Aug 2026 17:09:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787850556; cv=none; b=K7RO2UBZq0diwXxGNxhFTlbefHpCposCc4S7rz7oIsNZilg3jEV6j+xk712ZoPp/IlCpk2A9QBWnpzrcPDMefw/mhpkcCGlrZ7QnRqO/0FvI18w6PnOPiBeZjrcLmQz9dezBIyYTbYApaPaCa4FZBNan5E5J6DxtYkCpG3DE2d4=
+	t=1787850581; cv=none; b=djXirXBim9m7CcBr24Vr9OB13CP9iEri7szs25PbiSMDh2abKBLHf6pKfPxc3+Ufg9K0KvamWScKtfP7n2bfldMfv4VzUQrkaQH1MFDGydtnXWac89JwoU9c+7nti61pbjj3OTjLXvK5+JXiKeql1m8G7iMYQMenld9vT2PzKhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787850556; c=relaxed/simple;
-	bh=XsgjWEza/jlVxyJ3C6ruuoSk3ktRa5DTQ+KkAq38LYA=;
+	s=arc-20240116; t=1787850581; c=relaxed/simple;
+	bh=4kAGRHdSHxPiOWMZBYv/OUtAGNumoXB3lShsZOeAwc4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QOY8MhG+3KvYDryVBgZewOH6KxqaUpNnykyaW1gpxZGjIJJvVnXy1XaLcJ9B53UA8ZTGTDHpEQCdQgZIkvTbydzVMpazfqoKnVr4A80zX3W5KPaEsoKZYBP1KtlLz/VXTFVXa3Z9Uiw40dWWJLt0uroEzRW9Pg1t4dhEvkjETFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VIqrCKX+; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=PpUZAhRYsf4T21oQmhSm48FfVKhEiVYnDEbEvrtvjODAO5cenmTD3aFSuSL371nZIBNVin0lTYzXGDeeloCPz/nVT2iUlzuxM82TrEMtDcYd6Dnina0Z7MHqIJUpxLhuJ08g9tfA9a0aE1aF6/FrRGH2tG4ZS4Ee4w9h2eeLkVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DC3H611y; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VIqrCKX+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F33F01F000E9;
-	Thu, 27 Aug 2026 17:09:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787850555;
-	bh=pxe2I/QgTe79nkIJa+GTgxKyMaq8Csj03/OYd3xEmvk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VIqrCKX+wTnEtyc/9X0BbcUg6tAVAJ9EMfYxSM8vmU3EhE/Yt5rr5/fOgjMkfh58Y
-	 ets88aLe5ekWPr0NVaExRb/K6efqyMVnP1WMEsDryNmV+aQlHDOzuY7PBBQKFRjjvp
-	 N0HhCHm6ADoqx9YwUov91e6cZ27S8QV7NoSsKmObVbhPbiAtpiAKF4ieKi65jsYzHy
-	 cam03ruaoNkQ67HEdw04GLiXfPvbXcd+9ydohe7v/ysuhRNsDRsuMhOA4TTZO3RDUw
-	 Xu0X0fv/0c+57n3yGziCLiAbmpkxC9ds8YKp/X2jE2yrEvpvlEjyu2d6zqmOcCWciS
-	 Xvl24iyzVJIeA==
-Date: Thu, 27 Aug 2026 20:09:11 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Konstantin Sinyuk <ksinyuk@kernel.org>
-Cc: dri-devel@lists.freedesktop.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Francois Dugast <francois.dugast@intel.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DC3H611y"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 91CB71688;
+	Thu, 27 Aug 2026 10:09:34 -0700 (PDT)
+Received: from localhost (unknown [10.2.196.114])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0218B3F7D8;
+	Thu, 27 Aug 2026 10:09:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1787850578; bh=4kAGRHdSHxPiOWMZBYv/OUtAGNumoXB3lShsZOeAwc4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DC3H611yKNX0DjpwTHyf6vov6Eaz9SY/BvqGSCrwuCCoiadU6Yp0sdnhOagkBEtAK
+	 F3dmVu4Pg6tl9q6ZXOddebq6i4osd41kTf5gsNCkQ5m7Q2wjZT2Fy63vN2tQDYttv0
+	 MAQJhGJBtk95Oa0x/fN7g/rKIGZ+xXDLUnbNEyy8=
+Date: Thu, 27 Aug 2026 18:09:36 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Ilia Levi <ilia.levi@intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/12] drm/fabric: vendor-neutral topology
- infrastructure for scale-up accelerator interconnects
-Message-ID: <20260827170911.GG42790@unreal>
-References: <cover.1787552412.git.ksinyuk@kernel.org>
- <20260826093222.GC42790@unreal>
- <fabric-leon-reply.1787844400.ksinyuk@kernel.org>
+	Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>,
+	Leo Yan <leo.yan@linux.dev>, linux-arm-kernel@lists.infradead.org,
+	coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 09/14] perf cs-etm: Queue partial AUX records
+Message-ID: <20260827170936.GO8904@e132581.arm.com>
+References: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
+ <20260821-james-cs-unformatted-per-thread-fix-v2-9-00c4fd0701b4@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,41 +61,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fabric-leon-reply.1787844400.ksinyuk@kernel.org>
+In-Reply-To: <20260821-james-cs-unformatted-per-thread-fix-v2-9-00c4fd0701b4@linaro.org>
 
-On Wed, Aug 26, 2026 at 06:38:58PM +0300, Konstantin Sinyuk wrote:
-> On Wed, Aug 26, 2026 at 12:32:22PM +0300, Leon Romanovsky wrote:
-> > Tell your AI that this is not how things work in the real world. The chances
-> > of multiple hardware implementations fitting a software model designed
-> > without considering the actual hardware are effectively zero. This is why
-> > successful subsystems have emerged from consolidating support for multiple
-> > existing hardware implementations.
+On Fri, Aug 21, 2026 at 10:49:07AM +0100, James Clark wrote:
+> In snapshot mode AUX records may straddle the boundary of multiple trace
+> buffers. Currently we only queue AUX records whose range is contained
+> wholly within a single buffer.
 > 
-> Fair point. The simulator validates the implementation, not whether the
-> abstraction fits real hardware.
-> 
-> The model was shaped by the public amdgpu xGMI implementation, and the
-> cover letter asks AMD whether it covers their requirements. It still
-> needs validation against production implementations, and the read-only
-> milestone will not be proposed for merge without a production provider.
-> I will fix the wording in the next revision.
+> Fix it by queuing any partial AUX range that overlaps any buffer.
 
-The wording alone is not sufficient. Your proposal should be backed by
-real devices representing different architectures from different
-vendors.
+This issue has already existed before this series, so need a fix tag?
 
-The current proposal is based on a single implementation, which is
-unlikely to be ported to this new framework in the foreseeable future.
-The amdgpu xGMI implementation already exposes the required UAPI through
-sysfs and would need very strong incentives to abandon its "legacy"
-users in favor of this new netlink interface.
+> Signed-off-by: James Clark <james.clark@linaro.org>
 
-The last new subsystem I am aware of was introduced with implementations
-from three different vendors to demonstrate its robustness. You should
-probably aim for a similar level of coverage here.
+Otherwise:
 
-Thanks
-
-> 
-> Thanks,
->  Konstantin.
+Reviewed-by: Leo Yan <leo.yan@arm.com>
