@@ -1,156 +1,228 @@
-Received: from mta1.migadu.com (out-167.mta1.migadu.com [95.215.58.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11023102.outbound.protection.outlook.com [40.93.196.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA0023E324
-	for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 00:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.167
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787788895; cv=none; b=q4ccaMwuGT+GZQezpOVpMG9gENQPQddFxd0NNFm9r/zSYkT8uQFUggP+/hmIza8Y+a46pT4EWnV7RhEN//VAG44ivn8Zht2UUrDzS1KSyZ/YZu6X/w1CT2xTiSKBX48LnGnE5XBAb7WVzqTTv/rtpCu9nwGDbvnW12sgikXCBLM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787788895; c=relaxed/simple;
-	bh=pG+zyDcr41wPY5rZsh7Dk2WwsFc7q1ojUQ0WexYU4FI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f6m5a/sfVqQr/9vFZg6bUp9Ai0+ZaT6vqiXcKeLLNHeu1zBnmqUmI+KGvjmRo9iCX1qO2ZxL48SkMfleqgV6e0Op+LdMFdLvoUBG6SBZW6c2uEQ5rgSnaYUpUVeyIkQhNkuKSQeZ84XBZ5u7jckz/zOxnrANvhNMszbtFMzQFws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OnrMH8UT; arc=none smtp.client-ip=95.215.58.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B6A37DE9D;
+	Thu, 27 Aug 2026 01:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.102
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787794781; cv=fail; b=Mr3cwyBOfC0qNfIeIR90lI6vrq3mMWZLaTKS3kOxwkblZX6f2yObbrlscS3RSbJ8IMXwA+LNJd868L/w/qyTpZw17efLwGSATJ03/g63H1TfqfqT7KTQ8xMqNwAxZX8yBszaNy9YgERdcw0jwe+5enHXbdJDBLX2J0yiFucKRKY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787794781; c=relaxed/simple;
+	bh=mYfS2nE/M+SUeWjoUsDytITbCI52hGyeIEZd3Jo3noQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=md0VDS+WmHCkBvBmXMWYkq53baolix70Y7JafqsDQOokcZFeHp4gl5RZCtA8Itu8JuKn15QgyK82h4sUqGowXNoTEcJ658FEtQPb0IPuJaO/uN4DSLMxhwNSCyOf/aHHHPZtiLntS+Ns2Z7lczvRCh88LcNKKmf8FTJXPHmBuOE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=SNWX87za; arc=fail smtp.client-ip=40.93.196.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=rambus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OnrMH8UT"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=pG+zyDcr41wPY5rZsh7Dk2WwsFc7q1ojUQ0WexYU4FI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787788892; v=1; x=1788393692;
- b=OnrMH8UTvZ3WmdgAwHDvgF8PqoHHp5t1ozf8FXWTKiOmyTdKTQHB/LujXxdoxp0fO87KNz91
- bbQzpZ4vAS0xH68ZejMQ6NTiRvK79N/nM0j54e7D4NJUjXq/r/9+8gILDWfsyjmx8stm8KG5RW+
- X5kkFJ+d8z9Mr9/DcdMaGjaA=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: from dragon-master.speedport.ip (2003:fc:df23:7abd:c598:7cec:94a0:927b)
-	by smtp.migadu.com with ESMTPS id 2c6467ffe6f12a37;
-	Thu, 27 Aug 2026 00:01:32 +0000
-X-Mizu-Trace-ID: 2c6467ffe6f12a37
-X-Migadu-Flow: FLOW_OUT
-From: Md Haris Iqbal <haris.iqbal@linux.dev>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Md Haris Iqbal <haris.iqbal@linux.dev>,
-	Christoph Hellwig <hch@lst.de>
-Subject: [RFC for-next 3/3] Documentation: block: document error injection delays
-Date: Thu, 27 Aug 2026 02:01:15 +0200
-Message-ID: <20260827000115.128093-4-haris.iqbal@linux.dev>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260827000115.128093-1-haris.iqbal@linux.dev>
-References: <20260827000115.128093-1-haris.iqbal@linux.dev>
+	dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b="SNWX87za"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hbccSSNepk+BWXk9A6Y3KDchkYaB4ErSeVntLNuEPThbuDL02XEGAsGe/YdjjkEtpPvTp5tvxRYtCrrTxsSPVBLru5qyEeFEK9y/w8PJaxDQNISYPGHoz8fye8WjRCfmbtdDMM4GDv9U/9qV5XrHjfpJ3Mnx4pcGfsJb04uHRbgs/In/ab3OLXsPta5L1xi80mhPbRUcTwF/uFc1OaTfiX59xNz1kxo/evkCaWBvhc0Ivb/PkXvT4ILloxtBe7eJI3PepETPEeyvOuoMGaypALT9TrzVXb8JnAZ0ugsTg87MNfaBIoyMniiH8hRDY6k9IFmtkwfdE6sSTWSoE2qfQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BVTiGxzYlNQWq6/ZJYHk9v5r1py2KJW8WpZdrs6dX5U=;
+ b=zRnrQYrAszzYOCjhV6j1QZLixvQdYDRG2nQ0uhM1Z7uOmSME0fEG4anYR0zclS6jzHRIl8ZiNKharIg8AuCIfLOO6DIfnc5QIJaAcVOcFrJBb/Msky9Bmf5mdmPHNPRfcfaApVVKRk7kpiDbHoCEoR7spsenLvBZeiBTuT4i+BY43YV1Vne3PtuV1DsSu4NqNBJC3rxG+3B5LJLZn8huf4Fsu8YsSajRSrruo1T4uqPLIIN/kIRVBfyqfB7Qo+kVfHFQGeko/AHpZwFoYe37QizGMDWrpgskAhskTcVrmhSfnEor0eNP+pPqrLGrMkF1FVusWN/tLoF31k6ZeniOHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=rambus.com; dmarc=pass action=none header.from=rambus.com;
+ dkim=pass header.d=rambus.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BVTiGxzYlNQWq6/ZJYHk9v5r1py2KJW8WpZdrs6dX5U=;
+ b=SNWX87za0eeVp/2iFgyGEy9SW6odGVSeQE6Y2qI14xC/MLk0XcwCI8oncUHUaP21V5vJXSWqDMpqEb33kIz+YaUn2jPgJLoUfsPOF2/HB1LxbNBvxeaUzEmJnAa7ybAqu6LJ3V9W/MYRYcizWS8cv/JyTHeECvGuA1cGCydlp8kadvmwa4FMqBsLBgHduRAxHnW9wmS1BXa3Xq0sDmu8ycYvmBd8wCCwcWp4zNGp8ReaA4HCTERIuXi1HgVgv9WF9RtHIU1nzGR66reWTx/ddp/z3Yy7VZ4jT4VrBmHi606ZudtyIYxCt3czIOktwQ3OajqvGmOSopwo2ay6MCbg0Q==
+Received: from SA3PR04MB9001.namprd04.prod.outlook.com (2603:10b6:806:398::17)
+ by MW4PR04MB7362.namprd04.prod.outlook.com (2603:10b6:303:7d::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.7; Thu, 27 Aug
+ 2026 01:39:35 +0000
+Received: from SA3PR04MB9001.namprd04.prod.outlook.com
+ ([fe80::3da3:45d7:8860:e196]) by SA3PR04MB9001.namprd04.prod.outlook.com
+ ([fe80::3da3:45d7:8860:e196%4]) with mapi id 15.21.0360.008; Thu, 27 Aug 2026
+ 01:39:35 +0000
+From: "Ousherovitch, Alex" <aousherovitch@rambus.com>
+To: Conor Dooley <conor@kernel.org>
+CC: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>, Herbert Xu
+	<herbert@gondor.apana.org.au>, Jonathan Corbet <corbet@lwn.net>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul
+ Walmsley <pjw@kernel.org>, Rob Herring <robh@kernel.org>, "Krishnamoorthy,
+ Saravanakrishnan" <skrishnamoorthy@rambus.com>, Shuah Khan
+	<shuah@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "Wittenauer, Joel"
+	<Joel.Wittenauer@cryptography.com>, "linux-api@vger.kernel.org"
+	<linux-api@vger.kernel.org>, "linux-crypto@vger.kernel.org"
+	<linux-crypto@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>, Shuah Khan <skhan@linuxfoundation.org>,
+	"Nguyen, Thi" <thin@rambus.com>
+Subject: RE: [PATCH v4 01/19] dt-bindings: crypto: add Rambus CryptoManager
+ Hub
+Thread-Topic: [PATCH v4 01/19] dt-bindings: crypto: add Rambus CryptoManager
+ Hub
+Thread-Index: AQHdNN9i2B1OC8UL1keFfzcIplhRvbawj4wAgACQXVA=
+Date: Thu, 27 Aug 2026 01:39:35 +0000
+Message-ID:
+ <SA3PR04MB9001B48FBE7B7C3EB81C5338D7AD2@SA3PR04MB9001.namprd04.prod.outlook.com>
+References: <20260825221539.255951-1-aousherovitch@rambus.com>
+ <20260825221539.255951-2-aousherovitch@rambus.com>
+ <20260826-unwritten-marshland-47cdf3c17cad@spud>
+In-Reply-To: <20260826-unwritten-marshland-47cdf3c17cad@spud>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+dlp-product: dlpe-windows
+dlp-version: 11.11.2.117
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=rambus.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA3PR04MB9001:EE_|MW4PR04MB7362:EE_
+x-ms-office365-filtering-correlation-id: 3fea77f4-f49a-43fd-c054-08df03dc0ce6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|366016|23010399003|1800799024|10067099003|56012099006|4143699003|6133799003|11063799006|5023799004|3023799007|22082099003|18002099003|38070700021;
+x-microsoft-antispam-message-info:
+ 9mVAzxR17869f0SZxTyWxmvA6PppKY+mG9kR01yHN+L8hEclMAAyY28f+Ete95ZRC51DK0Lw6pOfdiAp2khmUVBvOfsm1knsIUkq0GgGB6eKn53EuuPc1ee2fPujANkhsPKPHAdm851wmlyshJnBrUFHOYZeliXt3V6NPnaHbwSaRzKLMT987JAMSTAbHlpola8t21ks22On1W3Fez0FYN168n1yI1nzvHcAVIMdLWZVldnlCSPvnasybAZnV5SJITCazxu69UyTTGhaBJYj/syZJ/njXTPG9QSUI1ZCmJkpB7LgGk3Al21uantE4130KP565o33xZgRKJhjJrsWJ033gf49JtVC+a7kqltKiZKMwOA4djRdnDX6lCQYLDeOFDmm0ZBXXUHSghpxvBO0BWeuuxjBnvAjGxmtCpJIFWldT5F/XIo5k70LLHGPFL3lLmwO2uwUM8G+tooywV6rzobQA1k9MwdnrdJZBHPDYi/HArV5cxY6mii6p8TYynFIzcJdYU2k7BQ0wz+cjtAOEFbL2ViRvee8w5G9+2D6hIXV4F0Uuo+FW1G4G11hftmtzVP/DCQHTMfqcl8sv19/IdAmCBR7pSFzM67ditf3/x16ayI+SXWCB1Az/WsAu0qWeLOqPDLGb5fNAWKge1vI6vbweAptA7T5f+J2dsPlo6jtOf875eLFaC+jxirAfVYbRHiRbmJZT/upEunv370o6KFjykrcwi1D5bDoPZRW/jQ=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR04MB9001.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(23010399003)(1800799024)(10067099003)(56012099006)(4143699003)(6133799003)(11063799006)(5023799004)(3023799007)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?qvYqd/e48d+O+liLZdE1jpIPF0ZDA0ltFxLM2FGt15KcRBuIN15ophOS2GF3?=
+ =?us-ascii?Q?X5s0qLotMgmE/5XjKcIbY/UIFVDe/Kk5ZeHpouB6Qd9sib1GaKxfZ+rlFfwO?=
+ =?us-ascii?Q?vaDvIfm9BEke7DqMnN7pn+huoj6JdLWGc8hzshQCV1OFFgKpiF/C0zcDVQ4k?=
+ =?us-ascii?Q?vWwNVx/she0wCmDTx2xiG5iQOETM/9gpBu00YrtYEU8qvjbv4UM6hGazGmpS?=
+ =?us-ascii?Q?b0vUV8IgR9IkRv0zzPmWpnnweEspqa49tKA6CGlDLPZAvEjzegUa455bM4KQ?=
+ =?us-ascii?Q?JxOvDGL13N2zniAh8pXt0KRcyl4mKwSotEvg0M6OFpCq/lgV0nXpsVeV58q+?=
+ =?us-ascii?Q?APgo9WlPhWMguyyPb2GWO9jQwg4M97UknPeGVwcff5SXSTranBhU58/tLOmW?=
+ =?us-ascii?Q?hEh2ewI3spFcoAJ4PTgc3w22sXmC8VhaES3KEnK/Y78zdu2U1Rvb45ytwge2?=
+ =?us-ascii?Q?CCrclraxrRWZ9hlyORJya8XCPBJmAPUHom4hbawFNMFzZDN7ztaegPmsPTS/?=
+ =?us-ascii?Q?OGOJMS/hPl67o4arpcxn/Ud8EmkyjS/+SVo/l3GDWyyDtgD8WOta5FgTNElt?=
+ =?us-ascii?Q?ZutuFB1t1NIcjZaUI+QmkjoNZ1XGpC80F9swEWdOQ1D+v/B+XxhWOAsuEsFO?=
+ =?us-ascii?Q?uesQ4/ELYWSjS2MnQeSm6EhvPIxDL3f1RUp8qOQJHsAcmzqX/yx54ha9I7lp?=
+ =?us-ascii?Q?iPq9/nX0duET8l+zePX810DYzcnKdT7nFcfyTkXBbcvW0GS7tLyY4/wxvEhU?=
+ =?us-ascii?Q?eW38VtxCvLZ2UU+sAi/xT48dlk/hv4nX7DNU5OWbaUIm1GdCBgC5iPH48ArO?=
+ =?us-ascii?Q?b4p7XcNvLGR9Ff+EAyV/xfeFrRP8IcHmvM94tgLbgxSTsc+XSSYuzkRJI4/y?=
+ =?us-ascii?Q?VIFCNvVCf2zuJKNzsDURVep0yqmem9lc9kX+EIo5M7riR6UPu5SiI5b+B0h+?=
+ =?us-ascii?Q?86YW6mRX9iQ1No2GgXwnuqYE9xJRVxkbYycY6ZYmx6/geSg18Nh5PjHKkHJP?=
+ =?us-ascii?Q?5zmJAYHlpD6+MJnFw8ZUUjKy6Si/JwQLIk2FWux9zuHGsT4x4JyveqKoIkc0?=
+ =?us-ascii?Q?giW2+qfTE61qFOECsw3+FD7mUdJNbxaRG6qebmgt82uLV7ODyMxTYz9qRCbL?=
+ =?us-ascii?Q?jizFs3feyVSuoruZtmNVeju/SN9TxMH9sdDnhOXWbe7wGnaN2YrUa7fMsXnZ?=
+ =?us-ascii?Q?gc6xviwz7a1s8dKyqEDNlYa42NgiO0hrnaxdrPvmj5yY83v1G0HEW3+KoBSX?=
+ =?us-ascii?Q?2ASU3SfWnnJoVD0wqgVbm1zr+o3FyfRdkRhSo2F/jGec316ZP7MCgHNXHCpn?=
+ =?us-ascii?Q?U+hJTduIHFgnTpWZAjw0qGxX24MANY0rTWYTE00DL+jQHhQDBzWOP+PTgWMD?=
+ =?us-ascii?Q?QOzPiwNN3cRKuE0hJyiPX1YX0Y16f2KRPYRFWdjQyOhiQeEK5Ei0C5J5uDsJ?=
+ =?us-ascii?Q?GFdHUPJVW+Wew330Hbon5kLzTBeQfaOmGVzMURQ5wkMphIVT7f8kMLg1XlQ9?=
+ =?us-ascii?Q?vPld7a4PIppGqPI5n00izb51aOUvo+R+b2+X8rrN21AOuBxLMSFlrtyrRrWv?=
+ =?us-ascii?Q?ynsliM+CUfU0gcQhKHrICFgK2JxdNWuNhUJr8OfPknzKgFqnxfk2vhvUpb7W?=
+ =?us-ascii?Q?KQgYl8z+KUw/BUKRtQroAUwiiZjpLmdaxTeANpYmTAEjqDqsuQncLu5t69Ix?=
+ =?us-ascii?Q?3/sCK4E8tFBcooPUV0lGKlIcK4HfisjwqcgRnJLnJBzsKOz19me7QxzG2NTH?=
+ =?us-ascii?Q?OJA/iC3c5g=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: rambus.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR04MB9001.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fea77f4-f49a-43fd-c054-08df03dc0ce6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Aug 2026 01:39:35.3798
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 8tYt1OmGwIEtn+qheYJR5nr0U8yX1fTsmUygluFGmUUNycjjJ1iTbv6m3msnobqaaXgQEOxs1/SStTqKP1Xo976YyU7E8Kj0oFdEAGd9NYU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR04MB7362
 
-Document the delay_us option: the delay happens above the driver, a
-delayed bio is not run through the rules again, and holding a bio back
-reorders it against bios submitted later.
+On Wed, Aug 26, 2026 at 06:02:16PM +0100, Conor Dooley wrote:
+> On Tue, Aug 25, 2026 at 03:15:20PM -0700, Alex Ousherovitch wrote:
+> > +      command ABI).  A specific SoC integration should list its own
+> > +      "<vendor>,<soc>-cmh" compatible first with "rambus,cmh-v1030" as=
+ a
+> > +      fallback; that extended form will be added when such a platform =
+is
+> > +      upstreamed.
+>
+> This commentary should just not be here.
+> Instead, do what's been done in sifive,clint.yaml for the clint2.
 
-Cc: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Md Haris Iqbal <haris.iqbal@linux.dev>
----
- Documentation/block/error-injection.rst | 56 ++++++++++++++++++++++++-
- 1 file changed, 54 insertions(+), 2 deletions(-)
+Will do -- I'll drop the prose and model the compatible on sifive,clint2
+so the schema itself requires an SoC-specific compatible ahead of the IP
+fallback:
 
-diff --git a/Documentation/block/error-injection.rst b/Documentation/block/error-injection.rst
-index 81f31af82e65..54490c23cde7 100644
---- a/Documentation/block/error-injection.rst
-+++ b/Documentation/block/error-injection.rst
-@@ -9,7 +9,8 @@ Overview
- 
- Configurable error injection allows injecting specific block layer status codes
- for sector ranges of a block device.  Errors can be injected unconditionally, or
--with a given probability.
-+with a given probability.  Instead of, or before, failing a bio it can also be
-+held back for a while to model a slow device.
- 
- To use configurable error injection, CONFIG_BLK_ERROR_INJECTION must be enabled.
- 
-@@ -34,15 +35,58 @@ op=<string>		block layer operation this rule applies to.  This uses
- 			the XYZ for each REQ_OP_XYZ operation, e.g. READ, WRITE
- 			or DISCARD. Mandatory.
- status=<string>		Status to return.  This uses XYZ for each BLK_STS_XYZ
--			code, e.g. IOERR or MEDIUM. Mandatory.
-+			code, e.g. IOERR or MEDIUM. Mandatory unless delay_us
-+			is given.
- start=<number>		First block layer sector the rule applies to.
- 			Optional, defaults to 0.
- nr_sectors=<number>	Number of sectors this rule applies.
- 			Optional, defaults to the remainder of the device.
- chance=<number>		Only return a failure with a likelihood of 1/chance.
- 			Optional, defaults to 1 (always).
-+delay_us=<number>	Hold the bio back for this many microseconds.  Without
-+			status the bio is then submitted to the device as
-+			usual, with status it is failed once the delay has
-+			expired.  Optional, defaults to 0 (no delay).
-+			Values above 600 seconds are rejected.
- ===================	=======================================================
- 
-+Delays
-+------
-+
-+A delayed bio is held before it is submitted, so the device itself never sees a
-+slow I/O: the delay is not visible to the driver, to the I/O statistics, or to
-+anything else below submission such as writeback throttling.  Throttling by
-+blk-throttle happens before a bio can be delayed, so it is not affected either.
-+What it does exercise is everything waiting above the block layer, for instance
-+io_uring cancellation, hung task detection, and filesystem or userspace
-+timeouts.  Because the low level driver is not involved, a delay does not reach
-+the blk-mq timeout handler or SCSI error handling.
-+
-+Once its delay expires a bio is submitted below the injection hook, so no rule
-+is evaluated for it a second time.  A bio that matched a delay rule therefore
-+never gets an error from another rule, even one covering the same sectors.  Put
-+the delay and the status in a single rule to fail a bio after holding it back.
-+
-+A delayed bio is issued after bios submitted while it was held, which reorders
-+the I/O stream.  On zoned devices this breaks sequential write ordering: zone
-+write plugging happens below the injection hook, so the writes issued while a
-+write is held reach the zone out of order and are failed as misaligned.  Only
-+delay reads there.  For the same reason, delaying one half of a split bio
-+issues it out of order with the other half.
-+
-+Bios that must not block are never delayed.  A bio with REQ_NOWAIT set is
-+submitted, or failed with the rule's status, immediately.
-+
-+The delay is a lower bound for anything longer than a timer tick, and the timer
-+wheel adds further slack as the delay grows.  Values shorter than a tick are of
-+little use: they expire on the next tick, which is anywhere between now and one
-+tick away.
-+
-+Removing rules does not release bios that are already being delayed by them;
-+those run out on their own.  A delayed bio whose disk is removed in the meantime
-+is not submitted until its delay expires, by which point the queue no longer
-+accepts I/O, so it fails with EIO.
-+
- Example
- -------
- 
-@@ -54,6 +98,14 @@ Return BLK_STS_MEDIUM for every write to /dev/nvme0n1:
- 
- 	$ echo 'add,op=WRITE,start=0,status=MEDIUM' > /sys/kernel/debug/block/nvme0n1/error_injection
- 
-+Delay every read of /dev/nvme0n1 by 10 milliseconds, then issue it normally:
-+
-+	$ echo 'add,op=READ,delay_us=10000' > /sys/kernel/debug/block/nvme0n1/error_injection
-+
-+Fail one in 100 writes with BLK_STS_TIMEOUT, but only after 30 seconds:
-+
-+	$ echo 'add,op=WRITE,status=TIMEOUT,chance=100,delay_us=30000000' > /sys/kernel/debug/block/nvme0n1/error_injection
-+
- Remove all rules for /dev/nvme0n1:
- 
- 	$ echo 'removeall' > /sys/kernel/debug/block/nvme0n1/error_injection
--- 
-2.53.0
+    compatible:
+      items:
+        - {}
+        - const: rambus,cmh-v1030
 
+Since that makes the two-item form the only valid one, I'll also move the
+binding example (and our test DTs) to it, using a placeholder SoC-specific
+compatible under the now-registered rambus prefix, e.g.
+
+    compatible =3D "rambus,<soc>-cmh", "rambus,cmh-v1030";
+
+and swap in the real "<vendor>,<soc>-cmh" string once the first integrating
+platform is upstreamed.
+
+> > +      rambus,cores:
+> > +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +        items:
+> > +          enum: [0x02, 0x03, 0x04, 0x05, 0x08, 0x09, 0x0a, 0x18]
+> [...]
+>
+> You could just make this a string array, and then you'd not need this
+> mapping of unintelligible hex values. Of course then your driver has to
+> do it, but I'd rather see understandable (and portable, since a new
+> revision could change the IDs) values in DT.
+
+Agreed, that's clearly better.  The next revision makes rambus,cores a
+string array and maps the names to core IDs in the driver, so the
+numbering can change across IP revisions without touching the DT:
+
+    rambus,cores:
+      $ref: /schemas/types.yaml#/definitions/string-array
+      items:
+        enum: [hc, aes, sm4, sm3, hcq, qse, pke, ccp]
+
+(keeping the affinity semantics in the description -- a core appears on at
+most one queue, unlisted cores are load-balanced -- just without the hex
+table.)
+
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - "#address-cells"
+> > +  - "#size-cells"
+>
+> Surely clocks are also mandatory?
+
+They can't be mandatory for this binding -- there may be no clock provider
+for the node to reference:
+
+- CMH is shared between hosts.  The SIC presents up to four host
+   interfaces; a designated management host owns the privileged
+   configuration (clock, reset and power) while the other hosts are
+   granted only a subset of mailboxes.  A node describing a non-management
+   host therefore has no clock/reset provider to point at -- those lines
+   are driven by the management host or an SoC power controller.
+
+- Even where a provider exists, only the main "core" clock is always
+   fitted; "core-div2" is present only on builds that include the
+   side-channel-protected slow cores, and "rt" is the real-time tick,
+   which is why clock-names is a oneOf of subsets rather than a fixed
+   list.
+
+So I'd keep clocks (and reset-gpios) optional.  I can add a one-line,
+hardware-framed note to the description if you'd like that rationale on
+record.
+
+Thanks,
+Alex
