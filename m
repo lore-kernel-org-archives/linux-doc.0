@@ -1,59 +1,44 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5064380FF7;
-	Thu, 27 Aug 2026 17:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9322305674;
+	Thu, 27 Aug 2026 18:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787850935; cv=none; b=NSfB5kT5YOcGAQ54myvyNLzhdgjreVyZVQ9xQomrWgEo+9BCSUwKQHSOu9mBNGMMKjhWnAyr/wXEH8XgUXCw4ihze0bHCJ/8MoFYuFNwmphU9NbaOLZLdXSoTPFY3PMY8bt0+HX/ujDTgFn/Rjc8S1ahpZniPLlSvt9ndl1l4hE=
+	t=1787853980; cv=none; b=MfPck+6IO4Hx6SgrSdhVA0m+xJHy40Q4xI/FkCl8Nq3ptBaey3Vn0nzn0G8zgr9b168lYafo0o/ztSpkqyF522IkGnEtxK1YTo5tJeUMfrDxhMTOo/j5jK8IwgO/Wtxcniie3SL7YwLLV/kCfO9Gk0Prr2j1wA67vHdwgKXHTC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787850935; c=relaxed/simple;
-	bh=WpasPaJ9xcduX7UHA5UZyCSC91SDyBuKj0LkeZOtSOo=;
+	s=arc-20240116; t=1787853980; c=relaxed/simple;
+	bh=AhKY/CrS56Gdz0tAHFL9cTprEA5T+TJQYnxim6ftHYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hy9Mi2GEyhwVX9xWFJkBzLePGxcv0mpsTY/UeKms2Y9H6TMSJjNT4TKHtIMvI6gnxCvTzCGcv1uLabLYXK5YKcFOeM8y5XMRKxje/yCqGcW/7y60XFArf+VaXKqbe7OUBFcSBCG6LzJWa6gpAJfymjlraf2JfQw17zq03mfJCvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=LOTKxzn5; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fFmQyo/TsHC3IVppK1w1nXrcFMC344ew30YpR/QrbY9r7sFRy4ZLa9++iteXq3wzP6DOOnabRQj6EscV2WBSNip2YSHi5nOI/FIzRL4LPwwHfzxSGH586Z45n2oliJtEl7spjdGYwqneHam2oJYb8Lz/hJGodnfje7gKtALbmaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d76v9w0P; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="LOTKxzn5"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9D27D1596;
-	Thu, 27 Aug 2026 10:15:28 -0700 (PDT)
-Received: from localhost (unknown [10.2.196.114])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F25713F7D8;
-	Thu, 27 Aug 2026 10:15:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1787850932; bh=WpasPaJ9xcduX7UHA5UZyCSC91SDyBuKj0LkeZOtSOo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LOTKxzn5p/AkoQJ7PBJNwSjNBSp8gpcXK73cXC0GhcHQ6r7k7r0mc8F/jsyM0AKRY
-	 /QwQz5TQClQsVnglpZUdMghT+ZoX+cLrL1OJofm3+aP+ynWJxyVKYCzYRupw1mek1o
-	 U62qjMsG0smeawdJO85xjKR2OsachZzARvxRRaW4=
-Date: Thu, 27 Aug 2026 18:15:30 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>,
-	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>,
-	Leo Yan <leo.yan@linux.dev>, linux-arm-kernel@lists.infradead.org,
-	coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 10/14] perf cs-etm: Don't print missing buffers in
- snapshot mode
-Message-ID: <20260827171530.GP8904@e132581.arm.com>
-References: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
- <20260821-james-cs-unformatted-per-thread-fix-v2-10-00c4fd0701b4@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d76v9w0P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EFFB1F00A3A;
+	Thu, 27 Aug 2026 18:06:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787853979;
+	bh=TEewTLCll1T3j7ifs0LSey6suBIGLeb44gYkoX8XVTA=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=d76v9w0P5F6w7iZ3ZAIk2OTCMO6qVxuobc3+ZXSbOu1GBycu5/nnzT6Olv50IJSsv
+	 6piWjGuBA8j1wMH9B7mNqAp8xU9DH78Ue5EaG7vQ9l8/5gxRSwOktWUUJhalz/fFWL
+	 tmKYr0BAK5uy3520R1NlgCtvq71+grWKfpPYFr6W68lAJB8PvBTVdj2CK7kgMbyRaH
+	 iXi7lYGAXJnZur/d3y1VpUb7i6OZdcMHTPOJxvj0h3FYTohXk0Tlv+fjClCGXpg+4A
+	 lNumLWbZg/cqy8KeEbOjBOO/CeyHOZ+f9MVb6lD8RYHHsFwn88oqTUA+ngFuw3rB16
+	 0t5mHfrgc5ikQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 0A6E8CE1496; Thu, 27 Aug 2026 11:06:19 -0700 (PDT)
+Date: Thu, 27 Aug 2026 11:06:19 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Costa Shulyupin <costa.shul@redhat.com>, rcu@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v1] doc: RCU: Fix typo
+Message-ID: <3c85f35b-6867-4b16-9f22-20e8e7a5c094@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20260827090506.1172620-1-costa.shul@redhat.com>
+ <9f2abc12-a3c0-482a-b5d4-57b129db10fa@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,18 +47,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260821-james-cs-unformatted-per-thread-fix-v2-10-00c4fd0701b4@linaro.org>
+In-Reply-To: <9f2abc12-a3c0-482a-b5d4-57b129db10fa@infradead.org>
 
-On Fri, Aug 21, 2026 at 10:49:08AM +0100, James Clark wrote:
-> The driver produces lots of AUX records for trace data that was never
-> captured in snapshot mode. Downgrade this to a pr_debug3 message as it's
-> only an error in normal mode.
+On Thu, Aug 27, 2026 at 09:37:11AM -0700, Randy Dunlap wrote:
+> 
+> 
+> On 8/27/26 2:05 AM, Costa Shulyupin wrote:
+> > strategem -> stratagem.
+> > 
+> > Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+> 
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Thanks.
 
-This reminds why we should use circular mode instead of snapshot mode,
-so that redundant AUX records can be avoided directly in the driver.
+Hand-applied, thank you both!
 
-> Signed-off-by: James Clark <james.clark@linaro.org>
+Costa, your patch's headers say "Content-Type: text/plain; charset=true"
+which "git am" does not like at all.  I hand-applied this one because
+it is quite simple, but please fix your email setup.  If this patch had
+been at all complex, I would not have risked hand-applying it.
 
-For this patch itself:
+This line is normally:  "Content-Type: text/plain; charset=utf-8"
 
-Reviewed-by: Leo Yan <leo.yan@arm.com>
+							Thanx, Paul
+
+> > ---
+> >  Documentation/RCU/Design/Requirements/Requirements.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+> > index 8101fe6229d5..b10e0484ae13 100644
+> > --- a/Documentation/RCU/Design/Requirements/Requirements.rst
+> > +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+> > @@ -1442,7 +1442,7 @@ periods:
+> >     corresponding CPU's next scheduling-clock.
+> >  #. CPUs mentioned in the ``nohz_full`` kernel boot parameter can run
+> >     indefinitely in the kernel without scheduling-clock interrupts, which
+> > -   defeats the above need_resched() strategem. RCU will therefore
+> > +   defeats the above need_resched() stratagem. RCU will therefore
+> >     invoke resched_cpu() on any ``nohz_full`` CPUs still holding out
+> >     after 109 milliseconds.
+> >  #. In kernels built with ``CONFIG_RCU_BOOST=y``, if a given task that
+> 
+> -- 
+> ~Randy
