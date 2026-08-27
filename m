@@ -1,281 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F2035294E;
-	Thu, 27 Aug 2026 04:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A952F7445;
+	Thu, 27 Aug 2026 04:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787804211; cv=none; b=gXZvozh8ShMVGSRrEhM32L7p3UlfCIQlYezTSqiMKA/3ybQzsEdTz5Mgq23YUNln9s5eoMfkLRUgSJHoR5U14/kRinJOEorUIboHDjp3ALxUwIDuMe/kRJKqMZXcP0AUs/ygWdupeeu9kjTnzgc1k4lTsfkA7Z1f4tZSFjQcn/E=
+	t=1787805271; cv=none; b=RVtcjozx1iGa70eHFORjM4oRaLpk/22ceVo+xNLgnvimqvzItIq1Kwmp75P+uU39ifjYfGtaiYQF79JbMtFz6oxNFb3HAalwY64ZPdfe7DnAlLQ5cuapFGahM1LruwEw8KYkrwWzTjjbSfo2f8SKrc7C3uy6q9fSOzN8RYLLD7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787804211; c=relaxed/simple;
-	bh=PPd9OCYVQWioAWIApaXxZnX+PdFhu/b8He2oPGx31FI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iQ233/G6mHict9Dr0+n89EeYzVm1mdE+ZKI39p/eZ4GKNdvMvqXHckSBbpjslqWo7zoNDu06qS0wfPg1GsW4wc3uLRFk05iOgIWHXWVQ2gHKWkZy20ycaRTUvRrYnbxbSNS6ppBuGtP/uLI2+u8uX2W2gm6ObecsJ2eeLYzvHNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GTVlKS7+; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1787805271; c=relaxed/simple;
+	bh=Xr2YAmCQGQtyvAfz5tyUYMYX/2JBvSP9WNi2BFs0z+o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b8N1tMPgC+Oj0Ob7PVUJU/VVGAThNqAfZ2pWYTquNerW1CRvCZ18RyZ1jc7P6QrzmtnL1ovB24VOEa6QvwTkOvk6FDRMWfNCrH60NTwHy3rmusEYVmULh4xXE9XsJvfX9ic/0FX0CLz+YBdrHQPiAp+FgYPNChwxP/BCvSzsnzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=meCw09th; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTVlKS7+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="meCw09th"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787804209; x=1819340209;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=PPd9OCYVQWioAWIApaXxZnX+PdFhu/b8He2oPGx31FI=;
-  b=GTVlKS7+7i8fosjvm9veKdO4nYHgqVF8FpeAT3Fv6x2AFZEScoTsMyvA
-   6LV9tF7D/Am5JTWrc/iig5xzqm0yYbe3oUaMt6yuoUSyF+5e1Q9iS2ghB
-   4RnODdWYx1oKCQj3o4uU32f8lquublmoWUfEZ3LQuFGeF/MvaZMkudOXd
-   I+6v8KIYhnIluerF7EN48tPVlyED3b8SnlManpvbUiM2Wj5pzq3GnHBbD
-   ULUMl9nRpNSuvZil1xuifkpsjKGy5/nRios3ufVkTPbQXunEgSp28WYxu
-   gV/mzS5nYbgIFLG2825f+JIYeoVUT3AwBNHmGNwI5dHc99GHXbFhWWTJP
-   w==;
-X-CSE-ConnectionGUID: E5hVDeM3RtywSTONk1AkCw==
-X-CSE-MsgGUID: 15wyR0MgRm+6NMdRXTksIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88217800"
+  t=1787805270; x=1819341270;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Xr2YAmCQGQtyvAfz5tyUYMYX/2JBvSP9WNi2BFs0z+o=;
+  b=meCw09thLe8tpZwZ74giYRGtyeGLzWIFmxWi/MeHwZTUX5KfT+vH/a1D
+   1JUiaxVVTS0qVpwdgmiYjjtsYZ/juXNYkT+HQtAR6brKmV8LbquQq6cBZ
+   XIwXt6oNCsXO0vLyXMmqqMpB4flpMaU29WQelopK4HQJn2SPKS9bvlDz5
+   ruAKISVF3N84rzN0HtgbxfdWVP4WNeQOK1ny/dx6oMPDU2OuODljr0x06
+   //hxR3FLRsu5/3G3kAdwy8AjMYzdthRIj5ErvXIv40OUe1PAWHA9OTwLo
+   t7XjyHL5ERXLFgjr0qOoC8D39Gj1k33RApePoX6xleR+t1JRwMfb+KY7R
+   g==;
+X-CSE-ConnectionGUID: +b5wgn7rTAu98IPXLJPB/w==
+X-CSE-MsgGUID: G2Anc8E3TGqgBUakQE0d/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="75839220"
 X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
-   d="scan'208";a="88217800"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 21:16:48 -0700
-X-CSE-ConnectionGUID: j4HmHifpRkaYKt3Spy6hAg==
-X-CSE-MsgGUID: TWOqt7CuS6+Ecd21Q2PyIQ==
+   d="scan'208";a="75839220"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 21:34:28 -0700
+X-CSE-ConnectionGUID: rV3cStscS/aNLMyWraRS+w==
+X-CSE-MsgGUID: WvkBd7g8TtuwCi4hAeOL8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
-   d="scan'208";a="265970683"
-Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Aug 2026 21:16:46 -0700
-Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wzRXf-000000008tJ-38aW;
-	Thu, 27 Aug 2026 04:16:43 +0000
-Date: Thu, 27 Aug 2026 12:15:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Sebasti=E1n?= Peyrott <speyrott@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] hwmon: Add Minisforum UM780 XTX EC monitoring and
- fan control
-Message-ID: <202608271258.TPpO3tyX-lkp@intel.com>
-References: <20260825184107.355980-2-speyrott@gmail.com>
+   d="scan'208";a="269701976"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.124.240.119]) ([10.124.240.119])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 21:34:14 -0700
+Message-ID: <a151b52d-0afb-4b32-a871-4da67210f416@intel.com>
+Date: Thu, 27 Aug 2026 12:34:11 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260825184107.355980-2-speyrott@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 09/41] KVM: guest_memfd: Filter both shared and
+ private when invalidating
+To: Sean Christopherson <seanjc@google.com>,
+ Ackerley Tng <ackerleytng@google.com>
+Cc: Michael Roth <michael.roth@amd.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ "David Hildenbrand (Arm)" <david@kernel.org>, aik@amd.com,
+ andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org,
+ chao.p.peng@linux.intel.com, jmattson@google.com, jthoughton@google.com,
+ oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com,
+ rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com,
+ steven.price@arm.com, tabba@google.com, willy@infradead.org,
+ wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com,
+ pratyush@kernel.org, aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
+ Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mm@kvack.org, linux-coco@lists.linux.dev
+References: <20260807-gmem-inplace-conversion-v10-9-2fc18ee6d3ba@google.com>
+ <13ca60c6-e154-4397-8092-09f861e90fe0@kernel.org>
+ <cbf5f7ca-a960-4fb8-a760-2d2794eb6864@arm.com>
+ <CAEvNRgGOyQHnF_b8dk8E0d7_=CcwXtYUdU3ko7Qbep+_O7UC0Q@mail.gmail.com>
+ <aoZZMQ3Uc8yQWPNA@google.com>
+ <7eba513d-cdae-4832-abac-038dcdd88517@intel.com>
+ <meww2a2uf3yeevsfpicyrlg3hch2x4bsdqv2lsv3vfjxg4qzes@co5eogmhkxrk>
+ <ao3lOu8-wpGTs2wd@google.com>
+ <ba8d0441-b52f-4357-b2e7-1e352aa385a2@intel.com>
+ <CAEvNRgFXJbV78ktsg=b4srFp1OFjtQWQGuNPjr_MmWD-wOvjgw@mail.gmail.com>
+ <ao7vwx3nMqCjCHZU@google.com>
+Content-Language: en-US
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <ao7vwx3nMqCjCHZU@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Sebastián,
+On 8/26/2026 9:53 PM, Sean Christopherson wrote:
+<snip>
+>> Is this just a case of user error? That with gmem_in_place_conversion,
+>> userspace should not use userspace_addr from something other than the
+>> gmem for the same memslot?
+> 
+> Yes.  It's not just invalidations that will go sideways, 
 
-kernel test robot noticed the following build errors:
+> KVM accesses to guest
+> memory won't hit the same physical page as actual guest accesses.
 
-[auto build test ERROR on 75f2c0b3690702c90863c2e138cb5520670845ea]
+Side topic.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebasti-n-Peyrott/hwmon-Add-Minisforum-UM780-XTX-EC-monitoring-and-fan-control/20260825-154107
-base:   75f2c0b3690702c90863c2e138cb5520670845ea
-patch link:    https://lore.kernel.org/r/20260825184107.355980-2-speyrott%40gmail.com
-patch subject: [PATCH v3 1/1] hwmon: Add Minisforum UM780 XTX EC monitoring and fan control
-config: i386-randconfig-141-20260827 (https://download.01.org/0day-ci/archive/20260827/202608271258.TPpO3tyX-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260827/202608271258.TPpO3tyX-lkp@intel.com/reproduce)
+If KVM enforces KVM_MEMSLOT_GMEM_ONLY when gmem_in_place_conversion is 
+true like below proposal, should we update KVM's guest memory accessors 
+to access gmem directly?  If still use the existing code of accessing 
+userspace_addr of the memslot, I think KVM needs to document clearly 
+that when KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES is enumerated, if 
+configuring the guest_memfd for a memslot, the userspace_addr passed in 
+needs to be the mmaped address of the guest_memfd.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608271258.TPpO3tyX-lkp@intel.com/
+> Huh.  But that isn't strictly guaranteed, because userspace could bind to a
+> memslot that isn't configured with GUEST_MEMFD_FLAG_MMAP, in which case SHARED
+> faults will go through the VMA, not kvm_mmu_faultin_pfn_gmem().  It's a bit early
+> in the morning, but off the top of my head, I can't think of any reason we need
+> to support such a setup.  If userspace really, really wants to use a separate
+> mapping, they could DELETE+CREATE an equivalent memslot without the guest_memfd
+> file descriptor.
+> 
+> So I think we should do this?
+> 
+> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> index 9c2d52bdf25e..86f53e53a136 100644
+> --- a/virt/kvm/guest_memfd.c
+> +++ b/virt/kvm/guest_memfd.c
+> @@ -1013,7 +1013,7 @@ int kvm_gmem_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
+>   	 */
+>   	WRITE_ONCE(slot->gmem.file, file);
+>   	slot->gmem.pgoff = start;
+> -	if (kvm_gmem_supports_mmap(inode))
+> +	if (gmem_in_place_conversion || kvm_gmem_supports_mmap(inode))
+>   		slot->flags |= KVM_MEMSLOT_GMEM_ONLY;
 
-All errors (new ones prefixed by >>):
+I like this idea. It makes gmem_in_place_conversion a step closer to 
+what its name implies, though in-place conversion is not truly 100% 
+guaranteed[*].
 
-   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_oem_read':
->> drivers/hwmon/minisforum-um780xtx.c:75:(.text+0xa3): undefined reference to `ec_transaction'
-   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_write_profile':
-   drivers/hwmon/minisforum-um780xtx.c:141:(.text+0x19a): undefined reference to `ec_transaction'
->> ld: drivers/hwmon/minisforum-um780xtx.c:144:(.text+0x1ad): undefined reference to `ec_read'
-   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_write_sys_point':
->> drivers/hwmon/minisforum-um780xtx.c:336:(.text+0x215): undefined reference to `ec_write'
-   ld: drivers/hwmon/minisforum-um780xtx.c:339:(.text+0x223): undefined reference to `ec_read'
-   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_sys_point_temp_store':
->> drivers/hwmon/minisforum-um780xtx.c:192:(.text+0x2ac): undefined reference to `ec_read'
-   ld: drivers/hwmon/minisforum-um780xtx.c:195:(.text+0x2c3): undefined reference to `ec_read'
->> ld: drivers/hwmon/minisforum-um780xtx.c:209:(.text+0x385): undefined reference to `ec_write'
-   ld: drivers/hwmon/minisforum-um780xtx.c:213:(.text+0x3ae): undefined reference to `ec_read'
-   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_sys_point_temp_show':
-   drivers/hwmon/minisforum-um780xtx.c:168:(.text+0x455): undefined reference to `ec_read'
-   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_probe':
-   drivers/hwmon/minisforum-um780xtx.c:431:(.text+0x4e9): undefined reference to `ec_read'
-   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_read_initial_state':
-   drivers/hwmon/minisforum-um780xtx.c:375:(.text+0x511): undefined reference to `ec_read'
-   ld: drivers/hwmon/minisforum-um780xtx.c:382:(.text+0x53c): undefined reference to `ec_read'
-   ld: drivers/hwmon/minisforum-um780xtx.o:drivers/hwmon/minisforum-um780xtx.c:385: more undefined references to `ec_read' follow
-   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_restore_state':
-   drivers/hwmon/minisforum-um780xtx.c:403:(.text+0x6f9): undefined reference to `ec_transaction'
-   ld: drivers/hwmon/minisforum-um780xtx.c:406:(.text+0x712): undefined reference to `ec_read'
-   ld: drivers/hwmon/minisforum-um780xtx.c:412:(.text+0x732): undefined reference to `ec_read'
-   ld: drivers/hwmon/minisforum-um780xtx.o: in function `um780xtx_init':
->> drivers/hwmon/minisforum-um780xtx.c:473:(.init.text+0x75): undefined reference to `ec_get_handle'
+[*] https://lore.kernel.org/all/akUbz_kJvYulaboo@google.com/
+>   	xa_store_range(&f->bindings, start, end - 1, slot, GFP_KERNEL);
+> 
+> Regardless, the key aspect of all this is that in-place conversion is brand new
+> functionality, so we don't have to ensure backwards compatibility.
 
-
-vim +75 drivers/hwmon/minisforum-um780xtx.c
-
-    72	
-    73	static int um780xtx_oem_read(u8 command, u8 *value)
-    74	{
-  > 75		return ec_transaction(command, NULL, 0, value, 1);
-    76	}
-    77	
-    78	static int um780xtx_read_rpm(u8 command_hi, u8 command_lo, long *rpm)
-    79	{
-    80		u8 hi_before;
-    81		u8 hi_after;
-    82		u8 lo;
-    83		unsigned int value;
-    84		int attempt;
-    85		int ret;
-    86	
-    87		for (attempt = 0; attempt < UM780XTX_EC_RPM_RETRIES; attempt++) {
-    88			ret = um780xtx_oem_read(command_hi, &hi_before);
-    89			if (ret)
-    90				return ret;
-    91			ret = um780xtx_oem_read(command_lo, &lo);
-    92			if (ret)
-    93				return ret;
-    94			ret = um780xtx_oem_read(command_hi, &hi_after);
-    95			if (ret)
-    96				return ret;
-    97			if (hi_before != hi_after)
-    98				continue;
-    99	
-   100			value = (hi_after << 8) | lo;
-   101			if (value > UM780XTX_EC_MAX_RPM)
-   102				continue;
-   103	
-   104			*rpm = value;
-   105			return 0;
-   106		}
-   107	
-   108		return -EIO;
-   109	}
-   110	
-   111	static int um780xtx_read_profile(long *mode)
-   112	{
-   113		u8 profile;
-   114		int ret;
-   115	
-   116		ret = ec_read(UM780XTX_EC_CPU_PROFILE, &profile);
-   117		if (ret)
-   118			return ret;
-   119		if (profile == UM780XTX_EC_PROFILE_B1) {
-   120			*mode = 2;
-   121			return 0;
-   122		}
-   123		if (profile == UM780XTX_EC_PROFILE_B2) {
-   124			*mode = 3;
-   125			return 0;
-   126		}
-   127	
-   128		return -ENODATA;
-   129	}
-   130	
-   131	static int um780xtx_write_profile(struct um780xtx_data *data, long mode)
-   132	{
-   133		u8 expected;
-   134		u8 profile;
-   135		int ret;
-   136	
-   137		if (mode != 2 && mode != 3)
-   138			return -EINVAL;
-   139		expected = mode == 2 ? UM780XTX_EC_PROFILE_B1 : UM780XTX_EC_PROFILE_B2;
-   140	
-   141		ret = ec_transaction(expected, NULL, 0, NULL, 0);
-   142		if (ret)
-   143			return ret;
- > 144		ret = ec_read(UM780XTX_EC_CPU_PROFILE, &profile);
-   145		if (ret)
-   146			return ret;
-   147		if (profile != expected)
-   148			return -EIO;
-   149	
-   150		data->saved_profile = profile;
-   151		return 0;
-   152	}
-   153	
-   154	static const u8 um780xtx_sys_point_offsets[] = {
-   155		UM780XTX_EC_SYS_POINT1,
-   156		UM780XTX_EC_SYS_POINT2,
-   157	};
-   158	
-   159	static ssize_t um780xtx_sys_point_temp_show(struct device *dev,
-   160						    struct device_attribute *attr,
-   161						    char *buf)
-   162	{
-   163		struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
-   164		u8 value;
-   165		int ret;
-   166	
-   167		guard(hwmon_lock)(dev);
-   168		ret = ec_read(um780xtx_sys_point_offsets[sattr->index], &value);
-   169		if (ret)
-   170			return ret;
-   171	
-   172		return sysfs_emit(buf, "%u\n", value * 1000);
-   173	}
-   174	
-   175	static ssize_t um780xtx_sys_point_temp_store(struct device *dev,
-   176						     struct device_attribute *attr,
-   177						     const char *buf, size_t count)
-   178	{
-   179		struct um780xtx_data *data = dev_get_drvdata(dev);
-   180		struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
-   181		u8 points[2];
-   182		u8 readback;
-   183		long value;
-   184		int ret;
-   185	
-   186		ret = kstrtol(buf, 10, &value);
-   187		if (ret)
-   188			return ret;
-   189	
-   190		guard(hwmon_lock)(dev);
-   191		/* Validate and clamp against the live peer threshold. */
- > 192		ret = ec_read(UM780XTX_EC_SYS_POINT1, &points[0]);
-   193		if (ret)
-   194			return ret;
-   195		ret = ec_read(UM780XTX_EC_SYS_POINT2, &points[1]);
-   196		if (ret)
-   197			return ret;
-   198		if (points[0] >= points[1] || points[1] >= data->sys_point3)
-   199			return -EIO;
-   200	
-   201		value = DIV_ROUND_CLOSEST(value, 1000);
-   202		if (!sattr->index)
-   203			value = clamp_val(value, 0, points[1] - 1);
-   204		else
-   205			value = clamp_val(value, points[0] + 1,
-   206					  data->sys_point3 - 1);
-   207		points[sattr->index] = value;
-   208	
- > 209		ret = ec_write(um780xtx_sys_point_offsets[sattr->index],
-   210			       points[sattr->index]);
-   211		if (ret)
-   212			return ret;
-   213		ret = ec_read(um780xtx_sys_point_offsets[sattr->index], &readback);
-   214		if (ret)
-   215			return ret;
-   216		if (readback != points[sattr->index])
-   217			return -EIO;
-   218	
-   219		data->saved_sys_point1 = points[0];
-   220		data->saved_sys_point2 = points[1];
-   221		return count;
-   222	}
-   223	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
