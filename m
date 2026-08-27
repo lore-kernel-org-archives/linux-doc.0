@@ -1,169 +1,102 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C2B473C96
-	for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 13:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C21F4746B7;
+	Thu, 27 Aug 2026 13:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787837323; cv=none; b=jrLm2wLshgLWSmyjIHBYPuDbZYHkzcunkScmQv8UooKKQBKIsxxW1UqZzqDLwsZXDMf5rT2ClfAbyFiQCnF1TBjzO+vJ/4NL4SqNF6bYnaWmvgp7n1v/xrg0pyLA4IXZfKDGkc/pZNYq5i5Jz4E23ZbyOZAmnKwKxM7TJSvrTyI=
+	t=1787837614; cv=none; b=m4ZfeMmAsW9itgXaVEMQ/ASEVjCz7UZ6SXEkaHWBIB2sA2BQXlIek53pm90O6H1qE3NRnxWvHGX3t6r8JOO16Sf8xViWWrpWXZDCp9SNff+fJu62b85ED9kz3F/80FGXRF0E1B8UPzzIJbslQ6pEYEPIKTuDVuGTEZxyVNpp1RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787837323; c=relaxed/simple;
-	bh=faP9ygWQlSRIrFbk7BiUYjG/H8pEcJDzSB8VBBaM9e4=;
+	s=arc-20240116; t=1787837614; c=relaxed/simple;
+	bh=MmhRczpeait+8pej4NW6iWlfBLKfTeVw/6dAVLLtbUE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cSQjV6JyBiumM6OClLPrG45DPInHYSWIcThyK1jFW3OpyGHr7NY5ZdwqwxTwQW9RrcX16qrfLamlm2pXs3beLk+WLTxvPt8ismxx3JBTneheO1OpL+PAsew7rtIRJh3R6yiGBW0nyTa7tDL3rw2wBrVi5gJtn2RdWz8JdpV4/hA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ctBtGvrP; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=WdmAbWsY; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=rHUkjtRs/YAxqxgZJuVpPaeyEPc6deL13XX5aFRBtqRT8dEbhG+H8ug5zw3ixzY7N+OdRkjlltxxMS5Rpl9XMuESgOmfk/VDJ2HPB5HArsL8F2UBOU3rh/e0jO93TH2aEeQPPvDnXHrMN30fICOd1PI1lKjWwVE9negjiszlfXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JiTRj2c5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ctBtGvrP";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="WdmAbWsY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787837310;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=faP9ygWQlSRIrFbk7BiUYjG/H8pEcJDzSB8VBBaM9e4=;
-	b=ctBtGvrPbZ/jeJ21B/EHJIhAXRTUz1+aNup75tZHHVnJGoTcFPAY5aUFDtYPLtEcEOm9aZ
-	tEu6RmRz4XR33At2/fW/A1LXY8iajHIXnG7dKxSAhwQFta7DSKi0YQ6gbGtwCsU1whxu7x
-	vhkJXw3zLTtwtDsiNYlLP028hRMqA+s=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-448-yS0rLHDmP9i9KGCGTGWiCg-1; Thu, 27 Aug 2026 09:28:28 -0400
-X-MC-Unique: yS0rLHDmP9i9KGCGTGWiCg-1
-X-Mimecast-MFC-AGG-ID: yS0rLHDmP9i9KGCGTGWiCg_1787837307
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-482f41ca4b9so326587f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 06:28:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1787837307; x=1788442107; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=faP9ygWQlSRIrFbk7BiUYjG/H8pEcJDzSB8VBBaM9e4=;
-        b=WdmAbWsYA9GBmKEovs2NOouKO5Ogd+yVS7DT81BhxNWkpV9CqFCIkEHDSewYENMjIw
-         IY5OYnSrZP7YR/GOgoIJceJG9LQ9CElhIFcXoBzfRiBoMPGsmYNZIn9//jOHkzk9/h0e
-         ikF7DGyLrpunJwO7zXBLgiunqbsOAhreY5KhWfeRNEAe7RL8+9h9J/Ar5LpqJFvD1tVW
-         8SOXD2c4CuiL2C/gCGxpXasj8vlCcG4t6t3AsftLpABpujJanTCeGE5s9yZ2AF65LdVT
-         hrCshIkU+gh7mygO20V4z46H+/AKBMk3juktoW1UUvWVozLW93SC/zLgvHhsbxSYgXjl
-         v39w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787837307; x=1788442107;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=faP9ygWQlSRIrFbk7BiUYjG/H8pEcJDzSB8VBBaM9e4=;
-        b=F1V/H+6XxfKT7WS4eXgJXiF3EtXBcPn6jrjctwdynndxQOilWbaFBEQuocx9w36JpY
-         Q56EFYBKrRSwnGyh28983wu2nPAWMwG8ZfZ6ewzdC1AE6KKS94G0Sk83XPirlDRJm4yo
-         BhqUKyrlsjw27vGuZBg/m52V6KZ3Ge7WuJLg8D19vipC/ci3AVBPzPD6g6i3FF3eBVmQ
-         sgyBRKrePWskBit3zuqoTfciEu6IvHJPj0G5OXJvbhK367pW4ZolNdKSZ2H71lf7WEqF
-         Hcvz/cFacer19IAejb9N3S/J5twDHfxfuioDfdrnN9LdRkIhQGPnBae15uXX+V+2Cf07
-         kMog==
-X-Forwarded-Encrypted: i=1; AHgh+RodN0YjF4Kz0bKzqeEgrEPp0U5FXC9lDBYVFx5dHh2Pc28mGmAGx+8Ytu2VjL8g5ZpfoVlBrrQv0t4=@vger.kernel.org
-X-Gm-Message-State: AFuF++mb+VBXiJwgXSgvIUBIvSNOKp86gx3FZ3ScKsQqBKYDxBvxQCDu
-	3v0iAok+8Hc1wTy31FKSEo4LOQZ3catusQgol7gedmxybWp9X4y5tnPamMI1RHzZgJZwGmdLRF/
-	/bEPznfg0bZKlghnsToyvNPEmBWkogaMAZ2nuOvrzdCbrnDyK/eGu+gXOszfKoQ==
-X-Gm-Gg: AR+sD12/fzO6ALwxBm7scUSdUYZ/a8qLnaxpFJw8EtyNOV3yQG7Z0aOCm/xenVj/o5v
-	i1G5oKIUppsM0Fm7qggA2krD862/LfR6juuwXt+1IA2K2YuaHDS03Akkk82u4R3fq7SUsbNgrQk
-	qMkaxxWTKu/jU4Tqrs4FUmVZ9497a/HHYQnzU1p09N/HajFIzUK9ZJm/z0yMvfh0d9RwqtIwnCT
-	ZyrQ1Z+uEDIQXsUK9t7+wjAgjqrgJCSLvLEkIY0d4sjPt3pDFpP8CD8Nk63K5V7m0nfJu/ONrbE
-	ufdlZ92W0h5Qqv0lsi6G96p/SLp9BPbJGvwvzIG0tSCLPXUlV6Rj/YiJNBUpIXYvAixBk1LrrA=
-	=
-X-Received: by 2002:a05:6000:29ce:b0:47f:8ac0:282 with SMTP id ffacd0b85a97d-482e26c3ff0mr15609423f8f.17.1787837306998;
-        Thu, 27 Aug 2026 06:28:26 -0700 (PDT)
-X-Received: by 2002:a05:6000:29ce:b0:47f:8ac0:282 with SMTP id ffacd0b85a97d-482e26c3ff0mr15609319f8f.17.1787837306492;
-        Thu, 27 Aug 2026 06:28:26 -0700 (PDT)
-Received: from localhost ([2a01:e0a:a99:9822:ca7f:54ff:fe01:374c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482e279eb1csm9177838f8f.4.2026.08.27.06.28.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 06:28:25 -0700 (PDT)
-Date: Thu, 27 Aug 2026 15:28:23 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Michal Hocko <mhocko@suse.com>
-Cc: Eric Chanudet <echanude@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Shuah Khan <shuah@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Albert Esteve <aesteve@redhat.com>
-Subject: Re: [PATCH 00/11] mm/cma: charge cma allocation to memcg using per
- area counters
-Message-ID: <20260826-brave-nyala-of-elevation-d23aea@houat>
-References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
- <aowHqqaqK7TeexQH@tiehlicka>
- <ao2gA_m3BCBu2esy@echanude-thinkpadx1carbongen13.rmtusma.csb>
- <ao2t6HP-Zt5KDg30@tiehlicka>
- <ao3UKM5SbxBmxuR0@echanude-thinkpadx1carbongen13.rmtusma.csb>
- <ao3quaSze8YjPjxZ@tiehlicka>
- <ao3tFg4JLNlbylTR@echanude-thinkpadx1carbongen13.rmtusma.csb>
- <ao6eC2SUIGVz3Qct@tiehlicka>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JiTRj2c5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 548C61F000E9;
+	Thu, 27 Aug 2026 13:33:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787837602;
+	bh=VWLd3sU9atQfIoDce7jl0NZ8RDqno2g42DMkclW3s2E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JiTRj2c5TEgZDqNGP/gwA6qAeqCW2m94hZugSCyqcfvN1RfoLyTD/kiRcj2+CD/qk
+	 nU8QeIYTFRX+iBGSxhyFEthALC+BsFUMCgTn/8RGriu1mRdcyQNaDV7eh0AWTMwpaw
+	 rKeDsXzBzUqLySAvK1g4tzU9s8y0ef/HECYEZed5wslXyKduIOIxUKTYLBuRGG1Vbg
+	 kXQkv69f2iqqDLfv/ndP1jYauBgVZasQJ2/OsSXwV73AdLBriw8d0/RqD4iQn3bnBc
+	 ixFSv/cl1ow/fCzS2NDNXQe/jDegFPT7u6jfdqQBRaxOLM9ClKqs7w8xoeMFuyLqtw
+	 iIYE93xYUphLg==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1wzaEJ-000000031ue-2nz6;
+	Thu, 27 Aug 2026 15:33:19 +0200
+Date: Thu, 27 Aug 2026 15:33:19 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <apA8n524yIn-g6ep@hovoldconsulting.com>
+References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
+ <20260826-bind_taint-v1-2-52b05f4a965c@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="yiahqkhps5b233tk"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ao6eC2SUIGVz3Qct@tiehlicka>
+In-Reply-To: <20260826-bind_taint-v1-2-52b05f4a965c@linuxfoundation.org>
 
+On Wed, Aug 26, 2026 at 11:19:33AM +0200, Greg Kroah-Hartman wrote:
+> The ability to add and remove devices from a driver through the sysfs
+> "bind" and "unbind" files was created all those decades ago as a way
+> that kernel developers can iterate faster, and provide a debugging way
+> for users to attempt to add a new device to a driver without having to
+> rebuild their kernel.
+> 
+> This api over the years has been abused and recently come under a major
+> fuzzing "attack" through tools like syzbot which decided that it would
+> attempt to just randomly bind any driver to any type of device, causing
+> loads of unneeded errors and pointless kernel patches to be generated by
+> unsuspecting new developers.
+> 
+> Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+> will be set on the driver if the bind/unbind sysfs files are ever
+> successfully written to.  This lets kernel developers "know" that a user
+> is attempting to do something that is not normal, and as such, if the
+> kernel breaks they get to keep the shiny pieces laying around on the
+> floor.
+> 
+> Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+> as many times crashes/oops/warnings/failures happen within the callback,
+> and the taint flag needs to be there to show what was being attempted.
+> If it were to be set after the callback happens, the oops report would
+> not properly reflect what foolishness was being attempted.
+> 
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
---yiahqkhps5b233tk
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 00/11] mm/cma: charge cma allocation to memcg using per
- area counters
-MIME-Version: 1.0
+This makes it clear that this is a development tool, and it is a good
+compromise preferable to adding unnecessary complexity or suppressing
+the attributes completely just to prevent root from shooting themselves
+in the foot:
 
-On Wed, Aug 26, 2026 at 10:04:27AM +0200, Michal Hocko wrote:
-> > > You cannot really assume usecase, requirements, lifetime etc. for an
-> > > arbitrary cma area. I do not think this is a viable way forward. Focus
-> > > on your real usecase, which seems to be dmabufs.
-> >=20
-> > While dmabufs are indeed my main use case, they are quite generic and
-> > may not always have system memory backing them (device memory). Working
-> > at the CMA allocator alleviated these disparities.
-> >=20
-> > > Explain what do you want to achieve and then we can think whether mem=
-cg
-> > > is the right model for that usecase
-> >=20
-> > Hopefully I expressed this in a better way by now. In short, enforce
-> > usage limits for concurrent CMA users using shared CMA resources.
->=20
-> Thanks. Yes this is more clear now. And it resembles hugetlb situation
-> more than memcg. You simply need a memory pool specific access and usage
-> control. Dispersing that to a global memcg limit seems rather coarse and=
-=20
-> I would say impractical. So it really calls for a per pool control with
-> an understanding of how the specific pool really works.
+Reviewed-by: Johan Hovold <johan@kernel.org>
+Tested-by: Johan Hovold <johan@kernel.org>
 
-I'm not entirely sure what you meant there, but I think we also need to
-have it account in a "global" limit somewhere. Which CMA pool is backing
-a CMA device allocation is pretty unpredictable and unstable across
-boots, so if userspace wants to put meaningful limits somewhat
-generically, we'll need some kind of catchall limit.
-
-Maxime
-
---yiahqkhps5b233tk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCapA7cgAKCRAnX84Zoj2+
-di1+AYCIo8KLWPYOzEwBgbqOdUgA/zgdVT/joCROq5h9TbzGRbFQcxXH7KRg+7fJ
-IKAwfJkBf0pN5A/Vo2FO2QoLXkGlaXcWUBJakY9boX9YnDyDdS+4c88lV2EjJudO
-EXr1S+1vDw==
-=t0iU
------END PGP SIGNATURE-----
-
---yiahqkhps5b233tk--
-
+Johan
