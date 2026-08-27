@@ -1,183 +1,118 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB18723E334
-	for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 12:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E3744E67D;
+	Thu, 27 Aug 2026 12:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787834130; cv=none; b=fzKqR2hVFOuQ9Y5OcI4teMy6/qBXBh/zPTRHoQdsufu7C1kQLzHa0AVGDTKPfzKABfFfyF3RA84E1u+en6P+YhnC0srwUGa7DGPTGcIrNwngzgYnrJ9IV0NsM423uHCzVvLpYqKd1/JTEHg4t+9hY3IbVyjn/BN7yj+JF2XgAWI=
+	t=1787834910; cv=none; b=RmjJ3PSW03c4XekwjIHbbEyySa0mCb+IhyGHBykxgbkfzMGiBxzoyVZqhbltZPComdU/kX5+Nq8l05dJEXK2KopZHZGc6Pd9Wz1DHnKv4/4f5l5A7sTgaTt9aYPp3bcbJsBsqogloa5gL8wdhCKO0GvSFMVSRO9xBwF75ApWb1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787834130; c=relaxed/simple;
-	bh=bmbiqdOCeZle1t8GhFHFgUaBjsvNdWoT+bkaG6Qn/FA=;
+	s=arc-20240116; t=1787834910; c=relaxed/simple;
+	bh=LSe4ClYHyzoUMjPQ2O2AIJo3kbtl9bxf0qFjcfWnhxI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oiAOopEVkgjRXS9Gnb/+nnmX4F8b6UtVXeGYqHI1MFsXc7lM7QjjVZ48SJmr87RaSNW472cdfNIUQkeMhGOMIvy1mrgUTa9P8gaaYJzxfJfQBtluJVozmyFCZoTjC08S+GF7i9Nh3cWgREIOEkM5RV53eP1UQtaD+9olbil3qTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=HzxUP10U; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	 Content-Type:Content-Disposition:In-Reply-To; b=RrcBN1Q4TEUMXrdD78pnmYtDOcWIb4yFmJDpWXjriVwVKTFmtXXA8KzONefcng6MgtnK7Mmeb3yFms9NzG9rVplxN4Dug4vjrCw3dLdaw8/wuuRTuRceceQCqTVgISnASQLziJG9raDB3d9yqGBH1HIxu2UjB+W+Jnt+a/3dBjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H0en+QKU; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="HzxUP10U"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-495437bb891so7322045e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 05:35:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1787834122; x=1788438922; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=FqMm8FT0UDvKvnU0PABnBSS+wYbc4aE8U5V+uRrPoww=;
-        b=HzxUP10U4ZXwOcdfmkfuv5zV+yOdGKiFym6mZv2T3oNwYEnklHASsNatL0EbZKqqWq
-         gagrP5NNJulSlGAXD4Tb5rHjHaLJyeaOiSCe3TXrScW4nklUZ49bOS2gKjVqSj3YnE3Z
-         mDXdcYwnUXn4wfpzP7q4svINJvOWkDYUkryc7+JkopFkS87CLWtEkaOnV1rYAyJinLnU
-         FvX+OYy4anL7SMmqQOlqWxwI3APBJxLKBztVI5wBGbWXPEGHu4sq0oWbOHAV0K3cbIem
-         hRoOxoEN83nXbdie/L3T3pjQf6NDAvNSbSSOSwSwCfiDSWutRzQMBZm1l2n28Y5U8OPN
-         /+1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787834122; x=1788438922;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FqMm8FT0UDvKvnU0PABnBSS+wYbc4aE8U5V+uRrPoww=;
-        b=WF5PZMp1UsRuIrNdOjmqMw0fIA/JD/SVWI+k6v6VLdSV0GH+Bf42CI0bJunCZHOk7/
-         /2kGOrp4mE3XhVi+5gCUb9ctSkNIdsTf9K+ctbmtY81RPqhShzgjbUHbZ/pL4G3lDIN4
-         qeX3thSZQAffGJmhuVLY0P/oxpGbKy1MSDjdAGEYmOwGMmYnHYOuNensrdQmCDnA1QvR
-         JXwfXWys5US8F2PIGeHtw/jXx4P+uBl/Maw6t58qBnk+PnBpStc4kterJOfjmu0aJ3fz
-         k/1WMjtomcl0n75z1KmXvCjaDPetv036rGanv0hcCqKzXhXRzMVbqr3FVRObq3cer5Ks
-         MH1g==
-X-Forwarded-Encrypted: i=1; AHgh+Rp/GsrNSMLtC08LgrKMx30fIu3C1AUHEtzIdoa0xaSHWVSUEFfPe5LsHSqyJXs3kgUOL8zkE7VF/co=@vger.kernel.org
-X-Gm-Message-State: AFuF++lKAGcWyvWxdk0Zq2WfouxhnFSE3Dl8JU3CO0YEZKLBV6+QFN5i
-	mx6pBibFn2xzDF43RMmjVvid9yqkydkcaw24PtunjZhXCq1FrQpFf8eBgH4spV+56pA=
-X-Gm-Gg: AR+sD12A18DtjmOmthTcxvkCshVH5sZ6BMEcUrwtijOX2hXdlePBSG4m6Ozzl0b/ek6
-	x/s7CVilGJOpDE+j1M2L+dQpaOzAn0XP1j+ww/NoMssmKXJzsRDo1PtEL6Hlbd08Rwe8blFxR+g
-	Aa0iznjX0uWyoOu/t+Gc0xF6OcKpg0NN0J175p9/0+mIHIOOaz0brFhyriXslcmNRb/+cfAVx1Q
-	tSXfm+ziYvQRlhddlgjDUjtZf94h+Wkn6Ew/pZtfQ0573PbUw92WhiF0mNtce+0eNqIQhbTYfd+
-	t1tiZ9WtcT6EXPiPW1NqTnFpHtp2KLun4tp1tUw+IcoRS3aTRCqYzAxvm/MYzkGNSjywyvL3mhw
-	GVbDkA+F8EzSHknGylMcJbKPLsHF6r4s66sCt7p/qkbstRZwlvm++7j8mf0EWStPVXbCISwPe68
-	5N+C6kuGNbGE8fNv2YBwfOJXC/0eYzGeUMglIT6dE9fD7YRaktnhVXodgem/1bx4VSgs/+xqzRG
-	FKQXIfA
-X-Received: by 2002:a05:600c:3e8e:b0:499:5f80:83ac with SMTP id 5b1f17b1804b1-49b0dfd7d2cmr84639315e9.7.1787834121595;
-        Thu, 27 Aug 2026 05:35:21 -0700 (PDT)
-Received: from localhost ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b4a940aeasm46658765e9.10.2026.08.27.05.35.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 05:35:21 -0700 (PDT)
-Date: Thu, 27 Aug 2026 14:35:16 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Konstantin Sinyuk <ksinyuk@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Francois Dugast <francois.dugast@intel.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Ilia Levi <ilia.levi@intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, jhs@mojatatu.com, jgg@nvidia.com
-Subject: Re: [RFC PATCH 0/12] drm/fabric: vendor-neutral topology
- infrastructure for scale-up accelerator interconnects
-Message-ID: <apAsfOowcG0cTvT8@FV6GYCPJ69>
-References: <cover.1787552412.git.ksinyuk@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0en+QKU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787834892; x=1819370892;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=LSe4ClYHyzoUMjPQ2O2AIJo3kbtl9bxf0qFjcfWnhxI=;
+  b=H0en+QKUMhnOmVWXKY7E3/GkeNWmuwbK9r2Qew8Hhj0gC3NQUxMMcTD8
+   vxU1SoakSXjd/PsR79XsHUG04x4tbK3TrdKTFx+a2TJB0DEDHTTQBS1cH
+   XMATIco6XqkOri0wQ7Bd8GDPH0+ppTUtHM5bXdE3KaKpAHvymc0T/roxS
+   ZFPTT+jUjEh/jIZfnubQeLMHs4Ey4Uul6qT+85/vfzgyXcBxPv8WETxck
+   DkYhMrGRBLN2rQWE+PYidwS1CzK5TVfke6FClhqMtEFleh7zMvaDepMJz
+   X5OGsLg5FpBulPIYLGvQ635wR70vUscdxsN3dwNzjlMv9ZRV539AD9rbn
+   w==;
+X-CSE-ConnectionGUID: cCKBK2g0RQiIQntxRzc7+g==
+X-CSE-MsgGUID: G8nVrgYfQMOQF148UCRGKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88189819"
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="88189819"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 05:48:07 -0700
+X-CSE-ConnectionGUID: 5r8ZA7vORXinB4cAgEhcqQ==
+X-CSE-MsgGUID: wbyizxAKSNCFhTkpZJP1mA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="271386983"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.125])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 05:48:01 -0700
+Date: Thu, 27 Aug 2026 15:47:57 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <jan.sun97@gmail.com>
+Cc: Janani Sunil <janani.sunil@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>,
+	Marius Cristea <marius.cristea@microchip.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v10 3/3] iio: dac: Add AD5529R DAC driver support
+Message-ID: <apAx_ZUDQ6G6XVuc@ashevche-desk.local>
+References: <20260827-ad5529r-driver-v10-0-38f2be07b824@analog.com>
+ <20260827-ad5529r-driver-v10-3-38f2be07b824@analog.com>
+ <ao_z9QTJC_q8gH0v@ashevche-desk.local>
+ <aed972ef-3776-4055-81aa-63255d072b8d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <cover.1787552412.git.ksinyuk@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aed972ef-3776-4055-81aa-63255d072b8d@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Mon, Aug 24, 2026 at 10:09:28AM +0200, ksinyuk@kernel.org wrote:
+On Thu, Aug 27, 2026 at 01:17:13PM +0200, Janani Sunil wrote:
+> On 8/27/26 10:23, Andy Shevchenko wrote:
+> > On Thu, Aug 27, 2026 at 09:34:48AM +0200, Janani Sunil wrote:
 
-[..]
+...
 
->Example queries using the in-tree YNL tool are:
->
->    $ ./tools/net/ynl/pyynl/cli.py \
->          --spec Documentation/netlink/specs/drm_fabric.yaml \
->          --dump fabric-get
->    $ ./tools/net/ynl/pyynl/cli.py \
->          --spec Documentation/netlink/specs/drm_fabric.yaml \
->          --dump endpoint-get --json '{"fabric-id": <id>}'
->    $ ./tools/net/ynl/pyynl/cli.py \
->          --spec Documentation/netlink/specs/drm_fabric.yaml \
->          --do port-get --json '{"endpoint-id": <id>, "port-index": 0}'
+> > > +	for (unsigned int i = 0; i < ARRAY_SIZE(ad5529r_vss_supply_names); i++) {
+> > > +		ret = devm_regulator_get_enable_optional(dev,
+> > > +							 ad5529r_vss_supply_names[i]);
+> > > +		if (ret && ret != -ENODEV)
+> > > +			return dev_err_probe(dev, ret,
+> > > +					     "Failed to get and enable %s regulator\n",
+> > > +					     ad5529r_vss_supply_names[i]);
+> > > +	}
+> > Hmm... Can we use bulk regulator approach here?
+> 
+> I don´t think the bulk helper fits here. Each VSS supply is independently
+> optional, and there is currently no optional bulk get-enable regulator
+> helper.
 
-Using generic netlink instead of sysfs for this makes a lot of sense,
-but it may be a bit odd to use it outside the networking area.
-I've been struggling with the same in another non-networking use-case
-as well. I have been building a framework that keeps the benefits of
-generic netlink, extends it and is fd-based.
-I call it CTLV, here's a link to an early pre-RFC draft:
+Ah, I see. Yeah, then we have to live with a for-loop...
 
-https://github.com/jpirko/linux_mlxsw/commits/wip_ctlv_pre_rfc_draft1/
+-- 
+With Best Regards,
+Andy Shevchenko
 
-What are the benefits over generic netlink:
 
-- No networking in the dependency chain. No netlink sockets,
-  no CAP_NET_ADMIN, and no network namespace semantics to reason about
-  for a device that has none.
-
-- One character device per registered instance, not one global family.
-  Access control is the file: udev rules, ACLs, an fd passed into
-  a container. The open mode decides what is allowed - actions need
-  write, queries need read - so there is no permission model
-  to reinvent per family.
-
-- Events per open file description, not a multicast group.
-  Each descriptor has its own subscriptions and queue, and an overflow
-  is reported in-band: the next read returns an event-overflow record
-  naming the first and last sequence lost and how many.
-
-- Large payloads are referenced, not copied. A blob attribute carries
-  a user VA, a memfd and offset, or a dma-buf fd. Nothing big travels
-  through the message.
-
-- One YAML specification, everything generated from it: kernel metadata,
-  UAPI headers, userspace bindings and the reference documentation.
-  Introspectio. is answered out of the same metadata the validator
-  enforces, so a device cannot advertise an operation it will refuse.
-  A checked-in ABI snapshot makes any wire change a reviewable diff.
-
-- Family inheritance. A family inherits another's operations and fills
-  declared extension points. The effective schema is resolved per
-  device and the chain is exposed to user. A shared core with
-  per-driver extensions is declared once, and both attributes and
-  operations can be extended.
-
-- Introspection is per-device and live. The framework answers three
-  queries on every device: the family chain, one entry per published
-  operation, and any operation's full attribute tree with its bounds
-  and limits.
-
-  The answer is what this device accepts right now, including what
-  a vendor extension added to an inherited operation and whether an op
-  is currently disabled, and op-changed events carry the generation
-  ops-dump reports, so a dump can be ordered against a change.
-  GETFAMILY and GETPOLICY describe a family statically - there is
-  no device in that model to ask.
-
-- Fragmented queries are built in, with a consistency check.
-  A continuation carries the generation it started from, and if
-  the answer changed underneath it is refused with ESTALE,
-  reporting the expected and the current generation instead of
-  reassembling a torn reply.
-
-- Attributes are 8-byte aligned. CTLV_ALIGNTO is 8, so
-  a 64-bit payload is naturally aligned and there is no per-family
-  padding to remember - netlink's 4-byte alignment is why
-  nla_put_64bit() needs an explicit NOP pad attribute.
-
-- Cheaper round trip. A one-attribute query measured 2.6x cheaper
-  than a genetlink one in the same guest - a debug kernel.
-
-- Async operations using io_uring are planned as a follow-up extension.
-
-The framework owns validation, schema resolution, blob acquisition,
-reply serialization and the event queues. All getters and putters
-are generated helpers. A family implements semantics only, and
-the aim is to make that hard to get wrong.
-
-Would this make sense to use for you?
-
-[..]
