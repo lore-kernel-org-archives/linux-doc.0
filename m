@@ -1,120 +1,160 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90F03FD12A
-	for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 09:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF5E3DB303;
+	Thu, 27 Aug 2026 09:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787821617; cv=none; b=Bd1ZECxhIqXu5/W8w3cp+rEcnId/hSJ6rln4sOULKUjwSmgcXkamPKXC/WW/mI7YspgPTAjkFNeGNb7kIkxRZe8fdZsG3P1P9V1jgrSvQuC+Ax6fTwzMY2q5V6zRWqQuyPeG6LoTifW96WUrWQUaLJpxTLap5q0HYIoMADZ9XeA=
+	t=1787821768; cv=none; b=NYh2pJaA7EcCVIljUfqk1CwIs0INS1KhcRQTBAojMhy/ReULMdAiEk3q9lFk1vmle2695uJXLwONmuNu8mYyBdXEtg5gRHFFCAgv5D2fFtraYtzj3zSsLqLrB7LCkutOz0vNtDesrtuUiQS3cDrrxfxjvHxC5QpbCFsDstczhXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787821617; c=relaxed/simple;
-	bh=Dv5HfCA1mSh6i3Acx6oZ4tgPaqHqwItmYmm43jb19IE=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=h6g+/AIIRBH4r2goUB4BAXHjg/JhjFMysKLnom3/ujuuATN/1YkAzObYDKMc5MC7hk5rSArD6fU4fnNDIYBrI80Orp9cDgjKQY3nfka1nlpWmY0o1j2hTrhuOpp3yj39NcmMG1XoEt6u6Qq4p6Oltt2fVoBx1tqYLFyCFfPs7yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e4z6cNlw; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=oYjW2WBg; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787821768; c=relaxed/simple;
+	bh=nj08DtLLOo31GmcfAdM92lCdx6IL9ddHq0eaPzUjsRI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i4VhZsMiuVyCid2xcsyOS1hSaL6nGUZyUkR4s4w/E7bZ4W/qVm8X+xhsiCVoZQUT5wne9vEgwInlytdf+m2x3O3kCrUmslrVJgq2t09ie7xzP1cZWRprqgE8/eXEnyWdnHj8S2jWcxbTu0Ip7sBpAnsff+lZoW95VMDisC0KTFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZFiuJ2aK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e4z6cNlw";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="oYjW2WBg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787821605;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=UnIBDxp0KwBLclKxiCvoL0emivWc8/d/qvxTInSqzl0=;
-	b=e4z6cNlwkhkpmHov3QS3aIc4xb3Qp9+XWalZTysRqdkhFIhcaI80uKyxYqGY7iOtetBMql
-	r/QqYF6KXwwM6OohpJs7Ccd/dsmdpVZLOxz+e3Pova+YwHEw7QvFpCdLPMocl1mR+MpyI2
-	weN0wtpJAGqskC8FCNXC+haybrrXjOQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-282-fksG-LVhOxqh9m-HEzq0Yg-1; Thu, 27 Aug 2026 05:06:44 -0400
-X-MC-Unique: fksG-LVhOxqh9m-HEzq0Yg-1
-X-Mimecast-MFC-AGG-ID: fksG-LVhOxqh9m-HEzq0Yg_1787821603
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-49564d4b849so6089175e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 02:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1787821603; x=1788426403; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UnIBDxp0KwBLclKxiCvoL0emivWc8/d/qvxTInSqzl0=;
-        b=oYjW2WBgwaPCifGU9A71LJ3LNtT3IRqfjNBW0EzIJpXU3VRDAu9QmknI+ZrTvwLIHf
-         +iKPhzarcZosnU80dN2Qb0B25u2NIDnC0Lql5EnPzoRycyrCOB9oVmuwC+NL8/M/8a5T
-         CFo4bWwYJ8jQkgBdfQ1Q9S5/E3OC9sZpBuT+hYXcFODxjVicy4JUmJ4ktrwd9qyduG8i
-         e12VaLHpT45UawLrcQcQ7pwfi++OdzXd0yy83lHfcUmc8kr1/XiB4tJt7Vn5crXZIGjh
-         40pipkaMmXPk7clzG6R4iLnmTzzT4KWmYANOUu9lc2JrFLn8k+dF4m5zvjdxQf6u4MM7
-         UkAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787821603; x=1788426403;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UnIBDxp0KwBLclKxiCvoL0emivWc8/d/qvxTInSqzl0=;
-        b=q04g8c56a29p+NyW2WFosCn9TV/71ni/QkWbJkzlf6dHoyoJ2tBZPd9kLF4/U9aewA
-         j+xETMgcVddqVrqj40S7lZ8MR1sJnyTBogEzxGwkeKw2YBXDgBYQJvo21L69lTEWrStM
-         2z9TX+ljZPCpU0lZQZilcKGagf2IwF2+jubENhAJkra+jlDXxFdicjaNGOeP782zE0eJ
-         o0Y6eKxY9364Xe0UjoOXW7XfmbYCxQhgWUnwZmZo1UbRA6Xp5gfNcKXFZcMsFW06TFUP
-         X4Vey8Gl3NA8olThs5RewulXVEVImoM7zHbboe/fpIf1fBCYMjOVBWMepBegCihfzUhE
-         RKvA==
-X-Forwarded-Encrypted: i=1; AHgh+RoOHPx91Un1RQGUpA2vdxM/5Ra+I4S9MG0UoBNZ1xFE/y9GHlXAJtDbcAC2y0AFrRlMCTeDXqnkwE4=@vger.kernel.org
-X-Gm-Message-State: AFuF++kZwlsvZUjAstEtwcPlUwfm7n7GYaLl375wRUo3U5TlUoQB+DD4
-	GkWjZF/N3LwsNCZEFlPrGuxrV000cTttoFoAMW7j9yQVVeoM3DfkOhd4D60oMkmF7X87Rbs6pcx
-	ihim9NeSe6WR7z9rAzUal0vPeTtzxmsTpw1TKJ8RKFKhXq3emRG6QzjoXT/CWB0PdMCk6zw==
-X-Gm-Gg: AR+sD11kWv02oIibjasEdE8sVo7xZCB+jLHDUWkkDuh1NzLrwOrD8P5M5G6weKwSKB3
-	bpGCIuWZuQd0BfCKuphlv85lcVVJXvSRpg2QyP/4GWz5NDmLRs37mW5IWozsI9D05h64lGx2Rym
-	HIwO2KkA3RiLt5k+yorRANGXePnkzG+ZNCm795JIbrHJfJtj5nlORFelTb/cyJryb4WKiFowKB8
-	mxZUqjbZDruowV7nWkIDfihmsS9zpB4b2e/3yJQ+1aaZBd0wQK/Zh2TNowj3UGmKyojyruDi4B7
-	9cSIHbqIx/wo/MUGGfArEFEmJravqeSdhXyjpnzTcV1qDsSj4luMqga5C1IF2DAR++r5hinsroA
-	mUWhkGiER2tAeu2FP
-X-Received: by 2002:a05:600c:37c9:b0:49b:2796:be30 with SMTP id 5b1f17b1804b1-49b2796c07cmr65580745e9.11.1787821602737;
-        Thu, 27 Aug 2026 02:06:42 -0700 (PDT)
-X-Received: by 2002:a05:600c:37c9:b0:49b:2796:be30 with SMTP id 5b1f17b1804b1-49b2796c07cmr65579825e9.11.1787821602271;
-        Thu, 27 Aug 2026 02:06:42 -0700 (PDT)
-Received: from cshulyup.raanaii.csb ([2a00:a041:e223:1b00:cde9:6812:f4a4:646])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499dd55dd4bsm54770655e9.3.2026.08.27.02.06.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 02:06:41 -0700 (PDT)
-From: Costa Shulyupin <costa.shul@redhat.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>,
-	rcu@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v1] doc: RCU: Fix typo
-Date: Thu, 27 Aug 2026 12:05:06 +0300
-Message-ID: <20260827090506.1172620-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZFiuJ2aK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F71A1F000E9;
+	Thu, 27 Aug 2026 09:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787821767;
+	bh=RpGiMBMHM5Gzcxil2Rgh4TexxSKnGvufNkrztx+joGU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZFiuJ2aKTkIPolcpnhdNN4ZOC0buG+VC/7mPcURAZVx/F9rT2gBbpwQJJXMWr4Nlm
+	 1dgzM4NJthTfp3ZG7NLeYjCPkvVydK8hJGR/4IK8wGTlJzncBIIYNfAQLG/51lIvXC
+	 WMPvsWYMUx4LbdLfjkLSrm0Mg7lcmXd/3bno4cSpOVcUV3xFXnsrjcBpI/S3A/Pk5T
+	 DEI6NaSXhOUwM2JtYiy92dwxr9GQ0NxWs4OWexmA6ILGV6dkBoG25PiEh1voDngCNg
+	 vcrw2JJZ9sFm7WbCEXq2CW/pdL8ShXEkZpNx2fo17ugyLZqOTIj21OCni6H+Xf2fb/
+	 h1pUsqwaSmLFw==
+Date: Thu, 27 Aug 2026 12:09:13 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
+	Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+	Nico Pache <nico.pache@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Usama Arif <usama.arif@linux.dev>,
+	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/6] userfaultfd: decouple fault reason from VMA flags
+Message-ID: <ao_-uZrrsVX9lzbz@kernel.org>
+References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
+ <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
+ <5bb86e34-6196-4b50-b553-be2ff7c1fa32@kernel.org>
+ <ao_sCh5zP0IC9H2S@kernel.org>
+ <e8aaddde-0a07-4197-9874-5ca0ea8af43f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=true
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e8aaddde-0a07-4197-9874-5ca0ea8af43f@kernel.org>
 
-strategem -> stratagem.
+On Thu, Aug 27, 2026 at 10:10:24AM +0200, David Hildenbrand (Arm) wrote:
+> On 8/27/26 09:49, Mike Rapoport wrote:
+> > On Mon, Aug 24, 2026 at 04:46:14PM +0200, David Hildenbrand (Arm) wrote:
+> >> On 8/23/26 14:17, Mike Rapoport (Microsoft) wrote:
+> >>> Introduce enum uffd_reason to define reasons for user faults rather than
+> >>> overload VM_UFFD_* VMA flags for that.
+> >>>
+> >>> Using a dedicated enum makes the code clearer and decoupling the fault
+> >>> reason from VMA flags clears the way for moving the uffd mode bits out
+> >>> of VMA namespace.
+> >>>
+> >>> No functional change.
+> >>>
+> >>> Assisted-by: copilot:claude-opus-4.6
+> >>> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> >>> ---
+> >>>  include/linux/userfaultfd_k.h    | 16 ++++++++++++++--
+> >>>  include/uapi/linux/userfaultfd.h |  6 +++---
+> >>>  mm/huge_memory.c                 |  6 +++---
+> >>>  mm/hugetlb.c                     | 10 +++++-----
+> >>>  mm/memory.c                      | 10 +++++-----
+> >>>  mm/shmem.c                       |  4 ++--
+> >>>  mm/userfaultfd.c                 | 30 +++++++++++++++---------------
+> >>>  7 files changed, 47 insertions(+), 35 deletions(-)
+> >>>
+> >>> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
+> >>> index 45355bdb4ec7..f401623f315d 100644
+> >>> --- a/include/linux/userfaultfd_k.h
+> >>> +++ b/include/linux/userfaultfd_k.h
+> >>> @@ -9,6 +9,18 @@
+> >>>  #ifndef _LINUX_USERFAULTFD_K_H
+> >>>  #define _LINUX_USERFAULTFD_K_H
+> >>>  
+> >>> +#include <linux/bits.h>
+> >>> +
+> >>> +/* Fault reason #PF handler passes to handle_userfault() */
+> >>> +enum uf_reason {
+> >>
+> >> Can we just call this "userfault_reason" or "uffd_reason" ? Maybe the latter is
+> >> actually what we want?
+> > 
+> > userfault_reason sounds better to me.
+> > 
+> > It describes what kind of user fault we are handling and the 'fd' part has
+> > nothing to do with it. 
+> > We do use uffd as a short name for the subsystem, but still most if not all
+> > userfaultfd "external" APIs use userfault_ prefix.
+> > 
+> > uf_ was an attempt to make it wee shorter :)
+> 
+> Yeah, I got that; while uffd is a known acronym, the uf_ not so much (and also I
+> wouldn't suggest it to become a thing, lol :) )
+> 
+> I've been wondering for a while whether it really should be called
+> 
+> 	handle_userfault()
+> 
+> And not instead
+> 
+> 	handle_userfaultfd()
 
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
----
- Documentation/RCU/Design/Requirements/Requirements.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The 'fd' part here sounds really weird :)
+ 
+> Or maybe even better
+> 
+> 	handle_uffd_fault()
 
-diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
-index 8101fe6229d5..b10e0484ae13 100644
---- a/Documentation/RCU/Design/Requirements/Requirements.rst
-+++ b/Documentation/RCU/Design/Requirements/Requirements.rst
-@@ -1442,7 +1442,7 @@ periods:
-    corresponding CPU's next scheduling-clock.
- #. CPUs mentioned in the ``nohz_full`` kernel boot parameter can run
-    indefinitely in the kernel without scheduling-clock interrupts, which
--   defeats the above need_resched() strategem. RCU will therefore
-+   defeats the above need_resched() stratagem. RCU will therefore
-    invoke resched_cpu() on any ``nohz_full`` CPUs still holding out
-    after 109 milliseconds.
- #. In kernels built with ``CONFIG_RCU_BOOST=y``, if a given task that
+That's somehow tautological, but maybe using uffd_ as prefix would make it
+a "subsystem namespace", so tautology won't be as blunt:
+
+	uffd_handle_fault()
+ 
+> And then have
+> 
+> 	uffd_fault_reason
+
+Could work, yes. No strong feelings between this one and userfault_reason.
+ 
+> ... but just a thought.
+> 
+> -- 
+> Cheers,
+> 
+> David
+
 -- 
-2.55.0
-
+Sincerely yours,
+Mike.
