@@ -1,113 +1,94 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27E01C862D;
-	Thu, 27 Aug 2026 14:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF32284690;
+	Thu, 27 Aug 2026 14:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787840952; cv=none; b=m6Nh0hbg+x95MZX1zogkA/ZSrgjOZlKKmeAW1ufHSvpUXUXFJyoq4kxQPHyfvz3iDWoCvO4yklx4sGWS1Ka4APiazN3H/GRISNe+NAfRINECRckWkvUxhIinNls6C+Kd8Aib5PkfBUc6VpUOioQNe9AHvMQ6fEtAbbBa6JCNuXE=
+	t=1787841143; cv=none; b=f/6Pgl/d8CS+Cene98gpbosO4WIsg0AHhcymfvBKWYv0W/lZBDRdwYvYEALFAanhAwdN07rvbydQxHWRlhtjPJMeWfxHV/HWisWa9wI9HAVPcKzvXjWPwNDzWZJIEVXBNkL7sNeYiYOH48Ud5sAlQypqqMVARrbqnpG3WaBdaHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787840952; c=relaxed/simple;
-	bh=6brJ3I/FMSLxeAu7VYeM5Y1AtwdHO0fwzquf41vQQ9E=;
+	s=arc-20240116; t=1787841143; c=relaxed/simple;
+	bh=32W/YkfA2YFHY9KJT8XuRLvbKnhjrEAh7fIoYP4Fyg0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PimSIt1Zut3uGaIw0Is7lRryujgJWFYLxxd3c+S/JN87cZefV3vxiddloNCmP6x0EpFYDyWqa51JBupZV+rFK9WdCLw4yzHCQBJcLbfY9nGm2L4qSF/UDDnzI1QQ4oYvsFXL1CogF0xG1nPlsoZutkASy3RCfhBGI8qOc34F3HE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=MN8qz0e3; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=UinFQNjJ5wSQTVnLDYxIy9vcnfJmgCOhVpztbcPFM7lKaUz6mWOPVJMHaHKq3Y3qcx++MDB9AyXrd33mw1BjHn2gWKUgGQ8QtSgTJXoq4qyjKB7wybrUmQHFNhbgEBlFeG8/+P0QcROMHr2rJ+RhEN+CC+38HUJD6H+QE+s8JT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZYpZniKZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="MN8qz0e3"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7539E40E021A;
-	Thu, 27 Aug 2026 14:28:58 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ObWb8cOFOnty; Thu, 27 Aug 2026 14:28:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1787840928; bh=nH1dEa45oKyEZ+LvyVfaxCb3KtSM1VwnQfe9BHKlGaY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MN8qz0e3pXb/1DL78Fq1XC5Hr75Pv2Og34nfm4yQbcx7w01QaBJG/Y5t3S6DR2sI4
-	 nOoLvlLbDx8LnDFCYAY0xNz7ApPmo0ahdYGXcdh4rsrUh3g0z8vSAicxm5WVWFtaW1
-	 52O0ix8ZLAqBxTbXYysHq93LeT6UlocQ+hxu+R7fWPZFIxsIDzqzI2xWmvfrXQMHYk
-	 atAbPpbg28vUKuk3TX5o2bUydDwdrhQFraiX+GwA6oSu2MwMu+Q8lFgQVcYIDnGGno
-	 Rz1JFfDL8uRIqvl5s2HiRr/faX1irlrpjMcEF7xzlFLvg+ABbDF2cl2/DPgkcdryBm
-	 +3byy+38iZZV4K093GMSWXW1xH0y/VkjUsiZ5F7otaUWCSHM1eehZ7AyEi4WedT0dO
-	 mJkfzfu4bPPO9/vAXINgj9j+NbdD+q4fUQp75bXyWG0Q6oPt7XadqP1/0hgp7DDS8O
-	 B/bfpyjo8zFVlHyWITijge1LfQWkEbwasZIlYkYahqFdfqFuNjZo/u9JXJG8qlAfMl
-	 2aDHAwpswfSgkAfGlLFnjO+ScL9AoTMmt6AIgzmkH+RjL6Ep8u7H0403YE5jeJH7jD
-	 6SrlSEuloFfbRCKWfRuSfBRtKZinMIlNkiiKS76uZ8ttPmRKwz/DJ+zeLtIAhtyTDZ
-	 H9DcvsVpehYhAg8DxqoEeJz4=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BAF2440E00E6;
-	Thu, 27 Aug 2026 14:28:33 +0000 (UTC)
-Date: Thu, 27 Aug 2026 07:28:29 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Breno Leitao <leitao@debian.org>
-Cc: "Luck, Tony" <tony.luck@intel.com>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZYpZniKZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77EC61F000E9;
+	Thu, 27 Aug 2026 14:32:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1787841138;
+	bh=163b9z3lbMkc0FEcq1dbE3pOnD7g0ons6yqBuYTNQqo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZYpZniKZHJ61ki9gDq4SjzydVU49iCyvWcBJHaRvY1HjJYNMGVeaTPMjVP6Vtn4C5
+	 FgMiSaXRrPI6oP/Ezzc9n6d8tG3LIm9ILhy82ienk5B++gTQq4zTWyI3gAgGhObWPv
+	 GaqMHK/ZvtQCExiPsyaYunzDSvbfHcCjFw3piwSQ=
+Date: Thu, 27 Aug 2026 16:30:36 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"kernel-team@meta.com" <kernel-team@meta.com>
-Subject: Re: [PATCH 2/2] x86/mce: Add mce=panic_on_ce_count to panic on a
- corrected error flood
-Message-ID: <20260827142829.GAapBJjfZwSEhZ-_71@fat_crate.local>
-References: <ao2eT0TWS9EaA28N@gmail.com>
- <SJ1PR11MB60837D32B5D89336C87280A3FCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260825161625.GAao2_2d3U7xQFgHrw@fat_crate.local>
- <SJ1PR11MB60839657B965AC3FDA53C186FCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260825191555.GCao3p63v3fXzwa7E7@fat_crate.local>
- <SJ1PR11MB608315809B99B7194D167D8EFCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260825225202.GEao4ckknyv8nRc8Dh@fat_crate.local>
- <ao7nGM9sCQyxJvsD@gmail.com>
- <20260826160934.GBao8PvsM8M-U7XuFR@fat_crate.local>
- <apAEy6c6xuXJXSEQ@gmail.com>
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] module: pull out add_taint_module() to be public
+Message-ID: <2026082713-award-dreamless-3aa7@gregkh>
+References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
+ <20260826-bind_taint-v1-1-52b05f4a965c@linuxfoundation.org>
+ <apA9aTiIpBz4inof@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <apAEy6c6xuXJXSEQ@gmail.com>
+In-Reply-To: <apA9aTiIpBz4inof@hovoldconsulting.com>
 
-On Thu, Aug 27, 2026 at 02:47:11AM -0700, Breno Leitao wrote:
-> This is a user-configured option; each user picks whatever number
-> works best for them.
+On Thu, Aug 27, 2026 at 03:36:41PM +0200, Johan Hovold wrote:
+> On Wed, Aug 26, 2026 at 11:19:32AM +0200, Greg Kroah-Hartman wrote:
+> > Other kernel code might want to call add_taint_module() so pull it out
+> > and make it global.  If modules are not enabled, this defaults to a call
+> > to add_taint(), so all is fine.
+> > 
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > 
-> From a quick look at the Meta fleet, this follows a bi-modal curve:
-> a bunch of hosts logging a dozen or so, and a few with thousands. So
-> doing some napkin math, I'd say "many" is around 100ish for Meta
-> fleet.
-
-Sounds to me like this patch should remain in the Meta kernels too then.
-
-Because I don't see it being that useful for upstream.
-
-> Correct, that's exactly my approach here.
+> > -static inline void add_taint_module(struct module *mod, unsigned flag,
+> > -				    enum lockdep_ok lockdep_ok)
+> > +/**
+> > + * add_taint_module: add a taint flag if not already set for a specific module
+> > + * @mod: pointer to the module that caused the problem
+> > + * @flag: one of the TAINT_* constants.
+> > + * @lockdep_ok: whether lock debugging is still OK.
+> > + *
+> > + * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
+> > + * some noteworthy-but-not-corrupting cases, it can be set to true.
+> > + */
+> > +void add_taint_module(struct module *mod, unsigned flag,
+> > +		      enum lockdep_ok lockdep_ok)
+> >  {
+> >  	add_taint(flag, lockdep_ok);
 > 
-> After X CE errors, we acknowledge that the machine is no longer
-> stable enough to keep carrying the workload, and simply panic. It's
-> the last resort: it means lab technicians haven't fixed the problem,
-> and nobody has gracefully powered off the host either.
+> >  	set_bit(flag, &mod->taints);
+> 
+> As has been pointed out, this crashes with built-in drivers. If you go
+> with a simple mod NULL check before this call (and updated kernel-doc)
+> you can add my:
 
-So panic instead of graceful shutdown.
+Yeah, I've fixed this locally and will be resolved in v2.
 
-This makes it even more a Meta-only specific approach.
+> Reviewed-by: Johan Hovold <johan@kernel.org>
+> Tested-by: Johan Hovold <johan@kernel.org>
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Thanks!
