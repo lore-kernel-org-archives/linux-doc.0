@@ -1,302 +1,179 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011061.outbound.protection.outlook.com [52.101.70.61])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F5313790B;
-	Thu, 27 Aug 2026 07:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787815467; cv=fail; b=pIyYeGe8kYVf4kDLHfwrZBhZzU98+YZ1z09RoOSGIeSrscFiIpxkE2a29uA2Heb4OK23MEQrG/p/sLYjHZ/zwTxvmZtNbFSDHDqrgmJRqGXlOq1F9DcNgwsyXd5ZMfieLaYCc9vxrIp95mv1VYoq7Res6+qboLLsBy8c/AxoTGw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787815467; c=relaxed/simple;
-	bh=sGn5IngRTQCVmxcTM3LxLeRGJNIr5a00p0Fx6Ww1yww=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WPGfLrVNQZFf2epxIRwDr6gvNoCIWXrJMiTag4w6Xs44dFa7OqqXj2eOJnH2GRn5qRP2ubaNIXNiggpLgPKF6nGPJeH4QKbTa4UtXmC5r2GUhpaYsi2kA5Dns4JztMpxzl9cHBad29yrJiJVpG7gDYZ7mLZrZ1Udc+dKaYZhDDo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=@siemens.com header.b=lzcIW4YG; arc=fail smtp.client-ip=52.101.70.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siemens.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136B3363083;
+	Thu, 27 Aug 2026 07:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787816164; cv=none; b=OfL593A0smLFleD3sSkqw/O9eQzkAbBLdVpN99ratIXT9LrEQ4dfERWLEHqrr7P5F4RmnGkINvwWWybKe3mAs+55xvR8bAGqvSmGMwUKuMNg+spClYv5LsE7ArVpWRmok5Duk6bhwfmTaex4w7nrdXLSAoHQVQNL2d50datAjIs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787816164; c=relaxed/simple;
+	bh=ZKN1B2gZYBwuyNnxocxDDBrNCih2O5jweGLmrMvotJQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=YsKxcWpziQukmirtUfdUTphpPpAS5KQt3s8kP/nXoBOWa9K58tTBKNVa9iEiOkQHB5c7xSBS/edZRnFGra97LT2ZRrcwvoW9/fWs9+S2ayKdqzyRkQc+ytmcWkgnBVYY5B1B7ukPJLlVzEpf69BEwm+evOPI63SGjHCzx3Cz9qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=PuDH3Fgy; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siemens.com header.i=@siemens.com header.b="lzcIW4YG"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wFvuKTIamLbPx/yVj8MWdf3lUh1DUSki6VzsbZGnd2L56/cReuZC53oZkoBs81032gmCm/pYDLFLwPqGqMlPQtv55rabGwO7B6ojdIuq1CIeJAM7qFiKU7XO70u8581niOx4cX+pPWrVmYjWqqpAaJ+F65IYLZ5EbzB8yC/GAXxihqe9sRVal7rdIbfKqVntmpegF8h5SYD/7gIU9bluECfE8SeufPekRfs7unD5UVWj/iTygWh3cpLa9PDTUuQETmAdVMZuCEVOzLQGyd5xQTa4mDQm/+djg7L/bHFdoNmXFAJJRfyEuG47Ajl+JHwVfugAVP80HdlH0iyceThZAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YVqO33XpiYY0gncD8uqn39VcoiFOU/lhwjBFZ6oaQaI=;
- b=kVkd7fxJNaI74hIa5wF0YonwIflsr4UET8ZWHLKZCsfciNTVSq3FFEL42mR3SQNZZ11DZ5DB0RlnHU7JbCXIbLWt6xP/U4US84UEkRQpVmEQHRcTlSbN/3N99CTr1ZnA0EbcLOeVKi+aG7UtnXM77KbHXlg5QiOmFbd774N8zJMnAAZg2ZTOmlMlxyQk9y2ruMA5c1O9dJhOa5Gw5OgOu56eukoe6d7MOZxRjCSFDZnQPbWA1hyZgFeGAHiS3YFZ2Co9vGKvVu58xbzuIjwGrwTPI9RjKd48syOHyzSxzsufTtbA2s1U82bcA/xb3z+BszPa0rAskIX6bELINBtiJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YVqO33XpiYY0gncD8uqn39VcoiFOU/lhwjBFZ6oaQaI=;
- b=lzcIW4YG+KLwPaZu+d0cXcVFmxoe8ifw9uZLY22cDSmtiwKHr4nyu7K92XKGY7MCe9tWs9IYCNfsyv3GiPRlGYYM4BwSnWBK71Qo5GkufASPNiOm1kveOjsggnnYzj66J12O7gUfjHC4Zytbq+4xSaaEzUxqYUupeoOKLJmp7z2dYtDIssjguj1x0InBWk21T+xZJeMMwRLf42ynsdageGffIgqpi/uW/gGgeXQbvzg9N1oh2XQ+w09gRhelhWG1Ram5duL7O5+w+9vwCFZUFENM5VCdxwiMt91Hp5joNEXtOEm3d/N6braiHHbErgAyPJhU1zUjGWcZWFwYDTc8xA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-Received: from AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:3dd::5)
- by GV1PR10MB8608.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:1d1::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.10; Thu, 27 Aug
- 2026 07:24:11 +0000
-Received: from AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::5f49:b0e9:d295:22d8]) by AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::5f49:b0e9:d295:22d8%6]) with mapi id 15.21.0339.008; Thu, 27 Aug 2026
- 07:24:11 +0000
-From: Tobias Schaffner <tobias.schaffner@siemens.com>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Gabriele Monaco <gmonaco@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Philippe Gerum <rpm@xenomai.org>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tobias Schaffner <tobias.schaffner@siemens.com>
-Subject: [RFC 3/3] rv: collect per-edge dwell time for per-cpu DA/HA monitors
-Date: Thu, 27 Aug 2026 09:24:00 +0200
-Message-ID: <20260827072400.45734-4-tobias.schaffner@siemens.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260827072400.45734-1-tobias.schaffner@siemens.com>
-References: <20260827072400.45734-1-tobias.schaffner@siemens.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR3P281CA0071.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::7) To AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:3dd::5)
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="PuDH3Fgy"
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67R6PKNI2769927;
+	Thu, 27 Aug 2026 03:35:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=c8Rp8
+	EOzkyMI8boZQTY40lparKG2slm87g2a/+q88n0=; b=PuDH3FgyU8vSzMgOZX2Y0
+	cHTintKCSA12FIhJ8E5lGpwtAO+7IXhKMSE2XS9eYzFBAFIFwWS9w9d8ULFT2AQY
+	EPaTSCwUO/IS/DE/1HfdyC3YyxFkTnfZSZZT9He1Mt7I4fhrGtG8UhmjjdyEgANA
+	CxvICRsa5w9PEF/XCYZ+EUsgB0vscCxu/+IuDYm+cqSsip9aLxdHW2jIdHqSHej2
+	MBZ5CpZwq628qkqR0++5GOoYyJR+HJkpSO6nDdvHqAY0q9C+nw5WBTPICNDudLrR
+	q7Y+Bt4jjgnbgCuHkVtoFTAzRWS/CBpO6WGrolB17PTMzeTtyN+DRRhvv2BMX7VE
+	A==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4g963pupdp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 27 Aug 2026 03:35:27 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 67R7ZQ81015141
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 27 Aug 2026 03:35:26 -0400
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Thu, 27 Aug 2026 03:35:25 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Thu, 27 Aug 2026 03:35:25 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Thu, 27 Aug 2026 03:35:25 -0400
+Received: from HYB-e1y2fvUQ3cx.ad.analog.com ([10.32.223.174])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 67R7Yroo011772;
+	Thu, 27 Aug 2026 03:35:15 -0400
+From: Janani Sunil <janani.sunil@analog.com>
+Date: Thu, 27 Aug 2026 09:34:46 +0200
+Subject: [PATCH v10 1/3] spi: dt-bindings: Add spi-device-addr peripheral
+ property
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR10MB4992:EE_|GV1PR10MB8608:EE_
-X-MS-Office365-Filtering-Correlation-Id: abeafbad-58a6-448b-798f-08df040c3055
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|10070799003|366016|6133799003|10067099003|56012099006|11063799006|55112099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	hAVNQSd3AsPZ2vCGxo5KUUXsk3FuNDb/YJ3eLMA01/OEfVBZx4oKi6lnB25c6+9dcXKrjzwH/HdVuVdhikpLXX20N6bzzXf/5YKkAHV2Lh/cOFNszny1YNffOVXNILaiLr4ioo4Jj50AhGc4x3XcnAZJeLqZlTx4zs6D1knM7haLIdENxf8qlFg6OT/cbBLj2XxsNH/YkL72PF2hRkJJ4O9ZTp5BfU0iCuKKLP4rRsT2eSVGEwdQxXY8VvS8gQVOJaPVtHjba/SYU6BH/zGu3MyWqrgd5QW5rSIAzWee0wx3+wv6GNidKBAsYLLRuClJmhhz2DMpN7Koo0XZjRbQrsiHDhhSrgca2ETNLnWdSsJUAI7kkQv+1R9qAgQtP8eGnfb+T0h5ZJB3/TMCL9VIXmjBVTb+FytmXQuFYxdsf1n+a6HhWS/BuSnnvDZLHXyA2zX+3pzgAFWcJ1DH4mQ0vYgccDr9LAZUWc0Mmzrc7gHGcioLJdBv3Zl3lZqMUMpP0wnEBIDTA+qBPvQ/VFd4LxrYB72fIKFuqW3tSHs/coJ3rQngTm/A/Kx6/sBaElQaPin6yeX45p0E4JrNaIOnSVtUE+nRxTR5GK/S013cYdZFIuOh3C/FWJLPYVblNXIvNOwP8ajX6mU+hTrDOmg9yEp1wtZdSlxNXjVMOv6t+bE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(10070799003)(366016)(6133799003)(10067099003)(56012099006)(11063799006)(55112099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9WacdKKDkOxvjM64p0UuutjrvOXzJ8hk2y/hB3p/tmMzVcuXj+LPpg1PSEX0?=
- =?us-ascii?Q?RdvnmGJ5b2F40JIhYD89zpf8M+cMo4aSUQ9Zd4iEjuIWTk10QPyPVUgatmjg?=
- =?us-ascii?Q?4yjz7fOMkXHG65mmsK77P86T8AuwDhnZ/cBULFm48GPUFi0jxY+6zRVXyh45?=
- =?us-ascii?Q?MDcTA5lxTcQSB65XFtIgvS2nWIQXfJKgrrYgQEzwslMZN0AgGREo72EFcnbT?=
- =?us-ascii?Q?+DzPDa3a1LttlDs50NLlnkLoRaEI0mjsAK1NSvcNzpWyZziGkMomDiCtATO/?=
- =?us-ascii?Q?D9YOWYdsK7NX0q7gz0Og6zkzYr25oDldS4pp4+nJfDAzOrDajeyIrJCBFO3V?=
- =?us-ascii?Q?0xp8S/I+uDASOAh/jKkfctpaJUWD0p4tV/Xp/11nv432ZdEwn8PIKzmXmk1Z?=
- =?us-ascii?Q?W7CHhc4hIjXB6ruZO/wKefmlMmzRw2F9MYpuseGLWul5xAlb42FgIjM0gEMd?=
- =?us-ascii?Q?SL2OtSv4BPYA22aRt9a2XU3pV7aOpXUrNxrp2lGKq4nxPjCbywPlIqcvbhtR?=
- =?us-ascii?Q?ZLfkcf69bUEI8KyQkB2kaT2x6sngODJAoDjDzrFeQPfYcU2sexxe4hdni7ln?=
- =?us-ascii?Q?BfkPTe91btFZiBRar14yc9GLiXyKe5AhVHhOzJN7aklIG70vu5xvpgz2A5Hc?=
- =?us-ascii?Q?SNXFbO9isHnbLFYlpk4exrfA6C66GN2+W+9bZlWEaSbC0e+RZcgXpa7TlIRo?=
- =?us-ascii?Q?K3MOB0D89l6oKZSKnyp4GdFUpNe7n7ozK3m0Mbek8aFdtJKQXM0VTV0V/oH9?=
- =?us-ascii?Q?xzkPdgYaj0I8Uh5mecW4tE38tcfE1EzQtKP/zSilq77IJOpDqBSAAuRBV7zv?=
- =?us-ascii?Q?MgqkX4aLOxE0ddf3+FTZizDBJ4lqRnUHZPqW4tBRsFwFbA459RlSvPApp8nE?=
- =?us-ascii?Q?Hsz+To0egKelvJqaSTfTg70ST/OWpBheTxeG+nq5sQ9UzZ8U/wypix0DdnCR?=
- =?us-ascii?Q?nsA6zi7GfqsYB3wJvyTnPzqV5qG84oYiI0Phy20awsU9ZsXipQByFNFK6iNY?=
- =?us-ascii?Q?Siaa2qLUE1qOLCU+dTrpdbTHFOKhzenK+ECGYGkHFUKFI/9tQ/ijWO87Ed5y?=
- =?us-ascii?Q?oqnuDnBASpTS4RaHWQewPTCoOJqfcXKg6Dp7AyGFRDfNGC/AMlZGz8nBSg+r?=
- =?us-ascii?Q?5OzbjY4kLKhjZZjLIGkhea1jlrdGwpM3JP1uSqusEaeS9cuNeqXmPaOWB5Y7?=
- =?us-ascii?Q?Rg5fikeBCGWUHrSGHfJscLCavzNrBnSSYeF9mpPURmBxOvl3L+wvU6v1yfEl?=
- =?us-ascii?Q?X/Tj2X2nqMn+70M+VoT9KyQ6zix6SbnUV3XYIOHwYq//gmUkQZVMfuZtrG4k?=
- =?us-ascii?Q?PfoLmv0jHexCZzqmg2PDkLygZppiXQyPHUW8dg+ZrBCRxkYm7OJLYyDXK/5L?=
- =?us-ascii?Q?R7GQii1zW3DTJhkmqfO/BUDcJR8iqLSsvoXzuF24Gwmiuf8m0T6HWOiWBxFm?=
- =?us-ascii?Q?2MM6RJ8BELLMjlfJHSYMkw+RXJu/opy85C0mtLAr7FDcccmMmFyaC7S52Uc1?=
- =?us-ascii?Q?a6pd9nPwNTRnRamIKCgMyIhAwRYA8FCikWXVgKSnc552IvFfX4nIlfxlW23F?=
- =?us-ascii?Q?7i+6Qy7Qn9v8lp6olm/0HH4lCx3D78X6XaObfPik8FVSTQhRsApipTP6SYEj?=
- =?us-ascii?Q?Bk0qAEVnQCrzQd2C/8dTacJutuZGU4h0tmCP6ui6JYiQn4ZJTnfg5nV98sVK?=
- =?us-ascii?Q?Hzt90oH8jGsIYnaIZIgYV2SkttjKnDIXVNjK8Hg2VYcGzzGOwBOIYYXuWuk2?=
- =?us-ascii?Q?b/Xmh3NAHtp+VER+Rigw/R3SmGv+wCGsKFd6dh8cyoNEm7OVZercoESDZkVK?=
-X-MS-Exchange-AntiSpam-MessageData-1: KC8cu/0T45EdLUbXUOkvmwm4V4m8QBTqCxw=
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: abeafbad-58a6-448b-798f-08df040c3055
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2026 07:24:10.9855
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lek9uBzbsaa+ZmfXcqG5JmVKHI9NE2gUh/pNX2AGj+NLegxwXQFyG+DZx4RF9QbuIoRnQ9bdti7pYubMSErxjc2j8+kiBuyoU2CFPhDizAE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB8608
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-ID: <20260827-ad5529r-driver-v10-1-38f2be07b824@analog.com>
+References: <20260827-ad5529r-driver-v10-0-38f2be07b824@analog.com>
+In-Reply-To: <20260827-ad5529r-driver-v10-0-38f2be07b824@analog.com>
+To: Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich
+	<Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        "David
+ Lechner" <dlechner@baylibre.com>,
+        =?utf-8?q?Nuno_S=C3=A1?=
+	<nuno.sa@analog.com>,
+        Andy Shevchenko <andy@kernel.org>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Jonathan
+ Corbet" <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mark Brown
+	<broonie@kernel.org>,
+        Marius Cristea <marius.cristea@microchip.com>,
+        "Marcus
+ Folkesson" <marcus.folkesson@gmail.com>,
+        Kent Gustavsson <kent@minoris.se>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Daire McNamara
+	<daire.mcnamara@microchip.com>,
+        Paul Walmsley <pjw@kernel.org>, "Palmer
+ Dabbelt" <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, "Alexandre
+ Ghiti" <alex@ghiti.fr>
+CC: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        Janani Sunil
+	<jan.sun97@gmail.com>, <linux-spi@vger.kernel.org>,
+        Kent Gustavsson
+	<nedo80@gmail.com>, <linux-riscv@lists.infradead.org>,
+        Janani Sunil
+	<janani.sunil@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787816093; l=1442;
+ i=janani.sunil@analog.com; s=20260507; h=from:subject:message-id;
+ bh=ZKN1B2gZYBwuyNnxocxDDBrNCih2O5jweGLmrMvotJQ=;
+ b=IZRbWAbXqG/TRJNMABwCNtxNbZapal+ZyJDbLC1opUGm9jhZuYyWKmyJJUjlVBLq1APcaTqXl
+ xZBaxnHFMCzBT8S1BFUGhttWlsW1dxFaFauF/0voU6QdTFVp8HV0y4G
+X-Developer-Key: i=janani.sunil@analog.com; a=ed25519;
+ pk=e25MyjRLPY3RWrYm/LrJ+/+t1MZJUbkgIW5CZg+g+hA=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI3MDA2MSBTYWx0ZWRfX4Hd7zt0Z6oov
+ G7LwT+7SAn6yK5UcZ+6xTV5CshpCwWeFaBBS34Ra80mLCk6+vtrFwBV6upwSp/wcE3Qnwro8axS
+ KBHW+8cLBL7xU5qKhpMAiYYXcW9iQNQWzoanvG8IF5BU9gZ483WI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI3MDA2MSBTYWx0ZWRfX0Qgo7PAXYOWL
+ 8GOL7uZc/720pUuGNLMpZj0Bi375KOvRSTqN/lE+VatXs2/kBL59zIirewtcnJuIsSJT/CN8dD/
+ thuDQ+UMtJaAzqObpYQtX8nqHqgePi7AiOrresgro2PkkG2TpjvHpuj+FRIpA4B7YpiJYMDm7wm
+ PBnzggP8tAvoAfwYuIAj8VZ5zaHC2caft2hPNu+v9utINCgMobBrYztWVnAZAqKORU517MskmVa
+ hmUrZyuE3ZpftygkGj5q1/9O4cFvXkfgPRO+QE2e5An81tHLJc5j/E3zbUuTyRDhzmcxiT3k/mP
+ QqqR3gklYadUKfFrPBer1CHFkgX2exdUjKkTL62xbUMQqZ134WF8gKuh1hx6Wm+FyskcfjYbVBw
+ TW86kxo37joR7DXfXAX5OE7YJUlLMnI9U7NrMCIu1/C83Y/k1IRXyseebV0tddtoKzVhPRpnj8Q
+ g1AMnlQmW4LJx38tOBw==
+X-Proofpoint-GUID: zrUg4agh5wTfD4kyFf1AkZso6reSFg6j
+X-Proofpoint-ORIG-GUID: zrUg4agh5wTfD4kyFf1AkZso6reSFg6j
+X-Authority-Analysis: v=2.4 cv=GNc41ONK c=1 sm=1 tr=0 ts=6a8fe8bf cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0sLvza09kfJOxVLZPwjg:22 a=uXIjobp8t2wMuQ0fPvqm:22 a=gAnH3GRIAAAA:8
+ a=XYAwZIGsAAAA:8 a=pGLkceISAAAA:8 a=p7DZuduEnTu05McJuzUA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=E8ToXWR_bxluHZ7gmE-Z:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-27_03,2026-08-26_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 priorityscore=1501 clxscore=1015 spamscore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608270061
 
-With the core facility in place, hook it into the DA/HA layer so that any
-per-cpu automaton monitor also reports how long it lingers in each state.
+Some SPI devices support sharing a single chip select across multiple
+physical chips by encoding a device address in the SPI frame itself.
+Add the generic spi-device-addr property for describing these hardware
+addresses. The property is placed on the SPI peripheral node and may
+contain multiple addresses.
 
-Add a selftest that enables a per-cpu monitor, checks the stats file
-appears and is populated under load, and skips cleanly otherwise.
-
-Signed-off-by: Tobias Schaffner <tobias.schaffner@siemens.com>
+Acked-by: Nuno Sá <nuno.sa@analog.com>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+Signed-off-by: Janani Sunil <janani.sunil@analog.com>
 ---
- include/linux/rv.h                            |  4 ++
- include/rv/da_monitor.h                       | 53 +++++++++++++++++++
- tools/testing/selftests/verification/config   |  1 +
- .../verification/test.d/rv_edge_stats.tc      | 32 +++++++++++
- 4 files changed, 90 insertions(+)
- create mode 100644 tools/testing/selftests/verification/test.d/rv_edge_stats.tc
+ Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/include/linux/rv.h b/include/linux/rv.h
-index 7eeecce17e50..09363f79ca90 100644
---- a/include/linux/rv.h
-+++ b/include/linux/rv.h
-@@ -27,6 +27,10 @@
- struct da_monitor {
- 	bool		monitoring;
- 	unsigned int	curr_state;
-+#ifdef CONFIG_RV_EDGE_STAT
-+	/* local_clock() ns when curr_state was entered; 0 = not yet stamped. */
-+	u64		state_ns;
-+#endif
- };
+diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
+index 880a9f624566..4894196c8f9c 100644
+--- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
++++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
+@@ -142,6 +142,13 @@ properties:
+     minItems: 2
+     maxItems: 4
  
- #ifdef CONFIG_RV_LTL_MONITOR
-diff --git a/include/rv/da_monitor.h b/include/rv/da_monitor.h
-index 34b8fba9ecd4..59ca9a286c10 100644
---- a/include/rv/da_monitor.h
-+++ b/include/rv/da_monitor.h
-@@ -16,6 +16,8 @@
- 
- #include <rv/automata.h>
- #include <linux/rv.h>
-+#include <linux/rv_edge_stat.h>
-+#include <linux/sched/clock.h>
- #include <linux/stringify.h>
- #include <linux/bug.h>
- #include <linux/sched.h>
-@@ -30,6 +32,54 @@
- 
- static struct rv_monitor rv_this;
- 
-+/* per-edge dwell statistics, wired up for per-cpu monitors. */
-+#if defined(CONFIG_RV_EDGE_STAT) && RV_MON_TYPE == RV_MON_PER_CPU
-+static void
-+rv_this_edge_name(unsigned int edge, char *buf, size_t len)
-+{
-+	snprintf(buf, len, "%s:%s", model_get_state_name(edge / EVENT_MAX),
-+		 model_get_event_name(edge % EVENT_MAX));
-+}
++  spi-device-addr:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description:
++      Device addresses used when multiple peripherals share a single chip
++      select. The array allows one logical peripheral to comprise multiple
++      physical devices, with one address per physical device.
 +
-+static const struct rv_edge_cfg rv_this_edge_cfg = {
-+	.n_edges   = STATE_MAX * EVENT_MAX,
-+	.edge_name = rv_this_edge_name,
-+};
-+
-+/* Hand the model's edge descriptor to the core; called from da_monitor_init(). */
-+static inline void rv_edge_bind(void)
-+{
-+	rv_this.edge_cfg = &rv_this_edge_cfg;
-+}
-+
-+/* Stamp the moment a state is entered, so its dwell can be timed on exit. */
-+static __always_inline void rv_da_edge_enter(struct da_monitor *da_mon)
-+{
-+	da_mon->state_ns = local_clock();
-+}
-+
-+/* Account the dwell in @curr, then stamp entry into the next state. */
-+static __always_inline void
-+rv_da_edge_account(struct da_monitor *da_mon, enum states curr, enum events ev)
-+{
-+	u64 now = local_clock();
-+	u64 prev = da_mon->state_ns;
-+
-+	da_mon->state_ns = now;
-+	/*
-+	 * local_clock() is not guaranteed monotonic; drop the sample if it did
-+	 * not advance so a backward step cannot underflow into a bogus dwell.
-+	 */
-+	if (rv_this.edge_pcpu && prev && now > prev)
-+		rv_edge_account(&rv_this, curr * EVENT_MAX + ev, now - prev);
-+}
-+#else
-+static inline void rv_edge_bind(void) { }
-+static inline void rv_da_edge_enter(struct da_monitor *da_mon) { }
-+static inline void
-+rv_da_edge_account(struct da_monitor *da_mon, enum states curr, enum events ev) { }
-+#endif /* CONFIG_RV_EDGE_STAT && RV_MON_PER_CPU */
-+
- /*
-  * Hook to allow the implementation of hybrid automata: define it with a
-  * function that takes curr_state, event and next_state and returns true if the
-@@ -113,6 +163,7 @@ static inline void da_monitor_reset(struct da_monitor *da_mon)
- static inline void da_monitor_start(struct da_monitor *da_mon)
- {
- 	da_mon->curr_state = model_get_initial_state();
-+	rv_da_edge_enter(da_mon);
- 	da_monitor_init_hook(da_mon);
- 	/* Pairs with smp_load_acquire in da_monitoring(). */
- 	smp_store_release(&da_mon->monitoring, 1);
-@@ -275,6 +326,7 @@ static inline void da_monitor_reset_state_all(void)
-  */
- static inline int da_monitor_init(void)
- {
-+	rv_edge_bind();
- 	da_monitor_reset_state_all();
- 	return 0;
- }
-@@ -696,6 +748,7 @@ static inline bool da_event(struct da_monitor *da_mon, enum events event, da_id_
- 		if (likely(try_cmpxchg(&da_mon->curr_state, &curr_state, next_state))) {
- 			if (!da_monitor_event_hook(da_mon, curr_state, event, next_state, id))
- 				return false;
-+			rv_da_edge_account(da_mon, curr_state, event);
- 			da_trace_event(da_mon, model_get_state_name(curr_state),
- 				       model_get_event_name(event),
- 				       model_get_state_name(next_state),
-diff --git a/tools/testing/selftests/verification/config b/tools/testing/selftests/verification/config
-index 43072c1c38f4..de229777d5c8 100644
---- a/tools/testing/selftests/verification/config
-+++ b/tools/testing/selftests/verification/config
-@@ -1 +1,2 @@
- CONFIG_RV=y
-+CONFIG_RV_EDGE_STAT=y
-diff --git a/tools/testing/selftests/verification/test.d/rv_edge_stats.tc b/tools/testing/selftests/verification/test.d/rv_edge_stats.tc
-new file mode 100644
-index 000000000000..5fb2384d938c
---- /dev/null
-+++ b/tools/testing/selftests/verification/test.d/rv_edge_stats.tc
-@@ -0,0 +1,32 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+# description: Test per-edge dwell-time statistics (stats)
-+
-+MON=wip
-+
-+check_requires "$MON:monitor"
-+
-+# The "stats" file is created on first enable; if it is still missing the
-+# kernel was built without CONFIG_RV_EDGE_STAT, so skip.
-+echo 1 > "monitors/$MON/enable"
-+if [ ! -e "monitors/$MON/stats" ]; then
-+	echo 0 > "monitors/$MON/enable"
-+	echo "CONFIG_RV_EDGE_STAT is not enabled."
-+	exit_unsupported
-+fi
-+
-+# The first line is the column header; the body has one line per (cpu, edge).
-+head -n1 "monitors/$MON/stats" | grep -q "^# cpu edge label count max_ns sum_ns"
-+[ "$(grep -cvE '^#' "monitors/$MON/stats")" -gt 0 ]
-+
-+# Drive some scheduler activity so the automaton records transitions.
-+for _ in 1 2 3 4 5 6 7 8 9 10; do
-+	(true) &
-+	wait
-+done
-+
-+# At least one edge must now show a non-zero count, with sum_ns >= max_ns > 0.
-+grep -vE '^#' "monitors/$MON/stats" | \
-+	awk '$4 > 0 && $5 > 0 && $6 >= $5 { hit = 1 } END { exit !hit }'
-+
-+echo 0 > "monitors/$MON/enable"
+   st,spi-midi-ns:
+     deprecated: true
+     description: |
+
 -- 
 2.43.0
 
