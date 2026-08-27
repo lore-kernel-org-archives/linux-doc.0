@@ -1,114 +1,145 @@
-Received: from mta0.migadu.com (out-45.mta0.migadu.com [91.218.175.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E3E35A3B1
-	for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 06:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652403624A8;
+	Thu, 27 Aug 2026 07:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787812805; cv=none; b=sqiJnDTgrW+a8yCMs1Q+ftR8wf9o2IzlxH8GJVy+DP8dzMAskjverzwQf7JSRxgZzaFMLA2cwRpXyH/E9WaG3UyP53Yek/de/+A13eosfWVS7nFr8dSs6F6uwQDQy8AH+IJ+9Bo47jcndhMcFWoHqg9U9z/gaX/100pVl/026s0=
+	t=1787814865; cv=none; b=kmOmFTJ9CxWXCjpKXHnz07kLpkFJdWCKrUQtwX18WAwvJfht2bL7sm5YCtmWNEe+HLiF6LzA1/BnTEdB4Dj8RJC/OlGvP2IqWWr7DJBZ6E24NfKYMYChWkPSX6JWJSiptJ/xJlNUKRn5dFV0iSOirEAdR3ber7RWmJzMgKjTurM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787812805; c=relaxed/simple;
-	bh=m3EBblnKDAGIdH9tcjTA1Ngw0Wg21uv1CZPG3SHJxuA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 In-Reply-To:References; b=D+VS1tt7fuz0djo5ANP6nYKWKkgbH/8Tv58WIG+Cf84HdRhZxIEejbkIramfK8N1SZzwHBK4yvMAZ7pIGkdhCowhQmHO9DFDIBTYmUgHJdqsZL6Dpg0eCIwjtkN/02tSUtTva/E4oW6iBDe/UyXqfj4oLkQwITbaqmLAR1571VM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uMNycoz5; arc=none smtp.client-ip=91.218.175.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1787814865; c=relaxed/simple;
+	bh=3D8ff5zW/vZMlEclUlwi+ylibdKBP+Y7SVtfjULZPJM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xw5yVi07178dXqF0JPXsA8oExX6zrcQB8w/id5d8UiRYoqepf67Vl+gg+C1jW1pks5C26uRweoFJowUgzt+AYSz9NhdTFeve1l3cxJdBCKlqG/IM4irW9GPY4+WvS81x6x1dcMG4XAeZxcNckRFJyrT5ycUDPGF2pXsZfgVmXQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fNddaP5u; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uMNycoz5"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=m3EBblnKDAGIdH9tcjTA1Ngw0Wg21uv1CZPG3SHJxuA=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787812801; v=1; x=1788417601;
- b=uMNycoz5nqVOQ9i8+cdDP+jjzmN9IhQLfPDokmNhzeXuUnPueUqSwQHBERR0Ep2XtYX15VGR
- M7ANjiZvBbclQhVluxV9f7r8zeVFhNZpqt0LuTVNJef1RksQ2R2MrVWylo22q8PXn5pHRc6/pP5
- xJjNyxYk8KUkPEFAkbwHPvGU=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: from localhost (8.211.180.184)
-	by mta10.migadu.com with ESMTPS id 5cc20cb2f0893b0a;
-	Thu, 27 Aug 2026 06:39:59 +0000
-X-Mizu-Trace-ID: 5cc20cb2f0893b0a
-X-Migadu-Flow: FLOW_OUT
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fNddaP5u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 037CF1F000E9;
+	Thu, 27 Aug 2026 07:14:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787814863;
+	bh=Raso+76RSPHx/Ucjk+/qBSNVKh7+vQJnbwdEuNJBG/U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fNddaP5u4ClF4IxDP5h5xr3XP6tMYYeqDdj9zpbu5LHBY7nbpaoRRntLYSgV7jemr
+	 b9eLgRPTDx55zngs9LXGmNbvEDH/S2ZXviXqTGjqmMO18aqmlUKhwWsgR1XWSi+/0G
+	 rwQSwYcLJ6CvN57sswjLw5O5CfbNZF6CvrJ9z/3LjnO/hU7zrUdVLmkjQvW7ym603+
+	 shF9ZXkrNBWluvZrGvfEWxHokaZVaa8X2HYN57n2H4s2ocnLV2KnlrBBib7zNEk8i4
+	 1AlkgpTeTZgRm5MwacXLRcAE1gc8MYWCCVB+RwCd2LHQ7Em+lyzBK1JY1/n1207Nyi
+	 X3uuqMYW2BQCQ==
+Date: Thu, 27 Aug 2026 10:14:12 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
+	Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+	Nico Pache <nico.pache@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Usama Arif <usama.arif@linux.dev>,
+	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/6] userfaultfd: use userfaultfd_*() helpers instead of
+ open coded flag tests
+Message-ID: <ao_jxMovVtj8UWeP@kernel.org>
+References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
+ <20260823-uffd-vm-flags-v1-v1-3-3086981b33cf@kernel.org>
+ <aoxdWWMEeQbcG5Pq@gremlin>
+ <ao16WPoLpdIdU3ID@kernel.org>
+ <ao17rY2r-01wJxy6@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=f6f49b862d884bb785fffb47c78ded9bdb2222b8f0b517953386ece06d64;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Thu, 27 Aug 2026 14:39:49 +0800
-Message-Id: <DKZIQPBOE02W.2DFMAOQGYO442@linux.dev>
-Cc: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-hwmon@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
- <spacemit@lists.linux.dev>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 6/6] riscv: dts: spacemit: Add CTF2301 on K3 CoM260
-From: "Troy Mitchell" <troy.mitchell@linux.dev>
-To: "Troy Mitchell" <troy.mitchell@linux.dev>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Guenter Roeck" <linux@roeck-us.net>, "Paul
- Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
- Ou" <aou@eecs.berkeley.edu>, "Alexandre Ghiti" <alex@ghiti.fr>, "Yixun Lan"
- <dlan@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
- <skhan@linuxfoundation.org>
-In-Reply-To: <DKL487DPH7KA.3GNYMRSBR1JY3@linux.dev>
-References: <20260805-ctl2301-v3-0-fd4b8ffb5b0d@linux.dev>
-	<20260805-ctl2301-v3-6-b86c75d1c552@linux.dev>
-	<20260805134119-GKJ77474@kernel.org>
-	<DKL487DPH7KA.3GNYMRSBR1JY3@linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ao17rY2r-01wJxy6@gremlin>
 
---f6f49b862d884bb785fffb47c78ded9bdb2222b8f0b517953386ece06d64
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Tue, Aug 25, 2026 at 12:26:39PM +0100, Lorenzo Stoakes (ARM) wrote:
+> On Tue, Aug 25, 2026 at 02:19:52PM +0300, Mike Rapoport wrote:
+> > > > +/*
+> > > > + * Don't do fault around for WP, RWP or MINOR registered uffd range.  For
+> > > > + * MINOR registered range, fault around will be a total disaster and ptes can
+> > > > + * be installed without notifications; for WP it should mostly be fine as long
+> > > > + * as the fault around checks for pte_none() before the installation, however
+> > > > + * to be super safe we just forbid it; for RWP, pre-faulted neighbours would
+> > > > + * be indistinguishable from accessed pages in PAGEMAP_SCAN (PAGE_IS_ACCESSED)
+> > > > + * and pollute the tracked working set, so each page must be populated by its
+> > > > + * own fault.
+> > > > + */
+> > > > +static inline bool uffd_disable_fault_around(struct vm_area_struct *vma)
+> > > > +{
+> > > > +	return userfaultfd_minor(vma) || userfaultfd_wp(vma) ||
+> > > > +	       userfaultfd_rwp(vma);
+> > >
+> > > This is changing the logic.
+> > >
+> > > Before we were testing only the flags, now we have:
+> > >
+> > > static inline bool userfaultfd_rwp(const struct vm_area_struct *vma)
+> > > {
+> > > 	/*
+> > > 	 * Callers gate PAGE_NONE usage on this; PAGE_NONE is a BUILD_BUG()
+> > > 	 * without CONFIG_ARCH_HAS_PTE_PROTNONE, so fold to false.
+> > > 	 */
+> > > 	if (!IS_ENABLED(CONFIG_ARCH_HAS_PTE_PROTNONE))
+> > > 		return false;
+> > > 	return vma_test_single_mask(vma, VMA_UFFD_RWP);
+> > > }
+> > >
+> > > I.e. adding in a CONFIG_ARCH_HAS_PTE_PROTNONE check.
+> >
+> > Without CONFIG_ARCH_HAS_PTE_PROTNONE VMA_UFFD_RWP is hardwired to VM_NONE
+> > so it's functionally the same ;-)
+> 
+> Well then you're explicitly removing logic and not mentioning it anywhere
+> with a NFC commit.
+> 
+> So please say so in the commit message.
 
-On Mon, Aug 10, 2026 at 04:20:05PM +0800, Troy Mitchell wrote:
-> My intention here was to keep all board-specific pin configuration
-> overrides under a single &pinctrl block, so that they can be found and
-> maintained in one place. Using a separate top-level reference for each pi=
-n
-> group would tend to scatter those overrides throughout the board DTS as
-> more groups are customized. The &pinctrl block is also placed immediately
-> before the &i2c6 consumer.
->
-> Would keeping the current structure be acceptable for that reason? If you
-> still prefer the direct reference, I will change it to &i2c6_1_cfg in the
-> next revision.
+Ok 
 
-I withdraw my earlier suggestion to keep all board-specific pin
-configuration overrides under a single &pinctrl block.
+> > > BTW side-note these:
+> > >
+> > > static inline bool userfaultfd_missing(const struct vm_area_struct *vma)
+> > > {
+> > > 	return vma_test_any_mask(vma, VMA_UFFD_MISSING);
+> > > }
+> > >
+> > > static inline bool userfaultfd_wp(const struct vm_area_struct *vma)
+> > > {
+> > > 	return vma_test_any_mask(vma, VMA_UFFD_WP);
+> > > }
+> > >
+> > > static inline bool userfaultfd_minor(const struct vm_area_struct *vma)
+> > > {
+> > > 	return vma_test_any_mask(vma, VMA_UFFD_MINOR);
+> > > }
+> > >
+> > > Should all use vma_test_single_mask() really :)
+> >
+> > These are changed anyway in a later patch.
+> 
+> Yup, but you (potentially) break one of them. Will comment there.
+ 
+Nope, nothing is broken, will comment there.
 
-After checking existing board DTS files, I found that the direct-reference
-style is already in use. For example:
-
-  arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dts
-
-adds the board-specific bias-pull-up setting directly through &i2c1_pins.
-Likewise:
-
-  arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-
-extends &mmc0_pins directly.
-
-Both forms produce the same node override, but since the reference-based
-form is already used in the tree, we should follow it instead of introducin=
-g
-a different structure here. I will change the board-level override to
-&i2c6_1_cfg in the next version.
-
-                                            - Troy
-
---f6f49b862d884bb785fffb47c78ded9bdb2222b8f0b517953386ece06d64
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJcEABYKAD8WIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCao/btSEcdHJveS5taXRj
-aGVsbEBsaW51eC5zcGFjZW1pdC5jb20ACgkQmAnvgPkzNC/6QAEA8dCtfup87U2o
-snvjwoIwNCa2Z99Am38hnnyreNWzGecA/03n71wIE+T3csVbRbAT21+VwQ2RuK80
-7pZ57h/HWuEH
-=bLKp
------END PGP SIGNATURE-----
-
---f6f49b862d884bb785fffb47c78ded9bdb2222b8f0b517953386ece06d64--
+-- 
+Sincerely yours,
+Mike.
