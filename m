@@ -1,201 +1,252 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013051.outbound.protection.outlook.com [40.93.196.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A7531E820;
-	Thu, 27 Aug 2026 08:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787820607; cv=none; b=OEmcTY06exEivSBqEaK+mGF76a35eU7HJbYyN/M7wB73hh+pgkqzW8rvd/wEUTQp+A/onTeUSn67GbqYYeP6jhUxFAA0IRI809NRpvDyFoA5fneDYrOXnV2xWcxWUJ1UX6kn9unKBffLs0c3Gm2a1+DLZ/HJRt33z9J3tzbJ6v4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787820607; c=relaxed/simple;
-	bh=ai4blyd09pDRRQAoq6pO4m85+iW4vMC+WvxGBCk9RAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=np+o+rdfMlgR95wo4y8TucQatnPXk5+95KRTe4e9e9DTtdjQ2KhDV+9WcMcK7jCOKW0gaH2dy/Ic1697k6HW6/h/wxIYtRMzDW3A7LDOfXZIk/8PSE5Qvz1LAuCiVCHypHlxRzTRin8Kn/3UriXRuow13gele7QmzsvIfM9AXlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EKtNWnjM; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9483367F48;
+	Thu, 27 Aug 2026 08:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787820736; cv=fail; b=tiW+DwRF8nm7FZ1f1DC9mQt2j5QvsnTfuWJLfwXrYuLy9BZqvD7BMh+GrB/bAOpFioaZkPudELdFN84L0lyBakd1/w2M7OgYHdTvzHSlqZSELsRHrV2oc7TKOSeLf2QOVp4cBPhymHP/7TFlUunJLydypKVy+9H/dL12040wagk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787820736; c=relaxed/simple;
+	bh=Hn7W/VmnnRx0b6wXyGZ5AefkgayjJlfwjqJ17kXuQmQ=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=T6oBvzfZetNhNa0BgwuUbo36YFUKkWnuw8MoBgAqPRBRmgDgy1HVncdrHCPydxQMysWnZX+CBkqJM1V+tBsKYMCUXCz6/ROQWO1eqjRzGKTlsAl11WHAxAddRsm/gA+LSGW7Uj5UDHH53qi3ZmF5B7DLqkATcqwJ20Nsssdtbzw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=gMWVGUPg; arc=fail smtp.client-ip=40.93.196.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EKtNWnjM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C1BC1F000E9;
-	Thu, 27 Aug 2026 08:50:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787820605;
-	bh=DrNcTOCCiYKmHCu5vszKJ67Q05+7G2pCd9Pxl+8sES0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EKtNWnjMvxuD16zamcUiwK9Dputudhp60QlGNIqqUuGxBttnhtNa8lyNFpx7LKCye
-	 dl/MegZdvvdlLOlw/le8AGDDL+3jpdkUxZwRQgG8CPIEU7QhgsMC2AkllN0a2N7LLd
-	 +P5mB7s7QnNNQlrr8OxHdY+3a8bEDE1GyM2jt3cXQPRvnzKGzmcrX1myTAKE4MeKAj
-	 Rt3/IHGwFKrx/64SRJC4Wb3V697Jha2DH34QvM0KSzEsgYnjbIqQQfv6yfUyKeKRK3
-	 Sce7GPLRCcgHy90U4BUT6XvWVw/fb35SRHhLPr1zBXtywvQOqSvFEwgLAev7nCd+2Y
-	 FNzoKVdlMTBSQ==
-Date: Thu, 27 Aug 2026 09:49:58 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Hajime Tazaki <thehajime@gmail.com>
-Cc: david@kernel.org, linux-mm@kvack.org, liam@infradead.org, rbm@suse.com, 
-	akpm@linux-foundation.org, luto@amacapital.net, brendan.jackman@linux.dev, 
-	liuhangbin@gmail.com, corbet@lwn.net, kees@kernel.org, broonie@kernel.org, 
-	mhocko@suse.com, rppt@kernel.org, shuah@kernel.org, surenb@google.com, 
-	vbabka@kernel.org, wad@chromium.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-um@lists.infradead.org, geert@linux-m68k.org, 
-	daniel@thingy.jp
-Subject: Re: [PATCH v2 0/2] support kselftest on nommu platform
-Message-ID: <ao_541nBaa3SJS9F@gremlin>
-References: <20260825015945.141739-1-thehajime@gmail.com>
- <f2ac9432-4fea-4007-aab0-ad80597b284c@kernel.org>
- <ao2Tl9CLL7WjHYun@gremlin>
- <bb9a3add-4849-4928-8b6a-0afc0c73b112@kernel.org>
- <ao2l9Ao7BQI6uRKC@gremlin>
- <m2y0dsuf1d.wl-thehajime@gmail.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gMWVGUPg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=I6WE9wKE3w9QrVcLmbAW3U8pKUBPXIiicelN0gze8wTYcTyQMvaMcOvPAn1QaLvSho0wim1cS1WjKpfkKJvIqUDoUzgEkFrBLbjGVqwWsNGgqsUJeyVIcIIcY1vZUydmpJ/UEFdJJ2e10ol6UKb8eAi7j/4pncjtW2wd/5TVmh2l0I3LHQrOChDTP9d1OaogF162CQwECQlefNLWa283WzoMwZbEcs4yPq5u3EQW1PqhN1ktUmGt7JNN952Vqc9EVizBNF0y20iGjFJSLm7VttTC+j5DQ555LE7P/HHPDOcqyxP6RyCYQh/HKE5dOEgaeWlfwotU+9wpUAXTaeiFRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4vdsr036s5t8hgvDktTxc5HnFctzmi0tcT/PZHzUKwE=;
+ b=WrN1Ok10Fi3GzS27C6FSTvV5/F7BoqSuvpqjYkPAUQcPvpkTIxmQGaLb5Cex+8+/lCnWLr6B+B4SOJ4zxiMxEWQLTEglW0ywLXZUKKyQ+yZFCfKzJ0K1wGZxzNb/5ybd3fBCm8Af///XleLfIP28JjuKqHHAeNA7m0qwEYWleEdnYXMFZjJ8M2AUhgNWKuuxGr3/T4C00pGgbtwrrCFy1tGOz/R/qW8kBQL0wtbXw/tuZh9oZk9i2WOH9/dBGRZX4rooMdvzS6xRhpZedfHa4Opq8DQd75ZsFFjCyT0223fV+GA0i0pOFhJ/k8Fh1xtfnBm6dg8aO9BtfXhXgmZr8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4vdsr036s5t8hgvDktTxc5HnFctzmi0tcT/PZHzUKwE=;
+ b=gMWVGUPgHtaCweNd3UqH7mtSk3lKCX5o4aaf5s6k/hYIkRauo+yYmL2wQ+KOmTFPJtfos4y47sCucF5MOnMZGX2KMD9lnKiiS5AkLZL8wWNFNwkctwJxfdUEJ3T76oGQidk+QJiAb68xUzA0T3AFfWGC1iQdlAfAzCtsBVWNaBaxMOVqBphU6JV8EcU9zPXzaIy64RZE2LEdyk68DIYWRSrJD1AHsLInjndxP3lkDkAkgUixPIK8py2IKGXdX/LeDwWz9O6WK2HQfitmCCuR+5LrpI38vH1IjDh9X00/fWj3oBFQmDpEqkaU6sxHFqNkf9eCbHGtHk8xh3MDeEAryg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6413.namprd12.prod.outlook.com (2603:10b6:8:ce::10) by
+ BL1PR12MB5729.namprd12.prod.outlook.com (2603:10b6:208:384::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.6; Thu, 27 Aug
+ 2026 08:52:06 +0000
+Received: from DS0PR12MB6413.namprd12.prod.outlook.com
+ ([fe80::e82a:6673:4142:37fa]) by DS0PR12MB6413.namprd12.prod.outlook.com
+ ([fe80::e82a:6673:4142:37fa%5]) with mapi id 15.21.0360.008; Thu, 27 Aug 2026
+ 08:52:06 +0000
+From: Eliot Courtney <ecourtney@nvidia.com>
+Subject: [PATCH v3 00/10] gpu: nova-core: add PRAMIN window support
+Date: Thu, 27 Aug 2026 17:51:41 +0900
+Message-Id: <20260827-pramin-split-v3-0-24b24d7afc52@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12QSW4DIRBFr9JiHSKmpoeV7xFFEQWFTZQeAhjFs
+ nz30G1FsrP8ot7jV11JwhgwkbG5koglpLDMNciXhtiTmY9Ig6uZCCY065miazRTmGlav0KmQ8t
+ QcAYapScVWSP68LPr3t7vOZ3hE23eHNvEKaS8xMv+X+Hb3J+6fVYXThn1XmKvTNc6Yw9zCS6YV
+ 7tMZHMX8UBz9o8WldatYQyk7SQbnujbvVrE73NdON/7EjAJaX2fQh4b1ForL0BKBwPonnMEZdF
+ yNnimLQhQXrW9I4+HGpu9TSc4zZcV3UfEY90XI+WdRgPSAGI3Flkr3H4BzxSnSHsBAAA=
+X-Change-ID: 20260804-pramin-split-950e210b6e3f
+To: Alexandre Courbot <acourbot@nvidia.com>, 
+ Yury Norov <yury.norov@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: John Hubbard <jhubbard@nvidia.com>, 
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, Eliot Courtney <ecourtney@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: TY4P301CA0033.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:2be::13) To DS0PR12MB6413.namprd12.prod.outlook.com
+ (2603:10b6:8:ce::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <m2y0dsuf1d.wl-thehajime@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6413:EE_|BL1PR12MB5729:EE_
+X-MS-Office365-Filtering-Correlation-Id: b42b3e46-8ea4-410f-4c4b-08df04187909
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|7416014|376014|23010399003|1800799024|366016|921020|10067099003|11063799006|56012099006|18002099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	oC2zbDpVhS7EEAiJ7SrcQvY05iTgLzOLJyBzMsn+eV2UaSfkKXJuprjVSPewroUhUCs2wjK5Sx2Z8TYSrel08yx6WqjBeiVSEc+isl2xwDnd1K6jxClR+3pFojXR5Ptd3+E4qucj7OgH97kYF89e63YDKESkhr9VN5J3WIWgvNN7OpHxz61aPf0qkrelHG+WOb8HHFDvEszXj0b3wCS0DYiKkYcIvgDkxThscdFU6g09B0sBu+yOJQn/7hG0bFvK4BIrLr0gZEzHeeNuZyskN8dNJHLpJ4Ec6qcM0UqDDZXnPIrDAda5nzGG8jbXk4BT4BT+TFJ26jI9y764zEV8sjb6ta3nOWgmZJRkd0UxNFMQjaENKEk+zoIHLoUMeVSOqJXlL9wWE35XJJ8etUnttjrG0wtyYrieTXJfOZXobXAsNlx/3EjOWDWAJoR8Hwt/VwgpVIrxkFJAhqM7EEfSsIiaekTQ4egpWzr/OPi03MeN/MFpVA4C5l1GpxtOw1xx9jc4O59qu83EV/PFZV7NieD0t62y6usn8Pb3KHmL3utrIolZ6mjZVNsHYXZs2PSPAmyIl4HLZ34eqWh9mlotZPizyr8CsbkmIRXN38YkwJRblOs7/fwBAxixLspx5tkUnh1VgIUxELqQeVPtBcE1JoUO5m5DTxMxP3PzLDQ81lTlW06KHb2RhlRlk0gBd01gCY2XN5wABS+O/MHuP3k3Uw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6413.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(7416014)(376014)(23010399003)(1800799024)(366016)(921020)(10067099003)(11063799006)(56012099006)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Nkc3SUFDdnBmbUNSdUhuTkFlQThBd0NVYUp1MUlIUmFodENqRG0rbEJrRHV5?=
+ =?utf-8?B?TlF6NEpIOEpiMGFka2NUeGZiWFhvaXhZbkQ0b3NwVWRuTFJPemF3VlBJRExl?=
+ =?utf-8?B?T1FsYmVPMGx3Q1YvQXlUNzM2b2J2bmRDMjcyN2t6bVl4Sk9KbUdSTkk2TUkv?=
+ =?utf-8?B?ZWh0S0x4Z2d5QVRlNkFrMW9keGh3SWtzQnBibno0bklLTHVHUWJsWnlZMmha?=
+ =?utf-8?B?SFFqOENvOXJ2UlF4N0krTGtzQWFORXdGUjM0UGt1Ylp4OTFQUG5LYUNkQTRo?=
+ =?utf-8?B?T1NHUEN5Z0I5MFZPMnhzYll0SkZFcXYyV25UczFGeUNOanJDSy9kUDZXNWhV?=
+ =?utf-8?B?Q1JmSVJKYUpCRFZKNGdRZVZsQU9XdnBtTEhjeU1pLzdqRW9GbHlxTWt6cUxX?=
+ =?utf-8?B?cUR1UXhQRU5RQktnd2oxU2xBcENzbTlNQS91K3gyZ2p3aXEvSkc2Smx2aWx0?=
+ =?utf-8?B?QzNqYXIreWtXZEc5ZXM1QTY2b2JmUTFoMVdieGJHV0k3U0hVUWJFMlRya1FM?=
+ =?utf-8?B?SkRQditqb3hjeXlHTStKSVBITTRDWHUwalMxUUNYMGdHbldDOG1yaGl2Mi9u?=
+ =?utf-8?B?WGttdGhKNEdnNWp5ZjF1NWtwNEJ0ZDRnT3UvS09ka212K1pkTTJ6ZXJxYi9N?=
+ =?utf-8?B?NTZLOUVKRmoxQzllZjY5dlg4YXFXekd6MmRzNXNWOStJam1CQlorMzkwNWxa?=
+ =?utf-8?B?M1ZhU2l2THBndURDZ1JpKzRCQlZhY2tKSEJkQnZRbG5qc1ZDd0VVZ0lqVnRa?=
+ =?utf-8?B?YjhxQkt4QnlGSEhaQ2tnUDIrbVhKMVFzdG5qc3lhaEg1TDJwUGhRUHJsMEh4?=
+ =?utf-8?B?dDVhMG0xRUgvQ3pxNHM5OGxVNWVpUVFIUVRKMkFyeWZLYTBwQkpYQU1iQlNO?=
+ =?utf-8?B?OXEramdzSWpuTWJaN2NyOVZEbm9PK1NPVks0ZnppMjd0VEFqN3JYV0tPWmJY?=
+ =?utf-8?B?ZWM2QXA1aVoxSWZWUU5tcFJ5b25lYkVOdlZzcm1RZW1NOVJkUHNoZytwT2N4?=
+ =?utf-8?B?NENHSWU0ejZrUHoweTR1b05Rc3lYTEg1M25DUEtiY3prQ0d3U2ZqVm9HSXQz?=
+ =?utf-8?B?eTQ4ajFPZm8xQy9TajI0MFNmVUsyQm81SHhIRWkzM0x2QWdXbWRnUldOMnZa?=
+ =?utf-8?B?R0JJZlc0MXdGb0c5VVdwYXpDQ29rd01UaTNMTUFzRTBOaGpKcFBiZmxXaVJo?=
+ =?utf-8?B?T3A2Q2FrbTJ5VHVKa1JncllacjBBYUZGSlgxSVhpOFViS1JLZUlBQmhqNTFG?=
+ =?utf-8?B?UVhzem1wc3IyVHozUFoycjlsWmJ4bHo1SE5OTUNab1VYS0kxTVJrN0p5Mk1L?=
+ =?utf-8?B?YlRYZkdwYTBsWHNzZEkrOXZkdDFib1YwZm9qc29UTGNhU205TG5qSUxFK3hi?=
+ =?utf-8?B?bTNyaWFzY2l5ZzVhZkxrZ3RHakpqcHg5dTFCdTkwc0MyNFJ0Nkd3cks1OWRq?=
+ =?utf-8?B?R3hWdGRxY3VJWnQ2bUVPYmJxYTR4MTU4RFlUcndmdXc1SmVvWFk1L2tWQ0tx?=
+ =?utf-8?B?SUE4dFZqOUkvYWFQdVhETUsvemorbkRyLzQvRmlJWE9LbTg5eDhIZ2E4NmFW?=
+ =?utf-8?B?OElUdU1SUjZMSkwybmZ6ZTRUem5POUtjL0FFeDZEMjdKTzBENzY5cVErVnM1?=
+ =?utf-8?B?bzNhVnc3TlNYa2NFTWtKQ3drenVCRDZKY2J0bHFZVGtUSnRIUWVRVEdGREha?=
+ =?utf-8?B?UlN6dDQ5Zmt6WUFlN3hEbTFVSlNiVEJRNUxscUxGMEU4N0F2aGpxYW9sclda?=
+ =?utf-8?B?WlpXU1o3dEtSTDgrbHpMY3hJTGkvOWZDN1pxK0JrcUExYkgvbmlNREtCQWFn?=
+ =?utf-8?B?UktpYncvLzF0d1pqOVJtV2tNZmt5V29FNnlHb2FrcTVIbjVzVHg2ZHpYYVR6?=
+ =?utf-8?B?T3BJVVcrUWpsSTA5LzVIWDJldE1NbVh5RU1Oa1hwbmxVWUdKSzR4QStLVDF4?=
+ =?utf-8?B?YW5lYTFNQ0Q2NlNRTVltMGc2SVg1TkRxREo4b0tsNldkVlJBb1VzVkdBRDdp?=
+ =?utf-8?B?RkNjWDc2bitVOXFYcWdQaUoyQmVLdzZIcGIwNjdZZWh4OVlDamE1TzJEd1Rw?=
+ =?utf-8?B?NHpydDVzQmNnaEVpSk8zSXE1TXJmaU00eldrUGY5M2ZjTk5wZW56L2ptbDJi?=
+ =?utf-8?B?Qk1lMWV1KzVVbjB1Vzg3bjI1RjJBTms0dFVQWnc3UWNXUTJUVHpFR3dmSXNJ?=
+ =?utf-8?B?VFhabHRtMG1KVXYyS3dFeUJkNlBOMVEvckZ5QUFMaEl1L2VoNzFlYlRQZXJR?=
+ =?utf-8?B?TU1tVWUvNHQzM3J6alA2bElrZkpEOW51Rmx3UTNlaXlLQXg2d0IrL0k3TTBr?=
+ =?utf-8?B?OWdPMDJHRFlRWFJMbVlwc251TzhKY0gzNjFSa2hzZjV4WVpKR0sveGdGTmpC?=
+ =?utf-8?Q?k0rlfqwsXNCzyGjO+QhPIwygXLTggce9cI9pr9z1UT5XY?=
+X-MS-Exchange-AntiSpam-MessageData-1: eUu1+ry8Lqi2eA==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b42b3e46-8ea4-410f-4c4b-08df04187909
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6413.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2026 08:52:06.7721
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 85bg9oFCrnFiEy0zdxlx9lML9FNkOHAbPqil1Rpifm4zjWK2vD1KGWxxDofA9PPznzlS6cQZH13njoP9m9LjLA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5729
 
-On Thu, Aug 27, 2026 at 05:46:22PM +0900, Hajime Tazaki wrote:
->
-> Hello David, Lorenzo,
->
-> On Tue, 25 Aug 2026 23:28:24 +0900,
-> Lorenzo Stoakes (ARM) wrote:
-> >
-> > On Tue, Aug 25, 2026 at 04:17:54PM +0200, David Hildenbrand (Arm) wrote:
-> > > On 8/25/26 15:12, Lorenzo Stoakes (ARM) wrote:
-> > > > On Tue, Aug 25, 2026 at 10:37:41AM +0200, David Hildenbrand (Arm) wrote:
-> > > >> On 8/25/26 03:59, Hajime Tazaki wrote:
-> > > >>> We add an ability to execute kselftest on nommu platforms.
-> > > >>>
-> > > >>> Currently there are several issues if we wish to run kselftests on nommu
-> > > >>> targets:
-> > > >>>
-> > > >>> - it cannot compile/build test binaries because the current files mainly
-> > > >>>   assume to build with glibc,
-> > > >>> - some of the tests are not able to run on nommu targets as there are no
-> > > >>>   fork(2) syscall.
-> > > >>>
-> > > >>> The first issue can be avoided if we can build static PIE binaries (if
-> > > >>> targets support it), but in our case (build on ubuntu/glibc and run on
-> > > >>> alpine/musl-libc), it fails to invoke due to lack of the GNU ifunc
-> > > >>> mechanism.  Thus, we need to cross-compile with musl toolchain, which
-> > > >>> needs to be solved the first issue.
-> > > >>>
-> > > >>> The second issue is the lack of fork(2) syscall on those platforms.
-> > > >>> Especially the test harness helper (kselftest_harness.h) uses the
-> > > >>> syscall, which cannot be simply with vfork(2).  `timeout` command used
-> > > >>> in `runner.sh` never works for nommu platform as it uses fork(2).
-> > > >>>
-> > > >>> nommu component in the mm subsystem has several known issues and having
-> > > >>> test cases should help this situation, thus this patchset is very first
-> > > >>> step toward enriching test environment which has not been well tested
-> > > >>> for a while.  The test cases is implemented based on the document
-> > > >>> (Documentation/admin-guide/mm/nommu-mmap.rst).
-> > > >>>
-> > > >>> So, for the first step, nommu targets only support low-level API of
-> > > >>> kselftests (kselftest.h), and implement tests in a new target,
-> > > >>> TARGETS=mm/nommu.  Other targets are currently not even able to build
-> > > >>> due to toolchain issues but will be addressed once the initial
-> > > >>> introduction which mainly focuses on nommu test will be settled.
-> > > >>>
-> > > >>> The patch was initially combined with other patches but is decoupled to
-> > > >>> only focus on test framework and testcases.
-> > > >>>
-> > > >>> - rfc:
-> > > >>> https://lore.kernel.org/linux-mm/20260813063401.1786548-1-thehajime@gmail.com/
-> > > >>>
-> > > >>> Hajime Tazaki (2):
-> > > >>>   selftests: run tests on nommu architecture
-> > > >>>   selftests/mm: add nommu mmap and mremap behavior tests
-> > > >>>
-> > > >>>  Documentation/dev-tools/kselftest.rst         |  14 +
-> > > >>>  tools/testing/selftests/Makefile              |   1 +
-> > > >>>  tools/testing/selftests/kselftest/runner.sh   |   9 +-
-> > > >>>  tools/testing/selftests/kselftest_harness.h   |   4 +
-> > > >>>  tools/testing/selftests/lib.mk                |   8 +
-> > > >>>  tools/testing/selftests/mm/nommu/Makefile     |   7 +
-> > > >>>  .../selftests/mm/nommu/nommu_mmap_test.c      | 265 +++++++++++++
-> > > >>>  .../selftests/mm/nommu/nommu_mremap_test.c    | 353 ++++++++++++++++++
-> > > >>
-> > > >> That's odd.
-> > > >>
-> > > >> 	tools/testing/selftests/mm
-> > > >>
-> > > >> itself should know which tests can be built and ran on nommu. nommu-only tests
-> > > >> can be placed in mm/nommu, but I would expect tools/testing/selftests/mm's
-> > > >> Makefile and run script to compile and run only selftests that are supported on
-> > > >> the given platform.
-> > > >
-> > > > I mean I think at this point with mm/nommu/nommu_xxx.c it'd make more sense to
-> > > > simply have selftests/nommu/ + update the mm makefile to not build stuff that's
-> > > > broken on nommu there.
-> > > >
-> > > > That way positively nommu-stuff is put in its own place and what's broken on mm
-> > > > specific to nommu can be fixed there.
-> > > >
-> > > > I'd rather isolate them clearly rather than having them live in a subdirectory
-> > > > of mm.
-> > >
-> > > My understanding is that some MM tests could be enabled/changed in the future
-> > > that support both MMU and NOMMU. Not sure how to best handle that.
-> >
-> > Well by default won't everything run? And it becomes a list of what doesn't
-> > work with nommu?
-> >
-> > I really don't want to see any maintainership burden or extra work added
-> > for nommu as it's afaic deprecated.
-> >
-> > >
-> > > So wiring up mm/nommu as a separate thing did sound wrong to me. So it should
-> > > either be integrated or the tests in fact completely moved out of mm/
-> >
-> > Not integrated, because then it starts adding work for people. I'd rather
-> > have separate nommu tests, any mm tests that aren't compatible with nommu
-> > can just be somehow excluded.
-> >
-> > Having a 'don't run on nommu' or even just some means of setting which
-> > tests to skip (I think Mark Brown suggested as much in reply to an earlier
-> > version of the series) seems a good idea.
-> >
-> > But yeah, tools/testing/selftests/nommu seems the best place for the
-> > nommu-specific stuff.
-> >
-> > Can maybe do some ../mm/ horror show thing for reducing duplication as
-> > needed...
->
-> As David mentioned my goal is to run all selftests/mm tests on nommu,
-> but as I explained situation to Lorenzo, it currently doesn't any
-> tests of mm/ on nommu platform (plus cannot build).
->
-> so I'd like to start as minimum as possible for this patchset, thus
-> creating different TARGET at mm/nommu, which I thought it should no
-> harm to the parent directory.
->
-> But I can move from selftests/mm/nommu to selftests/nommu for now, and
-> will propose to move into mm/nommu once it will be more meaningful to
-> do so.
+This series adds support for the PRAMIN window, plus some documentation.
+Some of these patches were originally written by Joel Fernandes [1]. I
+have updated them with changelog notes in each patch. For example, I
+updated them for the newer IO machinery from Gary Guo.
 
-OK ack I will look for the respin! Thanks for the work on this!
+This series adds a Pramin structure which deals with updating the PRAMIN
+window and handing out typed MMIO views. The PRAMIN window is a method
+that lets arbitrary VRAM be written over BAR0 by configuring a 1 MiB
+window through GPU registers. That 1 MiB window can point anywhere in
+VRAM. This is useful for bootstrapping e.g. GPU side page tables.
 
-Hopefully the push back is clear in that it's motivated by technical and
-architectural concerns, your contributions are all appreciated and thank
-you for doing the actual work rather than just talking about nommu, this is
-great :)
+The Pramin structure hands out typed MMIO views to do writes through
+rather than letting callers write directly through it. A follow up
+series will add support for GPU side page table entry writing through
+this mechanism. This abstraction is important for later since we will
+eventually want to write the PTEs via BAR2 not PRAMIN - using a view
+that we grab from the Pramin structure can abstract this out.
 
->
-> # btw, I started to looking at code toward virtual mmu; I cannot tell
->   how it'll be tho now.
+This is based on next-20260817 (e6664f2b33db), with Gary's register IO
+projection  v3 series [2] applied on top.
 
-Oh nice thanks :)
+[1]: https://lore.kernel.org/all/20260518180342.2387845-1-joelagnelf@nvidia.com/
+[2]: https://patch.msgid.link/20260819-typed_register-v3-0-3699a75fadf1@garyguo.net
 
-BTW did
-https://lore.kernel.org/all/20260723093633.140989-12-johannes@sipsolutions.net/
-go upstream? Or another UML nommu mode? I've not been keeping track of all
-that.
+Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+---
+Changes in v3:
+- Dropped first three Bounded patches which are merged now
+- Rebase on v3 of IO reg projections
+- Carry Gary's Io::cast patch which was dropped in the v3 since we use
+  it.
+- Link to v2: https://patch.msgid.link/20260810-pramin-split-v2-0-65a00b3c7309@nvidia.com
 
->
-> -- Hajime
->
+Changes in v2:
+- Rebase onto Gary's IO register projection series
+- Drop Region::try_subregion patch in favour of Gary's reg projection
+- Convert Pramin code to use Gary's reg projection
+- Fix const {assert!} -> const_assert! (Gary)
+- Add #[inline] to shr_exact (Sashiko, Alex)
+- Link to v1: https://patch.msgid.link/20260805-pramin-split-v1-0-ff3e84a75dac@nvidia.com
 
---
-Cheers, Lorenzo
+---
+Eliot Courtney (3):
+      gpu: nova-core: mm: Implement Alignable and Debug for VramAddress
+      gpu: nova-core: mm: Add the memory management HAL
+      gpu: nova-core: Add self-test assertion macros and config option
+
+Gary Guo (1):
+      rust: io: add static `cast()` method for views
+
+Joel Fernandes (6):
+      gpu: nova-core: mm: Add VramAddress type
+      gpu: nova-core: mm: Add PRAMIN window registers
+      gpu: nova-core: mm: Add support to use PRAMIN windows to write to VRAM
+      docs: gpu: nova-core: Document the PRAMIN aperture mechanism
+      gpu: nova-core: mm: Add GpuMm centralized memory manager
+      gpu: nova-core: mm: Add PRAMIN aperture self-tests
+
+ Documentation/gpu/nova/core/pramin.rst   | 128 +++++++++++++
+ Documentation/gpu/nova/index.rst         |   1 +
+ drivers/gpu/nova-core/Kconfig            |   9 +
+ drivers/gpu/nova-core/driver.rs          |   3 +
+ drivers/gpu/nova-core/gpu.rs             |  30 ++-
+ drivers/gpu/nova-core/gsp/commands.rs    |   4 +
+ drivers/gpu/nova-core/gsp/fw/commands.rs |   5 +
+ drivers/gpu/nova-core/mm.rs              | 163 ++++++++++++++++
+ drivers/gpu/nova-core/mm/hal.rs          |  56 ++++++
+ drivers/gpu/nova-core/mm/hal/gb100.rs    |  35 ++++
+ drivers/gpu/nova-core/mm/hal/gh100.rs    |  35 ++++
+ drivers/gpu/nova-core/mm/hal/tu102.rs    |  37 ++++
+ drivers/gpu/nova-core/mm/pramin.rs       | 312 +++++++++++++++++++++++++++++++
+ drivers/gpu/nova-core/mm/regs.rs         |  70 +++++++
+ drivers/gpu/nova-core/nova_core.rs       |   3 +
+ drivers/gpu/nova-core/selftest.rs        |  64 +++++++
+ rust/kernel/io.rs                        |  39 ++++
+ 17 files changed, 993 insertions(+), 1 deletion(-)
+---
+base-commit: e6664f2b33db9b6811eb4cec109f06cb2b4f458d
+change-id: 20260804-pramin-split-950e210b6e3f
+prerequisite-change-id: 20260721-typed_register-176eab3abee7:v3
+prerequisite-patch-id: 9d08451e181409e33cda3549dd2f6a18ad742a38
+prerequisite-patch-id: 35e98efa10cce8cdd6c9df954c34d778a8b57e97
+prerequisite-patch-id: 9dc002f047fb0c688c0ccce751535161fde8c216
+prerequisite-patch-id: 551843cf854964cd9ef49378aa99000c8af73710
+prerequisite-patch-id: 798405871b568af61cb6b9f0bf035c03b50eafe7
+prerequisite-patch-id: fd9f266b3d8c80cc7ef4a3d59e302c25af9bb145
+prerequisite-patch-id: 131291b0a4dc1ee7e43dd038f6f99fc5dc0eb99b
+prerequisite-patch-id: 7c66eb2438e79edc6566b9e977ee33137d3e7fa1
+prerequisite-patch-id: 8224018b7cfec0b00cce46b238abd9f68240e187
+prerequisite-patch-id: cc910d5993c190268077d2dd56d787abd984465d
+prerequisite-patch-id: 9590fa1a5c856c952eec73b630949a50e90ab4e8
+prerequisite-patch-id: 511ce76481fe20bb1c498f020a5151bb008525f1
+prerequisite-patch-id: 127be60ba6331574f6784cc8a5013d4f91b47df4
+prerequisite-patch-id: d2faa8292625cbdc43f262f3773a1c5cc1f90935
+prerequisite-patch-id: c447b4c47960e45497bd75bea84e6f1aea30eb74
+prerequisite-patch-id: 5051a948fa965dd94348da1ec2f93bee8ff86106
+
+Best regards,
+--  
+Eliot Courtney <ecourtney@nvidia.com>
+
