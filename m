@@ -1,243 +1,198 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD07722FDE6;
-	Thu, 27 Aug 2026 13:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950A5471418
+	for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 14:03:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787837837; cv=none; b=LQp9EWKGLf4Hhf+IlMXmeJ5vdwQWUtJRb7AUKI6G0dErLXSvbuipMshrd3HQvbEVYBhUM2v8RDT/CtpMJ8jtAbvrkIo7/SwWR4nkzS38GW+hP6wXMS77xa8yIih2X4SVaRY9JUVxtQdbohU2oDrzRdmTNFRF1LMIguVjbjngNK8=
+	t=1787839405; cv=none; b=R+qgXSFK161bP2Xx+qn/PZMOJ8sfSPM4RDsqBTMaq4y4FcuRb2/7I5AP6um6Botk3N36VqB/n8EF2WIH/SDMdwvjId+3uiCiwCVfkamwT0KrvwXZEA6XXVX0qU2tzHaqk+PGvQ9q+TQ148EDxiSXHcPxVooRVLZQpZ3x/oWLje4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787837837; c=relaxed/simple;
-	bh=LqJgBmDOQ1LG3LaNhUmRwZ2veh5Z168guNPJTWnTZw0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gs8FccVfo2icJlaO/C0N91mT20aour1WoSnK1x+XKuy072VjUeqOnhHgPtFmCnrm2UP6yxS/Yx3IOjtI0v+X8jOhO3lBUJqWkLz9Y/IGbNdnW+95wvW+v8ZS7SfuDkC7GnkAEV9MPOZ6wiBiEasN4HRp1A7oLaSHvYUaVKMlphM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=OAFT2pto; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1787839405; c=relaxed/simple;
+	bh=GxgWL05/rarsl7qmMHY1BfRfDlahGl4tISwa4ALF/BI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WdfZlT8LPZ3tO9VnOCb5g6IBCDTbQAMjhForjY9iHJKTg2r1yjhV2aR294JoIz37uVfGZDYGjYxT65cz1jDcQQtWn/dXWI963ukxTWoShxpm7rU2QOp+oQQl+OE6B4Gq60onvSFL0qX6gV+3PEk9UbA6UwJ5S47oDojh51+ymDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=fr8zB410; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="OAFT2pto"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67RCVY6Y1126149;
-	Thu, 27 Aug 2026 13:36:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=QWywEV
-	5XG7SYEGf+hf5Kx484qrYYwrU7s/T/Cwx3JGo=; b=OAFT2ptoPJwfCbO7Ovoabh
-	hyGFTyiC7tMuHWjtM6Dts16DRfzXnxfyzyO/cWHUCZtJI3LOLSCBAwVALOLA33f+
-	HQqXd3VkWjLxBfQq3XW4OAUIgmNDYl19nQ5dzsIRRR9k4vry9i3v5AT6JcdekqcW
-	82N/jpnFF8hwI0iWA2kLvdUyl+AKXngRe3osGNLVYefls1X9ZeVqkeEYcYLTWSER
-	li7wcqo4WTaE6YxZlLZZrUV1F2iZwAukrxhBsbLwIrMv2E3IZdkB578A6YhTcCXG
-	xyQXZtWxy9PLrVpsmmbvI2gMpgRS9t2LrLmiwe6SX1Ou1fZAQeWks5gBiZWwLUNQ
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4g73er5kr5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 27 Aug 2026 13:36:41 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67RDQI9i027466;
-	Thu, 27 Aug 2026 13:36:40 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4g7q3k8a66-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 27 Aug 2026 13:36:39 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67RDaZmP42664410
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 27 Aug 2026 13:36:35 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C44EE2004E;
-	Thu, 27 Aug 2026 13:36:35 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0A2482004B;
-	Thu, 27 Aug 2026 13:36:25 +0000 (GMT)
-Received: from [9.39.21.111] (unknown [9.39.21.111])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 27 Aug 2026 13:36:24 +0000 (GMT)
-Message-ID: <0a62143d-6d8d-46a4-ac92-f8ca7268e555@linux.ibm.com>
-Date: Thu, 27 Aug 2026 19:06:23 +0530
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="fr8zB410"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493b966dd74so11696595e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 07:03:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1787839395; x=1788444195; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ALN+Th3VygsiiqX2bmJC+etz4YolkrPm7RtMfzNo3Zc=;
+        b=fr8zB410KWJECu7jlCjEEPe3kLGxHn0v63QkGXDA3NcRKF0/Y9cA71CUoKKJ6QwqQJ
+         wAPacttxGsWkRYubH4Xs0HuwuHR51/L5mmdgu0MT5gO110BsH/9DU+CG481RRkS9FgdO
+         CjZU+F0poCi8weHK+JqqhcPjmRK3arqhFYt23zIkm9ZKTnyWC8SL9l7JvBWBn86cyxRR
+         n4srMPGCEV9mpR9cf3TXIUNlBcSWH2xdyRyW09LCBGuZu2vmjA15OPBhIBVCFgMHPQhT
+         xR5oVt+Hm3ddtHzPmGCPyp1DzP/Jbgw01q/N3M0jfHA8SDKnQ3K3rbJWF2eL+63UfZKK
+         1fUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787839395; x=1788444195;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ALN+Th3VygsiiqX2bmJC+etz4YolkrPm7RtMfzNo3Zc=;
+        b=ITnLJTsAifPq8fWZH4j9lHcbJ8/Whky0KXmBMid1Mt33qxviCBDySCweDjMwXjJ8wa
+         gJOCUqle9c3jJFaJoqf72K+9wTljABaUecfq7oYi6V6xIVnrW7MWAojA/R1DMZgF/eDF
+         4cVUFrp2jXBykmoK1qgXU9cwrJUFqrdel9lRUjlnFhlGhTEDgzQqtIxwLCIhak+a8znt
+         l0T91w2Wha+E9y4/C8bwzTa5ULDTJN4B9PVBI1f2bYVcOaVzqHU7UgN5dgch8HvT0Uec
+         ZmJFuMdU9PvD/2M2vv9qRoxC63zfZcPdlMGjzZrT6mILEqINK+8aGFptlUngPpalnXti
+         NSqg==
+X-Forwarded-Encrypted: i=1; AHgh+RoIh23rbCNTFRpovTvVzh3Ym764g9kWhmwDv2rBK2wEnpipsgxEMjYkQ34Gz99DYJaKjKYffbLeMWA=@vger.kernel.org
+X-Gm-Message-State: AFuF++mPP89Q1Y+aEV45HAn0yrujInBkcVcjRIiikGevOCWc2djVJP9c
+	VLV1FaO8fs3Y/1ChunAwEBx7JXLKlTbF8ri60e+1wT4f8YnE58ru2ncI9wQndJUdJEI=
+X-Gm-Gg: AR+sD10FsXcoKt+g+YmelUFSQ4nKDpkTh4QsIDoVNzyLOLE4BeIG6oRyIGPC5KkQSiK
+	fo/ND1FICKi+rfA4MiB2FwYLxG0kQ4bsVDKDliqT1O2R/9blyl385p1sm13yhdVdhN98kDYjxwj
+	d5nJIt5B1sUBlRD31kpEBJf0sfxq1OJ6FjuXB2i5FnDXK8eJawvUFGgysIkWiIKmiOlqq5d79c0
+	HLJoJLg2UJa0+YV45zyJlh9BtTRtJA+Sry9szGHNbEq/uj+93YH1sYdrLyAHeiEu3EQWJilkiAU
+	VoDqvdOru3lw7a+0MYww1UxUalH68SOFUGuvbR2qWCjqh1mzlIue+gjjnWKM4ZOgJVx9hUmX+Eo
+	HjRPR7vLIg5k1pRw0dXE4NJnaiYeaJC3AJV5X0MclmQqwM+tUjJWHqAc5JEGv1DTHGREzeO2kwn
+	WZ64qE7qXIdlH6R7ra/N9BcRT+SzyrRkTBv4EypYH9mt4N4FE/o5yRR2nyDobFsm58xPzeiS0Af
+	A==
+X-Received: by 2002:a05:600c:4e55:b0:499:484a:81d0 with SMTP id 5b1f17b1804b1-499dc723fadmr189406965e9.9.1787839394561;
+        Thu, 27 Aug 2026 07:03:14 -0700 (PDT)
+Received: from localhost (109-81-32-216.rct.o2.cz. [109.81.32.216])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482e28dbe1dsm9947082f8f.22.2026.08.27.07.03.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2026 07:03:13 -0700 (PDT)
+Date: Thu, 27 Aug 2026 16:03:12 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Eric Chanudet <echanude@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>, Shuah Khan <shuah@kernel.org>,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Maxime Ripard <mripard@redhat.com>,
+	Albert Esteve <aesteve@redhat.com>
+Subject: Re: [PATCH 00/11] mm/cma: charge cma allocation to memcg using per
+ area counters
+Message-ID: <apBDoJEq_4UuJAaP@tiehlicka>
+References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
+ <aowHqqaqK7TeexQH@tiehlicka>
+ <ao2gA_m3BCBu2esy@echanude-thinkpadx1carbongen13.rmtusma.csb>
+ <ao2t6HP-Zt5KDg30@tiehlicka>
+ <ao3UKM5SbxBmxuR0@echanude-thinkpadx1carbongen13.rmtusma.csb>
+ <ao3quaSze8YjPjxZ@tiehlicka>
+ <ao3tFg4JLNlbylTR@echanude-thinkpadx1carbongen13.rmtusma.csb>
+ <ao6eC2SUIGVz3Qct@tiehlicka>
+ <ao8uZ0cNyqaAJuPB@echanude-thinkpadx1carbongen13.rmtusma.csb>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 00/12] sched, steal_governor: Introduce preferred CPUs
- and steal-driven vCPU backoff
-To: Dietmar Eggemann <dietmar.eggemann@arm.com>, linux-kernel@vger.kernel.org,
-        mingo@kernel.org, peterz@infradead.org, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, yury.norov@gmail.com,
-        kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
-        meted@linux.ibm.com, ynorov@nvidia.com
-Cc: tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
-        seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
-        rostedt@goodmis.org, maddy@linux.ibm.com, srikar@linux.ibm.com,
-        hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
-        frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
-        christian.loehle@arm.com, tj@kernel.org, tommaso.cucinotta@gmail.com,
-        maz@kernel.org, rafael@kernel.org, rdunlap@infradead.org,
-        kernellwp@gmail.com, linux-doc@vger.kernel.org, jgross@suse.com,
-        virtualization@lists.linux.dev,
-        "Ionut Nechita (Sunlight Linux)" <sunlightlinux@gmail.com>
-References: <20260812054033.95658-1-sshegde@linux.ibm.com>
- <0f3307c8-6fc9-49b6-93e4-7ffd85dd0c16@linux.ibm.com>
- <2e1085f1-82f2-42dc-ae72-0bedffb414f3@arm.com>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <2e1085f1-82f2-42dc-ae72-0bedffb414f3@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: GNkNoyaP7R-XV0vc-jkB0SRU52ylNKEd
-X-Proofpoint-ORIG-GUID: 3sZQs5z622aU_2AblTGosj3ABFGT6lRt
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI3MDExMyBTYWx0ZWRfXzqtJ8d3xzNFc
- JmK+ORvd2KVsqVUoV798k5hLW1/qzQILWau16ymVrHyG5GJTEqQM5y3H+rNJBKjvmodA2KzIlpD
- hICu8GKnRUVhU9EjlEJyrvCy/oOjrbk/7OcddXst5QVkO7ukS8ypINdnlyj5aqpIjg0sAD3kdR/
- i+jJwKFfj0EFX1JE/WyrXnI5gGGe75Q1BvcpIKcObKSnzdMHfscQ9iDe4ur2mb7qPWKivNXrJLU
- MxQIU/drlRHWPPl8ZKUv3r4XHuKEWx0FWLzv5d4C6FOglMkS1v2DSsEWyeIeqw4MQuTT63bwxQN
- X2f96bScGTFw1ylT83F5wNntO7z3yvR5hMyIVPXt91wHIuEtGMWFunge84/TZ92PXz3s7JwO/re
- /9gmvIwPSVqyz5fRd9BcbHUlkST9Mdq3ayFJo9cD+yb8o8oSSb0ue234oVihp3vmYedqLzxJ7mL
- m60almwDqWZkDv0wUbw==
-X-Authority-Analysis: v=2.4 cv=QsRuG1yd c=1 sm=1 tr=0 ts=6a903d6a cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
- a=c92rfblmAAAA:8 a=VnNF1IyMAAAA:8 a=RITs98ljX8s46FUaRsIA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=GvGzcOZaWPEFPQC_NcjD:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI3MDExMyBTYWx0ZWRfX4VGsz3rhje25
- uJETd9epERXNMq+ybJd+lfkOhwAvQdBOve+Ne2nSGNBH2gw+6unvMcSzUClDVB+zqEZ0SvmNeLR
- Gbw6LcA1tUUKNJm7nKAJwK1pJk+IlL0=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-27_05,2026-08-26_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 suspectscore=0 priorityscore=1501 impostorscore=0
- spamscore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608270113
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ao8uZ0cNyqaAJuPB@echanude-thinkpadx1carbongen13.rmtusma.csb>
 
-
-
-On 8/27/26 4:20 PM, Dietmar Eggemann wrote:
-> Hi Shrikanth,
+On Wed 26-08-26 16:31:56, Eric Chanudet wrote:
+> On Wed, Aug 26, 2026 at 10:04:27AM +0200, Michal Hocko wrote:
+> > On Tue 25-08-26 16:58:51, Eric Chanudet wrote:
+> > > On Tue, Aug 25, 2026 at 09:19:21PM +0200, Michal Hocko wrote:
+> > > > On Tue 25-08-26 14:33:48, Eric Chanudet wrote:
+> > > > > On Tue, Aug 25, 2026 at 04:59:52PM +0200, Michal Hocko wrote:
+> > > > > [...]
+> > > > > The administrator opts in by mounting cgroupfs with
+> > > > > memory_cma_accounting. At which point the cma allocator will charge CMA
+> > > > > allocations against memcg and manages a per area counter depending on
+> > > > > what area the allocation was made into.
+> > > > 
+> > > > So each CMA area will have its own counter and limits?
+> > > 
+> > > Yes, in order to enforce a limit per CMA area this series add a page
+> > > counter for each area. Areas are fixed and discovered early so the
+> > > counters are added to struct mem_cgroup and initialized when the cgroup
+> > > is created.
+> > > 
+> > > An admin would then use the cgroupfs entries to assign an area limit to
+> > > a given cgroup, something like the following, using the reserved area
+> > > for example:
+> > >   mount -o remount,memory_cma_accounting /sys/fs/cgroup
+> > >   echo +memory > /sys/fs/cgroup/cgroup.subtree_control
+> > >   mkdir /sys/fs/cgroup/mycg
+> > >   echo 16M > /sys/fs/cgroup/mycg/memory.cma.reserved.max
+> > >   echo 64M > /sys/fs/cgroup/mycg/memory.max
+> > 
+> > OK, thanks for the clarification. This confirms my initial suspicion but
+> > it is better to have it clearly articulated. I can see several problems
+> > with this approach. First and formost I do not think dealing with all
+> > cmas this way is manageable. This can become a mess very quickly if we
+> > have one limit per cma and too coarse if there is a single one. I also
+> > have my doubts about space allocation control through a simple limit for
+> > something that is effectively a reserved physical space.
+> > 
+> > I might be proven wrong but unless cma serves objects of a uniform
+> > size then this will simply not work in practice. Hitting ENOSPC without
+> > hitting limits and thus impractical for shared space management.
 > 
+> Isn't that an inherent limit with CMA as it is? If the area gets
+> fragmented, some buffers may no longer be allocated since there is no
+> remaining hole big enough to accommodate them? I do hear that putting
+> arbitrary limits would make this worse, which might breach the threshold
+> at which it becomes a problem.
 
-Hi Dietmar. Thanks for checking it.
+I wanted to say that a limit for something that is basically a
+reservation problem for shared pool is an ineffective solution.
+Exactly for reasons you are mentioning. You might set limits for parties
+sharing the same pool but that will not ensure they will be able to use
+their promised portion - that makes low,min limits effectively
+impossible. And hard/high limits are only to stop runaways.
 
-> On 17.08.26 09:39, Shrikanth Hegde wrote:
->> Hi.
->>
->> In addition to what's currently planned for v11 which was posted here,
->> https://lore.kernel.org/all/895a058a-475e-42ca-
->> a7a3-2c854598eea4@linux.ibm.com/
->>
->> I was going through sashiko's comments at:
->> https://sashiko.dev/#/patchset/20260812054033.95658-1-
->> sshegde%40linux.ibm.com
->> This has revealed some gaps. Thanks to some really nice insights too.
->> Report quality improving day by day!
->>
->>
->> Vincent, Dietmar, please check the 32-bit task issue fix on ARM64.
-> 
-> See below.
-> 
->> On 8/12/26 11:10 AM, Shrikanth Hegde wrote:
-> 
-> [...]
-> 
->> Issue1: Possible crash on 32-bit tasks on ARM64.
->> =======
->>>> +static inline bool task_can_sched_on_preferred(int cpu, struct
->>>> task_struct *p)
->>>> +{
->>>> +    if (cpu_preferred(cpu))
->>>> +        return false;
->>>> +
->>>> +    /* Only FAIR tasks honor preferred CPU state */
->>>> +    if (unlikely(p->sched_class != &fair_sched_class))
->>>> +        return false;
->>>> +
->>>> +    return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
->>>> +}
->>> Does this intersection check need to account for the architectural CPU
->>> mask?
->>> On asymmetric systems, 32-bit tasks are architecturally restricted by
->>> task_cpu_possible_mask(). If a 32-bit task's mask intersects with
->>> 64-bit-only preferred CPUs, this function might return true, causing
->>> is_cpu_allowed() to falsely return false for valid 32-bit non-
->>> preferred CPUs.
->>> Since 64-bit CPUs are rightfully rejected by task_allowed_on_cpu(),
->>> all CPUs
->>> end up rejected. Could this regression cause the select_fallback_rq()
->>> loop
->>> to exhaust all options and hit the BUG() case for 32-bit tasks?
->>
->> Fix:
->> ====
->> I wasn;t aware of this case, thanks to sashiko for bring it up.
->> Yes, it could potentially cause a BUG in select_fallback_rq.
->>
->> Do a simple check if mask differ from possible mask which indicates we
->> are on 32-bit task on 64 bit
->> kernel. Do the below. I think that should solve it.
->>
->>   static inline bool task_can_sched_on_preferred(int cpu, struct
->> task_struct *p)
->>   {
->> +    const struct cpumask *valid_mask;
->> +    int i;
->> [...]
->> +    valid_mask = task_cpu_possible_mask(p);
->> +    if (likely(valid_mask == cpu_possible_mask))
->> +        return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
->> +
->> +    /* 32-bit task */
->> +    for_each_cpu_and(i, p->cpus_ptr, cpu_preferred_mask) {
->> +        if (cpumask_test_cpu(i, valid_mask))
->> +            return true;
->> +    }
-> 
-> I assume the question is whether task_can_sched_on_preferred() would
-> have to be changed:
-> 
-> - return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
-> + return cpumask_first_and_and(p->cpus_ptr, cpu_preferred_mask,
-> +                               task_cpu_possible_mask(p)) < nr_cpu_ids;
->> so that cpu_preferred_mask can play together nicely with the 'asymmetric
-> AArch32 EL0 (executing 32-bit Arm userspace under an AArch64 kernel)
-> support' feature on some mobile Arm64 Socs.
-> 
-> IMHO, this is not necessary since for those tasks p->cpus_ptr is always
-> a subset of task_cpu_possible_mask(p). 'p->cpus_ptr ∩
-> cpu_preferred_mask' already cannot contain an architecturally impossible
-> CPU for those 32-bit Arm userspace tasks.
-> 
-> [...]
-> 
+[...]
 
-Based on the report, I thought there maybe cases where p->cpus_ptr may contain.
-Specifically after looking at:
+> > Thanks. Yes this is more clear now. And it resembles hugetlb situation
+> > more than memcg. You simply need a memory pool specific access and usage
+> > control. Dispersing that to a global memcg limit seems rather coarse and 
+> > I would say impractical. So it really calls for a per pool control with
+> > an understanding of how the specific pool really works.
+> 
+> Thank you for the feedback. It looks like this won't work. It also
+> excludes the attempt through double charging dmem[1] as it would have
+> similar issues trying to use memcg.
+> 
+> >From your last sentence, would this rather call for a different
+> controller entirely that would handle CMA semantics?
 
-static inline bool task_allowed_on_cpu(struct task_struct *p, int cpu)
-{
-         /* When not in the task's cpumask, no point in looking further. */
-         if (!cpumask_test_cpu(cpu, p->cpus_ptr))
-                 return false;
+I would recommend focusing on specific CMA users rather than trying to
+define a sane semantic for all potential CMA users because that might be
+a lot of different things.
+Then I would suggest focusing on the ultimate goal. Do you really want
+to provide any sort of guarantees (a reservation system) for a shared
+pool or merely cap maximum usage.
+Last but not least think about whether the whole sharing of a
+constrained memory area between uncooperative parties really makes sense
+in the first place. Especially when the pool serves objects of different
+sizes and fragmentation becomes a real problem.
 
-         /* Can @cpu run a user thread? */
-         if (!(p->flags & PF_KTHREAD) && !task_cpu_possible(cpu, p))
-                 return false;
+> [1] https://lore.kernel.org/all/20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com/
+> [2] https://lore.kernel.org/all/7e4e9662-d876-4493-a0b3-e31640937dd1@kernel.org/
+> 
+> > -- 
+> > Michal Hocko
+> > SUSE Labs
+> > 
+> 
+> -- 
+> Eric Chanudet
 
-         return true;
-}
-
-If p->cpus_ptr is cannot contain an architecturally impossible, then check for
-task_cpu_possible again is necessary? I thought there may be cases.
-So i kept the defensive check not to fall into BUG later on.
-
-If you think cpumask_intersects(p->cpus_ptr, cpu_preferred_mask) is sufficient and cover
-all cases of 32 bit tasks, then i can drop that v11 change specific to 32-bit tasks.
-
-What do you suggest?
+-- 
+Michal Hocko
+SUSE Labs
