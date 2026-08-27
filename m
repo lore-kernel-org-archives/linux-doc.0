@@ -1,254 +1,238 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013024.outbound.protection.outlook.com [40.93.196.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A3841E6D6;
-	Thu, 27 Aug 2026 19:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787858320; cv=none; b=WVgRuNXjpR1flu0o3Xm4c/kLCX4g5aiO5P/5nVC8yzcszW4ImHffxthXEqTJJCvPyRqTTZyUuVgZ4534A8OLmweeBGUCIItnNGOB5nBKtIjAMIoM0Q4xEKiSBiIx+teYSteZKumSwGZqqpfxE9VV/M3q9fe7ccqg0Zed9BHWwUg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787858320; c=relaxed/simple;
-	bh=ZEvghn5iUqKMeGcDHG1wGNG7qY9SwnARynbhSwp0i1Y=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=d2syEzXxkeoTap0GG8fn+JgLR5T2Yrw+Ytovg2lgznaMq5Rdqr519UJI8WV2WqxMyF48qORWTRFcW5pY5eyHfJi+gYC8NSSe0nXxrVXnGxp7RzTsskAxU5RXg6Wn8msxWCdu3qRAaFb7u0z2zgFGBuizUv753mV3ROKCDqq3DP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZqeGMP6p; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9C4140E5F;
+	Thu, 27 Aug 2026 20:01:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.24
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787860884; cv=fail; b=JFWioK4Z7ldv/2Xc64nYVzPm2KB3y3ufnCruSojkvBqJN4UUEPmOgPuN9jpifj23s6abvZh5Y4Z5CnLDYuEwExIWoaRoINWHR8FbJbBDAjKkukNKjHIwyhhzTtQ13Dv4hU96aUKzc608WW5UySCTq0Tj+PD54cVmWxDAKuvjCNI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787860884; c=relaxed/simple;
+	bh=d/SlU8DWYaSTpPYtGu+6AnfAVth2bf3EUVm6BN/HxDw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Kg/GMcwXx+laQApgsLlCR2pJvR+k4lUalhsW5/Uly/akZNzbRQXqHP+RloZ+CHllGjGu9Pw2O6VuhoeGER6HdsQK+DrZshI0b7XhUrCzL6T/uDWFOLmyFlpIelV8bGWOyp93SS0SoPvd3zQHOZZwRwdSqekXhMqJvBn/vAeD0oI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ti+uauxr; arc=fail smtp.client-ip=40.93.196.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZqeGMP6p"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787858316; x=1819394316;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=ZEvghn5iUqKMeGcDHG1wGNG7qY9SwnARynbhSwp0i1Y=;
-  b=ZqeGMP6pDr+V/FpCR9e2LlLGP43I6HAyiMFvfkSouPcmqp4VpjKwmY5P
-   5VWWgsXWIXjnXQPMS17jMh7koZSDyKUBMJ3G9NEseWgITapw8zqT9ITa9
-   Da9aQpj1NoVT+0Y9+ghHDg7fbXnFtG+WkYZ6ILrUbiUPVvLQP6o5TUhNA
-   NuDmPHhTko7PZdiGB90vn9kTXam990CAICBI+Bbbk/xGAOmO4ue4QT+Us
-   FaJMy+BKGXdeGa8C1vumRdFRLBz25biA/UPYTLhjmBJC32rrYVPtufKPr
-   nf+4EcRNBYM+1BB0wxYRzNpnsv7bkF5R2SHlBBM0q0jwtMkaSZnunQh/s
-   A==;
-X-CSE-ConnectionGUID: Fohm4VWeTXmlXHfdajtgXA==
-X-CSE-MsgGUID: O7bukribTOK6CvCvxzGebw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="99884407"
-X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="99884407"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 12:18:35 -0700
-X-CSE-ConnectionGUID: L0/Yj2PwQey07ZTfhx1ceg==
-X-CSE-MsgGUID: iNlDjpvRT0m8hk8uRUzQRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="297854378"
-Received: from abityuts-desk1.ger.corp.intel.com (HELO [10.245.245.26]) ([10.245.245.26])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 12:18:32 -0700
-Message-ID: <7f13dc482e5ea2d22ddff75fe30c03cd8df42fb5.camel@linux.intel.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 2/2] dma-buf: Document how exporters and
- importers agree on mapping lifetime
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- Logan Gunthorpe <logang@deltatee.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,  Christian =?ISO-8859-1?Q?K=F6nig?=
-	 <christian.koenig@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Date: Thu, 27 Aug 2026 21:18:29 +0200
-In-Reply-To: <20260825-document-dma-buf-v1-2-5ecfb3e1371c@nvidia.com>
-References: <20260825-document-dma-buf-v1-0-5ecfb3e1371c@nvidia.com>
-		 <20260825-document-dma-buf-v1-2-5ecfb3e1371c@nvidia.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ti+uauxr"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zE7wUoxcf+iGLZQSQxuNW9zQFs9J9rHQ8ACh9uRrWUt6GMrNKpXLEHHM4nOGrtR+ECnUG/R774obLHb2jgOhZb+KB3trYFtOuQQcyFqbW8N7DZan3P1HLWEVC/eOepOuWgUbx6fI0zqFhd1Skn+YxPEySst/rm5z0AMzW8+ht1JQr9i601N/ACtbbbkqaus7Lma0EZ+6wrW3FOqUoBYXHkhGFGz9Av9ZqBCado0mb7Yel72oASix3Kj7EnIm5R1WXk2XbtffbomYKZbRDEYVcsO5Ra5iPe7iNUe+JASyxzSiFB7LHnsmxy3YH1/FkVdlI5rU2J56fC8CGE+5aoHUKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2TqS+OXWk9z7ecsFV6+SxTeEsshU6oAb9aJdlqk8Hc0=;
+ b=q7gLVYOgl2CU3H+EWShHusI72Fmsn139wZW5D5QlR7lJmD2hSbRanMRxkRH9NyVzZT8NC4woAsCiJUswCYJIfGZd6+NpjPjfuMbt7lD1LDfMryVsb3INsRdbYpeoeqCdqxHQfgosUUQ5SSLWg5wvni/mJTl1PnyTc/gmD3D9XbrdSADvKCCBTtweUnj4sM1nPHrj3WWCEb6+qRjj1NMvfOtZjyVTGDReYfxHxVCb21WnOJPDuiWbVOOSYuoMq/WPpxcxG/+og7gntvWH/9RNbEfergjC0eF/KQC0zdcS0co0Lw6/sWX1al+/yMQgWn8Z0qL6mZEZ0uY32cPlVAswCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2TqS+OXWk9z7ecsFV6+SxTeEsshU6oAb9aJdlqk8Hc0=;
+ b=ti+uauxrsU4vlRr25LTjOcajuvhX1b1BdRiilAwvK/SPPYL7AgHxJUrOttid/1SZOxmCbm/VvzTpxez+fuTEljrUQS3p9i0zJaiOUE0JuOdvQXTtkbOnGe0wjrIdLhvYgf//Gh01jqW8ZjZYBZCh56UjfvVwqAcTUSOkt98xVjY=
+Received: from BN1PR10CA0002.namprd10.prod.outlook.com (2603:10b6:408:e0::7)
+ by SJ1PR12MB6052.namprd12.prod.outlook.com (2603:10b6:a03:489::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.8; Thu, 27 Aug
+ 2026 20:01:08 +0000
+Received: from BN3PEPF0000B370.namprd21.prod.outlook.com
+ (2603:10b6:408:e0:cafe::44) by BN1PR10CA0002.outlook.office365.com
+ (2603:10b6:408:e0::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.10 via Frontend Transport; Thu,
+ 27 Aug 2026 20:01:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BN3PEPF0000B370.mail.protection.outlook.com (10.167.243.167) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.382.0 via Frontend Transport; Thu, 27 Aug 2026 20:01:07 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 27 Aug
+ 2026 15:01:07 -0500
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 27 Aug
+ 2026 15:01:07 -0500
+Received: from [192.168.1.205] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.45 via Frontend
+ Transport; Thu, 27 Aug 2026 15:01:07 -0500
+Message-ID: <b17047b9-ae6a-460a-b806-ba78e454674a@amd.com>
+Date: Thu, 27 Aug 2026 15:01:01 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Reply-To: <tanmay.shah@amd.com>
+Subject: Re: [PATCH v6 3/5] rpmsg: virtio_rpmsg_bus: get buffer size from
+ config space
+To: Mathieu Poirier <mathieu.poirier@linaro.org>, Tanmay Shah
+	<tanmay.shah@amd.com>
+CC: <andersson@kernel.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+	<linux-remoteproc@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+References: <20260814044238.518296-1-tanmay.shah@amd.com>
+ <20260814044238.518296-4-tanmay.shah@amd.com> <aoxywkQPy7VPaIFm@p14s>
+Content-Language: en-US
+From: "Shah, Tanmay" <tanmays@amd.com>
+In-Reply-To: <aoxywkQPy7VPaIFm@p14s>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B370:EE_|SJ1PR12MB6052:EE_
+X-MS-Office365-Filtering-Correlation-Id: bab01074-2ed7-4d29-5d08-08df0475ef36
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700016|82310400026|1800799024|23010399003|10067099003|56012099006|4143699003|6133799003|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	avRy3tkWwc2aFDqUggjt4KnOvIn6Od0GtKJw5fSppgoW6m4pmC7KBbpeYe2Tz0YHPmLMoNbHucOI/GLW4NIvWEAWr5mwiLvVwcbR1lmAizedkbH9V+ovm3FIJAi0lNpK9pPxjrXehD1JGRZ589Kzf0CdRgZ7JN59TsyI7qJlfW5gEtB8ZPe7ERjdGe9hmyiEkFBUb7iIQW56avR0tNfVcbWgSe3BGyX0+RmTgWCOajbhNYeoVbHDDVE3udFs4KCbIOJENQH5BWFMRYZweDPoHrCYERti5p+eEo9K/iZl+tiMa55a0MmN9y+oHW/acCemDXrCkxi0OcasCrqAphPunnsbn1aEvUf88OTcz2n9pk9mrhdQFzsOjk5i4rmRsSEvLPx49sv2YiAkIk3UBS1L7UaDsjocvlTxLk6c+hNJovCOhccoA0VQJ3Je+dyxizqXOYqRGtB6fguHDHWJg8QQ6AVHkClyrOFZUWQgKoIi1Q/CrPCk2avl2t3QcZ77Wn/D0BWThu3bIPOTvJ9hh0UFx/wANEjSiXbRG5WttyyOGBcoE6lfy9E4fT6VUs4s02Yg60UO0hnTQPXTrIKM6Jpp4anAWfVg+W4jRQjH3iPE4cGyAIRr5Kb+bZzm/pUkiWlf/CqjNNIbQvk/+CZ/r6QzRzAieplel1x+SUYx7+YndKQoKtJBEEyTD0yeesy0+k0Z
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(82310400026)(1800799024)(23010399003)(10067099003)(56012099006)(4143699003)(6133799003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	OhEhWpGth8m7YmKO5T5u2eroy7ilQq9Fo6/+E+C5bvBxmijc9k/z2tMTJKqvtowsbz6AluGpsWAIt0mJUXTSWmLmW36tJ6NeCTCn9c+ZNDLfHkFIiiUffK4TPEbo5n77oS/iaVHlBpE7gUotvXbKB6X6mI5SHLcZ4KyAeUXOLOat6igBAXRmPUgRXEZ08fScAHk4fGcNTBLpZlRdGReBUfLIG/HyLGGUEfo0EXBGQ/DqRIzlsXxebTclbrG7VFL4WbF0qFx571tGgVCHsX4CC7AcAc6o70EM/A86ZSA3QXSWNe2LA8mNhoHGXNMHdsgqI112NKGyx1balBphTJ8AT6vedljVgCdFu08rL57ZBEhshPqaAw3lDm/M/aMmxDiCAsB6JvYovuETRKcMBQ91EtaMnArtlr+ZwdNZTJHAHXDZas2jLqEX5dPaz8fPt331
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2026 20:01:07.9600
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bab01074-2ed7-4d29-5d08-08df0475ef36
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B370.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6052
 
-Hi,
 
-Some comments below:
 
-On Tue, 2026-08-25 at 09:28 +0300, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
->=20
-> Pinned, revoked and movable mappings are selected by which optional
-> callbacks each side implements and by whether dma_buf_pin() succeeds,
-> not by any flag or enum. Nothing in Documentation/ says so, and the
-> rules are spread over the kdoc of dma_buf_ops.pin,
-> dma_buf_attach_ops.invalidate_mappings and
-> dma_buf_invalidate_mappings(),
-> so a driver author has to know the symbol names before finding them.
->=20
-> Name, per flow, the callbacks both sides have to implement to end up
-> in
-> it, describe dma_buf_pin() as the runtime negotiation, and record
-> that
-> the pin is what tells a revoke from a move.
->=20
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
-> =C2=A0Documentation/driver-api/dma-buf.rst |=C2=A0 6 +++
-> =C2=A0drivers/dma-buf/dma-buf.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 85
-> +++++++++++++++++++++++++++++++++++-
-> =C2=A02 files changed, 90 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/driver-api/dma-buf.rst
-> b/Documentation/driver-api/dma-buf.rst
-> index 2f36c21d9948..39c201f38aa6 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -113,6 +113,12 @@ Basic Operation and Device DMA Access
-> =C2=A0.. kernel-doc:: drivers/dma-buf/dma-buf.c
-> =C2=A0=C2=A0=C2=A0 :doc: dma buf device access
-> =C2=A0
-> +Mapping Lifetime Negotiation
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +.. kernel-doc:: drivers/dma-buf/dma-buf.c
-> +=C2=A0=C2=A0 :doc: mapping lifetime negotiation
-> +
-> =C2=A0CPU Access to DMA Buffer Objects
-> =C2=A0~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> =C2=A0
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index d504c636dc29..30afec7365bc 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -684,7 +684,90 @@ static struct file *dma_buf_getfile(size_t size,
-> int flags)
-> =C2=A0 *=C2=A0=C2=A0=C2=A0 reference acquired with dma_buf_get() by calli=
-ng
-> dma_buf_put().
-> =C2=A0 *
-> =C2=A0 * For the detailed semantics exporters are expected to implement
-> see
-> - * &dma_buf_ops.
-> + * &dma_buf_ops. Whether the exporter may still move or destroy the
-> backing
-> + * storage after step 3 depends on what exporter and importer
-> implement, see
-> + * the mapping lifetime negotiation section below.
-> + */
-> +
-> +/**
-> + * DOC: mapping lifetime negotiation
-> + *
-> + * No flag or enum says whether the exporter may move or take away
-> the backing
-> + * storage while an importer holds a mapping. Each side implements a
-> set of
-> + * optional callbacks, and dma_buf_pin() settles the result at
-> runtime. Three
-> + * flows come out of it:
-> + *
-> + * - Pinned: the storage never moves and is never taken away.
-> + * - Revoked: the storage never moves, but the exporter may take it
-> away.
-> + * - Movable: the exporter may relocate the storage at any time.
+On 8/24/2026 11:35 AM, Mathieu Poirier wrote:
 
-Perhaps add "even temporarily to locations that are not available for
-DMA".
+>> +		dev_dbg(&vdev->dev,
+>> +			"vdev config: ver=%u, rx sz = 0x%x, tx sz = 0x%x\n",
+>> +			version, vrp->rx_buf_size, vrp->tx_buf_size);
+>> +	} else {
+>> +		vrp->rx_buf_size = DEFAULT_RPMSG_BUF_SIZE;
+>> +		vrp->tx_buf_size = DEFAULT_RPMSG_BUF_SIZE;
+>> +	}
+>>
+> 
+> Please move the above to a distinct funtion.
+> 
+> I am done reviewing this set.
+> 
+> Thanks,
+> Mathieu
+>   
 
-> + *
-> + * Every exporter implements &dma_buf_ops.map_dma_buf,
-> + * &dma_buf_ops.unmap_dma_buf and &dma_buf_ops.release.
-> dma_buf_export()
-> + * rejects an exporter missing any of them.
-> + *
-> + * An importer reaches its flow like this:
-> + *
-> + * 1. Attach with dma_buf_dynamic_attach(). Leaving
-> + *=C2=A0=C2=A0=C2=A0 &dma_buf_attach_ops.invalidate_mappings NULL rules =
-out
-> everything but the
-> + *=C2=A0=C2=A0=C2=A0 pinned flow, because the importer can then never be=
- told
-> anything.
-> + * 2. Call dma_buf_pin() under the reservation lock.
-> + * 3. On failure run the movable flow, or give up.
-> + * 4. On success the storage stays put. Whether the exporter may
-> still take it
-> + *=C2=A0=C2=A0=C2=A0 away, which makes this the revoked flow instead of =
-the pinned
-> one, is the
-> + *=C2=A0=C2=A0=C2=A0 exporter's choice and is not reported back.
-> + *
-> + * dma_buf_attach() is the shorthand for an importer which only ever
-> wants the
-> + * pinned flow. It passes no &dma_buf_attach_ops, and DMA-buf then
-> pins around
-> + * every dma_buf_map_attachment() and waits for the
-> DMA_RESV_USAGE_KERNEL
-> + * fences on the importer's behalf. Peer to peer needs
-> + * dma_buf_dynamic_attach(), because
-> &dma_buf_attach_ops.allow_peer2peer lives
-> + * in the attach ops.
-> + *
-> + * Pinned flow:
-> + *
-> + * - Exporter: implement &dma_buf_ops.pin and &dma_buf_ops.unpin to
-> hold the
-> + *=C2=A0=C2=A0 storage still on request. An exporter whose storage never=
- moves
-> implements
-> + *=C2=A0=C2=A0 neither, and dma_buf_pin() then succeeds on its own. An
-> exporter which
-> + *=C2=A0=C2=A0 refuses to be pinned implements &dma_buf_ops.pin and fail=
-s it.
-> + * - Importer: nothing more. The mapping stays valid until it
-> unmaps.
-> + *
-> + * Revoked flow:
-> + *
-> + * - Exporter: answer dma_buf_pin() as above. Call
-> + *=C2=A0=C2=A0 dma_buf_invalidate_mappings() when the storage goes away =
-and
-> fail
-> + *=C2=A0=C2=A0 &dma_buf_ops.map_dma_buf while it is gone. The two waits =
-which
-> complete a
-> + *=C2=A0=C2=A0 revocation are described in dma_buf_invalidate_mappings()=
-.
-> + * - Importer: &dma_buf_attach_ops.invalidate_mappings has to unmap
-> within
-> + *=C2=A0=C2=A0 bounded time and drop the pin.
-> + *
-> + * Movable flow:
-> + *
-> + * - Exporter: call dma_buf_invalidate_mappings() before each move,
-> then wait
-> + *=C2=A0=C2=A0 for the &dma_buf.resv fences. &dma_buf_ops.pin and
-> &dma_buf_ops.unpin play
-> + *=C2=A0=C2=A0 no part here.
-> + * - Importer: hold no pin. &dma_buf_attach_ops.invalidate_mappings
-> drops the
-> + *=C2=A0=C2=A0 cached mapping and has to lead to dma_buf_unmap_attachmen=
-t()
-> within
-> + *=C2=A0=C2=A0 bounded time.
+Thank You Mathieu.
 
-Hear I would want to see the exporter being allowed to force unmap the
-dma mappings and reclaim thestorage when the fences mentioned above
-have signaled, but the importer has not yet called
-dma_buf_unmap_attachment(). That would allow importers to call
-dma_buf_unmap_attachment() lazily, just before the next map_attachment,
-which would allow simplifying importer implementations. More of a
-related idea than something that needs fixing for this patch.
+I started addressing the comments, but missed to ack here. I agree to
+all the comments and will be addressed in the next revision.
 
->  It need not stop the hardware, because access runs until the
-> + *=C2=A0=C2=A0 importer's &dma_buf.resv fences retire. Map again before =
-the
-> next DMA.
+Tanmay
 
-A successful map will mean the exporter has placed the data in storage
-compatible with what was agreed during attachment?
-
-Thanks,
-Thomas
+>> -	total_buf_space = (vrp->num_rx_buf + vrp->num_tx_buf) * vrp->buf_size;
+>> +	total_buf_space = (vrp->num_rx_buf * vrp->rx_buf_size) +
+>> +			  (vrp->num_tx_buf * vrp->tx_buf_size);
+>>  
+>>  	/* allocate coherent memory for the buffers */
+>>  	bufs_va = dma_alloc_coherent(vdev->dev.parent,
+>> @@ -873,15 +925,14 @@ static int rpmsg_probe(struct virtio_device *vdev)
+>>  	/* first part of the buffers is dedicated for RX */
+>>  	vrp->rx_bufs = bufs_va;
+>>  
+>> -	/* and second part is dedicated for TX */
+>> -	vrp->tx_bufs = bufs_va + vrp->num_rx_buf * vrp->buf_size;
+>> +	vrp->tx_bufs = bufs_va + (vrp->num_rx_buf * vrp->rx_buf_size);
+>>  
+>>  	/* set up the receive buffers */
+>>  	for (i = 0; i < vrp->num_rx_buf; i++) {
+>>  		struct scatterlist sg;
+>> -		void *cpu_addr = vrp->rx_bufs + i * vrp->buf_size;
+>> +		void *cpu_addr = vrp->rx_bufs + i * vrp->rx_buf_size;
+>>  
+>> -		rpmsg_sg_init(&sg, cpu_addr, vrp->buf_size);
+>> +		rpmsg_sg_init(&sg, cpu_addr, vrp->rx_buf_size);
+>>  
+>>  		err = virtqueue_add_inbuf(vrp->rvq, &sg, 1, cpu_addr,
+>>  					  GFP_KERNEL);
+>> @@ -964,8 +1015,8 @@ static int rpmsg_remove_device(struct device *dev, void *data)
+>>  static void rpmsg_remove(struct virtio_device *vdev)
+>>  {
+>>  	struct virtproc_info *vrp = vdev->priv;
+>> -	unsigned int num_bufs = vrp->num_rx_buf + vrp->num_tx_buf;
+>> -	size_t total_buf_space = num_bufs * vrp->buf_size;
+>> +	size_t total_buf_space = (vrp->num_rx_buf * vrp->rx_buf_size) +
+>> +				 (vrp->num_tx_buf * vrp->tx_buf_size);
+>>  	int ret;
+>>  
+>>  	virtio_reset_device(vdev);
+>> @@ -991,6 +1042,7 @@ static struct virtio_device_id id_table[] = {
+>>  
+>>  static unsigned int features[] = {
+>>  	VIRTIO_RPMSG_F_NS,
+>> +	VIRTIO_RPMSG_F_BUFSZ,
+>>  };
+>>  
+>>  static struct virtio_driver virtio_ipc_driver = {
+>> diff --git a/include/linux/rpmsg/virtio_rpmsg.h b/include/linux/rpmsg/virtio_rpmsg.h
+>> new file mode 100644
+>> index 000000000000..e28144253a12
+>> --- /dev/null
+>> +++ b/include/linux/rpmsg/virtio_rpmsg.h
+>> @@ -0,0 +1,41 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * Copyright (C) Pinecone Inc. 2019
+>> + * Copyright (C) Xiang Xiao <xiaoxiang@pinecone.net>
+>> + * Copyright (C) Advanced Micro Devices, Inc. 2026
+>> + */
+>> +
+>> +#ifndef _LINUX_VIRTIO_RPMSG_H
+>> +#define _LINUX_VIRTIO_RPMSG_H
+>> +
+>> +#include <linux/types.h>
+>> +#include <linux/virtio_types.h>
+>> +
+>> +/* The feature bitmap for virtio rpmsg */
+>> +#define VIRTIO_RPMSG_F_NS	0 /* RP supports name service notifications */
+>> +#define VIRTIO_RPMSG_F_BUFSZ	1 /* RP get buffer size from config space */
+>> +
+>> +/* Version of struct virtio_rpmsg_config understood by this driver */
+>> +#define RPMSG_VDEV_CONFIG_V1	1
+>> +
+>> +/**
+>> + * struct virtio_rpmsg_config - config space for rpmsg virtio device
+>> + *
+>> + * @version:	version of this structure, currently %RPMSG_VDEV_CONFIG_V1.
+>> + * @size:	size of this structure in bytes.
+>> + * @txbuf_size:	Tx buf size from remote's view. For Linux this is rx buf size.
+>> + * @rxbuf_size:	Rx buf size from remote's view. For Linux this is tx buf size.
+>> + *
+>> + * This is the configuration structure shared by the device and the driver,
+>> + * read when %VIRTIO_RPMSG_F_BUFSZ is negotiated. The fields are laid out so
+>> + * the structure is naturally 32-bit aligned.
+>> + */
+>> +struct virtio_rpmsg_config {
+>> +	u8 version;
+>> +	__virtio16 size;
+>> +	/* The tx/rx individual buffer size (if VIRTIO_RPMSG_F_BUFSZ) */
+>> +	__virtio32 txbuf_size;
+>> +	__virtio32 rxbuf_size;
+>> +} __packed;
+>> +
+>> +#endif /* _LINUX_VIRTIO_RPMSG_H */
+>> -- 
+>> 2.43.0
+>>
 
