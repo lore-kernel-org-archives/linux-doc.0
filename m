@@ -1,159 +1,243 @@
-Received: from mail-pz2-f8.google.com (mail-pz2-f8.google.com [74.125.228.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2428394797
-	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 06:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DBB3CB8E5;
+	Fri, 28 Aug 2026 06:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787897948; cv=none; b=dJ4L4eQq6CWUkQEsDZH70JlUlC26CdrBaegWkaF55DS1JzAP6gkk4MnXqezRpI2SDq2NtWNl1m9svfzIlLqU1rupd/HSvQwdH6kaVbRcixzthWqvDTeAUQF15VkPZE6zcRq061rDxCbL2CeJu3N9RboHId4GnzkjqfOLQZ4wS8I=
+	t=1787898823; cv=none; b=AWj1vJ32L/1q/DJlWZzEruuHRdWU6I/4IVR22/bI6v3Kv5kna1VsLOjgWYd8HbW+N0Hn04He7kIbN6nbEYftMcGBEZ4/RJFJ8JUNdK/C2ln07csH770Crco85iJYt8nO00YaFc9am3YJKdQmmjR3ZOFWUg+en/BCAt5FX5rMrlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787897948; c=relaxed/simple;
-	bh=HLmGXqe+ySXj53VWZvBA3TFv2XIHPD1xjPC0ensRO9k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cTuEh2enMOnKM7qSYkvGvC2SGZoe0mLEYxB2yqJ6U6L+sBMmfaVvWp4ZCfDaTWnK4Jyyf7JDUzOvfEwFrTPeevH+clGlM1A7Ax7hkz44kk8c9NEhed2A4Sh92bmhhOE6HKBjaRBHrf+cYMlq06k6kiTh0GJETEFQIc19mQePp/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TC4wowvW; arc=none smtp.client-ip=74.125.228.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787898823; c=relaxed/simple;
+	bh=gTg4XQjVmVz4Kh134B0Ijy3ozjc1X5GFNXKD4AwZ27k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eAQ47gZzjuf1kj+ckWWV2PADHcl73t2oZ6LpnJzRdeFxDz1hSaKc2XCjPw94y8x3fDNVvFXLn0//OWcD5Kz1fedFON4imLxXAO34toKLQhLOHiQebtqVVki65shE/Ogt0vLhL6U5GXICOt5ZQ7z1Acrlrq2xoBJNWAoYKXv1NME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=hQncp8aS; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TC4wowvW"
-Received: by mail-pz2-f8.google.com with SMTP id 41be03b00d2f7-cc1d7f6f26aso321891a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 23:19:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787897946; x=1788502746; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PfXDbSO38Ptv6nH8Zob9j+EEhcpNi44GPPmIo9LLCpU=;
-        b=TC4wowvW69Ahcu2+B1E5UkmhDs3vlLXD4M1ivnwz/jMaOLteHeEY+YHRZn9WiTxEco
-         j5iQd2fLxTa07XzI7WacjxZ7Vh5nrGaSXbU7M0syOgQ5RIK0Lqt1KFi84iMlz0otU7iB
-         KuU8RL74WhxLBBztP6m9xpmaVj1Z5FcpykG/0kBFctssDpwmJBDWyKzHVOnrpaSrBLwa
-         VZQuTP/iUCLwK5qzUtp0nv+XOiMlIZwxCllimZxDYwdJrTDVS1HUSY/r7HPJCv6dWPOi
-         j4tVXWzR3VnYs3DhfoaYE6awnmzmSnRWQGqfhlXqLIb0tn2tqVWKauj97xpbZ8k/1g2S
-         y/0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787897946; x=1788502746;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=PfXDbSO38Ptv6nH8Zob9j+EEhcpNi44GPPmIo9LLCpU=;
-        b=QcuwWnWHcGWZnV1/zuqEqKwl7fM1tvRbHqlw0tUH7hKygFTAkMqr6kk4ks0Ghs7NYP
-         tpc5f9rHGd5tOKLN0q9KVsrbyudW7NZmUWovh1ApPNAVs+jQy9F5i6rsOVfswjS6WQyr
-         brnehYSlCmw8HjtQxo6MgscafRaSJRyfx1V3vUM4r/Tecg6H63qfgWF0O78K1OL1m8Kv
-         pRPWnwWVswrcgmoREBEU2992jJSM4gF4mYI9XTYgTPdrWkqEHBn/zYL37xMG2F4W5CoQ
-         ewIidXszJ3WZalrjL1XHB0CbA+z4jO4IIk6CPkAdd1Bt7/Hf62ckJX5m0cT8od/4spN+
-         MnLQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrwC7+G4F6z7PAU6/ucCBn6CtlveLUzNq8+hKdz6yxVRWs1NbIXCrewQKjQUb9ew9s2b4liAsnDxt0=@vger.kernel.org
-X-Gm-Message-State: AFuF++mlO+Y0MZNpIQhFaDnqaFGOOe86w+34YcIDbeaUw4qLIVQxZXng
-	o5Hc9LzlCpjNtPW8dfViNE6ZQjCV7AN4yVcvcic6p0LpEFybfwN9/zqW
-X-Gm-Gg: AR+sD1264gcrfvI+zHwY+of5URW8RESFBCksFG49hZbG8o/l1CQKZpQBWO0ClEzJe6k
-	EhXCzf/y8eVG9yWsfrC9QwIYhroUP4N2jQljnlqGPlJsIGRlMPiBu5IKLCGqTSinraCXIw+sPGx
-	zdJ7mlN48GG9ri7SOjtiTwhec11dxEg/7ddIiRhV7vcajW5LQ4LT5gpJP2j/etJHhAIg6VGKNXO
-	4JQlDmIFn7GL4fCR0Hx+V2ynf0jVGX4S5V6fGuzYrZNBchiduNSg6HA9BqnmnGn7cXWqWvhPIt7
-	h76/Ya1X+l7S5rYXZbcXWmxH0PbaExrW5CCHdX73cLKAuOckU37bTj+EGjBeo3XMlmP49RLCj6z
-	zHVaVXtUj1Ekh3wMzGUq7ki1fN6YOxzBKXSLkn2YJqoaeKxEVMwWNbEbtOlLUlsKx9PAwc3jTzo
-	Kix20ootLkNKPO8GyubMb/cyIXH5A+EvdJrvC6pFhKbXV9Ls5GF0LEdQf6Lqrl1zFXj7nSApkCd
-	Q==
-X-Received: by 2002:a05:6a00:1149:b0:851:804c:f4eb with SMTP id d2e1a72fcca58-8562868f342mr8607621b3a.4.1787897946171;
-        Thu, 27 Aug 2026 23:19:06 -0700 (PDT)
-Received: from HPPC-archlinux ([101.68.111.107])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8569fc7ab4asm256010b3a.22.2026.08.27.23.19.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 23:19:05 -0700 (PDT)
-From: Yukai Wu <xiaoyewuz.ruster@gmail.com>
-X-Google-Original-From: Yukai Wu <xiaoyewuz.Ruster@gmail.com>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Alexandre Ghiti <alex@ghiti.fr>,
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="hQncp8aS"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7725E1F47F;
+	Fri, 28 Aug 2026 06:33:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1787898812;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ASnAMRDladV1l8gyKbKFY6Vd/6r7kYJr6tUpS2r2NUc=;
+	b=hQncp8aSqlWBmrDfy/xXtj6xjUlLaVDqFZbGkkNw0VByDEdY3WAiXHBnxodXFoZYYIzBuz
+	A6JfzduhVqMokkxOM77ZqCMWJxRTl7e9C5GZ0uKtIrawfzp5o4/Tr36mO5K2vtKLM68ACb
+	VCC9o+eR/RXnjd+j7uF2PjeNXB7M5AaxM8l4rhFwSHDoD2z67yAR2E+4A0OGS6MgvjhkWO
+	YQ9inI5xYekxZyLzS054PZVII6w7rYOtofk7vQHULwCylY1UAOYCqOxIDg8NJJgium/1Ve
+	H5ng4Ld9HNd0LIwRGp5tNmWRhCWPVuhQeZ4/ZRWknj4VKIvpBiepTW8jb+/Uxw==
+From: Guillaume Tucker <gtucker@gtucker.io>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Guillaume Tucker <gtucker@gtucker.io>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
 	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
+	workflows@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Yukai Wu <xiaoyewuz.Ruster@gmail.com>
-Subject: [PATCH] docs/zh_CN: Update arch/riscv/patch-acceptance.rst translation
-Date: Fri, 28 Aug 2026 14:18:16 +0800
-Message-ID: <20260828061834.3645176-1-xiaoyewuz.Ruster@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	linux-kbuild@vger.kernel.org,
+	automated-testing@lists.yoctoproject.org
+Subject: [PATCH v2 1/2] scripts: add TOML config to container tool
+Date: Fri, 28 Aug 2026 08:33:18 +0200
+Message-ID: <15e16f175f59ae666036764eb03c40cdf19809c7.1787896890.git.gtucker@gtucker.io>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-Score: -100
+X-GND-Cause: dmFkZTEniHm/Ptz4XVhRvXZtZIZExTzjiW4dk2mombHGE2jgJ14uj9LBVapMnLnfjdXlv9eAgXryC7GokgiYa4o4gabUHYRQt3V7HMvbak6jmzR9E+d8KeDq8gr38g1CcsAcCmHWbnKIrwofD/absQ/O2nm4vSr2n5ojbm2JePFUzHt4m3zokTBNylOAV22sbCofbrceqDese9xX2RZrH+NwV77DmE1ah6JRta2tdCgzf90By9zWg4RCGAjOu2FQfcMqqi7EdWtHpELmau3uDjSeEK721jaA5kfwRK10jxJcDvWAHjGWE0HbE4qCYQ+LnQIn74ZNeGLYZR997dS6o9tlAROESj81WOe6fF7dC7o7k/y7DxwktKcZ6NEQHDnSg2k54omTuNHpP+VegH6BJIG+/MNTFHO6fe1kjGzTmyzf8NBkEteQeQ/tXXKeJeNNN/2n8NGboCZaUgGV8SXOb9cpXqGinm56l/E73FROxnxa29CIFa4lMxsMtpZt8LVa6rHTnSCbCriznsz7PJnMQxl5ppNyMOpaVKczb+weqefPgY4LPBnzBBgwjJZyzlO/RfGRDar8z/mUUTvDIzNceJOHPekYJs3y9wlAqSa/ckyJp/o6K6bnFjtynUwF12MHPwJuoE246y188Lads+pD8L7wvChesSxNGPoxXoz+l2++rls9Tw
+X-GND-State: clean
 
-Update Documentation/arch/riscv/patch-acceptance.rst translation.
+Add support for a TOML configuration file to the scripts/container
+tool.  This improves user experience by not having to keep passing the
+same command line options all the time or overly relying on built-in
+default values.  Include the concept of 'profiles' with different
+named sections in the file to cover various use cases.
 
-Update the translation through commit ed843ae947f8
-("docs: move riscv under arch")
+Command line options take precedence over the config file, and values
+defined in profile sections take precedence over the default one.
 
-Signed-off-by: Yukai Wu <xiaoyewuz.Ruster@gmail.com>
+Add a -c option to override the location of the .container.toml config
+file which should otherwise be located in the current working
+directory.  If not found, the file is silently ignored as it is not
+strictly required unless the -c option is used.
+
+Add a -p option to choose a particular profile section in the config
+file rather than the default.
+
+Signed-off-by: Guillaume Tucker <gtucker@gtucker.io>
 ---
- .../zh_CN/arch/riscv/patch-acceptance.rst     | 46 ++++++++++++++-----
- 1 file changed, 34 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst b/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst
-index c8eb230ca8ee..a48e6e575a67 100644
---- a/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst
-+++ b/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst
-@@ -15,19 +15,41 @@ arch/riscv 开发者维护指南
+Notes:
+    Changes in v2:
+    - fix uid / gid handling when set to 0 (root)
+
+ scripts/container | 84 ++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 73 insertions(+), 11 deletions(-)
+
+diff --git a/scripts/container b/scripts/container
+index b05333d8530b..72f89f9d17c5 100755
+--- a/scripts/container
++++ b/scripts/container
+@@ -1,17 +1,19 @@
+ #!/usr/bin/env python3
+ # SPDX-License-Identifier: GPL-2.0-only
+-# Copyright (C) 2025 Guillaume Tucker
++# Copyright (C) 2025-2026 Guillaume Tucker
  
- 概述
- ----
--RISC-V指令集体系结构是公开开发的：
-+RISC-V 指令集体系结构是公开开发的：
- 正在进行的草案可供所有人查看和测试实现。新模块或者扩展草案可能会在开发过程中发
--生更改---有时以不兼容的方式对以前的草案进行更改。这种灵活性可能会给RISC-V Linux
--维护者带来挑战。Linux开发过程更喜欢经过良好检查和测试的代码，而不是试验代码。我
--们希望推广同样的规则到即将被内核合并的RISC-V相关代码。
-+生更改 --- 有时以不兼容的方式对以前的草案进行更改。这种灵活性可能会给 RISC-V
-+Linux 维护者带来挑战。Linux 维护者不赞成频繁的变更，且 Linux 开发过程更喜欢经过
-+良好检查和测试的代码，而不是试验代码。我们希望推广同样的规则到即将被内核合并的
-+RISC-V 相关代码。
-+
-+补丁跟踪系统
-+------------
-+
-+RISC-V 有一个补丁跟踪系统实例，可以在那里查看补丁的状态：
-+
-+  https://patchwork.kernel.org/project/linux-riscv/list/
-+
-+如果你的补丁不在默认视图中出现，那么 RISC-V 维护者很有可能已要求修改，或者希望
-+将其应用到另一个代码树上。
-+
-+自动化流程会在该补丁跟踪系统实例上运行，在每个补丁到达时立刻对其进行构建/测试。
-+自动化流程根据补丁是否被识别为修复，将其应用到 RISC-V `for-next` 和 `fixes` 分支
-+当前的 HEAD 上。如果均不适用，则会使用 RISC-V `master` 分支。补丁系列被应用到的具
-+体提交将标注在补丁跟踪系统上。任何检查未通过的补丁通常不会被应用，并且在大多数情
-+况下将需要重新提交。
+ """Containerized builds"""
  
- 附加的提交检查单
- ----------------
--我们仅接受相关标准已经被RISC-V基金会标准为“已批准”或“已冻结”的扩展或模块的补丁。
--（开发者当然可以维护自己的Linux内核树，其中包含所需代码扩展草案的代码。）
--
--此外，RISC-V规范允许爱好者创建自己的自定义扩展。这些自定义拓展不需要通过RISC-V
--基金会的任何审核或批准。为了避免将爱好者一些特别的RISC-V拓展添加进内核代码带来
--的维护复杂性和对性能的潜在影响，我们将只接受RISC-V基金会正式冻结或批准的的扩展
--补丁。（开发者当然可以维护自己的Linux内核树，其中包含他们想要的任何自定义扩展
--的代码。）
-+我们仅接受针对新模块或扩展的补丁，前提是这些模块或扩展的规范被列为未来不太可能发
-+生不兼容的变更。对于来自 RISC-V 基金会的规范，这意味着“已批准”或“已冻结”，对于
-+UEFI 论坛的规范，这意味着已发布的 ECR。（开发者当然可以维护自己的 Linux 内核树，
-+其中包含他们所需的任何扩展草案的代码。）
+ import abc
+ import argparse
++import dataclasses
+ import logging
+ import os
+ import pathlib
+ import shutil
+ import subprocess
+ import sys
++import tomllib
+ import uuid
+ 
+ 
+@@ -20,10 +22,17 @@ class ContainerRuntime(abc.ABC):
+ 
+     name = None  # Property defined in each implementation class
+ 
+-    def __init__(self, args, logger):
+-        self._uid = args.uid or os.getuid()
+-        self._gid = args.gid or args.uid or os.getgid()
+-        self._env_file = args.env_file
++    def __init__(self, args, config, logger):
++        def _first_not_none(*args):
++            return next((item for item in args if item is not None))
 +
-+此外，RISC-V 规范允许实现者创建自己的自定义扩展。这些自定义扩展不需要通过 RISC-V
-+基金会的任何审核或批准流程。为了避免因添加实现者特定的 RISC-V 扩展带来的维护复杂
-+性和对性能的潜在影响，我们将只接受符合以下任一条件的扩展补丁：
++        self._uid = _first_not_none(
++            args.uid, config.uid, os.getuid()
++        )
++        self._gid = _first_not_none(
++            args.gid, config.gid, args.uid, config.uid, os.getgid()
++        )
++        self._env_file = args.env_file or config.env_file
+         self._shell = args.shell
+         self._logger = logger
+ 
+@@ -131,6 +140,41 @@ class Runtimes:
+         raise ValueError("no runtime found")
+ 
+ 
++@dataclasses.dataclass
++class Config:
++    """Container configuration"""
++    image: str = None
++    runtime: str = None
++    registry: str = None
++    env_file: str = None
++    uid: int = None
++    gid: int = None
 +
-+- 已由 RISC-V 基金会正式冻结或批准
-+- 已按照标准 Linux 惯例，在广泛可用的硬件中实现
++    @classmethod
++    def from_toml(cls, config_file_path, profile_name):
++        """Create a config object from a TOML file"""
++        if not config_file_path:
++            config_file_path = '.container.toml'
++            if not os.path.exists(config_file_path):
++                return cls()
++        elif not os.path.exists(config_file_path):
++            raise ValueError(f"config file not found: {config_file_path}")
++        with open(config_file_path, 'rb') as config_file:
++            config = tomllib.load(config_file)
++        default = config.get('DEFAULT', {})
++        if not profile_name:
++            profile = {}
++        else:
++            profile = config.get(profile_name)
++            if profile is None:
++                raise ValueError(f"unknown profile: {profile_name}")
++        fields = (field.name for field in dataclasses.fields(cls))
++        kwargs = {
++            opt: profile.get(opt) or default.get(opt) for opt in fields
++        }
++        return cls(**kwargs)
 +
-+（实现者当然可以维护自己的 Linux 内核树，其中包含他们所需的任何自定义扩展的代码。）
++
+ def _get_logger(verbose):
+     """Set up a logger with the appropriate level"""
+     logger = logging.getLogger('container')
+@@ -147,13 +191,21 @@ def main(args):
+     """Main entry point for the container tool"""
+     logger = _get_logger(args.verbose)
+     try:
+-        cls = Runtimes.get(args.runtime) if args.runtime else Runtimes.find()
++        config = Config.from_toml(args.config_file, args.config_profile)
++        runtime = args.runtime or config.runtime
++        cls = Runtimes.get(runtime) if runtime else Runtimes.find()
+     except ValueError as ex:
+         logger.error(ex)
+         return 1
+     logger.debug("runtime: %s", cls.name)
+-    logger.debug("image: %s", args.image)
+-    return cls(args, logger).run(args.image, args.cmd)
++    image = args.image or config.image
++    if not image:
++        logger.error("no image specified")
++        return 1
++    if config.registry:
++        image = '/'.join((config.registry, image))
++    logger.debug("image: %s", image)
++    return cls(args, config, logger).run(image, args.cmd)
+ 
+ 
+ if __name__ == '__main__':
+@@ -162,18 +214,28 @@ if __name__ == '__main__':
+         description="See the documentation for more details: "
+         "https://docs.kernel.org/dev-tools/container.html"
+     )
++    parser.add_argument(
++        '-c', '--config-file',
++        help="Path to the config file.  If not specified, the default is to "
++        "look for .container.toml in the current working directory."
++    )
+     parser.add_argument(
+         '-e', '--env-file',
+         help="Path to an environment file to load in the container."
+     )
+     parser.add_argument(
+-        '-g', '--gid',
++        '-g', '--gid', type=int,
+         help="Group ID to use inside the container."
+     )
+     parser.add_argument(
+-        '-i', '--image', required=True,
++        '-i', '--image',
+         help="Container image name."
+     )
++    parser.add_argument(
++        '-p', '--config-profile',
++        help="Profile section to use in the config file.  This will override"
++        "any values defined in the DEFAULT section."
++    )
+     parser.add_argument(
+         '-r', '--runtime', choices=Runtimes.get_names(),
+         help="Container runtime name.  If not specified, the first one found "
+@@ -184,7 +246,7 @@ if __name__ == '__main__':
+         help="Run the container in an interactive shell."
+     )
+     parser.add_argument(
+-        '-u', '--uid',
++        '-u', '--uid', type=int,
+         help="User ID to use inside the container.  If the -g option is not "
+         "specified, the user ID will also be set as the group ID."
+     )
 -- 
-2.55.0
+2.47.3
 
