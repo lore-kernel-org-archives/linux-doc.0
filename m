@@ -1,82 +1,307 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from mail-m127102.qiye.163.com (mail-m127102.qiye.163.com [115.236.127.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E983A389116;
-	Fri, 28 Aug 2026 06:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF8841C6A;
+	Fri, 28 Aug 2026 06:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787899156; cv=none; b=P0Rz9IXNCGpk2sk8hjWPxlfcDsfgGV5fu22QhoRaA6oRh0VLRIGNYtwC3IimVm8B3Ru4rlwct/ejFJxDndUZlQEmioriAorGNbMkD2g61wijx2Xi9Wqrj9piOEAM4H+1h6J5QROmxsMYpaalEGk0j1VZqgi0ai1fsh9vr83yaHI=
+	t=1787899414; cv=none; b=firQQKUZU9RtKGd9QNZHeuWyjKqUyvMhJkTjknjMD3woHc2x5UoUZlipQLJoVePCkloHIB1V774KVyH3FevP7xmqSPDyq6vrFF/1d6O0rIB8+cjbV77fiRa8Gk3wngpg+OD0y23/in/PNl7QhlZEdXbNqNjlOmLzndFV3T/X9fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787899156; c=relaxed/simple;
-	bh=FvqYokxa7b4ERMmqK+ISvEpBiMhA4S2acjDPbxpaObI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=acKrGVsl8isZAqmu+bdaaRTChqZNFcc1qy/NU3RSGXyeDMoocP1vC9+O7R7OMQffzBZaQ+GTTMOERqJgSsL/uNX14IqDrMPnmiLku9Xq5Myt4Zm96mv1BEiiuNgiiEaaUrNR4QOB1DT3J57mbhf8BaqpkzgMyqp6dN6c6BS8d+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=m5EBZY60; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="m5EBZY60"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9CE811F481;
-	Fri, 28 Aug 2026 06:39:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1787899152;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cpDaQn4XBfoSKAzquH6aw/Az8cXNcTO/tso/f2BJu4I=;
-	b=m5EBZY60QXuEeYhJLBcanNdtA7hmmQLQnnvu0VPsxILE7o+eNHuR/BpDDDFTkJ4nkqFf+j
-	KRFvClMvGKx9a9dJTRMGuCvRN9IgDsSG/DjBTUVMhBROYotJSMTsHYzigYtjSbWa6kjaKG
-	PMIqlnE63oaRbxx8ZADLF89hwxapQxIPplVGW8li2ZKvooKjvs/g9UKc7c94ugpTfWhjvB
-	MbMd4MABAaLsJRieosICNFlsSG5uM7E9Bg/7EyTCP9B6Vlo8PvZy9evdVKAHwax2AqYgVb
-	ZTfTRnpCwHcGjfYKomkH1VScfcLZ8RTTG/GevsJzf98z71iKjMV3xTTuOhiA5A==
-Message-ID: <14d64faf-264d-4a7a-b707-387d5f03de88@gtucker.io>
-Date: Fri, 28 Aug 2026 08:39:09 +0200
+	s=arc-20240116; t=1787899414; c=relaxed/simple;
+	bh=UPYRdrqZC5mlJ1hnd5tW0tIDT8J030CHtWUSM3IIiTo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=jHPxaNQhV7JEUPRB31JfS5USDYmKvzPUZktiKsjd0cgyVahOsDJPk5glarP7sOHWYDDf/qQzugkTvvrD8QJ2bn9SwFUhWDhgGjOdut42UNcfNTAlnTfoAoA8FukIQ1e8+ZiHoDaPJOUO58/Dtd8eaTCNaufZ/YLGIyeOcsjyddw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=115.236.127.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
+Received: from localhost.localdomain (unknown [218.94.118.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 1e6a20db2;
+	Fri, 28 Aug 2026 11:13:59 +0800 (GMT+08:00)
+From: Zhen Ni <zhen.ni@easystack.cn>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Zi Yan <ziy@nvidia.com>,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhen Ni <zhen.ni@easystack.cn>
+Subject: [PATCH 6/8] tools/mm: Add PID/TGID/COMM filtering support to page_owner_filter
+Date: Fri, 28 Aug 2026 11:13:37 +0800
+Message-Id: <20260828031339.1270699-7-zhen.ni@easystack.cn>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20260828031339.1270699-1-zhen.ni@easystack.cn>
+References: <20260828031339.1270699-1-zhen.ni@easystack.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] scripts: add TOML config to container tool
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Nick Desaulniers <ndesaulniers@google.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- automated-testing@lists.yoctoproject.org
-References: <7d8ba914cd174d716340bb2b88723bef0f330627.1787565460.git.gtucker@gtucker.io>
-Content-Language: en-US
-From: Guillaume Tucker <gtucker@gtucker.io>
-In-Reply-To: <7d8ba914cd174d716340bb2b88723bef0f330627.1787565460.git.gtucker@gtucker.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-Score: -100
-X-GND-Cause: dmFkZTEEqbYBA4Ditot789qNJM3akOoVfNHO08/K+rVQdOE8UyXpCeRWiSH29c2qdVJAgdPj+BKJLOwy2fp/8jVDWWJmFXx54yWaZCbyF4w4u4jiWgP5MRI0w/4cmQB2IfI3GI4w4KFaVw5dyv+Wust8Aumq39OJOQO9LCeU7KbG61JojkD91A/74ZZJ2sk/TRxVJdpj50gBQEMuD7NcjOOg6pvYW9NVd/AkNFYglWxWFgtEVbYHazmPO2cTmHHwl6fLtKxPhPWf1bc6afyIGKplu8PQ3q95UQI89ImxWiBbdyN1REozbzgqYS8WJQdc2cNy4Y5Us0NAYvP30zjIAxsDP/f2UG5fkLX+2LpiXp1pQzjLqN45yV9CmUeu9dW41kwmbAX9NoCsxUrav9antgdMIbS0CBzrGTxIi8RJDgcSEP5f9OPYBjUQJ5Oov5M0xGoFw+wm1aiRR0jz/7EXyuXgQa4le2ZCZAslnuxQncdM3Qixl88oQFX3Iiji+Dq5ahKkPKi8oFGzFTF3328H1LQuZtxVtd8DzUwCrwDPsXEFcAqIQK8pqyOCJxDz36q4Z3xGlnSyE5VDdrtH8zvVpwq1/9lXvJLOJUTfZmE/aH1Ic0FacnSSQ4InbmOYfPmoPrlsp8Fksu8DhCl9hQfxhYAk7dEwLm5W5qrsLA0hvMa98W3x5Q
-X-GND-State: clean
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa0465c26f60229kunma81ef96712a352
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZSxlPVkMaTxhITBkeShkZTVYVFA
+	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
+	lPT09IVUpLS1VKQktLWQY+
 
-On 24/08/2026 12:05 pm, Guillaume Tucker wrote:
-> @@ -20,10 +22,14 @@ class ContainerRuntime(abc.ABC):
->   
->       name = None  # Property defined in each implementation class
->   
-> -    def __init__(self, args, logger):
-> -        self._uid = args.uid or os.getuid()
-> -        self._gid = args.gid or args.uid or os.getgid()
-> -        self._env_file = args.env_file
-> +    def __init__(self, args, config, logger):
-> +        self._uid = args.uid or config.uid or os.getuid()
-> +        self._gid = (
-> +            args.gid or config.gid or
-> +            args.uid or config.uid or
-> +            os.getgid()
-> +        )
+Add command-line options for filtering by process ID (PID), thread group
+ID (TGID), and process name (COMM) to the page_owner_filter userspace tool.
 
-There was a bug here when uid or gid was set to 0 (root) as it would
-evaluate as False and be ignored.  This is because they are now
-treated as integers rather than strings.  I've fixed this in the v2.
+New options:
+  -p, --pid PID_LIST    : Process IDs (comma-separated, max 16)
+  -t, --tgid TGID_LIST  : Thread Group IDs (comma-separated, max 16)
+  -c, --comm COMM_LIST  : Process names (comma-separated, max 8)
+                         Supports wildcards: * ? [a-z]
 
-Guillaume
+Usage examples:
+  page_owner_filter -p 1234,5678
+  page_owner_filter -c "python*"
+  page_owner_filter -n 0 -c kworker* -o output.txt
+
+Signed-off-by: Zhen Ni <zhen.ni@easystack.cn>
+---
+ tools/mm/page_owner_filter.c | 168 ++++++++++++++++++++++++++++++-----
+ 1 file changed, 147 insertions(+), 21 deletions(-)
+
+diff --git a/tools/mm/page_owner_filter.c b/tools/mm/page_owner_filter.c
+index 1d1f0a38678a..9256ffad4939 100644
+--- a/tools/mm/page_owner_filter.c
++++ b/tools/mm/page_owner_filter.c
+@@ -21,22 +21,24 @@
+ #include <signal.h>
+ 
+ #define MAX_CMD_LEN	512
++#define TASK_COMM_LEN	16
+ 
+ static void usage(const char *prog)
+ {
+ 	fprintf(stderr, "Usage: %s [OPTIONS]\n", prog);
+ 	fprintf(stderr, "\nOptions:\n");
+-	fprintf(stderr, "  -m, --mode MODE      : print_mode (stack, handle, or stack_handle)\n");
+-	fprintf(stderr, "  -n, --nid NID_LIST   : NUMA node IDs (comma-separated or ranges)\n");
+-	fprintf(stderr, "  -o, --output FILE    : output file (default: stdout)\n");
+-	fprintf(stderr, "  -h, --help           : show this help message\n");
++	fprintf(stderr, "  -m, --mode MODE       : print_mode (stack, handle, stack_handle)\n");
++	fprintf(stderr, "  -n, --nid NID_LIST    : NUMA nodes (comma-separated or ranges)\n");
++	fprintf(stderr, "  -p, --pid PID_LIST    : Process IDs (comma-separated, max 16)\n");
++	fprintf(stderr, "  -t, --tgid TGID_LIST  : Thread Group IDs (comma-separated, max 16)\n");
++	fprintf(stderr, "  -c, --comm COMM_LIST  : Process names (comma-separated, max 8)\n");
++	fprintf(stderr, "                          Supports wildcards: * ? [a-z]\n");
++	fprintf(stderr, "  -o, --output FILE     : output file (default: stdout)\n");
++	fprintf(stderr, "  -h, --help            : show this help message\n");
+ 	fprintf(stderr, "\nExamples:\n");
+-	fprintf(stderr, "  %s -m stack\n", prog);
+-	fprintf(stderr, "  %s -m handle\n", prog);
+-	fprintf(stderr, "  %s -m stack_handle\n", prog);
+-	fprintf(stderr, "  %s -m stack -o output.txt\n", prog);
+-	fprintf(stderr, "  %s -n 0,1,2\n", prog);
+-	fprintf(stderr, "  %s -m stack -n 0\n", prog);
++	fprintf(stderr, "  %s -m handle -o output.txt\n", prog);
++	fprintf(stderr, "  %s -n 0,1 -c bash\n", prog);
++	fprintf(stderr, "  %s -c \"python*\" -t 1\n", prog);
+ }
+ 
+ static int validate_mode(const char *mode)
+@@ -132,6 +134,93 @@ static int validate_nid_list(const char *nid_list)
+ 	return 0;
+ }
+ 
++static int validate_pid_list(const char *pid_list)
++{
++	const char *p;
++	int count = 0;
++
++	if (!pid_list || strlen(pid_list) == 0)
++		return -1;
++
++	for (p = pid_list; *p; p++) {
++		if (*p == ',') {
++			count++;
++			continue;
++		}
++		if (!isdigit((unsigned char)*p)) {
++			fprintf(stderr,
++				"Error: Invalid character '%c' in pid_list (only digits allowed)\n",
++				*p);
++			return -1;
++		}
++	}
++
++	if (++count > 16) {
++		fprintf(stderr, "Error: Too many PIDs (max 16)\n");
++		return -1;
++	}
++
++	return 0;
++}
++
++static int validate_tgid_list(const char *tgid_list)
++{
++	return validate_pid_list(tgid_list);
++}
++
++static int validate_comm_list(const char *comm_list)
++{
++	const char *p;
++	const char *comm_start;
++	int count = 0;
++	int comm_len = 0;
++
++	if (!comm_list || strlen(comm_list) == 0)
++		return -1;
++
++	comm_start = comm_list;
++	for (p = comm_list; *p; p++) {
++		if (*p == ',') {
++			/* Check COMM length before separator */
++			if (comm_len == 0) {
++				fprintf(stderr, "Error: Empty COMM in list\n");
++				return -1;
++			}
++			if (comm_len >= TASK_COMM_LEN) {
++				fprintf(stderr,
++					"Error: COMM too long (max %d chars)\n",
++					TASK_COMM_LEN - 1);
++				fprintf(stderr, "  Near: %.15s...\n", comm_start);
++				return -1;
++			}
++			count++;
++			comm_len = 0;
++			comm_start = p + 1;
++			continue;
++		}
++		comm_len++;
++	}
++
++	/* Check last COMM */
++	if (comm_len == 0) {
++		fprintf(stderr, "Error: Empty COMM at end of list\n");
++		return -1;
++	}
++	if (comm_len >= TASK_COMM_LEN) {
++		fprintf(stderr, "Error: COMM too long (max %d chars)\n",
++			TASK_COMM_LEN - 1);
++		fprintf(stderr, "  Near: %.15s...\n", comm_start);
++		return -1;
++	}
++
++	if (++count > 8) {
++		fprintf(stderr, "Error: Too many COMMs (max 8)\n");
++		return -1;
++	}
++
++	return 0;
++}
++
+ int main(int argc, char *argv[])
+ {
+ 	const char *output_file = NULL;
+@@ -148,6 +237,9 @@ int main(int argc, char *argv[])
+ 	static struct option long_options[] = {
+ 		{"mode",	required_argument, 0, 'm'},
+ 		{"nid",		required_argument, 0, 'n'},
++		{"pid",		required_argument, 0, 'p'},
++		{"tgid",	required_argument, 0, 't'},
++		{"comm",	required_argument, 0, 'c'},
+ 		{"output",	required_argument, 0, 'o'},
+ 		{"help",	no_argument,	   0, 'h'},
+ 		{0, 0, 0, 0}
+@@ -174,7 +266,7 @@ int main(int argc, char *argv[])
+ 		return 1;
+ 	}
+ 
+-	while ((opt = getopt_long(argc, argv, "m:n:o:h", long_options, NULL)) != -1) {
++	while ((opt = getopt_long(argc, argv, "m:n:p:t:c:o:h", long_options, NULL)) != -1) {
+ 		int len;
+ 
+ 		switch (opt) {
+@@ -206,6 +298,48 @@ int main(int argc, char *argv[])
+ 			cmd_len += len;
+ 			break;
+ 		}
++		case 'p': {
++			const char *pid_list = optarg;
++
++			if (validate_pid_list(pid_list) < 0)
++				return 1;
++			len = snprintf(filter_cmd + cmd_len, MAX_CMD_LEN - cmd_len,
++				       "%spid=%s", cmd_len > 0 ? " " : "", pid_list);
++			if (len < 0 || cmd_len + len >= MAX_CMD_LEN) {
++				fprintf(stderr, "Error: Command too long\n");
++				return 1;
++			}
++			cmd_len += len;
++			break;
++		}
++		case 't': {
++			const char *tgid_list = optarg;
++
++			if (validate_tgid_list(tgid_list) < 0)
++				return 1;
++			len = snprintf(filter_cmd + cmd_len, MAX_CMD_LEN - cmd_len,
++				       "%stgid=%s", cmd_len > 0 ? " " : "", tgid_list);
++			if (len < 0 || cmd_len + len >= MAX_CMD_LEN) {
++				fprintf(stderr, "Error: Command too long\n");
++				return 1;
++			}
++			cmd_len += len;
++			break;
++		}
++		case 'c': {
++			const char *comm_list = optarg;
++
++			if (validate_comm_list(comm_list) < 0)
++				return 1;
++			len = snprintf(filter_cmd + cmd_len, MAX_CMD_LEN - cmd_len,
++				       "%scomm=%s", cmd_len > 0 ? " " : "", comm_list);
++			if (len < 0 || cmd_len + len >= MAX_CMD_LEN) {
++				fprintf(stderr, "Error: Command too long\n");
++				return 1;
++			}
++			cmd_len += len;
++			break;
++		}
+ 		case 'o':
+ 			output_file = optarg;
+ 			break;
+@@ -220,7 +354,7 @@ int main(int argc, char *argv[])
+ 
+ 	/* At least one filter must be specified */
+ 	if (cmd_len == 0) {
+-		fprintf(stderr, "Error: At least one filter (-m or -n) must be specified\n\n");
++		fprintf(stderr, "Error: At least one filter must be specified\n\n");
+ 		usage(argv[0]);
+ 		return 1;
+ 	}
+@@ -255,15 +389,7 @@ int main(int argc, char *argv[])
+ 	ret = write(fd, filter_cmd, strlen(filter_cmd));
+ 
+ 	if (ret < 0) {
+-		if (errno == EINVAL) {
+-			fprintf(stderr, "Error: Kernel rejected the filter command.\n");
+-			fprintf(stderr, "Possible causes:\n");
+-			fprintf(stderr, "  - Kernel does not support per-fd filtering\n");
+-			fprintf(stderr, "  - NUMA node has no memory\n");
+-			fprintf(stderr, "  - Unknown reason\n");
+-		} else {
+-			perror("write filter command");
+-		}
++		perror("write filter command");
+ 		goto out;
+ 	}
+ 
+-- 
+2.20.1
+
