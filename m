@@ -1,95 +1,95 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64FF33D4E5
-	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 19:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1301F39891E
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 19:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787945499; cv=pass; b=aSEC97gZR4H5Zratzuy3a9MtHBB6AazaIvyVQjXHN56Sl3D2DqDQX8AsBYoz7BDcHsf1k/7YfrnlpIx6uA6F3f8AIYnAo4K7lWdvNByZUpmx77oqtI5q0RhS+LFH3rtBX+vek0xjKqQXnUwyjAoybj56E3cGw8r0g4rbHkXA80w=
+	t=1787946654; cv=pass; b=u9netbQZTyKSQMOK2WKJvl5NT+B2B+7ge7rNwaq9V/qnqaXUNGgr2tUvs/+PiQrBlVb353EvsKX54577hMraX+iJzWM+etMqt2uLu85ewHacLOIoBBKcgpkJTJY+WCkkx03CiMTZdCa6e7pSupl4csfj5y52yvotQhiRAJvshuY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787945499; c=relaxed/simple;
-	bh=CdWj4WZBsPRTHGep9Z7y+jcoE1QqheNf+EyUKQPri1k=;
+	s=arc-20240116; t=1787946654; c=relaxed/simple;
+	bh=V6Nh/imCu2DksXoUrx1x6JfWGC3imxXsFDlVlCThN9Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qlAj4lsuMBaut7DVIYpI5bVWWSYajt0Gjz9S+UVKYFf+wf1TDnkOpK6RtqGA+SOc5wsrS8eeD5FRoNS/TIRs5bIkZoWDIc5duI8vviV7NcPb7boxPvL4DhloUH9htPm6LrcXlWaxd98Iaw2RvLDDfNXP3wWuHYpeSMZdhyUuTWA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bPy7cmUX; arc=pass smtp.client-ip=209.85.160.170
+	 To:Cc:Content-Type; b=kWZOjylSq3qfM07a3TSdobanTVP6/ixSHUtO+iXbnPxJDo3fcgBIoqFR5AZ0msZxv+2n70PyKHr/rzaGVA4xZwqfPtRgAnYFknsDvvkzxDQmSWspKz2ChQesD0U1v94N2mN7fTyGdtvkOm8S7hrX0nC/Q0NUgu+lYNHZUq1gSVk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ckaTpbj+; arc=pass smtp.client-ip=209.85.160.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bPy7cmUX"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-52fac937235so44581cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 12:31:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787945496; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ckaTpbj+"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-52faa58bff5so45791cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 12:50:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787946652; cv=none;
         d=google.com; s=arc-20260327;
-        b=Twui7MTmFrfbLnbuOgV3gL24druLbhjZbhAHucyR8P9vFyq12hDbeZtdRiKGgTcJl3
-         0/mdHM8H1wTXO4Djzbuu7scRzVYfdHD9yp23kLMFwNOWFqBo5M9imCILUrtCa9z36Xax
-         C0p03eOizAz7lsRc+78ypMMU4UKC/DOUo+NV+hcsnlg1MYcrZ4jK2ZTGGSdt2Jsq/8cc
-         1zbgEEwRfWuvVEVpDf4KRYlbUf3brLZJBPWqtNlB13DC+ADcM8MW6WlY7XOTteQ/0tP3
-         xh8yIPDf43EHQKDYfPyQpgG1ZGdIrBBTclJa8lx9AIUOSvW/D81flvy0ifq23vLbQT3A
-         nTiQ==
+        b=mpyU2KBaYkHd72SJSEbK6EAsH1jn3aq8cHgDdbSon5gT5ddzyvNInXs6Y4KptIcdny
+         ecjVf7xHZ+CUavscWCn7EOL4OwpgtNjIcMG+pC6Z0AYPP6FucEPasu4EAXX33aXszjCt
+         rijgcaAtRVwpnui3xmcBMxgO1twYxpHu0Yh7TEQtUsGJDfmTGXvQDbQuUYmrGPILCxI3
+         ykDED1FrrgAnlQrK7l/cWg2OoSzsJ6FY7nhg/ROTczpdSxzmCkBa/2sWehIr2ZRpGyUo
+         thvCxG0c+mCUNi8z8zdbr9Lc2EKmjBDZR9HWQNhYfP8JXwtgebCjWEtjNceMlJOcf7aV
+         h6Zw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=CdWj4WZBsPRTHGep9Z7y+jcoE1QqheNf+EyUKQPri1k=;
-        fh=nPVwTSb5FeP5FaU9ZTk0ARyYKCFili9W6U2G8WxK/Ig=;
-        b=atxE9xvDGyE+PCxGK1d3pA4W8yz+mQc7P378M0xbhk+wKRW8jS9a+vJc6Uc+1KQjvt
-         td/6qJklEaYGTgclQPQXWc1Wm182Zs/JopEAFIrq2c3iOkvP8A1kRbq2v8wxsvT0a/gQ
-         FhFw5idHYvntkcDieJOFCdWL/ztWK2O0fH9CCQmRLu2x78+ObnizCfnnzqEnax6Vxf/2
-         Xd5NkPWayHPPMtv4/SfoswVa3Q+0FQ1d8MvJARSpUkolVeACxK79yVFmBbLwHnX1zfbO
-         yJetSb7ntEopY6HuAsfV2NCXG0aOhqeMBhys0LlW2aMjZFhFxqIAqxEWK+Cg6J03NvdY
-         xrYA==;
+        bh=V6Nh/imCu2DksXoUrx1x6JfWGC3imxXsFDlVlCThN9Q=;
+        fh=KUUcx6wy7+/99cmq0tK5N15VnbUZE5CJ+gkwnsGoPVk=;
+        b=SgyaKGaFZH7Ub/OdqG9MlPRT4t4u0nZRmP5eweqTF1NoHKyTz+SF8WhEhUpYWEv5NC
+         7x8Yk7Z51l6xYyqkv/BiFoHM7OxraM0oEVVkcOrspC380vYA+zwj0xP/qttkRbgYqIcv
+         J+pXel/IFCslglhH9xvUtmVwque2IHgC6xGPP8hRwhmAEsmq2B0kl7BFKKRb782+Jfja
+         E7rBEfGZzzAmD33jrTJR6KHeUY6i2+vmpQU7mIeZp4BSZLnpSo97U64kh9DhVwvKFX2J
+         tul6a6vDgn7YJxjS+CfOTOwayXLAKZ+upFo8ifpg3k1GuhfwDk0/rSxnL2MIGO6ePn1O
+         7LUg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787945496; x=1788550296; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1787946652; x=1788551452; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=CdWj4WZBsPRTHGep9Z7y+jcoE1QqheNf+EyUKQPri1k=;
-        b=bPy7cmUXA2ocqz1JBhVuVuAhsGRvd9VvaSeYQhJlJfKq0WpAVzn6jCrqJ9uTq3aZoo
-         S3lSdQ2IYoD/NtfB3fHAP+GgVOlSdT/ri4c6XA8drs3v8o1In6gg+DhKRojq3AQoS1G8
-         oHgzPwsmhVe8pZhCy06IbSgYL43gDwmvr6bCEMoqnZ7OQ2y3YeBvd9gbhk0n93KoQSBU
-         yb4Y22m1vSDnzE/xbH9qhR8TzFCAvqlvpNaonbu0ot9l0h+sbW1dFZhO6PgoE12ncOm4
-         v+xxQkEl5QiNkO4SsJAZ4eF+0R5PHtaMChY28Oay34biChIX8PAvs9152BJGrfm5YHVv
-         w9ag==
+        bh=V6Nh/imCu2DksXoUrx1x6JfWGC3imxXsFDlVlCThN9Q=;
+        b=ckaTpbj+NxSM3jGyluFreV9L6TYg1sWUEFlLuxYQcxwyjbeo1xHw1XgmkjHFuBQnZu
+         eeClPLkF3Eq3aYM48Pu5khSiKEdW3XhU59DuZpuRPa3q6qhZBNAaNb7Ih0sAw36tSqas
+         F9c/XtGkNpLfTT/CH5NRP/svCTt3P3P54D24lGunh2vL+FPYtjWHtfeW7LxSEEN4yPcn
+         z/Q/2SxZ06LiEYsawxRJtqPvum81kl5uVfe/t8zkOkJptbzidzimBItbJivDt0CaLZjf
+         yrQRQ8gv4OnHpvnFfo8m8E53IcPOUOy4tDX7XXKBPGTjCG4sJrQ9k/46r1KnPEv05gPa
+         42Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787945496; x=1788550296;
+        d=1e100.net; s=20251104; t=1787946652; x=1788551452;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=CdWj4WZBsPRTHGep9Z7y+jcoE1QqheNf+EyUKQPri1k=;
-        b=TT65PVC/qHimquHK17FAqvwi38d66CpBjKZXIotmL3//H6fQECDp3NffTtH8mg6nhs
-         Qi0jagpBgwdhTQeEkElKJ+NKa5tzJewUNqX1reXCWsLSrDnkcqjxtVK0ktEmlqXTjMs/
-         H8QEmvu1vrzjWdxsChOqCKdAiq1KIY7xlaFAWM5u6yk9CpyNGpu3m0hoyWBjVqRoe4pu
-         0MN/nRLvBpxSLPesbFUvZQvWwnCc3dMFPDGQhF7Jt0vCEoHCxX0TxeuvG+fFUHklF1OY
-         unb8h507GxEHA/4JPOiVBspuS0WWdhmX7SXrOR3GSJREIRc7k3pBkkMrPoawUvLSpPef
-         saAg==
-X-Forwarded-Encrypted: i=1; AHgh+RrToKjM+Hh32y9OLSNLkjGW6WpCr+vDnrUoVmnB+jz3dbmMFsK9//9DR0KN8D0/jTg10tIN2tzbAwc=@vger.kernel.org
-X-Gm-Message-State: AFuF++lMKoa34W0x5R6xcL4OvN31p0xtlitSBB3epZN4N7T+D2CS1ufM
-	RwS55KREx4RzjcpcB0w71TWCJP/wLl2PyGrGGB7kpgAo1gJ4pp+z49qr07xo9sW0NN/kavs+71p
-	PYe9rDYRMI69IXQMMLxaGTJswKYwEq7Z3IiasGAp6
-X-Gm-Gg: AR+sD13xmU/9S2xXeEtdAImDmQaIjVGP5JpDwZ+TDWLkqv11kLCagdSMVHy64UTgDbx
-	E98vlQGOk4j5hJjTThuXPAGmNCasi7qqHQJM6yeGca4/brNQtkJgvsuPfjdltwZxlsaihf9LR2z
-	vALKFLtjzLy9FM2j2kb5rxkY37zz/GPIiwh5qG8vTOuri0o8gv6QjaOztvUSNbGsD9rcmrvEOIU
-	Dl3oUgNtnlHjn0CQKjFNJI0obUjBPKwnnNvtL+2AGKKg8aklWqjVesUI7v5zy7QyUMQzO+BdIGG
-	tkFG3816yv2NTCc2H47Nms9HjRxNxSN1C7zglItvHxL6wYU3akj6z/mmJFMIoqZxhmgMHrxMiBU
+        bh=V6Nh/imCu2DksXoUrx1x6JfWGC3imxXsFDlVlCThN9Q=;
+        b=m51qckiP3wtrH7G/xx/H180KtUsaDq6u07OhEdyTLUwGuDeT7DOFYruQW+TtQ0hLHm
+         LCETK+R70SFKubqZAcR8oCOwHhK6ICZkiM2q1SfusCW73oom4VGH8hGYUNwIGqYd8kPr
+         n2jbglypQgDtzuFHl2eQD3dNOrkpkJOMjh3vAgtPF9rlKEmyd1GgmKEysgRjdaatGEcU
+         a1lSoNyctFjTcpK0caa8mHWn4ndHz0WBvs5mWoTOwoG046r1DRJvLfSbJBCdhyI34kni
+         0qFF7aggpt1P2o7Ih+6H/Izp7chMEZxcP6xJquxgkdOB9zhntSCEAbpgI52+lR5F4Ct4
+         nHgA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr8CbsRkSS2BkljAfGqh0QTgX3sN8lnjMVbd/qAQQF07IAOLsqJ4U8g2AvJavWDrOyTt99Woh5hojI=@vger.kernel.org
+X-Gm-Message-State: AFuF++k6rPvzkiLhzlqFP0f+NybplXqY5bqUELL7VauDwYI3iglnYphy
+	XBDC2Aj7uJYZgY26aiBQy2FUPBfRrLle5WvwxGU+9iGlClxef69JK/RfI2d4jRkjHUBWwM62lT4
+	Z16ol/6vtr4fXzQWqiR0XNPYtGY+rExJlj56w3XFe
+X-Gm-Gg: AR+sD12TgI8GC4FbMoG7wTt8w0bclcvRpmrXHN8z0NIQmV0prP4MtxK7sJfTaKEJkYq
+	/IWzvAvh2h8nU1gbqeHTpZKtm5JMC4CZhU/ofVHByace9/0zaT4qxI+ncXWcr6JnJ+BPbtXfpJa
+	9q3J4p9x+nbA09tcHQhsNBv+b97/YOjzM84KvAGfg5ViGQu0KLvNNw3WVgppPaG1VN75GxMpZJd
+	j+gj4CANh9tDmEhL1o6fR+eWDlLmTNQ1TVUOLr8cPKrHnuj/2jTvutCaBMTf9ZbyYMZ0fEs/N20
+	RXz2tclTiW3YrGvhXD1FrMUqMTqJ39wTp9o0TqYKGfkyifvB2yLE9mGjflgxjHhhs1jrq8hxh7M
 	=
-X-Received: by 2002:a05:622a:e3d1:10b0:51b:ff0a:2048 with SMTP id
- d75a77b69052e-52ff716ce29mr1709001cf.3.1787945495743; Fri, 28 Aug 2026
- 12:31:35 -0700 (PDT)
+X-Received: by 2002:ac8:7f51:0:b0:519:b82d:fe62 with SMTP id
+ d75a77b69052e-52ff715f969mr2184691cf.7.1787946651120; Fri, 28 Aug 2026
+ 12:50:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260806020850.1221381-1-rick.p.edgecombe@intel.com> <20260806020850.1221381-3-rick.p.edgecombe@intel.com>
-In-Reply-To: <20260806020850.1221381-3-rick.p.edgecombe@intel.com>
+References: <20260806020850.1221381-1-rick.p.edgecombe@intel.com> <20260806020850.1221381-4-rick.p.edgecombe@intel.com>
+In-Reply-To: <20260806020850.1221381-4-rick.p.edgecombe@intel.com>
 From: Vishal Annapurve <vannapurve@google.com>
-Date: Fri, 28 Aug 2026 12:31:24 -0700
-X-Gm-Features: AcwNN1WNSpQsijIEuWA2m2XaHo35MQhGxpQjLiFkQcVF5TdNjD6IsdWSCXD5vno
-Message-ID: <CAGtprH-qD_P=_GTNmjKbhHk+ep959xcaP0PqUD-KgOv80=OPXg@mail.gmail.com>
-Subject: Re: [PATCH v9 02/11] x86/virt/tdx: Allocate page bitmap for Dynamic PAMT
+Date: Fri, 28 Aug 2026 12:50:40 -0700
+X-Gm-Features: AcwNN1UGA8VSxLqG_WtYxcyIroEJNe3FATQouEdY6s-KcMOngGCRN2JEgv1FXj0
+Message-ID: <CAGtprH9ERb_fFG-4JYR1Bjxyyvnk3Ys4q=9ioQz0Cq6QCXtVBw@mail.gmail.com>
+Subject: Re: [PATCH v9 03/11] x86/virt/tdx: Add tdx_alloc/free_control_page() helpers
 To: Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org, 
 	kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org, 
@@ -106,58 +106,61 @@ On Wed, Aug 5, 2026 at 7:09=E2=80=AFPM Rick Edgecombe
 >
 > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 >
-> The TDX Physical Address Metadata Table (PAMT) holds data about the
-> physical memory used by TDX, and must be allocated by the kernel during
-> TDX module initialization.
+> Add helpers to use when allocating or preparing pages that are handed to
+> the TDX module for use as control/S-EPT pages, and thus need Dynamic PAMT
+> adjustments.
 >
-> The exact size of the required PAMT memory is determined by the TDX modul=
-e
-> and may vary between TDX module versions. Currently it is approximately
-> 0.4% of the system memory. This is a significant commitment, especially i=
-f
-> it is not known upfront whether the machine will run any TDX guests.
+> The TDX module tracks some state for each page of physical memory that it
+> might use. It calls this state the PAMT. It includes separate state for
+> each page size a physical page could be utilized at within the TDX module
+> (1GB, 2MB, 4KB). In Dynamic PAMT, only the 4KB page size state is
+> allocated dynamically.
 >
-> Each memory region that the TDX module might use needs three separate PAM=
-T
-> allocations. One for each supported page size (1GB, 2MB, 4KB). The
-> TDX module supports a new feature designed to reduce PAMT overhead called
-> Dynamic PAMT. Under Dynamic PAMT the 4KB level is allocated dynamically
-> during runtime, while the 1GB and 2MB levels remain allocated on TDX
-> module initialization.
+> KVM will need to hand pages to the TDX module that it will use at 4KB
+> granularity. So these pages will need Dynamic PAMT backing added before
+> they are used by the TDX module, and removed afterwards.
 >
-> However, in the details, Dynamic PAMT still needs some smaller per 4KB
-> page scoped data (currently it is 1 bit per page). The TDX module exposes
-> the number of bits as a separate piece of metadata than the 4KB static
-> allocation for normal PAMT. Although the size is enumerated differently,
-> it is handed to the TDX module in the same way the 4KB page size PAMT
-> allocation is for normal PAMT.
+> Add tdx_alloc_control_page() and tdx_free_control_page() to handle both
+> page allocation and Dynamic PAMT installation. Make them behave like
+> normal alloc/free functions where allocation can fail in the case of no
+> memory, but free (with any necessary Dynamic PAMT release) always
+> succeeds. Do this so they can support the existing TDX flows that require
+> teardowns to succeed.
 >
-> Begin to implement Dynamic PAMT in the kernel by reading the bits-per-pag=
-e
-> needed for Dynamic PAMT. Calculate the size needed for the bitmap,
-> and use it instead of the 4KB size determined for normal PAMT, in the cas=
-e
-> of Dynamic PAMT.
+> Also create tdx_pamt_get/put() to handle installing Dynamic PAMT 4KB
+> backing for pages that are already allocated (such as KVM's use of S-EPT
+> page tables or guest private memory). Have them take a pfn instead of a
+> struct page, as future changes will want to use these helpers for guest
+> pages which are tracked by PFN.
 >
-> The existing metadata reading code was generated by a script, but the
-> current plan is to stop generating this code, as the script has continued
-> to need adjustments. So add manually written code and adjust the comment
-> about it being autogenerated to be more generic. Start to adopt a more
-> normal kernel code style without the ternary statements and if
-> conditionals assignments that the auto generated code has.
+> Don't CLFLUSH the Dynamic PAMT pages handed to the TDX module, as is done
+> for some other SEAMCALLs, as the TDX docs specify that this is only
+> needed on "TD private memory or TD control structure page".
 >
-> AI was used under supervision to collect/apply feedback, review code and
-> workshop logs.
+> Since these allocations will be easily user triggerable, account the
+> memory.
+>
+> Only one pair of Dynamic PAMT pages is required for each 2MB-aligned
+> physical region, so multiple callers could trip over each other if they
+> try to manage the shared backing for two separate 4KB pages contained in
+> one. To build the logic up iteratively, don't do anything to handle pages
+> from the same 2MB region yet. Functionality to handle this will be added
+> before Dynamic PAMT can be enabled.
+>
+> AI was used under supervision to collect/apply feedback, split patches,
+> review code and workshop logs.
 >
 > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Co-developed-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
 > Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 > Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 > Tested-by: Hongyu Ning <hongyu.ning@linux.intel.com>
-> Reviewed-by: Vishal Annapurve <vannapurve@google.com>
+> Reviewed-by: Chao Gao <chao.gao@intel.com>
 > Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
 > Reviewed-by: Tony Lindgren <tony.lindgren@linux.intel.com>
-> Reviewed-by: Yan Zhao <yan.y.zhao@intel.com>
 > Acked-by: Sohil Mehta <sohil.mehta@intel.com>
-> ---
 
-Reviewed-by: Vishal Annapurve <vannapurve@google.com>
+Reviewed-by: Vishal Annapurve <vannapurve@google.com> for the
+SEAMCALLs and the get/put helpers, assuming your are still thinking to
+shift things a bit between the current and the next patch.
