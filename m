@@ -1,223 +1,121 @@
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5DE38BF70;
-	Fri, 28 Aug 2026 21:54:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787954077; cv=none; b=PksXyn2pnI4OtnMmLfz4LEZbgDyhkh9tJTR+rQhqBIYs5qkj43ShW3TJBNhTrWy6WSL6S3vhPAiw8OFIy6qWYwIjXFxr1r2qZSpaVonL9Eg0h4IE9R06LJxJWJFLKjzKyKU54DTzEg2fjj19Pb9x1g5Bqm5iwl1TOoY9pncFoqE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787954077; c=relaxed/simple;
-	bh=SwOdz/9d1IPah5p/5fi35v4EVL3lroRF7qvyloaClto=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aogCbnga4JKNx/VDM9uGiBV2vRubniGxckANCfLlYZXuI3Rqozg7e3wnYy4lPtUk9LX5OpNglylu159koOgRoeJgGK9WAmrdIPCLmbuawR+fmbGXBIhdvVTFGXMEH6mC3ZSJTN/g6tHn0yixQQTYEspd8GEMQiRD5htE/QS+j3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=FoQdHsg5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JYYDLMds; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917843A874C
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 22:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787955547; cv=pass; b=HEgQQxcSbCBq+k8axjXGITukA+we35ktgdsOKdkxIs+8k5BR6B6Evb5i/qDdyWd3h02IaDryf4lScWYT1ErXd5APq2f+6oULFVV9bVTAM149NFAFpUH4Y6IKIixXexyUzLnXqlqGkQ7WTjzlFeaKcTR/E3P+SNlxlIj5geJIDRA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787955547; c=relaxed/simple;
+	bh=BMIGDWFwkO1RXH8rR2UOhGKndRufLWtM6RTNgfHf9Uw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ARfQ7h5LgL1CbvYVZyNYayp0hkkcCAO6r4v0jvMUBmgxgEaqAgQ33IR8dpNV0sh/j9EOnjICAIbPzX3YDjvoQPsbG5n8Lj9zxYeI6MtjYhWBh4ZkId0Fe+OgPNZHDNV1DIv15iw4OR+VkPro6SyAr3O7SkdrOyQiHFNg8/4wPP0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=E3j6mVZf; arc=pass smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="FoQdHsg5";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JYYDLMds"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id BB5C87A0151;
-	Fri, 28 Aug 2026 17:54:32 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 28 Aug 2026 17:54:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1787954072;
-	 x=1788040472; bh=FIHdEmS0olB01b8k7APcgX7ndOUk1mYAmTIUnPKBS+A=; b=
-	FoQdHsg5hW5bQ/8rA+IllifGFK+EpLcJKDmuJ4tSEC+vAaEkGawS6dxN2lLkKj1O
-	ipfXTM3xvyvk4tN0TI3Wt2ercMu4Cs3aOyG2nikSpZyHbqU6K70w6LrgTLC4UoEi
-	rx9bKp6B9YQZ2tBW0wlhCpHoSeSaMflKbHZTeCO/WhddaTbPtUkpT8B1L7w4lDVN
-	JsJqmyW/PaWKaeWRol61UUdzn8EU2jMcbe65JkQlBjhA8XVfaRvBgn2elOsi1DLk
-	sLQoTb1OrFHjnJsuNdBYVMUM38l+Ayr16HSxpi3cjktcXohZBFb6r1ANfSJM2AhQ
-	VMe36Qh9iFR1asRK6WCUww==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787954072; x=
-	1788040472; bh=FIHdEmS0olB01b8k7APcgX7ndOUk1mYAmTIUnPKBS+A=; b=J
-	YYDLMds6+X/YrbvCREf975se/l/3ACp/VHYuSK3CmuMcsGBwsn1mfzZrZSq49q/h
-	o42aeeMSC8tkHT/fDN9IawFZJNOI5wbEvTLQ5pKCFZsfxzFCONf3r8Zvs0KY+/5z
-	KuvdRJivSqCuVZSElF7E3TsDO2ykbUTlD/FSVxyrOF0SAG/NJNxMKFA+B4Vc1UVw
-	DYQ+VOBK4lr3g76r0HTw7PPaR5IX+klyJAMNOdnPHRGcgkmI9Ljs2bGytCnnvnB4
-	fTKhIaxUoHLymmTz5/jbT/pahpMmKErq1aD9H5Y3GhMYUj0cCuU3nj/MvfCYDbgp
-	V9O5xydXzISFz4ZlyqxVw==
-X-ME-Sender: <xms:mAOSarXAUXtZ0xjdjzZZ_mgXq-36RwpRV7GExE_Ld8uRuNIcjAbWyg>
-    <xme:mAOSahNmbd-uAmfShAMm1-fWv1J3_azZKYQm1RxBQ-LbhAG6E3CNMgIS1gUxs9ugW
-    J2UmyPkJGXblnwIiVKh9nt9s2g2GJyocfDmjCGGFaBTTf4xCQyGZWo>
-X-ME-Received: <xmr:mAOSauwZBs6_HagxV3dFSunjZTgbSZbsXS_8ekL1POBfvQ1EmbBfL_2ReIPirQ>
-X-ME-Proxy-Cause: dmFkZTF5YnbSUo8TXmQYItJlQa8l76TKmkzo21w7i2g1aEp/uKyZg0o7VcP0xSKrFB51c0
-    V5Owqxp/8TrS+nTx/gZ8Cl/CkLWSxB6W2djybM44uLnx2n6DzwhgzMkyoI+AipqtO7MCX9
-    ffiMCi0F28CwZuWXMb647CmXjy7w6mIukcnrU78UtRx56W3a+Xu8yLoc3Nlclu74+fMaMv
-    5J3lkDFCbE570Rl5wVyogXC/pecZL1kkN+8o1STA7Zb4kYYkGruYVRgt6JQN0PyG1TJZn9
-    BVo7RukyKpjrcX023u0Py2xCpcjSUfDEosCkgvIRzaVg1IK6CjKsRIuHOJ7i72/3YF/Vo+
-    wnKHmRRXw+3Pz7SRqaKEvmWBlMJLCfWILkgR/2+UASO4iz0u0ffwDaRA3NjrEpzP+zskrI
-    AN76m3PBB8w22OImx3vFsiiSSXh9YoLMBne4tHgSXJFazMIdctaeCXDXFMxoJxMD4qpNGE
-    sXWl/1+L07cf7QQdGJLxZeyYSDWC2SmysG+lOuF4DeLsCIrvaRGG1CPvuQy+nhf+lw7tfS
-    iwGb40SReAEQhwVaAtY30SkDs8pMpg5ueyL/aLgQSTK6whoT/6G5Ed8FqwVGf+MPPR9LVh
-    kX40AhHahKbbHAY27AQIUtjlp20hpdT80/T7XeDHr//0C/mH62nZbOHwHpDg
-X-ME-Proxy: <xmx:mAOSaujdmpOKZDbKdLk7uHrW6_AisqqV6yPDFMEhGG0fuGIdbboLhA>
-    <xmx:mAOSatSjFsiLjVsiuBTmnragq4dFy0N_SpX2HeC-mLDuhwxRSqOq4g>
-    <xmx:mAOSajO600vPPQG7a2TIfKuiVI6kdN_XsNBI_eIo27d6etRJgJ8AlQ>
-    <xmx:mAOSaqFkUm46AoOWZq0B3WnAjnz8Is9vnU42JyW1mT4BtG6XRfuI8Q>
-    <xmx:mAOSatdEiXa-uKbS1Sk5EYm_5nG2lVJJJMN9_cnDiNecSvAfHoAD2aEK>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 28 Aug 2026 17:54:30 -0400 (EDT)
-Date: Fri, 28 Aug 2026 15:54:28 -0600
-From: Alex Williamson <alex@shazbot.org>
-To: <mhonap@nvidia.com>
-Cc: <jgg@ziepe.ca>, <ankita@nvidia.com>, <jic23@kernel.org>,
- <dave.jiang@intel.com>, <alejandro.lucero-palau@amd.com>,
- <smadhavan@nvidia.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
- <dave@stgolabs.net>, <alison.schofield@intel.com>,
- <vishal.l.verma@intel.com>, <iweiny@kernel.org>, <ming.li@zohomail.com>,
- <yishaih@nvidia.com>, <skolothumtho@nvidia.com>, <kevin.tian@intel.com>,
- <bhelgaas@google.com>, <dmatlack@google.com>, <kees@kernel.org>,
- <gustavoars@kernel.org>, <cjia@nvidia.com>, <kjaju@nvidia.com>,
- <vsethi@nvidia.com>, <zhiw@nvidia.com>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
- <linux-cxl@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
- alex@shazbot.org
-Subject: Re: [PATCH v4 22/27] vfio/cxl: Revoke the HDM mapping on reset and
- power transitions
-Message-ID: <20260828155428.2b8bbbf5@shazbot.org>
-In-Reply-To: <20260813093631.2288172-23-mhonap@nvidia.com>
-References: <20260813093631.2288172-1-mhonap@nvidia.com>
-	<20260813093631.2288172-23-mhonap@nvidia.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E3j6mVZf"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-51c10e86e52so47031cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 15:19:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787955544; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jixg2HnOesnk8Dr93ClVz74Xl+om1KMGAmiVSM4n+KXiZPyrmC/syJBksj8e/BSgJR
+         dkFufzylBW4UDeLLKD0eO+u0X2FyfT9CLzQycS2K+oGhrMI+6UliJHF21xy2kNJkrC1C
+         labNzl9pM3hajw0Fjdq1PZgK9vTg6gocwQFvAXt1FZg575GxoWvaS57VFYrelqP/9/br
+         i2OJSfGjeOBeF2YgKCGLmxWZ+Zr696JlbZmmdRXPopZelEfPMT2Kk1IfplkxLiiURTro
+         vdnDZxVazXctnDYcWiQ8vGcCD7eS9Cf0MmPVkWKhbNps50vSJR5/9497xecsOxByT0Pi
+         26Dg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/Z06k1eL56A6jAeIm3cli0ZxCvEv3ToPuyXt4lMC1e4=;
+        fh=FgVJJZqAxKQ/phV9SaS3sRvp+VzuLQZIp8huk1iqE9A=;
+        b=WtXKz0rYNZZa7GIAO53d1AGRPZJem10pqqyU4P5lWlMS6toiZ4nXMEx1I3NGnpmtC+
+         KLx2SncDXX0/qRUqJ5C5576I2Y677BqgD01i+/bCD+K36LEO9h5HwjCsEN/NishLfbrE
+         3NhGbdk3WXTDWqvPfUKwIOwK/ck9P/zvPaJ4U8jkMC+OtFgmeUR85fpWTE3DKfO5jR1l
+         PCek4zPPC2YvUvGTa+VzJW6k/yhfEaIs9fMxXPFb2nduwWvMp/1Au2U6yD4Z2voQgM46
+         hSLBiqhNSHQKsAzgjZKtNNCmwoKLae02ObuBhhlcYw0Kel5c+HgGfhblqyMslu0tGeq1
+         rfyA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787955544; x=1788560344; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/Z06k1eL56A6jAeIm3cli0ZxCvEv3ToPuyXt4lMC1e4=;
+        b=E3j6mVZfc+2R0/xsFMmoqiZRFUt8BlgFX0tmfQUumgdM2tRi4iaJDaU5nIU5SOaGyf
+         wTrC/K6vSXgmqZE2Va3x8oXsGwWcyUoq6SNGHEEe/qngfwU0VtiDSFnj+ueLw9/YOjok
+         Y4MfGMZgZzHMAshYtHzEeSRm0XVJ75mmaiEuCHNhgdEn1l3gVAcGXjVg+swRIL1MNfaS
+         0j4UL1XixaYTJP2x+AbwzhrT6LXuj86PlLjl38+0R2tILXULLOEPckPk76yGzdzlMx0O
+         +rv4enFqzc6VIGM5RGpIkK3WPWEqoo9aJSBD1J71yFwvNvlX1vPPBcl4B8LAlRrPW456
+         rjNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787955544; x=1788560344;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/Z06k1eL56A6jAeIm3cli0ZxCvEv3ToPuyXt4lMC1e4=;
+        b=rCbnXxt3niAbw5O3uE0vTft1CasxgorWP04dEfRcyU4j8fFzJ2up1VF4SweIn30VBb
+         rUj/FTVzumbXqtrHPrLE99tS/WLw7te/4pdlahMuF8ds4il3AQ5Pe3VILLPIYtl0GkxP
+         /dG7UTR8NhTpUQV57SESd3NTXSS0Gdo6sI1ypbak2eEJotjVC3zZZ+W2YJq3r3E+V70V
+         bjoQwz9xR5y8mbRkS8qS1TzaVedjfplnbC088n8GPOr0chp/BtoKkm3SjIRUlT2p+w+y
+         +wwxv/5EXrCeZNr5Gi1Ox7HZB8+P+0Oe9u3KWJUfr5Bci/nU6ra5lcNcRievG155j4lk
+         tCUA==
+X-Forwarded-Encrypted: i=1; AHgh+RrFzQcZ7m7MR9fEHMjk99bAnygqipT9PY4wJ6revuNdFeiduav9nyz4WQiGPxHtybF9lbrUL+WBmrY=@vger.kernel.org
+X-Gm-Message-State: AFuF++m+bjMlPn9eSdcYCzcelq/NZxa/jADJ4/hcO91RWxhYFGXu3M1n
+	dodDWNSbZoBm+Tpuqp47oo71sXOjm4ZXsWspsy9ZEu4T/IC7CCENIo1v3Wo8yyvDkobiNBKaPd6
+	PkNDaH4JYxH0XwoRHiYs+ibU8+6eVmUA5dF6b6Lvn
+X-Gm-Gg: AR+sD12roEBYq0/qikypKsLNl3Z0CCJnkpAqTdsWP8MQiemk9KCnosP4FY9atMFc3f1
+	cnV4evX7m3SxjskOubK5vDk3rp63Mf7rOgk/kmnCDYroT8V3qgF9ZNXw9no2g0ux9cWFwnSHXYK
+	/7VkD2zthfUAiJGJsZLCc/FMDmVBhCL8BPJgwI1Mjnab5fQUgczozzFfbkWXvMKXYkEbfOEI5G+
+	CIVpvFh6lZO8Wvkl7UxEVKBJdhSwC9Sf1LNbp3WoZq74JMJ9HGdzQOTp/Y7ns3RytnmkhztPWf5
+	596UmNbBDyUH/O8jNCZZoiVqyo0oMzxwgBPLDnEnrafwls4Svh32wkpBgW03w9RB0j7lKv1+0tg
+	=
+X-Received: by 2002:ac8:7d8b:0:b0:50f:af60:3496 with SMTP id
+ d75a77b69052e-52ff711656dmr4308141cf.1.1787955543697; Fri, 28 Aug 2026
+ 15:19:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260806020850.1221381-1-rick.p.edgecombe@intel.com> <20260806020850.1221381-8-rick.p.edgecombe@intel.com>
+In-Reply-To: <20260806020850.1221381-8-rick.p.edgecombe@intel.com>
+From: Vishal Annapurve <vannapurve@google.com>
+Date: Fri, 28 Aug 2026 15:18:52 -0700
+X-Gm-Features: AcwNN1VtKeCMrm5d0HiUDNcJteBwV9YWHV2SenRF5c-NodyaK5x5u2MCHt6fWJ8
+Message-ID: <CAGtprH8XJ+SbxQLTowch3DR6N1NSMUKyVnGf0hv5N+iKWT3q7A@mail.gmail.com>
+Subject: Re: [PATCH v9 07/11] x86/tdx: Add APIs to support Dynamic PAMT ops
+ from KVM's fault path
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org, 
+	kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com, 
+	pbonzini@redhat.com, seanjc@google.com, tglx@kernel.org, x86@kernel.org, 
+	chao.gao@intel.com, yan.y.zhao@intel.com, kai.huang@intel.com, 
+	tony.lindgren@linux.intel.com, binbin.wu@intel.com, sohil.mehta@intel.com, 
+	Hongyu Ning <hongyu.ning@linux.intel.com>, Binbin Wu <binbin.wu@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 13 Aug 2026 15:06:26 +0530 <mhonap@nvidia.com> wrote:
-
-> From: Manish Honap <mhonap@nvidia.com>
-> 
-> The HDM region is a device region, not a BAR, so vfio_pci_zap_bars()
-> leaves its PTEs in place. A runtime-PM entry, a D3 transition, or a reset
-> would then leave the guest with live mappings into a quiesced device.
-> 
-> Add a zap hook, called alongside the BAR zap under memory_lock, that
-> unmaps the window. The fault path already refuses to re-insert PFNs while
-> the device is suspended or its Memory Space is disabled.
-
-We need to think about what happens in the dmabuf mmap world[1].
-Currently there are no device specific regions supporting mmap.
-Zapping is left as a compatibility interface, but the right solution is
-probably to use dmabuf for mmap where we can.  Otherwise zap should
-likely be handled generically for device specific regions supporting
-mmap rather than as a CXL one-off.
-
-AFAIK, Matt's series is still in the works and this will conflict.
-Thanks,
-
-Alex
-
-[1]https://lore.kernel.org/all/20260715174737.15287-1-matt@ozlabs.org/
-
-
-> Signed-off-by: Manish Honap <mhonap@nvidia.com>
-> ---
->  drivers/vfio/pci/cxl/vfio_cxl_core.c | 29 ++++++++++++++++++++++++++++
->  drivers/vfio/pci/vfio_pci_core.c     |  8 ++++++++
->  include/linux/vfio_pci_core.h        |  2 ++
->  3 files changed, 39 insertions(+)
-> 
-> diff --git a/drivers/vfio/pci/cxl/vfio_cxl_core.c b/drivers/vfio/pci/cxl/vfio_cxl_core.c
-> index 0fb5ed5d86b7..f1c6bf06c408 100644
-> --- a/drivers/vfio/pci/cxl/vfio_cxl_core.c
-> +++ b/drivers/vfio/pci/cxl/vfio_cxl_core.c
-> @@ -530,6 +530,31 @@ static void vfio_cxl_release_device(struct vfio_pci_core_device *vdev)
->  	vdev->cxl = NULL;
->  }
->  
-> +static void vfio_cxl_zap(struct vfio_pci_core_device *vdev)
-> +{
-> +	struct vfio_cxl_state *cxl = vdev->cxl;
 > +
-> +	lockdep_assert_held_write(&vdev->memory_lock);
-> +
-> +	if (!cxl)
-> +		return;
-> +
-> +	/*
-> +	 * Revoke the mapping so a later access re-faults. Do not touch hdm_valid
-> +	 * here: zap also runs on a plain PCI Memory-Space disable, across which
-> +	 * the committed HDM decoder stays valid (CXL.mem is not gated by PCI
-> +	 * Memory-Space). hdm_valid tracks decoder validity and is cleared only by
-> +	 * the paths that can leave the decoder unrestored (a failed reset or PM
-> +	 * restore). A reset or D3 transition holds memory_lock for write while it
-> +	 * runs, so no fault races the revoke, and a runtime-suspended device is
-> +	 * caught by the pm_runtime_engaged check on the insert path.
-> +	 */
-> +	unmap_mapping_range(vdev->vdev.inode->i_mapping,
-> +			    VFIO_PCI_INDEX_TO_OFFSET(VFIO_PCI_NUM_REGIONS +
-> +						     cxl->hdm_region_idx),
-> +			    range_len(&cxl->hpa_range), true);
-> +}
-> +
->  static int vfio_cxl_open_device(struct vfio_pci_core_device *vdev)
+> +static int alloc_pamt_array(struct page **pamt_pages, struct tdx_pamt_cache *cache)
 >  {
->  	struct vfio_cxl_state *cxl = vdev->cxl;
-> @@ -594,6 +619,9 @@ static int vfio_cxl_open_device(struct vfio_pci_core_device *vdev)
->  	if (ret)
->  		goto err_free_shadows;
->  
-> +	/* Remember where the HDM region landed so it can be zapped by index. */
-> +	cxl->hdm_region_idx = vdev->num_regions - 1;
-> +
->  	ret = vfio_pci_core_register_dev_region(vdev, VFIO_REGION_TYPE_CXL,
->  						VFIO_REGION_SUBTYPE_CXL_COMP_REGS,
->  						&vfio_cxl_comp_regops, cxl->hdm_len,
-> @@ -738,6 +766,7 @@ static const struct vfio_cxl_ops vfio_cxl_ops = {
->  	.close_device	= vfio_cxl_close_device,
->  	.config_read	= vfio_cxl_config_read,
->  	.config_write	= vfio_cxl_config_write,
-> +	.zap		= vfio_cxl_zap,
->  	.owner		= THIS_MODULE,
->  };
->  
-> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> index 77f8f39dd670..1a54f15d1c2c 100644
-> --- a/drivers/vfio/pci/vfio_pci_core.c
-> +++ b/drivers/vfio/pci/vfio_pci_core.c
-> @@ -1832,6 +1832,14 @@ void vfio_pci_zap_and_down_write_memory_lock(struct vfio_pci_core_device *vdev)
->  {
->  	down_write(&vdev->memory_lock);
->  	vfio_pci_zap_bars(vdev);
-> +	/*
-> +	 * The HDM region lives in the device-region offset range that
-> +	 * vfio_pci_zap_bars() does not cover, so revoke it here too. Otherwise
-> +	 * a runtime-PM entry, D3 transition, or reset would leave the guest
-> +	 * with live mappings into a quiesced device.
-> +	 */
-> +	if (vdev->cxl_ops && vdev->cxl_ops->zap)
-> +		vdev->cxl_ops->zap(vdev);
->  }
->  
->  u16 vfio_pci_memory_lock_and_enable(struct vfio_pci_core_device *vdev)
-> diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
-> index 294e95b5e881..8b93949d4484 100644
-> --- a/include/linux/vfio_pci_core.h
-> +++ b/include/linux/vfio_pci_core.h
-> @@ -76,6 +76,8 @@ struct vfio_cxl_ops {
->  			       int count, __le32 *val);
->  	int     (*config_write)(struct vfio_pci_core_device *vdev, int pos,
->  				int count, __le32 val);
-> +	/* Revoke the HDM mapping; paired with the BAR zap */
-> +	void    (*zap)(struct vfio_pci_core_device *vdev);
->  
->  	/* Pinned per bound CXL device so vfio-cxl cannot unload under usage */
->  	struct module *owner;
+>         int i, j;
+>
+>         for (i = 0; i < TDX_DPAMT_ENTRY_PAGE_CNT; i++) {
+> -               pamt_pages[i] = alloc_page(GFP_KERNEL_ACCOUNT);
+> +               pamt_pages[i] = alloc_dpamt_page(cache);
+>                 if (!pamt_pages[i])
+>                         goto err;
+>         }
 
+If the alloc_dpamt_page() was able to allocate a single page (not
+two), should the partial allocation in the "err" handling return the
+allocated page back to the cache?
+
+We observed similar failures internally with a slightly customized
+setup which had retries for pamt cache allocations in the fault path
+due to SEMCALL failures with older TDX module functionality.
