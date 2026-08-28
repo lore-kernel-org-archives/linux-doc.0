@@ -1,127 +1,142 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9B63431F5
-	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 17:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787938549; cv=pass; b=rtKEwQtplXzj6UJapebtrRkHUF+v4/mv3xlScII8Bna9DmlgofkyTiUvV30kH0a61TDSyx5RkoiQ3oPFOHnEj4q9QGLBpXo0eud0b0Av3wkx8xR+H89G855DmMwNcwdMgx99eks08KyUV7z2tXvLNe6fkdsdZCaMsSYxFZ0ZBqY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787938549; c=relaxed/simple;
-	bh=QIwfG51FYqLbuC6hjumlOSKKDDgtiZ/qEfd/e4ujq2M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d7rTu2KDJIMicX78CeOC/HxOeStZXxdumx3tGSl6rU8HYk1IrSc9RlpZEQhhs3CV46t6Hg40Y2Fd341cLlLAhE6kOknIA4b7u/Hwgt7kAUFjQOLGmu3nnKcr3Ufo6ElMwqpOlcqIVrgE1ZXvzsj1VoKuqtLtR4k+IZL9EwE2z+A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cJbBMiqf; arc=pass smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cJbBMiqf"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cbe4592c193so193194a12.3
-        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 10:35:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787938547; cv=none;
-        d=google.com; s=arc-20260327;
-        b=M9ZBKqHU6k4XA4aU6w5fJqx9FZNchIZw3AlYqth1Ndir+sO+nxJQ2J0U6zeI8sOTn2
-         hqZPi9o/iPiLS3u0Si+Eb3CLUVsd7mjcArNbZyEB/ZHMnJzSocBNzCIobZ0lnuA37E1W
-         qfeK9O7db9/bk2PvNTHpxdpYKaUaWGsAsQGTvcuq8qdQaCXWW+Va0IfP5i01WdAS52eY
-         3IWxcdUkrE1r7RZBHna+8fH9KpTDT7OYMsUhjITeA+C+i4cp1hyGnAFH30E+J+E/t1yg
-         zhO80Y9C3xm0dUM3cNIP0u6AP1U8Vh62oqm6HHijfsxYTqLN67m2O2GP+2geLZ7sV2bU
-         euUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=SwfxxVP2KSOMEoHgtysV+D41nPRKx7dyBiRUJMucGgE=;
-        fh=qEiQZ2c6Db7BKukvuXg2VU96iO0p9QlnbxPX12TLhQs=;
-        b=m++C5vlYOTHZZQiNR0ZgKoR2ELUDE1imOkHaysW8qOnwLdcVZUlkJe8BmFKHxEX5x2
-         n57WDihfKAWnhKdDwTVHOmiTHW3xYoRGHX9Yf7kzlJPZAHO7dNHpkB/fQqhEr2bifTNa
-         4O9FYPNZ3toTXXyeEqE/dTzvtFi8wuKhHGt6UQ6KY6pvZOF1PCYnzBuPkDZUMKmjloDn
-         YvOWcqOlRVnQWlnrVJS+NlY3N5clCaBTJr5YMHTVoSMJ7L/PbRq45fjH5Kw3LtGpkze6
-         m7UEnB9fJpvqn7u1bwCwUX7MVRPONusf50cexTRAYCzmuYEkOXi0erf7txHru0vBuWz+
-         HQaA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787938547; x=1788543347; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=SwfxxVP2KSOMEoHgtysV+D41nPRKx7dyBiRUJMucGgE=;
-        b=cJbBMiqfnfAzijPJg52XSJhSdf6VBAoIXgQABBtFTXeL9RWB1Otgdfb53SbhWsdc/y
-         8zL9XSz8jn+XcKsCDxmpUzB2J0s1aubLdWKgF79Ise6dKeevXJKQaWls37MweKlfuGmd
-         gIlU7fZcHXoM+CQbeY/sRY5ah8e79mCRpUjoFtfe3kjiIhG6s0b30vPleJUSLoty/jrM
-         YyDikunxgsG23Iuwt7jTR/k4cjWh11mCnPkcZ2Mkv1R0CdEyfXCaGdmzoQwAXK7UU5a6
-         XLVxkQbLoc4IOfFq+rM0yupntWHQubwwPKJ9jFiNbQAPw6/AiwZpTzewPMaAxvFrg6GE
-         HIRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787938547; x=1788543347;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SwfxxVP2KSOMEoHgtysV+D41nPRKx7dyBiRUJMucGgE=;
-        b=KVtNNThXKHSd3qt5MQG7vk2Xl4ShbZblYe4IGJP3ArFZiSQz7XXGNGfXZ8nEV14uhl
-         wOSpWJi5egjalM+3zTq7u1qTMYlIluZCvBFXyG73y8Oy2FF3wMoDP8Owt1wf+B1nqb5K
-         l7HU/bwrHi/Q40S5uZd3Vq5lc2OEIjj0Kcd8FFMOB5n2Yl/Sgb3yCeYvUWMcCho98kbf
-         1BCl5UGQTdbzTzRQAGXmoMoojrypSov7QcCN8AdqIpmP86k8/zaCJoxCSFWC+ArvBb3G
-         vwqwsT3/IzaA0NoTwhRQxOoRdFVIP22d1cptdyg4fg8p9drTYjYTxWS1v28pkIrrTVIF
-         +mTA==
-X-Forwarded-Encrypted: i=1; AKwUvBxzEU6RIjKJ9zIVh3hISnka1gIWterRUzhRHzX/lsnCBWiFSPHvSze5YCD0z5NVUCAK3Z51YvGKnhA=@vger.kernel.org
-X-Gm-Message-State: AFuF++lSZWapWGqEIlvrA9Mxa8ugzYDxxisv27BSYMTklkck3RSr9env
-	YMiTm5yd5lcL7lG1wLSdRJ774n7Exj6IuZllj/Pz2a2Hk2qgBIhUs4C6GFdbqoDtkESsd9isbF1
-	wNoalANFxLTLZ0W8PsdT1jcbkpDRrF+o=
-X-Gm-Gg: AYBFou1CfE2zt83Kg4G7wayMSfH8f/t9uL27jOuNvi59sQ8nH44RDGrXBF+9d7z4odC
-	Wzhw3+CBlX74MmFpi8Tsv3reMXvdwn1SJ9yVfoNRCkSZOfQRhQajtx+4NtgbeN4XRd0/iW1cbnV
-	sOoITyT+ueZZ6C3KcXzMKxz5DzlDIRUVaGQVP9+yHsymnAjxl2MARRBW7u5zXqcAqCu4R13XLxk
-	tywoipZJ/08uGLsrfCRDZroiQ1s9fF88uEqkRcEuMCxAPVNWQkYs5gjVHX1ultghiQFGXAKWbZq
-	PFothib9OOilUF+2fJLCte2PyLyuR2g+DCk50+WcZG/4pWpHbyOPaId9sX4MBVABWXPGp4vOrTG
-	H+sz6AI7qaKOHGJhrtD0YQRPbdvyruQLUsIP8PizGrRVUvcHndD4ELZZqF6QkG7+JOZWO9Mw=
-X-Received: by 2002:a17:90b:3c0e:b0:395:4df3:8800 with SMTP id
- 98e67ed59e1d1-396d0c0ab29mr8371730a91.0.1787938547204; Fri, 28 Aug 2026
- 10:35:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83453769E7;
+	Fri, 28 Aug 2026 17:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787938821; cv=none; b=HSUKOJKVX4576HPwinTXDgXUeobrxak4Fpm8umw3n8V4a2oUhSWZ4b/EkB+3ZcWeYX4AcRoCI6fHAFjLccC1/6TBMfLiEzEIWOB2FrUYOid5BvsaiSeQ+YErClCl3G+xMC83fjaaA9D/A4jIB0P2zQKL86feFEn0LqXMvPipV4Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787938821; c=relaxed/simple;
+	bh=a6XZSYNaxo8FvCxsKJebyhBvC+GqhRrIxNJ4JBsbVbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s8WN+V3GKKspLRWyTAz6CETjrKF5ZI0H2fbHrzlGtffAc45JtRya5qquckTiSxAQ2UGw7k0FegRTbQBj7Eba5SlaqGSXQDgptJH9thKvfjMvZOmcPAjzKvGAH0EpVK9J83aJzUUhkT1WBBRuhIurpRCal9QpAApCgh6cTMStXFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf11.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id 38354A04C3;
+	Fri, 28 Aug 2026 17:40:14 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf11.hostedemail.com (Postfix) with ESMTPA id 8C67B2002A;
+	Fri, 28 Aug 2026 17:39:57 +0000 (UTC)
+Date: Fri, 28 Aug 2026 12:39:56 -0500
+From: John Groves <john@groves.net>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	John Groves <john@jagalactic.com>, Dan Williams <djbw@kernel.org>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	"John Groves (jgroves)" <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
+Message-ID: <apHCzGheqgqjgILT@groves.net>
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022828.75776-1-john@jagalactic.com>
+ <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
+ <20260806043712.GB3560084@frogsfrogsfrogs>
+ <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
+ <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
+ <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
+ <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
+ <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
+ <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <7d8ba914cd174d716340bb2b88723bef0f330627.1787565460.git.gtucker@gtucker.io>
- <apG3hwaPA8f7SJeI@levanger> <b45e7864-928c-4b3c-aa62-64f4f63d85c7@gtucker.io>
-In-Reply-To: <b45e7864-928c-4b3c-aa62-64f4f63d85c7@gtucker.io>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 28 Aug 2026 19:35:33 +0200
-X-Gm-Features: AcwNN1WSwsVhEEVM3LRdqRtFMmDIpvaVESiQMW1HL_Bvm7itPlqfdlYEKO7mGmE
-Message-ID: <CANiq72k6T9Y_Vubih6pFMQBxju2xQq0VQkCXT1WL0qSyCXKxyA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] scripts: add TOML config to container tool
-To: Guillaume Tucker <gtucker@gtucker.io>
-Cc: Nathan Chancellor <nathan@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Miguel Ojeda <ojeda@kernel.org>, linux-doc@vger.kernel.org, 
-	workflows@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, automated-testing@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
+X-Rspamd-Queue-Id: 8C67B2002A
+X-Stat-Signature: to9ea9gectc5dcsz8unohh9rdicjnar6
+X-Rspamd-Server: rspamout03
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1/yikPLksdokF4Uqf19N14BEsQ4Pk/vaGI=
+X-HE-Tag: 1787938797-959519
+X-HE-Meta: U2FsdGVkX1/thqv1X8QxTl8kJ3H1mNoX7R1l9oU4DnHS95JpgBLHEUur4QgjaQ9W2gxZ0jE/GhGGDX126ps0cD2eFNmAnw+yw0IJBwaffQc36yTNPhuBA/f/fwdW3/aSKNr9H2b80K6ta0zaWh2p2Tsj0mD2qM2bWVXcHuinFwSmNA3Tqr0Z61K1XfNZnJ6zHxqgEVraj5Zte9Ert8l6y48kB0FGX53iRlUoY+V0M4JSHJdhKqW64/5FsN2m1LNrUQwm3yCC1n8KfMAKG8/eYD60zjLRYDpvLG/+M3IuhcGiZq9Gj8ciCf1plIl+HjbxcxWO4z6R86PS3PJGjFsqUHd4yoYDiiOwhNDsbP2sHpqwVQNMZh4WorQoTzSi9Gny
 
-On Fri, Aug 28, 2026 at 7:25=E2=80=AFPM Guillaume Tucker <gtucker@gtucker.i=
-o> wrote:
->
-> It states Python 3.9 which was already older than the 3.10 minimum
-> set when the container tool was merged.  Also my understanding is
-> that it's not a hard requirement for all the kernel tools, only for
-> building and producing a functioning kernel.  If I misunderstood this
+On 26/08/24 09:41AM, Miklos Szeredi wrote:
+> On Sat, 22 Aug 2026 at 23:55, John Groves <john@groves.net> wrote:
+> 
+> > Famfs does work in fuse, but some of the asks are things that I don't see
+> > how I can agree to. I think Miklos and I should discuss those 1:1, to figure
+> > out if there is a way forward.
+> >
+> > I think the virtual backing-dev thing is a non-starter,
+> 
+> The virtual backing-dev is an abstraction.
+> 
+> Is it sufficient for you if I promise that this is going to do the
+> same thing as the standalone famfs at the same performance level?
+> 
+> >  and I think that the famfs
+> > portion of the fuse ABI basically can't live without extents that are
+> > (daxdev, offset, length).
+> 
+> Sigh.  My proposal was (backing-id, offset, length).  Again this is an
+> abstraction.  A backing ID can be a daxdev, a striped logical device
+> or it can be a block dev or even a plain file.
+> 
+> > Also, I'm curious: if you don't know of a use case for the striping code outside
+> > of famfs, why ask famfs to completely rewrite that?  (and I agree, other
+> > than the eventual remote possibility of competing 'famfs-ng' fuse servers,
+> > I don't see much likelihood that this piece will be shared.)
+> 
+> Because the striping feature fits much better into a virtual device
+> API than the extent mapping API.  This is how striping has worked in
+> linux for the last 30 years.
+> 
+> > Miklos, I trust that you are a good faith actor, although you seem to be
+> > spread pretty thin. Can you commit to a series of 1:1 conversations with
+> > me to try to work through the disconnects?
+> 
+> Fine, let's find a time.
+> 
+> Thanks,
+> Miklos
 
-I didn't check at the moment, but at least back when the "(optional)"
-tag was removed, it was only required for certain configurations from
-what I understand (I am not sure why the tag was removed).
+Miklos and I met yesterday and I think we found workable path forward.
+We will be collaborating on some changes to the famfs metadata transport,
+likely mostly via me trying to make it easy for Miklos to bring up a
+famfs testbed VM, and Miklos doing some re-work on famfs to make it
+more consonant with fuse (fuse-onic? ;).
 
-In any case, it is nice if we could just say that it is required -- it
-is quite useful to have around, especially due to its standard
-library.
+Meanwhile, the most recent standalone famfs series (v13) had some very 
+helpful review comments - many of which apply to both the fuse and
+standalone implementations. I plan to publish a v14 standalone branch
+with those improvements, and also cross-port the appropriate portions
+to the fuse series, which will probably be called v15.
 
-And regarding the minimum version, it would be nice to eventually have
-a single minimum for all Python scripts, no? Debian oldstable is
-already at 3.11, so I think we could perhaps bump the minimum already.
-And Debian stable is 3.13, which from your list would be enough for
-everything on your list, right? So we could perhaps set that as the
-actual minimum for everything in the future.
+That updated fuse series should be the foundation for Miklos' rework - 
+and I'll get it ready as fast as I can.
 
-Cheers,
-Miguel
+Miklos, thank you for working with me on this. I think this was one of
+those cases where there is no good substitute for face-to-face
+collaboration.
+
+Regards,
+John
+ 
+
