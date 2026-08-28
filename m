@@ -1,210 +1,183 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E023362152
-	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 16:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E522379ED4
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 16:02:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787932866; cv=none; b=OEC16fbqr+aRdCfqOrch7uZ2ZAt/z/Q6nH93/G46Vhzl/LFdIgiS0RQ6KRHdQ6s/P/Ca0JfbaDNdXlvPcBFMpIgJwnaa/xz0M2jIKPZDpSINkpZBxSSw4YiJsOUVI8p8kjDrr7wHWB+H3voRCQaJWM5EkEZrhfRqR/I60+VyWrI=
+	t=1787932953; cv=none; b=h6Wv8TwpfCLOY2ykRgG9rgskG3f6ZbD6ZdtlS7HvtNtwn7LZ4c+HyQ7Dei7HSVTUT1Sjf6LUb3YZ6g39ACpW2uOhsBeH3qYmZ8K+IAvK4FbtGxYoAmWeOVxfnEyKG2YbcEMEJCt3p/QWERBxyR59QH/OwCpioGNo9LBUSCadiCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787932866; c=relaxed/simple;
-	bh=acaGKz0epgqSOqnUBYPIn/wzR14CgrSAgFYBfAKjmi8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hENVM9P2RfvzmUm0+NH2YWjlDYQPKfbF4Ee3P4sFKlx775K0fRiCM8kjj0AX77jgaCv9P6WQ8+mRgEe9+ceCAC65xRGL5cW1QzFVZCEnARU1Ig6AOChrmKJ5t45pVnoZMTxZ/XAOspIn4oR74T/HcI0N3dNcmAZaXGlPBvF3YEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tenstorrent.com; spf=pass smtp.mailfrom=tenstorrent.com; dkim=pass (2048-bit key) header.d=tenstorrent.com header.i=@tenstorrent.com header.b=fYg/JM0v; arc=none smtp.client-ip=209.85.167.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tenstorrent.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tenstorrent.com
+	s=arc-20240116; t=1787932953; c=relaxed/simple;
+	bh=8qNLw56B9TLSQptSGJHh3rd1tE5g1AfjbOjTAkxyS4Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ou6KBTX+CQ3vjAmAbQRdsLu79drob01LypJSnePRQyD17v5gWwGgarUtrH6M8Az+S+KEp4O/nH9cdxJ9Snfl0UBjqn7MMqEXvmxHhWJ0xmRjvD5kWfUHgUfVDV1FH8M+ZlARHMmZH6HOsEMyAXOKuIb0I3bqeaSgf7mNgOTHCaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WkmEmDqf; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tenstorrent.com header.i=@tenstorrent.com header.b="fYg/JM0v"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-4b21f09ea42so969381b6e.2
-        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 09:01:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WkmEmDqf"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cbedd5aece4so1801123a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 09:02:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tenstorrent.com; s=google; t=1787932863; x=1788537663; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oiI3nnX2AJMzBD/AQu0wYIA1ehO1e9AZvUik61NexJk=;
-        b=fYg/JM0vwRgUFcehHX7OG0y8F/jA+voJ5zHI9LsQqRlK4WsVyB0qIObduaPPAbd9i6
-         2Z+brAUeno6b5yjYq3//wAzouiPZxGo0d0UhDmVKOJEK/oHUglY/lhPbKL+AcjcL2jOc
-         m6za0QtTbGWSJBaOi9tB/PEf4iojzpKf4UddoSbjCKGJnJtftpwVjR1wuHqiG028Izjq
-         CiPCnLhPLohp96CcLHoHIEkuzueuT+mHGKsonWWwXozj79/r1QnmtVLzCvRnTFrbl9iJ
-         PtUIWafA5np8U6x+F8y9dXRetZ8ikqugThd6sJp+/OmtpAFzFicSW3/AYtqy1UqMglxA
-         TS1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787932863; x=1788537663;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1787932952; x=1788537752; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oiI3nnX2AJMzBD/AQu0wYIA1ehO1e9AZvUik61NexJk=;
-        b=HrxBrO2djEQ7s6II0IX+/RWTtRbr73+GMpsjCES7M/k1idFBmocQX3LYvcyOqcaJE7
-         hcFEvL6ghA/uF19h2beP94ZExH311fxP+P5FUjqZK8W94tlG83PwgERzbkBhjHb2cqj1
-         I+KREm8XEMdY3RK2BxsU2gHPm82jZYD3qEVc4FU4D2o26g/uMhgUsLme2EdByRkFRsco
-         JTbXYDgVET56on4iOTtyLk/HPzxVO8W94usLVXZDX+jCzs+AXZl96p7/J2JQdU6o4hhe
-         ONFKX95oAXp/4eHzUNqgRukgr5eh1Urfr75rdJBp0JXihVPm9k1NqII7PhjZeBFx1hUV
-         nY6A==
-X-Forwarded-Encrypted: i=1; AHgh+RrSROqcJ6uZxEMWk0p0lgsToLeB0pW/Hpq8zD/Z51Ikcpm6BN5zuCsRIWnjKJkknq/6ywvqEFQBhLg=@vger.kernel.org
-X-Gm-Message-State: AFuF++lizqALJFr98lhSysfVnsf0ovyH2CBkpcfVHGJOrftDx4KlNadl
-	L3epHxU7siQs6u84w42BSna46KtlghuZh8sL1siBiMzrcnDquydmduWXVzFaSWJx3e8=
-X-Gm-Gg: AR+sD10VMnpEVgNsTjKmBpaaaj/gqY64t5KATVPa+1eLlqrolaLA4BaSQTqvG0q9Iix
-	WsyvSEH3fQnGa46R5k/Ej3uXv76Gfkk3AI9fs5anHUUKdLMW1Nv7h9sBDwyGahmVzFvD6zdDZiX
-	5poQIznxSTwta3VHOskdql8KNiDW2U8VBgZH9xj0xLIvIISyJNtpuD+B7v7+/zQCbgGHwlRfiHh
-	9R9Y56ETbp6NBiFdKTTnfSk9WFx63TqnhUzNH9bp1wfmcWKjgU1Vmzp7tBKxfH2KsZQen0Kny04
-	valb6pZNlfgffLrkFCYVZEzsynGnecIHPrOhTiSXow01fNCknLxiiCAJNsfr2hW5tMSuZFC//kx
-	2tctekCEdn59/hJqyVWkXkExgutjmLTiASqM2h9L9xRvt9Xqs6c0qXfi8ItQiJu6jXZ3/+g9Aw4
-	XiYTxvgGf2QpYZ2EFeJdlJ9ce0mZ1tBSrR0XkcwOB5NmJ+gTuMYg9doJMANb0GYL7rJkEyeP2JS
-	g==
-X-Received: by 2002:a05:6808:1910:b0:495:f85b:38c0 with SMTP id 5614622812f47-4b398190d7amr8529387b6e.12.1787932862988;
-        Fri, 28 Aug 2026 09:01:02 -0700 (PDT)
-Received: from localhost ([47.209.119.30])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b3a1625641sm1595919b6e.4.2026.08.28.09.01.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 09:01:02 -0700 (PDT)
-Date: Fri, 28 Aug 2026 11:00:59 -0500
-From: Andy Chiu <tchiu@tenstorrent.com>
-To: Mark Harris <mark.hsj@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Samuel Holland <samuel.holland@sifive.com>, bergner@tenstorrent.com,
-	kito.cheng@sifive.com, dfustini@oss.tenstorrent.com,
-	greentime.hu@sifive.com,
-	Andrew Jones <andrew.jones@oss.qualcomm.com>,
-	Guodong Xu <guodong.xu@oss.qualcomm.com>,
-	Aleksa Paunovic <aleksa.paunovic@htecgroup.com>,
-	Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>,
-	Xu Lu <luxu.kernel@bytedance.com>,
-	Yao Zihong <zihong.plct@isrc.iscas.ac.cn>,
-	Jingwei Wang <wangjingwei@iscas.ac.cn>,
-	Deepak Gupta <debug@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: Re: [PATCH v3 2/3] riscv: hwprobe: export the availability of
- vector to user
-Message-ID: <apGwuxgYZsZHiB8o@Tao-Chiu's-Mac>
-References: <20260725001614.2578617-3-tchiu@tenstorrent.com>
- <20260813233854.86799-1-mark.hsj@gmail.com>
+        bh=2AFRIUFJKCO3T6nN8VW+Ys+Hp+I2sL0vNH/Psf88O/M=;
+        b=WkmEmDqfrrWf3MLYSU7s/hlpIInLnyCW7RRytHfa5WLexsvbRjGuGbUht8Eqvd7PXs
+         TeKfJGxbGdaeRY8WH3KWxwYTqnhyi8ZZ/Fj+EBOtwHdY88M87NmsHt9djLfi/Lwnps1p
+         GG8ImKlwDe4puPh6KodxSj5iJIoST/VFeUu+38Q7jrhgE+ZgBQmfULysq4d5AaHLKWfC
+         tm63EOBWR8AMePKKvyGKqueWjBheOY07pMXCcYITykZpg1qQeN8kvveuTz/iAaMqssEL
+         upHSiqQyP7SbvWb9lAIc737W1anwxK2QQqfBdAqryfL7Wf0zpTIdjtsMs6oi+5jk5hqf
+         pmrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787932952; x=1788537752;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=2AFRIUFJKCO3T6nN8VW+Ys+Hp+I2sL0vNH/Psf88O/M=;
+        b=dYEcnDJK8fvD5jf+1vWBDV0ebaA2hZN70dcX1xST76T6uabhWmEQtoLzm/rRYsDau5
+         0C0jVghTU4HgxDpC8ennavjoodN9DqMqFwpBk9oqPJUQsel/Uy3q95ariBF+JB3SN0yl
+         jZyCCCbT3xKBmKjRaLDDYKQSvSg1/YGTWZ6Fpjepudki7Mj7EkcyNpfi7Ge6grTWQoTV
+         yuCxLirECHE9L9OF4L355zPCJkwpcXFrlv15ujwPvuBZTSe0jzeGU0sJqC5aJQZVewro
+         b5U6E9tV4AfVoVNDLcWCliyO9Aeb6uXXKrDZsV9Lda7BSk2wt/UVrqSfLTtlKKUNH89O
+         HNWA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro2JCE4JDvocKpc7Iymd/gtaGRbNI8wVsyK3cjIDYXdr6L9bKh5QRx8CF+STFNcDPVkbIXqTbnhZEM=@vger.kernel.org
+X-Gm-Message-State: AFuF++not614Ba/XEIahp6Wn71zfEVjcGBmtM0zM0IYZdy/NflkuWIlM
+	ieTAh7aZFRdcrvdAkuRai7PY5WlPHvh3N3ENNh/Fki1BPSfAN4rNPBGQ
+X-Gm-Gg: AR+sD10qcteVpSihvAEDvxeGn2qXrC0AD5K2mSxYOVvt2oGn5AlgNt45say0GOS8Ska
+	Akfrs6me5OE3UdsJOchS7ToiUrjheB8AJWeG0XTUNh/25V2imGZOl5oEeWjcaN3OQ50l9uKE7ga
+	3B3a0mFgm3OvJsfUCgT2llgFpO2k0l7GsVFydU/giXJNWgo1xkDMQXuctcCqL6942qeWR+aq2kj
+	OiQubbU9ubQPl+WAaxwIOxf6Rz0D5twUypXZb2YlGJeH+eLVDpErzMv8jG7Nli9yiL12BBtc3hB
+	6C5H7Z0UMyf3wL1D3aWEsIzMlxIuKa0i+GuYTPYaothuTiFq750KhZJB54U28i/U7wOa4eY3VhJ
+	EgsGzZaif4nx5poBZD86+/3HNmqYrIffZdIyB5biei+BJ13QbwgV/L7xxSZCKHXAjDek7ZwNnqb
+	jTYL3+YU29fJ3SN24qvLiHa927vjL3QD9hVeGPe1TOKe0GVb93HWn7l+sRjZWeMd7mOJL3Vpybk
+	Y1he6u7Ia+3jpQC29MrEZnXl/y33ubhx99/vPkcoXbUHXT3
+X-Received: by 2002:a17:90b:37d0:b0:385:3ab:fecb with SMTP id 98e67ed59e1d1-3989b565671mr1045102a91.4.1787932951484;
+        Fri, 28 Aug 2026 09:02:31 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396dda36ed6sm3116562a91.2.2026.08.28.09.02.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Aug 2026 09:02:30 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <4da32bd6-5b54-4765-b5ad-82bac2bbaaa2@roeck-us.net>
+Date: Fri, 28 Aug 2026 09:02:29 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260813233854.86799-1-mark.hsj@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/1] hwmon: Add Minisforum UM780 XTX EC monitoring and
+ fan control
+To: =?UTF-8?Q?Sebasti=C3=A1n_Peyrott?= <speyrott@gmail.com>
+Cc: linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260825184107.355980-1-speyrott@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260825184107.355980-1-speyrott@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Mark,
-
-Sorry for responding late, we have been thinking through this internally
-with the team and other community members, and here is the reply
-
-On Thu, Aug 13, 2026 at 04:38:54PM -0700, Mark Harris wrote:
-> Andy Chiu wrote:
-> > Userland IFUNC resolvers use hwprobe to decide whether to dispatch to
-> > vectorized routines. But RISCV_HWPROBE_KEY_IMA_EXT_0 only reports what
-> > is present in hardware, not what the calling process may actually use:
-> > when Vector is disabled for a process via
-> > prctl(PR_RISCV_V_SET_CONTROL, PR_RISCV_V_VSTATE_CTRL_OFF), it is still
-> > reported as present. A resolver that trusts this and runs a vector
-> > instruction crashes with SIGILL.
-> > 
-> > Add RISCV_HWPROBE_KEY_EXT_ENABLED, a positional modifier key that carries
-> > no value of its own. Within a single request, keys placed after it report
-> > extensions that are both present and enabled for the calling process,
-> > while keys before it keep reporting hardware presence. This masks out V
-> > and its V-dependent sub-extensions when V is disabled for the process, and
-> > lets userland obtain both views in one query:
-> > 
-> >       [ {IMA_EXT_0}, {EXT_ENABLED}, {IMA_EXT_0} ]
-> >           present       modifier       enabled
-> > 
-> > The enabled view depends on per-process state, so it cannot be served from
-> > the vDSO's process-independent cache; requests carrying the modifier are
-> > deferred to the syscall. Unknown keys are still reported as -1, so the
-> > feature is detectable and existing users are unaffected.
+On 8/25/26 11:41, Sebastián Peyrott wrote:
+> Add a DMI-gated hwmon driver for both fans on the Minisforum UM780 XTX. The
+> EC is an ITE IT5571E, but its register layout and OEM commands are defined
+> by machine-specific firmware, so the driver only binds to the exact board
+> revision and BIOS version on which it was tested.
 > 
-> Currently, each key has a value and the order of the keys does not
-> matter.  If the interface needed to be extended to support
-> process-specific values, or thread-specific values (the prctl() is
-> thread-specific), I would expect either new keys to retrieve those
-> process-specific or thread-specific values, or a new flag bit to
-
-Our concern with the new flag is that we have to call hwprobe twice on
-an old kernel that doesn't know about the flag. It takes a syscall when
-the VDSO finds an unknown flag at the first call to hwprobe. The kernel
-returns -EINVAL immediately, leaving all probe values empty. So the user
-space has to make the second call with the flag bit unset.
-
-> indicate that existing keys should be reinterpreted in a new manner.
-> Using a key as a modifier with no value and changing the keys to
-> be order-dependent seems like an unnecessarily confusing ugly hack
-> that we would have to live with for decades to come, just to slightly
-> simplify code needed in the short term to handle older kernels.
+> The driver exposes both fan-control temperatures and tachometers, two OEM
+> automatic CPU fan profiles, and two writable system-fan transition
+> temperatures. It preserves settings selected through its interface across
+> s2idle.
 > 
-> Additionally, the approach of falling back to the syscall whenever
-> the modifier key is used could lead to each check for the vector
-> extension, in an ifunc resolver or almost anywhere else, having to
-> perform a syscall.  Callers wanting to use other extensions may
-> even use this modifier when checking for them, because given the
-> choice of knowing whether the extension is potentially available
-> or is available, the latter sounds like what they should be using
-> to be future-proof, even if there is not currently a way to disable
-> the extension.  That could lead to a syscall for every extension
-> check, defeating the vDSO cache.
-
-Likewise, I think the new flag bit can encourage the same user space
-behavior, because it is the same low cost change to get more
-information.
-
+> Tested on the target system with concurrent RPM reads, OEM profile changes,
+> system-fan threshold changes, unload/reload stress, and s2idle resume. The
+> settings were correct from the first userspace sample after resume and
+> remained stable for 15 seconds.
 > 
-> On some non-RISC-V platforms glibc allows its own use of specific
-> CPU capabilities to be disabled through tunables (e.g.,
-> GLIBC_TUNABLES=glibc.cpu.hwcaps=-AVX2 ./my_x86_64_program), and as
-> of glibc 2.44 tunables can also be set in /etc/tunables.conf and
-> applied system-wide, even to specific programs.  This is more
-> convenient than a prctl and it would be nice if RISC-V extensions
-> could also be disabled for specific programs through tunables, for
-> any use where its availability is checked beforehand (in an ifunc
-> resolver or elsewhere), without the need to go to the kernel for
-> each check.
+> OpenAI Codex assisted with reverse-engineering review, code editing, test
+> orchestration, and patch and email preparation across a long interactive
+> session. I reviewed every change, ran the live tests on the target
+> hardware, and take responsibility for the submission.
 > 
-> Because ifunc resolvers may not have access to external symbols
-> beyond __riscv_hwprobe(), it is really attractive to be able to
-> obtain extension availability information using the same function.
-> But that doesn't mean that the kernel has to be involved.  The
-> function is in libc, so it could call the vDSO function and then
-> optionally modify the resulting values according to its own
-> process-specific information about enabled or disabled extensions.
-> This extra information would ideally come from the initial hwcaps
-
-Unfortunately, I think the riscv community has decided to stop using
-hwcap and move forward with hwprobe. Although I agree with you that it
-is a convenient way to add such per-process's extension enablement
-status.
-
-> (which reflect the vector prctl) and any tunables, so it is
-> process-wide, can support arbitrary extensions, and can be checked
-> without any kernel syscalls and without callers having to know or
-> care whether a particular extension can be disabled.  If the prctl
-> was used to re-enable vector in some thread that may not affect it,
-> but that seems like the desired behavior, at least for ifunc
-> resolvers, since they are assumed to produce the same result in any
-> thread and at any point during the process lifetime.
+> Link: https://lore.kernel.org/r/20260818181345.203295-1-speyrott@gmail.com
 > 
-> If implemented using a new flag, the libc __riscv_hwprobe() function
-> could just call the existing vDSO function but with the new flag
-> masked out, and then if the flag is set, modify the resulting values.
-> That would probably be the simplest and easiest to understand API
-> and would not require kernel syscalls.
+> Sebastián Peyrott (1):
+>    hwmon: Add Minisforum UM780 XTX EC monitoring and fan control
+> 
 
-I think the argument comes down to: do we expect the mismatch between
-an extension's availability and existence to grow? Using the same set of
-keys sounds like a good idea if we expect more extensions comes with
-per-process enablement status. On the other hand, if future extension
-supports come without the ability to turn it off, then this
-implementation may be an overshoot.
+Note: For a single patch, an introduction patch is unnecessary and just adds
+work for the maintainer.
 
-Cheers,
-Andy
+Guenter
+
+> ---
+> Changes in v3:
+> - return -EIO after bounded RPM coherence retries and -ENODATA for an
+>    unknown CPU profile;
+> - seed saved settings at probe, update them only after successful hwmon
+>    writes, and restore them at resume without reading the EC at suspend;
+> - clarify saved-state naming, live threshold validation, and resume
+>    documentation.
+> 
+>   Documentation/hwmon/index.rst               |   1 +
+>   Documentation/hwmon/minisforum-um780xtx.rst |  68 +++
+>   MAINTAINERS                                 |   7 +
+>   drivers/hwmon/Kconfig                       |  16 +
+>   drivers/hwmon/Makefile                      |   1 +
+>   drivers/hwmon/minisforum-um780xtx.c         | 501 ++++++++++++++++++++
+>   6 files changed, 594 insertions(+)
+>   create mode 100644 Documentation/hwmon/minisforum-um780xtx.rst
+>   create mode 100644 drivers/hwmon/minisforum-um780xtx.c
+> 
+> 
+> base-commit: 75f2c0b3690702c90863c2e138cb5520670845ea
+
