@@ -1,142 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CEC39FCB5;
-	Fri, 28 Aug 2026 07:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BB1D3AA1A6;
+	Fri, 28 Aug 2026 07:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787900626; cv=none; b=ilyAIv8zrlb7AbZpasYUxOJh8uLr23KF5NmhKbpxbSrcCKrWw/Croognd4J2FjF0YAY/EfIm2J/AMIcZTXkpWy8D3SIzmFelP73dQbZ+o7eXy64mCn2xd9e/ZoHzWgLfqNUFZkB0EKh9IFnTZuc1FpzlfL96rDpel8U3WZSe3hM=
+	t=1787903517; cv=none; b=b8SA9Y31TI6lR+C+YSydUThLLCmNnkt5OC8wqpZnK4icfX6yYbcf6mMnXE17gVfgaiX1oCd/m4eOK7tkgGy0D3q1+CZTKpp5fSvwqr6471UlIIzFBfp9lMQYbxZVsXrE3/u+tGoAQHmUAjsfjzkkH67KDlpFELAPXi/5NvUWt8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787900626; c=relaxed/simple;
-	bh=xiZpECQkzztPmGYfZZghk1Np5SbfhVunprtUnVORDvM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=riGcQPZLfR04dEPw/Tmrx2szrn7kCjVb76JqvaHPtQBgg8q0F3dvGJxLYsl4/kPz/r+jK0I3Qi3l0pHKOcRVod80QihTmeq86SjfmhsGC0r4jyCXv4r/55MoJJsnzC0BIY+2eEAkbIQ64na+W73ZdDZb38t+fZMxMqEJXfZ/wlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ki8OfKvM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787903517; c=relaxed/simple;
+	bh=/r42OzRKbehNytUbS0AlwvQqha8Fg7tNiKCBIbEVdb4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fpraah1J14fY6MJk1gI7zIYcguY/gVc1jOF+L6lxF6e9+gdQK8vU7fEwj078Hl20cPI5heksHEnR4UMqCUDX9Kj67fAUGz5Ptwx9IhrZWWyYsHCGePyq7y3rMpjYon0qN1lNTS3cCK67ZGpHFHqwasF4F9Oh7+wq4X3aS7BJQ0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=qyRs1slP; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ki8OfKvM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12D921F000E9;
-	Fri, 28 Aug 2026 07:03:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787900625;
-	bh=p//1NQk8zitXXmAblFVKjcBJtvf/rTZ2sm2+PaGQkb0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ki8OfKvM3u9p9ZN630u3+Dhrf8x/975NSVli+DdfUHiM9kKWSTkNfSvNRDEwby9g/
-	 7DFg/MvZMoR7jtGIC4+Ky0GxCCQImi9csbVg31qHRNRdToXv/PxzJBxOEBZMY0T6WY
-	 WJ2SmHWmojZEE/lJ2odmNAWum1A3Z0W8wd6uCG6BH+W/x4eo5EkGIhJR1uiwDQ6HO8
-	 j0GnumKf69ozYWwDDLW6DI9hMl0Nr1GoVZ1YOKRzK8hMv03LUsNKm6aLjKT/sHCtcT
-	 SGHbS7zgDNduqDtZFm7MNiDeVcwpHZUSXWC14dPY9rL0FwDNbyvm4a/ImGccDgBpLz
-	 KDbvKMuhX6R8A==
-Date: Fri, 28 Aug 2026 08:03:38 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Zhen Ni <zhen.ni@easystack.cn>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup filtering
-Message-ID: <apEx0wT_hWs1Q5Wp@gremlin>
-References: <20260828031339.1270699-1-zhen.ni@easystack.cn>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="qyRs1slP"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF1BD1516;
+	Fri, 28 Aug 2026 00:51:49 -0700 (PDT)
+Received: from [192.168.178.100] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AE5183F7D8;
+	Fri, 28 Aug 2026 00:51:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1787903513; bh=/r42OzRKbehNytUbS0AlwvQqha8Fg7tNiKCBIbEVdb4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qyRs1slPyzy4qtN6fU37FQs+l+H3jAYpbcC2h3UtcVrvo5z3SjmO2VTAOAEJZq2pq
+	 sHFeMdQE0ndRCz4WEiemVcxCS+ga6h2GvUQYZ96jeNg/pJWgoneG18bdCG72uzzOxG
+	 guo214JrPJiRPBGaqWZv8B5+sDYd7e9nwQUPLyqo=
+Message-ID: <8262d2f9-9f2f-4821-8497-991d7c8448a3@arm.com>
+Date: Fri, 28 Aug 2026 09:51:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260828031339.1270699-1-zhen.ni@easystack.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 05/12] sched/core: Try to use a preferred CPU in
+ is_cpu_allowed
+To: Shrikanth Hegde <sshegde@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ mingo@kernel.org, peterz@infradead.org, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, yury.norov@gmail.com, kprateek.nayak@amd.com,
+ iii@linux.ibm.com, corbet@lwn.net, meted@linux.ibm.com, ynorov@nvidia.com
+Cc: tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
+ seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
+ rostedt@goodmis.org, maddy@linux.ibm.com, srikar@linux.ibm.com,
+ hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+ frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+ christian.loehle@arm.com, tj@kernel.org, tommaso.cucinotta@gmail.com,
+ maz@kernel.org, rafael@kernel.org, rdunlap@infradead.org,
+ kernellwp@gmail.com, linux-doc@vger.kernel.org, jgross@suse.com,
+ virtualization@lists.linux.dev, sunlightlinux@gmail.com
+References: <20260825103855.721013-1-sshegde@linux.ibm.com>
+ <20260825103855.721013-6-sshegde@linux.ibm.com>
+Content-Language: en-GB
+From: Dietmar Eggemann <dietmar.eggemann@arm.com>
+In-Reply-To: <20260825103855.721013-6-sshegde@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 28, 2026 at 11:13:31AM +0800, Zhen Ni wrote:
-> This patch series adds process and memory cgroup filtering support to
-> page_owner. Following the previous series that introduced print_mode and
-> NUMA node filters:
->   https://lore.kernel.org/linux-mm/20260707115411.1714314-1-zhen.ni@easys=
-tack.cn/
->
-> This series adds filtering capabilities to page_owner, allowing users to
-> filter output by specific processes and memory cgroups. Users can now
-> filter page_owner output by PID, TGID, COMM (with wildcard support), and
-> memory cgroup path. This makes page_owner debugging more focused and
-> efficient for tracking memory allocations in specific contexts.
+On 25.08.26 12:38, Shrikanth Hegde wrote:
+> When possible, try to choose a preferred CPU.
+> 
+> This is essential to maintain user affinities when preferred
+> CPUs change. A task pinned on a non-preferred CPU should continue
+> to run there, since this is a non-user triggered event.
+> 
+> If a CPU is non-preferred and the task can run on other CPUs which are
+> currently preferred, then choose a preferred CPU instead.
+> This is decided by checking if cpus_ptr and cpu_preferred_mask
+> intersect or not. If yes, then the task has other preferred CPUs.
+> 
+> The push task mechanism uses a stopper thread which calls
+> select_fallback_rq() and uses this mechanism to pick a preferred CPU.
+> 
+> This takes care of the wakeup path for FAIR tasks too.
+> is_cpu_allowed() is called to ensure wakeups happen on preferred CPUs.
+> With that, additional checks in available_idle_cpu() are not necessary.
+> 
+> Ignore the preferred CPU state if a task's affinity is changing and
+> its new mask no longer includes the CPU it is currently running on.
+> This ensures migration_cpu_stop() does not abort, preventing the task
+> from being stranded outside its allowed affinity.
+> 
+> Account for tasks with architecture-specific CPU masks
+> (e.g., 32-bit tasks on arm64). For such tasks, explicitly check against
+> the arch-allowed CPUs to determine if any of the preferred CPUs are
+> actually valid.
+> 
+> For the majority of cases, this would still keep select_fallback_rq()
+> as O(N). cpumask_intersects(), which is O(N), is called only if
+> !cpu_preferred. The task running there is expected to move out.
+> Subsequently, it should run on a preferred CPU. This becomes O(N**2)
+> only for tasks pinned solely to non-preferred CPUs. That is a rare case.
+> 
+> Overhead is minimal when the CPU is preferred.
+> 
+> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> ---
+>  kernel/sched/core.c | 41 +++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 39 insertions(+), 2 deletions(-)
+> 
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index a45f7c308329..f71317fe281d 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -2494,6 +2494,35 @@ static inline bool rq_has_pinned_tasks(struct rq *rq)
+>  	return rq->nr_pinned;
+>  }
+>  
+> +static inline bool task_can_sched_on_preferred(int cpu, struct task_struct *p)
+> +{
+> +	const struct cpumask *valid_mask;
+> +	int i;
+> +
+> +	if (cpu_preferred(cpu))
+> +		return false;
+> +
+> +	/* Only FAIR tasks honor preferred CPU state */
+> +	if (unlikely(p->sched_class != &fair_sched_class))
+> +		return false;
+> +
+> +	/* Ignore preferred state if task affinity is changing */
+> +	if (unlikely(!cpumask_test_cpu(task_cpu(p), p->cpus_ptr)))
+> +		return false;
+> +
+> +	valid_mask = task_cpu_possible_mask(p);
+> +	if (likely(valid_mask == cpu_possible_mask))
+> +		return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
+> +
+> +	/* Tasks with arch-specific CPU masks. e.g. 32-bit tasks on arm64. */
+> +	for_each_cpu_and(i, p->cpus_ptr, cpu_preferred_mask) {
+> +		if (cpumask_test_cpu(i, valid_mask))
+> +			return true;
+> +	}
 
-The majority of this cover letter feels like it should have been
-documentation put somewhere :)
+Looking more into this, there might be a window in 64-32-bit execve()
+for 32bit EL0 tasks on Arm64 (w/ allow_mismatched_32bit_el0 command line
+option).
 
-I mean I like to be verbose, but this is slightly excessive :P
+The time before arch_setup_new_exec() calls
+force_compatible_cpus_allowed_ptr() to restrict CPU affinity for those
+tasks.
 
-Remember that mm places cover letters in the first commit in merged
-series...
+Let me run more test on this ...
 
-Andrew - could we not do that here, or at least heavily truncate it?
+Why not simply:
+
+- return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
++ return cpumask_first_and_and(p->cpus_ptr, cpu_preferred_mask,
++                              task_cpu_possible_mask(p)) < nr_cpu_ids;
+
+IMHO, you want to know whether there is at least one CPU that belongs to
+all three CPU masks?
 
 [...]
-
->    Test: Cgroup path exceeding PATH_MAX
->    Generated path length: 4101
->    ./page_owner_filter -g '<very long path>'
->    Error: Cgroup path '/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-a': not found or no memory controller
-
-Also let's maybe refrain from >4000 char 'aaa...[rgh]'s, I think people get
-the picture without needing all the chars :)
-
---
-Cheers, Lorenzo
