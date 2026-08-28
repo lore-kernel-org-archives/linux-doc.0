@@ -1,131 +1,98 @@
-Received: from mail-m15571.qiye.163.com (mail-m15571.qiye.163.com [101.71.155.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5DD21767D;
-	Fri, 28 Aug 2026 03:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CA33ACF18
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 03:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787888977; cv=none; b=cX3h9bOF6jBkC9Mngsc0tnbGUEAWbXLY2Jnf9yap/8pxs3X9J2nom0lbIWQGhBbb2ZmbpVgn5dXu1kso4yj0vSTQBEuclD3JRbCQc0UkDAtpNNtWU94kqnkXMK3NNHDzdjZs52j0DDiXyOoNXOzKG9UcolgXwsJqds90qVCW+9U=
+	t=1787889059; cv=none; b=kxzNdTicTDz/ovf7dmkepwo8CYbHGldq5DQGGlsm0aAZPv+X5jbET/a2AcnebkhERdQGsj7WXcWNHzG7IMGarTVlUkzizPIg5vZpeUVf6BHBltzwB02uWsU82/JUYHKKYyi3uz2DEIO0EEeQxedO9SB90+IqEQ3MoBgHOyTbvtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787888977; c=relaxed/simple;
-	bh=0RDdhaNY7DbsgRfHuXjuEykk+p8NlJvJuNNFqZdbZSc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lGkvxx9RwZ9ORrjbvSZoPm6GzwRVjJZdkGlTzCywgsoWMTOdZiXAeMpQmUtGbNp0a+N+BAmziK0raMnT9dLYKzj9KBmZX2JEkm3ZFLbzsBTxQaIYj4bEXa4to5G3q8KO5IYoot7+r+WzRdefKR7DgY2Cw1UFMocuCvB8qTCZrH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=101.71.155.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
-Received: from localhost.localdomain (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 1e6a20dbd;
-	Fri, 28 Aug 2026 11:14:02 +0800 (GMT+08:00)
-From: Zhen Ni <zhen.ni@easystack.cn>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zi Yan <ziy@nvidia.com>,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhen Ni <zhen.ni@easystack.cn>
-Subject: [PATCH 8/8] Documentation: page_owner: Document PID/TGID/COMM and cgroup filters
-Date: Fri, 28 Aug 2026 11:13:39 +0800
-Message-Id: <20260828031339.1270699-9-zhen.ni@easystack.cn>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20260828031339.1270699-1-zhen.ni@easystack.cn>
-References: <20260828031339.1270699-1-zhen.ni@easystack.cn>
+	s=arc-20240116; t=1787889059; c=relaxed/simple;
+	bh=qxXuDSETb1QGvICRb6JF6QpQpSR+Hex0aJPS9wGqpCo=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=NM/tDX1OyMD8bVCWuWW0EvPP6sKw91A7H4lprH03wYFxhuvWyr7rjPqsH+uaiT9TYzwWssyz8I1It4UMtucybaD2nzyfto/r27VqafWPW85reu3NLSdk3e1vl+yt9QIMASQxa8AzCKxMjSvGaDM46j7yv6wStf4tEHWS8OdzLbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iu0MssnI; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iu0MssnI"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-39652a6e963so1621537a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 20:50:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787889053; x=1788493853; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=x4Wo3AFVWJoN6NjZ+CjXyOXScjwk81QQP/wB9zVSLpE=;
+        b=Iu0MssnIdYs5oBK61RGMgLHv6pbQmm0G6nj+OX53oQc2QIqBIWgKGMStsPhVAIZXCZ
+         6KIXJtU1ggJmTlrObkqAuCwZn5yEFW5irkp2NNYE2E3fib97Y+lIbq35w47CbNm9LQNH
+         1Pplh4AsO8hmM6kJsbIPymf1lYDt+de/jqC+BFGVjCAnzWzped3LlncDTU27kLDQSRqT
+         6189Df9kTOUSqqMjLd3TU9N7vd8l5YdhqVTr/qJQ5EPDza1KH1h/GBp++7QTeUrcSBhS
+         TVgjBixy9VNwEKh5VZ/5DOayOPA26D8vPLHLIBqZoH4yolHFkjNhhuuJqAk2P7qJumAo
+         zfRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787889053; x=1788493853;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=x4Wo3AFVWJoN6NjZ+CjXyOXScjwk81QQP/wB9zVSLpE=;
+        b=nTNHnk/9RkPtyTa2LCBy557P+iynRFefAWzoWMKv8wUVVVlI7iiA/6NxfqH2qyFXBx
+         2OzMjeK1RPF/WQBV8uals6wsU18k+shk0OZycl1Lr/ZGEx/TZKoST4ZrlhhHJ/yIkAfJ
+         lYunXRPy/A2mGtPw63toG5Xb6PO7gWRD8W41HJyH80vRnr5hyD2QMNpRyYq9bi+rYKlN
+         6O450QaoMn1hmVokZnuy5xEdIU57EqDDP98OT5HiMEPnXUyao0oACDiNNlGbUpnKp4Qs
+         irwdBKOtGxPkzUaXkHT+G432EZZEYy6ci80iMO6i5nTpCxGqj+DfAOsmfzpn9Q2fci2m
+         KiVw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp5HIZ1pBlRWz88WWJ1lUADBAe2FWHx1loVvrFUVll6h41K9MiQ+6c/zyAhk6gv8Oe1kSSgrjIW8fc=@vger.kernel.org
+X-Gm-Message-State: AFuF++kngboot/gxaK1Skwthpr9GtD693hnjIVa00R0a9le3a1TIRf3D
+	TstqjVyBC9tV5zrlx2pa7oV8/BtaEVXbF87DZ8cllJs3d9pfmty+orOL
+X-Gm-Gg: AR+sD10hfjWYa+gf/f9z3WTQq62jsbcJ8yxyP2epfOiC0dWqqRVZHtHk47PqVLwOU10
+	X8olLKb13BzHZF5G7BIxzB1WgLUJdgSPq88fcSPmRB0uZ0c+wK51EFZQvBAcRMwUwa0aT1zCY3F
+	UXEESN+R8fOczgXixQ96POZFkssTw0XGILaDqXINNphBG/k3uJ3h/UiwtXnve1pm+yd3KZ1f8Y7
+	STdHhmofj70RfMiBhRsyER00gy4WxfiGvCsj1PqbX3AoUu6EnBYrGmyMFHNUuiQaX/KBO1TYv1N
+	ZmwLIKR+CRqR8xKy9r403VYWn07kImuU8WrNOqnKmUaZA4XsnFzlPA0/EddNcze8jGpPR1OAkLj
+	YfASG05S/xm/f6XCAu1qTE/yihBt+lOyB2DnpH3qhp60lm8mxDAHb3aoWnqZlR63zK/+IdJJGYw
+	HtH0OTt3SdBYyGc6UbCth8hS8NxU8urxwGnHkHHdzdCeQa3qg1NcbSwGK43PH7T+LJYQ==
+X-Received: by 2002:a17:90b:5484:b0:36b:de66:92c3 with SMTP id 98e67ed59e1d1-3969bc0223emr15330087a91.10.1787889053319;
+        Thu, 27 Aug 2026 20:50:53 -0700 (PDT)
+Received: from [127.0.0.2] ([73.222.46.22])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-142e0e0e67dsm1659184c88.15.2026.08.27.20.50.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2026 20:50:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa0465c31140229kunma81ef96712a363
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaTEpLVkpMS0pKT0tNTkJNSFYVFA
-	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
-	lPT09IVUpLS1VKQktLWQY+
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 0/3] binfmt_misc: only let punctuation delimit a
+ register string
+From: Farid Zakaria <farid.m.zakaria@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Farid Zakaria <farid.m.zakaria@gmail.com>
+In-Reply-To: <20260826-work-binfmt_misc-delim-v1-0-43618adf8599@kernel.org>
+References: <20260826-work-binfmt_misc-delim-v1-0-43618adf8599@kernel.org>
+Date: Thu, 27 Aug 2026 20:50:28 -0700
+Message-Id: <178788902858.3236768.15019506644956689303.b4-review@b4>
+X-Mailer: b4 0.15.2
 
-Update page_owner.rst to document process and cgroup filtering
-support in page_owner_filter tool. Add usage examples for PID, TGID,
-COMM (with wildcard support), and cgroup filters along with their
-respective limits.
+On Wed, 26 Aug 2026 17:55:45 +0200, Christian Brauner <brauner@kernel.org> wrote:
+> [...]
+>  tools/testing/selftests/exec/Makefile            |   4 +
+>  tools/testing/selftests/exec/binfmt_misc_delim.c | 127 +++++++++++++++++++++++
+>  4 files changed, 143 insertions(+), 3 deletions(-)
+> ---
+> base-commit: 66498c75b4f8017f62d720d9b59675bdf3abce91
+> change-id: 20260810-work-binfmt_misc-delim-83f62cbcfe23
 
-Signed-off-by: Zhen Ni <zhen.ni@easystack.cn>
----
- Documentation/mm/page_owner.rst | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+Makes sense.
+I think it's still pretty accepting when you consider all the
+punctuation characeters even allowed :)
 
-diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
-index a6bd3fe6423a..c8a7e6c242c5 100644
---- a/Documentation/mm/page_owner.rst
-+++ b/Documentation/mm/page_owner.rst
-@@ -283,7 +283,7 @@ page_owner supports filtering output at the kernel level before reading,
- which reduces the amount of data that needs to be processed in userspace.
- 
- The page_owner_filter tool provides a convenient interface for this filtering
--capability. It supports two types of filters:
-+capability. It supports the following types of filters:
- 
- 1. **print_mode filter**: Control what information is printed for each page
- 	- ``stack``: Print full stack traces (default, compatible with existing usage)
-@@ -300,6 +300,16 @@ capability. It supports two types of filters:
- 	- Ranges: ``-n 0-3``
- 	- Mixed format: ``-n 0,2-3,5``
- 
-+3. **Process filters**: Filter pages by process identifiers
-+	- Filter by process ID: ``-p PID_LIST`` (comma-separated, max 16)
-+	- Filter by thread group ID: ``-t TGID_LIST`` (comma-separated, max 16)
-+	- Filter by task command name: ``-c COMM_LIST`` (comma-separated, max 8)
-+	- Name matching supports wildcards: ``*``, ``?``, ``[a-z]``
-+
-+4. **Cgroup (memcg) filter**: Filter pages by memory cgroup
-+	- Filter by cgroup path: ``-g CGROUP``
-+	- Useful for containerized environments and multi-tenant systems
-+
- Usage examples::
- 
- 	# Filter by print mode
-@@ -310,9 +320,19 @@ Usage examples::
- 	./page_owner_filter -n 0
- 	./page_owner_filter -n 0-3
- 
-+	# Filter by process
-+	./page_owner_filter -p 1234
-+	./page_owner_filter -t 1,2,3
-+	./page_owner_filter -c python*
-+
-+	# Filter by cgroup
-+	./page_owner_filter -g system.slice
-+	./page_owner_filter -g kubepods/besteffort/pod123
-+
- 	# Combined filters
- 	./page_owner_filter -m stack -n 0,1,2
- 	./page_owner_filter -m handle -n 0,2-3
-+	./page_owner_filter -g user.slice -c bash -n 0
- 
- 	# Save to file
- 	./page_owner_filter -m handle -o filtered_output.txt
-@@ -323,6 +343,9 @@ reduce output size by ~66% (84MB vs 244MB) and improve read performance by ~4.4x
- compared to full stack output.
- 
- The NUMA node filter is useful for NUMA-aware memory allocation analysis and debugging.
-+Process filters help isolate memory allocations for specific processes or tasks.
-+The cgroup filter is essential for containerized environments where you need to
-+analyze memory usage per container or service.
- 
- Behind the scenes, page_owner_filter opens /sys/kernel/debug/page_owner and
- writes filter commands before reading the filtered output. The filtering uses
 -- 
-2.20.1
-
+Farid Zakaria <farid.m.zakaria@gmail.com>
