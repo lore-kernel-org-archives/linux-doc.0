@@ -1,204 +1,203 @@
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012050.outbound.protection.outlook.com [40.93.195.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A6246F4BA
-	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 14:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.200
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787929025; cv=none; b=RRa72hhKZgEJEnafF9H3WPp+nd9Lqkuxe5/JmjIzg1oX8u/KuhdkWdRt/dYo/F2soClbT7+1GxU4+yhKo8gQaGs5GPD1QEWdPGIZFpNjX3y81SIvocTgPW4lNpkh/l1RkG41uru3OxnNS6qiqa6Vr1Er+TwXXAhW3VHZe6Ac5zM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787929025; c=relaxed/simple;
-	bh=LZpPvS21SRGUjRRQo9YMu2uphCB+Yb/O1WCRXm1EFjc=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=b+4Q34gfA+TG5LU2oh0NALWQPhA+iA+Oa4nqfQ0LIuyRcG/D44QcxpV2EINAbDXuezqwT3lFuqwqqhlvDF0BHgwWOVDqVD8fZI4qn82z8XqloV5kiqw6ZnnCpmRuMC5gcLqeTrOlSgWdAse/HdRwi+p0nhVuJyYyaQGxZl7m2e8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HKi8VdUO; arc=none smtp.client-ip=209.85.214.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693E32B9B7;
+	Fri, 28 Aug 2026 14:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787929161; cv=fail; b=mxhVEa8vRR5U1Nzics8RBZbAzrM55pR9HaDK0IVfCQvwMlHYYJEOtLwzFDTAyumA4nXsbmjI1Mo+cz0rk/droJsrkXH9VRw18QYGMCRPiRQz/xLXGBKWQAGF6Qqqls7rBApJBNV4mwY4FK6YOgyStlHD+3hOJwvcGwe7nHsp3L8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787929161; c=relaxed/simple;
+	bh=LyW4sej8DQil3ygriqUJNiWSHDNhUKLsKrXijndzfR8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hCY1CZzeCO08HVbUmof636gl3hzeZr6HZA/o8wTLH9jHABPeXkNQOYMzX4XFyS9zblFC/mGosaaAndoHbAt8PNSxC8FihbvtMSGtSu8u7qEKtAez6/qHD6ZsxPpJC3tqi2le5L8Wuj1XJZELRcoUYCavch6c/9o10GbRM0Q5wuM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5Abz3QfN; arc=fail smtp.client-ip=40.93.195.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HKi8VdUO"
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2d7293f13c6so14643425ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 07:57:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787929023; x=1788533823; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rKyTv2j02zbnlF+PSfGKNUB7r5AsnRVQJaAhKBT0UgU=;
-        b=HKi8VdUOMQ+VhGwRtStYGF2qLx+TKzH7citcBlKEg4hjaizk6X5JWUqFLqtF7AizQ3
-         ayxD6h+lwClPnw6h1ap2n6vfGqEVYLJ2LjsafVfVzZyMekM1kM8ZYNK2Z1azvsXDDPVs
-         y1hqvhtzpK/60tJN1XmbkQM0BDmxgUaznhlQ5bLTWAxRWWIJeDWN+IEHSfH0qvUFR1FL
-         fj7bz6dko7atEYi1As+Sb18pSNahp6AmydieQp7TV82IiGh5UIQC4u4sPrudKgfvUAlO
-         K5AZ2FO9HITDBDFoVv0NDYV5z/n37h+Mgs7BgeuVTMvGTJJA+Ro4thpoa0pAf9tPq9b3
-         CXtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787929023; x=1788533823;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rKyTv2j02zbnlF+PSfGKNUB7r5AsnRVQJaAhKBT0UgU=;
-        b=SAT7qspCG/m70x/U3zXakV6iTrdfkjfHUIXhKKLRB49B1x8NuvdhsWGp7UVy58xbGi
-         qX1kedxxv8cIqVU6nuu8BMb3EQ2x1UWetkpzGjlFuNN+NaUluuIZQf2ikzs3oqLekuQk
-         lE1p1xLEQOURKiwnAF7Tb9sSnBvBRnzsHf+baboXp4r/ZYDGZFLAohdUpRAui0OYeyjT
-         /VDMbxFb0LnHFfR4gfNcowZAu2VAFjZmwKa9l5YLFlRA+J8kVDcgU6oGr0WbQ+3w2vt7
-         ifED1E1oZ66ZpqzyY9GUjrmKJi08wqqW/DMchrfH91jFFbU5UhEyOmVoKrNijoNNk8qj
-         SyQQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro5KpQLRpiLoSpRJN56+5sgbcT06skddf9y9MJjJWSJDV5GDfkacAU11crEh7y4crdUoDSI7iZrC8M=@vger.kernel.org
-X-Gm-Message-State: AFuF++lWPXpXz+rupF6HaQfKAKxoHpv7WgraBil+vL4GSHtu86Yo49RM
-	pO4G1lprpg2Px8jD/XKKBYO1At6ESYBmvngg8WKC5GANfqZilMdrpf2JwwALOW2Z396tWDKqsMB
-	+0/h6Kw==
-X-Received: from plbkz13.prod.google.com ([2002:a17:902:f9cd:b0:2ca:ed29:ea82])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:1984:b0:2d8:d4d3:da4f
- with SMTP id d9443c01a7336-2d8d4d3db7dmr6783485ad.19.1787929022578; Fri, 28
- Aug 2026 07:57:02 -0700 (PDT)
-Date: Fri, 28 Aug 2026 07:57:01 -0700
-In-Reply-To: <CAEvNRgG7n6F=dW9V_QqQPDDgLiZ7x08uLDanJgSzerNtN8sqBQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5Abz3QfN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NYriUYG6igXO+YObpj9oe/KQcRi5NVO8grfVw6rYI3vm56wQPnqVxNzUwSXBfciYOhB0l5yUPHxvQVsVnW2xbIbxEvjwEdoRSRt+HjMBDTWlXkLv03jiOGZLshIAB9oLQllJ4Wpor3wcI8LSdl+PEBQ+rqF/JiZPBKa08TDeXtE0SGOfi3UH/pp7DNLyJ8hzZtABJh+X23XThZQPC05UpfKgWUZ+tg/aNSofer4ABw2ZlkoustOjmmFDLYef+/E8axtn5B8/iEafokexYKiOgrBH3Z9H74ok78GP07IkuzuriBwj4pAwbQXn+3kICJtId52sF3e1fVA744R659ebxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BU/sinYNZ0E1P0CNVsEKgqCvoYfyFFTBSuoTJJJCbBU=;
+ b=qCb8H68GgitjXsFbCoagQ2l3tZ6zZUbyZWIK6X5Wyc5r4jwp7Ex/kB4t8LH/J+KZbxu4a7FM2adTWUnbYMqJfCJf8/sR5MGQpMIOR6Nxt2PyOrXZe1ssZFzvfAh+30kV81b5451jrVFtcB+ky1kLsEjHBxEYqb6aXQi9u3zgvJxeIVyqmGG7+a5oiDctHpHV0OPJ0EF79cIMXBikl/OjBJffSGf6g3V5OlpIjkihJtvzwPNzHTYC9NKKezAd3v6M32EajhFZHdlmvmiTYshDzROLffJlpryf+hRHR88DULVjFDvQZDjvI2RbzDE3xVaIK84wOvHc3Ei3dep5CFYJ/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BU/sinYNZ0E1P0CNVsEKgqCvoYfyFFTBSuoTJJJCbBU=;
+ b=5Abz3QfNN6P37qITFuFbB+S4nauq1lmLVh9IkGkuT7YAsu4jbddXwCjHKo3V+ARkVbvoCejHoUJrq2+7JY4gQF+c7mfPtMvQyNU2PDo2UrOxDgY/FtmlRc2D7Kug4oUSO7MDROlPeqYtENHc3SfIn4sBRoWc80u8t3QuUdTlvlI=
+Received: from BN9P221CA0016.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::18)
+ by PH7PR12MB6953.namprd12.prod.outlook.com (2603:10b6:510:1ac::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.7; Fri, 28 Aug
+ 2026 14:59:15 +0000
+Received: from BL02EPF0001A104.namprd05.prod.outlook.com
+ (2603:10b6:408:10a:cafe::92) by BN9P221CA0016.outlook.office365.com
+ (2603:10b6:408:10a::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.11 via Frontend Transport; Fri,
+ 28 Aug 2026 14:59:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BL02EPF0001A104.mail.protection.outlook.com (10.167.241.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.382.8 via Frontend Transport; Fri, 28 Aug 2026 14:59:15 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 28 Aug
+ 2026 09:59:12 -0500
+Received: from xsjtanmays50.xilinx.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.45 via Frontend
+ Transport; Fri, 28 Aug 2026 09:59:12 -0500
+From: Tanmay Shah <tanmay.shah@amd.com>
+To: <andersson@kernel.org>, <mathieu.poirier@linaro.org>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>
+CC: <linux-remoteproc@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Tanmay Shah <tanmay.shah@amd.com>
+Subject: [PATCH v8 1/5] rpmsg: virtio_rpmsg_bus: rename rbufs and sbufs
+Date: Fri, 28 Aug 2026 07:58:48 -0700
+Message-ID: <20260828145853.2843486-2-tanmay.shah@amd.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260828145853.2843486-1-tanmay.shah@amd.com>
+References: <20260828145853.2843486-1-tanmay.shah@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260826-gmem-inplace-conversion-v11-0-0a15d8a799aa@google.com>
- <20260826-gmem-inplace-conversion-v11-15-0a15d8a799aa@google.com>
- <ao9CKMXAX-hScRSa@google.com> <CAEvNRgG7n6F=dW9V_QqQPDDgLiZ7x08uLDanJgSzerNtN8sqBQ@mail.gmail.com>
-Message-ID: <apGhvboNAlExQFsK@google.com>
-Subject: Re: [PATCH v11 15/46] KVM: guest_memfd: Call arch make_shared
- callback for to-shared conversion
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Fuad Tabba <fuad.tabba@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A104:EE_|PH7PR12MB6953:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8419eeda-c2de-4939-af6a-08df0514eddf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|23010399003|36860700016|22082099003|18002099003|11063799006|56012099006|6133799003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	7E7sbMsv1CMHwMRDbHkgPrhCX4lgYrt4PXBYjjG02A2DE1EZiIpGRKXrzGH2FxVh0pV7AshtU4HBXl5F/tV9bHEe+tpreEzX2y1J0E7ylL1n0l/ORwBmGdHfZhe8XbB+4kNY3DMG8Y4Kt/dNMdwKQPJjkVE9MlUgnJTSDu5fvZTR+FY/6UEaghW8Khn9wxKB5omsONgKFii9qw2aukC8Sf76JMCMG3ssmh3LxDXehPfaZCX9xhEJtbPRLbQCdNLjMANl3J+/WKEW9KAvQ+Kdlg13f/OHDczJy4HOuk7A+I7YcymSN5jvvI+sM9hN4oAINd5Mi6QF9TNH03FFFEMUqnOMa/JhjXS4R5gCeB3r3MFvmmffDO2dAmYs/Yn/donUN+jAXz+i5IaASNuuwwW6h9R0MJSR9AcsdLDbXqpeM6E3BHcrLXGg2zJPnqKWZhEk9+feF7puChjrPEito1Tm2yOP5Hd0fWcd208bV20/RNM/DOaRWekBU4KCUjWG0LthI3IjZfsRRq09nGpsqj+AnaIRu+f3D25vDDEQ2ujMjHGneoKs77t7ojPeYO6YxrXL0z59LjAta6o6Lzkdh/Me5cEhvaNJFzNQf+Bpt2imHWmNcESJ2wRRUfyoMh29eWFRq9QROobrE80IuV3CDQx6pil40qnkVPAQoh6ExyD87RC6wUt5fSlp6AxPVH7/+NbJg6OA75v3kG8AGvfq+AdtKQ==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(23010399003)(36860700016)(22082099003)(18002099003)(11063799006)(56012099006)(6133799003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	zz6G3Eabiv0cH1hmjoStf0QTTiUEr2gSp/hBo1DhZWoWmEKkU9lhwFUamO1olnpo4atS4YXnwlUb1mSutRAmbpKJojH4YMkV/5h93UR7jWPUsn05Nns86CKx3j6fy15g+Ax2Fn91H2C6WugY3dpQBgaRLbzsUQIg3FhZx5sGqqL9jBPnS97DQpUu6VBUnM+IwHn/43eCIz3fwt1E6UIJGgD1LIzY+Aliabqz2Cl0T3IzZAmTeZoBaQPzSfneKV+A4eIYIT7AD5B6clGqkrzV2E79Xo/PYycketPdtCZhiVjOm/LY3p6doX2toM7kjkPcL9o/4VFH6QlTZ26p+QtKwwJvDkgIvGYQCm/l46MDU9Pc+maP1aamTHvEQlRQdQKpNCo1YAH381ESvxe4e4c0K6PiULynXenMbdtI/soUoqA5W0DBq2kZuoXrjqMoESB8
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2026 14:59:15.7819
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8419eeda-c2de-4939-af6a-08df0514eddf
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0001A104.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6953
 
-On Thu, Aug 27, 2026, Ackerley Tng wrote:
-> Sean Christopherson <seanjc@google.com> writes:
-> 
-> > On Wed, Aug 26, 2026, Ackerley Tng wrote:
-> >> Omit support for calling the arch hook to make private, since SNP, the only
-> >> implementer of the arch make-private hook today, would actually prefer
-> >> making private only just before faulting memory into the NPTs.
-> >>
-> >> Calling the make-private arch hook would require iterating both bindings
-> >> and the filemap to find the intersection of bindings and allocated
-> >> folios.
-> >
-> > Why would KVM need to iterate over the bindings?  Only the RMP needs to be updated,
-> > whether or not the RMP is currently reachable is irrelevant, no?
-> >
-> > Subsequent calls to kvm_arch_gmem_make_private() from kvm_gmem_get_pfn() would be
-> > superfluous, but that's already possible, e.g. if an NPT mappings is removed for
-> > whatever reason.
-> >
-> 
-> make_private takes a gfn and pfn, so __kvm_gmem_set_attributes() would
-> need to iterate bindings to get gfns and filemap to find folios to get
-> pfns.
+rename variables with clear names.
+%s/rbufs/rx_bufs/
+%s/sbufs/tx_bufs/
+%s/last_sbuf/last_tx_buf/
 
-Oooh, right, unassigned a page in the RMP only needs the PFN, but assigned a page
-needs the ASID and GFN.
+Signed-off-by: Tanmay Shah <tanmay.shah@amd.com>
+---
+ drivers/rpmsg/virtio_rpmsg_bus.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-> > I don't care terribly about how SNP handles this, but I do want accurate reasoning
-> > and justification so that if/when we revisit any of this in the future, we can make
-> > informed decisions.  Because unless I'm missing something, this is an optimization
-> > choice (eager vs. lazy to-private conversions), not a complexity tradeoff, and it's
-> > not clear to me how we decided the lazy approach would provide better performance.
-> >
-> 
-> How's this, to replace the entire commit message? I hope it captures
-> points from this discussion:
-> 
->   When memory in guest_memfd is converted from private to shared, the
->   platform-specific state associated with the guest-private pages must
->   be invalidated or cleaned up.
-> 
->   Iterate over the folios in the affected range and call the
->   kvm_arch_gmem_make_shared() hook for each PFN range. This allows
->   architectures to update hardware metadata or encryption states to
->   transition pages to the shared state, instead of leaving hardware
->   state as private while guest_memfd tracks it as shared. Transitioning
->   hardware state ensures that guest_memfd upholds the guarantee that
->   userspace only maps shared memory.
+diff --git a/drivers/rpmsg/virtio_rpmsg_bus.c b/drivers/rpmsg/virtio_rpmsg_bus.c
+index 1b8bb05924af..55cd65b14f80 100644
+--- a/drivers/rpmsg/virtio_rpmsg_bus.c
++++ b/drivers/rpmsg/virtio_rpmsg_bus.c
+@@ -35,13 +35,13 @@
+  * @vdev:	the virtio device
+  * @rvq:	rx virtqueue
+  * @svq:	tx virtqueue
+- * @rbufs:	kernel address of rx buffers
+- * @sbufs:	kernel address of tx buffers
+- * @num_bufs:	total number of buffers for rx and tx
++ * @rx_bufs:	kernel address of rx buffers
++ * @tx_bufs:	kernel address of tx buffers
++ * @num_bufs:   total number of buffers for rx and tx
+  * @buf_size:   size of one rx or tx buffer
+- * @last_sbuf:	index of last tx buffer used
++ * @last_tx_buf: index of last tx buffer used
+  * @bufs_dma:	dma base addr of the buffers
+- * @tx_lock:	protects svq and sbufs, to allow concurrent senders.
++ * @tx_lock:	protects svq and tx_bufs, to allow concurrent senders.
+  *		sending a message might require waking up a dozing remote
+  *		processor, which involves sleeping, hence the mutex.
+  * @endpoints:	idr of local endpoints, allows fast retrieval
+@@ -55,10 +55,10 @@
+ struct virtproc_info {
+ 	struct virtio_device *vdev;
+ 	struct virtqueue *rvq, *svq;
+-	void *rbufs, *sbufs;
++	void *rx_bufs, *tx_bufs;
+ 	unsigned int num_bufs;
+ 	unsigned int buf_size;
+-	int last_sbuf;
++	int last_tx_buf;
+ 	dma_addr_t bufs_dma;
+ 	struct mutex tx_lock;
+ 	struct idr endpoints;
+@@ -443,8 +443,8 @@ static void *get_a_tx_buf(struct virtproc_info *vrp)
+ 	 * either pick the next unused tx buffer
+ 	 * (half of our buffers are used for sending messages)
+ 	 */
+-	if (vrp->last_sbuf < vrp->num_bufs / 2)
+-		ret = vrp->sbufs + vrp->buf_size * vrp->last_sbuf++;
++	if (vrp->last_tx_buf < vrp->num_bufs / 2)
++		ret = vrp->tx_bufs + vrp->buf_size * vrp->last_tx_buf++;
+ 	/* or recycle a used one */
+ 	else
+ 		ret = virtqueue_get_buf(vrp->svq, &len);
+@@ -634,7 +634,7 @@ static __poll_t virtio_rpmsg_poll(struct rpmsg_endpoint *ept, struct file *filp,
+ 	 *   allocated buffers are used for transmit, hence num_bufs / 2), or,
+ 	 * - we ask the virtqueue if there's a buffer available
+ 	 */
+-	if (vrp->last_sbuf < vrp->num_bufs / 2 ||
++	if (vrp->last_tx_buf < vrp->num_bufs / 2 ||
+ 	    !virtqueue_enable_cb(vrp->svq))
+ 		mask |= EPOLLOUT;
+ 
+@@ -872,15 +872,15 @@ static int rpmsg_probe(struct virtio_device *vdev)
+ 		bufs_va, &vrp->bufs_dma);
+ 
+ 	/* half of the buffers is dedicated for RX */
+-	vrp->rbufs = bufs_va;
++	vrp->rx_bufs = bufs_va;
+ 
+ 	/* and half is dedicated for TX */
+-	vrp->sbufs = bufs_va + total_buf_space / 2;
++	vrp->tx_bufs = bufs_va + total_buf_space / 2;
+ 
+ 	/* set up the receive buffers */
+ 	for (i = 0; i < vrp->num_bufs / 2; i++) {
+ 		struct scatterlist sg;
+-		void *cpu_addr = vrp->rbufs + i * vrp->buf_size;
++		void *cpu_addr = vrp->rx_bufs + i * vrp->buf_size;
+ 
+ 		rpmsg_sg_init(&sg, cpu_addr, vrp->buf_size);
+ 
+@@ -979,7 +979,7 @@ static void rpmsg_remove(struct virtio_device *vdev)
+ 	vdev->config->del_vqs(vrp->vdev);
+ 
+ 	dma_free_coherent(vdev->dev.parent, total_buf_space,
+-			  vrp->rbufs, vrp->bufs_dma);
++			  vrp->rx_bufs, vrp->bufs_dma);
+ 
+ 	kfree(vrp);
+ }
+-- 
+2.43.0
 
-Nit, don't reference functions by name when it's easy-ish to avoid doing so.  And
-don't give a play-by-play: the patch makes it pretty obvious the code is iterating
-over folios, what isn't obvious is *why* the code does that.
-
->   Invoke this helper after indicating to KVM's mmu code that an
->   invalidation is in progress to stop in-flight page faults from
->   succeeding. Calling the invalidation helper also calls the arch
->   invalidate hook. For SNP, this kicks any vCPU with a registered VMSA
->   within the range being converted out of the guest. This ensures that
->   make_shared never fails due to the VMSA page being in-use and is
->   important because if make_shared fails, the RMP table would track the
->   page as private while guest_memfd is unaware and tracks the page as
->   shared.
-
-Exaclty what SNP does isn't relevant.  Or rather, it's but on example of how this
-needs to work.  I.e. the conversion needs to happen within the invalidtion sequence
-because thems the rules for KVM.
-
->   Omit support for calling the arch hook to make private during
->   to-private conversions. Making private lazily at fault time aligns
->   with how it works on other platforms like TDX.
-
-To me, this isn't a valid argument.  We've fully committed to relying on vendor
-specific behavior, and SNP can't truly work like TDX because the underlying
-implementations are so different.
-
->   Furthermore, making pages shared only requires PFNs, which are
->   obtained by iterating folios in the filemap. In contrast, making pages
->   private in the RMP also requires the GFN, which would require
->   iterating bindings to get GFNs and the filemap to get PFNs from
->   allocated folios. Deferring the transition to fault time avoids this
->   additional complexity.
-
-It's not just complexity, it's that the bindings might not even exist.  I.e. for
-all intents and purposes, doing on-demand updates is mandatory, because that's the
-only time a relevant memslot binding is guaranteed to exist.
-
-All in all, this?
-
-   When doing in-place conversion from PRIVATE to SHARED, immediately inform
-   arch code of the conversion for all allocated pages/folios, e.g. so that
-   arch code can put hardware metadata tables in the correct state.  Eagerly
-   updating the table for to SHARED conversions avoids having to implement
-   on-demand updates, e.g. when faulting in host userspace mappings.  Skip
-   the entire flow if the arch doesn't implement conversion callbacks, as
-   getting folios from the filemap is noticeably expensive, especially when
-   converting large chunks of memory.
-
-   Deliberately don't eagerly update the metadata table on conversions from
-   SHARED to PRIVATE, because assigning a page to a VM (versus "returning" it
-   to the host) requires the exact GFN associated with the page, i.e would
-   require walking the memslot bindings.  And because KVM *must* do on-demand
-   metadata updates when getting a PFN for KVM-internal usage, as that's the
-   only time a relevant memslot binding is guaranteed to exist.
-
-   Note!  Inform arch code of the conversion within the protection of the
-   invalidation sequence, to ensure that any existing mappings are dropped
-   before hardware is updated, and to ensure that new mappings can't be
-   established until after the conversion is complete.
