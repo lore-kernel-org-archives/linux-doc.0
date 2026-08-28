@@ -1,145 +1,282 @@
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F2B813959D;
-	Fri, 28 Aug 2026 14:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD153F1047
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 14:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787926551; cv=none; b=D8JzF/NAgAWtGgB7ow0jlNAgQ1jkeM0kelgFDBQkQ7H7bWpIj6NAEbuaaF4c24B+bId9gtlKEWd0q3Qx661pBkNOvLuo8bXQ6KJByWuw6DxdusG2Jv8mx+RR4glAtUoYmxP/pHlK91M2/Wk4oX6VUmugmX6V3BDu1P/fSEyCutM=
+	t=1787928942; cv=none; b=QnthHk7b87K+DCzkKlUMalDC53Bp3cOA/wgs9zvAy6RYi/gZECcy8sO+AAb+zzSEOISHePeRpWLNKN6Zfj1kYSxjTFqX26D3ouvk8vKBF0RdIqnG8c/ywiGskPbfem/cBQf5dgrBMt/gIrRcbjWNdd8lcTLMdNPIhIyI4nHKXQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787926551; c=relaxed/simple;
-	bh=1togXF87+OBuNEJP3KkPLd3eqlmq8mszazMQvvo8Vc0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=ABORP0LxaogSsNSa2Y8BDAas+Qm+1oCW3ArXdo6jhtvdbsjISGv+Fh9vtYCUpKAHKHa1bRJkuuUtkanM7eZHNYrLaQCHcEpmzd0HDJ0Hi8nE2HsLWeMgM/OservE3D0+v6QYTjZe8QfIoJYZi/rOJm+C5tVYxkEMKI3M/OYY19g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.164.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from dzm91$hust.edu.cn ( [58.19.0.248] ) by ajax-webmail-app1
- (Coremail) ; Fri, 28 Aug 2026 22:15:27 +0800 (GMT+08:00)
-Date: Fri, 28 Aug 2026 22:15:27 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5oWV5Yas5Lqu?= <dzm91@hust.edu.cn>
-To: "Yukai Wu" <xiaoyewuz.ruster@gmail.com>
-Cc: "Alex Shi" <alexs@kernel.org>, "Yanteng Si" <si.yanteng@linux.dev>,
-	"Jonathan Corbet" <corbet@lwn.net>, "Paul Walmsley" <pjw@kernel.org>,
-	"Palmer Dabbelt" <palmer@dabbelt.com>,
-	"Albert Ou" <aou@eecs.berkeley.edu>,
-	"Shuah Khan" <skhan@linuxfoundation.org>,
-	"Alexandre Ghiti" <alex@ghiti.fr>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: Update arch/riscv/patch-acceptance.rst
- translation
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2025.3-cmXT6 build
- 20260810(6c94e3b5) Copyright (c) 2002-2026 www.mailtech.cn hust
-In-Reply-To: <20260828061834.3645176-1-xiaoyewuz.Ruster@gmail.com>
-References: <20260828061834.3645176-1-xiaoyewuz.Ruster@gmail.com>
-X-CM-CTRLMSGS: =?B?S1oygjiH6nJ5xwDR7hwMki1N8jM=
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1787928942; c=relaxed/simple;
+	bh=Ov8NVQEXcy9rj5BMzVzmuFiISvUzIKlZ6UGfBO3Adfg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pptpIT8jDMWLI+JhnHB2bMj2JACqr+97QhB0WFCaGnyHadrCidTT1xbMgE1vi0v9lIHFFvgs57Z0az178iWiH7iZPqPAgd3XeCsL0ZH/71o1OdlsIw6DORcwpO84KPrzPGGGfXi65OX9ngx8+h9UFR/maGlWXpoOkwVqaM/tW5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i4+Pyep5; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i4+Pyep5"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47fe2d179e2so616811f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 07:55:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787928939; x=1788533739; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uhQeshPW5Emp15I17NYA78rqWHEcwLTPzJHZpx8OGN8=;
+        b=i4+Pyep5GwmpqGPcSWVkmhCE6jCN2sPVCMcq9Zc7dueCDoLIHZOgp2rtUq+anyRnqM
+         drbueFcuEDuaDNbDQenSj43uwuHNxHdvoSE03W7dwCN1JvSyjZXB5d7YFie1M9WUSvXi
+         Bfo+jnbbTuDPlsJIt1AKlIax+CmSeBQy2yOxxj5dof10EBTFxST374cnCYNgI84VIqn/
+         uF7gLnORiIhLhRkP/xYM+WIkF1/gjMJAuAyPeHTYFMi4305IlEeSQ0B6zFKvVBal6Obp
+         rRCoh2yN8EwZbU9PiWX9dB1AlwZoRkMV4DkDPHJ94frcSrmOOjOpk3bUwfZohGMCj1Rf
+         mkHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787928939; x=1788533739;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=uhQeshPW5Emp15I17NYA78rqWHEcwLTPzJHZpx8OGN8=;
+        b=HAVfdatwK1qnHs/a5QLsjjidDV18c4PFbjdGlsQ7I+VSawSCTiTwEgR70t9TXpWJeU
+         Pbs+KLtlT0cG9nLZwei69DZ15a6iwPfeMYoo34S1delJw8kBAceAiHEd7Q559+WwWxzs
+         zEPM8BhiPgj/bdLBPLFMISQzYl+8bHHeK0S5sHGcN0seLuOnMkdmxtvNHB2Fnytr0jqJ
+         b1jZ1KIHnQXMrxRdCwtHS2cF0G99Xdvi/SI1R0hsfrumkL5lqLfg9awSqoIS4n7mxP4c
+         D6D6DThxnOjsgBhYtN5eOJh0dEko7S1YRkRIvcYJYvkVVYFe0cCWXDWM+SYSDpSi4IEZ
+         ki/Q==
+X-Gm-Message-State: AFuF++lZf6/64MEoPpOonZxZJOnRVNYr9RleqapQ24gLlpVYmQBHZKOd
+	bydCForGk73d8Na8mZxAAREfpqjQ7SFM6BY6VCpOYuSa1CPTWAbgYEo8BfuISFtO
+X-Gm-Gg: AR+sD120+Pef93tuMXL+fj/ebKQ1/QphrBY2ACeflx+EvzsPle0rX1v7ybAX+uc7NjQ
+	0d/H2uGGtol9dEh9IoSzCpsCaeZH0GUL972XYmJjg/3cntzpgqCAX7ggL8UW/l/SDTOUwkf6GfL
+	bSZt164vK6GGEeOn8D8ZGxusiFZyGoWkO67OQfeqMZ4OvvupPXNhthE2fCzeaDk8vLWJuW/EYB2
+	Mh7aZfc+c+Sk6L7dC7izk3ZRn/gTeBW4bkStgHDZLLS1Fvg/v42ei0IOo2ga08oehIkn5As7REM
+	jTbaXVKY7ZFmA+OD34w8a3/DarCoG7doEaBUInrEJJlBSF/2XcTMBSqkGKGNk6XBiu9+f/UoPdL
+	gQ8Q9uq52gJLLJxZgsN0RCDeEo26iXSA55z7M/OQI5uftRxgIMHbcCGupO9UPXq6l1I6zVPvisY
+	0PcV/iZPIRY2XPZSbDHKL5XUeCQHoy566hoyKECPP7avHTLOxgIoRzuES3pwxjcBYa3mpGpyPlX
+	shUA0p6fLGx1Lh2npTYo8RU7dY+yI3EB2026k/3mB9QDU1nHWFjhVHtWvxJBumqA1+eK4dultpK
+	Npm6fw==
+X-Received: by 2002:a05:600c:a03:b0:499:93b3:91ea with SMTP id 5b1f17b1804b1-49b91c5096dmr98741205e9.15.1787928938279;
+        Fri, 28 Aug 2026 07:55:38 -0700 (PDT)
+Received: from 12-castle.cable.virginm.net (sotn-17-b2-v4wan-170624-cust457.vm36.cable.virginm.net. [82.14.17.202])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b94dc0f57sm65801135e9.2.2026.08.28.07.55.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Aug 2026 07:55:37 -0700 (PDT)
+From: Martin Kavasi <martin.kavasi3@gmail.com>
+X-Google-Original-From: Martin Kavasi <1ai1d7wbz@proton.me>
+To: linux-doc@vger.kernel.org
+Cc: Martin Kavasi <1ai1d7wbz@proton.me>
+Subject: [PATCH] docs: hu_HU: add Hungarian translation of howto.rst
+Date: Fri, 28 Aug 2026 15:55:22 +0100
+Message-ID: <20260828145523.126668-1-1ai1d7wbz@proton.me>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <14a7a290.91f.1a048b9be40.Coremail.dzm91@hust.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:IAEQrMD2HAf_l5Fq5acpAA--.6725W
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/1tbiAgQND2qQY2eCzgABs3
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW5Jw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-PiDlj5Hku7bkuro6ICJZdWthaSBXdSIgPHhpYW95ZXd1ei5ydXN0ZXJAZ21haWwuY29tPgo+IOWP
-kemAgeaXtumXtDoyMDI2LTA4LTI4IDE0OjE4OjE2ICjmmJ/mnJ/kupQpCj4g5pS25Lu25Lq6OiAi
-QWxleCBTaGkiIDxhbGV4c0BrZXJuZWwub3JnPiwgIllhbnRlbmcgU2kiIDxzaS55YW50ZW5nQGxp
-bnV4LmRldj4sICJKb25hdGhhbiBDb3JiZXQiIDxjb3JiZXRAbHduLm5ldD4sICJQYXVsIFdhbG1z
-bGV5IiA8cGp3QGtlcm5lbC5vcmc+LCAiUGFsbWVyIERhYmJlbHQiIDxwYWxtZXJAZGFiYmVsdC5j
-b20+LCAiQWxiZXJ0IE91IiA8YW91QGVlY3MuYmVya2VsZXkuZWR1Pgo+IOaKhOmAgTogIkRvbmds
-aWFuZyBNdSIgPGR6bTkxQGh1c3QuZWR1LmNuPiwgIlNodWFoIEtoYW4iIDxza2hhbkBsaW51eGZv
-dW5kYXRpb24ub3JnPiwgIkFsZXhhbmRyZSBHaGl0aSIgPGFsZXhAZ2hpdGkuZnI+LCBsaW51eC1k
-b2NAdmdlci5rZXJuZWwub3JnLCBsaW51eC1yaXNjdkBsaXN0cy5pbmZyYWRlYWQub3JnLCBsaW51
-eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnLCAiWXVrYWkgV3UiIDx4aWFveWV3dXouUnVzdGVyQGdt
-YWlsLmNvbT4KPiDkuLvpopg6IFtQQVRDSF0gZG9jcy96aF9DTjogVXBkYXRlIGFyY2gvcmlzY3Yv
-cGF0Y2gtYWNjZXB0YW5jZS5yc3QgdHJhbnNsYXRpb24KPiAKPiBVcGRhdGUgRG9jdW1lbnRhdGlv
-bi9hcmNoL3Jpc2N2L3BhdGNoLWFjY2VwdGFuY2UucnN0IHRyYW5zbGF0aW9uLgo+IAo+IFVwZGF0
-ZSB0aGUgdHJhbnNsYXRpb24gdGhyb3VnaCBjb21taXQgZWQ4NDNhZTk0N2Y4Cj4gKCJkb2NzOiBt
-b3ZlIHJpc2N2IHVuZGVyIGFyY2giKQo+IAo+IFNpZ25lZC1vZmYtYnk6IFl1a2FpIFd1IDx4aWFv
-eWV3dXouUnVzdGVyQGdtYWlsLmNvbT4KPiAtLS0KPiAgLi4uL3poX0NOL2FyY2gvcmlzY3YvcGF0
-Y2gtYWNjZXB0YW5jZS5yc3QgICAgIHwgNDYgKysrKysrKysrKysrKystLS0tLQo+ICAxIGZpbGUg
-Y2hhbmdlZCwgMzQgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdp
-dCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FyY2gvcmlzY3YvcGF0Y2gtYWNj
-ZXB0YW5jZS5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9hcmNoL3Jpc2N2
-L3BhdGNoLWFjY2VwdGFuY2UucnN0Cj4gaW5kZXggYzhlYjIzMGNhOGVlLi5hNDhlNmU1NzVhNjcg
-MTAwNjQ0Cj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYXJjaC9yaXNj
-di9wYXRjaC1hY2NlcHRhbmNlLnJzdAo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
-L3poX0NOL2FyY2gvcmlzY3YvcGF0Y2gtYWNjZXB0YW5jZS5yc3QKPiBAQCAtMTUsMTkgKzE1LDQx
-IEBAIGFyY2gvcmlzY3Yg5byA5Y+R6ICF57u05oqk5oyH5Y2XCj4gIAo+ICDmpoLov7AKPiAgLS0t
-LQo+IC1SSVNDLVbmjIfku6Tpm4bkvZPns7vnu5PmnoTmmK/lhazlvIDlvIDlj5HnmoTvvJoKPiAr
-UklTQy1WIOaMh+S7pOmbhuS9k+ezu+e7k+aehOaYr+WFrOW8gOW8gOWPkeeahO+8mgo+ICDmraPl
-nKjov5vooYznmoTojYnmoYjlj6/kvpvmiYDmnInkurrmn6XnnIvlkozmtYvor5Xlrp7njrDjgILm
-lrDmqKHlnZfmiJbogIXmianlsZXojYnmoYjlj6/og73kvJrlnKjlvIDlj5Hov4fnqIvkuK3lj5EK
-PiAt55Sf5pu05pS5LS0t5pyJ5pe25Lul5LiN5YW85a6555qE5pa55byP5a+55Lul5YmN55qE6I2J
-5qGI6L+b6KGM5pu05pS544CC6L+Z56eN54G15rS75oCn5Y+v6IO95Lya57uZUklTQy1WIExpbnV4
-Cj4gLee7tOaKpOiAheW4puadpeaMkeaImOOAgkxpbnV45byA5Y+R6L+H56iL5pu05Zac5qyi57uP
-6L+H6Imv5aW95qOA5p+l5ZKM5rWL6K+V55qE5Luj56CB77yM6ICM5LiN5piv6K+V6aqM5Luj56CB
-44CC5oiRCj4gLeS7rOW4jOacm+aOqOW5v+WQjOagt+eahOinhOWImeWIsOWNs+Wwhuiiq+WGheag
-uOWQiOW5tueahFJJU0MtVuebuOWFs+S7o+eggeOAggo+ICvnlJ/mm7TmlLkgLS0tIOacieaXtuS7
-peS4jeWFvOWuueeahOaWueW8j+WvueS7peWJjeeahOiNieahiOi/m+ihjOabtOaUueOAgui/meen
-jeeBtea0u+aAp+WPr+iDveS8mue7mSBSSVNDLVYKPiArTGludXgg57u05oqk6ICF5bim5p2l5oyR
-5oiY44CCTGludXgg57u05oqk6ICF5LiN6LWe5oiQ6aKR57mB55qE5Y+Y5pu077yM5LiUIExpbnV4
-IOW8gOWPkei/h+eoi+abtOWWnOasoue7j+i/hwo+ICvoia/lpb3mo4Dmn6XlkozmtYvor5XnmoTk
-u6PnoIHvvIzogIzkuI3mmK/or5Xpqozku6PnoIHjgILmiJHku6zluIzmnJvmjqjlub/lkIzmoLfn
-moTop4TliJnliLDljbPlsIbooqvlhoXmoLjlkIjlubbnmoQKPiArUklTQy1WIOebuOWFs+S7o+eg
-geOAggo+ICsKPiAr6KGl5LiB6Lef6Liq57O757ufCj4gKy0tLS0tLS0tLS0tLQo+ICsKPiArUklT
-Qy1WIOacieS4gOS4quihpeS4gei3n+i4quezu+e7n+WunuS+i++8jOWPr+S7peWcqOmCo+mHjOaf
-peeci+ihpeS4geeahOeKtuaAge+8mgo+ICsKPiArICBodHRwczovL3BhdGNod29yay5rZXJuZWwu
-b3JnL3Byb2plY3QvbGludXgtcmlzY3YvbGlzdC8KPiArCj4gK+WmguaenOS9oOeahOihpeS4geS4
-jeWcqOm7mOiupOinhuWbvuS4reWHuueOsO+8jOmCo+S5iCBSSVNDLVYg57u05oqk6ICF5b6I5pyJ
-5Y+v6IO95bey6KaB5rGC5L+u5pS577yM5oiW6ICF5biM5pybCj4gK+WwhuWFtuW6lOeUqOWIsOWP
-puS4gOS4quS7o+eggeagkeS4iuOAggo+ICsKPiAr6Ieq5Yqo5YyW5rWB56iL5Lya5Zyo6K+l6KGl
-5LiB6Lef6Liq57O757uf5a6e5L6L5LiK6L+Q6KGM77yM5Zyo5q+P5Liq6KGl5LiB5Yiw6L6+5pe2
-56uL5Yi75a+55YW26L+b6KGM5p6E5bu6L+a1i+ivleOAggo+ICvoh6rliqjljJbmtYHnqIvmoLnm
-ja7ooaXkuIHmmK/lkKbooqvor4bliKvkuLrkv67lpI3vvIzlsIblhbblupTnlKjliLAgUklTQy1W
-IGBmb3ItbmV4dGAg5ZKMIGBmaXhlc2Ag5YiG5pSvCj4gK+W9k+WJjeeahCBIRUFEIOS4iuOAguWm
-guaenOWdh+S4jemAgueUqO+8jOWImeS8muS9v+eUqCBSSVNDLVYgYG1hc3RlcmAg5YiG5pSv44CC
-6KGl5LiB57O75YiX6KKr5bqU55So5Yiw55qE5YW3Cgrov5nlj6Xor53nv7vor5HmnInmraPnoa7m
-gKfpl67popjvvIzor7flj4LogIPlpoLkuIvnv7vor5HvvJoKCuiHquWKqOWMlua1geeoi+S8muag
-ueaNruihpeS4geaYr+WQpuiiq+ivhuWIq+S4uuS/ruWkje+8jOmAieeUqCBSSVNDLVYgYGZvci1u
-ZXh0YCDmiJYgYGZpeGVzYCDliIbmlK8K5b2T5YmN55qEIEhFQUTvvJvoi6XlupTnlKjlpLHotKXv
-vIzliJnkvb/nlKggUklTQy1WIG1hc3RlciDliIbmlK/jgIIKCj4gK+S9k+aPkOS6pOWwhuagh+az
-qOWcqOihpeS4gei3n+i4quezu+e7n+S4iuOAguS7u+S9leajgOafpeacqumAmui/h+eahOihpeS4
-gemAmuW4uOS4jeS8muiiq+W6lOeUqO+8jOW5tuS4lOWcqOWkp+WkmuaVsOaDhQo+ICvlhrXkuIvl
-sIbpnIDopoHph43mlrDmj5DkuqTjgIIKPiAgCj4gIOmZhOWKoOeahOaPkOS6pOajgOafpeWNlQo+
-ICAtLS0tLS0tLS0tLS0tLS0tCj4gLeaIkeS7rOS7heaOpeWPl+ebuOWFs+agh+WHhuW3sue7j+ii
-q1JJU0MtVuWfuumHkeS8muagh+WHhuS4uuKAnOW3suaJueWHhuKAneaIluKAnOW3suWGu+e7k+KA
-neeahOaJqeWxleaIluaooeWdl+eahOihpeS4geOAggo+IC3vvIjlvIDlj5HogIXlvZPnhLblj6/k
-u6Xnu7TmiqToh6rlt7HnmoRMaW51eOWGheaguOagke+8jOWFtuS4reWMheWQq+aJgOmcgOS7o+eg
-geaJqeWxleiNieahiOeahOS7o+eggeOAgu+8iQo+IC0KPiAt5q2k5aSW77yMUklTQy1W6KeE6IyD
-5YWB6K6454ix5aW96ICF5Yib5bu66Ieq5bex55qE6Ieq5a6a5LmJ5omp5bGV44CC6L+Z5Lqb6Ieq
-5a6a5LmJ5ouT5bGV5LiN6ZyA6KaB6YCa6L+HUklTQy1WCj4gLeWfuumHkeS8mueahOS7u+S9leWu
-oeaguOaIluaJueWHhuOAguS4uuS6humBv+WFjeWwhueIseWlveiAheS4gOS6m+eJueWIq+eahFJJ
-U0MtVuaLk+Wxlea3u+WKoOi/m+WGheaguOS7o+eggeW4puadpQo+IC3nmoTnu7TmiqTlpI3mnYLm
-gKflkozlr7nmgKfog73nmoTmvZzlnKjlvbHlk43vvIzmiJHku6zlsIblj6rmjqXlj5dSSVNDLVbl
-n7rph5HkvJrmraPlvI/lhrvnu5PmiJbmibnlh4bnmoTnmoTmianlsZUKPiAt6KGl5LiB44CC77yI
-5byA5Y+R6ICF5b2T54S25Y+v5Lul57u05oqk6Ieq5bex55qETGludXjlhoXmoLjmoJHvvIzlhbbk
-uK3ljIXlkKvku5bku6zmg7PopoHnmoTku7vkvZXoh6rlrprkuYnmianlsZUKPiAt55qE5Luj56CB
-44CC77yJCj4gK+aIkeS7rOS7heaOpeWPl+mSiOWvueaWsOaooeWdl+aIluaJqeWxleeahOihpeS4
-ge+8jOWJjeaPkOaYr+i/meS6m+aooeWdl+aIluaJqeWxleeahOinhOiMg+iiq+WIl+S4uuacquad
-peS4jeWkquWPr+iDveWPkQoK5o6l5Y+XIGlzIG5vdCBhIGdvb2QgdHJhbnNsYXRpb24gZm9yICJj
-b25zaWRlciIKCkRvbmdsaWFuZyBNdQoKPiAr55Sf5LiN5YW85a6555qE5Y+Y5pu044CC5a+55LqO
-5p2l6IeqIFJJU0MtViDln7rph5HkvJrnmoTop4TojIPvvIzov5nmhI/lkbPnnYDigJzlt7Lmibnl
-h4bigJ3miJbigJzlt7Llhrvnu5PigJ3vvIzlr7nkuo4KPiArVUVGSSDorrrlnZvnmoTop4TojIPv
-vIzov5nmhI/lkbPnnYDlt7Llj5HluIPnmoQgRUNS44CC77yI5byA5Y+R6ICF5b2T54S25Y+v5Lul
-57u05oqk6Ieq5bex55qEIExpbnV4IOWGheaguOagke+8jAo+ICvlhbbkuK3ljIXlkKvku5bku6zm
-iYDpnIDnmoTku7vkvZXmianlsZXojYnmoYjnmoTku6PnoIHjgILvvIkKPiArCj4gK+atpOWklu+8
-jFJJU0MtViDop4TojIPlhYHorrjlrp7njrDogIXliJvlu7roh6rlt7HnmoToh6rlrprkuYnmianl
-sZXjgILov5nkupvoh6rlrprkuYnmianlsZXkuI3pnIDopoHpgJrov4cgUklTQy1WCj4gK+WfuumH
-keS8mueahOS7u+S9leWuoeaguOaIluaJueWHhua1geeoi+OAguS4uuS6humBv+WFjeWboOa3u+WK
-oOWunueOsOiAheeJueWumueahCBSSVNDLVYg5omp5bGV5bim5p2l55qE57u05oqk5aSN5p2CCj4g
-K+aAp+WSjOWvueaAp+iDveeahOa9nOWcqOW9seWTje+8jOaIkeS7rOWwhuWPquaOpeWPl+espuWQ
-iOS7peS4i+S7u+S4gOadoeS7tueahOaJqeWxleihpeS4ge+8mgo+ICsKPiArLSDlt7LnlLEgUklT
-Qy1WIOWfuumHkeS8muato+W8j+WGu+e7k+aIluaJueWHhgo+ICstIOW3suaMieeFp+agh+WHhiBM
-aW51eCDmg6/kvovvvIzlnKjlub/ms5vlj6/nlKjnmoTnoazku7bkuK3lrp7njrAKPiArCj4gK++8
-iOWunueOsOiAheW9k+eEtuWPr+S7pee7tOaKpOiHquW3seeahCBMaW51eCDlhoXmoLjmoJHvvIzl
-hbbkuK3ljIXlkKvku5bku6zmiYDpnIDnmoTku7vkvZXoh6rlrprkuYnmianlsZXnmoTku6PnoIHj
-gILvvIkKPiAtLSAKPiAyLjU1LjAKCg==
+Add an initial Hungarian translation of Documentation/process/howto.rst.
+
+Also add the Hungarian documentation translation infrastructure,
+including the hu_HU index and disclaimer, register the translation
+directory in Documentation/translations/index.rst, and add a
+MAINTAINERS entry for Hungarian documentation.
+
+Signed-off-by: Martin Kavasi <1ai1d7wbz@proton.me>
+---
+ Documentation/sphinx/translations.py          |  1 +
+ .../translations/hu_HU/disclaimer-hu.rst      |  8 +++
+ Documentation/translations/hu_HU/index.rst    | 55 +++++++++++++++++
+ .../translations/hu_HU/process/howto.rst      | 61 +++++++++++++++++++
+ Documentation/translations/index.rst          |  1 +
+ MAINTAINERS                                   |  5 ++
+ 6 files changed, 131 insertions(+)
+ create mode 100644 Documentation/translations/hu_HU/disclaimer-hu.rst
+ create mode 100644 Documentation/translations/hu_HU/index.rst
+ create mode 100644 Documentation/translations/hu_HU/process/howto.rst
+
+diff --git a/Documentation/sphinx/translations.py b/Documentation/sphinx/translations.py
+index a03d4402b4f1..feb8b2cf69ef 100644
+--- a/Documentation/sphinx/translations.py
++++ b/Documentation/sphinx/translations.py
+@@ -22,6 +22,7 @@ all_languages = {
+     # Keep the rest sorted alphabetically
+     'zh_CN': 'Chinese (Simplified)',
+     'zh_TW': 'Chinese (Traditional)',
++    'hu_HU': 'Hungarian',
+     'it_IT': 'Italian',
+     'ja_JP': 'Japanese',
+     'ko_KR': 'Korean',
+diff --git a/Documentation/translations/hu_HU/disclaimer-hu.rst b/Documentation/translations/hu_HU/disclaimer-hu.rst
+new file mode 100644
+index 000000000000..c2ad4695a982
+--- /dev/null
++++ b/Documentation/translations/hu_HU/disclaimer-hu.rst
+@@ -0,0 +1,8 @@
++:orphan:
++
++.. warning::
++
++    Ha bármilyen kételye van a fordítás tartalmának pontosságával kapcsolatban,
++    az egyetlen hivatalos dokumentáció az angol nyelvű dokumentáció.
++    Ezen felül alapértelmezés szerint a dokumentumokhoz vezető hivatkozások az angol nyelvű dokumentációra irányíthatók, még akkor is, ha van fordított változata.
++    További információért lásd az indexet.
+diff --git a/Documentation/translations/hu_HU/index.rst b/Documentation/translations/hu_HU/index.rst
+new file mode 100644
+index 000000000000..ca38d20b0ba5
+--- /dev/null
++++ b/Documentation/translations/hu_HU/index.rst
+@@ -0,0 +1,55 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++
++
++======================
++Magyar fordítás
++======================
++.. raw:: latex
++
++    \kerneldocCJKoff
++
++.. _hu_translations_disclaimer:
++
++:maintainer: Martin Kavasi <1ai1d7wbz@proton.me>
++
++Figyelmeztetés
++--------------
++
++
++
++A fordítás célja, hogy megkönnyítse az angoltól eltérő nyelveken történő
++olvasást és megértést. Célja, hogy segítséget nyújtson azoknak, akik nem
++értik az angol nyelvet, vagy bizonytalanok annak értelmezésében. Emellett
++vannak, akik egyszerűen az anyanyelvükön szeretnék olvasni a dokumentációt.
++Kérjük azonban, tartsa szem előtt, hogy az egyetlen hivatalos dokumentáció
++az angol nyelvű dokumentáció: :ref:`linux_doc`.
++
++Nagyon valószínűtlen, hogy a ::ref:`linux_doc` frissítései azonnal
++megjelennek valamennyi fordításban. A fordítások karbantartói és
++közreműködői figyelemmel kísérik a hivatalos dokumentáció változásait, és
++amennyire lehetséges, naprakészen tartják a fordításokat. Emiatt nincs
++garancia arra, hogy egy fordítás mindig naprakész. Ha egy fordításban
++olvasott szöveg nincs összhangban a forráskódban olvasottakkal, kérjük,
++értesítse a fordítás karbantartóját, és ha lehetséges, ellenőrizze az angol
++nyelvű dokumentációt is.
++
++A fordítás nem a hivatalos dokumentáció elágazása, ezért a fordítások
++felhasználói nem találhatnak a hivatalos angol nyelvű dokumentációtól
++eltérő információkat. Bármilyen tartalom hozzáadását, eltávolítását vagy
++frissítését először az angol nyelvű dokumentumokon kell elvégezni.
++Ezt követően, amennyiben lehetséges, ugyanazt a változtatást a fordításokon
++is alkalmazni kell. A fordítások karbantartói csak olyan közreműködéseket
++fogadnak el, amelyek kizárólag fordítással kapcsolatosak (például új
++fordítások, frissítések és javítások).
++
++A fordítások a lehető legpontosabbak próbálnak lenni, azonban egy nyelvet
++nem lehet közvetlenül minden más nyelvre leképezni. Minden nyelvnek megvan
++a saját nyelvtana és kultúrája, ezért egy angol nyelvű kijelentés fordítását
++szükség lehet a célnyelvhez igazítani. Emiatt a fordítások olvasásakor
++előfordulhatnak olyan kisebb eltérések, amelyek ugyanazt az üzenetet más
++formában adják át.
++
++Ha kapcsolatba szeretne lépni a Linux közösségével, de nem érzi magát
++magabiztosnak az angol nyelvű írásban, segítségért fordulhat a fordítás
++karbantartóihoz.
+diff --git a/Documentation/translations/hu_HU/process/howto.rst b/Documentation/translations/hu_HU/process/howto.rst
+new file mode 100644
+index 000000000000..f0d1efa37f9c
+--- /dev/null
++++ b/Documentation/translations/hu_HU/process/howto.rst
+@@ -0,0 +1,61 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _process_howto:
++
++.. include:: ../disclaimer-hu.rst
++
++:Original: :ref:`Documentation/process/howto.rst <process_howto>`
++:Translator: Martin Kavasi <1ai1d7wbz@proton.me>
++
++HOGYAN fejlesszünk Linux-kernelt
++================================
++
++Ez a témával kapcsolatos legátfogóbb dokumentum. Útmutatást ad ahhoz,
++hogyan válhat valaki Linux-kernel fejlesztővé, valamint hogyan sajátíthatja
++el a Linux-kernel fejlesztői közösséggel való együttműködéshez szükséges
++ismereteket. Nem próbálja a kernelprogramozás technikai részleteit
++bemutatni, hanem abban segít, hogy megtaláld a megfelelő kiindulópontot.
++
++Ha a dokumentumban található információk elavulnak, kérjük, küldj javítást
++a fájl karbantartójának, akinek a neve a dokumentum alján található.
++
++
++Bevezetés
++---------
++
++Tehát szeretnéd megtanulni, hogyan válhatsz Linux-kernel fejlesztővé?
++Vagy a vezetőd azt mondta: „Írj egy Linux-illesztőprogramot ehhez az
++eszközhöz.” Ennek a dokumentumnak az a célja, hogy megtanítson mindarra,
++amire ennek eléréséhez szükséged van: bemutatja a követendő folyamatot,
++és tanácsokat ad a közösséggel való együttműködéshez. Megpróbálja azt is
++elmagyarázni, hogy a közösség miért úgy működik, ahogyan működik.
++A kernel többnyire C nyelven íródik, néhány architektúrafüggő része pedig assembly nyelven. A kernel fejlesztéséhez elengedhetetlen a C nyelv alapos ismerete. Az assembly nyelv ismerete — bármely architektúra esetében — nem szükséges, kivéve, ha az adott architektúrához alacsony szintű fejlesztést tervezel.
++
++Bár az alábbi könyvek nem helyettesítik a megfelelő C nyelvű képzést és/vagy a többéves tapasztalatot, referenciaanyagként hasznosak lehetnek:
++
++    "The C Programming Language" — Kernighan és Ritchie [Prentice Hall]
++    "Practical C Programming" — Steve Oualline [O'Reilly]
++    "C: A Reference Manual" — Harbison és Steele [Prentice Hall]
++
++A kernel a GNU C-t és a GNU eszközláncot használja. Bár megfelel az ISO C11 szabványnak, számos olyan kiterjesztést használ, amelyek nem részei a szabványnak. A kernel önálló C-környezetként működik, és nem támaszkodik a szabványos C-könyvtárra, ezért a C szabvány bizonyos részei nem támogatottak.
++
++Tetszőleges long long típusú osztás és lebegőpontos műveletek nem engedélyezettek. Időnként nehéz lehet megérteni, milyen feltételezéseket tesz a kernel az eszközlánccal kapcsolatban, illetve milyen kiterjesztéseket használ. Sajnos ezekhez nincs egyetlen, mindenre kiterjedő referencia. További információért kérjük, tekintsd meg a GCC információs oldalait (info gcc).
++
++Ne feledd, hogy azt próbálod megtanulni, hogyan működj együtt a már
++létező fejlesztői közösséggel. Ez egy sokszínű közösség, amely magas
++elvárásokat támaszt a kódolással, a stílussal és a munkafolyamatokkal
++szemben. Ezek a szabályok és elvárások idővel alakultak ki, annak
++tapasztalatai alapján, hogy mi működik a legjobban egy ilyen nagy és
++földrajzilag szétszórt csapat esetében.
++
++Próbálj meg előre minél többet megtanulni ezekről az elvárásokról, mivel
++jól dokumentáltak; ne várd el, hogy mások alkalmazkodjanak hozzád vagy a
++céged munkamódszereihez.
++
++Jogi kérdések
++
++A Linux kernel forráskódja a GPL licenc alatt kerül kiadásra. Kérjük, tekintsd meg a forrásfa főkönyvtárában található COPYING fájlt. A Linux kernel licencelési szabályait, valamint az SPDX <https://spdx.org/>_ azonosítók forráskódban történő használatát a :ref:`Documentation/process/license-rules.rst <kernel_licensing>` dokumentum ismerteti. Ha további kérdéseid vannak a licenccel kapcsolatban, fordulj ügyvédhez, és ne tedd fel ezeket a Linux kernel levelezőlistáján. A levelezőlisták résztvevői nem ügyvédek, ezért jogi kérdésekben ne hagyatkozz a kijelentéseikre.
++
++A GPL-lel kapcsolatos gyakori kérdésekre és válaszokra vonatkozóan lásd:
++
++https://www.gnu.org/licenses/gpl-faq.html
+diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
+index b6d24f6f17d1..5f85388a83d9 100644
+--- a/Documentation/translations/index.rst
++++ b/Documentation/translations/index.rst
+@@ -14,6 +14,7 @@ Translations
+    ko_KR/index
+    pt_BR/index
+    sp_SP/index
++   hu_HU/index
+ 
+ .. _translations_disclaimer:
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 55b3c2d7a78a..708773408215 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12110,6 +12110,11 @@ F:	mm/hugetlb_vmemmap.c
+ F:	mm/hugetlb_vmemmap.h
+ F:	tools/testing/selftests/cgroup/test_hugetlb_memcg.c
+ 
++HUNGARIAN DOCUMENTATION
++M:	Martin Kavasi <1ai1d7wbz@proton.me>
++S:	Maintained
++F:	Documentation/translations/hu_HU/
++
+ HVA ST MEDIA DRIVER
+ M:	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
+ L:	linux-media@vger.kernel.org
+-- 
+2.55.0
+
