@@ -1,256 +1,178 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022095.outbound.protection.outlook.com [40.107.75.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AB23CFF50;
-	Fri, 28 Aug 2026 10:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787914786; cv=none; b=XERaPFxh78DtCGu2hpxX+yzq5Etu7cq7F8jbOMmlJsz37bikF5+kikiDmwIjeYaVbAiBaIKLSrN387P257a5V+yTq+xObza3UiHCmNspfBrn9Fpfvxs1n1d0xSEhaMo1bOIJT5Bf44TEMeBwJG9rFzTj9eCzTtaLYLAdLXjbVWo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787914786; c=relaxed/simple;
-	bh=sqXgjMnxVwB5jLf9apmcEmcIdXimfaomrH44Eu1+ks4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sQVbHZBJ8M7/z+5CFrTJR1QcfoSiqMuL8Xj6jaA2cX+CQ+P/2Zv3yJRGUqP/10DTPu6/3K3xBFkx6HYjXOc/HWlcCaWFE7aL67qXGdSXvZHDdndemM1YVDFT6V8FR8DOhDjed5QEJvZvNPIUPKzH10AQmI0vF+EyagfRFUJECuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=L9UMjgQj; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8506F43F0AF
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 12:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787919532; cv=fail; b=DUVJKQC2cs5BZNhZR/MqXBSnjkxpXrY8vl+YElc32NTbbMBpnXaYyzYtvUnT8Em7MbQzHH5VANNTX/i7CBaVIDAyd+X5dPETToTPTAAtrqRKIYs9CAURB42B+AE1ruCnlS/jFov/kcVU0IcMS9zRCXfVhdZmpqi+8TM38VG+UGA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787919532; c=relaxed/simple;
+	bh=KpiYUGnuzPtNQCNsMPYNm5eWrGlSKDGlCkkXSqrDHCk=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=ooXsieRD/pXJ4sWCj/rQbiYzLCFmCLmn+OcNDC7tosHv+bL7uEcMaXIR8ihXXSvouCTesIxKRqES1DS4YseNXfeIvl2Xq8vOZ3AFhJ99h9egNF10gMYR4YVUbaDb5a10Qllfe1iTLnQw0Sfd6CqxlID1xnC83aTZ1nUxHn9jWC4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=transsion.com; spf=pass smtp.mailfrom=transsion.com; dkim=pass (1024-bit key) header.d=transsion.com header.i=@transsion.com header.b=n0XLUT19; arc=fail smtp.client-ip=40.107.75.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=transsion.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=transsion.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="L9UMjgQj"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67SAWBmm603811;
-	Fri, 28 Aug 2026 10:59:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=mdNOCG
-	9hVGkZSamZnF5xFjsv+4mSKtbF5oINtJxfMTs=; b=L9UMjgQj8XpI4/Pgm+I/Vy
-	HJbfk3/K/UkwhO4ijUDvufngX9y8vP5EKkP0NABXY3n2i7vvqy+kVg2N9D/Tsx7U
-	tYbnR277mgf3iEQmwpdqH33S5ip5Hx11CHLPZIq/UsSaZFtjSigngn6/VHjVBBQk
-	Au1+GlpnQF0+0w37fVGOdw1GxkleFLa2NX3oxWvx8vjSBB0was5qYwY+S6CKxg4/
-	JabENcgaKU5Iao7ueyevNF8e72SusoKwr/7L2ze7lWmN3/f4/KFH9fYXyYPdgcDt
-	KBLVH8MHXAB49gA0CKViRsYyrQSSmopGbCKqozfu7zdS+V0ecPxu+h467MTWUP6g
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4g726f3ga3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 28 Aug 2026 10:59:23 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67SAfF3w008413;
-	Fri, 28 Aug 2026 10:59:22 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4g7rsynec4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 28 Aug 2026 10:59:22 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67SAxIE938994418
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 28 Aug 2026 10:59:18 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B149820043;
-	Fri, 28 Aug 2026 10:59:18 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 671F120040;
-	Fri, 28 Aug 2026 10:59:10 +0000 (GMT)
-Received: from [9.124.217.98] (unknown [9.124.217.98])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 28 Aug 2026 10:59:10 +0000 (GMT)
-Message-ID: <621386ee-7147-4110-a027-6f2f83b4f1cc@linux.ibm.com>
-Date: Fri, 28 Aug 2026 16:29:09 +0530
+	dkim=pass (1024-bit key) header.d=transsion.com header.i=@transsion.com header.b="n0XLUT19"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KCPezg1FlGYwz/DQ5a/8YtDNnfUB4TxJfL3oebGYpm8G7CiIOsX+sCc911RTNvWB0pt5tKvo1NnZIAyB430QuhkU2uPS8/7IZXK/e2eovPDGiWX+k32BL7nmF/1YfR5p8o8C2dnYjeHSDp//EUlyQ/NvA6CSVPpZi8+QpWg1yz+Z23gNPgtZ3yYDmTj0orRaIcNa1kf7Nb3RHJrxwoGCFpAxvu4/dLHm7+y/Yn1DYjVTIOWhAOFS9J7+q1oooATD7k42uCjM4Fez1ZPhmN89yUjGZCRWpnA1Xnql3sHZElPG0pfMRv8FGQffWW8G9/xQnLs0wIz25c/heRw7ZywRFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D2Dj+Mkg+y0dEovAeJb1Y/XaRXG9R0K3aEXPmJUycdk=;
+ b=ux21FiKYcBzX3iSMesT0ABB4PPG79QMASkgevLyiKpl70mGKM1l0sYh2aGwMSkkK2QRQvpDBp8lO0AmPvRC/ANAR15qBB/YZZ/wpRHOg5In5miD8rw9ookw7YAR4fLGUauU0bz7hDDP7NS2Pt4iefEiwDdr6e8kXnZQstZF/jKxocxGw+BxDRJGQTlXigIql7nXc1DEQFJs3+uodoJUOgXX0J10U1u3sOTMjJm5vSR07zFhuAwBFCKdVhrDemkGsx81yC7QU/qSBeolr+fow3H9uXJYsPDLdx5KwMDBPfgIQnhlpI/GgDuKxLsTFA4TFgJabdSkX6lGY+IejhMv4OQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=transsion.com; dmarc=pass action=none
+ header.from=transsion.com; dkim=pass header.d=transsion.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=transsion.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D2Dj+Mkg+y0dEovAeJb1Y/XaRXG9R0K3aEXPmJUycdk=;
+ b=n0XLUT19bnvAJ3u7+Ro63UxJe8l87lZVNUE5K8ZEcZxpx7BBxGfwtSH9PH6hutFl5CCNPiSLLv8m4zH3nwTVv+djdKiuKlK8zxiFzIY/reBj031u+IQPAqHXQWzAzFIp+G96h7sH9UAhdDz9N5/20g6Hz28UrXZy/W6iyTG7aZU=
+Received: from KL1PR0401MB6611.apcprd04.prod.outlook.com (2603:1096:820:b9::5)
+ by TYSPR04MB8074.apcprd04.prod.outlook.com (2603:1096:405:94::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.10; Fri, 28 Aug
+ 2026 12:18:34 +0000
+Received: from KL1PR0401MB6611.apcprd04.prod.outlook.com
+ ([fe80::4561:48d1:fcf9:e605]) by KL1PR0401MB6611.apcprd04.prod.outlook.com
+ ([fe80::4561:48d1:fcf9:e605%3]) with mapi id 15.21.0360.003; Fri, 28 Aug 2026
+ 12:18:34 +0000
+From: =?iso-2022-jp?B?GyRCTXsyURsoQjEx?= <ke.li11@transsion.com>
+To: "linux-f2fs-devel@lists.sourceforge.net"
+	<linux-f2fs-devel@lists.sourceforge.net>
+CC: "jaegeuk@kernel.org" <jaegeuk@kernel.org>, "chao@kernel.org"
+	<chao@kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	=?iso-2022-jp?B?GyRCTXsyURsoQjEx?= <ke.li11@transsion.com>
+Subject: [PATCH 0/2] f2fs: multi-device expandable storage support
+Thread-Topic: [PATCH 0/2] f2fs: multi-device expandable storage support
+Thread-Index: AQHdNudYDqah2N+7HkmYRojPuL70wQ==
+Date: Fri, 28 Aug 2026 12:18:34 +0000
+Message-ID: <20260828121816.1463654-1-ke.li11@transsion.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=transsion.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: KL1PR0401MB6611:EE_|TYSPR04MB8074:EE_
+x-ms-office365-filtering-correlation-id: 7d211d95-ce7f-4e94-6add-08df04fe7b14
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|42112799006|1800799024|366016|23010399003|376014|10067099003|6133799003|18002099003|11063799006|56012099006|38070700021;
+x-microsoft-antispam-message-info:
+ IrbGZqBIRPmYzdcL7LhV/a/toNVyYZx2IU2pRCXTnmSVlysmwuc8Eohjs/vNdc3TLdVhUH7y3zihgi/Q4h+84LrYwX5d46sytIOB5wppFzctOqAS57iBU7G+O/Agm5iZkvQ9xdQvEzYRPlS1DZTXRuoOAtvZFS9RqjKIsO8QXGnU9fl5GCAub6QOhHe4ybVhSc39OC004RHPpSSHL+2V+JKbqzrXvTUXjtYc58b6B2X4Hqtim30/898mE9j2cTwsUuwnfOap55ucy6Q5BPtTN/cS1zoGg5a5SUvrq6afsAcAeBRq5yo4cqu/mqUAlifiP16Dbgmi8y5bnkW+C8zDnNXERe4xAG3BjqewbRBXhrpyvgkQE9jsRCvZwB4T3IJ8Jlp8UHS+R6neFaEk6Po/EeL1Il4z3u6fY9zJVUudBj+We8zlpTwXgDIYYGSxvQXAEYOwMPNW/4ZkgA9RmC1I/T2YBXGCRvrRaLOnSpttFEvZJBwOYTQzKT8z8GvkylHSlK+TflH+WaTChK3N0gkFJlLouDb6w2sqeUpMY4h68m7ILNaPBjS0iR6X749rOtykiiasIIR1msEo7cMDynqfVunimsas3MQpTvtH+nEUwURHI2Pl/5Hy8CrBi/zfGD5/Ab1AHdGv77YQ/3QH7RobiKf7B5vH2t6s62CYIvNMML6IDzXh2IhV3WO/srX2oCQydlfcll1Pqm0O7btCZ+GR4z7I4tUy8IYZhV1MKBCMlRE=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR0401MB6611.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(42112799006)(1800799024)(366016)(23010399003)(376014)(10067099003)(6133799003)(18002099003)(11063799006)(56012099006)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-2022-jp?B?UEVPYnFsWjY1S0p1a0tVaGo3bnhuaFIxZ200OENheGEyeXdtaitEZjJy?=
+ =?iso-2022-jp?B?RnV3dDE4ZXZWMEN3aHVNN3V5a2lvTmhCSFBDVHZoYzJHZGFSMEZvNDg5?=
+ =?iso-2022-jp?B?NXppNjFwMGhxWDMyV2lMZVJhdEwyeFBJVzU5WTc5ei9sUHVkRXNZbnBJ?=
+ =?iso-2022-jp?B?UGxVT1lKMVVGWUpaZmRaWElaN1kyUmhEMGVFWXgwOVljbFpSSi9vUC8y?=
+ =?iso-2022-jp?B?VnBUMUk2dVQwL2hjckxZQkRXMG5oM2hxQm1EZXR0OEEzbmdDMW1nSFJL?=
+ =?iso-2022-jp?B?ZWJBYzYvY245L2x4U0ttaGRHUjJDa21tTi9UUDc3aTJFOHM3M3JUTHFF?=
+ =?iso-2022-jp?B?cy8xd2FSNE96c0N4dEp6V2R4NUtidDRzUUp4ZkhCRk16dEFnbDJuOExx?=
+ =?iso-2022-jp?B?S3JTaDVOMnVadDFSczBuZE5nTDErNmV3UERiNFNpYkVQcERMT1cxcmRN?=
+ =?iso-2022-jp?B?L1oyc0Vja2hMOHMyQXNseXF0czAxRTNYeGxyK29NSkdiRWo4T3J1L2F5?=
+ =?iso-2022-jp?B?eHZweitqQ3NpMUhkQ3NWbEpjNWtlc016aU92NVRVUmF4STF3bEEvd3Bj?=
+ =?iso-2022-jp?B?a0hQKy9EbkVZczZ4RmRNMVVJZGZ2cXZXTE40eDJreXpmelBHbDRVQWxZ?=
+ =?iso-2022-jp?B?NmY1bGRCT0Z0OVYxRG9qcEI4MmF2ak9DZ2Jhei8zRGNoN2hkdXN0K1BM?=
+ =?iso-2022-jp?B?b0ljVkJNMDdJZDJFakd5M3dVcnE3TTZsd210K0U0ZnRRaXVtZGptMWlE?=
+ =?iso-2022-jp?B?UFl3ODk2ZCtPdGtiUk4veG1HSnNzMmxsVDYrOTRQcTF4b05uRS8yWHRk?=
+ =?iso-2022-jp?B?NU1WSWpqVXNJclBEY0RFU1MvdHFQam53UWc4c1NVbHZYcjJ5MzdFZElo?=
+ =?iso-2022-jp?B?WnF5Wk44QVNTaWUwTVE4NEtadWhxaDR1VEdTek9menczRzcvODZtTFE0?=
+ =?iso-2022-jp?B?UFZya3ZSbkNUM3BWeHpIbS9RUU1SWFdVQjZJWWx6L0hLa0JXTDF1L2tv?=
+ =?iso-2022-jp?B?aDBvVjQ5UGZobEIwOXJGcFcrWmZXOWUvd0dGaVVoNGg0YlBWWERrSFBs?=
+ =?iso-2022-jp?B?ZkRObzBrWWRlYVZKeTdjYTFPYWwwVjJSUTRVcGRNaUFENjkybUVNREtF?=
+ =?iso-2022-jp?B?ZjlRRTYzUjNPckp2eDVuYjMvd0hWOEo4WjV4My96Umk0NFVSYk5HYlJY?=
+ =?iso-2022-jp?B?UWM3RC9JazBQOGQ3NVlSVGFHS3VLa0FtT0ZKeVJxd3hWV1h5UjBWeW53?=
+ =?iso-2022-jp?B?N1FjNFRPd1ppS2JaRGRSTFBXSmF3VzkwWU1ITHUvSWNGVVQrV1FTZnlj?=
+ =?iso-2022-jp?B?a2gweGJ2Y1FFNWxQdkFTQVVmNUovdzNNWjZ6N0R0KzFWN21LaHZoS3du?=
+ =?iso-2022-jp?B?MERwcHJFWExodWNUd3BaK1RCdFc4eFNGSktRcmNoRmdlL29oZFpxZFY4?=
+ =?iso-2022-jp?B?YXFCVTArWWJQMXEweTdwSTQzVGlTSis0OEhTUWt0b2NVYmxoZlRRNEc4?=
+ =?iso-2022-jp?B?Wlpid0dyVUhMekl0ZGhoY25PTitYVGRGVHBUNG9PUUs3UXRkVzlHUXk3?=
+ =?iso-2022-jp?B?aHQvOUkxOE1QLzBrMkJwb2JyaGJqSUtIUkVKTGg3NURtQ3hJSDEzb2hk?=
+ =?iso-2022-jp?B?YThWYzhRMWRENk0rQnZVckwrTUFVTFBEQmNvQ0c0a3N6WUJNSlZGdjNh?=
+ =?iso-2022-jp?B?dVB0WEtMOC9TWG9VeDNXOVRaVGQ3TnBtYXdLNFJlTHB0RzV1aklsbVcw?=
+ =?iso-2022-jp?B?Q01YR1FmLzlxS2doVDJxM0NsS3ZManFBbmNCOUNVa1Zod2NVaW0rRkFj?=
+ =?iso-2022-jp?B?MXZTU2p5WlRvWmtDSkxORWNmSVlYeDVXaWNUTXlST2NueWpsRVhRRHhR?=
+ =?iso-2022-jp?B?eHlDTDRtV0s0N3FuNG50VzRKc2VnVEJXYmxxRXEybzN6Umt5YmZnSm0w?=
+ =?iso-2022-jp?B?Yi9TWnB6U2xId0xYRG96dUhWaHVxU3NPYWdCV2t5MWhaUUh2VXdZdmdN?=
+ =?iso-2022-jp?B?TFlXdy9GUXVlT1I2RC9GZDc0dkJDOFJIb0U0am9pcXRLUTBtUXlIYi92?=
+ =?iso-2022-jp?B?bnAzK3E0a1RzeVZzc0FGYTBJMm9BaS9Bc2NnK0pUOS9tT0xzSFhLU1lP?=
+ =?iso-2022-jp?B?dGRzNXZuMjZ4dTFwZ1FpMll4Mm1Qc0pFSnE4dUlzWDFHeEpBV0hrTFd4?=
+ =?iso-2022-jp?B?T0xLT21ERkJtTlV2RURTRXRYOXNRQ0J4bnlMY1VBalFYdnJvWUZUZ0Nh?=
+ =?iso-2022-jp?B?WjdhZlFXUlJXMDRoRnF0clBENURZbmRHWUF5YmVMaWV2RWxWNU9PMWhp?=
+ =?iso-2022-jp?B?MkRhb0hQeC9QQUlLc2tOdUkzOFhzak9tdXlCZHEzcktEcEhXSUtXRnIx?=
+ =?iso-2022-jp?B?SjdLRUJ0aU5WaWYyZm11K2tWZnRYS2QvQVA3dFVoS0RLOUUxUnUyR3d6?=
+ =?iso-2022-jp?B?VE5vVUlJdnlYOGpMOUhHSFdiVExGcGpRNkN6WFBxNVZOV3ZLM3hCbTBG?=
+ =?iso-2022-jp?B?U3VrRFZoOFdHbTlGdXQ1cDhtdmpsam9rbXZyZz09?=
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 05/12] sched/core: Try to use a preferred CPU in
- is_cpu_allowed
-To: Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, yury.norov@gmail.com, kprateek.nayak@amd.com,
-        iii@linux.ibm.com, corbet@lwn.net, meted@linux.ibm.com,
-        ynorov@nvidia.com, tglx@kernel.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-        huschle@linux.ibm.com, rostedt@goodmis.org, maddy@linux.ibm.com,
-        srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
-        vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
-        pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
-        tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-        rdunlap@infradead.org, kernellwp@gmail.com, linux-doc@vger.kernel.org,
-        jgross@suse.com, virtualization@lists.linux.dev,
-        sunlightlinux@gmail.com
-References: <20260825103855.721013-1-sshegde@linux.ibm.com>
- <20260825103855.721013-6-sshegde@linux.ibm.com>
- <8262d2f9-9f2f-4821-8497-991d7c8448a3@arm.com>
- <CAKfTPtB27-eFXGG9GcXdm4=YLZy6-vQMAQqoCbHa5xZxA3YBpw@mail.gmail.com>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <CAKfTPtB27-eFXGG9GcXdm4=YLZy6-vQMAQqoCbHa5xZxA3YBpw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=TfimcxQh c=1 sm=1 tr=0 ts=6a916a0c cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=7CQSdrXTAAAA:8
- a=VnNF1IyMAAAA:8 a=3M5SV_LQqLPTHtQtqrMA:9 a=QEXdDO2ut3YA:10 a=O8hF6Hzn-FEA:10
- a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI4MDA5MCBTYWx0ZWRfXzbDcEVGCL4JH
- wn5EIiMfIi1tsdHc4qfDlnE660KAf5b5AY3JwjGvgzk0/rnIx/h+lmHGs9QdyoGcWymtsqhM1Bg
- y+1dsYpWKHH4t9GQnovTh8Buc9eyZDU=
-X-Proofpoint-GUID: 7UovIHcq1KSAQeTYkkIgdfqZRowbP1sH
-X-Proofpoint-ORIG-GUID: d84bnssgdydiY2r8BSVpPufsVQRAAWaX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI4MDA5MCBTYWx0ZWRfX1m/DnaIUeYGa
- wG+G9rSol9wfBMSF27GlsO22KKPUmtrCX/Kk0YyLyS78qyRLCyJqWR8bRAE+mdrKQMd50F+q/gI
- f5VKTxKczSIc9zZfMhsMBa59myUigPAmFgC0Gp+n17UH3FJKFYcJ7W65hs5I9T5rZa959DqnJyc
- Yx5oRqNTOjohls5aC10TdWcD6UFuPko+5VXdQ/tr+TV+ER+e8pTyhxL1LFAjucN0M/MNQby3WIz
- dhuxibRnwexZFhJjjDV2pIfeGdiq3A7kuPHinG+pVXk4RgJqNLadUF3yObjCIfdqA8ij3mcy9OC
- +sscL7Ukaz/ENAVfaxpRQyEzrdqYKNnL25kK4CSYqcRJiH9NADX2VgqY0nn7N0S4GxMMFrLi9O6
- qpaO19YLG8px9oEFqrRTXM6tneVS4rjtY2117vm1IVMrMvw4C5P9mWSJGz1LOgbXbXx8i3u1Aqn
- tFLhAIZfkByRbWAAW6Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-28_03,2026-08-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
- lowpriorityscore=0 clxscore=1015 phishscore=0 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608280090
+X-OriginatorOrg: transsion.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: KL1PR0401MB6611.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d211d95-ce7f-4e94-6add-08df04fe7b14
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2026 12:18:34.2934
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 2e8503a6-2d01-4333-8e36-6ab7c8cd7ae2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nZW4c/mJ9c3r6p+D+ZQkN8M6xS5867h5Gu2oDz3CUVNK730dixQaRRR/tBN7ruR1nTrd+LTD5UmtFV7ZWZ51Eg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR04MB8074
 
-Hi Dietmar, Vincent
-
-On 8/28/26 4:08 PM, Vincent Guittot wrote:
-> On Fri, 28 Aug 2026 at 09:51, Dietmar Eggemann <dietmar.eggemann@arm.com> wrote:
->>
->> On 25.08.26 12:38, Shrikanth Hegde wrote:
->>> When possible, try to choose a preferred CPU.
->>>
->>> This is essential to maintain user affinities when preferred
->>> CPUs change. A task pinned on a non-preferred CPU should continue
->>> to run there, since this is a non-user triggered event.
->>>
->>> If a CPU is non-preferred and the task can run on other CPUs which are
->>> currently preferred, then choose a preferred CPU instead.
->>> This is decided by checking if cpus_ptr and cpu_preferred_mask
->>> intersect or not. If yes, then the task has other preferred CPUs.
->>>
->>> The push task mechanism uses a stopper thread which calls
->>> select_fallback_rq() and uses this mechanism to pick a preferred CPU.
->>>
->>> This takes care of the wakeup path for FAIR tasks too.
->>> is_cpu_allowed() is called to ensure wakeups happen on preferred CPUs.
->>> With that, additional checks in available_idle_cpu() are not necessary.
->>>
->>> Ignore the preferred CPU state if a task's affinity is changing and
->>> its new mask no longer includes the CPU it is currently running on.
->>> This ensures migration_cpu_stop() does not abort, preventing the task
->>> from being stranded outside its allowed affinity.
->>>
->>> Account for tasks with architecture-specific CPU masks
->>> (e.g., 32-bit tasks on arm64). For such tasks, explicitly check against
->>> the arch-allowed CPUs to determine if any of the preferred CPUs are
->>> actually valid.
->>>
->>> For the majority of cases, this would still keep select_fallback_rq()
->>> as O(N). cpumask_intersects(), which is O(N), is called only if
->>> !cpu_preferred. The task running there is expected to move out.
->>> Subsequently, it should run on a preferred CPU. This becomes O(N**2)
->>> only for tasks pinned solely to non-preferred CPUs. That is a rare case.
->>>
->>> Overhead is minimal when the CPU is preferred.
->>>
->>> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
->>> ---
->>>   kernel/sched/core.c | 41 +++++++++++++++++++++++++++++++++++++++--
->>>   1 file changed, 39 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
->>> index a45f7c308329..f71317fe281d 100644
->>> --- a/kernel/sched/core.c
->>> +++ b/kernel/sched/core.c
->>> @@ -2494,6 +2494,35 @@ static inline bool rq_has_pinned_tasks(struct rq *rq)
->>>        return rq->nr_pinned;
->>>   }
->>>
->>> +static inline bool task_can_sched_on_preferred(int cpu, struct task_struct *p)
->>> +{
->>> +     const struct cpumask *valid_mask;
->>> +     int i;
->>> +
->>> +     if (cpu_preferred(cpu))
->>> +             return false;
->>> +
->>> +     /* Only FAIR tasks honor preferred CPU state */
->>> +     if (unlikely(p->sched_class != &fair_sched_class))
->>> +             return false;
->>> +
->>> +     /* Ignore preferred state if task affinity is changing */
->>> +     if (unlikely(!cpumask_test_cpu(task_cpu(p), p->cpus_ptr)))
->>> +             return false;
->>> +
->>> +     valid_mask = task_cpu_possible_mask(p);
->>> +     if (likely(valid_mask == cpu_possible_mask))
->>> +             return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
->>> +
->>> +     /* Tasks with arch-specific CPU masks. e.g. 32-bit tasks on arm64. */
->>> +     for_each_cpu_and(i, p->cpus_ptr, cpu_preferred_mask) {
->>> +             if (cpumask_test_cpu(i, valid_mask))
->>> +                     return true;
->>> +     }
->>
->> Looking more into this, there might be a window in 64-32-bit execve()
->> for 32bit EL0 tasks on Arm64 (w/ allow_mismatched_32bit_el0 command line
->> option).
->>
->> The time before arch_setup_new_exec() calls
->> force_compatible_cpus_allowed_ptr() to restrict CPU affinity for those
->> tasks.
->>
->> Let me run more test on this ...
->>
->> Why not simply:
->>
->> - return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
->> + return cpumask_first_and_and(p->cpus_ptr, cpu_preferred_mask,
->> +                              task_cpu_possible_mask(p)) < nr_cpu_ids;
-> 
-> +1
-> This is the best way to check that there is a valid cpu
-> 
->>
-
-Thanks Dietmar, Vincent for checking it further.
-
-It is good to know that there might be a very narrow window.
-The three-way cpumask check you suggested will handle that case safely.
-
-
->> IMHO, you want to know whether there is at least one CPU that belongs to
->> all three CPU masks?
->>
->> [...]
-
-With that task_can_sched_on_preferred essentially becomes this.
-I will put that in v12 and probably send it out after 7.3-rc1 lands.
-
-
-static inline bool task_can_sched_on_preferred(int cpu, struct task_struct *p)
-{
-         if (cpu_preferred(cpu))
-                 return false;
-
-         /* Only FAIR tasks honor preferred CPU state */
-         if (unlikely(p->sched_class != &fair_sched_class))
-                 return false;
-
-         /* Ignore preferred state if task affinity is changing */
-         if (unlikely(!cpumask_test_cpu(task_cpu(p), p->cpus_ptr)))
-                 return false;
-
-         return cpumask_first_and_and(p->cpus_ptr, cpu_preferred_mask,
-                              task_cpu_possible_mask(p)) < nr_cpu_ids;
-}
-
-
-Thanks again for checking and for the suggested code!
+From: "ke.li11" <ke.li11@transsion.com>=0A=
+=0A=
+This series improves multi-device F2FS for expandable storage setups=0A=
+where a secondary block device holds warm/cold data and may be removed=0A=
+after userspace performs a final shrink.=0A=
+=0A=
+Patch 1 adds an alloc_primary mount option.  By default F2FS steers=0A=
+warm/cold allocations to the secondary device via ALLOC_NEXT; this=0A=
+option keeps them on the primary device when required by userspace=0A=
+volume management.=0A=
+=0A=
+Patch 2 extends f2fs_resize_fs() to allow a section-aligned shrink=0A=
+that fully removes the last secondary device.  The on-disk superblock=0A=
+path for that device is cleared before commit so the next mount does=0A=
+not try to open a block device that userspace is deleting.  The=0A=
+in-memory device is detached only after both the superblock update and=0A=
+checkpoint succeed; the path is restored if either step fails.=0A=
+=0A=
+Testing:=0A=
+- Mounted /data as a multi-device F2FS filesystem with a secondary expand=
+=0A=
+  device (device=3Dexp_user_device)=0A=
+- Exercised dynamic resize while the expand volume is attached=0A=
+- Shrunk the filesystem until the entire exp_user_device is removed;=0A=
+  this triggers the drop_last_dev path in f2fs_resize_fs()=0A=
+- Verified remount succeeds after userspace tears down the expand=0A=
+  block device=0A=
+- Mounted with and without alloc_primary and verified allocation behavior=
+=0A=
+=0A=
+Signed-off-by: ke.li11 <ke.li11@transsion.com>=0A=
+=0A=
+ke.li11 (2):=0A=
+  f2fs: add alloc_primary mount option=0A=
+  f2fs: allow f2fs_resize_fs to drop the last secondary device=0A=
+=0A=
+ Documentation/filesystems/f2fs.rst |   3 +=0A=
+ fs/f2fs/f2fs.h                     |   6 ++=0A=
+ fs/f2fs/gc.c                       | 127 +++++++++++++++++++++++++++--=0A=
+ fs/f2fs/super.c                    |  12 +++=0A=
+ 4 files changed, 143 insertions(+), 5 deletions(-)=0A=
+=0A=
+-- =0A=
+2.34.1=0A=
+=0A=
