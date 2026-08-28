@@ -1,95 +1,96 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABDF383C84
-	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 21:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E6B387346
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 21:51:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787953756; cv=pass; b=Of1xjIuSOM+K4fhFn4pJNGDqcMCDIvisul5PrlnTIFnYNST0o343Uhzgek4QuSLjHFU+p0ZNi10fJBS2o3i4CckhNEhaxogu6Qb9ZRgwGI+QetMIx7RlxNHGEj5RurT551i9AdcshrAgQhTDoB0zeq1ufWWelqrNI5E+LmxfjMU=
+	t=1787953871; cv=pass; b=T6KdvYO+dPOt2KFa87/uohnHI0mlX4NJaKUn+4Hc9eTUK0vVNWp9JQxR3CwntNnv6zgtITs+tNeOTSTF12g+fI8YV63sMzMVXXqROWNZ6U1elcOT2lZ2dWNRu8SWx74EpFxChM8UffO84O4r8EAoSshOTIONMrpwjws9Jd2MP9M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787953756; c=relaxed/simple;
-	bh=NS7ILyNRDwIZOyOLSfg3QhGucIcgXedbcky3j8j+fgE=;
+	s=arc-20240116; t=1787953871; c=relaxed/simple;
+	bh=9OK73M8dTXU4RsAbZMeY1j1qUUYmedkbx17xriTUJOs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FIXiSjgLRZ88PT/H738dvDqzEgrYO5r0KMzLk5SkPOWSzqokTXy5F0AP61scc322F0kTKdMidQTJ/3zSMwfKNhFu6LrI/1hhFh7rzKaWu5/XDA0ECwSaJIuYDnyuerlO7bIzpjQeI//EzeGltygTfOJ1JydUcu/Zl879RBZBelE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IIt3FcPu; arc=pass smtp.client-ip=209.85.160.180
+	 To:Cc:Content-Type; b=OHyyt60rCqvkT+1P6JutU1cKhqOJ+loU1upyCq9pm21wY2DvI+JNcYh/3ZGni9fFX5d2YsXNg7ua6cXvnxzqEjrsoS5VsDniLn6X0VEfxWZtnDOdGFktjNCdUcx6/NFvoxP9+ghtyZ8t5etUfqPpwpuIjaqyGUaWfoIRw7J5V1k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nhKOVPVl; arc=pass smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IIt3FcPu"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-52fac937235so33081cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 14:49:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787953754; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nhKOVPVl"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-51c10e86e52so38281cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 14:51:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787953868; cv=none;
         d=google.com; s=arc-20260327;
-        b=K6gSduioeBSudMJxMJ08nS49le4nXLwKVJ2pbQlmV4WmReTs9dDhM8JvU9XXAMOFRY
-         moyZ4AnbNn+HNhUb9+AEpb8vJTeWPX2XpcXOfcO72PeflqqWSDhLTTNXjwhLI5IeULv5
-         FKyWAESq2vQFiyfNloxVSB90haBuU/A0VhEhwrDBQfs3GGJ+4FndlUbi457Hd0OQrDcA
-         Mya7r0H2w1W7f8qJSPiGxu9NuBQDGp8XX5fpdlTlu3KMha/2LyYdDRFPk6xU5CWhO3/E
-         FysbJMmjmwaN6NZdbLIBckdrHXUW/rasyITz5tc8Ezxluq/eZ563voEzeKrvFFtni8Bq
-         3Owg==
+        b=Tzce5Knl7w3Y5edRJwMx69oFsf5lcgiGdD4nyq30gH4mB+h/MKidaqSD1snUuZ1bKy
+         sg0/wXOA94AO9OWGqBApR1G7HY+0pgcd6awSG9Z9DFcNLDoHkfNJ6rmbNw3/wsCSPTow
+         zQcWQ35Bf5wXNe492MWQHSQRhF/9W1Vxvy2IEAQkrnvLBZRtqnBh3faX8wC1L07SBDuH
+         vE0IScKjyVa8iS2krpJY+RD9K9jOGepqzkkr3bCq0coCftCdPuXfpjPgPW4nv+kw+HzU
+         /3fV1zkBuWB7WGsMo6LFCnUUtgxIoVn7v6R3301hmo2Q6TqNufUtqF47SrrrhFQ/cc2I
+         dNqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=NS7ILyNRDwIZOyOLSfg3QhGucIcgXedbcky3j8j+fgE=;
-        fh=XXsSp8Ax95mzoij4VmY1IrrPOJDyulajp7n1Bmgk47c=;
-        b=G7s0BfYxuk1Xn+/f15BbsR0n7eOl357hxZPhYE16FxHplqCVbW2hXWyGLisJymLS34
-         NWSOHEd8pEceb3cKgYwP/8TGNjADbcxKafX1bniMj9UrkJk1nqGUmqrN6fFcDoNaJjjf
-         TeqAkNA08y0vVFicoYwdty4jIAcFnkxPlR7CqpLWkd6HoODCWUa92yWvC2BsqOThsDB6
-         P43bj/p8HINli7yD5EsOmA2r8kxhAVl7iSrA+xRfIFca/nbKEHyhFvm/lsO7C1lcWp4t
-         229ZRY5UDYyeAvw0XGouehJdqGEX68zqlb0VrKGEiiSpR951nwuSLlXwlc9GS3GhqP+q
-         LNog==;
+        bh=9OK73M8dTXU4RsAbZMeY1j1qUUYmedkbx17xriTUJOs=;
+        fh=DTnQ4O7JnU7BNPti0Lv33ZX7mojRs2fiE7moUJxogmY=;
+        b=Hu7ZtBHmYKs++1gBKlan41E60gGdZnn6Pckf5Ot4zTvrcizBbgXUonV9MOxr+QT3wy
+         aJHK3Ipq225hXFJhzqrkmAG9atTdsB60YvlpifL0nAFGDb5pRqBY89wab9w1oRc96r9y
+         0Mr2vxLCqUpZVRvPLwNFaj18JHa8jExhlQ20UHWHIEi71zHtV6B2FLCexzfRrMIjSsat
+         06x8FV1omVNGVilSBHFz3wYZ3Llbv+FSsAWkQCGfFhY+aMRIJPVAKs4WeGOajreqBeB8
+         vfr7QntZqWZ+Iz3NG6T0iZ9F/AbAu1m8z0GSMbMKj4hhXkmc8YybNFTnNAaP81pjH+EA
+         WOsA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787953754; x=1788558554; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1787953868; x=1788558668; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=NS7ILyNRDwIZOyOLSfg3QhGucIcgXedbcky3j8j+fgE=;
-        b=IIt3FcPu4gwqfcq0f43QVaw7Dy4mof+meN2gRiV/1YL/6T6vUBCh8TtVKISBYcGVnf
-         zIwHvuK6O38b70jcy3+QkDyZJgBVazXbOzxrX2OoA+jly3OM3tXP5DFpl4vPpuaKinLs
-         iPEoUV92oh1OIGegntnS/8TELhCiXr0Fx8pp90rbAXE5v2S9Vjx+8QQrC+xrV7IxB4hh
-         Mrj7NM8KEv+p95oZ5eAkHq/poNVcTw5curLEsp+YK9dcO75taU++qfXBWM0KGYQoZwXZ
-         oAw8wV2Xb4ssZXg2Vu9nFGX8vwbFrHd3Dp+X4gRtr7BHMp6KB+jFbV8LhS2nyd7tw8X6
-         wf1Q==
+        bh=9OK73M8dTXU4RsAbZMeY1j1qUUYmedkbx17xriTUJOs=;
+        b=nhKOVPVlHx3BL3zTJSE38tj1HxbGb9p/Dd/ezT5gohNcrlV4+MewHI4HjyFjtULxTK
+         KUd073gbcfGu3nX/a2NSojjM7jK1fxrta3py/ebC0mVuP6oaNc17uAgIHGvwvePPq87D
+         SShO8vGriWlJ9ZFo2W0PTLSKTWeDEha9jLkbvHIpWyYsGBXU9XBFPwaBAiPZbrTOGdJl
+         YGpVRcrUVg/iAsL7HmF0RL/ONdS7y+5X2OxHbuB97TTqQTFCmKpEYStDmLVm2yjZqEvn
+         UBwLIAAt+hIhj9YMl6J/e4f91bdeGqdHJV0VBzYP1LEHiFzJCrxlVNa7diWHw3aQCywb
+         tEpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787953754; x=1788558554;
+        d=1e100.net; s=20251104; t=1787953868; x=1788558668;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=NS7ILyNRDwIZOyOLSfg3QhGucIcgXedbcky3j8j+fgE=;
-        b=aR6bp6Sh2HzUFAR4ZvXLw+N3FDR28nlKkjXZaFng1z7u0nHS/z+O6tIcWgtHHmGufc
-         MfdkwmrMi8TeO3s0J3vBNIxeQuJ06vkk8nxuofSAgYR+PKf2xMTFDjKAfhhFVBhjNIW0
-         t+iS4bJiJ2vLFuYdlpk09gmsXtgCJP5rJx8g7/+VPDJOotp9TR1LCM5tpvcQbA+XHadX
-         57t2AUilr7ziNd1y8ciFCGC43QAiziJhGDWsFsjeWRdo8eBPGku+1eWYXn+Q+Bc374Nc
-         fh+JDd6d97XvYhcnzZWRLqdNV5ql+oQGLnyaUEu1TY1o7qwafSgWVzLuMH1u7oweihpQ
-         j+ug==
-X-Forwarded-Encrypted: i=1; AHgh+RqEBYZuElE+flBciu4pifYr7a+8ab9S0pCRkiDjMWHgWsgj3zVgY0YV0BEqRHMyJI+gnogdZ8bnTuc=@vger.kernel.org
-X-Gm-Message-State: AFuF++kblbFT8DEp+dVnRm4xRWwsB6KTN58QBt8YMopoUBeUsT4jIHrm
-	ZbxAhO2dMwLyAqlluJQBua20AafTGdg7ATpSOMjURqoMtvQyroxFOka4Kgv7Qv95KSua25EUpHk
-	BjZagGbaYi8VjWbDgyR5g1gio5sWdOLRc/frCz92c
-X-Gm-Gg: AR+sD13iexluwLI3OtxKYXaWbzXKEYFwzuY1CYdmDWa7VBrSHUv7X3owzyiEoNDbB8L
-	0GiBrTPbFEnYpVX/y+rHuVtkgheZ92Cx2f+8fiCMv1HsGL5gkEySQhOVb3XShPxGNIUFcNYosIP
-	7IHLcyPd6SirxsDvT6MYuLB6sVTDt1q1xZO3q2XPoBsE5QlnZa3PLy8YdNJGwA9SOj086Cb/6QG
-	9H3LR3O4NJHl5DR1WvyfcJnexx6TNA31SDhH+hA48hLm1x7IwkkEUdJswM8rTDufcuXCAYkHuCF
-	bnMws9L71ZEE86RE8M5y9zUQ85oAa4e86Yzw9T1jPY+/mxsrfvBK7QVLzn1nZGscRcsza8w19pg
+        bh=9OK73M8dTXU4RsAbZMeY1j1qUUYmedkbx17xriTUJOs=;
+        b=j4j9orq97yoVe2IS6xlOAaisvzG9TYWqUmkgAguVMNq49LkBNLAoEWiiIg8TVRa4pO
+         eZYpg2cGJ1oUK0AP+UZdR73ZPJ4xHoIiW3GETbkdIMCLUz0h7cLVy20ThJV1opYvrM8h
+         WqrDMpdQEPpXutjE9TNOhlf+0pbzW/ypbBzD/nQKSjnucsnmqeL3xYHHd9aSlaMrBZIf
+         QGvByB6nomd7oSRnfQIckG8wmHnD4SNlDPjdzPQfuI2uN+qlOnoONxFw+VOtLrVQnYzb
+         jOWaczY+14QXX+sJEIaG3fI6ESqilxmvLUK3pUvTKo4TVXcHodiXtovOaMiCxHaD0vNf
+         xmLw==
+X-Forwarded-Encrypted: i=1; AHgh+RonALhUSgR/4xzV9V7TDXS1Okng134SIin86pe5xVnv9R74ZlJb+MPBtrb2yWsXl1MROyyztyhieGU=@vger.kernel.org
+X-Gm-Message-State: AFuF++mw/KE8f8VCFs+OFDyzXrmg9DW/yfIhKCudTzaQtRMvHqEeWLpy
+	d1l6npL1Z8sjxM/90Otf2ttQLfq1IaekAPrJrY/xsWiwzjroN4YELEA29QPv1x8VKP3tQ0zQ3Nu
+	ewit2/ffboHihlRt1KQPsxZT22LYuxL7KvBAkXSh4
+X-Gm-Gg: AR+sD12Qk/oA8hXdM1tiMFMdBFGA1NGuUVKOp6HdyOvQYV0bZSET6i/NNP1iUKm8XGJ
+	RVGgcQFRMX34t6Vb1xrCukGDQKi1VEDscJ9nrHMJ596eI65Ih/QkM0lUyD6Ccgd8B73om64Tf6u
+	vyILec3KRX80JSm+XK8Lg5y1wdMCkQXzoOviUv5srDFkbrd41/iBpdu2Ul4Q1Q7dtlVcG2Xyok4
+	1VafxDmNi/2HpxEhbgxKFjCviGfp0XVy3mBmwhnWb/8E3xMJ/kxCxP2E8m7VvKLJ/TvoYcRlo91
+	uR1RTIGDuGRmLTgBItOCEl1zbwsVfZIHGqlaJsevC0diSBBGA698HFS29bzng41je/GeEi2qVKs
 	=
-X-Received: by 2002:a05:622a:598e:b0:52d:7a3c:8396 with SMTP id
- d75a77b69052e-52ff6f30c8emr5308471cf.2.1787953753102; Fri, 28 Aug 2026
- 14:49:13 -0700 (PDT)
+X-Received: by 2002:a05:622a:c18:b0:51c:ae6:a57 with SMTP id
+ d75a77b69052e-52ff715be0cmr4613111cf.11.1787953867807; Fri, 28 Aug 2026
+ 14:51:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260806020850.1221381-1-rick.p.edgecombe@intel.com> <20260806020850.1221381-6-rick.p.edgecombe@intel.com>
-In-Reply-To: <20260806020850.1221381-6-rick.p.edgecombe@intel.com>
+References: <20260806020850.1221381-1-rick.p.edgecombe@intel.com> <20260806020850.1221381-7-rick.p.edgecombe@intel.com>
+In-Reply-To: <20260806020850.1221381-7-rick.p.edgecombe@intel.com>
 From: Vishal Annapurve <vannapurve@google.com>
-Date: Fri, 28 Aug 2026 14:49:02 -0700
-X-Gm-Features: AcwNN1WQxsNINsmJYKS21-W-S3NINHdKdRHcQQhWHhl_kYf3xtibaEfoC6rNsbM
-Message-ID: <CAGtprH8Rax32PfiCk54aY_SUPkpfCKYdK5ZKaWJ5-Y8vtFSPng@mail.gmail.com>
-Subject: Re: [PATCH v9 05/11] x86/virt/tdx: Handle multiple callers in tdx_pamt_get/put()
+Date: Fri, 28 Aug 2026 14:50:56 -0700
+X-Gm-Features: AcwNN1WH8NGHkZoUiv8RzQRpWDdLlBSrkCbScz0MXSyRTt5NyzGO5osqGDfsOxU
+Message-ID: <CAGtprH_6-KDfDbtZCq+F+2_Qzu7+Wkc_2ukJRniWTgVkNvyVqA@mail.gmail.com>
+Subject: Re: [PATCH v9 06/11] KVM: TDX: Allocate PAMT memory for TD and vCPU
+ control structures
 To: Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org, 
 	kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org, 
@@ -106,37 +107,37 @@ On Wed, Aug 5, 2026 at 7:09=E2=80=AFPM Rick Edgecombe
 >
 > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 >
-> tdx_pamt_get()/tdx_pamt_put() unconditionally add or remove Dynamic PAMT
-> backing for the 2MB region covering the passed page. However, multiple
-> callers can add or remove 4KB pages that fall within the same 2MB region
-> and in that scenario only a single PAMT entry is required.
+> Use control page helpers for allocating and freeing TD control structures=
+,
+> such that these operations can work for Dynamic PAMT.
 >
-> Make the helpers handle only adding/removing Dynamic PAMT backing when
-> required, by refcounting each 2MB range. Gate the actual Dynamic PAMT add
-> and remove on refcount transitions (0->1 and 1->0). Serialize the refcoun=
-t
-> check and SEAMCALL with a global spinlock so the read-decide-act sequence
-> is atomic. This also avoids TDX module BUSY errors, as the Dynamic PAMT a=
-dd
-> and remove SEAMCALLs take internal TDX module locks for the 2MB ranges of
-> the specified PFN and the PAMT page pair PFNs. So simultaneous attempts o=
-n
-> the same 2MB ranges of the PFNs would otherwise encounter an error, which
-> would not be handleable in the put case.
+> The TDX module tracks some state for each page of physical memory that it
+> might use. It calls this state the PAMT. It includes separate state for
+> each page size a physical page could be utilized at within the TDX module
+> (1GB, 2MB, 4KB). In Dynamic PAMT, only the 4KB page size state is
+> allocated dynamically. So the kernel must ensure PAMT backing is installe=
+d
+> for any 4KB page being gifted to the TDX module, and must tear down the
+> backing when all associated gifted pages are reclaimed.
 >
-> The lock is global and heavyweight. Use simple conditional logic to keep
-> correctness obvious. This will be optimized in a later change.
+> TD scoped control pages (TDR, TDCS) and vCPU scoped control pages (TDVPR,
+> TDCX) are all handed to the TDX module at 4KB page size and are therefore
+> subject to this requirement. Replace the raw alloc_page()/__free_page()
+> calls for these pages with tdx_alloc/free_control_page().
 >
-> The pamt_refcounts[] are atomic_t's. They do not strictly need to be
-> because all access is protected by pamt_lock. The overhead of an atomic_t
-> in this situation is minuscule compared to the global lock. Leave the
-> atomic_t in place to enable future optimization with minimal churn.
+> Switching between special Dynamic PAMT operations or normal page
+> alloc/free operations is handled internally in
+> tdx_alloc/free_control_page(). So don't check for Dynamic PAMT around the=
+se
+> calls. Just call them unconditionally. Similarly, drop the NULL checks
+> before freeing, as tdx_free_control_page() handles NULL internally.
 >
-> AI was used under supervision to collect/apply feedback, split patches,
-> review code and workshop logs.
+> No functional change intended when Dynamic PAMT is not in use.
 >
 > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> [sean: handle alloc+free+reclaim in one patch]
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> [rick: enhance log, reviewing, rebase, with help from AI tooling]
 > Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 > Tested-by: Hongyu Ning <hongyu.ning@linux.intel.com>
 > Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
@@ -145,5 +146,6 @@ n
 > Reviewed-by: Tony Lindgren <tony.lindgren@linux.intel.com>
 > Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
 > Acked-by: Sohil Mehta <sohil.mehta@intel.com>
+> Acked-by: Sean Christopherson <seanjc@google.com>
 
 Reviewed-by: Vishal Annapurve <vannapurve@google.com>
