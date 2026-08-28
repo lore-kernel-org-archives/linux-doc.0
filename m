@@ -1,210 +1,159 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-pz2-f8.google.com (mail-pz2-f8.google.com [74.125.228.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECC43B058E
-	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 04:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787890801; cv=pass; b=C0J8amtUTLJvTYRxHmb+XNvOWPpajFrZn2P+NkpiQIHm9t7EjM7rIB3AS1XSTXSs8D7cpIDpodho9cO4MbwB/qV1EhvvFf1W1fEAmKWWKBtzlK45IZYsqlHSnbPTe+Y077pgSHMDoBiMfD2P862t8eQN441B4iwR//a0wsuwNGs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787890801; c=relaxed/simple;
-	bh=mTQhz7RgMxAC3d9Zq6Msa7p3Wk1sBx7SdhDb5OizNys=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n/4euj5Zv7UOsXIOOoJPZCWOeUjSb0EyPO7b4Tdh3xwSDZBB1Rj5122tL102eGASTFLxZXOI1yQpu8PI50VAt5BQ5eyGKqQWYW/whN/ki4s+PYjFCMw5ulnG4bL/dIZeD12mcgdaGsu4khUQVr/Q018H4M1SPD9287kWNMl7/Ss=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=srbbmPsk; arc=pass smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2428394797
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 06:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.8
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787897948; cv=none; b=dJ4L4eQq6CWUkQEsDZH70JlUlC26CdrBaegWkaF55DS1JzAP6gkk4MnXqezRpI2SDq2NtWNl1m9svfzIlLqU1rupd/HSvQwdH6kaVbRcixzthWqvDTeAUQF15VkPZE6zcRq061rDxCbL2CeJu3N9RboHId4GnzkjqfOLQZ4wS8I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787897948; c=relaxed/simple;
+	bh=HLmGXqe+ySXj53VWZvBA3TFv2XIHPD1xjPC0ensRO9k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cTuEh2enMOnKM7qSYkvGvC2SGZoe0mLEYxB2yqJ6U6L+sBMmfaVvWp4ZCfDaTWnK4Jyyf7JDUzOvfEwFrTPeevH+clGlM1A7Ax7hkz44kk8c9NEhed2A4Sh92bmhhOE6HKBjaRBHrf+cYMlq06k6kiTh0GJETEFQIc19mQePp/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TC4wowvW; arc=none smtp.client-ip=74.125.228.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="srbbmPsk"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-90cc0ebbf4bso2181316d6.3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 21:19:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787890799; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nNjc7nZSV7/iLUSRoUVXr8W26lPsUrPqq/HxJ1KnJLvEqHovhw7nseIR3NoZPWDqQN
-         pjd3012JimDRWZksXfmUnm3T+wu4sYFufrfqHEsT20eDEsFHTyDIBU8T8wczex+vHmOt
-         /skP42wTHhbiv1pl8Kc7MAmkmUR8g+khDJWkrHUWluI35gK8kqmr1ELnXCpKmlwqiFmw
-         6WxSr7Vnda0cPjrdZbgh2Ubod8XMAV0ZNbzbP4QyrVS+s4O5tBYX7GqP1wnaG7xECxKA
-         NReZUBZEqwlg21wEGRHzM7PVq/h8CVAZj/ogmqmjVSE8vXWGvFtmnIoPRE1zrigWlk3l
-         QX9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=QCDy9v0wvCJe6b4tDkyj5x2hkmiUIAeHKOf5Q690ANY=;
-        fh=byqkBlJDi9HTEnwPF0CPaCHZYcO2qwyYgCdaDcqTnjk=;
-        b=MVSA4q0C2Orx95gnqJi0a/MB2nVh8EynGPc0TKxEs3aAD1Hg+bY65lpkq64UnQGPTP
-         puTzAQ6q3wR01DBJltadOLngm9w6WKa0k31vKjVanAVTsAnI0H0VqBE92m1+GygmFOga
-         uXYRkX68beTXcAxjYUc7wUHkqAdNAXtTrUfQL/lZCpqjn5sovRQwRoeWSmaIhQiiEEnu
-         WqAiUg4o/f9GtdMUgDXw+fDqt9FN4ss5+B4GSuXyCL/Od1vgvnSC1nQ4JdmPq5TleN60
-         +qwqHCi+FTyx9knH0FWkNt0+oKL9qp0ZB9MpQDOjyGBpeo13VpZJx/Gafsm4Kae4zdkJ
-         Iwww==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TC4wowvW"
+Received: by mail-pz2-f8.google.com with SMTP id 41be03b00d2f7-cc1d7f6f26aso321891a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 23:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787890799; x=1788495599; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1787897946; x=1788502746; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QCDy9v0wvCJe6b4tDkyj5x2hkmiUIAeHKOf5Q690ANY=;
-        b=srbbmPskM51SfvHLy1ZZPy5wqi5pSxCobpWjCsAtf9kdwbwev+Xzpwi6U163DrfKMz
-         EGxcCb5XQX1Dianl/W2/dd91aW7aDdhaaeW6C8RGa3DJvQheicg39H1I9M0yGft6epVx
-         FMBQBfmBQWhd90GZWLA3cHE/1c7j4RKng7E1q8OgfxXonFab78oK+/zUg+OUfTz2iGCh
-         0XFkoUpzu2K975n1NolP8Xjrf06b0xWylV6V8L1LhpKm9+eGjTAApjskU/A7gWYqKZUw
-         uJnA5IVLt2Zjr2ly63TJrSO56jUWMlZt9SDTZmk8Nqb8eN3+n8XkqQ3vw168TbyBaGNE
-         NMog==
+        bh=PfXDbSO38Ptv6nH8Zob9j+EEhcpNi44GPPmIo9LLCpU=;
+        b=TC4wowvW69Ahcu2+B1E5UkmhDs3vlLXD4M1ivnwz/jMaOLteHeEY+YHRZn9WiTxEco
+         j5iQd2fLxTa07XzI7WacjxZ7Vh5nrGaSXbU7M0syOgQ5RIK0Lqt1KFi84iMlz0otU7iB
+         KuU8RL74WhxLBBztP6m9xpmaVj1Z5FcpykG/0kBFctssDpwmJBDWyKzHVOnrpaSrBLwa
+         VZQuTP/iUCLwK5qzUtp0nv+XOiMlIZwxCllimZxDYwdJrTDVS1HUSY/r7HPJCv6dWPOi
+         j4tVXWzR3VnYs3DhfoaYE6awnmzmSnRWQGqfhlXqLIb0tn2tqVWKauj97xpbZ8k/1g2S
+         y/0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787890799; x=1788495599;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QCDy9v0wvCJe6b4tDkyj5x2hkmiUIAeHKOf5Q690ANY=;
-        b=caVM8EcgYHLg35a19L2fFoq3wKvMXfP6QNJyiAq9JweQpjynDHE11DfRv2TJdFMkgW
-         R2nnXRn8FoRoYFXVCIb2rn5pvMYUIuv+qPSlr1tLiD/nvlNkATcb/yv6iAHGFWEwT2O6
-         2OKTYCeH8yAV39U9kWvPzWMWeFLNiGvYL5f0SlBcolvg38fDxGEFzL73DLUq+TblWh3o
-         va1ejCk29b/Q2FhiJOX0DELWbo1wj6DczjXy3xE+hJx3fLdHqbbNyt0J9/cy9ohKkiFX
-         TgyMCN+1e6fZhZIGqO78S8ZS1wbzc+iqDnJreckvdd5CDC3yiGXES6ucZ4WEX+wBWEdX
-         g6LQ==
-X-Forwarded-Encrypted: i=1; AHgh+RommPhuj0wQQyBMaxcp6kNyfqRzx8yTV5iChYSdYVvfKkr4No4e5tPOrdWP5E1YDgODPsQIYUzecjw=@vger.kernel.org
-X-Gm-Message-State: AFuF++luzv5CtCSZMlgT0o3Ds9GKUXq705zxA/9ixXXaDUz3r6WlkXca
-	VFDbd1Qeo0ZtZkYz+/1vTtQaVYkyh8Ewj1DGinHg++kAAoWSUwyoQwBP8ptTLIALR59I3OLnTuS
-	zE6pQO9susjhUueK5581wQcmshWk3KDPKUZC8F/Ob
-X-Gm-Gg: AR+sD11Z03V8/xrUfk2XDH7i0SNtpDOWdM70l03Ap08KsODCDjhWUFEXiAcieNCpObY
-	PQdef25P7RU8KmcGa+1dA3jWNDOqcdI+3NKN0ggusGdb4Hl6xpnJciDEYT+jUNYOmuHP+mRftv6
-	6l5up9+iHlyYeODjqT/dasfMEc8m8cBmVNNK6jS9lw6AwB6WHYD0UhxbFbYejWaLwtoZEpdfD6X
-	eMozmttIApgObyh+ELDpX1Prd073dFrU6hY+dfolt0f/S5nBQNiTGFL/KuYx3CSK1TrApiWCrjI
-	NTPXMipoOeYGcdf/bXkLpuYBEEv5GOnd344BLDWqtuPeU2qeuRhAN7VXQjB1y+Zxz6t5rs45L2A
-	zbfVgR7gBfYB40DnCUockKEKDHaAAkwOjwVVg2HkPsA==
-X-Received: by 2002:a05:6214:212b:b0:90c:4e5e:754b with SMTP id
- 6a1803df08f44-90ce0f45ea4mr46165856d6.28.1787890797765; Thu, 27 Aug 2026
- 21:19:57 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Aug 2026 21:19:56 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Aug 2026 21:19:56 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <ao9CKMXAX-hScRSa@google.com>
-References: <20260826-gmem-inplace-conversion-v11-0-0a15d8a799aa@google.com>
- <20260826-gmem-inplace-conversion-v11-15-0a15d8a799aa@google.com> <ao9CKMXAX-hScRSa@google.com>
+        d=1e100.net; s=20251104; t=1787897946; x=1788502746;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PfXDbSO38Ptv6nH8Zob9j+EEhcpNi44GPPmIo9LLCpU=;
+        b=QcuwWnWHcGWZnV1/zuqEqKwl7fM1tvRbHqlw0tUH7hKygFTAkMqr6kk4ks0Ghs7NYP
+         tpc5f9rHGd5tOKLN0q9KVsrbyudW7NZmUWovh1ApPNAVs+jQy9F5i6rsOVfswjS6WQyr
+         brnehYSlCmw8HjtQxo6MgscafRaSJRyfx1V3vUM4r/Tecg6H63qfgWF0O78K1OL1m8Kv
+         pRPWnwWVswrcgmoREBEU2992jJSM4gF4mYI9XTYgTPdrWkqEHBn/zYL37xMG2F4W5CoQ
+         ewIidXszJ3WZalrjL1XHB0CbA+z4jO4IIk6CPkAdd1Bt7/Hf62ckJX5m0cT8od/4spN+
+         MnLQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrwC7+G4F6z7PAU6/ucCBn6CtlveLUzNq8+hKdz6yxVRWs1NbIXCrewQKjQUb9ew9s2b4liAsnDxt0=@vger.kernel.org
+X-Gm-Message-State: AFuF++mlO+Y0MZNpIQhFaDnqaFGOOe86w+34YcIDbeaUw4qLIVQxZXng
+	o5Hc9LzlCpjNtPW8dfViNE6ZQjCV7AN4yVcvcic6p0LpEFybfwN9/zqW
+X-Gm-Gg: AR+sD1264gcrfvI+zHwY+of5URW8RESFBCksFG49hZbG8o/l1CQKZpQBWO0ClEzJe6k
+	EhXCzf/y8eVG9yWsfrC9QwIYhroUP4N2jQljnlqGPlJsIGRlMPiBu5IKLCGqTSinraCXIw+sPGx
+	zdJ7mlN48GG9ri7SOjtiTwhec11dxEg/7ddIiRhV7vcajW5LQ4LT5gpJP2j/etJHhAIg6VGKNXO
+	4JQlDmIFn7GL4fCR0Hx+V2ynf0jVGX4S5V6fGuzYrZNBchiduNSg6HA9BqnmnGn7cXWqWvhPIt7
+	h76/Ya1X+l7S5rYXZbcXWmxH0PbaExrW5CCHdX73cLKAuOckU37bTj+EGjBeo3XMlmP49RLCj6z
+	zHVaVXtUj1Ekh3wMzGUq7ki1fN6YOxzBKXSLkn2YJqoaeKxEVMwWNbEbtOlLUlsKx9PAwc3jTzo
+	Kix20ootLkNKPO8GyubMb/cyIXH5A+EvdJrvC6pFhKbXV9Ls5GF0LEdQf6Lqrl1zFXj7nSApkCd
+	Q==
+X-Received: by 2002:a05:6a00:1149:b0:851:804c:f4eb with SMTP id d2e1a72fcca58-8562868f342mr8607621b3a.4.1787897946171;
+        Thu, 27 Aug 2026 23:19:06 -0700 (PDT)
+Received: from HPPC-archlinux ([101.68.111.107])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8569fc7ab4asm256010b3a.22.2026.08.27.23.19.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2026 23:19:05 -0700 (PDT)
+From: Yukai Wu <xiaoyewuz.ruster@gmail.com>
+X-Google-Original-From: Yukai Wu <xiaoyewuz.Ruster@gmail.com>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Yukai Wu <xiaoyewuz.Ruster@gmail.com>
+Subject: [PATCH] docs/zh_CN: Update arch/riscv/patch-acceptance.rst translation
+Date: Fri, 28 Aug 2026 14:18:16 +0800
+Message-ID: <20260828061834.3645176-1-xiaoyewuz.Ruster@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 27 Aug 2026 21:19:56 -0700
-X-Gm-Features: AcwNN1UAGJ-fGOM9zD_UvTf06ZrP54h7-np3dJjD_6mMPjXqsGS1LGYTBF7LEzg
-Message-ID: <CAEvNRgG7n6F=dW9V_QqQPDDgLiZ7x08uLDanJgSzerNtN8sqBQ@mail.gmail.com>
-Subject: Re: [PATCH v11 15/46] KVM: guest_memfd: Call arch make_shared
- callback for to-shared conversion
-To: Sean Christopherson <seanjc@google.com>
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Fuad Tabba <fuad.tabba@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Sean Christopherson <seanjc@google.com> writes:
+Update Documentation/arch/riscv/patch-acceptance.rst translation.
 
-> On Wed, Aug 26, 2026, Ackerley Tng wrote:
->> Omit support for calling the arch hook to make private, since SNP, the only
->> implementer of the arch make-private hook today, would actually prefer
->> making private only just before faulting memory into the NPTs.
->>
->> Calling the make-private arch hook would require iterating both bindings
->> and the filemap to find the intersection of bindings and allocated
->> folios.
->
-> Why would KVM need to iterate over the bindings?  Only the RMP needs to be updated,
-> whether or not the RMP is currently reachable is irrelevant, no?
->
-> Subsequent calls to kvm_arch_gmem_make_private() from kvm_gmem_get_pfn() would be
-> superfluous, but that's already possible, e.g. if an NPT mappings is removed for
-> whatever reason.
->
+Update the translation through commit ed843ae947f8
+("docs: move riscv under arch")
 
-make_private takes a gfn and pfn, so __kvm_gmem_set_attributes() would
-need to iterate bindings to get gfns and filemap to find folios to get
-pfns.
+Signed-off-by: Yukai Wu <xiaoyewuz.Ruster@gmail.com>
+---
+ .../zh_CN/arch/riscv/patch-acceptance.rst     | 46 ++++++++++++++-----
+ 1 file changed, 34 insertions(+), 12 deletions(-)
 
->> On top of that, SNP would need to figure out whether to actually
->> make private based on whether the memory is about to be faulted, or
->> whether it is a conversion.
->
-> This is a non-issue, no?  As above, sev_gmem_make_private() already bails early
-> if the page is already assigned in the RMP.
->
+diff --git a/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst b/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst
+index c8eb230ca8ee..a48e6e575a67 100644
+--- a/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst
++++ b/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst
+@@ -15,19 +15,41 @@ arch/riscv 开发者维护指南
+ 
+ 概述
+ ----
+-RISC-V指令集体系结构是公开开发的：
++RISC-V 指令集体系结构是公开开发的：
+ 正在进行的草案可供所有人查看和测试实现。新模块或者扩展草案可能会在开发过程中发
+-生更改---有时以不兼容的方式对以前的草案进行更改。这种灵活性可能会给RISC-V Linux
+-维护者带来挑战。Linux开发过程更喜欢经过良好检查和测试的代码，而不是试验代码。我
+-们希望推广同样的规则到即将被内核合并的RISC-V相关代码。
++生更改 --- 有时以不兼容的方式对以前的草案进行更改。这种灵活性可能会给 RISC-V
++Linux 维护者带来挑战。Linux 维护者不赞成频繁的变更，且 Linux 开发过程更喜欢经过
++良好检查和测试的代码，而不是试验代码。我们希望推广同样的规则到即将被内核合并的
++RISC-V 相关代码。
++
++补丁跟踪系统
++------------
++
++RISC-V 有一个补丁跟踪系统实例，可以在那里查看补丁的状态：
++
++  https://patchwork.kernel.org/project/linux-riscv/list/
++
++如果你的补丁不在默认视图中出现，那么 RISC-V 维护者很有可能已要求修改，或者希望
++将其应用到另一个代码树上。
++
++自动化流程会在该补丁跟踪系统实例上运行，在每个补丁到达时立刻对其进行构建/测试。
++自动化流程根据补丁是否被识别为修复，将其应用到 RISC-V `for-next` 和 `fixes` 分支
++当前的 HEAD 上。如果均不适用，则会使用 RISC-V `master` 分支。补丁系列被应用到的具
++体提交将标注在补丁跟踪系统上。任何检查未通过的补丁通常不会被应用，并且在大多数情
++况下将需要重新提交。
+ 
+ 附加的提交检查单
+ ----------------
+-我们仅接受相关标准已经被RISC-V基金会标准为“已批准”或“已冻结”的扩展或模块的补丁。
+-（开发者当然可以维护自己的Linux内核树，其中包含所需代码扩展草案的代码。）
+-
+-此外，RISC-V规范允许爱好者创建自己的自定义扩展。这些自定义拓展不需要通过RISC-V
+-基金会的任何审核或批准。为了避免将爱好者一些特别的RISC-V拓展添加进内核代码带来
+-的维护复杂性和对性能的潜在影响，我们将只接受RISC-V基金会正式冻结或批准的的扩展
+-补丁。（开发者当然可以维护自己的Linux内核树，其中包含他们想要的任何自定义扩展
+-的代码。）
++我们仅接受针对新模块或扩展的补丁，前提是这些模块或扩展的规范被列为未来不太可能发
++生不兼容的变更。对于来自 RISC-V 基金会的规范，这意味着“已批准”或“已冻结”，对于
++UEFI 论坛的规范，这意味着已发布的 ECR。（开发者当然可以维护自己的 Linux 内核树，
++其中包含他们所需的任何扩展草案的代码。）
++
++此外，RISC-V 规范允许实现者创建自己的自定义扩展。这些自定义扩展不需要通过 RISC-V
++基金会的任何审核或批准流程。为了避免因添加实现者特定的 RISC-V 扩展带来的维护复杂
++性和对性能的潜在影响，我们将只接受符合以下任一条件的扩展补丁：
++
++- 已由 RISC-V 基金会正式冻结或批准
++- 已按照标准 Linux 惯例，在广泛可用的硬件中实现
++
++（实现者当然可以维护自己的 Linux 内核树，其中包含他们所需的任何自定义扩展的代码。）
+-- 
+2.55.0
 
-I'll remove this, you're right.
-
-> I don't care terribly about how SNP handles this, but I do want accurate reasoning
-> and justification so that if/when we revisit any of this in the future, we can make
-> informed decisions.  Because unless I'm missing something, this is an optimization
-> choice (eager vs. lazy to-private conversions), not a complexity tradeoff, and it's
-> not clear to me how we decided the lazy approach would provide better performance.
->
-
-How's this, to replace the entire commit message? I hope it captures
-points from this discussion:
-
-  When memory in guest_memfd is converted from private to shared, the
-  platform-specific state associated with the guest-private pages must
-  be invalidated or cleaned up.
-
-  Iterate over the folios in the affected range and call the
-  kvm_arch_gmem_make_shared() hook for each PFN range. This allows
-  architectures to update hardware metadata or encryption states to
-  transition pages to the shared state, instead of leaving hardware
-  state as private while guest_memfd tracks it as shared. Transitioning
-  hardware state ensures that guest_memfd upholds the guarantee that
-  userspace only maps shared memory.
-
-  Invoke this helper after indicating to KVM's mmu code that an
-  invalidation is in progress to stop in-flight page faults from
-  succeeding. Calling the invalidation helper also calls the arch
-  invalidate hook. For SNP, this kicks any vCPU with a registered VMSA
-  within the range being converted out of the guest. This ensures that
-  make_shared never fails due to the VMSA page being in-use and is
-  important because if make_shared fails, the RMP table would track the
-  page as private while guest_memfd is unaware and tracks the page as
-  shared.
-
-  Omit support for calling the arch hook to make private during
-  to-private conversions. Making private lazily at fault time aligns
-  with how it works on other platforms like TDX.
-
-  Furthermore, making pages shared only requires PFNs, which are
-  obtained by iterating folios in the filemap. In contrast, making pages
-  private in the RMP also requires the GFN, which would require
-  iterating bindings to get GFNs and the filemap to get PFNs from
-  allocated folios. Deferring the transition to fault time avoids this
-  additional complexity.
-
->> Calling the make-shared arch hook and not the make-private arch hook does
->> leak SNP-specific details into guest_memfd (as in, why only make-shared
->> during conversions but not make-private?), but the additional complexity is
->> not worth taking on until guest_memfd has a user actually requiring an arch
->> make-private call.
->
-> [...snip...]
->
