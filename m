@@ -1,207 +1,148 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011023.outbound.protection.outlook.com [40.107.130.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4329399340;
-	Fri, 28 Aug 2026 19:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285103D4133
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 19:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787943608; cv=fail; b=a5A9aC0YPll8LAqR6uNWItRkKyO5uu5T0tKbgkbb8JPjdTOBZ5sz2JVFsElXwcJSF3nubpPLdj2Ka0n8cDXZvATlv4Cua2rQ+1L3VRUz11vlWcf0bJJoPPX0VGbEcUNaa9KiEXyEZCfBZmzM/VNPwVRh+WTXQwhtbJhL9OSnm7c=
+	t=1787945340; cv=pass; b=DKXhap6YOAIUFilvie4n6FQkYG4ERKX1lBlBo1y0nrUmjX+gV5t9g0c0L9fuWVkIJVVCXSyUCPU4/DXYqGfgNigGtljjVHpWEqrkQ3rW6Mb/+fJjkjkvTAldS9/w5ySOGEC0E8ffX2e20tfxxy6n4yOMxXRUtxuNtgGG0h73Akc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787943608; c=relaxed/simple;
-	bh=zzsx/P4pJS8LjrVjT5D3ZDDqW/GYE/LR2i1fenarSBY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=m1gDZcOXDqSwUIGKQSextLntBxR+h14uvb4IQHrNhTNvqYITtsONUMh8GO7l9Vi8G0POcE/tC3Vj+hyXyp4AOoQY5un5hCJBMo7B30HRcDVkfhNOpvwZ95HQuEga+Ry7ekbvUeEYETz03gbOQuZMGVlZeiM3itFSbUou7NI5Ykg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=p5GEkKI0; arc=fail smtp.client-ip=40.107.130.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1787945340; c=relaxed/simple;
+	bh=fHmMOkDnc0DAMDW7+UXClup/98JMmn4tO04WF2LBRAo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZZHoGEmQ3votMTkIyp4QsI0SP2PAF1xqV98T9HjDB4FLfGHwZpzceQj1h1HmS11KQAeV8E/PfQ4tY2YjqnxoDhcco9FvSU/5tYKDjjCr7uiEeuB8UxLO3gzj9dejh05UNw6DB7etAlzwcUb9GzxQQ2vV8SAlS3LFLEVXY2iWzCI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tPLmx28I; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="p5GEkKI0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pe+0k+M/EOOtmkiZ36cP7heZHH8kFaZWrWmkeZzyQlTBF4JVcnbsn52PtSctOCtWX4l2ZnFlzMv+iCSIFJiqvhLlwiv4a20wiwCN3cuBzPn3fl+eEu1fvYC+0QJ5HS9ARIR55/Pf6lSV4FEYsEVNcZ+uwomLGXbA374dkvPAPPdeDBT4b3BP9cIvqClqObNv5jN1fRbidSMh6pQH0RDm0X2N0nsJ0Re61LZYfloozi1E0pw0GA4xO7eV28ICRcQ3FS01qRkcLjq7qN5bSK0/UV2aKkzQ7R5pM1e7TSOblen4vSNbPQrqmB8OaZJ0mQwQ1D4QtsV9TPGM525ZUIK9Tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7a8Frwt7fRSoggP5XPZhlkbQ9VLqkYuzUoQl3MsMhKI=;
- b=F82ue6jgcmjYfHIfLKsLhqTteYgwBOMkU0rajbcbH5AeWGBHORuU/d0py30cc2VtnA5NmbEPejVniCW/Rc09K6gjPtlmjDsc92LMPPyzJUohnjTQh5uegiLNwS3i2Emx3IwTFxnCIQL5r4Br6StQPv4gL5mkdZS4wqN3InnKUI1XtDaDbLMufSKNXtmMiO0cZ8EK3mlMKSSP0qyLYpdl7bChwLtn1CwjHCrtQwE1FaF6F+HIdS7IgpNJ5Ff7oHOh8QVAQMtbLfHDr1Kg33xgVP3ZTwT30kVwHJOqVOcm/jsu8Rm8JfKgl/yI+ulYhPAgrXv7Nty2pFjO3W+FZ7axQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7a8Frwt7fRSoggP5XPZhlkbQ9VLqkYuzUoQl3MsMhKI=;
- b=p5GEkKI0pnRxUGvfA/O8pbk0OHzgJeu9lAQ4TAftR/AZ1oiv+RjgM6BBcUbnj5vU9WOYziMmo658arcnXEmoWjqiJoOu1+WtHoINcvmIyAXLdGrtkfruncJbv2vHYE4fMwCOKcxhq+hoUwSnwdP0hSE5FovWaX/Q+ba+HNoWciN0NJW9MzZZ2InOouAJJwAwkEt+L5xA/pea0QiYNHO9B7gpaz5ecRn1GCSpB9++Ayr5JhCxjw2B1o4s+JgeRAoMMUgr8NyNmbnWOrVw1U0o8CuW3173wV22+OHicVWFpUBFTKDsr7AuGJglYMXshOfrW6s/ltPEgbbjl4pZcGURfA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by PA1PR04MB11261.eurprd04.prod.outlook.com (2603:10a6:102:4eb::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.10; Fri, 28 Aug
- 2026 18:59:58 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0360.008; Fri, 28 Aug 2026
- 18:59:58 +0000
-Date: Fri, 28 Aug 2026 13:59:48 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Frank Li <Frank.Li@kernel.org>, Jon Mason <jdmason@kudzu.us>,
-	Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
-	Niklas Cassel <cassel@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ntb@lists.linux.dev
-Subject: Re: [PATCH v2 3/5] PCI: endpoint: pci-epf-vntb: Move
- epf_ntb_is_bar_used() up
-Message-ID: <apHapBrZ9cdGYA7u@SMW015318>
-References: <20260828170932.2735807-1-den@valinux.co.jp>
- <20260828170932.2735807-4-den@valinux.co.jp>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260828170932.2735807-4-den@valinux.co.jp>
-X-ClientProxiedBy: CY3P220CA0006.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:930:fb::8) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tPLmx28I"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c10e86e52so46251cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 12:28:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787945338; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dxImBi/H3bt/efUbXe4D4wpFXjd9YcVdQTLSmtrS0OETiIQD5BsWOYc7P6sRCCKQhP
+         nifPez1ZtyMWBFk86IW5GC/o5Jlsij2ATMdgMffnjJe/BK0Xc6Tfz11LMSwhfEtGSJ+b
+         svM+oRmsysgHonRfkYpGfTZRWAnMjdRRc3hy/GxfavQMg767aVkccZhAVmf67n0mKLKA
+         rX63mCnQJryJ49HIMOHVHGAwR/7h57NMXmT6+x3vbmE1DUafuVW4wE+BoG5QeyisvJQz
+         lMG2VAx5nRKhtfq5Dir0dXcSq2nGjgcXQPd16lL1UDhwD/b/y9QkuHK6psZ1MDp5o8ZB
+         mRiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=fHmMOkDnc0DAMDW7+UXClup/98JMmn4tO04WF2LBRAo=;
+        fh=lMVae8VrlOSSD88HSXybzIX65UPO41L3vh1xPwKqTTQ=;
+        b=D/2CJlOBHfUVSEaWxaQTCAI4ULFTVQ7Zaw90syNbJqIyRIkhYleVP3NdZVqEod/TGE
+         y+sCcOx2iFmKPz/hLFfv60YTHfjYKPaOXoBKd6L6gqyfz7qDgDABUI/tv+Kmnf5AASrB
+         tBjBdaaE3knJ7160mEYwkRO3w3KTkSUUa8uHBGaerwAxbWuIGoAMcVDm1NCZERxHpKFG
+         CQrJptppGgIJMs27l5y0relpxKIHbuV9mhxuT7igo9T8WllNNwiae0xndrrgh9wfnEbx
+         fI+9F8CarwGfSpwks4uDG3BgzUs0WtEWtFsysyfeZjYEovy4LY8fnMtA+4/88mq6C2e3
+         y5pg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787945338; x=1788550138; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=fHmMOkDnc0DAMDW7+UXClup/98JMmn4tO04WF2LBRAo=;
+        b=tPLmx28Ikq/AKKwVgvg6shpzmukqJJ3cGhEZVGAL5lKJ3KCnR3F3y+8Zl7z2rjdd7D
+         ljanT2DvUU1M9Jv2CNvf2xLopGbzaqif3LNCjat5MweDLZR+4rFIZPfDI3I6nKSQGuXt
+         VU1D++KbWezknV2AXXYwdeFZVpUWaQZEhol/mPajIdTXYqttCpVeuI8pRN1xnGeZaeEi
+         uQ6hY40qnz9PYnjx7U6YAoyFwUVB+TK1pknBpmU983OLYspja1KhqYkU5YcYTsNAIfO+
+         bK1bfPXtbfrwTe/1sXwqZL8/x24zhZE/pEgL8D5wBlnk6PzxU1jhXUUbmqNA/gxLGxma
+         olKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787945338; x=1788550138;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fHmMOkDnc0DAMDW7+UXClup/98JMmn4tO04WF2LBRAo=;
+        b=ij9QBRc5BNtoONF1/JfErhN8xftnRSmBSk6M8FWEX7a1lKepU4WopKNMCVwteNAA/z
+         sVvLGtKjOcFH/7t67tQttz4BxVc0gryZVFrtRGkATLRJ/B4H39KS30GSLGhvn2pwAUde
+         Naj8+QdTpofEP+phL6vB+15tIPRfvdycZ4ydbpaev/z8/m8jxJG0whZYSlTWcKbeWx74
+         h09CFQ3hsz1Ya6mhBOpWgySpG92veBxkkGQzj0FA/g+VzInjVwEHYBZXmoj4sHZvqfJv
+         Km2CbtJhn3KYxISPQ9hh/XczQ8wOVJ/o1SzBfxm/CApeE7JckPmCEE3T9WbD7+sxr8Id
+         t53A==
+X-Forwarded-Encrypted: i=1; AHgh+RoqLsRwPkUmMXnHwXXnVpZjZf3n4t3fzlr7iJXLV2GIrF6BJgXFxG+9NWGcbhZj6Ce4e6sI57BED0U=@vger.kernel.org
+X-Gm-Message-State: AFuF++l3U+Kf2CRDQRK9ZvU8P2/4eW53vk3rOid2LDkg7d6LEksirc1u
+	B00p9VcEpvgfWESBdSngzRQMhAeoDdwupHHKxpLQpNjQGOUGtnZiamo7l87eOgOBctpKGpV21vd
+	HE2ZTeGLqoNTq/4Xu8gYIbWz6d1zseopnRzXKYBBm
+X-Gm-Gg: AR+sD13aKJrUOVs1asdXxa9CnpMxtEhpug28GGuCJ4OeYaukLR9DoDXE6mrNZIE9/Az
+	msyZJALx7v1hBHXd79IiSQRZfL+JcRBzRtuHfGa7/MpyOnT0R4oOfFVsYYoiXwg8Ax3e7pncEcP
+	6AIFyeeZ0NW6XegIJEeA3x1NgqmObcNNHpFJkmM3xdmQmfFblQStAc40o7+j9EEVj5H2m6oHJ4G
+	Njd/mdjO6Kvs/hKfGvrvrD3+sHpRyP3n1yU/0d2Bq6X8NxlbOWwJna2GI0oVplQlJk+3J65P5uK
+	Lhl3Vc1VLHy/fhJXSyqM+AOHUfySbSpRidX5WtLd5Nq39adsa1PIMcHYFndeqdJgc5QXghVr56g
+	=
+X-Received: by 2002:a05:622a:c18:b0:51c:ae6:a57 with SMTP id
+ d75a77b69052e-52ff715be0cmr2273411cf.11.1787945336495; Fri, 28 Aug 2026
+ 12:28:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PA1PR04MB11261:EE_
-X-MS-Office365-Filtering-Correlation-Id: 589030b6-ac0f-4bdb-3042-08df05368e5d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|366016|19092799006|6133799003|10067099003|56012099006|11063799006|4143699003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	Gg3hzvnEa/WDzUOJu1qdcDttjW08GBaNsiSkUuUlU6SVFa8rL0aFqUoNDDE/FQfBZCErx1Hq6655O7a+Wmjtk+HBkXV6JHwr4Q2CleklrpjcY5exb8FAiGN6ejn1omrBHMBjSHM9DfSWOLNfT9eQUsJBv7971Og0YbKtKpsepE6C0A7E0LWfKchKyY5m98x7Bh/Y43ukBj11Bp6ROg6hafH+DUDLkVAK/CmO262t8TL3Ojl99hOVfa4vKWnAraLgVdwppx0zhzEUWUUJnU7E32Hic9eGi8q/MYXuYcx0N72Lb23M3GTSwQtkKYtptWHk/yos/zfGzFtFWqImUsxzyI6MnBLTi8oJaak/dwT71iaGgforfAelRFnY3L11Z54d7PVH/wPdsbmvVRG26OWRAcFiaFfyblH3Idid5dtg2lUhXuFYZwEgHNcFEKy2sui61htSLs+DIgbX6ouf6tjQO3M0vCOY5EbO+RZ2LOWSNVIXmuNJwebtckroue2mtONi88WPgk5kyEEF2yCyuXdVlAvn0/3SqRAgbEYo6b/Tu+ziu6iP8yfv/2xeZLgXRu1oo8/9nAcTa0/ivzA64PMD4HZfJGOxmOvIROR2k+nuf0oYFF/ihCJfnwtkqUNjCGW3lpjICkddl4jz7VhfeBOa0qypYpWNlQ/wJxkRUtvWnh4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(366016)(19092799006)(6133799003)(10067099003)(56012099006)(11063799006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?DNEa/7fy5JHL+94nBFo8PHuuWLyEwcQM7+IU4g7kh9Oi4IPTKwLaKEoPqXPA?=
- =?us-ascii?Q?GtzQnejcz8gNx9HrnZ2F/AIxItGQdrKtunqqwD56leAoK+s87i4wq+RzRih9?=
- =?us-ascii?Q?n9dvM0/eNYh59/a+GiepsTdxr5i0ZESE6Y6e0zRcrt0PdYa4Gh2x/tUsZGWc?=
- =?us-ascii?Q?XJP8WM44m++gNfjQbTcJEpoLHX0UmLTpP3ks239SI5qO3WkRlcx4P4OSNehZ?=
- =?us-ascii?Q?uGmonTJEDfoNDuVLI2TDNulO+PiNBcuNgmZmrQ2ndd8rvutptNW/CRUevxZH?=
- =?us-ascii?Q?ZQz0VMUOWUidbmw4A/kXVa6xxJ9tEZeV3cGng94kaoE2oYYJY7wzv51mp1XH?=
- =?us-ascii?Q?EixcqGDtSnf7DyiBB7lmM/jP7bBFadMPuuyS4dTIf3paxL4IXF2KQzCXV1Zm?=
- =?us-ascii?Q?JYcMQ9bVloBHbz9t2ABVAKlCtb/xbTlJEdT4O3Vy6BzoFiriebbyBVmr2CpN?=
- =?us-ascii?Q?zZw4QuQI/7YQPc83DUIrxM3l86YRTm57lEWbJeQtxO9F7EGVhFnWJw+IzU4S?=
- =?us-ascii?Q?R8KGYzeJfG8oB/Pfo7hQhFaBcM/V4xreQtaH7tEkw27QFVsf0fl1c9Gy2iZZ?=
- =?us-ascii?Q?0kk4bY+3P9B6FygQCqbmyw+o68mMaAP/5oQyFUMAcL6YVe0yNnPtKbzGvnUc?=
- =?us-ascii?Q?rLLWTj9aNMIhVaTZwA7ZuiGAqny4m9G/6CEZC6lKEVX7CmXH0Bm8RVSIVluL?=
- =?us-ascii?Q?peEbjtqvChwlVHZV2sWt4yodumFL1z5n1vnznggitWuKbS1vE3JYS8hQQQHr?=
- =?us-ascii?Q?QInQ0XNUr1vJr+zzBa7SqvCgZwwHArUbBMftFH6K/gBS4w6EetP+XbtERItQ?=
- =?us-ascii?Q?V/Dx8ktnXvISYVMuRRSKAUmeElkcqnAtpuuQ6Hy0WIfIbDFfY54sagvdVEcU?=
- =?us-ascii?Q?BlaUgbkiDycE00w0XZKXcPGO6LzDma0Z8Ofyb+M+vtOtqfWNduTU0JQgvrD7?=
- =?us-ascii?Q?JwH2C5vsqy0r7CGNu/AHkK5q0WnVq4d130S1DYdFlGWCZPbHhtG4IL0+FO5e?=
- =?us-ascii?Q?wmOCCoiaEov4vupYUaIbaJ7YDg7br4F79WGNfRdXaCPceS/9ORodUKuApIWW?=
- =?us-ascii?Q?o2Pt/vocS2i0a38WmrxCrxJn1GtIp4BxSfwXOoCDSZsFsxrihthZFCcl3NSk?=
- =?us-ascii?Q?+ihR/sMOFIFEPQDr3DDOVMPseadS/D28rtVtVafjark6t1j5WD0/ZJVQLhBw?=
- =?us-ascii?Q?4XBHwh8ul5ajlPr+Dh4GfcvvZbHpmLNQ9gAXuFu5LcVKGYD5RMUVXOckub5V?=
- =?us-ascii?Q?c4mRLQGvmWsPZiXnPmebJUq4Vs/3+IfTIDMtlXWGsGkA3UiEtYY0wULa1NwK?=
- =?us-ascii?Q?46dRjsJH+uamExakx0HCxJvkrtrrwjoZ71aYcDNjNkS+/sIbfWZYKQ9QSPwW?=
- =?us-ascii?Q?BkxwFJhmKh2uH9yQv0TdmIo8Dt+FfZTe+ZxoBsXEtI60hZs/MAvs/eqg2+if?=
- =?us-ascii?Q?CwHpdC1/nYjGUfQTFsCHKwy1biHofHGlM4xZ+F8VwNe1oWFAA3H5AmwZ36eM?=
- =?us-ascii?Q?D1ulOhyzXljSMqDj3NBa5DxDkrKkSgu8uJwNHsiPw+h4rJqiyUeApqQEL0lD?=
- =?us-ascii?Q?w1Jymhpv+PMFgLZUCiywLkws0jXKIT//TJrBT3NgQBvdzWpILXS2KT6yQAbW?=
- =?us-ascii?Q?K1bwtMOCUOxKBeSvIaDGuOVLqdOaMoXH7SM6nBGGnD6rnGapNtqB7UsKkQKT?=
- =?us-ascii?Q?S3LU4YZmrFFFr1SLDx3qecE9l+UMpVotmiqKHRz3gcXW4tF4Xm0+28b4HazO?=
- =?us-ascii?Q?bo8WS1U2dAiBloC7P3R8AGSFR2sey3k8mFF97QAgsreKxyE7EvaJ?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 589030b6-ac0f-4bdb-3042-08df05368e5d
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2026 18:59:58.7382
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pXK2lj6cMrA0rT24tUJdReb4btKQ9FTMHTFbhzaAfygDr19LsKn5rrnFS7hn3KVYIgi17fZcPegdmsGndTBqv4yeqcfrckntl82YIoaYWhB1uOwaQu1vFvOIfjDU/LFF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB11261
+References: <20260806020850.1221381-1-rick.p.edgecombe@intel.com> <20260806020850.1221381-2-rick.p.edgecombe@intel.com>
+In-Reply-To: <20260806020850.1221381-2-rick.p.edgecombe@intel.com>
+From: Vishal Annapurve <vannapurve@google.com>
+Date: Fri, 28 Aug 2026 12:28:45 -0700
+X-Gm-Features: AcwNN1Vl_L43jPWnHgUrkMtGPi--G2PYnVYEwuFbR2C4J7lwt5ES-sPxDWtK__4
+Message-ID: <CAGtprH8JLx886qA4rVg5vCKg4M3u9sdEfPig_CtL1kbfvj5B9w@mail.gmail.com>
+Subject: Re: [PATCH v9 01/11] x86/virt/tdx: Simplify PAMT layout calculation
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org, 
+	kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com, 
+	pbonzini@redhat.com, seanjc@google.com, tglx@kernel.org, x86@kernel.org, 
+	chao.gao@intel.com, yan.y.zhao@intel.com, kai.huang@intel.com, 
+	tony.lindgren@linux.intel.com, binbin.wu@intel.com, sohil.mehta@intel.com, 
+	Hongyu Ning <hongyu.ning@linux.intel.com>, Binbin Wu <binbin.wu@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Aug 29, 2026 at 02:09:30AM +0900, Koichiro Den wrote:
-> Move epf_ntb_is_bar_used() up so later BAR selection code can call it
-> without a forward declaration. No functional change.
+On Wed, Aug 5, 2026 at 7:09=E2=80=AFPM Rick Edgecombe
+<rick.p.edgecombe@intel.com> wrote:
 >
-> Signed-off-by: Koichiro Den <den@valinux.co.jp>
-> ---
+> For each memory region that the TDX module might use (called TDMR), three
+> separate traditional PAMT allocations are needed. There is one for each
+> supported page size (1GB, 2MB, 4KB). These store information on each page
+> in the TDMR. In Linux, they are allocated out of one physically contiguou=
+s
+> block, in order to more efficiently use some internal TDX module
+> bookkeeping resources. So some simple math is needed to break the single
+> large allocation into three smaller allocations for each page size.
+>
+> There are some commonalities in the math needed to calculate the base and
+> size for each smaller allocation, and so an effort was made to share logi=
+c
+> across the three. Unfortunately doing this turned out unnaturally torture=
+d,
+> with a loop iterating over the three page sizes, only to call into a
+> function with case statements for each page size. In the future Dynamic
+> PAMT will add more logic that is special to the 4KB page size, making the
+> benefit of the math sharing even more questionable.
+>
+> Three is not a very high number, so get rid of the loop and just duplicat=
+e
+> the small calculation three times. In doing so, setup for future Dynamic
+> PAMT changes.
+>
+> Since the loop that iterates over it is gone, further simplify the code b=
+y
+> dropping the array of intermediate size and base storage. Just store the
+> values to their final locations.
+>
+> AI was used under supervision to collect/apply feedback, review code and
+> workshop logs.
+>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Tested-by: Hongyu Ning <hongyu.ning@linux.intel.com>
+> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
+> Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> Reviewed-by: Chao Gao <chao.gao@intel.com>
+> Reviewed-by: Yan Zhao <yan.y.zhao@intel.com>
+> Reviewed-by: Tony Lindgren <tony.lindgren@linux.intel.com>
+> Acked-by: Sohil Mehta <sohil.mehta@intel.com>
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-
->  drivers/pci/endpoint/functions/pci-epf-vntb.c | 40 +++++++++----------
->  1 file changed, 20 insertions(+), 20 deletions(-)
->
-> diff --git a/drivers/pci/endpoint/functions/pci-epf-vntb.c b/drivers/pci/endpoint/functions/pci-epf-vntb.c
-> index c3caec927d74..d12d134ce553 100644
-> --- a/drivers/pci/endpoint/functions/pci-epf-vntb.c
-> +++ b/drivers/pci/endpoint/functions/pci-epf-vntb.c
-> @@ -199,6 +199,26 @@ static int epf_ntb_link_up(struct epf_ntb *ntb, bool link_up)
->  	return 0;
->  }
->
-> +/**
-> + * epf_ntb_is_bar_used() - Check if a bar is used in the ntb configuration
-> + * @ntb: NTB device that facilitates communication between HOST and VHOST
-> + * @barno: Checked bar number
-> + *
-> + * Returns: true if used, false if free.
-> + */
-> +static bool epf_ntb_is_bar_used(struct epf_ntb *ntb,
-> +				enum pci_barno barno)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < VNTB_BAR_NUM; i++) {
-> +		if (ntb->epf_ntb_bar[i] == barno)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->  /**
->   * epf_ntb_configure_mw() - Configure the Outbound Address Space for VHOST
->   *   to access the memory window of HOST
-> @@ -830,26 +850,6 @@ static void epf_ntb_mw_bar_clear(struct epf_ntb *ntb, int num_mws)
->  	}
->  }
->
-> -/**
-> - * epf_ntb_is_bar_used() - Check if a bar is used in the ntb configuration
-> - * @ntb: NTB device that facilitates communication between HOST and VHOST
-> - * @barno: Checked bar number
-> - *
-> - * Returns: true if used, false if free.
-> - */
-> -static bool epf_ntb_is_bar_used(struct epf_ntb *ntb,
-> -				enum pci_barno barno)
-> -{
-> -	int i;
-> -
-> -	for (i = 0; i < VNTB_BAR_NUM; i++) {
-> -		if (ntb->epf_ntb_bar[i] == barno)
-> -			return true;
-> -	}
-> -
-> -	return false;
-> -}
-> -
->  /**
->   * epf_ntb_find_bar() - Assign BAR number when no configuration is provided
->   * @ntb: NTB device that facilitates communication between HOST and VHOST
-> --
-> 2.51.0
->
+Reviewed-by: Vishal Annapurve <vannapurve@google.com>
