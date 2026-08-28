@@ -1,156 +1,185 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BB1D3AA1A6;
-	Fri, 28 Aug 2026 07:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF01A3EDE52
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 08:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787903517; cv=none; b=b8SA9Y31TI6lR+C+YSydUThLLCmNnkt5OC8wqpZnK4icfX6yYbcf6mMnXE17gVfgaiX1oCd/m4eOK7tkgGy0D3q1+CZTKpp5fSvwqr6471UlIIzFBfp9lMQYbxZVsXrE3/u+tGoAQHmUAjsfjzkkH67KDlpFELAPXi/5NvUWt8w=
+	t=1787906980; cv=none; b=oStxl7+0G1RqpaiBhP8WULLyQh7b2kTHPsZkqd5eWMi87hXUC0vs+DcaPpNOX4Nto3d8vUEs+UO8ClxS3hzwhCX+WqQgkzmu81JFzCxO6eRC0y9waDlx7HN2jnMQrpfU1F0yXxyTaoKD03vNjfPTwl1LW329mfR4wEz7IhiV27w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787903517; c=relaxed/simple;
-	bh=/r42OzRKbehNytUbS0AlwvQqha8Fg7tNiKCBIbEVdb4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fpraah1J14fY6MJk1gI7zIYcguY/gVc1jOF+L6lxF6e9+gdQK8vU7fEwj078Hl20cPI5heksHEnR4UMqCUDX9Kj67fAUGz5Ptwx9IhrZWWyYsHCGePyq7y3rMpjYon0qN1lNTS3cCK67ZGpHFHqwasF4F9Oh7+wq4X3aS7BJQ0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=qyRs1slP; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1787906980; c=relaxed/simple;
+	bh=DXMWtmcBCd+/Lp87cx6/FN8kfAzoCwiY8pycos+b2I8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IdR88y4UXvdK/a7irmax/CvY8g4oDge46048HDGPiqxngaD2qt9TfybuND03L9qvpSD9Wj3Nnb1v+Cu7HKHwh7Tru7D/3/dslCTTM+c38PpmbfI/IJdoC8+Ad0+RfmTNjKPeCkvx2P1BqLopC96YH+FBCJldZs5PGVVSGLvuf68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dzyID6JV; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="qyRs1slP"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF1BD1516;
-	Fri, 28 Aug 2026 00:51:49 -0700 (PDT)
-Received: from [192.168.178.100] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AE5183F7D8;
-	Fri, 28 Aug 2026 00:51:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1787903513; bh=/r42OzRKbehNytUbS0AlwvQqha8Fg7tNiKCBIbEVdb4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qyRs1slPyzy4qtN6fU37FQs+l+H3jAYpbcC2h3UtcVrvo5z3SjmO2VTAOAEJZq2pq
-	 sHFeMdQE0ndRCz4WEiemVcxCS+ga6h2GvUQYZ96jeNg/pJWgoneG18bdCG72uzzOxG
-	 guo214JrPJiRPBGaqWZv8B5+sDYd7e9nwQUPLyqo=
-Message-ID: <8262d2f9-9f2f-4821-8497-991d7c8448a3@arm.com>
-Date: Fri, 28 Aug 2026 09:51:47 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dzyID6JV"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2cfbbdfa60bso8433585ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 01:49:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787906975; x=1788511775; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=98FM7OwEdWtbjVwbuDejaA8Ps6Cp5ON7omxkAeCAgdk=;
+        b=dzyID6JVc596ZoJTPAZ7MiuMcLWR87xzqrJ6crVG2ZV7QdBaR8WIGh9QzrJGRHDTKV
+         yuFUWq6djRt6m8+Ix878xT3IimNBiOeySdFGgv0SlOBCIajx49l8rj03Ax/rra8Kyx2D
+         xLeezeBf0Tp5J11WnjuTary1AiTTSfMBvZK/k6gk7DctwRhTGpHXoj+3mA3HTEREz+qx
+         HyVOO/da+H7qmS8QGnckk73RS7P3FJ8E+BvjwQX/pN38TAypSGasf60Yc5Dm/CcnkVz7
+         /dNCydBXBWzpWqlDVPQKHrkSBCUkl0dLjGCdz9zcqNsDT3D3svkCXhma4EHMoXw5wZuA
+         ejhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787906975; x=1788511775;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=98FM7OwEdWtbjVwbuDejaA8Ps6Cp5ON7omxkAeCAgdk=;
+        b=RVNlH7ksIsk9aGn3snq4Y12BWE3f+pfuHb7tUaIIlZKnkwlFBkJScO6p2lJiJGTfwh
+         f9iV8jiOt8LtUDOiVYx+PNVSHoNLA5bBKoAStegG0o+xGTZyqff/B95vqrd0z7nbRjKo
+         EnLqifUPvys2kqLVLb+Pzj+KyvG8mta8uEqFfSaJfTzk5tNqCEPSaYLC+zzG2bTYLr26
+         s6yiM3xiDIh4rzO4csulKHu3LYOHGBG+2tZB7WZYDq0jTms1JQtJW2YYpJvbfGiye0Be
+         n943XA9WAuB8ee8g33EkdV3TrDIpY59OcvKD/TXvWWUNFK71b/Wb9WIMYzwENy/VLcw3
+         aoRg==
+X-Forwarded-Encrypted: i=1; AHgh+RoeXo42XVgXLTu5vwsxTHEtbuTaKIbnvk9txxdfoWHBnaEmmm9eKW/SOsekImClWtpwl7GyGpl+vk8=@vger.kernel.org
+X-Gm-Message-State: AFuF++ntt6I9AMDdEM2fCF8tzEobe2h7WQbMNKs8noX5TmtXN0RWhYlj
+	0Ne08n1U1xGJlgIKzBtZjSx+jKXOj7tunsJpF4trNuN4z0QP9yyfMCV/
+X-Gm-Gg: AR+sD120EFbEhnre4gChRRfTXYWHzccOqOtAGgsqqBvt0ym4jbQ2dlhc19ZuFUAYWLM
+	PCFICsdYlGW79EHRd0JIsIwp//+4Jybh+wy+/MH3fuRsUbqIDU39f9IT5nxirI0AgR5nfBHDcqG
+	gYAz3/rMBnuEdVa2bYItJdOQSC9Uqri+Skd06h0ixqeDRzJrXjpKXZq67XW9ovqZHTnvWoGExzC
+	Zr9bfTjZPDtFGbLmyx1Jl+HDYeoTSSLkPor9agMXUIYxKLIAwDfsgJsb1UgBuw3fVSBM0Vp5reR
+	Q1jQGDU05jBpfkhhQ7d+pQZXokDvR5UqGJllD9BqSDCXSkulyQ+MBA6XI42cb3V58F7dAsPeB8b
+	5a7zzQt79VbPwMlATrqCyPJ204WDEv0GcUgS6B1kvr5j1oS6yzoldJNbDJxc/fiCTO6x1FSn17Q
+	UzST6qTeUBShmka9SQPDQPh/UxHDTsb03QGbBcAtuDw6Si+SA6tlBhptPpTSQ=
+X-Received: by 2002:a17:903:42cc:b0:2bf:27b2:4b80 with SMTP id d9443c01a7336-2d74e1386bcmr66616585ad.14.1787906974620;
+        Fri, 28 Aug 2026 01:49:34 -0700 (PDT)
+Received: from localhost ([2400:ac40:62f:a97:707e:a14f:cfbf:3e23])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286f9ecaa9sm3763938eec.26.2026.08.28.01.49.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Aug 2026 01:49:34 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+To: kexec@lists.infradead.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Sourabh Jain <sourabhjain@linux.ibm.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Dave Young <ruirui.yang@linux.dev>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v4 8/9] crash_dump: Disallow configfs/crash_dm_crypt_key/reuse if crash hotplug supported
+Date: Fri, 28 Aug 2026 16:48:54 +0800
+Message-ID: <20260828084900.1496839-9-coiby.xu@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260828084900.1496839-1-coiby.xu@gmail.com>
+References: <20260828084900.1496839-1-coiby.xu@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 05/12] sched/core: Try to use a preferred CPU in
- is_cpu_allowed
-To: Shrikanth Hegde <sshegde@linux.ibm.com>, linux-kernel@vger.kernel.org,
- mingo@kernel.org, peterz@infradead.org, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, yury.norov@gmail.com, kprateek.nayak@amd.com,
- iii@linux.ibm.com, corbet@lwn.net, meted@linux.ibm.com, ynorov@nvidia.com
-Cc: tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
- seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
- rostedt@goodmis.org, maddy@linux.ibm.com, srikar@linux.ibm.com,
- hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
- frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
- christian.loehle@arm.com, tj@kernel.org, tommaso.cucinotta@gmail.com,
- maz@kernel.org, rafael@kernel.org, rdunlap@infradead.org,
- kernellwp@gmail.com, linux-doc@vger.kernel.org, jgross@suse.com,
- virtualization@lists.linux.dev, sunlightlinux@gmail.com
-References: <20260825103855.721013-1-sshegde@linux.ibm.com>
- <20260825103855.721013-6-sshegde@linux.ibm.com>
-Content-Language: en-GB
-From: Dietmar Eggemann <dietmar.eggemann@arm.com>
-In-Reply-To: <20260825103855.721013-6-sshegde@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 25.08.26 12:38, Shrikanth Hegde wrote:
-> When possible, try to choose a preferred CPU.
-> 
-> This is essential to maintain user affinities when preferred
-> CPUs change. A task pinned on a non-preferred CPU should continue
-> to run there, since this is a non-user triggered event.
-> 
-> If a CPU is non-preferred and the task can run on other CPUs which are
-> currently preferred, then choose a preferred CPU instead.
-> This is decided by checking if cpus_ptr and cpu_preferred_mask
-> intersect or not. If yes, then the task has other preferred CPUs.
-> 
-> The push task mechanism uses a stopper thread which calls
-> select_fallback_rq() and uses this mechanism to pick a preferred CPU.
-> 
-> This takes care of the wakeup path for FAIR tasks too.
-> is_cpu_allowed() is called to ensure wakeups happen on preferred CPUs.
-> With that, additional checks in available_idle_cpu() are not necessary.
-> 
-> Ignore the preferred CPU state if a task's affinity is changing and
-> its new mask no longer includes the CPU it is currently running on.
-> This ensures migration_cpu_stop() does not abort, preventing the task
-> from being stranded outside its allowed affinity.
-> 
-> Account for tasks with architecture-specific CPU masks
-> (e.g., 32-bit tasks on arm64). For such tasks, explicitly check against
-> the arch-allowed CPUs to determine if any of the preferred CPUs are
-> actually valid.
-> 
-> For the majority of cases, this would still keep select_fallback_rq()
-> as O(N). cpumask_intersects(), which is O(N), is called only if
-> !cpu_preferred. The task running there is expected to move out.
-> Subsequently, it should run on a preferred CPU. This becomes O(N**2)
-> only for tasks pinned solely to non-preferred CPUs. That is a rare case.
-> 
-> Overhead is minimal when the CPU is preferred.
-> 
-> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> ---
->  kernel/sched/core.c | 41 +++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 39 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index a45f7c308329..f71317fe281d 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -2494,6 +2494,35 @@ static inline bool rq_has_pinned_tasks(struct rq *rq)
->  	return rq->nr_pinned;
->  }
->  
-> +static inline bool task_can_sched_on_preferred(int cpu, struct task_struct *p)
-> +{
-> +	const struct cpumask *valid_mask;
-> +	int i;
-> +
-> +	if (cpu_preferred(cpu))
-> +		return false;
-> +
-> +	/* Only FAIR tasks honor preferred CPU state */
-> +	if (unlikely(p->sched_class != &fair_sched_class))
-> +		return false;
-> +
-> +	/* Ignore preferred state if task affinity is changing */
-> +	if (unlikely(!cpumask_test_cpu(task_cpu(p), p->cpus_ptr)))
-> +		return false;
-> +
-> +	valid_mask = task_cpu_possible_mask(p);
-> +	if (likely(valid_mask == cpu_possible_mask))
-> +		return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
-> +
-> +	/* Tasks with arch-specific CPU masks. e.g. 32-bit tasks on arm64. */
-> +	for_each_cpu_and(i, p->cpus_ptr, cpu_preferred_mask) {
-> +		if (cpumask_test_cpu(i, valid_mask))
-> +			return true;
-> +	}
+If crash hotplug is supported, dm-crypt keys saved to reserved memory
+will be taken care of automatically. Thus it doesn't make sense to use
+configfs/crash_dm_crypt_key/reuse. Not reserving
+image->dm_crypt_keys_addr makes it implicitly to disallow using this
+API. Currently x86_64 and ppc64le have implemented crash hotplug
+feature.
 
-Looking more into this, there might be a window in 64-32-bit execve()
-for 32bit EL0 tasks on Arm64 (w/ allow_mismatched_32bit_el0 command line
-option).
+Also update the doc accordingly. Note two doc issues are fixed as well.
 
-The time before arch_setup_new_exec() calls
-force_compatible_cpus_allowed_ptr() to restrict CPU affinity for those
-tasks.
+Fixes: 9ebfa8dcaea7 ("crash_dump: reuse saved dm crypt keys for CPU/memory hot-plugging")
+Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+---
+ Documentation/admin-guide/kdump/kdump.rst | 16 ++++++++++------
+ kernel/crash_dump_dm_crypt.c              | 13 +++++++++----
+ 2 files changed, 19 insertions(+), 10 deletions(-)
 
-Let me run more test on this ...
+diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+index 7587caadbae1..0bf2eb100a05 100644
+--- a/Documentation/admin-guide/kdump/kdump.rst
++++ b/Documentation/admin-guide/kdump/kdump.rst
+@@ -577,9 +577,10 @@ with /sys/kernel/config/crash_dm_crypt_keys for setup,
+ 
+ 1. Tell the first kernel what logon keys are needed to unlock the disk volumes,
+     # Add key #1
+-    mkdir /sys/kernel/config/crash_dm_crypt_keys/7d26b7b4-e342-4d2d-b660-7426b0996720
++    VOL1_UUID=7d26b7b4-e342-4d2d-b660-7426b0996720
++    mkdir /sys/kernel/config/crash_dm_crypt_keys/$VOL1_UUID
+     # Add key #1's description
+-    echo cryptsetup:7d26b7b4-e342-4d2d-b660-7426b0996720 > /sys/kernel/config/crash_dm_crypt_keys/description
++    echo cryptsetup:$VOL1_UUID > /sys/kernel/config/crash_dm_crypt_keys/$VOL1_UUID/description
+ 
+     # how many keys do we have now?
+     cat /sys/kernel/config/crash_dm_crypt_keys/count
+@@ -591,15 +592,18 @@ with /sys/kernel/config/crash_dm_crypt_keys for setup,
+     cat /sys/kernel/config/crash_dm_crypt_keys/count
+     2
+ 
+-    # To support CPU/memory hot-plugging, reuse keys already saved to reserved
+-    # memory
+-    echo true > /sys/kernel/config/crash_dm_crypt_key/reuse
+-
+ 2. Load the dump-capture kernel
+ 
+ 3. After the dump-capture kerne get booted, restore the keys to user keyring
+    echo yes > /sys/kernel/crash_dm_crypt_keys/restore
+ 
++For CPU/memory hot-plugging, you can reuse keys already saved to reserved
++memory before reloading the kdump image,
++    echo true > /sys/kernel/config/crash_dm_crypt_keys/reuse
++
++Note if crash hotplug is supported, this API is totally unnecessary thus will
++be disabled automatically.
++
+ Contact
+ =======
+ 
+diff --git a/kernel/crash_dump_dm_crypt.c b/kernel/crash_dump_dm_crypt.c
+index b7629174e4db..3aaa0f9c3117 100644
+--- a/kernel/crash_dump_dm_crypt.c
++++ b/kernel/crash_dump_dm_crypt.c
+@@ -324,7 +324,7 @@ static ssize_t config_keys_reuse_store(struct config_item *item,
+ 
+ 	r = -EINVAL;
+ 	if (!kexec_crash_image || !kexec_crash_image->dm_crypt_keys_addr) {
+-		pr_debug("dm-crypt keys haven't be saved to crash-reserved memory\n");
++		pr_debug("dm-crypt keys haven't be saved to crash-reserved memory or crash hotplug supported\n");
+ 		goto unlock;
+ 	}
+ 
+@@ -519,9 +519,9 @@ int crash_load_dm_crypt_keys(struct kimage *image)
+ void kexec_file_post_load_cleanup_dm_crypt(struct kimage *image)
+ {
+ 	/*
+-	 * For CPU/memory hot-plugging, the kdump image will be reloaded. Prevent
+-	 * keys_header from being cleaned up during unloading when
+-	 * is_dm_key_reused=true
++	 * For CPU/memory hot-plugging without CONFIG_CRASH_HOTPLUG, the whole kdump
++	 * image will be reloaded. Prevent keys_header from being cleaned up during
++	 * unloading when is_dm_key_reused=true
+ 	 */
+ 	if (!is_dm_key_reused) {
+ 		kfree_sensitive(keys_header);
+@@ -532,6 +532,11 @@ void kexec_file_post_load_cleanup_dm_crypt(struct kimage *image)
+ 		mutex_unlock(&config_keys_subsys.su_mutex);
+ 		mutex_acquired = false;
+ 	}
++
++#ifdef CONFIG_CRASH_HOTPLUG
++	if (image->hotplug_support)
++		image->dm_crypt_keys_addr = 0;
++#endif
+ }
+ 
+ static int __init configfs_dmcrypt_keys_init(void)
+-- 
+2.55.0
 
-Why not simply:
-
-- return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
-+ return cpumask_first_and_and(p->cpus_ptr, cpu_preferred_mask,
-+                              task_cpu_possible_mask(p)) < nr_cpu_ids;
-
-IMHO, you want to know whether there is at least one CPU that belongs to
-all three CPU masks?
-
-[...]
