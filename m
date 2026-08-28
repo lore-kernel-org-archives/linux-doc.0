@@ -1,79 +1,76 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012033.outbound.protection.outlook.com [40.107.209.33])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11020112.outbound.protection.outlook.com [52.101.228.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E44326939;
-	Fri, 28 Aug 2026 17:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0205136A03A;
+	Fri, 28 Aug 2026 17:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787936599; cv=fail; b=Q2NZ5+Q5uxlaIONtLcvjlEFRIFsFOVOsp6Q5sC3oLLzAG6FQbTgp9kGZg7vMSCGiF7D+ojX7Wxf4RlhLAtb0DQ0VY/KzdL//dLNNWjlAc9PyQtwxJ5jzJpXreAqB0H/TGgSZtwTfzqVuW10yyLTnoCaRTZmqf/ui3AQuNcWbh90=
+	t=1787936984; cv=fail; b=KLvatoQ2abyGh5RM8/UUG5FODo0GrQ6C5XZD6dnH7uhgm7BUaMgcZD9npg9Tg8OPamPDIR4xwXDYhvF7YFVunM3iTYrWiM5IapJmyWvptWpzj3moPjQO/ezmR5QBXp1m3o78cv5hP0VzfdYxPffzQcuUkilAtBIBeV1KMkatfLk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787936599; c=relaxed/simple;
-	bh=h+ABdsJJQuy4pMc6npDUdN+OL04GBs03O+kP9AP9vvM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=tSsBFs5i5eSUuzV0MWJxcHAS/Qn0swgfhEos6H8+SmSjIKhmLVBpwgHiQUaojumR8NioU3S9nbdM7lXdLFRspIVI7zesT4Em9PgaYH+KQ3c6UtFSjM7S3cB6Mub8beObYhm3jWzTBYcl6ezIPZYoyvvhNH1Z7ze4lrgIr9rchoU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=KxXTt8aL; arc=fail smtp.client-ip=40.107.209.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1787936984; c=relaxed/simple;
+	bh=dq9Trz35WOPQUEVH3WYQJ5eHItqaP7XbqiCxqsqMuF8=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=DN5HaE8kSLqiqsyVF996oDfTvhTcXGyUL1nrKe33M47TAaDPqSvdm/tUJ6gPd3nJLbuKFdi62/zY+s+tca6RwDQmHEvnWu6Nl4N6cLS0kBn1dm4zc9t9zub2eHB1Yd3sYfu9l+LhdnNw/7ZwqqmX0c4ZSgClYxx+y9+QEvQFTkY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=js2UTgi4; arc=fail smtp.client-ip=52.101.228.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="KxXTt8aL"
+	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="js2UTgi4"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y3mW6c9NRBN1ZpAzw/zTBF4EAjvF0KhuE7jnuu5HLG6pIaiMAGohbgLYxRt11q7AT23/CHPjiSqXrfRjpHILvikGQuRQ2C0ZJDFJAzIFjnazkhturnyKFm1gRQ2751h7RXnCGv0iQD4qTLh9XuWRCDPp4QkP8dmDvrVfcswSt4mwLTnLy9/1vvU9YEqNA0BHTZmLn4CBvmgfL023NX/KiXTy1wbJ52OQJG3LDYPKWL+aDDfA0S/1iK5QzJ5fPxHUFrScReQq/Lz6AGvvjylusWJ8zMoubVcPiIs+4PqWKe00ZAIqgHfyp5r+ZOPyJ6bMVXv29r/sVLAVj8H0DgQciw==
+ b=TPJb5YvmhLuWyPKEEH1/L1/VX+P/4vM+Lp9mMbHqOw4OvdVvotTmVVIGANmUIcwPjDjmDv5MKXT80dALmU3zg0Rk9EeoNqkoLX8XQznTGuaisGbpuE/6W9BWkY5wJfaHDENub19Rhf3gTleOrQicI/fWweAvdj38Chl/aG4xpwZ6J9hBG2KKnSH7nWhO1Wa0TWoW09H2QAP34Q5mFh8zAWpeA8vr5CLbnXv9UeGjsu6dftoS9jELiGbEIW2AU31BLoA+jWj4C6xOuSNaeeUeLUlHSxtAQSE3S6AJgLc3dWyABK38H4tIc9A+XhCCJBuTw+MMc134Zl54HXQfNzUPhA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lOkZKl8FLrxcDgiwBhG5npLG0VN2yeJe+wNzshWNTd8=;
- b=ORkM7Agx2tZFlaEhKVTpnImIF80RhsuSerIgFRa3lm8N2zuCP+WfH2RXcDxlfKysDG+Let5ot5mWglI59D1FdTXVQL+Bpz5qEj7RVH9EWGnkugmrEptrIUcvxG5SDl5ejUX8MSCEdkHn7Ca1x51nJfpHQESiMzXrgnMpOf60CyrnvkWUrQqf/23t3GvIhq/IfNrEJGu3Y9tvARcu7TAQloFurNKcXTiKwetL/JiWmqRqrF7fF4ofcAptDQiTf35VfO9sJFFgv8BQGpPDb9ebjuN1SrRTLE5SwyG+HeiDN8lY20Ycull+JxhKlqdFjPNO08vi+1gLxBeG1Nx+uij/PA==
+ bh=VnoZE/B4+6HtxOWkaXQpCH1dDdijQfYVdL7pfNQ60dY=;
+ b=WCNSIPO8B3rhn9Mil0L+GKyLZ0MevsYu1os4rSM4FJmknboQxB/6X7y7ioRyAUnfqF3TGyQFio1zOMjxcGMvj9AE7x5nvSSP6Um9Rn9oxoa3JlK4/8taWFH+2vQ6LjoCm7bL/wdE5mAuLU0Zq+3gH+veQ/VhBMOZnZ1bmisI2YRjxrat90styKCpduFuRqZtb+w78tTkjOhl32f5jT5E8xdtHotZQYuRyNnKElAQCof/+VMbWspi/bjlC1hCNsUocaBLDSd2EHgZMVRZg3FpjVw1cFBRVk1brvCElQFfZ8n4GhqPgz8eEl3+zTL+G4MxGfuB18W2ZBuKjWCBxzza7Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lOkZKl8FLrxcDgiwBhG5npLG0VN2yeJe+wNzshWNTd8=;
- b=KxXTt8aL+Xoy847Eb696pK9cMuSXU01hZ4WHGWtghTtxWgxRJAAKSZUWCYHW/5RnevWt1i6ce0Ogs7IjwS4UKUgji0zruNuED7vW777xakI/kW8FpETngwp67aVlCE+pzY5sgtz3jCYboBV2ek3sd4E70OU8waswptZqMX8XLB66gofCN69YJW6rKLtPezzpS69Eeq3N8ZF7AofriR6K4b5yKol2lYX5hrjRGrNGPRX3rFlRtA7a0AU/7iJ/IzQ3FLxtEKaRNx2cj00BbvzfzvcV0Y+SFRE7+I8iBEwbsklUrz1/+uGK63YRgA20mWDlKEBKy67FWwY/QNYZTqJrAQ==
+ bh=VnoZE/B4+6HtxOWkaXQpCH1dDdijQfYVdL7pfNQ60dY=;
+ b=js2UTgi4e+nd+Ax4LTgf3mZIh8jzXTUU54C8JZ0GBd3y2+2EjBOBWAk2ewP6xiZYpmO+DKkeGHj+nZvytushJKblayK1lgjIUFXg2idhSyZLskKGEJiAvs+nBv5GZwH0gW0WN6rgxSC4tOX06YfHaXMTcAHvRUhla58wKXovQa0=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by DS0PR12MB6487.namprd12.prod.outlook.com (2603:10b6:8:c4::18) with
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+ by TY6P286MB7951.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:3a6::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.11; Fri, 28 Aug
- 2026 17:03:05 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0360.008; Fri, 28 Aug 2026
- 17:03:03 +0000
-Date: Fri, 28 Aug 2026 14:03:01 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Jiri Pirko <jiri@resnulli.us>, Konstantin Sinyuk <ksinyuk@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Francois Dugast <francois.dugast@intel.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
+ 2026 17:09:39 +0000
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32%4]) with mapi id 15.21.0360.008; Fri, 28 Aug 2026
+ 17:09:39 +0000
+From: Koichiro Den <den@valinux.co.jp>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>,
+	Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Ilia Levi <ilia.levi@intel.com>,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jhs@mojatatu.com
-Subject: Re: [RFC PATCH 0/12] drm/fabric: vendor-neutral topology
- infrastructure for scale-up accelerator interconnects
-Message-ID: <20260828170301.GA4157646@nvidia.com>
-References: <cover.1787552412.git.ksinyuk@kernel.org>
- <apAsfOowcG0cTvT8@FV6GYCPJ69>
- <apG3Gsk1TeMD-oCc@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <apG3Gsk1TeMD-oCc@intel.com>
-X-ClientProxiedBy: BN9P221CA0008.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:408:10a::30) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ntb@lists.linux.dev
+Subject: [PATCH v2 0/5] PCI: endpoint: Remote DMA support via vNTB
+Date: Sat, 29 Aug 2026 02:09:27 +0900
+Message-ID: <20260828170932.2735807-1-den@valinux.co.jp>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TY4PR01CA0047.jpnprd01.prod.outlook.com
+ (2603:1096:405:372::7) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:38f::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,116 +78,133 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DS0PR12MB6487:EE_
-X-MS-Office365-Filtering-Correlation-Id: f2bea89e-975e-4f9a-c1d5-08df052638d1
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TY6P286MB7951:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f04680b-0703-4fd4-c5b1-08df052724cc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|366016|6133799003|10067099003|4143699003|56012099006|5023799004|11063799006|22082099003|18002099003;
+	BCL:0;ARA:13230040|366016|10070799003|23010399003|376014|7416014|1800799024|10067099003|6133799003|56012099006|5023799004|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	falNyYxFLYValaE2+gRzb4v85L+JMaE4HVph73kNapQad03eJjKWvCzumXNPtqU5A1xe2U66rOoAh+y14ADBxBQsks+5RB0Q8ratwcQe3eHNEKY148EK1scceSiqy0k7xmt2qptZmbwLVBqsbV/SW7Xx3a91VNrJ13IsY+C3oLKjy01TYYSDAnu779Yi/C9pdGD2n2zKOSku/mzZBjOujIJULqPuO8sjBmxumL4b2ApHJmUdMHrb0dqSHVVn6XtNugURdADSRFj8hLn4YALr/IauezKjToZp+Ty62pi8lkHvKEpvWkyuStSeXGeUgXMRgRxqHVLox9ZZnXYdAywNZ4Wv97c3rC1IX/QPCcwynjmAE9OtvfhBknyjiVv4dxrBTY14lJKe4hcWiAHYcBNTfJt6xK8kLWfc2pv7wJy364I8nIa9MZ1/nuKdO/nRhnPBe0a2uQBm1u6P9F90z8Gs77X6f0M6eWpopfgPUeqHtdbDbG6X7+VB6mtk4d1q/CVZJI8lhkqNLLXck9hjVM2rZZaT/Bd6140WHRvgXMSE2T4kL3D8/X0uzdkDktHQKxrjqNMF/9YSPfmv4Slp0Twy3EDR6fKlmHr02ivcFx4c9mIsqOH945AhrQQq8Fl0L8jvFGiTfBFHKB7gN343b8Bcb/eJuClGeSiqGUPcPSb/2T8=
+	f1QWvK0OZfpirXjjXtvXqSFz0oXUxcolXeJynHxKMw5qzldn4aee1BFBxaH0eWFQknM5qCt0xB6Za1K734ksWEsW8D5X8hgFCTt7LBC+7ibOnp7FodWSn/y1IfIgXoRw+nlv1XTi+D7P73qxCBWZhNtqWKkSgmTPKS8WsWOvK7xMsY2k73lJ1A9F94GEsgRPJODTgAyRPejXmKFcJSFHOoEuXeHPd3kLUMtRKT5cy+VLUKF+Gz/QUdzfOWRNkrX/CPGulbIGN6ZP4755qLlVgMcPMtTPG6PYImGr3hveQEUhZjBoUGlGw5kKHIpPrhOJCcBmqsV/42F7s5XZ2HMoSRIk0rm1o7ZZRA5MbFxn+bxZ2OdFrrY2vsXSX7ULQ5giJNdyc34aIrs3E40nKfRFjp+xYtcdS6VUlv8JU+IoZ6yO/Hqf55juqTNjuF3mWho2Muo7/J0FEBfEvsaDkYJf8hoZin6AFeZ7j0hTjCY2R2YGShPf1cvFglT/VM/UxwhVWDGgl4d3VXAt+xlg5d1Akt+fb9FrX6pjtyPnoeD6XcOZXu5s4BeV+3ldLAbhJrg8rBe/h2MhHhYMUTJavokZm1Ibz5LdOBw7purh99nQBQTLUn9GWYGGPHnhFynB7BkK
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(366016)(6133799003)(10067099003)(4143699003)(56012099006)(5023799004)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(23010399003)(376014)(7416014)(1800799024)(10067099003)(6133799003)(56012099006)(5023799004)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6tY3ypkzi4eTB8tC01egKXs4HX/8qhDx1HzK/qzlAqy8g1CiGYD1f6heGedy?=
- =?us-ascii?Q?8b7qRmwMz0T195byO+fd/mhXVkmOVpY+3ipJFB2sZQ7oZYqQpjdnzFbA8yMp?=
- =?us-ascii?Q?3LD4oyuWv0m0GnQu8rlPftOcUYi9dLSwfG2qdITrhZWnTqBI+aG1yyxCsluD?=
- =?us-ascii?Q?WtdLT1PL9/KqqMjO9d5nBKJYmrVFi4monIR6bA2cgYvQv/hUpWuSS2DJKpYT?=
- =?us-ascii?Q?VgZ8ns3q03N53F06neo3boSi28J2kdF9dh3ssN0YRj+gBQYl+quwbgx3hllk?=
- =?us-ascii?Q?0HspdlcGztuJE304mvoUwYV889GJ/raxjZV9iARg4ufuhwzvDZjXi//mtHtq?=
- =?us-ascii?Q?UodzL/nxohPSxMMtSUOyyoXJNv4Td98GG5hFZ0gXY4FjUeL/PEyNPyk+alRP?=
- =?us-ascii?Q?Lap73QhTg3oLGMluagEx/0XllbWurOsrcCiAt7DmaItkiJp4a/JodjMF9kIw?=
- =?us-ascii?Q?0/PqWmHr9IMlw/FpRoQ4zGBhHrLL59sziY1CCnI0oEuvrPQhOy5myz0Yc0UR?=
- =?us-ascii?Q?TNtnt3vZ71nOMLzSzbEQHVi6lt3MmeKn4UO/KE1Gg6QPltjAURJNGO9ZDB8W?=
- =?us-ascii?Q?/lfsONczs7sE+SmojvWwvCxXjOIZcdoP6rGRteq6EX/9KeGUE1ESfKIKPZLu?=
- =?us-ascii?Q?0P1iM5EUyCmPYepqVS0aSyahh/ttghZvLM8YY6yqJV09Wl9ghF8yBcQqLcvW?=
- =?us-ascii?Q?L/K7JBIQu/j8sXI283BSUJjeDodibK3iHwQC50Vec8EUnObIxe8ekzqOIeX1?=
- =?us-ascii?Q?NS2llgHUEcEsFyc5wwl+PJf3igM89n2dlbrv9x1d6JOz9NlTP3XC+Ani6JkE?=
- =?us-ascii?Q?axTFiTDt9yCgwgb1kbz+VOAIYPLcRVJbi8vKrhhLI6yPcLIYrgbexALATTC8?=
- =?us-ascii?Q?0jBrX9GWRC8HKNsAcydliXdtDxKgakoqJGy9C/Nrxxc/px2OEaMOibZAIVGn?=
- =?us-ascii?Q?bDXKy2e8BDLN6s/UbaPctyrfAzCS4UAwQolaXLBGtCbHS3Ad6M9uAYUEnvwv?=
- =?us-ascii?Q?Q8cQTe9SafD1sQdE/7wnvjYAhnqpfRqk8FPkupV3a1REjZSSM5rhTAVJUfOL?=
- =?us-ascii?Q?MqVnsSZP2WjLU+IB78y1IBK4V+nY7Md+IR9d4agDyk6LNoaxPMpeUH2KGZ5X?=
- =?us-ascii?Q?P0IGv/M+F4HLjqbP2dVBCfKFP9b5wp6VFjk7kYD26ihTbY9n60zpTCiFZ2Ne?=
- =?us-ascii?Q?cDGnwjHsPPMPE+iS+W0BY5Bv//rvkmG0j4ypjoNEgQcK81Wbz7F5IBQJRfB8?=
- =?us-ascii?Q?SItSVEgnztRkoEEQ3NpTxcoadoBdNIFV7j8J9oEUaH4IoOP70Mxo4+RxzUwF?=
- =?us-ascii?Q?WOnxMQ7+AFteAN1P49daCwAVlHzy8flhtBUVfl42q8Z5N917K6ytMeQpGI7n?=
- =?us-ascii?Q?W6VFF5T0Oe0QrdgH2D/8tNtfuJKjvf+WkZNt0o75GbEwqeRFlGFF+mVdDzhc?=
- =?us-ascii?Q?nTwK7hFboCVuGtg/T+jvZhFUBa2/7lXbOYzjJcN6EcOaA73ofynh6EE0WVEQ?=
- =?us-ascii?Q?luyAO3tL99XEgoto6eMQoMGyewQFtJiSqHEEuUvY3V9eidiyT//8JW3UBblu?=
- =?us-ascii?Q?/hsvd1WlQ3CepYE4Z68QL8/UEkvyWdf0PshWXjNn2GsUTwtc7Y53suvuG/jt?=
- =?us-ascii?Q?vXH2mkVcjKuwWZsDvwg3OzRvXIYLPDcENaPi5fCDPS5TM3FMLYZHdGlp8eAf?=
- =?us-ascii?Q?CD6bK6yyIff2z97NN4B6wmvkiFI01Rfuh7Pyz3voexkWCvFg?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2bea89e-975e-4f9a-c1d5-08df052638d1
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+	=?us-ascii?Q?xJFSe1zJLIIX6FhTtnlGdr7tjsEL7T6sbsIMpsGxk5c/c7DKF7TI1FYPW9Ts?=
+ =?us-ascii?Q?x75Gfdbww6zcgP5erWqjV9qLZp3NJgGN+BT6ocg/RedS85SDjvSDdIz6ILjm?=
+ =?us-ascii?Q?+tolg0RVuSHL6/rxNYb0Qu7WIAjDLrmifSVMTbYUlzDim9T8okDejX2mxUAK?=
+ =?us-ascii?Q?KBOgV/GmzTlgYrryYZLaDoJD4o4R255R6xG9mISf7KCB2xxOT35UEo1dwIGJ?=
+ =?us-ascii?Q?1zAxcCHFxDNAY8f45EEWsxmrs/FQSRVjZnzeM7pHJBj3gxrxRGrjgPb6HV/K?=
+ =?us-ascii?Q?u+XY+7rBW+OweUa2Kbr0BmSx1NBqdVY/pkjuLv1ktFIIn0+aypoyrHlgyoTt?=
+ =?us-ascii?Q?k3FX1INp4rT9AtHjcPKfmdWos7Yq0RsCisCcon4uhVvY2Av7FY2XeWvkKtsi?=
+ =?us-ascii?Q?c27ckTccMqtW57yim8LyPcJ+ofnA/ayTCum/IuuL1JeCqJ1NTCRGQdr4MWs3?=
+ =?us-ascii?Q?GccSNWNX44yAtN0m6vgi5/aC0U4/yhgwz3yPPV2ZdYP4v3mlRofn0xklKvIt?=
+ =?us-ascii?Q?CKxdzkKl/WragD1Bz7oTqgOGNDf85K1PGehx6nRJkWMc/Qla9eDDJLkrroDN?=
+ =?us-ascii?Q?/l1TVdIoCmIQ8PxOPNmYGVwR/K6cZst8AIB1+4AmXfBofpLrJ2aFlwD2R/Rf?=
+ =?us-ascii?Q?/BV48EWb6V6fvuaJPwAjUWWrlWi+T9jsLceuAqnh9l4e3F04WpwnUr5Hz0g/?=
+ =?us-ascii?Q?5ZnbFocASwX5fnTWsMOjsIeCmG46W7Rhz7SZmfBu9KuyYxeUCl2tSPn32wVM?=
+ =?us-ascii?Q?EfWmDNDoZ5kbttcgYLhVHCRhNjXE9zZdSPy0AyWfnLMu+PnLPwnmMWtTS/7o?=
+ =?us-ascii?Q?VhfTusksOphLjKtXXkrvcpSBMCSFHUP0zZH8yUoRY1VXF5O56pwwrLNqxhoR?=
+ =?us-ascii?Q?Cacpj8a9fuimmxIRulwo8iXmwJ6sI0K9uQLJYa9G1NbHdI32t686Wlv62PYf?=
+ =?us-ascii?Q?Q6VAjau1M+RjO+PCrEdU1BV4sjjuk7aLAP30jryOK5I0+3znnG/JKrfa+KNB?=
+ =?us-ascii?Q?s8nI2X3FOmFkhzfT7P7OVWR/BRUEYrlDFAcZQuEX1QMyWqDEyQYnw8Xf0Q97?=
+ =?us-ascii?Q?KijuozV7NlW6jHnERyvXogCF61LoPwF4CcLsVDaNuaUNEJ3mUx8zbf9VMVW0?=
+ =?us-ascii?Q?s5iBswu+H0vuQ6Uq+fHg03XaZ7sdP4FXputUfuOpwA5YObidOdMOCHqQZttd?=
+ =?us-ascii?Q?utWDrWS5VqHAfPyf2xk4pCL6x1SjwWRZk0Hvuoj9oZxvo91G7aTwyZi2vohp?=
+ =?us-ascii?Q?6bGSHlTbfbKK1+6JXP1aSFSescqn+DItiUEU3vrAMIAOktXicbmytBy2/Gr9?=
+ =?us-ascii?Q?NoGTpEMqDYIo892l4g0bQkbmd/HZCH/TdFMIZ2Ua/7gHLv+fFpjK+J2fLMo2?=
+ =?us-ascii?Q?Ri3REltWAGx7T06f0w40V5eXQlkLXyvmYqWepWrFeDvc4pWvt0ceWVv/t0ph?=
+ =?us-ascii?Q?+WuzN3FtTJJA09AX/BhJy1zaNAlapz4kkTbYSIKKxkNpmwnfBd4ts4bM56Cd?=
+ =?us-ascii?Q?E+W77e54o/2YiN3I9aJzhwr2sF1LcITJC9624bJAb07CI9ElFKkwQmdYdpOK?=
+ =?us-ascii?Q?5m4vbzqvEoUyh2K0m1nXBrexEieqGQ1ERTiCPIjbALn3l3NfBCLoUpYNnkM/?=
+ =?us-ascii?Q?qsvdXuEvukHY0Q8aK/sa25ja4J/b2Ur7D284HAh+wyS3ht33MPJu2vYqSmLz?=
+ =?us-ascii?Q?PkZ2J5z1xcte63hCBVEjIPxre7d8+WClRPbkDOk7kqZDQbFN1ifCGbqYOeW6?=
+ =?us-ascii?Q?GmgFmbDbAFbLn1q6Al+hXiWN/ZZexNxZ+WR7BVk5hbtII1lJ91V8?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f04680b-0703-4fd4-c5b1-08df052724cc
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2026 17:03:03.1768
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2026 17:09:39.0086
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7/qEqiIGJtkG2csj8qgdK1ksg5yoIBbZxe7EOir45849mdWwYheT6yRaa8q6ZjkI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6487
+X-MS-Exchange-CrossTenant-UserPrincipalName: mbN3D4BIDHAomXIsSxgvM+1qxVDiKQgAGQYswG2eFMJwW0Veyg9W62pyaZqRikAzRIXJ4unR2lv8qUlDDCK+rA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY6P286MB7951
 
-On Fri, Aug 28, 2026 at 12:28:10PM -0400, Rodrigo Vivi wrote:
-> On Thu, Aug 27, 2026 at 02:35:16PM +0200, Jiri Pirko wrote:
-> > Mon, Aug 24, 2026 at 10:09:28AM +0200, ksinyuk@kernel.org wrote:
-> > 
-> > [..]
-> > 
-> > >Example queries using the in-tree YNL tool are:
-> > >
-> > >    $ ./tools/net/ynl/pyynl/cli.py \
-> > >          --spec Documentation/netlink/specs/drm_fabric.yaml \
-> > >          --dump fabric-get
-> > >    $ ./tools/net/ynl/pyynl/cli.py \
-> > >          --spec Documentation/netlink/specs/drm_fabric.yaml \
-> > >          --dump endpoint-get --json '{"fabric-id": <id>}'
-> > >    $ ./tools/net/ynl/pyynl/cli.py \
-> > >          --spec Documentation/netlink/specs/drm_fabric.yaml \
-> > >          --do port-get --json '{"endpoint-id": <id>, "port-index": 0}'
-> > 
-> > Using generic netlink instead of sysfs for this makes a lot of sense,
-> > but it may be a bit odd to use it outside the networking area.
-> > I've been struggling with the same in another non-networking use-case
-> > as well.
-> 
-> Please notice that this bubble was already broken. Netlink design
-> always had the dream to replace ioctl everywhere. And there are already
-> other usage in place that are not network related.
+Hi,
 
-Yeah, and people have been living with the friction, and some places
-don't have quite the same complexity, but that doesn't mean it cannot
-be improved. :)
+This series lets an RC use endpoint-local DesignWare eDMA read channels
+through vNTB.
 
-For something complex like this, if you can't concretetly tie the HW
-to a net namespace, and follow the net namespace rules for visibility,
-then it is going to be a painful choice. I speak from alot of rdma
-experiance where net namespaces have been consistently challenging.
+It is intended to supersede the separate PCI DMA EPF v7 approach (see
+the link below). Since no consumer outside the vNTB/ntb_hw_epf path is
+currently known, this rework keeps the DMA export there instead of
+maintaining a generic ABI for one use case. It also removes the need for
+a second PCI function, allowing this setup on EPCs without
+multi-function support.
 
-> In our case we use the netlink API for GPU RAS error reporting: drm-ras.
-> 
-> Also there are other usages in netlink spec that apparently has nothing
-> to do with networking, like energy...
-> 
-> And in this particular case here, the drm-fabric is a 'network' of
-> GPU memory... At some point we even wondered if net/ was the right
-> place for this common API....
+On the endpoint, pci-epf-vntb reserves the complete eDMA read direction
+and exposes those channels as a group. HDMA is not yet supported,
+keeping the series minimal.
 
-net/ is mainly focused on IP networking, it is where you should be
-putting the ethernet layer at the bottom of the ua link over ethernet,
-SUE, or whatever. It is hard to imagine having an actual physical
-ethernet network and claiming no implementation will ever need to
-process ethernet packets or deal with ethernet phy.
+The DMA feature is opt-in through the pci-epf-vntb configfs attribute
+'use_dma'. Without it, no DMA extension is exported. pci-epf-ntb is
+unchanged.
 
-There are so many variations of these "scale up" fabrics now, it would
-probably be appropriate to have one subsystem that aims to work with
-all of them. It is almost rdma but different enough it probably
-wouldn't fit well.
+Base and dependency
+===================
 
-Certainly redoing all that ethernet related stuff in drm or, worse, in
-amdgpu, is a pretty ugly idea.
+This series is currently based on next-20260827 (3d83758432b5) plus:
 
-Jason
+  [PATCH v2 0/3] dmaengine: dw-edma: Prepare channels for remote use
+  https://lore.kernel.org/r/20260828163611.2691264-1-den@valinux.co.jp/
+
+The prerequisite is for the dmaengine tree and is not part of
+pci/endpoint. linux-next provides a common buildable base for both
+series. Once the prerequisite lands, this series can be rebased onto
+pci/endpoint.
+
+Best regards,
+Koichiro
+---
+Changes in v2:
+  - Rewrite most of v1 and move the dw-edma preparation into the
+    companion series. Drop the generic pci-ep-dma API, auxiliary-bus
+    child/frontend, test ntb client, and preparatory MW-state
+    refactoring.
+    See individual patch trailers for provenance.
+  - Replace v1's post-registration channel-ID cache with driver-supplied
+    static IDs. (Frank)
+    https://lore.kernel.org/r/abMcgQOHDD55Yv0e@lizhi-Precision-Tower-5810/
+  - Let pci-epf-vntb reserve channels with dma_request_channel() and
+    configure interrupt routing with dmaengine_slave_config(). This
+    removes the PCI EPC DMA delegation API. (Frank)
+    https://lore.kernel.org/r/ao2nHoCwfTEEiFSr@SMW015318/
+  - Drop v1's dma_offset and dma_num_chans attributes. use_dma now enables
+    export of the complete eDMA read direction as a group.
+
+v1:
+  https://lore.kernel.org/r/20260312165005.1148676-1-den@valinux.co.jp/
+
+Related PCI DMA EPF v7:
+  https://lore.kernel.org/r/20260813063757.3131865-1-den@valinux.co.jp/
+
+
+Koichiro Den (5):
+  PCI: endpoint: Add DMA auxiliary resource metadata
+  PCI: dwc: Expose endpoint DMA resources
+  PCI: endpoint: pci-epf-vntb: Move epf_ntb_is_bar_used() up
+  PCI: endpoint: pci-epf-vntb: Export endpoint DMA channels
+  NTB: ntb_hw_epf: Discover vNTB-embedded DMA
+
+ Documentation/PCI/endpoint/pci-vntb-howto.rst |  23 +-
+ drivers/ntb/hw/epf/ntb_hw_epf.c               | 360 ++++++++-
+ .../pci/controller/dwc/pcie-designware-ep.c   | 107 ++-
+ drivers/pci/endpoint/functions/pci-epf-vntb.c | 692 +++++++++++++++++-
+ include/linux/pci-epc.h                       |  34 +-
+ 5 files changed, 1154 insertions(+), 62 deletions(-)
+
+-- 
+2.51.0
+
