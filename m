@@ -1,56 +1,58 @@
 Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022095.outbound.protection.outlook.com [40.107.75.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265C538AC8A
-	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 12:18:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D688938AC8A
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 12:19:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.95
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787919541; cv=fail; b=Et7U5jWxcjVUAActV6o7HjGQlWs0cmI5UlgCf8HTBaZsOb4f1vF2R51wrayFTmZE2xP1RmepZBSqh5AIMYSAR9Z3XPifnjK7ebNaevfMkHSt5zbqeRsYDyTDaU8ZEFWz937t9zFztwKkpA+A/28mWJzEnxU+5NlYOTmjtv9jaA8=
+	t=1787919554; cv=fail; b=Q7TS6OAdCK5sgv7hW/xKCc/Kdw8VqNTiSuI404DM9lt3jsjglFZ967FCoQmC/wjZtihTX0WZaR2e+NPmkTXwg66ur6M50HytJwa7kj+LcUouYLnqVXCJifTAv5xTEJWn8wz33MsuebCsUFxwq6ybHGLfJNsB1Roz7Fuu7ViZu7A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787919541; c=relaxed/simple;
-	bh=TqEOMHb+xeJ2qbSVcNpwO7/xIyElTw8UJtbFtJa2IiY=;
+	s=arc-20240116; t=1787919554; c=relaxed/simple;
+	bh=Hrq1800adneU1WEWthV3eCILeNp+W7WHGIbDrPlBtKo=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZEUj8Y44wClRWJpN+bX3aAvBGC38IMKGeZENrYSTcYTn9oo4cZ1tFlPsYQ1fvUZeUfoLCuvEAMiRROYQLNeRhYEc5to7cwbARDWQtaE4bIBbE+fBNv/iX3BbL3nJPG9KuidCA5ntQX+SyeaJrMPkgo2bui/xILILF9JqK6gNJA8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=transsion.com; spf=pass smtp.mailfrom=transsion.com; dkim=pass (1024-bit key) header.d=transsion.com header.i=@transsion.com header.b=HLACF3Ee; arc=fail smtp.client-ip=40.107.75.95
+	 Content-Type:MIME-Version; b=LU1W/vGrI9gnN8OnVSf+yu9x/f9KvVQNN2Vx32qSqN0mwRWabxh5oxi9h24bkRDWtvcqRA67KJl7fctW9JOIJWquLU3u395BR73DkfZEzule91PQTstHYK8nFbqu1PrCKaaV2VxN9pS5KnYKQ47csc8hLFOCcB/LHtunCVq+lRg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=transsion.com; spf=pass smtp.mailfrom=transsion.com; dkim=pass (1024-bit key) header.d=transsion.com header.i=@transsion.com header.b=EW6Xne62; arc=fail smtp.client-ip=40.107.75.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=transsion.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=transsion.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=transsion.com header.i=@transsion.com header.b="HLACF3Ee"
+	dkim=pass (1024-bit key) header.d=transsion.com header.i=@transsion.com header.b="EW6Xne62"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HcvxpMqqKol/0SChNUo4cVpXLQ+A/qQ1a4l9Cug7Xq5+h0lIs0HaqGhADBquVw0g/RdkpDfOMgS2f/jJyhApkemdX9FbiDV1RCSn1RRZE4TqF1oGiU38FffzPueIkC2K/tFJhOjLkkhzdNkGQh26rBFHUgHdHVnuaO+BmkrN674/dcIOu1b5fp61+bqv2OWuBUL//pluZTfpeZ5+0IyIWJf3Ao3fyUIEgD+b43b7IZEES7ujcNH+C3SFOWuztDeaAmbYnXZEAmyQ+dqTFmO6kk9LhMmVqiYYB+7wDvjuhskideoW6qxYy+7kUkgv2mrOCyKnAsfK+rTsZHhqhNYKlQ==
+ b=Fc6Av/i0eTum/FtG7DDGg7hnx5CLU2J0SjAYKYtEg3PN3IJ83zK5ZF9oo3umS6gqB/rURaXDv+FnRiDq5cx9qh4KXeutT7PD8DzaOgywkeNtFQyOUXlgKetH3wxcAtxG0tS565Zy8BhVRpeTmuIChkDfAZOc+4J/Vic75mNNYTa//ZvkKn+PiL7oVCDgT2dwsGIjVu2GpCkgo/avQcGuxIi03K+zYto+gqWyJwZwGN7D65AjPolhlzBduDUzAQ/zS5pwJP77ovpYsLDJ2WRp9j4oBzUQfX3tfZbkvUnKU9VUtdguAxQQOlTQOKgMO3L5cwtnD2MFIRbBePwdSJU8+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XAnD7NW3HgGrLJN+k5MWmmddWuXIabMVCPIQ0ZkBUSo=;
- b=oKksicS1M3QGsjECBoNHWkZbWIXqdJvXhgfhZ1nvMpEwgZEOzBWo19NJYqWW6RYu2O0pz5MLwtEeW9EaY4ipymFtvEbOc8wu0CmY+d8E3OEaRWuNzADrFZHfnDxpI2DPRZO2JmBEUDcumZ5d+xMlm8x1FVtbp+nC8Sp4LdTMb+ICM9f1E1RdKf5wx58GJgFoVVTLu0Q+rltfoQQGAJwEVA6WpcKMP6we6ql5hPHQhVPsuXfIvAvZD6yaeJdnP7oca92e/xXxgkQgtjzLR1uMEWSTHir9B1rr3WOvPaBfbm5+DKQ8lp1TbO6DgzF3VB/I6rZ6Euhz3HUeAtvmNw/wWQ==
+ bh=t01yi1nox2TJ4LBFe5bGIiw1hu6OuiO953GFUdDqzUI=;
+ b=bpkMqR83c3hYsrA5LucViCmxu92FgEp+zyy4IXOhNYIBgT6Pfs7VCasVW7fEK5HGunSd1l9y8v5D/HtWnqaAo3HGGBoFesS82hFZXe8Y7EA9fYZ/JeRM/Go0fuHzaW7BP+mE0z86vWHAj6i20JpAURWFQn7pPrGog5DEoimttC26kgTbTMF57HN1haPPbrJRbeklRD5TOiMkXjPtLkjKUnrMIXrq78vBywfxfJqtoyymLwuXvhL1qY2PAbxMsWF/0JaBAoyIOH8C/IN+CaJRcgA1R9HoProI1rsGlU8rCu4yVGIF4Xnu2XooELyaYI9AW5ib7W55pVHgusLgbcfYBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=transsion.com; dmarc=pass action=none
  header.from=transsion.com; dkim=pass header.d=transsion.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=transsion.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XAnD7NW3HgGrLJN+k5MWmmddWuXIabMVCPIQ0ZkBUSo=;
- b=HLACF3EeQnFZQF2Lm1STX0qPxQScoG1z35Des1r3nme9KT56sib94e/Cy5bf5Elbl1NHLc1Hgdd5qaAP4h0kLQmHTBqipSx8PRGwbVhVGF1Hwp5p/f4mJnz802mzEHwLoDe5dAg7OYW7LRt4gQoP28n5IV64p6cb/3WPK01Uag4=
+ bh=t01yi1nox2TJ4LBFe5bGIiw1hu6OuiO953GFUdDqzUI=;
+ b=EW6Xne62Qxf20s9e2mqmGWsmPQ92J0usTH7pJfAvH9vRhyveqshG+aD2MJNZleHEQlYXHx86UOed/Iak9u8GOfZC8fc22977oHxVj58zdEs3Yf+G06YUQjh5kN+GnAgx/w38rTauIiI5WjggRC7wQCl60UGNL8j0xQQH2eKP7V8=
 Received: from KL1PR0401MB6611.apcprd04.prod.outlook.com (2603:1096:820:b9::5)
  by TYSPR04MB8074.apcprd04.prod.outlook.com (2603:1096:405:94::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.10; Fri, 28 Aug
- 2026 12:18:42 +0000
+ 2026 12:18:44 +0000
 Received: from KL1PR0401MB6611.apcprd04.prod.outlook.com
  ([fe80::4561:48d1:fcf9:e605]) by KL1PR0401MB6611.apcprd04.prod.outlook.com
  ([fe80::4561:48d1:fcf9:e605%3]) with mapi id 15.21.0360.003; Fri, 28 Aug 2026
- 12:18:41 +0000
+ 12:18:44 +0000
 From: =?iso-2022-jp?B?GyRCTXsyURsoQjEx?= <ke.li11@transsion.com>
 To: "linux-f2fs-devel@lists.sourceforge.net"
 	<linux-f2fs-devel@lists.sourceforge.net>
 CC: "jaegeuk@kernel.org" <jaegeuk@kernel.org>, "chao@kernel.org"
 	<chao@kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
 	=?iso-2022-jp?B?GyRCTXsyURsoQjEx?= <ke.li11@transsion.com>
-Subject: [PATCH 1/2] f2fs: add alloc_primary mount option
-Thread-Topic: [PATCH 1/2] f2fs: add alloc_primary mount option
-Thread-Index: AQHdNudcyX9ZYWVVTUyngBkWc1pPag==
-Date: Fri, 28 Aug 2026 12:18:41 +0000
-Message-ID: <20260828121816.1463654-2-ke.li11@transsion.com>
+Subject: [PATCH 2/2] f2fs: allow f2fs_resize_fs to drop the last secondary
+ device
+Thread-Topic: [PATCH 2/2] f2fs: allow f2fs_resize_fs to drop the last
+ secondary device
+Thread-Index: AQHdNudeNBcuZawmbEGEhEBkn48wrg==
+Date: Fri, 28 Aug 2026 12:18:44 +0000
+Message-ID: <20260828121816.1463654-3-ke.li11@transsion.com>
 References: <20260828121816.1463654-1-ke.li11@transsion.com>
 In-Reply-To: <20260828121816.1463654-1-ke.li11@transsion.com>
 Accept-Language: zh-CN, en-US
@@ -61,59 +63,59 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=transsion.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: KL1PR0401MB6611:EE_|TYSPR04MB8074:EE_
-x-ms-office365-filtering-correlation-id: b7028695-ea9b-466a-8e4b-08df04fe7f55
+x-ms-office365-filtering-correlation-id: 270b1f55-ac12-442a-c03f-08df04fe80eb
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
  BCL:0;ARA:13230040|42112799006|1800799024|366016|23010399003|376014|10067099003|6133799003|22082099003|18002099003|11063799006|56012099006|38070700021;
 x-microsoft-antispam-message-info:
- CKQk303XJ3OfeI8qaAe2nnjc3A1nJwsu/m3oRyYGX4nxoEfphpQbtJaAky0AZn6zs5q6Zd4tu0sum2CDfMZMNu4ju+cM+G3C5zd2TQWoq361XvL5nOBqknI5upDT+6Einz2VkuRtO4gvYhM2Z/UU9xSFat3ew4bVGP9KaJ1lrD2bszsz7rj4eqriGIa4kVei56sx/qy1tOG+NqIMaL540aD9bUVGq/UQ6Tw/pShJ0ewVFbF3xLorqqPTOeadKn9kVmiWonywMlvIB8u8BdY1pLg0Z3iLZMa4O+c3APC6dyxruB8vcvhk5gXRUxRzTM0KiTHcac3Zj4LvNO94FX8KkGjKQD9KaRoSGfAXmnSwq/k+6L5sWjTaw9RkCPL4/TvJqQ6ThophbkI2mMSeJKOjPoaMOUB9kShNCyXhN52+fSowuPFQWfwoSQNwPEHwXNAJi6SlPkAeRfrQj4Grc0BT1bnLz/3rM36TZm9OMAy02NptGpz3Z1MvVr4gbNPhujdBk7HNTi3xSoB6epINulhiZmW+fVmKgClVYc5X2vf8dTy0QhPV1C+i5lhIabR2+yNx84JGlubxiYAQWfMhx+nd+SZSoWfVUiv2aWqotFAUuXp7Abq5PJqQkdKfpCylHGeNKaShodkk7koYiXQWitYwKxkLf/SWb6oLtp+p94DKqNC46gp+foluJsNTtBcXvUHRCqZnEbRPYSBGFZgyiJHmF9XXWuOiwkA2g9CGT2eY7/g=
+ 5c9JChh1M8G5WOXX3rZUqHczAlx183nlEb1fHip617Fv+MoIHD0AgXEjVWPWPdApIjR3yQYZ6ZxjiIq+rjSXBCQjmOX1kdSkWLk7IGuoW2Tv8xL6wv/5AQdig3da+aJMT81os+wupYLKtlkxIarAGjBhzy3VEgpce+AZwi5QnrNhLO9Zuv4qo2fBS3HDJOiPd84GxN2J0Q4YkYFuePc6P1Gkd2kE675ySmcoAVqWQj/mhKB2gDqQ4c2tNALzQrZ+0GvqsSYWmiL+Qtt6nlG+YGs/7165D54PcZ0ps7XSTB6/WMWElEE9FEjl1Lde4gPoBtRv8zULGNQWizB0WoiorExDSVHmgBXC+bo8mIRcZi1+XDGFXdSOM5sFShtTzsV1b0b7cZsAXvAv9dy2Zdl6RzkAPAGWMMrW8okf1VdKgzduP80d6j9CbVVqbK/Zpt4S53M8itKhNk8ZRebPj3BfguwjHpY935Xw0BYhViTZQONU7ycE5RagnI79ec0tEicxLZ90uS8W12HBgL7kFJRW7sx7yALGBnkxjIBRMKYXHOfNDzjAyeAOIQdYAQcFHNOw7uoM3uHTYS4+MAKifWH3YO3Kg+sXv7WKfNNVjB6wUAf2IH68kg3Kmnyazhjrdp891fOT5nT8R+Ahwc36EYJlEWLz/LObMJaUSxsesM19nYweh8Ly6fpIfDro7jWpn3af2nNZvqTlLhoo4vTVxQP/p34E18qTvOFcP1KJuhQWgo4=
 x-forefront-antispam-report:
  CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR0401MB6611.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(42112799006)(1800799024)(366016)(23010399003)(376014)(10067099003)(6133799003)(22082099003)(18002099003)(11063799006)(56012099006)(38070700021);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-2022-jp?B?UjgvSUxKaHloZGtUTktZYnhFZ0wzTDJhbjM5dm9aY2VXYitZb2Z4VWdW?=
- =?iso-2022-jp?B?MkZpaGpnZGIvQ1Y1SThlK3F0WVVuMlhIS0hCV3VSNU9NTkFPdGUzMVRt?=
- =?iso-2022-jp?B?RGtYQUVDTE13VEpUc29SUXkzVExEeDVJZ2JQZ2ZzNE5ORGJTZm1tM0F4?=
- =?iso-2022-jp?B?dmpYV2ZxK0Q2YmtPUXpVMjM1eE9PV21oWnF3aWY5ZnZ1a3FJUld5cHl2?=
- =?iso-2022-jp?B?VlY0TFVUTFg5SVFIM2NOM0k1Q2hZT0hESUJ4VkhUMnJ2MmVKQU5HQ1o5?=
- =?iso-2022-jp?B?T2xtUXlIVERpbDB1TUtXY29xU2F4M1lqa1pPbi9qQTk4RzFLc1lLKzFt?=
- =?iso-2022-jp?B?MFptbklaT1ZOSUNOKzh5aHpFcjBNcXBZZjdZdXZ5a0h6dTE1WVRNcG5D?=
- =?iso-2022-jp?B?N3JIRmZGL2dWU0tlYkYrOHIxQmhoY0VYUmppWFBGbDBzQTZRUzZvclFD?=
- =?iso-2022-jp?B?TU9mbFFmY1E2YUJLNENWZUdpTnFzd0oraVl6R0YyUHFsdzRyc1V6TWRU?=
- =?iso-2022-jp?B?TjZWNWplMzJkREkyTkdvYnJ2OG9vVkFPZUw3a08rUDlkL05BQkxBdGpy?=
- =?iso-2022-jp?B?bWkyNnVwRTk4cElHUXpldHJzbDNudFZWQVlJQmpBRGhxcG1OTjh1bGdn?=
- =?iso-2022-jp?B?bjN0c3Rvb2lvck96OFBNM2tKaHd0MHVVWDB4WUJDZjhDVDFpZXNKcm9T?=
- =?iso-2022-jp?B?REdkdDRFNFpwcEZUWVRSNHc1b3pzRDZYN25ENkRYdmFkaXV2MURVeWtF?=
- =?iso-2022-jp?B?R0JaVGs4ejRaUmNBbURoNG81M3FBQmZyMTVWcGFxM2t0d29CS2pjL2sx?=
- =?iso-2022-jp?B?ZUxmTDF0NzJoY3RDOHU4WEp1NDBzUVVyK1MwdmYwbjlKNkU4VEFCc1kv?=
- =?iso-2022-jp?B?U3hjNjJpKzJ6a0dMeDBlNkZrRGkvczdSTHdSek1FazdINVIyRDFPUHU3?=
- =?iso-2022-jp?B?blg0N1pDejkzNFVBOHY3ODAwZnN4SEZuZExOaDFacUNKOU5hYTBMWE05?=
- =?iso-2022-jp?B?S1l3dWw1UzlIN1FSaUZLSXRJbEJpTzViRFg4UXV4QTlnSyt6MXdXU0I2?=
- =?iso-2022-jp?B?UitFeVVxSE5kMkdLcyt1UnZGalkyaTVEUktWdWZOSG05Tlh4RFNwbGM1?=
- =?iso-2022-jp?B?V3MyOHlOZG5lWVlLWWdKSDE1aGZ1dnVnNnlGVEdGSGF3MURjaHFtMmJw?=
- =?iso-2022-jp?B?RVJ5bzV4MFlYRmlGK05CbmxGWkJBU3BSSnlsekNvNmFpY1lYTVMzVHFS?=
- =?iso-2022-jp?B?cG1aMW5iMVhhdk5aUEJhU3VVZ1FrdFpUQUgxVXJqNy9pRXVXVlAxaWtk?=
- =?iso-2022-jp?B?c0piZExOQzNuei9HOHRVVjNlcmZrNjRSVG1UUDFrcmtkbWhZKy9HbFlR?=
- =?iso-2022-jp?B?QTUrT0Q5THpOSUc1Q3c2YTVRNG1vak9kWmNoOFF3V3Uva1F6eDhjNWQ3?=
- =?iso-2022-jp?B?SmlUSGVYUmt3YzZUZ3JKcENMZWoxVmxUMzMrRDhmc3ZGTHp2MWF1QnVy?=
- =?iso-2022-jp?B?cFVweDlOUCsyRysrMkpSY21QeHUvWlNoR0ZpUzEzSHdLQ1Jsa1ZOT0kz?=
- =?iso-2022-jp?B?VGUvWDRMaWNaTjFESXlNN01nc1JwdUh2MUNtYnRsbnhpVVhXeWg1SE4x?=
- =?iso-2022-jp?B?MjFCUytlOWVQbDBkeFRacC9TOHlLSkc0ck9lUFllaGU4d2ZJZW1ocGVt?=
- =?iso-2022-jp?B?QkVTa01NNWIwcW5lM004SGYzN0ZaZTVOR1hZUk5seFlCTkxtbEYxRGRH?=
- =?iso-2022-jp?B?OGF1YmpGSnB5cHZKbk1YN1pid1IybEg5R1d4SVpOTURtNENsWWIxL3Zr?=
- =?iso-2022-jp?B?eWlHMC9kaHZjNGg3bGNTS1Q3ekRCdXhYbHFsdjdKNndaaTlwQVRKL3Mw?=
- =?iso-2022-jp?B?Q2RoaU1LVm9jMXUzKzcvMTVtKzRuTm5XYzRJaVl3Y2VsRzZMMU5PdnhU?=
- =?iso-2022-jp?B?ZjBxQTVBNktwZSszdkR4SmkrbzVuSlVnczZBc0JENHFveDJNZG9YTG5P?=
- =?iso-2022-jp?B?a1kyaXhoYUV4WHNlSUllNlkwVGxlb3V3OGlySjMybWlDbUZuSG1wdkJo?=
- =?iso-2022-jp?B?emNoSUxXYjg2YzdoRDhnb3RNWGk5cTYzS08rdnRZWUVpYkp5YXNBdjJN?=
- =?iso-2022-jp?B?OFNpRGhiY0h1aGNGb3haYXZEYTQ0TXIyVUN6Q0lIM0VRSHA4MUVoQWxU?=
- =?iso-2022-jp?B?eXdNY3RTVE9BY09FdWZjTTZWQjZwcXdPSmtOTE9xYUNDKzNTS25aN3pT?=
- =?iso-2022-jp?B?eldXSEc3N3JqeGdHc3VYWUVvdGU4bVBaQzVpWXRFck5lTElYRmxwRjNv?=
- =?iso-2022-jp?B?aXlPTUFVd043bGs2SGZrTWRTWGNGY1BmRkJJMFJwS1hVbXFzMzIxN2o0?=
- =?iso-2022-jp?B?eHZOVVU3cVR0bXhRUmFVTGVqOUM2ZG1VcGh2K2g2YTlGYU5DekpSNkRz?=
- =?iso-2022-jp?B?NllQSFI2R2lzTzdiWTBJUmxRNEg5N1lqYjJEdlUvT0s4UEtpc1lPajRl?=
- =?iso-2022-jp?B?QmNNN2xLMEdzTHNqeWc2Zlc5eHlIUDNUOFFCdz09?=
+ =?iso-2022-jp?B?UURzdVhrbmFOaEhCb2VwMG5QMnE3aEtBRWR2V0RSdEpTekprUDQvbmNJ?=
+ =?iso-2022-jp?B?UmdHRFFSVEYrOHdKVlpTMHRiOEFHakNpdFVNaUUzZmVvNEdXaXhhNU9L?=
+ =?iso-2022-jp?B?b2llUzdteGlTbmFiM0RHQ1FRMlh2SXpNZUdlVENZYy9jY3dJa0lxUVlX?=
+ =?iso-2022-jp?B?dlJtRDZ5RHlDTFcxemFBbENvOFUxM0FrZFduNE81Uyt3U3VXbmd0Wms0?=
+ =?iso-2022-jp?B?WUp0TkhUd0VPZFVUTFVKWCtIbE5Ta1BFQ01TNGRhSEZ1VjU4WUNaQnpv?=
+ =?iso-2022-jp?B?SDRTU2tDNkE0SzJyR1VMNHdyei9JUEpQOTQ4U0RoWlBWQU5WRm04emJX?=
+ =?iso-2022-jp?B?SnRPRHBIUTBabXRERHVWOUU3cnE0SE1pU0tGbGxvL3BNa280RCtyU25x?=
+ =?iso-2022-jp?B?Ri82a0VGaStJYlkzOElPdHRwdm10M1k5WmtZUGJld255blFYZzRLaWtT?=
+ =?iso-2022-jp?B?TithTithRGxHZmhGeldrSHlhNi95eVRDcVRBeXhteHAxbDdNMEFPSjNM?=
+ =?iso-2022-jp?B?dytOclE2eHJNSzlzck5GM1F3aE42citYd0FXTFFvS2Z5VXhXR0pJbTZN?=
+ =?iso-2022-jp?B?NkpMaEhGUE1QUGplT1V1dkV0Mm1LTkszMzQzdzNvMVBPR3N1eGJjVWl5?=
+ =?iso-2022-jp?B?NE9wcjFKN2xkQjhsMmhSRDBmbXV6L1h1SG0wbVR5OG84MUc0LzNiK3hB?=
+ =?iso-2022-jp?B?N0JKUmRBclZWUXozTlZGTmU4dFBmMHY2ZUhsakRIWXFpM2tNcWwxcDRY?=
+ =?iso-2022-jp?B?V1dFS0NvSVNWVy9tK3ZmYTNpNG1WSWN6YXlBWVlrSzlQYmRDRjlhVW94?=
+ =?iso-2022-jp?B?K2c4SnhvY2kwL3ZBRndUZ3R5VmlFa2h4NU5YbEVKelp3aXU4bFdSVGxn?=
+ =?iso-2022-jp?B?UE5kaUE2djVzcXhyMi9ISjd4UVVZM2VEVHJQM3E2T0pnWTBMN3ZzaElU?=
+ =?iso-2022-jp?B?Smp5blFXLzRlKzVkOGR4MUo3ZEh6NUE5aDFjaTd6ZmRiMjhIY05xK0dZ?=
+ =?iso-2022-jp?B?dEY2S0MvWThEWkkyeTM4bWl2VWx6aHdPSys2Y1ZRMXRURWd5ZFVLYmVy?=
+ =?iso-2022-jp?B?azlYVWZ0bFpWNTd3YytHcXArZURZbVlWU0xkQWplSHRPazdVMHU5OG9F?=
+ =?iso-2022-jp?B?czVyVzFEOGlNVkp3MHptK3I0U0VRc095dndhRWx1UEVVendiV3hlVlVt?=
+ =?iso-2022-jp?B?MGtiaU5Bd0FtSWRjQzRQeExOUkdvTjB1ZFFleEJ1anVEUUZSZjJHZjAv?=
+ =?iso-2022-jp?B?NjE4UDNlZ0cvNGkvWU5DV3lLeEFkNWtXc0ZzUkp3WnJKTWFIbFdGMVNk?=
+ =?iso-2022-jp?B?Y1F5dmcrby9mWUhPVGxkek1QQ1lXWENuR1U1UTArZnY3WEM5VCtzaWd0?=
+ =?iso-2022-jp?B?QThLWlJZTEtYbWVaWUdSbkZuaUdhWGFVSDVZT1h0VDh0SEwwTlViejJY?=
+ =?iso-2022-jp?B?djE0OGQrRGFBL0psWDc5bkc5Q2VucXh1Tjc5Y2loR1ZZTi81SGtzbEJ3?=
+ =?iso-2022-jp?B?SzVwN0dHdXdRVklCSkFFd3dxUEJhSjZrTHZhUjdYeENldEZRbGhaRUMz?=
+ =?iso-2022-jp?B?amRaTVVmK01WU1BxZ3JJMDhyYy9iWG9heUYvTlo2MXZGWXphYzJhNUhE?=
+ =?iso-2022-jp?B?TzVZR28xN0xSeXNnVjA5b0N2eCtOL295RWVKMStUVy9DZEdqNCt3QVl4?=
+ =?iso-2022-jp?B?akJLaXJoZTFqYUd5ZUJXdzBYajFyNTlsUVljWU9PT1FJend3azQ0NUdX?=
+ =?iso-2022-jp?B?WWl4K1l0L2ZwYzFWclR4QWIreEQ2NSsxTmdabkl3NTZRejlKMW5lTG1u?=
+ =?iso-2022-jp?B?dC9Dd2VURUJTM3l3dGxZUkdRVHBOM1JkK1ZCNW9pcng3MXl3angxazJ5?=
+ =?iso-2022-jp?B?bjRRcElXT09MbC8rRHUvM21qNVF0T1NXazFVSXFXNVRTajZDZEZjZkY0?=
+ =?iso-2022-jp?B?b1N1QTQyOWxuZitOQi9QUEI0V1lJcmk3UWl2Y3ZMUlVYeXk3RHA5M1o2?=
+ =?iso-2022-jp?B?UlU3SHczMXNmYnR3bHpsYm5ORXhJTkx5aVgwTldSUG8zRzJtOGNOL1JV?=
+ =?iso-2022-jp?B?aWZxUjFRNGdqSkZRM3BkN3R0eDEzcWsySkFZUGpoZTdWUnEyNHZ1bUV4?=
+ =?iso-2022-jp?B?NzcxZ1dsUTVZWm5vcWYvTCswWW1DaU1YMEFjbEpEZWpMUWZDTy82MnpO?=
+ =?iso-2022-jp?B?MnN0dG16TVdDUkJtMy8rMU9YTm5iNzNCOVdYUW94OUk2QmhicDQ3eksr?=
+ =?iso-2022-jp?B?emFwaFdiaEZ6WXNlU2I2aXdDQndUR05SaDRLRnZid0F0VHFlYk5BQWI0?=
+ =?iso-2022-jp?B?UURyeUVtWjZSU2F1aitRNlQyNHNHZ3BaMHhhL1c0TjdNVFU4NFhLMmEy?=
+ =?iso-2022-jp?B?RGhTRlFyc1hZODg0eEtZMWV0OFRQYlRreVpVYnBDeWNBMzZyVGNpemNR?=
+ =?iso-2022-jp?B?dGo4bmo1ZTB5bGt4bG15QlBseUtWTUEwQm1kbGpEQ3JHaFVaK2QyV29j?=
+ =?iso-2022-jp?B?NmFQcFhGZVVEckxveEQyYzZjRjNweFJ2Y0h4QT09?=
 Content-Type: text/plain; charset="iso-2022-jp"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -125,148 +127,213 @@ MIME-Version: 1.0
 X-OriginatorOrg: transsion.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: KL1PR0401MB6611.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7028695-ea9b-466a-8e4b-08df04fe7f55
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2026 12:18:41.4011
+X-MS-Exchange-CrossTenant-Network-Message-Id: 270b1f55-ac12-442a-c03f-08df04fe80eb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2026 12:18:44.0916
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 2e8503a6-2d01-4333-8e36-6ab7c8cd7ae2
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: m9IDROHD9+i5HBwsNRP4Fevm0FuHcKE8m9WvSclElC1TuWHRmfDF9cV/40JCKNg3gj2LPPkiqeJZOysOrfiSBg==
+X-MS-Exchange-CrossTenant-userprincipalname: M3BbcF5L66mZLQAmQ3PwnwTpjnU6vk/S23FSd9tsS1weGBNIPrDtqhX/1SGBx7245mQzv5ChxwjJr3dkRpHFcg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR04MB8074
 
 From: "ke.li11" <ke.li11@transsion.com>=0A=
 =0A=
-In multi-device setups, F2FS steers warm/cold data to the secondary=0A=
-device by setting ALLOC_NEXT past the primary device end.  Add an=0A=
-alloc_primary mount option to keep such allocations on the primary=0A=
-device when userspace manages expandable storage on a separate volume.=0A=
-=0A=
-Document the new option in Documentation/filesystems/f2fs.rst.=0A=
+When shrinking a multi-device filesystem, allow a section-aligned=0A=
+resize that fully removes the last secondary device.  Clear the=0A=
+device path in the on-disk superblock before commit so the next=0A=
+mount does not open a block device that userspace is removing, and=0A=
+detach the in-memory device only after superblock and checkpoint=0A=
+are both persisted.  Restore the path if commit or checkpoint fails.=0A=
 =0A=
 Signed-off-by: ke.li11 <ke.li11@transsion.com>=0A=
 ---=0A=
- Documentation/filesystems/f2fs.rst |  3 +++=0A=
- fs/f2fs/f2fs.h                     |  6 ++++++=0A=
- fs/f2fs/gc.c                       |  3 ++-=0A=
- fs/f2fs/super.c                    | 12 ++++++++++++=0A=
- 4 files changed, 23 insertions(+), 1 deletion(-)=0A=
+ fs/f2fs/gc.c | 124 +++++++++++++++++++++++++++++++++++++++++++++++++--=0A=
+ 1 file changed, 120 insertions(+), 4 deletions(-)=0A=
 =0A=
-diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems=
-/f2fs.rst=0A=
-index b45d7a687625..f065639d931d 100644=0A=
---- a/Documentation/filesystems/f2fs.rst=0A=
-+++ b/Documentation/filesystems/f2fs.rst=0A=
-@@ -395,6 +395,9 @@ errors=3D%s		 Specify f2fs behavior on critical errors.=
- This supports modes:=0A=
- 			     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=0A=
- nat_bits		 Enable nat_bits feature to enhance full/empty nat blocks access=
-,=0A=
- 			 by default it's disabled.=0A=
-+alloc_primary		 Keep warm/cold/pin data allocation on the primary device=
-=0A=
-+			 in a multi-device configuration.  Without this option, F2FS=0A=
-+			 steers ALLOC_NEXT segments to the secondary device.=0A=
- lookup_mode=3D%s		 Control the directory lookup behavior for casefolded=0A=
- 			 directories. This option has no effect on directories=0A=
- 			 that do not have the casefold feature enabled.=0A=
-diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h=0A=
-index 8376bbe58ee3..2db4d6a2837a 100644=0A=
---- a/fs/f2fs/f2fs.h=0A=
-+++ b/fs/f2fs/f2fs.h=0A=
-@@ -266,6 +266,12 @@ struct f2fs_mount_info {=0A=
- 	unsigned char extensions[COMPRESS_EXT_NUM][F2FS_EXTENSION_LEN];	/* extens=
-ions */=0A=
- 	unsigned char noextensions[COMPRESS_EXT_NUM][F2FS_EXTENSION_LEN]; /* exte=
-nsions */=0A=
- 	unsigned int lookup_mode;=0A=
-+	/*=0A=
-+	 * alloc_primary: keep warm/cold/pin allocation on the primary=0A=
-+	 * device.  Skips the multi-device ALLOC_NEXT hint that would=0A=
-+	 * otherwise steer them onto the secondary (expand) device.=0A=
-+	 */=0A=
-+	bool alloc_primary;=0A=
- };=0A=
- =0A=
- #define F2FS_FEATURE_ENCRYPT			0x00000001=0A=
 diff --git a/fs/f2fs/gc.c b/fs/f2fs/gc.c=0A=
-index ffaa7ba76a1b..c5c243e6d3b2 100644=0A=
+index c5c243e6d3b2..737bac48c8f5 100644=0A=
 --- a/fs/f2fs/gc.c=0A=
 +++ b/fs/f2fs/gc.c=0A=
-@@ -2147,7 +2147,8 @@ void f2fs_build_gc_manager(struct f2fs_sb_info *sbi)=
-=0A=
- 	sbi->gc_pin_file_threshold =3D DEF_GC_FAILED_PINNED_FILES;=0A=
- =0A=
- 	/* give warm/cold data area from slower device */=0A=
--	if (f2fs_is_multi_device(sbi) && !__is_large_section(sbi))=0A=
-+	if (!F2FS_OPTION(sbi).alloc_primary &&=0A=
-+	    f2fs_is_multi_device(sbi) && !__is_large_section(sbi))=0A=
- 		SIT_I(sbi)->last_victim[ALLOC_NEXT] =3D=0A=
- 				GET_SEGNO(sbi, FDEV(0).end_blk) + 1;=0A=
- =0A=
-diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c=0A=
-index be22c31015ef..3df06c525a2c 100644=0A=
---- a/fs/f2fs/super.c=0A=
-+++ b/fs/f2fs/super.c=0A=
-@@ -235,6 +235,7 @@ enum {=0A=
- 	Opt_jqfmt,=0A=
- 	Opt_checkpoint,=0A=
- 	Opt_lookup_mode,=0A=
-+	Opt_alloc_primary,=0A=
- 	Opt_err,=0A=
- };=0A=
- =0A=
-@@ -366,6 +367,7 @@ static const struct fs_parameter_spec f2fs_param_specs[=
-] =3D {=0A=
- 	fsparam_flag("age_extent_cache", Opt_age_extent_cache),=0A=
- 	fsparam_enum("errors", Opt_errors, f2fs_param_errors),=0A=
- 	fsparam_enum("lookup_mode", Opt_lookup_mode, f2fs_param_lookup_mode),=0A=
-+	fsparam_flag("alloc_primary", Opt_alloc_primary),=0A=
- 	{}=0A=
- };=0A=
- =0A=
-@@ -404,6 +406,7 @@ static match_table_t f2fs_checkpoint_tokens =3D {=0A=
- #define F2FS_SPEC_errors			(1 << 23)=0A=
- #define F2FS_SPEC_lookup_mode			(1 << 24)=0A=
- #define F2FS_SPEC_reserve_node			(1 << 25)=0A=
-+#define F2FS_SPEC_alloc_primary			(1 << 26)=0A=
- =0A=
- struct f2fs_fs_context {=0A=
- 	struct f2fs_mount_info info;=0A=
-@@ -1235,6 +1238,10 @@ static int f2fs_parse_param(struct fs_context *fc, s=
-truct fs_parameter *param)=0A=
- 		F2FS_CTX_INFO(ctx).lookup_mode =3D result.uint_32;=0A=
- 		ctx->spec_mask |=3D F2FS_SPEC_lookup_mode;=0A=
- 		break;=0A=
-+	case Opt_alloc_primary:=0A=
-+		F2FS_CTX_INFO(ctx).alloc_primary =3D true;=0A=
-+		ctx->spec_mask |=3D F2FS_SPEC_alloc_primary;=0A=
-+		break;=0A=
+@@ -2316,6 +2316,84 @@ static void update_fs_metadata(struct f2fs_sb_info *=
+sbi, int secs)=0A=
  	}=0A=
- 	return 0;=0A=
  }=0A=
-@@ -1763,6 +1770,8 @@ static void f2fs_apply_options(struct fs_context *fc,=
- struct super_block *sb)=0A=
- 		F2FS_OPTION(sbi).errors =3D F2FS_CTX_INFO(ctx).errors;=0A=
- 	if (ctx->spec_mask & F2FS_SPEC_lookup_mode)=0A=
- 		F2FS_OPTION(sbi).lookup_mode =3D F2FS_CTX_INFO(ctx).lookup_mode;=0A=
-+	if (ctx->spec_mask & F2FS_SPEC_alloc_primary)=0A=
-+		F2FS_OPTION(sbi).alloc_primary =3D F2FS_CTX_INFO(ctx).alloc_primary;=0A=
  =0A=
- 	f2fs_apply_compression(fc, sb);=0A=
- 	f2fs_apply_test_dummy_encryption(fc, sb);=0A=
-@@ -2543,6 +2552,9 @@ static int f2fs_show_options(struct seq_file *seq, st=
-ruct dentry *root)=0A=
- 	else if (F2FS_OPTION(sbi).lookup_mode =3D=3D LOOKUP_AUTO)=0A=
- 		seq_show_option(seq, "lookup_mode", "auto");=0A=
- =0A=
-+	if (F2FS_OPTION(sbi).alloc_primary)=0A=
-+		seq_puts(seq, ",alloc_primary");=0A=
++/*=0A=
++ * After a shrink that zeroes the last secondary device's total_segments,=
+=0A=
++ * clear its on-disk path so the next mount does not try to open a mapper=
+=0A=
++ * that userspace is about to tear down.=0A=
++ *=0A=
++ * Must be called with total_segments already updated; restores path on=0A=
++ * the raw superblock if @restore is true (commit failed).=0A=
++ */=0A=
++static void f2fs_update_empty_secondary_sb_path(struct f2fs_sb_info *sbi,=
+=0A=
++					     char path_backup[MAX_PATH_LEN],=0A=
++					     bool restore)=0A=
++{=0A=
++	struct f2fs_super_block *raw_sb =3D F2FS_RAW_SUPER(sbi);=0A=
++	int last_dev;=0A=
 +=0A=
- 	return 0;=0A=
- }=0A=
++	if (!f2fs_is_multi_device(sbi))=0A=
++		return;=0A=
++=0A=
++	last_dev =3D sbi->s_ndevs - 1;=0A=
++	if (last_dev < 1)=0A=
++		return;=0A=
++=0A=
++	f2fs_down_write(&sbi->sb_lock);=0A=
++	if (restore) {=0A=
++		if (path_backup[0]) {=0A=
++			memcpy(raw_sb->devs[last_dev].path, path_backup,=0A=
++			       MAX_PATH_LEN);=0A=
++			f2fs_info(sbi,=0A=
++				  "resize_fs: restored FDEV[%d] path after failed drop",=0A=
++				  last_dev);=0A=
++		}=0A=
++	} else if (le32_to_cpu(raw_sb->devs[last_dev].total_segments) =3D=3D 0 &&=
+=0A=
++		   raw_sb->devs[last_dev].path[0]) {=0A=
++		memcpy(path_backup, raw_sb->devs[last_dev].path, MAX_PATH_LEN);=0A=
++		memset(raw_sb->devs[last_dev].path, 0, MAX_PATH_LEN);=0A=
++		f2fs_info(sbi,=0A=
++			  "resize_fs: cleared FDEV[%d] path (total_segments=3D0)",=0A=
++			  last_dev);=0A=
++	}=0A=
++	f2fs_up_write(&sbi->sb_lock);=0A=
++}=0A=
++=0A=
++/* Detach last empty secondary from in-memory FDEV[] after successful SB+C=
+P. */=0A=
++static void f2fs_detach_empty_secondary(struct f2fs_sb_info *sbi)=0A=
++{=0A=
++	int last_dev;=0A=
++=0A=
++	if (!f2fs_is_multi_device(sbi))=0A=
++		return;=0A=
++=0A=
++	last_dev =3D sbi->s_ndevs - 1;=0A=
++	if (last_dev < 1)=0A=
++		return;=0A=
++=0A=
++	if (FDEV(last_dev).total_segments !=3D 0)=0A=
++		return;=0A=
++=0A=
++	f2fs_info(sbi,=0A=
++		  "resize_fs: dropping FDEV[%d], ndevs %d->%d",=0A=
++		  last_dev, sbi->s_ndevs, sbi->s_ndevs - 1);=0A=
++=0A=
++	if (FDEV(last_dev).bdev_file) {=0A=
++		fs_bdev_file_release(FDEV(last_dev).bdev_file, sbi->sb);=0A=
++		FDEV(last_dev).bdev_file =3D NULL;=0A=
++		FDEV(last_dev).bdev =3D NULL;=0A=
++	}=0A=
++#ifdef CONFIG_BLK_DEV_ZONED=0A=
++	kvfree(FDEV(last_dev).blkz_seq);=0A=
++	FDEV(last_dev).blkz_seq =3D NULL;=0A=
++#endif=0A=
++	memset(FDEV(last_dev).path, 0, MAX_PATH_LEN + 1);=0A=
++	FDEV(last_dev).total_segments =3D 0;=0A=
++	FDEV(last_dev).start_blk =3D 0;=0A=
++	FDEV(last_dev).end_blk =3D 0;=0A=
++	sbi->s_ndevs--;=0A=
++}=0A=
++=0A=
++=0A=
+ int f2fs_resize_fs(struct file *filp, __u64 block_count)=0A=
+ {=0A=
+ 	struct f2fs_sb_info *sbi =3D F2FS_I_SB(file_inode(filp));=0A=
+@@ -2327,6 +2405,8 @@ int f2fs_resize_fs(struct file *filp, __u64 block_cou=
+nt)=0A=
+ 	unsigned int secs;=0A=
+ 	int err =3D 0;=0A=
+ 	__u32 rem;=0A=
++	bool drop_last_dev =3D false;=0A=
++	char drop_path_backup[MAX_PATH_LEN] =3D {};=0A=
  =0A=
+ 	old_block_count =3D le64_to_cpu(F2FS_RAW_SUPER(sbi)->block_count);=0A=
+ 	if (block_count > old_block_count)=0A=
+@@ -2336,9 +2416,33 @@ int f2fs_resize_fs(struct file *filp, __u64 block_co=
+unt)=0A=
+ 		int last_dev =3D sbi->s_ndevs - 1;=0A=
+ 		__u64 last_segs =3D FDEV(last_dev).total_segments;=0A=
+ =0A=
+-		if (block_count + SEGS_TO_BLKS(sbi, last_segs) <=3D=0A=
+-								old_block_count)=0A=
+-			return -EINVAL;=0A=
++		__u64 last_blks =3D SEGS_TO_BLKS(sbi, last_segs);=0A=
++		__u64 primary_end =3D old_block_count - last_blks;=0A=
++=0A=
++		/*=0A=
++		 * Stock F2FS rejects any shrink with block_count + last_blks <=3D=0A=
++		 * old_block_count, i.e. the new size would no longer cover the=0A=
++		 * last secondary device.  As an exception, accept a section-=0A=
++		 * aligned @block_count at or below primary_end when it removes=0A=
++		 * the entire last device (drop_last_dev), so userspace can=0A=
++		 * delete the expand volume after the final shrink.  Still reject=0A=
++		 * if @block_count falls below the section boundary at=0A=
++		 * primary_end and would shrink into the primary device.=0A=
++		 */=0A=
++		if (block_count <=3D primary_end) {=0A=
++			__u64 primary_aligned =3D rounddown(primary_end,=0A=
++							  BLKS_PER_SEC(sbi));=0A=
++=0A=
++			if (block_count < primary_aligned) {=0A=
++				f2fs_err(sbi,=0A=
++					 "resize_fs: reject new=3D%llu < primary_aligned=3D%llu (primary_end=
+=3D%llu)",=0A=
++					 (unsigned long long)block_count,=0A=
++					 (unsigned long long)primary_aligned,=0A=
++					 (unsigned long long)primary_end);=0A=
++				return -EINVAL;=0A=
++			}=0A=
++			drop_last_dev =3D true;=0A=
++		}=0A=
+ 	}=0A=
+ =0A=
+ 	/* new fs size should align to section size */=0A=
+@@ -2426,9 +2530,14 @@ int f2fs_resize_fs(struct file *filp, __u64 block_co=
+unt)=0A=
+ 		goto recover_out;=0A=
+ =0A=
+ 	update_sb_metadata(sbi, -secs);=0A=
++	if (drop_last_dev)=0A=
++		f2fs_update_empty_secondary_sb_path(sbi, drop_path_backup, false);=0A=
+ =0A=
+ 	err =3D f2fs_commit_super(sbi, false);=0A=
+ 	if (err) {=0A=
++		if (drop_last_dev)=0A=
++			f2fs_update_empty_secondary_sb_path(sbi, drop_path_backup,=0A=
++							 true);=0A=
+ 		update_sb_metadata(sbi, secs);=0A=
+ 		goto recover_out;=0A=
+ 	}=0A=
+@@ -2441,14 +2550,21 @@ int f2fs_resize_fs(struct file *filp, __u64 block_c=
+ount)=0A=
+ 	err =3D f2fs_write_checkpoint(sbi, &cpc);=0A=
+ 	if (err) {=0A=
+ 		update_fs_metadata(sbi, secs);=0A=
++		if (drop_last_dev)=0A=
++			f2fs_update_empty_secondary_sb_path(sbi, drop_path_backup,=0A=
++							 true);=0A=
+ 		update_sb_metadata(sbi, secs);=0A=
+ 		f2fs_commit_super(sbi, false);=0A=
++	} else if (drop_last_dev) {=0A=
++		f2fs_detach_empty_secondary(sbi);=0A=
+ 	}=0A=
+ recover_out:=0A=
+ 	clear_sbi_flag(sbi, SBI_IS_RESIZEFS);=0A=
+ 	if (err) {=0A=
+ 		set_sbi_flag(sbi, SBI_NEED_FSCK);=0A=
+-		f2fs_err(sbi, "resize_fs failed, should run fsck to repair!");=0A=
++		f2fs_err(sbi,=0A=
++			"resize_fs failed err=3D%d, should run fsck to repair!",=0A=
++			err);=0A=
+ =0A=
+ 		spin_lock(&sbi->stat_lock);=0A=
+ 		sbi->user_block_count +=3D shrunk_blocks;=0A=
 -- =0A=
 2.34.1=0A=
 =0A=
