@@ -1,150 +1,188 @@
-Received: from mta1.migadu.com (out-157.mta1.migadu.com [95.215.58.157])
+Received: from mail-pj2-f11.google.com (mail-pj2-f11.google.com [74.125.227.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3676339382
-	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 13:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2482846D0A9
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 13:48:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787922579; cv=none; b=htcNpDRwjLTXHbg4GFGcJTjnDYibf8sMs8wL4sgTVe1M026erYRNwSOcBVhFimShCWTU8MYZyKYfb0XM3LrzI9gn4AzPYVqJXGDXbL0ShYV4bxriTXCo99tcH0tMyKDP3BC0+aCC4BBYER7lCxDotNLU9q9hyrISsE6ZVQertcY=
+	t=1787924914; cv=none; b=si++yZhR2XV57C0nXvkM/zIgnk4Ae4lmjoaPl+NNIW8+xV/bVgv80+7GTG+lBHjXyNK8TtuGQnj3ckeVAWPmap/dwcVYJA8gJb/IAdImc9Yn7lc16oKALYYBGfidunjfS6gnE9YZpkO3XLOJdXxQnrSoiIy5FTN10Nu/LRD3/7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787922579; c=relaxed/simple;
-	bh=7Ajbzjj2AKFat2xyqRunplCt/lLNL3Ud/x2dLApOItE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K033/ILzBGYxEfdk1iZXcsSgK2k43Dt2IkGZOOAdfAXCRN32kf4C1vkYIl3eupfrDSF36z5cIZRmxk6A+oB+Algbhw4H+KeNUlOi71loALyAexiJ1ojQUhXxcgO5hDJpV3bNfAnmmWiCtgEKcngJwSJU5U61s/1QBT5s/bnuJkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=nfaeTn28; arc=none smtp.client-ip=95.215.58.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1787924914; c=relaxed/simple;
+	bh=ryt7yZmF0T0BLkRjL8DfW4WEGpGCHSG+s/XfPRWVBow=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tf3iV60RnMitOHnZ0df6ifsl1jckoeBcKuk4b8VjokL8c1kg7w0qIyJLbXKSp2ynfeIYoVMQAyUUwDr6TLSkgaJKL/vZS0PNm0WWEA2NRcEf3C1ZsHMmmolHDJledEXpdYElndKamrjjKEgb4kABf9bwHcrEhen4VBBArWLYERY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bYEK+7kB; arc=none smtp.client-ip=74.125.227.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="nfaeTn28"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=7Ajbzjj2AKFat2xyqRunplCt/lLNL3Ud/x2dLApOItE=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787922573; v=1; x=1788527373;
- b=nfaeTn28epLyF82T+JBS6+N5DSFlT8CjZoGQD7xyZbfxmfXh+BqH9mxjc6KhEvN1EEyTcQE/
- /KkvbHOixtbaL3Ssu+AF9nybtptcKuRDK05fo0gO3ScSE9WDM9wsrvHZy9M0+OUDteCEP0aLgwv
- CTxdDx94lwkUdSHV/1wxBg8DbewC8Iy+ZIvMYURyRXxyf7lVuw7acPfR//ucLn+RGYiAuJ8zwFu
- bD3jzJlB7mhtHdpjtcxohZvo7MO0jvDIvRWt6+IQgWeoiFF/7DUidsgfE3c+5diszzPcs0ZDma9
- 0qY3nhnhi2fo3LZ41traJtQkaJbkfIQD7noY+d5mD856g==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id a4483ccbc7d78e00;
-	Fri, 28 Aug 2026 13:09:33 +0000
-X-Mizu-Trace-ID: a4483ccbc7d78e00
-X-Migadu-Flow: FLOW_OUT
-Date: Fri, 28 Aug 2026 21:09:23 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Yukai Wu <xiaoyewuz.ruster@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bYEK+7kB"
+Received: by mail-pj2-f11.google.com with SMTP id 98e67ed59e1d1-396d27bb2beso781128a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 06:48:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787924911; x=1788529711; darn=vger.kernel.org;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ryt7yZmF0T0BLkRjL8DfW4WEGpGCHSG+s/XfPRWVBow=;
+        b=bYEK+7kB06KFzx27OQw4s0OdbRrsnbqyVQCFYK/P6wIMAT88eAhIbY81IB0YHNVlLU
+         3JcaN/4FGVNWtb9w4HzpmuSmdAxtWT+PaVtsKLREXMz9SZHCzdmqXXAkLaXn1r6atSM4
+         bb6bk9A8OdERzfZY/PZ95DiKYemL/IOjzQmHiec1lEJBLqY0GVnN//ujBNNo9XDgMouB
+         TBsZF7BAaQy413th2fv8Dp9Ev7iuCDEmfiJOZHzHK/aEMxs0SWu4E501VzhVpeaBpbbS
+         NtTuiSYkxIDBBErTCnWcNaskQTijihnFSSPhCcUyBoJKmEDCMYqr/AQUoT2UwqTQRaVB
+         iQ3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787924911; x=1788529711;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ryt7yZmF0T0BLkRjL8DfW4WEGpGCHSG+s/XfPRWVBow=;
+        b=JKFlr5zhvsohJtImXqHVoDFxzqStx+sBfkyDAFdBhGLz+fganO0C1cCY53PZ/WyigJ
+         bdwTP3baH4qMEm04AEmv5CyN7L1kmo0g1IvIUJRjEvLGDU20l5ZXQsyJ+pfa2JDBz15g
+         DbR2CoDM8AAEsvnFQpjw1O0nVGi37hoc2O1/jPr8xk3usDxGnt5SrJZNquTDvlDkzRIs
+         74aJm5vXSQrzBTHdDZ1ajDCf+Us76axp6pIFpLq3IOLpgLFHlfB9bAz4EjIuEgKnwbzw
+         LLO7mY3gjwNy67juByTr5MSboxczEdmaWkBdS6sJ/uoUhup//DgvqThwjyg2uIMpnxzk
+         MyXw==
+X-Forwarded-Encrypted: i=1; AHgh+RqXmWctHQXDAlE9F7yZg7qRQSOBNyPJWu1nVSc0FXJLwyxKRuA/RgeGPW7ShJo4FcC+jzFvUhkMDLw=@vger.kernel.org
+X-Gm-Message-State: AFuF++mtjaKcIIZguW4biixq3notD4DrhV45p/lVg6bKHCfdNPHGzU7W
+	9NZIH89PAnxH/fkt/SGRRPRJeRkmSxApyXZAsOLJkv3sRGYHaxy6AINA
+X-Gm-Gg: AR+sD12wPkzXZsVw+jggEqWEHKKyUVqogmEOY1jzz5flfJiZoYqIrnF9VzOXwFAZ64E
+	C+URJAGxm58K66RobNY3uUVMBs5A/RULW04QeMSVxiQnfEeC90hYzNHwVbo3vSOo3Edxh4LlGdz
+	H38pqouXlOg75O4anbVJ4MUfLVGlz0gay/QkgyAl1tBR7b7qwcwxCQgOFeQi5u0PK5xiiuPzFnc
+	RaSmfSPg2nZdh10EJtiozyTbTKaVyGynqC2f31YdxsjpTNlYf+mnu+8s/v1INCkaMHzR/I/1hnn
+	6kwCMOGo/JCS54np144eXZj8Nnk4UHFoZPxeWxTFTUaVsRsRwAZtQr+cHTEIkDlNdh9Y/AF39gY
+	eZUBGNLH/k79/fKMWPU++3GRtVI3cYuttEQQZdHk6qJApyaRtg7UVwUZpcPYfTsILU09jeHPVJ8
+	3oUFtbmmrVfH6z7sfrtid7tc65U7iML952P1J1SCGpJyGIORk2QzkiltQbSEpbJygbSiqHP1kER
+	irF8+jyOJxMLg==
+X-Received: by 2002:a17:90a:4cc2:b0:396:d27b:89b9 with SMTP id 98e67ed59e1d1-396d27bb20fmr1472296a91.10.1787924911385;
+        Fri, 28 Aug 2026 06:48:31 -0700 (PDT)
+Received: from hppc-archlinux.localnet ([101.68.111.107])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b0fcfa3asm7340190a91.6.2026.08.28.06.48.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Aug 2026 06:48:30 -0700 (PDT)
+From: Yukai Wu <xiaoyewuz.ruster@gmail.com>
+X-Google-Original-From: Yukai Wu <xiaoyewuz.Ruster@gmail.com>
+To: Weijie Yuan <wy@wyuan.org>
 Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Alexandre Ghiti <alex@ghiti.fr>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: Update arch/riscv/patch-acceptance.rst
- translation
-Message-ID: <apGIgyn-iJ534D9S@wyuan.org>
-References: <20260828061834.3645176-1-xiaoyewuz.Ruster@gmail.com>
+ Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Dongliang Mu <dzm91@hust.edu.cn>, Shuah Khan <skhan@linuxfoundation.org>,
+ Alexandre Ghiti <alex@ghiti.fr>, linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH] docs/zh_CN: Update arch/riscv/patch-acceptance.rst translation
+Date: Fri, 28 Aug 2026 21:46:40 +0800
+Message-ID: <RbJcKtULSuOq1gqhZCEqbA@gmail.com>
+In-Reply-To: <apGIgyn-iJ534D9S@wyuan.org>
+References:
+ <20260828061834.3645176-1-xiaoyewuz.Ruster@gmail.com>
+ <apGIgyn-iJ534D9S@wyuan.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260828061834.3645176-1-xiaoyewuz.Ruster@gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"
 
-Hi Yukai,
+SGkgV2VpamllLAoKT24gRnJpZGF5LCBBdWd1c3QgMjgsIDIwMjYgOTowOToyM+KAr1BNIENoaW5h
+IFN0YW5kYXJkIFRpbWUgV2VpamllIFl1YW4gd3JvdGU6Cj4gSGkgWXVrYWksCj4gCj4gT24gRnJp
+LCBBdWcgMjgsIDIwMjYgYXQgMDI6MTg6MTZQTSArMDgwMCwgWXVrYWkgV3Ugd3JvdGU6Cj4gPiBV
+cGRhdGUgRG9jdW1lbnRhdGlvbi9hcmNoL3Jpc2N2L3BhdGNoLWFjY2VwdGFuY2UucnN0IHRyYW5z
+bGF0aW9uLgo+ID4gCj4gPiBVcGRhdGUgdGhlIHRyYW5zbGF0aW9uIHRocm91Z2ggY29tbWl0IGVk
+ODQzYWU5NDdmOAo+ID4gKCJkb2NzOiBtb3ZlIHJpc2N2IHVuZGVyIGFyY2giKQo+ID4gCj4gPiBT
+aWduZWQtb2ZmLWJ5OiBZdWthaSBXdSA8eGlhb3lld3V6LlJ1c3RlckBnbWFpbC5jb20+Cj4gPiAt
+LS0KPiA+IAo+ID4gIC4uLi96aF9DTi9hcmNoL3Jpc2N2L3BhdGNoLWFjY2VwdGFuY2UucnN0ICAg
+ICB8IDQ2ICsrKysrKysrKysrKysrLS0tLS0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMzQgaW5zZXJ0
+aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQKPiA+IGEvRG9jdW1l
+bnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYXJjaC9yaXNjdi9wYXRjaC1hY2NlcHRhbmNlLnJz
+dAo+ID4gYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9hcmNoL3Jpc2N2L3BhdGNo
+LWFjY2VwdGFuY2UucnN0IGluZGV4Cj4gPiBjOGViMjMwY2E4ZWUuLmE0OGU2ZTU3NWE2NyAxMDA2
+NDQKPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FyY2gvcmlzY3Yv
+cGF0Y2gtYWNjZXB0YW5jZS5yc3QKPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
+L3poX0NOL2FyY2gvcmlzY3YvcGF0Y2gtYWNjZXB0YW5jZS5yc3QKPiA+IEBAIC0xNSwxOSArMTUs
+NDEgQEAgYXJjaC9yaXNjdiDlvIDlj5HogIXnu7TmiqTmjIfljZcKPiA+IAo+ID4gIOamgui/sAo+
+ID4gIC0tLS0KPiA+IAo+ID4gLVJJU0MtVuaMh+S7pOmbhuS9k+ezu+e7k+aehOaYr+WFrOW8gOW8
+gOWPkeeahO+8mgo+ID4gK1JJU0MtViDmjIfku6Tpm4bkvZPns7vnu5PmnoTmmK/lhazlvIDlvIDl
+j5HnmoTvvJoKPiA+IAo+ID4gIOato+WcqOi/m+ihjOeahOiNieahiOWPr+S+m+aJgOacieS6uuaf
+peeci+WSjOa1i+ivleWunueOsOOAguaWsOaooeWdl+aIluiAheaJqeWxleiNieahiOWPr+iDveS8
+muWcqOW8gOWPkei/h+eoi+S4reWPkQo+ID4gCj4gPiAt55Sf5pu05pS5LS0t5pyJ5pe25Lul5LiN
+5YW85a6555qE5pa55byP5a+55Lul5YmN55qE6I2J5qGI6L+b6KGM5pu05pS544CC6L+Z56eN54G1
+5rS75oCn5Y+v6IO95Lya57uZUklTQy1WIExpbnV4Cj4gPiAt57u05oqk6ICF5bim5p2l5oyR5oiY
+44CCTGludXjlvIDlj5Hov4fnqIvmm7TllpzmrKLnu4/ov4foia/lpb3mo4Dmn6XlkozmtYvor5Xn
+moTku6PnoIHvvIzogIzkuI3mmK/or5Xpqozku6PnoIHjgILmiJEKPiA+IC3ku6zluIzmnJvmjqjl
+ub/lkIzmoLfnmoTop4TliJnliLDljbPlsIbooqvlhoXmoLjlkIjlubbnmoRSSVNDLVbnm7jlhbPk
+u6PnoIHjgIIKPiA+ICvnlJ/mm7TmlLkgLS0tIOacieaXtuS7peS4jeWFvOWuueeahOaWueW8j+Wv
+ueS7peWJjeeahOiNieahiOi/m+ihjOabtOaUueOAgui/meenjeeBtea0u+aAp+WPr+iDveS8mue7
+mSBSSVNDLVYKPiA+ICtMaW51eCDnu7TmiqTogIXluKbmnaXmjJHmiJjjgIJMaW51eCDnu7TmiqTo
+gIXkuI3otZ7miJDpopHnuYHnmoTlj5jmm7TvvIzkuJQgTGludXgg5byA5Y+R6L+H56iL5pu05Zac
+5qyi57uP6L+HCj4gPiAr6Imv5aW95qOA5p+l5ZKM5rWL6K+V55qE5Luj56CB77yM6ICM5LiN5piv
+6K+V6aqM5Luj56CB44CC5oiR5Lus5biM5pyb5o6o5bm/5ZCM5qC355qE6KeE5YiZ5Yiw5Y2z5bCG
+6KKr5YaF5qC45ZCI5bm255qECj4gPiArUklTQy1WIOebuOWFs+S7o+eggeOAggo+ID4gCj4gPiAr
+6KGl5LiB6Lef6Liq57O757ufCj4gPiArLS0tLS0tLS0tLS0tCj4gPiArCj4gPiArUklTQy1WIOac
+ieS4gOS4quihpeS4gei3n+i4quezu+e7n+WunuS+i++8jOWPr+S7peWcqOmCo+mHjOafpeeci+ih
+peS4geeahOeKtuaAge+8mgo+IAo+IEkgc3VnZ2VzdCBrZWVwaW5nIHRoZSBuYW1lICJQYXRjaHdv
+cmsiIGFzIGlzLiBCZWNhdXNlIHdlIGRvbid0IHRyYW5zbGF0ZQo+IGl0IGluIG1vc3QgY2FzZXMu
+Cj4gCgpBZ3JlZWQuIEkgd2lsbCBrZWVwIGl0IGluIHRoZSB2MiBwYXRjaC4KCj4gPiArCj4gPiAr
+ICBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2plY3QvbGludXgtcmlzY3YvbGlzdC8K
+PiA+ICsKPiA+ICvlpoLmnpzkvaDnmoTooaXkuIHkuI3lnKjpu5jorqTop4blm77kuK3lh7rnjrDv
+vIzpgqPkuYggUklTQy1WIOe7tOaKpOiAheW+iOacieWPr+iDveW3suimgeaxguS/ruaUue+8jOaI
+luiAheW4jOacmwo+ID4gK+WwhuWFtuW6lOeUqOWIsOWPpuS4gOS4quS7o+eggeagkeS4iuOAggo+
+ID4gKwo+ID4gK+iHquWKqOWMlua1geeoi+S8muWcqOivpeihpeS4gei3n+i4quezu+e7n+WunuS+
+i+S4iui/kOihjO+8jOWcqOavj+S4quihpeS4geWIsOi+vuaXtueri+WIu+WvueWFtui/m+ihjOae
+hOW7ui/mtYvor5XjgIIKPiA+ICvoh6rliqjljJbmtYHnqIvmoLnmja7ooaXkuIHmmK/lkKbooqvo
+r4bliKvkuLrkv67lpI3vvIzlsIblhbblupTnlKjliLAgUklTQy1WIGBmb3ItbmV4dGAg5ZKMIGBm
+aXhlc2Ag5YiG5pSvCj4gPiAr5b2T5YmN55qEIEhFQUQg5LiK44CC5aaC5p6c5Z2H5LiN6YCC55So
+77yM5YiZ5Lya5L2/55SoIFJJU0MtViBgbWFzdGVyYCDliIbmlK/jgILooaXkuIHns7vliJfooqvl
+upTnlKjliLDnmoTlhbcKPiA+ICvkvZPmj5DkuqTlsIbmoIfms6jlnKjooaXkuIHot5/ouKrns7vn
+u5/kuIrjgILku7vkvZXmo4Dmn6XmnKrpgJrov4fnmoTooaXkuIHpgJrluLjkuI3kvJrooqvlupTn
+lKjvvIzlubbkuJTlnKjlpKflpJrmlbDmg4UKPiA+ICvlhrXkuIvlsIbpnIDopoHph43mlrDmj5Dk
+uqTjgIIKPiA+IAo+ID4gIOmZhOWKoOeahOaPkOS6pOajgOafpeWNlQo+ID4gIC0tLS0tLS0tLS0t
+LS0tLS0KPiA+IAo+ID4gLeaIkeS7rOS7heaOpeWPl+ebuOWFs+agh+WHhuW3sue7j+iiq1JJU0Mt
+VuWfuumHkeS8muagh+WHhuS4uuKAnOW3suaJueWHhuKAneaIluKAnOW3suWGu+e7k+KAneeahOaJ
+qeWxleaIluaooeWdl+eahOihpeS4geOAggo+ID4gLe+8iOW8gOWPkeiAheW9k+eEtuWPr+S7pee7
+tOaKpOiHquW3seeahExpbnV45YaF5qC45qCR77yM5YW25Lit5YyF5ZCr5omA6ZyA5Luj56CB5omp
+5bGV6I2J5qGI55qE5Luj56CB44CC77yJCj4gCj4gT3JpZ2luYWw6ICJGcm96ZW4iIG9yICJSYXRp
+ZmllZCIgLS0gIuW3suWGu+e7kyLmiJYi5bey5om55YeGIgo+IAo+IEJ1dCBkb2VuJ3QgbWF0dGVy
+IG11Y2guCj4gCgpVbmRlcnN0b29kLiBJIHdpbGwgY2hhbmdlIGl0LgoKPiA+IC0KPiA+IC3mraTl
+pJbvvIxSSVNDLVbop4TojIPlhYHorrjniLHlpb3ogIXliJvlu7roh6rlt7HnmoToh6rlrprkuYnm
+ianlsZXjgILov5nkupvoh6rlrprkuYnmi5PlsZXkuI3pnIDopoHpgJrov4dSSVNDLVYKPiA+IC3l
+n7rph5HkvJrnmoTku7vkvZXlrqHmoLjmiJbmibnlh4bjgILkuLrkuobpgb/lhY3lsIbniLHlpb3o
+gIXkuIDkupvnibnliKvnmoRSSVNDLVbmi5PlsZXmt7vliqDov5vlhoXmoLjku6PnoIHluKbmnaUK
+PiA+IC3nmoTnu7TmiqTlpI3mnYLmgKflkozlr7nmgKfog73nmoTmvZzlnKjlvbHlk43vvIzmiJHk
+u6zlsIblj6rmjqXlj5dSSVNDLVbln7rph5HkvJrmraPlvI/lhrvnu5PmiJbmibnlh4bnmoTnmoTm
+ianlsZUKPiAKPiB3ZSdsbCBvbmx5IGNvbnNpZGVyIC0g5Y+q6ICD6JmR77yfCj4gCj4gVGhlIGNo
+YW5nZSAoYWNjZXB0IC0+IGNvbnNpZGVyKSBpcyBpbiBjb21taXQgOTM2MTAwZDQ1MDdmCj4gKERv
+Y3VtZW50YXRpb246IFJJU0MtVjogQWxsb3cgcGF0Y2hlcyBmb3Igbm9uLXN0YW5kYXJkIGJlaGF2
+aW9yKQo+IAo+IERpZCB5b3UgbWlzcyBpdD8KPiAKClllcywgSSBtaXNzZWQgdGhhdC4gVGhhbmsg
+eW91IGZvciBwb2ludGluZyBvdXQuIEkgd2lsbCBjb3JyZWN0IGl0IGluIHYyLgoKPiA+IC3ooaXk
+uIHjgILvvIjlvIDlj5HogIXlvZPnhLblj6/ku6Xnu7TmiqToh6rlt7HnmoRMaW51eOWGheaguOag
+ke+8jOWFtuS4reWMheWQq+S7luS7rOaDs+imgeeahOS7u+S9leiHquWumuS5ieaJqeWxlQo+ID4g
+LeeahOS7o+eggeOAgu+8iQo+ID4gK+aIkeS7rOS7heaOpeWPl+mSiOWvueaWsOaooeWdl+aIluaJ
+qeWxleeahOihpeS4ge+8jOWJjeaPkOaYr+i/meS6m+aooeWdl+aIluaJqeWxleeahOinhOiMg+ii
+q+WIl+S4uuacquadpeS4jeWkquWPr+iDveWPkQo+ID4gK+eUn+S4jeWFvOWuueeahOWPmOabtOOA
+guWvueS6juadpeiHqiBSSVNDLVYg5Z+66YeR5Lya55qE6KeE6IyD77yM6L+Z5oSP5ZGz552A4oCc
+5bey5om55YeG4oCd5oiW4oCc5bey5Ya757uT4oCd77yM5a+55LqOCj4gPiArVUVGSSDorrrlnZvn
+moTop4TojIPvvIzov5nmhI/lkbPnnYDlt7Llj5HluIPnmoQgRUNS44CC77yI5byA5Y+R6ICF5b2T
+54S25Y+v5Lul57u05oqk6Ieq5bex55qEIExpbnV4IOWGheaguOagke+8jAo+ID4gK+WFtuS4reWM
+heWQq+S7luS7rOaJgOmcgOeahOS7u+S9leaJqeWxleiNieahiOeahOS7o+eggeOAgu+8iQo+ID4g
+Kwo+ID4gK+atpOWklu+8jFJJU0MtViDop4TojIPlhYHorrjlrp7njrDogIXliJvlu7roh6rlt7Hn
+moToh6rlrprkuYnmianlsZXjgILov5nkupvoh6rlrprkuYnmianlsZXkuI3pnIDopoHpgJrov4cg
+UklTQy1WCj4gPiAr5Z+66YeR5Lya55qE5Lu75L2V5a6h5qC45oiW5om55YeG5rWB56iL44CC5Li6
+5LqG6YG/5YWN5Zug5re75Yqg5a6e546w6ICF54m55a6a55qEIFJJU0MtViDmianlsZXluKbmnaXn
+moTnu7TmiqTlpI3mnYIKPiA+ICvmgKflkozlr7nmgKfog73nmoTmvZzlnKjlvbHlk43vvIzmiJHk
+u6zlsIblj6rmjqXlj5fnrKblkIjku6XkuIvku7vkuIDmnaHku7bnmoTmianlsZXooaXkuIHvvJoK
+PiA+ICsKPiA+ICstIOW3sueUsSBSSVNDLVYg5Z+66YeR5Lya5q2j5byP5Ya757uT5oiW5om55YeG
+Cj4gPiArLSDlt7LmjInnhafmoIflh4YgTGludXgg5oOv5L6L77yM5Zyo5bm/5rOb5Y+v55So55qE
+56Gs5Lu25Lit5a6e546wCj4gPiArCj4gPiAr77yI5a6e546w6ICF5b2T54S25Y+v5Lul57u05oqk
+6Ieq5bex55qEIExpbnV4IOWGheaguOagke+8jOWFtuS4reWMheWQq+S7luS7rOaJgOmcgOeahOS7
+u+S9leiHquWumuS5ieaJqeWxleeahOS7o+eggeOAgu+8iQo+IAo+IC0gUmV2aWV3cyBmcm9tIGNv
+bW11bml0eSwgYmV0dGVyIHdhaXQgZm9yIHRoZSByZXBseSBmcm9tIG1haW50YWluZXJzLgo+IAo+
+IFRoYW5rcy4KClRoYW5rcyBhZ2FpbiBmb3IgeW91ciB0aW1lIGFuZCByZXZpZXcuIEFuZCBzb3Jy
+eSBmb3IgcmVhZGluZyB0aGUgb3JpZ2luYWwgCmRvY3VtZW50YXRpb24gbm90IHNvIGNhcmVmdWxs
+eS4KCkJlc3QgcmVnYXJkcywKWXVrYWkgV3U=
 
-On Fri, Aug 28, 2026 at 02:18:16PM +0800, Yukai Wu wrote:
-> Update Documentation/arch/riscv/patch-acceptance.rst translation.
-> 
-> Update the translation through commit ed843ae947f8
-> ("docs: move riscv under arch")
-> 
-> Signed-off-by: Yukai Wu <xiaoyewuz.Ruster@gmail.com>
-> ---
->  .../zh_CN/arch/riscv/patch-acceptance.rst     | 46 ++++++++++++++-----
->  1 file changed, 34 insertions(+), 12 deletions(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst b/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst
-> index c8eb230ca8ee..a48e6e575a67 100644
-> --- a/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst
-> +++ b/Documentation/translations/zh_CN/arch/riscv/patch-acceptance.rst
-> @@ -15,19 +15,41 @@ arch/riscv 开发者维护指南
->  
->  概述
->  ----
-> -RISC-V指令集体系结构是公开开发的：
-> +RISC-V 指令集体系结构是公开开发的：
->  正在进行的草案可供所有人查看和测试实现。新模块或者扩展草案可能会在开发过程中发
-> -生更改---有时以不兼容的方式对以前的草案进行更改。这种灵活性可能会给RISC-V Linux
-> -维护者带来挑战。Linux开发过程更喜欢经过良好检查和测试的代码，而不是试验代码。我
-> -们希望推广同样的规则到即将被内核合并的RISC-V相关代码。
-> +生更改 --- 有时以不兼容的方式对以前的草案进行更改。这种灵活性可能会给 RISC-V
-> +Linux 维护者带来挑战。Linux 维护者不赞成频繁的变更，且 Linux 开发过程更喜欢经过
-> +良好检查和测试的代码，而不是试验代码。我们希望推广同样的规则到即将被内核合并的
-> +RISC-V 相关代码。
 
-> +补丁跟踪系统
-> +------------
-> +
-> +RISC-V 有一个补丁跟踪系统实例，可以在那里查看补丁的状态：
 
-I suggest keeping the name "Patchwork" as is. Because we don't translate
-it in most cases.
 
-> +
-> +  https://patchwork.kernel.org/project/linux-riscv/list/
-> +
-> +如果你的补丁不在默认视图中出现，那么 RISC-V 维护者很有可能已要求修改，或者希望
-> +将其应用到另一个代码树上。
-> +
-> +自动化流程会在该补丁跟踪系统实例上运行，在每个补丁到达时立刻对其进行构建/测试。
-> +自动化流程根据补丁是否被识别为修复，将其应用到 RISC-V `for-next` 和 `fixes` 分支
-> +当前的 HEAD 上。如果均不适用，则会使用 RISC-V `master` 分支。补丁系列被应用到的具
-> +体提交将标注在补丁跟踪系统上。任何检查未通过的补丁通常不会被应用，并且在大多数情
-> +况下将需要重新提交。
->  
->  附加的提交检查单
->  ----------------
-> -我们仅接受相关标准已经被RISC-V基金会标准为“已批准”或“已冻结”的扩展或模块的补丁。
-> -（开发者当然可以维护自己的Linux内核树，其中包含所需代码扩展草案的代码。）
-
-Original: "Frozen" or "Ratified" -- "已冻结"或"已批准"
-
-But doen't matter much.
-
-> -
-> -此外，RISC-V规范允许爱好者创建自己的自定义扩展。这些自定义拓展不需要通过RISC-V
-> -基金会的任何审核或批准。为了避免将爱好者一些特别的RISC-V拓展添加进内核代码带来
-> -的维护复杂性和对性能的潜在影响，我们将只接受RISC-V基金会正式冻结或批准的的扩展
-
-we'll only consider - 只考虑？
-
-The change (accept -> consider) is in commit 936100d4507f
-(Documentation: RISC-V: Allow patches for non-standard behavior)
-
-Did you miss it?
-
-> -补丁。（开发者当然可以维护自己的Linux内核树，其中包含他们想要的任何自定义扩展
-> -的代码。）
-> +我们仅接受针对新模块或扩展的补丁，前提是这些模块或扩展的规范被列为未来不太可能发
-> +生不兼容的变更。对于来自 RISC-V 基金会的规范，这意味着“已批准”或“已冻结”，对于
-> +UEFI 论坛的规范，这意味着已发布的 ECR。（开发者当然可以维护自己的 Linux 内核树，
-> +其中包含他们所需的任何扩展草案的代码。）
-> +
-> +此外，RISC-V 规范允许实现者创建自己的自定义扩展。这些自定义扩展不需要通过 RISC-V
-> +基金会的任何审核或批准流程。为了避免因添加实现者特定的 RISC-V 扩展带来的维护复杂
-> +性和对性能的潜在影响，我们将只接受符合以下任一条件的扩展补丁：
-> +
-> +- 已由 RISC-V 基金会正式冻结或批准
-> +- 已按照标准 Linux 惯例，在广泛可用的硬件中实现
-> +
-> +（实现者当然可以维护自己的 Linux 内核树，其中包含他们所需的任何自定义扩展的代码。）
-
-- Reviews from community, better wait for the reply from maintainers.
-
-Thanks.
