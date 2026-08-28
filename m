@@ -1,90 +1,124 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mta0.migadu.com (out-146.mta0.migadu.com [91.218.175.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCFD3ADB8D
-	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 03:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDF0390CA6
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 04:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787889060; cv=none; b=hdlZ0GvZ6LZbwTapJGo2t1cCibW8vZO0VwteMGFodmJr5oFvwYS6k0AyyqIX5BPCivJMES6uf6pfoIxxKVRk5OqL89QL+R1EWMnN2iWa3HSCrxvHRGAJaDGAagq5zZRAa9diQ+8lQwTWI+N+HLNWIt2ACRQdWtsWhzmdV63KFhA=
+	t=1787890426; cv=none; b=PhvejtrG+RaNTtY0mE4kdHWW5Ry7EZXqnRmm+iLU3e6OzvWQvs9NVd4bIl+g1tSkTM44lioECvcce7PD1Duc9ze1syPx1jq8+/3p3rkmhmgmaIauTYanp9jMAyQK+Ax0hWjC/mUmvk/XOTONHmdrg805g4ZZSN4dQBpy2meqZxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787889060; c=relaxed/simple;
-	bh=yrD9iOqDSB+oA90GXdxJg3QYf9+2okRVN+yypqMaCMw=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=njH9yKap1IVkZqQAk1NDrqW7F4+1df8wB/1MV4I5JZ5GmTRpKeO+c1zvRIW6IOzXQE5+98/wIc4jpP7zOf/ujZK6KykZ3DNaHGqWhWD8liAMrot4eZVj2lcqhWlghcmaxy+typ5qL10NzZDKhjEl3Pkro+l7rbXqunFDFjVJIpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tNg+gNHB; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787890426; c=relaxed/simple;
+	bh=/UeMi+JaZA3u+VpJfUjNutnV4evOAW5IF6lj0AjVMqs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dPpe9QxLtvUpVJKwxkIvaGTYOeEue0Zxr8qxiWnl6Ut0RWQyHaBZsfEd/dpNCBRGeM++NJJ4Sg6qxLy4jNWGtkbEaFlMCxlN7bsyvER5qjQHJz2X4qj8r3LPwHmAx4VhdFGd2PVbEuuiqw3We2KxvZGIn+A4hpF+rwfT5oH60CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AD5kw1eX; arc=none smtp.client-ip=91.218.175.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tNg+gNHB"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-cc1a4c62804so380293a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2026 20:50:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787889055; x=1788493855; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=2wKk+vB+goqKaLt0KMnxh7usyJz614ylfhLbmhKrkpw=;
-        b=tNg+gNHBwrm6Czb7+1YXA7m/VPYRAJfjrLQwWkwPI7/WMsAJcUyj+YZhe8fdsNmVMe
-         bDHttCaPNPeym2foe73qBZMQdhm57Mk0Nc8rspwNXOEGBTf+lt5O9fvsGonUSxd0UobP
-         Q9+p/ImuF3DQ/hjk6CNUVToESB/iaaVxCsT59Os5MzALpoAILPbIdrcmz4hN5TAIY/A4
-         nsRCPv+TsZIpAsvTWCzVOYAeUdM792+u0QLg9izbIwJHZJdoB2Z5xEs2Y8sJPIG+QFJC
-         HIJBq4DV8CxAaXcxjZsEdV+DZwfzCMQ6aq2TBnmDw1IQB7F6VDImJuVI9b2u1NeT0CYU
-         qMyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787889055; x=1788493855;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2wKk+vB+goqKaLt0KMnxh7usyJz614ylfhLbmhKrkpw=;
-        b=RNZ9EAaxfQQWaCZYYd4lfF/qW5HP5v3LUfHDozQxiX72iRfnrgm9XPFTOF8xmzrBV4
-         3EO5TMzfGwRWA9LRxjqSUumwxFlMSQXqQjHBKuwvvxNWJn5C3LgV/OzA+2unhKVNs+EM
-         f4qnGe9BbkLvMcQXZ7imsvTgyZU//mfAbLvcU4F8+seCDF9k4iE69MyxejVvaTyMJlmD
-         mDZzxB5HxH7p19LrbrOg4/5Af8dcCHQqUNnoDAwsVEb+oe7lQ7qWPuPotBdkKoFVo5/6
-         GbMkdV/m3LoyU+04ZudV+APJm8ygBTYWfBfUg8dZqKXlaUqxHpR+XAEuNGbngeNkKiRQ
-         fslA==
-X-Forwarded-Encrypted: i=1; AHgh+RqlkwdJrYs/PigQjEtxZBfLHzaTmj8xx10AA/wnTgWIXMcCVqb//Wbo75hP2A1ZRKzUnKvtNsNC4e0=@vger.kernel.org
-X-Gm-Message-State: AFuF++klkm5VgDyq617pycozQtT965n+0WbUqgL6c9te7Y1hPTuDYcla
-	VRS0Th87ellN5FmvWqNbzepJvk4ciVylOoPuteUEFot5T+WGJYPpexqKhU9Fwefp
-X-Gm-Gg: AR+sD12CduNgQIlqdvqbGIDdOng6d+l/08Xa6fzeQTZCNKaSW79J7M3r/ECq2/pBJPG
-	+w0vIQm3ef5sDgMwHN2DNjVZ8Q3d3r39/26dw6GFdpDdDtKSmjV2ln2YurCLM7X3sK9v8yFKL8b
-	mNjKJcvEQX6f1FomBOx2nKSbBtIgckYjwvOo/cB9oYOmj561my/8HfcbtgLD9j37ibiLMifaFBX
-	tqA8yMagU7Z1nKXlcZCZULuSbL2vVFN9feSyl7jwlZLfmwVwQwj18UhJ/B61NvmHWEUDPEV17WB
-	/KQPOrxJHsX27hDHHT82nCDhbShBtCzJGYVcBzmEAu099ttuMEyb9MUFfLs+BM0z1T7yPTGKMiz
-	iRV/nsqAGh584+RkOeXrcV60MS+qfHW/CehYfz7lN37QKy1duSAIOcC2PmMjiB2pC7GjCCf5QdT
-	gmPwOw4vLRdgQE5FvZ5Sre6VmMpSdxddhTavz7kAwbWZ5wQj0V9nG3pzfblnW21YkO2w==
-X-Received: by 2002:a17:90b:5284:b0:396:4dfb:5890 with SMTP id 98e67ed59e1d1-396d0e5bbc0mr8463160a91.2.1787889055213;
-        Thu, 27 Aug 2026 20:50:55 -0700 (PDT)
-Received: from [127.0.0.2] ([73.222.46.22])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-142e0e0e67dsm1659184c88.15.2026.08.27.20.50.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 20:50:54 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AD5kw1eX"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=/UeMi+JaZA3u+VpJfUjNutnV4evOAW5IF6lj0AjVMqs=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787890422; v=1; x=1788495222;
+ b=AD5kw1eXxJl8neo2OF9VN1B7HPwm/QbvdLYuIsNsJdUTXgJ+QrdjYYoijRykkZG/SFyHMl7v
+ pzcetuM8TIN2g8YFhL7hh06uSla700DLGK2Fsc6qdEdyKUcCkHFzKcjagEN/4rWOlE2/uS3lE12
+ pWphzs3/eOMiaZN3qvCo8Z+M=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 8e322e2d7171c530;
+	Fri, 28 Aug 2026 04:13:42 +0000
+X-Mizu-Trace-ID: 8e322e2d7171c530
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <88698ac7-3a60-45b7-908a-7f1521c021aa@linux.dev>
+Date: Fri, 28 Aug 2026 12:13:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 3/3] binfmt_misc: document the field delimiter
-From: Farid Zakaria <farid.m.zakaria@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
- linux-doc@vger.kernel.org, Farid Zakaria <farid.m.zakaria@gmail.com>
-In-Reply-To: <20260826-work-binfmt_misc-delim-v1-3-43618adf8599@kernel.org>
-References: <20260826-work-binfmt_misc-delim-v1-0-43618adf8599@kernel.org>
- <20260826-work-binfmt_misc-delim-v1-3-43618adf8599@kernel.org>
-Date: Thu, 27 Aug 2026 20:50:28 -0700
-Message-Id: <178788902862.3236768.2911438482058639296.b4-review@b4>
-X-Mailer: b4 0.15.2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 25/37] Docs/admin-guide/mm/damon/usage: document
+ sample filters dir
+To: SeongJae Park <sj@kernel.org>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Michal Hocko
+ <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>,
+ damon@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20251208062943.68824-1-sj@kernel.org>
+ <20251208062943.68824-26-sj@kernel.org>
+Content-Language: en-US
+From: Zenghui Yu <zenghui.yu@linux.dev>
+In-Reply-To: <20251208062943.68824-26-sj@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 26 Aug 2026 17:55:48 +0200, Christian Brauner <brauner@kernel.org> wrote:
-> Document the field delimiter.
+On 12/8/25 2:29 PM, SeongJae Park wrote:
+> Update DAMON usage document for the added DAMON sysfs files for
+> installing and setting the access sample results filtering.
+> 
+> Signed-off-by: SeongJae Park <sj@kernel.org>
+> ---
+>  Documentation/admin-guide/mm/damon/usage.rst | 25 +++++++++++++++++++-
+>  1 file changed, 24 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+> index 897a89950351..365a4548a5ba 100644
+> --- a/Documentation/admin-guide/mm/damon/usage.rst
+> +++ b/Documentation/admin-guide/mm/damon/usage.rst
+> @@ -66,6 +66,8 @@ comma (",").
+>      │ │ │ │ │ │ intervals/sample_us,aggr_us,update_us
+>      │ │ │ │ │ │ │ intervals_goal/access_bp,aggrs,min_sample_us,max_sample_us
+>      │ │ │ │ │ │ sample/primitives/page_table,page_faults
+> +    │ │ │ │ │ │ sample/filters/nr_filters
+> +    │ │ │ │ │ │ │ 0/type,matching,allow,cpumask
+>      │ │ │ │ │ │ nr_regions/min,max
+>      │ │ │ │ │ :ref:`targets <sysfs_targets>`/nr_targets
+>      │ │ │ │ │ │ :ref:`0 <sysfs_target>`/pid_target,obsolete_target
+> @@ -233,7 +235,8 @@ writing to and rading from the files.
+>  For more details about the intervals and monitoring regions range, please refer
+>  to the Design document (:doc:`/mm/damon/design`).
+>  
+> -Under ``sample`` directory, a directory, ``primitives`` exists.
+> +Under ``sample`` directory, two directories, ``primitives`` and ``filters``
+> +exist.
+>  
+>  contexts/<N>/monitoring_attrs/sample/primitives/
+>  ------------------------------------------------
+> @@ -245,6 +248,26 @@ to these files, users can select whether to use the :ref:`page table accessed
+>  bit <damon_design_pte_accessed_bit_access_check>` and :ref:`page fault events
+>  <damon_design_page_fault_access_check>`, respectively.
+>  
+> +contexts/<N>/monitoring_attrs/sample/filters/
+> +---------------------------------------------
+> +
+> +This directory is for control of the :ref:`access sampling results filters
+> +<damon_design_sampling_results_filters>`.  At the beginning, this directory has
+> +only one file, ``nr_filters``.  Writing a positive integer ``<n>`` to the file
+> +generates directories of the number, named ``0`` to ``<n - 1>``.  The generated
+> +directories represent the sampling result filters to install to the DAMON
+> +context, in the order of the directory names.  Writing ``0`` to ``nr_filters``
+> +removes the directories.
+> +
+> +Under the individual filter directory, five files, ``type``, ``matching``,
 
-Reviewed-by: Farid Zakaria <farid.m.zakaria@gmail.com>
+nitpick: "four files" in this patch and "five files" in patch #32.
 
--- 
-Farid Zakaria <farid.m.zakaria@gmail.com>
+> +``allow``, and ``cpumask`` exist.  The first three files are same to the
+> +properties of the filter specified on the :ref:`design doc
+> +<damon_design_sampling_results_filters>`.
+> +
+> +Users can specify the cpumask of the filter by writing it to ``cpumask``.  The
+> +format for ``cpumask`` input is same to that for other cpumask inputs like that
+> +for cgroup cpusets.
+> +
+>  .. _damon_usage_sysfs_monitoring_intervals_goal:
+>  
+>  contexts/<N>/monitoring_attrs/intervals/intervals_goal/
+
+Thanks,
+Zenghui
