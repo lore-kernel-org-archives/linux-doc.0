@@ -1,85 +1,149 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1787C3BB68B
-	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 21:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787953207; cv=none; b=gT0raAMTe5Z+CF4cOoSWyEWM4ySixaLBIuNI69y++tsnGiTiz2gI1i8uQDwrI1prZUzEwXqkB7zxxSxOC/wpt9vWsDyM2eIEj4cLILaMx0Q1cJw31cFrH3Lsm6ZS3Q/QWpNai1wO3KImKfmbxbFfZI5NtvnTt2rogEkEL/jSL8k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787953207; c=relaxed/simple;
-	bh=L1CZ4hC5eYja2pTSLPNFsmaZ74+4e8ET9A/ihm5k1iU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G9z9ANm1Nd0yREmtaHwT5MJKsa7Y1WTI+qJBUIxf7T+c6dvj1RvaRiYxS+c3EcRv9FpCYDPb0Iz4d7FDl1Zi9QusCeyZ7gHCv2QaNTCYVBV0rhRYwr52/vAywA+NPcoAVm1AoRg1nc2cZAXZalcB/uWd4scftdpdz/t8/nw05e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QZeczasF; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABDF383C84
+	for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 21:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787953756; cv=pass; b=Of1xjIuSOM+K4fhFn4pJNGDqcMCDIvisul5PrlnTIFnYNST0o343Uhzgek4QuSLjHFU+p0ZNi10fJBS2o3i4CckhNEhaxogu6Qb9ZRgwGI+QetMIx7RlxNHGEj5RurT551i9AdcshrAgQhTDoB0zeq1ufWWelqrNI5E+LmxfjMU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787953756; c=relaxed/simple;
+	bh=NS7ILyNRDwIZOyOLSfg3QhGucIcgXedbcky3j8j+fgE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FIXiSjgLRZ88PT/H738dvDqzEgrYO5r0KMzLk5SkPOWSzqokTXy5F0AP61scc322F0kTKdMidQTJ/3zSMwfKNhFu6LrI/1hhFh7rzKaWu5/XDA0ECwSaJIuYDnyuerlO7bIzpjQeI//EzeGltygTfOJ1JydUcu/Zl879RBZBelE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IIt3FcPu; arc=pass smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZeczasF"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-482dd6ee390so1249260f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 14:40:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IIt3FcPu"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-52fac937235so33081cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2026 14:49:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787953754; cv=none;
+        d=google.com; s=arc-20260327;
+        b=K6gSduioeBSudMJxMJ08nS49le4nXLwKVJ2pbQlmV4WmReTs9dDhM8JvU9XXAMOFRY
+         moyZ4AnbNn+HNhUb9+AEpb8vJTeWPX2XpcXOfcO72PeflqqWSDhLTTNXjwhLI5IeULv5
+         FKyWAESq2vQFiyfNloxVSB90haBuU/A0VhEhwrDBQfs3GGJ+4FndlUbi457Hd0OQrDcA
+         Mya7r0H2w1W7f8qJSPiGxu9NuBQDGp8XX5fpdlTlu3KMha/2LyYdDRFPk6xU5CWhO3/E
+         FysbJMmjmwaN6NZdbLIBckdrHXUW/rasyITz5tc8Ezxluq/eZ563voEzeKrvFFtni8Bq
+         3Owg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=NS7ILyNRDwIZOyOLSfg3QhGucIcgXedbcky3j8j+fgE=;
+        fh=XXsSp8Ax95mzoij4VmY1IrrPOJDyulajp7n1Bmgk47c=;
+        b=G7s0BfYxuk1Xn+/f15BbsR0n7eOl357hxZPhYE16FxHplqCVbW2hXWyGLisJymLS34
+         NWSOHEd8pEceb3cKgYwP/8TGNjADbcxKafX1bniMj9UrkJk1nqGUmqrN6fFcDoNaJjjf
+         TeqAkNA08y0vVFicoYwdty4jIAcFnkxPlR7CqpLWkd6HoODCWUa92yWvC2BsqOThsDB6
+         P43bj/p8HINli7yD5EsOmA2r8kxhAVl7iSrA+xRfIFca/nbKEHyhFvm/lsO7C1lcWp4t
+         229ZRY5UDYyeAvw0XGouehJdqGEX68zqlb0VrKGEiiSpR951nwuSLlXwlc9GS3GhqP+q
+         LNog==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787953204; x=1788558004; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=L1CZ4hC5eYja2pTSLPNFsmaZ74+4e8ET9A/ihm5k1iU=;
-        b=QZeczasFla9Z9HlxReKUWZynKIBpk8VxtPMY8aLLbb2hboprATrH3F8u8FNB8zDhI9
-         PhS+6Zwgf5x6mhfoqGu+JLg7HJA+yy24jctsDHL5VGoy8xGc+8fgGoMr4JaCCQMEkZsn
-         LxEiCp4465Rqi1TUk/SpOrIFweGZpH2OU3gYNU310ltZhpD36qtbAC6xDMY6Ym/e+euy
-         W48ej/8Dctxo5jGbc2Ff6uubr/EOgTT9Nlw44Sf1Ro6VTWOQTEfabUVTjtdAGh1CQsck
-         EYuDPRQKHx660ZK72plBF5ya7lqMmMvqQR4Ez4KJc4V56Wfy5xGD/PU+4+acS/K9p2BK
-         eUNA==
+        d=google.com; s=20251104; t=1787953754; x=1788558554; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=NS7ILyNRDwIZOyOLSfg3QhGucIcgXedbcky3j8j+fgE=;
+        b=IIt3FcPu4gwqfcq0f43QVaw7Dy4mof+meN2gRiV/1YL/6T6vUBCh8TtVKISBYcGVnf
+         zIwHvuK6O38b70jcy3+QkDyZJgBVazXbOzxrX2OoA+jly3OM3tXP5DFpl4vPpuaKinLs
+         iPEoUV92oh1OIGegntnS/8TELhCiXr0Fx8pp90rbAXE5v2S9Vjx+8QQrC+xrV7IxB4hh
+         Mrj7NM8KEv+p95oZ5eAkHq/poNVcTw5curLEsp+YK9dcO75taU++qfXBWM0KGYQoZwXZ
+         oAw8wV2Xb4ssZXg2Vu9nFGX8vwbFrHd3Dp+X4gRtr7BHMp6KB+jFbV8LhS2nyd7tw8X6
+         wf1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787953204; x=1788558004;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=L1CZ4hC5eYja2pTSLPNFsmaZ74+4e8ET9A/ihm5k1iU=;
-        b=DMrgtk6PXqAj71hAAEJrnkceJ94xc2g3ciMoM/zLfdLwwRUnInOehBlYaHQ+K346em
-         esBmPQ4Th9xfd8qJv7Ss58wvmbp8/OODdW4QH9vFKZpgJkPYgj+RYJxq1ui90A7iAu37
-         IXuc2Yp++NlFKA2oeTbGw4Ld8tttzhXuz7ggJr3sX/RpP/mgWEMpYKrTX1O+5qy6Ald2
-         DiJbuzsnm0TUq6Gj4Pgo/JxP15ZAIjf0wsVAKitkqY4IwYcDP8Eb5C3bFPiy3V7G9Bpl
-         Gk68bnxmIbqmw47L5OuqTj5BLREOAUPkZm2H2Ty8TbNro1sX0FPFYSgzWuuWIlRdur6B
-         saAg==
-X-Gm-Message-State: AFuF++nSP06A8X4XZuA68FvfHAjxbVdafhw6XZu4Px4WSduqD5qu1xpa
-	WJLlf1IeW7h/do6mUgVPaHy5mUdZQVtoLdbTk4RqsHehPUkqnFkmfYEFJsZAqw==
-X-Gm-Gg: AYBFou3cYxub8KAPcY1wvXblWdWDI/TaOtPm33Fcv86LYSHAhZT0S7iB+ka2bXuh0EQ
-	zOv8q/oyMQ+hKpQBhmaxDLvxyU7/rVB9HmrBbetfwMsQy802rH3WWzTIguEz0zJ5VWRzh4StIcW
-	CYLO9fWLzJlAA2yGCQZhANWL1KRREKwOv8yrNSWXZSCILARtL0V5OshBV2zntOXaDCtj01/XlNR
-	8HMd81bWyZZyfGp4RmrxgeFYNR6GAiFKbbWhY4oRuP86pM1HCCmWHLSjzy5zhas6/8b885NavNj
-	gYUc+Q3KbrW7/Ub8CXNBObsccPbKbKL0tJ/FxJNA7vx8v5GMmt+tz7l+9VJKHMbKug9YC73/c9z
-	ICmn8OsUHtTYhvVB7QQrTySTjuX5d6t7XjrjpPeFXiteq+1MrQhnm/pSG+fb+ElnyfhiXPM/7mQ
-	86aUHMalotOgiym9pA+9MK3ckXMVLCEKcg3e7HKF+DraLTLEHH7pDKXoiR5cf9FelWYcezyg==
-X-Received: by 2002:a05:6000:4609:b0:482:e451:6810 with SMTP id ffacd0b85a97d-482f7976116mr17795265f8f.1.1787953203667;
-        Fri, 28 Aug 2026 14:40:03 -0700 (PDT)
-Received: from 12-castle ([2a02:c7b:31c:5900:81d5:330b:a8a4:d338])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbb28276sm6960070f8f.29.2026.08.28.14.40.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 14:40:03 -0700 (PDT)
-From: Martin Kavasi <martin.kavasi3@gmail.com>
-X-Google-Original-From: Martin Kavasi <1ai1d7wbz@proton.me>
-To: linux-doc@vger.kernel.org
-Cc: corbet@lwn.net
-Subject: Re: [PATCH] docs: hu_HU: add Hungarian translation of howto.rst
-Date: Fri, 28 Aug 2026 22:40:02 +0100
-Message-ID: <20260828214002.46392-1-1ai1d7wbz@proton.me>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <87wltam90w.fsf@trenco.lwn.net>
-References: <87wltam90w.fsf@trenco.lwn.net>
+        d=1e100.net; s=20251104; t=1787953754; x=1788558554;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NS7ILyNRDwIZOyOLSfg3QhGucIcgXedbcky3j8j+fgE=;
+        b=aR6bp6Sh2HzUFAR4ZvXLw+N3FDR28nlKkjXZaFng1z7u0nHS/z+O6tIcWgtHHmGufc
+         MfdkwmrMi8TeO3s0J3vBNIxeQuJ06vkk8nxuofSAgYR+PKf2xMTFDjKAfhhFVBhjNIW0
+         t+iS4bJiJ2vLFuYdlpk09gmsXtgCJP5rJx8g7/+VPDJOotp9TR1LCM5tpvcQbA+XHadX
+         57t2AUilr7ziNd1y8ciFCGC43QAiziJhGDWsFsjeWRdo8eBPGku+1eWYXn+Q+Bc374Nc
+         fh+JDd6d97XvYhcnzZWRLqdNV5ql+oQGLnyaUEu1TY1o7qwafSgWVzLuMH1u7oweihpQ
+         j+ug==
+X-Forwarded-Encrypted: i=1; AHgh+RqEBYZuElE+flBciu4pifYr7a+8ab9S0pCRkiDjMWHgWsgj3zVgY0YV0BEqRHMyJI+gnogdZ8bnTuc=@vger.kernel.org
+X-Gm-Message-State: AFuF++kblbFT8DEp+dVnRm4xRWwsB6KTN58QBt8YMopoUBeUsT4jIHrm
+	ZbxAhO2dMwLyAqlluJQBua20AafTGdg7ATpSOMjURqoMtvQyroxFOka4Kgv7Qv95KSua25EUpHk
+	BjZagGbaYi8VjWbDgyR5g1gio5sWdOLRc/frCz92c
+X-Gm-Gg: AR+sD13iexluwLI3OtxKYXaWbzXKEYFwzuY1CYdmDWa7VBrSHUv7X3owzyiEoNDbB8L
+	0GiBrTPbFEnYpVX/y+rHuVtkgheZ92Cx2f+8fiCMv1HsGL5gkEySQhOVb3XShPxGNIUFcNYosIP
+	7IHLcyPd6SirxsDvT6MYuLB6sVTDt1q1xZO3q2XPoBsE5QlnZa3PLy8YdNJGwA9SOj086Cb/6QG
+	9H3LR3O4NJHl5DR1WvyfcJnexx6TNA31SDhH+hA48hLm1x7IwkkEUdJswM8rTDufcuXCAYkHuCF
+	bnMws9L71ZEE86RE8M5y9zUQ85oAa4e86Yzw9T1jPY+/mxsrfvBK7QVLzn1nZGscRcsza8w19pg
+	=
+X-Received: by 2002:a05:622a:598e:b0:52d:7a3c:8396 with SMTP id
+ d75a77b69052e-52ff6f30c8emr5308471cf.2.1787953753102; Fri, 28 Aug 2026
+ 14:49:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260806020850.1221381-1-rick.p.edgecombe@intel.com> <20260806020850.1221381-6-rick.p.edgecombe@intel.com>
+In-Reply-To: <20260806020850.1221381-6-rick.p.edgecombe@intel.com>
+From: Vishal Annapurve <vannapurve@google.com>
+Date: Fri, 28 Aug 2026 14:49:02 -0700
+X-Gm-Features: AcwNN1WQxsNINsmJYKS21-W-S3NINHdKdRHcQQhWHhl_kYf3xtibaEfoC6rNsbM
+Message-ID: <CAGtprH8Rax32PfiCk54aY_SUPkpfCKYdK5ZKaWJ5-Y8vtFSPng@mail.gmail.com>
+Subject: Re: [PATCH v9 05/11] x86/virt/tdx: Handle multiple callers in tdx_pamt_get/put()
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org, 
+	kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com, 
+	pbonzini@redhat.com, seanjc@google.com, tglx@kernel.org, x86@kernel.org, 
+	chao.gao@intel.com, yan.y.zhao@intel.com, kai.huang@intel.com, 
+	tony.lindgren@linux.intel.com, binbin.wu@intel.com, sohil.mehta@intel.com, 
+	Hongyu Ning <hongyu.ning@linux.intel.com>, Binbin Wu <binbin.wu@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I believe that this is the write way to contact you
+On Wed, Aug 5, 2026 at 7:09=E2=80=AFPM Rick Edgecombe
+<rick.p.edgecombe@intel.com> wrote:
+>
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+>
+> tdx_pamt_get()/tdx_pamt_put() unconditionally add or remove Dynamic PAMT
+> backing for the 2MB region covering the passed page. However, multiple
+> callers can add or remove 4KB pages that fall within the same 2MB region
+> and in that scenario only a single PAMT entry is required.
+>
+> Make the helpers handle only adding/removing Dynamic PAMT backing when
+> required, by refcounting each 2MB range. Gate the actual Dynamic PAMT add
+> and remove on refcount transitions (0->1 and 1->0). Serialize the refcoun=
+t
+> check and SEAMCALL with a global spinlock so the read-decide-act sequence
+> is atomic. This also avoids TDX module BUSY errors, as the Dynamic PAMT a=
+dd
+> and remove SEAMCALLs take internal TDX module locks for the 2MB ranges of
+> the specified PFN and the PAMT page pair PFNs. So simultaneous attempts o=
+n
+> the same 2MB ranges of the PFNs would otherwise encounter an error, which
+> would not be handleable in the put case.
+>
+> The lock is global and heavyweight. Use simple conditional logic to keep
+> correctness obvious. This will be optimized in a later change.
+>
+> The pamt_refcounts[] are atomic_t's. They do not strictly need to be
+> because all access is protected by pamt_lock. The overhead of an atomic_t
+> in this situation is minuscule compared to the global lock. Leave the
+> atomic_t in place to enable future optimization with minimal churn.
+>
+> AI was used under supervision to collect/apply feedback, split patches,
+> review code and workshop logs.
+>
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Tested-by: Hongyu Ning <hongyu.ning@linux.intel.com>
+> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
+> Reviewed-by: Chao Gao <chao.gao@intel.com>
+> Reviewed-by: Yan Zhao <yan.y.zhao@intel.com>
+> Reviewed-by: Tony Lindgren <tony.lindgren@linux.intel.com>
+> Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
+> Acked-by: Sohil Mehta <sohil.mehta@intel.com>
 
-I understand that the discussion should remain public
-
-I also wanted to ask about the MAINTAINERS entry for Hungarian
-documentation. Should I keep myself listed as the Hungarian
-documentation maintainer, or would you prefer that entry to be
-handled differently, or to remove it?
+Reviewed-by: Vishal Annapurve <vannapurve@google.com>
