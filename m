@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F76377019;
-	Fri, 28 Aug 2026 09:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF861390230;
+	Fri, 28 Aug 2026 09:18:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787908683; cv=none; b=GFjUndpBDDoTaEv1INkFAVfbYzlY+KJzQvTmDc3FcyCfv4dzPZ8JiPupQLwAM3xUYp2eETEl2oFD9arIawmgNd+P718a+sxIbomSUjmJR1soZnEQB9+m2C5BZlGwxH+qbSm+0TfzClCrWxdEqSl01S0uNKPXen7a8oQeRoYmyRI=
+	t=1787908683; cv=none; b=nAmNxZScrhjdYRBPBV8LS7cazUqi2EnVVMEeM9Wqkb/IZPeEME7KSnwuNrG7UY+6/UuhJJUyMQMVBq6RiFmvmC+uPEVHEJpaLZiktetVnol+VIhfDmOdS+ZAHOXgHIaStJf+VlfiSoAK5GALsoy+ysD1Mc1R4HR7EJEjAry7VQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1787908683; c=relaxed/simple;
-	bh=q8eqBjOp/PSu4fZI6FC/B4f2iIIhMwMBLHAx8HTf0BQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oiVmI6oVzIZaSxqQhEradrZYh/PKhAk2GWqWDpxMsbyYMtW0yg/ZvMw8hRUEk6ogKbLb2lgkJhEmnEMP7n3I0p0BDzmNPUlIHUrPb9tvePQ/IfjlwSJbIiXwDYJ1yY38M6y5mzgQaytY3nh4cGx1Kpu2BMh7aTMZqgePSO6HRTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gZCbBxNN; arc=none smtp.client-ip=10.30.226.201
+	bh=DJOXEt0mghiu7MB6gTHdmMWsgaen41ZJGcI3+dRZvoM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=svZDP/fkt8FrN0tzm4glnMOcmky6BwF8qqcpYh4zxImDt4enZGxmSFEOchYqLmZnihXurnJrKOHpnVvlFjkuLqWtz/lfGoOE0k7j9n4IDEsrnvtmmILeg7Jh2p0XkJx+3qIG0EuOOuvcC8C5JGifH7nhvlgP9hYNjJVaDdMi9o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lsMnJ9Sn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gZCbBxNN"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 08920C19425;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lsMnJ9Sn"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C4AB5C2BCFA;
 	Fri, 28 Aug 2026 09:18:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1787908682;
-	bh=q8eqBjOp/PSu4fZI6FC/B4f2iIIhMwMBLHAx8HTf0BQ=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=gZCbBxNNNMbfVregr2SG4Gyo0YAnfbwFbcjvhePW/Kya5wFh7rxfCGF6bVEq1Z3uu
-	 BdhvPYA2GOhfSsoieyxsZEg4moxZBtFXcwkpqBYwXaOGtYP1mL41vim0PQQflAWcBj
-	 ljaG63DCCL9ZoDzJGejqr7zxuBa7NiM75tlRbenF4MCg/matpKg1BvHE28s45lYi2q
-	 Y6TjpGU+U+cVvq4kGhgEpSt26pml26Z1L+ahpIUZwE0BPDmn5pe9zjyPo93jZr6oRd
-	 EAXln5mDdvjUIwVHOSk33xSzJfCvkk4zNkm1m/ddb5PVrD7anSYv17dvbE8V5buJkl
-	 rp7ctqEYir16g==
+	bh=DJOXEt0mghiu7MB6gTHdmMWsgaen41ZJGcI3+dRZvoM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=lsMnJ9Sn2n5D9JpDxAuVECk5SOsU3ZO3JrcPgcYX4Qw9tCdua+pl+HElN4CuCRo2n
+	 XX1wxy9VAwrhUtGI7VN1y3Rc2ehSthLfUEOERMvykockfeAVj1Zx5FbJscKMf03Z34
+	 TtdZtSa7hTo+0g8f7Ys/SprQold5Kyp0DNNoW6SEcVHJrqtqmAttvM/Rv5xZyvJIvh
+	 dspV6oOWMnMbXWyfWg6Bt5L+wv0HJT3/sQcG8zhsscAyyM6GpWUT7GzYPamSx6lQZg
+	 1UQq+utoWnUkwo+T/TgR2pOf7xr/JuzKBpqcR3Eok+m5a+EjV+26RoeFRExX4kbyeW
+	 3zBDpXS1L7SUg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2234C61DBD;
-	Fri, 28 Aug 2026 09:18:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B266FC61DB9;
+	Fri, 28 Aug 2026 09:18:02 +0000 (UTC)
 From: Jack Wu via B4 Relay <devnull+jackbb_wu.compal.com@kernel.org>
-Subject: [PATCH v7 0/6] net: wwan: t9xx: Add MediaTek T9XX WWAN driver
-Date: Fri, 28 Aug 2026 17:17:17 +0800
-Message-Id: <20260828-t9xx_driver_v1-v7-0-bf8f6074d88a@compal.com>
+Date: Fri, 28 Aug 2026 17:17:23 +0800
+Subject: [PATCH v7 6/6] net: wwan: t9xx: Add AT & MBIM WWAN ports
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,12 +40,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAB1SkWoC/3XP3UrEMBAF4FdZcm1l8t945XuILMkk40Z0u6S1V
- Ja+u+l60ZUgBMKB+U4mVzamktPIng5XVtKcxzyca7APB4Ynf35LXY41MwHCgBaum9yyHGPJcyr
- HmXfcKkW9J2ulYxVdSqK83ApfXn/z+BXeE05byzZxyuM0lO/bizPf5v4trwe6EAMlgcCTts84f
- F78x2O92NY+i90bDo0X1aPRPkYSMkhqvLzzQjVeVm8lEUgygKpvvNq9hXZ/Vb3vEcBFDQ514/W
- dF7Lxevu/sJ6Cc4ghNN7svue88aZ6gc448lFbNH/8uq4/KKbuTP8BAAA=
-X-Change-ID: 20260529-t9xx_driver_v1-1744f8af7739
+Message-Id: <20260828-t9xx_driver_v1-v7-6-bf8f6074d88a@compal.com>
+References: <20260828-t9xx_driver_v1-v7-0-bf8f6074d88a@compal.com>
+In-Reply-To: <20260828-t9xx_driver_v1-v7-0-bf8f6074d88a@compal.com>
 To: Loic Poulain <loic.poulain@oss.qualcomm.com>, 
  Sergey Ryazanov <ryazanov.s.a@gmail.com>, 
  Johannes Berg <johannes@sipsolutions.net>, 
@@ -64,11 +61,11 @@ Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
  linux-doc@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787908678; l=27498;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787908678; l=15388;
  i=jackbb_wu@compal.com; s=20260526; h=from:subject:message-id;
- bh=q8eqBjOp/PSu4fZI6FC/B4f2iIIhMwMBLHAx8HTf0BQ=;
- b=AczDrsNUGq+jSGhYCHoUF42KLevZtv/8LjrFPBLENsjjil7qR3NgwoG0gvUhL+fqDXFz3bJ0+
- 1L5cs/4mRGiAmFM0hCcyJaIZU1cX2v5uDu7IeAosZhPJIDhT5Vp4/rx
+ bh=x+zt6j7yh9BDOgWonhOoUTU8TiEbAkCWyeEOT4WWMIc=;
+ b=A3F6YS3BXDba9FoqEf1+My9Y1auxbRQFnL2HQw40MCBh+bRmMyVvymAbjBitQZpaodK4tHPGu
+ gRknB47e8cYD+3cH4S57kZsHG7kSDrAVpfpaoVa/IyhxvfAMJjuhgJe
 X-Developer-Key: i=jackbb_wu@compal.com; a=ed25519;
  pk=VH1prTWixNl8OEUPPSfII3p46MzJpQN8J3+ecE1tZXg=
 X-Endpoint-Received: by B4 Relay for jackbb_wu@compal.com/20260526 with
@@ -76,494 +73,553 @@ X-Endpoint-Received: by B4 Relay for jackbb_wu@compal.com/20260526 with
 X-Original-From: Jack Wu <jackbb_wu@compal.com>
 Reply-To: jackbb_wu@compal.com
 
-T9XX is the PCIe host device driver for MediaTek's
-t900 modem. The driver uses the WWAN framework
-infrastructure to create the following control ports
-and network interfaces for data transactions.
-* /dev/wwan0at0 - Interface that supports AT commands.
-* /dev/wwan0mbim0 - Interface conforming to the MBIM
-  protocol.
-* wwan0-X - Primary network interface for IP traffic.
+From: Jack Wu <jackbb_wu@compal.com>
 
-The main blocks in the T9XX driver are:
-* HW layer - Abstracts the hardware bus operations for
-   the device, and provides generic interfaces for the
-   transaction layer to get the device's information and
-   control the device's behavior. It includes:
+Add AT & MBIM ports to the port infrastructure.
+The WWAN initialization method is responsible for creating the
+corresponding ports using the WWAN framework infrastructure. The
+implemented WWAN port operations are start, stop, tx, tx_blocking
+and tx_poll.
 
-   * PCIe - Implements probe, removal and interrupt
-     handling.
-   * MHCCIF (Modem Host Cross-Core Interface) - Provides
-     interrupt channels for bidirectional event
-     notification such as handshake and port enumeration.
-
-* Transaction layer - Implements data transactions for
-   the control plane and the data plane. It includes:
-
-   * DPMAIF (Data Plane Modem AP Interface) - Controls
-     the hardware that provides uplink and downlink
-     queues for the data path. The data exchange takes
-     place using circular buffers to share data buffer
-     addresses and metadata to describe the packets.
-   * CLDMA (Cross Layer DMA) - Manages the hardware
-     used by the port layer to send control messages to
-     the device using MediaTek's CCCI (Cross-Core
-     Communication Interface) protocol.
-   * TX Services - Dispatch packets from the port layer
-     to the device.
-   * RX Services - Dispatch packets to the port layer
-     when receiving packets from the device.
-
-* Port layer - Provides control plane and data plane
-   interfaces to userspace. It includes:
-
-   * Control Plane - Provides device node interfaces
-     for controlling data transactions.
-   * Data Plane - Provides network link interfaces
-     wwanX (0, 1, 2...) for IP data transactions.
-
-* Device lifecycle management - Contains the logic that
-   keeps the device working. It includes:
-
-   * FSM (Finite State Machine) - Drives the T9xx
-     device lifecycle (boot handshake, error recovery,
-     removal), and notifies each module when the state
-     changes.
-
-The compilation of the T9XX driver is enabled by the
-CONFIG_MTK_T9XX and CONFIG_MTK_T9XX_PCI config option
-which depends on CONFIG_WWAN.
-
-This submission covers the control plane only
-(patches 1-6). The data plane will follow in a
-separate series once the control plane is accepted.
-
+Signed-off-by: Jack Wu <jackbb_wu@compal.com>
 ---
-Changes in v7:
-- Cover letter: renamed "Core logic" to "Device lifecycle management".
-  The FSM is T9xx-specific (same model as the in-tree t7xx driver) and
-  stays in the driver rather than the WWAN framework.
-- Patch 1 (Add PCIe core):
-  - Removed RGU wording from commit message, no RGU code in the series
-  - Removed `select NET_DEVLINK` from Kconfig, no devlink consumer
-  - Reordered ATR setup: program TRSL_ADDR/TRSL_PARAM before enabling
-    ATR in SRC_ADDR_LSB, with a readback, matching t7xx
-  - Adopted the t7xx IRQ model: require exactly MTK_IRQ_CNT_MAX MSI-X
-    vectors with one handler per vector; removed the merged-IRQ mode
-    and scoped dispatch to each vector's own status bits
-  - Fixed IRQ callback publish ordering: WRITE_ONCE + smp_wmb on
-    register, READ_ONCE + smp_rmb in the interrupt handler
-  - Added hw_bits == 0 guard in mtk_pci_send_ext_evt() to reject
-    unmapped event channels
-  - MHCCIF callbacks stay under spin_lock_bh by design; added a comment
-    documenting the must-not-sleep callback contract
-  - Added a drain loop in mtk_mhccif_exit() to free any remaining
-    callback nodes
-  - Moved cancel_work_sync(&priv->mhccif_work) before mtk_pci_pldr()
-    in remove, preventing worker MMIO during the power cycle
-  - Squashed the MAINTAINERS entry into this patch (was Patch 7); the
-    series is now 6 patches
-- Patch 2 (Add control plane transaction layer):
-  - Commit message and Kconfig help text now name both modules
-    (mtk_t9xx and mtk_t9xx_pcie)
-  - Reworded mtk_ctrl_exit() kernel-doc: the allocation itself is
-    devres-managed and freed on driver detach
-- Patch 3 (Add control DMA interface):
-  - RX re-map failure now keeps the buffer in its slot instead of
-    freeing it and advancing free_idx, preventing a permanent ring
-    stall from a stale GPD DMA address
-  - mtk_cldma_stop_queue() returns -ETIMEDOUT on poll timeout; alloc
-    paths abort on failure, free paths warn and proceed
-  - Added READ_ONCE() for the free_idx and tx_started reads in
-    mtk_cldma_start_xfer()
-  - mtk_cldma_get_tx_start_addr() reads ADDRL+ADDRH as u64, so a >4GB
-    DMA address is not mistaken for "queue not started"
-  - mtk_cldma_open() decrements usr_cnt on failure. Beyond the emailed
-    reply: mtk_pcie_hif_init() re-zeroes usr_cnt and ENABLE/DISABLE no
-    longer gate on TX budget, so a channel reopens after devlink reload
-  - mtk_cldma_close() completes the TRB with -EPIPE when drv_info is
-    already gone, instead of stalling the submitter until timeout
-  - mtk_cldma_txbuf_set() returns -ENOMEM instead of -EAGAIN on
-    dma_map failure (no infinite retry); dev_err_ratelimited
-  - Added the 0x0900 (MTK reference) entry to mtk_ctrl_info_tbl[];
-    both PCI IDs are now present in all dispatch tables
-  - Documented the single-consumer assumption of
-    mtk_ctrl_trb_handler() in a comment
-  - Added a submit_lock mutex closing the submit vs. hif_exit race on
-    trans->available; hif_cmd_func() now checks available
-  - Kept the empty queue table: queue_info entries are populated by
-    the next patch "Add control port"
-  - Commit message notes TX/RX paths are wired up by later patches
-  - hif_exit has no caller at this commit, but ops->init is not called
-    either, so nothing is allocated to leak; patch 5 wires up both
-  - The trb_handler default case completes the TRB with -EINVAL
-    instead of silently leaking the SKB
-  - Documented the non-BD skb_headlen() == skb->len invariant
-  - trb_open_priv overlay size is safe by construction
-  - Removed the unused CLDMA4 support here at the source, instead of
-    introducing it and deleting it again in Patch 5
-  - Fixed an skb leak in the mtk_cldma_rxq_free() BD path: the parent
-    skb was never freed after detaching frag_list
-  - Replaced the free_idx/wr_idx boundary check added in v5 with a
-    per-queue ring_lock following drivers/net/wwan/t7xx: the check
-    raced with submit_tx and could stall TX forever; the lock also
-    closes the submit/reclaim race the check was originally added for
-  - Removed the write-only queues_cnt and tx_req.data_vm_addr fields
-- Patch 5 (Add FSM thread):
-  - Commit message: five FSM states (not seven); now describes the
-    HS1/HS2/HS3 handshake and CLDMA bring-up/teardown in detail
-  - Check ops->init() return in FSM_STATE_ON; NULL guard for srv in
-    trb_srv_exit(); check mtk_cldma_dev_init() return in the listener
-  - Kept the HS2 feature parser as is: the protocol requires dense
-    ascending order and the ft_id check catches violations
-  - Reject data_len == 0 before calling the query_rtft handler
-  - Drop duplicate HS2 messages when hs_info->rt_data is already set
-  - Added a notifier_lock mutex protecting FSM notifier list walks
-  - Reordered HS2 handling: parse HS2, send HS3, and only then switch
-    state, so FSM_STATE_READY implies HS3 was delivered
-  - Unmask the HS channels on handshake error so the modem can retry
-  - Moved wake_up_process() under evtq_lock with a fsm_handler NULL
-    check; exit sets GATECLOSED and clears fsm_handler under the lock
-  - mtk_fsm_hs_info_init() propagates event-registration failures and
-    unwinds on error
-  - The CLDMA ISR logs, clears and re-unmasks QUEUE_ERROR bits
-  - CLDMA dev_exit unregisters the IRQ callback before mask +
-    synchronize_irq, preventing ISR re-arm after teardown
-  - Reordered FSM_STATE_OFF teardown: stop the TRB threads before
-    freeing CLDMA, with the per-hif teardown moved into
-    mtk_cldma_exit(); fixes a silently skipped teardown that broke the
-    next reset cycle and leaked the CLDMA resources
-  - mtk_trans_ctrl_exit() falls back to hif_exit when the
-    FSM_STATE_OFF teardown never ran (guarded by trans->available)
-  - mtk_pci_dev_start() propagates evt_submit/fsm_start errors
-  - Restored TASK_INTERRUPTIBLE for the FSM event kthread: the v2 flip
-    to TASK_UNINTERRUPTIBLE was not requested by review, and an idle
-    D-state kthread blocks suspend and trips the hung-task detector
-- Patch 6 (Add AT & MBIM WWAN ports):
-  - Check and log mtk_port_enable_by_type() failure in the FSM state
-    handler
-  - A short WWAN write now returns -EIO; consume_skb() on success
-  - The wwan_enable failure path calls mtk_port_ch_disable() to undo
-    usr_cnt and partial resources
-  - Publish the wwan_port pointer only after IS_ERR validation, so the
-    RX path never sees an ERR_PTR
-  - Pass wwan_port_caps (frag_len = negotiated tx_mtu, CCCI header
-    headroom) to wwan_create_port(); a tx_mtu == 0 guard prevents
-    userspace write() from spinning forever on frag_len == 0
-  - Set PORT_S_WR/PORT_S_ENABLE before wwan_create_port() and clear
-    both bits on failure
-- Link to v6: https://patch.msgid.link/20260811-t9xx_driver_v1-v6-0-2c969fad57c6@compal.com
+ drivers/net/wwan/t9xx/mtk_port.c               |  30 ++
+ drivers/net/wwan/t9xx/mtk_port.h               |  13 +
+ drivers/net/wwan/t9xx/mtk_port_io.c            | 361 +++++++++++++++++++++++++
+ drivers/net/wwan/t9xx/mtk_port_io.h            |   5 +
+ drivers/net/wwan/t9xx/pcie/mtk_ctrl_cfg_m9xx.c |   8 +
+ 5 files changed, 417 insertions(+)
 
-Changes in v6:
-- Patch 3 (Add control DMA interface):
-  - Move extern declarations for mtk_cldma_regs_m9xx and
-    cldma_drv_ops_m9xx from Patch 5 to Patch 3 where the
-    symbols are first defined, fixing sparse W=1 C=1 warnings
-  - Fix RX done recycle path: skip buffer recycle in BD mode
-    (nr_bds > 0) to prevent BDP flag mismatch causing HW to
-    misinterpret data buffer address as BD chain pointer
-    [sashiko]
-  - Fix RX done recycle path: on dma_map_single failure,
-    free skb and advance free_idx instead of goto out, to
-    prevent ring stall [sashiko]
-- Patch 4 (Add control port):
-  - Replace wake_up_interruptible_all() with wake_up_all()
-    for trb_wq and rx_wq in open/close/tx completion
-    callbacks and common_close, fixing mismatch with
-    wait_event_timeout (TASK_UNINTERRUPTIBLE) waiters in
-    ch_enable/ch_disable that caused spurious timeouts
-    [sashiko]
-- Link to v5: https://patch.msgid.link/20260723-t9xx_driver_v1-v5-0-b27afb99ccbb@compal.com
+diff --git a/drivers/net/wwan/t9xx/mtk_port.c b/drivers/net/wwan/t9xx/mtk_port.c
+index 82eb0feb84fe..1a7f097ca7df 100644
+--- a/drivers/net/wwan/t9xx/mtk_port.c
++++ b/drivers/net/wwan/t9xx/mtk_port.c
+@@ -822,6 +822,29 @@ int mtk_port_ch_disable(struct mtk_port *port)
+ 	return ret;
+ }
+ 
++static int mtk_port_enable_by_type(struct mtk_port_mngr *port_mngr, int tbl_type)
++{
++	struct mtk_port **ports;
++	int ret, idx;
++
++	if (tbl_type < 0 || tbl_type >= PORT_TBL_MAX)
++		return -EINVAL;
++
++	ports = kcalloc(port_mngr->port_cnt, sizeof(struct mtk_port *), GFP_KERNEL);
++	if (!ports)
++		return -ENOMEM;
++
++	ret = radix_tree_gang_lookup(&port_mngr->port_tbl[tbl_type],
++				     (void **)ports, 0, port_mngr->port_cnt);
++	for (idx = 0; idx < ret; idx++) {
++		if (ports[idx]->enable)
++			ports_ops[ports[idx]->info.type]->enable(ports[idx]);
++	}
++
++	kfree(ports);
++	return 0;
++}
++
+ static void mtk_port_disable(struct mtk_port_mngr *port_mngr)
+ {
+ 	struct radix_tree_iter iter;
+@@ -843,6 +866,7 @@ static void mtk_port_disable(struct mtk_port_mngr *port_mngr)
+ void mtk_port_mngr_fsm_state_handler(struct mtk_fsm_param *fsm_param, void *arg)
+ {
+ 	struct mtk_port_mngr *port_mngr;
++	int ret;
+ 
+ 	if (!fsm_param || !arg)
+ 		return;
+@@ -853,6 +877,12 @@ void mtk_port_mngr_fsm_state_handler(struct mtk_fsm_param *fsm_param, void *arg)
+ 	case FSM_STATE_OFF:
+ 		mtk_port_disable(port_mngr);
+ 		break;
++	case FSM_STATE_READY:
++		ret = mtk_port_enable_by_type(port_mngr, PORT_TBL_MD);
++		if (ret)
++			dev_err(port_mngr->ctrl_blk->mdev->dev,
++				"Failed to enable MD ports: %d\n", ret);
++		break;
+ 	default:
+ 		break;
+ 	}
+diff --git a/drivers/net/wwan/t9xx/mtk_port.h b/drivers/net/wwan/t9xx/mtk_port.h
+index ba69eb37c7f9..f009715bf22c 100644
+--- a/drivers/net/wwan/t9xx/mtk_port.h
++++ b/drivers/net/wwan/t9xx/mtk_port.h
+@@ -56,6 +56,10 @@ enum mtk_ccci_ch {
+ 	/* to MD */
+ 	CCCI_CONTROL_RX				= 0x2000,
+ 	CCCI_CONTROL_TX				= 0x2001,
++	CCCI_UART2_RX				= 0x200A,
++	CCCI_UART2_TX				= 0x200C,
++	CCCI_MBIM_RX				= 0x20D0,
++	CCCI_MBIM_TX				= 0x20D1,
+ };
+ 
+ enum mtk_port_flag {
+@@ -73,6 +77,7 @@ enum mtk_port_tbl {
+ 
+ enum mtk_port_type {
+ 	PORT_TYPE_INTERNAL,
++	PORT_TYPE_WWAN,
+ 	PORT_TYPE_MAX
+ };
+ 
+@@ -81,6 +86,13 @@ struct mtk_internal_port {
+ 	int (*recv_cb)(void *arg, struct sk_buff *skb);
+ };
+ 
++struct mtk_wwan_port {
++	/* w_lock protects wwan_port when recv data and disable port at the same time */
++	struct mutex w_lock;
++	int w_type;
++	void *w_port;
++};
++
+ struct mtk_port_cfg {
+ 	enum mtk_ccci_ch tx_ch;
+ 	enum mtk_ccci_ch rx_ch;
+@@ -110,6 +122,7 @@ struct mtk_port {
+ 	char dev_str[MTK_DEV_STR_LEN];
+ 	struct mtk_port_mngr *port_mngr;
+ 	struct mtk_internal_port i_priv;
++	struct mtk_wwan_port w_priv;
+ };
+ 
+ struct mtk_port_mngr {
+diff --git a/drivers/net/wwan/t9xx/mtk_port_io.c b/drivers/net/wwan/t9xx/mtk_port_io.c
+index a4e264cd5f63..e6ff013532b6 100644
+--- a/drivers/net/wwan/t9xx/mtk_port_io.c
++++ b/drivers/net/wwan/t9xx/mtk_port_io.c
+@@ -3,6 +3,10 @@
+  * Copyright (c) 2022, MediaTek Inc.
+  */
+ #include <linux/netdevice.h>
++#include <linux/poll.h>
++#include <linux/slab.h>
++#include <linux/wait.h>
++#include <linux/wwan.h>
+ 
+ #include "mtk_port_io.h"
+ 
+@@ -41,6 +45,145 @@ static void mtk_port_struct_init(struct mtk_port *port)
+ 	init_waitqueue_head(&port->rx_wq);
+ }
+ 
++static int mtk_port_copy_data_from(void *to, union user_buf from, unsigned int len,
++				   unsigned int offset, bool from_user_space)
++{
++	if (from_user_space) {
++		if (copy_from_user(to, from.ubuf + offset, len))
++			return -EINVAL;
++	} else {
++		memcpy(to, from.kbuf + offset, len);
++	}
++
++	return 0;
++}
++
++static int mtk_port_common_write_frag_skb(struct mtk_port *port, struct sk_buff *skb,
++					  union user_buf buf, u32 packet_size,
++					  u32 cur_pos, bool from_user_space)
++{
++	struct sk_buff *frag_skb, *tmp = NULL;
++	u32 frag_size;
++	int ret;
++
++	frag_size = min(packet_size, port->tx_frag_size);
++	ret = mtk_port_copy_data_from(skb_put(skb, frag_size),
++				      buf, frag_size,
++				      cur_pos, from_user_space);
++	if (ret) {
++		dev_err(port->port_mngr->ctrl_blk->mdev->dev,
++			"Failed to copy skb for port(%s)\n", port->info.name);
++		goto err_reset_skb;
++	}
++	cur_pos += frag_size;
++	packet_size -= frag_size;
++	if (!packet_size)
++		return cur_pos;
++
++	while (packet_size > 0) {
++		frag_skb = __dev_alloc_skb(port->tx_mtu, GFP_KERNEL);
++		if (!frag_skb) {
++			ret = -ENOMEM;
++			goto err_free_frag_list;
++		}
++
++		frag_size = min(packet_size, port->tx_frag_size);
++		ret = mtk_port_copy_data_from(skb_put(frag_skb, frag_size),
++					      buf, frag_size,
++					      cur_pos, from_user_space);
++		if (ret) {
++			dev_err(port->port_mngr->ctrl_blk->mdev->dev,
++				"Failed to copy frag_skb for port(%s)\n", port->info.name);
++			dev_kfree_skb_any(frag_skb);
++			goto err_free_frag_list;
++		}
++		skb->data_len += frag_size;
++		skb->len += frag_size;
++		cur_pos += frag_size;
++		packet_size -= frag_size;
++		if (!tmp)
++			skb_shinfo(skb)->frag_list = frag_skb;
++		else
++			tmp->next = frag_skb;
++		tmp = frag_skb;
++	}
++	return cur_pos;
++
++err_free_frag_list:
++	frag_skb = skb_shinfo(skb)->frag_list;
++	while (frag_skb) {
++		tmp = frag_skb->next;
++		frag_skb->next = NULL;
++		dev_kfree_skb_any(frag_skb);
++		frag_skb = tmp;
++	}
++	skb_shinfo(skb)->frag_list = NULL;
++err_reset_skb:
++	skb->data_len = 0;
++	return ret;
++}
++
++static int mtk_port_common_write(struct mtk_port *port, union user_buf buf, unsigned int len,
++				 bool from_user_space)
++{
++	u32 packet_size, left_cnt = len, cur_pos;
++	struct sk_buff *skb;
++	int ret;
++
++	if (len == 0)
++		return -EINVAL;
++
++start_write:
++	ret = mtk_port_status_check(port);
++	if (ret)
++		goto end_write;
++
++	skb = __dev_alloc_skb(port->tx_mtu, GFP_KERNEL);
++	if (!skb) {
++		ret = -ENOMEM;
++		goto end_write;
++	}
++
++	skb_reserve(skb, sizeof(struct mtk_ccci_header));
++
++	packet_size = min_t(u32, left_cnt, port->tx_mtu - sizeof(struct mtk_ccci_header));
++	cur_pos = len - left_cnt;
++	/* Support scatter gather transmission */
++	if (port->tx_mtu > port->tx_frag_size) {
++		ret = mtk_port_common_write_frag_skb(port, skb, buf, packet_size,
++						     cur_pos, from_user_space);
++		if (ret < 0)
++			goto err_free_skb;
++	} else {
++		ret = mtk_port_copy_data_from(skb_put(skb, packet_size),
++					      buf, packet_size,
++					      cur_pos, from_user_space);
++		if (ret) {
++			dev_err(port->port_mngr->ctrl_blk->mdev->dev,
++				"Failed to copy data for port(%s)\n", port->info.name);
++			goto err_free_skb;
++		}
++	}
++
++	ret = mtk_port_send_data(port, skb);
++	if (ret < 0) {
++		if (ret == -EINTR)
++			left_cnt -= packet_size;
++		goto end_write;
++	}
++
++	left_cnt -= ret;
++	if (left_cnt)
++		goto start_write;
++	else
++		goto end_write;
++
++err_free_skb:
++	dev_kfree_skb_any(skb);
++end_write:
++	return (len > left_cnt) ? (len - left_cnt) : ret;
++}
++
+ static int mtk_port_internal_init(struct mtk_port *port)
+ {
+ 	mtk_port_struct_init(port);
+@@ -233,6 +376,224 @@ static const struct port_ops port_internal_ops = {
+ 	.recv = mtk_port_internal_recv,
+ };
+ 
++static int mtk_port_wwan_open(struct wwan_port *w_port)
++{
++	struct mtk_port *port;
++	int ret;
++
++	port = wwan_port_get_drvdata(w_port);
++	ret = mtk_port_get_locked(port);
++	if (ret)
++		return ret;
++
++	ret = mtk_port_common_open(port);
++	if (ret)
++		mtk_port_put_locked(port);
++
++	return ret;
++}
++
++static void mtk_port_wwan_close(struct wwan_port *w_port)
++{
++	struct mtk_port *port = wwan_port_get_drvdata(w_port);
++
++	mtk_port_common_close(port);
++	mtk_port_put_locked(port);
++}
++
++static int mtk_port_wwan_write(struct wwan_port *w_port, struct sk_buff *skb)
++{
++	struct mtk_port *port = wwan_port_get_drvdata(w_port);
++	union user_buf user_buf;
++	int ret;
++
++	if (unlikely(!skb->len)) {
++		consume_skb(skb);
++		return 0;
++	}
++
++	port->info.flags &= ~PORT_F_BLOCKING;
++	user_buf.kbuf = (void *)skb->data;
++	ret = mtk_port_common_write(port, user_buf, skb->len, false);
++	if (ret < 0)
++		return ret;
++	if (ret != skb->len)
++		return -EIO;
++
++	consume_skb(skb);
++	return 0;
++}
++
++static int mtk_port_wwan_write_blocking(struct wwan_port *w_port, struct sk_buff *skb)
++{
++	struct mtk_port *port = wwan_port_get_drvdata(w_port);
++	union user_buf user_buf;
++	int ret;
++
++	if (unlikely(!skb->len)) {
++		consume_skb(skb);
++		return 0;
++	}
++
++	port->info.flags |= PORT_F_BLOCKING;
++	user_buf.kbuf = (void *)skb->data;
++	ret = mtk_port_common_write(port, user_buf, skb->len, false);
++	if (ret < 0)
++		return ret;
++	if (ret != skb->len)
++		return -EIO;
++
++	consume_skb(skb);
++	return 0;
++}
++
++static __poll_t mtk_port_wwan_poll(struct wwan_port *w_port, struct file *file,
++				   struct poll_table_struct *poll)
++{
++	struct mtk_port *port = wwan_port_get_drvdata(w_port);
++	union ctrl_hif_cmd_data hif_cmd;
++	struct mtk_ctrl_blk *ctrl_blk;
++	__poll_t mask = 0;
++
++	poll_wait(file, &port->trb_wq, poll);
++	if (mtk_port_status_check(port))
++		return EPOLLERR | EPOLLHUP;
++
++	ctrl_blk = port->port_mngr->ctrl_blk;
++	hif_cmd.rx_ch = port->info.rx_ch;
++	if (!ctrl_blk->ops->send_cmd(ctrl_blk->mdev, HIF_CTRL_CMD_CHECK_TX_FULL, &hif_cmd))
++		mask |= EPOLLOUT | EPOLLWRNORM;
++
++	return mask;
++}
++
++static const struct wwan_port_ops wwan_ops = {
++	.start = mtk_port_wwan_open,
++	.stop = mtk_port_wwan_close,
++	.tx = mtk_port_wwan_write,
++	.tx_blocking = mtk_port_wwan_write_blocking,
++	.tx_poll = mtk_port_wwan_poll,
++};
++
++static int mtk_port_wwan_init(struct mtk_port *port)
++{
++	mtk_port_struct_init(port);
++	port->enable = false;
++
++	mutex_init(&port->w_priv.w_lock);
++
++	switch (port->info.rx_ch) {
++	case CCCI_MBIM_RX:
++		port->w_priv.w_type = WWAN_PORT_MBIM;
++		break;
++	case CCCI_UART2_RX:
++		port->w_priv.w_type = WWAN_PORT_AT;
++		break;
++	default:
++		port->w_priv.w_type = WWAN_PORT_UNKNOWN;
++		break;
++	}
++
++	return 0;
++}
++
++static void mtk_port_wwan_exit(struct mtk_port *port)
++{
++	if (test_bit(PORT_S_ENABLE, &port->status))
++		ports_ops[port->info.type]->disable(port);
++}
++
++static void mtk_port_wwan_enable(struct mtk_port *port)
++{
++	struct mtk_port_mngr *port_mngr;
++	struct wwan_port_caps caps;
++	struct wwan_port *wp;
++	int ret;
++
++	port_mngr = port->port_mngr;
++
++	if (test_bit(PORT_S_ENABLE, &port->status))
++		return;
++
++	ret = mtk_port_ch_enable(port);
++	if (ret && ret != -EBUSY) {
++		mtk_port_ch_disable(port);
++		return;
++	}
++
++	/* tx_mtu is only valid once the channel open trb has completed. A zero
++	 * frag_len would make wwan_port_fops_write() loop forever.
++	 */
++	if (!port->tx_mtu) {
++		dev_err(port_mngr->ctrl_blk->mdev->dev,
++			"Invalid tx_mtu for port(%s)\n", port->info.name);
++		mtk_port_ch_disable(port);
++		return;
++	}
++
++	caps.frag_len = port->tx_mtu;
++	caps.headroom_len = sizeof(struct mtk_ccci_header);
++
++	set_bit(PORT_S_WR, &port->status);
++	set_bit(PORT_S_ENABLE, &port->status);
++
++	wp = wwan_create_port(port_mngr->ctrl_blk->mdev->dev,
++			      port->w_priv.w_type,
++			      &wwan_ops, &caps, port);
++	if (IS_ERR(wp)) {
++		dev_warn(port_mngr->ctrl_blk->mdev->dev,
++			 "Failed to create wwan port for (%s)\n", port->info.name);
++		clear_bit(PORT_S_ENABLE, &port->status);
++		clear_bit(PORT_S_WR, &port->status);
++		mtk_port_ch_disable(port);
++		return;
++	}
++
++	mutex_lock(&port->w_priv.w_lock);
++	port->w_priv.w_port = wp;
++	mutex_unlock(&port->w_priv.w_lock);
++}
++
++static void mtk_port_wwan_disable(struct mtk_port *port)
++{
++	struct wwan_port *w_port;
++
++	if (!test_and_clear_bit(PORT_S_ENABLE, &port->status))
++		return;
++
++	clear_bit(PORT_S_WR, &port->status);
++	w_port = port->w_priv.w_port;
++	mutex_lock(&port->w_priv.w_lock);
++	port->w_priv.w_port = NULL;
++	mutex_unlock(&port->w_priv.w_lock);
++
++	mtk_port_ch_disable(port);
++	wwan_remove_port(w_port);
++}
++
++static int mtk_port_wwan_recv(struct mtk_port *port, struct sk_buff *skb)
++{
++	mutex_lock(&port->w_priv.w_lock);
++	if (!port->w_priv.w_port) {
++		mutex_unlock(&port->w_priv.w_lock);
++		return -ENXIO;
++	}
++
++	wwan_port_rx(port->w_priv.w_port, skb);
++	mutex_unlock(&port->w_priv.w_lock);
++	return 0;
++}
++
++static const struct port_ops port_wwan_ops = {
++	.init = mtk_port_wwan_init,
++	.exit = mtk_port_wwan_exit,
++	.reset = mtk_port_reset,
++	.enable = mtk_port_wwan_enable,
++	.disable = mtk_port_wwan_disable,
++	.recv = mtk_port_wwan_recv,
++};
++
+ const struct port_ops *ports_ops[PORT_TYPE_MAX] = {
+ 	&port_internal_ops,
++	&port_wwan_ops,
+ };
+diff --git a/drivers/net/wwan/t9xx/mtk_port_io.h b/drivers/net/wwan/t9xx/mtk_port_io.h
+index 0c10e893b7e0..ea92cd22dba0 100644
+--- a/drivers/net/wwan/t9xx/mtk_port_io.h
++++ b/drivers/net/wwan/t9xx/mtk_port_io.h
+@@ -23,6 +23,11 @@ struct port_ops {
+ 	int (*recv)(struct mtk_port *port, struct sk_buff *skb);
+ };
+ 
++union user_buf {
++	void __user *ubuf;
++	void *kbuf;
++};
++
+ void *mtk_port_internal_open(struct mtk_md_dev *mdev, char *name, int flag);
+ int mtk_port_internal_close(void *i_port);
+ int mtk_port_internal_write(void *i_port, struct sk_buff *skb);
+diff --git a/drivers/net/wwan/t9xx/pcie/mtk_ctrl_cfg_m9xx.c b/drivers/net/wwan/t9xx/pcie/mtk_ctrl_cfg_m9xx.c
+index 8611561dd67c..aab09cab360c 100644
+--- a/drivers/net/wwan/t9xx/pcie/mtk_ctrl_cfg_m9xx.c
++++ b/drivers/net/wwan/t9xx/pcie/mtk_ctrl_cfg_m9xx.c
+@@ -16,6 +16,10 @@ static const int mtk_srv_cfg_m9xx[NR_CLDMA][HW_QUE_NUM] = {
+ 
+ /* the number of RX GPDs should be at last two */
+ static const struct queue_info mtk_queue_info_m9xx[] = {
++	{CCCI_UART2_TX, CCCI_UART2_RX, CLDMA1, TXQ(5), RXQ(5),
++	 Q_MTU_3_5K, Q_MTU_3_5K, TX_GPD_NUM, RX_GPD_NUM, Q_FRAG_3_5K, Q_FRAG_3_5K, 0},
++	{CCCI_MBIM_TX, CCCI_MBIM_RX, CLDMA1, TXQ(2), RXQ(2),
++	 Q_MTU_3_5K, Q_MTU_3_5K, TX_GPD_NUM, RX_GPD_NUM, Q_FRAG_3_5K, Q_FRAG_3_5K, 0},
+ 	{CCCI_CONTROL_TX, CCCI_CONTROL_RX, CLDMA1, TXQ(0), RXQ(0),
+ 	 Q_MTU_3_5K, Q_MTU_3_5K, TX_GPD_NUM, RX_GPD_NUM, Q_FRAG_3_5K, Q_FRAG_3_5K, 0},
+ 	{CCCI_SAP_CONTROL_TX, CCCI_SAP_CONTROL_RX, CLDMA0, TXQ(0), RXQ(0),
+@@ -23,6 +27,10 @@ static const struct queue_info mtk_queue_info_m9xx[] = {
+ };
+ 
+ static const struct mtk_port_cfg port_cfg_m9xx[] = {
++	{CCCI_UART2_TX, CCCI_UART2_RX, PORT_TYPE_WWAN, "AT",
++		PORT_F_ALLOW_DROP},
++	{CCCI_MBIM_TX, CCCI_MBIM_RX, PORT_TYPE_WWAN, "MBIM",
++		PORT_F_ALLOW_DROP},
+ 	{CCCI_CONTROL_TX, CCCI_CONTROL_RX, PORT_TYPE_INTERNAL, "MDCTRL",
+ 		PORT_F_ALLOW_DROP},
+ 	{CCCI_SAP_CONTROL_TX, CCCI_SAP_CONTROL_RX, PORT_TYPE_INTERNAL, "SAPCTRL",
 
-Changes in v5:
-- Patch 1 (Add PCIe core):
-  - Remove LE32_TO_U32(cpu_to_le32()) no-op endianness
-    roundtrip, return hw_bits directly
-  - Use "%s" format string in pci_request_irq() to prevent
-    format string injection
-  - Return PCI_ERS_RESULT_DISCONNECT from AER error_detected,
-    driver does not support AER recovery
-- Patch 2 (Add control plane transaction layer):
-  - Rewrite commit message to accurately describe skeleton
-    content
-- Patch 3 (Add control DMA interface):
-  - Replace rmb() with dma_rmb() after HWO check in TX/RX
-    done paths for correct DMA descriptor ordering
-  - Add ring boundary check in TX done to prevent crossing
-    into submit territory
-  - Fix RX stall on reload failure: recycle old buffer with
-    skb_trim() + dma_map_single() instead of losing descriptor
-  - Convert devm_kcalloc to kcalloc for req_pool and
-    bd_dsc_pool, matching existing kfree in teardown
-  - Set bd_dsc->skb = NULL after dev_kfree_skb_any() in
-    reload error path to prevent use-after-free
-  - Use skb_headlen(skb) instead of skb->len for linear
-    segment size in txbuf_set non-BD path
-  - Use WRITE_ONCE() for wr_idx update in submit_tx
-- Patch 4 (Add control port):
-  - Fix direct mtk_port_release() calls to use kref_put()
-    in mtk_port_free_or_backup and stale_list_grp_cleanup
-  - Add ida_free() before kfree(s_list) in stale list
-    cleanup to prevent IDA leak
-  - Remove double-free of skb in mtk_port_internal_recv()
-    drop_data path, caller owns the skb
-  - Add port_cnt bounds check against data_len in
-    mtk_port_status_update() to prevent OOB read
-  - Replace wait_event_interruptible_timeout with
-    wait_event_timeout in ch_enable/ch_disable to prevent
-    busy-spin on pending signals
-- Patch 5 (Add FSM thread):
-  - Validate rtft data_len before passing to query_rtft
-    callback to prevent OOB access
-  - Zero-initialize HS3 skb data with memset() to prevent
-    heap infoleak
-  - Set hs_info->rt_data = NULL after dev_kfree_skb() in
-    SAP/MD ctrl msg handlers to prevent use-after-free
-  - Move wake_up_process() inside spinlock in evt_submit,
-    clear fsm_handler under lock in exit to fix race
-  - Replace kcalloc + radix_tree_gang_lookup with
-    radix_tree_for_each_slot() in mtk_port_disable()
-  - Add rt_data cleanup loop in FSM teardown path
-- Patch 7 (Add maintainers entry):
-  - Add Robert Yu and Jeff Chang as maintainers
-- Link to v4: https://patch.msgid.link/20260709-t9xx_driver_v1-v4-0-a8c009d509c5@compal.com
-
-Changes in v4:
-- Patch 1 (Add PCIe core):
-  - Add ACPI dependency to Kconfig (depends on PCI && ACPI)
-    and remove #ifdef CONFIG_ACPI / #else guards from
-    mtk_pci_fldr() and mtk_pci_pldr()
-  - Remove unnecessary parentheses in (mdev)->dev across
-    all dev_err/dev_warn calls
-  - Remove devm_kfree() calls from mtk_pci_probe() error
-    path and mtk_pci_remove(), devres handles cleanup
-  - Remove mtk_dev_alloc()/mtk_dev_free() wrappers, use
-    devm_kzalloc() directly in mtk_pci_probe()
-  - Convert ext_evt callbacks from devm_kzalloc/devm_kfree
-    to kzalloc/kfree for runtime-managed resources
-- Patch 2 (Add control plane transaction layer):
-  - Remove mtk_dev_alloc()/mtk_dev_free() declarations and
-    implementations from mtk_dev.h and mtk_dev.c
-  - Remove empty module_init/module_exit stubs, defer to
-    Patch 4 where they have actual content
-  - Remove devm_kfree() and unused ctrl_blk variable in
-    mtk_ctrl_exit(), devres handles cleanup
-- Patch 3 (Add control DMA interface):
-  - Remove inline keyword from mtk_cldma_clr_bd_dsc() in
-    .c file, let compiler decide inlining
-  - Replace dev_warn() with dev_warn_ratelimited() for SKB
-    alloc/map failure messages in data path
-  - Replace open-coded do/while polling loop with
-    read_poll_timeout() from <linux/iopoll.h> in
-    mtk_cldma_stop_queue()
-  - Remove ctrl_port_chl_mtu module_param, MODULE_PARM_DESC,
-    and mtk_ctrl_queue_info_update() with associated macros
-  - Remove unnecessary parentheses in (mdev)->dev across
-    mtk_cldma.c and mtk_trans_ctrl.c
-  - Convert CLDMA txq/rxq/cd from devm_kzalloc/devm_kfree
-    to kzalloc/kfree for runtime-managed resources
-  - Convert trb_srv/srv_que from devm_kzalloc/devm_kfree
-    to kzalloc/kfree for runtime-managed resources
-  - Remove devm_kfree() and unused variables from
-    mtk_cldma_exit() and mtk_trans_ctrl_exit(), devres
-    handles cleanup for device-lifetime resources
-  - Remove unnecessary NULL checks before kfree() for
-    bd_dsc_pool in txq_free/rxq_free
-- Patch 4 (Add control port):
-  - Add module_init/module_exit with mtk_port_io_init/exit
-    content, moved from Patch 2
-  - Remove unnecessary parentheses in (mdev)->dev in
-    mtk_port.c
-  - Remove devm_kfree() from mtk_port_mngr_init() error
-    path and mtk_port_mngr_exit(), devres handles cleanup
-  - Simplify mtk_trans_ctrl_init() error path: replace goto
-    err_free_trans with direct return -ENOMEM
-- Patch 5 (Add FSM thread):
-  - Remove unnecessary parentheses in (mdev)->dev across
-    mtk_fsm.c and mtk_ctrl_plane.c
-  - Convert FSM notifiers from devm_kzalloc/devm_kfree to
-    kzalloc/kfree for runtime-managed resources
-  - Convert CLDMA drv_info from devm_kzalloc/devm_kfree to
-    kzalloc/kfree for runtime-managed resources
-  - Remove devm_kfree() from mtk_fsm_init()/mtk_fsm_exit()
-    and mtk_ctrl_init()/mtk_ctrl_exit(), devres handles
-    cleanup for device-lifetime resources
-- Link to v3: https://patch.msgid.link/20260624-t9xx_driver_v1-v3-0-73ff03f60c48@compal.com
-
-Changes in v3:
-- Address sashiko AI code review comments and fix sparse warnings
-- Patch 1 (Add PCIe core):
-  - Move extern declaration of mtk_dev_cfg_0900 from mtk_pci.c to mtk_pci.h to fix sparse warning
-  - Remove mtk_pci_bar_exit(): pcim_iounmap_region() was called with bitmask instead of BAR index, and pcim_iomap_regions() is devres-managed so manual unmap is redundant [sashiko]
-  - Remove pci_disable_device() from probe error path and remove path: pcim_enable_device() registers devres cleanup, manual disable causes enable_cnt underflow [sashiko]
-- Patch 3 (Add control DMA interface):
-  - Add #include "mtk_cldma.h" in mtk_cldma_drv_m9xx.c to fix sparse undeclared symbol warnings for mtk_cldma_regs_m9xx and cldma_drv_ops_m9xx
-  - Move extern declaration of mtk_ctrl_info_m9xx from mtk_trans_ctrl.c to mtk_trans_ctrl.h to fix sparse undeclared symbol warning
-  - Replace kcalloc + radix_tree_gang_lookup with radix_tree_for_each_slot() in mtk_ctrl_remove_radix_tree() to eliminate allocation in teardown path [sashiko]
-  - Add missing mtk_pci_dev_exit() call in mtk_pci_remove() to properly clean up FSM and trans_ctrl resources before device removal [sashiko]
-- Patch 4 (Add control port):
-  - Replace kcalloc + radix_tree_gang_lookup with radix_tree_for_each_slot() and single-entry gang_lookup in mtk_port_tbl_destroy() to eliminate allocation failure in teardown path [sashiko]
-  - Add port = NULL after mtk_port_put_locked() in mtk_port_internal_open() error path to prevent returning un-refcounted pointer [sashiko]
-  - Restore skb_unlink + trb_complete for non-EAGAIN errors in mtk_ctrl_trb_handler() TX path to prevent infinite retry loop [sashiko]
-- Patch 5 (Add FSM thread):
-  - Check mtk_pci_register_irq() return value in mtk_cldma_dev_init() and add err_destroy_wq error label to fix unreachable dead code [sashiko]
-  - Propagate specific error codes (ENOMEM/EIO/EINVAL) from mtk_cldma_dev_init() error paths instead of generic -EIO [sashiko]
-  - Free head SKB after detaching frag_list in mtk_cldma_rxq_free() scatter-gather mode to fix memory leak [sashiko]
-- Patch 6 (Add AT & MBIM WWAN ports):
-  - Remove unused write_lock mutex from struct mtk_port and its mutex_init call [sashiko]
-- Link to v2: https://patch.msgid.link/20260610-t9xx_driver_v1-v2-0-c65addf23b3f@compal.com
-
-Changes in v2:
-- Split series into control plane (this v2) and data plane (follow-up)
-- Patch 1 (Add PCIe core):
-  - Rename BAR_NUM to MTK_PCI_BAR_NUM for driver prefix consistency
-  - Replace magic numbers in mtk_pci_setup_atr() with named defines
-  - Remove redundant ATR register comments, use blank line separators
-  - Add kernel-doc comments to all non-static functions
-  - Convert 4 MMIO wrapper functions to static inline in header [sashiko]
-  - Remove unnecessary unlikely() from IRQ validation paths
-  - Add irq_cnt == 0 and irq_id < 0 guards in mtk_pci_get_virq_id() [sashiko]
-  - Initialize hw_bits at declaration for consistency
-  - Merge same-type variable declarations into single lines
-  - Add #else/#endif comments for CONFIG_ACPI blocks
-  - Add newlines in mtk_pci_pldr() for readability
-  - Move return into default case in mtk_pci_dev_reset()
-  - Simplify mtk_mhccif_init() error path to use direct returns
-  - Change -EFAULT to -ENOLINK for PCIe link check failure
-  - Rename goto label "out" to "log_err" in mtk_pci_probe()
-  - Wrap long lines to stay within 80 columns
-  - Fix IRQ vector leak: add pci_free_irq_vectors() on error path [sashiko]
-  - Fix mtk_pci_remove() ordering: free IRQ before cancel_work_sync [sashiko]
-  - Fix mtk_pci_pldr() ACPI buffer leak: free first result before second call [sashiko]
-  - Replace msleep(500) with MTK_PLDR_POWER_OFF_DELAY_MS define
-  - Remove unused EXT_EVT_H2D_DRM_DISABLE_AP and related register define [sashiko]
-  - Increase MTK_IRQ_NAME_LEN from 20 to 32 to fix W=1 format-truncation warning [sashiko]
-- Patch 2 (Add control plane transaction layer):
-  - Add kernel-doc comments to mtk_ctrl_init() and mtk_ctrl_exit()
-  - Change mtk_ctrl_exit() return type from int to void
-  - Set mdev->ctrl_blk to NULL after freeing in mtk_ctrl_exit() [sashiko]
-  - Change ctrl_blk from void* to typed struct mtk_ctrl_blk* [sashiko]
-  - Remove redundant "depends on MTK_T9XX" from MTK_T9XX_PCI Kconfig [sashiko]
-  - Use mtk_dev_free() instead of devm_kfree() in mtk_pci_probe() error path [sashiko]
-- Patch 3 (Add control DMA interface):
-  - Add @ops kernel-doc parameter for mtk_ctrl_init()
-  - Rename 'err' to 'ret' consistently throughout the patch
-  - Reorder variable declarations to follow reverse Christmas tree style
-  - Change mtk_cldma_txq_free() return type from int to void
-  - Change mtk_cldma_rxq_free() return type from int to void
-  - Change mtk_cldma_exit() return type from int to void
-  - Remove unnecessary zero-initialization of ret in mtk_cldma_start_xfer()
-  - Remove unnecessary zero-initialization of ret in mtk_cldma_tx()
-  - Use direct return instead of goto out in mtk_cldma_submit_tx() error paths
-  - Move software state before HWO flag in mtk_cldma_submit_tx()
-  - Squash variable declarations in mtk_cldma_check_intr_status()
-  - Remove unlikely() from validation paths in mtk_cldma_check_ch_cfg()
-  - Clamp data_recv_len with min_t to prevent skb_over_panic in mtk_cldma_rx_skb_adjust() [sashiko]
-  - Use READ_ONCE() for HWO flag polling in mtk_cldma_check_rx_req() [sashiko]
-  - Fix mtk_cldma_rx_done_work() to always unmask interrupt on error path [sashiko]
-  - Add DMA address guard in mtk_cldma_txq_free() teardown loop [sashiko]
-  - Add IS_ERR() check for kthread_run() in mtk_ctrl_trb_srv_init() [sashiko]
-  - Fix queue_info memory leak on validation failure in mtk_pcie_hif_init() [sashiko]
-  - Handle non-EAGAIN errors in mtk_ctrl_trb_handler() TX path [sashiko]
-  - Fix 'err' typo to 'ret' in mtk_cldma_txbuf_set() error message
-  - Remove unused variable mdev in mtk_cldma_rx_check_again() [sashiko]
-  - Remove unused variables trans and ctrl_blk in mtk_cldma_txq_free() and mtk_cldma_rxq_free() [sashiko]
-- Patch 4 (Add control port):
-  - Add @cfg kernel-doc parameter for mtk_ctrl_init()
-  - Update mtk_ctrl_init() return description to cover additional error codes
-  - Fix double list_del in mtk_port_stale_list_grp_cleanup() [sashiko]
-  - Fix direct mtk_port_trb_free() call to use kref_put() in mtk_port_ch_enable() error path [sashiko]
-  - Fix direct mtk_port_trb_free() call to use kref_put() in mtk_port_ch_disable() error path [sashiko]
-  - Add mtk_port_tbl_destroy() in mtk_port_mngr_init() error path to prevent port memory leak [sashiko]
-  - Change port_ops exit/reset/enable/disable callbacks from int to void
-  - Move -EIO dispatch comment to where the code was introduced
-- Patch 5 (Add FSM thread):
-  - Add bounds check for rtft_entry in mtk_fsm_parse_hs2_msg() [sashiko]
-  - Add skb length validation before accessing ctrl_msg_header in mtk_fsm_sap_ctrl_msg_handler() [sashiko]
-  - Fix skb leak on CTRL_MSG_HS2 mismatch return in mtk_fsm_sap_ctrl_msg_handler() [sashiko]
-  - Add skb length validation before accessing ctrl_msg_header in mtk_fsm_md_ctrl_msg_handler() [sashiko]
-  - Replace devm_kzalloc/devm_kfree with kzalloc/kfree for FSM events [sashiko]
-  - Fix mtk_fsm_evt_submit() to return -ETIMEDOUT on blocking event timeout [sashiko]
-  - Change FSM kthread from TASK_INTERRUPTIBLE to TASK_UNINTERRUPTIBLE [sashiko]
-  - Remove unused variable hw_id in mtk_cldma_dev_exit() [sashiko]
-- Patch 6 (Add AT & MBIM WWAN ports):
-  - Use imperative mode in commit message
-  - Remove unnecessary zero-initialization of ret in mtk_port_copy_data_from()
-  - Change copy_from_user() error code from -EFAULT to -EINVAL in mtk_port_copy_data_from()
-  - Return -EINVAL for zero-length write in mtk_port_common_write()
-  - Change mtk_port_wwan_exit/enable/disable() return type from int to void
-  - Fix packet_size to account for CCCI header reservation in mtk_port_common_write() [sashiko]
-  - Fix WWAN tx callbacks to consume skb and return 0 per wwan_port_ops contract [sashiko]
-  - Fix wwan_create_port() error path: clear ERR_PTR to NULL and call mtk_port_ch_disable() [sashiko]
-- Patch 7 (Add maintainers entry): new patch
-- Link to v1: https://patch.msgid.link/20260529-t9xx_driver_v1-v1-0-bdbfe2c01e57@compal.com
-
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>
-To: Sergey Ryazanov <ryazanov.s.a@gmail.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-To: Andrew Lunn <andrew+netdev@lunn.ch>
-To: "David S. Miller" <davem@davemloft.net>
-To: Eric Dumazet <edumazet@google.com>
-To: Jakub Kicinski <kuba@kernel.org>
-To: Paolo Abeni <pabeni@redhat.com>
-To: Jack Wu <jackbb_wu@compal.com>
-To: Robert Yu <robert_yu@compal.com>
-To: Jeff Chang <Jeff_Chang@compal.com>
-To: Wen-Zhi Huang <wen-zhi.huang@mediatek.com>
-To: Shi-Wei Yeh <shi-wei.yeh@mediatek.com>
-To: Minano Tseng <Minano.tseng@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-kernel@vger.kernel.org
-Cc: netdev@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-mediatek@lists.infradead.org
-
----
-Jack Wu (6):
-      net: wwan: t9xx: Add PCIe core
-      net: wwan: t9xx: Add control plane transaction layer
-      net: wwan: t9xx: Add control DMA interface
-      net: wwan: t9xx: Add control port
-      net: wwan: t9xx: Add FSM thread
-      net: wwan: t9xx: Add AT & MBIM WWAN ports
-
- MAINTAINERS                                     |   11 +
- drivers/net/wwan/Kconfig                        |   16 +
- drivers/net/wwan/Makefile                       |    1 +
- drivers/net/wwan/t9xx/Makefile                  |   14 +
- drivers/net/wwan/t9xx/mtk_ctrl_plane.c          |  114 ++
- drivers/net/wwan/t9xx/mtk_ctrl_plane.h          |   88 ++
- drivers/net/wwan/t9xx/mtk_dev.c                 |   33 +
- drivers/net/wwan/t9xx/mtk_dev.h                 |  111 ++
- drivers/net/wwan/t9xx/mtk_fsm.c                 | 1006 +++++++++++++++
- drivers/net/wwan/t9xx/mtk_fsm.h                 |  144 +++
- drivers/net/wwan/t9xx/mtk_port.c                |  971 +++++++++++++++
- drivers/net/wwan/t9xx/mtk_port.h                |  174 +++
- drivers/net/wwan/t9xx/mtk_port_io.c             |  599 +++++++++
- drivers/net/wwan/t9xx/mtk_port_io.h             |   41 +
- drivers/net/wwan/t9xx/mtk_utility.h             |   33 +
- drivers/net/wwan/t9xx/pcie/Makefile             |   15 +
- drivers/net/wwan/t9xx/pcie/mtk_cldma.c          | 1516 +++++++++++++++++++++++
- drivers/net/wwan/t9xx/pcie/mtk_cldma.h          |  177 +++
- drivers/net/wwan/t9xx/pcie/mtk_cldma_drv.c      |  374 ++++++
- drivers/net/wwan/t9xx/pcie/mtk_cldma_drv.h      |  174 +++
- drivers/net/wwan/t9xx/pcie/mtk_cldma_drv_m9xx.c |  178 +++
- drivers/net/wwan/t9xx/pcie/mtk_cldma_drv_m9xx.h |  101 ++
- drivers/net/wwan/t9xx/pcie/mtk_ctrl_cfg_m9xx.c  |   55 +
- drivers/net/wwan/t9xx/pcie/mtk_pci.c            | 1109 +++++++++++++++++
- drivers/net/wwan/t9xx/pcie/mtk_pci.h            |  233 ++++
- drivers/net/wwan/t9xx/pcie/mtk_pci_drv_m9xx.c   |   69 ++
- drivers/net/wwan/t9xx/pcie/mtk_pci_reg.h        |   70 ++
- drivers/net/wwan/t9xx/pcie/mtk_trans_ctrl.c     |  617 +++++++++
- drivers/net/wwan/t9xx/pcie/mtk_trans_ctrl.h     |  108 ++
- 29 files changed, 8152 insertions(+)
----
-base-commit: eb3f4b7426cfd2b79d65b7d37155480b32259a11
-change-id: 20260529-t9xx_driver_v1-1744f8af7739
-
-Best regards,
---  
-Jack Wu <jackbb_wu@compal.com>
+-- 
+2.34.1
 
 
