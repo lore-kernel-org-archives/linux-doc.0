@@ -1,62 +1,62 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5A8332917
-	for <linux-doc@vger.kernel.org>; Sat, 29 Aug 2026 11:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535E52EEE8C
+	for <linux-doc@vger.kernel.org>; Sat, 29 Aug 2026 11:30:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788001717; cv=none; b=SxJxhM2RDpIvfDA7oI63pCLQxhJ6HxWxUdZkiRa0LurET6RzJMxsffmHZSjAV23X7INxXViF60F5SLjmfwZJstkai9Gn7irUPDjGD/8PCLBJo/T53/LqNTxwFclZbYrDkVUraGwleLCjQYXYRtVerPvODCmOkoeSe3Uqg9pUYyM=
+	t=1788003019; cv=none; b=SHDGxw71BbFX73xqDAHLut8PaPOY4FEsQ9WUNDZ/5D5aMyNt8cDrlZ5ExfE+meTItAnrCae9Uqc4iWD4X7oThjJySn+ixH4swsYx0018I2W4qAafxWEK93Qh52DKWVpGWbZPBxQw2YVpaxOph/glrscUTgFwb7zs7BjnbK/XEr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788001717; c=relaxed/simple;
-	bh=LDYOr0rEyS7amfq1J9ayMBTRgACWhl+Rh4F8K2IMMzI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sx95aps5GNJ5yG/15c185j/XPPLVHBKhRu714g1eGLnRjTZl4t4Qh+F+xJiX+HgaqSp1vMp2e+uU/Ng/wKxJ6Bm75weeifbQF0VzZtlaMB3NIODYLepTCX2rrE3BodtHrdIimsb2RY5l81T9qjcgRR67Oyo3am2l1IpgVP1yU8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LjGHmE7I; arc=none smtp.client-ip=209.85.208.41
+	s=arc-20240116; t=1788003019; c=relaxed/simple;
+	bh=PXsJuoJQOeUrTi7/6VnKi5Xf3d+DZsEGxlAPpwAuVk0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H9GDPMurIGYUeHJn2TphQ7194npO9uophPsK0Ja1nQm9WIKBNuKKbSuSQSBvqxcZ2sBtNn5EICCFw5cy3DCGIYIWL30nVmfF2S37LRDTHEZei4wBAu0JkVbkKGXdsCNG3HZyHQj/nFDvsl55nmOhsNMnwd8OgnnlPspOpsvhV4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dfsn7eBF; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjGHmE7I"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6a374bea882so2946036a12.1
-        for <linux-doc@vger.kernel.org>; Sat, 29 Aug 2026 04:08:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dfsn7eBF"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c250c6a6a9aso309333966b.1
+        for <linux-doc@vger.kernel.org>; Sat, 29 Aug 2026 04:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788001714; x=1788606514; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788003015; x=1788607815; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=S+l1SqkWk65wBJ+489uxNBFWoE04JKMlEtghGIetHEQ=;
-        b=LjGHmE7ID2wmz740rl/zKZDX1V7uVvGVpw7GDhajZGNq65an/EGtSweeon5SYGkPls
-         3A1LvhIGLdczlTviUiKHEVUKY0XnZksMuJVbPrnm86zqcV4lD9rDqVteuTrJcQFKxVwe
-         4TrU7y876wArmLYzE/JR9bs9PSXUgD0DSohFM7VHFPelPGUYjbDgwmmKvpdhc1O2Q0+H
-         qpHx2i8fnUUH/pmlwNC9qR2rA7DBxwOrD8nHHsn6wgvmbl5Ny7/CAuoH0tVPiN9evCnR
-         bK+OePfWusG8g86tdERgoo2q+8FrKoDhivkpTKddYT4yrPxC5Kt6xvu6l5Nxvax/ZRm1
-         k+WQ==
+        bh=8z9FGepOAxQyVX+dHXNB3jA7Dixh7yP5oBUtVeOCBcU=;
+        b=dfsn7eBF3yevzzGFTrsmWQTbp+UXi2mB+tZn0Mrh3GhljGxzhi5D/1+7FYe/Mb0t5w
+         JrcQyziRIpCAXfOdepdPlzaSZIRGSghgU3lQrWOKzzGs69kpV9wIE82M/MuF87urmU8V
+         Y6l/uXR3K/VRuwr+ySduBRIQBw9ylQmKL9s84gkEA95fXiG77yQAvA6/LRG26sQ+lbh8
+         B6tAFI6/v83tenhsTMhIz2FDd5+zYtEtutUQBXjp71AWnwjOuWTyGHVq0pSR6xQVINfZ
+         qT6ewM1AAr7SXbx5/OK0KA7btvQrFj4hxL2QHiuKzuEYZosZY79AOwF/6waFroq/iAS0
+         /22Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788001714; x=1788606514;
+        d=1e100.net; s=20251104; t=1788003015; x=1788607815;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=S+l1SqkWk65wBJ+489uxNBFWoE04JKMlEtghGIetHEQ=;
-        b=rZd/49Arx2h/wUnGGnLqv62rV+iavrW0/zO0oZTichgtiBVC+5vkZsdrByJksGiCLN
-         T1uEhzjTu7iUKBpDaggN2SBA7dc22216qMkluwcEy6UZd7rjsnOM3DEgRE4pYhqcSpmk
-         tikTMbuomFyeFDxzMmVz8Qh452tpVhDbIwY7RUzeY9TCBFzkinLComrmPH1p6PHJxN9l
-         jXfbH3KhIV9Tv1zSfrje4xHI/HmwEz9ZRhbc+Kxz5lhOuLkPjpRGxTE9N2JJgh9a9G0p
-         e+I3M0khf1fIN3gUkmNhToFgTUVZ0khw5c9M133v0mvlLLiWHUA1SLUujOgfM4KwSPyI
-         gkEg==
-X-Forwarded-Encrypted: i=1; AKwUvBwSS2txK60nckuX0qW2uRZTQHvZ6V3Xnbbf9hHZMExRpF91cK2m4dTM0Gmmi7UTu7TWjDabxoox0AQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++nRzYAF7q3Nhdb40ZSvunLHMbua9RUKkcWReOpoVFJnsIbgoevt
-	YQdcUA7AFA2G0I0boRDcBaINcCfjrcq9tDEZCKEr0MvQ4UV/2NrJaRNi
-X-Gm-Gg: AYBFou1jyG+nG5NoZ8L+q5C7uRyizGqg8n/EpbF2qrKFGKyCR4zVYGIlhfhMAwuJBus
-	4J8h1ZfEMPO8bkx6eYJ+5wFaaoQqTEnVzt/HATMJ52lcZJiQOQYhw7VveuA7vXq3sMpqo0hwQvV
-	RSYCCOi9hR/1jLFsXNjQhtK5RB3gzMa6u4BoVOq3YB12MYbLED/gsn12QypdtlFtXlNjjlVO9Xr
-	DusELGEGILSTFPAse8elIs2Yi/v9+eEw22tyGixm2/x8S8fYYUnPBWE3CBguH7XO3D1SVEhPIDW
-	9nPIFh6cQplDCIJ5SjZAn7np0baV0Ewsw2IxwXxVsyLwQylDzpy9PMI6chppfASzbB4epoIFX9V
-	QMlC8lZ72VrB+CR6E5V18mxscE/ancFhoaoyN5hYjupSkzd1CwkoLMred5l6v99LIFu1YOmEQ7d
-	YvMaR72QGn+MheIYtFwmYjgk7S5mzmneSydWIa3aXoRrOXiF1RNReosca8S4aChKXB3/rBLEv0k
-	2KXLRRSbPjT3r/7
-X-Received: by 2002:a05:6402:360e:b0:6a6:32f5:90b2 with SMTP id 4fb4d7f45d1cf-6a632f59377mr984771a12.20.1788001713268;
-        Sat, 29 Aug 2026 04:08:33 -0700 (PDT)
-Received: from localhost ([2603:5004:20a0:100c:cf7b:6b6c:bc26:7dfa])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a611c389aasm1507540a12.14.2026.08.29.04.08.30
+        bh=8z9FGepOAxQyVX+dHXNB3jA7Dixh7yP5oBUtVeOCBcU=;
+        b=Gi9Gvle0fGMswgBsTZH9Fj5KTWCV3WnNJCkaRhq1DP9UAhR2kfiqihYWhcWHy7bi46
+         cHi3AIM/vSWgnt08gkERhC8AZ7NyqjWSfENGkSHzG7Vq79EeZH0jqJDNwDMmCpwiUMes
+         oQ9Nrssc1xKHyT7DnLC+5NUIEJYNCG7LKMZDdzW7jNVlH8oELDoWPBxOtgom44+WHHMo
+         HpGdVPPv9QkWHLLBJnN2ZyYFK7yvyWz+bV8HQeplrS3PQ+JvO0rmL8Ft2kqH7QLThqHq
+         bLc+GO9JnJWH3grmsuO7NqyUqQwoomYCZsaJ5rrK7N7W8amFgJ05C6wrz/NfErErBfMf
+         XXug==
+X-Forwarded-Encrypted: i=1; AHgh+RocMvdErF9v42KH+fJSlINfHpP3SOR5HTlu3dngKHsuNPUNkC64fVjdtEF3ApDn68tvCRIxkdWWDlU=@vger.kernel.org
+X-Gm-Message-State: AFuF++kjw00cKEWxSBhLQXD+2D8GkRyLWndR5pbhrNKBQmTKvd1RkUMU
+	5VPju29k9h+zjmL4Rm4ygJzkwiaFx2BbyWOcqn1hGL4w9/TKShlqtrS6
+X-Gm-Gg: AR+sD11tE84eHLmHfcsXN0GB+K9Bov9FcYHIia59hPEj3Aenf1oy6GwOLrToQ11Kgw7
+	GXCmJAYY2JDn+mzFwyJGTgfxCDeYEAsPcAQ+7kRH7ClbcbuT3bzBrW4G92LOVeYADNjyuNFKVnX
+	ktPT30aoBHik/s8zsJDL9bYnp6HWWDa6f48LMp/ZgrY/RlP9bTwcPeMlgQJp2AsTmhszM5bcKCi
+	NtkqV+OAU3FSBtmFd5wK3v6DriUaAri5w//zKJaQKUlw6XNlTsEm1yETyeVy58zjrnCLpfWfKHA
+	cKMWAZwgC2VYcBOURML7ryul7+rYsE+N8c40Kdm4ywWZpTG1gKF8WPZURRmApgRJgDsQCw/tmvP
+	fN3PFQ/NV56G7IsyKr7UwuRF6OvxXW+Ysy15FM1n/jywYKq9XgITv6ridzXrlfD2NxuM6GDeUaa
+	IDq+Csi5RaBx6QZVTkvHh8UzXLjWL4UAzQsZ2lQYRPSWW1npgNaPgoeISee3DTV5cVkmh3xvyjH
+	2qcYbXjfXDxWgvdgR/nlkug8Q==
+X-Received: by 2002:a17:907:b048:10b0:c25:74be:b2a8 with SMTP id a640c23a62f3a-c2574bec8admr135034266b.21.1788003015238;
+        Sat, 29 Aug 2026 04:30:15 -0700 (PDT)
+Received: from localhost ([2603:5004:20a0:100c:4701:1ac4:1c21:4a1])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c255f1facbcsm192181266b.44.2026.08.29.04.30.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Aug 2026 04:08:31 -0700 (PDT)
+        Sat, 29 Aug 2026 04:30:14 -0700 (PDT)
 From: Jerome Tollet <jerome.tollet@gmail.com>
 To: Jean Delvare <jdelvare@suse.com>,
 	Guenter Roeck <linux@roeck-us.net>
@@ -68,9 +68,9 @@ Cc: linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jerome Tollet <jerome.tollet@gmail.com>
-Subject: [RFC PATCH] hwmon: it87: Add basic IT8613E fan monitoring support
-Date: Sat, 29 Aug 2026 13:08:29 +0200
-Message-ID: <20260829110829.34269-1-jerome.tollet@gmail.com>
+Subject: [RFC PATCH v2] hwmon: it87: Add basic IT8613E fan monitoring support
+Date: Sat, 29 Aug 2026 13:30:11 +0200
+Message-ID: <20260829113011.51290-1-jerome.tollet@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -100,9 +100,14 @@ reported 1483 RPM and the out-of-tree driver reported 1442 RPM.
 Link: https://lore.kernel.org/linux-hwmon/20260114221210.98071-1-yahoo@perenite.com/
 Signed-off-by: Jerome Tollet <jerome.tollet@gmail.com>
 ---
- Documentation/hwmon/it87.rst | 10 ++++++
- drivers/hwmon/it87.c         | 65 ++++++++++++++++++++++++++++++++----
- 2 files changed, 68 insertions(+), 7 deletions(-)
+Changes in v2:
+- Skip PWM, limit, and voltage configuration for fan-input-only chips
+  in the resume path.
+- Link to v1: https://lore.kernel.org/linux-hwmon/20260829110829.34269-1-jerome.tollet@gmail.com/
+
+ Documentation/hwmon/it87.rst | 10 +++++
+ drivers/hwmon/it87.c         | 73 +++++++++++++++++++++++++++++++-----
+ 2 files changed, 73 insertions(+), 10 deletions(-)
 
 diff --git a/Documentation/hwmon/it87.rst b/Documentation/hwmon/it87.rst
 index fc1c90b02..d00238e7e 100644
@@ -126,7 +131,7 @@ index fc1c90b02..d00238e7e 100644
  
      Prefix: 'it8620'
 diff --git a/drivers/hwmon/it87.c b/drivers/hwmon/it87.c
-index 87edb1b60..2f5800424 100644
+index 87edb1b60..a60a68b62 100644
 --- a/drivers/hwmon/it87.c
 +++ b/drivers/hwmon/it87.c
 @@ -12,6 +12,7 @@
@@ -292,8 +297,22 @@ index 87edb1b60..2f5800424 100644
  
  	data->has_beep = !!sio_data->beep_pin;
  
+@@ -3660,9 +3711,11 @@ static int it87_resume(struct device *dev)
+ 	if (err)
+ 		return err;
+ 
+-	it87_check_pwm(dev);
+-	it87_check_limit_regs(data);
+-	it87_check_voltage_monitors_reset(data);
++	if (!has_fan_input_only(data)) {
++		it87_check_pwm(dev);
++		it87_check_limit_regs(data);
++		it87_check_voltage_monitors_reset(data);
++	}
+ 	it87_check_tachometers_reset(pdev);
+ 	it87_check_tachometers_16bit_mode(pdev);
+ 
 
 base-commit: 75f2c0b3690702c90863c2e138cb5520670845ea
 -- 
 2.55.0
-
