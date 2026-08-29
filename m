@@ -1,262 +1,220 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from a48-180.smtp-out.amazonses.com (a48-180.smtp-out.amazonses.com [54.240.48.180])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98CAE417377
-	for <linux-doc@vger.kernel.org>; Sat, 29 Aug 2026 17:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B3F21A434;
+	Sat, 29 Aug 2026 17:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.48.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788023166; cv=none; b=iBdNaTauzCOcOV76BaOK+ThgflUhbN7ks+RCEequQTXCzxbscQPyCgSnkwBfbkPYuU4yG+55ZIIq5k/0fWbqyzHzB2wvhrESXrsMwQZg1zFzqzwHzPWQVE8J7FWJ5VPn9qWqLYlNuRRWHdCklaw9eibUSnDNxQfYklZEeJCcbL4=
+	t=1788023419; cv=none; b=Xi6XMyZKhPRLRxP61+A+NlqzgdZkXgIzzbYOnQ4InhdyIWHDjoHcrhRFSsJvvcM6ggCshvz9EK2QvKcid3ZZPuV+JHc3VQMoYXqF4wWEPKQ/zmbz3FeCoWgyzMWIJ+6/h2EVEuqk/f6wFaIfZWBjSj13s4l6b+fdFK+a8lY+X1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788023166; c=relaxed/simple;
-	bh=/ESLAF9xL9OgW79vd2hVpl4AEXYy9EUVtkY1xmIQ9z8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hP/zKxD4AuxjaeifzOFbyrnYKFYRCYMaPLFFPixc683nEFFPEQMdHukXPaqBHpwCTr+kW2sFc/w27zmbYAqqnGMmHqUBRNPrkPqe7Uh/Jui9O5Gv+ZJKKkC2fXXmFU/ur4rXOa9gqkxhWouYCWcq8ebFKwG29iFNra0M2VZnpow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jTuNIaO1; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788023419; c=relaxed/simple;
+	bh=r+kKJW69qahJa08hdkRWeNNyZP+g5cFaTLPFN+XPiMM=;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:References:
+	 Message-ID; b=iFe38V/eHg1Ph0WI8VV6tnCnx34hhJasXCgxAblhqYlXCJl1OsVTM7x4lDsfrHyl1Z5lbnD5HCmVSLEXk8gM0PXpAIbCkNIWSaHyAodNvuP2vmxnqxRxK5FEgJ/tHRkNKxxJ7tns6NXDdT1uZzc/Jm+713NQ0mLSiBNqXNl/41M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=YdmoCMd+; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=q7egb1mF; arc=none smtp.client-ip=54.240.48.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jTuNIaO1"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c25099bb1fbso276908066b.3
-        for <linux-doc@vger.kernel.org>; Sat, 29 Aug 2026 10:06:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788023160; x=1788627960; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=t+O3FjPNkpZ9C9VUnIRaSGoxe9eYJb6Pa5F8ITJvBpI=;
-        b=jTuNIaO1r97Ogg4ZzVzZx2QPIAccnX/8GyC246cns04CU4bbtbgOTCT4EeTlASi3ON
-         23FBiq0WsrhECRbHipItl+V6ZKfJQ80tQfdSjYvBPrcZ32ouvv7Hq7AMr0mO4kpN9DdT
-         qgdJqF8MDQTgttvh3hF7ip/LBiaVvCSUga0bR7kmt/CLQZOZfCGuzcPcv8rvK82Nzk4M
-         YhvIW84QcYD9yeRuloC1Sx8I1jH0LqpWGCq1a+EFYgkPRIgTxd7GqWTQibeRVj0XBoKl
-         B7BwtGj98gusr4BaoIS2OsBT6XaCcRub8dPwrdHQj6Rl2mLzMCX45s3izkt6AodTFtnM
-         VoRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788023160; x=1788627960;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=t+O3FjPNkpZ9C9VUnIRaSGoxe9eYJb6Pa5F8ITJvBpI=;
-        b=jmxVx9NWPGs2WrX3lERHl3tAEdlHUdgKD3JXVAdjfH7Z05s7AuAmqUWmxHKt1Q3TNY
-         PkKxh8n5B5f4kr4VyFiNE+Q5xcLqm+5O7awbViZqOWwsCZeksKb8bOmSX4wRD67x2ueE
-         Mqk8zyb6dUuP0txcGSkKXeujY1aGQG074IvBkER+SUZ/nSAM91JAn4VF0dU3ZoW2CB7n
-         +tQf+YGlxV9nGDX82zItA2oXJ7cDSV9zARl6fnbIF3OZm3ADgQT58CGp0gbZmigSjsfq
-         SjxflwCiFrk+emgJ6qNzuVlMEyW+oYPML/VNu5c4wrFS9Ol/dkR5T5E5udqR6z7JkfvA
-         xDGA==
-X-Forwarded-Encrypted: i=1; AHgh+RpTNSUwwxf+Zqs0WD3K/cBptlMN0ZpS+qdqCUfCxolIK+9TJVXvkjSWrvGwOXwdwy8Zw30+P3CQ5IY=@vger.kernel.org
-X-Gm-Message-State: AFuF++lIuT7JaJNQ+4wN4I58d3VGHM9RjKqgCWNtUnwqTaqpZZaoHR7D
-	tzI+HaCkiZtKWCpes3C5AyUw+Dxdp0ZrZcNahYJNjGG6P5OlOKTGFrz6
-X-Gm-Gg: AR+sD128pIzxW7txnmsj5WshNFaT+3UMfHpUJSUEnbvA/XweTMN7WFM9QD3n8X5vVsY
-	ifB0yHj1iWzRX+1C26CSbVzhmMDcJC0QQCySs1sa4N6LrcGuTItdKgS9LFGqEGEgqAtP87M4Ay8
-	YkWPfRNzq11inNcMIjb/fZSMN0qTqPxP6fsdh4i2Nkz70AbSa3MSy6m7I0YYzEd4TMWY7QAv0ys
-	x4AgvoYx5qjlBU18UHPjpNpO5tMAMN5ZTh+de055pyquHqaiw8kPTEYS+iNV2IjjvTefBbjdUKn
-	t1upIdIG1yeTropZX0hzx8iNRi5ezv9tdRjhJmXt3HsVcxlDLewaIy/uXTwbOVGIaVXXWCXVKsx
-	MYitOsp7h+AJ29gz5JTxSZXSJc6En5Pl0uzxp6A/W9LyhwjOUdiAheQ+QMqiVVzFeLXGbk6z1HI
-	kGuemUiwf/WlHceoXRuAIPMdICRop6srGDN/AilfxxNBWjeEKgQHphMhE6gbzsHog1mWVt8C3Fo
-	AANvG1NzmLxoJw=
-X-Received: by 2002:a17:906:9fc8:b0:c25:1a5:62a4 with SMTP id a640c23a62f3a-c2557164d51mr1038686166b.17.1788023159688;
-        Sat, 29 Aug 2026 10:05:59 -0700 (PDT)
-Received: from localhost ([2603:5004:20a0:100c:4701:1ac4:1c21:4a1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c255f1fa6a7sm207780466b.46.2026.08.29.10.05.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Aug 2026 10:05:59 -0700 (PDT)
-From: Jerome Tollet <jerome.tollet@gmail.com>
-To: Jean Delvare <jdelvare@suse.de>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org,
-	Benoit Masson <yahoo@perenite.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jerome Tollet <jerome.tollet@gmail.com>
-Subject: [PATCH v5 4/4] hwmon: it87: add IT8613E support
-Date: Sat, 29 Aug 2026 19:05:45 +0200
-Message-ID: <20260829170545.33401-5-jerome.tollet@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260829170545.33401-1-jerome.tollet@gmail.com>
-References: <20260829170545.33401-1-jerome.tollet@gmail.com>
+	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="YdmoCMd+";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="q7egb1mF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rjayupzefgi7e6fmzxcxe4cv4arrjs35; d=jagalactic.com; t=1788023413;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id;
+	bh=r+kKJW69qahJa08hdkRWeNNyZP+g5cFaTLPFN+XPiMM=;
+	b=YdmoCMd+j1MaS8d+qu0RLNTj/AFxv0tibwHzvSBEdsaN3Neh7Q07F7N+txQvgd2u
+	U4EMesHk4/FuouEKUcjT7gRf3LaVPteVf15jZb5ZrPNoRfSw1/PNzPAJE6mQLYDdYha
+	LUtBTLY8c6ebM6eWivC6nLpp8Z92GgTCpr0wO9u8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1788023413;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id:Feedback-ID;
+	bh=r+kKJW69qahJa08hdkRWeNNyZP+g5cFaTLPFN+XPiMM=;
+	b=q7egb1mFDPxY7+y7uuQiS+fk6PWIZW9BC6+pqUdglpS7yBO47XtxdrMZLPyR/iqW
+	rbl7YYYZ3wMLq78Rbh8mPgjb+X4SpYNJR/mEHh4kwL8rkuCcoJ8M5zS8TgcFD5NyImQ
+	mcPwa8sGoXIiiHD79pjC7Kbx81DZsSpJ98cZE4CA=
+Subject: [PATCH V14 00/12] Subject: [PATCH v14 00/12] famfs: the
+ Fabric-Attached Memory File System (standalone)
+From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
+To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
+	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
+	=?UTF-8?Q?Dan_Williams?= <djbw@kernel.org>, 
+	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
+	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>
+Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
+	=?UTF-8?Q?Jonathan_Corbe?= =?UTF-8?Q?t?= <corbet@lwn.net>, 
+	=?UTF-8?Q?Jake_Edge?= <jake@lwn.net>, 
+	=?UTF-8?Q?Shuah_Khan?= <skhan@linuxfoundation.org>, 
+	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
+	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
+	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
+	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
+	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
+	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
+	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
+	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
+	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
+	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
+	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
+	=?UTF-8?Q?Jonathan_Cameron?= <jic23@kernel.org>, 
+	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
+	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
+	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
+	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
+	=?UTF-8?Q?Chen_Linxuan?= <chenlinxuan@uniontech.com>, 
+	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
+	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
+	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
+	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
+	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
+	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
+	=?UTF-8?Q?Andrew_Morton?= <akpm@linux-foundation.org>, 
+	=?UTF-8?Q?Namjae_Jeon?= <linkinjeon@kernel.org>, 
+	=?UTF-8?Q?Lorenzo_Stoakes?= <ljs@kernel.org>, 
+	=?UTF-8?Q?Greg_Kroah-Hartman?= <gregkh@linuxfoundation.org>, 
+	=?UTF-8?Q?Ira_Weiny?= <iweiny@kernel.org>, 
+	=?UTF-8?Q?Pasha_Tatashin?= <pasha.tatashin@soleen.com>, 
+	=?UTF-8?Q?Haren_Myneni?= <haren@linux.ibm.com>, 
+	=?UTF-8?Q?Pratyush_Yadav?= <pratyush@kernel.org>, 
+	=?UTF-8?Q?Giovanni_Cabiddu?= <giovanni.cabiddu@intel.com>, 
+	=?UTF-8?Q?Jiri_Slaby?= <jirislaby@kernel.org>, 
+	=?UTF-8?Q?Ethan_Nelson-Moo?= =?UTF-8?Q?re?= <enelsonmoore@gmail.com>, 
+	=?UTF-8?Q?Gabriel_Whigham?= <gabewhigham@gmail.com>, 
+	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
+	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
+	=?UTF-8?Q?venkataravis=40m?= =?UTF-8?Q?icron=2Ecom?= <venkataravis@micron.com>, 
+	=?UTF-8?Q?linux-doc=40?= =?UTF-8?Q?vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
+	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
+	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
+	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
+	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
+	=?UTF-8?Q?fuse-devel=40lists=2Elinux=2E?= =?UTF-8?Q?dev?= <fuse-devel@lists.linux.dev>, 
+	=?UTF-8?Q?John_Groves?= <john@groves.net>
+Date: Sat, 29 Aug 2026 17:10:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+References: <20260829171004.7336-1-john@jagalactic.com>
+X-Mailer: Amazon WorkMail
+Thread-Index: AQHdN9lAfqnLmnnsQyaIwPphM+3eHA==
+Thread-Topic: [PATCH V14 00/12] Subject: [PATCH v14 00/12] famfs: the
+ Fabric-Attached Memory File System (standalone)
+X-Wm-Sent-Timestamp: 1788023412
+X-Original-Mailer: git-send-email 2.55.0
+Message-ID: <010001a04e801a4e-8eb212cd-b263-4043-ab65-33e480d2d7d4-000000@email.amazonses.com>
+Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
+X-SES-Outgoing: 2026.08.29-54.240.48.180
 
-From: "benoit.masson" <yahoo@perenite.com>
-
-Teach the Super I/O probe path to recognize IT8613E and add its
-complete hardware monitoring configuration.
-
-Add feature flags, temperature resource counts, 11 mV ADC scaling,
-the IT8665-style PWM register map, and GPIO pin-mux checks. Document
-the chip in the hwmon guide.
-
-Signed-off-by: benoit.masson <yahoo@perenite.com>
-Signed-off-by: Jerome Tollet <jerome.tollet@gmail.com>
----
- Documentation/hwmon/it87.rst |  8 +++++
- drivers/hwmon/it87.c         | 64 ++++++++++++++++++++++++++++++++++--
- 2 files changed, 70 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/hwmon/it87.rst b/Documentation/hwmon/it87.rst
-index fc1c90b02..c33ba8a07 100644
---- a/Documentation/hwmon/it87.rst
-+++ b/Documentation/hwmon/it87.rst
-@@ -11,6 +11,14 @@ Supported chips:
- 
-     Datasheet: Not publicly available
- 
-+  * IT8613E
-+
-+    Prefix: 'it8613'
-+
-+    Addresses scanned: from Super I/O config space (8 I/O ports)
-+
-+    Datasheet: Not publicly available
-+
-   * IT8620E
- 
-     Prefix: 'it8620'
-diff --git a/drivers/hwmon/it87.c b/drivers/hwmon/it87.c
-index e44ec65c7..67a94761d 100644
---- a/drivers/hwmon/it87.c
-+++ b/drivers/hwmon/it87.c
-@@ -36,6 +36,7 @@
-  *            IT8790E  Super I/O chip w/LPC interface
-  *            IT8792E  Super I/O chip w/LPC interface
-  *            IT87952E  Super I/O chip w/LPC interface
-+ *            IT8613E  Super I/O chip w/LPC interface
-  *            Sis950   A clone of the IT8705F
-  *
-  *  Copyright (C) 2001 Chris Gauthron
-@@ -65,7 +66,7 @@
- 
- enum chips { it87, it8712, it8716, it8718, it8720, it8721, it8728, it8732,
- 	     it8771, it8772, it8781, it8782, it8783, it8786, it8790,
--	     it8792, it8603, it8620, it8622, it8628, it8689, it87952 };
-+	     it8792, it8603, it8613, it8620, it8622, it8628, it8689, it87952 };
- 
- static struct platform_device *it87_pdev[2];
- 
-@@ -159,6 +160,7 @@ static inline void superio_exit(int ioreg, bool noexit)
- #define IT8786E_DEVID 0x8786
- #define IT8790E_DEVID 0x8790
- #define IT8603E_DEVID 0x8603
-+#define IT8613E_DEVID 0x8613
- #define IT8620E_DEVID 0x8620
- #define IT8622E_DEVID 0x8622
- #define IT8623E_DEVID 0x8623
-@@ -333,6 +335,7 @@ struct it87_devices {
- #define FEAT_FOUR_TEMP		BIT(22)
- #define FEAT_FANCTL_ONOFF	BIT(23)	/* chip has FAN_CTL ON/OFF */
- #define FEAT_NEW_TEMPMAP	BIT(24)	/* PWM uses extended temp map */
-+#define FEAT_11MV_ADC		BIT(25)
- 
- static const struct it87_devices it87_devices[] = {
- 	[it87] = {
-@@ -549,6 +552,19 @@ static const struct it87_devices it87_devices[] = {
- 		.num_temp_map = 4,
- 		.peci_mask = 0x07,
- 	},
-+	[it8613] = {
-+		.name = "it8613",
-+		.model = "IT8613E",
-+		.features = FEAT_NEWER_AUTOPWM | FEAT_11MV_ADC | FEAT_16BIT_FANS
-+		  | FEAT_TEMP_PECI | FEAT_FIVE_FANS
-+		  | FEAT_FIVE_PWM | FEAT_IN7_INTERNAL | FEAT_PWM_FREQ2
-+		  | FEAT_AVCC3 | FEAT_NEW_TEMPMAP,
-+		.reg_pwm = IT87_REG_PWM_8665,
-+		.num_temp_limit = 6,
-+		.num_temp_offset = 6,
-+		.num_temp_map = 6,
-+		.peci_mask = 0x07,
-+	},
- 	[it8620] = {
- 		.name = "it8620",
- 		.model = "IT8620E",
-@@ -621,6 +637,7 @@ static const struct it87_devices it87_devices[] = {
- #define has_16bit_fans(data)	((data)->features & FEAT_16BIT_FANS)
- #define has_12mv_adc(data)	((data)->features & FEAT_12MV_ADC)
- #define has_10_9mv_adc(data)	((data)->features & FEAT_10_9MV_ADC)
-+#define has_11mv_adc(data)	((data)->features & FEAT_11MV_ADC)
- #define has_newer_autopwm(data)	((data)->features & FEAT_NEWER_AUTOPWM)
- #define has_old_autopwm(data)	((data)->features & FEAT_OLD_AUTOPWM)
- #define has_temp_peci(data, nr)	(((data)->features & FEAT_TEMP_PECI) && \
-@@ -650,7 +667,8 @@ static const struct it87_devices it87_devices[] = {
- #define has_vin3_5v(data)	((data)->features & FEAT_VIN3_5V)
- #define has_noconf(data)	((data)->features & FEAT_NOCONF)
- #define has_scaling(data)	((data)->features & (FEAT_12MV_ADC | \
--						     FEAT_10_9MV_ADC))
-+						     FEAT_10_9MV_ADC | \
-+						     FEAT_11MV_ADC))
- #define has_fanctl_onoff(data)	((data)->features & FEAT_FANCTL_ONOFF)
- #define has_new_tempmap(data)	((data)->features & FEAT_NEW_TEMPMAP)
- 
-@@ -757,6 +775,8 @@ static int adc_lsb(const struct it87_data *data, int nr)
- 		lsb = 120;
- 	else if (has_10_9mv_adc(data))
- 		lsb = 109;
-+	else if (has_11mv_adc(data))
-+		lsb = 110;
- 	else
- 		lsb = 160;
- 	if (data->in_scaled & BIT(nr))
-@@ -3006,6 +3026,9 @@ static int __init it87_find(int sioaddr, unsigned short *address,
- 	case IT8623E_DEVID:
- 		sio_data->type = it8603;
- 		break;
-+	case IT8613E_DEVID:
-+		sio_data->type = it8613;
-+		break;
- 	case IT8620E_DEVID:
- 		sio_data->type = it8620;
- 		break;
-@@ -3183,6 +3206,43 @@ static int __init it87_find(int sioaddr, unsigned short *address,
- 		sio_data->skip_in |= BIT(5); /* No VIN5 */
- 		sio_data->skip_in |= BIT(6); /* No VIN6 */
- 
-+		sio_data->beep_pin = superio_inb(sioaddr,
-+						 IT87_SIO_BEEP_PIN_REG) & 0x3f;
-+	} else if (sio_data->type == it8613) {
-+		int reg27, reg29, reg2a;
-+
-+		superio_select(sioaddr, GPIO);
-+
-+		/* Check for pwm3, fan3, pwm5, fan5 */
-+		reg27 = superio_inb(sioaddr, IT87_SIO_GPIO3_REG);
-+		if (!(reg27 & BIT(1)))
-+			sio_data->skip_fan |= BIT(4);
-+		if (reg27 & BIT(3))
-+			sio_data->skip_pwm |= BIT(4);
-+		if (reg27 & BIT(6))
-+			sio_data->skip_pwm |= BIT(2);
-+		if (reg27 & BIT(7))
-+			sio_data->skip_fan |= BIT(2);
-+
-+		/* Check for pwm2, fan2 */
-+		reg29 = superio_inb(sioaddr, IT87_SIO_GPIO5_REG);
-+		if (reg29 & BIT(1))
-+			sio_data->skip_pwm |= BIT(1);
-+		if (reg29 & BIT(2))
-+			sio_data->skip_fan |= BIT(1);
-+
-+		/* Check for pwm4, fan4 */
-+		reg2a = superio_inb(sioaddr, IT87_SIO_PINX1_REG);
-+		if (!(reg2a & BIT(0)) || (reg29 & BIT(7))) {
-+			sio_data->skip_fan |= BIT(3);
-+			sio_data->skip_pwm |= BIT(3);
-+		}
-+
-+		sio_data->skip_pwm |= BIT(0); /* No pwm1 */
-+		sio_data->skip_fan |= BIT(0); /* No fan1 */
-+		sio_data->skip_in |= BIT(3);  /* No VIN3 */
-+		sio_data->skip_in |= BIT(6);  /* No VIN6 */
-+
- 		sio_data->beep_pin = superio_inb(sioaddr,
- 						 IT87_SIO_BEEP_PIN_REG) & 0x3f;
- 	} else if (sio_data->type == it8620 || sio_data->type == it8628) {
--- 
-2.55.0
-
+From: John Groves <john@groves.net>=0D=0A=0D=0AThis is v14 of famfs, as a=
+ standalone file system. v13 is at [7]; v12 is=0D=0Aat [9].=0D=0A=0D=0ATh=
+e intent is that v15 will be fuse again; Miklos and I have come to=0D=0Aa=
+greement on a a path forward with fuse that I think is likely to work.=0D=
+=0ABut this branch has r-b tags, and has some important fixes (which I've=
+=0D=0Aalready cross-ported to fuse).=0D=0A=0D=0A- This series can be had =
+via git as tag famfs-v15 at [10]=0D=0A- The current draft v15 (fuse) seri=
+es can be had at tag famfs-v15-rc1 at [11]=0D=0A- A merge of both can be =
+had as tag famfs-v14-v15-rc1 at [12]=0D=0A=0D=0A###=0D=0A=0D=0AMost of th=
+is cover letter repeats v12/v13. If you have read it, skip to=0D=0A"Chang=
+es since v13" below and to the per-patch changelogs under the "---"=0D=0A=
+line of each patch (which carry the v14 notes). The history goes back to=20=
+=0D=0A2023, and is briefly covered in the v12 cover.=0D=0A=0D=0AThe most =
+important thing to know about famfs is that it CANNOT be used as a=0D=0Ag=
+eneral purpose file system. It is for enabling file-based byte-level acce=
+ss=0D=0A(including direct mmap) to very large (e.g. 100TB) shared/disaggr=
+egated=0D=0Amemory appliances - which have become available during this l=
+ong process,=0D=0Aand which are in need of Linux support.=0D=0A=0D=0ASo f=
+amfs cannot be used by anybody who doesn't know why they need it. Making=0D=
+=0Afamfs standalone means it can't affect users who don't use it. Micron,=
+ as=0D=0Awell as other memory companies, need it, and do not intend to ab=
+andon it -=0D=0Abut imagine if we did: fs/famfs/ should be removed if the=
+ memory companies=0D=0Acan't be bothered to maintain it.=0D=0A=0D=0AThis =
+code base has been in active CI and used globally by early adopters and=0D=
+=0Atesters of disaggregated memory since 2024. I believe it is solid.=0D=0A=
+=0D=0AWhy standalone (short version)=0D=0A=0D=0Afamfs was introduced at L=
+PC 2023 and LSFMM 2024 [1] as a standalone file=0D=0Asystem, then spent c=
+lose to a year being ported to fuse/libfuse. After=0D=0Amaintaining famfs=
+ in both forms, I have concluded it makes more sense as a=0D=0Astandalone=
+ file system: fuse adds complexity to famfs (more complex, less=0D=0Aadap=
+table, less performant - and famfs files are memory, so access must run=0D=
+=0Aat memory speed), while famfs adds complexity to fuse that is unlikely=
+ to see=0D=0Aconstructive re-use. The full history and argument are in th=
+e v12 cover=0D=0Aletter [9].=0D=0A=0D=0AChanges since v13=0D=0A----------=
+-------=0D=0A=0D=0A- Reviewed-by tags from Darrick J. Wong and Jeff Layto=
+n have been added to=0D=0A  the patches they reviewed.=0D=0A=0D=0A- The M=
+AP_CREATE ioctl (patch 07) is hardened, addressing Richard Cheng's=0D=0A =
+ review of v13:=0D=0A    * it now requires CAP_SYS_RAWIO, since MAP_CREAT=
+E installs caller-supplied=0D=0A      device-memory mappings into a file;=
+=0D=0A    * fmap validation rejects integer overflow (check_add_overflow(=
+) on the=0D=0A      extent arithmetic; file_size and each interleaved ext=
+ent's ie_nbytes are=0D=0A      bounded by MAX_LFS_FILESIZE);=0D=0A    * i=
+nterleaved (striped) fmap coverage is validated at ingest -- the sum of=0D=
+=0A      the interleaved extents' ie_nbytes must reach file_size, and eac=
+h strip=0D=0A      must physically hold the chunks striped onto it -- so =
+a malformed striped=0D=0A      file is rejected with -EINVAL rather than =
+faulting (SIGBUS) on access.=0D=0A=0D=0A- Rebased onto v7.2.=0D=0A=0D=0AT=
+he full v12 -> v13 change list is in the v13 cover [7] and in the per-pat=
+ch=0D=0A"---" changelogs.=0D=0A=0D=0AFamfs Overview=0D=0A=0D=0AFamfs expo=
+ses sharable disaggregated memory as a file system. Famfs consumes=0D=0As=
+hared memory from [usually shared memory] dax devices, and provides=0D=0A=
+memory-mappable files that map directly to the memory - no page cache=0D=0A=
+involvement. Famfs differs from conventional file systems in fs-dax mode,=
+=0D=0Ain that it handles in-memory metadata in a sharable way (which begi=
+ns with=0D=0Anever caching dirty shared metadata). So a famfs file system=
+ can be mounted=0D=0Afrom multiple nodes, provided they have access to th=
+e memory.=0D=0A=0D=0AThe key performance requirement is that famfs must r=
+esolve mapping faults=0D=0Awith minimal overhead. This is achieved by ful=
+ly caching the file-to-devdax=0D=0Ametadata for all active files.=0D=0A=0D=
+=0AFamfs remains the first fs-dax file system that is backed by devdax ra=
+ther=0D=0Athan pmem in fs-dax mode (hence the need for the new dax mode).=
+=0D=0A=0D=0AFamfs depends on the 'fsdev' dax mode which landed in 7.1 - i=
+t will only run=0D=0Awith an fsdev-mode (aka famfs-mode) daxdev as its ba=
+cking device(s).=0D=0A=0D=0AThe famfs user space can be found at [6].=0D=0A=
+=0D=0A[1] https://lwn.net/Articles/983105/ (Famfs at LSFMM 2024)=0D=0A[2]=
+ https://lwn.net/Articles/1020170/ (Famfs at LSFMM 2025, with patch link)=
+=0D=0A[3] https://lwn.net/Articles/1068686/ (LWN coverage of the patch th=
+read)=0D=0A[4] https://lwn.net/Articles/1082687/ (Famfs at LSFMM 2026)=0D=
+=0A[5] https://lore.kernel.org/linux-fsdevel/0100019f7d9fbe81-6cb16662-25=
+22-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com/#b=0D=0A[6] https://=
+famfs.org=0D=0A[7] FIXME: v13 lore link=0D=0A[8] https://lore.kernel.org/=
+linux-cxl/0100019fd478eb93-a6bd48e4-b5f1-4871-93d4-582802956e6c-000000@em=
+ail.amazonses.com/T/#u (Partial dax patch)=0D=0A[9] https://lore.kernel.o=
+rg/linux-fsdevel/20260806053409.GL3560084@frogsfrogsfrogs/T/#t (v12)=0D=0A=
+[10] https://github.com/jagalactic/linux/tree/famfs-v14=0D=0A[11] https:/=
+/github.com/jagalactic/linux/tree/famfs-v15-rc1=0D=0A[12] https://github.=
+com/jagalactic/linux/tree/famfs-v14-v15-rc1=0D=0A=0D=0A=0D=0AJohn Groves =
+(12):=0D=0A  dax: replace exported dax_dev_get() with non-allocating dax_=
+dev_find()=0D=0A  famfs: Module operations, fs_context, and mount=0D=0A  =
+famfs: Add daxdev table and dax notify_failure support=0D=0A  famfs: Intr=
+oduce inode_operations and super_operations=0D=0A  famfs: Introduce file_=
+operations read/write=0D=0A  famfs: Introduce mmap and VM fault handling=0D=
+=0A  famfs: MAP_CREATE ioctl and fmap ingest (ABI 44)=0D=0A  famfs: iomap=
+_begin and file-to-dax offset resolution=0D=0A  famfs: Register secondary=
+ daxdevs by path (FAMFSIOC_DAXDEV_OPEN)=0D=0A  famfs: Add runtime operati=
+on-permission (opts) framework=0D=0A  famfs: Report device capacity via s=
+tatfs so df works=0D=0A  famfs: Add documentation=0D=0A=0D=0A Documentati=
+on/filesystems/famfs.rst           |  142 +++=0D=0A Documentation/filesys=
+tems/index.rst           |    1 +=0D=0A .../userspace-api/ioctl/ioctl-num=
+ber.rst      |    1 +=0D=0A MAINTAINERS                                  =
+ |    8 +=0D=0A drivers/dax/fsdev.c                           |   19 +=0D=
+=0A drivers/dax/super.c                           |   38 +-=0D=0A fs/Kcon=
+fig                                    |    2 +=0D=0A fs/Makefile        =
+                           |    1 +=0D=0A fs/famfs/Kconfig               =
+               |   12 +=0D=0A fs/famfs/Makefile                          =
+   |    5 +=0D=0A fs/famfs/famfs_file.c                         | 1070 ++=
++++++++++++++++=0D=0A fs/famfs/famfs_inode.c                        |  86=
+9 +++++++++++++=0D=0A fs/famfs/famfs_internal.h                     |  16=
+2 +++=0D=0A fs/namei.c                                    |    1 +=0D=0A =
+fs/super.c                                    |    7 +=0D=0A include/linu=
+x/dax.h                           |    7 +-=0D=0A include/linux/fs.h     =
+                       |    1 +=0D=0A include/uapi/linux/famfs_ioctl.h   =
+           |  160 +++=0D=0A include/uapi/linux/magic.h                   =
+ |    1 +=0D=0A 19 files changed, 2504 insertions(+), 3 deletions(-)=0D=0A=
+ create mode 100644 Documentation/filesystems/famfs.rst=0D=0A create mode=
+ 100644 fs/famfs/Kconfig=0D=0A create mode 100644 fs/famfs/Makefile=0D=0A=
+ create mode 100644 fs/famfs/famfs_file.c=0D=0A create mode 100644 fs/fam=
+fs/famfs_inode.c=0D=0A create mode 100644 fs/famfs/famfs_internal.h=0D=0A=
+ create mode 100644 include/uapi/linux/famfs_ioctl.h=0D=0A=0D=0A--=20=0D=0A=
+2.53.0=0D=0A=0D=0A
