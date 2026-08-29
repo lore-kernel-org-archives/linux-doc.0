@@ -1,68 +1,114 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-7.mta1.migadu.com [95.215.58.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2550A348C7B
-	for <linux-doc@vger.kernel.org>; Sat, 29 Aug 2026 14:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3718435AC12
+	for <linux-doc@vger.kernel.org>; Sat, 29 Aug 2026 15:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788012396; cv=none; b=iFlZezVLelP91Qlc6SHJPoi5DznllE/PEsx57NzGItBRSDYxumpuWaqUThGLAcw99h7loLBo5zGb3LZusBvMQ2TEl75VnhxuyfbCbufYff2Ds/YFR1KRbX7uevcbda4ZGqcLXh4vU3rtWUXhD4EHwE1eGw5tC+spv+QWi33OIkw=
+	t=1788017544; cv=none; b=b5GUCWugtDup7tfXModOFgfLgtDVClQRuQw6Og7/56mWlHxpSo4tc+VPxLXxq9eXdxWfUGEwYC6GVKYrdh0KWKeeOIefxu4ocfqbQBd79eQD9iORlih7izNjsFb/x50aCRQha9gmefg5ZHNAUz7vt2rhtt2r2wsGA71WIgR7I2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788012396; c=relaxed/simple;
-	bh=936rVFbBsyd2M8iux07UAepjhm1xkIjvM0c1dDIt28U=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ilt2tKZhIof0kYFNfcedHLSmtrFwt1OTP3FRbZQ90TILnATPJ6Gr7lXH9Ith7CZ76rfIw2in3tfkI7MvpmxXh3m/WMyYfjGiBWx8i1ajkL++QG5hsrBxwNJA3gVLJqzAy8VRIgxfASwaWWCduB2xeigpfoCscSZepdqe6evzihI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=davbRL2B; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1788017544; c=relaxed/simple;
+	bh=rVDiljO1F/6NW9J+RzyY5uFSv7wjCnJUzm58AOKLow4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BKLr0t0mkxhFviR1xPRyhQKpA20PjSpd3nqq/BeJoiriQLl/FVzbeJWOb2aHHMJyNQ9eDL4/V6IQaupoobOZZ2QaG/m7z0dPAx5Pyhy8DBQVFMJbG9g9pVe2WHsv7qCjPIeGPb/OHCCFa2NQzm53cvN3EGhejYiSi434VYnDtR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=IAiGhBJV; arc=none smtp.client-ip=95.215.58.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="davbRL2B"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F1B6040430
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788012394; bh=9TDUVQBBMNsFu6+I15irVQxWEpb3ioTP5+V9mOUY8jE=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=davbRL2BKQqFOX/N9OJR8B/8mmsIpHPUFbYH35x4BlCT5n0xizfEfTe/TeDtPGkmX
-	 UDF6kX1YWHtvLVcHDLzAcdLvj/jZn60XBKX2yc0tPpOvFrTp6XOHXJfbQxzoAnPNrZ
-	 GLzHIkcDrsG67qEEJyF1pJHLwl94KE1UdAid/FmdZciom4QQZ+CJlbLyzCu8pY0XMq
-	 0nEbb2Cv2gDnKHhXGJ2stOvZ2dMwUY6H2pd20aRhXwrmQ+ijih16bLZY5iPWOG7rxN
-	 1ZN1Ic3Xbz3P8X0INH+U7uuknaF0YBhHiODJD+QwK0nZnFovQgsdMFZ06AnJzyaxY3
-	 Wxsjb7Pr0GrAg==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id F1B6040430;
-	Sat, 29 Aug 2026 14:06:33 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Martin Kavasi <martin.kavasi3@gmail.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: hu_HU: add Hungarian translation of howto.rst
-In-Reply-To: <20260828214002.46392-1-1ai1d7wbz@proton.me>
-References: <87wltam90w.fsf@trenco.lwn.net>
- <20260828214002.46392-1-1ai1d7wbz@proton.me>
-Date: Sat, 29 Aug 2026 08:06:33 -0600
-Message-ID: <87wlt9koly.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="IAiGhBJV"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=rVDiljO1F/6NW9J+RzyY5uFSv7wjCnJUzm58AOKLow4=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788017536; v=1; x=1788622336;
+ b=IAiGhBJV3ErO51HVBRJFLsS8+hV8bglKXR/gQMNrCWIXzS1wPrQBtvO5rXPHawySit5P0ht2
+ alwtPClTtQEKSI+z9CC7W6mJrQ3i0TT7n6tXH87LupeVrCEzZhyMRDBP6uALftDaCsnB5U0khy5
+ TxQYp3C9DUoU561WFe7quXgMWmyxD/wcWEDi+fT38p6TedHw8QHInleV1keouByW1PmP9xb6Ix4
+ vemyBxO3gvM1qcgmldaeh2L8fzPrF6pG8YNobiQq9A25cnVxIQfWoU48mNXgPWIPyNxt0o8P03B
+ NG6DMIr1YnIAwLvzt4qs2GFBFTbIVuhxNixC+F7WPHhOA==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id b9416c6ab96456f8;
+	Sat, 29 Aug 2026 15:32:06 +0000
+X-Mizu-Trace-ID: b9416c6ab96456f8
+X-Migadu-Flow: FLOW_OUT
+Date: Sat, 29 Aug 2026 23:32:02 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Yukai Wu <xiaoyewuz.ruster@gmail.com>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Dongliang Mu <dzm91@hust.edu.cn>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Alexandre Ghiti <alex@ghiti.fr>, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Chen-Yu Yeh <chenyou910331@gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: Update arch/riscv/vm-layout.rst translation
+Message-ID: <apL7ctZhcN5t77Yu@wyuan.org>
+References: <20260829041542.256360-1-xiaoyewuz.Ruster@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260829041542.256360-1-xiaoyewuz.Ruster@gmail.com>
 
-Martin Kavasi <martin.kavasi3@gmail.com> writes:
+Hi, it's me again ;-)
 
-> I believe that this is the write way to contact you
->
-> I understand that the discussion should remain public
->
-> I also wanted to ask about the MAINTAINERS entry for Hungarian
-> documentation. Should I keep myself listed as the Hungarian
-> documentation maintainer, or would you prefer that entry to be
-> handled differently, or to remove it?
+On Sat, Aug 29, 2026 at 12:15:10PM +0800, Yukai Wu wrote:
+> Update Documentation/arch/riscv/vm-layout.rst translation.
+> 
+> Update the translation through commit 954260ff5a46
+> ("Revert "RISC-V: mm: Document mmap changes"")
 
-An entry in MAINTAINERS is something that is earned through demonstrated
-effort.  Please start by addressing the problems that were pointed out
-in your original posting; that is a detail that can be looked at later.
+Somehow I guess you didn't get the actual meaning behind this "Update xxx
+through commit...".
 
-Thanks,
+Correct me if I'm wrong. If you write this line in your commit message.
+Then it means if we apply this patch of yours. The Chinese documentation
+of this file should be already _completely_ synchronized.
 
-jon
+However, the current translation of this file is missing this part:
+
+RISC-V Linux Kernel SV57
+------------------------
+
+... which is not translated/synchronized in your patch.
+
+
+Note that I'm not blaming on you for this. But I feel this is a point
+that a newcomer might find confusing, including me and Chen-Yu a couple
+of weeks ago, if did not read the script.
+
+Our current how-to.rst only asks to write this line in the commit
+message but does not explain the results or the actual work behind it.
+
+[...]
+	Update the translation through commit b080e52110ea
+	("docs: update self-protection __ro_after_init status")
+	# 请执行 git log --oneline <您翻译的英文文档路径>，并替换上述内容
+
+	So when a newcomer comes and just does what this asks, without
+	considering whether his/her/its translation is completely
+	synchronized or not, our script would be kind of inaccurate. ?
+
+Maybe we can add a description or a hint like:
+
+If your current changes make the translation completely in line with the
+English version, then please add this line after your descriptions and
+before a blank line and your sign-off:
+
+Update the translation through commit e83c5163316f
+(Initial revision of "git", the information manager from hell)
+
+..then follows a template commit message
+
+
+Any ideas?
+
+(Should I cc the original authors of the script?)
+
+Thanks.
