@@ -1,144 +1,271 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010062.outbound.protection.outlook.com [52.101.193.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E068418368
-	for <linux-doc@vger.kernel.org>; Sat, 29 Aug 2026 18:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEDA79CD;
+	Sat, 29 Aug 2026 19:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.62
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788029306; cv=pass; b=tKQQwZpVS9FE01ny11LRboIqAzGGDXMXN6uGdxIPwq4zUSTDIkuQqstNZ/abuQy2lAAbZWH0vKpnwWXO3T+L8qKxp8il3g3XfXPGavVswVTlANcPE2tJu+HMjMDM2xEXqROvtf5w04hWJJv6adYADpM3GBEFugaadgTMPe0wuuk=
+	t=1788031896; cv=fail; b=clJFCtfwVqFujU5Vc6VOLLP+nzZ+RftdDVorpIaT9Naonk1age5cf0QNQi8xUmoxEeR3ryCoQFw0lpFFv82xXAUTQKdCjYqvkeMud0MOI/I78Y8ywr87iEAnRe6ht0tj+bzo9l956uKAlGIZyM301SLXPT8ZAkmFck2u23s0Ln4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788029306; c=relaxed/simple;
-	bh=qbxmhWZD0CW07SmrijqAqneEw1xNz+/IbBRJSA32L9Q=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=bpk0hY56nxY0z/ymXl76iSAHcc2Sya+DhfpwCapDFmVyxGbd9s3J1dHfhAy8ah4kwNYXtzFpg3VhH/jxi6kQGP+wvoS1H64LBjHwI5NRKb+wm6WfROMsptcdntd7ZgINvYu/Ma03hy1RpztnfhT/errmjcZ8gL5VZynJUokGOMs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=laVf+bQl; arc=pass smtp.client-ip=209.85.167.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788031896; c=relaxed/simple;
+	bh=Or15ssMoy4EvUYYY2af+EAVO63gW97seK7OHmg7u5oc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=g/NjpqebmD4jN9XtDpJwdVqu7VnGZeIOi94r5+TlnXI0CUo6t3pc/+TSpD+8PW/5GJPRWgAnUVSDQgkAKrxPD2SEDM1UBKKcyQEsHwVg8vvG2m3WQDB955nt5onL4iWrPA/ZPC3iC90lL86KqJiO52DyvNjR4yVCmhT3vb6+Bbw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VpTm53LP; arc=fail smtp.client-ip=52.101.193.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="laVf+bQl"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-4b190cdc9feso1932501b6e.0
-        for <linux-doc@vger.kernel.org>; Sat, 29 Aug 2026 11:48:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788029303; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ErEHrRHEiiXJTB46sFOTcaz8snuF/XGB4uqTnjh+At+KoZW6Dfzh+T7BUP5B4UbiDY
-         duRf0Ws5uAs8DMXovrhJPeYHp88ROTB3O1bRhJFNKQhhhxiWiuEYJDVHaCYhdfBcTf+d
-         DOCFFyiNJQ8WUrUgIQQtlHJF6fpvySGY20jC3+NISVuCXshRflptULtr/F0ov2CoBEHU
-         Fd9dZZof/aJNfDUszMhFE3Ze4XnAkjGqlqZrd+G0VCzXEmpc4MMydqBraE9/dAb27VO7
-         sIsFfoCHhynYt+Cc6VTTnpW4ELWVPMOcLjCFy2i0r1q5ROsprLC8r6J4vNhS0exrqxOO
-         4tnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:dkim-signature;
-        bh=qbxmhWZD0CW07SmrijqAqneEw1xNz+/IbBRJSA32L9Q=;
-        fh=FeMw5PfBiJcxTST8rNzCsoBCsKctBhzlC8tQcapC+ZA=;
-        b=JKa8CIB9Gpu7xT7rpbqhkDVifDSqgryAhvzpBTLfhR2dOFajHPYK/V7STrqh9HNRN5
-         QyHwuLDCRYS+tt98SBk6SUovyhUvkYk+sXFvi5FvJnYV+7FM3W5/ayk5/aRrZx6TA1F1
-         n9C2bwiR6Ezwu9VLXUBUM3WYB8luunkgSAOrbg2V+px/Ho0++PgKVcn3DbmfrRl6G9Dz
-         /+CYWTydbWoX/Qx5z0bsJOKNDmReDRK3cGsg/ZeeYanTlnAHGaOihfspS59t9AUjnQd7
-         iuTtOpnJVaRYSGlByCAqkrr0uxq3Q5fUJ/UC/Z0MhR5Qja9pC8vA7vnQRmrABZJBSVMU
-         01Qg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788029303; x=1788634103; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qbxmhWZD0CW07SmrijqAqneEw1xNz+/IbBRJSA32L9Q=;
-        b=laVf+bQloM7KUm0qvEDQc5w1Bf3oD1HZ6lMSX8+NMQPD8+/jJcn36GJh+kspe1kSbh
-         Q5IUOyiCQiqo0GjTCfw4BUcthngrnBfdaXidYReUb/IDAHLTffnr+CnWkQ2BmHMu/Uuo
-         9fEQzKJk2QuAJDn+4Q8M2pIGbDn/jFMHSvGAUuC37c46bkM8LhsGoJn5VO76Ltwfvna1
-         EKIl++JsCqd8usrbJ5JJIgeQyHAHT93EBwVZ5kFKy5Yt3vGc2Pqvk4LToTV6G4v4wbtL
-         KTUhUx9RjK4FkL0Jk9Pne39gSb+J5UbnrYcMQd4sfw8FN+4OWowyr8wWWuceV5rgHY+9
-         JbLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788029303; x=1788634103;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=qbxmhWZD0CW07SmrijqAqneEw1xNz+/IbBRJSA32L9Q=;
-        b=p3UmO9GpoP6hgBBDJsbRM7bPnSsRXCsHIupD23Q51+q2dEbYm9ssR3EX2zgzSdeGw5
-         MkFMGOyncogNuJR7fM6Tvg+IGnaMOvAi4GJ25dgLKuXy3AmIHlmBi6pnqRPWcU6sDamG
-         Y5BUvylDpfJ6tUalPmaXBfSbTeIpijqVdkNq6wWgwYS/SQ5ZOK20QUCNI2F8GWmGhsW2
-         ihD9rI2OjsMjnzy7e6Og2LhBd6zWIf4J1yOSRH9zxrh0fAt8WN7S21kqSYO8RKVUGd9J
-         d1/4MhKKJmiwjg6pwFI2l4Mc+HBVS2iXtRa1sudBd8Abv57W7SAlDd8fdlIVt0CHJSTh
-         po8w==
-X-Gm-Message-State: AFuF++nzhp9l9hWI12eaYvjcNp5oWK1maGIXdSMTF5SGvs20LTbC9bfp
-	/ExKn1k/9Oeb6K2rysegYiH7q1qI+cYOvWTOwa0UsHBiGFb0dgtY5IeDXGiCXN4fbW7rBvxae3I
-	RDv1nHz1MxxjGlkWaSjubVqodJR4zgaLz2teY
-X-Gm-Gg: AR+sD11wnv1ASinMDa+Of1pM+SLS5VaJHcF6E4+Lyidd8l9KZi5grTMoKhqmrc++UFk
-	8oDuggSNBgnYTCdcn0JQb1mh1V4A9DdKlnAeEUSmp2K25MnRRQJlgxv3veY8sksW+iHudomLAM0
-	9CVdX4AuBzOioojZL6KMvC1xcHH/wn4sbUw4tSIvf5F3IEn345kWWETS1p+fD3qMM5QQLVHFvls
-	ExK/qEZVBkdU88hAKXVW9REgI3j5ZIeXqmpqb7vSiSv4Yoh+Nz+pNK7kpTahMGRPSJZqSt/5eyL
-	vmow9bOl3obf927tun62P+XD6yf3VoQHIKmuYOKPkJKX4Q==
-X-Received: by 2002:a05:6808:f8b:b0:4b3:63a7:b75d with SMTP id
- 5614622812f47-4b397c8e6a4mr16340667b6e.0.1788029302802; Sat, 29 Aug 2026
- 11:48:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VpTm53LP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CpMVToirra/RrEtXZoh6gcO87c+zC6GLOqdtph/NVrBQ1NTksV/cU5GsSfvC4XZUfpx0tgKzGr48YWym326Xr2Y4ng6kGHQK7jPJ5tezHg3G5u+RVTC3gePHYE2QvT1QKzbHFNb7avd+oL2utLIF0qllaJS/L4MmSDzTwwMd3IB/Gi/X4k+ZZ85mJebiegQAgmRb2r74ZBHXQjJjc/mdXcVX+ChjS6Si9ZtSWoFnlKeO/GfDChHWt2vht20LircwlEa4dul6lErghbNofCwseRo3UxUqYpMPq09LuTCqcgnXbTy7C6FPe9FhsRpHmX7coMTBxlC81GxN8LlfnIHPrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s8RsL7WNj0OXjtA4Lgv5SAzJww6fPfsxcglgN84xG+I=;
+ b=MEI/t5OQGGlIZLhAAbLCxQPEUdQbqH/5sx/d1DH3B54vYRNOb7MxFXk8eK/jl5zSJpf2lvT4ZCmA6EkY1wShqprXm4YAyXVC1GbhYZfJv5kFVNUbY0GByPX4sWmti6a9RfusbzuIWKTeqoyu/1QYPTEUFd+ECRiERAy9Yyg05TlvQlMuvokw9AWXjGB95Ho6ZYYoZ3ijUaEKZkia87SHwOPlnJFxR87faumEwI/SJ4a2WErq+hcJOuqVgeH8omNDb8ZPK8MjzXmB+GiPzNbcnXrme7jH1ex/2KoAXRuKF7IDnYnfSFlo4caJjyz3zwjsMM6HiXtQS4V1iGmP7kms0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s8RsL7WNj0OXjtA4Lgv5SAzJww6fPfsxcglgN84xG+I=;
+ b=VpTm53LPEsfLb4HySFg6yCwcNiXJPb9fx+hZPgDtbNwNma9lSZCIYhU9WIjShnW/qS8ADbdHE51/YOHUnB5XM+ktWWhQna8ipVv5wZ3FrKEL5t42H/TcA+QsIe8aLJCEtS0r/HmmSDPX4YowJ9dKeXNQ90Q91FZnOoGVbkEW8VvJA//36M6tf0yOmXizMlcV/zADtYH9aVn+7l/Dm4T25DP/E8InbdyX75k3bYPXJ4FqtkSAp71fOFYWal1TiX4XGDe3DTZNCNrzhOmGDcX+jNnMrG/X5PZWYAYtlxOTweXH8+Tx2GWL9Byq2BWSzSUgqz1QNAznsfe+RGnDFDq2Fg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by PH8PR12MB7133.namprd12.prod.outlook.com (2603:10b6:510:22e::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.12; Sat, 29 Aug
+ 2026 19:31:29 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0360.008; Sat, 29 Aug 2026
+ 19:31:28 +0000
+Date: Sat, 29 Aug 2026 15:31:27 -0400
+From: Yury Norov <ynorov@nvidia.com>
+To: Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc: Shrikanth Hegde <sshegde@linux.ibm.com>, linux-kernel@vger.kernel.org,
+	mingo@kernel.org, peterz@infradead.org, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, yury.norov@gmail.com,
+	kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
+	meted@linux.ibm.com, tglx@kernel.org, gregkh@linuxfoundation.org,
+	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+	huschle@linux.ibm.com, rostedt@goodmis.org, maddy@linux.ibm.com,
+	srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
+	vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
+	pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
+	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+	rdunlap@infradead.org, kernellwp@gmail.com,
+	linux-doc@vger.kernel.org, jgross@suse.com,
+	virtualization@lists.linux.dev, sunlightlinux@gmail.com
+Subject: Re: [PATCH v11 05/12] sched/core: Try to use a preferred CPU in
+ is_cpu_allowed
+Message-ID: <apMziCV_8y0xeIBT@yury>
+References: <20260825103855.721013-1-sshegde@linux.ibm.com>
+ <20260825103855.721013-6-sshegde@linux.ibm.com>
+ <8262d2f9-9f2f-4821-8497-991d7c8448a3@arm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8262d2f9-9f2f-4821-8497-991d7c8448a3@arm.com>
+X-ClientProxiedBy: CH2PR17CA0002.namprd17.prod.outlook.com
+ (2603:10b6:610:53::12) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Jiaming Ouyang <jiamingouyang13@gmail.com>
-Date: Sat, 29 Aug 2026 20:48:07 +0200
-X-Gm-Features: AcwNN1XChojeVTwGAGrg0Wq_4NOfaFshuyXC2v51uuJhhiroqPm4vT63tnE8hQc
-Message-ID: <CAMnqnYxPHeXo6CsuKRGH=oixAsAa0z1_++266yzKW7qR6cqykw@mail.gmail.com>
-Subject: [PATCH] docs/zh_CN: add usb/ohci translation
-To: linux-doc@vger.kernel.org
-Cc: "corbet@lwn.net" <corbet@lwn.net>, alexs@kernel.org, si.yanteng@linux.dev, 
-	dzm91@hust.edu.cn, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|PH8PR12MB7133:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6eb6f29f-c47f-4dab-f155-08df06041f68
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|366016|1800799024|23010399003|7416014|376014|22082099003|18002099003|56012099006|3023799007|6133799003|4143699003|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	hw6B25FEmAQV6vdP8Iqsp+jwOCqPjjDHLziqjEV74ZIoD3NuRkQy9ty6RbyRm4Xm5VZoVmnkSrHen5B7pAbFRa/UCthQL/Nk0Lon3a6VXjbVR3dR+O2QI5P8XKt/hfu7uv9a63UTWxFm3tpAGWAxZ2T1+jk6+Z5IVpIaWM7BeNQYtP5QkQk7eH744YBGHB3qQdaCZ2UUgvYSai2ZU73acj7gIVMzlro2Qs0PKXXFgJYWj2aI0p0HTO5VS04B2bXV3HiR3Aza/oyvdPZN6smfr8SBYiFNQpTVVob4gjaGkGpsXu5kKRk8xvR+9fIdOAUg3PuwdcSkQfqYjlUIWUDhNjTMLTRLKHF7N9gVb/8meEwG54OJe0qNksbgDaSd8TjnMC1x9Wh9ePZynFDFN9GS7WEYa8mYho7YVdXtmuW2V0LgXvezmmF50CuuDH7tLSdIC8EoP4CwxbngYrrAzvr3lH/g1pPrXoMh7fqfObC1INpyNmNJ40RBB45oIIpeAnOWx307yqqDdB2osjMAkwkxoFQryoGZELbAwDgdlXvGLFG3FotX70AKTepBXSgFe1K6hoY0rKHAuqlGnfI/fFFz0MrCGQHlID1/CDErJ++OFa0ivx5JDlXKNz5+GGZsnNM4/C/g5KlW5ivd/qeqd2EWEZsgWPqOf+kNQ/sf1ofkwWk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(1800799024)(23010399003)(7416014)(376014)(22082099003)(18002099003)(56012099006)(3023799007)(6133799003)(4143699003)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?vLcBhEff6pYXb/Wi1SUyEQ73pS8w2UJn5ZnN55B5enOoEp+buhlNn1PIG34H?=
+ =?us-ascii?Q?C/DP27UGqM8vVmHg9eaHi0kOaKb7PPTbxw7BdZkhv9jtg2ltnBCaor+WN0lz?=
+ =?us-ascii?Q?F5AF2KFE1SEG+svFCZ9UPTRwH8QF427XZQOAMno0BoHI08eb1kphhZC8ZiNW?=
+ =?us-ascii?Q?SgrHKs+MuLrP58qdo+2avpWqAmnY2Ov4WzYEnwRaTmm+iPGIaJDmA8nKiSUH?=
+ =?us-ascii?Q?1hxHbgLxmyFkt1zm17A5ZV0S3I/q4rtX4rwbH4EC7QY77qUuYML3GHuxAdU7?=
+ =?us-ascii?Q?SsDPAxnqT+qFCDbwCkD8RMaqWKhP/wLPN1Ne/7vuHcC0rCzAeLPYtyl4yCgR?=
+ =?us-ascii?Q?I4Gd/anFVDZgGK7aSESVXKmprM14mS19yQim4HkkvEgOm7Xh1ZOyx8bNKs5U?=
+ =?us-ascii?Q?62Az+PkphypPi2Xn/1029emQ8bGNwD9yPR8mNC5sWtWCnYuD3L0Xsffalbk7?=
+ =?us-ascii?Q?0c8FziT74+phbz6I4ybdu21gAQGt1luIb/Ii4QaF/Xc8iWmI+tdNFiVhWtSb?=
+ =?us-ascii?Q?cfvm+iOdvAYQ2jypiPkmSgCJ/g9x+hksqUxv+DCd+mTmPl025dQhT7rjT68h?=
+ =?us-ascii?Q?cF/nltj6MdVOz+Y6rr3QW6DJtsd9aEO0H+bZvTNRpxlSyZk6v3cfUAQGDuor?=
+ =?us-ascii?Q?FmuqNsrkaHquVZRofUmD70Yvh5DEWKFTdpA5WuzE9CVp2Qp2RZgGZKjkVDKG?=
+ =?us-ascii?Q?m6dFLjJZIbQbIxEC6KXOqANawyq9xWUS+k3ZJnxg3WWt70hFvUYRGz1SFkfK?=
+ =?us-ascii?Q?YE7zOK9g6LSeC6jA4/6DXcf8DnHy/R+cY2dxL/ZqacEa7J9AcRK1MUoeMk0E?=
+ =?us-ascii?Q?50PWKli8MByEaBN8hwYlIS6AWlnDsCwFTIUprhcacQZ2+IAAvY8SmDudwn9s?=
+ =?us-ascii?Q?i+5z1MifMg/sdFYCewHxDOtBhY6p5J8j2gW5S+vUVLasWqkP5qRKz5Vf/fNP?=
+ =?us-ascii?Q?npcFKZ40dMGSSIxtMOLuR42OSF/iPQ9g8t1hn/ApeyMNKPwdLiv3612c2UQS?=
+ =?us-ascii?Q?YmWZahlXnSLitz59otzOMSMkOOR03spdFpDB1ZOQ1Kc7wTv00m9PNZhHyI2V?=
+ =?us-ascii?Q?Vwho5M0coCOlxt+DBdZcJkkPRgnDmAWJ/aNdVVR8njvrTyvzL0LAFySNjkml?=
+ =?us-ascii?Q?LAyzuNchCi87TZ0OI6kn9wJ8Ln3Ni2CquLe405QmEFIhqpcrLgvKPaD9GLTR?=
+ =?us-ascii?Q?GPMV2czR4yJSLiHwXVZV/Ahx6R0hvOuPOw12VwuH7jTPBVwfUAMmgHsEmSzE?=
+ =?us-ascii?Q?39k+P4gJyoTK5Oc+roYgDVzAZT8gIZL0nf4a18R2ZxfoM2u6oiWUweeyhDGx?=
+ =?us-ascii?Q?RXayTo6b4V1uOBV686jNLpxmqovCTmvEfoOVviz9HxcHhKF4w5PIShoIN+Rk?=
+ =?us-ascii?Q?GxjYOpH5bq1suSJzIKfSxLHV1wx0KsrecSxDAG9SBBoFHBpLbzhoyMvJ1b5B?=
+ =?us-ascii?Q?yT1PRbLF4gGTJYmX0ELFH6Dran5io92QKgQVl+byQ845nhg10qrABrxy7NyL?=
+ =?us-ascii?Q?aL+01U4+n+TXZ/8PS3CX92bePrVjjodvws3VKudat7hxmftCJem78qAtCiGv?=
+ =?us-ascii?Q?d59Ff1WKGBU2E7Gn4DlKwzFv2aSfUxhMCwA9XEndBbyWI0ZMS84cIc6hCdeN?=
+ =?us-ascii?Q?s2Pu2CZrAwvz7VkYoM4u/gD7Y+CBdmBgpeHbw8xFK9ET5gkX0MXr1N2Vs829?=
+ =?us-ascii?Q?KjlVXq8vxpIw2uaLWvpxLzATjVNzmKME6bZwAgw2LExI3b5rcp9zxwxxArfU?=
+ =?us-ascii?Q?Ge1SSBzn5sTyYf2xNc31KTxDsd1UpaCawijTXDsvKlQ/9rK4h3yF5du7tsLK?=
+X-MS-Exchange-AntiSpam-MessageData-1: Ya21VvbpkNLMjQ==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6eb6f29f-c47f-4dab-f155-08df06041f68
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2026 19:31:28.7827
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N31MxN2ACs/jYbgA4R/7EDFBHUeLz4NWFxCYfolenssFTgTT9kt0Y+xNhNGIRb+GMN/DN6gbUmozYQeOZg00fA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7133
 
-RnJvbSAzOTU5NDgyMTIxNDQ1NDllMjBjZmNkYmQwNTM4MTdjNGUwNjhkYTM1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQ0KRnJvbTogSmlhbWluZyBPdXlhbmcgPGppYW1pbmdvdXlhbmcxM0BnbWFp
-bC5jb20+DQpEYXRlOiBTYXQsIDI5IEF1ZyAyMDI2IDIwOjM1OjM3ICswMjAwDQpTdWJqZWN0OiBb
-UEFUQ0hdIGRvY3MvemhfQ046IGFkZCB1c2Ivb2hjaSB0cmFuc2xhdGlvbg0KDQpTaWduZWQtb2Zm
-LWJ5OiBKaWFtaW5nIE91eWFuZyA8amlhbWluZ291eWFuZzEzQGdtYWlsLmNvbT4NCi0tLQ0KIC4u
-Li90cmFuc2xhdGlvbnMvemhfQ04vdXNiL2luZGV4LnJzdCAgICAgICAgICB8ICAyICstDQogRG9j
-dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNiL29oY2kucnN0IHwgMzcgKysrKysrKysr
-KysrKysrKysrKw0KIDIgZmlsZXMgY2hhbmdlZCwgMzggaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlv
-bigtKQ0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
-Ti91c2Ivb2hjaS5yc3QNCg0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
-L3poX0NOL3VzYi9pbmRleC5yc3QNCmIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04v
-dXNiL2luZGV4LnJzdA0KaW5kZXggZGY5OTgxNGM2NDk3Li5jOTZlYWNmMTNlMTEgMTAwNjQ0DQot
-LS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi91c2IvaW5kZXgucnN0DQorKysg
-Yi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi91c2IvaW5kZXgucnN0DQpAQCAtMzIs
-NiArMzIsNyBAQCBVU0Ig5pSv5oyBDQogICAgIGNoaXBpZGVhDQogICAgIGR3YzMNCiAgICAgZWhj
-aQ0KKyAgICBvaGNpDQogICAgIHVzYm1vbg0KDQog5b6F57+76K+R5paH5qGj77yaDQpAQCAtNDks
-NyArNTAsNiBAQCBVU0Ig5pSv5oyBDQogKiBtYXNzLXN0b3JhZ2UNCiAqIG1pc2NfdXNic2V2c2Vn
-DQogKiBtdG91Y2h1c2INCi0qIG9oY2kNCiAqIHJhdy1nYWRnZXQNCiAqIHVzYmlwX3Byb3RvY29s
-DQogKiB1c2Itc2VyaWFsDQpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMv
-emhfQ04vdXNiL29oY2kucnN0DQpiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Vz
-Yi9vaGNpLnJzdA0KbmV3IGZpbGUgbW9kZSAxMDA2NDQNCmluZGV4IDAwMDAwMDAwMDAwMC4uNDM4
-N2JiMjc0MDcxDQotLS0gL2Rldi9udWxsDQorKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
-cy96aF9DTi91c2Ivb2hjaS5yc3QNCkBAIC0wLDAgKzEsMzcgQEANCisuLiBTUERYLUxpY2Vuc2Ut
-SWRlbnRpZmllcjogR1BMLTIuMA0KKw0KKzpPcmlnaW5hbDogRG9jdW1lbnRhdGlvbi91c2Ivb2hj
-aS5yc3QNCisNCis657+76K+ROiDmrKfpmLPlrrbpk60gSmlhbWluZyBPdXlhbmcgPGppYW1pbmdv
-dXlhbmcxM0BnbWFpbC5jb20+DQorDQorPT09PT09PT0NCitPSENJ6amx5YqoDQorPT09PT09PT0N
-CisNCisyMDI25bm0OOaciDI55pelDQorDQor4oCcT0hDSS1oY2TigJ3pqbHliqjnqIvluo/mmK/k
-uIDkuKpVU0LkuLvmnLrmjqfliLblmajpqbHliqjnqIvluo/vvIhIQ0TvvInvvIzlroPmupDoh6oy
-LjTlhoXmoLjns7vliJfkuK3nmoTigJx1c2Itb2hjaeKAnQ0KK+mpseWKqOeoi+W6j+OAguKAnHVz
-Yi1vaGNp4oCd5Luj56CB5Li76KaB55SxIFJvbWFuIFdlaXNzZ2FlcmJlciA8d2Vpc3NnQHZpZW5u
-YS5hdD4g57yW5YaZ77yM5L2G5Lmf6I635b6X5LqGDQor6K645aSa5YW25LuW5Lq655qE6LSh54yu
-77yI6K+36ZiF6K+75YW254mI5p2D77yJDQor44CCDQorDQor5a6D5pSv5oyB4oCc5byA5pS+5Li7
-5py65o6n5Yi25Zmo5o6l5Y+j4oCd77yIT0hDSe+8ie+8jOivpeaOpeWPo+agh+WHhuWMluS6hueU
-qOS6juS4jlVTQiAxLjHkuLvmnLrmjqfliLblmajpgJrkv6HnmoTnoazku7blr4QNCivlrZjlmajl
-jY/orq7jgILkuI7oi7HnibnlsJTml6nmnJ/nmoTigJzpgJrnlKjkuLvmnLrmjqfliLblmajmjqXl
-j6PigJ3vvIhVSENJ77yJ55u45q+U77yM5a6D5bCG5pu05aSa5Y+q6IO95Yqf6IO95rOo5YWl5Yiw
-56Gs5Lu2DQor5Lit44CC6Zmk6Iux54m55bCU5ZKM5aiB55ub5LmL5aSW55qE5YW25LuW5L6b5bqU
-5ZWG55qEVVNCMS4x5o6n5Yi25Zmo6YCa5bi45L2/55SoT0hDSeOAgg0KKw0KK+iHqjIuNOWGheag
-uOS7peadpeeahOabtOaUueWMheaLrA0KKw0KKyAtIOaPkOmrmOS6huWBpeWjruaApzsg5L+u5aSN
-5LqG6ZSZ6K+vOyDlh4/lsJHkuoblvIDplIANCisgLSDmlK/mjIHmm7TmlrDlkoznroDljJbnmoR1
-c2Jjb3JlIEFQSQ0KKyAtIOS4reaWreS8oOi+k+WPr+S7peabtOWkp++8jOW5tuS4lOWPr+S7peaO
-kumYnw0KKyAtIOmAmui/h+S9v+eUqOS4iuWxguKAnGhjZOKAneahhuaetu+8jOWHj+WwkeS7o+eg
-gemHjw0KKyAtIOaUr+aMgeS4gOS6m+mdnlBDSeeahE9IQ0nlrp7njrANCisgLSAuLi4g5Lul5Y+K
-5pu05aSaDQorDQor4oCcT0hDSS1oY2TigJ3pqbHliqjnqIvluo/lpITnkIbmiYDmnIlVU0IgMS4x
-5Lyg6L6T57G75Z6L44CC5omA5pyJ57G75Z6L55qE5Lyg6L6T6YO95Y+v5Lul5o6S6Zif44CC5Zyo
-4oCcdXNiLW9oY2nigJ3kuK3kuZ8NCivmmK/lpoLmraTvvIzkvYbkuK3mlq3kvKDovpPpmaTlpJbj
-gILku6XliY3vvIzkvb/nlKjkuIDluKfnmoTlkajmnJ/kvJrlm6DkuLpJUlHlpITnkIbnmoTlvIDp
-lIDogIzlr7zoh7TmlbDmja7kuKLlpLHnmoTpo47pmanjgIINCivlvZPkuK3mlq3kvKDovpPmjpLp
-mJ/ml7bvvIzlj6/ku6XpgJrov4fnoa7kv53noazku7blnKjmk43kvZzns7vnu5/lpITnkIbnm7jl
-hbNJUlHml7blp4vnu4jmnInkvKDovpPpnIDopoHlpITnkIbvvIzmnaXmnIDlpKfpmZANCivluqbn
-moTpmY3kvY7ov5nkupvpo47pmakNCisNCistIOasp+mYs+WutumTrSBKaWFtaW5nIE91eWFuZw0K
-KyAgPGppYW1pbmdvdXlhbmcxM0BnbWFpbC5jb20+DQotLSANCjIuNTMuMA0K
+On Fri, Aug 28, 2026 at 09:51:47AM +0200, Dietmar Eggemann wrote:
+> On 25.08.26 12:38, Shrikanth Hegde wrote:
+> > When possible, try to choose a preferred CPU.
+> > 
+> > This is essential to maintain user affinities when preferred
+> > CPUs change. A task pinned on a non-preferred CPU should continue
+> > to run there, since this is a non-user triggered event.
+> > 
+> > If a CPU is non-preferred and the task can run on other CPUs which are
+> > currently preferred, then choose a preferred CPU instead.
+> > This is decided by checking if cpus_ptr and cpu_preferred_mask
+> > intersect or not. If yes, then the task has other preferred CPUs.
+> > 
+> > The push task mechanism uses a stopper thread which calls
+> > select_fallback_rq() and uses this mechanism to pick a preferred CPU.
+> > 
+> > This takes care of the wakeup path for FAIR tasks too.
+> > is_cpu_allowed() is called to ensure wakeups happen on preferred CPUs.
+> > With that, additional checks in available_idle_cpu() are not necessary.
+> > 
+> > Ignore the preferred CPU state if a task's affinity is changing and
+> > its new mask no longer includes the CPU it is currently running on.
+> > This ensures migration_cpu_stop() does not abort, preventing the task
+> > from being stranded outside its allowed affinity.
+> > 
+> > Account for tasks with architecture-specific CPU masks
+> > (e.g., 32-bit tasks on arm64). For such tasks, explicitly check against
+> > the arch-allowed CPUs to determine if any of the preferred CPUs are
+> > actually valid.
+> > 
+> > For the majority of cases, this would still keep select_fallback_rq()
+> > as O(N). cpumask_intersects(), which is O(N), is called only if
+> > !cpu_preferred. The task running there is expected to move out.
+> > Subsequently, it should run on a preferred CPU. This becomes O(N**2)
+> > only for tasks pinned solely to non-preferred CPUs. That is a rare case.
+> > 
+> > Overhead is minimal when the CPU is preferred.
+> > 
+> > Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> > ---
+> >  kernel/sched/core.c | 41 +++++++++++++++++++++++++++++++++++++++--
+> >  1 file changed, 39 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> > index a45f7c308329..f71317fe281d 100644
+> > --- a/kernel/sched/core.c
+> > +++ b/kernel/sched/core.c
+> > @@ -2494,6 +2494,35 @@ static inline bool rq_has_pinned_tasks(struct rq *rq)
+> >  	return rq->nr_pinned;
+> >  }
+> >  
+> > +static inline bool task_can_sched_on_preferred(int cpu, struct task_struct *p)
+> > +{
+> > +	const struct cpumask *valid_mask;
+> > +	int i;
+> > +
+> > +	if (cpu_preferred(cpu))
+> > +		return false;
+> > +
+> > +	/* Only FAIR tasks honor preferred CPU state */
+> > +	if (unlikely(p->sched_class != &fair_sched_class))
+> > +		return false;
+> > +
+> > +	/* Ignore preferred state if task affinity is changing */
+> > +	if (unlikely(!cpumask_test_cpu(task_cpu(p), p->cpus_ptr)))
+> > +		return false;
+> > +
+> > +	valid_mask = task_cpu_possible_mask(p);
+> > +	if (likely(valid_mask == cpu_possible_mask))
+> > +		return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
+> > +
+> > +	/* Tasks with arch-specific CPU masks. e.g. 32-bit tasks on arm64. */
+> > +	for_each_cpu_and(i, p->cpus_ptr, cpu_preferred_mask) {
+> > +		if (cpumask_test_cpu(i, valid_mask))
+> > +			return true;
+> > +	}
+> 
+> Looking more into this, there might be a window in 64-32-bit execve()
+> for 32bit EL0 tasks on Arm64 (w/ allow_mismatched_32bit_el0 command line
+> option).
+> 
+> The time before arch_setup_new_exec() calls
+> force_compatible_cpus_allowed_ptr() to restrict CPU affinity for those
+> tasks.
+> 
+> Let me run more test on this ...
+> 
+> Why not simply:
+> 
+> - return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
+> + return cpumask_first_and_and(p->cpus_ptr, cpu_preferred_mask,
+> +                              task_cpu_possible_mask(p)) < nr_cpu_ids;
+> 
+> IMHO, you want to know whether there is at least one CPU that belongs to
+> all three CPU masks?
+ 
+Yeah, the cpumask_first_and_and() would replace the for-loop more
+effectively, but I'd suggest introducing the new helper:
+
+
+        return cpumask_intersects_and(p->cpus_ptr, cpu_preferred_mask,
+                                      task_cpu_possible_mask(p));
+
+This would also highlight the intention better - we're looking for
+intersection, and call the 'intersects' function.
+
+I don't like how this patch plays with likely() macro.
+Possible == task_possible condition is surely likely for x86, but is
+always unlikely for aarch64/el0-32 tasks. This would lead to suboptimal 
+code generation on aarch64.
+
+The approach I've suggested also worsen performance because of a
+possibly unnecessary traversing of the cpu_possible_mask.
+
+If task_can_sched_on_preferred() is really a performance critical piece
+of code, we can invent arch_task_can_sched_on_preferred() to avoid it.
+
+--
+
+On general side, the governor is really tested in 2 configurations:
+PPC+powervm and x86+kvm; and there's clearly an interest from XEN and
+ARM engineers.
+
+Maybe, to stay on safe side, we'd enable the feature where it's actually
+tested? I suggested it when DOM0 case was revealed, and now we've got
+the 2nd corner case from arm64 compat tasks.
+
+The advantages of this approach are:
+
+ - faster adoption of the existing code for the tested architectures;
+ - delegate arch/vm support to the domain professionals;
+ - delay arch/vm support decisions to the later phase of adoption, when
+   the API is better stabilized.
+
+Thanks,
+Yury
