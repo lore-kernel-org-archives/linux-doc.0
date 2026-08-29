@@ -1,164 +1,127 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC61347BD4;
-	Sat, 29 Aug 2026 09:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787994995; cv=none; b=R/1qDF+KiTtfUXfmnBT9bZF3uq9r/p+dk4duvxEuVmsDHCcqU5P+G5R8kdTr5uYZvPvjeukR7N2FW5Nm+ZrAkPL+dnx/0gsPsnYeJ7tpYuUNO21QL2/Ocb9sAoE4tUg0Wn7f0b+6Nv4AvHrnWWaqLkU22sde3B75yreQWxK0F8s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787994995; c=relaxed/simple;
-	bh=rbtIPicIse43PXViK0lsq4wxFJ+k3tqd28YHzLi7rxY=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=YhZqOrIGm0Y0YBplL7sp8r+lf/IcJso8hIynAP73qFSJosN3+/4D9s5dDV/dzkW87L8BOB4ILSbOmQp4Zwifya0Q9cxNMXIEfuC/wS5MtkijPZ93q73vsIvynCV9jbht2aPFlqSocyFsPT9sRAyoyqyLe8O8nQqpQa5FxrzivhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4hX8l44WTbz5B102;
-	Sat, 29 Aug 2026 17:16:32 +0800 (CST)
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl1.zte.com.cn with SMTP id 67T9GPwV048616;
-	Sat, 29 Aug 2026 17:16:25 +0800 (+08)
-	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp02[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Sat, 29 Aug 2026 17:16:27 +0800 (CST)
-X-Zmail-TransId: 2afa6a92a36b378-b3919
-X-Mailer: Zmail v1.0
-Message-ID: <20260829171627850-M-fO58GBmrYbXIVRmVmI@zte.com.cn>
-In-Reply-To: <20260829171238191s9SIXoZPTlZSmA2Px30hn@zte.com.cn>
-References: 20260829171238191s9SIXoZPTlZSmA2Px30hn@zte.com.cn
-Date: Sat, 29 Aug 2026 17:16:27 +0800 (CST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC65C348C7B
+	for <linux-doc@vger.kernel.org>; Sat, 29 Aug 2026 10:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788001058; cv=pass; b=DFJsBVbuk/ERB5Gdcw5R+IDhXD6KdITC8jSRbpgvlk09QRpQ2Pz0dicvXpWbF/2GbULYhKhe9rKTPkD84uPcDVcOUCjYmdq+d0RaXATQf2UmtzX8hR/ovOm0bVz+FUiIqJNNsvC/MN6r9G/fIjcG754PU6fbT25va3jzKd05WGA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788001058; c=relaxed/simple;
+	bh=hsBKohLfCZd0jfnALC1cEzA++W2MrcDhahlgqPLVM7Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HtIqfx7bo/5B1QuN3HDQxm/C2mp20JrtKhbiy4/ofxT1GrLN4wrWacnEGUxqcxEm5Y9cZ1V0tdWfDeKPohUTdUuJy0j+1W/Hs7Jwm3UR+5WqreZTnWXPYDmBMwJbFBlF2y0aBmtR5fqW7miafTHyxU3waCRdbYMbyEobKB5oiCk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qxB9/ucO; arc=pass smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qxB9/ucO"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2d8f2ed7bdcso461475ad.2
+        for <linux-doc@vger.kernel.org>; Sat, 29 Aug 2026 03:57:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788001056; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JmjiCmUBGkHhsgIRYE0IpZBT9ClOkVrXA60evujBpMBrUKKHHZ5PDvXNJjtRDHuxxi
+         czTT91oWhQZkfwz9lzcOjMl/muptZ/z6dQ7CvPQU5afUz0dHLZt2rOcacTL1xt0G9c6x
+         gNORqKltPAuMgMuSgqPrvmue5BfDES4+aNWYQlp1J4sbHnfPMKKw2uFCYfAUo/s2q3Oh
+         icVlUzYah7aAfIBGqTsknWMFX/SyG/iRMQDhrBU4rZWd87fi40p2/4FqhpmsbnaVXpTr
+         j/Raml5Ei/BKOwy3FaTR4Q36yiR3HWCmRg5FPymsrYDfA7E5cUz+TCbdB/1ceNdWLpOt
+         4I9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3yoXZjSinVl6bLZjtfCsRoIy2CcONJCPzcPUWytAk2w=;
+        fh=9oojOvwVca88leYhTJ3Sa8xY4PJY8hHSgHS0rMWbfo0=;
+        b=nqMyKN39UoN0GI04BU/gIM5VcTLjcGHhBTEZJa7v1P7xX5z0nAcxqfQjY3m9MyBspC
+         72bZWZzO9tv2dGHpx8Dc+4g9Gj84QoasKutgYjFtTdWPJn5ndEaaIWtu+tjoRIsyOodf
+         91cD5CipTd/UyQKSeDsNz/pLgyLKfyBxuUKUyVc4Ek5TrwQRAYKvTAAXZtqAbFFkyOoF
+         ZcLzWeyZ+ixDcoTbbMZlDwN15/Ej7ycDMa9H3wMGGMFVnfAzr5GZvFT26gF/Q9o3e4iX
+         rksPrZIQWWihKTdOmvRq8QCszBWl8ttdYDk33sqAC0dadDG9ipRGH1TzuCh4GXvckIxj
+         HM/g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788001056; x=1788605856; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3yoXZjSinVl6bLZjtfCsRoIy2CcONJCPzcPUWytAk2w=;
+        b=qxB9/ucOSNJYhkRxeEyJuIaaChnbkIeziSSD+2tZkrRhLbLNtPwwaw4AnOsFMkGHgH
+         g8av33wNg8aFOi0uNrjq+Yypt2oDfrdfygCqbkDmAzG5fuTS1GaoG3u/rzSOQp64bZcr
+         Wr8t+It1pfy/S1oP/PjrrW6Lt8BGDP9OyfNZoC6PKX9aTpe0hvxrhZVOb2JooagrMlPz
+         TUMkgAqwJXV3g83TJ0bJH6Fnm2rHWOxxW7ClpQ3zjd3BOyBL4NDx9juMBCRdInYkLope
+         g97Vy96kHGCKy87vUJsdUFVo8/sZJhGJwdy6K//5s348jFOgAAUIsevfCJRcwtlGtwCE
+         +tfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788001056; x=1788605856;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3yoXZjSinVl6bLZjtfCsRoIy2CcONJCPzcPUWytAk2w=;
+        b=aCwbmj53c9/bqNU/GlVvsCFiUl2YXR7NBnII7Q2OtBsF0C3plSbannJNPQrC/Be1wB
+         j2dSd7b6aHoKB94JN7SEzI05O/oGnnHQ6+YoQPwTnn03mQRyBsml97iAESeRlLDOUprY
+         89agm0G/FcKZ55rd/ahSjwhr7eD8/i5WsybQyVvtc0xclP3SQb9qZ30pmr/bh3hdB9oz
+         wVDMWLKIkDMgjzIaZprCUUCZhih+Qo4iD/dE/UDe+VyWxTBooN2vOtgZZPlEEP4h+GwY
+         iPPCedMSeMAdnkQ5vo7lSJYOr2iU476pwVa3WgqkEpD2cOEgtkDqJtRWBOPNOsCSiJAX
+         4cmQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw9WpRwmHaffysYKPhBYNO19abzCknhNjhHfIL5nPEDI0CrQBP43GA+UnxU9SERIE7XYiGZ9RkUxC8=@vger.kernel.org
+X-Gm-Message-State: AFuF++lYYGXZ4TO6/4jcLXhhAD0dohGDLX+Nbm+HjM2s46P586v/KemV
+	UQ3st+iylVvYs2rbXTUwp35j8URZDmM6PPBonYWRRiZPRiOrL6ighhZrNfVRtXKs5Al3mrLursh
+	n2SC3xUxgucfgKW5V73B4UeWaTLvohh4=
+X-Gm-Gg: AR+sD121Js+8yIw6l1/aqgJERg5uemqj+/XCRynHgB7IBw+EEFrcB8EZYz5aKWns2ke
+	tpiX2PjI9r7qAqHjbBNbBHy622N+xNMUiQ70UsdIus2heVUxpoWrodcnVYyD26FbtDuTVMOXBMd
+	awB2b9WL1FeMWWN3YC73P3IhZpktRiAf5ThLIfYP1gTmDveSUuiIqKbPDgsemBfhAvW7xtBUnb3
+	R23YBSIWSwKvtLPkBRk4cy3p1yncGH+SqDr7CeOMPF5ict093h2dAojtBTqa9tQ9Uj/+n0KBDpe
+	+GU1H5BMKfDrY50bUPkVuFC+/axTGUzMeEZsUX5iVBFDi8jsKTr5mA6lq4cgpQSbEFNgexL0hB5
+	fcK0OeezckrIf0qiMWnE17ISLMovvHd1kRN3h3uumtVim0eDtfKbklOP3sNz7
+X-Received: by 2002:a17:903:1104:b0:2c9:8287:fd0d with SMTP id
+ d9443c01a7336-2d74df62ccemr115727945ad.3.1788001055774; Sat, 29 Aug 2026
+ 03:57:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <wang.yaxin@zte.com.cn>
-To: <wang.yaxin@zte.com.cn>
-Cc: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
-        <yang.yang29@zte.com.cn>, <thomas.weissschuh@linutronix.de>,
-        <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <xu.xin16@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIHY1IDQvNF0gdG9vbHMvYWNjb3VudGluZzogc2ltcGxpZnkgMzItYml0IHRpbWVfdCBvdmVyZmxvdyBjaGVjayBpbiBmb3JtYXRfdGltZXNwZWMoKQ==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 67T9GPwV048616
-X-TLS: YES
-X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Sat, 29 Aug 2026 17:16:32 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A92A370.000/4hX8l44WTbz5B102
+MIME-Version: 1.0
+References: <7d8ba914cd174d716340bb2b88723bef0f330627.1787565460.git.gtucker@gtucker.io>
+ <apG3hwaPA8f7SJeI@levanger> <b45e7864-928c-4b3c-aa62-64f4f63d85c7@gtucker.io>
+ <CANiq72k6T9Y_Vubih6pFMQBxju2xQq0VQkCXT1WL0qSyCXKxyA@mail.gmail.com> <9a3eabd1-4057-45cf-99b9-9c3c1b6260d3@gtucker.io>
+In-Reply-To: <9a3eabd1-4057-45cf-99b9-9c3c1b6260d3@gtucker.io>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 29 Aug 2026 12:57:22 +0200
+X-Gm-Features: AcwNN1U4Xd-ZPEH0J5NkeG85FCsQEWIBZhyX8xsSVfYp0sl8uMCqeYTmtDyhT2w
+Message-ID: <CANiq72m0eemCPbEAvZSC49OZHyaNvQgbMdSDphT01no1B+YWEA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] scripts: add TOML config to container tool
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Nathan Chancellor <nathan@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Miguel Ojeda <ojeda@kernel.org>, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, automated-testing@lists.yoctoproject.org, 
+	"kernelci lists.linux.dev" <kernelci@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Wang Yaxin <wang.yaxin@zte.com.cn>
+On Sat, Aug 29, 2026 at 11:02=E2=80=AFAM Guillaume Tucker <gtucker@gtucker.=
+io> wrote:
+>
+> See "bc20c56e98e0 docs: changes: better document Python needs"
+>
+> Also it's explained briefly in the docs here:
+>
+>    https://www.kernel.org/doc/html/latest/process/changes.html#python
+>
+> So I guess that if it's needed for at least one build configuration,
+> then it's not optional anymore.
 
-Replace the Y2038 overflow guard in format_timespec() with a direct
-narrowing truncation check ((long long)time_sec != ts->tv_sec), which
-is both simpler and more robust across platforms. Also move the
-time_sec assignment earlier to avoid duplication.
+Yeah, that is the commit I was referring to, but I am not sure what
+that commit meant, i.e. if that were the case, then e.g. Rust would be
+mandatory too since it is required for at least one build
+configuration... :)
 
-Add nla_len < NLA_HDRLEN sanity checks in the netlink attribute
-parsing loops in getdelays.c and delaytop.c to prevent integer
-underflow in NLA_PAYLOAD() on malformed responses.
+I guess the commit was trying to say "used in enough places" or
+perhaps "the default config of at least one architecture" or "some
+`make` targets" or a combination of all those, but it is not clear.
 
-While at it, fix a minor alignment issue in delaytop.c by adding a
-leading space to the output format string.
-
-Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
-Acked-by: Xu Xin <xu.xin16@zte.com.cn>
----
- tools/accounting/delaytop.c        |  6 +++++-
- tools/accounting/format_timespec.c | 12 +++++-------
- tools/accounting/getdelays.c       |  4 ++++
- 3 files changed, 14 insertions(+), 8 deletions(-)
-
-diff --git a/tools/accounting/delaytop.c b/tools/accounting/delaytop.c
-index 527266d28d9a..4e4c35fabbab 100644
---- a/tools/accounting/delaytop.c
-+++ b/tools/accounting/delaytop.c
-@@ -728,10 +728,14 @@ static void fetch_and_fill_task_info(int pid, const char *comm)
- 	nl_len = GENLMSG_PAYLOAD(&resp.n);
- 	na = (struct nlattr *) GENLMSG_DATA(&resp);
- 	while (nl_len > 0) {
-+		if (na->nla_len < NLA_HDRLEN)
-+			break;
- 		if (na->nla_type == TASKSTATS_TYPE_AGGR_PID) {
- 			nested = (struct nlattr *) NLA_DATA(na);
- 			nested_len = NLA_PAYLOAD(na->nla_len);
- 			while (nested_len > 0) {
-+				if (nested->nla_len < NLA_HDRLEN)
-+					break;
- 				if (nested->nla_type == TASKSTATS_TYPE_STATS) {
- 					size_t payload_len = NLA_PAYLOAD(nested->nla_len);
-
-@@ -1099,7 +1103,7 @@ static void display_results(int psi_ret)
- 			get_field_delay_values(&tasks[i], cfg.type_field, &avg_ms,
- 					&max_ms, &max_ts);
-
--			suc &= BOOL_FPRINT(out, "%12.2f %12.2f %20s\n",
-+			suc &= BOOL_FPRINT(out, " %12.2f %12.2f %20s\n",
- 				avg_ms, max_ms, format_timespec(&max_ts));
- 		} else if (cfg.display_mode == MODE_MEMVERBOSE) {
- 			suc &= BOOL_FPRINT(out, DELAY_FMT_MEMVERBOSE,
-diff --git a/tools/accounting/format_timespec.c b/tools/accounting/format_timespec.c
-index 1dba50cac895..d7bfd307c00b 100644
---- a/tools/accounting/format_timespec.c
-+++ b/tools/accounting/format_timespec.c
-@@ -14,22 +14,20 @@ const char *format_timespec(const struct __kernel_timespec *ts)
- {
- 	static char buffer[32];
- 	struct tm tm_info;
--	time_t time_sec;
-+	time_t time_sec = ts->tv_sec;
-
- 	if (ts->tv_sec == 0 && ts->tv_nsec == 0)
- 		return "N/A";
-
- 	/*
- 	 * On 32-bit platforms time_t is 32-bit and cannot represent
--	 * dates beyond Y2038.  The kernel timestamp is always 64-bit,
--	 * so reject values that would overflow.
-+	 * timestamps outside [INT32_MIN, INT32_MAX].  A 64-bit kernel
-+	 * timestamp that does not survive the narrowing truncation is
-+	 * rejected to avoid silent data corruption.
- 	 */
--	if (sizeof(time_t) < sizeof(ts->tv_sec) &&
--	    ts->tv_sec > (__u64)((1ULL << (sizeof(time_t) * 8 - 1)) - 1))
-+	if ((long long)time_sec != ts->tv_sec)
- 		return "N/A";
-
--	time_sec = ts->tv_sec;
--
- 	if (!localtime_r(&time_sec, &tm_info))
- 		return "N/A";
-
-diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
-index 7b1ae4492a77..688506d5cecb 100644
---- a/tools/accounting/getdelays.c
-+++ b/tools/accounting/getdelays.c
-@@ -659,6 +659,8 @@ int main(int argc, char *argv[])
- 		na = (struct nlattr *) GENLMSG_DATA(&msg);
- 		len = 0;
- 		while (len < rep_len) {
-+			if (na->nla_len < NLA_HDRLEN)
-+				break;
- 			len += NLA_ALIGN(na->nla_len);
- 			switch (na->nla_type) {
- 			case TASKSTATS_TYPE_AGGR_TGID:
-@@ -669,6 +671,8 @@ int main(int argc, char *argv[])
- 				/* For nested attributes, na follows */
- 				na = (struct nlattr *) NLA_DATA(na);
- 				while (len2 < aggr_len) {
-+					if (na->nla_len < NLA_HDRLEN)
-+						break;
- 					switch (na->nla_type) {
- 					case TASKSTATS_TYPE_PID:
- 						rtid = *(int *) NLA_DATA(na);
--- 
-2.25.1
+Cheers,
+Miguel
