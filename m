@@ -1,63 +1,63 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC584353A92
-	for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 23:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36555358378
+	for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 23:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788132141; cv=none; b=YqiyHbrA9Y1x/okvUSS1VLj422jVKpQkyKTQd1Szyu/UMX90RSO8swRkFMLS7n0sgnYddouvF5fKsKDfxrj1fGGOjoZ4bDK70VmLWUqbK6pa+wudj4+8inQk7KhzzxbPe7GuDKmc7zxKzFAOnMVXjaQvMrwFOWsfYKwkXVO6ABo=
+	t=1788132145; cv=none; b=HQDGMI5k4ocwLTp/EtaklnZss8Y4tnKZmMAPIm92qas1ISblElKhohxcTeQzVi+Uwi7KVkIuaddvZtsLbRCULkzV63lEHchYSiiIWfgM6Fw+/0Gdbx+oD39cXbXtUyd/8mZ2qwqet1hmI47jQ9Qbj+h9oA+1MhhUP61FI2NgkYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788132141; c=relaxed/simple;
-	bh=Vd7t/VCSbdHAy1kCjXH7yJArhfu/zvuWLMP+dsSFygo=;
+	s=arc-20240116; t=1788132145; c=relaxed/simple;
+	bh=lWdkSLVMrJME+IC4sl1WFmK4U1DvQrIT1XEOvyx3X9M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gnIgF6LSSuPfrFTUpHgznU3GNKSeSFbBOKo1NPvxWJktdAs502nLgZf3KmMeeA5yZLtNQnxM4J6fYaqePED4dev5xJyOX6A+mA2IboLL8Pt+9HanOxj66mAsNBf4qVp0jiSIalkc6KA+BJQ5GNa6HrnNDMqiLWVfijz2VOneTwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iE0qg5du; arc=none smtp.client-ip=209.85.128.177
+	 MIME-Version; b=l7nSD3wHE7ycZmt8Ri8h7PjqZmXDfZ+ch+OyAWcYnAXBLAbbRfU7BXLjkL/k2OcoVKA/id3qfYNUputVGsHbXLoQCYm1dcHCuSJiksSj5ZzmUPoNPrPcr5LNV5oaw+U3qPdvaomejBJkVdwVYuB0chHbuK48Lgi2GoEyaYidxYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JTsrHMgF; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iE0qg5du"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-861f30636f9so13680437b3.0
-        for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 16:22:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JTsrHMgF"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-85aa9c1308dso27609327b3.3
+        for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 16:22:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788132139; x=1788736939; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788132143; x=1788736943; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=V0uXGJNgPYreSiDYBBxdQJQqH0DPau7askhrNGDyNQM=;
-        b=iE0qg5duG2FHjiYohT99/cShNRhkZm0iwr0LTazbY+7t3b9/02VqF5lqZFDbH9FVIl
-         1jNm+etMm/huph6IHLrTYu8oWWwftiOQtItCftr3yavotrLJsehMmatcxJTWrtXq0Sx9
-         aVWQedlfiiDtxTmo4Q1Z4jT5ReXDMv1MRuQ3QtBaNMZmr22TByAmUgOqTYw8meHu2Zo5
-         CxVxmxOjCZJtlUO+FL2tzawdzj5vk0o4LIThCk76vAXJrH9FRa+4S7MGicOp0g/viVRM
-         mRZWu9R5rnrXNVAYlotxH9UKs64Z+A+y4u0XQ0bNX9yWe5gAgx8n60Nm1cT2T4NnVY8e
-         c8ag==
+        bh=oDyIKzL6PQfyOtcZdXIqJp7bl04CBybW0yg006Rr6/Q=;
+        b=JTsrHMgF3Sr0E2BdUIqgdWLqVBl6CGEQTO5CbSaBs5JvJ2yFHrUiD09jUGYgoMC/pg
+         13xtSMJQWrOhHGzDkjslSIH0EE3+sIfbw0rFkGQsJgXL3r5A122PbMhqJawjyY8Fb8yB
+         Ca+iVoLsE2Qe2WGMGjcQWQDmxpDeZ20DpALdaHKQfki05ocWiGc/Bf+DimAevTwS/TJu
+         WyJIkV65Mluvti/7D0EUhEkdwI46VilB2YbTNorWYesNQMGDlp2VSADvey7erA5GqEpN
+         SNJOT4spYvuJmDQeiG3zH7QJq8OOm7b8w2VQT7UkqZ9AxydW7kUwBUi3JWVnVzTvONGX
+         YLfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788132139; x=1788736939;
+        d=1e100.net; s=20251104; t=1788132143; x=1788736943;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=V0uXGJNgPYreSiDYBBxdQJQqH0DPau7askhrNGDyNQM=;
-        b=m2WiFPOTilspFc3YRi7vydZZYvPlonA9bb0eyQ1qVID8fwK06PjZ6NP3akYeojFR2O
-         kBi218E4ayeAMeV4w3U0ki6mJ+2hOLD6Xj9+zLb9KgdisVTOrw3Sid5MVUazfByG/gd0
-         nep3ApZUOw/QAYJ2aqAluOqZOjMaiY+UI2eW6kjkyws/TKksT+uQjnrbaMqZFgGKu6Ph
-         g/BFbjJ+fGcaz+mMKBgh6H4E8igbnPVvVcz2L+JXZsfRCW96vzqwF38jkk2mkjDKa72I
-         YSpbHobrYQ+tgD2uE1R0UlsTjtKZwPuVRhvpk3+LsKqU9KvhdjXofA73+5Xf+q5DNSfd
-         lX8w==
-X-Forwarded-Encrypted: i=1; AKwUvBwjhMVNiTfEJyLLLF3qc8I50aT0nqY2YcHJiAfoJ/DFkCARh7ovDxiOjcB/AGPtbFh6+/Yct1gh59U=@vger.kernel.org
-X-Gm-Message-State: AFuF++kdlvRY8+iprNJH5oCGTf+jXMfds0O6nNtL/FFw/MslTfLnYJjJ
-	sBGHuwdIEiVspHVRC2noAgnolwemSSSSwADKxhoADfS1VIBa//X+oNjQ
-X-Gm-Gg: AYBFou149jtox/s6G+xQw2AW+9WLvAmurHF1PERX6dVMZ7/gwPQyyjEVCNyhYFSWLWb
-	ankn01wCXXGOHdTsnTQu9OtuW6uVAwVICdlUTzgepiKDgArod43rBo7ERpAjvmoYHPGrBByJI6g
-	XPuxYAzter8foZ5ZP00aMcxEngcMGWMtrrjS5XeI2ueicl6ueLUDxxW0QMxCRA+qxTBIh6zprUT
-	JjFz6C9FXdzubZDQlkIMg5XBUSKQjT3OVj4iVjtrziXklcp3xts1lBcL5KCG30VZI9MXUHOiCyV
-	7NyyW1tTgVqF6/yzQpfMxXwl3h3CsOOTh8KrtsTDu5PZBMpK2vJeUk8s3XpGy242JNjYLUPdoj6
-	U9EGwMCpCBobUkzkcHLHtWvRUoOssfIIJ1dvtjsSnD9BhTpNGtPBXaazvuXdVZKjLCOjAiL0DTe
-	Lpz2ZVCMdxqey91eTbV4lRuatKYynP1fU60aVV+kwM
-X-Received: by 2002:a05:690c:6912:b0:858:d6fb:2b9f with SMTP id 00721157ae682-85d660db315mr76627717b3.5.1788132138950;
-        Sun, 30 Aug 2026 16:22:18 -0700 (PDT)
+        bh=oDyIKzL6PQfyOtcZdXIqJp7bl04CBybW0yg006Rr6/Q=;
+        b=sNlXcnaCP1Gmz9t6g8f1R0CVL9sSIQirn5HL6MGvM5OUCw+u7xzSLSWWASmUMXELqm
+         7kdT0WoCSGS7v5VNtnqrQHtjpXZl6Gs18B1GIB/TKvEvkbzLWKGNu4z4WCvV6b2YUzpb
+         KSmtvevC1YPmRLE8c1W3mRzmXGIO25N6FO29BA5jrJuXfV6Xlq+Szdm2ZyYZ5SVXGuo1
+         DYFmA2xhqYZcNwzqz2GZXXT/vOSG+HT1F3+wjXqmW4915oFvP/7r7Eew62njnMlWTQZz
+         2X4PF6Jn+AcSPt9McRcC+9XC9DDO5jRGIGoHk9U2PJ2Tko1G8dLP7EgwJ3+xvzvL0sz+
+         Tf4w==
+X-Forwarded-Encrypted: i=1; AKwUvBx9n/H3RSJniCsLW1h8Q24nZ9p/J9CU7+7shgo42SR2uPK3GrjIDoCynpwOLpFwki5ggE4IAwP488A=@vger.kernel.org
+X-Gm-Message-State: AFuF++lptk7++6PP84Z5ArlBbwXWlNBYs202M2WEcGpKiOOEVE8sAZEl
+	2lE/X1oQ2+9di6SGnG8n9XvMo0oejO3xqBjZ0M1ARTAIii6+cK0bQFHl
+X-Gm-Gg: AYBFou1r6H2VFk6xl3q9KrO4by4JFaZJF5IbFkkCA41pMG1QytfazoX36qT/+7CedNx
+	del6XXG6Lp6yFd6Z0+12BOLyV2WddxNh+5sav9oWre4U0XzbhISpe8TQjqzcX/RXw6+xQv2ywTN
+	/XIODC/bsRyRwITQGa21bJQKsvPzgXHZkcPTQtuwTn5Tdp1fZCEcQHMLtzCa/4HtyT5tmAEVCDJ
+	JiIQfj8uB5Th1m60F+G7OGAOlI7nM3dHoDg7bysPh0yFYVE1QDf6DK03CTT8GaRbROQFU2XpC6f
+	Bqpbr+z5OCGXCH80HUeTGD7eVwxsjJVvbpH7F8XZIj8GShYIEDfYpefbkVKqK6C9ooEDxaaXHBM
+	1gpQv3TKCz7MJ8QuhbU4Ui+Uisx6QA6/W6TB0ukhd741mqz8a/374HLor/QLI4vxBdx0dSqbxbF
+	jPH3mdSN+dtZruoOmtTRx3NnC7nHwhBRp5vAop2cY2G8Di5bhsBKA=
+X-Received: by 2002:a05:690c:e294:b0:862:65f4:c8c2 with SMTP id 00721157ae682-86726879df3mr283417b3.21.1788132143343;
+        Sun, 30 Aug 2026 16:22:23 -0700 (PDT)
 Received: from devobuntu.lan ([2600:6c5c:6b00:316::23])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-85e677606aesm39025937b3.45.2026.08.30.16.22.16
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-85e677606aesm39025937b3.45.2026.08.30.16.22.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2026 16:22:18 -0700 (PDT)
+        Sun, 30 Aug 2026 16:22:22 -0700 (PDT)
 From: Matt Vollrath <tactii@gmail.com>
 To: intel-wired-lan@lists.osuosl.org
 Cc: netdev@vger.kernel.org,
@@ -74,10 +74,11 @@ Cc: netdev@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Matt Vollrath <tactii@gmail.com>
-Subject: [PATCH iwl-next 1/8] e1000e: add jumbo Rx CRC stripping
-Date: Sun, 30 Aug 2026 19:21:39 -0400
-Message-ID: <20260830232146.36948-2-tactii@gmail.com>
+	Matt Vollrath <tactii@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH iwl-next 2/8] e1000e: dump pages for jumbo Rx buffers
+Date: Sun, 30 Aug 2026 19:21:40 -0400
+Message-ID: <20260830232146.36948-3-tactii@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260830232146.36948-1-tactii@gmail.com>
 References: <20260830232146.36948-1-tactii@gmail.com>
@@ -89,59 +90,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When the hardware is configured to not strip the FCS (CrcStripping=0),
-the jumbo Rx path would deliver frames with the FCS still attached.
-Follow the standard path's convention by stripping the FCS at EOP and
-leaving it out of the byte count.
+The jumbo Rx path keeps its data in buffer_info->page rather than the
+skb, which is only a shell. Previously data beyond the end of the skb
+allocation would be dumped. The jumbo path would at best dump useless
+garbage. At worst it would dump arbitrary kernel memory. This OOB read
+is only reachable when page size is >16K and MTU is >1518.
 
-The jumbo path was omitted when the CrcStripping feature was added.
-Since v3.3[1], the jumbo path has only been used where the page size is
-over 16K, which practically rules out LOMs, BMC sideband, and the need
-to leave FCS on frames. The bug is only reachable only by setting
-CrcStripping=0 on a platform with nothing that needs it.
-
-This change prepares for convergence of Rx onto the jumbo path in
-following patches. The set of h/w routed through this path will expand
-to include LOMs.
-
-[1] Commit 79d4e9087a6e ("e1000e: disable Early Receive DMA on ICH LOMs")
+Dump the page instead when it exists. Skip dumping the shell skb left
+behind when a jumbo slot is cleaned.
 
 Signed-off-by: Matt Vollrath <tactii@gmail.com>
-Fixes: eb7c3adb1ca9 ("e1000e: fix IPMI traffic")
+Fixes: f0c5dadff3fb ("e1000e: fix panic while dumping packets on Tx hang with IOMMU")
+Cc: stable@vger.kernel.org
 Assisted-by: Claude:claude-5-fable
 ---
- drivers/net/ethernet/intel/e1000e/netdev.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ drivers/net/ethernet/intel/e1000e/netdev.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/intel/e1000e/netdev.c b/drivers/net/ethernet/intel/e1000e/netdev.c
-index 844f31ab37ad..599600ad695c 100644
+index 599600ad695c..47ff3c6ab451 100644
 --- a/drivers/net/ethernet/intel/e1000e/netdev.c
 +++ b/drivers/net/ethernet/intel/e1000e/netdev.c
-@@ -1631,13 +1631,23 @@ static bool e1000_clean_jumbo_rx_irq(struct e1000_ring *rx_ring, int *work_done,
- 			}
- 		}
+@@ -465,8 +465,23 @@ static void e1000e_dump(struct e1000_adapter *adapter)
+ 					(unsigned long long)buffer_info->dma,
+ 					buffer_info->skb, next_desc);
  
-+		/* strip the Ethernet CRC; it may span fragments */
-+		if (!(adapter->flags2 & FLAG2_CRC_STRIPPING) &&
-+		    !(netdev->features & NETIF_F_RXFCS))
-+			pskb_trim(skb, skb->len - 4);
-+
- 		/* Receive Checksum Offload */
- 		e1000_rx_checksum(adapter, staterr, skb);
- 
- 		e1000_rx_hash(netdev, rx_desc->wb.lower.hi_dword.rss, skb);
- 
--		/* probably a little skewed due to removing CRC */
- 		total_rx_bytes += skb->len;
-+		/* If configured to store CRC, keep the FCS bytes out of the
-+		 * total_rx_bytes counter
-+		 */
-+		if (!(adapter->flags2 & FLAG2_CRC_STRIPPING) &&
-+		    (netdev->features & NETIF_F_RXFCS))
-+			total_rx_bytes -= 4;
- 		total_rx_packets++;
- 
- 		/* eth type trans needs skb->data to point to something */
++				/* Jumbo buffers land in the page; a cleaned
++				 * jumbo slot keeps only its small shell skb
++				 * until it is refilled, so only dump an skb
++				 * that can hold a whole buffer.
++				 */
+ 				if (netif_msg_pktdata(adapter) &&
+-				    buffer_info->skb)
++				    buffer_info->page)
++					print_hex_dump(KERN_INFO, "",
++						       DUMP_PREFIX_ADDRESS, 16,
++						       1,
++						       page_address(buffer_info->page),
++						       adapter->rx_buffer_len,
++						       true);
++				else if (netif_msg_pktdata(adapter) &&
++					 buffer_info->skb &&
++					 skb_tailroom(buffer_info->skb) >=
++					 adapter->rx_buffer_len)
+ 					print_hex_dump(KERN_INFO, "",
+ 						       DUMP_PREFIX_ADDRESS, 16,
+ 						       1,
 -- 
 2.43.0
 
