@@ -1,149 +1,241 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4420521B192;
-	Sun, 30 Aug 2026 18:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788116047; cv=pass; b=VvWbuVjM8i5gMWmITLqrP0KDdTNzh5kq1sb/8crE5Ro0agUUaJKyin91BoSb9FQWAghWTU17gqa8ktaWfdCRjrOHSoyLGvyNaeWeBZgCy5y02WO2//tTBN+2sENsgSaYS6v+Dz8dh16o4sdmaMAizRKas+NA/X91F8v7H944xs8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788116047; c=relaxed/simple;
-	bh=EXAnMJ6xRJh+Me6kD0bTLQJDHBFIcMtq3O0tDNsN/+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m5KZqdU9daKNa+yiia7I2Dz6F/iU26QTHTd9XlIJJFHwa+lsWw/m/4csWgrMMUetzDTzYjTGEw+FTZRwBqgXUIXawDr/052FXc1AX17PU2MMZJX0XGqLRSIw1b9Bk4eW8FuH3oJqtLSGFjBoKaZuvzI3l5RIOnt8zknCz/ZrJmc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ziyao.cc; spf=pass smtp.mailfrom=ziyao.cc; dkim=pass (1024-bit key) header.d=ziyao.cc header.i=me@ziyao.cc header.b=gV+lB/Ic; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ziyao.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziyao.cc
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DD62E7369
+	for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 21:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788123614; cv=none; b=XRJp2y6hE4mM/j12Lod+UbNeJOUgILE3Ii8rZouX7NfQONLsWNaYKhIxXJ1/BKBt6F9EFfgmyKXeFx2gktN5tM9Kb5Fsf7AYsx0dumeBPNMQp+3I1dBsEjejsZnAT1SKF5WKuxSmqAmp6DkPC06LScgHLhz6qGaBJC3Q2uJj6K0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788123614; c=relaxed/simple;
+	bh=dTQd0a3FfgXA6mGn/3Gacd4vgFSrf7Cx7vyrDSL0JaI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q3VQwnmEBh0bZmdbbobunI/9V6gqmX39Sd20LaN1UrmHLUM0VIrkx0UwAiwCf/3ymL4gHFRqSVKKOgclCwaPFUiZ3anBYHAeUXgFP+zzh/4NqRyDhHanTdB5fdc0sn5+9nJEdkj0RBsbhR2ONaG/VBgL8kSP6nSdJCgrPTSQ0rU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JsAkQBVB; arc=none smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ziyao.cc header.i=me@ziyao.cc header.b="gV+lB/Ic"
-ARC-Seal: i=1; a=rsa-sha256; t=1788116008; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=J9pPgTGIWkMZT/3kcW8s3iyH3mjyqeElsf5bAvw8Faod+/zY3tXC+Tu8SjrvaiY/iqb0I5EeACcU2ERDgrPyil2AHWMMEGiT/bpTq6Hhiw1YbDpHuSn+TOlcsZtvMBXkAktzrJN9ZACKEvXrfASlW03X+mVliCZR2/jDCIodjVA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1788116008; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=nVDIHfbzyQ8ElDQ6asi5CRQYO2SYCRhwy8nKszFhgXE=; 
-	b=Nst6fob6AmqcyVng6Ai1+J4+iWEEcX0QzPrIEl6XaAzAYQuzUVqgyHSdbMyEcI+Ur4XJ/BEb808B4Nw+bzF3a54QlBWNJn/SIi/7UATz3Nhsv52e67OUAuS4uChZR/0jZyCXaKe1NlaN+CXzA7q4hu5GtV8Fv6TNj9UIWocgTIU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ziyao.cc;
-	spf=pass  smtp.mailfrom=me@ziyao.cc;
-	dmarc=pass header.from=<me@ziyao.cc>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1788116008;
-	s=zmail; d=ziyao.cc; i=me@ziyao.cc;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=nVDIHfbzyQ8ElDQ6asi5CRQYO2SYCRhwy8nKszFhgXE=;
-	b=gV+lB/IczCLw56DM6o/kKneXdg3VmBKnUY0te+8GoVcCTl9/xpgGrA7bJSjDkbfG
-	wXWkEf0yuUMTIcUwvC6FOmoeEj96fckJ/eQ7RBLTzPoYGB1XycmhySdfVXmixleoryD
-	Tnp7fxEjhHdqedAJ7vgGJ5kKr5JTSXgfv8oXJBEQ=
-Received: by mx.zohomail.com with SMTPS id 1788116003921735.6548742229019;
-	Sun, 30 Aug 2026 11:53:23 -0700 (PDT)
-Date: Sun, 30 Aug 2026 18:53:07 +0000
-From: Yao Zi <me@ziyao.cc>
-To: Weijie Yuan <wy@wyuan.org>, Yao Zi <me@ziyao.cc>
-Cc: Yukai Wu <xiaoyewuz.ruster@gmail.com>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Dongliang Mu <dzm91@hust.edu.cn>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JsAkQBVB"
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-97e9adae64cso138526241.3
+        for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 14:00:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788123611; x=1788728411; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lRAi9/lQJXt/ffKyESe5yze9eqhu+vTZPPaC1V8tycw=;
+        b=JsAkQBVBncf+oeDPP/vq2DXcLjNDzycbcv/ifys69Y5chz2DSZI3HaJFs/0DMy420R
+         Hqksjg5mL8URN9AWV/V4MVH2jFT9X2vbpt03e/xpKSFUqCWlBkYtLX/FCIpblhc7ubAr
+         mmRpomHhXnEuuGW8bovDSjGe2yu/Cg0NfZxBmndDpu1tfVyQqvjHU3vD1UqS/oVUgoec
+         6JCaloVeZZuM06B/eDo+POAr+sFYZAV146KWEmFV4BSwhkbkP+TrDcBBymNOxj05ltrN
+         tRGdGYuEr+/3snQ5jozU0E5kHxHZJ6P7BZrVViTAdzU3yEreCFD7L6Y43VTth1fCCwW8
+         30hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788123611; x=1788728411;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lRAi9/lQJXt/ffKyESe5yze9eqhu+vTZPPaC1V8tycw=;
+        b=sWhdQTOFIopd38joDb4b7/7HWVcAt203eDATrcxNdM7T8W48dtnKJF4icqprCUCzhK
+         mFbAR3xw3kj2nRYfpc/3C0OJL43ZwDSrtXGLlcjtOe2cl9h2ibl4rwUW8Q9dwx98y4HO
+         hIbKhrLcMbW96Ont69e6e1otDZWF2Oo5oe4cuOemOOrSRG6U4DluRceyKLFD208Zvj3u
+         cu6YYernAMYKZ4oQXLtiZb8RKkPN4fTov0wuwvZEOWcDXWmSR5AJ7oE+i02eQJ2Cvh+W
+         qeApzXbuCK+2GZrOiT4M98VxrBjdu3dqycnoev6zDcXNClEIWYjsn91dtQqJCgzTvbY8
+         /xIw==
+X-Gm-Message-State: AFuF++mJO3hSltvWvo8ftNbBizgLLy8KBs5w8UvNlTHHDBMzjDANVNXQ
+	hSpnB/oAQCl+vje+jM6GJGPweKNYp+1+Jd0btLIoFI8sO/jMvVNlua42LODsMTnFcq8=
+X-Gm-Gg: AR+sD129ZX5Lnrzm906/6sQj6g9q/EQJISRCBQb3tSxXu/C70rTYbg7VCezfQU2XFWG
+	+yl/YzsJqaXsxljizZH305gzfcoktFCYu9JglW5LWUHfB2JHudMN8YPOXPCfNwvbFdJ3NziJ6AQ
+	yunJKwv3Xkkvlp6u0wMMOkqunnbZb/8LuUv3xfU8nlx4eutvYZMOgWYaH9bf7G8V7ty2zUEPrvq
+	l4ALSgqcyDzhk61/A9il+x6KkNFHtrHjl83d7p21gPnM5K2V98HnXaOdFcC+rmuiiSpuxgEMmDF
+	Cc5kmUExA/RDVD7yzIt8aTYGNRC6bI/vDlP+UpBZb16Omsulp0W5ly9mSWjkYXNXrZvQYGEqHKN
+	WUi00nlKiGAC0lA7yyxCSYUsVmGrRO2U8xO60nUDmlHOVz4E9UGUjNpSybv37nmuBPGmfHSiqk+
+	b9t7jpEpvEDwT1GmVKnAdyY5+X0pYBCvx4hTNED5wk4FsP2hSkuYy3O5Y6IosFcA==
+X-Received: by 2002:a05:6102:8084:b0:77a:2268:9fdb with SMTP id ada2fe7eead31-7859802053amr6135376137.7.1788123611142;
+        Sun, 30 Aug 2026 14:00:11 -0700 (PDT)
+Received: from fedora ([2804:14c:daa2:8daa:6ae6:9714:ed29:7594])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-785f5a2ce07sm5448468137.6.2026.08.30.14.00.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Aug 2026 14:00:10 -0700 (PDT)
+From: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+To: Daniel Pereira <danielmaraboo@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Alexandre Ghiti <alex@ghiti.fr>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: Update arch/riscv/vm-layout.rst translation
-Message-ID: <apR8CoTs4hj-vqLG@pie>
-References: <20260829041542.256360-1-xiaoyewuz.Ruster@gmail.com>
- <apMPjRICH06wAxPp@pie>
- <apQ-7U-omIeXvZ1N@wyuan.org>
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+Subject: [PATCH] docs: translations: pt_BR: translate volatile-considered-harmful.rst
+Date: Sun, 30 Aug 2026 17:59:12 -0300
+Message-ID: <20260830205912.478358-1-lucasadramalho@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <apQ-7U-omIeXvZ1N@wyuan.org>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.10.1.5.2/288.103.78
-X-ZohoMailClient: External
 
-On Sun, Aug 30, 2026 at 10:32:13PM +0800, Weijie Yuan wrote:
-> On Sat, Aug 29, 2026 at 04:57:49PM +0000, Yao Zi wrote:
-> > On Sat, Aug 29, 2026 at 12:15:10PM +0800, Yukai Wu wrote:
-> > > Update Documentation/arch/riscv/vm-layout.rst translation.
-> > > 
-> > > Update the translation through commit 954260ff5a46
-> > > ("Revert "RISC-V: mm: Document mmap changes"")
-> > > 
-> > > Signed-off-by: Yukai Wu <xiaoyewuz.Ruster@gmail.com>
-> > > ---
-> > >  .../zh_CN/arch/riscv/vm-layout.rst             | 18 +++++++++---------
-> > >  1 file changed, 9 insertions(+), 9 deletions(-)
-> > > 
-> > > diff --git a/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst b/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
-> > > index 4b9f4dcf6c19..0d0ec8ea5d05 100644
-> > > --- a/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
-> > > +++ b/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
-> > > @@ -15,7 +15,7 @@ RISC-V Linux上的虚拟内存布局
-> > >  :作者: Alexandre Ghiti <alex@ghiti.fr>
-> > >  :日期: 12 February 2021
-> > >  
-> > > -这份文件描述了RISC-V Linux内核使用的虚拟内存布局。
-> > > +这份文件描述了 RISC-V Linux 内核使用的虚拟内存布局。
-> > >  
-> > >  32位 RISC-V Linux 内核
-> > >  ======================
-> > > @@ -28,9 +28,9 @@ TODO
-> > >  64位 RISC-V Linux 内核
-> > >  ======================
-> > >  
-> > > -RISC-V特权架构文档指出，64位地址 "必须使第63-48位值都等于第47位，否则将发生缺页异常。"：这将虚
-> > > -拟地址空间分成两半，中间有一个非常大的洞，下半部分是用户空间所在的地方，上半部分是RISC-V Linux
-> > > -内核所在的地方。
-> > > +RISC-V 特权架构文档指出，64 位地址“必须使第 63-48 位值都等于第 47 位，否则将发生缺页异常。”：
-> > > +这将虚拟地址空间分成两半，中间有一个非常大的洞，下半部分是用户空间所在的地方，上半部分是 RISC-V
-> > > +Linux 内核所在的地方。
-> > 
-> > I think changes above are purely style improvements? If so please
-> > mention it in the commit message, instead of specifying it's "updating"
-> > only.
-> 
-> Agreed. To put it further, I think the commit message template we
-> provided in how-to.rst [1] is somewhat like telling contributors: That's
-> all you need to do.
+Translate volatile-considered-harmful.rst into Brazilian Portuguese and
+add it to the pt_BR process documentation index.
 
-Oops, I don't even realize it's part of our existing contributing
-guide...
+Assisted-by: ChatGPT:GPT-5.5
+Signed-off-by: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+---
+ .../translations/pt_BR/process/index.rst      |   1 +
+ .../process/volatile-considered-harmful.rst   | 130 ++++++++++++++++++
+ 2 files changed, 131 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/volatile-considered-harmful.rst
 
-> Of course, in some cases, the patch is quite simple and there is nothing
-> else to elaborate on. However, in some cases, such as when making
-> extensive changes and updates, we should encourage contributors to write
-> down some relevant information for future reference.
-> 
-> Similarly, just like this patch, the author did more than just update;
-> he also carried out other actions, but failed to include the relevant
-> details in the commit message. So I feel that perhaps our template might
-> have somewhat restricted our writing? (to some extent)
+diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
+index eda2a3fc5..d72483720 100644
+--- a/Documentation/translations/pt_BR/process/index.rst
++++ b/Documentation/translations/pt_BR/process/index.rst
+@@ -42,6 +42,7 @@ devem estar familiarizados.
+    Como aplicar patches <applying-patches>
+    Backporting e resolução de conflitos <backporting>
+    Adicionando uma nova chamada de Sistema <adding-syscalls>
++   Por que a classe de tipo "volatile" não deve ser usada <volatile-considered-harmful>
+    Como não Deixar as ioctls malfeitas <botching-up-ioctls>
+ 
+ Guias de políticas e declarações de desenvolvedores
+diff --git a/Documentation/translations/pt_BR/process/volatile-considered-harmful.rst b/Documentation/translations/pt_BR/process/volatile-considered-harmful.rst
+new file mode 100644
+index 000000000..b8774c0ba
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/volatile-considered-harmful.rst
+@@ -0,0 +1,130 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Por que a classe de tipo "volatile" não deve ser usada
++--------------------------------------------------------
++
++Programadores C frequentemente interpretam volatile como uma indicação de
++que uma variável pode ser alterada fora da thread de execução atual; como
++resultado, às vezes são tentados a usá-la no código do kernel quando
++estruturas de dados compartilhadas estão sendo utilizadas. Em outras
++palavras, há quem trate tipos volatile como uma espécie de variável
++atômica simplificada, mas não são. O uso de volatile no código do
++kernel quase nunca é correto; este documento explica o porquê.
++
++O ponto-chave a entender sobre volatile é que seu propósito é suprimir
++otimizações, o que quase nunca é o que realmente se deseja fazer. No kernel,
++é necessário proteger estruturas de dados compartilhadas contra acessos
++concorrentes indesejados, o que é uma tarefa bastante diferente. O processo
++de proteção contra concorrência indesejada também evita, de forma mais
++eficiente, quase todos os problemas relacionados a otimizações.
++
++Assim como volatile, as primitivas do kernel que tornam seguro o acesso
++concorrente a dados (spinlocks, mutexes, barreiras de memória etc.) são
++projetadas para evitar otimizações indesejadas. Se forem usadas
++corretamente, também não haverá necessidade de usar volatile. Se
++volatile ainda for necessário, quase certamente há algum bug no código.
++Em código de kernel corretamente escrito, volatile só serve para deixar
++as coisas mais lentas.
++
++Considere um bloco típico de código do kernel::
++
++    spin_lock(&the_lock);
++    do_something_on(&shared_data);
++    do_something_else_with(&shared_data);
++    spin_unlock(&the_lock);
++
++Se todo o código seguir as regras de bloqueio, o valor de shared_data não
++poderá mudar inesperadamente enquanto the_lock estiver mantido. Qualquer
++outro código que queira manipular esses dados estará aguardando o bloqueio.
++As primitivas de spinlock atuam como barreiras de memória (são escritas
++explicitamente para isso), o que significa que os acessos aos dados não
++serão otimizados de forma a atravessar essas barreiras. Assim, o compilador
++até pode achar que sabe qual será o valor de shared_data, mas a chamada a
++spin_lock(), por atuar como barreira de memória, o forçará a esquecer tudo
++o que sabia. Não haverá problemas de otimização nos acessos a esses dados.
++
++Se shared_data fosse declarada volatile, o bloqueio ainda seria
++necessário. No entanto, o compilador também seria impedido de otimizar o
++acesso a shared_data _dentro_ da seção crítica, justamente quando sabemos
++que ninguém mais pode estar manipulando esses dados. Enquanto o bloqueio
++estiver mantido, shared_data não é volatile. Ao lidar com dados
++compartilhados, um bloqueio adequado torna volatile desnecessário e
++potencialmente prejudicial.
++
++A classe de armazenamento volatile foi originalmente concebida para
++registradores de E/S mapeados em memória. No kernel, os acessos a esses
++registradores também devem ser protegidos por bloqueios, mas também não se
++deseja que o compilador "otimize" esses acessos dentro de uma seção crítica.
++Contudo, no kernel, os acessos à memória de E/S são sempre feitos por meio de
++funções de acesso; acessar diretamente a memória de E/S via ponteiros é
++desencorajado e não funciona em todas as arquiteturas. Essas funções de
++acesso são implementadas de modo a impedir otimizações indesejadas e,
++portanto, mais uma vez, volatile é desnecessário.
++
++Outra situação em que se pode ser tentado a usar volatile é quando o
++processador fica em espera ocupada pelo valor de uma variável. A forma
++correta de realizar essa espera ocupada é::
++
++    while (my_variable != what_i_want)
++        cpu_relax();
++
++A chamada a cpu_relax() pode reduzir o consumo de energia da CPU ou ceder
++recursos a um processador lógico gêmeo hyperthreaded; ela também atua
++como barreira para o compilador e, portanto, mais uma vez, volatile é
++desnecessário. Naturalmente, a espera ocupada já é, por si só, uma prática
++geralmente antissocial.
++
++Ainda existem algumas situações raras em que volatile faz sentido no
++kernel:
++
++  - As funções de acesso mencionadas acima podem usar volatile em
++    arquiteturas nas quais o acesso direto à memória de E/S funciona.
++    Essencialmente, cada chamada a uma função de acesso torna-se uma
++    pequena seção crítica por si só e garante que o acesso ocorra conforme
++    esperado pelo programador.
++  - Código assembly inline que modifica memória, mas não tem outros
++    efeitos colaterais visíveis, corre o risco de ser removido pelo GCC.
++    Adicionar a palavra-chave volatile às instruções asm impede essa
++    remoção.
++  - A variável jiffies é especial, pois pode ter um valor diferente a cada
++    vez que é referenciada, mas pode ser lida sem qualquer bloqueio
++    especial. Portanto, jiffies pode ser volatile, mas a adição de
++    outras variáveis desse tipo é fortemente desencorajada. Nesse
++    sentido, jiffies é considerada um problema de "legado idiota" (nas
++    palavras de Linus); corrigi-la daria mais trabalho do que valeria a
++    pena.
++  - Ponteiros para estruturas de dados em memória coerente que possam ser
++    modificadas por dispositivos de E/S podem, às vezes, ser
++    legitimamente volatile. Um buffer circular usado por um adaptador
++    de rede, no qual esse adaptador altera ponteiros para indicar quais
++    descritores já foram processados, é um exemplo desse tipo de
++    situação.
++
++Na maior parte do código, nenhuma das justificativas acima para o uso de
++volatile se aplica. Como resultado, o uso de volatile provavelmente
++será considerado um bug e fará com que o código seja submetido a uma análise
++mais rigorosa. Desenvolvedores que se sintam tentados a usar volatile devem
++dar um passo atrás e pensar no que realmente estão tentando alcançar.
++
++Patches para remover variáveis volatile são, em geral, bem-vindos, desde
++que venham acompanhados de uma justificativa que demonstre que as questões
++de concorrência foram devidamente analisadas.
++
++
++Referências
++===========
++
++[1] https://lwn.net/Articles/233481/
++
++[2] https://lwn.net/Articles/233482/
++
++Créditos
++========
++
++Motivação original e pesquisa por Randy Dunlap
++
++Escrito por Jonathan Corbet
++
++Melhorias a partir de comentários de Satyam Sharma, Johannes Stezenbach,
++Jesper Juhl, Heikki Orsila, H. Peter Anvin, Philipp Hahn e Stefan
++Richter.
+-- 
+2.55.0
 
-Agree.
-
-> Sure, the requirements for commit messages in the Chinese documentation
-> are certainly not as strict as those for the more core subsystems.
-> However, I do think it's fine to appropriately explicitly encourage
-> contributors to include more meaningful relevant information in the
-> commit messages.
-> 
-> Any ideas for this, or any objections? ;)
-
-I think it's worth pointing out that the template commit message is for
-reference only in how-to.rst, and guiding readers to
-submitting-patches.rst so at least newcomers have a brief understanding
-of the process and requirements.
-
-Now how-to.rst refers process/index.rst, but this index seems to contain
-too much for anyone unfamiliar with the process to read through.
-
-> Thanks!
-> 
-> [1] https://docs.kernel.org/translations/zh_CN/how-to.html#id13
-
-Regards,
-Yao Zi
