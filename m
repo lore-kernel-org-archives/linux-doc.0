@@ -1,182 +1,105 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-2.mta0.migadu.com [91.218.175.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4FE42FCA9;
-	Sat, 29 Aug 2026 23:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2A32D781B
+	for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 01:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788047105; cv=none; b=RmKxu7oO20gw314oMAJqOWI4N/1ndYG8ov5unU0s/bzdFs4NEpODFUuSab0OXxatT9xpSKdrcZX8PIGtA4oSdpseXugC9LKs/ujZw/QenmK3xCS4sbJO7rCLKxiWaQhs000azrLm3oju7LwuFK/HCngvzzTW/uazwDWRfd7gsh0=
+	t=1788052823; cv=none; b=ude0hK0n0ZmvAfJfnJNXDLX4w3ca68qZrZx8r10M1GOTlGawpk3iUF7zzh2uts79/GJkOCfwxP6nIY7s82jFNdROSYErb7IBRuULeyW1UTCmdj0UeZp+0aaPTGH1N3dwj4lNbkYkXC9/r+sb+/PKviE1FZSwfpfZBgKrO5uJylE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788047105; c=relaxed/simple;
-	bh=rdoMO2J7sReJcPLf7gk+06zdhteWzAvHiPOA4c4Wibk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DnDe6duuyck2e/jgA7bLXdZDpg5TAdrH66KdsQc7Cm5To6YWBv0kLYhXd0OwNi1tWFsi6ABhKOwQZv+kxLI8b4oFLxvRaWsUThDDfqnvWlUs7Ge8sJ1xr+QGjJFO3m4u2bAGcsyhWKsLi7aQRzfYONKZFFo5J5kX5Lfbn6+nFFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QsvW1XO3; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788052823; c=relaxed/simple;
+	bh=gpQGpG7qEtQyNJlJklh36DqnhFW2herm9oLTciFJX0g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NBFrobFHRvpu6HuFqASxd3ggh6a70gORA13l/nu3o6kcrP2XxgUaVVWhN+iv9tlT4CNFHAUEyhXJ9olrwQ8g1ugJraMmAvnK+K8cgYfvHNUEZjiUbB5po5xkTiehxuC+Gkyk8XqBoWp+vb5W3fiUlvgjgGBn52f/+M9CQvGpgDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xkmOlk1M; arc=none smtp.client-ip=91.218.175.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QsvW1XO3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=OKS0Pu27mknuDXj9ShVejMvGoXjwFrIKZvfnem0sSBA=; b=QsvW1XO3RdmIswlnTB5YpRQrdT
-	F1AiXQg1wGbGkRudhfEsbvItCyxb5nyxGIF0J+FwP61hoT+M/a4A5ppIxlX0TAl1xXpidba3NUiBU
-	NTcJEC3l2R+VJfayvxUfSImJWoz4WKnMyiM4iN6P5+gbUVHlGYkJIXhltYqqD89DU9+0v9ptro+Kz
-	ml2mSGGESBaRulDwo3L9/PxgUKmks+P3LyxrUOP2uR9VIHdO8zzRi3bdTfESX2S+83qfizTBgvI5M
-	QsKVFobIXXWT7+u7Zfb2ZVksY/hAo97iBKAxcqd0sCEIyF8TaK5wWtw9jKrU7sohO72TFeoZWPnbP
-	DsRIGtbg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x0SjC-00000007Nt0-1i3R;
-	Sat, 29 Aug 2026 23:44:50 +0000
-Message-ID: <0475c09c-e165-41a5-b654-5c6aefeaab0b@infradead.org>
-Date: Sat, 29 Aug 2026 16:44:49 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xkmOlk1M"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=gpQGpG7qEtQyNJlJklh36DqnhFW2herm9oLTciFJX0g=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788052820; v=1; x=1788657620;
+ b=xkmOlk1MQLhCM8TPtva73QOWDgyb+zQn4/B6jup0fXDlkQjMfuxi/L8O5FGSRhkP96puNkbE
+ BM16uCH9O5HffoZb8iucncWlOpMlXVaDw7VaVmxN49el48QjWal+SBmvqiev3aWM8yBR4ftIx+n
+ gVy7M/ASpC7anKchYPeTkBlk=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 5543b2e961126628;
+	Sun, 30 Aug 2026 01:20:10 +0000
+X-Mizu-Trace-ID: 5543b2e961126628
+X-Migadu-Flow: FLOW_OUT
+From: Md Haris Iqbal <haris.iqbal@linux.dev>
+To: Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Md Haris Iqbal <haris.iqbal@linux.dev>
+Subject: [v2 for-next 0/3] block: delay support for error injection
+Date: Sun, 30 Aug 2026 03:19:59 +0200
+Message-ID: <20260830012002.80275-1-haris.iqbal@linux.dev>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: verify/bisect: fix typos
-To: Manuel Ebner <manuelebnerli@mailbox.org>,
- Thorsten Leemhuis <linux@leemhuis.info>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260829055501.581856-2-manuelebnerli@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260829055501.581856-2-manuelebnerli@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Error injection can only fail a bio today.  This adds a delay_us option so
+that a rule can hold a bio back first, to model a slow device.
 
+The delay happens above the driver, so it is invisible to the I/O
+statistics and never reaches the blk-mq timeout handler or SCSI error
+handling.  What it does exercise is the code waiting above the block
+layer: io_uring cancellation, hung task detection, and filesystem or
+userspace timeouts.
 
-On 8/28/26 10:55 PM, Manuel Ebner wrote:
-> 'your' -> 'you' twice.
-> 'kernel kernel' -> 'kernel'
-> 'hay attention' -> 'pay attention'
-> 'as disabling then will reduce the consumed disk space'
->               vvvv
-> 'as disabling them will reduce the consumed disk space'
-> 'You for example might' -> 'For example you might'
-> 'that create or modify' -> 'that creates or modifies'
-> 'and not from a one that' -> 'and not from one that'
-> 
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> ---
-> I could't figure out what the "'" is for, they do show up in the .html.
-> Would this be a sane change?
+Two things are worth a look.  A delayed bio is marked with a new
+BIO_ERROR_INJECTED bio flag, so the rules are not applied to it again and
+it can never pick up a status from another rule.  Resubmitting it below the
+injection hook is not enough on its own, because a bio is split below the
+hook and the remainder is resubmitted above it.  And holding a bio back
+reorders it against bios submitted later, which breaks sequential write
+ordering on zoned devices.  Both are documented in patch 3.
 
-I have no idea about the "'" marks. Dropping them LGTM ... and works
-in the html.
+Patch 1 is a prep cleanup.  It moves the rejection of an unknown status
+tag into the parser, because patch 2 makes a rule without a status valid.
 
-> @ -1186,4 +1186,4 @@ safe side, so often you will need less.
->  If you have space constraints, be sure to pay attention to the :ref:`step about
-> -debug symbols' <debugsymbols_bissbs>` and its :ref:`accompanying reference
-> -section' <debugsymbols_bisref>`, as disabling them will reduce the consumed disk
-> +debug symbols <debugsymbols_bissbs>` and its :ref:`accompanying reference
-> +section <debugsymbols_bisref>`, as disabling them will reduce the consumed disk
->  space by quite a few gigabytes.
-> ---
->  .../verify-bugs-and-bisect-regressions.rst    | 20 +++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-> index 7d38393f31f..43e15b16894 100644
-> --- a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-> +++ b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-> @@ -163,7 +163,7 @@ will be considered the 'good' release and used to prepare the .config file.
->       section 'Complementary tasks: cleanup during and after the process'
->       below.
->  
-> -  d) Once your finished the bisection, put a few things away::
-> +  d) Once you finished the bisection, put a few things away::
+v1: https://lore.kernel.org/linux-block/20260827000115.128093-1-haris.iqbal@linux.dev/
 
-I prefer:
-     d) Once you have finished the bisection, put a few things away::
-or maybe
-     d) Once you're finished with the bisection, put a few things away::
+Changes since v1:
 
+ - Add the BIO_ERROR_INJECTED bio flag.  v1 only resubmitted a delayed bio
+   below the injection hook, which left the remainder of a split going
+   through the hook and matching the same rule again, so a bio was held
+   once per split instead of once.
 
->  
->         cd ~/linux/
->         git bisect log > ~/bisect-log
-> @@ -178,8 +178,8 @@ will be considered the 'good' release and used to prepare the .config file.
->         ./scripts/config --set-str CONFIG_LOCALVERSION '-local-cafec0cacaca0-reverted'
->  
->      This is optional, as some commits are impossible to revert. But if the
-> -    second command worked flawlessly, build, install, and boot one more kernel
-> -    kernel; just this time skip the first command copying the base .config file
-> +    second command worked flawlessly, build, install, and boot one more kernel;
-> +    just this time skip the first command copying the base .config file
->      over, as that already has been taken care off.
->  
->  * **Complementary tasks**: cleanup during and after the process.
-> @@ -232,7 +232,7 @@ set to report the bug -- unless it did not happen with earlier kernel versions,
->  as then your want to at least continue with *segment 2* to **check if the issue
->  qualifies as regression** which receive priority treatment. Depending on the
->  outcome you then are ready to report a bug or submit a preliminary regression
-> -report; instead of the latter your could also head straight on and follow
-> +report; instead of the latter you could also head straight on and follow
->  *segment 3* to **perform a bisection** for a full-fledged regression report
->  developers are obliged to act upon.
->  
-> @@ -1183,9 +1183,9 @@ Space requirements
->  The numbers mentioned are rough estimates with a big extra charge to be on the
->  safe side, so often you will need less.
->  
-> -If you have space constraints, be sure to hay attention to the :ref:`step about
-> +If you have space constraints, be sure to pay attention to the :ref:`step about
->  debug symbols' <debugsymbols_bissbs>` and its :ref:`accompanying reference
-> -section' <debugsymbols_bisref>`, as disabling then will reduce the consumed disk
-> +section' <debugsymbols_bisref>`, as disabling them will reduce the consumed disk
->  space by quite a few gigabytes.
->  
->  [:ref:`back to step-by-step guide <diskspace_bissbs>`]
-> @@ -1254,8 +1254,8 @@ distributions:
->        kernel-install-tools libelf-devel make modutils openssl openssl-devel \
->        perl-base zlib-devel rpm-build ncurses-devel qt6-base-devel
->  
-> -These commands install a few packages that are often, but not always needed. You
-> -for example might want to skip installing the development headers for ncurses,
-> +These commands install a few packages that are often, but not always needed. For
-> +example you might want to skip installing the development headers for ncurses,
->  which you will only need in case you later might want to adjust the kernel build
->  configuration using make the targets 'menuconfig' or 'nconfig'; likewise omit
->  the headers of Qt6 if you do not plan to adjust the .config using 'xconfig'.
-> @@ -1365,7 +1365,7 @@ Start defining the build configuration for your kernel
->    *Start preparing a kernel build configuration (the '.config' file).*
->    [:ref:`... <oldconfig_bissbs>`]
->  
-> -*Note, this is the first of multiple steps in this guide that create or modify
-> +*Note, this is the first of multiple steps in this guide that creates or modifies
+ - Patch 1: tag_to_blk_status() returns an error and passes the status back
+   through a pointer, instead of returning BLK_STS_OK for both the "OK" tag
+   and an unknown one.  A delay-only rule has no status, so the two have to
+   be told apart.
 
-So you are saying that the "that" clause refers to "first" and that the
-verbs should be singular to match "first"?
-It has been ages since I diagrammed a sentence. :)
-Could the "that" clause be referring to "multiple steps" instead of "first"?
+ - Documentation: a delayed bio is held once rather than once per split.
 
-https://www.writecream.com/sentence-diagram-generator/ says that "that" refers
-to "steps" so the verbs would be of the plural variety. IDK. [Refer to "ages" above.]
+Tested in a VM.
 
+Md Haris Iqbal (3):
+  block: reject unknown status tags in error injection rules
+  block: allow error injection rules to delay bios
+  Documentation: block: document error injection delays
 
->  build artifacts. The commands used in this guide store them right in the source
->  tree to keep things simple. In case you prefer storing the build artifacts
->  separately, create a directory like '~/linux-builddir/' and add the parameter
-> @@ -1407,7 +1407,7 @@ Occasionally odd things happen when trying to use a config file prepared for one
->  kernel (say 6.1) on an older mainline release -- especially if it is much older
->  (say 5.15). That's one of the reasons why the previous step in the guide told
->  you to boot the kernel where everything works. If you manually add a .config
-> -file you thus want to ensure it's from the working kernel and not from a one
-> +file you thus want to ensure it's from the working kernel and not from one
->  that shows the regression.
->  
->  In case you want to build kernels for another machine, locate its kernel build
+ Documentation/block/error-injection.rst |  58 ++++++++-
+ block/blk-core.c                        |  27 ++--
+ block/blk.h                             |   3 +-
+ block/error-injection.c                 | 165 +++++++++++++++++++++---
+ block/error-injection.h                 |   1 +
+ include/linux/blk_types.h               |   1 +
+ 6 files changed, 222 insertions(+), 33 deletions(-)
 
-All of the other changes LGTM.
-Thanks.
 -- 
-~Randy
+2.53.0
 
