@@ -1,115 +1,113 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1782EBB8D;
-	Sun, 30 Aug 2026 11:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1103B27D5;
+	Sun, 30 Aug 2026 12:32:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788088401; cv=none; b=Cc5pxHY5pZT00qfSlU8OH3dkBhUVPj+IUAtVubNemgPilPD1nMhDL5MvVlIBiZG/pMMdYHIpjcUQ34l3V7O7u/ILtcc0z0OQ607QTZJW1G7B3iRskHKXLV2TMBokLlkwEfQPsEPc/q2KSEqFTKA/fv7v0XddOrQASDLKbe1AGhQ=
+	t=1788093130; cv=none; b=i0MmA+1uKsCkGl5UWvZGvFMDCnPSomuSCnbW1QrM7DwpvKsexMwox9aabRdcjzGC9HyR/3XZ3QZjIJFXKdMFJwf0759s/y7dRP1Qx6e1KKEbLD2FSu3n5WIE1dOor73kmupd2wrDR1XA9UcLfV8GoZebP+pbV9uqf95eFLCVMXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788088401; c=relaxed/simple;
-	bh=9jtPWnys6WyDppmzeqDb8MHIOUwYRHyGTfX1Jvgk14k=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=nPZF55ha33V14pH/mEwbrtJDWIcCEwrjjQwtf/wW3PEAJCKqQQrEZ24wXIpVithrBEQgZxCvs1Xa06lugRa5tdEWV6xWGHMSBHw6xeDPO30Xu9E8bM/CaiJV0PG3VVHlNgzjVMmx8JmyKCEbondMKS6zDus1S0UCKdMsacohL4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4hXqH03VYzz4x6DG;
-	Sun, 30 Aug 2026 19:13:00 +0800 (CST)
-Received: from xaxapp04.zte.com.cn ([10.99.98.157])
-	by mse-fl1.zte.com.cn with SMTP id 67UBCteX004137;
-	Sun, 30 Aug 2026 19:12:55 +0800 (+08)
-	(envelope-from hu.shengming@zte.com.cn)
-Received: from mapi (xaxapp05[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Sun, 30 Aug 2026 19:12:58 +0800 (CST)
-X-Zmail-TransId: 2afc6a94103a9c6-d4a4b
-X-Mailer: Zmail v1.0
-Message-ID: <20260830191258354QN6qx13iCRbQd2Uj3Ve2s@zte.com.cn>
-In-Reply-To: <20260830190743637MhXoixrAPc1rfm-G8eIcg@zte.com.cn>
-References: 20260830190743637MhXoixrAPc1rfm-G8eIcg@zte.com.cn
-Date: Sun, 30 Aug 2026 19:12:58 +0800 (CST)
+	s=arc-20240116; t=1788093130; c=relaxed/simple;
+	bh=9X8cSbd2RK5O+XQYVHGEEKoG3nnAz/8Dc6No6o4JIms=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=A7qahNbjLRBmS0NVLor3WJVNiaJUaDb7rOVCt4h6nuhoMyA2+sOkdqjacQe5CiE5hTt35fEIk6n7eNP9+5+7v5doo9MKs9KuONEwsFEXLmMoL98BDl4qRRvX+qtx1x/bXVMVAm/ixEGuwqpdSK1BoKKQi76KRLkgeuY/qFTdm+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c5l1n6Hv; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c5l1n6Hv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C8EC1F00A3D;
+	Sun, 30 Aug 2026 12:32:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788093129;
+	bh=RJCuZGSUvPJzHcbaWQPIPczOFaB/IqmH+bcUMXp3qcw=;
+	h=From:To:Cc:Subject:Date;
+	b=c5l1n6HvFsKAm+es+LT/Sp0OuF+wMkeLphXmtcLdrKuGD9n4eCwwg/CCFrnk2CiC7
+	 +UX4roDbEf413wvhu/6pdxWB0+jbqYafwQXHBmO0iQ+jACzCVIPUgaJIo9r7IbHN3x
+	 VCQsrZdbbO44MuehW6kVIN1jIryskahixHBVBqNyeObDcluElWrnnT76qeuhLyt5Tp
+	 yoqnG2IDIDYQzX8qjP4XXg23egbHg7q1+UBq6Q34lfHy3PmuzRtjxi+cbqa/8S7qvk
+	 lS1isaZXlpSxS24V5JO4bs4IkwvtS7CxWfFLOlyYxWN9m/aC5t6H9Ee9JWliAqySst
+	 k1r1XqEzE2BWw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+	Leon Romanovsky <leon@kernel.org>
+Cc: linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] PCI/P2PDMA: Update DMABUF lifecycle docs after move_notify() rename
+Date: Sun, 30 Aug 2026 15:31:49 +0300
+Message-ID: <20260830-doc-p2p-move-v1-1-61a388620588@nvidia.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <hu.shengming@zte.com.cn>
-To: <hu.shengming@zte.com.cn>
-Cc: <rostedt@goodmis.org>, <mhiramat@kernel.org>,
-        <mathieu.desnoyers@efficios.com>, <mark.rutland@arm.com>,
-        <corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <ran.xiaokai@zte.com.cn>,
-        <xu.xin16@zte.com.cn>, <zhang.run@zte.com.cn>
-Subject: =?UTF-8?B?W1JGQyBQQVRDSCA0LzRdIERvY3VtZW50YXRpb24vZnRyYWNlOiBEb2N1bWVudCBmdW5jdGlvbiBjb21tIGZpbHRlcnM=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 67UBCteX004137
-X-TLS: YES
-X-ENVELOPE-SENDER: hu.shengming@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Sun, 30 Aug 2026 19:13:00 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A94103C.001/4hXqH03VYzz4x6DG
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20260830-doc-p2p-move-05aad5de1ec1
+X-Mailer: b4 0.15-dev-18f8f
+Content-Transfer-Encoding: quoted-printable
 
-From: Shengming Hu <hu.shengming@zte.com.cn>
-
-Document set_ftrace_comm and set_ftrace_notrace_comm, including their
-write and O_TRUNC behavior, accepted comm names, interaction with PID
-filters, and when a task is rechecked after its comm changes.
-
-Signed-off-by: Shengming Hu <hu.shengming@zte.com.cn>
----
- Documentation/trace/ftrace.rst | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index 7261f25f8b4b..a96fc436ec16 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -313,6 +313,37 @@ of ftrace. Here is a list of some of the key files:
-         If a PID is in both this file and "set_ftrace_pid", then this
-         file takes precedence, and the thread will not be traced.
-
-+  set_ftrace_comm:
-+
-+	Have the function and function_graph tracers trace only threads whose
-+	task comm is listed in this file. Names are matched exactly and must
-+	contain between 1 and TASK_COMM_LEN - 1 bytes.
-+
-+	Each write adds one name. A single trailing newline is ignored, while
-+	embedded newlines are rejected. A zero-length write or a write containing
-+	only a newline adds no entry. Duplicate entries have no effect.
-+
-+	Opening the file with O_TRUNC clears the filter. Otherwise, writes add
-+	names to the existing filter. From a shell, use >> to add a name without
-+	clearing the filter. Reading an empty filter prints `no comm`.
-+
-+	If both set_ftrace_pid and set_ftrace_comm contain entries, a thread must
-+	match both filters to be traced.
-+
-+  set_ftrace_notrace_comm:
-+
-+	Have the function and function_graph tracers ignore threads whose task
-+	comm is listed in this file. Matching and file operations have the same
-+	semantics as set_ftrace_comm.
-+
-+	A match in either set_ftrace_notrace_pid or set_ftrace_notrace_comm
-+	excludes the thread and takes precedence over all include filters.
-+
-+	Function-tracer task filters are evaluated when a task is scheduled in,
-+	and the result is cached per CPU. Changing a filter refreshes the result
-+	for currently running tasks. If a running task changes its comm, it is
-+	rechecked the next time it is scheduled in.
-+
-   set_event_pid:
-
- 	Have the events only trace a task with a PID listed in this file.
--- 
-2.25.1
+From: Leon Romanovsky <leonro@nvidia.com>=0D
+=0D
+Commit 95308225e5ba ("dma-buf: Rename dma_buf_move_notify() to=0D
+dma_buf_invalidate_mappings()") left the DMABUF section of the P2PDMA=0D
+documentation pointing at move_notify(), a symbol that no longer=0D
+exists. Readers grepping for it find nothing, and this is the only=0D
+place in Documentation/ describing the revocation requirement.=0D
+=0D
+Name the current function and record that importers which cannot unmap=0D
+within bounded time have to be rejected at attach time, which is what=0D
+makes the synchronous unmap on remove() achievable.=0D
+=0D
+Fixes: 95308225e5ba ("dma-buf: Rename dma_buf_move_notify() to dma_buf_inva=
+lidate_mappings()")=0D
+Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>=0D
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>=0D
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>=0D
+---=0D
+ * Split from https://lore.kernel.org/all/20260825-document-dma-buf-v1-0-5e=
+cfb3e1371c@nvidia.com=0D
+---=0D
+ Documentation/driver-api/pci/p2pdma.rst | 6 ++++--=0D
+ 1 file changed, 4 insertions(+), 2 deletions(-)=0D
+=0D
+diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver=
+-api/pci/p2pdma.rst=0D
+index d3f406cca694..63cff9e4d2c9 100644=0D
+--- a/Documentation/driver-api/pci/p2pdma.rst=0D
++++ b/Documentation/driver-api/pci/p2pdma.rst=0D
+@@ -167,9 +167,11 @@ In this case the initiator and target pci_devices are =
+known and the P2P subsyste=0D
+ is used to determine the mapping type. The phys_addr_t-based DMA API is us=
+ed to=0D
+ establish the dma_addr_t.=0D
+ =0D
+-Lifecycle is controlled by DMABUF move_notify(). When the exporting driver=
+ wants=0D
++Lifecycle is controlled by DMABUF revocation. When the exporting driver wa=
+nts=0D
+ to remove() it must deliver an invalidation shutdown to all DMABUF importi=
+ng=0D
+-drivers through move_notify() and synchronously DMA unmap all the MMIO.=0D
++drivers through dma_buf_invalidate_mappings() and synchronously DMA unmap =
+all=0D
++the MMIO. Importers unable to complete that unmap within bounded time have=
+ to=0D
++be rejected when they attach, which dma_buf_attach_revocable() checks for.=
+=0D
+ =0D
+ No importing driver can continue to have a DMA map to the MMIO after the=0D
+ exporting driver has destroyed its p2p_provider.=0D
+=0D
+---=0D
+base-commit: 08dbfad3f5040f5bdb6c529da20d6d4e81fefd72=0D
+change-id: 20260830-doc-p2p-move-05aad5de1ec1=0D
+=0D
+Best regards,=0D
+--  =0D
+Leon Romanovsky <leonro@nvidia.com>=0D
+=0D
