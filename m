@@ -1,119 +1,134 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E792690EC;
-	Sun, 30 Aug 2026 15:27:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55A73BBFAD
+	for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 16:12:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788103667; cv=none; b=ZvgOmNKgwjQHSeck/OLN0a7s3TIwKcRQJtBjux69+woKFOLyif/oyi86YsKGGDEC5LvX8QKSoy+Ehlrq1Q3wfUNtRk3mRMM/7xPMRIxvHwqxNlCeD2RVGsN6dKSpNGcyT7xtT8u469F45kTaNubwr62eICBfN2oWZdIa08xnHwI=
+	t=1788106345; cv=none; b=SCoOUUXdzSvmeLU/CIsCQ6t3CcIRkQKPfGw4XCDNDi0Pt7wlYSh8hUqHZ1FzOoe1RVOX4IIgiQQ/20ijhlzX65aaA7dE8j40kKY2jhH9oKBU937cvz3FPhiA0k2TWBFB6nDArOPTvZQ0MBd9rQ1I1tUi1xAAbD9Sxm2umVvwD20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788103667; c=relaxed/simple;
-	bh=I7Ge3OAJGK9JQhfcKD1K/P9hN6xI8VC1tbOgPs0s1zI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nFHxMlX4Pgwdty8Yw0iZiy7jcw1dGwgTvfpnwII4iqPdUgVtEqDvQW7oCJMXJRNq2yWYUQBvXJbXcgffzBNuaSZGW9d6pFwRNsOy/1JApxoWthQhfZ8qUytqx/hD7VceLbc+NEt2rjl5sRIG4FLJS41MY7QKe5Lf+rrMegfeqWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AM7Wjfkr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788106345; c=relaxed/simple;
+	bh=WGRxDjHlxjsHKcmgOxoFBp9g25CsZcUl9EK5P24iTbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nu8CCQkKmwqtnTPZZGoqFkhXCtkFqi8OazlhY0/MJwC2qcB1Fzz5vKirXDN6M/Pl2Uvj81GoheOcA9ahSfl2vY2Ah1StdTR0D6LjYQPTDE8YuEQo/cHP1OcaE6YN8voIvv6+0+tLcZP3ZP1dnjpWwaYLeymkpfisulnupuKPUQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YYlpc4Pv; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AM7Wjfkr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=A3IpWgOyKaN3UdCIY6ZmmklNOhbLYQXe6zzrRcPkFWk=; b=AM7WjfkrdRPZouVvW8RNYyh+xq
-	O924yClD3Gds5H9EtmO4JoZU7Bnk2KhFLGsC0/TzPQTURamNZMyK4Z6TdCC0t2YTrIsq1odUukpd4
-	6RNDnIPjOPQlDXXeiM56Si7ipg/paQmcQ/WDWjdPEzve624EZrJyAPTPb7whVV/fugcqeu12OQPR7
-	t59tyRF2xTzBN+8P2MPm7x8bC6tfc5MuMVJNgF7CBMTtv34FwUh3+uEAe0QBRYyiTqFUHjzWqukwZ
-	xXa8ClIbGDLS0Idzhm+gVUqcOPC10LhX7Hz+KEg1qEYqFJWNkeiyTp+Q5mTM7ikcH/dPWLP0Gv78W
-	9eQijlmA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x0hRY-00000007rGG-0RMe;
-	Sun, 30 Aug 2026 15:27:36 +0000
-Message-ID: <a61aa866-f95a-42fa-86d8-86f0726e0d00@infradead.org>
-Date: Sun, 30 Aug 2026 08:27:34 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YYlpc4Pv"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-cc1cbb64a1fso2526647a12.1
+        for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 09:12:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788106340; x=1788711140; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v+ZZzE+7YChtFOdG6RvfuESoJaQ8tR6VAjdqUH+Gqes=;
+        b=YYlpc4PvEX0LmQ17ONsiWjyrycnL/KF6tHV/pBdHNU2SpVywfCKNKt52HX+5W6NEJX
+         IvTgGAmSkrC2Dgm8+fvLgJfQWvl/ovUzvNqt1qQ86gLFf4RhCUPF59wAOpeYx2Q6wae/
+         UJh/Nm4IFDY/e4yfAbnrlTvCA7LK5/R7Exr0C/3tBVSyj33BCKnPmNDHOvbqWBJNoQMd
+         SWF/DWDha22CaeAQiVpWYfwRZT8z4mt1mgTHtaKq6gB3J6NY6a5MyzE6a4bRVB3OOzV1
+         PwjOxAh3UwehV3yY40T6tLYzFKx4gqP7nRH5ry2itlbkaAOPBkCxmfCMJKrLgLq1p2o3
+         aX+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788106340; x=1788711140;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=v+ZZzE+7YChtFOdG6RvfuESoJaQ8tR6VAjdqUH+Gqes=;
+        b=JuA3lq6LAiKVAOaxO3e9edT3HVn8gulHsw3DyIa6NaVpaHEoXXt8NArQ3l3GloKoSz
+         eEpsZmxgK8CDkXaQ3nzqfFq8G3TrMc21f3py9mnhneWGcPbtJb4QY3Vi+3d32ZpYKscz
+         kSU4xffm1P9HixEc6V2qcKHZNQKGibUPOYpUjOFHH9Cuuf3YNqJXFuMGgni4UDwFuwUC
+         nBOpHSXkSFGlIjiOy1/ZdU0yZzv63S52yr9Cy62RGfWaQxjmkT2oIyIcx5se0cI+fmwq
+         ga+7RuZefY28yLOGRyHJEzHBE6bXllw5cmmxa+8W8uvNS1V2vZ7tUbF2tZsC+UkH5hFr
+         RNBQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rqn0PZOFYJjsZicwF2FMvABRYNVedDi+0Y98RjwB6xgUJHwtOYMyW/cKYCEVagGSDVu0UWKYzVpmHE=@vger.kernel.org
+X-Gm-Message-State: AFuF++k5hzxo06Bw4ryupSWXJrbmU2U1W8vSO7LYcqB4TuduDVn7GYev
+	T6hrVfkAzrwLEvNdiNsJizUYU1u29OwbfXSHqT5o4rL25CuLUpATjiqq
+X-Gm-Gg: AR+sD11F33er10ahxgmtXCwpC3DBiP7pm3QlQHFJfCG3UW3P30s5rX1at+WGaAWKobo
+	q0xDgFhn/o4xELYyrjWDBgQwDrSI/dMVRVcq1sFOii66TtIQB9Ze0lc/XaCra3gFBpwXAXy7HIJ
+	yU5vaxHQvVsxmm2SoAJSVocQDgkKTvIi1UQLKdZa39HuFWrpkqFRsqx8e5Dlo6JJ2cyeXjYsLaQ
+	cK5DYn+pvQ8B9VFPBuTYndaZmF2VKkx8fAtwxATf7mDz3g23TxlF/LnVNz+Ce93fmZRzikeuDaF
+	1i5Qq1HWfad0bvoKD3GVas6uT675yUbs4HQHF6nEAo74y2XYvH69NYml1CgjmHexagICG8nOgPk
+	E0picen/YqbPC7FgUc1UGq/5aOxxpP+whg8c0g2IXSeYdItDBPMVDELVwO9997ohgzHCF0AaZQu
+	85MIMg7dIdL8dl/Z8yojqpAR9RFuaFxf2DoBjPiSJdSrowSylNi2QXucteUyaZwdOUkfeSEPKtj
+	u23e7vQT437zJza6mwbcl2rLR3upmiCbYs=
+X-Received: by 2002:a05:6a20:c998:b0:3cd:9bb1:c6f5 with SMTP id adf61e73a8af0-3d267a6b464mr35141406637.10.1788106340361;
+        Sun, 30 Aug 2026 09:12:20 -0700 (PDT)
+Received: from localhost.localdomain ([134.195.101.83])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-32bdfd03e71sm5719005eec.1.2026.08.30.09.12.16
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 30 Aug 2026 09:12:19 -0700 (PDT)
+From: Yu Jin <lambda.jinyu@gmail.com>
+To: linux-riscv@lists.infradead.org
+Cc: Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <pjw@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Yu Jin <lambda.jinyu@gmail.com>
+Subject: [RFC PATCH 0/2] riscv: document the Sv32 virtual memory layout
+Date: Mon, 31 Aug 2026 00:12:03 +0800
+Message-ID: <20260830161205.80162-1-lambda.jinyu@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 4/4] Documentation/ftrace: Document function comm
- filters
-To: hu.shengming@zte.com.cn
-Cc: rostedt@goodmis.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- mark.rutland@arm.com, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, ran.xiaokai@zte.com.cn, xu.xin16@zte.com.cn,
- zhang.run@zte.com.cn
-References: <20260830191258354QN6qx13iCRbQd2Uj3Ve2s@zte.com.cn>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260830191258354QN6qx13iCRbQd2Uj3Ve2s@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+The RISC-V virtual memory layout documentation describes the 64-bit
+paging modes but has left the Sv32 section as a TODO. The layout is
+already defined by the RV32 page-table macros and can be observed in the
+boot-time layout printed with CONFIG_DEBUG_VM.
 
-On 8/30/26 4:12 AM, hu.shengming@zte.com.cn wrote:
-> From: Shengming Hu <hu.shengming@zte.com.cn>
-> 
-> Document set_ftrace_comm and set_ftrace_notrace_comm, including their
-> write and O_TRUNC behavior, accepted comm names, interaction with PID
-> filters, and when a task is rechecked after its comm changes.
-> 
-> Signed-off-by: Shengming Hu <hu.shengming@zte.com.cn>
-> ---
->  Documentation/trace/ftrace.rst | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
-> 
-> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-> index 7261f25f8b4b..a96fc436ec16 100644
-> --- a/Documentation/trace/ftrace.rst
-> +++ b/Documentation/trace/ftrace.rst
-> @@ -313,6 +313,37 @@ of ftrace. Here is a list of some of the key files:
->          If a PID is in both this file and "set_ftrace_pid", then this
->          file takes precedence, and the thread will not be traced.
-> 
-> +  set_ftrace_comm:
-> +
-> +	Have the function and function_graph tracers trace only threads whose
-> +	task comm is listed in this file. Names are matched exactly and must
-> +	contain between 1 and TASK_COMM_LEN - 1 bytes.
-> +
-> +	Each write adds one name. A single trailing newline is ignored, while
-> +	embedded newlines are rejected. A zero-length write or a write containing
-> +	only a newline adds no entry. Duplicate entries have no effect.
-> +
-> +	Opening the file with O_TRUNC clears the filter. Otherwise, writes add
+RV32 remains relevant to current hardware rather than only legacy
+systems. For example, Espressif announced the ESP32-S31 in March 2026 as
+a dual-core 32-bit RISC-V microcontroller with MMU support.
 
-Is there a way to clear the filter from (in) a shell script?
+This series documents the existing rv32_defconfig layout and corrects a
+nearby comment that gives a stale fixed value for RV32 TASK_SIZE. The
+implementation is unchanged.
 
-> +	names to the existing filter. From a shell, use >> to add a name without
-> +	clearing the filter. Reading an empty filter prints `no comm`.
-> +
-> +	If both set_ftrace_pid and set_ftrace_comm contain entries, a thread must
-> +	match both filters to be traced.
-> +
-> +  set_ftrace_notrace_comm:
-> +
-> +	Have the function and function_graph tracers ignore threads whose task
-> +	comm is listed in this file. Matching and file operations have the same
-> +	semantics as set_ftrace_comm.
-> +
-> +	A match in either set_ftrace_notrace_pid or set_ftrace_notrace_comm
-> +	excludes the thread and takes precedence over all include filters.
-> +
-> +	Function-tracer task filters are evaluated when a task is scheduled in,
-> +	and the result is cached per CPU. Changing a filter refreshes the result
-> +	for currently running tasks. If a running task changes its comm, it is
-> +	rechecked the next time it is scheduled in.
-> +
->    set_event_pid:
-> 
->  	Have the events only trace a task with a PID listed in this file.
+The main point on which I would appreciate feedback is whether this is
+the clearest way to present the configuration-dependent part of the
+layout. This is my first Linux kernel contribution, so I would also
+appreciate guidance on any process or presentation issues.
 
+Tested on QEMU with a kernel based on commit 08dbfad3f504:
+
+  - rv32_defconfig plus CONFIG_DEBUG_VM=y
+  - full RV32 kernel and modules build with GCC 13.3.0
+  - boot with qemu-system-riscv32 8.2.2 and 512 MB or 4 GB RAM
+  - userspace reached using a minimal initramfs
+  - runtime layout matched the documented addresses
+  - the 4 GB boot exposed 1 GB of managed RAM, matching the current
+    direct-map and no-highmem limitations
+  - make SPHINXDIRS=arch/riscv htmldocs
+  - scripts/checkpatch.pl --strict, no errors or warnings per patch
+
+The boot-time layout was:
+
+  fixmap  : 0x9c800000 - 0x9d000000
+  pci io  : 0x9d000000 - 0x9e000000
+  vmemmap : 0x9e000000 - 0xa0000000
+  vmalloc : 0xa0000000 - 0xc0000000
+  lowmem  : 0xc0000000 - 0xdfc00000
+
+Yu Jin (2):
+  docs: riscv: document the Sv32 virtual memory layout
+  riscv: mm: correct the stale RV32 TASK_SIZE comment
+
+ Documentation/arch/riscv/vm-layout.rst | 28 +++++++++++++++++++++++++-
+ arch/riscv/include/asm/pgtable.h       |  6 ++----
+ 2 files changed, 29 insertions(+), 5 deletions(-)
+
+
+base-commit: 08dbfad3f5040f5bdb6c529da20d6d4e81fefd72
 -- 
-~Randy
+2.43.0
 
