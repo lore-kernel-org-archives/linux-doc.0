@@ -1,185 +1,242 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC96435CB8C
-	for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 23:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA463587A2;
+	Sun, 30 Aug 2026 23:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788132176; cv=none; b=dzgZQduMgBAM2BURLzOhJ88cfDQ+bMqUbU+rTajUHN72ojJ4MxIKJBAD+4D9hwVR+dahfPdsQLeqREJI83MW85JeyyZBekFZQFZ4w/dRNmPZCGa+d5h5n0pCitADr0yuMaWiTOEpC/Gx4eEKIxWl3qYXXYAhAWaAvNuDAlXPj9k=
+	t=1788132645; cv=none; b=TazJ0EM0igd/JdXy/Aa12PMRaqPWLXTJG7Fii69o+4BzCYZ2sQnn4o6njuGIBqT+k4WwQgYft+8/4znRPjklAYw2wgJOP3MBi8mA5HrXeFEC9jd6JhPxru00g0LJKZEFkkRxUe0eSz7sTDBlcaBeIGrT7qgGzfF7DwRzuvuXbWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788132176; c=relaxed/simple;
-	bh=DVj+WxYMaH7xErgtRURdPZIYrygxVAeE8S+6pSHRAj8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GPSf1sXiMOsHa/xWWcKw1WL6Qg7FLJaEDoNs6NGczkqHxnRIR09zhZ9mDa8WT5sSyUysuP2we+EQV/dV84NpAAApsnhaJ0x2Ns4wJZOBgtduy4RSbzkmIARjUwgn+iNpGEHl5yzeRvACiykhqSwp1CMILFN/G5r+2coF5i5ilK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FTeZw+Nq; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788132645; c=relaxed/simple;
+	bh=+eWRK4DKEuAOB/1OOJxNhj5wbJgAiUsevVPnZsvXhVI=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=JHYYaG++4+hSnnRASIcvdHZJkwst4Wy1ALHMbsH68qnayuDqfFv7TujZc7ul5/9auyd0hCqDiYI5Y1TW3gNR97y1hZsmTYmc7ijXWjnQBykgxeUlAMoXXXrGBcPkLQMUr/BsekygSGWedfyn3uce8DqQ+YFavIRlOIIVCNaFVpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHg346/r; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FTeZw+Nq"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-861a2ae9c51so2601157b3.0
-        for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 16:22:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788132173; x=1788736973; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TGMddz4oxHyMD/VYwjKLQUQ8UAQjzIFIQ1x/LerDgfU=;
-        b=FTeZw+Nq2KYYn97EkC+fvhK/53kMym6WJ2hnmDeYhVn/O0fl3gGUgn6XR6pBvalh2Y
-         907JT5ZBb82HlYC5966Htpz8rPLzR/NkNY7csNsWTc6ojeZPFDqLIPHq8TfrfbDRtEym
-         CVMAxhTQLzrCapOL47Vc5Y6A9+nRSAqQaVkYqkd/iTMj/rmE8wehDX68e5miOkeDP/2h
-         joZNc93JJ3kXemRwFWwjekG3EMxSTGBA4t4BK1i8UKKqyuELgbbie1Yhz2cOnKYEreCM
-         9qUYbSZm6ymyLhnPhVnMe8cGNt8RxoBS5GpQY9QE1Yi852Xug5JUdqpzl0rgBWEG2b9G
-         5ErA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788132173; x=1788736973;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TGMddz4oxHyMD/VYwjKLQUQ8UAQjzIFIQ1x/LerDgfU=;
-        b=pvJQQxDT9z2bybh5cD2mHesEWG5beJPaoCOb0OvuYlynJ7u41DtPrcrA3UVjAwMnMP
-         +KKiS8HmgxHMMCt5j10wXz9PEqDb8He3uPyQoXD5v6UoF9d0gULM7qV8H0yZAqijRV9J
-         jYZC13Aq/Jby+VXgcbFWZjvdV7y82ZP1lDBtBbsKBF6J8Q9tZEYJaSxzEIpknG8poEz6
-         GjtsIVDkg/1zgDiobDliVDa7YVODX58JAv+0IIbWzxOzsK9cA2nYTThpVhIx1hb1Yql2
-         LP34KCb7W2o4e6JQKKa9sJn9H+AktlfN2ZaV2BV2uM46r2ci/kyDybQKZ1o8scM6WAsB
-         8r4A==
-X-Forwarded-Encrypted: i=1; AKwUvBzWNtlIUjHRorSK+cx4spwQ6zSLb3i/pdCf01w8mVvzqegLXsPIHi2bPrb6B25lmAUQe92RLzwXqtI=@vger.kernel.org
-X-Gm-Message-State: AFuF++kTXp4OmcMEHG3zyahDyB3PvZV0sNDfs2vSoA0fgu0eLoHQ90am
-	4nEk82n970GS4uWiWRDXtOd3fZEUtWhk+c1dG06RTlX2kgRDJBYRUMOV
-X-Gm-Gg: AYBFou2QlgqnkrPMrBfFjZqrl9ApkCdTH7h4B6p8rRnM2hjiN6cJREnp28xbL+/yB2/
-	PTWGJ4pUzeD6uJYIGgLDAu8OElTFUb9TTMaeO+anheINIO5hvvfJLHZTfIEABWk6kd0wcKHGwKv
-	eSYltvuTKfMTMGGaeX7Bp4haERSL/k1WpVjqbMM1eA8j+5Me6tFiFLq3HQrh1TKkDwqlD/7RQ/r
-	0esHBlefSnhZq+YV4HDmeZ1+X5/CniyN7UraBwH+8ktq276MD6AxM+0kTtTyl9rbQ9rbm0E3cyj
-	kI57cSoh+ZwQNSfAE7RKZCOqiXQRFFRDUlCYNPkkE3TmBYQI2jERz4Y36RTVAIDWe9wsU/0SW+s
-	eWAnM5Kf4f40FC5+E63S2axRBVf0ja+LsIwK8zA0RL6JRQHRvwTyb4bKA9Gct12OmhHM49oqzrE
-	x+d0ssBjE8Nk8G++7RlAyWu8wQ9sEKJCQS6fqn5OSs
-X-Received: by 2002:a05:690c:e15c:20b0:81d:e7d2:a46d with SMTP id 00721157ae682-85d65ee90b5mr61045247b3.5.1788132173517;
-        Sun, 30 Aug 2026 16:22:53 -0700 (PDT)
-Received: from devobuntu.lan ([2600:6c5c:6b00:316::23])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-85e677606aesm39025937b3.45.2026.08.30.16.22.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2026 16:22:53 -0700 (PDT)
-From: Matt Vollrath <tactii@gmail.com>
-To: intel-wired-lan@lists.osuosl.org
-Cc: netdev@vger.kernel.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Matt Vollrath <tactii@gmail.com>
-Subject: [PATCH iwl-next 8/8] e1000e: return skbs to NAPI cache
-Date: Sun, 30 Aug 2026 19:21:46 -0400
-Message-ID: <20260830232146.36948-9-tactii@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260830232146.36948-1-tactii@gmail.com>
-References: <20260830232146.36948-1-tactii@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHg346/r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E41001F000E9;
+	Sun, 30 Aug 2026 23:30:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788132638;
+	bh=uESAZduD6L1AWeDLH/YSvI2Yj667GSnbkMen2HQZefU=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=jHg346/rnB5IxzrcAEnH37qMZ60XYT957cDCBE3I9pNRsOwD4qrJvWWazShFGLw+k
+	 aP8M6GzbA/tJeKfBA1ZA+UWF627SsmJZd1XfzroVIkNZYJamW4Ya82CsaGEOKzS7Ce
+	 vCqEqSYrdofAJUw4sXi1RhQ24Mb/T+/LLH1cP3G4kFpb3PZ0SKsIWGM8zAd8PxBQu7
+	 YmbpS3BJ2wCkuAYZeK9Dgal+Q90HmXLUqLKP4gh720K3fik7K9h5b9158Pc+l7t5Ny
+	 3UbZOiPwQ0+l6qWiq3mc5j9GP1XCwcg6web05Uyz4ONbAdzrJfbXOgF0hA03o7Vxmg
+	 UiqP+UvAcscAA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v10 3/3] iio: dac: Add AD5529R DAC driver support
+From: Jonathan Cameron <jic23@kernel.org>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Mark Brown <broonie@kernel.org>, 
+ Marius Cristea <marius.cristea@microchip.com>, 
+ Marcus Folkesson <marcus.folkesson@gmail.com>, 
+ Kent Gustavsson <kent@minoris.se>, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Daire McNamara <daire.mcnamara@microchip.com>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Janani Sunil <jan.sun97@gmail.com>, linux-spi@vger.kernel.org, 
+ Kent Gustavsson <nedo80@gmail.com>, linux-riscv@lists.infradead.org
+In-Reply-To: <20260827-ad5529r-driver-v10-3-38f2be07b824@analog.com>
+References: <20260827-ad5529r-driver-v10-0-38f2be07b824@analog.com>
+ <20260827-ad5529r-driver-v10-3-38f2be07b824@analog.com>
+Date: Mon, 31 Aug 2026 00:30:19 +0100
+Message-Id: <178813261957.2788519.4929586195765891569.b4-review@b4>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4775;
+ i=jonathan.cameron@oss.qualcomm.com; h=from:subject:message-id;
+ bh=+eWRK4DKEuAOB/1OOJxNhj5wbJgAiUsevVPnZsvXhVI=;
+ b=owEBfwKA/ZANAwAKAVSFNJnE9BaIAcsmYgBqlL0NsdVCM/ppaynb9fDnagUPMjHk4qAPJLsQ4
+ 9JL0kopEiyJAkUEAAEKAC8WIQRuKWazh4QGUpEmgbFUhTSZxPQWiAUCapS9DREcamljMjNAa2Vy
+ bmVsLm9yZwAKCRBUhTSZxPQWiJnJD/96MkuP0q8sHM1l1J43Vsxq2iowWkA2AZdoxojx2F49ceQ
+ SuwSo1pHPbruu/E1oLfSxNU0gTsdIyq8iERHjQ1m3qLpLauOVPRIVGJJ5UPJxupnX7zkwzb80sz
+ w7acbgf7+GcMyJiVlgsY6xAwdtsAkmw/ZEFQCOsRqAa0kGRbIMyvC7L3CwA/Wl/AKZiRfn8kojf
+ vkxqFGCmZPUR0KsS//LB186BfluoB0fG5YCPCDKzL4HmKCiFb6P9KMxxcGy81EkV6j/GfTSWoEk
+ Of/49GwCqGLQPSV2suOhmlo5Efz9frJgh+fL27HrzUHq3zJXzgODphfnIYOXU/tV83DB9KYQWZ2
+ 8+mHe+a4Y7/VfjeDAmJDakM5csdnSI2hoNuhtO9M5C4zjT8l6cdMV0yDAiiWCpmHTYUJLI1VGMc
+ PAFTCvZLVvOlSWkP/+knuxc5o9FFaJH+OquVcwa+FPtdvm1i8kNQcoqa8rhXt6PzcHrTvALeLlq
+ IB+KyCUV/eNPhmAmPoQpmqByMN+rnjBX4DIe3q2592cRaVq79uNsPJ+ueyXJC+EynVMGNYGlEwY
+ mulRxcV3rq0VCWbY2UUKqVX0Xw+OooACX37ufyLcselrSqi84YxEtHmzHg7n6N0Sms6yhT1RdnP
+ IHJOtxQpL7dwS1VLV8VBhubGq/hxRmuD3poG7Qw==
+X-Developer-Key: i=jonathan.cameron@oss.qualcomm.com; a=openpgp;
+ fpr=6E2966B387840652912681B154853499C4F41688
 
-Use napi_consume_skb to hand skbs back to the NAPI cache. This closes
-the loop with changes to the Rx path.
+> Add support for AD5529R 16-channel, 12/16 bit Digital to Analog Converter
+> from Analog Devices.
+> 
+> The device communicates over SPI and supports per-channel output range
+> configuration. An optional external 4.096V reference can be used in
+> place of the internal reference.
+> 
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
 
-Signed-off-by: Matt Vollrath <tactii@gmail.com>
-Assisted-by: Claude:claude-5-fable
----
- drivers/net/ethernet/intel/e1000e/netdev.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+Just a couple of minor additions from me.
 
-diff --git a/drivers/net/ethernet/intel/e1000e/netdev.c b/drivers/net/ethernet/intel/e1000e/netdev.c
-index c906175ad38d..a28ee0750f4b 100644
---- a/drivers/net/ethernet/intel/e1000e/netdev.c
-+++ b/drivers/net/ethernet/intel/e1000e/netdev.c
-@@ -713,7 +713,7 @@ static struct sk_buff *e1000_build_rx_skb(const struct libeth_fqe *fqe,
- 
- static void e1000_put_txbuf(struct e1000_ring *tx_ring,
- 			    struct e1000_buffer *buffer_info,
--			    bool drop)
-+			    bool drop, int budget)
- {
- 	struct e1000_adapter *adapter = tx_ring->adapter;
- 
-@@ -730,7 +730,7 @@ static void e1000_put_txbuf(struct e1000_ring *tx_ring,
- 		if (drop)
- 			dev_kfree_skb_any(buffer_info->skb);
- 		else
--			dev_consume_skb_any(buffer_info->skb);
-+			napi_consume_skb(buffer_info->skb, budget);
- 		buffer_info->skb = NULL;
- 	}
- 	buffer_info->time_stamp = 0;
-@@ -860,11 +860,12 @@ static void e1000e_tx_hwtstamp_work(struct work_struct *work)
- /**
-  * e1000_clean_tx_irq - Reclaim resources after transmit completes
-  * @tx_ring: Tx descriptor ring
-+ * @napi_budget: NAPI polling budget, or 0 when called outside NAPI context
-  *
-  * the return value indicates whether actual cleaning was done, there
-  * is no guarantee that everything was cleaned
-  **/
--static bool e1000_clean_tx_irq(struct e1000_ring *tx_ring)
-+static bool e1000_clean_tx_irq(struct e1000_ring *tx_ring, int napi_budget)
- {
- 	struct e1000_adapter *adapter = tx_ring->adapter;
- 	struct net_device *netdev = adapter->netdev;
-@@ -899,7 +900,8 @@ static bool e1000_clean_tx_irq(struct e1000_ring *tx_ring)
- 				}
- 			}
- 
--			e1000_put_txbuf(tx_ring, buffer_info, false);
-+			e1000_put_txbuf(tx_ring, buffer_info, false,
-+					napi_budget);
- 			tx_desc->upper.data = 0;
- 
- 			i++;
-@@ -1340,7 +1342,7 @@ static irqreturn_t e1000_intr_msix_tx(int __always_unused irq, void *data)
- 	adapter->total_tx_bytes = 0;
- 	adapter->total_tx_packets = 0;
- 
--	if (!e1000_clean_tx_irq(tx_ring))
-+	if (!e1000_clean_tx_irq(tx_ring, 0))
- 		/* Ring was not completely cleaned, so fire another interrupt */
- 		ew32(ICS, tx_ring->ims_val);
- 
-@@ -1816,7 +1818,7 @@ static void e1000_clean_tx_ring(struct e1000_ring *tx_ring)
- 
- 	for (i = 0; i < tx_ring->count; i++) {
- 		buffer_info = &tx_ring->buffer_info[i];
--		e1000_put_txbuf(tx_ring, buffer_info, false);
-+		e1000_put_txbuf(tx_ring, buffer_info, false, 0);
- 	}
- 
- 	netdev_reset_queue(adapter->netdev);
-@@ -2060,7 +2062,7 @@ static int e1000e_poll(struct napi_struct *napi, int budget)
- 
- 	if (!adapter->msix_entries ||
- 	    (adapter->rx_ring->ims_val & adapter->tx_ring->ims_val))
--		tx_cleaned = e1000_clean_tx_irq(adapter->tx_ring);
-+		tx_cleaned = e1000_clean_tx_irq(adapter->tx_ring, budget);
- 
- 	e1000_clean_rx_irq(adapter->rx_ring, &work_done, budget);
- 
-@@ -5019,7 +5021,7 @@ static int e1000_tx_map(struct e1000_ring *tx_ring, struct sk_buff *skb,
- 			i += tx_ring->count;
- 		i--;
- 		buffer_info = &tx_ring->buffer_info[i];
--		e1000_put_txbuf(tx_ring, buffer_info, true);
-+		e1000_put_txbuf(tx_ring, buffer_info, true, 0);
- 	}
- 
- 	return 0;
+
+
+>  
+> diff --git a/drivers/iio/dac/Makefile b/drivers/iio/dac/Makefile
+> index 992f8930f95c..8dc644522b1e 100644
+> --- a/drivers/iio/dac/Makefile
+> +++ b/drivers/iio/dac/Makefile
+> @@ -18,6 +18,7 @@ obj-$(CONFIG_AD5446) += ad5446.o
+>  obj-$(CONFIG_AD5446_SPI) += ad5446-spi.o
+>  obj-$(CONFIG_AD5446_I2C) += ad5446-i2c.o
+>  obj-$(CONFIG_AD5449) += ad5449.o
+> +obj-$(CONFIG_AD5529R) += ad5529r.o
+>  obj-$(CONFIG_AD5592R_BASE) += ad5592r-base.o
+>  obj-$(CONFIG_AD5592R) += ad5592r.o
+>  obj-$(CONFIG_AD5593R) += ad5593r.o
+> diff --git a/drivers/iio/dac/ad5529r.c b/drivers/iio/dac/ad5529r.c
+> new file mode 100644
+> index 000000000000..52601cbf28d5
+> --- /dev/null
+> +++ b/drivers/iio/dac/ad5529r.c
+> @@ -0,0 +1,536 @@
+
+Why do we need those outer () ?
+
+...
+
+> +static int ad5529r_parse_channel_ranges(struct device *dev,
+> +					struct ad5529r_state *st)
+> +{
+> +	unsigned long channel_mask = 0;
+> +	s32 vals[2];
+
+Where possible, I'd move these into narrower scope.
+That tends to make the code a little easier to reason about.
+
+> +	int ret, range_idx;
+> +	u32 ch;
+> +
+> +	device_for_each_child_node_scoped(dev, child) {
+> +		if (st->num_channels == ARRAY_SIZE(st->channels))
+> +			return dev_err_probe(dev, -ECHRNG, "Too many channels\n");
+> +
+> +		ret = fwnode_property_read_u32(child, "reg", &ch);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret,
+> +					     "Missing reg property in channel node\n");
+> +
+> +		if (ch >= AD5529R_MAX_CHANNELS)
+> +			return dev_err_probe(dev, -EINVAL,
+> +					     "Channel %u exceeds maximum 15\n",
+> +					     ch);
+> +
+> +		if (channel_mask & BIT(ch))
+> +			return dev_err_probe(dev, -EINVAL,
+> +					     "Duplicate channel %u\n", ch);
+> +
+> +		channel_mask |= BIT(ch);
+> +
+> +		if (fwnode_property_present(child, "output-range-microvolt")) {
+> +			/*
+> +			 * DT stores cells as raw 32-bit values; signed endpoints are
+> +			 * encoded by dtc in two's-complement and then interpreted
+> +			 * here as s32.
+> +			 */
+> +			ret = fwnode_property_read_u32_array(child,
+> +							     "output-range-microvolt",
+> +							     (u32 *)vals, ARRAY_SIZE(vals));
+> +			if (ret < 0)
+> +				return dev_err_probe(dev, ret,
+> +						     "Failed to read range for ch %u\n",
+> +						     ch);
+> +
+> +			range_idx = ad5529r_find_output_range(vals);
+> +			if (range_idx < 0)
+> +				return dev_err_probe(dev, range_idx,
+> +						     "Invalid range [%d %d] for ch %u\n",
+> +						     vals[0], vals[1], ch);
+> +		} else {
+> +			range_idx = AD5529R_RANGE_0V_5V;
+> +		}
+> +
+> +		st->output_range_idx[ch] = range_idx;
+> +		ret = regmap_write(st->regmap_16bit,
+> +				   AD5529R_REG_OUT_RANGE(ch), range_idx);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret,
+> +					     "Failed to configure range for ch %u\n",
+> +					     ch);
+> +
+> +		st->channels[st->num_channels++] = AD5529R_DAC_CHANNEL(ch);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+
+> +static int ad5529r_probe(struct spi_device *spi)
+> +{
+> +	struct regmap_config regmap_16bit_cfg;
+> +	struct regmap_config regmap_8bit_cfg;
+> +	struct device *dev = &spi->dev;
+> +	struct iio_dev *indio_dev;
+> +	struct ad5529r_state *st;
+> +	bool external_vref;
+> +	u32 dev_addr = 0;
+> +	int ret;
+> +
+> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
+> +	if (!indio_dev)
+> +		return -ENOMEM;
+> +
+> +	st = iio_priv(indio_dev);
+> +
+> +	st->model_data = spi_get_device_match_data(spi);
+> +	if (!st->model_data)
+> +		return dev_err_probe(dev, -ENODATA,
+> +				     "Failed to identify device variant\n");
+> +
+
+Move the default value setting of dev_addr() down here.
+	dev_addr = 0;
+
+or better yet, check for presence of property
+	if (device_property_present(dev, "spi-device-addr")) {
+		ret = device_property_read_u32(dev, "spi-dev-addr", &dev_addr);
+		if (ret < 0)
+			return ret;
+
+		if (dev_addr > 3)
+			return dev_err_probe();
+	} else {
+		dev_addr = 0;
+	}
+as that gives us clean checking for corrupted properties and setting
+of a default if no attempt was made ot set it to anything else.
+
+> +	device_property_read_u32(dev, "spi-device-addr", &dev_addr);
+> +	if (dev_addr > 3)
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "spi-device-addr %u out of range [0, 3]\n",
+> +				     dev_addr);
+
+Thanks
+
+Jonathan
+
 -- 
-2.43.0
-
+Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
