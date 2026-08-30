@@ -1,79 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBD9202F70;
-	Sun, 30 Aug 2026 09:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4174352C35;
+	Sun, 30 Aug 2026 11:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788081638; cv=none; b=EeFG/wK46Gkisj3iqK2z+y4C1gfVVO/qzSTb9IqNehK03daIr55d+ImVyM5REooZvSSQ9ckbmyr+VHiYDNRqGyQxX64sVIH4nEgH/mv723Yp916KZw04D72J3hOcNh9puoM0ie5in/e2YakQKJzAICnafJB/M03UtY+EkEhNLqQ=
+	t=1788088082; cv=none; b=uHKP6cDQY8r5H2HGqBt55IS5/xm+de+tk5Ral6mjtgL628UNeMocRHQZWMzejCKuFPase5gE21BoTq9/vhQ2vmNwHggapBbk6zFNCx7IMfk/NXS6ORD96AyE1pXVjf0dSFfGFsXat24rnwVeUHk7b6cfca+pI1KoFULXf4Qd4JA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788081638; c=relaxed/simple;
-	bh=QncR1qUGWy+W3Pof34ojKH3irxh4p5y/PlIPK7O08j0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dHrOKnTjnKwobJmGJ85vHM1Q3nwSp3k1QV3uTIjpsLD20zIs8o021Nd7LaLhlWkWyaOl1rW3NLQPFfFH0DGAlTvCrHjHNtHLf0WmnvIceaSIbg8dxjRJz0hULkbZ94VypNEBF4DhW9EZV7b2sSlNiSt7kz6qldhnFcEk2OwjzfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YqUd2bEX; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YqUd2bEX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 443131F000E9;
-	Sun, 30 Aug 2026 09:20:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788081636;
-	bh=2r5ATwh6+YU45/CW5aqnh5QdexD448pFy1trWFGs/4I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YqUd2bEX4pBT0B78Scu66Uf1Ul20NzXAa6UUO7GTm2+NFPX8nTivh7uB+CYXIbrcq
-	 NQRHi4GNBXk4/NXIyfjth1AC0okm6YHtqMYYnz/obpZ5lDZKQ9JEEXHNkz9BFBIWng
-	 hu6MNhR1xW056ea73NSYrnfXC+5uFdWmVRyZGmbTivn1aLz3s+cyWpLk6S38V7v8PW
-	 MNQkeVHZR0QoXqnLa2ftVUSmtdr55qVbyTLNDo95R7URlD7+D+KO8tqxYwXvNpwcF4
-	 zqgS8LVIY6nfJGmEGHAlp4z74dCIj3sWn1SHc3nNphMnhR8clxnKROHEnNnrYocsbi
-	 8IXp1kVh8ZtuA==
-Date: Sun, 30 Aug 2026 12:20:33 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>
-Subject: Re: [PATCH v4 10/18] PCI: Account for ACS egress control in
- isolation checks
-Message-ID: <20260830092033.GE24140@unreal>
-References: <20260821-fix-p2p-acs-v4-0-v4-0-94426b96de73@nvidia.com>
- <20260821-fix-p2p-acs-v4-0-v4-10-94426b96de73@nvidia.com>
- <178761377056.3197084.2573998749847027711.b4-review@b4>
+	s=arc-20240116; t=1788088082; c=relaxed/simple;
+	bh=1NFyqTOg+03XPnHmRfEQV3E/SZ/glhCG7tkjVKm3+qk=;
+	h=Message-ID:Date:Mime-Version:From:To:Cc:Subject:Content-Type; b=UoQwAuM7DKGA50mT6xAbjjBw9WSLOewNqVpb3YVUyiQtnARNT8E4a7AF9+XNz7wj87TDxKpIs1byWVDNvffQwNPXb2QpGEgkvTiXGgbfygQumuvNnvEOfXwvjFbXJPW9K1DqVWjyzwbnL3GXFpqTXE2TRQxKLbA0IrsOQSm+5I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4hXq9203CTz5BNRf;
+	Sun, 30 Aug 2026 19:07:50 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl1.zte.com.cn with SMTP id 67UB7gPo002739;
+	Sun, 30 Aug 2026 19:07:42 +0800 (+08)
+	(envelope-from hu.shengming@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Sun, 30 Aug 2026 19:07:43 +0800 (CST)
+X-Zmail-TransId: 2af96a940effb92-dcc0f
+X-Mailer: Zmail v1.0
+Message-ID: <20260830190743637MhXoixrAPc1rfm-G8eIcg@zte.com.cn>
+Date: Sun, 30 Aug 2026 19:07:43 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178761377056.3197084.2573998749847027711.b4-review@b4>
+Mime-Version: 1.0
+From: <hu.shengming@zte.com.cn>
+To: <rostedt@goodmis.org>, <mhiramat@kernel.org>
+Cc: <mathieu.desnoyers@efficios.com>, <mark.rutland@arm.com>, <corbet@lwn.net>,
+        <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <ran.xiaokai@zte.com.cn>,
+        <xu.xin16@zte.com.cn>, <zhang.run@zte.com.cn>
+Subject: =?UTF-8?B?W1JGQyBQQVRDSCAwLzRdIGZ0cmFjZTogQWRkIHRhc2sgY29tbSBmaWx0ZXJpbmcgZm9yIGZ1bmN0aW9uIHRyYWNpbmc=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 67UB7gPo002739
+X-TLS: YES
+X-ENVELOPE-SENDER: hu.shengming@zte.com.cn
+X-SOURCE-IP: 10.5.228.132 unknown Sun, 30 Aug 2026 19:07:50 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6A940F05.000/4hXq9203CTz5BNRf
 
-On Mon, Aug 24, 2026 at 08:22:50PM -0300, Jason Gunthorpe wrote:
-> > pci_acs_enabled() treats P2P Request Redirect as effective whenever its
-> > control bit is set. PCIe r7.0, sec 6.12.3, table 6-11 lets an enabled
-> > Egress Control Vector override it: a clear vector bit routes the request
-> > directly.
-> 
-> This may well all be correct, but I'd prefer not to touch grouping in
-> this series working on p2pdma.. The grouping logic is already not
-> doing a good job with the spec and we can't change it because it
-> creates regression.
+Hi Steven and Masami,
 
-The longer we wait, the harder it will be to address this deviation
-from the PCI specification.
+This series adds two comm-based task filters for the function and
+function_graph tracers:
 
-Thanks
+  set_ftrace_comm
+  set_ftrace_notrace_comm
 
-> 
-> -- 
-> Jason
+Function tracing currently supports selecting tasks by PID. This makes
+it difficult to configure tracing before a service starts, because it
+does not have a PID yet. It is also inconvenient to keep tracing the
+same service across restarts, as its PID may change. This use case was
+suggested by Xuxin, a KSM reviewer.
+
+The new filters match task comm names exactly. When both PID and comm 
+include filters are active, a task must match both to be traced. A
+match in either the PID or comm notrace filter excludes the task.
+
+To avoid string matching in the function tracing fast path, the filters
+are evaluated when a task is scheduled in. The result is stored in the
+existing per-CPU cache used by PID filtering. Changing a filter refreshes
+the cached result for currently running tasks. If a task's comm changes,
+the new name is used the next time the task is scheduled in.
+
+The first two patches prepare the existing PID-filtering infrastructure
+by using general task-filter names and centralizing sched_switch probe
+registration and per-CPU cache updates. The third patch adds the comm
+filters, and the final patch documents their interface and interaction
+with PID filters.
+
+This is an RFC intended to discuss whether comm-based task filtering is
+a useful direction for function tracing and whether this interface would
+be suitable for eventual upstream inclusion. Additional selftests are
+planned for the next revision. Feedback on the overall approach and
+interface would be greatly appreciated.
+
+Thanks,
+Shengming
+
+Shengming Hu (4):
+  ftrace: Generalize function task filter names
+  ftrace: Centralize task filter state updates
+  ftrace: Add exact task comm filtering
+  Documentation/ftrace: Document function comm filters
+
+ Documentation/trace/ftrace.rst |  31 +++
+ include/linux/ftrace.h         |   4 +-
+ kernel/trace/Makefile          |   1 +
+ kernel/trace/comm_list.c       | 314 +++++++++++++++++++++++++
+ kernel/trace/comm_list.h       |  17 ++
+ kernel/trace/fgraph.c          |   4 +-
+ kernel/trace/ftrace.c          | 402 ++++++++++++++++++++++++++++++---
+ kernel/trace/trace.c           |   5 +
+ kernel/trace/trace.h           |  34 ++-
+ kernel/trace/trace_events.c    |  16 +-
+ kernel/trace/trace_functions.c |   2 +-
+ kernel/trace/trace_pid.c       |   8 +-
+ 12 files changed, 791 insertions(+), 47 deletions(-)
+ create mode 100644 kernel/trace/comm_list.c
+ create mode 100644 kernel/trace/comm_list.h
+
+-- 
+2.25.1
