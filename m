@@ -1,119 +1,149 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E176D3B9617
-	for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 16:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788106363; cv=none; b=l1uE/w946xtjIcta7DqSBLmIhL1hC8Lrkq0s+YE1wU1dFBW0+xdr+NMFRy70GZmBHTM/uMK7eOxpbzIMAFWFW0X3iDw37a5vG/aZFECQokLvWJDtusNQqE20yO8juAGd2t+vDcfQj3z2QKXDiP7pW2njDSu28TixhbAvDP2FGh4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788106363; c=relaxed/simple;
-	bh=JGZgOh3NLnQ3zE3ReM7hQZC4iKeVrPllBAT/3U7VeAc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B2bgsLs9gGfllTn7/7dpO/0JyA79KBcNkLhypNpnS8zQAsCfBF9GMDBmVrJqDndH/IsrPqT1N+O/USO/BAq9u2oUBkMCgkuvxONzdzSU9b/q1m56GzxbQN3GAOKRxCmMyZH7nLFz5M9OvJgXIe5k26iQ5xBFDbIaH1dJoyltRtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eh3SVeDk; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4420521B192;
+	Sun, 30 Aug 2026 18:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788116047; cv=pass; b=VvWbuVjM8i5gMWmITLqrP0KDdTNzh5kq1sb/8crE5Ro0agUUaJKyin91BoSb9FQWAghWTU17gqa8ktaWfdCRjrOHSoyLGvyNaeWeBZgCy5y02WO2//tTBN+2sENsgSaYS6v+Dz8dh16o4sdmaMAizRKas+NA/X91F8v7H944xs8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788116047; c=relaxed/simple;
+	bh=EXAnMJ6xRJh+Me6kD0bTLQJDHBFIcMtq3O0tDNsN/+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m5KZqdU9daKNa+yiia7I2Dz6F/iU26QTHTd9XlIJJFHwa+lsWw/m/4csWgrMMUetzDTzYjTGEw+FTZRwBqgXUIXawDr/052FXc1AX17PU2MMZJX0XGqLRSIw1b9Bk4eW8FuH3oJqtLSGFjBoKaZuvzI3l5RIOnt8zknCz/ZrJmc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ziyao.cc; spf=pass smtp.mailfrom=ziyao.cc; dkim=pass (1024-bit key) header.d=ziyao.cc header.i=me@ziyao.cc header.b=gV+lB/Ic; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ziyao.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziyao.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eh3SVeDk"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2d9004f39d3so7697865ad.2
-        for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 09:12:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788106354; x=1788711154; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NdTRN44Y9INGZlIdKi2+i3Dw0ibf1fzMAsMfvmYvVnE=;
-        b=eh3SVeDkcASA+OzGer+RuE0DcyA/Z7AwG/LgS8k0tKLzNk3Gjc343kvpqxinY9eps2
-         sNQkpKxgJcpZE90lODYoh6ADaFtdRUmPWhAF1jOibWZ9prjWX4lPjvcnZTi6eAA/9/uR
-         QJsBPMSh5WdHVseSoEyQaYSaF3EyTjNViy9w9BG1f8ic7S8id4mql7sN2BNU8Pw/QJfl
-         7OB21SgLqvATM3QWYM26MFOCDsRO8ur4W1qxaw64PaSc+nZxUDNkiVDhG4POVnF3PJJ/
-         JZdrBzrPQqD1tK5vyagt346JAawxRMwXmKUX9iJCh/trrt1h8m7Qu5b0Z2KhIFJ1A0Pa
-         HxEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788106354; x=1788711154;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NdTRN44Y9INGZlIdKi2+i3Dw0ibf1fzMAsMfvmYvVnE=;
-        b=J3MA3MTcq9q4AeW2bxyV3T14qcTNqDxawr9dfRvjvzDnlDs9IGn6r1y/JrFmlWH+F1
-         DwFz2yINjmqMBL70a/ZyyOiElgOJvuhGeKUpp8c3eB/bujDHe5xBAMcYxDjPrMrmSsVe
-         /sdHL4mZ8PfDrlIwaJIALjUMiJ986qH70jaGNfsWMt1nRP8yT+fyVid1IwSuRZZNZ6I+
-         QiDsP+k8nKafEo0hLON+Mpb6rZdoDsWIN69iCHnC3pfX93TmJQO2q8ImOnF9AfZl0g5e
-         A3qqsZbZEMQuNT1SWyxPuEWSIN6Ex07lN0ELaRhFeEPpWL6fudYK+yXcEyqVwb9tXsEj
-         Vl1A==
-X-Forwarded-Encrypted: i=1; AKwUvByY6NxgWmaqUdYFjfS6wjEiV8KqW9HQBVywF7C1SM7qxslqyfDk4RqDxU5EeZbJ4pfL+cRFxAm/QRo=@vger.kernel.org
-X-Gm-Message-State: AFuF++l7Ayj2k/dCqnErBgnRiL+apQh5CGMA+3GLgbBUn82QvXgpGD5Q
-	8kA8Ax/FcmtLvj5ZSr6KP/jZowgXXiQkkUIw86XVaihSEkbGpm68ooVy
-X-Gm-Gg: AYBFou3MPDoqCGJcSDBNoRdeHKwOLbO4iM/M1YEsVFuggj4eOTEo0RGbFRyEK9S9kml
-	J8fUSVO6CKgd84Fg1sIx/wt40i8NFvW8CVqlenmTHZK3eDWLKXNdncYgPEOlE8EoLMWk1y2LnW3
-	UAoPOGxX5hG7gtDTcx71qH5E/HobEbPuVQcrdtpteMW9Axei4UvOlSqsaSJbDwBgbJxSY8Yxa1k
-	SJSD7kDjvZoWbeSNQgIp8ncdu/+4tRaGKaDu3P4dWykin57+g8xh6YA/DiCFuldINbQvvB+thhu
-	DH0fl901f57ybgIHS/hLaAa5UIIIRRjXIabKtvIrotrbs7PVoH15Qjf5gpqeZ5xffPJjM15mX+t
-	QGiH7rd8jnsHkF/k5uZed8YV9jCuRaTEbM1I6tBJnR8B+vBiLxwCh4u3jedOnWieQorjaa/2WMo
-	QHrgKb5T25dRrUh3pdNc8D0lhDISCyWTkazbylHqsv7hNITo1nUHSj6O4qLsg1nQkS48ocX3N4b
-	yVSXPrf8VgV8qQjPaddTqNs+TkddRTL4tg=
-X-Received: by 2002:a17:903:1aec:b0:2d7:203b:9863 with SMTP id d9443c01a7336-2d74dc6e97fmr364985975ad.1.1788106354469;
-        Sun, 30 Aug 2026 09:12:34 -0700 (PDT)
-Received: from localhost.localdomain ([134.195.101.83])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-32bdfd03e71sm5719005eec.1.2026.08.30.09.12.29
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 30 Aug 2026 09:12:34 -0700 (PDT)
-From: Yu Jin <lambda.jinyu@gmail.com>
-To: linux-riscv@lists.infradead.org
-Cc: Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
+	dkim=pass (1024-bit key) header.d=ziyao.cc header.i=me@ziyao.cc header.b="gV+lB/Ic"
+ARC-Seal: i=1; a=rsa-sha256; t=1788116008; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=J9pPgTGIWkMZT/3kcW8s3iyH3mjyqeElsf5bAvw8Faod+/zY3tXC+Tu8SjrvaiY/iqb0I5EeACcU2ERDgrPyil2AHWMMEGiT/bpTq6Hhiw1YbDpHuSn+TOlcsZtvMBXkAktzrJN9ZACKEvXrfASlW03X+mVliCZR2/jDCIodjVA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1788116008; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=nVDIHfbzyQ8ElDQ6asi5CRQYO2SYCRhwy8nKszFhgXE=; 
+	b=Nst6fob6AmqcyVng6Ai1+J4+iWEEcX0QzPrIEl6XaAzAYQuzUVqgyHSdbMyEcI+Ur4XJ/BEb808B4Nw+bzF3a54QlBWNJn/SIi/7UATz3Nhsv52e67OUAuS4uChZR/0jZyCXaKe1NlaN+CXzA7q4hu5GtV8Fv6TNj9UIWocgTIU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ziyao.cc;
+	spf=pass  smtp.mailfrom=me@ziyao.cc;
+	dmarc=pass header.from=<me@ziyao.cc>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1788116008;
+	s=zmail; d=ziyao.cc; i=me@ziyao.cc;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+	bh=nVDIHfbzyQ8ElDQ6asi5CRQYO2SYCRhwy8nKszFhgXE=;
+	b=gV+lB/IczCLw56DM6o/kKneXdg3VmBKnUY0te+8GoVcCTl9/xpgGrA7bJSjDkbfG
+	wXWkEf0yuUMTIcUwvC6FOmoeEj96fckJ/eQ7RBLTzPoYGB1XycmhySdfVXmixleoryD
+	Tnp7fxEjhHdqedAJ7vgGJ5kKr5JTSXgfv8oXJBEQ=
+Received: by mx.zohomail.com with SMTPS id 1788116003921735.6548742229019;
+	Sun, 30 Aug 2026 11:53:23 -0700 (PDT)
+Date: Sun, 30 Aug 2026 18:53:07 +0000
+From: Yao Zi <me@ziyao.cc>
+To: Weijie Yuan <wy@wyuan.org>, Yao Zi <me@ziyao.cc>
+Cc: Yukai Wu <xiaoyewuz.ruster@gmail.com>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Dongliang Mu <dzm91@hust.edu.cn>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Yu Jin <lambda.jinyu@gmail.com>
-Subject: [RFC PATCH 2/2] riscv: mm: correct the stale RV32 TASK_SIZE comment
-Date: Mon, 31 Aug 2026 00:12:05 +0800
-Message-ID: <20260830161205.80162-3-lambda.jinyu@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260830161205.80162-1-lambda.jinyu@gmail.com>
-References: <20260830161205.80162-1-lambda.jinyu@gmail.com>
+	Alexandre Ghiti <alex@ghiti.fr>, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: Update arch/riscv/vm-layout.rst translation
+Message-ID: <apR8CoTs4hj-vqLG@pie>
+References: <20260829041542.256360-1-xiaoyewuz.Ruster@gmail.com>
+ <apMPjRICH06wAxPp@pie>
+ <apQ-7U-omIeXvZ1N@wyuan.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <apQ-7U-omIeXvZ1N@wyuan.org>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.10.1.5.2/288.103.78
+X-ZohoMailClient: External
 
-RV32 defines TASK_SIZE as FIXADDR_START. Its value depends on
-VMEMMAP_SIZE, which in turn depends on the configured size of struct
-page. The fixed 0x9fc00000 value in the comment is therefore stale.
+On Sun, Aug 30, 2026 at 10:32:13PM +0800, Weijie Yuan wrote:
+> On Sat, Aug 29, 2026 at 04:57:49PM +0000, Yao Zi wrote:
+> > On Sat, Aug 29, 2026 at 12:15:10PM +0800, Yukai Wu wrote:
+> > > Update Documentation/arch/riscv/vm-layout.rst translation.
+> > > 
+> > > Update the translation through commit 954260ff5a46
+> > > ("Revert "RISC-V: mm: Document mmap changes"")
+> > > 
+> > > Signed-off-by: Yukai Wu <xiaoyewuz.Ruster@gmail.com>
+> > > ---
+> > >  .../zh_CN/arch/riscv/vm-layout.rst             | 18 +++++++++---------
+> > >  1 file changed, 9 insertions(+), 9 deletions(-)
+> > > 
+> > > diff --git a/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst b/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
+> > > index 4b9f4dcf6c19..0d0ec8ea5d05 100644
+> > > --- a/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
+> > > +++ b/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
+> > > @@ -15,7 +15,7 @@ RISC-V Linux上的虚拟内存布局
+> > >  :作者: Alexandre Ghiti <alex@ghiti.fr>
+> > >  :日期: 12 February 2021
+> > >  
+> > > -这份文件描述了RISC-V Linux内核使用的虚拟内存布局。
+> > > +这份文件描述了 RISC-V Linux 内核使用的虚拟内存布局。
+> > >  
+> > >  32位 RISC-V Linux 内核
+> > >  ======================
+> > > @@ -28,9 +28,9 @@ TODO
+> > >  64位 RISC-V Linux 内核
+> > >  ======================
+> > >  
+> > > -RISC-V特权架构文档指出，64位地址 "必须使第63-48位值都等于第47位，否则将发生缺页异常。"：这将虚
+> > > -拟地址空间分成两半，中间有一个非常大的洞，下半部分是用户空间所在的地方，上半部分是RISC-V Linux
+> > > -内核所在的地方。
+> > > +RISC-V 特权架构文档指出，64 位地址“必须使第 63-48 位值都等于第 47 位，否则将发生缺页异常。”：
+> > > +这将虚拟地址空间分成两半，中间有一个非常大的洞，下半部分是用户空间所在的地方，上半部分是 RISC-V
+> > > +Linux 内核所在的地方。
+> > 
+> > I think changes above are purely style improvements? If so please
+> > mention it in the commit message, instead of specifying it's "updating"
+> > only.
+> 
+> Agreed. To put it further, I think the commit message template we
+> provided in how-to.rst [1] is somewhat like telling contributors: That's
+> all you need to do.
 
-Describe the macro relationship instead of replacing one
-configuration-specific address with another.
+Oops, I don't even realize it's part of our existing contributing
+guide...
 
-Signed-off-by: Yu Jin <lambda.jinyu@gmail.com>
----
- arch/riscv/include/asm/pgtable.h | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+> Of course, in some cases, the patch is quite simple and there is nothing
+> else to elaborate on. However, in some cases, such as when making
+> extensive changes and updates, we should encourage contributors to write
+> down some relevant information for future reference.
+> 
+> Similarly, just like this patch, the author did more than just update;
+> he also carried out other actions, but failed to include the relevant
+> details in the commit message. So I feel that perhaps our template might
+> have somewhat restricted our writing? (to some extent)
 
-diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-index 40b1ed4f3ea8..32348787462c 100644
---- a/arch/riscv/include/asm/pgtable.h
-+++ b/arch/riscv/include/asm/pgtable.h
-@@ -1231,10 +1231,8 @@ static inline pte_t pte_swp_clear_exclusive(pte_t pte)
- #endif
- 
- /*
-- * Task size is 0x4000000000 for RV64 or 0x9fc00000 for RV32.
-- * Note that PGDIR_SIZE must evenly divide TASK_SIZE.
-- * Task size is:
-- * -        0x9fc00000	(~2.5GB) for RV32.
-+ * For RV32, TASK_SIZE is FIXADDR_START and depends on VMEMMAP_SIZE.
-+ * For RV64, task size is:
-  * -      0x4000000000	( 256GB) for RV64 using SV39 mmu
-  * -    0x800000000000	( 128TB) for RV64 using SV48 mmu
-  * - 0x100000000000000	(  64PB) for RV64 using SV57 mmu
--- 
-2.43.0
+Agree.
 
+> Sure, the requirements for commit messages in the Chinese documentation
+> are certainly not as strict as those for the more core subsystems.
+> However, I do think it's fine to appropriately explicitly encourage
+> contributors to include more meaningful relevant information in the
+> commit messages.
+> 
+> Any ideas for this, or any objections? ;)
+
+I think it's worth pointing out that the template commit message is for
+reference only in how-to.rst, and guiding readers to
+submitting-patches.rst so at least newcomers have a brief understanding
+of the process and requirements.
+
+Now how-to.rst refers process/index.rst, but this index seems to contain
+too much for anyone unfamiliar with the process to read through.
+
+> Thanks!
+> 
+> [1] https://docs.kernel.org/translations/zh_CN/how-to.html#id13
+
+Regards,
+Yao Zi
