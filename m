@@ -1,36 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BBB19049B;
-	Sun, 30 Aug 2026 13:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705DA39E6FC;
+	Sun, 30 Aug 2026 14:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788095037; cv=none; b=Ww3kcxV72zzOPK0sEy+PB5mlrOnZcfNVN+kyX9kDeOxI83ZUBq0dEIaUQ/E9kMKbWOA45NtxbIlxDIyzlI2DhR/73QNCw3bO6Ugo7M3mt6gIiv2JDHFrv16Iy4IorlALp/W1B5McZKFgeP77/etrqPGyIcPg/Nal6dxAF0OaRlI=
+	t=1788100019; cv=none; b=utXVI/qs2moeBJS9AKpBBvxLNGKPMPP/hGlSb2qXpGiwY8vqAqYLFmIO8TfWKWNG3aBwywyfOAMw7BPFY0y61dI640us3OlYo9lKT+yt3bB2xga4vTdOnad/dzbaNzVjms1gdq8qUPKUFpkj172n42ZDlFbBSKoRMS/EN4kq86E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788095037; c=relaxed/simple;
-	bh=xer063788hE5m5PgAM9CWmFS9V0IwWEt9lEXscINOPA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=e+IX/VmNe7PEKEz9yNpiSi+h2aBZ4l12SNbm57wuqxZ7tc5HcdAcsDXjcddUrKjSCczM/toghsm/yby3w5s54zQshH1PeLz/2fCwv6Qi06rghM/G0GBb4sUxkhbBBgV+m296ngJXmL/ycPqiyt3VBdAh0mLUUZV4XpUSwEOhws4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sXiORsp/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1788100019; c=relaxed/simple;
+	bh=EfWhsJKanp6q05Zmv8pWZBuqUYWNaUeSYTGFVyL/2Uk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NyYxLHnm3abMDYMV+fzdHpXEB/VsMCiuBxLLUD9bTviBdUjxIwR+5JvL/08Gzb43XfYL0jZEA4cQ8iypxpMlWPOq4CYGOzF6TFz7odqE3HvtPlHcH/w2JtXHsE122ino28lhh+zoilmhLgI9f7/LfIAewToF6ZRwAqzCCfpbhPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PIfJBzbT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sXiORsp/"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 74413C2BCC7;
-	Sun, 30 Aug 2026 13:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788095036;
-	bh=xer063788hE5m5PgAM9CWmFS9V0IwWEt9lEXscINOPA=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=sXiORsp/niPbxM+oj5BCc3Ofa1/pwX+2MPDbxGi3JBAsq58CnhSiFeA9io9tTxZ9e
-	 tqVRbz0r6WUrHN4ShIYsJR8JOkJJ0YIlmeP+Qn3pvO5oMo3e4boqVfVQVMTjXS5nwn
-	 6Qp0MpGl6/6IUxfSdcAH5qhLOMMjgQzRMk+UwfdgaSAklm23lKznlSuXthL9gP6gFN
-	 GCrKHgRadYnJoiSDXcc7Hl/YL4zBNSXe1CEWIb99f/s8BixFo6bWAOsNemyOZWcOBn
-	 t8L3T7psjoVdIs2FuHl52hIbesY8E8zHdBCvWMda7EFCJ+LiignuQxB+DVVb8/tQ/7
-	 eSO31BnbD/rww==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 505C6C61DDE;
-	Sun, 30 Aug 2026 13:03:56 +0000 (UTC)
-From: Asai Neko via B4 Relay <devnull+sugar.sne.moe@kernel.org>
-Date: Sun, 30 Aug 2026 21:03:51 +0800
-Subject: [PATCH] hwmon: (asus-ec-sensors) add ROG STRIX X670E-A GAMING WIFI
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PIfJBzbT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D81F81F000E9;
+	Sun, 30 Aug 2026 14:26:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788100018;
+	bh=s/migKpbNe3GG3NLiEeHKB0Or4UXa918+ZXxjDxnd34=;
+	h=From:To:Cc:Subject:Date;
+	b=PIfJBzbT5UyBBp+oonSgG5x98GMM4B/MWYP96MKwaQVMg6f1Enc8xDWVBPMOJ4uvl
+	 QD7oS2L6h+nrhgFqD4Lmb+5PgBXLGLHb43jDYwtTxxwWVB60/pKX4s16QG59RANBLQ
+	 1tOlZl097L45R29w9nc2szWoamu2C8OhrAtOiYmIzonr7zDLX8U2BLEPDfdeHxJu7W
+	 guG0wH2WZw3rx8x8wp1UAzFjrtVImSx6GNSsEPEeWItbf1DO76ckVPlPj2Z6w4i0R8
+	 I/UQEPmwDHsd1oNyj6mjhA0MT6DZAZoS2WiqDcwzGK+2uS2VJdOwne5tUBn48oEf5f
+	 CHKqHsCHOQD8Q==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	x86@kernel.org
+Cc: Jinchao Wang <wangjinchao600@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ian Rogers <irogers@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-perf-users@vger.kernel.org
+Subject: [PATCH v14 00/14] tracing: wprobe: x86: Add wprobe for watchpoint
+Date: Sun, 30 Aug 2026 23:26:52 +0900
+Message-ID: <178810001186.64882.2161016469449127450.stgit@devnote2>
+X-Mailer: git-send-email 2.43.0
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,113 +55,219 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260830-asus-x670e-a-hwmon-fix-v1-1-cf0a680ccbe2@sne.moe>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM0QqCQBCF4VeRuW5g3GyNXiW62OyoE7TGjpYgv
- rtbXn4Hzr+QISmMLsVCCR81HWJGeSio6UPswPrIJifOy/koHGwynn0t4MD99zVEbnXm4E+Vh6C
- sakf5/E7I8z98ve226f5EM/5qtK4byROxT3oAAAA=
-X-Change-ID: 20260830-asus-x670e-a-hwmon-fix-a6546e0e1472
-To: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Asai Neko <sugar@sne.moe>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3374; i=sugar@sne.moe;
- h=from:subject:message-id;
- bh=woM7oFfMNv790yC/zom6LKZaK43bcPQBp2AM1p8C9nY=;
- b=owJ4nJvAy8zAJfZHZ3FlRAEbJ+NptSSGrCla1i3/ds3PuJk0ubRE9G2FqN6lI5aM6jk8KSq+Q
- YuP1LcHenSUsjCIcTHIiimydB7pKnzyet6HAy66fDBzWJlAhjBwcQrARBy3MzI0hB26us5ViW0S
- U+OUn0Gfm94+eKzl8bDhnOjhvXOrJ6RdY2Rompn3MDCV72dUDdPOf6suLC+UUfjCc25Sl4XsrZD
- jb36zAgClsEhf
-X-Developer-Key: i=sugar@sne.moe; a=openpgp;
- fpr=89C48A71E4EB9EF0C0442D0EFC2CA37958700609
-X-Endpoint-Received: by B4 Relay for sugar@sne.moe/default with auth_id=990
-X-Original-From: Asai Neko <sugar@sne.moe>
-Reply-To: sugar@sne.moe
+Content-Transfer-Encoding: 8bit
 
-From: Asai Neko <sugar@sne.moe>
+Hi,
 
-The ROG STRIX X670E-A GAMING WIFI is missing from the driver's DMI
-table. Consequently, the board lookup fails with -ENODEV,
-asus_ec_sensors does not load, and no asusec hwmon device or EC
-temperature readings are available.
+Here is the 14th version of the series for adding new wprobe (watch probe)
+which provides memory access tracing event. Moreover, this can be used
+via event trigger. Thus it can trace memory access on dynamically
+allocated objects too.
+The previous version is here:
 
-Add a board definition using the AMD 600-series register layout and the
-ACPI mutex used by the board firmware. Expose CPU, CPU package,
-motherboard, and VRM temperatures, and add the board to the supported
-hardware documentation.
+  https://lore.kernel.org/all/178739053919.1520941.17662338993878200834.stgit@devnote2/
 
-Before the change, there was no asusec device under /sys/class/hwmon and
-there were no EC readings. After the change, the driver registered four
-sensors with representative readings of 57-61 C for CPU, 68-71 C for
-CPU package, 43-44 C for motherboard, and 49-52 C for VRM.
+This version includes independent bug fixes for x86 user-mode MCE debug
+register migration and BTF anonymous struct kflag resolution (these 2
+patches should be merged as bugfix), enforces valid kernel addresses
+(< TASK_SIZE check), allows '-1' dummy trigger addresses, fixes trigger
+count unregistration and error path leaks, and resolves race conditions
+in selftests. See below for more details.
 
-The readings correlated with nct6775 and k10temp. Repeated polling with
-both hwmon drivers loaded produced no EC access, bank-switch, concurrent
-access, or locking errors.
+Changes in v14:
+ - x86/mce: Add standalone fix for hardware debug register corruption on
+   task migration during user MCE.
+ - tracing/probes: Add standalone fix for BTF member offset resolution to
+   check the kflag of the actual containing structure/union type.
+ - x86/hw_breakpoints: Return early in local_db_restore() when saved DR7
+   is 0 to avoid overwriting guest/cleared hardware DR7 on NMI.
+ - tracing/wprobe: Disallow address 0 and user-space addresses
+   (< TASK_SIZE) in parse_address_spec().
+ - tracing/wprobe: Format symbol and offset explicitly in
+   trace_wprobe_show() instead of %pS to ensure clean event restoration.
+ - tracing/wprobe: Accept '-1' as a dummy address for trigger-only wprobes
+   and display as '-1' on show.
+ - tracing/wprobe: Skip field parsing in clear_wprobe if parameter is a
+   count keyword to allow unregistering with '!clear_wprobe:...:count=N'.
+ - tracing/wprobe: Set target address before soft-enabling events in
+   set_wprobe trigger and roll back on failure.
+ - tracing/wprobe: Fix trigger_data/wprobe_data memory and refcount
+   leaks on trigger registration error paths.
+ - selftests/ftrace: Add BTF argument dependency requirement in
+   trigger-wprobe.tc.
+ - selftests/ftrace: Add delay before clear_trace in trigger-wprobe.tc to
+   prevent race with clear_wprobe execution.
+ - selftests/ftrace: Update dummy wprobe event definitions across trigger
+   tests to use '-1' instead of '0'.
+ - selftests/tracing: Fix error log comment to BAD_PROBE_ADDR and add
+   testcase for address 0 rejection.
 
-Tested on an ASUS ROG STRIX X670E-A GAMING WIFI with BIOS 2704.
+Public branch
+-------------
+I will push this branch as topic/wprobe-v2 to my tree so that it
+can be easily tested.
 
-Signed-off-by: Asai Neko <sugar@sne.moe>
+https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git/log/?h=topic/wprobe-v2
+
+This is based on linux-trace tree's linux-trace/for-next.
+
+Usage
+-----
+
+The basic usage of this wprobe is similar to other probes;
+
+  w:[GRP/][EVENT] [r|w|rw]@<ADDRESS|SYMBOL[+|-OFFS]>[:LEN] [FETCHARGS]
+
+This defines a new wprobe event. For example, to trace jiffies update,
+you can do;
+
+ echo 'w:my_jiffies w@jiffies:8 value=+0($addr)' >> dynamic_events
+ echo 1 > events/wprobes/my_jiffies/enable
+
+Moreover, this can be combined with event trigger to trace the memory
+access on slab objects. The trigger syntax is;
+
+  set_wprobe:WPROBE_EVENT:FIELD[+|-OFFSET][:COUNT] [if FILTER]
+  clear_wprobe:WPROBE_EVENT[:FIELD[+|-OFFSET][:COUNT]] [if FILTER]
+
+set_wprobe sets WPROBE_EVENT's watch address on FIELD[+|-OFFSET].
+clear_wprobe clears WPROBE_EVENT's watch address if it is set to
+FIELD[+|-OFFSET]. If FIELD is omitted, forcibly clear the watch address
+when trigger event is hit.
+
+For example, trace the first 8 byte of the dentry data structure passed
+to do_truncate() until it is deleted by dentry_kill().
+(Note: all tracefs setup uses '>>' so that it does not kick do_truncate())
+
+  # echo 'w:watch rw@-1:8 address=$addr value=+0($addr)' > dynamic_events
+
+  # echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
+  # echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
+
+  # echo 'f:dentry_kill dentry_kill dentry=$arg1' >> dynamic_events
+  # echo 'clear_wprobe:watch:dentry' >> events/fprobes/dentry_kill/trigger
+
+  # echo 1 >> events/fprobes/truncate/enable
+  # echo 1 >> events/fprobes/dentry_kill/enable
+
+  # echo aaa > /tmp/hoge
+  # echo bbb > /tmp/hoge
+  # echo ccc > /tmp/hoge
+  # rm /tmp/hoge
+
+Then, the trace data will show;
+
+ # tracer: nop
+ #
+ # entries-in-buffer/entries-written: 32/32   #P:8
+ #
+ #                                _-----=> irqs-off/BH-disabled
+ #                               / _----=> need-resched
+ #                              | / _---=> hardirq/softirq
+ #                              || / _--=> preempt-depth
+ #                              ||| / _-=> migrate-disable
+ #                              |||| /     delay
+ #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+ #              | |         |   |||||     |         |
+               sh-107     [004] ...1.     9.990418: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+               sh-107     [004] ...1.     9.990914: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b3de78
+               sh-107     [004] ...1.     9.993175: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049ddd40
+               sh-107     [004] .....     9.995198: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880048083a8
+               sh-107     [004] ...1.     9.995389: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db998
+               sh-107     [004] ..Zff     9.997503: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] ..Zff     9.997509: watch: (path_openat+0x211/0xda0) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] ..Zff     9.997514: watch: (path_openat+0xa56/0xda0) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] ..Zff     9.997518: watch: (path_openat+0xae2/0xda0) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] .....     9.997521: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880048083a8
+               sh-107     [004] ...1.     9.997582: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004808270
+               sh-107     [004] ...1.     9.999365: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db728
+               sh-107     [004] ...1.     9.999388: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b1c000
+               rm-113     [005] ..Zff    10.000965: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.000971: watch: (path_lookupat+0x97/0x1e0) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.000984: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.000988: watch: (path_lookupat+0x97/0x1e0) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001010: watch: (lookup_one_qstr_excl+0x28/0x140) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001014: watch: (lookup_one_qstr_excl+0xd1/0x140) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001018: watch: (may_delete_dentry+0x1c/0x200) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001021: watch: (may_delete_dentry+0x195/0x200) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001031: watch: (vfs_unlink+0x5e/0x260) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] d.Z..    10.001067: watch: (d_make_discardable+0x1b/0x40) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] d.Z..    10.001071: watch: (d_make_discardable+0x29/0x40) address=0xffff8880048083a8 value=0x200080
+               rm-113     [005] ...1.    10.001072: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880048083a8
+               rm-113     [005] ...1.    10.001218: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880048083a8
+               sh-107     [004] ...1.    10.001416: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db110
+               sh-107     [004] ...1.    10.001444: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db248
+               sh-107     [004] ...1.    10.001500: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+               sh-107     [004] ...1.    10.002067: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b41e78
+               sh-107     [004] ...1.    10.904920: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b41e78
+               sh-107     [004] ...1.    10.905129: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+
+
+Thank you,
+
 ---
-Add asus-ec-sensors support for the ASUS ROG STRIX X670E-A GAMING WIFI.
-Testing details and the rationale are included in the patch commit
-message.
+base-commit: 3df3ae98c30c249c4bbf3d74559cc6972898052c
 
-Background:
-https://github.com/lm-sensors/lm-sensors/issues/474
----
- Documentation/hwmon/asus_ec_sensors.rst | 1 +
- drivers/hwmon/asus-ec-sensors.c         | 9 +++++++++
- 2 files changed, 10 insertions(+)
+Jinchao Wang (2):
+      x86/hw_breakpoints: Make DR7 updates NMI safe
+      x86/hw_breakpoints: Add arch_modify_local_hw_breakpoint_addr() API
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index 2c68a343a2ed..ebed9f8d2adb 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -45,6 +45,7 @@ Supported boards:
-  * ROG STRIX X570-E GAMING WIFI II
-  * ROG STRIX X570-F GAMING
-  * ROG STRIX X570-I GAMING
-+ * ROG STRIX X670E-A GAMING WIFI
-  * ROG STRIX X670E-E GAMING WIFI
-  * ROG STRIX X670E-I GAMING WIFI
-  * ROG STRIX X870-F GAMING WIFI
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index e43645e884fd..850c8e297397 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -752,6 +752,13 @@ static const struct ec_board_info board_info_strix_x570_i_gaming = {
- 	.family = family_amd_500_series,
- };
- 
-+static const struct ec_board_info board_info_strix_x670e_a_gaming_wifi = {
-+	.sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
-+		SENSOR_TEMP_MB | SENSOR_TEMP_VRM,
-+	.mutex_path = ASUS_HW_ACCESS_MUTEX_SB_PCI0_SBRG_SIO1_MUT0,
-+	.family = family_amd_600_series,
-+};
-+
- static const struct ec_board_info board_info_strix_x670e_e_gaming_wifi = {
- 	.sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
- 		SENSOR_TEMP_MB  | SENSOR_TEMP_VRM,
-@@ -962,6 +969,8 @@ static const struct dmi_system_id dmi_table[] = {
- 					&board_info_strix_x570_f_gaming),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X570-I GAMING",
- 					&board_info_strix_x570_i_gaming),
-+	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X670E-A GAMING WIFI",
-+					&board_info_strix_x670e_a_gaming_wifi),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X670E-E GAMING WIFI",
- 					&board_info_strix_x670e_e_gaming_wifi),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X670E-I GAMING WIFI",
-
----
-base-commit: 75f2c0b3690702c90863c2e138cb5520670845ea
-change-id: 20260830-asus-x670e-a-hwmon-fix-a6546e0e1472
-
-Best regards,
---  
-Asai Neko <sugar@sne.moe>
+Masami Hiramatsu (Google) (12):
+      x86/mce: Fix hardware debug register corruption on task migration
+      tracing/probes: Fix BTF kflag check for anonymous struct member access
+      kprobes: Protect kprobe_blacklist with RCU
+      HWBP: Add modify_local_hw_breakpoint_addr() API
+      tracing/wprobe: Add wprobe (watchpoint probe) trace event support
+      x86: hw_breakpoint: Add a kconfig to clarify when a breakpoint fires
+      selftests: tracing: Add a basic testcase for wprobe
+      selftests: tracing: Add syntax testcase for wprobe
+      tracing/wprobe: Add set_wprobe and clear_wprobe event triggers
+      selftests: ftrace: Add wprobe trigger testcase
+      tracing/wprobe: Support BTF typecast in fetchargs
+      tracing/wprobe: Support BTF struct offset resolution in set_wprobe trigger
 
 
+ Documentation/trace/index.rst                      |    1 
+ Documentation/trace/wprobetrace.rst                |  185 +++
+ arch/Kconfig                                       |   18 
+ arch/x86/Kconfig                                   |    2 
+ arch/x86/include/asm/debugreg.h                    |   37 -
+ arch/x86/include/asm/hw_breakpoint.h               |    2 
+ arch/x86/kernel/cpu/mce/core.c                     |   25 
+ arch/x86/kernel/hw_breakpoint.c                    |  139 +-
+ arch/x86/kernel/nmi.c                              |    7 
+ arch/x86/kernel/traps.c                            |   10 
+ include/linux/hw_breakpoint.h                      |    6 
+ include/linux/kprobes.h                            |    1 
+ include/linux/trace_events.h                       |    3 
+ kernel/events/hw_breakpoint.c                      |   48 +
+ kernel/kprobes.c                                   |   14 
+ kernel/trace/Kconfig                               |   24 
+ kernel/trace/Makefile                              |    1 
+ kernel/trace/trace.c                               |    9 
+ kernel/trace/trace.h                               |    6 
+ kernel/trace/trace_btf.c                           |   11 
+ kernel/trace/trace_btf.h                           |    3 
+ kernel/trace/trace_events_trigger.c                |    2 
+ kernel/trace/trace_probe.c                         |   51 +
+ kernel/trace/trace_probe.h                         |   22 
+ kernel/trace/trace_wprobe.c                        | 1475 ++++++++++++++++++++
+ tools/testing/selftests/ftrace/config              |    3 
+ .../ftrace/test.d/dynevent/add_remove_wprobe.tc    |   63 +
+ .../test.d/dynevent/wprobes_syntax_errors.tc       |   23 
+ .../test.d/trigger/trigger-wprobe-btf-offset.tc    |   74 +
+ .../test.d/trigger/trigger-wprobe-btf-typecast.tc  |   72 +
+ .../test.d/trigger/trigger-wprobe-syntax-errors.tc |   37 +
+ .../ftrace/test.d/trigger/trigger-wprobe.tc        |   90 +
+ 32 files changed, 2364 insertions(+), 100 deletions(-)
+ create mode 100644 Documentation/trace/wprobetrace.rst
+ create mode 100644 kernel/trace/trace_wprobe.c
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/add_remove_wprobe.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/wprobes_syntax_errors.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-typecast.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-syntax-errors.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
+
+--
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
