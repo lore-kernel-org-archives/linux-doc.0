@@ -1,71 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1974525785D;
-	Sun, 30 Aug 2026 05:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E8F1E51E0;
+	Sun, 30 Aug 2026 07:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788068178; cv=none; b=W8tA7+8lDyuqCBnokRVIAdy7iJ0XuIpvAhyrI1bIxi9gAxE7s0lF4AB51/Pf+eK5Jt6Llgiq9lUPK+DKWYvD0WvVZRje59B1ijzpofBCF7ogp/izZrT9VKm/Y1IrGBdjgyF0Ttyczg6bymuUu6g1OcxvSbK3RTQJQlTm6R9JYhw=
+	t=1788073972; cv=none; b=KS4i3MXmW1EuKB2W1UIrPclWS/yZRoACzFGGaboMqjOzXxdOaHuHXgKUUYufqtgRF5/zVw5gZV4dgtIID8lWvIVrZ4prtAKPlgutT5YxYe5pQo9XjaQlxjY3cCs9YRGohLeDCx9JW9Q180rkJwrplgudDQy2QaM5TefttNwEH1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788068178; c=relaxed/simple;
-	bh=ppANgCqYjbrHGJPNi8JX7qDzvfAij53sX9+QybYQSlw=;
+	s=arc-20240116; t=1788073972; c=relaxed/simple;
+	bh=iazp0KDG9XO8tNOtwqgDz8WtQg1nj0t2IAFOstoA9/k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RaDsuKmUL6jHrGL+pnnD5SfZkn3nPRs2VRk+QhYsCm3zfoOuPIRowjgo7mbxz3H9ydG3amYGDnmgn7hXLXMMJ4PoJIKKPkjK4xTXb3zHgOnDhUwrZd+NdH82BikAamYaJuiPQ2W4KLecAtLM7nEN1xRACDsQpC+bVTuhQETZiCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F5e3f3zr; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=imnDZDI2wVDGegc1//0w6dwi2oUDIrgWtc54S21w5W3cAXeJJ0Cez6n5aSWLOZZnpTUQzmNac20Ju2cmRUAxIcG1/RAKgc78tmUeS3Kk0gPNpkk+N0z05Sln/buk3SrVfdljFdtPcCGDyEdwwLtEAFEJ2JFvRi3lmbpb/K3lDf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZNkYkutc; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F5e3f3zr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9AFA1F000E9;
-	Sun, 30 Aug 2026 05:36:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788068176;
-	bh=dbu7Q3qcydpbduK5d5xuw3bm+6kDkYu6ps7F3h/cYC4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=F5e3f3zrh6K28tm/qQp6Oue55tKOTLOm01Yu0X0OpWd11buxJM+oaQZgRaPgAlviw
-	 orfhumU4zI6rXgZbcTbz0VyTxjMqyrqmt1yX+dwx/pPQKPoDwxaZymNkiEKL37jeMy
-	 m8iwifd6CBos3sCjQc12VSH5HxST5TNAz8sS8HWLLTXtD53zgpGszWjYd1Udf6YqOi
-	 RItioxeawc68IRB5v4ZTiIT2/t0l07vAMlA5MEkxNFTdL0oaOKmRwu/l+811BFK+ra
-	 hPrKDWDpFPIFCqHB2QRZ5eP+KTGkOQHlKN9AYVVTraJss062/hlCVu+RUurmS761IA
-	 JU6btVfCDBo7Q==
-Date: Sun, 30 Aug 2026 08:36:01 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
-	Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
-	Nico Pache <nico.pache@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZNkYkutc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788073969; x=1819609969;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iazp0KDG9XO8tNOtwqgDz8WtQg1nj0t2IAFOstoA9/k=;
+  b=ZNkYkutcT5Ppb/vmRYPAY43wadBKyCzBA0BL+1jFoou941l6jkqFI5fe
+   b5syLEVT2eKqJW3OD/AKDZhAE0a0DE8hjPL55YySNY1ZkiZfkAZ42N/8v
+   l+/b4wHTGF1A9cuQxeYNNUK/sZbT4cbxoJeC6JD/5v49HeGrODMUSyz5H
+   goRBI2jx6LsmtmHmlWSg/bgKRYhxyhsXh55Lh3xC6C/qkYZavol9OoKrM
+   Lzum2Tq+ofOEJUfuTLdt3i21JYgmUrvF2hSyRPqW5lHgkLNe5HjirzYea
+   pZQmXkiLeZ8t7KZWZ3AmKQtP42Lm7PsmjA7SqIRLyAfCRvSpbBGU8dHgg
+   g==;
+X-CSE-ConnectionGUID: hi67F+nyTOe78bFGqoNR1w==
+X-CSE-MsgGUID: QC/cj4nkRUC/ghDIpFajZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11890"; a="92200426"
+X-IronPort-AV: E=Sophos;i="6.25,251,1779174000"; 
+   d="scan'208";a="92200426"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 00:12:49 -0700
+X-CSE-ConnectionGUID: IxVKxOtaSNCL6aggQofF+A==
+X-CSE-MsgGUID: 2Ag3hX7cRYC1ynJibEgjHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,251,1779174000"; 
+   d="scan'208";a="262412193"
+Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.245.243])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 00:12:44 -0700
+Date: Sun, 30 Aug 2026 10:12:41 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Janani Sunil <janani.sunil@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Usama Arif <usama.arif@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/6] userfaultfd: collapse VM_UFFD_{MISSING,WP,MINOR,RWP}
- into single VM_UFFD
-Message-ID: <apPBQQ-850DwlCVA@kernel.org>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
- <ao16VxNvaYzlt2WG@gremlin>
- <ao_9R3CbjYFipFu7@kernel.org>
- <apAB9GSnHNyNoSc1@gremlin>
- <apAcweThjiD-iIBF@gremlin>
- <37f6af95-950e-4457-886e-6548d4719f0d@kernel.org>
- <apK7s4xSgA_GmY7d@kernel.org>
- <178802897277.671075.10362065249796431311.b4-reply@b4>
+	Michael Walle <mwalle@kernel.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v5 00/20] iio: adc: Add AD7768/AD7768-4 ADC driver support
+Message-ID: <apPX6ZeomgPd4WPU@ashevche-desk.local>
+References: <20260828-ad7768-driver-v5-0-e33ca6f841a2@analog.com>
+ <20260829191954.7a5f1875@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,66 +76,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <178802897277.671075.10362065249796431311.b4-reply@b4>
+In-Reply-To: <20260829191954.7a5f1875@jic23-huawei>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sat, Aug 29, 2026 at 02:42:52PM -0400, Tal Zussman wrote:
-> On 2026-08-29 14:00 +0300, Mike Rapoport wrote:
-> > On Thu, Aug 27, 2026 at 05:19:30PM +0200, David Hildenbrand (Arm) wrote:
-> > > On 8/27/26 13:18, Lorenzo Stoakes (ARM) wrote:
-> > > > On Thu, Aug 27, 2026 at 12:16:32PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > > >> So actually you're increasing by a cacheline and increasing the VMA size by
-> > > >> 64 bytes, i.e. 1/3, which is unacceptable obviously.
-> > > >>
-> > > >> Maybe there's something that can be done with:
-> > > >>
-> > > >> 		/* forced alignments: 1 */
-> > > >>
-> > > >> Perhaps? But that looks potentially ugly.
-> > > >>
-> > > > 
-> > > > I say elsewhere (or think I do) but to highlight - I think probably we could fix
-> > > > this by putting the flags in the low bits of vm_uffd_state.ctx?
-> > > 
-> > > if that's possible that would be clearly preferable memory-wise.
-> > 
-> > This gives only 4 bits and makes this completely not extendable.
+On Sat, Aug 29, 2026 at 07:19:54PM +0100, Jonathan Cameron wrote:
+> > ---
+> > base-commit: b75697ef53e435d894833dad2a8c2fa882cb9b19
 > 
-> Wouldn't it be 6 bits? struct userfaultfd_ctx is allocated with
-> kmem_cache_create() and SLAB_HWCACHE_ALIGN, and most of the flags are
-> only available on 64 bit, so it should be 64-byte aligned in the
-> relevant cases.
-> 
-> (Not that 6 is that much better than 4... but it's a little more wiggle
-> room.)
+> Where is this commit?  I tried the various IIO trees, GPIO and linux-next.
+> None of them seem to have it.  That means automated tooling is failing
+> to apply this including sashiko (and I'm starting to use b4 review which
+> has similar problems)  Please fix up and send a v6.
 
-I did remember that SLAB_HWCACHE_ALIGN could be as small as 16 bytes, but I
-didn't verify it for architectures that support fancy uffd modes.
- 
-> It could in theory also be bumped up to 7 by setting align in
-> kmem_cache_create(). userfaultfd_ctx already takes 192 bytes due to
-> existing alignment. Aligning it to 128 bytes would make it 256 bytes,
-> adding 64 bytes to each uffd rather than each VMA. But this sounds like
-> more pain for little gain :)
+> Choices for base - and say in text which it is as well as the
+> commit id.
 
-Yeah, even with as plenty as 7 bits :)
- 
-> > So I think I'll drop this for now and wait until VMA grows another cache
-> > line or until having per-VMA uffd state rather than a pointer to per-fd
-> > context is a must.
-> >  
-> > > -- 
-> > > Cheers,
-> > > 
-> > > David
-> > 
-> > -- 
-> > Sincerely yours,
-> > Mike.
-> > 
-> > 
+Hmm... I usually find the text is redundant, especially in the case like this
+where it may add ambiguity. If, say, text refers to vX.Y-rcZ and base can't
+be found, this will rise even more questions (at least to me). Having the only
+one source of info helps (in my opinion). And in the case like this it's simply
+wrong base and we see it immediately without any text description required.
+
+> Latest mainline release
+> rc1 of the new release - occasionally rcX but then you must call that out
+> with reasons
 > 
+> These first two are the strong preference.
 > 
+> An immutable branch that others have created to allow some cross subsystem
+> work in a single cycle.
+
+> togreg branch of iio.git - but call that out and say why.
+
+I agree that for the special cases the text might be needed to explain
+the choice of the (non-standard) base.
+
+> Anyhow, given I have a long queue today and this base commit thing has
+> been going on for a few cycles (as seen by sashiko not reviewing it)
+> I'm going to give v5 a skip and wait for v6.
 
 -- 
-Sincerely yours,
-Mike.
+With Best Regards,
+Andy Shevchenko
+
+
