@@ -1,123 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E8F1E51E0;
-	Sun, 30 Aug 2026 07:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D6031E834;
+	Sun, 30 Aug 2026 07:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788073972; cv=none; b=KS4i3MXmW1EuKB2W1UIrPclWS/yZRoACzFGGaboMqjOzXxdOaHuHXgKUUYufqtgRF5/zVw5gZV4dgtIID8lWvIVrZ4prtAKPlgutT5YxYe5pQo9XjaQlxjY3cCs9YRGohLeDCx9JW9Q180rkJwrplgudDQy2QaM5TefttNwEH1s=
+	t=1788074023; cv=none; b=FMlTbEZolLWBS43CEr68Vw18VBrSJwipUiBeVfngoLAUnnNsBIE7Gg5DCyGmCRuzcs7UKH5WSSZORjjMNag0xcO8Tofwm9AkCSnZOWIlcFO2EtUmMNuHZ14vPcdGOzwbupZPYlfV13iOcs5S/RAsJLgqPhEVnwRNjs+11cfnwuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788073972; c=relaxed/simple;
-	bh=iazp0KDG9XO8tNOtwqgDz8WtQg1nj0t2IAFOstoA9/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=imnDZDI2wVDGegc1//0w6dwi2oUDIrgWtc54S21w5W3cAXeJJ0Cez6n5aSWLOZZnpTUQzmNac20Ju2cmRUAxIcG1/RAKgc78tmUeS3Kk0gPNpkk+N0z05Sln/buk3SrVfdljFdtPcCGDyEdwwLtEAFEJ2JFvRi3lmbpb/K3lDf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZNkYkutc; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788074023; c=relaxed/simple;
+	bh=3coKOgO4YZeimnJtVQnOaBMlYLRlcyIHiGqgTd+TUkA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nBMex9nXCI0bwfZoRd/GGlEih0FZyvTrDYeaCXoy0UyT6no9Xrrz4hqW/fF9R/kV4utyya3r9i/dC3YG9RHXV7INbgGHynk/JcV4GG5iMG8oeIViZ0h8dbTZG56GKcSIYszRieNarw3/3oqyc1Q1TDBo54KifyFkaiMYHWyA9UE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Ulede2FE; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZNkYkutc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788073969; x=1819609969;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iazp0KDG9XO8tNOtwqgDz8WtQg1nj0t2IAFOstoA9/k=;
-  b=ZNkYkutcT5Ppb/vmRYPAY43wadBKyCzBA0BL+1jFoou941l6jkqFI5fe
-   b5syLEVT2eKqJW3OD/AKDZhAE0a0DE8hjPL55YySNY1ZkiZfkAZ42N/8v
-   l+/b4wHTGF1A9cuQxeYNNUK/sZbT4cbxoJeC6JD/5v49HeGrODMUSyz5H
-   goRBI2jx6LsmtmHmlWSg/bgKRYhxyhsXh55Lh3xC6C/qkYZavol9OoKrM
-   Lzum2Tq+ofOEJUfuTLdt3i21JYgmUrvF2hSyRPqW5lHgkLNe5HjirzYea
-   pZQmXkiLeZ8t7KZWZ3AmKQtP42Lm7PsmjA7SqIRLyAfCRvSpbBGU8dHgg
-   g==;
-X-CSE-ConnectionGUID: hi67F+nyTOe78bFGqoNR1w==
-X-CSE-MsgGUID: QC/cj4nkRUC/ghDIpFajZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11890"; a="92200426"
-X-IronPort-AV: E=Sophos;i="6.25,251,1779174000"; 
-   d="scan'208";a="92200426"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 00:12:49 -0700
-X-CSE-ConnectionGUID: IxVKxOtaSNCL6aggQofF+A==
-X-CSE-MsgGUID: 2Ag3hX7cRYC1ynJibEgjHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,251,1779174000"; 
-   d="scan'208";a="262412193"
-Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.245.243])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2026 00:12:44 -0700
-Date: Sun, 30 Aug 2026 10:12:41 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Janani Sunil <janani.sunil@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Michael Walle <mwalle@kernel.org>, linux@analog.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v5 00/20] iio: adc: Add AD7768/AD7768-4 ADC driver support
-Message-ID: <apPX6ZeomgPd4WPU@ashevche-desk.local>
-References: <20260828-ad7768-driver-v5-0-e33ca6f841a2@analog.com>
- <20260829191954.7a5f1875@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Ulede2FE"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hXjyn5Nk0zKv3W;
+	Sun, 30 Aug 2026 09:13:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788074017;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3coKOgO4YZeimnJtVQnOaBMlYLRlcyIHiGqgTd+TUkA=;
+	b=Ulede2FEl0CfXIUqE7UnaYIkqjPGvzIah7+aaSOR6PJH9T/U2Z9WSIJxNRTeeDTG/zjHRT
+	wM4nX+Oxkg56N3oKFNl3W7qQwXN5GBLWE5a+00QPxjhiupaD+9OPzPB13pdlRdyxE2gY/c
+	37052SGFaruG2R+H8DMQbAdTtRZNlvgiB3dcq/2VKJSM2j6vMpHOMKQ2mB7hRt9N9xoHce
+	RdlbSltZ73DWUIvp8P4GrFudMn/tRdRi7Fq8ScWAZ9XEkg4Y7efmRND6Etb7KzbsTRFNwN
+	kKmiwwGVFMSWcvjiPLTz9NtXWQtjRNJBvxVXjtEITLv8fNEka84oUtjMo9Wbmw==
+Message-ID: <f0ccda934d2747f7d39d5c263116ec046c7450e2.camel@mailbox.org>
+Subject: Re: [Issue] sphinx: incorrect high-lighting
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: Jonathan Corbet <corbet@lwn.net>, Weijie Yuan <wy@wyuan.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Shuah Khan
+	 <skhan@linuxfoundation.org>, "open list:DOCUMENTATION PROCESS"
+	 <workflows@vger.kernel.org>, "open list:DOCUMENTATION"
+	 <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Date: Sun, 30 Aug 2026 09:13:31 +0200
+In-Reply-To: <87mrub1wfv.fsf@trenco.lwn.net>
+References: <bba57d51c72d9387ccef2b5979fa618e980c3ebf.camel@mailbox.org>
+	 <aosYfdfH6Z7ai5M2@wyuan.org>
+	 <c7a3db22f56c598ef35676288d10303af21098bf.camel@mailbox.org>
+	 <87mrub1wfv.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260829191954.7a5f1875@jic23-huawei>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-MBO-RS-META: 7ycnuq3q6wpdzx5t9yfy85ade9skqdip
+X-MBO-RS-ID: fc5110c4f1b32b16279
 
-On Sat, Aug 29, 2026 at 07:19:54PM +0100, Jonathan Cameron wrote:
-> > ---
-> > base-commit: b75697ef53e435d894833dad2a8c2fa882cb9b19
-> 
-> Where is this commit?  I tried the various IIO trees, GPIO and linux-next.
-> None of them seem to have it.  That means automated tooling is failing
-> to apply this including sashiko (and I'm starting to use b4 review which
-> has similar problems)  Please fix up and send a v6.
+On Mon, 2026-08-24 at 07:26 -0600, Jonathan Corbet wrote:
+> Manuel Ebner <manuelebnerli@mailbox.org> writes:
+>=20
+> > It would be this list:
+> > Skipidentifiers =3D [ 'and', 'are', 'as', 'containing', 'element', 'in'=
+,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'including', 'is', 'name', 'n=
+eeds', 'of', 'or',=C2=A0 'page',
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'pages', 'passed', 'randomiza=
+tion', 'request', 'that',
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'to', 'where', 'which', 'whos=
+e', 'will' ]
+>=20
+> So this is an error-prone game of whac-a-mole...as Randy pointed out,
+> "struct page" is a rather important one in the kernel.
+>=20
+> I can apply your updated version of this as a short-term fix, I guess,
+> but a better solution is probably to only apply markup to "struct foo"
+> if we have documentation for that type.=C2=A0 I can look into that later.
 
-> Choices for base - and say in text which it is as well as the
-> commit id.
+That's better, skip my patch.
 
-Hmm... I usually find the text is redundant, especially in the case like this
-where it may add ambiguity. If, say, text refers to vX.Y-rcZ and base can't
-be found, this will rise even more questions (at least to me). Having the only
-one source of info helps (in my opinion). And in the case like this it's simply
-wrong base and we see it immediately without any text description required.
-
-> Latest mainline release
-> rc1 of the new release - occasionally rcX but then you must call that out
-> with reasons
-> 
-> These first two are the strong preference.
-> 
-> An immutable branch that others have created to allow some cross subsystem
-> work in a single cycle.
-
-> togreg branch of iio.git - but call that out and say why.
-
-I agree that for the special cases the text might be needed to explain
-the choice of the (non-standard) base.
-
-> Anyhow, given I have a long queue today and this base commit thing has
-> been going on for a few cycles (as seen by sashiko not reviewing it)
-> I'm going to give v5 a skip and wait for v6.
-
--- 
-With Best Regards,
-Andy Shevchenko
+Thanks
+ Manuel=20
 
 
+> jon
