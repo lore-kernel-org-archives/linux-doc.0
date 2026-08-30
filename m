@@ -1,45 +1,36 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1103B27D5;
-	Sun, 30 Aug 2026 12:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BBB19049B;
+	Sun, 30 Aug 2026 13:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788093130; cv=none; b=i0MmA+1uKsCkGl5UWvZGvFMDCnPSomuSCnbW1QrM7DwpvKsexMwox9aabRdcjzGC9HyR/3XZ3QZjIJFXKdMFJwf0759s/y7dRP1Qx6e1KKEbLD2FSu3n5WIE1dOor73kmupd2wrDR1XA9UcLfV8GoZebP+pbV9uqf95eFLCVMXg=
+	t=1788095037; cv=none; b=Ww3kcxV72zzOPK0sEy+PB5mlrOnZcfNVN+kyX9kDeOxI83ZUBq0dEIaUQ/E9kMKbWOA45NtxbIlxDIyzlI2DhR/73QNCw3bO6Ugo7M3mt6gIiv2JDHFrv16Iy4IorlALp/W1B5McZKFgeP77/etrqPGyIcPg/Nal6dxAF0OaRlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788093130; c=relaxed/simple;
-	bh=9X8cSbd2RK5O+XQYVHGEEKoG3nnAz/8Dc6No6o4JIms=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=A7qahNbjLRBmS0NVLor3WJVNiaJUaDb7rOVCt4h6nuhoMyA2+sOkdqjacQe5CiE5hTt35fEIk6n7eNP9+5+7v5doo9MKs9KuONEwsFEXLmMoL98BDl4qRRvX+qtx1x/bXVMVAm/ixEGuwqpdSK1BoKKQi76KRLkgeuY/qFTdm+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c5l1n6Hv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788095037; c=relaxed/simple;
+	bh=xer063788hE5m5PgAM9CWmFS9V0IwWEt9lEXscINOPA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=e+IX/VmNe7PEKEz9yNpiSi+h2aBZ4l12SNbm57wuqxZ7tc5HcdAcsDXjcddUrKjSCczM/toghsm/yby3w5s54zQshH1PeLz/2fCwv6Qi06rghM/G0GBb4sUxkhbBBgV+m296ngJXmL/ycPqiyt3VBdAh0mLUUZV4XpUSwEOhws4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sXiORsp/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c5l1n6Hv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C8EC1F00A3D;
-	Sun, 30 Aug 2026 12:32:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788093129;
-	bh=RJCuZGSUvPJzHcbaWQPIPczOFaB/IqmH+bcUMXp3qcw=;
-	h=From:To:Cc:Subject:Date;
-	b=c5l1n6HvFsKAm+es+LT/Sp0OuF+wMkeLphXmtcLdrKuGD9n4eCwwg/CCFrnk2CiC7
-	 +UX4roDbEf413wvhu/6pdxWB0+jbqYafwQXHBmO0iQ+jACzCVIPUgaJIo9r7IbHN3x
-	 VCQsrZdbbO44MuehW6kVIN1jIryskahixHBVBqNyeObDcluElWrnnT76qeuhLyt5Tp
-	 yoqnG2IDIDYQzX8qjP4XXg23egbHg7q1+UBq6Q34lfHy3PmuzRtjxi+cbqa/8S7qvk
-	 lS1isaZXlpSxS24V5JO4bs4IkwvtS7CxWfFLOlyYxWN9m/aC5t6H9Ee9JWliAqySst
-	 k1r1XqEzE2BWw==
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-	Leon Romanovsky <leon@kernel.org>
-Cc: linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] PCI/P2PDMA: Update DMABUF lifecycle docs after move_notify() rename
-Date: Sun, 30 Aug 2026 15:31:49 +0300
-Message-ID: <20260830-doc-p2p-move-v1-1-61a388620588@nvidia.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sXiORsp/"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 74413C2BCC7;
+	Sun, 30 Aug 2026 13:03:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788095036;
+	bh=xer063788hE5m5PgAM9CWmFS9V0IwWEt9lEXscINOPA=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=sXiORsp/niPbxM+oj5BCc3Ofa1/pwX+2MPDbxGi3JBAsq58CnhSiFeA9io9tTxZ9e
+	 tqVRbz0r6WUrHN4ShIYsJR8JOkJJ0YIlmeP+Qn3pvO5oMo3e4boqVfVQVMTjXS5nwn
+	 6Qp0MpGl6/6IUxfSdcAH5qhLOMMjgQzRMk+UwfdgaSAklm23lKznlSuXthL9gP6gFN
+	 GCrKHgRadYnJoiSDXcc7Hl/YL4zBNSXe1CEWIb99f/s8BixFo6bWAOsNemyOZWcOBn
+	 t8L3T7psjoVdIs2FuHl52hIbesY8E8zHdBCvWMda7EFCJ+LiignuQxB+DVVb8/tQ/7
+	 eSO31BnbD/rww==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 505C6C61DDE;
+	Sun, 30 Aug 2026 13:03:56 +0000 (UTC)
+From: Asai Neko via B4 Relay <devnull+sugar.sne.moe@kernel.org>
+Date: Sun, 30 Aug 2026 21:03:51 +0800
+Subject: [PATCH] hwmon: (asus-ec-sensors) add ROG STRIX X670E-A GAMING WIFI
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,67 +38,113 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Change-ID: 20260830-doc-p2p-move-05aad5de1ec1
-X-Mailer: b4 0.15-dev-18f8f
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260830-asus-x670e-a-hwmon-fix-v1-1-cf0a680ccbe2@sne.moe>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM0QqCQBCF4VeRuW5g3GyNXiW62OyoE7TGjpYgv
+ rtbXn4Hzr+QISmMLsVCCR81HWJGeSio6UPswPrIJifOy/koHGwynn0t4MD99zVEbnXm4E+Vh6C
+ sakf5/E7I8z98ve226f5EM/5qtK4byROxT3oAAAA=
+X-Change-ID: 20260830-asus-x670e-a-hwmon-fix-a6546e0e1472
+To: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Eugene Shalygin <eugene.shalygin@gmail.com>
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Asai Neko <sugar@sne.moe>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3374; i=sugar@sne.moe;
+ h=from:subject:message-id;
+ bh=woM7oFfMNv790yC/zom6LKZaK43bcPQBp2AM1p8C9nY=;
+ b=owJ4nJvAy8zAJfZHZ3FlRAEbJ+NptSSGrCla1i3/ds3PuJk0ubRE9G2FqN6lI5aM6jk8KSq+Q
+ YuP1LcHenSUsjCIcTHIiimydB7pKnzyet6HAy66fDBzWJlAhjBwcQrARBy3MzI0hB26us5ViW0S
+ U+OUn0Gfm94+eKzl8bDhnOjhvXOrJ6RdY2Rompn3MDCV72dUDdPOf6suLC+UUfjCc25Sl4XsrZD
+ jb36zAgClsEhf
+X-Developer-Key: i=sugar@sne.moe; a=openpgp;
+ fpr=89C48A71E4EB9EF0C0442D0EFC2CA37958700609
+X-Endpoint-Received: by B4 Relay for sugar@sne.moe/default with auth_id=990
+X-Original-From: Asai Neko <sugar@sne.moe>
+Reply-To: sugar@sne.moe
 
-From: Leon Romanovsky <leonro@nvidia.com>=0D
-=0D
-Commit 95308225e5ba ("dma-buf: Rename dma_buf_move_notify() to=0D
-dma_buf_invalidate_mappings()") left the DMABUF section of the P2PDMA=0D
-documentation pointing at move_notify(), a symbol that no longer=0D
-exists. Readers grepping for it find nothing, and this is the only=0D
-place in Documentation/ describing the revocation requirement.=0D
-=0D
-Name the current function and record that importers which cannot unmap=0D
-within bounded time have to be rejected at attach time, which is what=0D
-makes the synchronous unmap on remove() achievable.=0D
-=0D
-Fixes: 95308225e5ba ("dma-buf: Rename dma_buf_move_notify() to dma_buf_inva=
-lidate_mappings()")=0D
-Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>=0D
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>=0D
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>=0D
----=0D
- * Split from https://lore.kernel.org/all/20260825-document-dma-buf-v1-0-5e=
-cfb3e1371c@nvidia.com=0D
----=0D
- Documentation/driver-api/pci/p2pdma.rst | 6 ++++--=0D
- 1 file changed, 4 insertions(+), 2 deletions(-)=0D
-=0D
-diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver=
--api/pci/p2pdma.rst=0D
-index d3f406cca694..63cff9e4d2c9 100644=0D
---- a/Documentation/driver-api/pci/p2pdma.rst=0D
-+++ b/Documentation/driver-api/pci/p2pdma.rst=0D
-@@ -167,9 +167,11 @@ In this case the initiator and target pci_devices are =
-known and the P2P subsyste=0D
- is used to determine the mapping type. The phys_addr_t-based DMA API is us=
-ed to=0D
- establish the dma_addr_t.=0D
- =0D
--Lifecycle is controlled by DMABUF move_notify(). When the exporting driver=
- wants=0D
-+Lifecycle is controlled by DMABUF revocation. When the exporting driver wa=
-nts=0D
- to remove() it must deliver an invalidation shutdown to all DMABUF importi=
-ng=0D
--drivers through move_notify() and synchronously DMA unmap all the MMIO.=0D
-+drivers through dma_buf_invalidate_mappings() and synchronously DMA unmap =
-all=0D
-+the MMIO. Importers unable to complete that unmap within bounded time have=
- to=0D
-+be rejected when they attach, which dma_buf_attach_revocable() checks for.=
-=0D
- =0D
- No importing driver can continue to have a DMA map to the MMIO after the=0D
- exporting driver has destroyed its p2p_provider.=0D
-=0D
----=0D
-base-commit: 08dbfad3f5040f5bdb6c529da20d6d4e81fefd72=0D
-change-id: 20260830-doc-p2p-move-05aad5de1ec1=0D
-=0D
-Best regards,=0D
---  =0D
-Leon Romanovsky <leonro@nvidia.com>=0D
-=0D
+From: Asai Neko <sugar@sne.moe>
+
+The ROG STRIX X670E-A GAMING WIFI is missing from the driver's DMI
+table. Consequently, the board lookup fails with -ENODEV,
+asus_ec_sensors does not load, and no asusec hwmon device or EC
+temperature readings are available.
+
+Add a board definition using the AMD 600-series register layout and the
+ACPI mutex used by the board firmware. Expose CPU, CPU package,
+motherboard, and VRM temperatures, and add the board to the supported
+hardware documentation.
+
+Before the change, there was no asusec device under /sys/class/hwmon and
+there were no EC readings. After the change, the driver registered four
+sensors with representative readings of 57-61 C for CPU, 68-71 C for
+CPU package, 43-44 C for motherboard, and 49-52 C for VRM.
+
+The readings correlated with nct6775 and k10temp. Repeated polling with
+both hwmon drivers loaded produced no EC access, bank-switch, concurrent
+access, or locking errors.
+
+Tested on an ASUS ROG STRIX X670E-A GAMING WIFI with BIOS 2704.
+
+Signed-off-by: Asai Neko <sugar@sne.moe>
+---
+Add asus-ec-sensors support for the ASUS ROG STRIX X670E-A GAMING WIFI.
+Testing details and the rationale are included in the patch commit
+message.
+
+Background:
+https://github.com/lm-sensors/lm-sensors/issues/474
+---
+ Documentation/hwmon/asus_ec_sensors.rst | 1 +
+ drivers/hwmon/asus-ec-sensors.c         | 9 +++++++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index 2c68a343a2ed..ebed9f8d2adb 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -45,6 +45,7 @@ Supported boards:
+  * ROG STRIX X570-E GAMING WIFI II
+  * ROG STRIX X570-F GAMING
+  * ROG STRIX X570-I GAMING
++ * ROG STRIX X670E-A GAMING WIFI
+  * ROG STRIX X670E-E GAMING WIFI
+  * ROG STRIX X670E-I GAMING WIFI
+  * ROG STRIX X870-F GAMING WIFI
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index e43645e884fd..850c8e297397 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -752,6 +752,13 @@ static const struct ec_board_info board_info_strix_x570_i_gaming = {
+ 	.family = family_amd_500_series,
+ };
+ 
++static const struct ec_board_info board_info_strix_x670e_a_gaming_wifi = {
++	.sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
++		SENSOR_TEMP_MB | SENSOR_TEMP_VRM,
++	.mutex_path = ASUS_HW_ACCESS_MUTEX_SB_PCI0_SBRG_SIO1_MUT0,
++	.family = family_amd_600_series,
++};
++
+ static const struct ec_board_info board_info_strix_x670e_e_gaming_wifi = {
+ 	.sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
+ 		SENSOR_TEMP_MB  | SENSOR_TEMP_VRM,
+@@ -962,6 +969,8 @@ static const struct dmi_system_id dmi_table[] = {
+ 					&board_info_strix_x570_f_gaming),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X570-I GAMING",
+ 					&board_info_strix_x570_i_gaming),
++	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X670E-A GAMING WIFI",
++					&board_info_strix_x670e_a_gaming_wifi),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X670E-E GAMING WIFI",
+ 					&board_info_strix_x670e_e_gaming_wifi),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X670E-I GAMING WIFI",
+
+---
+base-commit: 75f2c0b3690702c90863c2e138cb5520670845ea
+change-id: 20260830-asus-x670e-a-hwmon-fix-a6546e0e1472
+
+Best regards,
+--  
+Asai Neko <sugar@sne.moe>
+
+
