@@ -1,241 +1,347 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-b5-smtp.messagingengine.com (flow-b5-smtp.messagingengine.com [202.12.124.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DD62E7369
-	for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 21:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435E730EF89;
+	Sun, 30 Aug 2026 23:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788123614; cv=none; b=XRJp2y6hE4mM/j12Lod+UbNeJOUgILE3Ii8rZouX7NfQONLsWNaYKhIxXJ1/BKBt6F9EFfgmyKXeFx2gktN5tM9Kb5Fsf7AYsx0dumeBPNMQp+3I1dBsEjejsZnAT1SKF5WKuxSmqAmp6DkPC06LScgHLhz6qGaBJC3Q2uJj6K0=
+	t=1788131422; cv=none; b=DlSpe2/hSBv2/iDsx5PUP/uHvyac5slQpDC8zxlLERIIP71lJv2dv+wWz1xm4MFl9e5d196ii8YwRIRQiqw3ZxtzLy70GPofdimYQ64Q0HukMBQRHsvANz5+mMgNfgeW8s2qjXE5hJkJZbJm3+9QmpCFdtiIbcm580J7SCOI1+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788123614; c=relaxed/simple;
-	bh=dTQd0a3FfgXA6mGn/3Gacd4vgFSrf7Cx7vyrDSL0JaI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q3VQwnmEBh0bZmdbbobunI/9V6gqmX39Sd20LaN1UrmHLUM0VIrkx0UwAiwCf/3ymL4gHFRqSVKKOgclCwaPFUiZ3anBYHAeUXgFP+zzh/4NqRyDhHanTdB5fdc0sn5+9nJEdkj0RBsbhR2ONaG/VBgL8kSP6nSdJCgrPTSQ0rU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JsAkQBVB; arc=none smtp.client-ip=209.85.222.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788131422; c=relaxed/simple;
+	bh=Ntb372e/rWIeBr1J4NjUE3vuIDUZz1AUEM6kRXEBLvA=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=DNxN6ZRXTSRF6BSj5LSnd/NMQIHjoi8xch+9yUq/o0n2KyPhvW5M8k6q16VvuFcd+ifjHo6+ol92jEd2yWs+UJKRQAxbmWjw4YyyTLEY6Gjg2VykBeihmk/VuvU+n2LwW1+Qg5XLk7YufASniVqzEaQ8O4H6wJlp41yQpJ6hHGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Qo6ieQvu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VPm/7Fhe; arc=none smtp.client-ip=202.12.124.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JsAkQBVB"
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-97e9adae64cso138526241.3
-        for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 14:00:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788123611; x=1788728411; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lRAi9/lQJXt/ffKyESe5yze9eqhu+vTZPPaC1V8tycw=;
-        b=JsAkQBVBncf+oeDPP/vq2DXcLjNDzycbcv/ifys69Y5chz2DSZI3HaJFs/0DMy420R
-         Hqksjg5mL8URN9AWV/V4MVH2jFT9X2vbpt03e/xpKSFUqCWlBkYtLX/FCIpblhc7ubAr
-         mmRpomHhXnEuuGW8bovDSjGe2yu/Cg0NfZxBmndDpu1tfVyQqvjHU3vD1UqS/oVUgoec
-         6JCaloVeZZuM06B/eDo+POAr+sFYZAV146KWEmFV4BSwhkbkP+TrDcBBymNOxj05ltrN
-         tRGdGYuEr+/3snQ5jozU0E5kHxHZJ6P7BZrVViTAdzU3yEreCFD7L6Y43VTth1fCCwW8
-         30hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788123611; x=1788728411;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=lRAi9/lQJXt/ffKyESe5yze9eqhu+vTZPPaC1V8tycw=;
-        b=sWhdQTOFIopd38joDb4b7/7HWVcAt203eDATrcxNdM7T8W48dtnKJF4icqprCUCzhK
-         mFbAR3xw3kj2nRYfpc/3C0OJL43ZwDSrtXGLlcjtOe2cl9h2ibl4rwUW8Q9dwx98y4HO
-         hIbKhrLcMbW96Ont69e6e1otDZWF2Oo5oe4cuOemOOrSRG6U4DluRceyKLFD208Zvj3u
-         cu6YYernAMYKZ4oQXLtiZb8RKkPN4fTov0wuwvZEOWcDXWmSR5AJ7oE+i02eQJ2Cvh+W
-         qeApzXbuCK+2GZrOiT4M98VxrBjdu3dqycnoev6zDcXNClEIWYjsn91dtQqJCgzTvbY8
-         /xIw==
-X-Gm-Message-State: AFuF++mJO3hSltvWvo8ftNbBizgLLy8KBs5w8UvNlTHHDBMzjDANVNXQ
-	hSpnB/oAQCl+vje+jM6GJGPweKNYp+1+Jd0btLIoFI8sO/jMvVNlua42LODsMTnFcq8=
-X-Gm-Gg: AR+sD129ZX5Lnrzm906/6sQj6g9q/EQJISRCBQb3tSxXu/C70rTYbg7VCezfQU2XFWG
-	+yl/YzsJqaXsxljizZH305gzfcoktFCYu9JglW5LWUHfB2JHudMN8YPOXPCfNwvbFdJ3NziJ6AQ
-	yunJKwv3Xkkvlp6u0wMMOkqunnbZb/8LuUv3xfU8nlx4eutvYZMOgWYaH9bf7G8V7ty2zUEPrvq
-	l4ALSgqcyDzhk61/A9il+x6KkNFHtrHjl83d7p21gPnM5K2V98HnXaOdFcC+rmuiiSpuxgEMmDF
-	Cc5kmUExA/RDVD7yzIt8aTYGNRC6bI/vDlP+UpBZb16Omsulp0W5ly9mSWjkYXNXrZvQYGEqHKN
-	WUi00nlKiGAC0lA7yyxCSYUsVmGrRO2U8xO60nUDmlHOVz4E9UGUjNpSybv37nmuBPGmfHSiqk+
-	b9t7jpEpvEDwT1GmVKnAdyY5+X0pYBCvx4hTNED5wk4FsP2hSkuYy3O5Y6IosFcA==
-X-Received: by 2002:a05:6102:8084:b0:77a:2268:9fdb with SMTP id ada2fe7eead31-7859802053amr6135376137.7.1788123611142;
-        Sun, 30 Aug 2026 14:00:11 -0700 (PDT)
-Received: from fedora ([2804:14c:daa2:8daa:6ae6:9714:ed29:7594])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-785f5a2ce07sm5448468137.6.2026.08.30.14.00.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2026 14:00:10 -0700 (PDT)
-From: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lucas Adryell Ramalho <lucasadramalho@gmail.com>
-Subject: [PATCH] docs: translations: pt_BR: translate volatile-considered-harmful.rst
-Date: Sun, 30 Aug 2026 17:59:12 -0300
-Message-ID: <20260830205912.478358-1-lucasadramalho@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Qo6ieQvu";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VPm/7Fhe"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailflow.stl.internal (Postfix) with ESMTP id E9FB813001B0;
+	Sun, 30 Aug 2026 19:10:14 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Sun, 30 Aug 2026 19:10:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1788131414; x=1788138614; bh=zEc5hZJIk8YRnx+J+eo4+Y3sVspDxogbjvE
+	EZwuJ7rQ=; b=Qo6ieQvuNCpEAFNGUhEaIGd1tM2qenglCvyZhQAtLYcKgEz5uZv
+	VBkmAHxWVjh7GITNYGQRuizAhYS66fu/QSC2e7UCmgPz4kXTk5AkzcfuRQnlVFRP
+	obCI4MlwXEShM2SHCHkmDlPo5XISgTzwCrpLP/3SjKxujKlWi9nqvG6db9p/iXJV
+	OpWFgdf4BeBSzTD8k+jOmUwdbzP/2FzRQ2JsA+NRYO/Wb8e+aEbOrBj5DJeqKV4F
+	mo0lR8bF74G8iO9YI3oa5e0UEi/LrPdRcv9f2BM5MbieoQLkdq9lj0/U9rjqixab
+	TWu+hSlLYlUN95axFhjHuP3dfSYVVt6XzGA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1788131414; x=
+	1788138614; bh=zEc5hZJIk8YRnx+J+eo4+Y3sVspDxogbjvEEZwuJ7rQ=; b=V
+	Pm/7FheSQWTuf0BTxlWwZtt+3pYz2nhduLw4e4y8za/QfTSzRWzNLT9xWYuPmAIc
+	u2iScyJLSttTa87WeCPnCZXn/Gl2gPZabiNI/TusdTrg2rxoLAc/VMFiqpkhoR6S
+	LQ0iKTcxz3hk+DwmEohzGehsn/5Wh1AzucxvOgw+WnDShRgf/uBTnxZEvQeejUv4
+	uiy25ACTvijKoXphHgt82oizR4gYVdqyJePgq/uKO/Q8l7aBEXKtFaecz0P2KuDW
+	NPFfEanh10Tr4PIAw9/Ttp6lzVA7Tw5SgfgV5/JqbWCARVUi3EaZbxN01GMjB+kI
+	lCRwskirVvl7AMPYTRbWw==
+X-ME-Sender: <xms:UbiUap_MtTSeFpMNORlr4wTWDVh0aA6ScnON58j3rpFyccMpDXHIBQ>
+    <xme:UbiUahH2TNeUk63s7BMkgYDKvmxeqjrvmkBoHgCp0p_iRIhMT_WV7fRvdL5DfgV9Z
+    xV8KqlrCQaK0hplET15otnZI5BE2coA-O7f7PR3q4bp8VG_>
+X-ME-Received: <xmr:UbiUagJhhsp10jRM39PBdQWH_D435G2njFRNXy8dKyREtIAZmuZC2LqatWjo_-5YIsgSO4CAuvUBwdlLl9RmrRBi5dPRqwg>
+X-ME-Proxy-Cause: dmFkZTFOIUHJLQqborIagOgmNN+pPcupbVotrH4sXk/9BxNtfHYUJG+jOdd9lP23wPqSUQ
+    AUFqozauDGsFj2Fcxtj3sABYHvl0ph+0UXejznX6q1Xr1Xg/U0V2IT+Tk94c9p2xCxdGcm
+    a9fTqsnIiGGjKyH3aovg7Hbw39SYODzd4xSmoty3roVPn9gC8PR9IGrItxoJJkl5Z9SeqL
+    qN1gQzMRLAf1DVi5pqAy+RVGbsxy3biNw6Ht0LFpwq7yHA4P1bo1DCXcT6AbluvZMKn1Ad
+    6oUtTqY8wpxkXvPNqdcZVzXrArQI+dyTirjeQU9xaq2PAci/BLvZmkKdn6HOgCF/wiNDR5
+    9ypjS27kIioFVXtCK3cYVV4EX87YiMJFRv1YmG81V/CBOpPEVGlHijee21VZbsDPuWUWT2
+    eIkpdBbOecXlENZwKR/2eekW+LLYVEGcUat3eiQbHa7r5NCiXFUSvoh9n0m66Cfn6MPY8F
+    nn+/UAVo+bSz0lZ0FMnWAjcbwosDDLMUFcjHtb2oWyUdokurmOw1uyWf9PuZC23xX1bhno
+    M6fmT9hcOCYeC8ptuK39TgThobX4Z06It4CZvTdsheRb100K9ulRUQKwJiTqPv3ZqMrr5g
+    wtS1gF+w0PemKcSEjYqBuy5LHyuHib4TgEnaucnWv4jXuwuB92nJE5Nsi6mg
+X-ME-Proxy: <xmx:UbiUah47CBbO19kbrhNmEsPxHAHgpefoYPnpR5z-_ohOrh1cCgC-Dg>
+    <xmx:UbiUalPzSFg1nYeOw2R5sG3wTQxx6Y0zUwyNG3X2kHwPHQNKUtVYuw>
+    <xmx:UbiUaprYVwmp1o7kh4B5Ol26B9junaQQXQMqO5xX3y2ZMifwxkjWAA>
+    <xmx:UbiUaseNryne3JEtbfGoTy-pA0krO1YyMhJ9fCu36NsZC9i9Dd6f2g>
+    <xmx:VriUatkHi2UuWhglcFHVNe1ttc7HDvYZlla8FaR0rvxatg4WTOf727px>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 30 Aug 2026 19:09:27 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: NeilBrown <neilb@ownmail.net>
+To: "Byungchul Park" <byungchul@sk.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+ linux-kernel@vger.kernel.org, max.byungchul.park@gmail.com,
+ kernel_team@skhynix.com, torvalds@linux-foundation.org,
+ damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+ adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
+ peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
+ rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org,
+ daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com,
+ tj@kernel.org, tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, gregkh@linuxfoundation.org, linux-mm@kvack.org,
+ akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
+ hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
+ jglisse@redhat.com, dennis@kernel.org, cl@linux.com, penberg@kernel.org,
+ rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
+ linux-block@vger.kernel.org, josef@toxicpanda.com,
+ linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
+ dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
+ dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, hamohammed.sa@gmail.com, chris.p.wilson@intel.com,
+ gwan-gyeong.mun@intel.com, boqun.feng@gmail.com, longman@redhat.com,
+ yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
+ netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com,
+ corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
+ hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
+ gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
+ arnd@arndb.de,  Liam.Howlett@oracle.com, rppt@kernel.org,
+ surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
+ da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org,
+ frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+ josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com,
+ jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
+ mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com,
+ okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
+ trondmy@kernel.org, anna@kernel.org, kees@kernel.org,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, mark.rutland@arm.com,
+ ada.coupriediaz@arm.com, kristina.martsenko@arm.com,
+ wangkefeng.wang@huawei.com, broonie@kernel.org, kevin.brodsky@arm.com,
+ dwmw@amazon.co.uk, shakeel.butt@linux.dev, ast@kernel.org,
+ ziy@nvidia.com, yuzhao@google.com, baolin.wang@linux.alibaba.com,
+ usamaarif642@gmail.com, joel.granados@kernel.org,
+ richard.weiyang@gmail.com, geert+renesas@glider.be,
+ tim.c.chen@linux.intel.com, linux@treblig.org,
+ alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+ chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
+ link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
+ brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
+ mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-modules@vger.kernel.org, rcu@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
+ bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
+ dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
+ alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v19 00/40] DEPT(DEPendency Tracker)
+In-reply-to: <20260825130843.GB23086@system.software.com>
+References: <20260706061928.66713-1-byungchul@sk.com>
+  <359ea967-9b97-4584-88e6-bddb4044de2e@kernel.org>
+  <20260821042143.GA40890@system.software.com>
+  <825134a8-ceae-430c-b2fc-d1d0c7240f39@kernel.org>
+  <178730572084.2852630.7732425311008244683@noble.neil.brown.name>
+  <20260825130843.GB23086@system.software.com>
+Date: Mon, 31 Aug 2026 09:09:23 +1000
+Message-id: <178813136354.3510150.4730256876703029797@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-Translate volatile-considered-harmful.rst into Brazilian Portuguese and
-add it to the pt_BR process documentation index.
+On Tue, 25 Aug 2026, Byungchul Park wrote:
+> On Fri, Aug 21, 2026 at 07:48:40PM +1000, NeilBrown wrote:
+> > On Fri, 21 Aug 2026, David Hildenbrand (Arm) wrote:
+> > > [...]
+> > >
+> > > > Exactly.  That's why we use classification e.g. lock class - DEPT also
+> > > > makes use of the concept.
+> > > >
+> > > > DEPT doesn't use a full map in each page but uses a minimum space for=
+ a
+> > > > timestamp in each to track when each starts to wait so as to use the
+> > > > recorded timestamp when the event occurs e.g. folio_unlock().
+> > >
+> > > Thanks for that information!
+> > >
+> > > >
+> > > >> Given that lockdep is a debug feature, and we will at some point all=
+ocate struct
+> > > >> folio separately, I assume we could just squeeze a "struct lockdep_m=
+ap" in there
+> > > >> in such debug configs and the world would not collapse.
+> > > >
+> > > > That's a good news for lockdep.  (And even for DEPT :)
+> > >
+> > > He :) Where do you currently store the additional per-page information?
+> >=20
+> > lockdep doesn't need to store per-page information.  Possibly DEPT
+> > doesn't either.
+>=20
+> Class can be stored in global map, but DEPT needs to keep a timestamp
+> in each page to track when a potential-wait e.g. folio_lock() has been
+> started and to refer to the information on its event e.g. folio_unlock().
 
-Assisted-by: ChatGPT:GPT-5.5
-Signed-off-by: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
----
- .../translations/pt_BR/process/index.rst      |   1 +
- .../process/volatile-considered-harmful.rst   | 130 ++++++++++++++++++
- 2 files changed, 131 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/volatile-considered-harmful.rst
+A timestamp?  What does that do?
+There is a lot of detail in your cover letter, but I think there is a
+lot missing too.  I would like to understand how DEPT works, but I don't
+want to dig too hard.  The document in patch 25/40 helps a bit, but it
+is still a bit vague.
+Where is the document which would explain at a level that would help me
+understand this timestamp?
 
-diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
-index eda2a3fc5..d72483720 100644
---- a/Documentation/translations/pt_BR/process/index.rst
-+++ b/Documentation/translations/pt_BR/process/index.rst
-@@ -42,6 +42,7 @@ devem estar familiarizados.
-    Como aplicar patches <applying-patches>
-    Backporting e resolução de conflitos <backporting>
-    Adicionando uma nova chamada de Sistema <adding-syscalls>
-+   Por que a classe de tipo "volatile" não deve ser usada <volatile-considered-harmful>
-    Como não Deixar as ioctls malfeitas <botching-up-ioctls>
- 
- Guias de políticas e declarações de desenvolvedores
-diff --git a/Documentation/translations/pt_BR/process/volatile-considered-harmful.rst b/Documentation/translations/pt_BR/process/volatile-considered-harmful.rst
-new file mode 100644
-index 000000000..b8774c0ba
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/volatile-considered-harmful.rst
-@@ -0,0 +1,130 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Por que a classe de tipo "volatile" não deve ser usada
-+--------------------------------------------------------
-+
-+Programadores C frequentemente interpretam volatile como uma indicação de
-+que uma variável pode ser alterada fora da thread de execução atual; como
-+resultado, às vezes são tentados a usá-la no código do kernel quando
-+estruturas de dados compartilhadas estão sendo utilizadas. Em outras
-+palavras, há quem trate tipos volatile como uma espécie de variável
-+atômica simplificada, mas não são. O uso de volatile no código do
-+kernel quase nunca é correto; este documento explica o porquê.
-+
-+O ponto-chave a entender sobre volatile é que seu propósito é suprimir
-+otimizações, o que quase nunca é o que realmente se deseja fazer. No kernel,
-+é necessário proteger estruturas de dados compartilhadas contra acessos
-+concorrentes indesejados, o que é uma tarefa bastante diferente. O processo
-+de proteção contra concorrência indesejada também evita, de forma mais
-+eficiente, quase todos os problemas relacionados a otimizações.
-+
-+Assim como volatile, as primitivas do kernel que tornam seguro o acesso
-+concorrente a dados (spinlocks, mutexes, barreiras de memória etc.) são
-+projetadas para evitar otimizações indesejadas. Se forem usadas
-+corretamente, também não haverá necessidade de usar volatile. Se
-+volatile ainda for necessário, quase certamente há algum bug no código.
-+Em código de kernel corretamente escrito, volatile só serve para deixar
-+as coisas mais lentas.
-+
-+Considere um bloco típico de código do kernel::
-+
-+    spin_lock(&the_lock);
-+    do_something_on(&shared_data);
-+    do_something_else_with(&shared_data);
-+    spin_unlock(&the_lock);
-+
-+Se todo o código seguir as regras de bloqueio, o valor de shared_data não
-+poderá mudar inesperadamente enquanto the_lock estiver mantido. Qualquer
-+outro código que queira manipular esses dados estará aguardando o bloqueio.
-+As primitivas de spinlock atuam como barreiras de memória (são escritas
-+explicitamente para isso), o que significa que os acessos aos dados não
-+serão otimizados de forma a atravessar essas barreiras. Assim, o compilador
-+até pode achar que sabe qual será o valor de shared_data, mas a chamada a
-+spin_lock(), por atuar como barreira de memória, o forçará a esquecer tudo
-+o que sabia. Não haverá problemas de otimização nos acessos a esses dados.
-+
-+Se shared_data fosse declarada volatile, o bloqueio ainda seria
-+necessário. No entanto, o compilador também seria impedido de otimizar o
-+acesso a shared_data _dentro_ da seção crítica, justamente quando sabemos
-+que ninguém mais pode estar manipulando esses dados. Enquanto o bloqueio
-+estiver mantido, shared_data não é volatile. Ao lidar com dados
-+compartilhados, um bloqueio adequado torna volatile desnecessário e
-+potencialmente prejudicial.
-+
-+A classe de armazenamento volatile foi originalmente concebida para
-+registradores de E/S mapeados em memória. No kernel, os acessos a esses
-+registradores também devem ser protegidos por bloqueios, mas também não se
-+deseja que o compilador "otimize" esses acessos dentro de uma seção crítica.
-+Contudo, no kernel, os acessos à memória de E/S são sempre feitos por meio de
-+funções de acesso; acessar diretamente a memória de E/S via ponteiros é
-+desencorajado e não funciona em todas as arquiteturas. Essas funções de
-+acesso são implementadas de modo a impedir otimizações indesejadas e,
-+portanto, mais uma vez, volatile é desnecessário.
-+
-+Outra situação em que se pode ser tentado a usar volatile é quando o
-+processador fica em espera ocupada pelo valor de uma variável. A forma
-+correta de realizar essa espera ocupada é::
-+
-+    while (my_variable != what_i_want)
-+        cpu_relax();
-+
-+A chamada a cpu_relax() pode reduzir o consumo de energia da CPU ou ceder
-+recursos a um processador lógico gêmeo hyperthreaded; ela também atua
-+como barreira para o compilador e, portanto, mais uma vez, volatile é
-+desnecessário. Naturalmente, a espera ocupada já é, por si só, uma prática
-+geralmente antissocial.
-+
-+Ainda existem algumas situações raras em que volatile faz sentido no
-+kernel:
-+
-+  - As funções de acesso mencionadas acima podem usar volatile em
-+    arquiteturas nas quais o acesso direto à memória de E/S funciona.
-+    Essencialmente, cada chamada a uma função de acesso torna-se uma
-+    pequena seção crítica por si só e garante que o acesso ocorra conforme
-+    esperado pelo programador.
-+  - Código assembly inline que modifica memória, mas não tem outros
-+    efeitos colaterais visíveis, corre o risco de ser removido pelo GCC.
-+    Adicionar a palavra-chave volatile às instruções asm impede essa
-+    remoção.
-+  - A variável jiffies é especial, pois pode ter um valor diferente a cada
-+    vez que é referenciada, mas pode ser lida sem qualquer bloqueio
-+    especial. Portanto, jiffies pode ser volatile, mas a adição de
-+    outras variáveis desse tipo é fortemente desencorajada. Nesse
-+    sentido, jiffies é considerada um problema de "legado idiota" (nas
-+    palavras de Linus); corrigi-la daria mais trabalho do que valeria a
-+    pena.
-+  - Ponteiros para estruturas de dados em memória coerente que possam ser
-+    modificadas por dispositivos de E/S podem, às vezes, ser
-+    legitimamente volatile. Um buffer circular usado por um adaptador
-+    de rede, no qual esse adaptador altera ponteiros para indicar quais
-+    descritores já foram processados, é um exemplo desse tipo de
-+    situação.
-+
-+Na maior parte do código, nenhuma das justificativas acima para o uso de
-+volatile se aplica. Como resultado, o uso de volatile provavelmente
-+será considerado um bug e fará com que o código seja submetido a uma análise
-+mais rigorosa. Desenvolvedores que se sintam tentados a usar volatile devem
-+dar um passo atrás e pensar no que realmente estão tentando alcançar.
-+
-+Patches para remover variáveis volatile são, em geral, bem-vindos, desde
-+que venham acompanhados de uma justificativa que demonstre que as questões
-+de concorrência foram devidamente analisadas.
-+
-+
-+Referências
-+===========
-+
-+[1] https://lwn.net/Articles/233481/
-+
-+[2] https://lwn.net/Articles/233482/
-+
-+Créditos
-+========
-+
-+Motivação original e pesquisa por Randy Dunlap
-+
-+Escrito por Jonathan Corbet
-+
-+Melhorias a partir de comentários de Satyam Sharma, Johannes Stezenbach,
-+Jesper Juhl, Heikki Orsila, H. Peter Anvin, Philipp Hahn e Stefan
-+Richter.
--- 
-2.55.0
+>=20
+> > lockdep needs one lockdep_map for each lock class.  It would make sense
+> > for all folio locks to use the same global lockdep_map.
+>=20
+> Exactly.  Only considering classes, you are right.
+>=20
+> > Each specific lock is known to lockdep as a task which holds the lock, a
+> > lockdep_map which represents the class of locks, and subclass number
+> > which allows a given task to hold multiple locks of the same class
+> > providing it declare (e.g. with spin_lock_nested() etc).
+>=20
+> Right, lockdep works that way.
+>=20
+> > > >> Doing that today (one "struct lockdep_map" in each "struct page") wo=
+uldn't work
+> > > >> as mm_zero_struct_page() would not expect such large "struct page". =
+But
+> > > >> conceptually, for a debug kernel with a special CONFIG_LOCKDEP_PAGE_=
+LOCK, maybe
+> > > >> that would already be ok and we could just do that (and optimize it =
+as we
+> > > >> allocate folios separately).
+> > > >
+> > > > Sounds great.
+> > > >
+> > > >> Not that it's ideal, but for a debug feature to at least check PG_lo=
+ck, probably
+> > > >> an easier way to achieve it than some completely new infrastructure.
+> > > >
+> > > > I understand what you are going to tell.
+> > > >
+> > > > However, it's worth noting that lockdep tracks dependencies basically
+> > > > based on **lock acqusition orders** in the system.  To make it track
+> > > > even rwlock and general synchronization mechanism as well, lockdep has
+> > > > no choice but to get more complicated.
+> > >
+> > > Well, yes, sure :)
+> > >
+> > > >
+> > > > Focusing on only the dependency checking, the most parts of lockdep a=
+re
+> > > > for the tricky things, so the reusable parts are not that big.
+> > > >
+> > > >> Now, Willy said "locking rules don't really apply to individual foli=
+os", I
+> > > >> wonder if that could just help to also let lockdep check PG_lock wit=
+h less
+> > > >> metadata? (didn't fully wrap my head around the implications)
+> > > >
+> > > > That's what DEPT did and what brought external wgen introduced in DEP=
+T.
+> > > > I was considering the exactly same thing :)
+> > > >
+> > > > Again, lockdep that tracks lock acquisition orders can't do that.
+> > > >
+> > > >> [1]
+> > > >> https://lore.kernel.org/all/aR3WHf9QZ_dizNun@casper.infradead.org/?u=
+tm_source=3Dchatgpt.com
+> > > >>
+> > > >>
+> > > >> It's your guiding example, that's why I mention it. You do mention o=
+ther wait
+> > > >> cases here, I don't know anything about them, but for folios it's re=
+ally just
+> > > >> "we used a single bit so far" AFAIKs.
+> > > >
+> > > > It doesn't matter whether it's implemented using bit or not.  folio l=
+ock
+> > > > is quite special since it's allowed to be released other than the
+> > > > acquisition context that makes lockdep impossible to track them.
+> > >
+> > > Does that really make lockdep *impossible* to track them? IOW, there is=
+ no way
+> > > to extend lockdep to support lock release in different context?
+> >=20
+> > Yes and no....
+> >=20
+> > lockdep has no knowledge of control flows moving across threads in the
+> > way that I assume DEPT does.  But it should be possible to tell it.
+> >=20
+> > If you have some code that takes a lock and then hands it off to
+> > another thread, at the hand-off point you call
+> >    lock_map_release(&the_lock_map)
+> >=20
+> > This says "no task owns this lock any more".
+> >=20
+> > maybe you put the folio which is locked on a queue or an lru or
+> > whatever.
+> >=20
+> > There is no way to say "that queue owns this lock".  Maybe that could
+> > usefully be added - assuming coherent semantics can be designed.
+>=20
+> It's certainly useful to track who owns the lock, but the essence, when
+> it comes to deadlock detection, lies elsewhere.  DEPT is based on the
+> essence, that is, a deadlock comes from waits that are never awakened.
 
+I disagree.
+The "essence" of deadlock detection involves the interplay of ownership
+and waiting.
+In your cover letter "THE DEPT APPROACH" talks about [S] where and
+event context begins, and [E] where the even occurs.  This S-E section
+is exactly ownership.  During that time something "owns" the event.
+Maybe the terminology is different, but the concept is the same.
+
+>=20
+> > Somewhere else some other task takes responsibility for that folio and
+> > the lock.  maybe it dequeues a page, or maybe an lru callback gives the
+> > locked page to some code.
+> > That code then calls
+> >    lock_map_acquire_try(&the_lock_map)
+> >=20
+> > This says "this task is now holding this lock" (or more accurately "now
+> > holding a lock of this class").
+> > Note the "_try" - that says that the task didn't have to wait for the
+> > lock, it just got it for free, which in fact it did.
+> >=20
+> > Now if that task takes some other lock, lockdep will see a dependency
+> > between the page lock and the new lock, and will accept or reject it as
+> > you would expect.
+>=20
+> It's an interesting approach if your goal is to track the owenership,
+> but if the goal is for tracking dependencies.. well.. I'm not sure.
+
+I am sure.  Dependencies are between waiters and owners.
+
+A strong theme in your cover letter is the need to add comprehensive
+annotation for DEPT to work.
+My position is that most of what we need for LOCKDEP to be able to
+detect exactly the same things is appropriate annotation.
+We need to annotate when ownership is handed off to another thread, and
+when the other thread takes on ownership.
+
+So what does your scheme provide that is clearly better?  Is the
+annotation easier?  Is some of it automatic?  Does if give better error
+reports?=20
+
+I had a look through dept.rst and it seems that if a lock is released by
+a different thread than the one which took the lock, then DEPT can
+detect that and do something useful.  That might be interesting.
+But how does it know when it first took ownership of that lock?  Or you
+use your terminology: how does it know when that lock first entered the
+context in that thread?
+
+Maybe when you see an "unlock", you assume the lock has been owned since
+the last time the context didn't hold hold any locks.  Would that be
+right?=20
+Surely it wouldn't the too hard to teach lockdep about that.
+i.e.  when a lock, which is allowed to migrate across threads, is
+released though it wasn't held - insert this lock at the top of the
+current context and re-assess all the wait points.
+
+How do you decide that a lock that was taken is no longer part of the
+current context?
+
+
+NeilBrown
