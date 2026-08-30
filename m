@@ -1,123 +1,119 @@
-Received: from mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6E42E5B29
-	for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 14:32:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E792690EC;
+	Sun, 30 Aug 2026 15:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788100347; cv=none; b=jRw0Oyd4sOCKDESrf68KuO6K91Gk/GZ5jSP0fr3vpLC5mJHeAjxjHxEX094lVHiTkjgYfpalNpyEabxKD+z9o334Cx1NYwRx/OrMSGoFtkjYZj1p/q2FGI9E8dpKZYvUfOh0XHNKT6TfKIJA3fFOo+dPP3+hocd/kMJclTAZQlg=
+	t=1788103667; cv=none; b=ZvgOmNKgwjQHSeck/OLN0a7s3TIwKcRQJtBjux69+woKFOLyif/oyi86YsKGGDEC5LvX8QKSoy+Ehlrq1Q3wfUNtRk3mRMM/7xPMRIxvHwqxNlCeD2RVGsN6dKSpNGcyT7xtT8u469F45kTaNubwr62eICBfN2oWZdIa08xnHwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788100347; c=relaxed/simple;
-	bh=lgf0MuQPFoZlIab78/zqlZds7+shjXNJmT7lgzsTekU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OfQ6Q4tsXmlyD43+Xv3sUjZKaZ7DR22Kg6OAMGiWsJDutpE3ch0f1ou3JqlbIu3jHkcC5ZXGDgUYD5hnxe2Dri11psSwXzmBkRjQ4SAhvd2dDdZJe1f1kIcyQ/ldyTlLxETYPdBIkdDPJVwMmLlOmjUwLNR/dKfiYZHdEUP+jaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=toh5ZXcq; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1788103667; c=relaxed/simple;
+	bh=I7Ge3OAJGK9JQhfcKD1K/P9hN6xI8VC1tbOgPs0s1zI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nFHxMlX4Pgwdty8Yw0iZiy7jcw1dGwgTvfpnwII4iqPdUgVtEqDvQW7oCJMXJRNq2yWYUQBvXJbXcgffzBNuaSZGW9d6pFwRNsOy/1JApxoWthQhfZ8qUytqx/hD7VceLbc+NEt2rjl5sRIG4FLJS41MY7QKe5Lf+rrMegfeqWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AM7Wjfkr; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="toh5ZXcq"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=lgf0MuQPFoZlIab78/zqlZds7+shjXNJmT7lgzsTekU=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788100341; v=1; x=1788705141;
- b=toh5ZXcqCvC8nLke1DMDLgtRkg1xWupLZ+s1M3gVCBEJYqDuoC2VwOqJ0goqYr89Bxe+Eq1g
- N3N1ily50P2IQotfboQuDpxhJUrv18/gwLa6lem2cXL3dznOV0eykf7cwllWlWpL0w/iRH6JWXO
- LjYCQfIUd9zowtdk/JFgY4kjsCjHmVWUO5m8VVFkrQ3DdqdJR29PJGLbS2WNt1U/Lfe9F+m/pJt
- cUCUlB6KHzvCPmEFSGaSvujhbvHeEsoqZojbj6UmNMWhjqKDK75dYp/Vy+VwmXYiamFciP2L0hs
- stgwEkJC2/PseHMvaXY6Za8X1CuXeAP9bk6GIqjaxnUWQ==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 7c357459d6dfa994;
-	Sun, 30 Aug 2026 14:32:21 +0000
-X-Mizu-Trace-ID: 7c357459d6dfa994
-X-Migadu-Flow: FLOW_OUT
-Date: Sun, 30 Aug 2026 22:32:13 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Yao Zi <me@ziyao.cc>
-Cc: Yukai Wu <xiaoyewuz.ruster@gmail.com>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Alexandre Ghiti <alex@ghiti.fr>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: Update arch/riscv/vm-layout.rst translation
-Message-ID: <apQ-7U-omIeXvZ1N@wyuan.org>
-References: <20260829041542.256360-1-xiaoyewuz.Ruster@gmail.com>
- <apMPjRICH06wAxPp@pie>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AM7Wjfkr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=A3IpWgOyKaN3UdCIY6ZmmklNOhbLYQXe6zzrRcPkFWk=; b=AM7WjfkrdRPZouVvW8RNYyh+xq
+	O924yClD3Gds5H9EtmO4JoZU7Bnk2KhFLGsC0/TzPQTURamNZMyK4Z6TdCC0t2YTrIsq1odUukpd4
+	6RNDnIPjOPQlDXXeiM56Si7ipg/paQmcQ/WDWjdPEzve624EZrJyAPTPb7whVV/fugcqeu12OQPR7
+	t59tyRF2xTzBN+8P2MPm7x8bC6tfc5MuMVJNgF7CBMTtv34FwUh3+uEAe0QBRYyiTqFUHjzWqukwZ
+	xXa8ClIbGDLS0Idzhm+gVUqcOPC10LhX7Hz+KEg1qEYqFJWNkeiyTp+Q5mTM7ikcH/dPWLP0Gv78W
+	9eQijlmA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x0hRY-00000007rGG-0RMe;
+	Sun, 30 Aug 2026 15:27:36 +0000
+Message-ID: <a61aa866-f95a-42fa-86d8-86f0726e0d00@infradead.org>
+Date: Sun, 30 Aug 2026 08:27:34 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <apMPjRICH06wAxPp@pie>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 4/4] Documentation/ftrace: Document function comm
+ filters
+To: hu.shengming@zte.com.cn
+Cc: rostedt@goodmis.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ mark.rutland@arm.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, ran.xiaokai@zte.com.cn, xu.xin16@zte.com.cn,
+ zhang.run@zte.com.cn
+References: <20260830191258354QN6qx13iCRbQd2Uj3Ve2s@zte.com.cn>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260830191258354QN6qx13iCRbQd2Uj3Ve2s@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Aug 29, 2026 at 04:57:49PM +0000, Yao Zi wrote:
-> On Sat, Aug 29, 2026 at 12:15:10PM +0800, Yukai Wu wrote:
-> > Update Documentation/arch/riscv/vm-layout.rst translation.
-> > 
-> > Update the translation through commit 954260ff5a46
-> > ("Revert "RISC-V: mm: Document mmap changes"")
-> > 
-> > Signed-off-by: Yukai Wu <xiaoyewuz.Ruster@gmail.com>
-> > ---
-> >  .../zh_CN/arch/riscv/vm-layout.rst             | 18 +++++++++---------
-> >  1 file changed, 9 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst b/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
-> > index 4b9f4dcf6c19..0d0ec8ea5d05 100644
-> > --- a/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
-> > +++ b/Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
-> > @@ -15,7 +15,7 @@ RISC-V Linux上的虚拟内存布局
-> >  :作者: Alexandre Ghiti <alex@ghiti.fr>
-> >  :日期: 12 February 2021
-> >  
-> > -这份文件描述了RISC-V Linux内核使用的虚拟内存布局。
-> > +这份文件描述了 RISC-V Linux 内核使用的虚拟内存布局。
-> >  
-> >  32位 RISC-V Linux 内核
-> >  ======================
-> > @@ -28,9 +28,9 @@ TODO
-> >  64位 RISC-V Linux 内核
-> >  ======================
-> >  
-> > -RISC-V特权架构文档指出，64位地址 "必须使第63-48位值都等于第47位，否则将发生缺页异常。"：这将虚
-> > -拟地址空间分成两半，中间有一个非常大的洞，下半部分是用户空间所在的地方，上半部分是RISC-V Linux
-> > -内核所在的地方。
-> > +RISC-V 特权架构文档指出，64 位地址“必须使第 63-48 位值都等于第 47 位，否则将发生缺页异常。”：
-> > +这将虚拟地址空间分成两半，中间有一个非常大的洞，下半部分是用户空间所在的地方，上半部分是 RISC-V
-> > +Linux 内核所在的地方。
+Hi,
+
+On 8/30/26 4:12 AM, hu.shengming@zte.com.cn wrote:
+> From: Shengming Hu <hu.shengming@zte.com.cn>
 > 
-> I think changes above are purely style improvements? If so please
-> mention it in the commit message, instead of specifying it's "updating"
-> only.
+> Document set_ftrace_comm and set_ftrace_notrace_comm, including their
+> write and O_TRUNC behavior, accepted comm names, interaction with PID
+> filters, and when a task is rechecked after its comm changes.
+> 
+> Signed-off-by: Shengming Hu <hu.shengming@zte.com.cn>
+> ---
+>  Documentation/trace/ftrace.rst | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+> 
+> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+> index 7261f25f8b4b..a96fc436ec16 100644
+> --- a/Documentation/trace/ftrace.rst
+> +++ b/Documentation/trace/ftrace.rst
+> @@ -313,6 +313,37 @@ of ftrace. Here is a list of some of the key files:
+>          If a PID is in both this file and "set_ftrace_pid", then this
+>          file takes precedence, and the thread will not be traced.
+> 
+> +  set_ftrace_comm:
+> +
+> +	Have the function and function_graph tracers trace only threads whose
+> +	task comm is listed in this file. Names are matched exactly and must
+> +	contain between 1 and TASK_COMM_LEN - 1 bytes.
+> +
+> +	Each write adds one name. A single trailing newline is ignored, while
+> +	embedded newlines are rejected. A zero-length write or a write containing
+> +	only a newline adds no entry. Duplicate entries have no effect.
+> +
+> +	Opening the file with O_TRUNC clears the filter. Otherwise, writes add
 
-Agreed. To put it further, I think the commit message template we
-provided in how-to.rst [1] is somewhat like telling contributors: That's
-all you need to do.
+Is there a way to clear the filter from (in) a shell script?
 
-Of course, in some cases, the patch is quite simple and there is nothing
-else to elaborate on. However, in some cases, such as when making
-extensive changes and updates, we should encourage contributors to write
-down some relevant information for future reference.
+> +	names to the existing filter. From a shell, use >> to add a name without
+> +	clearing the filter. Reading an empty filter prints `no comm`.
+> +
+> +	If both set_ftrace_pid and set_ftrace_comm contain entries, a thread must
+> +	match both filters to be traced.
+> +
+> +  set_ftrace_notrace_comm:
+> +
+> +	Have the function and function_graph tracers ignore threads whose task
+> +	comm is listed in this file. Matching and file operations have the same
+> +	semantics as set_ftrace_comm.
+> +
+> +	A match in either set_ftrace_notrace_pid or set_ftrace_notrace_comm
+> +	excludes the thread and takes precedence over all include filters.
+> +
+> +	Function-tracer task filters are evaluated when a task is scheduled in,
+> +	and the result is cached per CPU. Changing a filter refreshes the result
+> +	for currently running tasks. If a running task changes its comm, it is
+> +	rechecked the next time it is scheduled in.
+> +
+>    set_event_pid:
+> 
+>  	Have the events only trace a task with a PID listed in this file.
 
-Similarly, just like this patch, the author did more than just update;
-he also carried out other actions, but failed to include the relevant
-details in the commit message. So I feel that perhaps our template might
-have somewhat restricted our writing? (to some extent)
+-- 
+~Randy
 
-Sure, the requirements for commit messages in the Chinese documentation
-are certainly not as strict as those for the more core subsystems.
-However, I do think it's fine to appropriately explicitly encourage
-contributors to include more meaningful relevant information in the
-commit messages.
-
-Any ideas for this, or any objections? ;)
-
-Thanks!
-
-[1] https://docs.kernel.org/translations/zh_CN/how-to.html#id13
