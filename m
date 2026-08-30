@@ -1,164 +1,139 @@
-Received: from mta1.migadu.com (out-160.mta1.migadu.com [95.215.58.160])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE2857C9F
-	for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 04:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.160
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1974525785D;
+	Sun, 30 Aug 2026 05:36:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788065724; cv=none; b=JI/lCVR82wbSj/KszHr7qBMZqSY/o/CLlOIOxCWUFTyxlFNwV2OG6GwgQbAMY95RsfWiwy01GpT42YQxaV88Fbbh51QGIfQxCGfc5iMHOhw2IDh9CG/QAE2gusfXnQnAN3b3DebCCD5J98FoCMSCKDl2zEnliSQb6Fj6MZ0kHl4=
+	t=1788068178; cv=none; b=W8tA7+8lDyuqCBnokRVIAdy7iJ0XuIpvAhyrI1bIxi9gAxE7s0lF4AB51/Pf+eK5Jt6Llgiq9lUPK+DKWYvD0WvVZRje59B1ijzpofBCF7ogp/izZrT9VKm/Y1IrGBdjgyF0Ttyczg6bymuUu6g1OcxvSbK3RTQJQlTm6R9JYhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788065724; c=relaxed/simple;
-	bh=kW8u6QAGL30Ul+wHORAOeZzkRSJ24MIILtkoaK3HiBQ=;
+	s=arc-20240116; t=1788068178; c=relaxed/simple;
+	bh=ppANgCqYjbrHGJPNi8JX7qDzvfAij53sX9+QybYQSlw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U7eJNs0uxkb6PNVDahj83v3wx4JGGsEKeqNhlSKDpmHBfur9Qvi63Yl+uYDUyiKEQ43qDcJrKkKOiyOfz9nRnQXC3ntYxkPd2ikGCS00lE90i7ASSp3wbmTb5eoEze2+9kT3mI8zlPYgSLr9qwKcv4bxeYmg5TO50FZqgGPhwD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=FNU6ErIN; arc=none smtp.client-ip=95.215.58.160
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=RaDsuKmUL6jHrGL+pnnD5SfZkn3nPRs2VRk+QhYsCm3zfoOuPIRowjgo7mbxz3H9ydG3amYGDnmgn7hXLXMMJ4PoJIKKPkjK4xTXb3zHgOnDhUwrZd+NdH82BikAamYaJuiPQ2W4KLecAtLM7nEN1xRACDsQpC+bVTuhQETZiCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F5e3f3zr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="FNU6ErIN"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=kW8u6QAGL30Ul+wHORAOeZzkRSJ24MIILtkoaK3HiBQ=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788065718; v=1; x=1788670518;
- b=FNU6ErINnd/L8TNrOEbXX3yPu490Bnat7n4GG5ZXq63E+E+h+74HZMhO21CD7e9p63sQRlm9
- APEVtouWFSylzQycPAU9m/KMVbYDOGNrWcl26wmPo39oLTT7bcjFvX+LYiG3z881th81twP6pio
- dStAfIw3iPoG+LBI3K7n98JXpFJesqL/6FnD2LtgUx0c/gOrp6U6UKsMtwXS2vHWg+06PN+AKHw
- w+rzn8QjKFsHqSUzJsQgEgOyGU9qUG2532jzaLXYHhOaK3FjX55DSh1oFqmLPKXgEQ7X+iN9f9e
- quFKRfqod7A1CdEsoC+DIxJ/GF0V14kgQiCKHulCm5S3w==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 8d93383cd71421ba;
-	Sun, 30 Aug 2026 04:55:11 +0000
-X-Mizu-Trace-ID: 8d93383cd71421ba
-X-Migadu-Flow: FLOW_OUT
-Date: Sun, 30 Aug 2026 12:55:04 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Yukai Wu <xiaoyewuz.ruster@gmail.com>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Dongliang Mu <dzm91@hust.edu.cn>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F5e3f3zr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9AFA1F000E9;
+	Sun, 30 Aug 2026 05:36:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788068176;
+	bh=dbu7Q3qcydpbduK5d5xuw3bm+6kDkYu6ps7F3h/cYC4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=F5e3f3zrh6K28tm/qQp6Oue55tKOTLOm01Yu0X0OpWd11buxJM+oaQZgRaPgAlviw
+	 orfhumU4zI6rXgZbcTbz0VyTxjMqyrqmt1yX+dwx/pPQKPoDwxaZymNkiEKL37jeMy
+	 m8iwifd6CBos3sCjQc12VSH5HxST5TNAz8sS8HWLLTXtD53zgpGszWjYd1Udf6YqOi
+	 RItioxeawc68IRB5v4ZTiIT2/t0l07vAMlA5MEkxNFTdL0oaOKmRwu/l+811BFK+ra
+	 hPrKDWDpFPIFCqHB2QRZ5eP+KTGkOQHlKN9AYVVTraJss062/hlCVu+RUurmS761IA
+	 JU6btVfCDBo7Q==
+Date: Sun, 30 Aug 2026 08:36:01 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
+	Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+	Nico Pache <nico.pache@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Alexandre Ghiti <alex@ghiti.fr>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Update arch/riscv/vm-layout.rst translation
-Message-ID: <apO3qAhf95TyJauu@wyuan.org>
-References: <20260829041542.256360-1-xiaoyewuz.Ruster@gmail.com>
- <apL7ctZhcN5t77Yu@wyuan.org>
- <f-IgWNAyTmaoW34tfNxIvg@gmail.com>
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Usama Arif <usama.arif@linux.dev>,
+	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/6] userfaultfd: collapse VM_UFFD_{MISSING,WP,MINOR,RWP}
+ into single VM_UFFD
+Message-ID: <apPBQQ-850DwlCVA@kernel.org>
+References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
+ <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
+ <ao16VxNvaYzlt2WG@gremlin>
+ <ao_9R3CbjYFipFu7@kernel.org>
+ <apAB9GSnHNyNoSc1@gremlin>
+ <apAcweThjiD-iIBF@gremlin>
+ <37f6af95-950e-4457-886e-6548d4719f0d@kernel.org>
+ <apK7s4xSgA_GmY7d@kernel.org>
+ <178802897277.671075.10362065249796431311.b4-reply@b4>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f-IgWNAyTmaoW34tfNxIvg@gmail.com>
+In-Reply-To: <178802897277.671075.10362065249796431311.b4-reply@b4>
 
-On Sun, Aug 30, 2026 at 09:33:12AM +0800, Yukai Wu wrote:
-> On Saturday, August 29, 2026 11:32:02 PM China Standard Time Weijie Yuan 
-> wrote:
-> > Hi, it's me again ;-)
-> > 
-> > On Sat, Aug 29, 2026 at 12:15:10PM +0800, Yukai Wu wrote:
-> > > Update Documentation/arch/riscv/vm-layout.rst translation.
+On Sat, Aug 29, 2026 at 02:42:52PM -0400, Tal Zussman wrote:
+> On 2026-08-29 14:00 +0300, Mike Rapoport wrote:
+> > On Thu, Aug 27, 2026 at 05:19:30PM +0200, David Hildenbrand (Arm) wrote:
+> > > On 8/27/26 13:18, Lorenzo Stoakes (ARM) wrote:
+> > > > On Thu, Aug 27, 2026 at 12:16:32PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > > >> So actually you're increasing by a cacheline and increasing the VMA size by
+> > > >> 64 bytes, i.e. 1/3, which is unacceptable obviously.
+> > > >>
+> > > >> Maybe there's something that can be done with:
+> > > >>
+> > > >> 		/* forced alignments: 1 */
+> > > >>
+> > > >> Perhaps? But that looks potentially ugly.
+> > > >>
+> > > > 
+> > > > I say elsewhere (or think I do) but to highlight - I think probably we could fix
+> > > > this by putting the flags in the low bits of vm_uffd_state.ctx?
 > > > 
-> > > Update the translation through commit 954260ff5a46
-> > > ("Revert "RISC-V: mm: Document mmap changes"")
+> > > if that's possible that would be clearly preferable memory-wise.
 > > 
-> > Somehow I guess you didn't get the actual meaning behind this "Update xxx
-> > through commit...".
+> > This gives only 4 bits and makes this completely not extendable.
+> 
+> Wouldn't it be 6 bits? struct userfaultfd_ctx is allocated with
+> kmem_cache_create() and SLAB_HWCACHE_ALIGN, and most of the flags are
+> only available on 64 bit, so it should be 64-byte aligned in the
+> relevant cases.
+> 
+> (Not that 6 is that much better than 4... but it's a little more wiggle
+> room.)
+
+I did remember that SLAB_HWCACHE_ALIGN could be as small as 16 bytes, but I
+didn't verify it for architectures that support fancy uffd modes.
+ 
+> It could in theory also be bumped up to 7 by setting align in
+> kmem_cache_create(). userfaultfd_ctx already takes 192 bytes due to
+> existing alignment. Aligning it to 128 bytes would make it 256 bytes,
+> adding 64 bytes to each uffd rather than each VMA. But this sounds like
+> more pain for little gain :)
+
+Yeah, even with as plenty as 7 bits :)
+ 
+> > So I think I'll drop this for now and wait until VMA grows another cache
+> > line or until having per-VMA uffd state rather than a pointer to per-fd
+> > context is a must.
+> >  
+> > > -- 
+> > > Cheers,
+> > > 
+> > > David
 > > 
-> > Correct me if I'm wrong. If you write this line in your commit message.
-> > Then it means if we apply this patch of yours. The Chinese documentation
-> > of this file should be already _completely_ synchronized.
+> > -- 
+> > Sincerely yours,
+> > Mike.
+> > 
 > > 
 > 
-> I agree. My fault again.
-
-No worries at all.
-
 > 
-> > However, the current translation of this file is missing this part:
-> > 
-> > RISC-V Linux Kernel SV57
-> > ------------------------
-> > 
-> > ... which is not translated/synchronized in your patch.
-> > 
-> > 
-> 
-> Didn't see that because I just used the tools/docs/checktransupdate.py script, 
-> which cannot see the commits before ed843ae947f8 ("docs: move riscv under 
-> arch"). That commit just moved the Chinese translation but was treated as an 
-> update by the script. And I only looked at the commits reported by the script.
 
-OK, I noticed that this file was moved/renamed.
-
-$ tools/docs/checktransupdate.py Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
-[1788062042.378100] Documentation/translations/zh_CN/arch/riscv/vm-layout.rst
-[1788062042.518400] commit 954260ff5a46 ("Revert "RISC-V: mm: Document mmap changes"")
-[1788062042.560926] commit 5c8405d763dc ("riscv: Extend sv39 linear mapping max size to 128G")
-[1788062042.601822] commit 371a3c2055db ("docs: riscv: Define behavior of mmap")
-[1788062042.601947] 3 commits needs resolving in total
-
-.. So our script missed a few commit before name-changing?
-
-But whatever, this file is not long and complicated. And the script is
-just a reference to check the status.
-
-Also, we do not need contributors to update the translation one commit
-by one commit.
-
-So, the best solution now is simply manually synchronizing the
-translation, I think.
-
-> > Note that I'm not blaming on you for this. But I feel this is a point
-> > that a newcomer might find confusing, including me and Chen-Yu a couple
-> > of weeks ago, if did not read the script.
-> > 
-> > Our current how-to.rst only asks to write this line in the commit
-> > message but does not explain the results or the actual work behind it.
-> > 
-> > [...]
-> > 	Update the translation through commit b080e52110ea
-> > 	("docs: update self-protection __ro_after_init status")
-> > 	# 请执行 git log --oneline <您翻译的英文文档路径>，并替换上述内容
-> > 
-> > 	So when a newcomer comes and just does what this asks, without
-> > 	considering whether his/her/its translation is completely
-> > 	synchronized or not, our script would be kind of inaccurate. ?
-> > 
-> > Maybe we can add a description or a hint like:
-> > 
-> > If your current changes make the translation completely in line with the
-> > English version, then please add this line after your descriptions and
-> > before a blank line and your sign-off:
-> > 
-> > Update the translation through commit e83c5163316f
-> > (Initial revision of "git", the information manager from hell)
-> > 
-> > ..then follows a template commit message
-> 
-> Allowing partial updates to the translation?
-
-I think it's fine to do partial updates. If you just do partial updates,
-therefore do not add that line "Update the translation through commit abc".
-That would make the script think you have done all the missing jobs.
-
-Also, you can absolutely write the _specific_ commit hash if you do so,
-(only update partial) , not the lastest commit hash of the English original one.
-
-That said, I did not read the script yet. :(  So I'd better take a close
-look then.
-
-> > (Should I cc the original authors of the script?)
-> 
-> CC the authors of the checktransupdate.py script?
-
-Yes, but since Dongliang is the original author, I guess it's enough.
-
-Thanks.
+-- 
+Sincerely yours,
+Mike.
