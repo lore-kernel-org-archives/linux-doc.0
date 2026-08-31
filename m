@@ -1,103 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCC32D781B;
-	Mon, 31 Aug 2026 10:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F336F39CD1E;
+	Mon, 31 Aug 2026 10:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788171499; cv=none; b=Ld99ARnVmIRsYS9b+5RZHjyWv/sGi9kQnQNv9vv1Dvur+FhOtzqO5/ML0X2I2E30dCotSQ/1lZYJAU2HWVcJ/9FRd8AlkaTTFi+rUmKhUsVIYVC010+/IRAb/DDPNxE/oZ7yFTMa7irOSRxxw04GD6qS58KrmMoXTyWvPAgjJ7Q=
+	t=1788172905; cv=none; b=JPtjJYzNEMbfAO9WZWljmKcptW+TgCqs/VgXmybkpXOAJmUHk5BD92I+Im7zsimn3Ytz0hf3nFpHNodIYg/4+OCM/4KvHfazbECYO3X3ven4W+p50qyc+TIgbGhQzeqtucXlfWVx9EX4FozEcQc7cbIStjKGbHn6tJOxIeddkZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788171499; c=relaxed/simple;
-	bh=5s6EUyxh8JHFqaodDHnqJiVh1EiqM58/P6lkzAvGh/k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=axsY8EJS3YsPbXYRPI+cQhmV7livnLLQ2B8uklfRx85rXCnxAzOs+2YiaDAuRA5g0s85sOJjeiF+6ehEnZQS3s1AD01cSXEqdSPKxuegXrNFhMNI0nfk4VlxN3tkD8bdPi4ltPD6/499WuwMkR3zlxSa5RVPO2yD+nOPYEWrptA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b+F22cQQ; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b+F22cQQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCC6E1F000E9;
-	Mon, 31 Aug 2026 10:18:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788171498;
-	bh=/USldvh6G0OAtolKZhKp1OxbNPDmJWwJbKHQDkkNUSc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=b+F22cQQeyK4/WnsnM1ma9HFib/V+v2Bz621TQ+SAg/lZ7X3LzgjY7LoqKO000+sj
-	 sz2odA0dSasiaFigL75kHk7Y4MV4bGs6w4iJp1xxn1wh6RTMqnXBVbsV/xxIdIE/k3
-	 n43gDFJHWtaM4dB1j7RBvD3UkEN+u5KBQ82tooZWP9nkEUcPO+j44/AmTrVuUHvesX
-	 bQLs9GWw57PDx2T10wbpIvqXv84iXUYeyrvgYpFTmG0idg/WjTRFtvLDPZhJKOXio0
-	 /RtkAGGMDR61BWBIF92504Ew2ElchV6QGrR2lKPiKUm4YSLYWcKqk6JC1SSVxkox7Q
-	 sq3oMcJnl2Jig==
-From: Thorsten Blum <blum@kernel.org>
-To: Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Marco Elver <elver@google.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Li RongQing <lirongqing@baidu.com>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thorsten Blum <blum@kernel.org>
-Subject: [PATCH RESEND 3/3] Documentation/arch/x86: Remove obsolete vdso32=2 compatibility note
-Date: Mon, 31 Aug 2026 12:17:01 +0200
-Message-ID: <20260831101657.2947-8-blum@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260831101657.2947-5-blum@kernel.org>
-References: <20260831101657.2947-5-blum@kernel.org>
+	s=arc-20240116; t=1788172905; c=relaxed/simple;
+	bh=suL+s9BotwZwxJIz5p0LXcdBnprSV2qHihd9mkbvKq0=;
+	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=uEyeHBnt88Z//kT17tVZXqWxCgV1DNrMjJ+QMeFzHIauqYSXBDi7BLnWD1QvA2hckDBr8JxXrzw3ff0zHyONJnjhm4IIOw9I8mgBB5ZwVVIGuabNgWpkckbt5av3J0oSgiQmAALoU7/253IN9FaxCXzVNkzb8VjW/8cSZo79o7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4hYQXG4NXXz55y1s;
+	Mon, 31 Aug 2026 18:41:34 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+	by mse-fl1.zte.com.cn with SMTP id 67VAfRbd011322;
+	Mon, 31 Aug 2026 18:41:27 +0800 (+08)
+	(envelope-from hu.shengming@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Mon, 31 Aug 2026 18:41:30 +0800 (CST)
+X-Zmail-TransId: 2af96a955a5aaab-8c47f
+X-Mailer: Zmail v1.0
+Message-ID: <20260831184130077NszBddcqeMjSj8i-E-6gf@zte.com.cn>
+In-Reply-To: <20260831102042.6f91bd1e35691ea2d1ac808d@kernel.org>
+References: 20260830190743637MhXoixrAPc1rfm-G8eIcg@zte.com.cn,20260831102042.6f91bd1e35691ea2d1ac808d@kernel.org
+Date: Mon, 31 Aug 2026 18:41:30 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1463; i=blum@kernel.org; h=from:subject; bh=5s6EUyxh8JHFqaodDHnqJiVh1EiqM58/P6lkzAvGh/k=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFlTQ+aIn7Fp+7h0xbcOMbnIpIpDf23uxL1tWrByR+oGE XPzyAtqHaUsDGJcDLJiiiwPZv2Y4VtaU7nJJGInzBxWJpAhDFycAjCRLC6G/7GK/OlNml+6p/xe oPqzaOPXdu8TvgveCshkvHzR5/NNeDPDP9u/DLET85n6d1kvagmN0Ii0XXsn8wjH0l+Zn+3DglQ 3cQAA
-X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+From: <hu.shengming@zte.com.cn>
+To: <mhiramat@kernel.org>, <xu.xin16@zte.com.cn>
+Cc: <rostedt@goodmis.org>, <mathieu.desnoyers@efficios.com>,
+        <mark.rutland@arm.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+        <rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-trace-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <ran.xiaokai@zte.com.cn>, <zhang.run@zte.com.cn>
+Subject: =?UTF-8?B?UmU6IFtSRkMgUEFUQ0ggMC80XSBmdHJhY2U6IEFkZCB0YXNrIGNvbW0gZmlsdGVyaW5nIGZvciBmdW5jdGlvbiB0cmFjaW5n?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 67VAfRbd011322
+X-TLS: YES
+X-ENVELOPE-SENDER: hu.shengming@zte.com.cn
+X-SOURCE-IP: 10.5.228.132 unknown Mon, 31 Aug 2026 18:41:34 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6A955A5E.000/4hYQXG4NXXz55y1s
 
-Commit b0b49f2673f0 ("x86, vdso: Remove compat vdso support") removed
-compat vDSO support and documented vdso32=2 as an alias for vdso32=0.
+Masami wrote:
 
-However, since commit c06989da39cd ("x86/vdso: Ensure vdso32_enabled
-gets set to valid values only"), vdso32_setup() accepts only 0 and 1.
+> On Sun, 30 Aug 2026 19:07:43 +0800 (CST)
+> <hu.shengming@zte.com.cn> wrote:
+> 
+> > Hi Steven and Masami,
+> > 
+> > This series adds two comm-based task filters for the function and
+> > function_graph tracers:
+> > 
+> >   set_ftrace_comm
+> >   set_ftrace_notrace_comm
+> > 
+> > Function tracing currently supports selecting tasks by PID. This makes
+> > it difficult to configure tracing before a service starts, because it
+> > does not have a PID yet. It is also inconvenient to keep tracing the
+> > same service across restarts, as its PID may change. This use case was
+> > suggested by Xuxin, a KSM reviewer.
+> 
+> Thanks for the idea. I thought we can use `pidof` but it is for running
+> processes.
+> 
 
-Remove the obsolete vdso32=2 compatibility note and document only the
-supported values.
+Yes, exactly. The main use case is to configure tracing before the
+target task starts, when there is no PID for pidof to return. Thanks,
+Xuxin! :)
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Thorsten Blum <blum@kernel.org>
----
- Documentation/admin-guide/kernel-parameters.txt | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+> > 
+> > The new filters match task comm names exactly. When both PID and comm 
+> > include filters are active, a task must match both to be traced. A
+> > match in either the PID or comm notrace filter excludes the task.
+> > 
+> > To avoid string matching in the function tracing fast path, the filters
+> > are evaluated when a task is scheduled in. The result is stored in the
+> > existing per-CPU cache used by PID filtering. Changing a filter refreshes
+> > the cached result for currently running tasks. If a task's comm changes,
+> > the new name is used the next time the task is scheduled in.
+> 
+> OK, but can trace scheduler event (or add a new event) that we just convert
+> comm to PID when the comm is changed and add/remove it to pid filter?
+> If that works, we can also extend generic event trigger to set ftrace pid
+> filter. Using this allows you to add or remove processes as ftrace targets
+> at runtime—not only based on comm, but for other reasons as well.
+> (of course, setting per-cpu cache requires to kick a worker...)
+> 
+> This will leak the pid via set_ftrace_pid, but that is good from the
+> monitoring point of view.
+> 
+> Thank you,
+> 
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 68647ff4bdd2..793a85d879a5 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8339,15 +8339,12 @@ Kernel parameters
- 
- 	vdso32=		[X86] Control the 32-bit vDSO
- 			vdso32=1: enable 32-bit VDSO
--			vdso32=0 or vdso32=2: disable 32-bit VDSO
-+			vdso32=0: disable 32-bit VDSO
- 
- 			See the help text for CONFIG_COMPAT_VDSO for more
- 			details.  If CONFIG_COMPAT_VDSO is set, the default is
- 			vdso32=0; otherwise, the default is vdso32=1.
- 
--			For compatibility with older kernels, vdso32=2 is an
--			alias for vdso32=0.
--
- 			Try vdso32=0 if you encounter an error that says:
- 			dl_main: Assertion `(void *) ph->p_vaddr == _rtld_local._dl_sysinfo_dso' failed!
- 
+Thank you for the suggestion!
+
+My understanding is that, instead of adding comm-specific function
+filters, we could add generic event-trigger actions that update the
+existing function PID filter.
+
+For example, the task_rename event already observes task comm changes.
+Conceptually, a user could configure something like:
+
+  ftrace_pid_add:pid if newcomm == "foo"
+  ftrace_pid_del:pid if oldcomm == "foo" && newcomm != "foo"
+
+The command names and syntax above are only examples. The PID field
+would be selected from the event record, so the same actions could be
+used with other events and filters, rather than being tied to comm or
+task_rename.
+
+I think the trigger actions could update the same PID list used by
+set_ftrace_pid. A PID added by a trigger would then become a normal
+set_ftrace_pid entry and would be visible when the file is read. The
+list would be shared state, without tracking whether an entry came from
+a user or a particular trigger. Removing a trigger would stop future
+updates but would not roll back PIDs that it had already added.
+
+Since an event trigger may run in a context where the PID list and
+per-CPU cache cannot be updated directly, the trigger could queue the
+operation to a worker. The worker would update the PID list and refresh
+the cached task-filter result.
+
+For the comm use case, a delete action on task_rename would remove a PID
+when the task no longer has the selected comm. A delete action on
+sched_process_exit could also remove stale PIDs when matching tasks
+exit.
+
+This would primarily support rules installed before a task starts or
+before the relevant event occurs. It would not discover tasks that
+already match when the trigger is installed unless they generate the
+event again.
+
+Does this shared PID-list and generic add/delete trigger model match
+what you had in mind?
+
+--
+With Best Regards,
+Shengming
