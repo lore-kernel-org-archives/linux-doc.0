@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BD92EEE76;
-	Mon, 31 Aug 2026 07:16:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C3039D6F6;
+	Mon, 31 Aug 2026 07:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788160566; cv=none; b=UB99powuRapZP/ej42auNaupbqtsiac6ak+ChPfrsX3bXyERuUI2S8vJZmY7LALMZdnj3pvcTchLF3EFGDWcmo8g9jqKX07L5Aoa3bh/bNxVob4eQDnP17qwM0/EPlm6J83PzUor637Q9TrIW4p0nKAgpxuHcetTjaaX1XdNrqQ=
+	t=1788162369; cv=none; b=ZusTMgPixEKhsEsamglfWOf2ZT7rE/zlLKmgZYeWH2KxS5MNLKxMRFYCxm8UYxsqbFNfrFr8x7UwwmSRzVki3qyNILJWDpnP17FjSMwnONsU5dYeDJs1m1XzdLSEV47KwRHfIFMeitRCMxS3Z+Hzvt2pcOmPwhZnUr3JxOHgEIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788160566; c=relaxed/simple;
-	bh=FEEOhqT1jhBCGXUBQc12nCGYVYm14SMV7KmyjFkYVQQ=;
+	s=arc-20240116; t=1788162369; c=relaxed/simple;
+	bh=jxYEJFq5WeOv7zGQ4U4bqSMEsmWhySJfkk+RAspg6gI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HY6QnLxG1Wb5enQlAj3+rt5RzYEgoGzzkn0RfYaB2xiRRgNwGZw0uxnH++YiltHvbc8/Xu2RL3ZQayhrOzeSvfIWii2sD91H3JTweorR7XQyT1iJaGaeBr3+sruglBn3sda4Uc21nKjaH6YiTZnm5Uqs4KFo6oYxVvtq219M2SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QAUJ8I2w; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=cmm9UOtloVjU96wLFelJgUufcRDavRM59uHdwTvobjezWEf3rdC1FExQ+zsWi+ialdxsFzEUrFHrCKen3WqWMIdxlZIOaVL0gRk/VOQXHx52s97jnz2gS1L4Ukpdva0lVNQQZ9iQcaKySd3tdsTKbDu8CeWlKtpSFn8W0sAtLs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QRyRvwSc; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QAUJ8I2w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QRyRvwSc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788160564; x=1819696564;
+  t=1788162364; x=1819698364;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FEEOhqT1jhBCGXUBQc12nCGYVYm14SMV7KmyjFkYVQQ=;
-  b=QAUJ8I2wKeeEFvZioBIK+jhvSQNJ7yFaZEdirRQODqP3Bav5x+xIUMvJ
-   dckQrlmC27893Qe6ROc2PmYezeM8btoQwGM6Ic+3DHT/HEyAOCDyogOGF
-   +WEaQL9wZcUC5AB9nX11ymMg+3fxGHU1EVdCXy0yJ9asxhRCaS7+E6JwV
-   b7KtKBfv09Wo13qgu29DJThFUJSspaG0ZOvMAwELjNKhTgZB2MuDRk2AG
-   PtNLP0sOND7IXdZblQDGkzwXAR2uz6+nfzb0ilBuxwusdc7J2xd/T02Q8
-   lWCGgqG2BU4e8x/6K32GRC5zU1DHTS3/qZXAzOGeH4LNgPQi3rA/UGiJr
-   Q==;
-X-CSE-ConnectionGUID: yNEPvPbSTuex96f43allLw==
-X-CSE-MsgGUID: ND/iqhxhQdWYsus3Pq81VQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88683405"
+  bh=jxYEJFq5WeOv7zGQ4U4bqSMEsmWhySJfkk+RAspg6gI=;
+  b=QRyRvwScVZwxOIIsgn7Big9mTWG7f9mA3eL6OsRoZ8wPXi3LVp8VAlMu
+   OEhoyaHbAED3xs3jflzW0oL3WtK39GSo8wtjcqR9ic+fpN5dbFvy1RRKU
+   vMl7v/jcKdpXlTcnd9+p3NiaCGypEeUsfXizXEj31iuDumDanqdg94/uJ
+   ODRzqe1SiAfJ7K02mSIi45MmUXKAoM1yq3mCRa4TY7Y3K1Zwmx9psTk9b
+   BT2yKGO9FMNzEVJ1HyhDMoyj2l3bMKlzemHZbdvqv+mESN91s5DKwKuLl
+   qHqHhy+9AMAB+e1QW28iSrFg6SZ+ng5981SoL3UbtZeWUVJMx9S8Qv1P3
+   g==;
+X-CSE-ConnectionGUID: ZArewE1oQteuiuLbdkJz0g==
+X-CSE-MsgGUID: /oiGamLbQwekrDw0hY3n2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="99161807"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="88683405"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 00:16:00 -0700
-X-CSE-ConnectionGUID: 6vVeQbW1RVOGXtXRXiJ6hg==
-X-CSE-MsgGUID: x8KVMbJQTRuQncui4MLdSg==
+   d="scan'208";a="99161807"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 00:46:02 -0700
+X-CSE-ConnectionGUID: oTcE0FtxRMyJj/6/Z2zUYg==
+X-CSE-MsgGUID: LWnWEmfGRI+dCcgF6h01SQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="264433045"
+   d="scan'208";a="272238973"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.21])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 00:15:54 -0700
-Date: Mon, 31 Aug 2026 10:15:52 +0300
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 00:45:57 -0700
+Date: Mon, 31 Aug 2026 10:45:54 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Janani Sunil <janani.sunil@analog.com>
 Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
@@ -64,10 +64,11 @@ Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
 	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
 	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
 	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v5 18/20] gpio: regmap: Add optional runtime PM support
-Message-ID: <apUqKHhrxDLcz5l8@ashevche-desk.local>
+Subject: Re: [PATCH v5 12/20] iio: adc: ad7768: Wait for digital filters to
+ settle
+Message-ID: <apUxMi9zpUASjLCt@ashevche-desk.local>
 References: <20260828-ad7768-driver-v5-0-e33ca6f841a2@analog.com>
- <20260828-ad7768-driver-v5-18-e33ca6f841a2@analog.com>
+ <20260828-ad7768-driver-v5-12-e33ca6f841a2@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,59 +77,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260828-ad7768-driver-v5-18-e33ca6f841a2@analog.com>
+In-Reply-To: <20260828-ad7768-driver-v5-12-e33ca6f841a2@analog.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Aug 28, 2026 at 05:30:41PM +0200, Janani Sunil wrote:
-> Some gpio-regmap consumers share their regmap with a parent device that
-> may be runtime suspended. GPIO register accesses must resume that device
-> first.
-> 
-> Add an optional pm_dev field and acquire it before register translation
-> or access. Release it using runtime autosuspend after each operation.
-> Keep the device active across the complete direction-output sequence and
-> propagate failure when setting the initial output value.
-
-LGTM now,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-
-In case you need a new version, check a nit-pick below.
+On Fri, Aug 28, 2026 at 05:30:35PM +0200, Janani Sunil wrote:
+> After synchronizing the channel mode configuration, wait for the longest
+> settling period required by the active profiles. Derive the delay from
+> the selected output data rate and the datasheet filter-settling limits.
 
 ...
 
-> struct gpio_regmap {
+> +static void ad7768_filter_wait(const unsigned int *mode_freq,
+> +			       const enum ad7768_filter_type *mode_filter,
+> +			       const bool *mode_used)
+> +{
+> +	unsigned int t_settle_us = 0;
+> +
+> +	for (unsigned int mode = 0; mode < AD7768_NUM_CHANNEL_MODES; mode++) {
 
->  	struct device *parent;
->  	struct regmap *regmap;
->  	struct gpio_chip gpio_chip;
-> +	struct device *pm_dev;
+> +		unsigned int settling_samples;
 
-Perhaps move this one line up to be consistent with the below...
+Taking into account the values and multiplication below I would make this
+to be u8. This will make it clear that the values are not high and there
+is no multiplication overflow. Another approach is to have it as unsigned int,
+but rename and change semantics, id est use with multiplier.
 
-	struct device *parent;
-	struct regmap *regmap;
-	struct device *pm_dev;
-// Also add a blank line here
-	struct gpio_chip gpio_chip;
+> +		unsigned int t_mode_us;
+> +
+> +		if (!mode_used[mode] || !mode_freq[mode])
+> +			continue;
+> +
+> +		if (mode_filter[mode] == AD7768_FILTER_TYPE_SINC5)
+> +			settling_samples = AD7768_SINC5_SETTLING_SAMPLES;
+> +		else
+> +			settling_samples = AD7768_WIDEBAND_SETTLING_SAMPLES;
+> +
+> +		t_mode_us = DIV_ROUND_UP(settling_samples * USEC_PER_SEC,
+> +					 mode_freq[mode]);
 
->  	int reg_stride;
->  	int ngpio_per_reg;
+		if (mode_filter[mode] == AD7768_FILTER_TYPE_SINC5)
+			t_settle_samples_us = USEC_PER_SEC * AD7768_SINC5_SETTLING_SAMPLES;
+		else
+			t_settle_samples_us = USEC_PER_SEC * AD7768_WIDEBAND_SETTLING_SAMPLES;
+		// or even define the respective constants in units of _US
 
->  };
+		t_mode_us = DIV_ROUND_UP(t_settle_samples_us, mode_freq[mode]);
 
-...
-
->  struct gpio_regmap_config {
->  	struct device *parent;
->  	struct regmap *regmap;
-> +	struct device *pm_dev;
-
-^^^
-
->  	struct fwnode_handle *fwnode;
->  
->  	const char *label;
+> +		t_settle_us = max(t_settle_us, t_mode_us);
+> +	}
+> +
+> +	if (t_settle_us)
+> +		fsleep(t_settle_us);
+> +}
 
 -- 
 With Best Regards,
