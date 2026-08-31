@@ -1,64 +1,64 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001393BFAFB
-	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 07:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52AB3C2B95
+	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 07:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788162874; cv=none; b=VgXG6ZHUwuEnBtzF02rM0iddAsdv8RfdMALdN+iNUenkBWzhv9+BQZkAHWiSTMDlQ/hEymqSXlIJ3LZvO4oys5YImk8x+YUuCGexY+ej/jJbQgm7LWhD6XKihGqgJ0YwiyesVEtvJopsiIPy8IC9QCE2syIUx8xpbd3InIxrCKo=
+	t=1788162879; cv=none; b=Rlm5grf3M2loRxS19auhjzIY3az5974of+wXxybE3oErA/HKOPow80af5TtvTMgzY6g+eWg6lubnUxQDFK51XtbXBYM6af+13r9/xGI7k/OltAW7So9LsTOEMhvzCi8Hr81Beh47V7XRSMzqN2KVcKL32ciAqb9lCz+rf6Yil6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788162874; c=relaxed/simple;
-	bh=o8Aks7xfsNOUvUy+GMfdpXSPyjdlXTmKg+NBN/YdiZ8=;
+	s=arc-20240116; t=1788162879; c=relaxed/simple;
+	bh=NbNECtNzYk+UHZ/PxBOh30rHMR89K1eknJE2XvFAA94=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p2BoBhQ2wygg9pBpD1Xo8tjsUzqhyDnZX8yPmA16m/ufTi+v65zJnNSxjYonBxRhhygJchbzpxizqoYzf1d9+nMJJyx8n1epw3pg9t8Zav5WJCaPqVYA8PD8r5GaqX6YdDuvAsP0TYBJf/Yf3Bx4nR5DEzDKUwXMA0/hv2qZ1Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=gDXK/fxu; arc=none smtp.client-ip=209.85.210.171
+	 MIME-Version; b=djigFxEdRF+9Q6Q8Zrp+vEsf+L2Q+9B+LVZyBbIrpuGSD6OtH4Qq6QY1TBABzE6wwxAceoIVfQGiApmacmdewrOpPa76zE6RHhIkqQTB2RNH8icGZ6dFJAN54YgiR9TKX4sOuEgz/WVretiZ5qi2O2EGSzRKc0x1/y/htONFoAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=gM2ribIR; arc=none smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="gDXK/fxu"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8485b358552so3095243b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 00:54:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="gM2ribIR"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cc1cbb64a1fso3032423a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 00:54:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1788162872; x=1788767672; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1788162877; x=1788767677; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XjT0Dc9Rc0+WQPw0AxlsVqG1ooKsABjb50Q/PiKd2Bg=;
-        b=gDXK/fxujBhG1uzwCam1wU7ulkvRcM2+skkB0CV+uulDP67k7i1cPv2JOJecQyqjdV
-         5ZOAivH+rdpARi53krkJAv6HAwpqPQEhYxZaQiB+sCiALqnHg9s4iB7BapQLFG5T/lk9
-         UIWBp3QlLLW+xAJYt/DMnzuw8/mlz8OW8G/OQgZ4noGaCD0dZOnHvxH+WpXa+iUiTLBG
-         y37Lsai6hpGKA1W1fxC4kePWvevY7v8JeVeX3EAbhk+XjxGER8cyMd22TDHWCMrkIcg1
-         Jj2B8S4Rjr7Oc/PMInWFDvfm7WwIX+yRLqIG/+mfMa6eTIKqeN4X6q2fPcljjwKL7TVh
-         DpxQ==
+        bh=4jDvtv3kIRHCHEO8kcmf2tbgWKyzjUPm6N9KUwqqy5o=;
+        b=gM2ribIRiWiEPBT9ra6LIelFw9BMOo2m8PRRdeMUJTLmn0wmYlj3i7Gloa7y2oWQXs
+         OhF3khhEGOtbylg23Or+2Zht2T+NyY5wb/0z7KjtaX6pv1kttHk7Rn9bP99oS6Nc80k7
+         WL/0IlZ+CFoACoSV7TLivQfvIvGHS7rdh0Ai3qOUW7X9BijqHH/8g2OeAAc23OCNzfFS
+         Axoar1YNwCYQadPoJYGtgbZJmmS/RrKwkY5aBGxRHlMEqR53pJRRz3xsZkQ8Z6Q3NsI2
+         FE00VLtdzVk0xH2ytluwXmx9MHGwxGKw6rpcS2CiDbHgFaZt2cE6oekNyuSSAyGt4pa+
+         0oOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788162872; x=1788767672;
+        d=1e100.net; s=20251104; t=1788162877; x=1788767677;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XjT0Dc9Rc0+WQPw0AxlsVqG1ooKsABjb50Q/PiKd2Bg=;
-        b=Xt68GbAihRL22RbQU0/uUCnTtmyU0QZvDzJOUv4YB+EzasrdjkvhCZDFhszDP22THa
-         GdNO3pRgSVcAsYchLNry9WNSbeHZsfogsvPgnMVZy1HVIFsVRzpL4b7L5IyDW63TXM5z
-         XfsgvWv73/+QzUNWoMWa+YhlWloTVi9vPQDTgqQMwi9q/ZICkAaaWT0MdrX2Ir6T2vzd
-         QbNI+4E6aZK4PgB8knGzjlOcAHDHTYQgQytb3ira/Uaqhc6ut0kM1vLZ0RDLuaNd/pik
-         uHB+v9Whu7w3ScdGXqgcRS0gog/hgzez4QOZbeCnPvTwP6skj0hw/5YWX2KFo3Am3qBs
-         IpHQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrzYgBnm+5DHb37G5c4iNXnouvW/wK66pTG6AS2CL9eJZ+J7n3mymh3bueBdio0rOOh7JpXJ3iAgS0=@vger.kernel.org
-X-Gm-Message-State: AFuF++m7IJ12FM1AwnAgWhQu3sHOefMS9O325evNRvfzRCYfpHtV+5vD
-	b2kI11ujIn9f3M9oUSyzwm4wRNznvG3cuAR5JFPjvEGoiJmOWneOePbBdZQ2klEmFnA=
-X-Gm-Gg: AR+sD10B7ZwHpqHd16om6iW6sOTLDVP0iQ9LWJZZdaWlrC5+VnPD1em6kFHmpg481PQ
-	26tb02ySOr9AYjkQXeMX3RblixRslrRY4rXkrrJXWu4Lo4lPfPgVv7atNC6vFDxhirH/nrbI/J4
-	iKzmWOyA37ww1mrdKjysbbvCuOP6RqCuW2RSQiQAGmnPZmnH3wkPfJbOXH15k/1PN88J2PP8iGZ
-	Kstmt2b1PnLo6wT4o65eZX6ViIyK5q6OMltW1MN4KbaHj4WafKB5zb5w7vxxm4cUx4OUCp5whsG
-	Kb3T35yKdetz6x685C1L0u07CnurSk65AD0+eyqVMlap98WInQUbSzgIcyUsDtoohKLDOJzwBUx
-	yoXmkMZPxUrnDTWmo9o+sNHsMI4854Z//H5ntyb3LEvXeyapQgksW9aDNqqh8EYfTrbcDO0YApM
-	OzW+0Kql1VQ95OOGdKEZ5mP1iZA5wqt0Wx+CAEpl2SH1wF7ciShCY3MATe/EakQlZGuJGUAqvRB
-	pyFHVomrK6/Xo0z6ecPP7L3
-X-Received: by 2002:a05:6a00:3c8b:b0:857:726d:2e98 with SMTP id d2e1a72fcca58-857726d2fc5mr22906110b3a.21.1788162872037;
-        Mon, 31 Aug 2026 00:54:32 -0700 (PDT)
+        bh=4jDvtv3kIRHCHEO8kcmf2tbgWKyzjUPm6N9KUwqqy5o=;
+        b=LAUXgsGh4ge9Xqog2joxEexNSgPEJXquc7ba9O1LO8gaknfM4giEF1Qek4wVjqIMgH
+         cwGF5fU5uh3EyoOHoHG0J1p/nIURwBalsMYtv0tl3IgnZAbP0jKcrAwXApXQKoQkdTRp
+         SMm5U2CxxYLujtJrGWVBZBuXv5LcF4LtUQepGSDVpzRNHbJjuStW4JozTAp8tW8LYL29
+         Rl2xaBEEWZksuaiZJ7vlIfgWjYY+/efugr2RR6IJxSwvmBkiwakNnbubBhT+MzuTeCVL
+         ZPyjA7eg3ZKsgiEzvEDsKtu1g5HnNMqXB7RdbNiauC6NOwsnX7ysInzbyu9C2mRW135m
+         zn8Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrsheyGVxNg4m99UzSXy1nuqrKQPpr5CyUG6ml9cxsPkAqykkk2q1gpWpFsIy5Kfg28Yj5fe86tyBA=@vger.kernel.org
+X-Gm-Message-State: AFuF++kqApPaOzo8/CmWdliMbiDl475eZMisNaXoxmTjRAhJ7O7/BcYD
+	aFCLt8u9BTJuQnO1vHMcDrPy1rKbTlLugdAdELNfjKtoMhRthdgMxLY/wyKhKO4ACag=
+X-Gm-Gg: AR+sD12KX4VRB4r/coQrfq4vZfSUFUo1nS7BH+udlbBL+bw7cioDRwzL0PW0OXUQ7Oc
+	CYSZnEqPS9BtRFBixYVn7ZUuAZI/9cDOLtYSyVLunvT+Vk3giDzWxdyqRaa+LTal+Bqw15SI0Du
+	PgnEdVffK34yxOwZdo4GMJ9MY2FiSCuAMJ1Njdlp72DuFMJZzZ33b87HrevEpdQ1D+VKIcuHwkw
+	hDmhTccuCyHsQG4kvmnoSl+rHmZIDCUjNWlxLNg85O6s1l7UG1LEYuvhtzkh9JqLniOnk1P2Zij
+	ysrxFPwoZMVdePpqVj2SgbYzgam7gGvVt+iZK/5mpO3wplfmdTx96roIpWPCxcbhuFJ7hTNyxdt
+	2uhSq8jaMb/Qa8h6bAzWhXwMSYW3ReuS2rqz0+8iTFm186BvPWyNH5lZNoDHbkHWCdLrPTQMP/+
+	fl+nlQGS35kavU0LNFZp9vA86+H9ZmMl7kvIItDjssW6+6ODpl2pIHOIZFbwr2PqHMttqeV8l3y
+	NPDAGzh5e9ty86HPO0sxhV7
+X-Received: by 2002:a05:6a20:6a15:b0:3c4:4272:b400 with SMTP id adf61e73a8af0-3d2688bd9c8mr37731922637.18.1788162876874;
+        Mon, 31 Aug 2026 00:54:36 -0700 (PDT)
 Received: from G6L4RL2QG9.bytedance.net ([61.213.176.9])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc1f330f88csm3590256a12.10.2026.08.31.00.54.27
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc1f330f88csm3590256a12.10.2026.08.31.00.54.32
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 31 Aug 2026 00:54:31 -0700 (PDT)
+        Mon, 31 Aug 2026 00:54:36 -0700 (PDT)
 From: Muchun Song <songmuchun@bytedance.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	David Hildenbrand <david@kernel.org>,
@@ -78,9 +78,9 @@ Cc: linux-mm@kvack.org,
 	Christophe Leroy <chleroy@kernel.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH 01/11] mm/sparse-vmemmap: introduce CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
-Date: Mon, 31 Aug 2026 15:53:32 +0800
-Message-ID: <20260831075342.57563-2-songmuchun@bytedance.com>
+Subject: [PATCH 02/11] mm/sparse-vmemmap: factor out shared vmemmap tail page allocation
+Date: Mon, 31 Aug 2026 15:53:33 +0800
+Message-ID: <20260831075342.57563-3-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260831075342.57563-1-songmuchun@bytedance.com>
 References: <20260831075342.57563-1-songmuchun@bytedance.com>
@@ -92,180 +92,220 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The section-based vmemmap optimization infrastructure is still guarded by
-CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP, but it also can be used by device
-DAX. Introduce CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION as a common config
-for the shared infrastructure.
+HugeTLB and sparse-vmemmap each have their own helper to allocate the
+shared vmemmap tail page used by vmemmap optimization.
 
-Select the new option from HUGETLB_PAGE_OPTIMIZE_VMEMMAP and from
-DEV_DAX when the architecture opts in to DAX vmemmap optimization, and
-use it to guard the generic sparse-vmemmap state and helpers.
+Factor that logic into a common vmemmap_shared_tail_page() helper. It
+allocates the page through vmemmap_alloc_block(), and uses cmpxchg()
+to install the per-zone shared page.
+
+Expose zone->vmemmap_tails under CONFIG_SPARSEMEM_VMEMMAP to match the
+shared helper's build condition. This avoids a
+!CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION stub; when optimization is
+disabled, the array has no entries and the compiler folds away the unused
+paths, so no storage or runtime overhead is added.
+
+This removes duplicate allocation logic while still handling both the
+early boot and runtime paths through the same helper.
 
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 ---
- arch/x86/entry/vdso/vdso32/fake_32bit_build.h |  2 +-
- drivers/dax/Kconfig                           |  1 +
- fs/Kconfig                                    |  1 +
- include/linux/mm.h                            |  3 +++
- include/linux/mmzone.h                        | 13 +++++++------
- include/linux/page-flags.h                    |  5 ++---
- mm/Kconfig                                    |  3 +++
- mm/sparse.h                                   |  4 ++--
- 8 files changed, 20 insertions(+), 12 deletions(-)
+ include/linux/mmzone.h |  2 +-
+ mm/hugetlb_vmemmap.c   | 28 +---------------
+ mm/sparse-vmemmap.c    | 74 +++++++++++++++++-------------------------
+ mm/sparse.h            |  1 +
+ 4 files changed, 33 insertions(+), 72 deletions(-)
 
-diff --git a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
-index bc3e549795c3..5f8424eade2b 100644
---- a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
-+++ b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
-@@ -11,7 +11,7 @@
- #undef CONFIG_PGTABLE_LEVELS
- #undef CONFIG_ILLEGAL_POINTER_VALUE
- #undef CONFIG_SPARSEMEM_VMEMMAP
--#undef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-+#undef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
- #undef CONFIG_NR_CPUS
- #undef CONFIG_PARAVIRT_XXL
- 
-diff --git a/drivers/dax/Kconfig b/drivers/dax/Kconfig
-index 602f9a0839a9..85ad4c135cdd 100644
---- a/drivers/dax/Kconfig
-+++ b/drivers/dax/Kconfig
-@@ -8,6 +8,7 @@ if DAX
- config DEV_DAX
- 	tristate "Device DAX: direct access mapping device"
- 	depends on TRANSPARENT_HUGEPAGE
-+	select SPARSEMEM_VMEMMAP_OPTIMIZATION if ARCH_WANT_OPTIMIZE_DAX_VMEMMAP
- 	help
- 	  Support raw access to differentiated (persistence, bandwidth,
- 	  latency...) memory via an mmap(2) capable character
-diff --git a/fs/Kconfig b/fs/Kconfig
-index d1c210c6508f..9b32ce79cc80 100644
---- a/fs/Kconfig
-+++ b/fs/Kconfig
-@@ -278,6 +278,7 @@ config HUGETLB_PAGE_OPTIMIZE_VMEMMAP
- 	def_bool HUGETLB_PAGE
- 	depends on ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
- 	depends on SPARSEMEM_VMEMMAP
-+	select SPARSEMEM_VMEMMAP_OPTIMIZATION
- 
- config HUGETLB_PMD_PAGE_TABLE_SHARING
- 	def_bool HUGETLB_PAGE
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index a9fbe26536f4..edadd7549b72 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -5188,6 +5188,9 @@ static inline bool __vmemmap_can_optimize(struct vmem_altmap *altmap,
- 	unsigned long nr_pages;
- 	unsigned long nr_vmemmap_pages;
- 
-+	if (!IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION))
-+		return false;
-+
- 	if (!pgmap || !is_power_of_2(sizeof(struct page)))
- 		return false;
- 
 diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index c9ae7991a8b2..e9b54ea0eff0 100644
+index e9b54ea0eff0..d3778ba976a5 100644
 --- a/include/linux/mmzone.h
 +++ b/include/linux/mmzone.h
-@@ -102,9 +102,9 @@
-  *
-  * HVO which is only active if the size of struct page is a power of 2.
-  */
--#define MAX_FOLIO_VMEMMAP_ALIGN \
--	(IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP) && \
--	 is_power_of_2(sizeof(struct page)) ? \
-+#define MAX_FOLIO_VMEMMAP_ALIGN					\
-+	(IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION) &&	\
-+	 is_power_of_2(sizeof(struct page)) ?			\
- 	 MAX_FOLIO_NR_PAGES * sizeof(struct page) : 0)
- 
- /* The number of retained vmemmap pages with HVO enabled. */
-@@ -116,7 +116,8 @@
- #define __VMEMMAP_OPTIMIZATION_NR_ORDERS	\
- 	(MAX_FOLIO_ORDER - VMEMMAP_OPTIMIZATION_MIN_ORDER + 1)
- #define VMEMMAP_OPTIMIZATION_NR_ORDERS		\
--	(__VMEMMAP_OPTIMIZATION_NR_ORDERS > 0 ? __VMEMMAP_OPTIMIZATION_NR_ORDERS : 0)
-+	((__VMEMMAP_OPTIMIZATION_NR_ORDERS > 0 &&	\
-+	  IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION)) ? __VMEMMAP_OPTIMIZATION_NR_ORDERS : 0)
- 
- enum migratetype {
- 	MIGRATE_UNMOVABLE,
-@@ -1155,7 +1156,7 @@ struct zone {
+@@ -1156,7 +1156,7 @@ struct zone {
  	/* Zone statistics */
  	atomic_long_t		vm_stat[NR_VM_ZONE_STAT_ITEMS];
  	atomic_long_t		vm_numa_event[NR_VM_NUMA_EVENT_ITEMS];
--#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-+#ifdef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
+-#ifdef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
++#ifdef CONFIG_SPARSEMEM_VMEMMAP
  	struct page *vmemmap_tails[VMEMMAP_OPTIMIZATION_NR_ORDERS];
  #endif
  } ____cacheline_internodealigned_in_smp;
-@@ -2019,7 +2020,7 @@ struct mem_section {
- 	unsigned long section_mem_map;
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index eb339c4a71f4..4a57e6c3352c 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -493,32 +493,6 @@ static bool vmemmap_should_optimize_folio(const struct hstate *h, struct folio *
+ 	return true;
+ }
  
- 	struct mem_section_usage *usage;
--#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-+#ifdef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
- 	/*
- 	 * Normally, sections hold regular (order-0) pages. However, for
- 	 * sections with HVO enabled, this tracks the compound page order
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index ae2ebaed6d4d..de3c06062bc6 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -208,14 +208,13 @@ enum pageflags {
- static __always_inline bool compound_info_has_mask(void)
+-static struct page *vmemmap_get_tail(unsigned int order, struct zone *zone)
+-{
+-	const unsigned int idx = order - VMEMMAP_OPTIMIZATION_MIN_ORDER;
+-	struct page *tail, *p;
+-	int node = zone_to_nid(zone);
+-
+-	tail = READ_ONCE(zone->vmemmap_tails[idx]);
+-	if (likely(tail))
+-		return tail;
+-
+-	tail = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, 0);
+-	if (!tail)
+-		return NULL;
+-
+-	p = page_to_virt(tail);
+-	for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
+-		init_compound_tail(p + i, NULL, order, zone);
+-
+-	if (cmpxchg(&zone->vmemmap_tails[idx], NULL, tail)) {
+-		__free_page(tail);
+-		tail = READ_ONCE(zone->vmemmap_tails[idx]);
+-	}
+-
+-	return tail;
+-}
+-
+ static int __hugetlb_vmemmap_optimize_folio(const struct hstate *h,
+ 					    struct folio *folio,
+ 					    struct list_head *vmemmap_pages,
+@@ -535,7 +509,7 @@ static int __hugetlb_vmemmap_optimize_folio(const struct hstate *h,
+ 		return ret;
+ 
+ 	nid = folio_nid(folio);
+-	vmemmap_tail = vmemmap_get_tail(h->order, folio_zone(folio));
++	vmemmap_tail = vmemmap_shared_tail_page(h->order, folio_zone(folio));
+ 	if (!vmemmap_tail)
+ 		return -ENOMEM;
+ 
+diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+index e62e6aa07f12..70143dd8b579 100644
+--- a/mm/sparse-vmemmap.c
++++ b/mm/sparse-vmemmap.c
+@@ -42,27 +42,13 @@
+ #include "mm_init.h"
+ #include "sparse.h"
+ 
+-/*
+- * Allocate a block of memory to be used to back the virtual memory map
+- * or to back the page tables that are used to create the mapping.
+- * Uses the main allocators if they are available, else bootmem.
+- */
+-
+-static void * __ref __earlyonly_bootmem_alloc(int node,
+-				unsigned long size,
+-				unsigned long align,
+-				unsigned long goal)
+-{
+-	return memmap_alloc(size, align, goal, node, false);
+-}
+-
+-void * __meminit vmemmap_alloc_block(unsigned long size, int node)
++void __ref *vmemmap_alloc_block(unsigned long size, int node)
  {
- 	/*
--	 * Limit mask usage to HugeTLB vmemmap optimization (HVO) where it
--	 * makes a difference.
-+	 * Limit mask usage to HVO where it makes a difference.
- 	 *
- 	 * The approach with mask would work in the wider set of conditions,
- 	 * but it requires validating that struct pages are naturally aligned
- 	 * for all orders up to the MAX_FOLIO_ORDER, which can be tricky.
- 	 */
--	if (!IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP))
-+	if (!IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION))
- 		return false;
+ 	/* If the main allocator is up use that, fallback to bootmem. */
+ 	if (slab_is_available()) {
+ 		gfp_t gfp_mask = GFP_KERNEL|__GFP_RETRY_MAYFAIL|__GFP_NOWARN;
+ 		int order = get_order(size);
+-		static bool warned __meminitdata;
++		static bool warned;
+ 		struct page *page;
  
- 	return is_power_of_2(sizeof(struct page));
-diff --git a/mm/Kconfig b/mm/Kconfig
-index c1ddf59c0d71..b5f8372cd164 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -461,6 +461,9 @@ config SPARSEMEM_VMEMMAP
- 	  pfn_to_page and page_to_pfn operations.  This is the most
- 	  efficient option when sufficient kernel resources are available.
+ 		page = alloc_pages_node(node, gfp_mask, order);
+@@ -76,8 +62,7 @@ void * __meminit vmemmap_alloc_block(unsigned long size, int node)
+ 		}
+ 		return NULL;
+ 	} else
+-		return __earlyonly_bootmem_alloc(node, size, size,
+-				__pa(MAX_DMA_ADDRESS));
++		return memmap_alloc(size, size, __pa(MAX_DMA_ADDRESS), node, false);
+ }
  
-+config SPARSEMEM_VMEMMAP_OPTIMIZATION
-+	bool
+ static void * __meminit altmap_alloc_block_buf(unsigned long size,
+@@ -184,39 +169,40 @@ static void * __meminit vmemmap_alloc_block_zero(unsigned long size, int node)
+ 	return p;
+ }
+ 
+-#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+-static __meminit struct page *vmemmap_get_tail(unsigned int order, struct zone *zone)
++struct page __ref *vmemmap_shared_tail_page(unsigned int order, struct zone *zone)
+ {
+-	struct page *p, *tail;
+-	unsigned int idx;
+-	int node = zone_to_nid(zone);
++	void *addr;
++	struct page *page;
++	const unsigned int idx = order - VMEMMAP_OPTIMIZATION_MIN_ORDER;
+ 
+-	if (WARN_ON_ONCE(order < VMEMMAP_OPTIMIZATION_MIN_ORDER))
+-		return NULL;
+-	if (WARN_ON_ONCE(order > MAX_FOLIO_ORDER))
++	if (WARN_ON_ONCE(idx >= ARRAY_SIZE(zone->vmemmap_tails)))
+ 		return NULL;
+ 
+-	idx = order - VMEMMAP_OPTIMIZATION_MIN_ORDER;
+-	tail = zone->vmemmap_tails[idx];
+-	if (tail)
+-		return tail;
+-	p = vmemmap_alloc_block_zero(PAGE_SIZE, node);
+-	if (!p)
++	page = READ_ONCE(zone->vmemmap_tails[idx]);
++	if (likely(page))
++		return page;
 +
- #
- # Select this config option from the architecture Kconfig, if it is preferred
- # to enable the feature of HugeTLB/dev_dax vmemmap optimization.
++	addr = vmemmap_alloc_block(PAGE_SIZE, zone_to_nid(zone));
++	if (!addr)
+ 		return NULL;
+-	for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
+-		init_compound_tail(p + i, NULL, order, zone);
+ 
+-	tail = virt_to_page(p);
+-	zone->vmemmap_tails[idx] = tail;
++	for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++) {
++		page = (struct page *)addr + i;
++		mm_zero_struct_page(page);
++		init_compound_tail(page, NULL, order, zone);
++	}
+ 
+-	return tail;
+-}
+-#else
+-static inline struct page *vmemmap_get_tail(unsigned int order, struct zone *zone)
+-{
+-	return NULL;
++	page = virt_to_page(addr);
++	if (cmpxchg(&zone->vmemmap_tails[idx], NULL, page) != NULL) {
++		if (slab_is_available())
++			__free_page(page);
++		else
++			memblock_free(addr, PAGE_SIZE);
++		page = READ_ONCE(zone->vmemmap_tails[idx]);
++	}
++
++	return page;
+ }
+-#endif
+ 
+ static __meminit void *vmemmap_alloc_pte(unsigned long pfn, int node,
+ 					 struct vmem_altmap *altmap)
+@@ -229,7 +215,7 @@ static __meminit void *vmemmap_alloc_pte(unsigned long pfn, int node,
+ 		return vmemmap_alloc_block_buf(PAGE_SIZE, node, altmap);
+ 
+ 	zone = pfn_to_zone(pfn, node);
+-	page = vmemmap_get_tail(order, zone);
++	page = vmemmap_shared_tail_page(order, zone);
+ 	if (!page)
+ 		return NULL;
+ 
 diff --git a/mm/sparse.h b/mm/sparse.h
-index 049272aba84e..b408d15baf7b 100644
+index b408d15baf7b..59b825df83b9 100644
 --- a/mm/sparse.h
 +++ b/mm/sparse.h
-@@ -10,7 +10,7 @@
- 
- #include <linux/mmzone.h>
- 
--#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-+#ifdef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
- static inline unsigned int section_order(const struct mem_section *section)
- {
- 	return section->order;
-@@ -72,7 +72,7 @@ static inline bool vmemmap_optimizable_pfn(unsigned long pfn)
- 
- static inline bool vmemmap_optimizable_order(unsigned int order)
- {
--	if (!IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP))
-+	if (!IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION))
- 		return false;
- 
- 	if (!is_power_of_2(sizeof(struct page)))
+@@ -139,6 +139,7 @@ static inline void sparse_sections_init(void) {}
+  * mm/sparse-vmemmap.c
+  */
+ #ifdef CONFIG_SPARSEMEM_VMEMMAP
++struct page *vmemmap_shared_tail_page(unsigned int order, struct zone *zone);
+ void sparse_init_subsection_map(void);
+ int section_nr_vmemmap_pages(unsigned long pfn, unsigned long nr_pages,
+ 		struct vmem_altmap *altmap, struct dev_pagemap *pgmap);
 -- 
 2.54.0
 
