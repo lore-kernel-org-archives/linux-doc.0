@@ -1,95 +1,119 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F04354937D;
-	Mon, 31 Aug 2026 15:45:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2663B4EB6;
+	Mon, 31 Aug 2026 16:00:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788191114; cv=none; b=dEDwuejFeW6p79lc5EJb+gtEUcebLQ+xGMh5OC9d/kw37AgavFH8Ov1yOr1mBqTE+2dUHuQD0rnIBRU0OsJrc9qVFeH4A2l0zJLnQkbcv7vQZZZKTQT5vPD/k4SCqSVHBcER7nkclldR3nyRJQKERXHHlIX5wOBg0RHUhYyyPaI=
+	t=1788192024; cv=none; b=WZXNuNqnFMD9+BwNZx056fwDXHhOj8pXSaojhsgWahzNiLlom8QGb7qQYa/28Mj10HGF4ybeOgzf5MiAJq6xFTBUcs/XqKTEbcVujJg+T9FAiRGQIjZ/GXJxmh0DV8ZThmdTQn5nWWV/nqd9O5AbZLeTdHmWOjjkMcMLcxM07ZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788191114; c=relaxed/simple;
-	bh=jy07sXZapQxw/1iN29gzUcPOiHz63cZXJvSY3pkqrr0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PMV1cv2nS40FYnFqg+xzpo1ktp7h5u0oEfyW1teS4DcVBNBFRtlE1axar8kdG2TKz3cOQVLrvWIEQqErnEXuk7kQ6h6sCABNn0CBZIdkns1vz81UoG+FG/qLfsLsM0MdS8fE3dsEfT2t5vDXvPmNscovFJpyhZRPowVcvISwisg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=If5PZsid; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788192024; c=relaxed/simple;
+	bh=5g4IinDc0fgqtT/0LG/A2c25GrbLJW0Vq6YiVnRksHM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UDVYpbX5CBX2wHSWzzvLYZSR2YkhEzC9dC1/kCIwYv1erOhsOatzBO4kgYnIfe81FkS1n/z2pbZ42+gDjeygmlQhi1EJfGb4qdIePXgWkJoz2ecNSQjBL0Bad7N5Sl1Nj/RGGkQe39fXx4oxEY2Q4FJOdujTbb4hB+34dgcYJLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iMmNyu28; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="If5PZsid"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=N+ozKP2hZTv9niFnVaruRiYppqsUd5pv1oHMpzqQ8/k=; b=If5PZsid3cVdrDrjcSN5KO7Wcw
-	FJVve4GhzTiIekZvsysa7UiZ1zmzOE86kvHxzKxtBJ6JOUpWiT+GD14OzCPvVOKNWHmrcMeAUcXHc
-	uzzm7oGdJz/T3L7r9N+/32jGa+siIIhDpSJ2kI7JRil6uOsonUDYJEG42Cgv4YQgODy7g5w7L0Zjq
-	9aL7ew46uc0EzYN5qNBeLjsUomCJqr5gOpeogYA+DE2VN/2oQgYpp9ExpfODe9U+Qp2g6aXfVlwoh
-	+sjltxOqUJezGD6R7dAw0skpYsKl2oV+W7yVg/QSz4KH6cdghLTwWCeX4b4uIEURIckRCsjLHML6P
-	6yulnspQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x14Bz-00000009uuz-1oVn;
-	Mon, 31 Aug 2026 15:45:03 +0000
-Message-ID: <f06ca3de-1cd9-4082-8c66-f6a26e417824@infradead.org>
-Date: Mon, 31 Aug 2026 08:45:02 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iMmNyu28"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61E921F000E9;
+	Mon, 31 Aug 2026 16:00:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788192022;
+	bh=Ih88Ia/0BJN7Fm8iuou5qyhg3UJj/ugsQclFFOXLskw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=iMmNyu284Cp1Ib61oBSDyZMXrSkHCwtuFZ2rKSHGECKvjm9amQ3YOVBb9ZHt5hUYm
+	 p1F+g83rzca5F0Z5226WuIm0RrG9DufzQi//ktx3NzDT/hTE/TXknTqvTkXPSl2oh6
+	 cKJHkB2IfckZQuiVHIViVlNtQ69HfbfUDPJYwVPbP/VfV5at2BIHWiI9OqAlA0n/NU
+	 CoD40eMyda2Fsb7zZW5+LD/SS7GjXAEum6q6ZNnbelP8A01Kc6M3K6PHaCWnuNSIIw
+	 Uv8I6Uf89hpv6uAVlYy9a+NIaw4U1xbrScrb498A9DJifghBlXryoxX/VDjmrwxHeF
+	 gj1GROWBmNRBw==
+Date: Mon, 31 Aug 2026 16:59:59 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Michal Hocko <mhocko@suse.com>, Nimrod Oren <noren@nvidia.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+	Nirmoy Das <nirmoyd@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] mm/khugepaged: cap min_free_kbytes recommendation at
+ 1 GiB
+Message-ID: <apWk0GYdNuPcE6zw@lucifer>
+References: <20260831075635.2244437-1-noren@nvidia.com>
+ <apVHXmSljK8HrIuA@tiehlicka>
+ <apVKf8FgTG-l2EU_@gremlin>
+ <784BE9B6-F891-4DFE-A4C5-D1986CE0F242@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] Docs/mm/damon/design: Document hugepage_mem_bp
- target metric
-To: SJ Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Asier Gutierrez <gutierrez.asier@huawei-partners.com>,
- "Liam R. Howlett" <liam@infradead.org>, David Hildenbrand
- <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>,
- Mike Rapoport <rppt@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
- Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
- damon@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org
-References: <20260831144732.80910-1-sj@kernel.org>
- <20260831144732.80910-4-sj@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260831144732.80910-4-sj@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <784BE9B6-F891-4DFE-A4C5-D1986CE0F242@nvidia.com>
 
-Hi,
+On Mon, Aug 31, 2026 at 11:00:13AM -0400, Zi Yan wrote:
+> On 31 Aug 2026, at 5:34, Lorenzo Stoakes (ARM) wrote:
+>
+> > On Mon, Aug 31, 2026 at 11:20:30AM +0200, Michal Hocko wrote:
+> >> On Mon 31-08-26 10:56:35, Nimrod Oren wrote:
+> >>> When THP is enabled, set_recommended_min_free_kbytes() may raise
+> >>> min_free_kbytes using a heuristic that scales with pageblock_nr_pages.
+> >>> With MIGRATE_PCPTYPES equal to 3, the formula accounts for 11
+> >>> pageblocks for every eligible populated zone before capping the result
+> >>> at 5% of low memory.
+> >>>
+> >>> This is reasonable when a pageblock is 2 MiB, as on common 4 KiB page
+> >>> configurations, but scales poorly with larger base page sizes. With
+> >>> the default arm64 pageblock sizes, the contribution per eligible zone
+> >>> before the 5% cap is:
+> >>>
+> >>>   4 KiB pages:   2 MiB pageblock,   22 MiB per zone
+> >>>  16 KiB pages:  32 MiB pageblock,  352 MiB per zone
+> >>>  64 KiB pages: 512 MiB pageblock,  5.5 GiB per zone
+> >>>
+> >>> Consequently, min_free_kbytes can reach excessive and unwanted levels.
+> >>>
+> >>> Add an absolute 1 GiB cap to the recommendation, in addition to the
+> >>> existing percentage cap. This bounds the automatic recommendation to a
+> >>> sane value on systems with large pageblocks while preserving existing
+> >>> behavior for typical systems with 2 MiB pageblocks.
+> >>
+> >> I would argue that the whole model of increasing min_free_kbytes for THP
+> >> is wrong. This will trigger memory reclaim sooner and make the THP
+> >> availability more likely but this was at times where we didn't have
+> >> pro-active compaction and many changes in the compaction. So is this
+> >> actually needed in general resp. only large pageblocks systems?
+> >
+> > Ohh even better :)
+> >
+> > I did find it strange that we increased accordingly.
+> >
+> > I'm more than happy to see this just die altogether if people agree that's
+> > a sensible way forward...
+>
+> It sounds reasonable to me.
+>
+> My first reaction was that THP generation might be hurt due to fewer
+> free pages. But probably the extra min_free_kbytes just moves reclaim earlier,
+> like Michal said.
+>
+> After removing this automatic min_free_kbytes bump, user can retain the old
+> behavior by setting a higher min_free_kbytes at boot time.
 
-On 8/31/26 7:47 AM, SJ Park wrote:
-> From: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
-> 
-> Document hugepage_mem_bp metric exposed by sysfs.
-> 
-> Signed-off-by: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
-> Reviewed-by: SJ Park <sj@kernel.org>
-> Signed-off-by: SJ Park <sj@kernel.org>
-> ---
->  Documentation/mm/damon/design.rst | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-> index aed6cb1cf4831..a8c163475ef2b 100644
-> --- a/Documentation/mm/damon/design.rst
-> +++ b/Documentation/mm/damon/design.rst
-> @@ -713,6 +713,8 @@ mechanism tries to make ``current_value`` of ``target_metric`` be same to
->    bp (1/10,000).
->  - ``node_eligible_mem_bp``: Scheme target access pattern-eligible memory ratio
->    of a node in bp (1/10,000).
-> +- ``hugepage_mem_bp``: Total huge page to total used memory ratio in bp
-> +  (1/10,000).
->  
->  ``nid`` is optionally required for ``node_mem_used_bp``, ``node_mem_free_bp``,
->  ``node_memcg_used_bp``, ``node_memcg_free_bp`` and ``node_eligible_mem_bp`` to
+Nimrod - care to send a patch to just yank this min_free_kbytes change for
+thp out? :)
 
-I've looked thru the entire design.rst file and cannot find anything telling
-me (or anyone) what "bp" means.  Explain??
+This solves your problem another way and is neater overall.
 
-thanks.
--- 
-~Randy
+>
+> Best Regards,
+> Yan, Zi
 
+--
+Cheers, Lorenzo
