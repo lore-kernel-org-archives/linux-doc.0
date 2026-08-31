@@ -1,493 +1,193 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0A64ACC6A
-	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 15:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1A053A8B3;
+	Mon, 31 Aug 2026 15:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788189616; cv=none; b=Y7z7V4yfEg+wBmOhwwKF+BBqhpO21hZeA3TwlDSmqWJtbIV4V9AuLjnAk3nTrYJ0sWXDRBDpj64Pu+/ZoYBChVwxgSd9bqgZa40KjP/1gj2Idjaats9BUkHMWaPDTcj9lu+L5HZQ2HByLUJhmeED8cYFcauqLgveH/q1uIYN09I=
+	t=1788189831; cv=none; b=ef0+k2zkc21M7bFP5t6J35forcFpZvKnesSt+rXFVS17B2yXaIENz5pM6WxZgjLksrPeULausSnaBq1cTu2KK2OcaaS863asUwQWwFEb6W0qw+YvOb2ULOFwLML13X7Heu43SueIiJQaDdZ4ajlCzhAzTQY4JxOzNOrAUFeuJtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788189616; c=relaxed/simple;
-	bh=fzE2sWOzRGdAZ3WG6sP+xgYbt5jlI3YgAfRJkZnNkZI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aSRAfyqNAutPd++LACSWqL8pIE98u/9vbd3gPor/PriVh/pCS0qgkQc+b51pwBZ/hTo1Har0ewyTkCfAPpNHfJrz2j7bG+LLn25X1oZO40GCN4zYaguf9tm4gSV65z6E2HDlEnejDCXPqWx+b1RCEdd3KKkwDhgih9tA2dwYYSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fhy8y0Bf; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=rJFkuUii; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1788189831; c=relaxed/simple;
+	bh=l97lPo2vh7YTVsQ0tdPCJDGD61Vb7aU41sbmHApYtyE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OVM4KZiAe5qFCeSlT/pK+Lo9bM04W4n4qa6yHP9iHxX9nleuBcyrkZbQRFF4qTAJF7EN1D33pK1X0TrMALY6hmRxdfxhNEA/iTuFLa24dAZ3sw29BKb35jPVoObYlySvD+qs8lM5u/4P/nNY8b0IOXzOn6yxhn1+XtIFCsp/d04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LKfZqw1t; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=EUa2eJ95; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fhy8y0Bf";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="rJFkuUii"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788189612;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LKfZqw1t";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="EUa2eJ95"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4hYXnl4T6wz8twy;
+	Mon, 31 Aug 2026 17:23:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788189819;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=mXClpsh6iPYU83p7tcghxNepcDvf/U/9NsSbFV/a0j0=;
-	b=Fhy8y0BfAdkeidJpkIvxCz3lysNlcaPdVE8dSRlA0UrdMJUsIoC2J4UxR4PO04CVJko3RU
-	SFAOxysLgZRtCE76BBJuuKj82hqOkVT1CK4g6hwXHAVlCaOO7bgZNIjILWVwaVQuqEgLXX
-	W41pxOPoN6nvupEsA9+mmNFQoDj6Qlg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-407-FoiGopm-OgKUIs5ni29ydg-1; Mon, 31 Aug 2026 11:20:11 -0400
-X-MC-Unique: FoiGopm-OgKUIs5ni29ydg-1
-X-Mimecast-MFC-AGG-ID: FoiGopm-OgKUIs5ni29ydg_1788189610
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-482e2541c30so2038409f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 08:20:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1788189610; x=1788794410; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mXClpsh6iPYU83p7tcghxNepcDvf/U/9NsSbFV/a0j0=;
-        b=rJFkuUii38t/WD0EZn6Vv/cpwkHY8dClflPFktQzh9nUWaX/+PtZNi1XiFqQdvJaTC
-         HmUvbYLtxswKwpJDOcoVbHUbeCZsAm/u79KpVaZc5KStg7EJAxJ9D8Kc9bZ8uKiGROM1
-         kCoTzIJCOkdE7uUhWJBDP6pVe+33shwOkXjViEHRgZX3ikWWFFEEL+wCpGCaLYtySRsA
-         HghJLnYjp0SQay17aGDwiXb4CyVNVPYEuS+MXArlWiItRI+1qeo9z14JIkWlWMK9RfYN
-         P3yfRt2O8sp8nQPWFbWTqVEcpGPz8cQpd5ZelSMaW1b8lye2eIarhYQCTfQ29hwTK8B/
-         VjdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788189610; x=1788794410;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=mXClpsh6iPYU83p7tcghxNepcDvf/U/9NsSbFV/a0j0=;
-        b=OOj8VXI5gMcJkv+Inm9dwsCEnXWBVt4+IPBIKhQBRnebnQpzmh4QvUMernKWlxCnjU
-         ab+lMIoxay1ukO/m2RhXH086ZBZJapGv6kzb40BWYKNt/sehJDb1Eq9t0ylSou2QgnTk
-         olE0Zsv1pHFX4P3jCD5Qmh76Psk28rJen3hyoC/Erwxcrb4yLFBNF3TMyPgex4a1G3jZ
-         rGVwQnDAnfu2+O4Ckh5lsByjliK/xvHTWGFRHdR4JpUa5px3RwpIhBt5u3Yb18TbeCcl
-         EFrNe33K+Oj7SDU8eeddZkMyE8y0McPRJ4CCmg18waUb5E0I6/Int72ncSdCEFf23sLO
-         Oi8w==
-X-Forwarded-Encrypted: i=1; AKwUvBwHLehI1TVu13gpgaoD6i0R92E/bnG+U9Lf99pRmaU3uKrPfbxm5jTiSlJzmhP3c+Iy4V44cjZ803I=@vger.kernel.org
-X-Gm-Message-State: AFuF++mOqRifuZqhgGhcxNRRNUw1U/nDA35/YUbBDKWQptdRafYVTIh8
-	nV/Hbs4F9jf6wzaFJ2xJPJ9nlSKvtym60sRMCv+0niEcRWdNsKhWJ3O5HAR+IL0STHtxDpkO3o4
-	+tQitdbJvhdVzf+NaE8AMrzQbUXAygzC1I8J0kl2Vk5l3o523ag1Kc5AoHgtdHA==
-X-Gm-Gg: AYBFou1qowrkw59VRFW4t/mrQHwdVLwVp5Cn5lRBGTfNeY42A9EbF6zaIv7YffpwpDt
-	MeFEHiEoF8Zr7Ru0Q6P/EBETmgxQ1RT743/lNvYbfQmiGq9y432g7xY0uRT1DOpu5n+IhWIbG3c
-	rvFc+gh9Vgqj14hoE7xy3Hh1cNB6ItUt0fl8COfriXLBQXXJtyE2vJ+ap6Qxd09faG2sr4fNL61
-	MJKxfP2e2lDn0zFg+w0jxVESUard613UTy4i78JzecKT4tWazBNujB13Aw8Q8EqQpgtprHagbl2
-	veNZhWz2N+acPP2JdcRzKB016a+MRZsbKYyBOvTXjqNu6tZAkeyx9UXi+D9yjltfsKD51ccjDOB
-	+efr/vi0AxfXmX/SeGEzR33N+jQKlXw==
-X-Received: by 2002:a05:6000:4a12:b0:47f:e7f7:370f with SMTP id ffacd0b85a97d-484397b80a3mr19425585f8f.10.1788189609706;
-        Mon, 31 Aug 2026 08:20:09 -0700 (PDT)
-X-Received: by 2002:a05:6000:4a12:b0:47f:e7f7:370f with SMTP id ffacd0b85a97d-484397b80a3mr19425405f8f.10.1788189609003;
-        Mon, 31 Aug 2026 08:20:09 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([195.174.135.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48436e2af45sm14788380f8f.9.2026.08.31.08.20.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 08:20:08 -0700 (PDT)
-Message-ID: <0093e4b7c07afdc08ff15414373be9cd89250529.camel@redhat.com>
-Subject: Re: [RFC 2/3] rv: add per-monitor edge-stat facility and stats file
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Tobias Schaffner <tobias.schaffner@siemens.com>, Steven Rostedt
-	 <rostedt@goodmis.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jan Kiszka	
- <jan.kiszka@siemens.com>, Philippe Gerum <rpm@xenomai.org>, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 31 Aug 2026 17:20:05 +0200
-In-Reply-To: <20260827072400.45734-3-tobias.schaffner@siemens.com>
-References: <20260827072400.45734-1-tobias.schaffner@siemens.com>
-	 <20260827072400.45734-3-tobias.schaffner@siemens.com>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
- cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
- T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
- eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
- 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	 in-reply-to:in-reply-to:references:references;
+	bh=GcReytiFHSfgAL9vHEFDd7IHvg5fhlNXFFhcmJ/wdpo=;
+	b=LKfZqw1ts7u3RECwN9nWCSNDzgMEiNFy/pabwwrmkRdTDisTr6/BBkNL0/zAcTTaTikUka
+	clxrZaO7TTEaZxVp93jZEGkS2mQirtFHEUe5ZstiK4jKLTJ0exQUZW/l+X9Hs5XJwGZP6T
+	l3C6Wo60I2f50KeC0/AUy5QzeQpgt/IXYzfPpxsFOHyLjE/lIcCIg2hudvyEoZtYODRVMr
+	HmvTk8QwGvd/wIOo4AeS0ZMZSpgUN3E+4Q91rtIZCd9AlNljkQIXimO7WE+Plx3Cl8Dm6b
+	KSpI+IE0os94Supj4NKdExAGNc54yFRkWLrkiBsFeaI7q6rMPlC6Peagy6MrkQ==
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788189817;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GcReytiFHSfgAL9vHEFDd7IHvg5fhlNXFFhcmJ/wdpo=;
+	b=EUa2eJ95tfUe96Y/fc91Du7Fgs5IwxQbe//5oyS+Z9Q8WopklAEjiGNzeLGgCGv7ZKBkE9
+	qZLaES3fy2UjD2Oqu7LZ92UJIJpt2VoFybsyZveBdMo6V9NLauVBR0xigcM68oHhvjxcos
+	mrHEwUrKA/KmB7qboIQWcj+c/zKYAIvdzYLX/gjReyfL3ktTs2GJjEW/hohb8pF24lqy48
+	3Fg9nHP7/uYVnYlRUspnPr9ZUEGRXmW4SZjqCm6lePaG5NxVANh93z53hwYeicatTYJibI
+	Zz/QbaBEuJmKaecMNB3lDRbeKa3cVie8lIAmC68Xvd/VvZ9lQYkCiQEI7AVzyg==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/4] Docs: changes.rst, ver_linux: add tools
+Date: Mon, 31 Aug 2026 17:22:55 +0200
+Message-ID: <20260831152256.638615-2-manuelebnerli@mailbox.org>
+In-Reply-To: <20260831151605.638172-2-manuelebnerli@mailbox.org>
+References: <20260831151605.638172-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: py67gbufmu8u94mip3f4pf9red1r9sgh
+X-MBO-RS-ID: 0ec0d5d3a8d1d66a6e4
 
-On Thu, 2026-08-27 at 09:23 +0200, Tobias Schaffner wrote:
-> Add CONFIG_RV_EDGE_STAT, an optional feature that records how long a
-> monitor's automaton dwells in a state and exposes it per edge through a
-> per-monitor "stats" tracefs file.
->=20
-> The core allocates a per-CPU buffer on first enable and reports, per edge
-> and per CPU, the count, maximum and summed dwell time. Only the owning CP=
-U
-> writes the counters, so a reader snapshots them with local64_read() with =
-no
-> IPI and no locking on the accounting path.
->=20
-> Signed-off-by: Tobias Schaffner <tobias.schaffner@siemens.com>
+lzma is required with HAVE_KERNEL_LZMA set to y
+lzop is required with CRYPTO_LZO set to y
+iproute2 is mentioned in changes below.
+"ip-route2" -> "iproute2"
+syslinux is and genisoimage needed for ´make isoimag´
+mtools is required for genimage.sh
 
-In this implementation you're tying the edge stats on the struct
-rv_monitor and implementing things in rv.c . Now this is targeting only
-DA/HA monitors, I presume. It's probably easier directly writing the
-implementation in da_monitor. That would save you a bit of headache
-you're solving with function and void pointers here.
+add tools to
+ changes.rst and ver_linux
 
-You could extend da_monitor_init()/da_monitor_destroy() to
-create/destroy this tracefs file, then leave the entire matrix in the
-struct da_monitor (which might be a first step to support also other
-monitor types besides per-cpu).
+Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+---
+should edk2/OVMF be added aswell?
+it would be for arch/x86/boot/genimage.sh
+---
+ Documentation/process/changes.rst | 10 ++++++++--
+ scripts/ver_linux                 |  6 ++++++
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-Then all specific implementations can be done following what we do with
-RV_MON_TYPE (you can only implement per-cpu for now and leave the rest
-blank or whatever is cleaner).
-
-The logic behind da_monitor.h (and friends) is to create specific
-per-monitor static functions, you will get some duplication in the
-object file, but the compiler can inline and optimise things better.
-
-Now this works perfectly with handlers which are very simple, and we are
-still doing it also with more complex things which could live in another
-(shared) object file, you can do it too.
-
-Does it make sense to you?
-
-Thanks,
-Gabriele
-
-> ---
-> =C2=A0.../trace/rv/runtime-verification.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 24 ++++
-> =C2=A0include/linux/rv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 14 +++
-> =C2=A0include/linux/rv_edge_stat.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 25 =
-+++-
-> =C2=A0kernel/trace/rv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 11 ++
-> =C2=A0kernel/trace/rv/rv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 116 +++++++++++++++++-
-> =C2=A05 files changed, 184 insertions(+), 6 deletions(-)
->=20
-> diff --git a/Documentation/trace/rv/runtime-verification.rst
-> b/Documentation/trace/rv/runtime-verification.rst
-> index c700dde9259c..194b2f9db461 100644
-> --- a/Documentation/trace/rv/runtime-verification.rst
-> +++ b/Documentation/trace/rv/runtime-verification.rst
-> @@ -229,3 +229,27 @@ For example::
-> =C2=A0=C2=A0=C2=A0 nop
-> =C2=A0=C2=A0=C2=A0 [panic]
-> =C2=A0=C2=A0=C2=A0 printk
-> +
-> +**monitors/MONITOR/stats**
-> +
-> +Present only when the kernel is built with CONFIG_RV_EDGE_STAT=3Dy and
-> *MONITOR*
-> +is a per-cpu DA/HA (automaton) monitor. It reports how long the automato=
-n
-> +dwells in each state before leaving it, timed with local_clock() and
-> accounted
-> +per outgoing edge and per CPU.
-> +
-> +- The first line is a header naming the columns.
-> +- Each following line describes one edge on one CPU::
-> +
-> +=C2=A0=C2=A0 cpu edge label count max_ns sum_ns
-> +
-> +=C2=A0 *count* is the number of times the edge was taken, *max_ns* and *=
-sum_ns*
-> are
-> +=C2=A0 the worst and total dwell in nanoseconds, and *label* is "state:e=
-vent".
-> +
-> +The counters are reset each time the monitor is enabled.
-> +
-> +For example::
-> +
-> +=C2=A0=C2=A0 # cat monitors/wip/stats
-> +=C2=A0=C2=A0 # cpu edge label count max_ns sum_ns
-> +=C2=A0=C2=A0 0 0 preemptive:preempt_disable 4210 183200 95501200
-> +=C2=A0=C2=A0 0 4 non_preemptive:preempt_enable 4208 42600 3812900
-> diff --git a/include/linux/rv.h b/include/linux/rv.h
-> index 541ba404926a..7eeecce17e50 100644
-> --- a/include/linux/rv.h
-> +++ b/include/linux/rv.h
-> @@ -136,6 +136,16 @@ struct rv_reactor {
-> =C2=A0};
-> =C2=A0#endif
-> =C2=A0
-> +/**
-> + * struct rv_edge_cfg - per-edge dwell-time statistics for a monitor
-> + * @n_edges:	number of automaton edges (STATE_MAX * EVENT_MAX)
-> + * @edge_name:	optional, write a human name for @edge into @buf (may be
-> NULL)
-> + */
-> +struct rv_edge_cfg {
-> +	unsigned int	n_edges;
-> +	void		(*edge_name)(unsigned int edge, char *buf, size_t
-> len);
-> +};
-> +
-> =C2=A0struct rv_monitor {
-> =C2=A0	const char		*name;
-> =C2=A0	const char		*description;
-> @@ -146,6 +156,10 @@ struct rv_monitor {
-> =C2=A0#ifdef CONFIG_RV_REACTORS
-> =C2=A0	struct rv_reactor	*reactor;
-> =C2=A0	__printf(1, 0) void	(*react)(const char *msg, va_list args);
-> +#endif
-> +#ifdef CONFIG_RV_EDGE_STAT
-> +	const struct rv_edge_cfg	*edge_cfg;
-> +	void __percpu			*edge_pcpu;
-> =C2=A0#endif
-> =C2=A0	struct list_head	list;
-> =C2=A0	struct rv_monitor	*parent;
-> diff --git a/include/linux/rv_edge_stat.h b/include/linux/rv_edge_stat.h
-> index 751de8074dcc..fda30ff728a1 100644
-> --- a/include/linux/rv_edge_stat.h
-> +++ b/include/linux/rv_edge_stat.h
-> @@ -9,14 +9,11 @@
-> =C2=A0#define _LINUX_RV_EDGE_STAT_H
-> =C2=A0
-> =C2=A0#include <linux/compiler.h>
-> +#include <linux/percpu.h>
-> +#include <linux/rv.h>
-> =C2=A0#include <linux/types.h>
-> =C2=A0#include <asm/local64.h>
-> =C2=A0
-> -/*
-> - * Per-CPU counters kept in local64_t so accounting is safe against inte=
-rrupt
-> - * and NMI nesting on the owning CPU without disabling interrupts -- the=
- same
-> - * approach the trace ring buffer uses. Only the owning CPU writes.
-> - */
-> =C2=A0struct rv_edge_stat {
-> =C2=A0	local64_t	count;
-> =C2=A0	local64_t	sum_ns;
-> @@ -42,4 +39,22 @@ void rv_edge_stat_account(struct rv_edge_stat *s, u64
-> dwell_ns)
-> =C2=A0	}
-> =C2=A0}
-> =C2=A0
-> +#ifdef CONFIG_RV_EDGE_STAT
-> +/**
-> + * rv_edge_account - record a dwell of @dwell_ns on @edge of monitor @mo=
-n
-> + *
-> + * Cheap and lock-free: the local64_t counters make this safe against
-> interrupt
-> + * and NMI nesting on the current CPU without disabling interrupts, so i=
-t
-> does
-> + * not perturb the latency being measured. The caller only needs to stay=
- on
-> its
-> + * CPU for the call (as tracepoint probes already do).
-> + */
-> +static __always_inline void
-> +rv_edge_account(struct rv_monitor *mon, unsigned int edge, u64 dwell_ns)
-> +{
-> +	struct rv_edge_stat *e =3D this_cpu_ptr(mon->edge_pcpu);
-> +
-> +	rv_edge_stat_account(&e[edge], dwell_ns);
-> +}
-> +#endif /* CONFIG_RV_EDGE_STAT */
-> +
-> =C2=A0#endif /* _LINUX_RV_EDGE_STAT_H */
-> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-> index 3884b14df375..9d76dff394ca 100644
-> --- a/kernel/trace/rv/Kconfig
-> +++ b/kernel/trace/rv/Kconfig
-> @@ -59,6 +59,17 @@ config RV_PER_TASK_MONITORS
-> =C2=A0	=C2=A0 This option configures the maximum number of per-task RV mo=
-nitors
-> that can run
-> =C2=A0	=C2=A0 simultaneously.
-> =C2=A0
-> +config RV_EDGE_STAT
-> +	bool "Per-edge dwell-time statistics"
-> +	depends on RV
-> +	help
-> +	=C2=A0 Record per-edge dwell-time statistics for per-cpu DA/HA monitors
-> and
-> +	=C2=A0 expose them through a per-monitor "stats" tracefs file. This tim=
-es
-> +	=C2=A0 each monitored automaton transition with local_clock(), so leave=
- it
-> +	=C2=A0 off if you do not need the statistics.
-> +
-> +	=C2=A0 If unsure, say N.
-> +
-> =C2=A0source "kernel/trace/rv/monitors/wip/Kconfig"
-> =C2=A0source "kernel/trace/rv/monitors/wwnr/Kconfig"
-> =C2=A0
-> diff --git a/kernel/trace/rv/rv.c b/kernel/trace/rv/rv.c
-> index ee4e68102f17..88a0bbaec4d0 100644
-> --- a/kernel/trace/rv/rv.c
-> +++ b/kernel/trace/rv/rv.c
-> @@ -142,6 +142,12 @@
-> =C2=A0#include <linux/module.h>
-> =C2=A0#include <linux/init.h>
-> =C2=A0#include <linux/slab.h>
-> +#include <linux/seq_file.h>
-> +#ifdef CONFIG_RV_EDGE_STAT
-> +#include <linux/percpu.h>
-> +#include <linux/rv_edge_stat.h>
-> +#include <linux/smp.h>
-> +#endif
-> =C2=A0
-> =C2=A0#ifdef CONFIG_RV_MON_EVENTS
-> =C2=A0#define CREATE_TRACE_POINTS
-> @@ -278,6 +284,9 @@ static void rv_disable_single(struct rv_monitor *mon)
-> =C2=A0	__rv_disable_monitor(mon, true);
-> =C2=A0}
-> =C2=A0
-> +static int rv_edge_setup(struct rv_monitor *mon);
-> +static void rv_edge_reset(struct rv_monitor *mon);
-> +
-> =C2=A0static int rv_enable_single(struct rv_monitor *mon)
-> =C2=A0{
-> =C2=A0	int retval;
-> @@ -289,9 +298,15 @@ static int rv_enable_single(struct rv_monitor *mon)
-> =C2=A0
-> =C2=A0	retval =3D mon->enable();
-> =C2=A0
-> -	if (!retval)
-> +	if (!retval) {
-> =C2=A0		mon->enabled =3D 1;
-> =C2=A0
-> +		if (rv_edge_setup(mon))
-> +			pr_warn("rv: %s: edge statistics unavailable (out of
-> memory)\n",
-> +				mon->name);
-> +		rv_edge_reset(mon);
-> +	}
-> +
-> =C2=A0	return retval;
-> =C2=A0}
-> =C2=A0
-> @@ -412,6 +427,101 @@ static const struct file_operations interface_desc_=
-fops
-> =3D {
-> =C2=A0	.read	=3D monitor_desc_read_data,
-> =C2=A0};
-> =C2=A0
-> +#ifdef CONFIG_RV_EDGE_STAT
-> +static size_t rv_edge_blob_size(const struct rv_monitor *mon)
-> +{
-> +	return mon->edge_cfg->n_edges * sizeof(struct rv_edge_stat);
-> +}
-> +
-> +static void rv_edge_reset_ipi(void *info)
-> +{
-> +	struct rv_monitor *mon =3D info;
-> +
-> +	memset(this_cpu_ptr(mon->edge_pcpu), 0, rv_edge_blob_size(mon));
-> +}
-> +
-> +/* rv_edge_reset - zero the statistics; call from a monitor reset/enable=
-. */
-> +static void rv_edge_reset(struct rv_monitor *mon)
-> +{
-> +	if (mon->edge_pcpu)
-> +		on_each_cpu(rv_edge_reset_ipi, mon, 1);
-> +}
-> +
-> +/*
-> + * The counters are per-CPU and only the owning CPU writes them, so a re=
-ader
-> on
-> + * any CPU can snapshot them with local64_read().
-> + */
-> +static int rv_edge_stats_show(struct seq_file *seq, void *v)
-> +{
-> +	struct rv_monitor *mon =3D seq->private;
-> +	const struct rv_edge_cfg *cfg =3D mon->edge_cfg;
-> +	unsigned int e;
-> +	int cpu;
-> +
-> +	seq_puts(seq, "# cpu edge label count max_ns sum_ns\n");
-> +
-> +	if (!mon->edge_pcpu)
-> +		return 0;
-> +
-> +	for_each_online_cpu(cpu) {
-> +		struct rv_edge_stat *s =3D per_cpu_ptr(mon->edge_pcpu, cpu);
-> +
-> +		for (e =3D 0; e < cfg->n_edges; e++) {
-> +			char lbl[48] =3D "";
-> +
-> +			if (cfg->edge_name)
-> +				cfg->edge_name(e, lbl, sizeof(lbl));
-> +			seq_printf(seq, "%d %u %s %llu %llu %llu\n",
-> +				=C2=A0=C2=A0 cpu, e, lbl,
-> +				=C2=A0=C2=A0 (u64)local64_read(&s[e].count),
-> +				=C2=A0=C2=A0 (u64)local64_read(&s[e].max_ns),
-> +				=C2=A0=C2=A0 (u64)local64_read(&s[e].sum_ns));
-> +		}
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int rv_edge_stats_open(struct inode *inode, struct file *file)
-> +{
-> +	return single_open(file, rv_edge_stats_show, inode->i_private);
-> +}
-> +
-> +static const struct file_operations rv_edge_stats_fops =3D {
-> +	.open		=3D rv_edge_stats_open,
-> +	.read		=3D seq_read,
-> +	.llseek		=3D seq_lseek,
-> +	.release	=3D single_release,
-> +};
-> +
-> +/*
-> + * Allocate the per-CPU buffer and expose stats. Done on first enable
-> + * rather than at registration because a DA/HA monitor's edge_cfg is bou=
-nd by
-> + * da_monitor_init(), which runs from the monitor's enable path.
-> + */
-> +static int rv_edge_setup(struct rv_monitor *mon)
-> +{
-> +	if (!mon->edge_cfg || !mon->edge_cfg->n_edges || mon->edge_pcpu)
-> +		return 0;
-> +
-> +	mon->edge_pcpu =3D __alloc_percpu(rv_edge_blob_size(mon),
-> +					__alignof__(struct rv_edge_stat));
-> +	if (!mon->edge_pcpu)
-> +		return -ENOMEM;
-> +
-> +	if (!rv_create_file("stats", RV_MODE_READ, mon->root_d, mon,
-> +			=C2=A0=C2=A0=C2=A0 &rv_edge_stats_fops)) {
-> +		free_percpu(mon->edge_pcpu);
-> +		mon->edge_pcpu =3D NULL;
-> +		return -ENOMEM;
-> +	}
-> +
-> +	return 0;
-> +}
-> +#else
-> +static int rv_edge_setup(struct rv_monitor *mon) { return 0; }
-> +static void rv_edge_reset(struct rv_monitor *mon) { }
-> +#endif /* CONFIG_RV_EDGE_STAT */
-> +
-> =C2=A0/*
-> =C2=A0 * During the registration of a monitor, this function creates
-> =C2=A0 * the monitor dir, where the specific options of the monitor
-> @@ -747,6 +857,10 @@ static const struct file_operations monitoring_on_fo=
-ps =3D
-> {
-> =C2=A0
-> =C2=A0static void destroy_monitor_dir(struct rv_monitor *mon)
-> =C2=A0{
-> +#ifdef CONFIG_RV_EDGE_STAT
-> +	free_percpu(mon->edge_pcpu);
-> +	mon->edge_pcpu =3D NULL;
-> +#endif
-> =C2=A0	rv_remove(mon->root_d);
-> =C2=A0}
-> =C2=A0
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index fb5ef7d743ba..b3fa980b63e3 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -41,17 +41,22 @@ Clang/LLVM (optional)  17.0.1           clang --version
+ e2fsprogs              1.41.4           e2fsck -V
+ flex                   2.5.35           flex --version
+ gdb                    7.2              gdb --version
++genisoimage            1.1.11           genisoimage --version
+ GNU awk (optional)     5.1.0            gawk --version
+ GNU C                  8.1              gcc --version
+ GNU make               4.0              make --version
+ GNU tar                1.28             tar --version
+ GRUB                   0.93             grub --version || grub-install --version
+ gtags (optional)       6.6.5            gtags --version
++iproute2               6.14.0           ip -V
+ iptables               1.4.2            iptables -V
+ jfsutils               1.1.3            fsck.jfs -V
+ kmod                   13               kmod -V
++liblzma                5.8.1            lzma -V
++lzop                   1.04             lzop -V
+ mcelog                 0.6              mcelog --version
+ mkimage (optional)     2017.01          mkimage --version
++mtools                 4.0.49           mtools -V
+ nfs-utils              1.0.5            showmount --version
+ openssl & libcrypto    1.0.0            openssl version
+ pahole                 1.26             pahole --version
+@@ -63,6 +68,7 @@ quota-tools            3.09             quota -V
+ Rust (optional)        1.85.0           rustc --version
+ Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+ squashfs-tools         4.0              mksquashfs -version
++syslinux               6.04             syslinux --version
+ udev                   081              udevadm --version
+ util-linux             2.10o            mount --version
+ xfsprogs               2.6.0            xfs_db -V
+@@ -336,7 +342,7 @@ General changes
+ ---------------
+ 
+ If you have advanced network configuration needs, you should probably
+-consider using the network tools from ip-route2.
++consider using the network tools from iproute2.
+ 
+ Packet Filter / NAT
+ -------------------
+@@ -557,7 +563,7 @@ Iptables
+ 
+ - <https://netfilter.org/projects/iptables/index.html>
+ 
+-Ip-route2
++Iproute2
+ ---------
+ 
+ - <https://www.kernel.org/pub/linux/utils/net/iproute2/>
+diff --git a/scripts/ver_linux b/scripts/ver_linux
+index 00bdaf30d590..7495177843e5 100755
+--- a/scripts/ver_linux
++++ b/scripts/ver_linux
+@@ -29,6 +29,7 @@ BEGIN {
+ 	printversion("e2fsprogs", version("e2fsck -V"))
+ 	printversion("flex", version("flex --version"))
+ 	printversion("gdb", version("gdb -version"))
++	printversion("genisoimage", version("genisoimage --version"))
+ 	printversion("GNU awk", version("gawk --version"))
+ 	printversion("GNU C", version("gcc -dumpversion"))
+ 	printversion("GNU make", version("make --version"))
+@@ -36,19 +37,23 @@ BEGIN {
+ 	printversion("GRUB2", version("grub2-install --version"))
+ 	printversion("GRUB", version("grub-install --version"))
+ 	printversion("gtags", version("gtags --version"))
++	printversion("iptroute2", version("ip -V"))
+ 	printversion("iptables", version("iptables -V"))
+ 	printversion("Isdn4k-utils", version("isdnctrl"))
+ 	printversion("jfsutils", version("fsck.jfs -V"))
+ 	printversion("Kbd", version("loadkeys -V"))
+ 	printversion("kmod", version("kmod -V"))
++	printversion("liblzma", version("lzma -V"))
+ 
+ 	while ("ldconfig -p 2>/dev/null" | getline > 0)
+ 		if ($NF ~ libc || $NF ~ libcpp)
+ 			if (!seen[ver = version("readlink " $NF)]++)
+ 				printversion("Linux C" ($NF ~ libcpp? "++" : "") " Library", ver)
+ 
++	printversion("lzop", version("lzop -V"))
+ 	printversion("mcelog", version("mcelog --version"))
+ 	printversion("mkimage", version("mkimage --version"))
++	printversion("mtools", version("mtools -V"))
+ 	printversion("Module-init-tools", version("depmod -V"))
+ 	printversion("Mount", version("mount --version"))
+ 	printversion("Net-tools", version("ifconfig --version"))
+@@ -65,6 +70,7 @@ BEGIN {
+ 	printversion("Sh-utils", version("expr --v"))
+ 	printversion("Sphinx", version("sphinx-build --version"))
+ 	printversion("squashfs-tools", version("mksquashfs -version"))
++	printversion("systlinux", version("syslinux --version"))
+ 	printversion("udev", version("udevadm --version"))
+ 	printversion("util-linux", version("mount --version"))
+ 	printversion("Wireless-tools", version("iwconfig --version"))
+-- 
+2.54.0
 
