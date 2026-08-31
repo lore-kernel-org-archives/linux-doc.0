@@ -1,117 +1,81 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54ECB3C1D5E;
-	Mon, 31 Aug 2026 10:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D02E3B14CE;
+	Mon, 31 Aug 2026 11:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788173558; cv=none; b=Xyu0c+QBnro6bWiVFmtRLMcahDFpJMkaRyYonbWBtVPXKjAhIMMlFUxD6/m3xgDB/6YuAO6dQv40l6jV1sozcdS52FASSxqk8BpwtmleOegQGb4rz3finEzm0DzdWvPVwz7jGJgnv4CVoCOmwPLHgJr5RbGs0k49o+ByM+3uuGQ=
+	t=1788174447; cv=none; b=LF5KljmAq0rhLvkyVkKN/9HixZ9SQv1i0V5PTTql5itIpvDtsaxvowqJTfL0GG8eaX9AGOpmEQ+v+FmzTDAo4Uv6JoYF+plhjPfZfRU0SEyF9kHZ7CG78XGqmPxR9+7OfWItoA9+krwrPWkLwhQxRE86EaOlSE6kyUpU+gPg81w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788173558; c=relaxed/simple;
-	bh=qjM/GxnKhKNrSTJmWHUVBpoIQVFVykC91BkkYvfAUJg=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=ctpxmq7purW0tsd62tlHWYSa0JEPQLLCXslDhlzKVcjpr2CyGoFP5nIFYVVtND9TZDJF3hngGjPta8oEXa9o4+MiW6e551PXDMPUubXuCK4BVD5ISUL6yR9B/sKWU4hQo3TvkWH4y5nlXAwxrv3jjR7y93Y6M0xOYipcNsvW9Qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4hYQmw5ymbz8Xrrc;
-	Mon, 31 Aug 2026 18:52:32 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl1.zte.com.cn with SMTP id 67VAqRZn020435;
-	Mon, 31 Aug 2026 18:52:27 +0800 (+08)
-	(envelope-from hu.shengming@zte.com.cn)
-Received: from mapi (xaxapp04[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Mon, 31 Aug 2026 18:52:29 +0800 (CST)
-X-Zmail-TransId: 2afb6a955ced449-8ee1a
-X-Mailer: Zmail v1.0
-Message-ID: <20260831185229820QtPvU0In3o2wLbCelSO_8@zte.com.cn>
-In-Reply-To: <a61aa866-f95a-42fa-86d8-86f0726e0d00@infradead.org>
-References: 20260830191258354QN6qx13iCRbQd2Uj3Ve2s@zte.com.cn,a61aa866-f95a-42fa-86d8-86f0726e0d00@infradead.org
-Date: Mon, 31 Aug 2026 18:52:29 +0800 (CST)
+	s=arc-20240116; t=1788174447; c=relaxed/simple;
+	bh=gMlpRe+PdoANGtU697DlQ7kGgSpcpQgonKGUEANMT5U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DkSdV9PRsgdqO0PMwwAmRWXsDMDiC8WP7n6SLui59QPyDQdg5/FZsqYXmIEdoIJtHhZqmaU6Q79f5WfDhAI+jWbW5fKW6/xEXWuX22WrQl+jG+X+gnzn1j+MTlUkgwGOdYMyjvKX3hjywTdd25u5UhhwLHQD+47nysOxwQ7v23I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sllqzIG0; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=6mVtd1/9; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sllqzIG0";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="6mVtd1/9"
+Date: Mon, 31 Aug 2026 13:07:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1788174442;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L6OFCBbMNQARR8IabZt3/6uiu7EvXvEKzkuuJ+QsZ88=;
+	b=sllqzIG0nkcKX/6Zyibc2zEx7X2xIYGCLghh3k1Zn4B8UKHqqItivTCEKS1RPbLnC441hn
+	3O1aZA+DwcE+TtRDNq0FunDxyYgchiZEhecX67S1ivMECY6n3zOcaegKG/vPt0pRIKUXUv
+	sJ1ok8mn3S389fCJPZndl7Y7sh0+EPzTq8aaHQLlYDyg16wlarQqEE+XsZ7rktQkuritj2
+	Ub1WlGLFkMaATA/1odlT8RD8hbiMRzuyqO30NQZMIl45oCc3UM4Ag2ve985dBp9aoN0kUm
+	jJV5zT86ZwAEXsvHjgPaB74CYeJXM9c7H3uqplhLqcK63l1cjvzjbg+TuTJIFQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1788174442;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L6OFCBbMNQARR8IabZt3/6uiu7EvXvEKzkuuJ+QsZ88=;
+	b=6mVtd1/9wn/YscGrjwPtOE7LsN2TivBreqKIYT1EwThQ3XsJB7K5h5OtLkhEOv3sUHDEBi
+	t6pZVTam8g+Ju3CQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Marco Crivellari <marco.crivellari@suse.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Waiman Long <longman@redhat.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v2 1/2] doc: Replace dunticks-testing ocurrences with
+ cpunoise
+Message-ID: <20260831110721.2o3u-edi@linutronix.de>
+References: <20260831092118.124576-1-marco.crivellari@suse.com>
+ <20260831092118.124576-2-marco.crivellari@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <hu.shengming@zte.com.cn>
-To: <rdunlap@infradead.org>
-Cc: <rostedt@goodmis.org>, <mhiramat@kernel.org>,
-        <mathieu.desnoyers@efficios.com>, <mark.rutland@arm.com>,
-        <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <ran.xiaokai@zte.com.cn>,
-        <xu.xin16@zte.com.cn>, <zhang.run@zte.com.cn>
-Subject: =?UTF-8?B?UmU6IFtSRkMgUEFUQ0ggNC80XSBEb2N1bWVudGF0aW9uL2Z0cmFjZTogRG9jdW1lbnQgZnVuY3Rpb24gY29tbSBmaWx0ZXJz?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 67VAqRZn020435
-X-TLS: YES
-X-ENVELOPE-SENDER: hu.shengming@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Mon, 31 Aug 2026 18:52:32 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A955CF0.002/4hYQmw5ymbz8Xrrc
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260831092118.124576-2-marco.crivellari@suse.com>
 
-Randy wrote:
-> Hi,
-> 
+On 2026-08-31 11:21:12 [+0200], Marco Crivellari wrote:
+> --- a/Documentation/admin-guide/cpu-isolation.rst
+> +++ b/Documentation/admin-guide/cpu-isolation.rst
+> @@ -353,5 +353,5 @@ Some tools may also be useful for higher level analysis:
+>    latency and noise in the system. For example Documentation/tools/rtla/rtla-osnoise.rst
+>    runs a kernel tracer that analyzes and output a summary of the noises.
+>  
+> -- dynticks-testing does something similar to rtla-osnoise but in userspace. It is available
+> -  at git://git.kernel.org/pub/scm/linux/kernel/git/frederic/dynticks-testing.git
+> +- cpunoise does something similar to rtla-osnoise but in userspace. It is available
+> +  at git://git.kernel.org/pub/scm/linux/kernel/git/frederic/cpunoise.git
 
-Hi Randy,
+We usually do https:// here ;)
 
-> On 8/30/26 4:12 AM, hu.shengming@zte.com.cn wrote:
-> > From: Shengming Hu <hu.shengming@zte.com.cn>
-> > 
-> > Document set_ftrace_comm and set_ftrace_notrace_comm, including their
-> > write and O_TRUNC behavior, accepted comm names, interaction with PID
-> > filters, and when a task is rechecked after its comm changes.
-> > 
-> > Signed-off-by: Shengming Hu <hu.shengming@zte.com.cn>
-> > ---
-> >  Documentation/trace/ftrace.rst | 31 +++++++++++++++++++++++++++++++
-> >  1 file changed, 31 insertions(+)
-> > 
-> > diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-> > index 7261f25f8b4b..a96fc436ec16 100644
-> > --- a/Documentation/trace/ftrace.rst
-> > +++ b/Documentation/trace/ftrace.rst
-> > @@ -313,6 +313,37 @@ of ftrace. Here is a list of some of the key files:
-> >          If a PID is in both this file and "set_ftrace_pid", then this
-> >          file takes precedence, and the thread will not be traced.
-> > 
-> > +  set_ftrace_comm:
-> > +
-> > +    Have the function and function_graph tracers trace only threads whose
-> > +    task comm is listed in this file. Names are matched exactly and must
-> > +    contain between 1 and TASK_COMM_LEN - 1 bytes.
-> > +
-> > +    Each write adds one name. A single trailing newline is ignored, while
-> > +    embedded newlines are rejected. A zero-length write or a write containing
-> > +    only a newline adds no entry. Duplicate entries have no effect.
-> > +
-> > +    Opening the file with O_TRUNC clears the filter. Otherwise, writes add
-> 
-> Is there a way to clear the filter from (in) a shell script?
-> 
-
-Yes. It can be cleared with:
-
-  # echo > set_ftrace_comm
-
-The shell opens the file with O_TRUNC, which clears the existing filter.
-
-I described the O_TRUNC behavior but overlooked the corresponding
-user-facing shell command. Thanks for pointing this out.
-
-Based on Masami's feedback, I am now considering reworking the series
-around a generic event trigger that updates set_ftrace_pid, so the
-comm-specific files may not remain in the next version.
-
---
-With Best Regards,
-Shengming
+Sebastian
