@@ -1,171 +1,260 @@
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C4825B0B6
-	for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 23:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90B325B0BD;
+	Mon, 31 Aug 2026 00:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788133761; cv=none; b=btt3ZraZXDRCfv2X/X64ttE2OkBKDKFPAmNuIUGHZ/LZns7sJ3R8HrQNRpKitIgrWZyOiY68d++YQfiOLniiSceTUSljiBcmmnBJtDesz4r3Wm3N5jcPfDOXOJ0vwXZycipP0LHZrT1tLYQBokm1hRXWekB2yHTEz2L0gzjvr/4=
+	t=1788135920; cv=none; b=q8B2YnBJOAdzKcnXkdQWn5vS1Vtq1f00vFPEHq9tFEsv3n76V4NI4PZbMYEmpqeAPwjFDbc8bBWp/VcI78t+6n4j1sPbyBm7W7ztigE+RShkRlNzkAoV9b6Spe9zJ+DybhOhaILlxx68I38gaUEn03SuWMBRF1ozwdGggj7mfdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788133761; c=relaxed/simple;
-	bh=KsaH5A6iFx83X/q5AlegGGoA6eyhF2dPglZuD/fD+gE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HBhXBePMt4hq/Bl4Rd3rauAy/9rEbJa7+oZxJZ3owzRz/bTBlF5ZMG0rnu+3blGJHavIu05R3uaryEc9wsemNAbqZgZRnuju3t7IzoZE/vjFKcSaKKzOaXe9zHLDtVCSrG4tzfEYvpX0ffatI/2FxTVnmPwmOfEdWntkmTvKHxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RwsySV44; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788135920; c=relaxed/simple;
+	bh=jB3934St+OXWHZBQYrRZ5bx+0JcniUdY+5MQ7UHR2bg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FJa2InTu1q4N8zuWEh8KXlSiKCKJh106/+CgA42LSyR0RWdFPCXEHatu5AfEtH1HWouaS+hpOFUgeLS3oZEa/oq2F3Zp2+5rzyTBl1dBHwTN1KD2YM2wJAcy3FTwO72WBIhJQ1Uws0e5vFHRm67VhAoZiiYKeRCKZ+WS+hS9PJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p/DsBHmA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RwsySV44"
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5c65d654c23so1112180e0c.3
-        for <linux-doc@vger.kernel.org>; Sun, 30 Aug 2026 16:49:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788133759; x=1788738559; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nDrnzNFgJwSAtWrkQNEzs8cKW+XO1e6VplYcP0/oLkg=;
-        b=RwsySV44QpwVq5IiTh6UNCFw8WPZo9d4sLzfRhPW7bq5R48NohzLAIhT1dvQeQysgo
-         AzRdIZybMCCnGQJD00sjQnNpZ3j/PklROppnn6Bjm9g4sGb0GRVCxv0EWXHPy939oPgS
-         2lAehDnLKoLj7guPph5SBRdhUF9l84hRbYythZYiLbBytOonWdrJoEIEstN0jLygRb0J
-         d2z/Q4YcQpPKpTldI3QKb/kifz9QcPStj8OA1Cm5BJQlFMGE45emYsBpY3yG6NgcoD5Z
-         MH+CYbAy/XLhRApjBut48iyRRXPnTiCdeaKyXH2On9qtWmcVLtVatmbB67UDFm4uKgt5
-         9eBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788133759; x=1788738559;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=nDrnzNFgJwSAtWrkQNEzs8cKW+XO1e6VplYcP0/oLkg=;
-        b=M2jJWFClookEzOK6v+eWUifqj1KkHBNooJpcEFx0z4N0HzQrgPgSOIiR0wBFI8QXMi
-         Z1jcmZ8IoX8+JCW5SoAz0LkvueBGtJIb4P9527EgH6m6dCezQc81oo38nxFS740A7Ha8
-         Kbn8VVzU7bEPiZOBA22RHcexB6UYIgS5HKWiDyFzL5kknBOf6DTTYL5zVbJBEHaHYj0E
-         JqCcxr1Hjv/Dn27jS7ggjztTfdvCNPpgufQVAR7dX+Nygp9VDmSxLi4s3AlYa+phH2cT
-         k3cCqnd0yTNnBtMuRxITTxYT92ncuvaTBtb1JFQl9f5K5pxuc5Zp52WmvV3UGZkNC89H
-         XAZQ==
-X-Gm-Message-State: AFuF++lngFijh0iyHun9Vrm80omq2F+74G5NF6w/emFYzHFoQoVKVBxV
-	DzE/QeWd4MozrTgJoCz4aiGXb2Syb3wTUn9FPzTLkMACRGKF9veCfBru
-X-Gm-Gg: AR+sD11FPUOASgQt6y60GsJDwwQm7JxXexFQuFnlxPBFCdDwEiXJceAsqqdwEkyFNJo
-	6PwuYl6/QloDMfFHkZU3iSSJ3C1vBwzb0w3GOahr45sknW3NG/7DUDJoQ60OzV1HtjUNgJwwIIt
-	BG9nOH6GqmpRPwF2/fZ42kDgvnhlqDw2+vkgcjgj3XQrHpSqz6GeYREKd6gqoKsv5EsAzwL2QH0
-	idemZb3aeIJZvEvTDjzHOznfemnSo2oMMqEvAFg5p7A92XglD8zsM0J61OddhF+/CP7eJQg0GVp
-	JOJNtCz4xrqZolR6BuHHiHlXjZLuEWTRrNDET0zxA0BhBuKvERxnPOd8yjeqvFxnD0tJEeX94p/
-	rEmbWgweJfnAWt+S71ITYIq0fcpXoG5k+6QFQXRDoXxEoQQrfDaPo6dQVGv7NU65cMeynwreTXZ
-	ddmz/op3RtEZMHQVXyiltNHYox+7sbsZ30ZGwmEVBHAi9idu+mr+zsYq1/iYyt
-X-Received: by 2002:a05:6122:1c85:b0:5bd:aba5:3830 with SMTP id 71dfb90a1353d-5c680ebbf4fmr7108211e0c.0.1788133759221;
-        Sun, 30 Aug 2026 16:49:19 -0700 (PDT)
-Received: from pop-os ([2804:14c:daa2:8daa:5c26:a166:6a81:daf2])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c7159c4c8asm6920968e0c.0.2026.08.30.16.49.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2026 16:49:18 -0700 (PDT)
-From: Giovanna Macedo Cox <giovannamccds@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Giovanna Macedo Cox <giovannamccds@gmail.com>
-Subject: [PATCH] docs: translations: pt_BR: translate coding-assistants.rst
-Date: Sun, 30 Aug 2026 20:45:13 -0300
-Message-ID: <20260830234515.63131-1-giovannamccds@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p/DsBHmA"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6C15BC2BCF5;
+	Mon, 31 Aug 2026 00:25:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788135919;
+	bh=jB3934St+OXWHZBQYrRZ5bx+0JcniUdY+5MQ7UHR2bg=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=p/DsBHmACKvCnTUXaQUBvx+B0rhbCevFn3J1wVa41KmY2z/4jwj9NXJSoKVBm8e5t
+	 GK+zJXnK2Q8T2MAtuI66FOXMTtH/eKrubu+EGLBpBseRJDNZFMbls+8Fd+9/cJoRfy
+	 zAu2gGK+W6zNW+07odNQpNGzeDUbVSM7Fqcu8SHrHViKjIHAf6WO+3Q1c2y5RTu44g
+	 jfPuBU/zY+/SSNIxAph0jtre65vyir1ipceRSZokQuMuk2cvxR0ueZuMha4Ng4vmET
+	 ZtcT9NRYl4Y3dX4pEMc6JCWScmm3LBoejvxi3ZE//RXFqMA/Rjh9zLF7wcQF8EoSjo
+	 DZUnuj3WTkrzA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BD07C61DE4;
+	Mon, 31 Aug 2026 00:25:19 +0000 (UTC)
+From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
+Subject: [PATCH v12 00/45] guest_memfd: In-place conversion support
+Date: Sun, 30 Aug 2026 17:25:01 -0700
+Message-Id: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAN/JlGoC/33TzW6DMAwA4FepOC9b4pC/nfYe0w4mcShagS50q
+ FPVd19oJ9EJwTGR/dmxnEsxUGpoKF53lyLR2AxN3+WDgKdd4ffY1cSakC8K4KA5gGJ1Sy1ruuM
+ BPTHfdyOlKYlVgYcqSGeUxCJnHxPF5nyj3z/yucKBWJWw8/vJ+xzbl47Opyl03wynPv3cmhjll
+ HAvJ4VcLTdKxpmKXgAaTt66t7rv6wM9+74tpnpj+QCBXofKDFEOi+QUjzEsIDVDJdh1SGUoWM2
+ t99EjwALSM6S4WYd0hpzASqGthMNyAZkHCGAdMhmCyCNS6bSSfAHZGdJi42l26iiAU04qY5VcQ
+ G6GzNaMXIakig7JA1JYzkjwWbJbQxL89jgvLJEOssIlJR6orQ0QIlMchQoWjXP4n7relznR13f
+ +Hqe/jb5efwEgqf/KPAMAAA==
+X-Change-ID: 20260225-gmem-inplace-conversion-bd0dbd39753a
+To: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+ brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+ jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+ oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+ rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+ steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
+ yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
+ suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, 
+ Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
+ Randy Dunlap <rdunlap@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Fuad Tabba <fuad.tabba@linux.dev>, 
+ Vlastimil Babka <vbabka@kernel.org>, Baoquan He <baoquan.he@linux.dev>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+ linux-coco@lists.linux.dev, Ackerley Tng <ackerleytng@google.com>, 
+ Xiaoyao Li <xiaoyao.li@intel.com>, Fuad Tabba <fuad.tabba@linux.dev>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788135915; l=9254;
+ i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
+ bh=jB3934St+OXWHZBQYrRZ5bx+0JcniUdY+5MQ7UHR2bg=;
+ b=EvLGdfk9baBRMpq/23qyZcMJi59GXHj122oJ7ORw+P2MUKpHjulgOv6RBjqtNYFuBFt6oURl+
+ xrFxovZ3s5dAN25sL5le2Vudaf2xFBkbWh4JMmubAiPQS4r+zIFrKd3
+X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
+ pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
+X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
+ auth_id=649
+X-Original-From: Ackerley Tng <ackerleytng@google.com>
+Reply-To: ackerleytng@google.com
 
-Translate coding-assistants.rst into Brazilian Portuguese
-and add it to the pt_BR process documentation index.
+Here's v12. Thanks everyone for the comments and fast responses!  We're now
+at ~4 weeks to soft-close at 7.3-rc5.
 
-Assisted-by: ChatGPT:GPT-5.5
-Signed-off-by: Giovanna Macedo Cox <giovannamccds@gmail.com>
+v12 is based on 7.3-rc1 (contains the mm/ bugfixes). Like v11, v12 is also
+dependent on another series [3], which makes kvm_gmem_get_pfn() NOT return
+a refcounted page to KVM.
+
+Here's everything stitched together for your convenience:
+
+https://github.com/googleprodkernel/linux-cc/commits/guest_memfd-inplace-conversion-v12
+
+This revision resolves the issue on v10/v11 to do with over-zapping of
+non-gmem memory because of the requested filters. [1]
+
+The resolution is in a new patch "KVM: guest_memfd: Always fault from
+guest_memfd if in-place conversion is enabled". I also updated the
+documentation as requested.
+
+Documentation updates are in these patches:
+
++ KVM: guest_memfd: Stub in ability to enable in-place shared<=>private conversion
++ KVM: guest_memfd: Always fault from guest_memfd if in-place conversion is enabled
++ KVM: guest_memfd: Add base support for KVM_SET_MEMORY_ATTRIBUTES2
+
+The documentation update in v10's "KVM: Let userspace disable per-VM mem
+attributes, enable per-gmem attributes" was misplaced imo so I folded it
+conceptually into the patches above.
+
+private_mem_conversions_test was updated in v11 to test dual backing, and
+that's meaningless now since with gmem_in_place_conversions, we're now
+always faulting from guest_memfd, and the userspace_addr not being from the
+gmem associated with the memslot is considered a user error.
+
+I now only have 1 patch "KVM: selftests: Update
+private_mem_conversions_test for in-place conversions" instead of 2 in v11.
+
+Resolves discussion at [2].
+
+Here's v12 with tests:
+
+https://github.com/googleprodkernel/linux-cc/commits/guest_memfd-inplace-conversion-coco-selftests-v12
+
+Tested with both CONFIG_KVM_VM_MEMORY_ATTRIBUTES enabled and disabled:
+
++ tools/testing/selftests/kvm/guest_memfd_test.c
++ tools/testing/selftests/kvm/pre_fault_memory_test.c
++ tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c
++ tools/testing/selftests/kvm/x86/private_mem_conversions_test.c
++ tools/testing/selftests/kvm/x86/private_mem_kvm_exits_test.c
+
+[1] https://lore.kernel.org/all/apCLFSbj8sq2biJp@google.com/
+[2] https://lore.kernel.org/all/apCj6gz8x24Dkle8@google.com/
+[3] https://lore.kernel.org/all/20260826-gmem-no-return-page-v4-0-3bb9c1ddb4e3@google.com/
+
+v11: https://patch.msgid.link/20260826-gmem-inplace-conversion-v11-0-0a15d8a799aa@google.com
+v10: https://lore.kernel.org/r/20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com
+v9: https://lore.kernel.org/r/20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com
+v8: https://lore.kernel.org/r/20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com
+v7: https://lore.kernel.org/r/20260522-gmem-inplace-conversion-v7-0-2f0fae496530@google.com
+v6: https://lore.kernel.org/r/20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com
+RFC v5: https://lore.kernel.org/r/20260428-gmem-inplace-conversion-v5-0-d8608ccfca22@google.com
+RFC v4: https://lore.kernel.org/all/20260326-gmem-inplace-conversion-v4-0-e202fe950ffd@google.com/T/
+RFC v3: https://lore.kernel.org/r/20260313-gmem-inplace-conversion-v3-0-5fc12a70ec89@google.com/T/
+RFC v2: https://lore.kernel.org/all/cover.1770071243.git.ackerleytng@google.com/T/
+RFC v1: https://lore.kernel.org/all/cover.1760731772.git.ackerleytng@google.com/T/
+
+Previous versions of this feature, part of other series, are available at:
+
++ https://lore.kernel.org/all/bd163de3118b626d1005aa88e71ef2fb72f0be0f.1726009989.git.ackerleytng@google.com/
++ https://lore.kernel.org/all/20250117163001.2326672-6-tabba@google.com/
++ https://lore.kernel.org/all/b784326e9ccae6a08388f1bf39db70a2204bdc51.1747264138.git.ackerleytng@google.com/
+
+Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- .../pt_BR/process/coding-assistants.rst       | 59 +++++++++++++++++++
- .../translations/pt_BR/process/index.rst      |  1 +
- 2 files changed, 60 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/coding-assistants.rst
+Ackerley Tng (23):
+      KVM: Rename kvm_mem_is_private() to kvm_is_private_gfn()
+      KVM: guest_memfd: Always fault from guest_memfd if in-place conversion is enabled
+      KVM: guest_memfd: Pass mapping type filter to invalidation helper
+      KVM: guest_memfd: Add base support for KVM_SET_MEMORY_ATTRIBUTES2
+      KVM: guest_memfd: Ensure pages are not in use before conversion
+      KVM: guest_memfd: Call arch make_shared callback for to-shared conversion
+      KVM: guest_memfd: Return early if range already has requested attributes
+      KVM: guest_memfd: Handle lru_add fbatch refcounts during conversion safety check
+      KVM: guest_memfd: Zero page while getting pfn
+      KVM: TDX: Make source page optional for KVM_TDX_INIT_MEM_REGION
+      KVM: selftests: Test basic single-page conversion flow
+      KVM: selftests: Test conversion flow when INIT_SHARED
+      KVM: selftests: Test conversion precision in guest_memfd
+      KVM: selftests: Test conversion before allocation
+      KVM: selftests: Convert with allocated folios in different layouts
+      KVM: selftests: Test that truncation does not change shared/private status
+      KVM: selftests: Add helpers to pin pages with CONFIG_GUP_TEST
+      KVM: selftests: Test conversion with elevated page refcount
+      KVM: selftests: Reset shared memory after hole-punching
+      KVM: selftests: Provide function to look up guest_memfd details from gpa
+      KVM: selftests: Make TEST_EXPECT_SIGBUS thread-safe
+      KVM: selftests: Set up page size and alignment independently for guest_memfd
+      KVM: selftests: Update private_mem_conversions_test for in-place conversions
 
-diff --git a/Documentation/translations/pt_BR/process/coding-assistants.rst b/Documentation/translations/pt_BR/process/coding-assistants.rst
-new file mode 100644
-index 000000000..18e9b69ad
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/coding-assistants.rst
-@@ -0,0 +1,59 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+IA Assistente de código
-++++++++++++++++++++++++
-+
-+Esta documentação fornece um guia para ferramentas de IA e desenvolvedores que
-+usam IA como assistente para contribuir para o kernel do Linux.
-+
-+Ferramentas de IA que ajudam desenvolvedores do Linux kernel devem seguir os
-+padrões de desenvolvimento do kernel:
-+
-+* Documentation/process/development-process.rst
-+* Documentation/process/coding-style.rst
-+* Documentation/process/submitting-patches.rst
-+
-+Para guias e conteúdo sobre códigos gerados por assistentes de IA veja:
-+
-+* Documentation/process/generated-content.rst
-+
-+Licenças e Requisitos Legais
-+============================
-+
-+Todas as contribuições devem estar de acordo com os requisitos de licença do
-+kernel:
-+
-+* Todo código deve ser compatível apenas com GPL-2.0
-+* Use identificadores SPDX de licença apropriado
-+* Veja Documentation/process/license-rules.rst para mais detalhes
-+
-+Assinatura e certificado de origem do desenvolvedor
-+===================================================
-+
-+Agentes de IA NÃO DEVEM ser incluídos nas tags de assinaturas. Apenas pessoas
-+podem legalmente certificar o Certificado de Origem do Desenvolvedor (DCO).
-+A pessoa que envia é responsável por:
-+
-+* Revisar todo código gerado por IA
-+* Garantir conformidade com os requisitos de licença
-+* Acrescentar sua própria tag de certificado de assinatura o DCO
-+* Assumir toda responsabilidade pela contribuição
-+
-+Atribuições
-+===========
-+
-+Quando ferramentas de IA contribuir com o desenvolvedor kernel, a atribuição
-+adequada ajuda a rastrear a função da IA no processo de desenvolvimento.
-+Contribuições devem incluir a tag de assistência seguindo este formato::
-+
-+    Assisted-by: LLM [FERRAMENTA1] [FERRAMENTA2]
-+
-+* ``[FERRAMENTA1] [FERRAMENTA2]`` são usadas ferramentas opcionais de análise
-+  especializadas (Exemplo: coccinelle, sparse, smatch, clang-tidy)
-+
-+Ferramentas básicas de desenvolvimento (git, gcc, make, editors) não são
-+listadas.
-+
-+Exemplo::
-+
-+  Assisted-by: LLM coccinelle sparse
-\ No newline at end of file
-diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
-index eda2a3fc5..6c68ac496 100644
---- a/Documentation/translations/pt_BR/process/index.rst
-+++ b/Documentation/translations/pt_BR/process/index.rst
-@@ -59,6 +59,7 @@ Estas são as regras pelas quais tentamos viver na comunidade do kernel
-    Modelos de Maturidade para Contribuição no Kernel Linux <contribution-maturity-model.rst>
-    Declaração sobre Drivers do Kernel <kernel-driver-statement>
-    Estilo de gerenciamento do kernel Linux <management-style>
-+   Assistentes de código <coding-assistants>
-    Conclave (Continuidade do projeto) <conclave>
- 
- Lidando com bugs
--- 
-2.55.0
+Michael Roth (1):
+      KVM: SEV: Make 'uaddr' parameter optional for KVM_SEV_SNP_LAUNCH_UPDATE
+
+Sean Christopherson (21):
+      KVM: guest_memfd: Optimize away conversion overheads via dead-code elimination
+      KVM: guest_memfd: Use kvm_mem_is_private() when populating guest_memfd memory
+      KVM: guest_memfd: Introduce per-gmem attributes, use to guard user mappings
+      KVM: Rename KVM_GENERIC_MEMORY_ATTRIBUTES to KVM_VM_MEMORY_ATTRIBUTES
+      KVM: Enumerate support for PRIVATE memory iff kvm_arch_has_private_mem is defined
+      KVM: Rename memory attribute APIs to prepare for in-place gmem conversion
+      KVM: Provide generic interface for checking memory private/shared status
+      KVM: guest_memfd: Stub in ability to enable in-place shared<=>private conversion
+      KVM: Consolidate private memory and guest_memfd ifdeffery in kvm_host.h
+      KVM: guest_memfd: Invalidate both SHARED and PRIVATE mappings for in-place conversions
+      KVM: Move KVM_VM_MEMORY_ATTRIBUTES config definition to x86
+      KVM: Let userspace disable per-VM mem attributes, enable per-gmem attributes
+      KVM: guest_memfd: Enable INIT_SHARED on guest_memfd for x86 Coco VMs
+      KVM: selftests: Create gmem fd before "regular" fd when adding memslot
+      KVM: selftests: Rename guest_memfd{,_offset} to gmem_{fd,offset}
+      KVM: selftests: Add support for mmap() on guest_memfd in core library
+      KVM: selftests: Add selftests global for guest memory attributes capability
+      KVM: selftests: Add helpers for calling ioctls on guest_memfd
+      KVM: selftests: Test that shared/private status is consistent across processes
+      KVM: selftests: Provide common function to set memory attributes
+      KVM: selftests: Update private memory exits test to work with per-gmem attributes
+
+ Documentation/admin-guide/kernel-parameters.txt    |  25 +
+ Documentation/virt/kvm/api.rst                     | 107 ++++-
+ .../virt/kvm/x86/amd-memory-encryption.rst         |  14 +-
+ Documentation/virt/kvm/x86/intel-tdx.rst           |   4 +
+ arch/x86/include/asm/kvm-x86-ops.h                 |   2 +-
+ arch/x86/include/asm/kvm_host.h                    |   9 +-
+ arch/x86/kvm/Kconfig                               |  15 +-
+ arch/x86/kvm/mmu/mmu.c                             |  28 +-
+ arch/x86/kvm/svm/sev.c                             |  13 +-
+ arch/x86/kvm/vmx/tdx.c                             |   8 +-
+ arch/x86/kvm/x86.c                                 |  20 +-
+ include/linux/kvm_host.h                           |  83 ++--
+ include/trace/events/kvm.h                         |   6 +-
+ include/uapi/linux/kvm.h                           |  16 +
+ mm/folio.c                                         |   2 +
+ tools/testing/selftests/kvm/Makefile.kvm           |   1 +
+ tools/testing/selftests/kvm/include/kvm_util.h     | 139 +++++-
+ tools/testing/selftests/kvm/include/test_util.h    |  34 +-
+ tools/testing/selftests/kvm/lib/kvm_util.c         | 222 +++++----
+ tools/testing/selftests/kvm/lib/test_util.c        |   7 -
+ .../kvm/x86/guest_memfd_conversions_test.c         | 512 +++++++++++++++++++++
+ .../kvm/x86/private_mem_conversions_test.c         |  66 ++-
+ .../selftests/kvm/x86/private_mem_kvm_exits_test.c |  36 +-
+ virt/kvm/Kconfig                                   |   3 -
+ virt/kvm/guest_memfd.c                             | 469 +++++++++++++++++--
+ virt/kvm/kvm_main.c                                |  92 ++--
+ 26 files changed, 1646 insertions(+), 287 deletions(-)
+---
+base-commit: a0c789941a3d705d00c018b3c9348b4b930c0c74
+change-id: 20260225-gmem-inplace-conversion-bd0dbd39753a
+
+Best regards,
+--
+Ackerley Tng <ackerleytng@google.com>
+
 
