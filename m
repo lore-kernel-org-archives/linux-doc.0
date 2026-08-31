@@ -1,49 +1,52 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB36139D6DA;
-	Mon, 31 Aug 2026 21:42:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDFF3A257A;
+	Mon, 31 Aug 2026 21:44:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788212581; cv=none; b=svOe1+TcOHA75jWN/jKDYMVI50Lv2JWD26UYrdHDm1CU014mQk9nBf/2sZcyKNYvIvKF8mmg3NKN/sKgNcID+xViD9KHqowRl66zObZmkpRyPUGSjxdapb/QxBMmaGfPHXYO18VjkXIQyyQjkzoe4p0FvYYxNDipoyF6b69tCOw=
+	t=1788212662; cv=none; b=GUt2tR4r1iHLb0LuvDH3KBhJ9rWhig6bLj0Jt8i2Of9d3/4n4gTrc5qRj1IDoQR9YafQte1uRA+7r/Gj7ExVQPj6QbRRxnPKtoYpKO/ii3Y9HgQEPCpysxx+WlIvi89E8UiIsnyQjZPaugPlR9ivjS3JAHHPx/FcHrhSo9L0QiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788212581; c=relaxed/simple;
-	bh=junU1NXa65WYgAd0yhVrFqA2wEWWdwszY/WGgB/unLs=;
+	s=arc-20240116; t=1788212662; c=relaxed/simple;
+	bh=tbvMjlu2nUXQUFmCFvtfm2sb9MCvvq1DHBiU/6r4VAs=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Y7H2hDog9dcAs+fsNOJVt5KW6VGQG6AXt9VKfGXW3BK2XfMlMDQ7b2Rt+z4UKFA2RrW18wH2wkXdspNEANbhLFE1Kewb5DHCToMI1KLwOJULVnOYihQtV8rFtZNjW45t3aksdHM+AQKtfhnerOm5Xj98rGDrCkNB5KLoJg1j8j0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Mv8E17vu; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=qyF4oA9cP+kgKx/hPiRZVLaSHaPPSPOxL7H5eq6b8Cy6TDroTCg0s9wSkHKeIDckDLhuhbCQUHGdft4iER4zuhqpBa440Z9/fOy4Zqb+iLr8tvJOa1LZHNe9qMD7o8hLgXuB0hldLNNuxWh47VigEnnaBzaT6v5IeEbDQWzrTkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Bdip5acJ; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Mv8E17vu"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DDEDC408DB
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Bdip5acJ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 00C91408DB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788212579; bh=S+yL+5uqwMnCZKuz4QGgRrFXlTFKve9EFRhcn0UbdvU=;
+	t=1788212659; bh=ejVfa5VA9hdX/MMipqy6XJUI7HG3QYWAT2JDm/+1jw4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Mv8E17vuSG81IwIF6bHbU2oL4w1RcEeM1g8BXCBjiUOVndMLlWryc79WNDr7uMu1d
-	 Me3waFnxk7893xaaTHQ9te+nCUis1SAbRCWYJB2ZTf/Ybn69rIIDLvbZx/Gf7xpFHZ
-	 hDBTXz4fbY85Ynyn2wPT9u6wSGE0I7OBZqaIk8/gKiIDTaHowjRL2lBl9qm03/hoJ8
-	 TvOcbI0xV4Khtj8h8U/8dwmSVqnbImGj6k4lW1Rj8czBy3lRzzO8bRBd72qAQShr5D
-	 R0ugNZEdzHwsIyDE8TR0a2YQer01GZo0g2QwjrGJ5E+v2ruF7/Xf6D5DG1aoc+6+HB
-	 nan0Q78e1JHAw==
+	b=Bdip5acJBFyCC+OISgVyzZ7LDpuqqJ5thWnoK9qygnWegT7c1btFNFrkh6vBAnW5k
+	 ZKnPOZLs2ds4c7iljeR+j5IJOh/f+5FSi7wPKazyrORg19qx0z1bq4s9rWJbkGJ5+9
+	 1czNBSOoAA2922jJBffVaxCNMk+alCliIU0gUD8dVRBf+0oZJV37Y8lklLFEOYfd2l
+	 l0CjadDYKClrvjdKUYszFcQZUoNYh2oSS7KkOgmRCDCKnUL50YJa6nYaFMz6f+LZxT
+	 75y++dyrSDYqI/TGl72kpeB03QX3nR+RZij9AmBXTt0zIUwC6aQAW0nU/g8pUmKhmC
+	 KUEhWkLHWkqHQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id DDEDC408DB;
-	Mon, 31 Aug 2026 21:42:58 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 00C91408DB;
+	Mon, 31 Aug 2026 21:44:18 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Nguyen Duc Thinh <ducthinh100812@gmail.com>
-Cc: Weijie Yuan <wy@wyuan.org>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Nguyen Duc Thinh
- <ducthinh100812@gmail.com>
-Subject: Re: [PATCH v3] Documentation: process: Capitalize Git, Quilt, and
- Mercurial consistently
-In-Reply-To: <20260824133826.13934-1-ducthinh100812@gmail.com>
-References: <20260824133826.13934-1-ducthinh100812@gmail.com>
-Date: Mon, 31 Aug 2026 15:42:58 -0600
-Message-ID: <871pbege59.fsf@trenco.lwn.net>
+To: Liang Hao <haohlliang@gmail.com>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>
+Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker
+ <frederic@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Clark
+ Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, Liang Hao <haohlliang@gmail.com>
+Subject: Re: [PATCH v6] docs: real-time: mention the hrtimer sleeper HARD path
+In-Reply-To: <20260820163858.27984-1-haohlliang@gmail.com>
+References: <20260820144655.22492-1-haohlliang@gmail.com>
+ <20260820163858.27984-1-haohlliang@gmail.com>
+Date: Mon, 31 Aug 2026 15:44:16 -0600
+Message-ID: <87wlt6ezin.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,31 +55,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Nguyen Duc Thinh <ducthinh100812@gmail.com> writes:
+Liang Hao <haohlliang@gmail.com> writes:
 
-> Update various process documentation files to properly capitalize "Git",
-> "Quilt", and "Mercurial" as proper nouns when referring to the source
-> management tools themselves.
+> The Timers section documents the PREEMPT_RT softirq default and
+> HRTIMER_MODE_HARD, but not the sleeper helper used by userspace sleeps.
+> Describe that path, and rename "ktimersd" to "ktimers" to match
+> ksoftirqd naming in this document.
 >
-> Instances explicitly referring to literal command-line invocations
-> (such as "git log" or "git bisect") have been left lowercase.
+> No code or behaviour change.
 >
-> Signed-off-by: Nguyen Duc Thinh <ducthinh100812@gmail.com>
+> Signed-off-by: Liang Hao <haohlliang@gmail.com>
 > ---
-> v3:
->   - Fixed the un-staged git commit state; the 'git switch' changes are now officially gone from the diff.
->   - Disclosure regarding tools: I DID NOT USE ANY KIND OF AI AS AN ASSISTANT IN THIS CONTRIBUTION, the mistake occured because I don't frequently use Git to send patches, I use it to open pull requests so sometimes it feels unfamiliar to migrate.
->   - Is there any mistakes that I'm still having in this patch because everyone make mistakes.
+> v5 -> v6:
+> - clarify soft delivery for non-RT sleepers (softirq context, not
+>   HRTIMER_MODE_SOFT)
 >
->  Documentation/process/1.Intro.rst             |  2 +-
->  Documentation/process/2.Process.rst           | 18 ++++-----
->  Documentation/process/3.Early-stage.rst       |  2 +-
->  Documentation/process/5.Posting.rst           | 10 ++---
->  Documentation/process/7.AdvancedTopics.rst    | 36 +++++++++---------
->  Documentation/process/backporting.rst         | 18 ++++-----
->  .../process/embargoed-hardware-issues.rst     |  2 +-
->  .../process/maintainer-pgp-guide.rst          | 38 +++++++++----------
->  8 files changed, 63 insertions(+), 63 deletions(-)
+>  Documentation/core-api/real-time/differences.rst | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/core-api/real-time/differences.rst b/Documentation/core-api/real-time/differences.rst
+> index a129570dab5a..6f5be9f0da2e 100644
+> --- a/Documentation/core-api/real-time/differences.rst
+> +++ b/Documentation/core-api/real-time/differences.rst
+> @@ -119,12 +119,20 @@ timers initialized with the HRTIMER_MODE_SOFT flag, which are executed in
+>  softirq context.
+>  
+>  On a PREEMPT_RT kernel, this behavior is reversed: hrtimers are executed in
+> -softirq context by default, typically within the ktimersd thread. This thread
+> +softirq context by default, typically within the ktimers thread. This thread
+>  runs at the lowest real-time priority, ensuring it executes before any
+>  SCHED_OTHER tasks but does not interfere with higher-priority real-time
+>  threads. To explicitly request execution in hard interrupt context on
+>  PREEMPT_RT, the timer must be marked with the HRTIMER_MODE_HARD flag.
+>  
+> +Userland sleepers usually deploy a hrtimer to guarantee a precise wakeup
+> +time. The timer is initialized with hrtimer_setup_sleeper_on_stack(), which
+> +distinguishes between real-time and regular tasks. The hrtimer of a task
+> +without a real-time priority is handled in soft interrupt context, but for
+> +real-time priorities HRTIMER_MODE_HARD is used. This ensures that real-time
+> +tasks are woken up as soon as possible while ordinary tasks cannot block the
+> +CPU with a thundering herd of wakeups.
+> +
+>  Memory allocation
+>  -----------------
 
 Applied, thanks.
 
