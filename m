@@ -1,69 +1,66 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4F438C42F
-	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 20:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A7C3876CE;
+	Mon, 31 Aug 2026 21:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788207885; cv=none; b=e3XgukuVdunudDXfxjsKh/ag+OGpPpKHNktOchYeRpKqSyDiun/uPu++KmQ40c9kS7PMTFJQxbnGfmcOEX4EdG9LcZifBsN7xZ7oCTaZO+uHhI7XHP6bZqHbQ167yo8YvfkEnn01kj8DWe40r+O8j0P9Np3gG6BSkwaTCmifDgc=
+	t=1788211745; cv=none; b=hD4XVc4NJY7b5NMVZx9nzj2xlJ7t0c8mvCyz53LDcmwE9iDHhs/MwD7qeNKhqedmlbQ5Pn9c3ZIzZ8NTvBXJa1WhUjYoubUZVTazEcWSlP1tx8LRZ9aJj1s+9DEb0jwmeJES9qIBqmFHwGH1L52pJBtF1xZ7Kf/yK0EeLiThFs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788207885; c=relaxed/simple;
-	bh=GORATzhnvZnhyvMbTRh3A1MVL++aUf7WdNdXB3ZWRT4=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=fgMFBoyLT/v43FV2OlFLWOxLmZxQC0i5ygEZhSvEF5gIcjXz+O9ZEBe/WO4F1xAta0EPE+zlsLxyuTaVxbePBT7F5J6XzMDoi5aYexMQxf73oSM9Jn2r2wXlkIbo7s0QmThdiDoHQvidnT43v0hyUFjOpMfuysYTI4whPbqDixU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rRKgOlP6; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788211745; c=relaxed/simple;
+	bh=PCN9UfOzO3Mn7Sfx5XGmo5b2BoiX67PMH8e30uJgX4E=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dTsrenN2YkfxqwRq6gDIMSAFDddI8LChIDxMpapcsniBUZEoKQThzrBuwmcuhGFg0N4NFjacGTnmnRgzddE5haR/osGUTrUSaV1V694goSmahtF4jwyZ1lur55spgpf4/aqRHFjUQoz355ktLzOoVOgimGDJXrNiOYDHACl+IEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=TRs4nC3t; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rRKgOlP6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=aQc6PQqiCmK6uOnTg3RAK3y5jT/WSdUpKmOWlDAsAFE=; b=rRKgOlP6uyQrAw1d8tHQ4Djncq
-	QPFF51u3VqV30Jqenq3apqSzfTLFCa/dx2cz6VXFWLqp//br7Q+4HmTT3Is5xWG3xZtA7A+J4BOLB
-	eoI+kL/Sc2oQq6+1yaJGUwJvi9nFaaAJniQObNozlS3Gw/sRPyAFyTdQbXqA9akrBjcHj5jqt3mwl
-	h9g8ytN6Tp0DDRlwdojdEkkBfArkycKh9ANXqDqevShUL+aSO9aEYqi3IusafP4UuDnFCoxo+wh6k
-	saXp/GCUkdcY0dmCZZLpqXqE0/rqQDl/C8NNToYHzQJ+WyPs/tzYwGHslhkBu89o+6YTCmo1VjIU3
-	H61Czs5g==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x18Yb-0000000ASvE-1I5o
-	for linux-doc@vger.kernel.org;
-	Mon, 31 Aug 2026 20:24:41 +0000
-Message-ID: <582fadf0-ca90-496f-9608-3f13a5012479@infradead.org>
-Date: Mon, 31 Aug 2026 13:24:40 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="TRs4nC3t"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 98B97408DB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1788211735; bh=1iZnCYqMD/YORvHC+qRafaC4pSWVVewj4ABJOj6lxlQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=TRs4nC3trGNVRCCRIF3aIvQOiRWhEnhUNHzF7hlQTH8pPamL98eSipPqFHWc/I0F9
+	 kFJ/hmq0+beMJmX6cXDsyZDdz1ClEqO4kSEyHtJpRlbUdN0N9RgOWRvtYkJPdQUp8a
+	 /tkX2afr+xnbN9G+d+yn6RgnYUPQ9/TonQ5WPRkTP+gP5eiDgsO2x2Ku+AdrAgvX/R
+	 iRurCswgkMdHuMBZR8JtAK+3PsxQ3cKYrPgdPsBjrukXMa+1Z1c0GAGU+z/kO8kGYj
+	 iO8tT1oCqckVWkaSWhi9AIeqTC8sh2xwztbMq7hJ/tvgI9rVIDddtMJALzUPiq1Xf/
+	 MDkic9vAnui8g==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 98B97408DB;
+	Mon, 31 Aug 2026 21:28:55 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+Cc: skhan@linuxfoundation.org, rdunlap@infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Drif Abdelmalek Mohamed Said
+ <drifabdelmalekmohamedsaid@gmail.com>
+Subject: Re: [PATCH] docs: filesystems: proc: fix typos
+In-Reply-To: <20260818214604.20349-1-drifabdelmalekmohamedsaid@gmail.com>
+References: <20260818214604.20349-1-drifabdelmalekmohamedsaid@gmail.com>
+Date: Mon, 31 Aug 2026 15:28:54 -0600
+Message-ID: <87mru2gesp.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Linux Documentation <linux-doc@vger.kernel.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: confusing docs build warning
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Since linux-next-20260825 (AFAIK), there has been a docs build warning:
+Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+writes:
 
-WARNING: Unparseable C cross-reference: 'return'
-Invalid C declaration: Expected identifier in nested name, got keyword: return [error at 6]
-  return
-  ------^
+> Fix five typographical errors in the /proc filesystem documentation.
+>
+> Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+> ---
+>  Documentation/filesystems/proc.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 
-I don't what this is referring to. I bisected it to:
-0b9fc795f83f5831de858d659de1097800ba7f18 is the first 'bad' commit
-commit 0b9fc795f83f5831de858d659de1097800ba7f18 (HEAD)
-Author: Yonghong Song <yonghong.song@linux.dev>
-Date:   Tue Aug 18 22:53:25 2026 -0700
+Applied, thanks.
 
-but I don't see anything in that commit that would cause the build warning.
-
-Ideas, anyone?
-
-thanks.
--- 
-~Randy
-
+jon
