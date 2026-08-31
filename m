@@ -1,134 +1,115 @@
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867DD494A0B
-	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 14:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788185568; cv=none; b=MDQCjwM1/iwYjBBMRab48DFF5nb/XftpcKEL87klp2fQSaisCp4WC2cdKCdcEeL67qfUbRspGTOxUyWbRIiBhyOVOKbMeg18C5TUMoA0q4oPaq0CKGL4BwP7x+nxWFZvNik58ywUXT0L7s2dqbXp++/5Os7RL6qdAeNEBZ1YbEY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788185568; c=relaxed/simple;
-	bh=HO3i8jPEq+t50RYFf/H+PXoGo63vAGi43wP1utjBY1M=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=OlD6DqAHn7n4so/Px39q4jO/O+F63CKONjc2C9rTJO/Wm7L0SeA+So0gAXR2OObWDx7xvNvDXaPg4fQ+OSfxgnl99VOJ0UePz+6RjzJc9gsiIbSO6FtGGGDSZkahjpcz3AXzSCf5SPLX76QpLjG9G9sZDPix3iJi7F3pjlODkmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=We4TIath; arc=none smtp.client-ip=209.85.128.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2EC49B1E5
+	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 14:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788185908; cv=pass; b=npAdg32JBMSklWBfiVCti7G4aFwrXNnTyB/qXgz9xQK/JJmtHB5W/21UBrG4YMJHnvbQjLzRTjLODQRwhoOwedOEzDTihUxx1XE4hSY1iqpspgrumUquAJ+6UacSrbSTdsGdUK8mTphA6fvQXU5MDOLl+zRFex+PsRhGf64AY+c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788185908; c=relaxed/simple;
+	bh=5ebukEa9X8TLK1zNOHZXcjEycVHzAZwRNrrqasYyvKc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oQ26JhdotxsKHrSLs7GIEz6GqhfvDIOmcIDS5Uy98HEadKw4pf+ghE6V9TydM0w6DdvTx8VEopDwCAxmJof6roN+X+tR/mb8lBLEzzvL/Xnrsk5ZEipWd2nAXo/w8Io6h79gIpOjXpmby6gCvMmJ40KKeCAEttmf+Dz7NxuU0Bc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aLsbyPBN; arc=pass smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="We4TIath"
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4955e865174so15700665e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 07:12:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aLsbyPBN"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-381b831d535so6104958a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 07:18:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788185907; cv=none;
+        d=google.com; s=arc-20260327;
+        b=iCX9YuymXqijhnJb/OVfVLKyLWk8EeL8eFB3QgJ5IsnMEJiiKna2aFeX3ynA7j9BG/
+         qev0YQwxDUs/YSTRA4eVpcDImZhJzFQ8Av0tA81l5sfMNuJUH46eLBdleO8m2ktbZUKZ
+         270yvtEm7MG0/MTzzP33icFp2nU+EIGYEYkbvF9TSgceGSTyEWY3LAxFJUKOchazFpXl
+         GhIL5QA5SGkIgxJIjVg2su6Ye0+PliTQO8Te1DRcl93w5QqGTN50Y1hI0KzH+B8zD0PE
+         +szHrDg6sPLIvdPW0yqv5GiYrjzj9SSDlHet8mvkB5im8eARfj5UrJaVg7TcsO0Dmr9x
+         mAuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=1ZOG88pTRBHH6b+RUYSoXdM5pS/61VuSbKJS1GDc7CU=;
+        fh=K8DfkS+T62sIdLXPwVW2NYTgjwIxe5EVuGAKzzDa2/0=;
+        b=RedYqmNaIZ/Xfv5j5LbG7CBvTM/D6tEqPg2c4sk4ApQ+kxoclmnYWZj8BStvHv1DBj
+         zT6ak+cEuPEDGHRzHH7c3k3QtyUOLs+0NDU2M/elnhlXArKpH1/Lz9A6EXmiyIEvR2tv
+         ExHVmTlHtVX8BHrsdMrk54o/3lP1HPVEbGWrXTv/Lqbkk7WNZgP6+71hgh9Y4I3fup/e
+         pmHLJacJ2m+Pf153qcDMpzGYgEtFePIVEMEXpbay8rUy3LqBKlx5d/eGc9Wh6INbCGm3
+         C6EeBBsUm3aHPE0Oi9dxC7gLHSbwRTGLjlbphePvcmdvk/3JofUmF9zV844joLTsbdDE
+         r3yQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788185564; x=1788790364; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1788185907; x=1788790707; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=enmYgpseGkhwRWk/6x6IfJWBAGPePrZp4E75kiptkns=;
-        b=We4TIathP2bqje8Idye57nSVlBoHzHcIvuMWqLwOcXyhwvyyjYk7QtWV6e5XftQ0ap
-         pAx+nv/OArcfuPq2LDO4FmaN/XiNtq8+3KV/FnjWxPPoOqnBoWg6gnIfvO4RzHHJ3Eob
-         szcSM+D5oz3dvyHxyK3aQHV0iVGFbMyrl7ikeK7E0jOisAJlfh2ngIVkfWnIIyScjhc+
-         rgVH41YlGTBbdxSPr9ZzHpwjQPlsCXktEjDpwWF1tkq3QP5HCfaAI/jV7fMaNXEA0gz9
-         YKZur7e34hxPXYuQnGZI7wWut/LyGefUu75CcerqRccy5k159PT27XflG5WB9CXMSX02
-         TphA==
+        bh=1ZOG88pTRBHH6b+RUYSoXdM5pS/61VuSbKJS1GDc7CU=;
+        b=aLsbyPBNeRqQU+KBefDS/iiNA3A19Xk+Xh8XWWtQvI/pc9k6E1UCvlvtakSXMb6xDu
+         /QemWCiuVO7Ah5lhhz5W1nafLXNxph3PLxyiQ625k8TpZbnhlWmEMMBBOoeNXcWj4HP6
+         /HOp2J60b00LgeB829rcXk0xTB4jnmq9pUPS0o5GqWwGrTyXKWIMw+a9DD0QkJDYZUEW
+         CSQRJNDyx4FlTyCw9fyshHbiwKjDvM3NS+DoyRz1UPV1WISs2HLyAJ2W62KASgBTbvjZ
+         I03aPYozG7IGRoY42zetGY3T7m2zAe1jNfSir6RHj12Jd1O/XE+mjMEQBydrk99ioBLe
+         HMXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788185564; x=1788790364;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=enmYgpseGkhwRWk/6x6IfJWBAGPePrZp4E75kiptkns=;
-        b=tTTje6690kXGLqMJqX9AVB/PvTxJlwxtpq9N88zHpvf7ZOm0JQrDW9dX0SZXQ5i7Lw
-         qWk7advEWMepuCRZN7TWDvcF9thgvCbe4qH+ornBvrrMZcr5rsqF9r3pJRPh1LcYktr4
-         G9cdd/A6atHuQYKOjN4qaoJrxfhXUMynIi3tyar//lmQOUuHMaDJglYpIY0G6R0aNpQK
-         YGU+w9G9u9W7TeSpJ4qyfk/ICF7gaZkoJ8oA0P7Wwbg1VxIH2xi2370puB+ZMLbrZJcv
-         mQbLLohXGOFlBtbQZBsMVPQfKjR0RyEQTgy7lUN6AWUsQU0+9FdZmpPwY/OjM9HtTP/V
-         KSag==
-X-Forwarded-Encrypted: i=1; AHgh+RpdXzLCU7YDUeztpT7rKRFRObQ/JNHifDLb+rzYm2krh6uDBx/K0Uk7a3/dkYCEGILnB46yqhSV4po=@vger.kernel.org
-X-Gm-Message-State: AFuF++nhBFtZRNFg87urgLpaUb89TgczblPKgackgfijdqVzAfPEFBw1
-	BbZk4i231ulqoHBRkm2GYN7BVCVOrJ+xSLgJynLJ2Yhl6i2RherlAcZdy8mPvr1wNgVdw0DEzGe
-	EonKV6H6FJy5+JcDsEQ==
-X-Received: from wmbip22.prod.google.com ([2002:a05:600c:a696:b0:499:b6c1:bd20])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:8411:b0:499:4892:d022 with SMTP id 5b1f17b1804b1-49b91c279e1mr470552705e9.8.1788185564261;
- Mon, 31 Aug 2026 07:12:44 -0700 (PDT)
-Date: Mon, 31 Aug 2026 14:12:43 +0000
-In-Reply-To: <c8453a19-3487-4031-8153-22e1b1cd2b69@efficios.com>
+        d=1e100.net; s=20251104; t=1788185907; x=1788790707;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1ZOG88pTRBHH6b+RUYSoXdM5pS/61VuSbKJS1GDc7CU=;
+        b=iJPxSYVbv1uECVP00ZbF/pvY6k6j9J+0DSSGi9+hi6w0nwKI39Su9KndnrkDreWze6
+         dqr1oabVkxQcy7oi3uQu1XQ6rKRLX2LixwgBPj1OujJzY3RPIuf5FhBER/Qy4HZfASbr
+         +7C2bbcY6FzqCaqrTJLGFhVbKotXZwsHzJ0PjW7nYxR/FvGvfyWbbW1NaTB7QKbj97u9
+         VtrZabbDabkIOwvqsWj4QMihq40arJLQhnaWmk3NHsM4etuFuaHR496ZTOAUGB9oHhwj
+         ULK7CzBH29fHPO5+Dp1Msk34LLeD1EdAPXOVIF1/zhs7to/QuIqKTVjT2TD7JPhVAJtQ
+         eXjA==
+X-Forwarded-Encrypted: i=1; AHgh+RrIAEa5wqcqovL9IL++LNjFNIxs2oj0ZrNGE13eTGtxX7BjsDQM8+UvngkrbTtAHSmNvvb/yQLFnmE=@vger.kernel.org
+X-Gm-Message-State: AFuF++nuvEvSvciD49op3fPKU/B2tBmMcO1hB2rOHRvxtc7aMb4ZpbPQ
+	9jGMHwqe0NdxF886UrSgo/s6E7gBoBhzB88csooYVBNFpL0ZF5E0k+X+l1TZyav1PfqcPm02Ies
+	MbCxw0yZU6LpaZTmKZIPMj2T/oGRD1YA=
+X-Gm-Gg: AR+sD12vuiMGJgl/D6GYM4qmkLMTNNExXw7/wd9/nlBtfxIDWu3k61WpjXEztjCVTji
+	MgjDZDwMpoKjqdk3PVyAceUg7led2vvBu0V3tczR1IEAvp7Pt5xo8Ej9N9w8f7D9JqlxE7eZtWf
+	OV1aCptxq/B0BCPLJaMdz0aJOmjqZTTFuu6UIuc0Q2w18XpwqO9U0oYlQ06XlwNeMyHhInMX/RO
+	owiPwrT+9lKbAEPHnHz4ynd47eUisTB7lRnm7wDntfH6negaEu7a2YVjXeQMKhBwzNbYMl1oNhj
+	UTGum7c8BkcyWgOdDDAvPzn/P3b5zixCTxKgFGH8A8y/Fr5Jt9fIv1fVvkea559CDLXNIH83wcF
+	QD7yv+X96WA==
+X-Received: by 2002:a05:6a21:339c:b0:3c3:64cb:9b99 with SMTP id
+ adf61e73a8af0-3d265a3df5amr37173569637.6.1788185906618; Mon, 31 Aug 2026
+ 07:18:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260831-sys-futex-wake-time-slice-v1-1-814bb95cc339@google.com> <c8453a19-3487-4031-8153-22e1b1cd2b69@efficios.com>
-Message-ID: <apWL2wFhvRM93zm1@google.com>
-Subject: Re: [PATCH] rseq: defer time slice extension yield for sys_futex_wake
-From: Alice Ryhl <aliceryhl@google.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+References: <20260830-asus-x670e-a-hwmon-fix-v1-1-cf0a680ccbe2@sne.moe>
+In-Reply-To: <20260830-asus-x670e-a-hwmon-fix-v1-1-cf0a680ccbe2@sne.moe>
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+Date: Mon, 31 Aug 2026 16:18:14 +0200
+X-Gm-Features: AcwNN1Xm-dHdx5qoEWmx-mK7azvrCKK8tNYI9QQLi_Q61e2CGu-085AeqI9F8U8
+Message-ID: <CAB95QASxkb0sFxBSSY5PA3QJQEs04rBaKke7Oh9fGo1-asyE4A@mail.gmail.com>
+Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add ROG STRIX X670E-A GAMING WIFI
+To: sugar@sne.moe
+Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Aug 31, 2026 at 09:45:25AM -0400, Mathieu Desnoyers wrote:
-> On 2026-08-31 08:57, Alice Ryhl wrote:
-> > When a task is granted an rseq scheduler time slice extension, it is
-> > expected to finish its critical section and relinquish the CPU via
-> > rseq_slice_yield(2). If the task issues any other system call while a
-> > grant is active, rseq_syscall_enter_work() forces an immediate
-> > reschedule on syscall entry via cond_resched(). This may cause
-> > significant latency penalty for userspace lock implementations that use
-> > rseq time slice extensions when unlocking the futex.
-> > 
-> > In a userspace mutex unlock sequence:
-> > 1. The lock is released in userspace.
-> > 2. If there are waiters, the unlocking thread calls sys_futex_wake()
-> >     to wake a sleeping waiter.
-> > 
-> > Because sys_futex_wake() is currently treated as an arbitrary syscall,
-> > rseq_syscall_enter_work() schedules out the unlocking thread upon
-> > syscall entry, which is before it has executed the wakeup. Consequently,
-> > the lock is free in userspace, but the waiter remains blocked in the
-> > kernel while the CPU switches to an unrelated task. The waiter is only
-> > woken when the unlocking thread is eventually scheduled back in to
-> > finish the syscall, causing lock handoff delays.
-> > 
-> > Thus, update rseq_syscall_enter_work() for sys_futex_wake() so that it
-> > does not reschedule during syscall entry. The thread will yield the CPU
-> > on the syscall exit path instead.
-> > 
-> > There is no need to apply this optimization to the multiplexed futex()
-> > syscall since any userspace code that can invoke rseq_slice_yield() can
-> > also invoke futex_wake().
-> 
-> Is the goal there to provide a single blessed way of doing futex wake,
-> or to allow the futex multiplexer to keep being used for that wake
-> scenario ?
-> 
-> The proposed change exposes two ABIs (multiplexer vs explicit futex
-> wake) with very different behaviors. I'm concerned that it would be
-> confusing to users.
-> 
-> Thoughts ?
+Hi,
 
-My understanding is that the multiplexed futex syscall is soft
-deprecated and the goal is that new code should use the dedicated
-syscalls, so I didn't think it was needed to implement the perf
-optimizations for the "old" API.
+On Sun, 30 Aug 2026 at 15:03, Asai Neko via B4 Relay
+<devnull+sugar.sne.moe@kernel.org> wrote:
 
-But I do agree it's confusing to do it that way, so I'm happy to also
-support the multiplexed one if you think we should.
+> +static const struct ec_board_info board_info_strix_x670e_a_gaming_wifi = {
+> +       .sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
+> +               SENSOR_TEMP_MB | SENSOR_TEMP_VRM,
+> +       .mutex_path = ASUS_HW_ACCESS_MUTEX_SB_PCI0_SBRG_SIO1_MUT0,
+> +       .family = family_amd_600_series,
+> +};
 
-Note that we can't read the 'op' argument to the multiplexed futex
-syscall inside rseq_syscall_enter_work(), so to implement it for that
-one too, we would have to skip the cond_resched() for all calls to
-sys_futex(), and then re-check inside of sys_futex() itself to call
-cond_resched() there if `op != FUTEX_WAKE` and the rseq time slice
-extension applies.
+The board_info_strix_x670e_a_gaming_wifi struct does not seem to
+differ from board_info_strix_x670e_e_gaming_wifi just below. Please
+reference the existing one in the DMI_EXACT_MATCH_ASUS_BOARD_NAME().
 
-Though now that I think about it, maybe we want to skip the
-cond_resched() for all futex ops? If you're invoking FUTEX_WAIT, then
-there's not really much reason to call cond_resched() if you're calling
-schedule() immediately afterwards.
-
-Alice
+Thank you,
+Eugene
