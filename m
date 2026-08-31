@@ -1,271 +1,182 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012025.outbound.protection.outlook.com [52.101.53.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEAC4A485C
-	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 14:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788188345; cv=none; b=tMvP7/sKZmBnMPneEM7NCPJD85828oci/8FoBM2jBQOJgPAD+2NB/vYy7K5uvWO3iu6Ft0eYBWyJbV8rY+rjd2usoxCtq4puX8idPkn+gf29iTFzcmyVykZtFlihotfPOhgBy9foJl3hnUPMtxgy+I+ortrbejDVGo8IUDUiuuM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788188345; c=relaxed/simple;
-	bh=z9waBFUZgrkQrg9/ZL7GFeUE/M+cVpy4tNRnzbvmabk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZJSaJqRtNmiAHtE1KR0BrQKyWCjSQU08l7uoJJrqpCH9XsM+br6U5mCM9SXYEkMZriddPD/HzhdC9mAF7DdQlL79HiLM0wp1kWms9PT6h5M9T0skhESoxM55oRipDw9gs/1FeanSJOM6/WwgU6KEucs7jbC1HOPLcWkingMLscI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RNo5dLP3; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AJM7/7LI; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D004FECCD;
+	Mon, 31 Aug 2026 15:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788188422; cv=fail; b=YPHpgRdiTqDtxitSicPkXx/QVFgan/og2Qv6wNCFUujKBDe8JwiU0xbI5oJQ0K0TK9N8LHlI5TWUM8yhwr6GLBa9Z64q/JQL+oW0ysqY4O0YUQZKuMW2RL0IUM3J8n3GMq+GgdV8sl4G1iDkD6MlyRNbcA95seU/Ecyc4XtW//c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788188422; c=relaxed/simple;
+	bh=HtTw1IqOeA2RU3NMbJrEXMQyVEMQegolpdzWXedrAw0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=R8S3w191+Efmq7PEVVNrJdblepd6KlIlz0wj/AVi8nVkBxQ7KwwmXDTs6pasZGkfC2uV4c9uZlAlQPqnjAwGDxtHqimUmOdNd2KOm/68bWiRBZiC9Y9WLm4eS8d7VnsMMc9CGckuRHIgSbi1Oqrb5Oc9CrdpaRLoehrDDbYJ04Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=EuLvXSeE; arc=fail smtp.client-ip=52.101.53.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RNo5dLP3";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AJM7/7LI"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67VET8lV772421
-	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 14:59:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	wg0JqqCSPSCZp/i8yYOWVkckv8WI7h3iPOxiOF8q4I4=; b=RNo5dLP3hOIk5Y67
-	DuUCFYBfTeqD8IVSbibfex3eUWG3dGAVZkRRpZZB5RVRVwOaOx64pzGEmQtz7NXV
-	ofsMDmGyE2+LY2AcMpTj/lGd2AljYUtRZGAiaMe3o8x/mtOPD1h5pIVYSXqlNAys
-	UjlcUOHxNQomCcwKgPs22A1DqUTWJPS45w0urJKogvFWlTByo7p2FicOtEPQ+m/t
-	XNmAZ9/We57PY+82jgilhZ7fOF7iJP5ca/CRwamMA2/qWajw0ctl93ETxhCOo6tG
-	5P0vjmYqvgD70FqJvEJbI2Br4u9uut+NbNDSKUMCwxj6hrbzmI8sOiys06glGRJj
-	vhVqjg==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gd8cvrycn-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 14:59:02 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2ce7dfd33ffso51407055ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 07:59:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1788188342; x=1788793142; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wg0JqqCSPSCZp/i8yYOWVkckv8WI7h3iPOxiOF8q4I4=;
-        b=AJM7/7LI5fLd+tP1zHA7HaWa5ahnAipbPNkKcYL6Fz4FXXhRlaTVOokvsqBDFk8KZ+
-         3fWh2FH/SngKXp7QYFD0hEM1eKcFVE2CoVij9n4VGs75ZlVr/QN13I8S7CYIHduVbGGc
-         WoKi99M2T8ereXZ5cjzn/bXUmHAQkhkYR7szEjY17L625zPTn07dSWGMP5qVUiHPe9Ms
-         WKHMNV1cFZawKwHJW0wVAmya1WD667Jm7CwQbO5P70D27gqN8ZNkF8+QXmLBPETARlh6
-         tWjIZge1bLqSfDZGDozrzVedd3J4IZmOay3JkX3N0qZZEje/FSZwF4FHUE2CA6xeQM28
-         79kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788188342; x=1788793142;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wg0JqqCSPSCZp/i8yYOWVkckv8WI7h3iPOxiOF8q4I4=;
-        b=dYmUb3P1MYFwv3CxRoMId1tcYS//2yquBau5SMKLF8Lgq+/VAXMKKv7lwmsy0eEuxz
-         S8NPmK5bWVwkAVO0CeApiGE4ZkOXQ30QDDRlUkNZSSS3ZrgZwa2MuT8TGyN0P7uOJC1B
-         6wyaO6YBJVbXJ/nU3TcB/MhmbAV/ONpbQpzmLIkiVCZ94RGYftbr64isAVgrHpuakUvI
-         BpoFvatvtfiQ/Sp0Bm/i0NyAjT33iTvy0iJ1OJeQVjEdQ1zOkvCQrPZnnS26qwDqs2xj
-         SWcfqVz6wYSZQqy1CdrfkYEpjtISPXDJMoK7w51hApPY9De/LxYXx/f2hI0EusXrjKQe
-         JEug==
-X-Forwarded-Encrypted: i=1; AKwUvBx7ht/LNJlbjEP3Y3u3AzCkcJv7uS1/AeOHAF+PqvccHb0P2xR6Cqlwvn4uYys8XO3YrZ2gto0v+II=@vger.kernel.org
-X-Gm-Message-State: AFuF++kaDBdTA+HhDE1NXTCXtlJCJyHwrvFH+NPeZfKhKyFnfhREiYf0
-	pOdc/G2BItGIhD0wbN1ZcDgIV/EDMumPY/ounQgz9OVG/X7OidikKH1VPvRbex56nNG8hu8axLT
-	3X45a85XSiQfEAIBin59cA4ZpAv27pB4fbC7n+0NkRiJdeJijpyCijuQoc4BpvDE=
-X-Gm-Gg: AYBFou1XkqdeXVQWL2GFRitUBxTTFEwSiQ/vB3AH9LcsRcHZuO40EL4WS0ye+laBrUA
-	uHC7V028caiDAIbuvcJ/IEmN7zJuKVei8YJsPhrFEjpsoO+mgv3XXegGL+oVivMxMcU6EDY6cnz
-	YpSNr5UGfY0yP5Vbx+NxFFBYfuacZiJWDg/TyjdNJt3O2nJRajAArGG1A8RQkXIlhlLUV1vQEN1
-	8/0uZtThIHzdw+giksoujcY3kGPD1F8cfG9o4HALuIvP/UVcBspT83TxKY0xbNWKXwwrzq4dllb
-	VzYP7x50tQzFmreovnE96XfYYEen+oggM4ZcuKyu8Igl0Irt2nmC2M1P0mQ075Fy9S21yEUA7j0
-	ctUl2q93k8YtKpX53chUiWS6H3KcVlw==
-X-Received: by 2002:a17:903:3845:b0:2cf:4339:aaa with SMTP id d9443c01a7336-2d94a8d4c2fmr16522775ad.12.1788188341952;
-        Mon, 31 Aug 2026 07:59:01 -0700 (PDT)
-X-Received: by 2002:a17:903:3845:b0:2cf:4339:aaa with SMTP id d9443c01a7336-2d94a8d4c2fmr16518755ad.12.1788188338939;
-        Mon, 31 Aug 2026 07:58:58 -0700 (PDT)
-Received: from [192.168.1.9] ([171.61.213.165])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286f7be440sm35296218eec.7.2026.08.31.07.58.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Aug 2026 07:58:58 -0700 (PDT)
-Message-ID: <c806d7c5-98f8-4b0b-9d00-969e1917a8e4@oss.qualcomm.com>
-Date: Mon, 31 Aug 2026 20:28:48 +0530
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="EuLvXSeE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n/HvUzdR1uRyWWx+/2bejk72DoalsQj82IjUq6ichvw46eS8Bb0/CkZgK7D4Kfz/cwyPBWHG4NoXV2ynddCvrz/XzfevCwVD/67hUcyraAVREwxvMjzhpCZ7nkduvpUEw7zUuyEbSavlaZmihxgDjPImWViAqpvkzS9nh4NjTdNxs6npslVYVaUqwtGq2Gka0vZ75OvVBeJWsq0QKq7oYqFZe0dj0xl5GOaIwRhcosKsMVvxotAnlKTBAXYn3Qz6EJlfWnVcIu/Dj8/TLiLnlaRQcTJWT7ioEkkVQhhf0pwhOXjSUOeoIpvEyl//5ESZOsndDcttk/v4n/OEoQMP1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8HHRqB03Fg0M+k1Kf7w/caIHvfPbP4LJSNsEpXawW4s=;
+ b=OX1gW8EME6Xd/cPeJosOoOYNNMYOOprNIs5ddnDkzINt80SdJriz2IpSt8NfOSHhxS51f3ajMrAi+Exe7EcqG4uRRdUedW0SZkoNJs+9uVA7FtkolkANPJn32ndUZ1r4HihaxCzamtclAcDuEoYJbhGdKaZ+3N/G/3kMpiMn9U/+n/g7h5t/KvxoYTKZzi4fp4J2u3gMhY+jDhFAEMvzskFbbRq/yFNd9Nn2J/o4aVj/7j0AAmNqD3OAP9ADjHjoKg/qgFHh2GZVsHSMyPvXm7nEOLdHvNEvMVZhZxfrd75WsupkF2e4lTFk3/zxAyIVeZ8pvCQKUeMLHb0LP85s0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8HHRqB03Fg0M+k1Kf7w/caIHvfPbP4LJSNsEpXawW4s=;
+ b=EuLvXSeE7fbdBLpcMknR8iQyPUPZqcbsGpxw+doxpZbv+T2CiIjom5CbFKfXiP9CLy8e5naUzANfsvfg/M9teYo/L7Sai8Z1FvCkcqOH1BarDzKXdLohowWNQhhpzumtiMBOzP495GPAjKdus1lcr4v3qOI8LWp6pUz18i/8JXjoLCtgZdSNuuICppJqp61qhfmBiShOmGGyFZoH/WJxxNQ3YYmSG8S0mPON8jePzNaN4CYYyDy1tXsnA6qNplHkePpYYVFe40J8yjOsfimReo35KWJY6TOrm3XvPK4/Yqp8CdKQKu6FopEU2UMIbKDF2zXIVB7BdSrrPNKpkbYDpw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by DS8PR12MB333896.namprd12.prod.outlook.com (2603:10b6:8:447::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Mon, 31 Aug
+ 2026 15:00:16 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0360.008; Mon, 31 Aug 2026
+ 15:00:16 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Michal Hocko <mhocko@suse.com>, Nimrod Oren <noren@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Nirmoy Das <nirmoyd@nvidia.com>,
+ Dragos Tatulea <dtatulea@nvidia.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] mm/khugepaged: cap min_free_kbytes recommendation at 1
+ GiB
+Date: Mon, 31 Aug 2026 11:00:13 -0400
+X-Mailer: MailMate (3.0r7024)
+Message-ID: <784BE9B6-F891-4DFE-A4C5-D1986CE0F242@nvidia.com>
+In-Reply-To: <apVKf8FgTG-l2EU_@gremlin>
+References: <20260831075635.2244437-1-noren@nvidia.com>
+ <apVHXmSljK8HrIuA@tiehlicka> <apVKf8FgTG-l2EU_@gremlin>
+Content-Type: text/plain
+X-MS-Reactions: disallow
+X-ClientProxiedBy: BN0PR04CA0111.namprd04.prod.outlook.com
+ (2603:10b6:408:ec::26) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/15] accel/qda: Add initial QDA DRM accelerator
- driver
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap
- <rdunlap@infradead.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Bill Wendling
- <morbo@google.com>,
-        Justin Stitt <justinstitt@google.com>,
-        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>,
-        srinivas.kandagatla@oss.qualcomm.com, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
-        iommu@lists.linux.dev, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
- <20260817-qda-v2-v2-3-69a02e9090d4@oss.qualcomm.com>
- <81708487-89ce-4cd5-b39a-2989bdce6088@kernel.org>
- <3476b5c3-7983-4994-a901-3d7d8bd75255@oss.qualcomm.com>
- <4ef74e14-8433-4619-ac97-62868c8799d1@kernel.org>
- <g5orcvzjbwww27vwcsxl3ehrek6lvznxptd7jutifoiuicjnm6@iqq2pus6omsl>
- <a642833b-f22a-4bea-8a20-0debc47e1895@kernel.org>
- <4xcyqqrqbvgxojfcmnpwbi2uqk5tvhts52l6sxetltcgb7mo75@lfsgfoq4npz3>
- <59aa182d-1b4c-4bdc-a1d5-e76cc9c88ed9@kernel.org>
-Content-Language: en-US
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <59aa182d-1b4c-4bdc-a1d5-e76cc9c88ed9@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODMxMDEyOSBTYWx0ZWRfXzR7vidNP6Aq0
- 23JYCyImUsY/qnOTHOP/KtBW/DM1fucuGzYc0ez5gTCI4Paec2xkZA7DKWCYf3bL51w/SMNsKay
- rxrTBccIsvkcEoJ7OpRMK0b4fnOZJlw=
-X-Authority-Analysis: v=2.4 cv=JtnBas4C c=1 sm=1 tr=0 ts=6a9596b6 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=wNR32fmSmbAooUEeK+VsOQ==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=zzkdEwteAlqJkH2fiosA:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODMxMDEyOSBTYWx0ZWRfX+8xtg8R5faSD
- mmBA7edNDd5egmiutc557fy+SGrDf4FPHbs/BA7CyA4mi5Sn02gQvqsTK/fmYB1C7au8/y83Mz1
- dhVm0XO48Tj2urUeqlFT9GYm50cF4V9CHMoURojODdyt96Ybzi6DdZn28AF/X7qB8RkS+A8F8r4
- JulouVnSHB3WfBbs/F4zJZJ2/+Od9K4WaRE3QkYaW/P09+HP19pT6SPKUndulVTRSx/PMtcsJp7
- UWHQkLhkKaeiVJlNUI4SGE62ofNIjxh9k5E35pvfLeo7tRqLnK9dDX4CpwwwMYnmhaask3NoEg5
- 7DZs6HVGqTerLC343JK7qo5qpBFqrdmk7Q1JUH31vXmrG6UcoSWw8C7hMXQ6GpohnT0yljpEW7b
- mLPYhSA14rXQnAMZvXyA1Rt9RZEUCbaByotbzudPSRiciG6dmMUWM3ysNd+uLaeuD4gHRPJbUaH
- V6SFPpBfBuAl0gag/hA==
-X-Proofpoint-GUID: vQk9etJYDbjZkxrttkPubpCH21F4GvXQ
-X-Proofpoint-ORIG-GUID: vQk9etJYDbjZkxrttkPubpCH21F4GvXQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-31_05,2026-08-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 bulkscore=0 phishscore=0 priorityscore=1501
- adultscore=0 spamscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608310129
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|DS8PR12MB333896:EE_
+X-MS-Office365-Filtering-Correlation-Id: bab25141-e792-4231-7973-08df077090c1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|7416014|4143699003|10067099003|11063799006|56012099006|6133799003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	Wec2zr9ppJobO+8l4ZsEoLamBJ1Se14n79YqpCULM0Nci4TqToTO83Nq8LpSW8D5JkQ+DmbpiLm1FKAucKGtbedK/CVi2v8fTieJwJifhh0xsi+ySqRxDL51JjmxAw7e30x2xUw4Inwb75JErZ7xPhztyGg6/TZT/RMY1HfQAiLl6weLiUpEV8bF5FIp87gtOiCHsYWLBGgN8rVr+Vt9mGEhPJas/hdevsojBtcgqcjVPphGnlnESOrVWggkQ88MzgjViIjPcAKqFvhNiBWlrcjM3Wz95iOuBdLhN4getZ2+JeIp+3sVQEw9z3akZ6JjaKmi7VLFSBEXqZHBsfaDTntYNPGBgnoS23G7m5kbENdbvHTRlswm3d567HKsmrram+dcf7GyAq8yEeIMm06eMPA4LV95Xl4xTqNzOeJX6epnkesSJpHArFOjjsATTMAM/DPBIR8JdRWp62kMRCMxWu2wcp5A9m7NYW7pz269gnlwvv80ZzWl5jXvZHwXlXzGgSoNmw9VR4UtKKVlbi3GvW4eZcRzpn03mN3WfSh45qVi2La+qpu64v+8qcH6osNuDN+wdm+5sDPsBrZTl8U30Nlzug6uEy7wg/oW+DN4dn8tqiLn4rRCqqhpybM351JnzJLgFX/58m8A+N32lSbaj8QP4iykV/J2s3NlDqn/UfU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(7416014)(4143699003)(10067099003)(11063799006)(56012099006)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?DY9ZISJznPhGSJ8zBPGpIiSfkgHaV+EnwPpLbYm27VPN8IoPs02jWV+pftlT?=
+ =?us-ascii?Q?4p3hhXPkivQBXsmyUSmUPGe6DYDOzPpY4AMaZAF4ykAh8Vmlb1gxjs2y6uoS?=
+ =?us-ascii?Q?tx0atBgh1RP7YCfbMlr0qPHELK7VT9nQnYWIuHcwORk2be79XxaxwoQIyqYU?=
+ =?us-ascii?Q?sR49bEOkQw0I/JzwU/4xM2he1KsCFMsnd/vA4iFQeWBStJ9QHCkwrdQf+f8B?=
+ =?us-ascii?Q?91F3xmeU+uOWNNQSD5q3wcgXnpRo1Jx0sBOyh9yX3bjSKrWgnoBQvybMtdCS?=
+ =?us-ascii?Q?am/7v1ej01h/GUC0X8Hrhl31TX1mEQMVZh9He4ENm0ZgAO3dH7cESiKrPegW?=
+ =?us-ascii?Q?2cWRmC0RVmSEUn5vZATHeFpow7+YvJjKLm3jEsKU4JUwoGlWV7ODKHyK9Ppi?=
+ =?us-ascii?Q?DBRoCGEnQNDoxlci7+bg3xw1HXyuCfwbsSWMfyFJylh/itJ73w76o/gysf9P?=
+ =?us-ascii?Q?4oQprTy2UBb63t7PvY6CIf3DZLblWvtnblA7zAi2SnSYiovv/qd3gFbJXHL6?=
+ =?us-ascii?Q?K2AVOfFDzatZem/NpuvihAkvyOg+SqcsP6KbhCk2KhgitkPaJfEE2lTQYcM8?=
+ =?us-ascii?Q?OIPmZDoDEv9Lu28cEzLvizPosEc08RoWKHQChBhTa9gErFvFVnGkc5ZM3zqw?=
+ =?us-ascii?Q?mY3H7+hUeczj0R1QHGh/doIAkWEskzCeuI9W8Lk/7qojsRKw0K5NwTtoeroU?=
+ =?us-ascii?Q?KLPLUWXkhbaMnKMl4jFr+ncefImHnhrTxCSj2JyLSI8vcTfl82/1scpOcKp5?=
+ =?us-ascii?Q?Qm+azpnK23AK66LRqPZ7qgN2e0rFiYvxdVJSlHA1+kqFqMGDJtYt00EmXbnj?=
+ =?us-ascii?Q?Rkh2afiAgN9Cp0x5iUvNmv6RSKHdaXbr9nT3TThwkJec8z/lABICEx+GddWt?=
+ =?us-ascii?Q?LL4wPd1flnJ95LD/AQP3SDv/FW+nk4ADTVvQzsWP+uX/c0GW2ViM3BndMGUx?=
+ =?us-ascii?Q?60BbAPam42zzny3QbGKaQHHdivz71rYyQRLn2US/E7TMvhN7PqhubDt0YvN8?=
+ =?us-ascii?Q?Wm96RFb6D8H2LYGE4WbT5vjkoORclaSG+ZVq5Kh1mwoKldlbDeNAG4mZJybm?=
+ =?us-ascii?Q?/GXqGSai+lRD74yQ+ySobcJY3tkZsDnQH0v6/Q51PW2HFYlPNrg+5IhFJ2Y6?=
+ =?us-ascii?Q?pNQ8x6dLMzJR+obUqa2C9aB+8KHiXIddJku1CxSdLZOmeP+3lAMJwt3fr3JA?=
+ =?us-ascii?Q?6k5LD4nFU6lzZfvmHlQh3D/l2wJf6WM9F5Bwjj6mhII/dFBIhl53AnsYOF3h?=
+ =?us-ascii?Q?yomRDBzGdclkLmg53UMSJySBW/DwbPvMIAw3vMEmwH7LtYkvANuDf9Hj5Lp4?=
+ =?us-ascii?Q?D98RDlMk37SaBrx7Juu82QQnHrgjHsD7YREmsovezmR9dDDNQ6G1np3odt5z?=
+ =?us-ascii?Q?R1ImXnlj+aRSvLeW6GlYWXsgMgMOUnmyEAQMBixIiAm9LshF5XCKcgke1vgy?=
+ =?us-ascii?Q?5djzNRI9rBF0m926SOEm3yCIb+Iiu3msnwLGfP9dp8Vde9ce1/JPyG5K0V6X?=
+ =?us-ascii?Q?FNedwK+WUd/CNQmeYXu+HwfL+e4lfnOjUKI33f9N2tBdNvu4gfl95KxBpemi?=
+ =?us-ascii?Q?maqrThTx2TL2ySQmQPcv7TJ53HOahuNf36jQsnPcWaobU/vZo/D/a4IPNON8?=
+ =?us-ascii?Q?1V7QbAttaTj24Nklgbkm7X4ekuVmaBBsBtzdVI6f07gy1lKsXVwkaSMxR90u?=
+ =?us-ascii?Q?48ZSuhcnpBNu6FmjHQTEi3d0tAhtBElqCcamM48Ou7BoB+aC?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bab25141-e792-4231-7973-08df077090c1
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2026 15:00:15.9769
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WhIU4C1HGr+1FrP+daVcJZ0HGiGeAw6QgA0woRhsZ5V/tpTOqXSfiBIi0hD58/QF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS8PR12MB333896
 
-On 20-08-2026 19:01, Krzysztof Kozlowski wrote:
-> On 20/08/2026 12:07, Dmitry Baryshkov wrote:
->> On Thu, Aug 20, 2026 at 11:07:45AM +0200, Krzysztof Kozlowski wrote:
->>>>>>>
->>>>>>> Device node with this compatible is already populated, so this looks
->>>>>>> simply wrong or you are adding a duplicated driver.
->>>>>>>
->>>>>>> That's a no-go, you are supposed to work with existing drivers and grow
->>>>>>> them.
->>>>>> I'll bring the discussion again here, there was a discussion to move the
->>>>>> driver to accel subsystem if we want to support new features/uAPI
->>>>>> changes. Please read [1],[2] threads. The intention is to replace
->>>>>> fastrpc driver with QDA eventually.
->>>>>
->>>>> None of them address the problem. You want to grow fastrpc into user of
->>>>> dmabuf? So you move it from misc to here.
->>>>
->>>> It's not as easy and nice, so I think in this case it's better to repeat
+On 31 Aug 2026, at 5:34, Lorenzo Stoakes (ARM) wrote:
+
+> On Mon, Aug 31, 2026 at 11:20:30AM +0200, Michal Hocko wrote:
+>> On Mon 31-08-26 10:56:35, Nimrod Oren wrote:
+>>> When THP is enabled, set_recommended_min_free_kbytes() may raise
+>>> min_free_kbytes using a heuristic that scales with pageblock_nr_pages.
+>>> With MIGRATE_PCPTYPES equal to 3, the formula accounts for 11
+>>> pageblocks for every eligible populated zone before capping the result
+>>> at 5% of low memory.
 >>>
->>> I disagree. The existing fastrpc driver is not that complicated. It's
->>> actually moderate amount of code, much less than Venus was (~7 times less).
+>>> This is reasonable when a pageblock is 2 MiB, as on common 4 KiB page
+>>> configurations, but scales poorly with larger base page sizes. With
+>>> the default arm64 pageblock sizes, the contribution per eligible zone
+>>> before the 5% cap is:
 >>>
->>> It easily can grow to support two interfaces and the only difficulty is
->>> how to manage these two interfaces simultaneously or exclusively, e.g.
->>> opening first one disables the second.
+>>>   4 KiB pages:   2 MiB pageblock,   22 MiB per zone
+>>>  16 KiB pages:  32 MiB pageblock,  352 MiB per zone
+>>>  64 KiB pages: 512 MiB pageblock,  5.5 GiB per zone
+>>>
+>>> Consequently, min_free_kbytes can reach excessive and unwanted levels.
+>>>
+>>> Add an absolute 1 GiB cap to the recommendation, in addition to the
+>>> existing percentage cap. This bounds the automatic recommendation to a
+>>> sane value on systems with large pageblocks while preserving existing
+>>> behavior for typical systems with 2 MiB pageblocks.
 >>
->> I see the point here.
->>
->> Would it be acceptable if we add QDA support only on the new platforms
->> (e.g. via the SoC-specific compat), provide QDA for those platforms,
->> and, once it reaches complete API and feature parity, we remove the old
->> fastrpc driver, migrati old platforms.
-> 
-> The problem with this approach is that we have no guarantees that it
-> will reach feature parity in respect of old interface, thus old driver
-> might stay forever. If we agree for duplicated driver, contributors have
-> no incentives to support old approach.
-That's a fair concern. Let me lay out the sequence we have in mind and
-then the concrete reasons parity is not optional for us.
+>> I would argue that the whole model of increasing min_free_kbytes for THP
+>> is wrong. This will trigger memory reclaim sooner and make the THP
+>> availability more likely but this was at times where we didn't have
+>> pro-active compaction and many changes in the compaction. So is this
+>> actually needed in general resp. only large pageblocks systems?
+>
+> Ohh even better :)
+>
+> I did find it strange that we increased accordingly.
+>
+> I'm more than happy to see this just die altogether if people agree that's
+> a sensible way forward...
 
-The plan is staged. QDA is enabled first on new platforms, where there
-is no existing userspace to migrate and the new UAPI can be exercised
-properly. In parallel we close the remaining feature gaps against
-fastrpc. Once parity is reached we migrate the older platforms onto QDA
-and remove drivers/misc/fastrpc.c. The end state is one driver, not two.
+It sounds reasonable to me.
 
-On why parity will actually happen: the DSP firmware is not changing.
-Both drivers implement the same base protocol against the same firmware
-image, so the feature set is defined by that firmware interface, not by
-what we feel like implementing. For QDA to support a feature at all it
-has to implement the same protocol operations fastrpc already does.
-Parity is a property of the interface rather than of contributor enthusiasm.
+My first reaction was that THP generation might be hurt due to fewer
+free pages. But probably the extra min_free_kbytes just moves reclaim earlier,
+like Michal said.
 
-Other than the base protocol, there are some features(daemons,
-capability, session sharing) that exist in fastrpc for performance etc.
-but are not yet part of QDA. We want to implement them properly rather
-than port them across as they stand.
+After removing this automatic min_free_kbytes bump, user can retain the old
+behavior by setting a higher min_free_kbytes at boot time.
 
-The remaining question is how fastrpc can actually be removed once
-parity exists, without breaking existing userspace. That needs a
-compatibility path, and it is a deliverable we are committed to rather
-than an afterthought. For that, we need to settle is whether that path
-is a userspace shim in the library, an in-kernel translation layer
-exposing the legacy device nodes, or a hybrid. We evaluated an in-kernel
-shim during v1 and hit constraints around constructing per-client
-drm_file contexts from outside the DRM core, so the approach is still
-open. I'll come back with a concrete proposal, and it will land before
-fastrpc is removed rather than after.
-
-> 
-> Much better is to refine the old driver, gradually adding new features
-> while maintaining old stuff. This is the only way we can force
-> contributors to actively work on minimizing duplicate parts.
-> 
-I believe you are suggesting we bring the new features we are developing
-with DRM core utilities into the fastrpc driver. I don't think the two
-interfaces can share one driver, though, and it isn't a question of code
-size.
-
-fastrpc is a miscdevice: it accepts raw DMA-BUF fds as arguments and
-tracks buffers in its own per-file lists, with the fd itself being the
-buffer identity visible to the DSP. QDA is a drm_driver whose buffers
-are GEM objects in a per-drm_file handle namespace, with PRIME used for
-import and the GEM handle being the identity. These are two different
-buffer ownership models, and neither can be expressed on the other's
-file type.
-
-Supporting both from one driver therefore means carrying both models
-simultaneously: two IOCTL surfaces, two buffer lifetimes, two teardown
-paths, and a memory manager that has to serve both. That is two drivers
-sharing a directory rather than one driver with two interfaces, and I
-think it would be harder to review, and harder to eventually untangle,
-than a separate driver with a stated removal plan.
-
-There is also a positive reason for being in the accel subsystem rather
-than misc. We can build on existing DRM infrastructure instead of
-reimplementing it: GEM for buffer management, the device and file
-lifecycle, and the debug infrastructure. It also positions us for work
-we have planned around scheduling, drm_gpuvm, etc. Over time this should
-mean less driver-specific code, not more.
-
-I'll restructure the cover letter so the staged rollout, the
-compatibility path and the eventual removal of drivers/misc/fastrpc.c
-are stated properly.
-
-If after this you still want to add or change anything, please let me know.
-
-Thanks,
-Ekansh> Best regards,
-> Krzysztof
-
+Best Regards,
+Yan, Zi
