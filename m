@@ -1,128 +1,208 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1BA3C1403
-	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 12:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788179860; cv=pass; b=R15tCxnsu+ezRapcn2nA6xWhLdBIborr4tD8Zi265VMK6zmDp/c8NDfdvkpMoc6qfnHdqzITaQeszyvKqPxZ6AOUelaovTotbXiBMrIG1HxZk8pqhT4WXWev4uDJFdQTeTCK7a8/Us4zdcOyO+3R6wXQ4b5+6MM4t4PFm1RbvNs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788179860; c=relaxed/simple;
-	bh=4TkzY0PNIukGzQU/HvHTJpI4EhpchSo6Xivc/3Xy1nc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P012bJzIW5aSIykzGkiEiwvG6t69hskBbnqRz8bYwboTNpo3It7Ji+7hUSYIT3FMgjx2hU5cskWv0qqIckkyE76pvwGnRv5Bdu2JMs039AgqSRWlbwyUUXTbFVar+Viy8Iy1MvRqZlNfnbBqTQT5TVQ/M0ezc/IGJKOn3SlsifU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fALxXGwq; arc=pass smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2A940DB55
+	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 12:57:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.69
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788181060; cv=none; b=eIExxCgz2V2Ptk57BPcltkKfM+MpZllowESnGXpaVAO9GL9+GEo32D1ihptDj0tPPe2hE7hg863uG5av00Ft20kzC8eRj6L01KpgxD4PAWMNFgJ0XDChSW0R0YRxJ1EX4BI1NWdNtMcpN5H1gJxZy44ptoJWHmZHf5wE7lsnYWA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788181060; c=relaxed/simple;
+	bh=9ZL4XBzPZ0V9ydMLiQmcbR7eiM+nR8n/0NGC/rsZkDs=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=thGck/opSC/TZMthth1qDjSM5S+TR9kQcfo/bOKDlxwFLpG9iss+xd0Y0b4tSiOP69eiqdb1VxJRt2e1OEyMOn8QwbMF6ZgAZnsPCa+N8Ut3sP4CdWlmIbvC1A0X+ew3xApOoVDXBcHRLJcdgcngSuVZ+MB/GmtvWfd9TdCh6pE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Nwo7NLxx; arc=none smtp.client-ip=209.85.128.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fALxXGwq"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-52fa6005224so25494161cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 05:37:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788179858; cv=none;
-        d=google.com; s=arc-20260327;
-        b=SUrsy20d8/avb47sqQ3b39y2tuk89eGWuzrBm5eGLU3mNumBh+rN3wND5m8b7CufM2
-         zgiAp4hAD6KFCYwIOWen8kp4JwZPkhEwMspEnEIf1FJrUFbyVpCl/iC/81GWrfKZUnNc
-         ZIYE1z8WMDipOba5/YtixDHqgqmLESWBTGVOFPmB61230R4yb0K2ydE1BeAEUz9HYByY
-         ZebQUZBJ3Ee8G377dfbRFc6LK2AYQiJEaY9LcGBLiowKLqmvyYfFPuimnfWh7vxj406n
-         XzVzuHMHAS1XOwomlRDn51nscb9FrvywWT2zUq/RFFee0LFYtylAC1FWn92GqDhEXe+x
-         ws+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vTAJybLgasuL9SWtgUU3Pc8kAU+RKh+ET+sJRnphEoc=;
-        fh=yfTjzC3pA4kDng+Wn8fwi7f7/DxdaEvIBYVIkQgqY3s=;
-        b=dfwuVLtdaEHgR8OlRNzVQKdIhqYsg+hJEB6C6/VwaIeISWsFRLs61AzTnxuv5Gk7Jh
-         7kqLW3JIIbMKSmw31XtWCH7q3PHeH17I8glkqISIFVY/Ts3vxFotQ+mVsfxhLg/YKQkE
-         VgwsHjIwABB8/CSRKeKyJw/IlE1x3AfLyCBPsJN63Bfdz+b25HWuOMLJWLcoYqZixL4h
-         f2RanpB77hxhhTC2UoIh552P+gxo4HdV3YT6YUSugGQs/gskkVBn+FU0UkU6gVq3aEoE
-         tGZtSVnpy+QZvUfDlUU4JKP3ggy5HALyPoIYAGFa+gBbWU4AZdnHe6sYRr1GJAMlLv6C
-         0p7w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Nwo7NLxx"
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-49b64e98e94so25685475e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 05:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788179858; x=1788784658; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vTAJybLgasuL9SWtgUU3Pc8kAU+RKh+ET+sJRnphEoc=;
-        b=fALxXGwqXgZ41CIATWYACFvfJgfI58WbEK+n87qODl8PshriI7wWq94ady3W7ne/oH
-         uCOXEz0jAlYACi5OlsEymZpu9FP5Er/8my1px8vKt3Zws1suT6+QV8oluRFLzXb2ZMco
-         isvidiRgTQOi2z7YFsMNBi1akVVffoe7ZHvwvwSuuRI5GTT5v+sb+tKMnbDpIWVfL1Bd
-         k4if3nhPAAidoYPO1AlfPvC1QR2q/qjwZk8BAlaI4wlN1s5V/iQboGKdSYWZDWMyNvXb
-         6wZhaAOXTmxEk86d41oi7Pqgo2x0bMo+Ku4QxHzVYRLWJgfjpP4P6riHw3qV5FiAnlh3
-         ymvQ==
+        d=google.com; s=20251104; t=1788181056; x=1788785856; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cKyH/g1NLaguYKAGHg3qgzdHP4bGLADdCtBT1AC9Fr0=;
+        b=Nwo7NLxxMhj64eutgN6/3+L/uI2MGH0sGWp6pAHMw/j9iiKpc0g1q0tnviS5HWVW+R
+         FTteYGLuCOVsoLRtWW9ihIG/Q2W2zaG+KMtOzFp1frpItSAf/QHgDs7KdUkkejXVGfvI
+         odPInk5E31766YCeg+iVae0PPzYwNNUlaULlT7e0LFflnMmnQvOhrQX6rHDqEaO+2U5C
+         6kXL7G8zBMwmlsrPZwQbD4TQ+Od4gK80nEIq5n1nMOxWEN4g7juWP+NggHVfOBwCKfbn
+         LyTSF2z+y896UMVrl8y34h0+HEA/psgX/lGsMdT7RgeqZqjvMSFCJAChCfo1Oy7D4lmG
+         TpXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788179858; x=1788784658;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1788181056; x=1788785856;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=vTAJybLgasuL9SWtgUU3Pc8kAU+RKh+ET+sJRnphEoc=;
-        b=dLKj8Q8eiWGYFLsynrmvYQuaL4f/RSJurxun+IacneaF1noqH7kvcmapcLxaxxGgdo
-         jbU1+Cdevpjd8Rwcz5/T5mH8h8BxoMlUQ+n5pxmKK9waY38Q0xQ75d+Y62WQTogK51zL
-         PdEJk4zrnpe+40nQGzkCWLX57t9BGaArnA66XYFsgSAicX03A0OtRHeBjINWQAzbHDal
-         VvX/MaxNwYqOiTRzi4jqowgt8OWtShJZMFAGBRYj8a0R5bhGTKE0hM+AFLJWyqTRBA8+
-         E4rcUpPz+5kvs0YEyccIh9OVNCZKB6yvrCBp5SKzGVBxtZQMB4BqnuLsJq5DVHxTipgH
-         /OAQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrFn28WpKupja0M7+GB3Vh9nrb/9+CvNmFKUZhjlXGhsHIEwh5G8+aE7wigwK1OJbcMfDu31KJf+bE=@vger.kernel.org
-X-Gm-Message-State: AFuF++nIJfEj0ScyJFAnZBZd1XARF1r9wEPlm4fRDOB+ADmlTb9oqXpO
-	J/KxUML1dEKuZwnWT9NR9/gGic4duXRuCgezky/fI855/cu6hdjbOysyS18QYRCyV6QfaTwg2Oy
-	+/o5M+6oPFWcwDVFgmWDRR9BsDn28xWCCevQFrdA=
-X-Gm-Gg: AR+sD13K25t3vib0tG1gFrjoccQMUN1pXWpwRPUm/UR+A4C7UBcUZ1zIGFWSXtDLU6Y
-	dv004Nz9hBvu/RhYOfa6W5VF5nMrpCLTSyRfmRRYUGvUSGmRhbWh0Jj1c6e+8EaK5FEI1U4wW3o
-	Gn54vZ7yZ6ASbCwhjEDArX4Ae2/JH4vZse8+g6OyViPkngd/fY6UPRrkOEkaQrBBWxK6Z/MX2yK
-	Q6Z03JKVNh1jKu8TxTHzrgP1JUL3tcETNWNxdp1Md9PoqAtKkBJoxnShhXV1hDBnMBIuClaNsWA
-	CKSr9nGeWXx6SuLAxH4B7V5hHjAl3SNZNqY/B15or6dSSzW2nHHHIask/e6ETWL8wnfWfOEMR8E
-	RLs6Uz3CYIHq4w7oRc+xxbfFsVtdwK/CDF/39+vP555DHFRl4vYIZGeeg1Q==
-X-Received: by 2002:ac8:5746:0:b0:52f:ae65:8996 with SMTP id
- d75a77b69052e-52fb9429e44mr282624691cf.13.1788179857700; Mon, 31 Aug 2026
- 05:37:37 -0700 (PDT)
+        bh=cKyH/g1NLaguYKAGHg3qgzdHP4bGLADdCtBT1AC9Fr0=;
+        b=EirHEkqj+Ms+Ec2J2OgvpUNBCjCR86Rs3uxZeSKkM1WbNdK409V50E/LgdM/C1PWFB
+         k9Ar9WIOiIQILFwOH6Vf6DazLunPrHbCRXhoNTw9nrnyf4mCbNdfFy8qo52x+M5BJg1j
+         +ETIM0QN41B+lISGVqNYFF+NFjT6sQa8bisewbjjxHZI40iSNCr/4Ir7PIJdwUEddwRP
+         nOI07RO7Oj5apO6Sm3jhPsa+8lDGv+P44M9HFclljXTb/zDNFBSW/OfGuV7Q8fH6c1oQ
+         RaVW3eU8QTfR558s5wZ7rlN2yQurB/cClK/lJi5PFoKWP8av2q3gyXCokyuegl3zxaji
+         e37w==
+X-Forwarded-Encrypted: i=1; AHgh+RoRVJQE7PJsU0JEZnUETFAD3NFC8PC+z8KWNgFo6Et93Pz7Zj6Bg663B6RzAovhWVZ4vQDqZWcUKxE=@vger.kernel.org
+X-Gm-Message-State: AFuF++keYjF3vWBTyNmyoXN2oHJCz/bUjEOVDjQYn28WeiTB3ShRPki3
+	1AytnEWaa2T19QqLl85/aHjYe3Sc1pN8A7soBFyDbPhA/grKqgy76tq5xC3J7o6tKeTg6jT+A12
+	ddJzzw+zsqcztrR3FZA==
+X-Received: from wrca25.prod.google.com ([2002:a5d:4579:0:b0:47f:40f4:399])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:3b11:b0:499:59fd:dbfc with SMTP id 5b1f17b1804b1-49cd5312c4bmr116093915e9.1.1788181055786;
+ Mon, 31 Aug 2026 05:57:35 -0700 (PDT)
+Date: Mon, 31 Aug 2026 12:57:26 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260830205912.478358-1-lucasadramalho@gmail.com>
-In-Reply-To: <20260830205912.478358-1-lucasadramalho@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Mon, 31 Aug 2026 09:37:26 -0300
-X-Gm-Features: AcwNN1U-qSLrMr-Ev-gB9jr0rby74fRwVIe5XEvQygjeB9LJ1rqblXpk4mafRWQ
-Message-ID: <CAMAsx6d458V3ByxwgP54mPvC6VZO2O8kBFjUiq-55r3UnhpKWQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: translations: pt_BR: translate volatile-considered-harmful.rst
-To: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIADV6lWoC/x3M3Q5DQBCG4VuROe4k2AZ1K40D1rdM1E92aDXi3
+ m0cPgfve5DCC5TK6CCPr6jMU0DyiMj29dSBpQ2mNE6zuDAJ61/ZbSt2/tUDeJURrB+xYGuy3BS Ny5vXk0K/eDjZ7/e7Os8LP0I/zmsAAAA=
+X-Change-Id: 20260831-sys-futex-wake-time-slice-c36738bf7b94
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5416; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=9ZL4XBzPZ0V9ydMLiQmcbR7eiM+nR8n/0NGC/rsZkDs=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBqlXo5XkZJ/cLNePTes/5M7fqd3nfGvueYaphPp
+ CSactW57IGJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCapV6OQAKCRAEWL7uWMY5
+ RmTPD/9AeJ1U4JHzObrRSkY0Ji1Cx2BzazA67y7PXmzUDBjtoKd+PWoOdYHkDkWQ+qerlBujUs4
+ XvKt//3pqDOj9UIACwKbTtdhPHGZLkY0YqvQCf2IKYV1mJPfNe6EVu+hB2Qkv8UGRaQEyr6ng/b
+ 3bIU3cGAgy4Dkeh7ZNLpx5HkdKVlwdx8WDR1wIM0Zjscy8pLVzHdo9oqPOex4pF9nfYLTR4fDmP
+ 7J8ro6eCYpp1pP5hiz0R+9QiW+2CAY6L8XJKf98/JOP0QeXu6WW4t4zgqzD5HUcG70KaCzo74tW
+ Vy4oOLlHIZrJBKHqHh3ViCXIXG36nrTd36a7wv4T9AuVAGN4PXkqtatuHcFc81Dh5ycJzdW+Tyl
+ 3w4gTalyJV3yIBuDokhwZhSi2ClbEgLZ/aF1sE0x132UeCG5zkPnZHtVi4hG/ZSk7m9uVyKn4WH
+ 4fIxU4iA/NroslxurDJ1O1Nk2eWDCuMFH6qzikgoJn1J3QX+5ee8AZIXYVpqp5jL4z/Wy8hKxwX
+ xgAMtLmZoxkuladsOPhpBrB4iQYNapBAXIk9R5lBXQTozpaP3rBg5scHX34KbNPSTDOT+yyqsjW
+ tizhmGvXsFMwLBYmMYpunAg4NfHytPb3QkqxwM+yImAt+Lc0RhVqEvClcFycC6p82hpKqCdY8pI mLXMKbjOZ0v6+uQ==
+X-Mailer: b4 0.14.3
+Message-ID: <20260831-sys-futex-wake-time-slice-v1-1-814bb95cc339@google.com>
+Subject: [PATCH] rseq: defer time slice extension yield for sys_futex_wake
+From: Alice Ryhl <aliceryhl@google.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Peter Zijlstra <peterz@infradead.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Thomas Gleixner <tglx@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
 	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	linux-kernel@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-Em dom., 30 de ago. de 2026 =C3=A0s 18:00, Lucas Adryell Ramalho
-<lucasadramalho@gmail.com> escreveu:
->
-> Translate volatile-considered-harmful.rst into Brazilian Portuguese and
-> add it to the pt_BR process documentation index.
->
-> Assisted-by: ChatGPT:GPT-5.5
-> Signed-off-by: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
-> ---
->  .../translations/pt_BR/process/index.rst      |   1 +
->  .../process/volatile-considered-harmful.rst   | 130 ++++++++++++++++++
->  2 files changed, 131 insertions(+)
->  create mode 100644 Documentation/translations/pt_BR/process/volatile-con=
-sidered-harmful.rst
->
+When a task is granted an rseq scheduler time slice extension, it is
+expected to finish its critical section and relinquish the CPU via
+rseq_slice_yield(2). If the task issues any other system call while a
+grant is active, rseq_syscall_enter_work() forces an immediate
+reschedule on syscall entry via cond_resched(). This may cause
+significant latency penalty for userspace lock implementations that use
+rseq time slice extensions when unlocking the futex.
 
-Hi Lucas,
+In a userspace mutex unlock sequence:
+1. The lock is released in userspace.
+2. If there are waiters, the unlocking thread calls sys_futex_wake()
+   to wake a sleeping waiter.
 
-    I have reviewed the entire translation and it looks perfect. The techni=
-cal
-  terminology was very well adapted to Portuguese and the original meaning =
-is
-  fully preserved.
+Because sys_futex_wake() is currently treated as an arbitrary syscall,
+rseq_syscall_enter_work() schedules out the unlocking thread upon
+syscall entry, which is before it has executed the wakeup. Consequently,
+the lock is free in userspace, but the waiter remains blocked in the
+kernel while the CPU switches to an unrelated task. The waiter is only
+woken when the unlocking thread is eventually scheduled back in to
+finish the syscall, causing lock handoff delays.
 
-    I also ran checkpatch.pl and make htmldocs, and everything compiled smo=
-othly
-  without any errors. Excellent work!
+Thus, update rseq_syscall_enter_work() for sys_futex_wake() so that it
+does not reschedule during syscall entry. The thread will yield the CPU
+on the syscall exit path instead.
 
-    Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
+There is no need to apply this optimization to the multiplexed futex()
+syscall since any userspace code that can invoke rseq_slice_yield() can
+also invoke futex_wake().
+
+This patch was verified via ftrace that when sys_futex_wake() is invoked
+during an active slice grant, the wakeup (sched_waking) occurs before
+any context switch:
+1. sys_enter_futex_wake
+2. sched_waking (wakes waiting thread)
+3. sys_exit_futex_wake -> 0x1
+4. sched_switch (on syscall exit due to TIF_NEED_RESCHED)
+
+Assisted-by: LLM
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+ Documentation/userspace-api/rseq.rst | 17 +++++++++++++----
+ kernel/rseq.c                        | 16 +++++++++++++---
+ 2 files changed, 26 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/userspace-api/rseq.rst b/Documentation/userspace-api/rseq.rst
+index 8549a6c61531..30bdb1885f67 100644
+--- a/Documentation/userspace-api/rseq.rst
++++ b/Documentation/userspace-api/rseq.rst
+@@ -217,10 +217,10 @@ operation.
+ 
+ If the thread issues a syscall other than rseq_slice_yield(2) within the
+ granted timeslice extension, the grant is also revoked and the CPU is
+-relinquished immediately when entering the kernel. This is required as
+-syscalls might consume arbitrary CPU time until they reach a scheduling
+-point when the preemption model is either NONE or VOLUNTARY and therefore
+-might exceed the grant by far.
++relinquished. For most syscalls, this occurs immediately when entering the
++kernel. This is required as syscalls might consume arbitrary CPU time until
++they reach a scheduling point when the preemption model is either NONE or
++VOLUNTARY and therefore might exceed the grant by far.
+ 
+ The preferred solution for user space is to use rseq_slice_yield(2) which
+ is side effect free. The support for arbitrary syscalls is required to
+@@ -228,5 +228,14 @@ support onion layer architectured applications, where the code handling the
+ critical section and requesting the time slice extension has no control
+ over the code within the critical section.
+ 
++For futex_wake(2), the CPU is instead relinquished when returning to userspace,
++so that it gets a chance to wake any waiting tasks before yielding the CPU.
++This makes it possible to terminate the critical region of a userspace mutex
++using rseq and futexes with futex_wake(2) instead of rseq_slice_yield(2).
++Currently, this is the only syscall that does not relinquish the CPU
++immediately on syscall entry. Note in particular that this applies only to the
++dedicated futex_wake(2) syscall, and not to the futex(2) syscall even when
++using op=FUTEX_WAKE.
++
+ The kernel enforces flag consistency and terminates the thread with SIGSEGV
+ if it detects a violation.
+diff --git a/kernel/rseq.c b/kernel/rseq.c
+index e75e3a5e312c..81bc2ed997f0 100644
+--- a/kernel/rseq.c
++++ b/kernel/rseq.c
+@@ -723,9 +723,18 @@ void rseq_syscall_enter_work(long syscall)
+ 		 * the task was already rescheduled before arriving here.
+ 		 */
+ 		if (!curr->rseq.event.sched_switch) {
+-			rseq_slice_set_need_resched(curr);
++			if (syscall == __NR_futex_wake) {
++				/*
++				 * For this syscall, reschedule on syscall exit
++				 * instead of syscall entry to avoid delaying
++				 * the wakeup.
++				 */
++				set_tsk_need_resched(curr);
++			} else {
++				rseq_slice_set_need_resched(curr);
++			}
+ 
+-			if (syscall == __NR_rseq_slice_yield) {
++			if (syscall == __NR_rseq_slice_yield || syscall == __NR_futex_wake) {
+ 				rseq_stat_inc(rseq_stats.s_yielded);
+ 				/* Update the yielded state for syscall return */
+ 				curr->rseq.slice.yielded = 1;
+@@ -735,7 +744,8 @@ void rseq_syscall_enter_work(long syscall)
+ 		}
+ 	}
+ 	/* Reschedule on NONE/VOLUNTARY preemption models */
+-	cond_resched();
++	if (syscall != __NR_futex_wake)
++		cond_resched();
+ 
+ 	/* Clear the grant in kernel state and user space */
+ 	curr->rseq.slice.state.granted = false;
+
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20260831-sys-futex-wake-time-slice-c36738bf7b94
+
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
+
