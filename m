@@ -1,113 +1,141 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8029C3DAAA0
-	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 08:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D5F3D091C;
+	Mon, 31 Aug 2026 08:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788164331; cv=none; b=UbmUj4k/grCFW59XMt9sYoMSE7t5c4Qlt4WhavjjfV9GJkYWuFa76FedHfcv8hjA0ycuS1RgxCrZyZTR7dWQqyJVBVhcOYOhBR4KHFsXQL+OexcsQa/oLbMj8NRqFrrs51AWBOe0HCavRwAwi5qWy+NY4BDJ75UVlfWFpKIrlNI=
+	t=1788164653; cv=none; b=RFI0QNuUq/txbKC3AKAWuZOlpw6087AAnVcqBcbXsz8C1TB8KG2BL40gyCyAaIxaFwnb5bq/7TKQ5KzDkHpHQp2aErLa8D/a1mOWUoyIGuuvh31UQoo55TuWzLlW4eX502DOL7FROagq53OwroAICBbzJyTd9MwHj1wKZF8W4cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788164331; c=relaxed/simple;
-	bh=OGZ36eVnke4tTcBWMGg0DVkujCKu6QNnJRUk2KiiASY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tEb0RCNrTX5q+mF3VbslEtDgDXkD8rudlqFKY3Ok3cAPYwUmYBN7dM4ZkuNI9rT2FZ4l31KsSHzhYHfrB140waEIwMthvoROHSQ862cpSYnEuhs3Q41dpFbo+yCNekWnBDGJaqrCLWZkq43DBLy3Rwt/A+Bonm3n7fJi2itf1ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=CqY9q5tU; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1788164653; c=relaxed/simple;
+	bh=vgA3zpqNaTzLvT/+D3MNTEM59DfrWMBlkVBIFr1Re4c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kM9ZjxmVrqs1eAsZAwP/YLPswD+CyNFVUxnN/ah3FMcZEZfm+Q3DqxtbIN5WQwu2OimaVuCFT3Su0WIpp4p3LY5MHk5tq5Fl0I8AleS0szkU16ZerV9TBj0Nxznphv8Wj391hX5PMOXQUWozfZ/vUnKxvDFa8cIVXkCIsaIa4XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qa75MHf4; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="CqY9q5tU"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49b8e527d63so30566835e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 01:18:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1788164328; x=1788769128; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tst+Trl4h4Agv5k3AjzQ58WIzFViygExwZ23EkFHejs=;
-        b=CqY9q5tUqconGe0A1taoMD0fXYqEzXPtcd8w4Bu3dD4GLhWrMLNePa8M2RHRs8vXjm
-         5XSu/fEwbquIff8NvmW1IJXHYsVm6PuJDkPKEtsp7FpzC8n4DPYqqxd5l/WNhRX0PNYC
-         6/KTwRXg4qsjMd7JzS7gRXUt1KqLBW7Ta7aYZ5FpG+AqkOH6HAMOmCx9njCzZDN/ej8g
-         pWYohfqZRt8WZmsbRbcJ3F1E4I4iaDKrRUmPQvL8GtwwDwEF1I6gFBz9BNFqpwJw5kt+
-         8UqvFnLhQm8JeW74nvnmMFdL/NfJxKAgdsPh2LcFmRx/2kdYIhVzhjAuEPaMQKjyKkvC
-         X8Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788164328; x=1788769128;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tst+Trl4h4Agv5k3AjzQ58WIzFViygExwZ23EkFHejs=;
-        b=h1waCwfbJGPH8dTequlBdTzOuM8fzG96dLAL5/JJcFzxrf3gdPOj3HXCAAAkf5aHPd
-         aK5X0aj8I4ujrKbT+pNJULxKd7K3xsozAC3r7ftSZMRyCD7Hw/vecZ4yOkzwmooZ6i3o
-         3sFHGpxJcWQTJFfzR1wVvOy3oihpxkl29Yhvjikty4/wGBye/mQaFQzJ2uSNMKkXhSXG
-         /3RDuqQQwWjgmCtgiWgTqeJ9B0yqQS5v8qQXdYRSrvs18O7vnnMt2Ohji9UHhFCxoDfZ
-         i5YbYIsrlEqosNutxc6ARMf6NFMJjrMPyKa+wR3T9A2L+wIX7Xyb3N2HGljQHQeKd/oI
-         RZMA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpjk8j5XCgRF7oHkxYJKqC4/Jy9ZRBzEtxZUpfPcK4hYHhuFKItOdstvP/UE7rTWJRnXRIDByZESuY=@vger.kernel.org
-X-Gm-Message-State: AFuF++ljXjGZfG74YjvUdGW+VFrAaT535RZBUOLXGXf5iTEBp0XCuf/P
-	GmB+lt6xg6h5RlBRvPPwBY6mKL5scCZ2pQEYuL80/Vr9mp/dRdvuU8tA5c9VM3AP0qZ3NYo59rm
-	CFIF98ko=
-X-Gm-Gg: AR+sD10HK5+XQFUFn4Nv178M999nH8Rw9fimjyI6VhZe0hp8nYPdMyX1CKP363Hi7mV
-	CazPgeBJJRXzd/drBk+/6tOH75gh/1PBMOeX7MCcpmmj1tCY7y4z+wpjZmzashImNiQ3OXIuS2/
-	Iz7LllvYxqL+F/fZ2foTeF2ZmxztLkn9VGdSxrv/QyjxP7I4Fd3zJZF25TjL6fBjQDmVpJo0HZn
-	jzmCROghwyynC9z+RMi7sp5PXR2f6zrF53Jb9SKrqNARd7l1EwQbZ9Q1AWI3WPgVsZ9wCkO4obn
-	ot8oOl3omc4i/1CveeCl2Fs2w7/RDWy63B+h4/hL0VM3012EsYKIMylbb2GJY8LsprXbrv6LApC
-	EtkyEGTBuISbSVjmYMkytBWEWZOcCHh4uhAqCug68lgHbdLLarQnSPEJWk52eMM+kAgy3hqCJl4
-	E1w90uyKVk0rQzX4xI8V5FB0cKb8/XXlJ1aPk8W+zqJqvcsPqfuvTv5CgysTn8nVdYsWOTkQjfR
-	x45ZsdHKHk=
-X-Received: by 2002:a05:600c:3103:b0:499:be2d:c290 with SMTP id 5b1f17b1804b1-49b91c4fa9amr352262635e9.9.1788164327870;
-        Mon, 31 Aug 2026 01:18:47 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b94dd2517sm273218065e9.7.2026.08.31.01.18.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 01:18:47 -0700 (PDT)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qa75MHf4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788164651; x=1819700651;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vgA3zpqNaTzLvT/+D3MNTEM59DfrWMBlkVBIFr1Re4c=;
+  b=Qa75MHf4ydiVmq0j+GJs879SNA75mCMDSTulRmH1/Ms4RSCSzEbJWglX
+   62XUow4rxJ5SEZr9bRwFM3MkQU3Nazvg2k1x9JQYlYrkoacPANsy3J3IR
+   0x36lm5cfYnGc7cOz3GOPc9s6oMHZzIby+y3cUk4IjNXqWhMtPiwr0Mm7
+   VCqJHBFP5YUe1exPz4xxb6oe3587swSYaFWod/colYsjGa4TSXPEzBgg7
+   yITJCJ8GdsJKqAXNN7z7KGXXRtV6SZ907cj231eGgO9JQdk2DuoeFPuIj
+   SJcanQi/i3HFYouSN+ADrJYM8j8zgUHPdGcAooYtwVCL93HwX5HOT2iQf
+   w==;
+X-CSE-ConnectionGUID: zszTgySAT1Se2dIzh+147g==
+X-CSE-MsgGUID: uLTcED3NTQ+8KABw6pGOdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="100077419"
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="100077419"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 01:24:09 -0700
+X-CSE-ConnectionGUID: FS3IHPnBQ6OOHmv2xdIRhg==
+X-CSE-MsgGUID: ljHjJm2GQteKdQYSYayz0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="265491212"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.21])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 01:24:03 -0700
+Date: Mon, 31 Aug 2026 11:24:00 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Marco Crivellari <marco.crivellari@suse.com>
-Subject: [PATCH 2/2] Documentation/no_hz: Change dynticks-testing repository name
-Date: Mon, 31 Aug 2026 10:18:09 +0200
-Message-ID: <20260831081823.67972-3-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260831081823.67972-1-marco.crivellari@suse.com>
-References: <20260831081823.67972-1-marco.crivellari@suse.com>
+	Michael Walle <mwalle@kernel.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v5 10/20] iio: adc: ad7768: Add sampling frequency
+ controls
+Message-ID: <apU6IJiecn_0xQQs@ashevche-desk.local>
+References: <20260828-ad7768-driver-v5-0-e33ca6f841a2@analog.com>
+ <20260828-ad7768-driver-v5-10-e33ca6f841a2@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260828-ad7768-driver-v5-10-e33ca6f841a2@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Currently the documentation still mention dynticks-testing.
+On Fri, Aug 28, 2026 at 05:30:33PM +0200, Janani Sunil wrote:
+> Expose the requested sampling frequency and available rates for each
+> channel. Validate requests against the rates supported by the power mode
+> tables and apply them when buffered capture starts.
 
-Recently the repository name and the tool have been renamed
-to cpunoise, so fix the URL.
+...
 
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
- Documentation/timers/no_hz.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> struct ad7768_state {
 
-diff --git a/Documentation/timers/no_hz.rst b/Documentation/timers/no_hz.rst
-index 7fe8ef9718d8..dd624b7c3f42 100644
---- a/Documentation/timers/no_hz.rst
-+++ b/Documentation/timers/no_hz.rst
-@@ -206,7 +206,7 @@ something else is in the way?  This section helps answer this question
- by providing a simple OS-jitter test suite, which is available on branch
- master of the following git archive:
- 
--git://git.kernel.org/pub/scm/linux/kernel/git/frederic/dynticks-testing.git
-+git://git.kernel.org/pub/scm/linux/kernel/git/frederic/cpunoise.git
- 
- Clone this archive and follow the instructions in the README file.
- This test procedure will produce a trace that will allow you to evaluate
+>  	unsigned int power_mode_idx;
+>  	const struct ad7768_chip_info *chip_info;
+>  	struct ad7768_avail_freq avail_freq[ARRAY_SIZE(ad7768_power_modes)];
+> +	unsigned int n_freqs;
+> +	int freqs[AD7768_MAX_FREQS];
+>  	unsigned int ch_freq[AD7768_MAX_CHANNEL];
+>  	struct iio_backend *back;
+>  	unsigned int vref_uV[2];
+
+Just double check with `pahole` that this is optimal layout.
+
+>  };
+
+...
+
+>  {
+>  	struct ad7768_state *st = iio_priv(indio_dev);
+> -	unsigned int vref_idx;
+>  
+> -	if (info != IIO_CHAN_INFO_SCALE)
+> +	switch (info) {
+> +	case IIO_CHAN_INFO_SCALE: {
+> +		unsigned int vref_idx;
+> +
+> +		vref_idx = chan->channel >= st->chip_info->num_channels / 2;
+> +		*val = 2 * st->vref_uV[vref_idx] / 1000;
+
+1000 --> (MICRO / MILLI)
+
+> +		*val2 = chan->scan_type.realbits;
+> +
+> +		return IIO_VAL_FRACTIONAL_LOG2;
+> +	}
+> +	case IIO_CHAN_INFO_SAMP_FREQ: {
+> +		guard(mutex)(&st->lock);
+> +		*val = st->ch_freq[chan->channel];
+> +
+> +		return IIO_VAL_INT;
+> +	}
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+
 -- 
-2.55.0
+With Best Regards,
+Andy Shevchenko
+
 
