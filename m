@@ -1,52 +1,89 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4E7314A60;
-	Mon, 31 Aug 2026 09:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA24E3D9043
+	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 09:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788167643; cv=none; b=psVKNML7HKm9lwrYojXWMq20eCKmeeQb8y0bjdHDrErZNX6nqpNq1r7AcIZQ/CPnOT97q0gdTGab6hXpLHdodFERCESjQGED9l6LyaMvk8aBCxsWCJ9nu2NLCG/fnmXoVR2Vwxg/Xi/z0GQtMBg8sdCrAbz865dksW0g+guP/rY=
+	t=1788168035; cv=none; b=QNJm0S5kNlv+0DJ1ywRlkE7ZH6K/+UJIA++lstFG/upUSuyXFQyQOCP+ed+5fF4Q/byJId/E6GqakkrLim4O3VQhGDcWo1azjnZgBtE3fVOvmu5b/PT+5JAjRSyL8iTB4k+CcDMxcu4+yPsaUnLgAiRnXxeQ57yW659XayEiWQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788167643; c=relaxed/simple;
-	bh=C5mbr9iEqsNLjlV0Hb+vr1L557FW0NzksCme0vieaLY=;
+	s=arc-20240116; t=1788168035; c=relaxed/simple;
+	bh=1bkcUrvmztbrpSh/SyIQVxj2aJNk+2CuyucdHJWFNec=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EsVFkEIRvKivJSgSv6dpEeA+nUd9zpXJENmu2N+d2SSyais6x8+IeFwKtYc7HNFTqFvA7Gpgg67gJX3ZBZzmB/em4GZ3i4e+Fu5wYr9w1M3Lv7yhG8MT5x1ERo2zCO3uBvE9+rbSQtRKF1TPHpZTN9W3zzXZcTf0heD9Rs3I/rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bKkDyFsZ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hXta8YaX; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dz4XJhWr3bIPoiiN1ZH8fa0HIKZUnCUv8mWZm/mmL2QHa0oB629zK8JY8Ak+JSIqL41BKpY3P4F8XiLnN0XlHM8y4YeU9L7UHQHFE3tJhqs0LNJgM5J+GNFqFEc8oHsaBS3p3h6iRx2yrdhxQlATJJ7TDVr8YAc96zelHPmoByw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=JELnNjHf; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bKkDyFsZ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hXta8YaX"
-Date: Mon, 31 Aug 2026 11:13:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1788167639;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+sxN1KEjG5y2GfwBVxqB4v4GrJp1o3PRO14Nj7oMRHs=;
-	b=bKkDyFsZuuydQGMgCxfKn1Bgpb/mmDdZS+7WuuAEzOELw16h8l3DTAWF13f/2xYc5I7fwj
-	n6Bc/qwiirSHlf+9ra5hRnjxmHYIdfxskXzbaInWKb4FbL7FoS9/vZfFqBaGDH2yBMC2cY
-	1FPyBjIyfBJ1xtnXjUG27g88wLz//aOX3GOfV9RZxl/wX69r/8ojyhEB8qTmn9qtpbf/MH
-	bR0UX9DYbYcaxQdklcwsqNkQo43CyvQi1IgpdKyI9eF2mTBKPakycc5ipR2BPjn6vCB9aL
-	LUuvUuoNRcAu07SR74cn/70dDyrTlxxNqwykSIpMiDKB6VEYlhiMFq4bbNyhaA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1788167639;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+sxN1KEjG5y2GfwBVxqB4v4GrJp1o3PRO14Nj7oMRHs=;
-	b=hXta8YaXTWE0Aj7+p/2fTf9EUOo+QE9xn7uIS92slSCcj9av8a7iT6Ie667SEj1Jpvmpf+
-	IHfNnVfKUm+u+IBA==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: wang.yaxin@zte.com.cn
-Cc: akpm@linux-foundation.org, fan.yu9@zte.com.cn, yang.yang29@zte.com.cn, 
-	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	xu.xin16@zte.com.cn
-Subject: Re: [PATCH v5 2/4] tools/include/uapi: Add __kernel_old_time_t
- typedef to tools/include/uapi/linux/time_types.h
-Message-ID: <20260831110504-4229e3fc-5506-461b-9fdf-50999a9646bd@linutronix.de>
-References: <20260829171238191s9SIXoZPTlZSmA2Px30hn@zte.com.cn>
- <20260829171452167RNbirsudPmuItbeo-z9Wm@zte.com.cn>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="JELnNjHf"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-482e29049adso1314101f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 02:20:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1788168032; x=1788772832; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=BmZRJNMYJ5AXrDCDZCrGMnxri4tZm1nVUIzEyZPjscg=;
+        b=JELnNjHfORGcUOERWEbzIL7UvVHPPFEK2LBUqz5WF4wEPwJ0Uo80HlfhUy/TrnEYZE
+         OjO10twPAjvXUbdR9bEUjjkf4qB8n5mVguCViS2PRp8s/nHRR59zCwyrqimPP5YyWRTL
+         QJ9g95iwdsSYm7eibIPmLMjKqQWABLVUeiHN5DqcRrUd/J8t8fp1gtfnWpXHhty3Es2p
+         dV+a8FoV6eoWUa48jpQeQ9fNYNzN6KrjnKf4RRKggcbR+qbKqy88QMSNnvnh1oohMz4C
+         UobFFHAQRfJMNi5UdwywAgEpYOyHdq09sQPzV843VioFlsgKn2Em1OcxdJ7a444UTcc1
+         H9PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788168032; x=1788772832;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BmZRJNMYJ5AXrDCDZCrGMnxri4tZm1nVUIzEyZPjscg=;
+        b=tI2krXCKcdlQ+239SLfeAv1HyfTAKWh4cTPiEjE+UXY/MbFn4D1nwUNgg0NW5jieF8
+         1Qilu6OIdae6Y3eGiPu/iVz8WfycyYfmfHwTBC6o3f/HMQ6E9TABwo4S5hQA4onutvdt
+         EXunjIXkUQ0ovu8k4DBh6te+QjWYMi988VwX2rlcNP8bK3Emg9ZGg2m+DuiM8+Mp1Av9
+         TvrtIjABpNGlOFgR8HO9SkpczIE0d8vZ42XKYKFgP6pSbYUGMZm6HZRYaBGgRDUCn5UZ
+         Iyszs+rKDzf7BVfTJGkB0W9XH9pcT5bZzNYk/JvB6LeSN3ycIIklKEw/FdJA4JWQAyWB
+         5zZg==
+X-Forwarded-Encrypted: i=1; AKwUvBzJAFp3o1MetG5mMTumYUz/gBLsY7K5O285ZhqPZYQhpG2jbXD2G+eh5bZ+DG9ckX0CrtMa2AWbF3E=@vger.kernel.org
+X-Gm-Message-State: AFuF++nSIlJUAW3Hvsxcv/uNMxl4I+71JL9RWtLrpZvm3OE+45TVrTcY
+	d8HnRnpdysGQ333S08KmBtygJmJGlf0tIouQ2YNZesIgTvXUJbfuWNCIlcbtQGSADMY=
+X-Gm-Gg: AYBFou0JnkY+um/A3AhW7LjQPiOUzqi37ARp19L5TNEahnMa5o3moJsR5/FzjZPQhL1
+	XYpIFilwe3/ljUDQAvcwzwvkyl4cv7j63WeGlvYHgux0aTfuHtJgTUegDEBiwTCeYqKLAcoGUmP
+	L6BPnNyGOpd7xiwvEkoSBCs33zC8aKZV/3t6rDrFCgZSqGTlMyDYEdFmmpR56rw94dDQzqHFeV5
+	LVIH1X5QJgbd/14s80/K1xjWKUNve8BdgOCjy8P9AOAXe5cFck9rh6KL3sx3P1qRg3omX4IEUMM
+	NYbo0VCtPAppDbfOdFLbY89/N98D1s0qZLfjCjqR2qtEBMhorx/SgIWxifYZSjWgGG3iKPL/H0p
+	HInFIbftlAz2JsF4Eex00aY+tKqWEGtSiv71+4ZAE5Yg5VT/Gb/FwqsG8HaPVvtrlasus12ZJ6+
+	7TqJPYlIf5l7eGRKPwXC2i4D/aUwYuX+Aq62c6DP5Etp2JzSNkYuTmO8pIcMoOEr8Qaj9IH7+ll
+	Q==
+X-Received: by 2002:a05:6000:4012:b0:484:3310:710f with SMTP id ffacd0b85a97d-4843f00bb60mr2562328f8f.27.1788168032065;
+        Mon, 31 Aug 2026 02:20:32 -0700 (PDT)
+Received: from localhost (109-81-17-247.rct.o2.cz. [109.81.17.247])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48436646548sm10478328f8f.37.2026.08.31.02.20.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2026 02:20:31 -0700 (PDT)
+Date: Mon, 31 Aug 2026 11:20:30 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Nimrod Oren <noren@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+	Nirmoy Das <nirmoyd@nvidia.com>,
+	Dragos Tatulea <dtatulea@nvidia.com>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] mm/khugepaged: cap min_free_kbytes recommendation at
+ 1 GiB
+Message-ID: <apVHXmSljK8HrIuA@tiehlicka>
+References: <20260831075635.2244437-1-noren@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,97 +92,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260829171452167RNbirsudPmuItbeo-z9Wm@zte.com.cn>
+In-Reply-To: <20260831075635.2244437-1-noren@nvidia.com>
 
-On Sat, Aug 29, 2026 at 05:14:52PM +0800, wang.yaxin@zte.com.cn wrote:
-> From: Wang Yaxin <wang.yaxin@zte.com.cn>
+On Mon 31-08-26 10:56:35, Nimrod Oren wrote:
+> When THP is enabled, set_recommended_min_free_kbytes() may raise
+> min_free_kbytes using a heuristic that scales with pageblock_nr_pages.
+> With MIGRATE_PCPTYPES equal to 3, the formula accounts for 11
+> pageblocks for every eligible populated zone before capping the result
+> at 5% of low memory.
 > 
-> Add time_types.h to tools/include/uapi/ to enable y2038-safe time
-> structures in tools. Unlike the kernel's uapi version, we define
-> the required types directly instead of including
-> <asm-generic/posix_types.h>.
-
-This reads, like the UAPI variant uses asm-generic/posix_types.h, which
-it doesn't.
-
-> Rationale:
-> - asm-generic/posix_types.h is NOT architecture-independent
-> - Different architectures override types (e.g., x86_32 overrides
->   __kernel_mode_t, __kernel_uid_t, __kernel_gid_t to unsigned short)
-> - int-ll64.h is special and cannot be used as a pattern here
+> This is reasonable when a pageblock is 2 MiB, as on common 4 KiB page
+> configurations, but scales poorly with larger base page sizes. With
+> the default arm64 pageblock sizes, the contribution per eligible zone
+> before the 5% cap is:
 > 
-> Direct typedefs for the three types actually needed:
-> - __kernel_long_t: base type for time values
-> - __kernel_time64_t: 64-bit time for y2038-safe interfaces
-> - __kernel_old_time_t: legacy time type introduced in v5.5
+>   4 KiB pages:   2 MiB pageblock,   22 MiB per zone
+>  16 KiB pages:  32 MiB pageblock,  352 MiB per zone
+>  64 KiB pages: 512 MiB pageblock,  5.5 GiB per zone
 > 
-> This follows the reviewer's suggestion to add typedefs only where
-> needed, avoiding architecture-specific issues while maintaining
-> self-containment of tools/include/uapi/.
+> Consequently, min_free_kbytes can reach excessive and unwanted levels.
 > 
-> Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
-> ---
->  tools/include/uapi/linux/time_types.h | 76 +++++++++++++++++++++++++++
->  1 file changed, 76 insertions(+)
->  create mode 100644 tools/include/uapi/linux/time_types.h
-> 
-> diff --git a/tools/include/uapi/linux/time_types.h b/tools/include/uapi/linux/time_types.h
-> new file mode 100644
-> index 000000000000..3aa25d824cac
-> --- /dev/null
-> +++ b/tools/include/uapi/linux/time_types.h
-> @@ -0,0 +1,76 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +/* Started by AICoder, pid:00350371 */
-> +#ifndef _UAPI_LINUX_TIME_TYPES_H
-> +#define _UAPI_LINUX_TIME_TYPES_H
-> +
-> +#include <linux/types.h>
-> +
-> +/*
-> + * Define time-related types directly instead of including
-> + * <asm-generic/posix_types.h>. The asm-generic header is not
-> + * architecture-independent: different architectures override
-> + * certain types (e.g., x86_32 overrides __kernel_mode_t, __kernel_uid_t,
-> + * __kernel_gid_t to unsigned short).
-> + *
-> + * We only need a few specific types here, so define them directly
-> + * to avoid architecture-specific issues while maintaining self-containment.
-> + */
-> +
-> +#ifndef __kernel_long_t
-> +typedef long __kernel_long_t;
-> +#endif
+> Add an absolute 1 GiB cap to the recommendation, in addition to the
+> existing percentage cap. This bounds the automatic recommendation to a
+> sane value on systems with large pageblocks while preserving existing
+> behavior for typical systems with 2 MiB pageblocks.
 
-__kernel_long_t itself is from 2012. Can we not rely on it?
-I thought only __kernel_old_time_t was the problem.
-__kernel_long_t is architecture-dependent, so this could now be wrong with
-old UAPI headers. If it is not strictly needed, I would just drop this.
+I would argue that the whole model of increasing min_free_kbytes for THP
+is wrong. This will trigger memory reclaim sooner and make the THP
+availability more likely but this was at times where we didn't have
+pro-active compaction and many changes in the compaction. So is this
+actually needed in general resp. only large pageblocks systems?
 
-> +#ifndef __kernel_time64_t
-
-This type is never #defined, so the guard is pointless.
-
-> +typedef long long __kernel_time64_t;
-
-Is __kernel_time64_t a problem with your UAPI headers currently?
-It is older than __kernel_old_time_t. If not, I would drop this.
-
-> +#endif
-> +
-> +/*
-> + * __kernel_old_time_t was introduced in v5.5 for y2038-safe migration.
-> + * It is used by legacy time structures like __kernel_old_timespec.
-> + * Defined here to avoid dependency on outdated system headers.
-> + */
-> +#ifndef __kernel_old_time_t
-
-This type is never #defined, so the guard is pointless.
-
-> +typedef __kernel_long_t __kernel_old_time_t;
-> +#endif
-> +/* Ended by AICoder, pid:00350371 */
-
-Hm, what is this supposed to do? Also missing "Assisted-by" tag?
-
-(...)
+-- 
+Michal Hocko
+SUSE Labs
