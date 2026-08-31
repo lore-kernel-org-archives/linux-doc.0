@@ -1,196 +1,195 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE69046D559;
-	Mon, 31 Aug 2026 15:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788189957; cv=none; b=fBQ/jTp/zJXZoA7ndpQPwmibsZUTFoKKb1ZTozFoFIwtuqzSsWKG4q5y6wWHxt7sPvkA+kLm1HgiQOXpYgojK/ercXBRLGcQ45Qcq60Xf1o1tHPKZUjn/CKcVZrCOCnRzMfVDcQwHYM8u7xAC34Tp2lI1aJseJ/jhL9LSRX3MMA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788189957; c=relaxed/simple;
-	bh=6n96KrwdCy1R3cw3knruAQ0UKZlgvvVlvt3iShTbow0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=smQvhzJlmXpPtr1VsO2nwlWWd7x/BKyeHY2NBMj55pgHoSfwBuY2er4gKZZApuG03onVweV/kK3qeunq7wObDO5TWxueSyzU7JOeXnuga5W8C3aDa2xkwlqI8je1cyNjrqEFPB57ZlqumjSHUW5AhTy+luULGL3oTvFbgDqDDqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=e7oCxPWF; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=lyUUATlF; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C23853ED01
+	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 15:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788189987; cv=pass; b=pWorS2EgpOMTkJm+po7qrrrRIESEvtWWGRJrWSxLETDOljCQ0Aso6Es8xE3r9nU/lYCdl903E10+WrEbUN2hmi+vWz0TvvsuOQSC6tC0b1He7i7Xvjy60z6WIC3yffHNKE+gvORHZcjQN47HkUwLi4/FfJbeRA4GkXR3ZTX4unI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788189987; c=relaxed/simple;
+	bh=PSPMRmWPcYte4abw7ulwi8Gm7cYsldtwsvZeCimevjo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tDDAoc+zBLRJXyicpBO8PVt3/0dJmzcqMbFS8+BEyKCSQ/enUiZjl/pKby9mgVhs2Lw6u+ofYPIwcNBFvD2a51dP3icwLsAFjyBFEpHkfh2T3cD2DTVKAxR1ijFcKwx9ivfaRvEcDb9F+9JWNWSGJKkKpkKIdpoBl2fYBg22rOU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h+TE+GVZ; arc=pass smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="e7oCxPWF";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="lyUUATlF"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hYXrB3KRlzMlL2;
-	Mon, 31 Aug 2026 17:25:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788189946;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yJ8wDwLUHHM5alMinMFlBdo6Q2IkABX6kyUMOvTWkHA=;
-	b=e7oCxPWF3NTVpnQ2bA+aeknMUr64ME2cPO1jwtXEKA3FSl2Oeq6vwJreR80fGEz1LX6Ulk
-	pJdVvcwFiMa9XjFQaZKPq8pewrbk60t7nmKmCpHggGnON/Rb3Kli2kCIARpKgou4n4dEWk
-	J2ogLq+fPgUh9VvbCEcVA3oeERl4Uio2lOf3uq4ZCwL2H7//Xw0vowX+8s0BzVKTIkJzIM
-	aM+MTgnTGHdaqmg+2M3NoEdFNVvUGRcOUngSxi8assCtcLd2bE9H4gA70wQxcEtPJU6uxw
-	rxYfFHJy6paw2cNOc5BJF8ruZAswEq8evAmu1mv4Jw95KgJKBMRGGCGQXZRBKw==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788189944;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yJ8wDwLUHHM5alMinMFlBdo6Q2IkABX6kyUMOvTWkHA=;
-	b=lyUUATlF2stKxxDrIEWF2LTvNqGPKVzKZPNR6aYIf9hJJaSiAa1iLK4gecZfmNA/C7h5Zp
-	X/Vl3IXKMg1MeS9ci0MRgvuYziRKZoJ8Zipr9XMdZEaOPNWeKQcJ1eOfaX67Z/s6NFnOM0
-	36uZDjUeJCLezmj3Rc/dxgvT3mdQu4QIr7y7bAcB3bCFaYl4ZbMHqIOntH22GImM0eW4Lb
-	6vrKQQwz17ZVMk5S//bIBOtxgxYWlGlOxTTEmGY6H/8l3Kf83UfNEnw06qQyxW8y577qMC
-	1XEY0BRGJEybF1lEcIOqoi6QPRNvjPMGoxFbkIgQMyAG411ceE/bCr3MzcXKAw==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH] v2 Docs: changes.rst: introduce optional column
-Date: Mon, 31 Aug 2026 17:25:22 +0200
-Message-ID: <20260831152523.638881-1-manuelebnerli@mailbox.org>
-In-Reply-To: <20260831151605.638172-2-manuelebnerli@mailbox.org>
-References: <20260831151605.638172-2-manuelebnerli@mailbox.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h+TE+GVZ"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-52fac937235so360121cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 08:26:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788189984; cv=none;
+        d=google.com; s=arc-20260327;
+        b=aqwviKithGdg1xw8HRQlX9doG/65cFHDGY8NBtrd9QVpp4/LTp5Xn+ExSy3IAp2g04
+         B8L52yuxAMDgeAMtbXpAijX+qIr8NtuK4uvyVB9nzxYjy/xNQ/1ffofwqhwJUoy48E2T
+         5EALYuFB6t3kGxnIr/bKXjlQHdscblAi2+paCOYMFlr2I6QN8D9jA9yZLIf/jXY05z5q
+         Lmx9bQkq4cmfnQ5fYf+cY/OSzVqoVfIvKTg0xuUGHSLKkBuQtJUzk5K4hYW1X1ywcD7I
+         5KgGV7vRjkhZPys4xY5C+Qx8pJ8uIpVhdLvKI0qE9wwNOe3SYYoA4gq7e2ijsWZ1HqrC
+         aLDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HKx4z/gVUVYo3h0sY7zCFMtg9vG2hgH7eEzaxSp487c=;
+        fh=JoyzmG+fBsHDP2CrQfP55EersUE88wkToVe3Stl5rM0=;
+        b=RzJ+N2HF9KsvYGTZCjfNDv+GvqWzmXkBkQ60gtIAJ0xgJQTsD0wWhl1pFKs9XH0Z9K
+         zDG66U2Kw/NeS+lOrI/jBbM13vxBz2RA2QLWtBePT/biB7cdCTBBEouX+FKkc7O4AuZJ
+         tQLO2fXmxflOOCDBoJIM7xB+7qY6XsdB5UWiCO/plOFT7LqoCvztqsXWR9njSDrAsUe1
+         ccvjVvjSgbPZreKv44Wap4yci1V5t8T8vBGH61DV2MSZWEMQLv5rjV7Hmg7wfmjOe04d
+         ykP0piMAKnuzyuHHM7XkcTvtOtKrf91ErvRioxolsUiL4BmvpPPyYFBRmuxzfCrZ40pa
+         K3iw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788189984; x=1788794784; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HKx4z/gVUVYo3h0sY7zCFMtg9vG2hgH7eEzaxSp487c=;
+        b=h+TE+GVZdJ3h9caROdNsfMLza7qu7ybcRXIYjqlDqz2x52dzSuOdw6UGiU1l43bjCx
+         3mrYmbHH+KUYoL+d9b9nq1Pdb7duVys3uC/O3YqxXjGlXeJ6bQwEFnepDLKhlPNpO6Rm
+         EKsK9gwHOuv1LhroBpxO/0YLzjG08f7Bvwj90BZOomTxnq46Cp9/FAEC5H7gDLk9CbnZ
+         n5VfVv7VFqQtZRjUGlawic9LwtrHvKmmb53cQ1fdM9ldcj5YSxmQ8Hav6tHsI2mUniWw
+         g6y6dTVUIyvohN8KWc2P8VywQp0qJVY5Ubv2yHN8oLvRE5Ovip3DmkyI6+YHqEmhqWqq
+         BS+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788189984; x=1788794784;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HKx4z/gVUVYo3h0sY7zCFMtg9vG2hgH7eEzaxSp487c=;
+        b=U5UiOQMCqFM/oyz0At/dPZF4ajbEuPHgVWaKxfAEClzU6MAdHBe14+8y/qPApnh80c
+         tfMPhyOimL/SLWq12QssrKgQjVAi7ChIPXepTTDWMeRckfw6If8IxYcI5WSEsg9Y7cPF
+         +oBM5A2RXt9ZPQrThR7mnXR0EI+YwufGkrfC24RdxMOUs9IHw7eVL+5mV1BexKrE99QP
+         wX8KQIs4CeXy6Suo0zlqkNO+73+0B72OsBa7htud4u4rUE2uITPy8xcJQmem+1wCwZd4
+         NyJN/GMJ8XlewcYfeHe7fDu/73W66Suw1OLwMOqSlINFSCF1ZGjaccc629fF8O4KAw2d
+         eUQA==
+X-Forwarded-Encrypted: i=1; AHgh+RqUcpHSpbPyTIP82pRWX7+gmdCKDPviO7uXMOOZFUUvOftbh/4Ym8O0/t74uUeeGycb5GmhK64ACL4=@vger.kernel.org
+X-Gm-Message-State: AFuF++mOZ+uS5eunIyCF44b8217/8bQXhVV0iQqRRt7JIgNWjeh811gN
+	hDVpRp6EzRBMtOh3OADFNrfkSJUAirrTqTUPFVuOUEVEiOPZ4HgqN7nmJPfpd80mabXIYat7LQo
+	fuAAUpyAfi0jDz0Kll1XnO3dS213SQ5njY1cwoWjw
+X-Gm-Gg: AR+sD12T4h+Fi4htPfwxNfzHAOxFd/PlGSKa28tKNU4x1ld/0LbKeMT5HRIhPWpZUFT
+	ZRzsL0tkn6+mV/QN9uEsmLkhftBGn/nNzw5laT81yfq8UuHCOQYOKE3169DDU1C6OUBhJn8tN07
+	v0IOmam82+dd4oOPvjtk+N9k/24nguk0BN0Bk8HwJ/SjWPjUEwqMVERlRUEtBT0VaWWSwLrHNEc
+	pFdLfMj5TMsJuo/PViq70LXt5MuLDNnpeIK2NSQmYqTKgXwzmykNQ4Of51D2aQiLKiMl8yq8mOx
+	KkcOUfkIJUhHIVyqlojLpsxF859m0PZ55W7F/MrZb+w=
+X-Received: by 2002:a05:622a:598e:b0:52d:7a3c:8396 with SMTP id
+ d75a77b69052e-52ff6f30c8emr34733291cf.2.1788189983103; Mon, 31 Aug 2026
+ 08:26:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: oc546a5fwr1qnkcp7tk1jgc3muciipkx
-X-MBO-RS-ID: a45539c2849ffa04d06
+References: <20260831-docs-memalloc-guide-v1-0-547718c274c1@kernel.org> <20260831-docs-memalloc-guide-v1-1-547718c274c1@kernel.org>
+In-Reply-To: <20260831-docs-memalloc-guide-v1-1-547718c274c1@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 31 Aug 2026 08:26:11 -0700
+X-Gm-Features: AcwNN1WFRSN--wzS21rSGRH8C_o1FPRMTwmuGQ5Gza9KkI5iwhlrj79hsn8yfPE
+Message-ID: <CAJuCfpGMOW89vVaAX_69MiMy+4VV0o-H+OBqkLRVUVHToM241g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] docs/core-api: memory-allocation: add
+ k[mz]alloc_obj() and clarify kmalloc
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Michal Hocko <mhocko@suse.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vlastimil Babka <vbabka@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The optional tag isn't obvious nor defined. Therefore replace with column.
+On Mon, Aug 31, 2026 at 8:13=E2=80=AFAM Mike Rapoport (Microsoft)
+<rppt@kernel.org> wrote:
+>
+> Since v7.0 the most used memory allocation function is kzalloc_obj().
+>
+> Update hte memory-allocation guide to describe k[mz]alloc_obj() family
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
----
- Documentation/process/changes.rst | 84 +++++++++++++++----------------
- 1 file changed, 42 insertions(+), 42 deletions(-)
+s/hte/the
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index b3fa980b63e3..905ac0f6cdc5 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -29,49 +29,49 @@ systems; obviously, if you don't have any PC Card hardware, for example,
- you probably do not need to concern yourself with pcmciautils.
- 
- ====================== ===============  ========================================
--        Program        Minimal version       Command to check the version
-+        Program        Minimal version  Required for 
- ====================== ===============  ========================================
--bash                   4.2              bash --version
--bc                     1.06.95          bc --version
--bindgen (optional)     0.71.1           bindgen --version
--binutils               2.30             ld -v
--bison                  2.0              bison --version
--btrfs-progs            0.18             btrfs --version
--Clang/LLVM (optional)  17.0.1           clang --version
--e2fsprogs              1.41.4           e2fsck -V
--flex                   2.5.35           flex --version
--gdb                    7.2              gdb --version
--genisoimage            1.1.11           genisoimage --version
--GNU awk (optional)     5.1.0            gawk --version
--GNU C                  8.1              gcc --version
--GNU make               4.0              make --version
--GNU tar                1.28             tar --version
--GRUB                   0.93             grub --version || grub-install --version
--gtags (optional)       6.6.5            gtags --version
--iproute2               6.14.0           ip -V
--iptables               1.4.2            iptables -V
--jfsutils               1.1.3            fsck.jfs -V
--kmod                   13               kmod -V
--liblzma                5.8.1            lzma -V
--lzop                   1.04             lzop -V
--mcelog                 0.6              mcelog --version
--mkimage (optional)     2017.01          mkimage --version
--mtools                 4.0.49           mtools -V
--nfs-utils              1.0.5            showmount --version
--openssl & libcrypto    1.0.0            openssl version
--pahole                 1.26             pahole --version
--pcmciautils            004              pccardctl -V
--PPP                    2.4.0            pppd --version
--procps                 3.2.0            ps --version
--Python                 3.9.x            python3 --version
--quota-tools            3.09             quota -V
--Rust (optional)        1.85.0           rustc --version
--Sphinx\ [#f1]_         3.4.3            sphinx-build --version
--squashfs-tools         4.0              mksquashfs -version
--syslinux               6.04             syslinux --version
--udev                   081              udevadm --version
--util-linux             2.10o            mount --version
--xfsprogs               2.6.0            xfs_db -V
-+bash                   4.2              
-+bc                     1.06.95          
-+bindgen                0.71.1           generate Rust bindings
-+binutils               2.30             
-+bison                  2.0              
-+btrfs-progs            0.18             
-+Clang/LLVM             17.0.1           alternative to GNU C (gcc)
-+e2fsprogs              1.41.4           ext4
-+flex                   2.5.35           
-+gdb                    7.2              
-+genisoimage            1.1.11           
-+GNU awk                5.1.0            objtool
-+GNU C                  8.1              
-+GNU make               4.0              
-+GNU tar                1.28             
-+GRUB                   0.93             
-+gtags (optional)       6.6.5            
-+iproute2               6.14.0           
-+iptables               1.4.2            
-+jfsutils               1.1.3            
-+kmod                   13               
-+liblzma                5.8.1            
-+lzop                   1.04             
-+mcelog                 0.6              
-+mkimage                2017.01          ARCH=arc, arm, or powerpc
-+mtools                 4.0.49           
-+nfs-utils              1.0.5            
-+openssl & libcrypto    1.0.0            
-+pahole                 1.26             
-+pcmciautils            004              
-+PPP                    2.4.0            
-+procps                 3.2.0            
-+Python                 3.9.x            
-+quota-tools            3.09             
-+Rust                   1.85.0           CONFIG_RUST=y
-+Sphinx\ [#f1]_         3.4.3            
-+squashfs-tools         4.0              
-+syslinux               6.04             
-+udev                   081              
-+util-linux             2.10o            
-+xfsprogs               2.6.0            
- ====================== ===============  ========================================
- 
- .. [#f1] Sphinx is needed only to build the Kernel documentation
--- 
-2.54.0
+> and make kzalloc_obj() the first answer to "How should I allocate
+> memory?" question.
+>
+> While on it, clarify description of kmalloc() size limitations.
+>
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+
+> ---
+>  Documentation/core-api/memory-allocation.rst | 30 +++++++++++++++++++++-=
+------
+>  1 file changed, 23 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation=
+/core-api/memory-allocation.rst
+> index 0f19dd5243239..8ecfa4d35f4f5 100644
+> --- a/Documentation/core-api/memory-allocation.rst
+> +++ b/Documentation/core-api/memory-allocation.rst
+> @@ -19,6 +19,12 @@ Diversity of the allocation APIs combined with the num=
+erous GFP flags
+>  makes the question "How should I allocate memory?" not that easy to
+>  answer, although very likely you should use
+>
+> +::
+> +
+> +  kzalloc_obj(<VAR_OR_TYPE>);
+> +
+> +or
+> +
+>  ::
+>
+>    kzalloc(<size>, GFP_KERNEL);
+> @@ -139,10 +145,13 @@ allocate memory for an array, there are kmalloc_arr=
+ay() and kcalloc()
+>  helpers. The helpers struct_size(), array_size() and array3_size() can
+>  be used to safely calculate object sizes without overflowing.
+>
+> -The maximal size of a chunk that can be allocated with `kmalloc` is
+> -limited. The actual limit depends on the hardware and the kernel
+> -configuration, but it is a good practice to use `kmalloc` for objects
+> -smaller than page size.
+> +Since 7.0 there are type aware kmalloc-family helpers that let you safel=
+y and
+> +conveniently allocate a single object or arrays of objects with kzalloc_=
+obj()
+> +and kmalloc_obj() and their array versions kzalloc_objs() and
+> +kmalloc_objs(). These helpers only need the type of the object that shou=
+ld be
+> +allocated and the count of elements in the array for the array versions.
+> +
+> +As of v7.2, vast majority of the memory allocations use kzalloc_obj().
+>
+>  The address of a chunk allocated with `kmalloc` is aligned to at least
+>  ARCH_KMALLOC_MINALIGN bytes. For sizes which are a power of two, the
+> @@ -154,9 +163,16 @@ Chunks allocated with kmalloc() can be resized with =
+krealloc(). Similarly
+>  to kmalloc_array(): a helper for resizing arrays is provided in the form=
+ of
+>  krealloc_array().
+>
+> -For large allocations you can use vmalloc() and vzalloc(), or directly
+> -request pages from the page allocator. The memory allocated by `vmalloc`
+> -and related functions is not physically contiguous.
+> +`kmalloc` always allocates physically contiguous memory and the maximal =
+size of
+> +a chunk that can be allocated with `kmalloc` is limited by `MAX_ORDER`, =
+the
+> +same limit also applies to the page allocator.
+> +
+> +Internally, slab allocator differentiates allocations of different order=
+s and
+> +delegates larger allocations to the page allocator, but for the users of
+> +`kmalloc` family it is entirely transparent.
+> +
+> +For large allocations that do not require physically contiguous memory y=
+ou can
+> +use vmalloc() and vzalloc() family.
+>
+>  If you are not sure whether the allocation size is too large for
+>  `kmalloc`, it is possible to use kvmalloc() and its derivatives. It will
+>
+> --
+> 2.53.0
+>
