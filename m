@@ -1,112 +1,91 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D532571DA;
-	Mon, 31 Aug 2026 20:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E38380FD4
+	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 20:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788206494; cv=none; b=BkdMh9+Qt7oGMHDByyQo1mw//S3wg/LhNsianOPXgB2JL8ujFIdhXgxqzlyjI36ESi494hFC/4beXN7HowDNB/A0scyM38c5pRDRQk3qpUI1KWuIR0ZA6QFeD9pdwPNi/eSbndzp1Zzfoc0NwTxTLq/IieRSogA8r+naDHQ3Vcs=
+	t=1788206648; cv=none; b=jTZ5P71GrEK/jYbZ22kIqzngBLOsRAezFXOBvcZyf1nEFyseSEqG/S6h7HR9RDCgQ4lsVu/Py2kKfK9z8qgKeNFJfnwTFkKyXPnn0EpINW5mKYKrC4yhQZ1LQOmWOU31EK9TfBZcZXh0mr13snVVZJNsvscBeJUlSxOEe/tQ+R8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788206494; c=relaxed/simple;
-	bh=OeDDnqo1IRQEK4Js5nZgXclVX2MFMUyaSHTgtYCOrSo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=njkYA1k+ZugF+FEXl7H41FdDK//v8WgsTMQu88pQDcZWzSDn3lJOgnkwH5QLJYed6ubNo9OJFvzD+JJEYecctOiGVSzp6O+7EHGyER2c1R45arb0xRwhryBI1yGZ4tcyHVpe6uAgv5L72yQtj2UFgX6GVzupetlhW4qRiAgctho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=hRWHGA+w; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1788206648; c=relaxed/simple;
+	bh=I4/G3HmEXJ4OVElGeCZxuKwSWS6iAiOY/MRgSX2ruGk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OnpoGkS4bbu41OC9I0CSmyyMgn+CiuBkoVTp0htzzkhWJiCYPJ0WzzeOjCCfQDLACUtaT3Yp6SWdjm3uu4beaJucayUffq3L+J8ZXum/rjFtnQFVpox2IUH46ARVfjbvHUWaL0VwEu8DfeHvW7VKecpTHrXIwmtldchvds7eAuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qgqzQ81z; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="hRWHGA+w"
-Received: from [IPV6:2601:646:8081:8d71:2faf:8150:30da:aafd] ([IPv6:2601:646:8081:8d71:2faf:8150:30da:aafd])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 67VJvbar3264483
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Mon, 31 Aug 2026 12:57:38 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 67VJvbar3264483
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026082801; t=1788206263;
-	bh=Lfk4Zm0mu1VaJNyCW+feQLM2PduJnrH08+Q8uKNAglM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hRWHGA+w8FeyeULwEDoEDUDPGkwf8JT2eZmPRRthmhsNz9HWOb7HiXCTZLLUmuztp
-	 lWRv7ug1Z+kxGR18u2FB1NAFu/6cVMaURG6BetJiHKBnIMtH9EfefRvmdaf5cQcfWS
-	 Iv6R5AMN9t7OAQ114p39WCAynQY5oir3FFMoBbYdgUDXZtV4B07Wsr3e2OhubFmvQs
-	 ktT4EOmqNjonvu8hUPE3i1g0T9wDBDboBsSqe9LwY819N+bvUhSesPS4zzwQuLkCru
-	 dSZCFGqC+rA/gs0WgODW7ZBr87rVZStGsxS6+U65Nf/RVAnAJDMEX94B5D/OKkRTEH
-	 BWNnKAFiy16zQ==
-Message-ID: <1238a07e-ce04-47d9-b8ac-8b7f557b401f@zytor.com>
-Date: Mon, 31 Aug 2026 12:57:32 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qgqzQ81z"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-482fc2b44a7so136021f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 13:04:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788206645; x=1788811445; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=I4/G3HmEXJ4OVElGeCZxuKwSWS6iAiOY/MRgSX2ruGk=;
+        b=qgqzQ81zhEJh2GPyiNOuPMkOGskPfeeAq0aULF0UsXs8suNQq3ozMHqKtz/JhIsT+7
+         g1UsvfbXT5zDCc+ykExEY304yR/LHc+X7kbNv+vGf9VN3ZnCV9XV2CClZ9SEXGuFPXyw
+         Yw3OUP+9AR5NdY74J/1iEt/WfSCXv9Y8XN44NWkN8rG55rpNN8Cl8bjC9TIh489pf6kG
+         N5dpOgy92t7+BS6Bc/KSyPEnGFbE088CEWbwueLYd/ixrVqneD98Raqp1GnrAofgQc71
+         IZZdKhH0Y7MV/aqGO1GGCeR91G9NzsuoQNT1PgyCVSbPv/jq5gYdvErmdRc6nxy68WBF
+         6Wyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788206645; x=1788811445;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=I4/G3HmEXJ4OVElGeCZxuKwSWS6iAiOY/MRgSX2ruGk=;
+        b=AyHt5bIcWk0AIy/3aZ7W3WxFmJVRMdd0XQmwCZz8cgAK5+gWZNCwmVNQQLWCKTqmeo
+         x+sGVv9YQbZOcixs2jG300LjOOmI5raEKtwng+NJ45rLdmIwpufVESA5Tj/oVjAHMrBR
+         AoI1j5y+xx29gkdrb+L2FCEG+U4V1yYlApufr1pM0ddOEVF66kOEbqB2A+2CmQZSO6EJ
+         RmMLEOK9LW0ov8UEsqgfZMyTQy15fU7Z53rmZ9UTkKQe4+yrLYP9Im3/FVxSZ7sC089A
+         yS5kzMipqJH8tfwBpEA2GqiVFd2iruN4F6o5Tja1t6/er+3Pva3jeFQEn1Prnxaj4Tly
+         QMzg==
+X-Forwarded-Encrypted: i=1; AKwUvBwFvfeg1aXeTaUb8um/S/rS3sAgQDRZ0he68C3/5fFyL486jZtdjPX+Jk0QxJlkYnwLp/kef5oZSb0=@vger.kernel.org
+X-Gm-Message-State: AFuF++n4YvSgPXnwIu6KbrvdC/jkWvn7N1Pdez7k7C+zx//BKOr6m2Zw
+	4VF3hlReWLQO61FA9T7Ys9PAEMth4aGUaefIhPIQGK9YjPxSYEylcpeIRu7tl6vx990=
+X-Gm-Gg: AYBFou2E+UwEe1rxVuBzFFJX/3AoDpumZK7vsIPeVMyYKXpzkZ3391DJ2RHmbjHJZua
+	LH3yc7Jmx8gxViOCYm20zI9Oa/555hzKRFuz/wEaPdKp7cWxc3HXkBTsGFtH1vKkg6DMPP3jYhF
+	/Rlt3+Y8Cv1WJZWzD4JgUiDGguvFe1RhIGickmQxc7rwFH9sG63hvJLnRAmGq81m2BeMLwjLovV
+	Js4GCasKnu/QcF13O9gH+lzzoiYFtKXlMzLQgvT73q1Qo+L4s/tce9O3URW+jqRFDwd4nb7zwFr
+	LdqL+xaOLCjbcAdG3cOVJvIJlhRCFuD9bqTrbZyMtVwhyhp227roYFbLqwPwiZhtfZbq1XFRd7m
+	dPojRwBzTHYeUqrSYzJYWW2Xdf7tgqQnlLr5cJ9UqM5WYONVcVzAt08yKR9jeDcMNMUgkuS82X+
+	b6sU6FDcFVfLQWOwJt9urip1I1HCAd5C00HCtl/OVXxpbpm/ZG4q9Z5lOqFEPtEY4lp0mR4jy7w
+	BuhZOnJrV++MuPygEk=
+X-Received: by 2002:a5d:5d86:0:b0:47f:773f:2d68 with SMTP id ffacd0b85a97d-482f79bac52mr39529891f8f.16.1788206644929;
+        Mon, 31 Aug 2026 13:04:04 -0700 (PDT)
+Received: from christian-ThinkPad-T470.. ([2a03:4460:170d:5700:b1a9:fd9c:45a3:43b7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48442d3d2eesm125783f8f.15.2026.08.31.13.04.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2026 13:04:04 -0700 (PDT)
+From: Christian Melendez <chrismelnu@gmail.com>
+To: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: netvsc.rst: is XDP_REDIRECT still actually unsupported?
+Date: Mon, 31 Aug 2026 22:03:57 +0200
+Message-Id: <20260831200357.45390-1-chrismelnu@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [patch 00/18] entry: Consolidate and rework syscall entry
- handling
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Michael Ellerman
- <mpe@ellerman.id.au>,
-        Shrikanth Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-        Kees Cook <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
-        loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org,
-        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
-        x86@kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        Jinjie Ruan <ruanjinjie@huawei.com>, Andy Lutomirski <luto@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Helge Deller
- <deller@gmx.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Richard Weinberger <richard@nod.at>, Chris Zankel <chris@zankel.net>,
-        linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-m68k@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
-        Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>,
-        Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>,
-        Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>,
-        linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
-        linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch@vger.kernel.org,
-        =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20260707181957.433213175@kernel.org>
- <ed8b99e6-4d90-4622-9d43-451bf6a8db2c@zytor.com>
- <20260831085056.34274A00-hca@linux.ibm.com>
-Content-Language: en-US, sv-SE
-From: "H. Peter Anvin" <hpa@zytor.com>
-In-Reply-To: <20260831085056.34274A00-hca@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2026-08-31 01:50, Heiko Carstens wrote:
-> On Thu, Aug 27, 2026 at 03:22:35PM -0700, H. Peter Anvin wrote:
->> This isn't a hard thing to solve in any way: replacing the pointer argument
->> with a two-element structure return would do the trick. As far as I know,
->> *all* architectures that support Linux support returning structures with two
->> register-sized values in registers.
-> 
-> That is unfortunately not true. The s390 ABI defines that structures,
-> regardless of size, are returned in a return value buffer allocated by
-> the caller.
+Hi Haiyang,
 
-*Groan*
+Documentation/networking/device_drivers/ethernet/microsoft/netvsc.rst
+still says "XDP_REDIRECT action is not yet supported," but
+netvsc_run_xdp() in netvsc_bpf.c seems to handle it fully -- calls
+xdp_do_redirect(), tracks stats, and netvsc_drv.c advertises
+NETDEV_XDP_ACT_REDIRECT. This looks like it's been true since your
+commit 1cb9d3b6185b.
 
-You guys should use an improved ABI for the kernel like i386 does (different
-from the standard ABI used in user space)...
+Is the doc just stale, or is there a caveat I'm missing? Happy to
+send a one-line fix, or feel free to just tweak it yourself if
+that's quicker.
 
-That being said, perhaps s390(x) isn't affected by the underlying problem, and
-passing a pointer to a structure isn't any more expensive than passing a
-pointer to a variable...
-
-	-hpa
-
+Thanks,
+Christian
