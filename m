@@ -1,83 +1,96 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFFD392C34;
-	Mon, 31 Aug 2026 21:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BBA36F917;
+	Mon, 31 Aug 2026 22:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788212765; cv=none; b=Av21uEzB0I1WydvxNHYKfPXUNcazD9KDjpb3ITNNY1CMQm3xQTp1kk0hMJWkjQflViVsCa+Zlbsynk/O7/eFWhd43qMWV5+zkABy4w+eIc2DPu3EsmztAJh+Ckr7mnUJjHphUo/1w53fGhxNi3gFkyFPtUkjzBwsqOACgC4PELU=
+	t=1788214310; cv=none; b=aS21KoQWpQYMSq8jfy3rHwnvwl+Vqmy4qdtuAXn2RnAe46RFJiXdxNa2YOk6NXbPJHlx/VDcnWLJaA6TSjYb93q99OSO+TeIdmDufK8l6nQ78sjsRssZHdMFJ4os3L3OdPrCL1X7Ypu3iY+WNMb+FaNSke1sqFPvubC3DGsdu8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788212765; c=relaxed/simple;
-	bh=5YBZk6+S6cGK32SKRwAHu3YWtc1M5v22W4q3G9pvIVY=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=X+i7FCheohQTj5cCEZjJO0JRy/EOpWWkZdxaHiSp3rpH10wf0a+uyHtJv4ibJ4xIDqBIwJn+4oA+dAlby3yrScmgd/hRrDdW0WBZJb9oXgTvWPdJ6CxJx0bQrK1QklNDAK+6YfQxh95rN6oL1f+1dbZyQUqUx6/bd+w2aKx2y5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Z52H/c91; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1788214310; c=relaxed/simple;
+	bh=DVG+MNpzWKf+1XCRF11lgi+JI7uj2/QQObp9LBq220A=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=FrlN6v1dZjv+sTGoSN2hK2fbnWpZXg5Q116BmTp6wg0J8nFXdtR5Hlmb272AKCN0wPb/TCe/e5wgjpYKwXozZ6o9IkEdb/oxFbp3bgTLLnehZHIG/i6Tz5souAuYPmhCB39arTm/lN3K+JOhnIZ5NzuZMOzrOBdrTLoz7TgLOgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJGf/Evf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Z52H/c91"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9ED65408DB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788212763; bh=EFGqfU9HkeIt9fcjWEdtnOhdwdCof1fhGIvVt3dD1GY=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=Z52H/c91Ib4UMjys/xRwrXd3qeLHRC0zf/KhkeQaiKWpNot068TIzCS5PV07d5Mvo
-	 vlmDMyRiuvh7Q4mGkgaPG7bLroa6SFpb+Qdxm6GQ2uJEzYu4YbELkfr+dz5v9SH2+5
-	 3r1eMkR0/zix7ZRIu3s3tjry/9JOgkpIJMdSuE+HhUnwBf/p6IAVP+NumASVOfIcuv
-	 Os6RuSUPWMvMz5ZErokPIvFVAACfHP+8oP9d4J3AJwQyx5BJEuZMdH+k9sVupDnouR
-	 ENUf5WRIJbg2Ql84ALO3YXD6q4J28eMaQJ9VycJ3NwDr1CGmjCroTy/zsOxRAgBup8
-	 MIJtoqDOKPkhw==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9ED65408DB;
-	Mon, 31 Aug 2026 21:46:03 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Costa Shulyupin <costa.shul@redhat.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] docs: sysctl: timer_migration is for hrtimer only
-In-Reply-To: <20260826132921.294142-1-costa.shul@redhat.com>
-References: <20260826132921.294142-1-costa.shul@redhat.com>
-Date: Mon, 31 Aug 2026 15:46:02 -0600
-Message-ID: <87se3uezfp.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJGf/Evf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 897A81F000E9;
+	Mon, 31 Aug 2026 22:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788214309;
+	bh=RS4glFFdY1gLGmE8+lSVip51TLlerbXRaRrB/4BAIgQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ZJGf/EvfojHyDhwXYFae+AFZRYPW5j/Q01dFJb4IzmTRaXRz3UEwmocQ+/I6APThm
+	 qyPi6GhYG15KgtHn3W7OKu+coyTjdWHqkCCxrEt/Ro0gbaiwHiPKyAs3PsZiGechN7
+	 pkTDn4qVkWoX5DfyReCeHPUjoiO1L6B8/9nbv7JRvniqLKs1CkGg31Hc5UD/cnjuUP
+	 QY/l0zp0KsTauUegIM5AwrZIPwohJ1VnmHzblDAs0QfELba5Kq04mdxDLsduO1AzJS
+	 tFNiNUaEhTkpxMpUEFJKMNsB5DbFKmZAVDMzw3WZ/yrxxwqsqYILqWAQq60k5CeGxZ
+	 X0cu8mIHq0Dww==
+Date: Tue, 1 Sep 2026 07:11:42 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ x86@kernel.org, Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH 1/2] tracing/probes: Fix anon_stack check for unnamed
+ bitfields in btf_find_struct_member
+Message-Id: <20260901071142.9fac09b9553bcf8eedca6404@kernel.org>
+In-Reply-To: <20260831130133.3018b81a@gandalf.local.home>
+References: <178818875393.104360.1469039168635349344.stgit@devnote2>
+	<178818876548.104360.13229872396750615226.stgit@devnote2>
+	<20260831130133.3018b81a@gandalf.local.home>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Costa Shulyupin <costa.shul@redhat.com> writes:
+On Mon, 31 Aug 2026 13:01:33 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> Since commit b2cf7507e1864 ("timers: Always queue timers on the local
-> CPU") __mod_timer() no longer depends on timers_migration_enabled.  Only
-> high-resolution timer migration from isolated to housekeeping CPUs
-> depends on it.
->
-> Update and clarify the documentation accordingly.
->
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index b6328cd0f43e..fb38d654846d 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -1609,8 +1609,10 @@ If a value outside of this range is written to ``threads-max`` an
->  timer_migration
->  ===============
->  
-> -When set to a non-zero value, attempt to migrate timers away from idle cpus to
-> -allow them to remain in low power states longer.
-> +When set to a non-zero value, attempt to migrate high-resolution timers from
-> +nohz isolated (nohz_full) to housekeeping CPUs.
-> +See Documentation/admin-guide/cpu-isolation.rst
-> +and Documentation/admin-guide/kernel-parameters.rst.
+> On Tue,  1 Sep 2026 00:06:05 +0900
+> "Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
+> 
+> > From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> > 
+> > btf_find_struct_member() traverses into nested anonymous structures
+> > and unions by pushing members with !member->name_off onto anon_stack.
+> > However, it does not consider the unnamed bitfields (e.g. `int : 5`
+> > or `unsigned int : 0`) which also have member->name_off == 0.
+> > 
+> > If such an unnamed bitfield is pushed to anon_stack, the
+> > btf_find_struct_member() return an error even if there are other
+> > valid entries in anon_stack.
+> > 
+> > To fix this, only push unnamed struct/union members to anon_stack.
+> > Also move the btf_type_is_struct() check to the entry of this function
+> > because now it is sure only struct/union are pushed to anon_stack.
+> > 
+> 
+> Should we add Reported-by and a link to the Sashiko report?
 
-Applied, thanks.
+Ah, good point! Let me add it (and I forgot Cc: stable)
 
-jon
+> 
+> > Fixes: 302db0f5b3d8 ("tracing/probes: Add a function to search a member of a struct/union")
+> > Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> 
+> Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
+
+Thanks!
+
+> 
+> -- Steve
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
