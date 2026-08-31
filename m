@@ -1,54 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3EC333A9E8;
-	Mon, 31 Aug 2026 21:34:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF94038DC5C;
+	Mon, 31 Aug 2026 21:38:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788212062; cv=none; b=U2oN/S7UiT30+EWua2XIxbTrIIspjlx2H4wxZU9vbswmp37c55e4esPJs4NaQuLxywxoX3dfpOkKYkSGHTvkDlOD08NuBKPj4wtXRuyeZWWxOemOusz08+M++KzNgd0NlvJ/GvD1ReUYFdSCkC8MaX0o9pVbqYkn3AkdgTO+FXo=
+	t=1788212284; cv=none; b=rHrcKMOwRN+jxUgOKsJaLIFKAxO0UDpMb0KpKiy8zqkwNGY5trtobFPLMJ77IEL48C8ti1eLlKcJgsGZSphJ1HUDzLgezIGnnqzMF9/BGvc4T0UMRXvqvyzH9JPAIwKggPXw39PUOz6AaR1qHgtP9wF1VGDMysVITJrNgXynMbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788212062; c=relaxed/simple;
-	bh=3rm6nEGUS8PCQQIjGhfmZW/wnn1hWIKT56jQ59nmm4E=;
+	s=arc-20240116; t=1788212284; c=relaxed/simple;
+	bh=FIROxzoCKhSoWyKii6QuN0XwYJI4NdivDDFqJw9FoA4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PbZeRewDBg/Giltg2PsiZAumNaf/eRic9BRcgIKI8zW+IIaHLbiKsJ4PxWPkOWJVEnvoTua6FJWHLAK8G5wsmVVQOEeuDsP3fwYH5Q8nkpK4ErRX5rbFxZ3jQvLPDwxGNnICuUixFO0q6cGbNI3RwGdd2F/+ArlTkqtYmyyIx8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=MMrdVUqr; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=sHbaaHqs2Ngf855NqQ9GfMottKoPYiceuJHWn81WEWR1dHxP4uOpVmovMhDV71IjaaNAVAQAWUsNLwqYgxctulXRLzmJeYboWXoTVSUu7UeRKKR/ErzAf1ZDUvhTY1WK+fE5hNU9RchkKLD38fa9Z8ZawhbQnXVmwOpU6P4+QE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BojzB2Ri; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MMrdVUqr"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E2CF8408DB
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BojzB2Ri"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0BF40408DB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788212060; bh=tiLQdS9VqOVY2M+173eU2VxYzYbYQ00f8q6FKkHANzU=;
+	t=1788212282; bh=906stpcRDzwnmUFL4NvDSF6wSzCWI8abUNVohL2bq6k=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=MMrdVUqrZlPWTO3lMIJF6yDsyfP4fy3aExJyS4RPKowLTKwyUXCy+jkiZRQml70vj
-	 ZT6UgfKxuWWZV2jhIACuSAafjsqCYqRIuoaLttYCJncgBdi2UWrvw8fPOj0ndL5Vj2
-	 B9Hak/pWhn7we9oxVc9PfUWPEdwMVPKLmHzrnJ68Jja5byWqKX50fqaclc9xwDx8gB
-	 stY/xAXa6umDeoexXdnmcVMB6EVGbGEWYEaiVeE7bogpsC5TUM9bgeuqtrWUpj7tQp
-	 CHu7pfJvgeaQPE3/at+mso8wqlx8D6EqO0suJ4gdWEvDYn1mRoDjH/H1DdZ70cPRBf
-	 zfau6hqecKTcw==
+	b=BojzB2RigyO3fcb0SO31LnV9JjFTlwyzpDLtAQxrBmYXyyaBGmM0C7L9e9Wtxesly
+	 EaC9OZzfyaIDHWuqvbPIccRudZo0eRd9Am8JJz614v/dcbkc3ZhtfeHiQDkFQQ68sN
+	 HuRo2Ojpz402C/cejrRlOVvtCkCkHC7mfBgFq6Sig5vrBpHTvuKpUDyhvkhCiNFh+H
+	 8k7K/cuwSsnDbBT2tsipuoMOOy3GYIUY/eqpSjBA+xNtmgyEjscQ0mvaBpjYydQgKS
+	 753Y/Q+3PSAgsHD26or+aZH0qkc5TUH/qynhF3UyPwIU/xszRCq0VgRJjku6aHVmYE
+	 OXSid5hrvavgA==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E2CF8408DB;
-	Mon, 31 Aug 2026 21:34:19 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0BF40408DB;
+	Mon, 31 Aug 2026 21:38:01 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Thomas Gleixner
- <tglx@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Petr
- Tesarik <petr@tesarici.cz>, Bagas Sanjaya <bagasdotme@gmail.com>, Michael
- Kelley <mhklinux@outlook.com>, "Paul E. McKenney" <paulmck@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Matthew Wilcox <willy@infradead.org>, Zi
- Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 0/7] docs: core-api: Fix stale function names and a
- broken example
-In-Reply-To: <20260822121651.1559-1-kmehltretter@gmail.com>
-References: <20260822121651.1559-1-kmehltretter@gmail.com>
-Date: Mon, 31 Aug 2026 15:34:17 -0600
-Message-ID: <87a4q2gejq.fsf@trenco.lwn.net>
+To: Lucas Adryell Ramalho <lucasadramalho@gmail.com>, Daniel Pereira
+ <danielmaraboo@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, Randy
+ Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Lucas Adryell
+ Ramalho <lucasadramalho@gmail.com>
+Subject: Re: [PATCH v3] docs: translations: pt_BR: translate
+ stable-api-nonsense.rst
+In-Reply-To: <20260823-ptbr-stable-api-nonsense-v3-1-58c9beebf9bd@gmail.com>
+References: <20260823-ptbr-stable-api-nonsense-v3-1-58c9beebf9bd@gmail.com>
+Date: Mon, 31 Aug 2026 15:38:01 -0600
+Message-ID: <875x0qgedi.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,36 +52,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Karl Mehltretter <kmehltretter@gmail.com> writes:
+Lucas Adryell Ramalho <lucasadramalho@gmail.com> writes:
 
-> A review of Documentation/core-api turned up a handful of places where
-> the text names a function that does not exist, or an example command
-> that cannot work as written.  Each one is a plain typo from the day the
-> text was written rather than an API rename: for every patch the wrong
-> name was checked against the tree at the time of the Fixes: commit, and
-> the correct name exists in current mainline.
+> Translate Documentation/process/stable-api-nonsense.rst into Brazilian
+> Portuguese.
 >
-> The changes are independent of each other and only touch prose and
-> examples, so each can be applied on its own.
+> Assisted-by: ChatGPT:GPT-5.5
+> Signed-off-by: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+> ---
+> Changes in v3:
+> - Remove blank lines between bullet points, as Daniel suggested, to match
+>   the style used in the other kernel documentation files.
+> - Link to v2: https://lore.kernel.org/r/20260821-ptbr-stable-api-nonsense-v2-1-f07df4a0fc3b@gmail.com
 >
-> Karl Mehltretter (7):
->   docs: cpu_hotplug: Fix multi-instance removal calls
->   docs: irq-affinity: Restore grep in example
->   docs: dma-attributes: Fix dma_alloc_attrs() name
->   docs: swiotlb: Fix maximum mapping size helper
->   docs: this_cpu_ops: Fix SRCU helper names
->   docs: xarray: Fix xas_try_split() name
->   docs: debugobjects: Fix debug_object_init() name
+> Changes in v2:
+> - Remove the unnecessary top-of-file label that caused a duplicate-label warning during the documentation build.
+> - Add disclosure for generative tools used while preparing and reviewing the translation.
+> - Build the documentation with make htmldocs and verify that the translated document introduces no new warnings or errors.
+> - Link to v1: https://lore.kernel.org/r/20260820-ptbr-stable-api-nonsense-v1-1-0341f55fec2d@gmail.com
 >
->  Documentation/core-api/cpu_hotplug.rst | 4 ++--
->  Documentation/core-api/irq/irq-affinity.rst | 2 +-
->  Documentation/core-api/dma-attributes.rst | 2 +-
->  Documentation/core-api/swiotlb.rst | 2 +-
->  Documentation/core-api/this_cpu_ops.rst | 6 +++---
->  Documentation/core-api/xarray.rst | 2 +-
->  Documentation/core-api/debug-objects.rst | 2 +-
->  7 files changed, 10 insertions(+), 10 deletions(-)
+> I used ChatGPT and DeepL to help me clarify some Portuguese sentences that did not sound entirely natural or clear to me.
+> ---
+>  Documentation/translations/pt_BR/process/index.rst |   1 +
+>  .../pt_BR/process/stable-api-nonsense.rst          | 207 +++++++++++++++++++++
+>  2 files changed, 208 insertions(+)
 
-I've applied the set, thanks.
+This one adds a build error:
+
+  Documentation/translations/pt_BR/process/stable-api-nonsense.rst:76: ERROR: Unexpected indentation. [docutils]
+
+Please always build the docs after making changes.
+
+Thanks,
 
 jon
