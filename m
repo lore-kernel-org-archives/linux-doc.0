@@ -1,378 +1,354 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010066.outbound.protection.outlook.com [52.101.61.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A81838F64E;
-	Mon, 31 Aug 2026 22:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788217152; cv=fail; b=FifknKRsHvZ2+uCoZNq8pvnm3zGiEs3Qta3ayGZyAmE6YKagH943Ufa6k4xmnCQbN0ILYLOfxAja1nCGALZvrr+CQMibKWD+AM5u+DcX95PTxg6KI3j/PGPl2UVdgqEYXzzb03tXgHOxzcViJWWhpZ4GedNzml06phfj7lY07Og=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788217152; c=relaxed/simple;
-	bh=OVgjosZGuBIFykZjMw8bjOMvqOHz7ckWMAS7p5BvKSw=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=kyVb/N7J/Lt9iClJSAyASlk4/uPajemdFZyy6YeNOs9yhnoiUhcMfbp9j4dHjOUHxed7LVUcfrPNsSzhAt5lcr2qf+MGrdtS5eWIdPCN2CmbfHF3VTF6ayCKccjjI0XXFAevEajttNztq9XdsayOwSuATTtJ0CazcB672Hb+j3c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Hmn8dt9j; arc=fail smtp.client-ip=52.101.61.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A087E4052BC
+	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 23:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788218803; cv=none; b=Eijf8XuOxQVU3KBHIMmPpSLqXsg3GYeuH+/StxWImQkGHkwPPR7eFh8VS9uCt32y+8XvJSfYr9fFpGkm+SH8XA2fi0MdkDgKLpQJAhh0AwypCstW3Rqg7gwOdIK/ijdFpLSnAWEvZiu1UPenGnuyIt0EkbiUvZdUc6cN1z1d7CE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788218803; c=relaxed/simple;
+	bh=Px3WPJsJT98G0nSOx33kV9YpzPVJGQJclye8SW8PAjw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=JAaVI4qCj6y2JZkNERmnMQPLq76mQgz1bwzyLS71pZ9RrHl7D3UuaDzGp06vFzPI7ZgdW/YxbmW+mm3WKChxui+8/XIKi/RtVqHnzcdLmGgWcAb6MXLWEPiE287g7TJnCEnXIuzoG3aEx1NenpfJKa8/ekTa2OM6jvT45+TGFp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GdG47dVf; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Hmn8dt9j"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=erhGTf+0W1QSpjobdQbD6RONUFkKU3hsAQDhOVW7BI8jqd6P9q7xj5lt4SWZj4QeHfg1wmKmWIQhbJuDtRU+GA6QU0AsjlX3GshFp3v15t4qyVoWJbT79YHI/lmbejjKZCZxV3Dhes1BgUsytqWgt2kDHJecbVoT7Ln6CtPCCs2B/qhqWPTE3eC2QU7vjRZy3ozzKFWWYFqB6zHwC3G1iUnMJIrzagpg5EKMxyTWwQjs9rWdQwdzCV1L2KUxFsPf5x67SkCj5vbcWZZtOBzrN3zQZXxOxsXYdo0hjR0aA1RvQbAD9vwu/hjonF/LUTRF2J33Lc1ZGNRtlY6PdHd2nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FQF/ZxsFfz1BLOkqXkyw9i4hO3qGKSFXTEGnRkppxug=;
- b=CJkFhk3jQjC01pOFLHv09wYsY1KCBrDF3mlFRz0FWPkCgYrgfsdD/Y0MvFfEd190f9M9NVqyjYXpQ7S+El5J11FakWsYGWtv1Y8y0UJtK/5qSO1lamyjZiHZ+M4KVBhxPVtP9wtiRDdA/Hv/4GXFZVe4h8RQkKcsQDP616F3kLkUNnWTFzOlLwSgg11nHuDq+DLpkU5sWziWdomTfn724PvlpSlELOGWSVU39nyzrZeYcyIfgsUrKeR+ZxZCLDluYl058KH0gEZm1u1Pg9MDnaG+1D6UtGKAOahwKDjTcQHvNNAgY+xFoNY6zc2AqB25owY3dHQjhGCuh0f9Mxk6hw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FQF/ZxsFfz1BLOkqXkyw9i4hO3qGKSFXTEGnRkppxug=;
- b=Hmn8dt9jFIz+bWrLCiQntT7pAPyQfWthQ/vnb2xaCRN/zBP4xGyhcY7IZFarwrLnGHHpCAT7hsuDbt74pjUlmNJI2jdMkusL2j9GAeA5k3OEe/Nl/VtTdhEtgKomMUfceYWNyeRvIDUe0KCnbpF7T2O5HEGeWBenkW3Bw9VB+Js=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by MW5PR12MB5621.namprd12.prod.outlook.com (2603:10b6:303:193::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Mon, 31 Aug
- 2026 22:59:03 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0360.008; Mon, 31 Aug 2026
- 22:59:03 +0000
-Message-ID: <ad90a776-7be2-4d5d-88b4-280bc46b7387@amd.com>
-Date: Mon, 31 Aug 2026 17:59:02 -0500
-User-Agent: Mozilla Thunderbird
-From: Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
- "default" on boot
-To: "Moger, Babu" <bmoger@amd.com>,
- Reinette Chatre <reinette.chatre@intel.com>, Borislav Petkov <bp@alien8.de>
-Cc: "Luck, Tony" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>,
- "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
- "james.morse@arm.com" <james.morse@arm.com>, "corbet@lwn.net"
- <corbet@lwn.net>, "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "hpa@zytor.com" <hpa@zytor.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "Eranian, Stephane" <eranian@google.com>,
- "peternewman@google.com" <peternewman@google.com>
-References: <7d3dd384-9101-49cb-ada4-b8320198233e@amd.com>
- <20260730194328.GEamupYLsURg6VvxBU@fat_crate.local>
- <d364100d-45e4-458e-97d5-05416fbe5bef@amd.com>
- <SJ1PR11MB6083F7EC6D533C4E183D5876FCC92@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260731003436.GKamvtnJlKydaEqstA@fat_crate.local>
- <4bfafa1e-a7da-4c37-8da9-9fbba14106fd@intel.com>
- <20260801012227.GEam1KUyMz601QOzrT@fat_crate.local>
- <5f10ceab-5569-409b-8e78-c4a4f232489f@intel.com>
- <20260804191608.GDanI6eK2Q07w6pNcb@fat_crate.local>
- <98be93cc-f2d8-4bad-bbb0-f309e912054c@intel.com>
- <20260804224703.GFanJr52UbKBrCOTij@fat_crate.local>
- <112cebea-d455-4b75-847b-bb7d4aa4847d@intel.com>
- <1fe5cb09-aa2e-4b3d-9fbd-293d8e9f33d7@amd.com>
-Content-Language: en-US
-In-Reply-To: <1fe5cb09-aa2e-4b3d-9fbd-293d8e9f33d7@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA9PR10CA0016.namprd10.prod.outlook.com
- (2603:10b6:806:a7::21) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GdG47dVf"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-81e6f0b4610so38167907b3.2
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 16:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788218800; x=1788823600; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=e1xYo3hdqET7WwrhB0ZD0H/ZAAlDFrf1Xtb+9lQv0GM=;
+        b=GdG47dVfKdrEUlBv2cOCVitDdBLOX+42o5XYqLRb8/bvyPGSsJGzWAYj/w3Lg/+B9x
+         tv171E04Fx02pp4DnFeKK1tUUdS19VJAXcDN/SNTa06+bWRbj+VepB1P0ifn1qjk0B3L
+         fUVxltfGfumD5OAqVCd2tClCuDwPCqZeCyxMssNQnyikKBopmSYhmK1kpR4hzQyUScVt
+         3zSsW7Dz2C0kVy3yqSCbj8dWnNv6t/fG+ifXXvish9z/NcAWzqdc+3QpgczhYAnL+IW8
+         ldHa6/+NLt2ACKEajB0eQuECbc58ONgEmXraw6cr2RUbyse/F09piB9m2E//rqKFc8X6
+         +RMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788218800; x=1788823600;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=e1xYo3hdqET7WwrhB0ZD0H/ZAAlDFrf1Xtb+9lQv0GM=;
+        b=dtvgRO4dcNBTHu6TbuXMOG89QHfGajFX7pa01wiTHmP5EwLS0NErH7FH3RUzyBcV/W
+         ibVFItcECqEtxdSL0neVo0vD+0TFNuQg5SoUsE1gAwiFmygGdRQHbasYYXVeM4G5h9zO
+         fF5QaTbgBHoFNG4bGl8yT2Qamb+Wb/GFpYhGa7iYNwAhCMLPdxB5Rw4XcHWi7LM3yH7E
+         pksojKhc6W7nVrAMkkqCp1winwIfiTjp84+cfAtZECRHn/oJNCIrYPy526xlJHrtAp13
+         9HYEJixywS9A5v/N+UwkPLpjA0lD/NrAojWf7tGEG8ahumNieMxciFm5pOFcNeAL7a2U
+         kmMw==
+X-Gm-Message-State: AFuF++kNnDaBAxT4qWR/tt2YJ6ujVV7/NVFLbn1zbOMeyXCm29LhxHTg
+	c2Yj8knvQzPQ58mblqeBunb3xK8dh2iLAsl8jG9UBRCivxOx+OQSCppsc++v7FXnQ5o=
+X-Gm-Gg: AYBFou1HC5zbxve8esFFRXYo59Zke6fH5ELvg3AesK4CL6SQM/IPircgDIimdBnNxfH
+	BXRye8LlpKQQ7w+LTZGp63uG1ukZhsIZOPhiu+bVpSOJsM9+gP8Bg7VXH/ZaVtBVLbPpKu7paL7
+	vuIrTJDQr3HngBqVaRZkfpsKVB+FqtesHqbelfsniGEdGlD+Xfin6pWXr1xAmphuuFh6TNxtU7D
+	AD4nBMn+chQPXUjJfS2yBRTeLtYZhCSTvzS31y0qhG3Eh3QwVf/Hi47KJveBtzE007nBXx7krL7
+	uV1zX4y2or8g9Z9D9dkHlLL4aKGB7s0fRfvwpmfE3moPXYFng1vI+oxOmmDmfOi/vS2z6U0tgmi
+	1X71Bq3Px2GWUtPmx3/qbKXAOUBXSaXUSN7t448pfg85RzTN+OgI8oGGdGaCuZ7avaRlCGxzeKQ
+	EVIls5E3iTVJeo6b0M3ibTb273FW+Jr26EjJvmJXxPK6J5dOpJhU1rF7U88OqqoMKrBlwgmw4=
+X-Received: by 2002:a05:690c:12:b0:867:617c:9907 with SMTP id 00721157ae682-86874be1e3fmr20245247b3.18.1788218800211;
+        Mon, 31 Aug 2026 16:26:40 -0700 (PDT)
+Received: from [10.112.196.110] ([187.9.129.181])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8650aacd1c7sm34291667b3.35.2026.08.31.16.26.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2026 16:26:39 -0700 (PDT)
+From: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+Date: Mon, 31 Aug 2026 20:26:30 -0300
+Subject: [PATCH v4] docs: translations: pt_BR: translate
+ stable-api-nonsense.rst
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|MW5PR12MB5621:EE_
-X-MS-Office365-Filtering-Correlation-Id: 416b0470-c014-480f-eba3-08df07b373cd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|23010399003|6133799003|18002099003|22082099003|56012099006|3023799007|5023799004|11063799006|10067099003|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	oNdQGyZhnadoWSLdo+4wzAHYUAx2isBWNEYuBaISEA/f/uRBF3Cv07Qu/9Qwz9aUcnuGFZrDQ7iHLDTh9bqYQhBOPTRZxYoR5lwEwN4FvuLuN2gbuOemrHJlI8VJNSHreliFuIlDf6J8TWf++KGWCFL8QiMale9pr5iEe6UeFttk/tF1I2vzYZzprmz1Sdula9rlc2Tj0cYRZadZwYFqAXrsVULeaMYqzbO1anhwZFM/c3GCoa4C+coH8AEroWAuz0CfwJ/gpMVUMDoQRIjDSFjEvaEk+voANz2kzjKl/hQOqr86O1QHmCiehxKlIoaDFuT61vVHcfqQG9tmRBSaP/yn/1IDfGxS1JcNfnxGvKq64asQyV8ooJpCIL3iydf6L4Wg79tEieWl7KuRDFVzdH/1/hzA+1goE9uflYYYsLhVeAAftorakEuFDMPKnSmGX3t/fgTe7B8nFMQE/981SvYLYksvG6Xld5sg7ht0skTYjdMI+kCeaFBK3jfII7SURbsjgQPW1aVlSwUOejYJIS4Yd4WsXpk+YO7bsp5iacI/X18NSOM0UuWL9mSloIYaihTN2ZtqpT7WsGKUyrmltFRDFbywRFh0JJC+/6Fddk5UbBTaAc6VgP1/M2soaRLxivz1lD6Dabag5RuTcACbfA33R5HjlgnQ5DBgokQB32c=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(23010399003)(6133799003)(18002099003)(22082099003)(56012099006)(3023799007)(5023799004)(11063799006)(10067099003)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?T01VV09yOUdSN2NRVit4eUhwTjRWb0ZjK1Jxck9sR1E4YXFtdG5FaFhRYVNo?=
- =?utf-8?B?QWpvZWxUZmpPRE41a0FsOWltS29lTFZGWHd3cm5YRTkrVFByMDVjT2V2cE8w?=
- =?utf-8?B?ZGE2Qm12RUpPdmE1elpUVEF0VXFSNzJWbk5jL216eXYxR1YxWC9wVExsbkJJ?=
- =?utf-8?B?UUV2Q2Q0R1NmMW9MSjU5cTFjL3IrR3o0RHBFckYzYlJndEVtczlqV3dUdVo2?=
- =?utf-8?B?ZFVjS3NzbkJBZVU2Wm9STmo1WG9sVDc5cmdJcnNVaGdxdSs5aXdoRVRxL3k2?=
- =?utf-8?B?Z3duNVhNcEl1Q1VoSDVFbTI2cEVMZzVEU2tqWkk1UzVTR1R2bDZPTzdsVGpi?=
- =?utf-8?B?SzZEZ00zTSt4S2xCQWFlZnpyc09aY1kyeDZXTkprVlYvZFdLS1cxUGNGbHhC?=
- =?utf-8?B?cnYwRU9TS2pPdlpmN1VmZWxqUkx1WURDaWdwT2hNSFNwdjRWekZJU3BJVW4z?=
- =?utf-8?B?b1F3dTFORnBQK3BTS1ZkWjVJOHlZYUdZWWlJQnR2Vm9DazlHWldqbldOa1hD?=
- =?utf-8?B?SUVzVzVVU1FTWDkwYVhiK2U0MzJ2SnJpTU1LSWJURTRNcExra3RKajd1M0xM?=
- =?utf-8?B?ZVU5Y2xXcjBQbkl0dXVHbVNBMDhKcjRBbnJHWHZRMUMzbndkZGtFRUlMN3lO?=
- =?utf-8?B?UnIxRDBBQVVUb1hHSmJPUHZNYkFoOEdmOE1TUFYydVA5cVFWNmxqb0hlS2ww?=
- =?utf-8?B?cFZ4R2Fvck1ZUUw3MjFIdm1oMGtrbWZhMGRwUGhnKzRua2JGTGltV0VTZ29E?=
- =?utf-8?B?TVVxVDhPSVFBZmI5M09jMXQ3aXY0M1dVd1NSYk00K0hoTi9kYnhYUWh2M2pC?=
- =?utf-8?B?Rm1OWWw1UEgzdU1nSWcyUWUrNGo0Wmh3c2ZJQ3JqOVFDRG9Ra2krVWk4ZHJZ?=
- =?utf-8?B?aG5rbVR6T1NzNlgvZzJXQm1zSFpaZEpEYWVrOFAzOXVZM0hOSW9UeXdoTzIr?=
- =?utf-8?B?M1FRSGp0SDEvQWlKL2Z2bWUyWFE5aDZmd1ZIckNPVmlkN1Q2N2RESnFBaHRV?=
- =?utf-8?B?MnZRVmFuemYwQ2lYTmVrNU1pUlluOFBqQTk2cW9wT2VFMllOUWIvdlhWSmRO?=
- =?utf-8?B?VHlFcjNVUTBFK2p5TkkxTnB1ZlRwMEhVaDg5TElteHpZOUF4UVJtdy9neEpE?=
- =?utf-8?B?TTZLajlhTk10V3hFRWEzWVV4WDMzaEx3eFlBRG9TZzdyZDlERFd1ODVRa2Iz?=
- =?utf-8?B?Z2pySi8rYWUzNWN4Q2hQdEJZVlJBdnBzbEVEUllWa0J2OGRObzE4dFpnK3RB?=
- =?utf-8?B?SXR1R3VjQWdmMzd5VHRLa3ZFSmVmbEROaHRqdXZwYmtVa0hEQ3ZRVTBXbnA2?=
- =?utf-8?B?Mit4SWIzYTlnc3lDdUVFWlZvYTJ4QTVLbE5iNk52OVlkNzdNWVpBejZtbVVX?=
- =?utf-8?B?Z205T1BnMjF1TU1PS3p3RlQyc1JUQ3BabWR4blhNbWFsbjY3YTlBRnRWZTVq?=
- =?utf-8?B?dWJXa1dlZTdCL0ZFRmJNVzRnaGJEUmt5SGgyVXdrSDNwRXFWblJldW0wZm5O?=
- =?utf-8?B?OWNGNGF5WmNHS2Y2MndUbWxKeUp6dnNiTzBwelA5cGFYbDVhTDdMY3BCZGw4?=
- =?utf-8?B?VURsZVFDMlkyTUFTSzFwU0s2WEpsU24zeWdxYm5aMm1FSHlveit4SHJMU2tS?=
- =?utf-8?B?aEtCZmNZOWV5S1cwSldnaTY0UXMrTC9ueERreXZDUHlydnk5aThsNnRaSXdO?=
- =?utf-8?B?dDZBUkZmMEpOZFJTd2pFRmhMdkZwVFEvVG11cjl2MFYrbWQ1YjI0TGxSbStG?=
- =?utf-8?B?U29MUWMrc1RCUVBLNzQ4NWVDUUxIZ2svL2Zyd3kxTVU2ZldMdE91Nit4NGI5?=
- =?utf-8?B?ME5xc3U1ZUkzOStMTEpvVk9jeTJIMi8wUzNSOG9jaFJ0OTRsUExjZmx6TEpL?=
- =?utf-8?B?amx0RXN0b09WcWc3VjY3L1A1ZlRMTjFJZ0pHMm14eS8yNnZoSFlaTmpXWUwv?=
- =?utf-8?B?SkR5RzVTamFOeXh5cmxVUVZnYjVsdUpRcWk4TjVBMVV6aFNCVHBFSHdic003?=
- =?utf-8?B?RGtBRVdKWnNobkI3MDBkS2xUZ2RiTWJsUDQ4S1hlOGF2RjFsWHhJQTlwTURv?=
- =?utf-8?B?UEhxeEE5SGMzTlhiTlZEZ3dWRzZsQmVjalZFMDRvMmd4blJ5TUt3aUZ6SEtY?=
- =?utf-8?B?U2E0Zm91YnpGVFR2UjFaeDBoa2NWb2FET1RIYzhKSk9WSGZ3ZTZIbnVJREly?=
- =?utf-8?B?ZjhXL3FURjFnM01yRUN2ZG5uOEFFZGhiYnZQMTg1VWl4c0RvL3B1VVhEa3ow?=
- =?utf-8?B?b0I0RVZ2Vm5rWG9xRnJTeDRUZjdYOGZrV2cvdCt4dnAvdS9Tc2ptSHRvQzdK?=
- =?utf-8?Q?AFWw1rsKSbeFGkk/58?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 416b0470-c014-480f-eba3-08df07b373cd
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2026 22:59:03.5083
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6Fk9lrPykWHDUzu5hGPMqboljbWO5LoWTnI8xvQidRr2gmtFMnxrPSYMTLvXqEFu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5621
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260831-ptbr-stable-api-nonsense-v4-1-0ef5e58504cc@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33OywrCMBAF0F8pWRvJUxtX/oe4yGPSBmpbklKU0
+ n83LS6qYGE2d+CemQkliAESuhQTijCGFLo2B3EokK11WwEOLmfECDuRkircDybiNGjTANZ9wG3
+ XJsiDreCOCam1lwrleh/Bh+dK3+451yENXXytl0a6bD8oI//RkWKKCRfUS+nBMnetHjo0R9s90
+ IKObAvRHYhlyJOz80ITb7n5hfgW4jsQz5AsrTIAxivz9dE8z2+QFM9oUgEAAA==
+X-Change-ID: 20260819-ptbr-stable-api-nonsense-c43d245aaf59
+To: Daniel Pereira <danielmaraboo@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788218796; l=14266;
+ i=lucasadramalho@gmail.com; h=from:subject:message-id;
+ bh=Px3WPJsJT98G0nSOx33kV9YpzPVJGQJclye8SW8PAjw=;
+ b=2d90CY4hVYuV4FuZFJUeXPsH7ia1iK5c0je82P6S4UrsLYnh9FU96ADSD1tXGuSjkxVuGdsfu
+ tut9rKLkmovBGm09AztKfvo3tV7r1R0Xc1thEDVHr+iAhZzShUE0IkF
+X-Developer-Key: i=lucasadramalho@gmail.com; a=ed25519;
+ pk=m3TQ0mH3ARCg0EdGRQWOTlBoFnDen6VWMNGjXW+W4NM=
 
-Hi Maintainers,
+Translate Documentation/process/stable-api-nonsense.rst into Brazilian
+Portuguese.
 
-It's been a while since we last discussed this thread, and this item has 
-been outstanding for some time. I'd like to revisit the conversation and 
-understand the plan moving forward.
+Assisted-by: ChatGPT:GPT-5.5
+Acked-by: Daniel Pereira <danielmaraboo@gmail.com>
+Signed-off-by: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+---
+Changes in v4:
+- Fix nested list formatting that caused an error during make htmldocs.
+- Remove trailing whitespace reported by checkpatch.
+- Link to v3: https://lore.kernel.org/r/20260823-ptbr-stable-api-nonsense-v3-1-58c9beebf9bd@gmail.com
 
-Please advice. More below.
+Changes in v3:
+- Remove blank lines between bullet points, as Daniel suggested, to match
+  the style used in the other kernel documentation files.
+- Link to v2: https://lore.kernel.org/r/20260821-ptbr-stable-api-nonsense-v2-1-f07df4a0fc3b@gmail.com
 
-On 8/5/26 17:40, Moger, Babu wrote:
-> Hi Reinette/Boris,
-> 
-> On 8/4/2026 6:35 PM, Reinette Chatre wrote:
->> Hi Boris,
->>
->> On 8/4/26 3:47 PM, Borislav Petkov wrote:
->>> On Tue, Aug 04, 2026 at 03:10:18PM -0700, Reinette Chatre wrote:
->>>>> So, long story short - and I appreciate the explaining - we should 
->>>>> switch
->>>>> AMD's default behavior back to RMID + 64 counters - exactly like it 
->>>>> is on
->>>>> Intel - and the ABMC thing will be explicitly selectable by the user.
->>>>
->>>> nit: s/exactly like it is on Intel//
->>>
->>> What does that mean?
->>>
->>> What's the difference between Intel's RMID mode + 64 counters and AMD's?
->>
->> Expanding on what Tony answered ...
->>
->> The 64 magic number only applies to AMD.
->>
->> In default mode both Intel and AMD enumerates the number of RMIDs 
->> supported
->> by each resource and both Intel and AMD limits the number of monitor 
->> groups
->> a user can create to the minimum RMID ("minRMID" below) supported 
->> across all
->> resources.
->>
->> On Intel the monitoring behavior is consistent no matter how many 
->> monitor groups the
->> user creates. User can create up to minRMID monitor groups and reading 
->> monitoring
->> data from all the monitor groups always return accurate data (never 
->> "Unavailable").
->>
->> On AMD the monitoring behavior (without assignable counters, aka 
->> "default mode") changes
->> depending on how many monitor groups the user creates:
->> User creates 0 to 64 monitor groups:
->>     reading monitoring data from any of these monitor groups will 
->> always return data
->>     and it will be accurate
->>
->> User creates from 65 to minRMID monitor groups:
->>     reading monitoring data from *any* monitor group may return 
->> "Unavailable" and
->>     vary in accuracy
->>
->>
->>>> ok.
->>>>
->>>>> This way there are no surprises when running any tools on either 
->>>>> vendor and if
->>>>> one wants something special, one selects it.
->>>> This patch, once minimized for easier backporting and marked for 
->>>> stable, would
->>>> accomplish this.
->>>>
->>>> Two nitpicks:
->>>> * "no surprises" should be "no surprises (as long as AMD hardware 
->>>> does not return
->>>>    "Unavailable")".
->>>
->>> AFAIK, Babu was unable to reproduce that.
->>
->> If this cannot be reproduced on AMD hardware then AMD did not need to 
->> create ABMC, no?
-> 
-> I haven't been able to reproduce the issue in my test environment yet, 
-> even though this has been the case since the very beginning. I'm working 
-> on reproducing it though. It requires a very specific scenario where 
-> more than 64 monitoring groups are active within the same L3 domain.
-> 
-> Prior to ABMC, there was an attempt to address the problem using a 
-> "soft-RMID" approach. Saving and restoring the counters in software.
-> However, that solution was eventually abandoned because it introduced 
-> unacceptable overhead in the context-switch path.
-> 
-> This is where ABMC comes in - because reading counters can be very 
-> expensive on every context switch, with ABMC you get the ability to pin 
-> certain RMIDs for longer without the hardware invalidating them as long 
-> as it is pinned.
-> 
-> You can imagine that there are hardware limitations which cannot allow 
-> you to pin 2 counters for *each* RMID. So you end up monitoring a subset 
-> of groups.
-> 
->>
->>>
->>>>     There is the known issue with the default mode on AMD where 
->>>> return of "Unavailable"
->>>>     is treated as wraparound by pqos.
->>>
->>> I guess Babu can address that.
->>>
->>>> * "one wants something special" should be "one wants accurate data".
->>>>     Caveat: User does not know how inaccurate data is in default 
->>>> mode. Users need to learn
->>>>     about existence of accurate data from outside resctrl via 
->>>> external sources, possibly
->>>>     leaving it up to the tools considered here.
->>>
->>> With my simple thinking, I would expect that accurate data means, the 
->>> number
->>> of counters being in use is not hitting the arch limit. The moment that
->>> happens, I guess one could deem that measurement innacurate.
->>
->> Agreed and matches above summary. The arch limit here would be the 64 
->> RMID that can
->> be guaranteed to be counted. resctrl does not limit the number of 
->> monitor groups to
->> this number though but instead uses the number enumerated from 
->> hardware (4096 on this hardware).
->> To guarantee accurate data in "default" mode a solution could be to 
->> add model specific
->> information that teaches resctrl about "64" and it can use that as 
->> RMID limit instead.
->>
->>>> What is the plan with https://github.com/intel/intel-cmt-cat/ 
->>>> issues/311 ?
->>>
->>> I guess that should be closed once we switch back the default.
->>
->> I expect so also. Even so, it does open a new question of if and how 
->> tools are
->> expected to interact with assignable counters. Instead of this bug I 
->> would propose
->> that AMD work with pqos folks on expectations from tools to support 
->> assignable
->> counters. To me this bug implies that AMD considers enabling 
->> assignable mode on
->> a system as a bug.
->>
-> 
-> We have discussed adding ABMC support to the pqos tool, but it has not 
-> been a priority so far. Given the current discussion, we will need to 
-> revisit it.
-> 
-> We would prefer to keep the current mode as the "default" for the 
-> following reasons:
-> 
-> 1. The "Unavailable" issue is not new and has existed for a long time.
-> Most users are unlikely to encounter it.
-> 
-> 2. Users who do encounter the issue can use ABMC with the intended usage 
-> model described in [A], where a subset of groups is monitored at a time.
-> We will document this properly.
-> 
-> 3. It solves the current "pqos" tool issue.
-> 
-> 4. From AMD's perspective, this is the most practical until we find a 
-> long term solution.
-> 
-> Thanks,
-> Babu
+Changes in v2:
+- Remove the unnecessary top-of-file label that caused a duplicate-label warning during the documentation build.
+- Add disclosure for generative tools used while preparing and reviewing the translation.
+- Build the documentation with make htmldocs and verify that the translated document introduces no new warnings or errors.
+- Link to v1: https://lore.kernel.org/r/20260820-ptbr-stable-api-nonsense-v1-1-0341f55fec2d@gmail.com
 
-Wanted to re-start the patch with some more reasoning. Please see if 
-this reasoning makes sense.
------------------------------------------------------------------
+I used ChatGPT and DeepL to help me clarify some Portuguese sentences that did not sound entirely natural or clear to me.
+---
+ Documentation/translations/pt_BR/process/index.rst |   1 +
+ .../pt_BR/process/stable-api-nonsense.rst          | 208 +++++++++++++++++++++
+ 2 files changed, 209 insertions(+)
 
-x86/resctrl, Documentation: Keep mbm_assign_mode at default on boot
+diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
+index eda2a3fc5..1fb2f325f 100644
+--- a/Documentation/translations/pt_BR/process/index.rst
++++ b/Documentation/translations/pt_BR/process/index.rst
+@@ -58,6 +58,7 @@ Estas são as regras pelas quais tentamos viver na comunidade do kernel
+    Interpretação do Código de Conduta do Kernel Linux <code-of-conduct-interpretation>
+    Modelos de Maturidade para Contribuição no Kernel Linux <contribution-maturity-model.rst>
+    Declaração sobre Drivers do Kernel <kernel-driver-statement>
++   A interface de drivers do kernel Linux <stable-api-nonsense>
+    Estilo de gerenciamento do kernel Linux <management-style>
+    Conclave (Continuidade do projeto) <conclave>
+ 
+diff --git a/Documentation/translations/pt_BR/process/stable-api-nonsense.rst b/Documentation/translations/pt_BR/process/stable-api-nonsense.rst
+new file mode 100644
+index 000000000..c5d0e643e
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/stable-api-nonsense.rst
+@@ -0,0 +1,208 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++A interface de drivers do kernel Linux
++=======================================
++
++(todas as suas perguntas respondidas e mais algumas)
++
++Greg Kroah-Hartman <greg@kroah.com>
++
++Este texto foi escrito para tentar explicar por que o Linux **não possui uma
++interface binária do kernel nem uma interface estável do kernel**.
++
++.. note::
++
++   Observe que este artigo descreve as interfaces **internas do kernel**, e não
++   as interfaces entre o kernel e o espaço de usuário.
++
++   A interface entre o kernel e o espaço de usuário é aquela utilizada pelos
++   aplicativos: a interface de chamadas de sistema (syscalls). Essa
++   interface é **muito** estável ao longo do tempo e não será quebrada. Tenho
++   programas antigos, compilados em uma versão do kernel anterior à 0.9 e alguma
++   coisa, que ainda funcionam perfeitamente na versão mais recente do kernel
++   2.6. Essa é a interface cuja estabilidade os usuários e desenvolvedores de
++   aplicativos podem considerar garantida.
++
++
++Resumo executivo
++----------------
++
++Você acha que quer uma interface estável do kernel, mas, na verdade, não quer,
++e nem sabe disso. O que você realmente quer é um driver que continue
++funcionando de maneira estável, e isso só é possível se o seu driver estiver
++na árvore principal do kernel. Você também obtém muitos outros benefícios se
++o seu driver fizer parte da árvore principal do kernel. São esses benefícios
++que ajudaram a tornar o Linux um sistema operacional tão robusto, estável e
++maduro — justamente a razão pela qual você o está usando.
++
++
++Introdução
++----------
++
++Apenas quem escreve drivers para o kernel precisa se preocupar com as mudanças
++nas interfaces internas do kernel. Para a grande maioria das pessoas, essas
++interfaces nem sequer são visíveis e tampouco são motivo de preocupação.
++
++Antes de mais nada, não abordarei **nenhuma** questão jurídica relacionada a
++código-fonte fechado, código-fonte oculto, blobs binários, wrappers de
++código-fonte ou qualquer outro termo usado para descrever drivers do kernel
++cujo código-fonte não seja disponibilizado sob a GPL. Consulte um advogado
++caso tenha alguma dúvida jurídica. Sou programador e, portanto, descreverei
++aqui apenas as questões técnicas (isso não significa que as questões
++jurídicas sejam pouco importantes; elas são reais e você precisa estar sempre
++ciente delas).
++
++Portanto, há dois tópicos principais: interfaces binárias do kernel e
++interfaces estáveis de código-fonte do kernel. Ambos dependem um do outro,
++mas discutiremos primeiro a parte referente às interfaces binárias para
++deixá-la de lado.
++
++
++Interface binária do kernel
++---------------------------
++
++Supondo que tivéssemos uma interface estável de código-fonte para o kernel,
++uma interface binária surgiria naturalmente também, certo? Errado. Considere
++os seguintes fatos sobre o kernel Linux:
++
++  - Dependendo da versão do compilador C utilizada, diferentes estruturas de
++    dados do kernel terão diferentes alinhamentos e poderão até mesmo incluir
++    funções de maneiras distintas (por exemplo, tornando determinadas funções
++    inline ou não). A organização das funções individuais não é tão importante,
++    mas as diferenças no preenchimento das estruturas de dados são muito
++    importantes.
++  - Dependendo das opções selecionadas durante a compilação do kernel, uma
++    grande variedade de comportamentos pode ser assumida pelo kernel:
++
++      - diferentes estruturas podem conter campos diferentes;
++      - algumas funções podem nem sequer ser implementadas (por exemplo,
++        determinados bloqueios são completamente eliminados durante a
++        compilação em kernels sem SMP);
++      - a memória dentro do kernel pode ser alinhada de maneiras diferentes,
++        dependendo das opções de compilação.
++  - O Linux é executado em uma grande variedade de arquiteturas de
++    processadores. Não há como drivers binários compilados para uma arquitetura
++    funcionarem corretamente em outra.
++
++Vários desses problemas podem ser contornados simplesmente compilando o módulo
++para uma configuração específica e exata do kernel, utilizando exatamente o
++mesmo compilador C empregado na compilação do kernel. Isso é suficiente caso
++você queira fornecer um módulo para uma determinada versão de uma distribuição
++Linux específica. Porém, multiplique essa única compilação pelo número de
++distribuições Linux existentes e pelo número de versões suportadas de cada
++distribuição e você rapidamente terá um pesadelo de diferentes opções de
++compilação em diferentes versões. Além disso, cada versão de uma distribuição
++Linux contém vários kernels, cada um ajustado para diferentes tipos de
++hardware (diferentes tipos de processadores e diferentes opções). Portanto,
++mesmo para uma única versão, você precisará criar várias versões do seu módulo.
++
++Acredite em mim: com o tempo, você enlouquecerá se tentar oferecer suporte a
++esse tipo de distribuição. Aprendi isso da maneira mais difícil há muito
++tempo...
++
++Interfaces estáveis de código-fonte do kernel
++----------------------------------------------
++
++Esse é um tópico um pouco mais "volátil" se você conversar com alguém que está
++tentando manter atualizado, ao longo do tempo, um driver do kernel Linux que
++não está na árvore principal do kernel.
++
++O desenvolvimento do kernel Linux é contínuo e ocorre em ritmo acelerado,
++sem desacelerar. Por isso, os desenvolvedores do kernel encontram bugs nas
++interfaces existentes ou descobrem maneiras melhores de fazer as coisas.
++Quando isso acontece, eles corrigem as interfaces atuais para que funcionem
++melhor. Nesse processo, nomes de funções podem mudar, estruturas podem crescer
++ou diminuir e parâmetros de funções podem ser reformulados. Quando isso
++acontece, todos os locais dentro do kernel que utilizam essa interface são
++corrigidos ao mesmo tempo, garantindo que tudo continue funcionando
++corretamente.
++
++Como exemplos específicos disso, as interfaces USB internas do kernel
++passaram por pelo menos três reformulações diferentes ao longo da existência
++desse subsistema. Essas reformulações foram feitas para resolver diversos
++problemas:
++
++  - Uma mudança de um modelo síncrono de fluxos de dados para um modelo
++    assíncrono. Isso reduziu a complexidade de vários drivers e aumentou a
++    taxa de transferência de todos os drivers USB, de modo que atualmente
++    executamos quase todos os dispositivos USB na maior velocidade possível.
++  - Foi feita uma mudança na maneira como os pacotes de dados eram alocados
++    pelos drivers USB a partir do núcleo USB, de modo que todos os drivers
++    passaram a precisar fornecer mais informações ao núcleo USB, corrigindo
++    diversos deadlocks documentados.
++
++Isso contrasta fortemente com vários sistemas operacionais de código fechado,
++que tiveram de manter suas interfaces USB antigas ao longo do tempo. Isso
++permite que novos desenvolvedores utilizem acidentalmente interfaces antigas
++e façam as coisas de maneira inadequada, prejudicando a estabilidade do
++sistema operacional.
++
++Em ambos os casos, todos os desenvolvedores concordaram que essas eram
++mudanças importantes que precisavam ser feitas, e elas foram realizadas com
++relativamente pouco esforço. Se o Linux tivesse de garantir a preservação de
++uma interface de código-fonte estável, uma nova interface teria de ser criada,
++enquanto a interface antiga e defeituosa teria de continuar sendo mantida ao
++longo do tempo, resultando em trabalho adicional para os desenvolvedores USB.
++Como todos os desenvolvedores USB do Linux realizam esse trabalho em seu
++próprio tempo, pedir que programadores façam trabalho extra, sem nenhum
++benefício e gratuitamente, não é uma possibilidade.
++
++Questões de segurança também são muito importantes para o Linux. Quando um
++problema de segurança é encontrado, ele é corrigido em um período muito curto.
++Em diversas ocasiões, isso fez com que interfaces internas do kernel fossem
++reformuladas para impedir que o problema de segurança ocorresse. Quando isso
++acontece, todos os drivers que utilizam essas interfaces também são corrigidos
++ao mesmo tempo, garantindo que o problema de segurança seja resolvido e não
++possa reaparecer acidentalmente no futuro. Se as interfaces internas não
++pudessem ser alteradas, não seria possível corrigir esse tipo de problema de
++segurança e garantir que ele não voltasse a ocorrer.
++
++As interfaces do kernel são aprimoradas ao longo do tempo. Se ninguém estiver
++utilizando uma determinada interface, ela é removida. Isso garante que o
++kernel permaneça o menor possível e que todas as interfaces existentes possam
++ser testadas da melhor maneira possível (é praticamente impossível testar
++adequadamente a validade de interfaces que não são utilizadas).
++
++
++O que fazer
++-----------
++
++Então, se você possui um driver do kernel Linux que não está na árvore
++principal do kernel, o que você, como desenvolvedor, deve fazer? Distribuir
++um driver binário para cada versão diferente do kernel em cada distribuição
++é um pesadelo, e tentar acompanhar uma interface do kernel que está em
++constante mudança também é uma tarefa difícil.
++
++Simples: coloque seu driver na árvore principal do kernel (lembre-se de que
++estamos falando aqui de drivers distribuídos sob uma licença compatível com
++a GPL; se seu código não se enquadra nessa categoria, boa sorte, você está
++por conta própria aqui, seu parasita). Se seu driver estiver na árvore e uma
++interface do kernel mudar, ele será corrigido pela própria pessoa que realizou
++a alteração no kernel. Isso garante que seu driver continue sempre compilável
++e funcionando ao longo do tempo, exigindo muito pouco esforço de sua parte.
++
++Os excelentes efeitos colaterais de ter seu driver na árvore principal do
++kernel são:
++
++  - A qualidade do driver aumentará, enquanto os custos de manutenção
++    (para o desenvolvedor original) diminuirão.
++  - Outros desenvolvedores adicionarão funcionalidades ao seu driver.
++  - Outras pessoas encontrarão e corrigirão bugs no seu driver.
++  - Outras pessoas encontrarão oportunidades de otimização no seu driver.
++  - Outras pessoas atualizarão o driver para você quando mudanças em
++    interfaces externas exigirem isso.
++  - O driver será automaticamente distribuído por todas as distribuições
++    Linux, sem que seja necessário pedir às distribuições que o adicionem.
++
++Como o Linux oferece suporte, "pronto para uso", a um número maior de
++dispositivos diferentes do que qualquer outro sistema operacional, e oferece
++suporte a esses dispositivos em mais arquiteturas de processadores diferentes
++do que qualquer outro sistema operacional, esse modelo comprovado de
++desenvolvimento deve estar fazendo alguma coisa certa :)
++
++
++------
++
++Agradecimentos a Randy Dunlap, Andrew Morton, David Brownell, Hanna Linder,
++Robert Love e Nishanth Aravamudan pela revisão e pelos comentários sobre
++este documento.
 
-ABMC ("mbm_event" mode) allows explicit assignment of hardware MBM
-counters to RMID/event pairs.  It targets deployments that deliberately
-manage counter assignment on platforms with more monitoring groups than
-dynamically shareable hardware counters.  It is suited to workflows 
-where users snapshot bandwidth for a limited set of groups of interest, 
-then move on to another set—not as a general replacement for legacy 
-default monitoring on every ABMC-capable system.
+---
+base-commit: 791e420360669d55b7f90ca0c6d61b10e4992aec
+change-id: 20260819-ptbr-stable-api-nonsense-c43d245aaf59
 
-Commit 0f1576e43adc ("x86/resctrl: Configure mbm_event mode if
-supported") enabled ABMC at boot by setting mbm_cntr_assign_enabled
-during L3 monitor initialization.  That breaks existing userspace that
-assumes legacy default mode, notably the pqos tool from intel-cmt-cat.
+Best regards,
+-- 
+Lucas Adryell Ramalho <lucasadramalho@gmail.com>
 
-When pqos starts, it mounts resctrl and creates 16 or more monitoring
-groups by default (two counters per group: mbm_local_bytes and
-mbm_total_bytes).  On platforms with 32 ABMC counters per domain, the
-default pqos layout can consume the entire counter pool.  Additional
-groups then fail to obtain counters and pqos reports zero bandwidth for
-those groups.  The workaround today is to switch back to default mode
-before running pqos:
-
-   echo default > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
-
-Stop enabling ABMC implicitly at boot.  Leave mbm_assign_mode in
-"default" mode during initialization; users who need ABMC can enable
-it explicitly:
-
-   echo mbm_event > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
-
-
-Default mode has a long-standing limitation on AMD platforms with more
-monitoring groups than hardware counters: bandwidth reads may report
-"Unavailable" or misleading values due to counter re-allocation between
-reads.  This typically affects deployments with a large number of
-groups (e.g. 64 or more), not typical usage with fewer groups.  Users
-who need stable readings for many groups should switch to mbm_event
-mode and use a snapshot/rotation workflow.
-
-ABMC capability detection and the mbm_assign_mode interface are
-unchanged—only the boot-time opt-in is removed.
-
-Update Documentation/filesystems/resctrl.rst to reflect the boot-time
-default, document pqos compatibility, and adjust mbm_assign_mode
-examples accordingly.
-
-Link: 
-https://lore.kernel.org/lkml/1fe5cb09-aa2e-4b3d-9fbd-293d8e9f33d7@amd.com/
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-
----------------------------------------------------------------------
-Thanks
-Babu
