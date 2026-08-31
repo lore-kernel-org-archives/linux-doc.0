@@ -1,64 +1,64 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A01C4E8DE2
-	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 14:32:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BDB4E8DFE
+	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 14:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788186770; cv=none; b=qwvI5ch3h2mNDfzT/XbT1vLpZY5+yEUYUrDW875ctentXxoB5Der2sHsVKhlO1IlRzW3MiLWdOMasYtYnt2WK7vIqbZaGWEPaAZuwnXSkHta7yC/uf3+skD4iQ+hV29k3gQj/3tWH6t0z2XKMOLSspPOEGp5Yan/wfgvlEkYQdY=
+	t=1788186783; cv=none; b=SIqu9de5MYFtdPB6w3/pcnsnxCfkEDpOSs+MDfQK8S9q7Suf7WDl1BlTn9GfN/Uj57mScFwRZhdWkhkKGsaFBupsRhzhDscHy20MvLyIxRRTXMDpd7lyhtvhiFkex5KMqFeHe63WbeKBRvGrmixShT3hjE3yIqptMhNxYdVMz2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788186770; c=relaxed/simple;
-	bh=QjMSkXe0n6TBETzI3Ha2tiZ8wGiaGM9B4fBWkY0BniE=;
+	s=arc-20240116; t=1788186783; c=relaxed/simple;
+	bh=JMCAe2D62F+WBYgEqiYoMmr4gCc1PIsBFv3J9qtq950=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Uf+jwhA0tLygNNiYve1pJ+uKsUYDGbN8juUZlsdvlkiEoi8X7H7WozfQjwh4Qb+qZ5G3reqrNPfegAMfw6vLrIsfd980HRJp/VuoUmtcJlLBFPF9JJc3Oo5lVVLudjU5oTYrstJi5HgViack7Ai94fUCDvc1m3/kdvR+Igk1VcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJnW45oV; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version:Content-Type; b=dsG9eusrrjbFHPESmI7sqFEoDCN1LNfVjT6N/xyyjRj+NGLvbJzp6EIBoaX+VfHhp5SFfRmxbRcIxq28+Lg9Noi6XsNEVVNm8C7E3laxO6lZ4ttXx6MLU+ZNjYfYqQmVlAVrqxPssTCSu/Di78W7baIWBzcCCQbSBFdkH/NDuf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SVGTa49Z; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJnW45oV"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49a97714f5dso27699625e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 07:32:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SVGTa49Z"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49954b88fffso24614385e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 07:33:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788186767; x=1788791567; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788186780; x=1788791580; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=GWaK2495asznjoEZZji7S7Kk6wtOsxYz8ipCUtATvyQ=;
-        b=MJnW45oV/XbuoEXUI/vDyeIcwima7IgbqwDMnXUeA9/qA00WI2LnycOSpegEfjJ3bi
-         S1l2OLs1aGxU+0h/CUa6vz8m9sMSYJBZzxdx7lDCCFZrHBRXqx2X9dbeF37ywz4aLyFs
-         svOD5aWoe8Wi0PpjMjTLOF48AnhGbhzaNjLZ7pQGct4J26cb4GQnS6E3CdGCLXZQjL8q
-         zr0Jc4kmjs+j8arYX+UYQq6cKwYODMTavh4E8/aW/6yuqkRRl6TPYgCVo5qAfFxPKC7X
-         Il9T/BPZK3G/HB36augVssACj0reTm/X1Z0iDnDkdBsZHEQmzjac3rhGQTE1ZDhxjbYv
-         +4OA==
+        bh=2jL+a4C7D0aKEgmVaWlVk7rTqIUCFUo6pEcsZDOtEZU=;
+        b=SVGTa49ZuSxEQjYrS0LRKHEiwXcy2gTQagSeV15i65Ujt1HIlTMauVRF8WJHbdJkuj
+         VpseAtMHo1tXLacBd+A0QjpMjufN4LzN2xEdYw2qPhuDYxyHeoTttyHckfVxpm0MK1OL
+         rDv+DArEVxykHqBwIyli7BL52jJqma6JgVu/eWCLxpFcrtTgOXuyepV/EWi5Y/C6aL7Z
+         2KpL50jSPgGqEEFk6FH0SxpBAr+XWfQdugeFgOWCtKdsnryj7CupdhuGgnLElZZkOfRW
+         u9eFda2YqFCoQrLPGzCL7+sNiZFWdtqL81GFonZC7ho2fVh0IJ9CHUouaRMnuR8BQSh2
+         MBcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788186767; x=1788791567;
+        d=1e100.net; s=20251104; t=1788186780; x=1788791580;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=GWaK2495asznjoEZZji7S7Kk6wtOsxYz8ipCUtATvyQ=;
-        b=RVRUJj8VY1biRVP7EXpHvj0gMyuYHyTS63OJ/N2dkrpFxqe6/IrKFXyaN9Xwzgvy9T
-         6UnB9SiROleY7SzoKBUw7aptUz9XxHVco7bfsqpk77su7UOpdW/BeMrBBAgErndznWNM
-         70DFHV3lu94M172TC5n/kb8GFDZi0poV12Ax4XiO6rh8dEg4Xm9kz5klVWS8Uxq81CPe
-         gEcss7PvZRoyuqcPjzG0oWTsue57idLl0GwxsrOll6htnsPdhrd9KvG9o5PfDmlzKfdq
-         NMiW9WA4GPBW+lW6j8tjWFOyl2LPT+LW3d+n+wESooAVEvlLxu4TFbAbBBWq6hknEH/S
-         yQhw==
-X-Gm-Message-State: AFuF++kwNo+5espw7QUWzudLcn49tSl2bJoDYJ4WSbMl7T5efWLvj62p
-	+hhtw2c5oCSWaJLQW3ll8Jw8gHWEiDbJ2yVpc1HRq1RHodnQOE1lCFAb
-X-Gm-Gg: AR+sD12aqx+W6OGd51J/ScorFSySc2sydxTT4PbpnQ+vIW47lX+UKVCDlRoIal1Ju0P
-	FdpxFpT3Vy1kaflWHJfYsDxvSMBxlM5ZMFRRMDF+97uZSyqRim8RcU1ZQ2FaDNvk2/L4GE1sqlT
-	sR1lSKVRjNoPzMOwhJiFPchMz80wLC3UCReG6BbYCUYdwYfYgbJnnZx9anQPOGpnoU6sJrJdbYr
-	39ViXh1eXl8HNSfpnchzcN8FXKVbwFKmB0ZTr6rXT0GbWbu+s1i3n5Ookt5wb+PWEAKH9Orsv+l
-	j0SO/zmO7zfL3R3RvSY+PUlsaPMOz0hjFG+/i2XgNE0bf9C+0ubIPPGq3IWWFy1PSbOYr4vDmGj
-	f+fSqlcq1HVMD0CJe9PRe4B0MAy2B+t2irjrlY+x4TVk4qWBHGzziWhSa0TD3YfbVj3KjhKW1MZ
-	MqnOymLRE2/OS9I0Ds3/yYanyY8ObsssErmG6NIZMfC4onvkLaEz+IfFMp97Let/5v9pUkpfw5m
-	A00B0I/Mb0cP4AZsMM55P+n
-X-Received: by 2002:a05:600c:c494:b0:499:8aff:59b6 with SMTP id 5b1f17b1804b1-49b91c486c3mr330092135e9.14.1788186767364;
-        Mon, 31 Aug 2026 07:32:47 -0700 (PDT)
+        bh=2jL+a4C7D0aKEgmVaWlVk7rTqIUCFUo6pEcsZDOtEZU=;
+        b=U2Da5nvRqNQ8bqh/TGMlXQZHlqpbbCkobbcKVkHUFgFYZgOafp1PPuzSdhZecxGBcQ
+         veYfTXIfczhCjduM3MA9wx3niPdaNiSNwKYXRknD12Wg5/6JQVM9OXFcnECev9B+iThw
+         9ZH2bWdciXp4H8mxqFysYCFqoiz5rE4TnvP5eOOiWmNnhfwp0vYkR+yQh6hP8JJrYa1A
+         l/sZn6p0Y3pBzp5+E1mfeUTwwH8P1m3WOIhKDwD3eObk3hx884nIkcvU6D2iCrrlJ04s
+         +MLss//SSo+ZeJDciDDkKhDl1SY2o6D280Q0NmntFneIMihPyjaTMh/dmtWb7MmSoNNo
+         eLOA==
+X-Gm-Message-State: AFuF++lOndJxNfq9OVSZAv80IgOz9BFSbMaA87MGN21x7vtOhsq1OSQU
+	oqW9ydhq8r4rogICzp3wHjisszfqELf98b5Z1YlgFx/fwgeyWqTLLsxU
+X-Gm-Gg: AR+sD12DOwOdUIa1cu948UxY5YvMH8eYEaARJsS+Gr/Fyc8eVoXRGpIT40UORZWOOb9
+	H4XheRGjYVlyOydror3WvFqZvdyUTWISLWj0pVowS4AxBep4f3/wL28bxBq8VLbKt7Eo1V8YQ4q
+	H0xGWL803ktT+LKEnEx3wrrKNL5Kh6C93Nk7T6godFc9ZwQuR5vph3kh6CRAqck7yfnyW8DwzYi
+	X6mo+pSD6cAcKfiJGk6168xWIeQg90bkhb8KJ8zvfeNhpNLJAKlPjx19qliD+x3Oum15PXhmvp6
+	Oa9K5YWAL/ydu1nnVfyRR0bf7eR+39leEBbV+5CuKLVmHB6PIqb/PeocMpZNEEDcEHMvNGvbZPw
+	zkcVdAQjZuSXn1V/oCS/q3W1eHKoj/HqchD7ovl9VSAFckxXi4FQPIO6s4+ArRUEnlOzNB72Otu
+	4rzSTlXn601y4kmcz1Otkc8k7NH+uPXsPbcLD/aNOSvQjXS2xClSB9UNQFpe6t7V0p5ziuqjxh8
+	3VFWJADea1Eejyb2RJ2yIqM
+X-Received: by 2002:a05:600c:8107:b0:49c:d26a:cf70 with SMTP id 5b1f17b1804b1-49cd26ad005mr206906115e9.15.1788186780413;
+        Mon, 31 Aug 2026 07:33:00 -0700 (PDT)
 Received: from unix.. (244.red-81-44-253.staticip.rima-tde.net. [81.44.253.244])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b945816f2sm344786125e9.8.2026.08.31.07.32.37
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b945816f2sm344786125e9.8.2026.08.31.07.32.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 07:32:45 -0700 (PDT)
+        Mon, 31 Aug 2026 07:32:59 -0700 (PDT)
 From: =?UTF-8?q?Iv=C3=A1n=20Ezequiel=20Rodriguez?= <ivanrwcm25@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Bartosz Golaszewski <brgl@kernel.org>
@@ -69,9 +69,9 @@ Cc: linux-doc@vger.kernel.org,
 	Jason Wang <jasowangio@gmail.com>,
 	Sumit Semwal <sumit.semwal@linaro.org>,
 	=?UTF-8?q?Iv=C3=A1n=20Ezequiel=20Rodriguez?= <ivanrwcm25@gmail.com>
-Subject: [PATCH 6/7] docs: ioctl: fix stale NVMe registry entry and note N conflict
-Date: Mon, 31 Aug 2026 11:31:24 -0300
-Message-ID: <20260831143125.151360-7-ivanrwcm25@gmail.com>
+Subject: [PATCH 7/7] gpio: cdev: return EOPNOTSUPP when HTE is unavailable
+Date: Mon, 31 Aug 2026 11:31:25 -0300
+Message-ID: <20260831143125.151360-8-ivanrwcm25@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260831143125.151360-1-ivanrwcm25@gmail.com>
 References: <20260831143125.151360-1-ivanrwcm25@gmail.com>
@@ -84,31 +84,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The NVMe row pointed at drivers/block/nvme.c, which no longer exists,
-and ioctl numbers 0x80-0x83 overlap between ntsync.h and nvme_ioctl.h
-without a conflict! marker.
+GPIO v2 documentation promises -EOPNOTSUPP when
+GPIO_V2_LINE_FLAG_EVENT_CLOCK_HTE is requested without HTE hardware;
+map -ENODEV from hte_ts_get() in the HTE-only edge setup path.
 
 Signed-off-by: Iván Ezequiel Rodriguez <ivanrwcm25@gmail.com>
 ---
- Documentation/userspace-api/ioctl/ioctl-number.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpio/gpiolib-cdev.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-index 2fc53093752d..bb7004e6043d 100644
---- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -181,8 +181,9 @@ Code  Seq#    Include File                                             Comments
- 'M'   01-03  drivers/scsi/megaraid/megaraid_sas.h
- 'M'   00-0F  drivers/video/fsl-diu-fb.h                                conflict!
- 'N'   00-1F  drivers/usb/scanner.h
--'N'   40-7F  drivers/block/nvme.c
--'N'   80-8F  uapi/linux/ntsync.h                                       NT synchronization primitives
-+'N'   40-7F  uapi/linux/nvme_ioctl.h
-+'N'   80-83  uapi/linux/ntsync.h and uapi/linux/nvme_ioctl.h           conflict!
-+'N'   84-8F  uapi/linux/ntsync.h                                       NT synchronization primitives
-                                                                        <mailto:wine-devel@winehq.org>
- 'O'   00-06  mtd/ubi-user.h                                            UBI
- 'P'   all    linux/soundcard.h                                         conflict!
+diff --git a/drivers/gpio/gpiolib-cdev.c b/drivers/gpio/gpiolib-cdev.c
+index 9f3b628d5793..6dc01f7ea838 100644
+--- a/drivers/gpio/gpiolib-cdev.c
++++ b/drivers/gpio/gpiolib-cdev.c
+@@ -715,6 +715,8 @@ static int hte_edge_setup(struct line *line, u64 eflags)
+ 			   line->desc);
+ 
+ 	ret = hte_ts_get(NULL, hdesc, 0);
++	if (ret == -ENODEV)
++		return -EOPNOTSUPP;
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.43.0
 
