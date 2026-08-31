@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F013534389F;
-	Mon, 31 Aug 2026 00:25:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA4E345ED0;
+	Mon, 31 Aug 2026 00:25:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788135923; cv=none; b=Xga5l8/vhYlPDQT8QzBFLcjBztkxXGYQrE+i46i7P9ClWyPAUyzI3o1AWXpmjuYwSrfOHCfecn7OidqADkKidkxQcMuWPFOz4qKU2xwDiwT77Qi4TUth+fdkHkj9E8BZu2gLkr1wXXuICJsusSGT4qvbePWXV8e4FWAcnnflP38=
+	t=1788135923; cv=none; b=cu3sYPaAgduTPi10lyF7qIPE5wv9biVjdY1xukpuNHCWn5nR6r3uT7B7zKeS9uhHnlwu09GotTchK6SXsudIPNDYfZJbN7qQw8dF7zr5cczXLlQKeyJ4cW1JCd7g8cHls4lOVY6Qw98NinPiDdogA5LgETLl7s6Bsx19WiGzwdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788135923; c=relaxed/simple;
-	bh=aioaJipFuIL/IiIdVQFffSKoyIBWlO7RRAfxqr7t6Iw=;
+	bh=Ohg00gp82JlQ1LRKDAbUvlgWiGhAXe+0uLM4Cvj5Moc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IX+bNAoyLisO8KstUi18fik2igNU4XLjF70VZZY2jHOjym8XX4LuviNSsteKs/gjfeznZFTFV/T9aOp2XxPiuR24v1fyBH9wjR5lFa7fE+YUKOl437pVl7lEiBjegbAGFKkJuFQcg/5xxL1XS7c3TmF/6c18pg21YsKlir0l8Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bwCr2oa7; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=l+KI5j7lWpCVbNnBvWt0yso9F8a3nMdKuJM/gIlfroCPmnT3UKlc0/+6JiqJN/amV5z3ofImzuGEl+1PrHxh4QsZw7onf6Hd7trVneUdPN0IayYvFjVnj7ejALcBZwxME0drFiCzWkK8IN0eullg7aZY/94pkGx30IjQZLGVjdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IvVf4DTX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bwCr2oa7"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C3C18C4AF62;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IvVf4DTX"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F254CC2BCF5;
 	Mon, 31 Aug 2026 00:25:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788135922;
-	bh=aioaJipFuIL/IiIdVQFffSKoyIBWlO7RRAfxqr7t6Iw=;
+	s=k20201202; t=1788135923;
+	bh=Ohg00gp82JlQ1LRKDAbUvlgWiGhAXe+0uLM4Cvj5Moc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=bwCr2oa7MjlpgIMpV5IMn9nVmbWDuUJe7pUJAIw28LiCU8XTplP9coJMkzRy/HYLo
-	 CXcANtrVxycZ1OndPF3O1tgaoMPmf35RbkSYRIkmUsXbZ0aG2Y05pMxQLkpAvb4qLL
-	 YUBYsTraIXqKXm+MFYsAxYwUZWalf8QihktRBhcfOOezNC478boEf/7Wq7cXR46pFz
-	 glCQq8LjvVNB3LPOpay7qLZeAqSavDaus9VfvomlFK6TqcKWecUUr7egUzX3soHeON
-	 Te3G9X7umUDRyuwE0zLCQUiscYX8GnS3dCu9SRys8mVENhd6KHIkt0PoS2suL3KzkC
-	 vhHTBvBRXoQ0A==
+	b=IvVf4DTXCK/sRrZP11cGRQmf093Be3Ab/egCpVqrqnT3+6E2YiQrhMR9W040tD12z
+	 Z+9tDaBEABaSlDBG9r48ZFjv8v/11jw7hVOkq5uc4mjao5gu1bII34MZtrhdqsEAaq
+	 WG5bvyVLVRDl72ZFUBTzvXOnDamPAUceTx4kdN4AVJXwpdA18IByiOs7Zb09gh/I6y
+	 wmTnO/IS+MB7/f6ssZLQs72Zn1byrZFitIv5m1ayisoWr0y4tKVGFBf4BKmrkvX/g/
+	 98xuyrOXGu+6NOR+lNY6zQAL3QfVUR0pRSESY/nDSsSDLAepqMhP4BDopsgqAV6l0w
+	 EWhzbAoRaiENQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FBAEC61DFD;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D46AAC61DE2;
 	Mon, 31 Aug 2026 00:25:22 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Sun, 30 Aug 2026 17:25:32 -0700
-Subject: [PATCH v12 31/45] KVM: selftests: Test conversion flow when
- INIT_SHARED
+Date: Sun, 30 Aug 2026 17:25:34 -0700
+Subject: [PATCH v12 33/45] KVM: selftests: Test conversion before
+ allocation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260830-gmem-inplace-conversion-v12-31-85e5fd25252a@google.com>
+Message-Id: <20260830-gmem-inplace-conversion-v12-33-85e5fd25252a@google.com>
 References: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
 In-Reply-To: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
 To: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
@@ -80,11 +80,11 @@ Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  linux-coco@lists.linux.dev, Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788135916; l=1820;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788135916; l=1811;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=xYw2zR0sil2DMulPFsHrm+Fn54xO5rySrIonHJxlHdY=;
- b=biTv8DxdIPMmqKcaPDRSer+ZFsb/kdS9KwcKlME5qJy2Ary24lqI1vc+9urmZBiMg6+4afZzv
- nQji3gwfMF3DpmlvEhLSIM3IyNefcJ6PMRkzuv4bmBVy8WRbZwgmZPS
+ bh=a2z3tw2jbxfSjKhbx7xOpPsEYazJcgX/b0bAut8/tlE=;
+ b=1diaXiAQiDZHo8GGbJSRZADZP2BnxiXUNSNdhvxA9SOoFSS7qJN/joh4qkuCEdJSeNSQuMZID
+ NA4XQacd0AoAj0lKcrfLVuAtJ43ml1DuXWeXTDX5t32XEtHB8qpP56e
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -94,8 +94,16 @@ Reply-To: ackerleytng@google.com
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-Add a test case to verify that conversions between private and shared
-memory work correctly when the memory is initially created as shared.
+Add two test cases to the guest_memfd conversions selftest to cover
+the scenario where a conversion is requested before any memory has been
+allocated in the guest_memfd region.
+
+The KVM_SET_MEMORY_ATTRIBUTES2 ioctl can be called on a memory region at
+any time. If the guest had not yet faulted in any pages for that region,
+the kernel must record the conversion request and apply the requested state
+when the pages are eventually allocated.
+
+The new tests cover both conversion directions.
 
 Co-developed-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Sean Christopherson <seanjc@google.com>
@@ -103,35 +111,29 @@ Reviewed-by: Fuad Tabba <tabba@google.com>
 Tested-by: Shivank Garg <shivankg@amd.com>
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- .../selftests/kvm/x86/guest_memfd_conversions_test.c        | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ .../selftests/kvm/x86/guest_memfd_conversions_test.c       | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c b/tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c
-index 77f95d49349ce..4c20d3d8e9349 100644
+index a8d89df53e46d..f46f1530a94b9 100644
 --- a/tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c
 +++ b/tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c
-@@ -97,6 +97,12 @@ static void __gmem_conversions_##test(test_data_t *t, int nr_pages)		\
- #define GMEM_CONVERSION_TEST_INIT_PRIVATE(test)					\
- 	__GMEM_CONVERSION_TEST_INIT_PRIVATE(test, 1)
- 
-+#define __GMEM_CONVERSION_TEST_INIT_SHARED(test, __nr_pages)			\
-+	GMEM_CONVERSION_TEST(test, __nr_pages, GUEST_MEMFD_FLAG_INIT_SHARED)
-+
-+#define GMEM_CONVERSION_TEST_INIT_SHARED(test)					\
-+	__GMEM_CONVERSION_TEST_INIT_SHARED(test, 1)
-+
- struct guest_check_data {
- 	void *mem;
- 	char expected_val;
-@@ -188,6 +194,13 @@ GMEM_CONVERSION_TEST_INIT_PRIVATE(init_private)
- 	test_convert_to_private(t, 0, 'C', 'E');
+@@ -268,6 +268,20 @@ GMEM_CONVERSION_MULTIPAGE_TEST_INIT_SHARED(indexing, 4)
+ #undef combine
  }
  
-+GMEM_CONVERSION_TEST_INIT_SHARED(init_shared)
++/*
++ * Test that even if there are no folios yet, conversion requests are recorded
++ * in guest_memfd.
++ */
++GMEM_CONVERSION_TEST_INIT_SHARED(before_allocation_shared)
 +{
-+	test_shared(t, 0, 0, 'A', 'B');
-+	test_convert_to_private(t, 0, 'B', 'C');
-+	test_convert_to_shared(t, 0, 'C', 'D', 'E');
++	test_convert_to_private(t, 0, 0, 'A');
++}
++
++GMEM_CONVERSION_TEST_INIT_PRIVATE(before_allocation_private)
++{
++	test_convert_to_shared(t, 0, 0, 'A', 'B');
 +}
 +
  int main(int argc, char *argv[])
