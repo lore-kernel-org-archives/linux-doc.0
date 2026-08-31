@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1372F361E;
-	Mon, 31 Aug 2026 00:25:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEA42FD1CA;
+	Mon, 31 Aug 2026 00:25:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788135921; cv=none; b=sAKUYuVRaKycotpEIEzICzgrXyBje36wz+4HR9gqelfZ+xqCMagCic2UaVBP1tgjIk94+iPNcbfSqyrlQAtR7yba/9+ZcUFdqdEp7hprdus5SEdVKvLXXwXrcfAbj7lgpT8IGZPxcY7hOdWyHieAKEBNNCUnqf+uAgzhCrxfDDk=
+	t=1788135921; cv=none; b=uJQ5Vqqu0YPBUEAXSYiDV9aMUJv5149M/EEUnEIRBV0v4Cumpbj3h8Kyd7aW4LWKAdnUHMZWKlS70BqjifRIpdO0HKxENmTlPkpEeSy8nvrSq6JVL+fOnFdhsxCV7G5b4Qri2d6GJfGu/VJd4tizH0ScwE874IUGaV9rG+seS7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788135921; c=relaxed/simple;
-	bh=pgbQeqwV6IRb5CiPCfNQynStgiWTbolys+BVEEK4H2w=;
+	bh=xOnBQXU90QN4x/dpBZ0xw8y0jZjsNuhoWApti5TQBLk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WEyl4bKrUR/zLO3dQV2z1PobC0zi48IxP2nlxgX5+EjdcorXrpzFMoUVM7DFz7YKYSjSXNsdgfojr1ooZLFuU38h5X1WuOGyJNwVIJnBgkCOJXu1G9YEXsSvQuUnFOqVbttQtLILvFNW8g9W3tKEV0Y6cnFli7OO/HQ9Pz6ya/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mZSTa6ni; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=erAL8bhiRdXeP9pj0oFc+YxRXnMEQQY0CUlRZ673nGjwylYE0WmAvrLgHqnr5F1M1N3Azn5mxd2Z57f3rw8dcAECrXYZGGtgij4y7Yx6DWZiCHOYa2lYpsLV3UdyHe1/NDEjO2tjgtaHKLxT1ixhCds96prv4IKfNKc6mESEFWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KiL/+3S6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZSTa6ni"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B8328C4AF54;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KiL/+3S6"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E7AB1C32782;
 	Mon, 31 Aug 2026 00:25:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788135920;
-	bh=pgbQeqwV6IRb5CiPCfNQynStgiWTbolys+BVEEK4H2w=;
+	s=k20201202; t=1788135921;
+	bh=xOnBQXU90QN4x/dpBZ0xw8y0jZjsNuhoWApti5TQBLk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=mZSTa6ni/SkaGctJC95sGPqw7Ik2tnPRymeXDDfMOLYPN72DoTj7xjt+asjczUfcc
-	 bppappQ9c9LUoY9EIPrTqJttmF6zojfgB2nzktvtf8rApIZv0SvZfihCbDJ7S2JB+U
-	 d2/XrY+rsOxIGTJBaYDtZG5LP6cIBB2pJ2qRa9UKxdruov3qKzP8mQef1N6WDnGvJq
-	 iquSBeuh+UxlIfCqyP9i9gNWfg2YJ2L3PtnNIH5ztsr+EKIfJsKR1SAlgX64MCzz1y
-	 Lj7ej/FBYV/ydqd5HKGBSe1XV3FH0KVEHGF0Fta3/DEHiovgEKvHNC77PH9HmfRubV
-	 e6ronKXVy4p8g==
+	b=KiL/+3S6vX7D0Lwe6hbS2bnsGWvXZt5e9WKUQ3Ahihd585U8YQ7OjWYlukXnCGJuM
+	 np/ooxFNba/ygsSjloSrL5WDSZ+2ymfoXDsBxEgQwWHWdIGieTGU+eETi8cd3WjFB+
+	 y3SWDxCrH6HUHX3Ldpm7XHGtPhMdc8gRGCBYYa5hOZxNUoO6cH0VOoS3nopAokXCel
+	 dAl1nvvhc6v3DtIRDIhO1nbRcniLFOJoue57wurUIzyPCBXcKFHqWtDA9rcqHCIFdR
+	 P7/yhUZdmY6gK4JifR+IQ8l1mgGhMtzWlHeFcQdM/8PXNK//Mozy5eQKkSf9rFefKh
+	 //oJh9D3JGASw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 971A0C61DFF;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD00EC61DE4;
 	Mon, 31 Aug 2026 00:25:20 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Sun, 30 Aug 2026 17:25:13 -0700
-Subject: [PATCH v12 12/45] KVM: guest_memfd: Always fault from guest_memfd
- if in-place conversion is enabled
+Date: Sun, 30 Aug 2026 17:25:15 -0700
+Subject: [PATCH v12 14/45] KVM: guest_memfd: Add base support for
+ KVM_SET_MEMORY_ATTRIBUTES2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260830-gmem-inplace-conversion-v12-12-85e5fd25252a@google.com>
+Message-Id: <20260830-gmem-inplace-conversion-v12-14-85e5fd25252a@google.com>
 References: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
 In-Reply-To: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
 To: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
@@ -80,11 +80,11 @@ Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  linux-coco@lists.linux.dev, Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788135915; l=4450;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788135915; l=13772;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=X0oHuYGMuEMc+mIS2D25NifHLJhyfzoCyNVUkFKAoCE=;
- b=EtQxw+QEVWJoZlS70xZzAwu5ZPYmJaQfBkoC/h5utIHwFISWqanhlhfA/RfJ33NDQYkw7Y4kT
- x0KHakJQKe3CW/InZ0fVH/Fv/TtLlWGt56gk9mRZgklUQUp8zSa/3yP
+ bh=dF7aSFOBL4CumilTb/gmaTnsPAJn/Lzwq7jAbv2B05A=;
+ b=x8oDe0aLAoq2dmAVBQZWJFFXanBDL3eQYpQ6oRsciUd8W0OHcVwn9JeaRIH9Itu2ONM4EIvKo
+ ZT1QHDzgeY0Bl5zivoQ22UGCsE/FHqI0K6TLjW4I9BVptv/3tt1L2XX
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -94,89 +94,387 @@ Reply-To: ackerleytng@google.com
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-If a guest_memfd memslot is created but the guest_memfd does not have the
-GUEST_MEMFD_FLAG_MMAP set, KVM still fulfils guest faults by looking up the
-memslot's userspace_addr.
+Add a new ioctl (and matching struct), KVM_SET_MEMORY_ATTRIBUTES2, using
+the same base ioctl number (0xd2), but with R/W semantics for the kernel
+instead of just read semantics.  "Officially" documenting that KVM writes
+to the payload will allow KVM to support partial/incremental conversions,
+instead of all-or-nothing updates (which requires complex unwinding), by
+recording the failing offset if an error occurs.
 
-Set KVM_MEMSLOT_GMEM_ONLY if in-place conversion is enabled so that the
-guest_memfd's memory will be used for both shared and private memory. With
-in-place conversion, guest_memfd will be the only backing memory for the
-memslot.
+Opportunistically add a new struct as well, even though KVM could squeeze
+the error offset into "struct kvm_memory_attributes", as there's no cost to
+doing so in practice.  Pad the struct with a pile of extra space to try and
+avoid ending up with "struct kvm_memory_attributes3" in the future.  Use
+the same layout for the fields common to version 1 of the struct, e.g. to
+ease upgrading userspace, and to provide flexibility if KVM ever adds
+support for KVM_SET_MEMORY_ATTRIBUTES2 at VM scope.
 
-No validation is performed to require userspace_addr to be a mapping from
-the associated guest_memfd because even after validation, userspace is free
-to remap something else at the provided userspace_addr.
+Introduce KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES to advertise the
+availability of the KVM_SET_MEMORY_ATTRIBUTES2 ioctl.
 
-userspace_addr will still be used by functions like kvm_read_guest(), and
-if userspace_addr does not match up with the corresponding memory in the
-memslot's guest_memfd (whether userspace_addr points to the wrong offset or
-some non-guest_memfd memory, etc), that is a user error.
+Update the KVM API documentation to define the new ioctl and its behavior,
+and add the necessary UAPI definitions and capability checks.
 
-Requiring both shared and private memory to come from the only associated
-guest_memfd simplifies invalidation in stage 2 page tables. On a PUNCH_HOLE
-operation on a guest_memfd, the invalidation is now guaranteed to be
-invalidating only memory mapped from the given guest_memfd.
+The process of setting memory attributes has a clear point of no return
+because, for CoCo VMs, zapping stage 2 page tables is a destructive
+operation. Unlike regular VMs, where re-faulting pages into the stage 2
+page tables merely incurs a performance penalty, CoCo guests must
+(re-):accept pages after every fault. To preserve CoCo security guarantees,
+guests will not accept pages they did not explicitly request faults
+for. Consequently, during memory conversions, any operation that could
+cause the process to abort must be completed before the stage 2 page tables
+are zapped.
 
-Suggested-by: Sean Christopherson <seanjc@google.com>
+Zap only the ranges that are not already in the requested state to avoid
+inadvertently destroying (CoCo) data. ARM CCA guests will try to mark the
+entire DRAM as private at boot. If there are no shared pages at all, the
+to-private conversion can be skipped, but the existence of a single shared
+page would require the conversion process to proceed, and if it proceeds,
+zapping both shared and private pages would destroy data and break the
+guest.
+
+Co-developed-by: Vishal Annapurve <vannapurve@google.com>
+Signed-off-by: Vishal Annapurve <vannapurve@google.com>
+Co-developed-by: Sean Christopherson <seanjc@google.com>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+Reviewed-by: Fuad Tabba <tabba@google.com>
+Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
+Suggested-by: Michael Roth <michael.roth@amd.com>
+Tested-by: Shivank Garg <shivankg@amd.com>
+Suggested-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- Documentation/virt/kvm/api.rst | 22 ++++++++++++++--------
- virt/kvm/guest_memfd.c         |  2 +-
- 2 files changed, 15 insertions(+), 9 deletions(-)
+ Documentation/virt/kvm/api.rst |  71 +++++++++++++++++++++++-
+ include/uapi/linux/kvm.h       |  15 ++++++
+ virt/kvm/guest_memfd.c         | 119 +++++++++++++++++++++++++++++++++++++++++
+ virt/kvm/kvm_main.c            |  23 +++++---
+ 4 files changed, 219 insertions(+), 9 deletions(-)
 
 diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 90a29424c54c8..668886f50024d 100644
+index 668886f50024d..4dbf452f6e809 100644
 --- a/Documentation/virt/kvm/api.rst
 +++ b/Documentation/virt/kvm/api.rst
-@@ -6381,10 +6381,16 @@ mapping for userspace_addr is not required to be valid/populated at the time of
- KVM_SET_USER_MEMORY_REGION2, e.g. shared memory can be lazily mapped/allocated
- on-demand.
+@@ -117,7 +117,7 @@ description:
+       x86 includes both i386 and x86_64.
  
--When mapping a gfn into the guest, KVM selects shared vs. private, i.e consumes
--userspace_addr vs. guest_memfd, based on the state in guest_memfd, which is the
--sole authority on private vs. shared memory.  See :ref:`KVM_CREATE_GUEST_MEMFD`
--to find out more about the creation-time shared/private status.
-+When mapping a gfn into the guest, guest faults are always serviced from
-+guest_memfd regardless of whether memory is shared or private.  KVM determines
-+shared vs. private based on the state in guest_memfd, which is the sole
-+authority on private vs. shared memory.  See :ref:`KVM_CREATE_GUEST_MEMFD` to
-+find out more about the creation-time shared/private status.
+   Type:
+-      system, vm, or vcpu.
++      system, vm, vcpu or guest_memfd.
+ 
+   Parameters:
+       what parameters are accepted by the ioctl.
+@@ -6385,7 +6385,9 @@ When mapping a gfn into the guest, guest faults are always serviced from
+ guest_memfd regardless of whether memory is shared or private.  KVM determines
+ shared vs. private based on the state in guest_memfd, which is the sole
+ authority on private vs. shared memory.  See :ref:`KVM_CREATE_GUEST_MEMFD` to
+-find out more about the creation-time shared/private status.
++find out more about the creation-time shared/private status.  Userspace can
++control whether memory is shared/private by toggling
++KVM_MEMORY_ATTRIBUTE_PRIVATE via :ref:`KVM_SET_MEMORY_ATTRIBUTES2` as needed.
+ 
+ userspace_addr is expected to be the mmap()-ed address corresponding to the
+ right offset within the guest_memfd. Any mismatch between userspace_addr and
+@@ -6404,6 +6406,8 @@ S390:
+ Returns -EINVAL if the VM has the KVM_VM_S390_UCONTROL flag set.
+ Returns -EINVAL if called on a protected VM.
+ 
++.. _KVM_SET_MEMORY_ATTRIBUTES:
 +
-+userspace_addr is expected to be the mmap()-ed address corresponding to the
-+right offset within the guest_memfd. Any mismatch between userspace_addr and
-+guest_memfd is not validated and is a user error. userspace_addr is only used
-+for host-side guest accesses such as kvm_read_guest().
+ 4.141 KVM_SET_MEMORY_ATTRIBUTES
+ -------------------------------
  
- If in-place conversion is disabled, KVM selects shared vs. private, i.e consumes
- userspace_addr vs. guest_memfd, based on the gfn's KVM_MEMORY_ATTRIBUTE_PRIVATE
-@@ -6490,10 +6496,10 @@ specified via KVM_CREATE_GUEST_MEMFD.  Currently defined flags:
-                                page tables. Private memory cannot.
-   ============================ ================================================
+@@ -6440,6 +6444,8 @@ the state of a gfn/page as needed.
  
--When the KVM MMU performs a PFN lookup to service a guest fault and the backing
--guest_memfd has the GUEST_MEMFD_FLAG_MMAP set, then the fault will always be
--consumed from guest_memfd, regardless of whether it is a shared or a private
--fault.
-+When the KVM MMU performs a PFN lookup to service a guest fault, the fault will
-+always be consumed from guest_memfd, regardless of whether it is a shared or a
-+private fault (unless in-place conversion is disabled and the backing
-+guest_memfd does not have the GUEST_MEMFD_FLAG_MMAP flag set).
+ The "flags" field is reserved for future extensions and must be '0'.
  
- See KVM_SET_USER_MEMORY_REGION2 for additional details.
++See also: :ref:`KVM_SET_MEMORY_ATTRIBUTES2`.
++
+ .. _KVM_CREATE_GUEST_MEMFD:
  
+ 4.142 KVM_CREATE_GUEST_MEMFD
+@@ -6599,6 +6605,67 @@ KVM_S390_KEYOP_SSKE
+   Sets the storage key for the guest address ``guest_addr`` to the key
+   specified in ``key``, returning the previous value in ``key``.
+ 
++.. _KVM_SET_MEMORY_ATTRIBUTES2:
++
++4.145 KVM_SET_MEMORY_ATTRIBUTES2
++---------------------------------
++
++:Capability: KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES
++:Architectures: all
++:Type: guest_memfd ioctl
++:Parameters: struct kvm_memory_attributes2 (in)
++:Returns: 0 on success, <0 on error
++
++Errors:
++
++  ========== ===============================================================
++  EINVAL     The specified `offset` or `size` was invalid (e.g. not
++             page aligned, causes an overflow, or size is zero).
++  EFAULT     The parameter address was invalid.
++  ENOMEM     Ran out of memory trying to track private/shared state
++  ========== ===============================================================
++
++KVM_SET_MEMORY_ATTRIBUTES2 is an extension to
++KVM_SET_MEMORY_ATTRIBUTES that supports returning (writing) values to
++userspace.  The original (pre-extension) fields are shared with
++KVM_SET_MEMORY_ATTRIBUTES identically.
++
++Attribute values are shared with KVM_SET_MEMORY_ATTRIBUTES.
++
++::
++
++  struct kvm_memory_attributes2 {
++	union {
++		__u64 address;
++		__u64 offset;
++	};
++	__u64 size;
++	__u64 attributes;
++	__u64 flags;
++	__u64 reserved[12];
++  };
++
++  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
++
++Set attributes for a range of offsets within a guest_memfd to
++KVM_MEMORY_ATTRIBUTE_PRIVATE to limit the specified guest_memfd backed
++memory range for guest use. Even if KVM_CAP_GUEST_MEMFD_MMAP is
++supported, after a successful call to set
++KVM_MEMORY_ATTRIBUTE_PRIVATE, the requested range will not be mappable
++into host userspace and will only be mappable by the guest.
++
++To allow the range to be mappable into host userspace again, call
++KVM_SET_MEMORY_ATTRIBUTES2 on the guest_memfd again with
++KVM_MEMORY_ATTRIBUTE_PRIVATE unset.
++
++KVM does not directly manipulate the memory contents of pages during
++attribute updates. However, the process of setting these attributes,
++which includes operations such as unmapping pages from the host or
++stage-2 page tables, may result in side effects on memory contents
++that vary across different trusted firmware implementations.
++
++See also: :ref:`KVM_SET_MEMORY_ATTRIBUTES`.
++
+ 4.145 KVM_PPC_GET_COMPAT_CAPS
+ -----------------------------
+ :Capability: KVM_CAP_PPC_COMPAT_CAPS
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index ac2d77d149635..ac371a50041c9 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -999,6 +999,7 @@ struct kvm_enable_cap {
+ #define KVM_CAP_S390_HPAGE_2G 249
+ #define KVM_CAP_PPC_COMPAT_CAPS 250
+ #define KVM_CAP_ARM_PMU_V3_STRICT 251
++#define KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES 252
+ 
+ struct kvm_irq_routing_irqchip {
+ 	__u32 irqchip;
+@@ -1653,6 +1654,20 @@ struct kvm_memory_attributes {
+ 	__u64 flags;
+ };
+ 
++/* Available with KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES */
++#define KVM_SET_MEMORY_ATTRIBUTES2              _IOWR(KVMIO,  0xd2, struct kvm_memory_attributes2)
++
++struct kvm_memory_attributes2 {
++	union {
++		__u64 address;
++		__u64 offset;
++	};
++	__u64 size;
++	__u64 attributes;
++	__u64 flags;
++	__u64 reserved[12];
++};
++
+ #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
+ 
+ #define KVM_CREATE_GUEST_MEMFD	_IOWR(KVMIO,  0xd4, struct kvm_create_guest_memfd)
 diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index 0afe1468d2d9d..e41802944756b 100644
+index e19de803149c2..803c7cdbbe0f6 100644
 --- a/virt/kvm/guest_memfd.c
 +++ b/virt/kvm/guest_memfd.c
-@@ -746,7 +746,7 @@ int kvm_gmem_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
- 	 */
- 	WRITE_ONCE(slot->gmem.file, file);
- 	slot->gmem.pgoff = start;
--	if (kvm_gmem_supports_mmap(inode))
-+	if (gmem_in_place_conversion || kvm_gmem_supports_mmap(inode))
- 		slot->flags |= KVM_MEMSLOT_GMEM_ONLY;
+@@ -506,11 +506,130 @@ bool kvm_gmem_is_private_gfn(struct kvm *kvm, gfn_t gfn)
+ }
+ EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_gmem_is_private_gfn);
  
- 	xa_store_range(&f->bindings, start, end - 1, slot, GFP_KERNEL);
++/*
++ * Preallocate memory for attributes to be stored on a maple tree, pointed to
++ * by mas.  Adjacent ranges with attributes identical to the new attributes
++ * will be merged.  Also sets mas's bounds up for storing attributes.
++ *
++ * This maintains the invariant that ranges with the same attributes will
++ * always be merged.
++ */
++static int kvm_gmem_mas_preallocate(struct ma_state *mas, u64 attributes,
++				    pgoff_t start, size_t nr_pages)
++{
++	pgoff_t end = start + nr_pages;
++	pgoff_t last = end - 1;
++	void *entry;
++
++	/* Try extending range. entry is NULL on overflow/wrap-around. */
++	mas_set(mas, end);
++	entry = mas_find(mas, end);
++	if (entry && xa_to_value(entry) == attributes)
++		last = mas->last;
++
++	if (start > 0) {
++		mas_set(mas, start - 1);
++		entry = mas_find(mas, start - 1);
++		if (entry && xa_to_value(entry) == attributes)
++			start = mas->index;
++	}
++
++	mas_set_range(mas, start, last);
++	return mas_preallocate(mas, xa_mk_value(attributes), GFP_KERNEL);
++}
++
++static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
++				     size_t nr_pages, uint64_t attrs)
++{
++	bool to_private = attrs & KVM_MEMORY_ATTRIBUTE_PRIVATE;
++	struct address_space *mapping = inode->i_mapping;
++	struct gmem_inode *gi = GMEM_I(inode);
++	enum kvm_gfn_range_filter filter;
++	pgoff_t end = start + nr_pages;
++	struct maple_tree *mt;
++	struct ma_state mas;
++	int r;
++
++	mt = &gi->attributes;
++
++	filemap_invalidate_lock(mapping);
++
++	mas_init(&mas, mt, start);
++	r = kvm_gmem_mas_preallocate(&mas, attrs, start, nr_pages);
++	if (r)
++		goto out;
++
++	/*
++	 * From this point on guest_memfd has performed necessary
++	 * checks and can proceed to do guest-breaking changes.
++	 */
++
++	filter = to_private ? KVM_FILTER_SHARED : KVM_FILTER_PRIVATE;
++	kvm_gmem_invalidate_start(inode, start, end, filter);
++	mas_store_prealloc(&mas, xa_mk_value(attrs));
++	kvm_gmem_invalidate_end(inode, start, end);
++out:
++	filemap_invalidate_unlock(mapping);
++	return r;
++}
++
++static long kvm_gmem_set_attributes(struct file *file, void __user *argp)
++{
++	struct gmem_file *f = file->private_data;
++	struct inode *inode = file_inode(file);
++	struct kvm_memory_attributes2 attrs;
++	size_t nr_pages;
++	pgoff_t index;
++	int i;
++
++	if (copy_from_user(&attrs, argp, sizeof(attrs)))
++		return -EFAULT;
++
++	if (attrs.flags)
++		return -EINVAL;
++	for (i = 0; i < ARRAY_SIZE(attrs.reserved); i++) {
++		if (attrs.reserved[i])
++			return -EINVAL;
++	}
++	if (!kvm_arch_has_private_mem(f->kvm))
++		return -EINVAL;
++	if (attrs.attributes & ~KVM_MEMORY_ATTRIBUTE_PRIVATE)
++		return -EINVAL;
++	if (attrs.size == 0 || attrs.offset + attrs.size < attrs.offset)
++		return -EINVAL;
++	if (!PAGE_ALIGNED(attrs.offset) || !PAGE_ALIGNED(attrs.size))
++		return -EINVAL;
++
++	if (attrs.offset >= i_size_read(inode) ||
++	    attrs.offset + attrs.size > i_size_read(inode))
++		return -EINVAL;
++
++	nr_pages = attrs.size >> PAGE_SHIFT;
++	index = attrs.offset >> PAGE_SHIFT;
++	return __kvm_gmem_set_attributes(inode, index, nr_pages,
++					 attrs.attributes);
++}
++
++static long kvm_gmem_ioctl(struct file *file, unsigned int ioctl,
++			   unsigned long arg)
++{
++	switch (ioctl) {
++	case KVM_SET_MEMORY_ATTRIBUTES2:
++		if (!gmem_in_place_conversion)
++			return -ENOTTY;
++
++		return kvm_gmem_set_attributes(file, (void __user *)arg);
++	default:
++		return -ENOTTY;
++	}
++}
++
+ static struct file_operations kvm_gmem_fops = {
+ 	.mmap		= kvm_gmem_mmap,
+ 	.open		= generic_file_open,
+ 	.release	= kvm_gmem_release,
+ 	.fallocate	= kvm_gmem_fallocate,
++	.unlocked_ioctl	= kvm_gmem_ioctl,
+ };
+ 
+ static int kvm_gmem_migrate_folio(struct address_space *mapping,
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 46d2e123448c2..1ea8198821917 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -2423,18 +2423,22 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
+ }
+ #endif /* CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT */
+ 
++#ifdef kvm_arch_has_private_mem
++static u64 kvm_supports_private_mem(struct kvm *kvm)
++{
++	return !kvm || kvm_arch_has_private_mem(kvm);
++}
++#else
++#define kvm_supports_private_mem(kvm) false
++#endif
++
+ #ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+ static u64 kvm_supported_vm_mem_attributes(struct kvm *kvm)
+ {
+-#ifdef kvm_arch_has_private_mem
+-	if (gmem_in_place_conversion)
++	if (gmem_in_place_conversion || !kvm_supports_private_mem(kvm))
+ 		return 0;
+ 
+-	if (!kvm || kvm_arch_has_private_mem(kvm))
+-		return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+-#endif
+-
+-	return 0;
++	return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+ }
+ 
+ /*
+@@ -4976,6 +4980,11 @@ static int kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
+ 		return 1;
+ 	case KVM_CAP_GUEST_MEMFD_FLAGS:
+ 		return kvm_gmem_get_supported_flags(kvm);
++	case KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES:
++		if (!gmem_in_place_conversion || !kvm_supports_private_mem(kvm))
++			return 0;
++
++		return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+ #endif
+ 	default:
+ 		break;
 
 -- 
 2.55.0.897.gb25b4bd76c-goog
