@@ -1,132 +1,133 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660A03F39DC;
-	Mon, 31 Aug 2026 11:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D962C0294;
+	Mon, 31 Aug 2026 11:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788176326; cv=none; b=iU/a8zYL8bH3mx+wXQeLjBJkS6/p38S4TvbC/3rBs2UGQRs+rt2HxqjNWz5GYtkrRBxQ+LnwB1HkdSc00yrIXTET+sQTkf3kKn8t7wKotvoHToqBknyaKipNDDhxEhgv8+jXZjJkoo+Xjk3S1bawbus3hR7p7h99hB+uWhu+CxQ=
+	t=1788176710; cv=none; b=IMwQjRM2Zdu0ZxW5jiZHr/pzFWQWi0l7SX6RR7Ca6nJb38vJtQ4y6LVdyBQ1hMvxY2ZbZXxgq+FuWlugkzcagSjhlQW0JdLMz3db+HcUSVKH43kp6EeWkeRyV+onq06A/b1aC/6Fu84a6VnEFbRY3S9w/fZjmfZVmiR63lqnapk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788176326; c=relaxed/simple;
-	bh=nwOFeWvsaBX4TElxo8BKbmKNns0DJdUW18m7d+uWhnc=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=ThCyoSg+dJiF5q5+ReciUPnNru2X/NV9zgyGAt2MjnlPKauJmydOnSG595rZsJvbqriMo+TH5lkxRFEG73+idldJtwKxT+zsb/saoyn7vJnP0+LA6tcgUSS+9A5DThKhxdNdj7YfWV9MEwiEl5DL9epJLgFjUPrV6aSVqpAIQOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=dfFKL9ly; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=55bSVbf5; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1788176710; c=relaxed/simple;
+	bh=Pk2HuTXvrj04yvZHTloga/AzYqMYWnPBZNra2rviZCM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type:Content-Disposition; b=FtcKl0P4kULUPiX8jsXPOJy5JVD0B6a9GixWBVRYWcQi2EXQO5ZyUU4/ZvnJDaQj1xaIY2uRTXf2IGb+Kzo16ayHiyCcwNn1jA5BKgE/ycqejJ45FFvGn6tAivw3qHYvvk73uakEeTc9AS6YPqyxsOf9tyLjRkPYWhBbXo027SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KdUsfKde; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="dfFKL9ly";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="55bSVbf5"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1788176287; bh=9HqZxXcOW1Xz+TeJ5NTeoxc
-	fysDQipXYrj2AUeLNun0=; b=dfFKL9lyz40RzeiWqHXXOCaIDqgwZ1htZdpeyMaBEy0PvVjJVu
-	O2C8rvt8ORsvG29BGnpKvkeXtTj5EfmADXyEm+lQwzlx9k6in1w6Zi9K25Oa44YfHOd20AMyQnz
-	2vmpKB7Xs4RuacxKM5cQf09axsoKhFz8Zkangyy8N2E3yhUBi1XFtTp0A7qcWqnziXps4jaAxEV
-	nXEqziHG7t6I1zepHtrJ+6zue8J9Siy/+dmCIyFC+rlmBLEo4QFVkazKeZFpHSTbrwcmcziEmJJ
-	wzrzfIKyVY5W7lOonPUnq5W2KEz6WBlkuMyzoyNp4LQGZMZv3Mr/1xr47biUIXcv4fw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1788176287; bh=9HqZxXcOW1Xz+TeJ5NTeoxc
-	fysDQipXYrj2AUeLNun0=; b=55bSVbf5AvgQD63tjCm5Ti7kRPi24HGf/KR7iTn9Mnol/gUT8g
-	OzzaXlRRf/EfnCdf/4aPiANr0XnCdUJnlNCg==;
-Date: Mon, 31 Aug 2026 12:38:07 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: Re: [PATCH v2 1/2] module: pull out add_taint_module() to be public
-In-Reply-To: <2026083107-gently-leverage-7f97@gregkh>
-References: <20260831-bind_taint-v2-0-1082d631213b@linuxfoundation.org> <20260831-bind_taint-v2-1-1082d631213b@linuxfoundation.org> <2026083120-matrix-waffle-7ee7@gregkh> <A47FDF4A-DA90-4015-AFDB-61CA611F6311@mainlining.org> <2026083107-gently-leverage-7f97@gregkh>
-Message-ID: <F4CE5DE5-66B7-491C-B288-A5666A56FC0F@mainlining.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KdUsfKde"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 196E71F000E9;
+	Mon, 31 Aug 2026 11:45:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788176708;
+	bh=wGdIvMQDIWqxcyQAeKHe8ucGu5TZhv2BRT1ivpeEVSk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KdUsfKdewDSrrbHIxK3Dnxh1M5Y0JSMeTR7RaY42i0KCGoye7ktLqLHrO3SDqrF7z
+	 LVtu2OqTlRSk5UPoflgkTV4el+A0DFPR4uwHENHf3wsXCg3kmJMBQ/h4/DIZHeD5CT
+	 ilxoQ5bbmf3XrnN6JV1tG+4EP0DETlsslwFyLaFfutB/tiJjRVLMgWgPlsQ8yISWwv
+	 BjT04QENHaW+yBCysjSx8Rm2hKvmq5pdIRKRQDZGVa9oKgkIjFki92RytPJskZC3+p
+	 nZu7mDZWoIlqvT/8flz3bX2akFWmg5YZ+KGsc6wLrxOaTN2lRfoWRfezo5W+KZw2hj
+	 JzDIK7W5MgPKg==
+Date: Mon, 31 Aug 2026 14:45:05 +0300
+From: Konstantin Sinyuk <ksinyuk@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	dri-devel@lists.freedesktop.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Francois Dugast <francois.dugast@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Ilia Levi <ilia.levi@intel.com>,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jhs@mojatatu.com
+Subject: Re: [RFC PATCH 0/12] drm/fabric: vendor-neutral topology
+ infrastructure for scale-up accelerator interconnects
+Message-ID: <fabric-jason-reply.1788176463.ksinyuk@kernel.org>
+References: <cover.1787552412.git.ksinyuk@kernel.org>
+ <apAsfOowcG0cTvT8@FV6GYCPJ69>
+ <apG3Gsk1TeMD-oCc@intel.com>
+ <20260828170301.GA4157646@nvidia.com>
+In-Reply-To: <20260828170301.GA4157646@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
 
-On 31 August 2026 12:28:48 BST, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->On Mon, Aug 31, 2026 at 12:14:17PM +0100, Bradley Morgan wrote:
->> On 31 August 2026 12:07:50 BST, Greg Kroah-Hartman
->> <gregkh@linuxfoundation.org> wrote:
->> >On Mon, Aug 31, 2026 at 12:51:46PM +0200, Greg Kroah-Hartman wrote:
->> >> Other kernel code might want to call add_taint_module() so pull it
->out
->> >> and make it global.  If modules are not enabled, this defaults to a
->call
->> >> to add_taint(), so all is fine.
->> >> 
->> >> Reviewed-by: Johan Hovold <johan@kernel.org>
->> >> Tested-by: Johan Hovold <johan@kernel.org>
->> >> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> >> ---
->> >>  include/linux/module.h | 10 ++++++++++
->> >>  kernel/module/main.c   | 16 +++++++++++++---
->> >>  2 files changed, 23 insertions(+), 3 deletions(-)
->> >> 
->> >> diff --git a/include/linux/module.h b/include/linux/module.h
->> >> index 96cc98568eea..0636e0f2728c 100644
->> >> --- a/include/linux/module.h
->> >> +++ b/include/linux/module.h
->> >> @@ -29,6 +29,7 @@
->> >>  #include <linux/srcu.h>
->> >>  #include <linux/static_call_types.h>
->> >>  #include <linux/dynamic_debug.h>
->> >> +#include <linux/panic.h>
->> >>  
->> >>  #include <linux/percpu.h>
->> >>  #include <asm/module.h>
->> >> @@ -770,6 +771,9 @@ static inline bool is_livepatch_module(struct
->module
->> >*mod)
->> >>  
->> >>  void module_for_each_mod(int(*func)(struct module *mod, void *data),
->> >void *data);
->> >>  
->> >> +void add_taint_module(struct module *mod, unsigned flag,
->> >> +		      enum lockdep_ok lockdep_ok);
->> >> +
->> >>  #else /* !CONFIG_MODULES... */
->> >>  
->> >>  static inline struct module *__module_address(unsigned long addr)
->> >> @@ -877,6 +881,12 @@ static inline bool module_is_coming(struct
->module
->> >*mod)
->> >>  static inline void module_for_each_mod(int(*func)(struct module
->*mod,
->> >void *data), void *data)
->> >>  {
->> >>  }
->> >> +
->> >> +static inline void add_taint_module(struct module *mod, unsigned
->flag,
->> >> +				    enum lockdep_ok, lockdep_ok)
->> >
->> >And this line is wrong, ugh.  I gotta go get sashiko running locally...
->> 
->> Cough cough, Claude code speaking 
->
->Nope, no claude running here at all, sorry to burst your bubble.  If I
->had, it would have caught this :)
->
->greg k-h
-Nooooo lol.
+On Fri, Aug 28, 2026 at 02:03:01PM -0300, Jason Gunthorpe wrote:
+> For something complex like this, if you can't concretetly tie the HW
+> to a net namespace, and follow the net namespace rules for visibility,
+> then it is going to be a painful choice. I speak from alot of rdma
+> experiance where net namespaces have been consistently challenging.
 
-I mean asking Claudy to find bugs in the code submitted before submitting
-it.
+Agreed. The series does not provide meaningful namespace semantics; it
+is host-global and confined to init_net. I would rather make that scope
+explicit than invent per-netns fabric semantics that the hardware does
+not have.
 
-Saves me a ridiculous amount of time.
---- Thanks!
-https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
+Generic Netlink was a practical starting point, and drm_ras established
+the pattern in DRM, but that is a simpler problem and does not settle
+the choice here. A device-fd model like Jiri's may fit visibility and
+access control better, since a global family has no descriptor to check
+against. I would not switch transports based on an early pre-RFC, but I
+no longer consider the transport choice settled.
+
+> net/ is mainly focused on IP networking, it is where you should be
+> putting the ethernet layer at the bottom of the ua link over ethernet,
+> SUE, or whatever.
+
+Agreed. Ethernet PHY, MAC, packet processing and switch routing belong
+in the networking stack, not in DRM or an accelerator driver.
+
+Scale-up can reuse those layers where they fit. What differs is the
+accelerator-facing semantics, even when the underlying transport reuses
+Ethernet. From the accelerator side, a scale-up endpoint behaves more
+like another core in a tightly coupled system than an ordinary NIC.
+
+This series does not duplicate the networking layers. It models
+endpoints, ports, direct adjacency, membership and local state: no
+netdev, packet processing, Ethernet PHY management, route computation
+or switch forwarding.
+
+> There are so many variations of these "scale up" fabrics now, it would
+> probably be appropriate to have one subsystem that aims to work with
+> all of them. It is almost rdma but different enough it probably
+> wouldn't fit well.
+
+Worth testing. I would rather approach that through the minimum common
+object model than start by defining a complete subsystem.
+
+DRM is the current location because the initial providers are DRM and
+accel drivers, not because DRM should own the transport or must be the
+final home. The objects do not depend on GEM, scheduling, display or DRM
+memory semantics.
+
+Switches are the difficult case. A UALink switch is not a DRM device,
+and complete Pod topology may involve information owned by the Pod
+Controller and switch-management plane, not only accelerator drivers.
+If that information has to be represented as first-class objects, DRM
+may not be the right final home.
+
+There is no established common Linux answer for this class of fabric
+yet. I would rather start with the minimum topology objects, test them
+against direct-link and switched implementations, and review the model
+with multiple vendors before deciding its final scope and home.
+
+The LPC BoF is where I want the accelerator, networking and RDMA sides
+in the same room:
+
+  https://lpc.events/event/20/contributions/2412/
+
+Thanks,
+Konstantin
