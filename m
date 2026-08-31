@@ -1,92 +1,134 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0664956D2DF;
-	Mon, 31 Aug 2026 13:48:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867DD494A0B
+	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 14:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184111; cv=none; b=nDyi3sFwU8VUwW4dgJK7F2oIDY9h22w0RgybSNk3dJ+cYUvZvM4ELtwjrHWUOWPRBZkHPXVqbIGHszHAapUpM8QACW/gQbdUkWmy1DdH0rGbPtQVAK/F4dIOrnoOJRrDkNKkX2uru2um427kkT50Am5i9tdycBfFxTgdZBf9CWQ=
+	t=1788185568; cv=none; b=MDQCjwM1/iwYjBBMRab48DFF5nb/XftpcKEL87klp2fQSaisCp4WC2cdKCdcEeL67qfUbRspGTOxUyWbRIiBhyOVOKbMeg18C5TUMoA0q4oPaq0CKGL4BwP7x+nxWFZvNik58ywUXT0L7s2dqbXp++/5Os7RL6qdAeNEBZ1YbEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184111; c=relaxed/simple;
-	bh=dLuGJIqkqlXvNS87G/gqHKQ/t9ob90ZWAvEEOjTShz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cMN5RbftHMTG3Ctknp+E2xYJrM2t+oDsikTvMLocmCfd5piClgHDLI1UjEK61radqC/AVFOvqdquKV0f4giPqrRIVG89DVE7jgwn7fpdJJCCeq61G5wURdwg3rf48eYD0Dc94OsTIXBe213wX/rD2RIA+b4//MzyWoNb7lqcKZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=RHU4u0fp; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	s=arc-20240116; t=1788185568; c=relaxed/simple;
+	bh=HO3i8jPEq+t50RYFf/H+PXoGo63vAGi43wP1utjBY1M=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=OlD6DqAHn7n4so/Px39q4jO/O+F63CKONjc2C9rTJO/Wm7L0SeA+So0gAXR2OObWDx7xvNvDXaPg4fQ+OSfxgnl99VOJ0UePz+6RjzJc9gsiIbSO6FtGGGDSZkahjpcz3AXzSCf5SPLX76QpLjG9G9sZDPix3iJi7F3pjlODkmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=We4TIath; arc=none smtp.client-ip=209.85.128.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="RHU4u0fp"
-Received: from omf18.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 4A84C1A004B;
-	Mon, 31 Aug 2026 13:48:21 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf18.hostedemail.com (Postfix) with ESMTPA id 937372E;
-	Mon, 31 Aug 2026 13:48:18 +0000 (UTC)
-Date: Mon, 31 Aug 2026 09:49:14 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: <hu.shengming@zte.com.cn>
-Cc: <mhiramat@kernel.org>, <mathieu.desnoyers@efficios.com>,
- <mark.rutland@arm.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
- <rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-trace-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <ran.xiaokai@zte.com.cn>, <xu.xin16@zte.com.cn>, <zhang.run@zte.com.cn>
-Subject: Re: [RFC PATCH 0/4] ftrace: Add task comm filtering for function
- tracing
-Message-ID: <20260831094914.50eb26b7@gandalf.local.home>
-In-Reply-To: <20260830190743637MhXoixrAPc1rfm-G8eIcg@zte.com.cn>
-References: <20260830190743637MhXoixrAPc1rfm-G8eIcg@zte.com.cn>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="We4TIath"
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4955e865174so15700665e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 07:12:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788185564; x=1788790364; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=enmYgpseGkhwRWk/6x6IfJWBAGPePrZp4E75kiptkns=;
+        b=We4TIathP2bqje8Idye57nSVlBoHzHcIvuMWqLwOcXyhwvyyjYk7QtWV6e5XftQ0ap
+         pAx+nv/OArcfuPq2LDO4FmaN/XiNtq8+3KV/FnjWxPPoOqnBoWg6gnIfvO4RzHHJ3Eob
+         szcSM+D5oz3dvyHxyK3aQHV0iVGFbMyrl7ikeK7E0jOisAJlfh2ngIVkfWnIIyScjhc+
+         rgVH41YlGTBbdxSPr9ZzHpwjQPlsCXktEjDpwWF1tkq3QP5HCfaAI/jV7fMaNXEA0gz9
+         YKZur7e34hxPXYuQnGZI7wWut/LyGefUu75CcerqRccy5k159PT27XflG5WB9CXMSX02
+         TphA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788185564; x=1788790364;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=enmYgpseGkhwRWk/6x6IfJWBAGPePrZp4E75kiptkns=;
+        b=tTTje6690kXGLqMJqX9AVB/PvTxJlwxtpq9N88zHpvf7ZOm0JQrDW9dX0SZXQ5i7Lw
+         qWk7advEWMepuCRZN7TWDvcF9thgvCbe4qH+ornBvrrMZcr5rsqF9r3pJRPh1LcYktr4
+         G9cdd/A6atHuQYKOjN4qaoJrxfhXUMynIi3tyar//lmQOUuHMaDJglYpIY0G6R0aNpQK
+         YGU+w9G9u9W7TeSpJ4qyfk/ICF7gaZkoJ8oA0P7Wwbg1VxIH2xi2370puB+ZMLbrZJcv
+         mQbLLohXGOFlBtbQZBsMVPQfKjR0RyEQTgy7lUN6AWUsQU0+9FdZmpPwY/OjM9HtTP/V
+         KSag==
+X-Forwarded-Encrypted: i=1; AHgh+RpdXzLCU7YDUeztpT7rKRFRObQ/JNHifDLb+rzYm2krh6uDBx/K0Uk7a3/dkYCEGILnB46yqhSV4po=@vger.kernel.org
+X-Gm-Message-State: AFuF++nhBFtZRNFg87urgLpaUb89TgczblPKgackgfijdqVzAfPEFBw1
+	BbZk4i231ulqoHBRkm2GYN7BVCVOrJ+xSLgJynLJ2Yhl6i2RherlAcZdy8mPvr1wNgVdw0DEzGe
+	EonKV6H6FJy5+JcDsEQ==
+X-Received: from wmbip22.prod.google.com ([2002:a05:600c:a696:b0:499:b6c1:bd20])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:8411:b0:499:4892:d022 with SMTP id 5b1f17b1804b1-49b91c279e1mr470552705e9.8.1788185564261;
+ Mon, 31 Aug 2026 07:12:44 -0700 (PDT)
+Date: Mon, 31 Aug 2026 14:12:43 +0000
+In-Reply-To: <c8453a19-3487-4031-8153-22e1b1cd2b69@efficios.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: tud16fhzi6brbx93myp93kikhrxpq3bd
-X-Rspamd-Server: rspamout06
-X-Rspamd-Queue-Id: 937372E
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19m1r7tgd841rNC4J2OH1/70xyKy2342XQ=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=E7Qwo5ePLec5bmxtjfAHfjkKZHuxg+C6AMNIWgLe5KI=; b=RHU4u0fpgatLeLSAH37hIJSRqCFHTCKmiAkwD6qMIODaMVkzOCWiMVfs/fh8EzrVH8QS23BUZNhBuL5gDoownsxrbLgMPW+Kp9vnxGkuPIn37Hjrnj2DhezRxgPIJ417WDb3pCRUg0XglmCtdMFFkCF53q+oXpJBW+HF4ttZeJg=
-X-HE-Tag: 1788184098-707634
-X-HE-Meta: U2FsdGVkX1+L0ovwgTB7cgBGTkCClslMXs9MLZL1qW3cbWRDpbY+dJhdw10R0fUCdmO9CJds/HjKZ4DCODLabSim6dPps53+D5CQtPhYRSwUnjeoQ7PIqAfwJMOds1W9ADJ7LgHNlWaPup6zNEkx+b5dknOBlfVXk5iHNq25NyNfrJw/jNFpZ+8bGkAPG7ZHSCV3HGs1pj7oN+gv9WDf7B+rhbT2zyN27GpQs3ig24vmw+O/T9lv16Dl1IE1me7DsORc+SluhD7UIqQgH/4kr2UDELuLIPrZz1BHBsdkpYrXg2QkWyZD1ruXPfNgjidwdY1X6yCTRkwZIZPwcvw7t97Q2mZNuOl4DmQok059l9JfNUO3rAgdCKVwFL+oTjLk
+Mime-Version: 1.0
+References: <20260831-sys-futex-wake-time-slice-v1-1-814bb95cc339@google.com> <c8453a19-3487-4031-8153-22e1b1cd2b69@efficios.com>
+Message-ID: <apWL2wFhvRM93zm1@google.com>
+Subject: Re: [PATCH] rseq: defer time slice extension yield for sys_futex_wake
+From: Alice Ryhl <aliceryhl@google.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-On Sun, 30 Aug 2026 19:07:43 +0800 (CST)
-<hu.shengming@zte.com.cn> wrote:
-
-> Hi Steven and Masami,
+On Mon, Aug 31, 2026 at 09:45:25AM -0400, Mathieu Desnoyers wrote:
+> On 2026-08-31 08:57, Alice Ryhl wrote:
+> > When a task is granted an rseq scheduler time slice extension, it is
+> > expected to finish its critical section and relinquish the CPU via
+> > rseq_slice_yield(2). If the task issues any other system call while a
+> > grant is active, rseq_syscall_enter_work() forces an immediate
+> > reschedule on syscall entry via cond_resched(). This may cause
+> > significant latency penalty for userspace lock implementations that use
+> > rseq time slice extensions when unlocking the futex.
+> > 
+> > In a userspace mutex unlock sequence:
+> > 1. The lock is released in userspace.
+> > 2. If there are waiters, the unlocking thread calls sys_futex_wake()
+> >     to wake a sleeping waiter.
+> > 
+> > Because sys_futex_wake() is currently treated as an arbitrary syscall,
+> > rseq_syscall_enter_work() schedules out the unlocking thread upon
+> > syscall entry, which is before it has executed the wakeup. Consequently,
+> > the lock is free in userspace, but the waiter remains blocked in the
+> > kernel while the CPU switches to an unrelated task. The waiter is only
+> > woken when the unlocking thread is eventually scheduled back in to
+> > finish the syscall, causing lock handoff delays.
+> > 
+> > Thus, update rseq_syscall_enter_work() for sys_futex_wake() so that it
+> > does not reschedule during syscall entry. The thread will yield the CPU
+> > on the syscall exit path instead.
+> > 
+> > There is no need to apply this optimization to the multiplexed futex()
+> > syscall since any userspace code that can invoke rseq_slice_yield() can
+> > also invoke futex_wake().
 > 
-> This series adds two comm-based task filters for the function and
-> function_graph tracers:
+> Is the goal there to provide a single blessed way of doing futex wake,
+> or to allow the futex multiplexer to keep being used for that wake
+> scenario ?
 > 
->   set_ftrace_comm
->   set_ftrace_notrace_comm
-
-I'd like to avoid adding more files like this. If anything, I would love to
-add triggers to the function tracers.
-
+> The proposed change exposes two ABIs (multiplexer vs explicit futex
+> wake) with very different behaviors. I'm concerned that it would be
+> confusing to users.
 > 
-> Function tracing currently supports selecting tasks by PID. This makes
-> it difficult to configure tracing before a service starts, because it
-> does not have a PID yet. It is also inconvenient to keep tracing the
-> same service across restarts, as its PID may change. This use case was
-> suggested by Xuxin, a KSM reviewer.
+> Thoughts ?
 
-I've always recommended a simple wrapper script for applications:
+My understanding is that the multiplexed futex syscall is soft
+deprecated and the goal is that new code should use the dedicated
+syscalls, so I didn't think it was needed to implement the perf
+optimizations for the "old" API.
 
-echo '#! /bin/bash
-  echo $$ > /sys/kernel/tracing/set_ftrace_pid
-  echo $$ > /sys/kernel/tracing/set_event_pid
-  exec "$@"' > trace-me.sh
+But I do agree it's confusing to do it that way, so I'm happy to also
+support the multiplexed one if you think we should.
 
-chmod +x trace-me.sh
+Note that we can't read the 'op' argument to the multiplexed futex
+syscall inside rseq_syscall_enter_work(), so to implement it for that
+one too, we would have to skip the cond_resched() for all calls to
+sys_futex(), and then re-check inside of sys_futex() itself to call
+cond_resched() there if `op != FUTEX_WAKE` and the rseq time slice
+extension applies.
 
-  ./trace-me.sh command to be traced
+Though now that I think about it, maybe we want to skip the
+cond_resched() for all futex ops? If you're invoking FUTEX_WAIT, then
+there's not really much reason to call cond_resched() if you're calling
+schedule() immediately afterwards.
 
-The above will do what you want.
-
-But if we really do want to add more filters to function tracing, then
-adding triggers to it would be the way to go.
-
--- Steve
+Alice
