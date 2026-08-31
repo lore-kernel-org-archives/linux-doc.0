@@ -1,142 +1,110 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F0D468C28;
-	Mon, 31 Aug 2026 17:13:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788196420; cv=none; b=LeWvlh94SXLjnmtVBY6/0rowmvSBrWIv3HPgBvdmZBmMmhkLeVAg7wd3WNwB/qt4ZUgXexG+rDnXhtoHL/tb+n46TlvTCfbz69dhY/ioFOajBYbv3ooQb9Px63Va4qtxzCBwvo59Njx8PZoChxp/IP6VCB8XrixEokPPCxjx9pA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788196420; c=relaxed/simple;
-	bh=KTJu/kjJxksqIgM6W7l40pfwtu9qTxLS8TUVQjcOX/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RTrsH8gjeDh96uhllZckiYo/G19FZDpOdtXYZfHxVXEJrovp670f5ZSWdN3M5umQG86Tsh45Jgpxf9K0PqHiCeqPa1gf40xlDta7eMYoZxRjak8VdwuhjbZxum4TG3n3H60SIL1owvQzjHOqVMk6lYZ94BM1+g+1bnB2gdk3Hzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=3ChZsEk2; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED9046D09A
+	for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 17:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788196760; cv=pass; b=Z/DTcQMMKt+JOi6Y7vb0Ryd09mYGgTfMmWbR56WK3VXFHPgUuNJHgTLRFfapJuhNKtUeuT0Pfy3PZCuTNcCAvF0h4uFCOpTsAw+sG+FGx0y8gL1vdiy/RlonbE6LiJ1WqS1fGMAIVpt/FHr36Dzsfm2y+SzmQS7GfUHCiBk0Mqg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788196760; c=relaxed/simple;
+	bh=EceNcS+Z+ajhb8CIpd8JlFdQ1JxKxr3f6vg2kh+0pjk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RE2LdbnqlKu3TUEDLPQZeSUdyh7tBWn+phfg2YzurL5ZB5CyXm+KklGIEKJlJ0mDne6qcvMEObSztJMkUezjFokTPtmSjrm9FTkvJklo7DvrPOuUAS3/ynhww22Jcg+Ik/DHui5T7aoFnesBXVaqlZjiJBqID6JQInDlPYHEYMs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X8VFmRTX; arc=pass smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="3ChZsEk2"
-Received: from omf10.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay01.hostedemail.com (Postfix) with ESMTP id 1E43C1C0AA5;
-	Mon, 31 Aug 2026 17:13:36 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf10.hostedemail.com (Postfix) with ESMTPA id DD2A630;
-	Mon, 31 Aug 2026 17:13:32 +0000 (UTC)
-Date: Mon, 31 Aug 2026 13:14:29 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
- x86@kernel.org, Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH 2/2] tracing/probes: Fix BTF kflag check for anonymous
- struct member access
-Message-ID: <20260831131429.0c949991@gandalf.local.home>
-In-Reply-To: <178818877624.104360.10938474138218043559.stgit@devnote2>
-References: <178818875393.104360.1469039168635349344.stgit@devnote2>
-	<178818877624.104360.10938474138218043559.stgit@devnote2>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X8VFmRTX"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2d71d1cc8b2so33399305ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 10:19:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788196759; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mkMxfKFHcsPNOv3wXAFNhdtj5PkgnFkXWuZ4O6Mcn9bTmRpXrA1XKg1zKOKohy7juV
+         C0NdiH1Xb7YC8rTm8zjgRF2f4NfLFdR0Mog2WQ5kFH5gB2zfczlyARxHd5hVl/4SVdJi
+         v+1DcBLb4jFl1FJBgHEnZAwRLGJaKLlkztPUcxlvCUelNHstNZs9qfzWP1/fTEboHWmG
+         0Y7rnh0rAciSvbmzLwk/MpKnnzGnStgRCIHklyXScMXj0oAkMG0ZAq9sM/CsGs95z7ly
+         OWI+uvPH1PUb6pEqhq6WO/+a8nUz6aCX7VDFnQshvcqucgWEOof0h0gM2j5j7v3SBdId
+         74dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=EceNcS+Z+ajhb8CIpd8JlFdQ1JxKxr3f6vg2kh+0pjk=;
+        fh=wMesJS6YwVwEgNY8IQZkGN31B2Mc2pgUz8zoHRjutqE=;
+        b=cA6L+o9/BtUHDRK9neggCDK1tjAwH4HPPeDUEfBpamgK9B7EZXoIAQkeblHCv8C6db
+         QOOguZd+DV8j7WjEe/axAw15UYU+hAppwP/yUnrqRUacwrzsA0kMixxymw0hvEtHcRrc
+         DF6LFULt/fj2dNEFkzdruJwx5a+oRdPkDtNcB5NDRUdSVKM5VAZ9OXteFdXgP82HWFWN
+         XYavNVoX1QgR8+09lORYeAuY4fDulIMApQzFGRbXbsSxOao+A7cyYPOR/zkvaN/veijB
+         vNwbDrkjxVFMBdozSNyT6BMmvCAbFTe+JwE7g1RyMbuqFKfm85I6k7sbuB3Z6ImqmOrA
+         7l1Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788196759; x=1788801559; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EceNcS+Z+ajhb8CIpd8JlFdQ1JxKxr3f6vg2kh+0pjk=;
+        b=X8VFmRTXbvDqoxLgXGat+Z26QoM8Ni9bVBsJTECGEijku1i+wcDfXJVjbcylsITqKk
+         bhv1cBUe9psa+aH3B+7cG3i7eJTRuJ+JJW/146B1vCoY1dxGNH1WVqSQGPHer7h7IRmC
+         kgYMIFn419e51jMovYk+v42CSgOpphBZPsjEdp0XZQlNmTYUCd+5XhWLAhKkczA3D8vp
+         gA9U2ZxmKwd4CRLax+Y+c+Dl6RmHYNAejHuYdfT9DphQalkmjnKInYnXcWwhAPui9gR6
+         hAQOtYC9tAbqxyrXWINhQG9rqgP/wme2R9i1cZYbgsxHn5tbRMHUVzIXOJCfLVkZ9h2k
+         H3xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788196759; x=1788801559;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=EceNcS+Z+ajhb8CIpd8JlFdQ1JxKxr3f6vg2kh+0pjk=;
+        b=MXCOIBwVmjy7dsDsScUuCSUZ44U19lFKGAI+SnmmMjpUiSbuVhBv+YLWZguFydSVYj
+         iS/jHWZ4jsIu4RuEKmrt9OOaTBypbGm3yLysguyOjLXhHbpe4EX6Sf70xQ8HMDz7qVGv
+         hzQ2T0mcMX16uQLvM0cuwn4hX5VYm7GZ3CkNKN++mM505H5Bnl1+DKOnLErdNxge+WeS
+         bmQ40zKrkyw42OWy9u9T5mfAIhR409x57381MjnCzUJklDMOt/qc4vnJayWm1Ped3Tgq
+         4aj/dLynKhhnOhFIFU8fMGoMTFs+Ee1tSaXChxLz/xGCIiYEO3cYe1cK27UusBtn7LEk
+         5UVA==
+X-Forwarded-Encrypted: i=1; AKwUvBx0zukg7JXi1rAzDJJHLWaj2qnQR/siwhurCP8cZF9lVTAHU9hWKyw0Winm5QSTwt/iCH0bg33aaaA=@vger.kernel.org
+X-Gm-Message-State: AFuF++lmJAXfEdzivfK1AEUGmg4L0wL8CvzFQUIgqXLWBVQfsuBjLhzp
+	slJu9Jcu2ffhE3aJWpgcADHaMiFZdRyI6AHb6Oy49g3yTEXiDZ/rpJwunbleW2J++25oMh5NpCD
+	nQqUi3Lalf1c88764THFkz0nYfQ4vYpc=
+X-Gm-Gg: AYBFou3REC2WmPp7/RJDjk3Gxg9nVRrCBcLMttnY0QNTDoI4DHSU65450VrDNT1Pmhl
+	8gjd4rCWgFsu6dFFoRQv+CrRNf8eXlF10Tk/CmT6Svanvl06mfO7vLhTGMjbSwsqsfod8S+qjFp
+	eAIEft1OCSwHnPgqCdeq4SS/1AL1UA6pVm/txTQC1x5BTTUEAyxFPISoU8j9HlfTP1zlGycHuzP
+	Up03Y/z7BjG6oDfCsBn9bYmkNrQ4lCeN97f0GDOEmxBCMHV2n0CHjkUCyr+cih4r//eOsNKmIDw
+	nMdceWuySC+nYLSd6BcSexaCALMn0QLXjO7+Fu7TtUxom0gvJnjuo2gjReL2BH1QHTHmGLAfTip
+	iW03QsECt7F7fCVk4jFiXFhPNOUoSBIbgbfZ9p2e1gAb0Qw==
+X-Received: by 2002:a17:903:2385:b0:2d8:d4ce:7e40 with SMTP id
+ d9443c01a7336-2d8d4ce83fcmr275351495ad.21.1788196758727; Mon, 31 Aug 2026
+ 10:19:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: qkcgswixxk1xf51ddgqwr5gctckf9ahf
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: DD2A630
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/UFD8goJsadzEunf2mjYFyH4I5BI2DOcc=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=dZikL9fK9cf5YVH6B4xPPjKZ0oFUBJT7ZPBvy1fSxLg=; b=3ChZsEk2lnPWSPYgqTGsnrwEZwA38MH4mCFJdSZ3/Ubbk4+CCQt4Nwe5+3DeWoqOr7Q6wqIMDUkLlCj59dCosMg5T91LcBeBh6VWDbeWv6059pwVULEcXRJc8Iejt8yjeTeOlSQHoKiWOTYwLZsTtvH1ckqkmyDfS/KDeci6R9o=
-X-HE-Tag: 1788196412-118431
-X-HE-Meta: U2FsdGVkX1/MOib4Vh0/nc0IypkRyowKuc6rBLPhUJPSJFN+i3pUPytbbdnPBORdjH/9ks8nrwpwVc4BXEd2OggCI6ebhIN2xfgMNObe+a13gvUSAjPn+Tw5386J96z6yiFHtKI8exqR2Cpo71SKTtGQh8SBgUhzONnppsa1N51dwADK+VqNTfeKxecUw9u/0FtF2j1tNr1i+IRLJMy/yvBJy9sAbrO8CPp/+n5RTW39TDLGvgwNjUQwGRA44ZWE3XpaF5IyjTmUZYrPZ224F2EhxkZsWp74aRId7dYixRQxVzv3hWNOsgDENXdimuWkwitoAP0EBQVFtiExZKdXP+3oO6xsP8/w
+References: <20260901-asus-x670e-a-hwmon-fix-v2-1-759406c2a61a@sne.moe>
+In-Reply-To: <20260901-asus-x670e-a-hwmon-fix-v2-1-759406c2a61a@sne.moe>
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+Date: Mon, 31 Aug 2026 19:19:05 +0200
+X-Gm-Features: AcwNN1WRhzKCE3-qq9S5IPJctdndIBtS6owhuM_r8cD37FzQpK4fkoVAkjdiw9s
+Message-ID: <CAB95QATuQcbMWVGP3GdaguhC=MUEj3ZpnAWkJ1nyUjaSstWXxQ@mail.gmail.com>
+Subject: Re: [PATCH v2] hwmon: (asus-ec-sensors) add ROG STRIX X670E-A GAMING WIFI
+To: sugar@sne.moe
+Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue,  1 Sep 2026 00:06:16 +0900
-"Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
-> diff --git a/kernel/trace/trace_btf.h b/kernel/trace/trace_btf.h
-> index 4bc44bc261e6..4bd26bceae23 100644
-> --- a/kernel/trace/trace_btf.h
-> +++ b/kernel/trace/trace_btf.h
-> @@ -8,4 +8,5 @@ const struct btf_param *btf_get_func_param(const struct btf_type *func_proto,
->  const struct btf_member *btf_find_struct_member(struct btf *btf,
->  						const struct btf_type *type,
->  						const char *member_name,
-> -						u32 *anon_offset);
-> +						u32 *anon_offset,
-> +						const struct btf_type **member_type);
-> diff --git a/kernel/trace/trace_probe.c b/kernel/trace/trace_probe.c
-> index c4163904ba74..ce2a7bb00d28 100644
-> --- a/kernel/trace/trace_probe.c
-> +++ b/kernel/trace/trace_probe.c
-> @@ -625,6 +625,7 @@ static int get_bitoffset_of_field(char **pfieldname, const struct btf_type **pty
->  {
->  	const struct btf_type *type = *ptype;
->  	const struct btf_member *field;
-> +	const struct btf_type *mtype = NULL;
+Hi,
 
-Why initialize mtype to NULL?
+On Mon, 31 Aug 2026 at 18:18, Asai Neko via B4 Relay
+<devnull+sugar.sne.moe@kernel.org> wrote:
+> Changes in v2:
+> - Reuse the existing X670E-E board information instead of duplicating it.
+> - Link to v1: https://patch.msgid.link/20260830-asus-x670e-a-hwmon-fix-v1-1-cf0a680ccbe2@sne.moe
 
->  	struct btf *btf = ctx_btf(ctx);
->  	char *fieldname = *pfieldname;
->  	int bitoffs = 0;
-> @@ -640,7 +641,7 @@ static int get_bitoffset_of_field(char **pfieldname, const struct btf_type **pty
->  
->  		anon_offs = 0;
->  		field = btf_find_struct_member(btf, type, fieldname,
-> -						&anon_offs);
-> +						&anon_offs, &mtype);
+Reviewed-by: Eugene Shalygin <eugene.shalygin@gmail.com>
 
-If mtype is not set here, then field would be either an error or NULL.
-
->  		if (IS_ERR(field)) {
->  			trace_probe_log_err(ctx->offset, BAD_BTF_TID);
->  			return PTR_ERR(field);
-
-If field is an error or NULL, it exits out early.
-
-> @@ -653,7 +654,7 @@ static int get_bitoffset_of_field(char **pfieldname, const struct btf_type **pty
->  		bitoffs += anon_offs;
->  
->  		/* Accumulate the bit-offsets of the dot-connected fields */
-> -		if (btf_type_kflag(type)) {
-> +		if (btf_type_kflag(mtype)) {
-
-mtype should be guaranteed as set here (maybe set to NULL, but set regardless)
-
-Now, if btf_find_struct_member() did not set mtype, because this is in a
-loop, in a second iteration, mtype would be stale.
-
-So either set it to NULL at the top of the loop, or don't set it at all.
-
-Or am I missing something?
-
--- Steve
-
-
-
->  			bitoffs += BTF_MEMBER_BIT_OFFSET(field->offset);
->  			ctx->last_bitsize = BTF_MEMBER_BITFIELD_SIZE(field->offset);
->  		} else {
-> @@ -661,11 +662,11 @@ static int get_bitoffset_of_field(char **pfieldname, const struct btf_type **pty
->  			ctx->last_bitsize = 0;
->  		}
->  
-> -			type = btf_type_skip_modifiers(btf, field->type, NULL);
-> -			if (!type) {
-> -				trace_probe_log_err(ctx->offset, BAD_BTF_TID);
-> -				return -EINVAL;
-> -			}
-> +		type = btf_type_skip_modifiers(btf, field->type, NULL);
-> +		if (!type) {
-> +			trace_probe_log_err(ctx->offset, BAD_BTF_TID);
-> +			return -EINVAL;
-> +		}
->  
->  		if (next)
->  			ctx->offset += next - fieldname;
-
+Thank you,
+Eugene
