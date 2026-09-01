@@ -1,54 +1,56 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C4E43E4A2;
-	Tue,  1 Sep 2026 15:44:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C8F47CC92;
+	Tue,  1 Sep 2026 15:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788277453; cv=none; b=Oz3+xcgUszSknJJwrBFwcMknRjnHoPWECE8xE5tgnfL8cRzBizjdA09NHLLJyCuwESXf+T96ES4IoSIqONrGYjHdDDN7xVd+V/x12A49U/nXL7hNqPARHNY43YgNnWo0TdBChT9s1sVhMbX5QHIEEJsmFVl9NjTay/ruTJGOaZ4=
+	t=1788278101; cv=none; b=USgAuUO1eWAt2wG0nt/2d7LqOLyv+rDiHGdLJ47bCKnq3+HKfe1XhaXELlXJdXZ7kOKtVMwkZPv0pm8FtwLrK+4c8eUXRdUEYia3zAK2ASqomDYyjupZXMSnbV8s6o1OBKebTBCYsfp35MI2daQxu5Im2Os0pk7uLbtHsPCfqYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788277453; c=relaxed/simple;
-	bh=jJeAjAzSXqJMGv+Xwis555DWb1EkiBV/ikq/XqgToSk=;
+	s=arc-20240116; t=1788278101; c=relaxed/simple;
+	bh=a64S5AsJmm6QqlLQ5d0m9Imwh1EiEcnDjAQTmOZN2+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I02s63ajKDRlVQcyGJvtHTv3J1SSkorlXOqY8n7EgvUwerDKNxsJ8+NqrE7gFDO3CgWeoJCdigtGlYu13pjWJSfAIbFWWUlC5LyscQ+FBmhbgAih6QvO6M9Yatvgb7t9N5w4LJUabnpyuiK3QJCkdO1Dmi9QqFY5+aFtNVcwgwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g9V+tqOG; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=eTurQaOtWNcluqhWx++/BfsgWjmm3nOG4/RnnMvuwJeUXyYFJ4xCFhZUfylgfma2u3p+ULfaSmU1Ar/h4d2NHlTGexqWGu7fbu6ayobbgUW/MmB4bSOezvcp28yhZdkD5XY2Afm5EYmOFJZVVDbGxL/vu0RO+etHtQqRLeLghNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=tGc4Z9sC; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g9V+tqOG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BFC31F000E9;
-	Tue,  1 Sep 2026 15:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788277451;
-	bh=pzqa6Cmokg/fkJYMIhCcVeUP7klHo3a5uK6Co/3lh4k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=g9V+tqOGIu9yJXCNqUhe93hyux1yft+yoYSFj6jAQXHgYpqcMyHjgXisqsl2CS/MD
-	 ZSc9Sw0gD/IkVE/IGGMQSmXaOMMzijR82Cn7kO/RiYakUKMh7UzmmZPYCu3kXuJ5km
-	 2oFjvYpFtZ/7g8fOOck5MPq78AqZDjyhWgjvXDDqLmBHW+x5ry/Q2jNtOPuq7iqXzf
-	 a6TCjlTSPuY09sFVutwM8509X7o8Mf92Wad61Q4hTnIZEXP48YnYI6l2TY1uPGyF0L
-	 jMV9Ssyj3S5MTI1vQvCMONMxpJ78Wv4A3LYv2Qo9riXeXUbtTKswByF7qjhvsivotG
-	 tqZSnp6zw36bQ==
-Date: Tue, 1 Sep 2026 16:44:03 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Janani Sunil <janani.sunil@analog.com>, linux@analog.com,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org, jananisunil.dev@gmail.com, Uwe =?UTF-8?B?S2xl?=
- =?UTF-8?B?aW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>, Andy
- Shevchenko <andriy.shevchenko@intel.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
- David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Olivier Moysan
- <olivier.moysan@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, Linus
- Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Michael Walle <mwalle@kernel.org>
-Subject: Re: [PATCH v5 00/20] iio: adc: Add AD7768/AD7768-4 ADC driver
- support
-Message-ID: <20260901164403.58580dcd@jic23-huawei>
-In-Reply-To: <CAMRc=MdLmCqSfxtwQcv+gHVpAUV7hJB8UQRF_aE8i60wf6mVbg@mail.gmail.com>
-References: <20260828-ad7768-driver-v5-0-e33ca6f841a2@analog.com>
-	<CAMRc=MdLmCqSfxtwQcv+gHVpAUV7hJB8UQRF_aE8i60wf6mVbg@mail.gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="tGc4Z9sC"
+Received: from omf10.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id C29301A0469;
+	Tue,  1 Sep 2026 15:54:52 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf10.hostedemail.com (Postfix) with ESMTPA id 8E80930;
+	Tue,  1 Sep 2026 15:54:43 +0000 (UTC)
+Date: Tue, 1 Sep 2026 11:55:42 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: David Hildenbrand <david@kernel.org>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Muchun
+ Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R.
+ Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike
+ Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
+ Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Nico
+ Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain
+ <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, Lance Yang
+ <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, Gregory Price
+ <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, Alistair
+ Popple <apopple@nvidia.com>, Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng
+ <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song
+ <kasong@tencent.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Baoquan He <baoquan.he@linux.dev>, Pasha Tatashin
+ <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Jan Kara <jack@suse.cz>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Dave Young <ruirui.yang@linux.dev>, Shuah Khan
+ <skhan@linuxfoundation.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, kexec@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 14/14] mm/page-flags: remove PG_private
+Message-ID: <20260901115542.35cf337f@gandalf.local.home>
+In-Reply-To: <20260831-remove-pg_private-v2-14-3668159cd9e8@nvidia.com>
+References: <20260831-remove-pg_private-v2-0-3668159cd9e8@nvidia.com>
+	<20260831-remove-pg_private-v2-14-3668159cd9e8@nvidia.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,72 +59,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Stat-Signature: b6ytfgjtokst1jc1aabs95dwf5ejwe1f
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: 8E80930
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/zWbvIDz+3Hi5z7GDK/fNqzAPKpw/khW4=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=PMQPDVPJ0tCxO93gmrhVyeG5Oa0anovLBVYtrsBizkA=; b=tGc4Z9sCnIntcGcWtJ1kOvYe5256jqS1DsWodW2sqCKQLdl8Y8nHkKMI+/bZHJCQztdMhcSkJj8YVjXCQshVK+Dgc2EYzxp1kQ+nPt/MKxXAHxYAr/fN2B+/kb850ZrxY0100q3DUUBwY4s7EFwq4xvvaRIiE/XmnNIq0jxhRxw=
+X-HE-Tag: 1788278083-807407
+X-HE-Meta: U2FsdGVkX1+zDlnR6QN6MUglWJjwZx5iCWUM+krVLXlc2zuUtd2IG2DLx1JPwqlTPq6HywJagZIVfhFWq44D2aDRr8CqPASzgDg55B72H7mSnF5ikilDHz6BwtU39295NFtcyv6lgavetSPz7y1L0g1K1zuV3ydBJ2a0X+t/9iTl4lf+jI9pSLCyfw2TQI05jjgMqbeUDhSMlamHBWoJCJ9h/PNz2A75JPoGpqGqH4tC/s8xhJUmsTXFGe6/YTY1Ki/+liODnEmp1JpspQt4nrByo2d4u2HwgRpO1hcQFU+FSiTYj5enzhApbGNiHUuTn+pvjGsLrpU3m7+D/3dcDhPAQVDdzRzZ
 
-On Tue, 1 Sep 2026 01:32:45 -0700
-Bartosz Golaszewski <brgl@kernel.org> wrote:
+On Mon, 31 Aug 2026 15:25:37 -0400
+Zi Yan <ziy@nvidia.com> wrote:
 
-> On Fri, 28 Aug 2026 17:30:23 +0200, Janani Sunil <janani.sunil@analog.com> said:
-> > Add support for Analog Devices AD7768 and AD7768-4, 24-bit simultaneous
-> > sampling Sigma-Delta ADCs with automatic power mode selection.
-> >
-> > Datasheet:
-> > https://www.analog.com/media/en/technical-documentation/data-sheets/ad7768-ad7768-4.pdf
-> >
-> > **Device Overview:**
-> > The AD7768 is an 8-channel, 24-bit simultaneous sampling ADC. The
-> > AD7768-4 is a 4-channel variant. Both support configurable power modes,
-> > programmable decimation filters, and a high-speed serial interface with
-> > 1, 2, 4, or 8 data output lines. Per-channel offset, gain, and phase
-> > calibration registers are available.
-> >
-> > **Features Implemented:**
-> > - Support for AD7768 (8-channel) and AD7768-4 (4-channel) via device
-> >   match data.
-> > - Automatic low-noise power mode selection (fast, median, low power)
-> >   with associated decimation rate and output data rate tables.
-> > - Per-channel offset, gain, and conversion delay via IIO attributes.
-> > - SPI communication with custom regmap bus for the device's protocol.
-> > - IIO backend integration with adi-axi-adc for high-speed data capture.
-> > - CRC data integrity verification over the serial interface.
-> > - GPIO auxiliary driver to expose the 5 on-chip GPIO pins.
-> > - VCM common-mode output exposed through the regulator framework, with
-> >   runtime PM management while the output is enabled.
-> >
-> > **Patch Summary:**
-> > 1. Initialize the AXI ADC state mutex.
-> > 2. Add the AD7768 and AD7768-4 devicetree binding.
-> > 3. Add the IIO backend CRC operation.
-> > 4. Implement CRC control in the AXI ADC backend.
-> > 5. Add core AD7768 and AD7768-4 capture support.
-> > 6. Validate the master clock rate.
-> > 7. Add the power-mode configuration helper.
-> > 8. Derive output data rates and the data-clock divider.
-> > 9. Configure enabled channels across two sampling profiles.
-> > 10. Expose per-channel sampling-frequency controls.
-> > 11. Expose per-channel filter controls.
-> > 12. Wait for active digital filters to settle.
-> > 13. Add per-channel offset and gain calibration controls.
-> > 14. Add per-channel conversion delay.
-> > 15. Expose the VCM output through the regulator framework.
-> > 16. Register the GPIO auxiliary device from the parent driver.
-> > 17. Use regmap_test_bits() for single-bit gpio-regmap reads.
-> > 18. Add optional runtime PM support to gpio-regmap.
-> > 19. Add the AD7768 GPIO auxiliary driver.
-> > 20. Add driver documentation.  
-> 
-> What is the merge strategy here between iio and GPIO trees? Can patches
-> 17-18 go through an immutable branch in the GPIO tree that would be merged
-> into the iio tree?
+> diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
+> index 935893e5ea53b..caf090cd6f85e 100644
+> --- a/include/trace/events/mmflags.h
+> +++ b/include/trace/events/mmflags.h
+> @@ -144,7 +144,7 @@ TRACE_DEFINE_ENUM(___GFP_LAST_BIT);
+>  	DEF_PAGEFLAG_NAME(owner_2),					\
+>  	DEF_PAGEFLAG_NAME(arch_1),					\
+>  	DEF_PAGEFLAG_NAME(reserved),					\
+> -	DEF_PAGEFLAG_NAME(private),					\
+> +	{ 1UL << __PG_folio, "folio" },					\
+>  	DEF_PAGEFLAG_NAME(private_2),					\
+>  	DEF_PAGEFLAG_NAME(writeback),					\
+>  	DEF_PAGEFLAG_NAME(head),					\
 
-I don't think there is any coupling between those and the rest of the
-series.  Janani can you confirm if these two patches can go via GPIO
-whilst the rest go via IIO (without the GPIO patches)?
+Hmm, just for consistency sake, can we create a:
 
-Obviously the GPIO driver won't ever bind to anything until the two come
-together but build tests etc should be fine.
+ #define __DEF_PAGEFLAG_NAME(_name) { 1UL <<  __PG_##_name, __stringify(_name) }
 
-Jonathan
+Which is similar to:
 
-> 
-> Bart
+ #define DEF_PAGEFLAG_NAME(_name) { 1UL <<  PG_##_name, __stringify(_name) }
 
+But adds the "__" to the name. Then the above would look like:
+
+	DEF_PAGEFLAG_NAME(reserved),					\
+	__DEF_PAGEFLAG_NAME(folio),					\
+	DEF_PAGEFLAG_NAME(private_2),					\
+	DEF_PAGEFLAG_NAME(writeback),					\
+
+Where the __DEF_PAGEFLAG_NAME() with the "__" still stands out, but the
+code looks better than open coding it in the middle and making one wonder
+why it was open coded. (It took me a bit to noticed the "__" difference.)
+
+-- Steve
