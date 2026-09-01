@@ -1,36 +1,36 @@
-Received: from mta1.migadu.com (out-252.mta1.migadu.com [95.215.58.252])
+Received: from mta1.migadu.com (out-106.mta1.migadu.com [95.215.58.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504413955C1
-	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 03:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.252
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B95944062F
+	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 03:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788231938; cv=none; b=LyJb2Iul2QwK96/mLqJxmLclklcoQdKrr1jfjU+YoUZHumrOF0Icfq5A1rWpF09eUPhu+eKG0D3RevfVHQcjKj6ADEAACtaTlxzDixkX0zo+ZO3/whUvEK/JUHbF09pUdJA3CrOtjxB47XkQ+wNXywW0qTGn7F/PybwCtyAsPqs=
+	t=1788232704; cv=none; b=hWS0aWQA/MFSjDDisf5waxU2p6D9nLIxUg23iC2hXsxQDWV2A14dgIm9drxcwEldNfLA+e3gBv7zid/fFhNuiYq2YXrRYgOAHeJl8HJdCI9JzrKGqh6DoevosCqHaxPSl+3A2TKZFWqVR3pnRemYFTm+hp0b0X/DlE/Gji7N9VQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788231938; c=relaxed/simple;
-	bh=om/9bGBfkYvM+IJmkkqUPDFd/PD2WvlDipw0cZRTGNE=;
+	s=arc-20240116; t=1788232704; c=relaxed/simple;
+	bh=+yvmAaiXJSQhUiY43hR2AcbPXHGoUIEk5aWBZqakNg0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SdqQp7zxg0sP/uP7gpzBgXuuvLFZSHD7oF/yJKgKsyfcVOLxY4SgLyJo73GjN9sk9HBeAQvC5cxT65t+D6fKz2qhLiTqdOcafl3SKTCSi6PIXzyVmkhhPuE2bSd3Acw2x+JJ3RyWWV9xma9A/VAabLJ2ijQ1TLaFY34FYciFPHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RzCg2EyL; arc=none smtp.client-ip=95.215.58.252
+	 In-Reply-To:Content-Type; b=CoKITwSKyOwX1RlK1/y2h9pOwvQ4wEM1g7nwiiy7AIvwWwxzTmV0uqEiSir8sG8+XhZjYF9ZpODYo98TQzjbrFCUlPKUbuhZGmJ3/dUSUINI4JtdBd/tAJBTpkK3MjREhHo9De9vgVwlghLNjOtroNQiHb/niTt/3Ku2bD+DDvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iQbqfgik; arc=none smtp.client-ip=95.215.58.106
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RzCg2EyL"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iQbqfgik"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=om/9bGBfkYvM+IJmkkqUPDFd/PD2WvlDipw0cZRTGNE=;
+DKIM-Signature: a=rsa-sha256; bh=+yvmAaiXJSQhUiY43hR2AcbPXHGoUIEk5aWBZqakNg0=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788231935; v=1; x=1788836735;
- b=RzCg2EyLX+DLkWdT5WwAUtyG2TSekpBJmYi40rJg2sjLfJcqww9e3QBg8c5Cw8UhjU6CLPgO
- lwUTqHb3tHJPHRAzJKi7/uMXWZvcESuAZ0Fj2Mzkzgvg7xOHH3kOgikMZ6PfyRMGj8hB+4dSqhH
- Y3yyds94CFHfvZGaiiPNDRsU=
+ t=1788232699; v=1; x=1788837499;
+ b=iQbqfgikHpVpyMUUAMrHyUTlOaqZLRJR77DceWjUfb8vdHqANraDf/0tu3DdPGi8ibjxO5PH
+ ZBY8IevQGiEhRdzi43/7Dl7dQ7HElvS6FHE63AoRFdOmr4mdBdaDh5Bq5pXKhI0PkBDG3xUQcC8
+ DDGCKvrhqABzi1za8Zqf6tQE=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 83324dd7b0a9859a;
-	Tue, 01 Sep 2026 03:05:35 +0000
-X-Mizu-Trace-ID: 83324dd7b0a9859a
+Received: by smtp.migadu.com with ESMTPS id 5a2cff3d3a7044ca;
+	Tue, 01 Sep 2026 03:18:19 +0000
+X-Mizu-Trace-ID: 5a2cff3d3a7044ca
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <b59449c6-d2b5-4b0b-ada4-7630e060ee7a@linux.dev>
-Date: Tue, 1 Sep 2026 11:05:24 +0800
+Message-ID: <56119ff9-26f2-450c-bff9-8a4169027ba9@linux.dev>
+Date: Tue, 1 Sep 2026 11:18:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,8 +38,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/11] mm/sparse-vmemmap: factor out shared vmemmap tail
- page allocation
+Subject: Re: [PATCH 03/11] mm/sparse-vmemmap: open-code init_compound_tail()
 To: Muchun Song <songmuchun@bytedance.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
@@ -51,38 +50,30 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Mike Rapoport <rppt@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
  Christophe Leroy <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>
 References: <20260831075342.57563-1-songmuchun@bytedance.com>
- <20260831075342.57563-3-songmuchun@bytedance.com>
+ <20260831075342.57563-4-songmuchun@bytedance.com>
 From: Qi Zheng <qi.zheng@linux.dev>
-In-Reply-To: <20260831075342.57563-3-songmuchun@bytedance.com>
+In-Reply-To: <20260831075342.57563-4-songmuchun@bytedance.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 8/31/26 3:53 PM, Muchun Song wrote:
-> HugeTLB and sparse-vmemmap each have their own helper to allocate the
-> shared vmemmap tail page used by vmemmap optimization.
+> init_compound_tail() is only used by vmemmap_shared_tail_page(), where
+> the shared tail page setup intentionally passes NULL as the compound head.
 > 
-> Factor that logic into a common vmemmap_shared_tail_page() helper. It
-> allocates the page through vmemmap_alloc_block(), and uses cmpxchg()
-> to install the per-zone shared page.
+> Keeping this helper in mm/internal.h exposes that special case to the rest
+> of the MM code and can make the NULL head argument look generally valid.
+> Open-code the initialization at the only call site so the special-case use
+> stays local to sparse vmemmap optimization.
 > 
-> Expose zone->vmemmap_tails under CONFIG_SPARSEMEM_VMEMMAP to match the
-> shared helper's build condition. This avoids a
-> !CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION stub; when optimization is
-> disabled, the array has no entries and the compiler folds away the unused
-> paths, so no storage or runtime overhead is added.
-> 
-> This removes duplicate allocation logic while still handling both the
-> early boot and runtime paths through the same helper.
+> No functional change intended.
 > 
 > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > ---
->   include/linux/mmzone.h |  2 +-
->   mm/hugetlb_vmemmap.c   | 28 +---------------
->   mm/sparse-vmemmap.c    | 74 +++++++++++++++++-------------------------
->   mm/sparse.h            |  1 +
->   4 files changed, 33 insertions(+), 72 deletions(-)
+>   mm/internal.h       | 9 ---------
+>   mm/sparse-vmemmap.c | 5 ++++-
+>   2 files changed, 4 insertions(+), 10 deletions(-)
 > 
 
 Acked-by: Qi Zheng <qi.zheng@linux.dev>
