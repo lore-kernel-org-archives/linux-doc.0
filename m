@@ -1,145 +1,176 @@
-Received: from pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.68.102])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012001.outbound.protection.outlook.com [52.101.43.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DBB374A1D;
-	Tue,  1 Sep 2026 14:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.68.102
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788271626; cv=none; b=ePTaZjjudE7FNannLXZJnNfCBe76ezhpJ2O0ov9v43zknmCt43GokLqUVFuqvCXtbfbqFJStddDkCSgJqTFZd3jUgVv0ANzLkn5mhTMzo3LbAwKWyYDk+IiIlNcF0/Fo4sqwiOEklHQys4JvmvG/F8KioJsUZNJVLfru8LUzc98=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788271626; c=relaxed/simple;
-	bh=1O9/rKU7KHiOHnc3FZFhXmrPr5pw2k6/sI2pYOXuv74=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C++rrA/Hfs+mA6KrdyRRq/3A4J0QRaiycmsR95r28bOPNTg385FcHSuaE2ARinVCWCBDWdeznbt8XUzh/FQqzYSDIXhJsVl0FUg+MEtoe8NWh9588XkAqpCQ53x3aZxWsjHXRpu3iir7pwg1CS/4Hv+AbzwdQJhM7NaQPwlaVcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=MPdwjkFW; arc=none smtp.client-ip=44.246.68.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C76D383C85;
+	Tue,  1 Sep 2026 14:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788271740; cv=fail; b=tLQp2HJtojARYvLvYCYVSIrVgS4FS55EXWFPHeDpeFRjD4uOvf4jr+JOJtvYGldwcTs5ao1K+KWKse4zEdEDhNDRABNg570aR2+LIiELsiAt66qd7DoT7ibVJ3ucIy6RB+WWHAn0oUPgvi/eEjxy15i1VvfmuwL/eBKi7COXBtM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788271740; c=relaxed/simple;
+	bh=00c8tqdUfs6BwV/Imvk46YxI+TMw+OF2ir1OMgAT2CA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=U6hza9NKKxgX1nXVqvQX2BoO3xhnCcpsfMJWgEep2Sd3drEx/jF6+e/GIJBBY/taTiWJ+XcQhY9mHb4uITPnbXLL1AW4he6mtoHRhS9Zw8vGca3rTSHJMJPIZukXxdSpvkbgTGVY09MuaTYkIGEYKUzqepRGspju6xjV8nt1ftc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BIHTLNb5; arc=fail smtp.client-ip=52.101.43.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="MPdwjkFW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1788271625; x=1819807625;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=gwbUYxXHQaXTXqslqakO/JmHO0leSCcNPKEN6HpwsIg=;
-  b=MPdwjkFWrfa6dJPtq/YabRBPOpV1UTECJbQ2tvIr9ava77J0n3RMlptQ
-   W8Nb0tH3Y9nv1v0ATx+yBnE/jjTK9efjjoCcU8++SdjQNI0a0yZffFK6i
-   XbbFsjCrl2BjdExAg7P7PbhLeWRE/yDXbrDvG3+K4AsTNmIxr5Z5Zy8fZ
-   oHnoXeDKlhlkGJPX7g7aD35y8hccpgpFwsB1MpTNitMO6prunD6xWrBpB
-   DFdM9pInal6uudq9FU8f4lH5sLtTrEqxwaRWOA4yujughApzmnmtM9heY
-   pXtDctQywq9ISwqoBN3/Gbgl/wbqraZF8aVpu4PekkRofQtTqfaBOnJg4
-   A==;
-X-CSE-ConnectionGUID: g7Zx9TRQQvWpTs8W3wP04w==
-X-CSE-MsgGUID: 9pLg4PSzQd6ZYHeZKQt6qQ==
-X-IronPort-AV: E=Sophos;i="6.25,256,1779148800"; 
-   d="scan'208";a="27537013"
-Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
-  by internal-pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 14:07:01 +0000
-Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:11398]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.52.146:2525] with esmtp (Farcaster)
- id 8f131d5e-0695-4138-b720-3dbdcb1830d0; Tue, 1 Sep 2026 14:07:01 +0000 (UTC)
-X-Farcaster-Flow-ID: 8f131d5e-0695-4138-b720-3dbdcb1830d0
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Tue, 1 Sep 2026 14:07:01 +0000
-Received: from b0f1d8753182.ant.amazon.com (10.106.82.17) by
- EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46;
- Tue, 1 Sep 2026 14:06:44 +0000
-From: Takahiro Itazuri <itazur@amazon.com>
-To: <brendan.jackman@linux.dev>, <maz@kernel.org>
-CC: <Liam.Howlett@oracle.com>, <ackerleytng@google.com>,
-	<agordeev@linux.ibm.com>, <ajones@ventanamicro.com>,
-	<akpm@linux-foundation.org>, <alex@ghiti.fr>, <andrii@kernel.org>,
-	<ast@kernel.org>, <baolu.lu@linux.intel.com>, <borntraeger@linux.ibm.com>,
-	<bp@alien8.de>, <bpf@vger.kernel.org>, <catalin.marinas@arm.com>,
-	<chenhuacai@kernel.org>, <corbet@lwn.net>, <coxu@redhat.com>,
-	<daniel@iogearbox.net>, <dave.hansen@linux.intel.com>, <david@kernel.org>,
-	<dev.jain@arm.com>, <eddyz87@gmail.com>, <haoluo@google.com>,
-	<hpa@zytor.com>, <itazur@amazon.co.uk>, <jackmanb@google.com>,
-	<jannh@google.com>, <jgg@ziepe.ca>, <jgross@suse.com>, <jhubbard@nvidia.com>,
-	<jmattson@google.com>, <joey.gouly@arm.com>, <john.fastabend@gmail.com>,
-	<jolsa@kernel.org>, <jthoughton@google.com>, <kalyazin@amazon.co.uk>,
-	<kas@kernel.org>, <kernel@xen0n.name>, <kpsingh@kernel.org>,
-	<kvm@vger.kernel.org>, <kvmarm@lists.linux.dev>, <lenb@kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-pm@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-	<linux-s390@vger.kernel.org>, <loongarch@lists.linux.dev>,
-	<lorenzo.stoakes@oracle.com>, <luto@kernel.org>, <maobibo@loongson.cn>,
-	<martin.lau@linux.dev>, <mhocko@suse.com>, <mingo@redhat.com>,
-	<mlevitsk@redhat.com>, <oupton@kernel.org>, <palmer@dabbelt.com>,
-	<patrick.roy@linux.dev>, <pavel@kernel.org>, <pbonzini@redhat.com>,
-	<peterx@redhat.com>, <peterz@infradead.org>, <pfalcato@suse.de>,
-	<pjw@kernel.org>, <prsampat@amd.com>, <riel@surriel.com>, <rppt@kernel.org>,
-	<ryan.roberts@arm.com>, <sdf@fomichev.me>, <seanjc@google.com>,
-	<shijie@os.amperecomputing.com>, <skhan@linuxfoundation.org>,
-	<song@kernel.org>, <surenb@google.com>, <suzuki.poulose@arm.com>,
-	<tabba@google.com>, <tglx@kernel.org>, <thuth@redhat.com>,
-	<vannapurve@google.com>, <vbabka@kernel.org>, <will@kernel.org>,
-	<willy@infradead.org>, <wu.fei9@sanechips.com.cn>, <x86@kernel.org>,
-	<yang@os.amperecomputing.com>, <yangyicong@hisilicon.com>,
-	<yonghong.song@linux.dev>, <yosry@kernel.org>, <yu-cheng.yu@intel.com>,
-	<yuzenghui@huawei.com>, <zhengqi.arch@bytedance.com>, Takahiro Itazuri
-	<zulinx86@gmail.com>
-Subject: Re: [PATCH v12 09/16] KVM: arm64: define kvm_arch_gmem_supports_no_direct_map()
-Date: Tue, 1 Sep 2026 15:05:21 +0100
-Message-ID: <20260901140520.78333-2-itazur@amazon.com>
-X-Mailer: git-send-email 2.43.1
-In-Reply-To: <DJJ28Z81JTQI.1SI0CNIP7W1JQ@linux.dev>
-References: <DJJ28Z81JTQI.1SI0CNIP7W1JQ@linux.dev>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BIHTLNb5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WMG+Z2DEefeUil+2BrR5oWbRe8ILF9dIAaIz5C02hAtrSWDIHHFtX0UlBhQTIh9D3UIgLeQKh74+Wz9qEyETMDYOpYG6LLKHEh3lPx/KngVaZ4uXpXSu1jkU1j8J4EsxAiHytdYUzP2f9UnjginMXS6Zq4I/T0o5Mr6wWZuKdBXXDqSFax12QxVNRUodK7rns+bzXJZD2uEIb6AvGRzR/pknf8aLDOyd0zpk+FFeBsWJbE3Lbj8hLLHWZ4g+3QRYpvdvwRvL0gSlh4LgZ9XJrYwfU98qWChqoN3LcnhF64hwoIHSiea+OZM8p0Hq/tiEeN1dqOpcbqrxNdHvMTzxMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TgrY5Kf70FgUzkruc+NCFx1pniQ+EAq48xb20iaJW6o=;
+ b=zGZ+LpftNrz0+swPmZfT7jQo0Bn92sY6NhVOv5Q5yU5genKeSQNAjYHApVll6JExgMci6/FweQhXJms8G7EljdN0IsGEw85kA+f+c0TFkc3lXecJuHyfxbAXCeRxXiGQDN0h/YFymh+ZC2FniKjeacQKUlVEZedCptiCVeXvd7CSMfB9BgJgR1dtX3sVNyR3c3lKqLdPh/uYMz38B61vx+HMcfech/+t/sugBM9fl07eBmvwJmAzRaT5YfXQQUEpOItRcD1uTaoTV7t43ilzqZQi/uZkaBtjwk+tFXZlw0IuyLu2PVOyte26Tm3zpzMoubatGxuso9EzYThIfpKHGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TgrY5Kf70FgUzkruc+NCFx1pniQ+EAq48xb20iaJW6o=;
+ b=BIHTLNb5e57BLe3EFqpz52fIShDGqbVxZOVRF3UuWs8AkMKiutcRTAzHl5hqPROkh134PVgh31T+zODquiU+7vi3ci/DqYQBgdfDF3YFPiTNQOfKgCl5VKSGDAyCAJChMqCfLoLgqVCKkgkaq6WLKUXaBq1X9Wx1PmF8iAsRLkKIL6wRXlzL/P409BKoAXxLJX+KR17KwoBGx/6z4+QsXtP7F+z2xNbiYRd1sY5ijPrpxPrbVXYrSXUEQS3HZBZ1b4JFztq8XUOvhwONsceeEmguS/r7UakyKAfKP8aVjQyWakLrVm1m+87bedWU4jQbn3YDCyh97rA44sAG/ZMGgg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by DM6PR12MB4483.namprd12.prod.outlook.com (2603:10b6:5:2a2::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
+ 2026 14:08:53 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
+ 14:08:53 +0000
+Date: Tue, 1 Sep 2026 11:08:51 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>, linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 2/2] dma-buf: Document how exporters and importers agree
+ on mapping lifetime
+Message-ID: <20260901140851.GA2771412@nvidia.com>
+References: <20260825-document-dma-buf-v1-0-5ecfb3e1371c@nvidia.com>
+ <20260825-document-dma-buf-v1-2-5ecfb3e1371c@nvidia.com>
+ <2776f9b0-c299-45ff-bf82-89b95e73fd60@amd.com>
+ <20260826124341.GD42790@unreal>
+ <39dc2f46-08c8-4eff-aa22-a7c67b5c7040@amd.com>
+ <20260826140234.GE42790@unreal>
+ <783c4c15-b8c6-4e9a-96fe-451d7c3ea302@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <783c4c15-b8c6-4e9a-96fe-451d7c3ea302@amd.com>
+X-ClientProxiedBy: YT3PR01CA0087.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:84::29) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D038UWB004.ant.amazon.com (10.13.139.177) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DM6PR12MB4483:EE_
+X-MS-Office365-Filtering-Correlation-Id: b585852b-ada2-4c15-1208-08df08328d88
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|7416014|366016|11063799006|4143699003|10067099003|6133799003|18002099003|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	2pZjn2G+gEaB5jz2UUud5BSl2AL99Pot2HzXOCxWVSiNCTRwJHzNiY21NKfE7h3/ygKxaBXT5+Hw9ee0BkmekbRkJb6hQF+PWI9mrPq0lnLz9LBNDRgh6mDwM+aMR093RlhI+eB2Foqxp17bJvc4Hl88+4PCbB3o5n1VXVdkWF+tDMZszd0/SrUri9dOz10ZKecyCQIpOq+t6RGh2QcznmuGO6zmLvuBgfydu3lk7089AtkR1Ecio5FT9xa1fsdZctyW3JJ7DbvMGjuzocbYbWuPCyS/Vm6+XSNKwo8v+vXuplyp59WSpIosQc8G880lyNncZSiaSp2IX/m4hehjJNNPqIvTiP73dMf6W7AMpUsDjUIgGvwMx+P/OOOybxdUaKAydYpbiAAzdE0R2V+84OpOXevbsLiJyli6ivJm25GK0WhG7tpLLph56MS/BVPP2CUjrq4fl6GeCkg7MmEaQGJfp3TbBZcTKL2mO9ocf66dHPGC/NPqbiqRi79k51IXgTEFDFYv/hkU/xUSWPOKimOF6JSBbrk2XPds4gompYeISuo2v0xBg5ObWy7e+FgBlijqiOCV+8N8OysjcmywAFDi3AHBOQrdgHPfsomJUZNhCrozLNLzbJVbjNwNgYHMYhn5g8wNMQkoZhi361m6hbm6df4iDFukeV94I06msSE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(7416014)(366016)(11063799006)(4143699003)(10067099003)(6133799003)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UlJGcTRDMmRlV2FHeTBXdFE3VUZhMzYwRldEY0dkdG41MUFsWXpvVHpSQVhD?=
+ =?utf-8?B?WmhSVjAvNWwxV2JzdGFqb09sTjIxZWtldGt6Y1JyWUpseXY2T3VDUG1XM1lm?=
+ =?utf-8?B?NXhVaHVkK1dOenFEdG9pN2tYMWQwMkxpbGVObW4vbG0wSDBYQ0k4OXlCa0lT?=
+ =?utf-8?B?VkgwMFcrVHlWclUyYy9WY2NiZGJwUWU3Z2hWeEtaaXlOdTdXZ2h3MERobklh?=
+ =?utf-8?B?ejl4Vko3ODZvVlF2UmRCRXFpRHdVQnBTQzljQUlsNk9jbTZhdlZnVzhQRFkz?=
+ =?utf-8?B?eWVtNGNBSDI5dWM1MXp6SXVndE9VUkhQVHdvZkdJN1pSSW5Jd2p0Q0VlaGJV?=
+ =?utf-8?B?YytrczZMNVNBTWRBcXJ4Nnk4UEt3UHJPZ1IzZ0w0VXE2RUozVkxlOEI0WWVi?=
+ =?utf-8?B?MVU4U04wejlrOWtZSms1WUVZMHNHUnVrSGFOblVtZHVWMjVpR3hkcVJkdzhF?=
+ =?utf-8?B?dkRSL2xWc2pzczRsSk5mZFZUajZjZlhZN2JzTGxXak5UVEpWR283ZGF0M2M3?=
+ =?utf-8?B?QkxOaGZwQ1NTZmViekM3ZnArUkNmT2U3QnBjdkNVU2ppMlprY0FXTzgzendn?=
+ =?utf-8?B?Z3FDWWpFSjFJWlkyaEM3aCsvWkZncWhkWWdaTC9pck05UGVqQ3dpc2laYVBP?=
+ =?utf-8?B?dzdYMlpxOEt1eXlTZXhhRmwyRThRN3BWRjJpUGk1aFQ2cUFacmtDT1dyQlRn?=
+ =?utf-8?B?SllyV21USjAvMXlKNXhIQ1ZPRE9sY2ZmOFRJaHIwaUdPMzFIUUFDb0hKc3li?=
+ =?utf-8?B?WjYrV1kwWUZ1cVd6R3psWTRmcXp4azZQd3IrT0piRHV5SHJhcWdQWGZLOVFu?=
+ =?utf-8?B?RWdHUUNudjZtalEyUk5taTk1TkVZK2d2REkvMVBTVmc3SEcwSzBGVDYyaGNF?=
+ =?utf-8?B?WlRib3FoMy9xbEg4SGxibXRPZy9mMGd0dnJRc3ZXWGp0WldtK25HYmIzbVFr?=
+ =?utf-8?B?Y0JrclUzZzBSYkdZM2tFY0hURXNmSVozRjRWcEs0NTZ0WkhOZVBqU0NXUDc5?=
+ =?utf-8?B?WXNwd0RMMGYzSjdTdHd6Y0RueU14VldjeXFVcDVpWnJoODZ0bkt3dW04WExX?=
+ =?utf-8?B?YVhmWkxuYlNrWUNSTk4yc0ZhNGMvMXdzL0V1R09GWTVXakNGeFVxWmV0SUxU?=
+ =?utf-8?B?QjIraVJzMkxUR21CalY1TkRuTlhyaVhTZzRjN3NTSFpvTWJUMlErZ1RYSENq?=
+ =?utf-8?B?TUdnTVZtODZMSDRJY3FHdHpIQ29Tb2xQemdyNUJjREx5R0VqOWxPWGNMMVVl?=
+ =?utf-8?B?Q3J0SitKMGFVekx5OEpaY25wc3NsNkxkYXJJN0NlajdkUWZNaERvZllwUjFq?=
+ =?utf-8?B?cDBnK0UwTnNKTEQ2N3BTeUVvWnZyalhHV1lrVXFLNVlyc1BDcHhkNmhVTThF?=
+ =?utf-8?B?amdjT1I5cVdYdlJCR0UvcWxZSXdISWYzOHZsNDJwSlhoVVBCY1RWYy9GQ0NH?=
+ =?utf-8?B?OW1wNy8yUW00T3ArRU1UU3k1NVJKSVd0bUZERzB6N1VsNjMrajF4SWFzZHho?=
+ =?utf-8?B?dWQzTWt6dHkrTEJkTmxkMnNFY2drd2xGeFNOamVxVGt2Z1I4c3VJd0ZDYjBw?=
+ =?utf-8?B?ZDdRbytubjdCZW5TcGRpSmZkbUFvT2tNM3FiZlg5TGhkajd3dU42UVM2b1Mv?=
+ =?utf-8?B?SjMxVVFJZmlocDAyL2wyTXY3STBJTWppZWpaWC9XK2UvODhiYi80cTlRSlND?=
+ =?utf-8?B?RG5ZRS9EOWExcEpGcU8xYlBhL1IySEp3TmFpUVQ3cTRHeUl2NjNYRko5dkV4?=
+ =?utf-8?B?Uk44VEtuWkpEbzFDcjgxWGczUHN1VjRoSHMzbURXL1djaGpxdkRlTUFZOW5S?=
+ =?utf-8?B?bkltMGtudS92eWUrQjlNU1JFeEZwTGkzam10blZ1TTlmZ2pmNHcwY2JwSnhB?=
+ =?utf-8?B?UFZmQUF2ZUhiS21hZHU1WXJSZ2pKTGY0MmloQVBFSlNwK2krcWZNeHFJZmV6?=
+ =?utf-8?B?bmd0bnp0bzkxUmJFU29Dc0pGUXRDZjhOejdzdlltRU02RjJ6UHBneThxRXRU?=
+ =?utf-8?B?eklWcTVmSmNGZDg4R3c3cXBrZnl1Y3dQTllySDdPOHpFVzQ3NEMwc0lUdGtZ?=
+ =?utf-8?B?c0tKc3hTbDBoWmc0bDU2Z0hNV0JvdG1Pb2FmZzA3aTNMZlo5ZkJHZE1jZzJO?=
+ =?utf-8?B?UUIyZTFmeDBXTG9iZ3VrU2ExNFBEYlg1UXAyQXl5OXFXcEJrUkY0TlBLRnBv?=
+ =?utf-8?B?eUMrSDVVbENkdk5wMW4xOFdlUHY5OWtZNFlnSjljdnZtZlNpcFA3Z0pSSmxF?=
+ =?utf-8?B?VXdMOGxkdGdJZmdFaWpWRkxOSS90V2lrNlI2QTlZQTdTZkE0cC9McytoMVoy?=
+ =?utf-8?Q?SJPMxtHLI3VBFO20pg?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b585852b-ada2-4c15-1208-08df08328d88
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 14:08:52.7022
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +hQgY+oFKAv0jZns3l9iKCYftm1ECqoajFdk7ptgvvzON7b5s29JTfgQGkTBR+vZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4483
 
-Apologies for the delayed response, and thank you for the review.
+On Mon, Aug 31, 2026 at 11:22:24AM +0200, Christian König wrote:
 
-On Fri, 26 Jun 2026 14:45:45 +0000, Brendan Jackman wrote:
-> On Tue Apr 21, 2026 at 4:55 PM UTC, Marc Zyngier wrote:
-> > Support for GUEST_MEMFD_FLAG_NO_DIRECT_MAP on arm64 depends on 1) direct
-> > map manipulations at 4k granularity being possible, and 2) FEAT_S2FWB.
-> >
-> > Where is this 4kB requirement enforced? Or is it that you means
-> > "PAGE_SIZE"?
->
-> Yeah I believe this means PAGE_SIZE and that it's effectively enforced
-> by checking can_set_direct_map() in
-> kvm_arch_gmem_supports_no_direct_map().
+> > So, to answer the question, we need to document how these flows are
+> > identified and how they differ.
+> 
+> Mhm, that's the point I don't think they differ that much.
 
-Yes, this should say PAGE_SIZE rather than 4k.
+For the importer there are clearly different things that imply
+different HW capabilities:
 
-If I understand the arm64 MM code correctly, can_set_direct_map() is the
-capability gate, but it does not require the linear map to be built with
-page-sized PTEs from boot. Without BBML2_NOABORT, force_pte_mapping()
-builds the linear map with PAGE_SIZE PTEs. With BBML2_NOABORT,
-update_range_prot() can use split_kernel_leaf_mapping() to safely split
-larger mappings on demand before changing a PAGE_SIZE range.
+ pinned means the importer doesn't provide any way to stop DMA
 
-I'll update the v13 commit message to describe this.
+ revocable means the importer must be able to stop DMA and
+ possibly suffer user visble errors in the process
 
-On Tue, 21 Apr 2026 17:55:05 +0100, Marc Zyngier wrote:
-> KVM/arm64 has:
->
->         select KVM_GUEST_MEMFD
+ movable means the importer must be able to pause DMA and never suffer
+ errors while the memory location is moving.
 
-I also confirmed that KVM/arm64 selects KVM_GUEST_MEMFD, so I'll drop the
-redundant #ifdef in v13.
+The whole reason we have these levels is because they reflect very
+real levels of HW support on the importer side. I think it is worth
+documenting it at least for the sake of people implementing importer
+HW to understand the rules
 
-> Why is it an inline function? Given that it takes a kvm parameter,
-> I fully expect that you'll have to evaluate this at some point.
->
-> But since struct kvm cannot be dereferenced in asm/kvm_host.h, it will
-> have to move. How about doing it right now?
+Yes you can use the APIs more flexilby, but not beyound the HW
+enforced limits above.
 
-Agreed. Although the current implementation does not dereference kvm, it
-makes sense to move it out of asm/kvm_host.h now. I'll move the
-implementation to an arm64 KVM .c file in v13.
+> Completely revoking is just a special case of moving the backing
+> store to an inaccessible place and not making it accessible again on
+> the next map call.
+
+In a very general abstract sense maybe, but that model doesn't match
+how the importer HW implementations work.
+
+Jason
