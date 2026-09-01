@@ -1,206 +1,314 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD13937FF6A;
-	Tue,  1 Sep 2026 21:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788297254; cv=fail; b=XCc2H5AeHUeyHKADZTBjQtIJupIBmFe7RpQX9ATMGpXTM5/Dh4dUe98hGt+RiWP9c2XxxVsbHTLI18ZVEHK58r2Lhk1u4MDS0rTXHYZJAoKKS4ndlqrS/fgg2SyqlqktahYiq0zs+T5BSfNhSWyiu7fgsrq+szX5VBRnAnTyWtk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788297254; c=relaxed/simple;
-	bh=fRZZ/fKpIt4h7WpbUeto2FAkfqk+/IUiT+mI6vE++EE=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=dqXAQSAFoEdL836aLcF0sxTDZb9eVc+A1nFbPO2avSNZPGxmCKSQTn8VnlSAyJ1aoePaUEe8hVQMYdkxHrAMw45vwg43M7jQt+i6WtcrNrv4SqQuOkMnz6S1zgfSOm9FHrIZYQQ+WEMAc8zKkboLSXpf6sP/aOA+FMS2emVWV0g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AtrC78Rc; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B173A9D80;
+	Tue,  1 Sep 2026 21:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788299441; cv=none; b=iJvcz0UZukcGdbsF0jdvxoqryv2pOo3721cn0rN1/bLnmE5IkiNy7ULACK/37ejGE1hKzirWHgRvI+K26ZVZvLvPN/z4xMt3/nnKAXYt1NiweiCJ+3LrNZbGCOd07jfrrNm3vm4XBBxhwk5mzJAW1wlUXtUZithURXjec0MuAQo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788299441; c=relaxed/simple;
+	bh=soBF30gUoR2PVLpLm32ORAuXIHLo76uG13mfe1yoxkI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Pr8KcT+PNZ52oXzEimIhWzY0ks64l2vdOYT3/JkKQsZmQENFZGrHFykLjv9Y9ZVtm3Qzkxmvlcxcx62WjT7pj5EJBkqDBcbQ4n7XzSt4GGQ3w5k0uv3RAIVeoxZhGRK4Cpp7ylLj3dY9nbaUolnWW1AMuehDk9thUwfv6jB9308=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EEmfbmOp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AtrC78Rc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788297252; x=1819833252;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=fRZZ/fKpIt4h7WpbUeto2FAkfqk+/IUiT+mI6vE++EE=;
-  b=AtrC78RcoAdzeVqsoJgkKm1Uw2VSti5n+iYC/V78nBAyia+vK4px/eWi
-   SIxUYl+K2iDwUa/jV350vYAmFxjY1SamDy5p98M1RGaOJx5MWA2tchg4Y
-   8LXCPee3Q1+mPkvQK9wbOJvR/8y89LcaJ/SpbCNCqIQwNPiuStcfNa3fn
-   pzD7+bFbsH16w+ni7z2GB4Naba5/10V2AwjAkNIj3y/GiZQiIey3lwyqq
-   g+csrdkJ/gIt+pAOu16ps1NDF1e7+YjrXkvGA1u+Rx3ilfu1fTeYejnCj
-   BA5r4lVFeRSCCBi5vTQ9Hz136IXd/TL/etkcHW2UaW2zSMVjXK6s5EJ2d
-   g==;
-X-CSE-ConnectionGUID: dhETzNVzQsGvkr9YYQfbwg==
-X-CSE-MsgGUID: 50bEJ05hSke+xUYqwb1yKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="100096147"
-X-IronPort-AV: E=Sophos;i="6.25,256,1779174000"; 
-   d="scan'208";a="100096147"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 14:14:11 -0700
-X-CSE-ConnectionGUID: VC91nOzcQpW5PZjL5YUSlg==
-X-CSE-MsgGUID: SRUBejGNT0mAapdOAT4HVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,256,1779174000"; 
-   d="scan'208";a="267907563"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 14:14:10 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Tue, 1 Sep 2026 14:14:09 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46 via Frontend Transport; Tue, 1 Sep 2026 14:14:09 -0700
-Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.28) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Tue, 1 Sep 2026 14:14:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pYf5YL0jJLqmAjHhCAcLWTEmwxtL4mK/yPQL2UzJac8/nsneo1VuwyDhSr+fqQpPj39uj6cvSFEjJ3Ey5Tcs7iclp5Uz6lu6KM9O38z5ZyJyssClRCMwwFHpciNYkDJzLu+hFLx+P7N6As1xwcjVyEzQSCwE/VcPie7w1LnWlDogqJ1B8qEnaZniPGnh3OhXVS1HtS2u1OZRFvERXLiTGzxEUkUQVnej6rYdECNR6pYM1SMVnQLYAvWlXOyB1mcYECkVX4G9UUYU8NtBkoDTEAYu7FPK1iKpiHwyvFpe2m3PUTaAud7ZpBBT1s4pBPNRg6U1RWhxpJ84LtGO4TvOgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=za5OV4DxxJjX4P/Q8VTI5dWYKyhur7tBeT8wGMoc2IY=;
- b=bwiHPG1wJf8yjN5iJdyD0D40GfJvp/eCGtIkUOYqmyJs1PULOMSTKWw1Hgru5848GBLgs5ocYvLL09YFq8SlLvlUZbJmNgUOtcLrc/92kPDUp86dBVQ4CI692hpfEq8KOIsTcZBKvmfLn0SgGWEFYMZhvHQhK3QF9SSkJqBAwqjgfRutWfJTSBIe550mQ9JDC/xAbupzBl05T93pJ8e0LW4hkghUglhwI0yZDIEs+tu0c6bMLmJyqVyfIY8VM3xTyNPoEYADWwI5ksmVCleH9VhgW+K/64tPeNHLPMWzRvinh7t7TZf0yp3fucIOpyFVYmECxrlWX+Twkl2ycNoM/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by MW5PR11MB5883.namprd11.prod.outlook.com (2603:10b6:303:19f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.10; Tue, 1 Sep
- 2026 21:14:04 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6%4]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
- 21:14:04 +0000
-Date: Tue, 1 Sep 2026 14:14:02 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Babu Moger <babu.moger@amd.com>
-CC: <reinette.chatre@intel.com>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
-	<bp@alien8.de>, <ben.horgan@arm.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <dave.hansen@linux.intel.com>, <hpa@zytor.com>,
-	<fenghuay@nvidia.com>, <akpm@linux-foundation.org>, <rppt@kernel.org>,
-	<dapeng1.mi@linux.intel.com>, <elver@google.com>, <jlayton@kernel.org>,
-	<enelsonmoore@gmail.com>, <kuba@kernel.org>, <ebiggers@kernel.org>,
-	<seanjc@google.com>, <peterz@infradead.org>, <chao.gao@intel.com>,
-	<jmattson@google.com>, <naveen@kernel.org>,
-	<ricardo.neri-calderon@linux.intel.com>, <tiala@microsoft.com>,
-	<chang.seok.bae@intel.com>, <prathyushi.nangia@amd.com>,
-	<kim.phillips@amd.com>, <elena.reshetova@intel.com>, <darwi@linutronix.de>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, <x86@kernel.org>
-Subject: Re: [PATCH v5 16/16] fs/resctrl: Add documentation on kernel_mode
- with example
-Message-ID: <apdAGiN6zvIDU1kD@agluck-desk3>
-References: <cover.1787772750.git.babu.moger@amd.com>
- <c04c7a9e2e47d472c6cf4b184ef9c3be5ef6b4c8.1787772750.git.babu.moger@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <c04c7a9e2e47d472c6cf4b184ef9c3be5ef6b4c8.1787772750.git.babu.moger@amd.com>
-X-ClientProxiedBy: SJ0PR03CA0166.namprd03.prod.outlook.com
- (2603:10b6:a03:338::21) To SJ1PR11MB6083.namprd11.prod.outlook.com
- (2603:10b6:a03:48a::9)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EEmfbmOp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6E191F000E9;
+	Tue,  1 Sep 2026 21:50:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788299437;
+	bh=RGxvPmZFMCNoJJyiuRzYrsMwWqlZzj4qed9N2ZoNTZs=;
+	h=From:Subject:Date:To:Cc;
+	b=EEmfbmOpHL6C80SnJoVQ9vGpFUnMlNQrtsieAzJ9Fuu+h4hIExZ0NkkK3u2hFCYit
+	 JZz75zBLHl9XX1VICycvX1RslzUe0Uo4NxXrF1T2IaMq4f0D0xHCNZ+m+TxEPiNzQv
+	 /1S0rpn2bsZQm3exY0Kwk+ap/6IqkbdYK4njqF2lok89Ks2OKsAxfebhQ5fmy9rXfl
+	 FD+BLBjFASMIUZqRt3gWH0jyRZx2zFZVZlV2VVfBcVbRI5H7vxLhDHa20uSJQ+ufck
+	 uW35VratlXwH6j7FlH8Awjp/jCbuNRsyPoJGEJ7l7IIGWgWAfoYkJvgVcOgh0TGQ7Y
+	 RgG2EiuoAl93g==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH v20 00/14] KVM: arm64: Provide guest support for GCS
+Date: Tue, 01 Sep 2026 22:46:58 +0100
+Message-Id: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|MW5PR11MB5883:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab03c6f8-4833-4a0f-509f-08df086df3ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|10067099003|22082099003|18002099003|56012099006|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info: kRhERN9QILDNWHvJZoKMiC3KNFSK4G7jAKfOxFLSHKmnvzSUZ2m/x1ZMR0pulEwMzRKMWyCONWEDn7+t9ysYebgNoNMjKp73CYpCtjHfCQ+rHyJDnTRdEi6at4Kg2s99Uf04KvpVdDBk//EeLmSgWdQYTiRiirnD0BbVvZh0tFCy1/+ln80ZfMq5EA1dffBtzKd7Wfd5TIl9Nxw9zz+J6BLh3CDoz2zKX2uZk0T2VMx1r5lXtqtuTskXOJo0P7JdEePjsym5mb21DIom23hX9zf9qC1BveKT/52kf0KzEX5VEgfoSHwGudaNFzyl9D75Hj70mdB32brSZT7MYL/2mz7ECSNmH6+oh5VUq3QgR6c3CBAZcxJv7Rr89t1qq3hnHY+pQQCD/nWe+7GAqYSArLR4NJesFXjxcjBgzKS0yeSi1Ya4xPubvbkUY9iwDZWGJL3P2wLlx7uLvHgWqQB+S5boe65eL5m73XR4Mx7JuKLbIxbQj3/PfD4Z9b514l6pBNOFuOdwwMBboAyLXtsHD3MIhqRwiovWMq7v4nfNVD6swgBuGMBMuLgIsvUr38GfTIGTI9evxyByqgBNxP+i61tRANfeftHqTgwRSwm7oc9aouxUSCVoagl4mtH13+/0P4A3hEUdkxI+N3dKBBVFJpSPJxKej15OyCIZw3djec4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(10067099003)(22082099003)(18002099003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VVpb08mgmWVfnSPw7qJwMXJnlbUkTiNQ3eIz0odzTv37o0uocaFTjg3NB0za?=
- =?us-ascii?Q?Cr0xgKOQrvv0ETSs+TxI0Qt2nxvKZRnvgvphkZusDK1RHhLqZbTQTvdPPD45?=
- =?us-ascii?Q?YhYgO5qzYxZwffAHz1sD/jxYYpXGSHQhVFY5An67ktLnVTMzObF4Mj+an5l9?=
- =?us-ascii?Q?8+ygBHFEmx7lgs3gmB2Cfe7TVCgqm/94jRq1e82ekayA1YPjkVOEwcC4i9HN?=
- =?us-ascii?Q?DvKtXz+RttF1WXlm13N6ec5AjEXqiLbGzS7RbM6xmtNSFADQ6cR+fSL5SORy?=
- =?us-ascii?Q?7mLLVF+IM+FJ8nWM8PPwDhOr7WDyWotcQKoJCLKU5LXxiTutX0X3P+axeoKt?=
- =?us-ascii?Q?/g4N78WenFcz1+GrIkYKyErTIyxAxmS3cDc4mw+okeA0mSJlSf82qrCztTDe?=
- =?us-ascii?Q?HV3vehMOSl2lGOzTLtlxWKtmIUOoRAQlhGsM0w1XvsweClVrsYEfpLbfGFy1?=
- =?us-ascii?Q?zppZgUwmhAkLtE+VYgT2gc6LeWacJ79xGYnZrPQaO6FoxVyEDSnO7jOLuBxh?=
- =?us-ascii?Q?/dZR2RHuNI0k2kRXxdAGOoHZSELdcovPfJzblBqf+0Z6vSal5D4olof0uy4N?=
- =?us-ascii?Q?IaegVjiEl0TAr/we8rhzSJjIXuyxEY/f//uFJcLjw8xAXqv8kSGPfvapU10f?=
- =?us-ascii?Q?h+T+a+l65BnZCg6hJNlYS2f92e6MVMtuUoJa4o0+AGSTRWAvwd+wyFiAQ25o?=
- =?us-ascii?Q?PcsALzc6zaga8EoAUPrCu8eNg9XuLcNqYyIvnVRPx7aWfURGQDM8w+D4nhTO?=
- =?us-ascii?Q?RRS4ruDDreD0AfGpakQbWJEb2fBgZJC5ZDsBwinSGBzddcHj+1jO6PLrOD+M?=
- =?us-ascii?Q?EgALACLjce12IhZM/ciciBvUge+FfB1keHsMzofrxESQysk34mAPbcBdIjeI?=
- =?us-ascii?Q?jAs/HdaIXUtev11GrSpVvDPCpXSUhPsTcqx2NpfOCMct62R6XCe8ThEdCmPd?=
- =?us-ascii?Q?UMwwlO4PAOdvPwvujnw2kMetMN7hwiTHaBMkx3YjW7ztt7nIvqu1yYYonJO9?=
- =?us-ascii?Q?CF53Q3KyXqKGDFCPbvcL1CvDck8po9BmYBxucWB+sUPJSF4fjQlcZFZ/ma83?=
- =?us-ascii?Q?+ihLqNN+Db8dk8P8iS5YSaQhYx9bO9MWDjLpTx1vPCSwhS7a2NcJ5WPoL11c?=
- =?us-ascii?Q?APTRU9iUdojpy98E7hGuHSA0tiHIpvZ69s/Rg+rvO6oAc7i/LceSZw/+wtQV?=
- =?us-ascii?Q?CrMdfEwpWEqZFZ4K5fQ/+IBNObzDl5fvzstJCqim6PxFtTp4nvetWlhQNMuB?=
- =?us-ascii?Q?Xqo8KrVvdt65FPhdxeWIPZ5j/1CzFhzRmNkGdW2MevvFnVIwwEGzrUZ8XcnD?=
- =?us-ascii?Q?B7SlinFA3eHKshSC0i+JVuyxQHfwp0CGdXL/G8CzdQlj6ObwU1CxxpxNAJfS?=
- =?us-ascii?Q?DHb4u6+xW219NQ/Z2qOVA+PToqUalag9pzU5HwLz2/1d7Iq7/GCnLwGXl3sM?=
- =?us-ascii?Q?lO0WhTXEAKxhlxySV4JUZlKt7i0Y4elX69gIGLxSMZdr7eNYLkpexyCwvWqf?=
- =?us-ascii?Q?WrTDADckVcyDqedKBhL45nq6p5LtrJRW1ZKNmAfvDEf+3/Euiu+z+TtFQHd9?=
- =?us-ascii?Q?VtwTU0d/JsoS/DM/S7ibRBC1FvuaOz1TeCmksbg9ug1IZeMeC1MynzBcH00e?=
- =?us-ascii?Q?ofbVUFarTBvWyWp18Cizc2y11mDE0+din4vkDPJh5XW/PRzoEAoFpYdWm640?=
- =?us-ascii?Q?YsOTMSejx5axjZDMYq+lJGIMLNY2NGyafyHFQhGF6IL4SSHhG365IaNtOA56?=
- =?us-ascii?Q?HYlWK2WKxA=3D=3D?=
-X-Exchange-RoutingPolicyChecked: WTFJdQbsA7enAqhTtFiONtGWW5ZuT+ErTuZW9zoVLAbgKJSwS60y4h/h0Ghx90XLnTS0mm4Z2+9ivsLtNTqyQFcf62fVG48yFR3WLX1Ew6NTi7kZCbQOaW/dK6/iYqwNTjwd8dQV7g552OQiQmfGQ5uWxAbsaYCnlOpz3v2pbnRXIXrEYBRAfKQXL2ok4Xzcu8Y7tX5h79k4GT2dCSTXmMQcHhNjzgJpl3xbHIBbc4JrtfjTleA0sBUfJxNR7QFQnU4bUBP1KzApF6IHlyspFNvfFIMLVR7sSWN1n0NrKuzhYjSj74Jju4CXBPUyzpQk0IErSk7HPLWP/uyFkWfqJQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab03c6f8-4833-4a0f-509f-08df086df3ad
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 21:14:04.5103
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yhyljcUUnkZMURNAmIuLA3cv9hq2KUQ1hgW0HR0jfH1WIGn1ExbEkVja7RQMQp7HBoqZYH8c+GDApJXIOFnqmg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5883
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANNHl2oC/23TS27bMBAG4KsEWlfFzPDdVe9RdMHH0Bba2IEUC
+ C0C371kglpkaHglwh+HM/z5Nm28LrxN357eppX3ZVuul/JB8OVpimd/OfG8pLIwEZCA8pv9+qz
+ lfIrbzALRB0jWkJvK/4PfeA6rv8RzFa/PL3X1ZeW8/Hkv8eNn+T4v2+t1/ftecce6+rG3Qd3sv
+ eMMc8hKm+xECF5//8XrhX9/va6nqW6zU0NJtpQKTZEiJikjcRioaKjAlopCY0rZZWchOTtQeVA
+ LpqWyUG1j9qIcGbQbqGooUUtVoY4zWkxJC5ID1XeKAK6lulBjWanE3suUBmoOin1VUygBRmlFS
+ Maogdr/VAJ1F7/bOiaXORqjjeA8UHdQTaqlrlDIWkipXbAZBopwWAvd7SDUGTvHFBKhg/FmERv
+ ct4s1URKDRScNxzD2i9TibsxYMyWpdFywFNqP+B4qWe6oP3ZNFREFY8tbYeYRyxZ388KaK1UCB
+ TFpcPSg53uwVDk2dLgmS7EQMnm0wY7JQn1gh/3Aara0FIoVR2HSg8r3cOnPDwnNR2UXPWBA+aB
+ ne2DbxwtrvnKyUUJWPtnxGaJr8Kdj14Q5BOXLDmR97PDtdvsHgEf/EvQEAAA=
+X-Change-ID: 20230303-arm64-gcs-e311ab0d8729
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+ Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+ Fuad Tabba <fuad.tabba@linux.dev>
+Cc: Peter Maydell <peter.maydell@linaro.org>, 
+ Leonardo Bras <leo.bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>, 
+ Yao Yuan <yaoyuan@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>, 
+ Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11079; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=soBF30gUoR2PVLpLm32ORAuXIHLo76uG13mfe1yoxkI=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBql0icWI9rowjSCIEwAe2hCMqXk/9VVGgwK9FX9
+ GXjEcniYeWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapdInAAKCRAk1otyXVSH
+ 0P55B/4lnVehcB5I9GJLt96tprUy746Y+NsnN2ZqIf6zRZQfgEciZ7makEiwUduFU8oRTa+nVow
+ fj94+A41Its1rBfC4BJsQ3w2QYpYSj6stxFKxocIeLsJlRNrJegiyyzIF2Wzj1Wolc++fQ66l3i
+ mQLbWn+FbzB0Ous8Z06qZ8RSD6mpsLNHMXBoHZTXtY3H/VvBCgqT9v+VWiDTVwt979v6Tgejo/J
+ A1Nz081nYjIhBKw82jPRvAPMkg9AqMnC8SDL35hZvTjdgWcSUiAJncS1EFktshTlRMJtVout/51
+ ztA1UWDjGzk3xHnbk00T97ki919dj0ZfXanfT4+dTtUshc3l
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, Aug 26, 2026 at 02:32:30PM -0500, Babu Moger wrote:
+The arm64 Guarded Control Stack (GCS) feature provides support for
+hardware protected stacks of return addresses, intended to provide
+hardening against return oriented programming (ROP) attacks and to make
+it easier to gather call stacks for applications such as profiling.
 
-I fake enabled PLZA on my test system, replacing the wrmsrq()
-with some console logging. Tried out several of the examples
-in the documentation and the ones I tried all worked.
+When GCS is active a secondary stack called the Guarded Control Stack is
+maintained, protected with a memory attribute which means that it can
+only be written with specific GCS operations.  The current GCS pointer
+can not be directly written to by userspace.  When a BL is executed the
+value stored in LR is also pushed onto the GCS, and when a RET is
+executed the top of the GCS is popped and compared to LR with a fault
+being raised if the values do not match.  GCS operations may only be
+performed on GCS pages, a data abort is generated if they are not.
 
-> +c. Narrow the association to CPUs 0-3
-> +::
-> +
-> +  # echo 0-3 > /sys/fs/resctrl/ctrl1/kmode_cpus_list
-> +  # cat /sys/fs/resctrl/ctrl1/kmode_cpus
-> +  f
-> +  # cat /sys/fs/resctrl/ctrl1/kmode_cpus_list
-> +  0-3
-> +
-> +The write reprograms the association:
-> +
-> +- CPUs added to the mask are enabled.
-> +- CPUs removed from the mask are disabled.
+The combination of hardware enforcement and lack of extra instructions
+in the function entry and exit paths should result in something which
+has less overhead and is more difficult to attack than a purely software
+implementation like clang's shadow stacks.
 
-More precise to say:
+This series implements support for managing GCS for KVM guests.
 
-PLZA is enabled on CPUs added to the mask.
-PLZA is disabled on CPUs removed from the mask.
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v20:
+- Rebase onto v7.3-rc1.
+- Relax GCSB DSYNCs, remove them when loading the vCPU and move them to
+  vcpu_put() on the outgoing path.
+- Make kvm_check_illegal_exlock_returns() mode change checks more
+  similar to compute_exlock().
+- Use kvm_has_gcs() in ctxt_has_gcs().
+- Move some EL2 register saves under S1PIE checks.
+- Link to v19: https://patch.msgid.link/20260812-arm64-gcs-v19-0-9105afd828ac@kernel.org
 
-Or perhaps
-PLZA reverts to "inherit_user" mode on CPUs removed from the mask.
+Changes in v19:
+- Fix accessor for GCSCR_EL2 in emulation.
+- Correct locate_direct_register() for EL0 registers.
+- Don't check for GCS without S1PIE when restoring vEL2.
+- Move barriers to align better with nearby dsbs.
+- Link to v18: https://patch.msgid.link/20260803-arm64-gcs-v18-0-fd8c40f5ad88@kernel.org
 
-> +- Offline CPUs in the mask are rejected.
-> +- An empty mask disables the association on all currently online CPUs, but
-> +  later hotplug CPUs are still associated automatically.
+Changes in v18:
+- Reinject all GCS exceptions from nested guests.
+- Include GCSCRE0_EL1 and GCSPR_EL0 in the live CPU register accessors.
+- Sort el2_regs in get-reg-list.
+- Link to v17: https://patch.msgid.link/20260731-arm64-gcs-v17-0-5e39ca01b14e@kernel.org
 
-Is there a use case for only enabling PLZA on some subset of CPUs?
+Changes in v17:
+- Rebase onto v7.2-rc4.
+- Fix mapping of HFGITR_EL2.nGCSEPP.
+- Implement a test for NV emulation around EXLOCK.
+- Fix NV exception emulation issues.
+- Add GCS[PC]R_EL1 to locate_direct_register().
+- Add barriers.
+- Add ID_AA64PFR1_EL1.GCS to set_id_regs.
+- Comment updates.
+- Link to v16: https://lore.kernel.org/r/20250912-arm64-gcs-v16-0-6435e5ec37db@kernel.org
 
-The special case for:
+Changes in v16:
+- Rebase onto v6.17-rc3.
+- Also expose the feature to nested guests.
+- Implement emulation of EXLOCK when returning from nested guests.
+- Rename enter_exception_gcs() to compute_exlock().
+- Move all ID_AA64PFR1_EL1 handling to the final kernel patch.
+- Drop unneeded forwarding of GCS exceptions.
+- Commit and cover message updates.
+- Link to v15: https://lore.kernel.org/r/20250820-arm64-gcs-v15-0-5e334da18b84@kernel.org
 
-# echo "" > ctrl1/kmode_cpus
+Changes in v15:
+- Rebase onto v6.17-rc1.
+- Link to v14: https://lore.kernel.org/r/20241005-arm64-gcs-v14-0-59060cd6092b@kernel.org
 
-seems particularly strange. It reads to me as:
+Changes in v14:
+- Rebase onto arm64/for-next/gcs which includes all the non-KVM support.
+- Manage the fine grained traps for GCS instructions.
+- Manage PSTATE.EXLOCK when delivering exceptions to KVM guests.
+- Link to v13: https://lore.kernel.org/r/20241001-arm64-gcs-v13-0-222b78d87eee@kernel.org
 
-"I want this PLZA feature enabled, but don't use it on any CPUs".
+Changes in v13:
+- Rebase onto v6.12-rc1.
+- Allocate VM_HIGH_ARCH_6 since protection keys used all the existing
+  bits.
+- Implement mm_release() and free transparently allocated GCSs there.
+- Use bit 32 of AT_HWCAP for GCS due to AT_HWCAP2 being filled.
+- Since we now only set GCSCRE0_EL1 on change ensure that it is
+  initialised with GCSPR_EL0 accessible to EL0.
+- Fix OOM handling on thread copy.
+- Link to v12: https://lore.kernel.org/r/20240829-arm64-gcs-v12-0-42fec947436a@kernel.org
 
--Tony
+Changes in v12:
+- Clarify and simplify the signal handling code so we work with the
+  register state.
+- When checking for write aborts to shadow stack pages ensure the fault
+  is a data abort.
+- Depend on !UPROBES.
+- Comment cleanups.
+- Link to v11: https://lore.kernel.org/r/20240822-arm64-gcs-v11-0-41b81947ecb5@kernel.org
+
+Changes in v11:
+- Remove the dependency on the addition of clone3() support for shadow
+  stacks, rebasing onto v6.11-rc3.
+- Make ID_AA64PFR1_EL1.GCS writeable in KVM.
+- Hide GCS registers when GCS is not enabled for KVM guests.
+- Require HCRX_EL2.GCSEn if booting at EL1.
+- Require that GCSCR_EL1 and GCSCRE0_EL1 be initialised regardless of
+  if we boot at EL2 or EL1.
+- Remove some stray use of bit 63 in signal cap tokens.
+- Warn if we see a GCS with VM_SHARED.
+- Remove rdundant check for VM_WRITE in fault handling.
+- Cleanups and clarifications in the ABI document.
+- Clean up and improve documentation of some sync placement.
+- Only set the EL0 GCS mode if it's actually changed.
+- Various minor fixes and tweaks.
+- Link to v10: https://lore.kernel.org/r/20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org
+
+Changes in v10:
+- Fix issues with THP.
+- Tighten up requirements for initialising GCSCR*.
+- Only generate GCS signal frames for threads using GCS.
+- Only context switch EL1 GCS registers if S1PIE is enabled.
+- Move context switch of GCSCRE0_EL1 to EL0 context switch.
+- Make GCS registers unconditionally visible to userspace.
+- Use FHU infrastructure.
+- Don't change writability of ID_AA64PFR1_EL1 for KVM.
+- Remove unused arguments from alloc_gcs().
+- Typo fixes.
+- Link to v9: https://lore.kernel.org/r/20240625-arm64-gcs-v9-0-0f634469b8f0@kernel.org
+
+Changes in v9:
+- Rebase onto v6.10-rc3.
+- Restructure and clarify memory management fault handling.
+- Fix up basic-gcs for the latest clone3() changes.
+- Convert to newly merged KVM ID register based feature configuration.
+- Fixes for NV traps.
+- Link to v8: https://lore.kernel.org/r/20240203-arm64-gcs-v8-0-c9fec77673ef@kernel.org
+
+Changes in v8:
+- Invalidate signal cap token on stack when consuming.
+- Typo and other trivial fixes.
+- Don't try to use process_vm_write() on GCS, it intentionally does not
+  work.
+- Fix leak of thread GCSs.
+- Rebase onto latest clone3() series.
+- Link to v7: https://lore.kernel.org/r/20231122-arm64-gcs-v7-0-201c483bd775@kernel.org
+
+Changes in v7:
+- Rebase onto v6.7-rc2 via the clone3() patch series.
+- Change the token used to cap the stack during signal handling to be
+  compatible with GCSPOPM.
+- Fix flags for new page types.
+- Fold in support for clone3().
+- Replace copy_to_user_gcs() with put_user_gcs().
+- Link to v6: https://lore.kernel.org/r/20231009-arm64-gcs-v6-0-78e55deaa4dd@kernel.org
+
+Changes in v6:
+- Rebase onto v6.6-rc3.
+- Add some more gcsb_dsync() barriers following spec clarifications.
+- Due to ongoing discussion around clone()/clone3() I've not updated
+  anything there, the behaviour is the same as on previous versions.
+- Link to v5: https://lore.kernel.org/r/20230822-arm64-gcs-v5-0-9ef181dd6324@kernel.org
+
+Changes in v5:
+- Don't map any permissions for user GCSs, we always use EL0 accessors
+  or use a separate mapping of the page.
+- Reduce the standard size of the GCS to RLIMIT_STACK/2.
+- Enforce a PAGE_SIZE alignment requirement on map_shadow_stack().
+- Clarifications and fixes to documentation.
+- More tests.
+- Link to v4: https://lore.kernel.org/r/20230807-arm64-gcs-v4-0-68cfa37f9069@kernel.org
+
+Changes in v4:
+- Implement flags for map_shadow_stack() allowing the cap and end of
+  stack marker to be enabled independently or not at all.
+- Relax size and alignment requirements for map_shadow_stack().
+- Add more blurb explaining the advantages of hardware enforcement.
+- Link to v3: https://lore.kernel.org/r/20230731-arm64-gcs-v3-0-cddf9f980d98@kernel.org
+
+Changes in v3:
+- Rebase onto v6.5-rc4.
+- Add a GCS barrier on context switch.
+- Add a GCS stress test.
+- Link to v2: https://lore.kernel.org/r/20230724-arm64-gcs-v2-0-dc2c1d44c2eb@kernel.org
+
+Changes in v2:
+- Rebase onto v6.5-rc3.
+- Rework prctl() interface to allow each bit to be locked independently.
+- map_shadow_stack() now places the cap token based on the size
+  requested by the caller not the actual space allocated.
+- Mode changes other than enable via ptrace are now supported.
+- Expand test coverage.
+- Various smaller fixes and adjustments.
+- Link to v1: https://lore.kernel.org/r/20230716-arm64-gcs-v1-0-bf567f93bba6@kernel.org
+
+---
+Mark Brown (14):
+      arm64/gcs: Ensure FGTs for EL1 GCS instructions are disabled
+      KVM: arm64: Fix FGT mapping for HFGITR_EL2.nGCSEPP
+      KVM: arm64: Manage GCS access and registers for guests
+      KVM: arm64: Ensure GCS memory effects are visible
+      KVM: arm64: Set PSTATE.EXLOCK when entering an exception
+      KVM: arm64: Validate GCS exception lock when emulating ERET
+      KVM: arm64: Forward GCS exceptions to nested guests
+      KVM: arm64: Enforce EXLOCK for SPSR and ELR
+      KVM: arm64: Allow GCS to be enabled for guests
+      KVM: selftests: arm64: Add GCS registers to get-reg-list
+      KVM: selftests: arm64: Add GCS to set_id_regs
+      KVM: selftests: arm64: Only restore SPSR_EL1 and ELR_EL1 if they change
+      tools: Synchronise the kernel esr.h
+      KVM: selftests: arm64: Add GCS EXLOCK exception emulation test
+
+ arch/arm64/include/asm/el2_setup.h                 |   5 +
+ arch/arm64/include/asm/kvm_emulate.h               |  11 +
+ arch/arm64/include/asm/kvm_host.h                  |  14 +
+ arch/arm64/include/asm/kvm_nested.h                |  32 ++
+ arch/arm64/include/asm/vncr_mapping.h              |   2 +
+ arch/arm64/include/uapi/asm/ptrace.h               |   1 +
+ arch/arm64/kvm/arm.c                               |   7 +
+ arch/arm64/kvm/emulate-nested.c                    |   7 +-
+ arch/arm64/kvm/handle_exit.c                       |  18 +-
+ arch/arm64/kvm/hyp/exception.c                     |  37 +++
+ arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h         |  28 ++
+ arch/arm64/kvm/hyp/nvhe/hyp-main.c                 |   7 +
+ arch/arm64/kvm/hyp/vhe/switch.c                    |   4 +
+ arch/arm64/kvm/hyp/vhe/sysreg-sr.c                 |  11 +
+ arch/arm64/kvm/nested.c                            |   3 +-
+ arch/arm64/kvm/sys_regs.c                          |  89 +++++-
+ tools/arch/arm64/include/asm/esr.h                 | 113 ++++++-
+ tools/testing/selftests/kvm/Makefile.kvm           |   1 +
+ tools/testing/selftests/kvm/arm64/gcs_exceptions.c | 346 +++++++++++++++++++++
+ tools/testing/selftests/kvm/arm64/get-reg-list.c   |  12 +
+ tools/testing/selftests/kvm/arm64/set_id_regs.c    |   1 +
+ tools/testing/selftests/kvm/lib/arm64/handlers.S   |  10 +
+ 22 files changed, 735 insertions(+), 24 deletions(-)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20230303-arm64-gcs-e311ab0d8729
+
+Best regards,
+--  
+Mark Brown <broonie@kernel.org>
+
