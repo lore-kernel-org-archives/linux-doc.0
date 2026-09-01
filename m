@@ -1,93 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF1E2C21D8
-	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 08:24:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A342946C4B4
+	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 08:25:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788251075; cv=none; b=mfWnOvcms2jCE0os1bCqFZbS6h3qjyOxyrnoLFYh992kM0u6ki3fhLOFeT8We4iGpigyif8O1OCcCDbOiuYBE4uAAemFpbvKklg+/k7vGWqEzuA4+nK14PfajK1DY59bhgOt4Yj31ajdeuqcD5VXqxGvOS3FdeYVkZA7C+tipTg=
+	t=1788251114; cv=none; b=gDFDc+4Jb9sstROc5yeVyMvWUWx2ERPnAhjIFq45xstCNjknp+rNYhxnsFZ77n6Ny+zHMY2BXB+gnQeyLiKp8vTSAbWMAksNaBufLvWaOCFBDJXpfLBylCsoU1wGwl2iRQgJ0hcWgjfRpz/HjQlC4HbAy0h4Di4lDjTDS7yW0dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788251075; c=relaxed/simple;
-	bh=Ohz1MiGQMqXYtY5X+4I18NWrJT+Ny2le9fOyWl6akos=;
+	s=arc-20240116; t=1788251114; c=relaxed/simple;
+	bh=i/iM4/p+swZSDXAyE3q1hyvPmHOykqSfcjwmXtMIt2w=;
 	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BeJG6q+dCPj0VF9gpLtjivaLtC5itJkB32pmi/2eqT7VqXdlJcGqyzEoCpF7/RsBS1dsl5vTnQYuw60vLFLYLT5vdmWJJooQNcM7R+H196yub39wja3Pw2u3YM1+5+CHdrcILxpRBnoTJEqjMQKMi6dg9r21EzzYgnluN2B+FWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MnS1QSiG; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=CjielaRFp9QNYouH9GG3D2DKFBVsbBFfZ24EcjSH+CM9uSPXBh1NKW1qR94VEAWRJGN5HBngn2M4Z1dkrDYHAjF04RvIza7u4LXB+CBkRV3oI+X/I3C5GTBUjyp/5x/BAXP3IHX+ZTauBrjrAqoGWrTsey1u8HiOStfTgBPPHcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dULhbiMd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MnS1QSiG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74A011F000E9
-	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 08:24:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dULhbiMd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 593831F00ADE
+	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 08:25:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788251073;
-	bh=j5dsjKG5yR+eKgT+W8CTLhfKthkR3FkGo7yvnH+WgEE=;
+	s=k20260515; t=1788251113;
+	bh=i/iM4/p+swZSDXAyE3q1hyvPmHOykqSfcjwmXtMIt2w=;
 	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=MnS1QSiG0WIt624n1+rqWaTfP6Rb1CI1qH2g0PGW5O3dKpg6f5cLbVDGBO6WXnPyU
-	 bDE262Vm4e7bQKnaBs+D051LYYDZ4LQ89a61V87+UDNwsIbGgeNAr0ZS4A53Ir0dUT
-	 ggpTDsjxs9sCmQRfFu/sDvyIJfJ/OKRZ7xaIZEiq/BOlbxMTY/CeJnqrCA6W/WL99Y
-	 NKG9CYPiQsLc4NZjuOmiOlU2sBt5IOqBqDy3wJLKRrzb2LtUEJUEguORNOyY7dyJZ6
-	 yPQztEZz0oGkKzn0KoxeRhC6uyDhLwdWPLULPhJvCVv3CoMqmhPDrM+odZWUSY3iem
-	 KC/VuvaW1w1AA==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5b6036e9c70so200704e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 01 Sep 2026 01:24:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzxxuznO13oQ/JY8eQ8uKEACYvv/cxETOvwsJE17yiXb6z4MfPllKKPKfnmBWahCyLguG7znsqHl3w=@vger.kernel.org
-X-Gm-Message-State: AFuF++mxTvRcg4O0GTZb8/tNlZ40n8eMC6CjjtJ9NS5dZk+3xOM4owMR
-	9GUDDjfRwoiu4pbVbTgYSupTaP4VNEMrA2kQ4AyIsSgs75DJVP5pNtA0ud2aGLfWSAGatn9Tz3b
-	Z/jm0nY41QpDVLoCHeII3ZgbWXqd9GwY6dbYDPPuVfw==
-X-Received: by 2002:a05:6512:3e0f:b0:5b0:eda:de1f with SMTP id
- 2adb3069b0e04-5b5e68ba39amr8429471e87.6.1788251072144; Tue, 01 Sep 2026
- 01:24:32 -0700 (PDT)
+	b=dULhbiMdhwA/semByH6OuMrSfMdj1f/+J0IiMxC96LXoU2n4MYdu1tN8z/u2qbMlu
+	 FKPys2LYUhZDDkGIErEaCkTV+ZLlsWP4036NJV7UmU0JxyGXG1xm1IyKYjHuq98+Om
+	 WJ1jxtOg3DIlFUL+ras8H3wcvk+Fv3MVqDfCP7zJLldFVHSVvcD7RSmoqud90hZld4
+	 jIG7R3n9G+Lgtcpo4As3g/TWiGvw4AFt86KX0BBJ+uU+1AyF5yuHF/c/Dd4zg/oGmM
+	 kFFFuc9hIKmqnulxAfeC1O2yIyUdLxc+E3z7tz+XHfAJVAwyX9FLkim2hkeWVxFAfR
+	 QNJDer3YujEjQ==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b4af4be667so3998203e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 01 Sep 2026 01:25:13 -0700 (PDT)
+X-Gm-Message-State: AFuF++n9JyIL+7WfWGPOdE2tUATmfv+iBf82rPY+nHeo5EsEPDO/eRKE
+	Oxrnd9t/Ls3/vWBXRsFn6zrfkX87V3VMi3p0mwGOOlA7M6khqL9Z2ZlldeGnJo6OQadjqnGvQER
+	ke74c3ZkzrIdEE7/rR3gYrttV/Hg/Q7YGfi0s7TwvBQ==
+X-Received: by 2002:a05:6512:1194:b0:5ae:bd4d:852 with SMTP id
+ 2adb3069b0e04-5b5e68b2095mr8818726e87.5.1788251112031; Tue, 01 Sep 2026
+ 01:25:12 -0700 (PDT)
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 1 Sep 2026 01:24:31 -0700
+ HTTPREST; Tue, 1 Sep 2026 01:25:11 -0700
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 1 Sep 2026 01:24:31 -0700
+ HTTPREST; Tue, 1 Sep 2026 01:25:11 -0700
 From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260831143125.151360-4-ivanrwcm25@gmail.com>
+In-Reply-To: <20260831143125.151360-1-ivanrwcm25@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260831143125.151360-1-ivanrwcm25@gmail.com> <20260831143125.151360-4-ivanrwcm25@gmail.com>
-Date: Tue, 1 Sep 2026 01:24:31 -0700
-X-Gmail-Original-Message-ID: <CAMRc=McKksaZxMw79fZFKjX-KKXknbf9Neskxd=Cp7KMjjjcaQ@mail.gmail.com>
-X-Gm-Features: AcwNN1VWubRSqTinjkp71kgQjPlurXsO1mhtBRgf2oGnblcK_4TOiFCZgTnDBSQ
-Message-ID: <CAMRc=McKksaZxMw79fZFKjX-KKXknbf9Neskxd=Cp7KMjjjcaQ@mail.gmail.com>
-Subject: Re: [PATCH 3/7] docs: gpio: note lineinfo padding must be zero filled
+References: <20260831143125.151360-1-ivanrwcm25@gmail.com>
+Date: Tue, 1 Sep 2026 01:25:11 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MfCNuiOC61Qhmw-HYZ0wkYOMpqbbaPhjCrkhE-TyMG5ig@mail.gmail.com>
+X-Gm-Features: AcwNN1Wn5N4h64iDIMsKV0sAJA18IFGsQVi5MnScE8py1Uj_DvOSo3BSYlTaDyY
+Message-ID: <CAMRc=MfCNuiOC61Qhmw-HYZ0wkYOMpqbbaPhjCrkhE-TyMG5ig@mail.gmail.com>
+Subject: Re: [PATCH 0/7] docs/abi: align userspace documentation with implementation
 To: =?UTF-8?Q?Iv=C3=A1n_Ezequiel_Rodriguez?= <ivanrwcm25@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	Jason Wang <jasowangio@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	Jason Wang <jasowangio@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 31 Aug 2026 16:31:21 +0200, "Iv=C3=A1n Ezequiel Rodriguez"
+On Mon, 31 Aug 2026 16:31:18 +0200, "Iv=C3=A1n Ezequiel Rodriguez"
 <ivanrwcm25@gmail.com> said:
-> GPIO_V2_GET_LINEINFO_IOCTL and GPIO_V2_GET_LINEINFO_WATCH_IOCTL reject
-> non-zero lineinfo.padding with -EINVAL; align the uapi comment with
-> gpio_v2_line_request.padding.
+> Documentation and ABI alignment fixes found on v7.3-rc1 by comparing
+> userspace-api docs, kernel-doc blocks, and uapi headers against the
+> current implementation.
 >
-> Signed-off-by: Iv=C3=A1n Ezequiel Rodriguez <ivanrwcm25@gmail.com>
-> ---
->  include/uapi/linux/gpio.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/uapi/linux/gpio.h b/include/uapi/linux/gpio.h
-> index f7cb8ae87df7..5515b718886e 100644
-> --- a/include/uapi/linux/gpio.h
-> +++ b/include/uapi/linux/gpio.h
-> @@ -218,7 +218,7 @@ struct gpio_v2_line_request {
->   * gpio_v2_line_flag, such as %GPIO_V2_LINE_FLAG_ACTIVE_LOW,
->   * %GPIO_V2_LINE_FLAG_OUTPUT etc, added together
->   * @attrs: the configuration attributes associated with the line
-> - * @padding: reserved for future use
-> + * @padding: reserved for future use, must be zero filled
->   */
->  struct gpio_v2_line_info {
->  	char name[GPIO_MAX_NAME_SIZE];
-> --
-> 2.43.0
->
+> Patches 1-6 are documentation only. Patch 7 makes GPIO v2 return
+> -EOPNOTSUPP when EVENT_CLOCK_HTE is requested but no HTE provider is
+> available, matching the documented behaviour.
 >
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+I suppose the separate series you sent after is the one I should be looking=
+ at?
+
+Bartosz
