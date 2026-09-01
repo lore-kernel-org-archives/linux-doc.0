@@ -1,182 +1,109 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267A4371895;
-	Tue,  1 Sep 2026 01:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C479B38F934;
+	Tue,  1 Sep 2026 01:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788226309; cv=none; b=XoQu8uOBFjbsq8rfwha14jAXG+ldgQJZT2T7/UG6PfF63k2mFq2kElBtKEwnJ79vr1GIwjMilxoRVMB3nEqYBHnHCdudaELO2Xvn3tPtILYwnG89YwnwiBH5xLWE1YRdq96deBHxNpSwMo5Jnt7/a0cqpq2kVCOmUKTUcmnRjcc=
+	t=1788226696; cv=none; b=UAwZtCSI6vOuN/f1uObMjnQUNtYCFYk882UbEaBHPu443tQ3g6TfaziDENSmz3c0IVIjw+Lc/Jm9RhiWdeGzSesXVOSy2AyHNgrqXwFnilLNlnda+gdQorQijhIc40W7isFe/Vp2cVhCCV5sIf84eAmQFwhclrJzSpjb9RbbDo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788226309; c=relaxed/simple;
-	bh=F6iCtAnnI49OGLW9ySlZUD0rarIlZ+sSl9c1sQjcB4Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Z/KlRJFairGYH1jnnE3jdgGQC9O7sDVxaZ9BNB8+QLOwPhwkWxub06oVHGfnvTWJ82tFAh8HuFZPPQmLd5zdO2oAEF6/W1u/V3OVfyvXUgQpvXSOsPNY48MLDUOZ4jQRiLZMRMN9GmL6MeLO7CxTQh88XjYXgO+eUyHP1cY/nQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Pfk2cfdd; arc=none smtp.client-ip=113.46.200.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1788226696; c=relaxed/simple;
+	bh=Kd0aQb2iW9hJJk5GOwilOGsnDa4JsdghPXrfBvtR52c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WErbryyAc3jm1dy1E9J+3w1fKO2Ceq298aKVfCL3FBufdtbYBk5QeRbyCqcQCvXbNrLzg9C5KVdFuN97aq7Uz+3yQ46bJfuvyVQdhiTlCgFvBw2Wml8rHeJQZHk6mJyjp4JuqoQTC7x8l7wqDSGDtIb4qR3+m8U5NP1HaO7CTHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NcdeswUl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Pfk2cfdd"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=F6iCtAnnI49OGLW9ySlZUD0rarIlZ+sSl9c1sQjcB4Y=;
-	b=Pfk2cfdd2lkkfaJghnK1V5QNqCG+vzUjSy5NvwSfX4B5LKYRrHGO5y/b3+mcm3npeDnnDk74n
-	JHZ9uyKOirx2g4QqhDDJwtlOaQXSxGeJSRxHscsNWzxD6VFLEZ1a+Zf9W/KXLr7CuAMi/inYI8B
-	qtzyPUWt5hHgQK/GXOS1ydM=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4hYp2544xMzpTBG;
-	Tue,  1 Sep 2026 09:20:13 +0800 (CST)
-Received: from whupemo500002.china.huawei.com (unknown [7.152.185.250])
-	by mail.maildlp.com (Postfix) with ESMTPS id EFBA54058C;
-	Tue,  1 Sep 2026 09:31:31 +0800 (CST)
-Received: from [10.67.120.139] (10.67.120.139) by
- whupemo500002.china.huawei.com (7.152.185.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 1 Sep 2026 09:31:29 +0800
-Message-ID: <c00d649f-aa24-40a8-849e-789ce1a6aca9@huawei.com>
-Date: Tue, 1 Sep 2026 09:31:28 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NcdeswUl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA8071F000E9;
+	Tue,  1 Sep 2026 01:38:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788226691;
+	bh=BrIiRFWtczkZQEdzjQfU9/6RPpw/i2QrGgvd2I+VXzs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=NcdeswUltGsBhID6VXv/iVFj1j2VSDPdMjVwIMYNjhwk+qAL2m3Tij7x+6lPct52V
+	 SylHxgblCs1CbxzFhF8XlDug85XelzDJLFy160Rku11eEmBe4+WC1r0gtgBDo1wjCW
+	 x5qSDPmUVvrCjoVld7nDbuS42ebeC00QMNv1qn16e+WtUR1+ChiHq7xFlpOgtbKd/O
+	 sSaVkW2mE0F0U1nSRH8GojV62Ia0ow3GVB1GI1z/udq+g0gbx0k71n75x4279cw3VA
+	 AtYvM7tXgXg2RalTE7wO6M0MVuN2EAL7i8HzPqKURD42lhfpD0WTcaiA3Cc4XdE4xq
+	 GnBZ7Ep70PC3w==
+Date: Tue, 1 Sep 2026 02:38:05 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, David
+ Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Mark Brown
+ <broonie@kernel.org>, Marius Cristea <marius.cristea@microchip.com>, Marcus
+ Folkesson <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>,
+ Conor Dooley <conor.dooley@microchip.com>, Daire McNamara
+ <daire.mcnamara@microchip.com>, Paul Walmsley <pjw@kernel.org>, Palmer
+ Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre
+ Ghiti <alex@ghiti.fr>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
+ linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>,
+ linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v10 3/3] iio: dac: Add AD5529R DAC driver support
+Message-ID: <20260901023805.20abc542@jic23-huawei>
+In-Reply-To: <apUo4afCh5LhUqIO@ashevche-desk.local>
+References: <20260827-ad5529r-driver-v10-0-38f2be07b824@analog.com>
+	<20260827-ad5529r-driver-v10-3-38f2be07b824@analog.com>
+	<ao_z9QTJC_q8gH0v@ashevche-desk.local>
+	<178813177252.2788519.10940489053707901297.b4-reply@b4>
+	<apUo4afCh5LhUqIO@ashevche-desk.local>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/8] hwtracing: hisi_ptt: Add pattern PMU config for
- trace format selection
-To: Sizhe Liu <liusizhe5@huawei.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<linux-perf-users@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
-	<prime.zeng@hisilicon.com>, <rostedt@goodmis.org>, <mhiramat@kernel.org>,
-	<mathieu.desnoyers@efficios.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <bhelgaas@google.com>, <yangyccccc@gmail.com>,
-	<jic23@kernel.org>, <john.g.garry@oracle.com>, <will@kernel.org>,
-	<james.clark@linaro.org>, <mike.leach@arm.com>, <leo.yan@linux.dev>,
-	<peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
-	<namhyung@kernel.org>, <mark.rutland@arm.com>,
-	<alexander.shishkin@linux.intel.com>, <jolsa@kernel.org>,
-	<irogers@google.com>, <adrian.hunter@intel.com>, <wuzongyu1@huawei.com>
-References: <20260827140442.2031128-1-liusizhe5@huawei.com>
- <20260827140442.2031128-8-liusizhe5@huawei.com>
-Content-Language: en-US
-From: Yushan Wang <wangyushan12@huawei.com>
-In-Reply-To: <20260827140442.2031128-8-liusizhe5@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- whupemo500002.china.huawei.com (7.152.185.250)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 8/27/2026 10:04 PM, Sizhe Liu wrote:
-> Introduce a `pattern` PMU config field (config:36-39) that controls
-> which TLP header format the hardware traces. bit[3:1] are reserved for
-> future extension and only bit0 is used currently:
->
-> - pattern=0 (default, compatibility mode): the driver sets bit[8] of
->   HISI_PTT_TRACE_CTRL so the hardware traces the data in compatibility
->   mode.
-> - pattern=1: the driver clears bit[8] of HISI_PTT_TRACE_CTRL so the
->   hardware traces the data pattern including some bitfields of the TLP
->   header defined in PCIe r6.4 sec 2.2.1.2.
->
-> Note that bit[8] of HISI_PTT_TRACE_CTRL is inverted with respect to the
-> `pattern` value: bit[8]=1 selects the legacy format, bit[8]=0 selects
-> the new format. Bit[11:9] is still reserved, which is consistent with the
-> PMU config field. The driver validates the 4-bit value in
-> hisi_ptt_trace_valid_pattern() and applies it in hisi_ptt_trace_start().
->
-> Document the new parameter in Documentation/trace/hisi-ptt.rst.
->
-> Signed-off-by: Sizhe Liu <liusizhe5@huawei.com>
-> ---
->  Documentation/trace/hisi-ptt.rst | 25 +++++++++++++++++++++++--
->  drivers/hwtracing/ptt/hisi_ptt.c | 25 ++++++++++++++++++++++++-
->  drivers/hwtracing/ptt/hisi_ptt.h |  4 ++++
->  3 files changed, 51 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/trace/hisi-ptt.rst b/Documentation/trace/hisi-ptt.rst
-> index f6a2655f99e5..c95eaa12f4d3 100644
-> --- a/Documentation/trace/hisi-ptt.rst
-> +++ b/Documentation/trace/hisi-ptt.rst
-> @@ -255,7 +255,28 @@ directly from the TLP header.
->       DW2 [                     Header DW2                            ]
->       DW3 [                     Header DW3                            ]
->
-> -5. Memory Management
-> +5. Trace pattern
-> +-----------------
-> +
-> +You can control whether the trace is taken with the new version of the
-> +TLP header format by specifying the `pattern` parameter. The default
-> +value is 0, which means the legacy format is used for backward
-> +compatibility. The parameter value is 4 bit and bit[3:1] are currently
-> +reserved for extension. Current supported values are shown below:
-> +
-> +- 4'b0000: legacy trace format
-> +    DW2 and DW3 are printed with generic field names only, and
-> +    no message-type-basedfield decoding.
-> +- 4'b0001: trace format v1
-> +    DW2 and DW3 are decoded according to the TLP message type (MWr,
-> +    Msg, Atomic, IO, CPL, Cfg) with detailed field names. It is recommended to
-> +    use trace format v1 when the current PCIe link generation is higher than
-> +    PCIe 6.0.
-> +
-> +For trace data recorded by an older tracer without the `pattern` parameter,
-> +the decoder will work as `pattern` forced to 0.
-> +
-> +6. Memory Management
->  --------------------
->
->  The traced TLP headers will be written to the memory allocated
-> @@ -274,7 +295,7 @@ will commit the AUX buffer first and then apply for a new one with
->  the same size. The size of AUX buffer is default to 16MiB. User can
->  adjust the size by specifying the `-m` parameter of the perf command.
->
-> -6. Decoding
-> +7. Decoding
->  -----------
->
->  You can decode the traced data with `perf report -D` command (currently
-> diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
-> index 94c371c49135..1696c30ac4c9 100644
-> --- a/drivers/hwtracing/ptt/hisi_ptt.c
-> +++ b/drivers/hwtracing/ptt/hisi_ptt.c
-> @@ -233,6 +233,10 @@ static int hisi_ptt_trace_start(struct hisi_ptt *hisi_ptt)
->       val |= FIELD_PREP(HISI_PTT_TRACE_CTRL_TARGET_SEL, hisi_ptt->trace_ctrl.filter);
->       if (!hisi_ptt->trace_ctrl.is_port)
->               val |= HISI_PTT_TRACE_CTRL_FILTER_MODE;
-> +     if (!ctrl->pattern)
-> +             val |= HISI_PTT_TRACE_CTRL_PATTERN;
-> +     else
-> +             val &= ~HISI_PTT_TRACE_CTRL_PATTERN;
+On Mon, 31 Aug 2026 10:10:25 +0300
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
 
-Hi Sizhe,
+> On Mon, Aug 31, 2026 at 12:16:12AM +0100, Jonathan Cameron wrote:
+> 
+> ...
+> 
+> > > > +	device_for_each_child_node_scoped(dev, child) {
+> > > > +		if (st->num_channels == ARRAY_SIZE(st->channels))
+> > > > +			return dev_err_probe(dev, -ECHRNG, "Too many channels\n");  
+> > > 
+> > > Okay, this actually better to be ENOSPC
+> > >   
+> > > > +		ret = fwnode_property_read_u32(child, "reg", &ch);
+> > > > +		if (ret)
+> > > > +			return dev_err_probe(dev, ret,
+> > > > +					     "Missing reg property in channel node\n");
+> > > > +
+> > > > +		if (ch >= AD5529R_MAX_CHANNELS)
+> > > > +			return dev_err_probe(dev, -EINVAL,  
+> > > 
+> > > and ECHRNG is here.  
+> > 
+> > That one is getting rather creative even though I guess the description
+> > does fit rather well.  So I don't object, but also feel -EINVAL is
+> > probably good enough for an invalid property value.  
+> 
+> But missing property message propagates the fwnode return code (which will be
+> EINVAL IIRC). So the above is not about missing property, it's about wrong
+> channel. Note, I have checked uses of ECHRNG in the kernel, and many of them
+> are fine with the suggested one.
 
-This hunk seems not able to be applied to mainstream cleanly, otherwise
-this series LGTM.
+Fair enough and works for me.  We can add this to the list of things
+to tidy up if we happen to be touching other code that deals with
+wrong channel numbers.  Not something we want to generate churn though
+unless there are far fewer instances of this than I think there are!
 
-Reviewed-by: Yushan Wang <wangyushan12@huawei.com>
+Jonathan
 
->
->
->       /* Start the Trace */
->       val |= HISI_PTT_TRACE_CTRL_EN;
-> @@ -805,12 +809,14 @@ PMU_FORMAT_ATTR(filter,         "config:0-19");
->  PMU_FORMAT_ATTR(direction,   "config:20-23");
->  PMU_FORMAT_ATTR(type,                "config:24-31");
->  PMU_FORMAT_ATTR(format,              "config:32-35");
-> +PMU_FORMAT_ATTR(pattern,             "config:36-39");
->
->  static struct attribute *hisi_ptt_pmu_format_attrs[] = {
->       &format_attr_filter.attr,
->       &format_attr_direction.attr,
->       &format_attr_type.attr,
->       &format_attr_format.attr,
-> +     &format_attr_pattern.attr,
->       NULL
->  };
->
-
-[...]
-
+> 
+> > > > +					     "Channel %u exceeds maximum 15\n",  
+> 
 
