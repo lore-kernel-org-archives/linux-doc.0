@@ -1,106 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D881E433BB0;
-	Tue,  1 Sep 2026 04:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB5C376466;
+	Tue,  1 Sep 2026 05:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788237273; cv=none; b=UquCh8uJDCCAIAE9qJiehHYm2CyNocoibGpq5T8VSpXCwdfTJA0zaaPyQcKVDp0UwokzriXlcbg/wdczeHXGKEDHDJH5yJOIZNbpOKbejAJ5fm7xiXll4udmcJXWIE+0qL7Nxr1R+6YlUPCHgO9ubZb6AIeAkrH0Xy10zW6Y5oI=
+	t=1788240068; cv=none; b=QOtNDkipVpesxonel0h/lzEy2TM8/a6tnPFMOyVFujB3iBTHedUPynn3zsg6t4I0FMDkR65tuHcYunD78/EmxHrc6avkQSIMlN9rBVN7eHVOcep+MVg/vEy7dX42AHNqC8ZCO7BSR54Rcoct0g/3Q+ZCGhyfDfP0Q61Eep3Wo78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788237273; c=relaxed/simple;
-	bh=g/tFPfelQzKUfzsRZPs73xHoniRK3oTmoDYddCctcSI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oPtWWTxObuS+5O2aCpiD6SiMB2sGphv3qTgTPFvdExjFvi/k8Q7LKDrRePAQX+4ecHlLzHRcMf6+OOJ/mGLgSAvlhxngtyZStV4sqTYY+TogTcW91BxN+sEmftDY0X0WylxaeY/eZIBAfjfu1cYH6SGdtedwAwSbSjdusKAolKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E54dGmV+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788240068; c=relaxed/simple;
+	bh=noWTnldhMW0YaQPIX9cRomMQ5OuCMx3zIYIhKPHHTmM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=KGQwWsgJIGW3q0YO7OMROyNcBz3thE8HdRTY/K0N1JtQ/G7hRRsaEfw8aSuiHkFlSlcVoPP5TlZsjzTLvO25N4X0hC7OevffRMV1aU5yBTWBF3ZohXp9s5GwjWKt9O/8CVAOJ9ly49nKV/EzJvVxZ+ko3/Jt9ntHuvhW3nkEgBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com; spf=pass smtp.mailfrom=huawei-partners.com; dkim=pass (1024-bit key) header.d=huawei-partners.com header.i=@huawei-partners.com header.b=KPdsfQ37; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei-partners.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E54dGmV+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 370791F00A3F;
-	Tue,  1 Sep 2026 04:34:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788237271;
-	bh=PjqVhtQyye+bbFZP93YpIQ5LAq+rT1MA3lQj7bnBnXw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=E54dGmV+ijmLuWB8ca5ofN+kA/w6tVCBO5KUhCKNGelJFI4PmgsMMVB5Dpvcgk/HK
-	 uSsQT233Oud8vsXqD1t+tqGWAWy6Hjv5XvpDrEm9ePM8vNgIxCCvRkqkk7xreuWYlO
-	 DFKplMDLD4B0WhLknxqMVvShwQGh2wTNfBHa0d/E3/BEBHzOsxfsR2CzWo73FRxi+w
-	 ZNTKvaK21djuUvfW8Le/iaBTSBbExTyzVOLIqx0BpPNob44racSlYZywU4RpCDr1US
-	 Yeo1Id7ps2LAeg7V1g5K6Tsz8Ww6465Iy4/MmgQ2MsqrmwFO+sDT6D/V2YFuB1TqF6
-	 2aQy3OT6tb10w==
-From: SJ Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SJ Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 16/17] Docs/admin-guide/mm/damon/usage: document probe preps sysfs files
-Date: Mon, 31 Aug 2026 21:34:12 -0700
-Message-ID: <20260901043417.2165-17-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260901043417.2165-1-sj@kernel.org>
-References: <20260901043417.2165-1-sj@kernel.org>
+	dkim=pass (1024-bit key) header.d=huawei-partners.com header.i=@huawei-partners.com header.b="KPdsfQ37"
+dkim-signature: v=1; a=rsa-sha256; d=huawei-partners.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=hEPG3P/x/ozu+lY/WnNZEs9objWoPkEaUik+WEJ687U=;
+	b=KPdsfQ37BIw1yCqTL5PIQaNbF5exr5rkTec1aVoNuzcPU3yQ+ea0WDzDhMS48cbUrfF+qGBOu
+	yhNp0EbXLwZopwcmteg9kMpKjsnxzMgY0gm2oE9kGpGgXaHgKNpti5y6Q3mvzD1RC8Mgps2g3Og
+	OxqYcw7lwXvkhP6CNvUXXHs=
+Received: from mail.maildlp.com (unknown [172.18.224.150])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4hYvMB44C4zJ468Y;
+	Tue,  1 Sep 2026 13:20:22 +0800 (CST)
+Received: from mscpeml500003.china.huawei.com (unknown [7.188.49.51])
+	by mail.maildlp.com (Postfix) with ESMTPS id A095440571;
+	Tue,  1 Sep 2026 13:20:51 +0800 (CST)
+Received: from [10.123.123.154] (10.123.123.154) by
+ mscpeml500003.china.huawei.com (7.188.49.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Tue, 1 Sep 2026 08:20:51 +0300
+Message-ID: <893af75e-690b-48f0-9cc9-afe07c05565c@huawei-partners.com>
+Date: Tue, 1 Sep 2026 08:20:50 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/3] Docs/mm/damon/design: Document hugepage_mem_bp
+ target metric
+To: SJ Park <sj@kernel.org>, Randy Dunlap <rdunlap@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett"
+	<liam@infradead.org>, David Hildenbrand <david@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko
+	<mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, Shuah Khan
+	<skhan@linuxfoundation.org>, Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>, <damon@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>
+References: <20260901004712.89669-1-sj@kernel.org>
+Content-Language: en-US
+From: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
+In-Reply-To: <20260901004712.89669-1-sj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: mscpeml500003.china.huawei.com (7.188.49.51) To
+ mscpeml500003.china.huawei.com (7.188.49.51)
 
-Update DAMON usage document for the newly added DAMON probe preps sysfs
-files.
+On 9/1/2026 3:47 AM, SJ Park wrote:
+> On Mon, 31 Aug 2026 13:00:26 -0700 Randy Dunlap <rdunlap@infradead.org> wrote:
+Hi,
+> 
+>>
+>>
+>> On 8/31/26 8:45 AM, Randy Dunlap wrote:
+>>> Hi,
+>>>
+>>> On 8/31/26 7:47 AM, SJ Park wrote:
+>>>> From: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
+>>>>
+>>>> Document hugepage_mem_bp metric exposed by sysfs.
+>>>>
+>>>> Signed-off-by: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
+>>>> Reviewed-by: SJ Park <sj@kernel.org>
+>>>> Signed-off-by: SJ Park <sj@kernel.org>
+>>>> ---
+>>>>  Documentation/mm/damon/design.rst | 2 ++
+>>>>  1 file changed, 2 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+>>>> index aed6cb1cf4831..a8c163475ef2b 100644
+>>>> --- a/Documentation/mm/damon/design.rst
+>>>> +++ b/Documentation/mm/damon/design.rst
+>>>> @@ -713,6 +713,8 @@ mechanism tries to make ``current_value`` of ``target_metric`` be same to
+>>>>    bp (1/10,000).
+>>>>  - ``node_eligible_mem_bp``: Scheme target access pattern-eligible memory ratio
+>>>>    of a node in bp (1/10,000).
+>>>> +- ``hugepage_mem_bp``: Total huge page to total used memory ratio in bp
+>>>> +  (1/10,000).
+>>>>  
+>>>>  ``nid`` is optionally required for ``node_mem_used_bp``, ``node_mem_free_bp``,
+>>>>  ``node_memcg_used_bp``, ``node_memcg_free_bp`` and ``node_eligible_mem_bp`` to
+>>>
+>>> I've looked thru the entire design.rst file and cannot find anything telling
+>>> me (or anyone) what "bp" means.  Explain??
+>>
+>> OK, I found it on the internet. I still think that it would be a
+>> good idea to say "basis point" one time (the first time that it is used).
+> 
+> You are right, and I agree.  I will add that clarification before the next
+> merge window.
+> 
+>>
+>>
+>> -- 
+>> ~Randy
+> 
+> 
+> Thanks,
+> SJ
 
-Signed-off-by: SJ Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+SJ, should I submit a new patch to fix design.rst?
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index da5f9afd08aef..023c6334024f8 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -74,6 +74,9 @@ comma (",").
-     │ │ │ │ │ │ nr_regions/min,max
-     │ │ │ │ │ │ :ref:`probes <damon_usage_sysfs_probes>`/nr_probes
-     │ │ │ │ │ │ │ 0/weight
-+    │ │ │ │ │ │ │ │ preps/nr_preps
-+    │ │ │ │ │ │ │ │ │ 0/prep_action
-+    │ │ │ │ │ │ │ │ │ ...
-     │ │ │ │ │ │ │ │ filters/nr_filters
-     │ │ │ │ │ │ │ │ │ 0/type,matching,allow,path
-     │ │ │ │ │ │ │ │ │ ...
-@@ -283,9 +286,18 @@ In the beginning, this directory has only one file, ``nr_probes``.  Writing a
- number (``N``) to the file creates the number of child directories named ``0``
- to ``N-1``.  Each directory represents each monitoring probe.
- 
--In each probe directory, one directory, ``filters`` exists.  The directory
--contains files for installing filters for the probe, that is used to determine
--the data attribute for the probe.
-+In each probe directory, two directories, ``preps`` and ``filters`` exist.  The
-+directories contain files for installing probing preparation actions and
-+filters for the probe, that are used to determine the data attribute for the
-+probe.
-+
-+In the beginning, ``preps`` directory has only one file, ``nr_preps``.
-+Writing a number (``N``) to the file creates the number of child directories
-+named ``0`` to ``N-1``.  Each directory represents each preparation action.
-+Each directory has one file, ``prep_action``.  The preparation action can be
-+selected by writing the name of the action to the ``prep_action`` file.  Refer
-+to the :ref:`design doc <damon_design_data_attrs_monitoring>` for the list of
-+supported actions.
- 
- Each probe directory also contains ``weight`` file.  Reading from and writing
- to the file gets and sets the :ref:`attributes-only monitoring
 -- 
-2.47.3
+Asier Gutierrez
+Huawei
+
