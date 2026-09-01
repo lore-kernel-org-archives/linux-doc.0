@@ -1,107 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC3542DA5B;
-	Tue,  1 Sep 2026 07:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10C64279F9;
+	Tue,  1 Sep 2026 07:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788247177; cv=none; b=XTjp25JYK+OfjIfA9oGJVdUYF6b2BaY//+cFu/HCdmwOgTuS1Weu9HKBeav7aaGkM75u8IAVPiMmoImHE0vnZRDIV45ltGy8ru2+KmwxGN6p6tM/8/He1XCBlHMsKrkQ7XQZSukLGOy+QbMrsM0Qv67HCodufGXxSiuwmvIHMyY=
+	t=1788247670; cv=none; b=j5DMlH6LCOt3gCQsr/JwVooDN7DimOaIZNet5QhIH+YVUOZWrRwpkCv0z/rPDw5GEU5RNrCkizEkEgptXvaPHqmNqPCFJiwg4LTWB2nH+YLCpH0MRiRnXDQFE3rjuFNNROIdIU10Gc4xzSZkKKgBQh1ehrQEbGuDyURk1U6CWi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788247177; c=relaxed/simple;
-	bh=Zu24pMlaY4E313bRYquaYaNFWRLE81YRhF5c0OnVNEY=;
+	s=arc-20240116; t=1788247670; c=relaxed/simple;
+	bh=6WRFXKt0DMVyDvX14y7LPQZOKJSvqzS/Q8O0xYy5B1w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GynspgBXPxoWdMF354AqPZBKd+vrK6B6eyZqFbUc/KOcJ0pUo3RoQPJJwBRk5l3+cukwaoCsBuhpWL5KNJ+yp83A9JLGqk0j9V05tsPF8XbQ3NZcprgdr3aNSeZnsKPuFm/6lIcwwq+rK2Gk/KENvK26xVQIejiDTy8uPYsWiJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PPDBE9p+; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=tVXWr2XWzmyYY4NPTaM11HNwA9OiwkBEiLOKyv4MPggDFS7W7rYGOhx5Ob3cXTcuqAdjZjb+TC6vRFUvW3sluiYBjDkY/QnV6GeUvxqaLuYcdeZ/naQMEmjjqAhw1ivYUgNgG5aZo7rnhzW6mlvPwrYAEakYCFe1rVqxtQMaUG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DZpOB8u4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PPDBE9p+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788247175; x=1819783175;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Zu24pMlaY4E313bRYquaYaNFWRLE81YRhF5c0OnVNEY=;
-  b=PPDBE9p+4gUyprd5QRvKWfu4eXDqseSwntUfLvvIwMYrlbC7AVPwTsm5
-   BYnuV33cE1u+k8P8E0TfQlF1lPLuMrhTv0X6cxwkPBJOwTrLIQlkWkVvg
-   yTkKWlXZXlBQ+oT4qDduEL5fPgRy5+yXQ/21wi+Q8lOmlpFYTYM7sfh8b
-   gdS9BDdqrzp50RdFGXAAlcVS8/qtiSfZNuhPHfkqZ+DVmlHRzkJhxYtYr
-   KN7a/JCqP5IKpBHG8y1Ppfve3DEQFu6y5iib5csffVBfh5p45xUUEwvKV
-   2cJUhMhEDrFbXIjiPyT37iFvzPZUOsqn5jc4rWAJkh4lHED2aoMpPf6wx
-   A==;
-X-CSE-ConnectionGUID: GUVjwYvDR9CsLHY8uPM4UA==
-X-CSE-MsgGUID: ve7mOAOYR0G+9Kw13Ew8wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="88690999"
-X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
-   d="scan'208";a="88690999"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 00:19:33 -0700
-X-CSE-ConnectionGUID: B3MU0I/8Qe6mcsREQCBEuQ==
-X-CSE-MsgGUID: 6sVixS13RAKAx1y52EsupA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
-   d="scan'208";a="272801263"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.222])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 00:19:28 -0700
-Date: Tue, 1 Sep 2026 10:19:25 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Janani Sunil <jananisunil.dev@gmail.com>
-Cc: Janani Sunil <janani.sunil@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Michael Walle <mwalle@kernel.org>, linux@analog.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v5 05/20] iio: adc: Add AD7768 and AD7768-4 core support
-Message-ID: <apZ8fac_5DLlFKbN@ashevche-desk.local>
-References: <20260828-ad7768-driver-v5-0-e33ca6f841a2@analog.com>
- <20260828-ad7768-driver-v5-5-e33ca6f841a2@analog.com>
- <apVDm1O_NtD07-rw@ashevche-desk.local>
- <b2f430a4-a43c-409f-9bdf-ffb0f70b1538@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DZpOB8u4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB951F000E9;
+	Tue,  1 Sep 2026 07:27:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788247668;
+	bh=YGa9MdY2HmilFhv3h7yAxaNr+XC2/lGA469m5Lsc+Ow=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DZpOB8u4FARtGbaeK+Zktx6F83IhDjixUWt+slRUvUXoCndjlaLxtFgKCavyv558i
+	 XMavzFhNg/6vhef3/+YX633G8e9jxWeDyVexxctyKidec2NvcfKyo/KeFnUW9Uq25/
+	 yTat+Ht/BsQAZxKuzrhoUwMiAa+rGu+9JxG0qdh2YyPgHRgr5hm8rEFM5VSp2pfOYd
+	 yseektNF4aXsRGgyF7tr+7iBeGSW9HYpZXd3A90vAwvhCWfjTHFbK8fI64tQNj6E6P
+	 WGQwJQzGDwhmzMnjCMkcebYa2pu1BlrcZymirMHkQv1I0CzQrNKpBvYfveBC6cvvFw
+	 2a6tBJq8DNUvQ==
+Date: Tue, 1 Sep 2026 08:27:41 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "zhen.ni" <zhen.ni@easystack.cn>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup filtering
+Message-ID: <apZ99NHTmNI_nIwz@gremlin>
+References: <20260828031339.1270699-1-zhen.ni@easystack.cn>
+ <apEx0wT_hWs1Q5Wp@gremlin>
+ <20260828113654.d01abd8baed3f73e87506eb3@linux-foundation.org>
+ <9fce3210-3548-4df3-ae00-730b666f5d57@easystack.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b2f430a4-a43c-409f-9bdf-ffb0f70b1538@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <9fce3210-3548-4df3-ae00-730b666f5d57@easystack.cn>
 
-On Mon, Aug 31, 2026 at 05:20:04PM +0200, Janani Sunil wrote:
-> On 8/31/26 11:04, Andy Shevchenko wrote:
-> > On Fri, Aug 28, 2026 at 05:30:28PM +0200, Janani Sunil wrote:
+On Tue, Sep 01, 2026 at 02:34:34PM +0800, zhen.ni wrote:
+>
+>
+> åœ¨ 2026/8/29 02:36, Andrew Morton å†™é“:
+> > On Fri, 28 Aug 2026 08:03:38 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+> >
+> > > On Fri, Aug 28, 2026 at 11:13:31AM +0800, Zhen Ni wrote:
+> > > > This patch series adds process and memory cgroup filtering support to
+> > > > page_owner. Following the previous series that introduced print_mode and
+> > > > NUMA node filters:
+> > > >    https://lore.kernel.org/linux-mm/20260707115411.1714314-1-zhen.ni@easystack.cn/
+> > > >
+> > > > This series adds filtering capabilities to page_owner, allowing users to
+> > > > filter output by specific processes and memory cgroups. Users can now
+> > > > filter page_owner output by PID, TGID, COMM (with wildcard support), and
+> > > > memory cgroup path. This makes page_owner debugging more focused and
+> > > > efficient for tracking memory allocations in specific contexts.
+> > >
+> > > The majority of this cover letter feels like it should have been
+> > > documentation put somewhere :)
+> >
+> > yes please.
+> >
+> > The only thing longer than the cover letter is the Sashiko report ;)
+> >
+> > 	https://sashiko.dev/#/patchset/20260828031339.1270699-1-zhen.ni@easystack.cn
+> >
+> >
+>
+> Hi Andrew, Lorenzo,
+>
+> Thanks for the review.
+>
+> I have analyzed all the Sashiko report findings. Some will be fixed in
+> the next version, and for the rest I propose not to fix them, with
+> reasons below. If there are no objections I will send v2 accordingly.
+>
+> Will be fixed in the next version:
+>
+> - mm/page_owner.c: drop the kstrdup() copy in parse_pid_t_list(); the
+>   token will be parsed in place. This also fixes a leak on the success
+>   path and a kfree() of an advanced (interior) pointer on the error
+>   path. cmp_int() will replace plain subtraction in cmp_pid_t(), and
+>   pid values exceeding PID_MAX_LIMIT will be rejected.
+> - mm/page_owner.c: PAGE_OWNER will select GLOB so glob_match() is
+>   always linked in; parse_comm_list() will drop its kstrdup() copy the
+>   same way.
+> - mm/page_owner.c: the cgroup path buffer will be allocated once per
+>   read() outside the page_ext RCU read-side critical section instead of
+>   per page inside get_page_memcg_info() (GFP_KERNEL allocations must
+>   not sleep there). The memcg= parsing branch will be guarded by
+>   CONFIG_MEMCG so kernels built without memcg reject the command
+>   instead of silently enabling a filter that never matches.
+> - tools/mm/page_owner_filter.c: user-visible input errors (empty
+>   -p/-t/-c/-g arguments) will print error messages instead of exiting
+>   silently.
+> - Documentation: the wildcard pattern in the -c example will be quoted
+>   to prevent shell glob expansion.
+>
+> Proposed not to fix, by design:
+>
+> 1. Shared-fd concurrent read/write races (READ_ONCE around the pid
+>    passed to bsearch, torn reads of pid/tgid lists, glob_match() racing
+>    comm rewrites, concurrent write() leading to state->memcg_path
+>    double-allocation): multi-threaded sharing of one page_owner fd is
+>    not a designed use of this interface. The filters are per-fd state
+>    meant to be configured once and then read, which is what the
+>    page_owner_filter tool does. Adding locking to the read path would
+>    put overhead into the per-page scan loop for no designed benefit.
+>    This matches the semantics of the original filter introduction.
+>
+> 2. No "clear filter" support (empty pid=/tgid= lists partially clearing
+>    proc filters, empty memcg=/nid= being rejected): write commands are
+>    incremental -- "keep the unmentioned filters" -- and there is no
+>    clear operation by design. To start over, close the fd and open a
+>    fresh one; the page_owner_filter tool already works this way. This
+>    also matches the semantics of the original filter introduction.
+>
+> 3. kcalloc() vs kmalloc_array() for new_comm_list: no consumer of the
+>    list reads past strscpy()'s NUL terminator, so uninitialized bytes
+>    are unreachable.
+>
+> 4. char cgroup_path[512] in validate_cgroup_path(): acknowledged that
+>    the kernel side accepts paths up to PATH_MAX (4096). The userspace
+>    check truncates an over-long path with snprintf() and then fails
+>    access(), so it is rejected, never silently accepted. Bumping the
+>    buffer to PATH_MAX would only serve pathological paths; realistic
+>    cgroup paths are well under 100 bytes, so 512 wastes nothing in
+>    practice.
+>
+> If this plan looks reasonable I will send v2.
 
-...
+Sorry but this kind of 'summary', 'do you agree with the plan' email is not
+acceptable.
 
-> > +	dclk_div = 8 * st->datalines / st->chip_info->num_channels;
-> > Does 8 represent BITS_PER_BYTE? Can BITS_TO_BYTES() be used?
-> 
-> 8 is not BITS_PER_BYTE.
-> With fast mode (fMOD = MCLK / 4) and ×64 decimation, this gives:
-> MCLK / DCLK = (4 × 64 / 32) × data lines / channels
-> Therefore, the factor is 8. I will add a comment explaining this.
+You have your feedback, reply to people like a human being directly to them,
+thank you very much.
 
-Yes, please do. This will clarify the magic number.
+At this point, based on past experience, I have to ask if you're using an LLM?
+If so please disclose this as per kernel guidelines:
 
--- 
-With Best Regards,
-Andy Shevchenko
+https://docs.kernel.org/process/coding-assistants.html
+https://docs.kernel.org/process/generated-content.html
 
+>
+> Thanks,
+> Zhen Ni
 
+--
+Cheers, Lorenzo
