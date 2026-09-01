@@ -1,150 +1,317 @@
-Received: from mta0.migadu.com (out-55.mta0.migadu.com [91.218.175.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC9D38236F
-	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 22:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C244549C4D1;
+	Tue,  1 Sep 2026 22:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788301381; cv=none; b=OC8U0dhHJ1rfddqhU8sIJ1CGwNNzCH4SuoNnqJylf65S6ioKW7mL/I1kuT22S5QGy2sj6kuigw7WvWWl/YBtiTrQ8vMxA8/ntGRLt7VNRaf6yxEUMPfp7ou7Lb5XYIHAHkDfMvGxRzC1CTeDYExQDhsyBBk6dLc5d3yKhdmOUlw=
+	t=1788301972; cv=none; b=F9qnzPL46uQEMZL0x5zMAuYT1dHVKT67eH64zc5TEvj8QYT/N6etehUrwpDzEv9QCCXKQFfW4HNQxi8yBkXHGEK3L+eTyEFpwXxQHI0XbCIKzQgTPaf9L1ykHhvLQRqWTsw4hNLF0X6ApWTp5xNZkFolJbuMvM8loNjcLy+s40c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788301381; c=relaxed/simple;
-	bh=CJv9ej77YKh7SqREZUkX1b/9RiHCVq3kJXFgGW0/pcE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VCfySpcyGlS71ADCXZC3ivyDmDsIzhb+WsLxzYK/IS6c4lxOBijxTf10TMPUS5IWj3MQ6u+VYyLxRgIc9oi9uZeYiftBPYmtAbIBoPphcwXusgvY6PV639YB4OgmxpiAkCk9zMjkJOO1x7A26+PcJwXTigGK823WS0Y1B2AyE74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=H57/uBo+; arc=none smtp.client-ip=91.218.175.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788301972; c=relaxed/simple;
+	bh=USqjFRAb6LIlmnukXbDSN+CGoNtQbT72zrC+MtXY9nI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=erG/V/LXi8VIFbkooyFlTvF96a4DFuXQyal6utNSgzy5i4H8N+Ab5kw+iWmesWbFWrl92cfApmxxtaa6pcBmmezVUIkIEFH7PCiNem2VK4tj7qnHh2nkIuRunV6OwMMWLEOe4nmE2CwaH7+xeMfYgURnYFc5hskXTd1qOUbWVmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hiiOqtLQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="H57/uBo+"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=CJv9ej77YKh7SqREZUkX1b/9RiHCVq3kJXFgGW0/pcE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788301374; v=1; x=1788906174;
- b=H57/uBo+XS1ZXO2Fqgc9deSnjv2LFX/aaEg3XtLdggW/uCD0XkKZ6pzvqyCGpPwCAtn+RNjl
- Kfx9PrnjyT6pTnc5wNwln7xQBlIL1HFTjjWhfGHXjQ/JAEaKV52KQt/lDsmGn0u6HHEVvO2chFl
- jWG/ibXj0OCzsAPZ9JDMn2P0=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id fff488da4dec3ff8;
-	Tue, 01 Sep 2026 22:22:54 +0000
-X-Mizu-Trace-ID: fff488da4dec3ff8
-X-Migadu-Flow: FLOW_OUT
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b2a8173142so1175e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 01 Sep 2026 15:22:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByZxiwuZwYIxhyyV8g0zLJ1sSaQBoeKsXqa5p/i0hfHOIpBstxC8qdZbHz/335FFa1Y8o8ZtPYkpXs=@vger.kernel.org
-X-Gm-Message-State: AFuF++kHB58IWrMcGqzc51so36XU0F67/XbhO6Si1Nc54l+NlfCmZDpT
-	RhvHC6lFuPoBvjGsB8GF6ahToraOCJz6waiQj5o1PA29xT7dDVJP97w3J+tfZa/MH/hJ1Gvbq77
-	hFr8vQBrMMEU3uUCZz4fPAV02d3fwe9MsSsmhN+F0
-X-Received: by 2002:a05:6512:3d0f:b0:5b6:4ad:d6ba with SMTP id
- 2adb3069b0e04-5b609eeb230mr13703e87.15.1788301371454; Tue, 01 Sep 2026
- 15:22:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hiiOqtLQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C7301F000E9;
+	Tue,  1 Sep 2026 22:32:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788301967;
+	bh=xs4T+v4dhDD9qslaT4zwYqTAoWlFTIcuNamtJ3hJhrU=;
+	h=From:Subject:Date:To:Cc;
+	b=hiiOqtLQJN6vjIFIml1hsg+DBvaxPLTaokd6RoBWKWpCV1ws7NlXiL+Tt/DHyMgf2
+	 9Y3bzwLINuxsycGiN7fGd3VqDXRURDb95V3FAous+2h59Y1IbtdqZVATElSM153eGo
+	 9W2kiNnai9uEUwIh+13NeHhYxAdsg56SpmY6+xz6T/TJofwJRQ9wj2xBcb+w7g/GOH
+	 +XPrWKn+xnyoWyIO+A1D6b+we+GBtASTNXvSYlW+Jsi49oGoOOvv2wiHrqE1oee4jJ
+	 BM0N+sFkIoelqvQk36iGuNJXL/M2srOEO3l+1N9BN9NG6nIyqZNT/dsEDrc04LrVnL
+	 PsNqQKwSYF1Pg==
+From: Drew Fustini <fustini@kernel.org>
+Subject: [PATCH v7 0/5] riscv: Add Ssqosid and initial CBQRI resctrl
+ support
+Date: Tue, 01 Sep 2026 15:31:46 -0700
+Message-Id: <20260901-dfustini-atl-sc-cbqri-dt-v7-0-ca2935d85622@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
- <20260830-gmem-inplace-conversion-v12-23-85e5fd25252a@google.com>
- <CA+EHjTzALzghuG5J-LFuG5pXJ4WgEfrMHgwkMHnq1U-D6yS7Pg@mail.gmail.com> <apcY5b2o5k04XffH@google.com>
-In-Reply-To: <apcY5b2o5k04XffH@google.com>
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Tue, 1 Sep 2026 23:22:15 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTyUke815MNgCh7kEKw7JEprRG754gHi3UJ6R5RdbuUhyA@mail.gmail.com>
-X-Gm-Features: AcwNN1XG2R0freerIjVIIorEq648d7QWyFSXRnqa21AMKowGv086HSc-AbV0xtQ
-Message-ID: <CA+EHjTyUke815MNgCh7kEKw7JEprRG754gHi3UJ6R5RdbuUhyA@mail.gmail.com>
-Subject: Re: [PATCH v12 23/45] KVM: Let userspace disable per-VM mem
- attributes, enable per-gmem attributes
-To: Sean Christopherson <seanjc@google.com>
-Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Randy Dunlap <rdunlap@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev, 
-	Xiaoyao Li <xiaoyao.li@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFJSl2oC/33QwU7EIBAG4FfZcBYzDBQWT76H8VBg2EU3rUK30
+ Wz67tIaY01jj5P88/2ZubFCOVFhD4cbyzSmkvquDubuwPy57U7EU6gzQ0ANWgAP8VqG1CXeDhd
+ ePPfuPSceBq4E+COhESIEVtffMsX0sdBPz99zuboX8sPszYlzKkOfP5fuUcy5nxr7f80oOHAyt
+ jUGZWwdPL5S7uhy3+cTm3tGXEmodiSsEsYjKBuDBXQbSa6l444kq+StF1JhJOnjRlK/kgG9I6n
+ lusbXKIig1UZqVpLYu66pkoOWDFlvJdJG0isJ9z6uq2Q8ooMmKC3+/mmapi+W3WbORQIAAA==
+X-Change-ID: 20260610-dfustini-atl-sc-cbqri-dt-410c8e2711dd
+To: Adrien Ricciardi <aricciardi@baylibre.com>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
+ Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
+ Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
+ Chen Pei <cp0613@linux.alibaba.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, 
+ Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>, 
+ Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
+ guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
+ =?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
+ Peter Newman <peternewman@google.com>, 
+ =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>, 
+ Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
+ Samuel Holland <samuel.holland@sifive.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
+ Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
+ yunhui cui <cuiyunhui@bytedance.com>, 
+ Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, 
+ Drew Fustini <fustini@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+ linux-doc@vger.kernel.org
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9899; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=USqjFRAb6LIlmnukXbDSN+CGoNtQbT72zrC+MtXY9nI=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWRND+pZp/yo5zB/neqX5Rbb3PPSOeziyidd05gf+JGpp
+ fbW2/jujlIWBjEuBlkxRZZNH/IuLPEK/bpg/ottMHNYmUCGMHBxCsBELp1iZHj98OPlGMdmFguu
+ K2/U9fTm+ZV7H4tNmhJwbnKL9C8rnn2MDJsuux3j50tIPce4JjbVVzCs53LhjexZRh+ab77d/7V
+ wCTMA
+X-Developer-Key: i=fustini@kernel.org; a=openpgp;
+ fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-On Tue, 1 Sept 2026 at 19:26, Sean Christopherson <seanjc@google.com> wrote:
->
-> On Tue, Sep 01, 2026, Fuad Tabba wrote:
-> > Hi Sean, Ackerley,
-> >
-> > On Mon, 31 Aug 2026 at 01:25, Ackerley Tng via B4 Relay
-> > <devnull+ackerleytng.google.com@kernel.org> wrote:
-> > ...
-> > > +       kvm.gmem_in_place_conversion=
-> > > +                       [KVM] Controls whether KVM enables in-place conversion
-> > > +                       support for guest_memfd and tracks the private/shared
-> > > +                       state of memory per guest_memfd instead of per VM.
-> > > +
-> > > +                       If enabled, KVM enables the KVM_SET_MEMORY_ATTRIBUTES2
-> > > +                       ioctl on guest_memfd file descriptors and disables the
-> > > +                       legacy VM-scoped KVM_SET_MEMORY_ATTRIBUTES ioctl for
-> > > +                       private memory state tracking. Only the
-> > > +                       KVM_MEMORY_ATTRIBUTE_PRIVATE attribute moves to
-> > > +                       per-guest_memfd tracking; other attributes remain
-> > > +                       per-VM.
-> > > +
-> > > +                       This parameter toggles KVM's in-place conversion
-> > > +                       capability support. Whether a VMM uses separate backends
-> > > +                       or out-of-place memory management is determined by
-> > > +                       userspace VMM design.
-> > > +
-> > > +                       Note, this parameter is only available when
-> > > +                       CONFIG_KVM_VM_MEMORY_ATTRIBUTES=y. When
-> > > +                       CONFIG_KVM_VM_MEMORY_ATTRIBUTES is not set, in-place
-> > > +                       conversion is unconditionally enabled.
-> > > +
-> > > +                       Default is Y (on).
-> >
-> > The parameter is only settable when CONFIG_KVM_VM_MEMORY_ATTRIBUTES=y, and
-> > in that config gmem_in_place_conversion initialises to
-> > !IS_ENABLED(CONFIG_KVM_VM_MEMORY_ATTRIBUTES), i.e. N, not Y. Is the doc line
-> > wrong, or is N-by-default not what was intended here?
->
-> The doc is wrong.  The intent is to maintain backwards compatibility with existing
-> deployments if KVM_VM_MEMORY_ATTRIBUTES=y.
+This series adds initial RISC-V QoS support: the Ssqosid extension [1]
+(srmcfg CSR), the CBQRI controller interface [2] integrated with resctrl
+[3], and a DT-based platform driver for cache controllers. It has been
+tested on both the Tenstorrent Ascalon Shared Cache controller and a QEMU
+implementation [4].
 
-That explains it. Thanks.
-/fuad
+  qemu-system-riscv64 -M virt,aia=aplic-imsic -nographic -m 1G -smp 8 \
+      -kernel arch/riscv/boot/Image \
+      -append "root=/dev/vda ro console=ttyS0 rootwait" \
+      -drive if=none,file=rootfs.ext2,format=raw,id=hd0 \
+      -device virtio-blk-device,drive=hd0 \
+      -device riscv.cbqri.capacity,max_mcids=256,max_rcids=64,ncblks=16,mmio_base=0x04820000
 
->
-> > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > > index 05c518c9b8078..929fd3e1a01e6 100644
-> > > --- a/virt/kvm/kvm_main.c
-> > > +++ b/virt/kvm/kvm_main.c
-> > > @@ -103,7 +103,10 @@ static bool __ro_after_init allow_unsafe_mappings;
-> > >  module_param(allow_unsafe_mappings, bool, 0444);
-> > >
-> > >  #ifdef kvm_arch_has_private_mem
-> > > -bool __ro_after_init gmem_in_place_conversion = false;
-> > > +bool __ro_after_init gmem_in_place_conversion = !IS_ENABLED(CONFIG_KVM_VM_MEMORY_ATTRIBUTES);
-> > > +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
-> > > +module_param(gmem_in_place_conversion, bool, 0444);
-> > > +#endif
-> > >  EXPORT_SYMBOL_FOR_KVM_INTERNAL(gmem_in_place_conversion);
-> > >  #endif
+Cache allocation can be exercised on the booted system. Mount resctrl
+and read the default schemata. The L2 controller has 16 capacity
+blocks, so the default capacity bitmask (CBM) is 0xffff:
+
+  # mount -t resctrl resctrl /sys/fs/resctrl
+  # cat /sys/fs/resctrl/schemata
+  L2:0=ffff
+
+Write a narrower CBM to a new control group and read it back to confirm
+the L2 controller applied it:
+
+  # mkdir /sys/fs/resctrl/group0
+  # echo "L2:0=ff" > /sys/fs/resctrl/group0/schemata
+  # cat /sys/fs/resctrl/group0/schemata
+  L2:0=ff
+
+Note that this series only implements support for resctrl L2 and L3
+cache resources using CBQRI capacity allocation control. cc_block_mask
+maps onto resctrl's existing cbm schema. However, cc_cunits is not
+supported as there is no existing equivalent for capacity units in the
+resctrl schemata.
+
+I had previously been iterating on an RFC series [5] that did a full
+implementation of CBQRI including capacity monitoring, bandwidth
+allocation and monitoring. The bandwidth controls for CBQRI do not fit
+well into resctrl's existing throttle-based MB schemata. I believe that
+the path forward is Reinette's generic schema description proof of
+concept [6]. My plan is to rebase the full support of CBQRI onto the
+generic schema once it is ready.
+
+This series is based on v7.3-rc1.
+
+[1] https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
+[2] https://github.com/riscv-non-isa/riscv-cbqri/releases/tag/v1.0
+[3] https://docs.kernel.org/filesystems/resctrl.html
+[4] https://github.com/tt-fustini/qemu/tree/riscv-cbqri-cache
+[5] https://lore.kernel.org/linux-riscv/20260601-ssqosid-cbqri-rqsc-v7-0-v6-16-baf00f50028a@kernel.org/
+[6] https://lore.kernel.org/all/aab804b9-e8b5-40ad-a85b-af7033391243@intel.com/
+
+Changes in v7:
+--------------
+- Drop the three Ssqosid patches (dt-bindings description, extension
+  detection, and srmcfg CSR support). They are in mainline as of the
+  v7.3 merge window, so this revision is just the CBQRI driver, the
+  resctrl glue, and the CBQRI binding.
+
+- Rebase from next-20260713 onto v7.3-rc1. The five remaining patches
+  are otherwise unchanged from v6.
+
+- Sashiko review of v6:
+  https://sashiko.dev/#/patchset/20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org
+
+- Link to v6:
+  https://patch.msgid.link/20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org
+
+Changes in v6:
+--------------
+- Introduce the RISCV_CBQRI Kconfig if/endif block in the patch that
+  adds the RISCV_CBQRI_CAPACITY option it guards, rather than as an
+  empty block in an earlier patch.
+
+- Note in cbqri_probe_cc() that the 32 capacity block limit comes from
+  resctrl representing the CBM as a u32.
+
+- Sashiko review of v5:
+  https://sashiko.dev/#/message/20260714-dfustini-atl-sc-cbqri-dt-v5-0-b0ae7e9c932e@kernel.org
+
+- Link to v5:
+  https://patch.msgid.link/20260714-dfustini-atl-sc-cbqri-dt-v5-0-b0ae7e9c932e@kernel.org
+
+Changes in v5:
+--------------
+- Resolve control domain membership from each CPU's cache id in
+  cacheinfo at hotplug, instead of a CPU mask captured at probe.
+
+- Add and remove control domains on the ctrl_domains RCU list
+  following the documented traversal rules.
+
+- Restructure cbqri_resctrl_pick_caches() to select one controller per
+  cache level, which removes the separate dropped[] array and the
+  overloaded NULL controller pointer.
+
+- Initialize the control domain's resource id.
+
+- Drop the inaccurate comment above the stubbed resctrl_arch_*()
+  operations.
+
+- Sashiko review of v4:
+  https://sashiko.dev/#/patchset/20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org
+
+- Link to v4:
+  https://patch.msgid.link/20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org
+
+Changes in v4:
+--------------
+- Register the srmcfg PM notifier even if cpuhp_setup_state() fails in
+  riscv_srmcfg_init(). The early return on failure had skipped it,
+  dropping the srmcfg restore across suspend and resume.
+
+- Make RISCV_CBQRI a user-selectable option that depends on
+  RISCV_ISA_SSQOSID, instead of being selected unconditionally.
+
+- Bound the per-domain control value init by the domain's own
+  controller's RCID count rather than the resource wide count.
+
+- Drop only the affected cache level when capacity controllers at the
+  same level report mismatched capabilities, rather than aborting the
+  whole resctrl setup.
+
+- Use guard(mutex) instead of lock/unlock for cbqri_controllers_lock.
+
+- Read the CBQRI control registers into low and high halves so the
+  access order is explicit and comment on torn reads.
+
+- Clarify in cbqri_resctrl_pick_caches() that the first matching leaf is
+  correct for a unified shared cache.
+
+- Link to v3:
+  https://patch.msgid.link/20260628-dfustini-atl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org
+
+- Sashiko review of v3:
+  https://sashiko.dev/#/patchset/20260628-dfustini-atl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org
+
+Changes in v3:
+--------------
+- riscv,cbqri.yaml:
+  - Require a device-specific compatible so a bare generic compatible
+    is no longer valid on its own.
+  - Rename node name from cache-controller@ to qos-controller@
+  - Rename compatible from tenstorrent,ascalon-sc-cbqri to
+    tenstorrent,ascalon-shared-cache-controller
+
+- Take cbqri_controllers_lock in cbqri_attach_cpu_to_all_ctrls() so a
+  controller probed after boot can't corrupt the cbqri_controllers list.
+
+- Revise comment above riscv_srmcfg_reset_cache() to clarify that the
+  teardown callback is not relied on. The cpuhp startup callback re-arms
+  the per-cpu sentinel, which forces the csr write on a re-onlined CPU.
+
+- Drop the memory fences around the srmcfg CSR write on context switch.
+  Ssqosid does not require the ordering. The brief tagging inaccuracy at
+  the switch boundary is acceptable for QoS.
+
+- Access the CBQRI controller registers with 32-bit reads and writes.
+  The spec only guarantees single-copy atomicity for 4-byte accesses.
+  This also removes the dependency on native 64-bit MMIO.
+
+- Program cc_cunits to 0 before a config limit operation on controllers
+  that support capacity units, so a stale unit limit does not constrain
+  block-mask allocation.
+
+- Link to v2:
+  https://patch.msgid.link/20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org
+
+- Sashiko review of v2:
+  https://sashiko.dev/#/patchset/20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org
+
+Changes in v2:
+--------------
+The changes in this revision address the Sashiko review of v1.
+
+- Restore the srmcfg CSR for the current task on CPU_PM_EXIT and
+  CPU_PM_ENTER_FAILED, so it is not left configured incorrectly until
+  the next context switch.
+
+- Serialize the cbqri_controllers list insert and the boot time walk
+  with a mutex, so an asynchronous driver probe cannot corrupt the list.
+
+- Skip a controller at an unsupported cache level instead of aborting
+  resctrl setup, so valid L2 and L3 controllers still register.
+
+- RISCV_ISA_SSQOSID selects ARCH_HAS_CPU_RESCTRL and RISCV_CBQRI
+  together, so no intermediate commit enables RESCTRL_FS without the
+  CBQRI resctrl glue.
+
+- Rename the RISCV_CBQRI_DRIVER to RISCV_CBQRI, since it builds the
+  CBQRI core ops and resctrl integration rather than a driver.
+
+- Drop the RISCV_CBQRI_DRIVER_DEBUG Kconfig option and rely on dynamic
+  debug to control the pr_debug() output.
+
+- Note: Sashiko flagged the lack of suspend/resume state restore. I will
+  not fix that as register state is only lost when the power domain is
+  gated, which offlines the harts sharing the cache. resctrl reprograms
+  the default capacity mask through the normal control domain online
+  path on resume.
+
+- Link to v1:
+  https://lore.kernel.org/all/20260619-dfustini-atl-sc-cbqri-dt-v1-0-e79a7723fab0@kernel.org/
+
+- Sashiko review of v1:
+  https://sashiko.dev/#/patchset/20260619-dfustini-atl-sc-cbqri-dt-v1-0-e79a7723fab0@kernel.org
+
+---
+Drew Fustini (5):
+      riscv_cbqri: Add capacity controller probe and allocation device ops
+      riscv_cbqri: resctrl: Add cache allocation via capacity block mask
+      riscv: Enable resctrl filesystem for Ssqosid
+      dt-bindings: riscv: Add binding for CBQRI controllers
+      riscv_cbqri: Add CBQRI capacity allocation platform driver
+
+ .../devicetree/bindings/riscv/riscv,cbqri.yaml     |  97 +++
+ MAINTAINERS                                        |   7 +
+ arch/riscv/include/asm/resctrl.h                   | 147 ++++
+ drivers/resctrl/Kconfig                            |  30 +
+ drivers/resctrl/Makefile                           |   5 +
+ drivers/resctrl/cbqri_capacity.c                   | 127 ++++
+ drivers/resctrl/cbqri_devices.c                    | 568 +++++++++++++++
+ drivers/resctrl/cbqri_internal.h                   | 122 ++++
+ drivers/resctrl/cbqri_resctrl.c                    | 785 +++++++++++++++++++++
+ include/linux/riscv_cbqri.h                        |  45 ++
+ 10 files changed, 1933 insertions(+)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20260610-dfustini-atl-sc-cbqri-dt-410c8e2711dd
+
+Best regards,
+--  
+Drew Fustini <fustini@kernel.org>
+
