@@ -1,606 +1,303 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010006.outbound.protection.outlook.com [52.101.85.6])
+Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01FD48BD47;
-	Tue,  1 Sep 2026 17:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527C5495028;
+	Tue,  1 Sep 2026 18:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788285028; cv=fail; b=qWa37DgphPoBVcQy+puQXEa+aP2azg6Ihucagux2pnziRpzDkJmkZz6Wc5ZAAr4BpbjmkH4Tq8YxS6jIfk52yQrNYr/oggJj3aGjxDPagOmQjs03qbrdox1h2f2f2BfzFm35g0+Du27tbCwswJw94sdlG8GDnChiMK95Je0HOX0=
+	t=1788286282; cv=pass; b=NrhOMv3G6+llsf+em5mLgJnssZLF1aKEfZGEbtXAZbLwtrHBNwUUWZHjaXDzvZ5DxJCDDvoEvU6VLgAY7n5V0aWWvDJOpDy1hic3CKWbCJ14fTJiRq6dtc9+dN7UWqDbqMwv+1l4oMX6odQj4BbMjHFuFgfZ8gScMlaq8vNHAEg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788285028; c=relaxed/simple;
-	bh=13CasIIKfMm22MOhfd+i7zMitI6J/gFrIrmO4/VNqpQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GAzyg+ybVFvNlEjLdnAmoHt2ZJJKSagjiL5MPQlD1ky0bD+dCc06gCKiuNnl7HmTnekAL2HTEBD0LuFa+Fh5XCP2d9fpvVypFIqkv8lB8jy6TllqG6fPsOe8rNq7/R1ctCEAEYUta+hgcSEbPoHa5Hf3LhSCSSfCf6fP3BIVs6w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=t6eb6+09; arc=fail smtp.client-ip=52.101.85.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1788286282; c=relaxed/simple;
+	bh=/Sm64l/gKEoc/hF/baMEhZGYtj6f0b8b6wHP1V7CKlo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uXjJqwBQe5K60LwDIh6Llh7gcR8vVT3xRxjVzGdaDxXEn8qgGzPVmDmC6aT2+l1n5cItWqTj+vVc/uNkZIXysdupWdMMF3V2XNwFJ/D06KoQ0HwXFabhbv3n3Bc3mR/Z4MChxbSjACB+RnYp3chztQEnYUQNiWGMB4081kEaN98=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=biFFv58a; arc=pass smtp.client-ip=165.173.180.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="t6eb6+09"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Py46gfmwalfJDnaU1qpAtX7O3b1Ps8nF2MYjL3nK9Puog43kLFAom0Zu1f8bUd8vhy3cEMOe7xGS4EDym06vdSC0TyRFcwuWssTqSB4pfjeTQBH27/Q0F+uMTK41lAYTPta0yNMz9kcLdc1j1pjqzOiPs4NZGeIO5cEj88IyA2It82tJ0wDNUIvS9X2pUHf27lxK1wtnIRyflqSY7sIsoxArT9Mh5fRI/ZEtjxNnB/0Ez+y7GraVu4g0oT0JbFEXRVWlbaqRcocA2kyX/M/Ati1Q7U27Nfhjo1IyuoBvfmvavbSqA00Ofevks9ozYD6leA79R0gMvJHzfUNQwzTk2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LXeEeHTQfsmYOJCPIxYRjposcfjHw9GKBsoeXXvI6nQ=;
- b=XPKaSYqIW7r4t9AnGL1wdGyIWF8Xd2548QTSMlC+ytyq+02TIBAxNozksrW6E63biAoTUM+dhaiHsIDlJ+JDEo7xobS0fba+V3APMGqKuEO9jWjNxDCNLU9+AHbVTtAt1NNjQA77E/Pe1YSiOVezTtwMl+bbuWY9ZvLiurzQKlfiyzuo/8JkNSdRcqf0UMjwrr6tDCvN/a9p7JqS5RB1y02kL2y3Bk/XI3DiE9g2MQ4jrJqP1IoEJa2SoobEd3lpBFbDjfsgbndQQKX9IbMIjuD6NeQ/btvd2YpYyZ2WEJYchQjuIeHJVFXGL8DhTU5ofkY1KHXN6+WRFpEcb52vTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LXeEeHTQfsmYOJCPIxYRjposcfjHw9GKBsoeXXvI6nQ=;
- b=t6eb6+09lg1vrq+HVmaLdSYB96tybQ069Gv++MpUcJ0A7Bk0PcveQk90aJlvCjbatWws21BZ99EoVkXq1K+L+ELURLe1+efWEYO6YGiYaXlgXdEdtErRHvi7bEI3h4MSrSk5L6p17JiUolwuN35Wk86bYVLsiSfdn1Ldulmxww4LZKGgC+dP6K+xlMAHTNWUKjTVaagU8VjAp/zkFCAUW5+hk2qK50JeSwQsprKke1CLI8/oMaHtvdBat6zoZqc6cwb0Bdqg0YO78K1fAuMHa9S6JlGJkItgRCO0T57pTtZwl15YJJBHiT3IbbDQDgN0+47eLLcKHp9dT89hKDWt1Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by SJ2PR12MB8848.namprd12.prod.outlook.com (2603:10b6:a03:537::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.12; Tue, 1 Sep
- 2026 17:50:08 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
- 17:50:08 +0000
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	iommu@lists.linux.dev,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	Mark Rutland <mark.rutland@arm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Will Deacon <will@kernel.org>
-Cc: David Matlack <dmatlack@google.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	patches@lists.linux.dev,
-	Pranjal Shrivastava <praan@google.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	stable@vger.kernel.org,
-	Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
-Subject: [PATCH v5 4/9] iommu/arm-smmu-v3: Optimize range invalidation for latency
-Date: Tue,  1 Sep 2026 14:49:53 -0300
-Message-ID: <4-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
-In-Reply-To: <0-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
-References:
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: YT3PR01CA0066.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:84::17) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="biFFv58a"
+ARC-Seal: i=1; a=rsa-sha256; t=1788286249; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=MH0iTLIfI62hev22mrGOL861jSK8Poj3bShe7iKehGn894CgnaMwVIc/PgF36/+iN7+83RdUMXHgZio8jXMX5UvryfaOwn9Fn9Kfe+WkD5E7NZH4ZAuTnu8dYPuyAtQ7dawu3AKgWM71dTd0qPSaEHHxfs8w6kkfpr4Wj5/hJHk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1788286249; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=VReJGjVul+2UTgrZD0hDzLrdkbRw9+IqZQkZdVHYuZY=; 
+	b=gp6EIEAYfSDQgRVvFEiFIFODYJOwO411BfnNeogPz/Xecr6Xuen6v98KTNsmGHSrHCJltr5EO5ygP8Uux64K1ngQRP43KbHJk6n+oh+6tCFB4uakaDeVP2alCNaQdMl3/09ciwIQUzhK3BsyRmOlt3gzf1gD+Jf6N/jzsTNA1SQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1788286249;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+	bh=VReJGjVul+2UTgrZD0hDzLrdkbRw9+IqZQkZdVHYuZY=;
+	b=biFFv58aofX4ZyVmwfQoCA4o43aTPNNlDjqUve0i9RkEE2H2x/1tDtSaLmkWP/i7
+	j1Jbr6uBx/WTIyl2lYUrfouU1YJVXHBhf+qugIzLsnScM3pMsMCuRAxjlN2jMAUPp5F
+	6S59BTiPCmk4Sdvg6b1SShBXW9SW+4RTVod+k7hfMpQ6CvXCDCyse8wtpAv82d1YPCy
+	lbH+yUlT+6ZIkBT/Uzi6VzvM08n+uz0cAga4Tb40l6x2WSUBnWAJI0E1oF10psFzbVT
+	voksSwrEgKeC9CAxTPyByTw7QJWrk8eSsKv4PDQOk7zzo/8jJGU8U7dNUzE4muyyGf2
+	wQ+I77ZBRQ==
+Received: by mx.zohomail.com with SMTPS id 1788286248248731.4519071550391;
+	Tue, 1 Sep 2026 11:10:48 -0700 (PDT)
+From: Rong Zhang <i@rong.moe>
+Subject: [PATCH v6 00/12] leds: Add support for hardware-initiated hardware
+ control trigger transition
+Date: Wed, 02 Sep 2026 02:09:19 +0800
+Message-Id: <20260902-leds-trigger-hw-changed-v6-0-55693cd78877@rong.moe>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|SJ2PR12MB8848:EE_
-X-MS-Office365-Filtering-Correlation-Id: 669722a1-4d53-4cac-68ff-08df08517363
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|23010399003|10067099003|11063799006|56012099006|3023799007|921020|6133799003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	q3UYksxx1csIHRrTeh+G5GADvzUqtGl0FJI52pc9jVLUdWFC8YMw/saIWozP0wF9ILs/eMN3XhJuH8QgyWxLMYmvSP2fJ5SluvWk6JYIKwMhkXXsGuccGKXYKS2tl5nl/UxHQmm10FduywR1GGgdDX7lw5m2x4vYnaPaz/j+N6Ln1JIXDFsm4E1sITeHvfZTzCbtU8mgIM/kYjZbC8kT34waaipQDY4r1b+wWHTtc698eFpzViOxDWoTgqPhyvpRwOS1srigE7Q2H63li1l183z7qsS0JL07divQq0bw371Mh/Kp21gCJUPHzo0BQG9EpeN6QDR/JSgEKRVRf36bX7A25Kx8pdAMAlWmD7XdzyCVqC4bhumjtWc5MPmXoBQCW9Y22lCf82FRjs/kgMfjd8iJ92a13U6Ib8DmD9Rmc0J5xfnCSu3AsXs+eTGX94JQO+DDYbnn0mk3WKQSyAgfP7HrfZ/YivPA8GDs7gcf9QCvn9z0i+wRwr5c+CsOt0j/33MrQwsELkKCNn+wMPe4kd3UD9vrl2uFXE8gYStTjRWloPlmJBWIijClSUJ9GRzzyTfI2ntYM2N2+ElqUUBBeWiD4GPCr76C4CU+lgZJN9RKo32fMdv0C+LPXg3A68N3mtRFhBvCCNA+T4EIbIBeY+aIX/nG0t4bv8rU/0ASk7TbeUCNQEdEBuzTx7Ngt7myCU66pb5BPDiQ89ri1UEnmA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(23010399003)(10067099003)(11063799006)(56012099006)(3023799007)(921020)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?y5CZR7nflCw/DopIUcZ4t0foYR9RmMq9zSc0/Feu+sKYGXY7QoiK+2uKDI2P?=
- =?us-ascii?Q?OXQmtC/5oCnsgnDncnq0bDNjujFFWY3OqJk/SmvHSjhafLHzY7qo4qQIGQS6?=
- =?us-ascii?Q?JECkkqpTfDjQKgBCjj6hhHBUoc2CZ8JbKU/ERz6Sew+jkOCBn5JInWcGEKp0?=
- =?us-ascii?Q?FhelmNhP9VRWOBSwTHlCnfOEFbWTtd7FuOmzEG2DNUKrG7m08u1bDXmrg3jk?=
- =?us-ascii?Q?waoQpdoH45n8zipjFH2T3JTG5F2s3TspRC/2eBoegNIqA0droon/EdkJXTtO?=
- =?us-ascii?Q?bG/8LuwKgEAZAjNdP4WUh4vzCsY8xGxTFNptrFNQU6bSXqc6chf43TaGUuwT?=
- =?us-ascii?Q?VXLyog7Q2xqHdG60VZnGTlLeIleizeBktvaizmwG8dcLUCCYkfPPHoYIo1h7?=
- =?us-ascii?Q?2++DfvVFIWeaBiFfB7tn5elAyjLtpUZoi14qj3URPNI5/ItfLPJkA7QT0oyV?=
- =?us-ascii?Q?cnFFuH7hrz7KftttiOhm2dVw+13aj2jsnUGRnLD9S8dmG7yzFqYL6RxVOJkA?=
- =?us-ascii?Q?atO8g3BcusFUsUAPH5GGXJ612ZknOmVJMJeWjYGttnyXH1HWYL4NV7t3bW3b?=
- =?us-ascii?Q?aqITAqSSKiRh7RDeTDT/4QRsehk15pgaqldR0yjUt8N53aTy5/mrFzFhtQag?=
- =?us-ascii?Q?hiTemky/eVBbBZB6DbrexKKFdQor+eEGg2Vq1qeBM5mWAXKNLXctWL0xYl5k?=
- =?us-ascii?Q?t4q38dxea2h1sLgPLSDgHf4vW31zq0ciUHIUiG9NzJbYGsJBR8gwNNGgITtK?=
- =?us-ascii?Q?hgdBBN2ReH5A5pzm9dUacOaDb9WtCXyKYaiOals1sCpkON2RGfzpmZADEwvH?=
- =?us-ascii?Q?yUQ8b0qSJ9hwOx2TzbXEdj66D0ON/Wn6HXK/VqBa/kOVOWIHvXZYeWjRQMM9?=
- =?us-ascii?Q?egh5CaJZ5ICfeNr+a2gxHBbIxUn9aGruSQcK5L5YmK1EDMLQ2YHFL7f8AodZ?=
- =?us-ascii?Q?1JXevnZDAWjmKfAbrNejA2pOU78ZxwpLH2YV9WL5ATJg1pVJFnU2sR1pz7xe?=
- =?us-ascii?Q?RfiCG22xWLWyqHvJlGp5OWh1KGgYmRfA8j6iB8O6COMzGPqExyOwuhh0eRMW?=
- =?us-ascii?Q?ryHjIJpoMOIV3SZ4paQETYCepnyCwW2sqJGsFeypN4v5d5Vxj8wyF59dQ/ix?=
- =?us-ascii?Q?oq/pinlxIe2JgZHXaJr8hS4jYHLatsD1Gxj9aYrVmuj90ZB0Vc5ua5+mVJXf?=
- =?us-ascii?Q?ttXdPZ2miDzQ6RBVBfSDD21uReYnA2k7aqx9GOFMAKfM4cxVfZfG74YW6xM3?=
- =?us-ascii?Q?x68CJBztoOSMBG9Ha+t/ZJ+i1Wfr6sQFEDQBQLP/TDE0ks+UHiUuwnx8Igdd?=
- =?us-ascii?Q?TE3nK4ZZOJ8no18XVHWDg1W8wEED08FfxCPROiFdXdLH+jzSUQ2J3CvYTyfK?=
- =?us-ascii?Q?+K3Qlre/iAQjHC9zsn5IY8SEinTmHx02E0fygqUpMKntlsTfc9mn/+Ic3eAX?=
- =?us-ascii?Q?5+jBpkN+VwkK/7UU0mkRneKkBRnqx76bgNxvv58zHQ+CMGsFw/JrsYyEHo4+?=
- =?us-ascii?Q?zlLldxcaO2cyQZslt/N3w0HqqTTctsyBP9PdN+lINyRfnRM+M6pg92KqoAje?=
- =?us-ascii?Q?75uWxbUakGaVwOUQyUqmSfnK9D8YScrAYL1v9/vgyjoo9vq+taC4TzwNL75g?=
- =?us-ascii?Q?1bVyKmX4RyXcSXBzh0WlWzntSNNka4Vq0+3OLNNgBfH3xgyaDkuhJXqbuiCB?=
- =?us-ascii?Q?0t2jY34IHSOWy2EVguUpzB/NBmVFFRwDmzXM//hMLA/B43Ja?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 669722a1-4d53-4cac-68ff-08df08517363
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 17:50:03.3548
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: toNRNjvrPhtViwBpZUDPLeD8Po6t1qLFSp+Sk0tyG6mKuBlfc7D0j7ns4P/dHCCy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8848
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XRQW7DIBAF0KtErEuFBxhDV71HlIUNg03V2i04b
+ qvIdy+OKyWK5OWXPu9Lw4VlSpEyezlcWKI55jgOJeDTgbm+GTri0ZfMQAAKLZC/k898SrHrKPH
+ +m28tzy02CJUxrvWBldefiUL8ucrH05bzuX0jN63c2uhjnsb0e52eYe1tK1iZ3ZUZuOAOjFNKa
+ OmCfE3j0D1/jMTWkVnemLqy+4wsjA6t1jUASaQHRt0YI2CfUYUJtiZwja0xPDL6joFqn9GFkSS
+ ER6caK/GOWbbTJfo6l7+Z/u+5LH9lT8K0uQEAAA==
+X-Change-ID: 20260506-leds-trigger-hw-changed-96a62188cbdf
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>, 
+ Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Ike Panhc <ikepanhc@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, 
+ Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar <vsankar@lenovo.com>, 
+ linux-leds@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+ Rong Zhang <i@rong.moe>
+X-Mailer: b4 0.17-dev-1f2f7
+X-ZohoMailClient: External
 
-The server IOMMU drivers focus on invalidation latency by default,
-over-invalidating if necessary, to round the invalidation range up to a
-single command. I think this represents a trade off for DMA non-FQ and SVA
-where stalling the operation is overall worse than re-loading the IOTLB.
+Some laptops can tune their keyboard backlight according to ambient
+light sensors (auto mode). This capability is essentially a hardware
+control trigger. Meanwhile, such laptops also offer a shrotcut for
+cycling through brightness levels and auto mode. For example, on
+ThinkBook, pressing Fn+Space ("shortcut") cycles keyboard backlight
+levels in the following sequence:
 
-For instance AMD and VT-d both round the range up to the largest aligned
-power of two and invalidate that. This causes over-invalidation but that
-is preferred on real HW over trying to issue a number of smaller
-range invalidations.
+  1 => 2 => 0 => auto => 1 ...
 
-SMMUv3 on the other hand will try to do up to 512 single invalidations,
-otherwise falls back to full invalidation, or it will try to issue an
-string of RIL invalidations for every 5 bits of IOVA range to perfectly
-cover it.
+Recent ThinkPad models should have similar sequence too.
 
-While the RIL optimization is pretty good we can still do better and
-reduce it to only 2 invalidations at maximum using the idea Robin came up
-with to overlap two RILs in the middle. This preserves the exact coverage
-of the current RIL and still caps the number of RILs at 2.
+However, there are some issues preventing us from using a private
+hardware control trigger:
 
-This works because the RIL can start at any IOVA, so we can place a RIL
-forwards from the start and backwards from the end, overlapping in the
-middle if the scale isn't precise enough.
+1. We want a mechanism to tell userspace which trigger is the hardware
+   control one, so that userspace can determine if auto mode is on/off,
+   as well as turing it on/off programmatically without obtaining the
+   trigger's name via other channels
+2. Writing brightness has the side effect of disabling hardware control,
+   but the hardware control trigger remains active, resulting in the
+   software and hardware being out of sync. Most LED drivers that
+   supports hardware control also suffer from the same issue
+3. Turing on/off auto mode via the shortcut cannot activate/deactivate
+   the corresponding hardware control trigger, making the software state
+   out of sync
+4. Even with #3 solved, deactivating the hardware control trigger has
+   the side effect of emitting LED_OFF, breaking the shortcut cycle,
+   especially "auto => 1"
 
-In the cases where this produces 2 RILS it continues to produce RILs that
-don't overlap, but the exact split point is different than the original
-algorithm due to the new calculation method. In cases where the original
-algorithm would produce 3 or more RILs this will produce 2 RILS with an
-overlap.
+This series tries to demonstrate a path on solving these issues:
 
-The SVA under invalidation errata work around is maintained by "rounding up" to
-generate a single RIL that over-covers the entire range.
+- Introduce an attribute "trigger_may_offload", so that userspace can
+  determine:
+  - if the LED device supports hardware control (supported => visible)
+  - which trigger is the hardware control trigger selected by the LED
+    device
+  - if the trigger is selected ("<foo_trigger>")
+  - if the trigger is offloaded ("[foo_trigger]")
+    - A callback offloaded() is added so that LED triggers can report
+      their hardware control state
+- Remove hardware control trigger when writing brightness
+- Add led_trigger_notify_hw_control_changed() interface, so that LED
+  drivers can notify the LED core about hardware-initiated hardware
+  control transitions. The LED core will then determine if the
+  transition is allowed and switching between "none" (i.e., no trigger)
+  and the device's private trigger accordingly
+  - This capability is restricted to the device's private trigger. If
+    the current trigger is neither the private trigger nor "none", no
+    transition will be made
+  - This interface is gated behind Kconfig LEDS_TRIGGERS_HW_CHANGED and
+    LED device flag LED_TRIG_HW_CHANGED
+- Tune the logic of trigger deactivation so that it won't emit LED_OFF
+  when the deactivation is triggered by hardware
 
-Since the normal path is now the only one with a loop, split them into two
-functions and fold a simplified version of arm_smmu_inv_size_too_big()
-directly into the normal flow in a way that directly limits the number of
-single invalidation commands generated, again focusing on controlling
-latency.
+The last three patches are included in the series to demonstrate how
+these interfaces are supposed to be utilized, so that ideapad-laptop
+can expose the auto mode of ThinkBook's keyboard backlight. They can be
+submitted separately once the dust settles, if preferred.
 
-The end result is any gather is converted into either:
- - One invalidate all
- - One or two range invalidate ops
- - At most 512 single invalidation ops
+The last patch in the series depends on commit 5029bff09e79
+("platform/x86: ideapad-laptop: Fix driver unregistration order") from
+platform-drivers-x86/for-next. 
 
-arm_smmu_domain_inv() is modified to always pass in the tgsz because the
-new logic relies on it being valid.
+[ Summary of other approaches ]
 
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+< custom attribute >
+
+Pros:
+- simplicity, KISS
+- no need to touch the LED core
+- extensible as long as it has a sensor-neutral name
+  - a sensor-related name could potentially lead to a mess if a future
+    device implements auto mode based on multiple different sensors
+
+Cons:
+- must have zero influence on brightness_set[_blocking] callbacks
+  in order not to break triggers
+  - potential interference with triggers and the brightness attribute,
+    can't solve #2
+- weird semantic (an attribute other than "brightness" and "trigger"
+  changes the brightness)
+
+< private hardware control trigger (this series) >
+
+Pros:
+- mutually exclusive with other triggers and the brightness attribute
+  (hence less chaos)
+- semantic correctness
+- acts as an aggregate switch to turn on/off auto mode even a future
+  device implements auto mode based on multiple different sensors
+  - extensibility (through trigger attributes)
+
+Cons:
+- complexity
+
+[ Previous discussion threads ]
+
+https://lore.kernel.org/r/08580ec5-1d7b-4612-8a3f-75bc2f40aad2@app.fastmail.com
+https://lore.kernel.org/r/1dbfcf656cdb4af0299f90d7426d2ec7e2b8ac9e.camel@rong.moe
+
+Acked-by: Ike Panhc <ikepanhc@gmail.com>
+Signed-off-by: Rong Zhang <i@rong.moe>
 ---
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 354 ++++++++++++--------
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |   3 +-
- 2 files changed, 210 insertions(+), 147 deletions(-)
+Changes in v6:
+- New patch in the series to address a concern from Sashiko
+  - [PATCH 1] leds: class: Always protect brightness_show() with led_access
+  - https://sashiko.dev/#/patchset/20260821-leds-trigger-hw-changed-v5-0-3e00d6c4a936@rong.moe?part=7
+- Update Date: and KernelVersion: for the document of
+  /sys/class/leds/<led>/trigger_may_offload
+- Implement workqueue deferal mechanism
+  - Protects ideapad_kbd_bl_led_cdev_brightness_set() with the new mutex
+    as well
+  - No longer convert last_hw_brightness into atomic_t as it's not
+    required now
+  - https://msgid.link/e2b081dfd8f96511a73b86ab3ec75e5cd759b79b.camel@rong.moe
+- Simplify the auto mode state preservation logic by converting
+  `priv->kbd_bl.initialized' into a tristate integer
+- Link to v5: https://patch.msgid.link/20260821-leds-trigger-hw-changed-v5-0-3e00d6c4a936@rong.moe
 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 6413eb4021ce22..9b79d7a5389812 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -2460,166 +2460,219 @@ static void arm_smmu_tlb_inv_context(void *cookie)
- 	arm_smmu_domain_inv(smmu_domain);
- }
- 
--static void arm_smmu_cmdq_batch_add_range(struct arm_smmu_device *smmu,
-+/*
-+ * Check address alignment for TTL hint per SMMUv3 H.a Section 4.4.1.
-+ * Address bits below the alignment must be zero, otherwise UNPREDICTABLE.
-+ */
-+static bool arm_smmu_ttl_addr_aligned(u64 address, unsigned int tg,
-+				      unsigned int ttl)
-+{
-+	unsigned int pgsz_lg2 = (tg - 3) * (3 - ttl) + tg;
-+
-+	return !(address & GENMASK_U64(pgsz_lg2 - 1, 0));
-+}
-+
-+struct arm_smmu_ril_range {
-+	u64 start_tg;
-+	/* Normal integer, not encoded. 0 means 0.*/
-+	u64 num;
-+	unsigned int scale;
-+};
-+
-+/*
-+ * Initialize the smallest RIL covering num_tg and ending at last_tg.
-+ */
-+static struct arm_smmu_ril_range arm_smmu_ril_init_end(u64 last_tg, u64 num_tg)
-+{
-+	struct arm_smmu_ril_range ril = {};
-+
-+	if (!num_tg)
-+		return ril;
-+
-+	ril.scale = fls64((num_tg - 1) / 32);
-+	ril.num = DIV_ROUND_UP_ULL(num_tg, 1ULL << ril.scale);
-+	ril.start_tg = last_tg - ((ril.num << ril.scale) - 1);
-+	return ril;
-+}
-+
-+static void arm_smmu_cmdq_batch_add_ril(struct arm_smmu_device *smmu,
-+					struct arm_smmu_cmdq_batch *cmds,
-+					struct arm_smmu_cmd *ref_cmd,
-+					bool leaf_only,
-+					const struct arm_smmu_ril_range *ril,
-+					u8 ttl, u8 tg_enc)
-+{
-+	struct arm_smmu_cmd cmd;
-+	unsigned int tgsz_lg2 = tg_enc * 2 + 10;
-+	u64 iova = ril->start_tg << tgsz_lg2;
-+	unsigned int num = ril->num - 1;
-+
-+	/* 16K granule TTL=1 is reserved (Section 4.4.1) */
-+	if (WARN_ON(tgsz_lg2 == 14 && ttl == 1))
-+		ttl = 0;
-+
-+	/* Verify address alignment for the TTL hint */
-+	if (ttl && !arm_smmu_ttl_addr_aligned(iova, tgsz_lg2, ttl))
-+		ttl = 0;
-+
-+	/*
-+	 * SMMUv3 H.a Section 4.4.1: TG!=0, NUM==0, SCALE==0, TTL==0 is Reserved
-+	 * and causes CERROR_ILL. Single tg uses NUM=0, SCALE=0 with a TTL hint
-+	 * to target only the exact leaf entry.
-+	 *
-+	 * For a single tg invalidation a 0 TTL can come from places like the
-+	 * SVA path that don't have enough information to get a TTL, or as a
-+	 * side of effect of the splitting.
-+	 *
-+	 * A single-TG invalidation cannot reach this point if it is part of a
-+	 * CONT group, so it is safe to transform it into a single invalidation.
-+	 * The ARM_SMMU_OPT_FULL_CONT_RIL errata does not apply.
-+	 */
-+	if (!num && !ril->scale && !ttl)
-+		tg_enc = 0;
-+
-+	cmd.data[0] = ref_cmd->data[0] | FIELD_PREP(CMDQ_TLBI_0_NUM, num) |
-+		      FIELD_PREP(CMDQ_TLBI_0_SCALE, ril->scale);
-+	cmd.data[1] = ref_cmd->data[1] |
-+		      FIELD_PREP(CMDQ_TLBI_1_LEAF, leaf_only) |
-+		      FIELD_PREP(CMDQ_TLBI_1_TTL, ttl) |
-+		      FIELD_PREP(CMDQ_TLBI_1_TG, tg_enc) | iova;
-+	arm_smmu_cmdq_batch_add_cmd_p(smmu, cmds, &cmd);
-+}
-+
-+/*
-+ * Issue up to two range TLBI commands covering [iova, iova+size). Returns true
-+ * if successful, false if the range is too large to fit into RIL commands.
-+ *
-+ * Normally the first RIL is the largest representable span which does not
-+ * exceed the requested range. If necessary, the second RIL is the smallest
-+ * representable range covering the remainder and is anchored at the end. Any
-+ * excess coverage from the second RIL overlaps the first instead of exceeding
-+ * the requested range.
-+ *
-+ * If a SVA is being invalidated and the SMMU has the ARM_SMMU_OPT_FULL_CONT_RIL
-+ * errata this produces only a single RIL and overinvalidates to ensure any
-+ * potential CONT is covered with a single RIL.
-+ */
-+static bool arm_smmu_cmdq_batch_add_range(struct arm_smmu_device *smmu,
- 					  struct arm_smmu_cmdq_batch *cmds,
- 					  struct arm_smmu_cmd *cmd,
- 					  struct arm_smmu_tlbi *tlbi)
- {
--	size_t inv_range = tlbi->iopte_size;
--	unsigned long iova = tlbi->iova;
--	unsigned long end = iova + tlbi->size;
--	unsigned long num_pages = 0;
--	u8 tg = tlbi->tgsz_lg2;
--	u64 orig_data0 = cmd->data[0];
--	u8 ttl = 0, tg_enc = 0;
-+	u8 tgsz_lg2 = tlbi->tgsz_lg2;
-+	struct arm_smmu_ril_range first = { .start_tg = tlbi->iova >>
-+							tgsz_lg2 };
-+	u64 last_tg = (tlbi->iova + tlbi->size - 1) >> tgsz_lg2;
-+	u64 num_tg = last_tg - first.start_tg + 1;
-+	u8 tg_enc = (tgsz_lg2 - 10) / 2;
-+	struct arm_smmu_ril_range trail;
-+	u8 ttl = 0;
- 
--	if (WARN_ON_ONCE(!tlbi->size))
--		return;
--
--	if (smmu->features & ARM_SMMU_FEAT_RANGE_INV) {
--		num_pages = tlbi->size >> tg;
--
--		/* Convert page size of 12,14,16 (log2) to 1,2,3 */
--		tg_enc = (tg - 10) / 2;
--
--		/*
--		 * Determine what level the granule is at. For non-leaf, both
--		 * io-pgtable and SVA pass a nominal last-level granule because
--		 * they don't know what level(s) actually apply, so ignore that
--		 * and leave TTL=0. However for various errata reasons we still
--		 * want to use a range command, so avoid the SVA corner case
--		 * where both scale and num could be 0 as well.
--		 */
--		if (tlbi->leaf_only)
--			ttl = 4 - ((ilog2(tlbi->iopte_size) - 3) / (tg - 3));
--		else if ((num_pages & CMDQ_TLBI_RANGE_NUM_MAX) == 1)
--			num_pages++;
--	}
--
--	while (iova < end) {
--		if (smmu->features & ARM_SMMU_FEAT_RANGE_INV) {
--			/*
--			 * On each iteration of the loop, the range is 5 bits
--			 * worth of the aligned size remaining.
--			 * The range in pages is:
--			 *
--			 * range = (num_pages & (0x1f << __ffs(num_pages)))
--			 */
--			unsigned long scale, num;
--
--			/* Determine the power of 2 multiple number of pages */
--			scale = __ffs(num_pages);
--
--			/* Determine how many chunks of 2^scale size we have */
--			num = (num_pages >> scale) & CMDQ_TLBI_RANGE_NUM_MAX;
--
--			/* Keep the pre-DS 5-bit truncation when scale > 31 */
--			cmd->data[0] = orig_data0 |
--				FIELD_PREP(CMDQ_TLBI_0_NUM, num - 1) |
--				FIELD_PREP(CMDQ_TLBI_0_SCALE, scale & 0x1f);
--
--			/* range is num * 2^scale * pgsize */
--			inv_range = num << (scale + tg);
--
--			/* Clear out the lower order bits for the next iteration */
--			num_pages -= num << scale;
--		}
--
--		/*
--		 * IPA has fewer bits than VA, but they are reserved in the
--		 * command and something would be very broken if iova had them
--		 * set.
--		 */
--		cmd->data[1] = FIELD_PREP(CMDQ_TLBI_1_LEAF, tlbi->leaf_only) |
--			       FIELD_PREP(CMDQ_TLBI_1_TTL, ttl) |
--			       FIELD_PREP(CMDQ_TLBI_1_TG, tg_enc) |
--			       (iova & ~GENMASK_U64(11, 0));
--
--		arm_smmu_cmdq_batch_add_cmd_p(smmu, cmds, cmd);
--		iova += inv_range;
--	}
--}
--
--/*
-- * Generate a RIL for ARM_SMMU_OPT_FULL_CONT_RIL by ensuring the entire SVA
-- * requested range is covered with a single RIL command. The scale is adjusted
-- * so that the RIL may extend past the end of the requested range. This ensures
-- * that any CONT the MM is invalidating is covered by a single RIL. TTL and LEAF
-- * are always 0 because this is only used by SVA.
-- */
--static bool arm_smmu_cmdq_batch_add_ril(struct arm_smmu_device *smmu,
--					struct arm_smmu_cmdq_batch *cmds,
--					struct arm_smmu_cmd *cmd,
--					unsigned long iova, size_t size,
--					u8 tgsz_lg2)
--{
--	u64 cur_tg = iova >> tgsz_lg2;
--	u64 num_tg = ((iova + size - 1) >> tgsz_lg2) - cur_tg + 1;
--	unsigned int scale = fls64((num_tg - 1) / 32);
--
--	if (scale > 31)
--		return false;
--
--	cmd->data[0] |=
--		FIELD_PREP(CMDQ_TLBI_0_NUM,
--			   DIV_ROUND_UP_ULL(num_tg, 1ULL << scale) - 1) |
--		FIELD_PREP(CMDQ_TLBI_0_SCALE, scale);
--	cmd->data[1] = FIELD_PREP(CMDQ_TLBI_1_TG, (tgsz_lg2 - 10) / 2) |
--		       (cur_tg << tgsz_lg2);
--	arm_smmu_cmdq_batch_add_cmd_p(smmu, cmds, cmd);
--	return true;
--}
--
--static bool arm_smmu_inv_size_too_big(struct arm_smmu_device *smmu,
--				      struct arm_smmu_tlbi *tlbi)
--{
--	size_t max_tlbi_ops;
--
--	/* 0 size means invalidate all */
--	if (!tlbi->size || tlbi->size == SIZE_MAX)
--		return true;
--
--	if (smmu->features & ARM_SMMU_FEAT_RANGE_INV)
-+	if (!tlbi->size)
- 		return false;
- 
- 	/*
--	 * Borrowed from the MAX_TLBI_OPS in arch/arm64/include/asm/tlbflush.h,
--	 * this is used as a threshold to replace "size_opcode" commands with a
--	 * single "nsize_opcode" command, when SMMU doesn't implement the range
--	 * invalidation feature, where there can be too many per-granule TLBIs,
--	 * resulting in a soft lockup.
-+	 * Determine what level the granule is at. For non-leaf, both
-+	 * io-pgtable and SVA pass a nominal last-level granule because they
-+	 * don't know what level(s) actually apply, so leave TTL=0.
- 	 */
--	max_tlbi_ops = 1 << (ilog2(tlbi->iopte_size) - 3);
--	return tlbi->size >= max_tlbi_ops * tlbi->iopte_size;
-+	if (tlbi->leaf_only)
-+		ttl = 4 - ((ilog2(tlbi->iopte_size) - 3) / (tgsz_lg2 - 3));
-+
-+	/*
-+	 * The spec defines the invalidated range as:
-+	 *   Range = ((NUM+1) * 2^SCALE) * Translation_Granule_Size
-+	 * NUM is 5 bits, so (NUM+1) covers 1..32 granules. Find the smallest
-+	 * SCALE at which a single command could cover num_tg.
-+	 *
-+	 * Unlike other IOMMUs the spec has no alignment requirement on the
-+	 * address beyond alignment to tg (so long as TTL=0).
-+	 */
-+	first.scale = fls64((num_tg - 1) / 32);
-+	if (first.scale > 31) {
-+		/* Range too large for a single command do full invalidation */
-+		return false;
-+	}
-+
-+	if (tlbi->has_cont && (smmu->options & ARM_SMMU_OPT_FULL_CONT_RIL)) {
-+		/*
-+		 * Produce a single invalidation by rounding up and disabling
-+		 * the trailer.
-+		 */
-+		first.num = DIV_ROUND_UP_ULL(num_tg, 1ULL << first.scale);
-+		trail.num = 0;
-+	} else {
-+		/*
-+		 * Produce two invalidations by rounding down and adding a
-+		 * second trailing RIL anchored at the end.
-+		 */
-+		first.num = num_tg >> first.scale;
-+		trail = arm_smmu_ril_init_end(
-+			last_tg, num_tg - ((u64)first.num << first.scale));
-+	}
-+	arm_smmu_cmdq_batch_add_ril(smmu, cmds, cmd, tlbi->leaf_only, &first,
-+				    ttl, tg_enc);
-+
-+	if (trail.num)
-+		arm_smmu_cmdq_batch_add_ril(smmu, cmds, cmd, tlbi->leaf_only,
-+					    &trail, ttl, tg_enc);
-+	return true;
- }
- 
--/* Used by non INV_TYPE_ATS* invalidations */
--static void arm_smmu_inv_to_cmdq_batch(struct arm_smmu_inv *inv,
-+/*
-+ * One TLBI command per IOTLB entry, assuming the entries are all at least
-+ * iopte_granule sized. Returns false if too many commands would be needed which
-+ * indicates too high a latency. The threshold is similar to MAX_DVM_OPS in
-+ * arch/arm64/include/asm/tlbflush.h for the 4k PAGE_SIZE.
-+ */
-+static bool arm_smmu_cmdq_batch_add_single(struct arm_smmu_device *smmu,
-+					   struct arm_smmu_cmdq_batch *cmds,
-+					   struct arm_smmu_cmd *cmd,
-+					   struct arm_smmu_tlbi *tlbi)
-+{
-+	unsigned long num_ops = tlbi->size / tlbi->iopte_size;
-+	unsigned long iova = tlbi->iova;
-+	unsigned long i;
-+
-+	if (!num_ops || num_ops > 512)
-+		return false;
-+
-+	for (i = 0; i < num_ops; i++) {
-+		cmd->data[1] = FIELD_PREP(CMDQ_TLBI_1_LEAF, tlbi->leaf_only) |
-+			       (iova & ~GENMASK_U64(11, 0));
-+		arm_smmu_cmdq_batch_add_cmd_p(smmu, cmds, cmd);
-+		iova += tlbi->iopte_size;
-+	}
-+	return true;
-+}
-+
-+static void arm_smmu_inv_all_cmd(struct arm_smmu_inv *inv,
-+				 struct arm_smmu_cmdq_batch *cmds,
-+				 struct arm_smmu_cmd *cmd)
-+{
-+	u64p_replace_bits(&cmd->data[0], inv->nsize_opcode, CMDQ_0_OP);
-+	arm_smmu_cmdq_batch_add_cmd_p(inv->smmu, cmds, cmd);
-+}
-+
-+/*
-+ * Used by non INV_TYPE_ATS* invalidations. Returns true if it fell back to
-+ * full invalidation using nsize_opcode.
-+ */
-+static bool arm_smmu_inv_to_cmdq_batch(struct arm_smmu_inv *inv,
- 				       struct arm_smmu_cmdq_batch *cmds,
- 				       struct arm_smmu_cmd *cmd,
- 				       struct arm_smmu_tlbi *tlbi)
- {
--	struct arm_smmu_cmd nsize_cmd;
--
--	if (arm_smmu_inv_size_too_big(inv->smmu, tlbi))
--		goto full_inv;
--
--	if (tlbi->has_cont && tlbi->size > tlbi->iopte_size &&
--	    (inv->smmu->options & ARM_SMMU_OPT_FULL_CONT_RIL)) {
--		if (!arm_smmu_cmdq_batch_add_ril(inv->smmu, cmds, cmd,
--						 tlbi->iova, tlbi->size,
--						 tlbi->tgsz_lg2))
--			goto full_inv;
--		return;
-+	if (inv->smmu->features & ARM_SMMU_FEAT_RANGE_INV) {
-+		if (arm_smmu_cmdq_batch_add_range(inv->smmu, cmds, cmd, tlbi))
-+			return false;
-+	} else {
-+		if (arm_smmu_cmdq_batch_add_single(inv->smmu, cmds, cmd, tlbi))
-+			return false;
- 	}
- 
--	arm_smmu_cmdq_batch_add_range(inv->smmu, cmds, cmd, tlbi);
--	return;
--
--full_inv:
--	nsize_cmd = *cmd;
--	u64p_replace_bits(&nsize_cmd.data[0], inv->nsize_opcode, CMDQ_0_OP);
--	arm_smmu_cmdq_batch_add_cmd_p(inv->smmu, cmds, &nsize_cmd);
-+	arm_smmu_inv_all_cmd(inv, cmds, cmd);
-+	return true;
- }
- 
- static inline bool arm_smmu_invs_end_batch(struct arm_smmu_inv *cur,
-@@ -2641,6 +2694,7 @@ static inline bool arm_smmu_invs_end_batch(struct arm_smmu_inv *cur,
- static void __arm_smmu_domain_inv_range(struct arm_smmu_tlbi *tlbi,
- 					struct arm_smmu_invs *invs)
- {
-+	struct arm_smmu_inv *used_s12_vmall = NULL;
- 	struct arm_smmu_cmdq_batch cmds = {};
- 	struct arm_smmu_inv *cur;
- 	struct arm_smmu_inv *end;
-@@ -2674,11 +2728,19 @@ static void __arm_smmu_domain_inv_range(struct arm_smmu_tlbi *tlbi,
- 		case INV_TYPE_S2_VMID:
- 			cmd = arm_smmu_make_cmd_tlbi(cur->size_opcode,
- 						     0, cur->id);
--			arm_smmu_inv_to_cmdq_batch(cur, &cmds, &cmd, tlbi);
-+			if (arm_smmu_inv_to_cmdq_batch(cur, &cmds, &cmd, tlbi))
-+				used_s12_vmall = cur + 1;
- 			break;
- 		case INV_TYPE_S2_VMID_S1_CLEAR:
--			/* CMDQ_OP_TLBI_S12_VMALL already flushed S1 entries */
--			if (arm_smmu_inv_size_too_big(cur->smmu, tlbi))
-+			/*
-+			 * S2_VMID used CMDQ_OP_TLBI_S12_VMALL which already
-+			 * flushed S1 entries. These two types always come in
-+			 * pairs and arm_smmu_inv_cmp() ensures that they are
-+			 * consecutive in the list for the same SMMU. There may
-+			 * be several pairings so check this is paired with the
-+			 * one that did the full invalidation.
-+			 */
-+			if (used_s12_vmall == cur)
- 				break;
- 			arm_smmu_cmdq_batch_add_cmd(
- 				smmu, &cmds,
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-index 3e7f94339ab60e..8b075e05d900aa 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-@@ -1173,7 +1173,8 @@ void arm_smmu_domain_inv_range(struct arm_smmu_domain *smmu_domain,
- 
- static inline void arm_smmu_domain_inv(struct arm_smmu_domain *smmu_domain)
- {
--	arm_smmu_domain_inv_range(smmu_domain, 0, 0, 0, false);
-+	arm_smmu_domain_inv_range(smmu_domain, 0, 0, 1 << smmu_domain->tgsz_lg2,
-+				  false);
- }
- 
- void __arm_smmu_cmdq_skip_err(struct arm_smmu_device *smmu,
--- 
-2.43.0
+Changes in v5:
+- Address a concern from Sashiko:
+  - Non-atomic update of led_cdev->flags causes a data race that can
+    drop the LED_UNREGISTERING flag
+  - Fix it by synchronize the update with trigger_lock
+  - https://sashiko.dev/#/patchset/20260802-leds-trigger-hw-changed-v4-0-f97e2ca976fe@rong.moe?part=8
+- Address a concern from Sashiko:
+  - led_trigger_notify_hw_control_changed() might sleep, but without any
+    internal deferral mechanism or annotation
+  - Annotate the method with might_sleep(), since the very first users
+    of the interface, i.e., ideapad-laptop and (supposedly)
+    thinkpad_acpi, will call the interface from work contexts. It does
+    not deserve the overhead of internal deferral mechanism
+  - https://sashiko.dev/#/patchset/20260802-leds-trigger-hw-changed-v4-0-f97e2ca976fe@rong.moe?part=9
+- Update "Changes in v4" to include more details
+- Link to v4: https://patch.msgid.link/20260802-leds-trigger-hw-changed-v4-0-f97e2ca976fe@rong.moe
+
+Changes in v4:
+- Drop the RFC prefix
+- Add a new patch in the series to address a concern from Sashiko
+  - [PATCH v4 08/12] leds: trigger: Do not attach trigger to a removing LED
+  - Without it, the following patch may expose a race condition if a
+    future LED driver synchronizes led_classdev_unregister() and
+    led_trigger_notify_hw_control_changed() poorly. The ideapad-laptop
+    patches in the series doesn't expose the race condition though
+  - In theory, the race condition can also be triggered by a userspace
+    program writing to the "trigger" attribute right before
+    device_unregister() is called
+  - https://sashiko.dev/#/patchset/20260719-leds-trigger-hw-changed-v3-0-5fb55722e36e@rong.moe
+- Address other concerns from Sashiko
+  - Reject insane hardware brightness
+  - Do not notify the LED trigger core when the registration of the
+    private trigger has failed
+- Enable LEDS_TRIGGERS_HW_CHANGED by default when
+  LEDS_BRIGHTNESS_HW_CHANGED is enabled
+- Add missing #include (Thanks Ilpo Järvinen)
+- Remove needless #include (ditto)
+- Remove needless code alignment (ditto)
+- Link to v3: https://patch.msgid.link/20260719-leds-trigger-hw-changed-v3-0-5fb55722e36e@rong.moe
+
+Changes in v3:
+- Integrate https://lore.kernel.org/all/20260712-leds-hw-control-brightness-set-v1-1-1de593b09d26@rong.moe/
+  into the series
+  - Adopt __led_trigger_is_hw_controlled() in the rest of the series
+- Rearrange the series so that the code using the offloaded() callback is
+  introduced before the driver implementation (thanks Thomas Weißschuh)
+- Reword documentations and commit messages (ditto)
+- Adopt guard() and lockdep (ditto)
+- Address concerns from Sashiko
+  - Fix a race condition in ideapad_kbd_bl_led_cdev_brightness_set()
+  - Fix trigger re-registration of ideapad_kbd_bl_auto_trigger
+  - https://sashiko.dev/#/patchset/20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3%40rong.moe
+- Make registration failures of ideapad_kbd_bl_auto_trigger non-fatal
+- Link to v2: https://patch.msgid.link/20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3@rong.moe
+
+Changes in v2:
+- Restrict the led_trigger_notify_hw_control_changed() interface to
+  private triggers only
+  - Drop PATCH v1 1/9 ("leds: Load trigger modules on-demand if used as
+    hw control trigger"), not relavant any more
+- Gate the led_trigger_notify_hw_control_changed() interface behind
+  Kconfig LEDS_TRIGGERS_HW_CHANGED and LED device flag
+  LED_TRIG_HW_CHANGED
+- Fix lock ordering inversion
+- ideapad-laptop:
+  - Only call led_trigger_notify_hw_control_changed() when needed
+  - Serialize keyboard backlight notifications
+- Reword commit messages and documentations
+- Link to v1: https://patch.msgid.link/20260227190617.271388-1-i@rong.moe
+
+---
+Rong Zhang (12):
+      leds: class: Always protect brightness_show() with led_access
+      leds: Move led_trigger_is_hw_controlled() to the right place
+      leds: class: Remove hardware control trigger when writing brightness
+      leds: trigger: Add offloaded() callback and provide trigger_may_offload attribute
+      leds: cros_ec: Implement offloaded() trigger callback
+      leds: turris-omnia: Implement offloaded() trigger callback and declare hw_control_trigger
+      leds: trigger: netdev: Implement offloaded() callback
+      leds: trigger: Enforce strict checks in led_trigger_is_hw_controlled()
+      leds: trigger: Add led_trigger_notify_hw_control_changed() interface
+      platform/x86: ideapad-laptop: Serialize keyboard backlight tracking
+      platform/x86: ideapad-laptop: Decouple hardware & classdev brightness for keyboard backlight
+      platform/x86: ideapad-laptop: Fully support auto keyboard backlight
+
+ Documentation/ABI/testing/sysfs-class-led          |  25 ++
+ .../ABI/testing/sysfs-class-led-trigger-netdev     |   3 +
+ Documentation/leds/leds-class.rst                  |  72 ++++++
+ drivers/leds/led-class.c                           |  53 ++--
+ drivers/leds/led-triggers.c                        | 173 ++++++++++++-
+ drivers/leds/leds-cros_ec.c                        |   6 +
+ drivers/leds/leds-turris-omnia.c                   |   7 +
+ drivers/leds/leds.h                                |  10 +
+ drivers/leds/trigger/Kconfig                       |  10 +
+ drivers/leds/trigger/ledtrig-netdev.c              |   8 +
+ drivers/platform/x86/lenovo/Kconfig                |   1 +
+ drivers/platform/x86/lenovo/ideapad-laptop.c       | 279 +++++++++++++++++----
+ include/linux/leds.h                               |  24 ++
+ 13 files changed, 598 insertions(+), 73 deletions(-)
+---
+base-commit: 786262be6048deab760f68c8acc2c85607165894
+change-id: 20260506-leds-trigger-hw-changed-96a62188cbdf
+
+Thanks,
+Rong
 
