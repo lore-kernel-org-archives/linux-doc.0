@@ -1,64 +1,64 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04D8472076
-	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 08:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FA0474255
+	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 08:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788251439; cv=none; b=FKh9F3e/9awBCSdbTLMtYwMIyqmHjP6bt4UjmRE1C/34cdMQS3ODLuA5Le+QYfl6NriYf/zXWPgmjPENguuc7VAY6z8MpCVgKH5NzfBGK+xdQiPQcmKkMGQ7ewvog8wncjyal58bvqFUEBP/z0Opw06dqpBVGdGUfMabw41hKKE=
+	t=1788251441; cv=none; b=Med/66fpZRsSDh0qncpdUZJngVuVOQMkVlCg66YzPKcoEQd8LzWkN4//DE03NY8lnMBmIk7fzUe8o7OE5uD0OHH5t7K4nk8EhBRKOTTHCUN8dmEmriMra64ZvzvhAJn1Ox4bozKck706e9GXmNeLZttgAISd5kkAd8h7bBlQ8Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788251439; c=relaxed/simple;
-	bh=DlPWvl7VPmpyoxjPLEXDDFgGlZBGBcqWJsRTiZvvGGY=;
+	s=arc-20240116; t=1788251441; c=relaxed/simple;
+	bh=A+KcmemH3pMaAVs3lMVfxapvO9ST6yn6NewQtddz0kY=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hv4HchU8uxOYtQW1BtoMTT9H8UDDpvrS84et5LYVHwkr43tVLwT4eNFolovs2Y53eB0d8bnpzJHVI28fpfrAIBbSzBjkdHp11P+mAd5ujFibq1jGC2xJpRuVglq9gEZXxkajIoojCrImGBxZw/uaVvFrrFRkMShB33hjJBZnftc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jNALetWt; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version; b=N73u0Sy6WrjxzXnw09UXd1QaPaDWor8zR1pLIAPea/AEDBZ/Xxw5OZ0yhDQKRk5btM5OIrgSGWBiophIArpMzHgccXDDkrIzi4CQfD55w4+5eyQenC1ALZ8ESbNHpIZFoYCT53k+E8ATo2CypxK/PkVd92X4ealzp+46EpI6GyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m/uPYQ/O; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jNALetWt"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49a97714f5dso34896085e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 01 Sep 2026 01:30:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m/uPYQ/O"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4998b5a63e2so6663105e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 01 Sep 2026 01:30:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788251435; x=1788856235; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788251437; x=1788856237; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=winUkNgWZKpQ2EAEJkwIhIBpCcK8DMcWRELm0nMiNB0=;
-        b=jNALetWtYGBgk4UmMQ3NXZNE2x5Ewkx4DpUYN5vLTrdK8qmV7H7m2F5RKtdfbKX59T
-         vbCu0l6wjvVTMjzlr7bW6W5iMnXX2POAcQZ3Hum4Hwr4FyqL0wlfmz+R7HL5h45xaVv2
-         23LtcWRWR7FgGrFSwllD5QFlmwQTw6LBEe2zW6vfesk1KhI2vVdrCJalRIGZXEvtxtxA
-         Rv/+/LrC7kKb2SX4bEZdjY+q+GdWaas0hOgwYBqAnHoIsX9EBrRt5Pi2hb1Yg5tNSZQ1
-         v+AEnlhIfr4zCpVwx81TuDdiW11DZN0h4dAHPS19eKxVV8YyhlZgyyRbZSUfHbErU6Xd
-         m88w==
+        bh=1bFwMN34t/laBcuJvUM/XSHQIvcTBfIZ9zeEVi8dxW8=;
+        b=m/uPYQ/ORunukT6fcky54EqVzE2Fsy+v2PILLZzk9hNYWq+ytMHxJMkT+eE01PZJx1
+         aeE/3zbRwv2N12mnnCPpxeQnbwZ3f9Br2XLnm4V0/QuSJuyryB1qm2by4NLac4nXUIay
+         IkEyMZwYy+6hwmOj+07W3MvTc25YqBXq50Pj8+zAnpB0PROiWo5+ree7MhXdey2cjFij
+         5zLfxe3xOug1PbMkO7GDUCp8kkhSr7VSI4jM3E9EY4ImE/Hh06ZQkvLJZ48IV2NnMyT7
+         RsjTYsmO2Zq/bNzYbKjinC0+fsPg4SsvdXKMhs2qph7PpPAft/0jiRwhCtyW5A/DAYYr
+         HDcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788251435; x=1788856235;
+        d=1e100.net; s=20251104; t=1788251437; x=1788856237;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=winUkNgWZKpQ2EAEJkwIhIBpCcK8DMcWRELm0nMiNB0=;
-        b=jaPAPa+NhruVp+Knj/W2O+uijLmDtgQ3/RBxNDVC6lleMCdKYiBzW86Y+oB278KsVT
-         cxX6lbYAj8X4+322xfyT9jmC84/3AUxPfixx56t/Uqp1Ny1Mc4qnSnw0fnguGayYXkhU
-         PudeBIDXwN649bbFYuJGUA+elY8FxpwiJhE8UZxHtA0xitKdfVmSPWaQZpexJJy1xF/P
-         jtrvJh7NZKh6VfyBknw6WbLOjs55iIrET6PO5sa6Lxh1TuVQvlbQVvnr4b4/RSU4FrUf
-         pWwnQiuwC3yjs9vDlny+PTbCswwO6Xpxe9+iSo9x5dnDlmeRfPU1/DfZwLNQtuEjcyLb
-         hw0A==
-X-Forwarded-Encrypted: i=1; AHgh+RqYc9clGvQQRT58k9bKTDVKv3pJJdGHcbjNkqPJC7xoL5H63IoKW51p+KUIJN6RHfMIvG4xWRz5IEc=@vger.kernel.org
-X-Gm-Message-State: AFuF++mwzkKGzmXtdx5kbtqMv74l+p1GVbFbLec+EUBiKYUFi4qKmLBf
-	WE1/2eqHLDOZXnGmQ31XOP8Dlr7t2SfYyuxLZunZzZTn0JQhiIzEMgbS
-X-Gm-Gg: AR+sD11SSPtrSgXVCAX/Q/PWp/48UMmkOwzE8cN3G/Hu5bEVHkDh8bY9nd0HCCXc32L
-	D6zQu1JYZ7doIsdb8wedvL2OEfyfWYTCNyU7Cwf8EiOiGR2+AH/oyGoZ90wwj2/R1pORe90RL1a
-	t8VDMb8vymyR+2CphU9UrqV/sbcewrF46x81hzHIIlDUNZbFfgDIHtmPWO/5LYPD1n+KJNIUKCD
-	Vvy/EeF3urLwjPB4nwq8GIOwRmJE8+h3M+e6X9Ma8w8rZopRXmm/T4HMN/lYK91RWu1o70hAgCl
-	eaCHfo5HcufYTsRKXpyW1iJM+AqZggJBYGgwhy3zPN2GA4E/vo0YtLYAp7Abil7feHTLzZEpbzd
-	yDwLauPeh9vWQPnsPNAOA8812qYZOKs7ai1P6dA2tRGKRAMppzH3TUfPd1WR/zkqYxe8xglQgwj
-	2/15TFCCfKhontyfzmDGLfekctVzgFg1qZZCn8h2/4BQUn3Sa4p4j1Ab+yDhweNJeIBtif8KGQc
-	KUo5DOHqWvXQAuIXjOaJp4ZRdkD1Gjt6Gbel8JHXn/IiAw2XpuH
-X-Received: by 2002:a05:600c:19c8:b0:49b:c8e:a211 with SMTP id 5b1f17b1804b1-49b91c20bfamr493430315e9.5.1788251434958;
-        Tue, 01 Sep 2026 01:30:34 -0700 (PDT)
+        bh=1bFwMN34t/laBcuJvUM/XSHQIvcTBfIZ9zeEVi8dxW8=;
+        b=L8lVTbBK0tV/lb4GIxCeachD/N2iWucaT9LOiGYswwm2+WbBePXfxUPmUDSdDzOTax
+         /4yMc7QAngHdMpemIO4UguRQGCz4aSpcwNEwASUhhQCrw3RTqfapfdvsUfF8OXLUEIdY
+         1Suz5RXh7A/GEpr84zHxPQEXuaW17PadbHCB/KehDdy1aNOloix6SgYXmP0O+BWZnKLp
+         ZOA/rYnQmDPO8S8sc3iWModByrUftRnZZ6VawZW42suynOkoJMQNKWvvNEFK77aoifXJ
+         1m/gUtp52MjYNqR9SDkNHNzGxUCgZzqFoViRklnhJPoGrgFr+COK143OqyUo1KnWNr7E
+         97gg==
+X-Forwarded-Encrypted: i=1; AHgh+RqiRAQudW/ZCSJuyFwKBAunj7B9Zcw+UioS0t11LxdQvP5NfpZXbNZtYq+c7Xt9UhN2d9IGj77QMo8=@vger.kernel.org
+X-Gm-Message-State: AFuF++m212LAVyoS9N7gSi/EvkxSXFX7NE7GCSvWqGmuu1niHwJ2zTU1
+	LOIqs2yXqSyirjYNIi2pPZvlaBEgFxL+/QPSt+KxVbI6sFSYLnnVrUqz
+X-Gm-Gg: AR+sD10BeH4353PrL77IPuGd3SnXW7NN1lJi10t7uo20saC4D6CKASTWWt26V58A4s9
+	BHnlG7LAr9hsepz4Y/KKsluxyhMa6ao8/eGY8qmlhHGWgLPcuL4O2RKbA6BVppK41gCFP5ev6H8
+	Li5bAlsNuAoq/WWopB8DkMKsUSduF7BVycsUkfQyYuyi+AuKAV7j32Yf9tvnyBr2Mg1HglZzCiZ
+	TF6pFkXcHtXOrd4JZV/EOGiCPGzzpDoPnoHMW1D1vOZV97iSoXNkIp/ysXP0aIh5hqx2LQQwe9h
+	ySvPBfeQRJdV8aaEnMcfHSZLm+BTuKo4dOj6BZ/4GJFTRIm+j3GOW7VZuz2wCSlzheCR7bfBlhj
+	Io87sAOhbNZi+Exw4/Eh5jHUXuq2WrWPa8IQCnuA9agfEoYmhsSSBrlVE+0AuVDzFHFv2cAEQ1W
+	Tl/+CWdaAzvXFFeVF/EqDRnRIIahdd47U7KmIOi7zAJlGXfO013Q/Z//ze+SKqmtI/Dn0DHVPB2
+	K9VlOMx3UYSg9Ht/8GkAlz76lCVEv7BufkL6L8HRLxC+eN448aq
+X-Received: by 2002:a05:600c:529a:b0:49c:cedc:3c36 with SMTP id 5b1f17b1804b1-49ccedc3cafmr333314475e9.16.1788251437016;
+        Tue, 01 Sep 2026 01:30:37 -0700 (PDT)
 Received: from Ansuel-XPS24.localdomain (host-79-26-252-140.retail.telecomitalia.it. [79.26.252.140])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-49cdce08862sm51459635e9.1.2026.09.01.01.30.32
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-49cdce08862sm51459635e9.1.2026.09.01.01.30.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 01:30:34 -0700 (PDT)
+        Tue, 01 Sep 2026 01:30:36 -0700 (PDT)
 From: Christian Marangi <ansuelsmth@gmail.com>
 To: Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -89,9 +89,9 @@ To: Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	llvm@lists.linux.dev
-Subject: [PATCH net-next v15 08/12] MAINTAINERS: add myself as PCS subsystem maintainer
-Date: Tue,  1 Sep 2026 10:29:23 +0200
-Message-ID: <20260901083001.8044-9-ansuelsmth@gmail.com>
+Subject: [PATCH net-next v15 09/12] net: phylink: add .pcs_link_down PCS OP
+Date: Tue,  1 Sep 2026 10:29:24 +0200
+Message-ID: <20260901083001.8044-10-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260901083001.8044-1-ansuelsmth@gmail.com>
 References: <20260901083001.8044-1-ansuelsmth@gmail.com>
@@ -103,34 +103,88 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-List all the files of the Ethernet PCS subsystem and add myself as
-maintainer.
+Permit for PCS driver to define specific operation to tear down the link
+between the MAC and the PCS.
+
+This might be needed for some PCS that reset counter or require special
+reset to correctly work if the link needs to be restored later.
+
+On phylink_link_down() call, the additional phylink_pcs_link_down() will
+be called after .mac_link_down to tear down the link.
+
+PCS driver will need to define .pcs_link_down to make use of this.
 
 Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
 ---
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/net/phy/phylink.c |  9 +++++++++
+ include/linux/phylink.h   | 12 ++++++++++++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0b42e898f4d8..1b4f79be5e54 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9757,6 +9757,15 @@ F:	include/uapi/linux/if_bridge.h
- F:	include/linux/netfilter_bridge/
- F:	net/bridge/
+diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+index a68d77ba5728..e5706b008b39 100644
+--- a/drivers/net/phy/phylink.c
++++ b/drivers/net/phy/phylink.c
+@@ -989,6 +989,12 @@ static void phylink_pcs_link_up(struct phylink_pcs *pcs, unsigned int neg_mode,
+ 		pcs->ops->pcs_link_up(pcs, neg_mode, interface, speed, duplex);
+ }
  
-+ETHERNET PCS SUBSYSTEM
-+M:	Christian Marangi <ansuelsmth@gmail.com>
-+L:	netdev@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/networking/pcs.rst
-+F:	drivers/net/pcs/pcs.c
-+F:	include/linux/pcs/pcs-provider.h
-+F:	include/linux/pcs/pcs.h
++static void phylink_pcs_link_down(struct phylink_pcs *pcs)
++{
++	if (pcs && pcs->ops->pcs_link_down)
++		pcs->ops->pcs_link_down(pcs);
++}
 +
- ETHERNET PHY LIBRARY
- M:	Andrew Lunn <andrew@lunn.ch>
- M:	Heiner Kallweit <hkallweit1@gmail.com>
+ static void phylink_pcs_disable_eee(struct phylink_pcs *pcs)
+ {
+ 	if (pcs && pcs->ops->pcs_disable_eee)
+@@ -1701,6 +1707,9 @@ static void phylink_link_down(struct phylink *pl)
+ 
+ 	pl->mac_ops->mac_link_down(pl->config, pl->act_link_an_mode,
+ 				   pl->cur_interface);
++
++	phylink_pcs_link_down(pl->pcs);
++
+ 	phylink_info(pl, "Link is Down\n");
+ }
+ 
+diff --git a/include/linux/phylink.h b/include/linux/phylink.h
+index 2c647238c7ce..87dc0f27dfc0 100644
+--- a/include/linux/phylink.h
++++ b/include/linux/phylink.h
+@@ -528,6 +528,7 @@ struct phylink_pcs {
+  * @pcs_an_restart: restart 802.3z BaseX autonegotiation.
+  * @pcs_link_up: program the PCS for the resolved link configuration
+  *               (where necessary).
++ * @pcs_link_down: tear down link between MAC and PCS.
+  * @pcs_disable_eee: optional notification to PCS that EEE has been disabled
+  *		     at the MAC.
+  * @pcs_enable_eee: optional notification to PCS that EEE will be enabled at
+@@ -555,6 +556,7 @@ struct phylink_pcs_ops {
+ 	void (*pcs_an_restart)(struct phylink_pcs *pcs);
+ 	void (*pcs_link_up)(struct phylink_pcs *pcs, unsigned int neg_mode,
+ 			    phy_interface_t interface, int speed, int duplex);
++	void (*pcs_link_down)(struct phylink_pcs *pcs);
+ 	void (*pcs_disable_eee)(struct phylink_pcs *pcs);
+ 	void (*pcs_enable_eee)(struct phylink_pcs *pcs);
+ 	int (*pcs_pre_init)(struct phylink_pcs *pcs);
+@@ -690,6 +692,16 @@ void pcs_an_restart(struct phylink_pcs *pcs);
+ void pcs_link_up(struct phylink_pcs *pcs, unsigned int neg_mode,
+ 		 phy_interface_t interface, int speed, int duplex);
+ 
++/**
++ * pcs_link_down() - tear down link between MAC and PCS
++ * @pcs: a pointer to a &struct phylink_pcs.
++ *
++ * This call will be made just after mac_link_down() to inform the PCS the
++ * link has gone down. PCS should be configured to stop processing packets
++ * for transmission and reception.
++ */
++void pcs_link_down(struct phylink_pcs *pcs);
++
+ /**
+  * pcs_disable_eee() - Disable EEE at the PCS
+  * @pcs: a pointer to a &struct phylink_pcs
 -- 
 2.53.0
 
