@@ -1,165 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10C64279F9;
-	Tue,  1 Sep 2026 07:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000DE46C820
+	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 07:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788247670; cv=none; b=j5DMlH6LCOt3gCQsr/JwVooDN7DimOaIZNet5QhIH+YVUOZWrRwpkCv0z/rPDw5GEU5RNrCkizEkEgptXvaPHqmNqPCFJiwg4LTWB2nH+YLCpH0MRiRnXDQFE3rjuFNNROIdIU10Gc4xzSZkKKgBQh1ehrQEbGuDyURk1U6CWi8=
+	t=1788248256; cv=none; b=RHcWRonQuQPzudmlCZveQURs9fTrkUtU1eMOGaQE4VEhvExmulBX+q0A396FCtomy9SmsWteV8uOSKSeerTXgaCI7LhT/EbOu2rkpGTLMid0Xp8foQqysSuhhLkVi4zORceomW6No+XWl9KXwL5yXrlMlH76iCHv+tOapd2ZIko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788247670; c=relaxed/simple;
-	bh=6WRFXKt0DMVyDvX14y7LPQZOKJSvqzS/Q8O0xYy5B1w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tVXWr2XWzmyYY4NPTaM11HNwA9OiwkBEiLOKyv4MPggDFS7W7rYGOhx5Ob3cXTcuqAdjZjb+TC6vRFUvW3sluiYBjDkY/QnV6GeUvxqaLuYcdeZ/naQMEmjjqAhw1ivYUgNgG5aZo7rnhzW6mlvPwrYAEakYCFe1rVqxtQMaUG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DZpOB8u4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788248256; c=relaxed/simple;
+	bh=CqfhTtR97gXh7eQqL6sBYYIKsG+QkBmqY1sau7tvQm4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=hb/xbvLcYuLoN8L/tQn77VmKI2/YKRA+GiRzMDbHFP7BPrpPNRnvQEOEUTMeXNICAGFsSuPc+PSmv3uLzEaJsEvkdehta8ngcSW/uhRPzhGG3Pp3174uIRxWmnaS53Be+zs/wdBe46zCdBEFUxkR9hCkTwVDQ/1CakT+xfkLGvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HAgxpPSX; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=SgTt7RnQ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DZpOB8u4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB951F000E9;
-	Tue,  1 Sep 2026 07:27:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788247668;
-	bh=YGa9MdY2HmilFhv3h7yAxaNr+XC2/lGA469m5Lsc+Ow=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DZpOB8u4FARtGbaeK+Zktx6F83IhDjixUWt+slRUvUXoCndjlaLxtFgKCavyv558i
-	 XMavzFhNg/6vhef3/+YX633G8e9jxWeDyVexxctyKidec2NvcfKyo/KeFnUW9Uq25/
-	 yTat+Ht/BsQAZxKuzrhoUwMiAa+rGu+9JxG0qdh2YyPgHRgr5hm8rEFM5VSp2pfOYd
-	 yseektNF4aXsRGgyF7tr+7iBeGSW9HYpZXd3A90vAwvhCWfjTHFbK8fI64tQNj6E6P
-	 WGQwJQzGDwhmzMnjCMkcebYa2pu1BlrcZymirMHkQv1I0CzQrNKpBvYfveBC6cvvFw
-	 2a6tBJq8DNUvQ==
-Date: Tue, 1 Sep 2026 08:27:41 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "zhen.ni" <zhen.ni@easystack.cn>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup filtering
-Message-ID: <apZ99NHTmNI_nIwz@gremlin>
-References: <20260828031339.1270699-1-zhen.ni@easystack.cn>
- <apEx0wT_hWs1Q5Wp@gremlin>
- <20260828113654.d01abd8baed3f73e87506eb3@linux-foundation.org>
- <9fce3210-3548-4df3-ae00-730b666f5d57@easystack.cn>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HAgxpPSX";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="SgTt7RnQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788248254;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Rk6MoM1HIB054uV59BcMTgA//1R4qE5kuR4lQOsz+qc=;
+	b=HAgxpPSXqH34QMw3OoIQWtsBfhOs2S1NddDazbnQLuEKvhucxOdpU59z4gAtcrx+radTc2
+	1DOFzI/MppuqCTaZ8NJhjJVOZlYQXUW9n4zcDdv+y4Exqv/5mJztp6BxlOBj09L+5MlR1Q
+	YpPaBMfYihkhuSDW9Hp5eZVT9XnhAyA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-692-mDIP4YJvOoKGzcDjEsB5ow-1; Tue, 01 Sept 2026 03:37:32 -0400
+X-MC-Unique: mDIP4YJvOoKGzcDjEsB5ow-1
+X-Mimecast-MFC-AGG-ID: mDIP4YJvOoKGzcDjEsB5ow_1788248251
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4994aebe932so43223635e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 01 Sep 2026 00:37:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1788248251; x=1788853051; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Rk6MoM1HIB054uV59BcMTgA//1R4qE5kuR4lQOsz+qc=;
+        b=SgTt7RnQwRo2OsKCCnMBJMz8jstWQ9goIO2NFvwi5Lz4ZC3JYMIX8Is2Z4tMBNWMpd
+         EjeaWy3CEq0QEL+9l9QUEHwTDjjPSvDq/iXsaGbQVVvNajeflLc4q99EL9+nltIXNsmm
+         06XmZmcU75qmFRXs0l4Xpk0gwZPNLp3dYsAR2GEWXLHiXSIlPrT7n8GpERkyWwfvMkkO
+         uPw/PX/S5wUpCMSP9fdWsgQIhjHKNTg5/75JE8VnCqEDbu6i7/dIyw6v7pP21NjKtxaP
+         0It4dl++Fvp0LVoJX6sqdexnr0Xjn4WNGI2hcNQB/zzDElHzR35Eixv+bdjHsPE7UpL3
+         Vp4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788248251; x=1788853051;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Rk6MoM1HIB054uV59BcMTgA//1R4qE5kuR4lQOsz+qc=;
+        b=Ws/Wx7BkW47hWBwqm+h/a0XxQZr+xvmU90/f/tDM2QuhlULCPZx6jw70teO88I99SZ
+         ejk21jaFUHw8zJ2yzhT/JzUrDU9YdJSgejh7WZ1BpgxdMcZ1yEjtBu0KEhs/90E3q3Fw
+         UGJzohHqPMgsa0mWifkjdf6PsQzU2AmKV2CT+qXVI8Z+gfcd9sw677lMxOoJ2Az/IQv1
+         sfY25ma+kEei1E+6CBgj7paR31foK9X19yoTA1mgEfyQ4WrC0/sEFUdCl52wBGHPYTrT
+         7v+Vj11bJqimfvUzscr8fvRvbLeyxdtor5bF8zFkGOtcxQVtzBfTiitagoHu40e0XnMx
+         mBiw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr1qnOiQSgdtdSCoUhYsnuTZPTQ5HtGLkiV8LF1sQnhP8MAMbN3jVrAt5TyHe6ek0ss5TrVt5XOVbs=@vger.kernel.org
+X-Gm-Message-State: AFuF++ndyYGSjbuhR/4TVqJT/QVrxmv4RbscbqZz6xE6NqGXL/zlc299
+	s3H1h0iKPDR4+6kAfP6UAFNRxHtMaeUR8Cf3rvn2E6ngb+vNcgtWxpEFJgB9EE+q+VtQcpklO7c
+	Qz+Xs7wlmpVtht+DNJE/o4GAe8S2Bqmf4mEEaPenPFNqdj+EbCb2TTHsYOgkPSg==
+X-Gm-Gg: AR+sD101k4GFsGxVsSd9SMNNX7NNXIMR3ZBaR7oVFNr0skHxhaWaNuHg2uge88cVjPw
+	sAPHWIvsSaOErJRIhKpsTfRjdk3KlArnMJ9na4EUq1Hf6oFF0zJaBrLpqPzoAh912t7ZxHFVHSS
+	ob3lCA1LDaTGocq7zMm+ZMDtZ8oqWGfqIKQTGv8HWsoivORvC18jd94Y9WlvUg+p4YFWp9X2xxg
+	jf3x6UtWHVh/4RYxPEQ7tDX+Ivcc18HczcIhgdT9ccu4ifS+w65vlI/qt4bYJzG8n3SRrFwSlOS
+	voeH3VPPhVDeqDc6uEkAA0gvX79CGM4ykpAYqHY1B6n80jLq0ElF0jgrPYRHR4NQJETJ1T4uRUb
+	KyIx3ldsQpYN42BcbstQKezmkqBA2KQ==
+X-Received: by 2002:a05:600c:a418:b0:499:b65e:49c9 with SMTP id 5b1f17b1804b1-49cdc558513mr101959665e9.10.1788248251552;
+        Tue, 01 Sep 2026 00:37:31 -0700 (PDT)
+X-Received: by 2002:a05:600c:a418:b0:499:b65e:49c9 with SMTP id 5b1f17b1804b1-49cdc558513mr101958885e9.10.1788248251168;
+        Tue, 01 Sep 2026 00:37:31 -0700 (PDT)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([195.174.135.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b91c5790csm286144315e9.0.2026.09.01.00.37.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Sep 2026 00:37:30 -0700 (PDT)
+Message-ID: <0b0b115713a6d5a10d719085284dc7cef21ed892.camel@redhat.com>
+Subject: Re: [RFC 1/3] rv: add per-edge dwell-time statistics primitive
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Tobias Schaffner <tobias.schaffner@siemens.com>, Steven Rostedt
+	 <rostedt@goodmis.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>,  Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jan Kiszka	
+ <jan.kiszka@siemens.com>, Philippe Gerum <rpm@xenomai.org>, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 01 Sep 2026 09:37:28 +0200
+In-Reply-To: <20260827072400.45734-2-tobias.schaffner@siemens.com>
+References: <20260827072400.45734-1-tobias.schaffner@siemens.com>
+	 <20260827072400.45734-2-tobias.schaffner@siemens.com>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
+ cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
+ T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
+ eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
+ 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9fce3210-3548-4df3-ae00-730b666f5d57@easystack.cn>
 
-On Tue, Sep 01, 2026 at 02:34:34PM +0800, zhen.ni wrote:
->
->
-> 在 2026/8/29 02:36, Andrew Morton 写道:
-> > On Fri, 28 Aug 2026 08:03:38 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
-> >
-> > > On Fri, Aug 28, 2026 at 11:13:31AM +0800, Zhen Ni wrote:
-> > > > This patch series adds process and memory cgroup filtering support to
-> > > > page_owner. Following the previous series that introduced print_mode and
-> > > > NUMA node filters:
-> > > >    https://lore.kernel.org/linux-mm/20260707115411.1714314-1-zhen.ni@easystack.cn/
-> > > >
-> > > > This series adds filtering capabilities to page_owner, allowing users to
-> > > > filter output by specific processes and memory cgroups. Users can now
-> > > > filter page_owner output by PID, TGID, COMM (with wildcard support), and
-> > > > memory cgroup path. This makes page_owner debugging more focused and
-> > > > efficient for tracking memory allocations in specific contexts.
-> > >
-> > > The majority of this cover letter feels like it should have been
-> > > documentation put somewhere :)
-> >
-> > yes please.
-> >
-> > The only thing longer than the cover letter is the Sashiko report ;)
-> >
-> > 	https://sashiko.dev/#/patchset/20260828031339.1270699-1-zhen.ni@easystack.cn
-> >
-> >
->
-> Hi Andrew, Lorenzo,
->
-> Thanks for the review.
->
-> I have analyzed all the Sashiko report findings. Some will be fixed in
-> the next version, and for the rest I propose not to fix them, with
-> reasons below. If there are no objections I will send v2 accordingly.
->
-> Will be fixed in the next version:
->
-> - mm/page_owner.c: drop the kstrdup() copy in parse_pid_t_list(); the
->   token will be parsed in place. This also fixes a leak on the success
->   path and a kfree() of an advanced (interior) pointer on the error
->   path. cmp_int() will replace plain subtraction in cmp_pid_t(), and
->   pid values exceeding PID_MAX_LIMIT will be rejected.
-> - mm/page_owner.c: PAGE_OWNER will select GLOB so glob_match() is
->   always linked in; parse_comm_list() will drop its kstrdup() copy the
->   same way.
-> - mm/page_owner.c: the cgroup path buffer will be allocated once per
->   read() outside the page_ext RCU read-side critical section instead of
->   per page inside get_page_memcg_info() (GFP_KERNEL allocations must
->   not sleep there). The memcg= parsing branch will be guarded by
->   CONFIG_MEMCG so kernels built without memcg reject the command
->   instead of silently enabling a filter that never matches.
-> - tools/mm/page_owner_filter.c: user-visible input errors (empty
->   -p/-t/-c/-g arguments) will print error messages instead of exiting
->   silently.
-> - Documentation: the wildcard pattern in the -c example will be quoted
->   to prevent shell glob expansion.
->
-> Proposed not to fix, by design:
->
-> 1. Shared-fd concurrent read/write races (READ_ONCE around the pid
->    passed to bsearch, torn reads of pid/tgid lists, glob_match() racing
->    comm rewrites, concurrent write() leading to state->memcg_path
->    double-allocation): multi-threaded sharing of one page_owner fd is
->    not a designed use of this interface. The filters are per-fd state
->    meant to be configured once and then read, which is what the
->    page_owner_filter tool does. Adding locking to the read path would
->    put overhead into the per-page scan loop for no designed benefit.
->    This matches the semantics of the original filter introduction.
->
-> 2. No "clear filter" support (empty pid=/tgid= lists partially clearing
->    proc filters, empty memcg=/nid= being rejected): write commands are
->    incremental -- "keep the unmentioned filters" -- and there is no
->    clear operation by design. To start over, close the fd and open a
->    fresh one; the page_owner_filter tool already works this way. This
->    also matches the semantics of the original filter introduction.
->
-> 3. kcalloc() vs kmalloc_array() for new_comm_list: no consumer of the
->    list reads past strscpy()'s NUL terminator, so uninitialized bytes
->    are unreachable.
->
-> 4. char cgroup_path[512] in validate_cgroup_path(): acknowledged that
->    the kernel side accepts paths up to PATH_MAX (4096). The userspace
->    check truncates an over-long path with snprintf() and then fails
->    access(), so it is rejected, never silently accepted. Bumping the
->    buffer to PATH_MAX would only serve pathological paths; realistic
->    cgroup paths are well under 100 bytes, so 512 wastes nothing in
->    practice.
->
-> If this plan looks reasonable I will send v2.
+On Thu, 2026-08-27 at 09:23 +0200, Tobias Schaffner wrote:
+> +	while (dwell_ns > (u64)max) {
+> +		s64 prev =3D local64_cmpxchg(&s->max_ns, max, dwell_ns);
+> +
+> +		if (prev =3D=3D max)
+> +			break;
+> +		max =3D prev;
+> +	}
 
-Sorry but this kind of 'summary', 'do you agree with the plan' email is not
-acceptable.
+try_cmpxchg() functions produce arguably cleaner code, would you mind doing=
+:
 
-You have your feedback, reply to people like a human being directly to them,
-thank you very much.
+  while (dwell_ns > (u64)max) {
+      if (local64_try_cmpxchg(&s->max_ns, &max, dwell_ns))
+          break;
+  }
 
-At this point, based on past experience, I have to ask if you're using an LLM?
-If so please disclose this as per kernel guidelines:
+Also, although issues are practically impossible, I'd avoid an unbound loop=
+ in
+hot paths, you could go up to MAX_DA_RETRY_RACING_EVENTS (already existing =
+in
+da_monitor) and put some warning in case you reach the maximum amount of
+retries.
 
-https://docs.kernel.org/process/coding-assistants.html
-https://docs.kernel.org/process/generated-content.html
+Thanks,
+Gabriele
 
->
-> Thanks,
-> Zhen Ni
-
---
-Cheers, Lorenzo
