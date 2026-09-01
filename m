@@ -1,245 +1,72 @@
-Received: from mta1.migadu.com (out-144.mta1.migadu.com [95.215.58.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ilvokhin.com (mail.ilvokhin.com [178.62.254.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2BA44160D
-	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 11:12:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF53220687;
+	Tue,  1 Sep 2026 11:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.62.254.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788261132; cv=none; b=oXbAvHh9EmjJD4/47m6d75iGr+1HmekgazYJbrD53tSrqC5955j2/XxkGFJgN/FZKpSvuVWCe/PhDDEwc3TVEmDYEnGLY72X4BG8ljLdD1C/fifVVdoMfQ4dI6hZHRtlmkCj1ZSNQHqCVMS4uo4UIzmS2jBUC2CfPEsoJFC5qwY=
+	t=1788263766; cv=none; b=MywYIErYaFpnGK8fEbLryB5H2NledqDvlsdekrhW4qB/NIY8TMQRrUSUrpEOjRG4aRu8eOb8ACvr4PSF5to6cboZ7XDmlYGdjfktAvMIALn9BG6/79jLYInf0VhW70Wh7JNUsOmSTdYXGeWQdRbz5xLMRbbDlO2J4dSkVnze2mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788261132; c=relaxed/simple;
-	bh=CsioD9lZ+yh5tHGXfu+MRuQR2cyaW3t4YdYHU6hudFc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cXSm3IR7PpMhdxESNyCTAUE6lV2uckTYnbpFhNXr+TX0l681W4/LqWPXywfdi3lL0mKRMHtC7v7JV3bFyuuy+6zX+buL2nS7AXnp6nsRulQGwWpT5YTOI/dhw1GTVbKYZ8Y3+VHKHgmYBGhnSC+PCIapcM2w4/sQ3Uy7bSyZKVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Y4r7+eDh; arc=none smtp.client-ip=95.215.58.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788263766; c=relaxed/simple;
+	bh=teH8A+bBnEF4sQeZAeIT9bias55KiKQJ84FqLPMuZs4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nqGp+j21I1bvroh50ga5xj6ohy1xSyk3GoANdBq3yej23An6+m8UOCXH1wLcvuxHz5UR5WEzovMh7YEhLsecjTAx+uZktKfWwCO7XGwUWklKIv/syImgdgFGXLLK9bhl0pUmfvMk+aKuyo067UNaZIKJ3vCuwLhKK0E7IS7ZJZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com; spf=pass smtp.mailfrom=ilvokhin.com; dkim=pass (1024-bit key) header.d=ilvokhin.com header.i=@ilvokhin.com header.b=3puqK9nR; arc=none smtp.client-ip=178.62.254.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ilvokhin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Y4r7+eDh"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=CsioD9lZ+yh5tHGXfu+MRuQR2cyaW3t4YdYHU6hudFc=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788261128; v=1; x=1788865928;
- b=Y4r7+eDhd1LxClrS2QBkx2ZNhmITI1JMjs3J0foyAH6u0nZkaJybE03m+aSnQTKS13NqzhUh
- 36ytSm700m0Gy+3vekPB2+StjLS/+8rh2Gkst518rVYSbLsOs8HMTq24cqe85JxKD3dRzr/sx4v
- 3HXE/+Q/oGjR+Hnvm87iAEFk=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 862d248a0b34fcda;
-	Tue, 01 Sep 2026 11:12:08 +0000
-X-Mizu-Trace-ID: 862d248a0b34fcda
-X-Migadu-Flow: FLOW_OUT
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5b5e5aaf7deso7317e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 01 Sep 2026 04:12:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxE784iQ7ZXUiPEnD9XCEVPavg+w1uTSfiyZBpxeQ3m66CifD3Cafo0Kn10kvM8UlyAuJYYOU+J6eY=@vger.kernel.org
-X-Gm-Message-State: AFuF++nfFFhgZ7OLD9YeN/uJL+Pkx6b9BgsBYVyVM6Lh/qzVYlSTkGbW
-	JOsbe6u6WwvZQt9AJBdAFmsmQ14uclame4Z1uP0TkpTiZPSLJjkYs42bea0YnT41c1GRLChbJXm
-	LkcC/I2xSq5/u4mTq3fKS7TkB8nSpReTPdq8CQwVB
-X-Received: by 2002:a05:6512:b8d:b0:5aa:79d6:b559 with SMTP id
- 2adb3069b0e04-5b5fefc86c9mr146222e87.0.1788261126243; Tue, 01 Sep 2026
- 04:12:06 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ilvokhin.com header.i=@ilvokhin.com header.b="3puqK9nR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ilvokhin.com;
+	s=mail; t=1788263387;
+	bh=rBjyiusYlHC8sriGlE2givbV5vglKvP1HjQwOtmJkQE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=3puqK9nRF/kD1Lr4BXRoYcalo2efKW79DisCn81azoN45h37Sh/tMi9d9BlpS1uNg
+	 3ptSdiqNQ6qxUDv2d6doWH6xvTley7Ah+ejvGv4reQ1n1NwGULwvo7NjsQp4DuS4W9
+	 fjL0HDTrZN4VoOgdjPDs7ADgHVm4pWwC75femYl8=
+Received: from shell.ilvokhin.com (shell.ilvokhin.com [138.68.190.75])
+	(Authenticated sender: d@ilvokhin.com)
+	by mail.ilvokhin.com (Postfix) with ESMTPSA id 139ACEBA71;
+	Tue, 01 Sep 2026 11:49:47 +0000 (UTC)
+Date: Tue, 1 Sep 2026 11:49:43 +0000
+From: Dmitry Ilvokhin <d@ilvokhin.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+	Thomas Gleixner <tglx@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] rseq: defer time slice extension yield for sys_futex_wake
+Message-ID: <apa71yN7lYR3FKeI@shell.ilvokhin.com>
+References: <20260831-sys-futex-wake-time-slice-v1-1-814bb95cc339@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com> <20260830-gmem-inplace-conversion-v12-44-85e5fd25252a@google.com>
-In-Reply-To: <20260830-gmem-inplace-conversion-v12-44-85e5fd25252a@google.com>
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Tue, 1 Sep 2026 12:11:00 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTz+nwFCn66MG2QjiB84_OyOoJowTHr-Ru2uSEpvO+yLCg@mail.gmail.com>
-X-Gm-Features: AcwNN1Ub9J3hFyuS9Dks6Hz8-OwxznQ12Dvlx31FuOxfKnRbAtrjNgxw2UfRugY
-Message-ID: <CA+EHjTz+nwFCn66MG2QjiB84_OyOoJowTHr-Ru2uSEpvO+yLCg@mail.gmail.com>
-Subject: Re: [PATCH v12 44/45] KVM: selftests: Update private_mem_conversions_test
- for in-place conversions
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Randy Dunlap <rdunlap@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260831-sys-futex-wake-time-slice-v1-1-814bb95cc339@google.com>
 
-On Mon, 31 Aug 2026 at 01:25, Ackerley Tng via B4 Relay
-<devnull+ackerleytng.google.com@kernel.org> wrote:
->
-> From: Ackerley Tng <ackerleytng@google.com>
->
-> Update private_mem_conversions_test for in-place conversions. In-place
-> conversions support is detected in selftests with kvm_has_gmem_attributes.
->
-> With in-place conversions, specifying userspace_addr from some other memory
-> provider that is not the guest_memfd associated with the memslot is a user
-> error, since KVM will only use both shared and private memory from the
-> guest_memfd.
->
-> Hence, when kvm_has_gmem_attributes, only test in-place conversions with
-> single backing, where guest_memfd provides both shared and private memory.
->
-> For single backing, guest_memfd must be created with
-> GUEST_MEMFD_FLAG_MMAP. Initialize the guest_memfd as shared to align with
-> how memory would default to shared when shared/private state was tracked at
-> the VM level (the test expects this, it was written for
-> non-in-place-conversions).
->
-> When handling a hypercall to set attributes, use
-> vm_mem_set_memory_attributes() to send the ioctl to the guest_memfd instead
-> of the VM.
->
-> When testing in-place conversions (single-backing), don't allow the user to
-> configure src_type, since src_type will be ignored. Don't use src_type to
-> determine alignment for rounding up per-cpu test memory size, since
-> guest_memfd's backing page size is always the system PAGE_SIZE.
->
-> Co-developed-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+On Mon, Aug 31, 2026 at 12:57:26PM +0000, Alice Ryhl wrote:
+> When a task is granted an rseq scheduler time slice extension, it is
+> expected to finish its critical section and relinquish the CPU via
+> rseq_slice_yield(2). If the task issues any other system call while a
+> grant is active, rseq_syscall_enter_work() forces an immediate
+> reschedule on syscall entry via cond_resched(). This may cause
+> significant latency penalty for userspace lock implementations that use
+> rseq time slice extensions when unlocking the futex.
+> 
+> In a userspace mutex unlock sequence:
+> 1. The lock is released in userspace.
+> 2. If there are waiters, the unlocking thread calls sys_futex_wake()
+>    to wake a sleeping waiter.
 
-Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
+Just out of curiosity, is there any publicly available implementation of
+a mutex that combines rseq time-slice extensions and futexes?
 
-Cheers,
-/fuad
-
-
-> ---
->  .../kvm/x86/private_mem_conversions_test.c         | 57 +++++++++++++++++-----
->  1 file changed, 44 insertions(+), 13 deletions(-)
->
-> diff --git a/tools/testing/selftests/kvm/x86/private_mem_conversions_test.c b/tools/testing/selftests/kvm/x86/private_mem_conversions_test.c
-> index cf50e9a332c5b..33b610383693b 100644
-> --- a/tools/testing/selftests/kvm/x86/private_mem_conversions_test.c
-> +++ b/tools/testing/selftests/kvm/x86/private_mem_conversions_test.c
-> @@ -306,9 +306,12 @@ static void handle_exit_hypercall(struct kvm_vcpu *vcpu)
->         if (do_fallocate)
->                 vm_guest_mem_fallocate(vm, gpa, size, map_shared);
->
-> -       if (set_attributes)
-> -               vm_set_memory_attributes(vm, gpa, size,
-> -                                        map_shared ? 0 : KVM_MEMORY_ATTRIBUTE_PRIVATE);
-> +       if (set_attributes) {
-> +               u64 attrs = map_shared ? 0 : KVM_MEMORY_ATTRIBUTE_PRIVATE;
-> +
-> +               vm_mem_set_memory_attributes(vm, gpa, size, attrs);
-> +       }
-> +
->         run->hypercall.ret = 0;
->  }
->
-> @@ -352,8 +355,21 @@ static void *__test_mem_conversions(void *__vcpu)
->                                 size_t nr_bytes = min_t(size_t, vm->page_size, size - i);
->                                 u8 *hva = addr_gpa2hva(vm, gpa + i);
->
-> -                               /* In all cases, the host should observe the shared data. */
-> -                               memcmp_h(hva, gpa + i, uc.args[3], nr_bytes);
-> +                               if (kvm_has_gmem_attributes &&
-> +                                   uc.args[0] == SYNC_PRIVATE) {
-> +                                       TEST_EXPECT_SIGBUS(READ_ONCE(*hva));
-> +                               } else {
-> +                                       /*
-> +                                        * If not testing in-place conversion
-> +                                        * (dual backing), the host should
-> +                                        * always observe shared data, since the
-> +                                        * shared memory is a separate page.
-> +                                        *
-> +                                        * For SYNC_SHARED, test that the host
-> +                                        * can see shared memory.
-> +                                        */
-> +                                       memcmp_h(hva, gpa + i, uc.args[3], nr_bytes);
-> +                               }
->
->                                 /* For shared, write the new pattern to guest memory. */
->                                 if (uc.args[0] == SYNC_SHARED)
-> @@ -369,20 +385,29 @@ static void *__test_mem_conversions(void *__vcpu)
->         }
->  }
->
-> +/* Align each vCPU's chunk of memory naturally to the size of the backing store. */
-> +static size_t compute_per_cpu_size(enum vm_mem_backing_src_type src_type)
-> +{
-> +       size_t alignment;
-> +
-> +       if (kvm_has_gmem_attributes)
-> +               alignment = getpagesize();
-> +       else
-> +               alignment = get_backing_src_pagesz(src_type);
-> +
-> +       return align_up(PER_CPU_DATA_SIZE, max_t(size_t, SZ_2M, alignment));
-> +}
-> +
->  static void test_mem_conversions(enum vm_mem_backing_src_type src_type, u32 nr_vcpus,
->                                  u32 nr_memslots)
->  {
-> -       /*
-> -        * Allocate enough memory so that each vCPU's chunk of memory can be
-> -        * naturally aligned with respect to the size of the backing store.
-> -        */
-> -       const size_t alignment = max_t(size_t, SZ_2M, get_backing_src_pagesz(src_type));
-> -       const size_t per_cpu_size = align_up(PER_CPU_DATA_SIZE, alignment);
-> +       const size_t per_cpu_size = compute_per_cpu_size(src_type);
->         const size_t memfd_size = per_cpu_size * nr_vcpus;
->         const size_t slot_size = memfd_size / nr_memslots;
->         struct kvm_vcpu *vcpus[KVM_MAX_VCPUS];
->         pthread_t threads[KVM_MAX_VCPUS];
->         struct kvm_vm *vm;
-> +       u64 gmem_flags;
->         int memfd, i;
->
->         const struct vm_shape shape = {
-> @@ -397,12 +422,16 @@ static void test_mem_conversions(enum vm_mem_backing_src_type src_type, u32 nr_v
->
->         vm_enable_cap(vm, KVM_CAP_EXIT_HYPERCALL, (1 << KVM_HC_MAP_GPA_RANGE));
->
-> -       memfd = vm_create_guest_memfd(vm, memfd_size, 0);
-> +       gmem_flags = 0;
-> +       if (kvm_has_gmem_attributes)
-> +               gmem_flags = GUEST_MEMFD_FLAG_MMAP | GUEST_MEMFD_FLAG_INIT_SHARED;
-> +
-> +       memfd = vm_create_guest_memfd(vm, memfd_size, gmem_flags);
->
->         for (i = 0; i < nr_memslots; i++)
->                 vm_mem_add(vm, src_type, BASE_DATA_GPA + slot_size * i,
->                            BASE_DATA_SLOT + i, slot_size / vm->page_size,
-> -                          KVM_MEM_GUEST_MEMFD, memfd, slot_size * i, 0);
-> +                          KVM_MEM_GUEST_MEMFD, memfd, slot_size * i, gmem_flags);
->
->         for (i = 0; i < nr_vcpus; i++) {
->                 gpa_t gpa =  BASE_DATA_GPA + i * per_cpu_size;
-> @@ -462,6 +491,8 @@ int main(int argc, char *argv[])
->         while ((opt = getopt(argc, argv, "hm:s:n:")) != -1) {
->                 switch (opt) {
->                 case 's':
-> +                       TEST_ASSERT(!kvm_has_gmem_attributes,
-> +                                   "src_type is only configurable when testing without in-place conversion");
->                         src_type = parse_backing_src_type(optarg);
->                         break;
->                 case 'n':
->
-> --
-> 2.55.0.897.gb25b4bd76c-goog
->
->
+I'm interested in learning more about how these two mechanisms interact
+with each other.
