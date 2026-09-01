@@ -1,124 +1,144 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mta0.migadu.com (out-252.mta0.migadu.com [91.218.175.252])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5DC31618B
-	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 06:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788243684; cv=pass; b=Y+G8c1wgcQ7JbPm48EIuyrVDbkEKYZCgmaAXHHwNBAZKy0mzFpaU+n3JqE0h4TTnKej2ZkODwCyrKx1gQ1Xzgj/zX9O3ykYyQA/ePUWfOuEY+TvYHZ3InKyuQ4XWwhBcGRLtwniHUl0gDWWriRGfjXV20aBUNJHW+7WxVxv/Vy0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788243684; c=relaxed/simple;
-	bh=I3lSPzdIKrqVH24xSYTfJkxcALnNqxzrGfeYxDEtYXM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M0nroPHdCUXAAGs/hXURMgVZc3h8GgphhPfHq0R7rWawigkkdRqMQYeKqHhoTq4yqU1vTlbdSs9Zxo0tor1+QGJOnbyICfMiPp36kZKy6XYISmPq+ZSmFXQtM1Nh8xBEgp6K8/DkzpZX/s7Uu3lzX9EqZJhejkGZrr52gxJUCyw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m7XwxRAr; arc=pass smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F65368276
+	for <linux-doc@vger.kernel.org>; Tue,  1 Sep 2026 06:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.252
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788243832; cv=none; b=a9CyuxS1eQsfdh0BD8A2X0WY/BBr0tNmAf3tnIIBlT0GcF2ef33wdmQYMtqsAC7oJnXaRliPwevOW+1HQNHn6rKxLdDCyOiORLKDd30nfn8TldIsDwbrfpADELMU4F0KEDMcdqSsgqY5PetqUV9aurc1xhtVXvtwwfiMQ71+fUc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788243832; c=relaxed/simple;
+	bh=JYWgi8laE2xRmYqAktJ5/SY0SxkpUmzm3vsS4saBqCs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 In-Reply-To:References; b=HLDCAyGFLj4lAu55ImfBEBrX+HY20KrTGPm6osCbLVPBRepXzOaoJ/gB2oF4VIaupt4cprTv+jjo3KKWIUe5Ss63LOKYaE84CDSo6JYCseFwUtkPYxIlmrUWjT3AboIJWFsYrBYdJvwcJfp+cMlLeVa5CLiDx/UDif8I+ZYURTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tvZJo/lO; arc=none smtp.client-ip=91.218.175.252
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m7XwxRAr"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a082b3671fso5434724a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2026 23:21:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788243682; cv=none;
-        d=google.com; s=arc-20260327;
-        b=rg8kt8qwREn8dsA0sfNb+bQSPt2amyWpVNHB3SKPAkdUDwLQgfHbzp8FvjPLgC2l06
-         psnco/Zgkjf1eZQlV7beSMr/JKvCazwyQTasE1wLGnAAdG+iDoFy9f0kk0bSNuKxN9RQ
-         gr7buqeOdnc4E0JNxkQbhotVFtuPusGA+fP8AO4T7O9+App7yAeXZdr2VRjmHYzxcbaN
-         oz7d/fGUj1WZ2IsE0PMXVKaBupuZmeshK/6k0lmmla1HFHrxpAJGLIebF1SjenVp8xig
-         XolIeKAAocWFFgSXDuRtSgAHAI58j0ZzCPqiHi2fZJyQZ5Tt4teXilrt45Gb6UaVN3QL
-         gqqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=I3lSPzdIKrqVH24xSYTfJkxcALnNqxzrGfeYxDEtYXM=;
-        fh=HRRYw4GgqcYVLQYb6nT1UV8fln/iTP6SvfpP3hYDZrE=;
-        b=Szetu7tRRoi+AxvOuq3CqdGNsIUu0eeKWEvw61aNI9HIegC00zuyivqlbsLvoLXd7J
-         H5QEMqH0ByY8GcNjoYFxDyIb7jb35LliRP8A1HswmutZzY1GFaBmteTxQfINcYnkvpXM
-         ZgieDMdAwx6FI/KR0ieKnscyLIf/dwfLcLPXg1SKXj2GK28x9Q7pWB9Ot28KD94kJtoN
-         rF+Cav6ahBj+Xz+6uMMkU7KCr5cgLiLx5g4cFMm0mpw+0pfuo1erVjoEX4g6Wx9ba6Fu
-         pbr8n7qMichiNgC2ttRfpaWM2FYmQgvO24Ual/xs+wfEOLyzeUXm2XqAhO2zGYKpAfIY
-         jY8A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1788243682; x=1788848482; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=I3lSPzdIKrqVH24xSYTfJkxcALnNqxzrGfeYxDEtYXM=;
-        b=m7XwxRArAefMxoydkfuig8zdmevCCo4RtmerQMVrjBV9fKihtYIOJaK3l1lGEK3ib5
-         gcvlf6ijpgiMdJW+Pbmy+BxA5v6836IIIJ/Z/r1t8lA50Kbwq4U2yby2YRwvZFxmzqrB
-         o4Brj5IAuUp13ZuglvhmegFA6aS3DkQzPtfZqRQBrQFeez4fjNkTYQTW0kTgIAcGNKLu
-         DzBPyKxtwKs1i7rhvi5kiKVFis47uY6h9eaLGeYZYNIhjq0lCVVfCY6xM4s1SNld5tDz
-         mA8cd0lGrt5ZFPi7kJqT3zO+EtWktfaOyzYdILbCtTeUQ28+MsVobQq5Z9ddJC1ZVQhh
-         tSew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788243682; x=1788848482;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=I3lSPzdIKrqVH24xSYTfJkxcALnNqxzrGfeYxDEtYXM=;
-        b=PIJSW/g9UIWpugdt6wWK5IDZV0RyoiiEDTj37ADZSjmRRnqX6fA9oIZ8YT2CmolGjk
-         M6zHU6b71VyWaqp4oqVXE4mTAfo/ceQhrItWUxLwSCeWC69CgL8S3DJ2gnj3pNnOlfWD
-         rHVan4wKAnBmRZFCqIcGHNhaTiVhG4YlS8gbFidEcBESaNKUB7FTN4EneR8rptpLekJ/
-         gaUH01exYaB3jLrJAdX6g8ns8jereiyZvevW0gmhRUV8lYabqZNzHRjPIapuLQJHG3eQ
-         ZdZe0pphf0jpQXBNOeoo9mp1cnmKDFTNU0D3FWtTuCS2YNa3+e+4kXnVKsf/LANosAQn
-         gfhg==
-X-Forwarded-Encrypted: i=1; AKwUvBx2Fos0aRlrW7PiwBZ9HmZf3dbaLQq15JiiAbleHoJBihN1QLB0S5ALqbQuoLtdAkOYYQtR75dkgUU=@vger.kernel.org
-X-Gm-Message-State: AFuF++kuspriF5SG9wU8eFfBuXYGRA4o1dcHPf2f/UVNpjPWYjHneKoM
-	twmpENwwmUs2JIEPB8BTrdavpCyKUAPrNC9qRdPb4U/ON3dphrFnYJfHxnzW8Aa3SKOdOurPKRa
-	NrHZIL6XFfZj4DyBP6y+/lxZIMIx1MpUBY4rbvqw05A==
-X-Gm-Gg: AYBFou15gemwtB7l5p6EJ+LHX8W4pwNgmS4Ehn/RVlP6iRelbMFCIyH7XXGt2RkeyoL
-	zReGpja9nNh/4aJs8GZ22tOXWINhgQzDI+gIUruEJBpqfY4Sx/5/EAdlWbG1RhXfx9MysrQNz48
-	eojXkKZug/oQllOeoykwbmMI2SYV2Tu6t3Qq0jyC6jsPE5cdtW/qQHHg9RUEyHGOZXtJbGmGdNp
-	Zm3rpCvP9/HLVhbFw2s6Qf9E/rL+R4scLwjuSt6iUzwmn8U6x/riitWdHqipzWvjXVgf/ybqpEy
-	1tkFAGDltyWhWKFqQXuH9l9iCBq72iHcUZ/o4CwcFVfg/UlD5cbL0ecVNhbP8VLqZolu1m849pD
-	nr1btX/k/Em9C
-X-Received: by 2002:a05:6402:42c4:b0:698:be4d:ca2a with SMTP id
- 4fb4d7f45d1cf-6a663ac4091mr3714223a12.15.1788243681562; Mon, 31 Aug 2026
- 23:21:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tvZJo/lO"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=JYWgi8laE2xRmYqAktJ5/SY0SxkpUmzm3vsS4saBqCs=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788243827; v=1; x=1788848627;
+ b=tvZJo/lONEGG33RxIAI2uh4WeJpN8rDLDnOe1iyzX6NjrztypfMyq0QXvRzmk1xta8zfPdaz
+ BOVmEewBVrrKENqDk0K0EKH+4jRl86fvdem/AV7JFLL2hKgh8uw3W9cGGs2OH/JoRkAN7cJC+So
+ biHGz89sN9qpjOcvNDQn/elA=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta11.migadu.com with ESMTPS id 8f859e5041177fe5;
+	Tue, 01 Sep 2026 06:23:47 +0000
+X-Mizu-Trace-ID: 8f859e5041177fe5
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260825103855.721013-1-sshegde@linux.ibm.com>
- <20260825103855.721013-6-sshegde@linux.ibm.com> <8262d2f9-9f2f-4821-8497-991d7c8448a3@arm.com>
- <apMziCV_8y0xeIBT@yury> <53035ba4-53ec-4907-93b8-c8b957d1fa61@linux.ibm.com>
- <CAKfTPtA5Bdw89hezn1wi_p0m0dJgJJ1GYg8H93PsvsMC4bVJxA@mail.gmail.com> <apWxmL_brfi4fa4z@yury>
-In-Reply-To: <apWxmL_brfi4fa4z@yury>
-From: Vincent Guittot <vincent.guittot@linaro.org>
-Date: Tue, 1 Sep 2026 08:21:09 +0200
-X-Gm-Features: AcwNN1Utuah9bS1-hCxKZcQtbUk5R5Z8_GlRW8ZBL4bnKRqxoMfIHUQt_k9sfL0
-Message-ID: <CAKfTPtA4zmD=0Es2cXSHAodTZGLJPvv88s0_4QScp745PxFVMw@mail.gmail.com>
-Subject: Re: [PATCH v11 05/12] sched/core: Try to use a preferred CPU in is_cpu_allowed
-To: Yury Norov <ynorov@nvidia.com>
-Cc: Shrikanth Hegde <sshegde@linux.ibm.com>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org, 
-	juri.lelli@redhat.com, yury.norov@gmail.com, kprateek.nayak@amd.com, 
-	iii@linux.ibm.com, corbet@lwn.net, meted@linux.ibm.com, tglx@kernel.org, 
-	gregkh@linuxfoundation.org, pbonzini@redhat.com, seanjc@google.com, 
-	vschneid@redhat.com, huschle@linux.ibm.com, rostedt@goodmis.org, 
-	maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com, 
-	chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org, 
-	arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org, 
-	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org, 
-	rdunlap@infradead.org, kernellwp@gmail.com, linux-doc@vger.kernel.org, 
-	jgross@suse.com, virtualization@lists.linux.dev, sunlightlinux@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=f5ad3a7a520e0675d3a1ee0e96ded0c415497e37ee75d1d57e33fbe0b954;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Tue, 01 Sep 2026 14:23:42 +0800
+Message-Id: <DL3RJ2VF605G.2L1HBQB1CUEGA@linux.dev>
+Cc: "Troy Mitchell" <troy.mitchell@linux.dev>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>, <spacemit@lists.linux.dev>,
+ <linux-doc@vger.kernel.org>, "Jean Delvare" <jdelvare@suse.de>
+Subject: Re: [PATCH v4 4/6] hwmon: (lm63) Add Sensylink CTF2301 support
+From: "Troy Mitchell" <troy.mitchell@linux.dev>
+To: <sashiko-reviews@lists.linux.dev>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Guenter Roeck" <linux@roeck-us.net>, "Paul
+ Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
+ Ou" <aou@eecs.berkeley.edu>, "Alexandre Ghiti" <alex@ghiti.fr>, "Yixun Lan"
+ <dlan@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Randy Dunlap" <rdunlap@infradead.org>
+In-Reply-To: <20260831163256.784771F000E9@smtp.kernel.org>
+References: <20260831-ctl2301-v4-0-b335d52a0570@linux.dev>
+	<20260831-ctl2301-v4-4-b335d52a0570@linux.dev>
+	<20260831163256.784771F000E9@smtp.kernel.org>
 
-On Mon, 31 Aug 2026 at 18:54, Yury Norov <ynorov@nvidia.com> wrote:
->
-> On Mon, Aug 31, 2026 at 05:09:41PM +0200, Vincent Guittot wrote:
->
-> > > Dietmar/Vincent,
-> > > Do you think it makes sense to enable the driver on ARM64 now?
-> > > Or you think it is better to delay it and once the feature is stable
-> > > ARM ecosystem can enable it?
-> >
-> > It's always better to support all arch by default, unless something is
-> > missing which is not the case here.
->
-> ARM64 testing is obviously missed.
+--f5ad3a7a520e0675d3a1ee0e96ded0c415497e37ee75d1d57e33fbe0b954
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-But the cpumask is already available not like if you need to create a new one
+On Mon, Aug 31, 2026 at 04:32:56PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue(s) to consider:
+> - [Medium] TEMP12_TO_REG and software caching logic fail to align with
+> 12-bit hardware truncation, causing sysfs cache inconsistency.
+>
+> [...]
+>
+> @@ -121,6 +126,9 @@ static const unsigned short normal_i2c[] =3D { 0x18, =
+0x4c, 0x4e, I2C_CLIENT_END };
+>  							    127000), 1000)
+>  #define TEMP8U_TO_REG(val)	DIV_ROUND_CLOSEST(clamp_val((val), 0, \
+>  							    255000), 1000)
+> +#define TEMP12_FROM_REG(reg)	DIV_ROUND_CLOSEST((s16)(reg) * 1000, 256)
+> +#define TEMP12_TO_REG(val)	DIV_ROUND_CLOSEST(clamp_val((val), -128000, \
+> +							     127937) * 256, 1000)
+>  #define TEMP11_FROM_REG(reg)	((reg) / 32 * 125)
+>  #define TEMP11_TO_REG(val)	(DIV_ROUND_CLOSEST(clamp_val((val), -128000, =
+\
+>  							     127875), 125) * 32)
+>
+> [...]
+>
+> @@ -594,6 +692,21 @@ static ssize_t set_temp8(struct device *dev, struct =
+device_attribute *devattr,
+>  		return err;
+> =20
+>  	mutex_lock(&data->update_lock);
+> +	if (data->kind =3D=3D ctf2301 && nr =3D=3D 1) {
+> +		temp =3D TEMP12_TO_REG(val);
+> +		err =3D i2c_smbus_write_byte_data(client, LM63_REG_LOCAL_HIGH,
+> +						temp >> 8);
+> +		if (!err)
+> +			err =3D i2c_smbus_write_byte_data(client,
+> +							CTF2301_REG_LOCAL_HIGH_LSB,
+> +							temp & 0xf0);
+> +		if (!err)
+> +			data->temp1_max =3D temp;
+>
+> [Severity: Medium]
+> Does this sequence cause the sysfs cache to become inconsistent with the
+> hardware state?
+>
+> The TEMP12_TO_REG macro scales the value but does not align or quantize i=
+t
+> to a 12-bit hardware boundary, leaving fractional bits present in the
+> lowest 4 bits. Here in set_temp8, those lowest 4 bits of temp are masked
+> out with 0xf0 when writing to the hardware register, but the unmasked tem=
+p
+> is saved in data->temp1_max.
+>
+> If a user writes a temperature limit that is not a perfect multiple of
+> 0.0625 degrees Celsius, will this cause the sysfs interface to return the
+> un-truncated value immediately after the write, but later shift to the
+> truncated value upon the next device poll?
+
+This is a bug. TEMP12_TO_REG() currently produces an unaligned 8.8
+fixed-point value. The register write discards bits 3:0, while the cache
+retains them, so an immediate sysfs read can differ from the value read
+back from the device after the next update.
+
+I will fix this in the next version by quantizing the converted value to
+the CTF2301's 0.0625 degree C resolution before using it for both the
+register writes and the cache update.
+
+                                            - Troy
+
+--f5ad3a7a520e0675d3a1ee0e96ded0c415497e37ee75d1d57e33fbe0b954
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJcEABYKAD8WIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCapZvbiEcdHJveS5taXRj
+aGVsbEBsaW51eC5zcGFjZW1pdC5jb20ACgkQmAnvgPkzNC/UBQD/Y06tRaTFNMju
+NM/etVWC7V4lTIYgMiT04x1oaUoz20cA+gOu2r4waOeMxc0picDYJZruXgDd4WEC
+8kbzz6TfWb8A
+=zcf8
+-----END PGP SIGNATURE-----
+
+--f5ad3a7a520e0675d3a1ee0e96ded0c415497e37ee75d1d57e33fbe0b954--
