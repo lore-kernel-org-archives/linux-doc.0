@@ -1,60 +1,65 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2194A3874;
-	Wed,  2 Sep 2026 14:38:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3321749B1E0;
+	Wed,  2 Sep 2026 14:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788359927; cv=none; b=iGB/mWc/07OvhNPB/767UUGF/UE02V5dUI3bUHy/sfm0Ljj+WZTIghSM/3I5rWuwyf0zsQXhbyvgMu4q904kC4Nk7g+LVkls+S57pFNePFNBGa/z3SCX9OaBI0ZydVCraZc/wyrrcPEP0qo97QQ3sKLDSKf60VltqcAcjMqlfsc=
+	t=1788360084; cv=none; b=X1MOavwnIZXmtZsZGyjyvGmh2sC2vohDdnAjUh86XBzNpRyyyZL9fdeYIp53k1ZD13OVB2pBzNXqL00Unr707Am6LjW1Ezs0V5BSuDaT+HGryLOkol7xhx7hhBrG8JrgEZTmvqK/yCRmNUl+TScok4WNR17D25j4QnuA/fKxxFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788359927; c=relaxed/simple;
-	bh=RK3yTsVbpTpGmjQxbDsPfYC9S9e7jNkCY8VTXlXXv54=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aYOtais5w2MwuGL+GlHl9bpoamS2y5YkXxtWjvvz4pZAxqXRuUqUgc2cZwgceskjZwFep4EjMMFSTkOT43tSS8HKIh8h1TRhtz+/OtPtWRRKGKjw0hOE5tBwuzKk9Kd2HL9SMqEjOOhqdUSTvoajS8GAEwqrV/IVHr+nuPp5mKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=mk9CTKDn; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=AkB+P3p9; arc=none smtp.client-ip=80.241.56.172
+	s=arc-20240116; t=1788360084; c=relaxed/simple;
+	bh=naGuGi1Iw5Kk7J9nduxp/X02QYLaZGsFiMUuk5tN+8Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VZ0Ib304622iz/ke1abpuu7SRBSNbFE+qMk1NV9bgqnufVpU9Lw+ZK3MfixStOsKA3dRpxMQdymzOo7p/j/4wH4ChV7XKP+spsE1xLgK/6UJi39Z6oTxavzyySiztuyVdwO+swUbjVnNBBnBtqKNmx2RnGxUFn3YrLsknG8e4KE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Fqw8hv2A; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=iovGKDVk; arc=none smtp.client-ip=80.241.56.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="mk9CTKDn";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="AkB+P3p9"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Fqw8hv2A";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="iovGKDVk"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4hZlhz1lQ9zMlKv;
-	Wed, 02 Sep 2026 16:38:43 +0200 (CEST)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hZlm05y6hzMlBB;
+	Wed, 02 Sep 2026 16:41:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788359923;
+	t=1788360080;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=w4peotbQEwHadIewQox10dHHSEQxCl7rvHTB9JDglaI=;
-	b=mk9CTKDnh5zbpM6+lZO/nrhdlpcMICtSYaeTVOsrfl7JMqKVZu4ePTyj0aTA3XmiBB/ULv
-	De9KXrVh8azBiGuxH7qi43Wc0uWjHkrORFMOuDgloVT2ec3WyK7o3RzGi+77FBR7RmyMzj
-	KFl7Sdjv07ZVv8MYKKdDtkTswjaw7pRvNwLMzZVldsC6+pzCO9NJIpEeSt25Md1YQmh8Rd
-	uDgzMfsIN9GnePZfGnkHnXgvkqDLu1Ho3S5Zr05z8XcSvpiSp4e6xXulysBzCHxlukG5Ia
-	lGVUY3A8rKE4b+pMRxe4Ot3rdvdV3FNiAujAq2nikq+MGcJQ6SG1KJ815e1E6w==
+	bh=4enQh/HRN5i8ej4OSTmzFcG+vE6phZ74enUPad5j238=;
+	b=Fqw8hv2Ao0Y5A+xcInh0xP5xiVRqCrlgE/F8FI0utG8+7BPjpp2VpqdmWKv/h/7w2GpzaX
+	xa322Kxw0E7mpc/B1pGSCpkQtEmdZmpixLtydqKz7FhNFONzE6rCpwhY9RnojvQH3DrB4z
+	HZatkzU6NqeoHB1XhH12YbSi6iXkP/FXCqhekKbJAyRHh/ykbmtwVHxhkmWDO8jUK/mm1C
+	AYT4L4YgUFsx0Zq3OQxBlaxcWGYibSuY9klwxREPni7ply1FaZNRB9spuhOpoNnCgllnw8
+	aqzebRFlIemfcJXMRiqe4EosGoTCw+Cz/pdU1ZkZtgq3y8aNrPrz/8XPqIVwSQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=iovGKDVk;
+	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
 From: Manuel Ebner <manuelebnerli@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788359921;
+	t=1788360079;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=w4peotbQEwHadIewQox10dHHSEQxCl7rvHTB9JDglaI=;
-	b=AkB+P3p9CfXuaO2IJdg0yD+/YY1dwvIxkxSkEzXP10jE+b8KONoYwoB4bW02KSiPHFPSBE
-	XLrS+MKv5Ot7n4SdFsHNS4NxE3ix8r7SvI8Qlf96kN+5nHXjml17O83h2AGXP5mifdzmV7
-	iVOaOmonLiXmRJKRpity8R+WgpR66PevRgwTAYsIcdOzIxFyRAY0dYpklYVcw0J7v2ht8w
-	3d6uWdQMfzrXUFxewg3zUTRSOxprjTE9L6cQpV9MwKlnl58QO2aS4YCJSSqdqTRz3UuqEV
-	+d7SBxD+lJfrX0XOvrSju2dk+n5EnfNz2oJ+UhmEe4B8zQ16Pf5pOJMGz6G/IQ==
-To: Miklos Szeredi <miklos@szeredi.hu>,
+	bh=4enQh/HRN5i8ej4OSTmzFcG+vE6phZ74enUPad5j238=;
+	b=iovGKDVki+JnqDpcKXRTDvggE1fGau7uLL2Viz4jKRlXhqYb1aCOw+hTxJQYiUf0WNTvkp
+	BjQjNbCD31VFqYmJrsY2JpIoLbsggO+e2+ZaYuAqbHJGP5bVnkj0OCtp2/OmfKrbDR8sEj
+	MidFLJpXanL+MfaTcfZ3xyKibPeGC4gwiGYmayjIheBjUWl2+gsOQsp35FwC6w5Iuj0ltJ
+	8SFPX5a3gjEJviXRinZKX+MXPuw4bSmh6hAOKdCIxi60X/FPMEwsi/VIx7RXz0tvmzkdT2
+	fhjcvKZzI0tJdoBKPWyamUkdhzxEYhXBX7JN7yBH1kRZQqU6MgoIDQSRKgSM1w==
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>
 Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: fuse: harmonize numeration
-Date: Wed,  2 Sep 2026 16:35:41 +0200
-Message-ID: <20260902143541.703277-2-manuelebnerli@mailbox.org>
+Subject: [PATCH] docs: locking: Fix bracket
+Date: Wed,  2 Sep 2026 16:39:38 +0200
+Message-ID: <20260902143936.703665-4-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,45 +67,33 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 4a6961093df6044dc61
-X-MBO-RS-META: 16hek974oy1js1twkfb3juqcryekx94y
+X-MBO-RS-ID: 50c532a2ac21d6ca7ec
+X-MBO-RS-META: k6xm1ysjhyaxg4ron4ywibt1c4uihwua
+X-Rspamd-Queue-Id: 4hZlm05y6hzMlBB
 
-Replace with '1.', '2.' with '1)', '2)' to harmonize file.
+Remove needless '(' from code block.
 
 Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 ---
- Documentation/filesystems/fuse/fuse.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Should I also replace ')(' with ') (' as it is in the second code block?
+It would improve readability in my opinion.
+---
+ Documentation/filesystems/locking.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/filesystems/fuse/fuse.rst b/Documentation/filesystems/fuse/fuse.rst
-index 0fbd5a03f..063d99959 100644
---- a/Documentation/filesystems/fuse/fuse.rst
-+++ b/Documentation/filesystems/fuse/fuse.rst
-@@ -173,10 +173,10 @@ the error set to EINTR.
- It is also possible that there's a race between processing the
- original request and its INTERRUPT request.  There are two possibilities:
- 
--  1. The INTERRUPT request is processed before the original request is
-+  1) The INTERRUPT request is processed before the original request is
-      processed
- 
--  2. The INTERRUPT request is processed after the original request has
-+  2) The INTERRUPT request is processed after the original request has
-      been answered
- 
- If the filesystem cannot find the original request, it should wait for
-@@ -239,9 +239,9 @@ How are requirements fulfilled?
- 
-  A) The mount owner could gain elevated privileges by either:
- 
--    1. creating a filesystem containing a device file, then opening this device
-+    1) creating a filesystem containing a device file, then opening this device
- 
--    2. creating a filesystem containing a suid or sgid application, then executing this application
-+    2) creating a filesystem containing a suid or sgid application, then executing this application
- 
-     The solution is not to allow opening device files and ignore
-     setuid and setgid bits when executing programs.  To ensure this
+diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
+index 844d65eb4..1598cf555 100644
+--- a/Documentation/filesystems/locking.rst
++++ b/Documentation/filesystems/locking.rst
+@@ -27,7 +27,7 @@ prototypes::
+ 	int (*d_init)(struct dentry *);
+ 	void (*d_release)(struct dentry *);
+ 	void (*d_iput)(struct dentry *, struct inode *);
+-	char *(*d_dname)((struct dentry *dentry, char *buffer, int buflen);
++	char *(*d_dname)(struct dentry *dentry, char *buffer, int buflen);
+ 	struct vfsmount *(*d_automount)(struct path *path);
+ 	int (*d_manage)(const struct path *, bool);
+ 	struct dentry *(*d_real)(struct dentry *, enum d_real_type type);
 -- 
 2.54.0
 
