@@ -1,224 +1,322 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011014.outbound.protection.outlook.com [52.101.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7978038DC40;
-	Wed,  2 Sep 2026 06:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788331177; cv=fail; b=uaYGuIOHFjQM7rgpVLpZUiTmmvIkdX9EQaLKhwPY/0iuKZLCHOTeZ/CmY7103PSDmlZSl7LQcI01T0iGB0jLgqwTbIBhV3chF6p80xy908/DBfUNEUEC1aWFEMjrYhmIiphKfTxrkH+f1BBaurNjkaHpbx60y5AXN9BpCa/eXYI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788331177; c=relaxed/simple;
-	bh=vsKaUQMCunSlmWeYEPnMWmm9qCmWNh5oGRkVrreCRJw=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=ksB13WQOKicJpRmO/moUd9Bqlno+8uM/uFkqmkD5uI/Ek41otcCTYsoCbjkxhdPQyCyn+OrV3dErMxj78ClayPvRldBD4a2cOT/ZuJ+6rjnb2VHGgoRZYCQ9xQ3GRLk2VLZ2OAHte15TygpP0qbIE4BNuK670f5dXz5NsgHwjYs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=qFIWJeN9; arc=fail smtp.client-ip=52.101.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CCE379993
+	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 06:43:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788331397; cv=none; b=kMQpw7sbBPyCyp7cq8ykKeIx7sebSjHsqCO9VnMxfMi8KtpeTKplk3IAM3H6iE5cL3HxDGayxDDsl9ai5QTLJnnYMVkEs0NzFQ/1YslKxGYH2W9O6dfJo7H6NvkTMjL6xWEQC/zg/HFlOB1yBQLH079mor47BhZkchAp3L4ZX10=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788331397; c=relaxed/simple;
+	bh=oa1klZ84Y9HmXIG2PVYw0CNJgGARwSO7qDclCIvlE1o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GwVDmxkWVvGXFX+M9w27GqpV8EIsMm/8hSVDbDMofyekEabQhJU1sG8r0BVHhm9YXnt6X7x8zi7a6wMfod++hIGD/7sWJxDPH5wVEiNSO0p5IptU+w5Y+OUvEwwKrQKDyFL+2bWG/FMmIU30wmFh0W3OS0TlB3ETSfME3bdKD1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hu1ifnvX; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="qFIWJeN9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CFt91oUecCMV9AVN76w9CPnphNxKzTr5hK2fYDzqaVHW2rvWr6AhDWsBY6v1QL5jXbbBvJGHJbbNR2y5zI0AmXsBcheST21whp1IvOewueQDGTmcGQGMB4yVKHL8GQ6KjJH71bEje1nIBgMTtAUBIzQy4vzwcOdYD0/Cn615mvabchTuKIfGkwWRK3oOPWlsrxDpcwq2FFvSc7b7P/mGc+f+50/ZfFpYMipqX5WZs8t6X6RrIQpfiWHketrwQm6LfYXlulenOkd7+AkNjJ0pYT2yL4SZQm6V6ZfMtwxpHhrDkRUJmoH2dP0Z1sKUusAQw2h3IwmYhVcuvsZ6pXzhkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=777BBndEZWN0pQ0+ExXhYlFGeXGjovNqwjmxa9SC7PY=;
- b=aVdgU6vI9viqcQ/q5UxL5iBAQS278o/KEU6wBCVtqAc1DfPcqfl3Z8lWZB/9ZeBd4HInkW3Rp6VApSi0qza42qmVWwqWuZdAwedEGcaUpvKgdiZkxDKjMWR6/IJl9eBqcwfQGJDHAbNeKtO1aF7UQ0dK5LF0M0Err7ZIY/VzcgiCrX16sq60cjY9eNtyRt7v1NwnkEx6m/TVDOlu2Ub1aoShxmnoX51Oxn6tHBuboksC9EeoWuGmuQ1gJRfW8PHYMpig4JRF4A18CBY66gQllmtZqqZcylKQp+nFqeBX8vHd+AZ3EXZRawGXTPV3wTmdttQuV0C5Cdc0zvysSXbSyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=777BBndEZWN0pQ0+ExXhYlFGeXGjovNqwjmxa9SC7PY=;
- b=qFIWJeN9H7zPUQldCetls9lQt86Cj2eTWYmArZk6815lsdNKkE3DNm04cLhJYqKBz96S+ckq9aeVQzbRZlzWdFD5IwBODN3O0w2knNLSt/RS5fMHyIZCXE+7GIW53FicNOt2ZEFjbo5x4Ub6p+FZqM2x2kZ4BvsrYHNhKqiKCRZ5ubai+IDJHUYkEzp9ttVgVwrA15JhE7FiP3BYcx7w4+OCSizDOusiGv+ls0j4aJq1YhH/x7I/ugmHqSE7hME66pwje94gCpb+SccjAChpOBH5K3MrcE9tmkYQX5GVOQ6rqLH6HAgajeOqJR1eFIGvNNtgeQi++q8hDdFUtDk+Gw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AM9PR04MB8469.eurprd04.prod.outlook.com (2603:10a6:20b:414::15)
- by AM7PR04MB6840.eurprd04.prod.outlook.com (2603:10a6:20b:10f::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
- 2026 06:39:33 +0000
-Received: from AM9PR04MB8469.eurprd04.prod.outlook.com
- ([fe80::1f31:d3d0:6150:b49c]) by AM9PR04MB8469.eurprd04.prod.outlook.com
- ([fe80::1f31:d3d0:6150:b49c%3]) with mapi id 15.21.0360.008; Wed, 2 Sep 2026
- 06:39:33 +0000
-From: pankaj.gupta@oss.nxp.com
-Date: Wed, 02 Sep 2026 17:38:59 +0530
-Subject: [PATCH v44 7/7] arm64: dts: imx8ulp: add reserved memory for
- EdgeLock Enclave
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260902-imx-se-if-v44-7-104658bf941a@nxp.com>
-References: <20260902-imx-se-if-v44-0-104658bf941a@nxp.com>
-In-Reply-To: <20260902-imx-se-if-v44-0-104658bf941a@nxp.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Pankaj Gupta <pankaj.gupta@nxp.com>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788350933; l=2500;
- i=pankaj.gupta@nxp.com; s=20260817; h=from:subject:message-id;
- bh=LA5pZ8YRZFeVk56nd//uP0RHiwT4E6voL97vzkkh9tk=;
- b=aYVFSv6Nfez84eB7rqd3/btlZGleynw/Xxm2mRPyf3eDEAN+IUCK+BxMYiqG4qGCW7CR4cKf+
- 78BP/6cgvwKC7zljQFvJCwsJJAw64RvtAPWXEjUr2S/785j7Z2gfMqH
-X-Developer-Key: i=pankaj.gupta@nxp.com; a=ed25519;
- pk=g4ZgzIWbpXnSxRsoH+l6PWLP78a+Mzpl8e6RQe74d5Y=
-X-ClientProxiedBy: SG2P153CA0006.APCP153.PROD.OUTLOOK.COM (2603:1096::16) To
- AM9PR04MB8469.eurprd04.prod.outlook.com (2603:10a6:20b:414::15)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hu1ifnvX"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cc147d86bebso880647a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 01 Sep 2026 23:43:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788331394; x=1788936194; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=g0OSJfETTdYTriCW7H435cPMeyJW78V2WXqxeEnE0Nw=;
+        b=Hu1ifnvXdUOXTa0Saz7ezlgs1N5jtfvbLKkjhW12O7olFujjfzmjfdPn4C/3h4nJa6
+         qJUkf+BVcPTMHRR3duFCHH5Ky+xhAS5R/1C8u0wflzSh22yoUBXwVjYJ33u3q4+DkwNp
+         OtBN8ZBOyqUF39l6zSdmpYTZDqeXxdjK6b4G19tw1CRgVU5a0Wv4Zldmcm/soZkMYziq
+         ZQ4HJIGnjHGn/snvZUsY0zhwnUkUSq9uJkN1YYjktS1Bo+uFQjaSQ9YG/zPP9/qEBLne
+         ra2PTxWZMUBvkIBjA52xN1zkuLtRFFzSqPdlGxZ905fXxoRBmYyQSdhNFAplSgPfhlBi
+         Rywg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788331394; x=1788936194;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=g0OSJfETTdYTriCW7H435cPMeyJW78V2WXqxeEnE0Nw=;
+        b=SoJ25pbyqMq3b1uCfLVR/yYngSYp3f/7TEFG7ibuIcyO+SDhacVde+azKR81tH3msX
+         tqAoAQItp7BykjkfCH7POaX9yVhvHhf+UX8GjZVTTsQ6eSIMcpSnlE1dWh929Ai/t+2v
+         kqiCNtDwK//AvdKrtePbGcIzetSOZjKTTGKJPdz1fnb8jKH+Eat/+Mps7Lc69kpPdkBh
+         eHV24z4l4DY/EYdZlYxYHFILz7LuE8LFYWJdnWtaau0naZ+yv6uHJXDJOjVx44iFxC/Z
+         Ivk2b1PRY0OWb8R4kjDOvH3H78hzJ8Bqp9RIxt3XOhZNy79KEmmTfQDBJ0ij/mHtZinm
+         r8wg==
+X-Forwarded-Encrypted: i=1; AKwUvBxhUw+wv72QqVSQO6kKCHJSXtJFG+0ri+AojjsOflHsKWZoTLTFlyB+euCVgFL1Yx0JgvXq/pcsWSo=@vger.kernel.org
+X-Gm-Message-State: AFuF++nf0OmACtK4sQUDOUa2HpHvpDQg4UqZ/Clki0LeIhXF0W7GUQ5k
+	Ys9tVNxSutAdQ4ggiBo9jQ3t9vZ2lu49DgSJ2s0ixMwvWusXn881jkWP
+X-Gm-Gg: AYBFou0rqI+kDbhvNOxl3WEOnlWB4/31iXghZpdUdAKp6+XURpmPYrAiVu9s8QubOD2
+	5Fa6Mm+/ygXgAArgM7jHG1/kGinkjs4C9g+GmKgV9+y9nZKyauQo5Ux18bTXoX6ypYBxsbG8iXx
+	7GtjRuDR9a1g+CMXh1pKPPLXVUMV4LQU2cF5+GWNtcqDZqYciEdQp7XnrKQK2eQcBa6SjcPGkia
+	33HAGxjZkVKRO6lfOboGonIDXgcD97iTnV6Vy0rskSpifFjHzILt1IiJesDWMpphWaxz1VX4jjm
+	+DUN01kPMkVuRNn1fm2UOs9n34U5tCmrXXFKTOjcGAjSSWtTRrnKssfDYMDIMZ8ZgDpR4tGXDsk
+	pAGaXUJ1ylDgDfFOY4SkEGi4TYmMJd/voyRHi4YJbmpwrVWQ1mguSXlw2cTYfWcLKx/G93CrruB
+	KIuQx/KDSADOgs5fat1OGKUmyL/MtX2cWHHBVYFh1IinIpmaiLnupnMyN2WDHxzGDG/wgohvfLN
+	SVl7Y+0Vg9StKrmIPonHgx5jkbkK54=
+X-Received: by 2002:a17:90b:5445:b0:38f:657:6823 with SMTP id 98e67ed59e1d1-39af63f7f7amr788751a91.8.1788331394288;
+        Tue, 01 Sep 2026 23:43:14 -0700 (PDT)
+Received: from lipengfei28-ThinkStation-P368.mioffice.cn ([2408:8607:1b00:8:2c95:4917:f0fe:b444])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3990d80433dsm9373143a91.17.2026.09.01.23.43.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Sep 2026 23:43:13 -0700 (PDT)
+From: Li Pengfei <ljdlns1987@gmail.com>
+X-Google-Original-From: Li Pengfei <lipengfei28@xiaomi.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: mathieu.desnoyers@efficios.com,
+	mark.rutland@arm.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	zhangbo56@xiaomi.com,
+	lipengfei28@xiaomi.com
+Subject: [RFC PATCH v5 0/3] trace: stack trace deduplication for ftrace ring buffer
+Date: Wed,  2 Sep 2026 14:42:39 +0800
+Message-Id: <20260902064242.28606-1-lipengfei28@xiaomi.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8469:EE_|AM7PR04MB6840:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d580dd6-b4d1-4ef6-73a7-08df08bcf2ac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|19092799006|23010399003|366016|56012099006|11063799006|10067099003|22082099003|18002099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	0+IoyURMPeyRzSRRz0hnbmpO2OTmyocy9WtHzNin4W8SI8KLXFhVKETLCBQ7EtxKWnib2G6XY3TQPhrCpq1GPPJiRPEa69DBoWGmDLVFwhK7zQPTNN4SN6FTThE21CeRKVjpjmE4f8vOrwPPzbEVoVZaORp82oe2Ae8kaYZwE0IrnhPlNfvQcjtFAt7PiF7lX0rz9ufTj9tlwsq5x6v6YGkR4i7dYB83IycdQwgvzrP7FCm7xZ3PFhRYONxfjC+NYefXB1Fz651d1GUs5qZpVKWxBioFrQsVPhjJWvHvxDReiIdGaX7nw2hBUDUNu03e7WAD6cmH4pBXR9xz4eF2kVF39SQ8BdrXOnZkTp2Lh/KXVl8ybZ3gcNENH176G0Qh7Y33P2X01jl9MpFsvE4k0vIrynnGYem5rD3dXk1Sp9yNle8VwoQ0CTKuUybTdoWHzv7Fn+evW5Ew6jXu04MkSBtjqlktSswOXtPmUdV1cLx2+cillPf0ge1c+BzgGBp4SfamWKRohmRnxodmECCQmdIWThpRE/w1V9rm0puN/Wg7KapYK+LV6CrtbrkoKJq1nI9WQXrBtxGBt3bnEfE/CGiV2k13NPiua/sFsyezkoaRyMCKkHj3uJZDaij4406Se7UcR6llB5W5ZKSzae1Ptq5orm/t/pM5Bjg6AGOS71qI4KPUQdsAcR9ZdnX12WwgW2IKwFOzrGu1a8jShiM5Vw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8469.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(19092799006)(23010399003)(366016)(56012099006)(11063799006)(10067099003)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VnM1WllQR3phUWVYeE96YUdaZklpZ2lZTjVqYXlvdmNKTlFZQzUvL284YW1D?=
- =?utf-8?B?cnJWSytLemFPNlZSSUJoSzZCWUJBUEI5dGlaTHgySHVoRjg0VWdBSW5NZXlL?=
- =?utf-8?B?aHc0a0JlZVFVd2t4eHRibnZzTVhoYjBVTE5FYXoyY09rSGVqaGJMZzBTOGp1?=
- =?utf-8?B?ZjZIRmoyNXJleHdJejRiakxMb2lFLzEyZ1l6U1ZNRWNBc0JwV0cvRmM1aDRD?=
- =?utf-8?B?Z2pRTjgrZ21mS255SVZPS2pqL0pMelNjVUR3LzBqYU1OZHhKc1daajdmTm9G?=
- =?utf-8?B?c0p1UENJMmFDdC9iVWFqVmRvYXZ6czYxZjVWbUMxcVJqbEJpMDRGR0swa2VE?=
- =?utf-8?B?Y2lTL2JNOS8vWlVSWFBBTDMxazFrK3FYelVSUTVnLzZHcUhCQ1N5d0FManRk?=
- =?utf-8?B?TG5BcklFVlNKOVJjTlk0SWtlamgrSEd2VTVjMm1EOHlvcFkweXdXSjdSOWVQ?=
- =?utf-8?B?QVVRRmFLMWRFZ0RKK0JWazVuM01SSFZGZko5SC9pNkgvQmNSeXQ0MElpZkJi?=
- =?utf-8?B?TmN5eDhMbmFMTzIrc2ZVdVp5VjBzTnJ1TEtsQnFjY2JFTEdsdkNrUEc5aXVu?=
- =?utf-8?B?OG5OVjJtTWFKalVLQ0VIWnNMWHhoSFR0VGtsZ1FUZStsejZsSlplbEdocm1P?=
- =?utf-8?B?S3hueEJZallmbkdjOGhZeW5JTURhU0laQ3pQT3ZKTXlkeWI1VUR6M0NtV1VU?=
- =?utf-8?B?OGxSbE9sZGFnZ1MyM1FzODl6bnhoenFOcHY3d2crZklQZ3NmbGNQTTVEY3V6?=
- =?utf-8?B?WGFiYTltc3YrSlJBZ3haSUs4Y2Rhd2R5M2RmWis5NXBPQlkvNE50cmhIMzIr?=
- =?utf-8?B?MHFha3pIQnIwcXJLWHVQcUNpRExYcDNXbkRwclIxQUphalZUOVRFWSsyZm1H?=
- =?utf-8?B?Q1hyUHlDdkNkcW5ob1Y5S2tja2wwN1M4NTVESnlKN3NzSmt5NUsvZnZmL1Jh?=
- =?utf-8?B?TUhzL2JuWjdURDBLVGJreks1UjBOUmhRMXN3RWxGS0MxOEhrN1VHKzJOYVlB?=
- =?utf-8?B?NWVXdzBUcHYvKzVaTHNMRGtad1UvSzhyZWg4UFNRNEg5Zk04elZkZldWUFU2?=
- =?utf-8?B?V0ZjanhIT29uWXEzaEtUYUtKR0JBYVNERm5TK1NjbFlNRjRXK2Q5cmloUjJ5?=
- =?utf-8?B?K3RQNWhPOElFZ2NRak9wK2NwcWZVWGhqZmtpNUVYU3lSWm9QQlJaajBFOHIv?=
- =?utf-8?B?WGVKZE5LOVhtYk45Y3g4RGh6OUVKeDc1WDlLUlhnMXpPUGNWZ1ZONVJLdC81?=
- =?utf-8?B?MDhvajN5bXhoZUxtNFBFQnY1aTRpNytNMkVaMEtBcUNjWGtKcjlLYVFIeTlW?=
- =?utf-8?B?SGFXN05rWkJocFppQzBqRy9mczRNeGM1cUhQZnpVMTNzWEFiUmhpNjIvdVhv?=
- =?utf-8?B?NktBR3hGRDFlMWt6bHNqUko5aFQvV0hQWmlqTnlPUDFXTzF4MzJweE1BWnR0?=
- =?utf-8?B?NzhxN0h1aHNsd0VUeEl3VUxRc1h1MDRwZnR5bzJwbmdhM0NOZXNKTWROc1lz?=
- =?utf-8?B?MUt0WldnY0FhSTQ1c0RURUpMVDRHN08wVVNGaW1qYlpVcmx4RUFkZnBPZ09U?=
- =?utf-8?B?ZDkzbVhOL0ErSkFpN1haYjgwWEs0S0Z1VVNzZU5na1JQWDFzbzYyQTEvNFg5?=
- =?utf-8?B?Rm1CS2NlV08rZGs3SVByZzNkeFFoNVJmSDlsS1pEVjNzbFc4NjV4eVlzZllY?=
- =?utf-8?B?TVR6S2UrQngrb2NTb3B5bEh1M3FBT1BOYUx2d3JDekVhUUN6Q2U2ZmRXVTdn?=
- =?utf-8?B?OW5henMrMU4zMGxBNFNWQ2dMUEtMWXhoWXZmeU1uOTNJSlpoUkNkVkZvS3l3?=
- =?utf-8?B?RmtiQUdrcUFHTXN4LzFMcXRYMmNyd1NQRWFQYzc3OU9JM1J0Y1EwYWtaK1px?=
- =?utf-8?B?SFk0SEM3aHRjY0t5cHZyU2J5cVRUWVFKeURmTkF1cmtsaDVTRWxkMkVqMTJu?=
- =?utf-8?B?Q2hNTFkwdkVJanJiOXZsQ3NSRjFIa2RWbmV5R2pIb1h4Y05CY2lFOXhmOXoy?=
- =?utf-8?B?b2dib0dIcWZ6b0d2ZEV0TCs4Q25VdjNaVldjd2VjZENUTnJVN0NteGk1QTVm?=
- =?utf-8?B?ZW50My81UmkyUFQ0bjVvTnltVDF2WVA3aUJJbXp6MjN5QXlJMkZGYkxoYVBS?=
- =?utf-8?B?cUJtL1JaRTJKeGJOclYraWJzY3FmU0tlWENlV3BrVGFqSERUOS9FR1ZmNzF4?=
- =?utf-8?B?VklZbnZXdWUwM3FmM0daSkhlWkJqMU9POXdOVjNUamVlVlFvaGVncEFsZEd4?=
- =?utf-8?B?c2hiS3ZmYmkzWHV3bElvL3lQMFNqTUVXVkZpbTBnQXkvWVVHd1YxMkNPRkJv?=
- =?utf-8?B?VE8xdER6ZnRHWVFFWjBmNUZkVmNyYlRVaCtveWhlQjBBTVRzeW1DTzNhdnpJ?=
- =?utf-8?Q?Q4lhaW69PWsI71Y/fKpZU2jDt4bMjY9JQ/Yya?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d580dd6-b4d1-4ef6-73a7-08df08bcf2ac
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8469.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 06:39:33.0784
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ICWVj7sQdF4cB9kFnmAEMwFqbGQKd7C6OMA7WkQOM5hBlRq43Tllgv8h/6thfy/3uxn3ygPb5omKAfIjnDPzEkOSVpWi373pYNpr5El+tNGyNLR0eEglQzcxOr7qwfGq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6840
+Content-Transfer-Encoding: 8bit
 
-From: Pankaj Gupta <pankaj.gupta@nxp.com>
+From: Pengfei Li <lipengfei28@xiaomi.com>
 
-Reserve 1MB of DDR for the EdgeLock Enclave. The enclave hardware can only
-access DDR in the 0x80000000 - 0xafffffff window, so constrain the pool to
-that range with alloc-ranges and let the kernel choose the placement rather
-than hardcoding an address.
+Hi Steven, Masami, all,
 
-Provide this as a shared imx8ulp-firmware.dtsi that also enables the hsm0
-node and wires up its memory-region, so every i.MX8ULP board can bring up
-the enclave with a single include instead of duplicating the reserved
-memory node. Include it from imx8ulp-evk.
+This is v5 of the ftrace stackmap series, sent as a new thread.
 
-Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
----
- arch/arm64/boot/dts/freescale/imx8ulp-evk.dts      |  3 ++-
- .../arm64/boot/dts/freescale/imx8ulp-firmware.dtsi | 31 ++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 1 deletion(-)
+v4: https://lore.kernel.org/all/20260616064119.438063-1-lipengfei28@xiaomi.com/
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts b/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
-index 4b925832bb66..5fe58a025cfd 100644
---- a/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
-@@ -1,12 +1,13 @@
- // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-- * Copyright 2021 NXP
-+ * Copyright 2021, 2025 NXP
-  */
- 
- /dts-v1/;
- 
- #include <dt-bindings/input/input.h>
- #include "imx8ulp.dtsi"
-+#include "imx8ulp-firmware.dtsi"
- 
- / {
- 	model = "NXP i.MX8ULP EVK";
-diff --git a/arch/arm64/boot/dts/freescale/imx8ulp-firmware.dtsi b/arch/arm64/boot/dts/freescale/imx8ulp-firmware.dtsi
-new file mode 100644
-index 000000000000..e4bc352f68af
---- /dev/null
-+++ b/arch/arm64/boot/dts/freescale/imx8ulp-firmware.dtsi
-@@ -0,0 +1,31 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright 2025 NXP
-+ *
-+ * Default reserved memory and EdgeLock Enclave (ELE) enablement shared by
-+ * i.MX8ULP boards. Include this from a board dts to bring up the secure
-+ * enclave without having to duplicate the reserved-memory node. The ELE
-+ * hardware can only access DDR in the 0x80000000 - 0xafffffff window, so the
-+ * pool is constrained to that range with alloc-ranges and the kernel is left
-+ * to place the 1 MiB region.
-+ */
-+
-+/ {
-+	reserved-memory {
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		ele_reserved: ele-reserved {
-+			compatible = "shared-dma-pool";
-+			alloc-ranges = <0 0x80000000 0 0x30000000>;
-+			size = <0 0x100000>;
-+			no-map;
-+		};
-+	};
-+};
-+
-+&hsm0 {
-+	memory-region = <&ele_reserved>;
-+	status = "okay";
-+};
+The series adds stack trace deduplication to ftrace. When the
+'stackmap' option is enabled alongside 'stacktrace', the ring buffer
+stores a 4-byte stack_id instead of a full kernel stack trace, and the
+full stacks are exported once via tracefs (stack_map / stack_map_bin).
 
+Rebased onto v7.2-rc4 (4539944e5151).
+
+v5 is the cleanups Steven asked for on v4, five issues I found myself,
+and one behaviour change: reset is simplified the way Steven suggested
+(details below). No functional change to the dedup algorithm itself.
+
+Mathieu: patch 1 is the lock-free map. The memory ordering there
+(entry->val release/acquire publishing the element payload, key only
+under READ_ONCE, and resetting + synchronize_rcu() for teardown) is
+the part I would most like a second pair of eyes on.
+
+Motivation
+==========
+
+The target use case is long-duration, from-boot kernel tracing where
+the same stacks recur enormously often and the bottleneck is ring
+buffer space, not CPU.
+
+Concretely: tracing the slab allocator from boot for hours to study
+memory aging and to catch the allocation backtraces behind a usage
+peak. With a stacktrace trigger on the slab tracepoints, every event
+today carries a full kernel stack (~80-160 bytes). On a fixed-size
+ring buffer that bounds how far back in time the trace reaches: the
+buffer wraps in seconds to minutes and the early-boot history -- the
+part we care about -- is overwritten before it can be consumed.
+
+In this workload the set of distinct stacks is small and highly
+repetitive, so storing a 4-byte stack_id per event and the full stack
+only once dramatically increases the time span a given buffer covers.
+The intended operating model is exactly the low-overhead one ftrace is
+good at: let the trace run for a long time producing a comparatively
+small, dense log, then resolve stack_ids offline (cat stack_map, or
+parse stack_map_bin with the included tool) during analysis.
+
+This is complementary to, not a replacement for, the existing full
+stack recording: deep stacks and the early pre-init window still fall
+back to full stacks (see below).
+
+Effect on retention
+====================
+
+Same fixed per-CPU buffer, slab allocation workload with a shallow
+kernel stack (kmem_cache_alloc), stackmap OFF vs ON:
+
+                  retained events   bytes/event   time span
+  stackmap OFF        645,068          ~104 B        15.0 s
+  stackmap ON       1,397,741           ~48 B        27.7 s
+                     2.17x             2.17x          1.85x
+
+The buffer holds ~2.17x more events and reaches ~1.85x further back in
+time for the same memory. The win grows with stack depth and with how
+repetitive the stacks are; for deep, highly-repeated stacks the
+per-event size approaches the 4-byte stack_id plus event header.
+
+Changes since v4
+================
+
+From Steven's review of v4:
+  - ftrace_stackmap_create() uses vcalloc() for both the hash table
+    and the element pool instead of vzalloc(size * n).
+  - ftrace_stackmap_create() error handling collapsed into a single
+    goto-fail ladder, freeing in reverse allocation order.
+  - Dropped the anonymous block in ftrace_stackmap_reset(); the cpu
+    iterator is declared at function scope.
+  - struct ftrace_stackmap_bin_entry grew a u64 ips[] flexible array
+    member, and stackmap_bin_open() now uses struct_size(e, ips, nr)
+    and writes through e->ips. The on-disk byte layout is unchanged,
+    so the binary format is not affected.
+  - Undid a few 80-column line wraps in the tracefs init path that
+    were hurting readability.
+
+reset semantics -- the one behaviour change in v5:
+  - Steven pointed out on the v4 thread [1] that reset was stricter
+    than it needs to be. v5 drops both parts of that strictness:
+    reset no longer returns -EBUSY when tracing is on, and it no
+    longer clears the ring buffer. It now clears the map and nothing
+    else, which also let the tracer_tracing_is_on() check, the
+    trace_types_lock section and the snapshot-buffer handling go away
+    (patch 1 is 56 lines shorter as a result).
+
+    I had replied that I would do this as a follow-up rather than hold
+    this respin. On reflection there is no reason to ship the stricter
+    version first, so it is folded in here instead.
+
+    The consequence is that a trace can still contain <stack_id N>
+    records after a reset. Such an id either has no entry in
+    stack_map, or -- once tracing continues and the slot is reused --
+    resolves to an unrelated stack. That is misleading userspace
+    output, not corruption: the map is still guarded by the resetting
+    flag plus synchronize_rcu(), and reset frees nothing, it only
+    memsets storage the map still owns. This is spelled out in the
+    ftrace_stackmap_reset() kernel-doc and in ftrace-stackmap.rst.
+
+    [1] https://lore.kernel.org/all/20260821235129.078dd489@fedora/
+
+Issues found locally since v4:
+  - The IS_ERR() branch of the stackmap init path modified
+    global_trace.trace_flags without trace_types_lock, racing
+    set_tracer_flag(). It now goes through the same
+    stackmap_mark_init_failed() helper as the other failure path.
+  - TRACE_STACK_ID was not handled in print_graph_function_flags(),
+    so with current_tracer=function_graph a stack_id event fell
+    through to print_graph_comment() instead of being punted to its
+    own printer like TRACE_STACK. Now handled alongside TRACE_STACK.
+  - stack_map_stat computed the success rate as successes * 100 before
+    dividing, which can overflow u64 now that the counters saturate at
+    LONG_MAX. Uses mul_u64_u64_div_u64().
+  - stack_map_bin allocated a fresh snapshot on every open, so
+    repeatedly opening without closing could pin a lot of vmalloc
+    space. It is now single-open.
+  - stackmap_seq_start() and stackmap_seq_next() held the seq_file
+    position in a u32, narrowing the loff_t the iterator is handed.
+    The position is driven by our own next() and bounded by map_size,
+    so this was not reachable in practice, but the correctness of the
+    truncation depended on an invariant that was not visible locally.
+    Both now keep it in a loff_t.
+
+Still open
+==========
+
+Eager vs lazy allocation. The element pool is allocated at fs_initcall
+when CONFIG_FTRACE_STACKMAP=y, regardless of whether userspace ever
+enables the option (~8 MB at the default bits=14, up to ~135 MB at
+bits=18). This keeps the hot path allocation-free with no
+allocation-failure path under tracing pressure. v5 keeps eager
+allocation; if you would rather not pay the resident cost when the
+option is never enabled, switching to lazy allocation on the first
+'echo 1 > options/stackmap' is a contained change and I will do it in
+v6 rather than hold this version on it.
+
+stack_map_bin is kept as-is. Steven's suggestion to give the bin entry
+a flexible array member is taken as acceptance that the binary
+interface can land now; say the word if you would rather ship the text
+interface first.
+
+Test results
+============
+
+QEMU (aarch64 virt, v7.2-rc4 + this series), no BUG/WARNING/Oops in
+any run:
+  - functional suite: 19/19 PASS. Covers stack_map_bin magic/version
+    (0x46534d42 / 1, confirming the flexible-array change did not move
+    the on-disk layout), the single-open guard returning EBUSY on a
+    second open and recovering after close, reset now being accepted
+    while tracing is on, reset clearing the map (11 -> 0 entries) while
+    leaving the ring buffer untouched (149 -> 149 stack_id records),
+    the success_rate computation, and global-vs-secondary instance
+    gating including the trace_options write rejection.
+  - function_graph + stackmap: 4/4 PASS with 173 stack_id events in the
+    graph output, rendering as
+      ksoftirqd/0-14  [000] d..2.  6.731781: <stack_id 16416>
+    i.e. punted to the event's own printer rather than being formatted
+    as a graph comment, which is what the print_graph_function_flags()
+    fix is for.
+  - boot-time activation (trace_options=stackmap,stacktrace on the
+    kernel cmdline): 3/3 PASS, 58 stacks and 421 hits recorded before
+    init runs, 0 drops.
+
+Build: kernel/trace/{trace_stackmap,trace,trace_functions_graph}.o
+compile clean (0 errors, 0 warnings) with the arm64 cross toolchain.
+
+Device retention numbers above were collected on a Xiaomi SM8850
+(ARM64) running an Android workload, comparing the same buffer with
+the option off and on.
+
+Known limitations
+=================
+
+- Per-instance stackmap support is not included; the option is gated
+  to the global instance (in the tracefs layout and at the
+  set_tracer_flag() write path). Per-instance maps are a follow-up.
+- Deduplication is best-effort, not strict: under heavy concurrent
+  contention two CPUs racing with the same stack hash may each claim a
+  different slot, producing a few duplicate entries; ref_count is then
+  split across them. This keeps the hot path lock-free.
+- reset clears the map only and leaves the ring buffer alone, so
+  stack_ids in an already-collected trace can stop resolving after a
+  reset, as described above.
+- The stackmap covers kernel stacks only.
+- stack_map_bin is a best-effort snapshot, serialized against reset
+  but not a fully atomic export.
+- trace-cmd / libtraceevent integration is left for follow-up.
+
+Usage
+=====
+
+  echo 1 > /sys/kernel/debug/tracing/options/stackmap
+  echo 1 > /sys/kernel/debug/tracing/options/stacktrace
+
+Pengfei Li (3):
+  trace: add lock-free stackmap for stack trace deduplication
+  trace: integrate stackmap into ftrace stack recording path
+  trace: add documentation, selftest and tooling for stackmap
+
+ Documentation/trace/ftrace-stackmap.rst       | 175 ++++
+ Documentation/trace/index.rst                 |   1 +
+ kernel/trace/Kconfig                          |  22 +
+ kernel/trace/Makefile                         |   1 +
+ kernel/trace/trace.c                          | 228 ++++-
+ kernel/trace/trace.h                          |  17 +
+ kernel/trace/trace_entries.h                  |  15 +
+ kernel/trace/trace_functions_graph.c          |   1 +
+ kernel/trace/trace_output.c                   |  23 +
+ kernel/trace/trace_selftest.c                 |   1 +
+ kernel/trace/trace_stackmap.c                 | 869 ++++++++++++++++++
+ kernel/trace/trace_stackmap.h                 |  57 ++
+ .../ftrace/test.d/ftrace/stackmap-basic.tc    | 110 +++
+ .../test.d/ftrace/stackmap-instance-gate.tc   |  54 ++
+ .../ftrace/test.d/ftrace/stackmap-reset.tc    |  77 ++
+ tools/tracing/stackmap_dump.py                | 164 ++++
+ 16 files changed, 1812 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/trace/ftrace-stackmap.rst
+ create mode 100644 kernel/trace/trace_stackmap.c
+ create mode 100644 kernel/trace/trace_stackmap.h
+ create mode 100644 tools/testing/selftests/ftrace/test.d/ftrace/stackmap-basic.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/ftrace/stackmap-instance-gate.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/ftrace/stackmap-reset.tc
+ create mode 100755 tools/tracing/stackmap_dump.py
+
+
+base-commit: 4539944e515183668109bdf4d0c3d7d228383d88
 -- 
-2.43.0
+2.34.1
 
