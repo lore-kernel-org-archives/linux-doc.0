@@ -1,68 +1,124 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E2C377A90;
-	Wed,  2 Sep 2026 19:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50124AE8D9
+	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 19:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788376676; cv=none; b=bo3TlpO5tGjBp5n3gtWlQ8uQJkIO+eYJkYYDb+kxCljzr7dGcNzCNoLiuOzUoN1Ok8TSz4uDwQ6blr0cH53o+xvZtpWavZKTbWpYS/giDu3ssz2jjykx4jxVHJKAEYAj7WbB+VrWz1sfFFi2oBiy4ImRUf4TApJ13Ark7jT3cZU=
+	t=1788377951; cv=none; b=NlyShyYsZDymEz+AJCMwdgAx6xHnznUuQ4z/ye2tUnZ5r43vmXYu/Iflm8tFxfoJKlxidKKftOGK6r/0RqeQYR5O6WhwT28iGuiX4lCQAEUJ6n4Uk3Ux9LE+8hp1KxI/a/lpPmImJggSYWSjgUcIzc0fmJsPHHc5HaUywHjwVnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788376676; c=relaxed/simple;
-	bh=STI5DMs8yKGnyw2LbT6QgTYHq/2uSTnv2m6LE1E+4JM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F8Ery7M04EZINnpmW+Iez+StSf+4PDoGi0xXFDG6n+q+HdyNwe5ceWtM2UwBsda5bSfFS+hanKMwdOQ6TjmXubCf2o/aIbAKnDgazcvY4E5t9RlsVMulSHHTkSjPFvjF3DQu/WCtyBJXXmgevR1SUTUKglyChaghDn++0bTltUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CAbBCr9Q; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788377951; c=relaxed/simple;
+	bh=IN7KgNnqs8D1ESaMkPXU7u0sHCNgKxudHA0yUaGKH3c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=B6WoVBw3kAoxuptCSJn5Xl1zcMrwHgOcxXxR3+q6SvJRy5OcSNwTrx89O20WCS5nmBIVVTm+DsH8teaSxWPIsM3bJQz5zpFn9JGlvybY4AN1uI0+8X2u5+U+I/MgOcS33gJDqfszVcI4TMNIZceJ2PsFYG1EsfnbvrizBN1VyeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eEdv7W3n; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CAbBCr9Q"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=oEUafkQKvU1XKQMgGBfcN4kFq1gMxW+UrvINY8fy5TY=; b=CAbBCr9QIrDSgUH2QXNrNPjSEp
-	Lw04WAqXSJ+QrXkLIwTm5M9JDsDffT0EJy4R/ZPSpeeXwqogKmnkcqddHX455G7o58QsaS7eprJHj
-	/C0Ynzcx54sEGA/16r+s2dgF3MEzewLiOct3SPbaO/Y5V7DocIw8ERAnbG42jgB5ErAq31Y8P4CwA
-	wwKlvZXIYNvWoiNsWXWEeDWMjvV0XtGjztaDmCGlKsEnNHpwOrthSHsAiqYesTGB7Q4bkg17Jskod
-	QE5Ix32a6B+exwm9jhHo7L9W6j6+DvCgp72B+KiLVPnk099nZ12ILpwm+Jnj1hrbUHWB5xq3RoQyG
-	BSFC8xwg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1qT0-0000000Fg4A-15zX;
-	Wed, 02 Sep 2026 19:17:50 +0000
-Message-ID: <08a4a9b3-0271-4e92-9794-4579989e2426@infradead.org>
-Date: Wed, 2 Sep 2026 12:17:49 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eEdv7W3n"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49cd77e0f95so15385985e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 12:39:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788377938; x=1788982738; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qf3cTJ2gK9rwWSik6ILKIPabS+XWIpM77pAw1SCvPKM=;
+        b=eEdv7W3nyILq4p2OHNywxGRG+5XtQG2woHts9iT9TzZp1+keMP5y3pdLlzRObQOxCd
+         ggUr3NSe9r2lOEnkYHMERSjsKpifnPbzZpYrjPzfkuONGUnZWGG12HSt92li9HgtRt1g
+         4zzKucecLqf6xhZOpV43+wW+bUM4DTt1+AUt5qZicA37b0Hi3ru7w1s2hUhVCCYMg/99
+         RUHlv8zprAhaD1kkFTyCCmTCM/x7q6nap2N32Vv6hiK0Odjet5rl/NH3ehcnv8Aq8nIU
+         oBBTNr3ZRlcb99+VGpj4ilUCD1AiSf+9GmZRHq1LfzO2TmuJnA4vTme2zKRqg4S8A5Sj
+         knww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788377938; x=1788982738;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qf3cTJ2gK9rwWSik6ILKIPabS+XWIpM77pAw1SCvPKM=;
+        b=VVA9H/dG8UNxc7llLWTD5Mi05Fb76wf0WKbei5crzuDs9ulZLQ7vMkJzulkj7/o9OY
+         A9cKCwJ8C88e8ln98cV3BDuB/F3/NZjy6qQoi2XyMaQ8FhTVkrz7C7hHAc/sXajargt8
+         vcqWNdlajABzChr6HCEHzVEDLGfOPqKE44+7CXd5m+kJNiLc5jOFOW1+YNj3IiIlen6s
+         QuksdioKhv9wZDC1cNDgnwqfLqpyP1BrCzUNaTtZEJAg9RLi2AvOZoDyeZW/T+g6NLow
+         hgD84TmfCarYnQ4Je32baKu+0N2UsiCMevzKmX+g9MX6GcXHyK1pgT0qtNzaD5Ci5/6x
+         Z84Q==
+X-Forwarded-Encrypted: i=1; AKwUvBy/ejYVycS+S64q1fSasqEBlp+zUEOxIrbD3M5A4VVBz/w2mKnScTjQ0H5RKHisyvWc9KK8ctrZWzE=@vger.kernel.org
+X-Gm-Message-State: AFuF++ll6adN9n5gBt4+Ca2eoBwaSTy6ZLUfcnfyy0672PDlYYBfThSZ
+	rVyaBxTdWyrHdwXn3KDu9VEq7t3ecwIQlyB1kfsdLs8q9V73R4Bz6Esn
+X-Gm-Gg: AYBFou3dDoj4yUfJZgHVqI5edvjcmD6iN+/OuAHWaEgMTc1e4r4RabhbyN7jZL3ngE/
+	e2JsKh7PIEYhb5Xdn03vk+cDYtGJTXLx6gBQxo/T+CJ5bHEhWTE06MMHp83p0XsErx0tNzQ55mh
+	meZQbcTd0t4irn3gSvy+FpbutReWO9abf1TjuGjtCNntSbnD/y5F5YvgHxJ7xU4uKxX1DFUFhaV
+	V2zLdRrZ3vS60IeWjVg0V4W8UcBzmtWhKT6mQ8plZjtv+5HJoBV8dzLVanzCvon2TciUwQJk8kF
+	Hi7NXWgVpflmKoO0+uygXmgYplCCGh0z2HlLpUuNukEWafuNn8rS4Q+YyvUhAwj0Fllm4iJvNSk
+	TV4+GJ51lzYkR5onorJSBOt+hhhmJCLXgjVz0Kzdo7UxtL08rG4nktrsa7U2Wy5+/RLbAcRrp/z
+	rIDtj10WHKTRQGPfUR+Y+2c7qZNd41jAG22L9HD4FKqglZhBOB+BwihWZykz3yGwUrwvLTxNCGm
+	g+vJSo=
+X-Received: by 2002:a05:600c:a402:b0:49c:ee22:364c with SMTP id 5b1f17b1804b1-49cee22422dmr34410355e9.9.1788377937983;
+        Wed, 02 Sep 2026 12:38:57 -0700 (PDT)
+Received: from christian-ThinkPad-T470.. ([2a03:4460:170d:5700:2ccc:f994:68d7:fe7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce554d52esm49925915e9.3.2026.09.02.12.38.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 12:38:57 -0700 (PDT)
+From: Christian Melendez <chrismelnu@gmail.com>
+To: "K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org,
+	Christian Melendez <chrismelnu@gmail.com>
+Subject: [PATCH] Documentation: netvsc: Remove stale "not yet supported" XDP_REDIRECT note
+Date: Wed,  2 Sep 2026 21:37:11 +0200
+Message-Id: <20260902193711.113291-1-chrismelnu@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260831200357.45390-1-chrismelnu@gmail.com>
+References: <20260831200357.45390-1-chrismelnu@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] Documentation: process: Clean up grammar, tone,
-To: Nguyen Duc Thinh <ducthinh100812@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Weijie Yuan <wy@wyuan.org>, Shuah Khan <skhan@linuxfoundation.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260902084324.16498-1-ducthinh100812@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260902084324.16498-1-ducthinh100812@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+netvsc_run_xdp() in drivers/net/hyperv/netvsc_bpf.c has handled
+XDP_REDIRECT since commit 1cb9d3b6185b ("hv_netvsc: Add support for
+XDP_REDIRECT"), and netvsc_drv.c advertises NETDEV_XDP_ACT_REDIRECT
+in xdp_features. Remove the stale note.
 
+Link: https://patch.msgid.link/20260831200357.45390-1-chrismelnu@gmail.com
+Signed-off-by: Christian Melendez <chrismelnu@gmail.com>
+---
+ .../networking/device_drivers/ethernet/microsoft/netvsc.rst     | 2 --
+ 1 file changed, 2 deletions(-)
 
-On 9/2/26 1:43 AM, Nguyen Duc Thinh wrote:
->   Also I want to know the current progress of the patch titled 
->   "Capitalize Git, Quilt, and Mercurial consistently".
-
-"Applied, thanks."
-https://lore.kernel.org/linux-doc/871pbege59.fsf@trenco.lwn.net/
-
-It should be in the docs-next tree (although I haven't checked).
-
+diff --git a/Documentation/networking/device_drivers/ethernet/microsoft/netvsc.rst b/Documentation/networking/device_drivers/ethernet/microsoft/netvsc.rst
+index fc5acd427a5d..616f808e885b 100644
+--- a/Documentation/networking/device_drivers/ethernet/microsoft/netvsc.rst
++++ b/Documentation/networking/device_drivers/ethernet/microsoft/netvsc.rst
+@@ -116,5 +116,3 @@ XDP support
+   before running XDP::
+ 
+ 	ethtool -K eth0 lro off
+-
+-  XDP_REDIRECT action is not yet supported.
 -- 
-~Randy
+2.34.1
 
