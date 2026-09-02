@@ -1,66 +1,62 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09CE13C09EC;
-	Wed,  2 Sep 2026 15:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC454A499C;
+	Wed,  2 Sep 2026 15:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788361633; cv=none; b=sl+gtd7ns6u4AQTozg9bQX0UCPquc2ekrENmWVkb4Ruv2xE1E2wylfUW6zQAoqRUX1OpncCaMeqgIlqIlZNMlAQ+iJLG8YQMjZg/FZFhJazQki4R9cdTEIVg6kRhh2Y3a8Br4llx+CQc14lEjGOOlhWjtj25g7X5j76e4D8DGqw=
+	t=1788361912; cv=none; b=kmkhNvezY+qK99mBRKooX5IOIwMhckBETbj1WlguP5CBZFw7EamffUAy/U+YbijhXwKHCAWgttK7wGx+B/8Ld88n0FeljM6x+Jh6gSeG3uWs0Tm85Z5MKAG95G4uXmuYVZmArhwQUzehR+akzNThP0e6nDLdWGDGHVFjbBFOmfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788361633; c=relaxed/simple;
-	bh=yCnnRcWapCdczB7keBL8DAHVXgAj6E2lTx3gTssvZwg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LfpT1RbuTVisGsQT0nMZROCJqV84SzD4WaqGdKKxRaLf/3rJ8LADtG5PLuKwmh9wNkveOr4hlcBoSd9JCtlw6Ft6IgL3+K8nY/UTLnr+lFEU19mp6zLkfr0njlslPDJ+lHMqlIumYVD0N4aw8WV9mdNapjNDo2u3hfNkMLiwYYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=QQOJaqUg; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=RoM+53kW; arc=none smtp.client-ip=80.241.56.151
+	s=arc-20240116; t=1788361912; c=relaxed/simple;
+	bh=ibr/j2gpobjRQbUD99yRSw2v85e/E3NAoGIW7RNmVyg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nLZsRJLkAzumj2uZqSQxWbkPWipA8rJsoC30i2gOUuvW4YMvhwE1b1ec7I8UVMx9+1FGrcKOM8m20l3/OpVBWx37bMy09lTF48EJ8FRRyhczuzcH0r96QYMsdJ5SHvt8ymktAgVc7ETmlAJ9tTSFk9Yw4JD4YD1o/9y4jNwDhc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=W0XbqfPV; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=aPsZeRXA; arc=none smtp.client-ip=80.241.56.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="QQOJaqUg";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="RoM+53kW"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="W0XbqfPV";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="aPsZeRXA"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4hZmKm5Js4z8v5k;
-	Wed, 02 Sep 2026 17:07:08 +0200 (CEST)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hZmR64J8TzMlCH;
+	Wed, 02 Sep 2026 17:11:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788361628;
+	t=1788361906;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=Hdf5EyBAZrRUJofDiVc1OMKsssxX7EJQUQgIzO7EwII=;
-	b=QQOJaqUgMM+65WTo8u7yZPtOQukF2Vr0DE2EI4mXADn4GhD6fVuDOao4uwhuqsF5UZBa8I
-	rgNiF2t+z45A94nNYci15gParqwCga5TXjKurW8G1pNvyjaGX8r9Vf7+8/Vx693wc+P49v
-	zm2I7bXUqk6j4n2yZ/RwPTFoaqziBMlm/F64nt6xc/j0PLJvNabThafu4zNIpKyG7Ulybp
-	3Ceyu11YKNn0e+jGvyUkAsUbYxRX6ou1SkGHjuyv112vKNN8oJjv+X6Rzy6qZybkf8FY8q
-	EVJJpU1cVkyJ4lNRZoCxyqF1U+U3ue8IjzjFAScXTJKakdz7VZRgKcrvIiZFYQ==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=RoM+53kW;
-	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
+	bh=aNgEJx62+KEZOmgroOUI48+z30y8hztgfacUD+uqH7c=;
+	b=W0XbqfPVhlXJw9H/wb1v26+1LkpgBy11XR5DpV+Scyc1zPuoEm4j37obzeKvMllIHOayBa
+	30MOAsI+whQayy8VsCP//hfAEQDitYfGr+nMRVIBvOVJGPQ/3dS943e+LpZRs8hrtrtRrP
+	T6RoU3JhfGh32mKfoNXYwy08eSdnap2sXVSAN3ACAzNc5d43hweTj+Mum18uBVN/VZSg+s
+	28nmNshSQIwONfVMlx/7KYHIi12CTaUelCm+1MMm4Op8VmvgHn43/wepQbF6kHAntJOURx
+	JiQTCdS2lKKD7P5YVuz1wQJBK8FfU6e5ki+FZqMYkVZs6LCu+dM5W2p1975dDA==
 From: Manuel Ebner <manuelebnerli@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788361627;
+	t=1788361905;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=Hdf5EyBAZrRUJofDiVc1OMKsssxX7EJQUQgIzO7EwII=;
-	b=RoM+53kW9ZQtt+RlkuzsGneIZkPftWLFMFb1dqFUs1v611bTxCTZaXrmOdu4X993UNN0i1
-	HHCDUuLDRIzF4xsVZIs9jXoAjGGWbTcXUBCYhIYJ49R0F4gbnnJ/nTQM9bnizyPe9ALyDO
-	NdxZ0BNK3Y5VXs6bYO3qXhZ9DPhR6IrL8EkZt774dL450klg31wHxZwsOAoaDdgK8peIcx
-	3lv10P9F2d8bgRJVhaNySzmsmD6e2NTVV2mNgHo+l82mlY3bQcWWTr8MAgl+NTxGL3wxWK
-	G9aAEM9U7jnVVh5/gmD9fjss8HIJSVoV5rMkY53JI/R0FIAh7YeDrp77B0fBIg==
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+	bh=aNgEJx62+KEZOmgroOUI48+z30y8hztgfacUD+uqH7c=;
+	b=aPsZeRXAto/1Hi9ZBNqzziK7/FYpNAGM99vVf6/b/2GdeVVXLMtkFy0yBcPxLHI35kSxq2
+	DUYvISOHyEGUVHDuckumZj27YlsANuATh5EmevLWqSteB9gVMuNeKpdXs6ZlBI8mnapDvE
+	QUkKD4P1ImGM7eGZ9zl6GlgO7wsbfGP6wKwy3+qhHPjS9RpXnGwf8i8rXh21Prl987R2d8
+	5EXCNEz99QIKqhcsIAiN77O0rhSXosqaoGde9bOzkVyZO6IegexOHIUh5q1ikO/KDvUijb
+	pZPP6VudTH5MoawbuvJP4HRP5Zub3LqkvOAorf4MHen6evwlKFlTp/mkAMHHQQ==
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>
 Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: doc: Fix bracket and move place holder
-Date: Wed,  2 Sep 2026 17:05:10 +0200
-Message-ID: <20260902150510.706055-2-manuelebnerli@mailbox.org>
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation: trace: histogram-design: fix bracket
+Date: Wed,  2 Sep 2026 17:10:31 +0200
+Message-ID: <20260902151032.706407-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,36 +64,29 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: rgdzf1xa75bgbz8auhuiaznegm3gwrk4
-X-MBO-RS-ID: baddc5f0cd909114df1
-X-Rspamd-Queue-Id: 4hZmKm5Js4z8v5k
+X-MBO-RS-ID: e72e2b03c3e05f244d4
+X-MBO-RS-META: t9wtxtaoe499fbwss8w6pdyf1uxrxq1f
 
-Remove '{' and change place holder
-'< ... more DAI links above ... >' to
-'< ... more DAI links here ... >' and move a couple lines up.
+Remove needless ')' from sentence.
 
 Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 ---
-I'm not sure if this fix is good, please review.
----
- Documentation/sound/soc/dpcm.rst | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ Documentation/trace/histogram-design.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/sound/soc/dpcm.rst b/Documentation/sound/soc/dpcm.rst
-index 7b6aeab3c..91e0418e1 100644
---- a/Documentation/sound/soc/dpcm.rst
-+++ b/Documentation/sound/soc/dpcm.rst
-@@ -356,9 +356,8 @@ The machine driver sets some additional parameters to the DAI link i.e.
- 	.channels_max = 2,
-   };
+diff --git a/Documentation/trace/histogram-design.rst b/Documentation/trace/histogram-design.rst
+index 41a726cd3..b757afa22 100644
+--- a/Documentation/trace/histogram-design.rst
++++ b/Documentation/trace/histogram-design.rst
+@@ -876,7 +876,7 @@ next_pid field on this sched_switch event, we retrieve the
+ variables specified in the wakeup_latency() trace action, and use
+ them to generate a new wakeup_latency event into the trace stream.
  
-+        < ... more DAI links here ... >
-   static struct snd_soc_dai_link dais[] = {
--	< ... more DAI links above ... >
--	{
- 		.name = "MODEM",
- 		.stream_name = "MODEM",
- 		.cpu_dai_name = "dai2",
+-Note that the way the trace handlers such as wakeup_latency() (which
++Note that the way the trace handlers such as wakeup_latency() which
+ could equivalently be written trace(wakeup_latency,$wakeup_lat,next_pid)
+ are implemented, the parameters specified to the trace handler must be
+ variables.  In this case, $wakeup_lat is obviously a variable, but
 -- 
 2.54.0
 
