@@ -1,154 +1,155 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10AA42E43A;
-	Wed,  2 Sep 2026 10:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF96442399;
+	Wed,  2 Sep 2026 10:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788343711; cv=none; b=ptKUbUr0kK2eENR826GgPUjZTh9Kn3dyT66lDX+v+tFnB6CvgK4jHHQ8+tkpe6tpA1w8RlOliKxhEj+39FXcz/w4riVblGeoPN3qlyUwrPYILKYNkJGotk3vzw9BkT4c53ZI1DO/PxD2O4iGug5Xb44bAHSHh2cWDqV8YBJYSZQ=
+	t=1788344803; cv=none; b=bGXr7LeioKXDjc4snIkzVk7ZkYfCPuxO03u022To+KEU07uevjBl0doWcdhLPdubjpMtYWEPDVXo1k+6sbcNPc1JpQDmRLZ8vb1aJM8PtTTSPcf7mxOYzJ1QChZbPJ35dP3jPycrqzi+giRKcTKMH6HsGoLBgz2Mj+vGzGgppI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788343711; c=relaxed/simple;
-	bh=Xe25IyFNV2QWahR6exSDlyZpDyE6vg2OkdVeXlL67QQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tAuvIfYBzZ/IfohgoG8FbBe33O6xq6pF1UM9d2gvv3J/QTE7dqwoL0hyJVD4J5U7mTQSEOhom4zs6CD0+XzsN81G5Z6yUnGBURUHFpEIoduYD375jErp1hGLffMVNlE5nAgosMuYrYjDMbEzXwOG+yxs/7SRczomQHtBqQIVFrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WqLK9HD/; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1788344803; c=relaxed/simple;
+	bh=7Fmyr0br0Pw2O/ShA7nOmC9TvroEISadr6n61UmEvXk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:Cc:
+	 In-Reply-To:Content-Type; b=XLNwAuzuAPwA3YtgjqJoj838Cx90pDceuKDf8zmd9C0HhL72zLtU7EYkOIu+ZI9whakj2A18zNPU20M9nqXR+2iuZ4lzhaO/aammFHVakauF4C3F/Cpyoz0UuN0VeK+T/C2YIFrUE9LuXG0itFPlyg0lEjpT1rpRCa+6wG4pZJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=Heg/RVhX; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WqLK9HD/"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 91AF81A195D;
-	Wed,  2 Sep 2026 10:08:26 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 632E46053C;
-	Wed,  2 Sep 2026 10:08:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F24D811C792F3;
-	Wed,  2 Sep 2026 12:08:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788343701; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=xVRdbR32fbMwCjy/t/IfCUB0e7pTnQGXBNkJ9mb3Mzk=;
-	b=WqLK9HD/tgyVgNJO/gLA6/XJnsi1JsewfVdkRfA1VY8ScLST05n2zKL1CqkfWSdbztexbH
-	uLSzalGh7SrZvP+G/PPqBGGeD30kE8PRc2/v6mVZC4XkuflwLNhIcoVuCvlq0AiKIxsPjY
-	dmYCds75vhQRtTsk6dQaT0o7ek8UMXpi5JRow6FT3QswbJbMQ8mwUHGBFnrlzASuIIa1Y2
-	DQLHWWIbHB3TsNSOEAkUwturdmZQ26/2UTvkOUNQ/YpYPLIDF5XFkjm/L1m3aUq4H2Gj9V
-	PnWSWGYjBz6LuM5fO7xgrw9rmEq4QxG5wUBDZaJAFoxgYwucA8M/GIAdtimMYQ==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: "Michael Walle" <mwalle@kernel.org>
-Cc: "Pratyush Yadav" <pratyush@kernel.org>,  "Takahiro Kuwano"
- <takahiro.kuwano@infineon.com>,  "Richard Weinberger" <richard@nod.at>,
-  "Vignesh Raghavendra" <vigneshr@ti.com>,  "Nicolas Ferre"
- <nicolas.ferre@microchip.com>,  "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>,  "Claudiu Beznea"
- <claudiu.beznea@tuxon.dev>,  "Jonathan Corbet" <corbet@lwn.net>,  "Shuah
- Khan" <skhan@linuxfoundation.org>,  "Steam Lin" <STLin2@winbond.com>,
-  "Hsin-Yi Wang" <hsinyi@chromium.org>,  "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>,  <linux-mtd@lists.infradead.org>,
-  <linux-arm-kernel@lists.infradead.org>,  <linux-kernel@vger.kernel.org>,
-  <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 03/23] mtd: spi-nor: Refactor Read Status/Write
- Status support
-In-Reply-To: <DKONYM8W4BAW.25PBIPPWCILG1@kernel.org> (Michael Walle's message
-	of "Fri, 14 Aug 2026 14:25:56 +0200")
-References: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-0-b637cf120d5c@bootlin.com>
-	<20260813-winbond-v7-1-spi-nor-rv-addition-v3-3-b637cf120d5c@bootlin.com>
-	<DKONYM8W4BAW.25PBIPPWCILG1@kernel.org>
-User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Wed, 02 Sep 2026 12:08:14 +0200
-Message-ID: <874ig87ypd.fsf@bootlin.com>
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="Heg/RVhX"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CDA6F3E97B;
+	Wed,  2 Sep 2026 10:26:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1788344791;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GRogZaXeJI0sxRVtwh4Rv+azq6CPVOmAmr30OdYFC9E=;
+	b=Heg/RVhX5agzsVUibGoaePBiscY7viq6SMgqIwtnygcCja3++IqwlYrENqzIg6Rvvk+zuh
+	r4EbQ1CG+ENad1w4DGXW3l/B42NjvIZovXmTfLl7ZskENX110NZb8O+X1Jz/+jNUBBnlhg
+	0XEs/OITwYPH+SRmnwiecH3vRvkaIKRm9riOcL66GpkmIy/rqol6Cn5Ote26fpVEhtqSMm
+	07PpKskVtLiwY5vwLkqvWVP81caVnAqL44E64A7mRlIzy6alNFFMa3DT/iNTGEhUoHfDG7
+	e2TN/LN0w7jKSFf1xnD9LhLf7DAk8CHY23Mm+KFqtoLS7KnX+aoHOqvkEDLk6Q==
+Message-ID: <ed43b869-6fd4-4b00-8fd2-e9dd9aaf3349@gtucker.io>
+Date: Wed, 2 Sep 2026 12:26:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] scripts: add TOML config to container tool
+From: Guillaume Tucker <gtucker@gtucker.io>
+To: Nathan Chancellor <nathan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Miguel Ojeda <ojeda@kernel.org>, Nicolas Schier <nsc@kernel.org>
+References: <7d8ba914cd174d716340bb2b88723bef0f330627.1787565460.git.gtucker@gtucker.io>
+ <apG3hwaPA8f7SJeI@levanger> <b45e7864-928c-4b3c-aa62-64f4f63d85c7@gtucker.io>
+Content-Language: en-GB
+Cc: linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ automated-testing@lists.yoctoproject.org,
+ "kernelci@lists.linux.dev" <kernelci@lists.linux.dev>,
+ Nick Desaulniers <ndesaulniers@google.com>, =?UTF-8?Q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>
+Organization: gtucker.io
+In-Reply-To: <b45e7864-928c-4b3c-aa62-64f4f63d85c7@gtucker.io>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-Cause: dmFkZTEOOtMFYOFpbE3Q1NhkMev0AJHp+c1ZkolRqLgUvK5r9Zdqv2ZD6JyCciA8IAcaoMxmMHLOt0UxEYzuMXDKcuUFpFG4T/tYwAzgRc7aK+Kkf9YgcMeywzGjY2FnIPxsC6dyCz/OqB6BdeOc5ILFgaxy0WvyRACEKYBOJVlALfDRGQV6b2ZoRGUeUky+Xj0s6xTFDZ5SfKgqrzLO13fNS7xxyK/a03D2zlfEVYFY8px7Wa9HaYk/fOrS2XqKmBq1YgFNotgeiJ6thcrJqWmea8+zT9sU6SqdFkjRb/inGLw0Y8d5wXkDKXFqMgOdifSMjtr8Y+KiGiIIge3yiHRD2CI/X+Nf52QwGZDKX+89NBgJJSOOo4W6ZJBiykTvFmpgOC9T51Qb7NmDKvJaVwbuAagc2JeI/IwHLEScbx0wCHlektDNPz2mR5yC2THhwu0Smpq1bqcttloL/2D8uydqaPa0u/j+8xFZx7feng7LhjsHSaFRL822+pagLanTev2XBj9K+0XrSo5mlka9B3Q7y+75ren0TZ8KWOqkYS25PzRQDF7afdCsk0QpCdINBtuFgdZHZ7c+cdhrdVJLpGsBPeHgMw+ofV/cg/jwkRFeQXgNCey31UH9EoSWLKKt31N4MosFe388AM95v0T1pAx3eEGiDDBEfDJhK7fldAfnZlhrkw
+X-GND-State: clean
+X-GND-Score: -100
 
-Hello Michael,
-
->> There will probably be breakages on older chips. These cannot be
->> guessed because they are not properly listed in manufacturer
->> fixups (yet). If we want a cleanup/simplification, we will have to cope
->> with this risk.
->>
->> I hope the diff stats will motivate people to have a look and report
->> their testing.
->>
->> I will also eagerly monitor Sashiko's output which will probably be
->> very useful to catch niche weird cases where these changes might break.
->
->
-> Honestly, I'm still not sold at the sr1 and sr2 split. But since
-> spi-nor is know for it's code churn. I could just rework that later
-> :)
-
-:'-)
-
-> Still I had some questions in the old thread:
-> I don't get why there should be any endianness problems?
-> Just the low level read and write would have to figure out how to
-> read and write the status registers.
-
-Yes, that's the point, with an array there is no endianness problem,
-even low level helpers do not need to know memory ordering. Endianness
-is *always* a pain, it is most of the time wrongly understood, I hate
-endianness topics :)
+On 28/08/2026 19:25, Guillaume Tucker wrote:
+> Hi Nicolas,
+> 
+> On 28/08/2026 6:29 pm, Nicolas Schier wrote:
+>> On Mon, Aug 24, 2026 at 12:05:47PM +0200, Guillaume Tucker wrote:
 
 [...]
 
->> +int spi_nor_read_sr2(struct spi_nor *nor, u8 *sr2)
->> +{
->> +	struct spi_nor_flash_parameter *params =3D nor->params;
->> +	int ret;
->> +
->> +	if (params->opcodes.read_sr2) {
->> +		ret =3D spi_nor_read_sr_ll(nor, params->opcodes.read_sr2, sr2, 1);
->> +		if (ret)
->> +			return ret;
->> +	} else if (spi_nor_get_protocol_width(nor->read_proto) =3D=3D 4 ||
->> +		   spi_nor_get_protocol_width(nor->write_proto) =3D=3D 4) {
->> +		/* Make sure the QE bit is persistently kept */
->> +		*sr2 =3D params->qe_mask[1];
->
-> Mh. So before there was at least a check if a quad_enable cb is set.
-> Is this now implicit? because qe_mask[1] is zero if there is no
-> quad_enable? That should at *least* get some comment.
+>>> +import tomllib
+>>
+>> Have you seen the comment from sashiko?
+>>
+>> | Will this unconditional import of tomllib crash the script on startup for
+>> | users running supported Python versions like 3.9 and 3.10?
+>> | The kernel's baseline requirement allows Python 3.9.x, but tomllib is only
+>> | available starting in Python 3.11.
+>>
+>> https://sashiko.dev/#/patchset/15e16f175f59ae666036764eb03c40cdf19809c7.1787896890.git.gtucker@gtucker.io
 
-You are right, this is missing the st_micron case. I will re-add the
-check.
+Here's the latest Sashiko review from the v3:
 
-> I tried to actually get the original use case, but all I've found
-> is Tudors commit 39d1e3340c73 ("mtd: spi-nor: Fix clearing of QE bit
-> on lock()/unlock()"). There wasn't much of a discussion on the ML,
-> and I couldn't find where Boris was suggesting it.
->
-> So before we cannot get rid of it anymore, we should just handle it
-> in the one caller which actually uses it: spi_nor_sr_{un,}lock().
-> I've checked the current spi_nor_write_sr_and_check() and the only
-> actual user is the swp.c. atmel.c is doing global write protection
-> on/off, which IIRC only uses SR1.
+  https://sashiko.dev/#/patchset/0a88d9d0ebd73a9f6e72399f93705ebc7b49ae9c.1788341513.git.gtucker%40gtucker.io
 
-Yes.
+The bump to Python 3.10 is being kept as discussed earlier with
+Miguel and others.
 
-> So let's move that weird handling there. Then chances are, we can
-> get rid of it as we know what flashes do locking because that is not
-> discoverable at runtime. It's just tedious work to check all the
-> datasheets. But as soon as we now put that into a more generic path,
-> we can't do anything about it anymore.
+>> (and there are some others...)
+> 
+> Some of the other comments are a bit bogus, the uid / gid precedence
+> logic is correct as far as I can tell.  It's a matter of convention,
+> maybe this should just be clarified a bit better in the documentation
+> (and we may add unit tests at some point...).  The comment about
+> injecting malicious runtime options via the configuration file seems
+> misled as the user should be able to trust the config file just like
+> the command line.  It's true that the image name itself could be
+> sanitised for extra safety anyway but that's not something introduced
+> by the config file.  I can do this as a follow-up I guess.
+> 
+> The comment about a missing whitespace is valid though, and the one
+> about profiles with integer values of 0 is valid too so I'll get them
+> fixed in a v3.
 
-I understand the concern, which is right. I just added a
-"read_sr2_careful" helper for the swp.c purpose.
+The comments about UID and GID have been addressed as well as minor
+typos with missing whitespace etc.
 
->> +	} else {
->> +		*sr2 =3D 0;
->
-> I'd expect an -EINVAL or -EIO here.
+The issue about container image name validation will be addressed as
+a follow-up since it's not introduced by this series.  I've prepared
+some changes with a compliant regex to send on top already but it's
+quite invasive so I thought it'd be best to get this first series
+done first.
 
-There is an actual case that is possible where we do not want to use
-quad mode on a BFPT_DWORD15_QER_SR2_BIT1_NO_RD chip. I believe we should
-keep =3D 0 here.
+There's a new comment which seems fair enough although that's also
+partly a matter of CLI options interpretation:
 
-Thanks,
-Miqu=C3=A8l
+| Since there is no --registry command line argument to override or unset the
+| configuration value, a default registry in .container.toml (like docker.io)
+| will be blindly prepended to fully-qualified images provided via the -i
+| option (e.g., quay.io/lib/img).
+|
+| This results in invalid image paths like docker.io/quay.io/lib/img and
+| prevents the use of images from other registries via the command line. This
+| appears to contradict the documentation's claim that command line options take
+| precedence over configuration values.
+
+I can definitely take this into account as part of the image
+validation rework since it'll also be able to parse the registry part
+of a fully-qualified image name.  If the registry config option is
+currently seen as ambiguous, I can just drop it from this series and
+consider adding it with a more robust implementation then.
+
+There's also a new comment about handling TypeError exceptions when a
+TOML config value has an invalid type (e.g. string instead of int).
+This isn't really a blocker IMHO but can be handled to improve user
+experience.  In fact I'd consider improving error handling overall
+and factor-in an earlier comment about when no runtime is found
+automatically and a more useful message could be provided.
+
+
+So to recap, here's what I would suggest:
+
+* keep Python 3.10 for this series, continue discussion about minimum
+  and optional version numbers tree-wide in other threads
+
+* drop registry config file option in v4 then add it in a follow-up
+  series along with image name validation and parsing using regex
+
+* leave TypeError exceptions as-is in this series, improve user
+  experience and error handling altogether in another follow-up
+
+Best wishes,
+Guillaume
+
