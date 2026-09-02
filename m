@@ -1,67 +1,68 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84EC644781F
-	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 23:01:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CB0453A55
+	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 23:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788390074; cv=none; b=IOeZhLMMNJ31aEh6GlKsZ7N1zUTMnBxklzdJJ3XehWUndcRL/XOvWuR16Z4C5IoZFa40QYHJDeA2qeomtJQ0j71AU8myTND/ldRtHVGM4erXEjyQIS4Cg4fdLBiUokEAtyFRcKAO3CSfM/OAXTSoIJDI9gKZ3292wwLjRNU+zlQ=
+	t=1788390080; cv=none; b=jHv9bYq2nUcqdudOCUhJxX6xsSK7cI14Dke08Q7vLyT84AvafM7Rpoc2NhRe7++je1YvBdlyrELFGBh3QyjGkE7SGNMaSEN+WaasiamVBGoFjbP5tSE2VNMd2/kUJhRUe61Lq9YkfHkubKnI0cmzigC3TbzFrmtk6UQhK0rK6dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788390074; c=relaxed/simple;
-	bh=S/34GgnpIisKNAJazB6aS6c0H4pLuTB5PSuj71c9luE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TTee+jfogEeKpHZp4nB05BbRiB00nEjwFoazAvap2iVMVQvbld/lifPwRr8oxhkkjbecYpwyXbZ3UxwCcrugbZLd26vKl8evvpcMcU3jdlbgRZILNWXJrcqQSx/vvjQrTRAIDQg712ZZspeXiURoFKoxAn2zZVafubooZEcL8sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fgOBW8jj; arc=none smtp.client-ip=209.85.160.52
+	s=arc-20240116; t=1788390080; c=relaxed/simple;
+	bh=dqBzikGa14hqqrjBAPe6y9B3zxWzEgOKtDsMRinPnZo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=KSA9WcJkA6FcN+DKD4iUqSobFuagsxYxjbBrXiUews+ru1DZK0MAWFstohieP3BlXGqL2s0Uu1YEwebRc22NS9mcu6KYVPQVEY8877JZlTAq8fdz4KHUmd4GhFFCvrcpbK8gCgqgau1uam02CHrnFt4kfDldKNS1JQigCkdLdRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NS/oc9Hs; arc=none smtp.client-ip=209.85.161.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fgOBW8jj"
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-46adfc81112so909148fac.3
-        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 16:01:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NS/oc9Hs"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6b145a9623fso681511eaf.3
+        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 16:01:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788390067; x=1788994867; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=2/4BUiYwhmx8BTSrnAZKpKB6tkHSRMMIf9FbGNEl8BU=;
-        b=fgOBW8jjg76UuyelSrqyD4H08vG0+FQAbIjEB+fpjLGKwtJJ8/QQ4NQzwSqlDovnI/
-         jtTiHh1sU4A6WTPsVcwaefFfQlHoK4kj6ycZYD9YN3m62JsHBYql+J4bQxlec1AY9ps1
-         nyaQxMfmR+82JzhpcUUJXsWnD4siJLTQCZfAN6ZV5OzxKQkwMVWnGEyS9n7mDGWjJOzF
-         8A4XSu26eJbe2WnU1hEdwwOK0TJJ9dyAxqmK8LUhGROCwukdpSnwEuiEWgr4d+MBCT1r
-         N07j6g4KfJ7ap6MBfoUk7cnKmhE5cy66lOLZsDKW7dS4tHVKkoSbdnj3ACmlkxc3DDmm
-         YNPQ==
+        d=gmail.com; s=20251104; t=1788390071; x=1788994871; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SMJ26BWtmMrRnikBYx5aKuMSmpbwrNZ5wPGOE3sWg+I=;
+        b=NS/oc9Hs/kVwiejmZ7MPNrn6+wn+zRHOWaT93IT2LjLmJ+RO0MmW77B7NylKm0NVkt
+         YagYJoRDEQxQxwoHPluJ3u1ibpr7/CQXyfoymvj4rnDBjNTEsN3ehMjTVnzKDLVicAqU
+         Ik9SMedEsF/hVxj5knJ8kTChfDbSnZKdf9EIs03LmDZ4swRlJZRQMe19iULPOArImK23
+         h2tTXXM0k84o5RUa0YitPwSz/udjr/wTvdE31p0X60UdHj+8yZ4u+xao8fDgi3vxX7m2
+         3O6lWpzLFLuVsrT//36AjsL0vg9UZ8iBt+lTAy0iZlcDbHfbYWk4eAXWm8+ioPHtBF2m
+         J1/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788390067; x=1788994867;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=2/4BUiYwhmx8BTSrnAZKpKB6tkHSRMMIf9FbGNEl8BU=;
-        b=hv0FmyUnff99bXo+XFNTfcHGGjEBId4OFZcw8yMCg57Pr92j3LurS26CkZv0IafaTZ
-         r4vZIkCah1AD9e6W3OockE0JgowfTnSgbTX8IWVMrsLnPkmNwEbp4ERfyPTbqv9sYqxS
-         m3BAo3VmijsTBburMcK/BDOf/MQmhl5p6UPIe8XNJTny6RjayEv4ve0KLweMviD7+Ij6
-         gU/OHHpSAH2YsnW69JkNEI8pfDCcPTFxOKc5ugRFxG8AoLXCZhRpnDkhiBZJg/Rjziy0
-         1OOxgk50ZyvVR7tY8plCcg9Id41sgYhcOML2WbkSDC9w7S0GwSgX8rQioIHj7kjwwMo6
-         hcVg==
-X-Forwarded-Encrypted: i=1; AKwUvBx+pk1rZMP7rRTDxArUgLc4DyFL1hsDVKBRpwGJtuZzX7yegV4e/qq17ahkbO7P8MWbXpCKmzANNXo=@vger.kernel.org
-X-Gm-Message-State: AFuF++kWWxsjws/L9meqfen+VFlRUpRWkjGSMiP4v7fwpbypp3oGLEE2
-	G1CMonfT7V3YKkD1MjRdRQbYR9JSCMI60ltyo3S+Bh4YiGqsP4hVDbhTF615HAlj
-X-Gm-Gg: AYBFou0uIrTwbHyEXNfgSKzdspRyaAyqtsmgFZMSHByDMEJMk72eerqq1TC28AXXNax
-	GX363vcb7xnELvw3vfcwMdcmeljnNOIutLOMWD8Q9ouKqeTzUAMRJL5HyVybIU5anlo44AYWQrs
-	AMMsAZvoe21EAJtLdm9hGMs2Q9pIVUPj3wJLfSU4yYI9FutcpQKT4ZB47OUFz763cN7PSaMKBFb
-	KqkncxUn/5buXj04tjf9xy9qYObILLJ6JG3YyxZqzdk7P36n6s2zyOTkm59W+IvCMq4LXAqS13L
-	pj9qYe+50TEa/6YcDJDXUWTIyfMOwOwalnH6XXjAc/X9DEIlgjukUTy5RalYxzkmYh2rkJkdjJw
-	P9EG6FEnjdGwrnoQXNGTwF3zvGXzIFm7gCiJmkkgejRYE+tCOFrw4kpy9Tjig8TcDHQSVvJ0Fkm
-	aBXZZ6WeYlp1p1uw/Nd7Huuu2/A8Z7EnHDWBcl84fmYuaxl8/j5yhWq+Y4
-X-Received: by 2002:a05:6871:368b:b0:456:4c3f:7e03 with SMTP id 586e51a60fabf-46f87b8e5c6mr7802048fac.18.1788390067079;
-        Wed, 02 Sep 2026 16:01:07 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:71::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-46f32f87146sm5619656fac.13.2026.09.02.16.01.06
+        d=1e100.net; s=20251104; t=1788390071; x=1788994871;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SMJ26BWtmMrRnikBYx5aKuMSmpbwrNZ5wPGOE3sWg+I=;
+        b=pD5IM4QAwcJubStOex5YbiuEYkZsH82iNK/wYj/HPId2uefi8izVJZNaj3kHXEfUJ1
+         3a3c8JuicyN2exd4S7x2ddXXZq6IQB/U7ExwZR2JwvmuSUB7+2wk8FCA+UDttB2AgvjU
+         AUNmDyJ9k+hN+gz/1uquMt9l9e/Rd9SLZQa+8i8HarfFG5PjoYzyA7vfZz6ag8LDGUof
+         cxAp4K+dZgMB+/Oa3Wn8+NWkBromtCu7T0LQWoT8Sl31MtYfOvQ9EVkWF6OCL2iV9AnC
+         mX6e2p5xw6QlMtSdllyUUiwacuii7uR1ZqmD7+1KXiIHeRo6vn2YOC7rIkYms+ekOzeo
+         GF0Q==
+X-Forwarded-Encrypted: i=1; AKwUvBx/NQxYTuLxnQYxJBcYTy3eKDj49rwLYLCXBCPwDzokGzfIiURkHXF5ibCpvlBP4sPE83eqhdQp0Ss=@vger.kernel.org
+X-Gm-Message-State: AFuF++m0hc0UXK2QM9TV/OiK00WZqsr7G6x7EVmT/NnXtABfxR59dO4x
+	ejkzmle9AJkPs22j8p0AFB2avEkC0YuTy0Mcu87AXlK6hGfFQAZ7undx
+X-Gm-Gg: AYBFou3F+h1nusN9YSGBSQEHoyWm2bYlmoOWKb187arNjW9o6FRFrBUTu5K3SNWhwRY
+	bwKzwnNJoksdVXQV/s3lsRul5z5R1UzDjl5NQ3/ZQroGCw99eWWW6rmuZ8AQ/h2r9ShaYGMCz9+
+	qjemXKOdS7/CoY/Lfk3lNIfswi2diTV18wgBtWAgbDvNedYLBBl93taDZN25ZGDv01TmGtJIG1I
+	DYN3mVvUEQ1LYYuzFAJPMVLkUrYWuwGaX9Y2K2blZHAXJtA+iH2c6FAZRI7778x03GQVe6AHOoo
+	v5BfwZ22IiuIIG1bvIc9h/3e+cPEGlPHtxKN0q3K4K1JiwCQ8zwB6u6TGa4JGF75DTAoWJmswKf
+	UMbgP2EJRkzZczFQJw+BZDwNeDh1ngPPmvkr5wv3h9jFg8Qrr00zqrD7Fg1xaZkxuNCMvfxriUe
+	g/ZlL7f3K+rN1Ah36idEcqde0Q4XBNAajB5FwPqdJUYmL1EqsEdBhGhVmouvaCamndgd4=
+X-Received: by 2002:a05:6820:1898:b0:6ae:4131:98c6 with SMTP id 006d021491bc7-6b47ecdabc4mr6868224eaf.2.1788390070886;
+        Wed, 02 Sep 2026 16:01:10 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:1d::])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6b40f92004fsm3807143eaf.15.2026.09.02.16.01.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 16:01:06 -0700 (PDT)
+        Wed, 02 Sep 2026 16:01:09 -0700 (PDT)
 From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Subject: [PATCH net-next 0/6] vsock: assign the guest vsock device to a
- network namespace
-Date: Wed, 02 Sep 2026 16:00:46 -0700
-Message-Id: <20260902-vsock-guest-ns-v1-0-9995383e9a8b@meta.com>
+Date: Wed, 02 Sep 2026 16:00:47 -0700
+Subject: [PATCH net-next 1/6] vsock: constify the transport in
+ vsock_for_each_connected_socket()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,10 +71,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKGqmGoC/x3MQQqDMBAF0KsMf+1AYtu05Cqli2BGGwpjyUQRx
- LsLvgO8HSa1iCHSjiprsTIrIvmOMHyTTsIlIxJ61wf3unlebR5+PC1ijdU4u5DG+8PnFJ7oCP8
- qY9mu8A2Vxipbw+c4TlagUtRqAAAA
-X-Change-ID: 20260831-vsock-guest-ns-d06af451da67
+Message-Id: <20260902-vsock-guest-ns-v1-1-9995383e9a8b@meta.com>
+References: <20260902-vsock-guest-ns-v1-0-9995383e9a8b@meta.com>
+In-Reply-To: <20260902-vsock-guest-ns-v1-0-9995383e9a8b@meta.com>
 To: Stefano Garzarella <sgarzare@redhat.com>, 
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
@@ -90,67 +90,47 @@ Cc: virtualization@lists.linux.dev, netdev@vger.kernel.org,
  jlinbox@meta.com, Bobby Eshleman <bobbyeshleman@meta.com>
 X-Mailer: b4 0.14.3
 
-vsock network namespaces let a host put each VM in a namespace of its
-own. A guest has no equivalent yet. It has a single G2H device that
-cannot be assigned to a network namespace.
+From: Bobby Eshleman <bobbyeshleman@meta.com>
 
-This series lets a guest move that device into a network namespace. A
-new ioctl on /dev/vsock, IOCTL_VM_SOCKETS_ASSIGN_G2H_NETNS, assigns the
-device to the namespace of the calling process. The namespace's existing
-ns_mode then decides who may use it: a "global" namespace shares the
-device with every other global namespace, and a "local" namespace keeps
-the host connection to itself. The device starts out in the initial
-namespace, so until the ioctl is issued nothing has moved and no mode
-has changed. There is no explicit unassign as assigning the device back
-to the initial namespace is equivalent.
+Allow const transports to be passed too. The function only compares the
+pointer against vsk->transport, which is itself const, and never writes
+through it.
 
-The ioctl requires CAP_NET_ADMIN in the initial user namespace.
-
-Connections that can no longer reach the device after a move are reset,
-so that a namespace which has lost access cannot keep using a socket it
-opened while it still had access. Following netdevs, the device returns
-to the initial namespace when the namespace it was moved to is deleted.
-
-Transports opt in through a new netns_assign_allow callback. Only
-virtio-vsock implements it here.
-
-Patch 1 is just a const cleanup that patch 2 needs. The remaining
-patches are actual implementation and tests.
-
-Based off of Stefano's original series:
-https://lore.kernel.org/all/20200116172428.311437-1-sgarzare@redhat.com/
-
-Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
-Link: https://lore.kernel.org/all/20200427142518.uwssa6dtasrp3bfc@steredhat/
+No functional change.
 
 Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 ---
-Bobby Eshleman (6):
-      vsock: constify the transport in vsock_for_each_connected_socket()
-      vsock: add IOCTL_VM_SOCKETS_ASSIGN_G2H_NETNS
-      vsock/virtio: support guest device network namespace
-      selftests/vsock: add a helper to assign the g2h device to a netns
-      selftests/vsock: test the guest vsock device network namespace
-      selftests/vsock: test the assign ioctl privilege checks
+ include/net/af_vsock.h   | 2 +-
+ net/vmw_vsock/af_vsock.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
- Documentation/admin-guide/sysctl/net.rst           |  18 +
- include/linux/virtio_vsock.h                       |   2 +
- include/net/af_vsock.h                             |   9 +-
- include/uapi/linux/vm_sockets.h                    |   6 +
- net/vmw_vsock/af_vsock.c                           | 200 ++++++++-
- net/vmw_vsock/virtio_transport.c                   |  28 +-
- net/vmw_vsock/virtio_transport_common.c            |  28 +-
- tools/testing/selftests/vsock/.gitignore           |   1 +
- tools/testing/selftests/vsock/Makefile             |   3 +-
- tools/testing/selftests/vsock/config               |   1 +
- tools/testing/selftests/vsock/vmtest.sh            | 461 ++++++++++++++++++++-
- .../selftests/vsock/vsock_assign_g2h_netns.c       |  45 ++
- 12 files changed, 774 insertions(+), 28 deletions(-)
----
-base-commit: d0ec95a8a4e79f2fd6063fc8932415db8c227689
-change-id: 20260831-vsock-guest-ns-d06af451da67
+diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
+index 3357ee62d10b..87fdec60ba45 100644
+--- a/include/net/af_vsock.h
++++ b/include/net/af_vsock.h
+@@ -230,7 +230,7 @@ struct sock *vsock_find_connected_socket_net(struct sockaddr_vm *src,
+ 					     struct sockaddr_vm *dst,
+ 					     struct net *net);
+ void vsock_remove_sock(struct vsock_sock *vsk);
+-void vsock_for_each_connected_socket(struct vsock_transport *transport,
++void vsock_for_each_connected_socket(const struct vsock_transport *transport,
+ 				     void (*fn)(struct sock *sk));
+ int vsock_assign_transport(struct vsock_sock *vsk, struct vsock_sock *psk);
+ bool vsock_find_cid(unsigned int cid);
+diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+index a33b2a2d381d..29cde17e08f3 100644
+--- a/net/vmw_vsock/af_vsock.c
++++ b/net/vmw_vsock/af_vsock.c
+@@ -448,7 +448,7 @@ void vsock_remove_sock(struct vsock_sock *vsk)
+ }
+ EXPORT_SYMBOL_GPL(vsock_remove_sock);
+ 
+-void vsock_for_each_connected_socket(struct vsock_transport *transport,
++void vsock_for_each_connected_socket(const struct vsock_transport *transport,
+ 				     void (*fn)(struct sock *sk))
+ {
+ 	int i;
 
-Best regards,
 -- 
-Bobby Eshleman <bobbyeshleman@meta.com>
+2.53.0-Meta
 
