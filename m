@@ -1,88 +1,92 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791DB490C07
-	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 14:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AA84A4988;
+	Wed,  2 Sep 2026 14:55:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788360537; cv=none; b=kePcT4SiEu77ZV4kybw3Wy+XGPlc4XyEKsf5vfwG2HRhny2AaX8LcE4Mt6OaxRrGLm1o2ph+M/vHxJ6tvSaDaz5SY0jY7saCSyDSLURpHwy2bfWLiNZbNOvsH5egcMIu8l6q03DlIvvQ4i0Qt56lvNs9AEYaBU3e2MBTltdHz90=
+	t=1788360926; cv=none; b=FGOapmFSHnHNv3V0h+k9b9FXITVQmPnHMYZqsKDfr9q3/EY/8VmXBe3PFIBHVcDUgDlFff3s/cU/MNFYhoqK0+me/yYZ5UX/nawrfHPgXmV2Gdk+o9d0qp/U7CufO4BtfJlzdzCuCp8KKPRZMDeIiVDmetzix+7+xs80q0QPgIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788360537; c=relaxed/simple;
-	bh=kKyP0KBxakTaDA9ZOZgXWO84xJnxt16TUKmmMmMWZ5o=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fz3/kETJY5HOeP4N4k2nL3ohaS9+zfMsmbiiDSIYX9xXTsiJCz/Hirgm3PavGbDUo4W3VH/NEUI7fnrjmi8iQrkU4+BN6+t+4wzUSjjDTqfWB47UY8qqADpanKwzctBe2f0sgZNPlRdD9y0bsEyRCNaYi9V+hDI5+l/GH6qQKzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=cFage9wx; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1788360926; c=relaxed/simple;
+	bh=TTcumtG241sAhAvxoqU3CC6ZUwIbid7u9uvP3zStXAM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gqI1jRfGuE9x71LyFX5L7MpxYJOGAPG6vMj8aZqfjHnyaT0OLJq7Ril8IWGOyCUQxNi9jceNmE49zBbr3DSnCBHN2LRPoqDD/8sv+v1Jg1yYnKxhVHLKJNdDCc3mTlue/BUykkUhNq+6I93v0cuU69TGmj2veNRq8H8se/SjImY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=sWQN5Kqj; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=qKU431BV; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="cFage9wx"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id C72AC1A195E;
-	Wed,  2 Sep 2026 14:48:50 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 906B96053C;
-	Wed,  2 Sep 2026 14:48:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3940111C792AB;
-	Wed,  2 Sep 2026 16:48:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788360524; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=kKyP0KBxakTaDA9ZOZgXWO84xJnxt16TUKmmMmMWZ5o=;
-	b=cFage9wxV+lKQQXdLrZPivLydFioAXSPdrLl0Pf+32Fetbt/c5BEtAhB+vPCCYWgMVmI8A
-	PLatga4yHA5lIzIKK7WujwrK+Fj3zEZLkcQDRumqloRMOonQf7JFjEULM1Gcyo6di/x7KC
-	wnESG53ex/2gbearIlyjse8Gdygg7vf7+32f+yLOEUIkBOX7mIAach54O8aqrkr1xJPdao
-	DmYyisTQ3WnBZDubMVgixx4ijrWmhrBQWd3VslYqgJrIVC1iQMzxocwI2nKc4gmPv0pcyv
-	S7DJFHF6+lH8ge3Cmkm5eVfhiXq4KY0Tvjg1f8ntvIp+T4Rxo0Gri5CmyltJ2A==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: <Takahiro.Kuwano@infineon.com>
-Cc: <pratyush@kernel.org>,  <mwalle@kernel.org>,  <richard@nod.at>,
-  <vigneshr@ti.com>,  <nicolas.ferre@microchip.com>,
-  <alexandre.belloni@bootlin.com>,  <claudiu.beznea@tuxon.dev>,
-  <corbet@lwn.net>,  <skhan@linuxfoundation.org>,  <STLin2@winbond.com>,
-  <hsinyi@chromium.org>,  <thomas.petazzoni@bootlin.com>,
-  <linux-mtd@lists.infradead.org>,  <linux-arm-kernel@lists.infradead.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 13/23] mtd: spi-nor: winbond: Add support for
- W25Q01RV-Q/N
-In-Reply-To: <4d7597839fc542ea846fe0ddb3eb6683@infineon.com> (Takahiro
-	Kuwano's message of "Thu, 20 Aug 2026 06:15:08 +0000")
-References: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-0-b637cf120d5c@bootlin.com>
-	<20260813-winbond-v7-1-spi-nor-rv-addition-v3-13-b637cf120d5c@bootlin.com>
-	<4d7597839fc542ea846fe0ddb3eb6683@infineon.com>
-User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Wed, 02 Sep 2026 16:48:38 +0200
-Message-ID: <87se3r7lq1.fsf@bootlin.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="sWQN5Kqj";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="qKU431BV"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hZm4B5BH9zMlGx;
+	Wed, 02 Sep 2026 16:55:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788360922;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7ZIFu8XNWYmDhUWSk1i5MbEmxFLZTUZYLx9WRJxBZVE=;
+	b=sWQN5KqjrQf3xkyo1FCSRTcpklHDTXUolWDSfKWsgxffHVcKh+la5Qhn08dZwUZEbCPuJ6
+	Dpfrenbg0Uz0HMri/najYMIjZk0Y/lVMy1swIgIu5mbFYKhQF6HvI9n4dKGIfzs8eg0+qb
+	equLo1QosGU7UB0uYU7HSGA+zzM5/pVUQx58ofHn1GSlf1fCPFqZ+XlIvYPHa8YR5pqkHS
+	m4/E9feEs2Mp+GZrZ9z651Opiv8jqhLIbE5GQJ0MjFU4wXzFMTEAbRiYnV2GdoAWZNM5ka
+	vP8EfJQYL/iVAbsThfONlFUelifWITMwA+bl5jIghsLvKoA7WMjslUxwaTok2Q==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=qKU431BV;
+	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788360921;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7ZIFu8XNWYmDhUWSk1i5MbEmxFLZTUZYLx9WRJxBZVE=;
+	b=qKU431BVXTREaPrl4i4LHi8ldxHBYg5xeTRZSmfBNrPcAov/q3dKWrpUArZdsEbgL+eHkW
+	8noD07rpZ1qq9yorR6/DTd/xL4BY9wkzMMJFA/PRwsf2+rJ63MJ52wR53+IKw1rp7io6b6
+	51KlFtpIAusxoKLLiJwchHWaOfJNpewYA8gPolvPTjDz+f901m6k+n7cOLsbCihPqCD7Ne
+	aOG0ZDo0QjgA8t2I7mPNavQNP+LA/H1Tjc33xjXCfsxNP/bh9+gaXzWbnJBMqUknvAKq7p
+	wl9gtSiWFYcCCqxu4bmDM5kL7jaz8OsgD20m8RMAQtYrHlt1sUar087zHvlyLw==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] fs: porting.rst: add bracket
+Date: Wed,  2 Sep 2026 16:54:28 +0200
+Message-ID: <20260902145428.704582-3-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 3d0e5717a1d04e2bd30
+X-MBO-RS-META: kmh49fxirpffk3mxpuq6mcz1w5b6dc46
+X-Rspamd-Queue-Id: 4hZm4B5BH9zMlGx
 
-On 20/08/2026 at 06:15:08 GMT, <Takahiro.Kuwano@infineon.com> wrote:
+Add missing '(' to function in prose.
 
-> Hi Miquel,
->
->> There is an ID collision with the chip of same density from the JV
->> family. Both chips are very similar in practice, it is mostly a matter
->> of electrical differences (mostly power consumption being lower).
->>=20
->> As a significant difference, RV chips identify themselves as supporting
->> the new SFDP (rev F) field which forces an alternate write SR2
->> opcode (0x31).
->>=20
->> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
->> ---
->> + cat /sys/bus/spi/devices/spi0.0/spi-nor/jedec_id
->> ef4020
->
-> ef4021?
-> I think you copied wrong log (this looks same as patch #12).
+Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+---
+ Documentation/filesystems/porting.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Correct! I just made a new acquisition and fixed the logs.
+diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
+index 60880eb0c..810657082 100644
+--- a/Documentation/filesystems/porting.rst
++++ b/Documentation/filesystems/porting.rst
+@@ -673,7 +673,7 @@ watch out, since that shortcut is no longer valid.
+ they used to - they just take it exclusive.  However, ->lookup() may be
+ called with parent locked shared.  Its instances must not
+ 
+-	* use d_instantiate) and d_rehash() separately - use d_add() or
++	* use d_instantiate() and d_rehash() separately - use d_add() or
+ 	  d_splice_alias() instead.
+ 	* use d_rehash() alone - call d_add(new_dentry, NULL) instead.
+ 	* in the unlikely case when (read-only) access to filesystem
+-- 
+2.54.0
 
-Thanks!
-Miqu=C3=A8l
