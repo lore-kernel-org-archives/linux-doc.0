@@ -1,69 +1,60 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853A74A3855;
-	Wed,  2 Sep 2026 14:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2194A3874;
+	Wed,  2 Sep 2026 14:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788359650; cv=none; b=oQfd5K+0uHAUM04blCzgxwHaE3yEbvzOySf7jSH7w1w7Jm/Dscou7PqIzPoKNy2bE6vragdhRw3B6cTKG3PXbL4pyjLbYXaJWwbCXhbMf+12wTU5DaUQdGvidl7w7bxixQzgPumhMGFrozK7JZRiVxwdHY/k6YOEV4nUAdtVqMI=
+	t=1788359927; cv=none; b=iGB/mWc/07OvhNPB/767UUGF/UE02V5dUI3bUHy/sfm0Ljj+WZTIghSM/3I5rWuwyf0zsQXhbyvgMu4q904kC4Nk7g+LVkls+S57pFNePFNBGa/z3SCX9OaBI0ZydVCraZc/wyrrcPEP0qo97QQ3sKLDSKf60VltqcAcjMqlfsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788359650; c=relaxed/simple;
-	bh=TDAMQcRJZLiAzLI12fnV4tjg3ILK2nDC2eR7M5Ar+r0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RwBIz3IO6prYjC9v+FrXe+WSZfe8ej09wZ4Nlq7UnIEo+Blxl9QaXqaQ2dXepEHKIj2nBsWiMjDGnYq5cFyWcHIggtUThGAaD7+h8HtTJSjYtzNsKpIT3QxyaWeN0f8p82PfnoPAcINFusZpk0DER5hJGfXMKupE2YZQVT//YAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=By97vhbH; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hpE+b36Y; arc=none smtp.client-ip=80.241.56.151
+	s=arc-20240116; t=1788359927; c=relaxed/simple;
+	bh=RK3yTsVbpTpGmjQxbDsPfYC9S9e7jNkCY8VTXlXXv54=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aYOtais5w2MwuGL+GlHl9bpoamS2y5YkXxtWjvvz4pZAxqXRuUqUgc2cZwgceskjZwFep4EjMMFSTkOT43tSS8HKIh8h1TRhtz+/OtPtWRRKGKjw0hOE5tBwuzKk9Kd2HL9SMqEjOOhqdUSTvoajS8GAEwqrV/IVHr+nuPp5mKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=mk9CTKDn; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=AkB+P3p9; arc=none smtp.client-ip=80.241.56.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="By97vhbH";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hpE+b36Y"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="mk9CTKDn";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="AkB+P3p9"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4hZlbc74dpz8v5B;
-	Wed, 02 Sep 2026 16:34:04 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4hZlhz1lQ9zMlKv;
+	Wed, 02 Sep 2026 16:38:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788359645;
+	t=1788359923;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=uZCAftz672lWEvyNDdezzsIOeB60zjmmnIS7f4lBq70=;
-	b=By97vhbHljYw/T5y5+nlvS/WkKIDSm4w0rpssiiLwdihyHB8O4Bo+xyZIfP54rZ29xZ63n
-	FWWuxDz580selIKTyyBNzBNv7Z81n9D0iVqEyWR+eTvM6HjvyabuMv3WlppWLoGQ0Qugf8
-	kHNMSmWgP0CgmtsWb6yGVPPLloyNYgk9evJnrHP1o/rz/p6MZiwouEyvCnyVD3VG6Wav49
-	xGXI8GacnXf9IGATZBoOE9IVo1ONCUnKuIPwZbloHrFF5l2uLIZtrg63v0sP4MsBeu+HfX
-	NrIL2F7wd3Sf8Gfr6lRjHk1uSWLkYU9S3kwyu3gtdwM2aeFTtcjCQsEXIoPBjQ==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=hpE+b36Y;
-	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
+	bh=w4peotbQEwHadIewQox10dHHSEQxCl7rvHTB9JDglaI=;
+	b=mk9CTKDnh5zbpM6+lZO/nrhdlpcMICtSYaeTVOsrfl7JMqKVZu4ePTyj0aTA3XmiBB/ULv
+	De9KXrVh8azBiGuxH7qi43Wc0uWjHkrORFMOuDgloVT2ec3WyK7o3RzGi+77FBR7RmyMzj
+	KFl7Sdjv07ZVv8MYKKdDtkTswjaw7pRvNwLMzZVldsC6+pzCO9NJIpEeSt25Md1YQmh8Rd
+	uDgzMfsIN9GnePZfGnkHnXgvkqDLu1Ho3S5Zr05z8XcSvpiSp4e6xXulysBzCHxlukG5Ia
+	lGVUY3A8rKE4b+pMRxe4Ot3rdvdV3FNiAujAq2nikq+MGcJQ6SG1KJ815e1E6w==
 From: Manuel Ebner <manuelebnerli@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788359643;
+	t=1788359921;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=uZCAftz672lWEvyNDdezzsIOeB60zjmmnIS7f4lBq70=;
-	b=hpE+b36YKbuHHpQxF4k8YCzGvMLoTinDth3e4avZ3x4ECYEfdYcztYpjNFJqEw5rBMsSUt
-	v6gPRbptAM9W64Qd1VXVgJqQ0JgHOB/0+tVlgHAsKiUtNLbbg7Jdv+hx3VapM242n/1eZY
-	XZxiMKwQFI0spfw45jKk8FE6gX0yRvdzjxLRZD1oePaI3tISEmPJIvrshaXmdtd2l6YpJq
-	f7zou6bk/9Zj3MYeyZS2LnnJ0HW9c5CCbtSvrMFiRnLQIjwPFQQCwuk/rD7fyWyYp9+lpP
-	QvAB+HMpB63WiRC6R++iFmhWx26aolMwsECiWIXOWv0XqE8RC2ES/FWoFjhhig==
-To: "Theodore Ts'o" <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Baokun Li <libaokun@linux.alibaba.com>,
-	Jan Kara <jack@suse.cz>,
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	Zhang Yi <yi.zhang@huawei.com>,
+	bh=w4peotbQEwHadIewQox10dHHSEQxCl7rvHTB9JDglaI=;
+	b=AkB+P3p9CfXuaO2IJdg0yD+/YY1dwvIxkxSkEzXP10jE+b8KONoYwoB4bW02KSiPHFPSBE
+	XLrS+MKv5Ot7n4SdFsHNS4NxE3ix8r7SvI8Qlf96kN+5nHXjml17O83h2AGXP5mifdzmV7
+	iVOaOmonLiXmRJKRpity8R+WgpR66PevRgwTAYsIcdOzIxFyRAY0dYpklYVcw0J7v2ht8w
+	3d6uWdQMfzrXUFxewg3zUTRSOxprjTE9L6cQpV9MwKlnl58QO2aS4YCJSSqdqTRz3UuqEV
+	+d7SBxD+lJfrX0XOvrSju2dk+n5EnfNz2oJ+UhmEe4B8zQ16Pf5pOJMGz6G/IQ==
+To: Miklos Szeredi <miklos@szeredi.hu>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>
 Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	linux-ext4@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ext4, doc: remove unnecessary bracket
-Date: Wed,  2 Sep 2026 16:32:53 +0200
-Message-ID: <20260902143254.702971-2-manuelebnerli@mailbox.org>
+Subject: [PATCH] Documentation: fuse: harmonize numeration
+Date: Wed,  2 Sep 2026 16:35:41 +0200
+Message-ID: <20260902143541.703277-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,30 +62,45 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: akofodgkk53b1hq7u37frm46b5j6rwf3
-X-MBO-RS-ID: 76847804af03d6dfa21
-X-Rspamd-Queue-Id: 4hZlbc74dpz8v5B
+X-MBO-RS-ID: 4a6961093df6044dc61
+X-MBO-RS-META: 16hek974oy1js1twkfb3juqcryekx94y
 
-Remove needless '('.
+Replace with '1.', '2.' with '1)', '2)' to harmonize file.
 
 Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 ---
- Documentation/filesystems/ext4/directory.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/filesystems/fuse/fuse.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/filesystems/ext4/directory.rst b/Documentation/filesystems/ext4/directory.rst
-index 9b003a4d4..f3eeca844 100644
---- a/Documentation/filesystems/ext4/directory.rst
-+++ b/Documentation/filesystems/ext4/directory.rst
-@@ -429,7 +429,7 @@ block (precisely the length of one dx_entry) are used to store a
- ``count`` entries in the dx_root/dx_node structures are adjusted as
- necessary to fit the dx_tail into the block. If there is no space for
- the dx_tail, the user is notified to run e2fsck -D to rebuild the
--directory index (which will ensure that there's space for the checksum.
-+directory index which will ensure that there's space for the checksum.
- The dx_tail structure is 8 bytes long and looks like this:
+diff --git a/Documentation/filesystems/fuse/fuse.rst b/Documentation/filesystems/fuse/fuse.rst
+index 0fbd5a03f..063d99959 100644
+--- a/Documentation/filesystems/fuse/fuse.rst
++++ b/Documentation/filesystems/fuse/fuse.rst
+@@ -173,10 +173,10 @@ the error set to EINTR.
+ It is also possible that there's a race between processing the
+ original request and its INTERRUPT request.  There are two possibilities:
  
- .. list-table::
+-  1. The INTERRUPT request is processed before the original request is
++  1) The INTERRUPT request is processed before the original request is
+      processed
+ 
+-  2. The INTERRUPT request is processed after the original request has
++  2) The INTERRUPT request is processed after the original request has
+      been answered
+ 
+ If the filesystem cannot find the original request, it should wait for
+@@ -239,9 +239,9 @@ How are requirements fulfilled?
+ 
+  A) The mount owner could gain elevated privileges by either:
+ 
+-    1. creating a filesystem containing a device file, then opening this device
++    1) creating a filesystem containing a device file, then opening this device
+ 
+-    2. creating a filesystem containing a suid or sgid application, then executing this application
++    2) creating a filesystem containing a suid or sgid application, then executing this application
+ 
+     The solution is not to allow opening device files and ignore
+     setuid and setgid bits when executing programs.  To ensure this
 -- 
 2.54.0
 
