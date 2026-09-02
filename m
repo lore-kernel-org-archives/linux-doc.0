@@ -1,178 +1,268 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com [50.112.246.219])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2801DC198
-	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 00:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E54266565;
+	Wed,  2 Sep 2026 01:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=50.112.246.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788310580; cv=none; b=ffL6Np+b1AuxWFf9+g69t6vYExESV+7tE6ZCZjVFv6aUUDd/gTBjEHgftxAQ2WS2mbAoLI9hifj4k8ZBAIaDZWgt3ScMl7Qoj2L/YGWUaM/qs4RxCqU7M62keWWFEhYhOieT1Wq5Dnf8nt7czdP/lXYu7Sco0950hGT+7M3lZcI=
+	t=1788311992; cv=none; b=BEwk3BAkD6E2tHzqY0NMKokkj4EtbAJ3CWrAjUpLUGvQu3VSJ530L7tXPvXFnXtn2VZRqQPqscL+3+BZ1BZ0M5m88cwzzOAWCygQVNC6fojfxkfI2kT54+zS80sciHdVGOsOmMwkkSVH8w6LbE/cVVuTmjBzA0s9eBs4FBypn/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788310580; c=relaxed/simple;
-	bh=d7cWym8GiqZJAsG40QVKThsxlp6hXKwXuUFOc7+ukYk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oJTGTv2qM5M3qsfNSV7nWam4ZT0YymEQAfvhruUeTD1sgCVLjbo3189irMS8tHZocLXmw6eSnuY2XQlXL9SaAFpYdNc5qClYoXHz17NpQ8vk8+yW5rx1WRx7nHPlCb5v3IeKXYv9dxDXkkXOx4WNwfkFmmNQDrMDBzoNeWnqcKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E2Zleaxk; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788311992; c=relaxed/simple;
+	bh=dECynDlh6qhLrOm+UCPlQ/TSTHRaTSIwOrDLAZr56XE=;
+	h=MIME-Version:Content-Type:Subject:From:To:CC:In-Reply-To:
+	 References:Date:Message-ID; b=Hwo6QyFNthSnaPAJmiLzOkGxww9XSotrhsuuMq0QrDkz298rPdq1QBJzH/KtKoc4c2nP4UL2m/O231dXSGBS3tpYxokbp/YyiMBGMAlCUi5Jk7p1XPHNGbw6dNl25JCotaiayoRBmUqn+RpUEkIC9U/LIF97f8sG9bXpVeKnEyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=b3ysdK29; arc=none smtp.client-ip=50.112.246.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E2Zleaxk"
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-97bf8f6a31eso189704241.1
-        for <linux-doc@vger.kernel.org>; Tue, 01 Sep 2026 17:56:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="b3ysdK29"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788310577; x=1788915377; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tiVFAkorF9lFs+sLXpfvZyw5OEmX56UI3CjqJwbxhXU=;
-        b=E2ZleaxkXM0UeMGSDpKyPPR1Sk7k/GkXuRjqGqF+nK+axUiyCu4pKHl811sfTStAEK
-         9WqcrBNXCPa6iJ/FIxcgN3lpzy6AoTZHDYhYV8s6Giv5WczFjK3AHLyaK8kPJ25QXhrM
-         19SMxKKYgbtpBnN6fbKT9rOXocOBy6LKOEKiT6a1mqVFi1F+agq/K+K6BCFwyfU1UUgd
-         lirRLJN3w3WlhKHiFFf6CgI4PUI/0XDaKeZue37NH5FmHRtqI260Ng83hbg4G5f7Stme
-         W+spkAEx8wEZD3a6ZwLWwkcFOo070jSzKID4Fci4iJv3lFPBQazE51NF0AubL4l6K/Q6
-         onZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788310577; x=1788915377;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tiVFAkorF9lFs+sLXpfvZyw5OEmX56UI3CjqJwbxhXU=;
-        b=Jo1Wk9SN2qolVbqziWFH/KHAB/KCowVz8MmBtAo/0++olcfsEImG8cgdvCjMof3p9I
-         USskD0pnwWwrxyzvaamn8EWY7SjUEDSrLana6cAQd7ad3q4SkHUfi3NVo29/u1ewYrhR
-         iwRkCtLDKrH6/oFeMmHkmqSlqfRwjiweqAHHlDvXPkVvCZSj6F2YM52leKlKIrpbPlpY
-         EAwyMBGVJAjbOOSYMpbsUHU1+afndEZisGvFK+L4rxRSS5OtrULUAO5gwXuO96PBH0iU
-         S62P496ZFnp5EIvWisuXbReCZcz5MuaXafe6LYICfXjObYaf39SMF0RTyvXQDunwOmHY
-         hnHQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy+6gZIugwg2Y5gwuksIDZNco8gWASh0OnSrUjZkRoeXIJW+tce5UuaPPPiyk8KuM1tQFiYnrbQWKU=@vger.kernel.org
-X-Gm-Message-State: AFuF++nWhFeQtuUcb46JehuF2lyJ1ZnjJers8G5xGf0NlS5laV2YcQVM
-	tYmRa/1KVRHZx5FQBBAI3pxaRcOLRU1pm5TQMNg8nx/KyLSNwVb4TrLx
-X-Gm-Gg: AYBFou0C87sBpwNKYFvsivGsiZRFanOctGIG8YYZAtNFuQr1tMQfK0Ebo2SckhHvyBu
-	om9Vxl82OLQlU0HrFvnNHQ0xpI5/xRkNPt9LKTGkHDQZGXBMmM9of/Gcw4Zrs6ufvyuZADd0Wtt
-	KqOfR4y65rKYLgRsrnDmcD8ytq2mnrby+9SkLy2a5aaR7o7V63QQe0AgDd4c1vQo7LMx16lBFgq
-	qbMo+610eAjFAVD0UvN4Q6qa4UFNjRRjzUCNUYz2srNa7zKrW8+e/l3JJ9w+3SrCunB0UUbMi6M
-	CAEGjLZOdsqAjOYvuPHeb3OZV4FmHSJgyAkbZr90BxuViMaqi7IKwEA33r3aHn9KSjo7e+VOmTf
-	mnPJry3jP359q6AaTfE4JvwYv4WDZU9iEilmDuDUlgUNR+FF4NEPEaiL5++P+B3vecSvw0ah99+
-	LNH+C1SzwR8xM7kPgnu5f5pVwYhE5tMC+aWsE71eXipyxiFaHnlqrZMdMjvv0hv4lC3MN7Yw==
-X-Received: by 2002:a05:6102:5490:b0:783:79ac:9dc3 with SMTP id ada2fe7eead31-78a1f2df152mr381604137.10.1788310577405;
-        Tue, 01 Sep 2026 17:56:17 -0700 (PDT)
-Received: from pop-os ([2804:14c:daa2:8daa:574f:5cf:6f39:859e])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-78a1a251ca6sm1095624137.4.2026.09.01.17.56.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 17:56:17 -0700 (PDT)
-From: Giovanna Macedo Cox <giovannamccds@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Giovanna Macedo Cox <giovannamccds@gmail.com>
-Subject: [PATCH v2] docs: translations: pt_BR: translate coding-assistants.rst
-Date: Tue,  1 Sep 2026 21:56:01 -0300
-Message-ID: <20260902005603.18836-1-giovannamccds@gmail.com>
-X-Mailer: git-send-email 2.55.0
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1788311990; x=1819847990;
+  h=mime-version:content-transfer-encoding:subject:from:to:
+   cc:in-reply-to:references:date:message-id;
+  bh=nDVdMuVF8NuUOSHnrHAvyl65dXJIPVruO3LO8eLQQ0c=;
+  b=b3ysdK29Ly66xMk7Yc3dkj901+oBYQm0jEXh5K+iEusdI94nBWZmOyXj
+   3jswOyOrWrh2cDymuEbsbBqzrg4YPg89Pa1/QWg6cE6GcEahQyOG3wEsd
+   yC6ihSSL/PHM30KU2Da97isfDhBkxp2LhB0crPRFxi02xx9jmMHQUZF2d
+   qp+WYjjMJXBaQmNPFplzo0e7sFKJE4Wz4EqjV6fWGidBW5QKkAzdNjIJ9
+   u+nmLZaaKQB16ExboRIcZ12nlBcyfP/GQMRbNRZhIvOyKzS/NeIz6fZte
+   5uh1BXx+rSAittU66zcQUinPw7RQG5Fb5f3oAEnTHSi+WR0SHXUiZVvyU
+   g==;
+X-CSE-ConnectionGUID: 67UQq9DOQ5qZUItrQdioTg==
+X-CSE-MsgGUID: 7uhzjY3OSbeWHUPFrMHkKw==
+X-IronPort-AV: E=Sophos;i="6.25,257,1779148800"; 
+   d="scan'208";a="27348005"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 01:19:47 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.178:27769]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.31.51:2525] with esmtp (Farcaster)
+ id a2381d95-17d7-44d1-94e6-e81954fb7b41; Wed, 2 Sep 2026 01:19:46 +0000 (UTC)
+X-Farcaster-Flow-ID: a2381d95-17d7-44d1-94e6-e81954fb7b41
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Wed, 2 Sep 2026 01:19:46 +0000
+Received: from dev-dsk-akiyano-1c-2138b29d.eu-west-1.amazon.com (172.19.83.6)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46;
+ Wed, 2 Sep 2026 01:19:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 net-next 4/7] ptp: ptp_vmclock: Implement attributes
+ ioctls
+From: Arthur Kiyanovski <akiyano@amazon.com>
+To: Simon Horman <horms@kernel.org>
+CC: Arthur Kiyanovski <akiyano@amazon.com>, David Miller
+	<davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Richard Cochran
+	<richardcochran@gmail.com>, <netdev@vger.kernel.org>, Eric Dumazet
+	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, David Woodhouse
+	<dwmw2@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Miroslav Lichvar
+	<mlichvar@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Andrew Lunn
+	<andrew@lunn.ch>, Carolina Jubran <cjubran@nvidia.com>, Wen Gu
+	<guwen@linux.alibaba.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, "David
+ Woodhouse" <dwmw@amazon.com>, Yonatan Sarna <ysarna@amazon.com>, "Zorik
+ Machulsky" <zorik@amazon.com>, Alexander Matushevsky <matua@amazon.com>,
+	"Saeed Bshara" <saeedb@amazon.com>, Matt Wilson <msw@amazon.com>, Anthony
+ Liguori <aliguori@amazon.com>, Nafea Bshara <nafea@amazon.com>, Evgeny
+ Schmeilin <evgenys@amazon.com>, Netanel Belgazal <netanel@amazon.com>, Ali
+ Saidi <alisaidi@amazon.com>, Benjamin Herrenschmidt <benh@amazon.com>, Noam
+ Dagan <ndagan@amazon.com>, David Arinzon <darinzon@amazon.com>, Evgeny
+ Ostrovsky <evostrov@amazon.com>, Ofir Tabachnik <ofirt@amazon.com>, Amit
+ Bernstein <amitbern@amazon.com>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <shuah@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Bjorn Helgaas
+	<bhelgaas@google.com>, <vadim.fedorenko@linux.dev>, David Woodhouse
+	<dwmw@amazon.co.uk>
+In-Reply-To: <20260804123739.GM51943@horms.kernel.org>
+References: <20260729233740.16516-1-akiyano@amazon.com>
+ <20260729233740.16516-5-akiyano@amazon.com>
+ <20260804123739.GM51943@horms.kernel.org>
+Date: Wed, 2 Sep 2026 01:19:33 +0000
+Message-ID: <178831197324.28813.9998121184169113388.b4-reply@b4>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: EX19D033UWC001.ant.amazon.com (10.13.139.218) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Translate coding-assistants.rst into Brazilian Portuguese
-and add it to the pt_BR process documentation index.
+On 2026-08-04 13:37:39+01:00, Simon Horman wrote:
+> This is an AI-generated review of your patch. The human sending this
+> email has considered the AI review valid, or at least plausible.
+> Full review at: https://sashiko.dev/#/patchset/20260729233740.16516-2-akiyano@amazon.com?part=4
+> ---
+> --- Patch [4]: [PATCH v6 net-next 4/7] ptp: ptp_vmclock: Implement attributes ioctls ---
+> commit 9ab73b649349967c6e3befcbed4c125d48bd8c43
+> Author: Arthur Kiyanovski <akiyano@amazon.com>
+> 
+> ptp: ptp_vmclock: Implement attributes ioctls
+> 
+> Implement the gettimexattrs64 and getcrosststampattrs callbacks in the
+> ptp_vmclock driver to provide clock quality attributes through the new
+> PTP_SYS_OFFSET_EXTENDED_ATTRS and PTP_SYS_OFFSET_PRECISE_ATTRS ioctls.
+> 
 
-Assisted-by: LLM 
-Signed-off-by: Giovanna Macedo Cox <giovannamccds@gmail.com>
----
-Changes in v2:
-- Change trailer Assisted-by for the new pattern
-- Fix translation errors
-- Link to V1: https://lore.kernel.org/r/20260830234515.63131-1-giovannamccds@gmail.com/
+Thanks Simon, and thanks for the AI review. Responses inline.
 
- .../pt_BR/process/coding-assistants.rst       | 60 +++++++++++++++++++
- .../translations/pt_BR/process/index.rst      |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/coding-assistants.rst
+> > diff --git a/drivers/ptp/ptp_vmclock.c b/drivers/ptp/ptp_vmclock.c
+> > index eebdcd5ebc080..fe26123ad940d 100644
+> > --- a/drivers/ptp/ptp_vmclock.c
+> > +++ b/drivers/ptp/ptp_vmclock.c
+> > @@ -95,13 +106,111 @@ static bool tai_adjust(struct vmclock_abi *clk, uint64_t *sec)
+> 
+> [ ... ]
+> 
+> > +static void vmclock_populate_ptp_attributes(struct vmclock_state *st,
+> > +					    struct ptp_clock_attrs *att,
+> > +					    uint64_t delta)
+> > +{
+> > +	uint64_t maxerror_ns = UINT_MAX;
+> > +
+> > +	if (!att)
+> > +		return;
+> > +
+> > +	/* Only calculate if the base error is flagged as valid
+> > +	 * by the hypervisor.
+> > +	 */
+> > +	if (VMCLOCK_FIELD_PRESENT(st->clk, time_maxerror_nanosec) &&
+> > +	    (le64_to_cpu(st->clk->flags) & VMCLOCK_FLAG_TIME_MAXERROR_VALID)) {
+> > +		maxerror_ns = le64_to_cpu(st->clk->time_maxerror_nanosec);
+> > +
+> > +		/* If frequency error is also valid, accumulate it
+> > +		 * over the delta.
+> > +		 */
+> > +		if (VMCLOCK_FIELD_PRESENT(st->clk, counter_period_maxerror_rate_frac_sec) &&
+> > +		    (le64_to_cpu(st->clk->flags) & VMCLOCK_FLAG_PERIOD_MAXERROR_VALID)) {
+> > +			uint64_t maxerror_rate, err_hi, err_frac, growth_ns;
+> > +
+> > +			if (st->clk->counter_period_shift >= 128) {
+> > +				maxerror_ns = U64_MAX;
+> > +				goto saturate;
+> > +			}
+> > +
+> > +			maxerror_rate = le64_to_cpu(st->clk->counter_period_maxerror_rate_frac_sec);
+> > +			err_frac = mul_u64_u64_shr_add_u64(&err_hi, delta,
+> > +							   maxerror_rate,
+> > +							   st->clk->counter_period_shift,
+> > +							   0);
+> 
+> [Severity: High]
+> Could a malicious hypervisor modify counter_period_shift concurrently?
+> 
+> The counter_period_shift field is read directly from shared memory twice,
+> first for the bounds check and then as an argument to
+> mul_u64_u64_shr_add_u64(). If the value changes between these reads, it
+> could bypass the bounds check and cause an out-of-bounds shift.
+> 
+> Would it be better to read it once using READ_ONCE() to ensure the bounds
+> check operates on the exact value passed to the math helper?
+> 
 
-diff --git a/Documentation/translations/pt_BR/process/coding-assistants.rst b/Documentation/translations/pt_BR/process/coding-assistants.rst
-new file mode 100644
-index 000000000..2055af34a
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/coding-assistants.rst
-@@ -0,0 +1,60 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+IA Assistente de código
-++++++++++++++++++++++++
-+
-+Esta documentação fornece um guia para ferramentas de IA e desenvolvedores que
-+usam IA como assistente para contribuir para o kernel do Linux.
-+
-+Ferramentas de IA que ajudam desenvolvedores do Linux kernel devem seguir os
-+padrões de desenvolvimento do kernel:
-+
-+* Documentation/process/development-process.rst
-+* Documentation/process/coding-style.rst
-+* Documentation/process/submitting-patches.rst
-+
-+Para guias e conteúdo sobre códigos gerados por assistentes de IA veja:
-+
-+* Documentation/process/generated-content.rst
-+
-+Licenças e Requisitos Legais
-+============================
-+
-+Todas as contribuições devem estar de acordo com os requisitos de licença do
-+kernel:
-+
-+* Todo código deve ser compatível apenas com GPL-2.0
-+* Use identificadores SPDX de licença apropriados
-+* Veja Documentation/process/license-rules.rst para mais detalhes
-+
-+Assinatura e certificado de origem do desenvolvedor
-+===================================================
-+
-+Agentes de IA NÃO DEVEM adicionar tags Signed-off-by. Apenas pessoas
-+podem legalmente certificar o Certificado de Origem do Desenvolvedor (DCO).
-+A pessoa que envia é responsável por:
-+
-+* Revisar todo código gerado por IA
-+* Garantir conformidade com os requisitos de licença
-+* Acrescentar sua própria tag Signed-off-by para certificar o DCO
-+* Assumir toda responsabilidade pela contribuição
-+
-+Atribuições
-+===========
-+
-+Quando ferramentas de IA contribuírem para o desenvolvimento do kernel,
-+a atribuição adequada ajuda a rastrear a função da IA no processo de
-+desenvolvimento. Contribuições devem incluir a tag de assistência seguindo este
-+formato::
-+
-+    Assisted-by: LLM [FERRAMENTA1] [FERRAMENTA2]
-+
-+* ``[FERRAMENTA1] [FERRAMENTA2]`` são ferramentas de análise especializada
-+    opcionais (Exemplo: coccinelle, sparse, smatch, clang-tidy)
-+
-+Ferramentas básicas de desenvolvimento (git, gcc, make, editors) não são
-+listadas.
-+
-+Exemplo::
-+
-+  Assisted-by: LLM coccinelle sparse
-\ No newline at end of file
-diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
-index eda2a3fc5..6c68ac496 100644
---- a/Documentation/translations/pt_BR/process/index.rst
-+++ b/Documentation/translations/pt_BR/process/index.rst
-@@ -59,6 +59,7 @@ Estas são as regras pelas quais tentamos viver na comunidade do kernel
-    Modelos de Maturidade para Contribuição no Kernel Linux <contribution-maturity-model.rst>
-    Declaração sobre Drivers do Kernel <kernel-driver-statement>
-    Estilo de gerenciamento do kernel Linux <management-style>
-+   Assistentes de código <coding-assistants>
-    Conclave (Continuidade do projeto) <conclave>
- 
- Lidando com bugs
--- 
-2.55.0
+Good point that the >= 128 guard here is inconsistent with the rest of
+the driver: counter_period_shift is read from the shared page and passed
+to the same helper on the main timestamp path (vmclock_get_crosststamp())
+with no bounds check, so this field has always been treated as trusted
+via the seq_count snapshot. Adding a guard (or READ_ONCE()) to only the
+new attrs path is the wrong place to change that posture.
+
+For v7 I'll drop the guard so both paths read the field identically.
+With the guard gone the attrs path reads counter_period_shift once, so
+the divergent double-read the review flagged no longer exists.
+
+
+> > +
+> > +			if (err_hi >= U64_MAX / NSEC_PER_SEC) {
+> > +				maxerror_ns = U64_MAX;
+> > +				goto saturate;
+> > +			}
+> > +
+> > +			growth_ns = (err_hi * NSEC_PER_SEC) +
+> > +				    mul_u64_u64_shr(err_frac, NSEC_PER_SEC, 64);
+> > +
+> > +			/* Guard against overflow */
+> > +			if (U64_MAX - growth_ns < maxerror_ns)
+> > +				maxerror_ns = U64_MAX;
+> > +			else
+> > +				maxerror_ns += growth_ns;
+> > +		}
+> > +	}
+> > +
+> > +saturate:
+> > +	/* PTP UAPI error_bound is 32-bit nanoseconds */
+> > +	att->error_bound = (maxerror_ns > UINT_MAX) ?
+> > +		UINT_MAX : (uint32_t)maxerror_ns;
+> > +	att->valid |= PTP_ATTRS_VALID_ERROR_BOUND;
+> 
+> [Severity: Medium]
+> Does this unconditionally tell userspace that the error bound is valid, even
+> if the hypervisor flagged time_maxerror_nanosec as invalid?
+> 
+> If VMCLOCK_FLAG_TIME_MAXERROR_VALID is clear, maxerror_ns remains UINT_MAX
+> and PTP_ATTRS_VALID_ERROR_BOUND is still set. Userspace might interpret the
+> resulting UINT_MAX as a legitimate worst-case error bound rather than an
+> unsupported attribute.
+> 
+
+Agreed, that's misleading. This will be fixed in v7:
+PTP_ATTRS_VALID_ERROR_BOUND is only set when the hypervisor flags the
+base error valid (VMCLOCK_FLAG_TIME_MAXERROR_VALID); otherwise the bit
+stays clear so userspace sees "not provided" rather than a UINT_MAX that
+looks like a real ~4.29 s bound.
+
+> > +	att->timescale = vmclock_get_ptp_timescale(st->clk->time_type);
+> > +	/* tai_adjust() already converted UTC to TAI before we're called */
+> > +	if (st->clk->time_type == VMCLOCK_TIME_UTC)
+> > +		att->timescale = PTP_TIMESCALE_TAI;
+> > +	att->valid |= PTP_ATTRS_VALID_TIMESCALE;
+> > +	att->status = vmclock_get_ptp_status(st->clk->clock_status);
+> > +	att->valid |= PTP_ATTRS_VALID_STATUS;
+> > +}
+> > +
+> >  static int vmclock_get_crosststamp(struct vmclock_state *st,
+> >  				   struct ptp_system_timestamp *sts,
+> >  				   struct system_counterval_t *system_counter,
+> 
+> [ ... ]
+> 
+> >  		delta = cycle - le64_to_cpu(st->clk->counter_value);
+> >  
+> >  		frac_sec = mul_u64_u64_shr_add_u64(&tspec->tv_sec, delta,
+> >  						   le64_to_cpu(st->clk->counter_period_frac_sec),
+> >  						   st->clk->counter_period_shift,
+> >  						   le64_to_cpu(st->clk->time_frac_sec));
+> 
+> [Severity: High]
+> This is a pre-existing issue, but can counter_period_shift be greater than
+> or equal to 128 here?
+> 
+> Since counter_period_shift is controlled by the hypervisor and passed directly
+> to mul_u64_u64_shr_add_u64() without bounds checking, an invalid value could
+> cause an out-of-bounds bitwise shift and undefined behavior:
+> 
+> mul_u64_u64_shr_add_u64() {
+>     ...
+>     res >>= shift;
+>     ...
+> }
+> 
+> Given that vmclock_populate_ptp_attributes() actively defends against
+> invalid shift values, should we add a similar bounds check here to prevent
+> a potential kernel panic?
+
+As noted, this is pre-existing: it predates this series -- it's in the
+original vmclock driver, and my v6 attrs helper was the only
+guarded use. Dropping that guard (above) keeps the new path consistent
+with the existing one rather than diverging from it.
+
+If the shift should actually be bounds-checked, that's a fix to the
+existing driver and better handled on its own rather than folded into
+this attributes series. I'll defer to David Woodhouse as vmclock
+maintainer on whether that hardening is worth doing separately.
+
+Thanks,
+Arthur
 
