@@ -1,116 +1,128 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7641F38AC92;
-	Wed,  2 Sep 2026 18:14:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450494A4825
+	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 18:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788372857; cv=none; b=HiTIUQ1J/rSUw5gWPL0QkPUhCWnn1Czwcul47aVVvMmVSZH+bWw9q8y0J51Xk4bHj44YxW9iSgTW/hTWMxrVBXfcA6RS1BXxYTpAuyJ6FkFAUo5JNeq7jTR4sotlW1YbJEplhp+QU4iLh+Z5i98JjA4mWoAVPhhH3bWgmP7kovw=
+	t=1788373842; cv=none; b=e5iabBbdrMU/PWoDXuksSfGcOxqyDU7aTIMbIuLzR3Jg7krJSUxHlS/qNRtfm6YcTeNQ9bI8nX79EDnnB2PH31bdvcew03WNtLCZDCLIlDh3WohHPu2HpKjEtoQ0NocUCVDXEGSveIH+BbAhCEBde7P3WDJ1kX3RU8dRBhMu0TQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788372857; c=relaxed/simple;
-	bh=X0dJkxGtxT5x/HWUKKXOpqLDvEN2gHcqx96GpUC2KB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WOJmCiZven82E40YFNJ/Z8ubAauPw0uR+n9zYpb1CKUTE58ZSrLJXpqBTNIBakoFuqPl8tkojMgoOPgMJFma+LDPqUwugTZboJVQwnBVonG7E0Xs2MPUvqyL4ymzYF8Ei4zt5CNV/02mb+/6p13WUchYr8JjXjGrHpu0EP706Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=zbyJ6u5Q; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	s=arc-20240116; t=1788373842; c=relaxed/simple;
+	bh=bkBg8JCveUTUejP9e99kXQtFiCBa0ligbQaxs0F77wk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vo0NQaB2XhzA+UAML+UprNtqRlY4bQ4YHpzo0Ttik2OWEcwjoR2QO5WX7C7/a5V2IQNOeFv6b/tdNviYJq1+dtAqohli8GdG9gLJUX8FKgXLLJtS9yJvNR2UfA11i5gXg8hQT9537ahV4uMj5k4Kz2+P2kg48Gw4s9gsWk6JA/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=philpotter.co.uk; spf=pass smtp.mailfrom=philpotter.co.uk; dkim=pass (2048-bit key) header.d=philpotter-co-uk.20251104.gappssmtp.com header.i=@philpotter-co-uk.20251104.gappssmtp.com header.b=sYnXJ1Jv; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=philpotter.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=philpotter.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="zbyJ6u5Q"
-Received: from omf01.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay01.hostedemail.com (Postfix) with ESMTP id 6F8F11C1ACF;
-	Wed,  2 Sep 2026 18:14:12 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf01.hostedemail.com (Postfix) with ESMTPA id 6269F60010;
-	Wed,  2 Sep 2026 18:14:10 +0000 (UTC)
-Date: Wed, 2 Sep 2026 14:15:11 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: trace: histogram-design: fix bracket
-Message-ID: <20260902141511.64956ba2@gandalf.local.home>
-In-Reply-To: <c0edc549-7dd1-4d96-a4d2-55ec6fee5caf@infradead.org>
-References: <20260902151032.706407-2-manuelebnerli@mailbox.org>
-	<c0edc549-7dd1-4d96-a4d2-55ec6fee5caf@infradead.org>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=philpotter-co-uk.20251104.gappssmtp.com header.i=@philpotter-co-uk.20251104.gappssmtp.com header.b="sYnXJ1Jv"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49b392ccaacso21123755e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 11:30:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20251104.gappssmtp.com; s=20251104; t=1788373838; x=1788978638; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=v1qbNEpl0QUNAOnPf9pwBA6dUXCvPRsbz2ZyzRlAtMQ=;
+        b=sYnXJ1JvXYIy1xwxLmpJJnjSj9kRnEvoz/EtVDRJPEST/APRVpYVfRMLPFSNHkmEwH
+         T8BZwYqseLDs7XfUznw+zvc1oarCLDovcscbJ8knVsI1FnpXFIvaA0cat6QVrWursVVK
+         F/tANqLbvQexDB9+xuCp5ZSxd613Ne01fTvmpXMS7dg3a4BVpzImWLoyQUtq8FlB8yeS
+         1SxNMU3ak0sYAxR+atlASbUswIkcGviQKRPMuRR6nvJsZBdSSYfIbhBfFQ7xuxqTOuuI
+         gmwro8znsXXRJ8e60Ed/YeAaMhccHKc2bKH759iSd+/xgmyMxkFy1FBm2luUVscbkubX
+         lSrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788373838; x=1788978638;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=v1qbNEpl0QUNAOnPf9pwBA6dUXCvPRsbz2ZyzRlAtMQ=;
+        b=lLcuDSoLezjFNjURehubUV42182cDv8AWHTp9Uu176n4Oca8VrDspdJ3kh1BCehXPr
+         8Gi43twm6yoIL/y4WC+o4WEhiggWcTvrlYPdmH3eFy73zjeHKTKGwgXLTp6Z6+J0bUKZ
+         FgCJqp8pYK8t7CVV5eF92w0bdSR+L3TsAWp45gr0C378y580qNDgekrxFWwRWFSnX8VH
+         W8ET97qnaWiz/1wQk+i6uXy+8BmImCkuVdn54JQS+yikE6BAc1yaa/DGjVY2eCxTABt2
+         Z3K3pdhy1eRWl72LS3u6JtSBCzMVwSPu9oLrB5F29TR5OsLR0I3k61h6WKQ594y/GOCR
+         dYRg==
+X-Forwarded-Encrypted: i=1; AKwUvBycISQDR8rB5M4hdvXeAc+Q8OTlhiCEl5/CSTX31lOVJB64vSsKe8/eH6PYtv71QdBGBqYW+aG4qhg=@vger.kernel.org
+X-Gm-Message-State: AFuF++nxL8dIb+2wo0K5hJVaoZgEU0PK9BDl0WXywK1n5vSi52I0NtE0
+	AGOXAk7HgTHSIgDHglkGVXV+Rx9/8Ln4V7Iie0Vd0/OJU1ZndisXIM6EKCUBxRCN0dw=
+X-Gm-Gg: AYBFou0lVARpbANOFv19eK2cCqfbD9e5KifGbXQhunxpjm38VngU022KBHJeWPU6ko9
+	+kmo/z7qpj0TxHw+CX3AoFQa8Q4060I8wElvUUDI4/GBZxZc6umufyI+EaPVRNyi9/0uWDGle7K
+	ipwnNuL+G0jp8c8ffw/J7gAtF1TLwWxXsM2dpDk1b97QuS7qs5ejlePJ9NemMjLfdAusQpodyPG
+	JzONBUycEaYboDf7HwpC1y/06gxNOhY3OblU9Gk9QVprSs28ruJRgG7oTPwQ0FC20eqxLECG7ju
+	LJEaq4CywigOigmIgjK0NGg4PcoIxUGRw3iTo4hweLCdmsqs5SkOUXYsDY4s7pNtriQm26ninoh
+	Ay4OQBi0LMuV+Kc+CBe2b887UAzEBowFmiA/MB6z0cFcDBRdniggam6KpFYnyulC1LXZ7qc0SA6
+	btLRhQ35jxa7jhme579c2gs8wOnicPuugqMJM75G5lwnffEFKQ65ClTds7kVTg8yTyavOw1hKPf
+	YpWKaHg3WW9QR7AoDzUy0tODd52yogkFrnDnUlmr2zohGM=
+X-Received: by 2002:a05:600c:8012:b0:49c:d818:8764 with SMTP id 5b1f17b1804b1-49ce5842473mr140567475e9.11.1788373838366;
+        Wed, 02 Sep 2026 11:30:38 -0700 (PDT)
+Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee80eda4sm9134555e9.15.2026.09.02.11.30.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 11:30:37 -0700 (PDT)
+Date: Wed, 2 Sep 2026 19:30:36 +0100
+From: Phillip Potter <phil@philpotter.co.uk>
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: Phillip Potter <phil@philpotter.co.uk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+	Manuel Ebner <manuelebner@mailbox.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] cdrom: fix brackets
+Message-ID: <aphrTLxLO5F2adsR@equinox>
+References: <20260902125431.696887-2-manuelebnerli@mailbox.org>
+ <d254a0d6-83e3-4f67-8fbd-87b5ad3b2849@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: ha86g9z6w1zfk5gbtq147t6bozf6o8ct
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: 6269F60010
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18TvkjyhgF3SAUtwSxV2e4CMltwLbavfBg=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=dyE58VvLjEs1tTubEZDh6JWT0eu73UXdfa7GBeV6cBQ=; b=zbyJ6u5QLBFn8nRQ5ORRgu5Kqm4YJs1AfPz02E6Ti4biMAZHQGMCBIL5ir7hVG5oJ3It3ktmMaCFBHeK906CSOkca7neRxeMLm/Rbj4dnFific/4ICM+kgg4fToD/zfPYsqhDxmQ3SfP+Z47vCcCjaaOzm3JJspVqvuMweUndLQ=
-X-HE-Tag: 1788372850-113403
-X-HE-Meta: U2FsdGVkX1+WSLMXGsFUIw0F4lLDWMgywUhaVCxf78pT2v3cfHUxM3VlMlKGhPpUnFGegNEkQESzP893NXvD8mdeshoZV8nfFnyKY8pW4FmXzk25GJZQD5/lN51piwnHqjn2WIgL4kCSkCvnTgS0PuK7f7H8ZSC7l/zkzemfn3q8YXxecMsP4cPYOR3wWLsYwfSJIKHnnHscTTcEDvgSl4O92n5K+RAj20ZUJpvQWIokeeWE3GQj5uUVlp2FNsJDCyeAnbUuvLk35XOkYrshS5QrfJNWpP4WDVmZA1o0HLlGWBBwJc746bTVYQ4JJKCY16ZpQaoxQZDJXYlZFJrQ5V0xCXHOZUpb55pyO5XBUvUPU9BtAsukPyL4lXXslowk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d254a0d6-83e3-4f67-8fbd-87b5ad3b2849@infradead.org>
 
-On Wed, 2 Sep 2026 10:17:17 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
-
-> > diff --git a/Documentation/trace/histogram-design.rst b/Documentation/trace/histogram-design.rst
-> > index 41a726cd3..b757afa22 100644
-> > --- a/Documentation/trace/histogram-design.rst
-> > +++ b/Documentation/trace/histogram-design.rst
-> > @@ -876,7 +876,7 @@ next_pid field on this sched_switch event, we retrieve the
-> >  variables specified in the wakeup_latency() trace action, and use
-> >  them to generate a new wakeup_latency event into the trace stream.
-> >  
-> > -Note that the way the trace handlers such as wakeup_latency() (which
-> > +Note that the way the trace handlers such as wakeup_latency() which
-> >  could equivalently be written trace(wakeup_latency,$wakeup_lat,next_pid)
-> >  are implemented, the parameters specified to the trace handler must be
-> >  variables.  In this case, $wakeup_lat is obviously a variable, but  
+On Wed, Sep 02, 2026 at 09:46:58AM -0700, Randy Dunlap wrote:
 > 
-> Seems to me that the "which ..." should be a parenthetical phrase,
-> i.e., with parentheses at both ends of it. IMO.
-> But let's see the the TRACE maintainers have an opinion about it.
+> 
+> On 9/2/26 5:54 AM, Manuel Ebner wrote:
+> > From: Manuel Ebner <manuelebner@mailbox.org>
+> > 
+> > Fix missing ')' and add '()' to function.
+> > 
+> > Fixes: e327cfcb2542 ("docs: cdrom-standard.tex: convert from LaTeX to ReST")
+> > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> 
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> Thanks.
+> 
+> > ---
+> >  Documentation/cdrom/cdrom-standard.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/cdrom/cdrom-standard.rst b/Documentation/cdrom/cdrom-standard.rst
+> > index b97a4e9b9bd3..b6dde1d1eaaa 100644
+> > --- a/Documentation/cdrom/cdrom-standard.rst
+> > +++ b/Documentation/cdrom/cdrom-standard.rst
+> > @@ -1014,7 +1014,7 @@ How to update your driver
+> >    just calls to the routines you adapted in the previous step.
+> >  - You may remove all remaining memory checking code in the
+> >    *audio_ioctl()* function that deals with audio commands (these are
+> > -  listed in the second part of cdrom_ioctl_. There is no
+> > +  listed in the second part of cdrom_ioctl()). There is no
+> >    need for memory allocation either, so most *case*s in the *switch*
+> >    statement look similar to::
+> >  
+> 
+> -- 
+> ~Randy
 
-Yes, it's not an extra parenthesis but a missing one. Likely because it
-would be placed in the position there is already a parenthesis.
+Hi Manuel,
 
-  Note that the way the trace handlers such as wakeup_latency() (which
-  could equivalently be written trace(wakeup_latency,$wakeup_lat,next_pid))  <<
-  are implemented, the parameters specified to the trace handler must be
-  variables.  In this case, $wakeup_lat is obviously a variable, but  
+I concur with Randy, looks good to me. Will send along for inclusion.
+Thanks for the patch.
 
-Perhaps the wording could be a bit better.
-
-diff --git a/Documentation/trace/histogram-design.rst b/Documentation/trace/histogram-design.rst
-index 41a726cd3536..ec133d0692c5 100644
---- a/Documentation/trace/histogram-design.rst
-+++ b/Documentation/trace/histogram-design.rst
-@@ -876,8 +876,7 @@ next_pid field on this sched_switch event, we retrieve the
- variables specified in the wakeup_latency() trace action, and use
- them to generate a new wakeup_latency event into the trace stream.
- 
--Note that the way the trace handlers such as wakeup_latency() (which
--could equivalently be written trace(wakeup_latency,$wakeup_lat,next_pid)
-+Note that the way the trace handlers such as wakeup_latency() 
- are implemented, the parameters specified to the trace handler must be
- variables.  In this case, $wakeup_lat is obviously a variable, but
- next_pid isn't, since it's just naming a field in the sched_switch
-@@ -916,6 +915,13 @@ means it will be automatically converted into a field variable::
-           onmatch(sched.sched_waking).wakeup_latency($wakeup_lat,next_pid)' >>
- 	  /sys/kernel/tracing/events/sched/sched_switch/trigger
- 
-+Note that the above is the old way to trigger a synthetic event, whereas the
-+newer way is preferred, which uses the trace() action handler::
-+
-+  # echo 'hist:keys=next_pid:wakeup_lat=common_timestamp.usecs-$ts0: \
-+          onmatch(sched.sched_waking).trace(wakeup_latency,$wakeup_lat,next_pid)' >>
-+	  /sys/kernel/tracing/events/sched/sched_switch/trigger
-+
- The diagram for the sched_switch event is similar to previous examples
- but shows the additional field_vars[] array for hist_data and shows
- the linkages between the field_vars and the variables and references
-
-
--- Steve
+Regards,
+Phil
