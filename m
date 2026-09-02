@@ -1,97 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711E03DB332
-	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 07:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA4C26D4C3;
+	Wed,  2 Sep 2026 07:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788334219; cv=none; b=nPAlM2vR7ZINPCIhsNOI/0NgR4RR10X7W8Lr4mnhcpAIgjk7cgC0OmUs0K+zNHT6U8eQd4RxeBKh5ddZ5ptpH7k1WKpX4BnNhoN4PRm6nzEIjL0VqxJwDfTda/+x9yC7jtMjiZ7SUDvGmqAfoI+rYaLSXSpvabqgBJCYzUxPunk=
+	t=1788335448; cv=none; b=qJGW2gsde5g/wi5OzDBt1f99f2LAEgq8OBh2rtcVTkF90K2vaUBfpynE5nAfUx9o/zxJHWwgj2Gf7JuuspoLoR6MIN6kPGLGD70OyWHE0xaS5mP61dxVs8LFGCv7pnx2YCokllawn+VScWw/aBbGm67Ba+36vgSaWP/9EtOo++A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788334219; c=relaxed/simple;
-	bh=N6HTuFD2NOKW3KSVMbH3q+QMoNTfMS81QKRNCthAxxM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oP0+FO7RPc0fUYEAg0sylOClN9FhbxPxGvO0d+QKbbZCb9kMQ5G7pah9GMfTP8sp4c1irx2eFrgv/a+n9UVby3sevykbeYTUPHUt6pDCfOThPnEI3I+jQKKd8iOABseyxMm/HnVjirw0zrNHYU3HN8IiWBp1vr+iTyd31hFeIYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mywqTOtm; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788335448; c=relaxed/simple;
+	bh=ZGSvZBUM8lYkI+KW5XRg5aaz1bZaxRqVwiUWm2jql1A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h5ZRcRZHxQSn8ozEmo5sRUyNQIaLaO1u1rjD46D43PQbmT/Jw8sBcn1P06o9z76cmoTUkjCGo/GNBROas5FYNvKjZFzBnJ9bK8f72UsnGQP94prCj7bTeBv9BLaBy8KAC7EPh52tmSCLLymAfAH+NLB/iHAgjeUxbQ5LWL4DN3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ytq25x9Z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mywqTOtm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788334216; x=1819870216;
-  h=date:from:to:cc:subject:message-id;
-  bh=N6HTuFD2NOKW3KSVMbH3q+QMoNTfMS81QKRNCthAxxM=;
-  b=mywqTOtm5RxXKTue5W9p1hcjNbuWttt5JlwmHib8SKfpYzmO4gZZjK4P
-   maDdbb5CxhkV78s1B1o9JdG93RR1bKnUrnGrvaGEEeK++cVkbJditcRNx
-   xIVegIyx7JfZLaeCzK5K5S37Ud3+0QBUbKGv3twih31PtkZupt3QLz6xW
-   Ad9ix+cKxLPlRN0wFc0Xi/E9gXFGbM85gDOsR3fTW+H2YZhMfnyBDeVyD
-   QFQ2vSiv+mTOWxnWSYJG5OfGi4yIAi4Hj4qTX3d8gHXO6oXnW54BUAXF7
-   n8KNOWULNRqt7E/WV6bBG2P+VNqF0DgVxaZMpf9PikAZ9A9HSqBNkzfwI
-   Q==;
-X-CSE-ConnectionGUID: C6IGbLDjSzmv5qFPCJ53sw==
-X-CSE-MsgGUID: hZR4taBgR4+2qYpV+o3Uxg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="111552574"
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="111552574"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 00:30:16 -0700
-X-CSE-ConnectionGUID: TNtHMhAGQluuAJ/ZuflWew==
-X-CSE-MsgGUID: qTinIBwwTvODwnBQlFCZsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="269350789"
-Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Sep 2026 00:30:16 -0700
-Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x1fQB-0000000029K-4Al5;
-	Wed, 02 Sep 2026 07:30:11 +0000
-Date: Wed, 02 Sep 2026 15:29:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Neo Chang <YLCHANG2@nuvoton.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
- linux-doc@vger.kernel.org
-Subject: [broonie-sound:for-next 20/61] Warning:
- sound/soc/codecs/nau8360-dsp.c:42 This comment starts with '/**', but isn't a
- kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202609021537.D6X4Dz93-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ytq25x9Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BA171F000E9;
+	Wed,  2 Sep 2026 07:50:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788335446;
+	bh=HQKQi6BjlLM/tFqlWQgDt+Hy+RAahli1Ac/ry6Tye0s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Ytq25x9ZypLI7pvIaWHby9YN/2xI3l2sCJNs7/09WI9M8Ijbrbm45iedYNdUZdYwJ
+	 YztvJIkDFUF1FiiaArXjCDsuESH6MV+5J6IIL5xBG8TvYOr3lw4MRTy8RexGYD3lzk
+	 ln7QNhswSQEXCWNIDEIeM/JMOGUVQ0/q2P4Ejmak4GMDG5NhoII6UUeBEOBfyHcbe2
+	 NLurCHI6pSVyhUALB5kApFa1C13Ypo0/vMZm6cV5lND6j2RuKWh0dXlzkRlUlzfOGB
+	 vukMqtASOWsB19/gDNEMKMBN+2kVygD42YfageoaNr2sjyvPzdVxNdL6VsMwzRiK3U
+	 3NijN9UwqG6vA==
+Message-ID: <f0b194b4-6f41-455f-b807-de7c24fa8184@kernel.org>
+Date: Wed, 2 Sep 2026 09:50:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] docs/core-api: memory-allocation: add
+ k[mz]alloc_obj() and clarify kmalloc
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Michal Hocko <mhocko@suse.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Suren Baghdasaryan <surenb@google.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20260831-docs-memalloc-guide-v1-0-547718c274c1@kernel.org>
+ <20260831-docs-memalloc-guide-v1-1-547718c274c1@kernel.org>
+ <23db34a1-ba1b-495d-91ea-18419e0dc8df@kernel.org>
+ <apb47Rsnz1H36SOy@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
+ KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
+ 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
+ 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
+ tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
+ Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
+ 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
+ LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
+ 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
+ BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSNWbGFzdGltaWwg
+ QmFia2EgPHZiYWJrYUBrZXJuZWwub3JnPsLBsAQTAQoAWhYhBKlA1DSZLC6OmRA9UCJPp+fM
+ gqZkBQJqFFy6GxSAAAAAAAQADm1hbnUyLDIuNSsxLjEyLDIsMgIbAwUJGtCBUAULCQgHAwUV
+ CgkICwUWAgMBAAIeBQIXgAAKCRAiT6fnzIKmZJIUEADFx/tREzUImHrEwVHeSvDFmA7tJysI
+ UVrlvrM09E7GIuzphzv7jYmo8n3ANpCczLEVr4G0syYQdTigaZgv3+FQDIIzhKih1IHhu1Ei
+ XHlywNWKnQxxQEUNi5Mwx43wQz5XVw9F1A7gtKBKNtfogO511hAbrzagrYajyQacEJ/+sfhZ
+ 9Da8ltHIXD8pcYaHUfQgEusCgmEd9+KrUwrTbckFKmYq5chuE6yJ4J0EmWknL096jIE6CnzF
+ FRslQ3B1UKDjxVsm1ZHfir5NeWszLkTvGFsddFaWTgh8UycESG6VQzKXjjewXu2pG7YQYRpj
+ QKm1W5X2TkwWkXRBZTmfmbhxIUMh3+zf5wQ463rSmDN/8v81tdqBtAW6rH/kzg1GvkaTHXn0
+ 507yEHFzBksk2viAuIxxr7km8+/KARYLIdGtx30EG8cKzAUZOK6WqxtNCsXUJNrVE8CWrCaD
+ icoNu7Fs1c5hmPHdSTnU48ce67449DdnO4neLSNhRiGlMHJgfJUmgrxu/hcYeOZ3haWmEQ2w
+ uW1Mh01OHi8QZHCEyAbABrPs9GUgccc/4eYXX9hIgxfSkYzn8f+8NuIFPWl/0uTvjgqU29FQ
+ SbzOLxHq9439Ox40G5mS5eZXRGxITYR+6TXvRGI6P/264jvflnr/pDGUttaikU+0W+1uxgKH
+ cmYbEc7ATQRbGTU1AQgAn0H6UrFiWcovkh6EXVcl+SeqyO6JHOPm+e9Wu0Vw+VIUvXZVUVVQ
+ La1PQDUi6j00ChlcR66g9/V0sPIcSutacPKfdKYOBvzd4rlhL8rfrdEsQw5ApZxrA8kYZVMh
+ FmBRKAa6wos25moTlMKpCWzTH84+WO5+ziCTsTUZASAToz3RdunTD+vQcHj0GqNTPAHK63sf
+ bAB2I0BslZkXkY1RLb/YhuA6E7JyEd2pilZOrIuBGl/5q2qSakgnAVFWFBR/DO27JuAksYnq
+ +aH8vI0xGvwn75KqSk4UzAkDzWSmO4ZHuahKtQgZNsMYV+PGayRBX9b9zbldzopoLBdqHc4n
+ jQARAQABwsF8BBgBCgAmAhsMFiEEqUDUNJksLo6ZED1QIk+n58yCpmQFAmfIHFQFCRYU6J8A
+ CgkQIk+n58yCpmS2PA//bqN1LfcotmArgElsa+0EGZSQlYgK48pm8WAeTXTngudP9IJ4SuKY
+ HR5RNjHcBeqN+Me0zxRqYzRb8nGanHEkDyf4Im8DQM8d6vbyU+FcPmG4skud4kgS1zMHnlVd
+ SXfSIwKC/hKgdHG8aBV7545Lz9X6Iohea+94wneD0aw/hqF+QWewGZhWJriWAZtvEkzNjQOi
+ 4U9F/trLten/x7bpphDSnDMKJtITbtzATT1Dq7o7VpIUK1nCTQALMuMjKCdi8OdU/+V+R3O4
+ 0PXWvX8qrvqYapVbZ+9KqT74FsuB0Ya9uXwgBF2Q6cRuETZk5vqaqKxzqoQZCO8AOz/58j6O
+ 2RHNy/mZEN+7tJ5Tsq42zVJ4jxsT8b9YplavCMsnBgDeRWhcbYhCyttoL7nYISyWg4kQYZ/P
+ wIV3OuNv2f8iKYsxNsRuClOAF82+gvqOy1/1pprFjy8uo2pkoOrb63aOP3vO5VHnRKgra6dq
+ NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
+ OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
+ jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
+In-Reply-To: <apb47Rsnz1H36SOy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-head:   27a50351cbc82e9f0811df417c5e7d2a72f60ef5
-commit: be88847a8bb1a14194cf50116f8909d127861318 [20/61] ASoC: codecs: nau8360: Add support for NAU83G60 amplifier
-config: sh-randconfig-r062-20260901 (https://download.01.org/0day-ci/archive/20260902/202609021537.D6X4Dz93-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609021537.D6X4Dz93-lkp@intel.com/reproduce)
+On 9/1/26 18:10, Mike Rapoport wrote:
+> On Tue, Sep 01, 2026 at 12:17:02PM +0200, Vlastimil Babka (SUSE) wrote:
+>> On 8/31/26 17:13, Mike Rapoport (Microsoft) wrote:
+>> > Since v7.0 the most used memory allocation function is kzalloc_obj().
+>> > 
+>> > Update hte memory-allocation guide to describe k[mz]alloc_obj() family
+>> > and make kzalloc_obj() the first answer to "How should I allocate
+>> > memory?" question.
+>> > 
+>> > While on it, clarify description of kmalloc() size limitations.
+>> > 
+>> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>> 
+>> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+> 
+> Thanks!
+>  
+>> Suggestion below:
+>> 
+>> > ---
+>> >  Documentation/core-api/memory-allocation.rst | 30 +++++++++++++++++++++-------
+>> >  1 file changed, 23 insertions(+), 7 deletions(-)
+>> > 
+>> > -For large allocations you can use vmalloc() and vzalloc(), or directly
+>> > -request pages from the page allocator. The memory allocated by `vmalloc`
+>> > -and related functions is not physically contiguous.
+>> > +`kmalloc` always allocates physically contiguous memory and the maximal size of
+>> > +a chunk that can be allocated with `kmalloc` is limited by `MAX_ORDER`, the
+>> > +same limit also applies to the page allocator.
+>> 
+>> Would it be better to say the maximal size is KMALLOC_MAX_SIZE which is
+>> derived from page allocator's MAX_PAGE_ORDER? 
+> 
+> My point was that whenever you allocate with kmalloc() the limit is
+> MAX_PAGE_ORDER, not necessarily for actual slab allocations.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609021537.D6X4Dz93-lkp@intel.com/
+The actual slab allocations limit is KMALLOC_MAX_CACHE_SIZE and that's
+indeed not the point and hence I wouldn't mention it here. KMALLOC_MAX_SIZE
+is literally a conversion of MAX_PAGE_ORDER to bytes, and since kmalloc()
+takes bytes and not order as an argument, it seems more natural to me, e.g.:
 
-All warnings (new ones prefixed by >>):
+`kmalloc` always allocates physically contiguous memory and the maximal size
+of a chunk that can be allocated with `kmalloc` is limited by
+`KMALLOC_MAX_SIZE`, which matches the page allocator's MAX_PAGE_ORDER limit.
 
->> Warning: sound/soc/codecs/nau8360-dsp.c:42 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Preamble Fragment Masks:
-   Warning: sound/soc/codecs/nau8360-dsp.c:56 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Payload Fragment Masks:
-   Warning: sound/soc/codecs/nau8360-dsp.c:66 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Trailing Fragment Masks:
-   Warning: sound/soc/codecs/nau8360-dsp.c:79 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Reply Preamble Masks:
->> Warning: sound/soc/codecs/nau8360-dsp.c:384 function parameter 'cp' not described in 'nau8360_send_dsp_command'
->> Warning: sound/soc/codecs/nau8360-dsp.c:384 Excess function parameter 'component' description in 'nau8360_send_dsp_command'
->> Warning: sound/soc/codecs/nau8360-dsp.c:469 function parameter 'cp' not described in 'nau8360_dsp_kcs_setup'
->> Warning: sound/soc/codecs/nau8360-dsp.c:469 Excess function parameter 'component' description in 'nau8360_dsp_kcs_setup'
->> Warning: sound/soc/codecs/nau8360-dsp.c:384 function parameter 'cp' not described in 'nau8360_send_dsp_command'
->> Warning: sound/soc/codecs/nau8360-dsp.c:384 Excess function parameter 'component' description in 'nau8360_send_dsp_command'
->> Warning: sound/soc/codecs/nau8360-dsp.c:469 function parameter 'cp' not described in 'nau8360_dsp_kcs_setup'
->> Warning: sound/soc/codecs/nau8360-dsp.c:469 Excess function parameter 'component' description in 'nau8360_dsp_kcs_setup'
+>> (Also `MAX_ORDER` doesn't exist anymore)
+> 
+> Will fix.
+>  
+>> > +Internally, slab allocator differentiates allocations of different orders and
+>> > +delegates larger allocations to the page allocator, but for the users of
+>> > +`kmalloc` family it is entirely transparent.
+>> > +
+>> > +For large allocations that do not require physically contiguous memory you can
+>> > +use vmalloc() and vzalloc() family.
+>> >  
+>> >  If you are not sure whether the allocation size is too large for
+>> >  `kmalloc`, it is possible to use kvmalloc() and its derivatives. It will
+>> > 
+>> 
+> 
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
