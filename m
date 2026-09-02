@@ -1,172 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BA8495051;
-	Wed,  2 Sep 2026 12:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199BD29DB9A
+	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 12:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788353827; cv=none; b=oCsyaUQURJIunpTK/N27Pdew5IJ9JyAo5WDE6PKgoe5XP/Qs5y6Z8ELNq8VbegPfRZONqeG3IyfQudFgu9vkt/Tg4OJ5UZfrc3dROHZb7fHOLHPPpK9yxflxFduEFk5jSGz6k4P7AeJHI+RztWuZYtTeZP09dRq7CQCJ0Bxzv4E=
+	t=1788353972; cv=none; b=atno6ohG2g+oypPvcTm4jeFDHLkF2Cses3n5B0YAJuPu5EZq7d4MW5CbWgsdjANKA1Rn/Q7fyvw42GEOzU0h3GRDd3unmzrYzRmvJ/hEISt2x3/gbyLGX5QLNuQdqIc0/vZCjMUJTy2GFfgrIXT+68SRA2AD2j3dFeScou5t4AY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788353827; c=relaxed/simple;
-	bh=+sqEe1LGe4fEP5uabRD28y+M+U2lWTjublfmuX++eck=;
+	s=arc-20240116; t=1788353972; c=relaxed/simple;
+	bh=dmJe+J/F+vYCqGcuQ3jcywh4Jc/H3IZgC2ypGBQHfp0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R5wOJALe2S8qkASFElIOCARst4yGoLfEZ+OIthS+ivLYgxWsnpbOZPd6W4a+5Zop5yr+o43CR8yYBh+wCPGYm8CAxZ4k2r35pxEs4ejnJoSN/hdzU2uF7csy8f7gnv99jr9s9Y6sm/9gX3zAsEpEczHb6UqmB8WU8cscmim10eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hYojRQK1; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ry8jGsJ6CtrgPTeP8+Hqr0OggfBqIth+03WWaSi3XPVUBWEaLbT+c6iut6xCw2pijRkiBiOQ+pA1/kIH01yadgEBNnAo9qyn0UyG0Fo/200/mVHutDS2TSWLxysIw6sbrhM1vtVPyTyz56V27F5RRybCb89w7QnVtU1cRtUc/BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pPkUxD/T; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hYojRQK1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788353825; x=1819889825;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+sqEe1LGe4fEP5uabRD28y+M+U2lWTjublfmuX++eck=;
-  b=hYojRQK13e4LKZKhJJihLnvyuc7RNnOBRbuIIphQ5MEJEeryQ91lX5kK
-   jmPxSMgw3c9mCIVYwUtr7NIKuwXnvdyTwuYe6vmwhdtUPEQbenjbE7NxP
-   +kAv737XWK1dr9bOUKse/wWO45ALJx4EU//6zhSDE9RouvDd9F1KdCoAG
-   Cv7cUVlVLGYyYrVFhnzLQffztaYWug0ca8PzbcmOQcbpO4/gkhF758lOq
-   ZqemsPCl0IC8jWF3QMW+p1HQ9nj1raBzIjLp4x0b3d2TtUJ5ZXC+8dZKU
-   jKX2ydii2Ggkwp2cDlNNoSs9WgjTYIktrOV7rs31ujklCGUUfHd/H4hnD
-   g==;
-X-CSE-ConnectionGUID: /SCN0LYzQEqmwbDZafLM3g==
-X-CSE-MsgGUID: TmqHZSqwQkWmrIjjrTjpDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="100165334"
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="100165334"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 05:56:58 -0700
-X-CSE-ConnectionGUID: ydY/x6WaSTiRl04+a7s3zA==
-X-CSE-MsgGUID: Yl8xqNi8R+e7HGDSivpLpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="273570230"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.118])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 05:56:51 -0700
-Date: Wed, 2 Sep 2026 15:56:49 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>,
-	Marius Cristea <marius.cristea@microchip.com>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Kent Gustavsson <kent@minoris.se>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Janani Sunil <jan.sun97@gmail.com>, linux-spi@vger.kernel.org,
-	Kent Gustavsson <nedo80@gmail.com>, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v11 3/3] iio: dac: Add AD5529R DAC driver support
-Message-ID: <apgdEf3pi_soGr3T@ashevche-desk.local>
-References: <20260902-ad5529r-driver-v11-0-301c491a0719@analog.com>
- <20260902-ad5529r-driver-v11-3-301c491a0719@analog.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pPkUxD/T"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2d9004f39d3so11393045ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 05:59:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788353970; x=1788958770; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SqORnjd6nGMwkHINTVnkwjIgRmlTLFd4wtw4MP5cLxE=;
+        b=pPkUxD/Twrwtl8FSBb3jjo50HqDKJ5Gemks/7vWj7UFSxp15IkP+79KXBQa+Rf/0ff
+         K71gAHKDZiYsH1qwaLX8f2Sxmov+dieOamzQcATPeEyA93+m+CAOSgp49F+c1BmTLQxC
+         4w4UC6HQA8e7NBjdvKcRWNowO/PIazlUvQy+W5TlaPkLeBO+4uf6L62gX+UsMkE5x17v
+         zdCSvV/YvowcVkbMamIPnNYs1zqlsIAm0YSzFh9yN0OJhUyd59LA+VW8I9pOMakRsdmt
+         +MEVrpIRHQ/TJR7mbMILaRjeKdmRVTuppNyo1qd1iDx8vW1uBwRmnh6WcFmQ0gW/KLN8
+         jOVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788353970; x=1788958770;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SqORnjd6nGMwkHINTVnkwjIgRmlTLFd4wtw4MP5cLxE=;
+        b=rva9/Drg9VOO1ErVXBrWDJ70JF4K/mVoAb+e8Xamara1i8rGt3vvG7+sPLWx7KN+LI
+         9cfusN3344EKrFHQHEQevCy+gtnbyjmDUfEAS+D0K3+5zE+p5QO8Prs1PbrIiex9SGNY
+         RFD+KgXt6FLdUgmm503X1xz6YjbvgAItNdMcrPdxNO0aqEmT07UxoPxzJWCAdLxyvvym
+         JujFJJf4F2Sp4gfavHBU6llgvEi9HkNjD0oXwKOeZ3tN66qPEUSpv1yc3I6DNrkUL+vu
+         Huab0EMNc0yRZkuZCeYmSUS0gxTSnJQpqMR602xgUkPfdo2JqVuTiu/XSAwjhDA6RyZZ
+         CjbQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp+RlgR5DEp3yVpRN20rEQUdKY6K65177utf1jqGIFR+MqRbUDolKiukFgmLQZA5bt/nEP1D0B8yVY=@vger.kernel.org
+X-Gm-Message-State: AFuF++mU11NUE5c6JN+XM3YKKOZq4oHppGXdCUUv4bBnN1Q5Wr4CxFIi
+	kBspyHxS8jmws5O2P0Oyfic3mPExSrsdFUSvBQGvaCFdzW/6PM8ncaT4
+X-Gm-Gg: AYBFou1qE59VZxkyN1v+cFhDr15ySITYoeRXbtPl3tpLFZ2KUgjep8UELmsQMrs6s3y
+	O0TwJjzCYEtqwVHaFoKKewvHlwgAAVE920mFDmnKi7AyAzn5/xbHgtQxDLCmU1Nt0ZAxvgX8PCj
+	lJes9xHO4L7dsLVzMlT3A7Wr7BZ8rGV4W9Wm10FB26NknHUy1LkCFYnhtqgnCry6C/Tc1ckVdIp
+	d7vXXADYTZdQ82JTwmh9i0/UPG+7MGrfD2q8eg4hdGWP9aMsvlpadkVfkzd65mKBYq3lGA/lopw
+	IYMpBOXQ7gRuTlPsuG6UIEPsFkKfdeBjJ/FKd0ZZOWMCFiqS8lYm4NteR2rm8Uokj6KUn5c2U2g
+	dGofQc34WC0zSxckIwQG7XbzbzplfWsALgRPDdZSbLcqosp4edAMxZY4NxvQ54OwfELsyuF3H6e
+	fr1/QcGZRfLPsqKEpzigcKde3CqxMY8AiYuq2m+0e7gH52zw/9xl/LbzinfLAO5NtfoK4vqaOAJ
+	w==
+X-Received: by 2002:a17:903:22ca:b0:2d6:3c2f:6a5 with SMTP id d9443c01a7336-2daec71f2f5mr60870245ad.14.1788353970437;
+        Wed, 02 Sep 2026 05:59:30 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dadd4a688dsm12228205ad.58.2026.09.02.05.59.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 05:59:29 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 2 Sep 2026 05:59:27 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: =?iso-8859-1?Q?Sebasti=E1n?= Peyrott <speyrott@gmail.com>
+Cc: linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] hwmon: Add Minisforum UM780 XTX EC monitoring and fan
+ control
+Message-ID: <7709521d-745d-4d1c-b68f-95337918fa43@roeck-us.net>
+References: <20260902000509.191115-1-speyrott@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260902-ad5529r-driver-v11-3-301c491a0719@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260902000509.191115-1-speyrott@gmail.com>
 
-On Wed, Sep 02, 2026 at 11:26:17AM +0200, Janani Sunil wrote:
-> Add support for AD5529R 16-channel, 12/16 bit Digital to Analog Converter
-> from Analog Devices.
+On Tue, Sep 01, 2026 at 09:05:09PM -0300, Sebastián Peyrott wrote:
+> Add a DMI-gated hwmon driver for the embedded controller used by the
+> Minisforum UM780 XTX with board revision 1.1 and BIOS 1.06.
 > 
-> The device communicates over SPI and supports per-channel output range
-> configuration. An optional external 4.096V reference can be used in
-> place of the internal reference.
+> Expose the CPU and system fan control temperatures and tachometers. The
+> tachometer protocol returns one byte per OEM command, so serialize
+> transactions and use high-low-high sampling to reject torn values.
+> 
+> Allow selecting either complete OEM CPU fan profile through pwm1_enable and
+> changing the two validated system fan transition temperatures through
+> standard automatic-curve attributes. Cache coherent settings and restore
+> them after the firmware reloads defaults following resume.
+> 
+> Signed-off-by: Sebastián Peyrott <speyrott@gmail.com>
 
-Since there might be a v12 (depends on Jonathan), a few more nit-picks.
+Applied.
 
-...
-
-> +static const s32 ad5529r_output_ranges_mV[8][2] = {
-> +	[AD5529R_RANGE_0V_5V] = { 0, 5000 },
-> +	[AD5529R_RANGE_0V_10V] = { 0, 10000 },
-> +	[AD5529R_RANGE_0V_20V] = { 0, 20000 },
-> +	[AD5529R_RANGE_0V_40V] = { 0, 40000 },
-> +	[AD5529R_RANGE_M5V_5V] = { -5000, 5000 },
-> +	[AD5529R_RANGE_M10V_10V] = { -10000, 10000 },
-> +	[AD5529R_RANGE_M15V_15V] = { -15000, 15000 },
-> +	[AD5529R_RANGE_M20V_20V] = { -20000, 20000 },
-> +};
-
-Perhaps use MILLI multiplier?
-
-...
-
-> +static int ad5529r_read_raw(struct iio_dev *indio_dev,
-> +			    struct iio_chan_spec const *chan,
-> +			    int *val, int *val2, long mask)
-> +{
-> +	struct ad5529r_state *st = iio_priv(indio_dev);
-> +	unsigned int reg_addr, reg_val_h;
-> +	int ret, range_idx, span_mV;
-
-Why is 'range_idx' signed?
-
-> +	switch (mask) {
-> +	case IIO_CHAN_INFO_RAW:
-> +		/*
-> +		 * Read from DAC_INPUT_A register rather than DAC_DATA_READBACK.
-> +		 * The DAC operates in transparent mode and directly reflects
-> +		 * whatever value is written to the INPUT_A register.
-> +		 */
-> +		reg_addr = AD5529R_REG_DAC_INPUT_A(chan->channel);
-> +		ret = regmap_read(st->regmap_16bit, reg_addr, &reg_val_h);
-> +		if (ret)
-> +			return ret;
-> +
-> +		*val = reg_val_h;
-> +
-> +		return IIO_VAL_INT;
-> +	case IIO_CHAN_INFO_SCALE:
-> +		range_idx = st->output_range_idx[chan->channel];
-> +
-> +		/*
-> +		 * The datasheet specifies a 4.096 V external reference,
-> +		 * matching the nominal output voltage of the internal
-> +		 * reference.
-> +		 */
-> +		span_mV = ad5529r_output_ranges_mV[range_idx][1] -
-> +			  ad5529r_output_ranges_mV[range_idx][0];
-> +		*val = span_mV;
-> +		*val2 = st->model_data->resolution;
-> +
-> +		return IIO_VAL_FRACTIONAL_LOG2;
-> +	case IIO_CHAN_INFO_OFFSET:
-> +		range_idx = st->output_range_idx[chan->channel];
-> +
-> +		if (ad5529r_output_ranges_mV[range_idx][0] < 0)
-> +			*val = -BIT(st->model_data->resolution - 1);
-> +		else
-> +			*val = 0;
-> +
-> +		return IIO_VAL_INT;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Guenter
