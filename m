@@ -1,108 +1,108 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065F139F17F
-	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 21:38:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5810D3EDE60;
+	Wed,  2 Sep 2026 21:40:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788385149; cv=none; b=mF+5zkVw1PPxFsqlkV7ewdEXAiscRkdPDG338P3gMCtOnF2esb9jd7QBxR46Pkk5Lcti+qvRJQ7nuvBpzCr5E3C2Vytk4IgvsSgvOkZFyzqb7zUERmZVT2iQq5Wa5O9cMJL547/BkI9eeSGIBWCWxPdVhasvI/RTQhsmxZ47TcA=
+	t=1788385216; cv=none; b=N/XA2459IQIIgYB1MRH3azf0JPbce6rlQcA+lcg/eyZdCZUcHCo2sI+OAADeMGtJ0y+GlYrrAQK1lOjj4yvQjDLqZFAQ79Kdg5L8Ly+rgh5RA+Vyx2+3cmA7RlHxEMhf8bFVwpxXbcV1VECTnL9tVcbue3Xv+BBs4f4fOEAeE0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788385149; c=relaxed/simple;
-	bh=VCeTB6DA6xhpX0r0q0Xnripoc1RfKaEs1YtzFpOgihQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vGCHJPmF106dKdEJhpZdzu187gLd7Sp4aHe1TSltYfgjT66lJ1oemBPLr/WK+9XPvznqkBA2zz9Du6sSkujx+DGUPh7lL1K7onawU9s/WG/tyNBQT6Yaxa96RxWTnaFH+yfuFtrIGQAJ8E4PlrfCLlDD/ei8TJpaOf+H64komTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E4KlZuEZ; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788385216; c=relaxed/simple;
+	bh=kAqo+mjRUT0BlSfRzelCWYWzkrYs4gy38D74MNIKC8k=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cxCiWMUMFpZWM3Iw/sGXykAzQfSdKbaOrXFE1aT9Z/hNOO8JBncSqK5RJ7f4EGNCpUsMFKpZzO1Cw1u3UfD+2e/S8x5YpnKodiGCJL5WaEx/yWoFhv7LlORY042TT/JYOjEHTjiZkztVx/GDUOBSUNsnlnXaGweRTFTYC0yTXao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=YPz0As0u; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iu5tdaQi; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E4KlZuEZ"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso2456418a91.2
-        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 14:38:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788385134; x=1788989934; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=51ibZFOFagQ+E9ZIDyF6lkMloDUoQoVNjs4ypi5okac=;
-        b=E4KlZuEZkT1KfbSLisjkwWi7JEyEk+K4nuog4aSXS81zzVZ0fDTb70pmhzTV16XguG
-         u8gJQ3SK+eRAgtdnPUgsTRLSbfBFcASfF2WnZHNySEc+LXmhLsxEobCQnlraPc3a4Jkm
-         pFl+bL+ET0fnD9U32EYde24Lc4HAu+YNaBzhpBJCcB+Z4TfeZYW1JV+GJYUhu76blfuX
-         KFwzMhsczPUeXMy0OxpbreRsW3y9gjVbsaaRevYo41cjC5ypnWVBToEQA90PDKAcjsXX
-         CcvNIaLG8RJ/de483JaYnQbEYPtiNDs2HMWPzKHQgXHbbDO8Xin16/4+4jjMRJhRXPsm
-         4zcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788385134; x=1788989934;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=51ibZFOFagQ+E9ZIDyF6lkMloDUoQoVNjs4ypi5okac=;
-        b=HmhefQczTE0cZNQYjwqcauhHrPFSiFfEdrSENaWz8N/8kqXVfrPMAMaHhSu3krFY7B
-         etiF8v1fyUnnab44bHSNFTyxqIiz3U+Tnqi7LFB3oQ1cIV08Mko0lrY9P73VsHv+4ap/
-         o7pH+5CMDKE9DxxZSNo1cnA94NP92mLNzfg8N+n4jXRtHFZMvb0sXhjkEIhjZvSL1uQW
-         QsxEZ+lb+nKlo0Dzg6PRzBRwD8nQmT+pEjWkutINDJ9NG9SaVscLeMw0GsEGUQlodgIn
-         /8fD1SPi5oOtxJeFunesWo3QxlMCzTJwL1Swb31qpKHiKGmMFCw+o8j40oXOUvgZpihy
-         nKfw==
-X-Forwarded-Encrypted: i=1; AKwUvBzmUeFqSrScssBTbbAW1EU5jxwh6wRwI20d/BRuixZ06PDLj8y9ODJs9fyhwy+2jxZQVcItgVuBIjE=@vger.kernel.org
-X-Gm-Message-State: AFuF++lSRQjjZpHG2lzOPv86FIVgVlGzrE+osu1kpDzGiSI273Xf0YoO
-	u6MdhRXkK7j7lkKumHtwOk4YM2KbHF0S/qTAEHBvQ6v4TMXIYDhWRftI
-X-Gm-Gg: AYBFou0M3m/34YpHLnl3HM5FhOKPk4MXtvvA7PwCOj3IhR+cuxR9iE6xEe/2+S7PiPq
-	JnaFHHAaTzfevZespgaclRcVTHz7AvykBWKRF3kwZIrHx7njZ3kVI3BmnGXHNap1evAJnxE7iZr
-	QlTCE431fj9/GwE2junBZSVrsjSgTl6+1IvRMsKMgy806o0iFJf2odpha1pH0N/nsy9LUttDzQ0
-	O2x5dHXCm7BdbtWfLrHPiuYpRghDh+PCSF++N3YhbousVfSrmISiEu8dHPmG6nj9y822D5r46Ra
-	bslkZfYJrnZQbwTfegXb2VV5D50h6n/y8CTujAk+Fy7QYFoj9oUCNEjet/4byac0jLYqlYjCJRW
-	g/o8zjO64/FmwlCrf6a2Vba73pQQLA7BskZal/jqnW00SF6xyDuPSvHX8DmBTiQaYorleirFkXX
-	vZgd3HQ2rLepfTqGYZaNQcdBbuNHT/vxS6o90tlw5yJcTU+dCCUO5ZJO2dUI7xvRnHkLdw1Y0Sj
-	g==
-X-Received: by 2002:a17:90b:4fc5:b0:38e:49c0:75a7 with SMTP id 98e67ed59e1d1-39aedfe18c0mr12990696a91.8.1788385133676;
-        Wed, 02 Sep 2026 14:38:53 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b0875e5e9sm1358930a91.14.2026.09.02.14.38.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 14:38:53 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 2 Sep 2026 14:38:52 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: "Pradhan, Sanman" <sanman.pradhan@hpe.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Sanman Pradhan <psanman@juniper.net>
-Subject: Re: [PATCH 2/2] hwmon: (pmbus/tps53679) Add support for TPS53622 and
- TPS53659
-Message-ID: <56544fb0-55af-4e1e-83a6-73107bc152ab@roeck-us.net>
-References: <20260901211129.360792-1-sanman.pradhan@hpe.com>
- <20260901211129.360792-3-sanman.pradhan@hpe.com>
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="YPz0As0u";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iu5tdaQi"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id B159FEC021B;
+	Wed,  2 Sep 2026 17:39:58 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Wed, 02 Sep 2026 17:39:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1788385198;
+	 x=1788471598; bh=PgMJva8TjlT6dtaS2C/H8aTD8pNix2nHXqGHdV12hKg=; b=
+	YPz0As0ub4lrGy9Ia7zX80UtueE7UGyMsdgl3aqaAyWP88ylafm6H5FkvW0DVvVj
+	kEqb2sqESGHgFpqmwGRnmCNEhpaqESX0+Z+7cmyJTICEuPpQb5Mhn5nRpdACBtzO
+	xhsiopawqwM13k4lUqOr+aMdlBsZyoU1j4SOlQ3svyDIJUrbswgjH6C1EmNLnC8B
+	mRfkbGRBuLe7nWCHIzPCCxu7p0NsCSXcQaBC5epBVVw2TOa4BHzpq8Mx6xxMOKpu
+	ylE16sTOSJcD8/MOR8gUVnKduFbne7nZQfjvJKYSjI7n2Dy5V/HAj5KlLUiF2Pvs
+	MibCAvT1iWpvoG4rBz4S0A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788385198; x=
+	1788471598; bh=PgMJva8TjlT6dtaS2C/H8aTD8pNix2nHXqGHdV12hKg=; b=i
+	u5tdaQiiON3Gd++ZB5i6qigZh8jSv4dyRzxbHYQqz5L5z5l5ZxZhXFrEwSzIaARx
+	r3UOVTbGfL5NBAP9IXAZpvcmFxVxknzoHqwVuMsdQxHRAqbxiB/i2oKdHi/QNn4w
+	fc0w146cgiaf3jD3SmpNKiz4vv0W5v7IAqNl7ewwf/lfDErol65IwSCemv+9qt14
+	9JLPVXjy+uNlEmZqF/qyh1mAr8KT32hHt6ejknLlesaA8Zj5v3h/ZS+NzBaJM9LY
+	EumSJzqpCb74Gg6yE9Bd4ghjPwyMT4tZdrhN+uZoVeD7NZqwXLPpHLX5UUW7ouHn
+	+tjZ/UeOoo9Qzt+Cs76yQ==
+X-ME-Sender: <xms:rpeYaqXuwvraUFd0CNTst0UBaJY3drK7bF1ZXw1hA6Sy3kAkbubKdw>
+    <xme:rpeYanCQJQ_QxBpA1K6ADcGPBZ5oseWqzPg5SoJ1PCffZSAmQcUp8jIjEH4JDJW_0
+    Nw9ga1uiGlWhy6uLKpt24ZoiSqWtDlkzs4Ldg-zByIigvy8NfFa>
+X-ME-Received: <xmr:rpeYavEbCkP8WTycBhsK8zWg9vAMB0bV5BIwNkHd9jpcdJWlxOQfZmHot80M4Q>
+X-ME-Proxy-Cause: dmFkZTFGDNRDlnj7AJFko8oADD1tt7uU7qajQz6pdfrDAFyz5oUeWLgA95R+G/PPPTNvEn
+    5KBIj7hammklA3weBr7T5847tE8I6akt73TULnOmhxVM2V5iPFp32dHkC1YnmYqAp+Pa/I
+    PEviYq81Csbb8PMTahfroANNJO0fgEY79w0XRI2yBrycB5fa4gwE7RGAT1970ePQERxY5G
+    a5ZHuh68DTh21r0Sv//Gqhm/6wb+inw1JaJK+xotSk6u4K1XCBOH8rgbw66XfuaxCvUG0w
+    SQ17HVatEwPWg4fNFV9loKXEus+UFeT2kX4PSjIWdJLFSpRNZ6KEY+zlLjjlnQOoZ3K1TT
+    yrgaP76qhVPHzbU7XMw3OKrkavaVIIdNJzbvLkQe5yh7NskXqoFIM6R6QIAt+JNY4su4nr
+    NE2H7ld0MrtrenD76YR8zU5b5RT7bkWZxaiOZGdJ8jj1tIaDcTxt1TSBVcNVV0Scz5fo+U
+    r4fMbi7F/gLbVOdjCTUYuyCY2axCtNbCKoHuwL6WsVJrOf/BoWuRC7YTWBT3UMXqHkPFRX
+    or5jiacuG2flN5otLmnXMuzYIYvJ/PnnNzbR/sWIlqPVSCuYbd62y3fe4lMDrakrcNZkid
+    MH9JGnlh9ujLBGnH8R66pzjqt+nG33eWAY8+2GYH4cd8Qs5O+Net74Y0wx2A
+X-ME-Proxy: <xmx:rpeYao5SYNi1CI3REzAxBBMwozp3ypptvZRdqp1kZbITFh9VBRsmRg>
+    <xmx:rpeYalnzvF3G2J9NRR7FPbdbMvJUUOJXrfvd6imC6eCemhf04ESPww>
+    <xmx:rpeYaj6UlmAi_CqgDRHag9OO5YXcqBG0YKhP064Ta0n4qhSaySmPaA>
+    <xmx:rpeYamSqkjIQ6UOe1n-Se7Cv28-MjDBf4tT4GZOkeLNQ6aRmG9SQlg>
+    <xmx:rpeYauKhgbSRZxN02BvX4KB6HYJGn3_boJBcGiqkkosMwA9iqltM9pTd>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 2 Sep 2026 17:39:57 -0400 (EDT)
+Date: Wed, 2 Sep 2026 15:39:55 -0600
+From: Alex Williamson <alex@shazbot.org>
+To: David Matlack <dmatlack@google.com>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Josh Hilke
+ <jrhilke@google.com>, Sean Christopherson <seanjc@google.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, alex@shazbot.org
+Subject: Re: [PATCH] vfio: selftests: Add documentation
+Message-ID: <20260902153955.3ed31055@shazbot.org>
+In-Reply-To: <20260818000550.2526247-1-dmatlack@google.com>
+References: <20260818000550.2526247-1-dmatlack@google.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260901211129.360792-3-sanman.pradhan@hpe.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 01, 2026 at 09:11:53PM +0000, Pradhan, Sanman wrote:
-> From: Sanman Pradhan <psanman@juniper.net>
-> 
-> TPS53622 and TPS53659 are dual-channel D-CAP+ step-down controllers that
-> use the VID VOUT format and VOUT_MODE identification like the existing
-> TPS53679/TPS53688, so they reuse tps53679_identify().
-> 
-> Shorten the Kconfig prompt to the family name and list the supported
-> chips in the help text instead; this also adds TPS53685, which is already
-> supported by the driver but was missing from the list. Update the driver
-> documentation, including the per-attribute lists, and fix an existing
-> "TPS53588" typo (should be TPS53688) in those lists.
-> 
-> Signed-off-by: Sanman Pradhan <psanman@juniper.net>
+On Tue, 18 Aug 2026 00:05:49 +0000
+David Matlack <dmatlack@google.com> wrote:
+> +By exercising DMA and interrupts across real, varied endpoints, tests can
+> +thoroughly stress and validate the underlying kernel paths=E2=80=94such =
+as IOMMU page
+> +table management, dirty page tracking, Device TLB and IOTLB invalidation=
+s, and
+> +interrupt delivery under authentic hardware conditions.
 
-Applied.
+"...underlying kernel paths, such as..."  I haven't met a human that
+actually uses em-dash and it renders poorly in ascii.  Otherwise the
+doc looks great.  I also realize I posted my most recent patches with
+the wrong subject prefix, I should have used "vfio: selftests:".  We
+could maybe mention such a convention in this doc, but enforcement is
+largely manual, and often an afterthought for me.  Thanks,
 
-Thanks,
-Guenter
+Alex
