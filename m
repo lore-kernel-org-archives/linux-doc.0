@@ -1,115 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C1F385D9C;
-	Wed,  2 Sep 2026 06:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3424036E48B;
+	Wed,  2 Sep 2026 06:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788328973; cv=none; b=lQNqKVvf+SweNdSGiyPT+A9UZLQEEUW9psMe33H8pfetwp0sPzjjUFQuaLUca5lSnV9hxFiZcBodHu5NLppRPP0wapp2xHmmk2+L6XuFzoMOIe/Sguq90YHe+wMN3D8kYTyO7oi9BnKRjGhKjB6ceIjYD9AelLOECWI0hFo7fGI=
+	t=1788329796; cv=none; b=hc8b84FpQ159mHDrrhEnDDzkgB3zOj9iPuCGbpL9NwB9tKw8N00xz22/Eju2tv4FOncwELuULlQkwwTDym1Fz/FKkR4W/8cvw5fFHT3X2fJzR2EfbMQuFzJmd1bw3byMAvWekwF5ayG2GasIYuRqFNdhp2EoIC3SUMXHs/BeBO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788328973; c=relaxed/simple;
-	bh=ZsQIcqiHQLyH2DKVUpBoYLA6XTARs4g/JsX3IormNF8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vrck1boerbj0BDjL+yA8gak9J0uQ59FV/w58G8TXbEbeRVLsMJroNfYFowRRzAobdx9pFmxHct31doaqRoI6UXH4MQfqWy46+sinCpAoAagJz6lZonJeCJT8bJA4sfUkFRpbUK6GJzRcKl/Imnpjky2ZVgB5GfXK6gVa7c/a1Bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VlsAmqAo; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788329796; c=relaxed/simple;
+	bh=df9lM9HEu5E/py1w6LvCge4VSKqYYn85zxPTfe4YEkc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=A8eyPxdc/dRR6+W6AEsJidpYeYcQqYPLOROjD1ppFAHWyEfLMXVR/gYZNWvoVICH2TcnPgI/Mq8euFVXsgSvX1W++UUIpRhFaB6TJ0mmWosjnqI/hrdtAwzRGlDXHfKNIQZrmBYh3S/au64LmLdsVqSoGCgHux2wuqLYuuKU6M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q1e89WsA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VlsAmqAo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788328972; x=1819864972;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ZsQIcqiHQLyH2DKVUpBoYLA6XTARs4g/JsX3IormNF8=;
-  b=VlsAmqAoh/TyFjHM5pn3gWBv4y0I+8uJhwihw5puaeFdwV3RvXpmwoMi
-   VE6zss0VC958Y+avrdRYScs850ivRieAr6w5iavQlbQ1UV6OUPVc5840a
-   lmgfM6m8mDSGYzqYKeKlLlijc3wH6B9jEMDkXtjKPm1OVx4aa5OYwjkO/
-   Dz9Jr3QyZf3+vJ+YNDRh9f0L8OM/Q+Nqb8xF9MT5VfFR15MDLpkPtaenT
-   pvHhb9PHwhQLKeaPjbGpoxT5/VlxxRmtldwVBunpvWp8li/9kTzarrJJS
-   xLWTVPwBJGp6In/E6qV9wspsgpxnQ3Mi5Weiucp0WxVKmDFj4gI+JnjX8
-   A==;
-X-CSE-ConnectionGUID: NykyEv/oT1G0Qv0LEnNYOA==
-X-CSE-MsgGUID: 16rk4kJFRT+GRiCiWKWzGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="99373021"
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="99373021"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 23:02:51 -0700
-X-CSE-ConnectionGUID: ZHqX8Es0SsC3RVfgs1tTNg==
-X-CSE-MsgGUID: waXhBzDUS2CbO17ipdXqoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="269881790"
-Received: from unknown (HELO [10.238.2.33]) ([10.238.2.33])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 23:02:36 -0700
-Message-ID: <64acdf25-de17-42fc-a51c-726485f2b9fb@linux.intel.com>
-Date: Wed, 2 Sep 2026 14:02:34 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q1e89WsA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 618FA1F000E9;
+	Wed,  2 Sep 2026 06:16:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788329795;
+	bh=BjODJWm4HQ0zWK/uBNhYkH4uHbacHZCWiA6PuoaG+UM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Q1e89WsAYo18WECLuDiEp5fWTcq0n+WFFOj1SD4qSWJT//FyO73JSKFuM+tyXMV85
+	 muzG6bod7qNplXg8aCpt/J5CztbBQe5DT9Ax1eDA58i2Q20sP5XqeAXpZnapWzSdSa
+	 6gBR4bomJzq7h9XE8Vx/E+szEW+iKc3UGlTGsGJcCu7CT6nwfXJj1PxgsPpXqKbtS2
+	 +3c2hlxMIUKKHn4hYVmtLFubOD+Nqb1xBxuy823jcUR1AlN5mKZK69NyQtlgPdf0vy
+	 NSGiHOcstE2jXkL0sEIoqiwTI+7vrJEDWccdu6OOjfTEeXKiYuWE7kWzZoPCqHQdga
+	 9LgVPRptuCVhA==
+From: SJ Park <sj@kernel.org>
+To: SJ Park <sj@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@davidgow.net>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH 00/12] mm/damon: cleanup code, add test cases, and update guidances in docs
+Date: Tue,  1 Sep 2026 23:16:26 -0700
+Message-ID: <20260902061627.104566-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260902054747.99370-1-sj@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 13/45] KVM: guest_memfd: Pass mapping type filter to
- invalidation helper
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, brauner@kernel.org,
- chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com,
- jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org,
- pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com,
- rientjes@google.com, shivankg@amd.com, steven.price@arm.com,
- willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com,
- forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com,
- aneesh.kumar@kernel.org, liam@infradead.org,
- Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
- <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
- Randy Dunlap <rdunlap@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Fuad Tabba <fuad.tabba@linux.dev>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org, linux-coco@lists.linux.dev
-References: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
- <20260830-gmem-inplace-conversion-v12-13-85e5fd25252a@google.com>
-Content-Language: en-US
-From: Binbin Wu <binbin.wu@linux.intel.com>
-In-Reply-To: <20260830-gmem-inplace-conversion-v12-13-85e5fd25252a@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/31/2026 8:25 AM, Ackerley Tng via B4 Relay wrote:
-> From: Ackerley Tng <ackerleytng@google.com>
-> 
-> Accept the mapping type filter as a parameter in the invalidation start
-> helper instead of querying it internally. This allows callers to specify
-> which mappings (shared, private, or both) should be invalidated.
-> 
-> In the next patch, the conversion process will use this new parameter to
-> invalidate mappings only when they're different from the target state of
-> the conversion, i.e. invalidate only shared mappings on a shared to private
-> conversion and not both.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+On Tue,  1 Sep 2026 22:47:33 -0700 SJ Park <sj@kernel.org> wrote:
 
-Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
+> Misc cleanup, improvements and updates of code, test, and documents.
+
+Sashiko found one better-to-do change for patch 2.  Since it is quite trivial
+in my opinion, I asked Andrew to pick a fixup patch as a reply to the patch 2.
+Andrew, please feel free to let me know if you prefer reposting.
+
+Sashiko sent findings to damon@ mailing list [1], and I replied to all the
+comments having some findings.  Please read those for details.
+
+[1] https://lore.kernel.org/damon/
+
+
+Thanks,
+SJ
+
+[...]
