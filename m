@@ -1,98 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732843AA507;
-	Wed,  2 Sep 2026 07:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711E03DB332
+	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 07:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788333052; cv=none; b=QlXwzZIOckIG+0rjIjV4dya6xlM0Br/vpw4tsRsfmDhP+duI9prob9l46ZphF/33AsP+5pId7PuZfVMpGrGI/XvQf/emE+G6pIMcKnmk1sXGHackwPMWue6502TpW/c0EN5428Pz3BWGAw9zN/ONU04Iam35KPSjoSlsZDWD/Ts=
+	t=1788334219; cv=none; b=nPAlM2vR7ZINPCIhsNOI/0NgR4RR10X7W8Lr4mnhcpAIgjk7cgC0OmUs0K+zNHT6U8eQd4RxeBKh5ddZ5ptpH7k1WKpX4BnNhoN4PRm6nzEIjL0VqxJwDfTda/+x9yC7jtMjiZ7SUDvGmqAfoI+rYaLSXSpvabqgBJCYzUxPunk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788333052; c=relaxed/simple;
-	bh=/QkyG+EW56yb91W7GpHwkIW7ZpFcQkBMg7os0TFdp40=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g3QFmnP7MLIuPXX7TenEJTz31gw9UZAOesyvwc3p1p41zr4SPw9gHBRLuZfQESpFkXEFXMehtvzLEdIh0uVLbuaN4yH9ZrNHUo9+TfXdj0jp7/n34C6TumT2qKS29jvnHjX6+thUl/XpM55XFGwjqFBAkRaiuFKp4HoUiKIngdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fgf4am5j; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788334219; c=relaxed/simple;
+	bh=N6HTuFD2NOKW3KSVMbH3q+QMoNTfMS81QKRNCthAxxM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oP0+FO7RPc0fUYEAg0sylOClN9FhbxPxGvO0d+QKbbZCb9kMQ5G7pah9GMfTP8sp4c1irx2eFrgv/a+n9UVby3sevykbeYTUPHUt6pDCfOThPnEI3I+jQKKd8iOABseyxMm/HnVjirw0zrNHYU3HN8IiWBp1vr+iTyd31hFeIYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mywqTOtm; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fgf4am5j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84F0B1F000E9;
-	Wed,  2 Sep 2026 07:10:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788333051;
-	bh=mkNkOka81TvpWCQXQjDjyJBfSTFlkGAdLKmI+ByzmA8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Fgf4am5jJyE90OYVghPGqx5FnXVzC3IblXws4qY6hJm0WyQefrF4575MQL3G/l4MY
-	 N/JKZ5NxbpGHS4wd16VXnd05KQVIMyQFlwul74Aj5sQaVryHgIG+xOz2TAYZ2EXGF3
-	 i/IG9NXREMeP94enEFmcBKJ1S6aBlBhUnl7yQWrX6f74T12zNIIWNRg+O6K4+MDsPn
-	 HzaA6XUF/1pviVzCLux4iZxYmsMY0090vUbYnTF2TA0NrtFJQ2VviYRpuIWwr1KhKE
-	 up/Fb5Dd/FQ+4qvJbBQeLjkFmrtRVn0hgyMxtHEA8n4zboXeFMIXeily+BOf+XUXvf
-	 5zBo04c2/Buug==
-Date: Wed, 2 Sep 2026 10:10:46 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Konstantin Sinyuk <ksinyuk@kernel.org>, dri-devel@lists.freedesktop.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Francois Dugast <francois.dugast@intel.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Ilia Levi <ilia.levi@intel.com>,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/12] drm/fabric: vendor-neutral topology
- infrastructure for scale-up accelerator interconnects
-Message-ID: <20260902071046.GO24140@unreal>
-References: <cover.1787552412.git.ksinyuk@kernel.org>
- <20260826093222.GC42790@unreal>
- <fabric-leon-reply.1787844400.ksinyuk@kernel.org>
- <20260827170911.GG42790@unreal>
- <apGzqP6cEZ1miNmR@intel.com>
- <20260901110120.GJ24140@unreal>
- <apbuUsS_3RVbB5vh@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mywqTOtm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788334216; x=1819870216;
+  h=date:from:to:cc:subject:message-id;
+  bh=N6HTuFD2NOKW3KSVMbH3q+QMoNTfMS81QKRNCthAxxM=;
+  b=mywqTOtm5RxXKTue5W9p1hcjNbuWttt5JlwmHib8SKfpYzmO4gZZjK4P
+   maDdbb5CxhkV78s1B1o9JdG93RR1bKnUrnGrvaGEEeK++cVkbJditcRNx
+   xIVegIyx7JfZLaeCzK5K5S37Ud3+0QBUbKGv3twih31PtkZupt3QLz6xW
+   Ad9ix+cKxLPlRN0wFc0Xi/E9gXFGbM85gDOsR3fTW+H2YZhMfnyBDeVyD
+   QFQ2vSiv+mTOWxnWSYJG5OfGi4yIAi4Hj4qTX3d8gHXO6oXnW54BUAXF7
+   n8KNOWULNRqt7E/WV6bBG2P+VNqF0DgVxaZMpf9PikAZ9A9HSqBNkzfwI
+   Q==;
+X-CSE-ConnectionGUID: C6IGbLDjSzmv5qFPCJ53sw==
+X-CSE-MsgGUID: hZR4taBgR4+2qYpV+o3Uxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="111552574"
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="111552574"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 00:30:16 -0700
+X-CSE-ConnectionGUID: TNtHMhAGQluuAJ/ZuflWew==
+X-CSE-MsgGUID: qTinIBwwTvODwnBQlFCZsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="269350789"
+Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 02 Sep 2026 00:30:16 -0700
+Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x1fQB-0000000029K-4Al5;
+	Wed, 02 Sep 2026 07:30:11 +0000
+Date: Wed, 02 Sep 2026 15:29:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Neo Chang <YLCHANG2@nuvoton.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+ linux-doc@vger.kernel.org
+Subject: [broonie-sound:for-next 20/61] Warning:
+ sound/soc/codecs/nau8360-dsp.c:42 This comment starts with '/**', but isn't a
+ kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202609021537.D6X4Dz93-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <apbuUsS_3RVbB5vh@intel.com>
 
-On Tue, Sep 01, 2026 at 11:25:06AM -0400, Rodrigo Vivi wrote:
-> On Tue, Sep 01, 2026 at 02:01:20PM +0300, Leon Romanovsky wrote:
-> > On Fri, Aug 28, 2026 at 12:13:28PM -0400, Rodrigo Vivi wrote:
-> > > On Thu, Aug 27, 2026 at 08:09:11PM +0300, Leon Romanovsky wrote:
-> > > > On Wed, Aug 26, 2026 at 06:38:58PM +0300, Konstantin Sinyuk wrote:
-> > > > > On Wed, Aug 26, 2026 at 12:32:22PM +0300, Leon Romanovsky wrote:
-> > 
-> > <...>
-> > 
-> > > > The wording alone is not sufficient. Your proposal should be backed by
-> > > > real devices representing different architectures from different
-> > > > vendors.
-> > > 
-> > > Future Intel (and other vendors) hardware will include UALink.
-> > 
-> > I guess that, like most of us, you are not authorized to discuss or
-> > comment on Intel's non-public roadmap. Can you point to any public
-> > commitment from Intel to implement UALink in its devices?
-> 
-> That's the only public support commitment you will find for now:
-> 
-> https://ualinkconsortium.org/blog/intel-supports-ualink-for-scale-up-networking-829/
-> 
-> as an active member of the consortium
-> https://ualinkconsortium.org/members/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+head:   27a50351cbc82e9f0811df417c5e7d2a72f60ef5
+commit: be88847a8bb1a14194cf50116f8909d127861318 [20/61] ASoC: codecs: nau8360: Add support for NAU83G60 amplifier
+config: sh-randconfig-r062-20260901 (https://download.01.org/0day-ci/archive/20260902/202609021537.D6X4Dz93-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260902/202609021537.D6X4Dz93-lkp@intel.com/reproduce)
 
-I saw that PR article, but I couldn't find anything on the Internet stating
-that "future Intel (or other vendors') hardware will include UALink."
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609021537.D6X4Dz93-lkp@intel.com/
 
-So, for now, this RFC can be considered an academic project.
+All warnings (new ones prefixed by >>):
 
-Thanks
+>> Warning: sound/soc/codecs/nau8360-dsp.c:42 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Preamble Fragment Masks:
+   Warning: sound/soc/codecs/nau8360-dsp.c:56 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Payload Fragment Masks:
+   Warning: sound/soc/codecs/nau8360-dsp.c:66 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Trailing Fragment Masks:
+   Warning: sound/soc/codecs/nau8360-dsp.c:79 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Reply Preamble Masks:
+>> Warning: sound/soc/codecs/nau8360-dsp.c:384 function parameter 'cp' not described in 'nau8360_send_dsp_command'
+>> Warning: sound/soc/codecs/nau8360-dsp.c:384 Excess function parameter 'component' description in 'nau8360_send_dsp_command'
+>> Warning: sound/soc/codecs/nau8360-dsp.c:469 function parameter 'cp' not described in 'nau8360_dsp_kcs_setup'
+>> Warning: sound/soc/codecs/nau8360-dsp.c:469 Excess function parameter 'component' description in 'nau8360_dsp_kcs_setup'
+>> Warning: sound/soc/codecs/nau8360-dsp.c:384 function parameter 'cp' not described in 'nau8360_send_dsp_command'
+>> Warning: sound/soc/codecs/nau8360-dsp.c:384 Excess function parameter 'component' description in 'nau8360_send_dsp_command'
+>> Warning: sound/soc/codecs/nau8360-dsp.c:469 function parameter 'cp' not described in 'nau8360_dsp_kcs_setup'
+>> Warning: sound/soc/codecs/nau8360-dsp.c:469 Excess function parameter 'component' description in 'nau8360_dsp_kcs_setup'
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
