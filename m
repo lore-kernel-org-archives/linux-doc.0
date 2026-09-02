@@ -1,100 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1556330B3F;
-	Wed,  2 Sep 2026 14:02:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B884350D7D;
+	Wed,  2 Sep 2026 14:20:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788357775; cv=none; b=qSk21p4rqUq0MXPAA4dNa4wM4v5WQE2XAJLh0OtpZPHPdeg/eLwV9SrSgCPiQ/kCHeaU6jLDLkf2zniBJIEj1bkRJzeXsh651ho6mWcQxSlOkegvQqDeKRRnoAn98F2IPinsl0oQ7oqprgNUIZ3SoyslNGPMckDK1nmfFH5gGmg=
+	t=1788358835; cv=none; b=uq8F0WxE6UcfFnsTptTPJu/BSJ7xyVlXjtwz0mHn+pD3OSXkpM+2xushG4eWXMiJha3hGjt335XZXP4F2mmLPItHxpnEmurKBe6+a9L3RaxZt6N6pYGQKMCPMLbO7ivUQDCIbGycRLJZCVDPrHwCENGjhOqx1oMn+pdzbFmZ3XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788357775; c=relaxed/simple;
-	bh=bQeZhuBtE7GIKGl/Nw50udRZElUfrWZ6myE69EVVgHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pSzAx1wuX8Ho76iFCg5DJRyHyFaazLfELWSWbThRi5qXPXFhsmYvFHl5BPGjLdtCaTM2N505OZgd8D832Zx1dVUgayggUtmKGbqrilBAjRvFrFZ2b6r6S/0kX8AGTxxjpQygv79CoVOxuR1RBg6fp8I0jCHWCnrBr4JoZulMrkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wl4YHbko; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788358835; c=relaxed/simple;
+	bh=UyKjCelDYtezPkDnos3X4N2GgcmviN9Wdt8wkQBUrgo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=szOlfNeZeZaPCdIeG8QazSyusl49aH/069VBVYrRgXAdnN/QkHdYkQoAXMH2IfXH+1qo72JbX/eqyTAsXkusktQxQaLdj3YYHWi1pXRlkM0gR40GdyeRlF/0ELwF8goy0jy1o1e6fAId+pdp4fQRGpv8AS5628Rw449CAKRixpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lS56OM1A; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wl4YHbko"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CFD51F000E9;
-	Wed,  2 Sep 2026 14:02:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lS56OM1A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22F0C1F000E9;
+	Wed,  2 Sep 2026 14:20:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788357774;
-	bh=HXQXNKItUfLT79ENmc5mJloa+uh6x0XULw7tLnY0UVM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Wl4YHbkot0kOdwuA7z9pgFJ0CmSBkW8Gdyb303MwRoU5yr8ykvefUZK96MgrI2QDc
-	 mpiE87UQNY1dZicTHzT3/H9k35iZFwhoTYTfwDEecu+G/90SFAYBKHvwi42kc/mEOG
-	 5rfi6oi78YOogpHcEESiDVTOzV8GzcJ9B5jv8cduC1gVsO/GDdjynRBDnI/vx45jNY
-	 1DFPfpURyml8Cjgot1ogfESMt0J8Zjvm9+Loyv7L2ckpBz7TTIAqnxsMZ2I/Y9yGFK
-	 yuykX3Mcto5IL5BfVtOdrJDwmy6B9VeWVgsmbcx+soUPFYwRs7eM7FsYlWiHmZ31ss
-	 8MHRycVoMV/cA==
-Date: Wed, 2 Sep 2026 16:02:51 +0200
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Marco Crivellari <marco.crivellari@suse.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Thomas Gleixner <tglx@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	s=k20260515; t=1788358833;
+	bh=G9agrdnFdQejK6PBezRLA9LFhJ3vTbvnbf3qpO1t0YQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=lS56OM1ArhNGYcnivIJ8y42C+SAeW77H8php2AuzL42mkwz9TFZniacvAzL758sgx
+	 lDlgchQzzPNr3kkx1QTQ+BCRnRhx23dSzcBvQXGriZiw8npVqxHCZOHCbIJVLWIGW/
+	 QyO+k/IV6rx1dCwvdbtTdoMVOtJbPa7eDMyinxxxkx2QrFeyyG6ROfOoGcJ5Zlw8P+
+	 qumyhIVJ7wM9PZHhx31G3ZlbGXMWAvG0xIsdfMIXzXbzkmuSRFruqYC5ZchHsobk1Q
+	 /YhyP4WDLEQIzcKr8OrQiPHB7QpI4Y4nE3dbQXg+c/Fly0MBzu7casTiEuzSnlW9Jq
+	 NFNuUuWzCgn7w==
+From: SJ Park <sj@kernel.org>
+To: Zenghui Yu <zenghui.yu@linux.dev>
+Cc: SJ Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Michal Hocko <mhocko@suse.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH v3 0/2] doc: Rename dynticks-testing to cpunoise
-Message-ID: <apgsi2GCHfOirYcG@localhost.localdomain>
-References: <20260902092434.85096-1-marco.crivellari@suse.com>
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Docs/mm/damon/design: fix broken :ref: usage and a typo
+Date: Wed,  2 Sep 2026 07:20:25 -0700
+Message-ID: <20260902142026.87554-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260902124550.31175-1-zenghui.yu@linux.dev>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260902092434.85096-1-marco.crivellari@suse.com>
 
-Le Wed, Sep 02, 2026 at 11:24:23AM +0200, Marco Crivellari a écrit :
-> Hi,
-> 
-> Currently the documentation still mention dynticks-testing.
-> 
-> Recently the repository name and the tool have been renamed to cpunoise,
-> both the patches reflect this change.
-> 
-> The tool announcement can be found at:
-> 
->   https://lore.kernel.org/all/20260815083728.15470-1-marco.crivellari@suse.com/
-> 
-> Thanks!
-> 
-> ---
-> Changes in v3:
-> - Use "https:" instead of "git:" for the repo URL
-> 
-> Link to v2: https://lore.kernel.org/all/20260831092118.124576-1-marco.crivellari@suse.com/
-> 
-> Changes in v2:
-> - Link to the tool Announcement added in both the patches and cover letter
-> 
-> - Corrected another occurrence reported by Sebastian
-> 
-> Link to v1: https://lore.kernel.org/all/20260831081823.67972-1-marco.crivellari@suse.com/
-> 
-> Marco Crivellari (2):
->   doc: Change dynticks-testing repository name
->   Documentation/no_hz: Change dynticks-testing repository name
-> 
->  Documentation/admin-guide/cpu-isolation.rst | 4 ++--
->  Documentation/timers/no_hz.rst              | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> -- 
-> 2.55.0
->
+'get_maintainer.pl --nogit --nogit-fallback' suggests adding below recipients.
+I added them.  Please consier using get_maintainer.pl from the next time.
 
-Acked-by: Frederic Weisbecker <frederic@kernel.org>
+- David Hildenbrand <david@kernel.org>
+- Lorenzo Stoakes <ljs@kernel.org>
+- "Liam R. Howlett" <liam@infradead.org>
+- Vlastimil Babka <vbabka@kernel.org>
+- Mike Rapoport <rppt@kernel.org>
+- Suren Baghdasaryan <surenb@google.com>
+- Michal Hocko <mhocko@suse.com>
+- Jonathan Corbet <corbet@lwn.net>
+- Shuah Khan <skhan@linuxfoundation.org>
+- Randy Dunlap <rdunlap@infradead.org>
+- linux-doc@vger.kernel.org
 
 
--- 
-Frederic Weisbecker
-SUSE Labs
+Hello Zenghui,
+
+On Wed,  2 Sep 2026 20:45:50 +0800 Zenghui Yu <zenghui.yu@linux.dev> wrote:
+
+> From: "Zenghui Yu (Huawei)" <zenghui.yu@linux.dev>
+> 
+> The Statistics section refers readers to the DAMON sysfs interface
+> documentation for how to read the statistics, using a ':ref:' role.
+> However, the role name has a superfluous 's' appended (':ref:s' instead of
+> ':ref:').  Moreover, its target label 'sysfs_stats' does not exist; the
+> correct label is 'sysfs_schemes_stats'.  Fix both.
+> 
+> Also fix a typo, 'frequenceis' -> 'frequencies', in the Adaptive Regions
+> Adjustment section.
+
+Good eyes, thank you for finding and fixing these!
+
+> 
+> Signed-off-by: Zenghui Yu (Huawei) <zenghui.yu@linux.dev>
+
+Reviewed-by: SJ Park <sj@kernel.org>
+
+This patch is applied to damon/next [1] tree.  If this patch is not added to
+mm.git in short term (~1 week?), I will ask mm.git maintainer (Andrew Morton)
+to pick this.  So, no action from your side is needed for now.  If it seems I
+also forgot doing that or you cannot wait for my action, please feel free to
+directly ask that to Andrew.
+
+[1] https://origin.kernel.org/doc/html/latest/mm/damon/maintainer-profile.html#scm-trees
+
+
+Thanks,
+SJ
+
+[...]
