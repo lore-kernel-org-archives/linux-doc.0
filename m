@@ -1,56 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F96632F764;
-	Wed,  2 Sep 2026 05:47:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB5B32F764;
+	Wed,  2 Sep 2026 05:47:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788328075; cv=none; b=aIKaLXcQHxT3m4inV5RWFVL3o/YWBTIO5mlJoGT4UPJQV9ORS+9F+9l3tYi68/7BHqpDYhzbqDi/vvfng0+/yNEOteuQS43sFS+lVR8klbUcKvj3u7PZlwwq+Qd321iTloxPFDKQmRLb1euVmTdpfhu6rzqlRL4E9jyfhwLm478=
+	t=1788328080; cv=none; b=Z9tNeuyNPB2SSW0+oFGf9Ct5zvp/C3QjCDzx4u88EBF3Pw7Ra1hG23vAOUSUcx+WvoQXo8APGALTBMAwf8Xy5Z1Q2jAJARzi21XvWZaKWDjRSI60PfDalE3CkrMXxOBN07Juxf0bA3kazJALJ7Zxd0oX2rSdIR1hkuSAwEQCuTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788328075; c=relaxed/simple;
-	bh=bgHiJ3hrICbXSwbvFkN24uoEdLa9MwhS+qn9Ov4apko=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hDNhOOo4fyBoJXh7+hd8Md3xdBylvfx0HRBrba/nCZC/uXD+9+K8v1m2r9e37BvD37I107KD95WidyvA+J4VU/BQocn3eULNV9d3Z9wUq4nxIgVRtI7weLiZstak6jhqIkJfYXS9sGA57LS0m2Ureu4nQdkNYFQXJDUb8ojrDFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nmr8Tapk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788328080; c=relaxed/simple;
+	bh=94L9Y6jblqW5ICiSyH0suMgSyVNNc6/w7ucmr3p0soQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=H84fpAciVupbnYDZbjNdWqgnWx7bzpdhJDKLx++ey2Nyk/B4zXHb/1gNqtO+PXJR8Ljfmx/XhlyMs91BtQcAaV3lTN9yKHCR9NzLU/V03TEwt4ca6sISJxvkXYi7fh//JWht0c11+pav1HY6WVYySgIpwS9YIVw5CLCVBGPZo44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A7m5oHnu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nmr8Tapk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0B9D1F000E9;
-	Wed,  2 Sep 2026 05:47:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A7m5oHnu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DC481F00A3E;
+	Wed,  2 Sep 2026 05:47:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788328074;
-	bh=xyVBn1leruni8Keulp+lVKAKdJp5Y+Dj/l28v3PKPmU=;
-	h=From:To:Cc:Subject:Date;
-	b=Nmr8TapkJLpq3LiZ50wQjliwtU5ueiy7PCUbVtFZup6daOCWOMBPEi2992dEg3DIN
-	 b3hmVw5bw4+9tXpzdcuBFO76dTtOML0lTwjBOLp1SBNvIi0XGcaXG7RRgnWEqbtqQs
-	 bBX1MOcKsiIZuEC1NPcI8QC3GNooaBLRiyFAwC3ehnIAF3dkj7qxRAY2agHzJLnjMn
-	 Q1t3GqJ6Kl91TVUU+6J6DoHZv8IyjMXEa9Zv80QnjuDRbmeDjzsiJd8xmz+DKuhmI9
-	 xkp86K0xkYf50MX4IjSCzNH/ZPYog8twgwaA1aoVfscEr/SH4j0qlr6ZLi+nH4BBic
-	 k3h+OGLsfotlA==
+	s=k20260515; t=1788328079;
+	bh=+7L5cUB5gmn/G0XCH5EnzRVEYnRmQ6289QitHVcV3Es=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=A7m5oHnud/3hqN3P0e/92GwC1TwwvZkzr13eGqpNp6wNxffTd2DX243Ns/4sYjmuw
+	 SbeScDff73MU0Dji7jmkBwY6Je54afEvxYHwr5XXCX8km/tHl0/VUucaH2LJoZmYCR
+	 fcERvk8nMyRYJtpanZeVtevI1I4787S4PW1ktiElSZJZmhypyV7EXTJOsNJiclFO9D
+	 QhaibuNqlbNZsHHmgjvNu1cmwPJqSKXJctSLsNUcubQPlm0E40mCt3eNeOd0exjE7N
+	 4cMs/KFGDHHGmwCGLOJTuOjjIzqok1qvt5agmgcd1/BvgxsQKxw29zriy9IkEq/nTd
+	 ZbhMUsJ1Ppt+A==
 From: SJ Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SJ Park <sj@kernel.org>,
 	"Liam R. Howlett" <liam@infradead.org>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@davidgow.net>,
 	David Hildenbrand <david@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Lorenzo Stoakes <ljs@kernel.org>,
 	Michal Hocko <mhocko@suse.com>,
 	Mike Rapoport <rppt@kernel.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <shuah@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Suren Baghdasaryan <surenb@google.com>,
 	Vlastimil Babka <vbabka@kernel.org>,
 	damon@lists.linux.dev,
-	kunit-dev@googlegroups.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 00/12] mm/damon: cleanup code, add test cases, and update guidances in docs
-Date: Tue,  1 Sep 2026 22:47:33 -0700
-Message-ID: <20260902054747.99370-1-sj@kernel.org>
+Subject: [PATCH 11/12] Docs/mm/damon/maintainer-profile: update AI review for Sashiko replies
+Date: Tue,  1 Sep 2026 22:47:44 -0700
+Message-ID: <20260902054747.99370-12-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260902054747.99370-1-sj@kernel.org>
+References: <20260902054747.99370-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,51 +57,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Misc cleanup, improvements and updates of code, test, and documents.
+In the past, sharing Sashiko review results was tedious.  Also it was
+suggested to minimize the recipients on the sharing mails.  Hence the AI
+review section of DAMON maintainer profile document was updated to give
+guidance about available tools for making the sharing easier, and how
+the recipients list should be managed.
 
-Patches 1-5 cleanup DAMON code.  Patches 6-10 adds kunit and selftest
-test cases for recently fixed bugs and a new feature.  Patches 11 and 12
-update guidelines for AI review and what document to read, on DAMON
-documents.
+Now DAMON is onboarded [1] to Sashiko's automatic review replies
+feature.  Sashiko directly sends its reviews as replies to the patch
+mail thread. It also reduces the recipients list to deliver the
+reporting to only the author and the mailing list.
 
-Changes from RFC v1.2
-- RFC v1.2: https://lore.kernel.org/20260729140253.87753-1-sj@kernel.org
-- Drop RFC tag.
-- Rebase to latest mm-new.
-Changes from RFC v1.1
-- RFC v1.1: https://lore.kernel.org/20260729033751.131213-1-sj@kernel.org
-- Fix a typo: s/alingment/alignment/.
-- Add damon probes parameter validation cleanup (patches 4 and 5).
-Changes from RFC
-- RFC: https://lore.kernel.org/20260728052811.192712-1-sj@kernel.org
-- Remove ctx parameter of __damon_va_init_regions().
-- Fix damon_nr_samples_per_aggr() overflow kunit test.
-- Rebase to the latest mm-new.
+Remove the old guidance that is no more necessary but only confusing.
 
-SJ Park (12):
-  mm/damon/core: use damon_nr_samples_per_aggr() for max merge threshold
-  mm/damon/core: remove debug messages
-  mm/damon/vaddr: remove a debug message
-  mm/damon/core: validate number of probes in valid_probe_params()
-  mm/damon/sysfs: remove probes number validation
-  mm/damon/tests/core-kunit: extend set_regions() test for error case
-  mm/damon/tests/core-kunit: test <=0 size damon_set_regions() inputs
-  mm/damon/tests/core-kunit: test overlapping ranges for set_regions()
-  mm/damon/tests/core-kunit: test damon_nr_samples_per_aggr()
-  selftests/damon/sysfs.sh: test hugepage_mem_bp quota goal
-  Docs/mm/damon/maintainer-profile: update AI review for Sashiko replies
-  Docs/ABI/damon: recommend subsystem doc instead of admin-guide
+[1] https://github.com/sashiko-dev/sashiko/commit/b554c7b6e733
 
- .../ABI/testing/sysfs-kernel-mm-damon         |  2 +-
- Documentation/mm/damon/maintainer-profile.rst | 19 ++----
- mm/damon/core.c                               | 19 +++---
- mm/damon/sysfs.c                              |  2 +-
- mm/damon/tests/core-kunit.h                   | 65 ++++++++++++++++---
- mm/damon/vaddr.c                              | 16 +----
- tools/testing/selftests/damon/sysfs.sh        |  1 +
- 7 files changed, 76 insertions(+), 48 deletions(-)
+Signed-off-by: SJ Park <sj@kernel.org>
+---
+ Documentation/mm/damon/maintainer-profile.rst | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
 
-
-base-commit: 52315e1a031f7370a286d6f6c805e2c8eab5abbc
+diff --git a/Documentation/mm/damon/maintainer-profile.rst b/Documentation/mm/damon/maintainer-profile.rst
+index fb2fa00cc9aa1..a7c1352339378 100644
+--- a/Documentation/mm/damon/maintainer-profile.rst
++++ b/Documentation/mm/damon/maintainer-profile.rst
+@@ -106,18 +106,9 @@ AI Review
+ 
+ For patches that are publicly posted to DAMON mailing list
+ (damon@lists.linux.dev), AI reviews of the patches will be available at
+-sashiko.dev.  The reviews could also be sent as mails to the author of the
+-patch.
+-
+-Patch authors are encouraged to check the AI reviews and share their opinions.
+-The sharing could be done as a reply to the mail thread.  Consider reducing the
+-recipients list for such sharing, since some people are not really interested
+-in AI reviews.  As a rule of thumb, drop stable@vger.kernel.org and individuals
+-except DAMON maintainer.
+-
+-`hkml` also provides a `feature
+-<https://github.com/sjp38/hackermail/blob/master/USAGE.md#forwarding-sashikodev-statuscomments-to-mailing-list>`_
+-for such sharing.  Please feel free to use the feature.
++sashiko.dev.  The reviews will also be sent as replies to the author of the
++patch and the mailing list.
+ 
+-It is only an optional recommendation.  DAMON maintainer could also ask any
+-question about the AI reviews, though.
++Patch authors are encouraged to check the AI reviews and share their opinions
++by replying on the mail thread.  It is only an optional recommendation.  DAMON
++maintainer could also ask any question about the AI reviews, though.
 -- 
 2.47.3
