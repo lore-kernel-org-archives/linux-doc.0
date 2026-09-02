@@ -1,114 +1,181 @@
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C8E477E48
-	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 11:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A7747D921;
+	Wed,  2 Sep 2026 11:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788349177; cv=none; b=m6Oo8urg+oyO8NVZ5pjE9y+U6figd5YNh+JBGhdYWQxbzOWFXsGHVtFRSGwonAc80htw9FGJm86Sj/uabuHlsh2+UGssq5Jje3AvEIYJ4s2kJZOczW4DwRh8/f0LZzmP/zAex71OWOz/RnNz1vVVnfJbiOEwLsIvWPn6lhrZCZk=
+	t=1788350236; cv=none; b=qWXwayAsL7PZ42W+Aoy7JxbQBydv4ENRR9kwmHvg5QvP6ujlvkuyrrdWq8dqp3dZor23D4YooNYGm9BCbmw613ZGu0/Bj3Fa8Ncp2I/Lxy7R2hJv2t6UOLz7B/59rTN7+h1Ml34aB2G6jEw0eAMiKqvdHMokSpqNtJjn3CSav7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788349177; c=relaxed/simple;
-	bh=GrBIm0BKS+Mu7/OLWlqezUi4tFJ6U0Srqj6VjLPOZaE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fjUHSYU1BwF4xngzoB9W2bIPkXta2QBFIGTsNJOAWTPtEe79o4nlfGeS+dOfv+rTZkh6Dynz/sa6yStvfD6hRP8h9t/ujxe8nNNMTotyXVL9cpX9kNjv4J4SIs05VpkrNWFibtd88153kvNas6NhDl++7GNEa6IW9YHImMtHlck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-97cbbdfc2e0so349380241.0
-        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 04:39:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788349175; x=1788953975;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=XEAVGW99jRYpfKK+i5q1QjOfB2bMJtHxW0mUFyR7MIM=;
-        b=BL4c549Y67etfQveuhT41oTooYrrSx7uSZn3CHjF/wg6HkHZ5zXxwZJbbTqiFEO4wf
-         g/fwDn5G8KC+TKcERS2USPZP8aZOftWzjGAC3ABfsLzO6c/uFJbkfQZhKT4zJlLcB4o/
-         ZNOzCiqrrhovZto7n+4ukA+WdeLYoMp3UF6m745LRbLf/D0L1M109Sq3MeQU1M4+REJr
-         R4w8TfBckeRq+1QtuiKEW3ZcqC61pcYqP+OStW/Vry+MAMq2ws824ukTxefWn4YID+xF
-         ud8e7K0Nm8FniR3iSKiBjMwiaugAQ1plbQ6tj3ZgDB2nqsprYP8EGeWriEUrhXeS+jUS
-         1B9w==
-X-Forwarded-Encrypted: i=1; AKwUvByBKmOp3oFkDMsyy6dkGql0qqf0foAT83GUrFdV6IgsY6iT/G5YHogzdE2w5gQFM3obmlrDWIB4Xh8=@vger.kernel.org
-X-Gm-Message-State: AFuF++kUAYJM6r9H+WL4sgI8U3U1OZZ4LDP99EoGjsPN9oia/Ouizsua
-	8XjEEtaFoWfvdAFUgxIvi8WnnvltPcvd7g5uWnjYnv4We/6Za6HQmBcvhyLNrmpH
-X-Gm-Gg: AYBFou08nBZfFoOjdN4Y2s9yGGALt2NqxzSjzoQdREgQK6PzuQoLwb7ZFG9PIDlWuT7
-	pc2oqcxgjwjSEtkZwrWElXEVE5zw56/Aj3u5tvWl/j2PYTHzdnLg7qKp0XQFSyACx/nyjwpfBcL
-	qve4/q+TjrWEVUZzi4LOebvpYGXuIjlu1v+zFLun0shXFyXBrXqzUdaDPhZss+o1mP0o4nhDtpn
-	5ovTa4NuHaV+aMop8xADUZdlMVDlQ/zr+PrObQTH3RgyoNxDaqhu1CYU/25VOBSCPMkMZxQX6Yw
-	nIQ/kEaZj+bOHXp8vEIe3AMmdeWdxkopmqJrWLSYbuc0O4oOz4OA55fpEI+GMYV5JnJtYbbMyCO
-	ANOrUtzZMGYo4pwoO2oGGY+UpXyz+cWrGRG4N0dQu5jufPaLL49fvyea38fqU+8wEOZA+LaQIKi
-	2IVdQmO1SK9yNLE5OQoE5EGMjqxkQr1IVtD80h5T9HV7fvpxcAWms2XmO8qT+OW9LA2CeGKwqEZ
-	T9i9Ed8OlKj3t1KWnUbUBTaFA==
-X-Received: by 2002:a05:6102:3a06:b0:781:9922:78f8 with SMTP id ada2fe7eead31-78a1f34dd1dmr1486270137.13.1788349175268;
-        Wed, 02 Sep 2026 04:39:35 -0700 (PDT)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-980673fbf40sm1833041241.11.2026.09.02.04.39.35
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Sep 2026 04:39:35 -0700 (PDT)
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-7868ca1f0d2so283252137.1
-        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 04:39:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwOajLIv4hrtGBfP0NNxgkh8pzBYx6O9FqYNILUFMqBcVCtThbjSS/2zIz225CDjG8p75OP9NasyN8=@vger.kernel.org
-X-Received: by 2002:a05:6102:faa:b0:785:bfc7:26f5 with SMTP id
- ada2fe7eead31-78a1f33dfd3mr1197143137.12.1788349174855; Wed, 02 Sep 2026
- 04:39:34 -0700 (PDT)
+	s=arc-20240116; t=1788350236; c=relaxed/simple;
+	bh=ftZRUVJZfjss2duRNkuAguYBd15Jr8SHSTMJsa0ZVhc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gx7oltuc59XyLNFpwGWt06x7yweiJozkvfs4odn/1kSnuJLbw3S/GSi8qjOINjNV8X1QzohEIcDuyc3zZsiZyEtLubcLSoiws1hZUKBGPkFgmob+CYbIqP0J2qr4OOhDevWVtM3ujFt54xB4w+/+OBL1f3bGvK3Jo7oyzlZH2Lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=BscPMFc8; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=aScso83l; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="BscPMFc8";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="aScso83l"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4hZh683tGgz8tCW;
+	Wed, 02 Sep 2026 13:56:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788350208;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jbpGG5XSRwwmpQZAzirJeCrpQQmqAFe9GjwgzU8mklg=;
+	b=BscPMFc807SzH/aq4w6Ka4kf6gwP20WWJqDdhiXJJSuofp+9Sz/lR6m2gF7vpoxyL9x1P4
+	JAeZjYeaWtcFR3R+LCnyljRYOn4ehhWbiCYLy6kuQEWTC1uFdI7b5EFdO6z6/xIB3bE747
+	/oPIBlgaUGz2n+sLRvBAv9rQs51A+4zCmeGNKJR3JiekFsu373ikB6a6REr3Mv390vrpLq
+	Sdk8fgiiRJhEZ/AyBvOPToi8uQ1e2fjZgXK9OuyH17GzV5wVKxJKLR6TEZus6ScxtRENZp
+	ZAXSN0iKuIqeMtrLL0D35D9Pbh9Hi5ntiTBtc5Sc2KUAxXTZkv18z2i2GwPBlQ==
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788350206;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jbpGG5XSRwwmpQZAzirJeCrpQQmqAFe9GjwgzU8mklg=;
+	b=aScso83lUCEYYE+KAkd/+wpu04UAAe+S8HkR2Dd4BdknpvY476yZ4cXmzME1c8XsnBZbmE
+	t33mPCYXsug7lZfYz4wNtmVnrYWfRYRNODRfoJqhMk9pHVXWASOvnehcY1wLwxkDY4jAQN
+	0RC5x6VLw6UXg4TsKYXYQIwr5UH3duq9y36Ba57VfCeMnn8Vn88d0qyUi8jqdaZ/s1JXD6
+	q3KIl6wrnJj7raftPx7iaG2KdUufRB7wV5MuCTsI9/66A/3DkWlrp0Zhni6Td3fTk44UIw
+	IwyyXl6Te3hqVuqDqI/cA/uQrHtR1XBnKtSfAtw8LbbuefWY1zGkCkkgX8owFw==
+To: Thorsten Leemhuis <linux@leemhuis.info>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs: verify/bisect: fix typos
+Date: Wed,  2 Sep 2026 13:51:21 +0200
+Message-ID: <20260902115121.687986-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260809200429.843212-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260809200429.843212-1-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 2 Sep 2026 13:39:23 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUCRF_r3TXCRYZs_-AAn9WL36HUF4_VjGs4Y8Y4T2uRTA@mail.gmail.com>
-X-Gm-Features: AcwNN1XYp2AmohzI9M0wS5P-4B-ztdbPdhzMYLGxaK77VTrG86b4xj0U-T2WG1g
-Message-ID: <CAMuHMdUCRF_r3TXCRYZs_-AAn9WL36HUF4_VjGs4Y8Y4T2uRTA@mail.gmail.com>
-Subject: Re: [PATCH v5] arm64: dts: renesas: r8a779g0: Add GICv3 ITS and
- update PCIe nodes
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: fk1nm8t4cd3y5as9dztho6ujmug38c68
+X-MBO-RS-ID: bf19591de3cd9350d87
 
-On Sun, 9 Aug 2026 at 22:04, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> This SoC implements GIC600 with GICv3 ITS and PCIe host mode on this
-> SoC can use it. Add GIC ITS node into GIC node, update interrupt-map
-> and add msi-map into PCIe controller node.
->
-> The GIC ITS does have master interface to issue transactions to RAM.
-> The interface does support cacheable transactions, however, it does
-> not support shareable attribute, because the AXI port signals are tied
-> to inactive in this implementation. Therefore, add "dma-noncoherent"
-> DT property into the GIC ITS subnode.
->
-> The GIC redistributor does not have cacheable/shareable, therefore
-> add "dma-noncoherent" DT property into the GIC node.
->
-> Co-developed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+'your' -> 'you have'
+'kernel kernel' -> 'kernel'
+'your' -> 'you' twice
+'if is not listed' -> 'if it is not listed'
+'hay attention' -> 'pay attention'
+remove needless "'" in sphinx link
+'as disabling then will reduce the consumed disk space'
+              vvvv
+'as disabling them will reduce the consumed disk space'
+'You for example might' -> 'For example you might'
+'and not from a one that' -> 'and not from one that'
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v7.4.
+Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+---
+[v2]
+ + one more 'your' -> 'you'
+ - 'it'
+ + incorporate Randy's suggestions
+    https://lore.kernel.org/all/0475c09c-e165-41a5-b654-5c6aefeaab0b@infradead.org/
+ + Reviewed-by: Randy Dunlap
 
-Gr{oetje,eeting}s,
+[v1]
+ https://lore.kernel.org/all/20260829055501.581856-2-manuelebnerli@mailbox.org/
 
-                        Geert
+Wouldn't it make sense to add how to skip pure documentation and formating
+commits? Commits like this one. Or is it better to keep the document short
+and simple - which it already isn't anymore.
+---
+ .../verify-bugs-and-bisect-regressions.rst    | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
+diff --git a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+index 7d38393f31f..9296e3f5410 100644
+--- a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
++++ b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+@@ -163,7 +163,7 @@ will be considered the 'good' release and used to prepare the .config file.
+      section 'Complementary tasks: cleanup during and after the process'
+      below.
+ 
+-  d) Once your finished the bisection, put a few things away::
++  d) Once you have finished the bisection, put a few things away::
+ 
+        cd ~/linux/
+        git bisect log > ~/bisect-log
+@@ -178,8 +178,8 @@ will be considered the 'good' release and used to prepare the .config file.
+        ./scripts/config --set-str CONFIG_LOCALVERSION '-local-cafec0cacaca0-reverted'
+ 
+     This is optional, as some commits are impossible to revert. But if the
+-    second command worked flawlessly, build, install, and boot one more kernel
+-    kernel; just this time skip the first command copying the base .config file
++    second command worked flawlessly, build, install, and boot one more kernel;
++    just this time skip the first command copying the base .config file
+     over, as that already has been taken care off.
+ 
+ * **Complementary tasks**: cleanup during and after the process.
+@@ -229,10 +229,10 @@ depends on your issue:
+ Execute all steps till the end of *segment 1* to **verify if your kernel problem
+ is present in code supported by Linux kernel developers**. If it is, you are all
+ set to report the bug -- unless it did not happen with earlier kernel versions,
+-as then your want to at least continue with *segment 2* to **check if the issue
++as then you want to at least continue with *segment 2* to **check if the issue
+ qualifies as regression** which receive priority treatment. Depending on the
+ outcome you then are ready to report a bug or submit a preliminary regression
+-report; instead of the latter your could also head straight on and follow
++report; instead of the latter you could also head straight on and follow
+ *segment 3* to **perform a bisection** for a full-fledged regression report
+ developers are obliged to act upon.
+ 
+@@ -550,7 +550,7 @@ be a waste of time. [:ref:`details <introlatestcheck_bisref>`]
+       cd ~/linux/
+       git switch --discard-changes --detach stable/linux-6.1.y
+ 
+-    Your series is unsupported, if is not listed or carrying a 'end of life'
++    Your series is unsupported, if it is not listed or it is carrying a 'end of life'
+     tag. In that case you might want to check if a successor series (say
+     linux-6.2.y) or mainline (see next point) fix the bug.
+ 
+@@ -1183,9 +1183,9 @@ Space requirements
+ The numbers mentioned are rough estimates with a big extra charge to be on the
+ safe side, so often you will need less.
+ 
+-If you have space constraints, be sure to hay attention to the :ref:`step about
+-debug symbols' <debugsymbols_bissbs>` and its :ref:`accompanying reference
+-section' <debugsymbols_bisref>`, as disabling then will reduce the consumed disk
++If you have space constraints, be sure to pay attention to the :ref:`step about
++debug symbols <debugsymbols_bissbs>` and its :ref:`accompanying reference
++section <debugsymbols_bisref>`, as disabling them will reduce the consumed disk
+ space by quite a few gigabytes.
+ 
+ [:ref:`back to step-by-step guide <diskspace_bissbs>`]
+@@ -1254,8 +1254,8 @@ distributions:
+       kernel-install-tools libelf-devel make modutils openssl openssl-devel \
+       perl-base zlib-devel rpm-build ncurses-devel qt6-base-devel
+ 
+-These commands install a few packages that are often, but not always needed. You
+-for example might want to skip installing the development headers for ncurses,
++These commands install a few packages that are often, but not always needed. For
++example you might want to skip installing the development headers for ncurses,
+ which you will only need in case you later might want to adjust the kernel build
+ configuration using make the targets 'menuconfig' or 'nconfig'; likewise omit
+ the headers of Qt6 if you do not plan to adjust the .config using 'xconfig'.
+@@ -1407,7 +1407,7 @@ Occasionally odd things happen when trying to use a config file prepared for one
+ kernel (say 6.1) on an older mainline release -- especially if it is much older
+ (say 5.15). That's one of the reasons why the previous step in the guide told
+ you to boot the kernel where everything works. If you manually add a .config
+-file you thus want to ensure it's from the working kernel and not from a one
++file you thus want to ensure it's from the working kernel and not from one
+ that shows the regression.
+ 
+ In case you want to build kernels for another machine, locate its kernel build
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.54.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
