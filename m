@@ -1,93 +1,172 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477F8490C17;
-	Wed,  2 Sep 2026 12:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BA8495051;
+	Wed,  2 Sep 2026 12:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788353716; cv=none; b=UncjQ3fkaj2XnWGBWd1T8miK84XVA8PZvMSYnTmxR5eUQMTFfsydFP6OaTqcTX9JoP6cfMVl5QkWwgNu0xFhnToA4rCZ7P3cs9MFYP03F6jUt/URGV1hRsyEIS6d6uMWfQ5TImjZ9v03Efysi2svmb6RZGQP/ALI2Zke/5pR+d0=
+	t=1788353827; cv=none; b=oCsyaUQURJIunpTK/N27Pdew5IJ9JyAo5WDE6PKgoe5XP/Qs5y6Z8ELNq8VbegPfRZONqeG3IyfQudFgu9vkt/Tg4OJ5UZfrc3dROHZb7fHOLHPPpK9yxflxFduEFk5jSGz6k4P7AeJHI+RztWuZYtTeZP09dRq7CQCJ0Bxzv4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788353716; c=relaxed/simple;
-	bh=nWmYeRZEtJ9jeqDn41EJ4ZFYU/6YXIf3RAQRWl0kvE0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GW1WSzUHQZepq47uTfuVWFgJoDgUlSeCZrxSYQxGbrtpR99KzM28fgTFhNQfGY0Veh0tP31CL7elV3ybAYTeEx9aeP8iHN6Ro1XnraJ/ogvWPpyJiW5liNUeTGE4S8FsvBRhQetMe7s/7AUVp/6MHIMZkgqcyqx5/0l8Q+6I7xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Jkbk5bYQ; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Tb8LAlJy; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1788353827; c=relaxed/simple;
+	bh=+sqEe1LGe4fEP5uabRD28y+M+U2lWTjublfmuX++eck=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R5wOJALe2S8qkASFElIOCARst4yGoLfEZ+OIthS+ivLYgxWsnpbOZPd6W4a+5Zop5yr+o43CR8yYBh+wCPGYm8CAxZ4k2r35pxEs4ejnJoSN/hdzU2uF7csy8f7gnv99jr9s9Y6sm/9gX3zAsEpEczHb6UqmB8WU8cscmim10eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hYojRQK1; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Jkbk5bYQ";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Tb8LAlJy"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hZjPW64fZzMlKW;
-	Wed, 02 Sep 2026 14:55:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788353711;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=RnLJ9lWFDFYGAcAUAvszeV0gIPvWJfhdBr2yKVqkags=;
-	b=Jkbk5bYQud5OZzL99pDOMy1Qls2QrEcvidr1NorizUguUPubvhbBVsEZZecJtj99Jne1Fs
-	ou6Icqc6s5CaeDKVOIDriUS/WGKJshr2rA2ThPTmve1z+pnwUYMzuSS2ticDKwcV+sLxpM
-	5os0Jr81fnnT2w2vJdM/GjjDcNyvM6UVa4CmV+6E2MSoErpZotr0+IHqBWTdKx9yHFp4HF
-	+F45UlOR3E4YtXrjUAQyU0WknArfNntTkKSpt2YL+Gs5LeK3ez/trN6o7j1Nnjrg7CExKO
-	lOWmUkS8r2AUcKIWzkf0ZRjr21cNI6RvLCsufENTg7Y6SzPl9NWExamVXAU70A==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788353710;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=RnLJ9lWFDFYGAcAUAvszeV0gIPvWJfhdBr2yKVqkags=;
-	b=Tb8LAlJynT3up3BdoGKV1dVPntTJVpYTXFmYNASjaDxqt23cULDwUAOaHDvLzPbQe9GUVU
-	vg+dqFfZOya2VhQsosbU6AbCX0L85g8aB4vuieN4rroDvt31ostGwNcx9fZ9ut2nmfesHA
-	wCD5l4MUQGl6LgRCj6fyJCXGweFVzBGWX5kV+YkkhRS83NW8MGh5IhGc3WmL7Acf6fAYtv
-	ZDb0wnCtTKe4yNN6WkVBR9Ap34vYTheVnhSYpx+AQ/mGHgjjSpoLuUHBiFisGCm6L+6uRd
-	eYtQuDbFze/K/c9bQD7TY+k3VG8Q+1XLdko+YOPCH6STA0aoL4KAex0pYc7m8A==
-To: Phillip Potter <phil@philpotter.co.uk>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hYojRQK1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788353825; x=1819889825;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+sqEe1LGe4fEP5uabRD28y+M+U2lWTjublfmuX++eck=;
+  b=hYojRQK13e4LKZKhJJihLnvyuc7RNnOBRbuIIphQ5MEJEeryQ91lX5kK
+   jmPxSMgw3c9mCIVYwUtr7NIKuwXnvdyTwuYe6vmwhdtUPEQbenjbE7NxP
+   +kAv737XWK1dr9bOUKse/wWO45ALJx4EU//6zhSDE9RouvDd9F1KdCoAG
+   Cv7cUVlVLGYyYrVFhnzLQffztaYWug0ca8PzbcmOQcbpO4/gkhF758lOq
+   ZqemsPCl0IC8jWF3QMW+p1HQ9nj1raBzIjLp4x0b3d2TtUJ5ZXC+8dZKU
+   jKX2ydii2Ggkwp2cDlNNoSs9WgjTYIktrOV7rs31ujklCGUUfHd/H4hnD
+   g==;
+X-CSE-ConnectionGUID: /SCN0LYzQEqmwbDZafLM3g==
+X-CSE-MsgGUID: TmqHZSqwQkWmrIjjrTjpDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="100165334"
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="100165334"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 05:56:58 -0700
+X-CSE-ConnectionGUID: ydY/x6WaSTiRl04+a7s3zA==
+X-CSE-MsgGUID: Yl8xqNi8R+e7HGDSivpLpA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="273570230"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.118])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 05:56:51 -0700
+Date: Wed, 2 Sep 2026 15:56:49 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc: Manuel Ebner <manuelebner@mailbox.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] cdrom: fix brackets
-Date: Wed,  2 Sep 2026 14:54:30 +0200
-Message-ID: <20260902125431.696887-2-manuelebnerli@mailbox.org>
+	Mark Brown <broonie@kernel.org>,
+	Marius Cristea <marius.cristea@microchip.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Janani Sunil <jan.sun97@gmail.com>, linux-spi@vger.kernel.org,
+	Kent Gustavsson <nedo80@gmail.com>, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v11 3/3] iio: dac: Add AD5529R DAC driver support
+Message-ID: <apgdEf3pi_soGr3T@ashevche-desk.local>
+References: <20260902-ad5529r-driver-v11-0-301c491a0719@analog.com>
+ <20260902-ad5529r-driver-v11-3-301c491a0719@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 31zkymtngd1jxmm4fksdtshts488h8uj
-X-MBO-RS-ID: 587556d542be33bf042
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260902-ad5529r-driver-v11-3-301c491a0719@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-From: Manuel Ebner <manuelebner@mailbox.org>
+On Wed, Sep 02, 2026 at 11:26:17AM +0200, Janani Sunil wrote:
+> Add support for AD5529R 16-channel, 12/16 bit Digital to Analog Converter
+> from Analog Devices.
+> 
+> The device communicates over SPI and supports per-channel output range
+> configuration. An optional external 4.096V reference can be used in
+> place of the internal reference.
 
-Fix missing ')' and add '()' to function.
+Since there might be a v12 (depends on Jonathan), a few more nit-picks.
 
-Fixes: e327cfcb2542 ("docs: cdrom-standard.tex: convert from LaTeX to ReST")
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- Documentation/cdrom/cdrom-standard.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+...
 
-diff --git a/Documentation/cdrom/cdrom-standard.rst b/Documentation/cdrom/cdrom-standard.rst
-index b97a4e9b9bd3..b6dde1d1eaaa 100644
---- a/Documentation/cdrom/cdrom-standard.rst
-+++ b/Documentation/cdrom/cdrom-standard.rst
-@@ -1014,7 +1014,7 @@ How to update your driver
-   just calls to the routines you adapted in the previous step.
- - You may remove all remaining memory checking code in the
-   *audio_ioctl()* function that deals with audio commands (these are
--  listed in the second part of cdrom_ioctl_. There is no
-+  listed in the second part of cdrom_ioctl()). There is no
-   need for memory allocation either, so most *case*s in the *switch*
-   statement look similar to::
- 
+> +static const s32 ad5529r_output_ranges_mV[8][2] = {
+> +	[AD5529R_RANGE_0V_5V] = { 0, 5000 },
+> +	[AD5529R_RANGE_0V_10V] = { 0, 10000 },
+> +	[AD5529R_RANGE_0V_20V] = { 0, 20000 },
+> +	[AD5529R_RANGE_0V_40V] = { 0, 40000 },
+> +	[AD5529R_RANGE_M5V_5V] = { -5000, 5000 },
+> +	[AD5529R_RANGE_M10V_10V] = { -10000, 10000 },
+> +	[AD5529R_RANGE_M15V_15V] = { -15000, 15000 },
+> +	[AD5529R_RANGE_M20V_20V] = { -20000, 20000 },
+> +};
+
+Perhaps use MILLI multiplier?
+
+...
+
+> +static int ad5529r_read_raw(struct iio_dev *indio_dev,
+> +			    struct iio_chan_spec const *chan,
+> +			    int *val, int *val2, long mask)
+> +{
+> +	struct ad5529r_state *st = iio_priv(indio_dev);
+> +	unsigned int reg_addr, reg_val_h;
+> +	int ret, range_idx, span_mV;
+
+Why is 'range_idx' signed?
+
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_RAW:
+> +		/*
+> +		 * Read from DAC_INPUT_A register rather than DAC_DATA_READBACK.
+> +		 * The DAC operates in transparent mode and directly reflects
+> +		 * whatever value is written to the INPUT_A register.
+> +		 */
+> +		reg_addr = AD5529R_REG_DAC_INPUT_A(chan->channel);
+> +		ret = regmap_read(st->regmap_16bit, reg_addr, &reg_val_h);
+> +		if (ret)
+> +			return ret;
+> +
+> +		*val = reg_val_h;
+> +
+> +		return IIO_VAL_INT;
+> +	case IIO_CHAN_INFO_SCALE:
+> +		range_idx = st->output_range_idx[chan->channel];
+> +
+> +		/*
+> +		 * The datasheet specifies a 4.096 V external reference,
+> +		 * matching the nominal output voltage of the internal
+> +		 * reference.
+> +		 */
+> +		span_mV = ad5529r_output_ranges_mV[range_idx][1] -
+> +			  ad5529r_output_ranges_mV[range_idx][0];
+> +		*val = span_mV;
+> +		*val2 = st->model_data->resolution;
+> +
+> +		return IIO_VAL_FRACTIONAL_LOG2;
+> +	case IIO_CHAN_INFO_OFFSET:
+> +		range_idx = st->output_range_idx[chan->channel];
+> +
+> +		if (ad5529r_output_ranges_mV[range_idx][0] < 0)
+> +			*val = -BIT(st->model_data->resolution - 1);
+> +		else
+> +			*val = 0;
+> +
+> +		return IIO_VAL_INT;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+
 -- 
-2.54.0
+With Best Regards,
+Andy Shevchenko
+
 
