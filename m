@@ -1,84 +1,108 @@
-Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9905F44BC92;
-	Wed,  2 Sep 2026 11:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC9E31F98E;
+	Wed,  2 Sep 2026 11:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788346829; cv=none; b=Hdp54jkwnnni+QHzrgw0DdJyrpclqccuukZie1z9Khwb1z01Qfv66cCg4TVBjJhUkygZirk8i3zvHXfzIxzqVkux2bYfhY+pOyhPF5ZXMetFHU5Qr/G6Wwx5/KBPjTDFeKioFDLR22Ugb4ctgXBFEPVlpr97URtK1VklcXfky/I=
+	t=1788346974; cv=none; b=DidBOLAV6IBfeJApCLPtfXVfXHt9wRLJqmiGySJcV4T6aH5mFIobfoRjS20zlWsf1hU1X2bcfD1y6Li6YY75Ztiv+3qiOfEHlgx4YTLYoQF/s+1178p+HGqNOa0Aa7CMLX8cpCnsDZ16KFS/R3ChEcRyK4DmhG9OuZ5aQp7vRLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788346829; c=relaxed/simple;
-	bh=CN1unyH/hIb+Y8YiaPvwEJCnakyQmFPwizdxVbaRSV0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ALOt+M3PI2G0Fb3wksJpEBfiwWl3QSRVcb//D2ARmpMKNR+7/kjyCXHd6pQ7BuWRcMzcs1rkZnD+nJPzQMnvoTh4ZdASZqj5tJASe02I6TNZmsyjYoOE6jYn7K0YRKBAIHJfBskboWv3lPAnZFDWgMf4mVaTIPdOWYJ4IXbLL10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=HsrqOuKS; arc=none smtp.client-ip=217.70.178.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+	s=arc-20240116; t=1788346974; c=relaxed/simple;
+	bh=QDIu2KNP99Ja5J5CxxlX8SGwIhLbH5hz3Yi2K4FYpdA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cI/otYGnc/85JFMk/HETA8Gje3d15mq14UBd3NRCjKHkrqUsKND+giM3k2zzW1MMVfrNqb6veNx5KXyzYrVUEI11j43XhDjy1GSvDe/Uk7hQlCuqIeFimqDJYIM6H6+Q18LzPgnuCWA2cDyZjMxp++wkOlarF2shUpV4314Hgo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=INES5aQF; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="HsrqOuKS"
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	by mslow3.mail.gandi.net (Postfix) with ESMTP id 1CBE7583620;
-	Wed,  2 Sep 2026 09:37:42 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9E9CC3EC34;
-	Wed,  2 Sep 2026 09:37:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1788341854;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G1+QrDuN7d/J1hIpiEah3cLGmlih4zk6g8I3G9jEmS8=;
-	b=HsrqOuKSjlK+/HVReCnOiiq8ptX1fxavY6kKvmZ2cjQmNHFaFwhcAGvD9+aoIYmevL1qrd
-	GyAVnH1ahdFnWBEpX9kH6dSO7OhIPOWy/lD1fXUpbVkjLHyOgpQUpzYvItYKW+tQOLNa6G
-	PFjXri2X8VdlBrAf1OwpMcXlCKLvoB3wwq5l99Z1cZXcyRDKrY08CzXyp1lbxTGwUVs6Tp
-	FFPPqL8zR1o4kBVo2rm22VnSDFDeX0OkoZuyltrn2a+NlwQ6BAdwctkN9zgiAFKcfKSGV8
-	1ya7SD2rwB4aGfMD612BSX2nPUTCxwoPaM3QKplUnR556/k8hpNdH3jAYUbuFg==
-Message-ID: <f90aa8e8-abc4-477f-ab52-839e42eadf70@gtucker.io>
-Date: Wed, 2 Sep 2026 11:37:32 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="INES5aQF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788346973; x=1819882973;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QDIu2KNP99Ja5J5CxxlX8SGwIhLbH5hz3Yi2K4FYpdA=;
+  b=INES5aQFbwT0ddH2UAlkKUtN2qaG0WCTc892ZPymiXWtwJ0gdenaHHEZ
+   3sfq/03DWG69AXn69BVbgUUsOL8p2DcYXL+EUKeJqDy4fjXkVzpK+BWel
+   N+Q61rfv2RLYMK1QH3e/1RczeqBH94oQHGZWulQGmxHqfxpcPYCsAtRue
+   0lyzTGf/FTHcrD7DyNj+ihBCf2NeFskg4oYIuFs1q710xY+8bwMw8nP9Z
+   qFPEMHBKePWaNbz2adjNE3vx3p/rYAgB8wm9gaDnpbAyo03Tzlhog04d9
+   9fMzPqCbSgSTVCOIJWOLhw64YK8LtXOnu9LBnaXQvsyav8OLrT7t5kcbo
+   g==;
+X-CSE-ConnectionGUID: RVfhUA/vTmW7MdKda5CX5g==
+X-CSE-MsgGUID: MebetcACRK64KdEsY27Dxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="111571203"
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="111571203"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 04:02:52 -0700
+X-CSE-ConnectionGUID: nDsLt4K9RA+MtI2/zg1M2Q==
+X-CSE-MsgGUID: OfBGuYvRRB+9nYzVNAP5KQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="269395361"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.118])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 04:02:44 -0700
+Date: Wed, 2 Sep 2026 14:02:42 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <jan.sun97@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Janani Sunil <janani.sunil@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>,
+	Marius Cristea <marius.cristea@microchip.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v10 3/3] iio: dac: Add AD5529R DAC driver support
+Message-ID: <apgCUiOL3Of9P_e1@ashevche-desk.local>
+References: <20260827-ad5529r-driver-v10-0-38f2be07b824@analog.com>
+ <20260827-ad5529r-driver-v10-3-38f2be07b824@analog.com>
+ <178813261957.2788519.4929586195765891569.b4-review@b4>
+ <0c5a657d-e134-49a7-b2cd-82f293685cb7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] Documentation: dev-tools: update container.rst
- with config file
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Nick Desaulniers <ndesaulniers@google.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- kernelci@lists.linux.dev, automated-testing@lists.yoctoproject.org
-References: <570dac1c8d7a2befb5578cdd8a2ed63b3769c4c8.1788340031.git.gtucker@gtucker.io>
- <adc9eeb418f026ba2b18c4b2aa1e52443bf6f210.1788340031.git.gtucker@gtucker.io>
-Content-Language: en-GB
-From: Guillaume Tucker <gtucker@gtucker.io>
-Organization: gtucker.io
-In-Reply-To: <adc9eeb418f026ba2b18c4b2aa1e52443bf6f210.1788340031.git.gtucker@gtucker.io>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-Cause: dmFkZTF9QjDxzIdrhTfD1WLDC2OkkzEhLpazCn/BC9x7TeIdF79s9sf4dKq1Asdkp0WYf4CviRn4UsoJdKkBWavV87Jvp2QSFU8TM3I3AeLJEl0u1IvNe9lYJsHepNnyTb/Cm1G5YCw7fJRMrqPk72ltvTJsURd5ummtwW6uZiFlUGd0adhnwWc5oL8raOL4ND1K3wwWFhE0/UfdoqWI7aFUEXG+HcjQuSZvG0LryZC5KN/pCn5x4TnAb/9bqTASmJsG0lOFbqRF2EdPlL9Jn2MDJWCeDQIiFvRa7i13mczooTnN6cr6saq61Q0C5P/7X+xnDBZ8zu0SQT9VV5nY2Drmpfu2RPuRWQxje5+roogoeIB5cPAzh5ecLBipDd6Xw0xiavZdd+qnIaNbKIGGXJmoulsDFOTEVbOv9HapQEbDJ0kM++GJyZTouHPwk9k4nV4VfWZJm9n7OYRxPgtxMGV284ldydigaaVgQ9W9oujb6bxXXG1YCWk44wiHkEJG0yOrsRPiftJYA0Uqzk8udb0jYfiAkLg7xWWRvoEHNIz9Gg1ji62gKjb+5Hez2LpRkZQg8BGU2hF3WnX5F1ZsaMF4T8ZydZAHcjpiS1M9lIBDnakW5+Jv76WZeWzraliacqf0j2QsQWMRTMB2N3U24Aw3aeNyNz0tYu4ig+v+IxE1KeJ+yA
-X-GND-State: clean
-X-GND-Score: -100
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0c5a657d-e134-49a7-b2cd-82f293685cb7@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 02/09/2026 11:07, Guillaume Tucker wrote:
->  ``-r, --runtime RUNTIME``
->  
->      Container runtime name.  Supported runtimes: ``docker``, ``podman``.
-> @@ -53,8 +63,8 @@ Available options:
->  
->      User id to use inside the container.
->  
-> -    If the ``-g`` option is not specified, the user id will also be used for
-> -    the group id.
-> +    If the ``-g`` option is not specified and no group id is defined in the
-> +    configuration file, the user id will also be set as the group id.
+On Wed, Sep 02, 2026 at 10:48:58AM +0200, Janani Sunil wrote:
+> On 8/31/26 01:30, Jonathan Cameron wrote:
 
-This chunk didn't apply cleanly on top of v7.2 so I've resent the
-series after a rebase on v7.3-rc1.  The rebase was trivial though.
+...
 
-Guillaume
+> > Why do we need those outer () ?
+
+> The outer parenthesis are required by checkpatch for macros with complex
+> values. The same pattern is also used by AD3552R_CH_DAC() in
+> drivers/iio/dac/ad3552r.c
+
+checkpatch is wrong.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
