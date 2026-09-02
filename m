@@ -1,115 +1,178 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395341DED42;
-	Wed,  2 Sep 2026 00:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2801DC198
+	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 00:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788309857; cv=none; b=oDyg/0klI+S0RowU9VVticfpj3dxGQt5mL5BZWQ+Yn72yT8hs0g53Sl6O2gu/ioiraiHtmSN8Ll7oRHVAf79288segNFh6JPyOuCabQyNk7ewjVpFOFMzteMJX5NAwVw+MBO9IuuAmuqQt0hor/mOP6MST3vwGOWFm9uokCEd34=
+	t=1788310580; cv=none; b=ffL6Np+b1AuxWFf9+g69t6vYExESV+7tE6ZCZjVFv6aUUDd/gTBjEHgftxAQ2WS2mbAoLI9hifj4k8ZBAIaDZWgt3ScMl7Qoj2L/YGWUaM/qs4RxCqU7M62keWWFEhYhOieT1Wq5Dnf8nt7czdP/lXYu7Sco0950hGT+7M3lZcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788309857; c=relaxed/simple;
-	bh=gJN+B8AdtIAqiqlPYkcdFewfpZtr61Ziw8lDiM2W14Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MdHYVF5XfBe28ep2/VfaaBkgFGq6/JtTCIkGwaFroJ8JIwAcMQPJEsnCewV2Hpw76HGHxh1NZu7uAw1j1589ZOwvW/dbypsufstk/2CAzDyulABz8Rv49KIT1ej+ZtlJcSXSxvZE/qHmGy1OZCjyagIVyeH+D1yooQAYduuITw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=cv9O5YaB; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1788310580; c=relaxed/simple;
+	bh=d7cWym8GiqZJAsG40QVKThsxlp6hXKwXuUFOc7+ukYk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oJTGTv2qM5M3qsfNSV7nWam4ZT0YymEQAfvhruUeTD1sgCVLjbo3189irMS8tHZocLXmw6eSnuY2XQlXL9SaAFpYdNc5qClYoXHz17NpQ8vk8+yW5rx1WRx7nHPlCb5v3IeKXYv9dxDXkkXOx4WNwfkFmmNQDrMDBzoNeWnqcKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E2Zleaxk; arc=none smtp.client-ip=209.85.222.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="cv9O5YaB"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 9257440E0301;
-	Wed,  2 Sep 2026 00:44:12 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 0iyfOlrPVYVk; Wed,  2 Sep 2026 00:44:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1788309842; bh=rRTmD2cmwjFey9eoLHnKbN56gUWS7lz0BLKPZq8BhEw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cv9O5YaB93g3WoZST4mvqTMSq+7gWOyvK4ILugR7tqNCqSnNue/Pq263m73gx6YJI
-	 dYonXGUShfBTJVYLFMV+1WxFbM40Gw+wRlRd285BpPpJvno1Op4GkUml6IRkmudZBJ
-	 sYXFkOZCX8qevdk28ZgSWCNRyWn9Wv1K4GOGaQni5KbP5ybns4xoPxTBw0Ea8VCdEv
-	 9mM8MKIf3m83yezypJLDVB7os+Kdjz4PchMkCz0J5icjZ1u8n8R4HDJ5nH062O6UfD
-	 1j77AM5Y+Uqd8aMwp2eWJR/ROVvssrEnRb9FWqlht/FmqtiDRtp7SIy9ozBgfD6paw
-	 M5RswH/KUhDVZHd+D8E7V0waQr1n7HiJ57eUABR4M1qzDCE90vjkOxk1+9F9U6+ucn
-	 E7MPWnE+vkFhUO1ILs4V2Lge9Ysht8jyb75yPTGDJ6Xee6zfjDD67qZnFe0+DARC/v
-	 0/7GAZi7GdQ5jyEGifVa/OEdQZYUkHUGHFhsYrouuwHKkbeMt0JQXNYGZlXMdOTVoy
-	 mXdiM069uL2sjQ5YZQ3py8CpbgUBo3z8kytvWwQi7nWkTtAGr6qnn8iLm4sN9hrjS/
-	 GM/j4adw36dceom5lSNYU/823/aNDm9eiU4EcdjueNqnnFzcrK5jYe07JK5qhks4zO
-	 Hqysqw2GiT7RzUWVxAxREWU8=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 014BA40E027F;
-	Wed,  2 Sep 2026 00:43:44 +0000 (UTC)
-Date: Tue, 1 Sep 2026 17:43:41 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Babu Moger <babu.moger@amd.com>, "Moger, Babu" <bmoger@amd.com>,
-	"Luck, Tony" <tony.luck@intel.com>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"Dave.Martin@arm.com" <Dave.Martin@arm.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"tglx@kernel.org" <tglx@kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"Eranian, Stephane" <eranian@google.com>,
-	"peternewman@google.com" <peternewman@google.com>
-Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
- "default" on boot
-Message-ID: <20260902004341.GCapdxPZmGSjGacft2@fat_crate.local>
-References: <5f10ceab-5569-409b-8e78-c4a4f232489f@intel.com>
- <20260804191608.GDanI6eK2Q07w6pNcb@fat_crate.local>
- <98be93cc-f2d8-4bad-bbb0-f309e912054c@intel.com>
- <20260804224703.GFanJr52UbKBrCOTij@fat_crate.local>
- <112cebea-d455-4b75-847b-bb7d4aa4847d@intel.com>
- <1fe5cb09-aa2e-4b3d-9fbd-293d8e9f33d7@amd.com>
- <ad90a776-7be2-4d5d-88b4-280bc46b7387@amd.com>
- <d476ea5e-340b-4d65-8207-cc1a0055b4aa@intel.com>
- <20260901232139.GBapdeA0fj1XjLsjAM@fat_crate.local>
- <4a81506d-87a1-428f-b797-d9391aedcc7a@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E2Zleaxk"
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-97bf8f6a31eso189704241.1
+        for <linux-doc@vger.kernel.org>; Tue, 01 Sep 2026 17:56:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788310577; x=1788915377; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tiVFAkorF9lFs+sLXpfvZyw5OEmX56UI3CjqJwbxhXU=;
+        b=E2ZleaxkXM0UeMGSDpKyPPR1Sk7k/GkXuRjqGqF+nK+axUiyCu4pKHl811sfTStAEK
+         9WqcrBNXCPa6iJ/FIxcgN3lpzy6AoTZHDYhYV8s6Giv5WczFjK3AHLyaK8kPJ25QXhrM
+         19SMxKKYgbtpBnN6fbKT9rOXocOBy6LKOEKiT6a1mqVFi1F+agq/K+K6BCFwyfU1UUgd
+         lirRLJN3w3WlhKHiFFf6CgI4PUI/0XDaKeZue37NH5FmHRtqI260Ng83hbg4G5f7Stme
+         W+spkAEx8wEZD3a6ZwLWwkcFOo070jSzKID4Fci4iJv3lFPBQazE51NF0AubL4l6K/Q6
+         onZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788310577; x=1788915377;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tiVFAkorF9lFs+sLXpfvZyw5OEmX56UI3CjqJwbxhXU=;
+        b=Jo1Wk9SN2qolVbqziWFH/KHAB/KCowVz8MmBtAo/0++olcfsEImG8cgdvCjMof3p9I
+         USskD0pnwWwrxyzvaamn8EWY7SjUEDSrLana6cAQd7ad3q4SkHUfi3NVo29/u1ewYrhR
+         iwRkCtLDKrH6/oFeMmHkmqSlqfRwjiweqAHHlDvXPkVvCZSj6F2YM52leKlKIrpbPlpY
+         EAwyMBGVJAjbOOSYMpbsUHU1+afndEZisGvFK+L4rxRSS5OtrULUAO5gwXuO96PBH0iU
+         S62P496ZFnp5EIvWisuXbReCZcz5MuaXafe6LYICfXjObYaf39SMF0RTyvXQDunwOmHY
+         hnHQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy+6gZIugwg2Y5gwuksIDZNco8gWASh0OnSrUjZkRoeXIJW+tce5UuaPPPiyk8KuM1tQFiYnrbQWKU=@vger.kernel.org
+X-Gm-Message-State: AFuF++nWhFeQtuUcb46JehuF2lyJ1ZnjJers8G5xGf0NlS5laV2YcQVM
+	tYmRa/1KVRHZx5FQBBAI3pxaRcOLRU1pm5TQMNg8nx/KyLSNwVb4TrLx
+X-Gm-Gg: AYBFou0C87sBpwNKYFvsivGsiZRFanOctGIG8YYZAtNFuQr1tMQfK0Ebo2SckhHvyBu
+	om9Vxl82OLQlU0HrFvnNHQ0xpI5/xRkNPt9LKTGkHDQZGXBMmM9of/Gcw4Zrs6ufvyuZADd0Wtt
+	KqOfR4y65rKYLgRsrnDmcD8ytq2mnrby+9SkLy2a5aaR7o7V63QQe0AgDd4c1vQo7LMx16lBFgq
+	qbMo+610eAjFAVD0UvN4Q6qa4UFNjRRjzUCNUYz2srNa7zKrW8+e/l3JJ9w+3SrCunB0UUbMi6M
+	CAEGjLZOdsqAjOYvuPHeb3OZV4FmHSJgyAkbZr90BxuViMaqi7IKwEA33r3aHn9KSjo7e+VOmTf
+	mnPJry3jP359q6AaTfE4JvwYv4WDZU9iEilmDuDUlgUNR+FF4NEPEaiL5++P+B3vecSvw0ah99+
+	LNH+C1SzwR8xM7kPgnu5f5pVwYhE5tMC+aWsE71eXipyxiFaHnlqrZMdMjvv0hv4lC3MN7Yw==
+X-Received: by 2002:a05:6102:5490:b0:783:79ac:9dc3 with SMTP id ada2fe7eead31-78a1f2df152mr381604137.10.1788310577405;
+        Tue, 01 Sep 2026 17:56:17 -0700 (PDT)
+Received: from pop-os ([2804:14c:daa2:8daa:574f:5cf:6f39:859e])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-78a1a251ca6sm1095624137.4.2026.09.01.17.56.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Sep 2026 17:56:17 -0700 (PDT)
+From: Giovanna Macedo Cox <giovannamccds@gmail.com>
+To: Daniel Pereira <danielmaraboo@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Giovanna Macedo Cox <giovannamccds@gmail.com>
+Subject: [PATCH v2] docs: translations: pt_BR: translate coding-assistants.rst
+Date: Tue,  1 Sep 2026 21:56:01 -0300
+Message-ID: <20260902005603.18836-1-giovannamccds@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4a81506d-87a1-428f-b797-d9391aedcc7a@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 01, 2026 at 05:21:20PM -0700, Reinette Chatre wrote:
-> Boris:
-> 	I agreed to follow your guidance. I did have some nitpicks in the email that
-> 	you linked to and the discussion that followed created the impression with
-> 	me that	you were considering other options. Specifically
-> 
-> 	https://lore.kernel.org/lkml/20260805002138.GHanKCEmyMcvK8Xg4w@fat_crate.local/
-> 
-> 	is what I misunderstood as this topic still being open. My apologies.
+Translate coding-assistants.rst into Brazilian Portuguese
+and add it to the pt_BR process documentation index.
 
-Ah, ok, sorry for the confusion. This was me gathering some other suggestions
-from Tony and the AET side.
+Assisted-by: LLM 
+Signed-off-by: Giovanna Macedo Cox <giovannamccds@gmail.com>
+---
+Changes in v2:
+- Change trailer Assisted-by for the new pattern
+- Fix translation errors
+- Link to V1: https://lore.kernel.org/r/20260830234515.63131-1-giovannamccds@gmail.com/
 
-> 	To answer your question on how to move forward I thus think what is needed
-> 	is a minimized patch for easier backporting that is marked for stable.
+ .../pt_BR/process/coding-assistants.rst       | 60 +++++++++++++++++++
+ .../translations/pt_BR/process/index.rst      |  1 +
+ 2 files changed, 61 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/coding-assistants.rst
 
-Because, yes, this should be the path forward currently. A minimal patch to
-fix the issue. Then, when the imminent situation is addressed, we can always
-go and try and improve things at leisure like we always do.
-
-Thx.
-
+diff --git a/Documentation/translations/pt_BR/process/coding-assistants.rst b/Documentation/translations/pt_BR/process/coding-assistants.rst
+new file mode 100644
+index 000000000..2055af34a
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/coding-assistants.rst
+@@ -0,0 +1,60 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++IA Assistente de código
+++++++++++++++++++++++++
++
++Esta documentação fornece um guia para ferramentas de IA e desenvolvedores que
++usam IA como assistente para contribuir para o kernel do Linux.
++
++Ferramentas de IA que ajudam desenvolvedores do Linux kernel devem seguir os
++padrões de desenvolvimento do kernel:
++
++* Documentation/process/development-process.rst
++* Documentation/process/coding-style.rst
++* Documentation/process/submitting-patches.rst
++
++Para guias e conteúdo sobre códigos gerados por assistentes de IA veja:
++
++* Documentation/process/generated-content.rst
++
++Licenças e Requisitos Legais
++============================
++
++Todas as contribuições devem estar de acordo com os requisitos de licença do
++kernel:
++
++* Todo código deve ser compatível apenas com GPL-2.0
++* Use identificadores SPDX de licença apropriados
++* Veja Documentation/process/license-rules.rst para mais detalhes
++
++Assinatura e certificado de origem do desenvolvedor
++===================================================
++
++Agentes de IA NÃO DEVEM adicionar tags Signed-off-by. Apenas pessoas
++podem legalmente certificar o Certificado de Origem do Desenvolvedor (DCO).
++A pessoa que envia é responsável por:
++
++* Revisar todo código gerado por IA
++* Garantir conformidade com os requisitos de licença
++* Acrescentar sua própria tag Signed-off-by para certificar o DCO
++* Assumir toda responsabilidade pela contribuição
++
++Atribuições
++===========
++
++Quando ferramentas de IA contribuírem para o desenvolvimento do kernel,
++a atribuição adequada ajuda a rastrear a função da IA no processo de
++desenvolvimento. Contribuições devem incluir a tag de assistência seguindo este
++formato::
++
++    Assisted-by: LLM [FERRAMENTA1] [FERRAMENTA2]
++
++* ``[FERRAMENTA1] [FERRAMENTA2]`` são ferramentas de análise especializada
++    opcionais (Exemplo: coccinelle, sparse, smatch, clang-tidy)
++
++Ferramentas básicas de desenvolvimento (git, gcc, make, editors) não são
++listadas.
++
++Exemplo::
++
++  Assisted-by: LLM coccinelle sparse
+\ No newline at end of file
+diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
+index eda2a3fc5..6c68ac496 100644
+--- a/Documentation/translations/pt_BR/process/index.rst
++++ b/Documentation/translations/pt_BR/process/index.rst
+@@ -59,6 +59,7 @@ Estas são as regras pelas quais tentamos viver na comunidade do kernel
+    Modelos de Maturidade para Contribuição no Kernel Linux <contribution-maturity-model.rst>
+    Declaração sobre Drivers do Kernel <kernel-driver-statement>
+    Estilo de gerenciamento do kernel Linux <management-style>
++   Assistentes de código <coding-assistants>
+    Conclave (Continuidade do projeto) <conclave>
+ 
+ Lidando com bugs
 -- 
-Regards/Gruss,
-    Boris.
+2.55.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
