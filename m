@@ -1,229 +1,132 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A865745C6E0
-	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 20:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D833515C0
+	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 20:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788379589; cv=none; b=cKX17g6/euNhgWdrlrp8yxtMg2ZAGzABpghU3YtMlQjbxnEzTJDSCMOO7nsybayjtVTJAxkjfl5NT6KYybhXjENwj/+4tUBajXAUSr6y3N86tEZH5KLfeB3o15fMS4unfHS5+ekb74DVuByATyQF5dwqab8y8mdKPbnibQIJW2A=
+	t=1788382169; cv=none; b=Np8+aTTTemwyHSICnrEhbnsZqpR598eazvKwRO7xlt9QWbp/NIQLhwr0IQ5x1k+kLwUF/8AWs6nML2elbLqBkQRH3qkWVvzb1vqytxL+JzSx3AFXKKSfL6bvETaPzXhm2s33Ivo+bi0Pph6WKIAXfClEhk85tFMAXEv+B/093Pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788379589; c=relaxed/simple;
-	bh=PUdwSTyoKchnGNvcKZneP8Bj182M6z3uu7Ne1W7EWu4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V8sUaY7dlgdFlmOKKXItT8flCTlY/45yRwEx9THCCd+GDYm/putJifLXSf04fgMY8/r5aGnmNGWKVwPaiDAxqB6DPQXvTgbUPH2r78VaQAFbuN0eoMDaBL/+s30UHiP5ayPdgKGgNkPXudJcCa1NrK1htk42NJG2mNS8FB4xHbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hz9G7uru; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1788382169; c=relaxed/simple;
+	bh=d3eFT79e+sYwxEQtn0wpMt7MmXkuJULAfjVLUFhy2Jw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=rzQC+JVWpzyl8XGo43gLciHSc8KfjifZB3nURwS789JNB10YewA/NQu1sgTS1jlRL1u7I7RtkFiww/Ct++UwQ1OHIt7/g8m7+py3AYIQ6B8E1oNy/44VmJtPvqO+w5YvgwqNxcU27+ciyimtTDCj6NG6ngSe23L/H3ej5TyeiDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ocSnmRuv; arc=none smtp.client-ip=209.85.214.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hz9G7uru"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788379586;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qj6Ej6aw6ESKMozrrmkT6gNikVjoJG57NJAgL2FNY6M=;
-	b=hz9G7uru+XGP6j3G0nzv0M1m734X7td2QJc/TLj4ZTtdpz+3aWpEXJPX3vgAsrOUAEIiHb
-	fe0nJZW/LTRSe6Sv/9o02fWn+/160Ec1bwZJ0MeUUK1q9zBZGZInzVij119DAKo0QpG1z3
-	4NRUAxBA6s7+Qc7oyoEPrph6V0MUO88=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-66-lfSnGyAPO7iHpTz7KpplyA-1; Wed,
- 02 Sep 2026 16:06:22 -0400
-X-MC-Unique: lfSnGyAPO7iHpTz7KpplyA-1
-X-Mimecast-MFC-AGG-ID: lfSnGyAPO7iHpTz7KpplyA_1788379579
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 69AD1195421A;
-	Wed,  2 Sep 2026 20:06:19 +0000 (UTC)
-Received: from jtaubepe-thinkpadx1carbongen12.ibmlowe.csb (unknown [10.17.16.153])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 08C161955F02;
-	Wed,  2 Sep 2026 20:06:15 +0000 (UTC)
-From: Jesse Taube <jtaubepe@redhat.com>
-To: linux-nvme@lists.infradead.org
-Cc: linux-scsi@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Nilesh Javali <njavali@marvell.com>,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	Hannes Reinecke <hare@suse.de>,
-	Jesse Taube <jtaubepe@redhat.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	John Meneghini <jmeneghi@redhat.com>,
-	Bryan Gurney <bgurney@redhat.com>,
-	Chris Leech <cleech@redhat.com>,
-	"Ewan D . Milne" <emilne@redhat.com>,
-	shinichiro.kawasaki@wdc.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org
-Subject: [PATCH v2 7/7] nvme: fcloop: Add set_marginal_rport to sysfs
-Date: Wed,  2 Sep 2026 16:05:47 -0400
-Message-ID: <20260902200547.184734-8-jtaubepe@redhat.com>
-In-Reply-To: <20260902200547.184734-1-jtaubepe@redhat.com>
-References: <20260902200547.184734-1-jtaubepe@redhat.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ocSnmRuv"
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2d55d8cd938so26405715ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 13:49:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788382166; x=1788986966; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=w5M2n78XakxQe9dAtPYQIzOqOSJtPDxO02ooAB0+0oI=;
+        b=ocSnmRuvMO7GC25eenktLo8mRjF8c7OmXTwTpsl+d6HUOd/9wlRbkdwwXkol+e7HPh
+         SAQCb+g6LZhbWrV/bioXdfNClNuXPV9UZsqznovjyP1jRTVRHUfVZ4t2/5cauuRzqeWn
+         O2ZgCtgsiObJxjTFPj5p0s0QOAZTlZgIE+IGQdGx7YaXZfyWQAQhOGT7uqTfPD4HVS2j
+         kYH+/Z8r9/IpU7jt5TuBy/sUTZGKgHWe1IfhYKjRRKnZIxJFllGP41UKGueBSdL2IqtA
+         QJWTYfG5EBB4tsepl87u4QDkikDMdUPoULkmKCJnDbBi6MbpVYIa5dA3fCzgU9QuiPNz
+         J78g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788382166; x=1788986966;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=w5M2n78XakxQe9dAtPYQIzOqOSJtPDxO02ooAB0+0oI=;
+        b=WbwmQpn9Eetvuyae/44NwtnS2hGeJeoz+W3ka72sN/5ILVfmL/7u7pkUJw4DJOX2AK
+         Cftdxb/n/hBbuoRZMXJjgA7rOqbVqeP8NxtisFq5BatQnOLbfIw7oJW2hBhoUXSk79Wh
+         /bdpUW/Xk5QZJ9Qums+MWVQBfNGVB8KGR2arcn9SOzY9roqReojyrfJPWqgDEx52iJew
+         MUs5CTWIrpM+UxeF/3MhcG7mkzjWwUTNcUn3cLTY9AdMAWblgtCbKOHtRhkc5mzeGQki
+         GtY3nQf6VTOqFVyFaFjlVJNYsxAotZzVW64mFiNgpF9bduEifqEm7o3DCpHtBzuzr99R
+         036A==
+X-Forwarded-Encrypted: i=1; AKwUvBwVkxhJ80Lg+WixWJDk9qigjzYMJ6Hk+06Y9pMIqk8D+wqRWi/y0w9wYnui/3/rq5CvVB1rmrU0FQY=@vger.kernel.org
+X-Gm-Message-State: AFuF++lvLmFJtzcAjWQkND2NyET06ZqW7r/niFRNpmFCLbvspwB9iWsZ
+	LjO89WQgpgDKEXdZ9m4uxY1o+zuoJPnRz/jCGD/g0/KR7yBAh4GQgD0ey3+ocyRCMrpaxHt3Ae5
+	CXpN1PA==
+X-Received: from pluo3.prod.google.com ([2002:a17:903:4b03:b0:2d9:1a52:2094])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:1a30:b0:2d9:2688:8be6
+ with SMTP id d9443c01a7336-2daec71ddddmr102163065ad.19.1788382166025; Wed, 02
+ Sep 2026 13:49:26 -0700 (PDT)
+Date: Wed, 2 Sep 2026 13:49:25 -0700
+In-Reply-To: <649c7d7a-f042-4fe2-a3e8-eb15e4d76a46@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Mime-Version: 1.0
+References: <20251026201911.505204-19-xin@zytor.com> <20260902142336.9955-1-ehemily@amazon.de>
+ <649c7d7a-f042-4fe2-a3e8-eb15e4d76a46@intel.com>
+Message-ID: <apiL1WmN3j4ceDHI@google.com>
+Subject: Re: [PATCH v9 19/26] KVM: nVMX: Enable support for secondary VM exit controls
+From: Sean Christopherson <seanjc@google.com>
+To: Sohil Mehta <sohil.mehta@intel.com>
+Cc: Emily Ehlert <ehemily@amazon.de>, xin@zytor.com, andrew.cooper3@citrix.com, 
+	bp@alien8.de, chao.gao@intel.com, corbet@lwn.net, dave.hansen@linux.intel.com, 
+	hch@infradead.org, hpa@zytor.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, luto@kernel.org, 
+	mingo@redhat.com, pbonzini@redhat.com, peterz@infradead.org, 
+	tglx@linutronix.de, x86@kernel.org, nh-open-source@amazon.com
+Content-Type: text/plain; charset="us-ascii"
 
-To allow testing of multipath failover, add a sysfs attribute to set a
-remote port as marginal. This will allow the fcloop LLDD to set the
-marginal flag on a remote port, simulating a marginal link.
+On Wed, Sep 02, 2026, Sohil Mehta wrote:
+> > The write side already validates against
+> > 
+> > vmcs_config.nested.secondary_exit_ctls; the read side should likewise gate
+> > 
+> > on the control being advertised:
+> > 
+> > 
+> 
+> You are right, the read can be gated on the control being advertised.
+> Looking at the rest of the read function, it doesn't seem to have any
+> other equivalent check. I think there might be others that have similar
+> behavior.
 
-Example:
-Turn on marginal for a remote port matching wwnn and wwpn:
-`echo 'wwnn=0x200000109b5f2956,wwpn=0x100000109b5f2956,marginal=1' >
-/sys/class/fcloop/ctl/set_marginal_rport`
+Yes.  Secondary controls, tertiary controls, VMFUNC, EPT/VPID, etc.
 
-Turn off marginal for a remote port matching wwnn and wwpn:
-`echo 'wwnn=0x200000109b5f2956,wwpn=0x100000109b5f2956,marginal=0' >
-/sys/class/fcloop/ctl/set_marginal_rport`
+> But, I don't see any harm in adding the below check to match the bare
+> metal behavior for the new code. I'll add it to v10 unless someone objects.
 
-Suggested-by: John Meneghini <jmeneghi@redhat.com>
-Signed-off-by: Jesse Taube <jtaubepe@redhat.com>
-V10 -> V1:
- - New patch
-V1 -> V2:
- - Fix reference count leak in error path
----
- drivers/nvme/target/fcloop.c | 50 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+Normally I want MSR accesses to have the same fault semantics for userspace and
+guest accesses, but for the VMX MSRs, I think we should let userspace read at all
+times since they're feature MSRs.  E.g. I don't want to end up in a state where
+userspace can't read an MSR because it restored/set MSRs in the "wrong" order.
 
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index b63af3b643a6..9977c2a71bd5 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -6,6 +6,7 @@
- #include <linux/module.h>
- #include <linux/parser.h>
- #include <uapi/scsi/fc/fc_fs.h>
-+#include <uapi/scsi/fc/fc_els.h>
- 
- #include "../host/nvme.h"
- #include "../target/nvmet.h"
-@@ -21,6 +22,7 @@ enum {
- 	NVMF_OPT_FCADDR		= 1 << 3,
- 	NVMF_OPT_LPWWNN		= 1 << 4,
- 	NVMF_OPT_LPWWPN		= 1 << 5,
-+	NVMF_OPT_MARGINAL	= 1 << 6,
- };
- 
- struct fcloop_ctrl_options {
-@@ -31,6 +33,7 @@ struct fcloop_ctrl_options {
- 	u32			fcaddr;
- 	u64			lpwwnn;
- 	u64			lpwwpn;
-+	u32			marginal;
- };
- 
- static const match_table_t opt_tokens = {
-@@ -40,6 +43,7 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_FCADDR,	"fcaddr=%x"	},
- 	{ NVMF_OPT_LPWWNN,	"lpwwnn=%s"	},
- 	{ NVMF_OPT_LPWWPN,	"lpwwpn=%s"	},
-+	{ NVMF_OPT_MARGINAL,	"marginal=%d"	},
- 	{ NVMF_OPT_ERR,		NULL		}
- };
- 
-@@ -120,6 +124,13 @@ fcloop_parse_options(struct fcloop_ctrl_options *opts,
- 			}
- 			opts->lpwwpn = token64;
- 			break;
-+		case NVMF_OPT_MARGINAL:
-+			if (match_int(args, &token)) {
-+				ret = -EINVAL;
-+				goto out_free_options;
-+			}
-+			opts->marginal = token;
-+			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s'\n", p);
- 			ret = -EINVAL;
-@@ -199,6 +210,9 @@ fcloop_parse_nm_options(struct device *dev, u64 *nname, u64 *pname,
- 
- #define TGTPORT_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN)
- 
-+#define MARGINAL_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN | \
-+			 NVMF_OPT_MARGINAL)
-+
- 
- static DEFINE_SPINLOCK(fcloop_lock);
- static LIST_HEAD(fcloop_lports);
-@@ -1663,6 +1677,40 @@ fcloop_set_cmd_drop(struct device *dev, struct device_attribute *attr,
- 	return count;
- }
- 
-+static ssize_t
-+fcloop_set_marginal_rport(struct device *dev, struct device_attribute *attr,
-+		const char *buf, size_t count)
-+{
-+	struct fcloop_nport *nport;
-+	struct fcloop_ctrl_options opts = {};
-+	unsigned long flags;
-+	int ret;
-+
-+	ret = fcloop_parse_options(&opts, buf);
-+	if (ret)
-+		return ret;
-+
-+	/* everything there ? */
-+	if ((opts.mask & MARGINAL_OPTS) != MARGINAL_OPTS)
-+		return -EINVAL;
-+
-+	nport = fcloop_nport_lookup(opts.wwnn, opts.wwpn);
-+	if (!nport)
-+		return -ENOENT;
-+
-+	spin_lock_irqsave(&fcloop_lock, flags);
-+	if (!nport->rport || !nport->rport->remoteport) {
-+		spin_unlock_irqrestore(&fcloop_lock, flags);
-+		fcloop_nport_put(nport);
-+		return -ENOENT;
-+	}
-+
-+	nvme_fc_set_remoteport_fpin(nport->rport->remoteport, opts.marginal);
-+	spin_unlock_irqrestore(&fcloop_lock, flags);
-+	fcloop_nport_put(nport);
-+
-+	return count;
-+}
- 
- static DEVICE_ATTR(add_local_port, 0200, NULL, fcloop_create_local_port);
- static DEVICE_ATTR(del_local_port, 0200, NULL, fcloop_delete_local_port);
-@@ -1671,6 +1719,7 @@ static DEVICE_ATTR(del_remote_port, 0200, NULL, fcloop_delete_remote_port);
- static DEVICE_ATTR(add_target_port, 0200, NULL, fcloop_create_target_port);
- static DEVICE_ATTR(del_target_port, 0200, NULL, fcloop_delete_target_port);
- static DEVICE_ATTR(set_cmd_drop, 0200, NULL, fcloop_set_cmd_drop);
-+static DEVICE_ATTR(set_marginal_rport, 0200, NULL, fcloop_set_marginal_rport);
- 
- static struct attribute *fcloop_dev_attrs[] = {
- 	&dev_attr_add_local_port.attr,
-@@ -1680,6 +1729,7 @@ static struct attribute *fcloop_dev_attrs[] = {
- 	&dev_attr_add_target_port.attr,
- 	&dev_attr_del_target_port.attr,
- 	&dev_attr_set_cmd_drop.attr,
-+	&dev_attr_set_marginal_rport.attr,
- 	NULL
- };
- 
--- 
-2.55.0
+We could plumb in @host_initiated to vmx_get_vmx_msr(), but I think I would rather
+add the check in vmx_get_msr().  E.g. shoot for something like:
 
+diff --git arch/x86/kvm/vmx/vmx.c arch/x86/kvm/vmx/vmx.c
+index 504630f0eb40..a99cebfe50e0 100644
+--- arch/x86/kvm/vmx/vmx.c
++++ arch/x86/kvm/vmx/vmx.c
+@@ -2200,6 +2200,10 @@ int vmx_get_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
+        case KVM_FIRST_EMULATED_VMX_MSR ... KVM_LAST_EMULATED_VMX_MSR:
+                if (!guest_cpu_cap_has(vcpu, X86_FEATURE_VMX))
+                        return 1;
++               if (!msr_info->host_initiated &&
++                   !guest_cpu_has_vmx_msr(msr_info->index))
++                       return 1;
++
+                if (vmx_get_vmx_msr(&vmx->nested.msrs, msr_info->index,
+                                    &msr_info->data))
+                        return 1;
+
+
+That'll require yet another switch(), but reading these MSRs should never be a
+hot path.
+
+> > 	case MSR_IA32_VMX_EXIT_CTLS2:
+> > 
+> > +		if (!(msrs->exit_ctls_high & VM_EXIT_ACTIVATE_SECONDARY_CONTROLS))
+> > 
+> > +			return 1;
+> > 
+> > 		*pdata = msrs->secondary_exit_ctls;
+> > 
+> > 		break;
+> > 
+> 
