@@ -1,131 +1,176 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B4C1E8332;
-	Thu,  3 Sep 2026 01:03:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68D5223702;
+	Thu,  3 Sep 2026 01:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788397418; cv=none; b=EEE/I0hvlkIJw80/XAvi77282dXclguBzu720p0D8zcyUIQgdJuiJ75uSxg3r2kPtZhsGdVl91wL/R5/yZoYanvepLjpEYdZDnlne6k4i3t29UVU6IIA510o2sfXQkEm71Bj/qagqqvLIv1kRxTb1ea0FdiSULdsmiCQ+eSL9/A=
+	t=1788400285; cv=none; b=LQmYFa8I6rUuXzGgLM1mWbkIRRTV3kObplzdVzJiB1cLmr6cxmgBEvcJE3XzpdSze024CYt+4N3xaxI0sXgvHaBttqPVDM7t6QbVxv5SLNfu0ShN8sdGDjBeVyuNits5JuaWFK1/+LJklHHy3JXcasufPjId2l487c8a2PxUdgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788397418; c=relaxed/simple;
-	bh=Yjs22QPyEZz39ou9ZXRrAMkokUlDqqdJ6uQDHy8S/jY=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=XSpshDzOPxJGMF5yBJbyzof9ANqE9itNUZN7E/uyBBBLDs8lhyaZO3NH8wTmXjvhYjhRo/Sx0OyW3N3lKE3F9WizSQAbdZwNtUIZsPFxFVwPS0F5V67iV7TCYWPYgO48W369oy34fJsW0pzbblR1//l83/XxerQOl8BX8fJKFeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4hb1Yp4gvtz8Xrr9;
-	Thu, 03 Sep 2026 09:03:26 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.99.176])
-	by mse-fl1.zte.com.cn with SMTP id 68313LfN052625;
-	Thu, 3 Sep 2026 09:03:21 +0800 (+08)
-	(envelope-from hu.shengming@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Thu, 3 Sep 2026 09:03:22 +0800 (CST)
-X-Zmail-TransId: 2af96a98c75a204-859ef
-X-Mailer: Zmail v1.0
-Message-ID: <20260903090322460l3RLOYBqnQOT1Wf1Qb2E9@zte.com.cn>
-In-Reply-To: <20260831094914.50eb26b7@gandalf.local.home>
-References: 20260830190743637MhXoixrAPc1rfm-G8eIcg@zte.com.cn,20260831094914.50eb26b7@gandalf.local.home
-Date: Thu, 3 Sep 2026 09:03:22 +0800 (CST)
+	s=arc-20240116; t=1788400285; c=relaxed/simple;
+	bh=8RaIWadECS+2y7/yh9MkgYmB0nbRAz+aqhhQmiSe6xE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SywLeqGQN3H6XQG+Zh2nRXvYuQoXA27F0BL4Q1ynJ8RDKOZKGdGA3urrFFMXXXaOYAqos8dsBg62Q68M9PZC5ndmUi/6qkVq1cx3rPFLonECCoU+HpiKbUftyJ0tEqzZVdvTuq1PfsRUvTYYiJbRyV5d3paaVq11O8/DoxpynJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C2qoS9GY; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C2qoS9GY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788400283; x=1819936283;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8RaIWadECS+2y7/yh9MkgYmB0nbRAz+aqhhQmiSe6xE=;
+  b=C2qoS9GYOHF0a3DqXkRxVUwYU78zgLbl1K8G587A5G8k1X/GveeEXcMH
+   lvgzdoO57/zOR2LywhN3YrEiIGTNBdTcFpdAR2Wj3aVbgpSHofjn2s31+
+   q7rnBGSoCeIao+i+ijrYIKGAIPNWLI25bFfWE/QxYto6schDa2Nfq57nr
+   M/jarOgamc2kgKK3x57veTsBxKydzc+T2x9jpSIHuj4ForyfmWXgBsS5N
+   rMLOOHep3vC8X+5BDL+SVFD2pjJZ3YEgQSrYSRZlX9r1IBWxfa1aIRwFE
+   ucLT++m/4GgI0c6QzDS8zs1qOjWEjlrct9KycGYVxKiDgS/dP8Ovq6Uuj
+   A==;
+X-CSE-ConnectionGUID: El8NjLCRR0m1Uot3b0Rt0A==
+X-CSE-MsgGUID: tDFwyZ2pQG2sS6vnq7CA3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="99469101"
+X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
+   d="scan'208";a="99469101"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 18:51:22 -0700
+X-CSE-ConnectionGUID: opMajHb+QL6pkd5gLvIcQw==
+X-CSE-MsgGUID: sP1z4fy4SBGVXX4gA4hX6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
+   d="scan'208";a="307770208"
+Received: from rpedgeco-desk.jf.intel.com ([10.88.27.135])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 18:51:21 -0700
+From: Rick Edgecombe <rick.p.edgecombe@intel.com>
+To: bp@alien8.de,
+	dave.hansen@intel.com,
+	hpa@zytor.com,
+	kas@kernel.org,
+	kvm@vger.kernel.org,
+	linux-coco@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mingo@redhat.com,
+	nik.borisov@suse.com,
+	pbonzini@redhat.com,
+	seanjc@google.com,
+	tglx@kernel.org,
+	vannapurve@google.com,
+	x86@kernel.org,
+	chao.gao@intel.com,
+	yan.y.zhao@intel.com,
+	kai.huang@intel.com,
+	tony.lindgren@linux.intel.com,
+	binbin.wu@intel.com,
+	sohil.mehta@intel.com
+Cc: rick.p.edgecombe@intel.com
+Subject: [PATCH v10 00/11] Dynamic PAMT
+Date: Wed,  2 Sep 2026 18:51:02 -0700
+Message-ID: <20260903015113.93343-1-rick.p.edgecombe@intel.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <hu.shengming@zte.com.cn>
-To: <rostedt@goodmis.org>
-Cc: <mhiramat@kernel.org>, <mathieu.desnoyers@efficios.com>,
-        <mark.rutland@arm.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-        <rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-trace-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <ran.xiaokai@zte.com.cn>, <xu.xin16@zte.com.cn>,
-        <zhang.run@zte.com.cn>
-Subject: =?UTF-8?B?UmU6IFtSRkMgUEFUQ0ggMC80XSBmdHJhY2U6IEFkZCB0YXNrIGNvbW0gZmlsdGVyaW5nIGZvciBmdW5jdGlvbiB0cmFjaW5n?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 68313LfN052625
-X-TLS: YES
-X-ENVELOPE-SENDER: hu.shengming@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Thu, 03 Sep 2026 09:03:26 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A98C75E.001/4hb1Yp4gvtz8Xrr9
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Steven wrote:
+Hi,
 
-> On Sun, 30 Aug 2026 19:07:43 +0800 (CST)
-> <hu.shengming@zte.com.cn> wrote:
-> 
-> > Hi Steven and Masami,
-> > 
-> > This series adds two comm-based task filters for the function and
-> > function_graph tracers:
-> > 
-> >   set_ftrace_comm
-> >   set_ftrace_notrace_comm
-> 
-> I'd like to avoid adding more files like this. If anything, I would love to
-> add triggers to the function tracers.
+This is another revision of the Dynamic PAMT TDX series. The biggest 
+change from the last version resulted from a request from Dave to more 
+clearly comment and name things *DPAMT* in the DPAMT specific parts of the 
+code, rather than PAMT. Discretion was used, and I left some of the PAMT 
+names (the API names previously agreed with KVM were not updated, and the 
+names associated with the TDX ABI itself were left matching the spec, 
+etc). Comments were also strengthened around the earlier get/put patches 
+to clarify their temporary limitations. There were no functional changes. 
+To help if anyone wants to scrutinize the diff, a rebased branch of v9 is 
+pushed here [0].
 
-Agreed. Adding two more tracefs files may not be the best interface. Together
-with the points raised in the earlier discussion with Masami, I also think a
-trigger-based interface would be a cleaner direction.
+Our CI AI system has gained some extra checks, which I thought were better
+to apply. So that was done too. The changes were all trivial.
 
-> > 
-> > Function tracing currently supports selecting tasks by PID. This makes
-> > it difficult to configure tracing before a service starts, because it
-> > does not have a PID yet. It is also inconvenient to keep tracing the
-> > same service across restarts, as its PID may change. This use case was
-> > suggested by Xuxin, a KSM reviewer.
-> 
-> I've always recommended a simple wrapper script for applications:
-> 
-> echo '#! /bin/bash
->   echo $$ > /sys/kernel/tracing/set_ftrace_pid
->   echo $$ > /sys/kernel/tracing/set_event_pid
->   exec "$@"' > trace-me.sh
-> 
-> chmod +x trace-me.sh
-> 
->   ./trace-me.sh command to be traced
-> 
-> The above will do what you want.
-> 
+Lastly, based on offlist discussion with Dave and Kiryl, I author flipped 
+the arch/x86 patches to me and updated them to have a single Intel 
+signoff. I left the KVM patches as they were, based on my best expectation 
+of Sean's preference.
 
-Yes, this works well when we have control over how the application is
-launched. Thanks for the example!
 
-> But if we really do want to add more filters to function tracing, then
-> adding triggers to it would be the way to go.
+We have a ton of RBs at this point (8 different people, thanks!), which I 
+left in place due to the trivial depth of the changes. All KVM patches 
+have Sean's ack. The following escaped Dave's RB last time:
+[PATCH 03/11] x86/virt/tdx: Add __tdx_pamt_get/put() helpers
+[PATCH 04/11] x86/virt/tdx: Allocate refcounts for Dynamic PAMT memory
+[PATCH 09/11] x86/virt/tdx: Enable Dynamic PAMT
+[PATCH 10/11] Documentation/x86: Add documentation for TDX's Dynamic PAMT
 
-Understood. To make sure I understand the proposed direction, here is a
-conceptual example of what the interface might look like:
+This should be in pretty good shape, Dave please strongly consider 
+applying.
 
-echo 'ftrace_pid_add if newcomm == "foo"' > \
- events/task/task_rename/trigger
+Background
+==========
+Dynamic PAMT is a TDX feature that allows saving memory by allocating some 
+of its page tracking metadata dynamically, instead of statically at boot. 
+These static allocations take roughly 0.4% of system memory. The savings 
+are variable depending on system and TDX usage, but could be up to 100x. 
+For more Dynamic PAMT background, please refer to [1]. For more analysis 
+of the savings in different scenarios, see the v6 coverleter[2].
 
-When a task changes its comm to foo, the trigger would add the PID from
-the task_rename event to the function tracer's PID filter. The function
-and function_graph tracers would then trace that task using the existing
-PID-filtering mechanism.
+It occurred to me that since the Dynamic PAMT effort began, RAM has become
+much more expensive. Consequently, this feature is even more valuable now.
+It would be good to enable it for TDX users.
 
-We may also need a corresponding ftrace_pid_remove trigger command to
-remove the PID associated with the triggering event from the function
-tracer's PID list.
+Base
+====
+This is based on v7.3-rc1. A branch of this series can be found here: [3].
 
-The command names above are only illustrative. Is this roughly the kind of
-trigger interface you had in mind?
+Testing
+=======
+Since there were not any changes which would be expected to have 
+functional impact, I just did some regression testing with our standard 
+automated testing for this one. I left Tested-by tags per Hongyu's
+preference.
 
-If so, we will investigate extending the trigger infrastructure in this
-direction instead of adding the comm-filter files.
 
---
-With Best Regards,
-Shengming
+[0] https://github.com/intel-staging/tdx/tree/dpamt_v9_on_v7.3-rc1
+[1] https://lore.kernel.org/lkml/20250918232224.2202592-1-rick.p.edgecombe@intel.com/
+[2] https://lore.kernel.org/lkml/20260526023515.288829-1-rick.p.edgecombe@intel.com/
+[3] https://github.com/intel-staging/tdx/tree/dpamt_v10
+
+
+Kiryl Shutsemau (2):
+  KVM: TDX: Allocate PAMT memory for TD and vCPU control structures
+  KVM: TDX: Get/put PAMT pages when (un)mapping private memory
+
+Rick Edgecombe (9):
+  x86/virt/tdx: Simplify PAMT layout calculation
+  x86/virt/tdx: Allocate page bitmap for Dynamic PAMT
+  x86/virt/tdx: Add __tdx_pamt_get/put() helpers
+  x86/virt/tdx: Allocate refcounts for Dynamic PAMT memory
+  x86/virt/tdx: Handle multiple callers in tdx_pamt_get/put()
+  x86/virt/tdx: Add APIs to support Dynamic PAMT ops from KVM's fault
+    path
+  x86/virt/tdx: Enable Dynamic PAMT
+  Documentation/x86: Add documentation for TDX's Dynamic PAMT
+  x86/virt/tdx: Optimize tdx_pamt_get/put()
+
+ .../admin-guide/kernel-parameters.txt         |  10 +
+ Documentation/arch/x86/tdx.rst                |  27 +
+ arch/x86/include/asm/kvm-x86-ops.h            |   1 +
+ arch/x86/include/asm/kvm_host.h               |   1 +
+ arch/x86/include/asm/tdx.h                    |  23 +
+ arch/x86/include/asm/tdx_global_metadata.h    |   9 +-
+ arch/x86/kvm/mmu/mmu.c                        |   4 +
+ arch/x86/kvm/vmx/tdx.c                        |  99 ++--
+ arch/x86/kvm/vmx/tdx.h                        |   2 +
+ arch/x86/virt/vmx/tdx/tdx.c                   | 460 +++++++++++++++---
+ arch/x86/virt/vmx/tdx/tdx.h                   |   2 +
+ arch/x86/virt/vmx/tdx/tdx_global_metadata.c   |  23 +-
+ 12 files changed, 566 insertions(+), 95 deletions(-)
+
+-- 
+2.55.0
+
