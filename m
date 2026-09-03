@@ -1,47 +1,63 @@
-Received: from mail-m1973182.qiye.163.com (mail-m1973182.qiye.163.com [220.197.31.82])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445013E8357;
-	Thu,  3 Sep 2026 06:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD4B3FDC18;
+	Thu,  3 Sep 2026 07:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788417672; cv=none; b=rX5q4tgr4sIMTlR/bTepv9Orc1PUWgOesJjdxcVX5K42az5l4vWGrWBR62RARsH9efvVLOfIs1JCyHAhrLymO2TAJ128cOXUMaoItpoS+LlsCaXyhABrYmR+upCs+qdPjWrkrYjMS2YmzkjlKEjdSnYXm3d1rc2PPfiTIN5FoFo=
+	t=1788419073; cv=none; b=nFSWBPco4VkybWHNQrJvYDX1ee2wYXWtojCs0i4/mZ/ZwHQ1hBNWj5WgtzOFUal0GY6ZslGoulWHpT3duZZGUEwr6aKDqDzlrrQxrGu5Iwn0SdrcFXONiFoi07C8B1iAmC5oND9N/gQAowh7ivlor8XyAMKvKXnLCr/hUR1A/oA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788417672; c=relaxed/simple;
-	bh=vWpOAIIHlVVP2/TQZ3O+zuDEMXP6aVJbAIhcQvhTW74=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UvpoRvnWewTzAKG9Saoe8agJk1/Z7efwPSl7VIh8v43aeg3iNCkmJvnx6e4fypQKtYmRDgtNbA+7iQbGFN1sBo5AQwkupm4CkM4YN6JNzSNzFi1Jp6LiG4XK/Naz4UTmgt6ph9ZdPpHY2ImasTkuirbbsP38BmIcI2NrmSIv+S4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=220.197.31.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
-Received: from localhost.localdomain (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 1ea3ea3b4;
-	Thu, 3 Sep 2026 12:18:35 +0800 (GMT+08:00)
-From: Zhen Ni <zhen.ni@easystack.cn>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
+	s=arc-20240116; t=1788419073; c=relaxed/simple;
+	bh=mwANxLS6bxYhyYMrT+1jzLYffebrt+HciyIfKItAAH8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IC3FZccep55QMuGdf4THwQyGFrh9PAWEZJDWO6KxdRPm1XypqkYNl9JzlENiM63EGmeNE/6omNcFW/AS9a5ckET8Kod1A17PYxRpJDOV2SzGMj6cLFVuHEiZ0E2dpxJR9qWgYyudCFgtr8cWFMkLJHhO4Em/SZlsT1qasMsoFtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=S05MFAq6; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=F5Xo+jZI; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="S05MFAq6";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="F5Xo+jZI"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hb9ZL1F9VzKv7V;
+	Thu, 03 Sep 2026 09:04:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788419066;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EDszXM77rysWN3TrIUrTbiqTu09Lh/qkUY7ZyZhkYsI=;
+	b=S05MFAq6DstWIPsRlUwep6wgGyqpVGUUxOlL1V4hL8VjKvRlMBphIB4kHdyNyGFSVBc2Xt
+	D7I+EsW2FE/utdh1+sVU7L/LePfyj7wfX0z4Fv8IU5JWSlPFpW/9L2RczxkryUzKF5rhXw
+	ZXw5u7Hx00hWd6YLyZUVhiMDh39clGPu1r64lgGVD3rv2oR8bf0eXNMrR7oDcilwCU53Wi
+	0LC5e0oKgzjU/7pWnLuJs1OsRSPfhrcYFBpWCBHhku9jObNLmH9qpVB3d8dJOyP6fTS2ZJ
+	55kAavX5iFqW70dpPifJshgo5UnxNS1KicF6K7Bpv28YCITJ2QRd+otasNPUVQ==
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788419064;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EDszXM77rysWN3TrIUrTbiqTu09Lh/qkUY7ZyZhkYsI=;
+	b=F5Xo+jZISY4G+JpM2HK0KQ9ipszZrU59CmmDBlctCnZcASLSdivYzA81ZDEy5i3t0htql5
+	eZLZyDhMjcakrYyHjqRubpBvuei9inTqBZiAI4FwfoshIeIrlcpLiHPRYg/OoMwTaidp5R
+	ulIX15AMEBDMrzXQ8xDRV/I0ZGkNGHLSfjnmvYVWqG8R/oqShAWrAVYgA/8Pi6k5XW18+h
+	BfSN3mIVBfOvam3LdUAveP71nwPXmMX7xr1VXktq0HR+A3uzPiDoiJAFttiL319aBSPM6O
+	qRUxHyUKVSd4DVRocob4EhypI3QBD3y9CClbuH8Us+N1fBinddJScBeV50KHtQ==
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zi Yan <ziy@nvidia.com>,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Zhen Ni <zhen.ni@easystack.cn>
-Subject: [PATCH v2 4/8] mm/page_owner: Refactor memcg handling for cgroup filter support
-Date: Thu,  3 Sep 2026 12:18:15 +0800
-Message-Id: <20260903041819.1776630-5-zhen.ni@easystack.cn>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20260903041819.1776630-1-zhen.ni@easystack.cn>
-References: <20260903041819.1776630-1-zhen.ni@easystack.cn>
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2] Documentation: trace: histogram-design: fix bracket, improve wording
+Date: Thu,  3 Sep 2026 09:02:49 +0200
+Message-ID: <20260903070249.713483-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,170 +65,54 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa0657d74aa0229kunm7336907a330b5
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDTENKVkpCQ0JIQk9DGkwYGVYVFA
-	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
-	lPT09IVUpLS1VKQktLWQY+
+X-MBO-RS-META: xxnkpgn7a7hyy7ak3ebssxd34nea59fe
+X-MBO-RS-ID: 2fe46c1e398b0076018
 
-Extract memcg information retrieval from printing logic to prepare for
-cgroup filtering support. Introduce struct memcg_info to hold cgroup
-data that can be reused for both display output and filtering
-decisions.
+Add missing ')' and add note about the new way of triggering an event.
 
-No functional change - output behavior unchanged.
-
-Signed-off-by: Zhen Ni <zhen.ni@easystack.cn>
+CC: Randy Dunlap <rdunlap@infradead.org>
+Suggested-by: Steven Rostedt <rostedt@goodmis.org>
+Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 ---
-Changes in v2:
-- No change.
+@ Steven, I added this line, because else the references wouldn't make sense.
+References: $wakeup_lat, next_pid
 
-v1: https://lore.kernel.org/linux-mm/20260828031339.1270699-5-zhen.ni@easystack.cn/
++ ... (which
++could equivalently be written trace(wakeup_latency,$wakeup_lat,next_pid)
+ are implemented, the parameters specified to the trace handler must be
+ variables.  In this case, $wakeup_lat is obviously a variable, but
+ next_pid isn't, since it's just naming a field in the sched_switch
 ---
- mm/page_owner.c | 62 +++++++++++++++++++++++++++++++++++--------------
- 1 file changed, 44 insertions(+), 18 deletions(-)
+ Documentation/trace/histogram-design.rst | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/mm/page_owner.c b/mm/page_owner.c
-index b8319bc3a368..ca9dd8ed9f77 100644
---- a/mm/page_owner.c
-+++ b/mm/page_owner.c
-@@ -69,6 +69,13 @@ static const char * const page_owner_print_mode_strings[] = {
- 	[PAGE_OWNER_PRINT_STACK_HANDLE]	= "stack_handle",
- };
+diff --git a/Documentation/trace/histogram-design.rst b/Documentation/trace/histogram-design.rst
+index 41a726cd3..86c83b177 100644
+--- a/Documentation/trace/histogram-design.rst
++++ b/Documentation/trace/histogram-design.rst
+@@ -25,7 +25,7 @@ tracing_map.c.
  
-+struct memcg_info {
-+	char name[80];
-+	bool is_slab;
-+	bool is_objcg;
-+	bool is_online;
-+};
+ If the kernel is compiled with CONFIG_HIST_TRIGGERS_DEBUG set, an
+ event file named 'hist_debug' will appear in each event's
+-subdirectory.  This file can be read at any time and will display some
 +
- /* PID_MAX_LIMIT = 4,194,304 (7 decimal digits) */
- #define PID_MAX_DIGITS  	7
- #define MAX_FILTER_PIDS 	16
-@@ -573,16 +580,13 @@ void pagetypeinfo_showmixedcount_print(struct seq_file *m,
+ of the hist trigger internals described in this document. Specific
+ examples and output will be described in test cases below.
  
- #ifdef CONFIG_MEMCG
- /*
-- * Looking for memcg information and print it out
-+ * Get memcg information from page
-  */
--static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
--					 struct page *page)
-+static void get_page_memcg_info(struct page *page, struct memcg_info *info)
- {
- 	unsigned long memcg_data;
- 	struct obj_cgroup *objcg;
- 	struct mem_cgroup *memcg;
--	bool online;
--	char name[80];
+@@ -916,6 +916,13 @@ means it will be automatically converted into a field variable::
+           onmatch(sched.sched_waking).wakeup_latency($wakeup_lat,next_pid)' >>
+ 	  /sys/kernel/tracing/events/sched/sched_switch/trigger
  
- 	rcu_read_lock();
- 	memcg_data = READ_ONCE(page->memcg_data);
-@@ -590,8 +594,7 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
- 		goto out_unlock;
- 
- 	if (memcg_data & MEMCG_DATA_OBJEXTS) {
--		ret += scnprintf(kbuf + ret, count - ret,
--				"Slab cache page\n");
-+		info->is_slab = true;
- 		goto out_unlock;
- 	}
- 
-@@ -600,21 +603,38 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
- 	if (!memcg)
- 		goto out_unlock;
- 
--	online = css_is_online(&memcg->css);
--	cgroup_name(memcg->css.cgroup, name, sizeof(name));
--	ret += scnprintf(kbuf + ret, count - ret,
--			"Charged %sto %smemcg %s\n",
--			(memcg_data & MEMCG_DATA_KMEM) ? "(via objcg) " : "",
--			online ? "" : "offline ",
--			name);
-+	info->is_objcg = (memcg_data & MEMCG_DATA_KMEM) != 0;
-+	info->is_online = css_is_online(&memcg->css);
-+	cgroup_name(memcg->css.cgroup, info->name, sizeof(info->name));
- out_unlock:
- 	rcu_read_unlock();
-+}
++Note that the above is the old way to trigger a synthetic event, whereas the
++newer way is preferred, which uses the trace() action handler::
 +
-+/*
-+ * Print memcg information from memcg_info
-+ */
-+static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
-+					 const struct memcg_info *info)
-+{
-+	if (!info)
-+		return ret;
++  # echo 'hist:keys=next_pid:wakeup_lat=common_timestamp.usecs-$ts0: \
++          onmatch(sched.sched_waking).trace(wakeup_latency,$wakeup_lat,next_pid)' >>
++	  /sys/kernel/tracing/events/sched/sched_switch/trigger
 +
-+	if (info->is_slab)
-+		ret += scnprintf(kbuf + ret, count - ret,
-+				"Slab cache page\n");
-+
-+	if (info->name[0])
-+		ret += scnprintf(kbuf + ret, count - ret,
-+				"Charged %sto %smemcg %s\n",
-+				info->is_objcg ? "(via objcg) " : "",
-+				info->is_online ? "" : "offline ",
-+				info->name);
- 
- 	return ret;
- }
- #else
- static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
--					 struct page *page)
-+					 const struct memcg_info *info)
- {
- 	return ret;
- }
-@@ -624,7 +644,8 @@ static ssize_t
- print_page_owner(char __user *buf, size_t count, unsigned long pfn,
- 		struct page *page, struct page_owner *page_owner,
- 		depot_stack_handle_t handle,
--		struct page_owner_filter_state *state)
-+		struct page_owner_filter_state *state,
-+		const struct memcg_info *memcg_info)
- {
- 	int ret, pageblock_mt, page_mt;
- 	char *kbuf;
-@@ -674,7 +695,7 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
- 			migrate_reason_names[page_owner->last_migrate_reason]);
- 	}
- 
--	ret = print_page_owner_memcg(kbuf, count, ret, page);
-+	ret = print_page_owner_memcg(kbuf, count, ret, memcg_info);
- 
- 	ret += snprintf(kbuf + ret, count - ret, "\n");
- 	if (ret >= count)
-@@ -777,6 +798,7 @@ read_page_owner(struct file *file, char __user *buf, size_t count, loff_t *ppos)
- 		 * user through copy_to_user() or GFP_KERNEL allocations.
- 		 */
- 		struct page_owner page_owner_tmp;
-+		struct memcg_info memcg_info = {};
- 
- 		/*
- 		 * If the new page is in a new MAX_ORDER_NR_PAGES area,
-@@ -876,13 +898,17 @@ read_page_owner(struct file *file, char __user *buf, size_t count, loff_t *ppos)
- 				goto ext_put_continue;
- 		}
- 
-+#ifdef CONFIG_MEMCG
-+		get_page_memcg_info(page, &memcg_info);
-+#endif
-+
- 		/* Record the next PFN to read in the file offset */
- 		*ppos = pfn + 1;
- 
- 		page_owner_tmp = *page_owner;
- 		page_ext_put(page_ext);
- 		return print_page_owner(buf, count, pfn, page,
--				&page_owner_tmp, handle, state);
-+				&page_owner_tmp, handle, state, &memcg_info);
- ext_put_continue:
- 		page_ext_put(page_ext);
- 		cond_resched();
+ The diagram for the sched_switch event is similar to previous examples
+ but shows the additional field_vars[] array for hist_data and shows
+ the linkages between the field_vars and the variables and references
 -- 
-2.20.1
+2.54.0
 
