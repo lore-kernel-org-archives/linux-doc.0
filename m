@@ -1,157 +1,90 @@
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.98])
+Received: from mailout3.hostsharing.net (mailout3.hostsharing.net [144.76.133.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7375645C6F1;
-	Thu,  3 Sep 2026 08:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.63.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4849A3B2FCA;
+	Thu,  3 Sep 2026 08:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.133.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788424749; cv=none; b=cyzmNVnOH/ehcHmqIFrepimczfKmphhqXGdx/YLlogpgLByN6c7/+ugN1WxmJ9Vjos+aztZWkoWtdDJRib2rZbSyzI4KsZ+2NjBQiMLBoWCFYG8GSrLl8+fjHCS3w3nsYakcOVAYeBUvnZSG6oXtHvaA0epcCRlmv0fcT3BNRG0=
+	t=1788425002; cv=none; b=Cr7DfQfjG9YFhlTPu1NHQgF/UICPQ1HdrV1j4vWHxC7ZxJ43iddImLT0of+fvsSY1ZcoAwxBMGOFBkTMRDEhOKaG8r1uKXXtjvsfQUgR9cebAQnYMRhtd9/GFpqHmwsKUvq/IQkNhMczG61pPKDbWhbUsgHfmiGQdzJkgnVN+hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788424749; c=relaxed/simple;
-	bh=+5PkSOwaqOWME1v+1ilnlkWCt/dmZ9IScHn+z8pp274=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lfe5lkNAaxN4DCuJ4Lx77FZoUJd2u8OG2Y6u1n1+q9YdsPuEjGYk04E83xKpbIJ2htHxxqlzCuQqMjumuVS585E27Nh9hd/WZrOBkQViQCuAYAZisXnBcoHFIkutTXTf7+3nfv95Qzvnnpp8nm+x3Do1rONS9tyAM5uHsX3//8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=eGJeTSqI; arc=none smtp.client-ip=188.68.63.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="eGJeTSqI"
-Received: from mors-relay-2501.netcup.net (localhost [127.0.0.1])
-	by mors-relay-2501.netcup.net (Postfix) with ESMTPS id 4hbCfc3yZFz6DSK;
-	Thu,  3 Sep 2026 10:38:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
-	s=key2; t=1788424696;
-	bh=+5PkSOwaqOWME1v+1ilnlkWCt/dmZ9IScHn+z8pp274=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eGJeTSqI//XULj8KOeWTdMCHco/cc+w26FX5/IN4mVj2hHluq3JCKPqfQxd3Hz5aC
-	 nzTdgfZM43A0p3atIgnojr0pT2/8rNBgp5kH9ZMbP7BQs99wIv/jryZ8cqEmFi8C13
-	 1vhBddPrQW7BklFyvAKRr0aQ0k9QzYb6lp2OCxwX9mbGBVtPb6VOId2c2X5q1mm6tV
-	 q8oCzl0BcZ3WIt9njE9EAR0F1a8xJww1ivTDpP7rDLJpi7I8dnfhjfVrhdKK3/f686
-	 dHH2v34+gGtxr7/cuxiZTtK8UAaffDiZXVkXZMVRhJwDOnv0hE5AglnhvRTFZjMivL
-	 zpu9oxxR9meUA==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
-	by mors-relay-2501.netcup.net (Postfix) with ESMTPS id 4hbCfc3CxQz51FR;
-	Thu,  3 Sep 2026 10:38:16 +0200 (CEST)
-Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	s=arc-20240116; t=1788425002; c=relaxed/simple;
+	bh=VGWcRq02jO61NDjb0fyieujd+ftQf6pVg1icbTXBPgY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l8BGIg3gyfwir4gqbt73YpSb5ve4h+E9Ln0RbbSF42kDfucJfB889N1IpleJBbdPO4gb15SlgJLXy2WL1sgm2zIcjBSBWlK1irhX3yq3jP9LehJ6Lpze0hEjXsPDM0TVW1op/EMjn+WXKqM1hxHgx3P/0DjuxZXxqRafPe1E2Ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=144.76.133.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4hbCfb3ZQ6z8tH6;
-	Thu,  3 Sep 2026 10:38:14 +0200 (CEST)
-Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
-	by mxe9fb.netcup.net (Postfix) with ESMTPSA id E43BA5FA40;
-	Thu,  3 Sep 2026 10:38:13 +0200 (CEST)
-Authentication-Results: mxe9fb;
-        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=linux@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
-Received-SPF: pass (mxe9fb: connection is authenticated)
-Message-ID: <e93cd824-4115-4bc1-a702-04f92794924e@leemhuis.info>
-Date: Thu, 3 Sep 2026 10:38:13 +0200
+	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
+	 client-signature ECDSA (secp384r1) client-digest SHA384)
+	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
+	by mailout3.hostsharing.net (Postfix) with ESMTPS id D0572CA8;
+	Thu, 03 Sep 2026 10:35:11 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 7F098600082C; Thu,  3 Sep 2026 10:35:11 +0200 (CEST)
+Date: Thu, 3 Sep 2026 10:35:11 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Terry Bowman <terry.bowman@amd.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-cxl@vger.kernel.org,
+	Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shuai Xue <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>,
+	Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ben Cheatham <Benjamin.Cheatham@amd.com>,
+	Richard Cheng <icheng@nvidia.com>,
+	Robert Richter <rrichter@amd.com>, linux-pci@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v19 02/14] cxl/ras: Fix cxl_rch_get_aer_severity() wrong
+ severity register
+Message-ID: <apkxP_fydVjpULaT@wunner.de>
+References: <20260803221810.3685703-1-terry.bowman@amd.com>
+ <20260803221810.3685703-3-terry.bowman@amd.com>
+ <anijY3eTVWSqHLxh@wunner.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: verify/bisect: fix typos
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260902115121.687986-2-manuelebnerli@mailbox.org>
- <c6487243-0cf6-425a-8992-399aa802ed1a@leemhuis.info>
- <101613e024851e419e2e19c433a50044ed75b466.camel@mailbox.org>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Content-Language: de-DE, en-US
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 MEK4
-In-Reply-To: <101613e024851e419e2e19c433a50044ed75b466.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <178842469426.2583777.16540880512113582558@mxe9fb.netcup.net>
-X-NC-CID: rx35vH4lKvXcwxrVadm28iqLfXGRkqfZG9UcohVjzav+OPA4Pa8=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <anijY3eTVWSqHLxh@wunner.de>
 
-On 9/3/26 10:22, Manuel Ebner wrote:
-> On Wed, 2026-09-02 at 18:30 +0200, Thorsten Leemhuis wrote:
->> On 9/2/26 13:51, Manuel Ebner wrote:
+Hi Terry,
 
->> For typos and grammar fixes there is not much to say, so maybe just
->> state that; but you might want to look at a few recent changes in
->> Documentation/ to see how other developers approach a situation like this.
+You've submitted v20 of this series, but the following
+questions haven't been addressed yet AFAICS.  I'd be
+grateful if you could take a look:
+
+On Sun, Aug 09, 2026 at 05:57:23PM +0200, Lukas Wunner wrote:
+> Am I missing something?  Is a scenario ever conceivable where the RCEC
+> receives a message with different severity than what is inferred from
+> the registers by cxl_rch_get_aer_severity()?
+[...]
+> These so-called Advisory Non-Fatal Errors set one bit in the Correctable
+> Error Status Register (Advisory Non-Fatal Error Status, bit 13) and
+> additionally one or more bits in the Uncorrectable Error Status Register
+> (see the commit for details).
 > 
-> That's a good idea. I did only find slightly more verbose than mine, eg:
->> Fix 'hay attention' -> 'pay attention' in file.rst
-> or
->> Replace "an a few" with "and a few" in
->> Documentation/driver-api/media/drivers/zoran.rst.
-
-Yeah, maybe that slipped thought; and if it's just one or two fixes
-okayish, but after that a vague "Fix a few typos/mistakes/grammer
-issues" becomes better I'd say, unless there is something more to tell.
-Hopefully Jonathan agrees with this.
->>> @@ -178,8 +178,8 @@ will be considered the 'good' release and used to prepare the .config file.
->>>         ./scripts/config --set-str CONFIG_LOCALVERSION '-local-cafec0cacaca0-reverted'
->>>  
->>>      This is optional, as some commits are impossible to revert. But if the
->>> -    second command worked flawlessly, build, install, and boot one more kernel
->>> -    kernel; just this time skip the first command copying the base .config file
->>> +    second command worked flawlessly, build, install, and boot one more kernel;
->>> +    just this time skip the first command copying the base .config file
->>>      over, as that already has been taken care off.
->>
->> I'd move the "over, " to the previous line, as the formatting otherwise
->> looks odd. Not strictly required and makes the patch slightly more
->> complex (so might not be the best idea, but I think it's worth when it's
->> just one line).
+> cxl_rch_get_aer_severity() is not able to cope with such errors and
+> will incorrectly infer that the severity is AER_NONFATAL.
 > 
-> I'd do the same, prior feedback taught me otherwise. I'll do it.
+> Now I *think* this is not a problem because Advisory Non-Fatal Errors
+> are masked by default and the commit only unmasks them on regular PCI
+> devices, not in the RCRB of a CXL device.  Only once bit 13 in the
+> Correctable Error Mask Register is cleared in the RCRB will
+> cxl_rch_get_aer_severity() fail.  Right?
 
-Yeah, that's somewhat a matter of personal preference and for me also a
-case by case decision. In this case I think it's fine to change, as the
-line break makes the para look somewhat odd. Also it's just one more
-line that is changed -- if it were ten, I would have left it as it is.
+Thanks,
 
-Ciao, Thorsten
-
+Lukas
