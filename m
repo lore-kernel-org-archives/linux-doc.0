@@ -1,62 +1,64 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E044E8DE4;
-	Thu,  3 Sep 2026 15:52:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09334DF4C7;
+	Thu,  3 Sep 2026 15:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788450774; cv=none; b=QkeWiL/WaKFyynVz/YWLCqHrIMC28y9l59spWmmNVPTm506209ILfLZ+zyCzp/wVxj3PYs+CWo779YtN/flE88DarXgPxEcBm//zRgvSjpQogeAL9bsazP0dMb4yMYppBu3svldtf0xIHViq1LHftBYfx9gpoNcobPjKmUFaMLc=
+	t=1788450950; cv=none; b=RsT68snG/LrLPyrFRNMC7A+tQIoStJ8/mJmczew+PT4A3xQTYkWA6aaxHNvJiPr95jduzG97y3vAXv7cMGh2WVfpCBMXj8ag+VuJkWdtw8s4E4qRWkMLyRx3SMAOLjbWvkq/irtyOwndXx2cbBZoslWeT21i+GScHq2+f4Zky7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788450774; c=relaxed/simple;
-	bh=p7ES8nwIovp7xHlhYDOkL6N7GK0us3k/IN7/+Bc8UI0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F4F0fO9AA9migakidP+XOg3NAQqeBPxFAkRvki1R3r8Z59/wMG2DfJkfS/IB3r/DikXF5kyiejR3n/F/mDEgAIGusIT/+Pxk9GO560jCqOChooY7chC4Er3aZ+dklSat4GNcfJ2CE8hh4ZQS4m0KalxXi7HZKKQYVJOsUNQXm9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=P1RSSFU7; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tpu6Skg5; arc=none smtp.client-ip=80.241.56.171
+	s=arc-20240116; t=1788450950; c=relaxed/simple;
+	bh=LgeelbVKSm5sk7+lSiVeSDJzQG9WZu9cPjkOzcdgPZc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mXVerCuzQ0OT9dSrJopIBkWdw+tP8dxazVVsPwhRdRbjmA+GxnhyzPOXfYVNB9o4NGCMnnOtNvLpDulSZaJFAjFwkIWP1a5aVnJ8TfH/dQA5Tp/wbBzy44NUfD4KmcItffJJQoVsMTsTxtySoxXsxcvtmVjG/j2IPhz4LIJeAfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=XrLmbpg+; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=aI1URO8r; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="P1RSSFU7";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tpu6Skg5"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="XrLmbpg+";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="aI1URO8r"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hbPJ22FDpzMlBv;
-	Thu, 03 Sep 2026 17:52:50 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hbPMK0J5LzKvv6;
+	Thu, 03 Sep 2026 17:55:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788450770;
+	t=1788450941;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=8w1bDeRMYm/x/2RMHKo/3hs5sGJ7Q4oB0MBXtAICmD8=;
-	b=P1RSSFU7xwNzLTo6mn7Fvp1fsU0yy/xX2B0RymWVtHvBVEoVFnGGFF8uyKSjuwEZZo+zQB
-	YesTj/t80Q3i/n4m1BAybj9MjH59Tx07QXILuojwBxGd3UxCpH+RzSqzlWpl1HGvCtxTGs
-	lmL0nVgN+UuL5vt6ozTeESBRLQtex6wFtZnlduslHIMHLOS98kHVn9xL1Quz4au8idVBDD
-	HCpKu7fJgwLLTMhJ6gSK2bCoStHKvLsER/W4MEMCzpM+ntQLF3iRAnldM7oIP7LjxzyOXH
-	Ns5mvQVLFeDOQE+aZMGLNoWOEauIKXoRo5LLsBtkf4LSq5UomA69tIDCEwHnZQ==
+	bh=gqMbHiSzzKPHp90VgyMlKPKExPNihmb7zR3T0IjUqH8=;
+	b=XrLmbpg+OwSfV259lA0s0Qo+MRFJfCCNc08Rm2EGOxyS519OUtYJ3P0iC7Qgp2ZVCFBUOk
+	V6FMoxf9HhOCtBMFHDSnsKMkdykYjTm3m68JPS34SOOoI0P2zdFeZgRKuS7EoAgffy1OFZ
+	uZ1Ss/3dSGdHgWt+TVITw/x9GO5FGWE7ZtgaPdO2uC+5DGWwIq/S6KtTSbhjEK2p49JH7r
+	0n5eKS8cCXdUVgkIvxrMdWnW5OKud28EGFXGfaRv22w6CCmGyAmcg+oG9ndLDwZ2y9PeAq
+	fug0mfEHzZEp1zB2CROC3s8RestrLYqp8UcDDJLdkrrc+mbkeUeBL+9M5jDr0A==
 Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=tpu6Skg5;
-	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=aI1URO8r;
+	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
 From: Manuel Ebner <manuelebnerli@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788450768;
+	t=1788450939;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=8w1bDeRMYm/x/2RMHKo/3hs5sGJ7Q4oB0MBXtAICmD8=;
-	b=tpu6Skg53kBHG29fhfhHIW5sTRJMkgdobAUQsoM+OkBt/v03OnJAfh18mOq+Fs1/Y5Qe24
-	CGvQ33CKdHXbDYy920iK7t2eYmwocDXFc2aQ0aRksiBsWswYXnGIocHM/Gp0zHyY5DE3CO
-	hWqwfTkKFCNC55gW6h/C5H4f1pTsVUqFI1eYw4edo96amj2d0zSivSm8St8lgx3TvPCp15
-	0mq5PJj+Iben3p9JURTxxWgTnNe0anYE0Drl3FaxbKuH4wAdFPvB0bN2hhyCqPQuH9NrKB
-	g5z6T3Qv8LI0kPs8y7XNt1brCzemW0QX/uaB7ae15t2kj2Evbj/6e+oNMyIyvQ==
-To: Jonathan Corbet <corbet@lwn.net>,
+	bh=gqMbHiSzzKPHp90VgyMlKPKExPNihmb7zR3T0IjUqH8=;
+	b=aI1URO8rH9YQHQjVLsBxeplmzB9N6YtJLhQQ3blxXs5PoYH/ABCW7i1g7N4fnvSCLrVyRs
+	bGTsWwbJzWOXJpgdHgL7XOoRuAxNkXYk8CW5AfSwWiIET32AecaDpJc+vcD6yywbuzo59e
+	hBtCnOtHNGivjBZlFQll9HJsgcFaSJs4Rmblqy5MtwxvJ7pSbkv1MCxesAr1Rr4V/aGjgQ
+	ZrxdOM6kRV7lqKQvWbjCDHI64T3ELGHO8i01gai6lVocBRr/OpaRGE0KsZOONwHfDeMfHZ
+	6/V/qrCZ3vOlRoxRwCYI+cnPJJXi+WjDzo8Qx/kwdXahtAoa92A3lkK4mggf8g==
+To: Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>
 Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
+	linux-gpio@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Documentation: admin-guide: Fix bracket
-Date: Thu,  3 Sep 2026 17:49:24 +0200
-Message-ID: <20260903154924.732852-2-manuelebnerli@mailbox.org>
+Subject: [PATCH] Documentation: gpio: Fix bracket
+Date: Thu,  3 Sep 2026 17:53:44 +0200
+Message-ID: <20260903155345.733244-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,37 +66,30 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: qkcympzo15gw9b6ibsddh4htf3imitkn
-X-MBO-RS-ID: 136bf047d172eda0941
-X-Rspamd-Queue-Id: 4hbPJ22FDpzMlBv
+X-MBO-RS-META: k55dxrp9mzpghfmeotqox7aegew16sxq
+X-MBO-RS-ID: 0fe043b500e8bc56f5e
+X-Rspamd-Queue-Id: 4hbPMK0J5LzKvv6
 
-Add missing ')' and remove ';' to improve readability.
+Balance parentheses.
 
 Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
 ---
-
-[v2]
- Remove ';' as Randy Suggested
-[v1]
- https://lore.kernel.org/all/20260902152347.708070-2-manuelebnerli@mailbox.org/
----
- Documentation/admin-guide/sysctl/vm.rst | 2 +-
+ Documentation/driver-api/gpio/board.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 5b318d17a..5f4a056e4 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -438,7 +438,7 @@ zone[i]'s protection[j] is calculated by following expression::
-     = (total sums of managed_pages from zone[i+1] to zone[j] on the node)
-       / lowmem_reserve_ratio[i];
-   (i = j):
--     (should not be protected. = 0;
-+     (should not be protected. = 0)
-   (i > j):
-      (not necessary, but looks 0)
+diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
+index 4ac1e12cf..83b74843e 100644
+--- a/Documentation/driver-api/gpio/board.rst
++++ b/Documentation/driver-api/gpio/board.rst
+@@ -55,7 +55,7 @@ looked up by the gpiod functions internally) used in the device tree. With above
  
+ Internally, the GPIO subsystem prefixes the GPIO suffix ("gpios" or "gpio")
+ with the string passed in con_id to get the resulting string
+-(``snprintf(... "%s-%s", con_id, gpio_suffixes[]``).
++(``snprintf(... "%s-%s", con_id, gpio_suffixes[])``).
+ 
+ ACPI
+ ----
 -- 
 2.54.0
 
