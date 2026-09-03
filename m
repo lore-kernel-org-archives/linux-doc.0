@@ -1,24 +1,68 @@
-Received: from mail-m127211.xmail.ntesmail.com (mail-m127211.xmail.ntesmail.com [115.236.127.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6631537105A;
-	Thu,  3 Sep 2026 12:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFBD4A0F10
+	for <linux-doc@vger.kernel.org>; Thu,  3 Sep 2026 12:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788437119; cv=none; b=PtIBMw9rEYqX1AwGUjOH0zseBRdtvMtudvE7jfaIj7kaSq1wJa7Nf3qkHg6+PHDnwbABkvtAthHL1wXKmeYlAmqSDU+o5O4A1MxA9pPk8LdG8NYcxi8YOTzR6MhBiqXZHs0v+PYsYP8cUHrh1zSL2P3J7VpmOnz/4kxJPP9K85E=
+	t=1788437336; cv=none; b=ujOVh8hwC8gVJbw6Yw+w4b31dVWFuNA/qQSQhu5GHEKLlWL0rfNV325l0EIRuyzZuKTr822Bpkq6pt7R3Ot127I4xtYtVUOFBJva2BhpRJ9fOjAAe6Z8JYJHnngsJWhrHL3pbyV17ITgwolCYarHcQjaeHzLY2sdPXaQU/bfihM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788437119; c=relaxed/simple;
-	bh=q435TmajbzwT/lWHi0LD248SBtsKs17NXK8scBGIics=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=afjzxGUePq+ufzEtPRSreTX8MFdlK68PK/jhddTKw2L3kK26NJslF+Zh0d8PU9D52QVoYVWhwibRoUeYAkNs5jF3dOVQ8fK32UmaDLfE9m2j9YLdo1dvTR/KVn3tLpBpBvAeiY7yTnP1KSDyYmg+uIR3Co2YFEGCJIkKxxsPNjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=115.236.127.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
-Received: from [192.168.0.59] (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 1ea93ff09;
-	Thu, 3 Sep 2026 20:00:02 +0800 (GMT+08:00)
-Message-ID: <1fa33d97-2e53-4ad1-9e15-8b4aa4e09875@easystack.cn>
-Date: Thu, 3 Sep 2026 20:00:01 +0800
+	s=arc-20240116; t=1788437336; c=relaxed/simple;
+	bh=BRKIuIMQwGJz+W0+V2Cv4f46rDoN+QkQp0uwFbNfBIs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bzbSqyNKmu3CAOw3CKi70Bcd2M/bwe+Pn6SmrWN8BKvOs3R+yLWnyZ3WqiDoWU6M/bztyDuTpDU0ENj7uLMEdVWphBkPyvZ8rzL4bB7uw9POLNOpZkpXmP/EuGWbFfwwsUzRJd6dciVR6SWu2v+2G8BSbyg/4Vrjj9vTYbdqK+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LNTleZLj; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LNTleZLj"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49cd9add88aso14591315e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 03 Sep 2026 05:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788437332; x=1789042132; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BRKIuIMQwGJz+W0+V2Cv4f46rDoN+QkQp0uwFbNfBIs=;
+        b=LNTleZLjtLgIkdeZGbBPeA9ZsjsvEyJPAhQhNw2PZd7ulApEWLz537mrDf9ZD5zD1W
+         IKRBieQ9ZE3yGWPobxeG6n5BXCN5/89i/ov0Hy5ANlwABc6aLPvxpegb5+l79KI6X6Jo
+         l+vN6k2xe86K3nisCWYEpHTA7W2K9seBjLKwpUhDxHnaCXI8KzgJRYAqrxjPPrFF4pK7
+         oJV3tXY7t5rvjU5gIw4KkjJdJXJ2Jp0YSmz9uJ06ODrtEjzDrZu+sZSay4S6Upq0eK7c
+         xB7EzuW9XtK2N2yhAq5gu0jbPGqKb/czT2e3Z6vn0F1ejmGraUuNngCFotffaXXogYwJ
+         uJmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788437332; x=1789042132;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BRKIuIMQwGJz+W0+V2Cv4f46rDoN+QkQp0uwFbNfBIs=;
+        b=cT0BEKGz+mzRGsGedFIEWtpILvaQLwSFhboeLZ0DEpb/5nUJlDc/QkpidQEtlAVIh3
+         wYe7OHcXbVxxDSbRF3drWhQCKmJATk6zqCORmuA1kB/VmVpteWq8NsHJiTTLy0SDhNKv
+         q5m3r0zmeTNwfOlYnjgkCdM1AQmX43AxAuQ+nMhbDnR6viE6tfoMcQTQbA4CcwDFSoPb
+         KIvpNQckg4g6qwfTJrDKNf3b+8VVohIA4V0rXIHTOHx6ryQhjH9iW3ZckmF/kl5xApmT
+         RnVc9i+Ab8x8+UStyiGg8ufhY5onzDk3Ch2H+SPS1O6UjAu6+8HAKdplXnIsUjOBhUHe
+         T8ZA==
+X-Forwarded-Encrypted: i=1; AKwUvBy/ryvZMhYy2/2wR8xqQBKl8fopt5AItuRU2I0puhT+zkQcWAw+XcjZlFhNt9XiFHM6zE0oyfqnJLY=@vger.kernel.org
+X-Gm-Message-State: AFuF++meDdB9NGWaB6gTWDIkEO/w3lErQmJDUG2T+TWd/npR3HIYSpve
+	9Ht0IiBZHOJ+k5hhFLypZSKsZuIWJEZcrp5JU+TPCmZKOfHPGyyxG5K7
+X-Gm-Gg: AYBFou0PazqFLmwXkto8CD1MGAEbvLEIYG1abhqEpRmOd9WvWnhF89J4FwzOzLZEfnC
+	AsqBmClVbdCjOy4cQyecmA3qBRi8uFe7CWwtYg6bbIGfGHAvkwyDk0wPPL9R5R7GZgj4gwdXF83
+	MskYKFykYzZLiQ1Y25FxkEBwYMbeFJOVKU6IJeKBnsB5YjlG4VYFujO17i4laPTf3NT80oPlCnK
+	Cn3n7Crf3EX1jPiMyUf3JDbUvCTHezi3dPX/QqrC9j0QqUaW/Bcv82Ir/KK8s/61oJl2G0MbZeX
+	HCEnoVRIObfNaMQZeRecNC+qSBFMRk9ZFgKSqWWhcY1IQ4S4xbLKwpcX1MJxZ0uNR3PjnvGBwJw
+	0c9R5bfoJ9zJKw2xsLxAt/EqK8p2rFWziaiubRygP0Tmd61b3/z/R4wVf+s4wy5cZqwt6qGBFe9
+	ss0DWeMdiyFMEyAbr/8fzMy+b/0Dva0E0EHdHrz6IMwsXlKt8StZ4Ln0bs4vA0ILqh7gkZPpAKT
+	u+k5a1zXCoVhPtWq3vnHlbFY59wOSa8t4/txF1bwhizJdjoLnBptOnOIRdjZFPNCg==
+X-Received: by 2002:a05:600c:630e:b0:49c:e27c:6b10 with SMTP id 5b1f17b1804b1-49ce55ecea8mr213777445e9.3.1788437331849;
+        Thu, 03 Sep 2026 05:08:51 -0700 (PDT)
+Received: from [172.24.138.145] (ipservice-092-208-247-184.092.208.pools.vodafone-ip.de. [92.208.247.184])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf0c1728bsm52458095e9.15.2026.09.03.05.08.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Sep 2026 05:08:51 -0700 (PDT)
+Message-ID: <98851819-2079-4505-b8fa-1b6943ef71e2@gmail.com>
+Date: Thu, 3 Sep 2026 14:08:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -26,346 +70,57 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
- filtering
-To: Andrew Morton <akpm@linux-foundation.org>
-References: <20260903041819.1776630-1-zhen.ni@easystack.cn>
- <20260902221225.228fb4b18e115ba55b29fe29@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka
- <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+Subject: Re: [PATCH v5 17/20] gpio: regmap: Use regmap_test_bits() for single
+ bit reads
+To: Bartosz Golaszewski <brgl@kernel.org>,
+ Janani Sunil <janani.sunil@analog.com>
+Cc: linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <u.kleine-koenig@baylibre.com>, Andy Shevchenko
+ <andriy.shevchenko@intel.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Olivier Moysan <olivier.moysan@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>,
  Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Zhen Ni <zhen.ni@easystack.cn>
-From: "zhen.ni" <zhen.ni@easystack.cn>
-In-Reply-To: <20260902221225.228fb4b18e115ba55b29fe29@linux-foundation.org>
+ Michael Walle <mwalle@kernel.org>
+References: <20260828-ad7768-driver-v5-0-e33ca6f841a2@analog.com>
+ <20260828-ad7768-driver-v5-17-e33ca6f841a2@analog.com>
+ <CAMRc=MfV+ziruvdyFU-RTbD09E_Jhpxgaab9T6bG=tuPg-jhLA@mail.gmail.com>
+Content-Language: en-US
+From: Janani Sunil <jananisunil.dev@gmail.com>
+In-Reply-To: <CAMRc=MfV+ziruvdyFU-RTbD09E_Jhpxgaab9T6bG=tuPg-jhLA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa06723eac10229kunm4cefcc8e55b31
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCS0xPVkIfTExMSUIZGEJIQ1YVFA
-	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
-	hKSkJMVUpLS1VKQktLWQY+
+Content-Transfer-Encoding: 7bit
 
 
+On 9/2/26 15:48, Bartosz Golaszewski wrote:
+> On Fri, 28 Aug 2026 17:30:40 +0200, Janani Sunil <janani.sunil@analog.com> said:
+>> Use regmap_test_bits() when reading a single GPIO value from a normal
+>> register and when reading the direction bit.
+>>
+>> Reviewed-by: Linus Walleij <linusw@kernel.org>
+>> Reviewed-by: Michael Walle <mwalle@kernel.org>
+>> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+>> ---
+> Janani: the GPIO patches don't apply on top of current gpio/for-next. Can you
+> rebase and resend just the GPIO bits separately?
+>
+> Thanks,
+> Bartosz
 
-在 2026/9/3 13:12, Andrew Morton 写道:
-> On Thu,  3 Sep 2026 12:18:11 +0800 Zhen Ni <zhen.ni@easystack.cn> wrote:
-> 
->> This patch series adds process and memory cgroup filtering support to
->> page_owner.
-> 
-> Cool.  Is any of this useful?
-> 	https://sashiko.dev/#/patchset/20260903041819.1776630-1-zhen.ni@easystack.cn
-> 
-> 
+Hi Bartosz,
 
-Hi Andrew,
+Done. I split out the three GPIO patches, rebased them onto the current gpio/for-next branch and resent them separately as v6.
 
-All findings that v2 fixed are confirmed gone. Replies to the new
-findings below, quoted verbatim, in report order.
+https://lore.kernel.org/r/20260903-ad7768-gpio-v6-0-4254ef6c9b38@analog.com
 
- > Will this comparison safely handle concurrent updates to the PID?
- >
- > Since cmp_int() is a macro that evaluates the arguments twice:
- > ((a) > (b)) - ((a) < (b))
- >
- > And bsearch() below receives a pointer to page_owner->pid which can 
-be updated
- > concurrently without locks, could the dereferenced pointer change 
-between the
- > two evaluations?
- >
- > If the value changes from being less than the target to greater than the
- > target, both comparisons evaluate to false. This would cause cmp_int() to
- > incorrectly return 0 and falsely match unrelated processes.
+I will drop these patches from the next version of the main AD7768 IIO series.
 
-[Shared-fd concurrency] Will not fix.
-Reproducing it needs a concurrent writer updating page records while the
-same fd is being read, which is outside the designed configure-then-read
-usage. Whether to add spinlock protection for shared-fd read/write on a
-non-production-grade debugging interface was already discussed at
-length in the earlier series "mm/page_owner: add per-fd filter
-infrastructure for print_mode and NUMA filtering"; the conclusion there
-was that the locking cost does not match the benefit, shared-fd
-read/write is not a recommended usage, and the recommendation is to
-simply use the tool.
-
- > Does this array need to be zero-initialized?
-
-Will not fix.
-Nothing reads past the NUL terminator or beyond the valid entries.
-
- > Is new_proc_filter_enabled ever read after being initialized here?
- >
- > It seems this unused variable masks a logic bug below where 
-state->pid_count
- > fails to clear when the filter is disabled.
-
-The variable itself is indeed unused - the commit path recomputes the
-flag from new_pid_count/new_tgid_count/new_comm_count directly, so the
-staging copy can be dropped. Will remove it in v3.
-
-[No clear-filter operation] But it masks no logic bug. There is no
-clear operation by design. To start over, close the fd and open a
-fresh one; the page_owner_filter tool already works this way. This
-also matches the semantics of the original filter introduction (mode
-and nid have always worked this way). A clear operation would be
-over-design: the recommended page_owner_filter tool never needs it.
-If one run does not produce the wanted result, the simplest fix is to
-adjust the arguments and run it again, not to fight the already-set
-filters on an open fd.
-
- > When a user writes a filter with fewer than MAX_FILTER_PIDS, does this
- > unconditional copy of sizeof(state->pid_list) capture uninitialized 
-kernel
- > stack memory from new_pid_list into the heap-allocated state object?
-
-Will not fix. The uninitialized tail is never read: bsearch is bounded
-by state->pid_count.
-
- > If the filter is explicitly disabled (new_pid_count == 0), this block is
- > skipped and state->pid_count is not reset to 0.
- >
- > Will this cause the filter to be unintentionally re-enabled if a user
- > subsequently writes a different configuration like "mode=stack"?
- >
- > The old state->pid_count would be copied to new_pid_count during
- > initialization, causing state->proc_filter_enabled to be incorrectly set
- > back to true.
-
-[No clear-filter operation] (see above).
-
- > Will this allocate the new_tgid_list array on the stack without
- > initialization?
-
-Will not fix. bsearch on the tgid list is bounded by
-state->tgid_count, so the uninitialized tail is never consumed.
-
- > If a user tries to clear a PID filter by writing "pid=" while a TGID
- > filter is still active, new_pid_count will be 0 but
- > state->proc_filter_enabled remains true.
- >
- > Will state->pid_count fail to update to 0 since the update block requires
- > new_pid_count > 0, resulting in the page_owner output continuing to 
-filter
- > on stale criteria?
-
-[No clear-filter operation] (see above).
-
- > When the filter is initially empty (state->tgid_count == 0),
- > new_tgid_list remains mostly uninitialized if only one element is set
- > (for example, writing "tgid=123").
- >
- > Does this unconditional copy of sizeof(state->tgid_list) copy 
-uninitialized
- > stack memory into the heap-allocated state, potentially triggering a 
-KMSAN
- > uninit-value warning?
-
-Will not fix. Same as the pid list.
-
- > Similar to the PID filter above, if a user attempts to clear an active
- > TGID filter while a PID filter is active, does this new_tgid_count > 0
- > check prevent state->tgid_count from being zeroed and retain the stale
- > data?
-
-[No clear-filter operation] (see above).
-
- > Can this lockless read of state->comm_list observe unterminated strings?
- > Without guaranteed NUL padding, this could cause an out-of-bounds 
-access in
- > glob_match() if data races occur.
-
-[Shared-fd concurrency] Will not fix.
-
- > Does this leave the trailing padding of the 16-byte slot uninitialized?
- > Since only up to the string length is initialized, the remainder of the
- > buffer may contain garbage.
-
-Will not fix. glob_match() stops at the NUL written by strscpy(), so
-the padding past it is never read.
-
- > Does returning -EINVAL for an empty list prevent users from clearing the
- > filter? If a user writes comm= to the /sys/kernel/debug/page_owner file,
- > the parser aborts. Other filters allow clearing their state by 
-providing an
- > empty list.
-
-[No clear-filter operation] (see above).
-
- > Does allocating this array without zero-initialization leave trailing 
-bytes
- > as uninitialized memory? Replacing kmalloc_array() with kcalloc() (or 
-using
- > kzalloc()) would prevent uninitialized heap memory from being used.
-
-Will not fix. No consumer of the list reads past strscpy()'s NUL
-terminator, so uninitialized bytes are unreachable.
-
- > Can this lockless update copy uninitialized heap memory into the shared
- > state structure? This can trigger KMSAN use-of-uninitialized-memory 
-warnings.
-
-Will not fix. Same reasoning as above; the relocated bytes are never
-read.
-
- > Even if parse_comm_list() were modified to successfully return with
- > new_comm_count == 0, would skipping the update here permanently leave 
-the old
- > filter active? state->comm_count is never reset to 0 in this function,
- > which breaks filter management on an open file descriptor.
-
-[No clear-filter operation] (see above).
-
- > Can this lead to a NULL pointer dereference in strcmp() on weakly-ordered
- > architectures?
- >
- > A thread calling pwrite() on the page_owner file could be updating 
-the filter
- > state while another thread concurrently calls pread(). Since 
-page_owner_write()
- > updates the state without memory barriers:
- >
- > page_owner_write():
- >     strscpy(state->memcg_path, new_memcg_path, PATH_MAX);
- >     state->memcg_filter_enabled = true;
- >
- > Could the CPU commit the true flag to memory before the state->memcg_path
- > pointer is allocated or written? If the reader observes
- > state->memcg_filter_enabled == true but state->memcg_path is still NULL,
- > strcmp() will crash.
-
-[Shared-fd concurrency], but with a distinction: a torn read that
-mis-filters one or two pages is acceptable, a crash is not - so this
-one is worth fixing without any locking. The fix is to snapshot the
-pointer once:
-
-	char *filter_path = READ_ONCE(state->memcg_path);
-
-
-	if (!memcg_info.path || !filter_path ||
-	    strcmp(memcg_info.path, filter_path) != 0)
-		goto ext_put_continue;
-
-Will include this in v3.
-
- > Is there a risk of a memory leak here if two threads write to the 
-page_owner
- > file concurrently?
- >
- > VFS pwrite() does not hold f_pos_lock, so multiple threads could observe
- > !state->memcg_path simultaneously, perform the kzalloc(), and 
-sequentially
- > overwrite the state->memcg_path pointer. Would this irrevocably lose the
- > first allocation?
-
-[Shared-fd concurrency] (see above).
-
- > Since this filter accepts wildcard patterns like -c "[a-zA-Z]*worker*",
- > should the length check allow for patterns that exceed TASK_COMM_LEN?
- >
- > A valid glob pattern string can easily exceed the 15-character limit of
- > a process name because character classes and wildcards take up more 
-space
- > than the literal characters they match.
- >
- > By applying TASK_COMM_LEN to the pattern string here, does this prevent
- > the use of complex but valid glob patterns?
-
-Will not fix. The kernel itself truncates comm to TASK_COMM_LEN at
-source - complex over-long wildcards are a corner case.
-"[a-zA-Z]*worker*" works as "[a-z]*worker*" or simply "*worker*".
-
- > Similarly, does applying the TASK_COMM_LEN limit here incorrectly reject
- > valid wildcard strings for the last entry in the list?
-
-Will not fix, same as above.
-
- > Does this limit prevent the use of maximum-length cgroup paths?
- >
- > Kernel path limits are typically 4096 bytes. Since the command buffer 
-here is
- > limited to 2048 bytes, deeply nested but valid cgroup paths may fail to
- > process.
-
-[Tool buffer sizes]
-Will not fix. The kernel limit is indeed PATH_MAX (4096), but that is
-an edge case - realistic cgroup paths are around 100 bytes, and the
-buffer is already a 512-byte allowance, 5x the common case. The
-MAX_CMD_LEN 2048 is likewise an estimate, not a design limit: a
-precise worst-case sum of every parameter's maximum size would not be
-worth the complexity, and the generous budget is more than enough in
-practice.
-
- > Could this 512-byte array silently truncate long but valid cgroup paths?
- >
- > When snprintf is used later in this function, paths longer than this 
-buffer
- > will be truncated. This will cause the access check to operate on an
- > incomplete path, failing validation and presenting a confusing error 
-to the
- > user instead of correctly validating the path.
-
-[Tool buffer sizes] (see above).
-
- > Is this heuristic reliable for detecting cgroup v2?
- >
- > On a cgroup v2 system, "memory" is a completely valid name for a 
-cgroup. If
- > an administrator or runtime creates a cgroup named "memory" at the 
-root, this
- > directory will exist.
- >
- > The tool would then incorrectly assume cgroup v1 semantics, which 
-would cause
- > valid v2 paths to be falsely rejected during validation.
-
-"/sys/fs/cgroup/memory" is indeed potentially not robust enough, but 
-here our purpose is not to determine whether the cgroup is v1 or 
-v2—rather, it is to check whether the memory controller itself is v1 or 
-v2. Other mixed v1/v2 scenarios are not our concern, so we can directly 
-check, similar to the code below.
-
-	snprintf(cgroup_path, sizeof(cgroup_path),
-		"/sys/fs/cgroup/%s/memory.stat", input_path);
-	if (access(cgroup_path, F_OK) == 0)
-		return 0;
-
-	snprintf(cgroup_path, sizeof(cgroup_path),
-		"/sys/fs/cgroup/memory/%s/memory.stat", input_path);
-	if (access(cgroup_path, F_OK) == 0)
-		return 0;
-
-	fprintf(stderr, "Error: Cgroup path '%s': "
-		"not found or no memory controller\n", path);
-	return -1;
-
- > Will this fail to validate the root cgroup on v2 systems?
- >
- > If a user tries to filter by the root cgroup by passing "-g /", 
-input_path
- > becomes an empty string. This snprintf call will then construct
- > "/sys/fs/cgroup//memory.stat".
- >
- > Since cgroup v2 does not expose memory.stat at the root hierarchy 
-level, the
- > access check will fail, incorrectly rejecting the valid root filter and
- > preventing analysis of root-level allocations.
-
-Not a bug, and the probe above covers it: for "-g /" the v2 candidate
-is "/sys/fs/cgroup//memory.stat", path resolution collapses the double
-slash, access() succeeds, and "-g /" passes on both cgroup v1 and v2
-(cover letter, section 2.4).
-
-If the above solution is acceptable, I will send the corresponding v3 
-version.
-
-Thanks,
-Zhen Ni
+Best Regards,
+Jan
 
