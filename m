@@ -1,189 +1,219 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11020092.outbound.protection.outlook.com [52.101.228.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6524CCDC8;
-	Thu,  3 Sep 2026 08:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788423780; cv=none; b=SJ/QutIXmPliE/F8BvPEziyWCc7CrcDUCSHv+/xH9GqgLnLFEeSQLjg2Q9SnYGlme5tYv2uREvmnXXIpLSf63qCkHOZrdZLo8DC+kMW22FMsv2x6L+MsvvYN1nKRM6+TCibxNR2tVcQujSYWH2JUAV8LglwtZL5bpoD5TcIL5UM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788423780; c=relaxed/simple;
-	bh=9P8B/RN6zn0i8bcvOLF7tj5JKQE6TfZq9cp89lUEZew=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GGfJm6M0M4O60lJ0HHJs8zpeFO9B6/l/RGG5EF6AorE+By5bBxnqKyNUA/ArLsNAvTLhHmkjDAJyUD6Z4p6lEbgzuGFFmuopwBZspaWKa9LUbpcy+Y/chuay0W+/gKRXGTAjJzYk0oIs5e76Eih9VMdiGfuJWTkO6nLGpvNBpUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=NYAc69wF; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4CF4248A1;
+	Thu,  3 Sep 2026 08:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.92
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788423902; cv=fail; b=Enc7b740+fk2GXWVzoU2rdQw5XLtGS5YxD6E4hGmgUFeY2s2/5KIXRuAWTCGhUZY+yFrUbh0bOZGbhdCbbXl+7iahiRB78iEsLbbswJX0JqKh99DF3XvqahaKsE+DRR5SILOnkqDtNBcjweMYGZRiqOlbLKCgLcDvMx560Gi2qc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788423902; c=relaxed/simple;
+	bh=twR+BfV5q8SfIyvMjM/pS2vD8OQ2y8iTSaJ1dxh17mo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WbcH3qfLtGcdASr4bAlHRHwFeLNXVd8IVMjhMnQQW8N5eCUCvg8YQs8++rzO2bAnaFDQ8oqXkqYHAHaHmobN8/AG0lk11Tsn6dyRvAw/QCi2xaetJmb0XfO4KPKmrVi0nig2eKgV+lMrDqUZPSBIAIHvMA8DPb7ljOWMaBxpAaY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=QhGVnpPc; arc=fail smtp.client-ip=52.101.228.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NYAc69wF"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hbCJs2vzzzKvv2;
-	Thu, 03 Sep 2026 10:22:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788423773;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9P8B/RN6zn0i8bcvOLF7tj5JKQE6TfZq9cp89lUEZew=;
-	b=NYAc69wF9Ot6/siRQbABrzSL8rS69JajnQhNsxyIlpbjoyMXRopUE85z5bOkOhjECZwkLx
-	tbvzm38KobNK63zs7rknMOx5xfLNfcpkXya4DLzCtmDqCkZ7QVkVMnbEI6FI4mS5TGKpDH
-	i26OTQrTzdA0/msKEW4BU1LQSAiwVlInOO3hQerk3XdxXnHOjmkRNWXJbCfDFMzs8I6G4s
-	x5X0bObEIxc8TotjOtZGnrDbxDAEozG6Hndy8PTKyiR8neFjhzzAb3gfDbQBdNCDYdwc2F
-	+d2O2q6fpW59MR3XREIZ91O0M17Gi7tkxDK2iUf8PwHvyBBvuhyO/PQhrXot4Q==
-Message-ID: <101613e024851e419e2e19c433a50044ed75b466.camel@mailbox.org>
-Subject: Re: [PATCH v2] docs: verify/bisect: fix typos
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Thorsten Leemhuis <linux@leemhuis.info>, Jonathan Corbet
- <corbet@lwn.net>,  Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Thu, 03 Sep 2026 10:22:49 +0200
-In-Reply-To: <c6487243-0cf6-425a-8992-399aa802ed1a@leemhuis.info>
-References: <20260902115121.687986-2-manuelebnerli@mailbox.org>
-	 <c6487243-0cf6-425a-8992-399aa802ed1a@leemhuis.info>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="QhGVnpPc"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aEUnxo+wuzoBawTV83aNnIR5yA+84lnN963HkALEySc9S8GLfO/jMklIYeEHLNStMHaSGHdWwwf98K/d2lMPhV25WUFwyQB+KyU1U3cYdHILseS/6XGhRlbW+zJMoaKhM4ybN+UZF7wgSrlx1gr4Paa9ApaeaNjOELUIeOtmEjUMOeF4oEdwe6iTrFhBMA2t20uiI9wal3ul5JgC/nABjFS8pPLZ5++VQy83tt4OTyhS/XrweCDxYZZG4Td+7YRcQF/+mJ329d8DpFd0+NsB4OKn3pXZLc17PgijSGY/KZZUAokghrr8RIJrw2YUUlG8DyHCzf7sQGdaYV79HNNJ+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u6Do3XnbILM+ZELCuUcAhwN3syk8XsicuqiHiHqNvpE=;
+ b=mrHW0WfFOrI4xgHBtKxnvoE8HMJgBwjQHAwN1pkPtuYsjjDgs77khhGrNjHvTi+SNm9pucu6Pwj5fc6VgydviAsIjG+Cm63x0bFqnantEjxQsVFUnBrdu4E2DlGtQKfa+KXncvFvPv8FFQrht493G0Js1xXu9o1bNZypyLoyqbEWvT8nCx6L77ZwfdcTBxuzxrpiDdGUajlf7eZpOx0qNAcj0A+FSJTxDlfrjMARniiem+a7E8qXADyu+A+8l4eMoJWoivIsH74Qi53usH5NjpmyJFCbUYIhWMKwi+poyp17oZ7RVh/NRg0eO6iMMYV3b/yxxXqL4pn1QHnAZOQvNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u6Do3XnbILM+ZELCuUcAhwN3syk8XsicuqiHiHqNvpE=;
+ b=QhGVnpPcpmJ1lmevESvR6FndocLqIxIXOCVC6myHNBLIOk/Z9fDGtlIkxLDYKCsXGOqpC6YeXeQs5BAmKS8CfIV7XkMTZ51LaKPGcANHs8i4dE6Jbnb1OGEVb/67VELdLmn8A40d2j4G81XvR1icowIAzqEUvuvK7jMTlC4oj9M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+ by TY7P286MB7060.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:320::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Thu, 3 Sep
+ 2026 08:24:58 +0000
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32%4]) with mapi id 15.21.0360.008; Thu, 3 Sep 2026
+ 08:24:58 +0000
+From: Koichiro Den <den@valinux.co.jp>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>,
+	Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ntb@lists.linux.dev
+Subject: [PATCH v4 1/7] PCI: endpoint: Add DMA auxiliary resource metadata
+Date: Thu,  3 Sep 2026 17:23:21 +0900
+Message-ID: <20260903082327.2345602-2-den@valinux.co.jp>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260903082327.2345602-1-den@valinux.co.jp>
+References: <20260903082327.2345602-1-den@valinux.co.jp>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TY4P301CA0005.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:26f::9) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:38f::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: 85aae325e7554f861cf
-X-MBO-RS-META: giqfbrmihpb1qei4ye97g5egtbkfcih6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TY7P286MB7060:EE_
+X-MS-Office365-Filtering-Correlation-Id: f4586484-f7f7-4115-521b-08df0994d767
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|23010399003|7416014|10070799003|366016|6133799003|10067099003|18002099003|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	r4MJ81r+O6KJ7fGSHmP+Ne+ecLYWM5ZUmT4RIVU++8G/wh63CdD6h3jQNEBAssp0Gs76+S4LE4PC+eUeeiRrnC3CuOxFUHHNQ3xZhwTnvDheqgUFkZ9uVc3NP5Sr6Z0bqC8EyZdtGReKu+1ZTdPMbRyE7yQrXbxcbC+AbDo36waMl9l7Jl91se19vxakBzFEOyxqjuboLQc7pX3xP+XFw895wOG5Fg9nwHjzkZpq1/Q+OV2nRxq6oEG/oDGDqxyg2j244Y8znOc6uM221h7rTYHR+YRkYTMQngXhB1oIn+CwgU4stTQs9VqkfXu+hbOcbzUX3c4QhxLCHfToMINNJnb/x12c8CNxquR5hqNpj0b5rkUqpD0TiIlbjiwuBKxNQf1/Aony3J8FI2R/U8zJSoOFz4CngtAYLlnk6S50tuP0TdjgTOPxoT9oMe4U1BqAJxNwrfusxR6HkNL+yZ5Ouddz7ULvpQ7Zcjhxl4+a++WUp+Y+XhT0LTz4+Rfmofa7GSYIC56G5Q8234FzRne3pb1gMjfUpW8gR2TfYxPqZzsjTb2RR8Ef5eZD11Ki9nXMvV4PQjKjl1BHCVQLfxIHn3d2qU2PNQ+2qk4uHiCu1O6E8OtLSRlbHsSwXN5DWZ6CKXZABrSk0AcLh5vzqY1gIdvSnhBjd5MAvGvlaJBC4Bk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(7416014)(10070799003)(366016)(6133799003)(10067099003)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4wzrvjHAt6XNi8oIjuipllX2VgBlo0aHFfdLMvwNkTTcdL8dMfRQbsYsdax6?=
+ =?us-ascii?Q?8PKj5ePsnNmrWdnmuSw0q8Xg+4mUEKOP24QAiqaaXWvJMJv4mf57NXgOlmjz?=
+ =?us-ascii?Q?8984+T27nrsdC3DD+3CxtjlqlAUR1ITDLDfRmU0M6X1+n9nNi9aSi7uGxGes?=
+ =?us-ascii?Q?W9XQGu4EUNZhhnSW6eGsOf2W+9vcUyorbMqnP7nGLDGVbBeeSoajkwpN7wCH?=
+ =?us-ascii?Q?Sq+00K1kRI2BVo69yBpVGlscvFVuR+jA6h5JRkVM9XNVcR44O30RlC39QE+l?=
+ =?us-ascii?Q?GouFrmqDB6yWW0AtUKFQz4C8+CNfE/Oyuj7SqZTOhmaz+MsiacuI3hvSTghC?=
+ =?us-ascii?Q?H3++p6ueUO8ozp4OZt+/4TrArG8MmWXB6lQFBMhylm0PnmG38pXj630hr+mX?=
+ =?us-ascii?Q?m0KHBjQ8q4m/KOAxjxKMNEJ96Xdx2AFc5kwPq5cZN0GWTS0UvAWcVZqH8Xlh?=
+ =?us-ascii?Q?NkZRDWuzWKRc3HABz1Hc4pOnMrfdksPDPcAKYp+VhlPFDWxa3RH0ARPsjqnt?=
+ =?us-ascii?Q?WqP/oDmV+RhUaFXJDLrcPxwUWYKxJIftk/JrnuE46Wr25rDZ6geMq5XYOtl8?=
+ =?us-ascii?Q?eWizl4RhJ+8CrUu1nipISaaTiv7Y2g5eqGb9o+x1rNANRWjrRiqEb5YXGzlN?=
+ =?us-ascii?Q?eAkUUqBVSgjEJ/MpyySGn6yR4DW6YIn6Wzriwikvt+YZOKrmPhFcin5Alw1r?=
+ =?us-ascii?Q?scWOoY7dlQOkqSlJzuR9deMDA0Y7ZetTkFzRdg1Gr3f1XWO35PT8gd3p1JPg?=
+ =?us-ascii?Q?54Vsnajk32QXwvo8g98DdCeBDSgOaZS/1yW07pOSZsHlLWbNfeBmRheZjz20?=
+ =?us-ascii?Q?C3Zra1rO65cMB1nNjdthmbIOYgIDcNNVVnq4HXhir3s+LJ7zhAw+JVmDKV/y?=
+ =?us-ascii?Q?L3UxmtaOFBGlq6dZ8Us/DXzYezgxr4zWMVurV+7eE63B5pEa7L7c2hcEQ3+b?=
+ =?us-ascii?Q?+kN8n/Ycmu0AJKc/cXxw80Wl69pJ6HD7c4KJwiP+VnuHovOCr7+01eHDwYay?=
+ =?us-ascii?Q?ZwLC7mV9xY7vDKhA/zygCiA1oEDx01eGgR7n/A8dm1a/6m79HfJQumIw86Zd?=
+ =?us-ascii?Q?Jsk9+9g0pjQWI539VYy0oUCLVdikTVN2mug33Zj1oUxJ+b71SLoL7sYTmZ+F?=
+ =?us-ascii?Q?+Knp6Lqn3HEBZYn/b+WJEBngPIKIYi9+T/mdFcveQOSqJQ95KZT9OU+WzBVK?=
+ =?us-ascii?Q?72nqHK13O53sWDXQaA4RUjH/B8N4UQwJT4m/qTd6r5n+6D2/HInk5/0hR9tM?=
+ =?us-ascii?Q?LqacnwECbaYFE2366ib4oSM9pMp2ArJPAPe0LeLCn9rV7rLE+3+HSHSSRycZ?=
+ =?us-ascii?Q?iMVkg75NNCI7eQAeCOjGwiE8qEeTjpcQLUb/Akdi6TZEZLiz1sFZwNK89PL3?=
+ =?us-ascii?Q?K2rew/QcrIhgZpxNk2yF8u80gMkDx+yGIJEdrLkq2rCvJ8LM5gPTtbiyB5d2?=
+ =?us-ascii?Q?cHtp4JbAjJIFBvHAIHOBMERDY6k7KXdhaDlwtUt3rruPEnHU5HccfD7pqRKB?=
+ =?us-ascii?Q?3QGWAkMsKCeBNAOZQF3gAl8f7FNuPuh0pj1VUmp+MKbWFZZeA80z11adgFN4?=
+ =?us-ascii?Q?UBeC3+WVPlPLNFEyZxRWHt16+mhxBMRoYdFNFmuth4FbZ8aOO9PHMTAlA5Xo?=
+ =?us-ascii?Q?KexQRs6LkDX/txgITWsuXok0skVKXYSu1WKkbkFq8K3w+ZstV5tv+wnyRVk/?=
+ =?us-ascii?Q?SC8Yv+lAAO2GUaylajkqpgNfn8SpqoEoymA5sVyUD9cTs7heQNZ8fywP9BUD?=
+ =?us-ascii?Q?IjorV1VeeTtSvOIW/Xc3wOahG+rmoPHkyudBOFAbO+eD0uFDpN8r?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4586484-f7f7-4115-521b-08df0994d767
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 08:24:58.4621
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BM5CZtDBSPmPqGX6kyj34021ZVAUwhmbqFepeuSmJeREbbI0HHYCX9PcyEEauyk8SbsJwMtfo0DA/vZTOLPn9A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7P286MB7060
 
-On Wed, 2026-09-02 at 18:30 +0200, Thorsten Leemhuis wrote:
-> Thx for doing this, much appreciated.
->=20
-> On 9/2/26 13:51, Manuel Ebner wrote:
-> > 'your' -> 'you have'
-> > 'kernel kernel' -> 'kernel'
-> > 'your' -> 'you' twice
-> > 'if is not listed' -> 'if it is not listed'
-> > 'hay attention' -> 'pay attention'
-> > remove needless "'" in sphinx link
-> > 'as disabling then will reduce the consumed disk space'
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 vvvv
-> > 'as disabling them will reduce the consumed disk space'
-> > 'You for example might' -> 'For example you might'
-> > 'and not from a one that' -> 'and not from one that'
->=20
-> Pretty sure the above won't fly as a patch description, as it should
-> describe the changes, not list each of them, as that is visible from the
-> diff already (even if that's slightly hard for text-only files).
+Endpoint functions that export controller-local DMA channels need the
+controller register and descriptor-memory layout.
 
-That's true, I got this a couple times as feedback.
+Add DMA control and descriptor-memory resource types. The control resource
+carries the register layout and channel counts. Each descriptor region is
+associated with the static channel ID assigned by the local DMA driver.
 
-> For typos and grammar fixes there is not much to say, so maybe just
-> state that; but you might want to look at a few recent changes in
-> Documentation/ to see how other developers approach a situation like this=
-.
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Signed-off-by: Koichiro Den <den@valinux.co.jp>
+---
+Changes in v4:
+  - No changes.
 
-That's a good idea. I did only find slightly more verbose than mine, eg:
-> Fix 'hay attention' -> 'pay attention' in file.rst
-or
-> Replace "an a few" with "and a few" in
-> Documentation/driver-api/media/drivers/zoran.rst.
+ include/linux/pci-epc.h | 34 +++++++++++++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 3 deletions(-)
 
-> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> > ---
-> > [v2]
-> > =C2=A0+ one more 'your' -> 'you'
-> > =C2=A0- 'it'
-> > =C2=A0+ incorporate Randy's suggestions
-> > =C2=A0=C2=A0=C2=A0 https://lore.kernel.org/all/0475c09c-e165-41a5-b654-=
-5c6aefeaab0b@infradead.org/
-> > =C2=A0+ Reviewed-by: Randy Dunlap
-> >=20
-> > [v1]
-> > =C2=A0https://lore.kernel.org/all/20260829055501.581856-2-manuelebnerli=
-@mailbox.org/
-> >=20
-> > Wouldn't it make sense to add how to skip pure documentation and format=
-ing
-> > commits?
->=20
-> YMMV, but I don't think that's worth it. It is easy to get wrong,
-> doesn't matter much at the early steps of a bisection, and means one
-> more instruction to describe for people that do that for the first time.
-
-Ok.
-
-> > Commits like this one. Or is it better to keep the document short
-> > and simple - which it already isn't anymore.
->=20
-> Feel free to suggest something to remove or rewrite parts with less
-> words=C2=A0
-
-I'll add it to my list, but it's pretty difficult.
-
-> -- in separate patches of course. I know my writing is pretty
-> verbose, sorry; partly that's my style, partly it might be because I'm
-> not a native speaker, and partly it's like that because I know about too
-> many corner cases that I try to prevent users running into.
-
-That=C2=B4s a feature.
-
-> > ---
-> > =C2=A0.../verify-bugs-and-bisect-regressions.rst=C2=A0=C2=A0=C2=A0 | 24=
- +++++++++----------
-> > =C2=A01 file changed, 12 insertions(+), 12 deletions(-)
-> >=20
-> > diff --git a/Documentation/admin-guide/verify-bugs-and-bisect-regressio=
-ns.rst
-> > b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-> > index 7d38393f31f..9296e3f5410 100644
-> > --- a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-> > +++ b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-> > @@ -163,7 +163,7 @@ will be considered the 'good' release and used to p=
-repare the .config file.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 section 'Complementary tasks: cleanup du=
-ring and after the process'
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 below.
-> > =C2=A0
-> > -=C2=A0 d) Once your finished the bisection, put a few things away::
-> > +=C2=A0 d) Once you have finished the bisection, put a few things away:=
-:
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cd ~/linux/
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git bisect log > ~/bisect-lo=
-g
-> > @@ -178,8 +178,8 @@ will be considered the 'good' release and used to p=
-repare the .config file.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ./scripts/config --set-str C=
-ONFIG_LOCALVERSION '-local-cafec0cacaca0-reverted'
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0 This is optional, as some commits are impossib=
-le to revert. But if the
-> > -=C2=A0=C2=A0=C2=A0 second command worked flawlessly, build, install, a=
-nd boot one more kernel
-> > -=C2=A0=C2=A0=C2=A0 kernel; just this time skip the first command copyi=
-ng the base .config file
-> > +=C2=A0=C2=A0=C2=A0 second command worked flawlessly, build, install, a=
-nd boot one more kernel;
-> > +=C2=A0=C2=A0=C2=A0 just this time skip the first command copying the b=
-ase .config file
-> > =C2=A0=C2=A0=C2=A0=C2=A0 over, as that already has been taken care off.
->=20
-> I'd move the "over, " to the previous line, as the formatting otherwise
-> looks odd. Not strictly required and makes the patch slightly more
-> complex (so might not be the best idea, but I think it's worth when it's
-> just one line).
-
-I'd do the same, prior feedback taught me otherwise. I'll do it.
-
-The remaining suggestions are good, will incorporate them.
-
-Thanks
- Manuel=20
-
-> > =C2=A0...
-> ...
-> Ciao, Thorsten
+diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+index f247cf9bcf1a..e0348e7bc534 100644
+--- a/include/linux/pci-epc.h
++++ b/include/linux/pci-epc.h
+@@ -65,6 +65,8 @@ struct pci_epc_map {
+  * enum pci_epc_aux_resource_type - auxiliary resource type identifiers
+  * @PCI_EPC_AUX_DOORBELL_MMIO: Doorbell MMIO, that might be outside the DMA
+  *                             controller register window
++ * @PCI_EPC_AUX_DMA_CTRL_MMIO: DMA controller MMIO register window
++ * @PCI_EPC_AUX_DMA_DESC_MEM: DMA descriptor memory
+  *
+  * EPC backends may expose auxiliary blocks (e.g. DMA engines) by mapping their
+  * register windows and descriptor memories into BAR space. This enum
+@@ -72,13 +74,25 @@ struct pci_epc_map {
+  */
+ enum pci_epc_aux_resource_type {
+ 	PCI_EPC_AUX_DOORBELL_MMIO,
++	PCI_EPC_AUX_DMA_CTRL_MMIO,
++	PCI_EPC_AUX_DMA_DESC_MEM,
+ };
+ 
+ /**
+- * struct pci_epc_aux_resource - a physical auxiliary resource that may be
+- *                               exposed for peer use
++ * enum pci_epc_aux_dma_reg_layout - DMA controller register layout
++ * @PCI_EPC_AUX_DMA_REG_LAYOUT_UNKNOWN: unknown or uninitialized layout
++ * @PCI_EPC_AUX_DMA_REG_LAYOUT_DW_EDMA: Synopsys DesignWare eDMA/HDMA layout
++ */
++enum pci_epc_aux_dma_reg_layout {
++	PCI_EPC_AUX_DMA_REG_LAYOUT_UNKNOWN = 0,
++	PCI_EPC_AUX_DMA_REG_LAYOUT_DW_EDMA,
++};
++
++/**
++ * struct pci_epc_aux_resource - an auxiliary resource that may be exposed for
++ *                               peer use
+  * @type:       resource type, see enum pci_epc_aux_resource_type
+- * @phys_addr:  physical base address of the resource
++ * @phys_addr:  CPU physical base address of an MMIO resource
+  * @size:       size of the resource in bytes
+  * @bar:        BAR number where this resource is already exposed to the RC
+  *              (NO_BAR if not)
+@@ -99,6 +113,20 @@ struct pci_epc_aux_resource {
+ 			int irq; /* IRQ number for the doorbell handler */
+ 			u32 data; /* write value to ring the doorbell */
+ 		} db_mmio;
++
++		/* PCI_EPC_AUX_DMA_CTRL_MMIO */
++		struct {
++			enum pci_epc_aux_dma_reg_layout reg_layout;
++			u32 reg_layout_data;
++			u16 ep_to_rc_ch_cnt;
++			u16 rc_to_ep_ch_cnt;
++		} dma_ctrl;
++
++		/* PCI_EPC_AUX_DMA_DESC_MEM */
++		struct {
++			dma_addr_t dma_addr; /* Endpoint-local DMA address */
++			u16 chan_id;
++		} dma_desc;
+ 	} u;
+ };
+ 
+-- 
+2.51.0
 
