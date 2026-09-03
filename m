@@ -1,99 +1,130 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90A74EBAC3;
-	Thu,  3 Sep 2026 16:08:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD09847F2D3;
+	Thu,  3 Sep 2026 16:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788451709; cv=none; b=FlB+nHbG024PN3s+jleKt/0nGEnbR5wWYjeup19HY7H1UQPD+kKF4KsErCPwl+YnzpGYSUaJezgKM2uIWP/P4yYTekYis7u6UPjnVakKW8acqS4FOFXJwc+wGlSWe0qm3eyisuc5KdaLsQXIH+aQdIj6rPCVwc7WLDWAB+TEdXY=
+	t=1788451848; cv=none; b=i7oN51fUnbdf4s7S8QqpWVQgUwcHD25pnJgy249uR/YVLhVBLLczrjONNG4HQtB+dYVIT76zI9H0Hahl2VAY+1EUwuuVd5+KsG2WN6fydR/YBRbPebNVxO++TWQccqCpWMmu7hNdKnnrvBPcqhSl+zCCf8DcZVAOSyB5AYfVWyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788451709; c=relaxed/simple;
-	bh=J/6RTnRNDYHUyrEE65U3iedZ5acE/1uJCyvJYs0oizE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qEQbZ7DDL8nZNFWVuB8AH0o/6LQfS5MMvfTK5cnv/VeR6hLceuUsTVUKTeuSWKZ97KJaaoGbpm1Vyzwj2hM7rovWo0p4LK0Hxvi8pzwCFs3p9J4zz5RNsZv/CdL0pHDj96//MpI9xRw1398j1ti09CmgZo7oDh/+eJxqE3Cwuzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Jqw0T/WN; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=d4L02aXC; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1788451848; c=relaxed/simple;
+	bh=spJZ+iAfaUboSrfrYfHD1ZugMzuusDISfb/fmWfy7i4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rjIcK4LYmNlN4K6I3+mtzAQHcMO7xBFByyonNA6dv5qUgH642rjja3OsNj/SGkMI9O7RsIAQZHGp4yl3v6+2myKpP13JxLdXwzhfP546kbcQTTFyGp4fPBfmphFpynjK/3kzam1eDBsV1dR6Ye1ZPDZ5HffAFABZRpZgAWMzJAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=La7gvet+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Jqw0T/WN";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="d4L02aXC"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hbPf15tMnzMl3M;
-	Thu, 03 Sep 2026 18:08:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788451705;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ny3aREbBJWXFWbqRvFKUC8m+w92BLm7cElDduQjhR44=;
-	b=Jqw0T/WNbrkoklLcwUY4LJqiK1o1+Cacnj6NXKGOb7fAIaFUzfWJ4kaFX81p4ZJwIstsJ7
-	8eiJZxh1SomyUbbe2mejUbUz8NugjGqKnkmKuuDdKfQj6yqeB+cSv2udAcBQYIIwcAGp1O
-	5cgHTKh4NTSCvmchbXaLUzFda8G1V6PFPoyiStnmSRi8JIUkL1DdUhL27OYoVymrJSgkxl
-	I2NOw1hBgh4T9qewX9EpMW82RyjetGcesB+Hs16BRj5BBG3hTFG8dEsjuIafnOxLwByi3a
-	cIGJNf6JiEl0Anb9g8yQ58tgW74fCwUb0V2i64a1OFa4R68Nxr9d1cl2/dydoA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=d4L02aXC;
-	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788451704;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ny3aREbBJWXFWbqRvFKUC8m+w92BLm7cElDduQjhR44=;
-	b=d4L02aXCYRbMeTeDnLfnlKz0QPtRC4BvCVnTAn0XEdhCNDi1qTqZQBKZS3tlIUYNRIbstG
-	2RAS82At9mkpHOHgOYwJlEXnV0rErSnJSMCBv2qM2ePCyPA5JxTPCsbJ/HHzNPCcrgSb8Y
-	rr9vA7n642Uny1KUPIssT+kbtXupqjvvxjsndxz5qjb7qdDR7yhFVB+ZSKpZb3d0gNCKkX
-	wtnevMowOzKa+V7xSntun+OWc1YHUSJD8LfA+6rmlbsxRkVn9L73sUsfwUXKxAudOBcPvu
-	FngYq2a33n0Fcjtdi/DBukvPW4WNiVfEiLUcziR2idzSmapbsMI8GB71gIMXbw==
-To: Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	linux-pm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: thermal: cpu-idle-cooling.rst: Fix bracket
-Date: Thu,  3 Sep 2026 18:07:51 +0200
-Message-ID: <20260903160751.734704-2-manuelebnerli@mailbox.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="La7gvet+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3F6E1F000E9;
+	Thu,  3 Sep 2026 16:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788451847;
+	bh=pBXLV/aReRggToYPyghrVtwl5A0a39umqxSD8Pkwnbo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=La7gvet+3cgiB6ZHetPHOHJ/G5wn1zMPvJrFbrd1xKIBS1PvlfH2NKKWCxPKJKLTu
+	 naHfridSE8ebRQpg3ZSoCaKPKQ+An6rV489cLxgBFuFKQuDclp1WSuGsx9ksS0gNzX
+	 7LYGI++Oc5fp/g/htz2fhSsR/mWNMjIKCaC8lJAIJemJZ8ueF1IN4VxSCvtGZmk9XP
+	 W2wykO/AkuGaCivJ0M6NpGiF3GgMDoLSZKtM8bFiXa5Tq5+PPAf8d8/pyRQ5nJfzmW
+	 duFUjAY4dZm6V5YX+0kRFo72uUE6alj2NFxBMns5RskQBas+udohXUSmCpJ6PlxLTO
+	 O3wsJZ1TK7saw==
+Date: Thu, 3 Sep 2026 17:10:39 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Fuad Tabba <fuad.tabba@linux.dev>, Peter Maydell <peter.maydell@linaro.org>, 
+	Leonardo Bras <leo.bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>, 
+	Yao Yuan <yaoyuan@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v20 01/14] arm64/gcs: Ensure FGTs for EL1 GCS
+ instructions are disabled
+Message-ID: <apmXlJ3ScZ3-qlKV@gremlin>
+References: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org>
+ <20260901-arm64-gcs-v20-1-f31750bdfadb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: a1pmqxm5exthjwoixiwetypbodbh7gm6
-X-MBO-RS-ID: 748c677e9bd5965da4c
-X-Rspamd-Queue-Id: 4hbPf15tMnzMl3M
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260901-arm64-gcs-v20-1-f31750bdfadb@kernel.org>
 
-Remove needless '(' from equation.
+On Tue, Sep 01, 2026 at 10:46:59PM +0100, Mark Brown wrote:
+> The initial EL2 setup for GCS did not include disabling of EL1 usage of
+> GCS instructions, also disable these traps.
+>
+> Fixes: ff5181d8a2a8 ("arm64/gcs: Provide basic EL2 setup to allow GCS usage at EL0 and EL1")
+> Reviewed-by: Leonardo Bras <leo.bras@arm.com>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/asm/el2_setup.h | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
+> index aa8ec9df8024..d308c6e6757d 100644
+> --- a/arch/arm64/include/asm/el2_setup.h
+> +++ b/arch/arm64/include/asm/el2_setup.h
+> @@ -393,6 +393,11 @@
+>  	orr	x0, x0, #HFGRTR_EL2_nGCS_EL1_MASK
+>  	orr	x0, x0, #HFGRTR_EL2_nGCS_EL0_MASK
+>
+> +	/* Disable traps of GCS instructions at EL1 */
+> +	orr	x2, x2, #HFGITR_EL2_nGCSEPP_MASK
+> +	orr	x2, x2, #HFGITR_EL2_nGCSSTR_EL1_MASK
+> +	orr	x2, x2, #HFGITR_EL2_nGCSPUSHM_EL1_MASK
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
----
- Documentation/driver-api/thermal/cpu-idle-cooling.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+(Forgive me being verbose here I'm thinking my way through things :)
 
-diff --git a/Documentation/driver-api/thermal/cpu-idle-cooling.rst b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-index c2a7ca676..b9d4c91a7 100644
---- a/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-+++ b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-@@ -161,7 +161,7 @@ tree. So with the idle injection mechanism, we want an average power
- specific OPP and idle another amount of time. That could be put in a
- equation::
- 
-- P(opp)target = ((Trunning x (P(opp)running) + (Tidle x P(opp)idle)) /
-+ P(opp)target = (Trunning x (P(opp)running) + (Tidle x P(opp)idle)) /
- 			(Trunning + Tidle)
- 
-   ...
--- 
-2.54.0
+So this is effectively:
 
+Set bits from these masks:
+
+	HFGITR_EL2_nGCSEPP_MASK |
+	HFGITR_EL2_nGCSSTR_EL1_MASK |
+	HFGITR_EL2_nGCSPUSHM_EL1_MASK
+
+Then (later instruction):
+
+msr_s	SYS_HFGITR_EL2, x2
+
+I.e. set the hypervisor fine-grained instruction register ([0]).
+
+And I can see from that document that for each bit:
+
+0b1
+Execution of the specified instructions is not trapped by this mechanism.
+
+So this correctly disables these instructions:
+
+GCSPUSHX
+GCSPOPCX
+GCSSTR
+GCSSTTR when PSTATE.UAO is 1
+GCSSTTR when the Effective value of HCR_EL2.{NV, NV1} is {1, 1}
+GCSPUSHM
+
+And these are the only listed GCS sets of instructions there.
+
+On that basis LGTM :)
+
+So:
+
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
+[0]: https://support.arm.com/documentation/111107/2026-06/AArch64-Registers/HFGITR-EL2--Hypervisor-Fine-Grained-Instruction-Trap-Register
+
+
+> +
+>  .Lskip_gce_fgt_\@:
+>
+>  .Lset_fgt_\@:
+>
+> --
+> 2.47.3
+>
+>
+
+--
+Cheers, Lorenzo
