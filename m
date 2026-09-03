@@ -1,99 +1,271 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mail-m32123.qiye.163.com (mail-m32123.qiye.163.com [220.197.32.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD53334C3D;
-	Thu,  3 Sep 2026 03:36:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14D2381E94;
+	Thu,  3 Sep 2026 04:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788406612; cv=none; b=VV4C0hKX6TsyZCCWngEKSt0MwEcXtPTHsncB7gL1uRBBNsj8uhDxeKOGFJH5vAo+gGPrwqm5P8Q2yMbMW4vT8QfmCxoxQanfubbhT9Vf+n9P8OyOhKwBnmPQUEspYOXKuGHx1rw1wRJzmPeBCJIsgmu9qslOhFLJr2pu+kapu8c=
+	t=1788409440; cv=none; b=mzVau2lZ2MlD+PCgh25+H+4XUt0lbWEbrf6EvUvEuTPFbwDR5QrtOfSHyyrxZ40R+CFo5JBMumQ99QNSmEUEenGodV1zSh8wRAJtftmw4r0hn1tEQ/IJKOUk7UJtD4mNuimvsibH3o1KAuVH4X5hox8wWwk7c1NUz8UEztpINew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788406612; c=relaxed/simple;
-	bh=XhxBwDfUE4P+jO2J/XzoYbh5m+LywYasvNw8FgYhV4I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d0bSQXl1R/HSmWN52UE1FeG2LRfGM1pRNqlUF8nj+rGyOCmzEKYy2nBschG2n7Ayp5mIuv3wvBTFA/6+plBu+g9eaUBnB5ERG0oKtWfmOKXUle1tyfowZdDDSC08uafBhAF3uM37YwbcdUASO3guKy7O3vKGT4rqQh72omN8n3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SKlG4fos; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SKlG4fos"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=2jK3EFka/duw445W9YVD+lZA1TtvuE7+SNQ5AWGQYsA=; b=SKlG4fosJbGQSwGprWAbGFA2xi
-	d9EmODOoYyRzRLfkH7fN1YU/RCXAiEFY7AQMASxBCc/ruU8z3/MFPxWhczdJU+kK2smWZ5GrXUPBM
-	HPsEekqcAd4LEXjiwR8gGC+itwCboCcYh5LkOG0G3m80gOzwtN32jMVTNFEOZt1OIaT6YK1opJqqC
-	/GHhD79GgB2bjYVZh8rv6jB8TvBCEKN4fWqsuyK7V+WFYoiq1X3/GG7KOIZkD85ItG27KSxTPxh1F
-	3VBYcA7QqIPndaDnjH2IRE15F3BCHSPGAywG5L/uK0l/N5IS9nGRCmgmW8CcvSozZxuzH4NE+hYHC
-	Yt0rLdag==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1yFo-0000000GHl3-08lA;
-	Thu, 03 Sep 2026 03:36:44 +0000
-Message-ID: <deb7eaa4-99fe-49a6-adfe-17184660e0ea@infradead.org>
-Date: Wed, 2 Sep 2026 20:36:42 -0700
+	s=arc-20240116; t=1788409440; c=relaxed/simple;
+	bh=a7FHpGl8xUFk8MEXtgaVgeVdv8p+ZZJvlDTQb4kvpbw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=i9WThGkGowG5M0yCY5JqTYl/zWiQ6TY6MTkOrhpHRFPrGCzrSa9XHZrWN328tIZK4RzzcrHCy92RRmek6cs1ivixB+ISMq6GWG/0hL12pV+TVbZE5s+366DuVAGIZmBxwA01VRuapf581M1XsHHxbLCOZy6jPNrPAu0AW0R8WE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=220.197.32.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
+Received: from localhost.localdomain (unknown [218.94.118.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 1ea3ea3b0;
+	Thu, 3 Sep 2026 12:18:34 +0800 (GMT+08:00)
+From: Zhen Ni <zhen.ni@easystack.cn>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Zi Yan <ziy@nvidia.com>,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhen Ni <zhen.ni@easystack.cn>
+Subject: [PATCH v2 3/8] mm/page_owner: Add COMM filtering with wildcard support
+Date: Thu,  3 Sep 2026 12:18:14 +0800
+Message-Id: <20260903041819.1776630-4-zhen.ni@easystack.cn>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20260903041819.1776630-1-zhen.ni@easystack.cn>
+References: <20260903041819.1776630-1-zhen.ni@easystack.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: arm: nwfpe: update stale document
- references
-To: Diego Fernando Mancera Gomez <diegomancera.dev@gmail.com>,
- linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org
-References: <20260903025334.44666-1-diegomancera.dev@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260903025334.44666-1-diegomancera.dev@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa0657d6ef30229kunm7336907a330ab
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDTExDVk5NH08YSkoYTE9DGFYVFA
+	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
+	lPT09IVUpLS1VKQktLWQY+
 
+Add process name (COMM) filtering to page_owner with glob-style wildcard
+pattern matching support. Users can now filter page_owner output by
+process names using flexible patterns.
 
+Supported wildcards:
+  *    : matches any sequence of characters
+  ?    : matches any single character
+  [abc]: matches any character in the set
+  [a-z]: matches any character in the range
 
-On 9/2/26 7:53 PM, Diego Fernando Mancera Gomez wrote:
-> The NetWinder FPE introduction still refers to README.FPE and TODO,
-> which were renamed to netwinder-fpe.rst and todo.rst when the
-> documentation was converted to reStructuredText.
-> 
-> Replace the stale filenames with links to the current documents and fix
-> the accompanying grammar.
-> 
-> Signed-off-by: Diego Fernando Mancera Gomez <diegomancera.dev@gmail.com>
+Examples:
+  comm="python*"  : matches python, python3, python3.9, etc.
+  comm="*sh"      : matches bash, zsh, dash, etc.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Also select GLOB from PAGE_OWNER. glob_match() is provided by
+lib/glob.c, which is only built when CONFIG_GLOB is set, and
+CONFIG_GLOB is a hidden option without a prompt. A config that enables
+PAGE_OWNER but has no other GLOB selector would fail to link with an
+undefined reference to glob_match().
 
-> ---
->  Documentation/arch/arm/nwfpe/nwfpe.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/arch/arm/nwfpe/nwfpe.rst b/Documentation/arch/arm/nwfpe/nwfpe.rst
-> index 35cd90dacbff..b6ef46ff0f4a 100644
-> --- a/Documentation/arch/arm/nwfpe/nwfpe.rst
-> +++ b/Documentation/arch/arm/nwfpe/nwfpe.rst
-> @@ -33,9 +33,9 @@ double precision and extended double precision formats.  The port of
->  SoftFloat to the ARM was done by Phil Blundell, based on an earlier
->  port of SoftFloat version 1 by Neil Carson for NetBSD/arm32.
->  
-> -The file README.FPE contains a description of what has been implemented
-> -so far in the emulator.  The file TODO contains a information on what
-> -remains to be done, and other ideas for the emulator.
-> +The :doc:`netwinder-fpe` document contains a description of what has been
-> +implemented so far in the emulator.  The :doc:`todo` document contains
+Signed-off-by: Zhen Ni <zhen.ni@easystack.cn>
+---
+Changes in v2:
+- Select GLOB from PAGE_OWNER so that glob_match() is always linked in
+  when the feature is enabled.
+- Drop the kstrdup() copy in parse_comm_list(); parse the token in
+  place, matching patch 1.
 
-I prefer this change, but either ways works (same html output):
+v1: https://lore.kernel.org/linux-mm/20260828031339.1270699-4-zhen.ni@easystack.cn/
+---
+ mm/Kconfig.debug |  1 +
+ mm/page_owner.c  | 71 ++++++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 69 insertions(+), 3 deletions(-)
 
-+The netwinder-fpe.doc document contains a description of what has been
-+implemented so far in the emulator.  The todo.rst document contains
-
-> +information on what remains to be done, and other ideas for the emulator.
->  
->  Bug reports, comments, suggestions should be directed to me at
->  <scottb@netwinder.org>.  General reports of "this program doesn't
-
-thanks.
+diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
+index 5737a504efbb..c94c30a60cd5 100644
+--- a/mm/Kconfig.debug
++++ b/mm/Kconfig.debug
+@@ -106,6 +106,7 @@ config PAGE_OWNER
+ 	bool "Track page owner"
+ 	depends on DEBUG_KERNEL && STACKTRACE_SUPPORT
+ 	select DEBUG_FS
++	select GLOB
+ 	select STACKTRACE
+ 	select STACKDEPOT
+ 	select PAGE_EXTENSION
+diff --git a/mm/page_owner.c b/mm/page_owner.c
+index e046e61eb98a..b8319bc3a368 100644
+--- a/mm/page_owner.c
++++ b/mm/page_owner.c
+@@ -14,6 +14,7 @@
+ #include <linux/sched/clock.h>
+ #include <linux/bsearch.h>
+ #include <linux/sort.h>
++#include <linux/glob.h>
+ 
+ #include "page_alloc.h"
+ 
+@@ -72,6 +73,7 @@ static const char * const page_owner_print_mode_strings[] = {
+ #define PID_MAX_DIGITS  	7
+ #define MAX_FILTER_PIDS 	16
+ #define MAX_FILTER_TGIDS	16
++#define MAX_FILTER_COMMS	8
+ 
+ struct page_owner_filter_state {
+ 	enum page_owner_print_mode print_mode;
+@@ -80,8 +82,10 @@ struct page_owner_filter_state {
+ 	nodemask_t nid_filter;
+ 	int pid_count;
+ 	int tgid_count;
++	int comm_count;
+ 	pid_t pid_list[MAX_FILTER_PIDS];
+ 	pid_t tgid_list[MAX_FILTER_TGIDS];
++	char comm_list[MAX_FILTER_COMMS][TASK_COMM_LEN];
+ };
+ 
+ static int cmp_pid_t(const void *a, const void *b)
+@@ -854,6 +858,20 @@ read_page_owner(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+ 						    sizeof(pid_t),
+ 						    cmp_pid_t) != NULL;
+ 
++			if (!proc_match && state->comm_count > 0) {
++				bool comm_match = false;
++				int i;
++
++				for (i = 0; i < state->comm_count; i++) {
++					if (glob_match(state->comm_list[i],
++						       page_owner->comm)) {
++						comm_match = true;
++						break;
++					}
++				}
++				proc_match = comm_match;
++			}
++
+ 			if (!proc_match)
+ 				goto ext_put_continue;
+ 		}
+@@ -997,6 +1015,27 @@ static int parse_pid_t_list(char *str, pid_t *list, int *count)
+ 	return 0;
+ }
+ 
++static int parse_comm_list(char *str, char (*list)[TASK_COMM_LEN], int *count)
++{
++	char *token;
++	int i = 0;
++
++	while ((token = strsep(&str, ",")) != NULL) {
++		token = strstrip(token);
++		if (*token == '\0')
++			continue;
++		if (i >= MAX_FILTER_COMMS)
++			return -E2BIG;
++		strscpy(list[i++], token, TASK_COMM_LEN);
++	}
++
++	if (i == 0)
++		return -EINVAL;
++
++	*count = i;
++	return 0;
++}
++
+ static ssize_t page_owner_write(struct file *file,
+ 				 const char __user *buf,
+ 				 size_t count, loff_t *ppos)
+@@ -1012,8 +1051,10 @@ static ssize_t page_owner_write(struct file *file,
+ 	bool new_proc_filter_enabled;
+ 	pid_t new_pid_list[MAX_FILTER_PIDS];
+ 	pid_t new_tgid_list[MAX_FILTER_TGIDS];
++	char (*new_comm_list)[TASK_COMM_LEN] = NULL;
+ 	int new_pid_count = 0;
+ 	int new_tgid_count = 0;
++	int new_comm_count = 0;
+ 
+ 	/*
+ 	 * Maximum input length for filter commands:
+@@ -1025,12 +1066,19 @@ static ssize_t page_owner_write(struct file *file,
+ 	 */
+ 	if (count > 32 + 6 * MAX_NUMNODES +
+ 			(PID_MAX_DIGITS + 1) * MAX_FILTER_PIDS + 4 +
+-			(PID_MAX_DIGITS + 1) * MAX_FILTER_TGIDS + 5)
++			(PID_MAX_DIGITS + 1) * MAX_FILTER_TGIDS + 5 +
++			TASK_COMM_LEN * MAX_FILTER_COMMS + 5)
+ 		return -EINVAL;
+ 
++	new_comm_list = kmalloc_array(MAX_FILTER_COMMS, TASK_COMM_LEN, GFP_KERNEL);
++	if (!new_comm_list)
++		return -ENOMEM;
++
+ 	kbuf = memdup_user_nul(buf, count);
+-	if (IS_ERR(kbuf))
++	if (IS_ERR(kbuf)) {
++		kfree(new_comm_list);
+ 		return PTR_ERR(kbuf);
++	}
+ 
+ 	orig = kbuf;
+ 
+@@ -1046,6 +1094,11 @@ static ssize_t page_owner_write(struct file *file,
+ 		memcpy(new_tgid_list, state->tgid_list, sizeof(state->tgid_list));
+ 		new_tgid_count = state->tgid_count;
+ 	}
++	if (state->comm_count > 0) {
++		memcpy(new_comm_list, state->comm_list,
++				state->comm_count * TASK_COMM_LEN);
++		new_comm_count = state->comm_count;
++	}
+ 
+ 	while ((token = strsep(&kbuf, " \t\n")) != NULL) {
+ 		if (*token == '\0')
+@@ -1085,6 +1138,10 @@ static ssize_t page_owner_write(struct file *file,
+ 			ret = parse_pid_t_list(token + 5, new_tgid_list, &new_tgid_count);
+ 			if (ret < 0)
+ 				goto out_free;
++		} else if (!strncmp(token, "comm=", 5)) {
++			ret = parse_comm_list(token + 5, new_comm_list, &new_comm_count);
++			if (ret < 0)
++				goto out_free;
+ 		} else {
+ 			ret = -EINVAL;
+ 			goto out_free;
+@@ -1095,7 +1152,9 @@ static ssize_t page_owner_write(struct file *file,
+ 	state->print_mode = new_print_mode;
+ 	state->nid_filter = new_nid_filter;
+ 	state->nid_filter_enabled = new_nid_filter_enabled;
+-	state->proc_filter_enabled = new_pid_count > 0 || new_tgid_count > 0;
++	state->proc_filter_enabled = new_pid_count > 0 ||
++				     new_tgid_count > 0 ||
++				     new_comm_count > 0;
+ 	if (new_pid_count > 0) {
+ 		memcpy(state->pid_list, new_pid_list, sizeof(state->pid_list));
+ 		state->pid_count = new_pid_count;
+@@ -1110,10 +1169,16 @@ static ssize_t page_owner_write(struct file *file,
+ 	if (state->tgid_count > 1)
+ 		sort(state->tgid_list, state->tgid_count, sizeof(pid_t),
+ 		     cmp_pid_t, NULL);
++	if (new_comm_count > 0) {
++		memcpy(state->comm_list, new_comm_list,
++				new_comm_count * TASK_COMM_LEN);
++		state->comm_count = new_comm_count;
++	}
+ 
+ 	ret = count;
+ 
+ out_free:
++	kfree(new_comm_list);
+ 	kfree(orig);
+ 	return ret;
+ }
 -- 
-~Randy
+2.20.1
+
