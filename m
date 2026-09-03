@@ -1,155 +1,131 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388D52AD3C
-	for <linux-doc@vger.kernel.org>; Thu,  3 Sep 2026 00:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B4C1E8332;
+	Thu,  3 Sep 2026 01:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788396074; cv=none; b=CX/FUlhQMM8lw0BdjIPNHo5LWakt2pO5YYaj6/Zw31TwUJELU3kMjSAj/FHtcq8vPRtIcRvJ/omXnhixqCqoVTYKgMvE50M3BJX3zHD2CA9YmWIFP1YtzaPFXpX5JZMG0xGY7u1NIOYRDZYODuIW7iUt7F37W0r5SQBrOIzM7ys=
+	t=1788397418; cv=none; b=EEE/I0hvlkIJw80/XAvi77282dXclguBzu720p0D8zcyUIQgdJuiJ75uSxg3r2kPtZhsGdVl91wL/R5/yZoYanvepLjpEYdZDnlne6k4i3t29UVU6IIA510o2sfXQkEm71Bj/qagqqvLIv1kRxTb1ea0FdiSULdsmiCQ+eSL9/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788396074; c=relaxed/simple;
-	bh=O3TQq4A5rX9f1yvF4DkCKPUCSm2FMHIrce9wen45HNA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LXGKlm87GjVo2bQJwg4um7bGTvHZArtDPTgnHQUyzJt8SeN2DXpBDHalLtFULbiiW8zsIONR49z+BkiVBpKZXPGeHoV7LTwQP7omtC+SoN7/30bHqRzwDWz8Kr83V2C9nvrruLNf3cwy08EOq3KLF6sEKq6OZ6P0XivfkXhDA0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aFvVa10E; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aFvVa10E"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-52fa6005224so15477821cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 17:41:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788396072; x=1789000872; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YiZZY9+C0sK8isY9Ljf0XKem2w9pAuwvHHUN/mOpXUE=;
-        b=aFvVa10E+tWJOS388wbrJ4I1JyUs6ZkROqaNv71cOI3Dy32qmB/F5JG9CUFAXvj+wF
-         tg7/FhJ/TVX4EnZZjN5/rYbzitdVw6OLMMcpMdX/IR9vrlAofY6xX3D8w0vGzUJ0rCrv
-         8JG+b5FwjNvq0+/NJneEywzLhiW9wgcMjqdIqud4a9RpKxWqcvhUrftNTRaiCIi5O0CV
-         lbDfKasXCrMVqxGN3rraDu6acU8C8cXpv+o9HljE+HZqGqIs9d97t3vpohJInXuHrype
-         LQeEv2nGBhvRiGYHrZdtMEIisgq7dOJpXHbxWP0dQaFovSCcypMXetTbn8wzLKkQrgwM
-         rIeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788396072; x=1789000872;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YiZZY9+C0sK8isY9Ljf0XKem2w9pAuwvHHUN/mOpXUE=;
-        b=YYvPy1nassSXhyBs1xUa6iGuKC3r/UYwf20yGNO8XEAAX3Lip+BWx3arBqE4SaJ9jc
-         O81rqK++yHK0pfbdBhlCQBOC74xm7HTbdDKuIzmJfv39ccA/fmd6JnRCynG9U5m6PCKg
-         DTvwHi+3O7UmyWOeIGYnSOBvem+p49x7pV1k826qOQk4wRyg/QUQzkJbRIAP2hu02aeQ
-         ldvp6Xfs/C/gUwGkkwdKyqKYu+8dfBmGC4/+l2p2vypjpJ9EWNrHPrOg6BfNLlC9k/gV
-         JCpUXaZqZZ6esbth3yujQyVwLwDPP8R5keHsq3EQI+BQt5NoZwfyRnkTqhfRWVJXTFKq
-         bNlA==
-X-Forwarded-Encrypted: i=1; AKwUvBzfVmKY+0NpaB9x+oJNDCWpjcblf5CG/+/yVt1opSt9E4NTOQxM14MtfS33zePvjW5TCxWvCT8/F7k=@vger.kernel.org
-X-Gm-Message-State: AFuF++ndFNq7GJW5wI24yAYoBt9hG0afcvNrPAUYd4bGlWhGmmcOJ9Pc
-	1dIsRzVR2i2Sqc0WYBwnrbF7BwQchw8yLUoilfeDdH7uEFREAArv5OEgxW6ZlUMZ
-X-Gm-Gg: AYBFou11DyPUrSNqk9byHsaOgCEqVOrEg0673xsa52WbwSA+E8YA8V31GujJSlYKB0r
-	ZyVHzrQoxSELvkgSDOMhYULfRCqzICKl6iPtXpwUeiRErTwbEQ0TQZStfv1tATYaqvTxzVcsXS5
-	q1NtbXsW6Spp8VdkCFmsCavBCf6oZGxOgwY1VtFEi0vYeCGc1rH6RKzv6dsVjxVu0GbCvu/e0Yh
-	jH2tVnU+P8qIGfyluUsJMJU8OER9X/+neWJI2NPOeFRRF1nquQNuMeOH6AhFo1TZPem4317GmIY
-	wwq1N1TOgXyvCeXBLPuhjLMiZuBr+aXVWOqStH0EPY85FqD4d1TOiTPlF/t4ymHHlN7XUB3uNU/
-	p1ONgBExoHkiTmmgM4q3KwlJT8Ony9JGCK9IjmK69EN+T07Rkqs9o9Du5r9dK/Av4MDbIhwj8Af
-	aMrD/Q/OE6Y/aiOSX3zG2HzzRs7n5FtHMDVToEI/dqVsdCgwpr1ItfandY4y7Qe3VtAoZyqvAwN
-	bsF3sAUxshsntbocbjItSkQDc4VqfezGjeN4YdrrWOkmLQ5t9bjjCQ=
-X-Received: by 2002:a05:622a:1354:b0:52e:1e5:4754 with SMTP id d75a77b69052e-53036cc5520mr89907741cf.24.1788396072113;
-        Wed, 02 Sep 2026 17:41:12 -0700 (PDT)
-Received: from Z-System.tailddad04.ts.net (c-68-83-199-219.hsd1.mi.comcast.net. [68.83.199.219])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90e9eef50c4sm30837506d6.33.2026.09.02.17.41.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 17:41:10 -0700 (PDT)
-From: Zac Lanzon <lanzonza@gmail.com>
-To: linux-hwmon@vger.kernel.org
-Cc: Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>,
-	Aleksa Savic <savicaleksa83@gmail.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zac Lanzon <lanzonza@gmail.com>
-Subject: [PATCH] hwmon: (asus_rog_ryujin) Add ROG Ryujin III 360
-Date: Wed,  2 Sep 2026 20:40:54 -0400
-Message-ID: <20260903004054.502171-1-lanzonza@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1788397418; c=relaxed/simple;
+	bh=Yjs22QPyEZz39ou9ZXRrAMkokUlDqqdJ6uQDHy8S/jY=;
+	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=XSpshDzOPxJGMF5yBJbyzof9ANqE9itNUZN7E/uyBBBLDs8lhyaZO3NH8wTmXjvhYjhRo/Sx0OyW3N3lKE3F9WizSQAbdZwNtUIZsPFxFVwPS0F5V67iV7TCYWPYgO48W369oy34fJsW0pzbblR1//l83/XxerQOl8BX8fJKFeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4hb1Yp4gvtz8Xrr9;
+	Thu, 03 Sep 2026 09:03:26 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl1.zte.com.cn with SMTP id 68313LfN052625;
+	Thu, 3 Sep 2026 09:03:21 +0800 (+08)
+	(envelope-from hu.shengming@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Thu, 3 Sep 2026 09:03:22 +0800 (CST)
+X-Zmail-TransId: 2af96a98c75a204-859ef
+X-Mailer: Zmail v1.0
+Message-ID: <20260903090322460l3RLOYBqnQOT1Wf1Qb2E9@zte.com.cn>
+In-Reply-To: <20260831094914.50eb26b7@gandalf.local.home>
+References: 20260830190743637MhXoixrAPc1rfm-G8eIcg@zte.com.cn,20260831094914.50eb26b7@gandalf.local.home
+Date: Thu, 3 Sep 2026 09:03:22 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+From: <hu.shengming@zte.com.cn>
+To: <rostedt@goodmis.org>
+Cc: <mhiramat@kernel.org>, <mathieu.desnoyers@efficios.com>,
+        <mark.rutland@arm.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+        <rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-trace-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <ran.xiaokai@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <zhang.run@zte.com.cn>
+Subject: =?UTF-8?B?UmU6IFtSRkMgUEFUQ0ggMC80XSBmdHJhY2U6IEFkZCB0YXNrIGNvbW0gZmlsdGVyaW5nIGZvciBmdW5jdGlvbiB0cmFjaW5n?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 68313LfN052625
+X-TLS: YES
+X-ENVELOPE-SENDER: hu.shengming@zte.com.cn
+X-SOURCE-IP: 10.5.228.132 unknown Thu, 03 Sep 2026 09:03:26 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6A98C75E.001/4hb1Yp4gvtz8Xrr9
 
-Add the USB product ID of the base ASUS ROG RYUJIN III 360 (0b05:1aa2,
-USB product string "ROG RYUJIN III"). It uses the same status report
-layout and cooler duty channel as the RYUJIN III EXTREME, EVA and
-WHITE editions, so it can share rog_ryujin_iii_info.
+Steven wrote:
 
-Tested on a ROG RYUJIN III 360: coolant temperature, pump speed and
-internal fan speed report plausible values that track load, and the
-internal fan follows pwm2 (30% -> 870 RPM, 40% -> 1590 RPM).
+> On Sun, 30 Aug 2026 19:07:43 +0800 (CST)
+> <hu.shengming@zte.com.cn> wrote:
+> 
+> > Hi Steven and Masami,
+> > 
+> > This series adds two comm-based task filters for the function and
+> > function_graph tracers:
+> > 
+> >   set_ftrace_comm
+> >   set_ftrace_notrace_comm
+> 
+> I'd like to avoid adding more files like this. If anything, I would love to
+> add triggers to the function tracers.
 
-Assisted-by: Claude:claude-fable-5-1
-Signed-off-by: Zac Lanzon <lanzonza@gmail.com>
----
-One firmware behavior observed while testing duty writes on this unit,
-kept out of the commit message since it is not about the ID itself.
+Agreed. Adding two more tracefs files may not be the best interface. Together
+with the points raised in the earlier discussion with Masami, I also think a
+trigger-based interface would be a cleaner direction.
 
-The first duty write, a pwm2 write that re-sends the current 40% pump
-duty alongside the new fan duty, takes the cooler out of automatic
-mode and the pump runs at maximum while still reporting 40%. Writing
-40% back does not apply; only a different pwm1 value does. liquidctl
-behaves the same with the hwmon driver unloaded, so this is firmware
-behavior. Only a reboot returns the cooler to automatic mode.
+> > 
+> > Function tracing currently supports selecting tasks by PID. This makes
+> > it difficult to configure tracing before a service starts, because it
+> > does not have a PID yet. It is also inconvenient to keep tracing the
+> > same service across restarts, as its PID may change. This use case was
+> > suggested by Xuxin, a KSM reviewer.
+> 
+> I've always recommended a simple wrapper script for applications:
+> 
+> echo '#! /bin/bash
+>   echo $$ > /sys/kernel/tracing/set_ftrace_pid
+>   echo $$ > /sys/kernel/tracing/set_event_pid
+>   exec "$@"' > trace-me.sh
+> 
+> chmod +x trace-me.sh
+> 
+>   ./trace-me.sh command to be traced
+> 
+> The above will do what you want.
+> 
 
-Measured with liquidctl 1.16 (pump-fan is pwm2, pump is pwm1):
+Yes, this works well when we have control over how the application is
+launched. Thanks for the example!
 
-  automatic mode        pump 40% / 1710 RPM   fan 30% /  870 RPM
-  set pump-fan 40       pump 40% / 3690 RPM   fan 40% / 1590 RPM
-  set pump-fan 30       pump 40% / 3660 RPM   fan 30% /  870 RPM
-  set pump 60           pump 60% / 2400 RPM
-  set pump 40           pump 40% / 1740 RPM
-  set pump-fan 40, 30   pump stays 1740 RPM   fan follows
+> But if we really do want to add more filters to function tracing, then
+> adding triggers to it would be the way to go.
 
-So the firmware applies a pump duty only when the stored value changes,
-and leaving automatic mode does not apply the stored one. Does the
-EXTREME or EVA do the same? If so, the driver's read-then-rewrite of
-the pump duty on a pwm2 write may deserve a documentation note.
+Understood. To make sure I understand the proposed direction, here is a
+conceptual example of what the interface might look like:
 
- Documentation/hwmon/asus_rog_ryujin.rst | 1 +
- drivers/hwmon/asus_rog_ryujin.c         | 3 +++
- 2 files changed, 4 insertions(+)
+echo 'ftrace_pid_add if newcomm == "foo"' > \
+ events/task/task_rename/trigger
 
-diff --git a/Documentation/hwmon/asus_rog_ryujin.rst b/Documentation/hwmon/asus_rog_ryujin.rst
-index b0d7ce8dd..3ebab230e 100644
---- a/Documentation/hwmon/asus_rog_ryujin.rst
-+++ b/Documentation/hwmon/asus_rog_ryujin.rst
-@@ -6,6 +6,7 @@ Kernel driver asus_rog_ryujin
- Supported devices:
- 
- * ASUS ROG RYUJIN II 360
-+* ASUS ROG RYUJIN III 360
- * ASUS ROG RYUJIN III EXTREME
- * ASUS ROG RYUJIN III EVA EDITION
- * ASUS ROG RYUJIN III WHITE EDITION
-diff --git a/drivers/hwmon/asus_rog_ryujin.c b/drivers/hwmon/asus_rog_ryujin.c
-index 702edb831..4b9859351 100644
---- a/drivers/hwmon/asus_rog_ryujin.c
-+++ b/drivers/hwmon/asus_rog_ryujin.c
-@@ -20,6 +20,7 @@
- #define USB_PRODUCT_ID_RYUJIN_III_EXTREME	0x1bcb
- #define USB_PRODUCT_ID_RYUJIN_III_EVA		0x1ade
- #define USB_PRODUCT_ID_RYUJIN_III_WHITE		0x1ada
-+#define USB_PRODUCT_ID_RYUJIN_III		0x1aa2
- 
- struct rog_ryujin_device_info {
- 	u8 temp_offset;
-@@ -593,6 +594,8 @@ static const struct hid_device_id rog_ryujin_table[] = {
- 	  .driver_data = (kernel_ulong_t)&rog_ryujin_iii_info },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUS_ROG, USB_PRODUCT_ID_RYUJIN_III_WHITE),
- 	  .driver_data = (kernel_ulong_t)&rog_ryujin_iii_info },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUS_ROG, USB_PRODUCT_ID_RYUJIN_III),
-+	  .driver_data = (kernel_ulong_t)&rog_ryujin_iii_info },
- 	{ }
- };
- 
--- 
-2.53.0
+When a task changes its comm to foo, the trigger would add the PID from
+the task_rename event to the function tracer's PID filter. The function
+and function_graph tracers would then trace that task using the existing
+PID-filtering mechanism.
 
+We may also need a corresponding ftrace_pid_remove trigger command to
+remove the PID associated with the triggering event from the function
+tracer's PID list.
+
+The command names above are only illustrative. Is this roughly the kind of
+trigger interface you had in mind?
+
+If so, we will investigate extending the trigger infrastructure in this
+direction instead of adding the comm-filter files.
+
+--
+With Best Regards,
+Shengming
