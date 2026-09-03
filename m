@@ -1,333 +1,641 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AC03E172D
-	for <linux-doc@vger.kernel.org>; Thu,  3 Sep 2026 06:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76273F164C;
+	Thu,  3 Sep 2026 06:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788416322; cv=none; b=CwnN7MzrRxXrnXuhNhXZPyTbZ1v99PvCTWdIAL7aHDNHehykzk/xIEN6W8K5YAs2gXYBviFkypReB2hzZHJvlk4eZN+M7YIkQJP/DOtybOD78wzZBaELFx9NNE/UrN9BLhgMBo9CHIGP9yJ3tbHtBenRUuftlDdzUUqFQ3IU808=
+	t=1788417217; cv=none; b=VbK103sznsavSpSmi9M9M6qubL8l7y+dy0jK7raU7FaI0wGoeqXTeIVNt+vPHO+VfKjwQlwyIqSahIWcAgK5VcXQ1SbbXIrNAFd/Vhj3dYrK1Ov9ByQL9bPe0wWsNCF6zrBVYb4+G8GOKq8kkh1R4x8S5cQ584FYjb+AGDcMhSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788416322; c=relaxed/simple;
-	bh=RS9gOojwOn7DjGKbX9ybTXFn1zHYsYfn65XAQRbBejs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BRvOyBdD+evYBb5ZCpAnxAqdMf8/UqJSGnj1ctwFv+8SMqW615Zcl4jcoV/3OVhdIbs15R9MW7nIQFgTwvp4yl7YPRm8zxCxxDXwxBFFxjEpERsDR/x3cfh94FqChIty5rK8nIfaRRieJwDxMHSd8Zn367t+0K1zRgQkEMbHwX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai; spf=pass smtp.mailfrom=nebusec.ai; dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b=hJixE72+; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebusec.ai
+	s=arc-20240116; t=1788417217; c=relaxed/simple;
+	bh=Efj5/Cdi33RWQLbtvYqSGaqW8Tscni/udCMstzRMViE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TwgmFAUyKcS6tQBDjWiRdAh0F7pU/ZB/cc9pDNZetzKOq8tn7t+Y5EDAHmtLTIJ3gM2yylfroSbxo6n8e+9ojzZpKZUKZTrP9OOBVTMEhTCb5mMJcMlS2OI79eKE+9Z6ycjKmq4hU7hKl1i5OAA5zagGhHDq0mCDz1egm+ZLiK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=oefqD9JS; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b="hJixE72+"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2d6e954afbdso12522745ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 23:18:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nebusec.ai; s=google; t=1788416321; x=1789021121; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0mSTBNClPRztZMxjaepTxpIBekuY3D+n3PavvIfUGCM=;
-        b=hJixE72+2hbb2uJytxUxlEG7o0n0vVYRflp6TC0rV5ccv9nelOJpgVyB7Ld9EoXGhu
-         itK3N1u7+f3fmp+VnZ1xbAllIz7NvmZp/YeklFRnpMEQXVg6/XeXiRXJPGoLkcKdO1eX
-         8wiJnOW8k6ZzLEBsrq/G8n0rmJbKyT5clinveZf6+s2SJdZnzbKBU//awW/NHgqrvLoL
-         WnOPTPJhhp0+HCImpzyXlZPS7DjEVZmdoz+o5sHrAJOYyKtMARqNnIPa3CZB+GlQUR0b
-         7QPTNpzeIxo4kCA5IcaQS/cf6jCwO/agAmotCYEmEaFT7MVIk5hSpjAl8+gdB1t89P8z
-         VeJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788416321; x=1789021121;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0mSTBNClPRztZMxjaepTxpIBekuY3D+n3PavvIfUGCM=;
-        b=ej/R+THauUd8olgOJ7/54EEnP7O/sEYT0yCjZi0sApMeHLG+6+2PRp7djXkJJAub1N
-         YkIFArVGbEVQcqVdbxELQU55fHSWYf3Ns1WTC1MEULYd0SDAAwPUDPMqFgbv7EoOwF/t
-         hylHI+a5R4VmmqXoKFWfJp7RQBa++yzHyEFP7gUEb7E+4XSsiDSb9QetaI7J66VGFPMC
-         cZdN67mrliYeMUGnhYlfIjnJ4ZJ+IJYk6nwEG1SIfwkITkWznWq+yHLRUHwJbj+jqKAE
-         SxkIznhcsRsmh8sN2coe97pTFsCeLh8s6waGZOqnwLa4TiIshLOxl+aFjPJU6LOrt5Zf
-         x3bA==
-X-Forwarded-Encrypted: i=1; AKwUvBxR4xDVbSl3/8LnPPrukGr9wma6rNRPnI+WI6kMwyw8tKUKMvKe+howTAzj7iN1/kmxJAycT2Pj5No=@vger.kernel.org
-X-Gm-Message-State: AFuF++nsM68mycjPS21qSHVx5c4yqys8zzzccBhUA1p1mBrRHKm73VVT
-	aiBh/RbvO1Sr2DQNjLvkP+SAeUuBWgNfKa6JMP0JZyZCI0QYsIB+uMebOkZzuPiAZQKE
-X-Gm-Gg: AYBFou16TTbz2AVZDe+RBMmfbsd6B5AcM97+e3lQnG/rwWhxISSbBwvuTzmRmV+5oEv
-	mHkvXGDrekNNZWQRViypkWpWJYnEk2IrZ0Ysbt/DvM1GDrmfan1ODBzXprrgySGaDpru8k4pmxR
-	oCIbhZ3KPt8Eam5DxztusvkeNeEUcxXX9b/lG2kwL3aZR839ljsvZ7FiMcxBY4Rs6WgGSvlNMW0
-	7xmll5uVZREwMdUjbysL6pEkIvfl2vov1//Yv3SmXORd7dQmPG+uxi/2i8nmn+uD4L+jGyjrQhS
-	ZY2XV/BfwObV6Io526GvLkQ+k3PMNY186yxCKU6OE6WrNxeTGDvFWD78UmulyZ3PZMY8/HFBBrI
-	uoBvSaFceWbiwj+Um0Grlic4+Ym6xfCoxXQ0eY9lEuqakpj3izWJ058nxsm939Ic8rb7r3q4FuO
-	qKECNxt2ehmr39Wfb0/QIIrC8pJknHDy2POrkE7RtnDkMQGCpHIIyumaeHf/sUAvA3iphTIJNzr
-	wHl
-X-Received: by 2002:a17:902:ef0a:b0:2d3:160b:c01f with SMTP id d9443c01a7336-2daec636360mr139857905ad.6.1788416320545;
-        Wed, 02 Sep 2026 23:18:40 -0700 (PDT)
-Received: from Roxy.localdomain ([203.175.14.32])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2db090c391csm391775ad.9.2026.09.02.23.18.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 23:18:38 -0700 (PDT)
-From: Zhiling Zou <zhilinz@nebusec.ai>
-To: pabeni@redhat.com,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	ncardwell@google.com,
-	kuniyu@google.com,
-	vega@nebusec.ai,
-	zhilinz@nebusec.ai
-Subject: [PATCH net v7 1/1] tcp: bound SYN-ACK timers to reqsk timeout range
-Date: Thu,  3 Sep 2026 14:18:14 +0800
-Message-ID: <1bf5d64b8ffe1dc1b1f23d5b5ea6cb4ad3b2f562.1788176024.git.zhilinz@nebusec.ai>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1788176024.git.zhilinz@nebusec.ai>
-References: <cover.1788176024.git.zhilinz@nebusec.ai>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="oefqD9JS"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68361p2S311833;
+	Thu, 3 Sep 2026 06:33:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=l36BE2CuZ1S0xQPX/ipHBkEy33d5
+	AE+cGkz1upqO/wg=; b=oefqD9JS5e9BpHuYQyldOroGQ8uKSDaC9r/pSlOxjdF5
+	CmNi/szktynf8MvoaLlnMJw6OhmcEEmuzog9VfZrYg2FevtxXICiX0a7Eu9ETuUu
+	RFwLRPJaqW2JRt9ZPSNnMCyy+6z1ABOMyTrKC/U0JTehSaE+gKuq7mHbq4M/nAV8
+	hZci2QBQzMtp+C0l6SV3Nw7u2kRb36CPDGfL15S84fPSnA9cuhYfLuyM1YTcGwlg
+	qnDwMSc2nWW39MHxW2wfMr4/I0v6PwtLQ72dfl6RzlWXtQDhE8q9P+iOKvCKFRwU
+	iMJRRvq6ePt+JToWK0VSPlNZsBlStmGOmkgn0PTjhg==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gbq3rkdg0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 03 Sep 2026 06:33:00 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6836QOWk024039;
+	Thu, 3 Sep 2026 06:32:59 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gcarkecj6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 03 Sep 2026 06:32:59 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6836WtDE42598882
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 3 Sep 2026 06:32:55 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 20C992004B;
+	Thu,  3 Sep 2026 06:32:55 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7526820040;
+	Thu,  3 Sep 2026 06:32:46 +0000 (GMT)
+Received: from li-7bb28a4c-2dab-11b2-a85c-887b5c60d769.ibm.com.com (unknown [9.39.27.193])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  3 Sep 2026 06:32:46 +0000 (GMT)
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+        corbet@lwn.net, meted@linux.ibm.com, ynorov@nvidia.com
+Cc: sshegde@linux.ibm.com, tglx@kernel.org, gregkh@linuxfoundation.org,
+        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
+        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
+        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
+        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
+        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
+        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
+        linux-doc@vger.kernel.org, jgross@suse.com,
+        virtualization@lists.linux.dev, sunlightlinux@gmail.com
+Subject: [PATCH v12 00/13] sched, steal_governor: Introduce preferred CPUs and steal-driven vCPU backoff
+Date: Thu,  3 Sep 2026 12:02:27 +0530
+Message-ID: <20260903063240.268775-1-sshegde@linux.ibm.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=EIc2FVZC c=1 sm=1 tr=0 ts=6a99149d cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=jJrOw3FHAAAA:8
+ a=VnNF1IyMAAAA:8 a=VwQbUJbxAAAA:8 a=L6LalbJ2hlVtWKjWbVoA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=O8hF6Hzn-FEA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAzMDA1NyBTYWx0ZWRfX2IzyDvUE5SW3
+ 6TK5WVK/0NIEajxeDqxbxYRLwdHbH+9TKctEr2l4lVhJNCeB/eM1/GoOyRNn/KRaVLgNVMJN581
+ AAe9IdB1ay5anHpZr9vPAFPCg9eTgYHMd7sAUIOCmLjsytuD4/PBRyvVjbfgmGNcPhCFhSubeUz
+ jUMdIyUaU2ioj0V8FbXSLpwA7vhO7qT8pHrIim2/7TE1yx8UMEFKev4YOLdz1AkiRiYqPa95A0w
+ P8OKyKeCWNDrw3eyHK7WLrPvCXosLWPiPONI9smftZEwdIqqf74ZUqbl8Ror/R3BtagdyZpUmiL
+ IMza7r2Q0557gyIeLmljlm+AaQ0pdHwUU+ODJFuW4msG/dMKEe7pAF6kjExbrMrZwkgpEGPJTd8
+ GK2CxnqHww5Z4BbYu0pcyj3vRbampLid1Heu3kDtWSzyJtfWtqR7A8RBJxkqhWsmW0hHGGG9wzw
+ h+VHixkQysAHekmQcGA==
+X-Proofpoint-GUID: AxOdXQIDtZauorfj5CTZVdFsKW286wnb
+X-Proofpoint-ORIG-GUID: HXB4WesKDyu0lqNNM4IJKpfSMrmJ7hL6
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAzMDA1NyBTYWx0ZWRfX/oxXit/zNsm3
+ m9vI/L0Bj726rOduvS4MmNCiNzMCsA2Z/zlxUTQB1W4YnY3TG+PUdpMcnfTk7q2EuoRF3hDPyFg
+ vA8S9Yv/29LHlZ6YbiP3OzVr09UksTY=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-03_02,2026-09-02_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
+ phishscore=0 spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609030057
 
-request_sock::num_timeout is a 7-bit counter. Commit e6c022a4fa2d
-("tcp: better retrans tracking for defer-accept") split this counter
-out of an 8-bit field, but tcp_synack_retries still accepts an 8-bit
-value and TCP_DEFER_ACCEPT can still derive a retry count up to 255.
+tl;dr
 
-If these settings exceed 127, the regular request timer cannot reach
-its expiration threshold and num_timeout wraps to zero. After the wrap,
-the request can keep timing out instead of expiring, and the next
-zero-to-one transition repeats the young-queue accounting decrement.
+This patch series represents the result of multiple iterations, 
+redesigns and community feedback. What started as an arch-specific RFC
+has evolved into a scheduler mechanism paired with a virtualization
+driver.
 
-Both request timer paths can also shift req->timeout by 64 or more while
-calculating the next RTO. UBSAN reports that invalid shift, and systems
-with panic_on_warn=1 panic before the later cap can take effect.
+The feature is intended for workloads where vCPU preemption has costs
+beyond the lost CPU time, such as lock-holder preemption, critical
+sections and TLB/cache misses. Database workloads, for example,
+contain a mixture of OLTP/OLAP activity and are prone to these costs.
+Reducing vCPU preemption in these cases can help improve overall system
+throughput. It may regress slightly for pure CPU-time workloads.
 
-Keep the tcp_synack_retries sysctl range unchanged, but cap its effective
-value in both SYN-ACK timer paths before the young-queue pruning loop.
-Cap the TCP_DEFER_ACCEPT conversion at the same range so its timer and
-bare-ACK consumers agree. Saturate the RTO calculation before shifting,
-and cap the Fast Open extra retry as well.
+I believe the series has now converged and is ready for merge
+consideration. The implementation has been deliberately kept simple.
+It performs well for real-life workloads on PowerPC, and earlier KVM
+testing also showed improvements on s390 and x86.
 
-Snapshot the request timeout and num_timeout once before the bounds check
-and shift. num_timeout is a bitfield, so add a raw view of its existing
-storage byte for a compile-safe READ_ONCE() snapshot. This keeps the check
-and shift consistent when the timer concurrently increments num_timeout.
+Peter, Ingo,
 
-Document that the sysctl still accepts 0-255 and that the timers silently
-cap the effective retry count at 127.
+Could this series be considered for queuing in sched/core, targeting
+inclusion in 7.4?
 
-Fixes: e6c022a4fa2d ("tcp: better retrans tracking for defer-accept")
-Cc: stable@vger.kernel.org
-Reported-by: Vega <vega@nebusec.ai>
-Signed-off-by: Zhiling Zou <zhilinz@nebusec.ai>
----
-changes in v7:
-- Clamp max_syn_ack_retries when it is read, before the young-queue
-  pruning loop, so queue pressure still shortens old request lifetimes.
-- Keep the tcp_synack_retries sysctl range at 0-255. Document that the
-  timers silently cap the effective retry count at 127 instead of adding
-  a sysctl .extra2.
-- Sashiko on v6: the young-queue clamp placement is fixed. Adding
-  .extra2 was a false positive given the v4/v6 userspace-range decision;
-  the docs/sysctl wording mismatch is addressed in the documentation.
-- v6 Link: https://lore.kernel.org/all/ba3cd75e76ef82b0ff5b393ff9e54056c00e90eb.1787382800.git.zhilinz@nebusec.ai/
+The feature could also benefit from a good testing cycle in the tip tree.
 
-changes in v6:
-- Keep the tcp_synack_retries sysctl range unchanged and cap the effective
-  retry count only in the regular and Fast Open timer paths.
-- Snapshot num_timeout and timeout once before the bounds check and shift.
-- Use a raw view of num_timeout's bitfield storage for the compile-safe
-  READ_ONCE() snapshot.
-- v5 Link: https://lore.kernel.org/all/9ec8921d81d6218946e07e8542b1ac41b6e2d205.1786540242.git.zhilinz@nebusec.ai/
+The following work is planned post the merge: 
+- Design for arch specific interface which could help to bring out
+  additional performance gains.
+- A test framework for the feature.
 
-changes in v5:
-- Limit tcp_synack_retries and TCP_DEFER_ACCEPT at their configuration
-  paths, so all users of each value see the same 7-bit range.
-- Use 127, matching request_sock::num_timeout, instead of the previous
-  runtime limit of 63, and document the sysctl limit.
-- Spell out the 7-bit range mismatch, the repeated young-queue accounting,
-  and the UBSAN panic_on_warn failure mode in the commit message.
-- Keep the timeout calculation saturating before either SYN-ACK timer
-  shifts it.
-- Drop a no-op reqsk_timer_handler() formatting hunk.
-- Correct the Fixes tag and update the reporter and sign-off trailers.
-- v4 Link: https://lore.kernel.org/all/891a220c362e3266efdf6b1aa9dc3e52f6825c00.1784735392.git.zhilinz@nebusec.ai/
+Feature has been kept as generic solution for all arch which support
+paravirtualization and steal time accounting. If a need arises, arch specific
+gating could be introduced.
 
-Changes in v4:
-  - Drop the tcp_synack_retries sysctl maximum to preserve existing
-    user-space behavior, and keep the runtime clamps at the timer usage
-    sites.
-  - v3 Link: https://lore.kernel.org/all/20260702095324.2995243-1-n05ec@lzu.edu.cn/
+Special thanks to Yury Norov for the rigorous reviews that greatly 
+improved the series and to everyone who have provided their review
+comments so far. (including sashiko) Really appreciated! _/\_
 
-Changes in v3:
-  - Order local variables in tcp_reqsk_timeout_sk() by reverse Christmas
-    tree.
-  - v2 Link: https://lore.kernel.org/all/20260630035009.55201-1-n05ec@lzu.edu.cn/
+Those who have read previous cover-letters (after v8) may skip to 
+revision history :) 
 
-Changes in v2:
-  - Keep the existing max_retries calculation in
-    tcp_fastopen_synack_timer() and only add the clamp, avoiding code
-    churn.
-  - v1 Link: https://lore.kernel.org/all/02e24eb83639e9d7ecc623f000c60254bb5c40a5.1782643946.git.roxy520tt@gmail.com/
+Detailed Background and Problem Statement
+=========================================
 
- Documentation/networking/ip-sysctl.rst |  4 +++-
- include/net/request_sock.h             | 20 ++++++++++++++++++--
- include/net/tcp.h                      | 21 +++++++++++++++++----
- net/ipv4/inet_connection_sock.c        |  2 ++
- net/ipv4/tcp.c                         |  2 +-
- net/ipv4/tcp_timer.c                   |  6 ++++--
- 6 files changed, 45 insertions(+), 10 deletions(-)
+As hardware scales, the density of physical CPUs (pCPUs) per server is
+increasing across many architectures. On these massive systems, deploying
+a single bare-metal OS for general workloads becomes increasingly difficult
+to manage if not impossible. The natural shift is to deploy
+Virtual Machines(VMs). For example, on IBM PowerPC architecture customers
+frequently deploy Shared Processor LPARs (SPLPARs) to maximize hardware ROI.
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 208f46967ee59..4a2ed964dceab 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -954,7 +954,9 @@ tcp_stdurg - BOOLEAN
- 
- tcp_synack_retries - INTEGER
- 	Number of times SYNACKs for a passive TCP connection attempt will
--	be retransmitted. Should not be higher than 255. Default value
-+	be retransmitted. The sysctl accepts 0-255. Values above 127 are
-+	silently capped by the SYN-ACK timers, matching the 7-bit
-+	request_sock::num_timeout field. Default value
- 	is 5, which corresponds to 31seconds till the last retransmission
- 	with the current initial RTO of 1second. With this the final timeout
- 	for a passive TCP connection will happen after 63seconds.
-diff --git a/include/net/request_sock.h b/include/net/request_sock.h
-index 5a9c826a7092d..a9781fab774aa 100644
---- a/include/net/request_sock.h
-+++ b/include/net/request_sock.h
-@@ -58,12 +58,17 @@ struct request_sock {
- 	struct request_sock		*dl_next;
- 	u16				mss;
- 	u8				num_retrans; /* number of retransmits */
--	u8				syncookie:1; /* True if
-+	union {
-+		struct {
-+			u8		syncookie:1; /* True if
- 						      * 1) tcpopts needs to be encoded in
- 						      *    TS of SYN+ACK
- 						      * 2) ACK is validated by BPF kfunc.
- 						      */
--	u8				num_timeout:7; /* number of timeouts */
-+			u8		num_timeout:7; /* number of timeouts */
-+		};
-+		u8		num_timeout_syncookie;
-+	};
- 	u32				ts_recent;
- 	struct timer_list		rsk_timer;
- 	const struct request_sock_ops	*rsk_ops;
-@@ -74,6 +79,17 @@ struct request_sock {
- 	u32				timeout;
- };
- 
-+static inline u8 reqsk_num_timeout(const struct request_sock *req)
-+{
-+	u8 num_timeout = READ_ONCE(req->num_timeout_syncookie);
-+
-+#if defined(__LITTLE_ENDIAN_BITFIELD)
-+	return num_timeout >> 1;
-+#else
-+	return num_timeout & 0x7f;
-+#endif
-+}
-+
- static inline struct request_sock *inet_reqsk(const struct sock *sk)
- {
- 	return (struct request_sock *)sk;
-diff --git a/include/net/tcp.h b/include/net/tcp.h
-index 436495ff2271d..a1c20352a8664 100644
---- a/include/net/tcp.h
-+++ b/include/net/tcp.h
-@@ -183,6 +183,8 @@ static_assert((1 << ATO_BITS) > TCP_DELACK_MAX);
- #define MAX_TCP_KEEPINTVL	32767
- #define MAX_TCP_KEEPCNT		127
- #define MAX_TCP_SYNCNT		127
-+/* request_sock::num_timeout is a 7-bit field. */
-+#define MAX_TCP_SYNACK_RETRIES	127
- 
- /* Ensure that TCP PAWS checks are relaxed after ~2147 seconds
-  * to avoid overflows. This assumes a clock smaller than 1 Mhz.
-@@ -881,12 +883,23 @@ static inline u32 __tcp_set_rto(const struct tcp_sock *tp)
- 	return usecs_to_jiffies((tp->srtt_us >> 3) + tp->rttvar_us);
- }
- 
--static inline unsigned long tcp_reqsk_timeout(struct request_sock *req)
-+static inline unsigned long tcp_reqsk_timeout_sk(const struct sock *sk,
-+						 struct request_sock *req)
- {
--	u64 timeout = (u64)req->timeout << req->num_timeout;
-+	u64 timeout = READ_ONCE(req->timeout);
-+	u32 rto_max = tcp_rto_max(sk);
-+	u8 num_timeout = reqsk_num_timeout(req);
-+
-+	if (num_timeout >= BITS_PER_TYPE(timeout) ||
-+	    timeout > U64_MAX >> num_timeout)
-+		return rto_max;
-+
-+	return (unsigned long)min_t(u64, timeout << num_timeout, rto_max);
-+}
- 
--	return (unsigned long)min_t(u64, timeout,
--				    tcp_rto_max(req->rsk_listener));
-+static inline unsigned long tcp_reqsk_timeout(struct request_sock *req)
-+{
-+	return tcp_reqsk_timeout_sk(req->rsk_listener, req);
- }
- 
- u32 tcp_delack_max(const struct sock *sk);
-diff --git a/net/ipv4/inet_connection_sock.c b/net/ipv4/inet_connection_sock.c
-index 6257459bcee24..21f96a50c10fe 100644
---- a/net/ipv4/inet_connection_sock.c
-+++ b/net/ipv4/inet_connection_sock.c
-@@ -1068,6 +1068,8 @@ static void reqsk_timer_handler(struct timer_list *t)
- 	net = sock_net(sk_listener);
- 	max_syn_ack_retries = READ_ONCE(icsk->icsk_syn_retries) ? :
- 		READ_ONCE(net->ipv4.sysctl_tcp_synack_retries);
-+	max_syn_ack_retries = min_t(int, max_syn_ack_retries,
-+				    MAX_TCP_SYNACK_RETRIES);
- 	/* Normally all the openreqs are young and become mature
- 	 * (i.e. converted to established socket) for first timeout.
- 	 * If synack was not acknowledged for 1 second, it means
-diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index 1c867a3024446..e551e6adc8005 100644
---- a/net/ipv4/tcp.c
-+++ b/net/ipv4/tcp.c
-@@ -357,7 +357,7 @@ static u8 secs_to_retrans(int seconds, int timeout, int rto_max)
- 		int period = timeout;
- 
- 		res = 1;
--		while (seconds > period && res < 255) {
-+		while (seconds > period && res < MAX_TCP_SYNACK_RETRIES) {
- 			res++;
- 			timeout <<= 1;
- 			if (timeout > rto_max)
-diff --git a/net/ipv4/tcp_timer.c b/net/ipv4/tcp_timer.c
-index e56eae4bc341e..2d2dec1e91565 100644
---- a/net/ipv4/tcp_timer.c
-+++ b/net/ipv4/tcp_timer.c
-@@ -464,11 +464,13 @@ static void tcp_fastopen_synack_timer(struct sock *sk, struct request_sock *req)
- 
- 	tcp_syn_ack_timeout(req);
- 
--	/* Add one more retry for fastopen.
-+	/* Add one more retry for fastopen when the timeout counter can
-+	 * represent it.
- 	 * Paired with WRITE_ONCE() in tcp_sock_set_syncnt()
- 	 */
- 	max_retries = READ_ONCE(icsk->icsk_syn_retries) ? :
- 		READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_synack_retries) + 1;
-+	max_retries = min_t(int, max_retries, MAX_TCP_SYNACK_RETRIES);
- 
- 	if (req->num_timeout >= max_retries) {
- 		tcp_write_err(sk);
-@@ -490,7 +492,7 @@ static void tcp_fastopen_synack_timer(struct sock *sk, struct request_sock *req)
- 	if (!tp->retrans_stamp)
- 		tp->retrans_stamp = tcp_time_stamp_ts(tp);
- 	tcp_reset_xmit_timer(sk, ICSK_TIME_RETRANS,
--			  req->timeout << req->num_timeout, false);
-+			     tcp_reqsk_timeout_sk(sk, req), false);
- }
- 
- static bool tcp_rtx_probe0_timed_out(const struct sock *sk,
+Typical enterprise workloads are combination of bursty and long running;
+their average CPU utilization is low, but they require high core counts
+during peak transactions. To accommodate this, customers often
+use CPU overcommit strategies i.e. configuring VMs with a large number
+of virtual CPUs (vCPUs) while backing them with a smaller, shared pool
+of physical CPUs (pCPUs). This achieves a high server consolidation
+and excellent cost efficiency.
+
+However, when multiple such VMs have high utilization simultaneously,
+the shared pCPU pool becomes contended. The hypervisor is forced to preempt
+one vCPU to run another to maintain fairness. It maybe schedule vCPU of same
+VM or different VM.  If a vCPU is preempted while holding a lock or
+irq disabled section etc, overall forward progress collapses. There are some
+mitigation strategies such as yielding the vCPU to lock-holder, but they
+don't cover all the cases. In addition there are hidden costs such as cache,
+tlb misses, cost of vCPU preemption, host scheduling overheads etc.
+
+Under heavy contention, an effective mitigation strategy for workloads
+sensitive to vCPU preemption is for guests/VMs to voluntarily fold their
+workloads onto a smaller subset of vCPUs. By demanding fewer pCPUs,
+the VMs reduce overall host contention, which decreases vCPU preemption
+and improves total throughput for the system. 
+
+Limitations of Existing Approaches
+==================================
+
+CPU Hotplug, Isolated cpusets, cpuset: 
+- This is a heavy and administrative operation that requires topology rebuild.
+  Crucially, it breaks userspace CPU affinities. 
+
+Explicit task affinity:
+- Very difficult to manage for the users, if not impossible.
+
+We need a fast, co-operative backoff mechanism inside the kernel that can
+dynamically react to contention without violating user/task affinity
+contracts. Since reacting to the contention is agnostic to the user
+it cannot violate user affinity contracts.
+
+When there is high contention, fold the workload and use limited vCPUs
+and when there is no contention, use all the vCPUs again. This natural
+expansion/contraction gives the better performance to the users
+based on the underlying contention.
+
+Proposed Architecture
+=====================
+
+Current design is built on basis that contention is effectively
+quantified by steal time as seen in guest kernel.
+Steal time is already a well established construct today in
+para-virtualization world.  All major archs support this feature.
+It is indication of the contention of physical CPU. It scales according
+to the amount of contention. Today it is used by administrative users
+for changing the VM configurations. During high contention the steal
+time shows up in each guest based on its configuration. The proposed
+solution works well when all VMs honor the hint and work in co-operative
+manner. Note there is still no inter-guest communication to achieve this
+co-operation. Read the section on best practises on how to get the
+best out of this solution.
+
+This series introduces a dynamic vCPU backoff mechanism.
+It is separated into a core scheduler mechanism and a loadable
+virtualization policy module.
+
+Layer A: The Scheduler Mechanism (preferred CPUs)
+=================================================
+
+Series introduces a new CPU state called preferred. It indicates that
+vCPU can be safely used and using that vCPU won't increase contention
+for underlying physical CPUs. This state info is made available via
+cpu_preferred_mask, which is strictly maintained as a subset of
+cpu_active_mask.
+
+The scheduler uses this mask as a hint to fold workloads onto preferred
+CPUs using a few mechanisms.
+
+1. Wakeup: is_cpu_allowed() checks if CPU is preferred. If not calls
+   select_fallback_rq, which selects a preferred CPU if tasks's affinity
+   permits.
+
+2. The Tick (Push): During sched_tick(), if the current CPU is non-preferred,
+   the scheduler actively pushes the running task onto a preferred CPU
+   using a stopper thread. 
+
+3. Load Balance: sched_balance_rq restricts its domain span to
+   cpu_preferred_mask, preventing tasks from being pulled toward
+   non-preferred CPUs.
+
+Design Constraint: The scheduler strictly respects user affinities.
+If a task is pinned exclusively to non-preferred CPUs, it will remain there.
+The kernel will not break user/task affinity contracts.
+
+Layer B: The Policy Engine (virt/steal_governor)
+================================================
+
+The core scheduler should not dictate virtualization policy.
+Therefore, the policy is isolated into a new driver: steal_governor.
+(Can be selected by CONFIG_STEAL_GOVERNOR)
+This module latches onto that concept that contention is quantified by
+steal time. It periodically samples the steal time values across the
+system and depending on high/low steal values, takes appropriate action.
+
+When it sees high steal times, i.e. steal time exceeds high_threshold
+(default 5%), driver reduces the preferred CPUs by 1 core. 
+When it sees Low Steal Times, i.e.  steal time drops below low_threshold
+(default 2%), driver increases the preferred CPUs by 1 core.
+
+This creates a dynamic, self-maintained stepwise loop. The guest automatically
+shrinks its pCPU footprint when the host is saturated, and expands it when
+the noise clears while requiring zero cross-VM communication.
+
+Policy Design Constraints:
+- Ensure at least one core is kept as preferred.
+- Ensure preferred is always subset of active.
+
+Best Practises
+==============
+1. Ensure all the VM run kernel which has the patches.
+
+2. Keep CONFIG_STEAL_GOVERNOR=m. Build it as module, but don't load it by
+   default. When the administrative user enables it in one VM, he/she
+   will likely enable it in all VMs. Also module parameters can
+   only be changed at module load. Having it as module also allows one
+   to disable it to remove additional overhead it brings.
+
+3. Keep the interval_ms=500 to 5000. I.e. between 500ms to 5 second.
+   Though parameters allows slightly higher range. 
+
+4. Fine tune low and high threshold depending on your platform for best
+   results. Even where is no contention, very small steal values
+   might show up. So it might be better to keep low threshold higher
+   than 0.
+
+Baseline and Revision History
+==============================
+
+tip/sched/core at commit: 'ef9293b3b797 ("sched: dynamic: Fix preemption model strings")'
+
+For the talk on the problem and discussion on this issue, one can also
+refer to the OSPM26 talk[1]. 
+
+[1]: https://youtu.be/adxUKFPlOp0
+[2]: https://www.ibm.com/support/pages/ibm-power-virtualization-best-practices-guide
+[3]: https://www.ibm.com/docs/en/linux-on-systems?topic=bad-daytrader
+
+v11->v12:
+- Simplify the ARM64's 32 bit task case where p->cpus_ptr
+  may contain architecturally impossible CPUs.
+  (Dietmar Eggemann, Vincent Guittot)
+- Introduce cpumask_intersects_and for that simplification
+  (Yury Norov)
+- Keep the feature without any arch specific kconfig gating
+  for now. (Vincent Guittot)
+  If a need arises, it can be brought in
+
+v10->v11:
+- Return active CPUs instead of possible CPUs for steal ratio
+  denominator. This helps to avoid dilution of thresholds. 
+  (Yury Norov, Ionut Nechita)
+- Add XEN dom0 blocking check. (Ionut Nechita)
+- Update documentation/changelogs.
+- Multi arch framework has been deferred. Will be designed after
+  this series gets merged upstream. It would depend on enhancement requests.
+- Collected tags for patch 1
+- Fix possible crash for 32-bit tasks on arm64 (sashiko)
+- Fix possible race for task affinity due to abort in __migrate_task
+  (sashiko)
+- Fix unused variable for patch 1 (sashiko)
+- Disable interrupt when taking rq lock in a small window (sashiko)
+- Queue stopper iff migration is enabled. (sashiko)
+- Document workload characteristics and the possible regression
+  for pure CPU-time workloads.
+
+v9->v10:
+- Introduce kcpustat_field_total helper. (Yury Norov)
+- Always do the design checks. This helps to avoid placing design
+  constraints in core hotplug code. 
+- Remove cpu_preferred check in idle balancing. This helps to naturally
+  take care update of nohz.next_balance.
+- find_new_ilb changes are deferred as it isn't applicable for most
+  common use cases.
+- Move scheduler documentation to sched-paravirt.rst. (Yury Norov)
+- Add details of limitation of default values in documentation. (Yury Norov)
+- Remove task_can_sched_on_preferred out of sched.h (Mete Durlu)
+- Updated suggested-by tags for few patches. (I know i should have
+  done it earlier, sorry about that)
+- Minor polish of all changelogs.
+
+v8->v9:
+- Move to simpler layout. Everything in drivers/virt/steal_governor.c
+  (Yury Norov)
+- Move design checks into a helper function (Yury Norov)
+- Comments update (Yury Norov)
+- Requeue work without further checks when steal ratio is within the 
+  low/high threshold window. (Yury Norov)
+- Renamed sg_core_ctx to sg_ctx.
+
+v7->v8:
+- Rename to STEAL_GOVERNOR from STEAL_MONITOR.
+- Remove additional defaults.c and move it to core.c (Yury Norov)
+- Remove SM_DIR gating for direction control. (Yury Norov)
+- Enforce design constraint and restore the state if not met (Yury
+  Norov)
+- Drop nohz_full tick enable patch.
+- Move Kconfig patch as the last patch for enablement. (Yury Norov)
+- Use disable_delayed_work_sync to avoid race condition during
+  module unload. (Yury Norov)
+- Add same kconfig dependency and fail to compile the driver (Yury Norov)
+- Make low < high comparison during module init instead as they
+  are dependent parameters (Sashiko)
+- Update sysfs file helper section (Yury Norov)
+- Make preferred sysfs file available only with CONFIG_PREFERRED_CPU=y
+  (Yury Norov)
+- A few documentation and comments fixes. (Randy Dunlap)
+- Fix possible race in sched_push_current_non_preferred_cpu (Yury Norov)
+- Move is_migration_disabled check just before actual migration.
+- Make 100ms as minimal interval_ms from 10ms.
+- Make helper functions static and remove from header file as there
+  are no other callers.
+- Collapse helper functions and periodic work into one patch.
+
+Short summary on previous versions:
+v6->v7:
+- Consolidate new driver code to 4-5 patches.
+- defer the arch specific interface.
+- Use possible CPUs instead of active for steal value calculations.
+- Simplify is_cpu_allowed.
+- Make module parameters fixed at module load
+- Define CONFIG_STEAL_MONITOR and Make it select CONFIG_PREFERRED_CPU
+
+v5->v6:
+- Drop the optimization of caching the preferred state
+  in select_fallback_rq
+- Drop wakeup patch
+
+v4->v5:
+- Move the computation of steal time and decide on preferred CPU state
+  to a driver. i.e new driver called STEAL_MONITOR
+
+v3->v4:
+- Make preferred subset of active instead of online. 
+- Dropped RT patch and Defer sched_ext. Support only FAIR class.
+
+v2->v3:
+- Introduce a new config CONFIG_PREFERRED_CPU
+
+v1->v2:
+- A new name - Preferred CPUs and cpu_preferred_mask
+- Arch independent code. Everything happens in scheduler.
+- Steal time computation is gated with sched feature STEAL_MONITOR
+
+RFC v3-> RFC v4:
+- Introduced computation of steal time in arch/powerpc.
+
+RFC PATCH v1:
+- push task mechanism.
+- No steal time computation. Manual sysfs hint for preferred CPUs 
+
+v1: https://lore.kernel.org/all/236f4925-dd3c-41ef-be04-47708c9ce129@linux.ibm.com/
+v2: https://lore.kernel.org/all/20260407191950.643549-1-sshegde@linux.ibm.com/#t
+v3: https://lore.kernel.org/all/20260514152204.481115-1-sshegde@linux.ibm.com/#r
+v4: https://lore.kernel.org/all/20260617174139.155540-1-sshegde@linux.ibm.com/#t
+v5: https://lore.kernel.org/all/20260625124648.802832-1-sshegde@linux.ibm.com/
+v6: https://lore.kernel.org/all/20260701141654.500125-1-sshegde@linux.ibm.com/#t
+v7: https://lore.kernel.org/all/20260709215648.1246821-1-sshegde@linux.ibm.com/
+v8: https://lore.kernel.org/all/20260720172250.2257582-1-sshegde@linux.ibm.com/
+v9: https://lore.kernel.org/all/20260724140732.2683314-1-sshegde@linux.ibm.com/
+v10: https://lore.kernel.org/all/20260812054033.95658-1-sshegde@linux.ibm.com/
+v11: https://lore.kernel.org/all/20260825103855.721013-1-sshegde@linux.ibm.com/
+Even earlier version:
+https://lore.kernel.org/all/236f4925-dd3c-41ef-be04-47708c9ce129@linux.ibm.com/ 
+
+========================================
+Performance Numbers (powerpc, x86, s390)
+========================================
+
+PowerPC:
+===================
+VM1: 60VP/30EC and VM2: 30VP/20EC
+Shared physical CPU pool size: 50 Cores. Each core is SMT8.
+(VP - Virtual Core, EC - Entitles Core) -  PowerVM terminologies of SPLPAR[2]
+
+Default parameter values: 1000ms, 200 low threshold, 500 high threshold
+Both the VMs are running the same workload. Total throughput/time of VM1+VM2
+is being mentioned in all cases.
+
+Hackbench
+              baseline    steal_governor        steal_governor
+                             disabled               enabled
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+10 groups        5.20   |    5.40 (-3.85%)  |     4.65 (+10.58%)
+20 groups       11.39   |   12.01 (-5.44%)  |     7.09 (+37.75%)
+40 groups       20.32   |   19.80 (+2.56%)  |    11.31 (+44.34%)
+10 groups(-p)    2.37   |    2.26 (+4.64%)  |     2.06 (+13.08%)
+20 groups(-p)    3.34   |    3.28 (+1.80%)  |     3.20 (+4.19%)
+40 groups(-p)    4.46   |    4.83 (-8.30%)  |     4.26 (+4.48%)
+Remarks: Net improvement with steal_governor specially high load points.
+
+schbench ( -L -n 0 -r 30 -s 0)
+              baseline    steal_governor          steal_governor
+                             disabled                 enabled
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-m 1 -t 128     2475162 |    2621246 (+5.90%)  |      2527299 (+2.11%)
+-m 1 -t 256     1467350 |    1470032 (+0.18%)  |      1492372 (+1.71%)
+-m 1 -t 512     1408813 |    1454687 (+3.26%)  |      1437605 (+2.04%)
+Remarks: Effectively means no-improvements or regressions
+
+kernbench	baseline    steal_governor     steal_governor
+(elapsed time)	               disabled            enabled
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-j nr_cpus	231      |      235 (-1.7%) |    199 (+14%)
+Remarks: Net improvement in elapsed time.
+
+Daytrader - A real life work which is a proxy for trading based
+on db2[3]
+              baseline      steal_governor   steal_governor
+                              disabled          enabled
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Load@30%	1x	|	0.96x	|	 1.53x			
+Load@60%	1x	|	0.94x	|	 1.41x
+Remarks: Very good improvement seen at different load points.
+
+When there is no steal time (such as dedicated LPAR, or only VM2
+is running) throughput was same with steal_governor enabled/disabled
+which indicates minimal overhead of steal_governor. 
+
+=======================================================================
+
+Data from x86,s390 KVM which Ilya Leoshkevich carried out during OSPM26
+time. *This was based on v2*. The core idea remains the same, although the
+implementation has changed and some overhead has been removed since then.
+Note: Other variations of the benchmark shows no observable difference.
+
+x86:
+====
+cascade-lake: 32 threads = 16 cores
+Benchmark      #VMs    #CPUs/VM  ΔRPS     (%std)
+===============================================
+hackbench         8          16  90.73% ± 9.97%
+hackbench         4          24  52.67% ± 7.43%
+hackbench         4          16  37.96% ± 11.19%
+hackbench         4          32  37.82% ± 4.38%
+hackbench        12           8  36.90% ± 4.74%
+hackbench         8           8  35.30% ± 3.61%
+pgbench          16           4  31.77% ± 2.44%
+hackbench         2          24  25.85% ± 8.63%
+hackbench        16           8  24.87% ± 3.46%
+pgbench          16           8  21.83% ± 2.20%
+pgbench          12           8  21.35% ± 2.15%
+pgbench           8           8  18.46% ± 1.01%
+hackbench         2          32  15.56% ± 4.53%
+pgbench          12           4  14.28% ± 2.04%
+hackbench        16           4  14.07% ± 2.90%
+hackbench        12           4  9.60% ± 3.49%
+[...]
+pgbench           4           8  -1.16% ± 3.60%
+hackbench         4           4  -1.80% ± 9.55%
+sysbench         12           4  -2.19% ± 0.78%
+pgbench           4          24  -2.43% ± 4.38%
+pgbench           4          32  -3.21% ± 0.79%
+sysbench         16           4  -3.22% ± 1.09%
+
+S390:
+=====
+z16: 16 threads = 8 cores (SMT-2)
+Benchmark      #VMs    #CPUs/VM  ΔRPS    (std%)
+===============================================
+pgbench           2           8  73.50% ± 35.91%
+pgbench          16           4  61.30% ± 4.09%
+hackbench        16           4  54.11% ± 4.38%
+hackbench        12           4  36.34% ± 4.63%
+pgbench          12           4  34.83% ± 2.57%
+hackbench         8           4  29.75% ± 5.86%
+hackbench         8           8  25.98% ± 5.09%
+pgbench           2           4  23.31% ± 33.44%
+pgbench           2          16  19.95% ± 17.12%
+hackbench         4           8  19.43% ± 9.33%
+pgbench           8           4  19.32% ± 4.50%
+[...]
+schbench          8           8  -0.79% ± 0.33%
+sysbench          8           8  -0.81% ± 0.39%
+hackbench         4          16  -1.11% ± 5.82%
+sysbench          8           4  -1.62% ± 0.49%
+sysbench         16           4  -2.70% ± 0.58%
+schbench         16           4  -2.73% ± 0.91%
+sysbench         12           4  -2.91% ± 0.61%
+hackbench         2          24  -4.99% ± 3.31%
+
+Summary:
+- Many improvement across archs specially with real life workloads.
+- Overhead of steal_governor looks minimal when there is no steal time.
+- Overhead when STEAL_GOVERNOR=n is negligible.
+- Pure CPU-time workloads may see a small regression.
+
+Testing and Validation
+======================
+
+Apart from performance, To ensure the robustness of the preferred
+CPU masking and push mechanisms, the following scenarios were tested:
+- CPU Hotplug: bringing CPUs up/down change the preferred mask
+  accordingly under no-contention and contention.
+- Housekeeping cores: Verified with different combinations of
+  nohz_full=<beginning, middle, end set of CPUs> to ensure that
+  policy engine restricts to first housekeeping core in extreme cases.
+- User Affinity: Confirmed that tasks explicitly pinned to non-preferred
+  CPUs via taskset remain on their assigned CPUs.
+- Affine Move: Confirmed the affinity move using "taskset -cp" happens
+  on all combinations of non-preferred, preferred under contention.
+- Affinity and hotplug: It works as expected. I.e affinity gets
+  reset if all the CPUs of p->cpus_ptr go offline even if they are
+  non-preferred CPUs.
+- Extreme load and running threads: for example 4800 stress-ng threads
+  on 480 CPU system and it still packs to preferred CPUs.
+
+Known Limitations & Future Work
+===============================
+
+To keep this initial implementation clean and minimal, a few optimizations
+have been deferred:
+
+- Push all tasks on rq: Currently, the stopper thread only pushes the current
+  running task off a non-preferred CPU. Future optimizations may look into
+  migrating all queued tasks on that runqueue.
+
+- Sched Classes: This feature currently only works for the FAIR
+  class. Real-time (RT) and sched_ext classes are deferred for now,
+  as there is no need for it.
+
+- NUMA Splicing: The steal_governor currently removes last active core
+  based on CPU number. It does not yet do complex NUMA-aware splicing,
+  expecting that CPUs are spread out uniformly across nodes in
+  most cases.
+
+Shrikanth Hegde (13):
+  sched/cputime: Add kcpustat_field_total helper
+  cpumask: Introduce cpumask_intersects_and
+  sched/docs: Document cpu_preferred_mask and Preferred CPU concept
+  cpumask: Introduce cpu_preferred_mask
+  sysfs: Add preferred CPU file
+  sched/core: Try to use a preferred CPU in is_cpu_allowed
+  sched/fair: Load balance only among preferred CPUs
+  sched/core: Push current task from non preferred CPU
+  sched/debug: Add migration stats due to non preferred CPUs
+  virt: Introduce steal governor driver
+  virt/steal_governor: Add control knobs for handling steal values
+  virt/steal_governor: Implement steal_governor policy loop
+  virt/steal_governor: Enable the driver
+
+ .../ABI/testing/sysfs-devices-system-cpu      |  14 +
+ Documentation/driver-api/index.rst            |   1 +
+ Documentation/driver-api/steal-governor.rst   | 151 +++++++++
+ Documentation/scheduler/index.rst             |   1 +
+ Documentation/scheduler/sched-paravirt.rst    |  67 ++++
+ MAINTAINERS                                   |   9 +
+ arch/s390/kernel/hiperdispatch.c              |  10 +-
+ drivers/base/cpu.c                            |  12 +
+ drivers/virt/Kconfig                          |  17 +
+ drivers/virt/Makefile                         |   1 +
+ drivers/virt/steal_governor.c                 | 296 ++++++++++++++++++
+ fs/proc/uptime.c                              |   6 +-
+ include/linux/bitmap.h                        |  14 +
+ include/linux/cpumask.h                       |  42 +++
+ include/linux/kernel_stat.h                   |  11 +
+ include/linux/sched.h                         |   1 +
+ kernel/Kconfig.preempt                        |   4 +
+ kernel/cpu.c                                  |   6 +
+ kernel/sched/core.c                           | 120 ++++++-
+ kernel/sched/debug.c                          |   1 +
+ kernel/sched/fair.c                           |   8 +-
+ kernel/sched/sched.h                          |   8 +
+ lib/bitmap.c                                  |  17 +
+ 23 files changed, 798 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/driver-api/steal-governor.rst
+ create mode 100644 Documentation/scheduler/sched-paravirt.rst
+ create mode 100644 drivers/virt/steal_governor.c
+
 -- 
-2.43.0
+2.52.0
 
