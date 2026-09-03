@@ -1,130 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD09847F2D3;
-	Thu,  3 Sep 2026 16:10:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD0D37FF53;
+	Thu,  3 Sep 2026 16:11:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788451848; cv=none; b=i7oN51fUnbdf4s7S8QqpWVQgUwcHD25pnJgy249uR/YVLhVBLLczrjONNG4HQtB+dYVIT76zI9H0Hahl2VAY+1EUwuuVd5+KsG2WN6fydR/YBRbPebNVxO++TWQccqCpWMmu7hNdKnnrvBPcqhSl+zCCf8DcZVAOSyB5AYfVWyU=
+	t=1788451866; cv=none; b=YJnZE4o/+nhg7hgl67cJliBGprlblhdpqzJhzh0rsiFdf7yf0jiPcD5Wg39hHA+aC5NXxJw0qwAphzoNp2HWPROBKm5mCy5Yke65PyvS5A0hpqmzILxT9Zom5HpBAVx4OBnN/+l9QL7ZQf3S/rnH1x6iDvbaVtAkdsT1XwvXXto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788451848; c=relaxed/simple;
-	bh=spJZ+iAfaUboSrfrYfHD1ZugMzuusDISfb/fmWfy7i4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rjIcK4LYmNlN4K6I3+mtzAQHcMO7xBFByyonNA6dv5qUgH642rjja3OsNj/SGkMI9O7RsIAQZHGp4yl3v6+2myKpP13JxLdXwzhfP546kbcQTTFyGp4fPBfmphFpynjK/3kzam1eDBsV1dR6Ye1ZPDZ5HffAFABZRpZgAWMzJAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=La7gvet+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788451866; c=relaxed/simple;
+	bh=EZkrPu4MIblzYuAARYgWy6bsvyK3BVJiKofRW0Irh5c=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=H2x2ZvJg9evdsSqyhV4088y7rZ/fasm5n9TeWwOZ2tzytkPpSoMoZrQPPtxnu1SyGN0rszNNxUS2YIWPTDsPmA5nM8LDIqHpfXw/vYm0bcnpjR+6dB0BIlsvb62ROrQA/PBh3Na9kZa64+rjMr3PA0II+NSDp5ZMpj8K5zcaET8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JxlK65jB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="La7gvet+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3F6E1F000E9;
-	Thu,  3 Sep 2026 16:10:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JxlK65jB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 929241F00A3D;
+	Thu,  3 Sep 2026 16:11:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788451847;
-	bh=pBXLV/aReRggToYPyghrVtwl5A0a39umqxSD8Pkwnbo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=La7gvet+3cgiB6ZHetPHOHJ/G5wn1zMPvJrFbrd1xKIBS1PvlfH2NKKWCxPKJKLTu
-	 naHfridSE8ebRQpg3ZSoCaKPKQ+An6rV489cLxgBFuFKQuDclp1WSuGsx9ksS0gNzX
-	 7LYGI++Oc5fp/g/htz2fhSsR/mWNMjIKCaC8lJAIJemJZ8ueF1IN4VxSCvtGZmk9XP
-	 W2wykO/AkuGaCivJ0M6NpGiF3GgMDoLSZKtM8bFiXa5Tq5+PPAf8d8/pyRQ5nJfzmW
-	 duFUjAY4dZm6V5YX+0kRFo72uUE6alj2NFxBMns5RskQBas+udohXUSmCpJ6PlxLTO
-	 O3wsJZ1TK7saw==
-Date: Thu, 3 Sep 2026 17:10:39 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Fuad Tabba <fuad.tabba@linux.dev>, Peter Maydell <peter.maydell@linaro.org>, 
-	Leonardo Bras <leo.bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>, 
-	Yao Yuan <yaoyuan@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v20 01/14] arm64/gcs: Ensure FGTs for EL1 GCS
- instructions are disabled
-Message-ID: <apmXlJ3ScZ3-qlKV@gremlin>
-References: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org>
- <20260901-arm64-gcs-v20-1-f31750bdfadb@kernel.org>
+	s=k20260515; t=1788451864;
+	bh=0GGJyshhlAlKfjOpgr7j97Mh0m1+5qav5ykVgFpFUIA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=JxlK65jBcGgrsk9TAjqXxFnNxMSr2EUzOMWx942qjPBc2ybpTNX4WvsfPUiPxOaFl
+	 CvaTGDSQ1oizIiQKMXWYE2OVnwqIcGg5ydGC/+fP1+mqJ1GuK69hXukg6W16b7JT1r
+	 w2aaHejOOmNUZBUXMT7w7PrSbcyV2uNkwH9yBFLEDwdRzAceRy7X++SL5zY6FEYsfi
+	 FKkGMEhCG0T0FcIFQ+7naHWPwvlEPmk672vo9ZWS+QDqA+Td4EZLGZ+BJGrxKQ67ij
+	 TyZdI3BpB9bpqUcAWwS6PSI4Q7NaBwZ/Wa6AfOhrb223ZyOEtRQ2bZ96TF514AV+At
+	 BAPEfyocjj+3A==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 1986738119CB;
+	Thu,  3 Sep 2026 16:10:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260901-arm64-gcs-v20-1-f31750bdfadb@kernel.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [f2fs-dev] [PATCH RFC 00/14] Remove PG_private by using
+ page/folio->private checks instead
+From: patchwork-bot+f2fs@kernel.org
+Message-Id: 
+ <178845180590.3423963.571905514968785918.git-patchwork-notify@kernel.org>
+Date: Thu, 03 Sep 2026 16:10:05 +0000
+References: <20260731-remove-pg_private-v1-0-142c97ba3562@nvidia.com>
+In-Reply-To: <20260731-remove-pg_private-v1-0-142c97ba3562@nvidia.com>
+To: Zi Yan <ziy@nvidia.com>
+Cc: david@kernel.org, willy@infradead.org, akpm@linux-foundation.org,
+ muchun.song@linux.dev, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
+ rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+ baolin.wang@linux.alibaba.com, nico.pache@linux.dev, ryan.roberts@arm.com,
+ dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev,
+ usama.arif@linux.dev, gourry@gourry.net, ying.huang@linux.alibaba.com,
+ apopple@nvidia.com, hannes@cmpxchg.org, qi.zheng@linux.dev,
+ shakeel.butt@linux.dev, kasong@tencent.com, mark.rutland@arm.com,
+ irogers@google.com, jack@suse.cz, linux-doc@vger.kernel.org,
+ amarkuze@redhat.com, peterz@infradead.org, kexec@lists.infradead.org,
+ dave.hansen@linux.intel.com, ruirui.yang@linux.dev, adrian.hunter@intel.com,
+ linux-mm@kvack.org, hongbohbli@tencent.com, hpa@zytor.com,
+ guochunhai@vivo.com, skhan@linuxfoundation.org, ceph-devel@vger.kernel.org,
+ baoquan.he@linux.dev, matthew.brost@intel.com, anna@kernel.org,
+ sstabellini@kernel.org, zbestahu@gmail.com, rakie.kim@sk.com,
+ minchan@kernel.org, richard@nod.at, x86@kernel.org, ebiggers@kernel.org,
+ alexander.shishkin@linux.intel.com, mingo@redhat.com, slava@dubeyko.com,
+ weixugc@google.com, yukuai@fygo.io, xen-devel@lists.xenproject.org,
+ xiang@kernel.org, magiclinan@didiglobal.com, mhiramat@kernel.org,
+ joshua.hahnjy@gmail.com, xiao@kernel.org, byungchul@sk.com,
+ james.clark@linaro.org, acme@kernel.org, linux-raid@vger.kernel.org,
+ linux-fscrypt@vger.kernel.org, bp@alien8.de, rostedt@goodmis.org,
+ linux-mtd@lists.infradead.org, axelrasmussen@google.com,
+ jefflexu@linux.alibaba.com, namhyung@kernel.org, jaegeuk@kernel.org,
+ yuanchu@google.com, idryomov@gmail.com, osalvador@suse.de, jgross@suse.com,
+ pratyush@kernel.org, linux-nfs@vger.kernel.org, tytso@mit.edu,
+ oleksandr_tyshchenko@epam.com, song@kernel.org, corbet@lwn.net,
+ pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-perf-users@vger.kernel.org,
+ senozhatsky@chromium.org, tglx@kernel.org, jolsa@kernel.org,
+ linux-fsdevel@vger.kernel.org, mathieu.desnoyers@efficios.com,
+ linux-trace-kernel@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+ trondmy@kernel.org
 
-On Tue, Sep 01, 2026 at 10:46:59PM +0100, Mark Brown wrote:
-> The initial EL2 setup for GCS did not include disabling of EL1 usage of
-> GCS instructions, also disable these traps.
->
-> Fixes: ff5181d8a2a8 ("arm64/gcs: Provide basic EL2 setup to allow GCS usage at EL0 and EL1")
-> Reviewed-by: Leonardo Bras <leo.bras@arm.com>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/include/asm/el2_setup.h | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
-> index aa8ec9df8024..d308c6e6757d 100644
-> --- a/arch/arm64/include/asm/el2_setup.h
-> +++ b/arch/arm64/include/asm/el2_setup.h
-> @@ -393,6 +393,11 @@
->  	orr	x0, x0, #HFGRTR_EL2_nGCS_EL1_MASK
->  	orr	x0, x0, #HFGRTR_EL2_nGCS_EL0_MASK
->
-> +	/* Disable traps of GCS instructions at EL1 */
-> +	orr	x2, x2, #HFGITR_EL2_nGCSEPP_MASK
-> +	orr	x2, x2, #HFGITR_EL2_nGCSSTR_EL1_MASK
-> +	orr	x2, x2, #HFGITR_EL2_nGCSPUSHM_EL1_MASK
+Hello:
 
-(Forgive me being verbose here I'm thinking my way through things :)
+This patch was applied to jaegeuk/f2fs.git (dev)
+by Jaegeuk Kim <jaegeuk@kernel.org>:
 
-So this is effectively:
+On Fri, 31 Jul 2026 22:13:23 -0400 you wrote:
+> Hi all,
+> 
+> This patchset removes PG_private to make space for upcoming PG_folio
+> (reserved as __PG_folio) for identifying pages from a folio (more details
+> in Note below). Instead of checking PG_private, all code is changed to
+> check page/folio->private != NULL instead.
+> 
+> [...]
 
-Set bits from these masks:
+Here is the summary with links:
+  - [f2fs-dev,RFC,06/14] fs/f2fs: stop using PG_private
+    https://git.kernel.org/jaegeuk/f2fs/c/5ad9409a9533
 
-	HFGITR_EL2_nGCSEPP_MASK |
-	HFGITR_EL2_nGCSSTR_EL1_MASK |
-	HFGITR_EL2_nGCSPUSHM_EL1_MASK
-
-Then (later instruction):
-
-msr_s	SYS_HFGITR_EL2, x2
-
-I.e. set the hypervisor fine-grained instruction register ([0]).
-
-And I can see from that document that for each bit:
-
-0b1
-Execution of the specified instructions is not trapped by this mechanism.
-
-So this correctly disables these instructions:
-
-GCSPUSHX
-GCSPOPCX
-GCSSTR
-GCSSTTR when PSTATE.UAO is 1
-GCSSTTR when the Effective value of HCR_EL2.{NV, NV1} is {1, 1}
-GCSPUSHM
-
-And these are the only listed GCS sets of instructions there.
-
-On that basis LGTM :)
-
-So:
-
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-
-[0]: https://support.arm.com/documentation/111107/2026-06/AArch64-Registers/HFGITR-EL2--Hypervisor-Fine-Grained-Instruction-Trap-Register
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-> +
->  .Lskip_gce_fgt_\@:
->
->  .Lset_fgt_\@:
->
-> --
-> 2.47.3
->
->
-
---
-Cheers, Lorenzo
