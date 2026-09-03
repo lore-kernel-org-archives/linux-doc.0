@@ -1,206 +1,155 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3285846C852
-	for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2026 23:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388D52AD3C
+	for <linux-doc@vger.kernel.org>; Thu,  3 Sep 2026 00:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788393504; cv=none; b=tzuZN1SP5TIagxESIAoJMoKvhz0c7SSMyeOE9rMzS9DBqjcGxBeGGCrnDAXmxGSX82Cua+sI+Aclf3nSfGmmiNIs2u9mtqzKZaWTj88cYZQROZBLJSGYgZaOudPKclyAJa8+CUiTs6a9Ma22nmQOxd+NVbON7LOkJkFFMSFUCl0=
+	t=1788396074; cv=none; b=CX/FUlhQMM8lw0BdjIPNHo5LWakt2pO5YYaj6/Zw31TwUJELU3kMjSAj/FHtcq8vPRtIcRvJ/omXnhixqCqoVTYKgMvE50M3BJX3zHD2CA9YmWIFP1YtzaPFXpX5JZMG0xGY7u1NIOYRDZYODuIW7iUt7F37W0r5SQBrOIzM7ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788393504; c=relaxed/simple;
-	bh=y0BmfY76mN/0WPfH4Hr0Ikh4CCr4ip0xHhPT2cF1Sd0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QVJ9faOlafr3XGaKI3fJu/Y+Nr/mhglTRh50aJSEO/8GzsdfZSRcEFtXS6515wcpjooMGxA8ZTPL8Hmxow1X40quRz7KC2OK4y8I7WsEzrAwoqN3Ln2O7XBhdzor3KuD74MOooMlKKGjnQlhZF2Ta1bbBs+PL1uIDpISzL7m1Nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UEdOUHVf; arc=none smtp.client-ip=209.85.160.50
+	s=arc-20240116; t=1788396074; c=relaxed/simple;
+	bh=O3TQq4A5rX9f1yvF4DkCKPUCSm2FMHIrce9wen45HNA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LXGKlm87GjVo2bQJwg4um7bGTvHZArtDPTgnHQUyzJt8SeN2DXpBDHalLtFULbiiW8zsIONR49z+BkiVBpKZXPGeHoV7LTwQP7omtC+SoN7/30bHqRzwDWz8Kr83V2C9nvrruLNf3cwy08EOq3KLF6sEKq6OZ6P0XivfkXhDA0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aFvVa10E; arc=none smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UEdOUHVf"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-465cfc7e33dso1116402fac.1
-        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 16:58:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aFvVa10E"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-52fa6005224so15477821cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2026 17:41:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788393499; x=1788998299; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=o6TxE/PuYRNxck14tJMx6uhlVO4Uxr/vKzSJJkM4qzE=;
-        b=UEdOUHVfSio8B+/4dM4jV06dcybCNduoYcyLhiSa7adKNY4niM8QiLriUdwA83jyjZ
-         CmwYdf8FH4RwJ2KeSlBbbF/BIJcKBZaow2l2Ly5TaZ4ly+GHSrLdlYTmCH3RP+WjdG/q
-         P+NmQnMi6eTff/mH6Ufkx396ThYmRiziHf3skgb3TvqJHxHOi8rMRwF/dU8RF+kYeVnE
-         Q0823yATERFU7Prvd5NdqsktbGuC6jSmEji3NSc0SsS+kDt/+MIPrXsD8+ZhfRzC4gkf
-         uxYr1h1xizIUWxEm2gThxF5+1MFl7LrerD8/IM5xJLTW+XurNJCcetK3Jn0Tcutulgfv
-         CXUw==
+        d=gmail.com; s=20251104; t=1788396072; x=1789000872; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YiZZY9+C0sK8isY9Ljf0XKem2w9pAuwvHHUN/mOpXUE=;
+        b=aFvVa10E+tWJOS388wbrJ4I1JyUs6ZkROqaNv71cOI3Dy32qmB/F5JG9CUFAXvj+wF
+         tg7/FhJ/TVX4EnZZjN5/rYbzitdVw6OLMMcpMdX/IR9vrlAofY6xX3D8w0vGzUJ0rCrv
+         8JG+b5FwjNvq0+/NJneEywzLhiW9wgcMjqdIqud4a9RpKxWqcvhUrftNTRaiCIi5O0CV
+         lbDfKasXCrMVqxGN3rraDu6acU8C8cXpv+o9HljE+HZqGqIs9d97t3vpohJInXuHrype
+         LQeEv2nGBhvRiGYHrZdtMEIisgq7dOJpXHbxWP0dQaFovSCcypMXetTbn8wzLKkQrgwM
+         rIeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788393499; x=1788998299;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=o6TxE/PuYRNxck14tJMx6uhlVO4Uxr/vKzSJJkM4qzE=;
-        b=J8pBDoP9w5lIzDzl4uua16FDn2+z+mtQ1ZmlVKTlrI/lTyzlGqoLIgbYQ6I2Ud6CJQ
-         ugZ2kWCSiTdF5r8qQKhjKjlQV6aCKKGdxet32btNzsmOBPhCHNtB0llsP6Gc/xfm9uto
-         NSvJFFK/upf82dy0oiyeVZ3H+NFZ5Xilg8qnDfTZwS4kval13rMboAEktTqKKBaMq8qV
-         4a7ietj0l3uGn4/XWlvClgdoFctc4uCc/8Bv3P3FeENo0Vbhs1E1EE0tNd0ISA/9VFWA
-         0gVnn15JrvaioMjbE/CmftPY+B0Tf7/t4TyFFJgetrn1h6tLGqms1ctqcOjKeD+e4L+I
-         GphA==
-X-Forwarded-Encrypted: i=1; AKwUvBxGiLzUv8Qdpb4OAohIoKXGQisTiz+rTFTZ3+l1MqrhF70YWUMlRwFIZYmzYGhhcn7ANJ4apRqGXaE=@vger.kernel.org
-X-Gm-Message-State: AFuF++kLXUFdOcXEIeI4QkybkTVw8273WjFFDukWz1ja0Z85lJTeFiiE
-	Yn5QjSzZRQvBdj7iRjySWK/JroJRlK4a1ofkvGiYgLcZ8aPYkoKOAv3k
-X-Gm-Gg: AYBFou0YXACW89E6qP+Ve9HagQidF27CiUNq6x5MVIkM6o5Kz1xyYJ4os5jxaldSMOu
-	/7jC8M8rt/l2Xae3DC6XaVptuTZJ0XJcgE5q7DqlxKveMFdnH9FmT0bhRVbDRDH09y8cFIQIZxf
-	+R50VjTyF6gJs9Y2ZKNa8fMU39hzfE8PaeTt78UXe30v2Ge1dq7WAdDPeF1BAN11inKfDyXNSPx
-	zUKGo20ZS8faob8tTVk1MNikWn09ylheE5TGbe9tH6fx+Py+PH5sS2AnpEuiW4ouDsgPQaefUjB
-	ruOT6DA9ro0nc/vbfj2rxP14OT6IXy5XEFU0gd9CsfI7/if3oKSGrSy/FQMkfoQtGBkr0XZXHo5
-	vzr++38vrbSy0GBXRZY9z9MeR2cySTDfAPMtND1n20LehDv96+p8gv4/8iXi7CJ5Ze4GB1dIHSE
-	3PEOYK5beRtrtPccO4It4YGnNZLFV+CwEKdf6UuZgegrLP7ifyTQ2abFmlBnoBotuB8yWgLq2Nn
-	K3eULkfpVCQMEJdfcbL
-X-Received: by 2002:a05:6871:c8dc:b0:465:8554:94b7 with SMTP id 586e51a60fabf-46f87ca935fmr7744412fac.12.1788393499274;
-        Wed, 02 Sep 2026 16:58:19 -0700 (PDT)
-Received: from devvm29614.prn0.facebook.com ([2a03:2880:ff:58::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-46f330822basm5626041fac.15.2026.09.02.16.58.16
+        d=1e100.net; s=20251104; t=1788396072; x=1789000872;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YiZZY9+C0sK8isY9Ljf0XKem2w9pAuwvHHUN/mOpXUE=;
+        b=YYvPy1nassSXhyBs1xUa6iGuKC3r/UYwf20yGNO8XEAAX3Lip+BWx3arBqE4SaJ9jc
+         O81rqK++yHK0pfbdBhlCQBOC74xm7HTbdDKuIzmJfv39ccA/fmd6JnRCynG9U5m6PCKg
+         DTvwHi+3O7UmyWOeIGYnSOBvem+p49x7pV1k826qOQk4wRyg/QUQzkJbRIAP2hu02aeQ
+         ldvp6Xfs/C/gUwGkkwdKyqKYu+8dfBmGC4/+l2p2vypjpJ9EWNrHPrOg6BfNLlC9k/gV
+         JCpUXaZqZZ6esbth3yujQyVwLwDPP8R5keHsq3EQI+BQt5NoZwfyRnkTqhfRWVJXTFKq
+         bNlA==
+X-Forwarded-Encrypted: i=1; AKwUvBzfVmKY+0NpaB9x+oJNDCWpjcblf5CG/+/yVt1opSt9E4NTOQxM14MtfS33zePvjW5TCxWvCT8/F7k=@vger.kernel.org
+X-Gm-Message-State: AFuF++ndFNq7GJW5wI24yAYoBt9hG0afcvNrPAUYd4bGlWhGmmcOJ9Pc
+	1dIsRzVR2i2Sqc0WYBwnrbF7BwQchw8yLUoilfeDdH7uEFREAArv5OEgxW6ZlUMZ
+X-Gm-Gg: AYBFou11DyPUrSNqk9byHsaOgCEqVOrEg0673xsa52WbwSA+E8YA8V31GujJSlYKB0r
+	ZyVHzrQoxSELvkgSDOMhYULfRCqzICKl6iPtXpwUeiRErTwbEQ0TQZStfv1tATYaqvTxzVcsXS5
+	q1NtbXsW6Spp8VdkCFmsCavBCf6oZGxOgwY1VtFEi0vYeCGc1rH6RKzv6dsVjxVu0GbCvu/e0Yh
+	jH2tVnU+P8qIGfyluUsJMJU8OER9X/+neWJI2NPOeFRRF1nquQNuMeOH6AhFo1TZPem4317GmIY
+	wwq1N1TOgXyvCeXBLPuhjLMiZuBr+aXVWOqStH0EPY85FqD4d1TOiTPlF/t4ymHHlN7XUB3uNU/
+	p1ONgBExoHkiTmmgM4q3KwlJT8Ony9JGCK9IjmK69EN+T07Rkqs9o9Du5r9dK/Av4MDbIhwj8Af
+	aMrD/Q/OE6Y/aiOSX3zG2HzzRs7n5FtHMDVToEI/dqVsdCgwpr1ItfandY4y7Qe3VtAoZyqvAwN
+	bsF3sAUxshsntbocbjItSkQDc4VqfezGjeN4YdrrWOkmLQ5t9bjjCQ=
+X-Received: by 2002:a05:622a:1354:b0:52e:1e5:4754 with SMTP id d75a77b69052e-53036cc5520mr89907741cf.24.1788396072113;
+        Wed, 02 Sep 2026 17:41:12 -0700 (PDT)
+Received: from Z-System.tailddad04.ts.net (c-68-83-199-219.hsd1.mi.comcast.net. [68.83.199.219])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90e9eef50c4sm30837506d6.33.2026.09.02.17.41.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 16:58:18 -0700 (PDT)
-Date: Wed, 2 Sep 2026 16:58:06 -0700
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Stefano Garzarella <sgarzare@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, virtualization@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, sargun@sargun.me, jlinbox@meta.com,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next 2/6] vsock: add IOCTL_VM_SOCKETS_ASSIGN_G2H_NETNS
-Message-ID: <api4Du1bQzieFvA9@devvm29614.prn0.facebook.com>
-References: <20260902-vsock-guest-ns-v1-0-9995383e9a8b@meta.com>
- <20260902-vsock-guest-ns-v1-2-9995383e9a8b@meta.com>
- <3a581439-6664-4339-8627-f1704db35bb0@infradead.org>
+        Wed, 02 Sep 2026 17:41:10 -0700 (PDT)
+From: Zac Lanzon <lanzonza@gmail.com>
+To: linux-hwmon@vger.kernel.org
+Cc: Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>,
+	Aleksa Savic <savicaleksa83@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zac Lanzon <lanzonza@gmail.com>
+Subject: [PATCH] hwmon: (asus_rog_ryujin) Add ROG Ryujin III 360
+Date: Wed,  2 Sep 2026 20:40:54 -0400
+Message-ID: <20260903004054.502171-1-lanzonza@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3a581439-6664-4339-8627-f1704db35bb0@infradead.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 02, 2026 at 04:35:59PM -0700, Randy Dunlap wrote:
-> Hi,
-> 
-> On 9/2/26 4:00 PM, Bobby Eshleman wrote:
-> > From: Bobby Eshleman <bobbyeshleman@meta.com>
-> > 
-> > Namespaces let a host isolate a VM's vsock traffic to a specific
-> > namespace, but in a guest vsock traffic cannot be isolated to a
-> > namespace. The vsock device is hardcoded to global mode and can't be
-> > moved into a local-mode namespace.
-> > 
-> > Introduce ioctl IOCTL_VM_SOCKETS_ASSIGN_G2H_NETNS on /dev/vsock that
-> > gives userspace a way to move the device to the calling pid's namespace.
-> > The call requires CAP_NET_ADMIN in the root user namespace. A privileged
-> > user wishing to "unassign" the device can move it to the init_netns,
-> > which is hardcoded to global mode (so no unassign call is necessary).
-> > 
-> > A getter to read the current assignment back was considered, returning
-> > either the namespace's net_cookie or its nsfs inode number, but neither
-> > seemed useful enough to bake into the uAPI now. It can be added later if
-> > a user turns up that needs it.
-> > 
-> > Add a transport hook to indicate support for guest namespacing, so that
-> > transports may opt in/out. A transport that opts out keeps the
-> > reachability rules it had before this ioctl existed.
-> > 
-> > Sockets are reset when the underlying device moves to a different
-> > namespace, so as to prevent reachability from the previous and now
-> > disallowed namespace.
-> > 
-> > Following the approach of netdevs, the device returns to init_net when
-> 
-> I'm confused by the use of "init_net" several times and "init_netns" at
-> least 2 times. "init_net" is the initial, boot-time net namespace.
-> 
-> And is one of these what is referred to in the Documentation/ file below
-> as "initial namespace"?
+Add the USB product ID of the base ASUS ROG RYUJIN III 360 (0b05:1aa2,
+USB product string "ROG RYUJIN III"). It uses the same status report
+layout and cooler duty channel as the RYUJIN III EXTREME, EVA and
+WHITE editions, so it can share rog_ryujin_iii_info.
 
-Good point, init_netns should be init_net everywhere here (and in the
-Documentation/).
+Tested on a ROG RYUJIN III 360: coolant temperature, pump speed and
+internal fan speed report plausible values that track load, and the
+internal fan follows pwm2 (30% -> 870 RPM, 40% -> 1590 RPM).
 
-> 
-> > its namespace is removed. Care is taken to not break flows when the
-> > device is inside a global namespace that is being torn down and alive
-> > sockets are in a different global namespace. In this scenario, the
-> > device's netns getter pre-emptively falls back to the init_net (always
-> > global) so that these flows are not disrupted. If init_netns ever
-> 
->                                            maybe    init_netns()
-> if you are referring to a function...
+Assisted-by: Claude:claude-fable-5-1
+Signed-off-by: Zac Lanzon <lanzonza@gmail.com>
+---
+One firmware behavior observed while testing duty writes on this unit,
+kept out of the commit message since it is not about the ID itself.
 
-Same here, should be init_net.
+The first duty write, a pwm2 write that re-sends the current 40% pump
+duty alongside the new fan duty, takes the cooler out of automatic
+mode and the pump runs at maximum while still reporting 40%. Writing
+40% back does not apply; only a different pwm1 value does. liquidctl
+behaves the same with the hwmon driver unloaded, so this is firmware
+behavior. Only a reboot returns the cooler to automatic mode.
 
-> 
-> > supports local-mode in the future, this logic will have to be changed.
-> > 
-> > Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
-> > Link: https://lore.kernel.org/all/20200427142518.uwssa6dtasrp3bfc@steredhat/
-> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
-> > ---
-> >  Documentation/admin-guide/sysctl/net.rst |  18 +++
-> >  include/net/af_vsock.h                   |   7 ++
-> >  include/uapi/linux/vm_sockets.h          |   6 +
-> >  net/vmw_vsock/af_vsock.c                 | 198 ++++++++++++++++++++++++++++++-
-> >  4 files changed, 228 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-> > index e586e17fc7a5..1e9c0d2be7b8 100644
-> > --- a/Documentation/admin-guide/sysctl/net.rst
-> > +++ b/Documentation/admin-guide/sysctl/net.rst
-> > @@ -515,6 +515,24 @@ their hosts. The behavior of VSOCK sockets in a network namespace is determined
-> >  by the namespace's mode (``global`` or ``local``), which controls how CIDs
-> >  (Context IDs) are allocated and how sockets interact across namespaces.
-> >  
-> > +In a guest, the vsock device owned by the guest-to-host (G2H) transport belongs
-> > +to one network namespace at a time. The ``IOCTL_VM_SOCKETS_ASSIGN_G2H_NETNS``
-> > +ioctl on ``/dev/vsock`` moves it to the namespace of the calling process, which
-> > +requires ``CAP_NET_ADMIN`` in the initial user namespace. The namespace's mode
-> 
->                               Is this the caller's namespace?
+Measured with liquidctl 1.16 (pump-fan is pwm2, pump is pwm1):
 
-Yes. I'll clarify that in the next revision.
+  automatic mode        pump 40% / 1710 RPM   fan 30% /  870 RPM
+  set pump-fan 40       pump 40% / 3690 RPM   fan 40% / 1590 RPM
+  set pump-fan 30       pump 40% / 3660 RPM   fan 30% /  870 RPM
+  set pump 60           pump 60% / 2400 RPM
+  set pump 40           pump 40% / 1740 RPM
+  set pump-fan 40, 30   pump stays 1740 RPM   fan follows
 
-> 
-> > +decides who may then use the device:
-> > +
-> > +- ``global`` - every ``global`` mode namespace may use it.
-> > +- ``local`` - only that namespace may use it, which reserves the connection to
-> > +  the host for it alone.
-> > +
-> > +The device starts out in the initial namespace, so until the ioctl is issued
-> > +nothing has moved and no mode has changed.
-> > +
-> > +Connections made before the move, from a namespace that can no longer reach the
-> > +device, are reset. The device returns to the initial namespace when the
-> > +namespace it was moved to is deleted, so assigning it to the initial namespace
-> > +is how an assignment is undone.
-> > +
-> >  ns_mode
-> >  -------
-> >  
-> thanks.
-> -- 
-> ~Randy
-> 
+So the firmware applies a pump duty only when the stored value changes,
+and leaving automatic mode does not apply the stored one. Does the
+EXTREME or EVA do the same? If so, the driver's read-then-rewrite of
+the pump duty on a pwm2 write may deserve a documentation note.
 
-Thanks for the review.
+ Documentation/hwmon/asus_rog_ryujin.rst | 1 +
+ drivers/hwmon/asus_rog_ryujin.c         | 3 +++
+ 2 files changed, 4 insertions(+)
 
-Best,
-Bobby
+diff --git a/Documentation/hwmon/asus_rog_ryujin.rst b/Documentation/hwmon/asus_rog_ryujin.rst
+index b0d7ce8dd..3ebab230e 100644
+--- a/Documentation/hwmon/asus_rog_ryujin.rst
++++ b/Documentation/hwmon/asus_rog_ryujin.rst
+@@ -6,6 +6,7 @@ Kernel driver asus_rog_ryujin
+ Supported devices:
+ 
+ * ASUS ROG RYUJIN II 360
++* ASUS ROG RYUJIN III 360
+ * ASUS ROG RYUJIN III EXTREME
+ * ASUS ROG RYUJIN III EVA EDITION
+ * ASUS ROG RYUJIN III WHITE EDITION
+diff --git a/drivers/hwmon/asus_rog_ryujin.c b/drivers/hwmon/asus_rog_ryujin.c
+index 702edb831..4b9859351 100644
+--- a/drivers/hwmon/asus_rog_ryujin.c
++++ b/drivers/hwmon/asus_rog_ryujin.c
+@@ -20,6 +20,7 @@
+ #define USB_PRODUCT_ID_RYUJIN_III_EXTREME	0x1bcb
+ #define USB_PRODUCT_ID_RYUJIN_III_EVA		0x1ade
+ #define USB_PRODUCT_ID_RYUJIN_III_WHITE		0x1ada
++#define USB_PRODUCT_ID_RYUJIN_III		0x1aa2
+ 
+ struct rog_ryujin_device_info {
+ 	u8 temp_offset;
+@@ -593,6 +594,8 @@ static const struct hid_device_id rog_ryujin_table[] = {
+ 	  .driver_data = (kernel_ulong_t)&rog_ryujin_iii_info },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUS_ROG, USB_PRODUCT_ID_RYUJIN_III_WHITE),
+ 	  .driver_data = (kernel_ulong_t)&rog_ryujin_iii_info },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUS_ROG, USB_PRODUCT_ID_RYUJIN_III),
++	  .driver_data = (kernel_ulong_t)&rog_ryujin_iii_info },
+ 	{ }
+ };
+ 
+-- 
+2.53.0
+
