@@ -1,243 +1,372 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B153E345EC1;
-	Thu,  3 Sep 2026 01:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788400301; cv=none; b=X5JiPIRZ9H7Hq1hSy4Y/vNm7zV62/fuYfZXFk9A3k56he5AQ+KAzOjGk+TkREq7w2Z9t4WhgnByjLGHSDD+6/9fR7K5yoKWNTXSuPYisuNeCHCvx6IWNeMz3fXAHk/IU74crQAuzNPhHFAFVnPe8ockdnLsyOucEr48Quy0S9Fg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788400301; c=relaxed/simple;
-	bh=NEuIFUQir2yViFwLjPozotQd36++IpvCcKGowJE+yzo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tAumX/UavEozfc2S1zWnV35z37tYx1iD/dm+15TFT81UEWhUidmiWARD5xCM2uAIsvYfpcV1Sd2OMgp1Lou0UHZ2Cls6SCuquzyuDSBYO6vzn+XXAoJW0N+sGDWaRMIxmCXdv0ZGFLRU5SQcf4vp4vsLqQgMlJxGX4LeNrKWj2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dt2QOSZO; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3A7212542;
+	Thu,  3 Sep 2026 02:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788401406; cv=pass; b=DN2quhNEnAZD4nJGchiPeemaXqgLwMo1EL7f5VCycOx5EjjTiMVgPcqv5FaV3h80SVqiC6sy3az0VNs6aZAQgKHYNh6KbY41F7yjH2hMyuKY6yemGK0htI0lL5bb16vT7Jz8pTB6pb47JUCKEK/Jtq1VzkZP+4X3zUGr4gKCMS4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788401406; c=relaxed/simple;
+	bh=LiJ7MRswDCoEC6P+kGJ8ibSf+WFaqT9m8KcoPiT36Mg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FywYtssPJo1AU3TfGtwg3HQCwPprRFLr05o9PDVyHGEjaSMnTxGK69/WX3UgGXxW0pLXWsFZBCFNTaeBCs3rh18SwZ4NUYHfhjCa+Szff0S4lhEJ0SliN1IYKDaXqWFl1XY909u7xL+vBJewbiuNzjGYBuxZPmXMxNIVJWlOLwc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=xL3f28e/; arc=pass smtp.client-ip=222.228.43.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dt2QOSZO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788400299; x=1819936299;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=NEuIFUQir2yViFwLjPozotQd36++IpvCcKGowJE+yzo=;
-  b=dt2QOSZOMFE7PTj8hKMtfrqyHyL3vjmRrsVpbR4N7lMbtwgLDf+wd9iD
-   dQ+NjWN3No6mkk49mtmXy6Z5lmefaeJ8RuPKxwyU6r9izsLZzz1bMNkws
-   m2bZqKOtNhYPEXjfLAXMcO4Ecqtuts6Fo0EIKIyiZSZY9O/WLMSrYa7+c
-   eLwtDPVg/FWSG+5VByRyDOgdf9xhEiDOu2ET7goc/QEKQv3f6o0SeAa+D
-   zeolWbE9KZjndZ5LltdqKwQAA39z/hV+ROLFE5uQjpLEFQYJtXWs7W/Sc
-   3T9EUFSXsPbPgYEzwjmk0c0xb1ozcXl8pEAYc2JTT3Fd1DifChO7H2pSN
-   g==;
-X-CSE-ConnectionGUID: hdY2HlSyRoe5k002fnYu1g==
-X-CSE-MsgGUID: HXPL2Ck/RU2oKMSoY51mgg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="99469188"
-X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="99469188"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 18:51:24 -0700
-X-CSE-ConnectionGUID: 97J0hKp1QWSAiiTRn7u93Q==
-X-CSE-MsgGUID: kBfcBs+eRTeNq0N8bTiJEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="307770245"
-Received: from rpedgeco-desk.jf.intel.com ([10.88.27.135])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 18:51:22 -0700
-From: Rick Edgecombe <rick.p.edgecombe@intel.com>
-To: bp@alien8.de,
-	dave.hansen@intel.com,
-	hpa@zytor.com,
-	kas@kernel.org,
-	kvm@vger.kernel.org,
-	linux-coco@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mingo@redhat.com,
-	nik.borisov@suse.com,
-	pbonzini@redhat.com,
-	seanjc@google.com,
-	tglx@kernel.org,
-	vannapurve@google.com,
-	x86@kernel.org,
-	chao.gao@intel.com,
-	yan.y.zhao@intel.com,
-	kai.huang@intel.com,
-	tony.lindgren@linux.intel.com,
-	binbin.wu@intel.com,
-	sohil.mehta@intel.com
-Cc: rick.p.edgecombe@intel.com,
-	Hongyu Ning <hongyu.ning@linux.intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>
-Subject: [PATCH v10 11/11] x86/virt/tdx: Optimize tdx_pamt_get/put()
-Date: Wed,  2 Sep 2026 18:51:13 -0700
-Message-ID: <20260903015113.93343-12-rick.p.edgecombe@intel.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260903015113.93343-1-rick.p.edgecombe@intel.com>
-References: <20260903015113.93343-1-rick.p.edgecombe@intel.com>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="xL3f28e/"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id 7CDC5109D6CAB;
+	Thu,  3 Sep 2026 11:04:06 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id zzC9S1B_LGlW; Thu,  3 Sep 2026 11:04:00 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256; cv=none;
+	t=1788401040;
+	b=impZEK7OKjR219PBLyYk4/BjECUWe+kZ+/7nxZZJV1Pq9inw3iWViEC+/BCbdX8zp/Hb
+	 gJ3dy0t6IvM4g2GQJekiDRcPPlRnr2vd8W7r+cf72cqz+zbFZGJ3gKwSaeCtWi9RyaGkh
+	 XoIX9cfNtp9Hdw5D66CCdNKcGMG2O0KVS4=
+ARC-Message-Signature: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256;
+	c=relaxed/relaxed; t=1788401040;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=/2xQDvsdbpkOFV693v3IisG5P6nFctFP4Xs0T9A9+Xw=;
+	b=VELM9jQHh6YQWIhuj6yERUaUEgsDHqVFPavtKUyLVZidx0WvHoApKC1fx+uYb3JFwoD3
+	 X4ML7geUcUSbFmIOQhCsOwOPy37cp8ZKLEoCwXVyrhLqe6ZKgMvpdRNXJGR3/p1akRTEt
+	 eu2LeVITB9hM2t3cjdLxl0gPwvoBFOrGAw=
+ARC-Authentication-Results: i=1; www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id 77A66109F0D0C; Thu,  3 Sep 2026 11:04:00 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 77A66109F0D0C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1788401040;
+	bh=/2xQDvsdbpkOFV693v3IisG5P6nFctFP4Xs0T9A9+Xw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=xL3f28e/qIAlbkcKIvVoaQ7cryD8lCgAxqnaC4fnoCgJ4dcWr2MKcOaSakI/h5OFi
+	 +PMci4z38hNWfRJy+oKpBUKUrBenOK7H8Q1Ybyf6Ylz9C1zCOUGP4nRpXfWUL+qEBf
+	 6rLzS+kS8poGAIaTg2j2fmpFTqUaEysyjU1UaMZE=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: Akira@www.redadmin.org, Yokosawa@www.redadmin.org,
+	akiyks@gmail.com, Jonathan@www.redadmin.org, Corbet@www.redadmin.org,
+	corbet@lwn.net
+Cc: Shuah@www.redadmin.org, Khan@www.redadmin.org,
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH] docs/ja_JP: translate submitting-patches.rst (review and report tags)
+Date: Thu,  3 Sep 2026 11:03:56 +0900
+Message-ID: <20260903020356.1055420-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The Dynamic PAMT (DPAMT) get/put helpers use a global spinlock to
-serialize all refcount updates and SEAMCALL invocations. This gives correct
-behavior for concurrent callers, but leads to contention. It is especially
-bad from the KVM side, which is designed to allow faulting in EPT under a
-shared lock. With the global spinlock, not only is the lock an exclusive
-one, but it is for all TDs instead of just a single one.
+Translate the section describing Reported-by, Tested-by, Reviewed-by,
+Suggested-by, and Fixes tags into Japanese.
 
-But taking the global lock each time is actually unnecessary. Only the 0->1
-and 1->0 refcount transitions actually need the lock (to pair with
-SEAMCALLs that actually add and remove with the DPAMT pages). The common
-case of incrementing or decrementing a non-zero refcount can be done
-locklessly.
+This includes the Reviewer's Statement and the guidance on adding or
+removing review and testing tags in subsequent patch versions.
 
-So create a fast and slow path. Check the refcount outside the lock and
-only take it for the slow path (0->1 and 1->0 transitions).
+Keep the Japanese submitting-patches documentation aligned with the
+corresponding English section.
 
-On the put side make the refcount adjustment and lock taking atomic so if
-a 'get' happens between them, it doesn't cause the DPAMT to be freed
-incorrectly. On the get side there is no technique for doing the refcount
-adjustment and lock atomically, so check the refcount again inside the
-lock.
-
-AI was used under supervision to collect/apply feedback, review code and
-workshop logs. It assisted in identifying/evaluating the stale
-conditionals for the races resolved from the atomic_dec_and_lock() change.
-Separate from atomic_dec_and_lock() fallout, it suggested to change
-atomic_inc() to atomic_set(pamt_refcount, 1) in the put error path for the
-sake of being more precise, which Kiryl had also suggested in the past.
-The model also suggested updated comments following the
-atomic_dec_and_lock() change based on some directed prompting. The
-comments were subsequently edited or further prompted for fine tuning.
-
-Based on a patch originally by Kiryl Shutsemau.
-
-Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Tested-by: Hongyu Ning <hongyu.ning@linux.intel.com>
-Reviewed-by: Chao Gao <chao.gao@intel.com>
-Reviewed-by: Tony Lindgren <tony.lindgren@linux.intel.com>
-Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
-Reviewed-by: Dave Hansen <dave.hansen@linux.intel.com>
-Reviewed-by: Vishal Annapurve <vannapurve@google.com>
-Acked-by: Sohil Mehta <sohil.mehta@intel.com>
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
 ---
-v10:
- - Change "Dynamic PAMT" to "DPAMT" in comments. (Dave)
+ .../ja_JP/process/submitting-patches.rst      | 91 +++++++++++++++++++
+ 1 file changed, 91 insertions(+)
 
-v7:
- - Drop Assisted-by tag and cover AI use in log. (Dave)
- - Move to end of the series.
- - Use atomic_inc_not_zero() in this patch inside the spin_lock(), as
-   suggested on the non-optimized patch by (Dave).
-
-v6:
- - Fix "tdx_pamt_add()" typo to "tdx_pamt_get()" in lost-race comment
- - Fix error path bug: set ret = -EIO and use WARN_ON_ONCE() instead of
-   pr_err() for unexpected PAMT.ADD failures (Sean)
- - Use "set the refcount 0->1" wording to match atomic_set() usage
- - Wrap comments to 80 columns
- - Switch to atomic_dec_and_lock() and remove handling of races that are
-   no longer needed as a result. Adjust comments as appropriate. (Dave)
- - Adjustments from dropping error helper patches
----
- arch/x86/virt/vmx/tdx/tdx.c | 44 ++++++++++++++++++++++++-------------
- 1 file changed, 29 insertions(+), 15 deletions(-)
-
-diff --git a/arch/x86/virt/vmx/tdx/tdx.c b/arch/x86/virt/vmx/tdx/tdx.c
-index 3daa8c63f9c51..2acab6e5f5f87 100644
---- a/arch/x86/virt/vmx/tdx/tdx.c
-+++ b/arch/x86/virt/vmx/tdx/tdx.c
-@@ -2176,28 +2176,41 @@ int tdx_pamt_get(kvm_pfn_t pfn, struct tdx_pamt_cache *cache)
- 	if (!tdx_supports_dynamic_pamt(&tdx_sysinfo))
- 		return 0;
- 
--	ret = alloc_pamt_array(pamt_pages, cache);
--	if (ret)
--		return ret;
--
- 	dpamt_refcount = tdx_find_dpamt_refcount(pfn);
- 
--	spin_lock(&dpamt_lock);
--
- 	/*
- 	 * If the DPAMT entry is already added (i.e. refcount >= 1),
- 	 * then just increment the refcount.
- 	 */
-+	if (atomic_inc_not_zero(dpamt_refcount))
-+		return 0;
+diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
+t b/Documentation/translations/ja_JP/process/submitting-patches.rst
+index 797b70b97fa7..0b4e22b015d7 100644
+--- a/Documentation/translations/ja_JP/process/submitting-patches.rst
++++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
+@@ -573,3 +573,94 @@ Acked-by:=E3=80=81Cc:=E3=80=81Co-developed-by: =E3=82=
+=92=E4=BD=BF=E7=94=A8=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88
+     Signed-off-by: From Author <from@author.example.org>
+     Co-developed-by: Submitting Co-Author <sub@coauthor.example.org>
+     Signed-off-by: Submitting Co-Author <sub@coauthor.example.org>
 +
-+	ret = alloc_pamt_array(pamt_pages, cache);
-+	if (ret)
-+		return ret;
 +
-+	spin_lock(&dpamt_lock);
++Reported-by:=E3=80=81Tested-by:=E3=80=81Reviewed-by:=E3=80=81Suggested-by:=
+=E3=80=81Fixes: =E3=81=AE=E4=BD=BF=E7=94=A8
++---------------------------------------------------------------------
 +
-+	/*
-+	 * Unlike tdx_pamt_put() which uses atomic_dec_and_lock() to
-+	 * atomically handle the 1->0 transition, the get side has no
-+	 * equivalent combined primitive for 0->1. Recheck under the
-+	 * lock since another get may have already done the 0->1
-+	 * transition after both saw atomic_inc_not_zero() fail.
-+	 */
- 	if (atomic_inc_not_zero(dpamt_refcount))
- 		goto out_free;
- 
--	/* Try to add the PAMT page and take the refcount 0->1. */
- 	tdx_status = tdh_phymem_pamt_add(pfn, pamt_pages);
- 	if (WARN_ON_ONCE(tdx_status != TDX_SUCCESS)) {
- 		ret = -EIO;
- 		goto out_free;
- 	}
- 
-+	/*
-+	 * The refcount is zero, and this locked path is the
-+	 * only way to increase it from 0->1.
-+	 */
- 	atomic_set(dpamt_refcount, 1);
- 	spin_unlock(&dpamt_lock);
- 	return 0;
-@@ -2222,17 +2235,13 @@ void tdx_pamt_put(kvm_pfn_t pfn)
- 
- 	dpamt_refcount = tdx_find_dpamt_refcount(pfn);
- 
--	spin_lock(&dpamt_lock);
- 	/*
- 	 * If there is more than 1 reference on the DPAMT entry, don't
- 	 * remove it yet. Just decrement the refcount.
- 	 */
--	if (atomic_read(dpamt_refcount) > 1) {
--		atomic_dec(dpamt_refcount);
--		goto out_unlock;
--	}
-+	if (!atomic_dec_and_lock(dpamt_refcount, &dpamt_lock))
-+		return;
- 
--	/* Try to remove the pamt page and take the refcount 1->0. */
- 	tdx_status = tdh_phymem_pamt_remove(pfn, pamt_pages);
- 
- 	/*
-@@ -2242,10 +2251,15 @@ void tdx_pamt_put(kvm_pfn_t pfn)
- 	 * failure indicates a kernel bug, memory is being leaked, and
- 	 * the dangling DPAMT entry may cause future operations to fail.
- 	 */
--	if (WARN_ON_ONCE(tdx_status != TDX_SUCCESS))
-+	if (WARN_ON_ONCE(tdx_status != TDX_SUCCESS)) {
-+		/*
-+		 * atomic_dec_and_lock() already decremented it to 0,
-+		 * but the DPAMT entry still exists since REMOVE failed.
-+		 */
-+		atomic_set(dpamt_refcount, 1);
- 		goto out_unlock;
-+	}
- 
--	atomic_set(dpamt_refcount, 0);
- 	spin_unlock(&dpamt_lock);
- 	free_pamt_array(pamt_pages);
- 	return;
--- 
-2.55.0
++``Reported-by:`` =E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E3=83=90=E3=82=B0=E3=
+=82=92=E7=99=BA=E8=A6=8B=E3=81=97=E3=81=A6=E5=A0=B1=E5=91=8A=E3=81=97=E3=81=
+=9F=E4=BA=BA=E3=81=AE=E5=8A=9F=E7=B8=BE=E3=82=92=E7=A4=BA=E3=81=99=E3=82=82=
+=E3=81=AE=E3=81=A7=E3=81=82=E3=82=8A=E3=80=81
++=E4=BB=8A=E5=BE=8C=E3=82=82=E5=86=8D=E3=81=B3=E5=8D=94=E5=8A=9B=E3=81=97=
+=E3=81=A6=E3=82=82=E3=82=89=E3=81=86=E3=81=8D=E3=81=A3=E3=81=8B=E3=81=91=E3=
+=81=AB=E3=81=AA=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E6=9C=9F=E5=BE=85=E3=81=
+=95=E3=82=8C=E3=81=BE=E3=81=99=E3=80=82=E3=81=93=E3=81=AE=E3=82=BF=E3=82=B0=
+=E3=81=AF
++=E3=83=90=E3=82=B0=E3=82=92=E5=AF=BE=E8=B1=A1=E3=81=A8=E3=81=97=E3=81=A6=
+=E3=81=84=E3=81=BE=E3=81=99=E3=80=82=E6=A9=9F=E8=83=BD=E8=BF=BD=E5=8A=A0=E3=
+=81=AE=E8=A6=81=E6=9C=9B=E3=81=AB=E5=AF=BE=E3=81=99=E3=82=8B=E5=8A=9F=E7=B8=
+=BE=E3=82=92=E7=A4=BA=E3=81=99=E3=81=9F=E3=82=81=E3=81=AB=E3=81=AF
++=E4=BD=BF=E7=94=A8=E3=81=97=E3=81=AA=E3=81=84=E3=81=A7=E3=81=8F=E3=81=A0=
+=E3=81=95=E3=81=84=E3=80=82=E5=A0=B1=E5=91=8A=E3=81=8C Web =E4=B8=8A=E3=81=
+=A7=E5=8F=82=E7=85=A7=E3=81=A7=E3=81=8D=E3=81=AA=E3=81=84=E5=A0=B4=E5=90=88=
+=E3=82=92=E9=99=A4=E3=81=8D=E3=80=81
++``Reported-by:`` =E3=82=BF=E3=82=B0=E3=81=AE=E5=BE=8C=E3=81=AB=E3=81=AF=E3=
+=80=81=E3=81=9D=E3=81=AE=E5=A0=B1=E5=91=8A=E3=82=92=E6=8C=87=E3=81=99 ``Clo=
+ses:`` =E3=82=BF=E3=82=B0=E3=82=92
++=E4=BB=98=E3=81=91=E3=82=8B=E5=BF=85=E8=A6=81=E3=81=8C=E3=81=82=E3=82=8A=
+=E3=81=BE=E3=81=99=E3=80=82=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E5=A0=B1=E5=
+=91=8A=E3=81=95=E3=82=8C=E3=81=9F=E5=95=8F=E9=A1=8C=E3=81=AE=E4=B8=80=E9=83=
+=A8=E3=81=A0=E3=81=91=E3=82=92=E4=BF=AE=E6=AD=A3=E3=81=99=E3=82=8B=E5=A0=B4=
+=E5=90=88=E3=81=AF=E3=80=81
++``Closes:`` =E3=81=AE=E4=BB=A3=E3=82=8F=E3=82=8A=E3=81=AB ``Link:`` =E3=82=
+=BF=E3=82=B0=E3=82=92=E4=BD=BF=E7=94=A8=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=
+=E3=80=82=E3=81=AA=E3=81=8A=E3=80=81
++``Reported-by:`` =E3=81=AF=E3=80=81=E5=90=8D=E5=89=8D=E3=82=92=E8=A8=98=E8=
+=BC=89=E3=81=95=E3=82=8C=E3=82=8B=E6=9C=AC=E4=BA=BA=E3=81=AE=E6=98=8E=E7=A4=
+=BA=E7=9A=84=E3=81=AA=E8=A8=B1=E5=8F=AF=E3=81=AA=E3=81=97=E3=81=AB
++=E4=BD=BF=E7=94=A8=E3=81=A7=E3=81=8D=E3=82=8B=E5=8F=AF=E8=83=BD=E6=80=A7=
+=E3=81=8C=E3=81=82=E3=82=8B=E4=B8=89=E3=81=A4=E3=81=AE=E3=82=BF=E3=82=B0=E3=
+=81=AE=E3=81=86=E3=81=A1=E3=81=AE=E4=B8=80=E3=81=A4=E3=81=A7=E3=81=99=E3=80=
+=82=E8=A9=B3=E7=B4=B0=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=AF=E3=80=81
++=E5=BE=8C=E8=BF=B0=E3=81=AE=E3=80=8C=E4=BA=BA=E3=82=92=E3=82=BF=E3=82=B0=
+=E4=BB=98=E3=81=91=E3=81=99=E3=82=8B=E3=81=AB=E3=81=AF=E8=A8=B1=E5=8F=AF=E3=
+=81=8C=E5=BF=85=E8=A6=81=E3=80=8D=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=
+=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++
++``Tested-by:`` =E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E8=A8=98=E8=BC=89=E3=
+=81=95=E3=82=8C=E3=81=9F=E4=BA=BA=E3=81=8C=EF=BC=88=E4=BD=95=E3=82=89=E3=81=
+=8B=E3=81=AE=E7=92=B0=E5=A2=83=E3=81=A7=EF=BC=89=E3=83=91=E3=83=83=E3=83=81=
+=E3=82=92
++=E6=AD=A3=E5=B8=B8=E3=81=AB=E3=83=86=E3=82=B9=E3=83=88=E3=81=97=E3=81=9F=
+=E3=81=93=E3=81=A8=E3=82=92=E7=A4=BA=E3=81=97=E3=81=BE=E3=81=99=E3=80=82=E3=
+=81=93=E3=81=AE=E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E4=BD=95=E3=82=89=E3=81=
+=8B=E3=81=AE=E3=83=86=E3=82=B9=E3=83=88=E3=81=8C
++=E5=AE=9F=E6=96=BD=E3=81=95=E3=82=8C=E3=81=9F=E3=81=93=E3=81=A8=E3=82=92=
+=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=83=BC=E3=81=AB=E7=9F=A5=E3=82=89=E3=
+=81=9B=E3=80=81=E5=B0=86=E6=9D=A5=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=
+=A7=E3=83=86=E3=82=B9=E3=82=BF=E3=83=BC=E3=82=92
++=E6=8E=A2=E3=81=99=E6=89=8B=E6=AE=B5=E3=82=92=E6=8F=90=E4=BE=9B=E3=81=99=
+=E3=82=8B=E3=81=A8=E3=81=A8=E3=82=82=E3=81=AB=E3=80=81=E3=83=86=E3=82=B9=E3=
+=82=BF=E3=83=BC=E3=81=AE=E5=8A=9F=E7=B8=BE=E3=82=92=E8=A8=98=E9=8C=B2=E3=81=
+=97=E3=81=BE=E3=81=99=E3=80=82
++
++=E4=B8=80=E6=96=B9=E3=80=81``Reviewed-by:`` =E3=81=AF=E3=80=81=E3=83=91=E3=
+=83=83=E3=83=81=E3=81=8C=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=81=95=E3=82=
+=8C=E3=80=81=E4=BB=A5=E4=B8=8B=E3=81=AE
++=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E6=8B=85=E5=BD=93=E8=80=85=E3=81=AE=
+=E5=A3=B0=E6=98=8E=E3=81=AB=E5=BE=93=E3=81=A3=E3=81=A6=E5=8F=97=E3=81=91=E5=
+=85=A5=E3=82=8C=E5=8F=AF=E8=83=BD=E3=81=A8=E5=88=A4=E6=96=AD=E3=81=95=E3=82=
+=8C=E3=81=9F=E3=81=93=E3=81=A8=E3=82=92=E7=A4=BA=E3=81=97=E3=81=BE=E3=81=99=
+::
++
++        =E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E6=8B=85=E5=BD=93=E8=80=85=E3=
+=81=AB=E3=82=88=E3=82=8B=E7=A2=BA=E8=AA=8D=E5=A3=B0=E6=98=8E
++
++        ``Reviewed-by:`` =E3=82=BF=E3=82=B0=E3=82=92=E4=BB=98=E3=81=91=E3=
+=82=8B=E3=81=93=E3=81=A8=E3=81=AB=E3=82=88=E3=82=8A=E3=80=81=E7=A7=81=E3=81=
+=AF=E4=BB=A5=E4=B8=8B=E3=82=92=E8=A1=A8=E6=98=8E=E3=81=97=E3=81=BE=E3=81=99:
++
++         (a) =E3=81=93=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E3=83=
+=A1=E3=82=A4=E3=83=B3=E3=83=A9=E3=82=A4=E3=83=B3=E3=82=AB=E3=83=BC=E3=83=8D=
+=E3=83=AB=E3=81=B8=E3=81=AE=E5=8F=96=E3=82=8A=E8=BE=BC=E3=81=BF=E3=81=AB=E9=
+=81=A9=E5=88=87=E3=81=A7=E3=81=82=E3=82=8A=E3=80=81
++             =E3=81=9D=E3=81=AE=E6=BA=96=E5=82=99=E3=81=8C=E6=95=B4=E3=81=
+=A3=E3=81=A6=E3=81=84=E3=82=8B=E3=81=8B=E3=82=92=E8=A9=95=E4=BE=A1=E3=81=99=
+=E3=82=8B=E3=81=9F=E3=82=81=E3=80=81=E6=8A=80=E8=A1=93=E7=9A=84=E3=81=AA=E3=
+=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=92
++             =E8=A1=8C=E3=81=84=E3=81=BE=E3=81=97=E3=81=9F=E3=80=82
++
++         (b) =E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E9=96=A2=E3=81=99=E3=82=
+=8B=E5=95=8F=E9=A1=8C=E3=80=81=E6=87=B8=E5=BF=B5=E3=80=81=E3=81=BE=E3=81=9F=
+=E3=81=AF=E8=B3=AA=E5=95=8F=E3=81=AF=E3=81=99=E3=81=B9=E3=81=A6=E6=8F=90=E5=
+=87=BA=E8=80=85=E3=81=AB
++             =E4=BC=9D=E3=81=88=E3=82=89=E3=82=8C=E3=81=A6=E3=81=84=E3=81=
+=BE=E3=81=99=E3=80=82=E7=A7=81=E3=81=AF=E3=80=81=E8=87=AA=E5=88=86=E3=81=AE=
+=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E3=81=AB=E5=AF=BE=E3=81=99=E3=82=8B=E6=
+=8F=90=E5=87=BA=E8=80=85=E3=81=AE
++             =E5=9B=9E=E7=AD=94=E3=81=AB=E6=BA=80=E8=B6=B3=E3=81=97=E3=81=
+=A6=E3=81=84=E3=81=BE=E3=81=99=E3=80=82
++
++         (c) =E3=81=93=E3=81=AE=E6=8F=90=E5=87=BA=E7=89=A9=E3=81=AB=E3=81=
+=AF=E6=94=B9=E5=96=84=E3=81=A7=E3=81=8D=E3=82=8B=E7=82=B9=E3=81=8C=E6=AE=8B=
+=E3=81=A3=E3=81=A6=E3=81=84=E3=82=8B=E5=8F=AF=E8=83=BD=E6=80=A7=E3=81=8C=E3=
+=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=81=8C=E3=80=81
++             =E7=8F=BE=E6=99=82=E7=82=B9=E3=81=A7=E3=81=AF=E3=80=81(1) =E3=
+=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AB=E5=AF=BE=E3=81=99=E3=82=8B=E4=BE=
+=A1=E5=80=A4=E3=81=AE=E3=81=82=E3=82=8B=E5=A4=89=E6=9B=B4=E3=81=A7=E3=81=82=
+=E3=82=8A=E3=80=81
++             (2) =E5=8F=96=E3=82=8A=E8=BE=BC=E3=81=BF=E3=81=AB=E5=8F=8D=E5=
+=AF=BE=E3=81=99=E3=82=8B=E7=90=86=E7=94=B1=E3=81=A8=E3=81=AA=E3=82=8B=E6=97=
+=A2=E7=9F=A5=E3=81=AE=E5=95=8F=E9=A1=8C=E3=81=8C=E3=81=AA=E3=81=84=E3=81=A8
++             =E8=80=83=E3=81=88=E3=81=A6=E3=81=84=E3=81=BE=E3=81=99=E3=80=
+=82
++
++         (d) =E7=A7=81=E3=81=AF=E3=81=93=E3=81=AE=E3=83=91=E3=83=83=E3=83=
+=81=E3=82=92=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=81=97=E3=80=81=E5=A6=A5=
+=E5=BD=93=E3=81=A7=E3=81=82=E3=82=8B=E3=81=A8=E8=80=83=E3=81=88=E3=81=A6=E3=
+=81=84=E3=81=BE=E3=81=99=E3=81=8C=E3=80=81
++             =E5=88=A5=E9=80=94=E6=98=8E=E7=A4=BA=E3=81=95=E3=82=8C=E3=81=
+=A6=E3=81=84=E3=81=AA=E3=81=84=E9=99=90=E3=82=8A=E3=80=81=E3=81=9D=E3=81=AE=
+=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E8=A8=98=E8=BC=89=E3=81=95=E3=82=8C=E3=
+=81=9F=E7=9B=AE=E7=9A=84=E3=82=92
++             =E9=81=94=E6=88=90=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=80=
+=81=E3=81=BE=E3=81=9F=E3=81=AF=E3=81=84=E3=81=8B=E3=81=AA=E3=82=8B=E7=8A=B6=
+=E6=B3=81=E3=81=A7=E3=82=82=E6=AD=A3=E3=81=97=E3=81=8F=E5=8B=95=E4=BD=9C=E3=
+=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92
++             =E4=BF=9D=E8=A8=BC=E3=81=99=E3=82=8B=E3=82=82=E3=81=AE=E3=81=
+=A7=E3=81=AF=E3=81=82=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
++
++``Reviewed-by:`` =E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E3=81=9D=E3=81=AE=E3=
+=83=91=E3=83=83=E3=83=81=E3=81=8C=E9=87=8D=E5=A4=A7=E3=81=AA=E6=8A=80=E8=A1=
+=93=E7=9A=84=E5=95=8F=E9=A1=8C=E3=82=92=E6=AE=8B=E3=81=97=E3=81=A6=E3=81=84=
+=E3=81=AA=E3=81=84=E3=80=81
++=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AB=E5=AF=BE=E3=81=99=E3=82=8B=
+=E9=81=A9=E5=88=87=E3=81=AA=E5=A4=89=E6=9B=B4=E3=81=A7=E3=81=82=E3=82=8B=E3=
+=81=A8=E3=81=84=E3=81=86=E6=84=8F=E8=A6=8B=E3=82=92=E8=A1=A8=E6=98=8E=E3=81=
+=99=E3=82=8B=E3=82=82=E3=81=AE=E3=81=A7=E3=81=99=E3=80=82
++=E5=BF=85=E8=A6=81=E3=81=AA=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=92=
+=E8=A1=8C=E3=81=A3=E3=81=9F=E6=97=A2=E7=9F=A5=E3=81=AE=E8=BA=AB=E5=85=83=E3=
+=82=92=E6=8C=81=E3=81=A4=E4=BA=BA=E3=81=A7=E3=81=82=E3=82=8C=E3=81=B0=E3=80=
+=81=E9=96=A2=E5=BF=83=E3=81=AE=E3=81=82=E3=82=8B
++=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E6=8B=85=E5=BD=93=E8=80=85=E3=81=AF=
+=E8=AA=B0=E3=81=A7=E3=82=82=E3=83=91=E3=83=83=E3=83=81=E3=81=AB ``Reviewed-=
+by:`` =E3=82=BF=E3=82=B0=E3=82=92=E4=BB=98=E3=81=91=E3=82=89=E3=82=8C=E3=81=
+=BE=E3=81=99=E3=80=82
++=E3=81=93=E3=81=AE=E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E3=83=AC=E3=83=93=
+=E3=83=A5=E3=83=BC=E6=8B=85=E5=BD=93=E8=80=85=E3=81=AE=E5=8A=9F=E7=B8=BE=E3=
+=82=92=E7=A4=BA=E3=81=99=E3=81=A8=E3=81=A8=E3=82=82=E3=81=AB=E3=80=81=E3=81=
+=A9=E3=81=AE=E7=A8=8B=E5=BA=A6=E3=81=AE=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=
+=E3=81=8C
++=E8=A1=8C=E3=82=8F=E3=82=8C=E3=81=9F=E3=81=8B=E3=82=92=E3=83=A1=E3=83=B3=
+=E3=83=86=E3=83=8A=E3=83=BC=E3=81=AB=E7=9F=A5=E3=82=89=E3=81=9B=E3=82=8B=E5=
+=BD=B9=E5=89=B2=E3=82=92=E6=9E=9C=E3=81=9F=E3=81=97=E3=81=BE=E3=81=99=E3=80=
+=82=E5=AF=BE=E8=B1=A1=E5=88=86=E9=87=8E=E3=82=92=E7=90=86=E8=A7=A3=E3=81=97=
+=E3=80=81
++=E5=8D=81=E5=88=86=E3=81=AA=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=92=
+=E8=A1=8C=E3=81=86=E3=81=93=E3=81=A8=E3=81=A7=E7=9F=A5=E3=82=89=E3=82=8C=E3=
+=81=A6=E3=81=84=E3=82=8B=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E6=8B=85=E5=BD=
+=93=E8=80=85=E3=81=8C=E4=BB=98=E3=81=91=E3=81=9F
++``Reviewed-by:`` =E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E9=80=9A=E5=B8=B8=E3=
+=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=
+=AB=E3=81=AB=E5=8F=96=E3=82=8A=E8=BE=BC=E3=81=BE=E3=82=8C=E3=82=8B
++=E5=8F=AF=E8=83=BD=E6=80=A7=E3=82=92=E9=AB=98=E3=82=81=E3=81=BE=E3=81=99=
+=E3=80=82
++
++``Tested-by:`` =E3=81=A8 ``Reviewed-by:`` =E3=81=AE=E4=B8=A1=E6=96=B9=E3=
+=81=AE=E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=
+=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=E4=B8=8A=E3=81=A7
++=E3=83=86=E3=82=B9=E3=82=BF=E3=83=BC=E3=81=BE=E3=81=9F=E3=81=AF=E3=83=AC=
+=E3=83=93=E3=83=A5=E3=83=BC=E6=8B=85=E5=BD=93=E8=80=85=E3=81=8B=E3=82=89=E5=
+=8F=97=E3=81=91=E5=8F=96=E3=81=A3=E3=81=9F=E5=BE=8C=E3=80=81=E6=AC=A1=E3=81=
+=AE=E3=83=90=E3=83=BC=E3=82=B8=E3=83=A7=E3=83=B3=E3=82=92
++=E9=80=81=E4=BF=A1=E3=81=99=E3=82=8B=E3=81=A8=E3=81=8D=E3=81=AB=E3=80=81=
+=E4=BD=9C=E8=80=85=E3=81=8C=E8=A9=B2=E5=BD=93=E3=81=99=E3=82=8B=E3=83=91=E3=
+=83=83=E3=83=81=E3=81=B8=E8=BF=BD=E5=8A=A0=E3=81=99=E3=82=8B=E5=BF=85=E8=A6=
+=81=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
++=E3=81=9F=E3=81=A0=E3=81=97=E3=80=81=E6=AC=A1=E3=81=AE=E3=83=90=E3=83=BC=
+=E3=82=B8=E3=83=A7=E3=83=B3=E3=81=A7=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E5=
+=A4=A7=E5=B9=85=E3=81=AB=E5=A4=89=E6=9B=B4=E3=81=95=E3=82=8C=E3=81=9F=E5=A0=
+=B4=E5=90=88=E3=81=AF=E3=80=81=E3=81=93=E3=82=8C=E3=82=89=E3=81=AE=E3=82=BF=
+=E3=82=B0=E3=81=8C
++=E9=81=A9=E7=94=A8=E3=81=A7=E3=81=8D=E3=81=AA=E3=81=8F=E3=81=AA=E3=82=8B=
+=E5=8F=AF=E8=83=BD=E6=80=A7=E3=81=8C=E3=81=82=E3=82=8B=E3=81=9F=E3=82=81=E3=
+=80=81=E5=89=8A=E9=99=A4=E3=81=99=E3=82=8B=E5=BF=85=E8=A6=81=E3=81=8C=E3=81=
+=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
++=E9=80=9A=E5=B8=B8=E3=80=81=E8=AA=B0=E3=81=8B=E3=81=AE ``Acked-by:``=E3=80=
+=81``Tested-by:``=E3=80=81=E3=81=BE=E3=81=9F=E3=81=AF ``Reviewed-by:`` =E3=
+=82=BF=E3=82=B0=E3=82=92
++=E5=89=8A=E9=99=A4=E3=81=97=E3=81=9F=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81=
+=E3=81=9D=E3=81=AE=E7=90=86=E7=94=B1=E3=82=92=E3=83=91=E3=83=83=E3=83=81=E3=
+=81=AE=E5=A4=89=E6=9B=B4=E5=B1=A5=E6=AD=B4=E3=81=A7=E8=AA=AC=E6=98=8E=E3=81=
+=99=E3=82=8B=E5=BF=85=E8=A6=81=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99
++=EF=BC=88``---`` =E5=8C=BA=E5=88=87=E3=82=8A=E3=81=AE=E5=BE=8C=EF=BC=89=E3=
+=80=82
++
++``Suggested-by:`` =E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E3=83=91=E3=83=83=
+=E3=83=81=E3=81=AE=E3=82=A2=E3=82=A4=E3=83=87=E3=82=A2=E3=81=8C=E8=A8=98=E8=
+=BC=89=E3=81=95=E3=82=8C=E3=81=9F=E4=BA=BA=E3=81=AB=E3=82=88=E3=81=A3=E3=81=
+=A6
++=E6=8F=90=E6=A1=88=E3=81=95=E3=82=8C=E3=81=9F=E3=81=93=E3=81=A8=E3=82=92=
+=E7=A4=BA=E3=81=97=E3=80=81=E3=81=9D=E3=81=AE=E3=82=A2=E3=82=A4=E3=83=87=E3=
+=82=A2=E3=81=AB=E5=AF=BE=E3=81=99=E3=82=8B=E5=8A=9F=E7=B8=BE=E3=82=92=E8=A8=
+=98=E9=8C=B2=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
++=E3=82=A2=E3=82=A4=E3=83=87=E3=82=A2=E3=82=92=E6=8F=90=E6=A1=88=E3=81=97=
+=E3=81=9F=E4=BA=BA=E3=81=AE=E5=8A=9F=E7=B8=BE=E3=82=92=E3=81=8D=E3=81=A1=E3=
+=82=93=E3=81=A8=E8=A8=98=E9=8C=B2=E3=81=99=E3=82=8C=E3=81=B0=E3=80=81=E4=BB=
+=8A=E5=BE=8C=E3=82=82=E5=86=8D=E3=81=B3=E5=8D=94=E5=8A=9B=E3=81=97=E3=81=A6
++=E3=82=82=E3=82=89=E3=81=86=E3=81=8D=E3=81=A3=E3=81=8B=E3=81=91=E3=81=AB=
+=E3=81=AA=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E6=9C=9F=E5=BE=85=E3=81=95=E3=
+=82=8C=E3=81=BE=E3=81=99=E3=80=82=E3=81=AA=E3=81=8A=E3=80=81=E3=81=93=E3=82=
+=8C=E3=81=AF=E3=80=81=E5=90=8D=E5=89=8D=E3=82=92
++=E8=A8=98=E8=BC=89=E3=81=95=E3=82=8C=E3=82=8B=E6=9C=AC=E4=BA=BA=E3=81=AE=
+=E6=98=8E=E7=A4=BA=E7=9A=84=E3=81=AA=E8=A8=B1=E5=8F=AF=E3=81=AA=E3=81=97=E3=
+=81=AB=E4=BD=BF=E7=94=A8=E3=81=A7=E3=81=8D=E3=82=8B=E5=8F=AF=E8=83=BD=E6=80=
+=A7=E3=81=8C=E3=81=82=E3=82=8B=E4=B8=89=E3=81=A4=E3=81=AE
++=E3=82=BF=E3=82=B0=E3=81=AE=E3=81=86=E3=81=A1=E3=81=AE=E4=B8=80=E3=81=A4=
+=E3=81=A7=E3=81=99=E3=80=82=E8=A9=B3=E7=B4=B0=E3=81=AB=E3=81=A4=E3=81=84=E3=
+=81=A6=E3=81=AF=E3=80=81=E5=BE=8C=E8=BF=B0=E3=81=AE
++=E3=80=8C=E4=BA=BA=E3=82=92=E3=82=BF=E3=82=B0=E4=BB=98=E3=81=91=E3=81=99=
+=E3=82=8B=E3=81=AB=E3=81=AF=E8=A8=B1=E5=8F=AF=E3=81=8C=E5=BF=85=E8=A6=81=E3=
+=80=8D=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=
+=95=E3=81=84=E3=80=82
++
++``Fixes:`` =E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E3=81=9D=E3=81=AE=E3=83=91=
+=E3=83=83=E3=83=81=E3=81=8C=E4=BB=A5=E5=89=8D=E3=81=AE=E3=82=B3=E3=83=9F=E3=
+=83=83=E3=83=88=E3=81=AB=E3=81=82=E3=82=8B=E3=83=90=E3=82=B0=E3=82=92=E4=BF=
+=AE=E6=AD=A3=E3=81=99=E3=82=8B
++=E3=81=93=E3=81=A8=E3=82=92=E7=A4=BA=E3=81=97=E3=81=BE=E3=81=99=E3=80=82=
+=E3=81=93=E3=82=8C=E3=81=AF=E3=80=81=E5=95=8F=E9=A1=8C=E3=81=8C=E3=81=A9=E3=
+=81=93=E3=81=A7=E7=99=BA=E7=94=9F=E3=81=97=E3=81=9F=E3=81=AE=E3=81=8B=E3=82=
+=92=E5=AE=B9=E6=98=93=E3=81=AB=E7=89=B9=E5=AE=9A=E3=81=A7=E3=81=8D=E3=82=8B
++=E3=82=88=E3=81=86=E3=81=AB=E3=81=97=E3=80=81=E3=83=90=E3=82=B0=E4=BF=AE=
+=E6=AD=A3=E3=81=AE=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=81=AB=E5=BD=B9=E7=
+=AB=8B=E3=81=A1=E3=81=BE=E3=81=99=E3=80=82=E3=81=BE=E3=81=9F=E3=80=81=E3=81=
+=93=E3=81=AE=E3=82=BF=E3=82=B0=E3=81=AF stable
++kernel =E3=83=81=E3=83=BC=E3=83=A0=E3=81=8C=E3=80=81=E3=81=A9=E3=81=AE sta=
+ble kernel =E3=83=90=E3=83=BC=E3=82=B8=E3=83=A7=E3=83=B3=E3=81=AB=E4=BF=AE=
+=E6=AD=A3=E3=82=92=E9=81=A9=E7=94=A8=E3=81=99=E3=81=B9=E3=81=8D=E3=81=8B=E3=
+=82=92
++=E5=88=A4=E6=96=AD=E3=81=99=E3=82=8B=E9=9A=9B=E3=81=AB=E3=82=82=E5=BD=B9=
+=E7=AB=8B=E3=81=A1=E3=81=BE=E3=81=99=E3=80=82=E3=83=91=E3=83=83=E3=83=81=E3=
+=81=8C=E4=BF=AE=E6=AD=A3=E3=81=99=E3=82=8B=E3=83=90=E3=82=B0=E3=82=92=E7=A4=
+=BA=E3=81=99=E6=96=B9=E6=B3=95=E3=81=A8=E3=81=97=E3=81=A6=E3=81=AF=E3=80=81
++=E3=81=93=E3=82=8C=E3=81=8C=E6=8E=A8=E5=A5=A8=E3=81=95=E3=82=8C=E3=81=A6=
+=E3=81=84=E3=81=BE=E3=81=99=E3=80=82=E8=A9=B3=E7=B4=B0=E3=81=AB=E3=81=A4=E3=
+=81=84=E3=81=A6=E3=81=AF :ref:`describe_changes` =E3=82=92
++=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
+=E3=80=82
++
++=E6=B3=A8=E6=84=8F: ``Fixes:`` =E3=82=BF=E3=82=B0=E3=82=92=E4=BB=98=E3=81=
+=91=E3=81=A6=E3=82=82=E3=80=81stable kernel rules =E3=81=AE=E6=89=8B=E9=A0=
+=86=E3=82=84=E3=80=81
++stable =E5=90=91=E3=81=91=E3=83=91=E3=83=83=E3=83=81=E5=80=99=E8=A3=9C=E3=
+=81=99=E3=81=B9=E3=81=A6=E3=81=A7 ``Cc: stable@vger.kernel.org`` =E3=82=92
++=E6=8C=87=E5=AE=9A=E3=81=99=E3=82=8B=E8=A6=81=E4=BB=B6=E3=81=8C=E3=81=AA=
+=E3=81=8F=E3=81=AA=E3=82=8B=E3=82=8F=E3=81=91=E3=81=A7=E3=81=AF=E3=81=82=E3=
+=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82=E8=A9=B3=E7=B4=B0=E3=81=AB=E3=81=
+=A4=E3=81=84=E3=81=A6=E3=81=AF=E3=80=81
++Documentation/process/stable-kernel-rules.rst =E3=82=92=E5=8F=82=E7=85=A7=
+=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++
++=E6=9C=80=E5=BE=8C=E3=81=AB=E3=80=81=E3=82=BF=E3=82=B0=E3=82=92=E4=BB=98=
+=E3=81=91=E3=82=8B=E3=81=93=E3=81=A8=E3=81=AF=E6=AD=93=E8=BF=8E=E3=81=95=E3=
+=82=8C=E3=80=81=E9=80=9A=E5=B8=B8=E3=81=AF=E9=9D=9E=E5=B8=B8=E3=81=AB=E3=81=
+=82=E3=82=8A=E3=81=8C=E3=81=9F=E3=81=84=E3=82=82=E3=81=AE=E3=81=A7=E3=81=99=
+=E3=81=8C=E3=80=81
++=E7=BD=B2=E5=90=8D=E8=80=85=EF=BC=88=E3=81=99=E3=81=AA=E3=82=8F=E3=81=A1=
+=E3=80=81=E6=8F=90=E5=87=BA=E8=80=85=E3=81=8A=E3=82=88=E3=81=B3=E3=83=A1=E3=
+=83=B3=E3=83=86=E3=83=8A=E3=83=BC=EF=BC=89=E3=81=AF=E3=80=81=E6=8F=90=E7=A4=
+=BA=E3=81=95=E3=82=8C=E3=81=9F=E3=82=BF=E3=82=B0=E3=82=92
++=E9=81=A9=E7=94=A8=E3=81=99=E3=82=8B=E3=81=8B=E3=81=A9=E3=81=86=E3=81=8B=
+=E3=82=92=E8=87=AA=E8=BA=AB=E3=81=AE=E5=88=A4=E6=96=AD=E3=81=A7=E6=B1=BA=E3=
+=82=81=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=
+=99=E3=80=82
++
++.. _tagging_people:
+--=20
+2.52.0
 
