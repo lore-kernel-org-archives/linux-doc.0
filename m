@@ -1,22 +1,22 @@
-Received: from mail-m32123.qiye.163.com (mail-m32123.qiye.163.com [220.197.32.123])
+Received: from mail-m3284.qiye.163.com (mail-m3284.qiye.163.com [220.197.32.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14D2381E94;
-	Thu,  3 Sep 2026 04:23:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57ED2264DB;
+	Thu,  3 Sep 2026 04:34:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788409440; cv=none; b=mzVau2lZ2MlD+PCgh25+H+4XUt0lbWEbrf6EvUvEuTPFbwDR5QrtOfSHyyrxZ40R+CFo5JBMumQ99QNSmEUEenGodV1zSh8wRAJtftmw4r0hn1tEQ/IJKOUk7UJtD4mNuimvsibH3o1KAuVH4X5hox8wWwk7c1NUz8UEztpINew=
+	t=1788410046; cv=none; b=SiMcGOU+r3c+YfMAPzN/mLekyZ5kIJ12iv3J1Xp7t2IusEXcqQsMIehUaEaaQ0EUDWOwTTwI6rP41wWKQhWt2AXJVIl40/T9eTJ5curti14SnYry3uEq7OY7MUxIppvyGjWkhv0uwlweKMtQQJ++eJfbZZ6VAqkWdrtQSbRzo3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788409440; c=relaxed/simple;
-	bh=a7FHpGl8xUFk8MEXtgaVgeVdv8p+ZZJvlDTQb4kvpbw=;
+	s=arc-20240116; t=1788410046; c=relaxed/simple;
+	bh=EYKKpem3izchPA7kkaiB3XKQiu2ecNFus7y9Bliuxzs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=i9WThGkGowG5M0yCY5JqTYl/zWiQ6TY6MTkOrhpHRFPrGCzrSa9XHZrWN328tIZK4RzzcrHCy92RRmek6cs1ivixB+ISMq6GWG/0hL12pV+TVbZE5s+366DuVAGIZmBxwA01VRuapf581M1XsHHxbLCOZy6jPNrPAu0AW0R8WE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=220.197.32.123
+	 MIME-Version; b=ArOqB0cuq2zRszqKDF5vKhxZpFMmq1wqlw1huvKRAiZzBpyfq57QdS0ZZ85JO4WWIYKZaX0iiljHK6l6LXCFv83s5tX9SEoHEKGYl4mNKSmysZ7v5sJwL4yw0ZhryvbBjDGpwpmP92nnQfmNQXQCzIG5aSikF24BS2pdEG+husY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=220.197.32.84
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
 Received: from localhost.localdomain (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 1ea3ea3b0;
-	Thu, 3 Sep 2026 12:18:34 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 1ea3ea3ba;
+	Thu, 3 Sep 2026 12:18:40 +0800 (GMT+08:00)
 From: Zhen Ni <zhen.ni@easystack.cn>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>,
@@ -36,9 +36,9 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Zhen Ni <zhen.ni@easystack.cn>
-Subject: [PATCH v2 3/8] mm/page_owner: Add COMM filtering with wildcard support
-Date: Thu,  3 Sep 2026 12:18:14 +0800
-Message-Id: <20260903041819.1776630-4-zhen.ni@easystack.cn>
+Subject: [PATCH v2 7/8] tools/mm: Add memory cgroup filtering support to page_owner_filter
+Date: Thu,  3 Sep 2026 12:18:18 +0800
+Message-Id: <20260903041819.1776630-8-zhen.ni@easystack.cn>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20260903041819.1776630-1-zhen.ni@easystack.cn>
 References: <20260903041819.1776630-1-zhen.ni@easystack.cn>
@@ -49,223 +49,140 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa0657d6ef30229kunm7336907a330ab
+X-HM-Tid: 0aa0657d85300229kunm7336907a330c7
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDTExDVk5NH08YSkoYTE9DGFYVFA
+	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDH0tIVkNNHh0YHR8eTU1MTlYVFA
 	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
 	lPT09IVUpLS1VKQktLWQY+
 
-Add process name (COMM) filtering to page_owner with glob-style wildcard
-pattern matching support. Users can now filter page_owner output by
-process names using flexible patterns.
+Add filtering capability for page_owner to allow filtering by
+memory cgroup path.
 
-Supported wildcards:
-  *    : matches any sequence of characters
-  ?    : matches any single character
-  [abc]: matches any character in the set
-  [a-z]: matches any character in the range
-
-Examples:
-  comm="python*"  : matches python, python3, python3.9, etc.
-  comm="*sh"      : matches bash, zsh, dash, etc.
-
-Also select GLOB from PAGE_OWNER. glob_match() is provided by
-lib/glob.c, which is only built when CONFIG_GLOB is set, and
-CONFIG_GLOB is a hidden option without a prompt. A config that enables
-PAGE_OWNER but has no other GLOB selector would fail to link with an
-undefined reference to glob_match().
+Filter page_owner output by cgroup path:
+./page_owner_filter -g /
+./page_owner_filter -g /user.slice
+./page_owner_filter -g /user.slice -c systemd
 
 Signed-off-by: Zhen Ni <zhen.ni@easystack.cn>
 ---
 Changes in v2:
-- Select GLOB from PAGE_OWNER so that glob_match() is always linked in
-  when the feature is enabled.
-- Drop the kstrdup() copy in parse_comm_list(); parse the token in
-  place, matching patch 1.
+- Print an error message for an empty -g argument.
 
-v1: https://lore.kernel.org/linux-mm/20260828031339.1270699-4-zhen.ni@easystack.cn/
+v1: https://lore.kernel.org/linux-mm/20260828031339.1270699-8-zhen.ni@easystack.cn/
 ---
- mm/Kconfig.debug |  1 +
- mm/page_owner.c  | 71 ++++++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 69 insertions(+), 3 deletions(-)
+ tools/mm/page_owner_filter.c | 58 ++++++++++++++++++++++++++++++++++--
+ 1 file changed, 55 insertions(+), 3 deletions(-)
 
-diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
-index 5737a504efbb..c94c30a60cd5 100644
---- a/mm/Kconfig.debug
-+++ b/mm/Kconfig.debug
-@@ -106,6 +106,7 @@ config PAGE_OWNER
- 	bool "Track page owner"
- 	depends on DEBUG_KERNEL && STACKTRACE_SUPPORT
- 	select DEBUG_FS
-+	select GLOB
- 	select STACKTRACE
- 	select STACKDEPOT
- 	select PAGE_EXTENSION
-diff --git a/mm/page_owner.c b/mm/page_owner.c
-index e046e61eb98a..b8319bc3a368 100644
---- a/mm/page_owner.c
-+++ b/mm/page_owner.c
-@@ -14,6 +14,7 @@
- #include <linux/sched/clock.h>
- #include <linux/bsearch.h>
- #include <linux/sort.h>
-+#include <linux/glob.h>
+diff --git a/tools/mm/page_owner_filter.c b/tools/mm/page_owner_filter.c
+index 516c2d109a6a..8aea7df23eef 100644
+--- a/tools/mm/page_owner_filter.c
++++ b/tools/mm/page_owner_filter.c
+@@ -20,7 +20,7 @@
+ #include <getopt.h>
+ #include <signal.h>
  
- #include "page_alloc.h"
+-#define MAX_CMD_LEN	512
++#define MAX_CMD_LEN	2048
+ #define TASK_COMM_LEN	16
  
-@@ -72,6 +73,7 @@ static const char * const page_owner_print_mode_strings[] = {
- #define PID_MAX_DIGITS  	7
- #define MAX_FILTER_PIDS 	16
- #define MAX_FILTER_TGIDS	16
-+#define MAX_FILTER_COMMS	8
+ static void usage(const char *prog)
+@@ -33,12 +33,13 @@ static void usage(const char *prog)
+ 	fprintf(stderr, "  -t, --tgid TGID_LIST  : Thread Group IDs (comma-separated, max 16)\n");
+ 	fprintf(stderr, "  -c, --comm COMM_LIST  : Process names (comma-separated, max 8)\n");
+ 	fprintf(stderr, "                          Supports wildcards: * ? [a-z]\n");
++	fprintf(stderr, "  -g, --cgroup PATH     : Memory cgroup path\n");
+ 	fprintf(stderr, "  -o, --output FILE     : output file (default: stdout)\n");
+ 	fprintf(stderr, "  -h, --help            : show this help message\n");
+ 	fprintf(stderr, "\nExamples:\n");
+ 	fprintf(stderr, "  %s -m handle -o output.txt\n", prog);
+ 	fprintf(stderr, "  %s -n 0,1 -c bash\n", prog);
+-	fprintf(stderr, "  %s -c \"python*\" -t 1\n", prog);
++	fprintf(stderr, "  %s -c \"python*\" -g user.slice\n", prog);
+ }
  
- struct page_owner_filter_state {
- 	enum page_owner_print_mode print_mode;
-@@ -80,8 +82,10 @@ struct page_owner_filter_state {
- 	nodemask_t nid_filter;
- 	int pid_count;
- 	int tgid_count;
-+	int comm_count;
- 	pid_t pid_list[MAX_FILTER_PIDS];
- 	pid_t tgid_list[MAX_FILTER_TGIDS];
-+	char comm_list[MAX_FILTER_COMMS][TASK_COMM_LEN];
- };
- 
- static int cmp_pid_t(const void *a, const void *b)
-@@ -854,6 +858,20 @@ read_page_owner(struct file *file, char __user *buf, size_t count, loff_t *ppos)
- 						    sizeof(pid_t),
- 						    cmp_pid_t) != NULL;
- 
-+			if (!proc_match && state->comm_count > 0) {
-+				bool comm_match = false;
-+				int i;
-+
-+				for (i = 0; i < state->comm_count; i++) {
-+					if (glob_match(state->comm_list[i],
-+						       page_owner->comm)) {
-+						comm_match = true;
-+						break;
-+					}
-+				}
-+				proc_match = comm_match;
-+			}
-+
- 			if (!proc_match)
- 				goto ext_put_continue;
- 		}
-@@ -997,6 +1015,27 @@ static int parse_pid_t_list(char *str, pid_t *list, int *count)
+ static int validate_mode(const char *mode)
+@@ -225,6 +226,40 @@ static int validate_comm_list(const char *comm_list)
  	return 0;
  }
  
-+static int parse_comm_list(char *str, char (*list)[TASK_COMM_LEN], int *count)
++static int validate_cgroup_path(const char *path)
 +{
-+	char *token;
-+	int i = 0;
++	char cgroup_path[512];
++	const char *input_path = path;
++	int is_cgroup_v2 = 0;
 +
-+	while ((token = strsep(&str, ",")) != NULL) {
-+		token = strstrip(token);
-+		if (*token == '\0')
-+			continue;
-+		if (i >= MAX_FILTER_COMMS)
-+			return -E2BIG;
-+		strscpy(list[i++], token, TASK_COMM_LEN);
++	if (!path || strlen(path) == 0) {
++		fprintf(stderr, "Error: Empty cgroup path\n");
++		return -1;
 +	}
 +
-+	if (i == 0)
-+		return -EINVAL;
++	if (path[0] == '/')
++		input_path++;
 +
-+	*count = i;
++	/* Check if v1 memory controller exists */
++	if (access("/sys/fs/cgroup/memory", F_OK) != 0)
++		is_cgroup_v2 = 1;
++
++	if (is_cgroup_v2)
++		snprintf(cgroup_path, sizeof(cgroup_path),
++			"/sys/fs/cgroup/%s/memory.stat", input_path);
++	else
++		snprintf(cgroup_path, sizeof(cgroup_path),
++			"/sys/fs/cgroup/memory/%s/memory.stat", input_path);
++
++	if (access(cgroup_path, F_OK) != 0) {
++		fprintf(stderr, "Error: Cgroup path '%s': not found or no memory controller\n",
++			path);
++		return -1;
++	}
++
 +	return 0;
 +}
 +
- static ssize_t page_owner_write(struct file *file,
- 				 const char __user *buf,
- 				 size_t count, loff_t *ppos)
-@@ -1012,8 +1051,10 @@ static ssize_t page_owner_write(struct file *file,
- 	bool new_proc_filter_enabled;
- 	pid_t new_pid_list[MAX_FILTER_PIDS];
- 	pid_t new_tgid_list[MAX_FILTER_TGIDS];
-+	char (*new_comm_list)[TASK_COMM_LEN] = NULL;
- 	int new_pid_count = 0;
- 	int new_tgid_count = 0;
-+	int new_comm_count = 0;
- 
- 	/*
- 	 * Maximum input length for filter commands:
-@@ -1025,12 +1066,19 @@ static ssize_t page_owner_write(struct file *file,
- 	 */
- 	if (count > 32 + 6 * MAX_NUMNODES +
- 			(PID_MAX_DIGITS + 1) * MAX_FILTER_PIDS + 4 +
--			(PID_MAX_DIGITS + 1) * MAX_FILTER_TGIDS + 5)
-+			(PID_MAX_DIGITS + 1) * MAX_FILTER_TGIDS + 5 +
-+			TASK_COMM_LEN * MAX_FILTER_COMMS + 5)
- 		return -EINVAL;
- 
-+	new_comm_list = kmalloc_array(MAX_FILTER_COMMS, TASK_COMM_LEN, GFP_KERNEL);
-+	if (!new_comm_list)
-+		return -ENOMEM;
-+
- 	kbuf = memdup_user_nul(buf, count);
--	if (IS_ERR(kbuf))
-+	if (IS_ERR(kbuf)) {
-+		kfree(new_comm_list);
- 		return PTR_ERR(kbuf);
-+	}
- 
- 	orig = kbuf;
- 
-@@ -1046,6 +1094,11 @@ static ssize_t page_owner_write(struct file *file,
- 		memcpy(new_tgid_list, state->tgid_list, sizeof(state->tgid_list));
- 		new_tgid_count = state->tgid_count;
+ int main(int argc, char *argv[])
+ {
+ 	const char *output_file = NULL;
+@@ -244,6 +279,7 @@ int main(int argc, char *argv[])
+ 		{"pid",		required_argument, 0, 'p'},
+ 		{"tgid",	required_argument, 0, 't'},
+ 		{"comm",	required_argument, 0, 'c'},
++		{"cgroup",	required_argument, 0, 'g'},
+ 		{"output",	required_argument, 0, 'o'},
+ 		{"help",	no_argument,	   0, 'h'},
+ 		{0, 0, 0, 0}
+@@ -270,7 +306,7 @@ int main(int argc, char *argv[])
+ 		return 1;
  	}
-+	if (state->comm_count > 0) {
-+		memcpy(new_comm_list, state->comm_list,
-+				state->comm_count * TASK_COMM_LEN);
-+		new_comm_count = state->comm_count;
-+	}
  
- 	while ((token = strsep(&kbuf, " \t\n")) != NULL) {
- 		if (*token == '\0')
-@@ -1085,6 +1138,10 @@ static ssize_t page_owner_write(struct file *file,
- 			ret = parse_pid_t_list(token + 5, new_tgid_list, &new_tgid_count);
- 			if (ret < 0)
- 				goto out_free;
-+		} else if (!strncmp(token, "comm=", 5)) {
-+			ret = parse_comm_list(token + 5, new_comm_list, &new_comm_count);
-+			if (ret < 0)
-+				goto out_free;
- 		} else {
- 			ret = -EINVAL;
- 			goto out_free;
-@@ -1095,7 +1152,9 @@ static ssize_t page_owner_write(struct file *file,
- 	state->print_mode = new_print_mode;
- 	state->nid_filter = new_nid_filter;
- 	state->nid_filter_enabled = new_nid_filter_enabled;
--	state->proc_filter_enabled = new_pid_count > 0 || new_tgid_count > 0;
-+	state->proc_filter_enabled = new_pid_count > 0 ||
-+				     new_tgid_count > 0 ||
-+				     new_comm_count > 0;
- 	if (new_pid_count > 0) {
- 		memcpy(state->pid_list, new_pid_list, sizeof(state->pid_list));
- 		state->pid_count = new_pid_count;
-@@ -1110,10 +1169,16 @@ static ssize_t page_owner_write(struct file *file,
- 	if (state->tgid_count > 1)
- 		sort(state->tgid_list, state->tgid_count, sizeof(pid_t),
- 		     cmp_pid_t, NULL);
-+	if (new_comm_count > 0) {
-+		memcpy(state->comm_list, new_comm_list,
-+				new_comm_count * TASK_COMM_LEN);
-+		state->comm_count = new_comm_count;
-+	}
+-	while ((opt = getopt_long(argc, argv, "m:n:p:t:c:o:h", long_options, NULL)) != -1) {
++	while ((opt = getopt_long(argc, argv, "m:n:p:t:c:g:o:h", long_options, NULL)) != -1) {
+ 		int len;
  
- 	ret = count;
- 
- out_free:
-+	kfree(new_comm_list);
- 	kfree(orig);
- 	return ret;
- }
+ 		switch (opt) {
+@@ -344,6 +380,22 @@ int main(int argc, char *argv[])
+ 			cmd_len += len;
+ 			break;
+ 		}
++		case 'g': {
++			const char *cgroup_path = optarg;
++
++			if (validate_cgroup_path(cgroup_path) < 0)
++				return 1;
++			const char *path = (cgroup_path[0] == '/') ? cgroup_path + 1 : cgroup_path;
++
++			len = snprintf(filter_cmd + cmd_len, MAX_CMD_LEN - cmd_len,
++				       "%smemcg=/%s", cmd_len > 0 ? " " : "", path);
++			if (len < 0 || cmd_len + len >= MAX_CMD_LEN) {
++				fprintf(stderr, "Error: Command too long\n");
++				return 1;
++			}
++			cmd_len += len;
++			break;
++		}
+ 		case 'o':
+ 			output_file = optarg;
+ 			break;
 -- 
 2.20.1
 
