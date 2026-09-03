@@ -1,126 +1,83 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-11.mta1.migadu.com [95.215.58.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E8039A4D6;
-	Thu,  3 Sep 2026 17:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11ECB4F6492
+	for <linux-doc@vger.kernel.org>; Thu,  3 Sep 2026 17:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788456474; cv=none; b=pEaWcBjsNdy0OKFJLUSNmkud/22VtttlWiRsR5saZXZS+PqV1eVtuK5C+xza1BAoqWCe3TlwIuy4Epv8zcLG7awQiHc3TWSoztLmAQbjFtovo2DxjDPLu2xe3w4OhM5O9aPwTl1s8/+a/3rD2EUhh2wndehPQlM1+Jle3xW9QMs=
+	t=1788456499; cv=none; b=gAMOG5ZysqbuAE3uKHFl7ddTu2mAMRVa5mFg6Spsr6HzV/6hgt4H08YLGwpboHIaAN0xSIMqbiIxEKG9KC7xM/h1QnQf36FgraVD0+xW5Ed0672SIABb5O838JXWi5eHB7PHiAysxLepcCQTtnK61ELD3vCJOjV+KNTyLx3pX0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788456474; c=relaxed/simple;
-	bh=wsAwZpSJDsbP0PvVLjHx+2iJlPOrq6EZEhI9/Y4ITus=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KyxKsSqoA+hwwTEBJ5ltBC2iUNfyZbBSkHZXWsHPvNCfmOVzubdyRmW0C0THRVxEtI/gSXjmSjdseds3Q7V/QDU7ovRnC2nJNlu0mO3VkFXRMVBs6/8b7dRmk3dbcq7uffJzQHCoej2tUOj1gwKD08X+9VkBIYKzCjUlI8bWsKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HZG2zrne; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788456499; c=relaxed/simple;
+	bh=JtW4XNewlQP0rGt/iIRbX7XZ+9XZjitvRrOIdxi5Kkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I9D4lgghSls+i2CcvGMnSZE+pMqPg8YKaM3DUOX4AsKNcSfH6a0jIzJOLd9iOSfyVDThsTV94LeV7z7j81g3XKNV9pBrQ1+TRtB4tQBRwehfmf+kXSNnNFvUAt64T/CRQ3YqzrjW3b28wqNCT+pA/WXR/JwSme0zqhV5atCw0LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=g2bp5M0o; arc=none smtp.client-ip=95.215.58.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HZG2zrne"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=omSdGrzgptFKkaEboQmH9m/MCMMwI+CK/RTEyIElEGw=; b=HZG2zrneaLyVIxkBm0ceTXM/+k
-	J5bCUkcq+0XdaiZxfkEGS5UXwWA4M0R9P5AZFqI7yNmhFHZHNUoxwLaZspcwUZcMUVncXnswPJc4O
-	d+0dH/bsJ+/RgoxcUYCIWIF4xm3/Joz57c0xVBSo7rS8Fg/ro4RErusQZJxHkyb7wyCvCt3Z9sZ56
-	/3EUXJAUmWgWERcKguFLfps0PTYGPv769cY5XN3RUWMFnfIUqoil3LiM3CiA/Xv9dWYaEzXJW8UJ1
-	LnBVHWNtmdF+YVrLH8JRKEevDCH8UhyQ0tRO1mO0gn0HTOEdEuDDwNazFTLvomAG10yqg8iHxrHDy
-	BcyC+0ig==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2BE5-00000000H3T-3emx;
-	Thu, 03 Sep 2026 17:27:49 +0000
-Message-ID: <9e53e154-1b4e-49f4-a028-a50af0fbadf3@infradead.org>
-Date: Thu, 3 Sep 2026 10:27:49 -0700
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="g2bp5M0o"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=JtW4XNewlQP0rGt/iIRbX7XZ+9XZjitvRrOIdxi5Kkw=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788456494; v=1; x=1789061294;
+ b=g2bp5M0oQ0lA9rhhL1E14IzrFCo5ZSzbZiotDE9yXHnJR3tGXXn68HHbrxaZJY+LO2MrWri+
+ vPPnH2xxTh0qnblovv4EPC40wLndf1lA5XagKU+1FZhEw0HO5n2nDq+/nUWOXYmhzjx4LmQImaz
+ uYll14/Boi53Q3j4LB+W1+/g8Bl0hhWvvtNG4Mj/BMuYTDTyOZCj9cQTADPDnO0COSU8yUezNsW
+ QyRmQFtuvHC6wFV7eUf5rRkMxTz92ZKaF3y0r/AaQAY3D0KWJ2o7mmoLZXZHWA8sY3smaaoKUIT
+ 2f1smkmF7mPs8MlritygWrikU1iFGbtlI1d8YOW6Hk/xw==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 52b8783e6dd8479a;
+	Thu, 03 Sep 2026 17:28:04 +0000
+X-Mizu-Trace-ID: 52b8783e6dd8479a
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 4 Sep 2026 01:26:26 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Nguyen Duc Thinh <ducthinh100812@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] Documentation: process: Clean up grammar, tone,
+Message-ID: <apmtwqxrkg8pN0aL@wyuan.org>
+References: <20260902084430.17248-1-ducthinh100812@gmail.com>
+ <aploLWg-i315frp5@wyuan.org>
+ <20260903125454.GA541154@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/gpu: Fix spelling mistakes in todo gpu doc
-To: Hardik Kumar <hardikxk@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260903-docs-gpu-todo-v1-1-be712c8f67a0@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260903-docs-gpu-todo-v1-1-be712c8f67a0@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260903125454.GA541154@killaraus.ideasonboard.com>
 
-
-
-On 9/3/26 10:04 AM, Hardik Kumar wrote:
-> Fix some obvious typos in the todo.rst doc.
+On Thu, Sep 03, 2026 at 03:54:54PM +0300, Laurent Pinchart wrote:
+> > On Wed, Sep 02, 2026 at 03:43:58PM +0700, Nguyen Duc Thinh wrote:
+> > > This patch series performs a thorough pass across several files 
+> > > in the Linux kernel process documentation directory. The primary focus
+> > > is to improve readability and maintain a professional tone throughout 
+> > > the guides for a global developer audience.
+> > > 
+> > > Core changes include:
+> > > - Expanding conversational contractions (e.g., "don't" to "do not").
+> > 
+> > Is this necessary? I'm not sure.
 > 
-> Correct spellings of incorrect words.
-> Fix an article usage.
-> 
-> Signed-off-by: Hardik Kumar <hardikxk@gmail.com>
-> ---
->  Documentation/gpu/todo.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 14cf37590..187932554 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -277,8 +277,8 @@ Various hold-ups:
->  - Need to switch to drm_gem_fb_create(), as now drm_gem_fb_create() checks for
->    valid formats for atomic drivers.
->  
-> -- Many drivers subclass drm_framebuffer, we'd need a embedding compatible
-> -  version of the varios drm_gem_fb_create functions. Maybe called
-> +- Many drivers subclass drm_framebuffer, we'd need an embedding compatible
-> +  version of the various drm_gem_fb_create functions. Maybe called
+> It seems a bit pointless to me. Contractions will creep back in as
+> patches are merged. We would need e documentation editor in charge of
+> ensuring a consistent style, and I think the documentation maintainers
+> have far better things to do.
 
-LGTM except for the comma splice above, which you weren't
-attempting to repair. Thanks.
+Agreed. I think contractions are fine as they are. (?) And I do not see
+a need to expand them.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> > > - Rectifying minor punctuation oversights and grammatical typos.
+> > > - Standardizing terminology formatting to elevate professional voice.
 
->    drm_gem_fb_create/_with_dirty/_with_funcs as needed.
->  
->  Contact: Simona Vetter
-> @@ -303,7 +303,7 @@ everything after it has done the write-protect/mkwrite trickery:
->  
->        vma->vm_page_prot = pgprot_wrprotect(vma->vm_page_prot);
->  
-> -- Set the mkwrite and fsync callbacks with similar implementions to the core
-> +- Set the mkwrite and fsync callbacks with similar implementations to the core
->    fbdev defio stuff. These should all work on plain ptes, they don't actually
->    require a struct page.  uff. These should all work on plain ptes, they don't
->    actually require a struct page.
-> @@ -465,7 +465,7 @@ be turned into a WARN_ON() or somehow made louder.
->  At the moment, we expect that we may still encounter the warnings in the
->  drm_panel core when using panel-simple and panel-edp. Since those panel
->  drivers are used with a lot of different DRM modeset drivers they still
-> -make an extra effort to disable/unprepare the panel themsevles at shutdown
-> +make an extra effort to disable/unprepare the panel themselves at shutdown
->  time. Specifically we could still encounter those warnings if the panel
->  driver gets shutdown() _before_ the DRM modeset driver and the DRM modeset
->  driver properly calls drm_atomic_helper_shutdown() in its own shutdown()
-> @@ -891,7 +891,7 @@ Querying errors from drm_syncobj
->  ================================
->  
->  The drm_syncobj container can be used by driver independent code to signal
-> -complection of submission.
-> +completion of submission.
->  
->  One minor feature still missing is a generic DRM IOCTL to query the error
->  status of binary and timeline drm_syncobj.
-> 
-> ---
-> base-commit: 66498c75b4f8017f62d720d9b59675bdf3abce91
-> change-id: 20260903-docs-gpu-todo-31116c645874
-> 
-> Best regards,
+For these two points, it's a little bit painful to find other types of
+modifications among numerous "which/that". ;-)
 
--- 
-~Randy
+Thanks.
