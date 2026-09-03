@@ -1,124 +1,93 @@
-Received: from mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF4C443E53
-	for <linux-doc@vger.kernel.org>; Thu,  3 Sep 2026 11:14:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648FA494837;
+	Thu,  3 Sep 2026 11:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788434096; cv=none; b=GYogZotJxuN8qjW7tQTj+PLnfiXloxUIUwmL4goIn6Sfu8s2Z+TrE/Au5LM8xV7OfhygyMQ0LWrtF/iZDNdtjlLgF0/kXkkZSXbvOT22agPXvBlev9TfjYOhdIzYiQlHGDRv8QYod/mHfJhJ5FA1we0DdYas8RnzglbVOLqM2fE=
+	t=1788435858; cv=none; b=qC4ZKnfxNi+pfn7c7MRYNAK5kv1tnp8kLILFtSyXWxcb3Vp1r20AnyeYIUNO5bA+BKJI3uaTo481o6U0DnzLJxx7BGgEjtk6bCzPc7DI+xhk0afZyYW9sQbFs4o/HARcaIUA2XsqOXZB/7So5viOwZJvrWm2QvE+xF7ElaCYMo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788434096; c=relaxed/simple;
-	bh=JInu9RYj3meTFMOjD56CoUcJTLFeKLu345HSkoY7Z3Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kFEtwI1gW8yxlh9HnhGy0CjZ4hwSKWCijptxMB07K0OnqtYdYxgW9DpWHi9nONLRIiEtGEmVJfBytRAGulqxwqb7P2lfdtYhoKG2zjXACb3CEbDbXOgJWnqbGaVp8WjXtDqsvj+v9zg4uPbLI9ksONPYH+kCB1E2OeE2IQlbpo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cBJZFXtD; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788435858; c=relaxed/simple;
+	bh=LRisX9749KEe+T862sebyxGNqP2gIRWhDkwDZe+zK0s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VhikAYk3dYpf7Il71h7kMlF6in9G1Ejz11fZ2NnD+i4JmB9mJDIiWM4BQ//c9HcwDyAVE/XOiqJoKUB6TZRy8K+vQbPkRTS5Gdtt1wyJLoo6nXa0gDJWPAHIkLa6Uxv271MM0WT//JpNrjm68V8PkXzjqwWHJw2baCT1ivo1D6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EbvjJPeJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cBJZFXtD"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=JInu9RYj3meTFMOjD56CoUcJTLFeKLu345HSkoY7Z3Y=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788434091; v=1; x=1789038891;
- b=cBJZFXtD1NhHIIiJeAhJgzGarO6fOSWJXXWM0lNcFd4KEpJiJ/0sU3Cx7JWiL07uI51U1PQj
- 0kDd4jrkIjfhb4MOK6WG0wioTC2y+TcqWamfV6R/ocd8TGfRJnmCKsNC6xONc1VAoS4rzF2sMOi
- mYpmxWAxe2GJ8CgPxACplaws=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id ea3d8d22111725fa;
-	Thu, 03 Sep 2026 11:14:51 +0000
-X-Mizu-Trace-ID: ea3d8d22111725fa
-X-Migadu-Flow: FLOW_OUT
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b4a0b384c4so5125e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 03 Sep 2026 04:14:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzToxu9Xm3Bsz70+ymJBpWAgxSP3uaEeymF6UVnVua5+vq5gXEk/RKAE9FV+fnCmX67UjB34jx0Ea0=@vger.kernel.org
-X-Gm-Message-State: AFuF++mkAkBQLZoGlk1p4+cc/d9Qi6/O7+CwY7yjCYeM9Q+87H7G99/X
-	qG9/wNeYPvxRGN5JuJvW3egTeLOX3AUpoXU5HaG/LSXgUtDVRK8Dht0H+RXlowR9bytDxHbZ+Pt
-	BgR7s9h1Rpq11+i80TH3mCVoZhFacjiOazhELBu6M
-X-Received: by 2002:a05:6512:2528:b0:5b4:9dba:7401 with SMTP id
- 2adb3069b0e04-5b60f9703bemr75474e87.11.1788434086181; Thu, 03 Sep 2026
- 04:14:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EbvjJPeJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70F0A1F000E9;
+	Thu,  3 Sep 2026 11:43:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788435845;
+	bh=g4XqGFwj50jJWj8AMgHJo4hZekacOP7V5XKmmlInz1w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EbvjJPeJl/yZ8EUmVA3kz/lUoFH9rfuVYIl4VgvBd5ihsvGIoar2oHu0XG6OCnPcm
+	 Jg16u+Qzj3bnbOcjRugYlbWudWdQd1c5d3xyJygtP3pih6rjri/9MjGlJ45BIuyFNc
+	 6ryC2R7QDyXlOdXNvGccui6NUBFbxi6HroAaMA0TX+MM316n/OSd6MckE67BPv3hrg
+	 rir//Vu8NiHNJEC8nUBjHXqbVN5nOmQsDs0eiPvJ2nZERrBO16JRB8ZEFuOqAgJqBd
+	 vz0o37PihhojddHf7rXMaLAFzyCRak/32u+c6eR7HHBvhzTuafLIGVi6cgWDbG8cCQ
+	 THWWkZU8Ypmhw==
+Date: Thu, 3 Sep 2026 13:43:45 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Koichiro Den <den@valinux.co.jp>
+Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Frank Li <Frank.Li@kernel.org>, Jon Mason <jdmason@kudzu.us>, 
+	Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, 
+	Niklas Cassel <cassel@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jingoo Han <jingoohan1@gmail.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Jerome Brunet <jbrunet@baylibre.com>, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ntb@lists.linux.dev
+Subject: Re: [PATCH v3 0/7] PCI: endpoint: Remote DMA support via vNTB
+Message-ID: <4k22ipcaw6hy3va2z6nd56zb35kbcx63tfgk4tyuz5jifd6a3v@absanor6e2vp>
+References: <20260831182657.329614-1-den@valinux.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260903084809.2027326-1-fuad.tabba@linux.dev> <cf59d824-80dc-446f-9b1b-ac9841a96a9d@arm.com>
-In-Reply-To: <cf59d824-80dc-446f-9b1b-ac9841a96a9d@arm.com>
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Thu, 3 Sep 2026 12:14:09 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTyT=bt01sALTgC7TFFYK8HM8j7aEd0Vg40Jrn1_z-jf1Q@mail.gmail.com>
-X-Gm-Features: AcwNN1UwS0XUDiblUkZ9DGKXpH34SnYOyjjK7mojy0pO5pMFvqZv9Yc3DnNoNco
-Message-ID: <CA+EHjTyT=bt01sALTgC7TFFYK8HM8j7aEd0Vg40Jrn1_z-jf1Q@mail.gmail.com>
-Subject: Re: [PATCH] arm64: mpam: Document when to set arm64.nompam
-To: Ben Horgan <ben.horgan@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	James Morse <james.morse@arm.com>, Xi Ruoyao <xry111@xry111.site>, Marc Zyngier <maz@kernel.org>, 
-	Bradley Morgan <brads@mainlining.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260831182657.329614-1-den@valinux.co.jp>
 
-Hi Ben,
+On Tue, Sep 01, 2026 at 03:26:50AM +0900, Koichiro Den wrote:
+> Hi,
+> 
+> This series lets an RC use endpoint-local DesignWare eDMA read channels
+> through vNTB. It keeps the export within pci-epf-vntb and ntb_hw_epf
+> rather than defining a generic remote-DMA ABI or using a separate PCI
+> DMA function.
+> 
+> On the endpoint, pci-epf-vntb reserves the complete eDMA read direction
+> and exposes those channels as a group. HDMA is not yet supported,
+> keeping the series minimal.
+> 
+> The DMA feature is opt-in through the pci-epf-vntb configfs attribute
+> 'dma_bar', which is -1 by default. Without it, no DMA extension is
+> exported. pci-epf-ntb is unchanged.
+> 
+> Base and dependency
+> ===================
+> 
+> This series is based on next-20260827 (3d83758432b5) plus:
+> 
+>   [PATCH v2 0/3] dmaengine: dw-edma: Prepare channels for remote use
+>   https://lore.kernel.org/r/20260828163611.2691264-1-den@valinux.co.jp/
+> 
+> The prerequisite is for the dmaengine tree and is not part of
+> pci/endpoint. linux-next provides a common buildable base for both
+> series. Once the prerequisite lands, this series can be rebased onto
+> pci/endpoint.
+> 
 
-On Thu, 3 Sept 2026 at 10:55, Ben Horgan <ben.horgan@arm.com> wrote:
-...
-> > +arm64.nompam
-> > +============
->
-> This assumes that the reader already knows or can guess that arm64.nompam is a command line
-> parameter. Perhaps the section name can be 'Command line parameters' with a single 'arm64.nompam'
-> subsection underneath or all in the section name.
+Just to make it clear. This series has to build time dependency with the above
+mentioned dmaengine series, right? The above statement is not very clear.
 
-Will do: a "Command line parameters" section with arm64.nompam as its
-subsection.
+EPF patches LGTM! I'm waiting for an Ack from NTB maintainer for patch 6.
 
->
-> > +Firmware must enable MPAM at the highest implemented exception level and
-> > +leave the MPAM system registers accessible to the kernel, or trap the
-> > +accesses and emulate MPAM as disabled. Where it does neither, the CPUs
-> > +still advertise MPAM in the ID registers, the first kernel access to an
-> > +MPAM register traps to EL3, and the boot fails. ``arm64.nompam`` exists
-> > +for that firmware: it makes the kernel treat the CPUs as not implementing
-> > +MPAM, so no MPAM system register is accessed. Set it only on a machine
-> > +that does not boot without it.
-> > +
-> > +It is not a way to turn MPAM off. On a system whose firmware has enabled
-> > +MPAM at EL3, the option leaves the trap controls in MPAM2_EL2 and> +MPAMHCR_EL2 unwritten, and their reset values are UNKNOWN.
->
-> Enabling MPAM at EL3 is separate from disabling traps. Setting MPAM3_EL3.MPAMEN to 1 means that the
-> values in MPAMn_ELx are used to determine the PARTID and PMG for CPU requests. At this point EL3 can
-> configure the PARTID and PMG for the different exception levels and MPAM can be used in the system
-> under firmware control. Setting MPAM3_EL3.TRAPLOWER to 0 is what enables EL2 to access the MPAM
-> registers without trapping and configure the traps for MPAM register accesses at EL1.
+- Mani
 
-Thanks, I'll separate the two: TRAPLOWER being clear is what leaves
-the EL2 trap controls unwritten, and MPAMEN is what makes a guest's
-choice of PARTID and PMG take effect.
-
-> > KVM still
-> > +hides MPAM from guests but no longer enables the traps that stop a guest
-> > +from using it, so a guest may be able to choose its own PARTID and PMG.
-> >
-> Shouldn't this also mention that the MPAM_*_EL1 are not save restored and so if the traps aren't
-> enabled provide a side channel between guests.
-
-Yes, I'll add that KVM does not save or restore MPAM0_EL1 and
-MPAM1_EL1, so what one guest writes is still there for the next guest
-on that CPU.
-
-I'll send a v2 with these once others have had a chance to comment as well.
-
-Cheers,
-/fuad
-
-> Thanks,
->
-> Ben
->
-> >  Reporting Bugs
-> >  ==============
-> >  If you are not seeing the counters or controls you expect please share the
->
+-- 
+மணிவண்ணன் சதாசிவம்
