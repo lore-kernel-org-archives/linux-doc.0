@@ -1,56 +1,48 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA5C34EE874;
-	Thu,  3 Sep 2026 16:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mta1.migadu.com (out-88.mta1.migadu.com [95.215.58.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37894F4744
+	for <linux-doc@vger.kernel.org>; Thu,  3 Sep 2026 16:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788453634; cv=none; b=R77tEr5SQbiRtqZWOv1wLCS+UrK5OY3Cf7mB8r8b4UzdiCbuAHDcAa2Tq4X3OApw3Z1fSWygDcV8+ZjPGSgPW7A98FvfkwyqGLAYRQ1W8V/PPB5dNulJNfjaZJN9bNRVfRrUe+KPmI76jPYHsuFjhRLJdceNURC92NZB8g4A9XE=
+	t=1788454668; cv=none; b=SUTfNXQjkQTn8XY6jBdSKGo1JzK6tToWbaHoUJneRaqtiUMnhmiQcENosXRvMQJvW2eQrSSYaX0dK7TZOwZuL1PgrFQ3CYDyaZNxee1xuPALaqbpILprIUwzl8/RA2B8uAP+KKi2wV4sRlt5kvJ0EWZP0eJU8dPPHl2USyHCVfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788453634; c=relaxed/simple;
-	bh=OSr2gscj+kDjyAWXtxyYR/gs/bwGrqEaiRW5/qbCIZA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=ZX1BUtH9MgJmBOfqGCfMGLG4zOakKt7Gsu084XuZEedMCcqVl2VLrJPrrd94kT9VagEWje9lzX9dEgoxFcpzqc1kdyTmrnLf1rP9VWTk3Si40zotrzLEh92GacxP1Sm+qnjESyEUYFQ0IAXtMTzrlzbhMVM6wggo94gH5FYr6+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=fYFwU0f7; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1788454668; c=relaxed/simple;
+	bh=yrTVed2V76HIXyGCXgr8lE+QFhABBpHQFtBkdMn89t4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G4J5qdhXnO8g1DmafHuPiaZyYsLOcUYsnqGIV2N1wjFeW5BKVKIi3tuniNLy7/vlwN5FgpZxzvdhG3GcLvtXZvDmFKKu2UW2iex4QkHZJrvj7uAFzl+Fv9vJ9Qiur7LXQ/Ti5v7UJOgX7cJ8L4/B2gY89rnGCIEQfMcJ8/KaQek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=iVI4RRp/; arc=none smtp.client-ip=95.215.58.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="fYFwU0f7"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60DB81596;
-	Thu,  3 Sep 2026 09:40:28 -0700 (PDT)
-Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA2103F673;
-	Thu,  3 Sep 2026 09:40:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788453632; bh=OSr2gscj+kDjyAWXtxyYR/gs/bwGrqEaiRW5/qbCIZA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fYFwU0f7t6o4OCU+/iylAHc5e01pAfXn4Gh0P5mqIl+Sb4zHG9QVJVGQ1d6dhtck0
-	 L7K4Q4qXmw/xDige6jYLIjc/+39VF/2q5nlJpYLyPikD7Bny43n60HrtNgxy7sJZ7N
-	 nCbU4IyZYpUdBVwZ8bPNza82EQkkJDTWxGsbwMSc=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>,
-	Fuad Tabba <fuad.tabba@linux.dev>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Wei-Lin Chang <weilin.chang@arm.com>,
-	Yao Yuan <yaoyuan@linux.alibaba.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v20 05/14] KVM: arm64: Set PSTATE.EXLOCK when entering an exception
-Date: Thu,  3 Sep 2026 17:40:12 +0100
-Message-ID: <apmi7HD54qGVVB7J@LeoBrasDK>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <0c1c0d26-4e96-4076-8863-b4e871e38e67@sirena.org.uk>
-References: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org> <20260901-arm64-gcs-v20-5-f31750bdfadb@kernel.org> <apmDRXBvS-XOi1NJ@LeoBrasDK> <0c1c0d26-4e96-4076-8863-b4e871e38e67@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="iVI4RRp/"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=yrTVed2V76HIXyGCXgr8lE+QFhABBpHQFtBkdMn89t4=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788454662; v=1; x=1789059462;
+ b=iVI4RRp/CXlFGFI/bOh+HorKVGdLzDjGJSZ/XMzbxIM318zzqnsyuekAc9zHyYLdZ82+YLhp
+ q0Enp9KwRAb0eA3oj9yaN2UrmqDX1IVn3GjMYCv+tUlXCfWYSo9x9zIJewaX1HtobNI8+GuehwL
+ OYHmdqOQzOslcYAf1xBkUNHkjYN0lJMq0bC77jm+vz3ummNJnYSMvhZU47+Os98EVicA3juTdpc
+ HH/Zet1IQLYBzqanxD/bLy57CvxQmdvobqol3+zB0dbWEN+wTkUFCluExyD8r5RdgFx4AAFvSE7
+ 7NAFRArlK7u4ekk3rCtZ69s8sSnsoFnkiPgbeu6FDmStw==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c26a59a5668ff9b5;
+	Thu, 03 Sep 2026 16:57:32 +0000
+X-Mizu-Trace-ID: c26a59a5668ff9b5
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 4 Sep 2026 00:55:55 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Nguyen Duc Thinh <ducthinh100812@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] Documentation: process: Clean up grammar, tone,
+Message-ID: <apmmmz0Xo6fXgFiV@wyuan.org>
+References: <20260902084430.17248-1-ducthinh100812@gmail.com>
+ <aploLWg-i315frp5@wyuan.org>
+ <5efba8f3-ffb0-4e1e-8057-6946e1e96db8@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,31 +51,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <5efba8f3-ffb0-4e1e-8057-6946e1e96db8@infradead.org>
 
-On Thu, Sep 03, 2026 at 05:20:32PM +0100, Mark Brown wrote:
-> > > +	// PSTATE.EXLOCK is set to 0 upon any exception to a higher
-> > > +	// EL, or to GCSCR_ELx.EXLOCKEN for an exception to the same
-> > > +	// exception level.  See ARM DDI 0487 R_WTXBY.
-> > > +	new |= compute_exlock(vcpu, mode, target_mode);
+On Thu, Sep 03, 2026 at 09:33:46AM -0700, Randy Dunlap wrote:
+> >> Nguyen Duc Thinh (5):
+> >>   Documentation: process: Clean up grammar, tone, and contractions in
+> >>     core files
+> >>   Documentation: process: Clean up grammar and tone in next guide files
+> >>   Documentation: process: Refine language, tone, and grammar in
+> >>     subsequent files
+> >>   Documentation: process: Refine language, tone, and grammar in
+> >>     subsequent files
+> >>   Documentation: process: Clean up grammar and tone across multiple
+> >>     files
+> > 
+> > Output of 'b4 shazam':
+> > 
+> > ...
+> > Applying: Documentation: process: Clean up grammar, tone, and contractions in core files
+> > Applying: Documentation: process: Clean up grammar and tone in next guide files
+> > Applying: Documentation: process: Refine language, tone, and grammar in subsequent files
+> > Applying: Documentation: process: Refine language, tone, and grammar in subsequent files
+> > Applying: Documentation: process: Clean up grammar and tone across multiple files
+> > /home/user/Projects/linux/.git/rebase-apply/patch:72: trailing whitespace.
+> >   License (about which more will be said below).  The author is not a
+> > warning: 1 line adds whitespace errors.
+> > /home/user/Projects/linux/.git/rebase-apply/patch:244: trailing whitespace.
+> > Which is nice, since there is no more insanity in the form of fake-generic
+> > warning: 1 line adds whitespace errors.
+> > /home/user/Projects/linux/.git/rebase-apply/patch:261: trailing whitespace.
+> >    rare cases, an AI assistant capable of finding a bug is capable of fixing it.
+> > /home/user/Projects/linux/.git/rebase-apply/patch:262: trailing whitespace.
+> >    Fixes written within the same session used to identify the bug will
+> > /home/user/Projects/linux/.git/rebase-apply/patch:263: trailing whitespace.
+> >    generally lead to better and more accurate fixes as the LLM's reasoning
+> > /home/user/Projects/linux/.git/rebase-apply/patch:282: trailing whitespace.
+> > - Within two weeks, a representative of this group will communicate the
+> > warning: 4 lines add whitespace errors.
+> > 
+> > Should we handle with whitespace?
 > 
-> > Same nit: am I really setting one bit here? or could be 
-> > more stuff depending on the parameters? Having an "if (cond) new |= bit"
-> > seems more clear to what is being done, without needing to read the comment 
-> > above.
-> 
-> The goal with the comment is to explain the rule that the code is
-> implementing in a style similar to all the other field updates in the
-> same function.
+> No, the trailing whitespace should be fixed (i.e., deleted)
+> and then resend the patches.
 
-Oh, right, to be clear:
-I am not questioning the usefulness of the comment here.
+Right, I was actually trying to gently point out that the trailing
+whitespace should be fixed. ;-)
 
-It's more about "new |= function()" thing, as it's not immediately clear 
-what is being set unless I read the comment or read the function, as in the 
-case "if (function()) new |= bit" I may not immediately see the condition 
-but I know whatever it can be, it will only decide if I do or don't set 
-this given bit.
+This should be caught easily by checkpatch.pl, or simply by running
+b4 prep --check, I guess. Better run it before sending out next time.
 
-Thanks!
-Leo
+Thanks.
