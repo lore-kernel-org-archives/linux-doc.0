@@ -1,97 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0304509F1A;
-	Thu,  3 Sep 2026 20:13:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C183C3F6B;
+	Thu,  3 Sep 2026 20:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788466421; cv=none; b=g05b0e/xkU7TQmwBpooS9rv6aqK+nvBvIlZGrPztPRrE5GKglKo8YJ9wnAj7ylOcBvwdnVc0c2sEZek4ZdRJvSAdsjivy19n0V1uKxWBx3aVs78UNlQQQFLxdIpLULBUzGCMeVQBhOYrwHcZX8gbDTqRMc7jOr3BPaeME0LTgvw=
+	t=1788467244; cv=none; b=Rj2jEUTVW64vPx5M05PHY5fVGvxTjL9H+FYD5YdCIsefcOQ9PEj/r6wiAcfeykl6so8UV9lPoTVnjPCsJJ6FBLGqCnX8xf0Ql9NFa/bvyOxh7QDqiIbkW17I5K525SmS4z1CM7aRtKjjZNRC11ctFEL9w+Cjk8IxNmEwxcRTRsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788466421; c=relaxed/simple;
-	bh=b1UQFvU+V2IG2rTYiyAermvUg0b3jYe7expLdRblPRQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m1MoYbODyFKyGrJzfGucF8XVkX3lWsmHnvcPTbb3QRT3i41fyqCfFOVcIyIlboTmmXHHuaW9vvZNENFVLRPfVQesMRMEETOftg4MtRK/MB7vqKclfBd0aX41bUdFdDv+oPLT86JDs0rmU+LlqMAH1AU3J4y7XNzTklR3O6RiH8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V0Rv6gUE; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788467244; c=relaxed/simple;
+	bh=l91/UGkIDrl42dnGZ8e+BDegYiQ2Y+Zc+gpuFCj9TVE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b8UkrJB8d9K2hhdQHxKigWIezRZb3VKRDQXuyJlNr06jIr5edUoHqDanpFJgdobIBImxQgmXSUjzvW6Ne3hwTSVqnqHhq+9OCwJB2ik650DLOzOjalZUjfrkcKZjJtlIsL5dd1hTkr3TihkZdLcNm4G7d7+jufPFFHPNDMYj0D8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UEOKV5xL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V0Rv6gUE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788466410; x=1820002410;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=b1UQFvU+V2IG2rTYiyAermvUg0b3jYe7expLdRblPRQ=;
-  b=V0Rv6gUEK0mFz9g/lHu7DzLTr+QLuVnOQPpUD9QkzxJMuJOXu+FWGgNL
-   UodXM2hPKmQSk3GYZgHRvyPrhAwXeSFT6kkRU41mtwIwc2GM4ZxSEDKFt
-   zlpVxuJ/DQyX2qCB2ica2qcb2WQlp6Rbq4f89ycGsOa2lds9OMmZMr2E4
-   unxGUlCyA9sSJCBBq//JtYLWNYTw3gTEHxsdX2dzbmyFuTDwltHIj3+gW
-   kzS5LkDvnEPAHFH+6rk4wRYsgVQjGLJzojXhVnTT6VbclPJRXGOnIrz1m
-   pCGhWRgi6kYQ13LKc5qgG2OeCWgTiCGCGoPiSz4hBh8TQtby364GdYaa6
-   A==;
-X-CSE-ConnectionGUID: UYP6FwdiSl2+xWngwY4m0w==
-X-CSE-MsgGUID: YEtbjnHmQvmX6y1xxqCBZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="87900229"
-X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="87900229"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 13:13:25 -0700
-X-CSE-ConnectionGUID: mDqEModVQYqnByXBVr+C9A==
-X-CSE-MsgGUID: Pa5t0w73QoOXYNxPpYYMpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="269821169"
-Received: from aschende-mobl.amr.corp.intel.com (HELO [10.125.110.190]) ([10.125.110.190])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 13:13:25 -0700
-Message-ID: <5f10c64e-1f0d-48f7-bd6d-2373b69e7cad@intel.com>
-Date: Thu, 3 Sep 2026 13:13:23 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UEOKV5xL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C6571F000E9;
+	Thu,  3 Sep 2026 20:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788467225;
+	bh=elkp0fXEfvHG6ANCalHkLSTiGly333WXYxFdC6tJUZg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UEOKV5xL2pQxlkjJ1XVy7dMHYWTQqpMC63KRwDOArms6ZDlYnhluOig5OX27kLFPV
+	 0B4mLTol/O9bYfPMciSNSfxJy8nc1tpWePKtvbI7WaPKsVZYjXrYDK1D6j/Hq8vUze
+	 k6F8kZyhE7jrM+vVLxGsqy3vmWkbYMsyiL5gY/qUhgm6zt4FBBUv5Xc3c5XtIGz7Oc
+	 J756KeB4ZdWJUuo10pBpcGt5lv5tosWkL6OuxngnDtMmGrsIwKwrR2+hfQai6fGgK+
+	 9Zl5vBTazLyddJLAE9DCDia5KNbHPpyAoJLLwErRoaQjRJMlApJO5OvQqDoaSWfPNK
+	 pFhHfK2hr7zCw==
+Date: Thu, 3 Sep 2026 13:27:00 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	automated-testing@lists.yoctoproject.org,
+	"kernelci@lists.linux.dev" <kernelci@lists.linux.dev>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
+Subject: Re: [PATCH 1/2] scripts: add TOML config to container tool
+Message-ID: <20260903202700.GA3790602@ax162>
+References: <7d8ba914cd174d716340bb2b88723bef0f330627.1787565460.git.gtucker@gtucker.io>
+ <apG3hwaPA8f7SJeI@levanger>
+ <b45e7864-928c-4b3c-aa62-64f4f63d85c7@gtucker.io>
+ <ed43b869-6fd4-4b00-8fd2-e9dd9aaf3349@gtucker.io>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] cxl: docs/platform/acpi: Fix brackets
-To: Manuel Ebner <manuelebnerli@mailbox.org>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260903095445.729419-2-manuelebnerli@mailbox.org>
-From: Dave Jiang <dave.jiang@intel.com>
-Content-Language: en-US
-In-Reply-To: <20260903095445.729419-2-manuelebnerli@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ed43b869-6fd4-4b00-8fd2-e9dd9aaf3349@gtucker.io>
 
-
-
-On 9/3/26 2:54 AM, Manuel Ebner wrote:
-> Add '}' and fix indentation.
+On Wed, Sep 02, 2026 at 12:26:29PM +0200, Guillaume Tucker wrote:
+> So to recap, here's what I would suggest:
 > 
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-
-Applied to cxl/next
-f0f38b3d0730
-
-> ---
->  Documentation/driver-api/cxl/platform/acpi/dsdt.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> * keep Python 3.10 for this series, continue discussion about minimum
+>   and optional version numbers tree-wide in other threads
 > 
-> diff --git a/Documentation/driver-api/cxl/platform/acpi/dsdt.rst b/Documentation/driver-api/cxl/platform/acpi/dsdt.rst
-> index b4583b01d..73b23d82a 100644
-> --- a/Documentation/driver-api/cxl/platform/acpi/dsdt.rst
-> +++ b/Documentation/driver-api/cxl/platform/acpi/dsdt.rst
-> @@ -25,4 +25,5 @@ Example Compute Express Link Host Bridge ::
->              ...
->              Name (_UID, 0x05)  // _UID: Unique ID
->              ...
-> -      }
-> +        }
-> +    }
+> * drop registry config file option in v4 then add it in a follow-up
+>   series along with image name validation and parsing using regex
+> 
+> * leave TypeError exceptions as-is in this series, improve user
+>   experience and error handling altogether in another follow-up
 
+Sure, I think this sounds fine. I tend to ignore existing issue comments
+from Sashiko when it comes to accepting a series, I would always prefer
+them to be handled in a separate series.
+
+-- 
+Cheers,
+Nathan
