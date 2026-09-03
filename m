@@ -1,190 +1,288 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11020121.outbound.protection.outlook.com [52.101.228.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3A24CA78B;
-	Thu,  3 Sep 2026 15:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.121
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788448415; cv=fail; b=UfXYX2YtsJrMOOEeyWlZYLMotchKrCy7gOPNUzsqvGDWQ37rWZfaqv20k020COQdvH6CQY10B7RrurQANkI4d72oxnY+GzZaPxTXSfpWHdtEOKKd1KzA9Tc+W1QCbFma/+R1C3xXNG4/IKCjGeGm3vrGf21RPImn4vLWEzpQ/cw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788448415; c=relaxed/simple;
-	bh=8G344F4k66XOltqVOhuwBmfpBM2ntNq1Fh1P/1Lc7qA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bCNpLFLenJ7z/N8RsEUtwbDJB+5uX9Go62CFf1nxjbCU+GMWUsRbn/k5nqMXDJpr1Y67Cn/KjA24NPBlw3BHQqpB3Z3Q2QjP0OU14ObPpHZFXAFKmgNpyY3FIc76nNzjLNH2HzLtVl6TDSFDm5qI1bt+/hDV9s2nKCRELpsVWko=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=H2n7I2FJ; arc=fail smtp.client-ip=52.101.228.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129A94DB54D
+	for <linux-doc@vger.kernel.org>; Thu,  3 Sep 2026 15:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788448985; cv=none; b=Fr6d7wnoUNkqbnnxJnx0KWJ0wPJIGWD1E5bhwAxv1Q2C19OLe+T3+J0fHDMVT4YVMa25hV7EjMT97Rpr6iOWYPij9OuuGxutbjNk4cUE+UV5zXvitmHqqjXhEFdPFEWRgikiyFFlg45CST5wFPfgzxA+JBt+4DibeEVJyEfOvp8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788448985; c=relaxed/simple;
+	bh=Dq92LeGuEvRxePiTJp8aN+dljPkwrZpGCE34Qr6Z8eE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=LrkC44Xtw5hxXJ07G0R0HGnPC5BJa1AHwNiZO1ZqE0G4bzvg3mNFcwIGzVFfnaTvOq0GAMHT5Rc03nyHNGhnt9frunRrMXt49OznfZ9HZltP+EJ2czl+oJvv2QX+Fw+0cCLeDKqJ4+CXK3I3ZCsk0TFiqpPWWLhE9ipm22eyDBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SjGZM1W8; arc=none smtp.client-ip=209.85.218.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="H2n7I2FJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tbeHf0r6FFFDcWZtoFMstQKcmcG0w0rkMAE9/3+qF8pM1z7T5Unip68djJRPD4BsssYze8YhmMngVB8njr6ZU0OL/hobKtWAlzMQIkpjRC8vuzWHf3yGjeaAjGTJuT/6zCYdVZcnuPzuJPi95twtQeQHOQPSvn0yLQpgqy6k3yT4uwnn9Lom/peMkRCXa+5D/CR/DhhfUmJlaCfC0q5RYVDolTCZbISX0+XfdgUIIM1t0kD0Rr8qpD9OfhQ0aJr3+pcPouuQJhPd+p7QgAx0wp4ofsVFs9oi+Bk9SFy53R3L6wp+2ptq7M9o2Jlnflecp7E0wW467P0lUmwUmsX3aQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cP6B7v+tdQ+ru0KfgXzyT6jgBjssOPmQl3H5DiVqIqM=;
- b=c6rk2lqB0GEmNiCr6rd6kg/i8ZdtM0kRsVTwJ17DgnFNpeKwCICShFJxabiHw3Jri3ASpGjjj1STDd+p8FgpsR4qjMf5C4QIuRL9nxSmoh/1jdgj9YdDrvs82f02X342iK+81EgefliPm8UyJa/sbw8rFQ5Rq0kSeu1ksv8BMyHXhD4miUXquljfWrikXq2zad/Rvterq6AlGqy+cbZ14cIFV8b5yWqzNCtp3aqhKphLT5RkJs4TaO6UU9D6Uz6QHXQO9He4NbpPxd4M3GjCCaiKwumtUR3xjRfGnnnFUIH7ktRFhIguehN09SyAqRIOtvEB22x+j6EWUe06q0K/cA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cP6B7v+tdQ+ru0KfgXzyT6jgBjssOPmQl3H5DiVqIqM=;
- b=H2n7I2FJLkjI2FXa/P4hWckwlYvHPztq0OCUf8+QXIoF4njwU6qocirsHOX6p4m6hUwaGQdF607UAVHDrKGjVOQsrn2INXfzJmbog1YazaLQVjvoIaGQW3VoxfYj5I0N/pRYYut1XVpcBAfURJWyII4h5QL8hKEzqEEou8DFTYU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by TY4P286MB6797.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:33f::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Thu, 3 Sep
- 2026 15:13:29 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%4]) with mapi id 15.21.0360.008; Thu, 3 Sep 2026
- 15:13:29 +0000
-Date: Fri, 4 Sep 2026 00:13:28 +0900
-From: Koichiro Den <den@valinux.co.jp>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Frank Li <Frank.Li@kernel.org>, Jon Mason <jdmason@kudzu.us>, 
-	Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, 
-	Niklas Cassel <cassel@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jingoo Han <jingoohan1@gmail.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Jerome Brunet <jbrunet@baylibre.com>, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ntb@lists.linux.dev
-Subject: Re: [PATCH v3 0/7] PCI: endpoint: Remote DMA support via vNTB
-Message-ID: <gjvpfltamqvvgucmdz7scvslyuf65ditqpyuu6ktbqkctwcakc@5atq3vrxa6nb>
-References: <20260831182657.329614-1-den@valinux.co.jp>
- <4k22ipcaw6hy3va2z6nd56zb35kbcx63tfgk4tyuz5jifd6a3v@absanor6e2vp>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4k22ipcaw6hy3va2z6nd56zb35kbcx63tfgk4tyuz5jifd6a3v@absanor6e2vp>
-X-ClientProxiedBy: TY4P286CA0096.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:369::18) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SjGZM1W8"
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c2541129b02so187220766b.1
+        for <linux-doc@vger.kernel.org>; Thu, 03 Sep 2026 08:23:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788448981; x=1789053781; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GmFek9macUO7lb98mH13+DwSxNV0cpAjOXbf35SyPVg=;
+        b=SjGZM1W8C82xFGwdpfbr53+Ce9c1lP0jqV0ZK6DwDH710f80NFhmMEratIEBSLCIvo
+         syg1ibK5XAoE/yFSuUdVsFGUq92CKg3GX0R1rGMsacxTuXbvFjW196MWEytTCBPi78u7
+         cN/uC9hDKCjiZeyP7BqAA9CHGnVoMUzBUb3NIy+FMGf2V21J+oU+da86uB5LNA4N0ebR
+         gles7dyfsp5Qtp+BVCIs7b7qanoD2MkZW8nKxnej/khtqH6/fmmTM5ULth8Uew3V8FHX
+         b/I8gjDivO+gcxfK/ph3tuBAyeW6cuA82QBqPju9aN0Y0VReYCar/eeIN0L/3v3Tv5up
+         MJbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788448981; x=1789053781;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GmFek9macUO7lb98mH13+DwSxNV0cpAjOXbf35SyPVg=;
+        b=nwn7hoYupvUCjX/S7vg+PV57jiNu+PIOmDHHAlVKlTmJDlL+WtsBWOaAmCuTYXbAVt
+         xfd78QnvfWrYE0CZhBIq2QnJniES6AhT+BLbZeDBPVHRHFJhj9a36ocn3u3Pn2yQyKIC
+         I50Y/VkYkQYTAz6OfWqjNnLebnBdV9PavFUfRFopFVNIAXFzY+nDbWDRJqVW088aSuAs
+         xSgTfbiYABqmBTCbrYudB1IMu8d7ngOuV85di63t5Lbs5ZFDwJT1GFEfXHVlSVE4QbGK
+         I2X8NnIqIgxQv6/82NMWASeuaujz/RXzl+a15wkbGP2WO7Tirf6E36qnZAlt1RB5Ftxd
+         Dj4g==
+X-Forwarded-Encrypted: i=1; AKwUvByN6vIrpv7ekmxGpnVczAQFCtHp1DlV4qpsHZeMqr31KlHmj2bfl6jfpGF7yXneDrj8mvg2+JxT4y8=@vger.kernel.org
+X-Gm-Message-State: AFuF++l6hAqDfySPJ4m0zmMqpmbGDkokl94Pyk+8C/V604Wcusgjk/1J
+	0QwDGN5DKMFk1IaMkqLPpPErA1z92V8IDQf7LT6/9aV7cJBtQQDLxm2hzYt4CW61hk7k+FgNB+s
+	ZUaTT37J3NaPkWgOgIQ==
+X-Received: from ejctj4.prod.google.com ([2002:a17:907:c244:b0:c25:127e:8e75])
+ (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:d508:b0:c16:13e7:fd63 with SMTP id a640c23a62f3a-c260436b4e0mr108793366b.0.1788448981126;
+ Thu, 03 Sep 2026 08:23:01 -0700 (PDT)
+Date: Thu, 03 Sep 2026 15:23:00 +0000
+In-Reply-To: <aohwGv6TRqPg9Dwx@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TY4P286MB6797:EE_
-X-MS-Office365-Filtering-Correlation-Id: c7b08dc6-68fa-4719-e374-08df09cde958
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|366016|1800799024|23010399003|376014|7416014|56012099006|22082099003|18002099003|6133799003|4143699003|10067099003|5023799004;
-X-Microsoft-Antispam-Message-Info:
-	S3aFB2bw73rvudGDiBfJ85otZmX5DhOHw/N+P9/Hby1JGkN3Wl0/dnNvR9kCoNPkqAdMbWjUNbuy7AzO+wKspf/s9zClKYe1mzgU3K6Uz9grR/uppH+juhl4Ssa34qIngi2WNg69hc6wvMNuCZOGRmkqS2doUkMmusWGWSpGd4QrEJfBpiWYPgLiwBQhFsHo7EY6LNNNceUZkWgi3Dt39lQoqYBEJI+Y2mfJjHrnd7mZu9M+KyiaavtjCK7p+wd9HZlws6HALXfrCjCijBA+F+lxTV2tpkKet6Ibnvrd2wW7at7y2VUPvPgTexg2TXsI19xb5/MMD5qovtNO8+jTxpCV6CLqh5ThclEuXoyU8Mz8HWAqD0JcDEeUb9VmlCsTqdywAILk3ofKH+FG2rU1FzOPXQ4ZQQWgsl9saLnozRq98Kmlq3P+B78GXWptFSKiEeDyJrQLOy/cZLBA2v4NsRZV/BLfz/DUsqBH9ETv193BLQhBepgjo4wxro2KYlg2fGnweaoZtmbQDrXxnK/3vGxe/BtzEF5URfQ+e5l8+fWsU+6JCFApIHy1em+Nz6xWTKyaXrEmW7MgKC8J97nHcYs4Whq9sM1uOwBWGCJagbbFGY4hlqIDFlngrkck7WYG
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(1800799024)(23010399003)(376014)(7416014)(56012099006)(22082099003)(18002099003)(6133799003)(4143699003)(10067099003)(5023799004);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?M1hwTC9kakowNnNCeDZWbURlcGJ2RC9vT3V6SVloWkpJZGl2OXd6QUJGWkFK?=
- =?utf-8?B?YVJFRnpxN3lnSE5qcldsWHBPY2d1cDg4c0J1NWRFcE9yVkgvSStOMnJ3NjNl?=
- =?utf-8?B?SldiSUllNDhBdk9sVWk1VVhiMFNBSDJndXFWd0t5cG9OM2UxQjRQdk1mTGND?=
- =?utf-8?B?NVhhblU5N3FLWkVzbSsxV3N0NHp4Y0ptMmVsZWlMUEowbUVQOTlPNm8ySDVV?=
- =?utf-8?B?MHFzSU1hZHVtb2VKTjA0dG1MYU10QUw1Mlp3OXhERVlOTWZja0ZsbjdhNXdo?=
- =?utf-8?B?eVkrR0hLME1tN0pHdUV6MWVPMEVUWnh0Z0RjNzZnQjdlbG5aYzBsS2lSM1Y5?=
- =?utf-8?B?UG1oVlQvcEN1K0JYWk1NTTU3ZVREcmVEQjhYeVpwbmRrTC9CWERvN1Nsc1NK?=
- =?utf-8?B?RlJuSXROQkRiTUZTR25ISGZReFBGOGJrTzFmNjROZG5HYkJiZ3h4TE03b3ZD?=
- =?utf-8?B?MFJPTkhxTFlNZkY0WnllbUZvdGE3Y3VZWEhRSGpaSFBlSWtpRVJjR3IyUU9i?=
- =?utf-8?B?MTBKVTZhcDAwVUdJN3hqQThWbzZHRkg0Q09CdzRJcmJTc29VZDlVckVlcklD?=
- =?utf-8?B?amlNeW1nLzZSaVRLSEZ1Ylh4MUw4ZlFwTEFMRlIxaDFVOHpQRFRiQkRjMHdJ?=
- =?utf-8?B?d2xoZE1ORVlTMUZ1SHkrUGVTandrK0xoYlFOR3pLaFlBK3A0UDAxMzhQYzNm?=
- =?utf-8?B?bDBsK0N3SUtqeU02VXFhSE1Oa1JDaTBIYUh1OVRiRWMwMENGM1BlYlN3a1ZV?=
- =?utf-8?B?NjhIQXpuSjFtU0F1Rm10YU5OcjhueVJweitCMzhGVk5uNWkrZTgrQjNuOW50?=
- =?utf-8?B?N054N25CMXgvUGN5blEvaS9aTGoyOGx5TWs0K0xaVEUwZ3M5TVpONDFkNGo3?=
- =?utf-8?B?enN4RFZ1b2VZakNTNURXdWhTREVwZEx4ZGJ3ZnVVWCtWbERKeVVEZUhxMjVY?=
- =?utf-8?B?QUlCalBTdmp1OXBHY1ZRT2d4SWtIaXJpdVN6M0NlTlJWL3BnMUpWdVpURlEz?=
- =?utf-8?B?cHRRZnVyeU5pWE1YcjVodVRWUlF2SE5jWnV3RjN5UjBCaG04eitvRmJVZi9t?=
- =?utf-8?B?UzdnNnV5Rit6SGpRcVFyMmpIWWxQbFhKY2V4dHFFMHk2bTRqR3JiUmMwcWlE?=
- =?utf-8?B?aldISUg0QzJpa2JIOEpUZ2pRU2pPVFlvdzFjWDQ2clhXUEc1cFBsRnpRWTRh?=
- =?utf-8?B?cnNnT2ZFTzYrMFk5cE5leENIZ21WRDcxaWFYZWgveVlpalpxd0pPN1hxdGFQ?=
- =?utf-8?B?U2RCUGYyRTl4VHFYWGZ2MkhyYldVMGlaZ3ZIOTlaa0cvYjFXU1c0NERyQ1dK?=
- =?utf-8?B?REpzNmNkQi9HU25aeEVPNmx2UmE2empuOTZDOGlaZjdyMkZwSENVSGRvSTl6?=
- =?utf-8?B?NUd1R2c3TUgzQ3Q2VHQ5ZUxBWjB6YUdtMGFIbnV0OEdFSTFSZEdqckxqbGgv?=
- =?utf-8?B?YkpwbW8zOE13eGpLV3g3cTZTR0VRYmxzT1hPN25pMzBjUk9TWlpJUmsrSFhZ?=
- =?utf-8?B?cVhRUmJPdFVLV0pYdDNoQ3lFOHM1N0l0Zm5TQzljdCszazlhOVVzVXBwTk1Q?=
- =?utf-8?B?WThOR0QwQnJlYmllWExsWUlBK203VXR4NjQxQWsrTG9IOHpJUlNBNFQzZ2gz?=
- =?utf-8?B?SFZIVXI2LzJzby9QdEd0bnU5MFo4OU44RThvSkM4dXlJckQ2RmVvcjJJbk1r?=
- =?utf-8?B?MXlJbm5UVDhzREJUa285S1hoNXpqTlZ6OEY4RWVTVXdRTjF4V0U5NXAvRG1C?=
- =?utf-8?B?Y2hNaUx0VFdVVXZXUmtCVG11KzlQdXR5WHZkdkdGYWZjZFlFNFk1VWRqeUd6?=
- =?utf-8?B?TUlnVHBMWTVGOC81V1pUL1NidkRaUU5QeXV3UzFmRXU3aER5MG54WFlsQlBJ?=
- =?utf-8?B?TnNSMTFJanMyYTVFbHFueS9wck9MNnhERUVtQjc0YThLcFRrUUg1SE1qY0k3?=
- =?utf-8?B?L0tTTjB0bVhWVE1GTW1IMFlUS0NKMTdnSW1mZ045eFA0UDdJNks4OUVxcTdU?=
- =?utf-8?B?SnBuTjNxMjJ6c0twdmdJVkRmUVUxdllOKy9GV2g4Y2hnS0lYOGlMaU9RN2Iw?=
- =?utf-8?B?em5MK2E0L2pjOWo2WGhSVWlzb0xpMXBwWkFZcnZHRWVOKzBCYkZ2UDNzU2hC?=
- =?utf-8?B?NDRZbDBjY1pJU2VVWk54enhHS1pvbzNmK2o2YTBHRHhDNURDdjdUaS9KSy8w?=
- =?utf-8?B?eUFNT3JDUTFDU2p5Mkx6eEdpRitRUW50QmJ1R0QyNEN0VlNJbUJoeG1FS0hT?=
- =?utf-8?B?ZEx1Wmd1aTVvVVNDQldXKzZCWGJxMXBEdEdzVnpMWEY1OHd6N2xCdmdpYy9N?=
- =?utf-8?B?L0F4UEtEMnRUdDdaUXBhbldSc2tGNmFsTWZxTmxOZ1lqcWJKNGxZWUxxdW9V?=
- =?utf-8?Q?O4mcL2zEvg72h/7jVgY17J9Bc7NsJXKBYEWmF?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7b08dc6-68fa-4719-e374-08df09cde958
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 15:13:29.8405
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PF0eBMbbJH4+KY9G5G/QhcbeROZVPJqKisvssxv2h9Zy+50vTyPHvTIBxRUUd960J6WNqkVcuE5kgZ9YQrBUpQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4P286MB6797
+Mime-Version: 1.0
+References: <anphyjFv3FhF61iB@google.com> <2vxzpkzo51wg.fsf@kernel.org>
+ <anssOQFNZ2LfihbU@google.com> <2vxzik5f311e.fsf@kernel.org>
+ <anyObKiZIhfok5mk@google.com> <2vxzqzjz1x5f.fsf@kernel.org>
+ <aoMcqp0gr06YXAPU@google.com> <2vxzy0e3zgqz.fsf@kernel.org>
+ <aoSCCTTBn9D5hqzk@google.com> <2vxzy0dzy4gn.fsf@kernel.org> <aohwGv6TRqPg9Dwx@google.com>
+Message-ID: <9huzv78m2wbv.fsf@tarunix.c.googlers.com>
+Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live updates
+From: tarunsahu@google.com
+To: Sean Christopherson <seanjc@google.com>, Pratyush Yadav <pratyush@kernel.org>
+Cc: ackerleytng@google.com, fuad.tabba@linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, sagis@google.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
+	linux-kselftest@vger.kernel.org, andre.przywara@arm.com, michael.roth@amd.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, will@kernel.org, 
+	vannapurve@google.com, maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org, 
+	oliver.upton@linux.dev, kvmarm@lists.linux.dev, alexandru.elisei@arm.com, 
+	skhawaja@google.com, aneesh.kumar@kernel.org, linux-doc@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, kexec@lists.infradead.org, 
+	suzuki.poulose@arm.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 03, 2026 at 01:43:45PM +0200, Manivannan Sadhasivam wrote:
-> On Tue, Sep 01, 2026 at 03:26:50AM +0900, Koichiro Den wrote:
-> > Hi,
-> > 
-> > This series lets an RC use endpoint-local DesignWare eDMA read channels
-> > through vNTB. It keeps the export within pci-epf-vntb and ntb_hw_epf
-> > rather than defining a generic remote-DMA ABI or using a separate PCI
-> > DMA function.
-> > 
-> > On the endpoint, pci-epf-vntb reserves the complete eDMA read direction
-> > and exposes those channels as a group. HDMA is not yet supported,
-> > keeping the series minimal.
-> > 
-> > The DMA feature is opt-in through the pci-epf-vntb configfs attribute
-> > 'dma_bar', which is -1 by default. Without it, no DMA extension is
-> > exported. pci-epf-ntb is unchanged.
-> > 
-> > Base and dependency
-> > ===================
-> > 
-> > This series is based on next-20260827 (3d83758432b5) plus:
-> > 
-> >   [PATCH v2 0/3] dmaengine: dw-edma: Prepare channels for remote use
-> >   https://lore.kernel.org/r/20260828163611.2691264-1-den@valinux.co.jp/
-> > 
-> > The prerequisite is for the dmaengine tree and is not part of
-> > pci/endpoint. linux-next provides a common buildable base for both
-> > series. Once the prerequisite lands, this series can be rebased onto
-> > pci/endpoint.
-> > 
-> 
-> Just to make it clear. This series has to build time dependency with the above
-> mentioned dmaengine series, right? The above statement is not very clear.
+Sean Christopherson <seanjc@google.com> writes:
 
-Yes, this series strictly depends on the prereq series, and as you pointed out,
-it's a built-time dependency as well. Sorry for the ambiguity.
+> On Fri, Aug 21, 2026, Pratyush Yadav wrote:
+>> Hi Sean,
+>> 
+>> On Tue, Aug 18 2026, Sean Christopherson wrote:
+>> >> Does this idea of "backwards compatibility" sound acceptable to you, at
+>> >> least at a high level?
+>> >
+>> > No.
+>> >
+>> > It's probably fine for Google and other large companies that tightly control their
+>> > kernels and use cases, and have the resources to juggle the resulting complexity,
+>> > e.g. have kernel engineers on staff to track feature and dependencies, coordinate
+>> > and plan kernel upgrades, etc.
+>> >
+>> > It's not acceptable for upstream, where downstream consumers often run a distro
+>> > kernel, have much more varied use cases, and don't always have a horde of kernel
+>> > engineers on staff to help them thread the needle you describe above.  And if
+>> > supporting live update as a general feature for all users of the kernel isn't
+>> > being factored into design considerations, then that needs to change, otherwise
+>> > this is all dead in the water.
+>> >
+>> > I also don't see the point.  Maintaining a rigid save/restore ABI is annoying,
+>> > but it's not _hard_ (or at least, not _that_ hard), especially if there's a set
+>> > of well-documented best known practices that subsystems can follow, e.g. so that
+>> > individual subsystems don't need to learn painful lessons first-hand.  I genuinely
+>> > believe that maintaining the version hell you describe above would be more costly
+>> > in the long run than simply committing to full backwards compatibility within a
+>> > given subsystem.  I can imagine that enumerating what subsystems' information is
+>> > in the payload will require a different scheme, but for a given subsystem, I don't
+>> > see any reason to aim for anything less than full backwards compatibility.
+>> 
+>> Let's say for argument's sake that we commit for a fully stable
+>> backwards compatible ABI. Even then, you have to deal with multiple ABI
+>> versions.
+>> 
+>> Live update's ABI is more complex compared to KVM's save/restore ABI.
+>> For the KVM save/restore uAPI, you are largely describing architectural
+>> state like CPU registers, etc. These things don't evolve as fast and
+>> more or less stay the same.
+>
+> Right, because nothing meaningful has changed in any architecture in the 20+
+> years since KVM has provided save/restore support, whereas guest_memfd looks
+> nothing like it did when it was introduced three years ago.
+>
+>> Live update needs to describe the state of kernel objects. These are
+>> more complex
+>
+> LOL, you might be the first to claim x86 virtualization isn't all that complex.
+>
+>> and evolve faster.
+>
+> The speed at which things change doesn't automatically mean we shouldn't strive
+> for backwards compatibility.  Yes, providing backwards compatibility requires
+> additional care and planning, and over time *might* lead to an ABI that is
+> difficult to maintain.  But IMO, that just makes it all the more important to
+> get the design right the first time, not that we shouldn't even try because it's
+> hard.
+>
+>> For example, say you merge guest_memfd preservation today. Some time
+>> later, someone comes up with a more efficient data structure to track
+>> the folios in the file. You _have_ to make a backwards-incompatible ABI
+>> change to use this data structure.
+>
+> Only if those details bleed into the ABI/contract.  I actually have a concrete
+> KVM (well, virtualization) example for this.
+>
+> Intel's VMX architecture disallows direct memory accesses to the VMCS, and instead
+> requires software to access the VMCS via dedicated ISA, using architectural encoding
+> numbers to reference VMCS fields.  I.e. VMX decouples how data is stored in memory
+> (the data structures) from the ABI/contract with software (VMCS field encodings).
+>
+> This allows Intel to optimize the data structures to be more efficient and performant
+> for each microarchitecture based on the features and properties of each uarch, all
+> without breaking backwards/forwards compatibility with software.
+>
+> My favorite esoteric example is AR_BYTES packing.  For Haswell, Intel added an
+> optimization in ucode to allow saving/loading segment register state in a single
+> uop (IIRC).  The optimization was especially valuable for virtualization as it
+> shaved cycles off the VM-Enter/VM-Exit hot paths.  A key piece of the optimization
+> was it required the AR_BYTES metadata to be stored in 16 bits, but existing CPUs
+> stored AR_BYTES using 32 bits in an "unpacked" format.
+>
+> Fortunately, because the in-memory representation was decoupled from the contract
+> with software, Intel could pack AR_BYTES into 16 bits for Haswell+ and pack/unpack
+> the data on VMWRITE/VMREAD, so that the format presented to software remained
+> unchanged.
+>
+> Does VMX's decoupling of the in-memory represntation of a VMCS have downsides?
+> Absolutely.  Most notably, it incurs extra complexity (in software and hardware)
+> to achieve comparable performance to directly accessible data structures (AMD's
+> VMCB and Hyper-V's eVMCS) for nested virtualization.  And I'm sure it has placed
+> contraints on Intel's designs, and obviously introduces complexity into the
+> overall system by adding a layer of indirection.  But IMO the VMX architecture
+> has been a huge win overall for Intel.
+>
+>> Or say you add a new memory backend (like the HugeTLB patches in
+>> flight). That likely will need a different ABI to describe the state of
+>> the guest_memfd.
+>> 
+>> So you will end up with multiple ABI versions that aren't always
+>> backwards compatible.
+>
+> No, you end up with *features* that aren't backwards compatible.  I can't imagine
+> anyone will argue that we should never add new features because then we can't
+> rollback to an older kernel.
+>
+> But adding a new feature shouldn't break the existing ABI.  E.g. adding support
+> for HugeTLB in guest_memfd shouldn't prevent rolling back to an older kernel when
+> the HugeTLB functionality isn't being used.
+>
+> Using AMD's VMCB and Intel's VMCS as examples, literally every major new AMD/Intel
+> uarch extends the VMC{B,S} in some way, but without fail it's always done in a way
+> that is backwards compatible with existing software.  I.e. AMD and Intel ship new
+> features, but existing software continues to work, and VMs continue to be migratable
+> across CPU generations[*], with the obvious restriction that migrating a VM using
+> a feature introduced on generation N to a generation N-1 CPU isn't a smart idea.
+>
+> [*] There are exceptions.  E.g. Intel removed MPX, and so VMs with MPX can't be
+>     migrated to newer CPUs.  Migrating between CPUs with different MAXPHYADDR is
+>     sketchy (and simply not done by some CSPs) because neither AMD nor Intel
+>     virtualizes MAXPHYADDR.  But those exceptions are absolutely Big Deals that
+>     undergo significant scrutiny, from all parties involved.
+>
+>> If you refuse that idea too, then KVM live update will be dead in the
+>> water for a different reason. It will be damn near useless because it
+>> can't keep up with an evolving subsystem.
+>> 
+>> Now once you get multiple ABI versions and you can seamlessly go from
+>> old to new one, say you have a version that was superseded 5 years ago.
+>> It would be completely reasonable to say that this version is old enough
+>> and no one should be going from a 5 year old kernel to a modern one.
+>
+> LOL, Google literally does this.  Granted, the extreme cases only happen for
+> stragglers, and I think we do force VMs to bounce through a "middle" kernel in
+> those cases, but I doubt Google is the only company that runs frankenkernels
+> for an absurd number of years for a variety of reasons.  E.g. 4.4 LTS was officially
+> supported for 6 years, and I'll bet dollars to donuts people ran it for much longer
+> than that.
+>
+>> So you deprecate this ABI. Deprecating old unused uAPIs is not unprecedented.
+>
+> When there are provably no users, or we can convince existing userspace to migrate
+> to an alternative.
+>
+>> I think we are better off formalizing this deprecation period from the
+>> get go.
+>
+> Why?  What does it buy us?  Because all I see is potential abuse and an excuse
+> for not spending time getting the designs right.
+>
+>> A somewhat tangential example is BPF kfuncs. My BPF program that works
+>> in kernel X might not work in kernel Y because the kfunc has changed or
+>> been removed.
+>> 
+>> The argument they make in kfuncs.rst is that kfuncs "provide a kernel
+>> <-> kernel API, and thus are not bound by any of the strict stability
+>> restrictions associated with kernel <-> user UAPIs".
+>
+> BPF's documentation isn't arguing anything, it's merely reiterating Linux's
+> long-standing policy that there is no such thing as a stable kernel ABI (in upstream).
+>
+>> For LUO as well, this is a kernel -> kernel API.
+>
+> Stating the obvious, I disagree with this.  As I said before, if this is the
+> stance LUO wants to take, then so be it, but my NAK stands.
+>
+>> Users can also still do a regular kexec or reboot. They just won't get the
+>> performance optimization of LUO.
+>
+> The amount of time, energy, and money poured into minimizing VM downtime on live
+> migration suggests the overwhelming majority of LUO's targeted users aren't going
+> to take kindly to this stance.
+>
+>> Regardless of if you agree with the last bit about deprecating old
+>> versions, ABIs evolving with the subsystem is a ground reality of live
+>> update and it would be foolish to think we can do with only
+>> backwards-compatible ABI changes forever.
+>
+> I never said the ABI is immutable, I said it needs to be backwards/forwards
+> compatible.
 
-> 
-> EPF patches LGTM! I'm waiting for an Ack from NTB maintainer for patch 6.
 
-Thanks for taking a look. Note that I have already sent v4:
-https://lore.kernel.org/r/20260903082327.2345602-1-den@valinux.co.jp/
-(One more dependency is added as noted in v4 cover letter..)
+Thanks Sean, Pratyush. @loganodell has recently sent the RFC[1] on
+backward compatibility for liveupdate. This discussion is important
+so I propose to move the backward compatibility discussion on [1].
 
-Best regards,
-Koichiro
+For guest_memfd preservation, I will sent v5 soon with the following
+changes:
+1. Suggestions from across the patches
+2. tentative Plan for future Guest_memfd preservation
+3. tentative Plan for VM preservation.
+4. Backward compatibility built on top of RFC [1]
 
-> 
-> - Mani
-> 
-> -- 
-> மணிவண்ணன் சதாசிவம்
+What do you think?
+
+[1]: https://lore.kernel.org/all/20260903023452.721732-1-loganodell@google.com/
+
+
+
+
+
+
+
