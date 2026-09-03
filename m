@@ -1,65 +1,65 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E5F4ACC9A
-	for <linux-doc@vger.kernel.org>; Thu,  3 Sep 2026 13:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4714A499E
+	for <linux-doc@vger.kernel.org>; Thu,  3 Sep 2026 13:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788441644; cv=none; b=aTViGzaRm2v+hkWLPgevzdAJ366oJOmU9RM4hX8GokCdcw+WkU6YzuxHyvJkZMAruDAf1a3iadbF1AsQ6wHkrMoKrU0guRx2E9tsiX8+vLeZlY7HFdbX8tZ4V8N0hsHjCBBUb9Lq9gnWhkwvqB62UwXD6okg15KtqjWnHqT1ZxE=
+	t=1788441747; cv=none; b=TjzHYTV3PuSFvCPK4To2VJdpy2+ZQYRmdGYrDrZxRFBkHDfonC8X46vxeZg5CvcHVocStxcIZb0i8qOCM5wBF7cYFgcVyRdLzRcecTsGAHNmicfSGYgXji5Hw9TQRHkAvHLr6oOtBAtJAImV8s+WSdfJFtnkj5M9lLRhbZzs/Vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788441644; c=relaxed/simple;
-	bh=QsXLGCKPGHsqeuuksVi+d85aa1e7GXd7VarnEp1TSdk=;
+	s=arc-20240116; t=1788441747; c=relaxed/simple;
+	bh=fBeMkFaC1Cs7R3UZ2FEIJChYmhbI/KTvKfsZ3VllDtQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QKCH7wEK3W0P035wvl0CsnfOdzsDVy5HCX0UZGH0qwmsJnYri4F+1tVKFP6U8UMA4t+QqztEY3IX2HkQjaBjqG4ekkb7CnzotHQlP3pmr0krvODK2WesUjcYiAvcn6R7QQFgvxAnB0es5NcUWRcHw/SbZfJlhvYPrUGUlHSjtPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CZ2CIFbh; arc=none smtp.client-ip=209.85.216.50
+	 MIME-Version:Content-Type; b=hsqcHdL83diXSaCi7gVaHSoLhkZNfw8JM9VgjViCvV6Pe1r89xxWOmWLh+hJbDPPRGh7JlkN4L29leSEYtvxTG9JbUR8VDqdGBtjWF8e9ybLmroD+aZlVGRMGwFCU+hsZOPSe0N+KDk+tV0KUQ0O0jFE/k1rWaUhsUS4cDeZF64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SqZFWulg; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CZ2CIFbh"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3966791a6eeso2813250a91.3
-        for <linux-doc@vger.kernel.org>; Thu, 03 Sep 2026 06:20:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SqZFWulg"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-381b831d535so3806186a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 03 Sep 2026 06:22:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788441625; x=1789046425; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788441733; x=1789046533; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=QsXLGCKPGHsqeuuksVi+d85aa1e7GXd7VarnEp1TSdk=;
-        b=CZ2CIFbhR50yg6dwaPIuUAQjIhs04P1O3IOQKqgIFjKXHmt0JBPZWwqvXoPONtlYcC
-         YlM4R83ZJ1/m+itGIG++82I2cXUaXI+OekmPXXTdQnSLBWg+GztVzPqMWx/NqecsvfEg
-         Q1cep53BqWnQJTYf15wU9rf3PhHstVivCK0QwV2X2UeCXMl0K4v6hREGsr3jSjJtmlPJ
-         fxZM0sDCC8dPvFtoPxHysgEDWV9jOEwzIr/1Sus18AXki58MUuT1mc9KS7S+PqLpanhD
-         gN+RDQDjuNZlUn/fvxTwnBYdD6T1QyZCZTKNk95OrL3eVHkxdsSbDUae3ZEJ5GfixP2V
-         y4Lg==
+        bh=fBeMkFaC1Cs7R3UZ2FEIJChYmhbI/KTvKfsZ3VllDtQ=;
+        b=SqZFWulg7KvcXlqEnA4Lw6rZd480mwzZMQ5bt05xAUmms0+5HvMJwskTIzh377Em2R
+         2cdJgjV/FAUdd0FhH3G7v4uJcWoo3R8fJjPKrJ6U121eVEBGDyhkkK/bwG5B6DdO3yXx
+         mCuX59Nb+IW0esKBCg1ccJ/Kq4B6YLt5dpbxahhWG876Q/biKids7bDiP39jU0xzz5L5
+         q35LThB18mcFz1TcyQTjq0TQOZHTRZDgqkKxJDnSlbJmC/naWFxpBGLzv/fWr7WW+LFk
+         BWZ/omuQQ/Vmypxl4mkYfLb5Swg0VGDFEAz7PSFsRbpPp6S24JD0seJBrsvl9iDqy/mf
+         ++jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788441625; x=1789046425;
+        d=1e100.net; s=20251104; t=1788441733; x=1789046533;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QsXLGCKPGHsqeuuksVi+d85aa1e7GXd7VarnEp1TSdk=;
-        b=YY/W9w0N/v8u/gEeysaeupM6k5UJV4DFAd7KV+3BTsI7tN/Cwn7FmQyc+d8JsOlVV7
-         5qGwdmpRPeMTcMFJBmSWTvZaCPIBSdEkdb+XyUEnh+/Cjw2CAAxBZCu4uv1g0cBEaHum
-         dlV7TXbILqPzaF23wu19d7cj2uUKURGuHqC5PG/sEuwvG7vJ5E4xPeFHW8+cqzI5DiBk
-         0Ch/NJVv9e1vUz+Zn4aulSQSSCc1uhON6lNGsFctatYMY0u715IotRxrho/3k7C8SEXU
-         vyW8A5GzeMlAfDqlejaTJqgFNxmH9nmihWe0sY8ik7UXh/SNsZbv9y6APXGPp0ZrbmBj
-         7ftw==
-X-Forwarded-Encrypted: i=1; AKwUvByMKnOoFWWE3fnOlyrhcvyumiXHiHZSCKevuA0Cm3AZ0EtHkDvrJJRvbp/SUE9yC6ORtD5bXPuvyl0=@vger.kernel.org
-X-Gm-Message-State: AFuF++ldahKhFhFfWVL/iaZenjlQREZA1mUgoGkojh9J0Oeh2HE8Lh20
-	pH4848rP+mhRZyaDDVlBKdEaAMhzWsTMknFz4fFsl2GcioW2h1rmSqik
-X-Gm-Gg: AYBFou20SljpuheK7m1CTW5L3k6jV5MEgxb8Pof+VGlbL+zCYq04RQD82CYxdNoVfQ5
-	BF12qohbe/JHEU/HKeSxf4tREZAbCFWj0Gt6W0pC4iRqQafHXqOip9hN2NzQbKI76MiN1f1YFJH
-	PKYyK2VL7SHUxMTk1MCYGn/tmZC9mzIN3NxRKwbCWJJgqhub4XXqjzR+Ep3PFW9vpg5CCTff7x7
-	PaPhX4Oq+cw5TeLwUSbEONlN86vIaWyqtc64pDN15QT6Bkrif/brF84R35I2y711ZFEPL5le9bn
-	CXut7tWX/WQPbCUJVGLIViZyWnPEIbYL90XHsbT78M7O3/fZbnQaJ8Q/lEccoiHEbGxLnrLyFmH
-	aCfxzWffQ/TX2jNCUOlb3jW6tmji7y3oqI+VNTM6tKYtSPK5l7Kp91wfdYWGjL3bCHQ0Okac/J7
-	xKYa2xcyc/T3XdAjd+rD6mREQStOXBvnJ1E1h+T2n4yKIrCMZkXFPHT3N6Ll6ftzzNWepBLrcBy
-	c8zZOhPY3ymkxg=
-X-Received: by 2002:a17:90b:4407:b0:398:9bd4:d13 with SMTP id 98e67ed59e1d1-39aee219427mr17916381a91.18.1788441624461;
-        Thu, 03 Sep 2026 06:20:24 -0700 (PDT)
+        bh=fBeMkFaC1Cs7R3UZ2FEIJChYmhbI/KTvKfsZ3VllDtQ=;
+        b=ZD+cuc/CvSKm+lQXUfcmLs8nRChuIdrwii5ARSgtxM+I/yHq3+GzKjeJDfEtPmASn+
+         2nQXfvExRm/hlU9yIh+Qkkh7zrQn/fGsUI0G2K/qOqFxt3aCRIscJoJincft6wL0nCM3
+         VM8gEPrS6N6pYPqgdD6MGFF4C3UkvEo9ojd9tY7IDQXJoSuDkvQNJP2CV7r7dPsimDKn
+         4E0DhCKpk1ICZ3n/adKc8dDGVZqDKSSd1ITBrrwnlz64/Ana0FpMmsfc84R8yUKzBrca
+         FhEbb5483t7SWVBG5U0/KabFIZtoBHDEH4tK6OFGi/ExmhTtK+llmY5cpGttbzvs1fI9
+         Nfqg==
+X-Forwarded-Encrypted: i=1; AKwUvByjUOjzXqSQ9O1UxwZQfAmerNqZ/+GhiF3Z6yyeIV9oAutyiJ4cXqvf1geVgl2xhrngvprdc+y5jss=@vger.kernel.org
+X-Gm-Message-State: AFuF++k6VB3/33mFzLaGwlSrSDo03zTdeOPPSD80BD4Je0Yx+Y/1nnRj
+	rTJq0dgrUT5XFmNmKpNU5uaCjdd43LFD9QGV93kJagpVlS1yeVk8v079
+X-Gm-Gg: AYBFou0SPTalfFAQtQKae0oerpOIBp1x39W2I+ETJ3qH0/28/ntSkwGG7z4SbsgiyvI
+	+hmeRFqq6f/nDl7GajLoWDtJoRK6VN8DsJH/i1EYGUAb5E3dNXZ4sV6jHUJSElASr9p7fVTk9DF
+	dikMjcrFyd8f9j6qS9c/Gr/Qo1ETbzLjdZLDoR38Lw/yQXgiPJVUWI8t8aLipnK3EjGBjogwndC
+	kmLdLHMJXS3Xrje4xCcu2hcEbFlKbP8N6I4q6WtYBw0rgICqQ9ufplNuzwVu/shmlJSIgvS3tKJ
+	Dbf8fGRMbbs/rQ0YWPSMcLwutMzQI48Co5CIN6IVjqj+yDZrIVXKLVOmQv/3DAmjJxpxnutBya5
+	1hzXL5YGO4kuUuYUSqWcJs909yUpbW3FW1R86RlCDqUR5v4rNDRe4M4nosHnaM5lJhgmHEPBrfi
+	YdODLi8sCuk8uPZqystYn0PQ7aEx5aRJhP69amSm/mUUqY0LAmgw0ffRpvk43B58O/yrske12zI
+	Tk=
+X-Received: by 2002:a17:90b:2808:b0:398:9be5:b417 with SMTP id 98e67ed59e1d1-39aee1c63b1mr20007782a91.18.1788441732646;
+        Thu, 03 Sep 2026 06:22:12 -0700 (PDT)
 Received: from localhost.localdomain ([2408:8607:1b00:8:d43b:6dcd:a4e9:1d79])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39ae902354asm2702545a91.2.2026.09.03.06.20.15
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b07b197a9sm5407729a91.0.2026.09.03.06.22.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 06:20:23 -0700 (PDT)
+        Thu, 03 Sep 2026 06:22:11 -0700 (PDT)
 From: Pengfei Li <ljdlns1987@gmail.com>
 X-Google-Original-From: Pengfei Li <lipengfei28@xiaomi.com>
 To: sashiko-bot@kernel.org
@@ -74,12 +74,12 @@ Cc: Steven Rostedt <rostedt@goodmis.org>,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH v5 1/3] trace: add lock-free stackmap for stack trace deduplication
-Date: Thu,  3 Sep 2026 21:19:46 +0800
-Message-Id: <20260903131946.239190-1-lipengfei28@xiaomi.com>
+Subject: Re: [RFC PATCH v5 2/3] trace: integrate stackmap into ftrace stack recording path
+Date: Thu,  3 Sep 2026 21:21:50 +0800
+Message-Id: <20260903132150.253372-1-lipengfei28@xiaomi.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260902065744.DFA1E1F000E9@smtp.kernel.org>
-References: <20260902064242.28606-1-lipengfei28@xiaomi.com> <20260902064242.28606-2-lipengfei28@xiaomi.com> <20260902065744.DFA1E1F000E9@smtp.kernel.org>
+In-Reply-To: <20260902065433.2D6361F000E9@smtp.kernel.org>
+References: <20260902064242.28606-1-lipengfei28@xiaomi.com> <20260902064242.28606-3-lipengfei28@xiaomi.com> <20260902065433.2D6361F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,33 +89,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2 Sep 2026 06:57:44 +0000 sashiko-bot@kernel.org wrote:
-> Is there a missing check here? It looks like ftrace_stackmap_reset() omits
-> the tracing state verification entirely
+On Wed, 2 Sep 2026 06:54:32 +0000 sashiko-bot@kernel.org wrote:
+> Could the commit message be updated to reflect that the buffers are not
+> cleared?
 
-> Should tracing_reset_all_cpus() be called before this memset?
+> Does this code unnecessarily export tracing_reset_all_cpus() outside of
+> trace.c?
 
-Both observations are correct about the mismatch, but the code is the
-side that is right. The stale part is the commit message.
+Both are real. Fixed in v6.
 
-The intended semantics, following Steven's feedback on the v4 thread
-(https://lore.kernel.org/all/20260821235129.078dd489@fedora/), is
-map-only reset: reset may run while tracing is active, and it does not
-clear the ring buffer. So neither the tracer_tracing_is_on() check nor
-the tracing_reset_all_cpus() call belongs in ftrace_stackmap_reset()
-anymore. The v5 commit message still described the older, stricter
-design that had already been dropped from the code.
+The commit message was left over from the stricter reset design that
+was dropped in favour of map-only reset. It no longer claims the
+trace_array buffers are cleared. ftrace_stackmap_create() still takes
+the owning trace_array, but for a different reason: the text and
+binary exports run stack addresses through trace_adjust_address().
 
-On the resolution question: a trace can indeed still contain
-<stack_id N> records after a reset. Such an id either no longer
-resolves, or resolves to an unrelated stack once the slot is reused.
-That is misleading userspace output rather than kernel corruption -
-reset frees nothing and only clears storage the map still owns. The
-guidance is to read the trace out before resetting if existing ids
-must stay meaningful.
-
-Fixed in v6: the commit message now describes map-only reset, and both
-the kernel-doc and Documentation/trace/ftrace-stackmap.rst spell out
-the id-reuse consequence.
+The export was indeed dead. With the ring-buffer clear gone,
+tracing_reset_all_cpus() has no caller outside trace.c, so v6 restores
+it to a private static helper and removes the declaration from
+trace.h.
 
 Pengfei
