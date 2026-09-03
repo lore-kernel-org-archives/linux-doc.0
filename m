@@ -1,152 +1,163 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75854F4756
-	for <linux-doc@vger.kernel.org>; Thu,  3 Sep 2026 17:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608611FF7C8;
+	Thu,  3 Sep 2026 17:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788455223; cv=none; b=tnMBQmneJLKybRh2hUXMPbqF+ILYTT/pPg+GtgqXZujTTOElQKOHs/SPZmNyyteUNPP4AeFVjhz8bBhJYTvCimT1wjGodugf5Neu7ADdTMOtqSK39T1fBctxETJ3wOtz+U+KxqyPDJylL0n4DmMgmfHg0o2i/KnnXWpC4qnoigk=
+	t=1788455915; cv=none; b=TTl9hFhX/UFZ0e7yE6Ni3MLwyLYRagOKWq2IJLjez3DpzeOv3dLW4WG1IUIXu8o1ujhPMZQz+QwJ6k9EyOaGVOHb90Tge+ziMzsbWcFMP5e+Z+IZHuJnuh9n7GgBTzovzh7Mu2QAJGK7nm9PkEyBRPsa91qoTpUgwvb1I5RHzOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788455223; c=relaxed/simple;
-	bh=mwjS1qJDm5Rrnz3Is+AgPi54s75JfFcvKNHxNEqcXXI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NU6hZ8yxKlHpqkpI7CXDYnysHZOoUEDJQHC/7EpHM0jfYqmQcl5ybhQUVShYXPk94Zn9jFHxv4SlpUn6GrnqmrxtXurMvdGezaFRLdDHMfb4HNV5wySCyDRdrc+7qzSsn58sOq3vB4/1p3SPm+qH6yVUQDI33wPmWORwLsraidA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k4eojBLh; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788455915; c=relaxed/simple;
+	bh=p6rS8X9u8AcSZpDVLpcO4p1MdnCNksBdWa0CcN1a6uc=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bdoESDFD2ZP6R1hCMdWdwQgfFd22H6gCHHXBlJlabdEGWAc5SLE1pqZ9VS29PXSK0LNW8dpecOyEIaW9MXD3fbhH6P0IFZJbSOowH4MCft0r7mhC0Qshv6f7wMNjxti+U/uK5E+5FEDNimwm4fxCseg1wiWSCrDbnt+V8ynB36s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=efuwS3Ky; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k4eojBLh"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-39927410578so22866a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 03 Sep 2026 10:07:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788455221; x=1789060021; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=FDFcBw+OAGvI9CgN/45/xQaVNM9WgzSnrhfaFNWW050=;
-        b=k4eojBLhh+pbneNtBGsvjINgJp/GGm+GRtPPj6E5JXAqLRTjsajzF16jLY/3n5oMlH
-         9f+GmCAyp5cHVdHNwL4+oDqb1BIvjQQUqqmMlEAoijTZ2z7Kq9usrkS3Q31TxgJ8INbX
-         2rjBt/e6v/0Rr3H+iaernpGme761x2ORJ3zmPaaRvSty72me0HF9QjBrKkj5EyF6MM35
-         TNCE+b5FaxBpTFnEcqXcoIm3J2xbqeANKfzAZu6nqhGAOTX/2ia58GULRGugsTlRqDJq
-         dgc9/EXhByAcN8UuzFElV83wb2n+kPT0CSb7cH/iHQIEbjEyO4dIFDQyLopuhrqR8JEe
-         Z3jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788455221; x=1789060021;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=FDFcBw+OAGvI9CgN/45/xQaVNM9WgzSnrhfaFNWW050=;
-        b=rebnbK+FEzcfu0E+LARlqktafJqMegGZ3s4HGr0tAzpKlDCrXrxx6g26ttUdoNvAZ0
-         yzSQgANw4tLSowApQv07WlR8yYVxI9/KWZEDQNlJ9Wy1rIM0QO6vZ6uRqxnPZgvC0lYR
-         yG8NjzkMVPbiiGVeBeZpL+fY2j2nujP8mvRCUeaYICmnRl/2d6A+oeMV13lHuEAz1k2K
-         fR5E/CkcuzXc7WwW9YcySt5P4f64rkbM3trOmW6J1rbnH8IHdpi79BxMbx3fz0u2MwaM
-         VSuFj7C/d1tQKOAxJ9zLpyBzhRQv2+lmb/6WHJsztJD0WfWpoAsrJZznN9iOz0PvgLk7
-         3Efg==
-X-Forwarded-Encrypted: i=1; AKwUvBzJzF38bOzg85pANGLsyAo2/AzQuhUlK/8gUc5HlVvl3QQS/J22RfgNlU8TzMpl19FnY/6PjAQ1Wsk=@vger.kernel.org
-X-Gm-Message-State: AFuF++lydd1X416Nls3cE0VuhvEoV7DQakzGI/6A/yg1tnD3A1NPJoIr
-	hCcZbhDvBe1o0SC4Rt8Ru1csBhPRLeV0K1fE+rqsB8DKvUtd5YaO1lcnTpj25Q==
-X-Gm-Gg: AYBFou36l34/CF71eI6Hg9Dd/xGXXbuypugCuuBhzm7EuX3bUWexclOolhbmqLdE/lO
-	RbGbLhsfPhSJ70p4LpcSdK+86PMrBFeOy+dkTjUGQgmNzebxvhP+c+cqZMIJ7n76dHBKoWu//un
-	v3F5tem/bLKx0cCZ2H/DbGpDJUEt0jjPGqfdHud4ulAEbK1+aKF+lpiPhf9fM5De1pEgQUmH7rv
-	EILLGXjo2fhUB/r9czMCcdgaLtlgdcBv/wAcgL3CBPwh6mSJHcHtqlyNgW5vOAn7MK12L5XmUnl
-	BlhEN/a6KefMvqOUOZ965ZzNKoI3qeEo8DUjHw9mBbE+bSqPup68uNB9kkbxRRJgOB8pmk7it0s
-	X9OtNZ9zv8R3pEgQIb7og54EvBBfUA5tWnYsPHvUZEmTdz6kGXoQcmHyZINEiCPTZ7kzCY/6Eoy
-	kd146uweZ5N2ZVHfTs8dncyLwm2CzIio1jJfqXBWk6uuJzLkTexuRZ78XWKC7ZsbOZ+A==
-X-Received: by 2002:a17:90b:4407:b0:398:9bd4:d13 with SMTP id 98e67ed59e1d1-39aee219427mr20003360a91.18.1788455221096;
-        Thu, 03 Sep 2026 10:07:01 -0700 (PDT)
-Received: from [100.87.176.22] ([112.133.220.139])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1432435648esm891560c88.5.2026.09.03.10.06.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 10:07:00 -0700 (PDT)
-From: Hardik Kumar <hardikxk@gmail.com>
-Date: Thu, 03 Sep 2026 22:34:38 +0530
-Subject: [PATCH] Documentation/gpu: Fix spelling mistakes in todo gpu doc
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="efuwS3Ky"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 027F61F000E9;
+	Thu,  3 Sep 2026 17:18:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788455914;
+	bh=VaNiKLjrBkXnRrP+B04GwooKadFpzdr1nDGvyAAiQEg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=efuwS3KyGVnO3KhfxaLo5r1/iLyUjlvyS0Ywu0t+kDTzEp+dW+QQzoHgkNOpsegVO
+	 fYMOR0+UXSDx6Sh3frJBtlbhwDLEY1tdzg5AHfO8mjFZ+Sv4MaWO64u3HxsiuwndsS
+	 lxIj3dA2GW3/BNS94ZIZgWNMODCqXL26yLDCgBs9O9vpdiPgBHru38kt81u5ompWW+
+	 lLpFAzg3OlCo2wTxzbj4u8S0w/sxZOJGLHcq4EhFD8iIF72nBbxnEV4r7sDRYROvP8
+	 846OFAA1o15l7hfbkkoxa1akw2JVMEl8TJfQE0JvCGWdhlNE73r88YW6KXLzXclvnG
+	 iwbibbMU9pT/Q==
+Subject:
+ Re: [v26,net-next,01/10] net/nebula-matrix: add minimum nbl build framework
+From: netdev-bot+sashiko@kernel.org
+To: illusion.wang@nebula-matrix.com
+Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
+ sam.chen@nebula-matrix.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
+ corbet@lwn.net, kuba@kernel.org, horms@kernel.org, linux-doc@vger.kernel.org,
+ pabeni@redhat.com, vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com,
+ edumazet@google.com, enelsonmoore@gmail.com, skhan@linuxfoundation.org,
+ hkallweit1@gmail.com, linux-kernel@vger.kernel.org
+Date: Thu, 03 Sep 2026 17:18:32 +0000
+Message-ID: <178845591249.3394541.8367854604654150435@kernel.org>
+In-Reply-To: <20260831021408.2325-2-illusion.wang@nebula-matrix.com>
+References: <20260831021408.2325-2-illusion.wang@nebula-matrix.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260903-docs-gpu-todo-v1-1-be712c8f67a0@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDSwNj3ZT85GLd9IJS3ZL8lHxdY0NDQ7NkMxNTC3MTJaCegqLUtMwKsHn
- RsbW1AK0AuWhfAAAA
-X-Change-ID: 20260903-docs-gpu-todo-31116c645874
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Hardik Kumar <hardikxk@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788455216; l=2678;
- i=hardikxk@gmail.com; s=20260827; h=from:subject:message-id;
- bh=mwjS1qJDm5Rrnz3Is+AgPi54s75JfFcvKNHxNEqcXXI=;
- b=5IWOsWt9xiohCr8FqZ9h6JG87i/4Ds/tmjR+ndAiXtH1mAt27ALWop+qT8AA+3ER/f4AdBiOL
- nkusp+c/CarBjOJZhGw4YlrhF9zBSwGWupOkbvtDzFtfSi9Mt8D2CmW
-X-Developer-Key: i=hardikxk@gmail.com; a=ed25519;
- pk=56yFuFlLHAdRemUZghoGHVCijEX767atrut3dPD0thQ=
 
-Fix some obvious typos in the todo.rst doc.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider:
 
-Correct spellings of incorrect words.
-Fix an article usage.
+Critical: 0 · High: 0 · Medium: 0 · Low: 1
 
-Signed-off-by: Hardik Kumar <hardikxk@gmail.com>
----
- Documentation/gpu/todo.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+- [Low] The documentation file added by this patch,
+  Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst…
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 14cf37590..187932554 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -277,8 +277,8 @@ Various hold-ups:
- - Need to switch to drm_gem_fb_create(), as now drm_gem_fb_create() checks for
-   valid formats for atomic drivers.
- 
--- Many drivers subclass drm_framebuffer, we'd need a embedding compatible
--  version of the varios drm_gem_fb_create functions. Maybe called
-+- Many drivers subclass drm_framebuffer, we'd need an embedding compatible
-+  version of the various drm_gem_fb_create functions. Maybe called
-   drm_gem_fb_create/_with_dirty/_with_funcs as needed.
- 
- Contact: Simona Vetter
-@@ -303,7 +303,7 @@ everything after it has done the write-protect/mkwrite trickery:
- 
-       vma->vm_page_prot = pgprot_wrprotect(vma->vm_page_prot);
- 
--- Set the mkwrite and fsync callbacks with similar implementions to the core
-+- Set the mkwrite and fsync callbacks with similar implementations to the core
-   fbdev defio stuff. These should all work on plain ptes, they don't actually
-   require a struct page.  uff. These should all work on plain ptes, they don't
-   actually require a struct page.
-@@ -465,7 +465,7 @@ be turned into a WARN_ON() or somehow made louder.
- At the moment, we expect that we may still encounter the warnings in the
- drm_panel core when using panel-simple and panel-edp. Since those panel
- drivers are used with a lot of different DRM modeset drivers they still
--make an extra effort to disable/unprepare the panel themsevles at shutdown
-+make an extra effort to disable/unprepare the panel themselves at shutdown
- time. Specifically we could still encounter those warnings if the panel
- driver gets shutdown() _before_ the DRM modeset driver and the DRM modeset
- driver properly calls drm_atomic_helper_shutdown() in its own shutdown()
-@@ -891,7 +891,7 @@ Querying errors from drm_syncobj
- ================================
- 
- The drm_syncobj container can be used by driver independent code to signal
--complection of submission.
-+completion of submission.
- 
- One minor feature still missing is a generic DRM IOCTL to query the error
- status of binary and timeline drm_syncobj.
+--
 
----
-base-commit: 66498c75b4f8017f62d720d9b59675bdf3abce91
-change-id: 20260903-docs-gpu-todo-31116c645874
+net/nebula-matrix: add minimum nbl build framework
 
-Best regards,
+This adds the Kconfig/Makefile/MAINTAINERS entries for a new
+drivers/net/ethernet/nebula-matrix/ vendor directory, a driver
+documentation file, and a PCI driver skeleton (nbl_main.c) whose probe
+and remove callbacks are stubs.
+
+> diff --git a/Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst b/Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
+> new file mode 100644
+> index 000000000000..ff38302968c5
+> --- /dev/null
+> +++ b/Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
+> @@ -0,0 +1,28 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +================================================================
+> +Linux Base Driver for Nebula-matrix m18110-NIC/m18000-NIC family
+> +================================================================
+> +
+> +Overview:
+> +=========
+> +The m18110-NIC/m18000-NIC is a series of network interface cards for the Data
+> +Center Area.
+> +
+> +The driver supports link-speed 100GbE/25GE/10GE.
+> +
+> +m18110-NIC/m18000-NIC devices support MSI-X interrupt vector for each Tx/Rx
+> +queue and interrupt moderation.
+> +
+> +m18110-NIC/m18000-NIC devices support also various offload features such as
+> +checksum offload, Receive-Side Scaling(RSS).
+
+[Severity: Low]
+Do these three statements describe what the driver actually does, either
+at this commit or at the end of the series?
+
+Grepping the vendor directory at the last patch of the series
+("net/nebula-matrix: add common dev start/stop operation",
+9b90629960395de83faaf5146e29ffc3cb854c5b) finds nothing for any of the
+netdev or offload plumbing these sentences describe:
+
+  git grep -E 'register_netdev|netdev_ops|alloc_etherdev|ethtool_ops|NETIF_F_' \
+      drivers/net/ethernet/nebula-matrix/
+  (no matches)
+
+The directory at that point contains only nbl_main.c plus nbl_channel/,
+nbl_common/, nbl_core/, nbl_hw/ and nbl_include/, so the code binds the
+PCI function, maps the BARs and brings up the PF mailbox, but never
+registers a net_device, never programs per-queue Tx/Rx MSI-X vectors, and
+has no RSS, checksum offload, interrupt moderation or link-speed
+reporting.
+
+Would it make sense to describe only what is implemented, and add the
+link speed / per-queue MSI-X / moderation / RSS / checksum text in the
+patches that introduce those features?
+
+> +
+> +Support
+> +=======
+> +
+> +For more information about m18110-NIC/m18000-NIC, please visit the following URL:
+> +https://www.nebula-matrix.com/snic_s1000_en
+
+Is this the right product page?  The URL names snic_s1000, while
+nbl_main.c documents the matched IDs as "SNIC v3r1 product Device IDs
+range: 0x3403-0x3412" for m18110/m18000.
+
+> +
+> +If an issue is identified with the released source code on the supported kernel
+> +with a supported adapter, email the specific information related to the issue to
+> +open@nebula-matrix.com.
+
+[ ... ]
+
+> diff --git a/drivers/net/ethernet/nebula-matrix/Kconfig b/drivers/net/ethernet/nebula-matrix/Kconfig
+> new file mode 100644
+> index 000000000000..f16e9663eaed
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/Kconfig
+
+[ ... ]
+
+> +config NBL
+> +	tristate "Nebula-matrix Ethernet Controller m18110/m18000 support"
+> +	depends on PCI && (64BIT || COMPILE_TEST) && !CPU_BIG_ENDIAN
+> +	help
+> +	  This driver supports Nebula-matrix Ethernet Controller m18110/m18000
+> +	  Family of devices.
+> +
+> +	  More specific information on configuring the driver is in
+> +	  <file:Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst>.
+
+The help text points users at the .rst above as the description of the
+option's capabilities, so the same over-claim reaches anyone selecting
+CONFIG_NBL: the prompt says "Ethernet Controller m18110/m18000 support",
+but no network interface is created by any commit in this series.
+
+[ ... ]
+
 -- 
-Hardik Kumar <hardikxk@gmail.com>
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260831021408.2325-1-illusion.wang%40nebula-matrix.com
