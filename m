@@ -1,118 +1,99 @@
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9D336826B;
-	Thu,  3 Sep 2026 03:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD53334C3D;
+	Thu,  3 Sep 2026 03:36:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788405874; cv=none; b=ufeJkRjuK64ovT2RlRxBpRR/RoaiJ+ywKtneR6C9dNQeIAnJlu/EfGRw973zW03QvVlqfjnQkHzCg9Ryu+YDnIZpKCjp2fFBOkUrEkvesYCnk1Op3xvFCNS4OSOHJG6wHf+3G/P7GpJ0iNpzUpjcphuLJZySy6dcGCEWIW0casM=
+	t=1788406612; cv=none; b=VV4C0hKX6TsyZCCWngEKSt0MwEcXtPTHsncB7gL1uRBBNsj8uhDxeKOGFJH5vAo+gGPrwqm5P8Q2yMbMW4vT8QfmCxoxQanfubbhT9Vf+n9P8OyOhKwBnmPQUEspYOXKuGHx1rw1wRJzmPeBCJIsgmu9qslOhFLJr2pu+kapu8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788405874; c=relaxed/simple;
-	bh=9NQez/XqcWKPGYJKIglU7rIL09ecKY+aDFGNo5VSQ+4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bk557fmBvRfPDtenOFs6maTFf7wrhmJ07EU5Hn8AlUR5lZrCWIItjQTg0oeLoYk8skEp/0DRSjjDcycomKW8a3jBrozpsa0U+gZ4OC/PA4Sn0ltOs5++JnkEkwQtQEAkdY1BK7tZ9lviIBN4cCsxkO7SrWlC1/ZCL7qFZb83GK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=cNdjCoG3; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1788406612; c=relaxed/simple;
+	bh=XhxBwDfUE4P+jO2J/XzoYbh5m+LywYasvNw8FgYhV4I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d0bSQXl1R/HSmWN52UE1FeG2LRfGM1pRNqlUF8nj+rGyOCmzEKYy2nBschG2n7Ayp5mIuv3wvBTFA/6+plBu+g9eaUBnB5ERG0oKtWfmOKXUle1tyfowZdDDSC08uafBhAF3uM37YwbcdUASO3guKy7O3vKGT4rqQh72omN8n3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SKlG4fos; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="cNdjCoG3"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1788405863; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	bh=0wgFQtv8dkO8eMVrOYWRVOpDJA+dvQgD+EuoMqAxNGQ=;
-	b=cNdjCoG3hhHc9fy//sf10xJVAS78CvmUh5JVwbTEC9Y7mPVR55AOwK65LeJT0ONaaB1fEzh08GCl0tV/YHgAm+rWWCMHplVvdjwvR7T7ukcxT6503I0IuGKfumqzwHBpWS1TMK9uyHaeKGKwZ+bYd7sLoebro10IZfu1xDu3VOA=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=cp0613@linux.alibaba.com;NM=1;PH=DS;RN=41;SR=0;TI=SMTPD_---0XAEcfX3_1788405852;
-Received: from DESKTOP-S9E58SO.localdomain(mailfrom:cp0613@linux.alibaba.com fp:SMTPD_---0XAEcfX3_1788405852 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 03 Sep 2026 11:24:20 +0800
-From: Chen Pei <cp0613@linux.alibaba.com>
-To: Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Atish Kumar Patra <atishp@rivosinc.com>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>,
-	Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>,
-	guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	=?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Peter Newman <peternewman@google.com>,
-	=?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Vasudevan Srinivasan <vasu@rivosinc.com>,
-	Ved Shanbhogue <ved@rivosinc.com>,
-	Weiwei Li <liwei1518@gmail.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	Drew Fustini <fustini@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	x86@kernel.org,
-	devicetree@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 0/5] riscv: Add Ssqosid and initial CBQRI resctrl support
-Date: Thu,  3 Sep 2026 11:24:09 +0800
-Message-ID: <20260903103930-testedby-cbqri-v7-cp0613@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260901-dfustini-atl-sc-cbqri-dt-v7-0-ca2935d85622@kernel.org>
-References: <20260901-dfustini-atl-sc-cbqri-dt-v7-0-ca2935d85622@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SKlG4fos"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=2jK3EFka/duw445W9YVD+lZA1TtvuE7+SNQ5AWGQYsA=; b=SKlG4fosJbGQSwGprWAbGFA2xi
+	d9EmODOoYyRzRLfkH7fN1YU/RCXAiEFY7AQMASxBCc/ruU8z3/MFPxWhczdJU+kK2smWZ5GrXUPBM
+	HPsEekqcAd4LEXjiwR8gGC+itwCboCcYh5LkOG0G3m80gOzwtN32jMVTNFEOZt1OIaT6YK1opJqqC
+	/GHhD79GgB2bjYVZh8rv6jB8TvBCEKN4fWqsuyK7V+WFYoiq1X3/GG7KOIZkD85ItG27KSxTPxh1F
+	3VBYcA7QqIPndaDnjH2IRE15F3BCHSPGAywG5L/uK0l/N5IS9nGRCmgmW8CcvSozZxuzH4NE+hYHC
+	Yt0rLdag==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x1yFo-0000000GHl3-08lA;
+	Thu, 03 Sep 2026 03:36:44 +0000
+Message-ID: <deb7eaa4-99fe-49a6-adfe-17184660e0ea@infradead.org>
+Date: Wed, 2 Sep 2026 20:36:42 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: arm: nwfpe: update stale document
+ references
+To: Diego Fernando Mancera Gomez <diegomancera.dev@gmail.com>,
+ linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org
+References: <20260903025334.44666-1-diegomancera.dev@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260903025334.44666-1-diegomancera.dev@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-> This series adds initial RISC-V QoS support: the Ssqosid extension [1]
-> (srmcfg CSR), the CBQRI controller interface [2] integrated with resctrl
-> [3], and a DT-based platform driver for cache controllers. It has been
-> tested on both the Tenstorrent Ascalon Shared Cache controller and a QEMU
-> implementation [4].
 
-Hi Drew,
 
-I picked up this series for testing as promised. I exercised it on both
-QEMU (using the riscv.cbqri.capacity device from your branch [4]) and on
-real FPGA hardware with a CBQRI capacity controller, and behavior and
-functionality look good on both.
+On 9/2/26 7:53 PM, Diego Fernando Mancera Gomez wrote:
+> The NetWinder FPE introduction still refers to README.FPE and TODO,
+> which were renamed to netwinder-fpe.rst and todo.rst when the
+> documentation was converted to reStructuredText.
+> 
+> Replace the stale filenames with links to the current documents and fix
+> the accompanying grammar.
+> 
+> Signed-off-by: Diego Fernando Mancera Gomez <diegomancera.dev@gmail.com>
 
-What I verified:
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-  - Mounting resctrl and reading the default schemata (CBM reflects the
-    controller's capacity blocks).
-  - Creating control groups, writing a narrower CBM to schemata and reading
-    it back; the value matches what was written.
-  - Assigning tasks to control groups, with the RCID taking effect via
-    srmcfg on schedule-in.
-  - The CBQRI capacity-controller block-mask limit actually constraining
-    cache capacity allocation.
+> ---
+>  Documentation/arch/arm/nwfpe/nwfpe.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/arch/arm/nwfpe/nwfpe.rst b/Documentation/arch/arm/nwfpe/nwfpe.rst
+> index 35cd90dacbff..b6ef46ff0f4a 100644
+> --- a/Documentation/arch/arm/nwfpe/nwfpe.rst
+> +++ b/Documentation/arch/arm/nwfpe/nwfpe.rst
+> @@ -33,9 +33,9 @@ double precision and extended double precision formats.  The port of
+>  SoftFloat to the ARM was done by Phil Blundell, based on an earlier
+>  port of SoftFloat version 1 by Neil Carson for NetBSD/arm32.
+>  
+> -The file README.FPE contains a description of what has been implemented
+> -so far in the emulator.  The file TODO contains a information on what
+> -remains to be done, and other ideas for the emulator.
+> +The :doc:`netwinder-fpe` document contains a description of what has been
+> +implemented so far in the emulator.  The :doc:`todo` document contains
 
-No functional issues observed.
+I prefer this change, but either ways works (same html output):
 
-For full disclosure, this was a general functional pass over the main
-resctrl operations to confirm the controls take effect, rather than
-exhaustive or corner-case testing.
++The netwinder-fpe.doc document contains a description of what has been
++implemented so far in the emulator.  The todo.rst document contains
 
-Tested-by: Chen Pei <cp0613@linux.alibaba.com>
+> +information on what remains to be done, and other ideas for the emulator.
+>  
+>  Bug reports, comments, suggestions should be directed to me at
+>  <scottb@netwinder.org>.  General reports of "this program doesn't
 
-Best regards,
-Pei
+thanks.
+-- 
+~Randy
