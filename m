@@ -1,101 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B036E37F010;
-	Thu,  3 Sep 2026 16:23:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787B84E8E1A;
+	Thu,  3 Sep 2026 16:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788452626; cv=none; b=h5IqoqPEPvajS0wSDE/v9ocYdSNgVJ1VcuBwiJZWYdzErmOrU03V2If/qVQVQQ+JmU/sgDuOoDnxnP8kOB0xYUO8GGt0oZD475+uXA3N8OYK7NZBR5edRDTF2w8V2emhGW/ddV+MyPtOhi9/Vkz8kZWogr7FNuLZ9gfuehobjeQ=
+	t=1788452769; cv=none; b=cefeTnMXQz5//OaagppePJ6wi6YOFgWARliAGY57/OgEWp9fGFAUPskySQnVcnHdksxPLpohbOa02oPfEcceFoXdpSYNioJgndalMUOnXVC7wRngLOAFd8TtME2sqzlsT7Hmv4paXkUhn6x6xcWaI2ZbreavNuDMGkKxoT6vf2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788452626; c=relaxed/simple;
-	bh=JBd7I4/fg7dczN/LdTDewIzecH/B/oek1+sXV+5jo+k=;
+	s=arc-20240116; t=1788452769; c=relaxed/simple;
+	bh=Og59F8yzv67J158UPsSsM5lFNF4EuqRf14ZZN0FKw9I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rgSrsJHyWKd7Dca++nfWkMcc/+jHn+tITYXbVLjcERZrwuv6pB8cHgR5V8Q7a4F9qDP0l2ctewSaata0ym3dk051JP08eG2pESnSfeWumRI1TYN1A0ggxDI6VX1vSV4QHugQRp5jhZDxbKbzCCAChIzo/g2cbg9gaYpoNsPamWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hlg0F1E0; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=EFxIElLHcJpnB1ESX+tr8YEBpsIx0DfvWFKHz9z/3Wc9Quentwx2MOZeJiTaTnNIgFDQ3aQs9W0HjDMVZYBm7/5s2kPSaJx7oJe/TqQMSMv8SV9KmUYh1GBUFXpxPDZZTVHWGOgZakmq8k5dBOrKGvP1EcnEvc7kW8YRZyR5Ltw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fXRSn420; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hlg0F1E0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC0B61F000E9;
-	Thu,  3 Sep 2026 16:23:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fXRSn420"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5511C1F000E9;
+	Thu,  3 Sep 2026 16:26:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788452625;
-	bh=PDu19BjiI9AhkjE5BIfUBslC9MAuLaoj6YB1o1XS/ZM=;
+	s=k20260515; t=1788452768;
+	bh=tBFnYjRmfcdV1M1q0twcPje4ka6He7iANUg+2x5MoEE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hlg0F1E0VCrtl/SDZ8Eode7rB/skCUp1JgvIBAx6yBzM9pnGYY2hhZdxzGgmIkjKc
-	 zDGwVMntVC6G7YM24UgUB+xTVeyL0swXoVBpk51V6uBWdjTQaTs10olHtbwMx6+Piv
-	 AZ0o2F6wxCamWCeGKw5hOqWcg98oxW2PNBRbYDHUcRcXWtIFrZCu8uvGmMlhC0icaz
-	 bfoywEMZTn2hAltlYZ50yZUo08BmBFb6zhMDPGDWLdUFHdr9f/wpGeMXTuO9r9N/My
-	 PTKnaNxz7Wu+M+Jgv4icSs12riikr8UwqExehgxVgPf6coilEFtxAmioXmzpoMuh17
-	 Zm2wACI1ZgEwg==
-Date: Thu, 3 Sep 2026 17:23:38 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Fuad Tabba <fuad.tabba@linux.dev>, Peter Maydell <peter.maydell@linaro.org>, 
-	Leonardo Bras <leo.bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>, 
-	Yao Yuan <yaoyuan@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v20 02/14] KVM: arm64: Fix FGT mapping for
- HFGITR_EL2.nGCSEPP
-Message-ID: <apmcDT8YTjS6eXE0@gremlin>
-References: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org>
- <20260901-arm64-gcs-v20-2-f31750bdfadb@kernel.org>
+	b=fXRSn4208M62IytZTrpuK9A0SuPM20XutgfSGr4gBxwXFKR9jdHSUUj6OzoghOUhc
+	 Ld1nDTS+mEYggrs56BjrYnCngcwBkU6310KUrUOOgxG91fwkbZ5PSfNJFq0gEnqI0v
+	 7FdSHFLCWka/c18sP5VAIsDFUzbeMnctuQa3fit+ta4iT/LJnCAxCEgFeG3F2bgxFh
+	 erhroMglOSPXgz4ZAr1uy8vinRA9IGVtQBRXaZaoE7NajSNlCHHHgCKX5oe/2fsK3X
+	 J++3PZmOzed8euo/KxiIdrDzxorS/IJ8IpslCw0Q8Wg5AHBDRYrHDoSNAe9fQmjw1R
+	 OoPs1C+GybLdQ==
+Date: Thu, 3 Sep 2026 18:26:05 +0200
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+	corbet@lwn.net, meted@linux.ibm.com, ynorov@nvidia.com,
+	tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
+	seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
+	rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
+	srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
+	vineeth@bitbyteword.org, arighi@nvidia.com, pauld@redhat.com,
+	christian.loehle@arm.com, tj@kernel.org,
+	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+	rdunlap@infradead.org, kernellwp@gmail.com,
+	linux-doc@vger.kernel.org, jgross@suse.com,
+	virtualization@lists.linux.dev, sunlightlinux@gmail.com
+Subject: Re: [PATCH v12 01/13] sched/cputime: Add kcpustat_field_total helper
+Message-ID: <apmfne3iBct7oNTp@localhost.localdomain>
+References: <20260903063240.268775-1-sshegde@linux.ibm.com>
+ <20260903063240.268775-2-sshegde@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260901-arm64-gcs-v20-2-f31750bdfadb@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260903063240.268775-2-sshegde@linux.ibm.com>
 
-On Tue, Sep 01, 2026 at 10:47:00PM +0100, Mark Brown wrote:
-> The encoding to trap mapping currently maps a FGT on OP_GCSPOPX to
-> HFGITR_EL2.nGCSEPP but as per DDI0601 2026-06 this FGT controls trapping
-> of GCSPUSHX and GCSPOPCX, and not the separate GCSPOPX instruction.
-> Update the mapping to reflect the architecture.
->
-> Fixes: 863ac38984a82 ("KVM: arm64: Add missing HFGITR_EL2 FGT entries to nested virt")
-> Reviewed-by: Leonardo Bras <leo.bras@arm.com>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+Le Thu, Sep 03, 2026 at 12:02:28PM +0530, Shrikanth Hegde a écrit :
+> Provide a new helper function which sums up a given type of cpustat
+> over a specified cpumask.
+> 
+> This allows the caller's code to be simpler and avoids duplication.
+> For example, subsequent patch in the steal governor use this exact
+> same pattern when calculating steal time.
+> 
+> Suggested-by: Yury Norov <yury.norov@gmail.com>
+> Reviewed-by: Yury Norov <ynorov@nvidia.com>
+> Reviewed-by: Mete Durlu <meted@linux.ibm.com>
+> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
 
-LGTM so:
+Acked-by: Frederic Weisbecker <frederic@kernel.org>
 
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-
-> ---
->  arch/arm64/kvm/emulate-nested.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/arm64/kvm/emulate-nested.c b/arch/arm64/kvm/emulate-nested.c
-> index 625604019fb3..3806ff0920fe 100644
-> --- a/arch/arm64/kvm/emulate-nested.c
-> +++ b/arch/arm64/kvm/emulate-nested.c
-> @@ -1445,7 +1445,7 @@ static const struct encoding_to_trap_config encoding_to_fgt[] __initconst = {
->  	SR_FGT(OP_AT_S1E1A, 		HFGITR, ATS1E1A, 1),
->  	SR_FGT(OP_COSP_RCTX, 		HFGITR, COSPRCTX, 1),
->  	SR_FGT(OP_GCSPUSHX, 		HFGITR, nGCSEPP, 0),
-> -	SR_FGT(OP_GCSPOPX, 		HFGITR, nGCSEPP, 0),
-> +	SR_FGT(OP_GCSPOPCX, 		HFGITR, nGCSEPP, 0),
-
-Yikes, yeah I see from the doc I referenced in 1/14 that that's the wrong
-instruction ([0]).
-
-I guess this wasn't visible before in any case because 9/14 is required to
-actually enable this in practice?
-
->  	SR_FGT(OP_GCSPUSHM, 		HFGITR, nGCSPUSHM_EL1, 0),
->  	SR_FGT(OP_BRB_IALL, 		HFGITR, nBRBIALL, 0),
->  	SR_FGT(OP_BRB_INJ, 		HFGITR, nBRBINJ, 0),
->
-> --
-> 2.47.3
->
->
-
-[0]: https://support.arm.com/documentation/111107/2026-06/AArch64-Registers/HFGITR-EL2--Hypervisor-Fine-Grained-Instruction-Trap-Register
-
---
-Cheers, Lorenzo
+-- 
+Frederic Weisbecker
+SUSE Labs
