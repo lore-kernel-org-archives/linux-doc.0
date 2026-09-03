@@ -1,66 +1,64 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCAE3F5BDB;
-	Thu,  3 Sep 2026 09:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9E340BCB2;
+	Thu,  3 Sep 2026 09:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788429345; cv=none; b=E/s0TV087nueHxJ44qAh0ZeElhrHgdjWZiv0piYyTUVWA39kf8CGbAjmA73VsgFgjM3DmQFbfX/rqxTOaLRMomlICe6AvU+VvoQM895urfn3qMQwJv4lutQmfYtuvhvwc8Ar4HR7eY5iiSmw8klP4Z+5G48BFheMds9iz7k9b4U=
+	t=1788429439; cv=none; b=IAGFpGn864cVBDAR2jrA22xWQsRdTvfaAmWZTsl+nkzfjX1nhAtsAvws+ijZ6Du87c0281doWzdDIEZKnYw0Zn+Df1ge+r+kbLtY/wKeSJIO87xf8+VPSBCOkmRfzSFq1Ir2AhiR5cPJ9f8rD08/DBAK+AZZ0EHHIVR//90Y1sU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788429345; c=relaxed/simple;
-	bh=tJxSv8YPQj/RRr7maKA8AhxYsSl4mdaAOIjYMhMY9Wg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kPj2usPd9fb3rFuJXgQbf0ZHWUnzB2T1FHJSAyE6EZSaGieZLIkkOr3/3NukbJxHw+19puYzs3FSi7aU10wKFozb9YC04AZ4+YZgsahm2sJoyi/hM4Em8pm+VKKAc1sMOppfGnZ01/4ZO6Rd577N81Xl2FwgVvxVzaJHG1hwmpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=c2/Jgrk1; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=WbJQ8IZe; arc=none smtp.client-ip=80.241.56.171
+	s=arc-20240116; t=1788429439; c=relaxed/simple;
+	bh=NTjEyY0BUyvGYpivcJzXyrD6JGFTmJSwcbJa8YR6TKk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C7RbrMzOuR1UCKKbwhZngia2ilNl4wptJYqh9p3T10gZv46tCNtNGbVQFZB/AoI7PnLjdPT926exxBq3bQvIuKMz1tx5AWKT1kUlRzk2JXlnkxzPIFs6v8NTyoA10ciNlZUrUU0osZR94AmVP/BLFmqmpoSNt6zd75NPa0rbLis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=piJvZ4AN; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=AwXEdyzR; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="c2/Jgrk1";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="WbJQ8IZe"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="piJvZ4AN";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="AwXEdyzR"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hbFMv0LXLzMlDk;
-	Thu, 03 Sep 2026 11:55:39 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hbFPl2c7BzKrt2;
+	Thu, 03 Sep 2026 11:57:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788429339;
+	t=1788429435;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=r/Ui16OnCm1tcqwkqF95gqF7P108l1CO30h3rVmWRd8=;
-	b=c2/Jgrk1FzbgB9W44ohY+J6eaAyVXuOITiV8QkBPRX4ad3WMw6AsnhjtGnqVBNRgCCPV0D
-	UlgL71xY9mHdHBQbcyxwhPxGSt9sfMNo9AK+LayDvGLe0M9IoBQld4vdvpzncJxhpaaijV
-	xvHSfPC60jNIqo7QftV8OrByK/xtfeHVgMeW9vAlInOUZnl/pSw3kj2SyMsXe3nxV3XE/s
-	AhokqICd1c5bM9zW1/i+pV94tJLDaPd5p8l7rJ4vjhGgK5gfkCgaTvLHIaSk2sXIA/QyzG
-	1JvULoR8NooK1sIY33XO4awukOSOMsYeykZS1JHlBlmFnRgxihcJ8bu8z9MJBg==
+	bh=SbaKgAu7R/FDCwmuLCcWl14lYq7sEdvI8vaAnN/rV6Y=;
+	b=piJvZ4ANxQwYx1GTTDhRAl4NSCtly102ng76aZcDjNpYPme0Wx0P9y/CPOCmhYDgrUwAGM
+	gM4sDU9SKMLzTeFbLBb2u3uNEUdDHh9D8QsD9YJz8PYyYanphJKL0koLEWtnRjxcp4qe2J
+	R/rK6eBPcrkO4kcA4FAvJJQe3Rohe12lZUPqixV2R5hw9nXkU2/4BGRdmR16F0NR7V1GvZ
+	gBARXLvZgE2f3OVmcI12K7/YFAHc2VYFm89BEKZ7It5xwg2SSpc+LrOshhTtAyiICBSEr3
+	TMqqhbeCbHdODilILBp69j5xNnMPFDZghUt9rrtY5WPBSuA3/nnod31U3CYL6w==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=AwXEdyzR;
+	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
 From: Manuel Ebner <manuelebnerli@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788429337;
+	t=1788429433;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=r/Ui16OnCm1tcqwkqF95gqF7P108l1CO30h3rVmWRd8=;
-	b=WbJQ8IZeiKAy6PJu8dQAcdeH7ebm04ypEqATYFGH+ungScGY4lVpHAwlAKnC63Go+UQyur
-	YrO0iZNr7sYc3Tfb8q3oGp/hruM3GEHr+f/c2QqTma83C/ukwV13D3NGSIIjsde8+tZTMF
-	kZ6RZ6P5HzzFOq7qkCsHNBmMMOyDUqI3IICBj36AC7dEwuYbOfMgEE9fUBxCY9aKltllaV
-	49CYJgut/0qh9kcM7w1QS7yguvumD5ujClh+PX8Kbom7mNqisHgH57DluQU4+iZRcuqu+N
-	DaRWnBc0qG2bcf7XdOutkX+MVeD4nYRYLKMpPpIMaoYffEXgLvBFLbVBN6Dnrg==
-To: Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
+	bh=SbaKgAu7R/FDCwmuLCcWl14lYq7sEdvI8vaAnN/rV6Y=;
+	b=AwXEdyzRCRYdgGFn55NERCtTL06jMRp+S61XruRntPV/sk3MPZcPK9JIWGK5TVQa1FyOfm
+	lEPTYyxl1MW7tyPZKXS3PRW2VWKDkInLvdTLN+hv1ZELOJ4UU/7Ue+sUMGCSO8V+OjXleS
+	DJiLHWY0S+rCID+2KaskAF6zi18lp/F0zO/phMvhjT0Zdz6WRh4qJU+19DL53tUYIIgRHn
+	Bs2uWZK9oZLeZxRNjRsrdSgvuTTgfZU9leJXjrRL0wPk9Bf3PVqm3Kew9CAYTtRS7dl+6H
+	eURB7JUmQH27PMzaw7B2273W8Fm5jK8ZaGauHPGihsp1KkbPBmKIsw1vzObcew==
+To: Vinod Koul <vkoul@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>
 Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	linux-cxl@vger.kernel.org,
+	dmaengine@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] cxl: docs/platform/acpi: Fix brackets
-Date: Thu,  3 Sep 2026 11:54:45 +0200
-Message-ID: <20260903095445.729419-2-manuelebnerli@mailbox.org>
+Subject: [PATCH] docs: dmaengine: Fix bracket
+Date: Thu,  3 Sep 2026 11:55:45 +0200
+Message-ID: <20260903095545.729607-3-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,27 +66,30 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: y9rdatg71weiqnpeock3jzegm6wm5foq
-X-MBO-RS-ID: 7d29fa50edb8dbb1939
+X-MBO-RS-META: 5owa1nid18e75quktu17j6oicdhmkhea
+X-MBO-RS-ID: 3277edacf24f18ba88c
+X-Rspamd-Queue-Id: 4hbFPl2c7BzKrt2
 
-Add '}' and fix indentation.
+Add missing ')' to sentence.
 
 Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 ---
- Documentation/driver-api/cxl/platform/acpi/dsdt.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/driver-api/dmaengine/provider.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/cxl/platform/acpi/dsdt.rst b/Documentation/driver-api/cxl/platform/acpi/dsdt.rst
-index b4583b01d..73b23d82a 100644
---- a/Documentation/driver-api/cxl/platform/acpi/dsdt.rst
-+++ b/Documentation/driver-api/cxl/platform/acpi/dsdt.rst
-@@ -25,4 +25,5 @@ Example Compute Express Link Host Bridge ::
-             ...
-             Name (_UID, 0x05)  // _UID: Unique ID
-             ...
--      }
-+        }
-+    }
+diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
+index f4ed98f70..22d235fb4 100644
+--- a/Documentation/driver-api/dmaengine/provider.rst
++++ b/Documentation/driver-api/dmaengine/provider.rst
+@@ -321,7 +321,7 @@ to use.
+ - DESC_METADATA_CLIENT
+ 
+   The metadata buffer is allocated/provided by the client driver and it is
+-  attached (via the dmaengine_desc_attach_metadata() helper to the descriptor.
++  attached (via the dmaengine_desc_attach_metadata() helper) to the descriptor.
+ 
+   From the DMA driver the following is expected for this mode:
+ 
 -- 
 2.54.0
 
