@@ -1,246 +1,189 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAB138AC96;
-	Thu,  3 Sep 2026 07:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6524CCDC8;
+	Thu,  3 Sep 2026 08:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788421995; cv=none; b=T0YXCl/Ij+buydUHEPEmNRs3QJGT1465PtixFeZnAfujSIoYdi8ab8Qc5S6qlBJz7+/v9Js+8XCUvPVOFgqt87dQXcA/MzaOD65tBYHOYlWcTXkhJ3x6CF7RQD8PXrnByREdP54FVUalzNKcckpxfibVLsOvuqEPkOcS8w156Zg=
+	t=1788423780; cv=none; b=SJ/QutIXmPliE/F8BvPEziyWCc7CrcDUCSHv+/xH9GqgLnLFEeSQLjg2Q9SnYGlme5tYv2uREvmnXXIpLSf63qCkHOZrdZLo8DC+kMW22FMsv2x6L+MsvvYN1nKRM6+TCibxNR2tVcQujSYWH2JUAV8LglwtZL5bpoD5TcIL5UM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788421995; c=relaxed/simple;
-	bh=X/4JlpWNOCeR4BuVv8FHlzWf+j7va+TrxaWsBdcn39U=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RSXrBSpW182qxb2o2OVs4ILfaP1yp57Ld6JdAxbats3dMnnCc8AFGDph+GExveQ91M8UGWS4mbZeCAfwiIO7j5z0q7ftBAC2Xl3MArFALmdBu4ffm7sKdFBnbXspiK1ZSCqgGIPabvsubM2RnT/6gGVaU1u4+mayBnBGwkv+9n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=cQ0MRwE6; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1788423780; c=relaxed/simple;
+	bh=9P8B/RN6zn0i8bcvOLF7tj5JKQE6TfZq9cp89lUEZew=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=GGfJm6M0M4O60lJ0HHJs8zpeFO9B6/l/RGG5EF6AorE+By5bBxnqKyNUA/ArLsNAvTLhHmkjDAJyUD6Z4p6lEbgzuGFFmuopwBZspaWKa9LUbpcy+Y/chuay0W+/gKRXGTAjJzYk0oIs5e76Eih9VMdiGfuJWTkO6nLGpvNBpUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=NYAc69wF; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="cQ0MRwE6"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=s/pD42JPz9w41he7m9JGqlBsNJR67TIhtx7nAJkGXi8=;
-	b=cQ0MRwE6o87Q8lmYCxmGVUzCYVcADUssmfi0SfXCLNz/34M6tuTT0qaJrOyAJ1K5OkvfXRFU1
-	KRkyg73VPCjJhGcuu3V69BGcq49UKQIFJz4dovwdL94wzYWgK1F7cpLNS+ABugnXZVRYzkXzFIk
-	oEkTmtcfhvRCikM7mOBHOJ8=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4hbBPt2JmSzLlTg;
-	Thu,  3 Sep 2026 15:42:10 +0800 (CST)
-Received: from whupemo200004.china.huawei.com (unknown [7.152.184.18])
-	by mail.maildlp.com (Postfix) with ESMTPS id D781340565;
-	Thu,  3 Sep 2026 15:53:00 +0800 (CST)
-Received: from huawei.com (10.50.163.32) by whupemo200004.china.huawei.com
- (7.152.184.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 3 Sep
- 2026 15:52:58 +0800
-From: Sizhe Liu <liusizhe5@huawei.com>
-To: <rostedt@goodmis.org>, <mhiramat@kernel.org>,
-	<mathieu.desnoyers@efficios.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <bhelgaas@google.com>, <yangyccccc@gmail.com>,
-	<jic23@kernel.org>, <john.g.garry@oracle.com>, <will@kernel.org>,
-	<james.clark@linaro.org>, <mike.leach@arm.com>, <leo.yan@linux.dev>,
-	<peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
-	<namhyung@kernel.org>, <mark.rutland@arm.com>,
-	<alexander.shishkin@linux.intel.com>, <jolsa@kernel.org>,
-	<irogers@google.com>, <adrian.hunter@intel.com>, <wangyushan12@huawei.com>,
-	<wuzongyu1@huawei.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<linux-perf-users@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
-	<prime.zeng@hisilicon.com>, <liusizhe5@huawei.com>
-Subject: [PATCH v3 7/8] hwtracing: hisi_ptt: Add pattern PMU config for trace format selection
-Date: Thu, 3 Sep 2026 15:52:40 +0800
-Message-ID: <20260903075241.1445338-8-liusizhe5@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20260903075241.1445338-1-liusizhe5@huawei.com>
-References: <20260903075241.1445338-1-liusizhe5@huawei.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NYAc69wF"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hbCJs2vzzzKvv2;
+	Thu, 03 Sep 2026 10:22:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788423773;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9P8B/RN6zn0i8bcvOLF7tj5JKQE6TfZq9cp89lUEZew=;
+	b=NYAc69wF9Ot6/siRQbABrzSL8rS69JajnQhNsxyIlpbjoyMXRopUE85z5bOkOhjECZwkLx
+	tbvzm38KobNK63zs7rknMOx5xfLNfcpkXya4DLzCtmDqCkZ7QVkVMnbEI6FI4mS5TGKpDH
+	i26OTQrTzdA0/msKEW4BU1LQSAiwVlInOO3hQerk3XdxXnHOjmkRNWXJbCfDFMzs8I6G4s
+	x5X0bObEIxc8TotjOtZGnrDbxDAEozG6Hndy8PTKyiR8neFjhzzAb3gfDbQBdNCDYdwc2F
+	+d2O2q6fpW59MR3XREIZ91O0M17Gi7tkxDK2iUf8PwHvyBBvuhyO/PQhrXot4Q==
+Message-ID: <101613e024851e419e2e19c433a50044ed75b466.camel@mailbox.org>
+Subject: Re: [PATCH v2] docs: verify/bisect: fix typos
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: Thorsten Leemhuis <linux@leemhuis.info>, Jonathan Corbet
+ <corbet@lwn.net>,  Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Thu, 03 Sep 2026 10:22:49 +0200
+In-Reply-To: <c6487243-0cf6-425a-8992-399aa802ed1a@leemhuis.info>
+References: <20260902115121.687986-2-manuelebnerli@mailbox.org>
+	 <c6487243-0cf6-425a-8992-399aa802ed1a@leemhuis.info>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- whupemo200004.china.huawei.com (7.152.184.18)
+X-MBO-RS-ID: 85aae325e7554f861cf
+X-MBO-RS-META: giqfbrmihpb1qei4ye97g5egtbkfcih6
 
-Introduce a `pattern` PMU config field (config:36-39) that controls
-which TLP header format the hardware traces. bit[3:1] are reserved for
-future extension and only bit0 is used currently:
+On Wed, 2026-09-02 at 18:30 +0200, Thorsten Leemhuis wrote:
+> Thx for doing this, much appreciated.
+>=20
+> On 9/2/26 13:51, Manuel Ebner wrote:
+> > 'your' -> 'you have'
+> > 'kernel kernel' -> 'kernel'
+> > 'your' -> 'you' twice
+> > 'if is not listed' -> 'if it is not listed'
+> > 'hay attention' -> 'pay attention'
+> > remove needless "'" in sphinx link
+> > 'as disabling then will reduce the consumed disk space'
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 vvvv
+> > 'as disabling them will reduce the consumed disk space'
+> > 'You for example might' -> 'For example you might'
+> > 'and not from a one that' -> 'and not from one that'
+>=20
+> Pretty sure the above won't fly as a patch description, as it should
+> describe the changes, not list each of them, as that is visible from the
+> diff already (even if that's slightly hard for text-only files).
 
-- pattern=0 (default, compatibility mode): the driver sets bit[8] of
-  HISI_PTT_TRACE_CTRL so the hardware traces the data in compatibility
-  mode.
-- pattern=1: the driver clears bit[8] of HISI_PTT_TRACE_CTRL so the
-  hardware traces the data pattern including some bitfields of the TLP
-  header defined in PCIe r6.4 sec 2.2.1.2.
+That's true, I got this a couple times as feedback.
 
-Note that bit[8] of HISI_PTT_TRACE_CTRL is inverted with respect to the
-`pattern` value: bit[8]=1 selects the legacy format, bit[8]=0 selects
-the new format. Bit[11:9] is still reserved, which is consistent with the
-PMU config field. The driver validates the 4-bit value in
-hisi_ptt_trace_valid_pattern() and applies it in hisi_ptt_trace_start().
+> For typos and grammar fixes there is not much to say, so maybe just
+> state that; but you might want to look at a few recent changes in
+> Documentation/ to see how other developers approach a situation like this=
+.
 
-Document the new parameter in Documentation/trace/hisi-ptt.rst.
+That's a good idea. I did only find slightly more verbose than mine, eg:
+> Fix 'hay attention' -> 'pay attention' in file.rst
+or
+> Replace "an a few" with "and a few" in
+> Documentation/driver-api/media/drivers/zoran.rst.
 
-Reviewed-by: Yushan Wang <wangyushan12@huawei.com>
-Signed-off-by: Sizhe Liu <liusizhe5@huawei.com>
----
- Documentation/trace/hisi-ptt.rst | 25 +++++++++++++++++++++++--
- drivers/hwtracing/ptt/hisi_ptt.c | 25 ++++++++++++++++++++++++-
- drivers/hwtracing/ptt/hisi_ptt.h |  4 ++++
- 3 files changed, 51 insertions(+), 3 deletions(-)
+> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> > ---
+> > [v2]
+> > =C2=A0+ one more 'your' -> 'you'
+> > =C2=A0- 'it'
+> > =C2=A0+ incorporate Randy's suggestions
+> > =C2=A0=C2=A0=C2=A0 https://lore.kernel.org/all/0475c09c-e165-41a5-b654-=
+5c6aefeaab0b@infradead.org/
+> > =C2=A0+ Reviewed-by: Randy Dunlap
+> >=20
+> > [v1]
+> > =C2=A0https://lore.kernel.org/all/20260829055501.581856-2-manuelebnerli=
+@mailbox.org/
+> >=20
+> > Wouldn't it make sense to add how to skip pure documentation and format=
+ing
+> > commits?
+>=20
+> YMMV, but I don't think that's worth it. It is easy to get wrong,
+> doesn't matter much at the early steps of a bisection, and means one
+> more instruction to describe for people that do that for the first time.
 
-diff --git a/Documentation/trace/hisi-ptt.rst b/Documentation/trace/hisi-ptt.rst
-index f6a2655f99e5..c95eaa12f4d3 100644
---- a/Documentation/trace/hisi-ptt.rst
-+++ b/Documentation/trace/hisi-ptt.rst
-@@ -255,7 +255,28 @@ directly from the TLP header.
-      DW2 [                     Header DW2                            ]
-      DW3 [                     Header DW3                            ]
- 
--5. Memory Management
-+5. Trace pattern
-+-----------------
-+
-+You can control whether the trace is taken with the new version of the
-+TLP header format by specifying the `pattern` parameter. The default
-+value is 0, which means the legacy format is used for backward
-+compatibility. The parameter value is 4 bit and bit[3:1] are currently
-+reserved for extension. Current supported values are shown below:
-+
-+- 4'b0000: legacy trace format
-+    DW2 and DW3 are printed with generic field names only, and
-+    no message-type-basedfield decoding.
-+- 4'b0001: trace format v1
-+    DW2 and DW3 are decoded according to the TLP message type (MWr,
-+    Msg, Atomic, IO, CPL, Cfg) with detailed field names. It is recommended to
-+    use trace format v1 when the current PCIe link generation is higher than
-+    PCIe 6.0.
-+
-+For trace data recorded by an older tracer without the `pattern` parameter,
-+the decoder will work as `pattern` forced to 0.
-+
-+6. Memory Management
- --------------------
- 
- The traced TLP headers will be written to the memory allocated
-@@ -274,7 +295,7 @@ will commit the AUX buffer first and then apply for a new one with
- the same size. The size of AUX buffer is default to 16MiB. User can
- adjust the size by specifying the `-m` parameter of the perf command.
- 
--6. Decoding
-+7. Decoding
- -----------
- 
- You can decode the traced data with `perf report -D` command (currently
-diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
-index 52f168f8b459..b63985c2b30e 100644
---- a/drivers/hwtracing/ptt/hisi_ptt.c
-+++ b/drivers/hwtracing/ptt/hisi_ptt.c
-@@ -232,6 +232,10 @@ static int hisi_ptt_trace_start(struct hisi_ptt *hisi_ptt)
- 	val |= FIELD_PREP(HISI_PTT_TRACE_CTRL_TARGET_SEL, hisi_ptt->trace_ctrl.filter);
- 	if (!hisi_ptt->trace_ctrl.is_port)
- 		val |= HISI_PTT_TRACE_CTRL_FILTER_MODE;
-+	if (!ctrl->pattern)
-+		val |= HISI_PTT_TRACE_CTRL_PATTERN;
-+	else
-+		val &= ~HISI_PTT_TRACE_CTRL_PATTERN;
- 
- 	ctrl->started = true;
- 
-@@ -806,12 +810,14 @@ PMU_FORMAT_ATTR(filter,		"config:0-19");
- PMU_FORMAT_ATTR(direction,	"config:20-23");
- PMU_FORMAT_ATTR(type,		"config:24-31");
- PMU_FORMAT_ATTR(format,		"config:32-35");
-+PMU_FORMAT_ATTR(pattern,		"config:36-39");
- 
- static struct attribute *hisi_ptt_pmu_format_attrs[] = {
- 	&format_attr_filter.attr,
- 	&format_attr_direction.attr,
- 	&format_attr_type.attr,
- 	&format_attr_format.attr,
-+	&format_attr_pattern.attr,
- 	NULL
- };
- 
-@@ -941,6 +947,15 @@ static int hisi_ptt_trace_valid_format(u32 val)
- 	return -EINVAL;
- }
- 
-+static int hisi_ptt_trace_valid_pattern(u32 val)
-+{
-+	/* Currently only bit0 is used, bit[3:1] are reserved for extension. */
-+	if (val <= 1)
-+		return 0;
-+
-+	return -EINVAL;
-+}
-+
- static int hisi_ptt_trace_valid_filter(struct hisi_ptt *hisi_ptt, u64 config)
- {
- 	unsigned long val, port_mask = hisi_ptt->port_mask;
-@@ -991,6 +1006,9 @@ static void hisi_ptt_pmu_init_configs(struct hisi_ptt *hisi_ptt, struct perf_eve
- 
- 	val = FIELD_GET(HISI_PTT_PMU_FORMAT_MASK, event->attr.config);
- 	ctrl->format = val;
-+
-+	val = FIELD_GET(HISI_PTT_PMU_PATTERN_MASK, event->attr.config);
-+	ctrl->pattern = val;
- }
- 
- static int hisi_ptt_pmu_event_init(struct perf_event *event)
-@@ -1025,7 +1043,12 @@ static int hisi_ptt_pmu_event_init(struct perf_event *event)
- 		return ret;
- 
- 	val = FIELD_GET(HISI_PTT_PMU_FORMAT_MASK, event->attr.config);
--	return hisi_ptt_trace_valid_format(val);
-+	ret = hisi_ptt_trace_valid_format(val);
-+	if (ret < 0)
-+		return ret;
-+
-+	val = FIELD_GET(HISI_PTT_PMU_PATTERN_MASK, event->attr.config);
-+	return hisi_ptt_trace_valid_pattern(val);
- }
- 
- static void *hisi_ptt_pmu_setup_aux(struct perf_event *event, void **pages,
-diff --git a/drivers/hwtracing/ptt/hisi_ptt.h b/drivers/hwtracing/ptt/hisi_ptt.h
-index 46030aa88081..584f65ba1e32 100644
---- a/drivers/hwtracing/ptt/hisi_ptt.h
-+++ b/drivers/hwtracing/ptt/hisi_ptt.h
-@@ -41,6 +41,7 @@
- #define   HISI_PTT_TRACE_CTRL_RST	BIT(1)
- #define   HISI_PTT_TRACE_CTRL_RXTX_SEL	GENMASK(3, 2)
- #define   HISI_PTT_TRACE_CTRL_TYPE_SEL	GENMASK(7, 4)
-+#define   HISI_PTT_TRACE_CTRL_PATTERN	BIT(8)
- #define   HISI_PTT_TRACE_CTRL_DATA_FORMAT	BIT(14)
- #define   HISI_PTT_TRACE_CTRL_FILTER_MODE	BIT(15)
- #define   HISI_PTT_TRACE_CTRL_TARGET_SEL	GENMASK(31, 16)
-@@ -89,6 +90,7 @@
- #define HISI_PTT_PMU_DIRECTION_MASK	GENMASK(23, 20)
- #define HISI_PTT_PMU_TYPE_MASK		GENMASK(31, 24)
- #define HISI_PTT_PMU_FORMAT_MASK	GENMASK(35, 32)
-+#define HISI_PTT_PMU_PATTERN_MASK	GENMASK(39, 36)
- 
- /**
-  * struct hisi_ptt_tune_desc - Describe tune event for PTT tune
-@@ -127,6 +129,7 @@ struct hisi_ptt_dma_buffer {
-  * @filter:    filter value for tracing the TLP headers
-  * @format:    format of the TLP headers to trace
-  * @type:      type of the TLP headers to trace
-+ * @pattern:   pattern of the TLP headers to trace
-  */
- struct hisi_ptt_trace_ctrl {
- 	struct hisi_ptt_dma_buffer *trace_buf;
-@@ -139,6 +142,7 @@ struct hisi_ptt_trace_ctrl {
- 	u32 filter:16;
- 	u32 format:1;
- 	u32 type:4;
-+	u32 pattern:1;
- };
- 
- /*
--- 
-2.33.0
+Ok.
+
+> > Commits like this one. Or is it better to keep the document short
+> > and simple - which it already isn't anymore.
+>=20
+> Feel free to suggest something to remove or rewrite parts with less
+> words=C2=A0
+
+I'll add it to my list, but it's pretty difficult.
+
+> -- in separate patches of course. I know my writing is pretty
+> verbose, sorry; partly that's my style, partly it might be because I'm
+> not a native speaker, and partly it's like that because I know about too
+> many corner cases that I try to prevent users running into.
+
+That=C2=B4s a feature.
+
+> > ---
+> > =C2=A0.../verify-bugs-and-bisect-regressions.rst=C2=A0=C2=A0=C2=A0 | 24=
+ +++++++++----------
+> > =C2=A01 file changed, 12 insertions(+), 12 deletions(-)
+> >=20
+> > diff --git a/Documentation/admin-guide/verify-bugs-and-bisect-regressio=
+ns.rst
+> > b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+> > index 7d38393f31f..9296e3f5410 100644
+> > --- a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+> > +++ b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+> > @@ -163,7 +163,7 @@ will be considered the 'good' release and used to p=
+repare the .config file.
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 section 'Complementary tasks: cleanup du=
+ring and after the process'
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 below.
+> > =C2=A0
+> > -=C2=A0 d) Once your finished the bisection, put a few things away::
+> > +=C2=A0 d) Once you have finished the bisection, put a few things away:=
+:
+> > =C2=A0
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cd ~/linux/
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git bisect log > ~/bisect-lo=
+g
+> > @@ -178,8 +178,8 @@ will be considered the 'good' release and used to p=
+repare the .config file.
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ./scripts/config --set-str C=
+ONFIG_LOCALVERSION '-local-cafec0cacaca0-reverted'
+> > =C2=A0
+> > =C2=A0=C2=A0=C2=A0=C2=A0 This is optional, as some commits are impossib=
+le to revert. But if the
+> > -=C2=A0=C2=A0=C2=A0 second command worked flawlessly, build, install, a=
+nd boot one more kernel
+> > -=C2=A0=C2=A0=C2=A0 kernel; just this time skip the first command copyi=
+ng the base .config file
+> > +=C2=A0=C2=A0=C2=A0 second command worked flawlessly, build, install, a=
+nd boot one more kernel;
+> > +=C2=A0=C2=A0=C2=A0 just this time skip the first command copying the b=
+ase .config file
+> > =C2=A0=C2=A0=C2=A0=C2=A0 over, as that already has been taken care off.
+>=20
+> I'd move the "over, " to the previous line, as the formatting otherwise
+> looks odd. Not strictly required and makes the patch slightly more
+> complex (so might not be the best idea, but I think it's worth when it's
+> just one line).
+
+I'd do the same, prior feedback taught me otherwise. I'll do it.
+
+The remaining suggestions are good, will incorporate them.
+
+Thanks
+ Manuel=20
+
+> > =C2=A0...
+> ...
+> Ciao, Thorsten
 
