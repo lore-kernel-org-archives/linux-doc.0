@@ -1,121 +1,96 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5A34749D7
-	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 11:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCE73F074A;
+	Fri,  4 Sep 2026 11:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788521591; cv=none; b=MEH24fN2JP/G2FGl8lPl19wUfK5BdN2WLTyYbYjtbwyVyLHg/m98MHgMMfAXlllWInYNz7HApPQfZu7/jRSk9k/XfjTLMHNsyETv2WugVkgn21KpLH66ia76fZnz5MsYX8zPeLukimn0+Muz4AlE7UrCuC5aci7P3cyLNTOLxrE=
+	t=1788522197; cv=none; b=DO4InnG+DTuHf/KLEVUzgQiBx8Ef6dYf67kwLYMbc6/cliWokhvWL2n35wJzfPeesATgc/9FOCJgIGL1yCh1MqeW1YrcJ3BQZC1gWFL3xXP+OpP11m9PdynIxHrdSrHcDjoRE2Cw86QVBNztYf6xBJ150Kohv+w68oc9tq9v5Ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788521591; c=relaxed/simple;
-	bh=7PDPqTJeVpY7sV80mv2Dt/DZ2OUC0Kw0gnHDFrloR9w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zf29sP05HpXB+rnODCtj2m7FNFFIxnQszX+xvc1qBVzbFw28n7ZpbUz9gHigyTH/qDXnPWPgOolqBpbgZj+MLuzrQN+hSI+bhvOMTGjlM/giEzeDAG7lo7gAwIjklBkV/UiiOhQ4Yo8h12qpSKvhYQj0/kpeykuBF1OdVkBIdXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ANhjfi3J; arc=none smtp.client-ip=209.85.167.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788522197; c=relaxed/simple;
+	bh=GgWGA3tRFjwasRcdaTq8NFprGOZYrgriEgoqozAWbas=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C9km6rf3UeVgX1vkp/uBhjUNpOie+d5MbgiDaatqsZol5x9UducZ2sGCqQmvLi8RYvkv09dlO+ZXOOOSL6+wPqS+tWrp0DjPl6yvrCJPZudN5vbAuOXQ6jTEVq3Odjl+DVDGM1G71Y8/nASOgG8ND1N6ltT1hSbJw1OcXsptPwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=efkQZLkq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ANhjfi3J"
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-4af173320f9so623725b6e.2
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 04:33:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788521588; x=1789126388; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ikztmPTNBMqsUkOsnaMhukEmaEOjEaj+FkA+gBzLwdE=;
-        b=ANhjfi3J22Gtg/85NohE0UvzxNCUKWOFYwEj0iwXGGOIiWOF+Q1RzGf9akG/hFOZwH
-         3COCHHfp+OrRZBDnO49oYOX99sPZOPNMhuNktxYZ/v70z5GHZtIyzUXzd8Jka4t7G4LX
-         gApFAef/QiMEmd4+1Q4hHrMWzDpiNlFG2y6+ctMKVcZ20HqhGPTHAGmx+MxWu442MyaK
-         CspUfoRTu48O3I1ihIWEZ4F6d+pKbEKpZya0PnYjmfuIYhoTm334Q8r4Ny9ucKuj+6YU
-         nWcV1sIWicX8pJrUUmZ0DnN7OyQNbAgIriGiRGo8b5ytjvHVAAPGuwVm070zkK0N3Lpj
-         DdUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788521588; x=1789126388;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ikztmPTNBMqsUkOsnaMhukEmaEOjEaj+FkA+gBzLwdE=;
-        b=FJEJfXZxkwifwlK15A0ZIUYX8AsqgZNpnVwuNNElv36Ni4jm0llRm+Io7A5oY1NSPM
-         WGq8qv7tM9ExnlDO/pSVWf9O3ngNJ9l1p4jecrFRAeZzJ73VJZF6mgPu/1PK+Zdh3vFk
-         EDV1t9VKM0QI3KjlmzWIVauTMRleyVn/ogteAIOfh0IVCu9lloMIPx9YJNtUPpOjABkp
-         I7tAIlL07UrXjPcSZyYxMXhrG5qlNDx5nhYzHTB+p2PiY9bG7G4APa9ElRHWDjLutp3q
-         +tLUcDUM8i9/RxFlgIb5FWUg3WYDtbFrO03v0k6pluYr4tpiJxSsuc+yJT/IHY0Rm/c7
-         N5Gw==
-X-Forwarded-Encrypted: i=1; AKwUvByrobiQ02XXICPCmiN5k+KSPihy115brSTuZadSFkg4+xV8/VX9dEqflah4KoD927POmQoib7XNPoc=@vger.kernel.org
-X-Gm-Message-State: AFuF++lJpdBbgPTEKQd2PKPjylwLmYZhQwh3hGTv6zwCp5j3O9uez0iI
-	7dPFAxgmf9fgtol+N3UjiHhKB36fTkgLVxLefx5zIuJtZO9l/k3DoQnf
-X-Gm-Gg: AYBFou3VGTToWqZk543U1v6BpKWqkzCBxhJbarV2Engzeh/e6+uybmbWJS8BE8SAz5i
-	cEdemXjqdi8mBX3RhckWLEdRz4WE0fYC6WsE0F3b4zZiQQs3Bhh6+ia2Cxoc5Fk3WDi/a8k/tgn
-	P2YWABpllrzY/ObOJ8J1U4Pj0/M1hRiC0+DVbUnz7+rYblCsO01SaFdfsZZcqPXvA4N5YEUjKkd
-	iVOnvDTmKAZ+ywCZ1XHV+o3u7pIojIvHjomT5uPTkuUf3Zfk2F+Mvg/HYDNxSVOLHb3MqpcWEiC
-	WjWiAZXUUZebfVsDd4IbkUk6GOT4X1pOM8xy9QXCyFiLLtbWzT6xrrNWrfEAySxfR1oiwM190gl
-	dmJpPTd8KUcnPSKqjVcDOSBm9kIMaYQ2OfQpQzYCfGkDFKK6d4OHeLRHOjJLkM6kDtpNfuP3bjg
-	85hIe+Twfwayl1OPc6Vpka/rLl/tmz2wHczKkdnE6887/5Isb0OXPuZ5Siity8QAKmDIRckE3EI
-	abGEpD8zVUjFcE=
-X-Received: by 2002:a05:6820:8118:b0:6b7:8415:d78c with SMTP id 006d021491bc7-6b78415d913mr1302066eaf.55.1788521588529;
-        Fri, 04 Sep 2026 04:33:08 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339a534d0asm6469759eec.8.2026.09.04.04.33.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 04:33:08 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] tools/lib: fix typos in comments
-Date: Fri,  4 Sep 2026 17:02:56 +0530
-Message-ID: <20260904113257.13594-3-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20260904113257.13594-1-hemanth.selam@gmail.com>
-References: <20260904113257.13594-1-hemanth.selam@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="efkQZLkq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49D921F00A3D;
+	Fri,  4 Sep 2026 11:43:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788522196;
+	bh=GgWGA3tRFjwasRcdaTq8NFprGOZYrgriEgoqozAWbas=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=efkQZLkqO4RDG32p3HDB8moibYfGgFtd8IwObc9ULUb9uy4aZBXv2JOkJtTz9C6li
+	 KtIg1q+pF0wM/bOMpHN5Oh6qCpbIIaKAacLSD1Uq/WWlqNTeUbJsr2QW6E02nVhp//
+	 uG4KoC9KTlJs8Ioscr39heJ6S+2Psr2BSfhULVwhom8MQbfXkgDA3BZ2tfDe7IabKh
+	 BLoNMIVmNnCWY8HYpaL9rlMkrbwoBg0ErSuHzN6dluM8l37m5k1GTlhxmdNqCetxP8
+	 zaZdI7hJn71deW1GZadBBQ7vdgi2JMIpmEQkTK6Wl9nMhlLrkPJcrkb6u1dX/r56sG
+	 nGCPs3n+Zs5rg==
+Date: Fri, 4 Sep 2026 12:43:04 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Tigran Aivazian <aivazian.tigran@gmail.com>
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jan Kara <jack@suse.cz>, Jakub Kicinski <kuba@kernel.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Hisam Mehboob <hisamshar@gmail.com>, 
+	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>, Christian Brauner <brauner@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Eric Biggers <ebiggers@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	David Howells <dhowells@redhat.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Theodore Ts'o <tytso@mit.edu>, Catalin Iacob <iacobcatalin@gmail.com>, 
+	Stephen Hemminger <stephen@networkplumber.org>, Andrew Lunn <andrew@lunn.ch>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Andrei Vagin <avagin@gmail.com>, 
+	Wei Yang <richard.weiyang@gmail.com>, Bhavik Sachdev <b.sachdev1904@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Wang Yan <wangyan01@kylinos.cn>, 
+	Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, Malaya Kumar Rout <malayarout91@gmail.com>, 
+	linux-doc@vger.kernel.org, linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH] bfs: remove the filesystem
+Message-ID: <apqtweK_abU7IsUc@gremlin>
+References: <20260904082954.48738-1-enelsonmoore@gmail.com>
+ <apqXNCL4X_i6xy2Z@gremlin>
+ <CAK+_RLm9HKkm8YCCanpOMxaMaAkt5eoxQBHBxC1-Xkvj=L=UsQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK+_RLm9HKkm8YCCanpOMxaMaAkt5eoxQBHBxC1-Xkvj=L=UsQ@mail.gmail.com>
 
-Fix typos in comments, reported by scripts/checkpatch.pl using the
-misspelling list in scripts/spelling.txt.  Only touches comments, no code
-changes.
+On Fri, Sep 04, 2026 at 11:18:10AM +0100, Tigran Aivazian wrote:
+> On Fri, 4 Sept 2026 at 11:05, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> > Based on Jan's feedback at [0] that closes the loop (it is indeed a
+> > maintenance headache):
+> >
+> > Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> >
+> > [0]:https://lore.kernel.org/all/35dsgpk5dsh6bm4xoblrq6hdslfvtuibl5grzag37cye2hgepk@rkrtkjxdyk5g/
+>
+> Ok, I won't cry about it :)
+>
+> In fact, if I may, I would like to say that it is a pleasure to be in
+> your (pl.) company once again. Looking at the list of people included
+> here -- some familiar, some unfamiliar -- I remember the younger days.
+> I have done my tiny share of contributing to the Linux kernel as best
+> as I could, but as I now grow older I can no longer maintain BFS
+> (older does not mean inactive, just active at other things), so if it
+> does give maintenance headache, by all means -- remove it :)
+>
+> Acked-by: Tigran Aivazian <aivazian.tigran@gmail.com>
+>
+> PS. This reminds me of d'Artagnan's phrase from the Soviet version of
+> "The Three Musketeers" -- "my consolation is that if I am to be
+> killed, I will be killed by a true musketeer" :)
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
----
- tools/lib/python/kdoc/c_lex.py        | 2 +-
- tools/lib/python/kdoc/xforms_lists.py | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Well I think that is the classiest response I've ever seen on-list :) huge
+respect for that!
 
-diff --git a/tools/lib/python/kdoc/c_lex.py b/tools/lib/python/kdoc/c_lex.py
-index cb95f5172448..efbc23c01abd 100644
---- a/tools/lib/python/kdoc/c_lex.py
-+++ b/tools/lib/python/kdoc/c_lex.py
-@@ -68,7 +68,7 @@ class CToken():
- 
-     MISMATCH = 255  #: an error indicator: should never happen in practice.
- 
--    # Dict to convert from an enum interger into a string.
-+    # Dict to convert from an enum integer into a string.
-     _name_by_val = {v: k for k, v in dict(vars()).items() if isinstance(v, int)}
- 
-     # Dict to convert from string to an enum-like integer value.
-diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-index e3dda2fe8a53..423e2bab7667 100644
---- a/tools/lib/python/kdoc/xforms_lists.py
-+++ b/tools/lib/python/kdoc/xforms_lists.py
-@@ -53,7 +53,7 @@ class CTransforms:
-         (CMatch("__attribute__"), ""),
- 
-         #
--        # Macro __struct_group() creates an union with an anonymous
-+        # Macro __struct_group() creates a union with an anonymous
-         # and a non-anonymous struct, depending on the parameters. We only
-         # need one of those at kernel-doc, as we won't be documenting the same
-         # members twice.
--- 
-2.48.1
-
+--
+Cheers, Lorenzo
