@@ -1,97 +1,126 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B524B5013AA
-	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 16:03:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5CB3ACA4B;
+	Fri,  4 Sep 2026 16:06:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788537837; cv=none; b=czWFnz4Xc+sYoxzu3Ca6lZp45tjqjFZsxxYnw3b94xTVuJdXOU049aleaGiL339Kv8MfGMd4OO2obZSx/Xj0wT4MIE66jSndvSRKOSTGWPmKGa+563cD8xbYJB2ABp5g0jN6bAn/iObxgYWfC6NC61KTflCZY7RUSxgIAX1MxSI=
+	t=1788538000; cv=none; b=XW5XykRisGHZRhH++zFFu45/uCMdNC5LlXpa0D+P8l2zY9nVJxMw1fn9HX/6jeMW/ZpF/jSMenK1Oml8Q13y8tDjW6vKDiM6CV1nh9NTC4La3D7Z2vhA80neU6m756ybRoIDiyaKeo7rD/Vu4uLN8VwN0dhhxyT5Ip77hcldpRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788537837; c=relaxed/simple;
-	bh=dwYpB4UPZRfQY3y88qC6Q+iSDcIijtraEl46+LBFoUw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l+TsEKrh9NC1ND0Jsh9dxEaI3CB9mhcwYgzlMt8nyu98RHHwk0c8Pf5tQKWUazpIR93tGe+IWtPryFxUx6mZ6Nn9u/P3yHrFviK1rIxr5Mpfkf+C0Bo1UJtTjbLO4f75luLcNUnmkdE3+wdh9C+zr0NyP1gC68dDtuykXe3BGL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QDnO+y8y; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788538000; c=relaxed/simple;
+	bh=8FSb/gjuciMqhZIT4RXlFvIKNcHmDi84w1BldFvuDhY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sh/qN0alBc0a63zT/HPfMMRa4x3ha6j7NVeMS2us1rZ6NZfxV5Ip5df1wjlyySXZqLcyilEEGIShWyCgM9YWeEQu5sE5sTEv9ZQ6TVD/BGpYCNhb5jNG0omKeiuWapAkcV+BoXAq9ZyhlDAJdKaZUDfqxcfLplEB1ix+yjSH63Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CFVs81Nr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QDnO+y8y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72D0B1F01559
-	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 16:03:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CFVs81Nr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B31E1F00A3D;
+	Fri,  4 Sep 2026 16:06:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788537835;
-	bh=ldIq+F8nOlAbUH2eoWqdxCJavo0VkxCg3Zmbg8MzPNs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=QDnO+y8yKAhQ4LSHuX2dqHxA8J4fOEAe8dfmB6oEohZHOTAf7lHpNnbDk22mFwJWE
-	 CQBHaOo5Si+hzg/GuaAd6Kioxq+fUwq3daLYTF/l/jXqwQzWKrt53Myhpor8TnaMub
-	 I340Lk8N4i/22c0B/ccabZNOl8V3/Sf9L1EeMmRIUEIeaz9ZQovo2boGdbvTATWdbv
-	 ccjoNVbrfFUTGlE7vRo7s10fCW5uYYsBYzSqHOSRmMmWQcS9Vx9pWpay2TUKYQYBSy
-	 47DLYpqBNVE1yZJyDmg7PJ29F7ILovXTCYrgJk/OkALTD5MGzNwIdSya9j8TYNErP8
-	 9eEgBSEFSEOAQ==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5b2b92065ffso1013540e87.1
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 09:03:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwS4tMVIW/kd83vnyeAHP4KKEIgqRx1HIcF9fnz6Q1OEI7ntp827wLEIKH3F3R5JmdOJiPotztzXAI=@vger.kernel.org
-X-Gm-Message-State: AFuF++mEHK/IohIV9YudZ098Hdwcc8Xv5Iz/31A/zyvmJr0jkkaH9qj8
-	GAY9j+haJOxbz9evG/Mcw/TNc/N+96h+eDyAtv1z6wgy3GAFzHYRfUrI0/B/dy7F1f40MIFWRkC
-	qTNn7Sge3AkEwlQGA7HzUX4z7VF78BOg=
-X-Received: by 2002:a05:6512:2311:b0:5b6:1a7c:aa1c with SMTP id
- 2adb3069b0e04-5b61a7cac90mr824179e87.52.1788537833747; Fri, 04 Sep 2026
- 09:03:53 -0700 (PDT)
+	s=k20260515; t=1788537990;
+	bh=89DU0GapqiOZlaA7jU9CQs5/T4ZZ4b0KeYVQAFryc+c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CFVs81Nrix1xWs3kup1P05Krc0JJYYhS/ViPHckidBWbZUUGJsinV0OpG0P2Yp0BM
+	 Yi+nMeESljaXeDglpK+m7DNQxDrSYy8UGDgOQoERJShk9RAc41+SjMQlXp7YkTY/cs
+	 KX7Zc2qg+zrln15rB1FL9dhfPpQNrATWQEC0mVvJPFKr8EUGnQG1Al5bkXiPq+CkAV
+	 8ASReE6E/YXuMju48gmLyNRm35+cwsjDqveHmTZAEelBBwGoMRCiXvPw2ZAyXgeW7s
+	 FNu/myp6GFkUNY3kus7xr2P0HhWcShI8J6dlb8+vBIMclZAmORFzAg8TXYBEMMFa6n
+	 RwUUxSxh+CnkA==
+Date: Fri, 4 Sep 2026 17:06:19 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jan Kara <jack@suse.cz>, Jakub Kicinski <kuba@kernel.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Hisam Mehboob <hisamshar@gmail.com>, 
+	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>, Amir Goldstein <amir73il@gmail.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Eric Biggers <ebiggers@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, David Howells <dhowells@redhat.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Theodore Ts'o <tytso@mit.edu>, 
+	Catalin Iacob <iacobcatalin@gmail.com>, Stephen Hemminger <stephen@networkplumber.org>, 
+	Andrew Lunn <andrew@lunn.ch>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
+	Andrei Vagin <avagin@gmail.com>, Wei Yang <richard.weiyang@gmail.com>, 
+	Bhavik Sachdev <b.sachdev1904@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Wang Yan <wangyan01@kylinos.cn>, Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, 
+	Malaya Kumar Rout <malayarout91@gmail.com>, linux-doc@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Luis de Bethencourt <luisbg@kernel.org>, 
+	Salah Triki <salah.triki@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH] bfs: remove the filesystem
+Message-ID: <aprr9xUwEmjA1N5T@gremlin>
+References: <20260904082954.48738-1-enelsonmoore@gmail.com>
+ <20260904-hinnimmt-triumphieren-handgefertigt-4e51fe2ed659@brauner>
+ <20260904151054.GG6047@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260903160751.734704-2-manuelebnerli@mailbox.org> <3d656f96-c2c6-4783-847c-4a6c0f6398a0@infradead.org>
-In-Reply-To: <3d656f96-c2c6-4783-847c-4a6c0f6398a0@infradead.org>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 4 Sep 2026 18:02:51 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0iq02vx1=GR0Z2nX3Lvf0nUSN0xP9V8OgmTpixY5msH0w@mail.gmail.com>
-X-Gm-Features: AcwNN1XzLH-hyhpEtB8RRgMIur_yGiVcTYJ0ARKDCSydD4vBpdbfVs2EQjamVK0
-Message-ID: <CAJZ5v0iq02vx1=GR0Z2nX3Lvf0nUSN0xP9V8OgmTpixY5msH0w@mail.gmail.com>
-Subject: Re: [PATCH] docs: thermal: cpu-idle-cooling.rst: Fix bracket
-To: Randy Dunlap <rdunlap@infradead.org>, Manuel Ebner <manuelebnerli@mailbox.org>
-Cc: Amit Daniel Kachhap <amit.kachhap@gmail.com>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Zhang Rui <rui.zhang@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-pm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260904151054.GG6047@frogsfrogsfrogs>
 
-On Thu, Sep 3, 2026 at 7:22=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
- wrote:
->
->
->
-> On 9/3/26 9:07 AM, Manuel Ebner wrote:
-> > Remove needless '(' from equation.
+On Fri, Sep 04, 2026 at 08:10:54AM -0700, Darrick J. Wong wrote:
+> On Fri, Sep 04, 2026 at 12:43:09PM +0200, Christian Brauner wrote:
+> > On Fri, 04 Sep 2026 01:29:19 -0700, Ethan Nelson-Moore wrote:
+> > > bfs: remove the filesystem
 > >
-> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> > I agree.
 >
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> At the moment, I don't.  Nowhere in this thread does anyone mention what
+> someone with a B(oot)FS filesystem image should do if they want to
+> extract whatever's stored in the filesystem.  Are there userspace tools
+> for that purpose (ala efs)?  Does "binwalk -e $bfs_image" suffice for
+> that purpose?  Or is there solid evidence that there isn't even a single
+> user (ala freevxfs) who strongly wants it to stay in?
+>
+> I'm all for getting rid of old cruft but there still needs to be a
+> documented offramp for users.
 
-Applied as 7.4 material, thanks!
+Use an older/downstream version of linux? :)
 
+It's like the museum piece arch stuff - people argue vigorously in favour of
+nommu (which btw is a variety of linux that _doesn't implement forking_ :)))
+gesticulating at talks given at conferences etc.
+
+But then never quite answer the 'why not use an older version of linux' or 'why
+not just maintain it downstraem for the 3 people who need it'.
+
+Also worth consider what the Venn diagram overlap of bfs users and people
+running even-vaguely-tip kernels/likely to ever upgrade is. Quite likely zero I
+expect?
+
+I get the desire not to lose people their data, but the code's not gone away
+forever :)
+
+>
+> --D
+>
 > > ---
-> >  Documentation/driver-api/thermal/cpu-idle-cooling.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > diff --git a/Documentation/driver-api/thermal/cpu-idle-cooling.rst b/Do=
-cumentation/driver-api/thermal/cpu-idle-cooling.rst
-> > index c2a7ca676..b9d4c91a7 100644
-> > --- a/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-> > +++ b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-> > @@ -161,7 +161,7 @@ tree. So with the idle injection mechanism, we want=
- an average power
-> >  specific OPP and idle another amount of time. That could be put in a
-> >  equation::
+> > Applied to the vfs-7.4.bfs branch of the vfs/vfs.git tree.
+> > Patches in the vfs-7.4.bfs branch should appear in linux-next soon.
 > >
-> > - P(opp)target =3D ((Trunning x (P(opp)running) + (Tidle x P(opp)idle))=
- /
-> > + P(opp)target =3D (Trunning x (P(opp)running) + (Tidle x P(opp)idle)) =
-/
-> >                       (Trunning + Tidle)
+> > Please report any outstanding bugs that were missed during review in a
+> > new review to the original patch series allowing us to drop it.
 > >
-> >    ...
->
-> --
+> > It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> > patch has now been applied. If possible patch trailers will be updated.
+> >
+> > Note that commit hashes shown below are subject to change due to rebase,
+> > trailer updates or similar. If in doubt, please check the listed branch.
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> > branch: vfs-7.4.bfs
+> >
+> > [1/1] bfs: remove the filesystem
+> >       https://git.kernel.org/vfs/vfs/c/e36781a626b2
+> >
+> >
+
+--
+Cheers, Lorenzo
