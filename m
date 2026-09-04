@@ -1,152 +1,85 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4963B27E9
-	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 03:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0E23C8C52;
+	Fri,  4 Sep 2026 03:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788491891; cv=none; b=hnq2hPbh46a/f8r8CjhvJPO4lPnTqmTbltReJ4TrybuyydQNC6giLj24knVh9xEreETi3ER3xb5jdRwGCTvDmOdkH3pJO/ZAu3gx129rKEdGgtBZ1Vy3sSw4LpqGCm6TZO406zTi3fZtgFyNlJaDWM6W+WpUHASsdWAWToURHD0=
+	t=1788493103; cv=none; b=nqNXNHEDYK2KPaHgpi4HLz+ElKi6JaNWhHUzNZ0SS1yKGkc0pN92vA8GA6G+yKRHiXE/bbR3DJ4BVwdYGcf2vbd/XrThP6qfk1Qzv1PHgouQD8sgO6l8TBMEc2EkIU+QYOWycV3g4CsXBQRan99JpmeXtabeAcIZW8PasRnRs8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788491891; c=relaxed/simple;
-	bh=AIU6NGTW/RpZfTt6y2cuypcAmkoFDaCDqNNZTCJi0Bc=;
+	s=arc-20240116; t=1788493103; c=relaxed/simple;
+	bh=B/Uwu3tSJCx/BGi14uLQD7KBnCJ9U1h3zvdgO7QlpK8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NxSNw9dx7k+NrW5r/p8EYarm+82yUx2hEhZMX/ZMBuFICVnY/FCIb50XO6qg3uOtWAx0Z3/xhiP5bR21hv+Y52PiSGgzSI5+JSB24SQjkfTHrVJtAOZoK3oIlpde4nRDBqqAgVHhcFWYAFUMFuUDEL1eQYnEGseFpKrBwD2KYMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=XXnf1qrk; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=HlGHiKxR9NgQZF2in3QArkSzZWCfEGPPju4vVjHM8QWD7D7Mcze6r29hzGF05JIM/7+L/JGyJxNgark6Bkxx7nEVnOzePwO47xk8DF/JKrShIVWSbKNHNFE/K1V0HiGyGdNv6iossXblrNgQWvWu33fN+13YXfj9laRRLwYNJEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Z7s8VEGG; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="XXnf1qrk"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-52e2d1bdbc0so4672041cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 03 Sep 2026 20:18:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1788491887; x=1789096687; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=I82bST350eZ9tF0sXAbqbqSO4hf+URoRFBA/uGedV7I=;
-        b=XXnf1qrkElo3aCzA7QExaOWSdNxP/unmoxpQ7Nl14LSqP+OXLeyp+7TwEx+/0vPFXS
-         mbXWBII3WXz82rpc/mRXs5oQAafMXv/lR9i6NSNTO7vI6fbUQ9Lm/H+/70dUKyPYID/D
-         rINud0bXIB6JWQRfob5+wo6/7GzlrBSpoLZZyO4V6Mq1y4oT1jQb28+99bKN5jmlVfq7
-         XLGDbXv6L3DciY+gWrXNu3RIZDTtpgb+GehzhnXRXGRkpYwMGg9GSc7zeFG53wLU+gCx
-         flGxyi214iKlFdnetOf0+RVR7gjNDakGPu1348MlAGrbuEUQ+hjaFC/oLLirlUZ3Lv2L
-         lQ3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788491887; x=1789096687;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=I82bST350eZ9tF0sXAbqbqSO4hf+URoRFBA/uGedV7I=;
-        b=Eq2x78/Qh9WNqKxOVVUT2Y26R3J096bgTFU9KSE4u2pxDrOM2kATsQtzm8WsycJWGn
-         Qlu7oJmvasuDRqwDBka+St68a+hQTRbBUhTfR6s2ncK9bpJQ9O2D8EFN5WjR6RqElEPo
-         Vl8w9IC3g6Df0hU2iNm1aS3Ev64gBkw10G/svV4ymnUdGzf7v+WZ14+lWwKC0kTwIUeY
-         G6QynTnnVfabsm6wuAns4N9UWWrNi85GUSwEfDIzNR90ONhi1pxIKGx+yDoD7O7B6Mec
-         pXRNUuCbvzk1H9oR5y2+LHTa1Q6mNaXgyuvwPoT16b64BafLm2c1TlnkSn96gZpa+A1J
-         dhMw==
-X-Forwarded-Encrypted: i=1; AKwUvBzXB/UsSwYgZxdKZc/6IEZe/2JcB/OMv7HoIM6ET4v2xtDS2N/9hif5vU3PSN8NKOMtYh58iq7lK5w=@vger.kernel.org
-X-Gm-Message-State: AFuF++lYfwQrfD8IggJQpAIOeZQt0lMNte75Q0d4RvJcaz40OmxnKwjH
-	5HklHqBBrXA7mAfKKidMr7LpBjx2AOCKLfqqizIimBsUQRkjH6kWv+p2D/l8aaxAbqA=
-X-Gm-Gg: AYBFou3lAGqTNL3QcdnNf1VHw/lKcHqiR28cReSaZKBkECl7J5pQJP2Higl2+EFFhjo
-	S+Yc0+N3jsX3QhV2Pz7lD8a30Ol46XixPuy8Cj8htpIrz+j2nEaxZ3eFST45KkMD3XY6NbFf9xo
-	1XuxBZzecJhGFs5258erGQJcEretOg1TwUocIpUDI05/uBCnTfsI1CYlKDfab7ZcTdMM5CH/LSk
-	/pHdRLO+C63fZM3dt8YfOTWkSU3vn7v5SwuxMtslAsxyYpnJvAUM1VZWNP6a2j6o2TTA8e900Tp
-	y961zBKwIMKk0CSQHy1ddYvEL4Av1kiYIPLtcoMZ4d/1VTzR9ovLChM+cbeW1BUboF15GEgvkys
-	pfp7yjcDwTgCiOXN6IuWEwjaeOtnfVsrb/vcW8jyXBKDarri7b07oSmCqUOT3YKUfTgi/KKtoH6
-	pyhRhKEuMh2ryZlAGvyVF+CtCnowIGkANEw44CdopYXJuQ+M7J4qq2gxHUBogjdKJ+SEOpU3NJq
-	mDvHpzyeLkKtukbk0XskAP/KTwYTn8QND33qwoTZWsFC2crUlL2im8=
-X-Received: by 2002:a05:622a:1c18:b0:52d:4f43:d5b0 with SMTP id d75a77b69052e-530548bc5e0mr43078621cf.22.1788491887027;
-        Thu, 03 Sep 2026 20:18:07 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5305402a7b7sm11260161cf.3.2026.09.03.20.18.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 20:18:06 -0700 (PDT)
-Date: Thu, 3 Sep 2026 23:18:03 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Qiqi Li <liqiqi23@huawei.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
-	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
-	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 25/36] mm/memory_hotplug: support N_MEMORY_PRIVATE
- node hotplug
-Message-ID: <apo3bZab6qtCosQM@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <20260720193431.3841992-26-gourry@gourry.net>
- <6840c720-8cb7-46bb-a652-040c130a4427@huawei.com>
- <aoJaaYp30LnKLj1w@gourry-fedora-PF4VCD3F>
- <0334fe7d-d949-45f7-8914-3012cb11b740@huawei.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Z7s8VEGG"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3719A40E016C;
+	Fri,  4 Sep 2026 03:38:19 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id OunsccZEpS6a; Fri,  4 Sep 2026 03:38:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1788493089; bh=puQU8kxmxcVlZJ33kJImb3eTEgEbDYI/ctH1clNKuRE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z7s8VEGGVGNdr03uNrd96I2wtGpHKZ8FXvGtwCm89Igi4AoWxSUuxBOrt55qH/wme
+	 52QFiFEO6iavP5aJOq+MTUekz191tC7puYD38DuCcad3FeKhHiORwKjNcQMfxfa1cr
+	 HM4gnLJMn5YfYrDMjH9Tb/GVT2FwhakvbHyMbY9+7qjx+TOyLt+2WrWrwhZAZv/852
+	 /aJAdiXktBL0Ikd/DmOOukjgL8qUDSn0O91/wZhHs1rOLQrqmuI0EZjdJAcz2zPBnI
+	 53feFWzvRaLp0TQQFlEmtz/zzjkOmh6Xgu4iaXfntnUzUnQQLczfNKEZOoLZ+NIoUa
+	 LHX7+Z3h20SzwOU5EmVrwwOv9A3J4cgeXg1AGEn+IlCO9mTNFa3E+h6zN4qxmW9ncr
+	 NcITqx+cfbmv186YVAE6NiV/JU+PmiBr+kQ/+BkYFNJYzL14OnYrvZ7Ac8sCSU754E
+	 PLXGFwKF8o9Ed46XzzqKn3ZD7D4dm68vL2ZRKjBKdbkV0sU3EQ9HLz2SOZWNCbL2te
+	 lu8/AayQg8Pao0P9DUeq//3NP6ZZjCakudWlrisMUaLoTUmmLNQ7HjxuFtYgpPEq/D
+	 HcX8x6MS3hGNC2tWKKHlEVvqOtMXbl9UVuyZhfyDbd67U8GXDRUsULJjwkx332iRze
+	 Fht+vggHmVFBILqhx/V0d+Oc=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::46])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8CBD240E027F;
+	Fri,  4 Sep 2026 03:37:54 +0000 (UTC)
+Date: Thu, 3 Sep 2026 20:37:51 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Ben Horgan <ben.horgan@arm.com>, x86@kernel.org, james.morse@arm.com,
+	fenghuay@nvidia.com, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, tglx@linutronix.de,
+	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+	corbet@lwn.net, linux-doc@vger.kernel.org, dave.martin@arm.com
+Subject: Re: [PATCH v5 0/3] x86,fs/resctrl,arm_mpam: Factor MBA parse-time
+ conversion to be per-arch
+Message-ID: <20260904033751.GCapo9D5ZZXWuQkIpc@fat_crate.local>
+References: <20260709093111.367851-1-ben.horgan@arm.com>
+ <165e7636-d7e9-4d16-aad1-657b4a9698d0@intel.com>
+ <b0a7035e-7ffe-4e22-a4ae-a177640234b8@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0334fe7d-d949-45f7-8914-3012cb11b740@huawei.com>
+In-Reply-To: <b0a7035e-7ffe-4e22-a4ae-a177640234b8@intel.com>
 
-On Fri, Sep 04, 2026 at 09:05:39AM +0800, Qiqi Li wrote:
-> On 8/17/2026 8:49 AM, Gregory Price wrote:
-> > It would need to be reserved, and you could use numa emulation but
-> > that's clunky.  I have an RFC for exactly this issue - though i haven't
-> > pushed it further yet.
-> > 
-> > https://lore.kernel.org/all/20260610014517.253609-1-gourry@gourry.net/
+On Thu, Sep 03, 2026 at 08:40:48AM -0700, Reinette Chatre wrote:
+> Could you please consider this series for inclusion during this cycle? It applies cleanly on
+> top of v7.3-rc1.
 > 
-> Hi Gregory,
-> 
-> Sorry for the late reply.
-> 
-> I took a look at the exclusive-node RFC. The approach looks useful for
-> device-backed private memory without a firmware-described NUMA node.
-> Thanks for the pointer.
-> 
-> We are currently looking into the private-node and CRAM design as a
-> whole. I noticed that CRAM was not included with the v5 series, and saw
-> that others were also interested in a v5 version.
-> 
-> If you already have a CRAM branch or patches based on v5, even if they
-> are still work in progress, would you mind sharing them? It would be
-> very helpful for us to continue testing the overall design.
->
+> Please do let us know if you have a preference for how changes touching all parts
+> of resctrl (filesystem, x86, Arm) should be handled.
 
-I dropped it off because it was starting to become unwieldly, but i am
-continuing to maintain a branch on my github:
+Lemme have a look.
 
-https://github.com/gourryinverse/linux/commits/scratch/gourry/cramtest/cram_72/
+-- 
+Regards/Gruss,
+    Boris.
 
-I have not posted a new version in some time and it has been reworked
-significantly in the past few months - but I plan to talk about this
-particular branch and the tests I've run with it at the device memory
-LPC micro-conference.
-
-I validated this branch against most in-tree (relevant) filesystems for
-the page-cache extension, but I imagine the anon-only version subset is
-the more immediately interesting for upstream development.
-
-I may include the anon-only version in v6, but I've been a bit busy
-shoring up the base private memory node core and implementing kernel
-selftests and LTP tests to ensure there's no userland api regressions.
-
-I hope to get something out later this month.
-
-~Gregory
+https://people.kernel.org/tglx/notes-about-netiquette
