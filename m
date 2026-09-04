@@ -1,104 +1,80 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3103CF210;
-	Fri,  4 Sep 2026 22:01:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8BB3793A8;
+	Fri,  4 Sep 2026 22:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788559300; cv=none; b=RlJDe8BnH8bos9NGbJkNHvVUyuO37fZsavut5IPwCdyetcti9D/r4xfcYJokVpfsAHPw4T94G8BIfJfYtgEABdC+2wpWigUgvEW/yOEhCMnw4B88vB7GmHS2TqYdTs89EL4KHSoP1yptjmw43sjcf7QzDNlyOGcozmRkjCFst5E=
+	t=1788559567; cv=none; b=pEB2czPdWnWkiDfuSr7va4DOFSM6KXUb7ILk/jW7zTFtfvlm4gcMvt98C8vb6kCFzGaYAIGAgYYc3II24LKVrkBYGMoh3yNyAqeB3gawia2w3Sw9ObSr4rxakjT8C+bUyTdOnU08fZmNg7At9zdbuVX1Z936f/AAAFUJ1G6DrxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788559300; c=relaxed/simple;
-	bh=v1XuRjqLHV7YZa19Y/k8ZEWM9PqviSOQ/a3sMcOz4Do=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KesDVL1HHqQYyS7Da/OAn8OFwQbjsDKirFDpBZoXoB6AGdsnnf1o2ZpYwH3GGurRc0rkWGUrqNf8WIA6PHV8r/g+6/wEOAiDkyCcXLsG41LIhXUsCIMmCM0CvHf5Rw/uqHWrold5epR9BAZjwqDANQ9iZTcqMMGpLBhu5OKMs4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EGpq9Xqc; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788559567; c=relaxed/simple;
+	bh=wm8+PJgjzSuZhpUrikIaCkC4jmcwOl8RfhMbnlQcNLg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f0DRIxLcfqr/ylca57iqwp01m+13wD4aEWaMkvxL2gcSU+pBgvaagVvG39wqyYDWR9ZR8s+yh48GZLnlbrQB9j8SdqXogUv3CMy0VMwqhM5VlNMcg4CzdFWy6YCR17ebJE3u4DzUDLG36wGhqjiYVHDymRlsTGk9S7HbyVEZhMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EqZu5Vy+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EGpq9Xqc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=QYmTyuFnsvf/PDZH49hxKDG2N4Q+xKDVO4XincLWpPI=; b=EGpq9XqcYC/kEAyuH5I0xiCrDd
-	HSuP1N0pQ1PsXHzhhEUQWHZs6dE2cDGlQkE8c2bsTkjXjqYisPtCnrZoECQXupDB4a6R5VaNTI7tU
-	KJwqYgTgkgmCmvKrtufI3eXSbNSe2CIfV+WLXzfWXWnBgqRkooB9gPjNTifmyZbcctEMhCpf5f55z
-	D5F7zWWkbkVi44NHdb/ixLw0rtW0hJWCq4fdMI1SpVq5FK8qrOpJvwAiM1zBUuaYUYywPq8qO53Fi
-	F9i5rGDUnXnh2Kd4xFrq6Jw5PKUZn3tFF25i2idFEkdAb/jYUpxi/tiERW5rY+KMbUqdxMLtWphxM
-	6WccDs1A==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2bya-00000003MbT-273E;
-	Fri, 04 Sep 2026 22:01:36 +0000
-Message-ID: <b7b77956-591f-4282-aaad-04c9f7899413@infradead.org>
-Date: Fri, 4 Sep 2026 15:01:35 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EqZu5Vy+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3FDA1F00A3D;
+	Fri,  4 Sep 2026 22:06:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788559566;
+	bh=IhCuvjICr0da7Vv1N/Ln8gkn39nWeE9v8Ut5DX4sgLk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EqZu5Vy+TsZdjTulipWcd1k84qtAZ27EWvDVP+Vly1Yy8oyq8McojME5+1ZPetjsu
+	 RaSFkdu5a1XHDR1GLF9I9YzkpTyx6hAanrMB1eSkD5OgK9n73Oo1a13xhJrAw/5Srh
+	 pKC+OD5dHcR1CssMwbB/1ISPFfZ+VT3+u56XAc4DtBnljvI9eh/c+0F4hE7bePMWZ8
+	 iizF+GcfTYhHM4J4CYY/oYvNSPXdFDTnSOYXdqMrxvrU7eOcf/XhIjMx5H7fV/57Nx
+	 yjQcPMslS39mnGLolOX9qWj0CkO58hmfpAOJ2bANNmz87Ffz9v1qSHiN5ZNdbAaUg6
+	 2S37nas+r4PQQ==
+Date: Fri, 4 Sep 2026 15:05:59 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Julian Braha <julianbraha@gmail.com>
+Cc: nsc@kernel.org, ojeda@kernel.org, akpm@linux-foundation.org,
+	jani.nikula@linux.intel.com, gary@garyguo.net,
+	gregkh@linuxfoundation.org, arnd@arndb.de, ljs@kernel.org,
+	andrew.jones@linux.dev, masahiroy@kernel.org, corbet@lwn.net,
+	qingfang.deng@linux.dev, demiobenour@gmail.com, ej@inai.de,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v4 0/5] add kconfirm
+Message-ID: <20260904220559.GB2787252@ax162>
+References: <20260727001623.2794156-1-julianbraha@gmail.com>
+ <51ade68e-7a0c-454e-a48a-4c72f7a730ac@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] Documentation/arch: fix typo "initalised" in comment
-To: Hemanth Selam <hemanth.selam@gmail.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org
-References: <20260904105114.29474-1-hemanth.selam@gmail.com>
- <20260904105114.29474-2-hemanth.selam@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260904105114.29474-2-hemanth.selam@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <51ade68e-7a0c-454e-a48a-4c72f7a730ac@gmail.com>
 
+On Fri, Sep 04, 2026 at 01:29:16PM +0100, Julian Braha wrote:
+> As I've been getting more comfortable with the in-tree Kconfig
+> interpreter, I've been wondering if the community might prefer the
+> gradual integration of lints directly into Kconfig, instead of as a
+> standalone tool. Similar to a comment by Jani on another patch [1].
 
+Yes, I would think from a user/general developer perspective, it would
+be more useful (and frankly, effective) to have these sort of
+lints/checks in Kconfig directly so that they just run as part of a
+normal build.
 
-On 9/4/26 3:51 AM, Hemanth Selam wrote:
-> Correct "initalised" to "initialized", reported by scripts/checkpatch.pl
-> using the misspelling list in scripts/spelling.txt.  Only touches comments,
-> no code changes.
-> 
-> Assisted-by: Cursor:claude-opus-5
-> Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+> Otherwise, I can do a round of self-review and send a v5 for this
+> series. I already noticed some dumb typos in the subject lines, but any
+> other feedback on v4 would be welcome if kconfirm is the preferred
+> route :)
 
-Yes, it's misspelled here. But please be aware of this (from
-Documentation/doc-guide/contributing.rst):
+My apologies for not getting to this sooner, I have been busy with some
+other projects. I will try to play around with this from a usability
+perspective (which is what I am most concerned with at this point). If a
+v5 is mostly prepared, I would not mind seeing it even if we want to go
+the in-tree interpreter checks. One option is to take kconfirm into the
+tree, fix up the warnings it generates, then moving the checks into the
+interpreter directly while dropping them from kconfirm (since the tree
+should be clean at that point). I am open to opinions on that though.
 
-Please note that some things are *not* typos and should not be "fixed":
-
- - Both American and British English spellings are allowed within the
-   kernel documentation.  There is no need to fix one by replacing it with
-   the other.
-
- - The question of whether a period should be followed by one or two spaces
-   is not to be debated in the context of kernel documentation.  Other
-   areas of rational disagreement, such as the "Oxford comma", are also
-   off-topic here.
-
-
-
-> ---
->  Documentation/arch/arm64/booting.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
-> index 13ef311dace8..0d5f8709a5f5 100644
-> --- a/Documentation/arch/arm64/booting.rst
-> +++ b/Documentation/arch/arm64/booting.rst
-> @@ -588,7 +588,7 @@ following manner:
->  
->  - CPUs with a "spin-table" enable-method must have a 'cpu-release-addr'
->    property in their cpu node.  This property identifies a
-> -  naturally-aligned 64-bit zero-initalised memory location.
-> +  naturally-aligned 64-bit zero-initialized memory location.
->  
->    These CPUs should spin outside of the kernel in a reserved area of
->    memory (communicated to the kernel by a /memreserve/ region in the
-
-thanks.
 -- 
-~Randy
-
+Cheers,
+Nathan
