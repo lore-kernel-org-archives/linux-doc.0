@@ -1,92 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2972A3ED5AC;
-	Fri,  4 Sep 2026 15:56:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B524B5013AA
+	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 16:03:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788537410; cv=none; b=svICS1iDnJX4VjrYyg5P1TiVSkeMu4wjQVC98J8Ra3V/9/f1j8AZi836nBeQ+HhBkGnRagDkDVz8+3F2QjZwJ/Xhd0DsBk6CfFocpTXV0bHOuq9DqsoCbbaq9M+rWnREJwSeyOpT4dGHI8rJ5zLgHvg0CiyIwR/2JBvSNHzBZn0=
+	t=1788537837; cv=none; b=czWFnz4Xc+sYoxzu3Ca6lZp45tjqjFZsxxYnw3b94xTVuJdXOU049aleaGiL339Kv8MfGMd4OO2obZSx/Xj0wT4MIE66jSndvSRKOSTGWPmKGa+563cD8xbYJB2ABp5g0jN6bAn/iObxgYWfC6NC61KTflCZY7RUSxgIAX1MxSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788537410; c=relaxed/simple;
-	bh=Wqe7V5jigU1tEd47oUdV0pAEqaxtM+usXsDQ8qTONt0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HTRGClaVf19ipfR/zOnw3mNP3/9IRzk7oyJZYrvAgmvG0hoU68FaRcIjs2WUfdgaWDEAZ0rJ5GRQ8Kn0kbzKifStM/xxrG3e+gmlw4IQaLzWsEh2W7LuoAKpnKtooDj0eCK9nCkvh7uwd02WqsvJ8wUjS1H9aN2QiisaGsnVBSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZxgXaINm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788537837; c=relaxed/simple;
+	bh=dwYpB4UPZRfQY3y88qC6Q+iSDcIijtraEl46+LBFoUw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l+TsEKrh9NC1ND0Jsh9dxEaI3CB9mhcwYgzlMt8nyu98RHHwk0c8Pf5tQKWUazpIR93tGe+IWtPryFxUx6mZ6Nn9u/P3yHrFviK1rIxr5Mpfkf+C0Bo1UJtTjbLO4f75luLcNUnmkdE3+wdh9C+zr0NyP1gC68dDtuykXe3BGL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QDnO+y8y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZxgXaINm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3E7B1F00A3D;
-	Fri,  4 Sep 2026 15:56:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QDnO+y8y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72D0B1F01559
+	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 16:03:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788537404;
-	bh=4g93PhMijTSLmg1+oQtraAOOBVjRubRTVEKa/SIB1qU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZxgXaINmrBPUiPnVR4hFz8KDLQM76R+1J9YHHt3zSIWttEfY1cHSOiEIz9mgZ9YQb
-	 Pu8j3HO5v7K+VyBVIcnKkzmSvnMl5ac0luRGLIqfHvLDUWQwhWdMrxE1aWD5xIJZLv
-	 SGF5ErLW8z16JdLwboFMrGkyCSkqmN4PkGyrBkP7aaQ5NFkjDs6MA/SI56JsfMbcWD
-	 cez1etoKQqLHL+rhrWGvebFy1wkpyZJ/TqGtUB0HXcA7gTIzS/oRzNxI/xQ2cqWT5K
-	 9bJiWS6J7o/tSaUTzU7HWc5ByZ68/RL21uPodZznhKEOvUBjhImRGsKM3Zxv38L0bk
-	 jlRxahh963/Cw==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 4B7D91AC528C; Fri, 04 Sep 2026 16:56:41 +0100 (BST)
-Date: Fri, 4 Sep 2026 16:56:41 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Manuel Ebner <manuelebnerli@mailbox.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: doc: Fix bracket and wording
-Message-ID: <aprqOQm357605zoD@sirena.co.uk>
-References: <20260904120737.758809-2-manuelebnerli@mailbox.org>
+	s=k20260515; t=1788537835;
+	bh=ldIq+F8nOlAbUH2eoWqdxCJavo0VkxCg3Zmbg8MzPNs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=QDnO+y8yKAhQ4LSHuX2dqHxA8J4fOEAe8dfmB6oEohZHOTAf7lHpNnbDk22mFwJWE
+	 CQBHaOo5Si+hzg/GuaAd6Kioxq+fUwq3daLYTF/l/jXqwQzWKrt53Myhpor8TnaMub
+	 I340Lk8N4i/22c0B/ccabZNOl8V3/Sf9L1EeMmRIUEIeaz9ZQovo2boGdbvTATWdbv
+	 ccjoNVbrfFUTGlE7vRo7s10fCW5uYYsBYzSqHOSRmMmWQcS9Vx9pWpay2TUKYQYBSy
+	 47DLYpqBNVE1yZJyDmg7PJ29F7ILovXTCYrgJk/OkALTD5MGzNwIdSya9j8TYNErP8
+	 9eEgBSEFSEOAQ==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5b2b92065ffso1013540e87.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 09:03:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwS4tMVIW/kd83vnyeAHP4KKEIgqRx1HIcF9fnz6Q1OEI7ntp827wLEIKH3F3R5JmdOJiPotztzXAI=@vger.kernel.org
+X-Gm-Message-State: AFuF++mEHK/IohIV9YudZ098Hdwcc8Xv5Iz/31A/zyvmJr0jkkaH9qj8
+	GAY9j+haJOxbz9evG/Mcw/TNc/N+96h+eDyAtv1z6wgy3GAFzHYRfUrI0/B/dy7F1f40MIFWRkC
+	qTNn7Sge3AkEwlQGA7HzUX4z7VF78BOg=
+X-Received: by 2002:a05:6512:2311:b0:5b6:1a7c:aa1c with SMTP id
+ 2adb3069b0e04-5b61a7cac90mr824179e87.52.1788537833747; Fri, 04 Sep 2026
+ 09:03:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RXQjFobGZcgVdBUO"
-Content-Disposition: inline
-In-Reply-To: <20260904120737.758809-2-manuelebnerli@mailbox.org>
-X-Cookie: My vaseline is RUNNING...
+References: <20260903160751.734704-2-manuelebnerli@mailbox.org> <3d656f96-c2c6-4783-847c-4a6c0f6398a0@infradead.org>
+In-Reply-To: <3d656f96-c2c6-4783-847c-4a6c0f6398a0@infradead.org>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Fri, 4 Sep 2026 18:02:51 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0iq02vx1=GR0Z2nX3Lvf0nUSN0xP9V8OgmTpixY5msH0w@mail.gmail.com>
+X-Gm-Features: AcwNN1XzLH-hyhpEtB8RRgMIur_yGiVcTYJ0ARKDCSydD4vBpdbfVs2EQjamVK0
+Message-ID: <CAJZ5v0iq02vx1=GR0Z2nX3Lvf0nUSN0xP9V8OgmTpixY5msH0w@mail.gmail.com>
+Subject: Re: [PATCH] docs: thermal: cpu-idle-cooling.rst: Fix bracket
+To: Randy Dunlap <rdunlap@infradead.org>, Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: Amit Daniel Kachhap <amit.kachhap@gmail.com>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Zhang Rui <rui.zhang@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-pm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Sep 3, 2026 at 7:22=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
+ wrote:
+>
+>
+>
+> On 9/3/26 9:07 AM, Manuel Ebner wrote:
+> > Remove needless '(' from equation.
+> >
+> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
---RXQjFobGZcgVdBUO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied as 7.4 material, thanks!
 
-On Fri, Sep 04, 2026 at 02:07:37PM +0200, Manuel Ebner wrote:
-> Change wording to make sense.
-> 'above' -> 'here' in placeholder which already is above the code block.
-
-> I guess the line is to show that there are more DAI links _above_ the code
-> block. But it's already above, thus change 'above' -> 'here'
-> Let me know if I misunderstood.
-
->    static struct snd_soc_dai_link dais[] = {
-> -	< ... more DAI links above ... >
-> -	{
-> +        < ... more DAI links here ... >
->  		.name = "MODEM",
-
-You've moved the bit saying more links into the definition of the link
-element that's show where you obviously can't have more links since it's
-a single element in the array.  Again, I'm confused what you think the
-issue is here.
-
---RXQjFobGZcgVdBUO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqa6jQACgkQJNaLcl1U
-h9CzEQf8D3WFIxa4Y+cYPR2KZbEiFQn7J1PO/eqdUkfw9D8yg42gM+6t/tiJCR55
-S5Fj78mxFBdH3kAVD8crzKQREjnrOiGl7/8yUINsv5NU78NAOhZot9ANXeTxs/dk
-Wp+C4RwWjT7Vf1srG8OaFRAy11PBkR1HDq+I80HtUxdQrwFQ5TayxJwSLRw75PpH
-S8jonQXJX86FZ3OnxJhVl29El6BnvoFGMPJ4L1ScTcElENo5W0GVKNl8UU8hBx0b
-N18gxcNIrcOHm2cMAxJxv5RR3aX7boaKbo3xWMs5OIaPbee3+m1SSNN7Hs1YVplR
-RfghGwtlvtask/nG37Ap/UyPENZEzw==
-=5+xh
------END PGP SIGNATURE-----
-
---RXQjFobGZcgVdBUO--
+> > ---
+> >  Documentation/driver-api/thermal/cpu-idle-cooling.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/driver-api/thermal/cpu-idle-cooling.rst b/Do=
+cumentation/driver-api/thermal/cpu-idle-cooling.rst
+> > index c2a7ca676..b9d4c91a7 100644
+> > --- a/Documentation/driver-api/thermal/cpu-idle-cooling.rst
+> > +++ b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
+> > @@ -161,7 +161,7 @@ tree. So with the idle injection mechanism, we want=
+ an average power
+> >  specific OPP and idle another amount of time. That could be put in a
+> >  equation::
+> >
+> > - P(opp)target =3D ((Trunning x (P(opp)running) + (Tidle x P(opp)idle))=
+ /
+> > + P(opp)target =3D (Trunning x (P(opp)running) + (Tidle x P(opp)idle)) =
+/
+> >                       (Trunning + Tidle)
+> >
+> >    ...
+>
+> --
