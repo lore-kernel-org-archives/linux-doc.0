@@ -1,123 +1,84 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A093F23DB;
-	Fri,  4 Sep 2026 05:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F97414A29;
+	Fri,  4 Sep 2026 05:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788499107; cv=none; b=NNlpDcpq8kVZ0lsaiNTzs8M9VljJtE71Axo2CeJUH7ay9QUJ6V0nM0XyLJ+ULd4WNKPQox3SkA0Zls2xnquTpGfmT0WaMUJp4xzb4vwJzgb4qpKmrSiJWa3DuAnyQWHleMmmniF+qc8YPxpzDM1riGFyAyjbFv5zfPMPR/VJ80k=
+	t=1788499302; cv=none; b=saoDkFCKAehyQ/GDcYdsErygFNPA+kKMyArbd/fPq64Ly/WVXQCbYQ1fhJzCbJ8IcwI3Egj3qDSR6NtSAcAA2aAIjFPQEHxVJEVwaJd/RWH2GdMGngZcBUd2hr9hx1QeRTRcNzgjXjQI8kyF815otaWf/rZ4ULVnoZvdI/QbwwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788499107; c=relaxed/simple;
-	bh=ESHJsvM+IjXiwq4CNcd7g/uiiWkagys2jYNkiN4MOWM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KOHdnpjiIkoiJjwTVerUH6mf+pvNkUUz3YZWHMqO23E5GR25O4FBWW+dMIl/tWnfd8/fjAfqMVFNlw2nXtZsC35Jnke0tFXxNAdNAauFwVBwi08ICSaaS5yL/6qIl8w3sCmvxKfttFzufawRuM7976DVeP5wJX2+Eb0toQ9tMEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Z9zNNHOW; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1788499302; c=relaxed/simple;
+	bh=ZFV6biptTu9I2FSFcZJhWxwCkhTh5GSnz2gwaVroPKg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=bRKlUw7uHOXf/EJojdbd/NIxUnaHOkZt4Fs4KLFHkNFxzJlQ20CcAvS7dL8RaHzicuAZmJCqkceQT5X/+4CrN4lVUVZWo5MyVKe8OEWg4Zd2r/GwQxgbJ5Fc/efR1mTAqLidIlb2GZ5ZmD4w/pGQqOmEds8H4EJo9AIgubEKkcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WwIUCswD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Z9zNNHOW"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hbl9S3YKKzMlGP;
-	Fri, 04 Sep 2026 07:18:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788499100;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ESHJsvM+IjXiwq4CNcd7g/uiiWkagys2jYNkiN4MOWM=;
-	b=Z9zNNHOWbWXKJkqXwhwLnLs+xLxssNWbvEMDRS6oPvUFiMQvg4LK7sLdsKaqpvoxx6BQoT
-	Eqxp1UPJ3oiaxGd+YB1xcUHbhtb/SE90w27MqCvxNUvbddX8eTX0tcPHMweSPrJ+HMhHJ/
-	Nt78KNxSVjRDqio3LiQhZXvaClLx8l2LcMvL4DTZLtpFp0S1/WMlJfM6vAzFcxqvo94nyg
-	HVE4cf1RSggk09IiLcEABapAswYb4Tks/u0f3yzp3ZW8/J7OD7JE79pkJOsaMPGSSg76mp
-	kvOlyu4bFIbOgffim7ONPSkMH3ykXmBS5vlZxY/ijNS5v9aTOtuz6Eb10QT6Ig==
-Message-ID: <6ba88e25314a5818f8fb31dc3a2165f6786e890d.camel@mailbox.org>
-Subject: Re: [PATCH v3] docs: verify/bisect: fix typos, formating and
- punctuation
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Randy Dunlap <rdunlap@infradead.org>, Thorsten Leemhuis
-	 <linux@leemhuis.info>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	 <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 04 Sep 2026 07:18:15 +0200
-In-Reply-To: <4c379bf7-e518-4a06-8b12-134f39a45785@infradead.org>
-References: <20260903154336.732305-3-manuelebnerli@mailbox.org>
-	 <4c379bf7-e518-4a06-8b12-134f39a45785@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WwIUCswD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 701711F00A3E;
+	Fri,  4 Sep 2026 05:21:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788499301;
+	bh=mo4U1DEUliDCIZKEMteRu8zD3B4RsgeP/pNJQSoESjg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=WwIUCswD+v0fmLtjTVCCQ9sgjkNGjj+ydrTQjd4rs/2Aa+U6fR3+8uCDQpaaIpnKG
+	 CYIzARjt7jJDdh+YH4DiTBf8cPyO0g/iBwgN/GCpepDtuWr0BR503zk+w9zQ9VUHFz
+	 5g5Vv5DyZfbYcGHFyUUgYFryyCOk3KLvrZbVG4WqzXl5jrdxxuAm1Z7GTrDdbiK+73
+	 KqnDF+jSwEQgYHFFIassP7OuvGPpBwb2G8lhg9J6nEGfbQyOi3wTLAFOLbdiSwlT+U
+	 Ai2J4vxVIAGm11ta/t8gdyNOdV7JnFDNelzcMUwCy1CRf0irOL1By2W8l8pY3qTNXj
+	 ZjxFSWjYvBOZA==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Peter Zijlstra <peterz@infradead.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Alice Ryhl
+ <aliceryhl@google.com>
+Subject: Re: [PATCH] rseq: defer time slice extension yield for sys_futex_wake
+In-Reply-To: <20260831-sys-futex-wake-time-slice-v1-1-814bb95cc339@google.com>
+References: <20260831-sys-futex-wake-time-slice-v1-1-814bb95cc339@google.com>
+Date: Fri, 04 Sep 2026 07:21:37 +0200
+Message-ID: <87ld9ha8wu.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: ai1mdtu11ks7agtxsu3dssk4rrkm4un8
-X-MBO-RS-ID: c40eaf41987a3eae5f4
+Content-Type: text/plain
 
-On Thu, 2026-09-03 at 09:59 -0700, Randy Dunlap wrote:
-> Hi Manual,
->=20
-> On 9/3/26 8:43 AM, Manuel Ebner wrote:
-> > Improve readability.
-> >=20
-> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
->=20
-> It looks like you might be misusing the Reviewed-by: tag here.
-> My only reply (to v1 of this patch) was:
-> =C2=A0 https://lore.kernel.org/linux-doc/0475c09c-e165-41a5-b654-5c6aefea=
-ab0b@infradead.org/
+On Mon, Aug 31 2026 at 12:57, Alice Ryhl wrote:
+> When a task is granted an rseq scheduler time slice extension, it is
+> expected to finish its critical section and relinquish the CPU via
+> rseq_slice_yield(2). If the task issues any other system call while a
+> grant is active, rseq_syscall_enter_work() forces an immediate
+> reschedule on syscall entry via cond_resched(). This may cause
+> significant latency penalty for userspace lock implementations that use
+> rseq time slice extensions when unlocking the futex.
+>
+> In a userspace mutex unlock sequence:
+> 1. The lock is released in userspace.
+> 2. If there are waiters, the unlocking thread calls sys_futex_wake()
+>    to wake a sleeping waiter.
+>
+> Because sys_futex_wake() is currently treated as an arbitrary syscall,
+> rseq_syscall_enter_work() schedules out the unlocking thread upon
+> syscall entry, which is before it has executed the wakeup. Consequently,
+> the lock is free in userspace, but the waiter remains blocked in the
+> kernel while the CPU switches to an unrelated task. The waiter is only
+> woken when the unlocking thread is eventually scheduled back in to
+> finish the syscall, causing lock handoff delays.
+>
+> Thus, update rseq_syscall_enter_work() for sys_futex_wake() so that it
+> does not reschedule during syscall entry. The thread will yield the CPU
+> on the syscall exit path instead.
 
-My thought process was: when I include all you suggestions and your message=
- ends with
-> All of the other changes LGTM.
+That's undermining the design and takes control away from the scheduler.
 
-you are good with the result. Thus Reviewed.
+It granted a short extension with well defined semantics and then you
+special case futex_wake() which can take arbitrary time to complete.
 
-I probably did this a couple more times with you and others.
+Thanks,
 
-I'm sorry and I'll pay more attention to this.
-
-> and in that email I did not write "Reviewed-by: /me".
-> Just because I commented on it does not mean that it merits
-> a Reviewed-by: tag.
-> I.e., a Reviewed-by: tag must be explicitly written by the reviewer
-> for it to be included in a patch.
->=20
-> Please see Documentation/process/submitting-patches.rst for more info,
-
-I'll reread it.
-
-Thanks for the feedback,
- Manuel=20
-
-> or ask if you still have questions.
->=20
-> > ---
-> >=20
-> > [v3]
-> > =C2=A0+ incorporate Thorsten's suggestions
-> >=20
-> > [v2]
-> > =C2=A0https://lore.kernel.org/all/20260902115121.687986-2-manuelebnerli=
-@mailbox.org/
-> > =C2=A0+ one more 'your' -> 'you'
-> > =C2=A0+ 'it'
-> > =C2=A0+ incorporate Randy's suggestions
-> > =C2=A0=C2=A0=C2=A0 https://lore.kernel.org/all/0475c09c-e165-41a5-b654-=
-5c6aefeaab0b@infradead.org/
-> > =C2=A0+ Reviewed-by: Randy Dunlap
-> >=20
-> > [v1]
-> > =C2=A0https://lore.kernel.org/all/20260829055501.581856-2-manuelebnerli=
-@mailbox.org/
-> >=20
-> > ---
-> > =C2=A0.../verify-bugs-and-bisect-regressions.rst=C2=A0=C2=A0=C2=A0 | 26=
- +++++++++----------
-> > =C2=A01 file changed, 13 insertions(+), 13 deletions(-)
->=20
-> thanks.
+        tglx
