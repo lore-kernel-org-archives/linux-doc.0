@@ -1,92 +1,122 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A7E47CA94;
-	Fri,  4 Sep 2026 14:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE994F052F;
+	Fri,  4 Sep 2026 15:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788533633; cv=none; b=my3dI42O9xYM4WSZfur9lhUCWDX/9ENPn2FmTiKIat5iW2HA5bOOjKciXEjY9Nj71GVaGmFycebYx7v1vGBOCzRqz5bytJj+ZeqKv8+KxP39/3iRwbKD4zJF56hOxlk5zk2Lmy0JXgUlrw+stln5EiEKwR1paC6zv4ylRfN/Y7c=
+	t=1788534657; cv=none; b=YyvrNpW5w42OrM4RRVSF00XbVTWFqWYSzF8ce4gfUMpcsrp6LAJnPT07Rur32/MD2LeE9sHxcjHcpFGLO5tTm+mxgFQy3rAmUql3XUJsKXNWlpfx+iGPAsGQ0/2rTJEWWfucUe+gNT+Lr8c5L8FcAXHX2BvMWSXSobumVpzyjog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788533633; c=relaxed/simple;
-	bh=ZGTLtABEhINQzYngP28TMwkXTR8rlDih1VqaPGeKb8I=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hW6EF6q3vWe9aYR4GwAhEcTk+4Ylum4NGOUfBu6MvgEds5kGUmori80HD5jxbAtrOqNW6zmgHlfjf9GGZdwxh8toDjWwPbkc1fFfP/73i+64P6MgIT3r+MI5bUbUlrtlBDnZopd5WkVc4yddkFU7ySkisdc7OGrY8IUPyja+4bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=wrVmmDPQ; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1788534657; c=relaxed/simple;
+	bh=A0VpHOoTUbM1tou3WIkcE6JwwQ0HC0j4IOAJoYAQEqM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sh5FVlcawiUrNAE+Egq3S+lbFlCygMOYj0pCfSn6DUSHHMeftI/EmC8zTPRWebRDax7LwOHNoYXxqNby/bWwY/dRujox2v/MhWEkLy5hJ3D0dT7K6jZbiNiMl9CQ0jofzI6fq4AMmI/wWWsstUbGOgTGZ6reg9DXcQ0oG+Zma5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VB3Gp389; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="wrVmmDPQ"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hbzxQ5GBkzKrtJ;
-	Fri, 04 Sep 2026 16:53:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788533626;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZGTLtABEhINQzYngP28TMwkXTR8rlDih1VqaPGeKb8I=;
-	b=wrVmmDPQx+YJz2dw6TdmRh/X5iFY8+TLtr+OEGJe474CJ1CxU075rk21D30wOGsOVFLpsn
-	BR5bbY53VUIpRZKKWEftnDVozUifLFv04P0umwtNn6NEqcB1nlyXYRKpaznkVwMmV670TU
-	TfraKsL2XMJoj2Wh5aj2jGdac/ozwcuTkahdxztSk/l0PzccGyenxsEpCEY9AxF2ktrZ2i
-	cB1k3c9ltOZf0oC5AqiB0J4YH914eNQ97CVnkQODw3IPl9w+Di0ETgrh/KdW0BhhxITYDe
-	2aReXcQzoFHRh342gs5bS6V+hBlpz1lZ6bZgR2RVQ/xerekWSNiIBvKimMftbw==
-Message-ID: <942969bc8813265290da274865a9290adf5f1f8b.camel@mailbox.org>
-Subject: Re: [PATCH v3] docs: verify/bisect: fix typos, formating and
- punctuation
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
- Thorsten Leemhuis <linux@leemhuis.info>, Shuah Khan
- <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 04 Sep 2026 16:53:43 +0200
-In-Reply-To: <874ig52k2t.fsf@trenco.lwn.net>
-References: <20260903154336.732305-3-manuelebnerli@mailbox.org>
-	 <4c379bf7-e518-4a06-8b12-134f39a45785@infradead.org>
-	 <6ba88e25314a5818f8fb31dc3a2165f6786e890d.camel@mailbox.org>
-	 <874ig52k2t.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VB3Gp389"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id EAE621F00A3D;
+	Fri,  4 Sep 2026 15:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788534655;
+	bh=41xaUrJ1lAeNQeQ/qi/93VPU9j/VGLCqogvprDRRNhA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VB3Gp389hUiJzqvsLNBiOxo9AiBTn02To+KR9uXQbCTwnr1MfN9K/mfYWPpkTQYoi
+	 YkSwXqdiH4MVDRmvZayz5DTTmd7tsTIJhqEsiBQ3VlBGcQBtX7Q6V0d1qqBAGbutA4
+	 YBaPGJLRz8WvCU8m9I5oOD/6mQhQWDsfTzAs+Re6PhaN8sHtYH9UTWU8n/vsjGRzma
+	 YwTvxKJ6eQC0djlK9jHVUYb/cXNutoS9zDShgIfepZ+JjJGdx9OMIEewirFY6jcTaF
+	 yD2lEjdL0GwoSgI4JISCTQdxtXsBn9k9OJn4pclMED29mV+rIlc390GxVcXiR5xkzZ
+	 F3nGaY5o8zg9Q==
+Date: Fri, 4 Sep 2026 08:10:54 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Jan Kara <jack@suse.cz>, Jakub Kicinski <kuba@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Hisam Mehboob <hisamshar@gmail.com>,
+	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	David Howells <dhowells@redhat.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Catalin Iacob <iacobcatalin@gmail.com>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Andrei Vagin <avagin@gmail.com>,
+	Wei Yang <richard.weiyang@gmail.com>,
+	Bhavik Sachdev <b.sachdev1904@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Wang Yan <wangyan01@kylinos.cn>,
+	Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>,
+	Malaya Kumar Rout <malayarout91@gmail.com>,
+	linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Luis de Bethencourt <luisbg@kernel.org>,
+	Salah Triki <salah.triki@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH] bfs: remove the filesystem
+Message-ID: <20260904151054.GG6047@frogsfrogsfrogs>
+References: <20260904082954.48738-1-enelsonmoore@gmail.com>
+ <20260904-hinnimmt-triumphieren-handgefertigt-4e51fe2ed659@brauner>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: 1ud5xehmb58doia85zuisgrhkiouiu1f
-X-MBO-RS-ID: 8cc7d83d1837cd4444e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260904-hinnimmt-triumphieren-handgefertigt-4e51fe2ed659@brauner>
 
-On Fri, 2026-09-04 at 07:59 -0600, Jonathan Corbet wrote:
-> Manuel Ebner <manuelebnerli@mailbox.org> writes:
->=20
-> > On Thu, 2026-09-03 at 09:59 -0700, Randy Dunlap wrote:
-> > > Hi Manual,
-> > >=20
-> > > On 9/3/26 8:43 AM, Manuel Ebner wrote:
-> > > > Improve readability.
-> > > >=20
-> > > > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> > > > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> > >=20
-> > > It looks like you might be misusing the Reviewed-by: tag here.
-> > > My only reply (to v1 of this patch) was:
-> > > =C2=A0 https://lore.kernel.org/linux-doc/0475c09c-e165-41a5-b654-5c6a=
-efeaab0b@infradead.org/
-> >=20
-> > My thought process was: when I include all you suggestions and your mes=
-sage ends with
-> > > All of the other changes LGTM.
-> >=20
-> > you are good with the result. Thus Reviewed.
->=20
-> Just to emphasize this: you do *not* get to make up Reviewed-by tags; if
-> it is not explicitly given to you by the person involved, it does not
-> exist.
+On Fri, Sep 04, 2026 at 12:43:09PM +0200, Christian Brauner wrote:
+> On Fri, 04 Sep 2026 01:29:19 -0700, Ethan Nelson-Moore wrote:
+> > bfs: remove the filesystem
+> 
+> I agree.
 
-Understood.
- Manuel
+At the moment, I don't.  Nowhere in this thread does anyone mention what
+someone with a B(oot)FS filesystem image should do if they want to
+extract whatever's stored in the filesystem.  Are there userspace tools
+for that purpose (ala efs)?  Does "binwalk -e $bfs_image" suffice for
+that purpose?  Or is there solid evidence that there isn't even a single
+user (ala freevxfs) who strongly wants it to stay in?
 
-> jon
+I'm all for getting rid of old cruft but there still needs to be a
+documented offramp for users.
+
+--D
+
+> ---
+> 
+> Applied to the vfs-7.4.bfs branch of the vfs/vfs.git tree.
+> Patches in the vfs-7.4.bfs branch should appear in linux-next soon.
+> 
+> Please report any outstanding bugs that were missed during review in a
+> new review to the original patch series allowing us to drop it.
+> 
+> It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> patch has now been applied. If possible patch trailers will be updated.
+> 
+> Note that commit hashes shown below are subject to change due to rebase,
+> trailer updates or similar. If in doubt, please check the listed branch.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> branch: vfs-7.4.bfs
+> 
+> [1/1] bfs: remove the filesystem
+>       https://git.kernel.org/vfs/vfs/c/e36781a626b2
+> 
+> 
