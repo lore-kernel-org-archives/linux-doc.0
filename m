@@ -1,97 +1,132 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4E7414A0E;
-	Fri,  4 Sep 2026 05:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562C04CCDC7
+	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 05:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788500091; cv=none; b=ednOIG1/sc8+Bo5A3eAvHoxr5GP1Y/8ohTfuHBgB9C2NbIlRBT3TZXPA+rtgiKTulIyhIA9Lj/zHAli0y7J8oln/GaCrrmT9ZpBcwZHPldBqSnMTfrkGkT46RBLNLccVrdE6lMtBreLqe7vsKZqUN4zQs98foSVVBEwAxeqv3tc=
+	t=1788500623; cv=none; b=LDRPralMhMMWusPEPHRDjrF16984zCvqY0rjfXzTcNpbrsp8Xuo3EL8+HrZdGwf2gLp9Qj0WkppiFR2vlmhEOVmHsFr4Ii5tEmAtVctOgXyq9FT9Tvw6rnXa2auZ3M+hfEw0BkGPtAEaHA/9csSGn3p5RLiD44X8BD4XgH874og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788500091; c=relaxed/simple;
-	bh=LoSIabbGCm3jmP8IHBvygHcW64OGDNns/l+oY3HHAo0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g2n+LthfXIOyPuWdqCefifeJzEgUQgUBoMomVnCXZZLWusIQnUiwpKUb6pRyZnnep+vu6LidaRo82M8pAKomBEbXoSNJD7jeX4RDkYPFEqeVXzOQLexTYVLo4KNtvYSKxi4gdWYPqn5EzKO+6j8+TdNq55RmTuCmMdbRX1KdE0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NKESFmSW; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788500623; c=relaxed/simple;
+	bh=87tW78USOIRu124aJptnXZ1ORwFWyuAoO45i3VE7Rzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tRjRl4qPdFqVywjISlVp0zs17IlWEDKktSkYlJ0ADDdgdzD3cDdjM6Z21JpNUaRuCyQf1u8Xx9mcVnLChQID1pAFAuGKGAUiE5fEzqyotxcriN/gzoRprLK3/YPV2MyczsIvG83ms+yoiHSkuuwfVUj22A4iV95E4u4dWoBZSUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MSWx2XeQ; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NKESFmSW"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=noERAy98ksBHJQxSSGOOcw+tFMb50cbPWoj0qJBP4Mo=; b=NKESFmSWQ8HRKMj5l8wqqHRElj
-	u+rcPL79KhjjEA2tcRYWH7yB1+oMOgFkQLlVFmvs67LksmNgMx46iHvj9nElPIaJmqGcVv0uGAKHM
-	YMJSE9e8KhRnZHFBW47GNbYxpR4Er+bUZBOxqzO7+PeQkqit5uPdiZG9jsPigRrigTNPNepBmZXc3
-	6tJHJZsTM1WFVmavMCI0IQCfu4dO3fuLtFjVsEy1biOnvY00gCBAP0mhRsWe1Kw6UdKwMNrQzg+hf
-	zop3u9f8PwvBj7fpJETU+kj2M1HfcKEt9oEB/nUDLFC8GWNjiRqV26efiIZCD+bMsykTYjL3TJVYY
-	eyOs9evQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2MZW-000000014fy-12qQ;
-	Fri, 04 Sep 2026 05:34:42 +0000
-Message-ID: <24c2aa21-d491-4ee2-9d53-de593353f2cc@infradead.org>
-Date: Thu, 3 Sep 2026 22:34:41 -0700
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MSWx2XeQ"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38759bcd877so609539a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 03 Sep 2026 22:43:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1788500621; x=1789105421; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=XxOcRRnDrKQlx91Y28n3fxGGvoUu/s1bIHpjhY19uNc=;
+        b=MSWx2XeQ6YrKYuEm/m5Ku+TmLdgF3ADdeLrlhKjWuUYqYQsk7yysqySZ5F6SyNtK76
+         eMAFuO+DBRnJvZ3w3JxHK5UB1g6mtzydM/mwbPM4GNNPVVTllQcKFMbDhAsZ1VzYs7kd
+         9rir0tqJ43541t3lwj/+YOxuKm8DgoyrwP9ZFsZxm3Z64vEGHouWTDOTI8vQo1faapcD
+         R+gO8HKSRtCVANqMSydPf5Y4iVfwVhxi1kfl9iXlaAecIMF/X2tGYwJ/QgEkWj3dSxdY
+         96bHNVPa8OwG+jOZjx+XXNo6AX1S/x7cVET+dDm8PmEyGBD2UenaSmX33BP0hv+auRyg
+         iS8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788500621; x=1789105421;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XxOcRRnDrKQlx91Y28n3fxGGvoUu/s1bIHpjhY19uNc=;
+        b=rc2Lg1Zf0ywQjB3ViXXhArSdnVZqsvaL5G73ujjXWrguUVzYaFQCbS0UOwONSIgN/O
+         ZTqgf4pp8lPgsX2kFMcaNshjQDbZ6mCyTG5y85sK4aUYM9j0wgG55ZT+MnvBCCkT8RAo
+         eIzYhwAeasPlNQ03jVoqDzc/3Q+gpotPLCTpYwynP6Yud8A1h66jTKzcbIH8q92ySpiJ
+         HL8QXv59Udp9oAdBrLCh8CaGhdZPHyABqU9BjpQxEGDuCnQN4+QVpkfBNscdOXXcE8Bm
+         +/II2w9WomjC+wndtGq6W+k4IL8iTXyaNGCV141fXM2E+WICZXcQIAiH0/qDwWWomV88
+         U5IQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwDsD//9T9dsxF4ELdN59gQcxwCcyH0X4AIurE/6eXNxjGUGXgMfVOOBS5/1ytjrW/etgOE4oEioaA=@vger.kernel.org
+X-Gm-Message-State: AFuF++lilrvK2mWaYog5y6MiutkhlAQNwvavxAT9G0Bbsl8+h/oIti82
+	SLOpFPhMVQ5LpgnpB2h95gIy94Ck5IeBUxTV1oAO5x2RZWRqp7CWJJUSjuOAR17NWNQ=
+X-Gm-Gg: AYBFou1qy0BbY+tLxXh+FNLSkb6XwfgF4tZZwjVZfZUb98REBJHG/mkxLeIde8O2zCQ
+	O5BOgzbEWnRfhSPzAYK+GnjsbADmxVlmPbAJ8roSFD1SvlCP8rMfzqsZOjVW+mng0Fk+INy5osD
+	2ERsFg6LddAFgtZFM52pjHWJvPl0ASV8VN0xZOr9bugI76VR6GjQDdvYOuBGeidalNLqIt8Py7p
+	j+5AgVTtmzOnVmV+K+ksEFIlBvBSfLYALgYNYgxYlyBIMlZR1G5YU5Lq4cOZGnXTXNpTJ5SiXl3
+	F295bTo3gg7XqNmYKStOZvakQPhIoWvPwnm+TTs1cf+LnWp5Vy8VOlQ0BVnZR7FVeS/yuFPgHrD
+	nJ7qtQiXwWAKb+5gYN4om4ajaBJh9mQXYiAr+j+wdUjvVwiic5lcNiuZVbzwF9Fd0O6ehs/JHm+
+	iwjbof5SMnSNLqkm+pWuMY5y1TcdmaYg6Adlw96F8tfUcPVJBxiaUEd6lD9j9pasY=
+X-Received: by 2002:a17:90a:ec8d:b0:37d:f983:7b5 with SMTP id 98e67ed59e1d1-39b26101c08mr5553870a91.9.1788500621351;
+        Thu, 03 Sep 2026 22:43:41 -0700 (PDT)
+Received: from localhost ([122.172.87.224])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-143243f780csm3885069c88.13.2026.09.03.22.43.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 22:43:40 -0700 (PDT)
+Date: Fri, 4 Sep 2026 11:13:38 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: robh@kernel.org, krzk+dt@kernel.org, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-imx@nxp.com, Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
+	b-padhi@ti.com, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH v15 2/5] dt-bindings: remoteproc: imx_rproc: Add "rpmsg"
+ subnode support
+Message-ID: <appaikrdwu6GpSGy@vireshk-B250M-D3H>
+References: <20260721204704.400781-1-shenwei.wang@oss.nxp.com>
+ <20260721204704.400781-3-shenwei.wang@oss.nxp.com>
+ <apmunD8bkKOu5_Vm@p14s>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] docs: verify/bisect: fix typos, formating and
- punctuation
-To: Manuel Ebner <manuelebnerli@mailbox.org>,
- Thorsten Leemhuis <linux@leemhuis.info>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260903154336.732305-3-manuelebnerli@mailbox.org>
- <4c379bf7-e518-4a06-8b12-134f39a45785@infradead.org>
- <6ba88e25314a5818f8fb31dc3a2165f6786e890d.camel@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <6ba88e25314a5818f8fb31dc3a2165f6786e890d.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <apmunD8bkKOu5_Vm@p14s>
 
-
-
-On 9/3/26 10:18 PM, Manuel Ebner wrote:
-> On Thu, 2026-09-03 at 09:59 -0700, Randy Dunlap wrote:
->> Hi Manual,
->>
->> On 9/3/26 8:43 AM, Manuel Ebner wrote:
->>> Improve readability.
->>>
->>> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
->>> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
->>
->> It looks like you might be misusing the Reviewed-by: tag here.
->> My only reply (to v1 of this patch) was:
->>   https://lore.kernel.org/linux-doc/0475c09c-e165-41a5-b654-5c6aefeaab0b@infradead.org/
+On 03-09-26, 11:30, Mathieu Poirier wrote:
+> I'm proposing something like this:
 > 
-> My thought process was: when I include all you suggestions and your message ends with
->> All of the other changes LGTM.
+>                         $(transport) {
+>                                 compatible = "$(transport),rpmsg";
+>                                 #address-cells = <1>;
+>                                 #size-cells = <0>;
 > 
-> you are good with the result. Thus Reviewed.
+>                                 gpio {
+>                                         compatible = "virtio,device29";
 
-I understand, but still, it should be explicit (or you could ask).
+I would just change a minor thing here:
 
-> I probably did this a couple more times with you and others.
-> 
-> I'm sorry and I'll pay more attention to this.
-> 
->> and in that email I did not write "Reviewed-by: /me".
->> Just because I commented on it does not mean that it merits
->> a Reviewed-by: tag.
->> I.e., a Reviewed-by: tag must be explicitly written by the reviewer
->> for it to be included in a patch.
->>
->> Please see Documentation/process/submitting-patches.rst for more info,
-> 
-> I'll reread it.
+s/virtio/rpmsg/
 
-Thanks.
+This isn't a simple virtio-gpio device, since it doesn't have its own virtqueues
+and uses virtqueues of virtio-rpmsg instead. So this may better be a
+rpmsg,deviceX (where X is virtio ID) ?
+
+>                                         reg = <3>
+>                                         gpio-controller;
+>                                         #gpio-cells = <2>;
+>                                         interrupt-controller;
+>                                         #interrupt-cells = <2>;
+>                                 };  
+>                                 gpio {
+>                                         compatible = "virtio,device29";
+>                                         reg = <4>
+>                                         gpio-controller;
+>                                         #gpio-cells = <2>;
+>                                         interrupt-controller;
+>                                         #interrupt-cells = <2>;
+>                                 };  
+>                         }
+
 -- 
-~Randy
-
+viresh
