@@ -1,275 +1,148 @@
-Received: from va-2-115.ptr.blmpb.com (va-2-115.ptr.blmpb.com [209.127.231.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B1C3932EA
-	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 06:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7633A1A55;
+	Fri,  4 Sep 2026 08:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788504804; cv=none; b=Si5Ul8HFURf5XyYj46bYfQi7Dx8ZajYCYbtDF3zVDvGfNggAvxCufCzA0aBtAK0bZuj+d1Q11JENWDTnt7WDschczdEg7ZyPFQMguPhzzyoJ+GF3RCOmPv8Serh0T+L1HZpdxoWKK2ibGVEKv0TpXT8VemvvpzWCoBRHPIw6ZIU=
+	t=1788510315; cv=none; b=mfKrzbJEwqgvjkGy5IJkj722HSFbRYJ36wvA+PE5QxJuoIuHeURI1UQR+l3QpdEsNkRiKVupm4ioadFni4yfX2V8WaHWHFd2vQTcmMfOlGsuBP3uT49ekuBsRiptdNOoSeg+QilGTtHuTvjExCQ6XllJ6mobFfdDF6H37pICBSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788504804; c=relaxed/simple;
-	bh=TXFPxjwuph23/WM1SDvCmhpvEU5cevHcUsj2Lt9JduM=;
-	h=References:In-Reply-To:From:Mime-Version:Message-Id:Subject:Date:
-	 To:Content-Type:Cc; b=mldD5voM070MbK+HNvulmNpUkHSV7Ve8SwO2S4Xq6D1IoMQIIiq2TBGcmkZwAoVo5kqWYZFCVEqtcS7WFV4up0TftO8252zLdjNyEtloGvnE8zlkVDUlQR++jhVxO8WZgByjHdnMNHxb5NpqPy9hiypMBuu5zcixTwtQ3rJKHr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=V4Y+HsG3; arc=none smtp.client-ip=209.127.231.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1788510315; c=relaxed/simple;
+	bh=UDPnaDGN0cR9jdX2OcNPa6XVzzHVDqU566S0sdnx58c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DMufw3d3qEfI855vWX23Tmj4k3riWteiixM/GsDbWoRHLf1sy8Ymjnc35jIC5WQaIdYBM+fu1RLbvT8kdzo0NFTHaR22uIiFiJBP8N5a4zdNUFdcgIBb3qzCV4LVbhHBd7JX0luMGzsCPkm3LhmSm9KEERxEoRRLrqYyIE+JwSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jYzhgz46; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="V4Y+HsG3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1788504791; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=mPTOxwIC+jr/FMV+UNx0z3S+Ti/laXItlILymntanHY=;
- b=V4Y+HsG3crXlBb3yPWZi6+FSOQbqRRifsFgQD00UAvsT2ypE/oR8tbzsZcEZEgeTBKR7WL
- nSslbtzVrHCnPkgAqPCzeAjTfob+v6hvCwOgHeLS2qjWJhIeYtQIEQgCWmewajlNFOpc8H
- 1XspAzr8pS+58eSeqcJc5ftpIzxNflIulcVjLCZCDvetClVkhdUyxjei4bMxyJxBS921F2
- yu3uti6COgl3zTT4mqo3AVXPB+FQXA5qZZ2hgTsyzTcIjz0e+pQ31fkP7x5t1HYgsltgIk
- C02Eqks6kYc+q8oDOumKtLv5cqJKxT4mrt6i45+3vGLU9utSljsiyOwtxHc8YA==
-Content-Transfer-Encoding: 7bit
-References: <20260904065159.34409-1-lizhe.67@bytedance.com>
-In-Reply-To: <20260904065159.34409-1-lizhe.67@bytedance.com>
-From: "Li Zhe" <lizhe.67@bytedance.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jYzhgz46"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F170B1F00A3D;
+	Fri,  4 Sep 2026 08:25:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788510312;
+	bh=rccA36EyuXOhMqphuckpFvf8Da7GhE5PelXowHSaKKU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=jYzhgz46a22ezQusLxk9qVWzQI2UXXiD8DvEw/lOqkhOwdgrCWcO1PeVLXJQtj5a/
+	 Mcfwj2o6LtGuledzus610SHt1SyAQvI86ZINLZpIhtF2VF74lauraRJIXGzwPMv6UG
+	 H56+HTYNcZHd+wcjFFv+F2AxBzXaQTMeHKICum90zwAIpr+jAHb6T8t5lguaRQ9t97
+	 apn1TZ22uiUV2x/KtlgbQ4IpEUbB0fxwq0HYxBD8jGWmMfM4D6uqX/5B5u3jLnn8na
+	 gOZ9ym87/tUs5+GmYkYFRb9iaAs8vYA47cMEWF8pL8wyIKjDBho1F51y2u4HQvcge1
+	 fe4Vbz8zJgbwg==
+Message-ID: <a6ce8684-116b-42f2-a88c-154eb86bad59@kernel.org>
+Date: Fri, 4 Sep 2026 10:25:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-X-Mailer: git-send-email 2.45.2
-Message-Id: <20260904065159.34409-3-lizhe.67@bytedance.com>
-Subject: [RFC 2/2] mm: add goal=demote to memory.reclaim
-Date: Fri,  4 Sep 2026 14:51:59 +0800
-X-Lms-Return-Path: <lba+26a9a6ad5+e25094+vger.kernel.org+lizhe.67@bytedance.com>
-To: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>, 
-	<liam@infradead.org>, <rppt@kernel.org>, <surenb@google.com>, 
-	<mhocko@suse.com>, <tj@kernel.org>, <hannes@cmpxchg.org>, 
-	<shakeel.butt@linux.dev>, <muchun.song@linux.dev>, <qi.zheng@linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
+ filtering
+To: Zhen Ni <zhen.ni@easystack.cn>, Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Steven Rostedt <rostedt@goodmis.org>
+References: <20260903041819.1776630-1-zhen.ni@easystack.cn>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260903041819.1776630-1-zhen.ni@easystack.cn>
 Content-Type: text/plain; charset=UTF-8
-Cc: <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>, 
-	<lizhe.67@bytedance.com>
+Content-Transfer-Encoding: 7bit
 
-memory.reclaim normally runs the reclaim engine with the normal set of
-reclaim actions. On tiered memory systems this can age cold folios by
-demoting them first, but the same request can continue into eviction when
-demotion is unavailable or when lower-tier nodes are scanned. That makes
-memory.reclaim unsuitable for callers that want to use the existing
-reclaim scanner only to move cold folios from DRAM to CXL. For example,
-swappiness=0 biases selection toward file-LRU folios, but it still allows
-file cache to be evicted if the request keeps reclaiming after demotion
-progress.
+On 9/3/26 06:18, Zhen Ni wrote:
+> This patch series adds process and memory cgroup filtering support to
+> page_owner. Following the previous series that introduced print_mode and
+> NUMA node filters:
+>   https://lore.kernel.org/linux-mm/20260707115411.1714314-1-zhen.ni@easystack.cn/
+> 
+> This series adds filtering capabilities to page_owner, allowing users to
+> filter output by specific processes and memory cgroups. Users can now
+> filter page_owner output by PID, TGID, COMM (with wildcard support), and
+> memory cgroup path. This makes page_owner debugging more focused and
+> efficient for tracking memory allocations in specific contexts.
 
-Add goal=demote as an explicit memcg memory.reclaim goal for best-effort
-tier demotion without LRU folio eviction. Successful demotions count
-toward the requested amount. The reclaim walk skips nodes that do not have
-demotion targets and keeps folios that are not queued for demotion instead
-of reclaiming them. The default remains goal=progress, preserving the
-existing behavior.
+I wonder about the usefulness of all the new filters. In my experience
+page_owner is useful to find a kernel memory leak code, and for that the
+stacktraces are most useful. Dealing with things like pid/tgid/comm/cgroups
+sounds more like your aim is to profile and optimize particular userspace to
+use less kernel memory? In that case, isn't it rather the area of memory
+allocation profiling (or maybe tracing with bpf), not page_owner?
 
-Fail goal=demote with -EAGAIN before reclaim starts when the target cgroup
-has no usable demotion target. The option is valid in that case, but the
-requested goal cannot make progress; returning early avoids retrying the
-reclaim loop just to discover that every node is skipped.
+Moreover, tracing or bpf can already do such kind of filtering and AFAIK
+ftrace filters for tracepoints are nice and generic, while this is adding a
+bunch of custom parsing and filtering. So that makes me somewhat sceptical.
 
-This is useful for userspace controllers that want to manage top-tier
-headroom and maintain a desired DRAM/CXL occupancy ratio according to
-application policy and current system state. The controller can
-proactively move cold folios to lower tiers and adjust the demotion amount
-as workload placement, tier occupancy, bandwidth pressure, and latency
-targets change. Demoted folios remain charged to the cgroup, so the goal
-is placement control rather than memory.current reduction. It does not
-provide strict file-only or target-tier placement; it remains best effort
-and subject to reclaim eligibility and demotion target availability.
-
-Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 11 ++++++
- mm/internal.h                           |  1 +
- mm/vmscan.c                             | 48 ++++++++++++++++++++++---
- 3 files changed, 55 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index ed87d45cfe21..518a3eafe5d9 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1473,6 +1473,17 @@ The following nested keys are defined.
- 	does not disable demotion. This is best-effort and does not bypass memory
- 	protection or other reclaim constraints.
- 
-+	goal=demote performs best-effort memory tier demotion for LRU folios:
-+	successful demotion counts toward the requested amount, nodes without
-+	demotion targets are skipped, and folios that cannot be demoted are kept
-+	on the LRU instead of being evicted by this request. Slab shrinking is
-+	also skipped, as it cannot contribute demotion progress. Demoted folios
-+	remain charged to the cgroup, so this is intended for placement control
-+	rather than memory.current reduction. It can be combined with swappiness
-+	to use the existing anon/file reclaim balancing, for example
-+	swappiness=0 to prefer file-LRU folios. If no demotion target is available
-+	to the cgroup, this returns -EAGAIN.
-+
-   memory.peak
- 	A read-write single value file which exists on non-root cgroups.
- 
-diff --git a/mm/internal.h b/mm/internal.h
-index 40cb5900f857..33d75f6a5c3d 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -75,6 +75,7 @@ unsigned long lruvec_lru_size(struct lruvec *lruvec, enum lru_list lru,
- #define MEMCG_RECLAIM_MAY_SWAP (1 << 1)
- #define MEMCG_RECLAIM_PROACTIVE (1 << 2)
- #define MEMCG_RECLAIM_GOAL_EVICT (1 << 3)
-+#define MEMCG_RECLAIM_GOAL_DEMOTE (1 << 4)
- #define MIN_SWAPPINESS 0
- #define MAX_SWAPPINESS 200
- 
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index cdaab8ad54ac..1a98e83f35c4 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -126,6 +126,9 @@ struct scan_control {
- 	/* Eviction-oriented proactive reclaim goal */
- 	unsigned int evict_goal:1;
- 
-+	/* Demotion-only proactive reclaim goal */
-+	unsigned int demote_goal:1;
-+
- 	/*
- 	 * Cgroup memory below memory.low is protected as long as we
- 	 * don't threaten to OOM. If any cgroup is reclaimed at
-@@ -189,6 +192,9 @@ struct scan_control {
- 
- static unsigned long reclaim_progress(struct scan_control *sc)
- {
-+	if (sc->demote_goal)
-+		return sc->nr_demoted;
-+
- 	if (!sc->evict_goal)
- 		return sc->nr_reclaimed;
- 
-@@ -392,6 +398,12 @@ static bool memcg_node_is_demotion_target(int target_nid,
- 
- static bool reclaim_skip_node(pg_data_t *pgdat, struct scan_control *sc)
- {
-+	if (sc->demote_goal) {
-+		if (sc->nr_demoted >= sc->nr_to_reclaim)
-+			return true;
-+		return !can_demote(pgdat->node_id, sc, sc->target_mem_cgroup);
-+	}
-+
- 	if (!sc->evict_goal || sc->nr_demoted < sc->nr_to_reclaim)
- 		return false;
- 	if (!can_demote(pgdat->node_id, sc, sc->target_mem_cgroup))
-@@ -1316,6 +1328,9 @@ static unsigned int shrink_folio_list(struct list_head *folio_list,
- 			continue;
- 		}
- 
-+		if (sc->demote_goal)
-+			goto keep_locked;
-+
- 		/*
- 		 * Anonymous process memory has backing store?
- 		 * Try to allocate it some swap space here.
-@@ -5185,7 +5200,8 @@ static int shrink_one(struct lruvec *lruvec, struct scan_control *sc)
- 
- 	need_rotate = try_to_shrink_lruvec(lruvec, sc);
- 
--	shrink_slab(sc->gfp_mask, pgdat->node_id, memcg, sc->priority);
-+	if (!sc->demote_goal)
-+		shrink_slab(sc->gfp_mask, pgdat->node_id, memcg, sc->priority);
- 
- 	if (!sc->proactive)
- 		vmpressure(sc->gfp_mask, sc->order, memcg, false,
-@@ -6288,8 +6304,9 @@ static void shrink_node_memcgs(pg_data_t *pgdat, struct scan_control *sc)
- 
- 		shrink_lruvec(lruvec, sc);
- 
--		shrink_slab(sc->gfp_mask, pgdat->node_id, memcg,
--			    sc->priority);
-+		if (!sc->demote_goal)
-+			shrink_slab(sc->gfp_mask, pgdat->node_id, memcg,
-+				    sc->priority);
- 
- 		/* Record the group's reclaim efficiency */
- 		if (!sc->proactive)
-@@ -6950,6 +6967,7 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
- 		.proactive = !!(reclaim_options & MEMCG_RECLAIM_PROACTIVE),
- 		.evict_goal = !!(reclaim_options &
- 					MEMCG_RECLAIM_GOAL_EVICT),
-+		.demote_goal = !!(reclaim_options & MEMCG_RECLAIM_GOAL_DEMOTE),
- 	};
- 	/*
- 	 * Traverse the ZONELIST_FALLBACK zonelist of the current node to put
-@@ -8027,6 +8045,7 @@ enum {
- 	MEMORY_RECLAIM_SWAPPINESS_MAX,
- 	MEMORY_RECLAIM_GOAL_PROGRESS,
- 	MEMORY_RECLAIM_GOAL_EVICT,
-+	MEMORY_RECLAIM_GOAL_DEMOTE,
- 	MEMORY_RECLAIM_NULL,
- };
- static const match_table_t tokens = {
-@@ -8034,6 +8053,7 @@ static const match_table_t tokens = {
- 	{ MEMORY_RECLAIM_SWAPPINESS_MAX, "swappiness=max"},
- 	{ MEMORY_RECLAIM_GOAL_PROGRESS, "goal=progress"},
- 	{ MEMORY_RECLAIM_GOAL_EVICT, "goal=evict"},
-+	{ MEMORY_RECLAIM_GOAL_DEMOTE, "goal=demote"},
- 	{ MEMORY_RECLAIM_NULL, NULL },
- };
- 
-@@ -8043,6 +8063,7 @@ int user_proactive_reclaim(char *buf,
- 	unsigned int nr_retries = MAX_RECLAIM_RETRIES;
- 	unsigned long nr_to_reclaim, nr_reclaimed = 0;
- 	bool evict_goal = false;
-+	bool demote_goal = false;
- 	int swappiness = -1;
- 	char *old_buf, *start;
- 	substring_t args[MAX_OPT_ARGS];
-@@ -8078,19 +8099,34 @@ int user_proactive_reclaim(char *buf,
- 			if (!memcg)
- 				return -EINVAL;
- 			evict_goal = false;
-+			demote_goal = false;
- 			break;
- 		case MEMORY_RECLAIM_GOAL_EVICT:
- 			if (!memcg)
- 				return -EINVAL;
- 			evict_goal = true;
- 			break;
-+		case MEMORY_RECLAIM_GOAL_DEMOTE:
-+			if (!memcg)
-+				return -EINVAL;
-+			demote_goal = true;
-+			break;
- 		default:
- 			return -EINVAL;
- 		}
- 	}
- 
--	if (nr_to_reclaim && evict_goal && !memcg_has_demotion_target(memcg))
--		evict_goal = false;
-+	if (evict_goal && demote_goal)
-+		return -EINVAL;
-+
-+	if (nr_to_reclaim && (evict_goal || demote_goal)) {
-+		bool has_demotion_target = memcg_has_demotion_target(memcg);
-+
-+		if (demote_goal && !has_demotion_target)
-+			return -EAGAIN;
-+		if (evict_goal && !has_demotion_target)
-+			evict_goal = false;
-+	}
- 
- 	while (nr_reclaimed < nr_to_reclaim) {
- 		/* Will converge on zero, but reclaim enforces a minimum */
-@@ -8125,6 +8161,8 @@ int user_proactive_reclaim(char *buf,
- 					  MEMCG_RECLAIM_PROACTIVE;
- 			if (evict_goal)
- 				reclaim_options |= MEMCG_RECLAIM_GOAL_EVICT;
-+			if (demote_goal)
-+				reclaim_options |= MEMCG_RECLAIM_GOAL_DEMOTE;
- 			reclaimed = try_to_free_mem_cgroup_pages(memcg,
- 						 batch_size, gfp_mask,
- 						 reclaim_options,
--- 
-2.20.1
+> Targeted filtering provides significant performance benefits on large memory
+> servers by reducing both execution time and output size. By filtering at the
+> kernel level before reading, only relevant page allocations are processed,
+> dramatically reducing the amount of data that needs to be handled in userspace.
+> 
+> This series extends page_owner filtering capabilities with:
+> - PID filtering
+> - TGID filtering
+> - COMM filtering with wildcard support
+> - Cgroup (memcg) filtering for containerized environments
+> 
+> The series is organized as follows:
+> 
+> Patches 1-3: Add PID, TGID, and COMM filtering support to page_owner
+>   - Support filtering by process ID
+>   - Support filtering by thread group ID
+>   - Support filtering by command name with wildcards
+> 
+> Patch 4: Refactor memcg handling to prepare for cgroup filter support
+> Patch 5: Add memory cgroup filtering support
+> 
+> Patches 6-7: Update page_owner_filter tool with corresponding features
+> 
+> Patch 8: Update documentation
+> 
+> These filters are particularly useful for:
+> - Debugging memory leaks in specific processes
+> - Analyzing memory usage in containerized environments
+> - Isolating allocations from specific services or applications
+> 
