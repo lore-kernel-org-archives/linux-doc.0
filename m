@@ -1,94 +1,234 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4CE3D9DB6;
-	Fri,  4 Sep 2026 21:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788556317; cv=none; b=kGSZcXjy6uMBTnc3HMtQVoMWf0c+IfoINqtp940JqQJSe9jlDi9nxEpTNCdzEhp8dJYdZjHimsmW/uKvBIyOsYCy5SCGotdkxousj1VDxE3ynyEfAJEYHphwd1ftDBc158/SjkuNjBieG9MbYko0wyKPShv6+vT8LLPHxh+BJdM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788556317; c=relaxed/simple;
-	bh=jAdsQN8ZDF9wbOvwOq+hlFM7kwRCSGwY8z2a6ld169M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E/I73iy+73DVj8rfnoPARMnNS8yE9qkX0emztJ9bDdUb16lyRZjASbik0SyQ525YRHjS1KkK/QS1xXPM001cmVY2EZ3Tnj4EnAVv0/7jC46MeK1csYOPvRIui6r7GwoEK0GJeTs3Bk7NiessRF985J4uM7yr9evEFPQ+9ozdvcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dAifU/Bx; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95482503BE5
+	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 21:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788556476; cv=pass; b=jZzAPiykIUG0M4HUJDUCTpe0TGK7GrpX5QNhcow1VuW36zKcpBE/tIZYC1UXkow8xvOK3r4r7scj0OaGvz1mJRzZiJqdH0Tm5H1ieuMqFyF+YH4+qIb0eOyYO8XcDJZ2Z0CnPUBA4aQN5QUWTcIIYADvZ0RYLRz8iDjoq/8TZ0M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788556476; c=relaxed/simple;
+	bh=J9VFtep/IWj2GJMw0Sea79KrUdo7vEVbhUOsxUM+97o=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=QITsgkeLplcDw209ZSMQluSPmjRWvk0VlTsxynRa8cka0KiTl4TLCsyoCnYh7jHFFACk6mvmfOGxBqwpwyxC/wJzU1ItbK4HP7WxrXEDATx2uJLGLeFtOTTmYrs4tCBIRd0NBNz+JoKSpQEBwwTIodDDyLWWdrtlWzGrHIKcG5Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QssxZsWT; arc=pass smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dAifU/Bx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=80YkBy/N40/LySzZOO2d7Mox9B++1wDT5cgA4S/RNiU=; b=dAifU/BxGPCfTmmGxPoZa5ITgu
-	hfQCLx0q5KXEv4uznTj9BovZlq8hkmWf1OdyISHT+kwhFApKqnX7WKMVt7uuf2OTfcaCQn89Kxs4+
-	hKA3d7TbcBNNKhhJs6bqwUQXElrtAGXmQB0UYa+N1IYFZzjDJthWNuWUOqJzpGDsW1eP5snmuRxvH
-	pQ5cDV2st5D2i5weVWgMH1OgA3JpvHi5hJEAhyedL2+BbL5kfHMNh4mpJBLkHTfwvmmJjfvnBQ7GD
-	Col7X5Yvg0Q0Rn+VaD93xZaVTSg4JxbDSh93XZscsFSnGywSDQl4RM5XVL/VOFylO2Y3rLw0C6L9M
-	ClWX2r8A==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2bCD-00000003Inp-2omT;
-	Fri, 04 Sep 2026 21:11:38 +0000
-Message-ID: <1969e90f-1286-4ad7-9bbc-8f3800a44353@infradead.org>
-Date: Fri, 4 Sep 2026 14:11:35 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QssxZsWT"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4858595f997so960134f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 14:14:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788556473; cv=none;
+        d=google.com; s=arc-20260327;
+        b=HdOTiay+t0aOLwqltSw2ssz1bl539T1pLgM9tFVozJK0VlN0K9HGMtMUIivDJTlPJ3
+         QtAptlwK8RJqj7kyN9KDMjRXM7aiD2kiBxYzBz7/zyAcs3M5mrEKzykse81CHvfYMOx/
+         c/PejisS56nKQ/7SpgX4+/lrsz//mVFTnOR2a374ruBZn5ptWvxLuZsq9FoCt5YC/i0O
+         m+6PXtxYHPHCtnGoAtSRUPv1QXC5vcAnF9vap1TarA58DtIVSB2iEMPMaXsWe/saaBwe
+         7mDcgd0rfdx8S/eLaxIb/Mi3bHATHCmaMbd08YOVoxMP0HroxHz/mCI4yKw8yAKttmN8
+         DHPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=bvjoQwE4ZDaiwAW0jTIm2X9dCshUZub+PI63iQkxm4U=;
+        fh=oo5L6k0Z1EVXFOQBXdUHpp2vkpCUrBFwcq8+YSOFIK4=;
+        b=VQgW/Y5iUyAh+1U+xCBdww+dzRM521153sIYPaYF02cyBuAke19XyoJfBFwqqBuuyC
+         yBFrKdgLnTNZMU3wzZIXh6tFWQZRl/jVRNCdiQJo3FMig/jgrM5tDjTc72YIlGg6+1ym
+         KXpyBVYH3ehipcdZsbiOf22hRF1zgF6tHKF3VWVxNE2nUOgMSceNJLsLSCWzpP1r439f
+         MDYnJRpgJtsdxiUc4q1DvkKc4VEXdaTG2aOf8YsK9cH+Dh89xWtOi923iOfPTQch+vHo
+         A1RjoQb+7Num4ANP9rPDPsncEZgURhV+wPtVyvcF6VXWDrtFmZPPgj27LqaqCkXCDvyj
+         S+rA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788556473; x=1789161273; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bvjoQwE4ZDaiwAW0jTIm2X9dCshUZub+PI63iQkxm4U=;
+        b=QssxZsWTt/t2Gvz6toYE8sG1n4g9FPjtmhU/EtdsGzm2jd9O8T11r/X7x1/GBGPZlk
+         W8Uif77noYUVx1BChjgxunPSt3rIAfthyqmbfnV1ZD19V/11YLcSFYoPpAdWxY8+k+kF
+         1dAvU+ywbGbOW9zmgnQenjJDt1IKhnmGM8IOLNTt4ETSExa6+bboBqa6tFPbK6tMPrG5
+         wd0b0J4ExIbVmz65GySMc7zG3j+ehZCQ7UMjPQnSkin3H6CNkxDuhWPQ2u8B2tHvmw9M
+         uf6CPHUzPWq9TnQ3NZb+S481sA7ex/D17nZt7hoflQd3uOzWkkmrRhyOrc2klvqVgLzW
+         +K5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788556473; x=1789161273;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=bvjoQwE4ZDaiwAW0jTIm2X9dCshUZub+PI63iQkxm4U=;
+        b=ADoCUrVgheIPDHWsLgoc0piVbKZrsSVNl0ihTEQ5O0693xw3m9+PBlT8mNrAqkaz7N
+         iWnzr3YFaVhpGJPTiuB2bCQYghHat/L57tGum6QpW1LO1GUfa0fqGdmCtpG0RcKvbcFi
+         Dcj/HmindZHVq7fBILOvi69O1rpUzNYr/4zM684WzAf9wBBGPuAoFy7bYaPGJEU24RB7
+         M+nXPgKQYaFmGVtE8rMaMY7rWqz8575A59FlIIaZ9KhTXHb/3eCd9wBDoenLHxsn6unl
+         NtVioeli63Lqq1OIzoeBFgLW1XqYLJKRLdTR69BjQnWXiCYS/21f+KyySrGUmJqZPM82
+         vC/g==
+X-Forwarded-Encrypted: i=1; AKwUvBxhtTdgDg+fDypnOAwzOfTmylRXZ/V0q9pxnLvJLNiMBZE2XPAG6YO7v3fvKIP1xfCH5BOYqbchF0A=@vger.kernel.org
+X-Gm-Message-State: AFuF++lNbsfvmGdk4655JZs9PUVaRz2dzKzrgPh4/G5ud1eC6dbyLyrq
+	0k8hC0D8hfFvwqep9zAjAuDVK6ckFyJqdcPdzZ5dH7ONkl5oHqurP7+B2VgwyQAvQ1Y1XwwH6U0
+	TOkJ7NnS0k2iY95NOPeNH3zRBWKQLj0I=
+X-Gm-Gg: AYBFou2QFjI/bk7tVTu7XSXPhjetovlp+yTMrh3hZ8slMvDC4sTzNceGezjVCKPufvR
+	dm6hr6zPozuEpxUIv3qlRHkWiHZ2W9tJnVxMFLTqqbktprhU6EuCMlHqaqcTf0T9nmCUGFF1Leh
+	iTCxxqHoS4NWerVUANgs9cffsgDv94pwJFYAQcc3uM+fuU84tol9UezMV/FYbopQ9HDIQkgEqV+
+	wkZLelen8FzzzOGZTA3NmRrZ/yv2aWwtLlV1JeU8RxZXIa6NGk4iIEtj2k0wBwWbZXMzuoYvyXO
+	bXdX29Z4W1VIDnKwQ5Hn6Z6m2PBPtAM1ZN/qlkLXcSoe6ehCeSVi2Z05OkMNpVyU2UnoZkzIgEs
+	j
+X-Received: by 2002:a05:6000:29d9:b0:484:3310:710f with SMTP id
+ ffacd0b85a97d-485872934dcmr13557408f8f.27.1788556472698; Fri, 04 Sep 2026
+ 14:14:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 20/32] Input: yealink.rst: Fix bracket
-To: Manuel Ebner <manuelebnerli@mailbox.org>,
- Henk Vergonet <Henk.Vergonet@gmail.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260904121026.759218-3-manuelebnerli@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260904121026.759218-3-manuelebnerli@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Fri, 4 Sep 2026 14:14:20 -0700
+X-Gm-Features: AcwNN1VfnacCjCOIsG0-NjVV5-93v6OYjHgRMeo0vufw1HSKHHIhU85YeFRiLtM
+Message-ID: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+Subject: Path forward for Virtualized Swap?
+To: Kairui Song <kasong@tencent.com>
+Cc: Chris Li <chrisl@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
+To Kairui, Johannes, Yosry, Chris, David, Andrew, and other (z)swap folks -
+I need some help here.
 
+I'd like to ask for a decision, or failing that, the specific thing that
+would get us to one. I'd much rather work against a concrete objection than
+keep respinning into silence.
 
-On 9/4/26 5:10 AM, Manuel Ebner wrote:
-> Remove needless '['.
-> 
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> ---
->  Documentation/input/devices/yealink.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/input/devices/yealink.rst b/Documentation/input/devices/yealink.rst
-> index bb5a1aafe..de86cf7f5 100644
-> --- a/Documentation/input/devices/yealink.rst
-> +++ b/Documentation/input/devices/yealink.rst
-> @@ -205,7 +205,7 @@ Troubleshooting
->  :Q: Module yealink compiled and installed without any problem but phone
->      is not initialized and does not react to any actions.
->  :A: If you see something like:
-> -    hiddev0: USB HID v1.00 Device [Yealink Network Technology Ltd. VOIP USB Phone
-> +    hiddev0: USB HID v1.00 Device Yealink Network Technology Ltd. VOIP USB Phone
->      in dmesg, it means that the hid driver has grabbed the device first. Try to
->      load module yealink before any other usb hid driver. Please see the
->      instructions provided by your distribution on module configuration.
+Quick recap: today a swapped-out page holds a disk slot even when the data
+never reaches disk, like zswap or zero-filled pages. My patch series
+(latest version at [10]) puts a virtual entry in the page table instead and
+resolves the backing separately, so zswap stops reserving disk it never
+uses and can work on machines with no storage swap space at all.
 
-According to drivers/hid/hid-core.c (near line 2395 in today's linux-next tree),
-this documentation should have a ']' added to it:
+I've been working on this since April 2025, going through 10 revisions (6
+on the original design ([1] through [6]) and 4 on the swap-table-based
+rewrite ([7] through [10])). I also gave a talk on it at LPC [11].
 
-	hid_info(hdev, "%s: %s HID v%x.%02x %s [%s] on %s\n",
-		 buf, bus, hdev->version >> 8, hdev->version & 0xff,
-		 type, hdev->name, hdev->phys);
+Throughout the process, I've been very receptive to reviewers - including
+parties whose use cases are very different from my own, like zram users and
+the ghost-swapfile-style deployments that want zswap with no backing disk
+at all - and the current design reflects that:
 
-so
-+    hiddev0: USB HID v1.00 Device [Yealink Network Technology Ltd. VOIP USB Phone]
+* Kairui asked that this be optional, not a replacement [12]. It is now:
+  vswap is opt-in behind the vswap= cmdline parameter, and with vswap=off
+  the existing swap paths aren't touched at all.
 
-AFAICT.
+* Kairui also pointed out that if I kept shrinking the metadata I'd "end up
+  reimplementing the swap table format" [12]. I took that feedback, and
+  reworked the entire series on top of swap table.
 
--- 
-~Randy
+* Per Chris' requests, I've figured out ways to minimize memory overhead
+  [13]. On a zswap-only setup there's almost 0 overhead now, because the
+  vtable is merged with zswap's xarray rather than sitting on top of it.
+  The indirection is paid for by the tree we delete.
 
+* Johannes pointed out that a physical cluster backing only vswap entries
+  still had to allocate a memcg_table, which was an overhead regression
+  against my older design on the zswap writeback case [14] (since a swap
+  entry occupies multiple levels). I've also fixed this.
+
+* I've spent a lot of time chasing regressions on setups we don't even run
+  at Meta - zram in particular [6]. And if anyone's still worried after all
+  that, vswap=off keeps the old swap code available.
+
+Numbers are in the v4 cover letter [10]. In terms of performance, vswap is
+on par or better than baseline on zswap across memhog, usemem and kernel
+build, and vswap=off tracks baseline within noise. I've even included an
+A/B experiment on a real production workload (Instagram/django): throughput
+on par, latency slightly better, and the swapfile footprint for every zswap
+user on the host goes away.
+
+Now, on xswap. Baoquan's working on a series [15] that covers some of the
+same ground, and the VM_SPARSE cluster_info idea in it is genuinely good.
+I've been reviewing that lineage since July [16] and I'd like whatever
+lands to end up with the best parts of both. From my perspective the
+differences are:
+
+1. Userspace knobs. xswap asks the admin for a size (a percent of RAM) plus
+   a per-device limit to tune afterwards. I'm not aware of any use case
+   that needs those, and I don't think users have a good way to answer the
+   question anyway - sizing swap for compressed memory depends on memory
+   size, workload, and compression ratio all at once. That's precisely the
+   provisioning problem vswap exists to remove. The kernel should be as
+   transparent and dynamic as possible here, and not add knobs unless
+   there's a use case for them.
+
+2. Writeback support. Writeback is core functionality for zswap, not an
+   add-on, and a design needs to account for it from the start. This came
+   up before, in the discussion around Chris' ghost swapfile RFC [17]: for
+   a solution here to be acceptable, it has to work with the primary
+   usecase and support disk writeback. Without it, whatever zswap won't
+   take (incompressible pages especially) has nowhere to go, and cold
+   compressed data can never leave RAM.
+
+3. Cgroup charging behavior. vswap/xswap shouldn't be charged against the
+   swap usage counter. It's fundamentally a different resource from
+   physical swapfile space, and memory.swap.* should read 0 when nothing is
+   on disk [18]. I made the longer argument for this in [19].
+
+4. Data structure (xarray vs sparse vmalloc array). Even with xarray, vswap
+   is already on par with or beating baseline. I like the sparse array
+   idea, but why are we landing an optimization before the feature itself,
+   without any A/B data showing the difference matters?
+
+One thing I do want to be clear about: I'm glad other people care about
+this problem. Chris' ghost swapfile and Baoquan's xswap are both going
+after the same set of problems, and that's a good sign. It means this is
+real and shared, not something only Meta runs into.
+
+What's been harder is the shape of the engagement. Alternatives keep
+getting posted and pushed that don't cover all the requirements, while this
+series sits without review. I don't think I'm owed anyone's interest in the
+problems I care about. But I do think working code, with benchmarks and
+production exposure behind it, deserves a fair hearing next to in-progress
+proposals.
+
+So what I'm asking for: I'd like us to converge rather than keep two series
+in flight. My preference is that we land vswap first, then build Baoquan's
+sparse array on top of it as an optimization. That gets the feature in, and
+by then we'd have the A/B data to show whether the sparse array actually
+beats the xarray.
+
+If you think that's the wrong order, I'd genuinely like to understand why -
+after 17 months and 10 revisions I still don't have a clear picture of the
+objection.
+
+[1] https://lore.kernel.org/all/20250407234223.1059191-1-nphamcs@gmail.com/
+[2] https://lore.kernel.org/all/20250429233848.3093350-1-nphamcs@gmail.com/
+[3] https://lore.kernel.org/all/20260208215839.87595-1-nphamcs@gmail.com/
+[4] https://lore.kernel.org/all/20260318222953.441758-1-nphamcs@gmail.com/
+[5] https://lore.kernel.org/all/20260320192735.748051-1-nphamcs@gmail.com/
+[6] https://lore.kernel.org/all/20260505153854.1612033-1-nphamcs@gmail.com/
+[7] https://lore.kernel.org/all/20260528212955.1912856-1-nphamcs@gmail.com/
+[8] https://lore.kernel.org/all/20260612193738.2183968-1-nphamcs@gmail.com/
+[9] https://lore.kernel.org/all/20260806184254.3790858-1-nphamcs@gmail.com/
+[10] https://lore.kernel.org/all/20260825153238.2695446-1-nphamcs@gmail.com/
+[11] https://lwn.net/Articles/1016136/
+[12] https://lore.kernel.org/all/CAMgjq7AQNGK-a=AOgvn4-V+zGO21QMbMTVbrYSW_R2oDSLoC+A@mail.gmail.com/
+[13] https://lore.kernel.org/all/CACePvbVXQWgcPD-bgK7iDba4NFLo2tT89ZbLOa03maJU4er4ag@mail.gmail.com/
+[14] https://lore.kernel.org/all/aZyFxKGXc8J6PIij@cmpxchg.org/
+[15] https://lore.kernel.org/all/20260827094509.1016740-1-hebaoquan@kylinos.cn/
+[16] https://lore.kernel.org/lkml/CAKEwX=Pe+qMZd2xhnU-PAGQtgXkp56c-JwYCbt2Lux9htgB67Q@mail.gmail.com/
+[17] https://lore.kernel.org/all/20251121114011.GA71307@cmpxchg.org/
+[18] https://lore.kernel.org/all/anYIboHEUZb4fhHv@cmpxchg.org/
+[19] https://lore.kernel.org/all/CAKEwX=P4syV38jAVCWq198r2OHXXc=xA-fx1dk6+qYef6yzxWQ@mail.gmail.com/
