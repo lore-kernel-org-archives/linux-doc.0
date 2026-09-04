@@ -1,234 +1,197 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95482503BE5
-	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 21:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0071551FCDF;
+	Fri,  4 Sep 2026 21:15:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788556476; cv=pass; b=jZzAPiykIUG0M4HUJDUCTpe0TGK7GrpX5QNhcow1VuW36zKcpBE/tIZYC1UXkow8xvOK3r4r7scj0OaGvz1mJRzZiJqdH0Tm5H1ieuMqFyF+YH4+qIb0eOyYO8XcDJZ2Z0CnPUBA4aQN5QUWTcIIYADvZ0RYLRz8iDjoq/8TZ0M=
+	t=1788556521; cv=fail; b=DMD19bsYeW0YLVkyuXrNBJWHfkcY+o544Gn2BG5i5TOkNxpVaA2Ng5gcszhmJlRBk1flTeuqF9uZsbN36o/4L3xFDKQp3yBauyXJHCbweGM0h8rAEiaR3awYXT8k276wEhv+Ef5yQY7zBLRAodTx+HtLMec9lGqrO/LD4VG/rAw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788556476; c=relaxed/simple;
-	bh=J9VFtep/IWj2GJMw0Sea79KrUdo7vEVbhUOsxUM+97o=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=QITsgkeLplcDw209ZSMQluSPmjRWvk0VlTsxynRa8cka0KiTl4TLCsyoCnYh7jHFFACk6mvmfOGxBqwpwyxC/wJzU1ItbK4HP7WxrXEDATx2uJLGLeFtOTTmYrs4tCBIRd0NBNz+JoKSpQEBwwTIodDDyLWWdrtlWzGrHIKcG5Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QssxZsWT; arc=pass smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788556521; c=relaxed/simple;
+	bh=lXZZs5ZeGRlxA6eRl+q4bRJ/69Wnz9naCsXKKDTXWjY=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=otvv8XrR0XNT+8NpWoG5IB1Tcegsf5S4nJL4B0f4e9itgSPbrN82RQJEw0Fbljkoy2hRS1RBh5H47CziAj8fQ3ger2F/80s0SVydkqSVsCgawUFVq19i2hZPY3z4uTjQMTVIb16Nu1lOgN+t5ZM19wG0pxBg9ZgcBwUkGt3vPv4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CviEJj6T; arc=fail smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QssxZsWT"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4858595f997so960134f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 14:14:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788556473; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HdOTiay+t0aOLwqltSw2ssz1bl539T1pLgM9tFVozJK0VlN0K9HGMtMUIivDJTlPJ3
-         QtAptlwK8RJqj7kyN9KDMjRXM7aiD2kiBxYzBz7/zyAcs3M5mrEKzykse81CHvfYMOx/
-         c/PejisS56nKQ/7SpgX4+/lrsz//mVFTnOR2a374ruBZn5ptWvxLuZsq9FoCt5YC/i0O
-         m+6PXtxYHPHCtnGoAtSRUPv1QXC5vcAnF9vap1TarA58DtIVSB2iEMPMaXsWe/saaBwe
-         7mDcgd0rfdx8S/eLaxIb/Mi3bHATHCmaMbd08YOVoxMP0HroxHz/mCI4yKw8yAKttmN8
-         DHPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=bvjoQwE4ZDaiwAW0jTIm2X9dCshUZub+PI63iQkxm4U=;
-        fh=oo5L6k0Z1EVXFOQBXdUHpp2vkpCUrBFwcq8+YSOFIK4=;
-        b=VQgW/Y5iUyAh+1U+xCBdww+dzRM521153sIYPaYF02cyBuAke19XyoJfBFwqqBuuyC
-         yBFrKdgLnTNZMU3wzZIXh6tFWQZRl/jVRNCdiQJo3FMig/jgrM5tDjTc72YIlGg6+1ym
-         KXpyBVYH3ehipcdZsbiOf22hRF1zgF6tHKF3VWVxNE2nUOgMSceNJLsLSCWzpP1r439f
-         MDYnJRpgJtsdxiUc4q1DvkKc4VEXdaTG2aOf8YsK9cH+Dh89xWtOi923iOfPTQch+vHo
-         A1RjoQb+7Num4ANP9rPDPsncEZgURhV+wPtVyvcF6VXWDrtFmZPPgj27LqaqCkXCDvyj
-         S+rA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788556473; x=1789161273; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bvjoQwE4ZDaiwAW0jTIm2X9dCshUZub+PI63iQkxm4U=;
-        b=QssxZsWTt/t2Gvz6toYE8sG1n4g9FPjtmhU/EtdsGzm2jd9O8T11r/X7x1/GBGPZlk
-         W8Uif77noYUVx1BChjgxunPSt3rIAfthyqmbfnV1ZD19V/11YLcSFYoPpAdWxY8+k+kF
-         1dAvU+ywbGbOW9zmgnQenjJDt1IKhnmGM8IOLNTt4ETSExa6+bboBqa6tFPbK6tMPrG5
-         wd0b0J4ExIbVmz65GySMc7zG3j+ehZCQ7UMjPQnSkin3H6CNkxDuhWPQ2u8B2tHvmw9M
-         uf6CPHUzPWq9TnQ3NZb+S481sA7ex/D17nZt7hoflQd3uOzWkkmrRhyOrc2klvqVgLzW
-         +K5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788556473; x=1789161273;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=bvjoQwE4ZDaiwAW0jTIm2X9dCshUZub+PI63iQkxm4U=;
-        b=ADoCUrVgheIPDHWsLgoc0piVbKZrsSVNl0ihTEQ5O0693xw3m9+PBlT8mNrAqkaz7N
-         iWnzr3YFaVhpGJPTiuB2bCQYghHat/L57tGum6QpW1LO1GUfa0fqGdmCtpG0RcKvbcFi
-         Dcj/HmindZHVq7fBILOvi69O1rpUzNYr/4zM684WzAf9wBBGPuAoFy7bYaPGJEU24RB7
-         M+nXPgKQYaFmGVtE8rMaMY7rWqz8575A59FlIIaZ9KhTXHb/3eCd9wBDoenLHxsn6unl
-         NtVioeli63Lqq1OIzoeBFgLW1XqYLJKRLdTR69BjQnWXiCYS/21f+KyySrGUmJqZPM82
-         vC/g==
-X-Forwarded-Encrypted: i=1; AKwUvBxhtTdgDg+fDypnOAwzOfTmylRXZ/V0q9pxnLvJLNiMBZE2XPAG6YO7v3fvKIP1xfCH5BOYqbchF0A=@vger.kernel.org
-X-Gm-Message-State: AFuF++lNbsfvmGdk4655JZs9PUVaRz2dzKzrgPh4/G5ud1eC6dbyLyrq
-	0k8hC0D8hfFvwqep9zAjAuDVK6ckFyJqdcPdzZ5dH7ONkl5oHqurP7+B2VgwyQAvQ1Y1XwwH6U0
-	TOkJ7NnS0k2iY95NOPeNH3zRBWKQLj0I=
-X-Gm-Gg: AYBFou2QFjI/bk7tVTu7XSXPhjetovlp+yTMrh3hZ8slMvDC4sTzNceGezjVCKPufvR
-	dm6hr6zPozuEpxUIv3qlRHkWiHZ2W9tJnVxMFLTqqbktprhU6EuCMlHqaqcTf0T9nmCUGFF1Leh
-	iTCxxqHoS4NWerVUANgs9cffsgDv94pwJFYAQcc3uM+fuU84tol9UezMV/FYbopQ9HDIQkgEqV+
-	wkZLelen8FzzzOGZTA3NmRrZ/yv2aWwtLlV1JeU8RxZXIa6NGk4iIEtj2k0wBwWbZXMzuoYvyXO
-	bXdX29Z4W1VIDnKwQ5Hn6Z6m2PBPtAM1ZN/qlkLXcSoe6ehCeSVi2Z05OkMNpVyU2UnoZkzIgEs
-	j
-X-Received: by 2002:a05:6000:29d9:b0:484:3310:710f with SMTP id
- ffacd0b85a97d-485872934dcmr13557408f8f.27.1788556472698; Fri, 04 Sep 2026
- 14:14:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CviEJj6T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788556517; x=1820092517;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=lXZZs5ZeGRlxA6eRl+q4bRJ/69Wnz9naCsXKKDTXWjY=;
+  b=CviEJj6TU/UfuRSUAzetBTWstCVgqEi2QcfeUB4blP5vTF2mZzDqMpLm
+   3DcLHzKShwmwzbRn9LdHbkB+/vut7L7VB/o0QySN/dtXluFJcb8YOEGDC
+   QlkPz3OrabS2O92OPc+TA9ADP1EQZ9I6zlc11epbM8P1PqbRNfq/TTE2F
+   95epWjS91Jwu8JJ8SO3hAPDFzCJmZ8uNS5n0TPv3UwiIwQBztL2oYVmaC
+   x/CLvONCH4D5rXD0kUxztETSq6Q9s/ndNWBTpUB6mVQUfo/QKSW/kDnFa
+   QbvlG554B6qH0QoH/jM/XhxKnvoP/sb4HOIx4l0FTzLLxwp7VwFJdXm12
+   A==;
+X-CSE-ConnectionGUID: KBIcPsjWSAuOFr+uCx4GWA==
+X-CSE-MsgGUID: m4EkxflvSqu0tZGmM0FO3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="106432128"
+X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
+   d="scan'208";a="106432128"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 14:15:15 -0700
+X-CSE-ConnectionGUID: Mt5uXX8pSHiTIDzbzRodSg==
+X-CSE-MsgGUID: UMAjMoIdRYmVT7wnL9mrwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
+   d="scan'208";a="274298298"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 14:15:15 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Fri, 4 Sep 2026 14:15:15 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46 via Frontend Transport; Fri, 4 Sep 2026 14:15:15 -0700
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.2) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Fri, 4 Sep 2026 14:15:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o9XNy+I8I6dG+TfuiEB6Q8aOnDFl3vU7oGIQQx7zQJmDfqeQ5hSUtFW98lNK+hXBBX9bQte8Afe4mCciFXG74MpjhnMzybPduJ0roEb1OmWxGHFzUy9yxdG9gn6alpZmrhhkLUlqptpxHKjF0ka7jHh8LMa4qksdE79yukWX1o1Gtn+ve31JxCHUiUSDlBq24xPs/5AXUY2Y7Tii03Rg6KATh3R98wyH/FYcpOUOShEJwbxc5ommF2FVBmc6b40rJfjrrFcFhgUWeYNcgplPNn9FAm5teSGLtT6Fu5fk0bGNr+rstPm7NKHn020c3ywszJBz4KO10S1kz2H2gtT8fw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/81pgVSmuJvZPY+5TIamQOQK5uPTUJRvWZY5HtbvVD8=;
+ b=gehoaF07lOs4jkzusr8xdVzon+bJJwi/j6ue7QpTNffCQ8Awxp2Tigh1h39CLyk4TNn5OTgZwRUYaR+ep3rGQ09AzTPr/6MsrbJjYnutQf+IHJrqVTqbwTmILJLI0SX4RvTRAdaR3yMxBlho2PK58TxsAvCAPYcaiyNX3cHWdHBfiF5wzZwnCPPQvDPq+xX2Bsr9CCDI3Gam8JK7IBO1G+njv1CJnpUeOTHEbnO/+52MNUXcVXqOmHijswFDr8E0Rr1XAwqDFQyIZtMUFVHLc/8UlkGwpODFLFYbqCkqSmkYHQL3/RXfTn59D4Rkx9XyqZqDLeQ+nGliZpQ4NP0txw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
+ by CH3PR11MB8139.namprd11.prod.outlook.com (2603:10b6:610:157::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Fri, 4 Sep
+ 2026 21:15:11 +0000
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc%5]) with mapi id 15.21.0360.008; Fri, 4 Sep 2026
+ 21:15:11 +0000
+Message-ID: <35ebb8d4-2ef0-4bc0-ac3f-afff0c95ae89@intel.com>
+Date: Fri, 4 Sep 2026 14:15:08 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/3] x86,fs/resctrl,arm_mpam: Factor MBA parse-time
+ conversion to be per-arch
+To: Borislav Petkov <bp@alien8.de>
+CC: Ben Horgan <ben.horgan@arm.com>, <x86@kernel.org>, <james.morse@arm.com>,
+	<fenghuay@nvidia.com>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <dave.hansen@linux.intel.com>, <hpa@zytor.com>,
+	<corbet@lwn.net>, <linux-doc@vger.kernel.org>, <dave.martin@arm.com>
+References: <20260709093111.367851-1-ben.horgan@arm.com>
+ <165e7636-d7e9-4d16-aad1-657b4a9698d0@intel.com>
+ <b0a7035e-7ffe-4e22-a4ae-a177640234b8@intel.com>
+ <20260904033751.GCapo9D5ZZXWuQkIpc@fat_crate.local>
+ <20260904173615.GOapsBjyiT7uXHd-Qc@fat_crate.local>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <20260904173615.GOapsBjyiT7uXHd-Qc@fat_crate.local>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0047.namprd04.prod.outlook.com
+ (2603:10b6:303:6a::22) To SJ2PR11MB8370.namprd11.prod.outlook.com
+ (2603:10b6:a03:540::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Fri, 4 Sep 2026 14:14:20 -0700
-X-Gm-Features: AcwNN1VfnacCjCOIsG0-NjVV5-93v6OYjHgRMeo0vufw1HSKHHIhU85YeFRiLtM
-Message-ID: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
-Subject: Path forward for Virtualized Swap?
-To: Kairui Song <kasong@tencent.com>
-Cc: Chris Li <chrisl@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|CH3PR11MB8139:EE_
+X-MS-Office365-Filtering-Correlation-Id: b01f84a7-6e42-493e-dfa7-08df0ac99ae6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|366016|4143699003|10067099003|11063799006|22082099003|18002099003|6133799003|56012099006;
+X-Microsoft-Antispam-Message-Info: bxd6o2xpKyhwGL2nsWNiAPvfDfJE7Lu6r02STuj4paFgR0bPmJG++kUl1D7vX99XnGOVNg5uQ7RwGtPFk/W8kWkZlCDRsHTybi5iHj9IzUEJLxZd3pBBFD47/z8FxhZFJvV225I1OPfHtV3nPS1ZM+e2O4g9Bixsc1SZdhUvkDJtSIBXVYjpmXGp2WygigmwxFYJaYESKOFKDc7c4oSbmz7PdT1eTtai1h9BdK96E5x3+Ns5WSgkD9XaRqA+sVvb3LeWlv6mZo8CMMa3XNHc2FMl3NAGSDZVOFpkwvG/S94JwypfCKtIS04BLnHBqEqSAQq1/lgqoV+QADp4uRI6x2SRCC1Qqe18HHgiXVt+vDn/4l43Cqa4cKFoGLHemp+bbqDRxcazVqUAZJ4Lma7om2MDsjrL7v+svz6j4+upYO4oSQnw/mMqQY+pMlCuSRzUrawSWCgXNkWFwUYQs3XgnXupUriIZUFM1ltWgytINVZlr15h6FzYDzuNr2DtlVfhwmU6YKkFtnVZiXNs37K9919CWb460MmFYKsd8fLmVaVLOgkUWvNT7MGBfQIZJBeH9Twip2RZK7DvHmH9cHyW/yuTzQu05PXmTo5n/4TLlgA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(366016)(4143699003)(10067099003)(11063799006)(22082099003)(18002099003)(6133799003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WVVJRU56UGdYK2ZMbW0zaGxNeWR1dy9GcFMra0xZTmNzOHl0SFNyOXBmUXV6?=
+ =?utf-8?B?NDhRRGJRUXYzaGdoemxpOUZieG9FNTMwWjM5RXNlMHIrN1RiNElrbUluL29h?=
+ =?utf-8?B?MlVMaXd2UEt1RUw5djhXcDd1MHpFMkthRXJKS255UFB5WkNJS0t4Z1BrR1Bw?=
+ =?utf-8?B?ZjNZRy9GV0lObVgxcEUrUTRCbEJZekIwOGdFRjd6QU9ML01vckQ3YWgxMnBL?=
+ =?utf-8?B?MEhYY1lqK2cwOERaWHFzeXNRS3hTd1NxSktRelJnaVJzRXdEK2FXbG1tZVFW?=
+ =?utf-8?B?TW5wMXpVa2wvVW5ia2FrY01wbU5YU3BRMzVkT0xEOXBSL201dDNJS2NPTEwy?=
+ =?utf-8?B?SUZENThWRHNPKzE0RW9lRTFSOVdOVXlFeFh2Y0dacUJ6aU00MGtBeU1vRDQx?=
+ =?utf-8?B?bUpkTTdpdk5mOUUxY3FaV3BvQjNRMkdJaG9YZVd3VGVXamVQWm5Gd0F5SWRy?=
+ =?utf-8?B?RnA4WElMcjczTWk4RWdWMEpQNzBsdmlROVVxcGpsbEFqdG5VaWVpTjhyUmxB?=
+ =?utf-8?B?dTl3TVVHQ3RtYU1DYWFWWTZQTGhmNTVaeDk5cWhvWVhSaWVDY2hQVHpWMitO?=
+ =?utf-8?B?UnRXUlZTanZ5RXdPMzJ2Y1ZZei9KSWc3cGtDaGQ2ZHF6clMvT3FSM3M3QVR1?=
+ =?utf-8?B?Sml2SUhRMWJ1MnVwTFFPYXVWN3l3ZktVc2hORHp2YmhLTnVaV2xRMGRxTzZ4?=
+ =?utf-8?B?Z0g1eUorNlJOazBjaEx6ejVsZjdBRzNDWXFxbHVsTkNYZy9YY2RsZmY0dnJF?=
+ =?utf-8?B?eTBTWWJjbDlyaGJiazY3cjBqeHl2ZGpOU0EwQ0kvSUV6Y1RpY2o3ejFqZ0tX?=
+ =?utf-8?B?TUpyMVFIUDNJSUJTczZCUFoyTG5wd296bCtjYmRtOGNlaTA1K1daZmpEemRt?=
+ =?utf-8?B?UEowWjhvSy9SbGFqOHpyam9vbXNFeXZMUWJCZVNOdlViTGYydTc1K1ovd2J3?=
+ =?utf-8?B?Z1RMWnNaVStQQlVhRGNiamtRL2dwTXlJaUFaWHlERTJ1c3lRMS9ScC93V3o2?=
+ =?utf-8?B?NG9QOS9sbWZVZng2a1J1V1dCYzlVdDdQS285WllENjdVOURxWkR2cm5sVmFo?=
+ =?utf-8?B?dkVPYS9lMmlnNEIwOUZxTmdBTmVORFExVW90RDRmL05tWlBWb2NQMDl0T2ND?=
+ =?utf-8?B?czJWODBkb2RTTHkwMHQ3OFllTUNaTk9tQmNRNVBwY1RTYklqaUs0TmR4MEw2?=
+ =?utf-8?B?QTRWNTAzL0hIUzRFcWpEM1FTS2x3OWQxdERtSWpBd3JRRjlJRjUvWE0zektW?=
+ =?utf-8?B?ZkxVNmgvWWpZa0o0Mk1zZVZaZ1M4d0tGU0F5RFhZeUdYVEhxUDJ4dFZMSzFv?=
+ =?utf-8?B?KzFONXpURGdDTTI4NWZweDBidHFVdEl2blJ0NndBZ2dpd0U1NnNQTzlxV0Zn?=
+ =?utf-8?B?bm9wWTVOWEFCSjVybTRyYnM3RWM2c1FnVnV2UXpHRTFGWnVydnJCMCt6Mkdq?=
+ =?utf-8?B?WHJwUWdPNWdIbWZISENNMlhjaGVwejZXZkpzTnZhelVBOGl3cUZrSVJ1VGJP?=
+ =?utf-8?B?bWVOVlNSUEpjNjVGcEhnNktJS0FIczVFS3BpejVRR1JqSHpLRlczcCs5dXky?=
+ =?utf-8?B?QXpxZFloODFhbUtWYlNwNk4vTFhMK1lCKzRQZUxHQzdkMUxLdENLcE83VXFr?=
+ =?utf-8?B?VXFqSUdPRmpqSnp2aW9ZV2wzM29oVXlDc0I4VTAxRDVneXBMU2NWZnFIQ2hh?=
+ =?utf-8?B?d0Y3RHZNYlNsTVNSREVxbGF6dVdablNKVGtqRmZUS25rOWtvWHVyRzBIL3ZG?=
+ =?utf-8?B?MjRUaGFtNElSVDMwcDFxZmVyelU5ZHAvQ0VuNjREUUtUMDFMY3p1SEd5Ui9O?=
+ =?utf-8?B?UXR0TDRGWjZMeUcwclkxUDdZVERheHAzUndBbkpKUklSNGkzbWNGdm04L2VT?=
+ =?utf-8?B?anJXQlR6R2w5YTBuM285SWJjRDRWS1Aweml0Uk85NXJMZ3BObzhkTTRTNkd5?=
+ =?utf-8?B?U2RUMlVNQkkrUjFsUWFISzM5eCtiVUpTU01vdjN2UzRqbUIyOUo4eVN4M2dX?=
+ =?utf-8?B?RHBoSjhqc3cxMDZLY0FDRmRML3B2VUg3TXozZWsxMmtpRHdJSHo2N3VoSlVL?=
+ =?utf-8?B?T2VaUjVmdFdyQTI4a0N4U0x5U2hKdEFLbVVrZGV2UnY2VERCWDhrc0VndGhi?=
+ =?utf-8?B?Z2o1NUtNZ2JtYnVFdmM0N1VXREF4Rm5zVjhjaUdLVUxRSWRUNVlNcW1hVmFl?=
+ =?utf-8?B?UUFXWEU3MHV0Zm05cXFURnlxUldqZEVGZXNaQzhoRlhVS2V3eGNhNjdaMGJR?=
+ =?utf-8?B?MTBYRS9aMWpOL2NKTmloMWlJbUMyam1oeURWQWltVnBDR3VUMTVuRWFXSzFJ?=
+ =?utf-8?B?YTBCRUR3S2h2a2FPMHBLMCs4T3lHd1F0STNFb1NJalVmYkJVK2h0Ty9sMUR1?=
+ =?utf-8?Q?fiXVul1cRZhgz9oI=3D?=
+X-Exchange-RoutingPolicyChecked: vV2hzdSyUxt0kUo8KwxFMG1vmsvHduqwds6ZhmaYBRPevSh8DmSSBzyJmWntNtk6zYxnLmkSJ+wG8kUO5szM/I21+xAbDdwJmc+jQC1D0m+ANtXc8jyd3ruRJCxFGaX6lwk4FoTJJfY9p8f/nq4q001yGNNIcRxG/TQh5uiLGdIIxXkFQECJPOTetj+VQZj4cytryw29C6VpJmXmCukWsoo9rVl0z4MIh7Mhwxq9vRLOiTc5MVgNuf0Xe74kwFHePakHzOIRSTISY2YJUmdH0IW7AaZuE+lPtGYG3VcGBPrcxPhhJP85eT72WAaURFsvjmFt3Y9RXzSP14nF2UCknQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: b01f84a7-6e42-493e-dfa7-08df0ac99ae6
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 21:15:11.6359
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ob8rSXnC5B3Ak4vZsUz9EiWjcqgbbaO3iEo+BPUX8ZfLbX9nnb7V3o+oRfpEzoVY1C8SgmyUfY7IF3fRVeD5heT334lNTdm7GZzGT7IjAgM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8139
+X-OriginatorOrg: intel.com
 
-To Kairui, Johannes, Yosry, Chris, David, Andrew, and other (z)swap folks -
-I need some help here.
+Hi Boris,
 
-I'd like to ask for a decision, or failing that, the specific thing that
-would get us to one. I'd much rather work against a concrete objection than
-keep respinning into silence.
+On 9/4/26 10:36 AM, Borislav Petkov wrote:
+> On Thu, Sep 03, 2026 at 08:37:51PM -0700, Borislav Petkov wrote:
+>> Lemme have a look.
+> 
+> Sashiko has comments:
+> 
+> https://sashiko.dev/#/patchset/20260709093111.367851-1-ben.horgan%40arm.com
+> 
+> Please address them: if valid, fix them, if not, explain why they don't need
+> to be fixed.
+Sashiko has two comments. I'll defer to Ben on the first comment.
 
-Quick recap: today a swapped-out page holds a disk slot even when the data
-never reaches disk, like zswap or zero-filled pages. My patch series
-(latest version at [10]) puts a virtual entry in the page table instead and
-resolves the backing separately, so zswap stops reserving disk it never
-uses and can work on machines with no storage swap space at all.
+Sashiko's second comment is about resctrl's existing (not introduced by this patch)
+Intel specific enumeration being resilient against a hypervisor misconfiguration.
+Thus far resctrl assumed the enumeration would return what the actual hardware
+is known to support.
 
-I've been working on this since April 2025, going through 10 revisions (6
-on the original design ([1] through [6]) and 4 on the swap-table-based
-rewrite ([7] through [10])). I also gave a talk on it at LPC [11].
+Sashiko had similar "hypervisor misconfiguration" comments in response to another
+resctrl series that already falls under the "cleanup" umbrella. It is not clear to
+me how far resctrl needs to go to be resilient against hypervisor misconfiguration
+but I can include needed validation addressing this report as part of [1]. 
 
-Throughout the process, I've been very receptive to reviewers - including
-parties whose use cases are very different from my own, like zram users and
-the ghost-swapfile-style deployments that want zswap with no backing disk
-at all - and the current design reflects that:
+Reinette
 
-* Kairui asked that this be optional, not a replacement [12]. It is now:
-  vswap is opt-in behind the vswap= cmdline parameter, and with vswap=off
-  the existing swap paths aren't touched at all.
-
-* Kairui also pointed out that if I kept shrinking the metadata I'd "end up
-  reimplementing the swap table format" [12]. I took that feedback, and
-  reworked the entire series on top of swap table.
-
-* Per Chris' requests, I've figured out ways to minimize memory overhead
-  [13]. On a zswap-only setup there's almost 0 overhead now, because the
-  vtable is merged with zswap's xarray rather than sitting on top of it.
-  The indirection is paid for by the tree we delete.
-
-* Johannes pointed out that a physical cluster backing only vswap entries
-  still had to allocate a memcg_table, which was an overhead regression
-  against my older design on the zswap writeback case [14] (since a swap
-  entry occupies multiple levels). I've also fixed this.
-
-* I've spent a lot of time chasing regressions on setups we don't even run
-  at Meta - zram in particular [6]. And if anyone's still worried after all
-  that, vswap=off keeps the old swap code available.
-
-Numbers are in the v4 cover letter [10]. In terms of performance, vswap is
-on par or better than baseline on zswap across memhog, usemem and kernel
-build, and vswap=off tracks baseline within noise. I've even included an
-A/B experiment on a real production workload (Instagram/django): throughput
-on par, latency slightly better, and the swapfile footprint for every zswap
-user on the host goes away.
-
-Now, on xswap. Baoquan's working on a series [15] that covers some of the
-same ground, and the VM_SPARSE cluster_info idea in it is genuinely good.
-I've been reviewing that lineage since July [16] and I'd like whatever
-lands to end up with the best parts of both. From my perspective the
-differences are:
-
-1. Userspace knobs. xswap asks the admin for a size (a percent of RAM) plus
-   a per-device limit to tune afterwards. I'm not aware of any use case
-   that needs those, and I don't think users have a good way to answer the
-   question anyway - sizing swap for compressed memory depends on memory
-   size, workload, and compression ratio all at once. That's precisely the
-   provisioning problem vswap exists to remove. The kernel should be as
-   transparent and dynamic as possible here, and not add knobs unless
-   there's a use case for them.
-
-2. Writeback support. Writeback is core functionality for zswap, not an
-   add-on, and a design needs to account for it from the start. This came
-   up before, in the discussion around Chris' ghost swapfile RFC [17]: for
-   a solution here to be acceptable, it has to work with the primary
-   usecase and support disk writeback. Without it, whatever zswap won't
-   take (incompressible pages especially) has nowhere to go, and cold
-   compressed data can never leave RAM.
-
-3. Cgroup charging behavior. vswap/xswap shouldn't be charged against the
-   swap usage counter. It's fundamentally a different resource from
-   physical swapfile space, and memory.swap.* should read 0 when nothing is
-   on disk [18]. I made the longer argument for this in [19].
-
-4. Data structure (xarray vs sparse vmalloc array). Even with xarray, vswap
-   is already on par with or beating baseline. I like the sparse array
-   idea, but why are we landing an optimization before the feature itself,
-   without any A/B data showing the difference matters?
-
-One thing I do want to be clear about: I'm glad other people care about
-this problem. Chris' ghost swapfile and Baoquan's xswap are both going
-after the same set of problems, and that's a good sign. It means this is
-real and shared, not something only Meta runs into.
-
-What's been harder is the shape of the engagement. Alternatives keep
-getting posted and pushed that don't cover all the requirements, while this
-series sits without review. I don't think I'm owed anyone's interest in the
-problems I care about. But I do think working code, with benchmarks and
-production exposure behind it, deserves a fair hearing next to in-progress
-proposals.
-
-So what I'm asking for: I'd like us to converge rather than keep two series
-in flight. My preference is that we land vswap first, then build Baoquan's
-sparse array on top of it as an optimization. That gets the feature in, and
-by then we'd have the A/B data to show whether the sparse array actually
-beats the xarray.
-
-If you think that's the wrong order, I'd genuinely like to understand why -
-after 17 months and 10 revisions I still don't have a clear picture of the
-objection.
-
-[1] https://lore.kernel.org/all/20250407234223.1059191-1-nphamcs@gmail.com/
-[2] https://lore.kernel.org/all/20250429233848.3093350-1-nphamcs@gmail.com/
-[3] https://lore.kernel.org/all/20260208215839.87595-1-nphamcs@gmail.com/
-[4] https://lore.kernel.org/all/20260318222953.441758-1-nphamcs@gmail.com/
-[5] https://lore.kernel.org/all/20260320192735.748051-1-nphamcs@gmail.com/
-[6] https://lore.kernel.org/all/20260505153854.1612033-1-nphamcs@gmail.com/
-[7] https://lore.kernel.org/all/20260528212955.1912856-1-nphamcs@gmail.com/
-[8] https://lore.kernel.org/all/20260612193738.2183968-1-nphamcs@gmail.com/
-[9] https://lore.kernel.org/all/20260806184254.3790858-1-nphamcs@gmail.com/
-[10] https://lore.kernel.org/all/20260825153238.2695446-1-nphamcs@gmail.com/
-[11] https://lwn.net/Articles/1016136/
-[12] https://lore.kernel.org/all/CAMgjq7AQNGK-a=AOgvn4-V+zGO21QMbMTVbrYSW_R2oDSLoC+A@mail.gmail.com/
-[13] https://lore.kernel.org/all/CACePvbVXQWgcPD-bgK7iDba4NFLo2tT89ZbLOa03maJU4er4ag@mail.gmail.com/
-[14] https://lore.kernel.org/all/aZyFxKGXc8J6PIij@cmpxchg.org/
-[15] https://lore.kernel.org/all/20260827094509.1016740-1-hebaoquan@kylinos.cn/
-[16] https://lore.kernel.org/lkml/CAKEwX=Pe+qMZd2xhnU-PAGQtgXkp56c-JwYCbt2Lux9htgB67Q@mail.gmail.com/
-[17] https://lore.kernel.org/all/20251121114011.GA71307@cmpxchg.org/
-[18] https://lore.kernel.org/all/anYIboHEUZb4fhHv@cmpxchg.org/
-[19] https://lore.kernel.org/all/CAKEwX=P4syV38jAVCWq198r2OHXXc=xA-fx1dk6+qYef6yzxWQ@mail.gmail.com/
+[1] https://sashiko.dev/#/patchset/cover.1788452481.git.reinette.chatre%40intel.com
