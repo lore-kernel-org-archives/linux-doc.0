@@ -1,484 +1,190 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB76F483BF6;
-	Fri,  4 Sep 2026 12:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498EE2D94B5;
+	Fri,  4 Sep 2026 13:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788525457; cv=none; b=uS2eTopQiOxlU24qkWWIyCLWon9IIB8IavU0OkOdaEcTy6NSTFNv1fbqm4XrHBD+za3VtvsBBRD3Gy0iQU6M2Yfa+ijK1uFDq9aeKTvSErPVejwSf0mM0yzNUmUItoTLP15SR+YZU6UX4bufX+/mZXkNwNe0PzfFX+4znYQaYIM=
+	t=1788527078; cv=none; b=fedLA+WzuwxQGn8zgCZ/ZbUsyHHd0ObokPq39EmnvgPwoWRTiXMdrjZaszKl76DCMA1BhvV76z+6xgufFFlyEJcgYizfRVmafvJKG+U+RJDBqOnSDIYDyDf2U0FGiVq6wKVfIOiN9/0FPw73uplCve+u3ilwZd8ZfI2rc6lMOjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788525457; c=relaxed/simple;
-	bh=r+JWSjJAT1fqdxTkYFXC3Z2CcMa3Z4KrLaVw0tw7b+8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HLFUUxgCCWwwCGqLKPp3N3Ih5mM7AsRd8tgu0vuWKoCJtkIHUTkPW1H/UeC0eFFlgJg98yeJ8Usn70yRD8Kmo/U3mIhJhaboD0y5MzSRfi0zUrFyli6qBqY7eJr0UTcx5nUmpOn29+XoqjxpT28DkZ+MV7nBEzcMJfryekh9yuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=n7JCvEhN; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1788527078; c=relaxed/simple;
+	bh=hgMkUm6ZJXGaN8CSWA74FoH3YB5D0Q8YypvHtnEdcWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I6pJtf6pq6UQh3iXWKU+DFkLK0ZJxBEid9VNLUdxATUV0QItgyFwhJnurCl6908kJh7SS3l4TvimUbnqgwq0l74RigKZIiqpfZq2hEbZRWuoxhQEQRtCoJV5lPVDMbdTw+N7VfmftKCXdgZ2pZOIrgeCBaw+OIjU+Zkizsau8hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FI9jXmPk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="n7JCvEhN"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 572CA153B;
-	Fri,  4 Sep 2026 05:37:30 -0700 (PDT)
-Received: from a081061.blr.arm.com (a081061.arm.com [10.164.19.84])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6D8EF3F673;
-	Fri,  4 Sep 2026 05:37:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788525454; bh=r+JWSjJAT1fqdxTkYFXC3Z2CcMa3Z4KrLaVw0tw7b+8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=n7JCvEhNnTytRWE4CVZZjXVHRGzXMrHxayjQQYeqI0qzwVWZFI0pY2ZhyyFCWuIIF
-	 J2rY0yGrp5lFNbzEZKKubKwsFdzN629SDat/52/kp2uQ3AC0NvSMZbVnMkc/kC4AVi
-	 0wZRFcG3ndHd9lOSkUA5zH+6gWLgo4TRg+0qdlPo=
-From: Sarthak Sharma <sarthak.sharma@arm.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Peter Xu <peterx@redhat.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Muhammad Usama Anjum <usama.anjum@arm.com>,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sarthak Sharma <sarthak.sharma@arm.com>
-Subject: [PATCH v9 6/6] selftests/mm: add a GUP selftest
-Date: Fri,  4 Sep 2026 18:06:31 +0530
-Message-ID: <20260904123631.198697-7-sarthak.sharma@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260904123631.198697-1-sarthak.sharma@arm.com>
-References: <20260904123631.198697-1-sarthak.sharma@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FI9jXmPk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F225F1F00A3D;
+	Fri,  4 Sep 2026 13:04:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788527077;
+	bh=4uzkzE9HQAjsck1RvYQ8k28kiSnXOy+3W2NVGAadN4A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FI9jXmPkKkcA/J38KUy6UrC0lnv+GHJhr4JQlSroai4bNWSKzKJK6Jd8IeHsBM0iI
+	 PPjg7gu2zyFEDpkr1v6U/HQfRkQi+1qfIGq5A5rwkQftQWM4DOkNz1zWSvzb3pAiYd
+	 xIWckFefXGNa7lmCgHI+a81XYczWY5ODSX5GYJnaLN4nd+nuz/hYKBUW1rXmXK5d56
+	 h00Mmp1i8kzP+LCpD81ppXggZBiqkdC2kCxRSVMDLqi0y2dsEQRu2ReFT9ZJ8pF3IA
+	 sh+X5YPSFhtDClkhSsQ4e3he0mYS93R1OQwT+Kl5q+6GE7Oi3ZFALnCSfvVW8SVVXH
+	 CLTjn0y6S8+Zw==
+Date: Fri, 4 Sep 2026 14:04:30 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Fuad Tabba <fuad.tabba@linux.dev>, Peter Maydell <peter.maydell@linaro.org>, 
+	Leonardo Bras <leo.bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>, 
+	Yao Yuan <yaoyuan@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v20 05/14] KVM: arm64: Set PSTATE.EXLOCK when entering an
+ exception
+Message-ID: <apq2uELk-VRvrg7w@gremlin>
+References: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org>
+ <20260901-arm64-gcs-v20-5-f31750bdfadb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260901-arm64-gcs-v20-5-f31750bdfadb@kernel.org>
 
-Add a new GUP selftest which uses kselftest_harness.h. Cover
-12 mapping configurations: THP enabled, THP disabled and
-HugeTLB, each across private/shared mappings and with/without
-FOLL_WRITE. Run 5 test cases for every variant: get_user_pages,
-get_user_pages_fast, pin_user_pages, pin_user_pages_fast and
-pin_user_pages_longterm.
+On Tue, Sep 01, 2026 at 10:47:03PM +0100, Mark Brown wrote:
+> As per DDI 0487 R_WTXBY we need to manage PSTATE.EXLOCK when entering an
 
-Choose the number of default hugeTLB pages using a 256 MiB target,
-with a minimum of 1 page and derive the mapping size from that
-number. This avoids reserving excess memory when the hugeTLB page
-size is too large and retains 128 pages for the most common case
-of 2MiB hugeTLB pages.
+I'm guessing this is the doc at this unreasonably huge URI? :)
 
-Sweep four nr_pages_per_call values for each test: 1, 512, 123 and
-all pages. This preserves the coverage previously provided by
-run_gup_matrix(): 12 mapping combinations x 5 GUP/PUP operations x 4
-batch sizes. In total the selftest reports 60 TAP cases and issues
-240 ioctls.
+https://support.arm.com/documentation/ddi0487/mc/-Part-D-The-AArch64-System-Level-Architecture/-Chapter-D1-The-AArch64-System-Level-Programmers--Model/-D1-4-Exceptions/-D1-4-2-Exception-entry?lang=en#wtxby
 
-Do not carry DUMP_USER_PAGES_TEST into the new selftest because its
-output is written to the kernel log and the selftest does not verify
-that output.
+> exception, when the exception is entered from a lower EL the bit is cleared
+> while if entering from the same EL it is set to GCSCR_ELx.EXLOCKEN.
+> Implement this behaviour in enter_exception64().
 
-Add the new gup binary to the selftests/mm build, run_vmtests.sh and
-MAINTAINERS. Update mm/Kconfig to describe the benchmark and
-selftest split.
+Ack, all makes sense and matches the doc.
 
-Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
-Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
-Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
----
- MAINTAINERS                               |   1 +
- mm/Kconfig                                |  21 +-
- tools/testing/selftests/mm/Makefile       |   1 +
- tools/testing/selftests/mm/gup.c          | 287 ++++++++++++++++++++++
- tools/testing/selftests/mm/run_vmtests.sh |   1 +
- 5 files changed, 300 insertions(+), 11 deletions(-)
- create mode 100644 tools/testing/selftests/mm/gup.c
+>
+> Reviewed-by: Yuan Yao <yaoyuan@linux.alibaba.com>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d7a146b093de..1ca7de3e440e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17189,6 +17189,7 @@ F:	mm/gup.c
- F:	mm/gup_test.c
- F:	mm/gup_test.h
- F:	tools/mm/gup_bench.c
-+F:	tools/testing/selftests/mm/gup.c
- F:	tools/testing/selftests/mm/gup_longterm.c
- 
- MEMORY MANAGEMENT - KSM (Kernel Samepage Merging)
-diff --git a/mm/Kconfig b/mm/Kconfig
-index c1ddf59c0d71..79163b7d795a 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -1287,24 +1287,23 @@ config PERCPU_STATS
- 	  be used to help understand percpu memory usage.
- 
- config GUP_TEST
--	bool "Enable infrastructure for get_user_pages()-related unit tests"
-+	bool "Enable infrastructure for get_user_pages()-related unit tests and benchmarks"
- 	depends on DEBUG_FS
- 	help
- 	  Provides /sys/kernel/debug/gup_test, which in turn provides a way
--	  to make ioctl calls that can launch kernel-based unit tests for
--	  the get_user_pages*() and pin_user_pages*() family of API calls.
-+	  to make ioctl calls that can launch kernel-based unit tests and
-+	  benchmarks for the get_user_pages*() and pin_user_pages*() families
-+	  of API calls.
- 
--	  These tests include benchmark testing of the _fast variants of
--	  get_user_pages*() and pin_user_pages*(), as well as smoke tests of
-+	  These include benchmark testing of the _fast variants of
-+	  get_user_pages*() and pin_user_pages*(), as well as tests of
- 	  the non-_fast variants.
- 
--	  There is also a sub-test that allows running dump_page() on any
--	  of up to eight pages (selected by command line args) within the
--	  range of user-space addresses. These pages are either pinned via
--	  pin_user_pages*(), or pinned via get_user_pages*(), as specified
--	  by other command line arguments.
-+	  There is also a test that allows running dump_page() on any of up
-+	  to eight pages within the range of user-space addresses. These
-+	  pages are either acquired via pin_user_pages*() or get_user_pages*().
- 
--	  See tools/testing/selftests/mm/gup_test.c
-+	  See tools/testing/selftests/mm/gup.c and tools/mm/gup_bench.c.
- 
- comment "GUP_TEST needs to have DEBUG_FS enabled"
- 	depends on !GUP_TEST && !DEBUG_FS
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-index 11ca9b11fef1..9c03624fd293 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -58,6 +58,7 @@ endif
- 
- TEST_GEN_FILES = cow
- TEST_GEN_FILES += compaction_test
-+TEST_GEN_FILES += gup
- TEST_GEN_FILES += gup_longterm
- TEST_GEN_FILES += hmm-tests
- TEST_GEN_FILES += hugetlb-madvise
-diff --git a/tools/testing/selftests/mm/gup.c b/tools/testing/selftests/mm/gup.c
-new file mode 100644
-index 000000000000..6a0dd415fb9a
---- /dev/null
-+++ b/tools/testing/selftests/mm/gup.c
-@@ -0,0 +1,287 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define __SANE_USERSPACE_TYPES__ // Use ll64
-+#include <fcntl.h>
-+#include <errno.h>
-+#include <stdbool.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <dirent.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+#include <mm/gup_test.h>
-+#include "vm_util.h"
-+#include "kselftest_harness.h"
-+
-+#define MB (1UL << 20)
-+
-+/* Just the flags we need, copied from the kernel internals. */
-+#define FOLL_WRITE	0x01	/* check pte is writable */
-+
-+/* Page counts exercising single, THP-batch, partial, and full-mapping GUP. */
-+static const int nr_pages_list[] = { 1, 512, 123, -1 };
-+
-+#define GUP_TEST_FILE "/sys/kernel/debug/gup_test"
-+#define HUGETLB_TARGET_SIZE (256 * MB)
-+
-+static unsigned long nr_huge_pages, hp_size;
-+static bool hugetlb_setup_succeeded;
-+
-+FIXTURE(gup_test)
-+{
-+	int gup_fd;
-+	char *addr;
-+	unsigned long size;
-+};
-+
-+FIXTURE_VARIANT(gup_test)
-+{
-+	bool thp;
-+	bool hugetlb;
-+	bool write;
-+	bool shared;
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_write)
-+{
-+	.thp = false,
-+	.hugetlb = false,
-+	.write = true,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_read)
-+{
-+	.thp = false,
-+	.hugetlb = false,
-+	.write = false,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_write_thp)
-+{
-+	.thp = true,
-+	.hugetlb = false,
-+	.write = true,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_read_thp)
-+{
-+	.thp = true,
-+	.hugetlb = false,
-+	.write = false,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_write_hugetlb)
-+{
-+	.thp = false,
-+	.hugetlb = true,
-+	.write = true,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_read_hugetlb)
-+{
-+	.thp = false,
-+	.hugetlb = true,
-+	.write = false,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_write)
-+{
-+	.thp = false,
-+	.hugetlb = false,
-+	.write = true,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_read)
-+{
-+	.thp = false,
-+	.hugetlb = false,
-+	.write = false,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_write_thp)
-+{
-+	.thp = true,
-+	.hugetlb = false,
-+	.write = true,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_read_thp)
-+{
-+	.thp = true,
-+	.hugetlb = false,
-+	.write = false,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_write_hugetlb)
-+{
-+	.thp = false,
-+	.hugetlb = true,
-+	.write = true,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_read_hugetlb)
-+{
-+	.thp = false,
-+	.hugetlb = true,
-+	.write = false,
-+	.shared = true,
-+};
-+
-+FIXTURE_SETUP(gup_test)
-+{
-+	int mmap_flags = MAP_PRIVATE;
-+	int zero_fd;
-+	char *p;
-+
-+	self->size = 128 * MB;
-+
-+	if (variant->hugetlb) {
-+		if (!hp_size)
-+			SKIP(return, "HugeTLB not available\n");
-+
-+		if (!hugetlb_setup_succeeded ||
-+		    hugetlb_free_default_pages() < nr_huge_pages)
-+			SKIP(return, "Not enough huge pages\n");
-+
-+		self->size = nr_huge_pages * hp_size;
-+		mmap_flags |= (MAP_HUGETLB | MAP_ANONYMOUS);
-+	}
-+
-+	if (variant->shared)
-+		mmap_flags = (mmap_flags & ~MAP_PRIVATE) | MAP_SHARED;
-+
-+	/* zero_fd has to be >= 0. Already checked in main() */
-+	zero_fd = open("/dev/zero", O_RDWR);
-+	ASSERT_GE(zero_fd, 0);
-+
-+	/* gup_fd has to be >= 0. Already checked in main() */
-+	self->gup_fd = open(GUP_TEST_FILE, O_RDWR);
-+	ASSERT_GE(self->gup_fd, 0);
-+
-+	self->addr = mmap(NULL, self->size, PROT_READ | PROT_WRITE,
-+			  mmap_flags, zero_fd, 0);
-+
-+	ASSERT_NE(self->addr, MAP_FAILED) {
-+		int err = errno;
-+
-+		close(zero_fd);
-+		close(self->gup_fd);
-+		TH_LOG("mmap failed: %s", strerror(err));
-+	}
-+	close(zero_fd);
-+
-+	if (variant->thp)
-+		madvise(self->addr, self->size, MADV_HUGEPAGE);
-+	else if (!variant->hugetlb)
-+		madvise(self->addr, self->size, MADV_NOHUGEPAGE);
-+
-+	for (p = self->addr; (unsigned long)p < (unsigned long)self->addr
-+			+ self->size; p += psize())
-+		p[0] = 0;
-+}
-+
-+FIXTURE_TEARDOWN(gup_test)
-+{
-+	munmap(self->addr, self->size);
-+	close(self->gup_fd);
-+}
-+
-+static void run_gup_cmd(struct __test_metadata *_metadata,
-+			 FIXTURE_DATA(gup_test) *self,
-+			 const FIXTURE_VARIANT(gup_test) *variant,
-+			 unsigned long command)
-+{
-+	int i;
-+
-+	for (i = 0; i < (int)ARRAY_SIZE(nr_pages_list); i++) {
-+		struct gup_test gup = {
-+			.addr = (unsigned long)self->addr,
-+			.size = self->size,
-+			.nr_pages_per_call = nr_pages_list[i] < 0 ?
-+				self->size / psize() : nr_pages_list[i],
-+			.gup_flags = variant->write ? FOLL_WRITE : 0,
-+		};
-+
-+		TH_LOG("nr_pages_per_call=%u", gup.nr_pages_per_call);
-+		ASSERT_EQ(ioctl(self->gup_fd, command, &gup), 0);
-+		ASSERT_EQ(gup.size, self->size);
-+	}
-+}
-+
-+TEST_F(gup_test, get_user_pages)
-+{
-+	run_gup_cmd(_metadata, self, variant, GUP_BASIC_TEST);
-+}
-+
-+TEST_F(gup_test, pin_user_pages)
-+{
-+	run_gup_cmd(_metadata, self, variant, PIN_BASIC_TEST);
-+}
-+
-+TEST_F(gup_test, get_user_pages_fast)
-+{
-+	run_gup_cmd(_metadata, self, variant, GUP_FAST_BENCHMARK);
-+}
-+
-+TEST_F(gup_test, pin_user_pages_fast)
-+{
-+	run_gup_cmd(_metadata, self, variant, PIN_FAST_BENCHMARK);
-+}
-+
-+TEST_F(gup_test, pin_user_pages_longterm)
-+{
-+	run_gup_cmd(_metadata, self, variant, PIN_LONGTERM_BENCHMARK);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	char *file = "/dev/zero";
-+	int fd;
-+
-+	fd = open(file, O_RDWR);
-+	if (fd < 0) {
-+		ksft_print_header();
-+		ksft_exit_fail_msg("Unable to open %s: %s\n", file, strerror(errno));
-+	}
-+	close(fd);
-+
-+	fd = open(GUP_TEST_FILE, O_RDWR);
-+	if (fd == -1) {
-+		ksft_print_header();
-+		if (errno == EACCES)
-+			ksft_exit_skip("Please run this test as root\n");
-+		if (errno == ENOENT) {
-+			DIR *debugfs = opendir("/sys/kernel/debug");
-+
-+			if (!debugfs) {
-+				ksft_exit_skip("Mount debugfs at /sys/kernel/debug\n");
-+			} else {
-+				closedir(debugfs);
-+				ksft_exit_skip("Check CONFIG_GUP_TEST in kernel config\n");
-+			}
-+		}
-+		ksft_exit_fail_msg("Failed to open %s: %s\n", GUP_TEST_FILE, strerror(errno));
-+	}
-+	close(fd);
-+
-+	hp_size = default_huge_page_size();
-+	if (hp_size) {
-+		nr_huge_pages = HUGETLB_TARGET_SIZE / hp_size;
-+		if (!nr_huge_pages)
-+			nr_huge_pages = 1;
-+
-+		hugetlb_setup_succeeded = hugetlb_setup_default(nr_huge_pages);
-+	}
-+
-+	return test_harness_run(argc, argv);
-+}
-diff --git a/tools/testing/selftests/mm/run_vmtests.sh b/tools/testing/selftests/mm/run_vmtests.sh
-index 8f1e828e4f39..ae0ab5efabae 100755
---- a/tools/testing/selftests/mm/run_vmtests.sh
-+++ b/tools/testing/selftests/mm/run_vmtests.sh
-@@ -251,6 +251,7 @@ fi
- 
- CATEGORY="mmap" run_test ./map_fixed_noreplace
- 
-+CATEGORY="gup_test" run_test ./gup
- CATEGORY="gup_test" run_test ./gup_longterm
- 
- CATEGORY="userfaultfd" run_test ./uffd-unit-tests
--- 
-2.53.0
+All LGTM! A couple small nits but otherwise:
 
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
+> ---
+>  arch/arm64/include/uapi/asm/ptrace.h |  1 +
+>  arch/arm64/kvm/hyp/exception.c       | 37 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 38 insertions(+)
+>
+> diff --git a/arch/arm64/include/uapi/asm/ptrace.h b/arch/arm64/include/uapi/asm/ptrace.h
+> index 15649a253a57..eed7f1226be6 100644
+> --- a/arch/arm64/include/uapi/asm/ptrace.h
+> +++ b/arch/arm64/include/uapi/asm/ptrace.h
+> @@ -56,6 +56,7 @@
+>  #define PSR_C_BIT	0x20000000
+>  #define PSR_Z_BIT	0x40000000
+>  #define PSR_N_BIT	0x80000000
+> +#define PSR_EXLOCK_BIT 0x400000000
+
+Ah yeah I see this matches BIT_ULL(34) /* PSTATE.EXLOCK */ in
+emulate-nested.c (which you later replace with this :)
+
+>
+>  #define PSR_BTYPE_SHIFT		10
+>
+> diff --git a/arch/arm64/kvm/hyp/exception.c b/arch/arm64/kvm/hyp/exception.c
+> index 754e2dc1df54..85c873644fe9 100644
+> --- a/arch/arm64/kvm/hyp/exception.c
+> +++ b/arch/arm64/kvm/hyp/exception.c
+> @@ -49,6 +49,38 @@ static void __vcpu_write_spsr_und(struct kvm_vcpu *vcpu, u64 val)
+>  		vcpu->arch.ctxt.spsr_und = val;
+>  }
+>
+> +static unsigned long compute_exlock(struct kvm_vcpu *vcpu,
+> +				    unsigned long mode,
+> +				    unsigned long target_mode)
+> +{
+> +	u64 gcscr;
+> +
+> +	if (!kvm_has_gcs(kern_hyp_va(vcpu->kvm)))
+> +		return 0;
+> +
+> +	/* GCS can't be enabled for 32 bit */
+> +	if (mode & PSR_MODE32_BIT)
+> +		return 0;
+
+Ack makes sense.
+
+> +
+> +	/* When taking an exception to a higher EL EXLOCK is cleared. */
+> +	if ((mode | PSR_MODE_THREAD_BIT) != target_mode)
+> +		return 0;
+
+Ack makes sense as per doc.
+
+> +
+> +	/*
+> +	 * When taking an exception to the same EL EXLOCK is set to
+> +	 * the effective value of GCSR_ELx.EXLOCKEN.
+
+NIT: Typo? Other references to this here are for GCSCR_ELx.EXLOCKEN.
+
+> +	 */
+> +	if (is_hyp_ctxt(vcpu))
+> +		gcscr = vcpu_read_sys_reg(vcpu, GCSCR_EL2);
+
+I guess with VHE this does the automagically 'think it's in EL2' even if
+it's nested in EL1 stuff? :)
+
+> +	else
+> +		gcscr = vcpu_read_sys_reg(vcpu, GCSCR_EL1);
+> +
+> +	if (gcscr & GCSCR_ELx_EXLOCKEN)
+> +		return PSR_EXLOCK_BIT;
+
+This all LGTM.
+
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * This performs the exception entry at a given EL (@target_mode), stashing PC
+>   * and PSTATE into ELR and SPSR respectively, and compute the new PC/PSTATE.
+> @@ -138,6 +170,11 @@ static void enter_exception64(struct kvm_vcpu *vcpu, unsigned long target_mode,
+>  	// PSTATE.BTYPE is set to zero upon any exception to AArch64
+>  	// See ARM DDI 0487E.a, pages D1-2293 to D1-2294.
+>
+> +	// PSTATE.EXLOCK is set to 0 upon any exception to a higher
+> +	// EL, or to GCSCR_ELx.EXLOCKEN for an exception to the same
+> +	// exception level.  See ARM DDI 0487 R_WTXBY.
+
+Yeah confirmed:
+
+	"If FEAT_GCS is implemented, PSTATE.EXLOCK is updated based on the
+	 following situations:
+
+	 On taking an exception to the same Exception level, PSTATE.EXLOCK
+	 is set to the Effective value of GCSCR_ELx.EXLOCKEN for the
+	 current Exception level.
+
+	 On taking an exception to a higher Exception level, PSTATE.EXLOCK
+	 is set to 0."
+
+A slight nit is that maybe the comment should live with compute_exlock()
+but it's no big deal.
+
+> +	new |= compute_exlock(vcpu, mode, target_mode);
+> +
+>  	new |= PSR_D_BIT;
+>  	new |= PSR_A_BIT;
+>  	new |= PSR_I_BIT;
+>
+> --
+> 2.47.3
+>
+>
+
+--
+Cheers, Lorenzo
