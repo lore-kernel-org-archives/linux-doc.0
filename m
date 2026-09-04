@@ -1,111 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-113.ptr.blmpb.com (va-2-113.ptr.blmpb.com [209.127.231.113])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4620242048D;
-	Fri,  4 Sep 2026 06:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D8541D624
+	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 06:52:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788504012; cv=none; b=CnR3LojeReJlBwx2uusUyUqFVnvRjV0YdAnKISdMbAtjVbcgDU9rjLthq+BWg6sw2EF/NuWPgrlp4BZbGdHgtUkh6jm5zBCA5Dny0pzEVAnon9Psq34rBZkzXeMDeIDz+XDjaI9g5J9Jp0X9ZuUqhoh8K1I7j0/eNScO4ZD6nJM=
+	t=1788504762; cv=none; b=hjlFKRUTDTf7MjqAGtRU6EYzoivsB+7/Hlqejn3OGwSGFLjNf8bdHKPI0LFFCCXgl6V26QGQVblQL3B0c3Zf9IQsqom46KPBI/kF8mXFXYgqEReV2KRolZ2fTA6xSRE8WBnX/ztizfEJsLQ2DrUPnSbi2q0NfmOX9WB5cXUl+EU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788504012; c=relaxed/simple;
-	bh=J1KvWqh62WTQ03xd0+CqNZq1yEoLrhBiZ5RGBMHRC9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tbFYeOcZ1THLGIGttbEVw3vrVvA+FMKDLdpmAVKtFRd8BVWyoeY6AQpRC1JHPF3+nOHbnpSw3mbuKhKWlreDFQPDJxSAcMufm3jK6ngs/dqpCAkms5kl0w8iWtjT0ac/AK/hxs46S7U+n2ZMFEmpXQrwDf4sOPe2aDmJ02LeivA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W3LXxkeI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788504762; c=relaxed/simple;
+	bh=T6Y/sOiGPvMRfPfHNQRfySVWMf63zFzZFk3cNSODLcs=;
+	h=Subject:Date:Content-Type:Mime-Version:Message-Id:To:From:Cc; b=nh+OfFxI256cZWz+AIHLauNSVc/gDOuIX6pEpkm1Fg1uzCMRO+FiEwvrvnm07qSneS1usMeKpnIWP7yKecA8U6LHt84fDOlDtERtROTHcuQJmL+MVf3WxulG2JAaQiVK9PCTJSvNEwdPWgjWsheMD/UDlVlo+XohDYPfJUVwqAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=O6rjfpBa; arc=none smtp.client-ip=209.127.231.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W3LXxkeI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7BDE1F00A3D;
-	Fri,  4 Sep 2026 06:40:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788504010;
-	bh=48bodTpVBmNx41ZQPaNGwPIsLCCxbhOYMD05wV5/gPs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=W3LXxkeIXv2NfmvPGTySH0nq3Mh06R0PeM7dlWTwsZPOH22mvCcf44py4XMUdcFmU
-	 wXXXnPe5Z+tfZWsyPS0iJRdemgf4lVlUcvadFjDqXkUwh/q93JgCiqGZim5RtCW3TS
-	 WqjD3BuwX3LcDlPtsXYfo/J5aGG7vwqRX6ysvThXyHq+uS6zPtr+FD5VJzTUanR2oW
-	 oZSTOgO/lCK05vXMYeBdqpndkLR07ukLWSfrjK9d8DNwz2mrwPqrytKSTliw3QoMw0
-	 3X1uoheFEOF1YYTtDBluK6nPn/6/HLc+nwh5UGKpgP3weeKS1LnTGDfG0OXsAcqaLN
-	 YzAqezPlBF5ag==
-Date: Fri, 4 Sep 2026 09:40:05 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 1/2] PCI/P2PDMA: Update DMABUF lifecycle docs after
- move_notify() rename
-Message-ID: <20260904064005.GE24140@unreal>
-References: <20260825-document-dma-buf-v1-1-5ecfb3e1371c@nvidia.com>
- <20260903203431.GA2238823@bhelgaas>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="O6rjfpBa"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1788504748; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=28SnKEvKoJ3nWwHB2ftkFSyFO3g/G4nEKnDXDivfznM=;
+ b=O6rjfpBak0JRuHQ3Q0TsStrZ5DrTED/F43Kw59lqymysp4p3BN9D37Hock/VNXTr6dzr72
+ QcYCHW5/nKmaZTU2dNkVlYgv4dfDWdCNO1/jJ8N4ZJBn2Zyd1dw+KqNW2Q+LBkZ83nsjvj
+ DgD/Op2O9pQMgQE+8k6BtSCU7qvsS4YtAU12lSzodKvysglQbp1wXvK3odRJI+q3rfHe4T
+ bIFkmjqGZHhinSbbZHDakUuW4mrIyZpYtftbgg1fgIiTAxtFInMcuannl4HyXnsizMPR9C
+ qgStbSE82nrAPeD4yCFjSK4Z0I0wCgIKR5dnI+e4Ri0YWlTqX8Ev+y0uIilkrw==
+Subject: [RFC 0/2] mm: add explicit goals to memcg memory.reclaim
+Date: Fri,  4 Sep 2026 14:51:57 +0800
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260903203431.GA2238823@bhelgaas>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.45.2
+Message-Id: <20260904065159.34409-1-lizhe.67@bytedance.com>
+X-Lms-Return-Path: <lba+26a9a6aaa+c4c0ab+vger.kernel.org+lizhe.67@bytedance.com>
+Content-Transfer-Encoding: 7bit
+To: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>, 
+	<liam@infradead.org>, <rppt@kernel.org>, <surenb@google.com>, 
+	<mhocko@suse.com>, <tj@kernel.org>, <hannes@cmpxchg.org>, 
+	<shakeel.butt@linux.dev>, <muchun.song@linux.dev>, <qi.zheng@linux.dev>
+From: "Li Zhe" <lizhe.67@bytedance.com>
+Cc: <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>, 
+	<lizhe.67@bytedance.com>
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
 
-On Thu, Sep 03, 2026 at 03:34:31PM -0500, Bjorn Helgaas wrote:
-> On Tue, Aug 25, 2026 at 09:28:01AM +0300, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > Commit 95308225e5ba ("dma-buf: Rename dma_buf_move_notify() to
-> > dma_buf_invalidate_mappings()") left the DMABUF section of the P2PDMA
-> > documentation pointing at move_notify(), a symbol that no longer
-> > exists. Readers grepping for it find nothing, and this is the only
-> > place in Documentation/ describing the revocation requirement.
-> > 
-> > Name the current function and record that importers which cannot unmap
-> > within bounded time have to be rejected at attach time, which is what
-> > makes the synchronous unmap on remove() achievable.
-> > 
-> > Fixes: 95308225e5ba ("dma-buf: Rename dma_buf_move_notify() to dma_buf_invalidate_mappings()")
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> 
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> It looks like 2/2 might be updated, and it probably makes sense to
-> merge them both together, but let me know if you want me to take this.
+memory.reclaim is used by userspace controllers as a proactive memcg
+reclaim interface. On systems without memory tiering, a completed request
+is normally interpreted as eviction-oriented progress: pages were freed
+and the cgroup's charged footprint can drop.
 
-This PCI patch is completely standalone, so I sent it separately:
-https://lore.kernel.org/all/20260830-doc-p2p-move-v1-1-61a388620588@nvidia.com/
+Memory tiering makes that interpretation ambiguous. The reclaim scanner
+may satisfy the requested amount by demoting cold folios from a faster
+tier to a slower tier. That is useful aging behavior, but it means a
+request can complete even though the cgroup's charged footprint is
+unchanged. Userspace controllers that rely on memory.reclaim for actual
+cgroup footprint reduction therefore lose the ability to request the same
+kind of outcome they get on non-tiered systems.
 
-Can you please take it from there?
+At the same time, some controllers want the opposite operation: use the
+reclaim scanner as a best-effort placement mechanism to move cold folios
+from DRAM to CXL or other lower tiers, without evicting them from memory.
+This can be used to maintain top-tier headroom or a desired
+DRAM/CXL occupancy ratio according to workload policy.
 
-Thanks
+This series keeps the existing behavior as the default, and adds explicit
+opt-in goals for userspace controllers that want a more specific outcome
+from memcg memory.reclaim:
 
-> 
-> > ---
-> >  Documentation/driver-api/pci/p2pdma.rst | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
-> > index d3f406cca694..63cff9e4d2c9 100644
-> > --- a/Documentation/driver-api/pci/p2pdma.rst
-> > +++ b/Documentation/driver-api/pci/p2pdma.rst
-> > @@ -167,9 +167,11 @@ In this case the initiator and target pci_devices are known and the P2P subsyste
-> >  is used to determine the mapping type. The phys_addr_t-based DMA API is used to
-> >  establish the dma_addr_t.
-> >  
-> > -Lifecycle is controlled by DMABUF move_notify(). When the exporting driver wants
-> > +Lifecycle is controlled by DMABUF revocation. When the exporting driver wants
-> >  to remove() it must deliver an invalidation shutdown to all DMABUF importing
-> > -drivers through move_notify() and synchronously DMA unmap all the MMIO.
-> > +drivers through dma_buf_invalidate_mappings() and synchronously DMA unmap all
-> > +the MMIO. Importers unable to complete that unmap within bounded time have to
-> > +be rejected when they attach, which dma_buf_attach_revocable() checks for.
-> >  
-> >  No importing driver can continue to have a DMA map to the MMIO after the
-> >  exporting driver has destroyed its p2p_provider.
-> > 
-> > -- 
-> > 2.55.0
-> > 
+  echo "1G goal=evict" > memory.reclaim
+
+    Run the normal reclaim scanner and keep demotion enabled as part of
+    tier aging, but do not count successful demotion toward completing the
+    requested amount. This lets callers ask memory.reclaim to continue
+    until eviction progress, rather than demotion-only progress, satisfies
+    the request. If the cgroup has no usable demotion target, goal=evict
+    falls back to the default goal=progress behavior.
+
+  echo "1G goal=demote" > memory.reclaim
+
+    Use the existing reclaim scanner for best-effort memory tier demotion
+    without LRU folio eviction. This is intended for placement control,
+    such as maintaining top-tier headroom or a desired DRAM/CXL occupancy
+    ratio. Demoted folios remain charged to the cgroup, so this goal does
+    not imply memory.current reduction. If the cgroup has no usable
+    demotion target, the request fails early with -EAGAIN.
+
+The default remains goal=progress, which is the current memory.reclaim
+behavior. In that mode, the kernel's existing reclaim progress accounting
+is unchanged and successful demotion can satisfy the requested amount.
+
+Patch 1 preserves the tiered LRU aging model. It changes the completion
+accounting for an eviction-oriented request, while still allowing demotion
+to happen as an intermediate step. After enough demotion has been done in
+a batch, reclaim avoids repeatedly scanning the top tiers in the cgroup's
+allowed demotion hierarchy just to produce more demotion-only progress,
+while still allowing lower tiers to age or reclaim normally.
+
+Patch 2 constrains a request in the other direction: it allows best-effort
+demotion as the requested action, while keeping folios that are not queued
+for demotion instead of evicting them from the LRU. It also skips slab
+shrinking, because slab reclaim cannot contribute demotion progress and
+would otherwise be retried aggressively for an underfilled demotion
+request.
+
+This also keeps the ABI scoped to the existing memory.reclaim interface
+instead of adding a new cgroup file. The goal key describes what kind of
+progress the caller wants from the request; it does not select a source or
+target tier, does not provide strict placement guarantees, and remains
+subject to cgroup protection, swappiness balancing, reclaim eligibility,
+and demotion target availability.
+
+This series is memcg-only. The per-node reclaim interface shares the
+parser but has different semantics: node reclaim can legitimately treat
+demotion as the desired way to relieve pressure on a node. For that
+reason, the new goals are rejected from the per-node path rather than
+being given a different meaning there.
+
+Li Zhe (2):
+  mm: add goal=evict to memory.reclaim
+  mm: add goal=demote to memory.reclaim
+
+ Documentation/admin-guide/cgroup-v2.rst |  26 ++++
+ include/linux/memory-tiers.h            |  13 ++
+ mm/internal.h                           |   2 +
+ mm/memory-tiers.c                       |  35 +++++-
+ mm/vmscan.c                             | 154 ++++++++++++++++++++++--
+ 5 files changed, 219 insertions(+), 11 deletions(-)
+
+-- 
+2.20.1
