@@ -1,136 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E8F521211;
-	Fri,  4 Sep 2026 21:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4CE3D9DB6;
+	Fri,  4 Sep 2026 21:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788556078; cv=none; b=gA+mvmmkq1Ows4gUBMLZMqi2+s8sQnuOZFgdSmubypPOHkKsiRN3lda9gVkWIqkv0xBiwzjtxaAnRFjYGWL12HQhW32xwAYjK/dxdtwtQYfUcAtidwGMZs6oEe3tJQOrzV2C88Pgd7yBr1EX1WwBP1Yo19bexhnTJIQnaQi+DtU=
+	t=1788556317; cv=none; b=kGSZcXjy6uMBTnc3HMtQVoMWf0c+IfoINqtp940JqQJSe9jlDi9nxEpTNCdzEhp8dJYdZjHimsmW/uKvBIyOsYCy5SCGotdkxousj1VDxE3ynyEfAJEYHphwd1ftDBc158/SjkuNjBieG9MbYko0wyKPShv6+vT8LLPHxh+BJdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788556078; c=relaxed/simple;
-	bh=OcN3BZ4A6KpdYS+WMT/+ILplvgW62mU+jHQZrpov2J4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZdBH+Ah+Dr4qY20NJj1KXId4UavIuForYaHUkv6/7c7W8xTKoBC/A5DxoIjmDw3hk6CAZVWY1F5SYLg1Rl+ndDK0+ayAdakotLL1vAZ5+x4FGvtnizefV54x1sR0pXwxVo8POqOXxcHFIJRubn21zpi/a3E4Xy1YYdCR3YbmdYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S50/g39Y; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788556317; c=relaxed/simple;
+	bh=jAdsQN8ZDF9wbOvwOq+hlFM7kwRCSGwY8z2a6ld169M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E/I73iy+73DVj8rfnoPARMnNS8yE9qkX0emztJ9bDdUb16lyRZjASbik0SyQ525YRHjS1KkK/QS1xXPM001cmVY2EZ3Tnj4EnAVv0/7jC46MeK1csYOPvRIui6r7GwoEK0GJeTs3Bk7NiessRF985J4uM7yr9evEFPQ+9ozdvcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dAifU/Bx; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S50/g39Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 893101F00A3D;
-	Fri,  4 Sep 2026 21:07:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788556071;
-	bh=v7qKDhZ+F/2Bi/cyOsP+5DU9BRD5spx5V6SRGgxoqJo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=S50/g39YB+UKTmtZhDM86RL7eGgd5uMqzVcDE1aAlJT8XMQAqeHfkE58X7ZAr26AU
-	 onB1eejg3jb1WO8cKRmxSPB3MvyMNkr+eT23R7PfSmy7LO9lko3ShF5ipG7JZ7cvjK
-	 q7gKapYUS2LKKN7GMUzxJQeSbrSD8BweqOm9/PJ3wP56Q8qBtTRvbEQXecVhtbHxyT
-	 V1F0xaFHoUj4i7tRvSu7cjG+ZxAaQ5wQiUaK5QERMs4M/zsPmmXntBhiXosa0wCNDL
-	 NGiSltNgHL1pCcWcMBTEQwVSodVuiSuCD2HOgsoLUQe9Mudv0UuHFyJgj7i2Mz0Lsq
-	 yQK3y0OxWGV8A==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 77FD41AC52F1; Fri, 04 Sep 2026 22:07:49 +0100 (BST)
-Date: Fri, 4 Sep 2026 22:07:49 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>,
-	Fuad Tabba <fuad.tabba@linux.dev>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Leonardo Bras <leo.bras@arm.com>,
-	Wei-Lin Chang <weilin.chang@arm.com>,
-	Yao Yuan <yaoyuan@linux.alibaba.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v20 03/14] KVM: arm64: Manage GCS access and registers
- for guests
-Message-ID: <apszJZ17KUvd6BJ7@sirena.co.uk>
-References: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org>
- <20260901-arm64-gcs-v20-3-f31750bdfadb@kernel.org>
- <apmfx08vccSd2MXw@gremlin>
- <d2659ac3-2f00-4fc4-8f9e-0585691a4ba2@sirena.org.uk>
- <apqA_SuoA6-TyHsS@gremlin>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dAifU/Bx"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=80YkBy/N40/LySzZOO2d7Mox9B++1wDT5cgA4S/RNiU=; b=dAifU/BxGPCfTmmGxPoZa5ITgu
+	hfQCLx0q5KXEv4uznTj9BovZlq8hkmWf1OdyISHT+kwhFApKqnX7WKMVt7uuf2OTfcaCQn89Kxs4+
+	hKA3d7TbcBNNKhhJs6bqwUQXElrtAGXmQB0UYa+N1IYFZzjDJthWNuWUOqJzpGDsW1eP5snmuRxvH
+	pQ5cDV2st5D2i5weVWgMH1OgA3JpvHi5hJEAhyedL2+BbL5kfHMNh4mpJBLkHTfwvmmJjfvnBQ7GD
+	Col7X5Yvg0Q0Rn+VaD93xZaVTSg4JxbDSh93XZscsFSnGywSDQl4RM5XVL/VOFylO2Y3rLw0C6L9M
+	ClWX2r8A==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x2bCD-00000003Inp-2omT;
+	Fri, 04 Sep 2026 21:11:38 +0000
+Message-ID: <1969e90f-1286-4ad7-9bbc-8f3800a44353@infradead.org>
+Date: Fri, 4 Sep 2026 14:11:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UxxT9yru8a/XGYWy"
-Content-Disposition: inline
-In-Reply-To: <apqA_SuoA6-TyHsS@gremlin>
-X-Cookie: My vaseline is RUNNING...
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 20/32] Input: yealink.rst: Fix bracket
+To: Manuel Ebner <manuelebnerli@mailbox.org>,
+ Henk Vergonet <Henk.Vergonet@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260904121026.759218-3-manuelebnerli@mailbox.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260904121026.759218-3-manuelebnerli@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---UxxT9yru8a/XGYWy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Fri, Sep 04, 2026 at 09:54:51AM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Thu, Sep 03, 2026 at 09:41:26PM +0100, Mark Brown wrote:
+On 9/4/26 5:10 AM, Manuel Ebner wrote:
+> Remove needless '['.
+> 
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> ---
+>  Documentation/input/devices/yealink.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/input/devices/yealink.rst b/Documentation/input/devices/yealink.rst
+> index bb5a1aafe..de86cf7f5 100644
+> --- a/Documentation/input/devices/yealink.rst
+> +++ b/Documentation/input/devices/yealink.rst
+> @@ -205,7 +205,7 @@ Troubleshooting
+>  :Q: Module yealink compiled and installed without any problem but phone
+>      is not initialized and does not react to any actions.
+>  :A: If you see something like:
+> -    hiddev0: USB HID v1.00 Device [Yealink Network Technology Ltd. VOIP USB Phone
+> +    hiddev0: USB HID v1.00 Device Yealink Network Technology Ltd. VOIP USB Phone
+>      in dmesg, it means that the hid driver has grabbed the device first. Try to
+>      load module yealink before any other usb hid driver. Please see the
+>      instructions provided by your distribution on module configuration.
 
-> > originally written the code without expressing this dependency but on a
-> > previous version Marc asked for this nesting as an optimisation.  Since
-> > it's about optimisastion adding checks that don't otherwise exist on the
-> > restore path would doubtless get the similar complaints.  Exactly the
-> > same concerns were raised on v19.
+According to drivers/hid/hid-core.c (near line 2395 in today's linux-next tree),
+this documentation should have a ']' added to it:
 
-> Could you implement the nesting the same in the cases where there is a bare
-> ctx_has_gcs() as an alternative?
+	hid_info(hdev, "%s: %s HID v%x.%02x %s [%s] on %s\n",
+		 buf, bus, hdev->version >> 8, hdev->version & 0xff,
+		 type, hdev->name, hdev->phys);
 
-> So then it'd always be tcrx -> s1pie -> gcs everywhere and that'd resolve things
-> also and make things symmetric.
+so
++    hiddev0: USB HID v1.00 Device [Yealink Network Technology Ltd. VOIP USB Phone]
 
-> You could also I think express the dependency if it makes sense to.
+AFAICT.
 
-Clearly we *can*, it's a question of what'd be acceptable - it'd result
-in the compiler emitting a bunch of extra alternatives and conditionals
-in the context switch path.
+-- 
+~Randy
 
-> > We could do checking of the ID registers at vCPU creation so we could
-> > avoid worrying about them in the fast path but there was also feedback
-> > about not doing that.  One idea I had was to generate feature
-
-> Could you possibly check in sanitise_id_aa64pfr1_el1(), something like:
-
-Sanitising the writes is a bit tricky since multiple ID registers are
-involved, TCRX and S1PIE are in ID_AA64MMFR3_EL1 while GCS is in
-ID_AA64PFR1_EL1 so you'd create an ordering constraint for userspace,
-and you'd also have to handle the case where TCR2 or S1PIE are turned
-off with GCS already enabled.  It feels like a bunch of complication,
-especially if you start applying the same approach with other features.
-
-If we're going to validate the ID registers it feels safer to check at
-the point where we finalise the ID registers and refuse to start the
-vCPU if there's an unsupportable configuration, that would mean the
-check would only need to be done in one place and userspace wouldn't
-trip over any ordering requirements with how it updates registers.  Only
-userspaces that set architecturally invalid configurations should see an
-error.  We could also handle things by fixing up the configuration at
-the same point, disabling features that are missing their dependencies,
-that's a bit more friendly in the short term but could lead to trouble
-later on as it means we hide issues in userspace.
-
-I think the best thing overall would be to leave the runtime paths as
-they are and refuse to run with an architecturally invalid setup, that
-would avoid bloating the fast path.
-
---UxxT9yru8a/XGYWy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqbMyQACgkQJNaLcl1U
-h9DE8Qf/VR7HYcBaMw2G7Ups8tn2qUfYjOTJ99VnF8o6I1RpC8Nl2GgzkjHXBJyx
-/nQjWZNQ2wAy/rdn2lQtjolxCA4p5ZnYXJwG6dVQmDAKGSvJJ5MxqgRAt0i220TR
-F7XnsZKbtHp+rri39JMZoLszEfc28vUcUxh19+PF1UQfRaXniazCXbnBOAqyU6lM
-+ROUaor3Rve9TvHm/uqKw7eiDnyYIZjxn/nj3S9GdFwTVKstI0WX1iu+LHNPcuva
-qO3rGmzDFOtxScggNgCj497tEj1vvj8qb1Cz/+NnC5Px4NJKgqUq03twCDtTkWOr
-flTA3wHWYD88gDv/NRFpxyWaWE+XdQ==
-=j1jf
------END PGP SIGNATURE-----
-
---UxxT9yru8a/XGYWy--
