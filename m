@@ -1,91 +1,117 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F7D35C6B9;
-	Fri,  4 Sep 2026 21:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC00837A4AF;
+	Fri,  4 Sep 2026 21:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788557692; cv=none; b=sK7wQ/9TeX3PI2yR6OnzZ43VIYVtngqskFF1AyjkoDnPyFMU4gCzPRdIR/on172TkPEIJYdBgBOe/BTC2lbrkbekk8y/eaaf3Z1JhoDVl8uL0SFRn6kaqBiBqLc8MBC5pTnNSfanfEhWpVdYYDYq77r0eGxSpWLsjcNg+lUxdg4=
+	t=1788559011; cv=none; b=WxU6LsACShjMIY2SVsgVBlq9jgoUTvwqpuHdUjA1Zp3cdSnAlrCaqZ091a9+5V7stbrKJZctiqOSZp03PUT6KXluU9FqlnPXyZtqPFnIlRREau+rNJv1AHD0iz+IFfCE7GVJ7RmaAEeqVD80coOxEZAONdoQOrd87mFILG8ogIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788557692; c=relaxed/simple;
-	bh=eYsQ9wYjUVqCXRIvz/h7ndFPW0C8zKYA3HnxTGx5gMo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JxaD4sYkgFokgmkGfUnIi16NxIhi+rdo+LIyhHfPOjxhMV4DfUU55oWo7ypCD2Fgn2FPooHNKgp/yAJSMoStOVlT7TCxAAqV1LlVIItdMztXnHVuOZ0QNC0helHx31QviQbnHheGE/XZBA2PUnCkggXmQsap1Jf9555c46lHj6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QMwIFr2A; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788559011; c=relaxed/simple;
+	bh=mDIvNTMMYeK7GsPNDD/Z4tGz1X/p8URxHyfgdZ5Z8DM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oijWaEgT5mv0r5ufE1pnti8HfRMA18Sk2tITEOhzYXlYm4YHCYgEwHgKPZp0gf2LU1X/IkVbfqjECfZQQ2CmytZmC6ZOnPXIVF4gQDO8pySunXYRfVJaZ+bFC++rEJY5vYknMN56nMqR/zTfNW57AdDnI4KV0jEXHd9SLnUtCEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RbHCANIi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QMwIFr2A"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Lel1DOXtD3Ub6sio9IDHpYS0Ag7RgDQ3Xza2Kew7SsU=; b=QMwIFr2AnguraDB4rwMB+8fJ4v
-	X0e+ZKeVxTTikXlhy5TDO8Lq2xm0KMQA6jFKQGaVqCe94Y4WBt1Atyk7PyIU1xCIc8EflfVDi2tsy
-	1pNfP+x5orGLCbx6ElpgUOfTqpPfDxof1U3VBpgX5J0tIIjB1RVu5X1rru5gYYi6QJEDr+0rwSDY9
-	OxL5E+eSQYYiT4YYYV1oyKPxWzpoBZXEap790BkhzNlx8Ll6IMO1PQYktgcaiPWHpBqv4l+V7PGAh
-	IBmZacuOQP1Neqi1zSQVmyOadX2OhMaq6k8+MgY75kZa9MiOoiCD7wxSyZHyKn0m4bcRCOUaSjK4y
-	FPJsO+Pg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2bYf-00000003Koj-3SZy;
-	Fri, 04 Sep 2026 21:34:50 +0000
-Message-ID: <bd65118f-84ed-4f23-92cb-782a3e59ab0d@infradead.org>
-Date: Fri, 4 Sep 2026 14:34:49 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbHCANIi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2201F00A3D;
+	Fri,  4 Sep 2026 21:56:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788559010;
+	bh=WLLN6D/aLaiSZCc6VRO4G+fmb2F/w3i1SeqpgrJDHo4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RbHCANIivrUJeL+oLXqYTr+R4r3BsqdM4cQvevCYwT6Dx7hhRQHEHuxPhEGrzY8Dc
+	 93YNYH2AahXbS2hroX7eS4yqeIyySc5cq+STIsNypvImYjwxw+dGXsELvtimyuL3sf
+	 MGiGdlE1MZPDGo129o2qeReweS2riv51lC9YBXs/xgw1lRrAdMTMYheHdKdtPLwtCi
+	 DE0DNyXJJBHHOeuBboM7SwnWn9AS+YeWeqvy+b+zppTFa/pbyK6mIu+qp5r/5LUq0e
+	 WH9h7w+zBBOfDbeaMJbvDG31qh4E1s4THHW8iZgBuey2+RCgsZeZfaFEDtWExZbzdz
+	 3zz/va3OKRI+A==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 44EAA1AC52F1; Fri, 04 Sep 2026 22:56:48 +0100 (BST)
+Date: Fri, 4 Sep 2026 22:56:48 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Leonardo Bras <leo.bras@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>,
+	Fuad Tabba <fuad.tabba@linux.dev>,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Wei-Lin Chang <weilin.chang@arm.com>,
+	Yao Yuan <yaoyuan@linux.alibaba.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v20 06/14] KVM: arm64: Validate GCS exception lock when
+ emulating ERET
+Message-ID: <aps-oNeG3RjzqHQs@sirena.co.uk>
+References: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org>
+ <20260901-arm64-gcs-v20-6-f31750bdfadb@kernel.org>
+ <apmUQETDlhTIuJIY@LeoBrasDK>
+ <2dfd8a6c-42c2-466c-b3d6-2313466fc3d5@sirena.org.uk>
+ <aprEsh-xogu8zFnK@LeoBrasDK>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: pwm: Fix bracket and punctuation
-To: Manuel Ebner <manuelebnerli@mailbox.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260904122005.760299-2-manuelebnerli@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260904122005.760299-2-manuelebnerli@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="TZSwDlEzCnBqnKB1"
+Content-Disposition: inline
+In-Reply-To: <aprEsh-xogu8zFnK@LeoBrasDK>
+X-Cookie: My vaseline is RUNNING...
 
 
+--TZSwDlEzCnBqnKB1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 9/4/26 5:20 AM, Manuel Ebner wrote:
-> Remove needless '(' and fix comma splice.
-> 
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> CC: Randy Dunlap <rdunlap@infradead.org>
+On Fri, Sep 04, 2026 at 02:16:34PM +0100, Leonardo Bras wrote:
+> On Thu, Sep 03, 2026 at 08:22:44PM +0100, Mark Brown wrote:
+> > On Thu, Sep 03, 2026 at 04:37:37PM +0100, Leonardo Bras wrote:
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+> > > > +	if (kvm_check_illegal_exlock_return(vcpu, spsr))
+> > > > +		return false;
 
-> ---
-> [v2]
->  fix comma splice as Randy suggested.
-> 
-> [v1]
->  https://lore.kernel.org/all/20260903160535.734369-2-manuelebnerli@mailbox.org/
-> ---
->  Documentation/driver-api/pwm.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
-> index 0d27a40f5..b6b67f7d4 100644
-> --- a/Documentation/driver-api/pwm.rst
-> +++ b/Documentation/driver-api/pwm.rst
-> @@ -177,7 +177,7 @@ and pwm_put() may not be called from an atomic context.
->  Most functions in the PWM consumer API might sleep and so must not be called
->  from atomic context. The notable exception is pwm_apply_atomic() which has the
->  same semantics as pwm_apply_might_sleep() but can be called from atomic context.
-> -(The price for that is that it doesn't work for all PWM devices, use
-> +The price for that is that it doesn't work for all PWM devices. Use
->  pwm_might_sleep() to check if a given PWM supports atomic operation.
->  
->  Locking in the PWM core ensures that callbacks related to a single chip are
+> > > >  	/* If ERETAx fails, take the slow path */
+> > > >  	if (esr_iss_is_eretax(esr)) {
+> > > >  		if (!(vcpu_has_ptrauth(vcpu) && kvm_auth_eretax(vcpu, &elr)))
 
--- 
-~Randy
+=2E..
+
+> > We need this because ERETs from vEL2 are handled in software, modulo the
+> > NV3 fast path mentioned at the top of the function.
+
+> Oh, and this is done in __fixup_guest_exit() because vEL2 is not a=20
+> nested guest. It would be it's guests' exit that would be dealt in=20
+> fixup_nv_guest_exit().
+
+> Is this correct?
+
+Well, it's as much because that is the point where we handle the EC
+specifics.  __fixup_guest_exit() does general handling of guest exits
+that applies to all ECs and then dispatches to an EC specific handler,
+it is common code with nVHE.  When we have NV then fixup_nv_guest_exit()
+is run beforehand to do extra handling that applies to all ECs in the NV
+case, but any EC specifics for NV still go in the relevant EC specific
+handler.
+
+--TZSwDlEzCnBqnKB1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqbPp8ACgkQJNaLcl1U
+h9DFBwf8D5V/G8mDF5LtW3QQNUxhO8RJk17+tPVKa2yUGPdsVLrSA7bw5X/vbgDg
+WS485cIPTSH/+3VE9pa/EbV3gQps9QWT4FUIyMNEPS1Uk4M1VYYzRnXUd8vN7E7n
+9ZSEkjKz+O1MXm198k5LeY3vrLTDSH2ACHa+cIkp1Mf0eqV5cahEjEZYw0A0HL22
+5hYMKI69FWMHCU/Xu+KaNRuLmqA76LyzFWNCXAAuI9E4gM3Y4DVzmj0fwcAADwwP
+RRcvCAIazVSryyiTq2LnpE42nRWNAbTM6AUbwWEnvsrs01HU3YABGNkKZW04ilMu
+LMPVCobegoaSeXNobAfZsKW92a3nSA==
+=kVDG
+-----END PGP SIGNATURE-----
+
+--TZSwDlEzCnBqnKB1--
