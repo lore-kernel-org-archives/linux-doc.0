@@ -1,204 +1,136 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26893514761
-	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 20:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E8F521211;
+	Fri,  4 Sep 2026 21:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788553523; cv=none; b=YvmubrWJXsAYk7gLkKhhztfW6msMsIY0QoLXfuDHn0wR9Sk8qjbmc7FbpyF2/JVje+b0NvYihVcoduD/0UP4uOVqFQPyeBP7w0Xk2onqYjgDgNlx+ni6MmieC8ga2JVyO8/LvXCC3UpBc1GbKMj1JlDZ5saOCtWOWr9IoOWZWh8=
+	t=1788556078; cv=none; b=gA+mvmmkq1Ows4gUBMLZMqi2+s8sQnuOZFgdSmubypPOHkKsiRN3lda9gVkWIqkv0xBiwzjtxaAnRFjYGWL12HQhW32xwAYjK/dxdtwtQYfUcAtidwGMZs6oEe3tJQOrzV2C88Pgd7yBr1EX1WwBP1Yo19bexhnTJIQnaQi+DtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788553523; c=relaxed/simple;
-	bh=RkC7B1HjR0ml1UrF7WPIGhZi8gjG9mXWmeILFQwtK2I=;
+	s=arc-20240116; t=1788556078; c=relaxed/simple;
+	bh=OcN3BZ4A6KpdYS+WMT/+ILplvgW62mU+jHQZrpov2J4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=STmKFSVDvhSZh1g7mdNNqsWc5XXnvDPxwEwAnDVeVzZLMYdPEJn/dhrGreGeKtpvRYEGA1DJUhWGYSvT8Sj5+k+vu9L5iiZcN+28EluehXBJCNTW+pnBuxl+XCykbNKLxJZCUqdTuCHfxDSfqq/izgy37jW0cB6m5kJ3Vs7iT9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AdzKKqbg; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZdBH+Ah+Dr4qY20NJj1KXId4UavIuForYaHUkv6/7c7W8xTKoBC/A5DxoIjmDw3hk6CAZVWY1F5SYLg1Rl+ndDK0+ayAdakotLL1vAZ5+x4FGvtnizefV54x1sR0pXwxVo8POqOXxcHFIJRubn21zpi/a3E4Xy1YYdCR3YbmdYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S50/g39Y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AdzKKqbg"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3966791a6eeso1600777a91.3
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 13:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1788553513; x=1789158313; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=N6QGXZnzimnwApACmTHrGvREBiPCHGg32ZkJMN7Mvro=;
-        b=AdzKKqbggCp3BNgi9PaPZMwv5Rw8w0GYbLLvzLEoe+pWtHJZSSqs7Jtm01N4h/JuLJ
-         wYo/90wEeX9kdGC6s12QViYIuA7SUUtrHHJVSWpCd8DshU/e2GSngORiHNoisGR2n8ZI
-         d9BYHKJHsQXfBgRHIt3yvepyyCAHQayv2jVltVvgsPmkqlwJ6/7pbbRQ6XeaJBC7q5R7
-         wgFfJbYl2grZ+49dBa+jy4ChLzV0ZAaYs5zU/7ddMcMrJma+P13JDjuq7R3DIlLhS5fk
-         fvBodQ60O4a3klrYnVs1fLsBhofAvDv++5mRXRlUrvAZeqO3en5N8g/appN07KIF5vc3
-         1Aig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788553513; x=1789158313;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=N6QGXZnzimnwApACmTHrGvREBiPCHGg32ZkJMN7Mvro=;
-        b=m+TUr/0vF8mXhvuobRePlFUArT2LzRBoap5Iv+wqEbFlR+KylIedgaVPA9ly3f1gal
-         kG7LoHxHzIp9r0mWTYUTw28jBTo9cv471/mSHulG4bCHHRXqtexKxFYtXekNWPekjhae
-         ES5GwMbrY93iTIqSoLl8f5RhrO9uLoFHlGCW+qKylm7VjKZAekXxlY5wAmpjI4/9Kk1D
-         ZZWB6hPps+Rs6OwFLl/+LxwxRU8QkpXhaSnbMqrg+e/6tW+/3m3P90SR6/0HesYMPFJA
-         14PYNLpz35ymGuobykMThmirRhUkI74nqUFZisqOzuRQ3QO+QYYZpxHc8wQ1glmIjiMz
-         sAZQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxSRyvr+Ao4P8exJ3fkDtcdtqH/6V4OC2B2i5yMsDmJps7xIdkgfs2l/dz3c3sq098JNN6nfWCHBr8=@vger.kernel.org
-X-Gm-Message-State: AFuF++l7LpvohPfGITCFXFzKmn24GKm77euxvvMAPPFnVgKcRqjVsUlx
-	szQTIVxZfPDuWVTF4ezazs1d763u8TUtmaYZ0ip/VAnIAK/0wIA1/upQ+ytOxwDfkcU=
-X-Gm-Gg: AYBFou1dSh48zk1cvBpm+pVLt6SOaNKRTFBYuS3J/uq23qFG5QUdQ0857obmaOvXRI+
-	nV/OQb7eeKjQg+bwWezx+0hCnRpAZx0yDsm8xLGROlCc20BYzfxIGA1lNJSCy+BIJMsLSsRgMWD
-	b5oLxj7B5GXe5MG3r3g4qSjE/8oirwjdJ9hW+Q6enYCV0c2bwEZ9QhqKEVmE3h0MnPcmA+WltTK
-	lRQ0Ecs9aQn3BT+Zft1tAO0K6hTXTT1PKEnoZXS/5Vi3j5WYY3tOrP+XIZluy+mQONtDrI6Sb2i
-	+a9+brmwQH4iWGvcTrcZmWWXhDYq4Y+jrNA6bb6E/4vCtnmsacLc/clBlk3MWxOzt1vI/bIbsHq
-	7g8oCA984xJrVE6wpCKe0ye4mlKv1mNxIqLKiTqvXXnM1QySR8yyC+E4ks3jw1crBFsbrCjnnOw
-	w1GpCJJOno8ZTDvPIFhF/9sqPLZIuuNKT/N0nthLnY4h8kd7JNXHYnR6EEW+gkG8eA
-X-Received: by 2002:a17:90b:224c:b0:398:9bd4:d15 with SMTP id 98e67ed59e1d1-39b26245d08mr11013302a91.20.1788553512350;
-        Fri, 04 Sep 2026 13:25:12 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:f95f:75de:b3f0:3bf5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b26127fddsm5795159a91.12.2026.09.04.13.25.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 13:25:11 -0700 (PDT)
-Date: Fri, 4 Sep 2026 14:25:09 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: tanmay.shah@amd.com
-Cc: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, andersson@kernel.org,
-	corbet@lwn.net, skhan@linuxfoundation.org,
-	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S50/g39Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 893101F00A3D;
+	Fri,  4 Sep 2026 21:07:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788556071;
+	bh=v7qKDhZ+F/2Bi/cyOsP+5DU9BRD5spx5V6SRGgxoqJo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=S50/g39YB+UKTmtZhDM86RL7eGgd5uMqzVcDE1aAlJT8XMQAqeHfkE58X7ZAr26AU
+	 onB1eejg3jb1WO8cKRmxSPB3MvyMNkr+eT23R7PfSmy7LO9lko3ShF5ipG7JZ7cvjK
+	 q7gKapYUS2LKKN7GMUzxJQeSbrSD8BweqOm9/PJ3wP56Q8qBtTRvbEQXecVhtbHxyT
+	 V1F0xaFHoUj4i7tRvSu7cjG+ZxAaQ5wQiUaK5QERMs4M/zsPmmXntBhiXosa0wCNDL
+	 NGiSltNgHL1pCcWcMBTEQwVSodVuiSuCD2HOgsoLUQe9Mudv0UuHFyJgj7i2Mz0Lsq
+	 yQK3y0OxWGV8A==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 77FD41AC52F1; Fri, 04 Sep 2026 22:07:49 +0100 (BST)
+Date: Fri, 4 Sep 2026 22:07:49 +0100
+From: Mark Brown <broonie@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>,
+	Fuad Tabba <fuad.tabba@linux.dev>,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Leonardo Bras <leo.bras@arm.com>,
+	Wei-Lin Chang <weilin.chang@arm.com>,
+	Yao Yuan <yaoyuan@linux.alibaba.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 0/5] Enhance RPMsg buffer management
-Message-ID: <apspJRn0LJ-Gvucv@p14s>
-References: <20260828145853.2843486-1-tanmay.shah@amd.com>
- <4f8cc4b4-8c44-4d2d-befd-63911afe27a5@foss.st.com>
- <20f53e0f-4b9a-44fe-bb6a-ea0f988b64b9@amd.com>
+Subject: Re: [PATCH v20 03/14] KVM: arm64: Manage GCS access and registers
+ for guests
+Message-ID: <apszJZ17KUvd6BJ7@sirena.co.uk>
+References: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org>
+ <20260901-arm64-gcs-v20-3-f31750bdfadb@kernel.org>
+ <apmfx08vccSd2MXw@gremlin>
+ <d2659ac3-2f00-4fc4-8f9e-0585691a4ba2@sirena.org.uk>
+ <apqA_SuoA6-TyHsS@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="UxxT9yru8a/XGYWy"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20f53e0f-4b9a-44fe-bb6a-ea0f988b64b9@amd.com>
+In-Reply-To: <apqA_SuoA6-TyHsS@gremlin>
+X-Cookie: My vaseline is RUNNING...
 
-On Thu, Sep 03, 2026 at 10:28:09AM -0500, Shah, Tanmay wrote:
-> 
-> 
-> On 9/1/2026 8:03 AM, Arnaud POULIQUEN wrote:
-> > 
-> > 
-> > On 8/28/26 16:58, Tanmay Shah wrote:
-> >> Current design uses fixed (512 bytes) rpmsg buffer size in both rx and
-> >> tx directions. This design is not suitable if the payload is larger than
-> >> 512 bytes or the payload is very small and doesn't need that much
-> >> memory. Instead introduce new virtio feature to retrieve rpmsg tx buf
-> >> size and rx buf size from the virtio config space in the resource table.
-> > 
-> > This version seems good to me, with or without my suggestion in patch 4/5
-> > 
-> > Acked-by: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-> > 
-> > Thanks!
-> > 
-> > Arnaud
-> > 
-> 
-> Thank You Arnaud.
-> 
-> If I end up spinning another revision with any more comments, then I
-> will address suggestion in the patch 4/5 as well. If I get Mathieu's RB
-> for this series, then we can merge this series as it is.
-> 
 
-I edited 4/5 to include Arnaud's suggestion and applied this set.
+--UxxT9yru8a/XGYWy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> Tanmay
-> 
-> >>
-> >> Changes in v8:
-> >>    - fix commit message of 3/5, "%s/enable/Enabled"
-> >>    - introduce new function to get buffer size for the vdev device
-> >>    - fix description of VIRTIO_RPMSG_F_BUFSZ define
-> >>    - "%s/or differnt RX and TX sizes)/or different RX and TX queue
-> >> sizes)/"
-> >>
-> >> Changes in v7:
-> >>    - Fix 5/5 commit text, and move change log out of commit text
-> >>
-> >> Changes in v6:
-> >>    - remove buffer alignment from config space
-> >>    - rpmsg.rst: modify alignment related documentation
-> >>
-> >> Changes in v5:
-> >>    - fix documentation about alignment of the buffer size
-> >>    - change version field from u16 to u8
-> >>    - remove buffer alignment check
-> >>    - Separate buffer alignment vs MTU of a single buffer
-> >>    - Use buffer alignment only to get next buffer address at alignment
-> >>      boundary
-> >>
-> >> Changes in v4:
-> >>    - Introduce new patch to modify rpmsg.rst documentation
-> >>    - check version is always 1.
-> >>    - check size field is same as size of struct virtio_rpmsg_config
-> >>    - introduce alignment field
-> >>    - check alignment field is power of 2
-> >>    - check tx and rx buf size is aligned with alignment passed in the
-> >>      structure
-> >>    - check msg size is < MTU size
-> >>
-> >> Changes in v3:
-> >>    - new patch [1/4] that renames variables with clear names.
-> >>    - %s/rbufs/rx_bufs/
-> >>    - %s/sbufs/tx_bufs/
-> >>    - %s/last_sbuf/last_tx_buf/
-> >>    - add num_rx_buf and num_tx_buf in the documentation
-> >>    - change version field from u16 to u8
-> >>    - introduce size field in the rpmsg_virtio_config structure
-> >>    - check version field is set to any non-zero value.
-> >>    - check size field is not 0.
-> >>    - Remove field for private config, as not needed for now.
-> >>    - add documentation of rpmsg_virtio_config structure
-> >>    - Check for error when retrieving MTU size in the sample driver
-> >>    - %s/mtu/MTU/
-> >>
-> >> Changes in v2:
-> >>    - Change author
-> >>    - fix commit message with better explanation
-> >>    - %s/sbuf/tx_buf
-> >>    - %s/rbuf/rx_buf
-> >>    - %s/num_rbuf/num_rx_buf/
-> >>    - %s/num_sbuf/num_tx_buf/
-> >>    - %s/sbuf_size/tx_buf_size/
-> >>    - %s/rbuf_size/rx_buf_size/
-> >>    - fix typo
-> >>    - do not use ALIGN on buf size, rely on allocator
-> >>    - make err msg more explicit, %s/vdev config:/bad vdev config/
-> >>    - fix license and add AMD copyrights in the header virtio_rpmsg.h
-> >>    - Assign bit 1 to VIRTIO_RPMSG_F_BUFSZ feature
-> >>    - use __virtio32 over __u32
-> >>    - add version field to virtio rpmsg config structure
-> >>    - Introduce new patch to print rpmsg mtu size in the sample rpmsg
-> >> driver
-> >>    - move linux/virtio_rpmsg.h to linux/rpmsg/virtio_rpmsg.h
-> >>
-> >>
-> >> Tanmay Shah (5):
-> >>    rpmsg: virtio_rpmsg_bus: rename rbufs and sbufs
-> >>    rpmsg: virtio_rpmsg_bus: allow different size of tx and rx bufs
-> >>    rpmsg: virtio_rpmsg_bus: get buffer size from config space
-> >>    docs: rpmsg: add virtio config space details
-> >>    samples: rpmsg: add MTU size info
-> >>
-> >>   Documentation/staging/rpmsg.rst     |  17 +++
-> >>   drivers/rpmsg/virtio_rpmsg_bus.c    | 156 +++++++++++++++++++---------
-> >>   include/linux/rpmsg/virtio_rpmsg.h  |  41 ++++++++
-> >>   samples/rpmsg/rpmsg_client_sample.c |  20 +++-
-> >>   4 files changed, 186 insertions(+), 48 deletions(-)
-> >>   create mode 100644 include/linux/rpmsg/virtio_rpmsg.h
-> >>
-> >>
-> >> base-commit: d4d61a4b0a52e8f3cdb3e1578602850a3452ec3e
-> > 
-> 
+On Fri, Sep 04, 2026 at 09:54:51AM +0100, Lorenzo Stoakes (ARM) wrote:
+> On Thu, Sep 03, 2026 at 09:41:26PM +0100, Mark Brown wrote:
+
+> > originally written the code without expressing this dependency but on a
+> > previous version Marc asked for this nesting as an optimisation.  Since
+> > it's about optimisastion adding checks that don't otherwise exist on the
+> > restore path would doubtless get the similar complaints.  Exactly the
+> > same concerns were raised on v19.
+
+> Could you implement the nesting the same in the cases where there is a bare
+> ctx_has_gcs() as an alternative?
+
+> So then it'd always be tcrx -> s1pie -> gcs everywhere and that'd resolve things
+> also and make things symmetric.
+
+> You could also I think express the dependency if it makes sense to.
+
+Clearly we *can*, it's a question of what'd be acceptable - it'd result
+in the compiler emitting a bunch of extra alternatives and conditionals
+in the context switch path.
+
+> > We could do checking of the ID registers at vCPU creation so we could
+> > avoid worrying about them in the fast path but there was also feedback
+> > about not doing that.  One idea I had was to generate feature
+
+> Could you possibly check in sanitise_id_aa64pfr1_el1(), something like:
+
+Sanitising the writes is a bit tricky since multiple ID registers are
+involved, TCRX and S1PIE are in ID_AA64MMFR3_EL1 while GCS is in
+ID_AA64PFR1_EL1 so you'd create an ordering constraint for userspace,
+and you'd also have to handle the case where TCR2 or S1PIE are turned
+off with GCS already enabled.  It feels like a bunch of complication,
+especially if you start applying the same approach with other features.
+
+If we're going to validate the ID registers it feels safer to check at
+the point where we finalise the ID registers and refuse to start the
+vCPU if there's an unsupportable configuration, that would mean the
+check would only need to be done in one place and userspace wouldn't
+trip over any ordering requirements with how it updates registers.  Only
+userspaces that set architecturally invalid configurations should see an
+error.  We could also handle things by fixing up the configuration at
+the same point, disabling features that are missing their dependencies,
+that's a bit more friendly in the short term but could lead to trouble
+later on as it means we hide issues in userspace.
+
+I think the best thing overall would be to leave the runtime paths as
+they are and refuse to run with an architecturally invalid setup, that
+would avoid bloating the fast path.
+
+--UxxT9yru8a/XGYWy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqbMyQACgkQJNaLcl1U
+h9DE8Qf/VR7HYcBaMw2G7Ups8tn2qUfYjOTJ99VnF8o6I1RpC8Nl2GgzkjHXBJyx
+/nQjWZNQ2wAy/rdn2lQtjolxCA4p5ZnYXJwG6dVQmDAKGSvJJ5MxqgRAt0i220TR
+F7XnsZKbtHp+rri39JMZoLszEfc28vUcUxh19+PF1UQfRaXniazCXbnBOAqyU6lM
++ROUaor3Rve9TvHm/uqKw7eiDnyYIZjxn/nj3S9GdFwTVKstI0WX1iu+LHNPcuva
+qO3rGmzDFOtxScggNgCj497tEj1vvj8qb1Cz/+NnC5Px4NJKgqUq03twCDtTkWOr
+flTA3wHWYD88gDv/NRFpxyWaWE+XdQ==
+=j1jf
+-----END PGP SIGNATURE-----
+
+--UxxT9yru8a/XGYWy--
