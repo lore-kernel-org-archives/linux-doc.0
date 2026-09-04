@@ -1,89 +1,188 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3F04D2EDA;
-	Fri,  4 Sep 2026 17:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656BA3F39E4;
+	Fri,  4 Sep 2026 18:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788543407; cv=none; b=bxeu9hp1+018/LuatEWpsqC6jEAf+CnsvQLouFf+k7LXuu2Z3KyOr9N3S9N9J1zNAr4civ8hUwq0+x3TyWLcAbes7C4eO4c51wHhU73FWdEwAB0HJUeFOHOZFzhzNPEI+KjPmYGuinBWioMCgYNXiY3Q7efRLpACkIi5hq0oTU8=
+	t=1788544865; cv=none; b=e7OWCIAftqnRB8s5CmrX4fvWGCuPBSRpnkfHQPEBfEvzlFX+fsd6Q8LBVvpUDxUwTx7NK5pn7duOS0/WL8lgabCQGUYS5bFijSjrOS6404jRZKTriu9xpDfY17Yr6DQ5/B3yf6ZYnEPz5R0exQYzy1hPF5Uo/hCL9NOtOKyws7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788543407; c=relaxed/simple;
-	bh=LtPqv1/yvY6KKIOUaDEWiR5sC9h1b5X+oyNs/rOvIwM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZPf3krM7X/IyBsql9Hykr1kz7O5kQtqve1qu5FHI8Ocf82Ob/SrruUGOjxOPnwoVW9ktddxZlcd5fgOmXH+SgRbcaR3uHFJHw+5c6IdsUMEAjX4vCzAY/vxY/KMIM8eoBwZTcVaIqJ045whd3JbLnhJIGxDGDSxRVhQBCSYzBz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=SoziP6Hb; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1788544865; c=relaxed/simple;
+	bh=IyV4SeHzlGQh/XTrkjNBkEM1WrROfiZ2BH4a1VtThAc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ni9kDUgTCjqfNIiI/+mDr8FzTvdQRuvgZw73gTobqkfE8q5Z/FL+MZ1A2avsVZ/EkXx5O/QSlkpPi7QCQaSKZIUkwJSSY6DGTh/fFVy6DewRIInUeXyNeuoQOV39iS25D6WX1o1ntF2yMVe5e/gg9q5v73I0wdH9sROGwnkrFiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iOQms9UY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="SoziP6Hb"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 819D340E02C2;
-	Fri,  4 Sep 2026 17:36:41 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id hQ3Yhrf6A5cH; Fri,  4 Sep 2026 17:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1788543392; bh=4w+spAm0uWWwcup+mfvYNUXNY0jRbWl51yfDyG8aFs4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SoziP6HbLj77a89rc3xWyhElxy2OnAwmmK+WrgAWWIowVnwNSlV+oP46ADmBwVsnd
-	 yCEKWpz3K2lWB1VolczTE64gpfHrdUl+el0VDrMnsndNuYGmChPaqu5L7dPxINIzzL
-	 iuZWueIvng7XPakfJPeYd2tpu341BU0eVn5SZ68LFkA77z2dtsGXio5ZYkw2nev0ru
-	 O88KY8ucs9tL1wuesqPVECx/dX6fjGRoToFiD4G2c+KIREQpyGnPLbM45xOSveEiWB
-	 +hqfmycEwh+nAegtmwmlXbH0fl+TGhVOFpCJEBL7Hp97ebjtjWm2jkymey1VarA2ow
-	 i6smdbjmsWdEUQiFTqdG79gR7dIlPU3Mdq7MT+ezbk2uvqIn/sTIEFzXqATPY9DPYa
-	 A8BI9unS0kprXvhhQvDdqQtmNjAVvcJHZu7kysAaHn9voLOft+hpxCZpSa4/xbGHxO
-	 ap7SZ+gPS6kEVc3rHPlDaLlIf0NQMfKT8BJc/gVy7CmNZmIVTuHbGfGvoSYPSaWW6H
-	 8nK5X0IEYhHpMIw7Vy6ac0333i/LIuDFycDtPorkXY+qT9Bp7AWrgT845p8BAwGSEe
-	 MSD4u2dXsebxSD2hcn79dCdxNSKCLKIl7j3asJDV7TP6vbLFgNg34+dhJuHygbiROH
-	 s0rJNoKjpmdhxq2T36DCqYGk=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4DD0440E024B;
-	Fri,  4 Sep 2026 17:36:18 +0000 (UTC)
-Date: Fri, 4 Sep 2026 10:36:15 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Ben Horgan <ben.horgan@arm.com>, x86@kernel.org, james.morse@arm.com,
-	fenghuay@nvidia.com, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, tglx@linutronix.de,
-	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
-	corbet@lwn.net, linux-doc@vger.kernel.org, dave.martin@arm.com
-Subject: Re: [PATCH v5 0/3] x86,fs/resctrl,arm_mpam: Factor MBA parse-time
- conversion to be per-arch
-Message-ID: <20260904173615.GOapsBjyiT7uXHd-Qc@fat_crate.local>
-References: <20260709093111.367851-1-ben.horgan@arm.com>
- <165e7636-d7e9-4d16-aad1-657b4a9698d0@intel.com>
- <b0a7035e-7ffe-4e22-a4ae-a177640234b8@intel.com>
- <20260904033751.GCapo9D5ZZXWuQkIpc@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iOQms9UY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB7971F00A3D;
+	Fri,  4 Sep 2026 18:01:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788544862;
+	bh=Sh4pM9P10ktTurWhj1Ao4Irjykp6UovFXYEZeKiGJ3c=;
+	h=From:To:Cc:Subject:Date;
+	b=iOQms9UYSodcECCBoYxOpngCu1awd0x7Oca9IG4wmg4vlpxDKIlE/DhgQAID8ZNcK
+	 tQ8Jj44QRdzJUDcx/WPQlBdU7DPYYLt80jKNwSf5FwLUL+LZnMXCXvnxB2x7F8EHDj
+	 tSNMOldqDe5aMI/mr3KubNV8mDjWwjUAqWy/+9HvHYBx9SFpXwlmiJ0HB81CuzZN+/
+	 HHjTYqsgCk30ZIh3UMHVZdqu27vG6qwnd3iwT85WjNVYeggG6vuyY3GKaphXkjZlV3
+	 Gdky5JulPZ6VCYJ2xw4N33aoU6OeRW/Rn1NNiIr4G7vNvpPcyqIeRKDwl4hdk0+hM/
+	 0eNEglWxFjZiw==
+From: Jakub Kicinski <kuba@kernel.org>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	andrew+netdev@lunn.ch,
+	horms@kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	sdf@fomichev.me,
+	kuniyu@google.com,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next] net: run netdev work under the ops-compat lock
+Date: Fri,  4 Sep 2026 11:00:58 -0700
+Message-ID: <20260904180058.3803849-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260904033751.GCapo9D5ZZXWuQkIpc@fat_crate.local>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 03, 2026 at 08:37:51PM -0700, Borislav Petkov wrote:
-> Lemme have a look.
+netdev_work_proc() took rtnl_lock() for the whole batch, forcing
+even ops-locked drivers onto rtnl just to run their rx_mode / ndo_work
+callbacks. Take the per-device ops-compat lock instead: the instance
+lock for ops-locked drivers, rtnl_lock for the rest. That's what the
+callbacks already assert (e.g. netif_rx_mode_run() asserts
+netdev_assert_locked_ops_compat()), and non-ops-locked work
+such as vlan ndo_work keeps rtnl, since its compat lock resolves
+to rtnl anyway.
 
-Sashiko has comments:
+Without this adding more uses of ndo_work, for cases which don't
+need rtnl_lock feels like a step back.
 
-https://sashiko.dev/#/patchset/20260709093111.367851-1-ben.horgan%40arm.com
+We can drop the comment about the extra ref now, with the relocking
+it's a necessity.
 
-Please address them: if valid, fix them, if not, explain why they don't need
-to be fixed.
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: corbet@lwn.net
+CC: skhan@linuxfoundation.org
+CC: rdunlap@infradead.org
+CC: sdf@fomichev.me
+CC: kuniyu@google.com
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/networking/netdevices.rst | 14 ++++++++++----
+ include/linux/netdevice.h               |  5 ++++-
+ net/core/netdev_work.c                  | 15 ++-------------
+ 3 files changed, 16 insertions(+), 18 deletions(-)
 
-Thx.
-
+diff --git a/Documentation/networking/netdevices.rst b/Documentation/networking/netdevices.rst
+index db71d4283032..aac33497813f 100644
+--- a/Documentation/networking/netdevices.rst
++++ b/Documentation/networking/netdevices.rst
+@@ -292,15 +292,21 @@ struct net_device synchronization rules
+ 	in process context.
+ 
+ ndo_set_rx_mode_async:
+-	Synchronization: rtnl_lock() semaphore. In addition, netdev instance
+-	lock if the driver implements queue management or shaper API.
++	Synchronization: netdev instance lock for "ops locked" drivers,
++	rtnl_lock() semaphore for all other drivers.
+ 	Context: process (from a work queue)
+ 	Notes: Async version of ndo_set_rx_mode which runs in process
+ 	context. Receives snapshots of the unicast and multicast address lists.
+ 
+ ndo_change_rx_flags:
+-	Synchronization: rtnl_lock() semaphore. In addition, netdev instance
+-	lock if the driver implements queue management or shaper API.
++	Synchronization: netdev instance lock for "ops locked" drivers,
++	rtnl_lock() semaphore for all other drivers.
++
++ndo_work:
++	Synchronization: netdev instance lock for "ops locked" drivers,
++	rtnl_lock() semaphore for all other drivers.
++	Context: process (from a work queue)
++	Notes: Runs deferred work scheduled with netdev_work_sched().
+ 
+ ndo_setup_tc:
+ 	Locking depends on ``tc_setup_type``. For most types the callback
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 8454646d6a45..17b8fb8e94fe 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -1135,13 +1135,16 @@ struct netdev_net_notifier {
+  *				struct netdev_hw_addr_list *uc,
+  *				struct netdev_hw_addr_list *mc);
+  *	Async version of ndo_set_rx_mode which runs in process context
+- *	with rtnl_lock and netdev_lock_ops(dev) held. The uc/mc parameters
++ *	under the netdev instance lock for "ops locked" drivers, or
++ *	rtnl_lock for all other drivers. The uc/mc parameters
+  *	are snapshots of the address lists - iterate with
+  *	netdev_hw_addr_list_for_each(ha, uc). Return 0 on success or a
+  *	negative errno to request a retry via the core backoff.
+  *
+  * void (*ndo_work)(struct net_device *dev, unsigned long events);
+  *	Run deferred work scheduled with netdev_work_sched(@events).
++ *	Runs in process context under the netdev instance lock for "ops
++ *	locked" drivers, or rtnl_lock for all other drivers.
+  *
+  * int (*ndo_set_mac_address)(struct net_device *dev, void *addr);
+  *	This function  is called when the Media Access Control address
+diff --git a/net/core/netdev_work.c b/net/core/netdev_work.c
+index e721a06d58df..c99967907e18 100644
+--- a/net/core/netdev_work.c
++++ b/net/core/netdev_work.c
+@@ -3,7 +3,6 @@
+ #include <linux/export.h>
+ #include <linux/list.h>
+ #include <linux/netdevice.h>
+-#include <linux/rtnetlink.h>
+ #include <linux/spinlock.h>
+ #include <linux/workqueue.h>
+ #include <net/netdev_lock.h>
+@@ -129,8 +128,6 @@ static void netdev_work_run(struct net_device *dev, unsigned long events,
+ 
+ static void netdev_work_proc(struct work_struct *work)
+ {
+-	rtnl_lock();
+-
+ 	while (true) {
+ 		unsigned long events = 0, core = 0;
+ 		netdevice_tracker tracker;
+@@ -143,16 +140,10 @@ static void netdev_work_proc(struct work_struct *work)
+ 		}
+ 		dev = list_first_entry(&netdev_work_list, struct net_device,
+ 				       work_node);
+-		/* Take a temporary reference so @dev can't be freed while we
+-		 * drop the lock to grab its ops lock; the work reference is
+-		 * only released once we claim the work below.
+-		 * The re-locking dance is to ensure that ops lock is enough
+-		 * to ensure canceling work is not racy with dequeue.
+-		 */
+ 		netdev_hold(dev, &tracker, GFP_ATOMIC);
+ 		spin_unlock_bh(&netdev_work_lock);
+ 
+-		netdev_lock_ops(dev);
++		netdev_lock_ops_compat(dev);
+ 		spin_lock_bh(&netdev_work_lock);
+ 		if (!list_empty(&dev->work_node)) {
+ 			list_del_init(&dev->work_node);
+@@ -169,10 +160,8 @@ static void netdev_work_proc(struct work_struct *work)
+ 		spin_unlock_bh(&netdev_work_lock);
+ 
+ 		netdev_work_run(dev, events, core);
+-		netdev_unlock_ops(dev);
++		netdev_unlock_ops_compat(dev);
+ 
+ 		netdev_put(dev, &tracker);
+ 	}
+-
+-	rtnl_unlock();
+ }
 -- 
-Regards/Gruss,
-    Boris.
+2.55.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
