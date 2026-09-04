@@ -1,176 +1,184 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263DB44238C
-	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 09:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52E043DA20;
+	Fri,  4 Sep 2026 09:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788515102; cv=none; b=uDlas2/csjpXksBoHZXIxmt8g4gOSr1McKoNR05aifckA+0Vvo9jXNJuCwTQeP3HgapfiH/LxEh5e+M+TxceJUz+NBILa4bXFp3nxw4cYN5ad8fP3qRLMBax0YoW2Fqw8kWoWwuQg5LJKaOQtE8l93kdPp7Oeb0jmvivRrmA2e8=
+	t=1788515762; cv=none; b=huzT+CWXWOjvqgc/I5HHa6exflbnDg9nzPI1ui96fVbXcOShqy6+oLDeT2B8wDFDIGVU+LvEXM3Qvi/R2AilA/WdBpnNJWThQQVA21TNdDBsDdD/E4suTvoptg7wv+Rm/fSw6CWeOxHVF9NLt957v46kczvCilms7Ax/nOh4BL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788515102; c=relaxed/simple;
-	bh=zVrsOBbUBsqRW8lZE59vCWEnEi6cLmNkhdl/0iaYt6w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PLGEjF8/WKp2a+IadotCTlr1C1f9k1ZYSfi1+BcnGbqxBuOShXFnmE6xAJeubYMa5BMtzKm/VW3JP1I6jqXFbSpr8Ou1Ntqw70432+zjR6ZptYTGt9q1jXOAGaYOvefrZ1hkOa9F1oKEY5AUOmLr4LiZKF0A2Kw4+hbhr0uYNkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=I+ylvqLL; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=HlT7wDXP; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1788515762; c=relaxed/simple;
+	bh=gnIBxKwtZtizljDf8ntnc5PsKurT8mkgOoph4B8t5LI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qbxFg/mWx5P+eMcgC06t66AksZNRSP9l9//LF0g4naWePOErCzJq24Qq2vTtCOg2xJzaCWTCxXNYvBkCzBF/e6kT0z+WAAArc9GhyMEnRqGpEW+nX9qXFysJAZzjT3Tr3Ajb+vsp+tjt2+tHHAEYf6fvM3FXPeSvfXK9yvF3N28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0UfkgZLG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+4h++arR; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ad1QSPu6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=BNvHZQEx; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="I+ylvqLL";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HlT7wDXP"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6847mpH22292481
-	for <linux-doc@vger.kernel.org>; Fri, 4 Sep 2026 09:45:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	+8D5YW4aMjYqkv07n5OIFJYINICm6DBJu2yq9WVbe+8=; b=I+ylvqLLLLgJPGX0
-	J4MRCr1bKezTgXDYnj6VwxvaI14kiNq83vRgzc2OZShwpLAt65CC7bWQOOG4NDhS
-	eZDowL7tahOXy4y6LgcF/EBMEnjEtcI+4wxlhPEYGTBZEqqQwJhmIqgOf4C7NQ6w
-	13d6QSs7uQCmoydDb8q7HwMz2EHLEBg1XbPDTy0M5TkenpgtSw7PcoF9AvcoIqg6
-	787fNoKGjFPZEYr1yGKEQLGxwd6Gxy/M6zpeDaxACjYUWemAJxPxU7h8rTYogyvt
-	tXa5KmElgYFevjgXUEq4TNcPaI67wNgCiYMwiyUkTQNo3f0u8C++t8KAmwBa61/G
-	9jC7Og==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gfdyp2yj4-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 09:45:00 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-52ea38b1e7eso2073591cf.3
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 02:45:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1788515098; x=1789119898; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+8D5YW4aMjYqkv07n5OIFJYINICm6DBJu2yq9WVbe+8=;
-        b=HlT7wDXPnnb/qidYJmjTQPMDy7Gzu6XStDjlrWvgsyj+OoeKbn5E1mfNv9ggjexgUJ
-         10UjBITdtyFdXi9djZ8S+doXg8Y7UwQGClbyk9+oFPW+EsSi5h/Xg4IKWBEwNHBCJIiI
-         HEeH4F81UG9qTrh11LvNJLeqN9At6dnrGbH/Q49O3U7qti+UW2PWQnkDCl2M2nWhKBPf
-         mXFuJCPZONEe8w7D6VHu3v0BqNcMuthmyBO34cS1Nq+YCDG06JzGJsYGTaUcBnutk9xV
-         3/AHZnFAaSuLkZwa43HiDRiLsewctUnO5XagxrZh2QjVqBK1uibu+fommufsg+gD5DfS
-         Q1oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788515098; x=1789119898;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+8D5YW4aMjYqkv07n5OIFJYINICm6DBJu2yq9WVbe+8=;
-        b=qQPv81GukKnMuW/cUxx+xUNeK0YsWhN+UnzQtaj/P8ahC1SSmNBOvTzaUDkaxkw1OM
-         K7LGzHlSZHN/nTWzT1k+MJhB+EGgdjbWQtgnjbncNMt/OJj74FDcZI0SGJPMf1kw49zW
-         XeM11PxN8aGjBeoUtZorkK3UNVtlF2Ln6u8fkjYqlmUgBoftWOXlWU/oJzHAdTUKdITs
-         yYv/7zs28wgcJdqV5b3MruslcL3Y2wcXZtetateO4g9t/PNC+BTVoab+XD5bggpsAnVT
-         iulu0Zelw3D1/xg95Ch5HcIVGtxIFd5ZL8hSaoMcUpXy++UEuXXgGftB6EbQqlin8eiK
-         2fGw==
-X-Forwarded-Encrypted: i=1; AKwUvByAlaSKmTC9lW0wSLN0Y/FTLVg7Kzx8TGir+bexfRi0V8AGJKD/+stTKbK/v2tY/QAdlexagKbNqxU=@vger.kernel.org
-X-Gm-Message-State: AFuF++nJdQWxNK1titZOVJa/MUHHoGO+hWujmvNNnvQuEMnVP3bC+bL5
-	/LENhcTSKD7ApEYs3yz1v5jj4EI322emrYD+ng5KObmQXRTyPlJk/Zhsot5CT4HKaXxSU2Tgt51
-	MSVNuCt2yVMtZnOumrUhpEgfvKuNi/HBPF4Hk/nh3b5fjHS0lL+iJh9S8r3puePE=
-X-Gm-Gg: AYBFou1S/5wb2zYQnDmjn008CH4e/Xz7Z+9iM6n9oSYdtpW0+6c0QdNPMVxv/4wFUnU
-	4lD2LXy7vw/0Lp/KRGV0rLV98/OciPu0pzDBsVr8ElRFguOrAnFS0oN3NCJBGkvAWrn4Yj78iPv
-	H/16Xjn0/+w37jAjsrHtH1d07d3JHEU+f7dBY2pjWSI7apNYLwM86bq01dJ7nLmg7Km+BgFZg7m
-	hAUbtPcBDsVuIagfelMHY7acC7iK6pYRUKeF5x2vF2lk2PNpcmJShNiw7hULcMW5jdyDamtrLkw
-	u5TxZDxHcluzhQkI5cTbLtXGC0b8Ewd+jDwhgRL/alNcfogglmdkjzR0TLIcOuuhxzcntXx42MB
-	cXVLjN286njWOxnndmVrnlw==
-X-Received: by 2002:a05:620a:4686:b0:939:47f4:935a with SMTP id af79cd13be357-939807adf30mr345134385a.5.1788515097945;
-        Fri, 04 Sep 2026 02:44:57 -0700 (PDT)
-X-Received: by 2002:a05:620a:4686:b0:939:47f4:935a with SMTP id af79cd13be357-939807adf30mr345131285a.5.1788515097419;
-        Fri, 04 Sep 2026 02:44:57 -0700 (PDT)
-Received: from [192.168.202.12] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d6dfad6sm83831366b.60.2026.09.04.02.44.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Sep 2026 02:44:56 -0700 (PDT)
-Message-ID: <62c7ed77-32c7-4e4a-ab44-64bb174a88f8@oss.qualcomm.com>
-Date: Fri, 4 Sep 2026 11:44:54 +0200
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0UfkgZLG";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+4h++arR";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ad1QSPu6";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="BNvHZQEx"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 32E891F7C1;
+	Fri,  4 Sep 2026 09:55:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788515754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DWnOsR3taajAx5HxQdLrn4oIj0S+37+jF+NaGCzhb2U=;
+	b=0UfkgZLGuceFVSXFhOXCo3bxuMJ/ajW/SjffHOn74F0at0FcRmV49AeQ5hyGC83Kd2rkz/
+	SCA+luHV89CZ9lAPn0tgbT98Y+Ggnw1dXkF73z5Y67zcXenuB2IGg/aSkVXNnR/zXtNFsU
+	g5YRfJTfTDBzKarYT0aJUsfOciJr8b4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788515754;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DWnOsR3taajAx5HxQdLrn4oIj0S+37+jF+NaGCzhb2U=;
+	b=+4h++arRnl4FJbmh9/Vyp9J7QnfSbWLNoe3HTDCMTwA/eiG0QbkUvjvH0NU0guqMHpeh/q
+	hjDf1JNztScsFEBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=ad1QSPu6;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=BNvHZQEx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788515750; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DWnOsR3taajAx5HxQdLrn4oIj0S+37+jF+NaGCzhb2U=;
+	b=ad1QSPu6lJxN90Ow+Xg3moi/PVFKz5+jCa6LpBWejhp/Q5swAHdJSOy3FQk6VShnYjXheu
+	yrZGoxs9tbdRDgCDvWI+gZSd9tSOZMp5TJV5+RkaxnROpL63+vI+41Oi6SsCR5zUHnKSeg
+	5ExFBG+qWtL670H8SE7qFSX59co5esY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788515750;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DWnOsR3taajAx5HxQdLrn4oIj0S+37+jF+NaGCzhb2U=;
+	b=BNvHZQExiGh1+LTbXnIpigowoCkEO/5O6Uic8NBtADtD4i1BYpJjQfjdWuwJsqdnxuiZBd
+	5w+stBh0rXm9TMCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 10CAA13678;
+	Fri,  4 Sep 2026 09:55:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id t8IUBKaVmmqEKgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 04 Sep 2026 09:55:50 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 9CC8CA13CE; Fri, 04 Sep 2026 11:55:45 +0200 (CEST)
+Date: Fri, 4 Sep 2026 11:55:45 +0200
+From: Jan Kara <jack@suse.cz>
+To: Tigran Aivazian <aivazian.tigran@gmail.com>
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jan Kara <jack@suse.cz>, Jakub Kicinski <kuba@kernel.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Hisam Mehboob <hisamshar@gmail.com>, 
+	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>, Christian Brauner <brauner@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Eric Biggers <ebiggers@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, David Howells <dhowells@redhat.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Theodore Ts'o <tytso@mit.edu>, 
+	Catalin Iacob <iacobcatalin@gmail.com>, Stephen Hemminger <stephen@networkplumber.org>, 
+	Andrew Lunn <andrew@lunn.ch>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
+	Andrei Vagin <avagin@gmail.com>, Wei Yang <richard.weiyang@gmail.com>, 
+	Bhavik Sachdev <b.sachdev1904@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Wang Yan <wangyan01@kylinos.cn>, Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, 
+	Malaya Kumar Rout <malayarout91@gmail.com>, linux-doc@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH] bfs: remove the filesystem
+Message-ID: <35dsgpk5dsh6bm4xoblrq6hdslfvtuibl5grzag37cye2hgepk@rkrtkjxdyk5g>
+References: <20260904082954.48738-1-enelsonmoore@gmail.com>
+ <CAK+_RL=RHfRLDc=Ldjx1p8KTHSKeELjnBpxEqYjwWX_8ur1hOw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] platform: arm64: Add Radxa SVC GLINK driver
-To: Xilin Wu <sophon@radxa.com>, Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, Hans de Goede <hansg@kernel.org>,
-        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-References: <20260831-radxa-svc-v1-0-7c028de6a387@radxa.com>
- <20260831-radxa-svc-v1-1-7c028de6a387@radxa.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260831-radxa-svc-v1-1-7c028de6a387@radxa.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: dT61veaUfMVJ9VyMuEYaI7POvfKlBjBT
-X-Proofpoint-GUID: dT61veaUfMVJ9VyMuEYaI7POvfKlBjBT
-X-Authority-Analysis: v=2.4 cv=Q5XiJY2a c=1 sm=1 tr=0 ts=6a9a931c cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=ksxQWNrZAAAA:8 a=oytB4wdSUnn8FBOm40sA:9 a=QEXdDO2ut3YA:10
- a=dawVfQjAaf238kedN5IG:22 a=l7WU34MJF0Z5EO9KEJC3:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA0MDA4OCBTYWx0ZWRfXz0YTwWGOl3gZ
- J0tG9rgTu2Yn0bJ5lYPlEe0NbozbH34+kvETQuKnTllTA0lSWSBYD0Md7HyjentGfEaCiJwagLn
- HCHDjhlt+gEmQb/kwAurArr8fGP0YC0h4Ifj43nPUYJPktMenh/7NttUE3GPoTtsi5J3WpbfuPN
- T3sC5bmkZz/Lt07ITCCNbpULqCQBDN8H8Xzv57ercVW3ugdvKH1SgBWW2bEyEtNp7v8SwHeWBXD
- aYWgVpF3qr7yaD63Fz+9bMK36/YToJ+pzU/82GDl5PiusQrVDhauheqeOss9qcX3N/2NkvglCSp
- xXWjHoSHPWS3UB90zTrxKHW0EjU728w33Shp9i+HwEBx0397v/Gp6VzC80QkT4/iwd4g4redvkz
- nLXk+hUL0v72Ea6UgSfsI+UQV5wjgxtFg/lZwllBpk5oH945JwRfQext3q1b8zE9gljQ5SK5wSq
- KO/Rsxmp1CQkK+3MLwQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA0MDA4OCBTYWx0ZWRfXzTPCxys9wZWy
- be06PU3XK31e5Kq4dMNP1AlseRKGgInqwdeA2WSAIXpp9EZvSBTvi8EDemXC0fBjVx82yQknkTT
- +CDKxnJHeO0jFjwvJoQTZ7vdyYQGMH4=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-04_02,2026-09-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 impostorscore=0 adultscore=0 bulkscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2609040088
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK+_RL=RHfRLDc=Ldjx1p8KTHSKeELjnBpxEqYjwWX_8ur1hOw@mail.gmail.com>
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 32E891F7C1
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[42];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,linuxfoundation.org,infradead.org,ellerman.id.au,kernel.org,suse.cz,posteo.de,linux-m68k.org,redhat.com,alpha.franken.de,mit.edu,networkplumber.org,lunn.ch,orcam.me.uk,linux-foundation.org,kylinos.cn,vger.kernel.org,lists.ozlabs.org,lwn.net,linux.ibm.com,zeniv.linux.org.uk];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLx5fqm8k6as49t7tzapjazi4f)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim]
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
 
-On 8/31/26 5:09 PM, Xilin Wu wrote:
-> Add an rpmsg client for the RADXA_SVC_ADSP_APPS firmware service used
-> on supported Radxa boards with Qualcomm SoCs.
+Hello!
+
+On Fri 04-09-26 09:51:10, Tigran Aivazian wrote:
+> On Fri, 4 Sept 2026 at 09:30, Ethan Nelson-Moore <enelsonmoore@gmail.com> wrote:
+> >
+> > BFS (not to be confused with BeFS, the BeOS filesystem) is the
+> > filesystem UnixWare uses for its boot partition. It has extremely
+> > limited functionality, only supporting contiguous files and no
+> > subdirectories. Even though the bfs driver is very small and is
+> > unlikely to cause future maintenance problems, given that the only type
+> > of data stored on such a partition is likely to be kernels and
+> > bootloader settings, there is very little reason anyone would want to
+> > access it from Linux. Other old Unix filesystems (efs, freevxfs) have
+> > been removed recently, and bfs is highly unlikely to have any users, so
+> > remove it as well. Retain the UAPI header to be safe.
 > 
-> Expose fan control through the standard hwmon pwm1 and pwm1_enable
-> attributes. SET_PROFILE only changes the fan curve, so map its quiet and
-> performance curves to automatic modes instead of platform_profile.
-> 
-> Signed-off-by: Xilin Wu <sophon@radxa.com>
-> ---
+> You are right that probably no one would want to use BFS for storing the
+> actual data today. But some things have didactical value, rather than
+> mere pragmatic usage. It is the didactic value of MINIX (and its
+> limitations wrt making use of the wonderful capabilities of i386) that
+> has originally triggered the creation of Linux. But back to BFS: it is
+> actually used in Steve Pate's book "Linux Filesystems" (2024, unfinished
+> yet), which is a sequel to his excellent classic "UNIX Filesystems"
+> (2003), as an illustration of a particularly simple filesystem
+> implementation.
 
-[...]
+So I agree BFS is simple. In fact so simple that I was confused by how it
+can get away with not implementing certain bits when having to modify it
+couple months ago when doing some fs-wide fixes :). Regarding didactical
+value, we currently also have minix and ext2 implementations more or less
+for educational purposes so frankly, I don't think we need a third one.
 
-> +static int radxa_svc_request(struct radxa_svc_glink *svc, u32 opcode,
-> +			     const void *req_payload, size_t req_len,
-> +			     void *rsp_payload, size_t *rsp_len);
-
-I don't think you need this forward-declaration
-
-[...]
-
-
-> +	reinit_completion(&svc->rsp);
-> +
-> +	spin_lock_irqsave(&svc->rsp_lock, flags);
-
-
-GPT says:
-
-High: A late response from a timed-out request can complete and corrupt
-the next transaction.
-
-In patch 1, radxa_svc_request() clears pending and returns after the
-5-second timeout, then a later request calls reinit_completion() and
-installs its new pending_seq (patch lines 526-540, 550-555). The callback
-sets do_complete under rsp_lock, drops the lock, and only then calls
-complete() (patch lines 612-624). 
-
-Konrad
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
