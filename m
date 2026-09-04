@@ -1,182 +1,94 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3169472F72;
-	Fri,  4 Sep 2026 17:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11143FBB72;
+	Fri,  4 Sep 2026 17:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788541394; cv=none; b=JImVG6lcKbfbzW4I/+j2+tBKZo6ot5p+H1IOGinl721M15YGTWFCgAzIz6MP0+0I+FMeKMYuYWEC5t+apgdoI4AyTotkUSu4YGCl7credUkU8Rtx3CjPYRlorAech0G/uMCBr94vU75y3DmLk71iQPOtZoOdcNFDU+mwEzPxoYM=
+	t=1788541746; cv=none; b=CIoRYhZYojwUqIP316seS0x5GSivPhdBtLAbh4kwtzP47ThKwh1RV6KONOY8m50hn2/vFqf0za76WdooqWp1P9SR9Rgwv2mf9GNokGxNVnU/iFeyPmYylrMPUCc3Cc6oTtlPxGq67iIy7ZapllNIz7VOOSl5+4JV3Qz51E6QTy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788541394; c=relaxed/simple;
-	bh=ecK2wmAuZck7TyMU7udH9uLRTjXBYq7BHeTCuCIQLpU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RvFcEkNDOTrpHnYjFVuXqmbkZryrg9MvdcCl4rR2qnpRM9dSAaC4Zrv7ljuStvGvonEEfVUeVnLQjoX3/aRaG4r1c3KMh7ePrBjqox0kY///o71E+IJ8Br01T94oWNmvDUaSp3Jq/WDhdjdjMo2dStYbyCBSgKHQB9Kpbgqh6EA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=bhotPMVd; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1788541746; c=relaxed/simple;
+	bh=lw4DXJTdVx4Gw7xWT95Xd6jIdq8p5U3vIlWYtOL68C8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J8zWHEDJZYF0LY7tKqSuG8YDTy76NccJdDtDqzJlVFEtG99MXIvZitv9SUqdp273bHTIIks/119NWVPeiE8+bssqkSVGPZ7pIT9Ind5s58VtEEaq6V3FaU8BtzwDROe7cNZxXASB5wyaAF6KyvX63/3xN/uFVBwkg1E7j0j+c1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XsskS7Tj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="bhotPMVd"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hc2pZ3Y6qzKvyN;
-	Fri, 04 Sep 2026 19:03:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788541382;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2bdiMxP0fkSWQuv353d3PCw4VyXVaYVxJwgR/0Ra358=;
-	b=bhotPMVdCjL8jTLdwYiuKc1uhLsDGe9Hhly+guT2Wxb7v2RWN6pEl8uv51R5QmR6Yknpei
-	xTU4Gf0omSEe5W4CjMbcbKby93Ci32d1/ZU/QOxdkwSPjfWPnW4CxKvbc8roxRe3BikdCt
-	AEYCA8OMQQfIosr9jL/Cy9H5t8IzMoakiBTJ2/Uu1JbI48lFXS9TOCyNf+kVb7rDFGcgcj
-	3zvQBcJlmIFUsD3E+mgqqH01QnFTHWFpAAT5l2nb18cYn6SXNRz8XAKZyHimtJVfJQNixH
-	l2E4q0+i0gH50jWdsofRy+7KBt4/dkAA0HzMWqsTe2t3dlVHTy9uslVKX/vo+A==
-Message-ID: <a2066238d2be3cfd36cd6ea3a7bf11206cb0a02a.camel@mailbox.org>
-Subject: Re: [PATCH] v2 Docs: changes.rst: introduce optional column
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Nicolas Schier <n.schier@fritz.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,  =?ISO-8859-1?Q?Bj=F6rn?=
- Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Daniel Almeida	 <daniel.almeida@collabora.com>, Tamir
- Duberstein <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>,
- Onur =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Nathan Chancellor	
- <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- workflows@vger.kernel.org, 	linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	rust-for-linux@vger.kernel.org,
- llvm@lists.linux.dev
-Date: Fri, 04 Sep 2026 19:02:52 +0200
-In-Reply-To: <20260904-stirring-zircon-frog-ea6949@l-nschier-aarch64>
-References: <20260831151605.638172-2-manuelebnerli@mailbox.org>
-	 <20260831152523.638881-1-manuelebnerli@mailbox.org>
-	 <20260904-stirring-zircon-frog-ea6949@l-nschier-aarch64>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XsskS7Tj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 167AB1F00A3D;
+	Fri,  4 Sep 2026 17:08:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788541744;
+	bh=lw4DXJTdVx4Gw7xWT95Xd6jIdq8p5U3vIlWYtOL68C8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XsskS7TjzEjfQ8V3UyMObmX+B8AsWFxFvKpg0pwsEJYOvXQlgkXxUnIYcJxKKKEbI
+	 zmbfjSr6vud0Ss5CpXECCmyFiI/XxOaRzBNYyvQiL3ySvvZ2NFpQH/2DTs0y+qnAoW
+	 YAbZsVsxVSB/omLVQiVPfGAC1LysLgb91jFLYwnjt3owxNZLNQCcL3T8QD9q7Oap4c
+	 p93/EEjUG2Vvmnn1iVdJ5E+gRtUU9yW68UgeYcVqqqfjMYu0NbfN5R/CoyN1etNsvP
+	 7bIH++6cZAvsDo6LuIHkAnaXcvSYzG+l0Qv6LVkjhoBhVDCdSas7p5rcXEitfA443s
+	 87kfktHQpLIgw==
+Date: Fri, 4 Sep 2026 18:08:58 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v6 02/17] dt-bindings: iio: adc: Add AD7768
+Message-ID: <20260904-unified-tyke-bc1b8f9d4d3a@spud>
+References: <20260904-ad7768-driver-v6-0-e4378f946bfb@analog.com>
+ <20260904-ad7768-driver-v6-2-e4378f946bfb@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: 37xjqxrzxx17uwir6atstjf7jz7irh98
-X-MBO-RS-ID: 59b361a7e629ce93864
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BVdepgrbK4Hrr/oe"
+Content-Disposition: inline
+In-Reply-To: <20260904-ad7768-driver-v6-2-e4378f946bfb@analog.com>
 
-On Fri, 2026-09-04 at 18:11 +0200, Nicolas Schier wrote:
-> On Mon, Aug 31, 2026 at 05:25:22PM +0200, Manuel Ebner wrote:
-> > The optional tag isn't obvious nor defined. Therefore replace with colu=
-mn.
+--BVdepgrbK4Hrr/oe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Sep 04, 2026 at 04:14:54PM +0200, Janani Sunil wrote:
+> Devicetree Bindings for AD7768-4 (4 channel) and AD7768 (8 channel)
+> simultaneous sampling ADCs.
 >=20
-> Why do you throw away the 'Command to check the version' column?=C2=A0=C2=
-=A0
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
 
-I would do this to get some space for the optional column and have
-the version commands in ./scrips/ver_linux . See below.
+One more binding that the nuances of are probably beyond me, but David
+and Jonathan appear okay with judging from previous iterations.
 
-> At=20
-> work, we have a script that uses these commands to check the actual=20
-> tooling versions.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-Well, I don't want to break that.
+--BVdepgrbK4Hrr/oe
+Content-Type: application/pgp-signature; name=signature.asc
 
-> If there is a reason for change, please document it in the commit=20
-> message.
+-----BEGIN PGP SIGNATURE-----
 
-Will do.
+iHQEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCapr7KQAKCRB4tDGHoIJi
+0jYPAPiwchvAdt4TRq/YwxhKFvfwb60afzexZoOFqptcIXeiAQDxZvo1BVSfwJuq
+6E37fGonWHIoluMbkgDar6ifwoKhAA==
+=4wNq
+-----END PGP SIGNATURE-----
 
-> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> > ---
-> > =C2=A0Documentation/process/changes.rst | 84 +++++++++++++++-----------=
------
-> > =C2=A01 file changed, 42 insertions(+), 42 deletions(-)
-> >=20
-> > diff --git a/Documentation/process/changes.rst b/Documentation/process/=
-changes.rst
-> > index b3fa980b63e3..905ac0f6cdc5 100644
-> > --- a/Documentation/process/changes.rst
-> > +++ b/Documentation/process/changes.rst
-> > @@ -29,49 +29,49 @@ systems; obviously, if you don't have any PC Card h=
-ardware, for example,
-> > =C2=A0you probably do not need to concern yourself with pcmciautils.
-> > =C2=A0
-> > =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0 =3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Program=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 Minimal version=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 Command to check the version
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Program=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 Minimal version=C2=A0 Required for=20
->=20
-> Do you want to align the column headers to the left or center them?
-
-I should have done this the proper way but i didn't.
-
-> > =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0 =3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > -bash=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4.2=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bash --version
-> > ...
-> > +bash=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4.2=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > ...
-> > =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0 =3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > =C2=A0
-> > =C2=A0.. [#f1] Sphinx is needed only to build the Kernel documentation
->=20
-> I kind of like the "Required for" column w/ naming=20
-> concrete Kconfig symbols or envs like ARCH.=C2=A0=C2=A0
-
-Thanks, do you prefer your scripts working or the required for column? Mayb=
-e there
-is space for both, when 'program' and 'Minimal version' get squished.
-Would one of those arrangements not break your scripts?
-
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
->          Program        Minimal version    Required for        Version Co=
-mmand
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-OR
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
->          Program        Minimal version      Version Command        Requi=
-red for
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-> I think it would be good to=20
-> get this a bit more complete, where possible.
-
-I have only little clue about tooling, versions or Kconfig so I'll need som=
-e help with that.
-
-Thanks
- Manuel=20
-
-> Kind regards,
-> Nicolas
+--BVdepgrbK4Hrr/oe--
