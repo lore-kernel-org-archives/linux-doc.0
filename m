@@ -1,177 +1,328 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092A2175A9D;
-	Fri,  4 Sep 2026 12:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655C247729B
+	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 12:29:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788524508; cv=none; b=f/DYKgOf3sdEFtlRGGk1XFO7x/yaHZQ7aAlDy65lqcDr3euL7yhuNvT/pJ4PGw5LZ8ApnnYtVUZ8Ljt40Gty4ngUp6MrILDZMN6L2SQHwhZqYXhYhEiayJfJqbZ6Xhi4mC7TdmhMvoOuRs23BruNg8J6i4r90UC7Q036WACAni4=
+	t=1788524963; cv=none; b=HxxhTRlcdp8OnSD7JBbXucMlku8tDVOd3zzyYf5DVH3AZ0XprkG7cqvBLw4SyM6grXuHwi0OyhLVb2SUDCNxTB4R2iwhe+chY5tS9DysKb1i3BoKV/b9Fp6OF+I9kH21VEOhGhj/2WXSX0MIhroDFdkalymizE2T+PQ+RaSx+4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788524508; c=relaxed/simple;
-	bh=dGEwsl/QZPhzvlA+Mi/r76rmR6CKptJayLW6wdJ2m34=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PMWXxUwciM8KHX6iBG3U2r/Urag9dI7GBAXraBMj75kVDCRfVDuinA9xeNEq7vfsV++dznQyFlFPPk2ylSdin1k/7juNXsIdysgIntKayhj+j4skqMAfbTnhQM1kpDgBDOBAQ7J5roeC6DBCjseScJqTB4Yv/x+X4ypxakcsjWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YS/gc8PL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788524963; c=relaxed/simple;
+	bh=EUuoXIfp0lxoOwDJV17UpYFiNpPAfS1N3kozJAP+UaE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EdzMuHWrKNwg0AtU4dELf/5B49iILxEsSHmNnddYI4nQIEhVypmOHSo8p0r+uTGYk6h9EuF3ns7tDx4euHi/Jc4OPKHYnVNZ1ys+slrZj7torj+/DKdaTcedz3bNGANpG+HRAd1JVYI0+GiMDEGeNeSIhEcXsIKCWkTlWGRK0H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aRETEh+Z; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YS/gc8PL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A78D91F00A3D;
-	Fri,  4 Sep 2026 12:21:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788524505;
-	bh=n0Ai26c+BBRDL6nXffU6QVI3E3AyrZw/QywDCntvJXw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YS/gc8PLWOxND3JfXW3uxDEITVnYv+tTnEDDPxhxeMRAKYroLEr8inBUP4WK83rLR
-	 zIuRyMuxYnD4xgXAcW3s4VF3Rjg7Vk8ZCHLprV0IdH+sEdREfcApZUE5zElmq0d84y
-	 NKrVJpBZEQUgErkhyHtAkmB7fXdZrRXKLnHckniA=
-Date: Fri, 4 Sep 2026 14:19:59 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Bradley Morgan <brads@mainlining.org>,
-	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: Re: [PATCH v3 1/2] module: pull out add_taint_module() to be public
-Message-ID: <2026090432-outlying-glitch-9295@gregkh>
-References: <20260904-bind_taint-v3-0-30025465f38a@linuxfoundation.org>
- <20260904-bind_taint-v3-1-30025465f38a@linuxfoundation.org>
- <a79a6a06-cc48-4036-882d-95e9b4cc01cf@suse.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aRETEh+Z"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4858be8b509so245398f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 05:29:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788524959; x=1789129759; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qlGx0CPo5VYNzLkUytiCUbDEjen2hl0scTbalSQRPIc=;
+        b=aRETEh+Z/f93pCm1+pVeMdIaZ+EzmPTk4wweH2Yxq2vWB5HKahMobPY8lx4OTFoXlx
+         Ad/MfdpFNx5kpEhP6u1nFLqSZWWv1CElqKICHD0YAMmc/mHq3iWdwe4UpZzGGWPswDY0
+         Fm9MLrHfSWOTJJOFbKO3W2sHa/jTLJXY7CzlcQAFZw5zV1jdODyokLHaCfyghEfIzhGq
+         LoOKN9UmVFjxeWBhPPe7s0EXAH5IYr5qNgyrLJ24EJZoYON0qf2uourRR1LokisD8yFp
+         gOD4MhEnj0W9+eL5X7ZGAGAzsAmpHjGRnQKXYLfGzaL75qRc0Aq2kvyHVTUDdP/boO7l
+         c9fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788524959; x=1789129759;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=qlGx0CPo5VYNzLkUytiCUbDEjen2hl0scTbalSQRPIc=;
+        b=stA203HkyA1dXS4txntGZIZG+hxQnHeReOKZkOQZrHYacqGtJaBkhB6OBNaNoiySLD
+         nxo4lxztE3Stpefw6MAJs+q1Av0JHJ94nz+N3PZrh+YNbi+pLlQABjkbcT36YV4cEjQh
+         N0Rss8y9WVpW6dMY0SJznhW5C5wNdawNFV2TA5MdfeqZzolVq3GN0pTXI63wITHZajjc
+         kKgww4qSwuCH/jApkMHYKJAijhX517hifq6cJ6shsyHc/M9wkSB1R0EuXFlGGcZplA1x
+         s8f2EhtF5bl5/Vy11T3OyCxU24GW+eR3na4W/a18jYpUjHvfwoT9EeGlNFv7jeVluXjZ
+         zY7w==
+X-Forwarded-Encrypted: i=1; AKwUvBy+f2WQl63qkmXzTKQUhYHw9/h9Zl/dS8ias3Vb6mkY8/aaMna7HDHJNqMd3qrJvky4+0tf1WDzd9g=@vger.kernel.org
+X-Gm-Message-State: AFuF++lUmjbQry65nCEpWQ85CzlTcntIvK8mO56um1q5tJM7RRoFZZp2
+	8JYkcQWa6Iqj5q+aLpnxirK4CJ5RXK4UUtnGKL7WfLsgJIJW2q2WyZ+M
+X-Gm-Gg: AYBFou3ic/qLBY3BIMKD9fq+tEu1OZpDHXbTzVXROyYDHixiI1tl2ytilFJF3iRdIIy
+	HG5qLEvZL+Uuzm1M9TsUE707Xtygmnw00fY9KFKU4oYcxFimHVASRrzCMM0SFFRWPog3aKkP+hE
+	R1nZP2YKRTQPmx+MsOd989PpPFtMrT5GsrKCv5UePHUr/Jddk23/+CRRIvWJrojh6ihPY5C1D7v
+	XxrzOF0sX9nA/Ejq9Gb0dP2r1UndCduLwWeFZmP9z5vwvNKDKNWB0I9m5umzvmmbt+kQ+eNwIf3
+	74LqJR29haszdjuGBMaZsLOSv58JqOdUP0xruZsC02GcaoxZJlXcF5UCNv4skMse+yQ2IhTcPCu
+	Ibyq0qoCWexPobYVF0NQ0XTVhWylwYKtOCA9LTylw5kExuHy6rjJNSkkPUtSrg2sdLrZVHFJrhe
+	eoqGDroqVo3rTb6GvhimXazq3vIBfXkRGHdVWN7m5WMA7+FBzWzPJ5cvoOOzJjCPjw23Sd0vjin
+	QN51nGiWZ+JPJTogR8U09jINQ61FcsbVbK5iLgpbULS/P5RnDslZ7LT3Sl8N+RTn+je
+X-Received: by 2002:a5d:5885:0:b0:485:8c16:a32b with SMTP id ffacd0b85a97d-4858c16a55bmr3077939f8f.32.1788524958779;
+        Fri, 04 Sep 2026 05:29:18 -0700 (PDT)
+Received: from [10.128.10.232] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c5bc5sm6297105f8f.24.2026.09.04.05.29.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Sep 2026 05:29:18 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <51ade68e-7a0c-454e-a48a-4c72f7a730ac@gmail.com>
+Date: Fri, 4 Sep 2026 13:29:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a79a6a06-cc48-4036-882d-95e9b4cc01cf@suse.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/5] add kconfirm
+To: nathan@kernel.org, nsc@kernel.org
+Cc: ojeda@kernel.org, akpm@linux-foundation.org, jani.nikula@linux.intel.com,
+ gary@garyguo.net, gregkh@linuxfoundation.org, arnd@arndb.de, ljs@kernel.org,
+ andrew.jones@linux.dev, masahiroy@kernel.org, corbet@lwn.net,
+ qingfang.deng@linux.dev, demiobenour@gmail.com, ej@inai.de,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20260727001623.2794156-1-julianbraha@gmail.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <20260727001623.2794156-1-julianbraha@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 04, 2026 at 11:25:01AM +0200, Petr Pavlu wrote:
-> On 9/4/26 7:10 AM, Greg Kroah-Hartman wrote:
-> > Other kernel code might want to call add_taint_module() so pull it out
-> > and make it global.  If modules are not enabled, this defaults to a call
-> > to add_taint(), so all is fine.
-> > 
-> > Reviewed-by: Johan Hovold <johan@kernel.org>
-> > Tested-by: Johan Hovold <johan@kernel.org>
-> > Reviewed-by: Bradley Morgan <brads@mainlining.org>
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> >  include/linux/module.h | 10 ++++++++++
-> >  kernel/module/main.c   | 16 +++++++++++++---
-> >  2 files changed, 23 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/include/linux/module.h b/include/linux/module.h
-> > index 96cc98568eea..f6f90cd88f15 100644
-> > --- a/include/linux/module.h
-> > +++ b/include/linux/module.h
-> > @@ -29,6 +29,7 @@
-> >  #include <linux/srcu.h>
-> >  #include <linux/static_call_types.h>
-> >  #include <linux/dynamic_debug.h>
-> > +#include <linux/panic.h>
+On 7/27/26 01:16, Julian Braha wrote:
+> kconfirm now uses the in-tree parser. Making this migration required a
+> modification to the parser that allows us to observe the parse tree before
+> its final simplification step, thus allowing us to detect dead code.
 > 
-> Note that I'm working on cleaning up linux/module.h to reduce its
-> preprocessed size. The main motivation is to shorten the compilation
-> time of all the small *.mod.c files. Since linux/module.h already
-> includes linux/panic.h indirectly, adding this include explicitly seems
-> fine to me for now. In the future, I think we should introduce something
-> like kernel/module/stubs.c where the CONFIG_MODULES=n variants of
-> add_taint_module() and other similar functions can live without bloating
-> linux/module.h.
+> Since no external crates are now necessary, I’ve removed the Cargo requirement,
+> too.
 > 
-> >  
-> >  #include <linux/percpu.h>
-> >  #include <asm/module.h>
-> > @@ -770,6 +771,9 @@ static inline bool is_livepatch_module(struct module *mod)
-> >  
-> >  void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data);
-> >  
-> > +void add_taint_module(struct module *mod, unsigned flag,
-> > +		      enum lockdep_ok lockdep_ok);
-> > +
-> >  #else /* !CONFIG_MODULES... */
-> >  
-> >  static inline struct module *__module_address(unsigned long addr)
-> > @@ -877,6 +881,12 @@ static inline bool module_is_coming(struct module *mod)
-> >  static inline void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data)
-> >  {
-> >  }
-> > +
-> > +static inline void add_taint_module(struct module *mod, unsigned flag,
-> > +				    enum lockdep_ok lockdep_ok)
-> > +{
-> > +	add_taint(flag, lockdep_ok);
-> > +}
-> >  #endif /* CONFIG_MODULES */
-> >  
-> >  #ifdef CONFIG_SYSFS
-> > diff --git a/kernel/module/main.c b/kernel/module/main.c
-> > index d0e1e0bd2ad0..444d990c9983 100644
-> > --- a/kernel/module/main.c
-> > +++ b/kernel/module/main.c
-> > @@ -191,11 +191,21 @@ static inline int strong_try_module_get(struct module *mod)
-> >  		return -ENOENT;
-> >  }
-> >  
-> > -static inline void add_taint_module(struct module *mod, unsigned flag,
-> > -				    enum lockdep_ok lockdep_ok)
-> > +/**
-> > + * add_taint_module: add a taint flag if not already set for a specific module
-> > + * @mod: pointer to the module that caused the problem
-> > + * @flag: one of the TAINT_* constants.
-> > + * @lockdep_ok: whether lock debugging is still OK.
-> > + *
-> > + * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
-> > + * some noteworthy-but-not-corrupting cases, it can be set to true.
+> I believe these changes should resolve the major questions, so I’ve
+> removed the RFC tag.
 > 
-> Nit: The final paragraph is mostly copied from the description of
-> add_taint() but I don't think it is quite right. The parameter name
-> should be lockdep_ok, not lockdebug_ok and the values are
-> LOCKDEP_STILL_OK / LOCKDEP_NOW_UNRELIABLE, not true / false.
+> Now, onto the existing patch-set description since the RFCs:
 > 
-> I suggest updating this part for both add_taint() and add_taint_module()
-> to something like:
+> ===
 > 
->  * Use @lockdep_ok = LOCKDEP_NOW_UNRELIABLE if something serious has gone wrong.
->  * For noteworthy but non-corrupting cases, use LOCKDEP_STILL_OK instead.
+> kconfirm is a tool to detect misusage of Kconfig. It detects dead code,
+> constant conditions, and invalid (reverse) ranges. There are also optional
+> checks to detect config options that select visible config options, and to
+> check for dead links in the help texts.
+> 
+> See also kconfirm's original introduction to the mailing list:
+> https://lore.kernel.org/all/6ec4df6d-1445-48ca-8f54-1d1a83c4716d@gmail.com/
+> 
+> False Alarms:
+> kconfirm aims for zero false-positives, though this is not completely
+> feasible due to macro evaluation from the host environment, primarily
+> affecting host compiler-related options. There will also be some false
+> positives for dead link checks, as this depends on an internet connection,
+> and we do not attempt to bypass bot blocks. For this reason, dead link
+> checking is disabled by default, but I've provided an example below of how
+> to enable it. Additionally, you can view my previous message to the
+> mailing list with hand-verified dead links here:
+> https://lore.kernel.org/all/6732bf08-41ee-40c4-83b2-4ae8bc0da7cf@gmail.com/
+> 
+> Additionally, there is an optional check to detect config options that
+> select visible config options, as requested by Jani during the review of
+> the first RFC:
+> https://lore.kernel.org/all/dcb7439832f0bb35598fba653d922b5f6a4d0058@intel.com/
+> 
+> Even after deduplicating across architectures, there are well over 1,000
+> instances of these select-visible cases, and I suspect that, despite the
+> Kconfig documentation saying select-visible should be avoided, some
+> exceptions will be made. So, I have left this check disabled by default,
+> keeping in line with the goal of having a low-noise checker. If interested
+> in using it, I have included an example below of how to enable this check.
+> 
+> Current State of Alarms:
+> With x86-64 on Linux v7.2-rc4 (which this RFC is based), there are 1282
+> alarms coming from the default set of checks, and an additional 976 alarms
+> if enabling the optional select-visible check. The last time I checked
+> linux-next (next-20260427), there were 81 unique dead links.
+> 
+> The most critical check is the dead default statements, which has surfaced
+> a few misconfiguration bugs (fortunately, just for kunit tests), see
+> examples:
+> https://lore.kernel.org/all/20260323124118.1414913-1-julianbraha@gmail.com/
+> and:
+> https://lore.kernel.org/all/20260323123536.1413732-1-julianbraha@gmail.com/
+> 
+> But hopefully kconfirm can ease maintenance and we can prevent more of
+> these from making it into the tree in the future.
+> 
+> Use it:
+> You can test out kconfirm with this patch series by compiling and running
+> kconfirm like this:
+> 
+> `make kconfirm`
+> 
+> To enable the select-visible check:
+> `KCONFIRM_ARGS="--enable-check select_visible" make kconfirm`
+> 
+> And to enable dead link checks in the help texts:
+> `KCONFIRM_ARGS="--enable-check dead_link" make kconfirm`
+> 
+> kconfirm by default runs on the same architecture as the kernel build
+> would. To run kconfirm on another architecture (for example, ARM with an
+> X86 host):
+> `ARCH=arm make kconfirm`
+> 
+> Thanks,
+> Julian Braha
+> ---
+> Changes since RFC v3:
+> - Modify kconfig parser to make raw parse tree viewable to enable analysis
+> - Switch from external parser to in-tree kconfig parser (Demi)
+> - Add Rust bindings for kconfig
+> - Remove Cargo and external crates
+> - Make curl an optional dependency for optional dead link check (Arnd)
+> - Switch from libcurl to curl CLI for dead link checks (Miguel)
+> - Adhere to Rust-for-Linux style (Miguel)
+> - Add tests (Miguel)
+> - Move kconfirm under scripts/kconfig/ to resolve broken tab autocompletion (Nathan)
+> - Remove ungrouped attributes style check
+> - Add support for checking liveness of ftp and git URIs in help texts
+> - Dropped RFC tag
+> 
+> Link to RFC v3:
+> https://lore.kernel.org/all/20260516215354.449807-1-julianbraha@gmail.com/
+> 
+> Changes since RFC v2:
+> - Reduce Rust dependencies significantly (follows Demi's suggestions):
+>   - from 6 direct dependencies to 1
+>   - from 107 indirect dependencies to 4
+>   - Replace ureq crate with usage of system libcurl (thanks Demi)
+>   - Replace clap crate with FFI bindings to libc's getopt_long (also Demi)
+>   - Remove crates env_logger, regex
+> - Switch from vendoring dependencies to requiring users to first download
+>   outside of Make (as suggested by Miguel)
+> - Various makefile improvements (as pointed out by Nicolas):
+>   - Fix out-of-tree builds
+>   - Only delete kconfirm artifacts with 'distclean' and 'mrproper'
+> - Add myself as maintainer of kconfirm (as discussed with Nicolas)
+> - Remove dedicated code license file (pointed out by Jani)
+> - Update documentation to explain tool setup
+> - Add hint to users to check documentation and download tool dependencies
+> - Address sashiko's many code-level and documentation suggestions:
+>   - Follow the kernel's rust import style
+>   - Fix a dead_range/duplicate_range alarm mixup
+>   - Fix potential duplicates in default value style check
+>   - Avoid panicking on errors
+>   - Clarify parse failure check usage in documentation 
+>   - Fix typo in documentation
+> - Can now enable architectures and disable the default (host) architecture in the CLI
+> 
+> Link to RFC v2:
+> https://lore.kernel.org/all/20260509203808.1142311-1-julianbraha@gmail.com/
+> 
+> Changes since RFC v1:
+> - vendored dependencies instead of requiring an internet connection
+> - removed Cargo.lock
+> - replaced reqwest dependency with smaller ureq
+> - removed rustls, expect user to have openssl instead
+> - added select-visible check based on Jani's feature request
+> - added invalid (reverse) range check
+> - deduplicating alarms that appear for multiple architectures
+> - `make clean` no longer deletes kconfirm's build artifacts
+> - typo fixes in documentation
+> - added patch description for the main "add kconfirm" patch (patch 1/2)
+> 
+> Link to RFC v1:
+> https://lore.kernel.org/all/20260427174429.779474-1-julianbraha@gmail.com/
+> ---
+> 
+> Julian Braha (5):
+>   kconfig: add add another callback to the parser to view raw parse tree
+>   kconfig: add kconfirm
+>   kconfirm: add tests
+>   Documentation: add kconfirm
+>   MAINTAINERS: add entry for kconfirm
+> 
+>  Documentation/dev-tools/index.rst             |   1 +
+>  Documentation/dev-tools/kconfirm.rst          | 229 ++++++
+>  MAINTAINERS                                   |   7 +
+>  Makefile                                      |  17 +-
+>  scripts/kconfig/.gitignore                    |   1 +
+>  scripts/kconfig/Makefile                      |  54 ++
+>  scripts/kconfig/kconfig.rs                    | 445 +++++++++++
+>  scripts/kconfig/kconfirm/.gitignore           |   2 +
+>  scripts/kconfig/kconfirm/analyze.rs           | 340 ++++++++
+>  scripts/kconfig/kconfirm/arch.rs              |  53 ++
+>  scripts/kconfig/kconfirm/checks.rs            | 748 ++++++++++++++++++
+>  scripts/kconfig/kconfirm/dead_links.rs        | 230 ++++++
+>  scripts/kconfig/kconfirm/kconfirm-cfg.sh      |  57 ++
+>  scripts/kconfig/kconfirm/kconfirm.rs          | 278 +++++++
+>  scripts/kconfig/kconfirm/output.rs            |  87 ++
+>  scripts/kconfig/kconfirm/symbol_table.rs      | 105 +++
+>  .../kconfig/kconfirm/tests/arch/arm/Kconfig   |   9 +
+>  .../kconfirm/tests/arch/powerpc/Kconfig       |   4 +
+>  .../kconfig/kconfirm/tests/arch/riscv/Kconfig |   9 +
+>  .../kconfig/kconfirm/tests/arch/sh/Kconfig    |   4 +
+>  .../kconfirm/tests/arch/testarch/Kconfig      |   4 +
+>  .../kconfig/kconfirm/tests/arch/um/Kconfig    |   4 +
+>  .../kconfig/kconfirm/tests/arch/x86/Kconfig   |   4 +
+>  .../kconfirm/tests/architecture.Kconfig       |   4 +
+>  .../tests/architecture_common.Kconfig         |  19 +
+>  .../kconfirm/tests/conditional_prompt.Kconfig |  17 +
+>  scripts/kconfig/kconfirm/tests/conftest.py    |  93 +++
+>  ...nt_condition_negative_expression_1.Kconfig |  13 +
+>  ...nt_condition_negative_expression_2.Kconfig |  13 +
+>  ...nstant_condition_negative_symbol_1.Kconfig |  13 +
+>  ...nstant_condition_negative_symbol_2.Kconfig |  13 +
+>  .../kconfig/kconfirm/tests/dead_link.Kconfig  |  12 +
+>  .../tests/default_categorization.Kconfig      |  20 +
+>  scripts/kconfig/kconfirm/tests/pytest.ini     |   2 +
+>  scripts/kconfig/kconfirm/tests/ranges.Kconfig |  39 +
+>  .../kconfirm/tests/select_imply.Kconfig       |  28 +
+>  .../kconfig/kconfirm/tests/test_kconfirm.py   | 358 +++++++++
+>  scripts/kconfig/lkc_proto.h                   |   2 +
+>  scripts/kconfig/parser.y                      |  21 +
+>  39 files changed, 3357 insertions(+), 2 deletions(-)
+>  create mode 100644 Documentation/dev-tools/kconfirm.rst
+>  create mode 100644 scripts/kconfig/kconfig.rs
+>  create mode 100644 scripts/kconfig/kconfirm/.gitignore
+>  create mode 100644 scripts/kconfig/kconfirm/analyze.rs
+>  create mode 100644 scripts/kconfig/kconfirm/arch.rs
+>  create mode 100644 scripts/kconfig/kconfirm/checks.rs
+>  create mode 100644 scripts/kconfig/kconfirm/dead_links.rs
+>  create mode 100755 scripts/kconfig/kconfirm/kconfirm-cfg.sh
+>  create mode 100644 scripts/kconfig/kconfirm/kconfirm.rs
+>  create mode 100644 scripts/kconfig/kconfirm/output.rs
+>  create mode 100644 scripts/kconfig/kconfirm/symbol_table.rs
+>  create mode 100644 scripts/kconfig/kconfirm/tests/arch/arm/Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/arch/powerpc/Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/arch/riscv/Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/arch/sh/Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/arch/testarch/Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/arch/um/Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/arch/x86/Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/architecture.Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/architecture_common.Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/conditional_prompt.Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/conftest.py
+>  create mode 100644 scripts/kconfig/kconfirm/tests/constant_condition/default_constant_condition_negative_expression_1.Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/constant_condition/default_constant_condition_negative_expression_2.Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/constant_condition/default_constant_condition_negative_symbol_1.Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/constant_condition/default_constant_condition_negative_symbol_2.Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/dead_link.Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/default_categorization.Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/pytest.ini
+>  create mode 100644 scripts/kconfig/kconfirm/tests/ranges.Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/select_imply.Kconfig
+>  create mode 100644 scripts/kconfig/kconfirm/tests/test_kconfirm.py
+> 
 
-How about I add another patch to the series that fixes up the
-documentation for both functions?  They both should be fixed up and I
-might as well get them in sync properly.
+As I've been getting more comfortable with the in-tree Kconfig
+interpreter, I've been wondering if the community might prefer the
+gradual integration of lints directly into Kconfig, instead of as a
+standalone tool. Similar to a comment by Jani on another patch [1].
 
-> > + */
-> > +void add_taint_module(struct module *mod, unsigned flag,
-> > +		      enum lockdep_ok lockdep_ok)
-> >  {
-> >  	add_taint(flag, lockdep_ok);
-> > -	set_bit(flag, &mod->taints);
-> > +	if (mod)
-> > +		set_bit(flag, &mod->taints);
-> >  }
-> >  
-> >  /*
-> > 
-> 
-> Otherwise, this looks ok to me. Feel free to add:
-> 
-> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+Otherwise, I can do a round of self-review and send a v5 for this
+series. I already noticed some dumb typos in the subject lines, but any
+other feedback on v4 would be welcome if kconfirm is the preferred
+route :)
 
-Great, will do, and I'll do a v4 early next week with the documentation
-fixes.
+Link:
+https://lore.kernel.org/all/f362ddf2e0f3ecf41ed81f03f77577473c3e21bc@intel.com/
+[1]
 
-thanks,
+- Julian Braha
 
-greg k-h
