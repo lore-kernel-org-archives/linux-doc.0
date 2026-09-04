@@ -1,163 +1,89 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9118B511202
-	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 17:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3F04D2EDA;
+	Fri,  4 Sep 2026 17:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788543037; cv=none; b=jpZwXF5jpicSJVPXcyFOygJFwSm91WKheLycPZFb2JGvO/43DtL4aVu0tbwiY2Lb5MAa3lYV1vdSuPvToCrnPZq0qYxb01Nbomp9B8v4Rikc6Xb00j4lq7h6lPkfN2wvxQooRsE2I7uJH3h+Wq2xp7fYWGc7yFPnkHjuYdYD/Fo=
+	t=1788543407; cv=none; b=bxeu9hp1+018/LuatEWpsqC6jEAf+CnsvQLouFf+k7LXuu2Z3KyOr9N3S9N9J1zNAr4civ8hUwq0+x3TyWLcAbes7C4eO4c51wHhU73FWdEwAB0HJUeFOHOZFzhzNPEI+KjPmYGuinBWioMCgYNXiY3Q7efRLpACkIi5hq0oTU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788543037; c=relaxed/simple;
-	bh=uFS7CqJ/4WMuU0sv4h1FMLN2xytbZtd+0px5/4cj4zo=;
+	s=arc-20240116; t=1788543407; c=relaxed/simple;
+	bh=LtPqv1/yvY6KKIOUaDEWiR5sC9h1b5X+oyNs/rOvIwM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AZL7a2qPzxm7r1fZCWrx9ulyq0E/85s//4ttaUu9VtzvME3PN9IW0i+nwdcsLB9oK107mS8d+1EosfvDuvUys2eE5EbBa4uSnoLdfxlyfYVXjFDuBY067/ycufw6CKugLThskgrHbZL/oHckiQnt1A9+tUpMkUxYL9GikFuOI68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlp4D8Nr; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZPf3krM7X/IyBsql9Hykr1kz7O5kQtqve1qu5FHI8Ocf82Ob/SrruUGOjxOPnwoVW9ktddxZlcd5fgOmXH+SgRbcaR3uHFJHw+5c6IdsUMEAjX4vCzAY/vxY/KMIM8eoBwZTcVaIqJ045whd3JbLnhJIGxDGDSxRVhQBCSYzBz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=SoziP6Hb; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlp4D8Nr"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7f57db8b5a4so1125999a34.2
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 10:30:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788543034; x=1789147834; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+yXuzXtZ9/rSTTLjcAorY8DG6JyAA49nbzxpJiEv6qQ=;
-        b=dlp4D8NrLCfOaml28Rfdy2UhZF7UzLr8y67EdqEca+eOC6vhG/NIYXhT0BI/YIe1DG
-         0FRo3ZqT1MFTMyUmHteUK8cGOhsjMtoxEt7Vzdo47oxkEEb79Esj4qg6VKYLXBme/Dey
-         SLIQVcK3eBN1TlS6oS7xrEvOuTSAPu959xKfLhOhY/4vKju4y14xNKSxs3S+L7R8kXCk
-         8iWjcJl64v+zxd9EWmMFP2Cka3FdyGDWnSHQiR6ATzNMWXXrgCDWT0pxCSWhakswsG+G
-         obQvno+V7z20U1QE1/cnNmy4Pa8pZ3KCDCoxW5TyQuKb7woDkhFFN/NgfBWvpg3p9Nh5
-         zRYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788543034; x=1789147834;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+yXuzXtZ9/rSTTLjcAorY8DG6JyAA49nbzxpJiEv6qQ=;
-        b=SP0jLNiycVlm9HcILHUqEvbNOPXezBvnPIQVkZWcDXhff1hENVgV9aSXpq9V07DaSu
-         B1EcOyLy8rQr2OGHL5Rplzo3skOYTw+SneStHX/d4JHa07sIN5bWGyeoyaH+OuJRF2A9
-         WD3CQkXd8J7CCawsb9MI47/P30G5dUXdJI3d7tp/hMxqf7bO8V3FQSuK3LaduSeySLYj
-         zxUotsGGMQ5PB9CbW4DD+7TobqgBeuYpv89KH1I0nqmtI8/co+hbRsj64xNxcZz2Xt5h
-         +kK5ro380DxSYfBaS/W2m4UVR9evlrv0P+AQoGzf39186OYv7vX2dTOz5TMv1w1SIcpq
-         2dXQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzZlOeX7iO3XarYPKmgjBIYQ1FBPhj21ZxoBQgq4xONsXhvxbrTpeVTfIuJDKYmY6uSTCo971nngMw=@vger.kernel.org
-X-Gm-Message-State: AFuF++mcZifJ2OZmuaGwgkz94OkUUOmBBrNAwJ+bwG1wxDJccPygAnIq
-	MjLkuEXEPPZSMvPCBac5Nmw6kRELYO0/TzWrn2BmHd93x7RoT/qYayut
-X-Gm-Gg: AYBFou2rH6Xurjlbtn8KdlB+c+97+TO5fCzMrMhCdVtwteVQ+lR/OciZ6GgxFHSZwJv
-	gCVt/uLjU2UNQjKBg2McIxLDWETUlncnKaGL9kFC/RqguWImA9mYRjMb9L4vVdhVIxjWlNO/z09
-	HIc4tblpk1qiKo8pdUZNxg6fqrC5qBULRRCNZbVnjpqbBprgh/ScCslZyXySPu/PyI9DOz57KRW
-	znWtvm6iBT7zdzpAZ1VQJNMJzyEYH5MRtXaKY8W5GW86hQB0DeSUjLsFiBL/hxWG05PqC+1f0qW
-	Pn+Cyd02HngQ2dsoRPcmZRT+O5+MsZLfmKttjrGt2ri5zgBwkpJLtZR6d6HnWx3ZArO57tZCu/0
-	13ih3cX/ptBXcUSm1/w5W72R/qyQvUZpn19p0CF+XxSccHaImZ07eoucuPMR6/qjLDMaCZFkW0+
-	cfE0wuql2O45HEXg196vOgRF+0/t/JOC3jo9HYSZp3w6wC/IoZXrJ5fw7SzaNT1jYF+WEYBpWg7
-	5IJOBxT9WdjjzNbYzxa
-X-Received: by 2002:a05:6830:6684:b0:7e4:163:49cc with SMTP id 46e09a7af769-7fa1e2c7eabmr7139441a34.7.1788543034170;
-        Fri, 04 Sep 2026 10:30:34 -0700 (PDT)
-Received: from devvm29614.prn0.facebook.com ([2a03:2880:ff:5b::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f9f6da9a3esm3454794a34.10.2026.09.04.10.30.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 10:30:33 -0700 (PDT)
-Date: Fri, 4 Sep 2026 10:30:28 -0700
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	virtualization@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	sargun@sargun.me, jlinbox@meta.com,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next 0/6] vsock: assign the guest vsock device to a
- network namespace
-Message-ID: <apsANK7ySuRzzK0V@devvm29614.prn0.facebook.com>
-References: <20260902-vsock-guest-ns-v1-0-9995383e9a8b@meta.com>
- <apqGcFDFm9_Wtw4q@sgarzare-redhat>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="SoziP6Hb"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 819D340E02C2;
+	Fri,  4 Sep 2026 17:36:41 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id hQ3Yhrf6A5cH; Fri,  4 Sep 2026 17:36:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1788543392; bh=4w+spAm0uWWwcup+mfvYNUXNY0jRbWl51yfDyG8aFs4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SoziP6HbLj77a89rc3xWyhElxy2OnAwmmK+WrgAWWIowVnwNSlV+oP46ADmBwVsnd
+	 yCEKWpz3K2lWB1VolczTE64gpfHrdUl+el0VDrMnsndNuYGmChPaqu5L7dPxINIzzL
+	 iuZWueIvng7XPakfJPeYd2tpu341BU0eVn5SZ68LFkA77z2dtsGXio5ZYkw2nev0ru
+	 O88KY8ucs9tL1wuesqPVECx/dX6fjGRoToFiD4G2c+KIREQpyGnPLbM45xOSveEiWB
+	 +hqfmycEwh+nAegtmwmlXbH0fl+TGhVOFpCJEBL7Hp97ebjtjWm2jkymey1VarA2ow
+	 i6smdbjmsWdEUQiFTqdG79gR7dIlPU3Mdq7MT+ezbk2uvqIn/sTIEFzXqATPY9DPYa
+	 A8BI9unS0kprXvhhQvDdqQtmNjAVvcJHZu7kysAaHn9voLOft+hpxCZpSa4/xbGHxO
+	 ap7SZ+gPS6kEVc3rHPlDaLlIf0NQMfKT8BJc/gVy7CmNZmIVTuHbGfGvoSYPSaWW6H
+	 8nK5X0IEYhHpMIw7Vy6ac0333i/LIuDFycDtPorkXY+qT9Bp7AWrgT845p8BAwGSEe
+	 MSD4u2dXsebxSD2hcn79dCdxNSKCLKIl7j3asJDV7TP6vbLFgNg34+dhJuHygbiROH
+	 s0rJNoKjpmdhxq2T36DCqYGk=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4DD0440E024B;
+	Fri,  4 Sep 2026 17:36:18 +0000 (UTC)
+Date: Fri, 4 Sep 2026 10:36:15 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Ben Horgan <ben.horgan@arm.com>, x86@kernel.org, james.morse@arm.com,
+	fenghuay@nvidia.com, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, tglx@linutronix.de,
+	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+	corbet@lwn.net, linux-doc@vger.kernel.org, dave.martin@arm.com
+Subject: Re: [PATCH v5 0/3] x86,fs/resctrl,arm_mpam: Factor MBA parse-time
+ conversion to be per-arch
+Message-ID: <20260904173615.GOapsBjyiT7uXHd-Qc@fat_crate.local>
+References: <20260709093111.367851-1-ben.horgan@arm.com>
+ <165e7636-d7e9-4d16-aad1-657b4a9698d0@intel.com>
+ <b0a7035e-7ffe-4e22-a4ae-a177640234b8@intel.com>
+ <20260904033751.GCapo9D5ZZXWuQkIpc@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <apqGcFDFm9_Wtw4q@sgarzare-redhat>
+In-Reply-To: <20260904033751.GCapo9D5ZZXWuQkIpc@fat_crate.local>
 
-On Fri, Sep 04, 2026 at 10:55:17AM +0200, Stefano Garzarella wrote:
-> On Wed, Sep 02, 2026 at 04:00:46PM -0700, Bobby Eshleman wrote:
-> > vsock network namespaces let a host put each VM in a namespace of its
-> > own. A guest has no equivalent yet. It has a single G2H device that
-> > cannot be assigned to a network namespace.
-> 
-> Thanks for this, I'll do a proper review next week, in the mean time some
-> comments below:
-> 
-> > 
-> > This series lets a guest move that device into a network namespace. A
-> > new ioctl on /dev/vsock, IOCTL_VM_SOCKETS_ASSIGN_G2H_NETNS, assigns the
-> > device to the namespace of the calling process. The namespace's existing
-> 
-> Why an ioctl?
-> 
-> I'm asking because I'd like to know if you've already considered any
-> alternatives (sysfs, netlink, etc.)
-> 
-> How do you think the ioctl should be used? Should we provide an userspace
-> tool, or extending some existing tools?
-> 
-> Thanks,
-> Stefano
+On Thu, Sep 03, 2026 at 08:37:51PM -0700, Borislav Petkov wrote:
+> Lemme have a look.
 
-Really only because /dev/vsock exists and the prior series used it.
+Sashiko has comments:
 
-Considering netlink, it might be the better option because there is a
-lot of prior art solving problems we might have in the future. For
-example, I was thinking about when users suddenly lose access to vsock,
-with just the current assign ioctl there is no way for apps or users to
-figure out why this happened. We can have an ioctl() setter for user,
-but in netdev world users can actually get a notification via netlink as
-to which namespace the device went to and what its ifindex is there (see
-__dev_change_net_namespace() for the RTM_DELLINK and RTM_NEWLINK
-messages). There is probably more, but that's the case that comes to
-mind.
+https://sashiko.dev/#/patchset/20260709093111.367851-1-ben.horgan%40arm.com
 
-> 
-> > ns_mode then decides who may use it: a "global" namespace shares the
-> > device with every other global namespace, and a "local" namespace keeps
-> > the host connection to itself. The device starts out in the initial
-> > namespace, so until the ioctl is issued nothing has moved and no mode
-> > has changed. There is no explicit unassign as assigning the device back
-> > to the initial namespace is equivalent.
-> > 
-> > The ioctl requires CAP_NET_ADMIN in the initial user namespace.
-> > 
-> > Connections that can no longer reach the device after a move are reset,
-> > so that a namespace which has lost access cannot keep using a socket it
-> > opened while it still had access. Following netdevs, the device returns
-> > to the initial namespace when the namespace it was moved to is deleted.
-> > 
-> > Transports opt in through a new netns_assign_allow callback. Only
-> > virtio-vsock implements it here.
-> 
-> Why? (Not asking to support all the others, asking to explain the reason or
-> ask helps from others to extend it)
-> 
-> Thanks,
-> Stefano
+Please address them: if valid, fix them, if not, explain why they don't need
+to be fixed.
 
-Sure, can add a note here about extending it. I just didn't want to
-implement code without having an environment allowing me to test it.
+Thx.
 
-Best,
-Bobby
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
