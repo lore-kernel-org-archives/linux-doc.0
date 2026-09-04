@@ -1,132 +1,116 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562C04CCDC7
-	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 05:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2AC641A766;
+	Fri,  4 Sep 2026 06:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788500623; cv=none; b=LDRPralMhMMWusPEPHRDjrF16984zCvqY0rjfXzTcNpbrsp8Xuo3EL8+HrZdGwf2gLp9Qj0WkppiFR2vlmhEOVmHsFr4Ii5tEmAtVctOgXyq9FT9Tvw6rnXa2auZ3M+hfEw0BkGPtAEaHA/9csSGn3p5RLiD44X8BD4XgH874og=
+	t=1788502851; cv=none; b=lBoZIgrrbw03Rd9fL6BSMW8ZL/G5kOPh8sj/AAo8iHHORg6GOp0128FErEv89dQQ/FGn8WlNWy7aCFU9aJSERBUOdwQDlP8dzDaiik/p9L+m/TSDyCrrVKX/IvHoUJGAnfyHkrJ6JlQx5HqgbuleZ0zVJca/a/ObTrwVv2S4MPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788500623; c=relaxed/simple;
-	bh=87tW78USOIRu124aJptnXZ1ORwFWyuAoO45i3VE7Rzo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tRjRl4qPdFqVywjISlVp0zs17IlWEDKktSkYlJ0ADDdgdzD3cDdjM6Z21JpNUaRuCyQf1u8Xx9mcVnLChQID1pAFAuGKGAUiE5fEzqyotxcriN/gzoRprLK3/YPV2MyczsIvG83ms+yoiHSkuuwfVUj22A4iV95E4u4dWoBZSUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MSWx2XeQ; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MSWx2XeQ"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38759bcd877so609539a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 03 Sep 2026 22:43:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1788500621; x=1789105421; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XxOcRRnDrKQlx91Y28n3fxGGvoUu/s1bIHpjhY19uNc=;
-        b=MSWx2XeQ6YrKYuEm/m5Ku+TmLdgF3ADdeLrlhKjWuUYqYQsk7yysqySZ5F6SyNtK76
-         eMAFuO+DBRnJvZ3w3JxHK5UB1g6mtzydM/mwbPM4GNNPVVTllQcKFMbDhAsZ1VzYs7kd
-         9rir0tqJ43541t3lwj/+YOxuKm8DgoyrwP9ZFsZxm3Z64vEGHouWTDOTI8vQo1faapcD
-         R+gO8HKSRtCVANqMSydPf5Y4iVfwVhxi1kfl9iXlaAecIMF/X2tGYwJ/QgEkWj3dSxdY
-         96bHNVPa8OwG+jOZjx+XXNo6AX1S/x7cVET+dDm8PmEyGBD2UenaSmX33BP0hv+auRyg
-         iS8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788500621; x=1789105421;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XxOcRRnDrKQlx91Y28n3fxGGvoUu/s1bIHpjhY19uNc=;
-        b=rc2Lg1Zf0ywQjB3ViXXhArSdnVZqsvaL5G73ujjXWrguUVzYaFQCbS0UOwONSIgN/O
-         ZTqgf4pp8lPgsX2kFMcaNshjQDbZ6mCyTG5y85sK4aUYM9j0wgG55ZT+MnvBCCkT8RAo
-         eIzYhwAeasPlNQ03jVoqDzc/3Q+gpotPLCTpYwynP6Yud8A1h66jTKzcbIH8q92ySpiJ
-         HL8QXv59Udp9oAdBrLCh8CaGhdZPHyABqU9BjpQxEGDuCnQN4+QVpkfBNscdOXXcE8Bm
-         +/II2w9WomjC+wndtGq6W+k4IL8iTXyaNGCV141fXM2E+WICZXcQIAiH0/qDwWWomV88
-         U5IQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwDsD//9T9dsxF4ELdN59gQcxwCcyH0X4AIurE/6eXNxjGUGXgMfVOOBS5/1ytjrW/etgOE4oEioaA=@vger.kernel.org
-X-Gm-Message-State: AFuF++lilrvK2mWaYog5y6MiutkhlAQNwvavxAT9G0Bbsl8+h/oIti82
-	SLOpFPhMVQ5LpgnpB2h95gIy94Ck5IeBUxTV1oAO5x2RZWRqp7CWJJUSjuOAR17NWNQ=
-X-Gm-Gg: AYBFou1qy0BbY+tLxXh+FNLSkb6XwfgF4tZZwjVZfZUb98REBJHG/mkxLeIde8O2zCQ
-	O5BOgzbEWnRfhSPzAYK+GnjsbADmxVlmPbAJ8roSFD1SvlCP8rMfzqsZOjVW+mng0Fk+INy5osD
-	2ERsFg6LddAFgtZFM52pjHWJvPl0ASV8VN0xZOr9bugI76VR6GjQDdvYOuBGeidalNLqIt8Py7p
-	j+5AgVTtmzOnVmV+K+ksEFIlBvBSfLYALgYNYgxYlyBIMlZR1G5YU5Lq4cOZGnXTXNpTJ5SiXl3
-	F295bTo3gg7XqNmYKStOZvakQPhIoWvPwnm+TTs1cf+LnWp5Vy8VOlQ0BVnZR7FVeS/yuFPgHrD
-	nJ7qtQiXwWAKb+5gYN4om4ajaBJh9mQXYiAr+j+wdUjvVwiic5lcNiuZVbzwF9Fd0O6ehs/JHm+
-	iwjbof5SMnSNLqkm+pWuMY5y1TcdmaYg6Adlw96F8tfUcPVJBxiaUEd6lD9j9pasY=
-X-Received: by 2002:a17:90a:ec8d:b0:37d:f983:7b5 with SMTP id 98e67ed59e1d1-39b26101c08mr5553870a91.9.1788500621351;
-        Thu, 03 Sep 2026 22:43:41 -0700 (PDT)
-Received: from localhost ([122.172.87.224])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-143243f780csm3885069c88.13.2026.09.03.22.43.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 22:43:40 -0700 (PDT)
-Date: Fri, 4 Sep 2026 11:13:38 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: robh@kernel.org, krzk+dt@kernel.org, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com, Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
-	b-padhi@ti.com, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH v15 2/5] dt-bindings: remoteproc: imx_rproc: Add "rpmsg"
- subnode support
-Message-ID: <appaikrdwu6GpSGy@vireshk-B250M-D3H>
-References: <20260721204704.400781-1-shenwei.wang@oss.nxp.com>
- <20260721204704.400781-3-shenwei.wang@oss.nxp.com>
- <apmunD8bkKOu5_Vm@p14s>
+	s=arc-20240116; t=1788502851; c=relaxed/simple;
+	bh=uUl5TUx1pnfaVQA8lLhnfzeRXvU6dGVODw0tLincpbA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=iLY8KCAUdo7OKBtoKxHwBJw7+EQj7I9lQl8uni76yLDfC0x6qyuyaIsLDKp2HQpiledbWwQXuGEYQrSRnLfikZDI25X4eYtIXb1QtFIYDCsMYYtNERAo3u5jBXdC/iG1TQicpXmHCaYPCh8VT/CcX5sJ9MPTQ+G8CiAv4h/TeaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: be051130a82811f19a56ed5b684f684d-20260904
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_8B, HR_CTT_MISS
+	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_DIGIT_LEN, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_EXISTED
+	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_GOOD
+	CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD
+	ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:53ec030e-a809-4b08-b39e-4445004c419f,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:10
+X-CID-INFO: VERSION:1.3.19,REQID:53ec030e-a809-4b08-b39e-4445004c419f,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:10
+X-CID-META: VersionHash:7db8b62,CLOUDID:1af869afdf5f6162e8062e8862059f0a,BulkI
+	D:260904140114ZJEVG48C,BulkQuantity:2,SF:17|19|66|78|81|82|102|127|136|850
+	|865|898,TC:nil,Content:0|15|50|99,EDM:-3|-100,IP:-2,URL:0,File:nil,RT:nil
+	,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BR
+	R:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: be051130a82811f19a56ed5b684f684d-20260904
+X-User: liuzhe1@kylinos.cn
+Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
+	(envelope-from <liuzhe1@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 42094721; Fri, 04 Sep 2026 14:20:36 +0800
+From: Zhe Liu <liuzhe1@kylinos.cn>
+To: mkoutny@suse.com
+Cc: bsegall@google.com,
+	cgroups@vger.kernel.org,
+	corbet@lwn.net,
+	dietmar.eggemann@arm.com,
+	hannes@cmpxchg.org,
+	juri.lelli@redhat.com,
+	kprateek.nayak@amd.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	liuzhe1@kylinos.cn,
+	mgorman@suse.de,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	rostedt@goodmis.org,
+	skhan@linuxfoundation.org,
+	tj@kernel.org,
+	vincent.guittot@linaro.org,
+	vschneid@redhat.com
+Subject: [PATCH v2 0/3] sched/fair: remove quota/burst write-order dependency
+Date: Fri,  4 Sep 2026 14:20:10 +0800
+Message-Id: <20260904062013.504236-1-liuzhe1@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <aobnZEh1hfIBhswD@localhost.localdomain>
+References: <aobnZEh1hfIBhswD@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <apmunD8bkKOu5_Vm@p14s>
+Content-Transfer-Encoding: 8bit
 
-On 03-09-26, 11:30, Mathieu Poirier wrote:
-> I'm proposing something like this:
-> 
->                         $(transport) {
->                                 compatible = "$(transport),rpmsg";
->                                 #address-cells = <1>;
->                                 #size-cells = <0>;
-> 
->                                 gpio {
->                                         compatible = "virtio,device29";
+The CPU bandwidth quota and burst controls currently make the order of
+userspace writes significant. A burst configured while quota is unlimited can
+prevent a later finite quota from being installed, and increasing quota and
+burst in the burst-first order can fail with EINVAL.
 
-I would just change a minor thing here:
+This series keeps the configured burst value independent of the current quota
+and applies the quota-relative clamp when CFS refills runtime. It also adds a
+selftest for both write orders and documents the resulting behavior for cgroup
+v1 and cgroup v2.
 
-s/virtio/rpmsg/
+Changes in v2:
+  - apply the clamp at refill time instead of changing the configured burst;
+  - retain the value reported by cpu.max.burst and cpu.cfs_burst_us;
+  - add write-order selftests and update the CPU bandwidth documentation.
 
-This isn't a simple virtio-gpio device, since it doesn't have its own virtqueues
-and uses virtqueues of virtio-rpmsg instead. So this may better be a
-rpmsg,deviceX (where X is virtio ID) ?
+Testing:
+  make -C tools/testing/selftests TARGETS=cgroup
 
->                                         reg = <3>
->                                         gpio-controller;
->                                         #gpio-cells = <2>;
->                                         interrupt-controller;
->                                         #interrupt-cells = <2>;
->                                 };  
->                                 gpio {
->                                         compatible = "virtio,device29";
->                                         reg = <4>
->                                         gpio-controller;
->                                         #gpio-cells = <2>;
->                                         interrupt-controller;
->                                         #interrupt-cells = <2>;
->                                 };  
->                         }
+Zhe Liu (3):
+  sched/fair: Remove the write-order dependency between cpu.max and
+    cpu.max.burst
+  selftests: cgroup: Test CPU quota and burst write order
+  Documentation: describe CPU quota and burst ordering
+
+ Documentation/admin-guide/cgroup-v2.rst   |  5 ++-
+ Documentation/scheduler/sched-bwc.rst     | 21 ++++++-----
+ kernel/sched/core.c                       |  3 +-
+ kernel/sched/fair.c                       |  3 +-
+ tools/testing/selftests/cgroup/test_cpu.c | 40 +++++++++++++++++++++++
+ 5 files changed, 59 insertions(+), 13 deletions(-)
 
 -- 
-viresh
+2.25.1
