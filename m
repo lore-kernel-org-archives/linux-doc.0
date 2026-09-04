@@ -1,122 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE994F052F;
-	Fri,  4 Sep 2026 15:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464FB4FB9AA
+	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 15:36:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788534657; cv=none; b=YyvrNpW5w42OrM4RRVSF00XbVTWFqWYSzF8ce4gfUMpcsrp6LAJnPT07Rur32/MD2LeE9sHxcjHcpFGLO5tTm+mxgFQy3rAmUql3XUJsKXNWlpfx+iGPAsGQ0/2rTJEWWfucUe+gNT+Lr8c5L8FcAXHX2BvMWSXSobumVpzyjog=
+	t=1788536210; cv=none; b=JKj/9agKz2RxnSKwXL0nqvQ/h8klD6i9RlZCOPlM6P4ptZEzfEzTa02tjXyOq3kfKNpfEm/fPxfXBi7XA4kmol26izauTOZ/OmgSMPGJVMh8+PvqefuvTb9Rk7wkvjFXul58tTi8uUOYpyXmDt1nWtf7mAEjTPdMgjGnTns0kak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788534657; c=relaxed/simple;
-	bh=A0VpHOoTUbM1tou3WIkcE6JwwQ0HC0j4IOAJoYAQEqM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sh5FVlcawiUrNAE+Egq3S+lbFlCygMOYj0pCfSn6DUSHHMeftI/EmC8zTPRWebRDax7LwOHNoYXxqNby/bWwY/dRujox2v/MhWEkLy5hJ3D0dT7K6jZbiNiMl9CQ0jofzI6fq4AMmI/wWWsstUbGOgTGZ6reg9DXcQ0oG+Zma5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VB3Gp389; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788536210; c=relaxed/simple;
+	bh=aaZIP2ylDVjQUtzurgdQ9wq0pNSQxBzXiVQVyeKHPJE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Xv3SLzogo9UozGOnVMYNDN7VDHIH1l15a8rVO+PX+U3AefvQd8ocgLn5vqp/UuUv9ztL1UUH5Ia8jV4GRksNpA2J+NmNTUEYWAfd0naN5eAKziOM48b7g0MvuaKFxNPXQnocR51lmyiwl0FbvZvRdd7vQVpwwH1PVaEJgrMmMCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=CqyFV6Xe; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VB3Gp389"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id EAE621F00A3D;
-	Fri,  4 Sep 2026 15:10:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788534655;
-	bh=41xaUrJ1lAeNQeQ/qi/93VPU9j/VGLCqogvprDRRNhA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VB3Gp389hUiJzqvsLNBiOxo9AiBTn02To+KR9uXQbCTwnr1MfN9K/mfYWPpkTQYoi
-	 YkSwXqdiH4MVDRmvZayz5DTTmd7tsTIJhqEsiBQ3VlBGcQBtX7Q6V0d1qqBAGbutA4
-	 YBaPGJLRz8WvCU8m9I5oOD/6mQhQWDsfTzAs+Re6PhaN8sHtYH9UTWU8n/vsjGRzma
-	 YwTvxKJ6eQC0djlK9jHVUYb/cXNutoS9zDShgIfepZ+JjJGdx9OMIEewirFY6jcTaF
-	 yD2lEjdL0GwoSgI4JISCTQdxtXsBn9k9OJn4pclMED29mV+rIlc390GxVcXiR5xkzZ
-	 F3nGaY5o8zg9Q==
-Date: Fri, 4 Sep 2026 08:10:54 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Jan Kara <jack@suse.cz>, Jakub Kicinski <kuba@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Hisam Mehboob <hisamshar@gmail.com>,
-	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	David Howells <dhowells@redhat.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Catalin Iacob <iacobcatalin@gmail.com>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	"Maciej W. Rozycki" <macro@orcam.me.uk>,
-	Andrei Vagin <avagin@gmail.com>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Bhavik Sachdev <b.sachdev1904@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Wang Yan <wangyan01@kylinos.cn>,
-	Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>,
-	Malaya Kumar Rout <malayarout91@gmail.com>,
-	linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Luis de Bethencourt <luisbg@kernel.org>,
-	Salah Triki <salah.triki@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH] bfs: remove the filesystem
-Message-ID: <20260904151054.GG6047@frogsfrogsfrogs>
-References: <20260904082954.48738-1-enelsonmoore@gmail.com>
- <20260904-hinnimmt-triumphieren-handgefertigt-4e51fe2ed659@brauner>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="CqyFV6Xe"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-482e257a23aso815402f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 08:36:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1788536206; x=1789141006; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LsB/pfsHs0wy5wl2WAyEdIegLrat6VbBoQVukEgDfgo=;
+        b=CqyFV6XeE2iPSCzk6+O/m23NWilPd2Smy+mM2MKJ5ZJWNCGy54GcaJto9wt+h9Mg8n
+         zYoTDai2HA42UhptJ+knw9JM5TZXUkRdv8eyad9XFN9zBdYjEsMmrdO51edXk+UKSVUx
+         hMDtEu2ArAwarUPEH3Ve3+hXGXb6XB1vZsb6/cveP6PAMaybbCtMVLK3FZSkbhiEoTVw
+         dlnOhQ7asxq3bNB7o2Z6PmCdS7iHz38dHteLsP0sXlph/NvJq18khoP6ATmpl6NuvSNG
+         +M1GPP1///TqT5k1boTtZGpiXmg3t7iZaagIQ+EmYH8le0CiFCwetKAAfg+o7CKA65x1
+         keug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788536206; x=1789141006;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LsB/pfsHs0wy5wl2WAyEdIegLrat6VbBoQVukEgDfgo=;
+        b=NzXEeuXkrrLSyh/DalpxuBGzVlONAKyC5J/Zl8wEuLjsYErNFRRBJgUpZlWQtVqBbk
+         PM3KusTqLo8l8xEverWgvwlXaoL3OnUy91ySnK8pP9nUg6JmAM/FOHTKIAM8BbOAejUR
+         MpexAGb91jOXrXSM1gx2/4OAgcIUGDqGWRM5n4AIDl10joUC8Rmb6A6uK9t8Nvh+quMj
+         vFRgx14IW73q4cLWV9HOCeMuUf8BgCCgQQJCExJBEFUAnYEngzCfwSt8J/nkU5rtSSa8
+         RMZbQbcJ2xMITGIbvSsWKUBxwe4wH5acx1gWR+lizS905M8Rp7djr9qTAiHvb3GdtgXv
+         lKtQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw4dD+Scs8bia/9S0HwswLdioM/yLl0V7sP1VkvkTciGo1MFafvnK3Z1Lq6t9epLuyweBy+/a2Ot5U=@vger.kernel.org
+X-Gm-Message-State: AFuF++kbzdwYYIME5qy7HTYRRQW8PBSoAxWK/kx49IMnzDaO+gHdnmbS
+	0YfNV0gUn1keRTc0QnOQ1HjCLcx0uEwCTX16dU2i6qDLWwtjttOUnL6N7E8gLIOOTDI=
+X-Gm-Gg: AYBFou2bRWYJ0IhAD/kQpKbM8VnyiWTiBNvGS0PLI3HKCjZm/WsNatro24hrzYRI00d
+	0wCqiizMibXh8ClD3ImhB8Lco3p2Hw2PqoijDiNyqXcjOCL1RsJlyo6fWVUVu0mKmh0rTHd9h4N
+	o1zSuWPU04DmxMBSuAIjlvoVNLd0eVtpf4aUavsAzRjDSLHxZicRF79Vh/gPT7Y5ZBkFrA6kV9F
+	4su+UXjXFGpXgijM1jH0iPkYjonupTz5ygOpxR2RMEPe1cf6EEgaQhMegRUBINYiis/j/e2Mxhz
+	mRZxq1k6E5wD5qMTb+hoHZ0osPHRLllYyTWpDBcKV8fqN4MJ7PD63DX3hf+L65DtIs2SkZ38I3J
+	iyscFlUDRt8yYUYg3uMM5xOPaLLNTPczaTauL2/4GVHXwCZB2xE+Ehk1f4mssGxE/Q/JUw4Og7n
+	UTstIUrDzoT5R4vwOlTZr0GTV0B9mbHmI13C/dDB4mMn5+GXWeKgSk7STo2lwwLWWLGN655lN95
+	VJgvOOxlpNxfBBpr4Yhs2ePi5PUVofB8PJCpQ==
+X-Received: by 2002:a05:6000:1863:b0:482:e6b5:61c with SMTP id ffacd0b85a97d-48587098310mr9747937f8f.8.1788536206395;
+        Fri, 04 Sep 2026 08:36:46 -0700 (PDT)
+Received: from ?IPV6:2a07:de40:8100:0:89a9:fd0e:583d:4a53? ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c6ba4sm7833177f8f.25.2026.09.04.08.36.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Sep 2026 08:36:46 -0700 (PDT)
+Message-ID: <33487133-b587-42f8-9716-b0bbe2f1511b@suse.com>
+Date: Fri, 4 Sep 2026 17:36:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260904-hinnimmt-triumphieren-handgefertigt-4e51fe2ed659@brauner>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] module: pull out add_taint_module() to be public
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>,
+ linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+ Johan Hovold <johan@kernel.org>
+References: <20260904-bind_taint-v3-0-30025465f38a@linuxfoundation.org>
+ <20260904-bind_taint-v3-1-30025465f38a@linuxfoundation.org>
+ <a79a6a06-cc48-4036-882d-95e9b4cc01cf@suse.com>
+ <2026090432-outlying-glitch-9295@gregkh>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <2026090432-outlying-glitch-9295@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 04, 2026 at 12:43:09PM +0200, Christian Brauner wrote:
-> On Fri, 04 Sep 2026 01:29:19 -0700, Ethan Nelson-Moore wrote:
-> > bfs: remove the filesystem
+On 9/4/26 2:19 PM, Greg Kroah-Hartman wrote:
+> On Fri, Sep 04, 2026 at 11:25:01AM +0200, Petr Pavlu wrote:
+>> On 9/4/26 7:10 AM, Greg Kroah-Hartman wrote:
+>>> diff --git a/kernel/module/main.c b/kernel/module/main.c
+>>> index d0e1e0bd2ad0..444d990c9983 100644
+>>> --- a/kernel/module/main.c
+>>> +++ b/kernel/module/main.c
+>>> @@ -191,11 +191,21 @@ static inline int strong_try_module_get(struct module *mod)
+>>>  		return -ENOENT;
+>>>  }
+>>>  
+>>> -static inline void add_taint_module(struct module *mod, unsigned flag,
+>>> -				    enum lockdep_ok lockdep_ok)
+>>> +/**
+>>> + * add_taint_module: add a taint flag if not already set for a specific module
+>>> + * @mod: pointer to the module that caused the problem
+>>> + * @flag: one of the TAINT_* constants.
+>>> + * @lockdep_ok: whether lock debugging is still OK.
+>>> + *
+>>> + * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
+>>> + * some noteworthy-but-not-corrupting cases, it can be set to true.
+>>
+>> Nit: The final paragraph is mostly copied from the description of
+>> add_taint() but I don't think it is quite right. The parameter name
+>> should be lockdep_ok, not lockdebug_ok and the values are
+>> LOCKDEP_STILL_OK / LOCKDEP_NOW_UNRELIABLE, not true / false.
+>>
+>> I suggest updating this part for both add_taint() and add_taint_module()
+>> to something like:
+>>
+>>  * Use @lockdep_ok = LOCKDEP_NOW_UNRELIABLE if something serious has gone wrong.
+>>  * For noteworthy but non-corrupting cases, use LOCKDEP_STILL_OK instead.
 > 
-> I agree.
+> How about I add another patch to the series that fixes up the
+> documentation for both functions?  They both should be fixed up and I
+> might as well get them in sync properly.
 
-At the moment, I don't.  Nowhere in this thread does anyone mention what
-someone with a B(oot)FS filesystem image should do if they want to
-extract whatever's stored in the filesystem.  Are there userspace tools
-for that purpose (ala efs)?  Does "binwalk -e $bfs_image" suffice for
-that purpose?  Or is there solid evidence that there isn't even a single
-user (ala freevxfs) who strongly wants it to stay in?
+Makes sense to me.
 
-I'm all for getting rid of old cruft but there still needs to be a
-documented offramp for users.
-
---D
-
-> ---
-> 
-> Applied to the vfs-7.4.bfs branch of the vfs/vfs.git tree.
-> Patches in the vfs-7.4.bfs branch should appear in linux-next soon.
-> 
-> Please report any outstanding bugs that were missed during review in a
-> new review to the original patch series allowing us to drop it.
-> 
-> It's encouraged to provide Acked-bys and Reviewed-bys even though the
-> patch has now been applied. If possible patch trailers will be updated.
-> 
-> Note that commit hashes shown below are subject to change due to rebase,
-> trailer updates or similar. If in doubt, please check the listed branch.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-> branch: vfs-7.4.bfs
-> 
-> [1/1] bfs: remove the filesystem
->       https://git.kernel.org/vfs/vfs/c/e36781a626b2
-> 
-> 
+-- 
+Thanks,
+Petr
