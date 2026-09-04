@@ -1,80 +1,63 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B0747F793
-	for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2026 11:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE81471273;
+	Fri,  4 Sep 2026 11:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788522511; cv=none; b=MCsgiTXyc/FpxQhtSd1gft6vuKCLHLRJiq7gJSpdF2RV1psBKHu0fJAf5xqcQapr6w9FXMVKX6Fh3lmYzZ5VA9mkHtjcY36lFZpteSlPLAQhlyZ4Wyx1Y2q3kzfY6nCQZDI6VXxAFSskPt7z87K1p3nD8wJtas4PlcySuKCAoEQ=
+	t=1788522511; cv=none; b=Ea1GcukQw8dgm72N3HQvRx6nX8fF6n4wqQUrvrX1bh714oDUW+fdpGgnJ1bfnQx+YA0yTylwdf6E9wCemxj+VwyEKhOTINBAzyTNAZCOuIyt0fMx96/UjI8ZJOxQCElcX3huv4bEljg/AvPDjmR/Tw1+XBRgMCR380YPdLb9yCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788522511; c=relaxed/simple;
-	bh=FyM9la6c8DEmZm1o0Sze28ytD0RoNgbIOnGq9U4XXr4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g6dyP/YTw1cMcV0u5wlwP6By2NqLIHgkuwTLq+u7fF87MLtfss6qgd+blkg0WNGvSfrs8Sc1NUTiCbXRm0dTqWoP9GvDDTWpqE+JxR4Be8B/GjuqBasiTwDLpDcBH93J6ILl+w+7FNshChRditOLecoeLPMrYELfqb0oRUSm4mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kjOrxgbf; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	bh=ubpm0QU2OuqRx6qd+rYBKMTGJ2aBKl4TfxjigFcd0ok=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uV51atshw7TF1NNQyxyfsN/Vs86xIdFfvgll1lhDM165vwQEyUU0Cjkq9SAqutaYYWxFUlLGFFucmFj2GsjqYkZNNTrpybcO5sU6C6WkiQorjRpngXwmL6RzPejPcuVYs1mX3izb8oN3XrG7xcExBX0rQeB14Y5lb/eR2WeXq8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dx/E4xZW; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=rm8qXpJV; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kjOrxgbf"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2d6efd73032so17469735ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 04:48:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788522509; x=1789127309; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ve+amK0veETMoSZ5+zoCVWoX1YogA6ZC5rvoZ6VzdJQ=;
-        b=kjOrxgbf0AjHAUBjTPbM05KcXGXjp712ozHlQjTacuePqZ3kDbVbsg82rejSUzgTyC
-         gYf8gUfC6a35QH/sMJyNB8f1RihqOSnX8W/Ia1ZdwA5A7f1Vb3bW69ExVEkvT39oPjiN
-         uB7yhboKQNIJcgKwemVzALIkdo/jIKWUSy6fH3LImRcVTcppZbXLymmKSFS+gFi4VkqJ
-         EB9048WzM/h3JCJ8Xns9+Mk4kgrWI/u6SiWpbKS5i51+103sDKrP7s0WJzLuilaUnIVz
-         WbR+ZW7BjP8rp6Zma0Z/ksz6UVQyHK3YvGQuQyZhA2jlAvVmb0kOGatwhBzXzXl9Ss0u
-         B7AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788522509; x=1789127309;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ve+amK0veETMoSZ5+zoCVWoX1YogA6ZC5rvoZ6VzdJQ=;
-        b=Y+CSovGyDcdgjl1YCc9nJchgvxJ5U4UDGx9AolmfGxoVN7so1NQGfoz/9ZLY2pPR7r
-         /4fZihwzYrG9743jzxt47DZCPKKhdM+41aJaroL+SDJcopwHv2EF3VEJvCtNMG7EQXpc
-         xGMLKAx+yLuDJ8asoxrzp5T00YrrMvpi8w5k/mAhKTtjCCPjlbme0/j6pqXNkmnhgHS8
-         WXnnXqjYaesI7GGj9SmrxFg/w4MTMZ0eIEPaxuj9WuGBH3J+zXxeI5K2/3nYBgCCzXVJ
-         1hXRLi/XqGqCzOm6amMLet42fGXQPoPyFT5qs7n148rRx5U5beNzy6oue/2IuUF1RM/z
-         mESA==
-X-Forwarded-Encrypted: i=1; AKwUvBxizHeyrMqaVpnaHlyNsN2X0aTXncvusezllB5BuiHkuVtLRdQig9kLLAQPu1gOpJaSYYmGLj9Eb1o=@vger.kernel.org
-X-Gm-Message-State: AFuF++kyJzAOLbWhP5EplmE1ltaHyFnI7tNkSfPD6fxNcVxaZUwzQK/K
-	v1O72H9uuz7m5kOGf61BfR5mNbosxRBFuTqbRZl1/SOXyePiOW4a52Jv
-X-Gm-Gg: AYBFou0mNUR3em65MbCDGhYibx5GMS4JOV3kyxg5TcnA1XWRW1UvjTfkJJTGyBgNwFG
-	qun/XcCRXA0+qP0KGjw5QGvqOkl0d1RHY6Pw+sbeHr0JdK9jhkEIApCvd4efznwUDjD2YhGwxHz
-	hzah8T0+xpTQby2/koE6B7p6zAapjViJZ+7LMbozfXpuV4R/PThjr3TE72IOl/rFczwBpY68dt0
-	DnZ5Pr39F1lZNCij+OJrWnD6AYGfYHsvMUOmi+JbTtyzGReYhUctyBVZ6rEZIKWZzhwKBHqeznB
-	s2/KVkrXur2xHGV3hjK0r7AU2yR4PrYrP/CS+y7FDU5DC535htq1mCS4dOyeO77vDzdvjALbJpQ
-	HU2Ro1Vq6dbY1rMIa6eGLs3UwRiMfTeNjnK4MA+EVbL+YgMrtpNHL52u1iUhuu6t06XAwtwdVa/
-	I+x6b9DRf74J8NKp+Bm0JeDHAcu5S3eeqNq7qYDLjt0+Kax5ID9aJIg3kLzDanPAKz5Mdgs19mQ
-	FCSxfKYtrhPRlU=
-X-Received: by 2002:a17:90a:d446:b0:395:c3f7:2895 with SMTP id 98e67ed59e1d1-39b07f2f50amr13717422a91.7.1788522508712;
-        Fri, 04 Sep 2026 04:48:28 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339befe870sm6882570eec.30.2026.09.04.04.48.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 04:48:28 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	Tom Talpey <tom@talpey.com>,
-	Bharath SM <bharathsm@microsoft.com>,
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dx/E4xZW";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="rm8qXpJV"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4hbvqZ5f0ZzMlFl;
+	Fri, 04 Sep 2026 13:48:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788522506;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0IDHYEhKVDYUbbOT0ywj66+UFSpUfNMBJ3PlFrCyI7I=;
+	b=dx/E4xZW1AMkl/G9a/4wp+LUsfvaiMNpSbZwM3KKqsBscRkljfv4H5GNtOO2UL2ayOMA/R
+	QUEtNzfn/spSiGVQZf1myb7bmX7GzS7a4zuFA60f8GzGHVFogYYREexNovBFFxmBeWCvpd
+	yuThRyyY4ueP1G0YiBDVFnCc+Jxm/s+mU2H+jTPzYxRskauXFeDlpbY5KUMDTfCdrlNL1Q
+	Fd8f2njoWXpnIkDK5UuoZjXI76S12Xa1BPz31UKGubI8C4y7DA9eVKrkO+jB3AuzzPLSB2
+	dxWen/n0fsOj6kRn77qe5nFIKlZEhNbYH8uOjysm8JpyZ023JlCGQr8VQKUkjQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=rm8qXpJV;
+	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788522505;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0IDHYEhKVDYUbbOT0ywj66+UFSpUfNMBJ3PlFrCyI7I=;
+	b=rm8qXpJVNTC16zXMQSJdZ/lki5qpAbP3qerIWjCaOGl11xaO4tnYT4NEGGukpWZlI/22uD
+	xOeaU9eJAbn6QMJoF1rPiD9k7++rmpIlm6PFUn5nwVjP2t6lrgPNnwyFL+d/vFDNyHBYGx
+	4g8drUcjs85vv3tSoF0Z636HGhytofTZIVw9IsBbQ0bfP35I3wdHs91DMRHwNP3jOWJwWJ
+	txsoTEBkYHo93kuR9jbBOGQ82DbuEwSpJaYAwVYrKN+Cp45al8rrK1ceuELB2jtd/KOxTa
+	avtYz6L9Z3VGmEjMrIlu+cDlkU81eHOdLIzjnTWNNrAxEg7Z0QYxdtrEtN12eA==
+To: Thorsten Leemhuis <linux@leemhuis.info>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation/admin-guide: fix typo "asser" in comment
-Date: Fri,  4 Sep 2026 17:18:20 +0530
-Message-ID: <20260904114821.33650-1-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4] docs: verify/bisect: fix typos, formating and punctuation
+Date: Fri,  4 Sep 2026 13:46:07 +0200
+Message-ID: <20260904114606.756700-3-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,30 +65,117 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: mjn4nsfywahewddgbzhefzjezp4ft7oe
+X-MBO-RS-ID: afa7914c27117a6ceb4
+X-Rspamd-Queue-Id: 4hbvqZ5f0ZzMlFl
 
-Correct "asser" to "Assert", reported by scripts/checkpatch.pl using the
-misspelling list in scripts/spelling.txt.  Only touches comments, no code
-changes.
+Improve readability.
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+CC: Randy Dunlap <rdunlap@infradead.org>
 ---
- Documentation/admin-guide/cifs/authors.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/cifs/authors.rst b/Documentation/admin-guide/cifs/authors.rst
-index 5c1d2f0fa7d1..ebe223413577 100644
---- a/Documentation/admin-guide/cifs/authors.rst
-+++ b/Documentation/admin-guide/cifs/authors.rst
-@@ -40,7 +40,7 @@ Patch Contributors
- - Adrian Bunk (kcalloc cleanups)
- - Miklos Szeredi
- - Kazeon team for various fixes especially for 2.4 version.
--- Asser Ferno (Change Notify support)
-+- Assert Ferno (Change Notify support)
- - Shaggy (Dave Kleikamp) for innumerable small fs suggestions and some good cleanup
- - Gunter Kukkukk (testing and suggestions for support of old servers)
- - Igor Mammedov (DFS support)
+[v4]
+ - remove 'Reviewed-by: Randy Dunlap'
+
+[v3]
+ + incorporate Thorsten's suggestions
+
+[v2]
+ https://lore.kernel.org/all/20260902115121.687986-2-manuelebnerli@mailbox.org/
+ + one more 'your' -> 'you'
+ + 'it'
+ + incorporate Randy's suggestions
+    https://lore.kernel.org/all/0475c09c-e165-41a5-b654-5c6aefeaab0b@infradead.org/
+ + Reviewed-by: Randy Dunlap (added by mistake)
+
+[v1]
+ https://lore.kernel.org/all/20260829055501.581856-2-manuelebnerli@mailbox.org/
+---
+ .../verify-bugs-and-bisect-regressions.rst    | 26 +++++++++----------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+index 7d38393f3..91ebb631a 100644
+--- a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
++++ b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+@@ -163,7 +163,7 @@ will be considered the 'good' release and used to prepare the .config file.
+      section 'Complementary tasks: cleanup during and after the process'
+      below.
+ 
+-  d) Once your finished the bisection, put a few things away::
++  d) Once you have finished the bisection, put a few things away::
+ 
+        cd ~/linux/
+        git bisect log > ~/bisect-log
+@@ -178,9 +178,9 @@ will be considered the 'good' release and used to prepare the .config file.
+        ./scripts/config --set-str CONFIG_LOCALVERSION '-local-cafec0cacaca0-reverted'
+ 
+     This is optional, as some commits are impossible to revert. But if the
+-    second command worked flawlessly, build, install, and boot one more kernel
+-    kernel; just this time skip the first command copying the base .config file
+-    over, as that already has been taken care off.
++    second command worked flawlessly, build, install, and boot one more kernel;
++    just this time skip the first command copying the base .config file over,
++    as that already has been taken care off.
+ 
+ * **Complementary tasks**: cleanup during and after the process.
+ 
+@@ -229,10 +229,10 @@ depends on your issue:
+ Execute all steps till the end of *segment 1* to **verify if your kernel problem
+ is present in code supported by Linux kernel developers**. If it is, you are all
+ set to report the bug -- unless it did not happen with earlier kernel versions,
+-as then your want to at least continue with *segment 2* to **check if the issue
++as then you want to at least continue with *segment 2* to **check if the issue
+ qualifies as regression** which receive priority treatment. Depending on the
+ outcome you then are ready to report a bug or submit a preliminary regression
+-report; instead of the latter your could also head straight on and follow
++report; instead of the latter you could also head straight on and follow
+ *segment 3* to **perform a bisection** for a full-fledged regression report
+ developers are obliged to act upon.
+ 
+@@ -550,7 +550,7 @@ be a waste of time. [:ref:`details <introlatestcheck_bisref>`]
+       cd ~/linux/
+       git switch --discard-changes --detach stable/linux-6.1.y
+ 
+-    Your series is unsupported, if is not listed or carrying a 'end of life'
++    Your series is unsupported if it is not listed or it is carrying a 'end of life'
+     tag. In that case you might want to check if a successor series (say
+     linux-6.2.y) or mainline (see next point) fix the bug.
+ 
+@@ -1183,9 +1183,9 @@ Space requirements
+ The numbers mentioned are rough estimates with a big extra charge to be on the
+ safe side, so often you will need less.
+ 
+-If you have space constraints, be sure to hay attention to the :ref:`step about
+-debug symbols' <debugsymbols_bissbs>` and its :ref:`accompanying reference
+-section' <debugsymbols_bisref>`, as disabling then will reduce the consumed disk
++If you have space constraints, be sure to pay attention to the :ref:`step about
++debug symbols <debugsymbols_bissbs>` and its :ref:`accompanying reference
++section <debugsymbols_bisref>`, as disabling them will reduce the consumed disk
+ space by quite a few gigabytes.
+ 
+ [:ref:`back to step-by-step guide <diskspace_bissbs>`]
+@@ -1254,8 +1254,8 @@ distributions:
+       kernel-install-tools libelf-devel make modutils openssl openssl-devel \
+       perl-base zlib-devel rpm-build ncurses-devel qt6-base-devel
+ 
+-These commands install a few packages that are often, but not always needed. You
+-for example might want to skip installing the development headers for ncurses,
++These commands install a few packages that are often, but not always needed. For
++example, you might want to skip installing the development headers for ncurses,
+ which you will only need in case you later might want to adjust the kernel build
+ configuration using make the targets 'menuconfig' or 'nconfig'; likewise omit
+ the headers of Qt6 if you do not plan to adjust the .config using 'xconfig'.
+@@ -1407,7 +1407,7 @@ Occasionally odd things happen when trying to use a config file prepared for one
+ kernel (say 6.1) on an older mainline release -- especially if it is much older
+ (say 5.15). That's one of the reasons why the previous step in the guide told
+ you to boot the kernel where everything works. If you manually add a .config
+-file you thus want to ensure it's from the working kernel and not from a one
++file you thus want to ensure it's from the working kernel and not from one
+ that shows the regression.
+ 
+ In case you want to build kernels for another machine, locate its kernel build
 -- 
-2.48.1
+2.54.0
 
