@@ -1,117 +1,88 @@
-Received: from mail.ilvokhin.com (mail.ilvokhin.com [178.62.254.231])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27B84A43ED;
-	Fri,  4 Sep 2026 13:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.62.254.231
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967954A3F1C;
+	Fri,  4 Sep 2026 13:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788530047; cv=none; b=ZW35IfshG1byJqjCEZ13GhSJN/y2qYweEHrYEeIvNYc5dtk1x9kVzs6Zk+8q/oxRdYdux2wmjWG09XEIB7dThpyJdcG252yQtBhiumi2etTjiyQDDrXmocngo8mrFhztzuGBN/dE7Z9bHWC5AzlD4c0HOV5vmCa8u80xZDVmwbE=
+	t=1788530079; cv=none; b=JnaLFiIc8eJirRrIQ/kiPAuCrt6rg30qqbjJ7IJaph6K0T2vWz2U/+gy6jYI9AHQG94yrIIF61EaviWNe0oQ7BXBUTBUZqukUUgcBAi3IXjrfFuFrAbci639IPJXLeK7qKr2DKg/EVYno4Q+NpgEROwtKMPK8slV9Z+J+hk8rdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788530047; c=relaxed/simple;
-	bh=pb+OXN3sLCJZKmTGzbOzb2452rtXMBox4AVSFnjxnow=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TKNdOncIdo7veXXeVYe5fVcvVBmEabEPSFSgUL4LRF272TEpxmwKDtfeNb4IjaDfnt6o2MYEqjJIytgoGjqhAbXnfrVHp/J31se6MYbVR+XpC6DDZQJvRWqcCxAD7eTSoTbNbyL+4EroAMLueKg5rWRmr04+aogM/HjkMVpd1NA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com; spf=pass smtp.mailfrom=ilvokhin.com; dkim=pass (1024-bit key) header.d=ilvokhin.com header.i=@ilvokhin.com header.b=c/oKJkj+; arc=none smtp.client-ip=178.62.254.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ilvokhin.com
+	s=arc-20240116; t=1788530079; c=relaxed/simple;
+	bh=5FvOFRik9OscagyI9Ksiw8qb4TnMYmsl3K4FJhJlfg4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=nUcjaXoPtbgxcVN6qsTftfNbeqItK3u2fND45W0w2PpTzK0MotKClq4t9XbqfG6Q/jX3YcHIYKTjMW17I8XxZJcFI38Tn/wCMqodBTL4VzjjmtLyU4Ar38yw2txEjToHo4lX8AJJfFwHFrq3YqXgjfkwVafNag6O1We/6csnu38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YwprV6Ww; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ilvokhin.com header.i=@ilvokhin.com header.b="c/oKJkj+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ilvokhin.com;
-	s=mail; t=1788530038;
-	bh=ixQsouVZrNZkrSZGHCDIEy+wyYGPNQccFvbLtCeQ0DA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=c/oKJkj+NzCvOGY/cQFhM+Bh7TTwoaha6T+E7A7Ap1vQo86BA9at+O/+LK7MbcQaS
-	 Cfw+zOD5AwXaqrKdwei0SLWfbJtqNQrkYJ+W3/yxE+ZiVukl+tzpnPRGSktruZCVG3
-	 8xHJTRlFjmDOgTpmO9Ehuf7ikI8rwlOS6A7pSbC0=
-Received: from shell.ilvokhin.com (shell.ilvokhin.com [138.68.190.75])
-	(Authenticated sender: d@ilvokhin.com)
-	by mail.ilvokhin.com (Postfix) with ESMTPSA id 372FBEBB6B;
-	Fri, 04 Sep 2026 13:53:58 +0000 (UTC)
-Date: Fri, 4 Sep 2026 13:53:54 +0000
-From: Dmitry Ilvokhin <d@ilvokhin.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: Alice Ryhl <aliceryhl@google.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rseq: defer time slice extension yield for
- sys_futex_wakey
-Message-ID: <aprNcgTON1V7Tr1W@shell.ilvokhin.com>
-References: <20260831-sys-futex-wake-time-slice-v1-1-814bb95cc339@google.com>
- <87ld9ha8wu.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YwprV6Ww"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CC4FC40908
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1788530071; bh=qGrw0LcN4kcIILhqFZ0ns5IIpWW9WdDrdy79MAy1D+g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=YwprV6WweqqCZLX7W+ZEzjUaKgXgE70k2Y8dTiyQ4+oClz/bddTn1aLieSO4+x1lz
+	 WpJU6H3mMapkqQJeAnv+cnhfJfh5bwazWFLtNnLTYEKjPx41edaapTCYPG82UdfQAN
+	 aqryTQtikoIbSr4lxxKD3ctZwDyuOpTNG8I7Bc8FtS/DSnPpAEklyF399g3Wd4tYdp
+	 9HWyJloE4Ig6b4OySZ8Mx3XuMk4hDJIwHtLjVx2vqa2n3rekQF7MgVyt/O6ZcrcIor
+	 hvdcdPk5nRqZKtu/TxE46H/IOq4l79DHbWBPw6jAGp8PcISBnAcgvMHN/Y7DE6EjNk
+	 BiwgvzIo6A1PA==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id CC4FC40908;
+	Fri,  4 Sep 2026 13:54:30 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Hemanth Selam <hemanth.selam@gmail.com>, Paulo Alcantara
+ <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>, Ronnie Sahlberg
+ <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, Tom
+ Talpey <tom@talpey.com>, Bharath SM <bharathsm@microsoft.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, linux-cifs@vger.kernel.org,
+ samba-technical@lists.samba.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation/admin-guide: fix typo "asser" in comment
+In-Reply-To: <20260904114821.33650-1-hemanth.selam@gmail.com>
+References: <20260904114821.33650-1-hemanth.selam@gmail.com>
+Date: Fri, 04 Sep 2026 07:54:30 -0600
+Message-ID: <87bjad2kbt.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ld9ha8wu.ffs@fw13>
+Content-Type: text/plain
 
-On Fri, Sep 04, 2026 at 07:21:37AM +0200, Thomas Gleixner wrote:
-> On Mon, Aug 31 2026 at 12:57, Alice Ryhl wrote:
-> > When a task is granted an rseq scheduler time slice extension, it is
-> > expected to finish its critical section and relinquish the CPU via
-> > rseq_slice_yield(2). If the task issues any other system call while a
-> > grant is active, rseq_syscall_enter_work() forces an immediate
-> > reschedule on syscall entry via cond_resched(). This may cause
-> > significant latency penalty for userspace lock implementations that use
-> > rseq time slice extensions when unlocking the futex.
-> >
-> > In a userspace mutex unlock sequence:
-> > 1. The lock is released in userspace.
-> > 2. If there are waiters, the unlocking thread calls sys_futex_wake()
-> >    to wake a sleeping waiter.
-> >
-> > Because sys_futex_wake() is currently treated as an arbitrary syscall,
-> > rseq_syscall_enter_work() schedules out the unlocking thread upon
-> > syscall entry, which is before it has executed the wakeup. Consequently,
-> > the lock is free in userspace, but the waiter remains blocked in the
-> > kernel while the CPU switches to an unrelated task. The waiter is only
-> > woken when the unlocking thread is eventually scheduled back in to
-> > finish the syscall, causing lock handoff delays.
-> >
-> > Thus, update rseq_syscall_enter_work() for sys_futex_wake() so that it
-> > does not reschedule during syscall entry. The thread will yield the CPU
-> > on the syscall exit path instead.
-> 
-> That's undermining the design and takes control away from the scheduler.
-> 
-> It granted a short extension with well defined semantics and then you
-> special case futex_wake() which can take arbitrary time to complete.
+Hemanth Selam <hemanth.selam@gmail.com> writes:
 
-Thomas, do you think the problem is worth solving, though?
+> Correct "asser" to "Assert", reported by scripts/checkpatch.pl using the
+> misspelling list in scripts/spelling.txt.  Only touches comments, no code
+> changes.
+>
+> Assisted-by: Cursor:claude-opus-5
+> Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+> ---
+>  Documentation/admin-guide/cifs/authors.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/cifs/authors.rst b/Documentation/admin-guide/cifs/authors.rst
+> index 5c1d2f0fa7d1..ebe223413577 100644
+> --- a/Documentation/admin-guide/cifs/authors.rst
+> +++ b/Documentation/admin-guide/cifs/authors.rst
+> @@ -40,7 +40,7 @@ Patch Contributors
+>  - Adrian Bunk (kcalloc cleanups)
+>  - Miklos Szeredi
+>  - Kazeon team for various fixes especially for 2.4 version.
+> -- Asser Ferno (Change Notify support)
+> +- Assert Ferno (Change Notify support)
+>  - Shaggy (Dave Kleikamp) for innumerable small fs suggestions and some good cleanup
+>  - Gunter Kukkukk (testing and suggestions for support of old servers)
+>  - Igor Mammedov (DFS support)
 
-Currently, it seems like the rseq time slice extension is a good fit for
-userspace spinlocks implementation, but userspace adaptive mutexes don't
-fit quite as well.
+You do realize this is a list of names, not an English sentence, right?
+We appreciate efforts to improve the documentation, but please think
+about changes rather than just reacting to scripts.
 
-One can argue that adopting the rseq time slice extension for adaptive
-mutexes can never make things worse. The extension allows the lock to be
-released, so other threads are free to grab it. The only problem is a
-potentially delayed waiter, but this can happen now anyway, even without
-the time slice extension applied. That said, it doesn't mean we can't do
-better here.
+Thanks,
 
-One option that I can think of is a best-effort
-rseq_slice_yield_wake(uaddr) that is allowed to fail with a userspace
-falling back to futex_wake() in case of a failure.
-
-rseq_slice_yield_wake(uaddr) could look like this:
-
-- Works only for private futexes with nr=1.
-
-- Bails out early on a contended hb->lock.
-
-- Limits the hb->chain walk time by the same time slice extension, that
-  is already set.
-
-This way the scheduler is still very much in control and in case of the
-success, scheduler might pick a better task, since the waiter is now
-available to run.
+jon
