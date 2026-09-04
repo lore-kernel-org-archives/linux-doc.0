@@ -1,199 +1,253 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011026.outbound.protection.outlook.com [40.107.208.26])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689553C141A;
-	Fri,  4 Sep 2026 18:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.26
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788545266; cv=fail; b=EfmTvngXQZPmfmMMH0na/LYDZZxsMueTirW4LT5+XUf8Eo8LdBKjSgV1DKr3a/qYehqy2EJng8zrqdE2sB1zI8lPI72GGrfNrgMFaabdCTmOjhca9hwiuqP6oxxCU7sbKA9rSyfz6mK7/NHHXps2c6ciSmcJcoKrb+lV07uqZSo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788545266; c=relaxed/simple;
-	bh=mk1KDE75BCXyDMWVVtHZqlQdP/olPpD16oAyc3wjU6I=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XMMVquNt7PDpbv3XOPkWZJ0HwF7cF+rBTzug74ESJayuSuaYrZbK0bVr+RZmWeqPLbWOXXJI5FsR9TYL+mvAro+WbYOnL73irLK6OUqgCrF5+czCMnNvXc9jQwhgSYt+ogn/d0FqwLsWMZgwDgL8dfLQCJWiMIRmG1eTL54pnNM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2ajCHFiD; arc=fail smtp.client-ip=40.107.208.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4553B71DC;
+	Fri,  4 Sep 2026 18:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788545587; cv=none; b=I6Xb6NwBGpO/0BCVd45qNLTQNGtbLyq0Romy9COS/Zd0skCyxFWoun2BZ2U9YeySoBgfLNgMD3X1ZSu/dkqiwDbKcH29JkMZI51upayoskhPhWQ3rO4EMddzk3apLQtIPxZZNAvXkmUYMx34ncFtRkeyRKZX5f5ni/dkMsP0Sio=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788545587; c=relaxed/simple;
+	bh=pyfMSOC/fK80BkbkuJFpxjp61MkzRrttIzUNktUsITw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ACtdZq5gZmJkWSNPJjInAD+5UjFEC03PgS7WB2rN2y9mcvjeCHpnoE97T0DhhpHoCkDcTpZ/gOiYXztKImFVjrlTFUyO4jEea3vFgwcz+8nLLBC9UTCqiPsg5DGUvzFP1TPy+jx/UJeYOxZPLXk3xZOxEFt9Fn1Wo6cqqfLhlrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YovRCXvp; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2ajCHFiD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Tfvf9LjNC1XL46PFIZBgk0/r2otW31o0CYCKNB0vbYhRbg5hK3He27nomNuiEh8vsUexC063VUBVlKbq9PDycDev0SaxHmuHys9iEzX9PbOWJ+qOz4SIl0DhqAaMnm/TnH9a9KH9pbLGwe4qL/hrjbUiVkdQ2oYz8jLwXyY4BBRR4+L3ZUH64viBO8i/8N3JTeKaZ5FE0h/cpqXW+cUHx8eZXWRquDtWVMAjyCqeXyQWlo5G+Butv8IVZWutXaZrsubvscvmwkcmOsah1tUkpVH4QZdL+vEDdK0gNp+tCYtDLHdnSd/Px5opV0nao8P/XDE1y9sHtYi7W6CKdZcxOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2Ag6bX2i/hvcm+y0zwqzRVUmJnGNbvqRWHc8OhRuhpY=;
- b=uVdam8W1tIKV1uaePUaQs1jhNUNmxeo/UZD3mN9Lt8zyD3zlalzMU7hWYN7qfqhNNckxeJVoFPh9VO5zc6Pgn56vRM+GXCI0PfE7S0yrRhl8UTuhDkMlH05/Uu2vdw5OiZMrE1Rm9OCa5iHeSB08nE3GoOXrasRvMAtQkdtx5R94aPMSyLGcvAeJ0/T1Ve3m1MJCJa77EgeWktu+Ez0mw1z5nXkHhLIMYJdm+9wUVAfGdbKqQEswUZG27E6bix61rwmE+thozPfnICqHL/Prg638NOOZjd4YKxkl45SFqVh2rAaaZYi7hMGdS/qP/xEAmBjHCoKUO8Wf+JVs7+zSeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2Ag6bX2i/hvcm+y0zwqzRVUmJnGNbvqRWHc8OhRuhpY=;
- b=2ajCHFiDTByfQR/nHInS1Fr1aWuY8DeAwWYpfGnOfw/ta3SLFZ7UW8eqPjH4Rf0Mwsd2fpK8U3KcDRywr/AJLDs00bJ0LGSH92PxckNUFi7nV5bSzeS5kRbkmqRD3V8s1/8t60wbYbBMSqEXJ95d+cSydImGQ7tzMH2wFZD+kAs=
-Received: from BN0PR08CA0026.namprd08.prod.outlook.com (2603:10b6:408:142::28)
- by IA1PR12MB8519.namprd12.prod.outlook.com (2603:10b6:208:44c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Fri, 4 Sep
- 2026 18:06:25 +0000
-Received: from BN7PEPF000000A1.namprd04.prod.outlook.com
- (2603:10b6:408:142:cafe::1d) by BN0PR08CA0026.outlook.office365.com
- (2603:10b6:408:142::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.13 via Frontend Transport; Fri, 4
- Sep 2026 18:06:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BN7PEPF000000A1.mail.protection.outlook.com (10.167.248.153) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Fri, 4 Sep 2026 18:06:25 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Fri, 4 Sep
- 2026 13:06:24 -0500
-From: Babu Moger <babu.moger@amd.com>
-To: <babu.moger@amd.com>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
-	<bp@alien8.de>
-CC: <x86@kernel.org>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
-	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <dave.hansen@linux.intel.com>, <hpa@zytor.com>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<eranian@google.com>, <peternewman@google.com>
-Subject: [PATCH v2 1/3] x86/resctrl: Fix ABMC counter programming for extended counter ranges
-Date: Fri, 4 Sep 2026 13:06:10 -0500
-Message-ID: <9e85f67add9ac84f55e4b0fced92ed8994f8419a.1788545152.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1788545152.git.babu.moger@amd.com>
-References: <cover.1788545152.git.babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YovRCXvp"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 49A494E41521;
+	Fri,  4 Sep 2026 18:13:03 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 151A56057F;
+	Fri,  4 Sep 2026 18:13:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4640D11C78158;
+	Fri,  4 Sep 2026 20:12:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1788545578; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=LqQYuvwvraZg7CYMTKbtFxp307I8aZf3xSHZ/HLQRDA=;
+	b=YovRCXvp0IpXbEJEJcuBowy3IAuG3jcHkZesKqsN7Z+vF8J8PBAZpYvzke3a6btV+RG9UA
+	AFP1I+bPwWOqRiGIhUPORlzx/ZiSlLP9LMp5+oZWk5xajmdkAoojh5U3e+s4iqmtkF/6v8
+	9HzPYkHOnrj0oLo/b/4K+tAYxoCqTPMJbFpVKhGSf6ubP3aBDNHBD1ibdA7dDEg7Uj/qF3
+	nT2fJJuuvjZdDdcl7GbTLiXTtR53nv8VS2wJtygIWzBXXIgDul6pkHAQhVQOPYkYywO5kR
+	sRd2OPxT41Iwk6ljPRRCMJUPmUxp8UpKquw5AnEbY1a4c2sGKhRX8W+AA35Tsg==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH v5 00/25] mtd: spi-nor: QE handling cleanup + fixup reworks
+ + Winbond RV chips addition
+Date: Fri, 04 Sep 2026 20:12:37 +0200
+Message-Id: <20260904-winbond-v7-1-spi-nor-rv-addition-v5-0-2909a45fe4fa@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN7PEPF000000A1:EE_|IA1PR12MB8519:EE_
-X-MS-Office365-Filtering-Correlation-Id: 055ed391-5a61-4195-eef4-08df0aaf3c3f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|82310400026|1800799024|376014|7416014|23010399003|36860700016|6133799003|10067099003|3023799007|11063799006|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
- tXPFIsCmtJOmsXDMbyxAkcmW2Hb5ZJShnIxOje/3+qjHmHGHnQh4glVShNVecy+yGESEarevX5gedmqGU5EMWCEtFoh4OmvTWAF6us//GAJXPGwOhcV81rUd/dOpE4ft3K14ZTrRp8f5hD+jtT8bHHbrBhJpiIDjzoL8CjaB63jl9pKS6TDdX2N1ZoX4qL8E5cYqhpBI9MdF/8YpQ0Zlk0ANTSaGke7ksC4ul5U/+D+IAPduwA9peGM9phVntado1jZVtK7ZB9XZYnK9qFOvk57pjHO6+xobRGU2a2UZ+Ui1QxcRJ8/pQrUm7jc8yOCPDRnBcunGNsDPcHUhqO08g2DdN8yPABErI7+f/BTLZtbFpPZauNwauUWA0CJ9Op0ueru397JH1C8eRKRzh49OqD6cqa5PTvBLXw4zJ5wph6GVsWsmXFrEnlv3ES0OMWzhTNPYHuW/Oh3K4QoMkthOOid+eIbWAKShmArpo3bDE/sd4JraYef+IVLIZfDrwbHwuITkdsDwnFHzSUFtasMFu/hl3T4mWEOgbbnB3XYTw+x9M0FuN/ZY7qdDxxNww+Unp26k4Xf6L/YWqOqQwFixjBehlDiXYSYmbtXeISTmk9yrA0RpIAUUj4ZM96QDx6AY4GRObfSKFnxZNjLuOzlapK2lTS4RCu6OeFyHHwUTwJfaYtOrXBxy4o9QdOBYkcikkjN71Hr9wP/qi9uvknxLmQ==
-X-Forefront-Antispam-Report:
- CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(7416014)(23010399003)(36860700016)(6133799003)(10067099003)(3023799007)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- IesNCLCS3poCfFx0Nk3WUQF67Shd2OxbcUdUJ0vJQSYnT7aoBIWOzncEBxsj95CafW6bHvg8zrAqsLjPqUoebLWVd7IEPsPMXB8lkArcY9ZQu821PGwcQiE7ycSP+Wj1sH43I51T/oqe7gZdstIUvu3oFP1QAT72sGzEvi/xvvrv6zXQQ/wAgvPJ7v0Zli2JQpVSlm6xIcQD8I+pkbydYzDqhM8nPU/zd1NCCz3jTs0sQud7QqANlKuCE4XiwTNQHpBZo9XtJcwx5Z4bLtUQdohKiquqzr5t+Wbwdj56r84+cB+AELkEWj2zFKoioEpuAp/Cu3JD6t4zI8qW5rbIUvQhEmRLojYLiIUXXlsudHgKD6AhCWsnXaKrzJ6CD4bSK72to7/1aN41meJ1uogCdVdLCZ4JZ/PBZPJY2Hix0lgL6GbKb8Vj1u5dAwWw70J2
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 18:06:25.5855
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 055ed391-5a61-4195-eef4-08df0aaf3c3f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
- BN7PEPF000000A1.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8519
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43PS27DIBCA4atYrDsRD2OcKKp6j6oLDENDlUAKD
+ m0V+e4lziKp0oWXg8T3z5xJxuQxk01zJgmLzz6GOsinhpidDu8I3taZcMo7KvkavnwYYrBQFDD
+ IRw8hJkgFtLV+rJ/BoOaOOSb7AUlljgmd/54Tr2/XOeHnqZbG6yM5YM56Lm2a7Rzqqfw/9FHA7
+ FGH0xGKBAq94qJHqZRaty9DjOPeh5WJh+dLedAZoQ4HP26aolYckmHkssPO5zGmn/nqwuYllh9
+ YWA07oZH1knIr9X145gu/kT1VC0heyXqD6lpunWnpIynuSCYWkKKSQyeUcYxTK80j2d7INeULy
+ Pa6pRVSUGGd+0tO0/QLjdkDjU8CAAA=
+X-Change-ID: 20260529-winbond-v7-1-spi-nor-rv-addition-cea2f1f158be
+To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
+ Takahiro Kuwano <takahiro.kuwano@infineon.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: Steam Lin <STLin2@winbond.com>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Miquel Raynal <miquel.raynal@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-Memory Bandwidth Monitoring (MBM) can report incorrect values when ABMC is
-enabled on systems supporting more than 32 ABMC counters. As the number of
-active monitoring groups increases beyond the range supported by the
-existing counter ID encoding, programming an ABMC counter may inadvertently
-affect a different counter, resulting in unexpected counter resets and
-abnormally large MBM readings.
+Hello,
 
-The issue originates from the ABMC counter programming interface in the
-L3_QOS_ABMC_CFG MSR. The counter ID field is currently defined as 5 bits,
-which limits the addressable counter range to 32 counters. On systems
-implementing more than 32 ABMC counters, counter IDs above 31 cannot be
-encoded correctly. Consequently, programming a counter ID beyond the
-supported range may target an unintended counter and reset bandwidth
-statistics associated with another monitoring group.
+Following my "software protection" enhancement series, there were
+several comments about the need to simplify and reorganize the handling
+of the QE bits, which is strongly impacted by the various read/write
+status register capabilities.
 
-While updating this logic, it was also observed that the bw_src field,
-which encodes the RMID, is currently at its 12-bit limit with support for
-4096 RMIDs. This field also needs to be updated for future expansion.
+The third patch is all about this. It is a massive cleanup, everything
+is explained inside, the how and the why. This is a commit that must be
+tested, so if you have a SPI NOR chip with one of the not yet tested
+SFDP QER configuration, please consider applying that patch (just patch
+1 is enough) and boot. If your chip is recognized, it's probably all
+good.
 
-Also found one more pre-existing issue. This union structure can truncate
-data on 32-bit x86 systems when unsigned long is used.
+Since it was pointed that the legacy .name fields were part of the ABI,
+my previous deletion was no longer possible, so I now propose a
+(writable) indirection for accessing this field, which will allow
+developers to hide that name using fixups.
 
-Fix the issues with the following changes:
+Talking about fixups, I continued with another rework that has been
+asked for: changing the way fixups are listed. I am now creating a table
+of fixups, which can be matched by ID and/or with a match function, as
+per Michael Walle's suggestion. This cleans quite a bit the fixup lists
+in the winbond driver, especially because of the new name hiding fixup,
+so thanks for the suggestion!
 
-1. Update the cntr_id field handling to support the full hardware ABMC
-counter range and ensure that counter programming does not interfere with
-unrelated counters.
+Then I add support for JESD216 revision F and its new QER field.
 
-2. Expand the bw_src field to 15 bits.
+Finally, I rework a bit the fixups in the Winbond driver, which allows
+a clean addition of the new Winbond RV chips.
 
-3. Change "unsigned long" to u64 to fix truncation on 32-bit x86.
+All chips I will ever be able to test are now listed and proof of
+testing is below the commit message.
 
-The AMD64 Architecture Programmer's Manual [1] available at [2] will be
-updated accordingly in a future revision to document the expanded cntr_id
-and bw_src field definitions.
+Thanks,
+Miquèl
 
-[1] AMD64 Architecture Programmer's Manual Volume 2: System Programming,
-    Publication #24593, Revision 3.41, Section 19.3.3.3 "Assignable
-    Bandwidth Monitoring (ABMC)"
-
-Fixes: 84ecefb76674 ("x86/resctrl: Add data structures and definitions for ABMC assignment")
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537 # [2]
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
-v2: Moved the link tag to the last.
+Changes in v5:
+- Rebased the series and fixed all the conflicts.
+- Fixed the double typo reported by Takahiro.
+- Link to v4: https://lore.kernel.org/r/20260902-winbond-v7-1-spi-nor-rv-addition-v4-0-779d35303dff@bootlin.com
 
-v1: https://lore.kernel.org/lkml/980f39d3a0e0d9f73925e362f835aeef070a1bc5.1784322818.git.babu.moger@amd.com/
+Changes in v4:
+- Moved the fixup_flags into the spi-nor fixup structure.
+- Used strstarts instead of strncmp (pm25lv).
+- Created spi_nor_sfdp_get_header() to retrieve the SFDP header.
+- Added a comment about the use of the nor->sfdp field in fixup hooks
+  not being possible with the early default_init fixup (due to SFDP not
+  being parsed yet).
+- Moved the read_sr2 subtleties to swp.c to make sure we do not widen
+  the scope of these hacks.
+- Reintegrated the ->quad_enable() field check to make sure we won't
+  set the QE bit if the hook was disabled.
+- Fixed the SFDP table of the 128Mb variant which strangely repeats the
+  same error as the Zetta clone (?).
+- Fixed the part name in two commit titles.
+- Added testing for the 256Mb densities I just received.
+- Collected tags (except the one on the W25Q25RV chips since they are
+  now tested and M vs/Q/N variants are split).
+- Link to v3: https://lore.kernel.org/r/20260813-winbond-v7-1-spi-nor-rv-addition-v3-0-b637cf120d5c@bootlin.com
+
+Changes in v3:
+- Added support for two new chips that I could test (W25Q51RV-M and
+  W25Q02RV-Q/N). Edited the last commit which is now only adding the
+  256M-bit densities without the possibility to test, since I will not
+  receive any of these any time soon.
+- Reworked completely the way fixups are now being applied.
+- Re-instated the legacy .names, created a way to overwrite them and
+  enabled a fixup for that.
+- Link to v2: https://lore.kernel.org/r/20260807-winbond-v7-1-spi-nor-rv-addition-v2-0-7797642dfc40@bootlin.com
+
+Changes in v2:
+- Added support for more chips that I received and could test. The main
+  logic in the first patches is completely untouched.
+- Fixed the name of a parameter (s/sr2/srs/) in the low level read status
+  registers helper.
+- Decided that there was no specific handling of the WP pin being
+  strapped wrt the read check over the SR content. This would be new,
+  and I don't think it is wide to handle it in the verify helper, but
+  instead this should be let to the caller to decide whether it needs
+  to hard fail or just degrade into single mode (typically if the QE
+  bit has not been written). But this would require an extra DT
+  property indicating the WP strap state which cannot be read back by
+  software.
+- Created a structure to store the flash specific opcodes.
+- Proposed a rename of BFPT_DWORD15_QER_SR2_BIT1_BUGGY in favour of
+  the _NO_1B_WR suffix.
+- After checking, decided that the .name field is legacy and not part
+  of any stable API, thus it can be removed. So added back a commit
+  for that, removing the names for the whole JV family.
+- Exposed all opcodes through debugfs, including the QE bit position.
+- OTP and SWP writes are now read back like before.
+- 2 known deviations are now explicitely stated in the commit log.
+- I changed a little bit the QER field parsing in the sfdp.c driver, to
+  limit deviations, as much as my understanding would allow me.
+- Link to v1: https://lore.kernel.org/r/20260529-winbond-v7-1-spi-nor-rv-addition-v1-0-f3ae18502d5a@bootlin.com
+
 ---
- arch/x86/kernel/cpu/resctrl/internal.h | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+Miquel Raynal (25):
+      mtd: spi-nor: Rename BFPT_DWORD15_QER_SR2_BIT1_BUGGY
+      mtd: spi-nor: Create a structure containing the flash opcodes
+      mtd: spi-nor: Refactor Read Status/Write Status support
+      mtd: spi-nor: Add support for the new JESD216 rev F QER field
+      mtd: spi-nor: Create the concept of fixup table with match function
+      mtd: spi-nor: Move the fixup flags into the fixup list
+      mtd: spi-nor: Create an indirection on the part name
+      mtd: spi-nor: Move the SFDP header structure to a C header
+      mtd: spi-nor: winbond: Prepare introduction of W25QxxRV-Q/N parts
+      mtd: spi-nor: winbond: Add support for W25Q32RV-Q/N
+      mtd: spi-nor: winbond: Add support for W25Q64RV-Q/N
+      mtd: spi-nor: winbond: Add support for W25Q12RV-Q/N
+      mtd: spi-nor: winbond: Add support for W25Q25RV-Q/N
+      mtd: spi-nor: winbond: Add support for W25Q51RV-Q/N
+      mtd: spi-nor: winbond: Add support for W25Q01RV-Q/N
+      mtd: spi-nor: winbond: Add support for W25Q02RV-Q/N
+      mtd: spi-nor: winbond: Prepare introduction of W25QxxRV-M parts
+      mtd: spi-nor: winbond: Add support for W25Q32RV-M
+      mtd: spi-nor: winbond: Add support for W25Q64RV-M
+      mtd: spi-nor: winbond: Add support for W25Q12RV-M
+      mtd: spi-nor: winbond: Add support for W25Q25RV-M
+      mtd: spi-nor: winbond: Add support for W25Q51RV-M
+      mtd: spi-nor: winbond: Add support for W25Q01RV-M
+      mtd: spi-nor: winbond: Add support for W25Q02RV-M
+      mtd: spi-nor: debugfs: Expose SR opcodes and QE mask
 
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index e3cfa0c10e92..b3d780eda8a7 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -192,7 +192,6 @@ union cpuid_0x10_x_edx {
-  * @bw_type		: Event configuration that represents the memory
-  *			  transactions being tracked by the @cntr_id.
-  * @bw_src		: Bandwidth source (RMID or CLOSID).
-- * @reserved1		: Reserved.
-  * @is_clos		: @bw_src field is a CLOSID (not an RMID).
-  * @cntr_id		: Counter identifier.
-  * @reserved		: Reserved.
-@@ -210,16 +209,15 @@ union cpuid_0x10_x_edx {
-  */
- union l3_qos_abmc_cfg {
- 	struct {
--		unsigned long bw_type  :32,
--			      bw_src   :12,
--			      reserved1: 3,
--			      is_clos  : 1,
--			      cntr_id  : 5,
--			      reserved : 9,
--			      cntr_en  : 1,
--			      cfg_en   : 1;
-+		u64	bw_type  :32,
-+			bw_src   :15,
-+			is_clos  : 1,
-+			cntr_id  :12,
-+			reserved : 2,
-+			cntr_en  : 1,
-+			cfg_en   : 1;
- 	} split;
--	unsigned long full;
-+	u64	full;
- };
- 
- void rdt_ctrl_update(void *arg);
+ Documentation/driver-api/mtd/spi-nor.rst |   2 +-
+ drivers/mtd/spi-nor/atmel.c              |  75 +--
+ drivers/mtd/spi-nor/core.c               | 753 ++++++++++++-------------------
+ drivers/mtd/spi-nor/core.h               | 125 ++---
+ drivers/mtd/spi-nor/debugfs.c            |  22 +-
+ drivers/mtd/spi-nor/everspin.c           |   7 +-
+ drivers/mtd/spi-nor/gigadevice.c         |  15 +-
+ drivers/mtd/spi-nor/issi.c               |  29 +-
+ drivers/mtd/spi-nor/macronix.c           |  39 +-
+ drivers/mtd/spi-nor/micron-st.c          |  66 ++-
+ drivers/mtd/spi-nor/otp.c                |  16 +-
+ drivers/mtd/spi-nor/sfdp.c               | 148 ++++--
+ drivers/mtd/spi-nor/sfdp.h               |  23 +-
+ drivers/mtd/spi-nor/spansion.c           |  67 +--
+ drivers/mtd/spi-nor/sst.c                |  16 +-
+ drivers/mtd/spi-nor/swp.c                |  99 ++--
+ drivers/mtd/spi-nor/sysfs.c              |   4 +-
+ drivers/mtd/spi-nor/winbond.c            | 133 ++++--
+ include/linux/mtd/spi-nor.h              |   6 +-
+ 19 files changed, 857 insertions(+), 788 deletions(-)
+---
+base-commit: 728e68a889bcf257b1e67298b12c360e5c3a13e0
+change-id: 20260529-winbond-v7-1-spi-nor-rv-addition-cea2f1f158be
+prerequisite-message-id: <20260805-winbond-v7-1-spi-nor-jv-cleanup-v5-0-87238e577794@bootlin.com>
+prerequisite-patch-id: b4c64eddd0cbb8a67a3ceb3d5a8fb7118ee8bbd3
+prerequisite-patch-id: ea4fe4b14c3613b81a14c7af7ef5b7783c8cc633
+prerequisite-patch-id: 4386d6ade3a3cd161669fec71550a9ccd96313f1
+prerequisite-patch-id: c8a25a85853dc662591c1099350a37ff842d072b
+prerequisite-patch-id: 74656376c96b96fc1b3cdc7074de6b3cb87d9ca7
+prerequisite-patch-id: 90271b7e055db3079d3897546c3480a285b740c8
+prerequisite-patch-id: 600c72d0a18dc003917f774209625f24c37d11d5
+prerequisite-patch-id: e4543f8bf8f0fc69ce6dffc1b18858cf9ba6c04c
+prerequisite-patch-id: 260a5ff56d2e5fc5583b875e0e0eca14786f23c6
+prerequisite-patch-id: 2895240e7ee5b7d3f0792e7c964be474c583a4c6
+prerequisite-patch-id: d429c7951d6bc134fb9f8990d72ff678b55e39d2
+prerequisite-patch-id: 4733bf85a0015bf832f46909518c5c3b291824ff
+prerequisite-patch-id: 876879d9ca584afcfda5ea388a39f71ba5e88847
+prerequisite-patch-id: 849e3782c7a6263bce97a359f1e8521dc2b2ec77
+prerequisite-patch-id: a4d9ceb8d99e527d9b9b184cbb1923c99e15fe1a
+prerequisite-patch-id: 8c9246e1485d06429b1caaae7a1efb7af5122723
+prerequisite-patch-id: 66880ad35a1681b724b51cb40e591270a65429ce
+prerequisite-patch-id: a750eb3c350e1a88aef8749506332663fb44e007
+prerequisite-patch-id: 6e9d4b20e02afb09defda703c74d56ea222d10c1
+prerequisite-patch-id: 808ce773f9ecb493ba9362e088453638ee93b222
+prerequisite-patch-id: 462a6751e3e9074102e8d31b23bf06140f6ee6e6
+prerequisite-patch-id: 309ee450a2ac8eb24516c6839b944bc5f36a6db6
+prerequisite-patch-id: 07059d14bb516ba19fc0a678a96b3224f91caf24
+prerequisite-patch-id: 1e221a9bbfb1fc53982beaf75bccf48baaba491f
+prerequisite-patch-id: 20ce5105adc4c7f8ebc6c779b107fd54def4f1f8
+prerequisite-patch-id: cd8fddc6d97316419b52997207a198037b41b32d
+prerequisite-patch-id: 759f747940c26df6ec85fecb4779fd54e0ea3735
+prerequisite-patch-id: eaeebc9df5221bab68a6cabc64a97e9c2608899b
+
+Best regards,
 -- 
-2.43.0
+Miquel Raynal <miquel.raynal@bootlin.com>
 
