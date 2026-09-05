@@ -1,79 +1,76 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08F4379EF7
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 01:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19573093DB
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 01:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788570440; cv=none; b=Z6Or25sSqIZvuo6FPB7EIv/7nVR+TvyYXThlMA+BrQQ9hr9AfecOaSo3XlRHSFX4WO1Rt/NGm5n625UrS3N2UbiGo8iaePTiwxtXU38y4onAI/b3wp/hcLyNfehPfCo/b0AThlUtqrd7rTppwBEWdQ9dqWTtJrIxSaI1cIFU7VI=
+	t=1788570607; cv=none; b=cwePXkRCDsCgeZAOsFaAKu8XG6b4uTtBlgR15bTFH5pa/n2OyI/o8Czr5WRc9hF2fDiP8h+akLspOBe1sy1V9KIk8A9OUnktZihR9BviGnPp7emoSavB8Wtnb75ScHQ1TIamOo5ww3Acqlghn+lC9O6yHUogI6yotz8TYDI2BpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788570440; c=relaxed/simple;
-	bh=EglbqXi5LkNp5XA0SdAdE1SDNtn/R/F03DiG2hMoAMc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HqsMWVBqdbxPQh/UploAg5GVJX9HiB6mP/yfHG3m4wl3pXGK07jJ1c93RBsLZmm6baNsBcbSdyAPwNUMPk+BjpEQD1qStU86Cg7EIpdcRrGwk/5guEriCAHw18GuZyA9O2iCz0vqrDGiLHDGJ+5Eq1wvyq16TqblqgV1zl+yma4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WRdmouKW; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1788570607; c=relaxed/simple;
+	bh=SNNxI2a3/gcWYIHDCxAJDmhPayrpr0/IkhzNYGEv84w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZXvw80rw5A61fU9pZ/xmcrca1rjZwYLANdg8jmntEJ+ynOIxpqk9cN5OQ6dEkl4bRkVqDaZEKMi94NbCxj17/YgM+w8hOGEGGldUo0K+zppxjFAqoJCzPOlFclDPxS/QIa/xjO5ZUS4EkQzeLrsj+V79Ks2kq0wxGB5BTg4/RBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rHi7xL9y; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WRdmouKW"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49b8eeb3ff2so14710865e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 18:07:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rHi7xL9y"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso13786925e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 18:10:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788570437; x=1789175237; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788570604; x=1789175404; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zr9fpDIO6FHp21CzkCP2RgEnzt+svRUnC4ckIWi1ofg=;
-        b=WRdmouKWyohjJTz2OkrmjAfof7MvG1MiMudP8rxj7YDvbvkYXI3RaOIJMDmph4+x8M
-         /yQuItbIWe0u3jmCbL9L5eSwvXuPyPtEQjTz95GJNHpFUKp4XKjlZvjSui3wLliC8+iE
-         HrkBfwN0MmE80ETdBRFAXF75wd07RJVq6KcQErNdWu8zP/IdSl/i72CB8NyAtNqCw058
-         Nx4xBoY2Eb9nJww34YlB/WNBk4tphDALAJDSeFYZFepZ4b1vRS8z27uLpFtbNPy3FFHi
-         Wjjy5VtbJOEPkC5q9Q8Hu7rf/vQPzjqROvzxp3wZMHBHPOtjpdSxONWG6M098umufEoh
-         PN/A==
+        bh=L6ZpKRzVLfUZkzvwp43ybMZ5F1LoVc1YWYaQlbCksdU=;
+        b=rHi7xL9y49TaVbJBDnVbmylRopdqxP14MZPDOdORUp5nGACfLkplzpxXli/Pyclm0P
+         pAS06otR0/0JOCaIeYFZXTA4kzGwuY47NeVco7qufKEo8Lh/DrDlvIuRHbGGmj/mOkPr
+         iydU/LyqOxbq7wHT5n5NrDYaWM2V+X/heXEl4RCRLErnsTDcwgSlHsJf8bcy6cGDDPoZ
+         V3ZaH4IBc/0s3kWRZbs+utUjb8w133K/XyfFUXQpp/Hoq36IYCGSQi2MHOkC3V92AOPT
+         jwpCzkgmdCRu0Ue1JrOujMLikjS4lCMVVXdFjlHKhYTl2MaONxjMfJ6trxIqiw8LPpN2
+         FtzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788570437; x=1789175237;
+        d=1e100.net; s=20251104; t=1788570604; x=1789175404;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zr9fpDIO6FHp21CzkCP2RgEnzt+svRUnC4ckIWi1ofg=;
-        b=LpMzqXrDRZej+ZGC9SJhKiapAdqvY//w73jW7wc6ekgomt6GN3J50ZvGqHFRzvzaTa
-         klxm9ftX8grgrWWIrrTctFRoufvHszNfAniTBCUlYJUFpZylgNf4rv+wIVGNpqyj/o/h
-         Pq1x3X3oY6M1qtbtyYuKxtOYPLPbDrLQYFM38e0FYfJjugWrwoiJf6NYE+Cm6Mg1B6Rv
-         nXIBbxNiFQ3HIxbf2AN3ipXIpP+oEgfcpfioJ5BF9vw3XxBfo+X4A6CyvnV1UDl2Fn+B
-         S443am/DQYQIyNRkmz5bctWWLOELewsUkwfpG+7xshxXx8TtAIRdxt+U/yXZaVav+G5Q
-         9Iiw==
-X-Forwarded-Encrypted: i=1; AKwUvBxMgUbap97FXCUwh4gj/HfsuyxX+M8zm56jySQQDj9JppYvSwq2/8jpaJPDIcv5zKLLkqw+9GOOM/k=@vger.kernel.org
-X-Gm-Message-State: AFuF++k8EHm+zdivy3VrEdmwe9St+GCvGb+r5bLsG6Z2hU/Q2D3/Nj0b
-	G9exLS/MX0B3azkKz7Su6aRo3LCvr1tq68dzRGq0APXnv6MKGqcdTnmh
-X-Gm-Gg: AYBFou0l5AOLXrajLuY+I+wgtBp0TEXwZogLVHYwd6VUvJ8JR8cGRIPZGWNPVy4iDk4
-	2gsCM99eyWg1S0e/zDk+infz0vWtSN4GN7L04tdmV6/WEwRyO6bHVPbhmvvDwmcqfFpvv0iEKuB
-	0hlybPjWf/+nm8OszM5kyIeAWp8UA01qSjX+KC22hH/cd5EYRxjZwYFvwm6Np7HKUxXMgL85k7k
-	pAoz3IgCndE7+k1gL/4eKhXvipxcV+wUmTMMJacjir34rafKA7fOzkXO46/0X8PUqi5piQULkz0
-	VVW7z++qN92WYDw2RVqPgoTSJ9M6oOCiN0JFRC6lH5Ame87Xx+REQkA3fmYq45tiuR84366Xs7l
-	YpLN54Bck1vm9fkOdUKYZvVA4cSgSl/9Vh7ZRm4EP+IEJdO+1V9+g/mR7ONOpY/bykk5bobJldN
-	86li1oh2k8FinwbggBqOfgg3Kxhr4dsPwo2/jUKo/mT97SVmdXdpCk4l48T6hpbtO7mhIp2kQYT
-	TQl0H+0TKRDnxEme/n9pLe8B6DvR+oYIabCVNdvojHjsrvYoCJAbrZiruzs8dxOj46memqEbBuA
-	zmsXvbtPqCv2fJbfTxVZ7SbDj74yK9bF7km6ave3nXLapRxXwCZgYAguOPPjALZqoH8=
-X-Received: by 2002:a05:600c:628b:b0:49c:fa21:e742 with SMTP id 5b1f17b1804b1-49cfa21e956mr66582325e9.24.1788570436399;
-        Fri, 04 Sep 2026 18:07:16 -0700 (PDT)
+        bh=L6ZpKRzVLfUZkzvwp43ybMZ5F1LoVc1YWYaQlbCksdU=;
+        b=ohGlfAof+0qhmcj0f9MMV9/Vv1Ns/NiUltk9g8Hkt4oQCa3CUDwGgphxepLtoaLgIW
+         xC52wnoJvEAPPunwjzxhcuh8Y+qwHdt9KrAD9SWdhBPwnQvPs/HlTPJ09i3jJTEnOhbp
+         yH87EUrRFB0vH0bVvLLa2//zAb5j/MaXnER43LHE+MV6/NkyTBfvRb+O0f5qUpKZc7IB
+         1aRBEJyCbgnae2VWaVitlwmyYZUVHYxoMJWs3JjUx6w1qcl9fUQaSjBLzuCQCMkdNoam
+         O5f1roljlut4FbrIM05rQRhdWq4PW/qHYP0na8dNiZRWXR20DNXv9AJ/Le+y/h+sFwJj
+         DE1A==
+X-Forwarded-Encrypted: i=1; AKwUvByMugv5WuvXhPiXJOzos2Hsrw6YcXtahdjlmS/uO0XxFo64BQoPnjSckPR/2BEGJjqv0NlmtVqzZ0I=@vger.kernel.org
+X-Gm-Message-State: AFuF++l2VyIPshP7KtW7MWUxCit/u2NbeskxEKfYHfNxSgmknYTTrB2Q
+	vCLckoJEU0528wFLm7w2kHMSBF4P464bYGP5NCzIXrPVNtxJBpvffjy9
+X-Gm-Gg: AYBFou0yt6yx9E3wB/vR8hQlLslYM4S/EMQwB9QzsDIhWt32IhChwHRMJ3p6dFs/1Q3
+	auOIZBspbbYM5HL69LNoxRCcxClm3QJmUBWma8FU3BI57r3DBweGO1tmGEXy9xneg3+ECV5wrWg
+	keO1hj3Yflt6+/xKSs0/qTYGxlnqJgbrNGCJuWfQ+cPoZ0izabxa9LhJdyvIQ4CuCMIdHeqjz+U
+	0VcrJmk1WgPdHN9yNQiAdedaDXY1J4853j0TqDKah9opmkDt8NEp60JPnMT4ePZ4pV0P9Av5IZp
+	15UAgc2vjgpkH2h8Fp7S2VKH3Xgbh9p/jmQsScHINQ+x/dovK5fnNOfRC5zY13eqetMXdpSMTGD
+	qzFgC+bo+fyvsi610bsM/UGkUsOw+QP38bg/X9IY8+h+q8xcmbarCKsrOacMwVyEecJUt6MSQBB
+	boY/sWot+qSxk6JbS54KTR3bhS3oQLYKe6r3dO/rN+nFokoSTYxEwKRxoY7Qplg6d5CPwbnFksg
+	qGMX4mI+GyAFbFW8jfDqOC79DiC7U3qvNYueTIeb4HaIvlvA1F9zCiKFHF54bGyn2v1ov3T2PtO
+	WPtOcYslVesx3EcBJ0v3O2NH7ml8v120QoIbWX0CDQRLXeRWnaBqQrmpcMLN110liAA=
+X-Received: by 2002:a05:600c:8b05:b0:499:9240:9a1c with SMTP id 5b1f17b1804b1-49cf82787camr96628895e9.15.1788570603897;
+        Fri, 04 Sep 2026 18:10:03 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a4f2-6901-14a0-23ad-a35e-aa8c.310.pool.telefonica.de. [2a02:3100:a4f2:6901:14a0:23ad:a35e:aa8c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee5f912esm195777265e9.4.2026.09.04.18.07.15
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf75ce49esm183156455e9.1.2026.09.04.18.10.02
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 04 Sep 2026 18:07:16 -0700 (PDT)
+        Fri, 04 Sep 2026 18:10:03 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Huang Rui <ray.huang@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Perry Yuan <perry.yuan@amd.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Mario Limonciello (AMD)" <superm1@kernel.org>,
+	Yang Erkun <yangerkun@huawei.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: [PATCH] cpufreq/amd-pstate: Remove obsolete amd_dynamic_epp documentation
-Date: Sat,  5 Sep 2026 03:07:06 +0200
-Message-Id: <20260905010706.57380-1-kmehltretter@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: sysctl: Remove obsolete sg-big-buff entry
+Date: Sat,  5 Sep 2026 03:09:52 +0200
+Message-Id: <20260905010952.57451-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -83,52 +80,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The amd_dynamic_epp command-line parameter was removed. Dynamic EPP
-is now selected through the per-policy energy_performance_preference
-attribute, which is already documented.
+The sg-big-buff sysctl no longer exists. The documented SG_BIG_BUFF
+macro is only a compatibility alias and changing it does not alter the
+driver default.
 
-Fixes: 32692fcf61ed ("cpufreq/amd-pstate: Remove "amd_dynamic_epp" cmdline and "dynamic_epp" sysfs")
+Fixes: 50209dec14f8 ("scsi: sg: Remove deprecated sg-big-buff")
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 7 -------
- Documentation/admin-guide/pm/amd-pstate.rst     | 6 ------
- 2 files changed, 13 deletions(-)
+ Documentation/admin-guide/sysctl/kernel.rst | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 4a12805a50ba5..1fa37bce5bb3a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -499,13 +499,6 @@ Kernel parameters
- 			disable
- 			  Disable amd-pstate preferred core.
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index b6328cd0f43e9..d9e9b12136eb2 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1334,19 +1334,6 @@ seccomp
+ See Documentation/userspace-api/seccomp_filter.rst.
  
--	amd_dynamic_epp=
--			[X86]
--			disable
--			  Disable amd-pstate dynamic EPP.
--			enable
--			  Enable amd-pstate dynamic EPP.
--
- 	amijoy.map=	[HW,JOY] Amiga joystick support
- 			Map of devices attached to JOY0DAT and JOY1DAT
- 			Format: <a>,<b>
-diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
-index 6fd72ba52df20..4c5d3d8acf645 100644
---- a/Documentation/admin-guide/pm/amd-pstate.rst
-+++ b/Documentation/admin-guide/pm/amd-pstate.rst
-@@ -481,12 +481,6 @@ For systems that support ``amd-pstate`` preferred core, the core rankings will
- always be advertised by the platform. But OS can choose to ignore that via the
- kernel parameter ``amd_prefcore=disable``.
  
--``amd_dynamic_epp``
+-sg-big-buff
+-===========
 -
--When AMD pstate is in auto mode, dynamic EPP will control whether the kernel
--autonomously changes the EPP mode. The default is disabled. It can be enabled
--with the kernel parameter ``amd_dynamic_epp=enable``.
+-This file shows the size of the generic SCSI (sg) buffer.
+-You can't tune it just yet, but you could change it on
+-compile time by editing ``include/scsi/sg.h`` and changing
+-the value of ``SG_BIG_BUFF``.
 -
- User Space Interface in ``sysfs`` - General
- ===========================================
+-There shouldn't be any reason to change this value. If
+-you can come up with one, you probably know what you
+-are doing anyway :)
+-
+-
+ shmall
+ ======
  
 -- 
 2.53.0
