@@ -1,67 +1,67 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C38376A0D
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 19:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5951272803
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 19:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788636575; cv=none; b=edNJ/FTB5ZHwgksXMcpEOrHW+NGpRrC0ubqCvEAiVrYthPeviOiUJ2vXFUqXIzG0QVs9+Sd/JUXaD0YnggE52jGvMkCFZ+iJkpqr0NoDckJ//r6Br0NbX0rBe8Xrgbmx4NzMqTcgXi2RL35BnH3ins0p5E0Kb6yrQvXaVKViNUc=
+	t=1788636580; cv=none; b=C6Fbt81HI/vIclI/A4yos+KLzaKsrWlKlV5FIRhtfyaCwVBrHAXjk/nehvJLvmKlPDCFl4v2z2oyC1aN/ONXAKh9ySN8kqRFWok88zVG2tlrpVXif2l2xDGM47ZGsyyIagOlcN4CEpMa+bWAA0MYBm3Gl2BTL8kQNGFM1rUS67M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788636575; c=relaxed/simple;
-	bh=a0msCzSodHHUo5LvLfRIZiI9maeBlwWaS3zqrFGDqqw=;
+	s=arc-20240116; t=1788636580; c=relaxed/simple;
+	bh=ofbcNdKdX8uKfubBk8IcA8XBshBPL7jLcyqQ7jTP1nk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ntPP0on14Rwvrt3ooTYuupaqWqDVJZT/WSeSpn3hNgeYJocVb9R6feQqw3VbYWRImcVofJtcOOh1uLK9SJzhOXxmhMlCoHsHG8wUciNroy2qqfffOergQ0omBgGmqN80qFXibt+pxIJHkSvrRPBH7n4e8JQ8Li5Or3GBbeLcb8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fupXj+7q; arc=none smtp.client-ip=74.125.224.50
+	 In-Reply-To:To:Cc; b=hq/owzsustHohlzKCTBOe2zb66fLY5KTHrxgdrBQw/rC3fW/akk5xrQmYUKcIm6xXVFN2OuDPE8OJo1lsFV8NACMXZV/jMRxvcSYfNZmQQsFbZm5f0rXURlaT8EIoRV7LJyis7rl5jZni4HnqvsRudPoZMu63LE0SEwaqLUoJkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=afSu4coJ; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fupXj+7q"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-66c9995ca60so3283116d50.1
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 12:29:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="afSu4coJ"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-86b03b75fecso35131147b3.0
+        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 12:29:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788636573; x=1789241373; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788636575; x=1789241375; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=fhc3iJtISB6P0hFw3z/r/ijHfuUne/Bcxaq3qoJqnI8=;
-        b=fupXj+7qkqcbVpjLLJ40di41lvQUGX3VLRsMh2cRTMcUMceuJsdYW5/M7HP0lr85DP
-         ftiwHzLJzBYxcvspJonYBT4Bpu5mdv6pDmkhPEeWO/qRM7bOtcwwCEdUUxu3EMQ33kW+
-         +hUKcS37hKg2ocUhCQck9Ma8IhW44HVsXVg2wM9ZKMz77QdOI97RvFoBWBaY7T8Uiy30
-         A44F+X6SgUANzYmj4MZ7C3mjRlbwMJXXiQCngmsOF8luB3djT0QID6OAQqt2fHO+L9yO
-         bFV75LOqP8SH4MHDtM6IEhSFeC+0UI10TTQb5k1bfcSvlLTdNkg77+4JXfuQSj+Dbp4a
-         f+hg==
+        bh=7w+lmyyiQCKlIYYGhcG8AgW8vI6XCeGVdU/tQ/rIM9k=;
+        b=afSu4coJWttPg+LU2Rwv28BsRwtgM99tIL16m5Qhc7YkMtY4Z9Tx4+9qlEETiIlHX0
+         V12wZBAr3KV8PbFjGJgMGODfHtrIM4qbUycqH27XuTruyE3IMTd0sMWQqfeha0Qw/mkz
+         we4r2qqlIsXkPuv2GCHopBTt8MdeX17c9G3lAZZ8/l3JdJkxwzln1gVy7F5oUIVchs2U
+         m9cY82VsILQvaCvfjuB0qJ6FizArxicyMj8mMyELl4fIAZxNWHoWVeqXa6GO7xKGypNL
+         qdcMXgMowr+oO01GO0P7TeAvoLmjNzZNV4DI1VJcaZa8loBAIj9X5DozudfhHgm2B+u1
+         oHkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788636573; x=1789241373;
+        d=1e100.net; s=20251104; t=1788636575; x=1789241375;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fhc3iJtISB6P0hFw3z/r/ijHfuUne/Bcxaq3qoJqnI8=;
-        b=VsvOS/i3hNK82jvmcOFmzTLcuXCM74RshM2u/kQ1/4hiq4btEfbQFV9HxyoHP4PotW
-         3AAkXjL6qAG6QeK1OcgaKIrZ9e9bbjASygFSjm63+utSmUyKlKdXkAmF5Vw2iJmB6v9M
-         y9U3zST0DsOCQSipABS5VUT9krLCl6SHFiFQsgPcUqqqjz8pPWKd+nAUTxfktGb7F7WY
-         rdR0PUmXiasqGTEHm4R1vxB9LbmsOb8TQV74xLRa0l95lLkBl4btqot0yYikMi2n/4or
-         LcnXkysayYPtUQGRR52S9J40VSK57TBYD9oCqXmTaJA7w5nhOCVpWA7+8vNy1lnT4DmB
-         NnvQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw78bk+3GzHxlWLZSdL7l9/TQZ/ijS5au8cGjHZhY0q9Mv9eJj3DJIfmjFJUmKENUsz8r48JPZp0ss=@vger.kernel.org
-X-Gm-Message-State: AFuF++m/Gvopmhc3cGcySlsxBA5Mo0TYvSl134G1nbYBiUY2RAhHKmiC
-	T43pq7iDhyxmxXmhogi7FrVBHJCf34JRnb12zulR7pOWQ1TNWjJX0Fo0
-X-Gm-Gg: AYBFou2FqpdoqEIi11H0KbcObvuadRc8LEPxBxy+ccpRTEzQZdKyI9i6Rn3BTRCNf04
-	xvAJeo9o1+9+L06cMIdgRW8Zyvkp1Eix9GqcywPUxhRdp1xLE/VYl0hwv67WpysBr7Y8s3/Kqz1
-	mC5tIqShaPtUPZUicWO8fCAGi6eqGSSjLelfNb1PQdHdtFvAMf+UBJT+w8yF0WTrKa1QmU8qm2k
-	HjMoIO2nw3sJxJbss8tSngtgqWU/yLiyR1fFrlX/rRknGoKYQUNLR+uABAnUB/XnPnKRDpRlIBV
-	a5p+uV8f31FwxPnja5AdkNEBDJhSmRdNfkYg06EZyFvBC5qDyWp1yqkfv7hjham/zbVsh3BelUW
-	AF7ChHDIAmHXfKW/K6dFwXd98i8QWWtxMJBUt8py0b+o+TL6nhY7+m7bPalU1qPB4eLUBOgBwwb
-	leFgjB6V/k+JLBYJitia078ePijbpuCvGfcmhCGH7i2OgR+dM4tEHljFDycN6v
-X-Received: by 2002:a05:690e:12c1:b0:66d:1c2a:9e5e with SMTP id 956f58d0204a3-66fb6d8ec90mr2866274d50.19.1788636572794;
-        Sat, 05 Sep 2026 12:29:32 -0700 (PDT)
+        bh=7w+lmyyiQCKlIYYGhcG8AgW8vI6XCeGVdU/tQ/rIM9k=;
+        b=izO1pKt191JgQ5BaSnnipvn4IxOcugPRZV022qPL5jnJLz0a2E+1mO5W4reL05tpuw
+         Dh9SfR5gpuNhMUACF7x6mubiv5H+2E8ALIOMu03hP20JkbaCGNx/Tr/FGEE+hvrKdSq1
+         9a37RX+iMX53/ia2HgcxsDSDiKM8y+eUKTrj0wrxFl8VOkWuaahjk2AIOpG0KQtscxU0
+         xnCwNAmJNPMVCn/C/2XhaPteSzgzeZPS6KvUTI1Ja5kG15ZwnPgFdEP6Y2WeObFvrxE0
+         04fgidnQRadbELh4Ef9VV4kRgIboZthQcru3WLdfg4MFeDOnfCC4hxHO9LYH+YmHCbJt
+         6ybw==
+X-Forwarded-Encrypted: i=1; AKwUvBwcni/4gnJsGaeZu8htd3qrNiNah+DDKw6bNghGuU02GqiXX56VCFwpVukXFw8JQxFsX9fD/qxEasY=@vger.kernel.org
+X-Gm-Message-State: AFuF++nyVQR+Iu/QsaUUivkUeaF16kcQrMycqexPrhWN8t/feg9pFrpt
+	hkB1pLg7SVzpeeojleDFPi1DwvnyCbsEPB9mB/QzKWUN1Rq5AtBgTWDb
+X-Gm-Gg: AYBFou2mLZCbRdbGFant4k0oqfJnM+TF8JyrX2XT5nhTG0HFt8RritNX9IjkqXZQoQK
+	8D7HltxO4h6baoPhOfwvp2sNREox1/u8mCWtUHVcI6n4oTKhkjH71knBIugXtAVBd5KOGoxYBsk
+	uGoKN/UgHxw0ERmeMWgPT338KMcDUvWmHqcFOIMNHAfSGLyOgl1bPgvBySO/WUAQU/ytJAZTw10
+	0O+WQYo0uQL6esbbDnl428CukON6Pey9loglaC7ZX0dmdQ0Yf3pv4xGbAVsyH41qesWrEXhM/xo
+	R+9ATGoxLy7oM0Co4aM/MeS71ZeiI84jTylZeqFYNDOmf0etaX+xzMO4z8jN6OIsXZhZ2/5FAvE
+	tKL8h4CKFyxBu9IE96nrL0wZ8ODnl+TbF2zO6fPRjIt4x/LOOwQCLzuOHMl0KzgqKKB1xqvD+EV
+	UYFMF+v7Pb8VRtvWHqB0IVprY+9idG1+ukYSzkRO/2LmjiFW5nxURKTGoIy5vQ
+X-Received: by 2002:a05:690c:6e90:b0:869:718b:ea10 with SMTP id 00721157ae682-87125efa162mr62967287b3.16.1788636574996;
+        Sat, 05 Sep 2026 12:29:34 -0700 (PDT)
 Received: from localhost ([2600:1702:7a90:6f9f:8bc4:8aec:108d:7a04])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66fb495eccesm4997275d50.18.2026.09.05.12.29.31
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8714bef8930sm43411967b3.46.2026.09.05.12.29.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 12:29:31 -0700 (PDT)
+        Sat, 05 Sep 2026 12:29:33 -0700 (PDT)
 From: Matt Turner <mattst88@gmail.com>
-Date: Sat, 05 Sep 2026 15:29:24 -0400
-Subject: [PATCH v2 03/22] alpha: select ARCH_HAS_GCOV_PROFILE_ALL
+Date: Sat, 05 Sep 2026 15:29:25 -0400
+Subject: [PATCH v2 04/22] alpha: select HAVE_DEBUG_KMEMLEAK
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260905-arch-kconfig-options-v2-v2-3-83e8245761a2@gmail.com>
+Message-Id: <20260905-arch-kconfig-options-v2-v2-4-83e8245761a2@gmail.com>
 References: <20260905-arch-kconfig-options-v2-v2-0-83e8245761a2@gmail.com>
 In-Reply-To: <20260905-arch-kconfig-options-v2-v2-0-83e8245761a2@gmail.com>
 To: Richard Henderson <richard.henderson@linaro.org>, 
@@ -83,57 +83,57 @@ Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
  kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org, 
  linux-doc@vger.kernel.org, Matt Turner <mattst88@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1671; i=mattst88@gmail.com;
- h=from:subject:message-id; bh=a0msCzSodHHUo5LvLfRIZiI9maeBlwWaS3zqrFGDqqw=;
- b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLLm5E7ekd99/4HjhP29k1m3XUmV9ElcJqcl9Fao+wrvP
- cc1s4zzOj6yMIhxMcwUU2SJW6/IMqttx1Kf09K/YOawMoEMkRZpYAACFga+3MS8UiMdIz1TbUM9
- QyBDxygeIqfHoJFZXFyaWqSbVlDkkJdfkliSmZ9XrJdfkJpXkF6gl5aZVpKRkV9UnAo0Qi8vtcT
- U1dHNyNDAxNLRwszJwtHUxNnZydDJzdHR2dXJyNLcxMDZ0tHE1dKcgYtTAOaa5/sYGfbwtu09Fn
- Xy4fsfImICm468uviXLU5iwd3cCauu5F9ZdJ2JkeHM48itGt2/evW1mf9/yRVz7PbN4HG+9eLcq
- gVBUvfyr/ACAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1580; i=mattst88@gmail.com;
+ h=from:subject:message-id; bh=ofbcNdKdX8uKfubBk8IcA8XBshBPL7jLcyqQ7jTP1nk=;
+ b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLLm5E5e4uq8wMo/6H7fqrxf38yFeP6f/5oop3CrYfUMw
+ VnTy+9d6vjIwiDGxTBTTJElbr0iy6y2HUt9Tkv/gpnDygQyRFqkgQEIWBj4chPzSo10jPRMtQ31
+ DIEMHaN4iJweg0ZmcXFpapFuWkGRQ15+SWJJZn5esV5+QWpeQXqBXlpmWklGRn5RcSrQCL281BJ
+ TV0c3I0MDE0tHCzMnC0dTE2dnJ0MnN0dHZ1cnI0tzEwNnS0cTV0tzBi5OAZhrnL4wMnzuC/ul8l
+ ZceveOdI6XnQGbdDN/TGF6Xv3szLMTzQUckz0ZGV4KuzFdkj/SM6uJ1zu2+M+0pm1vbBZ7V+n06
+ nGvVgt+ygMA
 X-Developer-Key: i=mattst88@gmail.com; a=openpgp;
  fpr=3BB639E56F861FA2E86505690FDD682D974CA72A
 
-GCC's gcov instrumentation (-fprofile-arcs -ftest-coverage) has no
-architecture-specific runtime requirements. Enable GCOV_PROFILE_ALL
-support for Alpha to allow whole-kernel code coverage analysis.
+Kmemleak needs no architecture support beyond the standard linker script
+symbols for the data and bss sections, which Alpha already provides, and
+a scan of the kernel stacks, which is done generically.
 
-Assisted-by: Claude:claude-opus-4-6
+Assisted-by: Claude:claude-opus-5
 Signed-off-by: Matt Turner <mattst88@gmail.com>
 
-Also mark Alpha as "ok" in the gcov-profile-all feature matrix.
+Also mark Alpha as "ok" in the kmemleak feature matrix.
 Tested-by: Magnus Lindholm <linmag7@gmail.com>
 Reviewed-by: Magnus Lindholm <linmag7@gmail.com>
 ---
- Documentation/features/debug/gcov-profile-all/arch-support.txt | 2 +-
- arch/alpha/Kconfig                                             | 1 +
+ Documentation/features/debug/kmemleak/arch-support.txt | 2 +-
+ arch/alpha/Kconfig                                     | 1 +
  2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/features/debug/gcov-profile-all/arch-support.txt b/Documentation/features/debug/gcov-profile-all/arch-support.txt
-index 63494bddc263..4701209b869d 100644
---- a/Documentation/features/debug/gcov-profile-all/arch-support.txt
-+++ b/Documentation/features/debug/gcov-profile-all/arch-support.txt
+diff --git a/Documentation/features/debug/kmemleak/arch-support.txt b/Documentation/features/debug/kmemleak/arch-support.txt
+index f45149cfa313..b65b3f8c0e89 100644
+--- a/Documentation/features/debug/kmemleak/arch-support.txt
++++ b/Documentation/features/debug/kmemleak/arch-support.txt
 @@ -6,7 +6,7 @@
      -----------------------
      |         arch |status|
      -----------------------
 -    |       alpha: | TODO |
 +    |       alpha: |  ok  |
-     |         arc: | TODO |
+     |         arc: |  ok  |
      |         arm: |  ok  |
      |       arm64: |  ok  |
 diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-index 713a0c1cc930..c4da16971652 100644
+index c4da16971652..f6d1d2469677 100644
 --- a/arch/alpha/Kconfig
 +++ b/arch/alpha/Kconfig
-@@ -7,6 +7,7 @@ config ALPHA
- 	select ARCH_32BIT_USTAT_F_TINODE
- 	select ARCH_HAS_CURRENT_STACK_POINTER
- 	select ARCH_HAS_DMA_OPS if PCI
-+	select ARCH_HAS_GCOV_PROFILE_ALL
- 	select ARCH_HAS_UBSAN
- 	select ARCH_MIGHT_HAVE_PC_PARPORT
- 	select ARCH_MIGHT_HAVE_PC_SERIO
+@@ -19,6 +19,7 @@ config ALPHA
+ 	select PCI_DOMAINS if PCI
+ 	select PCI_SYSCALL if PCI
+ 	select HAVE_ASM_MODVERSIONS
++	select HAVE_DEBUG_KMEMLEAK
+ 	select HAVE_PAGE_SIZE_8KB
+ 	select HAVE_PCSPKR_PLATFORM
+ 	select HAVE_PERF_EVENTS
 
 -- 
 2.54.0
