@@ -1,280 +1,199 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE5C381AEC;
-	Sat,  5 Sep 2026 12:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788612711; cv=none; b=X90w//2WipKo2TzOraBkF+ftOpDEg/9kVgAlkGSu5uXm0Kjs/BaTJdgI+2TVviiusH2ve+iF2YgAL8Wl0/wmtHSbA44fe24OGhIKPXGqiq3vkMQ4obKcUlBYD0GACPxu+UKGjlxGcEUs4OIaTT6iBs4h3KRRrxqpZcNMiqHhFXo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788612711; c=relaxed/simple;
-	bh=fZBEpl+ftD9+WzMn7LRR2H0PLpgb46A/hgP4wZjNN3U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RZTfPdb/FAmTvpx7gNl3e0HSHu1gh9Hv2QbR1yNysGkWDi5jSHsT8494M3AzIFx9lOT7pJEhFowxzFX0f/Noqs7XxL6/wKFv2ulnjdelXfL4jtLMcK/opdh2XsWQgmvnczm/d7RtZkFZaVotiq6NNJWUZwtOegAVhtdM6+ry22M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=BKObiniE; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E16369208
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 13:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788614997; cv=pass; b=Ua5w3k3+EpmBUGHk89R0VTNBuUsaYA8RWH/TKWHQVFrkVNyRniDS0NoS3LZdUL1ji4V5iDEIYecmJMRDozo967FLCE/1BwVow4QdxL1EcYBfXqHkl4xboXIgziNJ4hMhZaNxNoepkwGGI/lGWL4EsRVrmIRCtofDBMBuU4prVhA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788614997; c=relaxed/simple;
+	bh=/qgxJ5U1XejGBgezHLiZSaJYn4KHKLTpzDVEiNZyO/M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h69GaScQEBfZFBvaeLyzMjY9d58u3grsZ20rMcJRxTadoYOMbNGmNmqzESPaFYLDOykUwcB/uvHsgqydd2Cs8BJ7Sus0WivGQiZOzgjnNRvWX+6ZXink3dDyPYcS6p+dXLEQbOy66C9k36CHn2IjzbjuIlDCWRzBlWR6PK2uvds=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C9ua6VT7; arc=pass smtp.client-ip=209.85.161.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="BKObiniE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1788612702; x=1789217502; i=w_armin@gmx.de;
-	bh=SHV1P6ptG7R+u23V4Ysb03oU0BEe7hpEAnj8gGM0pKY=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=BKObiniEo5UitAMOSu3QaQsAx+3Kik/xrriU8w2g3COu/UO3pjWd7IiJdTCshJaE
-	 +NLvn01TtlabpcS9GV67xFFc/F0kMpaFRQWbYC+Mtlt0avlwvsDz2LE2U1wu7Cc9c
-	 YncobMeyPlaVIbFmy1hYAndzOPVF3SdycX8uDmdM3nO6C8RdB382IlKflO9tpMFIS
-	 UwuWNx6ZLAM89I6sO/I9GsvClKMX/eSr+v0+uYFthYErMIak/6QydFIZ9sKI66w+4
-	 JHFX2jUFudtQk6+w1X+3iFP1PXv66R4axHR8wWwg2pX8VNDjNmzKdNYG4D0somJeN
-	 7V08nNg3PeWXylhgXw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MfYPi-1wNASE0ZKq-00dntV; Sat, 05
- Sep 2026 14:51:42 +0200
-Message-ID: <aa9f7f23-f9b2-4b54-b287-5089caa5b0c9@gmx.de>
-Date: Sat, 5 Sep 2026 14:51:36 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C9ua6VT7"
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-6b145a9623fso1033667eaf.3
+        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 06:29:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788614987; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jLfvZdRKyD4AaXUb4XJvEK+fAfGOBslSLz10rFwLQW8ekou78k9vILRhDaqN5BP0qg
+         Nlr37VGLUMF3xR0KBqkWVy46bFOj9YgzjPhZYFoBQVZcRQ6N8xWqHHHjLuD4AM9tVpCq
+         2kZZ9s7Nx6lBLwkjVrdeuXt4ALldIUKFCPVlXu9uL7QU6ZKmxcLWic9o/IJVftTVS8yM
+         3qEa19ChsdcgyrMSiinNODxNeM8Awa9+aQvFhsbkAGrWQOAqQ0DGcREgAAkJEIbOnp2f
+         F/rxjjNl9Sv9I8T/adsmHlKINHok3egozpM9RjPi6yWj1EdJ5OCmrpDzYn1PIsfkcJer
+         mCfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=byHzJnHdE3Q5NcViqCmqSPyzgollLD9/A1kajaUXPp8=;
+        fh=VWQpzKAI5JzOtabdOHSVZf2QZzal58jtmj0w17OHNTQ=;
+        b=qeRQsQCNeC75gcl7x8fJggpKdA11GEJUt2306MNc0dgQmMWdqZf3Pe0WwYtoSpNxwO
+         eEp9JKXVKWd8mIWx//id2gYD5IxKxlDTgsFWR836iPfWiGPVJrpXK3ekC72xXCzorpXC
+         ensl9WVawFEtgRF3jfKDdIZyEX6L4GM2ObFjfu3KKmMRWxPJHFrcUXI11W+vaj5Vxk7q
+         eV5UPRrzJOOyE627vtPgyVDNiW+Z9Y20iTxBENZfxrB+naNUvoJD5C9y2Raf2KECqbSq
+         75heZM5Vq6AjakXPNOXjyMd2hPajPSww3c+ApZ4yDlNy8qntJ7N08aqOILU4fTcAjaku
+         Mleg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788614987; x=1789219787; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=byHzJnHdE3Q5NcViqCmqSPyzgollLD9/A1kajaUXPp8=;
+        b=C9ua6VT7OeGDYijrihI8mmFOQX0vyzLOGeZID1wu04Z0VcDVdJ6N7OX025BZdvXBGZ
+         srIKUhxDumOUu2pGD4jfs90Gfc5IM0dRaXB4hNin+mFZnrs0G5VYBrVLnu5IjPqylHjU
+         oh7XhMfjc7ALR0Rgs6FC3fgAfd4pEH3cnVo/VG7xqRPr3HHn3bCLbV98L+hjdgi9bB35
+         yN2L+/TPRHpsrTRmGw5ho2dqJ2zoHIraL3894Vc15rnGfGh50fxgVR7aUk1fWfEa0aR/
+         iebhE9+IUsJkBrVoO1RZFrOCOpU6eaJor1W14KrThADgHSzJe0G73O8BXw7UNFTP88ss
+         JTaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788614987; x=1789219787;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=byHzJnHdE3Q5NcViqCmqSPyzgollLD9/A1kajaUXPp8=;
+        b=JURh5wkKdeSpOnuyCd16Q/o5YtKIBhjublr7cr4gBSQJvpxbweuUqEr8oTC0mZ2m2x
+         +0J6XUJ3terONF/EVOc4GJDC8hGSalsZzuQesoxtGp1v2badFy0eDj3oBkUUteTrDRpG
+         0gIee/fHVe4tTW1IOjruWPpOb3vNg5beh0uIS7HiboGCF9TEHsoFe2LtZP0OfmpcBkBB
+         /jr92dJagv6FKrUeCNplhBFWV2/y6HrDrnMPNoqcjKr1qmqOXnZDMlAobuidNGDGI7ma
+         hIZcVG5xPM40yESTmFm57XSwU702sKamqh5TrlcybHShQps2W5CNqTqkSn/1xGjBNCR0
+         5zaQ==
+X-Gm-Message-State: AFuF++moIQrhbBNKdUTBj/Lb6dCg78DVWL/h1L5p5uQ4vQqPp8/WeiB6
+	lLOK0W+uToELjjM8waRuByRa52WhDKj2RILnJecLydiewVo67rdE29xUOfyniOxUBM18qo57g4n
+	bfjtTWncEKDKi3IXVLbexqz7CaoBYxlI=
+X-Gm-Gg: AYBFou3IJ8QrKmsW6UFKKfrpj0BkDhT29VO6ChsNSipSANf5LzFlKta4x/4TS7EL4wl
+	0oNLA1QEdxJTGxYqerL15Tt9SuXyYJZeJ3pvcw4KwTNZvrLz2EJf/KUjfZ94wqapSadncVBpi0m
+	4NB5u8wn/jdjKkhUi/UCf+pYK+1Tsv07ee9gO2TrmThZxwjMvC70KcLTMMzZhgf1RaYw2duwG7B
+	juNiNO2Pc7WJ9ZDTQktwau7YMqS+R8WsOmVgzEXLUsx2tCHOqM8HGKeRL2L37621NN3tNAWdLoc
+	XHcznv6//NE/y/yfEfOW+rx+bFCsuGiUHyYBHJuofCArnHurxFcMFhY=
+X-Received: by 2002:a05:6820:c2ce:20b0:6b9:4557:2722 with SMTP id
+ 006d021491bc7-6b945572d29mr452883eaf.3.1788614987087; Sat, 05 Sep 2026
+ 06:29:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>,
- linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
- Johan Hovold <johan@kernel.org>
-References: <20260904-bind_taint-v3-0-30025465f38a@linuxfoundation.org>
- <9ac44f3f-1c67-4c37-aa72-255cec1578d2@gmx.de>
- <2026090546-skimming-bundle-0655@gregkh>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <2026090546-skimming-bundle-0655@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:1NWvXrOnyY4yTMWSXL+19xs600GcA51qQobbj7K0JkW6LBBPYb9
- 4u7awno/6zhMzp/1HZKbRNne5TbOBj1OpwIeZoHuxKbHNQTTSfY63fOfrjsmu0b4tJH9dqJ
- XTkx71nSpA1z9rqlcXhgNGBZrPJ0Hypb74JlACvwG4kcgM95KJH7DjPAcxN/QVcGMGlbqMR
- YNOlDAmC4DVNAbxj7PJuw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:dCtG4xomR7o=;P8RWS2bItmyPlVeLrQxkyu3EZQS
- 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
+References: <CAMnqnYxPHeXo6CsuKRGH=oixAsAa0z1_++266yzKW7qR6cqykw@mail.gmail.com>
+ <apqWn2EoguCwX5po@wyuan.org>
+In-Reply-To: <apqWn2EoguCwX5po@wyuan.org>
+From: Jiaming Ouyang <jiamingouyang13@gmail.com>
+Date: Sat, 5 Sep 2026 15:29:36 +0200
+X-Gm-Features: AcwNN1XynqJWLvedk2B5geFbTmyxOx8KybE4He9IXxPP6qvqQ7Itf5Mp39uTORU
+Message-ID: <CAMnqnYwSKeTHi41iesHxJo1b_GGKWkFzfavJHWtEqxD0St3oBg@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: add usb/ohci translation
+To: Weijie Yuan <wy@wyuan.org>
+Cc: linux-doc@vger.kernel.org, "corbet@lwn.net" <corbet@lwn.net>, alexs@kernel.org, 
+	si.yanteng@linux.dev, dzm91@hust.edu.cn, linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="000000000000f298db065abc6060"
 
-Am 05.09.26 um 13:27 schrieb Greg Kroah-Hartman:
+--000000000000f298db065abc6060
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Fri, Sep 04, 2026 at 09:46:59PM +0200, Armin Wolf wrote:
->> Am 04.09.26 um 07:10 schrieb Greg Kroah-Hartman:
->>> The ability to add and remove devices from a driver through the sysfs
->>> "bind" and "unbind" files was created all those decades ago as a way
->>> that kernel developers can iterate faster, and provide a debugging way
->>> for users to attempt to add a new device to a driver without having to
->>> rebuild their kernel.
->>>
->>> This api over the years has been abused and recently come under a major
->>> fuzzing "attack" through tools like syzbot which decided that it would
->>> attempt to just randomly bind any driver to any type of device, causing
->>> loads of unneeded errors and pointless kernel patches to be generated by
->>> unsuspecting new developers.
->>>
->>> Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
->>> will be set on the driver if the bind/unbind sysfs files are ever
->>> written to.  This lets kernel developers "know" that a user is
->>> attempting to do something that is not normal, and as such, if the
->>> kernel breaks they get to keep the shiny pieces laying around on the
->>> floor.
->>>
->>> The flag is 'Y' which was unused, and can remembered as the user is
->>> "yeeting" the device being operated on here (thrown with force without
->>> regard for the thing being thrown).
->>>
->>> Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
->>> as many times crashes/oops/warnings/failures happen within the callback,
->>> and the taint flag needs to be there to show what was being attempted.
->>> If it were to be set after the callback happens, the oops report would
->>> not properly reflect what foolishness was being attempted.
->>>
->>> Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
->>> the tool from hitting bind/unbind, should be run with panic_on_taint
->>> enabled so that they fall over and don't continue on, thinking that they
->>> actually found a real issue.
->>>
->>> Userspace operations that rely on the bind/unbind files to work around
->>> the lack of will to upgrade a kernel image to a newer version with
->>> proper support for new devices, or the lack of will to submit valid
->>> device ids to driver authors, will still work properly, but now the
->>> kernel will be flagged in a way that will show that perhaps those users
->>> should reconsider their behavior and work to have the drivers properly
->>> support these devices in a "native" manner.
->> What about users that use driver_override together with vfio-pci? AFAIK
->> they still need to write to bind/unbind.
-> As I state above, that is an abuse of this api.
+Hi,
+
+I think this .patch in attachment will solve this problem, and the
+commit information has been modified according to your feedback.
+
+Thanks.
+
+On Fri, Sep 4, 2026 at 12:00=E2=80=AFPM Weijie Yuan <wy@wyuan.org> wrote:
 >
->> Also i always liked the fact that the bind/unbind attributes make it very
->> easy in creating generic drivers. In fact, i am intending to use this feature
->> in order to add netlink support to the ACPI-WMI subsystem in the future.
->> I am planning to realize this thru a generic WMI driver that has to be manually
->> bound to a given WMI device to make it available over netlink, so having
->> users be able to write bind/unbind without potentially triggering a kernel panic
->> would be very nice.
-> It's a taint flag being set, not a panic, showing developers that "hey,
-> the user just did something odd here, ask them about it when handling
-> this bug report."
->> Additionally, writing into the bind attribute still checks if the driver and the
->> device match:
->>
->> /*
->>   * Manually attach a device to a driver.
->>   * Note: the driver must want to bind to the device,
->>   * it is not possible to override the driver's id table.
->>   */
->> static ssize_t bind_store(struct device_driver *drv, const char *buf, size_t count)
->>
->> Because of this i would suggest that the taint (if at all) be added to the
->> driver_override attribute instead, because only with this attribute users can bind
->> random drivers to truly random devices.
-> I had thought of that, but the force removal of drivers from devices
-> wouldn't show up this way, which is one of the things that we do want to
-> warn developers about.
-
-IMHO drivers that do not support this should rather just set suppress_bind_attrs.
-And drivers for busses that do support hotplugging must support surprise removal
-anyway.
-
-Would it be possible to only taint the kernel if the underlying bus does not
-claim to be hotplugable?
-
-> And, if we just did the driver_override taint, it would allow those
-> drivers who claim to be "generic" like you are referring to, to keep
-> "getting away with that" when it's obviously not true that they can
-> handle any device for that bus, otherwise it would have automatically
-> bound to it already (and no manual intervention would be needed.)
+> Hi,
 >
-> By keeping the manual configuration of bind, you are forcing userspace
-> to manually do work, while still a possible thing to do, now at least a
-> developer who gets a bug report will _know_ it happened, which is why
-> the taint flag is there.
+> On Sat, Aug 29, 2026 at 08:48:07PM +0200, Jiaming Ouyang wrote:
+> > From 395948212144549e20cfcdbd053817c4e068da35 Mon Sep 17 00:00:00 2001
+> > From: Jiaming Ouyang <jiamingouyang13@gmail.com>
+> > Date: Sat, 29 Aug 2026 20:35:37 +0200
+> > Subject: [PATCH] docs/zh_CN: add usb/ohci translation
+> >
+> > Signed-off-by: Jiaming Ouyang <jiamingouyang13@gmail.com>
 >
-> Does that make a bit more sense?
-
-How are users supposed to select between multiple drivers for the same device
-if all those drivers claim to support said device? Assuming i have a generic driver
-and a more specialized driver that both claim support for the same device. How
-can i control which one is ultimately bound to the device without using bind/unbind?
-How to utilize driver_override when another driver is already bound to the device
-without using the unbind attribute?
-
-Also drivers that claim to be generic while obviously not being able to handle all
-devices are themselves broken, not the surrounding mechanism that relies on the data
-being supplied by the broken drivers.
-
-Maybe we should instead fix those drivers to stop claiming to be generic? Do you know
-the names of some drivers that are affected by this?
-
-Thanks,
-Armin Wolf
-
-> thanks,
+> 'git am' complains:
 >
-> greg k-h
+> error: git diff header lacks filename information when removing 1
+> leading pathname component.
+>
+> So I guess probably you don't need to include these email headers in the
+> changelog/commit message?  I'm not sure, but you can take a look at
+> relevant docs for this.
+>
+> Also, instead, please write some meaningful info in the commit message,
+> see:
+>
+>   https://docs.kernel.org/translations/zh_CN/how-to.html#id13
+>
+> Thanks.
+
+--000000000000f298db065abc6060
+Content-Type: text/x-patch; charset="UTF-8"; 
+	name="0001-docs-zh_CN-add-Chinese-translation-for-usb-ohci.rst_v2.patch"
+Content-Disposition: attachment; 
+	filename="0001-docs-zh_CN-add-Chinese-translation-for-usb-ohci.rst_v2.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mtof30jg0>
+X-Attachment-Id: f_mtof30jg0
+
+RnJvbSAyNjMxNmVlY2ViM2RiZTQyYmQ1OWNlZDk5YjhkYWMwMmZiODU2MTM4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBKaWFtaW5nIE91eWFuZyA8amlhbWluZ291eWFuZzEzQGdtYWls
+LmNvbT4KRGF0ZTogU2F0LCAyOSBBdWcgMjAyNiAyMDozNTozNyArMDIwMApTdWJqZWN0OiBbUEFU
+Q0hdIGRvY3MvemhfQ046IGFkZCBDaGluZXNlIHRyYW5zbGF0aW9uIGZvciB1c2Ivb2hjaS5yc3QK
+ClRyYW5zbGF0ZSBEb2N1bWVudGF0aW9uL3VzYi9vaGNpLnJzdCBpbnRvIENoaW5lc2UgU2ltcGxp
+ZmllZC4KClRoZSB0cmFuc2xhdGlvbiBjb3ZlcnMgT0hDSSBkcml2ZXIgb3ZlcnZpZXcsIGhhcmR3
+YXJlIHByb3RvY29sCmRpZmZlcmVuY2VzIChPSENJIHZzIFVIQ0kpLCBpbXByb3ZlbWVudHMgc2lu
+Y2UgMi40IGtlcm5lbCwKcXVldWVhYmxlIGludGVycnVwdCB0cmFuc2ZlcnMsIGFuZCBub24tUENJ
+IHN1cHBvcnQuCgpTaWduZWQtb2ZmLWJ5OiBKaWFtaW5nIE91eWFuZyA8amlhbWluZ291eWFuZzEz
+QGdtYWlsLmNvbT4KLS0tCiAuLi4vdHJhbnNsYXRpb25zL3poX0NOL3VzYi9pbmRleC5yc3QgICAg
+ICAgICAgfCAgMiArLQogRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNiL29oY2ku
+cnN0IHwgMzcgKysrKysrKysrKysrKysrKysrKwogMiBmaWxlcyBjaGFuZ2VkLCAzOCBpbnNlcnRp
+b25zKCspLCAxIGRlbGV0aW9uKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90
+cmFuc2xhdGlvbnMvemhfQ04vdXNiL29oY2kucnN0CgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
+bi90cmFuc2xhdGlvbnMvemhfQ04vdXNiL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNs
+YXRpb25zL3poX0NOL3VzYi9pbmRleC5yc3QKaW5kZXggZGY5OTgxNGM2NDk3Li5jOTZlYWNmMTNl
+MTEgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3VzYi9pbmRl
+eC5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNiL2luZGV4LnJz
+dApAQCAtMzIsNiArMzIsNyBAQCBVU0Ig5pSv5oyBCiAgICAgY2hpcGlkZWEKICAgICBkd2MzCiAg
+ICAgZWhjaQorICAgIG9oY2kKICAgICB1c2Jtb24KIAog5b6F57+76K+R5paH5qGj77yaCkBAIC00
+OSw3ICs1MCw2IEBAIFVTQiDmlK/mjIEKICogbWFzcy1zdG9yYWdlCiAqIG1pc2NfdXNic2V2c2Vn
+CiAqIG10b3VjaHVzYgotKiBvaGNpCiAqIHJhdy1nYWRnZXQKICogdXNiaXBfcHJvdG9jb2wKICog
+dXNiLXNlcmlhbApkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04v
+dXNiL29oY2kucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNiL29oY2ku
+cnN0Cm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAwMC4uNDM4N2JiMjc0MDcx
+Ci0tLSAvZGV2L251bGwKKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNi
+L29oY2kucnN0CkBAIC0wLDAgKzEsMzcgQEAKKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBH
+UEwtMi4wCisKKzpPcmlnaW5hbDogRG9jdW1lbnRhdGlvbi91c2Ivb2hjaS5yc3QKKworOue/u+iv
+kTog5qyn6Ziz5a626ZOtIEppYW1pbmcgT3V5YW5nIDxqaWFtaW5nb3V5YW5nMTNAZ21haWwuY29t
+PgorCis9PT09PT09PQorT0hDSempseWKqAorPT09PT09PT0KKworMjAyNuW5tDjmnIgyOeaXpQor
+CivigJxPSENJLWhjZOKAnempseWKqOeoi+W6j+aYr+S4gOS4qlVTQuS4u+acuuaOp+WItuWZqOmp
+seWKqOeoi+W6j++8iEhDRO+8ie+8jOWug+a6kOiHqjIuNOWGheaguOezu+WIl+S4reeahOKAnHVz
+Yi1vaGNp4oCdCivpqbHliqjnqIvluo/jgILigJx1c2Itb2hjaeKAneS7o+eggeS4u+imgeeUsSBS
+b21hbiBXZWlzc2dhZXJiZXIgPHdlaXNzZ0B2aWVubmEuYXQ+IOe8luWGme+8jOS9huS5n+iOt+W+
+l+S6hgor6K645aSa5YW25LuW5Lq655qE6LSh54yu77yI6K+36ZiF6K+75YW254mI5p2D77yJCivj
+gIIKKwor5a6D5pSv5oyB4oCc5byA5pS+5Li75py65o6n5Yi25Zmo5o6l5Y+j4oCd77yIT0hDSe+8
+ie+8jOivpeaOpeWPo+agh+WHhuWMluS6hueUqOS6juS4jlVTQiAxLjHkuLvmnLrmjqfliLblmajp
+gJrkv6HnmoTnoazku7blr4QKK+WtmOWZqOWNj+iuruOAguS4juiLseeJueWwlOaXqeacn+eahOKA
+nOmAmueUqOS4u+acuuaOp+WItuWZqOaOpeWPo+KAne+8iFVIQ0nvvInnm7jmr5TvvIzlroPlsIbm
+m7TlpJrlj6rog73lip/og73ms6jlhaXliLDnoazku7YKK+S4reOAgumZpOiLseeJueWwlOWSjOWo
+geebm+S5i+WklueahOWFtuS7luS+m+W6lOWVhueahFVTQjEuMeaOp+WItuWZqOmAmuW4uOS9v+eU
+qE9IQ0njgIIKKwor6IeqMi405YaF5qC45Lul5p2l55qE5pu05pS55YyF5ousCisKKwktIOaPkOmr
+mOS6huWBpeWjruaApzsg5L+u5aSN5LqG6ZSZ6K+vOyDlh4/lsJHkuoblvIDplIAKKwktIOaUr+aM
+geabtOaWsOWSjOeugOWMlueahHVzYmNvcmUgQVBJCisJLSDkuK3mlq3kvKDovpPlj6/ku6Xmm7Tl
+pKfvvIzlubbkuJTlj6/ku6XmjpLpmJ8KKwktIOmAmui/h+S9v+eUqOS4iuWxguKAnGhjZOKAneah
+huaetu+8jOWHj+WwkeS7o+eggemHjworCS0g5pSv5oyB5LiA5Lqb6Z2eUENJ55qET0hDSeWunueO
+sAorCS0gLi4uIOS7peWPiuabtOWkmgorCivigJxPSENJLWhjZOKAnempseWKqOeoi+W6j+WkhOeQ
+huaJgOaciVVTQiAxLjHkvKDovpPnsbvlnovjgILmiYDmnInnsbvlnovnmoTkvKDovpPpg73lj6/k
+u6XmjpLpmJ/jgILlnKjigJx1c2Itb2hjaeKAneS4reS5nwor5piv5aaC5q2k77yM5L2G5Lit5pat
+5Lyg6L6T6Zmk5aSW44CC5Lul5YmN77yM5L2/55So5LiA5bin55qE5ZGo5pyf5Lya5Zug5Li6SVJR
+5aSE55CG55qE5byA6ZSA6ICM5a+86Ie05pWw5o2u5Lii5aSx55qE6aOO6Zmp44CCCivlvZPkuK3m
+lq3kvKDovpPmjpLpmJ/ml7bvvIzlj6/ku6XpgJrov4fnoa7kv53noazku7blnKjmk43kvZzns7vn
+u5/lpITnkIbnm7jlhbNJUlHml7blp4vnu4jmnInkvKDovpPpnIDopoHlpITnkIbvvIzmnaXmnIDl
+pKfpmZAKK+W6pueahOmZjeS9jui/meS6m+mjjumZqQorCistIOasp+mYs+WutumTrSBKaWFtaW5n
+IE91eWFuZworICA8amlhbWluZ291eWFuZzEzQGdtYWlsLmNvbT4KLS0gCjIuNTMuMAoK
+--000000000000f298db065abc6060--
