@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1DC17C203;
-	Sat,  5 Sep 2026 21:30:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C407130567F;
+	Sat,  5 Sep 2026 21:33:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788643828; cv=none; b=q8yEFV5dQTLJNkVw/aO9SR8/8/xbsQImG87Q0casxSGPoUgZ+HdZ+GQjiYUkQCXUgsFApCucOoir4yh8fPB4frcmMnVLfAGax3tJGmqoNo7C+kH3fh4p7fvhAp23usu6i+v1v+ydD3VqkNc53sP2jseU6XYAkcxqw5o4fJIuM/0=
+	t=1788644014; cv=none; b=fBNpIHC+i5BNZ9lFu5tGDA8592cbH2gbLw/vWBi7uNTtCpmOlCyaM7MGfTgwVTZ8nqh3JRCL2H1YUVCIWyHChG4l298+365svbiaizLgKEGaFNsI9H+P8vtJvXZxT+DfHdSUuQ+UWJjfafYznybL0nFY+iIE27NBQ026+JnsUwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788643828; c=relaxed/simple;
-	bh=ADIeX0b/Z1MSFV35rrSlUD6o4B7Qsu/LwJr8u30uiBE=;
+	s=arc-20240116; t=1788644014; c=relaxed/simple;
+	bh=nMcIZDaz9P6YdZuk4NTAeD7iuucBcT+K/0Mx4g+BVCw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=skytHB8M56wZqtXbYar86JHGeNYK3bn8ZnLIwH4Geblqb0Nmj9NlOqMEin09BxZVEW2CmYRAoMQRnfmRcd7IQtWpaqP64xbSSn82TvswJYaNDBMYWruMrGwmwo4yBGYJhceB27CZv5WVr4wwj5NtvA4rI2WjmXoJ49tIkgaITsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bENKsbHd; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=gTIK0foed+Vs4OGQj9o5eslJDNRaibyA5d/5VyGpqxcpoGeYDTWJ/ELbN+Ec1aBFilqvJeN+D5swQCo3pvnFM65lzKdXtk72t1jki2egSe0RPc+nLww6JbtoeVlTpyjsIbGcj65Aeaxr3D1bA0zEtDlQIHYzduhZAXftyGwZB5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qM+Zt6l7; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bENKsbHd"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qM+Zt6l7"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=gc5MQtXVsiNYPaYMh7CzDXLqpr76YYaGFfFr/RDjf9Y=; b=bENKsbHdHc7z9DqmCCxhoBgEkp
-	4U6F6cXEPlgO5EQKQNkhcEj4hwWgaf6tWZypoSl+QGkrM2D2oDhZpooKxr2o7T8OBKm+d0DxauomJ
-	ixqSBif68UoCzaEOhB5HoD1MzHi2ujJMypC3nTf0yPMeCG3yiEzQq04zJvS1FObK9Vvcjle/JzN/9
-	ZJw3uVDDCAaOCIjrAPCmZVlHH0DshPDxUa0rRbLnTqw3nBC/cfyTtBkOVFJ42CczHqiTnzV3bmNTI
-	2GfqYE3ESAd3q9kZELSiQk7TXEB3IHb7PMngunWQnB333R809Tge1ROdD6Wd0lqQsKPVlThLZEPPq
-	59gNoI+g==;
+	bh=QpF39hniDTQuoy0euIv85pXwDNYc1GpquiCShFxAM/c=; b=qM+Zt6l7dch/x9ZG6GPN3KJyW4
+	ax4/vllnBeSp+O9tAnsYRhfg8KJmsFn7mSodDFgGf2RgQEAUZP2LD7P4shDAqenB4IQnY8cZRA6mw
+	56Rsy4ZjxHoEmdpFajqcJ4v6KcSweV6T50VbArNfR4+lK3uOEzB4rq/Uan+NWGbI18GYmJyWyGGoW
+	kzeYXAZadMyD5PwrL0YIPMTSLc6wMShng9IYXhbUNLj457/Xw2eMf9sJDiKSj9dPDGxQOV1otyPpW
+	01RfGnACjsjET2b2iCj11dor5bJqINPJBt4DPM2/2eSYSD2V9QqCgGmtND+F8BFlS2PGthHdIhfMU
+	35SlN+hw==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2xxu-00000004QUT-09mS;
-	Sat, 05 Sep 2026 21:30:22 +0000
-Message-ID: <7f1f350f-29a3-4bf2-b08a-f0bdc285aa43@infradead.org>
-Date: Sat, 5 Sep 2026 14:30:21 -0700
+	id 1x2y0x-00000004Qlg-0Ks3;
+	Sat, 05 Sep 2026 21:33:31 +0000
+Message-ID: <a9eb3030-3f51-45ef-a675-94c1b2389555@infradead.org>
+Date: Sat, 5 Sep 2026 14:33:30 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,85 +39,58 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Input: yealink.rst: Fix typos and word order
-To: Manuel Ebner <manuelebnerli@mailbox.org>,
- Henk Vergonet <Henk.Vergonet@gmail.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260905063335.792618-2-manuelebnerli@mailbox.org>
+Subject: Re: [PATCH net-next] docs: networking: page_pool: Use
+ page_pool_put_netmem_bulk() in the kernel-doc directive
+To: Karl Mehltretter <kmehltretter@gmail.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>
+References: <20260905084711.40105-1-kmehltretter@gmail.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260905063335.792618-2-manuelebnerli@mailbox.org>
+In-Reply-To: <20260905084711.40105-1-kmehltretter@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 9/4/26 11:33 PM, Manuel Ebner wrote:
-> Improve readability.
+
+On 9/5/26 1:47 AM, Karl Mehltretter wrote:
+> page_pool.rst asks net/core/page_pool.c for page_pool_put_page_bulk().
+> Commit 024bfd2e9d80 ("page_pool: make page_pool_put_page_bulk() handle
+> array of netmems") renamed the function to page_pool_put_netmem_bulk().
+> Since then the directive finds nothing and the bulk release helper is
+> missing from the rendered page.
 > 
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> CC: Randy Dunlap <rdunlap@infradead.org>
+> Use the current name.
+> 
+> Fixes: 024bfd2e9d80 ("page_pool: make page_pool_put_page_bulk() handle array of netmems")
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+thanks.
+
 > ---
-> [v2]
->  add ']' instead of remove '[' as randy suggested
->  fix a couple more issues in the file
+>  Documentation/networking/page_pool.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> [v1]
->  https://lore.kernel.org/all/20260904121026.759218-3-manuelebnerli@mailbox.org/
-> ---
->  Documentation/input/devices/yealink.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/input/devices/yealink.rst b/Documentation/input/devices/yealink.rst
-> index bb5a1aafe..79ac21690 100644
-> --- a/Documentation/input/devices/yealink.rst
-> +++ b/Documentation/input/devices/yealink.rst
-> @@ -81,7 +81,7 @@ Format description:
+> diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
+> index 817f8b78d246..d0be2b800a06 100644
+> --- a/Documentation/networking/page_pool.rst
+> +++ b/Documentation/networking/page_pool.rst
+> @@ -83,7 +83,7 @@ that NAPI context, the page pool may safely access consumer-side resources
+>  		 page_pool_get_dma_addr page_pool_get_dma_dir
 >  
->      Icons or pictograms:
->      '.' : For example like AM, PM, SU, a 'dot' .. or other single segment
-> -	  elements.
-> +          elements.
-
-Why this whitespace change?
-Does it make a difference? does it matter?
-
+>  .. kernel-doc:: net/core/page_pool.c
+> -   :identifiers: page_pool_put_page_bulk
+> +   :identifiers: page_pool_put_netmem_bulk
 >  
->  
->  Driver usage
-> @@ -120,9 +120,9 @@ Reading /sys/../lineX will return the format string with its current value.
->  Writing to /sys/../lineX will set the corresponding LCD line.
->  
->   - Excess characters are ignored.
-> - - If less characters are written than allowed, the remaining digits are
-> + - If less characters than allowed are written, the remaining digits are
-
-s/less/fewer/
-
->     unchanged.
-> - - The tab '\t'and '\n' char does not overwrite the original content.
-> + - The tab '\t' and newline '\n' char does not overwrite the original content.
-
-s/char does not/chars do not/ at a minimum.
-I would s/char does not/characters do not/ and split that line
-into 2 lines if needed.
-
->   - Writing a space to an icon will always hide its content.
->  
->    Example::
-> @@ -205,7 +205,7 @@ Troubleshooting
->  :Q: Module yealink compiled and installed without any problem but phone
->      is not initialized and does not react to any actions.
->  :A: If you see something like:
-> -    hiddev0: USB HID v1.00 Device [Yealink Network Technology Ltd. VOIP USB Phone
-> +    hiddev0: USB HID v1.00 Device [Yealink Network Technology Ltd. VOIP USB Phone]
->      in dmesg, it means that the hid driver has grabbed the device first. Try to
->      load module yealink before any other usb hid driver. Please see the
->      instructions provided by your distribution on module configuration.
+>  DMA sync
+>  --------
 
 -- 
 ~Randy
-
