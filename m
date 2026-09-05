@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F62539E16C;
-	Sat,  5 Sep 2026 02:45:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C53EEC0;
+	Sat,  5 Sep 2026 02:48:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788576336; cv=none; b=dfe7jwVrJjujaNowdg7zLoxEHax4uAjiU5u2BvzE5qlCH5koTlrAXoWkOju4/tFdB9TYapkAOl2TfTPuKufBpP6oiqLsgvDy4oWp3lBMM4jGX5Z39OHTDHjPheXQoWFyTCyUbIfUJTbCxkPQ0D051UtB/EQMEUoOMj0ya79ooz4=
+	t=1788576512; cv=none; b=AUC7AZgAMc3SASNn0LhVzpVpzNxsWcLYTml1DZeD0ROa21W8uH/xmtU7796Urw+Pr2jMk2YSP3XwuhESOSjbTsz5QD6MmR4YZoZphblLo+kl1Le5CS7p07tM+7/VW1HdbwNiGmpHBCZI7CrjmQmGyr8ottdeXtud7fDjxldhOPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788576336; c=relaxed/simple;
-	bh=1q1lbuv/E5oQ7vafHBsHsaHKHwqb1DcXXqGrYYLTLJI=;
+	s=arc-20240116; t=1788576512; c=relaxed/simple;
+	bh=e/YXyx8KyxLCzBjLU8vgVttmKHSWe/7oJ4mzQmbb3iQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=afrpphqk529Uzh0KqWJifWM6ydutqcS204AA7Y0kvkeJtXAeJfTs4QeNj95uIXPuDCSmfmz4PWCNaXa3CIQxYGpTi2jyisoCQStDwRMMOasaXMOMQrwhbg154O/iYoIpfnQQeAv/BHZ3j6ocLo+SRpm9ImfYU4eJJoi//e5UD3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=W3z0JK+n; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=a5f0pOJfXsGmCmk926fCSjCS5o1txsgweKlrhhgcqgWQSWyHblaI0YTaZ5HPwYSC8njGkA51ubRyhxDiY6T0yPMFFE5q7+M8JL3Pi8l5qC+LmRgpIeC/aVYkUPO+prZl0g0ORNAkUc0fylBQMX8bZNz4D/X9u4LqpnhMQyINaVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=w/LW6chj; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W3z0JK+n"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="w/LW6chj"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=bfTKRiuoUxnIvVqKGOdKuv9fLbVWUs1+16Z2ifSaOak=; b=W3z0JK+n9q59wWuFLfarXq4rXn
-	KmcBTyLeeGRRnpzm46zWv8KmykPrXvZxWtoM1WidP/R6NL5J2isje2lo4b8D2F6Py6jkP5cgcOVKw
-	DRcNRGp4BhSmfCDJllO7mqWCLriw2JWRZX8T+OkZ3pd8EmRWYaTj/fjrGoeAi4wIhhe8WldtKyxlz
-	D7v+5GV6RMBV8AfQMPc3trk2Ak2XeRDqbr/Z0LUxncpNmYNsYqUByhq7YGlRFQbNfuJYq0O4vqpfG
-	2oWUGsqsvk/48dqQO+Gk9QrbuZ/tb0ca58vu2KsEjAgeCA+5pdxpyO0qpFTeBkPrLiLUa3m+xCV9M
-	rWi8Q7bQ==;
+	bh=vMpZI+pJagT1cx1negrKlYxH4dLDONTkOeJo5RZ4BQk=; b=w/LW6chjJ9lcLpJ+XnebboKDbd
+	oXYguIFBQ1dMRbNDkfhJzl15pUH9IDWEFtG3atqKoB1D4p40tWYOCRgUZ7OCwwiFqaAPfx1XjkXvr
+	88EYQxX1CaiOxiSKlL3ihgQAJTG4tDx28V+wYsCAX5cjXdUfkRnG7BGUsPy1RFvFA1qRy1JiGa1Mx
+	3VJpdbP9VN1QzuVfmsOQ0bBIhalZ9m6Lt/9IOssdnK4E6ljKfhF1LPV1xn+lUPoIe/s86wKxjMfSe
+	Y6/z/mX8LiGr457/nv0CRRdYe3bkvFLGzfDvpZ/7x0ODW4GOdfxoYVkP0N6vRTTOpjXqyFRPV0eU2
+	zv9dNGww==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2gPM-00000003c2J-1G1C;
-	Sat, 05 Sep 2026 02:45:32 +0000
-Message-ID: <08821c36-416f-4905-becf-cf463c3e707c@infradead.org>
-Date: Fri, 4 Sep 2026 19:45:31 -0700
+	id 1x2gSD-00000003c8i-0gwl;
+	Sat, 05 Sep 2026 02:48:29 +0000
+Message-ID: <35795a92-fb24-4458-b558-9881bad8266b@infradead.org>
+Date: Fri, 4 Sep 2026 19:48:24 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,28 +39,29 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: sysctl: Remove obsolete sg-big-buff entry
+Subject: Re: [PATCH] docs: KUnit: Fix qemu_configs path
 To: Karl Mehltretter <kmehltretter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Yang Erkun
- <yangerkun@huawei.com>, Bart Van Assche <bvanassche@acm.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Brendan Higgins <brendan.higgins@linux.dev>
+Cc: David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Sadiya Kazi <sadiyakazi@google.com>, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, workflows@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260905010952.57451-1-kmehltretter@gmail.com>
+References: <20260905024455.83413-1-kmehltretter@gmail.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260905010952.57451-1-kmehltretter@gmail.com>
+In-Reply-To: <20260905024455.83413-1-kmehltretter@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 9/4/26 6:09 PM, Karl Mehltretter wrote:
-> The sg-big-buff sysctl no longer exists. The documented SG_BIG_BUFF
-> macro is only a compatibility alias and changing it does not alter the
-> driver default.
+On 9/4/26 7:44 PM, Karl Mehltretter wrote:
+> The example path is written "qemu configs"; the directory is
+> tools/testing/kunit/qemu_configs. While at it, make the verb on the
+> same line agree with its plural subject.
 > 
-> Fixes: 50209dec14f8 ("scsi: sg: Remove deprecated sg-big-buff")
+> Fixes: f13ecba04bab ("Documentation: Kunit: Update architecture.rst for minor fixes")
 > Assisted-by: LLM
 > Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
@@ -68,33 +69,22 @@ Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 Thanks.
 
 > ---
->  Documentation/admin-guide/sysctl/kernel.rst | 13 -------------
->  1 file changed, 13 deletions(-)
+>  Documentation/dev-tools/kunit/architecture.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index b6328cd0f43e9..d9e9b12136eb2 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -1334,19 +1334,6 @@ seccomp
->  See Documentation/userspace-api/seccomp_filter.rst.
->  
->  
-> -sg-big-buff
-> -===========
-> -
-> -This file shows the size of the generic SCSI (sg) buffer.
-> -You can't tune it just yet, but you could change it on
-> -compile time by editing ``include/scsi/sg.h`` and changing
-> -the value of ``SG_BIG_BUFF``.
-> -
-> -There shouldn't be any reason to change this value. If
-> -you can come up with one, you probably know what you
-> -are doing anyway :)
-> -
-> -
->  shmall
->  ======
->  
+> diff --git a/Documentation/dev-tools/kunit/architecture.rst b/Documentation/dev-tools/kunit/architecture.rst
+> index f335f883f8f6..dc291c6187a7 100644
+> --- a/Documentation/dev-tools/kunit/architecture.rst
+> +++ b/Documentation/dev-tools/kunit/architecture.rst
+> @@ -167,7 +167,7 @@ Documentation/dev-tools/kunit/run_manual.rst) or use ``kunit_tool``
+>  - ``configure`` command generates the kernel ``.config`` from a
+>    ``.kunitconfig`` file (and any architecture-specific options).
+>    The Python scripts available in ``qemu_configs`` folder
+> -  (for example, ``tools/testing/kunit/qemu configs/powerpc.py``) contains
+> +  (for example, ``tools/testing/kunit/qemu_configs/powerpc.py``) contain
+>    additional configuration options for specific architectures.
+>    It parses both the existing ``.config`` and the ``.kunitconfig`` files
+>    to ensure that ``.config`` is a superset of ``.kunitconfig``.
 
 -- 
 ~Randy
