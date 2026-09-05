@@ -1,116 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD61D51119B;
-	Sat,  5 Sep 2026 18:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6014AFE2A;
+	Sat,  5 Sep 2026 18:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788632022; cv=none; b=Wnvd7x2MHNlpfT8n1epnn6nS+ZjYXUMgeKE9o1pw8x6JatVvK+AvL0MRpgiaiGXL6y1XH8nW+v17rXf03T4PeRD9+lB/ZfozH3/wbxjn3L2sgxjANYdrp1Xp8zbfIfC/7mezWy36XMdHevjZBjA/tx0lxPBU5U7ji0YWDezubKg=
+	t=1788634289; cv=none; b=GzQl6TkdXeClOnZYRlljvsQLaUYlxAsF5hsvfoTy9VUNRE4T5pnzTf5GOUTqpdCGTlhZrbaXbKFgzQJGGjyDrlTdsQOmnZGuQ7Onf7o/rpEwB5s6bk1OGtyyJrpem8qdKEoEeXx6otawA63Fkw/Wko7dxWt+1EfETUQlMeNClvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788632022; c=relaxed/simple;
-	bh=fC7n4U4iWcN+wuv31CXLIRYZ7eQCB/FlWmwHbrnvw3E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=P6APPjoMFTJeW/bCmPF+8RvEr7UujVzs5uiYON6f5H8IbvkwbUoFZ0sI772rfpqAj1w+kcjpPnZHjOjDGHgoD4Ilcx+AncFlQGL65/2nMD7ZmHy8UvUgSFnkYAvUnImLM0jRFTPXJskLJe3MQy7hP+vrwyZJcd3YOi0V+Olq2cU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FXusjgM8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1788634289; c=relaxed/simple;
+	bh=ofRB7v39ubcw+Y/8Vz/QMz1zIkNRg+f+DK6oNCvx0tk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DtJaNCDZe1mwSZILN0K9WiZlrW8q+MHXL7qtjnMwnkUbfTsAWa1T2L7eYTVYPbvZIQxo56eUEuwOgb4UbDyVUsHhGgKSw/tOFCSUMW1Yw2R95Xp1tDH0i6mcCfZUekPPqZf6n/5yI68CNhtUiMN/rT4tTc+kCoo2lczyXgDhllo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Fjeu0EDH; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FXusjgM8"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A247AC2BD04;
-	Sat,  5 Sep 2026 18:13:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788632022;
-	bh=fC7n4U4iWcN+wuv31CXLIRYZ7eQCB/FlWmwHbrnvw3E=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=FXusjgM8O9tljOe/xjvgtL3pRAK8HRcKNQn+2ZN4LV7uuYZFYWkLhv1uj3ce6VizM
-	 1BsVvLUFMjemgMjUNCRRGAN6+xLzHtman1kIiGxAZQqGB20da0VcvEZqvU5zvwSPn+
-	 GEpI77ehDjBMsJErwX7zo1KdVXWnoCxDO/Wb4Dw5pRFIOYqgJojlqQlMDjjCGECd6W
-	 HMkhkbNJEMB/fQRGcrKzF5DjIQ4GGkRXNrzT3PrAdLlM9XRuJVQSLMWLstCvw0ONyK
-	 ZsKnWMe2sF1IKx/SuIzB6hZ9mOqgBIRzVqqpP3ygcSz5gZtJnIOhKwlB+MA8rc0jmL
-	 /CtSXh1X3Qxug==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9004BC79F99;
-	Sat,  5 Sep 2026 18:13:42 +0000 (UTC)
-From: Jim Cromie via B4 Relay <devnull+jim.cromie.gmail.com@kernel.org>
-Date: Sat, 05 Sep 2026 12:13:57 -0600
-Subject: [PATCH v8 43/43] selftests/dynamic_debug: Prime params module with
- +p in FT_comma_terminators
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Fjeu0EDH"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B28E340E020D;
+	Sat,  5 Sep 2026 18:51:23 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id oSbgdzpBFeS3; Sat,  5 Sep 2026 18:51:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1788634273; bh=hXOMrLP4Jcf3qb5J5x0VYBAY8+oENz4ptR3d/QTvXLI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Fjeu0EDHJFgKNW5CFsNfbhfUsVkaD/II9wBzUdjPy19Qz5c9qCWHt2GaqETLRyYfl
+	 ozqt388uOm5DJ1buXKFpNR6t2K5InO+k8x3sAc8omTSmaNIiNvOz2EU7pcx4cW7Co2
+	 bj9uSPWz7aAU5Sn0rEMJPg9fIAhy1icFtlUJrbtz7OwM3WnDixfLv6CEnxgkdXuAnF
+	 0jtCEXsX8O3iFXdpwooOfexHl7CYQg56dl8DRlRz3iTEDawCD69QFp7ViRfGeeSFpL
+	 olO0RACzUr4cBADYRA431hoROmDyfR0FF4HbaInqPRITvYFkZ+d9+jpDJiku5+Qnu2
+	 4rrOfrNE+8gmY5VVOmmWd6XtVVZvq4LV2K8eUnfuy7IH4EiGbIO3/VZeh1hug1fk3h
+	 /yMd3cdqNcfruu4oOPod1hE9AzjYIXhsJ+ztpuQrKAQRuZQid1i8yJ98tMZ4t4CMKK
+	 +f8EnC9RHcTRmYlRv0bZCqQ62a/2hfY5RYywF9+9fjorjR2iVBZwF8LBHrpPOB/uUL
+	 hZCABu7vIm3QmM+bvYHH/zABlwXwyE6Q+wYyGqADUyv2oaTQvK3q9S6/+EW31L4pRF
+	 BNRZSFgLovezUDQlCyRJG9oPzyNLR63CPReK/jD1NU3Rydjw/VKFTK2yxl96ZyecU5
+	 gjEhHE0HJ/GN1J4OZO2cA31M=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D806540E02C2;
+	Sat,  5 Sep 2026 18:50:40 +0000 (UTC)
+Date: Sat, 5 Sep 2026 11:50:37 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Andreas Kemnade <andreas@kemnade.info>,
+	Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-m68k@lists.linux-m68k.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Steve Wahl <steve.wahl@hpe.com>,
+	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+	Mike Travis <mike.travis@hpe.com>, Tony Luck <tony.luck@intel.com>,
+	linux-edac@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, linux-samsung-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Tony Lindgren <tony@atomide.com>,
+	Kevin Hilman <khilman@baylibre.com>, linux-omap@vger.kernel.org,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>, linux-ide@vger.kernel.org,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Michael Schmitz <schmitzmic@gmail.com>
+Subject: Re: [PATCH v2 3/9] docs: kernel-parameters: Drop the edac_report=
+ entry
+Message-ID: <20260905185037.GDapxkfbPNUxJgaMH8@fat_crate.local>
+References: <20260905094649.41996-1-kmehltretter@gmail.com>
+ <20260905094649.41996-4-kmehltretter@gmail.com>
+ <20260905151345.GAapwxqT93wPWHF7u4@fat_crate.local>
+ <apwzmSr6b0WEkW86@gmail.com>
+ <20260905153336.GBapw2UFa7Sdc0ve_A@fat_crate.local>
+ <871pb7zn36.fsf@trenco.lwn.net>
+ <20260905162742.GCapxC_ra7hJd27LDR@fat_crate.local>
+ <apxDtqM8UMN5KNjs@gmail.com>
+ <20260905194720.7033b956@kemnade.info>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260905-dd-cmap-part2-clean-v8-43-a4cc0674f6fd@gmail.com>
-References: <20260905-dd-cmap-part2-clean-v8-0-a4cc0674f6fd@gmail.com>
-In-Reply-To: <20260905-dd-cmap-part2-clean-v8-0-a4cc0674f6fd@gmail.com>
-To: Jason Baron <jbaron@akamai.com>, Shuah Khan <shuah@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, 
- Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
- Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org, 
- linux-modules@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788632017; l=1753;
- i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
- bh=0bPKrMOveW2DXDWbNxuLf+xV+IKUyruuyqM/WCqrbOA=;
- b=E07+vsTmo4Qxkl+wWUBCjQViaHe//qAwFizWF/bRP2M6r3UuVXxEDV45xLfCTCpHJrGh/Y7dM
- wvTr/9OKqgVAzttaPB63yn6gA2rh50JakNdxoZcGOuiN6kVLexwoXhH
-X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
- pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
-X-Endpoint-Received: by B4 Relay for jim.cromie@gmail.com/20260203 with
- auth_id=958
-X-Original-From: Jim Cromie <jim.cromie@gmail.com>
-Reply-To: jim.cromie@gmail.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260905194720.7033b956@kemnade.info>
 
-From: Jim Cromie <jim.cromie@gmail.com>
+On Sat, Sep 05, 2026 at 07:47:20PM +0200, Andreas Kemnade wrote:
+> > That's for "not getting any answers" which is not the case here.
 
-In FT_comma_terminators, ddcmd "module params =_" was executed immediately
-before ddcmd "module,params,=_" 'kernel/params.c'. Because flags were
-already cleared (=_), the second command produced a zero-length diff,
-causing verify_after_change() to fail due to expected fingerprint drift.
+No, that's the case ALWAYS. If you spam maintainers with too often
+submissions, you end up achieving the opposite to what you're trying to do.
 
-Prime params call-sites with +p prior to testing comma delimiters,
-ensuring a valid +p -> =_ state transition diff.
+If you spam me way too often, I will send you to /dev/null because you're not
+the only one who needs attention. Just imagine you're on the receiving end of
+multiple tens of patchsets at any given time and everyone needs to have
+her/his reviewed first. You'll do the same.
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> > Sending a vX update sometimes feels more urgent because you don't want other 
+> > people to read your buggy old version.
 
-diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-index eeb5018d6f82..d581b4e1cc80 100755
---- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-+++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-@@ -479,7 +479,7 @@ function FT_comma_terminators {
- 	echo "SKIP - test requires params, which is a builtin module"
- 	return
-     fi
--    ddcmd "module params =_"
-+    ddcmd "module params +p"
- 
-     ddcmd "module,params,=_" 'kernel/params.c'
-     ddcmd "module,params,+mf" 'kernel/params.c'
-@@ -675,7 +675,7 @@ function GOLDEN_RECORDS {
- #K= bede904b02278e5648bb7a8243be8d98 FT_path_module_queries.2
- #K= 4b902c159d7f08f91377bf0a353e0051 FT_path_module_queries.3
- #K= bede904b02278e5648bb7a8243be8d98 FT_path_module_queries.4
--#K= 68b329da9893e34099c7d8ad5cb9c940 FT_comma_terminators.1
-+#K= 3dbf634bbf0364431b3c99f6a294eb14 FT_comma_terminators.1
- #K= 99985cce918eb5108ecb3658249f6bc7 FT_comma_terminators.2
- #K= 68b329da9893e34099c7d8ad5cb9c940 FT_comma_terminators.3
- #K= 85f93d30f4006c99a806639970b92f20 FT_comma_terminators.4
+That's not a problem - everyone sees when it is buggy and if it is not clear,
+you can respond to yourself and say that it'll be fixed in the next one. We
+all have done it - no problem there. And if you document it, everyone is clear
+what's going on.
+
+> > But yes, some patience is also good there. 
+
+With the amount of work all maintainers are swamped with and no one really
+helping them out with patch review and testing, patience is the only virtue
+here.
+
+> Well, here it is a bit border line. You do not have answers on all patches,
+> so technically it is some resubmitting.
+> 
+> But if the main maintainers (which is a bit harder to say in this series) found
+> time to review, than IMHO (also seen from my maintainer perspective), improve
+> as soon as you find time and submit the improved version.
+
+If you want an earlier submission, feel free to ask the person.
+
+In the general case, though, one should do a good testing before submitting
+and all the issues caught after that, one can work in in her/his next version
+locally and perhaps even state so.
+
+Maintainers feel a lot better about a patchset when the whole evolution of the
+patches is done on the mailing list and is documented. But shooting out a new
+pile every day is just too fast, too much, too unnecessary.
+
+I sincerely hope that explains it better.
+
+Thx.
 
 -- 
-2.55.0
+Regards/Gruss,
+    Boris.
 
-
+https://people.kernel.org/tglx/notes-about-netiquette
