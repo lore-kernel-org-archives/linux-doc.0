@@ -1,63 +1,64 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB49233943
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 09:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A3E33F5B3
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 09:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788602136; cv=none; b=lOKmEKoEVQpBpHvG5VQRW9W9IjWd6D+ea2danMYUXOTlrNRspD16jrtIyrTwniR+8gNqh2nQtRrsLkuLQ/GU1MFu3E9f4fJfCdUs4d1vuXpD6DBctTj05A/L8Jj6hPB1dUWqMFT8cG23PRdY5PD24JtnYAd72BjCEWep0chMVZ0=
+	t=1788602227; cv=none; b=rM/K9TiHn7f7KaNqeMmB+3RbxNgfJ7qK48nzX9VibH5AG9tzSDfxd28p80svt3gyI4GynTtaQKW2W7rov2HZ3lrU3Y2hlV2hSRUxs50Gyi8FFPMKu+1BGpBOMfHsVIJ/yLcyiGXJ2gBKRugImayKY8f/8HC2XjJjKoae/0XE5iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788602136; c=relaxed/simple;
-	bh=eRQAAXlWAMROkoD7OBw5ouB2i6O1eypSFuIjNF/KGNU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oguZxrGXYAqzReP6MogoUjCpHoQ8x8binWdQxKWo+rA4B0WRrXOjUulZDIl6c8c+VDeUR4XfCVkRVnzsf2H79zEvK0aBaloP6UbkmfOHOchRwMwNHnG/k61JV47TmYxEFa8d3tYMWUCeozESQBJAMbCfo/3SddIopTWhPzGXnA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G90UtnqV; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1788602227; c=relaxed/simple;
+	bh=fM50RelpZlPxGOz1H09/Lq54iXhKsyPkRZjYqpWNmCU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kPzlCd4sTFqi8O6yuuJP/WIYXdHV0w/F8BKQ/QGSICnF3ciye5QMy8xXfMT8o2yAWvAj+ScwiuMOVFRQrtJbji3UuGNI1ZLfsJut3UHnlvCnUaHwxNEDOCvu84diUAL+kg9HpxqIwVn9XVIkIXWRNvzhD6Zc0offjb8j1NiEu8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FeYmdCdD; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G90UtnqV"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so23848095e9.0
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 02:55:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FeYmdCdD"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49b8e527d63so22814765e9.2
+        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 02:57:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788602133; x=1789206933; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788602219; x=1789207019; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Uinq+jcxQ1Le4rWdm3YmLWDbX4aGYVSl5HMyLui+hkg=;
-        b=G90UtnqVLKjal8yi294rsHIj+3GB0u/VHCLm0Y5jO6X+r5W9d4SIWfH8tn6ywdUi5k
-         CrFAQxpH7jvDvsBf/cyb8Csjd3NtLEzcwn+4SfwTJO/gV74Sk4Y2/gCoL2swne1Ltwt/
-         7QEI1l0Z8RPijvWc/CnKr+/MsMrdqC+Mg/q3tHeE6FOt8RHazYJ21qFtbxtzyVGzNHg6
-         JChk2InpPHbaEtH8HigA70LuKgbTAZiBJmMQambRnDCXAL+5NXMCpnzhQ63qh8wlPCoG
-         q+IjHC12ZtPDDJUn+NN+gdrqmF1rjF04iDcFtGHwODjTnt2hl4nrtXCRpUNg0No5dx0a
-         b7cA==
+        bh=ayz/e09YuiQeSDHoY+u/lzDfVtJfvbORC9PNu8Y4WPc=;
+        b=FeYmdCdDM3HycuN6kG0lAtQMnWyhzZChHRcURAZwGacmlKF57187eEakaVhFU9Uj02
+         3owSNZECHgZ5GNjSbRGA1UDT+DFVPSc90AIsoxgdlw35UPtv3uhV4o9Xpp+LGjgyE80b
+         RIb7LkWR5tvZATBIXU/zB/W9nqPGfrY71FJnpGeJjAN6LFMuRSuThBI6I7+GEETQukrj
+         poNcR1vEVVb0SYLdJECrnTmeWpZqbvZt3YZXBwqkt7WPgxVMWHAgZdJFGWS6h9iGLDOG
+         eTcWmMLWzaqY1rOJ3VOAKZK0eo80rO4OkA3bpLLhrjghN3lmA2sEWIJnNP78y8c+YuV8
+         kuEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788602133; x=1789206933;
+        d=1e100.net; s=20251104; t=1788602219; x=1789207019;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Uinq+jcxQ1Le4rWdm3YmLWDbX4aGYVSl5HMyLui+hkg=;
-        b=XIvYl+WadBHj3QWs7LwOS15HtitUVd4zgnr9tWZjAzECzsOyi9V6rL6Jd/Vl4Ckris
-         6OSS/KTnufg9VOKVwiF93mHhhxb5lvxOopP9vSweJQLU0/6bwkNz4NiT9p943FTwxItL
-         C7MMo7DZ0IgXhS1dz/zbG1HqGhfOktDFwXynoemReFAyaw0AUH7NVQ8f3m5j3RIhyukf
-         Kg+3yZ16TnqocKKqmNCbcQ4lCb75fudXhukaLJ715wSSNCiyGybwfHqaYae74L/v3Wky
-         IvW8Es0PN+ZiiPH5hpk+/G/meAar0CPoZmTZuJPlb5PSMH5twiKEwJiflKuaatQ5EASs
-         bufA==
-X-Forwarded-Encrypted: i=1; AKwUvBye2ERMydGU3bPqa5Ofza2djdR0FcPj8Z9OMbcxAreXXr6Nn7ZkH6rcAetcrPzuj4jRSah0QeBEqr0=@vger.kernel.org
-X-Gm-Message-State: AFuF++maA+E1fVidim/cDSDEbud1+pUvBz/sWXiyzTt0ggfMHtQdODMQ
-	XxiPbOfd1/uUPnrpiVAP7MhGLCk5NnfUEWT6jUAYdD31a6tEolVe4gKY
-X-Gm-Gg: AYBFou0gnucpeqJxUwASU4bIY1hXl+RDU5NWAJ1xz+4sIZ7wvZHE0zy0ZDPL+drsegg
-	UARD3MSB8P8p9VFFaUWRgbnsRcj0TEPGGVArr9yZjT1Tq4xHQdVYy71SLw0smQgtn9QfMsUmo5Y
-	Orh/vB7vdaJZah+jHezrBwuJJjchLIHMdLnuby356m5Acj2GXaZ9PPUQ6tFWUaveJZhTVsg8zpL
-	+Y3F5k8ncknxLupL+QHh72CIV99XYKOsdszaw7arwtNWTFoqUrnPXq74uI/FbGs1AVnbwiTxEta
-	ZiheVOPBNbapc8xdffGqgFcUYYtoIR0zUvYnzRR495xJA+VO55y0T3eD+f7rB2u7rBoGMj0q8WX
-	nPOKjrLzQwqVsn6+AzFEkQPf+omIdBJn9vwkArgJfe12sBhMa7apkTKqJ2az9SAakzMs8vV29Op
-	NFW3KyFp5lg/1u0DT4xAup2+yhTvHyL8jU8VaQSeKmm2tD42c/7U34TQBG/gDmRGyz197dnvCXN
-	b0UiPgqeCfB6C25skuqVXTfLWPsiUPd7mnJVXHkFloBJG9i0ni5ItVzocFvAojGrogiXUxPChis
-	Vz0bPKO9tRfeK9lqyoNkj2YPYygIRlGJcDjX//Obv7OuLMu1LI0rYKialk6Apw3nXEM=
-X-Received: by 2002:a05:600c:3b8e:b0:49d:7f5:4cdd with SMTP id 5b1f17b1804b1-49d07f55332mr5523515e9.27.1788602133188;
-        Sat, 05 Sep 2026 02:55:33 -0700 (PDT)
+        bh=ayz/e09YuiQeSDHoY+u/lzDfVtJfvbORC9PNu8Y4WPc=;
+        b=cQ33gHElkHoaWTqpkVHopg8G8Sqkcr9dv3dnC5XIYRWxym3ZzAwCJvGEcnh/r8GKGe
+         K7MRrmJMEA771WN9KQG8XWtWGxBCsj185xKDmSaRFHNVnk2pjEkMK6fsMmT8hWbrhHuL
+         xKXx9MulFhv95XZkkibPpmPzyfeYBexBIf3GVNKZWFRL8FsgoFtDS2v2+ffS9X1wduCU
+         ep6pTPFG8tUs9vZu+aNMX5E2aJ3/rj8LlCOpe5lQtd/TJ2rkagWKlzNsI6gXSzNs+2a/
+         YtcJxy4tkU4yjCHbCWNJ6ZX1feCuOJlJ1DOhwsnt9+ukZuq0zIl1AHXzb6KNP0olWrrJ
+         QV/Q==
+X-Forwarded-Encrypted: i=1; AKwUvByU7SArDiSQcMoYL6dSJKnRdAzir72qKhXz0WBq3mr0iuY6q/EqIxq5Tk5BCQ91m1PiRb9J3sU+/7o=@vger.kernel.org
+X-Gm-Message-State: AFuF++mNZRl3LPGvEPvRfu/vPesCtQO4ASsAmVacn/6JwqpRWEzvk3RP
+	/l1HqVlgSmaRzmcWG4GGofXLO5nEVihuGsuNVWQIVRtkx6DQDN//vvdq
+X-Gm-Gg: AYBFou3p8OhucZPtxKp/g+/Mr1/2UcWwzCf0EDAHfgjtcHPiZdh2OYeqaTOnslngxC8
+	NJjpeerWYU4p+yJM7B9n/MqNv6ZvLnXSSFlgwX8YG0IWG1KG6CZlSAkcu9F19TFaiEFlGD/7jVp
+	CBv+ezuw99JrdSbh4HpdlHXSc0g2Wx4lva+1vV4KlhynptmR84do5jZmRJ1iUGsc5L0vFcHDTTg
+	OqWeqD0NGJu4dBFk1UqHv2wKdO9cdiobzQzDwiVTHEM4BfMyf30XZtm1uD9Kx9yNHYoFPRP4eNJ
+	MJrFZAtelxkiyt9a2R1UYprX/UmdvIaHorkWOuBtjj+B9VJuVoRqWuyLyU03SNtA5cC4E1pHu52
+	Qi+Le2VgPnO8QZbq0tJwjvT+DwTW1pg1NQTD05/JoXQN7/FZP/vD54VAb47hM9SI/l0ITRsZ+q4
+	SqK31MHu+471fhnc36WbB2LGnlQGCpYewW26bZTmTEtg6v4X/KdHsQ2ZiDWc7hS42riX5YFUNbd
+	mmVPhiFzjZmLDJEYkNnllyAWL/p4k/yuQGf32gFbSCxtoMWdngYi2oVgDyT9UZ2+sYx+wqcreux
+	Nd/3InI8Czu+Zd2QJCcCzbG9m6pLJJ8+Ml3U19XRnbQwsxSFiYsh12Ne4ZksFOB8xBDdBevOElg
+	/rw==
+X-Received: by 2002:a05:600c:548b:b0:49b:92df:87be with SMTP id 5b1f17b1804b1-49cf81f3655mr113590565e9.4.1788602219327;
+        Sat, 05 Sep 2026 02:56:59 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf755c22esm135325035e9.0.2026.09.05.02.55.31
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d057f4778sm32077245e9.8.2026.09.05.02.56.58
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 05 Sep 2026 02:55:32 -0700 (PDT)
+        Sat, 05 Sep 2026 02:56:58 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Alexei Starovoitov <ast@kernel.org>,
 	Daniel Borkmann <daniel@iogearbox.net>,
@@ -73,11 +74,10 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	David Vernet <void@manifault.com>
-Subject: [PATCH bpf-next] bpf, docs: Fix the struct bpf_cpumask name in kfuncs.rst
-Date: Sat,  5 Sep 2026 11:55:27 +0200
-Message-Id: <20260905095527.42261-1-kmehltretter@gmail.com>
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH bpf-next] bpf, docs: Fix the struct btf_var name in btf.rst
+Date: Sat,  5 Sep 2026 11:56:49 +0200
+Message-Id: <20260905095649.42351-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -87,30 +87,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-struct bpf_cpmuask does not exist; the name is struct bpf_cpumask.
+struct btf_variable does not exist; the name is struct btf_var.
 
 Use it.
 
-Fixes: 027bdec89364 ("bpf/docs: Document the nocast aliasing behavior of ___init")
+Fixes: f063c889c945 ("bpf: add specification for BTF Var and DataSec kinds")
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- Documentation/bpf/kfuncs.rst | 2 +-
+ Documentation/bpf/btf.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
-index 85f73e0bbd0f..57831eda0a33 100644
---- a/Documentation/bpf/kfuncs.rst
-+++ b/Documentation/bpf/kfuncs.rst
-@@ -536,7 +536,7 @@ For example, for the following type definition:
+diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
+index 3f05f17990ad..004aa1058d85 100644
+--- a/Documentation/bpf/btf.rst
++++ b/Documentation/bpf/btf.rst
+@@ -416,7 +416,7 @@ If the function has variable arguments, the last parameter is encoded with
+   * ``info.vlen``: 0
+   * ``type``: the type of the variable
  
- The verifier would allow a ``struct bpf_cpumask *`` to be passed to a kfunc
- taking a ``cpumask_t *`` (which is a typedef of ``struct cpumask *``). For
--instance, both ``struct cpumask *`` and ``struct bpf_cpmuask *`` can be passed
-+instance, both ``struct cpumask *`` and ``struct bpf_cpumask *`` can be passed
- to bpf_cpumask_test_cpu().
+-``btf_type`` is followed by a single ``struct btf_variable`` with the
++``btf_type`` is followed by a single ``struct btf_var`` with the
+ following data::
  
- In some cases, this type-aliasing behavior is not desired. ``struct
+     struct btf_var {
 -- 
 2.53.0
 
