@@ -1,67 +1,67 @@
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FE339A4C4
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 19:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F37A3B8120
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 19:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788636605; cv=none; b=mGmN8qiS4BKupNt/xizegVOa6jmDUkl+yMRYuZgwGZboG/NTkle2sHEIKwHtH0iLTkuQ04LA27PT9/XIZJj9OaYLoLm0v02rACegCSFnh+mpZuMQ3tM1JsPR8I46DjJ79ODXtcBaE/XyVql5O5n9OocqCSzJeTUJdeef+aq8+o0=
+	t=1788636606; cv=none; b=IEQOYeOTw7p6fMWODMNPa4lBKmPak60fa9cHqzS7RkMg04sID5YptIeY9ixgfpGcwc0BTF4DcD1mx6Q64JR/e7GU6BRrWp+FHSZirPWo3uI3SBCPukxsHIYxIJZi0o3IXgw4K00FW9b6vzy7gXCuQcsa5V5FSpWm7VR06tIfQes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788636605; c=relaxed/simple;
-	bh=0GRem3x0eG8/JNIZxt1RyVxWMXssFfZh5/KCyC2lVHw=;
+	s=arc-20240116; t=1788636606; c=relaxed/simple;
+	bh=qrjdKgOfiKlVqpd955ImNGsDNT2gjKCr1YxX8TKeUE4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=flFFnsoSIq7JQ4REgTXO2WvLh5YtvSU4wTQAc1wTEUeA2EHdMjvfdODAtgjvHD4e1bNJkLdBYbEG03t/gPNuNNA45AJbEaA3vDqufyYfif1sGG9BAXrFClVJGO5GROrXyYc34ofCTCJhDspz9YuEy3rOJ4SFtEMb3bT4H1arOkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ppij17w2; arc=none smtp.client-ip=74.125.224.42
+	 In-Reply-To:To:Cc; b=dm0qEtqHEfDYOxuWRw8CA+L1I8lzExNzXDjS4MOebVBdZdVQErZEAi4smn+S4PqJKrF2zuqJxkF+5HQKZr9Jqvt604M7vYOYG4rCjkYNGoIDP6XKMMo+Mci6O3CUi8dsz8cIg2cLy9cCUdYsWrouj2+Wb14ZSVj0ULoQ7Nm3GNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kqaBPQ7B; arc=none smtp.client-ip=209.85.128.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ppij17w2"
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-66fa996e65bso3856683d50.0
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 12:30:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kqaBPQ7B"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-86b03b75fecso35134847b3.0
+        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 12:30:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788636601; x=1789241401; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788636603; x=1789241403; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=0fiXFhN915XCDpLLqEwuBtY6yraW5XJOIEkrimuJC6k=;
-        b=ppij17w2i/HDryJOEmveVztBnE0EQkWwTc0yDpNRiThHY5QPoVtl/sLN0E5jLfnaxT
-         AcIaMd6XV3VN70nfT8OnmIqPMkACcTuvpCOFSx++m/yJjRmepmT2EuIh3K4JoYiAVPyr
-         JjrEMVeqKABugcUApQlIs7GPO9i9IPEr6wbuQ4ZLmvkMy/gGPPCGYvvh5mtYX9hvv3KX
-         ER16KB/wfX0qan+31Z/qEhS77rvGpB/lANmo1dOCkU8TxNYJ0gZGhUzSfljL9nYTOQKa
-         C9VTq9Vw8rEClt7kETuFtpM3T8wdnO0KEROZUZxDps9Ahx2fJh4MVeqw8i5X49ZL32u1
-         IhnQ==
+        bh=VqyBgw8DXZ4Qanhy+S2yq9brLoyk1/YXyp0HTo9TDwE=;
+        b=kqaBPQ7BmsqbwdYCXq4771rKioMgD+1cKvexceNOvqrNtoEwx/qCurbQ7JBafU/MF8
+         EiWz8C0zX2YK6VDHqGmdTilzHQJR9X7K2rt9ial2IWt1+OY2dFbH7Oqcr1ALUG8jo/qJ
+         7ud2nHh2QIKdEYKCALXyRm+HQBMGC20p3KkkBF60BEVXCLm6DWttU3AZJroJr+QBP2s3
+         xXHbbZU+T1E29bX9tsEhWq9RBvL+d0ttNkV4XqwItxtI2BoPC5AJiYG/r6h1vzMfGLw+
+         CmDpJWIsKUCM57MboPIF7ZT57m2DNsq9Tkcxhu5UlakoJ8QLnt3FGOiAjRXUug+z9pNW
+         JojA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788636601; x=1789241401;
+        d=1e100.net; s=20251104; t=1788636603; x=1789241403;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0fiXFhN915XCDpLLqEwuBtY6yraW5XJOIEkrimuJC6k=;
-        b=raVIOf1a1ZQjNZp/e1qoaIbFDhLKfMZYRcBy1CNHkWzbXoMv9JWLDO2y97BT3QxnvG
-         L4Fj8CyxGFxjPDYEOX3AnqP8wYaaUCsUwVhqH0N/P6UGTtq/e1LZjj0mcfpm8nvraOMz
-         X/A1t2WCHhnfRsLtZ3eGDIEBQN6wwl6tt/PJvM+TnDO/lq3QF3FLGkZPngC9UQqUotFL
-         6Y8ThwvqBNY1uGiXylz7+AEZE/decaiVHe6gli8Fyn6ju20CBUwWIonTQW9Co+M9sINz
-         DCBe6pCv1PXyqFodLcGxtjAOoLtEol/1B3ivnTcJtxVvmDMA7yRKpnkK6U7b3XTrmqRW
-         bVqw==
-X-Forwarded-Encrypted: i=1; AKwUvBzOGJGh5gxwPCThHzx+lt6WK2Wt+RrwQZnnMkp8KA1uv+NmMTsB7xJ+4EeCNe4/U9GbqXda8QqD6C0=@vger.kernel.org
-X-Gm-Message-State: AFuF++nFlWWGWy4qBW6PdueNyiqx1Zy+y7osTQHp+MH46Hz9OtQaRHbe
-	YE5cyGku/PDaYx5oL9zVZNcW7fkch1bxmrWbt1PvZ5yaiSGJYUhgUBGO
-X-Gm-Gg: AYBFou0ReVfi3opHetTP094CWTBR7OuMFISiAOWdTTlyJ1aWtYQ9c3Pz2K+3/tCRWDt
-	mkGv7zn568J/NuoVu6RMd647foVM0yziDJNcLVTiC69ATFwaCX2MzxaCr4O73BypmYXUHtJS3XK
-	aWcUYxrXxX8sBCZz6umpi3CuXwwO5p0uLdibR8bhAQgzrVv97qRGeiHASOXUA1uN3gDY7NvJMDq
-	W4ykSA8t9dJVCvl7nUFCwScvczLHwkyKnbau0Plge/nxz48HzPlsCzarsoguL1RstuKwiKAj67j
-	B/FxqZm8G0+eJCmo/isP6u+buTf/x5KHGzlEHgRsWbJMNgxwqqbJsEeOB9ZMFF0uq787rVm0TxD
-	lXNpkrJijo1/+Kr5ThQX1JUBdr3d9jZ78daNurSjYb6Q2hvAvim+3NTdaSgEReENU52GybCwhlV
-	+sQA3uqi7zFW4dNV81RWPQIhMl39igTd6Ye6E5Jygxu8evVGohjDkE3vp/9BHb
-X-Received: by 2002:a05:690c:c4f9:b0:874:f21c:2a0d with SMTP id 00721157ae682-874f21c35c3mr9439987b3.69.1788636601317;
-        Sat, 05 Sep 2026 12:30:01 -0700 (PDT)
+        bh=VqyBgw8DXZ4Qanhy+S2yq9brLoyk1/YXyp0HTo9TDwE=;
+        b=NPYFO/xgbxeB5hih5/L6wsSANrJoxAXs65KfJUzWLoI0x6tK/ipODwCU5YcO4vLSIE
+         0Pz/lxBNBipwr3z5uqYXOi/sPkxBkzPdkB3R1u7540yHRA1Pz+1k0w7OEztyIPX+tSDL
+         e+Ln/7TB5s56jJUUQMAgWA2T2CzOTPkV58e5zcJYrGOlTpkTWsFJDsPaCbyHr1Gegq/R
+         hFR60rAOMz74pxbnZZ+CRT+iVbkGpBsoW3HMkwsxUEfccUjghxac1MRlq70Ti+2GZL/a
+         iP/hPAY3n74tw39pb9D20oArx88On/iFl5Sef6AjSO3VCEUx8J2a44qwRBThoQ3khxtb
+         yIiw==
+X-Forwarded-Encrypted: i=1; AKwUvBxHjhIGO1vbuCJW8Edi/ksCER8rwRJNS4t9+kZyT8cE46wI2bwZ+ukolNMWc8v3fSE4eS1YyznOxC8=@vger.kernel.org
+X-Gm-Message-State: AFuF++mTL5JAB2OO4ixpmH7BwtG+P3qwQH0om7UU08RzUYBNU3T7AaQ5
+	dRk49jKHUQD3di4f11zFAdpqVebl7UYomnQA68mBXH4yWEeU7JvMxbrq
+X-Gm-Gg: AYBFou3YvPrTb7MMoG+LMbcEu/Yt0IH8BdqmxtW47zQ8YJcKQKJoCGlVJKJvjmdnn0s
+	kAnzRmAEFm8vPIFPSVVarVeSHViZ9deoUlcBM10Of+1/D8pVfZ64bpKVctp9b4bYWHB5uRNAdja
+	20IBYFz0pOTWtKmJdAVEAqKT7fU87OWDMKHaaQEg6J8YMuDE48E0OhwypMg1ibi7bxMwrilfj2Z
+	fB2raGMzC4nu8KiEcQ+Yd6INrqCr2VTlW+6CxzDBBDMxcZEggdTSDgjNjA1Z4PKKCVHcto9sQKk
+	7I7B/U3lLOEUnKg8lasEJs9U2HxZSAq1JdXuncWk1dAkN6T+oPcee1SfOYT5phQef2+6Ky7vSW+
+	g+4T7f2BvYRd6jo4pg1Edse3/uwt2sqdm4XIa/Rw3GztXbyNxkfSBwr18SVMgqBcj+9bjEn3xEH
+	xh+87SSIlyWoqCo8QPAduF3Jt27uoIPhcRiVKfqQdF/E4kHY9BHHEbx+LiLhny6w==
+X-Received: by 2002:a05:690c:c674:b0:820:b01:9d6 with SMTP id 00721157ae682-8712313fc98mr51950977b3.11.1788636603301;
+        Sat, 05 Sep 2026 12:30:03 -0700 (PDT)
 Received: from localhost ([2600:1702:7a90:6f9f:8bc4:8aec:108d:7a04])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8714c0e5c6fsm43787487b3.48.2026.09.05.12.29.59
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-871439c454esm43605057b3.7.2026.09.05.12.30.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 12:30:00 -0700 (PDT)
+        Sat, 05 Sep 2026 12:30:02 -0700 (PDT)
 From: Matt Turner <mattst88@gmail.com>
-Date: Sat, 05 Sep 2026 15:29:37 -0400
-Subject: [PATCH v2 16/22] alpha: select ARCH_USE_MEMTEST
+Date: Sat, 05 Sep 2026 15:29:38 -0400
+Subject: [PATCH v2 17/22] alpha: select SYSCTL_EXCEPTION_TRACE
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260905-arch-kconfig-options-v2-v2-16-83e8245761a2@gmail.com>
+Message-Id: <20260905-arch-kconfig-options-v2-v2-17-83e8245761a2@gmail.com>
 References: <20260905-arch-kconfig-options-v2-v2-0-83e8245761a2@gmail.com>
 In-Reply-To: <20260905-arch-kconfig-options-v2-v2-0-83e8245761a2@gmail.com>
 To: Richard Henderson <richard.henderson@linaro.org>, 
@@ -83,82 +83,99 @@ Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
  kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org, 
  linux-doc@vger.kernel.org, Matt Turner <mattst88@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2645; i=mattst88@gmail.com;
- h=from:subject:message-id; bh=0GRem3x0eG8/JNIZxt1RyVxWMXssFfZh5/KCyC2lVHw=;
- b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLLm5E65v/SxUtDChw7iOY2vGDI2ON73Of6hLkPRZvNud
- 88/0+XSOz6yMIhxMcwUU2SJW6/IMqttx1Kf09K/YOawMoEMkRZpYAACFga+3MS8UiMdIz1TbUM9
- QyBDxygeIqfHoJFZXFyaWqSbVlDkkJdfkliSmZ9XrJdfkJpXkF6gl5aZVpKRkV9UnAo0Qi8vtcT
- U1dHNyNDAxNLRwszJwtHUxNnZydDJzdHR2dXJyNLcxMDZ0tHE1dKcgYtTAOaamEqG/0XrVnEt0A
- 1la9mTGXi/48VuoWXtLsHzY+q/3y+6zugb0crI8GK/2t08dbMn0R+i1T8vOcVTJ3zVtuSkRtyWX
- imWukZOVgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2633; i=mattst88@gmail.com;
+ h=from:subject:message-id; bh=qrjdKgOfiKlVqpd955ImNGsDNT2gjKCr1YxX8TKeUE4=;
+ b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLLm5E7Zf1Vx/u3FyhNePmjMKOnUWDmlKmv2/PMiyhf+a
+ m1/ZK4X0/GRhUGMi2GmmCJL3HpFllltO5b6nJb+BTOHlQlkiLRIAwMQsDDw5SbmlRrpGOmZahvq
+ GQIZOkbxEDk9Bo3M4uLS1CLdtIIih7z8ksSSzPy8Yr38gtS8gvQCvbTMtJKMjPyi4lSgEXp5qSW
+ mro5uRoYGJpaOFmZOFo6mJs7OToZObo6Ozq5ORpbmJgbOlo4mrpbmDFycAjDXVOxmZGjWyJ1l33
+ C68M/Jq/X3H3IeuWJ0VjA7/JpZ9e+V1YHN0csY/nBOfKk2x6Hz655luyZIqDDWbvkfMdvtqbDaw
+ ROFPQYf/JkB
 X-Developer-Key: i=mattst88@gmail.com; a=openpgp;
  fpr=3BB639E56F861FA2E86505690FDD682D974CA72A
 
-Wire up the generic early memtest from arch_mm_preinit(), which runs
-after parse_early_param() has picked up the memtest= command line option
-and before memblock_free_all() hands the memory to the buddy allocator.
-paging_init() would be the natural place, but Alpha calls it from
-setup_arch(), before the option is parsed, so the test would never run.
+Report unhandled user faults the way other architectures do, and hook up
+the debug.exception-trace sysctl that controls the reporting.
 
-The test range starts at the first DRAM address rather than physical zero
-because low memory on Alpha is owned by the console and PALcode.
-
-Tested under QEMU with memtest=4: all four patterns pass over the free
-memblock ranges, with no bad memory reserved.
+The message gives the faulting address, the PC and the user stack
+pointer, and is rate limited.
 
 Assisted-by: Claude:claude-opus-5
 Signed-off-by: Matt Turner <mattst88@gmail.com>
-
-Also add ALPHA to the memtest= parameter's architecture list.
 Tested-by: Magnus Lindholm <linmag7@gmail.com>
 Reviewed-by: Magnus Lindholm <linmag7@gmail.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- arch/alpha/Kconfig                              | 1 +
- arch/alpha/mm/init.c                            | 5 +++++
- 3 files changed, 7 insertions(+), 1 deletion(-)
+ arch/alpha/Kconfig    |  1 +
+ arch/alpha/mm/fault.c | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 68647ff4bdd2..58d057a678db 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4030,7 +4030,7 @@ Kernel parameters
- 			poison checking when freeing elements back to the
- 			pool. Useful for debugging mempool corruption.
- 
--	memtest=	[KNL,X86,ARM,M68K,PPC,RISCV,EARLY] Enable memtest
-+	memtest=	[KNL,ALPHA,X86,ARM,M68K,PPC,RISCV,EARLY] Enable memtest
- 			Format: <integer>
- 			default : 0 <disable>
- 			Specifies the number of memtest passes to be
 diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-index 1ba262812212..f2a5b8c8688a 100644
+index f2a5b8c8688a..b9ff67370877 100644
 --- a/arch/alpha/Kconfig
 +++ b/arch/alpha/Kconfig
-@@ -22,6 +22,7 @@ config ALPHA
- 	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
- 	select ARCH_SUPPORTS_PAGE_TABLE_CHECK
- 	select ARCH_USE_CMPXCHG_LOCKREF
-+	select ARCH_USE_MEMTEST
- 	select FORCE_PCI
- 	select PCI_DOMAINS if PCI
- 	select PCI_SYSCALL if PCI
-diff --git a/arch/alpha/mm/init.c b/arch/alpha/mm/init.c
-index f4d65a60c869..6c28947d6e2d 100644
---- a/arch/alpha/mm/init.c
-+++ b/arch/alpha/mm/init.c
-@@ -226,6 +226,11 @@ void __init paging_init(void)
- 	memset(absolute_pointer(ZERO_PGE), 0, PAGE_SIZE);
- }
+@@ -61,6 +61,7 @@ config ALPHA
+ 	select MMU_GATHER_NO_RANGE
+ 	select MMU_GATHER_RCU_TABLE_FREE
+ 	select SPARSEMEM_EXTREME if SPARSEMEM
++	select SYSCTL_EXCEPTION_TRACE
+ 	select ZONE_DMA
+ 	select TRACE_IRQFLAGS_SUPPORT
+ 	select ARCH_WANT_FRAME_POINTERS
+diff --git a/arch/alpha/mm/fault.c b/arch/alpha/mm/fault.c
+index a9816bbc9f34..dfe427d93072 100644
+--- a/arch/alpha/mm/fault.c
++++ b/arch/alpha/mm/fault.c
+@@ -27,8 +27,32 @@
+ #include <linux/uaccess.h>
+ #include <linux/perf_event.h>
  
-+void __init arch_mm_preinit(void)
-+{
-+	early_memtest(memblock_start_of_DRAM(), PFN_PHYS(max_low_pfn));
-+}
++#include <asm/pal.h>
 +
- #if defined(CONFIG_ALPHA_GENERIC) || defined(CONFIG_ALPHA_SRM)
- void
- srm_paging_stop (void)
+ extern void die_if_kernel(char *,struct pt_regs *,long, unsigned long *);
+ 
++int show_unhandled_signals = 1;
++
++static void
++show_signal_msg(struct pt_regs *regs, unsigned long address, int signo,
++		const char *desc)
++{
++	const char *level;
++
++	if (!show_unhandled_signals || !unhandled_signal(current, signo))
++		return;
++	if (!printk_ratelimit())
++		return;
++
++	/* Losing init is fatal, so shout about it.  */
++	level = task_pid_nr(current) > 1 ? KERN_INFO : KERN_EMERG;
++
++	printk("%s%s[%d]: %s at %016lx pc %016lx sp %016lx\n",
++	       level, current->comm, task_pid_nr(current), desc,
++	       address, regs->pc, rdusp());
++	print_vma_addr(KERN_CONT "  in ", regs->pc);
++	printk(KERN_CONT "\n");
++}
+ 
+ /*
+  * Force a new ASN for a task.
+@@ -217,12 +241,17 @@ do_page_fault(unsigned long address, unsigned long mmcsr,
+ 	mmap_read_unlock(mm);
+ 	/* Send a sigbus, regardless of whether we were in kernel
+ 	   or user mode.  */
++	if (user_mode(regs))
++		show_signal_msg(regs, address, SIGBUS, "bus error");
+ 	force_sig_fault(SIGBUS, BUS_ADRERR, (void __user *) address);
+ 	if (!user_mode(regs))
+ 		goto no_context;
+ 	return;
+ 
+  do_sigsegv:
++	show_signal_msg(regs, address, SIGSEGV,
++			si_code == SEGV_MAPERR ? "unmapped access"
++					       : "access violation");
+ 	force_sig_fault(SIGSEGV, si_code, (void __user *) address);
+ 	return;
+ 
 
 -- 
 2.54.0
