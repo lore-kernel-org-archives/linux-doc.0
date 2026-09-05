@@ -1,166 +1,111 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADA5BA34
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 15:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F523C0A08;
+	Sat,  5 Sep 2026 15:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788620587; cv=none; b=toXhAmb6XQkTjMqa7CdUOoZ+1hkOw5JSnTKBooynVju5N8MTtMyJgr+b3qlwGlkay6aZlrX7Rna8o5IH+3xb5YA+9EYRqCbEB5zaQrLnbxJQL8MqD5vsbQezeMULFkGantr5i1Z4Dkiva9L7gDTKL1FCPqFW8JY6H2qNKa0TFvQ=
+	t=1788621278; cv=none; b=rYPq7URhOHfbx+8FlTBCOtGHzqE6RmvUxmf9lRDQklC0QzQ/AlZLIku7QoXupkSohiar6uI6nSgGDnKqF/nsJa2VqBV2uD0O47fjI+rL+SlH45sX+FrUyoa2lV8J74FD2bKOROcT534W3Dc7lFw0b1gatlVGWof8beB+Lm1g/XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788620587; c=relaxed/simple;
-	bh=ix2jsdPytUfBxhlQ03yeIyNNme19gAi4Ev5xrjI063E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GToLIYvMvQXMm2U1Fkkdh6QSygis/uU9hd3kDjbKDCiselqVEqT1LJRbNgCqlPmB0i1/m/FaniWYjHljASNTYSmCVg8hHMcuVX8h03qcIH7Y0WODkjlBmOT6jnB+vwFDcjiPQoyGPbqdx2VH6ltSvfIdLTclq4KUapff+frub54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dTmqwLmG; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788621278; c=relaxed/simple;
+	bh=ptQDlIgbLicnK80Gpqy0tzeZDRrQTFqIIQk9THXhks8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jwZMSq20iCpqV04XF4Wm5wcZdD3ud++wM8s1WpfPdtR1oKnmW0PO+wCLrTFwr4c0F7LLTyAa90B/whYQBMSFtNfsccNKtAV99WbM3GtzVk3QYBpLZt9ZiRRaiQcV+QkPLAUz9YH0UWxKCGqH3Kcs5sbZlh9s9xSktOHlpLxSVZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Sqc2kxW5; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dTmqwLmG"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so25677895e9.0
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 08:03:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788620584; x=1789225384; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MLvnLjmDLrGiiA1v07CX3ZMiXBmMM+gMXxqBKqBcsk8=;
-        b=dTmqwLmG6SDBT/Qo/E4VK8ssxokWZDyc0KPeY1JMyaJzzex1dxHLByCYPYFCQGhhES
-         iPrDDUxeffsFLJ/xc1wSNLYff4LpwbbrluVY17Jsb5j4SCIh5spq5Rt3lW3Ae3XYqUzT
-         KlrcxbK5asOSfnv3bRSUeAF4jkGbZ7+BnJKSo661ZfW9EtpDBVIv0CKon9JPxV6IP/bo
-         KhwU/fTupnbOjK5/4FPNOypjulfB8HicubC2fv1cyhqbHrGNBi8HaPISLReJpPIc74RV
-         WouTVjpx1mz06SKtmY7LQS96WsKXkJUL6OEDp10DEaVgUqCsACSH83SPpxY9toRDpUN9
-         xGuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788620584; x=1789225384;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=MLvnLjmDLrGiiA1v07CX3ZMiXBmMM+gMXxqBKqBcsk8=;
-        b=Buy/ztN6kmN1lAxyd5c/r6IhcxjFPpN1ezzDrJvZ9ocyVWvU0X7ycUJOghoXuewCkj
-         l4mXyiT7cfdRuxail81Sd9Cck6bnSS+al3vINI51SgpaveP2z4tjmN946u/cYqI6jBDZ
-         tYJ0YTbfM+HwDrV76cIrFTh5IgOmfmXBfAP2n7yW3T7wdLDwaTeTg2tLDEOw+3Xoh4OG
-         +0LS6d/Yy0KgLHsYKyxhaQ+QJb6G8l9VngBYd6eBzMLAkF6kDjovi8HjvgIsYfucVD+f
-         0qOZhSfZTyHpIarAvZOuU8cqpuzWA3ifgWkcTRSdRQ8jfyZWy4D7PaLwhfOTFxMCd4i3
-         FFow==
-X-Forwarded-Encrypted: i=1; AKwUvBxs32phNpMs6IzYnDAUINVobeBLl1kd4D+0Gj7tw95AJMP/RQVqWIEk/HWm3qNwCjl7qm2q5hfajuk=@vger.kernel.org
-X-Gm-Message-State: AFuF++k4cdplWvVHpdjxckSmziNsF/t99IP7DimtHoGajH3ZqlZL5vKq
-	L5eF607i2Gea3KMeuBbvPUZ64L+0wQyad3/F1p/PPoa1hEObL32vLmpS
-X-Gm-Gg: AYBFou2PmfzauPADJbG3zw/N9iXUZGpCBdvwRIeX/p/PzhDzhElPlxCztJMs/OTMOsh
-	CnbHXAOMz4JH7pY6vppnfU4hgxFvqgppwpsupsLZidmYi0JxqQET6MdLJRTPBKbAhmOAzIa+6xh
-	3JJ4SJ9YM6Ph2Y3GGKsz7IZv71DLo+KhcCFFj/Yg/IW32TxXEXHIz2V0EoISZh1b9TI0oWW1Tby
-	XjDPkr1uIijwtyiCd6OSohSOPnZfhIn+WyEWH376sic6wHEm5EAoc7Z9YwhhUDEbar4yGSlI6pK
-	uk5pA8HsNmb9omN7T6cXs2F+LHuEQXjZ7CwGrX6UXG5M8r3CxehHMmcYd0ZoLMLYhOV56SWeowZ
-	bwwUn+aohmQ0FLYyGbaef7kTB6Le9rmVUQhuVXPwmfJ2asavXa4pWmj8cnj/pEkHXKZ80vbbxfj
-	Yhpl2NidU9uEiNVzp+07dKZ6lhG3zLXmmcNniQCxuy8HycOSXY7NF2P/PHJjWNAWY+0GI+dDUjP
-	w5GXaojTkR8QjMNSOCXMZTdWHXyHapbGRdVynl2P2V/yDy++GG8ZWmbBA==
-X-Received: by 2002:a05:600c:3e19:b0:49c:fa21:e747 with SMTP id 5b1f17b1804b1-49cfa21e977mr101661385e9.29.1788620583491;
-        Sat, 05 Sep 2026 08:03:03 -0700 (PDT)
-Received: from [10.128.10.232] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf7740d44sm337818035e9.15.2026.09.05.08.03.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Sep 2026 08:03:02 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <54814f0e-d36e-428f-9255-3c7c2c09b39a@gmail.com>
-Date: Sat, 5 Sep 2026 16:03:01 +0100
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Sqc2kxW5"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C914D40E02C2;
+	Sat,  5 Sep 2026 15:14:31 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 1HIhP_I34F-L; Sat,  5 Sep 2026 15:14:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1788621261; bh=FONSvainkhZyR+GqgqzxbgjHLuUUwJa+U3QdoTXH0vI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Sqc2kxW553DlZwdvzxxQAZLrbuEWzoW053Da06kVpvIMhG/w09Utt1KsME6FE8EA7
+	 4bmXqAlMUyiS4uSmS1AnVyUiRLtwqPt0nl8K3fVENBlwp7sgw/Tw0nEzcEG37loFCB
+	 mgS1PIm7zCP/0Ssn/kzUdG66hBPSm0DNJe9xDVY4AE7kTwhUz4YRybbAUhHTl4CDIH
+	 K+Y0Dh/gls5JwcexaHzpg1TJ69xD4QC1wBX0Ck1liC07o2RjsQ8z1rDigOfOrZXaRK
+	 g6mIAqrcmv4C2IjahRW7eWbaabrLpCqDUIf4zRGzXQzJknEeGu+AgcZvvP4xyYOIF3
+	 T3O8Fli+So/ZctqpvNK4agzCRKsqhdI5ZK/35dqJOlU9pZTgGG1waZhUSB+9pdm2ll
+	 2YsxS8nxe2/Wrl/GPvOOi8Ms+eJriGvs2xcuQJ5PufEPjZLGuWFAgsnBZEAmFifz5P
+	 OKSzs9s82ckTztlOpPziAO9GwuTvz+/g0aq3IweKR5/LpyQOrFiBzriR7ifp4fLMLR
+	 fcL3Dg2ckoPZpiK2BRFnc/3Js/PS4aQpBlni4PLwUgCM5zVYdOTcJnbb08M+iiG4BY
+	 Z4sS7sWpWoQ1FLxQRaX0Cq2oNJM4MaSH62nXcMiK2+xut+yoH2jAR+KL1eu0JokBJe
+	 Fop3BulcRULz8wF9jjCR7eag=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D53D940E0301;
+	Sat,  5 Sep 2026 15:13:48 +0000 (UTC)
+Date: Sat, 5 Sep 2026 08:13:45 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-m68k@lists.linux-m68k.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Steve Wahl <steve.wahl@hpe.com>,
+	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+	Mike Travis <mike.travis@hpe.com>, Tony Luck <tony.luck@intel.com>,
+	linux-edac@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, linux-samsung-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Tony Lindgren <tony@atomide.com>,
+	Kevin Hilman <khilman@baylibre.com>, linux-omap@vger.kernel.org,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>, linux-ide@vger.kernel.org,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Michael Schmitz <schmitzmic@gmail.com>,
+	Andreas Kemnade <andreas@kemnade.info>
+Subject: Re: [PATCH v2 3/9] docs: kernel-parameters: Drop the edac_report=
+ entry
+Message-ID: <20260905151345.GAapwxqT93wPWHF7u4@fat_crate.local>
+References: <20260905094649.41996-1-kmehltretter@gmail.com>
+ <20260905094649.41996-4-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: kconfig: fix shell function syntax in caveats
-To: Erkan Erdem <hexvalid@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260905124045.42713-1-hexvalid@gmail.com>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20260905124045.42713-1-hexvalid@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260905094649.41996-4-kmehltretter@gmail.com>
 
-Hi Erkan,
+On Sat, Sep 05, 2026 at 11:46:43AM +0200, Karl Mehltretter wrote:
+> edac_report= went away with commit fee27d7d9788 ("EDAC: Delete
+> edac_stub.c"); nothing parses it any more.
 
-Thanks for the patch!
+Nope, it was:
 
-On 9/5/26 13:40, Erkan Erdem wrote:
-> Kconfig separates a function name from its arguments with a comma, but
-> the caveats section uses Make-style whitespace in its shell calls.
-> These expressions expand as undefined variables rather than invoking
-> the shell function, so the supposedly working CC_HAS_ENDIAN_FLAG
-> example fails to parse.
+7fc0b9b995f2 ("EDAC: Drop the EDAC report status checks")
+
+> Drop the entry.
 > 
-> Add the missing commas to the shell calls in this section. Keep the
-> Make examples unchanged.
-> 
-> Fixes: 316d55d55f49 ("Documentation: kconfig: document a new Kconfig macro language")
-> Assisted-by: LLM
-> Signed-off-by: Erkan Erdem <hexvalid@gmail.com>
-> ---
-> 
-> The issue was found and this patch and changelog were prepared with an AI
-> coding assistant after a request to find a small, verifiable Linux fix.
-> The assistant also prepared and ran the verification described below.
-> 
-> Validation:
-> - Built the current Kconfig conf tool on macOS with Clang, Bison and Flex,
->   using -Wall -Wmissing-prototypes -Wstrict-prototypes -Werror.
-> - Extracted the documented working CC_HAS_ENDIAN_FLAG example into a
->   minimal Kconfig, with a test gcc-check-flag helper returning y for either
->   endian flag. Before: syntax errors and no helper invocations for either
->   CPU endianness. After: both probes execute and CC_HAS_ENDIAN_FLAG=y.
-> - Built the changed page alone with Sphinx, treating warnings as errors.
->   The complete kernel documentation set and kernel were not built.
-> 
->  Documentation/kbuild/kconfig-macro-language.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/kbuild/kconfig-macro-language.rst b/Documentation/kbuild/kconfig-macro-language.rst
-> index 6163467f..e15af278 100644
-> --- a/Documentation/kbuild/kconfig-macro-language.rst
-> +++ b/Documentation/kbuild/kconfig-macro-language.rst
-> @@ -225,7 +225,7 @@ not work::
->              $(MY_TYPE) "foo"
->              default y
->  
-> -Obviously from the design, $(shell command) is expanded in the textual
-> +Obviously from the design, $(shell,command) is expanded in the textual
->  substitution phase. You cannot pass symbols to the 'shell' function.
->  
->  The following does not work as expected::
-> @@ -236,12 +236,12 @@ The following does not work as expected::
->              default "-mlittle-endian" if CPU_LITTLE_ENDIAN
->  
->      config CC_HAS_ENDIAN_FLAG
-> -            def_bool $(shell $(srctree)/scripts/gcc-check-flag ENDIAN_FLAG)
-> +            def_bool $(shell, $(srctree)/scripts/gcc-check-flag ENDIAN_FLAG)
+> Found by cross-checking every documented name against the __setup(),
+> early_param() and core_param() registrations in the tree.
 
-Here, the space after the comma is actually included in the argument.
+If you look at fee27d7d9788, you'd read:
 
-Checking the tree, I found 20 instances of this, but none of them use
-whitespace after the comma. It may be harmless in most (all?) cases, but
-we probably want to exclude it when documenting ideal usage, anyway.
+    Move the remaining functionality to edac_mc.c. Convert "edac_report=" to
+    a module parameter.
 
-I think you got it right in your earlier '$(shell,command)' example.
->  
->  Instead, you can do like follows so that any function call is statically
->  expanded::
->  
->      config CC_HAS_ENDIAN_FLAG
->              bool
-> -            default $(shell $(srctree)/scripts/gcc-check-flag -mbig-endian) if CPU_BIG_ENDIAN
-> -            default $(shell $(srctree)/scripts/gcc-check-flag -mlittle-endian) if CPU_LITTLE_ENDIAN
-> +            default $(shell, $(srctree)/scripts/gcc-check-flag -mbig-endian) if CPU_BIG_ENDIAN
-> +            default $(shell, $(srctree)/scripts/gcc-check-flag -mlittle-endian) if CPU_LITTLE_ENDIAN
-> 
-> base-commit: 4d7d9486c04d917265f64c55bd23b2cc4fe7749c
+-- 
+Regards/Gruss,
+    Boris.
 
-Same thing here.
-
-- Julian Braha
-
+https://people.kernel.org/tglx/notes-about-netiquette
