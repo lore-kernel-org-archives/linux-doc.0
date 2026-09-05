@@ -1,63 +1,65 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E013E3DDAE2
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 09:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0753EB0E1
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 09:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788601629; cv=none; b=bM/ZRfDzut/4/rWjsvGhEGO/acsPPGUF8rKCh7fDBgGFNzBdXLNtS/o8lbvlDlPeof+m5LCN7ncHqnA8qUu5eRBtJxw1uBj4jj9gX6nIPOVMHYiBBifiLNUC8KoHWNVqa9E5Q0V5pusm7ngOqEJB1UrMxV50FGxuQy8t+lYaupc=
+	t=1788601631; cv=none; b=gsNGJ5n/OubpiXYu9g7bfI0uAhrq6+mx0ZinqJKJZBrvMjSnGTL/cPsJULTjVashD7zaGxRDRtsAdgKvMS5VhdcEmcF9rHuqMLlG/fILYAYwmWm6RUrYu/HGu+3I8vOBXaszufQYrS9uNshuGapg3bDd2V59Xe3BRWnKni4ilEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788601629; c=relaxed/simple;
-	bh=r1zTAstGx+IQRZSz2V3LqeUHrdmsIckPyGpER4pVwcw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GNPVWm8+vvU2iAFIEIM6GiFB7rhvIH44T5njE+W4l2kkS0eFVyyiU/wKC3R1QwqsVKI+EgCS2M37oSxb5HOlaDRomLv9bC60sW5ul/TexzO7PNxMRvTtpe69atKJ4GSXwD38kU12eKkJc9GaVxuQaJ+ck1xy6c2uz84rPk4LaVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mqzc5uFI; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1788601631; c=relaxed/simple;
+	bh=wms6AZfW1NQQQYXunQIXu+RBL1p7oQW8OzJU4DE4KcA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=pcsyRCyKsXjCgqeUlOyCYp1MgmmGuhIASLS2G9Tu4beIP4Q4v+adk4BiemBuf4pDcur5iVUhFjO8Zsf31qvd+3RcBkqLog92NPDz138Bpa5cUh0tUSR3voytS91sYfxq/dIjghhIkS5Zbu9kJ4XlMDhNHbR062YpUEODRJ8Kk6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZcyV/pf4; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mqzc5uFI"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49b8eeb3ff2so16379325e9.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZcyV/pf4"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49cd9add88aso13257405e9.3
         for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 02:47:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788601620; x=1789206420; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0rL+/iAM/i65sRrJdGWBjEYqO95wvZ81bUVdK7eRsAk=;
-        b=Mqzc5uFIvQMGJH/Qvx9JF0IzrPctKlDeb9yowyBBnvUHbJf5jBARJGIOZJ45uNB28k
-         8Z4q/bv2SqU25SFGtZ61Xd7F777i2Dq9EaTA/Zrj/rZFEXnioKAWjArU0Qu7i5h7gHXF
-         Ner24Ov6fTQNGs33qhIXnkra+vE1dBm7taglV8UME4MALkC9WK/JVUhq9u+mXQj+o59b
-         wKASP4FMp090Fsvh9lvAmn3il43ycNJs1EMS0myNTLfxMK+UoErDjiHTKDGPBw0vwUq3
-         KnFQWL1E5SlZeG2rkKaJMNU9CyAE4Ob48i9+WHPenGupCpxuQvAs1KuJ5+jSwkCkwIDA
-         +G8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788601620; x=1789206420;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1788601622; x=1789206422; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=0rL+/iAM/i65sRrJdGWBjEYqO95wvZ81bUVdK7eRsAk=;
-        b=O5fSQpQqWs5XuylWr/eBANKbkMwBsdfGEBrmMbCUUar6V4yTp1uuN2f4WXj7z87xLg
-         Iokj1NE1T41h8A9ApruhBiUrgjugF63M4ptR7ZD6sdTU37MB3LrPEuphbxq6ydDvd8n/
-         TqBNQBinnSp/BVjZ3om4fyTSnwaIIpJ3WToT0h2HfqaxUy40m4H2HparWV87JArwZYy1
-         5rS9oOpq8mDS81z4Ik3syKSsOOFtyZtNMrfOn5xKhMSJzhbvDQDzNs7UGjRP1W23tPfk
-         17lojJL7LtmGkJf0n1WAraQ/qmfRIVwq4etsN5HwCKCZXly5C1aVMl6tCjFnbZxW+n30
-         S6/g==
-X-Forwarded-Encrypted: i=1; AKwUvByh2OA01EWu+kH8Y3Zv5nPtE2V+3U5EBJLVihe0Q8dnIYZoSLizX+55zV+lAxp8m+HNFlW5Q2CJvlw=@vger.kernel.org
-X-Gm-Message-State: AFuF++lFYHrr1CsKTmXIrltO3d4k8HmhnjHQnreNmFZxLmqN/ZBAYK5C
-	HM15D1dxhViOWGLJY8YV8zEmDnCknRMKPU0Ylyoy6c5GtGm7v1Km/oMY
-X-Gm-Gg: AYBFou15kTJbLvuJVUfXgiPQl785yUtRmWhJrreH6TloH1jJHzvC4rF8iTdzv9Geiyw
-	t/us48AmbqDfZCyb6lPhqCAnvDUylYNnhTCPPLAZxo9owOtHyTP18TEdRAvSsjBLl9UzBnpbZR0
-	6ZYjGSf567cc+FmLNrr9khKE1yOhMgH6c4aplP54HINcL0/NoUPJeKUDCHwsxZNwPjiKHMh0NM/
-	4Dv29j8ctjX7dTsBRLDlXto99K0bseFnxK6LrhMJANleeZ4UWndDV3Ua19MKjIjbswQ6NS8s48b
-	DnIj683seObOQxi7rgdQI57gWT9dih+QW0qEd8rwgEirc8NNw6ht2kDR5vcvA+Z+keGHd4E0FKx
-	UdNDUSfExbe5fYigAARFdpBp/DKfN3na5AgJmnLfL0o1cyk4V5dEXVxp7cZvizippnmbiEa8lHX
-	q0s4mZdvjJl2w2f6Mr5iMlIzfJLRHtd3lHJYEiAuEmlzWdAjsQ/bd3HsOJoN9Y+ZCpDjaNGM5PR
-	Alsx44tYhQj2RyiLmBy0nOPl2KzEgUBDQu4/r3q9nh/c/YYz6NF9VzLvOxHkk3al6dpHPzHTzGN
-	YQM5g0jjKywfCtodU1aCIDBYFoWWxct37uVjdpbtwkikGflWeQurY0AsboyYqO7eDig=
-X-Received: by 2002:a05:600c:3e0a:b0:495:6e68:5df2 with SMTP id 5b1f17b1804b1-49cf8267a36mr138818915e9.12.1788601620145;
-        Sat, 05 Sep 2026 02:47:00 -0700 (PDT)
+        bh=smpsb8JOBusjbgQAd2oPbIwCCUd6e4LdR3MPdw7+GWY=;
+        b=ZcyV/pf43STgwXAI/5E1vUviU9OzxPvlwZ9xBkSHuk8z8faphK803rSxpq/eJC8OKl
+         6LvecwFRpi4fzbknFvlRyv7soBl8C171GooHBbDQJHk+hJ6aBRBz2mQOp7vz6r6hUGmM
+         CEZSPjrBqyXMffgVVdqz3gL1JyPqc+yVX0PFj/3xnvq49w/rU0FgzPBKydB6TGq2d0zp
+         FNs9+jT0+bzbJl4t7pUuRj18OIsTXOpNz49VTcK/VhwWq/Z2e98q+kp2hTLk2LsI+tO3
+         VMknB1r+bRs1RJ0nhe6PSE7/XgwcXoe9+9W9Z2IeStVLcGtTMByOCuV0uPw2R3pFduR9
+         5QmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788601622; x=1789206422;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=smpsb8JOBusjbgQAd2oPbIwCCUd6e4LdR3MPdw7+GWY=;
+        b=LSvEgV0DQokYR4365RlkW5bcxMCOopBFEMQf3O6iSSzL00SuL19s6pyuZBoZbLAAp3
+         xX4vOKelT/IsBVzO5j3VU7n2OY1/awQtacX3nctE2vMRwrISuZgeOQeRasmDMkiTJDq/
+         3kQFTNrnwmuBYhVOuVsvnSE86iHm5kLFCVnlXsr4PmkFmZY4C4RdnE8n88ztCoaxMgiq
+         xSGd0DtqjlkqRnmWTMiUyqtFYomb/DP1wtO+BglfEyt4jjJdtNz8GPTqpeFTA3DnBZ2k
+         PWLYNyEe5IlZf84J7mRvkBZKnHieO4YfvlKbkqma5y4LUOhicH9N8SnO6P73JSRvbo7S
+         FA4Q==
+X-Forwarded-Encrypted: i=1; AKwUvByIgxWfT0Oesp2bXCJR+9NdgFY5rN/bEauEiUQy5E+GGqHTDN3nZKeIPoNcxDDp9OZYQphTM7Km3Jk=@vger.kernel.org
+X-Gm-Message-State: AFuF++nNwlQrG0QHky9QSBTYsigOOEBfr49BESz8DgDh1HTic66ewqQb
+	ErGNSOr0+hP8fcluBvW2FB/0zEtxqSzgyAIJZKLR4lEga6q3HRSM9U6c
+X-Gm-Gg: AYBFou1FbaYRrhuNZFdi3GHTBuRGDpWdgCYNTuHUv6bdtnh0Cob91SPq92WQfYBSp8T
+	DPgl9f4qduN/gQUzAxJnFgO4DsHAX+jdf+AMcGisjbRwcxwfoWicHsoli/MtWPEB45DJIBlEg0x
+	3UHar6qzk20wPqpluM99SNbynbN08zkVZPSkFpcOOQpdLsbTeyRrxBnjL9SWjBxtb1STf7FaYIc
+	Pmo2rEJIEK80WHhekT8765OxDVIYNGo7NdFb/xOMzQtb7RGlx2a6cbnKAAUVYdMszXBnfmflHZI
+	0Z6TU/li+rc628P5gX3rrhVh5q7S7xuDwnJ6ZL3JC+zmYl9DLXdRhHeFjCHgnTZ9n9G1fkuYpUq
+	Xq0eWa1kLiPf5o4nQtL8llLx3SycqswOME6SA2C8KrV7BtcvF8tDTThBqTl8p/26ZsrK7fDyhi6
+	nbKsXXb4iQ2fOBFTl/AjATUIy5OmvQukYvZF82k0VxO6+agJsGF3CJjP0bAu3fH4ygkHlpZnOF9
+	yyt9HD/h9NfJWq2q7koEll+0cmeHxhltjsiO3z0UGgwHi88W29jhI8OtTeJNF8/eTdV4/T8K+qB
+	t7ifq+maAaTvzLzpqhoGTp2SsQHgLZ033MSbTjxebURo0FmndhZLLzwRUwnrsWlK7NY=
+X-Received: by 2002:a05:600c:138a:b0:49c:fc6e:8cba with SMTP id 5b1f17b1804b1-49cfc6e8e34mr84919655e9.30.1788601621962;
+        Sat, 05 Sep 2026 02:47:01 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c6ba4sm14232013f8f.25.2026.09.05.02.46.58
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c6ba4sm14232013f8f.25.2026.09.05.02.47.00
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 05 Sep 2026 02:46:59 -0700 (PDT)
+        Sat, 05 Sep 2026 02:47:01 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
@@ -92,10 +94,12 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
 	Michael Schmitz <schmitzmic@gmail.com>,
 	Andreas Kemnade <andreas@kemnade.info>
-Subject: [PATCH v2 0/9] docs: kernel-parameters: Remove ten entries for parameters that no longer exist
-Date: Sat,  5 Sep 2026 11:46:40 +0200
-Message-Id: <20260905094649.41996-1-kmehltretter@gmail.com>
+Subject: [PATCH v2 1/9] docs: kernel-parameters: Drop the atarimouse= entry
+Date: Sat,  5 Sep 2026 11:46:41 +0200
+Message-Id: <20260905094649.41996-2-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20260905094649.41996-1-kmehltretter@gmail.com>
+References: <20260905094649.41996-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -104,38 +108,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-kernel-parameters.txt still documents ten boot parameters whose parsing
-code was removed with the drivers or platforms that used them, one of
-them (atarimouse=) since before the git history. One patch per
-parameter, each with a Fixes: tag for the commit that removed the
-parser, so the maintainers of that area are on their own patch only;
-the two pata_legacy module parameters share the last one. Each entry
-was checked with git grep for its __setup(), early_param() and
-module_param() handler and with git log -S for the removing commit.
+Nothing in the tree parses atarimouse=. drivers/input/mouse/atarimouse.c
+only takes a module parameter, and git log -S finds no __setup() for the
+boot parameter anywhere in the git history, so the entry has been stale
+since before it.
 
-Changes in v2:
-- patch 9: drop the Fixes: tag for 0dcd0a76370a, which removed the
-  separate pata_qdi driver and not the pata_legacy parameter; both
-  parameters went away in 3c4d783f6922 alone
-- collect the Reviewed-by and Acked-by tags from v1
+Drop the entry.
 
-v1: https://lore.kernel.org/all/20260905070347.25902-1-kmehltretter@gmail.com/
+Found by cross-checking every documented name against the __setup(),
+early_param() and core_param() registrations in the tree.
 
-Karl Mehltretter (9):
-  docs: kernel-parameters: Drop the atarimouse= entry
-  docs: kernel-parameters: Drop the bau= entry
-  docs: kernel-parameters: Drop the edac_report= entry
-  docs: kernel-parameters: Drop the enable_timer_pin_1 entry
-  docs: kernel-parameters: Drop the mini2440= entry
-  docs: kernel-parameters: Drop the nomfgpt entry
-  docs: kernel-parameters: Drop the omap_mux= entry
-  docs: kernel-parameters: Drop the pcmv= entry
-  docs: kernel-parameters: Drop the pata_legacy.qdi and
-    pata_legacy.winbond entries
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+Reviewed-by: Michael Schmitz <schmitzmic@gmail.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 --
+ 1 file changed, 2 deletions(-)
 
- .../admin-guide/kernel-parameters.txt         | 67 -------------------
- 1 file changed, 67 deletions(-)
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 68647ff4bdd2..c8d96de4c00d 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -591,8 +591,6 @@ Kernel parameters
+ 
+ 	ataflop=	[HW,M68k]
+ 
+-	atarimouse=	[HW,MOUSE] Atari Mouse
+-
+ 	atkbd.extra=	[HW] Enable extra LEDs and keys on IBM RapidAccess,
+ 			EzKey and similar keyboards
+ 
 -- 
 2.53.0
 
