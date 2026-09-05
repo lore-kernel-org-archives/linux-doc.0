@@ -1,37 +1,36 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-82.mta1.migadu.com [95.215.58.82])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E274E348C7C;
-	Sat,  5 Sep 2026 03:54:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92ED22BF3F3
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 04:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.82
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788580485; cv=none; b=c8NBK8mXdR1X++nKnBRF+rC4aVGsDSSIVQe7uAZ9sLsc1+sYvU76YKbUrtCBd8f0ZYg2z9TiHhKPgDo1nP3z3uRYyMH+bfQY65BdmQOiCopb2x21iExkMZDGfQeHFkz6WjSEimn/LyjhVBRX9QSRsMtpyo1yARO6TYj1zznxyMI=
+	t=1788581294; cv=none; b=Io5I6GurJSEaON050ANQiXWfzV0cLNEevRssuqxzxDcC5rdVo9PX6M3brAyeQ5pMEAhzwImUF0qILz3tAW4KQJSmlhOfVAl7KpGNZzS4LOesxXIV9k6/NkN+2tysuDh5lVzFpIjkoX1Fe5tWF1kFyrBoFJQK+EsQ9oZ+bTVXVkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788580485; c=relaxed/simple;
-	bh=QzEHEv8xYqf0BBYtRfwmoT+sXS6FhpyXY1bM4vANBOM=;
+	s=arc-20240116; t=1788581294; c=relaxed/simple;
+	bh=Ogjcy6AWuIiNMoFElPu+5M0YUvjA1DAHyKooz++N5NU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SlN/BEh2ezmL1xptbw/s1zPAIavgcg0Yf7zhz4nknOQ68lYmyHPAuEuwjbQopJN2lJ7t4d5g9cqcbWZymA8YXmrFrP/j88gOdH/TdMBm3R6W0WNpcsUWk+8QKL8jgS+sMje9TVKWgIcueoIHGZY/c55jYmuIEb/NuQ5Mt77z8r8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OSmjqKUk; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=M7TWQ0oLasxUalVb4y+ldui8aVGqjn0ur2cTRZ4MMcFxinGEHR5Ok7uEJ9ehA2H9WoXV/05JmgqzRi6OAIHszpBP6rOsiVW2bcD270PoBBqTvhX8DARbHvoxN0ReWvYLlVVH4r5hiBwqrSsq7W9Ptpa2KDmQ2TjQLPvCwIa4Y18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=h0m9iSVi; arc=none smtp.client-ip=95.215.58.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OSmjqKUk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=u2+a3WmhmYeXRp/uYpf+0p324kyOb4FAm+bW3eCxpAc=; b=OSmjqKUkhHJQADe5cUs0s8H67e
-	Nnd7wxW1akbcU/tsPK+bl2eA1CEkOJmv+1KFDRNuZUZnTuW/QZnAEwNw0PQbPHMqUh0pPkOsjK50v
-	Dec2Bub2wUmKrPkOMa1tVKTrAgUE9ZPNYxPPt/q2ccGE5e6I51LhmMNWNqo8vJkzxvv/1K/pbEPBU
-	FHUG//Q4RZTeb+frjWqO9GmkawhY1vI1kgUYcFRXLPzpMSAlgCfEU5383PY/9mzlxYan5yDwYP0+U
-	CbbOSRqdvIej30wn8h5ulLZdihouB/mddluAcNPKfrrhOIJXDMZrkfATtRDW+bVchoHLqWRiv3B7T
-	FCTqCdhQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2hUD-00000003eXj-33pO;
-	Sat, 05 Sep 2026 03:54:37 +0000
-Message-ID: <58d769f8-7378-4f8e-9bf1-b33ef5bf8ca3@infradead.org>
-Date: Fri, 4 Sep 2026 20:54:36 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="h0m9iSVi"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=Ogjcy6AWuIiNMoFElPu+5M0YUvjA1DAHyKooz++N5NU=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788581289; v=1; x=1789186089;
+ b=h0m9iSViCse/ejJSm8+5HMIXz7cna1EPV225TkyAJuyIJeXjBl/i1XdzNA+khOH3q/PQaElM
+ XiAHPsrupi7MmolggXHPIYA9nOvRdo8VsJpXDcXiMCo20SRUog6KGljhmBDmdKfCQP/p6G1kZhM
+ sxddT5qZ4EsGtJPFGW9RJL8w=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 92059d4e748b9bc4;
+	Sat, 05 Sep 2026 04:07:59 +0000
+X-Mizu-Trace-ID: 92059d4e748b9bc4
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <ffe712c9-6c24-4452-b703-c8e01828ed18@linux.dev>
+Date: Fri, 4 Sep 2026 21:07:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,87 +38,128 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: parse-headers: Fix script name and stale Makefile
- reference
-To: Karl Mehltretter <kmehltretter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Dongliang Mu <dzm91@hust.edu.cn>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260905025821.83968-1-kmehltretter@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260905025821.83968-1-kmehltretter@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v5 17/20] vfio: selftests: Add
+ vfio_pci_liveupdate_kexec_test
+To: Vipin Sharma <vipinsh@google.com>
+Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, ajayachandra@nvidia.com, alex@shazbot.org,
+ amastro@fb.com, ankita@nvidia.com, apopple@nvidia.com, bhelgaas@google.com,
+ chrisl@kernel.org, christian.koenig@amd.com, corbet@lwn.net,
+ dmatlack@google.com, graf@amazon.com, jacob.pan@linux.microsoft.com,
+ jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com, julianr@linux.ibm.com,
+ kees@kernel.org, kevin.tian@intel.com, leon@kernel.org, leonro@nvidia.com,
+ lukas@wunner.de, mattev@meta.com, michal.winiarski@intel.com,
+ parav@nvidia.com, pasha.tatashin@soleen.com, praan@google.com,
+ pratyush@kernel.org, rananta@google.com, rientjes@google.com,
+ rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com,
+ schnelle@linux.ibm.com, skhan@linuxfoundation.org, skhawaja@google.com,
+ vivek.kasireddy@intel.com, witu@nvidia.com, yi.l.liu@intel.com,
+ "yanjun.zhu@linux.dev" <yanjun.zhu@linux.dev>
+References: <20260714151505.3466855-1-vipinsh@google.com>
+ <20260714151505.3466855-18-vipinsh@google.com>
+ <0556e2fc-3be5-4023-a9a4-8482fa8c88b2@linux.dev>
+ <20260805055042.GA806762.vipinsh@google.com>
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <20260805055042.GA806762.vipinsh@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
+在 2026/8/4 23:02, Vipin Sharma 写道:
+> On Tue, Aug 04, 2026 at 03:19:34PM -0700, Yanjun.Zhu wrote:
+>> On 7/14/26 8:15 AM, Vipin Sharma wrote:
+>>> Add a selftest to exercise preserving a vfio-pci device across a Live
+>>> Update. For now the test is extremely simple and just verifies that the
+>>> device file can be preserved and retrieved. In the future this test will
+>>> be extended to verify more parts about device preservation as they are
+>>> implemented.
+>>>
+>>> This test is added to TEST_GEN_PROGS_EXTENDED since it must be run
+>>> manually along with a kexec.
+>>>
+>>> To run this test manually:
+>>>
+>>>    $ tools/testing/selftests/vfio/scripts/setup.sh 0000:00:04.0
+>>>    $ tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test --stage 1 0000:00:04.0
+>>>
+>>>    $ kexec ...   # NOTE: Exact method will be distro-dependent
+>>>
+>>>    $ tools/testing/selftests/vfio/scripts/setup.sh 0000:00:04.0
+>>>    $ tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test --stage 2 0000:00:04.0
+>> Hi, Vipin
+>>
+>> Thanks a lot for your help. I followed your suggestion, vfio-pci setup can
+>> work.
+> I am glad your setup using virsh is working.
+>
+>> The followings are the test result. In the step 3, after kexec, there are
+>> some fails. I am not sure if these are known problem or not.
+>>
+>> 1. Before kexec command
+>>
+>> + modprobe -v vfio-pci
+>> + tools/testing/selftests/vfio/scripts/setup.sh 0000:00:04.0
+>> + echo "vfio-pci" > /sys/bus/pci/devices/0000:00:04.0/driver_override
+>> + echo "0000:00:04.0" > /sys/bus/pci/drivers/vfio-pci/bind
+>> + tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test --stage 1
+>> 0000:00:04.0
+>> Preserving device in session
+>> Preserving memfd of size 0x40100000 in session
+>> # [STAGE 1] Forking persistent child to hold sessions...
+>> # [STAGE 1] Child PID: 1236. Resources are pinned.
+>> # [STAGE 1] You may now perform kexec reboot.
+>> + set +x
+>>
+>> 2. Run kexec command
+>>
+>> 3. After kexec command
+>>
+>> + echo "vfio-pci" > /sys/bus/pci/devices/0000:00:04.0/driver_override
+>> + echo "0000:00:04.0" > /sys/bus/pci/drivers/vfio-pci/bind
+>> Checking open(/dev/vfio/devices/vfio0) fails  <--- I can confirm that the
+>> /dev/vfio/devices/vfio0 exists. But open this failed.
+> This is correct output. Test is verifying that open should fail. If it
+> didn't fail the ntest would have exited with an error. A preserved VFIO
+> FD can only be retrived using Live Update session ioctls and not through
+> usual VFIO dev path.
+>
+>> Checking ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, "0000:00:04.0") fails
+>> (vfio_type1_iommu)      <--- fails
+>> Checking ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, "0000:00:04.0") fails
+>> (vfio_type1v2_iommu).  <--- fails
+>> Checking ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, "0000:00:04.0") fails
+>> (iommufd_compat_type1)  <--- fails
+>> Checking ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, "0000:00:04.0") fails
+>> (iommufd_compat_type1v2). <--- fails
+> These are all correct output. Test is verifying that userspace should
+> not be able to get VFIO device FD only through Live Update session
+> ioctls and nothing else.
+>
+>> Retrieving memfd from LUO
+>> Finishing the session before retrieving the device (should fail)
+>> Retrieving the device FD from LUO
+>> Finishing the session before binding to iommufd (should fail)
+>> Binding the device to an iommufd and setting it up
+>> Finishing the session
+>>
+> This is shows VFIO FD is successfully retrived by Live Update ioctl.
+>
+> So, you saw expected output from successful test run. I will change
+> the message getting printed to avoid confusion. I think current way of
+> printing ".... fails" is confusing.
 
-On 9/4/26 7:58 PM, Karl Mehltretter wrote:
-> The script is tools/docs/parse-headers.py, not parse_headers.py, and its
-> FILE_RULES argument is optional. Commit 8a298579cdfc ("scripts:
-> sphinx-build-wrapper: get rid of uapi/media Makefile") removed the
-> Makefile the text points to as an example; the cross-references are now
-> generated by the kernel-include directive, so point to a file that uses
-> it.
-> 
-> Fixes: d69a03a97a2d ("docs: doc-guide: parse-headers.rst update its documentation")
-> Fixes: 8a298579cdfc ("scripts: sphinx-build-wrapper: get rid of uapi/media Makefile")
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+Thanks a lot. I have made tests in KVM. I can get the same test results.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-and-tested-by: Zhu Yanjun <yanjun.zhu@linux.dev>
 
-I would like to see documentation for kernel-include added to
-Documentation/doc-guide/kernel-doc.rst or doc-guide/parse-headers.rst.
-I'm surprised that it's there already.
+Zhu Yanjun
 
-Thanks.
-
-> ---
->  Documentation/doc-guide/parse-headers.rst | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/doc-guide/parse-headers.rst b/Documentation/doc-guide/parse-headers.rst
-> index a7bb01ff04eb..eb36c92e9a06 100644
-> --- a/Documentation/doc-guide/parse-headers.rst
-> +++ b/Documentation/doc-guide/parse-headers.rst
-> @@ -8,26 +8,27 @@ between the code and the documentation. Adding cross-references for
->  userspace API files has an additional advantage: Sphinx will generate warnings
->  if a symbol is not found at the documentation. That helps to keep the
->  uAPI documentation in sync with the Kernel changes.
-> -The :ref:`parse_headers.py <parse_headers>` provides a way to generate such
-> -cross-references. It has to be called via Makefile, while building the
-> -documentation. Please see ``Documentation/userspace-api/media/Makefile`` for an example
-> -about how to use it inside the Kernel tree.
-> +The :ref:`parse-headers.py <parse_headers>` provides a way to generate such
-> +cross-references. During the documentation build, the same parser is used by
-> +the ``kernel-include`` directive with the ``:generate-cross-refs:`` option.
-> +Please see ``Documentation/userspace-api/media/cec/cec-header.rst`` for an
-> +example about how to use it inside the Kernel tree.
->  
->  .. _parse_headers:
->  
-> -tools/docs/parse_headers.py
-> +tools/docs/parse-headers.py
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  
->  NAME
->  ****
->  
-> -parse_headers.py - parse a C file, in order to identify functions, structs,
-> +parse-headers.py - parse a C file, in order to identify functions, structs,
->  enums and defines and create cross-references to a Sphinx book.
->  
->  USAGE
->  *****
->  
-> -parse-headers.py [-h] [-d] [-t] ``FILE_IN`` ``FILE_OUT`` ``FILE_RULES``
-> +parse-headers.py [-h] [-d] [-t] ``FILE_IN`` ``FILE_OUT`` [``FILE_RULES``]
->  
->  SYNOPSIS
->  ********
+>
+> Thanks
+> Vipin
 
 -- 
-~Randy
+Best Regards,
+Yanjun.Zhu
+
