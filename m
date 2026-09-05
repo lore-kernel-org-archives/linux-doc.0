@@ -1,116 +1,188 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mta0.migadu.com (out-130.mta0.migadu.com [91.218.175.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A3E33F5B3
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 09:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C1C3B2FC6
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 10:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788602227; cv=none; b=rM/K9TiHn7f7KaNqeMmB+3RbxNgfJ7qK48nzX9VibH5AG9tzSDfxd28p80svt3gyI4GynTtaQKW2W7rov2HZ3lrU3Y2hlV2hSRUxs50Gyi8FFPMKu+1BGpBOMfHsVIJ/yLcyiGXJ2gBKRugImayKY8f/8HC2XjJjKoae/0XE5iI=
+	t=1788602798; cv=none; b=TSZshPSSs1iurDoDWX0pMJujOW312EjeOEHsAKM8fYkZXGODk9XgbCzS8Qis2W7nE+I1QTKEnk5E3AotyTYLye+iuu144c3SPq1taNJCtQ6l64cAhRuHwiNQ642AuA2m2EH/9RZAtgqcfyWa5OdOaTqq3ZyrEWbyYf/UoOLynPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788602227; c=relaxed/simple;
-	bh=fM50RelpZlPxGOz1H09/Lq54iXhKsyPkRZjYqpWNmCU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kPzlCd4sTFqi8O6yuuJP/WIYXdHV0w/F8BKQ/QGSICnF3ciye5QMy8xXfMT8o2yAWvAj+ScwiuMOVFRQrtJbji3UuGNI1ZLfsJut3UHnlvCnUaHwxNEDOCvu84diUAL+kg9HpxqIwVn9XVIkIXWRNvzhD6Zc0offjb8j1NiEu8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FeYmdCdD; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788602798; c=relaxed/simple;
+	bh=24T1CPjX4+jaPgUcD7CVSc/qZByd3m+fY2TBiEjbd5E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Idici8qbz4+eHZrHbUdF0QY2PxaOV6rq5Hr01AJ9YageAJlxQqb7A/UagRNoK7DAKz1bQXPCpkxI0RHAZMmfBhxezXTyKQWtgXi3tkHMZHK7LabzKu+vrTMl+uLx/TibGakoS8bOip72huLHpfAzpKDZDW4tG9cSylB+mqIRvEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=gdUitpxm; arc=none smtp.client-ip=91.218.175.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FeYmdCdD"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49b8e527d63so22814765e9.2
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 02:57:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788602219; x=1789207019; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ayz/e09YuiQeSDHoY+u/lzDfVtJfvbORC9PNu8Y4WPc=;
-        b=FeYmdCdDM3HycuN6kG0lAtQMnWyhzZChHRcURAZwGacmlKF57187eEakaVhFU9Uj02
-         3owSNZECHgZ5GNjSbRGA1UDT+DFVPSc90AIsoxgdlw35UPtv3uhV4o9Xpp+LGjgyE80b
-         RIb7LkWR5tvZATBIXU/zB/W9nqPGfrY71FJnpGeJjAN6LFMuRSuThBI6I7+GEETQukrj
-         poNcR1vEVVb0SYLdJECrnTmeWpZqbvZt3YZXBwqkt7WPgxVMWHAgZdJFGWS6h9iGLDOG
-         eTcWmMLWzaqY1rOJ3VOAKZK0eo80rO4OkA3bpLLhrjghN3lmA2sEWIJnNP78y8c+YuV8
-         kuEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788602219; x=1789207019;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ayz/e09YuiQeSDHoY+u/lzDfVtJfvbORC9PNu8Y4WPc=;
-        b=cQ33gHElkHoaWTqpkVHopg8G8Sqkcr9dv3dnC5XIYRWxym3ZzAwCJvGEcnh/r8GKGe
-         K7MRrmJMEA771WN9KQG8XWtWGxBCsj185xKDmSaRFHNVnk2pjEkMK6fsMmT8hWbrhHuL
-         xKXx9MulFhv95XZkkibPpmPzyfeYBexBIf3GVNKZWFRL8FsgoFtDS2v2+ffS9X1wduCU
-         ep6pTPFG8tUs9vZu+aNMX5E2aJ3/rj8LlCOpe5lQtd/TJ2rkagWKlzNsI6gXSzNs+2a/
-         YtcJxy4tkU4yjCHbCWNJ6ZX1feCuOJlJ1DOhwsnt9+ukZuq0zIl1AHXzb6KNP0olWrrJ
-         QV/Q==
-X-Forwarded-Encrypted: i=1; AKwUvByU7SArDiSQcMoYL6dSJKnRdAzir72qKhXz0WBq3mr0iuY6q/EqIxq5Tk5BCQ91m1PiRb9J3sU+/7o=@vger.kernel.org
-X-Gm-Message-State: AFuF++mNZRl3LPGvEPvRfu/vPesCtQO4ASsAmVacn/6JwqpRWEzvk3RP
-	/l1HqVlgSmaRzmcWG4GGofXLO5nEVihuGsuNVWQIVRtkx6DQDN//vvdq
-X-Gm-Gg: AYBFou3p8OhucZPtxKp/g+/Mr1/2UcWwzCf0EDAHfgjtcHPiZdh2OYeqaTOnslngxC8
-	NJjpeerWYU4p+yJM7B9n/MqNv6ZvLnXSSFlgwX8YG0IWG1KG6CZlSAkcu9F19TFaiEFlGD/7jVp
-	CBv+ezuw99JrdSbh4HpdlHXSc0g2Wx4lva+1vV4KlhynptmR84do5jZmRJ1iUGsc5L0vFcHDTTg
-	OqWeqD0NGJu4dBFk1UqHv2wKdO9cdiobzQzDwiVTHEM4BfMyf30XZtm1uD9Kx9yNHYoFPRP4eNJ
-	MJrFZAtelxkiyt9a2R1UYprX/UmdvIaHorkWOuBtjj+B9VJuVoRqWuyLyU03SNtA5cC4E1pHu52
-	Qi+Le2VgPnO8QZbq0tJwjvT+DwTW1pg1NQTD05/JoXQN7/FZP/vD54VAb47hM9SI/l0ITRsZ+q4
-	SqK31MHu+471fhnc36WbB2LGnlQGCpYewW26bZTmTEtg6v4X/KdHsQ2ZiDWc7hS42riX5YFUNbd
-	mmVPhiFzjZmLDJEYkNnllyAWL/p4k/yuQGf32gFbSCxtoMWdngYi2oVgDyT9UZ2+sYx+wqcreux
-	Nd/3InI8Czu+Zd2QJCcCzbG9m6pLJJ8+Ml3U19XRnbQwsxSFiYsh12Ne4ZksFOB8xBDdBevOElg
-	/rw==
-X-Received: by 2002:a05:600c:548b:b0:49b:92df:87be with SMTP id 5b1f17b1804b1-49cf81f3655mr113590565e9.4.1788602219327;
-        Sat, 05 Sep 2026 02:56:59 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d057f4778sm32077245e9.8.2026.09.05.02.56.58
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 05 Sep 2026 02:56:58 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	bpf@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH bpf-next] bpf, docs: Fix the struct btf_var name in btf.rst
-Date: Sat,  5 Sep 2026 11:56:49 +0200
-Message-Id: <20260905095649.42351-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="gdUitpxm"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=24T1CPjX4+jaPgUcD7CVSc/qZByd3m+fY2TBiEjbd5E=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788602793; v=1; x=1789207593;
+ b=gdUitpxmOaYkUBQCGy5+sK+9y+A6TvENTRE7dcGaeMEKn0I1I2poCr0nCa5RS27gPRzwrmyU
+ 7XwnF+DbtYC03lkXIznsoLja1H9GOYYMFSl0sT8l2IIb/WddhLoQfcoMmYuoU9nNGKL83JDSgTb
+ aa8gmOd6bCdJvsmfL/HqNhuB5covtoDVaaCzeEFP6U84re13W4i7DTiye/NoNfdMmnHslQsCMkX
+ 6TNmzD8nOkHkF1f5h2nd0As3XdD9s5U1rTmgsDL7jh8nu/JEd9HX96DThD3ppZgi5+xwRXQU5IB
+ xCpqmYQ9Nw4DNhaUhQqBsOCB0kWtLuUI2K/wKPCHpbeTQ==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 1c5a665168e845ee;
+	Sat, 05 Sep 2026 10:06:33 +0000
+X-Mizu-Trace-ID: 1c5a665168e845ee
+X-Migadu-Flow: FLOW_OUT
+From: Weijie Yuan <wy@wyuan.org>
+Subject: [PATCH v2 0/2] docs/zh_CN: update maintainer/configure-git.rst
+Date: Sat, 05 Sep 2026 18:06:24 +0800
+Message-Id: <20260905-configure-git-v2-0-ab194db8c6b9@wyuan.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNwQ7CIBAFf6XZsxhKA0FP/ofpgeJC1wMYaNGm4
+ d9t69njJPPmrZAxEWa4NiskLJQphg3EqQE7muCR0WNjEFworkXHbAyO/JyQeZqY0sqg4ZfByQG
+ 2zSuho8/Ru/c/zvPwRDvtkd0YKU8xLcdhaXfvX7u0rGWdVRLRWSu1vL2X2YRzTB76WusXQcGax
+ LwAAAA=
+X-Change-ID: 20260823-configure-git-686aea09bf5b
+To: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+ Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.17-dev
 
-struct btf_variable does not exist; the name is struct btf_var.
+Update the translation of two files:
 
-Use it.
+1) maintainer/configure-git.rst
+2) maintainer/pull-requests.rst
 
-Fixes: f063c889c945 ("bpf: add specification for BTF Var and DataSec kinds")
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+I only update the first one in v1. However, I find a reference of
+pull-requests.rst in configure-git.rst is in English, while we've had a
+Chinese one. So, update both this time.
+
+You may find some diffs are just about style, some are certain wordings.
+That's because I find some current wordings feel like a little bit
+machine-translated. So yes, diffs are ugly in some part.  Sorry.
+But at the same time, it touches many parts of this file. If do mind,
+I'm glad to remove unnecessary parts.
+
+Note that there's a warm tip from checkpatch,
+
+checkpatch.pl: Documentation/translations/zh_CN/maintainer/pull-requests.rst:118: WARNING: Do not use whitespace before Signed-off-by:
+
+.. which is caused by a sample Sob trailer.
+
 ---
- Documentation/bpf/btf.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cover letter of v1
 
-diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
-index 3f05f17990ad..004aa1058d85 100644
---- a/Documentation/bpf/btf.rst
-+++ b/Documentation/bpf/btf.rst
-@@ -416,7 +416,7 @@ If the function has variable arguments, the last parameter is encoded with
-   * ``info.vlen``: 0
-   * ``type``: the type of the variable
- 
--``btf_type`` is followed by a single ``struct btf_variable`` with the
-+``btf_type`` is followed by a single ``struct btf_var`` with the
- following data::
- 
-     struct btf_var {
--- 
-2.53.0
+Hi Jon, I added a SPDX-License-Identifier for this file while the
+original English one doesn't have one yet. Should I do that? / Is it
+"legal" to do so? , if XiangCheng would be happy with what I'm doing.
+
+Also the same concern:
+
+https://lore.kernel.org/linux-doc/20260823-maintainer-pgp-guide-v2-3-bea33b2ece54@wyuan.org/
+
+Thanks.
+
+Note:
+
+The issue above is settled in the thread of v1. Thanks, Alex and Jon.
+
+To: Alex Shi <alexs@kernel.org>
+To: Yanteng Si <si.yanteng@linux.dev>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+---
+Changes in v2:
+- Remove the SPDX identifier, see details and reasons in the thread of v1.
+- Add a new translation.
+- Link to v1: https://patch.msgid.link/20260823-configure-git-v1-1-3c65eefcc585@wyuan.org
+
+To: Alex Shi <alexs@kernel.org>
+To: Yanteng Si <si.yanteng@linux.dev>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+---
+Weijie Yuan (2):
+      docs/zh_CN: sync maintainer/configure-git with upstream
+      docs/zh_CN: improve maintainer/pull-requests translation
+
+ .../zh_CN/maintainer/configure-git.rst             |  48 ++------
+ .../zh_CN/maintainer/pull-requests.rst             | 127 +++++++++++----------
+ 2 files changed, 77 insertions(+), 98 deletions(-)
+
+Range-diff versus v1:
+
+1:  c4b4c818df9e ! 1:  74ad4a89ee0a docs/zh_CN: update maintainer/configure-git.rst translation
+    @@ Metadata
+     Author: Weijie Yuan <wy@wyuan.org>
+     
+      ## Commit message ##
+    -    docs/zh_CN: update maintainer/configure-git.rst translation
+    +    docs/zh_CN: sync maintainer/configure-git with upstream
+     
+    -    Upstream documented the common 'git tag -s' workflow and cleaned up
+    -    unneeded RST markup. It briefly updated the automatic lore Link: hook
+    -    for Git 2.41 and HTTPS, then removed that guidance because Link: tags
+    -    should only point to useful additional information.
+    -
+    -    Add a SPDX-License-Identifier.
+    -
+    -    Remove a useless top-of-file label, as Jon always tries to do.
+    +    The English document updated the signed-tag instructions to describe
+    +    selecting a key with -u <key-id>, configuring a default key, and using
+    +    -s. It also removed the explicit section label and the instructions for
+    +    adding Link trailers automatically with an applypatch-msg hook, because
+    +    Link: trailers should only point to useful additional information.
+     
+         Update the translation through commit 944df7a31452
+         ("docs: update the guidance for Link: tags").
+     
+    +    Also point the pull-request reference to the Chinese translation.
+    +
+         Signed-off-by: Weijie Yuan <wy@wyuan.org>
+     
+      ## Documentation/translations/zh_CN/maintainer/configure-git.rst ##
+    -@@
+    -+.. SPDX-License-Identifier: GPL-2.0
+    -+
+    - .. include:: ../disclaimer-zh_CN.rst
+    - 
+    - :Original: Documentation/maintainer/configure-git.rst
+     @@
+      :译者:
+      
+    @@ Documentation/translations/zh_CN/maintainer/configure-git.rst
+     -Documentation/maintainer/pull-requests.rst 中使用的标记分支应使用开发人员的
+     -GPG公钥进行签名。可以通过将 ``-u`` 标志传递给 ``git tag`` 来创建签名标记。
+     -但是，由于 *通常* 对同一项目使用同一个密钥，因此可以设置::
+    -+拉取请求中使用的带标签分支（参见 Documentation/maintainer/pull-requests.rst）
+    ++拉取请求中使用的带标签分支（参见 Documentation/translations/zh_CN/maintainer/pull-requests.rst）
+     +应使用开发者的 GPG 公钥签名。向 ``git tag`` 传递 ``-u <key-id>`` 可以创建签名标签。
+    -+不过，由于你对同一项目 *通常* 会使用同一个密钥，因此可以在配置中设置该密钥并使用 ``-s``
+    -+选项。使用以下命令设置默认的 ``key-id``::
+    ++不过，由于你对同一项目 *通常* 会使用同一个密钥，因此可以在配置中设置该密钥并
+    ++使用 ``-s`` 选项。使用以下命令设置默认的 ``key-id``::
+      
+      	git config user.signingkey "keyname"
+      
+-:  ------------ > 2:  7a451e345578 docs/zh_CN: improve maintainer/pull-requests translation
+
+---
+base-commit: 66fb95a521110da673090294561844c9f76ebe64
+change-id: 20260823-configure-git-686aea09bf5b
 
