@@ -1,76 +1,81 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAC472621
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 01:37:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91762F5A06
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 01:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788572226; cv=none; b=KTY8KO17ZodCiMHP4xWGPVJVUAFlf5TL2zMnJlOvujr6KF1jkETJPoFBYRfH2rtUYP/H4W4779V/FzlZjpdPRzsZN81YRK7rsvRjIqvyae9pMlWSWOqINAHy1A3IKkOpouag7yU09ksc8D/a+i++SnNJK4Obd3R/QsX60q1X+qQ=
+	t=1788573325; cv=none; b=AfMZWfZsEXEqWRKFcAKAe9dg2FU1NQpBhb20PI7q/8lI5A8tkbXIJNkMK7ZPa5XH01VMS10Kah5pauJrF1qrq6X5nyQH2bVvfdLFSTf84z+Jq886je94nHUB4mD4JWlWGsxBJjwjvG8ReIh9HAS5r17CFrFcIrkEvMkfWvOFTGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788572226; c=relaxed/simple;
-	bh=2+R38dE/rYL18jObAqOL2LUQT4XT2rnhSc5Wn0ZdOug=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iSy/FFhWoOqSvwxrnLqIidxHoOQpDnKO8Hyd1//iTQwMySngV2IMe1d8FM8KdgaIE0NUTA7CZqxECb98GFtQLEbJNickSXWFlFGBUcs7ik6moMgLiMbn84MJ/vj3zQPo4Skf1k129/QkRZNuoKzdDicS1+XPSq8fZ+n0ahqiPu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lpyE5uLt; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1788573325; c=relaxed/simple;
+	bh=XqniSnxjZywG1UJ0scWRsx8K04ODl3ZvGr+5qxPtkCc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=g+7aSFWidq44gGEtdNCjlX04/3ThiJuA/T6gsdNinX7d3/UBIjmngxusvb4d79IH3MZLM74KrT99seLtTCFXoJfC0XpeeDKGTDIRANnyP1WqjJv8xMRi3N1DJmlFyaOr+2VNfbRIto/TixRt7+zbfu47Jr6uTepBfrEgF/hiTNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ENoIpTYo; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lpyE5uLt"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49cd77e0f95so14813475e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 18:37:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ENoIpTYo"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-499ae1c6471so14704335e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 18:55:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788572223; x=1789177023; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788573322; x=1789178122; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5E9ZNXmH/bEcRkt+bIVyhckBwD8jjU50Tm6Jae4Vz+U=;
-        b=lpyE5uLtS4ohR0tXuo/C0TpO4DRtGfStF2HL83qdO5RVCwq/+q9a+JnRURK3CNCX99
-         h0Y+3VWH79pPKcX+S7LFTsWfjQEoZLz81ScgRoHHDqrh1mfDJPJbUW/6HgrF0SB8AusJ
-         yw2Hp4l57rRxSXWdmxedVozGRbXFiNp5fX0L7ASTM30xC4XLmecpYAlNfjr0BFksjMkq
-         hXBM5HG4gArq0fZi7bm5GPE04mXXtncbJdnDh1r9mOTMCBw+Gd0pVrpeBC0pnXXAwsCn
-         y8XDMkRcreHRpNL7E5n1AxzTr9ZPoLAgbK+4+8hXanyVI5heDp59Nulf8S3udn5CJGdw
-         HGxQ==
+        bh=bGqr/uumCH3i/wD1gHE7y7ihUxVOE4Gxi7P61fIxB4A=;
+        b=ENoIpTYobYbBK93UEdjZ0EOcLebBhAwxMAE6G3P02k2YSsbaLxzfFtsbCbDPQ6N4tJ
+         /40qDeWNQKW6VA9ShH/hHMuzUlHWdvl1SfT9Xvw3vX+8mlJeOKC0L32cN8W+qs/7TUyb
+         d4IYwTESbKKUvtQoaAukFRu9Di81EBfQzG2LcBklBqU73oxo2DOqXyAIxHeHB6aV9Q6p
+         IJmCdtHE9YhmYjxz0ju52iRifgEhGuFMet/b9l/5pwUVXJ5iOl0JR9lzbcdBCjyYfvcp
+         UjENxil9FxZuqiTrN9+tzBs/6ltqsaJ+UxEjjWiFQCNdQ9c4RuZxbZyBnDrwX+2K6QBM
+         Kwcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788572223; x=1789177023;
+        d=1e100.net; s=20251104; t=1788573322; x=1789178122;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5E9ZNXmH/bEcRkt+bIVyhckBwD8jjU50Tm6Jae4Vz+U=;
-        b=sJlgJ09+iffO4MVRwivb3hN6uFv75Eo2VFXVoHmJBL2BGKul0eye8kDvzTzacvI1Gt
-         lW2/yIfZTzkwLWhtMJ/EajBg+OupqLF2rB2TWFmKVDi0DVQyeyW0Et046rd6LYb1YXt+
-         jjTQuyPghbnpqNB1Cq0HppM1REnbJjaysT1zGPbl7e/k4/lgau3Nk6pFwNkijyHmfQGE
-         UiJ8aSxO2us1Li73GYyGzbjQG9Bp9pKbzuVhD08fP4ghJCb9D1Xuu2lMkKKuYG40jzFB
-         Y8nQDhLSfmoxYQkZWJTN4MR/hiYrY9vU3sVrXFYFgQIV+IwzbITjhRdaq3f/8sQII86P
-         jSzg==
-X-Forwarded-Encrypted: i=1; AKwUvBx0X+OWIz+wChuatx6C7grZm18p+G1qpZ9h2b/OTHxNt3hSQcJKnI2RZ3O0MMNaHPz9ewzxEiR7fJc=@vger.kernel.org
-X-Gm-Message-State: AFuF++nCAMebhlAWZz6EoItEsb9HG+ZegDAMsvcrVBVCe2AnWlSuy2mN
-	MQNp9D26iRR7FS1Xhjp4wRtwpMqsNczYO66Cf8ZhuUe9Cgc5MKqgbphO
-X-Gm-Gg: AYBFou0LGoW/sIv3AA3IVaa03ecfwprf8bW24rxmuD6A37PZkEI76+XF5PXRtfkAGSM
-	1eaBxGYfeZ+wlbSSISdx/yLxi5NuxMf7jmpMGrFvt7uumTVwfOaS9V7rdFi4KNnRaxwldiIFWfj
-	7v0uRYA3QwM2zAeI8Xi4A73TXunEOmuXLBJltq4FwcoSa+wP7ph+aEvzaRTwUWqqlRScZajsws3
-	uKdCHcv2ttBBI1gijE5X5SKSeFUR0Jitfuo+wACD31uqDpYz5hc5wTBDc6gQvvfSNazT2FWZM4c
-	SBwH4nYzzL2fyB6T1yu7fK3lyUtQvFAIMDGFLmRZ43ult7kSC08PvDqcSr05ajyu4oD1bfOjkdo
-	i4TdB3jT329bCCG+ZAaxQiS3BqQYzKMOQyUcYgsvYVITD/OVQYNfBvKevwBZVoLK5Y2DcqUaUwP
-	guzcAQC/9HE0bcri5IvpZOmBCoGFHR/1OgebB5xog9GCrpMcUClJ1eBUd3yGTob3bbpSSapEAY2
-	SX4fX7P2jStTsx6MgsYrwtoMXLfvaE0KPtngPX/uARKMKyeXNMJ0rS99nDnIg+tX5ah9xTXXxs/
-	2RlZF+jox47Uho7TSrynrxzJUDNAiKbDJAuvU7ilZhCHiyOl+3hKB1E/GHcVW1+F/TE=
-X-Received: by 2002:a05:600c:8b25:b0:49c:fc6e:a3da with SMTP id 5b1f17b1804b1-49cfc6ea704mr72161775e9.25.1788572222669;
-        Fri, 04 Sep 2026 18:37:02 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-a4f2-6901-14a0-23ad-a35e-aa8c.310.pool.telefonica.de. [2a02:3100:a4f2:6901:14a0:23ad:a35e:aa8c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf75ce49esm185612945e9.1.2026.09.04.18.37.01
+        bh=bGqr/uumCH3i/wD1gHE7y7ihUxVOE4Gxi7P61fIxB4A=;
+        b=TciaSb8x2Zjv8s4VV6rDQmT3sZtCFe/k4+m4a21Unj0DYtDCdTBtyCxr1QGZ0JxnzW
+         huFZ933cGzCqlgITpW6D/sC7DivFvPHzICF8bKZcuk4n4oSiSGhFjgN7iW6FzC4kn6hc
+         TykNQwuj0QmiHCJLkeQbg4p7B8TWwxiPpy4pP5J7320mesZZojul43J6lx6N/SP5qhNe
+         p5YOugHseoCZqW14TYjykDmgls5Nm3cmaIqTU/OoZ+L9/EiilnhSWqXTwVRmCrHKdRIf
+         SXH0/jqUhfWtxHzXsToBoZTig/E+FWYUBUWSfT3JRwTOYWZHfyXI3uzWWnsl7Suzj6Sl
+         vFZg==
+X-Forwarded-Encrypted: i=1; AKwUvBxUruSCg92NfO0NI7KdLAwgrK+G6hWPfhWvZDUSxaT6yi93sNg1FYstECYb7hd2gJNCHg/9cMVMclw=@vger.kernel.org
+X-Gm-Message-State: AFuF++n5Vszun5SE55YSVr60ebtnUcWNsC+PG5LEuZqXFgnAFJdOHNIX
+	NF+RvAN3kfz8nmjz6+tEPIWU6OOAZkjokFUlEesyTon+P1w6HokJcN+M
+X-Gm-Gg: AYBFou1fudm4FMg6R5DYLztHvuHlktvv6br3Zbwk+ZYT4G5OZJMKX7XcYP/98qtvvLs
+	re0BaHVmQfWtJRHyv0PQg68dd4ozHKZs8XLGguKqJYekDxosf1C36QJJezg3WbGZwbyRIJuNm61
+	8Ut31yBtnvWodSjqI4jEbmJO4Y9AGcuo3T0TUAzwY9Us105E9A9IYQkGt6ehfFydHuepJSgF1+R
+	3aazKkntkysWfz1kEqxXZ2lasDgmrJ6pjvV7NbD8IwfGhiYZd4pEFEaFgdKxzxCgZ+vpf6dq2wo
+	2j2QDYCGYuo4yCTIqTsAFJQGcgMHpwvpehWXHbqWJc0G4IhJ4ESOcD4RaTVcYwROcMy5jAW4yry
+	uqD3wifuShVqo5NIolx2MViczNEXuTAlL1xzkAZ3p2501hlir9CCS7MZ0fZa4bqaFM+4YFhbZ8n
+	qBUXT5gUjgp6LardLqDo2U1XCMzXSS1s1/lFk95LgGFQhnfzVYf0pJTVi9ZbG1DjE2dp3hxocsW
+	RFN/dXmqMsAv6HWA/DF/a6iuBK7vRf19bGCGjugrgHXLeBIIeTMS3UPnIaeASezSdfTX0rrTQMk
+	V+qLVoBkVTsAgn7LJoVHdYmtAY/ZdGIVmDBhd5IOyuFO8W/KmN6lbIgZsCzzFci4GFY=
+X-Received: by 2002:a05:600c:6290:b0:499:8174:9f39 with SMTP id 5b1f17b1804b1-49cf7f3d239mr199069625e9.0.1788573321755;
+        Fri, 04 Sep 2026 18:55:21 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cff8195ffsm51258345e9.14.2026.09.04.18.55.20
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 04 Sep 2026 18:37:02 -0700 (PDT)
+        Fri, 04 Sep 2026 18:55:21 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Kees Cook <kees@kernel.org>
+To: "Liam R. Howlett" <liam@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrew Ballance <andrewjballance@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	James Morris <jamorris@linux.microsoft.com>,
-	Ke Wu <mikewu@google.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	maple-tree@lists.infradead.org,
+	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] loadpin: Fix stale KEXEC_VERIFY_SIG reference in documentation
-Date: Sat,  5 Sep 2026 03:36:55 +0200
-Message-Id: <20260905013655.58665-1-kmehltretter@gmail.com>
+Subject: [PATCH] docs: maple_tree: Replace removed bulk insertion API
+Date: Sat,  5 Sep 2026 03:55:09 +0200
+Message-Id: <20260905015509.76265-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -80,37 +85,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit 99d5cadfde2b ("kexec_file: split KEXEC_VERIFY_SIG into KEXEC_SIG
-and KEXEC_SIG_FORCE") removed CONFIG_KEXEC_VERIFY_SIG but left the
-LoadPin documentation pointing at it. Refer to CONFIG_KEXEC_SIG instead.
+Commit e3852a1213ff ("maple_tree: Drop bulk insert support") removed
+mas_expected_entries() but left the documentation describing it.
+Document the current preallocation interface instead.
 
-While at it, clean up the grammar of the sentence.
-
-Fixes: 99d5cadfde2b ("kexec_file: split KEXEC_VERIFY_SIG into KEXEC_SIG and KEXEC_SIG_FORCE")
+Fixes: e3852a1213ff ("maple_tree: Drop bulk insert support")
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- Documentation/admin-guide/LSM/LoadPin.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ Documentation/core-api/maple_tree.rst | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/admin-guide/LSM/LoadPin.rst b/Documentation/admin-guide/LSM/LoadPin.rst
-index dd3ca68b5df1..a90fd9dac960 100644
---- a/Documentation/admin-guide/LSM/LoadPin.rst
-+++ b/Documentation/admin-guide/LSM/LoadPin.rst
-@@ -23,9 +23,9 @@ sysctl allows for easy testing on systems with a mutable filesystem.)
- It's also possible to exclude specific file types from LoadPin using kernel
- command line option "``loadpin.exclude``". By default, all files are
- included, but they can be excluded using kernel command line option such
--as "``loadpin.exclude=kernel-module,kexec-image``". This allows to use
-+as "``loadpin.exclude=kernel-module,kexec-image``". This allows using
- different mechanisms such as ``CONFIG_MODULE_SIG`` and
--``CONFIG_KEXEC_VERIFY_SIG`` to verify kernel module and kernel image while
--still use LoadPin to protect the integrity of other files kernel loads. The
--full list of valid file types can be found in ``kernel_read_file_str``
--defined in ``include/linux/kernel_read_file.h``.
-+``CONFIG_KEXEC_SIG`` to verify kernel modules and kernel images while
-+still using LoadPin to protect the integrity of other files the kernel
-+loads. The full list of valid file types can be found in
-+``kernel_read_file_str`` defined in ``include/linux/kernel_read_file.h``.
+diff --git a/Documentation/core-api/maple_tree.rst b/Documentation/core-api/maple_tree.rst
+index 12bccfb6aac1..836342fb1eec 100644
+--- a/Documentation/core-api/maple_tree.rst
++++ b/Documentation/core-api/maple_tree.rst
+@@ -214,11 +214,10 @@ Advanced Allocating Nodes
+ -------------------------
+ 
+ Allocations are usually handled internally to the tree, however if allocations
+-need to occur before a write occurs then calling mas_expected_entries() will
+-allocate the worst-case number of needed nodes to insert the provided number of
+-ranges.  This also causes the tree to enter mass insertion mode.  Once
+-insertions are complete calling mas_destroy() on the maple state will free the
+-unused allocations.
++need to occur before a write occurs then calling mas_preallocate() will
++allocate the nodes needed to store the provided entry.  The entry is then
++stored with mas_store_prealloc().  If the store is abandoned, calling
++mas_destroy() on the maple state will free the unused allocations.
+ 
+ .. _maple-tree-advanced-locks:
+ 
 -- 
 2.53.0
+
