@@ -1,116 +1,96 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A501F27A916
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 02:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B882D5408;
+	Sat,  5 Sep 2026 02:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788575882; cv=none; b=VJ/tEq+Kt2ZsHlv1kdMwjz5Te4MSrnHUfdSZEnd/XljBJ+bqcHCABSUvD+ttt+sOjm4AmLVv1bw1ToHdoof/EXIleb1HLfja0VU9yxHeuDViy9GPzggagUNbIhCB3GZAbbRRCo8MOfeRpIMcPDT5RfI4BpOrLTnrUah/UbdVE4U=
+	t=1788576041; cv=none; b=Z99xPJRQspwnx2cr5JLza5hmFKPSlgFTx2AEL/UXDu9IhEIfSCeFOACZ5pAiTydfXMlHv094DBPNMe+4pECBgZHAn7QdYg+Yp9i0N7279+UMpNRssKCFDkqpxUalUkbuupS98mhAbupYSBfgbKT+n3Evcz+h52i6wiW86GkNwYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788575882; c=relaxed/simple;
-	bh=j2RVUpj+x667v7vyWSyYDkDg2CgNdAXc01JuvoeLxyA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hUs0c717n2kmj36me6TRteJYg5XntPSLnUwGlnsAwZrYCGJFZD7BGt49H8FG/jKqJIRcm9t7HuampHS7SPqXMBZeTv7YscbD2bOe5HimhoXDhiElSraoCE3S/B+SfFPqQ0U+jB3CO115cg2IcXc6z7qa7B/tpKJ1beBv7TC32xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BrosNoVS; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788576041; c=relaxed/simple;
+	bh=1jHyMN1PgQjTkpyy3nxRyLDm7ZFa8msCO0Limlby7/A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BEo7gJnk+66PNrCo4qmKHSS60umYNVziB7iBqxJNmMckUe74vfnml/Ifa5cedp6In1TV3/etITiGDQXdcIaC0Oj4l9UGhXdgSjn7pA+KYQDEDbnsqlOOORgETyYMTbEJHm8lyRtLTD1pWvh8YGhs1Is9bCX/gOWAFz2glIJYSVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=j9TomF9M; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BrosNoVS"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-499ae1c6471so14857905e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 19:38:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788575879; x=1789180679; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZH3wkIQcCWjm+BxTgOu09F0rbTL1k1ZraSpB3gco3J8=;
-        b=BrosNoVSjfTJmr5qf95CTuB4ufV2KjG2BrJOk+SOtDDsY59cDezJfVRcjc/lZJ7dtS
-         OZoknfpM6IxUYocY6CsA4+iJ9ysUJj8adr8Ot4DiGr4V7kBbhqVOKf8crKNUT4kWwyI8
-         p+LVRGarS0IO9CS2g1YKDzLmQdumoFKz6bPAC12bCJVwYAbbXxtoUu+R1DXVCRFRKYAW
-         F+qZPqBx0lFxfh5L/72uua8qmBd476w7PBhTXueGaJ3EGBHRjQH5LpO2IHjOVJgfE4/F
-         mcaJIKS/gX23PHszPH69yKfo6pyWi4tNgDwdRKni8xK2NS9ARWqp47uUGC3mKaBqPJ08
-         KIMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788575879; x=1789180679;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZH3wkIQcCWjm+BxTgOu09F0rbTL1k1ZraSpB3gco3J8=;
-        b=PwULRXnARtvzVG18XszJu8XsfrNpYxLZRayEa2b9YKq9kVG22+vsyE2axgyl0WkWjD
-         JQxf66HhJyPIxQ4KvnY8ht6fE+lsDl6iwzBMZ6AoPh17qjQiizdkftIAmcuJcJ8JByIh
-         hSSLdsk6PzI1L6/lZo35weogHl6cdGiI+HN0tjd6A2LSzDB8dFACp0mn/WzKaSTlHI/H
-         gfCIRTYUGBPL5Y0SQf7jvFpIDV9O1oIilHp7ZiZ+zp2kjgF5ATIgrtLZbKhK7SqY/BMj
-         AYSKV4s2jKHVt0tVV9hGyqJJfrYPFINbCsaYp8j+XRROpRnxY0nMliXBdSdWBRfeVwxB
-         PKhQ==
-X-Forwarded-Encrypted: i=1; AKwUvBww7FAMrpuJ592MI1iXeftmhptObgPnQAH2I0MzzOXGft2PuISLfSHqCcC6XDwqxhpfNkvX+Fq79P8=@vger.kernel.org
-X-Gm-Message-State: AFuF++myr/YeQlct5D18OTcewkMegmjcu6GE9GlHJbtOMz7qWelvjniQ
-	epMfoVQeym8QMFvojk/urADO5wEy0ghrx9miOtVGbF/QwYmdQefkFTDW
-X-Gm-Gg: AYBFou3ZYHLStk4l5hJJ6gFsJqun7VOxWx9F2/eqqfd5Gy4S+tAB0hDyOClfgkxVEd8
-	kF37SFeh41oq+e6SFGXszJPhRfkmh31yksqnrD7XCu/tT+lHenAnZBrggjfghAxTa6WKxCEa1ne
-	OjnNsySOjYUzaLYeUe+hf/FdBa29/kvXOWsAjkt3IQsqZ5Gp4R6Yp6t1MLpT8487fUL4we1zvek
-	fOh/pALZFsfdfZzyJC0vn81StHTfN3yPyurnEA98U3XKvZRi608hg4n64QihnnQySGKJBlyS9ek
-	V8nfFPXskIvWT6/RYg2zic4JpNvgkQV9/Osyn3hlghHp/wKYT08nehwdrWFC033jr9eerTmYGVZ
-	6I69r9u92jwpjdgJOrVMU5d50st7ZasORHzYG8bUx5hXR3tM+L6wfYAlkxX0vdM0VKA7T9foQbY
-	4NIhiwFBEIlBgeqXmwdESqbO25B17QK6HAYwcyXDA03asvd2iPNJRZQJ24N9FZeHYtYbFo3taRt
-	YewfKyRDp5lTld2tkLbZqkpj8Pp36iZclkvXbVR7PorlF9+3Vyl+MnkcU6dD0WuCtAQJnrPIzzu
-	oAlviVNdAdANVipQKn47regf+Okerqp9w3V8nGtaBSf5RUSJPMzdQyVITeHGjQh67ok=
-X-Received: by 2002:a05:6000:1acb:b0:485:8b5d:96d with SMTP id ffacd0b85a97d-4858b5d0d2dmr14136245f8f.19.1788575878815;
-        Fri, 04 Sep 2026 19:37:58 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c5bc5sm10808778f8f.24.2026.09.04.19.37.56
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 04 Sep 2026 19:37:57 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: irqflags-tracing: Fix the lockdep Kconfig option names
-Date: Sat,  5 Sep 2026 04:37:46 +0200
-Message-Id: <20260905023746.82998-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="j9TomF9M"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=HJhe4v0Ih6cd9raXVOt4hqvtCOOVK1vFM7fzFxentqw=; b=j9TomF9MnlcTfitvTXNu2bhlRl
+	pg374fwBfJmmo4NPnuF0INo3gOR8uL4zMXIHnMzOzfyzAaM+xltmF1Fs30jvIT7fMfncmbbapkrMz
+	itb9FAREgDHr2H9EyIeqT2YgLo7DhqwPnKX64jMRMjvLiYj741nw5rnC0VnuxamzzM3mF2oTJHM1s
+	Muz3y2VeS95En7e3mRpRf0YZUClDDgzqTGKILWXjNIQr7WVgm0IU9NVSQVcSK9zn9h4YwqV1GjMo4
+	p+9GyAva6oV4dwgMExD5tC4g4u/wefWz9jXCFJk6ztk57DZ8Vz0NQ7i2ITjNHjXH1DoowP+igso0v
+	qr2/iwdA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x2gKY-00000003bqt-2C1I;
+	Sat, 05 Sep 2026 02:40:34 +0000
+Message-ID: <b39a2199-fac2-4648-ad96-cfbf0232db3f@infradead.org>
+Date: Fri, 4 Sep 2026 19:40:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] loadpin: Fix stale KEXEC_VERIFY_SIG reference in
+ documentation
+To: Karl Mehltretter <kmehltretter@gmail.com>, Kees Cook <kees@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ James Morris <jamorris@linux.microsoft.com>, Ke Wu <mikewu@google.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260905013655.58665-1-kmehltretter@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260905013655.58665-1-kmehltretter@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-CONFIG_PROVE_SPIN_LOCKING, CONFIG_PROVE_RW_LOCKING,
-CONFIG_PROVE_MUTEX_LOCKING and CONFIG_PROVE_RWSEM_LOCKING have never
-existed in mainline. Lock proving was merged as the single
-CONFIG_PROVE_LOCKING, which has depended on CONFIG_TRACE_IRQFLAGS_SUPPORT
-from the start, so there is no reduced set of options without it.
 
-Fixes: 55df314fbdb4 ("[PATCH] lockdep: irqtrace subsystem, docs")
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
- Documentation/core-api/irq/irqflags-tracing.rst | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/core-api/irq/irqflags-tracing.rst b/Documentation/core-api/irq/irqflags-tracing.rst
-index bdd208259fb3..a3c77046ae6b 100644
---- a/Documentation/core-api/irq/irqflags-tracing.rst
-+++ b/Documentation/core-api/irq/irqflags-tracing.rst
-@@ -9,12 +9,8 @@ that it gives interested subsystems an opportunity to be notified of
- every hardirqs-off/hardirqs-on, softirqs-off/softirqs-on event that
- happens in the kernel.
- 
--CONFIG_TRACE_IRQFLAGS_SUPPORT is needed for CONFIG_PROVE_SPIN_LOCKING
--and CONFIG_PROVE_RW_LOCKING to be offered by the generic lock debugging
--code. Otherwise only CONFIG_PROVE_MUTEX_LOCKING and
--CONFIG_PROVE_RWSEM_LOCKING will be offered on an architecture - these
--are locking APIs that are not used in IRQ context. (the one exception
--for rwsems is worked around)
-+CONFIG_TRACE_IRQFLAGS_SUPPORT is needed for CONFIG_PROVE_LOCKING to be
-+offered by the generic lock debugging code.
- 
- Architecture support for this is certainly not in the "trivial"
- category, because lots of lowlevel assembly code deal with irq-flags
+On 9/4/26 6:36 PM, Karl Mehltretter wrote:
+> Commit 99d5cadfde2b ("kexec_file: split KEXEC_VERIFY_SIG into KEXEC_SIG
+> and KEXEC_SIG_FORCE") removed CONFIG_KEXEC_VERIFY_SIG but left the
+> LoadPin documentation pointing at it. Refer to CONFIG_KEXEC_SIG instead.
+> 
+> While at it, clean up the grammar of the sentence.
+> 
+> Fixes: 99d5cadfde2b ("kexec_file: split KEXEC_VERIFY_SIG into KEXEC_SIG and KEXEC_SIG_FORCE")
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
+> ---
+>  Documentation/admin-guide/LSM/LoadPin.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/LSM/LoadPin.rst b/Documentation/admin-guide/LSM/LoadPin.rst
+> index dd3ca68b5df1..a90fd9dac960 100644
+> --- a/Documentation/admin-guide/LSM/LoadPin.rst
+> +++ b/Documentation/admin-guide/LSM/LoadPin.rst
+> @@ -23,9 +23,9 @@ sysctl allows for easy testing on systems with a mutable filesystem.)
+>  It's also possible to exclude specific file types from LoadPin using kernel
+>  command line option "``loadpin.exclude``". By default, all files are
+>  included, but they can be excluded using kernel command line option such
+> -as "``loadpin.exclude=kernel-module,kexec-image``". This allows to use
+> +as "``loadpin.exclude=kernel-module,kexec-image``". This allows using
+>  different mechanisms such as ``CONFIG_MODULE_SIG`` and
+> -``CONFIG_KEXEC_VERIFY_SIG`` to verify kernel module and kernel image while
+> -still use LoadPin to protect the integrity of other files kernel loads. The
+> -full list of valid file types can be found in ``kernel_read_file_str``
+> -defined in ``include/linux/kernel_read_file.h``.
+> +``CONFIG_KEXEC_SIG`` to verify kernel modules and kernel images while
+> +still using LoadPin to protect the integrity of other files the kernel
+> +loads. The full list of valid file types can be found in
+> +``kernel_read_file_str`` defined in ``include/linux/kernel_read_file.h``.
+
 -- 
-2.53.0
-
+~Randy
