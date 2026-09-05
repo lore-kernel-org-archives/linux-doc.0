@@ -1,97 +1,83 @@
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-212.mta0.migadu.com [91.218.175.212])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679E523EA8B;
-	Sat,  5 Sep 2026 08:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDDB3F326B
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 08:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788596516; cv=none; b=HVJVgZbSouIFBN2WRtAlewPpsNYVd4ikwd6d+HbFlZQymzjaL/bkJVJvQ+McQmh94wLuDEC6w3Rwjrx1iOcxx1vf6npzWcF7TvhLHdGOY8jm5Fi2MjMujFSBCC6CTMgJGtZANJVNG/oyypOXtXpjP8/dYd3se1eQmGhRTqLVpQY=
+	t=1788597357; cv=none; b=Dot/N0S1ilCY/hgIOSlqRemg2yoa6GDFKlbU8ppmjM2wXpfJV+zB4SRLw75d7Mo31NKQY5hnF/X6ucB3oz73soodtDnRMlIaWZ6oBmnRyESyz3CEgxcoHxrfZ9HnrFaK17hnROT1tvMqXrL1n/kHmHM3y7A7KtKeU+9Cwl4BlC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788596516; c=relaxed/simple;
-	bh=fn4NxiT4jn6QUWX8zX732tVu6ZhQloWWXrxTG6Wqax8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d98HLU8Vrveyrv99pFjD4puxPDtwj7Lssw1eWsdoeh8inJhH/nG/fyZR+6TcKw5z3UTVCCgZRA2UMvIbzwdaeFO3GJquD22ORZ/Hk2PMxnb0prgI/dLlFWEF1ZbCq67Sssfpr4qoV4OVa8Lf5dbH/sTE/PsVYNxv8AAXh3ywbSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=GW0d1A4n; arc=none smtp.client-ip=178.238.236.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+	s=arc-20240116; t=1788597357; c=relaxed/simple;
+	bh=LhEf2lmvz3lHfnrYNvIqdGOINaYOzsSsBbuAUaDK0d4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U0G20NksFZesL4TOtHmth1oXINWy46I/vIlWU5Jn/1tfWnvVnQsUAtccouUJWz3BfuyjLKc+Q7rYmEH31KMujy2cTpV63J3tmozgWqGj6CrkQ1sqfiuFO9AiSXyEUrudFXbknlXvdqE1ROUnyiEzRA/uXLSUbeZLYEQWRe62IKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LoAZgjW9; arc=none smtp.client-ip=91.218.175.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="GW0d1A4n"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=References:In-Reply-To:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description;
-	bh=pVISZRhqeUbbG63nkEbrVHxYxMTirBscwLs3Wje3fLI=; t=1788596514; x=1789806114; 
-	b=GW0d1A4nZiuH6M7yc7pEFUp0c2CjZDav9+HrWCCWJ9gQhUCOtPoYP1UGFOthgjFaB6rdanxZ1MX
-	MnaJ5OdvxWO393utNbT35qN7oEVMkPiFvb7JpSWY1BSiMoLAjc9yucFfL7OXoS1DqYUfl7Vozhdqo
-	2EvsFIm5r9OKahM7Pg+yGy0rivrH9dbjDhgPIj9xu0vpTxMvW7YO+YpO2hyGiaa7+4OUc51HJS+Zy
-	VfpuyZDyYxslNjNQNmdZ5iZGmAUmrsdUID1ts/Z/zWjRWhjletGb2+P3T0TXPZMC37F/mv9JfiEAn
-	PHqVlV1kCHTIaeOwY54zPWeOpW/T9zlkutoQ==;
-Date: Sat, 5 Sep 2026 10:21:34 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Geert Uytterhoeven
- <geert@linux-m68k.org>, linux-m68k@lists.linux-m68k.org, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
- linux-doc@vger.kernel.org, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, Steve Wahl
- <steve.wahl@hpe.com>, Dimitri Sivanich <dimitri.sivanich@hpe.com>, Tony
- Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, Krzysztof Kozlowski
- <krzk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-samsung-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Tony Lindgren <tony@atomide.com>, Kevin Hilman <khilman@baylibre.com>,
- linux-omap@vger.kernel.org, Dominik Brodowski <linux@dominikbrodowski.net>,
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- linux-ide@vger.kernel.org
-Subject: Re: [PATCH 7/9] docs: kernel-parameters: Drop the omap_mux= entry
-Message-ID: <20260905102134.69ef3092@kemnade.info>
-In-Reply-To: <20260905070347.25902-8-kmehltretter@gmail.com>
-References: <20260905070347.25902-1-kmehltretter@gmail.com>
-	<20260905070347.25902-8-kmehltretter@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LoAZgjW9"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=LhEf2lmvz3lHfnrYNvIqdGOINaYOzsSsBbuAUaDK0d4=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788597353; v=1; x=1789202153;
+ b=LoAZgjW9eTsAU3sYux3iSDpm37PYZQJ9V9SZ8rpDaXIIEopob8BJCt5B+NVpxfZ/CTiLmU7I
+ qX8hgUoDhJWrpj9uFblu4qZJPE2mY649obJhSiyiTdQT/BWIMiyvG3RTKfqzUioAu/4agaJppgi
+ d6CVlIvUaJr88PD81EE5/DXE=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 41100b57e1186b92;
+	Sat, 05 Sep 2026 08:35:42 +0000
+X-Mizu-Trace-ID: 41100b57e1186b92
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <e3d0eaf8-a85f-48ff-96c2-dced4945b085@linux.dev>
+Date: Sat, 5 Sep 2026 16:35:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/11] mm/sparse-vmemmap: switch device DAX to shared tail
+ vmemmap pages
+To: Muchun Song <songmuchun@bytedance.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>
+References: <20260831075342.57563-1-songmuchun@bytedance.com>
+ <20260831075342.57563-7-songmuchun@bytedance.com>
+From: Qi Zheng <qi.zheng@linux.dev>
+In-Reply-To: <20260831075342.57563-7-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Sat,  5 Sep 2026 09:03:45 +0200
-Karl Mehltretter <kmehltretter@gmail.com> wrote:
 
-> omap_mux= went away with commit e9f5f1e45608 ("ARM: OMAP2+: Remove
-> legacy mux code"); nothing parses it any more.
-> 
-> Drop the entry.
-> 
-> Found by cross-checking every documented name against the __setup(),
-> early_param() and core_param() registrations in the tree.
-> 
-> Fixes: e9f5f1e45608 ("ARM: OMAP2+: Remove legacy mux code")
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
-Reviewed-by: Andreas Kemnade <andreas@kemnade.info>
-
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 5 -----
->  1 file changed, 5 deletions(-)
+On 8/31/26 3:53 PM, Muchun Song wrote:
+> HugeTLB vmemmap optimization now uses per-zone shared tail vmemmap pages.
+> Device DAX has not been switched to that mechanism yet.
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index d44728a45506..48dd273eaf6c 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -4765,11 +4765,6 @@ Kernel parameters
->  			waiting for the ACK, so if this is set too high
->  			interrupts *may* be lost!
->  
-> -	omap_mux=	[OMAP] Override bootloader pin multiplexing.
-> -			Format: <mux_mode0.mode_name=value>...
-> -			For example, to override I2C bus2:
-> -			omap_mux=i2c2_scl.i2c2_scl=0x100,i2c2_sda.i2c2_sda=0x100
-> -
->  	onenand.bdry=	[HW,MTD] Flex-OneNAND Boundary Configuration
->  
->  			Format: [die0_boundary][,die0_lock][,die1_boundary][,die1_lock]
+> Switch device DAX to vmemmap_shared_tail_page() as well. This aligns DAX
+> with HugeTLB by using the common per-zone shared tail vmemmap page.
+> 
+> Since the shared tail page can now back ZONE_DEVICE vmemmap mappings,
 
+Could you explain this in more detail?
+
+As sashiko pointed out [1], it looks like this assumption is
+problematic: dax_folio_reset_order() may end up modifying all shared
+tail pages?
+
+[1]. 
+https://sashiko.dev/#/patchset/20260831075342.57563-1-songmuchun%40bytedance.com
+
+> initialize its entries with PG_reserved for device zones. Also skip
+> poisoning vmemmap-optimizable sections while their struct pages may be
+> shared.
+> 
