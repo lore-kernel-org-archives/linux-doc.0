@@ -1,139 +1,125 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F694383987
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 08:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E563F38F250
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 08:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788595355; cv=none; b=JEHFywNqsUTyyPAuNcBbT0f1MR3XdpExyN2oYNpt7LaEeZpxIKTiSd+pbs/gbZ7fakTYrbKQ/qIXXVOMN7HH0u5nTE1n0mneoHfEEOHxqiwTUppsE5D66I57dd7pEYd08YDAipl36PUjnZPYZaL12+vtdPTfOOuiSFUS/u7FrJU=
+	t=1788595450; cv=none; b=jOaIbg0C0HYA260LUk6reL0TctHF7M61fh8cG79uqozLUZ6lgnlckEslSTBSAMXnFjVu3qRd0XrqhfgYu6oRQuRTrwac9yCnToq0bU/SUjSNZtNt2XsqnHLFtSCWO0/2x3izE1fBrRAvKEcbMvmBmnofH1ie6TafgM+PKdMLt6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788595355; c=relaxed/simple;
-	bh=R8I8oweAS9knfvlYcgDOolf1C9n809RgicPSKaghaHA=;
-	h=Subject:To:References:Cc:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=qr7jk61CaHQ2ET6NDxExu9uGSPvafp+LqnsBCUBHXyyfz/MT+vkkVs7C44dxzgOq9UiQ4KYxf64VwCIJEw0/BcAcnNRjJoXwY2kzikFohVR8BaQjaY/TGNyh1LRbEDqtEQg9n/j4nlVY9PXcdFiJsxDP9syO1IA7Aiqm4jj9aKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d6zXG/Z1; arc=none smtp.client-ip=209.85.216.44
+	s=arc-20240116; t=1788595450; c=relaxed/simple;
+	bh=4ekraZy/fgRJ8xIH3aZd8XUZWGZ1ch2LOkcS3hFNA/E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W4t19fEs+NdYb13suO2fBcAFWb+ajwL3ELLTmZDlB43bFWYsNPELNvXuEBLqfIFtm+7Yy6OOPau+EDF9gNRY9kd7kjlG86vpqRhlfKodZKBdAauP+qetyxBuBmqRtksZuNMwwUrFFs8ghqcmwP7M5RpevkAtcinVdRYp+iGcZwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rNknC+46; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d6zXG/Z1"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3990fe066ebso1411500a91.1
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 01:02:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rNknC+46"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-482e257a23aso1253109f8f.0
+        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 01:04:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788595353; x=1789200153; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:mime-version
-         :user-agent:date:message-id:from:cc:references:to:subject:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=k4a8kETbbno+r0apC2sHIp95ZZ7jnRlfEcHkEbZMrCc=;
-        b=d6zXG/Z1apBsqPr0NiFpJ8qbt90ciC2+Pnk+XnZ8WkG2lXsvPaoZGr4T6CBP8aZoCC
-         lkmsrg3PmU9SuNEpEBBMoZV4McIMhwKJL6OCmaelOopyBBBAtJFrR7HKIZikU7Qc/pRB
-         G2P54+1Z4OyTtD2zi6Q4aFYDX3OandL8m6L6IKm3BRGnPEZNBb6JM9KxGRFIKHqckWh4
-         ezB0yQQlyFTR/ZXgK1JRxjuCYV9dkGfL9PGTW/yi+845NAiUfZxZ890rLy7udSN8Bi/e
-         dwBiIpFeyqiu7zi0d7Zymj3/N1zEWzLdWV8PZ4qI+Dnez6yHqQfA0w0pOlo8IFstyEOA
-         6xnw==
+        d=gmail.com; s=20251104; t=1788595447; x=1789200247; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IRZkyYibSQw/TdoJWn+8ggoBMlqJpfdb7cVc+BMe9tc=;
+        b=rNknC+46zeL4xMwEPRnti6awsI701Zv3lYwZalIuADh3BDeUVky8h98MbWSTBP8z87
+         pTs+O9AFTQ26raXHvDO4E2QnGVG0HAEkX2E1DmSwmiyZmaW/YadsKRgfdfJJs0w4TI0P
+         YHO7PRz8OP1SzBbhnRhCKk+6u+E7gi+eSHPrAOfgc/CaKPmZnhTzFTT37j2TumZArEPD
+         L6ZNu8pooBagugkySZPFyWWc/0+890eXogAm4yMZlSQDcE8ZeXdeY7hpZI/nrU/GcdzX
+         Jj3wmX9cISeOzdnxX63C9lR189pPBYoEelOSR4GO46wFWdioo+2sM3JfeZJKSKN8O+3X
+         dglQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788595353; x=1789200153;
-        h=content-transfer-encoding:content-type:in-reply-to:mime-version
-         :user-agent:date:message-id:from:cc:references:to:subject:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=k4a8kETbbno+r0apC2sHIp95ZZ7jnRlfEcHkEbZMrCc=;
-        b=f+LNZyCPOnrFQ4I7C99LCz9itFGciy579lfp9RZIuTEOaqViUai8EifTPGEIEdQZhK
-         d4bHp6tP3C0olkO5LUH8j/eohfTkpJwfPUhIjqi8dYBEfHIks8JNYq6BJfYa0BeJZKBp
-         ecx43qQzkItXQ/XdON3yCEiQzp/fgp7lowDtZIkvDrpgHB2C/SJ5Rs+OwqzjOT8FiX+n
-         enjbcEF2s4EfMaP/GO10gS0nOYuY5TI7Y6YPdknZh9A5dtDdVsRRPwbzPppzUHYPAnys
-         metUNUpUmATHI87EZwcmyaSUd88WwkcRIRkWY0ryPcyARPxaMYDDNeyRTjSN4qFnVAvn
-         qP+Q==
-X-Forwarded-Encrypted: i=1; AKwUvBymcPGw4IBLV2BzzoBqTrBgMu97cCF7Esbf7pDTi1oHjRa8Bwl2dHe3dgpOIyc9iXcKu3TNiA0XkgE=@vger.kernel.org
-X-Gm-Message-State: AFuF++mpbLVo0+0jcqFgPM/yDDSNy4gtk8deImFmG46Q9pltjWHAqS9K
-	42CasxPiEER01vrdXf+gQUsdGTRFnFB4MuKKhalcO3UqTJoouCWzmitJ
-X-Gm-Gg: AYBFou2dO4CL5TdWJXkSfCfqNnpnlct12XPZF4IShTyzFSe2/j7F47n/guMhZxjLofC
-	ZLO9PuoAZVgXije8lfTZB5UrvuRWBC7xEOlBo95DLpckejR/RC0eA5mj0YHulhkXuvxC3+CZ+kB
-	Q9Kl/0tfczMYJY+gVT9By6KUtsBR/RxRpLqfxuBaSavvGen2hYERJ7c7iQYn9A9Nj9IPWhuD/kT
-	k4WONPEIy2iRzpQ5e+fuwaQc7oqEr/snUUcCfUrS8Ks86yQovnCiDy0NKV0Vy/1YZxYVWvSk9RM
-	tCXqp93sd2zhuc2aNuMsD1zLBOIEVF5JBMwbJCWGHi5ugDskLADB/7v9XE37ZjF/ts7BahfA7TG
-	1Vp8aLWk8sTf7jVc5YOugxoHd4VMgxZQERccrURwvI7TQlnUdg9k8eByYwS+r9ly1k/7huKt7Ep
-	xbrlrotFzXx0NrxUqmZW7Trq4RKYPCT5gQ89UrLo1P3dxoCm+gxL0K4LD6EUxYuuH8CqFRBMaxU
-	a48+BjmEBE1LVc3szc=
-X-Received: by 2002:a17:90b:5246:b0:39a:e983:d4bd with SMTP id 98e67ed59e1d1-39b262a3cf7mr18232824a91.24.1788595352899;
-        Sat, 05 Sep 2026 01:02:32 -0700 (PDT)
-Received: from [10.1.1.24] (122-59-250-182-adsl.sparkbb.co.nz. [122.59.250.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08cacba5sm15543669a91.12.2026.09.05.01.02.15
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 05 Sep 2026 01:02:32 -0700 (PDT)
-Subject: Re: [PATCH 1/9] docs: kernel-parameters: Drop the atarimouse= entry
-To: Karl Mehltretter <kmehltretter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>
-References: <20260905070347.25902-1-kmehltretter@gmail.com>
- <20260905070347.25902-2-kmehltretter@gmail.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-m68k@lists.linux-m68k.org, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
- linux-doc@vger.kernel.org, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- Steve Wahl <steve.wahl@hpe.com>, Dimitri Sivanich
- <dimitri.sivanich@hpe.com>, Tony Luck <tony.luck@intel.com>,
- linux-edac@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, linux-samsung-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Tony Lindgren <tony@atomide.com>,
- Kevin Hilman <khilman@baylibre.com>, linux-omap@vger.kernel.org,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- linux-ide@vger.kernel.org
-From: Michael Schmitz <schmitzmic@gmail.com>
-Message-ID: <762382f0-87cd-2148-9846-40448c7b1702@gmail.com>
-Date: Sat, 5 Sep 2026 20:02:11 +1200
-User-Agent: Mozilla/5.0 (X11; Linux ppc; rv:45.0) Gecko/20100101
- Icedove/45.4.0
+        d=1e100.net; s=20251104; t=1788595447; x=1789200247;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IRZkyYibSQw/TdoJWn+8ggoBMlqJpfdb7cVc+BMe9tc=;
+        b=ZOLBWl7tcdJHdMNXPGl99QSEbuwYKylg7+tUuUgdrRMIiUVozakGC9yKlcCaYW5O60
+         OWd6HVB+dXsonxztJAx3a+QWVm2qnvNq4A2keNh7Hyhy0dXUzCCPyihKRukcZGYqgZ8T
+         bLKKB3VeYFwIMx817rM9Gw9I98Sv7hg7yizOwtkUNC6A1dWRSqp8d2j9DDjQcbS2O4Re
+         OCCww2SKNOU9V/W3p9cVOus+f5hd7ZrR0Zqln+wdViu777XVKgArHCcGjh0bK7zDFYX/
+         xMagpjCOW0eBVfc9hLbyGaHFEzh0k0k65/JIyBtVhLH7sHPFktmX4q/mJdFEd1BJztzB
+         acVQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx5mUT4bnygw/0lRnpnCg+pO2/ks59hNU1flMf7JdX6D3FEe0Peqk5WeFGnjwJ6QySCef4y+rd9MXM=@vger.kernel.org
+X-Gm-Message-State: AFuF++mDliQBrpoj6bFRdYLLUX9IcbnfAhYfnA+bVpxSP9/8n+mqVECC
+	6K/4yUdPN2HU3k3e+0WakcZTYMJeTv+tuzJJHCd47wpTE95ggV57JI0X
+X-Gm-Gg: AYBFou1rsXYKkMr4cCScZJ6fQn/0CkY0PvyyrTMXiP6knjOLnYruWkY4JcHq1F/nArz
+	fYJLZ/wAwBEb71BH88NK7LOjxdPUZSPWoUnSWCvdP1AzMxLXg6GgXnuavxexQmMwrdsVywtPHZ6
+	LaRbMORA/Au+9pdP8WmZozBLs5YDQk/FraEJhCOuPvQ9K/u7O+SKtQJsSjmAAJanPhxbDpa2x8A
+	62J2SWBaSgIpecTZFdc3FB+eY/For90QUGXpRwwgs2CyLRXkA6Lit8CzmYOCQbDAcEi3fSjslqx
+	jB1mbUceCuHg2HIWJWSPqTW+yHXHVKZlYkPQEuHgyQYYdQlygO7MUC1xXP4OKx9kHdEdDmRoeDf
+	HF2Lduo8qoqkeowre43mfhaFGYQLE0zAADGn+M9AUELYRevWYTPe43884nPCzWg/IoZgRIYBQOj
+	04NkiVmHwru4EOFjHbe8iN9c5urJ5aD2UIfbrtaHZS73DhtKxNIG9E9UlWUYCEqWbWyNY89PPcB
+	zk+6w8V+TeQsejLgbta8wS3qE4JfI927JVGvoDOuG3KUIQzzbI=
+X-Received: by 2002:a05:600d:8446:20b0:49c:fc7a:22d5 with SMTP id 5b1f17b1804b1-49cfc7a2342mr62413185e9.4.1788595446573;
+        Sat, 05 Sep 2026 01:04:06 -0700 (PDT)
+Received: from puma.museclub.art ([2a00:6020:b326:d300:d19:a765:d8d7:bedc])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce5563c6csm206542315e9.4.2026.09.05.01.04.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Sep 2026 01:04:05 -0700 (PDT)
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+To: eugene.shalygin@gmail.com
+Cc: Mario Nuevo <marionuevo@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-hwmon@vger.kernel.org (open list:HARDWARE MONITORING),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] hwmon: (asus-ec-sensors) add ROG STRIX Z490-A GAMING
+Date: Sat,  5 Sep 2026 10:03:36 +0200
+Message-ID: <20260905080346.1957380-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260905070347.25902-2-kmehltretter@gmail.com>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Karl,
+From: Mario Nuevo <marionuevo@gmail.com>
 
-Am 05.09.2026 um 19:03 schrieb Karl Mehltretter:
-> Nothing in the tree parses atarimouse=. drivers/input/mouse/atarimouse.c
-> only takes a module parameter, and git log -S finds no __setup() for the
-> boot parameter anywhere in the git history, so the entry has been stale
-> since before it.
->
-> Drop the entry.
->
-> Found by cross-checking every documented name against the __setup(),
-> early_param() and core_param() registrations in the tree.
->
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 68647ff4bdd2..c8d96de4c00d 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -591,8 +591,6 @@ Kernel parameters
->
->  	ataflop=	[HW,M68k]
->
-> -	atarimouse=	[HW,MOUSE] Atari Mouse
-> -
->  	atkbd.extra=	[HW] Enable extra LEDs and keys on IBM RapidAccess,
->  			EzKey and similar keyboards
->
->
+The ROG STRIX Z490-A GAMING and Z490-F GAMING are essentially the same
+board apart from the F's onboard WiFi module, which isn't wired through
+the EC, so they share the same EC sensor layout. The Z490-A exposes the
+same EC sensor set as the Z490-F (chipset, CPU, motherboard, T_Sensor
+and VRM temperatures plus CPU_OPT and VRM HS fans) at the same EC
+registers, so reuse the Z490-F board_info for it.
 
-The code parsing this boot parameter disappeared in the conversion to 
-input drivers sometime between 2.4.33 and 2.6.18 (my fault entirely).
+Signed-off-by: Mario Nuevo <marionuevo@gmail.com>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst | 1 +
+ drivers/hwmon/asus-ec-sensors.c         | 2 ++
+ 2 files changed, 3 insertions(+)
 
-No one appears to have missed it all these years... thanks for taking 
-care of this!
-
-Reviewed-by: Michael Schmitz <schmitzmic@gmail.com>
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index ebed9f8d2adb..7032c40731d9 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -55,6 +55,7 @@ Supported boards:
+  * ROG STRIX X870E-H GAMING WIFI7
+  * ROG STRIX Z390-E GAMING
+  * ROG STRIX Z390-F GAMING
++ * ROG STRIX Z490-A GAMING
+  * ROG STRIX Z490-F GAMING
+  * ROG STRIX Z690-A GAMING WIFI D4
+  * ROG STRIX Z690-E GAMING WIFI
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index 7293c48c72b1..19f423e45ce5 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -982,6 +982,8 @@ static const struct dmi_system_id dmi_table[] = {
+ 					&board_info_strix_z390_f_gaming),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z390-F GAMING",
+ 					&board_info_strix_z390_f_gaming),
++	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z490-A GAMING",
++					&board_info_strix_z490_f_gaming),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z490-F GAMING",
+ 					&board_info_strix_z490_f_gaming),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z690-A GAMING WIFI D4",
+-- 
+2.55.0
 
