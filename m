@@ -1,76 +1,75 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CF312CDBE
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 02:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A501F27A916
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 02:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788575003; cv=none; b=J5TNmQtTsAV6A0xQqDw+WYis4/zVRQkdpIFQFgVDvF9PlsQw4SBq3x3ilxvaOKgifAFczkjg9GsGBAHviHWMbN/gURZ0H2P3/BQo6VrgIGxTgzQvGKFn7HA+zD6qtZvLc/CL+V4BtroQKD0Ri+NkFHZil33cmeEQ9eo7XxLhiIk=
+	t=1788575882; cv=none; b=VJ/tEq+Kt2ZsHlv1kdMwjz5Te4MSrnHUfdSZEnd/XljBJ+bqcHCABSUvD+ttt+sOjm4AmLVv1bw1ToHdoof/EXIleb1HLfja0VU9yxHeuDViy9GPzggagUNbIhCB3GZAbbRRCo8MOfeRpIMcPDT5RfI4BpOrLTnrUah/UbdVE4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788575003; c=relaxed/simple;
-	bh=xyGZM56EkT54TGlWSx3gPzxQTJvAGCoe1g3KpghWzoo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ESZOEL6F7j+tfnP101BdiCEZtkKLAGXAduekYKms0yoZmda2jf6+TENmPkXoNV5y8OKbeKzvonPxZnMGWz9CffcHN+t/IEspfcyGfGg1bB+01mVUStvegEGJslo5zQ7baLmYjvaXec5HgTytlUcKn1MG9tMc5jMk1byyohTAs9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X91mZV1l; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1788575882; c=relaxed/simple;
+	bh=j2RVUpj+x667v7vyWSyYDkDg2CgNdAXc01JuvoeLxyA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hUs0c717n2kmj36me6TRteJYg5XntPSLnUwGlnsAwZrYCGJFZD7BGt49H8FG/jKqJIRcm9t7HuampHS7SPqXMBZeTv7YscbD2bOe5HimhoXDhiElSraoCE3S/B+SfFPqQ0U+jB3CO115cg2IcXc6z7qa7B/tpKJ1beBv7TC32xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BrosNoVS; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X91mZV1l"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49b0d78a801so15666165e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 19:23:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BrosNoVS"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-499ae1c6471so14857905e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 19:38:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788575000; x=1789179800; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788575879; x=1789180679; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WbfEpisKez36CFmA1of7zehX26ip3wI6pp+HshpNatQ=;
-        b=X91mZV1lQkCK/Raq/UHmqE4StUfHMKW7I4Li7ESBy++2peIAcDycsNGvhQDnUUwQsE
-         p9fjI3btIaMesOdiD7vikEmuDSLA0HiWGQX6VmU3upXiOIV8tjbCFbntdHpzu/jLecDG
-         MilZuBYsF8NIqfPjDhT9CZ3UqvO8u/i2xksYHLWm8ReIfzQZPjLWcdIrAlRAuyEPljv8
-         Bqbp7xJc7WPooquuhN3ov4dsJ47K0rcyZAe+3s3lM85/EgnkHC+Tlr0EtrI3lQ+2AYJ6
-         VlNM/xCAMK5WkH2bUbWpWAm2i+SvKdKB4MUgLs7NKBNxbzN+s/CrR7Isk6Hrh9ITuhfZ
-         fG7A==
+        bh=ZH3wkIQcCWjm+BxTgOu09F0rbTL1k1ZraSpB3gco3J8=;
+        b=BrosNoVSjfTJmr5qf95CTuB4ufV2KjG2BrJOk+SOtDDsY59cDezJfVRcjc/lZJ7dtS
+         OZoknfpM6IxUYocY6CsA4+iJ9ysUJj8adr8Ot4DiGr4V7kBbhqVOKf8crKNUT4kWwyI8
+         p+LVRGarS0IO9CS2g1YKDzLmQdumoFKz6bPAC12bCJVwYAbbXxtoUu+R1DXVCRFRKYAW
+         F+qZPqBx0lFxfh5L/72uua8qmBd476w7PBhTXueGaJ3EGBHRjQH5LpO2IHjOVJgfE4/F
+         mcaJIKS/gX23PHszPH69yKfo6pyWi4tNgDwdRKni8xK2NS9ARWqp47uUGC3mKaBqPJ08
+         KIMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788575000; x=1789179800;
+        d=1e100.net; s=20251104; t=1788575879; x=1789180679;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=WbfEpisKez36CFmA1of7zehX26ip3wI6pp+HshpNatQ=;
-        b=NoGzreXRWuLkemAWKyD7Pa7USYQzoG2vqnHn0i2NldpRE4GvqvnpQrySzVjdiUtqil
-         /PQozYhSIdr0a8O+9pB7VHvhw8m8hwQkLC9Y9/qb1VBtxuktZNarue4qU6lm1s2oTxqk
-         LNmcZ0iE5UX4sMthAhQH1AYK2kjHVmtBmKCxjDqIl8SAFS1MH7a3asR5pDpzEgEPUt2q
-         GYO8iozuQ+VLF3pXFZvCUmnT7mMGrRf0d0KhnQ2LVKGq0mO78MqGhEtGsNASW2137mPA
-         i5ohaCa4P8CQdEOrgO/rbsFQlUAVZK2f9Lsgc1TfrkTFlqHXhtETZZiJkXvyhaS+xZ4c
-         dflw==
-X-Forwarded-Encrypted: i=1; AKwUvBxH6NnVE6mTJvkjWGynQVsNAAIgbBi0Ri334En1vVF7g0xK8DMtdfuNwqhuWeFD5vg0kO9j6CWTURo=@vger.kernel.org
-X-Gm-Message-State: AFuF++niy+wZLzsO+c9CRgMJPQcxr7OHGwROyd14DUqOFC6W0liCLIeD
-	3YTQyRLVZMkFnAQQu+vM9wqgnKFFPwSJrMXGrn89Rl8QMAW1et24O20U
-X-Gm-Gg: AYBFou0UWV2oY2kwUbg+laGfotElDNRdvgItTeFavmaZvJQzPoskm8YUb7R8/m2Xcc7
-	bj/QctdpZMJkQygAeX5UI1ivlKWFCICbqwF3pT1v8cd5DNj2YeH3fXPdkWFQQOezOtCWvhSqVqF
-	p6lJcJIpw/LXOSnSd5Yfqsx91zNYSz+1CteORu9/Bu5GobzrijOycwmQCqVfZwbuRLNxh/Q7ZYU
-	+D1Z8RkFwHP9YcwidsomuuHBbNLeqS14yByNAoFM4zVhC+/8qOM0kBFZkBufQcnbcCvwYak0bz/
-	HNMsBJuYF/EUAA8Y6UZOY1tP3YcnyuPaPSqTwj3sSAxmhIGC0p1Xo6wKJ8dU+QsD2ArhrC+PtOW
-	IV6Hon5RSOe8pIICbvvLliRwb6sipRMkKSp+G4kh6QmCuJHiqN2czrcpFm8SLUrSxjOYgFezyR8
-	iCGxKlrB3C0jYmwwDlR/jAEE0CTjRYp9mQ7H0PNPmff0nOA7EvYHTtdUh5fnpd4MpskARmVuy1R
-	EWZ3gTKXdjAgWw2ZJsvjqUP2OerIX99LvQl8tVvEL+OKeEL0r1y5kgf+SQu1+Lzw1YtiBSSB92t
-	+pEmkhPHnU0DQdcBudmZvsi+ER9iksGea+Jr+3EuLPAuyvSsXbpWhQ1VAeIN9e0rsI8BIJpMLNm
-	txQ==
-X-Received: by 2002:a05:600c:5487:b0:49c:fc6c:bdfb with SMTP id 5b1f17b1804b1-49cffee2ee2mr35144485e9.18.1788575000385;
-        Fri, 04 Sep 2026 19:23:20 -0700 (PDT)
+        bh=ZH3wkIQcCWjm+BxTgOu09F0rbTL1k1ZraSpB3gco3J8=;
+        b=PwULRXnARtvzVG18XszJu8XsfrNpYxLZRayEa2b9YKq9kVG22+vsyE2axgyl0WkWjD
+         JQxf66HhJyPIxQ4KvnY8ht6fE+lsDl6iwzBMZ6AoPh17qjQiizdkftIAmcuJcJ8JByIh
+         hSSLdsk6PzI1L6/lZo35weogHl6cdGiI+HN0tjd6A2LSzDB8dFACp0mn/WzKaSTlHI/H
+         gfCIRTYUGBPL5Y0SQf7jvFpIDV9O1oIilHp7ZiZ+zp2kjgF5ATIgrtLZbKhK7SqY/BMj
+         AYSKV4s2jKHVt0tVV9hGyqJJfrYPFINbCsaYp8j+XRROpRnxY0nMliXBdSdWBRfeVwxB
+         PKhQ==
+X-Forwarded-Encrypted: i=1; AKwUvBww7FAMrpuJ592MI1iXeftmhptObgPnQAH2I0MzzOXGft2PuISLfSHqCcC6XDwqxhpfNkvX+Fq79P8=@vger.kernel.org
+X-Gm-Message-State: AFuF++myr/YeQlct5D18OTcewkMegmjcu6GE9GlHJbtOMz7qWelvjniQ
+	epMfoVQeym8QMFvojk/urADO5wEy0ghrx9miOtVGbF/QwYmdQefkFTDW
+X-Gm-Gg: AYBFou3ZYHLStk4l5hJJ6gFsJqun7VOxWx9F2/eqqfd5Gy4S+tAB0hDyOClfgkxVEd8
+	kF37SFeh41oq+e6SFGXszJPhRfkmh31yksqnrD7XCu/tT+lHenAnZBrggjfghAxTa6WKxCEa1ne
+	OjnNsySOjYUzaLYeUe+hf/FdBa29/kvXOWsAjkt3IQsqZ5Gp4R6Yp6t1MLpT8487fUL4we1zvek
+	fOh/pALZFsfdfZzyJC0vn81StHTfN3yPyurnEA98U3XKvZRi608hg4n64QihnnQySGKJBlyS9ek
+	V8nfFPXskIvWT6/RYg2zic4JpNvgkQV9/Osyn3hlghHp/wKYT08nehwdrWFC033jr9eerTmYGVZ
+	6I69r9u92jwpjdgJOrVMU5d50st7ZasORHzYG8bUx5hXR3tM+L6wfYAlkxX0vdM0VKA7T9foQbY
+	4NIhiwFBEIlBgeqXmwdESqbO25B17QK6HAYwcyXDA03asvd2iPNJRZQJ24N9FZeHYtYbFo3taRt
+	YewfKyRDp5lTld2tkLbZqkpj8Pp36iZclkvXbVR7PorlF9+3Vyl+MnkcU6dD0WuCtAQJnrPIzzu
+	oAlviVNdAdANVipQKn47regf+Okerqp9w3V8nGtaBSf5RUSJPMzdQyVITeHGjQh67ok=
+X-Received: by 2002:a05:6000:1acb:b0:485:8b5d:96d with SMTP id ffacd0b85a97d-4858b5d0d2dmr14136245f8f.19.1788575878815;
+        Fri, 04 Sep 2026 19:37:58 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c81c3sm9696996f8f.26.2026.09.04.19.23.18
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c5bc5sm10808778f8f.24.2026.09.04.19.37.56
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 04 Sep 2026 19:23:19 -0700 (PDT)
+        Fri, 04 Sep 2026 19:37:57 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Pierre Ossman <drzeus@drzeus.cx>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: core-api: Fix the ISA DMA example
-Date: Sat,  5 Sep 2026 04:23:10 +0200
-Message-Id: <20260905022310.82529-1-kmehltretter@gmail.com>
+Subject: [PATCH] docs: irqflags-tracing: Fix the lockdep Kconfig option names
+Date: Sat,  5 Sep 2026 04:37:46 +0200
+Message-Id: <20260905023746.82998-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -80,54 +79,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The example never matched the ISA DMA API: the functions are named
-enable_dma(), disable_dma() and get_dma_residue(), clear_dma_ff() takes
-the channel number, and claim_dma_lock() returns an unsigned long.
+CONFIG_PROVE_SPIN_LOCKING, CONFIG_PROVE_RW_LOCKING,
+CONFIG_PROVE_MUTEX_LOCKING and CONFIG_PROVE_RWSEM_LOCKING have never
+existed in mainline. Lock proving was merged as the single
+CONFIG_PROVE_LOCKING, which has depended on CONFIG_TRACE_IRQFLAGS_SUPPORT
+from the start, so there is no reduced set of options without it.
 
-Fixes: ddb99f3d35b1 ("[PATCH] ISA DMA API documentation")
+Fixes: 55df314fbdb4 ("[PATCH] lockdep: irqtrace subsystem, docs")
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- Documentation/core-api/dma-isa-lpc.rst | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ Documentation/core-api/irq/irqflags-tracing.rst | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/core-api/dma-isa-lpc.rst b/Documentation/core-api/dma-isa-lpc.rst
-index 17b193603f0a..296838ff295a 100644
---- a/Documentation/core-api/dma-isa-lpc.rst
-+++ b/Documentation/core-api/dma-isa-lpc.rst
-@@ -115,17 +115,18 @@ sure that all data has been transferred.
+diff --git a/Documentation/core-api/irq/irqflags-tracing.rst b/Documentation/core-api/irq/irqflags-tracing.rst
+index bdd208259fb3..a3c77046ae6b 100644
+--- a/Documentation/core-api/irq/irqflags-tracing.rst
++++ b/Documentation/core-api/irq/irqflags-tracing.rst
+@@ -9,12 +9,8 @@ that it gives interested subsystems an opportunity to be notified of
+ every hardirqs-off/hardirqs-on, softirqs-off/softirqs-on event that
+ happens in the kernel.
  
- Example::
+-CONFIG_TRACE_IRQFLAGS_SUPPORT is needed for CONFIG_PROVE_SPIN_LOCKING
+-and CONFIG_PROVE_RW_LOCKING to be offered by the generic lock debugging
+-code. Otherwise only CONFIG_PROVE_MUTEX_LOCKING and
+-CONFIG_PROVE_RWSEM_LOCKING will be offered on an architecture - these
+-are locking APIs that are not used in IRQ context. (the one exception
+-for rwsems is worked around)
++CONFIG_TRACE_IRQFLAGS_SUPPORT is needed for CONFIG_PROVE_LOCKING to be
++offered by the generic lock debugging code.
  
--	int flags, residue;
-+	unsigned long flags;
-+	int residue;
- 
- 	flags = claim_dma_lock();
- 
--	clear_dma_ff();
-+	clear_dma_ff(channel);
- 
- 	set_dma_mode(channel, DMA_MODE_WRITE);
- 	set_dma_addr(channel, phys_addr);
- 	set_dma_count(channel, num_bytes);
- 
--	dma_enable(channel);
-+	enable_dma(channel);
- 
- 	release_dma_lock(flags);
- 
-@@ -133,9 +134,9 @@ Example::
- 
- 	flags = claim_dma_lock();
- 
--	dma_disable(channel);
-+	disable_dma(channel);
- 
--	residue = dma_get_residue(channel);
-+	residue = get_dma_residue(channel);
- 	if (residue != 0)
- 		printk(KERN_ERR "driver: Incomplete DMA transfer!"
- 			" %d bytes left!\n", residue);
+ Architecture support for this is certainly not in the "trivial"
+ category, because lots of lowlevel assembly code deal with irq-flags
 -- 
 2.53.0
+
