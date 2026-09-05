@@ -1,83 +1,116 @@
-Received: from mta0.migadu.com (out-212.mta0.migadu.com [91.218.175.212])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDDB3F326B
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 08:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.212
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685B13C1978
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 08:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788597357; cv=none; b=Dot/N0S1ilCY/hgIOSlqRemg2yoa6GDFKlbU8ppmjM2wXpfJV+zB4SRLw75d7Mo31NKQY5hnF/X6ucB3oz73soodtDnRMlIaWZ6oBmnRyESyz3CEgxcoHxrfZ9HnrFaK17hnROT1tvMqXrL1n/kHmHM3y7A7KtKeU+9Cwl4BlC0=
+	t=1788597420; cv=none; b=rFPpart6rtxrIsvmKnVapEg4Ugl+8YuYNY+/Fghs9FnSj/Iebdsk3fO6S2FDn5qpHILzFS8xIUKlVjI8Wh5qRb9dsvFXApZ4CrVORd3qSjL4WwPs0Hc6cTm80f/or0UbmPNhQ2jNWmwBzPr63tesF1w7oxWfkoARyq2mC62XGyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788597357; c=relaxed/simple;
-	bh=LhEf2lmvz3lHfnrYNvIqdGOINaYOzsSsBbuAUaDK0d4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U0G20NksFZesL4TOtHmth1oXINWy46I/vIlWU5Jn/1tfWnvVnQsUAtccouUJWz3BfuyjLKc+Q7rYmEH31KMujy2cTpV63J3tmozgWqGj6CrkQ1sqfiuFO9AiSXyEUrudFXbknlXvdqE1ROUnyiEzRA/uXLSUbeZLYEQWRe62IKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LoAZgjW9; arc=none smtp.client-ip=91.218.175.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788597420; c=relaxed/simple;
+	bh=wgggDzjHY+Ah8vECxyGt8Xj8OVmFIHcQoKQNaP/el0Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HajBMDx7GuMJVZZsPkAApT0T0uHJ3Qsv7izqq9bTwncAanQDJhLdo/OEzq39EzBjYpz6EV6sn7Il/PyS63TeduYcAvZwHiKa2HwnJPue6ui3MKJRu3MRl7RX7SmUsBWnM+yZYhk2Q0lWndvaXeKan2rtVwiYDRenj75VH7XbAKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TqQL3s4Q; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LoAZgjW9"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=LhEf2lmvz3lHfnrYNvIqdGOINaYOzsSsBbuAUaDK0d4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788597353; v=1; x=1789202153;
- b=LoAZgjW9eTsAU3sYux3iSDpm37PYZQJ9V9SZ8rpDaXIIEopob8BJCt5B+NVpxfZ/CTiLmU7I
- qX8hgUoDhJWrpj9uFblu4qZJPE2mY649obJhSiyiTdQT/BWIMiyvG3RTKfqzUioAu/4agaJppgi
- d6CVlIvUaJr88PD81EE5/DXE=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 41100b57e1186b92;
-	Sat, 05 Sep 2026 08:35:42 +0000
-X-Mizu-Trace-ID: 41100b57e1186b92
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <e3d0eaf8-a85f-48ff-96c2-dced4945b085@linux.dev>
-Date: Sat, 5 Sep 2026 16:35:31 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TqQL3s4Q"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49ccfbe062eso15921375e9.3
+        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 01:36:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788597416; x=1789202216; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ynaw8qDzMXNFxXhqOFzgHygfT9MJ5kBajiEceTkzYr8=;
+        b=TqQL3s4QiteOfHmMHxZLjjyRG4GapJvfOYGHiHSO3Enuk8RdI7KMBObTUXWSnnD/Uk
+         qc4aV5VIx7EgUnDw1fW5Ejr63JYchP3dn4955UOtBXX5+DbtWwzO0Ptefryy3vG/HKdw
+         v7GYox9BiJkZnmmrYHQv+SqHrX8tUlPYhD6NLtitgdxhmfU1TlRYzyfAm0M7CMapUO1k
+         DzaSlDG2HPzlhCAMYH8O3J/D8orB5NdAjihEfyFjJZT1SSaIz1iQ5kHkEyUHkxB+DGGr
+         DwvI86rIF1I9pgc7RsykIsuanhkg7Nglz7TXXnO9xVrvJgTOUAPF3JLlka+OQsVRwp/L
+         n0qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788597416; x=1789202216;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ynaw8qDzMXNFxXhqOFzgHygfT9MJ5kBajiEceTkzYr8=;
+        b=HkvnBx4rS58WZFn+0teJUXBNygVirzWpIXmLJTxr83FFzueIbiS0RD8XnOf5mpdxoR
+         Z1EhN7gnBcPMZCYXH0JLVdZig1sfVV45+Qf9TdhLutre281SxGUB+/06D6UiNesIQPOC
+         UL7zMwg8P1jMP9gTK1fNkSSGlYxY8oMMJsHybqv1U+eHjX4f5W0Xmt0vfNDFSsYf8dwF
+         /rXrR4JhjoHnPwSaIr6m76DOw0sQ+ogD3olUXQeg1ENxmA97RaYKksHpuZu2HBp43JU5
+         yvTxOmZ4zWPE47plqz6odm1H+/c7eUDOIOndFIYTtWvBNSx90B3KUWnYQDNzvaCdl6ms
+         iZyg==
+X-Forwarded-Encrypted: i=1; AKwUvBw/q30SxDg4ibFjCKTAgkCsgZr9HhJrarn1vqBnDuNqXNoUgt8Bo2CyF2lVthhSiApYhI4o8af5wQk=@vger.kernel.org
+X-Gm-Message-State: AFuF++k8F2S5bLiQQCWdf4Rb0VObCNcBmEiLAeMj9+vuNtFlDML84gi4
+	LeErZqwO6dHnokc/Pe/digMU5k5tutyzpy/B7nMofIqIDyDq/YZaJNMT
+X-Gm-Gg: AYBFou0EjiGhi9bTZ7tGUlOAEiG3zw54Ih7H4sPmGpMGg/ThKq/pU3pOZLFLEIYXJzW
+	4o0iTTMAOtD0mhNWL4e/aLeXRt/QY83JAVir+/W2fb8dfi8d224laSuxdlmKNHzQcBYqlc1OcL/
+	oqLyyrIR00LR7RTOKFKsiR2uWFqQ0tJCSGPMlO7i60BDyDG6ol5s+M12mssEeDtlHE1wDlU/B2m
+	Zp1gxGc5XkFd0+tmXQ69olH8zFGedff9dhbeX8vi++YoGuToeH8TrMcYR1UiU4KsD5dmBnvHfsg
+	lDxBgIViwRiMO1cpH51lSJrJxYTySbKoeSi02GO0Ts2ujDHqZ5nCZQ500EbV+cI2W9m/zh6i/gN
+	uHr9qy9WKEUd+raxIAkdqkdy8V+jOF3+33s+1yp7iMzINABxGILOpIARGGmpVPOu/eAowoqUtYm
+	nQQj6bjSVQdukoFJsCa1ws9RTwaU2+mh/LUoVjYreWV7etnZ/uzUlQaSRAKGaxWB2JPIf8Wodae
+	+QMZLr6/eIvoE/vbmv7SpmRHDO+nQEXeVgsR+4eHUjr1rTYiRC5ti38ulG56ejzRmz5vNYYQr/Q
+	utcrYi8bKqyh71NIMHGifFsA1MVNTSPwQWqtAvZQU8mzPUalltauCDs4dw/DG2o0gpg=
+X-Received: by 2002:a05:600c:524b:b0:49c:fa20:cc08 with SMTP id 5b1f17b1804b1-49cfa20cd2cmr88077965e9.31.1788597415955;
+        Sat, 05 Sep 2026 01:36:55 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce58da3acsm517436035e9.0.2026.09.05.01.36.55
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 05 Sep 2026 01:36:55 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	linux-serial@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH] Documentation: rs485: Pull uart_get_rs485_mode() from serial_core.c
+Date: Sat,  5 Sep 2026 10:36:48 +0200
+Message-Id: <20260905083648.39026-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/11] mm/sparse-vmemmap: switch device DAX to shared tail
- vmemmap pages
-To: Muchun Song <songmuchun@bytedance.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
- Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>
-References: <20260831075342.57563-1-songmuchun@bytedance.com>
- <20260831075342.57563-7-songmuchun@bytedance.com>
-From: Qi Zheng <qi.zheng@linux.dev>
-In-Reply-To: <20260831075342.57563-7-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+serial-rs485.rst asks include/uapi/linux/serial.h for both struct
+serial_rs485 and uart_get_rs485_mode(). The function and its kernel-doc
+comment live in drivers/tty/serial/serial_core.c, so the directive has
+never rendered it and the section shows only the structure.
 
+Add a second directive for serial_core.c.
 
-On 8/31/26 3:53 PM, Muchun Song wrote:
-> HugeTLB vmemmap optimization now uses per-zone shared tail vmemmap pages.
-> Device DAX has not been switched to that mechanism yet.
-> 
-> Switch device DAX to vmemmap_shared_tail_page() as well. This aligns DAX
-> with HugeTLB by using the common per-zone shared tail vmemmap page.
-> 
-> Since the shared tail page can now back ZONE_DEVICE vmemmap mappings,
+Fixes: 0f4648a1a6d3 ("Documentation: rs485: Mention uart_get_rs485_mode()")
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+ Documentation/driver-api/serial/serial-rs485.rst | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Could you explain this in more detail?
+diff --git a/Documentation/driver-api/serial/serial-rs485.rst b/Documentation/driver-api/serial/serial-rs485.rst
+index f53043d21071..98d8d83718c6 100644
+--- a/Documentation/driver-api/serial/serial-rs485.rst
++++ b/Documentation/driver-api/serial/serial-rs485.rst
+@@ -50,7 +50,10 @@ RS485 Serial Communications
+    matching to the current configuration.
+ 
+ .. kernel-doc:: include/uapi/linux/serial.h
+-   :identifiers: serial_rs485 uart_get_rs485_mode
++   :identifiers: serial_rs485
++
++.. kernel-doc:: drivers/tty/serial/serial_core.c
++   :identifiers: uart_get_rs485_mode
+ 
+ 4. Usage from user-level
+ ========================
+-- 
+2.53.0
 
-As sashiko pointed out [1], it looks like this assumption is
-problematic: dax_folio_reset_order() may end up modifying all shared
-tail pages?
-
-[1]. 
-https://sashiko.dev/#/patchset/20260831075342.57563-1-songmuchun%40bytedance.com
-
-> initialize its entries with PG_reserved for device zones. Also skip
-> poisoning vmemmap-optimizable sections while their struct pages may be
-> shared.
-> 
