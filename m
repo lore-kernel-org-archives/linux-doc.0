@@ -1,67 +1,67 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94AC537FF56
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 19:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C38376A0D
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 19:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788636574; cv=none; b=AtGGCiTQ+Fy/P5eI3tS1jTKqMy/RzExTvYsS+/rXYv9m9NfAl+h37jzKqYy4KwhIJMizJR+oTeNKXsrvJCMOn1XH6ru6ESHsnYY0Mrn2d+hbmBlQrnYJAlFgd8s7PGb+jfRX6ye7HfNdi06bKxl6BEAk2VsI+O9fYvOtP6JjELI=
+	t=1788636575; cv=none; b=edNJ/FTB5ZHwgksXMcpEOrHW+NGpRrC0ubqCvEAiVrYthPeviOiUJ2vXFUqXIzG0QVs9+Sd/JUXaD0YnggE52jGvMkCFZ+iJkpqr0NoDckJ//r6Br0NbX0rBe8Xrgbmx4NzMqTcgXi2RL35BnH3ins0p5E0Kb6yrQvXaVKViNUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788636574; c=relaxed/simple;
-	bh=vVEOPIoJhhKnaEymhmIy29uvCDgfhn7KwYHNS4eI4Ls=;
+	s=arc-20240116; t=1788636575; c=relaxed/simple;
+	bh=a0msCzSodHHUo5LvLfRIZiI9maeBlwWaS3zqrFGDqqw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=c5ZoDq8SngrqodS8FQ6cctTtjYZfgE/sIBS8FSp04fWhzFO4MI2QQiY8AV1EU/BMZxroxavj+XDZNihWF06a+Cz6qn6txcYkqSmdjnqSq8NBGWgdw9bGEG0gaX9Sxzw7eCjm9Fgqao3tmKJAqotHxVR8G49AUUp7sioOxDhgeDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A4A71kTe; arc=none smtp.client-ip=74.125.224.54
+	 In-Reply-To:To:Cc; b=ntPP0on14Rwvrt3ooTYuupaqWqDVJZT/WSeSpn3hNgeYJocVb9R6feQqw3VbYWRImcVofJtcOOh1uLK9SJzhOXxmhMlCoHsHG8wUciNroy2qqfffOergQ0omBgGmqN80qFXibt+pxIJHkSvrRPBH7n4e8JQ8Li5Or3GBbeLcb8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fupXj+7q; arc=none smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A4A71kTe"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-66f78cba2e1so2214818d50.3
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 12:29:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fupXj+7q"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-66c9995ca60so3283116d50.1
+        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 12:29:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788636570; x=1789241370; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788636573; x=1789241373; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=F/3SiLHuAw4CPDUEV3jnJHbnIRJUdzpYKq468IdHDhk=;
-        b=A4A71kTeqvmHXtS0FdWbO5bySAWCsbXPcUNFJlFKq310PdrVUdZC7+2k5gMVtSgVNl
-         T4HvgYpsHN1lzwMz+QYgyAC6ezxDaTr5SMsi2eEE2Dc+/mbBxdbUvxDZID/1okgjq6r0
-         Aedov6NIc5D0FumJ8v6cAe2pQwW4GCjKDl5xeCQm2aAEHzdH2qXrXTBr592vK1szYNM2
-         Xw7Kbx6NN46fIXJVvovfa/+RpdCiR+3W8QGmljlPnSanvZ8lUeDi359l9CvTAXdtzOch
-         6UiWsBuEa+qfRaES7Au4ILL6875lecxtqqtCy+o/2tE+cgEZH8sWb75z6AefgVpDyCYO
-         ty8A==
+        bh=fhc3iJtISB6P0hFw3z/r/ijHfuUne/Bcxaq3qoJqnI8=;
+        b=fupXj+7qkqcbVpjLLJ40di41lvQUGX3VLRsMh2cRTMcUMceuJsdYW5/M7HP0lr85DP
+         ftiwHzLJzBYxcvspJonYBT4Bpu5mdv6pDmkhPEeWO/qRM7bOtcwwCEdUUxu3EMQ33kW+
+         +hUKcS37hKg2ocUhCQck9Ma8IhW44HVsXVg2wM9ZKMz77QdOI97RvFoBWBaY7T8Uiy30
+         A44F+X6SgUANzYmj4MZ7C3mjRlbwMJXXiQCngmsOF8luB3djT0QID6OAQqt2fHO+L9yO
+         bFV75LOqP8SH4MHDtM6IEhSFeC+0UI10TTQb5k1bfcSvlLTdNkg77+4JXfuQSj+Dbp4a
+         f+hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788636570; x=1789241370;
+        d=1e100.net; s=20251104; t=1788636573; x=1789241373;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=F/3SiLHuAw4CPDUEV3jnJHbnIRJUdzpYKq468IdHDhk=;
-        b=XSt7C1hhIvNPpc2C9Qp5BJ2PWctlOb0g03pR6GkpZ3zuuo3tJSRWlRGZCn2j8Zm36B
-         /dHq0VatuL6AIfUKIAnJ/pdmtvBSbuhW2jJ3Mn8tIjZ0rvriWUhBaGNPvGC+/0HJqwJZ
-         Y7JW2rR+ls45sEpbXZdIbgnKpprVH7Jc7E6Ig2oVGNr3krrNUfMFl0zpeDtChoLHWpeQ
-         jZY0nOX/N1vHuhB9sp8eiBXWmw8MLFMZpHnbBljgSQn9LXYg+eAVPF+uUiWKC0ha3+gc
-         VPBHS3mLlJxdo8baO89cEOtCt6ascpROR0C/GOOvMooCr/JZazFawW/agh3CsPY3+oU4
-         hxtA==
-X-Forwarded-Encrypted: i=1; AKwUvBwqQeAHM28bRpf0Inq2WElHxLBZuFFTYD/O35U0geSPKwciWYTvRCHryb7AP4jWwaTa+j0lTpsr66Q=@vger.kernel.org
-X-Gm-Message-State: AFuF++mdffhuxBAcKdDCWDI/JZizwSUopCmKH+ki0k4rS6W4+nSVw+6Y
-	jfTUid7QwndbZRjWD80Ow3egC6b02BrhTt/itwdrqPJnhdj8FQpwrVYL
-X-Gm-Gg: AYBFou0DwjDcPIrgRDfmebTDOPfU2kXI3zN8g3qc+EKoedfxwq7W6jZA0sfLlIB7qcY
-	RyY1StBzGZxm2NMhe/m0osNh+EXBzCS1Ui5pRPSPhE8gU6cgL8kgWazrjx/0gOeNeZPhwFenPYv
-	8138LOoQVrwRXjhDhdZPfa7dPE87tbtGwiL6Va0NXOZJM9or8U2om0J1uvo/2OvEoqvw09/7Cka
-	C78xXtSHyoHMONJKPftLhIjVtbOkFs3bml855KgPxLe99LNJT0c/8QueUEnZhr03aRMiVs0FyoH
-	v+bNztYvx2WvRDosD7b7/1SIZOr1b8M//x90MBsfPHF98aBWUSFX0cXaSwBbZ2XNEu2fUNmJKbb
-	N0Mm17vftDMgTO0VMcx20rMRWXfP5dIPk8z77Zekhq7yYGnyRxTLi1049veTnblZxllw52S1mA3
-	2ll6J+vSVErkDkZnLFDKRDJ7NqFWjMmyKzYUDI6q6ig0WmeSVV3gobSki+/ib5
-X-Received: by 2002:a05:690e:1446:b0:66f:cddc:44c3 with SMTP id 956f58d0204a3-66fcddc45b7mr690034d50.16.1788636570423;
-        Sat, 05 Sep 2026 12:29:30 -0700 (PDT)
+        bh=fhc3iJtISB6P0hFw3z/r/ijHfuUne/Bcxaq3qoJqnI8=;
+        b=VsvOS/i3hNK82jvmcOFmzTLcuXCM74RshM2u/kQ1/4hiq4btEfbQFV9HxyoHP4PotW
+         3AAkXjL6qAG6QeK1OcgaKIrZ9e9bbjASygFSjm63+utSmUyKlKdXkAmF5Vw2iJmB6v9M
+         y9U3zST0DsOCQSipABS5VUT9krLCl6SHFiFQsgPcUqqqjz8pPWKd+nAUTxfktGb7F7WY
+         rdR0PUmXiasqGTEHm4R1vxB9LbmsOb8TQV74xLRa0l95lLkBl4btqot0yYikMi2n/4or
+         LcnXkysayYPtUQGRR52S9J40VSK57TBYD9oCqXmTaJA7w5nhOCVpWA7+8vNy1lnT4DmB
+         NnvQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw78bk+3GzHxlWLZSdL7l9/TQZ/ijS5au8cGjHZhY0q9Mv9eJj3DJIfmjFJUmKENUsz8r48JPZp0ss=@vger.kernel.org
+X-Gm-Message-State: AFuF++m/Gvopmhc3cGcySlsxBA5Mo0TYvSl134G1nbYBiUY2RAhHKmiC
+	T43pq7iDhyxmxXmhogi7FrVBHJCf34JRnb12zulR7pOWQ1TNWjJX0Fo0
+X-Gm-Gg: AYBFou2FqpdoqEIi11H0KbcObvuadRc8LEPxBxy+ccpRTEzQZdKyI9i6Rn3BTRCNf04
+	xvAJeo9o1+9+L06cMIdgRW8Zyvkp1Eix9GqcywPUxhRdp1xLE/VYl0hwv67WpysBr7Y8s3/Kqz1
+	mC5tIqShaPtUPZUicWO8fCAGi6eqGSSjLelfNb1PQdHdtFvAMf+UBJT+w8yF0WTrKa1QmU8qm2k
+	HjMoIO2nw3sJxJbss8tSngtgqWU/yLiyR1fFrlX/rRknGoKYQUNLR+uABAnUB/XnPnKRDpRlIBV
+	a5p+uV8f31FwxPnja5AdkNEBDJhSmRdNfkYg06EZyFvBC5qDyWp1yqkfv7hjham/zbVsh3BelUW
+	AF7ChHDIAmHXfKW/K6dFwXd98i8QWWtxMJBUt8py0b+o+TL6nhY7+m7bPalU1qPB4eLUBOgBwwb
+	leFgjB6V/k+JLBYJitia078ePijbpuCvGfcmhCGH7i2OgR+dM4tEHljFDycN6v
+X-Received: by 2002:a05:690e:12c1:b0:66d:1c2a:9e5e with SMTP id 956f58d0204a3-66fb6d8ec90mr2866274d50.19.1788636572794;
+        Sat, 05 Sep 2026 12:29:32 -0700 (PDT)
 Received: from localhost ([2600:1702:7a90:6f9f:8bc4:8aec:108d:7a04])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66fb7c7e8d7sm4196494d50.14.2026.09.05.12.29.28
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66fb495eccesm4997275d50.18.2026.09.05.12.29.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 12:29:29 -0700 (PDT)
+        Sat, 05 Sep 2026 12:29:31 -0700 (PDT)
 From: Matt Turner <mattst88@gmail.com>
-Date: Sat, 05 Sep 2026 15:29:23 -0400
-Subject: [PATCH v2 02/22] alpha: select ARCH_HAS_UBSAN
+Date: Sat, 05 Sep 2026 15:29:24 -0400
+Subject: [PATCH v2 03/22] alpha: select ARCH_HAS_GCOV_PROFILE_ALL
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260905-arch-kconfig-options-v2-v2-2-83e8245761a2@gmail.com>
+Message-Id: <20260905-arch-kconfig-options-v2-v2-3-83e8245761a2@gmail.com>
 References: <20260905-arch-kconfig-options-v2-v2-0-83e8245761a2@gmail.com>
 In-Reply-To: <20260905-arch-kconfig-options-v2-v2-0-83e8245761a2@gmail.com>
 To: Richard Henderson <richard.henderson@linaro.org>, 
@@ -83,41 +83,57 @@ Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
  kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org, 
  linux-doc@vger.kernel.org, Matt Turner <mattst88@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=856; i=mattst88@gmail.com;
- h=from:subject:message-id; bh=vVEOPIoJhhKnaEymhmIy29uvCDgfhn7KwYHNS4eI4Ls=;
- b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLLm5E7WKReZHFC/1HvG4fgzU+6tfbHDcW9j4tKns9Z7X
- 97gGb2Dt+MjC4MYF8NMMUWWuPWKLLPadiz1OS39C2YOKxPIEGmRBgYgYGHgy03MKzXSMdIz1TbU
- MwQydIziIXJ6DBqZxcWlqUW6aQVFDnn5JYklmfl5xXr5Bal5BekFemmZaSUZGflFxalAI/TyUkt
- MXR3djAwNTCwdLcycLBxNTZydnQyd3BwdnV2djCzNTQycLR1NXC3NGbg4BWCuSdrIyNCxd3kfb4
- 3phnOtUmsfG/2XOHTnd6va4webUn8HTGaqFylnZNjxxedc4R3T9++ebDUx3Mtt1pJX6LF2nceNV
- yXrD0nKqTECAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1671; i=mattst88@gmail.com;
+ h=from:subject:message-id; bh=a0msCzSodHHUo5LvLfRIZiI9maeBlwWaS3zqrFGDqqw=;
+ b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLLm5E7ekd99/4HjhP29k1m3XUmV9ElcJqcl9Fao+wrvP
+ cc1s4zzOj6yMIhxMcwUU2SJW6/IMqttx1Kf09K/YOawMoEMkRZpYAACFga+3MS8UiMdIz1TbUM9
+ QyBDxygeIqfHoJFZXFyaWqSbVlDkkJdfkliSmZ9XrJdfkJpXkF6gl5aZVpKRkV9UnAo0Qi8vtcT
+ U1dHNyNDAxNLRwszJwtHUxNnZydDJzdHR2dXJyNLcxMDZ0tHE1dKcgYtTAOaa5/sYGfbwtu09Fn
+ Xy4fsfImICm468uviXLU5iwd3cCauu5F9ZdJ2JkeHM48itGt2/evW1mf9/yRVz7PbN4HG+9eLcq
+ gVBUvfyr/ACAA==
 X-Developer-Key: i=mattst88@gmail.com; a=openpgp;
  fpr=3BB639E56F861FA2E86505690FDD682D974CA72A
 
-GCC's undefined behavior sanitizer has no architecture-specific runtime
-requirements. Enable it for Alpha to allow UBSAN instrumentation of the
-kernel.
+GCC's gcov instrumentation (-fprofile-arcs -ftest-coverage) has no
+architecture-specific runtime requirements. Enable GCOV_PROFILE_ALL
+support for Alpha to allow whole-kernel code coverage analysis.
 
 Assisted-by: Claude:claude-opus-4-6
 Signed-off-by: Matt Turner <mattst88@gmail.com>
+
+Also mark Alpha as "ok" in the gcov-profile-all feature matrix.
 Tested-by: Magnus Lindholm <linmag7@gmail.com>
 Reviewed-by: Magnus Lindholm <linmag7@gmail.com>
 ---
- arch/alpha/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/features/debug/gcov-profile-all/arch-support.txt | 2 +-
+ arch/alpha/Kconfig                                             | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/features/debug/gcov-profile-all/arch-support.txt b/Documentation/features/debug/gcov-profile-all/arch-support.txt
+index 63494bddc263..4701209b869d 100644
+--- a/Documentation/features/debug/gcov-profile-all/arch-support.txt
++++ b/Documentation/features/debug/gcov-profile-all/arch-support.txt
+@@ -6,7 +6,7 @@
+     -----------------------
+     |         arch |status|
+     -----------------------
+-    |       alpha: | TODO |
++    |       alpha: |  ok  |
+     |         arc: | TODO |
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
 diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-index 51a7391869dd..713a0c1cc930 100644
+index 713a0c1cc930..c4da16971652 100644
 --- a/arch/alpha/Kconfig
 +++ b/arch/alpha/Kconfig
 @@ -7,6 +7,7 @@ config ALPHA
  	select ARCH_32BIT_USTAT_F_TINODE
  	select ARCH_HAS_CURRENT_STACK_POINTER
  	select ARCH_HAS_DMA_OPS if PCI
-+	select ARCH_HAS_UBSAN
++	select ARCH_HAS_GCOV_PROFILE_ALL
+ 	select ARCH_HAS_UBSAN
  	select ARCH_MIGHT_HAVE_PC_PARPORT
  	select ARCH_MIGHT_HAVE_PC_SERIO
- 	select ARCH_MODULE_NEEDS_WEAK_PER_CPU if SMP
 
 -- 
 2.54.0
