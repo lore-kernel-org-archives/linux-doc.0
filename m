@@ -1,78 +1,80 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D4243B3D5
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 08:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA93266B72
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 08:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788597649; cv=none; b=ZjeTy3toiiMe4bMQeucr6qZF0CgKz03Lp763/nnhyIK7sEWjt3SnRoZlfs7ikvnmhtLtDhtZNbRokFPTvGlhXcrZyXc4iU4tJF40+mnEJCYPiD/rz/cpNiVae006030cnbgiCmI/OjoKfKfni0aYAME61kLKpDY01PeC5clY9bU=
+	t=1788598041; cv=none; b=dFzHQ5QPVvsjXj9jgh3LziikZ5ia9y+4Obci2yexXxxzljebC6Ti1mF6MaOltG4HzmmvxiEgg4E6HSJg34uCA/gT1u0yZ9/8aZTAqH+pw92vc4Ux6dCGiNpHNxCekRX6P14wmt3SulBNgl/5uh8tttwPAxFHb9v7dp0U4TjqDjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788597649; c=relaxed/simple;
-	bh=/KeFMMS9CaI0pAmJaLn1N2AFuugw7cjfILmhhBzICqg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=raNLpBXUseahmJFFxYuDoCMCgolUpvl7uCVi8tiPi2dOdMhsgOkB4tSf+AaBc2UFkj+IsUbHoQzizogKxE/YDIgx2hVFCOuIkeb17wN3T7DEVq3Q+K6Q1V443/UKA/PtMXoxLmISnKx6bncEeQmSzR8B9fuZ8A1oYqSf8UYIzYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nbi8a6ar; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1788598041; c=relaxed/simple;
+	bh=5P8lBcnY72RfMeCPYtgutQ3A/2HLslyf3RfBjOagIBI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jOU1/JybCaTsPd9KtirqUudTyYStn22BRkKBKCXcix336KdpCJFOpZNQ0GCrOD/9nPWVDu5Lx9wLtL9/uQumjuhKHZO1V/hzb2o1iufwhrqnGvzlOJH7GFykI343LtKqXpd/6OFUSRqOyqUXqMN29CUubsRSvgGczcJSPVgSrUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nKefBjae; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nbi8a6ar"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49a97714f5dso15664425e9.0
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 01:40:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKefBjae"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-482e257a23aso1266562f8f.0
+        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 01:47:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788597644; x=1789202444; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788598038; x=1789202838; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PN4g8RPgZ7jX0xRFxJnWC4F4Ar+p2OrqSGzlc5rvdWw=;
-        b=nbi8a6ar4fsOXoucnapC9C6gvS0+seQcqQAz/o2R5ZySw/Pyhiz+Y9Lj8iEt1dhAzS
-         l+0/64vw+guqJgDLQrKiFneEDKsu2/awGI5ReasQXUSdB8pUlRpojRMCjQeF+wB4XKvd
-         6ruM3nb5o6bj1Q17HCIad6KovOX5H7pUB9Jjg/SNzHlCZhxJizi5ICuW+7QsyDSV83S0
-         HTZ2ON/7zqz2/yACnjtxF0JVbiqu9rmhF48Rgtl+nVJ6Ma3jCDmqXI8i1IttbnBcxxUr
-         iu6FAR65rf7SIuWX3ma1Ln/Eei0Jg5Zq33nM/5ZvnIMrt5EHCHHmtcP52UzthkG35WIQ
-         CjSg==
+        bh=dAPnfFUNF7lq9CSa9bFXP56fVVdhSMxJj+LHsOxtOD0=;
+        b=nKefBjaeBU+GKVREFGbXqDa+3VEM4BlrfHU9ELEzDzwbqRv3/32MORvxDWyt6VWvqE
+         lEFjaVmHtWPAcx7KtgqS8EJ6kWaroXaRuXSm2PSAlKq0i+8HP1o5ife6amIEN8EP2tF/
+         YvYw2h5hrsU57aEOSxuACmj3TzskvtzCbM8xRcMF2EnaYjYwOUZQEqoye2Ljlkn5wPj3
+         zbfcg9gTCT+c3JljnRzKIaSKi9YXiZPHzN6/2abJ1rGmSLNta1Ye+h4f4usPHspiHmlE
+         GxYSbzUCVdAFc0Oaha2VA0C2lD4yc71PNVNnDjelJ2xk1iWM4o+rg+/vbSKYc/xXlarU
+         6qxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788597644; x=1789202444;
+        d=1e100.net; s=20251104; t=1788598038; x=1789202838;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=PN4g8RPgZ7jX0xRFxJnWC4F4Ar+p2OrqSGzlc5rvdWw=;
-        b=UcCRZVpLZLNfX89jumF8+vECtA+ozOti5TyQUKPcVM7QjbQXM9FKw64T+16u2Ec7Ug
-         GFwrTghD5xidCZUE1SWzf+i+s+Mx0OnisrZlxkaDY++pf5RZAdewTl1SPLpKBGiPaqA6
-         xYeySpNOT5OOHBjrAYA2WGfx454PcimQnJwrilHMQUtNHSkcatVw8nppAMCGG1kFjQLC
-         TvfH8mOrx62mO7fh++GUepi6YUKj/cmJCiWtwrHbn2AxwA6AFXNnZ4klr01xvJFgURuW
-         sSy40Y7xAKFWaplrzka8XlEsgcMGRA6ONyNRIrq/aIK1S8aIyJ9NiZhI4jEmWwJqhask
-         OG1w==
-X-Forwarded-Encrypted: i=1; AKwUvBzWwYykvO9VG9PxRSJB7hmLEXhne79Hsye1KEVosCZNcBV2nqiJzWqH0U2zxwlPQ4AnE6wmxcP1tQc=@vger.kernel.org
-X-Gm-Message-State: AFuF++mPhLLpl3yH9zeIYqIbtMXamKT+XzSmRQlBUqethTqFsDfbHE8m
-	UmYqtLFVZhHl/hxGyWgv8Rw0AyKg3+qUw1uGtzbWQdiA5tbnvqPmI9/c
-X-Gm-Gg: AYBFou3jLaCSvvvUFj1WGJg3owCUUpRbCTwQO4t8YCyPvadqNzUxGv0jVIG9E7FJNql
-	DdkT9oQweuqvToMyqMgh+2RBX1+00NFFwvac9NmKI8ZSMrBB10DnO9McVfvRew4WJBx0ZTSUhup
-	XDoE2lX+TmXYXed3BE970jeMazwVM80/6zsXBcUdBLsGVlRF7r8jU6ShBONk7dS0m+K230lhzNo
-	g+xy3NiEJ4x+JmGzSsQ4g5AYS60fz9TjIl40bEmIIuBD3zXfUSQSy0fFWSakCtic4KvRV41C4I2
-	WzFXAstVpZHNaTbLXu6UVyOTmPtiqOJgiOZrqnOAzgMMuS3nM4JM3It/j9M0pZinPT0nTzWOspA
-	tWwK+mWdMQuy2TEGYhWSaSCWq1KqsbeoH9pUQMYLBpMd/QrnSEYKfQMluSGvDbvzC1+STT2ALZM
-	Q2IUaV+GuqUAiweZ6wO6WoCEX7YwRDG/Nz7NVfEqH7mumRF4eb9jG6HwbcQYoPeU1guQ0gOE/3B
-	VbGZpKzyFXv7VG5vyia31TWvD/AeohuLjaN5ayjk5GGO0BEHtdSkdlTIBQt8FbVJ06F8WVuQ0f6
-	k44400958KbCV9j9dyJ6mmaJlJfPhg0G+P2prMIu+SyO/nBSMylW9yMNp6IakmVWSHE=
-X-Received: by 2002:a05:600c:8b66:b0:49c:fa20:cbfe with SMTP id 5b1f17b1804b1-49cfa20cd6emr90941955e9.21.1788597643770;
-        Sat, 05 Sep 2026 01:40:43 -0700 (PDT)
+        bh=dAPnfFUNF7lq9CSa9bFXP56fVVdhSMxJj+LHsOxtOD0=;
+        b=H1eio3VxQHue6g+7kWzs6lmfaLLnfLBE/w5RO8OD5SW2sNR7GkbNMdbyAVvJXAg8k3
+         GZSOC64mU1JoJkM7kQ4kAWe6W8DGp/Qoae+nTR193khtFYgS8pLPZGMqlf0by/hDNUft
+         y4un6pnPlbbHtD1xJIG9ZSIlAgrCp/oZYIvX+bU1nLynnCgQathOODcO3/+8gE2JYnr5
+         H3d2AAMbbOAJ9icqr6VtI5ltBcYFVxg0eg4Q8rDhxv4KGkZza9DCsfw10JZsILkxQgAE
+         kTXm2JPKSz6hIXkURtO8P4yUXcQI1BKybBr2TaQ/DeyoWsYBV6F/k6zjmmYMe9RG/rCk
+         BSAQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz65iCLAxegnVkihFl7pS4GNC8QmddtWnaVS2/Bo6vyt46I8sqCgDiupc3nLwDza9zRsy+opOuAvUs=@vger.kernel.org
+X-Gm-Message-State: AFuF++mlXvu3zm8/COU/TllRU8TSifFzYmw3F3DSuNS+wL2BPgS2gz9A
+	n+gAHo7O89Qz9+ChXrCnmfsR/d9ljHDCwH3HisnN50Znyi8ZhMLZlBGB
+X-Gm-Gg: AYBFou3nAGOKtn2DldqDmwoQKOAbth8co0XzqzE+DGokTK4NgvEqZob49aO1UbIQDy+
+	XD/1DkkJ+sX75gjNNU3CMHbDLkoA19qKtkh+GRb8AcCuZ33W0OgNyFgvLEkUoVDo4s4KnnWdP+b
+	2+FNEZz1JYQbmBbEx77UKidRFVw2/OoRQWBRMPDAfhSK9pR7ivmXALPhyLm0CZXHpQmqsxd0zdz
+	iHzzGg1nQi3DCHFmSPFSeIGhRVGVhqXiyFLPALnmvir1pk6xgeHqwCUoL7/MTn735Zo7t+tFjjA
+	Scfi59Pjs3WJTmxRJBMjP5MlnsmJh4h8cImxJzXyBjPtUDOO/Fz0NNR/gX87TQGxJRBU58r6nSw
+	nmHPnpKPvarm8nR3nrwWz6geDRWpkK1V150+qAhU77NW7Vrkc9In3rBr/ZPMpf+F0wm1t5um4Q+
+	28UWuWmnKRjYyBe0wHZ96LMlRq39ktU3YAxxTHp+/9tirlWdujBPOzqiL3MqeeX25K/qm+kqlzH
+	oj8qGnW7xsetTtaSKZslkOUeQcCtezNIzBi8HrX/Zy6WprJFp1QCU2BGZ5Zx78mgMcQmLQFAN4Q
+	QfnZwTSLGi3jWHaEz9LmfVKmPIkIobp0jnlftH+7B9J3vCRdvjHvkGwCulUS6xIrDXlleLebYq1
+	8TQ==
+X-Received: by 2002:a05:600c:8b8a:b0:49c:ee08:6ed1 with SMTP id 5b1f17b1804b1-49cf81eafe6mr118482415e9.5.1788598037748;
+        Sat, 05 Sep 2026 01:47:17 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee6158e9sm215544755e9.12.2026.09.05.01.40.42
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cfbdacc45sm105314675e9.11.2026.09.05.01.47.16
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 05 Sep 2026 01:40:43 -0700 (PDT)
+        Sat, 05 Sep 2026 01:47:17 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>
+To: Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Xu Xin <xu.xin16@zte.com.cn>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	linux-mm@kvack.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: [PATCH] docs/mm: ksm: Use the renamed ksm structure names
-Date: Sat,  5 Sep 2026 10:40:34 +0200
-Message-Id: <20260905084034.39521-1-kmehltretter@gmail.com>
+	Alexander Lobakin <aleksander.lobakin@intel.com>
+Subject: [PATCH net-next] docs: networking: page_pool: Use page_pool_put_netmem_bulk() in the kernel-doc directive
+Date: Sat,  5 Sep 2026 10:47:11 +0200
+Message-Id: <20260905084711.40105-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -82,34 +84,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Reference section of ksm.rst asks mm/ksm.c for mm_slot, stable_node
-and rmap_item. Commit 21fbd59136e0 ("ksm: add the ksm prefix to the
-names of the ksm private structures") renamed them to ksm_mm_slot,
-ksm_stable_node and ksm_rmap_item. Since then only ksm_scan is rendered
-and the three structures are missing from the generated documentation.
+page_pool.rst asks net/core/page_pool.c for page_pool_put_page_bulk().
+Commit 024bfd2e9d80 ("page_pool: make page_pool_put_page_bulk() handle
+array of netmems") renamed the function to page_pool_put_netmem_bulk().
+Since then the directive finds nothing and the bulk release helper is
+missing from the rendered page.
 
-Use the current names.
+Use the current name.
 
-Fixes: 21fbd59136e0 ("ksm: add the ksm prefix to the names of the ksm private structures")
+Fixes: 024bfd2e9d80 ("page_pool: make page_pool_put_page_bulk() handle array of netmems")
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- Documentation/mm/ksm.rst | 2 +-
+ Documentation/networking/page_pool.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/mm/ksm.rst b/Documentation/mm/ksm.rst
-index 2b4f72f1f953..5a80573162de 100644
---- a/Documentation/mm/ksm.rst
-+++ b/Documentation/mm/ksm.rst
-@@ -78,7 +78,7 @@ The frequency of such scans is defined by
- Reference
- ---------
- .. kernel-doc:: mm/ksm.c
--   :functions: mm_slot ksm_scan stable_node rmap_item
-+   :functions: ksm_mm_slot ksm_scan ksm_stable_node ksm_rmap_item
+diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
+index 817f8b78d246..d0be2b800a06 100644
+--- a/Documentation/networking/page_pool.rst
++++ b/Documentation/networking/page_pool.rst
+@@ -83,7 +83,7 @@ that NAPI context, the page pool may safely access consumer-side resources
+ 		 page_pool_get_dma_addr page_pool_get_dma_dir
  
- --
- Izik Eidus,
+ .. kernel-doc:: net/core/page_pool.c
+-   :identifiers: page_pool_put_page_bulk
++   :identifiers: page_pool_put_netmem_bulk
+ 
+ DMA sync
+ --------
 -- 
 2.53.0
 
