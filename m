@@ -1,125 +1,374 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9528649E5E7
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 12:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BFF49EC6E
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 12:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788611393; cv=none; b=OS1FhUr1mwN0mm8DlJMWUsFc+r+ZNhYiIEgdVOE9+frRB+E1y/Eg6NsnntUvyBkNFJ23Lfp1aMI+xS4u0bxDQuWZbONjaAisj+k6ZmhSinUQ6KAOhbSO6KImmhViN2Q3AQUFN/VGQHKeZCCOlApfdlzm60rkkPplxZ/pGgdVTDY=
+	t=1788611462; cv=none; b=cBrBrOlngLDOkIf2eTv64EVc82X5OXo2okxpzEs+kEzB4YVL3IpmJezo09bsWkymt9/apLJtqWH86RssZDkajzdIW3yWjKzE2C420bwBrrLj5furY2CXqv0n8IkgE420Jqb3lBxZm0+c+SzN7UFR0wMD5NBFZ9kUar13ZDAvkFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788611393; c=relaxed/simple;
-	bh=hMg7RJefHBNDjWx7qlSUPFnIqApIedOx+ccA1coGGAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=onGgqVKKnZ26AcaO3eBeN3/WYW39xZ0Nb0ko72eVBrYcR5+m7CBuJtky1Wydv+UQMYJdLcW57oi/ZF06YuntIOulBeFNfULRYEbjdyXyFZn55EoTanHILXooNFpfIa4xio5f5ZuIw8+EZ3BSxZPJzC18J4a3z0LvAml0dF2iquw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lUIYRGfZ; arc=none smtp.client-ip=209.85.128.43
+	s=arc-20240116; t=1788611462; c=relaxed/simple;
+	bh=rA6wc+qPLzb7owMI5RwYkotdeWFBpZWgHvWsnw7zvxY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G4K8KzOVveO8XIWp64ZHKjnldB6c22D0DYOr7Eux2/703+4vrmlvvbg2PMGqsvM1bZXKdV9MNPW0Y8NAWQCxt9Ycxe7pM/V0it9gn2vvcgsCIMBwK2Z/X4+RUBY/BViC3NIcwtjMymrByFrr+2bRxZxYUoibVQrs02Sz2ra38EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ihlzsDgJ; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lUIYRGfZ"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso18116235e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 05:29:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ihlzsDgJ"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48441a2ba1bso1284658f8f.1
+        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 05:30:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788611389; x=1789216189; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=IR0+lkethKHvrwCdwLXMATakzMSwaAKd6EpWxgPc0oQ=;
-        b=lUIYRGfZzMxbh71ntNcHdfaX7qcD4W21aZLxy5KXsV9jI0WlTJMjwPTfoYUixE1+ax
-         8VMCo0qv0LwmCspW/ZecFnFlkVR/KWFcMLPa2gNvG5MNCnXFfHJGsX+HiBRcZJ2ULwdo
-         RvT44Vy9q5hmqgqqogM2Cc/pWIFt34PI1TYu6UM1fZZKQdezEwJ0jtWE3CE3gK1KDF8S
-         3s9Z4ISt+ScI0rYlwygCxRJXM0UkOQIvcunGyvlinYZKEdEPhUHdzXkfTsnhGqdCHcCY
-         2XMYd2un7S7NmKo52rrnRaQq+5CXgSSsvwGK0AMrnk/flDzw/NIk2/cvhhGqIXR9IfgN
-         SBIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788611389; x=1789216189;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1788611455; x=1789216255; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=IR0+lkethKHvrwCdwLXMATakzMSwaAKd6EpWxgPc0oQ=;
-        b=Ww3ATki8SD0WL7waXNiSw/VL1pkSw706yT0Si2T/LV4NB2PfozvSlK1iybfXizluLB
-         lk9+qc+6/OlhG8C207JHrPPHwLjn1G2NwlkMSUquQ8chCY15u/wEg4D/u6R6Nq4erFvG
-         F3jfukmWRb6OS9E7ISTqLPhe4Blt6CWxDpUu8k8mQvKg8zs/e/CJP5YOujpO7V4ybSy1
-         MVJjth/kvS5ZnvGANjI8d73JpB3s8Qwp7/LU8xRgTq9qNt5KNE/tMkx5oF0KqOe+saU2
-         uonmI+uu9UeKC3eD9ioUHqHEiaHo3Cot2g/yxP0opmglC+eupIh6SL7o+lxQa+xGvbge
-         4Fpg==
-X-Forwarded-Encrypted: i=1; AKwUvBxSz0TPWGG2xd/k3u0eS55lLcXFiIzevLJAt85XqsIebcfC96Et88ClSyCNcClAVRzHsN7RUmc+2MU=@vger.kernel.org
-X-Gm-Message-State: AFuF++mPBLEvCpWEh38s4wjO6oMQt7LPr3Xml8NhG33JHAQSgs9bjLF2
-	ybNNb6L5qZSCVWQEU3B3Y/4chZ9cyhoATmloF8y1N0Od/Dreo0a62u5J
-X-Gm-Gg: AYBFou3YEuuU3Ej6na2S64X6blFrufcwcPDV2mBGdrXs1PjkVasIQYCrrmexoavJ+2O
-	/XxOJ0yG01vFXd6Fqq49HCZtYxmYRqo+qVDquvaVNl8qQ3HzTiVm87T7lL+KZivo4cey+1Pgr95
-	qswGMdvrlqmRzOWMi6FvJhdLFfuwPEcyCh769yeRGhKlZKUK1AKYc+LXiKLRyyN3kM91sUx/BJL
-	/FIX2Gd+g1pHqUjOHVn5PDYjmzQe+h2ANOop0oCTZ9Sa64D8miHUfWcrSfvjXQoU+8h4MWxVHWY
-	6xBv13T8KsimpCFPGH+LOiRXX6eX90n1O04zM91l8JcY1qGX/i8fD3ivc4PI4nlcN2oXhyZA7Y+
-	rAxIFwRoQHfFq5e6zaNybhmv6egGAIyarPjmgW8sLednMMbaB6a1ZDsDKqZo9spRz5SXVParvrB
-	pjkJovzCmiwc8Y5Z+g4ZcahPCK/KjOoBEwuMaPzMv+0UuAxaTQ3wqxQ/QFRQXa7jJIJTjaChWuu
-	+1HMaaYufAfwFMl+ab5P2NF5l9KyltgFvMNEOpHKtEjUJ1ghB6i91zB2QoETskAMcau3TIVJ53V
-	dMyir04VxbEzUjbeiUM15CC2QCC3jk2dA6q6pUPoqOqlWZyr4GG2DjfcZpoaxcyV
-X-Received: by 2002:a05:600c:3495:b0:496:c1f3:e8f8 with SMTP id 5b1f17b1804b1-49cf8244bc5mr116977535e9.7.1788611388275;
-        Sat, 05 Sep 2026 05:29:48 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cfbdacc45sm118555475e9.11.2026.09.05.05.29.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 05:29:47 -0700 (PDT)
-Date: Sat, 5 Sep 2026 14:29:46 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
-	linux-m68k@lists.linux-m68k.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Steve Wahl <steve.wahl@hpe.com>, 
-	Dimitri Sivanich <dimitri.sivanich@hpe.com>, Mike Travis <mike.travis@hpe.com>, 
-	Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Arnd Bergmann <arnd@arndb.de>, linux-samsung-soc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Tony Lindgren <tony@atomide.com>, 
-	Kevin Hilman <khilman@baylibre.com>, linux-omap@vger.kernel.org, 
-	Dominik Brodowski <linux@dominikbrodowski.net>, Damien Le Moal <dlemoal@kernel.org>, 
-	Niklas Cassel <cassel@kernel.org>, linux-ide@vger.kernel.org, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Michael Schmitz <schmitzmic@gmail.com>, 
-	Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH v2 9/9] docs: kernel-parameters: Drop the pata_legacy.qdi
- and pata_legacy.winbond entries
-Message-ID: <apwKitEmOv3ZwLkd@gmail.com>
-References: <20260905094649.41996-1-kmehltretter@gmail.com>
- <20260905094649.41996-10-kmehltretter@gmail.com>
+        bh=nF28nbshD2BPWEClB77TT3QHqkwal9Tdd0g3hy+SqKw=;
+        b=ihlzsDgJ2kyj6zRF3yq43aIsojEhv/cPPQxsXbFb9kP+XMb/KFT5xlitgQqOkym/ck
+         B4fHDO2m/Qw2XLYqABMXr+kVSEPm+wE2mLuunWEzFqEPWeAKTx2yC0qVGUXK71SQJ6Wj
+         jq4IqOOhe4ExQJF8kf59FDKd3elxPObjBbBSOYQReYXeHxyhGkJYlgu8f7MFUTiH6IYV
+         Lx4AgSmjpyxKI3uzuxWxWc1XwQ5fdJEOqIjDXNEQMw/kN3QdR+YTCI0VPlAQl4wOE9lE
+         OwIITY8FYHiZ6OgN90UASGt/VU7kYTMb4YdS+E4K4SD28jWwsdx8VfUSa1avQ8/qpdZV
+         K7Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788611455; x=1789216255;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=nF28nbshD2BPWEClB77TT3QHqkwal9Tdd0g3hy+SqKw=;
+        b=PbHashGLrq5tuS/7/DoIMe+js6SzkB8aiFd7+99vhvKnUv5K/nsTsnncqu2qxCehaJ
+         icly5+q588Xcf1o0FvM9moyRDXs6RhHW4fYySZQn/EZm9YEr5u7hmN3MyxNUzOZzoX3T
+         32+HSEgQ3sCMCSuphN1kYVvUX1Dw6UycMYRehPpNHqW/H/xJRaeibdH+p20e7Uqm8lDI
+         duVUIbOcCJLoxJSuaMOGaW+a1sReSHA42Sw0DRTN2lvr4pSWjTYI+bmuI69/H0arbCte
+         7NAuAotLjyKWWp8UBIfMbQgKebl2K4x/2JMCU8upQkBBEqCoIcgYnGruiZXKtGLBoT9N
+         /w1g==
+X-Forwarded-Encrypted: i=1; AKwUvByiGknhHKQrb4pMKm2PLO8NvKQSzwjsJxTM2EUSQbDO27s9wNHaNFgfmZRyB5m7QPNkt7yEuJjuO+U=@vger.kernel.org
+X-Gm-Message-State: AFuF++kvE6WEftFYi4S101HAKelIpIboMUcsUAF1Acr7oB6I5WIOcOM4
+	mPGOrF+iw340xgPeXxtqVMLycvIPipFXeMNY8+3LDpYAW5B+FnXlc24l
+X-Gm-Gg: AYBFou3ZVA9b0j+IFxUV91sShMAtuJsgFj1nXELskrZQqeH3LFR0SSknDgzFAL3l7Dx
+	Cm+SP7R9V4ym+kFYt4jLydt1zU/nJG70VsOpTGAg0C1ZMwjamAiHLq08rzm4jxf3UraPt/2fmwl
+	Y0zHpKnouSix28ueNvVSkzxQ+kUYWFd7g6mA5qcEAmEzUhBIawgWcd7hxN942KkOCHEpMBq+n9K
+	nTBRsX4/OHXBM2ZVmQfgs9Z7Vjt8pfpNv/17Hh2xLRDlUlIadc6t+gOh+AeJLVwhlsmEJwFS29y
+	M2uCZiQ99k9pTAFv/shk3c3nyRfvc7gTt3QHAbf1zxLEP3Og449bo2f+4xdWB3JI2RTMk70EoUK
+	Wme8c0NTY88BgZHziwhM9j2fHvhDMrQvGAlalqR2uFeho4wt/2Pkp64npeO4KdRBx1SNp2EmF1I
+	/rH0Z28fXDE46CTsu59zXdUvw01kR15iTLMP6wSc+R6hSgs0teGwGzdBN4NhuTjfAUggaXJpP0H
+	RQ5FalDhjXr8cCGzd0UmMw9aEkly3ms2VBFh92fObHpVOy2xQH9l70a
+X-Received: by 2002:a05:600c:1d08:b0:49b:96a0:5c00 with SMTP id 5b1f17b1804b1-49cf825168cmr134783585e9.13.1788611455009;
+        Sat, 05 Sep 2026 05:30:55 -0700 (PDT)
+Received: from [10.128.10.232] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885be01bsm12862413f8f.31.2026.09.05.05.30.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Sep 2026 05:30:54 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <1a21d17b-686a-4efe-9d47-fb8a9e826b39@gmail.com>
+Date: Sat, 5 Sep 2026 13:30:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260905094649.41996-10-kmehltretter@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] uart-routing: Add common UART routing framework
+To: Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Chia-Wei Wang <chiawei_wang@aspeedtech.com>, Oskar Senft <osk@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+ Jani Nikula <jani.nikula@intel.com>, Vitaly Lubart <lubvital@gmail.com>,
+ Hanjun Guo <guohanjun@huawei.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Alexander Usyskin
+ <alexander.usyskin@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Breno Leitao <leitao@debian.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ James Morse <james.morse@arm.com>, Paolo Abeni <pabeni@redhat.com>,
+ Stephen Hemminger <stephen@networkplumber.org>,
+ Dave Penkler <dpenkler@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>, Dan Williams <djbw@kernel.org>,
+ Mukesh Rathor <mrathor@linux.microsoft.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Alexandra Winter <wintera@linux.ibm.com>,
+ Karthikeyan KS <karthiproffesional@gmail.com>,
+ Pengpeng Hou <pengpeng@iscas.ac.cn>, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org
+References: <20260905102901.126035-1-changhuang.liang@starfivetech.com>
+ <20260905102901.126035-2-changhuang.liang@starfivetech.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <20260905102901.126035-2-changhuang.liang@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Sep 05, 2026 at 11:46:49AM +0100, Karl Mehltretter wrote:
-> pata_legacy no longer has the qdi and winbond module parameters:
-> commit 3c4d783f6922 ("ata: pata_legacy: remove VLB support") removed
-> both together with the VLB controller support. The entries also refer
-> to CONFIG_PATA_QDI_MODULE and CONFIG_PATA_WINBOND_VLB_MODULE, which do
-> not exist either.
+On 9/5/26 11:28, Changhuang Liang wrote:
+> Several SoCs contain a serial crossbar, usually called UART routing,
+> that lets the RX line of any on-chip UART controller or physical serial
+> port be fed from any other endpoint. The Aspeed AST2400/2500/2600 and
+> the StarFive JHB100 both have one, and both expose it through the same
+> user space interface: one sysfs file per endpoint, listing the routing
+> targets with the current one in square brackets.
 > 
-> Drop both entries.
+> The two drivers implementing that interface duplicate the whole sysfs
+> plumbing and only really differ in the description of their register
+> layout, so factor the common part out into a framework.
 > 
-> Fixes: 3c4d783f6922 ("ata: pata_legacy: remove VLB support")
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> Acked-by: Damien Le Moal <dlemoal@kernel.org>
+> An SoC driver now only describes each mux with a
+> struct uart_routing_selector - register offset, bit position, field mask
+> and the array of routing target names indexed by the raw field value -
+> gathers them in an attribute group and hands the group and a regmap to
+> devm_uart_routing_register(). The framework validates the description,
+> creates the files and implements the show()/store() handlers.
+> 
+> The framework keeps its state in a devres node rather than in the device
+> drvdata, so drivers stay free to use dev_set_drvdata() for their own
+> purposes, and the sysfs files are removed by devres, so drivers do not
+> need a remove() callback for them.
+> 
+> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> ---
+>  Documentation/driver-api/index.rst        |   1 +
+>  Documentation/driver-api/uart-routing.rst | 145 ++++++++++++++++
+>  MAINTAINERS                               |   7 +
+>  drivers/Kconfig                           |   2 +
+>  drivers/Makefile                          |   1 +
+>  drivers/uart-routing/Kconfig              |  16 ++
+>  drivers/uart-routing/Makefile             |   2 +
+>  drivers/uart-routing/uart-routing.c       | 200 ++++++++++++++++++++++
+>  drivers/uart-routing/uart-routing.h       |  84 +++++++++
+>  9 files changed, 458 insertions(+)
+>  create mode 100644 Documentation/driver-api/uart-routing.rst
+>  create mode 100644 drivers/uart-routing/Kconfig
+>  create mode 100644 drivers/uart-routing/Makefile
+>  create mode 100644 drivers/uart-routing/uart-routing.c
+>  create mode 100644 drivers/uart-routing/uart-routing.h
+> 
+> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+> index 6601a258690f..2a0f375cd206 100644
+> --- a/Documentation/driver-api/index.rst
+> +++ b/Documentation/driver-api/index.rst
+> @@ -146,6 +146,7 @@ Subsystem-specific APIs
+>     tee
+>     thermal/index
+>     tty/index
+> +   uart-routing
+>     wbrf
+>     wmi
+>     xilinx/index
+> diff --git a/Documentation/driver-api/uart-routing.rst b/Documentation/driver-api/uart-routing.rst
+> new file mode 100644
+> index 000000000000..67bb84958977
+> --- /dev/null
+> +++ b/Documentation/driver-api/uart-routing.rst
+> @@ -0,0 +1,145 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +======================
+> +UART routing framework
+> +======================
+> +
+> +:Author: Changhuang Liang <changhuang.liang@starfivetech.com>
+> +
+> +Overview
+> +========
+> +
+> +Several SoCs contain a serial crossbar, usually called *UART routing*, that
+> +sits between the on-chip UART controllers and the physical serial ports
+> +exposed on the package pins. The crossbar lets the RX line of any endpoint be
+> +fed from any other endpoint, which makes it possible to, for example, snoop
+> +the traffic of a host serial console, or to loop two on-chip UARTs back into
+> +each other without any external wiring.
+> +
+> +Two endpoint families are involved:
+> +
+> +``uartN``
+> +	the RX line of the on-chip UART controller number N.
+> +
+> +``ioN``
+> +	the RX line of the physical serial port number N.
+> +
+> +The crossbar is programmed through bit fields, one per endpoint, spread over
+> +one or more registers. The value written into a field picks the endpoint the
+> +RX line is connected to; the meaning of a given value differs from field to
+> +field and from SoC to SoC.
+> +
+> +The framework in ``drivers/uart-routing/`` takes a static description of those
+> +fields and turns it into a set of sysfs files, one per endpoint, so that SoC
+> +drivers only have to describe their hardware.
+> +
+> +User space interface
+> +====================
+> +
+> +Every endpoint gets one read/write file in the device directory of the
+> +platform driver, named after the endpoint. Reading the file lists all the
+> +routing targets the endpoint can be connected to, with the current one
+> +enclosed in square brackets::
+> +
+> +	# cat /sys/bus/platform/drivers/aspeed-uart-routing/*.uart_routing/uart1
+> +	[io1] io2 io3 io4 uart2 uart3 uart4 io6
+> +
+> +Writing one of the listed names to the file changes the routing::
+> +
+> +	# echo uart2 > /sys/bus/platform/drivers/aspeed-uart-routing/*.uart_routing/uart1
+> +
+> +Writing a name that is not part of the list fails with ``-EINVAL``.
+> +
+> +The list is not necessarily the same for every file: it is ordered by the raw
+> +value programmed into the hardware, so the first entry is the target selected
+> +when the field reads back as 0. Some SoCs define fields that are wider than
+> +the number of documented targets. When such a field holds a value with no
+> +name attached, the read appends ``[unknown(N)]`` to the list instead of
+> +bracketing one of the names.
+> +
+> +Fields whose name is ``reserved`` are placeholders for values the hardware
+> +does not implement. They are listed so that the position of the following
+> +names stays correct, and writing ``reserved`` programs a value that has no
+> +defined behaviour, so do not do that.
+> +
+> +The exact set of files of a given SoC, together with the routing targets each
+> +of them accepts, is described in the corresponding
+> +``Documentation/ABI/testing/sysfs-driver-*-uart-routing`` file.
+> +
+> +Writing a driver
+> +================
+> +
+> +An SoC driver describes each mux with a ``struct uart_routing_selector``,
+> +defined with the ``UART_ROUTING_SELECTOR()`` helper::
+> +
+> +	static const char *const foo_uart1_options[] = {
+> +		"io1", "io2", "io3", "io4", "uart2", "uart3", NULL,
+> +	};
+> +	UART_ROUTING_SELECTOR(foo_uart1_sel, uart1, FOO_MUX_REG, 16, 0x7,
+> +			      foo_uart1_options);
+> +
+> +The arguments are, in order, the name of the variable to define, the name of
+> +the sysfs file, the offset of the register holding the field, the position of
+> +the least significant bit of the field, the field mask and the array of
+> +routing targets.
+> +
+> +The mask is given in field coordinates, that is, it is *not* shifted by the
+> +bit position: a three bit field is always described as ``0x7``, whatever its
+> +position in the register is.
+> +
+> +The array of routing targets is indexed by the raw field value, so
+> +``options[n]`` is the name of the target selected when the field holds n. It
+> +has to be NULL terminated, and it may be shared between several selectors
+> +that happen to have the same target order.
+> +
+> +The selectors are then gathered in an attribute group::
+> +
+> +	static struct attribute *foo_uart_routing_attrs[] = {
+> +		UART_ROUTING_SELECTOR_ATTR(foo_uart1_sel),
+> +		/* ... */
+> +		NULL,
+> +	};
+> +
+> +	static const struct attribute_group foo_uart_routing_attr_group = {
+> +		.attrs = foo_uart_routing_attrs,
+> +	};
+> +
+> +and handed over, along with a regmap covering the selector registers, in
+> +probe()::
+> +
+> +	static int foo_uart_routing_probe(struct platform_device *pdev)
+> +	{
+> +		struct device *dev = &pdev->dev;
+> +		struct regmap *regmap;
+> +
+> +		regmap = /* ... */;
+> +
+> +		return devm_uart_routing_register(dev, regmap,
+> +						  &foo_uart_routing_attr_group);
+> +	}
+> +
+> +The framework validates the description at registration time and rejects
+> +selectors whose target list cannot fit in the field, or whose field does not
+> +fit in a 32 bit register.
+> +
+> +The sysfs files are created and removed by devres, so a driver does not need
+> +a remove() callback for them. The framework keeps its own state in a devres
+> +node rather than in the device drvdata, so drivers are free to use
+> +``dev_set_drvdata()`` for their own purposes.
+> +
+> +Locking
+> +=======
+> +
+> +The framework does not serialise accesses itself. The read-modify-write of a
+> +selector field is done with ``regmap_update_bits()``, so concurrent writes to
+> +two endpoints sharing a register are made safe by the regmap lock. Reading a
+> +file always reports the current hardware state, which may have been changed
+> +by another writer in between.
+> +
+> +API reference
+> +=============
+> +
+> +.. kernel-doc:: drivers/uart-routing/uart-routing.h
+> +
+> +.. kernel-doc:: drivers/uart-routing/uart-routing.c
+> +   :export:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 90919c672d4d..b7fa722755c6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -27818,6 +27818,13 @@ F:	drivers/misc/uacce/
+>  F:	include/linux/uacce.h
+>  F:	include/uapi/misc/uacce/
+>  
+> +UART ROUTING FRAMEWORK
+> +M:	Changhuang Liang <changhuang.liang@starfivetech.com>
+> +L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
+> +S:	Maintained
+> +F:	Documentation/driver-api/uart-routing.rst
+> +F:	drivers/uart-routing/
+> +
+>  UBI FILE SYSTEM (UBIFS)
+>  M:	Richard Weinberger <richard@nod.at>
+>  R:	Zhihao Cheng <chengzhihao1@huawei.com>
+> diff --git a/drivers/Kconfig b/drivers/Kconfig
+> index f2bed2ddeb66..cb2b5c3b22b0 100644
+> --- a/drivers/Kconfig
+> +++ b/drivers/Kconfig
+> @@ -251,6 +251,8 @@ source "drivers/hte/Kconfig"
+>  
+>  source "drivers/cdx/Kconfig"
+>  
+> +source "drivers/uart-routing/Kconfig"
+> +
+>  source "drivers/resctrl/Kconfig"
+>  
+>  endmenu
+> diff --git a/drivers/Makefile b/drivers/Makefile
+> index 0841ea851847..fe4b11419496 100644
+> --- a/drivers/Makefile
+> +++ b/drivers/Makefile
+> @@ -195,6 +195,7 @@ obj-$(CONFIG_DRM_ACCEL)		+= accel/
+>  obj-$(CONFIG_CDX_BUS)		+= cdx/
+>  obj-$(CONFIG_DPLL)		+= dpll/
+>  obj-y				+= resctrl/
+> +obj-$(CONFIG_UART_ROUTING)	+= uart-routing/
+>  
+>  obj-$(CONFIG_DIBS)		+= dibs/
+>  obj-$(CONFIG_S390)		+= s390/
+> diff --git a/drivers/uart-routing/Kconfig b/drivers/uart-routing/Kconfig
+> new file mode 100644
+> index 000000000000..a0c45a7bba47
+> --- /dev/null
+> +++ b/drivers/uart-routing/Kconfig
+> @@ -0,0 +1,16 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +menu "UART routing drivers"
+> +
 
-This one is actually a duplicate, I just found out. Ethan posted a more
-complete patch in June that removes all six pata_legacy entries which
-commit 3c4d783f6922 ("ata: pata_legacy: remove VLB support") left
-behind, this patch covers only two of them:
+Configuring the kernel can be an annoying process, and on platforms that
+can't use these options, this menu just appears empty, further
+complicating menuconfig...
 
-  https://lore.kernel.org/r/20260607064053.195166-1-enelsonmoore@gmail.com/
+Maybe it makes sense to add a dependency to the menu like this?
+'depends on ARCH_ASPEED || ARCH_STARFIVE || COMPILE_TEST'
 
-It has a Reviewed-by tag from Randy, but does not seem to
-have been picked up yet. 
+- Julian Braha
 
-So I suggest: drop 9/9 and take Ethan's patch instead.
-The other patches of this series are not affected.
-
-Thanks,
-Karl
