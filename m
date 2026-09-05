@@ -1,63 +1,63 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80583E958F
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 09:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFFE4248D2
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 09:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788601883; cv=none; b=LrLrfQn8vVoEhjRe0LSlh5tkN1E7pITLXXFm2XFeUgG0SW/lnL2vmXX34RCKV05hchV62QjpeE+aASAifXRZhIdg1Kw0MGqw/QF3mkHYPIBm5fR7ide+xYHueul/KJkLAmfqBqogv4KRULV/FRLUSoc+qHz17T38bBR3VkkrzeU=
+	t=1788601919; cv=none; b=BFTi47VjxrH3lR6wjlZHCeafH04eCfT2en3ExiOhd5QebUd0TbFu4d2CR4dD+Zw/nxFLNikPJIxHvDwttlWCekp9/CgWy2fzlPsKPbqkjIu3IMgfEGxTpNGDsT4lxOxkNsEYPcT5cuAr8QfJ6wmhu+RkJx/ItHRex90bqGss9CY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788601883; c=relaxed/simple;
-	bh=hxoMOTps4ssfuwoiEgGPBDr3IeANcLabAFKshQddcHk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pQnstier4L6wwQ6rukDQ7xDMU5ldJQYg5zVOOAJmHbLQGhJtFT+unKzW+gElfeLWNfXyvH5W9KvXIbYrgddy5NSApHDJtqETNRVie4eTztsnyHOzSwD/G+MiovK3fqTD9wdOsgoG3nJQHLrawzebEpQDzb5uPaCKiCr1F9LrL7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rN05sN5L; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1788601919; c=relaxed/simple;
+	bh=w2K8xt4zqhcE2EqGn4AK2C03mTpm3iio5Rl14IWc5/4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jvYjMPA0VmBK2MlJoSJ57Zs1DfceK+CsiNpMNEJnGkZUSg7s7krZChbnc9Qan2HuwONhplr70q6iQ9b0D3ovRwzpx8SX/SX5fIamKhBD5L8UVCvF0ITYiibG/8dr/iPximAlh6apBxNdZNYpwggrNxFeCdT1kRQGyN+LBMs63PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C2H+bDs8; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rN05sN5L"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4957eefd361so14103185e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 02:51:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C2H+bDs8"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4858595f997so1140676f8f.1
+        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 02:51:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788601880; x=1789206680; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788601913; x=1789206713; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+/XuGnO7C0o78lZlWgcjI0jZXorVi4R+HC8SQNL+h8I=;
-        b=rN05sN5LNPMTINBXpA4t78pRBM3HdQBD0LDifweDgYRw0sKmG5hnbq9+n4XWZ3wdAY
-         mWeaeKHAU9dMsvBA44tTKiP2gEQRbU+LAvBnuznHG01/5bWApKb5V3QgUAT3x5qxocJ9
-         Hwc8fz377okjBDKC2HRNWxpraMcKuYLKzIaTUZ+PYrlMgTbbhGMhDNHeISpndmRxRjax
-         e+K3dlJUzZZ/jxGuBNn/qn7M2O7lEDKqm410DxxNTNR6cNnpmskOfF+TVTdD7C5qvaSg
-         SZ896BNtp5ntid0p9yC97sh73JhpabBhpCzcRxaIJqfy8ZGy6JpKt3uRgOTbDNmJRZXx
-         96OQ==
+        bh=EIWO0mubRMzOhdGxKyeqO8ZgTz9Vq0CCl/AF3S1B9uY=;
+        b=C2H+bDs8XvwqwSFgHX2ZDUgVJbGxEGo+8ggeet9BanCE2VcwrRs0/GX8bTbJiRC8U8
+         O359ZRFzki/DiX0IM+WXFkoIs7+hQveQIa0NatsUMyfs/RnEMqvWzgqX9Tq3CyhBkSbt
+         cQyC949yR4XTYvjkvdPFLJN82tjI7QPu7DkBeqgBYsUDsE7IlwiClTU2WaxXQTyDCalb
+         0g0NJMdHFoeHp9fuCsZMo3AUUlIPChhPzgSiM7RSA1iWs6PeyEzSPpOZSSXS543FYXrP
+         20c7XnQAOqO+9Y3223P1e5qN0nsUq0EkfXJQrUvFv5c5h1ZrAmVxZCM6BMhFZRmA2WWN
+         7Jyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788601880; x=1789206680;
+        d=1e100.net; s=20251104; t=1788601913; x=1789206713;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+/XuGnO7C0o78lZlWgcjI0jZXorVi4R+HC8SQNL+h8I=;
-        b=KgkLr0T4ZM7D2tB91hwPK0HIKMWKEnjQQqkg//1HgZ9D46638YrfBXrXyQ5cYAal8D
-         s/kajhwdBzYcoAmt9zPkk2yhxRltkJF3tKqOeSeopors9nhdNuQWOootvQsZdzlZaogj
-         KeFPfPLGjyAbQUTJtBjXL7dBLuCT6w/YXGXPT0OX0UCJnzxcawQ+XcxtPNnQoimTIdtE
-         KXbCNk4dO2MNYijl8Sv79kzSolxtVb4wRp0XZtct5/+vbe+HhYe/h+OlHpOO6SyMzCQh
-         LkF/4J7+lKQz27s10gYMKCWJD1A4o/OQw+RC7Z1pSCY3BsdPMW/OE2xo/MUfXF9K/gvo
-         Olkg==
-X-Forwarded-Encrypted: i=1; AKwUvBwfaHoGVuEt+4SOXfa7pgs1bVT9y/3DZ3yyMC1kMh1SW84dzgqjTprV7KU58X2raakbynoZ081kXAo=@vger.kernel.org
-X-Gm-Message-State: AFuF++mAX+Tc6KanzJlgAuX7AQed0gVOoDOvKXlUSfsMiHiZ5Q2jAYgS
-	ixdr1jJgprfqJgWQiyXeaN7TOtrxRPu36UD6ct0JXG/qHOr7rSRobsq3
-X-Gm-Gg: AYBFou1QyaAy0eUzD3EBp61IcCZ1GKCdgLZgIVhnfSjIMwnDRHuP5cjnqhOICcVyUi4
-	u6o+IyeyJY8eaghyliGj2qoaXb71CpxhR7zRVz2poMAdv6fd4hf7JWsT1oi1s+1wcs767kljwki
-	YklJxf4BR/JYaSPeWtgBJmN7JjyTnEsArGHlSUvKPvnudjS0dezmXhTEzAM5ItkJ4kKD0Oa40WW
-	FxInVeK90wqBpCfDhzPJ46emgafbutxDUzCek8MN913yYYl42cbFeoetEcrlV1sqmv0cZeIMJCe
-	KkcenPB+rmwQSQvz7qN60+UwUSx+0386lUvJqF1Uo3yb/Xxp6SWKgpDwW6LsL7ynE9097twn9na
-	K8vIfMC4COdZd6YAWZNoNBboKeRC8JoS217foUSjB5NxsiW4SEf2rkPenQ3lS/Y21AB6GOsrbXy
-	0n0GKVMM4AOJrgg/MLIZBtrR2uznHNEITXPOJ1vvK2ccFDUryjYHVgF4dzxFKKehR62kS7BIHiH
-	p8jCkyb0xoBpwBipcgQ5CfpkTXNq3msKB1o5ZKZt9tf6RQPdP4qGm/+g9zi1u5BJJA/ZxU+AjSu
-	7yRD24LCXh0xHUk/fB9oqJdOyoOODEVWIolau60WFD4pJN3kBWrTTqd2ceEaKBzBkw4=
-X-Received: by 2002:a05:600c:8711:b0:49c:fc6e:a3dd with SMTP id 5b1f17b1804b1-49cfc6ea7bfmr108917295e9.28.1788601879856;
-        Sat, 05 Sep 2026 02:51:19 -0700 (PDT)
+        bh=EIWO0mubRMzOhdGxKyeqO8ZgTz9Vq0CCl/AF3S1B9uY=;
+        b=PZQg9a0DoJ7QrW5PFejYdcyhtE//+DOMJHw4YdcG2mcxAs865XEUQGhH/Y61Jae2gr
+         ZqyLriCp3CkO+YpSk5NKo2FlCr4E3xFN0wLJNsM+n5Ql0dF1vWbFKzn1a7oNsnoWNUi8
+         0NukUm9ejndXp98jqeYhjRssGL3E4OEE4ypsK7NPZssvTFgJMMPpyD1j4JBvV1Hf+A6E
+         OaHsU4wpFmfqL61KuTOPPs3exGIjdf2VvN7v0Dt7g56ICl3niQ2z2yA5NvJ0LrR8aSXZ
+         qhw/e5fG5p8j9wcM8iqCRubvaoG+EVzILSV5mAiNeMlJ8YuVzgZllapRe5DYGWSip5Qz
+         lLdw==
+X-Forwarded-Encrypted: i=1; AKwUvBw/lN7EvazQkM4IOTI/QgmWyAG1eRgIBvSnNNR/M2fyVirVFPFy432tt5kqvvjXKjCZOJYLdjP3GXQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++l5uhElvKlBPFli7jbLF/wlZN0CBK+5wDH3hsmUCQFAR2876Qj/
+	NzDdGnWTz9P7gUU2OcvmhfzsYezlFF5W/6n4kJW+jahQVkgzZAbTOLuRfsxi+k11
+X-Gm-Gg: AYBFou1pt4SUH9HYP0tpmjmqj7HzgfOej1/U+EczE32ndFNS9FTabK2vIhq0oKz/9JD
+	EYRIYCvPbEkyj3gY6yc/zrfu376wrGACs3+WN+PWrK0x19KRWYoV6XJndvNjdrJt6deuu8AmO7a
+	XD8vzC+IrjX21+myBCtIwqYCG3t1ZTyrLDT51E3RXe2IITsm/lmHq0HBQicGX11rOH1A3ky+SqF
+	a4Vj/UsplpghWYvKTPYQbhCKepbWVsA00JOJHQ1XxCivyz0pOr3CPm78TUMHyxI2VxY9uS2IRvp
+	BtEBZ5B7RApZ3nchfcwO4Z2r1Pm+1fqQqJIzbGmFUcjzp+b0QctYCKGu+4GtRnLcqyz4sj99POo
+	LVWi8kiFrPJeXtBAtnB+0DWq+oqvGgR1kqSKSCng/U6LyM4/cv8296io8Vs6r20Li58YI1Zanq2
+	IwH0D/saqdDx2/57YlSKAycwcpZAM+3s33sC+ewI/RC+kW1ADC2cB3iqjPCozdrZ2twPQ/MzExx
+	LHsVtl6fqbdW8yzLP2QkbHuW5y3NteGdY95vH+AGfsslGdxtLAOzcpYNaRlbBPfoGMsDkCE8UAS
+	rwXJr/l6/2OQom9RmJUR3AWCGWlBhwwgaa9IeftxRWY9Z6jy/5oEAqpYzZ5hhrmR8uc=
+X-Received: by 2002:adf:e00f:0:10b0:484:47a4:ae60 with SMTP id ffacd0b85a97d-48587046862mr17461476f8f.3.1788601913431;
+        Sat, 05 Sep 2026 02:51:53 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d03543064sm46925335e9.13.2026.09.05.02.51.18
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883be709sm12717226f8f.21.2026.09.05.02.51.52
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 05 Sep 2026 02:51:19 -0700 (PDT)
+        Sat, 05 Sep 2026 02:51:53 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Jeremy Kerr <jk@codeconstruct.com.au>,
 	Matt Johnston <matt@codeconstruct.com.au>
@@ -67,9 +67,9 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	linux-doc@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH net-next] docs: mctp: Fix the struct net_device name
-Date: Sat,  5 Sep 2026 11:51:16 +0200
-Message-Id: <20260905095116.42147-1-kmehltretter@gmail.com>
+Subject: [PATCH net-next] docs: mctp: Fix the struct mctp_sk_key name
+Date: Sat,  5 Sep 2026 11:51:50 +0200
+Message-Id: <20260905095150.42180-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -79,11 +79,11 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-struct netdevice does not exist; the type is struct net_device.
+struct sk_key does not exist; the type is struct mctp_sk_key.
 
 Use it.
 
-Fixes: 6a2d98b18900 ("mctp: Add MCTP overview document")
+Fixes: f4d41c59135d ("doc/mctp: Add a little detail about kernel internals")
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
@@ -91,18 +91,18 @@ Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/networking/mctp.rst b/Documentation/networking/mctp.rst
-index c628cb5406d2..3bff00c11702 100644
+index 3bff00c11702..1b4bffa1ed74 100644
 --- a/Documentation/networking/mctp.rst
 +++ b/Documentation/networking/mctp.rst
-@@ -19,7 +19,7 @@ networks.
+@@ -296,7 +296,7 @@ There are a few possible packet flows in the MCTP stack:
+ 	: route lookup
+ 	-> rt->output() (== mctp_route_input)
+ 	   : sk_key lookup
+-	   : stores skb in struct sk_key->reasm_head
++	   : stores skb in struct mctp_sk_key->reasm_head
  
- An interface (or "link") is an instance of an MCTP physical transport binding
- (as defined by DSP0236, section 3.2.47), likely connected to a specific hardware
--device. This is represented as a ``struct netdevice``.
-+device. This is represented as a ``struct net_device``.
- 
- A network defines a unique address space for MCTP endpoints by endpoint-ID
- (described by DSP0236, section 3.2.31). A network has a user-visible identifier
+ 	mctp_pkttype_receive()
+ 	: route lookup
 -- 
 2.53.0
 
