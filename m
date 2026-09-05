@@ -1,75 +1,80 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B874322B8F
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 09:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D00C2288D5
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 09:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788599416; cv=none; b=NxGojThwRvxX0IJJo23ucXn2JUU/7DahOiWeVKqwDrMY6JB0R8teDAURBDlVRst6jSKLGuT1tS7CqF3zj5+EFTUNk0zCZl5u3oorjivJHWgLEfGN7MT7u93Z4ldtQQxqdFhupU3A7alY9jSnxUJ9Jhl0yJMeCYyKEeDfHVhF7Yk=
+	t=1788599794; cv=none; b=kFHCaEsm1MEdESVoU2RjlYNU6IetmsPLaxcZ+4f/ObF6OCuU2yo/JmmD1b8F5Cmza6/KxUEathK0ynWeK/VqqHZtjIebwBX4O/WW/9tmKqMnhUiWexzbupVBAeynn1OEv+7NEvB+Blfkumh7czq4L7TB2EyKla///sk8vG0xtB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788599416; c=relaxed/simple;
-	bh=mY/PHVc8gNPQTEZmwItYyoVwVn/6yyqbTUvlCkwozjk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Stx8yBP2quJ2pR3DUcOvg4zFOHwJvuB0EGg20KEnM+hwzPZeme9QcF6lpxCyu2cLlJJokui1G+3fvhUr+Zb3hbW9xzfdBf+Knbjxa+h6FiTgNEgxza3K00DTS4GMSrhvgvjItCscroD5EWLZ3HmLCRQwHcs/8PrJ09rKfaNgrcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rih9HZxH; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1788599794; c=relaxed/simple;
+	bh=QlTrr6JjdErdr6UnK8F9WXX2MMLSdjsQ5MJMrybwsrc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a8QAqy6IUricsp+nvWcmMLwi8/PRBOAVRTojn103jpaLbC3nFrUSP1feLS2tqvbW68Zq5n4s7J/f6MuPjUjd9jLTs0BQLfgrPiq+lstUqqx1cApnAwh/7cPv6+J/vz2N/RHzxI3fAoKUa7l67VDtkHUOiWazPArv9Ue2hsjyklM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rplofPGY; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rih9HZxH"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4957eefd361so13988025e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 02:10:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rplofPGY"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49ccfbe062eso16077105e9.3
+        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 02:16:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788599413; x=1789204213; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788599791; x=1789204591; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XKDGbOd01tKKN9OyKvpXZgoSU3lxVYKrsE0hqg9G808=;
-        b=Rih9HZxH1x/Zgkvel5UNHU60Rv4bciJZyfkr9r7D7h30G+Q4nY6h0Y+qV/os8aUhII
-         hc5iqrrFbhUrqxowi0EN7rM8nQRpBNlSeYdIZnlYHUJUnLP6cZbHchZMWHIKrHagx3aZ
-         3UdUAv/qFGj3tN72utmSLNUVsf/DRpdpdP3FBYoHX2K77iKmyDxx3S1vH/rs9gemFCAV
-         KUrc++aYZKPYgBvZCbMZgDAhYeLQW8dbOY1dYVHBHzut73F2DJ03S50l/ow4R410LaHD
-         cvpRDcS99K9/c01fpbK/YX0EeRiQ44bqCW7I7nuID5smOtovLz6ZPxKZ5j35ngikc7et
-         RHLQ==
+        bh=I2VfUci30wgtwS2sdORmaqwFwHrpLhfXm3x7VkRHQQQ=;
+        b=rplofPGY/qeyWYyUVAta1Fio+0c8YrLfUZFav+3rAFmKHhVlhgzG96f+kasaVgZZR/
+         3DFzbqc0zwroU2mWTQhxjCT9RLg01aMoaA1OTZrPn4fQmXrtqC6mIOOTcJlFH5jy+ySN
+         SLB1nAmlmrMI3eOk3ndwEcpzZxeJGl8xv7REdCQHjBrb2yC01sLvAxGSNsi02hkUdVyo
+         RXYYrTdKYZggNfNopcxoZSfV1h5rEa0/8b34t38dtmpJP3FYTydO1RiQIK2aijg8cYW5
+         h5F36x/Y9GJtm9+ORhlD7gnKWDOxT86eLaHKjd+fyHlYb2B52yoI0SrVfQZ0Z3dwNwXt
+         EtFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788599413; x=1789204213;
+        d=1e100.net; s=20251104; t=1788599791; x=1789204591;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XKDGbOd01tKKN9OyKvpXZgoSU3lxVYKrsE0hqg9G808=;
-        b=cFVURN6XC5zI3f1R3Ie0Vr1qYFeSpx4QDsxgpjLNKKU/hEN95pPFEUKk7RqHSsmPoW
-         NEbIa/6vPwSz1aI0i8+7eZd3aJzl0F0pVA2bFtM2FcydOseLqkWvkvEArxgp1Pv5MBRG
-         ziJrwXugoHRZJUKKy2dZAvd/1i1l/YYx83rpNZhv7WU4ZQwb+Hmd/hY5ouJbkrih8EzW
-         dapJlRR9eEKuglCBEvFApwFecTmrQVCr19E6g13TVxo3NJSgZbulL6MskFzV+M5UwGjN
-         xSomyX6SCOYm92GRePpwM/aPy2vF6wWpSwaEOwTb8gsmRp3vE4fX0OyLTNJzp258s6ix
-         KcGw==
-X-Forwarded-Encrypted: i=1; AKwUvBwKGwIQlHXYzIkAyoUcnqsEx9FkhZWLSn7riV93fj8MiitTf1vFtciTuYFIRmJQ142F/mjtXm6Ra4Y=@vger.kernel.org
-X-Gm-Message-State: AFuF++lC3o2HPBMJ6RXq2w6pub60y4Nj1OyulXUCgY6tM8HsqVRBFb2u
-	8dGSsRKOWg24lZlNj28D1ggXs6s4ffpHzU0uHKFwrMstJHdyMxaWuZk9
-X-Gm-Gg: AYBFou2DrwJ5hTQVzELsmhceP3JP7oAxImFH3KH1AqA8pGpwj2LU02pblwMEyV8Ssog
-	g0AWUN1aYoJD2unl3LfPQv+I23rQoJJPr2KxziMouC84jhwliHQD/Pb1KcZFyWjvt+NFH+94XcS
-	UVAUM9sFQI0gEKucF6QwEAmTMCa3lugh633X8gb+A41Wt3KN4mc6TEqZ1Gi8AynRRF+fztZaB/K
-	2alIY+jU76FciE3WQqCCzt0Kt2wxFBgSLEn1YcSznO5JTD28SwfUWVRKflQ46ijkVCk3OaC2GJg
-	xg3nAK3AmNvyaoNX7zrKbHYJkGTl8IDEW/aQEfeVOVeGV/pC9iwOPIuowSF8SJ62lYM8FmBzBlb
-	58DcdZ0LFUazn67uTn2P7V3h89CG2COS7ww4OOhX7PAcDW87RrONvYKKuuyBg9VSy3pTQ3pukDL
-	7RxOnqi0B7DP03GMVq0NNiNiArbNEy7mH+X15ApUQOCF7R/JzX+bysPR5NkWuWlYwagaGsHjUT0
-	wjf61hx+NvpxWiMbl/lyAsB/2fBY7pqUC4bj8ggEKQwqoMaXHdv2lmsp3sL+qAzxZNRR30jZ/W3
-	w+ZXz6xtYfyzfSg0MNaLQW2S2Rq/G+ozS1CS4J+u73HklARdVrOBV/ftbob+pVKwTew=
-X-Received: by 2002:a05:600c:4f43:b0:49c:fc6e:a3d9 with SMTP id 5b1f17b1804b1-49cfc6ea7b4mr86958245e9.24.1788599413100;
-        Sat, 05 Sep 2026 02:10:13 -0700 (PDT)
+        bh=I2VfUci30wgtwS2sdORmaqwFwHrpLhfXm3x7VkRHQQQ=;
+        b=k7m1XXAiv5+0O2sGVHESuGFAJTLx/moR4UsIhVYN3XMGgI0bgEsSv0AkuP9fnmuh8j
+         UwRr7N+lh5WHNI2s00PaxUyncjKaEmm5QWZA/eX3uQ5p32fzoHnRUomN3QXPM9dq1Wag
+         7xJbKvJHjaxl4Ihf7PHCB3czKC0Ont/jtcoGV571L1CvAbFfDcZwDTrLyIAPkAhO9nXL
+         u7w1KJZ2cyLXMY3Ls0zvPykTUCZZKDgZdUl+JPPdpKQawzlg6brR7zFfj1c0vIrQnx1m
+         rRuEyoMFRlURkmHlKDjyIppLrbmlldqBfLc5QgmrdukvgRWJXEwis4EkOrOtXCnrvtxc
+         ar2A==
+X-Forwarded-Encrypted: i=1; AKwUvByWeS4mFEZiI8939NF6mOj0PRDgfNZYpj9X+1DDwsfCPqTVGQ9bt3POHgEwZ6BMjLRwPzgCNg2KbVI=@vger.kernel.org
+X-Gm-Message-State: AFuF++kjorZDaHUpXXj4WtHNgrBVnoErSagGamOhM/69H2kCoGRX2EDe
+	e0XTAwRcXCabJyln+x1IedrtKsiBE3UmaE+A1MWTSWjc3LIcQpcl3kgS
+X-Gm-Gg: AYBFou0D5vwy3AndE0xRXXHqD5EIrkixAR8BLQtamEQkyaA4tYzspR3tnD+5+UmwVEo
+	M79xyMjIgt/wI21/1403bseQgYK3FZABa395fH00Q72Rk76t1FO5tzlQp1VO0euUIRL+e7qiXer
+	DMJM4Z4KVfkwi8XZw3D9HiyiXZvvMpr3ins3HVlFb75nhLC7Qb4QdgtQKRgOom8K4WkdN01BYDx
+	6+caG4Cer7xYkDR+22GN5fTUAST+fGqhEyn7LqzXFcc48dUOCU+VPszNmbOYSV0Nl/dnx4HnRKM
+	oHUxA5pXoMaA+PgkiOqBLPq9P/E4wOdANsBs5C5AyB2u6V9d4Z00Xk0/yFLbGTCoAJPorkUdFsx
+	dTzngcgkRhgpDe++LwtKmN8SzJVx0uKq5ZoghPTcZnISTt1iDkH/Uf1SDumjXMDIyiumHL8Hplm
+	vk0oVLAhMXqEqkOoIjOAWS8Y7SXus9pG7vywgwDjaiPmKKxsYHgeK5mEYZZOtoxlJTt978ucIaN
+	O5+7RrNGB86tVc7UJ68REg+PQc8PX6wCEUdx/p2MPMgYokyftSNIVmQVjJX/0/D8ak3dH5Oh4Qw
+	CUwZVsNRmQxdFNa97B5Cl8DCK+OXCv0K6D/30VreCBy7M+XhYoNEgtbGHYCpxpBIUlwX0xSF12a
+	zcA==
+X-Received: by 2002:a05:600c:314f:b0:49c:ffde:45ff with SMTP id 5b1f17b1804b1-49cffde4629mr53877965e9.17.1788599791198;
+        Sat, 05 Sep 2026 02:16:31 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee6023d6sm217201465e9.8.2026.09.05.02.10.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885bf3f0sm13716212f8f.33.2026.09.05.02.16.29
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 05 Sep 2026 02:10:12 -0700 (PDT)
+        Sat, 05 Sep 2026 02:16:30 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>
+To: Niklas Schnelle <schnelle@linux.ibm.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	kvm@vger.kernel.org,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	linux-s390@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: KVM: x86: Use struct kvm_clock_pairing in hypercalls.rst
-Date: Sat,  5 Sep 2026 11:10:08 +0200
-Message-Id: <20260905091008.40802-1-kmehltretter@gmail.com>
+	Randy Dunlap <rdunlap@infradead.org>,
+	Pierre Morel <pmorel@linux.ibm.com>
+Subject: [PATCH] docs: s390: pci: Fix the sriov_numvfs attribute name
+Date: Sat,  5 Sep 2026 11:16:27 +0200
+Message-Id: <20260905091627.40946-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -79,31 +84,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-struct kvm_clock_offset does not exist; the name is struct
-kvm_clock_pairing.
+The attribute is sriov_numvfs (drivers/s390/pci/pci_sysfs.c); the
+document names it sriov_numvf, which does not exist.
 
-Use struct kvm_clock_pairing.
+Use sriov_numvfs.
 
-Fixes: 55dd00a73a51 ("KVM: x86: add KVM_HC_CLOCK_PAIRING hypercall")
+Fixes: de267a7c71ba ("s390/pci: Documentation for zPCI")
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- Documentation/virt/kvm/x86/hypercalls.rst | 2 +-
+ Documentation/arch/s390/pci.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/virt/kvm/x86/hypercalls.rst b/Documentation/virt/kvm/x86/hypercalls.rst
-index 521ecf9a8a36..e0b6c11f19ce 100644
---- a/Documentation/virt/kvm/x86/hypercalls.rst
-+++ b/Documentation/virt/kvm/x86/hypercalls.rst
-@@ -109,7 +109,7 @@ The template for each hypercall is:
- Usage:
+diff --git a/Documentation/arch/s390/pci.rst b/Documentation/arch/s390/pci.rst
+index 80f4ba193159..565434626fb5 100644
+--- a/Documentation/arch/s390/pci.rst
++++ b/Documentation/arch/s390/pci.rst
+@@ -67,7 +67,7 @@ Entries specific to zPCI functions and entries that hold zPCI information.
  
- a0: guest physical address where host copies
--"struct kvm_clock_offset" structure.
-+"struct kvm_clock_pairing" structure.
+   A physical function that currently supports a virtual function cannot be
+   powered off until all virtual functions are removed with:
+-  echo 0 > /sys/bus/pci/devices/DDDD:BB:dd.f/sriov_numvf
++  echo 0 > /sys/bus/pci/devices/DDDD:BB:dd.f/sriov_numvfs
  
- a1: clock_type, ATM only KVM_CLOCK_PAIRING_WALLCLOCK (0)
- is supported (corresponding to the host's CLOCK_REALTIME clock).
+ * /sys/bus/pci/devices/DDDD:BB:dd.f/:
+ 
 -- 
 2.53.0
 
