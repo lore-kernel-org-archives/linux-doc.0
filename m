@@ -1,75 +1,76 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8A23033E7
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 09:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AB93DEFE3
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 09:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788600289; cv=none; b=Weinpfh8LR5E783C4OltPYAFXNQpnsWRVvOkOIM32/rdv7OEX8qVcBppJiFrwUBgC+xqK1ugIwYejVvkaPUHy54w7yUZ7v5c5P98kZjXfADckDfo8NPSqxAaQmJ3W34LllO+m6ypODA4AzF8iGp7T4HTqjO5PmqxiyKeF9nKn7E=
+	t=1788600590; cv=none; b=uS49WZxO21UXBXM17JKCcDwq+qEscy6FtRC1j2dFN1FGurVrBovXOYisK1Z/Q1aw1pVk6vj7ZdXT6A5VrEpy3StboXtHkzAmKN9QrFm4SKEzGs/ZnnUo9bIGLYzQPi/hgUEEgJ311GDkMC8xe/k+SVhI+FikwNWmuhH9Lybpgy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788600289; c=relaxed/simple;
-	bh=QaCebBQOpBVoyKU1YEampELmIKQVNwzsTR2of/MqDdE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u/Vu2px19bqs9C1zknRKl/NiQnakMgdeIPAWjYZ43oGVkJHrj7xibfRGXEOOhcv9C8NeVu9sTwu5d/xF3S0HgPaNwMxcplMmONtp2PfQgljOwhwv2JXaAPfRicfbeQs4tAiQktcv7mmuTSjWQptgrKd0O7UbMy9DzOPcv8JlszQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T3RM0mTY; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1788600590; c=relaxed/simple;
+	bh=88pQhMM6i98/F6e6rKnGntWh1ykdqLFjTXT+4nkQNyM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qmN+dLy3sCMVItbS3zrhvY2g4zET+YiDhIgHOkvpTg9WK/Nxz3EZKxzEpmlTRiVyYJUqIYXO68LaXRNl12Fsq4E54KiTRxvh8rsg+xsJG9Fm+2R1NEaL7Ky3OGMdbQXOKVNmf1OCrr3tCPxkM8F+vA2CfQXsKwEfxQbg8w9yPlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N9Bn5cYv; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T3RM0mTY"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49b965570d7so21428455e9.0
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 02:24:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N9Bn5cYv"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48441fa5c37so1298313f8f.3
+        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 02:29:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788600286; x=1789205086; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788600586; x=1789205386; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=N1B6Q2UTc0NYJ9rjx4iyizU2jLsIDy7H6FgDj2PqGSg=;
-        b=T3RM0mTYau8OmUyiTPKI0wuHRhucuVj1DrkaDJsAGRFirIIMomsywLoB8rohTS2ITP
-         1ePUIuCygwHG1CUl++fYkh/CVUV383r8sgN4/ntt1TAyK6lHceDZedfb+v2EeslGBaE1
-         99FK3lS8KQj9FupSsqj4bCRKZyvQ811t0jzQoFRLGq5J8B25subN3D7VQiVTCFFnu/a1
-         DGR5mk/FMwRVwBP1Gehs8ZSe1urD9KuXSZnUnUOXiZNGCuLMuyg2ePudJC41CUBO1uUQ
-         oaV9I/FsLnkOslgKHBfrTHX2AONbduLJolL8ua0KAvP+GwCk197LUC379Wl4Q6aP+d08
-         SNpw==
+        bh=pIISoak4xvpvOrDQr99dp5Bs6ZVGQZh7PBWMviZBV80=;
+        b=N9Bn5cYvcSvV9UVW6T2tMog863PSnD0EbLcL8C35iV0JyKpXVvdoDnDNAOaldMzwOn
+         11tfzUaVWAAa5yeT5Fl1R+NrwI/+QtUtj75Gduxd7YzY0EW/3APn13JrLPBqbGFGg/Hl
+         GlR5lse0Hhs98vxSpRneubhVW4/Iu8iLOJL5CO481Jk/X6gVWVL6hA+Q8Pn7AsyVaLPV
+         RzKxaXTAS6VM+Puh2sX/MM6vbJkiWJmkcgyOKEJ7fykbCC87zR6UxN9Kho8rYQNAx7P3
+         u2KGPeYlZITpidGtgiuCBaxntehZoGcsAfsEyQ0iHehUpyTznN3VB0Umga176a3jRg0Z
+         eLKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788600286; x=1789205086;
+        d=1e100.net; s=20251104; t=1788600586; x=1789205386;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=N1B6Q2UTc0NYJ9rjx4iyizU2jLsIDy7H6FgDj2PqGSg=;
-        b=czitAMPp/qFelsEdqS1afFaAQ2jfwjGQ0ky0QLlqy464N2cb7DLFY+cDlV4G1kF8U3
-         m5+tqHx6KWhaZCJH6aBgJCGHmF53dwNHHuVhTZ+jAL3VdF7fqNGBJCTV0ZtakpIP1qwD
-         w+84wXxtJJU71fmVbWxCUHGm822OC/4RVbmEXdgHjJS+fVJD4pU+/3SFbWbEfw4heveE
-         wY3Dt1sWy/EFhjRn0xSwlA9kH8qX9/L1nGYideTBFJh+w2EM2+6M94zchAssi9A2dVW6
-         Q/8E/PZ/v16pw4/bVl3T3hH1RLLUz/wz7OS3j0Xl0AKRDDrQ0UOOlcGS0bFAEXitDh/0
-         aQLA==
-X-Forwarded-Encrypted: i=1; AKwUvBzS73nrF26hwpWTDuSIsIUDsG5r2XwawjgY+FW8VGNWOZpCgZLSnpjEETRlMGMjI0Bnh7xmVidRqg0=@vger.kernel.org
-X-Gm-Message-State: AFuF++mI4LMmPpzVPWFE+vBNaOiPlBfc9Bmm2U5I+QvP89y92f/wFrbF
-	2+oonBph1M4O8lmEB/KYOC4NEQ6tECdnBVLz8nyYAVXovMOfZ6KTPBcr8EVNAtLq
-X-Gm-Gg: AYBFou3Olyv4BzXlijAQ2Q74vjjPJvB9ifQKOOG4LFNSeKW3mJMI8xNCQTepd5762m9
-	vZ5bGACTIh5gLozxdny+x/+v1KO4qtM60YsJZbrFD5oSGgjARrGXXgTMaPA1EMY9G/1NHXY4/Gw
-	tm8TUxcIiWYnif07DbHRNxS9tbb2NvlN7nLL0tECRSOevLSS1IA09KkShIBsXAeuufQ+A2XVQQ2
-	ap01lq5nGavVoiJ4/sfhh7FxI0QUW22DnRsWNugwrxRm6mlf+H+zAshAPDBeBQsg2grBQm6w9oR
-	4NHe+G+Lh4FC17IDM8kmiZcWlvBmBCNtGYxKdsqa0+/WD60q3Hu0UfRBVlVVASplr1HckSyxjMg
-	v2YdaE2WVsLUGGEMFleqCIkKB4/Ex8EQ1/Oh7n4FRF9AmVBIgqNNE2iv3DIHeBiCuIF5XCahCr0
-	hyqIniubnIap6ZLyqe1jKrRykUOIEg606XCKN1lXA+4awWgGDJk3+ClMmBJLAr/2iEbuQyS1/Zc
-	JvXxs/+uwAsXuT/kYn0YVCpLJLfULiWTfvH5RNeRX5kI/zN5sf1TtHaV8RnFlSWiARUaKadtgu1
-	qqZLBYfN2y97HK45p+lzqJ0OfXzIjrhvgaO+wvekLF96vsLveUq95ikYPVsRqjlTJgA=
-X-Received: by 2002:a05:600c:548b:b0:49b:92df:87be with SMTP id 5b1f17b1804b1-49cf81f3655mr112485365e9.4.1788600285882;
-        Sat, 05 Sep 2026 02:24:45 -0700 (PDT)
+        bh=pIISoak4xvpvOrDQr99dp5Bs6ZVGQZh7PBWMviZBV80=;
+        b=IWpOhht5/0pdwgv+tGCe52dOwIO3z/H61ytVsjUYveYPzEqHLxcGioIl8S704GUlOW
+         7rs275rvdlswEvIye2YcjPHrOCQlkGHVm1gSb++zellLorvL8/5ErhapIBIAyQAYvaj/
+         A7MwgSovQd5Z8lgtYP9LH4x1dBA6zvAbcmh1aKDHnZl3xq10N+X/F1RZYXHoyFinTAnZ
+         0cke2eag3YMeTqsJHMsPts+1fS+LSHktrgu+5ERcqYpP04ND7JwE8yMdrkzL9nSRx8Os
+         VgBAEWgqVhE8LgBCfqSR2ALZpbW+XO+7Ng6PMHohP7q43GILrESuP4xbkQN95ytVcEUU
+         teaw==
+X-Forwarded-Encrypted: i=1; AKwUvBw2WvbIR4mzsl4/QztnNfxhkDmdxt+ocCfD4YZLEwrf7+xdtehYi5QRcheEuKN62tpVd+XY6UnR+70=@vger.kernel.org
+X-Gm-Message-State: AFuF++lMiMq2AE4POFKRwgjSFkY+aR/FoWmNYNUC2tNxAl7CcrIxarRj
+	MqR+BsS/u50DMV+z2N8VPgCowzAcapcOVqjCW61vj4hYp4UzrfZL7wnJ
+X-Gm-Gg: AYBFou3q1ufJo+t5+ErSYaPd7DzjC2Cc75cRZ7F74bKl4i5g2FtA3hTSFM3OQAd01qI
+	pQJTRn6ZtVb8QAuBmFs/2LoM5IPYjNGip0cnJSYXObcVE7TeXvf+Ij8JkJsEgakgDiCgMcxbpbv
+	xd9tjHWnMrJzRmCoRY2zIPiocUuu47QpugrCsXNW1Wb6Nl1vcMOjmttnguJJlzs9xaXpWO7qhdR
+	f2ZHJZxts4ZqBc04q1trfU0mZZCsr52f5QyNpZwtxugkZqPCgijVR5/nXTF+byX1vbNS7PyXztx
+	qyHfdOddXkTWuTs+34y9iGKBZoT+grhBlmwKXy85o0N/UNSHOgxsei+5XZD1KaLXpxNqbhWCLLq
+	V9Soo79gdqvAMjJfcbAydrIR3ZanCKvCoBL6UbPKvEiMgdAAUvR2AKGgiKIqJO+qhy3ppnh/CKG
+	dqx+sCpTCL+89mtBX0w/n6CWOjJGFtOKKpW7KBnIPzLySYAsnUDCuelcSfv1Hhsr+LartqzyHiu
+	lI08i+N/pdqdtTs205qeCwKUGlizzb+yM0TqfKKQOiByMSzbnlv4UIK93QZs3o5T1DQeTTXzkp5
+	d+B7145MrFQfQ4DmWZ769jndHx0Jp6/QdHHiN4/AC5XUiINHDZzmB/VaaEU1F6YsvaI=
+X-Received: by 2002:a05:6000:2512:b0:484:4153:11df with SMTP id ffacd0b85a97d-48587287d5bmr13746106f8f.11.1788600586098;
+        Sat, 05 Sep 2026 02:29:46 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cfbdacc45sm107621925e9.11.2026.09.05.02.24.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885bfe14sm13091255f8f.35.2026.09.05.02.29.45
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 05 Sep 2026 02:24:45 -0700 (PDT)
+        Sat, 05 Sep 2026 02:29:45 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>
+To: Tom Lendacky <thomas.lendacky@amd.com>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	linux-edac@vger.kernel.org,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	linux-coco@lists.linux.dev,
 	Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: RAS: Use the real EDAC PCI parity control names
-Date: Sat,  5 Sep 2026 11:24:41 +0200
-Message-Id: <20260905092441.41401-1-kmehltretter@gmail.com>
+	Randy Dunlap <rdunlap@infradead.org>,
+	Brijesh Singh <brijesh.singh@amd.com>
+Subject: [PATCH] Documentation: virt: Fix the struct snp_guest_request_ioctl name in sev-guest.rst
+Date: Sat,  5 Sep 2026 11:29:42 +0200
+Message-Id: <20260905092942.41558-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -79,74 +80,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The document names the sysfs control
-/sys/devices/system/edac/pci/check_pci_parity and the module parameter
-edac_panic_on_pci_pe. Neither exists.
+struct snp_user_guest_request does not exist; the name is struct
+snp_guest_request_ioctl.
 
-check_pci_parity was renamed to check_pci_errors by commit 91b99041c1d5
-("drivers/edac: updated PCI monitoring"), after the document had been
-written.
+Use the real name.
 
-The module parameter has been edac_pci_panic_on_pe
-(drivers/edac/edac_pci_sysfs.c) since it was introduced, and the
-document described it as edac_panic_on_pci_pe from the start.
-
-Use the real names.
-
-Fixes: 91b99041c1d5 ("drivers/edac: updated PCI monitoring")
-Fixes: 327dafb1c61c ("edac: core fix redundant sysfs controls to parameters")
+Fixes: fce96cf04430 ("virt: Add SEV-SNP guest driver")
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- Documentation/admin-guide/RAS/main.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ Documentation/virt/coco/sev-guest.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/RAS/main.rst b/Documentation/admin-guide/RAS/main.rst
-index 5a45db32c49b..c1040e5a5b35 100644
---- a/Documentation/admin-guide/RAS/main.rst
-+++ b/Documentation/admin-guide/RAS/main.rst
-@@ -623,7 +623,7 @@ Under ``/sys/devices/system/edac/pci`` are control and attribute files as
- follows:
+diff --git a/Documentation/virt/coco/sev-guest.rst b/Documentation/virt/coco/sev-guest.rst
+index 93debceb6eb0..3371ebc29e8b 100644
+--- a/Documentation/virt/coco/sev-guest.rst
++++ b/Documentation/virt/coco/sev-guest.rst
+@@ -38,7 +38,7 @@ along with a description:
+       are not detailed, but errors with specific meanings are.
  
- 
--- ``check_pci_parity`` - Enable/Disable PCI Parity checking control file
-+- ``check_pci_errors`` - Enable/Disable PCI Parity checking control file
- 
- 	This control file enables or disables the PCI Bus Parity scanning
- 	operation. Writing a 1 to this file enables the scanning. Writing
-@@ -631,11 +631,11 @@ follows:
- 
- 	Enable::
- 
--		echo "1" >/sys/devices/system/edac/pci/check_pci_parity
-+		echo "1" >/sys/devices/system/edac/pci/check_pci_errors
- 
- 	Disable::
- 
--		echo "0" >/sys/devices/system/edac/pci/check_pci_parity
-+		echo "0" >/sys/devices/system/edac/pci/check_pci_errors
- 
- 
- - ``pci_parity_count`` - Parity Count
-@@ -725,15 +725,15 @@ Module parameters
- 
- 	module/kernel parameter::
- 
--			edac_panic_on_pci_pe=[0|1]
-+			edac_pci_panic_on_pe=[0|1]
- 
- 	Enable::
- 
--		echo "1" > /sys/module/edac_core/parameters/edac_panic_on_pci_pe
-+		echo "1" > /sys/module/edac_core/parameters/edac_pci_panic_on_pe
- 
- 	Disable::
- 
--		echo "0" > /sys/module/edac_core/parameters/edac_panic_on_pci_pe
-+		echo "0" > /sys/module/edac_core/parameters/edac_pci_panic_on_pe
- 
- 
- 
+ The guest ioctl should be issued on a file descriptor of the /dev/sev-guest
+-device.  The ioctl accepts struct snp_user_guest_request. The input and
++device.  The ioctl accepts struct snp_guest_request_ioctl. The input and
+ output structure is specified through the req_data and resp_data field
+ respectively. If the ioctl fails to execute due to a firmware error, then
+ the fw_error code will be set, otherwise fw_error will be set to -1.
 -- 
 2.53.0
 
