@@ -1,158 +1,156 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D970399031
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 11:21:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B78453A44;
+	Sat,  5 Sep 2026 11:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788607299; cv=none; b=aqQcZNLzJjy4jX7cqsxXvgXhGVxqEi8fhuX3lCrkXpmTnpcgyeY6xl9YjQTtq3l5KTuuh+/Ig9izdHlwJ6XxIG267Hm2+D6TQbuJD9uyEEVJhgktysW5ifEQNJJsTUUTpblFozxRPszP2CE0Oa6hOopg4uE04XIGpFPaDlnXj6o=
+	t=1788607778; cv=none; b=h/3dGEUC0KQ4DMFhr0AeO8d0z/5XfT9y/txVfCRtk1vK/t6xhnH7ois/1rbIYrbAm70D/3hgRJybOu2RZmGyO9vWy8cm75qp776nqqT3IWLyaezMKDGxVK1TAuaU+hgKXrfe1hIBAiNmYvA63DAiMZvgpXSiYvSY9Qx+mXxyiSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788607299; c=relaxed/simple;
-	bh=YBXAo6X+FgRsRbnvQYwXf6sxV3/zDU7IVdXqxa9lUvg=;
+	s=arc-20240116; t=1788607778; c=relaxed/simple;
+	bh=6QlfVPFcF/JHSfLa9SAEC7zdo7QfY4euoKXQ/sK6GjQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YKAcdWi8BdcJ/4Wm4CAmQEpTxFoO3YiZguDCypA4IOY7bh33IRWCfC8oAaWnfj4+s7rmQ9FDribDXvAyiwhaZectxvcYgmdlUpifNYwUeVUO/8ci0xYHqCK+MFoqJxqDAiP2h14YB434+iruOPrLteW0s5vCEZkcID1E6MaPGjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=dZd0mKg8; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=I4DhT5+Oqv1zjwt6haNINqeSbolX7tp1C8AyQIUXxIE0XAb14t27OC4qvV+q7zmGR91M5eND7qJ8a/ONypobIbNYNmUvMOMGeAVQrqdtmUkJLKQh7+HxPASn6Gyf5gaQgEvZFGWRkPeAUEziqUeghMFaHjJNGO0pa3YAlumzfGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=syXLJRc8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="dZd0mKg8"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49b0dd3c9a0so16941865e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 04:21:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1788607295; x=1789212095; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qNp3/xxedzUk8nrqDnTl7Nzha/3pMiPjAKKXlTQyTxo=;
-        b=dZd0mKg8h7NVHF45TKXHJKpkOfbvDm5yCMsf3tbfdfK6M8ktzMFSRhjtrrXD6kxvYm
-         1Rx8cs1dpV8Ad4VOUaBkzqrd2wfeuA2pp4mhc/SRfBZBsFskXKQyQ69xuJgJRfAcSYjg
-         iCJor+bmSXCdzRtJplT0cnw153eib/g9WBD0YM8Sg8Qrop9O4/Nu90+BfAa9PxXFUcOm
-         xDAkyQ1fJSLxpM7wR6D39/BS8EJyLyKJi88WkiXAaeWiodzPQIvddaWlSw/IwiNIm4Xz
-         wvFG6IgRA/FzSlSA0/JxDPAsTTlORDC/76HsxGlBNEsGMcqF2m5MZ6LPOVLy0qDcPwFZ
-         9d6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788607295; x=1789212095;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qNp3/xxedzUk8nrqDnTl7Nzha/3pMiPjAKKXlTQyTxo=;
-        b=dIbtdFQsy46kWl5RRvGt7t4eDHcEX53yHeKrJFIuUHYuEYW9Rtgx4/SKl78RMk0092
-         9N5kndSs8GAiJHb6dXIQ0sOqVxpninyjoMtukjtOkkKVY+Zjt15PZ4PZA6SygvinJKXw
-         wBYvflOPIkusAwvu+mk+5zw9oKhooj3kTV6fobV2sF+FTuy2fzDsCd1d3/bHtczci+B8
-         6kLU1Xb0BqkcKmh1oRf0xXhvje27UnOJuket/dwg80IXP9fZYBYXa2I0jnzqHciiB9Vb
-         ilgGrF3JbTlevLyDLrcOCEHkJUg+pX7Ij8ipWy1ldioie6Fe1BKHzl8N3gg1h6RYjP5l
-         /cxw==
-X-Forwarded-Encrypted: i=1; AKwUvBwJlUATr4QY/QKRkJ4SvBg24z9Vdllrlvx+KhDQSNfOFkjNOtXjo7h5XRApDbCM3QpBUjRA8JmjK0E=@vger.kernel.org
-X-Gm-Message-State: AFuF++k7tQEqoNCmINqpSLSoR53Xx/zAJ6jL7Ck4JEJiTNBFSuaVC+Rf
-	Q6UqfePO9UcDT7g2jZqLzcMGzqfOrEYaFl6T9fgv2VhLNpKKtqimL5/y0dx/WxgCQ+g=
-X-Gm-Gg: AYBFou37K8EKAaf6Ig+3HZGpbgDPWr8zRdh8jIdv/p2ww7gtgi/SzGoFaxDRNTmP6DE
-	ZDwqyYyb+RnQy5RtlR4XfWvL8+w3JP4dgXo1+rCkCqpH8AqR0BvTCNm/4lLVLZ1FUApY2DzkzFB
-	+LLAig4aVgse/R3y1kQn6rNWVuK+epke0y2lnDCCiQJeBEhdLnyVOajnRESx9sDN4rK7XQMOVBZ
-	d/K3AvJ7kPDDGEhNVl04ojWca+nUZtLp0xQKIhKqEt+Z/jXlao4sUr6HT3x0t1cUV7TEo35MmUz
-	bu+ER9TLyWgBiCcEX5LxzvJBLAkROY3X1btqoj16COOMSPMU2ceNpvs6z7KZrpti50J865hyOCv
-	86WrmrnszqGmyx5hgORrVjrdKGUQHG15PosqwDnP1VCJqygxQPBkaX5wNJCVla2bfXts3iH0QnF
-	klDIUvwK2JP8iRrNK63fSO5rO38A0PVqkAIGaLf7GQ10wHNI459dxmlX7vjT4Q0Qav7jfOT4Cxs
-	DZwog==
-X-Received: by 2002:a05:600c:a0a:b0:49c:e1f1:3dd5 with SMTP id 5b1f17b1804b1-49cf81e6cebmr195801445e9.4.1788607295265;
-        Sat, 05 Sep 2026 04:21:35 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49d084d62b0sm3656995e9.2.2026.09.05.04.21.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 04:21:34 -0700 (PDT)
-Date: Sat, 5 Sep 2026 13:21:32 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] Documentation: PCI: Point the pci_device_id kernel-doc
- at device-id/pci.h
-Message-ID: <apv6yQ1U-HhNglyV@monoceros>
-References: <20260905084916.40196-1-kmehltretter@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="syXLJRc8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23C691F00A3D;
+	Sat,  5 Sep 2026 11:29:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788607776;
+	bh=NJjp7hyLSGDcY0T4wPUidEv8MR3gxhn3/lAEx5oetG8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=syXLJRc8Qt140rlFiEVX2z6Ayz3tdNxSLO+4qNaGVJEUzBMblPT1YU8iiP9themzZ
+	 MO5S/OwEjQ7ZUQKELKXoG2fshz9qTTwazYyULIJszn0cQ6w+ByEwYHmnVH+VYKL7K4
+	 LeT6ll8QifcRley2chTb1MuFumJnjGGiDhw/Nai8=
+Date: Sat, 5 Sep 2026 13:27:51 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH v3 0/2] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <2026090546-skimming-bundle-0655@gregkh>
+References: <20260904-bind_taint-v3-0-30025465f38a@linuxfoundation.org>
+ <9ac44f3f-1c67-4c37-aa72-255cec1578d2@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zbu3z3ocjd6m4xtu"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260905084916.40196-1-kmehltretter@gmail.com>
+In-Reply-To: <9ac44f3f-1c67-4c37-aa72-255cec1578d2@gmx.de>
 
+On Fri, Sep 04, 2026 at 09:46:59PM +0200, Armin Wolf wrote:
+> 
+> Am 04.09.26 um 07:10 schrieb Greg Kroah-Hartman:
+> > The ability to add and remove devices from a driver through the sysfs
+> > "bind" and "unbind" files was created all those decades ago as a way
+> > that kernel developers can iterate faster, and provide a debugging way
+> > for users to attempt to add a new device to a driver without having to
+> > rebuild their kernel.
+> > 
+> > This api over the years has been abused and recently come under a major
+> > fuzzing "attack" through tools like syzbot which decided that it would
+> > attempt to just randomly bind any driver to any type of device, causing
+> > loads of unneeded errors and pointless kernel patches to be generated by
+> > unsuspecting new developers.
+> > 
+> > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+> > will be set on the driver if the bind/unbind sysfs files are ever
+> > written to.  This lets kernel developers "know" that a user is
+> > attempting to do something that is not normal, and as such, if the
+> > kernel breaks they get to keep the shiny pieces laying around on the
+> > floor.
+> > 
+> > The flag is 'Y' which was unused, and can remembered as the user is
+> > "yeeting" the device being operated on here (thrown with force without
+> > regard for the thing being thrown).
+> > 
+> > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+> > as many times crashes/oops/warnings/failures happen within the callback,
+> > and the taint flag needs to be there to show what was being attempted.
+> > If it were to be set after the callback happens, the oops report would
+> > not properly reflect what foolishness was being attempted.
+> > 
+> > Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
+> > the tool from hitting bind/unbind, should be run with panic_on_taint
+> > enabled so that they fall over and don't continue on, thinking that they
+> > actually found a real issue.
+> > 
+> > Userspace operations that rely on the bind/unbind files to work around
+> > the lack of will to upgrade a kernel image to a newer version with
+> > proper support for new devices, or the lack of will to submit valid
+> > device ids to driver authors, will still work properly, but now the
+> > kernel will be flagged in a way that will show that perhaps those users
+> > should reconsider their behavior and work to have the drivers properly
+> > support these devices in a "native" manner.
+> 
+> What about users that use driver_override together with vfio-pci? AFAIK
+> they still need to write to bind/unbind.
 
---zbu3z3ocjd6m4xtu
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] Documentation: PCI: Point the pci_device_id kernel-doc
- at device-id/pci.h
-MIME-Version: 1.0
+As I state above, that is an abuse of this api.
 
-Hello Karl,
+> Also i always liked the fact that the bind/unbind attributes make it very
+> easy in creating generic drivers. In fact, i am intending to use this feature
+> in order to add netlink support to the ACPI-WMI subsystem in the future.
+> I am planning to realize this thru a generic WMI driver that has to be manually
+> bound to a given WMI device to make it available over netlink, so having
+> users be able to write bind/unbind without potentially triggering a kernel panic
+> would be very nice.
 
-On Sat, Sep 05, 2026 at 10:49:16AM +0200, Karl Mehltretter wrote:
-> pci.rst pulls the description of struct pci_device_id from
-> include/linux/mod_devicetable.h. Commit ad428f5811bd
-> ("mod_devicetable.h: Split into per subsystem headers") moved the
-> structure and its kernel-doc comment to include/linux/device-id/pci.h.
-> Since then the directive finds nothing and the rendered page no longer
-> shows the structure.
->=20
-> Point the directive at the new header.
->=20
-> Fixes: ad428f5811bd ("mod_devicetable.h: Split into per subsystem headers=
-")
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
->  Documentation/PCI/pci.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
-> index be35e9a1ee75..71c42b0bfa8b 100644
-> --- a/Documentation/PCI/pci.rst
-> +++ b/Documentation/PCI/pci.rst
-> @@ -84,7 +84,7 @@ initialization with a pointer to a structure describing=
- the driver
->  The ID table is an array of ``struct pci_device_id`` entries ending with=
- an
->  all-zero entry.  Definitions with static const are generally preferred.
-> =20
-> -.. kernel-doc:: include/linux/mod_devicetable.h
-> +.. kernel-doc:: include/linux/device-id/pci.h
->     :functions: pci_device_id
-> =20
->  Most drivers only need ``PCI_DEVICE()`` or ``PCI_DEVICE_CLASS()`` to set=
- up
+It's a taint flag being set, not a panic, showing developers that "hey,
+the user just did something odd here, ask them about it when handling
+this bug report."
 
-there is prior art that can be found at
-https://lore.kernel.org/all/ede7ce64f20e10660ebf6bc1b41836dad750ae3b.178334=
-9758.git.ukleinek@kernel.org/.
-My patch is more complete, but I didn't respin yet to address Randy's
-feedback and so it wasn't picked up yet.
+> Additionally, writing into the bind attribute still checks if the driver and the
+> device match:
+> 
+> /*
+>  * Manually attach a device to a driver.
+>  * Note: the driver must want to bind to the device,
+>  * it is not possible to override the driver's id table.
+>  */
+> static ssize_t bind_store(struct device_driver *drv, const char *buf, size_t count)
+> 
+> Because of this i would suggest that the taint (if at all) be added to the
+> driver_override attribute instead, because only with this attribute users can bind
+> random drivers to truly random devices.
 
-If you want to take over caring for this patch that would be very
-welcome, there are too many open threads in my mailbox and I'm happy to
-be able to close that one.
+I had thought of that, but the force removal of drivers from devices
+wouldn't show up this way, which is one of the things that we do want to
+warn developers about.
 
-Best regards
-Uwe
+And, if we just did the driver_override taint, it would allow those
+drivers who claim to be "generic" like you are referring to, to keep
+"getting away with that" when it's obviously not true that they can
+handle any device for that bus, otherwise it would have automatically
+bound to it already (and no manual intervention would be needed.)
 
---zbu3z3ocjd6m4xtu
-Content-Type: application/pgp-signature; name="signature.asc"
+By keeping the manual configuration of bind, you are forcing userspace
+to manually do work, while still a possible thing to do, now at least a
+developer who gets a bug report will _know_ it happened, which is why
+the taint flag is there.
 
------BEGIN PGP SIGNATURE-----
+Does that make a bit more sense?
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqb+zkACgkQj4D7WH0S
-/k7BRggAsL6XKZ7KcpoHaZTbEXsVy9y9uzc9908uC5QqxX7b7ymECOYzZrFnGdhm
-GJmJ38TlFT4vi45GP/UYGI26m38phCC77pkh1qvjv6gpF5jPgua7qgADMIca6+dk
-FG+N/1g7Tk35A+ZuQdKbfLQJTs7/Em2OfIvIIHElUq8qYhJOImnpC5hecRnBJygj
-WuibK6f+5NlXFz6m28cgzb6uqPvuf6NTCbn5bDGrt/1brAYSSm4Pj84Wc+fWz1l5
-P3ajyep66LzLljrx+T+xBZ8qDgE8bHZ7H77m4LWzWmNOgOyyoUK63v4aQdkwErM0
-kqSsETRSIJPwll2XReU3382w5w/7eg==
-=+L2D
------END PGP SIGNATURE-----
+thanks,
 
---zbu3z3ocjd6m4xtu--
+greg k-h
