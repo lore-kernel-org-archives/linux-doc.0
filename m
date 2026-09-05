@@ -1,110 +1,100 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D5A175A9D;
-	Sat,  5 Sep 2026 00:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB611D7E5C;
+	Sat,  5 Sep 2026 00:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788568413; cv=none; b=ncN+8QDQj2Iv/4AtyusTrr4DjqMyrPn5bB25QirGx7393mucRKT9wH4rgbewg+8/KtO5rWuJGwCMBIHl+F/otn+Nu3l6TOse0od2T/v3OmfY05KDjNoONGMSquJRQVXyFjj6z+ByWxWRwTAB+S9hxcqnbm80O9ZvMLzITQcNeTU=
+	t=1788569144; cv=none; b=gnoTme9UH2+ZTWk7Gs/KjHbv4767ABJ3GvwryFkpkgKRbq7fVrjwNmjypoYKPcgQOqPanNaOmWhp4m6FiFkC2ovGGG9j+EJkcGil5f6uY1UmAISwu7a1tAda2CK5lH6Pcb7CtLPTvFEoyoecTgtFT7VZJ1fn8i/j8AgrXvCCHRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788568413; c=relaxed/simple;
-	bh=NmyXnDbB2wZrHH6qXdu4y1K9w0bmVY+v6QbdEpm/Ygk=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=szI0RP347GNK58jFqR7TMPigse5ij0BFwDAUzLlfQHLAVtEKfyLchsN5ZYB7HPdd4FCUiaePN/SGZEBzMmnF1cxYDVwl/Uib1xgYjMH5ZrtCIxkFBDA1euzhJeRVjx9Xg8wTQX+/OdpYcaYQmjY6617NzeWcEQMmgUNrxo7nG5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	s=arc-20240116; t=1788569144; c=relaxed/simple;
+	bh=a0cW6PYD2Tr3wJD2E0ngQ0wexkWk1v4S7G4nYtgrnGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hONm0DNEFgEK0mvay1Q0OhwoRQd3XgNkbCOPEVYDoeL+456upRlCef3MPNR7OmALO1d31JWwUA41b8UKpxKtpsq3z8Tu82/oZX4nDssMLYganLHXEntYjtMEbmu2jP+5i1E/CkUZ6nO3rxi8bnMoTPP6EqqzUBOgzJ5cTENdIlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=KeE8Kb2d; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="KeE8Kb2d"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id F1A4540E016C;
+	Sat,  5 Sep 2026 00:45:33 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 3y-QtSAJBYRS; Sat,  5 Sep 2026 00:45:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1788569124; bh=nORnCbVbH5mxAliZabDrZOjSHlsyvMySDHzBkM2HwuU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KeE8Kb2dJnLpc0Ry3NEKvf3vCEVLMrMV5QyBRo0KxYaxV6VWbglrWNnrM8qZ2VlEs
+	 ueh8B2nHU+9dRPzuM6kk9rWnQUyj5td8sG11Qu7nvf+nXlKe/Y37FBMmcVj5FAL6u1
+	 VT0i/uuIUTac3SnYSaDI641+CO3QgfQkn0KDmsS7SZztN2am2SvPlOLRI3jPEXq292
+	 VrTouNMrb/w0olJhxn9MlEoY4GLkSVlXYMDH9IEGfyELbP9kx80sAnZIG9jaZgfq/G
+	 74/j2OdNPx3DYb1f+JyjQ/Su6akocpeeBsC+0zjuf4cujmMG/aAKr6vlBeTZKtEHOQ
+	 b4iJx2bsGvAkioblq8nCMLSR0DrIOInD52wduSNooIPkeM2v/IbFEWlWc765lHdBgc
+	 akFqn4qBCWTPJBkq4l+Df/Vaa92wdDrNZ2kPNXw6di8BuKngMNfUD+QSMuzg6WcV+N
+	 rfU4i6KVr+I7GcgHGvcuIGiI+NpnqeUi9TremNXpJTLbQ1z7HgWjDS0eGXtKCWPwhu
+	 7XkLHhs+rydTLhEqlSMPr7ObvpPwEKh1jJD/mUSBOF8kD4NhUGM29XP6Akx75CjKXP
+	 C+tVq40iIVxeWjYZ1zdIk9Iq5hZe+Ib8qVj5QjnAnD76ty8L9dc4usZ1PIfLT8Ajup
+	 6wdQMImKL4K6CzagrtA8O8sE=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4hcDpG4B8Rz4x6B2;
-	Sat, 05 Sep 2026 08:33:26 +0800 (CST)
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl2.zte.com.cn with SMTP id 6850XP1u025056;
-	Sat, 5 Sep 2026 08:33:25 +0800 (+08)
-	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp05[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Sat, 5 Sep 2026 08:33:25 +0800 (CST)
-X-Zmail-TransId: 2afc6a9b635567c-a5055
-X-Mailer: Zmail v1.0
-Message-ID: <20260905083325942Joui9AuK11_fy6cREJVPh@zte.com.cn>
-In-Reply-To: <20260829154319.5d5422b8da6a93eaa72a00bc@linux-foundation.org>
-References: 20260829171238191s9SIXoZPTlZSmA2Px30hn@zte.com.cn,20260829154319.5d5422b8da6a93eaa72a00bc@linux-foundation.org
-Date: Sat, 5 Sep 2026 08:33:25 +0800 (CST)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 38E8340E01E1;
+	Sat,  5 Sep 2026 00:45:09 +0000 (UTC)
+Date: Fri, 4 Sep 2026 17:45:05 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Ben Horgan <ben.horgan@arm.com>, x86@kernel.org, james.morse@arm.com,
+	fenghuay@nvidia.com, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, tglx@linutronix.de,
+	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+	corbet@lwn.net, linux-doc@vger.kernel.org, dave.martin@arm.com
+Subject: Re: [PATCH v5 0/3] x86,fs/resctrl,arm_mpam: Factor MBA parse-time
+ conversion to be per-arch
+Message-ID: <20260905004505.GAaptmEVxltONVfl2J@fat_crate.local>
+References: <20260709093111.367851-1-ben.horgan@arm.com>
+ <165e7636-d7e9-4d16-aad1-657b4a9698d0@intel.com>
+ <b0a7035e-7ffe-4e22-a4ae-a177640234b8@intel.com>
+ <20260904033751.GCapo9D5ZZXWuQkIpc@fat_crate.local>
+ <20260904173615.GOapsBjyiT7uXHd-Qc@fat_crate.local>
+ <35ebb8d4-2ef0-4bc0-ac3f-afff0c95ae89@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <wang.yaxin@zte.com.cn>
-To: <akpm@linux-foundation.org>
-Cc: <fan.yu9@zte.com.cn>, <yang.yang29@zte.com.cn>,
-        <thomas.weissschuh@linutronix.de>, <corbet@lwn.net>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <xu.xin16@zte.com.cn>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2NSAwLzRdIHRvb2xzL2FjY291bnRpbmc6IHJlZmFjdG9yIGRlbGF5IGZpZWxkcyBhbmQgc2hhcmUgZm9ybWF0X3RpbWVzcGVjKCk=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 6850XP1u025056
-X-TLS: YES
-X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Sat, 05 Sep 2026 08:33:26 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A9B6356.000/4hcDpG4B8Rz4x6B2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <35ebb8d4-2ef0-4bc0-ac3f-afff0c95ae89@intel.com>
 
->> - Convert per-field delay members in struct task_info to an array indexed
->>   by enum delay_type, eliminating offsetof() pointer arithmetic.
->> 
->> - Add __kernel_old_time_t typedef to tools/include/uapi/linux/time_types.h
->>   per Thomas's suggestion for backward compatibility with pre-v5.5
->>   UAPI headers.
->> 
->> - Factor out a common format_timespec() implementation shared by getdelays
->>   and delaytop, using strftime for cleaner timestamp formatting.
->> 
->> - Replace the complex sizeof/ULL/shift Y2038 guard with a direct narrowing
->>   truncation check ((long long)time_sec != ts->tv_sec).
->
->Thanks.  I can't figure out how to apply this, and neither can Sashiko:
->	https://sashiko.dev/#/patchset/20260829171238191s9SIXoZPTlZSmA2Px30hn@zte.com.cn
->
->Seems there's a dependency on your "delaytop: add delay max, timestamp
->and sorting for top latency analysis" series which didn't get applied
->for reasons which I don't recall.
+On Fri, Sep 04, 2026 at 02:15:08PM -0700, Reinette Chatre wrote:
+> Sashiko's second comment is about resctrl's existing (not introduced by this patch)
+> Intel specific enumeration being resilient against a hypervisor misconfiguration.
+> Thus far resctrl assumed the enumeration would return what the actual hardware
+> is known to support.
+> 
+> Sashiko had similar "hypervisor misconfiguration" comments in response to another
+> resctrl series that already falls under the "cleanup" umbrella. It is not clear to
+> me how far resctrl needs to go to be resilient against hypervisor misconfiguration
+> but I can include needed validation addressing this report as part of [1]. 
 
-Hi Andrew,
+I would always ask myself how realistic is the use case. Here, I'm thinking
+not that realistic unless you guys wanna support resctrl in a guest. Which
+would be weird, IMHO, because a guest can fake all kinds of hw so controlling
+resources of a fake hw is an exercise in futility.
 
-Thanks for your reply!
+So might as well answer that Sashiko review comment with "thanks, but no
+thanks."
 
-You're right — this patch is part of a larger refactoring effort for
-delaytop, so it does depend on the precursor series "delaytop: add
-delay max, timestamp and sorting for top latency analysis".
+:-)
 
-I have read the discussion at the link below to figure out why the
-precursor patch was reverted:
-https://lore.kernel.org/all/20260804031240.D97F81F00A3E@smtp.kernel.org/
+-- 
+Regards/Gruss,
+    Boris.
 
-From that thread, I understand that commit [1] ("delaytop: fix a bunch
-of docs build problems") was reverted due to issues it introduced.
-Consequently, this patch [2] ("delaytop: sort by max delay to highlight
-top latency processes") was also reverted because it depended on the
-documentation changes from [1].
-
-If I resubmit patch [2] as-is, running make htmldocs will again
-produce warnings in Documentation/accounting/delay-accounting.rst.
-Those warnings (e.g., indentation and formatting issues in the rst
-table) were originally fixed by [1], but since [1] is gone, they would
-reappear.
-
-My proposed solution is to update the next version of patch [2] to
-include the necessary rst formatting fixes directly in that same patch.
-This way, patch [2] no longer depends on [1] and can be applied
-independently. The documentation fix would be part of this patch
-rather than a separate precursor.
-
-Thanks
-Yaxin
+https://people.kernel.org/tglx/notes-about-netiquette
