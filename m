@@ -1,102 +1,95 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3673793DC
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 13:52:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF22337C108
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 13:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788616336; cv=none; b=CLan1I551QoBZoFKPAyexya7eO9pucQrTZXfUai9vBEi5wZBlO8Ffmbg+C2p+K9S6XfNruEyzjVg68km4IcU29xxCo+wywYMTz4ptiGdDVlTJnjMMjyoYWkWRHipM9o95WMxo3Qf74xhM5KULzyv7EoqzutiXLhcFYo+hBwQtH8=
+	t=1788616520; cv=none; b=J84YnuHvBPHc3OVm+cI765iAN10uuAQEzZnLbYZs/8U07/niV+FUSUqoiin7eHR8raz+U5IIKuOtau6QxxyJuueM+hadEVli1Y3Eg5OtH5PNXdzC+DPL/Lvsvh5qr8cYefqrctv9oydolQd8CFpmhoagEstWlrJLCpJ0Ns+l+pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788616336; c=relaxed/simple;
-	bh=eoaqP1cpmgdeqA13VuoN62OPJ9Zf7oNSZ1XwyXsfHwI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F2rwu3C1uvEJ5usvhewUZKMkd49jmH/b2TZGWM3XzBbMI0osnKM2SO+TGAlj6yk7ooo0QfUX+XmlNdrUsMfit7JxE/AnGwnbBdja9x4ay1/ZvUfQkgYgOxNU5i/xVrEzz+kmQHbrHqRZSx6sLAT7bD4uCKz+IDjb8a4iSBMHDE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kuJWeO0d; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788616520; c=relaxed/simple;
+	bh=z6FrMUSD7HejfKXZ0hRh5/dRSNczP6dB3y09E/XFZFg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UBW7pjJU4/iIfXyo33Rsq4qxfOrS2WpGwUs8le1JudnB8VLz3BO33cdU5m9KF4m0xX1924pjCKaOsLciHigsZtxbowKZlsBUwcpYA5vPYpEBFzlNs5Hz57isgh0LCpVkqdOQUyW6S95bcXyc82ttt9fWp4Soca+fLoBFyBq7eiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZzIrX3ux; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kuJWeO0d"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49b8ce9b733so15305745e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 06:52:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788616333; x=1789221133; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=goBUo0KyzYl6adZ9zmSf9yB7LNuxO2AIINcuATmiu7w=;
-        b=kuJWeO0dgZQTmZ4lvjdt2TC96iy1B3f2JCpJh90IMy/u0mrueqKBgA5+dof864twtH
-         PpXdxEQgM4nrUGvsNl6JjEdHsohYe4fLJpmfUu9Z+FmIxB2sw9uputBnpT6Ts1Ggeeyf
-         harjJLbstSTUJeN0XbYkn9k1XbgDqMNoFh1J2KUma9cEad5yhTxmjYRILMGyglrkhT8+
-         +Zs+1mKGYwUyiBCAHZzeH+KyVKFD5blnvLA8tD8W4L21Y44LtobO6P2oN3oEj9Iwo/Vv
-         9qjbsPpJQ/VchoG1Z9gmyqG+YcASsUE7Sy8VxtD6Jw2l0ylTuqPx/BfEjHfjnQ7Wc5LE
-         +4Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788616333; x=1789221133;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=goBUo0KyzYl6adZ9zmSf9yB7LNuxO2AIINcuATmiu7w=;
-        b=mEHuhDSC/a/KTJzD0L5NysW9OtLdcYmKAMm+Bi0roe8JQ+JczCDaeAPV7erNQVxJzX
-         GFhOnr5/4kvvFJy3UIelZxm/lOx9KfO/pcJzxF+g5gdlcFP5vWKoM5cTfOUOAl3DT2zE
-         w688ayOR8OL1keMUzHhx7vPy48wNIZAFjPYBOh9Xgdmr16T5A9pZeJJTJ7Qw+9GZAMrC
-         s7V27YaamGcxlRWwNE26+nB/RqM9ju3kfifs+o/33pIXyoqLa89+Hr7cAc9qYDWLffKR
-         kKkyZqXosSkPxYPpVc87F9Byhu0JEhtrzKAZsYJCuNNNYijqR6Fz6nZ5HHFFXNSp+P5d
-         rAsA==
-X-Forwarded-Encrypted: i=1; AKwUvBw0mfQiRVuwAaKhg8L+T09CD6Xe4SFtVTDZbVi3+fLLrSQY/CKg20Lg9MkTrafJkvUI8ivF/jhCNso=@vger.kernel.org
-X-Gm-Message-State: AFuF++n9bh5jkA712j6vyG1bY/Xqk8Fe2m9XCFdYIDr2Nr4QZt+NUlPa
-	26GZ9J66k7tjFwGK17UIJRmNDGt5gFUKoqPxHMWv5+PjiKu60Ib+noUM
-X-Gm-Gg: AYBFou2t0UkRLfhhEZh72A7KCMRJUIcQWRx9oAJ9yVeSf+y4zpC4ZJTfFEYaIbe1ga+
-	h6XRr9Bqyw7ccPifRHFjX/84lXRGuLPhLf30VkmTbIngIPihFarQDp+ukR6enxO+57dLaBBDATL
-	AeldWWGSPjHRk4C4lTpPU8medQJSE28C1gd7WK8txHmyrmZDSw9zVtKufRykKxcrX+XmUyETtnV
-	uSvTyF+mMqBwLEKKTX819KSkMFqfqGDbPzce+rS4FTaoh05nB0x9WPrex9wEZIkw3J8C817CdmA
-	s2hUkMS4nuJHt3mD2i41mx5v8CPrHH5Qm6wFgwWpB/aFdo6dgaoCpTkSKkLitiDyFW18pnCeCul
-	12wBlGXt2KqkClJMxn1Pfjy3chBWrVf4K9wq+VFhZAQrZa6Gfvk8bLDPfM+D+6ZQr9fLDUorzLB
-	KaL4zTxov6HtW3lx0xkjSzc/z3bPJB8GNHQwsMJ+MxPaif3FjIiTOCCibkIyS0+Cl7YsCPQKnwI
-	XrY4AR7oifDVa2LMxi6qPgbOWFTM7CmHKwzgwTKcuUeupvjueXhqqV9kmkq7V4LppGM9+Pk7cB9
-	ZO8nMw++XOXgmPNlx2sgDi9UxVEm77/CgIlbvqgsBY8su975jLP2Eb6wWDYG8vlt
-X-Received: by 2002:a05:600c:4691:b0:49c:fea1:f792 with SMTP id 5b1f17b1804b1-49cfea1f79cmr86204765e9.12.1788616333161;
-        Sat, 05 Sep 2026 06:52:13 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf75ce49esm258560335e9.1.2026.09.05.06.52.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 06:52:12 -0700 (PDT)
-Date: Sat, 5 Sep 2026 15:52:10 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] Documentation: PCI: Point the pci_device_id kernel-doc
- at device-id/pci.h
-Message-ID: <apwdZWsGOa2W16HU@gmail.com>
-References: <20260905084916.40196-1-kmehltretter@gmail.com>
- <apv6yQ1U-HhNglyV@monoceros>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZzIrX3ux"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788616517; x=1820152517;
+  h=date:from:to:cc:subject:message-id;
+  bh=z6FrMUSD7HejfKXZ0hRh5/dRSNczP6dB3y09E/XFZFg=;
+  b=ZzIrX3ux/5kqrsXP5Kxg0uruXZ/epblFhlxiueQqs5XtWWHfBTZ35zmJ
+   dA+lO5IbZr8mNF8fS+YtsgWNbWteIfahjwQD9zxnyaYGWaUoWnug8Ui15
+   nzx05xdPj3qJov3Mi8fZi9vSIuZHa5Zd+kEbwyDbx6E4WEIUehRE9cGK5
+   hnxRDocTCYva1uVdrMDWwtnd1WF0tGTFWxJARsPwRPTIQqImBineixJks
+   cCSUvyNtTs8jZLSdj1dX9lIvX8KZoKrs6Vo1wLF4aKJeZIo/hMHdybPS/
+   5iUe7lMQpOuHpQGbyBgHKqWpxhDsKLNbFHK3/Ob6ML6JVXokyRn8i8qCz
+   Q==;
+X-CSE-ConnectionGUID: xr2ah1P0Tre1c5glpdDH6Q==
+X-CSE-MsgGUID: haA+xjT5QsGyJ7rL90TstA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="89216955"
+X-IronPort-AV: E=Sophos;i="6.25,263,1779174000"; 
+   d="scan'208";a="89216955"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2026 06:55:16 -0700
+X-CSE-ConnectionGUID: kN3i2ZsfR+6Hpb3BO6Jhhw==
+X-CSE-MsgGUID: MoQFdbVDR/y5gwAhk9UirQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,263,1779174000"; 
+   d="scan'208";a="264105184"
+Received: from igk-lkp-server01.igk.intel.com (HELO 097213dcb3de) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 05 Sep 2026 06:55:14 -0700
+Received: from kbuild by 097213dcb3de with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x2qrQ-0000000008l-0mMV;
+	Sat, 05 Sep 2026 13:55:12 +0000
+Date: Sat, 05 Sep 2026 15:54:32 +0200
+From: kernel test robot <lkp@intel.com>
+To: Alex Hung <alex.hung@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>,
+ George Zhang <george.zhang@amd.com>, linux-doc@vger.kernel.org
+Subject: [agd5f:amd-staging-drm-next 1875/2958] htmldocs:
+ Documentation/gpu/amdgpu/display/display-manager:29:
+ ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:1580: WARNING: Error
+ in declarator or parameters
+Message-ID: <202609051521.dVjPj9Zw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <apv6yQ1U-HhNglyV@monoceros>
 
-On Sat, Sep 05, 2026 at 01:21:32PM +0100, Uwe Kleine-König wrote:
-> there is prior art that can be found at
-> https://lore.kernel.org/all/ede7ce64f20e10660ebf6bc1b41836dad750ae3b.1783349758.git.ukleinek@kernel.org/.
-> My patch is more complete, but I didn't respin yet to address Randy's
-> feedback and so it wasn't picked up yet.
-> 
-> If you want to take over caring for this patch that would be very
-> welcome, there are too many open threads in my mailbox and I'm happy to
-> be able to close that one.
-> 
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
+head:   c22f9a61e288580824edbbc3ae5a29c9a338594f
+commit: 91019266ceaeb1bca0dfd3c4832ac26d623242e9 [1875/2958] drm/amd/display: Test dmub HPD callbacks and handlers
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260905/202609051521.dVjPj9Zw-lkp@intel.com/reproduce)
 
-Thanks, I did not find yours when I looked. I will take it over and send
-it as v3 with Randy's file nit applied and your authorship kept.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609051521.dVjPj9Zw-lkp@intel.com/
 
-This patch is then superseded, please consider it withdrawn.
+All warnings (new ones prefixed by >>):
 
-Karl
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:728 struct member 'boot_time_crc_info' not described in 'amdgpu_display_manager'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:728 struct member 'power_module' not described in 'amdgpu_display_manager'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:728 struct member 'hdmi_frl_status_polling_wq' not described in 'amdgpu_display_manager'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:728 struct member 'hdmi_frl_status_polling_delay_ms' not described in 'amdgpu_display_manager'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:728 struct member 'boot_time_crc_info' not described in 'amdgpu_display_manager'
+>> Documentation/gpu/amdgpu/display/display-manager:29: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:1580: WARNING: Error in declarator or parameters
+   Invalid C declaration: Expected identifier in nested name, got keyword: void [error at 21]
+   STATIC_IFN_KUNIT void dmub_hpd_callback (struct amdgpu_device *adev, struct dmub_notification *notify)
+   ---------------------^
+   Documentation/gpu/amdgpu/display/display-manager:29: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:1656: WARNING: Error in declarator or parameters
+   Invalid C declaration: Expected identifier in nested name, got keyword: void [error at 21]
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
