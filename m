@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7977233998;
-	Sat,  5 Sep 2026 17:17:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977BB33998;
+	Sat,  5 Sep 2026 17:20:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788628673; cv=none; b=QX+VMiFgAm/xrdvAKdZTKANnVSjJLi4DUqrrtxpup7WSaV3rJjI4jNCXA6cBxNpnuvXGAMyb6MfGE5a/zUxZeqU7pR6mUxLqmKp2rbfVc1tgbPUs5oHX5nUNRJGgkM0gHYId2w6Q0B3ftT35JU2gwaLEN69aRF+YkIxtZe8nkiU=
+	t=1788628852; cv=none; b=P1Mk87sNB4dW4rBSJqZqAyKtLb6lDomgpku2Z7Up55ydFX3+hq8iWm1LfyZrnCqgnJa7KJ0TDbvlyMz6XtcB4AU+ToA3Xi1CbJul+mpuKwGFGN744g0t46P8J5yypmaxR+zmsFQClphhMrSldAgMO1jdC4g5w6hLBr2l+xIbDIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788628673; c=relaxed/simple;
-	bh=w0aohpZKbXpyhrIdRxtL2D3QULqDaeMhKFVMW6v/29k=;
+	s=arc-20240116; t=1788628852; c=relaxed/simple;
+	bh=8TIG/jfkIYyQW+06/2239Ev3S/Qj+y4AEk62Rx9r5vc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=szc5jn2x/aVcuqUeRswov68sP+FApSOSZl289s6xNK/TfC0Ovi+EEPokOzg9GUuByxK81lL6pIHiZJ7y2zS9zhEE5YwlYKscc1z3ReNqUxk4PBUPR08N1Scrb85VsTcznIo6GjbrDXGoDqToOjUhygKj5qAB2oaS7+AXDqnli0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vyU2ZSaz; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=td2Fu4G2FrEwtjBqRTTYEiwjIMPijwXlHq5IAgxkF7BDRxNWlOBcng6oIkCBeBB7Zca4V951gqQqZNo/EXqLml/aDBu9rFJiv2Igwo7f5Cfx3qLAqILvPoFk45N5na4E9HmQ4IzlmM+Z2utwnP9cByVG3A8x8M3xL63NKf+Yc/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XsfzegK4; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vyU2ZSaz"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XsfzegK4"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=dtJPlCHH2ndibfZbs2MNLtOWR+finVAxGd3h6Y0oqxA=; b=vyU2ZSaz/bKj/G1c1nt2BlqEds
-	X3VQONetwYlXCyoSpjHD9wyq3Q0tA4NkriflNdeA67o69v+1OWR4dFcWUWp/VvFZuGsYpyOBZNKsn
-	DiMah7DWUvHbgQNO5WpWWivRLUCG9ynWFFTpSZyGAkXZ8xNEeH9gdhxa12Ho7gg1V2u4Or1XSkQr9
-	qw6/3eoQmaIOu+KSw2t/jGzf7tCVQeAyj4LNLeK3oXtYeG4lrNortZuwhUz6jQ2rLSbejoyrRsjQt
-	PYxxyC0/+g2CQywOpzyOfH5rRoaVEHKgSIfNLLQfsMQb0dBp1NXJGIcrXEypPiAtNukPum4qdoqsD
-	HuI4GBPg==;
+	bh=IoL1Ze11QVjAA3JvCTX4j7BXubDlKNVIpCFs7KHZQ+U=; b=XsfzegK4XFSE5abPBkDsgroWUm
+	N30YhWnbAXR/4J1anujv31dEi0Kb/teDFM8SRLYpnjBoemyd3n7ZE8yxex3zelpR7t2GLimbf5xOy
+	yrk0JeuBHeWNTCIMnPcAT9j1UAhOWq0ATOG8168ZzRRzk4MyZMIFwtKvwsAHDvC8LOuJi1Ri8EMKq
+	8E626pSLdvxVqJ8FraLFOjPrCmuar8vx1k5OzUpq/1nRbu+RkThOvqSox8vgJmsvw4gJBWMeyNffl
+	NiymVt1/nah2vNG0A+pQ3aFF6caGAqP912ppUKIJArLSfIXQGGMBnrv99UN2ri2zDl00vWrhn5729
+	3gaSSy4Q==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2u1W-00000004HmD-0kqC;
-	Sat, 05 Sep 2026 17:17:50 +0000
-Message-ID: <6d664fbb-6fe5-47ef-ae06-eeeb4055b969@infradead.org>
-Date: Sat, 5 Sep 2026 10:17:49 -0700
+	id 1x2u4P-00000004Hpm-34Tk;
+	Sat, 05 Sep 2026 17:20:49 +0000
+Message-ID: <e0e25f66-a1a9-4851-8b5e-0a86220311e3@infradead.org>
+Date: Sat, 5 Sep 2026 10:20:49 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,58 +39,52 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: s390: pci: Fix the sriov_numvfs attribute name
+Subject: Re: [PATCH] Documentation: virt: Fix the struct
+ snp_guest_request_ioctl name in sev-guest.rst
 To: Karl Mehltretter <kmehltretter@gmail.com>,
- Niklas Schnelle <schnelle@linux.ibm.com>, Gerd Bayer <gbayer@linux.ibm.com>
-Cc: Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, linux-s390@vger.kernel.org,
+ Tom Lendacky <thomas.lendacky@amd.com>
+Cc: Ashish Kalra <ashish.kalra@amd.com>, linux-coco@lists.linux.dev,
  Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>, Pierre Morel <pmorel@linux.ibm.com>
-References: <20260905091627.40946-1-kmehltretter@gmail.com>
+ Shuah Khan <skhan@linuxfoundation.org>, Brijesh Singh <brijesh.singh@amd.com>
+References: <20260905092942.41558-1-kmehltretter@gmail.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260905091627.40946-1-kmehltretter@gmail.com>
+In-Reply-To: <20260905092942.41558-1-kmehltretter@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 9/5/26 2:16 AM, Karl Mehltretter wrote:
-> The attribute is sriov_numvfs (drivers/s390/pci/pci_sysfs.c); the
-
-file drivers/s390/pci/pci_sysfs.c not found.
-maybe drivers/pci/iov.c?
-
-
-> document names it sriov_numvf, which does not exist.
+On 9/5/26 2:29 AM, Karl Mehltretter wrote:
+> struct snp_user_guest_request does not exist; the name is struct
+> snp_guest_request_ioctl.
 > 
-> Use sriov_numvfs.
+> Use the real name.
 > 
-> Fixes: de267a7c71ba ("s390/pci: Documentation for zPCI")
+> Fixes: fce96cf04430 ("virt: Add SEV-SNP guest driver")
 > Assisted-by: LLM
 > Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+thanks.
+
 > ---
->  Documentation/arch/s390/pci.rst | 2 +-
+>  Documentation/virt/coco/sev-guest.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/arch/s390/pci.rst b/Documentation/arch/s390/pci.rst
-> index 80f4ba193159..565434626fb5 100644
-> --- a/Documentation/arch/s390/pci.rst
-> +++ b/Documentation/arch/s390/pci.rst
-> @@ -67,7 +67,7 @@ Entries specific to zPCI functions and entries that hold zPCI information.
+> diff --git a/Documentation/virt/coco/sev-guest.rst b/Documentation/virt/coco/sev-guest.rst
+> index 93debceb6eb0..3371ebc29e8b 100644
+> --- a/Documentation/virt/coco/sev-guest.rst
+> +++ b/Documentation/virt/coco/sev-guest.rst
+> @@ -38,7 +38,7 @@ along with a description:
+>        are not detailed, but errors with specific meanings are.
 >  
->    A physical function that currently supports a virtual function cannot be
->    powered off until all virtual functions are removed with:
-> -  echo 0 > /sys/bus/pci/devices/DDDD:BB:dd.f/sriov_numvf
-> +  echo 0 > /sys/bus/pci/devices/DDDD:BB:dd.f/sriov_numvfs
->  
->  * /sys/bus/pci/devices/DDDD:BB:dd.f/:
->  
-
-With the file name corrected:
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
+>  The guest ioctl should be issued on a file descriptor of the /dev/sev-guest
+> -device.  The ioctl accepts struct snp_user_guest_request. The input and
+> +device.  The ioctl accepts struct snp_guest_request_ioctl. The input and
+>  output structure is specified through the req_data and resp_data field
+>  respectively. If the ioctl fails to execute due to a firmware error, then
+>  the fw_error code will be set, otherwise fw_error will be set to -1.
 
 -- 
 ~Randy
