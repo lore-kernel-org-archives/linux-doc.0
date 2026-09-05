@@ -1,125 +1,88 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E563F38F250
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 08:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2DE4446EA;
+	Sat,  5 Sep 2026 08:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788595450; cv=none; b=jOaIbg0C0HYA260LUk6reL0TctHF7M61fh8cG79uqozLUZ6lgnlckEslSTBSAMXnFjVu3qRd0XrqhfgYu6oRQuRTrwac9yCnToq0bU/SUjSNZtNt2XsqnHLFtSCWO0/2x3izE1fBrRAvKEcbMvmBmnofH1ie6TafgM+PKdMLt6Q=
+	t=1788596106; cv=none; b=Dugkf4dGezVgL+KCc8HT06vhSbhUS90UP+vDfQtOaeZs0JZ/MFcio9fUG8qv+ZmAYoMZuzJp047lxLpnoPAlfL4jgge3XtTdzdq+UgL05B61FKGPPSFxnsQXZLy+kTsv4xtu7Hocb+hRDdUfWtbNyM3KcW4D6zlMx4yj87WIjDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788595450; c=relaxed/simple;
-	bh=4ekraZy/fgRJ8xIH3aZd8XUZWGZ1ch2LOkcS3hFNA/E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W4t19fEs+NdYb13suO2fBcAFWb+ajwL3ELLTmZDlB43bFWYsNPELNvXuEBLqfIFtm+7Yy6OOPau+EDF9gNRY9kd7kjlG86vpqRhlfKodZKBdAauP+qetyxBuBmqRtksZuNMwwUrFFs8ghqcmwP7M5RpevkAtcinVdRYp+iGcZwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rNknC+46; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788596106; c=relaxed/simple;
+	bh=Sbp//umF0jYA7r01d+Fdv0tF13lDdEn3OAOtm18gcxM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lofAkc3i5pGfVGt9da5SBypYfQIgjPdmZLGkrdFj6j/igwu5aoxGHbgRJTeN9XwqSDI6fbMmhm8BAjy4n7WKmdcBl24oTzKm4u7VjzxeTScO1mPjo5K53tXdE4JHK4E9wt+YV3rL9Rzwj/05rm6taClgY1rFtzjNFiMuzQVZ1tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M/prL8Rw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rNknC+46"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-482e257a23aso1253109f8f.0
-        for <linux-doc@vger.kernel.org>; Sat, 05 Sep 2026 01:04:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788595447; x=1789200247; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IRZkyYibSQw/TdoJWn+8ggoBMlqJpfdb7cVc+BMe9tc=;
-        b=rNknC+46zeL4xMwEPRnti6awsI701Zv3lYwZalIuADh3BDeUVky8h98MbWSTBP8z87
-         pTs+O9AFTQ26raXHvDO4E2QnGVG0HAEkX2E1DmSwmiyZmaW/YadsKRgfdfJJs0w4TI0P
-         YHO7PRz8OP1SzBbhnRhCKk+6u+E7gi+eSHPrAOfgc/CaKPmZnhTzFTT37j2TumZArEPD
-         L6ZNu8pooBagugkySZPFyWWc/0+890eXogAm4yMZlSQDcE8ZeXdeY7hpZI/nrU/GcdzX
-         Jj3wmX9cISeOzdnxX63C9lR189pPBYoEelOSR4GO46wFWdioo+2sM3JfeZJKSKN8O+3X
-         dglQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788595447; x=1789200247;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=IRZkyYibSQw/TdoJWn+8ggoBMlqJpfdb7cVc+BMe9tc=;
-        b=ZOLBWl7tcdJHdMNXPGl99QSEbuwYKylg7+tUuUgdrRMIiUVozakGC9yKlcCaYW5O60
-         OWd6HVB+dXsonxztJAx3a+QWVm2qnvNq4A2keNh7Hyhy0dXUzCCPyihKRukcZGYqgZ8T
-         bLKKB3VeYFwIMx817rM9Gw9I98Sv7hg7yizOwtkUNC6A1dWRSqp8d2j9DDjQcbS2O4Re
-         OCCww2SKNOU9V/W3p9cVOus+f5hd7ZrR0Zqln+wdViu777XVKgArHCcGjh0bK7zDFYX/
-         xMagpjCOW0eBVfc9hLbyGaHFEzh0k0k65/JIyBtVhLH7sHPFktmX4q/mJdFEd1BJztzB
-         acVQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx5mUT4bnygw/0lRnpnCg+pO2/ks59hNU1flMf7JdX6D3FEe0Peqk5WeFGnjwJ6QySCef4y+rd9MXM=@vger.kernel.org
-X-Gm-Message-State: AFuF++mDliQBrpoj6bFRdYLLUX9IcbnfAhYfnA+bVpxSP9/8n+mqVECC
-	6K/4yUdPN2HU3k3e+0WakcZTYMJeTv+tuzJJHCd47wpTE95ggV57JI0X
-X-Gm-Gg: AYBFou1rsXYKkMr4cCScZJ6fQn/0CkY0PvyyrTMXiP6knjOLnYruWkY4JcHq1F/nArz
-	fYJLZ/wAwBEb71BH88NK7LOjxdPUZSPWoUnSWCvdP1AzMxLXg6GgXnuavxexQmMwrdsVywtPHZ6
-	LaRbMORA/Au+9pdP8WmZozBLs5YDQk/FraEJhCOuPvQ9K/u7O+SKtQJsSjmAAJanPhxbDpa2x8A
-	62J2SWBaSgIpecTZFdc3FB+eY/For90QUGXpRwwgs2CyLRXkA6Lit8CzmYOCQbDAcEi3fSjslqx
-	jB1mbUceCuHg2HIWJWSPqTW+yHXHVKZlYkPQEuHgyQYYdQlygO7MUC1xXP4OKx9kHdEdDmRoeDf
-	HF2Lduo8qoqkeowre43mfhaFGYQLE0zAADGn+M9AUELYRevWYTPe43884nPCzWg/IoZgRIYBQOj
-	04NkiVmHwru4EOFjHbe8iN9c5urJ5aD2UIfbrtaHZS73DhtKxNIG9E9UlWUYCEqWbWyNY89PPcB
-	zk+6w8V+TeQsejLgbta8wS3qE4JfI927JVGvoDOuG3KUIQzzbI=
-X-Received: by 2002:a05:600d:8446:20b0:49c:fc7a:22d5 with SMTP id 5b1f17b1804b1-49cfc7a2342mr62413185e9.4.1788595446573;
-        Sat, 05 Sep 2026 01:04:06 -0700 (PDT)
-Received: from puma.museclub.art ([2a00:6020:b326:d300:d19:a765:d8d7:bedc])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce5563c6csm206542315e9.4.2026.09.05.01.04.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 01:04:05 -0700 (PDT)
-From: Eugene Shalygin <eugene.shalygin@gmail.com>
-To: eugene.shalygin@gmail.com
-Cc: Mario Nuevo <marionuevo@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-hwmon@vger.kernel.org (open list:HARDWARE MONITORING),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] hwmon: (asus-ec-sensors) add ROG STRIX Z490-A GAMING
-Date: Sat,  5 Sep 2026 10:03:36 +0200
-Message-ID: <20260905080346.1957380-1-eugene.shalygin@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M/prL8Rw"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CB3E81F00A3D;
+	Sat,  5 Sep 2026 08:14:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788596095;
+	bh=Sbp//umF0jYA7r01d+Fdv0tF13lDdEn3OAOtm18gcxM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=M/prL8RwlI/X0+WEVxEymvLqqcKTF76EumiGYhS75o8xHRciNuELw0pS4xsaWQn+b
+	 c9FpZxq0nLskeA6DdCizn4Fzivu3edP35ZPQ2LFvL7oqcF6RI7Jb7esASNkiUtTN1v
+	 5L3yPiJDgTc5iPYOggWK2zthdRAUezL78SLYtAvn3CsndWBxuwZ9gn2Q4MR4Pfqd71
+	 pGQqPTgxytvVX3Lfd93Mult/2EUT6ks1vsV6dIWuwkWHfGVTl0CgEMUwz9k23OzVrk
+	 3qp6PISTOhbfCX485Mgp6jnwfjcWB1CH+Zb3EuTmLY2nn7dBLzkzIHT9Z2ZW69oTao
+	 YVoq8YKxzh+/A==
+Date: Sat, 5 Sep 2026 10:14:52 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, linux-pwm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: pwm: Fix bracket and punctuation
+Message-ID: <apvPIEQoWnbZh0MP@monoceros>
+References: <20260904122005.760299-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gafrhpx2n6quo5eh"
+Content-Disposition: inline
+In-Reply-To: <20260904122005.760299-2-manuelebnerli@mailbox.org>
 
-From: Mario Nuevo <marionuevo@gmail.com>
 
-The ROG STRIX Z490-A GAMING and Z490-F GAMING are essentially the same
-board apart from the F's onboard WiFi module, which isn't wired through
-the EC, so they share the same EC sensor layout. The Z490-A exposes the
-same EC sensor set as the Z490-F (chipset, CPU, motherboard, T_Sensor
-and VRM temperatures plus CPU_OPT and VRM HS fans) at the same EC
-registers, so reuse the Z490-F board_info for it.
+--gafrhpx2n6quo5eh
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2] docs: pwm: Fix bracket and punctuation
+MIME-Version: 1.0
 
-Signed-off-by: Mario Nuevo <marionuevo@gmail.com>
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
----
- Documentation/hwmon/asus_ec_sensors.rst | 1 +
- drivers/hwmon/asus-ec-sensors.c         | 2 ++
- 2 files changed, 3 insertions(+)
+Hello,
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index ebed9f8d2adb..7032c40731d9 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -55,6 +55,7 @@ Supported boards:
-  * ROG STRIX X870E-H GAMING WIFI7
-  * ROG STRIX Z390-E GAMING
-  * ROG STRIX Z390-F GAMING
-+ * ROG STRIX Z490-A GAMING
-  * ROG STRIX Z490-F GAMING
-  * ROG STRIX Z690-A GAMING WIFI D4
-  * ROG STRIX Z690-E GAMING WIFI
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index 7293c48c72b1..19f423e45ce5 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -982,6 +982,8 @@ static const struct dmi_system_id dmi_table[] = {
- 					&board_info_strix_z390_f_gaming),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z390-F GAMING",
- 					&board_info_strix_z390_f_gaming),
-+	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z490-A GAMING",
-+					&board_info_strix_z490_f_gaming),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z490-F GAMING",
- 					&board_info_strix_z490_f_gaming),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z690-A GAMING WIFI D4",
--- 
-2.55.0
+On Fri, Sep 04, 2026 at 02:20:04PM +0200, Manuel Ebner wrote:
+> Remove needless '(' and fix comma splice.
+>=20
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> CC: Randy Dunlap <rdunlap@infradead.org>
 
+applied with Randy's Ack to
+https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for-=
+next
+as 7.4-rc1 material.
+
+Best regards
+Uwe
+
+--gafrhpx2n6quo5eh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqbz3oACgkQj4D7WH0S
+/k4nZgf/Yg87XlUIwOX3uG6LLmdc1/4xbSwjbnc8YmT3kxsOh5uzuI8CDF2gwmWz
+XlrHZiXKT6pPjtfM/F0INrEg/Yp1cUxVd9t9YO0AHdQPwX/RehWquoSLIbCUIYSp
+ckvOq+3SSJPbtQZpXPXz/Y5XFzto61tdyETKV7u8OZC581x3SjAMQmLTrtgcL3dV
+vpfwAWxFIkTFpV+ekoxHEmYfsyfnSQzRNSSz3SmKNNVO/+oHZJ7Od9SFRWsB42OU
+l2I+j3MQEFe5XfzyLoP1iHlBzmIimIOwOY6RrcIHB6Z38G/f/Doyq4xBlgEHoBuL
+MFr7495Afq+7hPi4Fcke8eMstIvQrQ==
+=Qhni
+-----END PGP SIGNATURE-----
+
+--gafrhpx2n6quo5eh--
