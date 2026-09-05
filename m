@@ -1,136 +1,113 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AAB23E33D
-	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 02:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E56367B89
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 02:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788576199; cv=none; b=un4e2FFCfvyY9ZNq4S67CHHDKJoTFUaOWFegGXs/X7lEne2lTBYO27z5kKIDUjd/RZ9HLztDZ8xathlkE0Pn+jHt5yNduovyWf24dh6CVX0U+jlT0p9AcoVOaFobwWE43Qs2HBNl/vHGnZEa6vbSk+9eUq+ikvdfv1vIlTy1Aj8=
+	t=1788576306; cv=none; b=URqQ2e6wppnBQJAgeZPLAojPSVS/GLTFqlYOeewN2JHNFbT+tizJXVn30/pdL3o2Q+7yg5KSwCfsUITn4K5berFDS57A1Z6GZXTTqotmNqYdaOes4+Sv9FZaiGMA/2acHDAcfCFMyQzdbxtrx65mAr79bNtBeFcI5AkLDAZ8fGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788576199; c=relaxed/simple;
-	bh=cafiR8PF1xxgKNVKQNGmb4iU4+qztAjRhOi4JbCGlvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ngpRXMnKv2tkm/OFAqS9EsWFuG/Wr5BhyBqLrziQB/2vTwQi37Xay3PzOuhEWDa8hV8AuolUJ1djVlTKq+aBF+4ERgzUbmpGO3lDenJNe85by4d4D6kya1KCY9QRiaJHiZAMOp+pAL+gmKQby2STXBTrGetgTi2eZb/JYKuzvXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VTRxJF+E; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1788576306; c=relaxed/simple;
+	bh=6V+wcAi6aIjzEQtsFtZ35bhks7J+sTDymPNLuPNKj2o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aWnvyoo60L5slaJglCtI3AD54eH4DMi0gKBpVKwUbTzCkJTRD7oIgVY2UQAWs2wClWLRoWcfInCdsgk95dVag8XWeOi68Ye/TUxy+u5pOAqOM6eW1GLkRMWAjfR5W/27SWUAev1JdhiwHQghpC5jvJIUl0T5+Md/tntXDDsoeFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jSmaAG4c; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VTRxJF+E"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2d01663d816so12349195ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 19:43:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jSmaAG4c"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4956869750eso13089905e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 19:45:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788576198; x=1789180998; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=nN1oOZhHFA6iOMNOJ2Qu+h7C5QPyvLKsSkfURb8yDX4=;
-        b=VTRxJF+EwLDTQfCVdPMYYNeWfcqecpZbhyU/tLwPzpZY07vaYQP0CzWNMY2o8R/ijI
-         5pzeHmP7zhmFDrpMeMTD7iHlbK+vHfTTQRCGL00lM17XdlB1vjdx6vYbduKN7APB+g/b
-         WLxd9p8HM2+p1Z1e52TdhJsnL+9eAxSqnZUTim8XLuTYgjuQvSCvLprAnnMVAvsveNn1
-         dlwCJ8+772zjzGXCKqggkVQLTGrGB2rJmai/N0lkntPXKi83D1YnAdLgJhY8pRIUR6Ji
-         ZKXnMPqIVWxqaFNyEnyy1kLGvmUFkEiA6Ysd52ksd1js/uYCyptygp2Xg+4hfgXDkX1K
-         7dCQ==
+        d=gmail.com; s=20251104; t=1788576303; x=1789181103; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=r3yyxISqKrXTZ8z7qHYkJWu3PYgeGWsbzCukGt/ffek=;
+        b=jSmaAG4c2+u0n1L5uvpBWThtbjgkAcLjUe/zP1HSXq1vE3ktLb3oyRO33JIPS35Z4H
+         hH8agVs4bdwkk/oLcRukGxNrxepnTd4a2XI47ZP1GN8fVS3z5mVD1ouWKihgA0CE27O4
+         yRbE1EVFCbNOtB2IdihJ2PT8env5l0qRv9iRccEJmmZ2I0WFc2HLw6hynQv1jdV3mx7l
+         O8o5nKpa7Odij6l32ZMAeOl7nK49wLWZw2ooW7TIQddB+djv2IXj1q/ZwvolbBKGT9Si
+         5GbD5xa6NfySvnSSoGEyH5Ra5BKchMhCcRAWOKM3U6IaZAv3mj1gm0Y+IzIzHjbrO1Z+
+         zdcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788576198; x=1789180998;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nN1oOZhHFA6iOMNOJ2Qu+h7C5QPyvLKsSkfURb8yDX4=;
-        b=GSk+/CcjnD9V6snexBN+BeBX2AAXl6RskEEi9Pu+OguhATrzUulnGm/mWyoCzc4I0+
-         NN+nsVD8SPK/pmUchr9araUNmuFgPkjt2ewOoJOLAI2TaUapD23X5Q6CZQFPSEzk7HMU
-         NBIdJZtPhc1+HHFkTNW1zFVduTa4Ufrpe+zq2bHfWdNsB2X7BlLpPR4MXAtNrjDrS7db
-         1MBoBojj/Q7M4KgnfzV5fg1HibrZBANWma76TCAyrfawghe0sh7KfF8LQIjMldEW/cY/
-         FuNkumy2l4AI22CBO8ozp1i2Bc9M2RlyyE5iOxxGfQAbfPNteyRbYTWW6Zgu+IW+Jvmk
-         kIXQ==
-X-Forwarded-Encrypted: i=1; AKwUvByxlD/oziqdk/75a8dolCmTofzuzhM7ah0iBbS7U67rWxabGbQSudiAPCT7jL7rTkE9Pp2bktG/cmo=@vger.kernel.org
-X-Gm-Message-State: AFuF++mryu1Seu2T/HAmihxi5SKWH76lZDl7adb6AfWplHSDd0B9WB9M
-	igeVyJRtAxsgXnu9LK7pH4EYhzVfu89sK/P6NCkZJ1xUC6l4hursR7ZV
-X-Gm-Gg: AYBFou3LruF3Vgs2PgyNTh362xuE1N99HV+I1SgOjqGwC4BspqMJYukcssn+0ptaMZ1
-	sKNRQybqmRBlQ/ht6WfJJHABcD6nzsmiiek9YYVzFq4SwJC6Y/eB8xUGPg440qTvrTLij6Ury8A
-	M74x89cCp0h+C7XOKRWdnDaAHn/ZCAVzFTq67ecGcbh9KvJHNIOzltj6FMSFUb4PL4gMN3H5CBk
-	5qWTK6OL4eucgYpCc1d366pNnZG948cE+6jro3HCNL4EY2CoBiX08jxyQFTII4w8Tj3bTh3Amq0
-	V5b/V4YDta1yrI5iRqsM1SAE7ySyaBBwRDpMHaD56SHoTT8xsPeLLVkgZMHpP2lA2eB1NWRMfTU
-	mNSt3kHgc6/78hPl2utae0uojVLi9srhYFPrsW+EDZQeiWN5LDIvHJAaCqIuvpFwfZP4+hqanPV
-	c8E8J6C1z3w/JdkQQROKYXFnHJwcPPVeZaWCNXx35gFd3aV+hIZuVE8yEmBoozfarJlmUUx0Ra8
-	9Bmqi6QGFaW+++/NDaH+WzqWUdVyYByRNfH20n8iMDayr7h9nl0VyDuYSJErdYfNAiNR7FzAwpv
-	r/Yf1jkjWXA=
-X-Received: by 2002:a17:90b:5807:b0:398:9be9:ab8c with SMTP id 98e67ed59e1d1-39b26229bd7mr15729029a91.17.1788576197758;
-        Fri, 04 Sep 2026 19:43:17 -0700 (PDT)
-Received: from nickhuang (2001-b400-e206-2f43-77ca-14d0-ff57-9965.emome-ip6.hinet.net. [2001:b400:e206:2f43:77ca:14d0:ff57:9965])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08d086adsm13735453a91.15.2026.09.04.19.43.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 19:43:17 -0700 (PDT)
-Date: Sat, 5 Sep 2026 02:43:10 +0000
-From: Nick Huang <sef1548@gmail.com>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: "Liam R. Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andrew Ballance <andrewjballance@gmail.com>,
+        d=1e100.net; s=20251104; t=1788576303; x=1789181103;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=r3yyxISqKrXTZ8z7qHYkJWu3PYgeGWsbzCukGt/ffek=;
+        b=M6ld/Jw+NrJwHj4Oh5whX/ua71PXnWmivXso0gPFQNzwPNFAlHjTCC4/t4mtXf3w/z
+         /Hz0lGsPPNUqf/no6LP7IoWFpMd63pK+qxKFlwN5XMKjmgL7XMXrqxFfwKQKwP75EGNd
+         XO6BqFyB/JKjzDb0cuFZ+PaA4lBopZv0fpuUkBo532T+g+/7B9jRbpEqp2/YKWC2ligf
+         9lTaWb4mHPEZUZUUuoK7cYS+5kxYT/4Fwd58SIY3Iv/QShhKprEyvzl+6ggoJpG1xUlE
+         AG52TUcR4Uo3LMNLTBb3DFBXbzeRvHlj6MeVw4DLmnkna9VbZyG+X9OPjJpSc+AEhzML
+         nO/A==
+X-Forwarded-Encrypted: i=1; AKwUvBzis6Y345OvvO7M3hUNfx8TaAWPVcJGuWct4me1esdjijkijXEaTEm7YIbGcqyEfNRyMZaUmn2aJh8=@vger.kernel.org
+X-Gm-Message-State: AFuF++ncrxsnaL9kC4rPr73zmNi45KZn1V/Za7+qvqRmWEHoBEXUVsut
+	hWsTI2ojdw6PCoUzEEIMBO4iQ2egh7aERE4cc9zZ1+Oef5ZsHdbLSnoD
+X-Gm-Gg: AYBFou2j5uMDHTxpa/Gx+I2O4So95puGl3uvIMUR55FxvwMaVoFXHFT2SHt7pnVK3I9
+	Z+kBp1M4N3LtCCSupacmXRvFLEX4uSFewvOAaRECEJSKi/5ZJwLLBOHKdKBflw3vnjPYP9/W4AB
+	z8tEalxfG4UCXptN/RlfWLdsiSYMWnFP3qNaXVRs7yJFW7WtHOQup4F5iozWK2WuBZD8elyN1Gr
+	ivVuOWJP8nOimv/FCFgtz0nLo12hYW9AJuQFR47tlSzUM0VSJB7VbkC4O6BVvN764lTRP00Li88
+	QTYKey67wMBGkDB23ZoGIOUpZrI0SqQuzNoivTx6dBYWvvvdGJ8/oMONQRzearO3anRhlH3tCsY
+	RvfiiOPlX//5diTTv9b/dVLUh7DseVbw6iDcprmZNMaVeX/aZf+w077dBJkBCDu60sBR6/wwFGX
+	6kCZiu6Bfp+ndyrLNVt979D5TiQxzf1+XEUAzrnya9YkLRhQMbBgx/jG+HHM+xOKN1JRV/St8gm
+	yufH3GgKLSRW38Z4abbxdzMjh3zM9mnaS7ixyyNeU6M7UlSLgS2FsJYb697d/4NqgZ6XB69Jo3j
+	X28jOPdeAvgANGcG1f+0KQaSz5wgl4XeVxg2xuHyw+1reesa9Xw1kDy0bhQRE11Q/oM=
+X-Received: by 2002:a05:600c:1986:b0:499:8aff:59b6 with SMTP id 5b1f17b1804b1-49cf825cef5mr83527625e9.14.1788576302692;
+        Fri, 04 Sep 2026 19:45:02 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885be1c1sm10052560f8f.32.2026.09.04.19.45.00
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 04 Sep 2026 19:45:01 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Brendan Higgins <brendan.higgins@linux.dev>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	David Gow <david@davidgow.net>,
+	Rae Moar <raemoar63@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>, maple-tree@lists.infradead.org,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	Sadiya Kazi <sadiyakazi@google.com>,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: maple_tree: Replace removed bulk insertion API
-Message-ID: <apuBvv2sLEKPHlQN@nickhuang>
-References: <20260905015509.76265-1-kmehltretter@gmail.com>
+Subject: [PATCH] docs: KUnit: Fix qemu_configs path
+Date: Sat,  5 Sep 2026 04:44:55 +0200
+Message-Id: <20260905024455.83413-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260905015509.76265-1-kmehltretter@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 05, 2026 at 03:55:09AM +0200, Karl Mehltretter wrote:
-> Commit e3852a1213ff ("maple_tree: Drop bulk insert support") removed
-> mas_expected_entries() but left the documentation describing it.
-> Document the current preallocation interface instead.
-> 
-> Fixes: e3852a1213ff ("maple_tree: Drop bulk insert support")
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
->  Documentation/core-api/maple_tree.rst | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/core-api/maple_tree.rst b/Documentation/core-api/maple_tree.rst
-> index 12bccfb6aac1..836342fb1eec 100644
-> --- a/Documentation/core-api/maple_tree.rst
-> +++ b/Documentation/core-api/maple_tree.rst
-> @@ -214,11 +214,10 @@ Advanced Allocating Nodes
->  -------------------------
->  
->  Allocations are usually handled internally to the tree, however if allocations
-> -need to occur before a write occurs then calling mas_expected_entries() will
-> -allocate the worst-case number of needed nodes to insert the provided number of
-> -ranges.  This also causes the tree to enter mass insertion mode.  Once
-> -insertions are complete calling mas_destroy() on the maple state will free the
-> -unused allocations.
-> +need to occur before a write occurs then calling mas_preallocate() will
-> +allocate the nodes needed to store the provided entry.  The entry is then
-> +stored with mas_store_prealloc().  If the store is abandoned, calling
-> +mas_destroy() on the maple state will free the unused allocations.
->  
->  .. _maple-tree-advanced-locks:
->  
-> -- 
-> 2.53.0
-Hi Karl
+The example path is written "qemu configs"; the directory is
+tools/testing/kunit/qemu_configs. While at it, make the verb on the
+same line agree with its plural subject.
 
-The documented behavior appears to be consistent with the existing tests in
-tools/testing/radix-tree/maple.c, in particular the mas_preallocate() /
-mas_store_prealloc() / mas_destroy() handling around lines 35173-35185:
+Fixes: f13ecba04bab ("Documentation: Kunit: Update architecture.rst for minor fixes")
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+ Documentation/dev-tools/kunit/architecture.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://elixir.bootlin.com/linux/v7.2.2/source/tools/testing/radix-tree/maple.c#L35173
-https://elixir.bootlin.com/linux/v7.2.2/source/tools/testing/radix-tree/maple.c#L35185
-
-Acked-by: Nick Huang [sef1548@gmail.com](mailto:sef1548@gmail.com)
-
+diff --git a/Documentation/dev-tools/kunit/architecture.rst b/Documentation/dev-tools/kunit/architecture.rst
+index f335f883f8f6..dc291c6187a7 100644
+--- a/Documentation/dev-tools/kunit/architecture.rst
++++ b/Documentation/dev-tools/kunit/architecture.rst
+@@ -167,7 +167,7 @@ Documentation/dev-tools/kunit/run_manual.rst) or use ``kunit_tool``
+ - ``configure`` command generates the kernel ``.config`` from a
+   ``.kunitconfig`` file (and any architecture-specific options).
+   The Python scripts available in ``qemu_configs`` folder
+-  (for example, ``tools/testing/kunit/qemu configs/powerpc.py``) contains
++  (for example, ``tools/testing/kunit/qemu_configs/powerpc.py``) contain
+   additional configuration options for specific architectures.
+   It parses both the existing ``.config`` and the ``.kunitconfig`` files
+   to ensure that ``.config`` is a superset of ``.kunitconfig``.
+-- 
+2.53.0
 
