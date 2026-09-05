@@ -1,100 +1,135 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB611D7E5C;
-	Sat,  5 Sep 2026 00:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08F4379EF7
+	for <linux-doc@vger.kernel.org>; Sat,  5 Sep 2026 01:07:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788569144; cv=none; b=gnoTme9UH2+ZTWk7Gs/KjHbv4767ABJ3GvwryFkpkgKRbq7fVrjwNmjypoYKPcgQOqPanNaOmWhp4m6FiFkC2ovGGG9j+EJkcGil5f6uY1UmAISwu7a1tAda2CK5lH6Pcb7CtLPTvFEoyoecTgtFT7VZJ1fn8i/j8AgrXvCCHRo=
+	t=1788570440; cv=none; b=Z6Or25sSqIZvuo6FPB7EIv/7nVR+TvyYXThlMA+BrQQ9hr9AfecOaSo3XlRHSFX4WO1Rt/NGm5n625UrS3N2UbiGo8iaePTiwxtXU38y4onAI/b3wp/hcLyNfehPfCo/b0AThlUtqrd7rTppwBEWdQ9dqWTtJrIxSaI1cIFU7VI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788569144; c=relaxed/simple;
-	bh=a0cW6PYD2Tr3wJD2E0ngQ0wexkWk1v4S7G4nYtgrnGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hONm0DNEFgEK0mvay1Q0OhwoRQd3XgNkbCOPEVYDoeL+456upRlCef3MPNR7OmALO1d31JWwUA41b8UKpxKtpsq3z8Tu82/oZX4nDssMLYganLHXEntYjtMEbmu2jP+5i1E/CkUZ6nO3rxi8bnMoTPP6EqqzUBOgzJ5cTENdIlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=KeE8Kb2d; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1788570440; c=relaxed/simple;
+	bh=EglbqXi5LkNp5XA0SdAdE1SDNtn/R/F03DiG2hMoAMc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HqsMWVBqdbxPQh/UploAg5GVJX9HiB6mP/yfHG3m4wl3pXGK07jJ1c93RBsLZmm6baNsBcbSdyAPwNUMPk+BjpEQD1qStU86Cg7EIpdcRrGwk/5guEriCAHw18GuZyA9O2iCz0vqrDGiLHDGJ+5Eq1wvyq16TqblqgV1zl+yma4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WRdmouKW; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="KeE8Kb2d"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id F1A4540E016C;
-	Sat,  5 Sep 2026 00:45:33 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 3y-QtSAJBYRS; Sat,  5 Sep 2026 00:45:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1788569124; bh=nORnCbVbH5mxAliZabDrZOjSHlsyvMySDHzBkM2HwuU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KeE8Kb2dJnLpc0Ry3NEKvf3vCEVLMrMV5QyBRo0KxYaxV6VWbglrWNnrM8qZ2VlEs
-	 ueh8B2nHU+9dRPzuM6kk9rWnQUyj5td8sG11Qu7nvf+nXlKe/Y37FBMmcVj5FAL6u1
-	 VT0i/uuIUTac3SnYSaDI641+CO3QgfQkn0KDmsS7SZztN2am2SvPlOLRI3jPEXq292
-	 VrTouNMrb/w0olJhxn9MlEoY4GLkSVlXYMDH9IEGfyELbP9kx80sAnZIG9jaZgfq/G
-	 74/j2OdNPx3DYb1f+JyjQ/Su6akocpeeBsC+0zjuf4cujmMG/aAKr6vlBeTZKtEHOQ
-	 b4iJx2bsGvAkioblq8nCMLSR0DrIOInD52wduSNooIPkeM2v/IbFEWlWc765lHdBgc
-	 akFqn4qBCWTPJBkq4l+Df/Vaa92wdDrNZ2kPNXw6di8BuKngMNfUD+QSMuzg6WcV+N
-	 rfU4i6KVr+I7GcgHGvcuIGiI+NpnqeUi9TremNXpJTLbQ1z7HgWjDS0eGXtKCWPwhu
-	 7XkLHhs+rydTLhEqlSMPr7ObvpPwEKh1jJD/mUSBOF8kD4NhUGM29XP6Akx75CjKXP
-	 C+tVq40iIVxeWjYZ1zdIk9Iq5hZe+Ib8qVj5QjnAnD76ty8L9dc4usZ1PIfLT8Ajup
-	 6wdQMImKL4K6CzagrtA8O8sE=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 38E8340E01E1;
-	Sat,  5 Sep 2026 00:45:09 +0000 (UTC)
-Date: Fri, 4 Sep 2026 17:45:05 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Ben Horgan <ben.horgan@arm.com>, x86@kernel.org, james.morse@arm.com,
-	fenghuay@nvidia.com, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, tglx@linutronix.de,
-	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
-	corbet@lwn.net, linux-doc@vger.kernel.org, dave.martin@arm.com
-Subject: Re: [PATCH v5 0/3] x86,fs/resctrl,arm_mpam: Factor MBA parse-time
- conversion to be per-arch
-Message-ID: <20260905004505.GAaptmEVxltONVfl2J@fat_crate.local>
-References: <20260709093111.367851-1-ben.horgan@arm.com>
- <165e7636-d7e9-4d16-aad1-657b4a9698d0@intel.com>
- <b0a7035e-7ffe-4e22-a4ae-a177640234b8@intel.com>
- <20260904033751.GCapo9D5ZZXWuQkIpc@fat_crate.local>
- <20260904173615.GOapsBjyiT7uXHd-Qc@fat_crate.local>
- <35ebb8d4-2ef0-4bc0-ac3f-afff0c95ae89@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WRdmouKW"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49b8eeb3ff2so14710865e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2026 18:07:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788570437; x=1789175237; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zr9fpDIO6FHp21CzkCP2RgEnzt+svRUnC4ckIWi1ofg=;
+        b=WRdmouKWyohjJTz2OkrmjAfof7MvG1MiMudP8rxj7YDvbvkYXI3RaOIJMDmph4+x8M
+         /yQuItbIWe0u3jmCbL9L5eSwvXuPyPtEQjTz95GJNHpFUKp4XKjlZvjSui3wLliC8+iE
+         HrkBfwN0MmE80ETdBRFAXF75wd07RJVq6KcQErNdWu8zP/IdSl/i72CB8NyAtNqCw058
+         Nx4xBoY2Eb9nJww34YlB/WNBk4tphDALAJDSeFYZFepZ4b1vRS8z27uLpFtbNPy3FFHi
+         Wjjy5VtbJOEPkC5q9Q8Hu7rf/vQPzjqROvzxp3wZMHBHPOtjpdSxONWG6M098umufEoh
+         PN/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788570437; x=1789175237;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zr9fpDIO6FHp21CzkCP2RgEnzt+svRUnC4ckIWi1ofg=;
+        b=LpMzqXrDRZej+ZGC9SJhKiapAdqvY//w73jW7wc6ekgomt6GN3J50ZvGqHFRzvzaTa
+         klxm9ftX8grgrWWIrrTctFRoufvHszNfAniTBCUlYJUFpZylgNf4rv+wIVGNpqyj/o/h
+         Pq1x3X3oY6M1qtbtyYuKxtOYPLPbDrLQYFM38e0FYfJjugWrwoiJf6NYE+Cm6Mg1B6Rv
+         nXIBbxNiFQ3HIxbf2AN3ipXIpP+oEgfcpfioJ5BF9vw3XxBfo+X4A6CyvnV1UDl2Fn+B
+         S443am/DQYQIyNRkmz5bctWWLOELewsUkwfpG+7xshxXx8TtAIRdxt+U/yXZaVav+G5Q
+         9Iiw==
+X-Forwarded-Encrypted: i=1; AKwUvBxMgUbap97FXCUwh4gj/HfsuyxX+M8zm56jySQQDj9JppYvSwq2/8jpaJPDIcv5zKLLkqw+9GOOM/k=@vger.kernel.org
+X-Gm-Message-State: AFuF++k8EHm+zdivy3VrEdmwe9St+GCvGb+r5bLsG6Z2hU/Q2D3/Nj0b
+	G9exLS/MX0B3azkKz7Su6aRo3LCvr1tq68dzRGq0APXnv6MKGqcdTnmh
+X-Gm-Gg: AYBFou0l5AOLXrajLuY+I+wgtBp0TEXwZogLVHYwd6VUvJ8JR8cGRIPZGWNPVy4iDk4
+	2gsCM99eyWg1S0e/zDk+infz0vWtSN4GN7L04tdmV6/WEwRyO6bHVPbhmvvDwmcqfFpvv0iEKuB
+	0hlybPjWf/+nm8OszM5kyIeAWp8UA01qSjX+KC22hH/cd5EYRxjZwYFvwm6Np7HKUxXMgL85k7k
+	pAoz3IgCndE7+k1gL/4eKhXvipxcV+wUmTMMJacjir34rafKA7fOzkXO46/0X8PUqi5piQULkz0
+	VVW7z++qN92WYDw2RVqPgoTSJ9M6oOCiN0JFRC6lH5Ame87Xx+REQkA3fmYq45tiuR84366Xs7l
+	YpLN54Bck1vm9fkOdUKYZvVA4cSgSl/9Vh7ZRm4EP+IEJdO+1V9+g/mR7ONOpY/bykk5bobJldN
+	86li1oh2k8FinwbggBqOfgg3Kxhr4dsPwo2/jUKo/mT97SVmdXdpCk4l48T6hpbtO7mhIp2kQYT
+	TQl0H+0TKRDnxEme/n9pLe8B6DvR+oYIabCVNdvojHjsrvYoCJAbrZiruzs8dxOj46memqEbBuA
+	zmsXvbtPqCv2fJbfTxVZ7SbDj74yK9bF7km6ave3nXLapRxXwCZgYAguOPPjALZqoH8=
+X-Received: by 2002:a05:600c:628b:b0:49c:fa21:e742 with SMTP id 5b1f17b1804b1-49cfa21e956mr66582325e9.24.1788570436399;
+        Fri, 04 Sep 2026 18:07:16 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a4f2-6901-14a0-23ad-a35e-aa8c.310.pool.telefonica.de. [2a02:3100:a4f2:6901:14a0:23ad:a35e:aa8c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee5f912esm195777265e9.4.2026.09.04.18.07.15
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 04 Sep 2026 18:07:16 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Huang Rui <ray.huang@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: [PATCH] cpufreq/amd-pstate: Remove obsolete amd_dynamic_epp documentation
+Date: Sat,  5 Sep 2026 03:07:06 +0200
+Message-Id: <20260905010706.57380-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <35ebb8d4-2ef0-4bc0-ac3f-afff0c95ae89@intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 04, 2026 at 02:15:08PM -0700, Reinette Chatre wrote:
-> Sashiko's second comment is about resctrl's existing (not introduced by this patch)
-> Intel specific enumeration being resilient against a hypervisor misconfiguration.
-> Thus far resctrl assumed the enumeration would return what the actual hardware
-> is known to support.
-> 
-> Sashiko had similar "hypervisor misconfiguration" comments in response to another
-> resctrl series that already falls under the "cleanup" umbrella. It is not clear to
-> me how far resctrl needs to go to be resilient against hypervisor misconfiguration
-> but I can include needed validation addressing this report as part of [1]. 
+The amd_dynamic_epp command-line parameter was removed. Dynamic EPP
+is now selected through the per-policy energy_performance_preference
+attribute, which is already documented.
 
-I would always ask myself how realistic is the use case. Here, I'm thinking
-not that realistic unless you guys wanna support resctrl in a guest. Which
-would be weird, IMHO, because a guest can fake all kinds of hw so controlling
-resources of a fake hw is an exercise in futility.
+Fixes: 32692fcf61ed ("cpufreq/amd-pstate: Remove "amd_dynamic_epp" cmdline and "dynamic_epp" sysfs")
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 7 -------
+ Documentation/admin-guide/pm/amd-pstate.rst     | 6 ------
+ 2 files changed, 13 deletions(-)
 
-So might as well answer that Sashiko review comment with "thanks, but no
-thanks."
-
-:-)
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 4a12805a50ba5..1fa37bce5bb3a 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -499,13 +499,6 @@ Kernel parameters
+ 			disable
+ 			  Disable amd-pstate preferred core.
+ 
+-	amd_dynamic_epp=
+-			[X86]
+-			disable
+-			  Disable amd-pstate dynamic EPP.
+-			enable
+-			  Enable amd-pstate dynamic EPP.
+-
+ 	amijoy.map=	[HW,JOY] Amiga joystick support
+ 			Map of devices attached to JOY0DAT and JOY1DAT
+ 			Format: <a>,<b>
+diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
+index 6fd72ba52df20..4c5d3d8acf645 100644
+--- a/Documentation/admin-guide/pm/amd-pstate.rst
++++ b/Documentation/admin-guide/pm/amd-pstate.rst
+@@ -481,12 +481,6 @@ For systems that support ``amd-pstate`` preferred core, the core rankings will
+ always be advertised by the platform. But OS can choose to ignore that via the
+ kernel parameter ``amd_prefcore=disable``.
+ 
+-``amd_dynamic_epp``
+-
+-When AMD pstate is in auto mode, dynamic EPP will control whether the kernel
+-autonomously changes the EPP mode. The default is disabled. It can be enabled
+-with the kernel parameter ``amd_dynamic_epp=enable``.
+-
+ User Space Interface in ``sysfs`` - General
+ ===========================================
+ 
 -- 
-Regards/Gruss,
-    Boris.
+2.53.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
