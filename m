@@ -1,108 +1,220 @@
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F2430CD9E;
-	Sun,  6 Sep 2026 08:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219A82E7375;
+	Sun,  6 Sep 2026 08:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788682766; cv=none; b=rwTWmvVCyASDdpxG/mSWJM63UIEue7a3Z2JUWgXYp+RHrVZ/FNrdtP9vMVP9voxaDNF2PkWLZUqEJW7yCrfLxIyYKH9jbR0g0BvJe94QdGDgE5Sf3bvD8yjN0/SPGvRs5DKwwJfhZ3W8IGqKYO5FhVi3toPuDQus0tir00zf0Lw=
+	t=1788683698; cv=none; b=nvHdSyKMUoBcwfdADEe6tBwEnNgJrtNSsiNznWqgX/4AMuj2thhdSHa2EJ12FalhtKPQXBEVt7yq71Doa/ZAdc8KvltKLha6Sy4PiZmlPoWQvueN7DRQRANhihs0eaEFKmnKJb4iNVr882PClBv2rXGlEANxXwdIxU835eqz2Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788682766; c=relaxed/simple;
-	bh=L5srEMJP1B5M0FdrqGNhOEFicz2UgHY3O0TahFjuZNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nNSqKwks7cPTF/mYWT7y/bzx2yIt+gRtAMjbNQDJI5GrQGLenn0XEvI7Yt6SEly1N03Os3/tf8eXUC48e1NLcpkJ0AHqoFSAWxS4odFHg2agFII+sOUoelj+Yt72y49zdZ5Q0D4Ay0Lbki8jkTTkRy521WrVpogrmzMH9TAtZBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=wo6/G8dN; arc=none smtp.client-ip=178.238.236.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+	s=arc-20240116; t=1788683698; c=relaxed/simple;
+	bh=x6dz9PU/6swl7WNblCof3wH0ID9O2ca6k6Gplp3y81k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JDn9JPrUnALeyPt85Yk3F3ouo1X5NHVENSWUQUi4FyBBEF1njoe+4ziuiU7Mbqj8l2tzBzaXPitEyDRCtnEfVeESzlSzi74Vvm3TWOQ+JLUHdDRZNJ1SRLt2aX87xVI7KuRmv2giSlLYF+PXhSZN3xyNHK7cPDwCe7vemnTRYBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqMMOAlT; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="wo6/G8dN"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=References:In-Reply-To:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description;
-	bh=qVqBaro4u6j4vDM7zRBqf26XGAFIlsvWCm284+Ot/Vs=; t=1788682764; x=1789892364; 
-	b=wo6/G8dNlvO19ndW8r5EKUPJU55fREq9XbZnwqmi2UI5H9VtIpSoTd4YB45Eh65kTjGHfh5OPOs
-	1xGZoCDHEmEyLss3xDq0fzrpmgw4e9SAxyM+gVPRBY1VXwPk8Pp8e1sN5FP57ZjX65nW25ihHJRip
-	1j7Je0Q2O0Lkp276MmHhDQisv7mZMuPykCFrBd1mO/32x6L54pb5lqbiE0+fWJ8IHLsJCOmJdDdfV
-	S5iurhY0IRFxWpLqbOh1/mg57KJ9aRulrTP0+s1/+dapHaVjZTSlWHOci7Nmph/YJeKaDrahZQk0m
-	lFnav5vk7UAQnd16UeLzpUyMF+QHRM7BIS6g==;
-Date: Sun, 6 Sep 2026 10:19:10 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-m68k@lists.linux-m68k.org, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
- linux-doc@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, Randy
- Dunlap <rdunlap@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, Steve Wahl <steve.wahl@hpe.com>, Dimitri Sivanich
- <dimitri.sivanich@hpe.com>, Mike Travis <mike.travis@hpe.com>, Tony Luck
- <tony.luck@intel.com>, linux-edac@vger.kernel.org, Krzysztof Kozlowski
- <krzk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-samsung-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Tony Lindgren <tony@atomide.com>, Kevin Hilman <khilman@baylibre.com>,
- linux-omap@vger.kernel.org, Dominik Brodowski <linux@dominikbrodowski.net>,
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- linux-ide@vger.kernel.org, Ethan Nelson-Moore <enelsonmoore@gmail.com>,
- Michael Schmitz <schmitzmic@gmail.com>
-Subject: Re: [PATCH v2 3/9] docs: kernel-parameters: Drop the edac_report=
- entry
-Message-ID: <20260906101910.588d055e@kemnade.info>
-In-Reply-To: <20260905185037.GDapxkfbPNUxJgaMH8@fat_crate.local>
-References: <20260905094649.41996-1-kmehltretter@gmail.com>
-	<20260905094649.41996-4-kmehltretter@gmail.com>
-	<20260905151345.GAapwxqT93wPWHF7u4@fat_crate.local>
-	<apwzmSr6b0WEkW86@gmail.com>
-	<20260905153336.GBapw2UFa7Sdc0ve_A@fat_crate.local>
-	<871pb7zn36.fsf@trenco.lwn.net>
-	<20260905162742.GCapxC_ra7hJd27LDR@fat_crate.local>
-	<apxDtqM8UMN5KNjs@gmail.com>
-	<20260905194720.7033b956@kemnade.info>
-	<20260905185037.GDapxkfbPNUxJgaMH8@fat_crate.local>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqMMOAlT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788683696; x=1820219696;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x6dz9PU/6swl7WNblCof3wH0ID9O2ca6k6Gplp3y81k=;
+  b=nqMMOAlTTORBBi4uHhRbvXnrC6KxSzzC9P2pFUHzejMLO8Kf/0h8Jw+Y
+   XOB7FgDv5RWMbu2FEfndImh9Hp9BBh47XW/Y+LUX0Clm2nlqToTGwCAmi
+   M+dyrqOu3VpONLWgT/ZtdhfhwxGbQhRfPzNi/9fQmq6iGB1jj8RgnMEXy
+   mLE60qgY1Bc+Gm6mBUCvwwnwqC94NBUszNv9hGzuaZ+mTTRPOY9EKlmt5
+   /QBj2f2yhKAgOdPGG4Qj1v5HmbkxK9IyypZWs0gNoAn9Q/wnGivrWxmMb
+   FCTmi9LsiwG6kfFxF6yLz5IANS3JvDVDO5j3x3u3zkwgMSyZOTOIHDX4s
+   A==;
+X-CSE-ConnectionGUID: iLPbVnNqQz60GXPVlXVj5A==
+X-CSE-MsgGUID: mEWUKPK/R+SsqOzQBz4SsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11897"; a="91632887"
+X-IronPort-AV: E=Sophos;i="6.25,265,1779174000"; 
+   d="scan'208";a="91632887"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2026 01:34:55 -0700
+X-CSE-ConnectionGUID: AMqm6FQbTZyNgWN+sCjm8A==
+X-CSE-MsgGUID: 8Du60nT3Sqyvdh7ARG3Bag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,265,1779174000"; 
+   d="scan'208";a="272381931"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.140])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2026 01:34:50 -0700
+Date: Sun, 6 Sep 2026 11:34:47 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v6 05/17] iio: adc: Add AD7768 and AD7768-4 core support
+Message-ID: <ap0lp5THO64olugK@ashevche-desk.local>
+References: <20260904-ad7768-driver-v6-0-e4378f946bfb@analog.com>
+ <20260904-ad7768-driver-v6-5-e4378f946bfb@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260904-ad7768-driver-v6-5-e4378f946bfb@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sat, 5 Sep 2026 11:50:37 -0700
-Borislav Petkov <bp@alien8.de> wrote:
-
-> On Sat, Sep 05, 2026 at 07:47:20PM +0200, Andreas Kemnade wrote:
-> > > That's for "not getting any answers" which is not the case here.  
+On Fri, Sep 04, 2026 at 04:14:57PM +0200, Janani Sunil wrote:
+> Add core support for the AD7768 and AD7768-4 simultaneous sampling ADCs.
+> Configure supplies, clock and reset, use a custom regmap bus for the SPI
+> protocol, and parse the enabled channels and input buffer settings from
+> devicetree.
 > 
-> No, that's the case ALWAYS. If you spam maintainers with too often
-> submissions, you end up achieving the opposite to what you're trying to do.
->
-This particular set was sent too fast, I agree, but reading that document again, it
-sounds like the summary is being patient with busy people.
+> Connect the converter to an IIO backend for buffered capture with CRC,
+> provide a fixed safe wideband sampling configuration and add runtime
+> power management.
 
-Some subsystems even discourage waiting in such cases:
-e.g.
-https://docs.kernel.org/process/maintainer-netdev.html
-"Do not wait too long (weeks) between postings either as it will make it
-harder for reviewers to recall all the context."
+...
 
-[...] 
-> > But if the main maintainers (which is a bit harder to say in this series) found
-> > time to review, than IMHO (also seen from my maintainer perspective), improve
-> > as soon as you find time and submit the improved version.  
-> 
-> If you want an earlier submission, feel free to ask the person.
-> 
-> In the general case, though, one should do a good testing before submitting
-> and all the issues caught after that, one can work in in her/his next version
-> locally and perhaps even state so.
-> 
-Hmm, maybe I was misunderstood. Just to avoid that I accidentially provoke
-patch-flooding with my comments:
-The next revision should come only after you have finished your homework
-(improve according to review comments, tests,...) and any further review
-comments are unlikely.
+> +#define   AD7768_INTERFACE_CFG_DCLK_DIV_MSK		GENMASK(1, 0)
+> +#define     AD7768_INTERFACE_CFG_DCLK_DIV(x)		(4 - ffs(x))
 
-Regards,
-Andreas
+This looks suspicious, do you mean fls() / ilog2()? because ffs() while it may
+work, it gets the first set LSB. Also what if 'x' is too high? I guess you can
+rework the only user of that to avoid even ffs()/fls()/ilog2().
+
+...
+
+> +#define   AD7768_PREBUF_POS_EN(ch)			BIT((ch) * 2)
+
+Perhaps + 0?
+
+#define   AD7768_PREBUF_POS_EN(ch)			BIT((ch) * 2 + 0)
+
+This will be consistent with the below.
+
+> +#define   AD7768_PREBUF_NEG_EN(ch)			BIT(((ch) * 2) + 1)
+
+Too many parentheses.
+
+...
+
+> +#define AD7768_REG_OFFSET(ch)	(AD7768_REG_OFFSET_BASE + (3 * (ch)))
+> +#define AD7768_REG_GAIN(ch)	(AD7768_REG_GAIN_BASE + (3 * (ch)))
+> +#define AD7768_REG_PHASE(ch)	(AD7768_REG_PHASE_BASE + (ch))
+> +#define __AD7768_4_REG_MAP(ch)	((ch) < 2 ? (ch) : ((ch) + 2))
+
+(ch) in parentheses make no sense here as it will be evaluated twice. If there
+is an expression it might lead to a wrong numbers. Either you need more complex
+macro to make evaluation happen once, or just be sure no caller uses an
+expression in the parameter in which case the parentheses are not required.
+With that being said, the other macros against (ch) also can be reconsidered.
+
+...
+
+> +struct ad7768_chip_info {
+
+> +	const char *name;
+> +	unsigned int num_channels;
+> +	const struct regmap_config *regmap_config;
+> +	const unsigned int *available_datalines;
+> +	unsigned int num_datalines;
+> +	const u8 *chan_map;
+> +	u8 prebuf_split;
+
+Even if `pahole` is okay with the layout, I would suggest this one instead
+
+	const char *name;
+	const struct regmap_config *regmap_config;
+	const unsigned int *available_datalines;
+	unsigned int num_datalines;
+	unsigned int num_channels;
+	const u8 *chan_map;
+	u8 prebuf_split;
+
+> +};
+
+...
+
+> +	return (val >> st->chip_info->prebuf_split) &
+> +	       GENMASK(st->chip_info->prebuf_split - 1, 0);
+
+Can it use field_get()?
+
+...
+
+> +static int ad7768_update_scan_mode(struct iio_dev *indio_dev,
+> +				   const unsigned long *scan_mask)
+> +{
+> +	struct ad7768_state *st = iio_priv(indio_dev);
+> +	unsigned long channel_mask;
+> +	unsigned long standby_mask;
+> +	int ret;
+> +
+> +	channel_mask = ad7768_all_standby_mask(st);
+> +	standby_mask = channel_mask & ~*scan_mask;
+> +
+> +	/*
+> +	 * Crystal excitation requires channel 4 on AD7768 or channel 2 on
+> +	 * AD7768-4 to remain active.
+> +	 */
+> +	if (st->clock_source == AD7768_CLOCK_SOURCE_XTAL)
+> +		__clear_bit(st->chip_info->num_channels / 2, &standby_mask);
+> +
+> +	ret = regmap_update_bits(st->regmap, AD7768_REG_CH_STANDBY,
+> +				 channel_mask, standby_mask);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (unsigned int c = 0; c < st->chip_info->num_channels; c++) {
+
+c --> ch?
+
+> +		if (test_bit(c, scan_mask))
+> +			ret = iio_backend_chan_enable(st->back, c);
+> +		else
+> +			ret = iio_backend_chan_disable(st->back, c);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+
+...
+
+> +	/*
+> +	 * DCLK(min) is ODR * channels per DOUTx * 32. With fast mode
+> +	 * (fMOD = MCLK / 4) and x64 decimation, this gives:
+> +	 * MCLK / DCLK = 8 * data lines / channels.
+> +	 */
+> +	dclk_div = 8 * st->datalines / st->chip_info->num_channels;
+> +	dclk_div_reg = AD7768_INTERFACE_CFG_DCLK_DIV(dclk_div);
+
+So, this one is (4 - ffs(dclk_div)). If num_channels == 1, this will always give 0.
+If num_channels == 2, this might give 0, 8, ... Since ffs(0) implementation is defined
+to return 0, this will return... 0! So, tell me how this code may return
+anything than 0?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
