@@ -1,97 +1,74 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE3826158B;
-	Sat,  5 Sep 2026 21:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5ED9242925;
+	Sun,  6 Sep 2026 00:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788644769; cv=none; b=CbIN+EKAHww/m4eSWsnCiNgA2WHkxd1doJebT5oIcgqd3xV++XpZM4c3c7I2r1t+YhYyC3uw45WVKvC3XR07Xy+1fJGBROMAZ/GWJEIJWMf8GbTF5O2mUZFJbVLzqpkyLG8M0GJlGKICQ1WI/7HpRMGfwBQOIX0SPsfZxzi/zxs=
+	t=1788654771; cv=none; b=IfBlnmZjQ5FkbU5RwD3AJB7kx4qJ8EWos707pCtJPmi7jHFfEXvsW89ICklZ/n2133MRRPAgMIZERiau7ejfqcHpLdy59CA3JQDv1M8OFIPxeTiEZbewRroOpccnhz+7lBhbc+wrMSEU7C66o7N9rABRzHcy4lm7YCBUklE0Df8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788644769; c=relaxed/simple;
-	bh=9o4ZfbxeIICssdBtPhVE6bfvegYP/h6Eog5sDXhYllc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lgtTcSAjXD5JxdOzEOKgDMcPatV1RR55711z1FwLnRkJB6AsIkJwW5vHySeVKOYS9UKR816KHyOLqqv0WCLxbLGkbKVEHnyK1KlUlVHfUpt+GrCVIOLmRO3vsNl6jYHdOIQTwQQzDt9hsuQPyUU7jUHVz+2IIn/Nfbe7MPWgs3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=PlkUOZPJ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788654771; c=relaxed/simple;
+	bh=Yw6hvHNWT3wfKY4Lya23TuKrGdA68e5Y9lvf89DsNQo=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=X8Y5VHVymSafwuwjwZ+VsOqmItZhIbfmmpmSwSVGXpUeQb0hL6iWydMMIum331pZlwn4vvQVuebigHJYTe/mbkPertunPtKA3R+brwHQw1G6JlgRUkjnLumgLcncyCdxO1FASHRZK8pYoox0DGn0X+asYY2YbheeBnAX7bWvtgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=WgSsm7Ob; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PlkUOZPJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=O0a5hwUgJRJeDlJ04FcTYM31qzCZlO49DRdy2+SwZ0I=; b=PlkUOZPJ9RdI8IgFzKhJIq7M8g
-	6s4BRQMnoUF/q56Nka7bbzPxFYH9BbJ7ubAD5gg3h28vvI8TXuBKFC/kob97CjlAElVz3vK+Br9Zj
-	6rQKphVSoQysX9Ii1Iu+tmUQgl5nJc0G+P9ro1HwRwor56DZqI6nP4I2+AprhC4ijqJ5plFUTBMoe
-	1OWwFU5+AgfjFdYZVUYdTfxXM8Wlld6L8CLpbqROhskpcELf9KspHB4k7bEqY8tMoCzlask7dAI4o
-	Sixdo8+Qd08/RBGg2kuY6Szek60cSoaQvadk4OtY0qDLNxo6E/b3U9V6Ev8jHf1SQFNn8cd4lc4k9
-	S1oAN57Q==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x2yD7-00000004R7l-2Erh;
-	Sat, 05 Sep 2026 21:46:05 +0000
-Message-ID: <a3c59ca0-b42a-4b70-9e0c-f26f51209436@infradead.org>
-Date: Sat, 5 Sep 2026 14:46:04 -0700
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="WgSsm7Ob"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBF841F00A3D;
+	Sun,  6 Sep 2026 00:32:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1788654770;
+	bh=JzguznGN4wZaJ4BaohUL/D8OCMllkrYSCH0UgmH3tU0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=WgSsm7ObXrMrJfIn8wocZvVmk1viVsJ8i/DGwFzwXHn7BRCWaJrz5waexMh61wfEZ
+	 wOeNPp7eJW0KXAVEi1Nn5VEBdxXIymbBCxZnqcn26qOkA5ue3hfCB14lzppG13QxeZ
+	 /MOIRI15EcghSoEiYeyN7l8hDKigwnfEu/K10i1c=
+Date: Sat, 5 Sep 2026 17:32:49 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Sarthak Sharma <sarthak.sharma@arm.com>
+Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan
+ <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard
+ <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Leon Romanovsky
+ <leon@kernel.org>, Zi Yan <ziy@nvidia.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, Ryan
+ Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
+ <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Mark Brown
+ <broonie@kernel.org>, Anshuman Khandual <anshuman.khandual@arm.com>,
+ Muhammad Usama Anjum <usama.anjum@arm.com>, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 0/6] selftests/mm: separate GUP microbenchmarking
+ from functional testing
+Message-Id: <20260905173249.00f41b2a88abb0aefd217e94@linux-foundation.org>
+In-Reply-To: <20260904123631.198697-1-sarthak.sharma@arm.com>
+References: <20260904123631.198697-1-sarthak.sharma@arm.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: rs485: Pull uart_get_rs485_mode() from
- serial_core.c
-To: Karl Mehltretter <kmehltretter@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>
-Cc: linux-serial@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-References: <20260905083648.39026-1-kmehltretter@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260905083648.39026-1-kmehltretter@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Fri,  4 Sep 2026 18:06:25 +0530 Sarthak Sharma <sarthak.sharma@arm.com> wrote:
 
-
-On 9/5/26 1:36 AM, Karl Mehltretter wrote:
-> serial-rs485.rst asks include/uapi/linux/serial.h for both struct
-> serial_rs485 and uart_get_rs485_mode(). The function and its kernel-doc
-> comment live in drivers/tty/serial/serial_core.c, so the directive has
-> never rendered it and the section shows only the structure.
+> gup_test.c currently serves two separate purposes: benchmarking
+> (GUP_FAST_BENCHMARK, PIN_FAST_BENCHMARK and PIN_LONGTERM_BENCHMARK) and
+> functional testing (GUP_BASIC_TEST, PIN_BASIC_TEST and
+> DUMP_USER_PAGES_TEST). Keeping both in one program makes the functional
+> tests harder to run and report individually, while run_vmtests.sh has to
+> invoke the program repeatedly with different options.
 > 
-> Add a second directive for serial_core.c.
-> 
-> Fixes: 0f4648a1a6d3 ("Documentation: rs485: Mention uart_get_rs485_mode()")
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+> Separate these roles into tools/mm/gup_bench for benchmarking and
+> tools/testing/selftests/mm/gup for functional testing. Move the shared
+> file and hugepage helpers to tools/lib/mm/ so both programs can use them
+> without duplicating the implementation.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-thanks.
-
-> ---
->  Documentation/driver-api/serial/serial-rs485.rst | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/driver-api/serial/serial-rs485.rst b/Documentation/driver-api/serial/serial-rs485.rst
-> index f53043d21071..98d8d83718c6 100644
-> --- a/Documentation/driver-api/serial/serial-rs485.rst
-> +++ b/Documentation/driver-api/serial/serial-rs485.rst
-> @@ -50,7 +50,10 @@ RS485 Serial Communications
->     matching to the current configuration.
->  
->  .. kernel-doc:: include/uapi/linux/serial.h
-> -   :identifiers: serial_rs485 uart_get_rs485_mode
-> +   :identifiers: serial_rs485
-> +
-> +.. kernel-doc:: drivers/tty/serial/serial_core.c
-> +   :identifiers: uart_get_rs485_mode
->  
->  4. Usage from user-level
->  ========================
-
--- 
-~Randy
+Thanks, I've added this series to mm.git's mm-new branch for testing
+and hopefully further progression.
