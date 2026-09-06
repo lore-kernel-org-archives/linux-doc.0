@@ -1,171 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BAE384CCD;
-	Sun,  6 Sep 2026 21:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13621360EE2;
+	Sun,  6 Sep 2026 21:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788729892; cv=none; b=T9DsZngZ7DTx1CTvY32yNbSVBciPERWrwd3Lzj5/Y2r18LevivT9dFZW6Ora47uweO/quy3IP+bvf2qwonHsFhghqllMfZ4MEcWgFshn41MocvzH/6SMfMV3/5/J3JasfwY9Lj8NH4XF2mw2JZOwnPhchy7zDSqHMaaI8AVtlSI=
+	t=1788730150; cv=none; b=S2hM9wHKzxSu5r42jvdvBZkss8F1h/dMtMxgmJ0SJvxnhlq3ZnH+MaH4EL2ZrAtrm4vOa+XoCHHvoj7wFs3CDZvRCHYior0tUESHTEOmDkKpZkGqwrT8RdVF+fdnQzJb21wEiqQAwIuBw4FgxesZuPWnfqH7PZ901v4nAenNI7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788729892; c=relaxed/simple;
-	bh=ucpI8OMiOzTZK+SSKnb87ITojx70BzKowCD0X1TD668=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZYEJw3uDSTf/A1Km/CB4CLrqfwMhY1bSYSCISYcF98gBpKcP8NtjbOwyo1b5QmC4UleBbGAJxABJ4je3eygp5co0ig92lMRWzI/nFLqaXaVfgwrVjw78y/yty39x7SPVdsCMEXG3rWEQQ3quu27M35PfUdoWqSepsfFQMwZK8lM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WrEBvDhq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788730150; c=relaxed/simple;
+	bh=4WuRsLREm3BUSO22ALBArbGcA3Vct45BB60houZUCy8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rwxfXnRjoGKl5PMRQ8vZb5NTr3riO8PFqg+W3PAHGF3RO5J2d0SrzV5tog9N7PBTDcQZfolrDl+XQYywjLqB10qUI6UDxSd7xwj9THsPJPx7GZ9PevkG46McA5NzfE5pqGaJxSp8MMp0m66cyUfmn9+s+pO8tarBYan1jm/4sIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kY6q0wLC; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WrEBvDhq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F4EA1F00A3A;
-	Sun,  6 Sep 2026 21:24:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788729891;
-	bh=yI1ISZStHsI8HeOW6HBXC0E/onU4SL9A5+VALs2VukY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=WrEBvDhqAxQXIPMonisjvp9LZh06k99gCdM8iXfvMH2ZZ5WTy3HVQIrp0lhjIlwrl
-	 pLMzNLBdXNUFKSx5iE2vCf0l4rWbq9XV7b0MuzsylG8Ah+G8UkfHtRLXAKDbvonzHr
-	 MaWT7ytX3uBeb1v2BnFD07xWtwxeJQPyqyaJQL+auRoTtsM9KbxkcU62KduldCAqKI
-	 wQrq9qMqHvuUCzI+Ntz+tSJS3kYB8SYnyxAncENKbtqUyEm4ldxdkGgY8JVc4IANYF
-	 jQH/WhqSPjF95KFUQ+102qfSK4TkEcgxIbp0eJJ42ot5/u1Af+ea3DmozWl5oe4Su6
-	 EV9ZP1Dng9LJA==
-Date: Sun, 6 Sep 2026 22:24:42 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, David
- Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Mark Brown
- <broonie@kernel.org>, Marius Cristea <marius.cristea@microchip.com>, Marcus
- Folkesson <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>,
- Conor Dooley <conor.dooley@microchip.com>, Daire McNamara
- <daire.mcnamara@microchip.com>, Paul Walmsley <pjw@kernel.org>, Palmer
- Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre
- Ghiti <alex@ghiti.fr>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
- linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>,
- linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v11 3/3] iio: dac: Add AD5529R DAC driver support
-Message-ID: <20260906222442.01ff098d@jic23-huawei>
-In-Reply-To: <apgdEf3pi_soGr3T@ashevche-desk.local>
-References: <20260902-ad5529r-driver-v11-0-301c491a0719@analog.com>
-	<20260902-ad5529r-driver-v11-3-301c491a0719@analog.com>
-	<apgdEf3pi_soGr3T@ashevche-desk.local>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kY6q0wLC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=TTJHFyPvwl5UJ7jZTmA8Khseeu7k96KuKcI2kuUD6eU=; b=kY6q0wLCZ02eLRBW+NgzyXgUV4
+	0y01zLN8IKhBUW7Z5PYNRSiU7FfvYMIMg8VmzPNuNFyfy0KyP4hw4900tDKso1KyITEqCDCqusFvi
+	SoXDKE1EFksFD9NImsjIdGVWNmz4jyIqNIYZnIxwWWJlC4GzrTzGdEpbittgz6WOGZv7MfuT830Cn
+	YchiTLrR2y9Lyba45eJ4s61JIXhgjTR2u+iHnIRJDa+3HIJhLQcl2n9t12Rk0VozTm55XC0xSoKTy
+	+ki4Hzr+PqlHeUtwOsx/sFvyskZpsAP0fkJ0H9KV4SaLmcuE7R9HyjNWkq1eJ4AC0U5xQ+97OsDxu
+	T3UKLMOw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x3KQ5-00000005aP2-2PfH;
+	Sun, 06 Sep 2026 21:28:57 +0000
+Message-ID: <99e7859e-5656-4bc2-b75a-5cf0ded24bf9@infradead.org>
+Date: Sun, 6 Sep 2026 14:28:57 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: RAS: Use the real EDAC PCI parity control
+ names
+To: Karl Mehltretter <kmehltretter@gmail.com>, Tony Luck
+ <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
+Cc: linux-edac@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260905092441.41401-1-kmehltretter@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260905092441.41401-1-kmehltretter@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2 Sep 2026 15:56:49 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
 
-> On Wed, Sep 02, 2026 at 11:26:17AM +0200, Janani Sunil wrote:
-> > Add support for AD5529R 16-channel, 12/16 bit Digital to Analog Converter
-> > from Analog Devices.
-> > 
-> > The device communicates over SPI and supports per-channel output range
-> > configuration. An optional external 4.096V reference can be used in
-> > place of the internal reference.  
-> 
-> Since there might be a v12 (depends on Jonathan), a few more nit-picks.
-> 
-> ...
-> 
-> > +static const s32 ad5529r_output_ranges_mV[8][2] = {
-> > +	[AD5529R_RANGE_0V_5V] = { 0, 5000 },
-> > +	[AD5529R_RANGE_0V_10V] = { 0, 10000 },
-> > +	[AD5529R_RANGE_0V_20V] = { 0, 20000 },
-> > +	[AD5529R_RANGE_0V_40V] = { 0, 40000 },
-> > +	[AD5529R_RANGE_M5V_5V] = { -5000, 5000 },
-> > +	[AD5529R_RANGE_M10V_10V] = { -10000, 10000 },
-> > +	[AD5529R_RANGE_M15V_15V] = { -15000, 15000 },
-> > +	[AD5529R_RANGE_M20V_20V] = { -20000, 20000 },
-> > +};  
-> 
-> Perhaps use MILLI multiplier?
-I tried this and it looks pretty ugly so didn't adopt this one.
-If it were many more zeros I'd agree.
 
+On 9/5/26 2:24 AM, Karl Mehltretter wrote:
+> The document names the sysfs control
+> /sys/devices/system/edac/pci/check_pci_parity and the module parameter
+> edac_panic_on_pci_pe. Neither exists.
 > 
-> ...
+> check_pci_parity was renamed to check_pci_errors by commit 91b99041c1d5
+> ("drivers/edac: updated PCI monitoring"), after the document had been
+> written.
 > 
-> > +static int ad5529r_read_raw(struct iio_dev *indio_dev,
-> > +			    struct iio_chan_spec const *chan,
-> > +			    int *val, int *val2, long mask)
-> > +{
-> > +	struct ad5529r_state *st = iio_priv(indio_dev);
-> > +	unsigned int reg_addr, reg_val_h;
-> > +	int ret, range_idx, span_mV;  
+> The module parameter has been edac_pci_panic_on_pe
+> (drivers/edac/edac_pci_sysfs.c) since it was introduced, and the
+> document described it as edac_panic_on_pci_pe from the start.
 > 
-> Why is 'range_idx' signed?
+> Use the real names.
+> 
+> Fixes: 91b99041c1d5 ("drivers/edac: updated PCI monitoring")
+> Fixes: 327dafb1c61c ("edac: core fix redundant sysfs controls to parameters")
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
-Why isn't it the enum like where it is coming from?
-I changed it to the enum.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
 
-diff --git a/drivers/iio/dac/ad5529r.c b/drivers/iio/dac/ad5529r.c
-index bc11d7671a76..8154b87ff831 100644
---- a/drivers/iio/dac/ad5529r.c
-+++ b/drivers/iio/dac/ad5529r.c
-@@ -228,8 +228,9 @@ static int ad5529r_read_raw(struct iio_dev *indio_dev,
-                            int *val, int *val2, long mask)
- {
-        struct ad5529r_state *st = iio_priv(indio_dev);
-+       enum ad5529r_output_range range_idx;
-        unsigned int reg_addr, reg_val_h;
--       int ret, range_idx, span_mV;
-+       int ret, span_mV;
- 
-        switch (mask) {
-        case IIO_CHAN_INFO_RAW:
-
+> ---
+>  Documentation/admin-guide/RAS/main.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> > +	switch (mask) {
-> > +	case IIO_CHAN_INFO_RAW:
-> > +		/*
-> > +		 * Read from DAC_INPUT_A register rather than DAC_DATA_READBACK.
-> > +		 * The DAC operates in transparent mode and directly reflects
-> > +		 * whatever value is written to the INPUT_A register.
-> > +		 */
-> > +		reg_addr = AD5529R_REG_DAC_INPUT_A(chan->channel);
-> > +		ret = regmap_read(st->regmap_16bit, reg_addr, &reg_val_h);
-> > +		if (ret)
-> > +			return ret;
-> > +
-> > +		*val = reg_val_h;
-> > +
-> > +		return IIO_VAL_INT;
-> > +	case IIO_CHAN_INFO_SCALE:
-> > +		range_idx = st->output_range_idx[chan->channel];
-> > +
-> > +		/*
-> > +		 * The datasheet specifies a 4.096 V external reference,
-> > +		 * matching the nominal output voltage of the internal
-> > +		 * reference.
-> > +		 */
-> > +		span_mV = ad5529r_output_ranges_mV[range_idx][1] -
-> > +			  ad5529r_output_ranges_mV[range_idx][0];
-> > +		*val = span_mV;
-> > +		*val2 = st->model_data->resolution;
-> > +
-> > +		return IIO_VAL_FRACTIONAL_LOG2;
-> > +	case IIO_CHAN_INFO_OFFSET:
-> > +		range_idx = st->output_range_idx[chan->channel];
-> > +
-> > +		if (ad5529r_output_ranges_mV[range_idx][0] < 0)
-> > +			*val = -BIT(st->model_data->resolution - 1);
-> > +		else
-> > +			*val = 0;
-> > +
-> > +		return IIO_VAL_INT;
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +}  
-> 
+> diff --git a/Documentation/admin-guide/RAS/main.rst b/Documentation/admin-guide/RAS/main.rst
+> index 5a45db32c49b..c1040e5a5b35 100644
+> --- a/Documentation/admin-guide/RAS/main.rst
+> +++ b/Documentation/admin-guide/RAS/main.rst
+> @@ -623,7 +623,7 @@ Under ``/sys/devices/system/edac/pci`` are control and attribute files as
+>  follows:
+>  
+>  
+> -- ``check_pci_parity`` - Enable/Disable PCI Parity checking control file
+> +- ``check_pci_errors`` - Enable/Disable PCI Parity checking control file
+>  
+>  	This control file enables or disables the PCI Bus Parity scanning
+>  	operation. Writing a 1 to this file enables the scanning. Writing
+> @@ -631,11 +631,11 @@ follows:
+>  
+>  	Enable::
+>  
+> -		echo "1" >/sys/devices/system/edac/pci/check_pci_parity
+> +		echo "1" >/sys/devices/system/edac/pci/check_pci_errors
+>  
+>  	Disable::
+>  
+> -		echo "0" >/sys/devices/system/edac/pci/check_pci_parity
+> +		echo "0" >/sys/devices/system/edac/pci/check_pci_errors
+>  
+>  
+>  - ``pci_parity_count`` - Parity Count
+> @@ -725,15 +725,15 @@ Module parameters
+>  
+>  	module/kernel parameter::
+>  
+> -			edac_panic_on_pci_pe=[0|1]
+> +			edac_pci_panic_on_pe=[0|1]
+>  
+>  	Enable::
+>  
+> -		echo "1" > /sys/module/edac_core/parameters/edac_panic_on_pci_pe
+> +		echo "1" > /sys/module/edac_core/parameters/edac_pci_panic_on_pe
+>  
+>  	Disable::
+>  
+> -		echo "0" > /sys/module/edac_core/parameters/edac_panic_on_pci_pe
+> +		echo "0" > /sys/module/edac_core/parameters/edac_pci_panic_on_pe
+>  
+>  
+>  
 
+-- 
+~Randy
