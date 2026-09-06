@@ -1,220 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219A82E7375;
-	Sun,  6 Sep 2026 08:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788683698; cv=none; b=nvHdSyKMUoBcwfdADEe6tBwEnNgJrtNSsiNznWqgX/4AMuj2thhdSHa2EJ12FalhtKPQXBEVt7yq71Doa/ZAdc8KvltKLha6Sy4PiZmlPoWQvueN7DRQRANhihs0eaEFKmnKJb4iNVr882PClBv2rXGlEANxXwdIxU835eqz2Os=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788683698; c=relaxed/simple;
-	bh=x6dz9PU/6swl7WNblCof3wH0ID9O2ca6k6Gplp3y81k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JDn9JPrUnALeyPt85Yk3F3ouo1X5NHVENSWUQUi4FyBBEF1njoe+4ziuiU7Mbqj8l2tzBzaXPitEyDRCtnEfVeESzlSzi74Vvm3TWOQ+JLUHdDRZNJ1SRLt2aX87xVI7KuRmv2giSlLYF+PXhSZN3xyNHK7cPDwCe7vemnTRYBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqMMOAlT; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C7934FF79
+	for <linux-doc@vger.kernel.org>; Sun,  6 Sep 2026 08:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788684856; cv=pass; b=FR+Dd68nB5Pi8y7w8v9vjJdCFPupKRe6XC412DLDUfDFrb/LlRYQQlXkVqEjz/sPeDudGPIAToK19ihrMz2IXBf8sr66U7G5Y6CmBgItyKzgCm9EK2CjAHoY7TMPrtxsFUVDbJnv2F68fyLqcsQSAwq4OpZK2K1v1a2q4scmFWg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788684856; c=relaxed/simple;
+	bh=FtMUsQ3c+eU5+RWwNkmgMZ0NRIy/xc4bbMVT5fiF/aA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PfzMOr30GA9LlPwux6L4QaCmZ3Wr17c8kfzgXLLVd9+aQPhNxbFca6xpBXl3/+UQKWvqR70FDZumW5uJiX4QmLaR6mq+WXVJiTkgKroMy0fEKFtxYjfadK7rGByP+K1rkwGz7wxZxqs13O7LBQOQvQ3K1H2zt/db3uz68j1jlzs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h9TizUcl; arc=pass smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqMMOAlT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788683696; x=1820219696;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x6dz9PU/6swl7WNblCof3wH0ID9O2ca6k6Gplp3y81k=;
-  b=nqMMOAlTTORBBi4uHhRbvXnrC6KxSzzC9P2pFUHzejMLO8Kf/0h8Jw+Y
-   XOB7FgDv5RWMbu2FEfndImh9Hp9BBh47XW/Y+LUX0Clm2nlqToTGwCAmi
-   M+dyrqOu3VpONLWgT/ZtdhfhwxGbQhRfPzNi/9fQmq6iGB1jj8RgnMEXy
-   mLE60qgY1Bc+Gm6mBUCvwwnwqC94NBUszNv9hGzuaZ+mTTRPOY9EKlmt5
-   /QBj2f2yhKAgOdPGG4Qj1v5HmbkxK9IyypZWs0gNoAn9Q/wnGivrWxmMb
-   FCTmi9LsiwG6kfFxF6yLz5IANS3JvDVDO5j3x3u3zkwgMSyZOTOIHDX4s
-   A==;
-X-CSE-ConnectionGUID: iLPbVnNqQz60GXPVlXVj5A==
-X-CSE-MsgGUID: mEWUKPK/R+SsqOzQBz4SsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11897"; a="91632887"
-X-IronPort-AV: E=Sophos;i="6.25,265,1779174000"; 
-   d="scan'208";a="91632887"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2026 01:34:55 -0700
-X-CSE-ConnectionGUID: AMqm6FQbTZyNgWN+sCjm8A==
-X-CSE-MsgGUID: 8Du60nT3Sqyvdh7ARG3Bag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,265,1779174000"; 
-   d="scan'208";a="272381931"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.140])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2026 01:34:50 -0700
-Date: Sun, 6 Sep 2026 11:34:47 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Michael Walle <mwalle@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux@analog.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v6 05/17] iio: adc: Add AD7768 and AD7768-4 core support
-Message-ID: <ap0lp5THO64olugK@ashevche-desk.local>
-References: <20260904-ad7768-driver-v6-0-e4378f946bfb@analog.com>
- <20260904-ad7768-driver-v6-5-e4378f946bfb@analog.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h9TizUcl"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6a63667b78aso3986086a12.3
+        for <linux-doc@vger.kernel.org>; Sun, 06 Sep 2026 01:54:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788684853; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nr0SXU6/vsBjpN1yhuTAExJzyBNqa4TGqSmSawB3HZWsuiYBz5OPP/YHeiTWOh4ka8
+         gUN4rPr5UeKfRySHmuAidF/eJx9nxLAS5/HVTPQpPQdSMXE9jQKv8lO7whi0eO4xkknk
+         6Emvux+LWbFJ7oNIXNywNeTqwKEzoLWRYPlj7EL8XHa0lo57kAQHJrTu7qVyRqgZkouH
+         RYxoZ1oLk2n0X3zO0MGhUEx7k7As6z1UtElaUdMBHk/n4QMBNcxXCYOSXMo7Zm9pCFCJ
+         q/10qku4aCvuxCHkdwhPTK9EDpi791CTtipxVb0HpBh39acy4RfCjnhHhdDMN7C0Cgpl
+         RY7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YbwXKI+GsB7CVjJT81Ck70VdlQI8PJuud+2raignSOQ=;
+        fh=P+y24akFjojDkS16gNRgILW+uhRsAJvSb3v8DlTg7ho=;
+        b=ocQuk0Oi7NTEtxq7evTb7B7LCWHYMVpoprEUXQ3COnaqUb6Y2SeU3FjJJSP0ICvTKA
+         OWVl/mjB1Zlf8mxftE6stG5HonBCj8a9npRJyr+8X1UZGIoE2b/xIsZB3lSbVrJjFRET
+         LV39kNThfxhTQM7arCwuADHuVepPztT8ARYNzQaJyE4FPXxryC6TnGEfdRIMK7Z/rNJ3
+         MxMjCvWOVj/GOJV1JkDDOMvstKbZrEddIUNvKvPSbb8/zmtRpt91vHu0LNkDzw8GQNAK
+         MZvr3eAjk/C5zkKxTYhEoR+y1HDBwqi3xviAKRArQKs89uyJdD5kOXJza+Tnb3zVStuB
+         8hGA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788684853; x=1789289653; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YbwXKI+GsB7CVjJT81Ck70VdlQI8PJuud+2raignSOQ=;
+        b=h9TizUclhnkWlz6L9RI1PZiRuKD2A6UZqzwrBT4mzNeaT+v6QRA7r4RC6B6gZ8t3Wh
+         9VtwOqfAhpgtrz49eF7x0JDQVIA7Y5yAz2EtSNgn7VXyNl7Ae5C/5760Ex+EMEVj5vKT
+         wsqDQbqjCurHiHAJ52WUifBMseVPi8eagaf+HpjFBX66AzHmp+b8jM1HyG/ijV2/r10G
+         G9rOc6T+vGvLQ1Y8VSnBNUwrMJL3dEo8zYURQQcp9Y4fN7DP11TopTJQh+d1vbG/1TDZ
+         3efGsk2hoO7KzAgaVfJfIIUSYqhs1BRoJOXBaEJyDK1QwxjbT4SudYw4FlGDaeBtQng7
+         76eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788684853; x=1789289653;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YbwXKI+GsB7CVjJT81Ck70VdlQI8PJuud+2raignSOQ=;
+        b=VU21Rg0qlht6me4QEiUHFqw4zpqZPCQp4ySNfq5UmJJwVp0n8zWD6bLM93WKVrku9S
+         j4yu6SCiCbr1+EqvZW6oY9MjyNFqL/ylLmaRT+VzW5FA0VcgWlWr21GC8fE8HJhkRa2/
+         rSDO5/MXimsephMX733A0RsAYNgcb7W+YT3dQGcyb56RimKtMPNKWQK4JdNjsAB1VpN/
+         7jKB01g2TFGIEWnI+l7HO7Hj5RxycijX6rBzFt2Rc3H9J7wpbEMGnlxfjUwy4cAQ8sjo
+         JqsZLZ6fDyRBXPhR01IYTAKZVJ0z1A10iIONzzHjNepNaQ8pcygLNXWf8wTFdErvy8o/
+         AjVA==
+X-Forwarded-Encrypted: i=1; AKwUvBwcAn057Z/oKCAMhbqJUlgz89p7Q1QLrNQlSFlfURbOef4rs3/725ikoaPaJ319pwUv1lIlmJSkAyM=@vger.kernel.org
+X-Gm-Message-State: AFuF++mOiau8LGsxbf2vvZtEHSiCbNyZ1gS0AnotJCbVmOv0l0xhM/eA
+	/46VPvroU3d8hDP/XLdlc53Q5QnbGUZlPJcbHuRTWujRCmHL+bJkZcKo+SXqSHzXMq+l2vlDkRb
+	ZcNdrPeOMj5k8JsZb0qbGC6CyHSMXQK4=
+X-Gm-Gg: AYBFou1vP3tLdJyNed880lGAT6cusWDUoKQ4QI+xNYLS+VuKRT/+/boOPP6PjuYLSD/
+	jvQtMGgX49jBXZm3WvE05unNFWeW4RYryqtBN3SUGSuEUhHwNvvV6LuEi2WnNc3p/+ApFfuRkW9
+	vJ6+W/788P1QSPIoqsTFc7fgNqmxRcTjPcGDiPe3yNevcsmjqCit8p4w1Dg9L8hlxSO+ZJnu+Mv
+	i1FOnhfiC84nx1ey5u+3hkS3VdZQKE5QxorPHa0JYaeSq1VnL/PlgJi7rXnVdTbBsaC+4WmSo4S
+	pifN3YWu21jT0P7qeKNNPCcu++rdOPyIgLE414++6pNrYt9bIKy5Es6FmZ5kmgo5DwZNN8aNPLO
+	rl2+AjTtHOskUAdnVU27kjII3DryHSPo25DBVYJyiFQ==
+X-Received: by 2002:a05:6402:27ce:b0:6a6:7882:89f2 with SMTP id
+ 4fb4d7f45d1cf-6a7e8f9623cmr5389972a12.17.1788684852982; Sun, 06 Sep 2026
+ 01:54:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260904-ad7768-driver-v6-5-e4378f946bfb@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260905-arch-kconfig-options-v2-v2-0-83e8245761a2@gmail.com> <20260905-arch-kconfig-options-v2-v2-1-83e8245761a2@gmail.com>
+In-Reply-To: <20260905-arch-kconfig-options-v2-v2-1-83e8245761a2@gmail.com>
+From: Magnus Lindholm <linmag7@gmail.com>
+Date: Sun, 6 Sep 2026 10:53:59 +0200
+X-Gm-Features: AcwNN1UUMEovJX_eDQLTzWZBni3pDHzUeZjtKQmab2rob-n71CYiUsiteVtNV_I
+Message-ID: <CA+=Fv5SZRccPT=1A39uqucCcCahkMCeecX_FnnCt-q39o=vx5g@mail.gmail.com>
+Subject: Re: [PATCH v2 01/22] alpha: enter hardirq context before looking up
+ the irq descriptor
+To: Matt Turner <mattst88@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, Kees Cook <kees@kernel.org>, 
+	Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 04, 2026 at 04:14:57PM +0200, Janani Sunil wrote:
-> Add core support for the AD7768 and AD7768-4 simultaneous sampling ADCs.
-> Configure supplies, clock and reset, use a custom regmap bus for the SPI
-> protocol, and parse the enabled channels and input buffer settings from
-> devicetree.
-> 
-> Connect the converter to an IIO backend for buffered capture with CRC,
-> provide a fixed safe wideband sampling configuration and add runtime
-> power management.
+Hi Matt,
 
-...
-
-> +#define   AD7768_INTERFACE_CFG_DCLK_DIV_MSK		GENMASK(1, 0)
-> +#define     AD7768_INTERFACE_CFG_DCLK_DIV(x)		(4 - ffs(x))
-
-This looks suspicious, do you mean fls() / ilog2()? because ffs() while it may
-work, it gets the first set LSB. Also what if 'x' is too high? I guess you can
-rework the only user of that to avoid even ffs()/fls()/ilog2().
-
-...
-
-> +#define   AD7768_PREBUF_POS_EN(ch)			BIT((ch) * 2)
-
-Perhaps + 0?
-
-#define   AD7768_PREBUF_POS_EN(ch)			BIT((ch) * 2 + 0)
-
-This will be consistent with the below.
-
-> +#define   AD7768_PREBUF_NEG_EN(ch)			BIT(((ch) * 2) + 1)
-
-Too many parentheses.
-
-...
-
-> +#define AD7768_REG_OFFSET(ch)	(AD7768_REG_OFFSET_BASE + (3 * (ch)))
-> +#define AD7768_REG_GAIN(ch)	(AD7768_REG_GAIN_BASE + (3 * (ch)))
-> +#define AD7768_REG_PHASE(ch)	(AD7768_REG_PHASE_BASE + (ch))
-> +#define __AD7768_4_REG_MAP(ch)	((ch) < 2 ? (ch) : ((ch) + 2))
-
-(ch) in parentheses make no sense here as it will be evaluated twice. If there
-is an expression it might lead to a wrong numbers. Either you need more complex
-macro to make evaluation happen once, or just be sure no caller uses an
-expression in the parameter in which case the parentheses are not required.
-With that being said, the other macros against (ch) also can be reconsidered.
-
-...
-
-> +struct ad7768_chip_info {
-
-> +	const char *name;
-> +	unsigned int num_channels;
-> +	const struct regmap_config *regmap_config;
-> +	const unsigned int *available_datalines;
-> +	unsigned int num_datalines;
-> +	const u8 *chan_map;
-> +	u8 prebuf_split;
-
-Even if `pahole` is okay with the layout, I would suggest this one instead
-
-	const char *name;
-	const struct regmap_config *regmap_config;
-	const unsigned int *available_datalines;
-	unsigned int num_datalines;
-	unsigned int num_channels;
-	const u8 *chan_map;
-	u8 prebuf_split;
-
-> +};
-
-...
-
-> +	return (val >> st->chip_info->prebuf_split) &
-> +	       GENMASK(st->chip_info->prebuf_split - 1, 0);
-
-Can it use field_get()?
-
-...
-
-> +static int ad7768_update_scan_mode(struct iio_dev *indio_dev,
-> +				   const unsigned long *scan_mask)
-> +{
-> +	struct ad7768_state *st = iio_priv(indio_dev);
-> +	unsigned long channel_mask;
-> +	unsigned long standby_mask;
-> +	int ret;
+On Sat, Sep 5, 2026 at 9:29=E2=80=AFPM Matt Turner <mattst88@gmail.com> wro=
+te:
+>
+> handle_irq() called irq_to_desc() before irq_enter(), so that lookup ran
+> with the preempt count still saying task context and with RCU not yet
+> watching.  Generic code called from an interrupt handler should see
+> hardirq context, and irq_to_desc() is more than an array index once
+> SPARSE_IRQ is in use.
+>
+> Move irq_enter() to the top of the function and add the matching
+> irq_exit() to the invalid interrupt path.
+>
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: Matt Turner <mattst88@gmail.com>
+> ---
+>  arch/alpha/kernel/irq.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/alpha/kernel/irq.c b/arch/alpha/kernel/irq.c
+> index 4a6a8b1d5a8b..5867a1655045 100644
+> --- a/arch/alpha/kernel/irq.c
+> +++ b/arch/alpha/kernel/irq.c
+> @@ -107,18 +107,21 @@ handle_irq(int irq)
+>          * handled by some other CPU. (or is disabled)
+>          */
+>         static unsigned int illegal_count=3D0;
+> -       struct irq_desc *desc =3D irq_to_desc(irq);
+> -
+> +       struct irq_desc *desc;
 > +
-> +	channel_mask = ad7768_all_standby_mask(st);
-> +	standby_mask = channel_mask & ~*scan_mask;
+> +       irq_enter();
 > +
-> +	/*
-> +	 * Crystal excitation requires channel 4 on AD7768 or channel 2 on
-> +	 * AD7768-4 to remain active.
-> +	 */
-> +	if (st->clock_source == AD7768_CLOCK_SOURCE_XTAL)
-> +		__clear_bit(st->chip_info->num_channels / 2, &standby_mask);
-> +
-> +	ret = regmap_update_bits(st->regmap, AD7768_REG_CH_STANDBY,
-> +				 channel_mask, standby_mask);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (unsigned int c = 0; c < st->chip_info->num_channels; c++) {
+> +       desc =3D irq_to_desc(irq);
+>         if (!desc || ((unsigned) irq > ACTUAL_NR_IRQS &&
+>             illegal_count < MAX_ILLEGAL_IRQS)) {
+>                 irq_err_count++;
+>                 illegal_count++;
+>                 printk(KERN_CRIT "device_interrupt: invalid interrupt %d\=
+n",
+>                        irq);
+> +               irq_exit();
+>                 return;
+>         }
+>
+> -       irq_enter();
+>         generic_handle_irq_desc(desc);
+>         irq_exit();
+>  }
+>
 
-c --> ch?
+Since this patch is unchanged in v2, and we agreed to handle the
+hardirq-context consolidation as a follow-up, my tags from reviewing
+and testing the current change are:
 
-> +		if (test_bit(c, scan_mask))
-> +			ret = iio_backend_chan_enable(st->back, c);
-> +		else
-> +			ret = iio_backend_chan_disable(st->back, c);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
+Tested-by: Magnus Lindholm <linmag7@gmail.com>
+Reviewed-by: Magnus Lindholm <linmag7@gmail.com>
 
-...
-
-> +	/*
-> +	 * DCLK(min) is ODR * channels per DOUTx * 32. With fast mode
-> +	 * (fMOD = MCLK / 4) and x64 decimation, this gives:
-> +	 * MCLK / DCLK = 8 * data lines / channels.
-> +	 */
-> +	dclk_div = 8 * st->datalines / st->chip_info->num_channels;
-> +	dclk_div_reg = AD7768_INTERFACE_CFG_DCLK_DIV(dclk_div);
-
-So, this one is (4 - ffs(dclk_div)). If num_channels == 1, this will always give 0.
-If num_channels == 2, this might give 0, 8, ... Since ffs(0) implementation is defined
-to return 0, this will return... 0! So, tell me how this code may return
-anything than 0?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Regards,
+Magnus
