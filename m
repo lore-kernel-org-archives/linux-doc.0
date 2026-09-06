@@ -1,218 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1575338F226;
-	Sun,  6 Sep 2026 12:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788698468; cv=none; b=EKNVS76sjvjRPyEjbDpA4eCyRPydc8iVurs22ucjzXjVCsTQKjHT/X+eEmzl9PdlDh1GCeoH2HZKOPWK69AwnF0dtiN4dcQl5iKTqyfw1s9RWNfgXR1dzeZNTAm3q7XB6P0adxGviKNU2tzALx/mNZiP9ahOuX47mVJs73CibpM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788698468; c=relaxed/simple;
-	bh=fNuM8yoVG9IS3kB+I9ATZiBsZEBz9edAYbcxO26Rcdg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MXwZzuRrDP/Yy+oDz9dIXyqddys7IdBS/kRdnm8cgQ3drbB5XxLj66pJ8jFG71/Bgv4eJxagpwNRxKIDz0FV153kwow2NUct3fVMfS0J0V6hdqL21NEgJSYNum3Kyqro1hZgrlEBRx4v+Bke961XXaRaE4FpSpoSh+NdJN8f8Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dMZ0Axdf; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A792253EB
+	for <linux-doc@vger.kernel.org>; Sun,  6 Sep 2026 13:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788703153; cv=pass; b=JsTJUU0t5a/I5VJVpWP8luGZ/jNcohoLjfFEXwEMTdD27tNeFfBw+vaDh/HdcUU5ndsFiN0rcgKgfXS6Kx2AITM5u++IYftZ3GPtfyahhAofX7Dqfy0TKkKDKaxnd75RlWsEaE/lroxRBRdb+LkKE1TQEzmt7Q8LCgpDCFW7fLA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788703153; c=relaxed/simple;
+	bh=q4im8T6krvAgeClrNJp91WX4LU1MUPcEO8GSV5Jt9rk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KkGt4D1ywHQpc05+CTvDpwe2Di2ZdKcv9qc1O9gdgzQwytM3cbq262mTtXuiMlYuvyh0q0djRR7/N4ucWE5oJ/x4PYRkdYiAWOcUgv+FBNEGbOOKTZg6VUG5tkKOsqOUiiT8UQRjqfK+nnHk5jRU7ZnvFbG2sSgTncuEKnXEppo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ifI0VEcq; arc=pass smtp.client-ip=209.85.161.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dMZ0Axdf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 918011F00A3A;
-	Sun,  6 Sep 2026 12:41:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788698464;
-	bh=U3JfcolKhWuGBZd+pPAMx4DP4zPhwZzJyNp/2+tGFjM=;
-	h=From:To:Cc:Subject:Date;
-	b=dMZ0AxdfxbfX8Qw/W+iVl5jpZfJh0lDCrVd9YIeeLAR/EKex0xTIIw9Ozz7tWe6AK
-	 Mfas/DjLnBGb5MD63ScSzkCeM98s8EA2vmcK2VhaPDAymDcjyW4omsX1tJhh2zKeZG
-	 5nRHGw0gCFbziweExGJKEcatTGoDn95az90obMWbb2s7+WWIOiXdYugcWtop/dTGLY
-	 X6WPbzBKLWQSs4jKGquOlOjsiAPgbJ8yRqYEikx9bW8qtMBMtSw8TwhtMNPJYKvOeG
-	 VIcJJMKZGk0ZVS7Xhp4NkNDPUNDMjVtFcyeMz4sqzvPrL9TVovVNeUrwlsCRR/wBxj
-	 37pXN5oDqo4SQ==
-From: Leon Romanovsky <leon@kernel.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
-	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Logan Gunthorpe <logang@deltatee.com>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH v2] dma-buf: Document how exporters and importers agree on mapping lifetime
-Date: Sun,  6 Sep 2026 15:40:54 +0300
-Message-ID: <20260906-document-dma-buf-v2-1-942710fe82c6@nvidia.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ifI0VEcq"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6b37782d003so1797441eaf.0
+        for <linux-doc@vger.kernel.org>; Sun, 06 Sep 2026 06:59:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788703151; cv=none;
+        d=google.com; s=arc-20260327;
+        b=UF5FofXyk9M4J3WDObeD5yPrIEozuhgSk+9C2purfnoZETl28JckWPHrXY43Kmvk8p
+         BcO9fULP9n0utrD5gArA/vNgu8gYKnTJoJYen+9T/KyS3NpihYEVcAPhGcQ5buzBXS0A
+         aXFu8Nftk4YUPIgQljE7cumPi4vqbs9PMVvAym6kTWcdLl7b8IHeDvQcwvMUE8Z75XRE
+         3RzFZIddzxNY/1ifmFigf63CNbJgv4pKrsslIQSU00fI+/RoXoSUFq+8Qg86X+CA3L+b
+         6oIdJTbN+sKUT7a3fPmfSV40mYf7+6nab7WgFAsVo1wIqJ72HAREKtMq+HypVuZYSx5U
+         PLOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=q4im8T6krvAgeClrNJp91WX4LU1MUPcEO8GSV5Jt9rk=;
+        fh=VWQpzKAI5JzOtabdOHSVZf2QZzal58jtmj0w17OHNTQ=;
+        b=DqKHsu+MkmEZhpDqYNhLtXURCBjYTJdsESHtI6ypQFDewcsTFl0SkqaSIXQNrtWQJA
+         pAemjIhIDYb+C5gjOAiFt46N6LtICGc0XIc1lVMd7KK46QkGBfKd5kZdUl+AHUQjJx3P
+         /7XK7JizR1dDd9wG/9crqwSNDoHIrIg0zWIGGz0uR6lWj6EZ5ZGOeWEtMpZtcu3IlN6G
+         veXVjF8tHlEcAuLUkwxepl8WFyyu8HiAtckPhPQgIhL8fLXcHDAgtt+tcuGlXciI17ib
+         BOiwHqscZmUoa/oG/zvWvnQfMI4fhPCAnlohjpiC+CKjiUZ1KdvrBUiAD/H+Gl2kymsY
+         JQAQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788703151; x=1789307951; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=q4im8T6krvAgeClrNJp91WX4LU1MUPcEO8GSV5Jt9rk=;
+        b=ifI0VEcqfeaLCEe4I/gKdaAr48BnHry2h97fZLDRfYaz4TyXW1XcSw7CXcmXncjP+Y
+         17vz4J1cG/NNF3wEQScw6in4lMElS1aPWDYH+stAWo05k9o6CgUDbB5fsBAd1S1f4iAo
+         7nUR6jevL7wM684pBtvfH3NEcZaEhGTSQmQcroeZrG53DhE79GzHY3YDhHrrGFwPCY/p
+         g4LQ0yrwN2Nwq4/UyJA3pmXCLwoHhJZaugf+EVnDIUoyNIaVlbf33imenkCJ6cMF8Cb6
+         LNTBo2pFzGB6HzOaGxTQ0K79GdTCFXlSkuM22yCTI9Pv4IO3nu6qA8RmUhqACN1XF9Cl
+         LSvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788703151; x=1789307951;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=q4im8T6krvAgeClrNJp91WX4LU1MUPcEO8GSV5Jt9rk=;
+        b=EUJD8UBpepROv3pRicmp0IYwvQPQWTrfRKxnq1JvlsfyMaczUapRcCaopszrvXeP74
+         ZZwO3cbjoqNjI49Qf/sbzFaf3w3Gr2gT/jGotEsiBwMFE2D33ANIsUsO7GsIKvnQ9WVO
+         VP+xQbJ1CV0tGKkTVYiWA7l21nfCKDQkpAu0BCE5iQiuoM0sPNoajCDdvJQ5mp3J/wMo
+         0oiyg7Q6hR61Fv3xXZrr0yDqGdu2+w3CgNrG8NBFmaGD6Yr9O1Eakzp9SFzFlH5ZFM8f
+         DkKjnrRR/zV7kK6fuhEUGYW3Akm4KSiFphL4Ehv+NcCXf7Jmu9uisxE+/pcxvBzV0jyC
+         iBzw==
+X-Gm-Message-State: AFuF++ky1G1wBkh6pNp37w+S707owHHMmZYGES1eaqlDBZFAB+weRI5L
+	79ntQ9voSz2N/0m6S3lvWBfqW2HT6WuYw3qXbor72a5TCabQ9C4zqPgG2a+xdec1atFT0cLRvPX
+	wsKqFW0FQ4eaCY89lpwGSLUp0XklLXmY=
+X-Gm-Gg: AYBFou08kXqvw3C3e08KJxdsYeaE3zg31/o6k7WT3g/qgWGuXB3wWLoFu45Iwv84wob
+	gjsb7LOipbA07TO1RhU9vN+YsdZ87TsQRM7suO6CwHFH0XMMj9VXSN4k/IbWJGNhW+2nDZXiIVy
+	dSl/jCIN3Bf20LNKZmhFmAiiulLw8W9O/RiUv41jHN83H6oHD2fRYHR2LA97Xbq9u5vhmmMtYfW
+	dy7FNDQBxqc46c5/gAihgn5rlafraVW2IgazPSHI7zmT6/yYnfWEq9J5gEJI1haOyTbV2U2EPPl
+	PEvU1qxCG0dFjVHFGh/0+XvlA8NxASlihG2LunxaUIe7Yw==
+X-Received: by 2002:a4a:e916:0:b0:6aa:cce3:ab61 with SMTP id
+ 006d021491bc7-6b6fb0ee5fcmr10658265eaf.9.1788703151237; Sun, 06 Sep 2026
+ 06:59:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Change-ID: 20260820-document-dma-buf-3f8b41e32f57
-X-Mailer: b4 0.15-dev-18f8f
-Content-Transfer-Encoding: quoted-printable
+References: <CAMnqnYxPHeXo6CsuKRGH=oixAsAa0z1_++266yzKW7qR6cqykw@mail.gmail.com>
+ <apqWn2EoguCwX5po@wyuan.org> <CAMnqnYwSKeTHi41iesHxJo1b_GGKWkFzfavJHWtEqxD0St3oBg@mail.gmail.com>
+ <apw1PMXXv2JmDX29@wyuan.org>
+In-Reply-To: <apw1PMXXv2JmDX29@wyuan.org>
+From: Jiaming Ouyang <jiamingouyang13@gmail.com>
+Date: Sun, 6 Sep 2026 15:59:00 +0200
+X-Gm-Features: AcwNN1WHZPbvYs5tjWWsHBhOUhW-32ltXjTVOoH01aJ8WldoL6DPAroYSMThP8c
+Message-ID: <CAMnqnYxD56YveYOgVKH0R7pzs7URhsWH6mCog6hLDoZovh-PbA@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: add usb/ohci translation
+To: Weijie Yuan <wy@wyuan.org>
+Cc: linux-doc@vger.kernel.org, "corbet@lwn.net" <corbet@lwn.net>, alexs@kernel.org, 
+	si.yanteng@linux.dev, dzm91@hust.edu.cn, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-From: Leon Romanovsky <leonro@nvidia.com>=0D
-=0D
-Nothing in DMA-buf declares whether a mapping may be moved or taken away.=0D
-Nearly every callback on both sides is optional, so the answer follows=0D
-from which ones are implemented and from whether dma_buf_pin() succeeds.=0D
-Documentation/ says none of this, and the rules sit in the kdoc of=0D
-dma_buf_ops.pin, dma_buf_attach_ops.invalidate_mappings and=0D
-dma_buf_invalidate_mappings(), which a driver author has to know by name=0D
-before finding them.=0D
-=0D
-Describe the three flows an importer has to handle, the callbacks each=0D
-one asks of both sides, and dma_buf_pin() as the runtime negotiation.=0D
-=0D
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>=0D
----=0D
-Let's try this variant from importer POV.=0D
-=0D
-Thanks=0D
-=0D
-Changes in v2:=0D
-- Split pci p2p documentation patch to separate series=0D
-- Improved dma-buf documentation patch.=0D
-- Link to v1: https://patch.msgid.link/20260825-document-dma-buf-v1-0-5ecfb=
-3e1371c@nvidia.com=0D
----=0D
- Documentation/driver-api/dma-buf.rst |  6 ++++=0D
- drivers/dma-buf/dma-buf.c            | 69 ++++++++++++++++++++++++++++++++=
-+++-=0D
- 2 files changed, 74 insertions(+), 1 deletion(-)=0D
-=0D
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-ap=
-i/dma-buf.rst=0D
-index 2f36c21d9948..39c201f38aa6 100644=0D
---- a/Documentation/driver-api/dma-buf.rst=0D
-+++ b/Documentation/driver-api/dma-buf.rst=0D
-@@ -113,6 +113,12 @@ Basic Operation and Device DMA Access=0D
- .. kernel-doc:: drivers/dma-buf/dma-buf.c=0D
-    :doc: dma buf device access=0D
- =0D
-+Mapping Lifetime Negotiation=0D
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~=0D
-+=0D
-+.. kernel-doc:: drivers/dma-buf/dma-buf.c=0D
-+   :doc: mapping lifetime negotiation=0D
-+=0D
- CPU Access to DMA Buffer Objects=0D
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=0D
- =0D
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c=0D
-index d504c636dc29..aa47142cd9ed 100644=0D
---- a/drivers/dma-buf/dma-buf.c=0D
-+++ b/drivers/dma-buf/dma-buf.c=0D
-@@ -684,7 +684,74 @@ static struct file *dma_buf_getfile(size_t size, int f=
-lags)=0D
-  *    reference acquired with dma_buf_get() by calling dma_buf_put().=0D
-  *=0D
-  * For the detailed semantics exporters are expected to implement see=0D
-- * &dma_buf_ops.=0D
-+ * &dma_buf_ops. Whether the exporter may still move or take away the back=
-ing=0D
-+ * storage after step 3 depends on what both sides implement. See the mapp=
-ing=0D
-+ * lifetime negotiation section below.=0D
-+ */=0D
-+=0D
-+/**=0D
-+ * DOC: mapping lifetime negotiation=0D
-+ *=0D
-+ * Nearly everything in DMA-buf is optional. No flag or enum says whether =
-the=0D
-+ * exporter may move or take away the backing storage while an importer ho=
-lds=0D
-+ * a mapping. Each side simply implements the callbacks it can offer, and=
-=0D
-+ * dma_buf_pin() settles the result at runtime.=0D
-+ *=0D
-+ * Out of that optionality the importer sees three main flows. They are na=
-med=0D
-+ * from the importer's point of view, because each one demands a different=
-=0D
-+ * capability of its hardware:=0D
-+ *=0D
-+ * - Pinned: the memory is never taken away. The importer offers no way=0D
-+ *   to stop DMA.=0D
-+ * - Revoked: the storage never moves, but the exporter may take it away. =
-The=0D
-+ *   importer must be able to stop DMA, and may hit user visible errors wh=
-ile=0D
-+ *   doing so.=0D
-+ * - Movable: the exporter may relocate the storage at any time. The impor=
-ter=0D
-+ *   must be able to pause DMA, and must raise no error while the storage =
-is=0D
-+ *   moving.=0D
-+ *=0D
-+ * An importer reaches its flow like this:=0D
-+ *=0D
-+ * 1. Attach with dma_buf_dynamic_attach(). Leaving out the optional=0D
-+ *    &dma_buf_attach_ops.invalidate_mappings callback pins the buffer for=
- as=0D
-+ *    long as the attachment exists.=0D
-+ * 2. Call dma_buf_pin() under the reservation lock.=0D
-+ * 3. On failure, run the movable flow or give up.=0D
-+ * 4. On success, the flow is the revoked one if the optional=0D
-+ *    &dma_buf_attach_ops.invalidate_mappings is implemented, and the pinn=
-ed=0D
-+ *    one if it is not.=0D
-+ *=0D
-+ * Pinned flow:=0D
-+ *=0D
-+ * - Exporter: implement &dma_buf_ops.pin and &dma_buf_ops.unpin to hold t=
-he=0D
-+ *   storage still on request. An exporter whose storage never moves imple=
-ments=0D
-+ *   neither, and dma_buf_pin() then succeeds on its own. An exporter whic=
-h=0D
-+ *   refuses to be pinned implements &dma_buf_ops.pin and fails it.=0D
-+ * - Importer: nothing more. The mapping stays valid until the importer un=
-maps.=0D
-+ *=0D
-+ * Revoked flow:=0D
-+ *=0D
-+ * - Exporter: answer dma_buf_pin() as above. Call=0D
-+ *   dma_buf_invalidate_mappings() when the storage goes away and fail=0D
-+ *   &dma_buf_ops.map_dma_buf while it is gone. The two waits which comple=
-te a=0D
-+ *   revocation are described in dma_buf_invalidate_mappings().=0D
-+ * - Importer: &dma_buf_attach_ops.invalidate_mappings has to unmap within=
-=0D
-+ *   bounded time and drop the pin.=0D
-+ *=0D
-+ * Movable flow:=0D
-+ *=0D
-+ * - Exporter: call dma_buf_invalidate_mappings() before each move, then w=
-ait=0D
-+ *   for the &dma_buf.resv fences. &dma_buf_ops.pin and &dma_buf_ops.unpin=
- play=0D
-+ *   no part here.=0D
-+ * - Importer: hold no pin. &dma_buf_attach_ops.invalidate_mappings drops =
-the=0D
-+ *   cached mapping and has to lead to dma_buf_unmap_attachment() within=0D
-+ *   bounded time. It need not stop the hardware, because access runs unti=
-l the=0D
-+ *   importer's &dma_buf.resv fences retire. The importer maps again befor=
-e the=0D
-+ *   next DMA.=0D
-+ *=0D
-+ * &dma_buf_ops.attach is the best place for an exporter to turn an import=
-er=0D
-+ * away, because the importer can still fall back to another flow and atta=
-ch=0D
-+ * again.=0D
-  */=0D
- =0D
- /**=0D
-=0D
----=0D
-base-commit: 63367df6e7255067ad6a83abe0d2799dfa491876=0D
-change-id: 20260820-document-dma-buf-3f8b41e32f57=0D
-=0D
-Best regards,=0D
---  =0D
-Leon Romanovsky <leonro@nvidia.com>=0D
-=0D
+U3ViamVjdDogW1BBVENIXSBkb2NzL3poX0NOOiBhZGQgQ2hpbmVzZSB0cmFuc2xhdGlvbiBmb3Ig
+dXNiL29oY2kucnN0DQoNClRyYW5zbGF0ZSBEb2N1bWVudGF0aW9uL3VzYi9vaGNpLnJzdCBpbnRv
+IENoaW5lc2UgU2ltcGxpZmllZC4NCg0KVGhlIHRyYW5zbGF0aW9uIGNvdmVycyBPSENJIGRyaXZl
+ciBvdmVydmlldywgaGFyZHdhcmUgcHJvdG9jb2wNCmRpZmZlcmVuY2VzIChPSENJIHZzIFVIQ0kp
+LCBpbXByb3ZlbWVudHMgc2luY2UgMi40IGtlcm5lbCwNCnF1ZXVlYWJsZSBpbnRlcnJ1cHQgdHJh
+bnNmZXJzLCBhbmQgbm9uLVBDSSBzdXBwb3J0Lg0KDQpTaWduZWQtb2ZmLWJ5OiBKaWFtaW5nIE91
+eWFuZyA8amlhbWluZ291eWFuZzEzQGdtYWlsLmNvbT4NCi0tLQ0KU28gSSB0aGluayB0aGlzIGZv
+bGxvd3MgdGhlIHJ1bGUgb2YgIm5vIGF0dGFjaG1lbnRzIg0KDQogLi4uL3RyYW5zbGF0aW9ucy96
+aF9DTi91c2IvaW5kZXgucnN0ICAgICAgICAgIHwgIDIgKy0NCiBEb2N1bWVudGF0aW9uL3RyYW5z
+bGF0aW9ucy96aF9DTi91c2Ivb2hjaS5yc3QgfCAzNyArKysrKysrKysrKysrKysrKysrDQogMiBm
+aWxlcyBjaGFuZ2VkLCAzOCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQogY3JlYXRlIG1v
+ZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3VzYi9vaGNpLnJzdA0K
+DQpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNiL2luZGV4
+LnJzdA0KYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi91c2IvaW5kZXgucnN0DQpp
+bmRleCBkZjk5ODE0YzY0OTcuLmM5NmVhY2YxM2UxMSAxMDA2NDQNCi0tLSBhL0RvY3VtZW50YXRp
+b24vdHJhbnNsYXRpb25zL3poX0NOL3VzYi9pbmRleC5yc3QNCisrKyBiL0RvY3VtZW50YXRpb24v
+dHJhbnNsYXRpb25zL3poX0NOL3VzYi9pbmRleC5yc3QNCkBAIC0zMiw2ICszMiw3IEBAIFVTQiDm
+lK/mjIENCiAgICAgY2hpcGlkZWENCiAgICAgZHdjMw0KICAgICBlaGNpDQorICAgIG9oY2kNCiAg
+ICAgdXNibW9uDQoNCiDlvoXnv7vor5HmlofmoaPvvJoNCkBAIC00OSw3ICs1MCw2IEBAIFVTQiDm
+lK/mjIENCiAqIG1hc3Mtc3RvcmFnZQ0KICogbWlzY191c2JzZXZzZWcNCiAqIG10b3VjaHVzYg0K
+LSogb2hjaQ0KICogcmF3LWdhZGdldA0KICogdXNiaXBfcHJvdG9jb2wNCiAqIHVzYi1zZXJpYWwN
+CmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi91c2Ivb2hjaS5y
+c3QNCmIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNiL29oY2kucnN0DQpuZXcg
+ZmlsZSBtb2RlIDEwMDY0NA0KaW5kZXggMDAwMDAwMDAwMDAwLi40Mzg3YmIyNzQwNzENCi0tLSAv
+ZGV2L251bGwNCisrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3VzYi9vaGNp
+LnJzdA0KQEAgLTAsMCArMSwzNyBAQA0KKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwt
+Mi4wDQorDQorOk9yaWdpbmFsOiBEb2N1bWVudGF0aW9uL3VzYi9vaGNpLnJzdA0KKw0KKzrnv7vo
+r5E6IOasp+mYs+WutumTrSBKaWFtaW5nIE91eWFuZyA8amlhbWluZ291eWFuZzEzQGdtYWlsLmNv
+bT4NCisNCis9PT09PT09PQ0KK09IQ0npqbHliqgNCis9PT09PT09PQ0KKw0KKzIwMjblubQ45pyI
+Mjnml6UNCisNCivigJxPSENJLWhjZOKAnempseWKqOeoi+W6j+aYr+S4gOS4qlVTQuS4u+acuuaO
+p+WItuWZqOmpseWKqOeoi+W6j++8iEhDRO+8ie+8jOWug+a6kOiHqjIuNOWGheaguOezu+WIl+S4
+reeahOKAnHVzYi1vaGNp4oCdDQor6amx5Yqo56iL5bqP44CC4oCcdXNiLW9oY2nigJ3ku6PnoIHk
+uLvopoHnlLEgUm9tYW4gV2Vpc3NnYWVyYmVyIDx3ZWlzc2dAdmllbm5hLmF0PiDnvJblhpnvvIzk
+vYbkuZ/ojrflvpfkuoYNCivorrjlpJrlhbbku5bkurrnmoTotKHnjK7vvIjor7fpmIXor7vlhbbn
+iYjmnYPvvIkNCivjgIINCisNCivlroPmlK/mjIHigJzlvIDmlL7kuLvmnLrmjqfliLblmajmjqXl
+j6PigJ3vvIhPSENJ77yJ77yM6K+l5o6l5Y+j5qCH5YeG5YyW5LqG55So5LqO5LiOVVNCIDEuMeS4
+u+acuuaOp+WItuWZqOmAmuS/oeeahOehrOS7tuWvhA0KK+WtmOWZqOWNj+iuruOAguS4juiLseeJ
+ueWwlOaXqeacn+eahOKAnOmAmueUqOS4u+acuuaOp+WItuWZqOaOpeWPo+KAne+8iFVIQ0nvvInn
+m7jmr5TvvIzlroPlsIbmm7TlpJrlj6rog73lip/og73ms6jlhaXliLDnoazku7YNCivkuK3jgILp
+maToi7HnibnlsJTlkozlqIHnm5vkuYvlpJbnmoTlhbbku5bkvpvlupTllYbnmoRVU0IxLjHmjqfl
+iLblmajpgJrluLjkvb/nlKhPSENJ44CCDQorDQor6IeqMi405YaF5qC45Lul5p2l55qE5pu05pS5
+5YyF5ousDQorDQorIC0g5o+Q6auY5LqG5YGl5aOu5oCnOyDkv67lpI3kuobplJnor687IOWHj+Ww
+keS6huW8gOmUgA0KKyAtIOaUr+aMgeabtOaWsOWSjOeugOWMlueahHVzYmNvcmUgQVBJDQorIC0g
+5Lit5pat5Lyg6L6T5Y+v5Lul5pu05aSn77yM5bm25LiU5Y+v5Lul5o6S6ZifDQorIC0g6YCa6L+H
+5L2/55So5LiK5bGC4oCcaGNk4oCd5qGG5p6277yM5YeP5bCR5Luj56CB6YePDQorIC0g5pSv5oyB
+5LiA5Lqb6Z2eUENJ55qET0hDSeWunueOsA0KKyAtIC4uLiDku6Xlj4rmm7TlpJoNCisNCivigJxP
+SENJLWhjZOKAnempseWKqOeoi+W6j+WkhOeQhuaJgOaciVVTQiAxLjHkvKDovpPnsbvlnovjgILm
+iYDmnInnsbvlnovnmoTkvKDovpPpg73lj6/ku6XmjpLpmJ/jgILlnKjigJx1c2Itb2hjaeKAneS4
+reS5nw0KK+aYr+WmguatpO+8jOS9huS4reaWreS8oOi+k+mZpOWkluOAguS7peWJje+8jOS9v+eU
+qOS4gOW4p+eahOWRqOacn+S8muWboOS4uklSUeWkhOeQhueahOW8gOmUgOiAjOWvvOiHtOaVsOaN
+ruS4ouWkseeahOmjjumZqeOAgg0KK+W9k+S4reaWreS8oOi+k+aOkumYn+aXtu+8jOWPr+S7pemA
+mui/h+ehruS/neehrOS7tuWcqOaTjeS9nOezu+e7n+WkhOeQhuebuOWFs0lSUeaXtuWni+e7iOac
+ieS8oOi+k+mcgOimgeWkhOeQhu+8jOadpeacgOWkp+mZkA0KK+W6pueahOmZjeS9jui/meS6m+mj
+jumZqQ0KKw0KKy0g5qyn6Ziz5a626ZOtIEppYW1pbmcgT3V5YW5nDQorICA8amlhbWluZ291eWFu
+ZzEzQGdtYWlsLmNvbT4NCi0tIA0KMi41My4wDQoNCk9uIFNhdCwgU2VwIDUsIDIwMjYgYXQgNToy
+OeKAr1BNIFdlaWppZSBZdWFuIDx3eUB3eXVhbi5vcmc+IHdyb3RlOg0KPg0KPiBPbiBTYXQsIFNl
+cCAwNSwgMjAyNiBhdCAwMzoyOTozNlBNICswMjAwLCBKaWFtaW5nIE91eWFuZyB3cm90ZToNCj4g
+PiBJIHRoaW5rIHRoaXMgLnBhdGNoIGluIGF0dGFjaG1lbnQgd2lsbCBzb2x2ZSB0aGlzIHByb2Js
+ZW0sIGFuZCB0aGUNCj4NCj4gVGhhbmtzIGZvciB0aGUgZWZmb3J0LCBidXQgc2FkbHksICJubyBh
+dHRhY2htZW50cyIgaXMgYSBiZXR0ZXIgcHJhY3RpY2UuDQo+IDstKQ0KPg0KPiBTZWU6DQo+DQo+
+IGh0dHBzOi8vZG9jcy5rZXJuZWwub3JnL3Byb2Nlc3Mvc3VibWl0dGluZy1wYXRjaGVzLmh0bWwj
+bm8tbWltZS1uby1saW5rcy1uby1jb21wcmVzc2lvbi1uby1hdHRhY2htZW50cy1qdXN0LXBsYWlu
+LXRleHQNCj4NCj4gTWF5YmUgeW91IGNhbiB0cnkgZ2l0LXNlbmQtZW1haWwgbGF0ZXIuDQo+DQo+
+IEFueXdheSwgSSBtYW51YWxseSBzYXZlZCB0aGUgcGF0Y2ggYW5kIGdpdCBhbSAtMyB3b3JrcyB3
+aGlsZSBnaXQgYW0gZG9lcw0KPiBub3QuDQo+DQo+ID4gY29tbWl0IGluZm9ybWF0aW9uIGhhcyBi
+ZWVuIG1vZGlmaWVkIGFjY29yZGluZyB0byB5b3VyIGZlZWRiYWNrLg0KPg0KPiBZZWFoLCBJIHRo
+aW5rIHRoaXMgb25lIGxvb2tzIGdvb2QsIHRob3VnaC4NCj4NCj4gVGhhbmtzLg0K
