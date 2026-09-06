@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDEA43C5DD4;
-	Sun,  6 Sep 2026 21:05:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F113CB550;
+	Sun,  6 Sep 2026 21:05:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788728723; cv=none; b=H2+0MBYNZ9P2BxDOR+cKj1GCsyCA/qf1bhkjSMU/puWM0KRBk37/uz1cEMVeYUJ0rkFbXi1fMJJEnG5LewG8wqGNBhPT7sBrHxI0lMK6OXzyqsWNbHjlBknhs9ZxjYSWqIwRVVAcoNy2kFH9k0ddLaD8/sOuJk/b/rJ8/DrKD+s=
+	t=1788728725; cv=none; b=GDOoRhMxnPvPXz30YGv1yO7nlHjGJi9mmxwBr+gQbGa09PVFs/KZJUm1RNCRWIjJpZ2zh/0RmWxlphe/WOyaj4z7vK8/5M/9py9rollRptEsama9ICI2A3depF/sCjXLfC3TJmisdLnHeA0Vjn5o8rIY9zQ4QEF/b7JlViPbxeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788728723; c=relaxed/simple;
-	bh=66xVvf9AYDaubgalGRElpfl7AJBa4gDemippERfSJ+M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dpCYidduJtEcRfc2l91Fm0wZusUu5YUv5N4HRdThxQyntT9dSr7cumZfODjhyfzf45MEBP78LTYkw5J4beRxZ5txDkdOA+7+tTytdGiYDaAPoyEZfptlHjDH0v+70fgczk0J/vupWH6yu/AClp1EJhRk6gfKi7fA7XNz7UAmZAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0wOCysI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788728725; c=relaxed/simple;
+	bh=+pwt7ytLNv7N/tXD0TT/aWOG89chC7GSwPZ5TDexaSo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cQzwX9d2PMJXPtZCXW7ec+jHInGBQ3l3tOfuOUCCwsxXPPzXfsavqiMlw7eg3t9RvDkS7uP2XAwX2DJzVEtnzvlwuoFJ5iWlK2KR10yOgvIMvsxvzSPMvNIB5rGWrAf+zXk8m/G31wQ6H8U3t/PRQbgsKQUQmGlp4+Iskqm3VPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=htbz0YDU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0wOCysI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47C721F00A3A;
-	Sun,  6 Sep 2026 21:05:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="htbz0YDU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 468DA1F00ACA;
+	Sun,  6 Sep 2026 21:05:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788728721;
-	bh=tJB81UTgzrSfPhYv5eHHbGNV659HaY2JEk6GKYFHi0k=;
-	h=From:To:Cc:Subject:Date;
-	b=S0wOCysIgW+9naXrgkj4wzl/6wFSrTfkTZ9KQIHBnR6bB/Yj/Bws8uCf+uVyjSJgg
-	 p3YRGIgEiCMn4CQBMTaeOYZeHbPD/XdTeamAWbW1qsBEO8ncCsA1Ku7y4Yai40TBj6
-	 wiBIvgVvy+LUmXsxVHzUE4JxEqxRppss3YSVu4DMvgVgzgy1aPGqrc7q0xFxIqvfMW
-	 EmJ1ufzWrIieg99vs9+qAuQzo85z5QqxO9uwwBzFP43g7zmCl6MBfFONtJeGFphDqL
-	 GzxLKAmTozx+KY4dydyz3OQYuVQEfqtada9sXjJvLsi5uWO9JsCDcTmcLGjSQ/SSmD
-	 arkVrjqfWrNVQ==
+	s=k20260515; t=1788728723;
+	bh=3QelAmhdJ8KPxvwLkmNC9X/53BNSeYX//IkIfked+Kg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=htbz0YDUclUY/USoVqbx+699rw+fijvDqArrnnwYlY32YFEjMnKjnrH05v6egTGJD
+	 1+MZUPoGg3ElOWf2EI1tvjZCzjRL28nQDsNidGwjJROUEKiZsyoH9L8p4Pe8wVRJpp
+	 iuJL4VMhuURn5Q1vTxPFzY/uJ0yoRAt4d6CQEwr8z4HZnU3nINn/QLsTFqPQlEZHew
+	 +YuJcrKhF4T/hyaWUs79Vb0RlQxVmWeId9ObSd8CFyR8wNfSxbw1I71MxjRIg+OEoI
+	 l+6gvp0FSLV8vQgL0qG6i/rPG0OEJALLvNOnELFHg7tSjK+yXD7vQ2H7lOTHXdbN/O
+	 NIoJr2g/+L/mQ==
 From: SJ Park <sj@kernel.org>
 To: 
 Cc: SJ Park <sj@kernel.org>,
@@ -43,10 +44,12 @@ Cc: SJ Park <sj@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [RFC PATCH 0/6] mm/damon: introduce probe_hits_wsum DAMOS core filter
-Date: Sun,  6 Sep 2026 14:05:06 -0700
-Message-ID: <20260906210513.106895-1-sj@kernel.org>
+Subject: [RFC PATCH 5/6] Docs/mm/damon/design: update for probe_hits_wsum DAMOS core filter
+Date: Sun,  6 Sep 2026 14:05:11 -0700
+Message-ID: <20260906210513.106895-6-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260906210513.106895-1-sj@kernel.org>
+References: <20260906210513.106895-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,59 +58,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-DAMON can do flexible data attributes monitoring.  The classical data
-access monitoring can also be done using the attributes monitoring.  The
-access event is just one of the data attributes that DAMON supports.
-Users do monitoring to make some actions based on it.  DAMOS is a
-feature for automating that.  However, DAMOS cannot utilize the data
-attributes monitoring results.  It is still Data "Access"
-Monitoring-based Operation Schemes.  It requires users to set the target
-"access" pattern.
+Update DAMON design document for the newly added probe hits weighted sum
+based DAMOS core filter type.
 
-DAMOS core filter is effectively the same as the target access pattern.
-It is just a more generalized and flexible way of describing the
-operation action target region.  Introduce a new DAMOS core filter type,
-probe_hits_wsum.  It specifies the filter target based on a range of the
-probe hits weighted sum.  Using this, users can apply DAMOS actions to
-regions of specific data attributes pattern.
+Signed-off-by: SJ Park <sj@kernel.org>
+---
+ Documentation/mm/damon/design.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Note that the classic target access pattern still works.  Hence the
-target nr_accesses range should still be properly configured.  The new
-filter would be used in only data attributes-only mode.  In the mode,
-classic access monitoring is just turned off, and therefore nr_accesses
-of regions are always zero.  Users could simply set the target
-nr_accesses range to include the zero nr_Accesses regions.
-
-Patches Sequence
-================
-
-Patch 1 updates the DAMON kernel API for the new filter type.  Patch 2
-implements the filter type in the core layer.  Patch 3 refactor DAMON
-sysfs interface internal data structure for efficient reuse of data
-structure for the probe hits weighted sum range user inputs.  Patch 4
-updates DAMON sysfs interface to support the new filter type.  Patches 5
-and 6 update design and usage documents for the new filter type,
-respectively.
-
-SJ Park (6):
-  mm/damon/api: introduce DAMOS_FILTER_TYPE_PROBE_HITS_WSUM
-  mm/damon/core: support probe_hits_wsum damos core filter
-  mm/damon/sysfs-schemes: rename sysfs_filter->sz_range to
-    range_{min,max}
-  mm/damon/sysfs-schemes: setup range_{min,max} for probe_hits_wsum
-    filter
-  Docs/mm/damon/design: update for probe_hits_wsum DAMOS core filter
-  Docs/admin-guide/mm/damon/usage: update for probe_hits_wsum DAMOS
-    filter
-
- Documentation/admin-guide/mm/damon/usage.rst |  4 +++
- Documentation/mm/damon/design.rst            |  3 ++
- include/linux/damon.h                        |  8 ++++++
- mm/damon/core.c                              | 12 +++++++-
- mm/damon/sysfs-schemes.c                     | 30 ++++++++++++++------
- 5 files changed, 48 insertions(+), 9 deletions(-)
-
-
-base-commit: 787c63ba44ce65021966f55673e27d778c8d9c68
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index aac84de261aa8..8e980dde362de 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -822,6 +822,9 @@ Below ``type`` of filters are currently supported.
+         - Applied to pages that belonging to a given address range.
+     - target
+         - Applied to pages that belonging to a given DAMON monitoring target.
++    - probe_hits_wsum
++        - Matches to monitoring regions having a given range of :ref:`probe
++          hits weighted sum <damon_design_attrs_only_monitoring>` value.
+ - Operations layer handled, supported by only ``paddr`` operations set.
+     - anon
+         - Applied to pages that containing data that not stored in files.
 -- 
 2.47.3
