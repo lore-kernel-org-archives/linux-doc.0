@@ -1,51 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFD53B47E3;
-	Mon,  7 Sep 2026 15:49:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FF83E63AC;
+	Mon,  7 Sep 2026 15:50:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788796147; cv=none; b=kWs2i1Bk/rETq7g5YjASQPV99HZZe+GQXVrpSdPqTgKC5V5nCO5rWkVWVOT1XhyxQvuB32dpbHs1w827c9Arn6BbcWW/eA2Bpi2TlgiPaPE7aIh+y5gzmIIWxBqbY6pXX5w5tSKoYD5VnhgTK2z7hT4HHUUHkdPj3EfJXk2S3Mk=
+	t=1788796240; cv=none; b=umUbwdkT5zNLdw3VrG/+Ixn1DDwaNq308IbCLiQJTXNxRIzF27jZimZT/kRGwdobnqqAuundMaFqiWgrv3/nGDwj5wohTK+fdCn0kkerTWCvCz1t6kanbn8yKcLSrswKaSEUk7lL3M/HgISU34Ph1g+baFTZ8BZ4Luzy+DVfJd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788796147; c=relaxed/simple;
-	bh=v6ki3sLEXclKhCTx40Fky8HfYTI66o+KgUb0UIMh10U=;
+	s=arc-20240116; t=1788796240; c=relaxed/simple;
+	bh=aG2rMOM1XxiDNehbsPsNtAooRQwheKHc1N6JUlHOaFI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NHDKYwgOxhpiIPUXwpFLsCIouS7zIm1rnJ2nD/8p+OiDo0ESuodhC2+/XRXVK1+/546VOdfwJ41Hcgjb5jChfVKsxf+LAG7UM+yStZ5No5ILdSSb/KBJQDwfo4Z9GoKP1vbh326gYpkZGv9xu700fs5ulhUwnaz8H7hYWAPWARM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=oTUI7f3j; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=KszJiads55K/4e0uPnm0hx/imqKalgLej+U1eExofWADiGD/Og7Yis+ntFbOu5JXQAm+Je9houP2fw6ieQ8B47Ryk6wYPwBcHc1ttlE5QmYZHGdsyNogLJHBmNQJCLVBN1EM8llsErawcnesvYj+PJtIEA7kEL8LA2KrBZQFmwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=j/SUtY7x; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="oTUI7f3j"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 77083408FF
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="j/SUtY7x"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B4796408FF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788796144; bh=FsU1Etefuc+O2vZ49Ew/1OoJYCW/kyHw9nQAtrDPdHw=;
+	t=1788796238; bh=XugLOgcVgDkmW8tiB321i8byCAHZEnxCKFe5ocFS6S4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=oTUI7f3j0nSZ9UfEbKS8+5zhh1f3EZLwOk25D+KOJMBiWy7X0rmJlhaCamGUcmceI
-	 iQbcn5nf/lw3Fvtp+2ITaDcqZMYWdjJJ7lT1eSvSg8YAlT1WJ/FFHsZwqPOw5OZNFc
-	 4scxxkDCXmO/PYEvhAPF+IBHuhWrokjOq850nuBtc0dxfvrBk1aJ3Nl/UjgL8WoTHV
-	 ReiRZzA5qVoLb7huYdqV9yFy6czW0tb1kL0tm+fGcDYUMBcy+YbcuwkHoSzY7Xw9H+
-	 6JPoQrhEMtRDuwjIMHp5WuiPm/Dikh1lKWKPpnk57B2/5sLBIOWWnIVlrtr4ZkAbgQ
-	 WNnPFgy2A4plw==
+	b=j/SUtY7xAziND2uWoZB1em5zFCTH1gZOqM9wsZHANQkox+ZNlOtRl36dtuUNIYlYP
+	 6cdV0cjferRxQ/Uqw0UHWf2UhUwZkDxhsINH3UEhZI2glkShlXPZH/Gee+sgb8fWHt
+	 +bF1VizmnkGZnJRvJ4mFVAsnOMtEAirl+dSaVeMwrQJrj4NuKCzfec8Uf1UgIfkJWQ
+	 6FIXI0RIpw40JuLxTSGLTbvRw04p/lIWgEbGHeOTH2ClwtIiN5/tf0L5AOLonzMq9z
+	 Eo9OEWplV+XCNq+doe2oCnWd7Gyfg15qM8v8vOEaa6jYcrKFCuhs8waOpPLfZ5guYr
+	 7RkN9kV2JHd0g==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 77083408FF;
-	Mon,  7 Sep 2026 15:49:04 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id B4796408FF;
+	Mon,  7 Sep 2026 15:50:38 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Karl Mehltretter <kmehltretter@gmail.com>, Josh Poimboeuf
- <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>, Miroslav Benes
- <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, Joe Lawrence
- <joe.lawrence@redhat.com>, live-patching@vger.kernel.org,
- linux-doc@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, Randy
- Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] Documentation: livepatch: Point klp_callbacks
- kernel-doc at livepatch_external.h
-In-Reply-To: <20260905085438.40349-1-kmehltretter@gmail.com>
-References: <20260905085438.40349-1-kmehltretter@gmail.com>
-Date: Mon, 07 Sep 2026 09:49:03 -0600
-Message-ID: <87tso1vz80.fsf@trenco.lwn.net>
+To: Karl Mehltretter <kmehltretter@gmail.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Bartosz Golaszewski
+ <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH] Documentation: reset: Use fwnode_reset_simple_xlate()
+ in the kernel-doc directive
+In-Reply-To: <20260905085211.40286-1-kmehltretter@gmail.com>
+References: <20260905085211.40286-1-kmehltretter@gmail.com>
+Date: Mon, 07 Sep 2026 09:50:37 -0600
+Message-ID: <87mrttvz5e.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,34 +55,32 @@ Content-Type: text/plain
 
 Karl Mehltretter <kmehltretter@gmail.com> writes:
 
-> api.rst asks include/linux/livepatch.h for struct klp_callbacks.
-> Commit dd590d4d57eb ("objtool/klp: Introduce klp diff subcommand for
-> diffing object files") moved the structure and its kernel-doc comment
-> to include/linux/livepatch_external.h. Since then the Object Types
-> section renders the other four structures but not klp_callbacks.
+> reset.rst asks drivers/reset/core.c for of_reset_simple_xlate(). Commit
+> 9035073d0ef1 ("reset: convert reset core to using firmware nodes")
+> replaced it with fwnode_reset_simple_xlate(). Since then the directive
+> finds nothing for it and the default translation helper is missing from
+> the rendered controller API section.
 >
-> Add a directive for the new header.
+> Use the current name.
 >
-> Fixes: dd590d4d57eb ("objtool/klp: Introduce klp diff subcommand for diffing object files")
+> Fixes: 9035073d0ef1 ("reset: convert reset core to using firmware nodes")
 > Assisted-by: LLM
 > Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 > ---
->  Documentation/livepatch/api.rst | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  Documentation/driver-api/reset.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/livepatch/api.rst b/Documentation/livepatch/api.rst
-> index 78944b63d74b..2a98c517da9d 100644
-> --- a/Documentation/livepatch/api.rst
-> +++ b/Documentation/livepatch/api.rst
-> @@ -27,4 +27,7 @@ Object Types
->  ============
+> diff --git a/Documentation/driver-api/reset.rst b/Documentation/driver-api/reset.rst
+> index 7a6571849664..932699c57d1e 100644
+> --- a/Documentation/driver-api/reset.rst
+> +++ b/Documentation/driver-api/reset.rst
+> @@ -213,7 +213,7 @@ devm_reset_controller_register().
+>     :internal:
 >  
->  .. kernel-doc:: include/linux/livepatch.h
-> -   :identifiers: klp_patch klp_object klp_func klp_callbacks klp_state
-> +   :identifiers: klp_patch klp_object klp_func klp_state
-> +
-> +.. kernel-doc:: include/linux/livepatch_external.h
-> +   :identifiers: klp_callbacks
+>  .. kernel-doc:: drivers/reset/core.c
+> -   :functions: of_reset_simple_xlate
+> +   :functions: fwnode_reset_simple_xlate
+>                 reset_controller_register
 
 Applied, thanks.
 
