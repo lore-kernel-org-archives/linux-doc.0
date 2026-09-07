@@ -1,60 +1,25 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027E42D949F;
-	Mon,  7 Sep 2026 03:24:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0A4D248867;
+	Mon,  7 Sep 2026 03:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788751450; cv=none; b=HARQAW/0sfKXHTWtUFCGuIvkHYEYwtTtf4MAExX3DztHn+3Iq7FksaWVm3AfM9JKevdTJnqwGaBgbRX4VP4hMEE92l6nvW0vBWktOH+rbNWV4oQRzmxZ2tAwpDrXNjBVfxCUU/du1kf8ElOjWNCn4wAHtG5RLPbBLG8Sa+9X3+c=
+	t=1788751979; cv=none; b=Ae2i34Orlv8hFJXqWembazTXj4a8JiYpifP6FfWy56Fa1W+gWgz/sc/FzDa/RL8aR+jEs5U3mddLEwUAPRD+YzGASx3iBDWKxxB0PnnklGLs1CdvAWzXfTTMDoN7I/wY7L7HmeLaDDV/pW18o1nlZloWFUeVYbztHHYT/JN8CMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788751450; c=relaxed/simple;
-	bh=+3qeet1gjH+Lyp5L/bYg2ta9Sk6uQvhZlImteiB/d5w=;
+	s=arc-20240116; t=1788751979; c=relaxed/simple;
+	bh=P43ByJuJlusV9YxF9+Wphzjl76KwsVBt08ArMvPsHKs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KTtqlWDzXiRyGLVoGd7/IaltDFnjN0/Nu3syD/DLgcH9CMLi7jCyyrtyDuKy2sExClIvbHotQBrSVXfzQTH08ndyuHdQKq29VKM7uOVcfP3sZJKiC4j1z+foFBKAHzAa/fb1NCQziV3o/yOY6K12IXyAtUQ+sA987DnUOGyeb1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=qFklfuIz; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="qFklfuIz"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6870VVR9319839;
-	Mon, 7 Sep 2026 03:23:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=xgBjMM
-	jxtCv55t7GMT2w+mlDGqrwgg7Z4rq7MwlBzjI=; b=qFklfuIz0Lq2xUNoZyDnH/
-	EwGHd3Mne3jJE7shMq7WsMIwSryd65iz6aF6KXILoZzqYG1TWi1/Qr5iHqkG/CiF
-	fiuo4TnG/MfljRQIhVQzAsoFuuRlxcfIGeMzN/+1ikLOI7pWVrlXPgHKEow/0bcc
-	3eHjO9nRL+EOqy+ZU5P6bfowzDLzJJeRDtkUpccecvTrhZBppPjIaXwZGqM/T92B
-	P+5/NwyPo7O5aXsCCwW65IOIRMCNDvupqlGvJqA3bP/3rMbm+lU0xV3KCq8yNXmc
-	bWJbqTtoCceGQzHAfE9z10rF+U8CslLfbDZjv24UQVfzlGsOOsZ/ESWGWJ+2bppg
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ggbf3p9wd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 07 Sep 2026 03:23:35 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6873BSWo020221;
-	Mon, 7 Sep 2026 03:23:34 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ggwdq3swf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 07 Sep 2026 03:23:34 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6873NUw847251788
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 7 Sep 2026 03:23:30 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B3B3F2004E;
-	Mon,  7 Sep 2026 03:23:30 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5FB0B20043;
-	Mon,  7 Sep 2026 03:23:20 +0000 (GMT)
-Received: from [9.124.222.214] (unknown [9.124.222.214])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  7 Sep 2026 03:23:20 +0000 (GMT)
-Message-ID: <7d88a3c4-a7e4-4814-9e29-84955b69a5b3@linux.ibm.com>
-Date: Mon, 7 Sep 2026 08:53:19 +0530
+	 In-Reply-To:Content-Type; b=JDeZno8lO3sdfyEQ0PoDkpvOA1hftOz0ktWWmA5FN5r3P2WmFJQCAAduBFmowG2/ElQoAjKa5y1MzVdnq9jfgVqrfmzHVbqFjqDjUyR8E/p1OpQKlkCF0HJi1soRVu8Ur0o8Zrv8iJGGVchLMlFlUEFHCDjxxIAgn9CoYKJPUEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with UTF8SMTP id IAEQrMAW37FbMJ5q3jcWAA--.48581S2;
+	Mon, 07 Sep 2026 11:32:43 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wBHBtFYMJ5q96NTAA--.20488S2;
+	Mon, 07 Sep 2026 11:32:42 +0800 (CST)
+Message-ID: <f4a2cc06-47e5-4720-bde5-5c2abe55bbdc@hust.edu.cn>
+Date: Mon, 7 Sep 2026 11:32:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,270 +27,96 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 08/13] sched/core: Push current task from non
- preferred CPU
-To: Yury Norov <ynorov@nvidia.com>, yury.norov@gmail.com
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
-        meted@linux.ibm.com, tglx@kernel.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
-        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
-        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
-        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
-        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
-        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
-        linux-doc@vger.kernel.org, jgross@suse.com,
-        virtualization@lists.linux.dev, sunlightlinux@gmail.com
-References: <20260903063240.268775-1-sshegde@linux.ibm.com>
- <20260903063240.268775-9-sshegde@linux.ibm.com> <aptiJP_8SWwZWju6@yury>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <aptiJP_8SWwZWju6@yury>
+Subject: Re: [PATCH v5 1/5] docs/zh_CN: Add networking team documentation
+ Chinese translation
+To: Siwei Chen <anka@stu.cdut.edu.cn>, alexs@kernel.org,
+ si.yanteng@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wy@wyuan.org,
+ Siwei Chen <businiaoanka@anka1.top>
+References: <20260824043806.46731-1-anka@stu.cdut.edu.cn>
+ <20260824043806.46731-2-anka@stu.cdut.edu.cn>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20260824043806.46731-2-anka@stu.cdut.edu.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: zrImal1Nzg-DsaD9VLSbOR3qG45-w3L7
-X-Proofpoint-GUID: eKDAiZnKn75BVPjYCjFa1DFEf3DEf1YJ
-X-Authority-Analysis: v=2.4 cv=DbEnbPtW c=1 sm=1 tr=0 ts=6a9e2e38 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VnNF1IyMAAAA:8
- a=ZHGiqxHou45PFmVM3NkA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA3MDAyOSBTYWx0ZWRfX918BeP/941HV
- GN93u7H7YYJglb2YIF3loIaieSVK9HPqEkZmNJT/iy+C4ehOpzeg01BvS6QBXYdqfCLL54zXZdU
- EKj/W86I6pcf81K2Wpvsk3ULoWSnUIQulll2w5l3sdQyePOHRCDyXuYy9rByxx1SUUf2klzsSRB
- Ohpm9mKcePmQEZw/P9mBOpPzKkxxn0vSsvDxUEmf9O7pOcfoME6JyUGtPTItJIdBc+UbtTDVA6y
- uu0tyN/yVy8IQ7wHRI+Nk+ygLGrjS4kXJsdkvj0yeD7fngWj3FdJROUJhGOiSxwxppw5gmWm5R5
- lInGVIvLm1e/+9XMLrvuIC5a1vM+Eta5uB6ZUEh0AfD14RoRBqD7DJWySo3f1beX9FYtg48iaUc
- BBxPeyAdvFXDZIpzV8lW5uB0/QpFO+rsphzYzqWr99F4qHdX6FxbwkdcipKG+dg3tQOmY76G2Y9
- VkSLIk7JCiXDs/EgRXg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA3MDAyOSBTYWx0ZWRfX36zLO75rAIrY
- xxMJa/fxWIHv9FF/xx0G8ktbj9lNqjA9ILAoJbnm9qJ32lrFSxhNxPGzg/28J43G9gT+teV2fnU
- m6JAYCSpyJPlCsz6tSCIEEPUal0yIzo=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-06_04,2026-09-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 impostorscore=0 adultscore=0 spamscore=0
- clxscore=1015 suspectscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609070029
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:IAEQrMAW37FbMJ5q3jcWAA--.48581S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZF45Kw47XFy3Gr13JF4DXFb_yoW8CFWkpa
+	95KryxGF4xWFy7G3yxGr1UGr15GF4xCw4UGryIq3Zaqrn8ta1ktr17tr98Kr17KrWFyFW5
+	ZF4rKrW5WrWjy3DanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQCb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCY02
+	Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr
+	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
+	rwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
+	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
+	z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUVYhFDUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Hi Yury, thanks for taking a look.
 
-On 9/5/26 5:58 AM, Yury Norov wrote:
-> On Thu, Sep 03, 2026 at 12:02:35PM +0530, Shrikanth Hegde wrote:
->> Actively push out the current running task on a non-preferred CPU. Since
->> the task is currently running, a stopper thread must be queued to push the
->> task out. However, if the task is pinned only to non-preferred CPUs,
->> it will continue running there. This helps to maintain userspace
->> affinities, unlike CPU hotplug or isolated cpusets.
->>
->> Though the code is similar to __balance_push_cpu_stop and quite close to
->> push_cpu_stop, it is kept separate as it provides a cleaner
->> implementation specifically for CONFIG_PREFERRED_CPU.
->>
->> Add the push_task_work_done flag to protect the work buffer.
->>
->> For now, only the currently running task is pushed out. This keeps the code
->> simpler. In the future, an optimization may be added to move all queued
->> tasks on the runqueue.
->>
->> This works only for the FAIR scheduling class.
->>
->> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
->> ---
->>   kernel/sched/core.c  | 81 ++++++++++++++++++++++++++++++++++++++++++++
->>   kernel/sched/sched.h |  8 +++++
->>   2 files changed, 89 insertions(+)
->>
->> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
->> index b4ef2e92d786..35e7eedad104 100644
->> --- a/kernel/sched/core.c
->> +++ b/kernel/sched/core.c
->> @@ -5808,6 +5808,9 @@ void sched_tick(void)
->>   	unsigned long hw_pressure;
->>   	u64 resched_latency;
->>   
->> +	if (!cpu_preferred(cpu))
->> +		sched_push_current_non_preferred_cpu(rq);
->> +
->>   	if (housekeeping_cpu(cpu, HK_TYPE_KERNEL_NOISE))
->>   		arch_scale_freq_tick();
->>   
->> @@ -11202,3 +11205,81 @@ void sched_change_end(struct sched_change_ctx *ctx)
->>   		p->sched_class->prio_changed(rq, p, ctx->prio);
->>   	}
->>   }
->> +
->> +#ifdef CONFIG_PREFERRED_CPU
->> +static DEFINE_PER_CPU(struct cpu_stop_work, npc_push_task_work);
->> +
->> +static int sched_non_preferred_cpu_push_stop(void *arg)
->> +{
->> +	struct task_struct *p = arg;
->> +	struct rq *rq = this_rq();
->> +	struct rq_flags rf;
->> +	int cpu;
->> +
->> +	if (cpu_preferred(rq->cpu)) {
->> +		scoped_guard(rq_lock_irqsave, rq)
->> +			rq->push_task_work_done = false;
->> +		put_task_struct(p);
->> +		return 0;
->> +	}
->> +
->> +	raw_spin_lock_irq(&p->pi_lock);
->> +
->> +	/* This could take rq lock. So call it before rq lock is taken */
->> +	cpu = select_fallback_rq(rq->cpu, p);
->> +	rq_lock(rq, &rf);
-> 
-> If select_fallback_rq() grabs the lock, then when it releases the
-> lock, there's a window for race between the other process and the
-> subsequent rq_lock(). Or I misunderstand it?
-> 
-
-select_fallback_rq taking lock is for any state change that needs to happen
-such as fallback to possible CPUs etc.
-
-Most of the time it won't grab the rq lock. Even if the task got pulled by load balancer
-before grabbing the lock, Below (task_rq(p) == rq) will catch that, and it bails out.
-
-So it is safe.
-
->> +	rq->push_task_work_done = false;
->> +	update_rq_clock(rq);
->> +
->> +	context_unsafe_alias(rq);
->> +
->> +	if (task_rq(p) == rq && task_on_rq_queued(p) &&
->> +	    !is_migration_disabled(p))
->> +		rq = __migrate_task(rq, &rf, p, cpu);
->> +
->> +	rq_unlock(rq, &rf);
->> +	raw_spin_unlock_irq(&p->pi_lock);
->> +	put_task_struct(p);
->> +
->> +	return 0;
->> +}
->> +
->> +/*
->> + * Push the current task running on non-preferred CPU(npc).
->> + * Using this non preferred CPU will lead to more contention
->> + * in the host. So it is better not to use this CPU.
->> + *
->> + * Since task is running, call a stopper to push the task out. This is
->> + * similar to how task moves during hotplug. In select_fallback_rq a
->> + * preferred CPU will be chosen and henceforth task shouldn't come back to
->> + * this CPU again.
->> + *
->> + * Works for FAIR class only.
->> + *
->> + * If task is affined only on non-preferred CPUs, no point in moving it out.
->> + */
->> +void sched_push_current_non_preferred_cpu(struct rq *rq)
->> +{
->> +	struct task_struct *push_task = rq->curr;
->> +
->> +	scoped_guard(rq_lock, rq) {
->> +		/* Push the task if its explicit affinity allows */
->> +		if (!task_can_sched_on_preferred(rq->cpu, push_task))
->> +			return;
->> +
->> +		/* There is already a stopper thread. Don't race with it. */
->> +		if (rq->push_task_work_done)
->> +			return;
->> +
->> +		if (is_migration_disabled(push_task))
->> +			return;
->> +
->> +		rq->push_task_work_done = true;
->> +	}
->> +
->> +	/* sched_tick runs with interrupts disabled. */
->> +	get_task_struct(push_task);
->> +	stop_one_cpu_nowait(rq->cpu, sched_non_preferred_cpu_push_stop,
->> +			    push_task, this_cpu_ptr(&npc_push_task_work));
->> +}
->> +#endif
->> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
->> index 6c3ad70e58b8..678e44134acf 100644
->> --- a/kernel/sched/sched.h
->> +++ b/kernel/sched/sched.h
->> @@ -1298,6 +1298,8 @@ struct rq {
->>   
->>   	struct list_head cfs_tasks;
->>   
->> +	bool			push_task_work_done;
->> +
-> 
-> It should be protected with CONFIG_PREFERRED_CPU. Also, the name
-> doesn't look correct. You set the variable to 'true' even before
-> calling the stopper. Maybe need_push_to_npc, or similar?
+On 8/24/26 12:38 PM, Siwei Chen wrote:
+> From: Siwei Chen <businiaoanka@anka1.top>
 >
-
-ok. npc_push_work_pending is probably a better one? 
-> Why did you place it between cfs_tasks and avg_rt? If no specific
-> reason, maybe place it next to CONFIG_PARAVIRT-guarded fields.
-> 
-
-I don't see a common empty space there. I could increase the size.
-
-> What about pahole?
-
-I did check pahole on powerpc which has 128 byte cachelines.
-
-	int                        online;               /*  4524     4 */
-	struct list_head           cfs_tasks;            /*  4528    16 */
-
-	/* XXX 64 bytes hole, try to pack */
-
-It was empty space. Now, that i check 64 byte cachelines it may not be the
-optimal one.
-
-I do see, a couple common places for both 64 abd 126 byte cacheline. I believe those
-are better places. It won't increase the size or cause any existing fields to
-misalign. It also makes sense to guard it again CONFIG_PREFERRED_CPU. I had not
-done to avoid ifdefs. But it is used only under it. So i think that makes sense too.
-
-1.
-
-	struct balance_callback *  balance_callback;     /*  3608     8 */
-	unsigned char              nohz_idle_balance;    /*  3616     1 */
-	unsigned char              idle_balance;         /*  3617     1 */
-
-	/* XXX 6 bytes hole, try to pack */
-	long unsigned int          misfit_task_load;     /*  3624     8 */
-
-
-2.
-	unsigned int               ttwu_count;           /*  5276     4 */
-	unsigned int               ttwu_local;           /*  5280     4 */
-
-	/* XXX 4 bytes hole, try to pack */
-
-	struct cpuidle_state *     idle_state;           /*  5288     8 */
-
-
-I will pick one after little bit of probing. My preference so far is first one.> 
->>   	struct sched_avg	avg_rt;
->>   	struct sched_avg	avg_dl;
->>   #ifdef CONFIG_HAVE_SCHED_AVG_IRQ
->> @@ -4280,4 +4282,10 @@ DEFINE_CLASS_IS_UNCONDITIONAL(sched_change)
->>   
->>   #include "ext/ext.h"
->>   
->> +#ifdef CONFIG_PREFERRED_CPU
->> +void sched_push_current_non_preferred_cpu(struct rq *rq);
->> +#else	/* !CONFIG_PREFERRED_CPU */
->> +static inline void sched_push_current_non_preferred_cpu(struct rq *rq) { }
->> +#endif
->> +
->>   #endif /* _KERNEL_SCHED_SCHED_H */
->> -- 
->> 2.52.0
+> Translate .../networking/team.rst into Chinese.
+>
+> Update the translation through commit aa8a6ee3e3fc
+> ("docs: networking: convert team.txt to ReST")
+>
+> Signed-off-by: Siwei Chen <businiaoanka@anka1.top>
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+> ---
+>   .../translations/zh_CN/networking/index.rst      |  2 +-
+>   .../translations/zh_CN/networking/team.rst       | 16 ++++++++++++++++
+>   2 files changed, 17 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/networking/team.rst
+>
+> diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
+> index 333e9f6cafff..fcb8dc8f2c72 100644
+> --- a/Documentation/translations/zh_CN/networking/index.rst
+> +++ b/Documentation/translations/zh_CN/networking/index.rst
+> @@ -29,6 +29,7 @@
+>      alias
+>      mptcp-sysctl
+>      generic-hdlc
+> +   team
+>      timestamping
+>   
+>   Todolist:
+> @@ -136,7 +137,6 @@ Todolist:
+>   *   tc-queue-filters
+>   *   tcp_ao
+>   *   tcp-thin
+> -*   team
+>   *   tipc
+>   *   tproxy
+>   *   tuntap
+> diff --git a/Documentation/translations/zh_CN/networking/team.rst b/Documentation/translations/zh_CN/networking/team.rst
+> new file mode 100644
+> index 000000000000..e6cf19a245a1
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/networking/team.rst
+> @@ -0,0 +1,16 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/networking/team.rst
+> +
+> +:翻译:
+> +
+> +	陈思为 Siwei Chen <businiaoanka@anka1.top>
+> +
+> +====================
+> +Team（网络接口聚合）
+> +====================
+> +
+> +Team 设备由用户空间通过 libteam 库驱动，该库位于：
+> +	https://github.com/jpirko/libteam
 
