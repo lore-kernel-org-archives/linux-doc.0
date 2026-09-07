@@ -1,64 +1,65 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3515444E64E
-	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 09:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CB045A286
+	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 09:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788774912; cv=none; b=Whp7Peb4D2uTmYnWNWaCIZIEbd/Dj0zHaHoW+ErdHzfa0yEPIkXI5Cw8lT0C5LJEcjpSeiMV/PE02FplWcoZAv0qzcMBs/AQeKxNk/4kvtERIFxkFfc5V8XSXjJ/OcUBk/gqGVDUyDKs4rzJmeTibfJoK8ouR6HU+6WH2kWY3e0=
+	t=1788774915; cv=none; b=LWhU3hMEW9ZH2v+EHHCAXu07PMkg6YIIAycb8e00bZCyFjI9Ma3qYCOBUqSQnhxcJi9A6R27zbxMsERu38ALR9eCsR00oG9C7TRXwM/n6JJ5qqYBMtAgFKusUHWKNXfUZc1JjFyEfa+w2eelFzYkTXqcjlUWZ7sk0evPDuYGaMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788774912; c=relaxed/simple;
-	bh=i9d4Vftsku4C4hRtse/HfWlFXzHBBI2yaNFsrVGvuRc=;
+	s=arc-20240116; t=1788774915; c=relaxed/simple;
+	bh=tDCa7ypFvLoWhXF3E8eC2MDG7wG71/R39Yigupo+2EY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=L8hPL6joPS756nB0UAfXo+BVGm5avyOrT0YVaMgja4A9h9KuZOfaI7Ud7tlvlfz7ErhpNj2/GdsNKBJGL+Y8xjadAbixY9sCHYJRfempq6jfO9JkDoU4jW0BpntkiA9bkiaxurbzScVC1P6AA54lw0WGOoY19Igp/8FLWe/bEfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rYb/6dud; arc=none smtp.client-ip=209.85.216.49
+	 MIME-Version:Content-Type; b=QGH0MaAVb+fLDuD0APA6hqiyxvbeRs9U/21jzE3ceQ/SN7y8asXTlYcQe1DO8aquUO70p0RsiMnd8ZmDb0uaskWxejcu5o0bHISd/QDcDIX9qP2VbDZ2ovqV7+rLcfiSQdovlIEnmLjBii+DcpQGweFZ5YFiqp9YSiCh2njwSbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JPZy4pId; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rYb/6dud"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-381b831d535so5555971a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 02:55:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JPZy4pId"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38759bcd877so3371409a91.2
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 02:55:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788774909; x=1789379709; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2PD03fl7XZ6y143t1i1zJonTPm8hoG59RG3FMhqUEKQ=;
-        b=rYb/6dudsrjrCPnaXEiTRGPURgOsyipjYS8AN4udPKKPeit3KmvHYceI71Jvt+YNHR
-         t9xMDNoEZgqz0TvN6PLNz5D9HYAobf/K2ftJr6OIIekQkQM4d0aFl6JXXW4e1wd2xRc4
-         0oTHWIHp1e1CRRgkZwvwwFSN/28wIu0+krLDvqDjJRh8u00WdOdprw24xHPiBJ2WuNnf
-         V3/HXpkUGKcJYt0qzzFjjr2slUihOaxFydNHBkqpBtCPXe3GrLvb040EE05GHdAaXJhn
-         tNb1r6CYPNsDNGImbnQt8C2NyJsFCdXM6ckTgwRu55/F0n8chbnUN6eybm2/h28YDiUD
-         a4PQ==
+        d=gmail.com; s=20251104; t=1788774913; x=1789379713; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kTIH4rp729nLZ+mp+FLaZ9eDX+y2kMWtUzXLWEWBJHs=;
+        b=JPZy4pIdEyja1/Zz8cD7RSlL9A6TNFwv2gmRwTipVgEN2aZayza5B04LfndeTDlldu
+         XnRWw2GjPP/1PrCA66SIekfaRzPzlnBBXLLUkA/Rl9m95oscfuwySc/tcNLz/5UL3ObG
+         gmOb70WyJTwx3gQBui1fVFBYiGCtNY7s9g8qwQw5dlqdm09xFbhuy95wE3YWoKDu1zXm
+         QXejF3jxhharvDWxA5V/W54BhE5DsBo7Qte0PfXGcpLu6pcWejcdfUqkU8L3Qa6inFDp
+         68f75roel78iT49xuOM0HT1xUTWIbrtK/3kpber6bsYwUMu59kHbzfBNKnz4XvxqRAeM
+         14WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788774909; x=1789379709;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2PD03fl7XZ6y143t1i1zJonTPm8hoG59RG3FMhqUEKQ=;
-        b=LK3I2d8qW3EN38JcpKOTxt+ZrMBe5ked3AGljua1UHIFOW1iuZy8JH3B5/3enyiNpJ
-         rZ01uVMrGMIy0RAlIB876gHyhYo7H7alYAL6+51JOJ91V30BiaAaWkz0wMjRDNJqd2fO
-         C/iH3FIdtJqr7Owuy/dp4R+slxEN1PzwlzGmXEhgLAIq9nvzBcYbDsBg2Xb8iY0XCFDV
-         8xCi4GI/UFY7xihVhsTHNrv47v7KvUnZ7siPwUqt+9CoHr29owz03/Jd3Ge06dUKJFpV
-         2ypEN1jRBuYasvghbqnswrx98ce8wbLlQTYn0Np+UpAZv+SsOXx5J+HBWow8HL3mYCfr
-         3JKQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy0+VqvUvk9Ht3PrrBuLRF+BhvrCHrNGNdry4I023E2LPUkjhotq6bURr80CF1+ZWLJExw+q96NYjo=@vger.kernel.org
-X-Gm-Message-State: AFuF++lse/ZGoiCl6HHwu8zNAKpUzbL/GVNrG9379okRzb9mK77Idt9I
-	bJW5rYaCQ0mUdv8dfLYTe8/QZEesvKvlsdsL59876hKzu9NKQA7mbrWO
-X-Gm-Gg: AYBFou18BxjPGHqaojbYAJJJ3MEUp78TF8j38VcV+Yc/Pse0XUlyxOio/xpzxcRZnqh
-	mTMs9o8yBtcTU0azTNAGKc3bLa1OQxATPlSESLEUiBOqmVHIwBqdTxGU7p6bwzMKLrvznsqwHWr
-	OS/P338fD4zv/9BmmH0WMYm4evQzDNplWNbutcajAmXcGMpihdaQKDAxk5zeewe+xNsiHvM092l
-	ShZD6tu0kyaoLTpjpuK2k0ejuKdKnNyrIaPpHg1Act0SUBG+319er50k5DT5tEKe4JBJNo6yVN8
-	SiMmMD5a/TjtmnAYjs4NHyow3vbYqhaE8mxAO8EitcUOwqEu7MdV7D2vENJvy8XIrLbNZHxgR0O
-	eFEyrXqXxIsh7xqR3VQ4F38lRxmIU6ZKgtlLuRA8P7DMTCdKmuNtV4arLZ0rJZanGrIfl7Umq+3
-	hN0sZo7TWzrD9XQCOwtcxIbEhRbsH9rsKihDs+zrn01/DxjGYMffmCF47u2CwAgVt5I1Kam6oIl
-	GixlKa2XADvYRE=
-X-Received: by 2002:a17:90b:3803:b0:395:7fff:a08f with SMTP id 98e67ed59e1d1-39b25eef036mr31016094a91.0.1788774903375;
-        Mon, 07 Sep 2026 02:55:03 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788774913; x=1789379713;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kTIH4rp729nLZ+mp+FLaZ9eDX+y2kMWtUzXLWEWBJHs=;
+        b=HcAOuijm4m64Uv12xLN7L8wfQU82D+8a8qv9vWsV3s5dpMoRP6TMCsukarSnOUgoCd
+         boJp0+L+D4gjkFy3R4fidrxzhhGi5jcrYGy+O6hBkQICJkQyEZbZoO6SRt+rQMq9t4vi
+         LNwJiCYpQpLrwpERi41UYeQuU6eG0Q8dnM0hZ7EWT8k0L7U0RKJI2Kqmgt7qVTBu6HaD
+         Mie5N9fJNyRU/XQXPnjJ7nYy+7VqEw0VGPxP54iqzPkdGTJfs/gZK+WXL/+MKKMwsbUx
+         DzdfMEIPVGcHsB1XH0KAiS2HYVhW3o4zpNwKikEGSr5EnYEdJb11toxbeF4BEc58xxbO
+         9CMA==
+X-Forwarded-Encrypted: i=1; AKwUvByOR3ejagFD60U+P6hM77kacA+DUNvNq3iGfRCpxlXsa2o0erT5llTAOhyeuDd5ovkj/Tu7vwl1J50=@vger.kernel.org
+X-Gm-Message-State: AFuF++mJNhXXbNnNucitKiEfbMS4LBs03dFMLsce4YDIbTaKqe0ixxOS
+	ZNtmBMlrz3Ovi+irISjhYNSUQ7V7f+abBM0u8sbTn401lgscTf00DP/b
+X-Gm-Gg: AYBFou3OGmwbGBO6p50iBBppO6JeHVDekhdR8AMEvz747VRe3t3Ek0DKA4poUb0wLF1
+	vEP73yBbV5aNMpU5W++sE1yNNV7hXcrQ2CgwowhKi0qRQ7JKCKxzjXJz8K+PFydYPHiRTu8825X
+	BlCjjN4vSTGot8l21RQTpJ1fXkX2TJMxnlXQsEElnNCFK/XnEn+n4TL9hqJnMNUUFHfvSIMlUDX
+	HctDVF+kM+DUKTPQHlq8O/Yq8w7yIcRtn4hTW2QrCZL3mhZR2G/JI68qvDUDUf7rE9sJSddcFGJ
+	ktDOhaxtq6uzFyQrbwTFVW4Jvs8I1LaXvizrRHCUsWdNItWYepomalLfD9bM0851CTW6wBNqP9y
+	xt7Ko6oiKPf8/3+2ofltiK2q2BPYM7qJQ4w6xMw8WA413lItPxYTSdXn9Qlya3akZYXGHz95ohY
+	u3LTRno+6dFruBy5tn8MRdFDrp2+tPVxKRHdI2S2eNzHVFFx3MfO0VuFJlQke6BJyQLzE3+rqRl
+	4VVOP7R44hELA==
+X-Received: by 2002:a17:90b:5289:b0:398:e96a:8999 with SMTP id 98e67ed59e1d1-39b261d0d83mr36070397a91.16.1788774913277;
+        Mon, 07 Sep 2026 02:55:13 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1432424d27asm34831030c88.2.2026.09.07.02.54.58
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1432424d27asm34831030c88.2.2026.09.07.02.55.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 02:55:03 -0700 (PDT)
+        Mon, 07 Sep 2026 02:55:12 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
 To: Tony Nguyen <anthony.l.nguyen@intel.com>,
 	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
@@ -75,9 +76,9 @@ To: Tony Nguyen <anthony.l.nguyen@intel.com>,
 Cc: netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH iwl-next v2 2/4] ice: fix typos in comments
-Date: Mon,  7 Sep 2026 15:24:44 +0530
-Message-ID: <20260907095446.27290-3-hemanth.selam@gmail.com>
+Subject: [PATCH iwl-next v2 4/4] Documentation/eth/intel: fix repeated words in comments
+Date: Mon,  7 Sep 2026 15:24:46 +0530
+Message-ID: <20260907095446.27290-5-hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260907095446.27290-1-hemanth.selam@gmail.com>
 References: <20260907095446.27290-1-hemanth.selam@gmail.com>
@@ -87,11 +88,11 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fix typos in comments, found with scripts/checkpatch.pl using the
-misspelling list in scripts/spelling.txt. Only touches comments, no code
-changes.
+Drop repeated words reported by checkpatch.pl. Only touches
+documentation text.
 
 Assisted-by: Cursor:claude-opus-5
 Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
@@ -104,47 +105,33 @@ Notes:
     
     v1: https://lore.kernel.org/all/20260907064528.6602-1-hemanth.selam@gmail.com/
 
- drivers/net/ethernet/intel/ice/ice.h       | 2 +-
- drivers/net/ethernet/intel/ice/ice_main.c  | 2 +-
- drivers/net/ethernet/intel/ice/ice_sriov.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/networking/device_drivers/ethernet/intel/i40e.rst | 2 +-
+ Documentation/networking/device_drivers/ethernet/intel/iavf.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/ice/ice.h b/drivers/net/ethernet/intel/ice/ice.h
-index db3c7015c56c..e5f940d324dc 100644
---- a/drivers/net/ethernet/intel/ice/ice.h
-+++ b/drivers/net/ethernet/intel/ice/ice.h
-@@ -1105,7 +1105,7 @@ extern const struct xdp_metadata_ops ice_xdp_md_ops;
-  * ice_is_dual - Check if given config is multi-NAC
-  * @hw: pointer to HW structure
-  *
-- * Return: true if the device is running in mutli-NAC (Network
-+ * Return: true if the device is running in multi-NAC (Network
-  * Acceleration Complex) configuration variant, false otherwise
-  * (always false for non-E825 devices).
-  */
-diff --git a/drivers/net/ethernet/intel/ice/ice_main.c b/drivers/net/ethernet/intel/ice/ice_main.c
-index d88835482d3a..fe47ec0ba809 100644
---- a/drivers/net/ethernet/intel/ice/ice_main.c
-+++ b/drivers/net/ethernet/intel/ice/ice_main.c
-@@ -6202,7 +6202,7 @@ ice_fdb_del(struct ndmsg *ndm, __always_unused struct nlattr *tb[],
-  *
-  * Features that need fixing:
-  *	Cannot simultaneously enable CTAG and STAG stripping and/or insertion.
-- *	These are mutually exlusive as the VSI context cannot support multiple
-+ *	These are mutually exclusive as the VSI context cannot support multiple
-  *	VLAN ethertypes simultaneously for stripping and/or insertion. If this
-  *	is not done, then default to clearing the requested STAG offload
-  *	settings.
-diff --git a/drivers/net/ethernet/intel/ice/ice_sriov.c b/drivers/net/ethernet/intel/ice/ice_sriov.c
-index e04de0215596..9ef1aa66fa2b 100644
---- a/drivers/net/ethernet/intel/ice/ice_sriov.c
-+++ b/drivers/net/ethernet/intel/ice/ice_sriov.c
-@@ -924,7 +924,7 @@ static void ice_sriov_remap_vectors(struct ice_pf *pf, u16 restricted_id)
-  * is correct etc. Then disable old mapping (MSI-X and queues registers), change
-  * MSI-X and queues, rebuild VSI and enable new mapping.
-  *
-- * If it is possible (driver not binded to VF) try to remap also other VFs to
-+ * If it is possible (driver not bound to VF) try to remap also other VFs to
-  * linearize irqs register usage.
-  */
- int ice_sriov_set_msix_vec_count(struct pci_dev *vf_dev, int msix_vec_count)
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
+index 53d9d5829d69..e01f0adda3f6 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
+@@ -692,7 +692,7 @@ queues: for each tc, <num queues>@<offset> (e.g. queues 16@0 16@16 assigns
+ 16 queues to tc0 at offset 0 and 16 queues to tc1 at offset 16. Max total
+ number of queues for all tcs is 64 or number of cores, whichever is lower.)
+ 
+-hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new new hardware
++hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new hardware
+ offload mode in mqprio that makes full use of the mqprio options, the
+ TCs, the queue configurations, and the QoS parameters.
+ 
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
+index eb926c3bd4cd..5840569917f5 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
+@@ -171,7 +171,7 @@ queues: for each tc, <num queues>@<offset> (e.g. queues 16@0 16@16 assigns
+ 16 queues to tc0 at offset 0 and 16 queues to tc1 at offset 16. Max total
+ number of queues for all tcs is 64 or number of cores, whichever is lower.)
+ 
+-hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new new hardware
++hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new hardware
+ offload mode in mqprio that makes full use of the mqprio options, the
+ TCs, the queue configurations, and the QoS parameters.
+ 
