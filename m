@@ -1,67 +1,37 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F1B4749EF
-	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 11:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD09478870;
+	Mon,  7 Sep 2026 11:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788780361; cv=none; b=d77w8+5r4uo4YwVTi/c6DuHzf/RjGqII0sQqSxRByEdkid7qrL6ZQCGqZMZSGMMFOe68nNZsssH690mc1Jja6fJb1uF2QbnxmO7ayfEVc/mJt5GVIP/jRReoHw2ZfcwrpUV7U+GZ6lpwmIB4EoWvnh+KVGC5yRbx7ps5AqKkhtU=
+	t=1788780538; cv=none; b=UpuYyqNNCeL7712lDtqFGCx/2QMA5xbZcIky7y/qZhp37xgMhMw6XnZQbbrrXBY9vi1HW5CyoXPwo9I++iD0xq5+iJs0CrPSUbQoaxYj0i2WCIRp2AcEzSDy9rSqKokF/DNbLD9T+EIp/kv9qyIsNq65VWpJ2G+gvQi3TZVYUdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788780361; c=relaxed/simple;
-	bh=r5w4vZHxYOow+S9w69v8p+rm/PS+NwfbtQJFBtx0rXU=;
+	s=arc-20240116; t=1788780538; c=relaxed/simple;
+	bh=4R0oW681/U498bcQXGtV5FfgxlhTh7wut+xWKFqIdIc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cr83Q6CrpkPqeP9YhN6GU2O3ZECd/2N5H+xGCx21eogN4UgsUke82OSiALqVuF9KSEM05HOBaQZ7EcUMRYtCOtd4Kz51Vj4ddDGem+KKoMhlI8+lBDCL2SMrj5prDjWw3uW9sLLdVFG0mYuZm0r4ECX73bAP0El6MTdE/PkMBdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dGXRbyn6; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=bYUpVs9LMvmyMTlvMIqzUfBK7JYhPQAttoRfl2De2Ppksp9ghB2kmBmk3OTNal8T4DqHccMDTxDPydlPiF1aTSYoGOMQ6LOHxFHH0AleTUWEwEMjkvgbUEBo+yPS/XzaK5FULmWJsDJUHR6cjmlgH8lJ6Kc0KvQRBH2ivBuSDbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=T9dpmgIc; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dGXRbyn6"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c207cb16cf5so522049566b.1
-        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 04:25:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788780357; x=1789385157; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Rw9wEnmmRS9YsDudq+DNMbA6mN+2z8x1quln5q6huH8=;
-        b=dGXRbyn6bnkA35cdpQzhxPErEc3K4NGPNckPg7j2FBrvwy6fFBJ4tGfINGBW/DQk+y
-         m+mpZcUcjmljLaE5bE7Uocnedi5OAH3lFTLVNR9cMh6+YPxbzgY3enEf8exdmgph2x6P
-         S+Oqkakqu68hqPvr54vifo0fXXK8mU3V/lfo34me9DWhDhyc83LRyzJSYI6vf2oEmDlj
-         YR3USw0lYPv/4YprQkyCA9ulGEUzD650UO23aKhrQsM4ZJ/qLme8QdjyU7mzgNooFWDG
-         FeqIxUF7xrmlLDSZ+7eqK6M06m+RVmPYUTuz1DuWQuWLKv2gZuF8U2+C7sDUdtybH1iH
-         lM+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788780357; x=1789385157;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Rw9wEnmmRS9YsDudq+DNMbA6mN+2z8x1quln5q6huH8=;
-        b=ItKAeIuqaMEjcIzij/rx8wNvP0oXGb3Z7H+6IppPKnqqkV376UU+5B1NpdPIcSDTLA
-         p1ceg4RpS30P16wLC8qB27BYWW3qP9Ixp9MWb3E6JbesRrhfzQXe3rEFso/4DQIUkCS3
-         +dATX1I955Sgp/F3U741M1voaX7o1HG8Hll7yVyK4vriHttp/aYIOnIoPyfY/e/xjGEF
-         ons8G9QYVpGCFAKtoUubE5BPKh6XGnLJ2ECxP0MITNYJtrVKX4UpFxjf+s5mffOgJwvD
-         JmnPKcISAvrsn05D90OuKJWlA3QAzdNGdnb8Kr7yNWQN/MFA+LB+tIt3dj3jsTYHdxqv
-         fu0A==
-X-Forwarded-Encrypted: i=1; AKwUvBy6YxrZ3za06S3znSEr+PyfvxHILjs0jKvqegF/Ej6h3aMoKEFljdS4Ibx+0z4cExeVvA75CBAzCn0=@vger.kernel.org
-X-Gm-Message-State: AFuF++mCca9q13vtdaqKMEB/leFfvh+OnqxiJevAyTt+zQaoenmpUqhu
-	IlZonIaKCzwtWkeYAGXDfkBxIccZG7FeOBeVcFFqBgJsRTdIO0dwa04Y
-X-Gm-Gg: AYBFou1uGKb8Q3OIlygsZ+Hmhp7PbZFDO5m24hxdqc4lMOX6VFaydiJilSQtC4UT3xs
-	WPjbygBoLtaXsmPeK4rFBSu/78mQkekwykuVoyTvvM2xYXq/nxReJjY/uKbT/PdaON2Np+9Xx5l
-	h6adKbKjWIPUoOc9fVx0aMo2TvZBiGadE4DklT94VqJymRl6rDL4GsGn3MzyLsqgLlQ7L4gaZzp
-	Ogt9vsZT3giG4UQd7qLpmb0QCRwrUM+WWIKVwjCV4BM7sjmXmqO2QOCE53o+E4n6NM18Usk0Ts9
-	1IwlVsIG/q8VA/Z9UgT3uHbgwMxHqI7cH/UKWkvgjGypdqgDm4M2X7KtzwRGciWKrp8z48r7bOT
-	PuZU3JrbGLZmHXFAW+1pwhmsCrBWwegw27jLLCVeXKkXmPNRtDLTlMmPexqQgQNqvvrrtjhN0Sw
-	zBhX0kMLcizS4zgVucfiFZ4A/9sHFoh0pQnqQ0eRNOHbtO3VLteVNmABZgN0snhqIkE68Adiot
-X-Received: by 2002:a17:907:9622:b0:c21:34a3:4df9 with SMTP id a640c23a62f3a-c260c69a59cmr891010466b.3.1788780357031;
-        Mon, 07 Sep 2026 04:25:57 -0700 (PDT)
-Received: from [172.24.138.145] ([137.71.226.102])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c262f97f1a3sm285317866b.19.2026.09.07.04.25.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Sep 2026 04:25:56 -0700 (PDT)
-Message-ID: <21704002-3bc7-474a-9e27-dd9b7f01a4bb@gmail.com>
-Date: Mon, 7 Sep 2026 13:25:53 +0200
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="T9dpmgIc"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D9AF53E83F;
+	Mon,  7 Sep 2026 11:28:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1788780526;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LSrNw+Mw+QIUoy0T4F9WkDJEEONatr2//AJjEdYMWzs=;
+	b=T9dpmgIc95c2enklCsXTocH/Me69usLRfAw4bBmF9gtvq5ABKILOzgrvwAB9BNfHpG0KaA
+	HjmXwgw3zP+LGNhuKxhUtVg3La3krYkedHyaKVIPZe4dxp1SkDQXq7czfTdR3UPsBGtX84
+	RLbPONsdKm+h3UCMxet/XcBXUXh6u09aOejpAbTb0dJ8O1jcKospkMy/9AVjVHQYv92whE
+	G/gStsgPWpefxsgiiW0ADCq8JQFVsp0TJ6zi4woLfiR6XJOuBZQVqXbyiSf+L4ObHoDbIQ
+	+EnN3KbNMHslI1LXsm7YGW1g46mqWaWM9FsDs7xEqw+F7QnnHMF6cUHNXYpCcA==
+Message-ID: <f2dfede5-b54c-4bab-92d6-48249b429bc5@gtucker.io>
+Date: Mon, 7 Sep 2026 13:28:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,74 +39,68 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/17] iio: adc: Add AD7768 and AD7768-4 core support
-To: Jonathan Cameron <jic23@kernel.org>,
- Janani Sunil <janani.sunil@analog.com>
-Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Michael Walle <mwalle@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux@analog.com,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>
-References: <20260904-ad7768-driver-v6-0-e4378f946bfb@analog.com>
- <20260904-ad7768-driver-v6-5-e4378f946bfb@analog.com>
- <178866660277.3402141.13365217395986099796.b4-review@b4>
-Content-Language: en-US
-From: Janani Sunil <jananisunil.dev@gmail.com>
-In-Reply-To: <178866660277.3402141.13365217395986099796.b4-review@b4>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH 1/2] scripts: add TOML config to container tool
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, linux-doc@vger.kernel.org,
+ workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, automated-testing@lists.yoctoproject.org,
+ "kernelci@lists.linux.dev" <kernelci@lists.linux.dev>,
+ Nick Desaulniers <ndesaulniers@google.com>, =?UTF-8?Q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>
+References: <7d8ba914cd174d716340bb2b88723bef0f330627.1787565460.git.gtucker@gtucker.io>
+ <apG3hwaPA8f7SJeI@levanger> <b45e7864-928c-4b3c-aa62-64f4f63d85c7@gtucker.io>
+ <ed43b869-6fd4-4b00-8fd2-e9dd9aaf3349@gtucker.io>
+ <20260903202700.GA3790602@ax162>
+Content-Language: en-GB
+From: Guillaume Tucker <gtucker@gtucker.io>
+Organization: gtucker.io
+In-Reply-To: <20260903202700.GA3790602@ax162>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-Cause: dmFkZTGYZ0xusX7B3vtGEumXHWWs3taCaC0TRLuhSk1Xjf6hEIZALIUlCCS0I/nesxusF2897jbZGrlgFwkxPfIiN3hbvJorR29XIS+H4S+El4YU2yG+9hRWyTJ+3pK9GRyXCTnlmK/7IQ2Y48I43N1/ICy8CyHR2XQkI6fp2D5byzkek+kpmgXBPdlv29U1JGPVdwEUqukJ91D74TnOjoF95aSNSQ/x7z4KCVMXIHc8VtWSQaSURAEdU7c7bnS2aHvRKPKuSXPZvH7iJTIhUQsPRN/xK+UNgqABMI0YfW2kQ/7yBOLh4nMOrGIDYd5/yu2lhYsLNds07CYjJ3T/eYi9XF0Bju3NMjpYn83V55GZA5a7nnkrrBG4ltTywXEZxk4ihfddli+x8QeFf6erhRQQzczPzoEa8i/pPncQY8Kznfd57KKI+Sy4yVjRDlpgePmuc7balo2/Bvq1sL5jaBblKbqHXX4WmCoekfSW0pxq8Wqb+vtC/9beenO2XlVviVUGmktVt2d0ZEss8x6dtOdDPoXu4yeLmCGjJwIEAr1uFz2gEpZT4k+sZsFTkWUyABIaW9im46pQUhv/LXgUUSSme+chk9ugJxiSrqGG9ji9Kechtq7+C7XnZZiJMNnmsOPAlp9nmr2n+7XYEBjwXQQaE8/yEMtOj9g2/W0QI7sWrnnQ+Q
+X-GND-State: clean
+X-GND-Score: -100
 
-
-On 9/6/26 05:50, Jonathan Cameron wrote:
->> Add core support for the AD7768 and AD7768-4 simultaneous sampling ADCs.
->> Configure supplies, clock and reset, use a custom regmap bus for the SPI
->> protocol, and parse the enabled channels and input buffer settings from
->> devicetree.
+On 03/09/2026 22:27, Nathan Chancellor wrote:
+> On Wed, Sep 02, 2026 at 12:26:29PM +0200, Guillaume Tucker wrote:
+>> So to recap, here's what I would suggest:
 >>
->> Connect the converter to an IIO backend for buffered capture with CRC,
->> provide a fixed safe wideband sampling configuration and add runtime
->> power management.
->>
->> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> ...
->
->> +
->> +static int ad7768_get_enable_vref(struct device *dev, unsigned int index)
->> +{
->> +	const char * const *supply = ad7768_vref_supply_names[index];
->> +	int refp_uV;
->> +	int refn_uV;
->> +
->> +	refp_uV = devm_regulator_get_enable_read_voltage(dev, supply[0]);
->> +	if (refp_uV < 0)
->> +		return dev_err_probe(dev, refp_uV,
->> +				     "Failed to get %s supply voltage\n", supply[0]);
->> +
->> +	refn_uV = devm_regulator_get_enable_read_voltage(dev, supply[1]);
->> +	if (refn_uV == -ENODEV)
->> +		refn_uV = 0;
->> +	else if (refn_uV < 0)
->> +		return dev_err_probe(dev, refn_uV,
->> +				     "Failed to get %s supply voltage\n", supply[1]);
->> +
->> +	if (refp_uV <= refn_uV)
->> +		return dev_err_probe(dev, -EINVAL,
->> +				     "Invalid reference %u voltage\n", index + 1);
->> +
->> +	return refp_uV - refn_uV;
-> Do we never care about the offset inherent in where the negative sits?
+>> * keep Python 3.10 for this series, continue discussion about minimum
+>>   and optional version numbers tree-wide in other threads
 
-The absolute REFx- voltage does not introduce an offset into the ADC transfer function. The datasheet defines VREF as REFx+ - REFx- and the LSB size as (2 * VREF)/2^24. Zero code remains at AINx+ - AINx- = 0.
+Sorry I meant Python 3.11 as the minimum version for this series so
+we can have TOML support from the standard library.
 
-Regards,
-Jan
+>> * drop registry config file option in v4 then add it in a follow-up
+>>   series along with image name validation and parsing using regex
+
+Done in v4 which I just sent, will send the follow-up once this
+series is all done.
+
+>> * leave TypeError exceptions as-is in this series, improve user
+>>   experience and error handling altogether in another follow-up
+> 
+> Sure, I think this sounds fine. I tend to ignore existing issue comments
+> from Sashiko when it comes to accepting a series, I would always prefer
+> them to be handled in a separate series.
+
+Thanks for confirming, makes sense.
+
+Latest Sashiko review for the v4:
+
+  https://sashiko.dev/#/patchset/68b14a76a4cb2e6437c869bab948983a98acffbd.1788779245.git.gtucker%40gtucker.io
+
+The `env_file` comment is moot as the user should be able to trust
+the config file provided.  It's exactly like the classic
+docker-compose.yaml env_file use case in fact.
+
+The other comment about injecting options in the image name is also
+partly moot as the arguments passed to the subprocess wouldn't work,
+still I'm going to be addressing this by validating the image name in
+the follow-up series so that should then get resolved anyway.
+
+Best wishes,
+Guillaume
 
