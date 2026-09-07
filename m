@@ -1,96 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66813542CF
-	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 20:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6FB3C0619
+	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 20:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788813660; cv=none; b=ivdC7QpuZz5cGRk5R0UPsmCPB46AGe4C96FwhgPbzSDTE72yJKByV55AY5TWf0QseLo6ElnccpgNfPSNdTsmmNWKd0hUKwW8ZuWOPfzK7Uui2gsDkqsBUvqdlfxuZV3vZ8t5JyHBU6hfAlFAZZNEnHT1dciIDMQG4GfgGiW3Big=
+	t=1788814380; cv=none; b=WV8emkwS/51Xq1Ixk1ipCsutKtLAmW4c9tax0fC7dApnzT87P7VsUCfahKVx9BNd5WDdFuv+L4n7Mo1WFmFaCRroyv6Q0VMADLQ6m6MH8qNXHl3mJaIhsWEq1cR3Rp5FdO0M4tR8udcE6A06WvkmlXWTeOAphabx3OkNrTSx6+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788813660; c=relaxed/simple;
-	bh=o2dZvq2Uy1EvmNeAwH9vVp3xsxd30jgYDocdTwOtGDU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dHrthWYI9bVwuUHFSC0cUEI3EnazUudlHfws/Md69YPBJzWCbBrtF0AiwQpyQ3ET9eZXxwq3WMaqXhnk6ndiZ+gjvIX70M8PBph8DndhynLOLwSI8bw8UhJmztuosivPUE/D3OHEWfau99OcoRHimnViuWjstRHK6DbvTA5/L5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TfW16cl6; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788814380; c=relaxed/simple;
+	bh=HSRA27bv0CSjidcVERjNYFlK+wUZ6/j+WxBFA3lQiNg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kcZre1dBjrdA2csJclwusiLTo2XKrLjzPeEykIXZPSepEAN5o839NmrDTlwhDQnUBEiGO0T6PZpNjINCXSGw7BaYgk6CbcBRU1RB4+wLuZFgD6HWH6bccls6KVZ1hytqE+NhukxnOE/LehMTmr7j3jX7nkBxWV2tXzfFmL8fwck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F2JLcaRV; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TfW16cl6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788813658; x=1820349658;
-  h=date:from:to:cc:subject:message-id;
-  bh=o2dZvq2Uy1EvmNeAwH9vVp3xsxd30jgYDocdTwOtGDU=;
-  b=TfW16cl6YRfQNHHOHqgIl4RRobMWnQBuGKG4qzP71An9zdVK58uyEP2k
-   U62OUcEF2z/nmE3zLl4S1+yX3XN/icAnocRko9Ep9FSw2qUBV75TjAxgm
-   B/EwJP4+gpuZcPimZEOYA4h55E3Tz383+qkUKM4/imcvRNX7islm3/dIP
-   woRZpaSqEJJWMeLZ78J2xMliaYJA559gcdzTv2gRdk3f1QG069kgcS/to
-   J3NEovZxnSR9eBKa8nZvvrHo3SPyauv+OGMaLs3CTQ64Jlbfd97vQzy9g
-   K3dCiyehkmNropEzra5oK0Ew0YcBo43H/8cTAVNo1mWyHdq9d37v3FdTD
-   A==;
-X-CSE-ConnectionGUID: KpPk5XQzQbiMAjv3qA8K6Q==
-X-CSE-MsgGUID: AlZpnFLrTZGVnnOxrIZYEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="114757229"
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="114757229"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 13:40:57 -0700
-X-CSE-ConnectionGUID: T97rcIbhRgSbAHFNe0sknw==
-X-CSE-MsgGUID: u2z7eeYYRCCsdjLPhdVPSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="269480960"
-Received: from igk-lkp-server01.igk.intel.com (HELO cc074f2a4298) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 07 Sep 2026 13:40:56 -0700
-Received: from kbuild by cc074f2a4298 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x3g98-000000000NW-00cg;
-	Mon, 07 Sep 2026 20:40:54 +0000
-Date: Mon, 07 Sep 2026 22:40:27 +0200
-From: kernel test robot <lkp@intel.com>
-To: Ye Bin <yebin10@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/block/deadline-iosched.rst:89:
- WARNING: Title underline too short.
-Message-ID: <202609072237.PTJwx6U4-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F2JLcaRV"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4957eefd361so30765135e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 13:52:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788814375; x=1789419175; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eQjT79f/PL7EerkiFGV6aTGjf3ylMrdZfagr1i24BYY=;
+        b=F2JLcaRV2EWkuVkdYe+bCv+CLh/FzlZDHwNSX1zBKM0AVNH0O61dMx2xZcrsmwJ39e
+         9ZwUbtECjkJ167xG41wezAfQCI4++GvVx/mDMSH6YfxTiipdxJAYma4pqqhcrYL5ueeu
+         jPJLuzyaJWW7Gn8Ewcom+g99k0UW32n7R9TT4osyXiyicalc6ovWYtvTLmIH7x6A5/+3
+         d6NwCUr6rSZ2hEcx9RrCmHRNPWBGYY039JR2BaqzjkGhzd2IlR/cETVq6B0m5twgsxmt
+         7qg+2zDJLxtplQyF63sMlAHDHPjXa1jEh+25N7TKEJ/4+Uq7zKZnYQml7SlmiU3GjCkq
+         xLKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788814375; x=1789419175;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eQjT79f/PL7EerkiFGV6aTGjf3ylMrdZfagr1i24BYY=;
+        b=MvEjtcrijhJrOQjQwV89nA1YApwo+D3JorIH8bVO+yuxI3PrYgs6PKhjKztaZVNp6j
+         8ywT4eakHkr2oRG/9nA33YmFBhRbLl2s7bREJ6rkqvmdrMe5YkUvxGRQGSndUMMBU0CD
+         2kMzatM+wc0iuNrMfH6qjpwM9Pfb71FSpONuhHwuIbrgTa74xBZGEu6xgy/jG/HcU++C
+         JCL77DJy53NT/otS4MtOgq3Vvj3Or+A3iEZXK78zJfwHag+EF48V23JC+gz04THJOWAC
+         6KGZkVxOJ/fG/v4AaZvMNdsCM5jCavb1QW/1znJNcQH093wXADMMrVx3eidkieHanNke
+         UA+g==
+X-Forwarded-Encrypted: i=1; AKwUvBwx0GhTA4Wi6LzWWoR6AI5YvUFwN9u3++RF92ecctdCgQ3yLHsLYfJ3L3rT0lHSsdo2fSqW9vyDnks=@vger.kernel.org
+X-Gm-Message-State: AFuF++mbusqRzmp7/u/tgtk7UttrKdTXcOr68DyDQVIhg6EJ5BhJVpsX
+	JrmAa+9XyPzag3Iz7WVlrU2B0GwnxY9svfjZ6oWE0/4k6OR5oX6Y7DPo
+X-Gm-Gg: AYBFou1Yj64Lvsrx+l7KqXt2ip8msTRe5mjLizkrSSDLuvpW+wxwjbXiGNmVB7KESgG
+	mPfAPP3FEweHF6HjLIAOWhPtLftjjgdi2YiTcDQGcTh+UkuV78jV1SUhwEFBSFzhgNt/azX9eO1
+	I/RIedfOB4vsHw2PCC7NdVOIOlAsNQHT3p1cfE+UG6oblDCN+ZglcJJNFTRr2A2Qxmdc+Fo2EZb
+	uoxH4KPEUEBWTnznPLKwyNStYf6k2Koe3x22hAP6iVK7Snk++eyxE54LE2J0H7q9pCvl3TFZklX
+	T32dL6Od2KC84v8hDOBMDMb4Xn7Z8ZeuheSw7VC37NJkJRYr4WLW+KKcL4BTkd+MaUAnuqfHtvw
+	0Ogx4KyokD2iHPnBYSvfYidZgOFKwC+LDF0V+dYj0FM6UvpvIgu+X5x8wFHZUj0exKP3seijuVN
+	DuV4bF1t7LiUtlXnN3Oi7R7MpvwcAEaYYJ32MFcvpQu0LapD9pjsgbzf/vxW++ijimPXUQZ8gRl
+	aqkOP2QditI09tgrAk+WutnCAkK12Pn0EVhPjOQ+8WE6O7wHopqxAMV
+X-Received: by 2002:a05:600c:34d0:b0:49c:fc6e:a3d3 with SMTP id 5b1f17b1804b1-49cfc6ea71amr202238935e9.18.1788814375238;
+        Mon, 07 Sep 2026 13:52:55 -0700 (PDT)
+Received: from [10.128.10.232] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee5d476esm462304515e9.1.2026.09.07.13.52.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Sep 2026 13:52:54 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <7d625678-18e4-4231-b5ad-d840a37cf029@gmail.com>
+Date: Mon, 7 Sep 2026 21:52:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Julian Braha <julianbraha@gmail.com>
+Subject: Re: [PATCH v2] docs: kconfig: fix shell function syntax in caveats
+To: Erkan Erdem <hexvalid@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Kees Cook <kees@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ llvm@lists.linux.dev
+References: <20260907103739.23212-1-hexvalid@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20260907103739.23212-1-hexvalid@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/block-mq-deadline-reject-zero-prio_aging_expire/20260831-190141
-head:   243f0bf03d19d8dac85f52966d0c268aa925fda5
-commit: 243f0bf03d19d8dac85f52966d0c268aa925fda5 docs: block: document prio_enable and prio_aging_expire in deadline-iosched
-date:   7 days ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260907/202609072237.PTJwx6U4-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609072237.PTJwx6U4-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Using alabaster theme
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
->> Documentation/block/deadline-iosched.rst:89: WARNING: Title underline too short.
-
-
-vim +89 Documentation/block/deadline-iosched.rst
-
-    86	
-    87	
-    88	prio_aging_expire	(in ms)
-  > 89	------------------------------
-    90	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 9/7/26 11:37, Erkan Erdem wrote:
+> Kconfig separates a function name from its arguments with a comma, but
+> the caveats section uses Make-style whitespace in its shell calls.
+> These expressions expand as undefined variables rather than invoking
+> the shell function, so the supposedly working CC_HAS_ENDIAN_FLAG
+> example fails to parse.
+> 
+> Add the missing commas to the shell calls in this section. Keep the
+> Make examples unchanged.
+> 
+> Fixes: 316d55d55f49 ("Documentation: kconfig: document a new Kconfig macro language")
+> Assisted-by: LLM
+> Signed-off-by: Erkan Erdem <hexvalid@gmail.com>
+> ---
+Reviewed-by: Julian Braha <julianbraha@gmail.com>
