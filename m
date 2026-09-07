@@ -1,102 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-m1973175.qiye.163.com (mail-m1973175.qiye.163.com [220.197.31.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A86406834;
-	Mon,  7 Sep 2026 07:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1934411F8D;
+	Mon,  7 Sep 2026 07:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788766042; cv=none; b=dpl06pNesRHgjrmxbwJDN7ggG63en3CkU7TfJP3tb+QWPrWIqTMXu3cm/lUhbXO4Dxfe1RSfw+o/4GjEoK51dkI60vVIh9KfotmTTYOdZqaR82NylQ+nbf8iqdgHC3ro6N3IZHRpvqoDBjY9vLQKwEjnjZNpltjoHaW44x1pzUQ=
+	t=1788766812; cv=none; b=U4ifkJB3RuNsXdArJ9mBQ5E83gvSuXo54ygfE0FxqKH7085fCmgoqAONUss7WQX28VYBXWosUcIQM8Hj/Ugw2kgkGxu1M0tg1M2e1Gd0FHgaXNAU1pT68VC7aLvIgNk0c8+YwUE3oMLLNM+Ou212xwkjMOkWLVg3rdnyxtPqJS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788766042; c=relaxed/simple;
-	bh=sl0tLdkhp/SX5dcOoHZyYQeZFVQfUhXi9XWBUC+Z34g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dGppTuByADg/EFWz8714/rW5NxGhQDorvFxt42LQtmwKoTLpBdQNJx2Sek2PQz7tjbzpd7TIJ+D93t23s88LHRw+cobXhMDYjffMg/xWVwpv3AmSu3TvzCMKKKJt6ZuEnnfYSJMtHrNnRbu0CNyxuOtZv+/01ctHHHGhNtQjWH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kaxCEAdx; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kaxCEAdx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E61351F00A3A;
-	Mon,  7 Sep 2026 07:27:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788766041;
-	bh=DJZ2ds+Ren32Zxnv+Y2iOl0ccIRLQlyRg2ueg6Z/dX8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kaxCEAdxYg9CRE8pfmp7dmb4yrOXZ0ZC0VXTl4O11IZ+vnzTAaLoQnEYBG8txsJd7
-	 0egL71T1O2BcU6hLS/M/KYtDjOCrh0b87Q+9Kbj61wVyC2iOPMPCdzhaE0c0TAaWyY
-	 u58yA8ZSSZz3aUxOesafDwytF8H5ivSl+ZGX/pcche0IbTsucjoNdxKsDBZGARFrdC
-	 HQsMMdwfZnaubqShkZv3kCPIousAWG8qeWPtl3U/QHH/y8k+d22Onf6Bysru0Bx6t/
-	 AirDXD9d0Q1nkCw+IoNjKrHpCRdC0RXTuKzCvB/9Z6l6vslhBzAXX6KLGxlHZZT4y3
-	 q0Mva3MGcidjQ==
-Date: Mon, 7 Sep 2026 08:27:15 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	"Liam R. Howlett" <liam@infradead.org>, Michal Hocko <mhocko@suse.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, SJ Park <sj@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH] docs/core-api: memory-allocation: clarify when to use
- kzalloc_obj and kzalloc
-Message-ID: <ap5nTcKoDyiybuxH@gremlin>
-References: <20260907063654.2248617-1-rppt@kernel.org>
+	s=arc-20240116; t=1788766812; c=relaxed/simple;
+	bh=FETyHV5oNdwe2B+5dMcqMzeGfptPLJBq55LFY+oJtxI=;
+	h=Content-Type:Message-ID:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:From:Date; b=mTXYYcTuAKZvzUlLkqX679IceZsBbTt/Jz9dzG9dddiLFu4ZsavP9B1XeQXGsd7FGjyyjcvbruOVJLpXFQXa1FU8HU3YX0I+kl23s7X0XDvgvKbYD0ZNIkrFFlty/sW+7QdrK6EgIvx8FPKuN3ZHu8vQ+CZ0ECpzAULOnh9DbUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnics.com; spf=pass smtp.mailfrom=resnics.com; arc=none smtp.client-ip=220.197.31.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnics.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnics.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+Message-ID: <AAoAJADfK4tx**u*ymw4P4pP.3.1788766489184.Hmail.zhouruizhe@resnics.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Robin Murphy <robin.murphy@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Frank Li <Frank.li@oss.nxp.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gZG9jczogZG1hLWFwaTogcmVxdWlyZSBjaGVja2luZyBETUEgbWFzayBzZXR1cCBlcnJvcnM=?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com web
+In-Reply-To: <20260907054733.GA31481@lst.de>
+References: <20260907054400.1088151-1-zhouruizhe@resnics.com> <20260907054733.GA31481@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260907063654.2248617-1-rppt@kernel.org>
+Received: from zhouruizhe@resnics.com( [103.23.89.253] ) by ajax-webmail ( [127.0.0.1] ) ; Mon, 7 Sep 2026 15:34:49 +0800 (GMT+08:00)
+From: Ruizhe Zhou <zhouruizhe@resnics.com>
+Date: Mon, 7 Sep 2026 15:34:49 +0800 (GMT+08:00)
+X-HM-Tid: 0aa07ab8203402eekunm82ad2a0a8e0f
+X-HM-MType: 1
+X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMdz8H/g99eSjsmp79ug4TtUOfceK239+6Wx8rS
+	Mt4AmfBcwCFqZ+1IZEb/P4yrJDw3D5ktAxUewQQNUzChlx4Ph2Q2L9LR/RpKEmchiGgC4lZSc7VZ
+	8kfhB+Z9K1dTvdgjh2PPkTjttTX9Ls/rO9ypA=
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZQ04eVh1PTB4YTk9LTE0YSFYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlKS0hVSUhVQ0JVSU5IWVdZFhoPEhUdFFlBWU9LSFVCQk
+	lOS1VKS0tVSkJLQlkG
 
-On Mon, Sep 07, 2026 at 09:36:54AM +0300, Mike Rapoport wrote:
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
->
-> Make it abundantly clear that in the most cases objects should be
-> allocated with kzalloc_obj() and buffers should be allocated with
-> kzalloc().
->
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-
-LGTM so
-
-Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-
-> ---
->
-> This applies on top of "docs/core-api: memory-allocation: add
-> k[mz]alloc_obj() and clarify kmalloc" series
->
-> https://lore.kernel.org/all/20260902-docs-memalloc-guide-v2-0-218c1a4dcb80@kernel.org
->
->  Documentation/core-api/memory-allocation.rst | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
-> index 823f7fa57429b..648222b6c8576 100644
-> --- a/Documentation/core-api/memory-allocation.rst
-> +++ b/Documentation/core-api/memory-allocation.rst
-> @@ -23,12 +23,14 @@ answer, although very likely you should use
->
->    kzalloc_obj(<VAR_OR_TYPE>);
->
-> -or
-> +if you need memory for an object and
->
->  ::
->
->    kzalloc(<size>, GFP_KERNEL);
->
-> +if you need memory for a buffer.
-> +
->  Of course there are cases when other allocation APIs and different GFP
->  flags must be used.
->
->
-> base-commit: d7dd88ed029164fe0a959e126d0ce18dd3719f89
-> --
-> 2.53.0
->
-
---
-Cheers, Lorenzo
+Cj5Gcm9tOiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KPkRhdGU6IDIwMjYtMDktMDcg
+MTM6NDc6MzMKPlRvOiAgUnVpemhlIFpob3UgPHpob3VydWl6aGVAcmVzbmljcy5jb20+Cj5DYzog
+IE1hcmVrIFN6eXByb3dza2kgPG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbT4sUm9iaW4gTXVycGh5
+IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4sSm9uYXRoYW4gQ29yYmV0IDxjb3JiZXRAbHduLm5ldD4s
+Q2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+LEZyYW5rIExpIDxGcmFuay5saUBvc3Mubnhw
+LmNvbT4sU2h1YWggS2hhbiA8c2toYW5AbGludXhmb3VuZGF0aW9uLm9yZz4sUmFuZHkgRHVubGFw
+IDxyZD51bmxhcEBpbmZyYWRlYWQub3JnPixsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnLGlvbW11
+QGxpc3RzLmxpbnV4LmRldixsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnCj5TdWJqZWN0OiBS
+ZTogW1BBVENIXSBkb2NzOiBkbWEtYXBpOiByZXF1aXJlIGNoZWNraW5nIERNQSBtYXNrIHNldHVw
+IGVycm9ycz5PbiBNb24sIFNlcCAwNywgMjAyNiBhdCAwMTo0NDowMFBNICswODAwLCBSdWl6aGUg
+WmhvdSB3cm90ZToKPj4gVGhlIERNQSBIT1dUTyBzYXlzIGRtYV9zZXRfbWFza19hbmRfY29oZXJl
+bnQoKSBjYW5ub3QgZmFpbCBmb3IKPj4gRE1BX0JJVF9NQVNLKDY0KSwgYW5kIG1vcmUgZ2VuZXJh
+bGx5IGZvciBtYXNrcyB3aWRlciB0aGFuIDMyIGJpdHMuIEl0Cj4+IGNvbnNlcXVlbnRseSByZWNv
+bW1lbmRzIGNhbGxzIHRvIGRpc2NhcmQgdGhlIGNoZWNrIGZvciByZXR1cm4gdmFsdWUuCj4+IAo+
+PiBUaGUgZ2VuZXJpYyBkaXJlY3QtRE1BIHBhdGggZG9lcyBhY2NlcHQgZXZlcnkgbWFzayBvZiBh
+dCBsZWFzdCAzMiBiaXRzLAo+PiBidXQgdGhhdCBpcyBub3QgYW4gQVBJLXdpZGUgc3VjY2VzcyBn
+dWFyYW50ZWUuIEJhY2tlbmQgY2FsbGJhY2tzIGNhbgo+PiByZWplY3Qgd2lkZXIgbWFza3M6IGli
+bWVidXNfZG1hX3N1cHBvcnRlZCgpIGFuZAo+PiB4ZW5fZ3JhbnRfZG1hX3N1cHBvcnRlZCgpIGFj
+Y2VwdCBvbmx5IERNQV9CSVRfTUFTSyg2NCksIHNvIGEgNDAtYml0IG1hc2sKPj4gZmFpbHMuCj4K
+PlBsZWFzZSBmaXggdGhlbSBhcyB0aGV5IGJyZWFrIHRoZSB2ZXJ5IHNlbnNpYmxlIEFQSSBndWFy
+YW50ZWVzCj5pbnN0ZWFkIG9mIG9mZmljaWFsbHkgc2FuY3Rpb25pbmcgdGhpcyBiZWhhdmlvci4K
+CkknbSBzZW5kaW5nIHRoaXMgYmVjYXVzZSBteSBhdWRpdCB0ZWxscyBtZSB0aGF0IHRoZXJlIGFy
+ZSBtdWx0aXBsZSBjYXNlcwp3aGVyZSBhID4zMiBiaXQgc2V0IG1hc2sgY2FsbCB3b3VsZCBmYWls
+LiBBbmQgdGhhdCBkaXJlY3RseSBjb250cmFkaWN0cyB0aGUKZG9jdW1lbnQuIEkgaGF2ZSBubyBj
+bHVlIHRoYXQgdGhlc2UgbXVsdGlwbGUgYmFja2VuZHMgYnJlYWsgdGhlCkFQSSBndWFyYW50ZWUs
+IGFuZCB3aGV0aGVyIHRoZXNlIGJhY2tlbmRzIGFyZSByZXF1aXJlZCB0byBkbyB3aGF0IHRoZXkg
+ZG8gbm93LiAKTWF5YmUgd2Ugc2hvdWxkIGNjIHRoZSBwZW9wbGUgdGhhdCBtYWludGFpbiB0aGVz
+ZSBhbmQgZ2V0IHRoZWlyIGlucHV0PwpNb3Jlb3ZlciwgSSdtIHNlbmRpbmcgdGhpcyB0byBhc2sg
+b25lIHNwZWNpZmljIHRoaW5nOgpBY2NvcmRpbmcgdG8gbXkgYXVkaXQsID4zMiBiaXQgc2V0IG9w
+IGNhbiBmYWlsLCB3aGljaCBtZWFucyB0aGF0IGRyaXZlcnMgc2hvdWxkCmNoZWNrIHRoZWlyIHJl
+dHVybiB2YWx1ZSwgd2hpY2ggaGFwcGVucyB0byBiZSB0aGUgYmVoYXZpb3VyIGFkb3B0ZWQgYnkg
+bW9zdAppbi10cmVlIGRyaXZlcnMsIHdoaWNoIGNvbnRyYWRpY3RzIHRoZSBIT1dUTyBndWlkZS4g
+U2hvdWxkIHRoZSBkcml2ZXIgcmV0YWluIHRoZQpyZXR1cm4gdmFsdWUgY2hlY2sgb3Igbm90PwoK
+Pgo+PiAKPj4gRXZlbiBETUFfQklUX01BU0soNjQpIGNhbiBmYWlsIHdoZW4gRE1BIHNldHVwIGlz
+IHVuYXZhaWxhYmxlIG9yCj4+IGluY29uc2lzdGVudC4gRm9yIGV4YW1wbGUsIGRtYV9kdW1teV9z
+dXBwb3J0ZWQoKSByZWplY3RzIGV2ZXJ5IG1hc2suCj4KPlNvPyAgRGlkIHlvdSBhY3R1YWxseSB0
+cnkgdG8gdW5kZXJzdGFuZCB0aGlzIGNvZGUgb3IgaXMgdGhpcyBqdXN0IGR1bWIKPmFnZW50IHdv
+cms/Cj4KClllcywgYW5kIHRvIG15IGJlc3QgdW5kZXJzdGFuZGluZ3MgdGhhdCB0aGlzIG1lYW5z
+ICJETUEgYmVpbmcgdW5hdmFpbGFibGUiLgpBbmQgdGhhdCBpcyBhbm90aGVyIHJlYXNvbiBmb3Ig
+ZHJpdmVycyB0byBjaGVjayB0aGUgcmV0dXJuIHZhbHVlIG9mCmRtYV9zZXRfbWFza19hbmRfY29o
+ZXJlbnQoKS4KCg==
