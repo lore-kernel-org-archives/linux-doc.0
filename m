@@ -1,167 +1,209 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012054.outbound.protection.outlook.com [52.101.43.54])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C8F318B9C;
-	Mon,  7 Sep 2026 15:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788794400; cv=fail; b=N6kjp7WEkdBwpn8B8vK68t5SmEx1GiTDNdebMZjR+FhTC8amtwWzz/WIvqRSEePdjPWmpKyeuWXlKJaDqws3IqWkXK2OgPB+bc4npvjABQ9ZLAS0/U5IZSdJFQ5uqWcuFKu9TsvFkdxZIvZJAr5z5wkNvF+eIa/dJuAXEDTXYHs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788794400; c=relaxed/simple;
-	bh=M3Tp2joWn7zxJTidwJGEtJ4K3gXz4CpU02UQjUXseBE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=JvP/ePEC6G72GTSPi5u9SWtNJw9HAYugUK+03m3U+pDS8x4D1RIzvBpPdBwSODnSGN0VR5MXR5/Mgo7KppdnxWAYNUaEgq72Y8qarxTsk3ECmoZpeZyRzAqq5aNqlEsS9ZGvT5YzjGPg3Z0sCu066/PEb/QIl52Vn/8UiaKX/Qs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BDvcBnuJ; arc=fail smtp.client-ip=52.101.43.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0252647126F;
+	Mon,  7 Sep 2026 15:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788794512; cv=none; b=GZKANFpuykTszqysrFkmjz/YFkqKXbuWuR1OhR7YLOL4ahY4aR0BWvhdSB+FfmeiPnBoUMkGft51hCriFOsvQ49rliG8JdjteMMm3thw//NrGIDIjCmoE1bcWHZXlcQv+9FDoEKLkpX286JtuYhQPM4LdIwLo5RG9lMtXXCz/3o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788794512; c=relaxed/simple;
+	bh=gbkKpIew57EIPW7i4koNPoT1xxuDhPfRv78v7DQZwg0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kdFbjlq+vQNWGYO77xXp/BlB8MIhKvMrfoaj4BOwE2M8VFDzMCeyVav+9+dSoXRRzTRua0NIIcs2B4yvByvUpGS8ZUpmTV40VOROa9E0zhc4uT+dA6mzI8i0p76snpvzJi5kN8G5Kj29rbauEj52cvGqn+fo4zqWUn0aXoz82Nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ogz4sWjT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BDvcBnuJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BuKWS8UeaIv2lYW1CaW+CoQSjd0PxFxiql3L1G2OMcRMs10ot/Yf5csWxHMq3W/d4d7uGSyyw9+b5A28x4LFN9VJ16mi/8fttng66mtpDbVcPTQ2AAC4yJvNmBvDofXuAunhzWBMi9ioBoPnvYlvNnj5tNB+IDmmWHJemH2wQQqNau1VMyHlfmz61m9rX/mv/YjeeRqn2bRtyhF6UFzz5/+9J7Ew+IwR/M/fv/EAITT+XpHNBl1wzv7GGWUTVBgl3sEd/KQ6Q9AmMitsjpdkL+LFkxdfhuiuImEBi64++sOZ7Pf0UzzRSCoo4mPaHUB1wsFm926tmnP0pJWDtBE92A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X5YNuC75U+FlPolMrP/brdaCuSDIPgFdGDaVoA/cGOk=;
- b=qkiMWXwu4S4rWjnN5cZIrTpxmF9YHpjjrvAagNbm9DXcPOYsCoR1qmwX5PRME4+iuSd9gzqn4+Hfe9eYVma4gfUHPoqmMh5di2DLSIbKq2I84EYlM8UWqtt98/dVMOLdgVlsr13gEKcws31K58Ivcj1eOJ4uaPTXpgmZ8pAjU6d2UIycn1Mkz0g9zOsGAWLAgutarvA43FhFiA2n19YsccvleYVP/jcO/KXE3JWrqAe6M2cczX0JDTpQS+pavXGuxpZHKmWEK0CADjDd1B1bX8TGuFWxKVkz660l6hkRpT5O3qlZKx9z1NNCnmO/M6s04SPe1mEqvbaJd4cqXslrRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X5YNuC75U+FlPolMrP/brdaCuSDIPgFdGDaVoA/cGOk=;
- b=BDvcBnuJ1C3SLdIezZtPdYL6j8nrcZORlBn4b17td3pKhNstZhJ2+xpyiU74CJPCV5K7xEO1SixEHbzeVkZRqhrdZgK+Qv2zzie4NtkLTYYb9c7ZKtI3uwT/pTNqRoRKtGdmW+HEQ5K3Dp6wt6Um4LoQR8DEGwI5jAqN3lJUXTsz+OlyMs4RAzlKhaBsOrJbzRQ4rSDc0vhg8utxx08Pa2plnjx6iLpG5jcowJyo8K12oMw4u6WmqgGv35F2B/nvewLeAmWwKOG7E66++YvyV/9lReJB9ephq0e4b/e52vJq+wc0fsqB+r8qf1YdOUWTs8GJwyFEXK5PfXSQs7ch6Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by CH3PR12MB8660.namprd12.prod.outlook.com (2603:10b6:610:177::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Mon, 7 Sep
- 2026 15:19:54 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0382.014; Mon, 7 Sep 2026
- 15:19:54 +0000
-Date: Mon, 7 Sep 2026 12:19:53 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Mostafa Saleh <smostafa@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	Mark Rutland <mark.rutland@arm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Will Deacon <will@kernel.org>, David Matlack <dmatlack@google.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
-	Pranjal Shrivastava <praan@google.com>,
-	Samiullah Khawaja <skhawaja@google.com>, stable@vger.kernel.org,
-	Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
-Subject: Re: [PATCH v5 6/9] iommu/arm-smmu-v3: Precompute the invalidation
- commands
-Message-ID: <20260907151953.GZ4157646@nvidia.com>
-References: <0-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
- <6-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
- <ap7J6NKXgWhiwXgL@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ap7J6NKXgWhiwXgL@google.com>
-X-ClientProxiedBy: BL1PR13CA0361.namprd13.prod.outlook.com
- (2603:10b6:208:2c0::6) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ogz4sWjT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 212B91F00A3A;
+	Mon,  7 Sep 2026 15:21:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788794510;
+	bh=a+5RFC0Baa759aALArIRHXad42pi6d3/PpgEA3XTA2c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Ogz4sWjTJY5QbcKXGIExzvS5zIXOtlYSUNoeRn8Gs93j+EAHKuN84lMLMFlibCZgH
+	 3kPwDtLwZFAH9heyTvxgLQ0aLlzeNS2IAIQLQs+vj1aq6tchv0Zb/TDF3oI2zdvdOp
+	 TFuU3M4PuHIbaD5rqiRoU1ghaOz1/qSAYUUdbAOLCkfMrf64E+8gPhciMPX1r5uNVa
+	 5MtfZPBfI6uhUbgig8EIvl53OwNiNwbHTWg5AOcatks4ZCei+zWkEvsUc0R7nF2Zej
+	 VbC5JRUpGfPDpWhyIoHW5PTPkXU6wIIy+/CA5KBRCMFgR1kmBiRGygqD/RY9YUT4jd
+	 UbbhET7ejLVCg==
+Message-ID: <5d4c247c-b8ea-4d3f-b2b9-d442d372fd03@kernel.org>
+Date: Mon, 7 Sep 2026 17:21:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|CH3PR12MB8660:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a08a9be-6747-4710-def5-08df0cf37836
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|7416014|11063799006|56012099006|4143699003|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	wek8/XX0quxjxIIcKBSyMWjRfqkG1wgaJbQZxztoRWH1lOAgBTbxMTP6BfbJO7b1YYK+hn6IizIW5hpZ52N3a5iLFIntGmJEpNwekMlHl+qsmZR8DWIGK4o0eFdEkMov6SybK6NteNklEwFxWZaYwezofkaK5kNJ1dPfESKnj6fO9WAtcKoeEkrLsKHOWRLDwiQ3bDkUkL/9o6jaTlloNoTWQvRNH6PpLwqKvw+6pb1cRJU0dadMBuQAfiGLK7iiQE6D9fwZ48c4SzGeiVC7TqNkvYHVSgGpwqepIioXRC5Ay9mkY4rZzJtIlSC4GnMzOnA0yg5DQI43IrzQALBKKwaQLqh5UJ6BCbDWfOr6oEGNxOSgbGzATAp/Tb5lJ/+mcGioBdNLGrFPy/n+55LNF/Dmys7DRZe52MVoOHOCO4MvV5zxObkn5sncU+eaO6B+UfYps2dPuEDWBRkg8exwlOA1ps6ekZ3c3WpVMMaK9wVDPP02lB2I7++nss+fIB2SAb+hmZ3JGjuhREmSpQ9vV8Alkp8YtGwy98AW0b3THWPO2S22uMl81yChh7Zdeu0LBwdihJ6DRTW3BfEPoi1e+mbV1/r/fgsg2sKaxum7EjS20jim+g+V253tzem/pOy+iVtSZWRTu0HCm93o4AaxvcOMG5okNksAm7ooiYero7M=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(7416014)(11063799006)(56012099006)(4143699003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aGZxb0crS0pIVTlaV1lrcjZHMHVjRU5SVmowNWMvbFF1L2VBem9DMWtwbmhO?=
- =?utf-8?B?VjR4VzgxdFJubmRkd0IyUk91QnlYMlhIU0VJbFMvb1hldFRSbC9sd2F4Rzcx?=
- =?utf-8?B?cjZvTmszdnVtaEM1SGZET2diS3M0QVRSUXJsb3QySUp6c0tIWUhZRHFoR2Jq?=
- =?utf-8?B?ZlVhMDcrelNHTXBQRXgxSGIrL1lmazMwc1JhUkEvUjdWcTFadEF5QzBMN3FV?=
- =?utf-8?B?clJaMXRBSTZxb2FLZitPakNNT2syWEphVmp0aHVaZHB1R1E3cFQ2dVdSRmNa?=
- =?utf-8?B?SXBYS3FFd3Z2S0VJQ0EzbHVONGM3OE52dmpMMnJaa1F4NW1jMVJiUC82Q3RG?=
- =?utf-8?B?bFZYVFJxQkdUc1pCcUJZT0M4UFlDUnBaTEpkS09tWnFvejhYZWVESGxLUzQ5?=
- =?utf-8?B?WG5UT1hzQkRQTklROU9PVGhWS3I2NFBncHkvT3VYeW5UV2lNM3BFTFhkNlcy?=
- =?utf-8?B?NVRrem5Eb3dUT2pWNm93TWFBOU4wUWxXQUdKL2ZoS053bXRJbDlnUFdna3JY?=
- =?utf-8?B?OFprK2tLR3BEaTFTV2QrcTdYMlNhZ2lCMnJiZ2Zjc3dnaHpXK0NZMDRtOGdq?=
- =?utf-8?B?NVFnZkc3U2NUYklyOGVyYUIrUUhJclhzVE1hbFh3WEtscnhZMnBXYnRjZTF3?=
- =?utf-8?B?anVDVG1WODBwNlhRYjdLbEFCVVFjS0FTSno5SmtVSjVjUlRnQnJ0bDRyWWtC?=
- =?utf-8?B?N3ZJdmMzaGV2RzhPNXZYbkluTi9scWMrZFAxQ3NrUHI5QlAyODlDSGJ5MlZx?=
- =?utf-8?B?NnhvYUFHUE9rR2tUQmh0Zm9ZNm9hbjRtVnJvYkt0S0RMKzVTQzNUREVlL1NF?=
- =?utf-8?B?TldFakw2NTZpamcwQm9hTTZ5Smw1cFExQVE5RGFRTGdTODBCa2YxbkVwU1ZV?=
- =?utf-8?B?V3lyUTAvRnp6akN5NG5iVVIrcVhZNEFzREVyL0IxZGJHVFNYMFZ4bkhCNisw?=
- =?utf-8?B?WkF5SDU3aW9FbzEza01vOW1yclBkei9VODJQc0ZMeVk0SnhWWDNHVjJLOENl?=
- =?utf-8?B?d3Z0aTJyOVJOa2tYUEhtLzBZWXE0c1dkczBJS09KRm9mSVpRNlBHbUhTOXVQ?=
- =?utf-8?B?VjJ2WW9kdDgxcCswQ3pFaVoyVkZRdUQxV3Q2QWRFeVI1N3dQZnltbE8vZmVq?=
- =?utf-8?B?ODczNjFSMEdiWFltQmZMUU1lQkVsZWJJTTY4VjR4RlNTeml4TEd1WVB0QTdn?=
- =?utf-8?B?T3lMR3dNMERwUGplU3NFNjRzbE5hN1JRNnB0YWZZbTZHY3U0ZWRnWDVnTkxP?=
- =?utf-8?B?L09tME5qd1RUaVN0OGp0dGNKT0RUa0NaeDEyQU9vRkM5TUF0MXMwUUF5YTNU?=
- =?utf-8?B?MmlKcjFXUUkxd0VjdkltRlduZUxNWkNldVRwd2ltNU9FUDN6eWFFZ1UyNVdP?=
- =?utf-8?B?MkFxMlppUUpwMGVzdFVqc2krTDNMZjVIeU9kTW9HNk56K2EwTEszY1UyMUh0?=
- =?utf-8?B?d041bVk2bVRqeDVNaGhwemlVTUVwUEplQXpuSkxGcktZU2JYTWozazl3YzY0?=
- =?utf-8?B?VGtjbWovdlpjMm9sR0NIZExiSnNad3JyWlJXZ1I1dDRQNUFsQUZFblgyZDdu?=
- =?utf-8?B?ZUhSVy9MNEJFSUhoMkJuOUpZa3dZa1ZJUXVMUEZUSW90bytxMndiYXBPbDlO?=
- =?utf-8?B?UElHTXZMdjhGbk5zQmd5VWRGVjJlcVRTQzViVGVpTnYrZ3B5V1RNcCtLam1F?=
- =?utf-8?B?QmprWkFWODUzUUJMd0ZTdFpJY1JoOERLVUVGbTNVbzVSRytZUkZ5YytHRlNR?=
- =?utf-8?B?a0Z3OEM3c3JIYTFONG5XalB5LzZPTjBGQlZHZ0paQ1RIK0I4UDlnazRVb1J6?=
- =?utf-8?B?UGhOOStSQkMzZlEwZ0VWN2VvV0t6cmhnT3VmcWxpMVRYWkdNcDM5MndWQ2VF?=
- =?utf-8?B?bTJBWVpxT1RkZWhTV1JHZWV5SW1MWG9iOFNEUk0vWXlEcjl1S1Z6TlQ0M2hp?=
- =?utf-8?B?NnkyMU5XVGtxTmNNMGdBMzlpN2g5czNnTkpFS3I3ZzJLbjZKTzM1WTU5cXQy?=
- =?utf-8?B?ZkJNcEgvOHlKTTFJWVJCVG1FOUM2RThXSXQ3SDVvLzZXQllhQldORzd6R1lx?=
- =?utf-8?B?VHc0anljWlNvMExrN254M1NpZkExbG1uSWgvdVhhTXpISzdJcjJOQUg0SGFE?=
- =?utf-8?B?S01ERzlJVjRkMzZ1eFBrcmR6RGZyNTkwV0h4SnRhZE1JZDgvNHFrUmQ2MjR6?=
- =?utf-8?B?VG5UN1MySU9uS21hMFJDc08yWTJWa0lSa1pOb0hMZk9FajE2OERTWVRiRFph?=
- =?utf-8?B?Nnp4eDk5NHhsaXBiVXFzdWRCME42SzR1RVAvcThoZWc1RzRqcGhrOUpualRQ?=
- =?utf-8?Q?rAbPbx/SThKyAZZaV+?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a08a9be-6747-4710-def5-08df0cf37836
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2026 15:19:54.4360
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: etFZ0TZKDWKeJd85UnFCbcb9gaHAedCvAIdi+socJZVMTOVfUSLojXGFpPF0nREO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8660
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
+ filtering
+Content-Language: en-US
+To: "zhen.ni" <zhen.ni@easystack.cn>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Steven Rostedt <rostedt@goodmis.org>
+References: <20260903041819.1776630-1-zhen.ni@easystack.cn>
+ <a6ce8684-116b-42f2-a88c-154eb86bad59@kernel.org>
+ <a98bde94-d1fb-4246-b7c6-e64303d8388a@easystack.cn>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <a98bde94-d1fb-4246-b7c6-e64303d8388a@easystack.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 07, 2026 at 02:27:52PM +0000, Mostafa Saleh wrote:
-> On Tue, Sep 01, 2026 at 02:49:55PM -0300, Jason Gunthorpe wrote:
-> > Store the required cmd data in the tlbi and just copy it out when
-> > processing each item in the invs list. The cmd form only depends on
-> > if the instance supports RIL or not, otherwise it is always the same.
-> > 
-> > This avoids redundant calculations for each invs entry.
+On 9/7/26 06:08, zhen.ni wrote:
 > 
-> As I mentioned on v2, I don’t see a value for this without smmu
-> sharing over the same domain, as this just adds extra complexity IMHO,
-> but that's up to Robin and Will.
+> 
+> 在 2026/9/4 16:25, Vlastimil Babka (SUSE) 写道:
+>> On 9/3/26 06:18, Zhen Ni wrote:
+>>> This patch series adds process and memory cgroup filtering support to
+>>> page_owner. Following the previous series that introduced print_mode and
+>>> NUMA node filters:
+>>>    https://lore.kernel.org/linux-mm/20260707115411.1714314-1-zhen.ni@easystack.cn/
+>>>
+>>> This series adds filtering capabilities to page_owner, allowing users to
+>>> filter output by specific processes and memory cgroups. Users can now
+>>> filter page_owner output by PID, TGID, COMM (with wildcard support), and
+>>> memory cgroup path. This makes page_owner debugging more focused and
+>>> efficient for tracking memory allocations in specific contexts.
+>> 
+>> I wonder about the usefulness of all the new filters. In my experience
+>> page_owner is useful to find a kernel memory leak code, and for that the
+>> stacktraces are most useful. Dealing with things like pid/tgid/comm/cgroups
+>> sounds more like your aim is to profile and optimize particular userspace to
+>> use less kernel memory? In that case, isn't it rather the area of memory
+>> allocation profiling (or maybe tracing with bpf), not page_owner?
+>> 
+>> Moreover, tracing or bpf can already do such kind of filtering and AFAIK
+>> ftrace filters for tracepoints are nice and generic, while this is adding a
+>> bunch of custom parsing and filtering. So that makes me somewhat sceptical.
+>> 
+> 
+> Thanks for the review, and the scepticism is fair - let me first
+> clarify where I agree with you, then explain the niche I think these
+> filters fill.
 
-Nicolin already has a series that does exactly this, waiting for stuff
-already on the list to get merged before posting it. I'd rather have
-things organized in the way we know we need them..
+Sorry but your whole reply reads like a LLM slop. It took a lot of mental
+effor to actually try and engage with it.
 
-Otherwise we need to go around and change this stuff again..
+> In memory usage source analysis and memory leak analysis, I believe
+> page_owner has its own unique niche:
+> 
+> 1. Nearly all historical allocation records are queryable. Dynamic
+>     tracing tools (bpf, ftrace) cannot do this.
 
-Jason
+This seems totally the opposite. page_owner gives you the current allocation
+snapshot. Tracing can provide the full historical record of allocation and
+freeing, which can be also postprocessed for snapshots.
+
+> 2. The full allocation stack is recorded via stackdepot. Memory
+>     allocation profiling as a code-tagging technique cannot do this.
+
+I think there's some extension (or plan for it), Suren would know better.
+
+> 3. Zero extra usage cost (works as long as page_owner is enabled) and
+>     a low barrier to entry (one echo line versus writing a bpf
+>     program).
+> 
+> On the pain points that motivated the series. On production machines
+> with large memory configurations (e.g., 250GB+):
+> 
+> 1. Collecting page_owner information takes minutes to tens of minutes.
+> 2. The output is several gigabytes to over 10GB.
+> 
+> That makes the raw output nearly unreadable and forces post-processing
+> with tools/mm/page_owner_sort.c, adding further workload. The root
+> causes are:
+
+the "workload" is just cpu time though
+
+> 1. The PFN scan itself - unavoidable, it is the price of page_owner's
+>     core function of covering every page.
+> 2. Printing every stack for every page - this dominates the cost and
+>     is avoidable. stackdepot already deduplicates stacks and keeps a
+>     refcount per unique stack; page_owner then re-prints the same stack
+>     once per page, and page_owner_sort deduplicates it all over again
+>     in userspace.
+
+Since it's avoidable, why mention it at all? Oh I know, LLM slop.
+
+> The filters target exactly this waste: they keep page_owner focused on
+> the user's area of interest instead of paying the full print cost.
+> 
+> On the overlap with dynamic tracing and allocation profiling: the
+> features do look similar, but the usage scenarios differ. page_owner
+> is not enabled by default on production systems, so most developers
+> rightly reach for the lighter-weight tools first - dynamic tracing or
+> allocation profiling.
+
+Good! That's an argument against.
+
+> But when page_owner is already enabled, or the
+> lighter-weight tools cannot solve (or cannot conveniently solve) the
+
+Adding custom filtering code to kernel vs user convenience is a trade-off.
+
+> problem and enabling page_owner is an option, the advantages above
+> kick in: the historical snapshot is filterable in place, and the
+> filtered output is small enough to read directly.
+> 
+> So I see the filters as completing page_owner for the scenarios where
+> it is the right tool, rather than competing with the profiling and
+> tracing tooling.
+
+I'm not convinced it's worth it.
+
+>>> Targeted filtering provides significant performance benefits on large memory
+>>> servers by reducing both execution time and output size. By filtering at the
+>>> kernel level before reading, only relevant page allocations are processed,
+>>> dramatically reducing the amount of data that needs to be handled in userspace.
+>>>
+> 
+> Thanks,
+> Zhen Ni
 
