@@ -1,153 +1,286 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011053.outbound.protection.outlook.com [52.101.52.53])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0161B4EA394;
-	Mon,  7 Sep 2026 15:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788793915; cv=fail; b=RLOEN8GlxQhgeOu9DHYoUwBu8OVnIg/URJzohp5I0TMzWvze52joRh0vjp1404hZrHxHPiVCMtBIas1RHsOYNvHG8h1bJvBJhKCrlPXbRCsWRxMj89GE/Gl9zm4aRR+/1yyxx/caKLZCL2qgPfkxIwIMKWTGxfpkfx/DvFjajwM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788793915; c=relaxed/simple;
-	bh=4v8FErJDxJuWWsggZgUQRQ/7FXgBaG5gpA57aCOjpLk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=IZaGz0kmSJpEIOtDX/uasJs2t7DBz7kIV2PzWyBwkdJuG2MO+VfO0EOwu2SFqKYmxia/zij+TW3lhXUHUrXP99ediFNnsVFOlPp7zArbdVX89PCR7eQdPZDnGh0VYHym245fiJpZ7jsuwLJ5C3FBLkQJLAs9F3guL3hb9Z5L5NQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=SmmoHXOt; arc=fail smtp.client-ip=52.101.52.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A6B2BDC1C;
+	Mon,  7 Sep 2026 15:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788794130; cv=none; b=GUBOZCmF6IusAhHa5DVbveazTcW/gxs0oUFb+vQjfSj7XtJ49Q9yWsmwcPmp5lkc23x+eu6+ogzIT3G1aPGgLbVmprrYkhz+u0n2BvE37ycU+mVD920ilZ6kRAAUGrM+AA6cvvoHccVe9uTPD6i5QSPoPl71SIG4lbK49IjNsjw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788794130; c=relaxed/simple;
+	bh=sVyEianJEmsmNv8odnB6QrpoJZkRjqeCjoAPD0AAGqk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rF9XweWJ/7X61+Nr0CEax5GP0EQ4W2LCprjIsO8AZ9tWCppQSenWQgOIlBq6xyLCJyRGXpPuFq7l7D2/G8Igq1LB8BGvFEoJ9cEfbYvCKDLw0+1YEXMSi/q8i9YjEuMgLZbGNT7bRMjyEEphV2MFUIQso6/AuzMcktojgkP4aJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=euGPfO0e; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="SmmoHXOt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IUDWsa5kRZ2gx2EYwQYYOS+Fv4z75MTZVkls31WFqxKukW9g8kjlN6fwMNBC3w032deM8Vn2ija6dtlSyeiA1FVW0e2NzbuIr1f35N4CiqoCE+9++NxIp8Q3mvfHaY5x4RCoYxmFt3JuPultXLecS25vF26uLTfxrypE8zvm+oWDXZ5vEWsKju04QU1JfEdc5W0fkVKFKsOfVsU9qkk8uj2pJXVndHYriYWOOY/wap1QfNp3eDnorSBPGQ+bzudbxpveBlzC46fEiJkrES0e8klGJvcZbLYLjDMjql/60BJFkCqfW0N/KGAJaP06NjHD7SE2jO/q6QjCw1ATZr32qw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NovTYCRe5kJkTHgaQPZ/h4bNVe0PyLgbbblmELuQM8w=;
- b=WX1CZes7fmimCFpBru8EcxuGOgXH/W3i79IQ8HOc587JM5p4zdB0k8/9xTdu2/gVp3zInWaTrCHIzQG+z6qF54ELSXxO1wQ9nVsbOEiXQNa51Wdw8kbJQGCu/rU0edsRnfLpc6KNy8Un65qaWciUvCNdkZbcQgp/B0BZjX5bS3VeC/Zee6PRnjHAQ/e7rchzFTJXWv8FS7MXQBGzEhWIV51pVnlxf7ujLZgDJ+tYnvJ2FExC+wVadmSTjnY8qDmz/12j7cdzZqslyyPMtuFzLrKlzsseBn7Wlqsj6hiaSOIHrof5KBvBB18NzOWq5+9oRhkF8HaKb7eZoPozQW9wVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NovTYCRe5kJkTHgaQPZ/h4bNVe0PyLgbbblmELuQM8w=;
- b=SmmoHXOtrojhAtPWK1WSFRTOUfnRdZp2e4ZQSWAVsA+LxqhlBwQRStQuxemTrR8Vt47YRnWrwfMXex6GpJu0lguoUeibaqwu/NQEki7hd6ayJ3+Ch7nfYsHyNdSfnXXwtQLT+j3xoYAP41mkfI1b4ah/UwuycWINKZ49hQYQIb8QOt5OHJJId0yjLyDTURg8fMMjc/LlCEeL5glUlShhmN0qeAQ9f0b9rv2Td5mdKfnPjvOjVZfPUj8wImDop5RVL55hvNDwiuVjfVzECdgljuZEQvy4Xs1jUaXrxcVf0vtRIC4BMWcZJbxql3XIZD9LgeexuERNhxtOaW+hLpXRlg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by PH0PR12MB7789.namprd12.prod.outlook.com (2603:10b6:510:283::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Mon, 7 Sep
- 2026 15:11:47 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0382.014; Mon, 7 Sep 2026
- 15:11:46 +0000
-Date: Mon, 7 Sep 2026 12:11:45 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Mostafa Saleh <smostafa@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	Mark Rutland <mark.rutland@arm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Will Deacon <will@kernel.org>, David Matlack <dmatlack@google.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
-	Pranjal Shrivastava <praan@google.com>,
-	Samiullah Khawaja <skhawaja@google.com>, stable@vger.kernel.org,
-	Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
-Subject: Re: [PATCH v5 1/9] iommu/arm-smmu-v3: Handle ARM erratum for CONT
- under invalidation with SVA
-Message-ID: <20260907151145.GY4157646@nvidia.com>
-References: <0-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
- <1-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
- <ap7IeAfVPZL3Hqt_@google.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ap7IeAfVPZL3Hqt_@google.com>
-X-ClientProxiedBy: BL1PR13CA0071.namprd13.prod.outlook.com
- (2603:10b6:208:2b8::16) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="euGPfO0e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE94A1F00A3A;
+	Mon,  7 Sep 2026 15:15:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788794128;
+	bh=LI25JDv6LdNw5GdP3MdBucH0tpqtW3EinfdRXPIOwiI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=euGPfO0ehic5DgwGGkfjKu2JXIQIkYF5QqhsNhhQ8GYQ6fP8C8RvWTRpMyrfYxOOh
+	 VLCa5/GQbIbRsqek+3ZUjTVrd6DJqgCtI/fiw8SJWuTVbR/d9LHrA3tCX0kW/cmw60
+	 WDm/ASKaufbBR6jq781kYTujJNTKx/CePweRVq5wf0Wo43SaHaRNfSzx59dXpywJ6Z
+	 jIanAfMNDKZwsax14FRMi5tpTo8JYLLlvJ34HImhgkH+VtNrZY3TDhV1kdRpx8rJO+
+	 NPQznX5FP+rFbTQ0MgfjxS88Wa0zLAnFJuqbLkUAr1jkwBYAXKytu1k4lhP7ZuiqdO
+	 JKzXdjX5y2mTQ==
+Message-ID: <b0400430-c3b6-40d5-b476-49189b1cc292@kernel.org>
+Date: Mon, 7 Sep 2026 17:15:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|PH0PR12MB7789:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa3fc598-cd11-4b1e-1e6e-08df0cf2551f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|23010399003|1800799024|7416014|10067099003|4143699003|56012099006|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	6gK6OKxYLnYp3cHuj6Sy2MB1P3TeH+3camS42sasrawaK0r1mIDRC0SHfwWZUEsIdH6nT6ibApVfyRirZhGZA/ewT3ACTFCB8TGHfURVL/VqW+tbbd4Rs+BbpbSWnC5/nLpDuJ8Ymi8CD4hWxzGMIBrFA7Ck0DRGpELaPohAJGHU5jKzrSjhQGSHXtTqgr8HBPLfajsuLMvwCrakIIovE/Jbfya3qyX9ECdOjnQlCwPXWOXziPZF6aoxtKPNnUGL7kusaxdzT7/PihMfs7IXMEgfc8/RF5zUInqWG3LGVdpVI6NuhOy/Mu7a3YiSbj0c5Pkse4HYJ01PljUS5Dv26S/V74Mu5dH0CS7LvHsrgfp/scNDEZTxz7KMo4QAyQSpyTtMEjiidcsi7ku4R+c+sHBuYDREqPqATcgjCmKMnyKEb5dsxqZnlSYZjrDClNmJ7oueEz7HRE91jZa/7PFaOx3kFkOuzBSwdp0gOfBGaEc/mx7gGlMd/2k9gUM06Xct4EBgUmAIG2OqYwFY2/MS7EKmbmQQ4hfC5hmzx84pIpYqRWPS57HIeTnwuGAmHh+Y/WXnUBJx700PZVFfB70YS1M+bulU6dcC/D1FOMZVDs+1h0yz3Qrz4vmWxqNCQLcQeG6Ip61kBrymje/GhhkvB0f6Ied15QMVQwPFM93uOm4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(23010399003)(1800799024)(7416014)(10067099003)(4143699003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?gZ6IrDAtMY3FnbkmIFCdPr7KMWvP0cYpBXO0rX28fPn89V0Sj9xS8vzEfBs+?=
- =?us-ascii?Q?JdKZTzuLictWx18WvNXZoUoT4KqnjAGDW1DIFoz/w39zQWyk3lRqR45S6AWX?=
- =?us-ascii?Q?Cr5dMKX5meyxVlAzvt2RRaVY71zYFnRDLK1eYeYEVmUZwp94hDKUbdgU5Yir?=
- =?us-ascii?Q?NR+oP+UINsb3Bhtog89b22K+PdNBbVCZWbmvTVpf/pBgnQniTW0cnksBgD/H?=
- =?us-ascii?Q?V6qvQ9OYekE/P54rCgWw5pjEUYi3UO0/KEDaCt23PGP201qcEu4nsDjsn82D?=
- =?us-ascii?Q?crEy53AEguv+cl9m5KuAYautEWly33clPAcplccuQFS8wDCtFryH7ZkixOBz?=
- =?us-ascii?Q?Xw6hqwHkVO4yGQW0l5WlzFLmC4OoOgTU+4VcVHujfbXnz0C/Q1QgKR3PIoka?=
- =?us-ascii?Q?o1HYtqG1tzsdf+xocdihz0ETjm5Jim4NGDJBaFfKhPINS178zmkGn8rctpid?=
- =?us-ascii?Q?Mz8Fig0AuYXiRdCbr0PUZQlA9yFMJ5nJCnvrAlij7bfpFNXHSB1TbaxGaY/g?=
- =?us-ascii?Q?piJW9I3MQGh+ZCuV7nNfKUKl0XFxCtSm4RSRXofsM/d6JU5epw93LplUElzO?=
- =?us-ascii?Q?z0KglWw2t/su7+6Tqd066Nfs+UMBC6/40+r7en3YcDVXdGUCAkklTEPr9BTV?=
- =?us-ascii?Q?3XTp7PCUeEvM4c3w5EcTE9p6gpagQJfSIrcL8qPyELzz4sotwgm5vtjCvM3U?=
- =?us-ascii?Q?gHS7wasz3Vh2m29mjKHBuE3J05EC8A+z1h4B+fkyjkBOH+S3FWOtIQ5yLogQ?=
- =?us-ascii?Q?uJqq3wA6t2OWGdNSx6PUVXTagueWd+6s7BT8g9zxNESrl2xak/eGHlS8Ys+U?=
- =?us-ascii?Q?ffrETN9O5RwVhi+T2BoYEQGS4z87Anf3JYhnt2nhAJsRd0hgkIxdGI1z/8n2?=
- =?us-ascii?Q?wQ8PHegyVxRl5bitaltIElD1kAI8oCfUBsfoMn4zhv+2yRDAJdNm0lzXoMd7?=
- =?us-ascii?Q?jbqdepO2Q0WkNVyxRytvzp0B1zSc3svpvqV4BuLrn3LeTUdQHeDI62Eh4Mbu?=
- =?us-ascii?Q?SCvG7ZUKA+pQr5cxjV8UsyNgraf6fxuVnfB++KR+K+094dHDD8ujIg1yQ+eT?=
- =?us-ascii?Q?bcEUfcsN6g4efu51nIuvfbvjIlQ10OmeMsoK4ibltkonLTcUzawnDD1EnJIS?=
- =?us-ascii?Q?dbUjvPELH3+X/rr9OzbW36W6d8OPvhEmlABK5c1h2zGf0gtislbhyR0ix/UP?=
- =?us-ascii?Q?VAgCf3u06QJqwq4LfsYSbWuHB0Yj/n1NzcxHnEShPSo7rjLQXfuzn9N2Kak7?=
- =?us-ascii?Q?ZXPSK+6re65yWDZLqnH6VP9a0IaEn6C07PzR62DXK2abKFbZisPgE3Y0KRtf?=
- =?us-ascii?Q?NsXb+QQTKQN5aqufhidmNli0HVaOevJ8pJFJOmI+xDKJFxZldsB3zOX6SbvP?=
- =?us-ascii?Q?BPCcyM2FlDMFe10YC+/Ys3C6DJH7q4KiT4igi6Gu459THue0eNqCSS43oIUe?=
- =?us-ascii?Q?YJ7vnDcYzb4dD5J34OqaPDCM2nMlWn/vxqPs+tSFqGg0CwDJcaWonaxkN1VP?=
- =?us-ascii?Q?bBT1xqaK93znxLTXm64bRqXvPvXvuP3qurMTwTRmj7PUDYCRya2RyFCsX2CM?=
- =?us-ascii?Q?zGimh3mPcCeosqUnDjwCNjBUSXiBTbAkr3QqE/msFIboMLePUkPZY1eVF6+k?=
- =?us-ascii?Q?mLPRc3BpWBSQqpvIQeE+fGTDt2HJ4CxwkezztceH0JxeUurXdCPDFpOyG1yA?=
- =?us-ascii?Q?Dlk+Tik7lE7+IV/3WOMYLqTvJm5LGGmxVHeJlVradSy/Twov?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa3fc598-cd11-4b1e-1e6e-08df0cf2551f
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2026 15:11:46.1014
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mJf+GAIurXYFYLOKGZYDhEs28ITyAbqI6E0QcONTzKS4O9UMPG14tdtksMzL1pCw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7789
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 6/6] selftests/mm: add a GUP selftest
+To: Sarthak Sharma <sarthak.sharma@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Mark Brown <broonie@kernel.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Muhammad Usama Anjum <usama.anjum@arm.com>, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260904123631.198697-1-sarthak.sharma@arm.com>
+ <20260904123631.198697-7-sarthak.sharma@arm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260904123631.198697-7-sarthak.sharma@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 07, 2026 at 02:21:44PM +0000, Mostafa Saleh wrote:
-> > +static bool arm_smmu_cmdq_batch_add_ril(struct arm_smmu_device *smmu,
-> > +					struct arm_smmu_cmdq_batch *cmds,
-> > +					struct arm_smmu_cmd *cmd,
-> > +					unsigned long iova, size_t size,
-> > +					u8 tgsz_lg2)
-> > +{
-> > +	u64 cur_tg = iova >> tgsz_lg2;
+On 9/4/26 14:36, Sarthak Sharma wrote:
+> Add a new GUP selftest which uses kselftest_harness.h. Cover
+> 12 mapping configurations: THP enabled, THP disabled and
+> HugeTLB, each across private/shared mappings and with/without
+> FOLL_WRITE. Run 5 test cases for every variant: get_user_pages,
+> get_user_pages_fast, pin_user_pages, pin_user_pages_fast and
+> pin_user_pages_longterm.
 > 
-> Nit: tg suffix is a bit confusing, I guess pfn is more accurate, but
-> no strong opinion.
+> Choose the number of default hugeTLB pages using a 256 MiB target,
+> with a minimum of 1 page and derive the mapping size from that
+> number. This avoids reserving excess memory when the hugeTLB page
+> size is too large and retains 128 pages for the most common case
+> of 2MiB hugeTLB pages.
+> 
+> Sweep four nr_pages_per_call values for each test: 1, 512, 123 and
+> all pages. This preserves the coverage previously provided by
+> run_gup_matrix(): 12 mapping combinations x 5 GUP/PUP operations x 4
+> batch sizes. In total the selftest reports 60 TAP cases and issues
+> 240 ioctls.
+> 
+> Do not carry DUMP_USER_PAGES_TEST into the new selftest because its
+> output is written to the kernel log and the selftest does not verify
+> that output.
+> 
+> Add the new gup binary to the selftests/mm build, run_vmtests.sh and
+> MAINTAINERS. Update mm/Kconfig to describe the benchmark and
+> selftest split.
+> 
+> Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
+> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
+> Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
+> ---
+>  MAINTAINERS                               |   1 +
+>  mm/Kconfig                                |  21 +-
+>  tools/testing/selftests/mm/Makefile       |   1 +
+>  tools/testing/selftests/mm/gup.c          | 287 ++++++++++++++++++++++
+>  tools/testing/selftests/mm/run_vmtests.sh |   1 +
+>  5 files changed, 300 insertions(+), 11 deletions(-)
+>  create mode 100644 tools/testing/selftests/mm/gup.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d7a146b093de..1ca7de3e440e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17189,6 +17189,7 @@ F:	mm/gup.c
+>  F:	mm/gup_test.c
+>  F:	mm/gup_test.h
+>  F:	tools/mm/gup_bench.c
+> +F:	tools/testing/selftests/mm/gup.c
+>  F:	tools/testing/selftests/mm/gup_longterm.c
+>  
+>  MEMORY MANAGEMENT - KSM (Kernel Samepage Merging)
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index c1ddf59c0d71..79163b7d795a 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -1287,24 +1287,23 @@ config PERCPU_STATS
+>  	  be used to help understand percpu memory usage.
+>  
+>  config GUP_TEST
+> -	bool "Enable infrastructure for get_user_pages()-related unit tests"
+> +	bool "Enable infrastructure for get_user_pages()-related unit tests and benchmarks"
+>  	depends on DEBUG_FS
+>  	help
+>  	  Provides /sys/kernel/debug/gup_test, which in turn provides a way
+> -	  to make ioctl calls that can launch kernel-based unit tests for
+> -	  the get_user_pages*() and pin_user_pages*() family of API calls.
+> +	  to make ioctl calls that can launch kernel-based unit tests and
+> +	  benchmarks for the get_user_pages*() and pin_user_pages*() families
+> +	  of API calls.
+>  
+> -	  These tests include benchmark testing of the _fast variants of
+> -	  get_user_pages*() and pin_user_pages*(), as well as smoke tests of
+> +	  These include benchmark testing of the _fast variants of
+> +	  get_user_pages*() and pin_user_pages*(), as well as tests of
+>  	  the non-_fast variants.
+>  
+> -	  There is also a sub-test that allows running dump_page() on any
+> -	  of up to eight pages (selected by command line args) within the
+> -	  range of user-space addresses. These pages are either pinned via
+> -	  pin_user_pages*(), or pinned via get_user_pages*(), as specified
+> -	  by other command line arguments.
+> +	  There is also a test that allows running dump_page() on any of up
+> +	  to eight pages within the range of user-space addresses. These
+> +	  pages are either acquired via pin_user_pages*() or get_user_pages*().
+>  
+> -	  See tools/testing/selftests/mm/gup_test.c
+> +	  See tools/testing/selftests/mm/gup.c and tools/mm/gup_bench.c.
 
-I don't want to use pfn in any of this code because convention has PFN
-as PAGE_SIZE, while this is a "translation granule", ie the base
-granule size of the iommu domain. Which are not always the same thing..
 
-Jason
+BTW, I was wondering what it would take to:
+
+1) Turn mm/gup_test.o into an OOT module (would we need more EXPORT_SYMBOL_GPL?
+EXPORT_SYMBOL_FOOR_MODULE ?)
+
+2) Move it to tools/mm/modules or sth like that.
+
+3) Build it with the selftests etc
+
+4) Remove GUP_TEST
+
+5) Try insmod'ing it from the tools+selftests that need it.
+
+[...]
+
+> +int main(int argc, char **argv)
+> +{
+> +	char *file = "/dev/zero";
+> +	int fd;
+> +
+> +	fd = open(file, O_RDWR);
+> +	if (fd < 0) {
+> +		ksft_print_header();
+> +		ksft_exit_fail_msg("Unable to open %s: %s\n", file, strerror(errno));
+> +	}
+> +	close(fd);
+
+
+I'm confused. Why do we have to open+close /dev/zero?
+
+> +
+> +	fd = open(GUP_TEST_FILE, O_RDWR);
+> +	if (fd == -1) {
+> +		ksft_print_header();
+> +		if (errno == EACCES)
+> +			ksft_exit_skip("Please run this test as root\n");
+
+Wouldn't we want to fail here?
+
+> +		if (errno == ENOENT) {
+> +			DIR *debugfs = opendir("/sys/kernel/debug");
+> +
+> +			if (!debugfs) {
+> +				ksft_exit_skip("Mount debugfs at /sys/kernel/debug\n");
+> +			} else {
+> +				closedir(debugfs);
+> +				ksft_exit_skip("Check CONFIG_GUP_TEST in kernel config\n");
+> +			}
+
+You can remove the } else { part as you skip on !debugfs.
+
+> +		}
+> +		ksft_exit_fail_msg("Failed to open %s: %s\n", GUP_TEST_FILE, strerror(errno));
+> +	}
+> +	close(fd);
+> +
+> +	hp_size = default_huge_page_size();
+> +	if (hp_size) {
+> +		nr_huge_pages = HUGETLB_TARGET_SIZE / hp_size;
+> +		if (!nr_huge_pages)
+> +			nr_huge_pages = 1;
+> +
+> +		hugetlb_setup_succeeded = hugetlb_setup_default(nr_huge_pages);
+> +	}
+
+BTW, why are we using HUGETLB_TARGET_SIZE instead of just using the
+default_huge_page_size()?
+
+> +
+> +	return test_harness_run(argc, argv);
+> +}
+> diff --git a/tools/testing/selftests/mm/run_vmtests.sh b/tools/testing/selftests/mm/run_vmtests.sh
+> index 8f1e828e4f39..ae0ab5efabae 100755
+> --- a/tools/testing/selftests/mm/run_vmtests.sh
+> +++ b/tools/testing/selftests/mm/run_vmtests.sh
+> @@ -251,6 +251,7 @@ fi
+>  
+>  CATEGORY="mmap" run_test ./map_fixed_noreplace
+>  
+> +CATEGORY="gup_test" run_test ./gup
+>  CATEGORY="gup_test" run_test ./gup_longterm
+
+Nice
+
+-- 
+Cheers,
+
+David
