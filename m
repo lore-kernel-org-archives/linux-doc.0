@@ -1,194 +1,166 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010032.outbound.protection.outlook.com [52.101.46.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535E3525A88;
-	Mon,  7 Sep 2026 18:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788806343; cv=none; b=uX6UtBgwPRPpHMyd9LfNgXTCdnci0i5aUm5GzL6ZVN8XRxSR4bQI64R9EtuINdOcMkU+vXZgPWSZEq+ub1GUZHZ1e4EUfS2tmiDg5LiLp5hN5kg83yCmaqTHEl3v9ANrp3nLcv0AG1X8MyWhD9Z8oCwoK7l91V+YxgXgUn25qYw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788806343; c=relaxed/simple;
-	bh=/QxrzAxux6bWMouCHMV1+hCntN9RpbBQ4/hJVHJrUA0=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fDttD38DJdwGmQtWKysRbe/dPD0MJycLSM8XelbOeHJZuz2uJsVWjYko9W2dDNOr3zrfs+30VZvRBgIjTNReBklIDu3/0Zq4eJzINLj6oE+Zci5ji3l44SlfjLIyrXWix9i1Em67v5dHVUSfI6ZpvxKgDNpvrkI5wSG2xF3JpNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
-	 (Exim 4.100)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1x3eF6-000000004hC-31Fg;
-	Mon, 07 Sep 2026 18:38:56 +0000
-Date: Mon, 7 Sep 2026 19:38:53 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283EF39A079;
+	Mon,  7 Sep 2026 19:34:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788809673; cv=fail; b=iCa8G+3G6P9QfJZEThEmE7GPzqPZQGYqSxVqqvMIxaFI+GUrekrHXwjys4YZnHgISTb1ZrzKl56eWzju+atb2eEoB8UbO8AmnEvcDqsGzHY2aImUXHKlyKGawIi1Sk96ESdUBrC7e0ZYlonD4djUuDW8XwIMFxCC1NhtUIj9b0Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788809673; c=relaxed/simple;
+	bh=MkNtNrB3bltsATUVfblt69UC99p/M3oakVLq4J/YMqA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=J8nCnh29Bz+9Gh7FTVqwLUiaXLhDexhSBQgWdnv0ZR9dPkLGwmGJ4uWmXiHd922WlnZKD42j13Bm9M4EAOIklQvBMrvbTkwYAha6H/kZiHWt9XLeXHsWWCVTAKkz7jv+ZMpgyBvrgPknvgJT87DbnRhupWJg4WO6CZzHy20hep4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=aS3F51Kd; arc=fail smtp.client-ip=52.101.46.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="aS3F51Kd"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s0Y/HO2ykwhMBuWktzqPg0lswYNSP7rcyz4JG0b8zc4I/sDxLRXC/Q19+ZnLDs8fd6dXYgAo+vIzx4aqdkP3dCWfRUtm2InXkF4Ze47tUn2TTJMAkajfRiBSbQn/Ar20ZYB8f+cMdWZoYyjAgJUiMqIWRmlXmfJ57WBM1qs1GipxIgUYWz7p3wFLVXOAnGabag9rY97Y/lk7WW/+qZRoIV+PUtTwYzn/rhcUjZSMQqhfju2nYOTJdFJL/waLzAQxQwjZU1sFbspJTBfORhnoXL3IjLFsvhj4Kk1NJ31pJa9YAUgPabeB0b587XaHLD3raIT+CxaYJmmwWobZTwMcgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ziatc8YI5wFhvGyXii9wbqkMBTvZ3UhN8EcK20xOdUk=;
+ b=D6htnNzHx2JP7EgsH9XRtiy9T1cMjM9zMeUVqjaxfo6eOjwnbEwRCfRt8iWTt/hU/CX918REfQC0LQU52BmAZA7JZXVh0YLsT3QE9H47c35+mIkXRpPJkfNTF4v42Po5WjYRKpMaTBDKNNISryqSUSxiHA/97HP6mqoxMTszIYWnRQzRUS3qaWl8xsY05EhbAdg+O7lBFoYx1x39z19cyhok2+n5EkMXe3N5cc9ZkfaFMCcfSUUCSvCvqXkd61kDzhuoHUUttoYaO3fzTpSz71bdiTEgXlrOAFrwjae6XmxLkaU6UxQyroTonK0pTmQBFfkYmDifIW3K3Fxjmh8FXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ziatc8YI5wFhvGyXii9wbqkMBTvZ3UhN8EcK20xOdUk=;
+ b=aS3F51KdiCm6DRezCsXHaeigROgazN0QSSCvf467AVQwobMC4+b3q6qUAIg0gFq+LJc6QrXrq1qFJqPXwBEczWY7N49yVKSyxa+EDC2xAhygqVLnhjGVt0xbFRlXKkSEamv5a+gKEo7PY0Nznvoqyaj5e8+yYvMDp2rLl4Mb4kwhMI/2z7EiQ1UfhXeUIIn/VSQnU1n8KcJmmdhctBZKaEqYTVkhjLaO9Zg3qGh8Y+Ke1ApVLIRkRtDuMs1gXxtKHwAOj57cK7DNnqXaAwt0L6/Xz3qPQ/j1Fve5OA80IOPhdnCtamM7J0lalmX1Dm8afRhezCzsL58Ngiy+/8JRLw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by DS4PR12MB534619.namprd12.prod.outlook.com (2603:10b6:8:50a::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Mon, 7 Sep
+ 2026 19:34:26 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0382.014; Mon, 7 Sep 2026
+ 19:34:26 +0000
+Date: Mon, 7 Sep 2026 16:34:24 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	Mark Rutland <mark.rutland@arm.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Frank Wunderlich <frank.wunderlich@linux.dev>,
-	John Crispin <john@phrozen.org>,
-	"Benny (Ying-Tsan) Weng" <yweng@maxlinear.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Subject: [PATCH net-next v13 6/6] net: dsa: mxl862xx: document devlink flash
- and info support
-Message-ID: <48a87a2c3deb41ab1d8710792312a1e4cb77fb94.1788783126.git.daniel@makrotopia.org>
-References: <cover.1788783126.git.daniel@makrotopia.org>
+	Robin Murphy <robin.murphy@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Will Deacon <will@kernel.org>, David Matlack <dmatlack@google.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	Pranjal Shrivastava <praan@google.com>,
+	Samiullah Khawaja <skhawaja@google.com>, stable@vger.kernel.org,
+	Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
+Subject: Re: [PATCH v5 4/9] iommu/arm-smmu-v3: Optimize range invalidation
+ for latency
+Message-ID: <20260907193424.GA2774068@nvidia.com>
+References: <0-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
+ <4-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
+ <ap7JiB36YSQOaV9a@google.com>
+ <20260907152305.GA4157646@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260907152305.GA4157646@nvidia.com>
+X-ClientProxiedBy: BL1PR13CA0388.namprd13.prod.outlook.com
+ (2603:10b6:208:2c0::33) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1788783126.git.daniel@makrotopia.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DS4PR12MB534619:EE_
+X-MS-Office365-Filtering-Correlation-Id: aefce4d2-7998-4783-e91b-08df0d1706ee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|10067099003|18002099003|22082099003|56012099006|11063799006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	bvDXqFyp0eqdhbXBMT3O5yyzEATLUwyXb9PG8yCoWhH/VMWln2xI7D8ZjelPreJddRV69Rc4Ni7mAdD7kIdOOvolwkHNUgzr4HxBuGCSzCgwEc9aYVB9DN1F3f2JtWy/tIT//1nppCyrVbyQzSk7+AqB4bQAgDJWRAJ+u6TW4S25oAQB4XlC6LJQ0WEt6JhbnLbng3PTrIMlB42KJ2tx07PyhXQLUrYsVga+7nUTIu2OURLGxsqMOt7ZtpjNy12Bpbc5YaVqLAmz2/EyjX+3kgQy00yHe6f6V5NbLm7d1vm+UjNCE3Qf1k3ZRLNRYuWAvpvKJ6R2mL8rBYQmAlTgYFqDxgigmzqaPHi/lYLoXV+i2eFT3+3AMqv/UFXgGvPQHwvxYeejcHiXc+MzLFJ9L9JeJb9UgqJ11ta7xYd8G/Qvnwol30wF827LT8QF6DoXdzakXmPhDDxz3CIck+/L8ugV5dozvA1QlUiTR2Mc2YYmzyfJIhw4nbPHR07I1zi1M3ZgkIXHWX9yjcp7TeJ7Nr1k78+YvVxjnnfEMq+3GSgXd1o2Uzddx8O0zkPM4AkdG2QrcIlH0ziH8PiN/+rmEtfGgwThRGtFAsx3fdEGHV+ywnWmK/BriDCa282lv9Lqr98DbpUEoFB7+kX4aeZGEQYDUttX6hj0yg0sdOxnxv4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(10067099003)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?jIOUi5YuTvQWkMZ2keyh0xsXFryigkGgwlQ2A/EBVkrAAWtNk33TLuPzKFhI?=
+ =?us-ascii?Q?At5t0Lrbn+PNjE77OyDh9nZ7OerEzdysiYSPZ6kajjantZSg2LVS+Jo67UHL?=
+ =?us-ascii?Q?h0iWb0LHDXJLSpnGWYt/KqlMau35u8128bD7MiIOS9k5U/Zh3Nfjmy1b7IAy?=
+ =?us-ascii?Q?qNYDXhh7m45zMg8PIcmviY7uQ8/evBdmcWqRT5Pta16O7zgJzKAPtunOT+fv?=
+ =?us-ascii?Q?yd5jOIAKd4n9Yp+t2NyUfHAyivLiK3P/K8JubGVISRTOnSZ+iItsHUthzANI?=
+ =?us-ascii?Q?WOd0Bp4RZJH6WJAxT4Jd/aNoMxCuoHKE0hjITKksNba6gE5M2inZkiAUKE+y?=
+ =?us-ascii?Q?WBjhi3AsJ2ZErDLVSqRZFQpXwVS0HNVdEd4zXR8gLiVOCSrRNGnK0eVy4S+Q?=
+ =?us-ascii?Q?mqY5Xm9BMOn7aTOqba71qh9gcgXwstgi1yC3Xr+dMRQ5qDT58OY0F/knnJBN?=
+ =?us-ascii?Q?TK3cfdz+wgZOTUlAUB2/UYxljq6EWyqItk/Zr2zCWoamsf11b1MZUljMIUbg?=
+ =?us-ascii?Q?Uu3oRTZL5fPKTrabz9EmnndWPRJlqZmIB8rNnfl3MI1pigAjhqAOLi072Ksu?=
+ =?us-ascii?Q?wAuIb9D80ZKwMf4X3LyP98IUg6Vf9nAtEwHQeo4/6GxxMEE+PjXrr4ylNvWP?=
+ =?us-ascii?Q?lr8lq9G7Gjs0J/T8yj/ChXPtGTr7Ge0Os0k9n1fpNY022JBl5k2eqeRC9ZhK?=
+ =?us-ascii?Q?kBMFQgybRWIfo48pDP/OuPssLJPJATo029zuYcmuf2sCNtQ04fEVmPEo6K1I?=
+ =?us-ascii?Q?tgkexYiMOrRjKY7XZDw6//svF2vJ6tIkCs3nQ5SJt5/lTy4MjHUvhic/SQ+E?=
+ =?us-ascii?Q?rMNvAt+vFKSrT3NNYs81evy8uyu1ofOnWz/kC1oWqKYqVG452OvfsEnQiy7B?=
+ =?us-ascii?Q?FAoZQaDFMtdR0F+AHunzXgW4evjk9mLVKSK6EMyr/z5CFiWq8FDo3QPirSmP?=
+ =?us-ascii?Q?zONWf5yp2HsmvxKjRs45DnVLQrFbarod8s2d9j+BTmhaJvKsgGs+FvJuSXH/?=
+ =?us-ascii?Q?dPLtXqUEGv5rVGtqb8wbFX3l399F+svOKpPiB58WCg9kwMF7yJ10OJU80GNe?=
+ =?us-ascii?Q?D5ZTOlSmfLby273bWg27R3u393l5xxXSqN+oCtVelTjUFd+oUVO+hQbkprUX?=
+ =?us-ascii?Q?IeImP+T/Ey64lF/T3tG2023rhJh/EBTUPHpt4qC6mCWfcemqw2cyFoG2ARNB?=
+ =?us-ascii?Q?l6evhsq717h/rMZccbW4us5tpxcJzSd597jk1C7PladRvY6XC0rBKMYX3WAd?=
+ =?us-ascii?Q?A94sIGkK2lEGNi2Gz+F4gztuLRAD8lzHoAlBHkyhZd0AzV8Gk0/88YspNdVS?=
+ =?us-ascii?Q?L77UQ8Vnm0lMktAl3+3N7bQc8poGKRDaYRAsh7pFmWnvNFvkNp+WtVIp860q?=
+ =?us-ascii?Q?lOD2r260F7mNcFPcA8Sy1K9TxUD38+Ug0ItGdiwUdiJBn+And5xXL5udHApT?=
+ =?us-ascii?Q?8L7RZgCOJjeuwBgY7Ggv9HZPgVIJhLn6X2b/UvxeTBWO1udBvLaMcQLRZ2HH?=
+ =?us-ascii?Q?X8pxfaVs9jFm4NF3wr+ssLThbYhkakSw+k3Oh9okHtb/l6eosdqyaqtI6vOX?=
+ =?us-ascii?Q?zO898vtGWC7RjTEcxbL8zMB1nUIdLfIuRZZtRtLIlPkhO5I2MppdGoetjDv1?=
+ =?us-ascii?Q?imUrbnMFnMdTuKqE+QejGo3vDLz64fh+c5z2glxo46sATzXJjBxg2pa0ge46?=
+ =?us-ascii?Q?OJjKi/oW/DMf9ZphtjepoNNqy4SIwQgx8Tr0V5pzbhuCnBLP?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aefce4d2-7998-4783-e91b-08df0d1706ee
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2026 19:34:26.3424
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ISIakLkVWZsu0uo/KD1yesjStT3lveh6Ay8h9A8QZWYux5Ax7rzA91RkWUkTjUQq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB534619
 
-Describe the devlink info versions and the flash update behaviour,
-including the MCUboot rescue mode recovery, in a dedicated file under
-Documentation/networking/devlink/ and link it from the index. Add the
-new file to the driver's MAINTAINERS entry.
+On Mon, Sep 07, 2026 at 12:23:05PM -0300, Jason Gunthorpe wrote:
+> > > -			/* Determine how many chunks of 2^scale size we have */
+> > > -			num = (num_pages >> scale) & CMDQ_TLBI_RANGE_NUM_MAX;
+> > > -
+> > > -			/* Keep the pre-DS 5-bit truncation when scale > 31 */
+> > > -			cmd->data[0] = orig_data0 |
+> > > -				FIELD_PREP(CMDQ_TLBI_0_NUM, num - 1) |
+> > > -				FIELD_PREP(CMDQ_TLBI_0_SCALE, scale & 0x1f);
+> > 
+> > That just deletes the DS code which was recently merged.
+> > I see that is added again in the last patch, but it would make more
+> > sense to do it in the same patch I guess.
+> 
+> I missed it when rebasing, I'll adjust it
 
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
-v13: no changes
-v12: no changes
-v11: no changes
-v10: document that a switch power cycled on its own needs the driver
-     unbound and rebound before a failed recovery is re-examined
-v9: no changes, picked up Andrew's v5 Reviewed-by
-v8:
- - asic.id and asic.rev are omitted whenever the part number reads
-   zero, not only in MCUboot rescue mode (found by Sashiko AI review)
- - drop the claim that "0.0.0" marks a switch that never ran firmware;
-   rescue mode always reports it (found by Sashiko AI review)
- - document devlink dev flash as the signal that says whether a
-   recovery is still running, including the -EIO it returns once the
-   recovery has failed (found by Sashiko AI review)
-v7: no changes
-v6: no changes
-v5: new patch, splitting the devlink documentation out of the flash
-    update and rescue mode recovery patches so each keeps to code
-    (Jakub Kicinski asked for the documentation)
+Actually it is correct like this. The earlier commit 773f2b9e3670
+("iommu/arm-smmu-v3: Support IDR5.DS and widen the TLBI SCALE field")
+did not actually support a wider scale it just widened the field and
+added this protective truncate.
 
- Documentation/networking/devlink/index.rst    |  1 +
- Documentation/networking/devlink/mxl862xx.rst | 74 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 76 insertions(+)
- create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+So this commit still does not support a wider scale and we don't need
+the protective truncate because this version directly limits scale's
+value.
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index d4a83fdcff7f..145cb8a4becf 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -95,6 +95,7 @@ parameters, info versions, and other features it supports.
-    mlx5
-    mlxsw
-    mv88e6xxx
-+   mxl862xx
-    netdevsim
-    nfp
-    octeontx2
-diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-new file mode 100644
-index 000000000000..5b24d8cb57bc
---- /dev/null
-+++ b/Documentation/networking/devlink/mxl862xx.rst
-@@ -0,0 +1,74 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+mxl862xx devlink support
-+========================
-+
-+This document describes the devlink features implemented by the
-+``mxl862xx`` device driver.
-+
-+Info versions
-+=============
-+
-+The ``mxl862xx`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Example
-+     - Description
-+   * - ``asic.id``
-+     - fixed
-+     - 8628
-+     - The chip part number read from the CHIP ID registers. Omitted
-+       when the part number reads as zero, which happens for a switch
-+       sitting in MCUboot rescue mode (the registers need a running
-+       firmware), for an unfused part, and after a failed flash.
-+   * - ``asic.rev``
-+     - fixed
-+     - 0
-+     - The chip version read from the same register word, so it is
-+       omitted whenever ``asic.id`` is.
-+   * - ``fw``
-+     - running, stored
-+     - 1.0.70
-+     - Version of the firmware running on the switch, reported as both
-+       running and stored since the switch boots it from its own flash.
-+       It is omitted while no firmware version is known: after a failed
-+       flash, and in MCUboot rescue mode while an interrupted download
-+       is still being recovered in the background. Once the loader is
-+       ready to accept a new image the version appears as "0.0.0",
-+       which no released firmware reports, so version-comparing tools
-+       offer any available release as an upgrade. Use ``devlink dev
-+       flash`` to tell a recovering switch from a ready one, see below;
-+       a missing version on its own does not say why.
-+
-+Flash update
-+============
-+
-+The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-+The signed firmware image is transferred to the switch over the same
-+MDIO bus which is also used to manage the switch, then verified and
-+installed by the MCUboot bootloader running on the switch. All ports
-+of the switch are closed for the duration of the update and the driver
-+reprobes the switch after it has rebooted into the new firmware. A
-+complete flash and reprobe cycle takes about one minute.
-+
-+A switch stuck in MCUboot rescue mode, e.g. after an interrupted
-+update, is registered without user ports. If the previous download was
-+interrupted mid-transfer the loader is wedged; the driver drains it
-+back to a clean ready state in the background, one byte at a time,
-+which takes tens of minutes for a large image and is reported through
-+the kernel log as it progresses. During that recovery ``devlink dev
-+flash`` returns ``-EBUSY`` with an extack message saying so, and
-+``devlink dev info`` reports no firmware version. Once the loader is
-+ready the firmware version appears and flashing a firmware image
-+through the regular update flow recovers the switch.
-+
-+If the recovery fails, the loader needs a power cycle: ``devlink dev
-+flash`` then returns ``-EIO`` and says so in its extack message. The
-+driver only re-examines the switch when it binds, so on a board where
-+the switch can be power cycled on its own, unbind and rebind the driver
-+afterwards to have the recovered switch recognised.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b23fb6f2f4ef..c97e710dda0c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16246,6 +16246,7 @@ M:	Daniel Golle <daniel@makrotopia.org>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/dsa/maxlinear,mxl862xx.yaml
-+F:	Documentation/networking/devlink/mxl862xx.rst
- F:	drivers/net/dsa/mxl862xx/
- F:	net/dsa/tag_mxl862xx.c
- 
--- 
-2.55.0
+The later patch truely is the one to add proper DS support and it
+doesn't bring back the "& 0x1f", it adjusts the new code that limited
+scale.
+
+Jason
