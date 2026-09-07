@@ -1,50 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F8D4CB8CA;
-	Mon,  7 Sep 2026 14:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB9A390224
+	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 14:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788790483; cv=none; b=HL37NjqEKrNXB4+QBabFTP6FzaA7sc/noVMBMv4jfwUHrPstxsIizWBQxWb0aafm0qtg7/oMoSx2rwify958otWSnvTLo+4moXg4cWLgfvuzI5f3rXDnS20F65s81jn1gdyLDz9OiggNhz/U9z1ydy88UP3m8QjhIgQZNh6XJpk=
+	t=1788790914; cv=none; b=Qw8R2gveHlDgHlH1oVoS5zA06XnHernNub7WDC+rXvU+ILyKDnRll6puMWFlxhsLdnwSTZ9vZHKghwKdzk1sQIExgjFp843y0SKP59GtdrRhgmDVcxjBTvFBMwJkBcKGB/rkbAqi/PCv6GQyvygTawy+zLc4h2xCmSoQvG1LWPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788790483; c=relaxed/simple;
-	bh=yvb3TKII5RqnvWR4KKPwM6Pa0eGdrgURYd2q830BwGg=;
+	s=arc-20240116; t=1788790914; c=relaxed/simple;
+	bh=7Regah+qf9wEx4AtaNocLUxqNjPHScB3MmjBW5AC9Ec=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=npN6Qc211+Db9jgufvOGMPH9NugBn7h7ZuNPbmxY40MgiRlXhhbeCMZ1Eo9USTCJ57oLtNnwVfxsyplWHX7ERuUXNxnc4ZCDlyYIeC7MmRK+YyfDy2Z1qJSGORhWYF/6O255SST+f8dekGSriyCjwLkTo6uXyRLxNtH2LeQN+F8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NhoyMxVX; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q19r1Bt2Hg2kjQYjvNcv147Ujx7VqK2siOorcEkAxftdXSjeRDW3dIQGieEzhmV+ey11eDMJmsT8i0eow9nTeMoF7d1kHHuIoE083mBwOBMf0pwXFsR+eLcEp7KeVBu8754ojmfokP2GLm8X0bYQVzNMsEXvQI9wew5F6v6yxmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aDE9eokn; arc=none smtp.client-ip=74.125.228.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NhoyMxVX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E13F91F00A3A;
-	Mon,  7 Sep 2026 14:14:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788790481;
-	bh=vSaY8hFogQ8XMCarbwj5OucKl8VFySrfC7cRQOJejcs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NhoyMxVXLvulJLaKclIWhey+zgZ3IDzhbkoezViwyf/Uj/o2j2rj5/DAnppDI556c
-	 RtNPIYDrUsFyY/9uH3cimmT0KElBGmbB8AVwypDnqQLonLQu+mwlhnZ3a3NAECgOfg
-	 1D39BRQRZ5XQofKPUoAIjIYrdWjbf1QPtmef6KMEZplUV0meDYbA5jOnhye1HgAcwl
-	 N/xK+z16UrOabUYhTrqi6r3KofzuzKLqLrymAtOrPvYv9IWjaKTXgA0Qt7ue4q3uip
-	 KoW8J315Vdl/a36GJCkPTqpZhN6ByI5J+3N7Yyux3QEeRuy62GRcVZclr4dnLoo09w
-	 zlF9rtE5IBO6w==
-Date: Mon, 7 Sep 2026 15:14:34 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Fuad Tabba <fuad.tabba@linux.dev>, Peter Maydell <peter.maydell@linaro.org>, 
-	Leonardo Bras <leo.bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>, 
-	Yao Yuan <yaoyuan@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v20 03/14] KVM: arm64: Manage GCS access and registers
- for guests
-Message-ID: <ap7GPxGs3nhT70sS@gremlin>
-References: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org>
- <20260901-arm64-gcs-v20-3-f31750bdfadb@kernel.org>
- <apmfx08vccSd2MXw@gremlin>
- <d2659ac3-2f00-4fc4-8f9e-0585691a4ba2@sirena.org.uk>
- <apqA_SuoA6-TyHsS@gremlin>
- <apszJZ17KUvd6BJ7@sirena.co.uk>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aDE9eokn"
+Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a5d8fd8d88so15161a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 07:21:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788790910; x=1789395710; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VX/qjX8bBihd5ue2J42v1DAvcCr2XZH6u/7IYMXwpfs=;
+        b=aDE9eokn/+RQgrl3mx2PfwuBVLfpqzSziRIyM0f1f8Xi6rdc7H9Bzikp5tbYh+dy/U
+         RTCP/nb4JfK5BXZSljFrMVrdIGjnunlcpABFAaEPfN4+HSqraT/VcoOPzTorZBvxZk8H
+         68nK86eLLBYHuZJ0bE6sKR0JXNSfBjVGE2z+y+PcSxSg/TWrnHgSupYid+eNQ+bkk0uo
+         HGtVH1OsAUhC9pSZXroq0gGU1nVkaMYbvZPQH/cGXxg10SrDfHtiFXtvVdwQy4D+q52u
+         f/LqvBKk5XL+Z7x6LJ+qRyybDyHw1EuBqlrWhfI04zyd50GC2nQrzn+7g0Wzqdsg83Hu
+         mW5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788790910; x=1789395710;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VX/qjX8bBihd5ue2J42v1DAvcCr2XZH6u/7IYMXwpfs=;
+        b=P7iuuAJEnNgg+J1Y2i9rBbyEthWw/mhQvl3SOFCsn8x392ZTXqfNzwxFfsS5xMaQTe
+         SpNI7nN21BG3G8B02wRx98sxSofjW762Gh8eQbmhKixlo53oKLJE/ReYqvkL4tMuBW/5
+         BrJ8TDxJrOMUnjbRPYN51scTcowt3xrsmlyvzVd28gfaTXBVz1QXc4aeoXxW8eyor3Dg
+         GblOD4Oc3wtuPJI9s0kjDVJU56UpzEMGfNuyjLBC9XuGT8kDuHtVf+HcZhI740wzfnvG
+         Pt0FIPGdHXO/1EATCYN/DZw17vRlfmCqQ4t3VCdJ5Nzs5JDpbJ0MVpoE/LC6JaNIIv1T
+         y/Zw==
+X-Forwarded-Encrypted: i=1; AKwUvBwnqJy76xr2RxKhNFkHXhYRNGiMTPGhulq3C7KHd1oGrWhSTcINoOsMc31Ar4ekQ0yb5yl4WU/Ugms=@vger.kernel.org
+X-Gm-Message-State: AFuF++nEu4cywCzqGT4eLsXSKj7WMtz+6tEejWkQjrAdU0gQALiyCxsf
+	/IFx4Sw28djBiVwED6LskS+6fB8q5k0ADNRPioSGa/ZTnz0EC2+uZh0pEq8PtgYHIg==
+X-Gm-Gg: AYBFou1wrMzDXSeu5SUPKcls6xLEgDlFV8w6CPFf/2eNumWiAVFJDnvO4IJFi6uaxGf
+	3aIDczm194fWZHr1rplMRPONwAyGTmBedDKuNKRNf4ZBlK256KQS6Rqr7Gehjb6E/rOGV0qLRHy
+	keCCokPBW9h/HkvyI+GHogILeJ2fQR9G10sILYwfzyKV+C/jEhNeppQzQfXynFlkwFyxli7ygtS
+	TOLNBz+DMfU1Nc+Ie6PxvQrEGrWw+0izVH3orNU1cKHTP7sgp5Eo9VGh1E1m9qlPNOkttT9/3sR
+	2Zy1RyTLpPAWscyrMRmYcfOa8jnwva8e5VB87dBTYZ8u/gVlMnDe1d+SvGB3g/uyf2nxwozRvTh
+	p+wFkiODTF/gjpUdiAXy+CR1wNkRzF5yuDkE/xakSgrICVKddxoj80+gjX5AUdPwhmj4q/KwxyJ
+	tAxBwj08gSYeqzJhdurNdzkNq+tuPOmjLOQ6V8lQlnQMnFmnXWsVoM49FrkWQrUauHGi1ZwP+5w
+	FYYG1BPuNwOQ2QpASHDpafQ/kXbhA==
+X-Received: by 2002:a05:6402:4602:20b0:6a6:f2a5:1b4f with SMTP id 4fb4d7f45d1cf-6a7f67ae513mr51553a12.4.1788790909668;
+        Mon, 07 Sep 2026 07:21:49 -0700 (PDT)
+Received: from google.com (250.192.189.35.bc.googleusercontent.com. [35.189.192.250])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d4a98efsm490693566b.14.2026.09.07.07.21.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 07:21:48 -0700 (PDT)
+Date: Mon, 7 Sep 2026 14:21:44 +0000
+From: Mostafa Saleh <smostafa@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Will Deacon <will@kernel.org>, David Matlack <dmatlack@google.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	Pranjal Shrivastava <praan@google.com>,
+	Samiullah Khawaja <skhawaja@google.com>, stable@vger.kernel.org,
+	Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
+Subject: Re: [PATCH v5 1/9] iommu/arm-smmu-v3: Handle ARM erratum for CONT
+ under invalidation with SVA
+Message-ID: <ap7IeAfVPZL3Hqt_@google.com>
+References: <0-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
+ <1-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,68 +93,263 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <apszJZ17KUvd6BJ7@sirena.co.uk>
+In-Reply-To: <1-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
 
-On Fri, Sep 04, 2026 at 10:07:49PM +0100, Mark Brown wrote:
-> On Fri, Sep 04, 2026 at 09:54:51AM +0100, Lorenzo Stoakes (ARM) wrote:
-> > On Thu, Sep 03, 2026 at 09:41:26PM +0100, Mark Brown wrote:
->
-> > > originally written the code without expressing this dependency but on a
-> > > previous version Marc asked for this nesting as an optimisation.  Since
-> > > it's about optimisastion adding checks that don't otherwise exist on the
-> > > restore path would doubtless get the similar complaints.  Exactly the
-> > > same concerns were raised on v19.
->
-> > Could you implement the nesting the same in the cases where there is a bare
-> > ctx_has_gcs() as an alternative?
->
-> > So then it'd always be tcrx -> s1pie -> gcs everywhere and that'd resolve things
-> > also and make things symmetric.
->
-> > You could also I think express the dependency if it makes sense to.
->
-> Clearly we *can*, it's a question of what'd be acceptable - it'd result
-> in the compiler emitting a bunch of extra alternatives and conditionals
-> in the context switch path.
+On Tue, Sep 01, 2026 at 02:49:50PM -0300, Jason Gunthorpe wrote:
+> The erratum (MMU-700: #3777127, S3: #3673557) deals with under
+> invalidation of a CONT PTE grouping in the SMMU. The recommended work
+> around is to use a Range Invalidate (RIL) that spans the entire CONT. The
+> only user of CONT in the kernel right now is through SVA sharing a CPU
+> page table that contains a CONT created by the mm.
+> 
+> Previously it was thought that this errata was dealt with because the
+> driver always uses RIL. However, there is a subtle detail in the errata
+> that the RIL range must fully enclose the entire CONT for it to work.
+> 
+> It seems that two sequential RILs, with a split point falling inside a
+> CONT grouping, will not prevent the errata.
+> 
+> The SMMU's RIL generation algorithm does not produce a single RIL for a
+> single SVA invalidation request, nor does the mm carefully align the SVA
+> invalidation ranges to accommodate the RIL splitting.
+> 
+> Thus, when processing a SVA invalidation, the RIL splitting routine can
+> generate a RIL that is split in the middle of the CONT and risk under
+> invalidation from this errata. This condition could be triggered by a
+> malicious userspace manipulating the TLB gathers via mmap/mprotect/munmap.
+> 
+> Update the errata list to the include the S3 variation, detect the IOMMUs
+> that have it, and then have SVA invalidations use a simplified version of
+> the over invalidation algorithm from the tlbi rework series. This ensures
+> that a single RIL is issued for a single MMU notifier callback and now the
+> RIL is guarenteed to cover any posible CONT.
+> 
+> Future work to add CONT to iommu_domain page tables should either use this
+> one-invalidate/one-RIL algorithm or disable CONT support in the
+> iommu_domain.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 3f1ce8e85ee0 ("iommu/arm-smmu-v3: Share process page tables")
+> Cc: Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  Documentation/arch/arm64/silicon-errata.rst   |  3 +-
+>  .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |  7 ++
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 87 +++++++++++++++----
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  2 +
+>  4 files changed, 81 insertions(+), 18 deletions(-)
+> 
+> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+> index ac3248b9f2f3bb..68018bf75b7910 100644
+> --- a/Documentation/arch/arm64/silicon-errata.rst
+> +++ b/Documentation/arch/arm64/silicon-errata.rst
+> @@ -271,7 +271,8 @@ stable kernels.
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | ARM            | MMU L1          | #3878312        | N/A                         |
+>  +----------------+-----------------+-----------------+-----------------------------+
+> -| ARM            | MMU S3          | #3995052        | N/A                         |
+> +| ARM            | MMU S3          | #3995052,       | N/A                         |
+> +|                |                 | #3673557        |                             |
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | ARM            | GIC-700         | #2941627        | ARM64_ERRATUM_2941627       |
+>  +----------------+-----------------+-----------------+-----------------------------+
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
+> index 0a429c64fbf3e7..a0c9078646fb55 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
+> @@ -215,6 +215,13 @@ bool arm_smmu_sva_supported(struct arm_smmu_device *smmu)
+>  	if (system_supports_haft())
+>  		feat_mask |= ARM_SMMU_FEAT_HAFT;
+>  
+> +	/*
+> +	 * The workaround for ARM_SMMU_OPT_FULL_CONT_RIL requires range
+> +	 * invalidation support.
+> +	 */
+> +	if (smmu->options & ARM_SMMU_OPT_FULL_CONT_RIL)
+> +		feat_mask |= ARM_SMMU_FEAT_RANGE_INV;
+> +
+>  	if ((smmu->features & feat_mask) != feat_mask)
+>  		return false;
+>  
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> index 5732f3ba0122d6..d6896e25b6632a 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> @@ -2538,6 +2538,36 @@ static void arm_smmu_cmdq_batch_add_range(struct arm_smmu_device *smmu,
+>  	}
+>  }
+>  
+> +/*
+> + * Generate a RIL for ARM_SMMU_OPT_FULL_CONT_RIL by ensuring the entire SVA
+> + * requested range is covered with a single RIL command. The scale is adjusted
+> + * so that the RIL may extend past the end of the requested range. This ensures
+> + * that any CONT the MM is invalidating is covered by a single RIL. TTL and LEAF
+> + * are always 0 because this is only used by SVA.
+> + */
+> +static bool arm_smmu_cmdq_batch_add_ril(struct arm_smmu_device *smmu,
+> +					struct arm_smmu_cmdq_batch *cmds,
+> +					struct arm_smmu_cmd *cmd,
+> +					unsigned long iova, size_t size,
+> +					u8 tgsz_lg2)
+> +{
+> +	u64 cur_tg = iova >> tgsz_lg2;
 
-Right. And that's presumably a rather _sensitive_ bit of code.
+Nit: tg suffix is a bit confusing, I guess pfn is more accurate, but
+no strong opinion.
 
->
-> > > We could do checking of the ID registers at vCPU creation so we could
-> > > avoid worrying about them in the fast path but there was also feedback
-> > > about not doing that.  One idea I had was to generate feature
->
-> > Could you possibly check in sanitise_id_aa64pfr1_el1(), something like:
->
-> Sanitising the writes is a bit tricky since multiple ID registers are
-> involved, TCRX and S1PIE are in ID_AA64MMFR3_EL1 while GCS is in
-> ID_AA64PFR1_EL1 so you'd create an ordering constraint for userspace,
-> and you'd also have to handle the case where TCR2 or S1PIE are turned
-> off with GCS already enabled.  It feels like a bunch of complication,
-> especially if you start applying the same approach with other features.
+Reviewed-by: Mostafa Saleh <smostafa@google.com>
 
-Yeah, you're right, it is a bit of a nightmare and feels like it could get
-a bit combinatorial.
+Thanks,
+Mostafa
 
->
-> If we're going to validate the ID registers it feels safer to check at
-> the point where we finalise the ID registers and refuse to start the
-> vCPU if there's an unsupportable configuration, that would mean the
-> check would only need to be done in one place and userspace wouldn't
-> trip over any ordering requirements with how it updates registers.  Only
-> userspaces that set architecturally invalid configurations should see an
-> error.  We could also handle things by fixing up the configuration at
-> the same point, disabling features that are missing their dependencies,
-> that's a bit more friendly in the short term but could lead to trouble
-> later on as it means we hide issues in userspace.
->
-> I think the best thing overall would be to leave the runtime paths as
-> they are and refuse to run with an architecturally invalid setup, that
-> would avoid bloating the fast path.
-
-Ack, it'd be nice to not have to worry about that.
-
-Presumably we definitely want an oops on a GCS violation in general?
-
---
-Cheers, Lorenzo
+> +	u64 num_tg = ((iova + size - 1) >> tgsz_lg2) - cur_tg + 1;
+> +	unsigned int scale = fls64((num_tg - 1) / 32);
+> +
+> +	if (scale > 31)
+> +		return false;
+> +
+> +	cmd->data[0] |=
+> +		FIELD_PREP(CMDQ_TLBI_0_NUM,
+> +			   DIV_ROUND_UP_ULL(num_tg, 1ULL << scale) - 1) |
+> +		FIELD_PREP(CMDQ_TLBI_0_SCALE, scale);
+> +	cmd->data[1] = FIELD_PREP(CMDQ_TLBI_1_TG, (tgsz_lg2 - 10) / 2) |
+> +		       (cur_tg << tgsz_lg2);
+> +	arm_smmu_cmdq_batch_add_cmd_p(smmu, cmds, cmd);
+> +	return true;
+> +}
+> +
+>  static bool arm_smmu_inv_size_too_big(struct arm_smmu_device *smmu, size_t size,
+>  				      size_t granule)
+>  {
+> @@ -2565,21 +2595,30 @@ static bool arm_smmu_inv_size_too_big(struct arm_smmu_device *smmu, size_t size,
+>  static void arm_smmu_inv_to_cmdq_batch(struct arm_smmu_inv *inv,
+>  				       struct arm_smmu_cmdq_batch *cmds,
+>  				       struct arm_smmu_cmd *cmd,
+> -				       bool leaf,
+> +				       bool single_ril, bool leaf,
+>  				       unsigned long iova, size_t size,
+>  				       unsigned int granule)
+>  {
+> -	if (arm_smmu_inv_size_too_big(inv->smmu, size, granule)) {
+> -		struct arm_smmu_cmd nsize_cmd = *cmd;
+> +	struct arm_smmu_cmd nsize_cmd;
+>  
+> -		u64p_replace_bits(&nsize_cmd.data[0], inv->nsize_opcode,
+> -				  CMDQ_0_OP);
+> -		arm_smmu_cmdq_batch_add_cmd_p(inv->smmu, cmds, &nsize_cmd);
+> +	if (arm_smmu_inv_size_too_big(inv->smmu, size, granule))
+> +		goto full_inv;
+> +
+> +	if (single_ril && size > granule) {
+> +		if (!arm_smmu_cmdq_batch_add_ril(inv->smmu, cmds, cmd, iova,
+> +						 size, inv->pgsize))
+> +			goto full_inv;
+>  		return;
+>  	}
+>  
+> -	arm_smmu_cmdq_batch_add_range(inv->smmu, cmds, cmd, leaf,
+> -				      iova, size, granule, inv->pgsize);
+> +	arm_smmu_cmdq_batch_add_range(inv->smmu, cmds, cmd, leaf, iova, size,
+> +				      granule, inv->pgsize);
+> +	return;
+> +
+> +full_inv:
+> +	nsize_cmd = *cmd;
+> +	u64p_replace_bits(&nsize_cmd.data[0], inv->nsize_opcode, CMDQ_0_OP);
+> +	arm_smmu_cmdq_batch_add_cmd_p(inv->smmu, cmds, &nsize_cmd);
+>  }
+>  
+>  static inline bool arm_smmu_invs_end_batch(struct arm_smmu_inv *cur,
+> @@ -2600,7 +2639,8 @@ static inline bool arm_smmu_invs_end_batch(struct arm_smmu_inv *cur,
+>  
+>  static void __arm_smmu_domain_inv_range(struct arm_smmu_invs *invs,
+>  					unsigned long iova, size_t size,
+> -					unsigned int granule, bool leaf)
+> +					unsigned int granule, bool single_ril,
+> +					bool leaf)
+>  {
+>  	struct arm_smmu_cmdq_batch cmds = {};
+>  	struct arm_smmu_inv *cur;
+> @@ -2630,14 +2670,14 @@ static void __arm_smmu_domain_inv_range(struct arm_smmu_invs *invs,
+>  		case INV_TYPE_S1_ASID:
+>  			cmd = arm_smmu_make_cmd_tlbi(cur->size_opcode,
+>  						     cur->id, 0);
+> -			arm_smmu_inv_to_cmdq_batch(cur, &cmds, &cmd, leaf,
+> -						   iova, size, granule);
+> +			arm_smmu_inv_to_cmdq_batch(cur, &cmds, &cmd, single_ril,
+> +						   leaf, iova, size, granule);
+>  			break;
+>  		case INV_TYPE_S2_VMID:
+>  			cmd = arm_smmu_make_cmd_tlbi(cur->size_opcode,
+>  						     0, cur->id);
+> -			arm_smmu_inv_to_cmdq_batch(cur, &cmds, &cmd, leaf,
+> -						   iova, size, granule);
+> +			arm_smmu_inv_to_cmdq_batch(cur, &cmds, &cmd, single_ril,
+> +						   leaf, iova, size, granule);
+>  			break;
+>  		case INV_TYPE_S2_VMID_S1_CLEAR:
+>  			/* CMDQ_OP_TLBI_S12_VMALL already flushed S1 entries */
+> @@ -2684,6 +2724,9 @@ void arm_smmu_domain_inv_range(struct arm_smmu_domain *smmu_domain,
+>  			       unsigned int granule, bool leaf)
+>  {
+>  	struct arm_smmu_invs *invs;
+> +	bool single_ril =
+> +		smmu_domain->stage == ARM_SMMU_DOMAIN_SVA &&
+> +		(smmu_domain->smmu->options & ARM_SMMU_OPT_FULL_CONT_RIL);
+>  
+>  	/*
+>  	 * An invalidation request must follow some IOPTE change and then load
+> @@ -2723,10 +2766,12 @@ void arm_smmu_domain_inv_range(struct arm_smmu_domain *smmu_domain,
+>  		unsigned long flags;
+>  
+>  		read_lock_irqsave(&invs->rwlock, flags);
+> -		__arm_smmu_domain_inv_range(invs, iova, size, granule, leaf);
+> +		__arm_smmu_domain_inv_range(invs, iova, size, granule,
+> +					    single_ril, leaf);
+>  		read_unlock_irqrestore(&invs->rwlock, flags);
+>  	} else {
+> -		__arm_smmu_domain_inv_range(invs, iova, size, granule, leaf);
+> +		__arm_smmu_domain_inv_range(invs, iova, size, granule,
+> +					    single_ril, leaf);
+>  	}
+>  
+>  	rcu_read_unlock();
+> @@ -5009,12 +5054,20 @@ static void arm_smmu_device_iidr_probe(struct arm_smmu_device *smmu)
+>  				/* Arm errata 2268618, 2812531 */
+>  				smmu->features &= ~ARM_SMMU_FEAT_NESTING;
+>  			}
+> +			/* Arm errata 3777127 */
+> +			smmu->options |= ARM_SMMU_OPT_FULL_CONT_RIL;
+>  			break;
+>  		case IIDR_PRODUCTID_ARM_MMU_L1:
+> -		case IIDR_PRODUCTID_ARM_MMU_S3:
+> -			/* Arm errata 3878312/3995052 */
+> +			/* Arm errata 3878312 */
+>  			smmu->features &= ~ARM_SMMU_FEAT_BTM;
+>  			break;
+> +		case IIDR_PRODUCTID_ARM_MMU_S3:
+> +			/* Arm errata 3995052 */
+> +			smmu->features &= ~ARM_SMMU_FEAT_BTM;
+> +			/* Arm errata 3673557 */
+> +			if (variant < 1 || (variant == 1 && revision < 1))
+> +				smmu->options |= ARM_SMMU_OPT_FULL_CONT_RIL;
+> +			break;
+>  		}
+>  		break;
+>  	}
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+> index 50f8321e979cef..065d76eb148119 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+> @@ -934,6 +934,8 @@ struct arm_smmu_device {
+>  #define ARM_SMMU_OPT_MSIPOLL		(1 << 2)
+>  #define ARM_SMMU_OPT_CMDQ_FORCE_SYNC	(1 << 3)
+>  #define ARM_SMMU_OPT_TEGRA241_CMDQV	(1 << 4)
+> +/* RANGE_INV is mandatory and one RIL must fully span an invalidated CONT */
+> +#define ARM_SMMU_OPT_FULL_CONT_RIL	(1 << 5)
+>  	u32				options;
+>  
+>  	struct arm_smmu_cmdq		cmdq;
+> -- 
+> 2.43.0
+> 
