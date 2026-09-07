@@ -1,22 +1,22 @@
-Received: from mail-m17211.xmail.ntesmail.com (mail-m17211.xmail.ntesmail.com [45.195.17.211])
+Received: from mail-m4921.qiye.163.com (mail-m4921.qiye.163.com [45.254.49.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3220443E067;
-	Mon,  7 Sep 2026 08:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.195.17.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848EF3876C6;
+	Mon,  7 Sep 2026 08:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788769616; cv=none; b=Y5+eQZML5D2Pdg5+tcbgQcnrnkaJsaRMRPBTjWoMjknJFi3LoM8qBSVKFS2/ByEN9Shh0j+/Tbmnwyo88jomgFMOqE7RHTOcstXBVPhq5jkxw1UqYhPboT/K2cJr/EGSUsOcfIwtClGyHWmn0RLysg/erA2kgbibAG7HHqQf/wM=
+	t=1788769927; cv=none; b=SCtLUD81RC90ZY8hMmfcFFwvPnaLS2yqPvMferTDh8AOxYEUw5SDrFVST94buu+XfhlYUVAMbu1JGmBhDZRs6IedDhTIr0Kmhtd6k9BuY56/qV+T3m7W6VfPTNujnaAM/dNRxB4ejLgsjPtdHqgnsQgKr8v+nCUQelxVzlY+aso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788769616; c=relaxed/simple;
-	bh=EUYi8ru33fuHO9GMxolLZqIetyTaDaZdqRw3ojBNWEo=;
+	s=arc-20240116; t=1788769927; c=relaxed/simple;
+	bh=cbukvLNto1iH+j1A3hHZ6tVLeOhJEDGh6YsnO4xYEoQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Ho9dH2UAbUFFsAKvHpR7MuEwz8OqKU/kxlRSxphHMsExDOq+3UlDBRSC3T7+XacDfnfvmWRsSfWmj3ALGDMA/X5tWfojYDWrGr0jEZv4GTh/oY/vNPid66VM/1qQXIMXX49udYcD1gcF8DA8mLcZhOJc6xY7OWh22zt4ZcKkJWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=45.195.17.211
+	 MIME-Version; b=cAtam1t3be1IDYd3EVTTu7iHat995/q7rzk+H16BAHbc44XC6wSIsTaD7hltR+hl9ynN1ayb6LmHl9Iu2LKDulskw21vC/aV27Payiwe8EP7Vj7nfYYc/ObfBmIC+fY8Ngfu0lkD9tvY4jVsbCbvM3R9o8zC4Ghr7/H2DgkoIOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=45.254.49.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
 Received: from localhost.localdomain (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 1ec6fa08f;
-	Mon, 7 Sep 2026 16:26:44 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 1ec6fa0a6;
+	Mon, 7 Sep 2026 16:26:50 +0800 (GMT+08:00)
 From: Zhen Ni <zhen.ni@easystack.cn>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>,
@@ -36,9 +36,9 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Zhen Ni <zhen.ni@easystack.cn>
-Subject: [PATCH v3 3/8] mm/page_owner: Add COMM filtering with wildcard support
-Date: Mon,  7 Sep 2026 16:26:15 +0800
-Message-Id: <20260907082620.2083838-4-zhen.ni@easystack.cn>
+Subject: [PATCH v3 8/8] Documentation: page_owner: Document PID/TGID/COMM and cgroup filters
+Date: Mon,  7 Sep 2026 16:26:20 +0800
+Message-Id: <20260907082620.2083838-9-zhen.ni@easystack.cn>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20260907082620.2083838-1-zhen.ni@easystack.cn>
 References: <20260907082620.2083838-1-zhen.ni@easystack.cn>
@@ -49,32 +49,17 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa07afa11a70229kunm225d16da162cfb
+X-HM-Tid: 0aa07afa2b300229kunm225d16da162d27
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaGktMVh9OShlDSh8dT0hOHVYVFA
+	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDSx9PVh9JHk9MQh5MGUxLGFYVFA
 	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
 	lPT09IVUpLS1VKQktLWQY+
 
-Add process name (COMM) filtering to page_owner with glob-style wildcard
-pattern matching support. Users can now filter page_owner output by
-process names using flexible patterns.
-
-Supported wildcards:
-  *    : matches any sequence of characters
-  ?    : matches any single character
-  [abc]: matches any character in the set
-  [a-z]: matches any character in the range
-
-Examples:
-  comm="python*"  : matches python, python3, python3.9, etc.
-  comm="*sh"      : matches bash, zsh, dash, etc.
-
-Also select GLOB from PAGE_OWNER. glob_match() is provided by
-lib/glob.c, which is only built when CONFIG_GLOB is set, and
-CONFIG_GLOB is a hidden option without a prompt. A config that enables
-PAGE_OWNER but has no other GLOB selector would fail to link with an
-undefined reference to glob_match().
+Update page_owner.rst to document process and cgroup filtering
+support in page_owner_filter tool. Add usage examples for PID, TGID,
+COMM (with wildcard support), and cgroup filters along with their
+respective limits.
 
 Signed-off-by: Zhen Ni <zhen.ni@easystack.cn>
 ---
@@ -82,194 +67,74 @@ Changes in v3:
 - No change.
 
 Changes in v2:
-- Select GLOB from PAGE_OWNER so that glob_match() is always linked in
-  when the feature is enabled.
-- Drop the kstrdup() copy in parse_comm_list(); parse the token in
-  place, matching patch 1.
+- Quote the wildcard pattern in the -c example.
 
-v1: https://lore.kernel.org/linux-mm/20260828031339.1270699-4-zhen.ni@easystack.cn/
-v2: https://lore.kernel.org/linux-mm/20260903041819.1776630-4-zhen.ni@easystack.cn/
+v1: https://lore.kernel.org/linux-mm/20260828031339.1270699-9-zhen.ni@easystack.cn/
+v2: https://lore.kernel.org/linux-mm/20260903041819.1776630-9-zhen.ni@easystack.cn/
 ---
- mm/Kconfig.debug |  1 +
- mm/page_owner.c  | 71 ++++++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 69 insertions(+), 3 deletions(-)
+ Documentation/mm/page_owner.rst | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
-index 5737a504efbb..c94c30a60cd5 100644
---- a/mm/Kconfig.debug
-+++ b/mm/Kconfig.debug
-@@ -106,6 +106,7 @@ config PAGE_OWNER
- 	bool "Track page owner"
- 	depends on DEBUG_KERNEL && STACKTRACE_SUPPORT
- 	select DEBUG_FS
-+	select GLOB
- 	select STACKTRACE
- 	select STACKDEPOT
- 	select PAGE_EXTENSION
-diff --git a/mm/page_owner.c b/mm/page_owner.c
-index b27a96aba482..792eefdd419d 100644
---- a/mm/page_owner.c
-+++ b/mm/page_owner.c
-@@ -14,6 +14,7 @@
- #include <linux/sched/clock.h>
- #include <linux/bsearch.h>
- #include <linux/sort.h>
-+#include <linux/glob.h>
+diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
+index a6bd3fe6423a..493f38db0677 100644
+--- a/Documentation/mm/page_owner.rst
++++ b/Documentation/mm/page_owner.rst
+@@ -283,7 +283,7 @@ page_owner supports filtering output at the kernel level before reading,
+ which reduces the amount of data that needs to be processed in userspace.
  
- #include "page_alloc.h"
+ The page_owner_filter tool provides a convenient interface for this filtering
+-capability. It supports two types of filters:
++capability. It supports the following types of filters:
  
-@@ -72,6 +73,7 @@ static const char * const page_owner_print_mode_strings[] = {
- #define PID_MAX_DIGITS  	7
- #define MAX_FILTER_PIDS 	16
- #define MAX_FILTER_TGIDS	16
-+#define MAX_FILTER_COMMS	8
+ 1. **print_mode filter**: Control what information is printed for each page
+ 	- ``stack``: Print full stack traces (default, compatible with existing usage)
+@@ -300,6 +300,16 @@ capability. It supports two types of filters:
+ 	- Ranges: ``-n 0-3``
+ 	- Mixed format: ``-n 0,2-3,5``
  
- struct page_owner_filter_state {
- 	enum page_owner_print_mode print_mode;
-@@ -80,8 +82,10 @@ struct page_owner_filter_state {
- 	nodemask_t nid_filter;
- 	int pid_count;
- 	int tgid_count;
-+	int comm_count;
- 	pid_t pid_list[MAX_FILTER_PIDS];
- 	pid_t tgid_list[MAX_FILTER_TGIDS];
-+	char comm_list[MAX_FILTER_COMMS][TASK_COMM_LEN];
- };
- 
- static int cmp_pid_t(const void *a, const void *b)
-@@ -854,6 +858,20 @@ read_page_owner(struct file *file, char __user *buf, size_t count, loff_t *ppos)
- 						    sizeof(pid_t),
- 						    cmp_pid_t) != NULL;
- 
-+			if (!proc_match && state->comm_count > 0) {
-+				bool comm_match = false;
-+				int i;
++3. **Process filters**: Filter pages by process identifiers
++	- Filter by process ID: ``-p PID_LIST`` (comma-separated, max 16)
++	- Filter by thread group ID: ``-t TGID_LIST`` (comma-separated, max 16)
++	- Filter by task command name: ``-c COMM_LIST`` (comma-separated, max 8)
++	- Name matching supports wildcards: ``*``, ``?``, ``[a-z]``
 +
-+				for (i = 0; i < state->comm_count; i++) {
-+					if (glob_match(state->comm_list[i],
-+						       page_owner->comm)) {
-+						comm_match = true;
-+						break;
-+					}
-+				}
-+				proc_match = comm_match;
-+			}
++4. **Cgroup (memcg) filter**: Filter pages by memory cgroup
++	- Filter by cgroup path: ``-g CGROUP``
++	- Useful for containerized environments and multi-tenant systems
 +
- 			if (!proc_match)
- 				goto ext_put_continue;
- 		}
-@@ -997,6 +1015,27 @@ static int parse_pid_t_list(char *str, pid_t *list, int *count)
- 	return 0;
- }
+ Usage examples::
  
-+static int parse_comm_list(char *str, char (*list)[TASK_COMM_LEN], int *count)
-+{
-+	char *token;
-+	int i = 0;
+ 	# Filter by print mode
+@@ -310,9 +320,19 @@ Usage examples::
+ 	./page_owner_filter -n 0
+ 	./page_owner_filter -n 0-3
+ 
++	# Filter by process
++	./page_owner_filter -p 1234
++	./page_owner_filter -t 1,2,3
++	./page_owner_filter -c 'python*'
 +
-+	while ((token = strsep(&str, ",")) != NULL) {
-+		token = strstrip(token);
-+		if (*token == '\0')
-+			continue;
-+		if (i >= MAX_FILTER_COMMS)
-+			return -E2BIG;
-+		strscpy(list[i++], token, TASK_COMM_LEN);
-+	}
++	# Filter by cgroup
++	./page_owner_filter -g system.slice
++	./page_owner_filter -g kubepods/besteffort/pod123
 +
-+	if (i == 0)
-+		return -EINVAL;
-+
-+	*count = i;
-+	return 0;
-+}
-+
- static ssize_t page_owner_write(struct file *file,
- 				 const char __user *buf,
- 				 size_t count, loff_t *ppos)
-@@ -1011,8 +1050,10 @@ static ssize_t page_owner_write(struct file *file,
- 	bool new_nid_filter_enabled;
- 	pid_t new_pid_list[MAX_FILTER_PIDS];
- 	pid_t new_tgid_list[MAX_FILTER_TGIDS];
-+	char (*new_comm_list)[TASK_COMM_LEN] = NULL;
- 	int new_pid_count = 0;
- 	int new_tgid_count = 0;
-+	int new_comm_count = 0;
+ 	# Combined filters
+ 	./page_owner_filter -m stack -n 0,1,2
+ 	./page_owner_filter -m handle -n 0,2-3
++	./page_owner_filter -g user.slice -c bash -n 0
  
- 	/*
- 	 * Maximum input length for filter commands:
-@@ -1024,12 +1065,19 @@ static ssize_t page_owner_write(struct file *file,
- 	 */
- 	if (count > 32 + 6 * MAX_NUMNODES +
- 			(PID_MAX_DIGITS + 1) * MAX_FILTER_PIDS + 4 +
--			(PID_MAX_DIGITS + 1) * MAX_FILTER_TGIDS + 5)
-+			(PID_MAX_DIGITS + 1) * MAX_FILTER_TGIDS + 5 +
-+			TASK_COMM_LEN * MAX_FILTER_COMMS + 5)
- 		return -EINVAL;
+ 	# Save to file
+ 	./page_owner_filter -m handle -o filtered_output.txt
+@@ -323,6 +343,9 @@ reduce output size by ~66% (84MB vs 244MB) and improve read performance by ~4.4x
+ compared to full stack output.
  
-+	new_comm_list = kmalloc_array(MAX_FILTER_COMMS, TASK_COMM_LEN, GFP_KERNEL);
-+	if (!new_comm_list)
-+		return -ENOMEM;
-+
- 	kbuf = memdup_user_nul(buf, count);
--	if (IS_ERR(kbuf))
-+	if (IS_ERR(kbuf)) {
-+		kfree(new_comm_list);
- 		return PTR_ERR(kbuf);
-+	}
+ The NUMA node filter is useful for NUMA-aware memory allocation analysis and debugging.
++Process filters help isolate memory allocations for specific processes or tasks.
++The cgroup filter is essential for containerized environments where you need to
++analyze memory usage per container or service.
  
- 	orig = kbuf;
- 
-@@ -1044,6 +1092,11 @@ static ssize_t page_owner_write(struct file *file,
- 		memcpy(new_tgid_list, state->tgid_list, sizeof(state->tgid_list));
- 		new_tgid_count = state->tgid_count;
- 	}
-+	if (state->comm_count > 0) {
-+		memcpy(new_comm_list, state->comm_list,
-+				state->comm_count * TASK_COMM_LEN);
-+		new_comm_count = state->comm_count;
-+	}
- 
- 	while ((token = strsep(&kbuf, " \t\n")) != NULL) {
- 		if (*token == '\0')
-@@ -1083,6 +1136,10 @@ static ssize_t page_owner_write(struct file *file,
- 			ret = parse_pid_t_list(token + 5, new_tgid_list, &new_tgid_count);
- 			if (ret < 0)
- 				goto out_free;
-+		} else if (!strncmp(token, "comm=", 5)) {
-+			ret = parse_comm_list(token + 5, new_comm_list, &new_comm_count);
-+			if (ret < 0)
-+				goto out_free;
- 		} else {
- 			ret = -EINVAL;
- 			goto out_free;
-@@ -1093,7 +1150,9 @@ static ssize_t page_owner_write(struct file *file,
- 	state->print_mode = new_print_mode;
- 	state->nid_filter = new_nid_filter;
- 	state->nid_filter_enabled = new_nid_filter_enabled;
--	state->proc_filter_enabled = new_pid_count > 0 || new_tgid_count > 0;
-+	state->proc_filter_enabled = new_pid_count > 0 ||
-+				     new_tgid_count > 0 ||
-+				     new_comm_count > 0;
- 	if (new_pid_count > 0) {
- 		memcpy(state->pid_list, new_pid_list, sizeof(state->pid_list));
- 		state->pid_count = new_pid_count;
-@@ -1108,10 +1167,16 @@ static ssize_t page_owner_write(struct file *file,
- 	if (state->tgid_count > 1)
- 		sort(state->tgid_list, state->tgid_count, sizeof(pid_t),
- 		     cmp_pid_t, NULL);
-+	if (new_comm_count > 0) {
-+		memcpy(state->comm_list, new_comm_list,
-+				new_comm_count * TASK_COMM_LEN);
-+		state->comm_count = new_comm_count;
-+	}
- 
- 	ret = count;
- 
- out_free:
-+	kfree(new_comm_list);
- 	kfree(orig);
- 	return ret;
- }
+ Behind the scenes, page_owner_filter opens /sys/kernel/debug/page_owner and
+ writes filter commands before reading the filtered output. The filtering uses
 -- 
 2.20.1
 
