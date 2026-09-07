@@ -1,111 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7235D4A8A39;
-	Mon,  7 Sep 2026 12:56:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8EB4C9010
+	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 13:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788785800; cv=none; b=kcZRHz2pujfsUvac05hpEX1QDtIlCRrYdU+DruzjwfLogurdVPcm9/Tw/FgDKh0/6+G6aVPOOoM1dgq0DxlHG7ze3cDtavcjHjKW7KEdY7vKbUh6eLKcurQ3/r23ZLaLNC8oKaiYDiMlW9O+boO20o6kZKk/ubTzo3ETsXs2Vgs=
+	t=1788787279; cv=none; b=e2zKDTh6bR6udDCPakds55h6wHimEl680PxqLnORzMCZyDWuUElPIEUaSiQxqHCTcHtuqmnGMJlxuU5w4rv5l3kzjx33anj1tBGvxoAgM/1tCCzKkbvd2co/YuXB/dMM9AXXV/96j2NQzOSnpjSNl1ots9V1kj/fIFFA4+gPwrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788785800; c=relaxed/simple;
-	bh=xTp0ovGp9AgiCWE0K7ZaMew8XLRrc3rgjybG078vnXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ij+tuWJ1xmrZX3MZXTHjBRO5QyAwpti74coYCQGtGsvphNL3A4AQa0bLx+3FhLRB6fGE5jhxCJobz+0NsBCHKQ8ni2m8rHjeaWA8qUVminyXu9kvH3xw7ucinCfBAZdSlVZXtCeSb47oA0lgDadvGk8bSHOy0JhMYdHdyrj1EP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qq5xi02Z; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788787279; c=relaxed/simple;
+	bh=83XvBbKJyKRwzi5hwxmiTZIyKAph+RzH+y7aNyQjjG4=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=tte0jlp69Gw5mJ4kONF3Ad57lZgWD5bacM8ILGYWgbQlF/cM0JioKE26SRonNd6ekaW17lRFLP1HcVGflSolWkZQqDK+pP3dZ7shKIKdiwv61eIxcUBOk/ZgYk1iVU4bJ5uY4qLkUQEZOqw3cntVaoPNVBqkLxIeAV924ZKj9LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DaXLoPW5; arc=none smtp.client-ip=209.85.221.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qq5xi02Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788785795; x=1820321795;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xTp0ovGp9AgiCWE0K7ZaMew8XLRrc3rgjybG078vnXI=;
-  b=Qq5xi02Z7ydH33l+2S8wnFqp2MsjYciUOTfuxt5nwoDWbsDegI8eqCT+
-   cF+a5ggAx6njZeIxzUQQziELFkc3WAG1lSFsW2Ow22SwqVwho8GDnEXnQ
-   gB2xwdYMK2HYmpFg/pFYrLqQWw0/9UAua8X1uSjMxFITPARvFcP+YDKVg
-   AzCACuAkD3YolDyh600PlHnJJtsBUgHtXXMFpuaMbRN2l/oFwoX5nqMUU
-   ehyJkFMhii2VzdBoPixvIx0T9hcmy/rj99yYJm0o2jQgYyTjnHpm61IE8
-   iVJ7bYxRzXaSjSv3nAmnYwHPC/p9JSnMDvPZ7rAOdpKKK2dcMV+SrjAJ8
-   w==;
-X-CSE-ConnectionGUID: XPYNhALBSleFIbMTPISfSA==
-X-CSE-MsgGUID: PIZDhBIQSrm87QYIK74qAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11898"; a="106556893"
-X-IronPort-AV: E=Sophos;i="6.25,267,1779174000"; 
-   d="scan'208";a="106556893"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 05:56:25 -0700
-X-CSE-ConnectionGUID: +OeTyeTFQrGrlp3FpHc+3g==
-X-CSE-MsgGUID: i+J7wwnkTJWExrvjrCGMvQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,267,1779174000"; 
-   d="scan'208";a="267452684"
-Received: from igk-lkp-server01.igk.intel.com (HELO cc074f2a4298) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Sep 2026 05:56:21 -0700
-Received: from kbuild by cc074f2a4298 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x3YtX-000000000F4-0PB2;
-	Mon, 07 Sep 2026 12:56:19 +0000
-Date: Mon, 7 Sep 2026 14:55:37 +0200
-From: kernel test robot <lkp@intel.com>
-To: Akiyoshi Kurita <weibu@redadmin.org>, Akira@www.redadmin.org,
-	Yokosawa@www.redadmin.org, akiyks@gmail.com,
-	Jonathan@www.redadmin.org, Corbet@www.redadmin.org, corbet@lwn.net
-Cc: oe-kbuild-all@lists.linux.dev, Shuah@www.redadmin.org,
-	Khan@www.redadmin.org, skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Akiyoshi Kurita <weibu@redadmin.org>
-Subject: Re: [PATCH] docs/ja_JP: translate submitting-patches.rst (review and
- report tags)
-Message-ID: <202609071452.EmRYk0Iq-lkp@intel.com>
-References: <20260903020356.1055420-1-weibu@redadmin.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DaXLoPW5"
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-4843d9ab895so3110063f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 06:21:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788787273; x=1789392073; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Uh0S6eZu/cyygSj5aUM0MA8p8dLPdOnIzaP9eMnKI0s=;
+        b=DaXLoPW5rp0h+q3fGeUfMZs3XSxaerhSowGY7atQsPstJ74rjC1tcd2Y6VuSEZSZ8r
+         attONSGdjO+OUO6kPCt191UdCmM1u1xh88Ylh2orbVcwUymILYwUg7+3ou/40WeX+Ikf
+         4fEbWmDqAxhb/XaVQUTBHXJxLCQN2I9wp3MXJXkyom3iI6rNE/oqGVCspuc1uBy+YEQQ
+         PPqCAMeCigJ+8zxfu2vvnwxGoaG61JOiVqjiXfMXg2UHtWoi7iF9FLDvQE6CECAJqBTX
+         9NtdIFRRRvj5dPm1K1IoS8bbTjPZVvLL+h4ADPTqYYhbZC03hV779t+5G9PPQq8eivfy
+         NzXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788787273; x=1789392073;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Uh0S6eZu/cyygSj5aUM0MA8p8dLPdOnIzaP9eMnKI0s=;
+        b=gZWF0A06DF/FMy5Fzhy5ALd6TTEqkxdCxiOCbQwEPAqABUqR344PZ7T/uddpi6jAQ7
+         49vYWW4rLSbmVYjxwwnQACIWqK9b1HqfRQErAOXHW5JJh+wel+bIfHLxPPNVBic4P4PR
+         rKvHumHEHd3KTNMIkazImWkkHXP2dy2aauaKcaV10fDA7HAcux8wUfEprkmDH2cpFxZI
+         dQcKCymE4XDcSbnCdk0Gvut2PjeFESMkjsFIvQsJ+sZQIIjcbFbyHboCn4/WgmovhE9b
+         cGbc38skblpTiBlbfT5KUaopI8ZQ+sitRf10EKw5ZxLbK1NcQ5qPrtvQXZzCF+jJOiuN
+         ef8Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzQilonlhrjEfpcveoEe9yfqhL1FppJp8f6J6usE4dNoV5o6GQB9nSguXY0aX/mtwBTPKvyZJct7q8=@vger.kernel.org
+X-Gm-Message-State: AFuF++kxyhMHzHDdwFFKoyLs/plSxPZIjhFVexpy0La1LD4DQRNHjbjf
+	yI1kZaLr9yJpXcppJeMVDXQyH4qsh0vukWjQ8k59tBTQBLAxzbQW2l7AJgIF0nRetgDA8nlXphs
+	3qJ5TZMjbGm0QtKWtHw==
+X-Received: from wrxo16.prod.google.com ([2002:a05:6000:110:b0:481:5a0f:19b5])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:41d7:b0:485:8c16:5efd with SMTP id ffacd0b85a97d-4858c16611emr18132049f8f.55.1788787272868;
+ Mon, 07 Sep 2026 06:21:12 -0700 (PDT)
+Date: Mon, 7 Sep 2026 13:21:11 +0000
+In-Reply-To: <87cxur5ux4.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260903020356.1055420-1-weibu@redadmin.org>
+Mime-Version: 1.0
+References: <20260831-sys-futex-wake-time-slice-v1-1-814bb95cc339@google.com>
+ <87ld9ha8wu.ffs@fw13> <aprNcgTON1V7Tr1W@shell.ilvokhin.com> <87cxur5ux4.ffs@fw13>
+Message-ID: <ap66R7QTdVyMqcG9@google.com>
+Subject: Re: [PATCH] rseq: defer time slice extension yield for sys_futex_wakey
+From: Alice Ryhl <aliceryhl@google.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: Dmitry Ilvokhin <d@ilvokhin.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Peter Zijlstra <peterz@infradead.org>, "Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-Hi Akiyoshi,
+On Sat, Sep 05, 2026 at 10:01:59PM +0200, Thomas Gleixner wrote:
+> On Fri, Sep 04 2026 at 13:53, Dmitry Ilvokhin wrote:
+> > On Fri, Sep 04, 2026 at 07:21:37AM +0200, Thomas Gleixner wrote:
+> >> On Mon, Aug 31 2026 at 12:57, Alice Ryhl wrote:
+> >> > Thus, update rseq_syscall_enter_work() for sys_futex_wake() so that it
+> >> > does not reschedule during syscall entry. The thread will yield the CPU
+> >> > on the syscall exit path instead.
+> >> 
+> >> That's undermining the design and takes control away from the scheduler.
+> >> 
+> >> It granted a short extension with well defined semantics and then you
+> >> special case futex_wake() which can take arbitrary time to complete.
+> >
+> > Thomas, do you think the problem is worth solving, though?
+> 
+> Eventually :)
+> 
+> > Currently, it seems like the rseq time slice extension is a good fit for
+> > userspace spinlocks implementation, but userspace adaptive mutexes don't
+> > fit quite as well.
+> 
+> Correct. The main incentive for time slice extensions are user space
+> spinlocks. The DB folks wanted to have a way to disable preemption from
+> user space forever exactly for that problem and after twenty years of
+> horrible hacks we finally have something workable.
+> 
+> I'm not surprised that you want to exploit that for your use case, but
+> that's not a good fit.
+> 
+> > One can argue that adopting the rseq time slice extension for adaptive
+> > mutexes can never make things worse. The extension allows the lock to be
+> > released, so other threads are free to grab it. The only problem is a
+> > potentially delayed waiter, but this can happen now anyway, even without
+> > the time slice extension applied. That said, it doesn't mean we can't do
+> > better here.
+> >
+> > One option that I can think of is a best-effort
+> > rseq_slice_yield_wake(uaddr) that is allowed to fail with a userspace
+> > falling back to futex_wake() in case of a failure.
+> >
+> > rseq_slice_yield_wake(uaddr) could look like this:
+> >
+> > - Works only for private futexes with nr=1.
+> >
+> > - Bails out early on a contended hb->lock.
+> >
+> > - Limits the hb->chain walk time by the same time slice extension, that
+> >   is already set.
+> 
+> Once hb->lock is held preemption is disabled except for RT enabled
+> kernels. And no, we are not going to add a cond_resched() into that code
+> right at the point where we are trying to get rid of this ill defined
+> insanity alltogether.
+> 
+> > This way the scheduler is still very much in control and in case of the
+> > success, scheduler might pick a better task, since the waiter is now
+> > available to run.
+> 
+> That depends on your POV. The scheduler already granted some leeway and
+> now your special case wants some more which is pretty much guaranteed to
+> exceed the grant.
+> 
+> And special casing X is a slippery slope because everyone has an
+> argument why their Y and Z use cases are equally important and need an
+> exemption too. You can figure out where that ends up ...
+> 
+> The real question is whether you have exhausted all possibilities to
+> solve the underlying user space problem. Alice mumbled something vague
+> about double linked lists, but that's handwaving at best.
+> 
+> What is the actual problem you are trying to solve?
 
-kernel test robot noticed the following build warnings:
+Basically in Tokio we have a bunch of critical regions that look like
+this:
 
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v7.3-rc2 next-20260902]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+	mutex_lock();
+	list_add_tail(&my_list, new_item);
+	mutex_unlock();
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Akiyoshi-Kurita/docs-ja_JP-translate-submitting-patches-rst-review-and-report-tags/20260903-110356
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20260903020356.1055420-1-weibu%40redadmin.org
-patch subject: [PATCH] docs/ja_JP: translate submitting-patches.rst (review and report tags)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260907/202609071452.EmRYk0Iq-lkp@intel.com/reproduce)
+and this:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609071452.EmRYk0Iq-lkp@intel.com/
+	mutex_lock();
+	next_job = list_first_entry(&my_list);
+	list_del(&next_job);
+	mutex_unlock();
 
-All warnings (new ones prefixed by >>):
+except in Rust.
 
-   Relational referents
-   ~~~~~~~~~~~~~~~~~~~~~ [docutils]
->> Documentation/translations/ja_JP/process/submitting-patches.rst:666: WARNING: duplicate label tagging_people, other instance in Documentation/process/submitting-patches.rst
-   Documentation/userspace-api/landlock:572: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
+People are reporting bugs to me saying that this particular list in
+Tokio is causing significant contention for real-world workloads in
+production. The context here is backend/web servers.
+
+Thus, I am looking at various solutions to improving contention here.
+
+I saw an article on LWN about this new time slice feature for rseq and
+thought that I definitely do not want to get preempted during these
+short critical regions, so applying rseq to them seems like an obviously
+good idea.
+
+I tried using them and realized that the interaction between rseq and
+futexes is not ideal because of when cond_resched() is called. Hence
+this patch.
 
 
-vim +666 Documentation/translations/ja_JP/process/submitting-patches.rst
+I don't have real-world data on whether this would actually solve their
+problem because, well, I'm pretty sure the servers do not have a recent
+enough Linux kernel to use this feature. But just from a theoretical
+perspective, to me, this seems like the "obvious" behavior you want for
+a futex-based mutex if the critical region is short.
 
-   665	
- > 666	.. _tagging_people:
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Alice
