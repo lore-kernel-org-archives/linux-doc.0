@@ -1,49 +1,47 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8613D479872;
-	Mon,  7 Sep 2026 16:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3271511E64;
+	Mon,  7 Sep 2026 16:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788797056; cv=none; b=Fr+8QmTfLs+R5vFWfpDyzD79i3tTPBK2KjrJR7Qyx8iiX1SKvrrSp9/V5xjkpxnBikFmRfV9VysdW1jo5vHvIiM4joGJfP2s3kOLLnC0ZAk/HLc/I+fwQV3jTfL/lmEFAiu5JH2laFwMv9YOti9rou9Ua9/1o7S3BuviJr9ef5U=
+	t=1788797357; cv=none; b=T8GiO42BOgKeg51r0Oal0+arnGwrjvp7TuaaBlT+F2EpxQjCxx6mHtrPcFB7uDZNpGtidjJjeyt26fcq2Ge3OsoJ/P440s7NCphEekD88PKAv/orErE4Fe+Gs36OU9W6VrN0PhtgVq7CS0CDINNHKkNDF86JIsvvzp1a6eF0TDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788797056; c=relaxed/simple;
-	bh=4sp/YeN2H04Z0zOoTiojLjcoWDbChrEAn+Z54jK+rGA=;
+	s=arc-20240116; t=1788797357; c=relaxed/simple;
+	bh=FQk1qflooDTc9IyeYbUP6lJJEX0Q/x/3M++RyKRSDyY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XYjckITae/BGfg4CflN9pqDB9WOKMgBB5v4BJIgdWaMXqPNOi4lT5TX91sdYTLRfrnP761b9VszfpbyClnERipaVTjbPdcBYUVHD+N7wSon/ZxU/A2x4/2OA1sMr1ByM1ztRxbVaSQqsCYnhVTuJeMyonevKdLYkm+5iDNWLLiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BPzf/Kr/; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	 MIME-Version:Content-Type; b=ryyPpoesURYSPLdMcaN8nH5spk18EfQd1GRccW0lBJh+ugRA6QNi3jNIHVVadpVbN31+rT1WBwhI+lVHM4QE8pBOTZXMyd+3sCfRJclFsWJsWGiMRd8pinmJOjJaNjGBShjuTLTdIhaDCMNlJXttQB29oetwg/Rhhhk0b1THQDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cEiQkVdU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BPzf/Kr/"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5AC2C408FF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788797054; bh=PQcokecY8E9hHBUhc9gxmM/LdBoKSMfS5iDVS/hdTgM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=BPzf/Kr/5fOHzuX0cN8eDZiEX/Geve/nDXcGFvtuLkPsyBknHGeow+UPFn1iNFqRU
-	 IIkKRI6c9QFzCdzI4KayaPBecyle1kaRWha4BJ6cA3mQQT8vRqzjIbTrcilcnLzeko
-	 TybcYxckb+nu24zsT3Yy1IONPl/R6xKjLguogEFa+kx8UAmo1CkR5Ma9bYd91F8h2I
-	 P5NI5mMOFRuqpSNSRTdZbZQVrhZLPAieoFp+laJDvlf+xP/L70ECfvaSPW0wUzXEYY
-	 Ky4pChiGCwg8gs5wZYAc89OzMXEp2zV2ry2Cc23j6yaIFqZ1y7gALkZehCw/uy2ll5
-	 HMMeMFNe6SNSw==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5AC2C408FF;
-	Mon,  7 Sep 2026 16:04:14 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Ingo
- Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: irqflags-tracing: Fix the lockdep Kconfig option
- names
-In-Reply-To: <20260905023746.82998-1-kmehltretter@gmail.com>
-References: <20260905023746.82998-1-kmehltretter@gmail.com>
-Date: Mon, 07 Sep 2026 10:04:13 -0600
-Message-ID: <871pb5vyiq.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cEiQkVdU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADF0D1F00A3A;
+	Mon,  7 Sep 2026 16:09:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788797354;
+	bh=O21OXkT+CO7kqHAIkqKNXoWsWUnuD40f1pEYCtLNhCo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=cEiQkVdU3k2uimP58cQap5UFd+2E9hqvHmiPVuJwfNEU5UvTqgMzyHYZsn0UDnwab
+	 kN0BhXkeg/iHcOkcZ+sGQ2fFUTx1H4HDhOnoVlwPbuMCdPnJA8hoRu7PhWwY+qnZCU
+	 y6Xumq4PL1Rf8qukmZ8FWTbF8FmtdwkktGy/Bprd5czk3PV1JURDY4HBqSuhzpzxcQ
+	 zK0vuKOEB+FdeQU39MmAfxvLDEgpWTvj0yLMjlTE2eabdO+Wa32GCz18B850nplZid
+	 qmfDpn7XgByUQok2hEInOTRaMsLh23W1crnCVhGv8yaB8rP1KfXd+Ud+w6ZnpR6gAB
+	 Qn3rXNpNPjfeA==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Dmitry Ilvokhin <d@ilvokhin.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Peter Zijlstra <peterz@infradead.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH] rseq: defer time slice extension yield for sys_futex_wakey
+In-Reply-To: <ap66R7QTdVyMqcG9@google.com>
+References: <20260831-sys-futex-wake-time-slice-v1-1-814bb95cc339@google.com>
+ <87ld9ha8wu.ffs@fw13> <aprNcgTON1V7Tr1W@shell.ilvokhin.com>
+ <87cxur5ux4.ffs@fw13> <ap66R7QTdVyMqcG9@google.com>
+Date: Mon, 07 Sep 2026 18:09:11 +0200
+Message-ID: <87fqzl2gd4.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,38 +50,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Karl Mehltretter <kmehltretter@gmail.com> writes:
-
-> CONFIG_PROVE_SPIN_LOCKING, CONFIG_PROVE_RW_LOCKING,
-> CONFIG_PROVE_MUTEX_LOCKING and CONFIG_PROVE_RWSEM_LOCKING have never
-> existed in mainline. Lock proving was merged as the single
-> CONFIG_PROVE_LOCKING, which has depended on CONFIG_TRACE_IRQFLAGS_SUPPORT
-> from the start, so there is no reduced set of options without it.
+On Mon, Sep 07 2026 at 13:21, Alice Ryhl wrote:
+> On Sat, Sep 05, 2026 at 10:01:59PM +0200, Thomas Gleixner wrote:
+>> What is the actual problem you are trying to solve?
 >
-> Fixes: 55df314fbdb4 ("[PATCH] lockdep: irqtrace subsystem, docs")
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
->  Documentation/core-api/irq/irqflags-tracing.rst | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+> Basically in Tokio we have a bunch of critical regions that look like
+> this:
 >
-> diff --git a/Documentation/core-api/irq/irqflags-tracing.rst b/Documentation/core-api/irq/irqflags-tracing.rst
-> index bdd208259fb3..a3c77046ae6b 100644
-> --- a/Documentation/core-api/irq/irqflags-tracing.rst
-> +++ b/Documentation/core-api/irq/irqflags-tracing.rst
-> @@ -9,12 +9,8 @@ that it gives interested subsystems an opportunity to be notified of
->  every hardirqs-off/hardirqs-on, softirqs-off/softirqs-on event that
->  happens in the kernel.
->  
-> -CONFIG_TRACE_IRQFLAGS_SUPPORT is needed for CONFIG_PROVE_SPIN_LOCKING
-> -and CONFIG_PROVE_RW_LOCKING to be offered by the generic lock debugging
-> -code. Otherwise only CONFIG_PROVE_MUTEX_LOCKING and
-> -CONFIG_PROVE_RWSEM_LOCKING will be offered on an architecture - these
-> -are locking APIs that are not used in IRQ context. (the one exception
-> -for rwsems is worked around)
-> +CONFIG_TRACE_IRQFLAGS_SUPPORT is needed for CONFIG_PROVE_LOCKING to be
-> +offered by the generic lock debugging code.
+> 	mutex_lock();
+> 	list_add_tail(&my_list, new_item);
+> 	mutex_unlock();
+>
+> and this:
+>
+> 	mutex_lock();
+> 	next_job = list_first_entry(&my_list);
+> 	list_del(&next_job);
+> 	mutex_unlock();
+>
+> except in Rust.
+>
+> People are reporting bugs to me saying that this particular list in
+> Tokio is causing significant contention for real-world workloads in
+> production. The context here is backend/web servers.
+>
+> Thus, I am looking at various solutions to improving contention here.
 
-Applied, thanks.
+Have you looked at lockless lists or queues? The above use case looks
+more like a queue than a list. I'm sure there is some Rust
+implementation by now.
 
-jon
+Thanks,
+
+        tglx
+
