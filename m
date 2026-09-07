@@ -1,50 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492BF34CFC7;
-	Mon,  7 Sep 2026 15:52:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688A74CA76C;
+	Mon,  7 Sep 2026 15:54:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788796350; cv=none; b=X6pmYBww7xyk0Su1Y/Ps6ASZ0AgiFBKGZDj1PMrsp3/eCWaMUPQnk06djDVOxZlFaA8fjZHPY2bpzI2i+HiuLShu0MqJPPjeSijYLQcjTGrBHvnQ/e0DpBgFweqsh/RjS/r2XUQfLOMzf+ZgtdLba/73JUvfOilCqJS4cFN/Dfk=
+	t=1788796487; cv=none; b=ouMFirIsvlHYRxEf1eEVCAoTbz+HDcfBHBfCw5mUm72q0b483UfcTMSBuu+ULMBbYMejubl/kqjNQoRkFd7RA8mUhTvQtt3uG9FZG+eoFviRCIrL/8L2tzQUz3pjIIgCWTW7o5bUs+r44KFN/ZP5gw9wtBPRmUQjr+OyoXe2BFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788796350; c=relaxed/simple;
-	bh=KbdHqHbCxKTm1pXa0FaJJl1Dz1Qjt8pEQzncbgTAbbQ=;
+	s=arc-20240116; t=1788796487; c=relaxed/simple;
+	bh=OxTfmdKlF/M39hwa9LeJeJy+VvQMQL+ijNheXwzRphc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZhVI2y/SRArO7FsqKsbLkN0wB3KExDW4uWfX4j4SPRQUqpJKbdRRuaJtglptekRnMa3RBM0QNnYd/1OPw7SenLLZXwH2Y4MXMQ60+D0miDTDVIB5yIMhC2M85YzLSZeQCZ3EvH8S5ZGcxZlI36/MNeoOGZYh98gfe8QhceuS0FY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DjrZqg8e; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=VOKgqesHRND3drlimVt17GR5QlwE3JGO+jZHPYfwWdq/Z0g8Qze7ovm650DleoHdO9VW6mIJvCX0AddeiR7dlZLv9py5iG2ljBwht187HbgRu6t/fVUWoMc4oZ7rKrpy04UPpydy//4B4kEXsAMzLtXUGU5QQ+f0puWQga7AtI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BhHR5vVr; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DjrZqg8e"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 443A74158C
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BhHR5vVr"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9A29F408FF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788796348; bh=6c2w3nkZz8Hi9H065F6d699Zlb1eBVLzI1zMJpuOMes=;
+	t=1788796485; bh=fRnfya/x44Q2TqwNBL3QeJIypGRPLLcZVr0sT/HdHF8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=DjrZqg8eJhvR/S1lg2/j74WtFKkT8MqStPdO3WKI10//hEgZL+VBIDJWLThoihMlh
-	 ML3KB+LtR4sGZ8RXdFDJqxFJh8zcKSkeIQqpEhfC8Yq2uNR8IlIwJWtlJLEzrgtVGD
-	 NHPHTF7udCGOluRnnfGshw+ECwFpYicHOZPM4YpjfoqrBhUG1cM8ArUWOQo0C6Yt3T
-	 uVL+vakLEMnmgkqwLsieLrV3vLsw0nz13nkryqs61TB6PsmQc+w3R7mHq4t0Za0CmO
-	 fK9SUQ2kmrUPnAYy1p8DUloWzl01M+d75wf5F+0xRdx9zFMfmfAbFBJDVua13zyn8n
-	 o0u6s+jCtQRCw==
+	b=BhHR5vVr+oIYyHrDCamaYDlo4yBi+knoDw+c3SqW1+yICv0uySDoWh8QRis4eztBa
+	 W9Zy29y41P2YMQvWLd6vloioNuzhlVyyHSTuvo1D3Znf5NWEf4ehcY6PRT/o0hdOTY
+	 PCieSvcba9U8uZ3566zNfO4a0xsMDl/aEmfqfAf8cSRU+yL7QNVpgICfutkT5kklIy
+	 FZamf2a8GKdFAp4JQMOUyiszKTG+Scxy9K4VcGW0c1nATifOEexy3Csp8f7N8sFo0p
+	 Kfhj3OHH/AgeK4OuxSbNBAYQIU7d7y1jUewGWC8RICjmHbWec+KkOZv01i9qa3m12e
+	 lXRSXYvjeRb1w==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 443A74158C;
-	Mon,  7 Sep 2026 15:52:28 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9A29F408FF;
+	Mon,  7 Sep 2026 15:54:45 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Karl Mehltretter <kmehltretter@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, linux-serial@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Ilpo
- =?utf-8?Q?J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: Re: [PATCH] Documentation: rs485: Pull uart_get_rs485_mode() from
- serial_core.c
-In-Reply-To: <20260905083648.39026-1-kmehltretter@gmail.com>
-References: <20260905083648.39026-1-kmehltretter@gmail.com>
-Date: Mon, 07 Sep 2026 09:52:27 -0600
-Message-ID: <87ik4hvz2c.fsf@trenco.lwn.net>
+To: Manuel Ebner <manuelebnerli@mailbox.org>, Shuah Khan
+ <skhan@linuxfoundation.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: misc-devices/spear-pcie-gadget.txt: Fix bracket
+ and whitespace
+In-Reply-To: <20260905074641.811164-2-manuelebnerli@mailbox.org>
+References: <20260905074641.811164-2-manuelebnerli@mailbox.org>
+Date: Mon, 07 Sep 2026 09:54:44 -0600
+Message-ID: <87ecf5vyyj.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,35 +51,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Karl Mehltretter <kmehltretter@gmail.com> writes:
+Manuel Ebner <manuelebnerli@mailbox.org> writes:
 
-> serial-rs485.rst asks include/uapi/linux/serial.h for both struct
-> serial_rs485 and uart_get_rs485_mode(). The function and its kernel-doc
-> comment live in drivers/tty/serial/serial_core.c, so the directive has
-> never rendered it and the section shows only the structure.
+> Add missing ')' and remove needless whitespace.
 >
-> Add a second directive for serial_core.c.
->
-> Fixes: 0f4648a1a6d3 ("Documentation: rs485: Mention uart_get_rs485_mode()")
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 > ---
->  Documentation/driver-api/serial/serial-rs485.rst | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/driver-api/serial/serial-rs485.rst b/Documentation/driver-api/serial/serial-rs485.rst
-> index f53043d21071..98d8d83718c6 100644
-> --- a/Documentation/driver-api/serial/serial-rs485.rst
-> +++ b/Documentation/driver-api/serial/serial-rs485.rst
-> @@ -50,7 +50,10 @@ RS485 Serial Communications
->     matching to the current configuration.
->  
->  .. kernel-doc:: include/uapi/linux/serial.h
-> -   :identifiers: serial_rs485 uart_get_rs485_mode
-> +   :identifiers: serial_rs485
-> +
-> +.. kernel-doc:: drivers/tty/serial/serial_core.c
-> +   :identifiers: uart_get_rs485_mode
+>  Documentation/misc-devices/spear-pcie-gadget.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+
+Agree with Randy on the white-space fixes, they are generally not worth
+it.
 
 Applied, thanks.
 
