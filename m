@@ -1,64 +1,64 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DECE45518A
-	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 09:54:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE6744E671
+	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 09:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788774900; cv=none; b=H+/7AMC2CyTSpIg+vWuskozYqm+QrWhZ9RQ0KE/jbHOxCTyJmIf0Qq0PK/aUacmlU+ZpgYxtWimn6mbpF0MvXwT/mDjxnWEzp1REYSXa0wRRoPTo9uo8/T3QS19TQvbd8YTw6g4OFsYoe7gxw/3yA3fv5/ELJU1r6adwa1p7fkM=
+	t=1788774910; cv=none; b=TarzDmyKMqMESBXQoToDMTtmNUU9+Si5oH5ihhaRss8fEm6P1AbrSEkXsUfTR3jLsq1Kl0k3kcPZa1wuh6mMyQ3O9TApNEczhl4EogHuX2QfxlBlYIIBtVBvBTzUfN56KpQbqJjXtZwBMOw2FfsQX/XhSQdrexxx34GQg4oa54s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788774900; c=relaxed/simple;
-	bh=s549kevUZC4ZyUc7XqUZMng2RkCpooWQvdm+Nz2D0W8=;
+	s=arc-20240116; t=1788774910; c=relaxed/simple;
+	bh=GvzajizbOY90kaz3HZugV1nPa93/ZqnhoDEgNe4G3Jk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tiBE8P8pmKrNEifBiZm++vtHCGB9gqWr4S1R/54mIUJUwBbgl7mUPd3saKkPb4qI4J2ChGOGEmPOvv7mjlpDzmuS1Dioia5sojyTAa6kV9JM3uXqXa5CI1DLZMMvArj3HqCzCrKwMEkdNrtZkJw0JLxZ3+05lWq0zd77mzEd+yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O4IFcsRl; arc=none smtp.client-ip=209.85.216.54
+	 MIME-Version; b=euZc1k9uhU4q10YazauqZDGQAfmwL6BBmVW2rUW0TtOaBLBXsa6LNxXiLaksw3uYhUu6q4+U8u+wLHogU11j177MgEYPTqdttsRTz5eGrHhMHnW7I9jCy9tlr+wsfc/ocKaBAh2B1zLclH6CQwxcU5qYBuvDW/wXiMUl6cI3sDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EPe3KuMj; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O4IFcsRl"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-39266382df6so2534005a91.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 02:54:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EPe3KuMj"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-398b3c37877so3057439a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 02:55:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788774898; x=1789379698; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788774908; x=1789379708; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=CAjCGFj9uN24CROal9WgOpj03Aiwe9JIURKGhaUN4Iw=;
-        b=O4IFcsRlp1gUSfPO5iwfSBPxBw+b73izEsYnNtRZbCijsuG6NlHuX+K97alavRu5Nv
-         Ydqt6eOu1VCuktpGnl3MJpHeuPkZhl+c5mTTA1pjAImBiRmGBqI8nfwsInm4cQCgreC5
-         j/VBc3LKidVrsglvBAjm1bwTTh59WGezMpXlWjXV3IgJS5noUyQmIO9CCgl268sn+xm9
-         IlmVoU/TX2W0rz6P2Hoi7uar5dgki3npcuJSwk8lcpMjK8fcxCOuUEEwWAfkSgyWW+6/
-         pfs9HvhGqhxGt+KpPWESaCkVI94uAh6D6ZhBkwrsF/JBFULUckDLKpHv6xbTx6MlkxKX
-         iqGQ==
+        bh=Gm+TyPV1iDM9aVdXh0QUxUBtbEP62ax0fUff+nPkYjU=;
+        b=EPe3KuMjUqln7ym73592bTp9gWYhAWm6jCk6skEJpytBoim75ycjRHIfxVIlzCIeZs
+         sC8eahpT9JXSlpty9H40ZuJB/AE4xx/0Qp4johqb1XiKxxtt32hVhyPQY5PlxYOKoBan
+         oLw8be/vEcULyd/PMASmFVV+iRhVPIvlQS26YqaSBonkhgW4dcFkIEFQMW+8hCImdaZ2
+         AlrjaAry5J/H6hYJmQE6BZIIRGbkjQxFuE0h1hVn0i1Yk3jo4ptTAackIY2IEnD/H+qo
+         pq3KdZQWGOghZjbnxoZN/qv+o3N4/iLXRlHOcD+dGZe1jGlf47kR+RteG/giTGW6XjZ0
+         eVtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788774898; x=1789379698;
+        d=1e100.net; s=20251104; t=1788774908; x=1789379708;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CAjCGFj9uN24CROal9WgOpj03Aiwe9JIURKGhaUN4Iw=;
-        b=bWJxM40+4uMa8y2lwsngOwG6Hkp3e0buXSyMYDIMeLdLmwp4rerYcUhuffQEL2X0kc
-         E+9dLaClEcRjk1ZYO3ncr7ZXlw6KzDI8s3t8munh8zStfrARBshJmv8a47r0/kEk+GN3
-         7HHbtGe9O0Y9C24OutrBB+4BH93DH7hr42WgaqJbNHUG2SK1tUHVHDkaN4AT51CwvOrq
-         qHaGYmdjHWB697MzH9YCBKkclHIesFpSCBtjIBybqAT8EX0cAx4bu7pMWHMMkAcJzLIo
-         n73DYlS9Pf1VlIdveFauJG2ur8eDuwQMpK6mE1UkHarryOqesOIeAeikMEvaZcSm3VuX
-         zBfA==
-X-Forwarded-Encrypted: i=1; AKwUvBx8Ufuyxsfk/SeB1xV86x7cUNWvdG9cobi84C5rhlxewCLDcSE3FLcZrB2zwsuq72Vlsr9FQK7Y190=@vger.kernel.org
-X-Gm-Message-State: AFuF++kpx5DFfuQfrIVhaygwgfOn+u4JT7H9ZIID+kb8KPHu2gXf81xw
-	/tmTUPCN2AWlCpXcDTZil/lfo/UOHDVe9VYny4DeyiOXr/N9RrJGLvf2
-X-Gm-Gg: AYBFou1QRS7I3TiUH4etimbkmdH4V1elOriQte6G7CVom/WIxJxU7NpZMqQEBx3U36s
-	umazYEQsomOJjb6OYvpung7D9+IZTF0f9VwE0JiKXB5Db2ChJdqZC79YlY1TxglhrXDzuN6MVgQ
-	n2vH6afIX7THUBTqyXS264KLT+2UkqwTczL2doCQQRZZI5PU5wDYXV/cnpL08xv5voT2ehxf0Pr
-	1Qsf/SG2Kg9Lm1sJD9zT2AEe2RqE6tHhbFKUBfWSVQu9vqSmGul5B76Z/EJy+RD0UWgn8Aa68ug
-	CpFZcaGaKFo4e3xiABf7MgexMJ1tGqsuMVy3pB7Uv088wH8qhEV2qwCxwtduIa6JWH+2Jz9XCek
-	K95WArJ7982W0juerZ/kAo+jkZ66ZzSjGa51eD+Z8pg98xJ/2Zien4OFkmFf2sBqiCATcC+q8s5
-	p3gF5NuXFJqhdG8lCTvyV7h7O4WJbYZr9caRmtWiE15+ObMn6FkWku+eGjs6aOXcgSTiE5hm0R7
-	bIO6sFcBD2hiA==
-X-Received: by 2002:a17:90b:510c:b0:398:9be6:f999 with SMTP id 98e67ed59e1d1-39b262e27a9mr36356477a91.24.1788774898462;
-        Mon, 07 Sep 2026 02:54:58 -0700 (PDT)
+        bh=Gm+TyPV1iDM9aVdXh0QUxUBtbEP62ax0fUff+nPkYjU=;
+        b=iTAuf3Nb/+33nB6aE/86melzNXdAmUO5IrGf17nUSEUPzzqyznJq3ziQEArrJh2bDJ
+         dJ/SVS699G4HsFOW/Yy4Mv4NdH0Tq2APg6jJrfzUsPnyX/pY1WYjmUlsZG0WObd5XS3r
+         rqp9cjmd3i4kl4KvjGiTPk0Dz/gLdGseSRPhdiQliyMVD0h6/Dl8zYov9qFOPekUBea6
+         osIsZPMnDu+7vmJvgAk5Bl6vuuOCHNemJdaewABJk6wlSpbnQTeiNCs1MR1Fs1Z3LqRO
+         9aNAZ0N6zL22QkE7lP46ZQRbvXvgefhGkqIldbYrr2z2gpHzY/JWgKl0MYUtW3b0hqs7
+         IxaQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzmjKvAi5TzcCyOJWtzwQSpKTuiRHCDKnTbz2CgNqfP3/vZ0zr9DrFkZLPYTniTvkP6Kg+i1TTzKmo=@vger.kernel.org
+X-Gm-Message-State: AFuF++kSNqIe1QnXxbwEvhb0YupjXXvv+SUWwncpvivFLBhh77xzC9NV
+	TWVJyGlbWq+pra8filnqMAxeju8BN2Wp3C0nVApf/VyEXu5XGlTwG9/o
+X-Gm-Gg: AYBFou0PF28s8oSs92HDvmSJQgmrGAUIzZ8RtoaRGY5kzwqGrFSUCBQmPSpg+QAxFMo
+	rwWUVQBw0mR8Z6WhgRUGbOme4rLZzGC26KpLpwF5KmeTUlKNI5vKJKqM0TC2nKb+IqgA5312tvV
+	EU/It1k+w1Lcje85u11TQZ7jJoTuHX7tVYkzpfz3jlf26285Q1x3mVCdQz/DuT/VU7LOgWJ/YB8
+	7TXsMwaE7o3xkQm4CAlrkMh5LkN2CG38Pb5dkGpHhwbXYIxACf7RCCFeMuyLMN6yNaANhsVeADt
+	BVvF9ySTWsOrVvQY0mjTOiEj388CHKTtMEsol8hJqMRu4jLMw3WRPwiTtkAJQ/r9fG3xMg9bRU1
+	uOrexE/fh4kl1wpfhNqnVt49rneLwa5Os0hkVcdeiwAZpePGhfVzbKRaiis4tthiD/QYulGtH5h
+	Y6zDyT3+zbkcJM7dKtoBztic5TuuOP1gcm8pP/mmjhC/6eEKortl0HgSmI4WwJBjBwBZvr9m6En
+	bq43JRw91IB8A==
+X-Received: by 2002:a17:90b:1c0a:b0:398:d132:ba76 with SMTP id 98e67ed59e1d1-39b2623abfemr31923733a91.21.1788774908390;
+        Mon, 07 Sep 2026 02:55:08 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1432424d27asm34831030c88.2.2026.09.07.02.54.53
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1432424d27asm34831030c88.2.2026.09.07.02.55.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 02:54:57 -0700 (PDT)
+        Mon, 07 Sep 2026 02:55:08 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
 To: Tony Nguyen <anthony.l.nguyen@intel.com>,
 	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
@@ -75,9 +75,9 @@ To: Tony Nguyen <anthony.l.nguyen@intel.com>,
 Cc: netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH iwl-next v2 1/4] i40e: fix typos in comments
-Date: Mon,  7 Sep 2026 15:24:43 +0530
-Message-ID: <20260907095446.27290-2-hemanth.selam@gmail.com>
+Subject: [PATCH iwl-next v2 3/4] ixgbevf: fix typo "enble" in comment
+Date: Mon,  7 Sep 2026 15:24:45 +0530
+Message-ID: <20260907095446.27290-4-hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260907095446.27290-1-hemanth.selam@gmail.com>
 References: <20260907095446.27290-1-hemanth.selam@gmail.com>
@@ -89,7 +89,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix typos in comments, found with scripts/checkpatch.pl using the
+Fix a typo in comments, found with scripts/checkpatch.pl using the
 misspelling list in scripts/spelling.txt. Only touches comments, no code
 changes.
 
@@ -104,33 +104,19 @@ Notes:
     
     v1: https://lore.kernel.org/all/20260907064528.6602-1-hemanth.selam@gmail.com/
 
- drivers/net/ethernet/intel/i40e/i40e_common.c  | 2 +-
- drivers/net/ethernet/intel/i40e/i40e_ethtool.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/intel/i40e/i40e_common.c b/drivers/net/ethernet/intel/i40e/i40e_common.c
-index 8dadfef2c09f..026b35e5a000 100644
---- a/drivers/net/ethernet/intel/i40e/i40e_common.c
-+++ b/drivers/net/ethernet/intel/i40e/i40e_common.c
-@@ -676,7 +676,7 @@ int i40e_pf_reset(struct i40e_hw *hw)
- 	grst_del = FIELD_GET(I40E_GLGEN_RSTCTL_GRSTDEL_MASK,
- 			     rd32(hw, I40E_GLGEN_RSTCTL));
+diff --git a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
+index 7ce46b4b4821..7eb4acf59dab 100644
+--- a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
++++ b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
+@@ -3995,7 +3995,7 @@ static void ixgbevf_tx_olinfo_status(union ixgbe_adv_tx_desc *tx_desc,
+ 	if (tx_flags & IXGBE_TX_FLAGS_CSUM)
+ 		olinfo_status |= cpu_to_le32(IXGBE_ADVTXD_POPTS_TXSM);
  
--	/* It can take upto 15 secs for GRST steady state.
-+	/* It can take up to 15 secs for GRST steady state.
- 	 * Bump it to 16 secs max to be safe.
- 	 */
- 	grst_del = grst_del * 20;
-diff --git a/drivers/net/ethernet/intel/i40e/i40e_ethtool.c b/drivers/net/ethernet/intel/i40e/i40e_ethtool.c
-index 3da9ec49cc74..ef9d1e78c16a 100644
---- a/drivers/net/ethernet/intel/i40e/i40e_ethtool.c
-+++ b/drivers/net/ethernet/intel/i40e/i40e_ethtool.c
-@@ -2614,7 +2614,7 @@ static u64 i40e_eeprom_test(struct net_device *netdev, u64 *data)
- 	netif_info(pf, hw, netdev, "eeprom test\n");
- 	*data = i40e_diag_eeprom_test(&pf->hw);
+-	/* enble IPv4 checksum for TSO */
++	/* enable IPv4 checksum for TSO */
+ 	if (tx_flags & IXGBE_TX_FLAGS_IPV4)
+ 		olinfo_status |= cpu_to_le32(IXGBE_ADVTXD_POPTS_IXSM);
  
--	/* forcebly clear the NVM Update state machine */
-+	/* forcibly clear the NVM Update state machine */
- 	pf->hw.nvmupd_state = I40E_NVMUPD_STATE_INIT;
- 
- 	return *data;
