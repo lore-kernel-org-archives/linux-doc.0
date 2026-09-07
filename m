@@ -1,117 +1,128 @@
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9952F466AE5
-	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 11:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788779839; cv=pass; b=Xty4ODj/UQ0oMNEngWZDVVxJ0to/ZvFxdeQQEPmjQD1RZZEtMVCp0Uj4936+NhIXtoUISxkV7PQQ37dgXhXZnLXqtRQUPk8YymozByieqvXBHxX385wKptk0Veb+/rarNLDG3S5VjWsXOdmL1tiZ+txkMIYuqjRCRtwdDpPqgHA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788779839; c=relaxed/simple;
-	bh=NRIOJ7LdHSiFoCy4s5VPIFe11Z/c9wcns1PStTsWpYY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hF7IuBLS+DZzzBNN37KYYBam3FuSr1PmryhE4b/Ba6PvQSUwicxj3ff3AoZCS9v7sitZYxcFT3ohw3NSp09EPLT5pg/hpXdqCxc8PDhnzteDC5j6zVGYPa2/mXP/GSyuxJq8j229oVI9ZWqwRfICEbYsqTWAOY/+r1ugIcnHrwk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=JTk3B7kI; arc=pass smtp.client-ip=209.85.161.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3E646C856
+	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 11:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788779883; cv=none; b=AzhGci2byg4zjgPhisHqbbSn/O+cdRWdQU3Has45JRxB2YSHUhamwAkgb+awDT2phM+nQsxcG5xm4g+Y3dVtsoevWiWk2mser+fqZ+RFQSBGJ28uqhNjsTbWOH1GWYvhfZwFBcYT+0N++V7M6b77Bwv366YbwhovXpocyylKNM0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788779883; c=relaxed/simple;
+	bh=vc/u2+6K3u9duPkyjAm1VSzu2f/ZyL4eiCIH6p0kCCM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=buWD3Y8AQmieodQVOJ7nKdkKZHpET8HnBUp/VBPcWQOBd93DZX1UuNep4HsohToctHGdNff3RLMpaWjUShgS4ZnvWPpOBaG79Ki7t2xlQjzD+qV8U+kdf1/EFi3pDKJIADHSbAsVd8fJTXtWwMCVdPgfri2YXa6cufS8PMzMMZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=de2MEp7Q; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="JTk3B7kI"
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-6acc74fef22so1521418eaf.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 04:17:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788779834; cv=none;
-        d=google.com; s=arc-20260327;
-        b=hWKeN4F4bWlxDIWBKqxicfMFoPHBz73qx+PgJhSHRCi8REf490JE8il7/V44q9braZ
-         ZrVpZAv3IyKgYewU/yBggSNFOKp3Pf72kkZEfhAxEm51vMP6xZU+ejasDxQg/FBnXu54
-         /BVcZiATBceV4tDTA3zkhlEqsFci2vRQh17TlVeAkmxKqhWhOuMb8Ed5DFCHSjpiUiND
-         h8R94WsfaOCUo77T/VBmCH3gR/PdE0BnPReeZ3WCzOEUEefrTzdMS9vVu0Tg7amjbfas
-         3cZWcLZxqeZVGz2mwpTsL2cpHJCvyTdAq+Vu0EwU6E3mod521rEiTD6AeLyp6m4VxCYS
-         gGIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=sx8OmWpKZX9lW/xSqneryQkwLjJ1xoG1ldpS3CIMT6c=;
-        fh=Prec4eZo7itkkMIWMT2cd7cF6sCrVTIYbLH5hlsQLX0=;
-        b=YIzW5Z+Tatn2VXzrnobIMvJqiahHvCkDuv8HXRd0VyKKARK1ahoZReG9t7FZZkMESo
-         +jaxzztATOekMbKNY7CXrgwJQEkqpP/TcYChtzvW32V6SidKAsgFftNJMQpSC+BwrYXR
-         EoBsUrzN/Yb4aloShIBmGhcaB7Es+O9ZgCbybtruIgNiakIVzjym3wKPe3xaH3HmToi8
-         Memzy0sSNQNwRA+Gh+S9atatBu72VSaJojZegz5lK03RWO7fWMis7tT8qFIuJ1OQLIvj
-         UEvnx5/nbz7w6xTvxMYUXggD7RCfBx+S9k6+cRWEsaKYgMbTP/lguyU9SoVNbG0l3BS7
-         EahA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="de2MEp7Q"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4998b5a63e2so41333255e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 04:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20251104; t=1788779834; x=1789384634; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1788779879; x=1789384679; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sx8OmWpKZX9lW/xSqneryQkwLjJ1xoG1ldpS3CIMT6c=;
-        b=JTk3B7kIT/O2NHmbAYbIfXtgNJlqMsTFHBu18yPLQtnGiOlJMJ504Nfyj0lz8WRLjU
-         sP/SOSggyu7UJKZd61Yfc47aASI2/X6tbn6VN4jWK0prVV0CIxAGZGI7DVF7VgWfborv
-         8XvfmYzv3HKGfXrWfBLluBC+Y6gr0BkkFv+Z7bUl1E+OWEgYnT8k+WjWFZ13eTMStaN8
-         XPBEts67if/LnB7oDnRTyf+aTWq4n8fHBz/mrz0zzqNjsSv+mhcReSAnjbmwRfd8BcEq
-         fIuQxxMJ3rlo0BcZRQPX6iFYRcVo9CixytXy6zS9UIyjIhBklhVh1vkPaRgHQDDofH8K
-         oBDg==
+        bh=kZeKG88pQvz+t3Gm/KrMtRBK71hTluhBWfm1A4t1QXw=;
+        b=de2MEp7QCbYxhT5Uaog3gIdpkYeUO0mVMVQtiCMgH5BJo4MLMu0GREGhdFYPLS2Fua
+         cxA/Pdft+yc3I+Zr3i3LCX/V9CDxAURVLJKTpP0pEGp7/pUJ2Zia5amibAXFRo7GNTIn
+         bbgNa6YiKBYgCOOx7JHcYR3sFNer6TirsXmCrtfmL1iPQx5qelkve5peqcyZ4HITw6Dw
+         QROMDiYlC8mkzpX8RO59w4qY5GWHM91SKo4XPP258xs0JXB5J+AwGxhKErj/qTtsqHKP
+         ihyTQ2cqlwiXs3QUOsRHJVWEqTRsbBPFs+VpgL9lu2dTBq+akrYPKlUZpnkEnKkvEeBT
+         4nVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788779834; x=1789384634;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=sx8OmWpKZX9lW/xSqneryQkwLjJ1xoG1ldpS3CIMT6c=;
-        b=ps+hdikJ8RBaEqJtkX5e2gZCYXd/3LQERUbOCsSB6xleQgxeY5v9WX6GE9YkMngfsD
-         ZDYOJ/n+PEq+vEHNdhqtc5br1ZZanunUYPNw0Mls7Wc4xjVHuy17dib9lQ9ksF9S9yu2
-         TPDoo+St9UNtbAenmj57Vb+xgc0MCLTsE6kP1n1OgFFgI1f7tI8hqPwasPNb565jFTKt
-         Snser9lRTB2PeX7y9BmrMHMNWtZwPfM7MnK5xlLRFMPV31vcmsrwQ4PiNaugtWNwHpZr
-         rCffTx1qr7HNKCWRvGfis6KpAgaxr3GMhH04a43wGBf7vMvVgel5hlx4qKPWaqs1rPnW
-         58mw==
-X-Forwarded-Encrypted: i=1; AKwUvBxaBgvURousDaqbqakCpUUBCCrlxKDCNTYMUOig0lN99CB4kKnNFso47Q4LU7J8q9ox0xjORZAcFcc=@vger.kernel.org
-X-Gm-Message-State: AFuF++lYpohuKatv+t4bCXbQfFhKRhW/pOpu8dhxbKYJXHO0u77YpPzA
-	9+ecCS5B5TDUI9FNX5QWBl9MVSEld+sn5n8f3v2uo39jX6yrpKC6GIFY/pFhDQ5mSjzu3FwopA7
-	U+HGcLJXQ/ly9trQa4+VCWaoyB/2YbP8=
-X-Gm-Gg: AYBFou1Y8c51HZCfRMGqLR02DwUIOfufUpfHM1USX0WQUCY9Kj3JirEPJdhXdRlvaMm
-	5RaM/l4oNlf+OolkF/pbPfvax5qJsYJc7XfN8NemOAqbyTgM7UkGRBW6CEjgHlz4YuakdRbFluN
-	gi+fsYJCex8553QTiV9kImDttKVAvvhs0nhlSb2LRH8IU5cvBWy0gYLrDX8yG3iHErG/h1BQi67
-	b97NOoGUv0RmrYPyav2c7rtSUPs7gqTE8uThvlf+RJcd3ZN81U/oztdxyam6Ds/3p9DaxSC6hgw
-	7YTcAucSULaOeUILcp5kZNFwNHlwgY2Hju4xliEARIKe+8bLr7zHEMDJ67vv8GKz0HVd7Q3TWA=
-	=
-X-Received: by 2002:a05:6820:1613:b0:6aa:da04:b56f with SMTP id
- 006d021491bc7-6b6fa7e183amr13654410eaf.3.1788779834482; Mon, 07 Sep 2026
- 04:17:14 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788779879; x=1789384679;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kZeKG88pQvz+t3Gm/KrMtRBK71hTluhBWfm1A4t1QXw=;
+        b=XfAW1bqdhbmVkRJ+KyfdJOG1ckSvAq2JsH45xKRmzKhJw27BhsBIcNgRdMrWqvznWX
+         X1DbfteP4DFKPcayU7OIFJ+4+dAQ2s1VFjPY5pMlZxMBZ6qzYEUTGgTEFuZZTP+YnLIl
+         Rxo9IqLIJNR32R5e8cD4s0VUgQFGCGdwOfsgioOTS3NHy5olNQlfskLF7upkdQ+0c1s8
+         pFyiFj5qIwlzTd3+6L0fggjnpYcnPvdusTe6wI8dZA+GEQ9Lxoa15PkSTH1npAqmtnI+
+         3sUJ2fiyeThM/cCKAB9J7sdC8gkfY1mbn1jMbRjrifdq0axvvNlJA7+ulWxOSLyd0Tjk
+         DgKw==
+X-Forwarded-Encrypted: i=1; AKwUvBxacsRp7dm2TQLOpjxFjhrD7GgKDN1agSgjOi7W75wXNb69ZDE2xL/bZmFY3FDFGhgUX/esF9KblCc=@vger.kernel.org
+X-Gm-Message-State: AFuF++l0u/m8HR93pOhsuiGSRGQDxvp4Id+1q1fX0h6zobqLxo09EHVX
+	XYpYGcf2fnFEQDKdOHkaA/z7JVty/Dn/0yDYtU5K+USww45wS6twKvOo
+X-Gm-Gg: AYBFou0S+wZsh1l+agWMvZLLiJmsJPULUNb/BJqzSmA5wckOVo3FCMg9ceuS/JRz9Wb
+	aoijXldjvazSvjREJukx6IWV3i9GDrO6FuuJBYrm2bAFo09lZB54LsHIgvM72J+r1vLW9Y/Tmcw
+	78NlcdFSP7lFNwx64n2qZGV6xN6ok+sQeq6okZAeji2iPmLHOQ/+cvxDEbVXkszbXH4k30RU6XJ
+	6n4H4ahyWPwOqmr/T3EjBsu6Y5yVYPFXgnZgzBTLO/muRpeUHMuPtDVZD5o90uE7Leor18dPCfA
+	H5JPcEYH5C/z+8IlSFBRkbY0VOqFzZ3qPldcwtJUAu9B7mnhLZ4Y7ujrKo/bXnVkT59kZZ4cHZX
+	sc21aPDSnSqRl4uZhabHvdwyOcufwup7KLNu8fEH0nsLUAmJiceXvngErkNsTXCLSZCDvZY4n1u
+	fYP6+bHD/0rfQIEvU4yNkDaCbTKnptTqpQscPZChy2rFiCQUz7DkQFkfk4AXPqkH6JB4tFQUPQ
+X-Received: by 2002:a05:600c:3e06:b0:49c:fc6c:be1b with SMTP id 5b1f17b1804b1-49cfc6cc0e9mr176101505e9.33.1788779878713;
+        Mon, 07 Sep 2026 04:17:58 -0700 (PDT)
+Received: from [172.24.138.145] ([137.71.226.102])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf7736132sm296957105e9.12.2026.09.07.04.17.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Sep 2026 04:17:58 -0700 (PDT)
+Message-ID: <4056ce28-cbf6-46cc-8bcf-a3db35410275@gmail.com>
+Date: Mon, 7 Sep 2026 13:17:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260813062039.14567-1-kmehltretter@gmail.com> <rvsksbxeput4impcquq3kjxg6pv3ixovpk5or2mgtuifsu65fh@wuoukaeelovg>
-In-Reply-To: <rvsksbxeput4impcquq3kjxg6pv3ixovpk5or2mgtuifsu65fh@wuoukaeelovg>
-From: Karl Mehltretter <kmehltretter@googlemail.com>
-Date: Mon, 7 Sep 2026 13:17:02 +0200
-X-Gm-Features: AcwNN1UczZjMW4p4EYJlnlzfPEBGVu9_4lKAUmRz_TMoKp6TJFSsoOPV9Fyqs_0
-Message-ID: <CACzUYvRVi+XW2piwsBE1Lhe1Pg7Z_mNvFq2HX+da8RDpzTXxQw@mail.gmail.com>
-Subject: Re: [PATCH] syscall_user_dispatch: Use CONFIG_SYSCTL for sysctl guard
-To: Joel Granados <joel.granados@kernel.org>
-Cc: Thomas Gleixner <tglx@kernel.org>, Gregory Price <gourry@gourry.net>, 
-	Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Mark Brown <broonie@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-next@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 05/17] iio: adc: Add AD7768 and AD7768-4 core support
+To: Andy Shevchenko <andriy.shevchenko@intel.com>,
+ Janani Sunil <janani.sunil@analog.com>
+Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Olivier Moysan <olivier.moysan@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Michael Walle <mwalle@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux@analog.com,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <u.kleine-koenig@baylibre.com>
+References: <20260904-ad7768-driver-v6-0-e4378f946bfb@analog.com>
+ <20260904-ad7768-driver-v6-5-e4378f946bfb@analog.com>
+ <ap0lp5THO64olugK@ashevche-desk.local>
+Content-Language: en-US
+From: Janani Sunil <jananisunil.dev@gmail.com>
+In-Reply-To: <ap0lp5THO64olugK@ashevche-desk.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Am Mo., 7. Sept. 2026 um 12:37 Uhr schrieb Joel Granados
-<joel.granados@kernel.org>:
-> I don't see this in 7.3-rc2. Did we miss pushing this in? At the moment
-> I see that syscall_user_dispatch.c is still using CONFIG_PROC_SYSCTL
-> which is never defined anywhere.
+
+On 9/6/26 10:34, Andy Shevchenko wrote:
+> On Fri, Sep 04, 2026 at 04:14:57PM +0200, Janani Sunil wrote:
+>> Add core support for the AD7768 and AD7768-4 simultaneous sampling ADCs.
+>> Configure supplies, clock and reset, use a custom regmap bus for the SPI
+>> protocol, and parse the enabled channels and input buffer settings from
+>> devicetree.
+>>
+>> Connect the converter to an IIO backend for buffered capture with CRC,
+>> provide a fixed safe wideband sampling configuration and add runtime
+>> power management.
+> ...
 >
-> Two questions:
->
-> 1. Did I miss anything. Is this not supposed to be upstreamed at the
->    end?
+>> +	/*
+>> +	 * DCLK(min) is ODR * channels per DOUTx * 32. With fast mode
+>> +	 * (fMOD = MCLK / 4) and x64 decimation, this gives:
+>> +	 * MCLK / DCLK = 8 * data lines / channels.
+>> +	 */
+>> +	dclk_div = 8 * st->datalines / st->chip_info->num_channels;
+>> +	dclk_div_reg = AD7768_INTERFACE_CFG_DCLK_DIV(dclk_div);
+> So, this one is (4 - ffs(dclk_div)). If num_channels == 1, this will always give 0.
+> If num_channels == 2, this might give 0, 8, ... Since ffs(0) implementation is defined
+> to return 0, this will return... 0! So, tell me how this code may return
+> anything than 0?
 
-I already sent an updated v2 rebased on mainline with an adjusted
-commit message:
+The st->chip_info->num_channels is fixed at either 8 (AD7768) or 4 (AD7768-4) and not the number of channels described in the firmware. The supported dataline configurations produce dclk_div of 1, 2 or 8 and register values of 3, 2 or 0.
+However, I agree that using the ffs() obscures this mapping, so I will replace it with an explicit switch over the supported divider values.
 
-https://lore.kernel.org/r/20260822072325.51994-1-kmehltretter@gmail.com/
+Regards,
+Jan
 
-Thanks,
-Karl
