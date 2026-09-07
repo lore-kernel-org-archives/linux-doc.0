@@ -1,154 +1,115 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3104A41A909;
-	Mon,  7 Sep 2026 09:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3A444A404
+	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 09:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788774270; cv=none; b=jRlZJ6cL2Kt78S6+fdFAJEu/WyyLpcvwYqJJGFRdWfUT2zKLsEuswCeFtkyAxE4vFAwSBxci2M6Wn9E53GsSMEgFYqBkvSncKQtsFfBw/WgK8cEVvahWdByePdhsXZ3Bs8GZbELSHSkDqhDYy2W4kck9ISSaqV5JhNy/oMrPHm8=
+	t=1788774896; cv=none; b=SAXqIzXc9IsePwrmtSG7FlscqqGXKN82rlIA4yuQ+RsYUlstMGKNkBFCD5TE6xkevd0uBz7OqC4bQgvhhmkm1800U0zT6tYvKPg1FV0PT0A2rTzFHr+hlLXZm4iPWt9C12rJRzHjIcs9/gg82CAjAzA4nWxbUp9dBZcF916kMIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788774270; c=relaxed/simple;
-	bh=k+ZbtP+OlC9jgri1bEIickt96W2TjrZ516/39mX5lmc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JNLl3+YUbnuzlRNZL9xHLc8Oyj21csdher0Ck5wfw+2jfSAzIztGXAj1nFqkaIloJAAnp3AlnXhJVcVkEMDBm3WZ6sZA17+he6x+P7eao1nymnGO4jvKxj+oEPaIa8ODRsroUoIKeFyEpBUu1jXH58DI3aJVDJAGt6IEofMx7UA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=hliok3A/; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1788774896; c=relaxed/simple;
+	bh=m1ip0be5p6K//25N2xI+s07kjlY0PpGTuRk26Ygx5rA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ctqt6Z9Aj53KM2xSOtQ3Sm9mEIV9biWuWiqI5Sh38ZVFsqKMNGMvgDBVUgoqXWieLEV35UkFiA21tOhRwOKopkTWEZ3LjYIQw8Zr9nBMQewdTllLNt5FXqwVLcVgvjozazxrvOj+i8I+o654JbY9Mv8sahwk/Tg2Zo+ohlG4l0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cmSsXUQp; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="hliok3A/"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CAE491477;
-	Mon,  7 Sep 2026 02:44:23 -0700 (PDT)
-Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 666C43FA7A;
-	Mon,  7 Sep 2026 02:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788774267; bh=k+ZbtP+OlC9jgri1bEIickt96W2TjrZ516/39mX5lmc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hliok3A/1oLgq1cUQeqFw4ouqt6gFxERSEv+duovcn7ndNW67WrVU2ZVW4y3HCu12
-	 TIRCroRL/WvdPaWaeoF6OFmOTwD2bT3j599LB0XVzVmVEHtUAVD7KzC5Q+Z4SahYff
-	 Rhw4/znkYP56Q/5oQHa6y+/FpbvKNHd79KgJSeq4=
-Message-ID: <966b103e-dc9e-479a-ba6c-e8e6727e1bd7@arm.com>
-Date: Mon, 7 Sep 2026 10:44:23 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cmSsXUQp"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cbedd5aece4so3020453a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 02:54:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788774893; x=1789379693; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tR97cmi0NkWDiEH0s6YYBJjyIYeR1zRd9pdLJfF85lM=;
+        b=cmSsXUQpyoAx4etzE8XRFvUYbYy6oCmXSRHL8doQHGhWFwrXtoCXT3JAZG9sOXk8yO
+         SCFsceMZbXcMCYUR5mT/+rwu/HiID52NodrCSjDLWKnbfSOTPDs7W0T/7t+NoVvAgwUK
+         c1Blt7jkqGa47Kqrw+NSjQ1oUmyRdVRGpv9tI0FN60m/w6VAlGFEQ0dQiC0SaYjl3Hjl
+         4KRc8O3ktxwTRz0eootcBGs50mXYo7WZfX3JmR1lizeN/Ocjaz/6g2HbFRJtW0DivuZV
+         4daVyhqSyTB5QrzL3U3Bwv3RKLwZqVUyXX0L0wlOymvDIbPmtHUzBWOMosMRknMVWh7K
+         pzdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788774893; x=1789379693;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tR97cmi0NkWDiEH0s6YYBJjyIYeR1zRd9pdLJfF85lM=;
+        b=CJBvAGJ6T5uzj2u3uaZtiEFu9m7p51jBloxzcV8HMP0zo0xkVyFSnZAECjcWtydW9f
+         845CmLvq67PmtAlj8gzh/tapT+sJBURJJ9m8FKI4KpgUIMN4IEUbA303sA3llxNnGYxd
+         9gEcRMxaO08TukBWHnHpDniIbbtuF0pIfNqykwgX5yzfJxm0z8ksrgE9Pm+jABsKuKNE
+         Dgy8QJ+G1yXjW9ERrXni4aB/IEMf05HwWB+7QtNK1zqpzQXUHPFqNrq4aoV7ZTyDJBj1
+         jFMuPq1WBncR2hM0AyyvT4p6BoSNEjKAWFrbAIhGRkVl9LW+C6slIMPWAgLuInuLwP4+
+         HYsQ==
+X-Forwarded-Encrypted: i=1; AKwUvBybU3Gl1UVrmNr+23r9YelyWHNuEw44MksqXXHh873DfcVdXWd3v5cwhtS4hPatLl75y/zTpx6n6rQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++k/5LXofJvC2UzEEYimhivwNlBjRH4LMi4Xo92e0rOpfenzbwK8
+	yUmzAcmywANI0p20AH7TNf+2HSijdGYe8Vf3UGfqB4JoDZqemFqZ/01L1qqMjphV
+X-Gm-Gg: AYBFou0tmQ6H3L4/Cqyq5fI4r2hW/i34NFxAeAiyZtFP/fscYQfu8AiQjs+yIoDuCIQ
+	tVaFl/5x5p9bh3oisflK6N8Ev12OMakBW/PY+tIcYuQ43uX/lhT3852G+MPD6z187C/a4sKF5Yi
+	PoUsgDm0c1SoMbelo8OWgdwVWh3V/SAV8P5oIe06AOXEMe1Rv5XpMid2ibIUkBdy/xwceqzbate
+	VC79nsYgPm20p2jW7u0sa3U58PLQ3STRMg1OIxbGA0uTeuobzHYob8iOIsKgCEAvV73yHJGO7Ir
+	QTbYfTCa2rLyOkcW61XtxpWn3iOHVCftzt1d0XbFxuSG6Ews6odyK3E68ZhTn8noZQpVU1BsmTm
+	jEltpUrm4UnSI1gnkpPZF3hWrkdLOShM9dyDJqoRkgEVsQuXxzBebDkRXdfiG2SWIX3yfCY6LJE
+	u7VcluVt7ZKlnOuF+Iu7zVFIfAPyZQeSgFgkrh8AVhfkeU1FpjfdxOgu+FnAkvR5wTuFCP2YA0r
+	+gpe6E1OkRksQ==
+X-Received: by 2002:a17:90b:3fd0:b0:36b:de66:92c3 with SMTP id 98e67ed59e1d1-39b07fed101mr30328985a91.10.1788774893379;
+        Mon, 07 Sep 2026 02:54:53 -0700 (PDT)
+Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1432424d27asm34831030c88.2.2026.09.07.02.54.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 02:54:53 -0700 (PDT)
+From: Hemanth Selam <hemanth.selam@gmail.com>
+To: Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	intel-wired-lan@lists.osuosl.org
+Cc: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH iwl-next v2 0/4] intel: fix typos in comments
+Date: Mon,  7 Sep 2026 15:24:42 +0530
+Message-ID: <20260907095446.27290-1-hemanth.selam@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] arm64: mpam: Document when to set arm64.nompam
-To: Fuad Tabba <fuad.tabba@linux.dev>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, James Morse <james.morse@arm.com>,
- Xi Ruoyao <xry111@xry111.site>, Marc Zyngier <maz@kernel.org>,
- Bradley Morgan <brads@mainlining.org>, Fuad Tabba <tabba@google.com>,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260904103131.627392-1-fuad.tabba@linux.dev>
-Content-Language: en-US
-From: Ben Horgan <ben.horgan@arm.com>
-In-Reply-To: <20260904103131.627392-1-fuad.tabba@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Fuad,
+Comment typos across the Intel ethernet drivers, split per driver.  Found with scripts/checkpatch.pl using the
+misspelling list in scripts/spelling.txt.  Comments only, no code
+changes.
 
-On 04/09/2026 11:31, Fuad Tabba wrote:
-> arm64.nompam skips the MPAM2_EL2 and MPAMHCR_EL2 writes in
-> finalise_el2_state and leaves the ARM64_MPAM cpucap unset. Where EL3
-> firmware has cleared MPAM3_EL3.TRAPLOWER, the EL2 trap controls are
-> left unwritten, at reset values that are UNKNOWN, and KVM still hides
-> MPAM from the guest but no longer enables the traps that stop a guest
-> from using it. KVM never saves or restores MPAM0_EL1 and MPAM1_EL1, so
-> what one guest writes reaches the next guest and the host. Nor can the
-> kernel make the EL2 writes unconditionally: they trap to EL3 on the
-> firmware the option exists for, and TRAPLOWER cannot be read below EL3.
-> 
-> Say so in mpam.rst, and add the rule and a pointer to the
-> kernel-parameters entry.
-> 
-> Suggested-by: Ben Horgan <ben.horgan@arm.com>
-> Link: https://lore.kernel.org/all/CA+EHjTxeWxZiuSmnKLGLxTBXP4oJT7-LuffbPAyCSZZ5TW=5Ew@mail.gmail.com/
-> Signed-off-by: Fuad Tabba <fuad.tabba@linux.dev>
-> ---
-> 
-> Notes:
->     Changes since v1, the first three from Ben Horgan's review:
->      - Put arm64.nompam under a new "Command line parameters" section.
->      - Separate MPAM3_EL3.MPAMEN from TRAPLOWER, which v1 conflated.
->      - Add that KVM does not save or restore MPAM0_EL1 and MPAM1_EL1.
->      - Drop "No functional change intended." from the commit message.
->     
->     Bradley Morgan's Reviewed-by on v1 is not carried over: both
->     paragraphs, the section heading and the commit message changed.
->     
->     v1: https://lore.kernel.org/all/20260903084809.2027326-1-fuad.tabba@linux.dev/
-> 
->  .../admin-guide/kernel-parameters.txt         |  3 ++-
->  Documentation/arch/arm64/mpam.rst             | 25 +++++++++++++++++++
->  2 files changed, 27 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 68647ff4bdd24..e6d543de3cde5 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -575,7 +575,8 @@ Kernel parameters
->  			Set instructions support
->  
->  	arm64.nompam	[ARM64] Unconditionally disable Memory Partitioning And
-> -			Monitoring support
-> +			Monitoring support. Only for a machine that does not
-> +			boot without it. See Documentation/arch/arm64/mpam.rst
->  
->  	arm64.nomte	[ARM64] Unconditionally disable Memory Tagging Extension
->  			support
-> diff --git a/Documentation/arch/arm64/mpam.rst b/Documentation/arch/arm64/mpam.rst
-> index 67fe515ed501c..e66b1359d1282 100644
-> --- a/Documentation/arch/arm64/mpam.rst
-> +++ b/Documentation/arch/arm64/mpam.rst
-> @@ -87,6 +87,31 @@ The supported features are:
->    MBWU monitors can be exposed to the user after support for more monitoring
->    scopes is added to resctrl.
->  
-> +Command line parameters
-> +=======================
-> +
-> +arm64.nompam
-> +------------
-> +Firmware controls MPAM through two bits of MPAM3_EL3. MPAMEN enables
-> +it: while set, the PARTID and PMG in the MPAMn_ELx registers label the
-> +CPU's memory requests. TRAPLOWER, which resets to 1, traps accesses to
-> +the MPAM system registers from the lower exception levels to EL3.
-> +Firmware must clear it, or handle the trap and emulate MPAM as disabled.
-> +Where it does neither, the CPUs still advertise MPAM in the ID registers,
-> +the kernel's MPAM register accesses trap to EL3, and the boot fails.
-> +``arm64.nompam`` exists for that firmware: it makes the kernel treat the
-> +CPUs as not implementing MPAM, so no MPAM system register is accessed.
-> +Set it only on a machine that does not boot without it.
-> +
-> +It is not a way to turn MPAM off. Where firmware has cleared TRAPLOWER,
-> +the option leaves the trap controls in MPAM2_EL2 and MPAMHCR_EL2
-> +unwritten, and their reset values are UNKNOWN. KVM still hides MPAM from
-> +guests but no longer enables the traps that stop a guest from using it,
-> +so a guest may be able to read and write MPAM0_EL1 and MPAM1_EL1. KVM
+v1 went out with a bare [PATCH] and a "net:" subject prefix.  As
+maintainer-netdev.rst asks, v2 designates the patches to a tree, and
+each subject now names the component it touches instead of "net:".  The
+series is rebased onto that tree; the diff is unchanged.
 
-As you are listing registers, MPAMSM_EL1 can go here too.
+v1: https://lore.kernel.org/all/20260907064528.6602-1-hemanth.selam@gmail.com/
 
-Generally, I think this documentation change looks good now but holding off on a tag for the moment
-in case anything comes up from your MPAM trapping change [1].
 
-[1] https://lore.kernel.org/linux-arm-kernel/20260903160819.831518-1-fuad.tabba@linux.dev/
+Hemanth Selam (4):
+  i40e: fix typos in comments
+  ice: fix typos in comments
+  ixgbevf: fix typo "enble" in comment
+  Documentation/eth/intel: fix repeated words in comments
 
-Thanks,
-
-Ben
-
-> +does not save or restore them, so what one guest writes is still there
-> +when the next guest runs on that CPU, and when the host does. With MPAMEN
-> +set, EL0 and EL1 requests then carry that PARTID and PMG.
-> +
->  Reporting Bugs
->  ==============
->  If you are not seeing the counters or controls you expect please share the
+ Documentation/networking/device_drivers/ethernet/intel/i40e.rst | 2 +-
+ Documentation/networking/device_drivers/ethernet/intel/iavf.rst | 2 +-
+ drivers/net/ethernet/intel/i40e/i40e_common.c                   | 2 +-
+ drivers/net/ethernet/intel/i40e/i40e_ethtool.c                  | 2 +-
+ drivers/net/ethernet/intel/ice/ice.h                            | 2 +-
+ drivers/net/ethernet/intel/ice/ice_main.c                       | 2 +-
+ drivers/net/ethernet/intel/ice/ice_sriov.c                      | 2 +-
+ drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c               | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
 
