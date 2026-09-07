@@ -1,154 +1,217 @@
-Received: from mail-m3282.qiye.163.com (mail-m3282.qiye.163.com [220.197.32.82])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C85D2ECE91;
-	Mon,  7 Sep 2026 05:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF7F36165E;
+	Mon,  7 Sep 2026 06:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788760795; cv=none; b=uhVdAcmOE3CixcsJpMfo2g0i9COHR4NgR456XrQPwLQI0hu0X0oP72KTG5S/pssiLDkO7mErqRoJDaiWv/kFGuIIJV5p7deRVFlPvh4EYQSAFoxLnIr2jCd34D5w3xYRVQ5zgHF3NORwBSR/EHpB3H8hGW0wv6yF8t4SqcJYzNk=
+	t=1788761033; cv=none; b=rEtxc99y+4lww8m66Af5FWUxK+EiY0kSyZYkr7uWwZDy2Sl2xJBA1iB9veEz/Y12ZWmVL+60PVRi+oPRwY98iL64jraQkXLv99uv/Lzu3HHAcLcnP+FowWVCrAxFXvMeh6wvbelDyie8QUTMJ7mO7sLCxT0VSi6s3z7uEpNfQ5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788760795; c=relaxed/simple;
-	bh=talLoTtij+UAkEmWW9J4GgHZ/+d8CSO0ec8BjSHv8F8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pcMnxCWI5USPYTDMj25qg/LfByj8MRQ7QwWRIqmc83+eRvEsapLHswK+jhiwgyy2+T9MtN5k1moAElgz3tiYkar3y5lPfQgLo1c5WS6Pv/R2xebxW9gMT2gYqOhe1aem9sCV+piIrOZYAmG70aeUXzysfSBc6NfpQuLY4ip6xAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnics.com; spf=pass smtp.mailfrom=resnics.com; arc=none smtp.client-ip=220.197.32.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnics.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnics.com
-Received: from localhost.localdomain (unknown [115.204.15.233])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4cc44d0f6;
-	Mon, 7 Sep 2026 13:44:23 +0800 (GMT+08:00)
-From: Ruizhe Zhou <zhouruizhe@resnics.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Ruizhe Zhou <zhouruizhe@resnics.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Frank Li <Frank.li@oss.nxp.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: dma-api: require checking DMA mask setup errors
-Date: Mon,  7 Sep 2026 13:44:00 +0800
-Message-Id: <20260907054400.1088151-1-zhouruizhe@resnics.com>
-X-Mailer: git-send-email 2.27.0
+	s=arc-20240116; t=1788761033; c=relaxed/simple;
+	bh=rPRFh+npbncxIb5/WeLVPv9dtkEn3Fd7H/t9nDTS8Mw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JVJ57N8rNwKpHARr2D0/JovQw6gak2wy7lCFu5rdefYr5VEhzSeC2mLSN8ms2AwyT/+mbfExVbgGPh66lny3tbvk3z6xPcKPHn9bLpgAc0mcIR4ZroqTcJQDnKk8vTJPvWjugbaTXsLGT798wOGd7lGwa+pYnCjTO1o+ENnB3O4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=k6q7up2c; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="k6q7up2c"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68741iLQ821207;
+	Mon, 7 Sep 2026 06:02:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=ksb5J1
+	kFmRG7IMX5VJXWmuOrTscqVKlwxv+1yj74CUg=; b=k6q7up2cShkCwnKg3qcM+J
+	3OKFVGYl5ffUd5g4riCP2Lq9CxtBm4aCnITrClbP6nXXQXVz/sWejThstwiSnmwZ
+	poAYZdJsAZ3Wd97mtVzgA7TRScDZIc5UfrX0GroHiY7DdZtT/WFxT12yDhHN18Zs
+	216pm3b7xsRslesr8WcyrzJmMCoFl8upWjSFtiDOP2OK1LOQWzIKaZgCeq8bvevH
+	MFy4zH422iwJw0j1aebibAxZ2MZT0qkMOZ0XOGmXs1c+Rp68zxfAb+W95e6SU/7D
+	pPxp+VfMb1kKp1P2qDD3hBcl4aNs839+0UXPrjiNgHkqHHnkymLQdChmIytgrhHg
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ggbheprn1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Sep 2026 06:02:36 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6875uP9b030858;
+	Mon, 7 Sep 2026 06:02:36 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4ggxwgv5ay-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Sep 2026 06:02:36 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68762ZOB43254018
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 7 Sep 2026 06:02:35 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8375E5805D;
+	Mon,  7 Sep 2026 06:02:35 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A18D458053;
+	Mon,  7 Sep 2026 06:02:19 +0000 (GMT)
+Received: from [9.123.7.57] (unknown [9.123.7.57])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  7 Sep 2026 06:02:19 +0000 (GMT)
+Message-ID: <a123f309-6ec7-470f-b5b0-f08cca6d2627@linux.ibm.com>
+Date: Mon, 7 Sep 2026 11:32:18 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] blk-cgroup: store blkcg in bio instead of blkg
+To: yukuai@fygo.io, Yu Kuai <yukuai@kernel.org>, Jens Axboe
+ <axboe@kernel.dk>,
+        Tejun Heo <tj@kernel.org>, Josef Bacik <josef@toxicpanda.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: Christoph Hellwig <hch@lst.de>, Tao Cui <cui.tao@linux.dev>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Coly Li <colyli@fygo.io>,
+        Kent Overstreet <kent.overstreet@linux.dev>,
+        Alasdair Kergon
+ <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Benjamin Marzinski <bmarzins@redhat.com>, Song Liu <song@kernel.org>,
+        Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>,
+        Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+        Dan Williams <djbw@kernel.org>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Alison Schofield <alison.schofield@intel.com>,
+        Ira Weiny
+ <iweiny@kernel.org>,
+        Andreas Gruenbacher <agruenba@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+        Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
+        Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
+        Youngjun Park <youngjun.park@lge.com>, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+        dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
+        nvdimm@lists.linux.dev, virtualization@lists.linux.dev,
+        gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org
+References: <20260823133045.970199-1-yukuai@kernel.org>
+ <20260823133045.970199-3-yukuai@kernel.org>
+ <49d724b8-57c6-48fc-8099-69cd1b072351@linux.ibm.com>
+ <befbc177-f7f5-4c44-b02e-20a99fc64c0c@fygo.io>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <befbc177-f7f5-4c44-b02e-20a99fc64c0c@fygo.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa07a656e9c03ackunmc3184f181a2d46
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCTx9CVklKSEpOSxhJTRhMTFYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlKSk5VSUtPVUpOVUlISFlXWRYaDxIVHRRZQVlPS0hVSk
-	tISk5MTlVKS0tVSkJLS1kG
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: im8OC1-EmKXczbx-h1qS5bOwxgKAaWN6
+X-Authority-Analysis: v=2.4 cv=RIaD2Yi+ c=1 sm=1 tr=0 ts=6a9e537d cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VwQbUJbxAAAA:8
+ a=3B2c1Lu2D3hCyOpHH_4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA3MDA2MyBTYWx0ZWRfX41bv8i9Ji5b5
+ khAXgMgA4wj06LIds34mWjHokFZI5htPa3CcCYMzkMltQ3HbC8kwOJZUNARuqYjQ3TPdyG/HODX
+ vLmFSG4SdgheEUgTIxq9rj8tvz9D58I=
+X-Proofpoint-ORIG-GUID: n5OGK1j4LYtHzHpx4KZ2qyT0H7DzsKco
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA3MDA2MyBTYWx0ZWRfX9PiRfBZRsKiO
+ CX+4bhydjMEyqMW0Fa1P0zb0/Vxvvu/ZGl5CDMSuLOs4q5kXF+sZXNNrsiWxNvPLt0ZTPCvf3W2
+ FEYMlSilDZFBf/kwoTaf//bU8y9gtYJCCdWiXQ6p1bQzQzFsYfVQUiW2EzalUnnNiv84ndOnn/T
+ 8sIQWvaEanwTKBCDHqXfyMrixhlF2BR+HrNKLL1mZtiUePnF9Q0oxzWRf6p+VmRwInrlXDOFnkG
+ icAa0fFzxWnAr5o7Kp+y441RcyP59HAkDdqe0ASiFnLmKSzzBo4GBekCkFm7orKjID5F7VHBMHs
+ PYHJHFkgCC9CVBXXx86BkHmuSi3otCFap/OIt6bBQ4pYSs+wIuRJh5PMGVzAQZIkUIlXtMNl7xE
+ g1lLq/MfjeBSh1A/urFKfg+cWYG/vs3riyno/UMGvCo2gk5S8kVNYKHIH6GtDFcpMH4I5pmYDgE
+ +V28/ums8ewFhwRZIeg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-07_01,2026-09-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0 malwarescore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 phishscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609070063
 
-The DMA HOWTO says dma_set_mask_and_coherent() cannot fail for
-DMA_BIT_MASK(64), and more generally for masks wider than 32 bits. It
-consequently recommends calls to discard the check for return value.
+On 9/6/26 5:09 PM, yu kuai wrote:
+> Hi,
+> 
+> 在 2026/9/6 18:56, Nilay Shroff 写道:
+>> On 8/23/26 7:00 PM, Yu Kuai wrote:
+>>> @@ -257,20 +262,21 @@ static inline bool
+>>> bio_issue_as_root_blkg(struct bio *bio)
+>>>     * @blkcg: blkcg of interest
+>>>     * @q: request_queue of interest
+>>>     *
+>>>     * Lookup a blkg for the @blkcg - @q pair, whether it is online or
+>>> dying.
+>>>     *
+>>> - * Must be called in a RCU critical section.
+>>> + * Must be called with either RCU read lock or queue_lock held.
+>>>     *
+>>>     * This does not acquire a reference.  The caller must already hold
+>>> one, or
+>>>     * have the blkg pinned by I/O.
+>>>     */
+>>>    static inline struct blkcg_gq *blkg_lookup_any(struct blkcg *blkcg,
+>>>                               struct request_queue *q)
+>>>    {
+>>> -    RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+>>> -             "blkg_lookup_any() requires an RCU read lock");
+>>> +    RCU_LOCKDEP_WARN(!rcu_read_lock_held() &&
+>>> +             !lockdep_is_held(&q->queue_lock),
+>>> +             "blkg_lookup_any() requires an RCU read lock or
+>>> queue_lock");
+>>>          return rhashtable_lookup(&q->blkg_hash, &blkcg->css.id,
+>>>                     blkg_hash_params);
+>>>    }
+>>
+>> The changes look good to me. However, rhashtable_lookup() is annotated
+>> with __must_hold_shared(RCU). Since we now officially support Clang
+>> context annotations in the block layer, compiling with the latest
+>> Clang/LLVM generates a number of context warnings, for example:
+>>
+>> block/blk-cgroup.h:277:9: warning: calling function 'rhashtable_lookup'
+>> requires holding __ctx_lock_RCU 'RCU' [-Wthread-safety-analysis]
+>>    277 |         return rhashtable_lookup(&q->blkg_hash, &blkcg->css.id,
+>>        |                ^
+>>
+>> The same warning is reported from several other block layer source
+>> files that include blk-cgroup.h.
+>>
+>> This indicates that rhashtable_lookup() requires the RCU read lock
+>> from Clang's context-analysis perspective. Looking at the call paths of
+>> blkg_lookup_any(), it appears that not all callers hold
+>> rcu_read_lock() when invoking it.
+> 
+> I was not aware of the above clang warning, this should not be a real problem
+> because queue_lock should have the same protection as rcu, and I was trying
+> not to make this patch too complex.
+> 
+I agree that this is not a runtime correctness issue when the lookup is already
+protected by q->queue_lock.
 
-The generic direct-DMA path does accept every mask of at least 32 bits,
-but that is not an API-wide success guarantee. Backend callbacks can
-reject wider masks: ibmebus_dma_supported() and
-xen_grant_dma_supported() accept only DMA_BIT_MASK(64), so a 40-bit mask
-fails.
+> I add the rcu_read_lock() in the following patch to covert queue_lock to blkcg_mutex:
+> 
+> [RFC PATCH v3 3/6] blk-cgroup: protect blkgs with blkcg_mutex - Yu Kuai <https://lore.kernel.org/all/20260823152926.1043863-4-yukuai@kernel.org/>
+> 
+> Since this is related to compile warning, I'll move the rcu protection to this
+> patch.
+> 
+Since rhashtable_lookup() is annotated with __must_hold_shared(RCU), Clang's
+context analysis still reports warnings for these call paths. While this
+doesn't cause a build failure (and only generates warning) when CONFIG_WERROR
+is not enabled, it could do so for configurations that enable CONFIG_WERROR=y.
 
-Even DMA_BIT_MASK(64) can fail when DMA setup is unavailable or
-inconsistent. For example, dma_dummy_supported() rejects every mask.
-acpi_dma_configure_id() installs dma_dummy_ops and returns success when
-the DMA attribute is DEV_DMA_NOT_SUPPORTED. DMA configuration can
-therefore succeed while leaving the device with a backend that rejects
-every mask. The PowerPC legacy IOMMU backend also rejects a mask when
-no IOMMU table is available, and the default IOMMU path rejects
-conflicting dma_ops state.
+So IMO, moving the rcu_read_lock() protection into this patch makes sense.
+This would avoid introducing the Clang warnings/errors in this patch, and then
+you may accordingly adjust your subsequent series where the q->queue_lock protection
+is removed and the blkg lookup paths are protected by RCU.
 
-Failure is therefore not limited to an unsupported address width.
-Ignoring the return value could let a driver continue with an unusable
-DMA backend.
+I also noticed that some paths already take q->queue_lock followed by rcu_read_lock(),
+so adding the RCU protection here should be consistent with those existing paths.
 
-At the same time, failure of a wider mask does not indicate that a
-narrower one can succeed. Clarify for DMA driver authors that they should
-select the mask matching the device's actual addressing capability, call
-the mask setter once, and treat an error as a DMA setup failure. Update
-the examples accordingly.
-
-Fixes: f7ae20f2fc4e ("docs: dma: correct dma_set_mask() sample code")
-Link: https://lore.kernel.org/all/AEEA1wBuK97oyrSN8q4l4KpK.3.1788520536000.Hmail.zhouruizhe@resnics.com/
-Signed-off-by: Ruizhe Zhou <zhouruizhe@resnics.com>
----
-This follows the discussion linked above about retaining the error check
-when removing narrower-mask fallbacks. Is there an invariant that makes
-these failure paths unreachable for drivers calling
-dma_set_mask_and_coherent(), or should the HOWTO retain the check as
-shown here? Feedback from DMA maintainers would be appreciated.
-
- Documentation/core-api/dma-api-howto.rst | 39 ++++++++++++------------
- 1 file changed, 20 insertions(+), 19 deletions(-)
-
-diff --git a/Documentation/core-api/dma-api-howto.rst b/Documentation/core-api/dma-api-howto.rst
-index e97743ab0f26..a28be86666da 100644
---- a/Documentation/core-api/dma-api-howto.rst
-+++ b/Documentation/core-api/dma-api-howto.rst
-@@ -237,11 +237,11 @@ device struct of your device is embedded in the bus-specific device struct of
- your device.  For example, &pdev->dev is a pointer to the device struct of a
- PCI device (pdev is a pointer to the PCI device struct of your device).
-
--These calls usually return zero to indicate your device can perform DMA
--properly on the machine given the address mask you provided, but they might
--return an error if the mask is too small to be supportable on the given
--system.  If it returns non-zero, your device cannot perform DMA properly on
--this platform, and attempting to do so will result in undefined behavior.
-+These calls return zero to indicate your device can perform DMA properly on
-+the machine given the address mask you provided.  They return an error if the
-+requested mask cannot be used with the device or if the device is not capable
-+of DMA.  If a call returns non-zero, your device cannot perform DMA properly
-+on this platform, and attempting to do so will result in undefined behavior.
- You must not use DMA on this device unless the dma_set_mask family of
- functions has returned success.
-
-@@ -264,23 +264,24 @@ The 24-bit addressing device would do something like this::
-
- The standard 64-bit addressing device would do something like this::
-
--	dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64))
--
--dma_set_mask_and_coherent() never return fail when DMA_BIT_MASK(64). Typical
--error code like::
-+	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64))) {
-+		dev_warn(dev, "mydev: No suitable DMA available\n");
-+		goto ignore_this_device;
-+	}
-
--	/* Wrong code */
--	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))
--		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32))
-+Failure to set a 32-bit or wider DMA mask must not be treated as an indication
-+that retrying a narrower mask can succeed.  Drivers must select the mask based
-+on the device's actual DMA addressing capability and treat failure to set that
-+mask as a DMA setup failure.  For example, a device supporting either 32-bit
-+or 64-bit addressing would do something like this::
-
--dma_set_mask_and_coherent() will never return failure when bigger than 32.
--So typical code like::
-+	u64 mask;
-
--	/* Recommended code */
--	if (support_64bit)
--		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
--	else
--		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
-+	mask = support_64bit ? DMA_BIT_MASK(64) : DMA_BIT_MASK(32);
-+	if (dma_set_mask_and_coherent(dev, mask)) {
-+		dev_warn(dev, "mydev: No suitable DMA available\n");
-+		goto ignore_this_device;
-+	}
-
- If the device only supports 32-bit addressing for descriptors in the
- coherent allocations, but supports full 64-bits for streaming mappings
-
-base-commit: ab2704c2a884028fd12d455cf27a9585aefe2961
---
-2.27.0
+Thanks,
+--Nilay
