@@ -1,107 +1,126 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC233AF666;
-	Mon,  7 Sep 2026 17:07:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD4C51D53C;
+	Mon,  7 Sep 2026 17:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788800883; cv=none; b=SHxuC0eSIYQyqu/095wtEjAMU3LV/jBSo0OUANjulHeVbjBm88X60yicciXigjiirEzP8+ToEKvNojwU5jzb7oQX820YleJE9V8ijBR7Vx4DcqpV/k/h61Pfkzah4FIFSohXlDbKXjQMoiXferfrRCG1cPsmJPV0/MDVoUCQVXs=
+	t=1788801148; cv=none; b=jtpFK5ya8FLOqbngwwIfEZ/5HQ1HModo2cTheLjoq9JcKd32fQYxiogHOOAoyROZEG5PW0HODd+yrGCTNKHM2zVYS2XWfYOOz8AB6ZVM14QE7UtGpSd0pdHbJ/gfQER9SXVpYx3skSu4TNNZw5vMR1ltZR//0+lUw5wVT0uPQds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788800883; c=relaxed/simple;
-	bh=oFMzoHc6wsn0F9CSxGcMSq2JdF3BliB7CLDIKejfMBo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=giiLjSXgKbLcRn928v6MRMqYqsf4j+YCnuZYRjF3VgZMQH3bXig3c0NS9kp/1DWnSwrk3rRSwmUAqBC7jyS0WHnEKLazJvAQBMlGRhptdYnTMqAPetn3s6CNTEM8h57cOwXPGzIF0BJ8sUP0sMstlEzL6eEgaBfvyOTS7uCWfFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WTzWqTdy; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788801148; c=relaxed/simple;
+	bh=CXgZSpIQXX9GUpSFbygQz96dQyeP8fiQOTkP/Q1JHSs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ch7+J6e9/Rg2Ca21bVXS+bwNfVHkXi8+MpUH6Zj4dqivx17TJV8ZDNnRo3Jf1JC0VjyDJpFsV/mpKYYmWeCMN6p6KizyoQKEMJLlWrDUbIV1LDT3MhhQNXQPS+sDn/jU/ubEg54xreqKZNYqWOwMT827iihWYrnYP9e9jxUux8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=np/evmUe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WTzWqTdy"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=tUA4k8R2t1QpHAGgeyT0ZKIm7T5VVZVvcJldkkde15c=; b=WTzWqTdywnsEwqjXCxEQTDsw2S
-	S0GF02yWDOz/17M8o03Ohp0ZWpez/vaC4WRDHIdPsxPCPdCQt9y9sgjFNgtTaPektuda40Bf5/FfF
-	6sdeMfTnS2nI6S1Nxp9uVKKD1PZgbhUkOKYqN3glIn/acrrSjFRXe8982InOs9xpKId6JlAOt7Sfs
-	dpzwPxjregJkSAwu5TP3UbfgCzvkL/rBvbv7NSS13WwGu8L0PSGw+Y9qkLc2dA0vfKcN0GU0ryFSj
-	pkAKlDUUxC+Z5nV5MoCF6w3E4iUf32YHRZOyWT0VEhvjaQdZjfuVCMt5hL7B7O3dL3sYmuh/+MX6k
-	mj/33REA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x3cp0-00000007RIP-364Z;
-	Mon, 07 Sep 2026 17:07:54 +0000
-Message-ID: <c2f439ac-ca0e-4532-b649-c32c4e474436@infradead.org>
-Date: Mon, 7 Sep 2026 10:07:53 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="np/evmUe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 099081F00A3A;
+	Mon,  7 Sep 2026 17:12:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788801145;
+	bh=Y4p31XPgokx2qGPPsP878fh0V85lBvlTq2ciEbDGO3U=;
+	h=From:To:Cc:Subject:Date;
+	b=np/evmUeNjelzFmw9xTdA+JsbGs2ltTV2QDwKxwAcVeIdX6kt3gku2vENsL3wRZRk
+	 eVZB4+X8aRVXmz7mM/V0LTwoH+hqtzMzpW3ElsYo57KVgxbasBMregeE6v7eSCG3jx
+	 aYyN014d7bUA9dBcRPw39EfEIBlPJtomNq+he3HqOAKLRmptzRzj0VgteoTyFq0dnh
+	 Uw2DNz3W4uYLrkOmjbRJtdkkc8/zmzG/O3pCVMU952hdHp3i9sKLnllmyF3ss8fcPb
+	 4700rT65guzgVUEa6HlwV6MxJKGDAcBHWcm/Y87JulXMeB6vY0AgnvfG7GuaUSSmqE
+	 AM5vIJc9hyCiQ==
+From: SJ Park <sj@kernel.org>
+To: 
+Cc: SJ Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v2 0/7] mm/damon: introduce probe_hits_wsum DAMOS core filter
+Date: Mon,  7 Sep 2026 10:12:09 -0700
+Message-ID: <20260907171218.101430-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] Documentation/networking: fix repeated words in
- comments
-To: Hemanth Selam <hemanth.selam@gmail.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260907064528.6602-1-hemanth.selam@gmail.com>
- <20260907064528.6602-3-hemanth.selam@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260907064528.6602-3-hemanth.selam@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+DAMON can do flexible data attributes monitoring.  The classical data
+access monitoring can also be done using the attributes monitoring.  The
+access event is just one of the data attributes that DAMON supports.
+Users do monitoring to make some actions based on it.  DAMOS is a
+feature for automating that.  However, DAMOS cannot utilize the data
+attributes monitoring results.  It is still Data "Access"
+Monitoring-based Operation Schemes.  It requires users to set the target
+"access" pattern.
+
+DAMOS core filter is effectively the same as the target access pattern.
+It is just a more generalized and flexible way of describing the
+operation action target region.  Introduce a new DAMOS core filter type,
+probe_hits_wsum.  It specifies the filter target based on a range of the
+probe hits weighted sum.  Using this, users can apply DAMOS actions to
+regions of specific data attributes pattern.
+
+Note that the classic target access pattern still works.  Hence the
+target nr_accesses range should still be properly configured.  The new
+filter would be used in only data attributes-only mode.  In the mode,
+classic access monitoring is just turned off, and therefore nr_accesses
+of regions are always zero.  Users could simply set the target
+nr_accesses range to include the zero nr_Accesses regions.
+
+Patches Sequence
+================
+
+Patch 1 updates the DAMON kernel API for the new filter type.  Patch 2
+extends damon_probe_hits_wsum() to do the calculation based on moving
+sum.  Patch 3 implements the filter type in the core layer.  Patch 4
+refactors DAMON sysfs interface internal data structure for efficient
+reuse of data structure for the probe hits weighted sum range user
+inputs.  Patch 5 updates DAMON sysfs interface to support the new filter
+type.  Patches 6 and 7 update design and usage documents for the new
+filter type, respectively.
+
+Changelog
+=========
+
+Changes from RFC
+- RFC: https://lore.kernel.org/20260906210513.106895-1-sj@kernel.org
+- Fix kernel-doc typo.
+- Use moving sum based weighted sum.
+- Fix wrong range saving field names in sysfs.
+
+SJ Park (7):
+  mm/damon/api: introduce DAMOS_FILTER_TYPE_PROBE_HITS_WSUM
+  mm/damon/core: extend probe_hits_wsum() for moving sum based
+    calculation
+  mm/damon/core: support probe_hits_wsum damos core filter
+  mm/damon/sysfs-schemes: rename sysfs_filter->sz_range to
+    range_{min,max}
+  mm/damon/sysfs-schemes: support probe_hits_wsum damos core filter
+  Docs/mm/damon/design: update for probe_hits_wsum DAMOS core filter
+  Docs/admin-guide/mm/damon/usage: update for probe_hits_wsum DAMOS
+    filter
+
+ Documentation/admin-guide/mm/damon/usage.rst |  4 +++
+ Documentation/mm/damon/design.rst            |  3 ++
+ include/linux/damon.h                        | 10 ++++++-
+ mm/damon/core.c                              | 20 +++++++++++--
+ mm/damon/paddr.c                             |  2 +-
+ mm/damon/sysfs-schemes.c                     | 30 ++++++++++++++------
+ mm/damon/vaddr.c                             |  2 +-
+ 7 files changed, 57 insertions(+), 14 deletions(-)
 
 
-On 9/6/26 11:45 PM, Hemanth Selam wrote:
-> Drop words accidentally written twice, reported by checkpatch.pl as a
-> possible repeated word.  Only touches comments, no code changes.
-> 
-> Assisted-by: Cursor:claude-opus-5
-> Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
-
-> ---
->  Documentation/networking/device_drivers/ethernet/intel/i40e.rst | 2 +-
->  Documentation/networking/device_drivers/ethernet/intel/iavf.rst | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-> index 53d9d5829d69..e01f0adda3f6 100644
-> --- a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-> +++ b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-> @@ -692,7 +692,7 @@ queues: for each tc, <num queues>@<offset> (e.g. queues 16@0 16@16 assigns
->  16 queues to tc0 at offset 0 and 16 queues to tc1 at offset 16. Max total
->  number of queues for all tcs is 64 or number of cores, whichever is lower.)
->  
-> -hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new new hardware
-> +hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new hardware
->  offload mode in mqprio that makes full use of the mqprio options, the
->  TCs, the queue configurations, and the QoS parameters.
->  
-> diff --git a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-> index eb926c3bd4cd..5840569917f5 100644
-> --- a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-> +++ b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-> @@ -171,7 +171,7 @@ queues: for each tc, <num queues>@<offset> (e.g. queues 16@0 16@16 assigns
->  16 queues to tc0 at offset 0 and 16 queues to tc1 at offset 16. Max total
->  number of queues for all tcs is 64 or number of cores, whichever is lower.)
->  
-> -hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new new hardware
-> +hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new hardware
->  offload mode in mqprio that makes full use of the mqprio options, the
->  TCs, the queue configurations, and the QoS parameters.
->  
-
+base-commit: 48856ec5bf2f614ff3ef647bbf7cc605faf8c977
 -- 
-~Randy
+2.47.3
