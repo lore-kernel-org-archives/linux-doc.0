@@ -1,550 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010070.outbound.protection.outlook.com [52.101.46.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3963EC833;
-	Mon,  7 Sep 2026 03:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788752920; cv=none; b=al5QBN5ybehswdO1L6+ZCFXMESgSVpj6XDHdv/B6WImx+HHU5efaGy+34fZMCa6caGElqlQzzGQZwESwaQ/O6XTZAFAwRcyoaaceOi01DFsERCKH6TrTz0i8FW2tn0Ssl1Jf0DwTpN79H97d3QEex7rP32XEyIXi2GFO3v7Jydk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788752920; c=relaxed/simple;
-	bh=xTVQGGIwjiOXMhjB3YCzr7YHX1vUKy0x9+c9UcqxLt0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uPQhNQxdwCi4ftFhC5poG9BXprAS0hUj14iuRzDVsMeaMSTmfrW9xrkKK6oSBlIh/RgUPNoKxdsmOuSFfswk1rLFUjMbXPXRKw5RECaOV7RaZYivjTFaOunYYiorO2OE5+ricLx368wp6QBvrkF3X0g16GX5YbdHzIXmK3QGJHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NWdYsfuv; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E953F1046;
+	Mon,  7 Sep 2026 03:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788753515; cv=fail; b=OuQWnZcoJHQ7k+W0Tb5jnr3e1IwtpyLTjOyJyJa9yIUJFqrMOtEP3htfOH8zgQpDVGphfVlM6thVFFqV9iUHtV2f6lmclt2dvQPJbugqJlyRxMwNgxol9b1e241MXafkStxMfYOYS6Y+SaIArta21LWrirZ31Qwmaz9jeGDHOCQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788753515; c=relaxed/simple;
+	bh=MIKgo7pJSHi4R6Fc6MIqV634p+ojSaQibEgxVGynZ3w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=JcICQRS6RskD+nWupZ88tOmsJhVi7beLRow9G6983E/N+PJkbq4b/VctnC5SNbgtQX0zbf/1/d0kQdcYr0k29c5Kl30HLWTfw07NmYnvq5tAjaVLeWiW/sbHSsmwaunzBjw95QmN9al4ZYUszo9E3sFUOJplCnC9XGjWkdqdVOM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=e6//eibZ; arc=fail smtp.client-ip=52.101.46.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NWdYsfuv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89F491F00A3A;
-	Mon,  7 Sep 2026 03:48:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788752918;
-	bh=On86txE9Jv1brahg8dH8EYfHnEYs69+hOzkS5AOZwdo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=NWdYsfuv+w+3atBlCGJODLfdkwcMMc/ya10J+t0b7OBo3h9SmB9KrpDK6w7pvvRIs
-	 GSQvuOXS75NdHGanPvECQ0dq/kc+irBlAtsJINgrCs1KYVP34UczvhtayqVF8KWhVR
-	 5rmH7zXXoGX8qq3MCLyUHBRJWAFfd7jep85fxRGJyTwHISsbxKKRbUpScpaYrlyBVF
-	 ByP5p5DqU0vMqx5+GFKayZAcCz2ikdjXe49QHcHNheqvkBrwqHl/HeKiGYQL/V0FL9
-	 Gp1U9VZuQxFU4Qt9gcnwZGwaweSAB7Rwq7IjdTos3AtZplxMenpfXX0ZSx+OjzDPUa
-	 Xao+jBzNNlfmQ==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	x86@kernel.org
-Cc: Jinchao Wang <wangjinchao600@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Subject: [PATCH v15 12/12] tracing/wprobe: Support BTF struct offset resolution in set_wprobe trigger
-Date: Mon,  7 Sep 2026 12:48:33 +0900
-Message-ID: <178875291323.93794.16645737472750929830.stgit@devnote2>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <178875277830.93794.14247844688761142429.stgit@devnote2>
-References: <178875277830.93794.14247844688761142429.stgit@devnote2>
-User-Agent: StGit/0.19
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="e6//eibZ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VgmcFnEUOHQb48kNEOpfeaTHhUSyNmu4rhoNBRDKXYN3GWBGTqLaIpJRDLB8j5bQpRXT7lgN/JB9cetkvDH0RBMKqXiC1CJLahcAq8yWhlfjaoIaAKR/nbf9uX8XaqZ4cnzEChbjtRVN3EdQyuxNzU6+DG36hvztG+67/IboB6uaxfeJQ7K2vBzMWRDZrJ1r3wmuDgrtpj4zTaNt36xFUHM12eYRl2qaVssobgEDvP+cI7ngIoAV6PWpyI1vHKuM0MNXSAq3n3mm2H/vYetk5YXC2ggIcpqNftPOF5aELQzWPsK0FNnkL6vn64CNhmnoRUV3sK/6/Ec3C9Kl+Tvu0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5ROediwCISLOC3NKV1oNJMK2i4R/cBdx1LSH1JM4rwQ=;
+ b=QeCmO9edrgYl4cvXtdJUVMCiOSxmQeJaDmH0qHe458Lydr63jrf7TUn4fOD3B+5P1qqEyawUNZw9Y58ieXv8IJuclSfD3fudTDcRe56MftoMTBYeVN2bgy0DL9YRTYElfB6EmOR65lmBO314aWmB673Pb9cNRBxxGUeu4Ay0qHFmaZ+hZdYoS9FfLT7jbfx7t39VFh3fT+GmTpUDP7/kyPmwlpMDNUfrylPp6CsCdv2bzfpuUHmz6dyhZcjqdvYoEKwOlwB14xvwwkBtchbA6FSo8efKp7lQvyekfSTmVtiW6uFUfABvBMCyvJT4MuCfg2GvhvAuGHpoo2FKhEX8cA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5ROediwCISLOC3NKV1oNJMK2i4R/cBdx1LSH1JM4rwQ=;
+ b=e6//eibZgZPL1LHpaWWLgPZDIbG1U4qZir7pV+x6AYE51AsGQMpmIJchijct1WuV3VAJ/67hwgWwHPyagZcRbuGnXtEz1afTDPTHzM1tcd39xvD12UT4LCU6DGy82uQBrXug2K8O2MuW2wj8Oq0bJ8KAzHNJiHCv0N/XoMCjfy4=
+Received: from MN2PR03CA0010.namprd03.prod.outlook.com (2603:10b6:208:23a::15)
+ by IA1PR12MB6649.namprd12.prod.outlook.com (2603:10b6:208:3a2::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Mon, 7 Sep
+ 2026 03:58:29 +0000
+Received: from BN7PEPF000000A6.namprd05.prod.outlook.com
+ (2603:10b6:208:23a:cafe::a7) by MN2PR03CA0010.outlook.office365.com
+ (2603:10b6:208:23a::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.15 via Frontend Transport; Mon, 7
+ Sep 2026 03:58:29 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BN7PEPF000000A6.mail.protection.outlook.com (10.167.245.230) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.406.5 via Frontend Transport; Mon, 7 Sep 2026 03:58:29 +0000
+Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Sun, 6 Sep
+ 2026 22:58:28 -0500
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb09.amd.com
+ (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Sun, 6 Sep
+ 2026 22:58:27 -0500
+Received: from [10.136.42.177] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.46 via Frontend
+ Transport; Sun, 6 Sep 2026 22:58:25 -0500
+Message-ID: <4a577dcb-3fa2-4d28-8b86-757dd67cd6cb@amd.com>
+Date: Mon, 7 Sep 2026 09:28:24 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] cpufreq/amd-pstate: Remove obsolete amd_dynamic_epp
+ documentation
+To: Karl Mehltretter <kmehltretter@gmail.com>, Jonathan Corbet
+	<corbet@lwn.net>
+CC: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+	<rdunlap@infradead.org>, Huang Rui <ray.huang@amd.com>, Mario Limonciello
+	<mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>, "Mario
+ Limonciello (AMD)" <superm1@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>
+References: <20260905010706.57380-1-kmehltretter@gmail.com>
+Content-Language: en-US
+From: K Prateek Nayak <kprateek.nayak@amd.com>
+In-Reply-To: <20260905010706.57380-1-kmehltretter@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN7PEPF000000A6:EE_|IA1PR12MB6649:EE_
+X-MS-Office365-Filtering-Correlation-Id: cbcd00fd-2f65-4bbb-f01b-08df0c94472c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|376014|1800799024|23010399003|82310400026|3023799007|10067099003|11063799006|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	UoD3JHrqymUtTbyEoQmTEWgCwVwA3DPiM6vPHpTsNFIWoCqwKXNw3tApznSFAJqcxICRo/qiWCnbrRHEIscWSLWAf2KInfsbxP3i1x0SkSCxm53yvdd+QdAL6LcbFNWEvwL/yEXV0FZh7JLWnEDBa3mUn7uJsV/43udEHY1lCuki6OJFcQqsf2rcCJK4juQOrR+JhJB/w4wocp52i7skyu/rwo/3t2rzrN0yCN0FJ7W/JJMqVqhdAPwI8QLvHkMHeMmddewLoFoC4g+8Af5nSGGKa7RkjlsMD/nLC/8MwSXYdu3wKov/wmI/L2d/jZ1zeTbbj7eefLD7fDm6nYWSKXKZfvJFEfNgpzZsWHKncbhRTqFqLwYJ/WFkg5dpYUu77wsqv914sL0Z4Wo5HcJUGWmSVgTun8XK/LaRWpFf90pAaHQBWOOUr452PcezWtVJ5m9qpkWup3CagQUPwUsVp7OF4Zb5VsTmTi/0na89XYXyhBCvGFwouwOpLdlGwAuqMF6+nxwJ+R5ZYv/NO+n7iYdNEx03lfgjjQ/S43BfgLmpwXxfv2fiNNP9g+61Arz+1lDncWwseaGG60V/HdwFr10Dx0cegmBbdM/XP4XJAHJHAU/9KptZW+lvMbJP2FN3+EipQ0x3XtpwKv3gFtgxGEv4xJ8TeqnvUzz8lbCfL+gHo9/1jx642yD4Y3nvcUo3UcVTC+Uf7uROSg/2vUBYSQ==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(1800799024)(23010399003)(82310400026)(3023799007)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	jUmYiRxmDWEnep89CDY/vmDEi/2xQfTURWCU3U2wcGrjqHVNdaMXZOybelaju6N9fs5JvJ775F6OJaz30vyQXoM8J/4uBqTsZcHEA0HuzuFy5dJIKDErMHRAkL75xCcnQB0AXU95aqwmZqYAbm6aqfpG6ycRTpVdzvfdmBmaPmqQpvavt1q6x0qRPyrzymNP8w0Ync+aPJjpTpm7kFWOmzLI21+GW2IgsI+XSirMPOyUjJ5B9fb5diIZZRbtqx+m4N6SHptSBw6DhKJQPrxBvzTJ/Yt8vwaPxAj9yPKvhK3X+N4arbCqzp0ziMSBGHZlCLOTT7xhYEfUcVkMyoA2/VauKjnGfSGEkz9jOYE7iNekIniuj6VyEWaw3OlqvfF0Qp6//G0tjNx3XHy0KWyVYu//BFyZzxS2cpA2EZ8JsZ3R64qtrscWNwfKkMx0xv1I
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2026 03:58:29.8287
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cbcd00fd-2f65-4bbb-f01b-08df0c94472c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN7PEPF000000A6.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6649
 
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Hello Karl,
 
-Allow set_wprobe trigger to use BTF struct offset resolution to specify
-the target address field.
+On 9/5/2026 6:37 AM, Karl Mehltretter wrote:
+> The amd_dynamic_epp command-line parameter was removed. Dynamic EPP
+> is now selected through the per-policy energy_performance_preference
+> attribute, which is already documented.
+> 
+> Fixes: 32692fcf61ed ("cpufreq/amd-pstate: Remove "amd_dynamic_epp" cmdline and "dynamic_epp" sysfs")
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
-Link: https://lore.kernel.org/all/59637b96946653393a7ad3c7de094094796b39c2.1785067572.git.wangjinchao600@gmail.com/
+Thank you for catching this. Feel free to include:
 
-Assisted-by: Antigravity:gemini-3.8-flash
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
----
-Changes in v15:
- - Duplicate field string to avoid modifying glob in place in
-   wprobe_trigger_typecast_parse() so tracing_log_err() prints pristine
-   command string.
- - Remove leftover offset and adjust debug print in wprobe_trigger_print().
- - Document BTF struct offset resolution syntax in wprobetrace.rst.
- - Add explicit failure checks with fail helper in
-   trigger-wprobe-btf-offset.tc.
- - Declare fprobe README requirement in trigger-wprobe-btf-offset.tc.
-Changes in v14:
- - Update dummy wprobe event definition to use '-1' instead of '0'.
- - Pass member_type to btf_find_struct_member() and check its kflag in
-   get_offset_of_field().
-Changes in v13:
- - Check for field token before calling wprobe_trigger_field_parse() in
-   clear_wprobe to avoid spurious error log entries on numeric counts.
-Changes in v12:
- - Refactor field parsing logic into wprobe_trigger_field_parse().
- - Remove unused variable count_str in wprobe_trigger_cmd_parse().
----
- Documentation/trace/wprobetrace.rst                |    7 
- kernel/trace/trace_wprobe.c                        |  294 +++++++++++++++-----
- .../test.d/trigger/trigger-wprobe-btf-offset.tc    |   85 ++++++
- 3 files changed, 308 insertions(+), 78 deletions(-)
- create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
+Reviewed-by: K Prateek Nayak <kprateek.nayak@amd.com>
 
-diff --git a/Documentation/trace/wprobetrace.rst b/Documentation/trace/wprobetrace.rst
-index 20a11443c6db..1d9b32d02d53 100644
---- a/Documentation/trace/wprobetrace.rst
-+++ b/Documentation/trace/wprobetrace.rst
-@@ -90,10 +90,17 @@ Combination with trigger action
- The event trigger action can extend the utilization of this wprobe.
- 
- - set_wprobe:WPEVENT:FIELD[+|-ADJUST][:COUNT]
-+- set_wprobe:WPEVENT:(STRUCT[,ASGN])EVENT_FIELD->MEMBER[+|-ADJUST][:COUNT]
- - clear_wprobe:WPEVENT[:FIELD[+|-ADJUST][:COUNT]]
-+- clear_wprobe:WPEVENT[:(STRUCT[,ASGN])EVENT_FIELD->MEMBER[+|-ADJUST][:COUNT]]
- 
- Set these triggers to the target event, then the WPROBE event will be
- setup to trace the memory access at FIELD[+|-ADJUST] address.
-+If BTF is supported, the target address can also be resolved using BTF
-+struct offset resolution: `(STRUCT[,ASGN])EVENT_FIELD->MEMBER[+|-ADJUST]`.
-+Here, EVENT_FIELD is an event field containing a pointer to STRUCT (or to
-+the ASGN member if ASGN is specified), and MEMBER is the struct member whose
-+offset is resolved automatically via BTF.
- When clear_wprobe is hit, if FIELD is NOT specified, the WPEVENT is
- forcibly cleared. If FIELD[+|-ADJUST] is set, it clears WPEVENT only
- if its watching address is the same as the FIELD[+|-ADJUST] value.
-diff --git a/kernel/trace/trace_wprobe.c b/kernel/trace/trace_wprobe.c
-index 3cf8786ef0ee..373cfd1640dd 100644
---- a/kernel/trace/trace_wprobe.c
-+++ b/kernel/trace/trace_wprobe.c
-@@ -27,6 +27,7 @@
- #include <asm/ptrace.h>
- 
- #include "trace.h"
-+#include "trace_btf.h"
- #include "trace_dynevent.h"
- #include "trace_probe.h"
- #include "trace_probe_kernel.h"
-@@ -1028,6 +1029,213 @@ static void wprobe_trigger_free(struct event_trigger_data *data)
- 	}
- }
- 
-+#ifdef CONFIG_PROBE_EVENTS_BTF_ARGS
-+
-+static int get_offset_of_field(struct btf *btf, const struct btf_type *type, char *field_name)
-+{
-+	const struct btf_member *field;
-+	const struct btf_type *mtype;
-+	int bitoffs = 0;
-+	u32 anon_offs;
-+	char *next;
-+
-+	do {
-+		next = strchr(field_name, '.');
-+		if (next)
-+			*next++ = '\0';
-+
-+		field = btf_find_struct_member(btf, type, field_name, &anon_offs, &mtype);
-+		if (IS_ERR_OR_NULL(field))
-+			return -ENOENT;
-+
-+		if (btf_type_kflag(mtype)) {
-+			/* Reject bitfield member access */
-+			if (BTF_MEMBER_BITFIELD_SIZE(field->offset))
-+				return -EINVAL;
-+			bitoffs += anon_offs + BTF_MEMBER_BIT_OFFSET(field->offset);
-+		} else {
-+			bitoffs += anon_offs + field->offset;
-+		}
-+
-+		field_name = next;
-+		if (next) {
-+			type = btf_type_skip_modifiers(btf, field->type, NULL);
-+			if (!type)
-+				return -ENOENT;
-+		}
-+	} while (next);
-+	return bitoffs / BITS_PER_BYTE;
-+}
-+
-+/* btf_put(NULL) is acceptable. */
-+DEFINE_FREE(btf_put, struct btf *, btf_put(_T))
-+
-+/* parse typecast: (TYPE[,ASGN])EVENT_FIELD->FIELD[.SUBFIELD...][+-OFFS] and set adjust. */
-+static int wprobe_trigger_typecast_parse(char *field_str,
-+					 struct trace_event_file *file,
-+					 struct wprobe_trigger_data *wprobe_data,
-+					 const char *glob)
-+{
-+	struct btf *btf __free(btf_put) = NULL;
-+	char *buf __free(kfree) = NULL;
-+	struct ftrace_event_field *field;
-+	const struct btf_type *type;
-+	char *assign_field;
-+	char *event_field;
-+	char *type_field;
-+	char *type_name;
-+	char *offs;
-+	long val = 0;
-+	int base_offset = field_str - glob;
-+	int event_field_offset;
-+	int id, adjust;
-+
-+	buf = kstrdup(field_str, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	type_name = buf + 1;
-+	event_field = strchr(type_name, ')');
-+	if (!event_field) {
-+		wprobe_trigger_log_err(file, glob,
-+				       base_offset + (type_name - buf),
-+				       DEREF_OPEN_BRACE);
-+		return -EINVAL;
-+	}
-+	*event_field++ = '\0';
-+
-+	/* Check the optional assign field. */
-+	assign_field = strchr(type_name, ',');
-+	if (assign_field)
-+		*assign_field++ = '\0';
-+
-+	/* Get the type field name. */
-+	type_field = strstr(event_field, "->");
-+	if (!type_field) {
-+		wprobe_trigger_log_err(file, glob,
-+				       base_offset + (event_field - buf),
-+				       TYPECAST_REQ_FIELD);
-+		return -EINVAL;
-+	}
-+	*type_field = '\0';
-+	type_field += 2;
-+
-+	offs = strpbrk(type_field, "+-");
-+	if (offs) {
-+		if (kstrtol(offs, 0, &val) < 0) {
-+			wprobe_trigger_log_err(file, glob,
-+					       base_offset + (offs - buf),
-+					       BAD_DEREF_OFFS);
-+			return -EINVAL;
-+		}
-+		*offs = '\0';
-+	}
-+
-+	/* find type from BTF */
-+	id = bpf_find_btf_id(type_name, BTF_KIND_STRUCT, &btf);
-+	if (id < 0) {
-+		wprobe_trigger_log_err(file, glob,
-+				       base_offset + (type_name - buf),
-+				       BAD_BTF_TID);
-+		return id;
-+	}
-+
-+	type = btf_type_by_id(btf, id);
-+	if (!type) {
-+		wprobe_trigger_log_err(file, glob,
-+				       base_offset + (type_name - buf),
-+				       BAD_BTF_TID);
-+		return -EINVAL;
-+	}
-+
-+	adjust = get_offset_of_field(btf, type, type_field);
-+	if (adjust < 0) {
-+		wprobe_trigger_log_err(file, glob,
-+				       base_offset + (type_field - buf),
-+				       NO_BTF_FIELD);
-+		return adjust;
-+	}
-+	wprobe_data->adjust = adjust + val;
-+
-+	if (assign_field) {
-+		/* assign_field should be a struct field */
-+		adjust = get_offset_of_field(btf, type, assign_field);
-+		if (adjust < 0) {
-+			wprobe_trigger_log_err(file, glob,
-+					       base_offset + (assign_field - buf),
-+					       NO_BTF_FIELD);
-+			return adjust;
-+		}
-+		wprobe_data->adjust -= adjust;
-+	}
-+
-+	event_field_offset = base_offset + (event_field - buf);
-+	field = trace_find_event_field(file->event_call, event_field);
-+	if (!field) {
-+		wprobe_trigger_log_err(file, glob, event_field_offset, NO_EVENT_FIELD);
-+		return -ENOENT;
-+	}
-+	if (field->size != sizeof(void *)) {
-+		wprobe_trigger_log_err(file, glob, event_field_offset, WPROBE_BAD_FIELD);
-+		return -ENOEXEC;
-+	}
-+	wprobe_data->offset = field->offset;
-+	wprobe_data->field = kstrdup(event_field, GFP_KERNEL);
-+	if (!wprobe_data->field)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+#else
-+static int wprobe_trigger_typecast_parse(char *field_str,
-+					 struct trace_event_file *file,
-+					 struct wprobe_trigger_data *wprobe_data,
-+					 const char *glob)
-+{
-+	wprobe_trigger_log_err(file, glob, field_str - glob, NOSUP_BTFARG);
-+	return -EOPNOTSUPP;
-+}
-+#endif /* CONFIG_PROBE_EVENTS_BTF_ARGS */
-+
-+static int wprobe_trigger_field_parse(char *field_str, struct trace_event_file *file,
-+					struct wprobe_trigger_data *wprobe_data,
-+					const char *glob)
-+{
-+	struct ftrace_event_field *field;
-+	char *offs;
-+
-+	if (field_str[0] == '(')
-+		return wprobe_trigger_typecast_parse(field_str, file, wprobe_data, glob);
-+
-+	offs = strpbrk(field_str, "+-");
-+	if (offs) {
-+		long val;
-+
-+		if (kstrtol(offs, 0, &val) < 0) {
-+			wprobe_trigger_log_err(file, glob, offs - glob, BAD_DEREF_OFFS);
-+			return -EINVAL;
-+		}
-+		wprobe_data->adjust = val;
-+		*offs = '\0';
-+	}
-+
-+	field = trace_find_event_field(file->event_call, field_str);
-+	if (!field) {
-+		wprobe_trigger_log_err(file, glob, field_str - glob, NO_EVENT_FIELD);
-+		return -ENOENT;
-+	}
-+	if (field->size != sizeof(void *)) {
-+		wprobe_trigger_log_err(file, glob, field_str - glob, WPROBE_BAD_FIELD);
-+		return -ENOEXEC;
-+	}
-+	wprobe_data->offset = field->offset;
-+	wprobe_data->field = kstrdup(field_str, GFP_KERNEL);
-+	if (!wprobe_data->field)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
- static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 				    struct trace_event_file *file,
- 				    char *glob, char *cmd,
-@@ -1040,10 +1248,8 @@ static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 	struct wprobe_trigger_data *wprobe_data = NULL;
- 	struct event_trigger_data *trigger_data = NULL;
- 	struct trace_event_file *wprobe_file;
-+	char *event_str, *comment;
- 	struct trace_array *tr = file->tr;
--	char *event_str, *field_str, *comment;
--	struct ftrace_event_field *field;
--	struct trace_event_call *event;
- 	bool remove, clear = false;
- 	unsigned long orig_addr = 0;
- 	struct trace_wprobe *tw;
-@@ -1104,92 +1310,24 @@ static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 
- 	/* clear_wprobe does not need field, but can have optional field. */
- 	if (!clear) {
--		char *offs;
-+		char *field_str = strsep(&param, ":");
- 
--		/* Find target field, which must be equivalent to "void *" */
--		field_str = strsep(&param, ":");
- 		if (!field_str) {
- 			wprobe_trigger_log_err(file, glob, strlen(glob), WPROBE_NEED_FIELD);
- 			ret = -EINVAL;
- 			goto out_free;
- 		}
--
--		offs = strpbrk(field_str, "+-");
--		if (offs) {
--			long val;
--
--			if (kstrtol(offs, 0, &val) < 0) {
--				wprobe_trigger_log_err(file, glob, offs - glob, BAD_DEREF_OFFS);
--				ret = -EINVAL;
--				goto out_free;
--			}
--			wprobe_data->adjust = val;
--			*offs = '\0';
--		}
--
--		event = file->event_call;
--		field = trace_find_event_field(event, field_str);
--		if (!field) {
--			wprobe_trigger_log_err(file, glob, field_str - glob, NO_EVENT_FIELD);
--			ret = -ENOENT;
--			goto out_free;
--		}
--
--		if (field->size != sizeof(void *)) {
--			wprobe_trigger_log_err(file, glob, field_str - glob, WPROBE_BAD_FIELD);
--			ret = -ENOEXEC;
--			goto out_free;
--		}
--		wprobe_data->offset = field->offset;
--		wprobe_data->field = kstrdup(field_str, GFP_KERNEL);
--		if (!wprobe_data->field) {
--			ret = -ENOMEM;
-+		ret = wprobe_trigger_field_parse(field_str, file, wprobe_data, glob);
-+		if (ret < 0)
- 			goto out_free;
--		}
--	} else if (param && (isalpha(param[0]) || param[0] == '_')) {
-+	} else if (param && (isalpha(param[0]) || param[0] == '_' || param[0] == '(')) {
- 		if (strncmp(param, "count=", 6) != 0 &&
- 		    strncmp(param, "unlimited", 9) != 0) {
--			char *offs;
--
--			field_str = strsep(&param, ":");
--			offs = strpbrk(field_str, "+-");
--			if (offs) {
--				long val;
--
--				if (kstrtol(offs, 0, &val) < 0) {
--					wprobe_trigger_log_err(file, glob,
--							       offs - glob,
--							       BAD_DEREF_OFFS);
--					ret = -EINVAL;
--					goto out_free;
--				}
--				wprobe_data->adjust = val;
--				*offs = '\0';
--			}
--
--			event = file->event_call;
--			field = trace_find_event_field(event, field_str);
--			if (!field) {
--				wprobe_trigger_log_err(file, glob,
--						       field_str - glob,
--						       NO_EVENT_FIELD);
--				ret = -ENOENT;
--				goto out_free;
--			}
-+			char *field_str = strsep(&param, ":");
- 
--			if (field->size != sizeof(void *)) {
--				wprobe_trigger_log_err(file, glob,
--						       field_str - glob,
--						       WPROBE_BAD_FIELD);
--				ret = -ENOEXEC;
-+			ret = wprobe_trigger_field_parse(field_str, file, wprobe_data, glob);
-+			if (ret < 0)
- 				goto out_free;
--			}
--			wprobe_data->offset = field->offset;
--			wprobe_data->field = kstrdup(field_str, GFP_KERNEL);
--			if (!wprobe_data->field) {
--				ret = -ENOMEM;
--				goto out_free;
--			}
- 		}
- 	}
- 
-diff --git a/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
-new file mode 100644
-index 000000000000..8bc8ca02a712
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
-@@ -0,0 +1,85 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# description: event trigger - test set_wprobe trigger with BTF struct offset
-+# requires: dynamic_events "w[:[<group>/][<event>]] [r|w|rw]@<addr>[:<len>]":README "f[:[<group>/][<event>]] <func-name>[%return] [<args>]":README events/sched/sched_process_fork/trigger "[(structname[,field])]<argname>[->field[->field|.field...]]":README
-+
-+fail() { #msg
-+  echo "$1"
-+  exit_fail
-+}
-+
-+rmmod trace-events-sample ||:
-+if ! modprobe trace-events-sample ; then
-+  echo "No trace-events sample module - please make CONFIG_SAMPLE_TRACE_EVENTS=m"
-+  exit_unresolved
-+fi
-+
-+cleanup_wprobe_triggers() {
-+  if [ -f events/fprobes/testevent/trigger ]; then
-+    reset_trigger_file events/fprobes/testevent/trigger || true
-+  fi
-+  echo 0 > events/enable 2>/dev/null || true
-+  echo > dynamic_events 2>/dev/null || true
-+  sleep 1
-+  rmmod trace-events-sample 2>/dev/null || true
-+  return 0
-+}
-+
-+trap cleanup_wprobe_triggers EXIT
-+
-+echo 0 > tracing_on
-+
-+# we will skip this test if fprobe is not supported.
-+if ! grep -Fq "f[:[<group>/][<event>]] <func-name>[%return] [<args>]" README; then
-+    echo "UNRESOLVED: fprobe is not supported"
-+    exit_unresolved
-+fi
-+
-+# we will skip this test if the target function does not exist.
-+if ! grep -wq "sample_timer_cb" /proc/kallsyms; then
-+    echo "UNRESOLVED: sample_timer_cb not found"
-+    exit_unresolved
-+fi
-+
-+:;: "Add a wprobe event watching 8 bytes" ;:
-+echo 'w:watch rw@-1:8 address=$addr value=$value' >> dynamic_events
-+
-+:;: "Add fprobe event for sample_timer_cb" ;:
-+# sample_timer_cb(struct timer_list *t)
-+# container_of(t, struct foo_timer_data, timer)
-+echo 'f:fprobes/testevent sample_timer_cb timer=t' >> dynamic_events
-+
-+:;: "Enable all events before setting triggers" ;:
-+echo 1 > tracing_on
-+echo 1 >> events/fprobes/testevent/enable
-+
-+:;: "Set set_wprobe trigger using BTF struct offset resolution" ;:
-+# Syntax: set_wprobe:WPEVENT:(STRUCT,FIELD)EVENT_FIELD->MEMBER
-+# (foo_timer_data,timer) is the BTF struct type and field name
-+# timer->expires is the struct member whose offset is resolved automatically via BTF
-+echo 'set_wprobe:watch:(foo_timer_data,timer)timer->timer.expires' >> events/fprobes/testevent/trigger
-+if ! grep -q ^set_wprobe events/fprobes/testevent/trigger; then
-+  fail "Failed to set set_wprobe trigger"
-+fi
-+
-+# Wait for sample_timer_cb to fire and set_wprobe trigger to activate
-+sleep 3
-+
-+:;: "Check set_wprobe trigger activated the watchpoint" ;:
-+if ! grep -q watch trace; then
-+  fail "Failed to trigger watchpoint"
-+fi
-+
-+:;: "Remove wprobe triggers" ;:
-+# Since we don't know actual offset of timer->expires in foo_timer_data, we use reset_trigger_file
-+reset_trigger_file events/fprobes/testevent/trigger
-+if grep -q ^set_wprobe events/fprobes/testevent/trigger; then
-+  fail "Failed to remove set_wprobe trigger"
-+fi
-+
-+:;: "Disable events and remove dynamic events" ;:
-+echo 0 > events/enable
-+echo > dynamic_events
-+clear_trace
-+
-+exit 0
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 7 -------
+>  Documentation/admin-guide/pm/amd-pstate.rst     | 6 ------
+>  2 files changed, 13 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 4a12805a50ba5..1fa37bce5bb3a 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -499,13 +499,6 @@ Kernel parameters
+>  			disable
+>  			  Disable amd-pstate preferred core.
+>  
+> -	amd_dynamic_epp=
+> -			[X86]
+> -			disable
+> -			  Disable amd-pstate dynamic EPP.
+> -			enable
+> -			  Enable amd-pstate dynamic EPP.
+> -
+>  	amijoy.map=	[HW,JOY] Amiga joystick support
+>  			Map of devices attached to JOY0DAT and JOY1DAT
+>  			Format: <a>,<b>
+> diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
+> index 6fd72ba52df20..4c5d3d8acf645 100644
+> --- a/Documentation/admin-guide/pm/amd-pstate.rst
+> +++ b/Documentation/admin-guide/pm/amd-pstate.rst
+> @@ -481,12 +481,6 @@ For systems that support ``amd-pstate`` preferred core, the core rankings will
+>  always be advertised by the platform. But OS can choose to ignore that via the
+>  kernel parameter ``amd_prefcore=disable``.
+>  
+> -``amd_dynamic_epp``
+> -
+> -When AMD pstate is in auto mode, dynamic EPP will control whether the kernel
+> -autonomously changes the EPP mode. The default is disabled. It can be enabled
+> -with the kernel parameter ``amd_dynamic_epp=enable``.
+> -
+>  User Space Interface in ``sysfs`` - General
+>  ===========================================
+>  
+
+-- 
+Thanks and Regards,
+Prateek
 
