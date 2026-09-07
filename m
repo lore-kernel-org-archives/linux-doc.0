@@ -1,48 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688A74CA76C;
-	Mon,  7 Sep 2026 15:54:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33A233BBD7;
+	Mon,  7 Sep 2026 16:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788796487; cv=none; b=ouMFirIsvlHYRxEf1eEVCAoTbz+HDcfBHBfCw5mUm72q0b483UfcTMSBuu+ULMBbYMejubl/kqjNQoRkFd7RA8mUhTvQtt3uG9FZG+eoFviRCIrL/8L2tzQUz3pjIIgCWTW7o5bUs+r44KFN/ZP5gw9wtBPRmUQjr+OyoXe2BFE=
+	t=1788796962; cv=none; b=NlPVdVCSZ2z34Lq4+LSzF62aUHFq6ZKsTaMslrek/OClDdM2gqdHQ2LdATxiA1ARP7jZ4vrBJ4xg/VfQYjEoM5C+7iGBcrAnrmGyOJYrNSEHfJr/NxF+CKScYfvqlJjOhnNTASdlIrr8tKh6Ez2g2sgxKuSAsX1cgR3U1mTrER8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788796487; c=relaxed/simple;
-	bh=OxTfmdKlF/M39hwa9LeJeJy+VvQMQL+ijNheXwzRphc=;
+	s=arc-20240116; t=1788796962; c=relaxed/simple;
+	bh=pTaepsuSgb1st6N47EaKWE3RlZx/eV8kLDOFg9kSV+0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VOKgqesHRND3drlimVt17GR5QlwE3JGO+jZHPYfwWdq/Z0g8Qze7ovm650DleoHdO9VW6mIJvCX0AddeiR7dlZLv9py5iG2ljBwht187HbgRu6t/fVUWoMc4oZ7rKrpy04UPpydy//4B4kEXsAMzLtXUGU5QQ+f0puWQga7AtI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BhHR5vVr; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=qxuJq2LS+/q0bOoWCU9pEr817324SIVIqit1fJqlnsDdexGWi2lY/GcukYVh7tyuIoElPNXxpnLYhjiiQxRniA5k9oNa3IpeXsFgS2yi4O3udw/DB8x8AvHBoOEDeVGqRAaJTlIepBqgxN/LinGbuZNKUIk6Jb7Ag6NGowryOZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YgwDNHgP; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BhHR5vVr"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9A29F408FF
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YgwDNHgP"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D93AD408FF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788796485; bh=fRnfya/x44Q2TqwNBL3QeJIypGRPLLcZVr0sT/HdHF8=;
+	t=1788796960; bh=wensHPUgAVFfjHhw1WWnsw9t+XTFDyMiwEmvRcx9x3U=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=BhHR5vVr+oIYyHrDCamaYDlo4yBi+knoDw+c3SqW1+yICv0uySDoWh8QRis4eztBa
-	 W9Zy29y41P2YMQvWLd6vloioNuzhlVyyHSTuvo1D3Znf5NWEf4ehcY6PRT/o0hdOTY
-	 PCieSvcba9U8uZ3566zNfO4a0xsMDl/aEmfqfAf8cSRU+yL7QNVpgICfutkT5kklIy
-	 FZamf2a8GKdFAp4JQMOUyiszKTG+Scxy9K4VcGW0c1nATifOEexy3Csp8f7N8sFo0p
-	 Kfhj3OHH/AgeK4OuxSbNBAYQIU7d7y1jUewGWC8RICjmHbWec+KkOZv01i9qa3m12e
-	 lXRSXYvjeRb1w==
+	b=YgwDNHgPE8Kx4ZUASQmrp0kq2mxhJ0mz56Y2boVl43MfwV1a2EJohuFU1ZPno1u9w
+	 IMoEMfPgJ4C2nBFmYKW/ZOGmcu1QrMfJb8rtm7oS/c/nXBkoRteIDaoerRqPDS3/Z5
+	 20rJ/1Nk6en7lQTtERpV1svOWwPBTJatqQR2eFJzofZTxbDMfNONsM+dGGQdvesKJa
+	 XfKd3spVAtzFmS1lEegw8Os7B57lV3p6lBLNjj4NyBRA9sRyT1ozBwB1T/JCAIUwKr
+	 4v7fvs1yXsjBJfIdQOJFtY/FUmkukNxAO0pGzuOS6MWJeJ1iHk28FWSahk7lpvCEzO
+	 j3kmTRK0OgyRA==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9A29F408FF;
-	Mon,  7 Sep 2026 15:54:45 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id D93AD408FF;
+	Mon,  7 Sep 2026 16:02:39 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Shuah Khan
- <skhan@linuxfoundation.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>, linux-doc@vger.kernel.org,
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Mauro
+ Carvalho Chehab <mchehab+huawei@kernel.org>, Dongliang Mu
+ <dzm91@hust.edu.cn>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: misc-devices/spear-pcie-gadget.txt: Fix bracket
- and whitespace
-In-Reply-To: <20260905074641.811164-2-manuelebnerli@mailbox.org>
-References: <20260905074641.811164-2-manuelebnerli@mailbox.org>
-Date: Mon, 07 Sep 2026 09:54:44 -0600
-Message-ID: <87ecf5vyyj.fsf@trenco.lwn.net>
+Subject: Re: [PATCH] docs: parse-headers: Fix script name and stale Makefile
+ reference
+In-Reply-To: <20260905025821.83968-1-kmehltretter@gmail.com>
+References: <20260905025821.83968-1-kmehltretter@gmail.com>
+Date: Mon, 07 Sep 2026 10:02:39 -0600
+Message-ID: <875x0hvylc.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,17 +53,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Manuel Ebner <manuelebnerli@mailbox.org> writes:
+Karl Mehltretter <kmehltretter@gmail.com> writes:
 
-> Add missing ')' and remove needless whitespace.
+> The script is tools/docs/parse-headers.py, not parse_headers.py, and its
+> FILE_RULES argument is optional. Commit 8a298579cdfc ("scripts:
+> sphinx-build-wrapper: get rid of uapi/media Makefile") removed the
+> Makefile the text points to as an example; the cross-references are now
+> generated by the kernel-include directive, so point to a file that uses
+> it.
 >
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> Fixes: d69a03a97a2d ("docs: doc-guide: parse-headers.rst update its documentation")
+> Fixes: 8a298579cdfc ("scripts: sphinx-build-wrapper: get rid of uapi/media Makefile")
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 > ---
->  Documentation/misc-devices/spear-pcie-gadget.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-
-Agree with Randy on the white-space fixes, they are generally not worth
-it.
+>  Documentation/doc-guide/parse-headers.rst | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
 
 Applied, thanks.
 
