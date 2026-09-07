@@ -1,92 +1,131 @@
-Received: from mail-m1973175.qiye.163.com (mail-m1973175.qiye.163.com [220.197.31.75])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1934411F8D;
-	Mon,  7 Sep 2026 07:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA85421234;
+	Mon,  7 Sep 2026 07:46:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788766812; cv=none; b=U4ifkJB3RuNsXdArJ9mBQ5E83gvSuXo54ygfE0FxqKH7085fCmgoqAONUss7WQX28VYBXWosUcIQM8Hj/Ugw2kgkGxu1M0tg1M2e1Gd0FHgaXNAU1pT68VC7aLvIgNk0c8+YwUE3oMLLNM+Ou212xwkjMOkWLVg3rdnyxtPqJS8=
+	t=1788767197; cv=none; b=McPq/i2y3I31yi70VsB3wxdMhDQ9VwlMFiyZp2hDQmcD/Hj5dorl1cDVtZftjMyPnz16TbtR/tVBO2F/g8NsTqCzJFcF/6kmMvWD6S/JOhPgKqoBe5+XFA8YEMozwlqFgW0CtuXzM+ax/ov9ILLKxH+8wRY/HnhGOJVK3HVY1XM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788766812; c=relaxed/simple;
-	bh=FETyHV5oNdwe2B+5dMcqMzeGfptPLJBq55LFY+oJtxI=;
-	h=Content-Type:Message-ID:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:From:Date; b=mTXYYcTuAKZvzUlLkqX679IceZsBbTt/Jz9dzG9dddiLFu4ZsavP9B1XeQXGsd7FGjyyjcvbruOVJLpXFQXa1FU8HU3YX0I+kl23s7X0XDvgvKbYD0ZNIkrFFlty/sW+7QdrK6EgIvx8FPKuN3ZHu8vQ+CZ0ECpzAULOnh9DbUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnics.com; spf=pass smtp.mailfrom=resnics.com; arc=none smtp.client-ip=220.197.31.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnics.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnics.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-Message-ID: <AAoAJADfK4tx**u*ymw4P4pP.3.1788766489184.Hmail.zhouruizhe@resnics.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Robin Murphy <robin.murphy@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Frank Li <Frank.li@oss.nxp.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gZG9jczogZG1hLWFwaTogcmVxdWlyZSBjaGVja2luZyBETUEgbWFzayBzZXR1cCBlcnJvcnM=?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com web
-In-Reply-To: <20260907054733.GA31481@lst.de>
-References: <20260907054400.1088151-1-zhouruizhe@resnics.com> <20260907054733.GA31481@lst.de>
+	s=arc-20240116; t=1788767197; c=relaxed/simple;
+	bh=kTc1DkRaN6kpV8ApRxsBL6lkeaK86E+yN+g32ZXp7uI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GpEJVrWeks3fKzao7XWIAODAwL6tdXiXzR/C0lyk3po0xZWpFU05UZbUzjzZ64AOVoK0DQUtFy97zPA+Sulrahp5Q1ubi2G3AzXEoBNuq/3ul7Yg8jzQ4Xq+HFe7cCgbQdoya11UUloxOaET0fT34niHR0PZBKoEmv//pos3BAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HQpMUMwd; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HQpMUMwd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919BA1F00A3D;
+	Mon,  7 Sep 2026 07:46:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788767195;
+	bh=znofJdxAtEdOPXZO/tg6KzvuNnqq4TPuEDJXPclTxNM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=HQpMUMwdPLv34W75NbtEM1pUYuB7OsuCRSD6oBYxinkIzHjGj/AdaUTK89imJJvn+
+	 UXRrz6kE9wMaMdq0t6jhN+2/AMVAUM78zXcmLxBuBtkVCtF+ARJ48kovQyEsQ8MBYd
+	 NQ2Rvq96073biWdJrUNct2UtH695+D0n4mpXfWZ8/wI4prwaxMibpERNcnqPIpeajW
+	 MX/MqVseEsBGXtCkJiDSL6kf/yi+CdjX4BCZ2kVhlWrNop05nPUm4Cc2u0Ijiccx9B
+	 pycSsaQ9fKICNHxj1W8NaW51PL/dh3Fqu094oa9TRu4tAYKAJFYbQLe5V3YcfBv3cc
+	 QtHHgcTdG6j+g==
+From: Michael Walle <mwalle@kernel.org>
+To: Pratyush Yadav <pratyush@kernel.org>, 
+ Takahiro Kuwano <takahiro.kuwano@infineon.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Steam Lin <STLin2@winbond.com>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+In-Reply-To: <20260904-winbond-v7-1-spi-nor-rv-addition-v5-0-2909a45fe4fa@bootlin.com>
+References: <20260904-winbond-v7-1-spi-nor-rv-addition-v5-0-2909a45fe4fa@bootlin.com>
+Subject: Re: [PATCH v5 00/25] mtd: spi-nor: QE handling cleanup + fixup
+ reworks + Winbond RV chips addition
+Message-Id: <178876719232.3543902.14451625037676421254.b4-ty@b4>
+Date: Mon, 07 Sep 2026 09:46:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Received: from zhouruizhe@resnics.com( [103.23.89.253] ) by ajax-webmail ( [127.0.0.1] ) ; Mon, 7 Sep 2026 15:34:49 +0800 (GMT+08:00)
-From: Ruizhe Zhou <zhouruizhe@resnics.com>
-Date: Mon, 7 Sep 2026 15:34:49 +0800 (GMT+08:00)
-X-HM-Tid: 0aa07ab8203402eekunm82ad2a0a8e0f
-X-HM-MType: 1
-X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMdz8H/g99eSjsmp79ug4TtUOfceK239+6Wx8rS
-	Mt4AmfBcwCFqZ+1IZEb/P4yrJDw3D5ktAxUewQQNUzChlx4Ph2Q2L9LR/RpKEmchiGgC4lZSc7VZ
-	8kfhB+Z9K1dTvdgjh2PPkTjttTX9Ls/rO9ypA=
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZQ04eVh1PTB4YTk9LTE0YSFYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlKS0hVSUhVQ0JVSU5IWVdZFhoPEhUdFFlBWU9LSFVCQk
-	lOS1VKS0tVSkJLQlkG
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16.0
 
-Cj5Gcm9tOiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KPkRhdGU6IDIwMjYtMDktMDcg
-MTM6NDc6MzMKPlRvOiAgUnVpemhlIFpob3UgPHpob3VydWl6aGVAcmVzbmljcy5jb20+Cj5DYzog
-IE1hcmVrIFN6eXByb3dza2kgPG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbT4sUm9iaW4gTXVycGh5
-IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4sSm9uYXRoYW4gQ29yYmV0IDxjb3JiZXRAbHduLm5ldD4s
-Q2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+LEZyYW5rIExpIDxGcmFuay5saUBvc3Mubnhw
-LmNvbT4sU2h1YWggS2hhbiA8c2toYW5AbGludXhmb3VuZGF0aW9uLm9yZz4sUmFuZHkgRHVubGFw
-IDxyZD51bmxhcEBpbmZyYWRlYWQub3JnPixsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnLGlvbW11
-QGxpc3RzLmxpbnV4LmRldixsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnCj5TdWJqZWN0OiBS
-ZTogW1BBVENIXSBkb2NzOiBkbWEtYXBpOiByZXF1aXJlIGNoZWNraW5nIERNQSBtYXNrIHNldHVw
-IGVycm9ycz5PbiBNb24sIFNlcCAwNywgMjAyNiBhdCAwMTo0NDowMFBNICswODAwLCBSdWl6aGUg
-WmhvdSB3cm90ZToKPj4gVGhlIERNQSBIT1dUTyBzYXlzIGRtYV9zZXRfbWFza19hbmRfY29oZXJl
-bnQoKSBjYW5ub3QgZmFpbCBmb3IKPj4gRE1BX0JJVF9NQVNLKDY0KSwgYW5kIG1vcmUgZ2VuZXJh
-bGx5IGZvciBtYXNrcyB3aWRlciB0aGFuIDMyIGJpdHMuIEl0Cj4+IGNvbnNlcXVlbnRseSByZWNv
-bW1lbmRzIGNhbGxzIHRvIGRpc2NhcmQgdGhlIGNoZWNrIGZvciByZXR1cm4gdmFsdWUuCj4+IAo+
-PiBUaGUgZ2VuZXJpYyBkaXJlY3QtRE1BIHBhdGggZG9lcyBhY2NlcHQgZXZlcnkgbWFzayBvZiBh
-dCBsZWFzdCAzMiBiaXRzLAo+PiBidXQgdGhhdCBpcyBub3QgYW4gQVBJLXdpZGUgc3VjY2VzcyBn
-dWFyYW50ZWUuIEJhY2tlbmQgY2FsbGJhY2tzIGNhbgo+PiByZWplY3Qgd2lkZXIgbWFza3M6IGli
-bWVidXNfZG1hX3N1cHBvcnRlZCgpIGFuZAo+PiB4ZW5fZ3JhbnRfZG1hX3N1cHBvcnRlZCgpIGFj
-Y2VwdCBvbmx5IERNQV9CSVRfTUFTSyg2NCksIHNvIGEgNDAtYml0IG1hc2sKPj4gZmFpbHMuCj4K
-PlBsZWFzZSBmaXggdGhlbSBhcyB0aGV5IGJyZWFrIHRoZSB2ZXJ5IHNlbnNpYmxlIEFQSSBndWFy
-YW50ZWVzCj5pbnN0ZWFkIG9mIG9mZmljaWFsbHkgc2FuY3Rpb25pbmcgdGhpcyBiZWhhdmlvci4K
-CkknbSBzZW5kaW5nIHRoaXMgYmVjYXVzZSBteSBhdWRpdCB0ZWxscyBtZSB0aGF0IHRoZXJlIGFy
-ZSBtdWx0aXBsZSBjYXNlcwp3aGVyZSBhID4zMiBiaXQgc2V0IG1hc2sgY2FsbCB3b3VsZCBmYWls
-LiBBbmQgdGhhdCBkaXJlY3RseSBjb250cmFkaWN0cyB0aGUKZG9jdW1lbnQuIEkgaGF2ZSBubyBj
-bHVlIHRoYXQgdGhlc2UgbXVsdGlwbGUgYmFja2VuZHMgYnJlYWsgdGhlCkFQSSBndWFyYW50ZWUs
-IGFuZCB3aGV0aGVyIHRoZXNlIGJhY2tlbmRzIGFyZSByZXF1aXJlZCB0byBkbyB3aGF0IHRoZXkg
-ZG8gbm93LiAKTWF5YmUgd2Ugc2hvdWxkIGNjIHRoZSBwZW9wbGUgdGhhdCBtYWludGFpbiB0aGVz
-ZSBhbmQgZ2V0IHRoZWlyIGlucHV0PwpNb3Jlb3ZlciwgSSdtIHNlbmRpbmcgdGhpcyB0byBhc2sg
-b25lIHNwZWNpZmljIHRoaW5nOgpBY2NvcmRpbmcgdG8gbXkgYXVkaXQsID4zMiBiaXQgc2V0IG9w
-IGNhbiBmYWlsLCB3aGljaCBtZWFucyB0aGF0IGRyaXZlcnMgc2hvdWxkCmNoZWNrIHRoZWlyIHJl
-dHVybiB2YWx1ZSwgd2hpY2ggaGFwcGVucyB0byBiZSB0aGUgYmVoYXZpb3VyIGFkb3B0ZWQgYnkg
-bW9zdAppbi10cmVlIGRyaXZlcnMsIHdoaWNoIGNvbnRyYWRpY3RzIHRoZSBIT1dUTyBndWlkZS4g
-U2hvdWxkIHRoZSBkcml2ZXIgcmV0YWluIHRoZQpyZXR1cm4gdmFsdWUgY2hlY2sgb3Igbm90PwoK
-Pgo+PiAKPj4gRXZlbiBETUFfQklUX01BU0soNjQpIGNhbiBmYWlsIHdoZW4gRE1BIHNldHVwIGlz
-IHVuYXZhaWxhYmxlIG9yCj4+IGluY29uc2lzdGVudC4gRm9yIGV4YW1wbGUsIGRtYV9kdW1teV9z
-dXBwb3J0ZWQoKSByZWplY3RzIGV2ZXJ5IG1hc2suCj4KPlNvPyAgRGlkIHlvdSBhY3R1YWxseSB0
-cnkgdG8gdW5kZXJzdGFuZCB0aGlzIGNvZGUgb3IgaXMgdGhpcyBqdXN0IGR1bWIKPmFnZW50IHdv
-cms/Cj4KClllcywgYW5kIHRvIG15IGJlc3QgdW5kZXJzdGFuZGluZ3MgdGhhdCB0aGlzIG1lYW5z
-ICJETUEgYmVpbmcgdW5hdmFpbGFibGUiLgpBbmQgdGhhdCBpcyBhbm90aGVyIHJlYXNvbiBmb3Ig
-ZHJpdmVycyB0byBjaGVjayB0aGUgcmV0dXJuIHZhbHVlIG9mCmRtYV9zZXRfbWFza19hbmRfY29o
-ZXJlbnQoKS4KCg==
+
+On Fri, 04 Sep 2026 20:12:37 +0200, Miquel Raynal wrote:
+> Following my "software protection" enhancement series, there were
+> several comments about the need to simplify and reorganize the handling
+> of the QE bits, which is strongly impacted by the various read/write
+> status register capabilities.
+> 
+> The third patch is all about this. It is a massive cleanup, everything
+> is explained inside, the how and the why. This is a commit that must be
+> tested, so if you have a SPI NOR chip with one of the not yet tested
+> SFDP QER configuration, please consider applying that patch (just patch
+> 1 is enough) and boot. If your chip is recognized, it's probably all
+> good.
+> 
+> [...]
+
+Applied, thanks!
+
+[01/25] mtd: spi-nor: Rename BFPT_DWORD15_QER_SR2_BIT1_BUGGY
+        commit: a885b694afb4acd914e4a9f94365d828432ca066
+[02/25] mtd: spi-nor: Create a structure containing the flash opcodes
+        commit: 01771ff25fec9d24663a0087723621e97e6d8484
+[03/25] mtd: spi-nor: Refactor Read Status/Write Status support
+        commit: 63489002d397ebf136548c79af68a8e05b30d45c
+[04/25] mtd: spi-nor: Add support for the new JESD216 rev F QER field
+        commit: 9f1feb4162387295b0d8de6c879f00357852609b
+[05/25] mtd: spi-nor: Create the concept of fixup table with match function
+        commit: af9bc9f9c5dcbc1a351ac00d9a4b86400bc442b8
+[06/25] mtd: spi-nor: Move the fixup flags into the fixup list
+        commit: e6dfda3c83eb8463bdf22289cfb42de9938446d0
+[07/25] mtd: spi-nor: Create an indirection on the part name
+        commit: 98b89d868a178d47277feede51314d8227d4cb56
+[08/25] mtd: spi-nor: Move the SFDP header structure to a C header
+        commit: aa0a09e0e99838ab9349b1958118c44e6db6737d
+[09/25] mtd: spi-nor: winbond: Prepare introduction of W25QxxRV-Q/N parts
+        commit: 7fdc105ff98d712e1e2f7e9f55e4ab2251e1344f
+[10/25] mtd: spi-nor: winbond: Add support for W25Q32RV-Q/N
+        commit: 7e896ca2fcf15066a6957120dfd9063820506cd2
+[11/25] mtd: spi-nor: winbond: Add support for W25Q64RV-Q/N
+        commit: 25949585ca2f31f39a5b116aee23ffa017281929
+[12/25] mtd: spi-nor: winbond: Add support for W25Q12RV-Q/N
+        commit: f84397a769c9aa45e9a6b6a6f1253c1f990c7c72
+[13/25] mtd: spi-nor: winbond: Add support for W25Q25RV-Q/N
+        commit: 7573a4edaae362fc0da3fc8996f1265a9dbace4c
+[14/25] mtd: spi-nor: winbond: Add support for W25Q51RV-Q/N
+        commit: 49c32f5b2c2ec8abfc97b8c0ea0c645568f65f8e
+[15/25] mtd: spi-nor: winbond: Add support for W25Q01RV-Q/N
+        commit: 4da2d59f3a6cc217399b7c106c36c2f3655106a7
+[16/25] mtd: spi-nor: winbond: Add support for W25Q02RV-Q/N
+        commit: 8d3298fd1d75011c2fa30e813cd280856ea86a2e
+[17/25] mtd: spi-nor: winbond: Prepare introduction of W25QxxRV-M parts
+        commit: 66d57b58c918a556d57bfab2d85ac1d33e21e1d9
+[18/25] mtd: spi-nor: winbond: Add support for W25Q32RV-M
+        commit: 650ee584cc52124a8ab51070d320d6752ea2f580
+[19/25] mtd: spi-nor: winbond: Add support for W25Q64RV-M
+        commit: 94460d091584f9032539a5c949e6e71fa812ad15
+[20/25] mtd: spi-nor: winbond: Add support for W25Q12RV-M
+        commit: 11484eb5458fd54b59f35c511819af9e4de27cd1
+[21/25] mtd: spi-nor: winbond: Add support for W25Q25RV-M
+        commit: 8eb8c80e59a3cde9fd7e4d730532668cb8ef7b0d
+[22/25] mtd: spi-nor: winbond: Add support for W25Q51RV-M
+        commit: 6397f5f8f8754218dd3a059d39eba6b57d04dc3d
+[23/25] mtd: spi-nor: winbond: Add support for W25Q01RV-M
+        commit: 677a0d6752eda1480eae3e187c5dfe7367f9d752
+[24/25] mtd: spi-nor: winbond: Add support for W25Q02RV-M
+        commit: 4094a2fd562453cac04e909688af6620fbd3203f
+[25/25] mtd: spi-nor: debugfs: Expose SR opcodes and QE mask
+        commit: 700bf34058ca7cd792236b1ba5caad3770d66208
+
+Best regards,
+-- 
+Michael Walle <mwalle@kernel.org>
+
