@@ -1,132 +1,137 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF7E40E8E1
-	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 06:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857D737F8CA;
+	Mon,  7 Sep 2026 07:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788763548; cv=none; b=VUwTlThMTtWgBO3xYK+IwzOQbKrGGpvm8+jR/R43QN038ZUNVhR75R3scPAALbHMYT6/uWlpfpG4LnTZoo7iMnS07rXcmC84RzVlIlOceJzVqq9rO5ye4X1LDX4IufNAfUnBgFrOw7wMrqHPWiAnlQANLaH8ywopDDNacQ9paH4=
+	t=1788765154; cv=none; b=iKaJa4QBhMKnM9y66/zWKXF4CK5sJAeqN77RynYX2SEzCIYQdWNDLCkFtfyZnA3NmP5dsNvVhhz6vxO6mmBwo2kbb2LtdtETk7R9FgRgG4OQVa2uc/kWgKAvt2CbR9MrwMJlra/GY9R315zp7ain2kz4wUNiobUTrcD8K64kJ9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788763548; c=relaxed/simple;
-	bh=5fUeK/Z5b3ew/Qab9dwvTg8ptqVTibIEMxGUMA1R2/s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ubkIR1wFzZMPnozfsYbopbBDw2vjZRdVyGMMbnkQG0bPV7pL6w+Ds97pNdcTvi27wGoAsqlvDm4Eyi7rt1r1YLM5yTPCoEiGjP7UjbbwFnB6kqYW9V3G78yGp20FabPKs3jTcY3NthTMBzJYOHXjPLpOgO/hKvVXjaqja8AF6mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V2OcIATn; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788765154; c=relaxed/simple;
+	bh=Ea/9oS2NBy9LeRci/jxNw7Udvh/3Pw5mDSrUqiLWnz8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j7CdjLtT0TRILejDkvJnyLdrHjA+eM4GWKmjRaDt2C3dR+GuUB6aCeJW/WihPmZ7us2GqC7FwVn9smpyQ9mfGMYJAHg7tS4TTvn3BdsZ0i2j3poVCazKWwtrYSPWic7EkGmZS7EUFtmDKsikeWy0ZdJSzitMVHqZpVxDnBY/QZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K+zI0swo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V2OcIATn"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-398e9698a70so2744312a91.0
-        for <linux-doc@vger.kernel.org>; Sun, 06 Sep 2026 23:45:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788763547; x=1789368347; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=iRkujaorlRRownXMQ24CydTkW9kZUj9cAg9923H2gP4=;
-        b=V2OcIATnVVro2MsY3OySyMiCqcnRDyx+tbptnBpq9B+d+OcNzPtlhieouEqOEAhP2l
-         tbPNIg8Rud+fDeLtrOevThoM8fXbuPpQ0ulf2lCcP+gYxaWLDD5vWXpldSE31IPUxvjD
-         qzkR1fTGI4X7pRC2pNDqqofAJPkO+j656adGoj9FbqGU4IWEAP8NqRBo3X5G3UpOiaAZ
-         PPuaGZmTFDXTYqdkiIOBLoharWjcizIgA05jWUb9hgDaC0hqiEFL8qeGXHfHS2dNhlXF
-         s4l0JXWHh/c9/X25DDDdrqdqk1ruIpGM7QzrTItAQhNDCRSA+EVPr7oHK83PYo1My83l
-         RxOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788763547; x=1789368347;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iRkujaorlRRownXMQ24CydTkW9kZUj9cAg9923H2gP4=;
-        b=U+RQS5YrmlBDIXBOt/z9Vp5BRRySGWR4yZtC4iZ265KEg1hPa9q5WgRnYdDTipGJXM
-         i7oLF4a8Io3jM+ygzKJAKFzR1coiZKqTuo6F+clUJoxo4hqedj2AVrJaz83JBOJ8KWNv
-         rjp66CuKMfxhsKKibCw11nEYe14Mb1ZrhjZAaPk/IW7QxC9C2DrLWfSlhOWkbYAO/d+i
-         msdOI63zGj+LU0FQYg9CA2vsyVBoaFMxo3CNVW2oDNqCl7OQ09FTu7VncE5EKMZFJ3mU
-         CHd/D+Hsu0S2WeBttwut1qMFPVXMgIWmh6xmZdSyl2d36ZwN34FG8TW8nqrId/9e/Smp
-         IxnQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxKgNNu3w/dn2zaMliVrK2t+kf1kZAE7QAvA3xJGLesJcCUgPfy7taVv4R8O3rvqSZnkrkforwvong=@vger.kernel.org
-X-Gm-Message-State: AFuF++msFN0qww2Jz+//h9EU7ITyk6eYnzqa86vGEqHJJpHDbsQUFLDg
-	2O5gXGDp4tFpddsdZa4UrlhJLUotmSml7dZL5KxGg4HKJFIFBNO5H+CN
-X-Gm-Gg: AYBFou3pna46kgzw5owctP/++ay6d/1WgMy8xh7AQevh8ZKNe+uu1HfNn2fJvZWSRwC
-	e78Rj99SHmUJ3q8uhNp5ypmsPvKEQMgK+JJGAqDKy9edYlEbSMtDiWEhW9bZBPp2i9qwbJtK4c4
-	jQRuVHVU9QBZRY+g1Teyz74DMAZEC5qfHvWDU4u2DQsqQygHzvjvdV2o8J1Q9B0rqzfgpWCcRU9
-	BcFwXbJTs1panv57TvYVhpOGUqrlznp8bbhi5SIKKwNM+l8hGKg1maH4enDXZzYQExBwWEz/qrp
-	6blqzzYaPABQJDFkfcy9kbnCm5GFe1I35q10Dz9r/Cp66W/NW/EurH52tTjEWTp4axz/CDYcauw
-	kfZ6BpKHotL9cwNXtVzD5YshEgYe37uqMLBgQV2+DY2wChB3VuHF+6fYq9GhgaW9Px53AGdFE8B
-	i8xyowyQ3mVGIZs8nJTZaUM1FD3vMCd2/pAwA3u0fNaeJs+kKM5QUoIri2IiXtnArynVPQILv2j
-	sbXFDgfvsUl+g==
-X-Received: by 2002:a17:90b:4d06:b0:366:10f1:3d91 with SMTP id 98e67ed59e1d1-39b2614df74mr30463582a91.1.1788763546458;
-        Sun, 06 Sep 2026 23:45:46 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14332405e92sm17209594c88.8.2026.09.06.23.45.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Sep 2026 23:45:46 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: intel-wired-lan@lists.osuosl.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] Documentation/networking: fix repeated words in comments
-Date: Mon,  7 Sep 2026 12:15:28 +0530
-Message-ID: <20260907064528.6602-3-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20260907064528.6602-1-hemanth.selam@gmail.com>
-References: <20260907064528.6602-1-hemanth.selam@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K+zI0swo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AFE51F00A3D;
+	Mon,  7 Sep 2026 07:12:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788765153;
+	bh=RE/TBJLP0RcagR+LIg7Gb/yCSd1JAB/3v4ML0qRWGLk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=K+zI0swoOkrTg5i9L5eV8wJVdNXjs3rTmZ/N4KSpYQ2NkILP0dqNwirZOWrmcZQwY
+	 Ca/eonH39MQaMusBEdPYJkbgOdQ2hMLoLDSi88KToxejiBYXMA6BTmhtZgCgc15Ued
+	 X3M67vgZG9fgK3xdyal8xADXh8ab1yA8HSJwCzDvpQKmj/eceCjKdPNc3YaCAB1IV/
+	 xZe9zidRB806l7MO3ZfSx/YcJUfowF9N09aHrv3dYIuaQGFeYx0b7zn/hPuREX4Uww
+	 S0hHhRuHpCZFCZb/ST6CynnPWrePo4aZEGu4W8u3xMOj+mpD7/5LHHCf4JkrCJn6G6
+	 kYlIbYS0LQAeQ==
+Message-ID: <591f2b51-8a24-42a5-9472-6d017f417910@kernel.org>
+Date: Mon, 7 Sep 2026 09:12:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/core-api: memory-allocation: clarify when to use
+ kzalloc_obj and kzalloc
+To: Mike Rapoport <rppt@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Michal Hocko <mhocko@suse.com>, Randy Dunlap <rdunlap@infradead.org>,
+ SJ Park <sj@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+ Suren Baghdasaryan <surenb@google.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20260907063654.2248617-1-rppt@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260907063654.2248617-1-rppt@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Drop words accidentally written twice, reported by checkpatch.pl as a
-possible repeated word.  Only touches comments, no code changes.
+On 9/7/26 08:36, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> 
+> Make it abundantly clear that in the most cases objects should be
+> allocated with kzalloc_obj() and buffers should be allocated with
+> kzalloc().
+> 
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
----
- Documentation/networking/device_drivers/ethernet/intel/i40e.rst | 2 +-
- Documentation/networking/device_drivers/ethernet/intel/iavf.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-index 53d9d5829d69..e01f0adda3f6 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/i40e.rst
-@@ -692,7 +692,7 @@ queues: for each tc, <num queues>@<offset> (e.g. queues 16@0 16@16 assigns
- 16 queues to tc0 at offset 0 and 16 queues to tc1 at offset 16. Max total
- number of queues for all tcs is 64 or number of cores, whichever is lower.)
- 
--hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new new hardware
-+hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new hardware
- offload mode in mqprio that makes full use of the mqprio options, the
- TCs, the queue configurations, and the QoS parameters.
- 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-index eb926c3bd4cd..5840569917f5 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
-@@ -171,7 +171,7 @@ queues: for each tc, <num queues>@<offset> (e.g. queues 16@0 16@16 assigns
- 16 queues to tc0 at offset 0 and 16 queues to tc1 at offset 16. Max total
- number of queues for all tcs is 64 or number of cores, whichever is lower.)
- 
--hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new new hardware
-+hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new hardware
- offload mode in mqprio that makes full use of the mqprio options, the
- TCs, the queue configurations, and the QoS parameters.
- 
--- 
-2.48.1
+> ---
+> 
+> This applies on top of "docs/core-api: memory-allocation: add
+> k[mz]alloc_obj() and clarify kmalloc" series
+> 
+> https://lore.kernel.org/all/20260902-docs-memalloc-guide-v2-0-218c1a4dcb80@kernel.org
+> 
+>  Documentation/core-api/memory-allocation.rst | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+> index 823f7fa57429b..648222b6c8576 100644
+> --- a/Documentation/core-api/memory-allocation.rst
+> +++ b/Documentation/core-api/memory-allocation.rst
+> @@ -23,12 +23,14 @@ answer, although very likely you should use
+>  
+>    kzalloc_obj(<VAR_OR_TYPE>);
+>  
+> -or
+> +if you need memory for an object and
+>  
+>  ::
+>  
+>    kzalloc(<size>, GFP_KERNEL);
+>  
+> +if you need memory for a buffer.
+> +
+>  Of course there are cases when other allocation APIs and different GFP
+>  flags must be used.
+>  
+> 
+> base-commit: d7dd88ed029164fe0a959e126d0ce18dd3719f89
 
