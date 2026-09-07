@@ -1,209 +1,184 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012054.outbound.protection.outlook.com [40.93.195.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0252647126F;
-	Mon,  7 Sep 2026 15:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788794512; cv=none; b=GZKANFpuykTszqysrFkmjz/YFkqKXbuWuR1OhR7YLOL4ahY4aR0BWvhdSB+FfmeiPnBoUMkGft51hCriFOsvQ49rliG8JdjteMMm3thw//NrGIDIjCmoE1bcWHZXlcQv+9FDoEKLkpX286JtuYhQPM4LdIwLo5RG9lMtXXCz/3o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788794512; c=relaxed/simple;
-	bh=gbkKpIew57EIPW7i4koNPoT1xxuDhPfRv78v7DQZwg0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kdFbjlq+vQNWGYO77xXp/BlB8MIhKvMrfoaj4BOwE2M8VFDzMCeyVav+9+dSoXRRzTRua0NIIcs2B4yvByvUpGS8ZUpmTV40VOROa9E0zhc4uT+dA6mzI8i0p76snpvzJi5kN8G5Kj29rbauEj52cvGqn+fo4zqWUn0aXoz82Nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ogz4sWjT; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0F9503BDF;
+	Mon,  7 Sep 2026 15:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788794594; cv=fail; b=oUs1SkNmcB2Gad2jOi0r67uwx6UFswHa8pwOJJFnjKalMthb4Ffknv8tzGE/j6Fwx9hD8TfmJXjzJ+SqY9eTNLwHn47BeD+KeGke0KMKFDFdcO5iop9DSHsY/9C5s42rwSL6ruS9JXtdHlPFRFW8BvcDkPc4BxdzEshpkVA/ric=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788794594; c=relaxed/simple;
+	bh=avL1f48BTs3U7djXm3kicP5E3G+oXEjcBjikU1ZjYvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=WaX6GxjQHeVV3U1O9Y28H6mRKW4bBbkSS4xvKuF3S/Vd+RayrhCVTCti+3TM90BTOoQqmOnnswehGl96hGi/4w6EOEPVyNYxQMeVSu6vj1sNhe2r2thWb3yvRl7Yaht7bTh/m8GQiN11z+1IPEEQE/TVmsBySTuE9s1m4Z86vsM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=FEkQbqFQ; arc=fail smtp.client-ip=40.93.195.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ogz4sWjT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 212B91F00A3A;
-	Mon,  7 Sep 2026 15:21:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788794510;
-	bh=a+5RFC0Baa759aALArIRHXad42pi6d3/PpgEA3XTA2c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Ogz4sWjTJY5QbcKXGIExzvS5zIXOtlYSUNoeRn8Gs93j+EAHKuN84lMLMFlibCZgH
-	 3kPwDtLwZFAH9heyTvxgLQ0aLlzeNS2IAIQLQs+vj1aq6tchv0Zb/TDF3oI2zdvdOp
-	 TFuU3M4PuHIbaD5rqiRoU1ghaOz1/qSAYUUdbAOLCkfMrf64E+8gPhciMPX1r5uNVa
-	 5MtfZPBfI6uhUbgig8EIvl53OwNiNwbHTWg5AOcatks4ZCei+zWkEvsUc0R7nF2Zej
-	 VbC5JRUpGfPDpWhyIoHW5PTPkXU6wIIy+/CA5KBRCMFgR1kmBiRGygqD/RY9YUT4jd
-	 UbbhET7ejLVCg==
-Message-ID: <5d4c247c-b8ea-4d3f-b2b9-d442d372fd03@kernel.org>
-Date: Mon, 7 Sep 2026 17:21:45 +0200
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="FEkQbqFQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UcBbnqkpCdAPVq629MfrU1Bq8kHkMDp23efUsscSB9Ovdcwjnn7zEU+VbafKVQLYzA9AYABdJVT79ThvrZIMkdNH09UbIKJU0C1yGHLa+raShcw0VH4hgQJcCvPQlpGpRSqym4POSLlA2KZ9ZkbzT/8WjdNTQ6yM2/b84pE38OboDqhmBbke7VZsdX5FgdEQeLdR+icdm9e9PmxNsJs2Yc3bJeBErypgVCfIWHAPDmNp7hT39IARusgaAuk7mUFkUn9I/d5aeSZvpwZic01HszD334JG4tYDq0MUHFBH701pxqGXDzel3Z8Cf/jUOrSuSY64iG5fXNdmrklECnkPkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G5p+JmnmUw6JLGXuwIdCfdQj1Ys6Q5WmrN6cT19ja/M=;
+ b=LG+IrvaunZzabufzGbW8fViUehc3Ef2Aq7CTfrWRuRuMKxb+9UIfuqrRaEzo85iblmHB5KFJSSG7eAD2dvI+7xkI9qWt8bxuKLJerHt4PdZ3bW5JcSIJyw8ZnJ996xJN/VumuUEjxXXIGiNB29kdURir+HMB88eq4L7EprdbUjua0wPex8KyIJIrG/VXvyoT0uIdgF1dFVILb1j5aVWGaC1nys5ISZNveVZg6IERC43/QlyZ4styRrdTA9j9o2LQiitTE1SLl+2Nri0lfwdQNvc5ZgizanRKTijOiNjstIOKoiE1A7Vn/QjcYOSyCiUtiuHbpklJcblBC5FW8fQJvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G5p+JmnmUw6JLGXuwIdCfdQj1Ys6Q5WmrN6cT19ja/M=;
+ b=FEkQbqFQk6LylWzGrQ5CeywLhjxBZ7jkIyu1vxularZ8GipGzTWPtOQEP0o6dm/sJdvG/8CMl/De4KqpBiCJtO6YBtyO/YEH9lkSxvX/tBy6ny9hWE2NoyYACFZxLuZD19Z4b6beLc6kheQG+dl5h24xWBzFgugSm7kWU0x9F/0giGVNJH/kFFCL+9p+YpPqXX8Bz2Kja+3a69naHhLMY/eDwxZ4eGkC8uagVanhg8sDykojEFls+7O4nKgFAV0uf7yhPYtFPviycD0toSU92T3PwLS1FS6Gxq+KilWncyGAvKVwTBQXUA1DDxQQlZJe91GJGF4DzCDprTdpyBuiZg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by DM4PR12MB6424.namprd12.prod.outlook.com (2603:10b6:8:be::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Mon, 7 Sep
+ 2026 15:23:06 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0382.014; Mon, 7 Sep 2026
+ 15:23:06 +0000
+Date: Mon, 7 Sep 2026 12:23:05 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Will Deacon <will@kernel.org>, David Matlack <dmatlack@google.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	Pranjal Shrivastava <praan@google.com>,
+	Samiullah Khawaja <skhawaja@google.com>, stable@vger.kernel.org,
+	Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
+Subject: Re: [PATCH v5 4/9] iommu/arm-smmu-v3: Optimize range invalidation
+ for latency
+Message-ID: <20260907152305.GA4157646@nvidia.com>
+References: <0-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
+ <4-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
+ <ap7JiB36YSQOaV9a@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ap7JiB36YSQOaV9a@google.com>
+X-ClientProxiedBy: YT4PR01CA0027.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:fe::6) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
- filtering
-Content-Language: en-US
-To: "zhen.ni" <zhen.ni@easystack.cn>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Steven Rostedt <rostedt@goodmis.org>
-References: <20260903041819.1776630-1-zhen.ni@easystack.cn>
- <a6ce8684-116b-42f2-a88c-154eb86bad59@kernel.org>
- <a98bde94-d1fb-4246-b7c6-e64303d8388a@easystack.cn>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <a98bde94-d1fb-4246-b7c6-e64303d8388a@easystack.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DM4PR12MB6424:EE_
+X-MS-Office365-Filtering-Correlation-Id: 289a0583-b8a0-4052-c93c-08df0cf3ea90
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|366016|1800799024|376014|10067099003|22082099003|18002099003|56012099006|11063799006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	zbZr2aBDFfW6Rye9aiMLKpILJ6CBYZAUkUYPcGWGrcMuVtpkCxt5T8uR7n2kX2gaNqKmZO17vzi86LdSFOCFCTkpGMGjUNz8FVqXhVdAyOxuB9lklMiRIPbGuUSLUx2iv+HV6Dmyiz4FHfMf47Pil8aRWoR86UbJExw69yoTLoN/7ZFHRor7Xv3HS+2m1OntE0c+WgE6sgxvrXVYUr2naFJacM/KZNUXBYaFAaLMScumkRK9JLlfjMx4yv1m/GCpcBDUdUmcXxyc0z1mtCbZCt6P7wNaEYOZ0ORQwb0FT223ziYpprXEJwyYpjTL6X/MROosgigvkp70MjE12/ULpHjzbhSovI75To5EXCvnx8HCnou/2Lf/p3dS4fZ+raiRfS2OmpSfJJMinZK+aJwOdNyBjnOftpJcTQHgrshSuzOVfRbosnL5y2DLXb0rMr/VIXd2TOX1LqNAf2JVN/FYqQRIw/hDuDzzFOo5ht19WHHwEqriHJggETUHCOKgGOeN0ki2Vl/s+Oyo//oQfVtkFKR0FjmuizkZNbyJxOaDQzqa1dNiJ/V9YaIiIs4Vo8lXvl86sJt/WIQYDN5U7Xi9PL67iLLCLS1ZjFZuMHuxyd7UBdP36WHj/Qw5WXk2kgrfaQoewXvgR5ZmH5zFnvXStF1niNifIV5Pnvb5o85sQM4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(366016)(1800799024)(376014)(10067099003)(22082099003)(18002099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?jfURfVm2r46a71hgmidiavzQZD98KM1JYvJmbP3pds+4FAu2I3xwQaNgnxzJ?=
+ =?us-ascii?Q?9XD5/e0wB71+5IVz/geS4+uXqzuz81BCyhhzhmhySh+UYH3FeO2jiLv49kxF?=
+ =?us-ascii?Q?NyzfhcPuQJPlgoGNHvbj1rWDkQeGzPlajHWJNqG3HAuxbcOlU3F9hzk/WaUn?=
+ =?us-ascii?Q?atsnZfGgWWxvxTjxGgMzj5D0aV0T5KqFJTrp1DL05t2xrlnCSoohVEgjFCzF?=
+ =?us-ascii?Q?hBLyyoka43mmxo0Ns68rEcHNHvUVYD0ggKCmysB4021O2r8Ie2ZqbeK5NNUl?=
+ =?us-ascii?Q?QN2VvWibtkeHizDB7z2kc2/KvRVAtP/29Yyu4d1Rfw8ErYljRke1kQiNqFNZ?=
+ =?us-ascii?Q?XiNhuo2n6KIrSFlIZehmWADFGegADAxld7fYiNriF/zyRfCSc1On/uR9hLIb?=
+ =?us-ascii?Q?i502kJKJJT8GR3dWU2PwN0t31FHP1WKtJtLzZe47fnithfVT56bHZrazDA7f?=
+ =?us-ascii?Q?bR3HuN6uFi9sCgknK4CTRfa3BSiKXFd/61rG27l+kNx7Kr1OqXofDi83vWOj?=
+ =?us-ascii?Q?RmzRZA05A7FiSLTifq2CnZOa3hPmrBvhcclYBvvj1hW0OaoIO8CeE5FuY6qc?=
+ =?us-ascii?Q?mvCnaWFrMKyiz606CL8k3n1ly1Ls1ThT+GuW3mIEnsfPwxrtoCr0shCqwqgl?=
+ =?us-ascii?Q?w4dk+VKAMxWH1UBNdqQtnZe4dajPvUm9eYPegmtJwMpi2wpbRubQgVKCdRXu?=
+ =?us-ascii?Q?kuU1wN3U0cZoTm030qmufPCQEq+H9wJMfmYJj72zKz/SfkiCnO+88RLcMpXO?=
+ =?us-ascii?Q?gsFxG9BhtmrS4J3t0AOP4R1ltPR4dPHVkKUXkwo28P5SSBWhzzkMEoxM6UCs?=
+ =?us-ascii?Q?uixsNC2HU5gOXsWXv0fzoU+kjRrKOJfGLKvRqkUfDI250Jh84Xy1el/afN3B?=
+ =?us-ascii?Q?hToJdmyOQNAReau1o2kO7wz+xS1LaNcv3ss/Uc5sBeA89tw6pjs4gKWn1IsF?=
+ =?us-ascii?Q?NIUma0VuY1vInyZewqomFklDYVRUQkTgRj0AcxmQlfNRDuKtdfh5TgSK+NnC?=
+ =?us-ascii?Q?z5ZrLcq5heCazEvImRQgVZsiGTCAHUVJYodcsE6lz23ArAjHEIQu68w0idfT?=
+ =?us-ascii?Q?IOci4sksVlccHf8zf4B13kPjyxEniQintcNl2XH8NZplWNY2gVtnebaPlubO?=
+ =?us-ascii?Q?2D2cIWDWLEhYa8e6UzZp3jMoBxCiwJ65u4cthmp9S7qkeX50uIs+QKcrVbny?=
+ =?us-ascii?Q?5cZICuoVRtJ/hVsAQsw+MHRDBWfiQFgtm02uSVolhFF1aSv8hTjKQmI780Rp?=
+ =?us-ascii?Q?TF+tQHH99N3br3x5bhE1iiEPsT/fI8GnoyUJjAA8uG0gUCDjMcAktZbtAQZh?=
+ =?us-ascii?Q?B48lrvtwk2I9aEz0qaYdSglYP9Uyj2uxlV1KDBPUxa1cQUY9aMIALnoYhmc/?=
+ =?us-ascii?Q?qW1XuN+3VbN65QNtTTPVLbedK7M2+5lcSogQbKpK1XAB6QegdFd/Vuvy+sZ2?=
+ =?us-ascii?Q?ZoLE22RtzaHOtQUYU2/NRqfFbq1hp3MveKdw+r2a1OnjGNVokG2goN053PSY?=
+ =?us-ascii?Q?uNmGfD2VjfiPf4aCa0MfFzDzlhLkL1Yu9zKV9eFroeqp1wRyFH3+ndNYZjOJ?=
+ =?us-ascii?Q?OzHwu4KBrf251ja4LKSUsHLLRnGudiJmjKCKEb5fo8PpEVeznf+xBLOeHJ7e?=
+ =?us-ascii?Q?aW1CWK5T5AP0rdLWpDcjYHoa46KRGkkigF8j63HxArzeFVDZDbjoa1EwqVVA?=
+ =?us-ascii?Q?w42QtoEvD8h79vBNzMCH2pvUiU9Ez/Z11MZ+A0JjG08d5os8?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 289a0583-b8a0-4052-c93c-08df0cf3ea90
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2026 15:23:06.3454
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AksQNp8H/nC4GgyBGCfOJiIg3cOeklfXxbYMBnJ5dBm7rlB0cJLdu6WASlE8/vZB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6424
 
-On 9/7/26 06:08, zhen.ni wrote:
+On Mon, Sep 07, 2026 at 02:26:16PM +0000, Mostafa Saleh wrote:
+
+> > +static void arm_smmu_cmdq_batch_add_ril(struct arm_smmu_device *smmu,
+> > +					struct arm_smmu_cmdq_batch *cmds,
+> > +					struct arm_smmu_cmd *ref_cmd,
+> > +					bool leaf_only,
+> > +					const struct arm_smmu_ril_range *ril,
+> > +					u8 ttl, u8 tg_enc)
+> > +{
+> > +	struct arm_smmu_cmd cmd;
+> > +	unsigned int tgsz_lg2 = tg_enc * 2 + 10;
+> > +	u64 iova = ril->start_tg << tgsz_lg2;
+> > +	unsigned int num = ril->num - 1;
+> > +
+> > +	/* 16K granule TTL=1 is reserved (Section 4.4.1) */
+> > +	if (WARN_ON(tgsz_lg2 == 14 && ttl == 1))
+> > +		ttl = 0;
+> > +
+> > +	/* Verify address alignment for the TTL hint */
+> > +	if (ttl && !arm_smmu_ttl_addr_aligned(iova, tgsz_lg2, ttl))
+> > +		ttl = 0;
 > 
+> Is that a separate fix? Can this be a separate patch in that case.
+
+I don't know if it is because:
+
+> Also, in what cases can this happen? io-pgtable-arm should do the
+> right thing and SVA will use ttl=0
+
+This is more getting things setup right for iommupt in the next series
+which creates every imaginable kind of gather.
+
+> > -			/* Determine how many chunks of 2^scale size we have */
+> > -			num = (num_pages >> scale) & CMDQ_TLBI_RANGE_NUM_MAX;
+> > -
+> > -			/* Keep the pre-DS 5-bit truncation when scale > 31 */
+> > -			cmd->data[0] = orig_data0 |
+> > -				FIELD_PREP(CMDQ_TLBI_0_NUM, num - 1) |
+> > -				FIELD_PREP(CMDQ_TLBI_0_SCALE, scale & 0x1f);
 > 
-> 在 2026/9/4 16:25, Vlastimil Babka (SUSE) 写道:
->> On 9/3/26 06:18, Zhen Ni wrote:
->>> This patch series adds process and memory cgroup filtering support to
->>> page_owner. Following the previous series that introduced print_mode and
->>> NUMA node filters:
->>>    https://lore.kernel.org/linux-mm/20260707115411.1714314-1-zhen.ni@easystack.cn/
->>>
->>> This series adds filtering capabilities to page_owner, allowing users to
->>> filter output by specific processes and memory cgroups. Users can now
->>> filter page_owner output by PID, TGID, COMM (with wildcard support), and
->>> memory cgroup path. This makes page_owner debugging more focused and
->>> efficient for tracking memory allocations in specific contexts.
->> 
->> I wonder about the usefulness of all the new filters. In my experience
->> page_owner is useful to find a kernel memory leak code, and for that the
->> stacktraces are most useful. Dealing with things like pid/tgid/comm/cgroups
->> sounds more like your aim is to profile and optimize particular userspace to
->> use less kernel memory? In that case, isn't it rather the area of memory
->> allocation profiling (or maybe tracing with bpf), not page_owner?
->> 
->> Moreover, tracing or bpf can already do such kind of filtering and AFAIK
->> ftrace filters for tracepoints are nice and generic, while this is adding a
->> bunch of custom parsing and filtering. So that makes me somewhat sceptical.
->> 
-> 
-> Thanks for the review, and the scepticism is fair - let me first
-> clarify where I agree with you, then explain the niche I think these
-> filters fill.
+> That just deletes the DS code which was recently merged.
+> I see that is added again in the last patch, but it would make more
+> sense to do it in the same patch I guess.
 
-Sorry but your whole reply reads like a LLM slop. It took a lot of mental
-effor to actually try and engage with it.
+I missed it when rebasing, I'll adjust it
 
-> In memory usage source analysis and memory leak analysis, I believe
-> page_owner has its own unique niche:
-> 
-> 1. Nearly all historical allocation records are queryable. Dynamic
->     tracing tools (bpf, ftrace) cannot do this.
-
-This seems totally the opposite. page_owner gives you the current allocation
-snapshot. Tracing can provide the full historical record of allocation and
-freeing, which can be also postprocessed for snapshots.
-
-> 2. The full allocation stack is recorded via stackdepot. Memory
->     allocation profiling as a code-tagging technique cannot do this.
-
-I think there's some extension (or plan for it), Suren would know better.
-
-> 3. Zero extra usage cost (works as long as page_owner is enabled) and
->     a low barrier to entry (one echo line versus writing a bpf
->     program).
-> 
-> On the pain points that motivated the series. On production machines
-> with large memory configurations (e.g., 250GB+):
-> 
-> 1. Collecting page_owner information takes minutes to tens of minutes.
-> 2. The output is several gigabytes to over 10GB.
-> 
-> That makes the raw output nearly unreadable and forces post-processing
-> with tools/mm/page_owner_sort.c, adding further workload. The root
-> causes are:
-
-the "workload" is just cpu time though
-
-> 1. The PFN scan itself - unavoidable, it is the price of page_owner's
->     core function of covering every page.
-> 2. Printing every stack for every page - this dominates the cost and
->     is avoidable. stackdepot already deduplicates stacks and keeps a
->     refcount per unique stack; page_owner then re-prints the same stack
->     once per page, and page_owner_sort deduplicates it all over again
->     in userspace.
-
-Since it's avoidable, why mention it at all? Oh I know, LLM slop.
-
-> The filters target exactly this waste: they keep page_owner focused on
-> the user's area of interest instead of paying the full print cost.
-> 
-> On the overlap with dynamic tracing and allocation profiling: the
-> features do look similar, but the usage scenarios differ. page_owner
-> is not enabled by default on production systems, so most developers
-> rightly reach for the lighter-weight tools first - dynamic tracing or
-> allocation profiling.
-
-Good! That's an argument against.
-
-> But when page_owner is already enabled, or the
-> lighter-weight tools cannot solve (or cannot conveniently solve) the
-
-Adding custom filtering code to kernel vs user convenience is a trade-off.
-
-> problem and enabling page_owner is an option, the advantages above
-> kick in: the historical snapshot is filterable in place, and the
-> filtered output is small enough to read directly.
-> 
-> So I see the filters as completing page_owner for the scenarios where
-> it is the right tool, rather than competing with the profiling and
-> tracing tooling.
-
-I'm not convinced it's worth it.
-
->>> Targeted filtering provides significant performance benefits on large memory
->>> servers by reducing both execution time and output size. By filtering at the
->>> kernel level before reading, only relevant page allocations are processed,
->>> dramatically reducing the amount of data that needs to be handled in userspace.
->>>
-> 
-> Thanks,
-> Zhen Ni
-
+Thanks,
+Jason
