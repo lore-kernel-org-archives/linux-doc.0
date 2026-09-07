@@ -1,48 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CF9524AFE;
-	Mon,  7 Sep 2026 16:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4392517BC4;
+	Mon,  7 Sep 2026 16:42:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788799293; cv=none; b=nvC+AwzLKIgDEKB1OK8ki+ZEhiqN2ScE+Bn559j/1HemtXMf086E7LSbRLxYCFRragsbPNpUTsFGEgFPTy0sYHLEbZVbu1YH8fET26LIPCQ1bhKEg+HaH+XdAcD1As4Kbd0/Z/dhWJiF67E+uZRkUQs4lQG/YB78cGt4o4B7Peo=
+	t=1788799375; cv=none; b=X30uxAe9TANOyOmT/71Uf8iLpIFpf/gk9Z5I0jBaX5MPFmyjNB5kZ9LhgNbkFx8uHYrxHnzodJX9Ci+pPfZcuKYRT0NNXCNxbtieVywuFtXbDZGtQGeipg1VQGQQOoE2O6C2Zjm0tPRHHD3kbQoM3FsCTOhcpuqMJt3NR3KpqzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788799293; c=relaxed/simple;
-	bh=m42hFV7sx9CzIFOPCUmmFIfZCRn9bsDzhfG/6n2dd8w=;
+	s=arc-20240116; t=1788799375; c=relaxed/simple;
+	bh=fLxREjCW+hIAs+EEHTgczv9agQLNMAmRcCQotmOb0FA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Kq6LsRA8rlg3yMH6HV11QSKGiSHYe9g9mmiivo1IidEOQglOOGPD5nWum9tO8WN7spZEdPBRF3WgVxO0Vv42pzXBuboRiI3PMU6Hlp5jNkP5uwdcWVRqj+JFmu2KsXipiOW8ijMoOethNSEYIDANhwOoU/JLvCoKdZKrt1RgopM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hC8jyeuW; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=G52XJ1w0qVv307xmmAhlsd5F90+5aJTNZo232GoF6+SIF14x9BhajVa2Cjw+6CoG0geGt4I/cyJxNtIJPJHg8Gphrye0nmyrMLnYO8MVVLUyNx9BGv4Ll+XM2qo/lZRtSUsR2V6qNt/VWhaXo4DOkqMUihJlQBxks1MRTJokJ/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=m0uZl4VL; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hC8jyeuW"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C7CE6408FF
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="m0uZl4VL"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 037E5408FF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788799291; bh=tjAtv+oonZYpkXkL6B/93fFHM1akJqs+rgkm0CYB2ps=;
+	t=1788799370; bh=L7OW1ofSJOtG+PUDpHwGnt/QuaqtnCse4MytWP0ziPo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hC8jyeuWdtHVYNZrM3GYqMcY4NokShSE7rKz0rs/GnAf12GypcyXRLM0pLgOQFE3B
-	 J//24led0GxIHP+kb8hAEtOIqfcqR8eD2oX40J7BmeYE8/zzSpojr4CviocYPY81Lw
-	 7UP9cDfo5Wl8eU3Ov4FVEPD7JpSiujsGut9IO+AYjKa9pb41M+SWbQGIHHNabWYyXo
-	 Zmn6mCVIdQQhQLxH81LScwtFgmj/H484IumEHj0oWX0uS61lmWRm7Wx5EDj6zd6c9R
-	 9y4XDhiY6v6xW4Thi1aI/SnPPJS1QhA66uwe9CpoS6eXamcKaJY4Ol5EUa/vb772V8
-	 36qXwk8DrI/oA==
+	b=m0uZl4VLrH73x289PDgat/CifLFek797rrEjO6mtJozCJLhZsQhGP7Ung0os+pv2x
+	 Gm47dqOPd9wGB35XentyfKyMf/xwJDRjxFVlUQQ7S48isdQVJ9EYK9ztYHS1tjUB58
+	 dlEM6G97yu2IciA/zM85rnj6cQtLt75b5keqKRJqN81GSBJD61/zqBPDyb4Q0EFH2h
+	 m+supVUNc33rp51TEP3LZ3qsPhxgxlFxHl9P4xVVVkAeYUcOr7MolkaRFBikAIgHZl
+	 oW28/oiwtg3O1wEZ3aGDBSuXHfwtdprHCceFTTvJgnLtq4IqPTZ8kdNSIMXaXKEsnn
+	 1wP5iqtU/Av2w==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C7CE6408FF;
-	Mon,  7 Sep 2026 16:41:30 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 037E5408FF;
+	Mon,  7 Sep 2026 16:42:49 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Manuel Ebner <manuelebnerli@mailbox.org>, Shuah Khan
  <skhan@linuxfoundation.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: admin-guide: Fix bracket
-In-Reply-To: <20260903154924.732852-2-manuelebnerli@mailbox.org>
-References: <20260903154924.732852-2-manuelebnerli@mailbox.org>
-Date: Mon, 07 Sep 2026 10:41:30 -0600
-Message-ID: <87ld9dovyd.fsf@trenco.lwn.net>
+Subject: Re: [PATCH] fs: porting.rst: add bracket
+In-Reply-To: <20260902145428.704582-3-manuelebnerli@mailbox.org>
+References: <20260902145428.704582-3-manuelebnerli@mailbox.org>
+Date: Mon, 07 Sep 2026 10:42:49 -0600
+Message-ID: <87h5k1ovw6.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,32 +52,26 @@ Content-Type: text/plain
 
 Manuel Ebner <manuelebnerli@mailbox.org> writes:
 
-> Add missing ')' and remove ';' to improve readability.
+> Add missing '(' to function in prose.
 >
 > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
->
-> [v2]
->  Remove ';' as Randy Suggested
-> [v1]
->  https://lore.kernel.org/all/20260902152347.708070-2-manuelebnerli@mailbox.org/
-> ---
->  Documentation/admin-guide/sysctl/vm.rst | 2 +-
+>  Documentation/filesystems/porting.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> index 5b318d17a..5f4a056e4 100644
-> --- a/Documentation/admin-guide/sysctl/vm.rst
-> +++ b/Documentation/admin-guide/sysctl/vm.rst
-> @@ -438,7 +438,7 @@ zone[i]'s protection[j] is calculated by following expression::
->      = (total sums of managed_pages from zone[i+1] to zone[j] on the node)
->        / lowmem_reserve_ratio[i];
->    (i = j):
-> -     (should not be protected. = 0;
-> +     (should not be protected. = 0)
->    (i > j):
->       (not necessary, but looks 0)
+> diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
+> index 60880eb0c..810657082 100644
+> --- a/Documentation/filesystems/porting.rst
+> +++ b/Documentation/filesystems/porting.rst
+> @@ -673,7 +673,7 @@ watch out, since that shortcut is no longer valid.
+>  they used to - they just take it exclusive.  However, ->lookup() may be
+>  called with parent locked shared.  Its instances must not
+>  
+> -	* use d_instantiate) and d_rehash() separately - use d_add() or
+> +	* use d_instantiate() and d_rehash() separately - use d_add() or
+>  	  d_splice_alias() instead.
+>  	* use d_rehash() alone - call d_add(new_dentry, NULL) instead.
+>  	* in the unlikely case when (read-only) access to filesystem
 
 Applied, thanks.
 
