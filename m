@@ -1,215 +1,262 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF50A411693
-	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 08:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788771061; cv=pass; b=XNPFQ3g3eXF1AAG8raKQfpGapM8rtOT4FAAnu4ZhgRFJdCfl1PjZ7iTvfJEljjg4lPAZtUYpK2AhVPMH9bVbTPQoe0xUhLIM2SSjiDg1GsWRi7ayicGrselNf41g4JNhOXNpiMY68OjTXec2wnoAlvhN9dSH5WlaZJVNYRotXts=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788771061; c=relaxed/simple;
-	bh=koPdY52LnC6fAIdACWkN29i6GoQ1Taayy64LhpC53Ws=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=omqKyPRx7RySgagu8znkrkhmrn6anIgGxN/yxESIftRMJTA+eAhIFkucsrLzq/j9n64ACU2wkaZBTYT+d4I/fHnpTAu2D7NQkOYg2eE0S8o7hkB37HBHAniipCdHIQUqdC3eFgu3AVy1bSQOzXnsqOhr/5rHyfEiEdmzbxulzpw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ra86+6ad; arc=pass smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516A0392C32
+	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 09:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788771896; cv=none; b=sKMAZ0L0vai/SHp8wnqCxbTlBjpm37UXkL9Rg2JPGSENHTJByR8siKHLnZftPoCkV6ZtjUHAfy7FxDqnktVbtE5SFD1GwDVhaEWGz1lEEYxktdMcjAa44G3fJ2IA1lbzocNSEnmrXg1Ut9v254HN7myESy6+0d4FPoDHP97fKnQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788771896; c=relaxed/simple;
+	bh=qMWt9ZcK3Ze48qWu3Ny+Z8vpdRItcwPxSUfRyziT+dQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rQTD6cVF/Xdu8qeGyi6nGJLOLtwHTaf2Q/ff3+tF3iE1+JlXMwTggagM61Gwo79/CnAyoNitbEjZvlRgtP7U6LHCkbvnqQELXoI8U5qC3Jr9WaAsADgWz9EnPus/jZVNx7w2Od+OLrGECrT1xiIfyhP0edJ+TnuFJguwDWUh3q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h6nvkhJ/; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ra86+6ad"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7ee37dc91f5so1906082a34.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 01:50:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788771057; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KIxosHx0ibNPX4edHWD4PJYhAVfe6bPvcXoJhETXX91sFoCXgdJY2hKaE0jPLul+q/
-         R6gW3TTY3J7DEIdgRDbJ0fEcDrql4y8FP1wLSEJfnGlkV1g8q9oKj0Vgj8e4MOZq4MJ8
-         okq5h8ysw4fGzIF1qwss/Kxnm22uaO2Mp1TKWK/FxzIOTjjEceKnFgnRe79Lngx65Pkt
-         avwr+1zlbMesWuy0zKijTmOicjeFNIulfUJp4xDFPGJJmHHJc0bFpEcVjHtCUyph4tcW
-         N3P+t4qVkCVB01ubxrEKOLuEnYdXcqbAhE5Fo4h1hQsy69SWQtCBYnw2Gu/F5wc36965
-         JkwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=koPdY52LnC6fAIdACWkN29i6GoQ1Taayy64LhpC53Ws=;
-        fh=jEcYQaTGwxyLnMYxC981zCLz+vCjXkpMAzwCm+CZv9s=;
-        b=HLppxmPMXdSprZMSPzWYzpN7Jw5js9XK2jMJ1t5G3HFSqEDMIkN1au6Ckd3x/JffSE
-         WzqXTWL1Vx3E22o981radUtVn6FD+qF7zWHhhmCieby3HXlS6Xb3PrxnFajpnFCwOFuQ
-         iJwyeVP2pZfsf36ciVi5mgfzZF6msKkR8CZsVcBa1wPIHUXs6Vq+Bd4Ym54ZfkPQA5tJ
-         LYs2POzCB18DN+ukZiLLsJVbsVUoDpVbewjWdnuplL2yQ5phKPvjY322OzwasgCiBfoe
-         PuzfpZ0ODHLvv6TdkSF8oXtT7xGR78hUbfOtH/fxTAJE5WCqcWyvTDlraVPhyhpT2JJr
-         Ao5w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h6nvkhJ/"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-85377c8bc96so3003983b3a.3
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 02:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788771057; x=1789375857; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=koPdY52LnC6fAIdACWkN29i6GoQ1Taayy64LhpC53Ws=;
-        b=Ra86+6adkW3dNRKa4eDEj4BPNxzh3h+LDlkKiuGjjkkQ/kaLZxbREQ48T+dftXuOK8
-         zxOuGbyfFfxyoPMEgy7+lBaNGTtIS0UsAeFxGqxe/UqZXnI9by6BMKIF3H/G4tH2rK2H
-         iKOoID+zdN2jYSi1nTFmWsmdagUmDUNN+oLDv91UTKuHlWkIFDmP1DokmA0sWsC6x7Nn
-         EDyjRvHeMjeMQzHCmkLkdWbFVMl6x8k/q7I9OhHoxJgbEZxzr1pBu3shl4oGK+5Op/bT
-         /seGF60RPF5BUAbhb4hjVQaSbnvYJEKyQXsa1WTUwkNKrdPaEj1WqhgSxY6wu3tOEMpo
-         hsSQ==
+        d=gmail.com; s=20251104; t=1788771895; x=1789376695; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RSpcTkwgbJe/vqTqOVrLFxrEgNNsqgW+udaGlXkLD00=;
+        b=h6nvkhJ/GNvXgyKulbf+ozWaCgV2UbSu7hXKsVJw0s1gdLft9N7auTP2OOoaJDCY2d
+         fNN2vx5bjNfJrSY/zb/4sh9bi9E/0BBEEfIrCwWCypuOL+3peexGUMrwkPlO3N88A/w5
+         15MhgnG7etiqOteUlVkCHma2Dj7J9EDyhiLxQ2mSGk5cvzBfnv9Rtdf5pBXVGoNhk6Qv
+         j5QznwF/qAbTQRTKz0iEjkuC3Qc9VDoqzC86alJFy7RYUK/5JPoAW5Pq/BnpR0A67y98
+         BUrUg6pcl4JiqqqkkHrAkVS+m+6Xq3wWtqeWcjosyu/UsFMIhEeHip1IASvct20gVTBP
+         KV3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788771057; x=1789375857;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=koPdY52LnC6fAIdACWkN29i6GoQ1Taayy64LhpC53Ws=;
-        b=IUqVv4m5MvUzuiBf/fNXX6RNkJgQ+KRLfYtV5QvCo4x3dHIrDOS+KkEuUKMdF3CPuU
-         LXnftAD/icHAsX9qfsW5zaAVZ508OxXk8phNSIJqxXr/lp/1QKM3kwbjgOUNz2rnMe/P
-         kDoixhpEV1kyNggFU4ZPHQdn6YaLHA3EDQHdwUfIRUsHEF3MI7nT8tntZiZCjRPwGboX
-         zrewcDZr1tumjW+YsuUY+IW+oSnQUI7cQY3B4gzYD825/v/C2LBUMQDzDiXXcDEc39dU
-         7BHf3OUtfdZ1aGV+VhdxxsoT/pAiwtcLfOLPurot9tHflRmvzH+A2Vw84JPyGy5haxL1
-         34uQ==
-X-Gm-Message-State: AFuF++mTWYmka3jIGM/rDg3Dk8QpTR6oEzmV+dI8ZI84cHaqahj8KY28
-	8uylAI0ZxFeu1dsd56xV5xBhYpimnQPJYc/nFF+oGhrI3A4W7F1tEDbMR/EvOuLjzVpEAhKS2tf
-	OwpT1H5A3xyzMIZJxB56EKUxOAitBRRc=
-X-Gm-Gg: AYBFou3pHD0EhYCBKrU7ufgfqVlloskcQJG//a10coeu6OAcaUMsUJf1iBo+nYpbOsg
-	mMddrE6svr+stPwwPHlCLzhmcsZ+TO8NtfqAnLJWckzDy+bvWPOxpPx4E2JVjT1MKsT4rbWK2G2
-	dyGzsqwJNqqMkJWh7GrA/Yzo6Ypz45cB5Iuxr6Wntfxpo6EWIGAd0pKkEajNmgl3QDx/oAjtN6P
-	nE2Ue97NTpeUNuXsWCLj+1sUyoZ8rPZRCLhk+mfL7JRRS9aXiQL2NdUhU+VGpJEayxJYq8+SMuF
-	LX4NQHdjU9lhtiPsLcayzTe0L/6GjThn/3B6FoRx+zDU
-X-Received: by 2002:a05:6820:81e:b0:6b1:afca:5c78 with SMTP id
- 006d021491bc7-6b6fddba8bbmr12716316eaf.32.1788771054674; Mon, 07 Sep 2026
- 01:50:54 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788771895; x=1789376695;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=RSpcTkwgbJe/vqTqOVrLFxrEgNNsqgW+udaGlXkLD00=;
+        b=QqOTtvarpmp++VHvqBmhS+AfBJ8TIWNnCMpQOneOlufOgIQIm+pdAKZfJpV60RiAM7
+         3t2FlvzerWrVA142mI9U056xvX2n1EeFSqpUZfFQHqySeaVeUYZzQxZ3zAkcZlDu1m7U
+         sCp7wYQAGzPr7fpPf+WmmRM/hp2H/f/0auKLv27KActPbPVuGOzQSEQxrImSCHgIuIcq
+         5q3//7OW1LvbtFkXEWmc17Wvo0NAvFBfQ7tuCqQe4qgAi6/KILdrluxidGtzvK7V0K5r
+         Zc7AycmPHJgZ0tNADAZ9kr2rxUNiDi0HAKLQfXMKhK5avjAiboKpYe5y0rNpaSgWAJ+I
+         8aqw==
+X-Gm-Message-State: AFuF++nLLLu/GWwb+e63ea95/nNu3lRrhybRWHp13ughNkssIWtDOM7o
+	qX58qISduEDL6EsYGlj9W+TfvaOk4jXec/niz3thSttaePctNy6TJjc4
+X-Gm-Gg: AYBFou2IvjahXDQ0KDP3i1likaDegoAOAlnMsFdlmHxt9FBbHPaKhAr8M4xH4FqTrn2
+	rOdAMleVJZrd3n29eotxefrTvRfLPlfNHBVl1mdYXWczh8ohjtPeEaIGlyM4If4XeD50Z07sKUF
+	NsLpQyCkLhWtllW6bqpGEHFXoietlMvwD2zaYoGQW6pxMpsP+MMjJDeNDzJwlg958SZH0XPHmnI
+	nak/Wxpnl2b0zNKrT/orvGChUbSCwm0Y+2MEAtYUiCc5fgGCRSU09hcYa56QZeWmDinRVhLkZO4
+	vCnNNX4PERs2g/dxuxF4ZtAaBq8koFVLACshKuRdY32uHaCrMN8QoqZ7zPQnpkx2LhuQw2q1z98
+	s10Oz1eE6zpgrNYytmLlgRHU751xO+3wYZGtRBw5Uko25Gz3JLhSgGTC29Xh5vcNNCcOygIARxR
+	cQVMX6u3H8Tgg2cUbKVi8U7Lj/x1g7OLNMgSlsyW38jLpPHyl34r25E1S/0bDQzW4TRD1tobOR9
+	CPVGdU5PdlYZJI=
+X-Received: by 2002:a05:6a00:a8f:b0:85b:cf16:597 with SMTP id d2e1a72fcca58-86168d827bfmr29284004b3a.19.1788771887379;
+        Mon, 07 Sep 2026 02:04:47 -0700 (PDT)
+Received: from [192.168.2.166] (104.194.78.75.16clouds.com. [104.194.78.75])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86152d2ff5bsm3947594b3a.35.2026.09.07.02.04.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Sep 2026 02:04:46 -0700 (PDT)
+Message-ID: <eb05f56b-5443-4554-9296-cc3fb07b096a@gmail.com>
+Date: Mon, 7 Sep 2026 17:04:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: add usb/ohci translation
+To: Jiaming Ouyang <jiamingouyang13@gmail.com>
+Cc: linux-doc@vger.kernel.org, "corbet@lwn.net" <corbet@lwn.net>,
+ alexs@kernel.org, si.yanteng@linux.dev, dzm91@hust.edu.cn,
+ linux-kernel@vger.kernel.org
 References: <CAMnqnYxPHeXo6CsuKRGH=oixAsAa0z1_++266yzKW7qR6cqykw@mail.gmail.com>
  <df3d1c27-2de5-4e63-8a4d-6119d19a358f@gmail.com>
-In-Reply-To: <df3d1c27-2de5-4e63-8a4d-6119d19a358f@gmail.com>
-From: Jiaming Ouyang <jiamingouyang13@gmail.com>
-Date: Mon, 7 Sep 2026 10:50:43 +0200
-X-Gm-Features: AcwNN1VlrMgKnfn4eUYD_bXkleWDU8BJsjeskHBSGqosCOpXXEqnb03v8mQLrjo
-Message-ID: <CAMnqnYxarwJ1MaW-HX-bJmPvok+xugn7V0-u2cGp+FeXPz69rA@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: add usb/ohci translation
-To: Alex Shi <seakeel@gmail.com>
-Cc: linux-doc@vger.kernel.org, "corbet@lwn.net" <corbet@lwn.net>, alexs@kernel.org, 
-	si.yanteng@linux.dev, dzm91@hust.edu.cn, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+ <CAMnqnYxarwJ1MaW-HX-bJmPvok+xugn7V0-u2cGp+FeXPz69rA@mail.gmail.com>
+From: Alex Shi <seakeel@gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAMnqnYxarwJ1MaW-HX-bJmPvok+xugn7V0-u2cGp+FeXPz69rA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-U3ViamVjdDogW1BBVENIXSBkb2NzL3poX0NOOiBhZGQgQ2hpbmVzZSB0cmFuc2xhdGlvbiBmb3Ig
-dXNiL29oY2kucnN0DQoNClRyYW5zbGF0ZSBEb2N1bWVudGF0aW9uL3VzYi9vaGNpLnJzdCBpbnRv
-IENoaW5lc2UgU2ltcGxpZmllZC4NCg0KVGhlIHRyYW5zbGF0aW9uIGNvdmVycyBPSENJIGRyaXZl
-ciBvdmVydmlldywgaGFyZHdhcmUgcHJvdG9jb2wNCmRpZmZlcmVuY2VzIChPSENJIHZzIFVIQ0kp
-LCBpbXByb3ZlbWVudHMgc2luY2UgMi40IGtlcm5lbCwNCnF1ZXVlYWJsZSBpbnRlcnJ1cHQgdHJh
-bnNmZXJzLCBhbmQgbm9uLVBDSSBzdXBwb3J0Lg0KDQpTaWduZWQtb2ZmLWJ5OiBKaWFtaW5nIE91
-eWFuZyA8amlhbWluZ291eWFuZzEzQGdtYWlsLmNvbT4NCi0tLQ0KSSBoYXZlIG1vZGlmaWVkIGFj
-Y29yZGluZyB0byB5b3VyIGZlZWRiYWNrLg0KDQogLi4uL3RyYW5zbGF0aW9ucy96aF9DTi91c2Iv
-aW5kZXgucnN0ICAgICAgICAgIHwgIDIgKy0NCiBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96
-aF9DTi91c2Ivb2hjaS5yc3QgfCAzNyArKysrKysrKysrKysrKysrKysrDQogMiBmaWxlcyBjaGFu
-Z2VkLCAzOCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQogY3JlYXRlIG1vZGUgMTAwNjQ0
-IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3VzYi9vaGNpLnJzdA0KDQpkaWZmIC0t
-Z2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNiL2luZGV4LnJzdA0KYi9E
-b2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi91c2IvaW5kZXgucnN0DQppbmRleCBkZjk5
-ODE0YzY0OTcuLmM5NmVhY2YxM2UxMSAxMDA2NDQNCi0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNs
-YXRpb25zL3poX0NOL3VzYi9pbmRleC5yc3QNCisrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRp
-b25zL3poX0NOL3VzYi9pbmRleC5yc3QNCkBAIC0zMiw2ICszMiw3IEBAIFVTQiDmlK/mjIENCiAg
-ICAgY2hpcGlkZWENCiAgICAgZHdjMw0KICAgICBlaGNpDQorICAgIG9oY2kNCiAgICAgdXNibW9u
-DQoNCiDlvoXnv7vor5HmlofmoaPvvJoNCkBAIC00OSw3ICs1MCw2IEBAIFVTQiDmlK/mjIENCiAq
-IG1hc3Mtc3RvcmFnZQ0KICogbWlzY191c2JzZXZzZWcNCiAqIG10b3VjaHVzYg0KLSogb2hjaQ0K
-ICogcmF3LWdhZGdldA0KICogdXNiaXBfcHJvdG9jb2wNCiAqIHVzYi1zZXJpYWwNCmRpZmYgLS1n
-aXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi91c2Ivb2hjaS5yc3QNCmIvRG9j
-dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNiL29oY2kucnN0DQpuZXcgZmlsZSBtb2Rl
-IDEwMDY0NA0KaW5kZXggMDAwMDAwMDAwMDAwLi4xZmMwNmYwMWQ3ZTgNCi0tLSAvZGV2L251bGwN
-CisrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3VzYi9vaGNpLnJzdA0KQEAg
-LTAsMCArMSwzNyBAQA0KKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wDQorDQor
-Ok9yaWdpbmFsOiBEb2N1bWVudGF0aW9uL3VzYi9vaGNpLnJzdA0KKw0KKzrnv7vor5E6IOasp+mY
-s+WutumTrSBKaWFtaW5nIE91eWFuZyA8amlhbWluZ291eWFuZzEzQGdtYWlsLmNvbT4NCisNCis9
-PT09PT09PQ0KK09IQ0npqbHliqgNCis9PT09PT09PQ0KKw0KKzIwMjblubQ45pyIMjnml6UNCisN
-CivigJxPSENJLWhjZOKAnempseWKqOeoi+W6j+aYr+S4gOS4qlVTQuS4u+acuuaOp+WItuWZqOmp
-seWKqOeoi+W6j++8iEhDRO+8ie+8jOWug+a6kOiHqjIuNOWGheaguOezu+WIl+S4reeahOKAnHVz
-Yi1vaGNp4oCdDQor6amx5Yqo56iL5bqP44CC4oCcdXNiLW9oY2nigJ3ku6PnoIHkuLvopoHnlLEg
-Um9tYW4gV2Vpc3NnYWVyYmVyIDx3ZWlzc2dAdmllbm5hLmF0PiDnvJblhpnvvIzkvYbkuZ/ojrfl
-vpfkuoYNCivorrjlpJrlhbbku5bkurrnmoTotKHnjK7vvIjor7fpmIXor7vlhbbniYjmnYPvvIkN
-CivjgIINCisNCivlroPmlK/mjIHigJzlvIDmlL7kuLvmnLrmjqfliLblmajmjqXlj6PigJ3vvIhP
-SENJ77yJ77yM6K+l5o6l5Y+j5qCH5YeG5YyW5LqG55So5LqO5LiOVVNCIDEuMeS4u+acuuaOp+WI
-tuWZqOmAmuS/oeeahOehrOS7tuWvhA0KK+WtmOWZqOWNj+iuruOAguS4juiLseeJueWwlOaXqeac
-n+eahOKAnOmAmueUqOS4u+acuuaOp+WItuWZqOaOpeWPo+KAne+8iFVIQ0nvvInnm7jmr5TvvIzl
-roPlsIbmm7TlpJrlj6rog73lip/og73ms6jlhaXliLDnoazku7YNCivkuK3jgILpmaToi7Hnibnl
-sJTlkozlqIHnm5vkuYvlpJbnmoTlhbbku5bkvpvlupTllYbnmoRVU0IxLjHmjqfliLblmajpgJrl
-uLjkvb/nlKhPSENJ44CCDQorDQor6IeqMi405YaF5qC45Lul5p2l55qE5pu05pS55YyF5ousDQor
-DQorIC0g5o+Q6auY5LqG5YGl5aOu5oCnOyDkv67lpI3kuobplJnor687IOWHj+WwkeS6huW8gOmU
-gA0KKyAtIOaUr+aMgeabtOaWsOWSjOeugOWMlueahHVzYmNvcmUgQVBJDQorIC0g5Lit5pat5Lyg
-6L6T5Y+v5Lul5pu05aSn77yM5bm25LiU5Y+v5Lul5o6S6ZifDQorIC0g6YCa6L+H5L2/55So5LiK
-5bGC4oCcaGNk4oCd5qGG5p6277yM5YeP5bCR5Luj56CB6YePDQorIC0g5pSv5oyB5LiA5Lqb6Z2e
-UENJ55qET0hDSeWunueOsA0KKyAtIC4uLiDku6Xlj4rmm7TlpJoNCisNCivigJxPSENJLWhjZOKA
-nempseWKqOeoi+W6j+WkhOeQhuaJgOaciVVTQiAxLjHkvKDovpPnsbvlnovjgILmiYDmnInnsbvl
-novnmoTkvKDovpPpg73lj6/ku6XmjpLpmJ/jgILlnKjigJx1c2Itb2hjaeKAneS4reS5nw0KK+aY
-r+WmguatpO+8jOS9huS4reaWreS8oOi+k+mZpOWkluOAguS7peWJje+8jOS9v+eUqOS4gOW4p+ea
-hOWRqOacn+S8muWboOS4uklSUeWkhOeQhueahOW8gOmUgOiAjOWvvOiHtOaVsOaNruS4ouWkseea
-hOmjjumZqeOAgg0KK+W9k+S4reaWreS8oOi+k+aOkumYn+aXtu+8jOWPr+S7pemAmui/h+ehruS/
-neehrOS7tuWcqOaTjeS9nOezu+e7n+WkhOeQhuebuOWFs0lSUeaXtuWni+e7iOacieS8oOi+k+mc
-gOimgeWkhOeQhu+8jOadpeacgOWkp+mZkA0KK+W6pueahOmZjeS9jui/meS6m+mjjumZqQ0KKw0K
-Ky0gRGF2aWQgQnJvd25lbGwNCisgIDxkYnJvd25lbGxAdXNlcnMuc291cmNlZm9yZ2UubmV0Pg0K
-LS0gDQoyLjUzLjANCg0KT24gTW9uLCBTZXAgNywgMjAyNiBhdCA0OjM34oCvQU0gQWxleCBTaGkg
-PHNlYWtlZWxAZ21haWwuY29tPiB3cm90ZToNCj4NCj4NCj4NCj4gT24gMjAyNi84LzMwIDAyOjQ4
-LCBKaWFtaW5nIE91eWFuZyB3cm90ZToNCj4gPiAgRnJvbSAzOTU5NDgyMTIxNDQ1NDllMjBjZmNk
-YmQwNTM4MTdjNGUwNjhkYTM1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KPiA+IEZyb206IEpp
-YW1pbmcgT3V5YW5nPGppYW1pbmdvdXlhbmcxM0BnbWFpbC5jb20+DQo+ID4gRGF0ZTogU2F0LCAy
-OSBBdWcgMjAyNiAyMDozNTozNyArMDIwMA0KPiA+IFN1YmplY3Q6IFtQQVRDSF0gZG9jcy96aF9D
-TjogYWRkIHVzYi9vaGNpIHRyYW5zbGF0aW9uDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBKaWFt
-aW5nIE91eWFuZzxqaWFtaW5nb3V5YW5nMTNAZ21haWwuY29tPg0KPiA+IC0tLQ0KPiA+ICAgLi4u
-L3RyYW5zbGF0aW9ucy96aF9DTi91c2IvaW5kZXgucnN0ICAgICAgICAgIHwgIDIgKy0NCj4gPiAg
-IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3VzYi9vaGNpLnJzdCB8IDM3ICsrKysr
-KysrKysrKysrKysrKysNCj4gPiAgIDIgZmlsZXMgY2hhbmdlZCwgMzggaW5zZXJ0aW9ucygrKSwg
-MSBkZWxldGlvbigtKQ0KPiA+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJh
-bnNsYXRpb25zL3poX0NOL3VzYi9vaGNpLnJzdA0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL0RvY3Vt
-ZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3VzYi9pbmRleC5yc3QNCj4gPiBiL0RvY3VtZW50
-YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3VzYi9pbmRleC5yc3QNCj4gPiBpbmRleCBkZjk5ODE0
-YzY0OTcuLmM5NmVhY2YxM2UxMSAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5z
-bGF0aW9ucy96aF9DTi91c2IvaW5kZXgucnN0DQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vdXNiL2luZGV4LnJzdA0KPiA+IEBAIC0zMiw2ICszMiw3IEBAIFVTQiDm
-lK/mjIENCj4gPiAgICAgICBjaGlwaWRlYQ0KPiA+ICAgICAgIGR3YzMNCj4gPiAgICAgICBlaGNp
-DQo+ID4gKyAgICBvaGNpDQo+ID4gICAgICAgdXNibW9uDQo+ID4NCj4gPiAgIOW+hee/u+ivkeaW
-h+aho++8mg0KPiA+IEBAIC00OSw3ICs1MCw2IEBAIFVTQiDmlK/mjIENCj4gPiAgICogbWFzcy1z
-dG9yYWdlDQo+ID4gICAqIG1pc2NfdXNic2V2c2VnDQo+ID4gICAqIG10b3VjaHVzYg0KPiA+IC0q
-IG9oY2kNCj4gPiAgICogcmF3LWdhZGdldA0KPiA+ICAgKiB1c2JpcF9wcm90b2NvbA0KPiA+ICAg
-KiB1c2Itc2VyaWFsDQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
-L3poX0NOL3VzYi9vaGNpLnJzdA0KPiA+IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
-Q04vdXNiL29oY2kucnN0DQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAw
-MDAwMDAwMDAuLjQzODdiYjI3NDA3MQ0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1
-bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi91c2Ivb2hjaS5yc3QNCj4gPiBAQCAtMCwwICsx
-LDM3IEBADQo+ID4gKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wDQo+ID4gKw0K
-PiA+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vdXNiL29oY2kucnN0DQo+ID4gKw0KPiA+ICs6
-57+76K+ROiDmrKfpmLPlrrbpk60gSmlhbWluZyBPdXlhbmc8amlhbWluZ291eWFuZzEzQGdtYWls
-LmNvbT4NCj4gPiArDQo+ID4gKz09PT09PT09DQo+ID4gK09IQ0npqbHliqgNCj4gPiArPT09PT09
-PT0NCj4gPiArDQo+ID4gKzIwMjblubQ45pyIMjnml6UNCj4gPiArDQo+ID4gK+KAnE9IQ0ktaGNk
-4oCd6amx5Yqo56iL5bqP5piv5LiA5LiqVVNC5Li75py65o6n5Yi25Zmo6amx5Yqo56iL5bqP77yI
-SENE77yJ77yM5a6D5rqQ6IeqMi405YaF5qC457O75YiX5Lit55qE4oCcdXNiLW9oY2nigJ0NCj4g
-PiAr6amx5Yqo56iL5bqP44CC4oCcdXNiLW9oY2nigJ3ku6PnoIHkuLvopoHnlLEgUm9tYW4gV2Vp
-c3NnYWVyYmVyPHdlaXNzZ0B2aWVubmEuYXQ+IOe8luWGme+8jOS9huS5n+iOt+W+l+S6hg0KPiA+
-ICvorrjlpJrlhbbku5bkurrnmoTotKHnjK7vvIjor7fpmIXor7vlhbbniYjmnYPvvIkNCj4gPiAr
-44CCDQo+ID4gKw0KPiA+ICvlroPmlK/mjIHigJzlvIDmlL7kuLvmnLrmjqfliLblmajmjqXlj6Pi
-gJ3vvIhPSENJ77yJ77yM6K+l5o6l5Y+j5qCH5YeG5YyW5LqG55So5LqO5LiOVVNCIDEuMeS4u+ac
-uuaOp+WItuWZqOmAmuS/oeeahOehrOS7tuWvhA0KPiA+ICvlrZjlmajljY/orq7jgILkuI7oi7Hn
-ibnlsJTml6nmnJ/nmoTigJzpgJrnlKjkuLvmnLrmjqfliLblmajmjqXlj6PigJ3vvIhVSENJ77yJ
-55u45q+U77yM5a6D5bCG5pu05aSa5Y+q6IO95Yqf6IO95rOo5YWl5Yiw56Gs5Lu2DQo+ID4gK+S4
-reOAgumZpOiLseeJueWwlOWSjOWogeebm+S5i+WklueahOWFtuS7luS+m+W6lOWVhueahFVTQjEu
-MeaOp+WItuWZqOmAmuW4uOS9v+eUqE9IQ0njgIINCj4gPiArDQo+ID4gK+iHqjIuNOWGheaguOS7
-peadpeeahOabtOaUueWMheaLrA0KPiA+ICsNCj4gPiArIC0g5o+Q6auY5LqG5YGl5aOu5oCnOyDk
-v67lpI3kuobplJnor687IOWHj+WwkeS6huW8gOmUgA0KPiA+ICsgLSDmlK/mjIHmm7TmlrDlkozn
-roDljJbnmoR1c2Jjb3JlIEFQSQ0KPiA+ICsgLSDkuK3mlq3kvKDovpPlj6/ku6Xmm7TlpKfvvIzl
-ubbkuJTlj6/ku6XmjpLpmJ8NCj4gPiArIC0g6YCa6L+H5L2/55So5LiK5bGC4oCcaGNk4oCd5qGG
-5p6277yM5YeP5bCR5Luj56CB6YePDQo+ID4gKyAtIOaUr+aMgeS4gOS6m+mdnlBDSeeahE9IQ0nl
-rp7njrANCj4gPiArIC0gLi4uIOS7peWPiuabtOWkmg0KPiA+ICsNCj4gPiAr4oCcT0hDSS1oY2Ti
-gJ3pqbHliqjnqIvluo/lpITnkIbmiYDmnIlVU0IgMS4x5Lyg6L6T57G75Z6L44CC5omA5pyJ57G7
-5Z6L55qE5Lyg6L6T6YO95Y+v5Lul5o6S6Zif44CC5Zyo4oCcdXNiLW9oY2nigJ3kuK3kuZ8NCj4g
-PiAr5piv5aaC5q2k77yM5L2G5Lit5pat5Lyg6L6T6Zmk5aSW44CC5Lul5YmN77yM5L2/55So5LiA
-5bin55qE5ZGo5pyf5Lya5Zug5Li6SVJR5aSE55CG55qE5byA6ZSA6ICM5a+86Ie05pWw5o2u5Lii
-5aSx55qE6aOO6Zmp44CCDQo+ID4gK+W9k+S4reaWreS8oOi+k+aOkumYn+aXtu+8jOWPr+S7pemA
-mui/h+ehruS/neehrOS7tuWcqOaTjeS9nOezu+e7n+WkhOeQhuebuOWFs0lSUeaXtuWni+e7iOac
-ieS8oOi+k+mcgOimgeWkhOeQhu+8jOadpeacgOWkp+mZkA0KPiA+ICvluqbnmoTpmY3kvY7ov5nk
-upvpo47pmakNCj4gPiArDQo+ID4gKy0g5qyn6Ziz5a626ZOtIEppYW1pbmcgT3V5YW5nDQo+ID4g
-KzxqaWFtaW5nb3V5YW5nMTNAZ21haWwuY29tPg0KPg0KPiBUaGlzIHNpZ25hdHVyZSBtaWdodCBt
-aXNsZWFkIHBlb3BsZSBpbnRvIHRoaW5raW5nIHlvdSBhcmUgdGhlIGF1dGhvci4NCj4NCj4gUGxl
-YXNlIGtlZXAgdGhlIG9yaWdpbmFsIGF1dG9yOg0KPiAtIERhdmlkIEJyb3duZWxsDQo+ICAgIDxk
-YnJvd25lbGxAdXNlcnMuc291cmNlZm9yZ2UubmV0Pg0KPiAgID4gLS0gMi41My4wDQo+ID4NCj4N
-Cg==
+It's better to resend as a new version. And please check again
+1, your alignment for each of lines.
+2, rebase on the latest Chinese-doc tree.
+
+Thanks!
+
+On 2026/9/7 16:50, Jiaming Ouyang wrote:
+> Subject: [PATCH] docs/zh_CN: add Chinese translation for usb/ohci.rst
+> 
+> Translate Documentation/usb/ohci.rst into Chinese Simplified.
+> 
+> The translation covers OHCI driver overview, hardware protocol
+> differences (OHCI vs UHCI), improvements since 2.4 kernel,
+> queueable interrupt transfers, and non-PCI support.
+> 
+> Signed-off-by: Jiaming Ouyang<jiamingouyang13@gmail.com>
+> ---
+> I have modified according to your feedback.
+> 
+>   .../translations/zh_CN/usb/index.rst          |  2 +-
+>   Documentation/translations/zh_CN/usb/ohci.rst | 37 +++++++++++++++++++
+>   2 files changed, 38 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/usb/ohci.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/usb/index.rst
+> b/Documentation/translations/zh_CN/usb/index.rst
+> index df99814c6497..c96eacf13e11 100644
+> --- a/Documentation/translations/zh_CN/usb/index.rst
+> +++ b/Documentation/translations/zh_CN/usb/index.rst
+> @@ -32,6 +32,7 @@ USB 支持
+>       chipidea
+>       dwc3
+>       ehci
+> +    ohci
+>       usbmon
+> 
+>   待翻译文档：
+> @@ -49,7 +50,6 @@ USB 支持
+>   * mass-storage
+>   * misc_usbsevseg
+>   * mtouchusb
+> -* ohci
+>   * raw-gadget
+>   * usbip_protocol
+>   * usb-serial
+> diff --git a/Documentation/translations/zh_CN/usb/ohci.rst
+> b/Documentation/translations/zh_CN/usb/ohci.rst
+> new file mode 100644
+> index 000000000000..1fc06f01d7e8
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/usb/ohci.rst
+> @@ -0,0 +1,37 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +:Original: Documentation/usb/ohci.rst
+> +
+> +:翻译: 欧阳家铭 Jiaming Ouyang<jiamingouyang13@gmail.com>
+> +
+> +========
+> +OHCI驱动
+> +========
+> +
+> +2026年8月29日
+> +
+> +“OHCI-hcd”驱动程序是一个USB主机控制器驱动程序（HCD），它源自2.4内核系列中的“usb-ohci”
+> +驱动程序。“usb-ohci”代码主要由 Roman Weissgaerber<weissg@vienna.at> 编写，但也获得了
+> +许多其他人的贡献（请阅读其版权）
+> +。
+> +
+> +它支持“开放主机控制器接口”（OHCI），该接口标准化了用于与USB 1.1主机控制器通信的硬件寄
+> +存器协议。与英特尔早期的“通用主机控制器接口”（UHCI）相比，它将更多只能功能注入到硬件
+> +中。除英特尔和威盛之外的其他供应商的USB1.1控制器通常使用OHCI。
+> +
+> +自2.4内核以来的更改包括
+> +
+> + - 提高了健壮性; 修复了错误; 减少了开销
+> + - 支持更新和简化的usbcore API
+> + - 中断传输可以更大，并且可以排队
+> + - 通过使用上层“hcd”框架，减少代码量
+> + - 支持一些非PCI的OHCI实现
+> + - ... 以及更多
+> +
+> +“OHCI-hcd”驱动程序处理所有USB 1.1传输类型。所有类型的传输都可以排队。在“usb-ohci”中也
+> +是如此，但中断传输除外。以前，使用一帧的周期会因为IRQ处理的开销而导致数据丢失的风险。
+> +当中断传输排队时，可以通过确保硬件在操作系统处理相关IRQ时始终有传输需要处理，来最大限
+> +度的降低这些风险
+> +
+> +- David Brownell
+> +<dbrownell@users.sourceforge.net>
+> -- 2.53.0 On Mon, Sep 7, 2026 at 4:37 AM Alex Shi <seakeel@gmail.com> 
+> wrote:
+>>
+>>
+>> On 2026/8/30 02:48, Jiaming Ouyang wrote:
+>>>   From 395948212144549e20cfcdbd053817c4e068da35 Mon Sep 17 00:00:00 2001
+>>> From: Jiaming Ouyang<jiamingouyang13@gmail.com>
+>>> Date: Sat, 29 Aug 2026 20:35:37 +0200
+>>> Subject: [PATCH] docs/zh_CN: add usb/ohci translation
+>>>
+>>> Signed-off-by: Jiaming Ouyang<jiamingouyang13@gmail.com>
+>>> ---
+>>>    .../translations/zh_CN/usb/index.rst          |  2 +-
+>>>    Documentation/translations/zh_CN/usb/ohci.rst | 37 +++++++++++++++++++
+>>>    2 files changed, 38 insertions(+), 1 deletion(-)
+>>>    create mode 100644 Documentation/translations/zh_CN/usb/ohci.rst
+>>>
+>>> diff --git a/Documentation/translations/zh_CN/usb/index.rst
+>>> b/Documentation/translations/zh_CN/usb/index.rst
+>>> index df99814c6497..c96eacf13e11 100644
+>>> --- a/Documentation/translations/zh_CN/usb/index.rst
+>>> +++ b/Documentation/translations/zh_CN/usb/index.rst
+>>> @@ -32,6 +32,7 @@ USB 支持
+>>>        chipidea
+>>>        dwc3
+>>>        ehci
+>>> +    ohci
+>>>        usbmon
+>>>
+>>>    待翻译文档：
+>>> @@ -49,7 +50,6 @@ USB 支持
+>>>    * mass-storage
+>>>    * misc_usbsevseg
+>>>    * mtouchusb
+>>> -* ohci
+>>>    * raw-gadget
+>>>    * usbip_protocol
+>>>    * usb-serial
+>>> diff --git a/Documentation/translations/zh_CN/usb/ohci.rst
+>>> b/Documentation/translations/zh_CN/usb/ohci.rst
+>>> new file mode 100644
+>>> index 000000000000..4387bb274071
+>>> --- /dev/null
+>>> +++ b/Documentation/translations/zh_CN/usb/ohci.rst
+>>> @@ -0,0 +1,37 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0
+>>> +
+>>> +:Original: Documentation/usb/ohci.rst
+>>> +
+>>> +:翻译: 欧阳家铭 Jiaming Ouyang<jiamingouyang13@gmail.com>
+>>> +
+>>> +========
+>>> +OHCI驱动
+>>> +========
+>>> +
+>>> +2026年8月29日
+>>> +
+>>> +“OHCI-hcd”驱动程序是一个USB主机控制器驱动程序（HCD），它源自2.4内核系列中的“usb-ohci”
+>>> +驱动程序。“usb-ohci”代码主要由 Roman Weissgaerber<weissg@vienna.at> 编写，但也获得了
+>>> +许多其他人的贡献（请阅读其版权）
+>>> +。
+>>> +
+>>> +它支持“开放主机控制器接口”（OHCI），该接口标准化了用于与USB 1.1主机控制器通信的硬件寄
+>>> +存器协议。与英特尔早期的“通用主机控制器接口”（UHCI）相比，它将更多只能功能注入到硬件
+>>> +中。除英特尔和威盛之外的其他供应商的USB1.1控制器通常使用OHCI。
+>>> +
+>>> +自2.4内核以来的更改包括
+>>> +
+>>> + - 提高了健壮性; 修复了错误; 减少了开销
+>>> + - 支持更新和简化的usbcore API
+>>> + - 中断传输可以更大，并且可以排队
+>>> + - 通过使用上层“hcd”框架，减少代码量
+>>> + - 支持一些非PCI的OHCI实现
+>>> + - ... 以及更多
+>>> +
+>>> +“OHCI-hcd”驱动程序处理所有USB 1.1传输类型。所有类型的传输都可以排队。在“usb-ohci”中也
+>>> +是如此，但中断传输除外。以前，使用一帧的周期会因为IRQ处理的开销而导致数据丢失的风险。
+>>> +当中断传输排队时，可以通过确保硬件在操作系统处理相关IRQ时始终有传输需要处理，来最大限
+>>> +度的降低这些风险
+>>> +
+>>> +- 欧阳家铭 Jiaming Ouyang
+>>> +<jiamingouyang13@gmail.com>
+>> This signature might mislead people into thinking you are the author.
+>>
+>> Please keep the original autor:
+>> - David Brownell
+>>     <dbrownell@users.sourceforge.net>
+>>    > -- 2.53.0
+
