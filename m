@@ -1,168 +1,279 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E24440A920;
-	Mon,  7 Sep 2026 08:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4261137106E
+	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 08:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788768032; cv=none; b=UgBgMreWbJ5z0EQRe4g9VSyaC+FdTQ3qKht2s2GZ+Yg7zZLQaMlr4NcNo3RtmgI44jesucZMtftVzVK3aKEfu8LEFFjfqVLIAmnqz2hlqwzWgY2HTiLzo0yBXe3/wVufu/4ynoQl7m5TsseYn9VMNkWCbP+qE8BPgmRcUpaf+nw=
+	t=1788768545; cv=none; b=epINUkVuTZLkOWrw6M0ltMnA3FGSzqWWLNDzOqjLXNbi4etLO9sHfvFIfvujWyZwIfLsZQFBL8f2Q+P6/C925CA6VRDpRCftmlX/zVikOni3tgkQaI4alFZoM04B2gEDPlFC6FbVOexkJ94C7Ge1dI/69USEUisWdkonktsN/vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788768032; c=relaxed/simple;
-	bh=FeJU9vE+CU76Xi9GfavQWBSN/s/1bxon5OC3xJ4ge5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nKpJ1ZhNWDJtMyUOhkvODJbUn6GgSZm0Mf2dWNImPoorZ5xu+yT6WfeNEGAtsELQndGhK6nhf5Nh0EfL5qD8sy4wY7uy2vFNaJ5rcw73QKS/OsTAl9+s/QgyHfAZ8w/yEC+eJjTBxjNEmc9I4x4oqjvkNhDPp17++gk7vNg7FVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=r/pmLGse; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=d7o2qPjc; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1TJA9Wbk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oPJIiQrZ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1788768545; c=relaxed/simple;
+	bh=rPz0xDbTD8p93bPYQVOUv/fwKoXoM0jlUbzg+c/kUYI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e6JZn8rNKzbx0mciWUdtxD3SCpyAQeDStY28WPcYTAACMxdR2pa3M9IWaIUydEHFE506E7STOfD7/imFFmvupqIMu5kLOxe57LShEGV6oodCaRCMWuyYPqZzC78Py7cj5n1mFt81m2G5B6tnyn8WxGg0FwbrSx7XGEPlbXmTRHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b2QJLDaW; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r/pmLGse";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="d7o2qPjc";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1TJA9Wbk";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oPJIiQrZ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C0FF421B18;
-	Mon,  7 Sep 2026 08:00:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788768024; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FEBOJEt5KZS43kfEoAVZVttylh2W9OoDxC9m7JqILVc=;
-	b=r/pmLGsekhd7MHn0C7eFe8MxWcH31bcPeqT3JcwbB0dcr+7zGxQFYCmfGKgNAOkZQDM3yT
-	9D7seJAUtdLV6dci6zbme1zIEvs6yvendeJJeooxAeZgNtE7WVymF/9pgm5EHUAlH/ty7t
-	XsZxoJELSMTFbHBRo3qJGLsaWx4USqw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788768024;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FEBOJEt5KZS43kfEoAVZVttylh2W9OoDxC9m7JqILVc=;
-	b=d7o2qPjcG3CvSbFGvcuDsnbIROicV07olh1NPoWRfoB8ypU+T1MwvUUAy50jk0UniaWlal
-	PYQ9xjHtLtFwRdBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788768020; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FEBOJEt5KZS43kfEoAVZVttylh2W9OoDxC9m7JqILVc=;
-	b=1TJA9WbkKA+fYimVVshOfhTh46dW/mrELdCYovyZmvGsjJYh1XipO6SqkU5LFmbpLSc650
-	MB5ErPttx4WaEaSLvqD3qDQ6CE1vDPoyxio7SRWopu1az1F/cRtHZLkBxX7vxQDEtoB9Hw
-	XHr6KGnV2T7VAI8oX+gGqVmABP5LXrs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788768020;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FEBOJEt5KZS43kfEoAVZVttylh2W9OoDxC9m7JqILVc=;
-	b=oPJIiQrZw/9l8+TlBwJGL8oLUqDbGhyFaM7k+RX57Unr58ULVVZWOLfTmiUkOHfKUTzrf/
-	EwmNiTKd7c5ds0Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C7271339B;
-	Mon,  7 Sep 2026 08:00:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wbYsJhRvnmq2JAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 07 Sep 2026 08:00:20 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 2EF31A13B2; Mon, 07 Sep 2026 10:00:16 +0200 (CEST)
-Date: Mon, 7 Sep 2026 10:00:16 +0200
-From: Jan Kara <jack@suse.cz>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jan Kara <jack@suse.cz>, Jakub Kicinski <kuba@kernel.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Hisam Mehboob <hisamshar@gmail.com>, 
-	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>, Amir Goldstein <amir73il@gmail.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Eric Biggers <ebiggers@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	David Howells <dhowells@redhat.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Theodore Ts'o <tytso@mit.edu>, Catalin Iacob <iacobcatalin@gmail.com>, 
-	Stephen Hemminger <stephen@networkplumber.org>, Andrew Lunn <andrew@lunn.ch>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, Andrei Vagin <avagin@gmail.com>, 
-	Wei Yang <richard.weiyang@gmail.com>, Bhavik Sachdev <b.sachdev1904@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Wang Yan <wangyan01@kylinos.cn>, 
-	Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, Malaya Kumar Rout <malayarout91@gmail.com>, 
-	linux-doc@vger.kernel.org, linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Luis de Bethencourt <luisbg@kernel.org>, 
-	Salah Triki <salah.triki@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH] bfs: remove the filesystem
-Message-ID: <fee7t27m5tfbqcf2wsin3yd3mluz3yjnw7z6av6tts2qh6lnwa@qleeg76z37nl>
-References: <20260904082954.48738-1-enelsonmoore@gmail.com>
- <20260904-hinnimmt-triumphieren-handgefertigt-4e51fe2ed659@brauner>
- <20260904151054.GG6047@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b2QJLDaW"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2d032846c95so35690595ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 01:09:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788768542; x=1789373342; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yeQPHr3k4W49mwlDeTXOdB54qRtzTpZiMlZNmTvTcKk=;
+        b=b2QJLDaWtOwAeCdAyQq+EXIKcHu1+G7XBDuUcNpbJj9UnGf2VdW4t75KDjVC4m6weT
+         0QcZ9EeihuBVuic0TxRogjsVH0ZP2P3On63qa2dyJZD6i5F95Nnxv11+1YDEYlgfAyzJ
+         IZ1zopuHAjG9JWSfVi9gD8alfGKIlQgePj3N9+zjs13kAx4dAVS/S61YUvIbqvB4ymb4
+         1t/DQulFbzDcykGaXhc01c2USCOPkUHYcTD9w/1Ak8sKqlGJn103e7QXv8EAugAn2dNV
+         GFo4djWo19MEaA7t03wIzUwNJBhLxg+lzbbWP9H77IduYn9DRXVF3K4QX3m5lfKc++5t
+         Yd4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788768542; x=1789373342;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yeQPHr3k4W49mwlDeTXOdB54qRtzTpZiMlZNmTvTcKk=;
+        b=PobhuXPbnaM6vP7qOrgMMbVZzvek9FFwq+ZJ/4YGIyur9vlBn3IReXMEXExRUKpdMi
+         jbk/JOEmL7oAfV/HBvE/TTKLvf9sT5KhmwmIEWkxCJ4qopyy0aZQa7aIiViPKmq5+kYr
+         nw47xZtvfq5WIl4nV233Qq/dOqoFwe4R608oR7z5Xryo6TkojShcy7/LLvmIrmIxgK/e
+         KKQ6OS5WjCYJFMzKH2KNu1YJxK0byMoXovIVK9XKCIJLgAO25WdeYmeF0twWaFWllho/
+         sejE4IXN1Cznr8fe7VlO0DOG+Ypqs/Pmsnsz6BLkbz7Bf3gfCDq0JFJYhM8+vVLrcbSC
+         wY8w==
+X-Forwarded-Encrypted: i=1; AKwUvBxq22vWhLYt9MRDmADeuLzYoIj7WBErlZXIuJLMDTxIeq8oCMkYOSPhbW1NEe+Wa9J2M8otxFC8eZY=@vger.kernel.org
+X-Gm-Message-State: AFuF++khXLtGEwFneuW3l4E70SFzrKOL+sgI0XvTLBoB6JKGAolSavWD
+	bZp8Ygl4KMdaduGmoXqPgxJbEw6o0PTp068GvK6p1Ms7DQh2bmaoQKel
+X-Gm-Gg: AYBFou2H6rnrUZolpH5ZQwmc0BCPoBmYMphnNTfDECymwjEzfV9fZIKy+mbfaAf5QU4
+	smm3gJ0HLO6HxVLr48Hj7CLTFhvBz+XQZJehzt/yPPtn4FcieI5fKStxL/FKXI/x3qquOvFZLsy
+	etSp6Tz7AJLEBc9rG1xrmKr9j5GSxDjUIc7LKhu/Z+tOOSgZwafNjW6s5HsL0xXwHdOajJUtk4i
+	u/iEHZttPYNRtFtCzImBjc3FYBhFVZxh4U12cL+pk4HbGDr1CFWmA2RIwlRBSFlqbtl2XvvapaN
+	i/0N7tDFm0wkyg9sqnfjdXST46TLE3VYWKS+dqW+XWjMwTW5ithyN5Xf3XiW72ea+qKE3/7VDBD
+	uixTQjqHF3Aj3Zm8I825kNurXqcXoSp8p9Uz05xgHjzO1t4KadXbTNjEYfCTI403twikOUV+aAz
+	75WysG3I+1GijHVqP7GHhZPtwDaW4LU8abd5egauRHlyeY6DtSeBFwsD7g1k4a1FZaL+oYPJaPp
+	mfPhbo0zDeWDSSpJjclZmpaaj7Izm+CdVI62d2XdldaTIWhWj1Lc/F3JmLZcpVYxA==
+X-Received: by 2002:a17:903:4683:b0:2cf:c543:2c7e with SMTP id d9443c01a7336-2db125a16fdmr355053065ad.10.1788768541992;
+        Mon, 07 Sep 2026 01:09:01 -0700 (PDT)
+Received: from cs00-MS-7C09.. (2001-b400-e332-0a85-7dbb-93aa-5d32-f5d9.emome-ip6.hinet.net. [2001:b400:e332:a85:7dbb:93aa:5d32:f5d9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2db14ae36adsm40617015ad.76.2026.09.07.01.08.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 01:09:00 -0700 (PDT)
+From: hsyemail2@gmail.com
+X-Google-Original-From: syhuang3@nuvoton.com
+To: Guenter Roeck <linux@roeck-us.net>,
+	linux-hwmon@vger.kernel.org
+Cc: Sheng-Yuan Huang <syhuang3@nuvoton.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v1] hwmon: (lm75) Add support for Nuvoton NCT7715
+Date: Mon,  7 Sep 2026 16:08:30 +0800
+Message-ID: <20260907080831.11281-1-syhuang3@nuvoton.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260904151054.GG6047@frogsfrogsfrogs>
-X-Spam-Level: 
-X-Spam-Score: -2.30
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[43];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLizrtjkoytmmoj3iud1rzij51)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,infradead.org,ellerman.id.au,gmail.com,suse.cz,posteo.de,linux-m68k.org,redhat.com,alpha.franken.de,mit.edu,networkplumber.org,lunn.ch,orcam.me.uk,linux-foundation.org,kylinos.cn,vger.kernel.org,lists.ozlabs.org,lwn.net,linux.ibm.com,zeniv.linux.org.uk];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
+Content-Transfer-Encoding: 8bit
 
-On Fri 04-09-26 08:10:54, Darrick J. Wong wrote:
-> On Fri, Sep 04, 2026 at 12:43:09PM +0200, Christian Brauner wrote:
-> > On Fri, 04 Sep 2026 01:29:19 -0700, Ethan Nelson-Moore wrote:
-> > > bfs: remove the filesystem
-> > 
-> > I agree.
-> 
-> At the moment, I don't.  Nowhere in this thread does anyone mention what
-> someone with a B(oot)FS filesystem image should do if they want to
-> extract whatever's stored in the filesystem.  Are there userspace tools
-> for that purpose (ala efs)?  Does "binwalk -e $bfs_image" suffice for
-> that purpose?  Or is there solid evidence that there isn't even a single
-> user (ala freevxfs) who strongly wants it to stay in?
+From: Sheng-Yuan Huang <syhuang3@nuvoton.com>
 
-BFS was only ever used for boot partitions of some old unix clone (see
-Tigran's initial reply). I have hard time imagining someone has some data
-on such partition he wants to still read. And if such exceptional case
-arises, I agree that just using old kernel in UML / VM is a viable
-alternative.
+The Nuvoton NCT7715 is compatible with the LM75 temperature and
+limit register layout, but its 16-bit configuration register is
+transmitted most-significant byte first. Add support for the NCT7715,
+including byte-swapped SMBus accesses for its configuration register.
 
-> I'm all for getting rid of old cruft but there still needs to be a
-> documented offramp for users.
+Handle its conversion-rate field and shutdown bit separately, since
+their bit positions differ from the standard LM75 layout.
 
-Yes, I agree that it would be good to document this approach.
+Signed-off-by: Sheng-Yuan Huang <syhuang3@nuvoton.com>
+---
+ .../devicetree/bindings/hwmon/lm75.yaml       |  1 +
+ Documentation/hwmon/lm75.rst                  |  6 ++
+ drivers/hwmon/lm75.c                          | 57 ++++++++++++++++++-
+ 3 files changed, 62 insertions(+), 2 deletions(-)
 
-								Honza
+diff --git a/Documentation/devicetree/bindings/hwmon/lm75.yaml b/Documentation/devicetree/bindings/hwmon/lm75.yaml
+index b48bf3fd721f..832a8c5d83e9 100644
+--- a/Documentation/devicetree/bindings/hwmon/lm75.yaml
++++ b/Documentation/devicetree/bindings/hwmon/lm75.yaml
+@@ -31,6 +31,7 @@ properties:
+       - nxp,p3t1750
+       - nxp,p3t1755
+       - nxp,pct2075
++      - nuvoton,nct7715
+       - st,stds75
+       - st,stlm75
+       - microchip,tcn75
+diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
+index ca46754e028b..fac0b8f29ddc 100644
+--- a/Documentation/hwmon/lm75.rst
++++ b/Documentation/hwmon/lm75.rst
+@@ -150,6 +150,12 @@ Supported chips:
+ 
+                https://ams.com/documents/20143/36005/AS6200_DS000449_4-00.pdf
+ 
++  * Nuvoton NCT7715
++
++    Prefix: 'nct7715'
++
++    Addresses scanned: none
++
+ Author: Frodo Looijaard <frodol@dds.nl>
+ 
+ Description
+diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
+index 2d2d752aeac9..0b55f6b7c68d 100644
+--- a/drivers/hwmon/lm75.c
++++ b/drivers/hwmon/lm75.c
+@@ -39,6 +39,7 @@ enum lm75_type {		/* keep sorted in alphabetical order */
+ 	max6626,
+ 	max31725,
+ 	mcp980x,
++	nct7715,
+ 	p3t1750,
+ 	p3t1755,
+ 	pct2075,
+@@ -107,6 +108,15 @@ static const unsigned short normal_i2c[] = { 0x48, 0x49, 0x4a, 0x4b, 0x4c,
+ #define LM75_REG_MAX		0x03
+ #define PCT2075_REG_IDLE	0x04
+ 
++#define NCT7715_CONFIG_RESOLUTION_12_BIT	GENMASK(14, 13)
++#define NCT7715_CONFIG_SHUTDOWN			BIT(8)
++#define NCT7715_CONFIG_CONVERSION_RATE_MASK	GENMASK(7, 6)
++#define NCT7715_CONFIG_EXTENDED_MODE		BIT(4)
++#define NCT7715_CONFIG_RATE_0_25HZ		0
++#define NCT7715_CONFIG_RATE_1HZ			BIT(6)
++#define NCT7715_CONFIG_RATE_4HZ			BIT(7)
++#define NCT7715_CONFIG_RATE_8HZ			GENMASK(7, 6)
++
+ struct lm75_data {
+ 	const char *label;
+ 	struct regmap			*regmap;
+@@ -122,6 +132,10 @@ struct lm75_data {
+ /*-----------------------------------------------------------------------*/
+ 
+ static const u8 lm75_sample_set_masks[] = { 0 << 5, 1 << 5, 2 << 5, 3 << 5 };
++static const u16 nct7715_sample_set_masks[] = {
++	NCT7715_CONFIG_RATE_8HZ, NCT7715_CONFIG_RATE_4HZ,
++	NCT7715_CONFIG_RATE_1HZ, NCT7715_CONFIG_RATE_0_25HZ
++};
+ 
+ #define LM75_ALERT_POLARITY_HIGH_8_BIT	(BIT(2))
+ #define LM75_ALERT_POLARITY_HIGH_16_BIT	(BIT(2) << 8)
+@@ -259,6 +273,15 @@ static const struct lm75_params device_params[] = {
+ 		.sample_times = (unsigned int []){ 30, 60, 120, 240 },
+ 		.resolutions = (u8 []) {9, 10, 11, 12 },
+ 	},
++	[nct7715] = {
++		.config_reg_16bits = true,
++		.set_mask = NCT7715_CONFIG_RESOLUTION_12_BIT,
++		.clr_mask = NCT7715_CONFIG_EXTENDED_MODE,
++		.default_resolution = 12,
++		.default_sample_time = 250,
++		.num_sample_times = 4,
++		.sample_times = (unsigned int []){ 125, 250, 1000, 4000 },
++	},
+ 	[tmp100] = {
+ 		.set_mask = 3 << 5,	/* 12-bit mode */
+ 		.clr_mask = 1 << 7,	/* not one-shot mode */
+@@ -354,6 +377,11 @@ static inline long lm75_reg_to_mc(s16 temp, u8 resolution)
+ static inline int lm75_write_config(struct lm75_data *data, u16 set_mask,
+ 				    u16 clr_mask)
+ {
++	if (data->kind == nct7715)
++		return regmap_update_bits(data->regmap, LM75_REG_CONF,
++					  clr_mask | set_mask | NCT7715_CONFIG_SHUTDOWN,
++					  set_mask);
++
+ 	return regmap_update_bits(data->regmap, LM75_REG_CONF,
+ 				  clr_mask | set_mask | LM75_SHUTDOWN, set_mask);
+ }
+@@ -486,6 +514,13 @@ static int lm75_update_interval(struct device *dev, long val)
+ 		if (data->params->resolutions)
+ 			data->resolution = data->params->resolutions[index];
+ 		break;
++	case nct7715:
++		err = lm75_write_config(data, nct7715_sample_set_masks[index],
++					NCT7715_CONFIG_CONVERSION_RATE_MASK);
++		if (err)
++			return err;
++		data->sample_time = data->params->sample_times[index];
++		break;
+ 	case tmp112:
+ 	case as6200:
+ 		err = regmap_update_bits(data->regmap, LM75_REG_CONF,
+@@ -609,6 +644,8 @@ static int lm75_i2c_reg_read(void *context, unsigned int reg, unsigned int *val)
+ 	if (reg == LM75_REG_CONF) {
+ 		if (!data->params->config_reg_16bits)
+ 			ret = i2c_smbus_read_byte_data(client, LM75_REG_CONF);
++		else if (data->kind == nct7715)
++			ret = i2c_smbus_read_word_swapped(client, LM75_REG_CONF);
+ 		else
+ 			ret = i2c_smbus_read_word_data(client, LM75_REG_CONF);
+ 	} else {
+@@ -628,8 +665,11 @@ static int lm75_i2c_reg_write(void *context, unsigned int reg, unsigned int val)
+ 	if (reg == PCT2075_REG_IDLE ||
+ 	    (reg == LM75_REG_CONF && !data->params->config_reg_16bits))
+ 		return i2c_smbus_write_byte_data(client, reg, val);
+-	else if (reg == LM75_REG_CONF)
++	else if (reg == LM75_REG_CONF) {
++		if (data->kind == nct7715)
++			return i2c_smbus_write_word_swapped(client, reg, val);
+ 		return i2c_smbus_write_word_data(client, reg, val);
++	}
+ 	return i2c_smbus_write_word_swapped(client, reg, val);
+ }
+ 
+@@ -848,6 +888,7 @@ static const struct i2c_device_id lm75_i2c_ids[] = {
+ 	{ .name = "max31725", .driver_data = max31725 },
+ 	{ .name = "max31726", .driver_data = max31725 },
+ 	{ .name = "mcp980x", .driver_data = mcp980x },
++	{ .name = "nct7715", .driver_data = nct7715 },
+ 	{ .name = "p3t1750", .driver_data = p3t1750 },
+ 	{ .name = "p3t1755", .driver_data = p3t1755 },
+ 	{ .name = "pct2075", .driver_data = pct2075 },
+@@ -972,6 +1013,10 @@ static const struct of_device_id lm75_of_match[] = {
+ 		.compatible = "nxp,pct2075",
+ 		.data = (void *)pct2075
+ 	},
++	{
++		.compatible = "nuvoton,nct7715",
++		.data = (void *)nct7715
++	},
+ 	{
+ 		.compatible = "st,stds75",
+ 		.data = (void *)stds75
+@@ -1129,13 +1174,21 @@ static int lm75_suspend(struct device *dev)
+ {
+ 	struct lm75_data *data = dev_get_drvdata(dev);
+ 
+-	return regmap_update_bits(data->regmap, LM75_REG_CONF, LM75_SHUTDOWN, LM75_SHUTDOWN);
++	if (data->kind == nct7715)
++		return regmap_update_bits(data->regmap, LM75_REG_CONF,
++					  NCT7715_CONFIG_SHUTDOWN,
++					  NCT7715_CONFIG_SHUTDOWN);
++	return regmap_update_bits(data->regmap, LM75_REG_CONF,
++				  LM75_SHUTDOWN, LM75_SHUTDOWN);
+ }
+ 
+ static int lm75_resume(struct device *dev)
+ {
+ 	struct lm75_data *data = dev_get_drvdata(dev);
+ 
++	if (data->kind == nct7715)
++		return regmap_update_bits(data->regmap, LM75_REG_CONF,
++					  NCT7715_CONFIG_SHUTDOWN, 0);
+ 	return regmap_update_bits(data->regmap, LM75_REG_CONF, LM75_SHUTDOWN, 0);
+ }
+ 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.43.0
+
