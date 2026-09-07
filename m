@@ -1,286 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A6B2BDC1C;
-	Mon,  7 Sep 2026 15:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DBB4F55BD
+	for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2026 15:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788794130; cv=none; b=GUBOZCmF6IusAhHa5DVbveazTcW/gxs0oUFb+vQjfSj7XtJ49Q9yWsmwcPmp5lkc23x+eu6+ogzIT3G1aPGgLbVmprrYkhz+u0n2BvE37ycU+mVD920ilZ6kRAAUGrM+AA6cvvoHccVe9uTPD6i5QSPoPl71SIG4lbK49IjNsjw=
+	t=1788794233; cv=none; b=b64MmxZku/bgVE20PKfje02Mr9O5gqftH+FlLfaNKzU6rl3bHXtAjho1wzRQEt/HJiuGSVYy513ij5DAJCLjfP16D+L7nM8SXPZC/xZX/PHwT4pK8IYphGFwWFrwV5R++HU4jaL3VAkAm0JYJ1kHTu6MmVnbwtboNJgU+y/JTkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788794130; c=relaxed/simple;
-	bh=sVyEianJEmsmNv8odnB6QrpoJZkRjqeCjoAPD0AAGqk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rF9XweWJ/7X61+Nr0CEax5GP0EQ4W2LCprjIsO8AZ9tWCppQSenWQgOIlBq6xyLCJyRGXpPuFq7l7D2/G8Igq1LB8BGvFEoJ9cEfbYvCKDLw0+1YEXMSi/q8i9YjEuMgLZbGNT7bRMjyEEphV2MFUIQso6/AuzMcktojgkP4aJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=euGPfO0e; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788794233; c=relaxed/simple;
+	bh=W9soBYUrQs9hrQ3vYMI015rHKFkkfuGC4CrmjKyM3uU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S1oLQsjedo/g1toOOq4jHEMdyC6t4CfnrUb248AO2hrunhrpK0eoZYyR1HtOHKvOeajiw5yO4pm8AHE9fuPJtZPQ+eOAA7mCNi4nE7+XTXir7WHhwdOYB8gaQunDbK9JVHLE4bb6rnyAEZr5Dx20yyLmwYKZAaNOmCMXIWbilAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ob0DaEMb; arc=none smtp.client-ip=74.125.228.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="euGPfO0e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE94A1F00A3A;
-	Mon,  7 Sep 2026 15:15:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788794128;
-	bh=LI25JDv6LdNw5GdP3MdBucH0tpqtW3EinfdRXPIOwiI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=euGPfO0ehic5DgwGGkfjKu2JXIQIkYF5QqhsNhhQ8GYQ6fP8C8RvWTRpMyrfYxOOh
-	 VLCa5/GQbIbRsqek+3ZUjTVrd6DJqgCtI/fiw8SJWuTVbR/d9LHrA3tCX0kW/cmw60
-	 WDm/ASKaufbBR6jq781kYTujJNTKx/CePweRVq5wf0Wo43SaHaRNfSzx59dXpywJ6Z
-	 jIanAfMNDKZwsax14FRMi5tpTo8JYLLlvJ34HImhgkH+VtNrZY3TDhV1kdRpx8rJO+
-	 NPQznX5FP+rFbTQ0MgfjxS88Wa0zLAnFJuqbLkUAr1jkwBYAXKytu1k4lhP7ZuiqdO
-	 JKzXdjX5y2mTQ==
-Message-ID: <b0400430-c3b6-40d5-b476-49189b1cc292@kernel.org>
-Date: Mon, 7 Sep 2026 17:15:17 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ob0DaEMb"
+Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a6141a61c0so12945a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 08:17:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788794230; x=1789399030; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rpQaMoBy+ANddHal2PnUV9pNK1krtVdl6eHRQ/UORPQ=;
+        b=Ob0DaEMbaI+5TL/C1ybc1GNES9mTYM83xnN8bht3K1+zKDLuIgdEr7bk5nvLH24JSR
+         TGqQOfUbmcboeDcNKZ/LTNGyouxrjnWr6OB+3tZfHjkA4KAhu+x1s1A0HUl3e6RKwKth
+         8JqwvYfr/FUD9eoaksaSuRVXKYvPv0EEASW26HCvPL1s4Yo17Km52rowWewgfEzi2qI6
+         w3ow+dl8bli8zteBPq1BsmEvwqX78Tg43Eh+BMEy2cFZRvwRDViURisxIzwrFRgMkT5s
+         /RLvKBIbw1UrrOaWU1gJDuyVpVWmYrVSiMVeuX3LX42hvJ/G277oClT0NkwBIUfClERu
+         OSqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788794230; x=1789399030;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rpQaMoBy+ANddHal2PnUV9pNK1krtVdl6eHRQ/UORPQ=;
+        b=rT2SxgfnOXMUWw5yD68c6Xw472v4cw6Bv0pUwPD5rkQNCEf5Prtiqcr96wzTxWoagC
+         TI2mycx/U3vTMgiBoLBneVjGDbmBCqTzpz094My4BTQ2Ckk49L6F7/H9BZAAiGbvBhFX
+         ZA6nXzCjKyTkkOY6Wntcn0SP10smP2XpKh3C2kNDb/FHCIzzybzyuXFsTNlHVp57ru56
+         xEW/NBimjZm6wKaoMPiEueXyP+xQAiH9bJ1MqI6haYtO7/ioyDdqmHWvNAB4NYyPcajY
+         mAcsg7ablB3xUmAMngsY5lDTHQWhFztPYaAie3u+9fbaIRNVyowcmqeox/Yp5oCoWxhQ
+         bbUg==
+X-Forwarded-Encrypted: i=1; AKwUvByhfiiAhs2LD98fuR4bI5eLlZJb/QhC4xYfMMz7x+xyt+AUsCJDVI3Lh2xx6PpLSJp2u+BykYXUrIA=@vger.kernel.org
+X-Gm-Message-State: AFuF++mzE5hOTICD1xy6GCSgib3vkttGq+KyahMY75CDlUt0un88h1iG
+	2/vF4EtG9j4SYx9FBM4dK5pX6W6482wIijRruYYxpwe0w+tHECGMy2GtpAHdIMrEyg==
+X-Gm-Gg: AYBFou1+A5VkR3SyYgDOPULrruwU9Ks6nSjHnMTiDPU+aCjLS32OmJYKGPD5lmul8hc
+	Ck6XlRITQVKT5CL/inGhR28J1IE2w2Uf0paSQf7JIz48FdVd1qMxbPYI7+whREYx7j/jWuXw9oE
+	8Fa9UmrWJtQk26qktoGKPS9k2zBhOwR3s30bfPwVMzqYDadtqZ32gyt8TEKxtE/NEanRBbEa3db
+	dx+XbI9+4vFCBglp2aXh24UJU2+kAAI2YETBmd1SdwS2eZW/Zfz1x8qCRy+MfjV1A2Z2EX7HO/0
+	uEbs8jIpblrAilNWXsI4ebYMFx/2Bz6qhUaa5yoJk4QtGncEtpV99rEtz1uqG8L5IQEcNInklw2
+	NqHdjS0LqnVAxvaP0BQ57wRv9VZvLVXRg4H3+excaqcAF4taKEqSNXPcGgcACzsPU+y/EWV5xL/
+	PAvF56BypoYnMVZPVbbx0qz5PMHgXMHAyOxeSe0ESEHSp4iJoqmnbTgZ0UfZt9Y5qQBtLE8A8t3
+	wdsWvkJ7UMQHf9HPDQJw4EicmdwaQ==
+X-Received: by 2002:a05:6402:a288:20b0:6a0:a317:9c47 with SMTP id 4fb4d7f45d1cf-6a7f6887515mr62121a12.3.1788794229526;
+        Mon, 07 Sep 2026 08:17:09 -0700 (PDT)
+Received: from google.com (250.192.189.35.bc.googleusercontent.com. [35.189.192.250])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d5b29f3sm482498766b.52.2026.09.07.08.17.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 08:17:08 -0700 (PDT)
+Date: Mon, 7 Sep 2026 15:17:04 +0000
+From: Mostafa Saleh <smostafa@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Will Deacon <will@kernel.org>, David Matlack <dmatlack@google.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	Pranjal Shrivastava <praan@google.com>,
+	Samiullah Khawaja <skhawaja@google.com>, stable@vger.kernel.org,
+	Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
+Subject: Re: [PATCH v5 1/9] iommu/arm-smmu-v3: Handle ARM erratum for CONT
+ under invalidation with SVA
+Message-ID: <ap7VcBXG0NyX6acW@google.com>
+References: <0-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
+ <1-v5-b810cf379bfc+13d738-smmu_tlbi_jgg@nvidia.com>
+ <ap7IeAfVPZL3Hqt_@google.com>
+ <20260907151145.GY4157646@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 6/6] selftests/mm: add a GUP selftest
-To: Sarthak Sharma <sarthak.sharma@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
- <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Mark Brown <broonie@kernel.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Muhammad Usama Anjum <usama.anjum@arm.com>, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260904123631.198697-1-sarthak.sharma@arm.com>
- <20260904123631.198697-7-sarthak.sharma@arm.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260904123631.198697-7-sarthak.sharma@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260907151145.GY4157646@nvidia.com>
 
-On 9/4/26 14:36, Sarthak Sharma wrote:
-> Add a new GUP selftest which uses kselftest_harness.h. Cover
-> 12 mapping configurations: THP enabled, THP disabled and
-> HugeTLB, each across private/shared mappings and with/without
-> FOLL_WRITE. Run 5 test cases for every variant: get_user_pages,
-> get_user_pages_fast, pin_user_pages, pin_user_pages_fast and
-> pin_user_pages_longterm.
+On Mon, Sep 07, 2026 at 12:11:45PM -0300, Jason Gunthorpe wrote:
+> On Mon, Sep 07, 2026 at 02:21:44PM +0000, Mostafa Saleh wrote:
+> > > +static bool arm_smmu_cmdq_batch_add_ril(struct arm_smmu_device *smmu,
+> > > +					struct arm_smmu_cmdq_batch *cmds,
+> > > +					struct arm_smmu_cmd *cmd,
+> > > +					unsigned long iova, size_t size,
+> > > +					u8 tgsz_lg2)
+> > > +{
+> > > +	u64 cur_tg = iova >> tgsz_lg2;
+> > 
+> > Nit: tg suffix is a bit confusing, I guess pfn is more accurate, but
+> > no strong opinion.
 > 
-> Choose the number of default hugeTLB pages using a 256 MiB target,
-> with a minimum of 1 page and derive the mapping size from that
-> number. This avoids reserving excess memory when the hugeTLB page
-> size is too large and retains 128 pages for the most common case
-> of 2MiB hugeTLB pages.
+> I don't want to use pfn in any of this code because convention has PFN
+> as PAGE_SIZE, while this is a "translation granule", ie the base
+> granule size of the iommu domain. Which are not always the same thing..
+
+But this is an address not a granule size, not sure what that could
+be called then :)
+
+Thanks,
+Mostafa
+
+
 > 
-> Sweep four nr_pages_per_call values for each test: 1, 512, 123 and
-> all pages. This preserves the coverage previously provided by
-> run_gup_matrix(): 12 mapping combinations x 5 GUP/PUP operations x 4
-> batch sizes. In total the selftest reports 60 TAP cases and issues
-> 240 ioctls.
-> 
-> Do not carry DUMP_USER_PAGES_TEST into the new selftest because its
-> output is written to the kernel log and the selftest does not verify
-> that output.
-> 
-> Add the new gup binary to the selftests/mm build, run_vmtests.sh and
-> MAINTAINERS. Update mm/Kconfig to describe the benchmark and
-> selftest split.
-> 
-> Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
-> Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
-> ---
->  MAINTAINERS                               |   1 +
->  mm/Kconfig                                |  21 +-
->  tools/testing/selftests/mm/Makefile       |   1 +
->  tools/testing/selftests/mm/gup.c          | 287 ++++++++++++++++++++++
->  tools/testing/selftests/mm/run_vmtests.sh |   1 +
->  5 files changed, 300 insertions(+), 11 deletions(-)
->  create mode 100644 tools/testing/selftests/mm/gup.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d7a146b093de..1ca7de3e440e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17189,6 +17189,7 @@ F:	mm/gup.c
->  F:	mm/gup_test.c
->  F:	mm/gup_test.h
->  F:	tools/mm/gup_bench.c
-> +F:	tools/testing/selftests/mm/gup.c
->  F:	tools/testing/selftests/mm/gup_longterm.c
->  
->  MEMORY MANAGEMENT - KSM (Kernel Samepage Merging)
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index c1ddf59c0d71..79163b7d795a 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -1287,24 +1287,23 @@ config PERCPU_STATS
->  	  be used to help understand percpu memory usage.
->  
->  config GUP_TEST
-> -	bool "Enable infrastructure for get_user_pages()-related unit tests"
-> +	bool "Enable infrastructure for get_user_pages()-related unit tests and benchmarks"
->  	depends on DEBUG_FS
->  	help
->  	  Provides /sys/kernel/debug/gup_test, which in turn provides a way
-> -	  to make ioctl calls that can launch kernel-based unit tests for
-> -	  the get_user_pages*() and pin_user_pages*() family of API calls.
-> +	  to make ioctl calls that can launch kernel-based unit tests and
-> +	  benchmarks for the get_user_pages*() and pin_user_pages*() families
-> +	  of API calls.
->  
-> -	  These tests include benchmark testing of the _fast variants of
-> -	  get_user_pages*() and pin_user_pages*(), as well as smoke tests of
-> +	  These include benchmark testing of the _fast variants of
-> +	  get_user_pages*() and pin_user_pages*(), as well as tests of
->  	  the non-_fast variants.
->  
-> -	  There is also a sub-test that allows running dump_page() on any
-> -	  of up to eight pages (selected by command line args) within the
-> -	  range of user-space addresses. These pages are either pinned via
-> -	  pin_user_pages*(), or pinned via get_user_pages*(), as specified
-> -	  by other command line arguments.
-> +	  There is also a test that allows running dump_page() on any of up
-> +	  to eight pages within the range of user-space addresses. These
-> +	  pages are either acquired via pin_user_pages*() or get_user_pages*().
->  
-> -	  See tools/testing/selftests/mm/gup_test.c
-> +	  See tools/testing/selftests/mm/gup.c and tools/mm/gup_bench.c.
-
-
-BTW, I was wondering what it would take to:
-
-1) Turn mm/gup_test.o into an OOT module (would we need more EXPORT_SYMBOL_GPL?
-EXPORT_SYMBOL_FOOR_MODULE ?)
-
-2) Move it to tools/mm/modules or sth like that.
-
-3) Build it with the selftests etc
-
-4) Remove GUP_TEST
-
-5) Try insmod'ing it from the tools+selftests that need it.
-
-[...]
-
-> +int main(int argc, char **argv)
-> +{
-> +	char *file = "/dev/zero";
-> +	int fd;
-> +
-> +	fd = open(file, O_RDWR);
-> +	if (fd < 0) {
-> +		ksft_print_header();
-> +		ksft_exit_fail_msg("Unable to open %s: %s\n", file, strerror(errno));
-> +	}
-> +	close(fd);
-
-
-I'm confused. Why do we have to open+close /dev/zero?
-
-> +
-> +	fd = open(GUP_TEST_FILE, O_RDWR);
-> +	if (fd == -1) {
-> +		ksft_print_header();
-> +		if (errno == EACCES)
-> +			ksft_exit_skip("Please run this test as root\n");
-
-Wouldn't we want to fail here?
-
-> +		if (errno == ENOENT) {
-> +			DIR *debugfs = opendir("/sys/kernel/debug");
-> +
-> +			if (!debugfs) {
-> +				ksft_exit_skip("Mount debugfs at /sys/kernel/debug\n");
-> +			} else {
-> +				closedir(debugfs);
-> +				ksft_exit_skip("Check CONFIG_GUP_TEST in kernel config\n");
-> +			}
-
-You can remove the } else { part as you skip on !debugfs.
-
-> +		}
-> +		ksft_exit_fail_msg("Failed to open %s: %s\n", GUP_TEST_FILE, strerror(errno));
-> +	}
-> +	close(fd);
-> +
-> +	hp_size = default_huge_page_size();
-> +	if (hp_size) {
-> +		nr_huge_pages = HUGETLB_TARGET_SIZE / hp_size;
-> +		if (!nr_huge_pages)
-> +			nr_huge_pages = 1;
-> +
-> +		hugetlb_setup_succeeded = hugetlb_setup_default(nr_huge_pages);
-> +	}
-
-BTW, why are we using HUGETLB_TARGET_SIZE instead of just using the
-default_huge_page_size()?
-
-> +
-> +	return test_harness_run(argc, argv);
-> +}
-> diff --git a/tools/testing/selftests/mm/run_vmtests.sh b/tools/testing/selftests/mm/run_vmtests.sh
-> index 8f1e828e4f39..ae0ab5efabae 100755
-> --- a/tools/testing/selftests/mm/run_vmtests.sh
-> +++ b/tools/testing/selftests/mm/run_vmtests.sh
-> @@ -251,6 +251,7 @@ fi
->  
->  CATEGORY="mmap" run_test ./map_fixed_noreplace
->  
-> +CATEGORY="gup_test" run_test ./gup
->  CATEGORY="gup_test" run_test ./gup_longterm
-
-Nice
-
--- 
-Cheers,
-
-David
+> Jason
