@@ -1,151 +1,408 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FAB56B874
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 16:26:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788884799; cv=none; b=YCl5XNQdU997vfrKi3d+LWFs/EYPjlx3R3So3Uss0U8SsLU34QyHezY3lrN3dQAVddROUNECc75n6QK+q+aJVORzxRU9TqLmPhY7xGE+mU0RKnsiOFkanP3ImI0FXMzi7Sr5o+D/5XsybJJ9OpjT8s+ZXnTeJbYb9EGtdBXChIY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788884799; c=relaxed/simple;
-	bh=exUH5aWaSFL5njVn7rk/Sv06R8+LhPCv9p7zVP/y9jc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AyErr2ZDAisV2or/MI8o8dBPgkSuFAgAdpkKjEjugAEU9VkroiYmYn1Ccrlvran0C4K03wKWXSIO3L4SRr57dHroWPRPRZyUq5cyCIA8bT6+FFPtgbYNDu5eXajcW61OeHRUVGHJYvngKIzfDCK75Hxy4F1IvFWwGULKV5X1imo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h6X834r8; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759AC5505D4
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 16:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788885389; cv=pass; b=Iz3VQXc3zyeW+hRoLvljeILpNPR2GPzc3e8dUYIi0UgpVPQzhjiZPEfrwwLkURuZN0hIJfd6G+HFnBZ82/g1MPGQ4X7x2n17f39SN6LP8mbuBmC9wBbCX15tuGwoEK3Ji61pMU/YmD0mSWQ7gaVxbPoxsFDvdKbG8sSKYRKDJD0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788885389; c=relaxed/simple;
+	bh=lEBoRG2/h9gB2hK12UZam2uOCsmYfB1pjTSo33Y1C/c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XlLweXKmuUbWM+SQagw/0bpjkhg7/bFkd15ym6C5D1WRozk//Z9dvij5xaPaZ2IYWWoMBjVhiSE5N3oPr1ToVfIpZjIUDcgCuCmllhKy0kphQwC22EKVgRgtH3iPvnssOYgEgWWT+Wsb4yQDuB9RR+9Ry7X7+6o4OA6XTo4/JiY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kWnF9a0h; arc=pass smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h6X834r8"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so4590190a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 09:26:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kWnF9a0h"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49b8eeb3ff2so46019215e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 09:36:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788885384; cv=none;
+        d=google.com; s=arc-20260327;
+        b=a/sg7prmv5tnu+9PPmOpdcEPj4eze9dQ06AGKDXO6IQ+eRjgtwqkApAtfeXMJTvrsw
+         TEsk2XV7nVOGSS/ipy5mJhRo8gNuTe/nJKBTcWDuPXjSFJg70nrTPvVBcELMP+moZ6hS
+         Jd/Scg7weASpCWobzBlNuNVBtV5kmhNpux1CgwsgkihSj1lqMBFLwkW9YeIlTETtC+q6
+         F76BgRwOOBjgw4JbbRhsgT/XrvqyiEf+ggcPsnfnXox4zMzEJoa7Y7DHN/+QjoXd/TSl
+         8NrTQeuLoDGEE6tZxZOXwLgdmWvRHPi8I1+lBlcgLMzrFc56t2O/BCR6CN64vW5UhrHD
+         iWRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4Zr/BCHnDam4SH1NFfeVx9MdOiWK7PPMoeiEMtlXpgg=;
+        fh=MW91uCpDkoBiuq4gmpDTkR2Ai4rKO/7rnbzq1pNDG30=;
+        b=qnLQ+K9RBSMxGfGPlzh3wVRJNvA1THQaR/ptHsz6iaZZ737d9gQ31xjCNJj5o0wPK9
+         7XfAzSRSSEubZ1o1Z9MamLVrrPfY6T9p4iZOFucBapil/8CHMKF7idne8zDPfbOCe/Ht
+         EYffTRixaP7BRkHGcgIP/VzXY9EnSPtZFXi+Rgbnm9PgK7qjtF3nhnZ6Tpm30fKoMjD0
+         tgCA4zDMqCZDuemiSbWVDZGZdiuMMC7+8C+0SqxJu0l9bFVoJR0/bG51emSDrdf6sf3Q
+         X6r5VnllpghE0bSBurCaR7YV1M7+jO4wW5hhiYwRPtZBlqwweEcIV4J1RDvVXxDoZzMC
+         fEwg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788884797; x=1789489597; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=t1j7oDqmpt6ig3FSSyMnjhsns2WPQzdz62Ttg7MdUqY=;
-        b=h6X834r8jnvlpARTWDfLwl+ld2AaJB5gmaMw3EPMDu6nEmnXTDrSZz2VfHsWONrVTE
-         Bce+IMBB8x7bomTux3EuXZt1sJBPA6YGNP6v72joR74hnyZNkMFWRN59+JQoqZc4XGWX
-         YrApnHK1AyYe7Uyn3S7wwDrsry+5Kz1Y/58evucKkkVepN3pPlWKlXyp84l5TmHgpUuG
-         qv/tzzF70XN9yL7DGo8alRwCvvPtYSdaIxorOs9oA3ORIhZ2yWQw9wNiL4qtHkYYsN6j
-         REVH32tcxSHwkQ2QhYPH7qc9HoSvpZQc3GgMH7UyHwkXMtV+dYnpwC1yVQHnWF+dYF/g
-         6KSQ==
+        d=gmail.com; s=20251104; t=1788885384; x=1789490184; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4Zr/BCHnDam4SH1NFfeVx9MdOiWK7PPMoeiEMtlXpgg=;
+        b=kWnF9a0hEGMmpvEFLApUnMHHkwUkvJkQYRLAUHJ914sP22daG3j2PxVnkVK7M/BYWt
+         8AGcqG40osZ4cI5y4SIue5Lyinwnp5ytc3HNYNLnq1R9vqItk0TP3XfvZETtxqiJZg9u
+         eTEb3vMRw8gaL9CMiDzWmjXmtEplI8tg5u1GtokC0/B6qz7YZnlXNj8jAECEmYVvqKdo
+         qfQeuGxXu0HhgRyCAg3R6MmJSUHJLUpaLBUlNf8ymtd07pSvjHwdWU7ft9zaQhkej9Ki
+         iNd32zzgzvChp+0uqQP4VFFab5iAA30qrtgYxfx6GKMr7Qtexdtklwc5wiIlAlfir5gX
+         SuVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788884797; x=1789489597;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=t1j7oDqmpt6ig3FSSyMnjhsns2WPQzdz62Ttg7MdUqY=;
-        b=szFOgElxmCfVap1Go+1O3C4efmJTj86kp0+a2YZyTYF8BnR+5wqmfR6r46geeEc2/g
-         eR32D9wvHlWNZp5zSoM2btKNrJv47OlN4F7J+sOvrq9mmbAJ03vAv9Mm0YVoxMhMIlZB
-         cygJSKC6+rSLJu9lC6cKjPDUHhUGW1JcDJKvotRcoi+xUaMnqR09mI9vVXmf9Q4lnalu
-         qWjL1areiDDopwnp/M5nLgkbVVNUFl7yGPQ2Q2PbiVxt28yWe795mhBrC09n+QlShqzK
-         Ww1egywp1DFwfrqRzRF5quqwIPwsDkgX7KI95kavllauwptM9dOvpK/Xyfo2o6ySvtIh
-         55Uw==
-X-Forwarded-Encrypted: i=1; AKwUvBzIqDWuEybm61xTrpn3MHb25yG/9xfX4a0e8zCYQNetVhrXRDNloS4Hpt3XYUBiOkN9yWqM8NVxIuM=@vger.kernel.org
-X-Gm-Message-State: AFuF++kOdamBEVw94vEyr+CLdtiUvpsbWPruWxnlCHuZ6PPCa5aWRP3r
-	dZsk+kLxY8kSDXDOnseKNzELlONqsjRAjtKcRjFENd36DJi8RBFgnArE
-X-Gm-Gg: AYBFou1nbSW6Elp2G5E7qb+VflAgmTvhXpR6yQsmZCWPUagxIkAkdxqxYW9RntFZ/iL
-	IUZDz18ekkg+KNf/6dWy8z+HCs52EnY/JFuyP7i41JI5tFXPRESxrceFPJvgj5rB88opo4vVYmq
-	zXctSUG0BhQ3SZfu0qN10Fe3VKGfO+3dAJiQ31GMf30HCErWZ8ls9dGzV+jOqWU6P4W32OuYRcE
-	zXAd4G6J49RAvadGzWQRuDQ0e7gyGUbiwO9ufz+GbYykv/RPmrv4lBSNiNNlcCjA3U/MQxpYBb/
-	89/iAZK1tve1aPqmoA0EdZbYduxT3azfLodGYomHHPq8QVKjRmAGkHNkkqoKZ0S0Mn/J+knXeT+
-	HBrWhv400xkyS52qpEgBFHOpCzVrJUvgD1cmIM/5HA9Ff/kMRg/C9O9VppvEb5LcQnGGt7UgMTJ
-	j/tZdc9viB/f1H22yFymwWbVCGt+LCw4J7RbI7Bni7BMN2E1Y3r17oMJQ2sPQXwACGBdPqqy4Qi
-	0Q5IEuH14R1s3e1UDdGhA1XXvF3D4X9dXf0+pJ1WLz+ak3n
-X-Received: by 2002:a17:90a:c10e:b0:398:c3ca:1ebc with SMTP id 98e67ed59e1d1-39b2622b3afmr42130719a91.18.1788884796952;
-        Tue, 08 Sep 2026 09:26:36 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39ae8ccc72fsm12862374a91.2.2026.09.08.09.26.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Sep 2026 09:26:36 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <57763383-2829-4aa0-9623-e6afe79fc022@roeck-us.net>
-Date: Tue, 8 Sep 2026 09:26:34 -0700
+        d=1e100.net; s=20251104; t=1788885384; x=1789490184;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4Zr/BCHnDam4SH1NFfeVx9MdOiWK7PPMoeiEMtlXpgg=;
+        b=eyIvDsuNkAmRJfUUXHFLowG5UjitS00I6SgWwFfoJJwFTVJ6gLuSO/zYKFch9grqGW
+         d2NtZtE4uIZBPJLrf4VrD0bTNYE1y5h8kf330x/8xulc8rMIInnOBl6P7W1hsKPCrmRe
+         MoT771tyrmsO9IxwfBYn3eC3NimDLlnGzJZQY4r63HMhnlVBPVDc0wlueg+duBnzP30A
+         NvzIn74UT4hrasSWyYNxXhVBfrJcbX3h9hvUK1JzW2NA56TLhrCTisQDab/HDfY4GJOG
+         EFv94cYb09UfRdT6uem0SyvtYTStRJPl0cPObEqCgIQ6ylNzpvllI74DxEl/rDBAaKPh
+         6qXg==
+X-Forwarded-Encrypted: i=1; AKwUvBw2pJr2me7EFmRGY2IoFZ34pa6y4LKrDww+f3ZWf3GS9tLx0kYDkgU1yRHjB+vaD/6VCsvrUZrAM4M=@vger.kernel.org
+X-Gm-Message-State: AFuF++n7+YYCQvpjHcXuwfz3RMQBc1uEybMJt4Z6MqlcZ/29ERw8p0dn
+	tISpZcwLWmeuSJ1C0t37JrAX3r0igfNrwK5hAozyEVzheAOpsue8ASd889ITe8SZwu4DZAu2x1g
+	bHLSgCu43hx4yz7TK34SM8DrBB/xxVsY=
+X-Gm-Gg: AYBFou2lPNC0xFftQFm8XuqOo2hbDXdiEJSgsQy1PDlCh/GqSdjT8zdqShh1oNq7Q1e
+	r6La6xgisw+XqevCzqOjPyn2F1jXKASb7jrwCc0PC/JcBK4F/quIchMDh+Ql8fpi6ZeptAFzs+O
+	iyEvnnp3OGHMGQA8EXUjeg/RbLYui13nmNAZtfBR9zkrjAb7u3lLyDxQn0vwtKHm31bPESJBAww
+	s8ubOFdxh/wgk0paTxpsNx0X5yG47CtwFVL8AKoc2L0c3MhSdNw1i+E1bZEniK8ML2bgc5U+KTT
+	r4orBc5CqxR2PeHaKfx4BQ1sZ4A9BRCqt2/eCU/hLtk1eY8s9q4vV0tPUuabamw7R04/Ac6mKBh
+	D
+X-Received: by 2002:a05:600c:3145:b0:49d:1916:59c7 with SMTP id
+ 5b1f17b1804b1-49d19165a7amr61456895e9.7.1788885384057; Tue, 08 Sep 2026
+ 09:36:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/13] ARM: remove sa1100 platform
-To: Arnd Bergmann <arnd@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Linus Walleij <linusw@kernel.org>, Russell King <linux@armlinux.org.uk>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org
-References: <20260908152808.3928630-1-arnd@kernel.org>
- <20260908152808.3928630-2-arnd@kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260908152808.3928630-2-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <CAMgjq7AHRzBsbmGOx0s=TQFBwcn=DEU1naR443sO6x+pJd6hAg@mail.gmail.com>
+In-Reply-To: <CAMgjq7AHRzBsbmGOx0s=TQFBwcn=DEU1naR443sO6x+pJd6hAg@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 8 Sep 2026 09:36:12 -0700
+X-Gm-Features: AcwNN1Vi9M-_5AS5imWp6tHLc7BhYcF9rX-QthcMM81tAZyi-lnj_U6rqt_3bHk
+Message-ID: <CAKEwX=O8i+OsP6BJXNZNk07hveN9HDT+PoyMTAU6gOc-xp0Ppg@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Kairui Song <ryncsn@gmail.com>
+Cc: Chris Li <chrisl@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/8/26 08:27, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Most sa1100 platforms were removed a few years, with the remaining
-> ones left as a starting point for a conversion to devicetree.
-> 
-> Nothing ever happened on that front, so remove the rest now,
-> including the sa1111 and locomo drivers that were once shared
-> with pxa but are already sa1100-exclusive now.
-> 
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Linus Walleij <linusw@kernel.org>
-> Cc: Kristoffer Ericson <kristoffer.ericson@gmail.com>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+On Sun, Sep 6, 2026 at 10:52=E2=80=AFPM Kairui Song <ryncsn@gmail.com> wrot=
+e:
 
+Hi Kairui,
+
+Thank you for the kind words and encouragement :) It means a lot
+coming from you.
+
+My main concern so far has been - it seems like every time I satisfied
+one of your guys' requirements, another pre-requisite is added to the
+list. I mean the performance regression and memory overhead concerns
+make a lot of sense, especially when vswap is non-optional. But now it
+just seems like we're delaying real use case for the fabled perfect
+swap system. It gets very exhausting trying to keep expanding the
+scope of this.
+
+>
+> I asked Baoquan the same thing, see the "Why not make both args
+> optional" part:
+>
+> https://lore.kernel.org/linux-mm/apaw_XmqnEcY8sv7@MiWiFi-R3L-srv/
+>
+> Where I've ended up is that unbounded growth is a real concern. On a
+> host with no memcg limit (root cgroup, and most desktop and embedded
+> setups), an unlimited pool means usage can keep growing, with no
+> admin visible ceiling at all. I'm not attached to xswap's percent of RAM
+> knob specifically, but I do think some kind of bound makes sense.
+
+Technically speaking, virtual swap *is* bounded, i.e 8PB (xarray
+induced a limit to the number of clusters it can allocate). But more
+importantly, it's effectively capped by the backend it can take:
+zswap, swap cache, disk swap, etc.
+
+I'm not entirely certain this will be problem in practice...? Besides,
+we can always add new knobs if needs arise (especially since the old
+design still exists if unlimited swapping is somehow real), but if we
+started out with some knobs that turns out to be unnecessary or
+undesirable, removing them and/or educating users to be careful with
+using them is harder, in my opinion and experience deploying zswap
+across the fleet in the past 4 years.
+
+>
+> > 2. Writeback support. Writeback is core functionality for zswap, not an
+> >    add-on, and a design needs to account for it from the start. This ca=
+me
+> >    up before, in the discussion around Chris' ghost swapfile RFC [17]: =
+for
+> >    a solution here to be acceptable, it has to work with the primary
+> >    usecase and support disk writeback. Without it, whatever zswap won't
+> >    take (incompressible pages especially) has nowhere to go, and cold
+> >    compressed data can never leave RAM.
+>
+> Agreed completely, and I think this one is settled: whatever lands
+> has to support disk writeback in the end. Baoquan mentioned that
+> what he sent is just a foundation though. I know talking is cheap
+> but still, could it be combined with the writeback support from the
+> other side? Or am I missing anything here?
+
+I'm just very nervous about any design that doesn't quite take that
+into account and handwave it away into a follow-up :)
+
+>
+> > 3. Cgroup charging behavior. vswap/xswap shouldn't be charged against t=
+he
+> >    swap usage counter. It's fundamentally a different resource from
+> >    physical swapfile space, and memory.swap.* should read 0 when nothin=
+g is
+> >    on disk [18]. I made the longer argument for this in [19].
+>
+> I personally don't have a strong opinion on this. But I think this
+> needs an explicit decision from the group rather than being
+> inherited from whichever series merges first. Skipping the charge
+> when a device has a special flag isn't hard to do if the code
+> abstraction is done well, so this is more of a design decision
+> than a technical problem.
+
+I'm fine with discussing about this. I just want to point out that
+this is not something I snuck in :) This has been the behavior since
+probably the first or second RFC of the first design though, and in
+most of them, it is a front-and-centre patch of its own, not hushed
+away in one big patch. Folks have had 1.5 years to comment on it (and
+still not too late - nothing is merged yet!)
+
+I'd love to hear opinions from other zswap users regarding this :)
+
+>
+> > 4. Data structure (xarray vs sparse vmalloc array). Even with xarray, v=
+swap
+> >    is already on par with or beating baseline. I like the sparse array
+> >    idea, but why are we landing an optimization before the feature itse=
+lf,
+> >    without any A/B data showing the difference matters?
+>
+> This is where I'd push back a little. To be clear, my concern isn't the
+> size of the win, it's that VM_SPARSE isn't purely an optimization. It
+> changes the cluster/metadata layout and avoids RCU conventions,
+> could help avoid some future sleep while atomic limitations and
+> it's tangled with the initial size issue too. So bolting it on afterwards
+> could mean rewriting the parts of vswap that touch it and could be
+> costly some conflict in ideas. That's why I'd rather we agree on
+> it now, not that it has to land first.
+
+I don't think the current code differs significantly from the existing
+model, no?
+
+For the most part, RCU played quite nicely with the current swap code.
+Practically, it's just:
+
+1. If you have a reference to the swap entry, you can assume entry and
+the cluster owning it is safe.
+
+2. If you don't, then do not assume it's safe once you exit the rcu
+read section.
+
+What conflicts specifically do you have in mind here :)
+
+>
+> Using VM_SPARSE does outsmart my earlier xarray suggestion :) There
+> is an interesting early benchmark from Baoquan, VM_SPARSE wasn't there
+> yet, but with it we can use clusters natively in the same way. It shows
+> about 20% latency cut and 10% throughput gain, which seems a major
+> improvement, and that's serial performance, not even mentioning
+> scalability yet:
+> https://lore.kernel.org/linux-mm/20260707073215.72183-1-baoquan.he@linux.=
+dev/
+
+I think a lot of these wins come from the fact that the zswap's xarray
+specifically is *really* bad in certain paths. For instance, in the
+free path (swap_range_free() -> zswap_invalidate()), there is no
+batching behavior, so we walk the tree from scratch for each entry
+rather than using an xas iterator for the entire batch. That goes away
+in the current vswap model, because the xarray manages cluster rather
+than entries, so you just do one tree walk + one flat array walk.
+
+You can see some performance numbers in my cover letter - it's
+promising on both micro benchmarks, and a production workload that I
+throw vswap on :) I've also done an ablative study, where I still let
+zswap and swapfile coupled, but only remove the xarray and replace it
+with the flat array in swapfile's cluster struct. I observe the same
+win, basically (especially on the usemem benchmark).
+
+>
+> And it matters more than most micro-optimizations: under heavy
+> pressure many workloads spend less than half of system time in
+> compression itself, the rest is mm/swap. Swap has had a terrible
+> reputation for good reasons, and even with zswap/zram users
+> have been scared of the performance.
+>
+> After the recent refactor and optimization we already noticed many
+> users can now run much heavier workloads using compressed memory only
+> or fast storages, which is a real breakthrough. Every chunk of
+> overhead we remove there unblocks another class of user from using
+> compressed memory as a "secondary memory".
+
+I don't necessarily disagree with any of the points you made here.
+FWIW, I like the vmalloc array idea too. I have actually put in work
+to review Baoquan's patch series, because I'm hopeful that it will be
+superior in the end (we're using this infra too so it helps us too :))
+
+I just want to re-iterate that:
+
+1. Vswap is already decently performant.
+
+2. We're not removing the old code, so no one will regress with vswap
+(they can just disable it for now). Optimization can be done on top of
+it after we land the use cases (which also unblock zswap usage for
+many parties who are capped by the storage limitations).
+
+>
+> >
+> > One thing I do want to be clear about: I'm glad other people care about
+> > this problem. Chris' ghost swapfile and Baoquan's xswap are both going
+> > after the same set of problems, and that's a good sign. It means this i=
+s
+> > real and shared, not something only Meta runs into.
+> >
+> > What's been harder is the shape of the engagement. Alternatives keep
+> > getting posted and pushed that don't cover all the requirements, while =
+this
+> > series sits without review. I don't think I'm owed anyone's interest in=
+ the
+> > problems I care about. But I do think working code, with benchmarks and
+> > production exposure behind it, deserves a fair hearing next to in-progr=
+ess
+> > proposals.
+>
+> I'm sorry it has felt that way, and I don't want to hand wave it. For
+> what it's worth, I did review it, and I did think it could be merged
+> with some adjustments:
+>
+> https://lore.kernel.org/linux-mm/CAMgjq7D4XsAD4NGDL7FC2kaYAQAP8PDJdn4bpzG=
+ZwXYtjEpJ6w@mail.gmail.com/#t
+>
+> We were also discussing the limitation of the global cluster cache in
+> that thread, so I paused my other work for a while and posted the swap
+> queue series first. That one is orthogonal on purpose, and helps both
+> swap tier and vswap, it reduces the overhead enough to cancel out
+> the layering cost due to missing caching for either:
+> https://lore.kernel.org/linux-mm/20260829-swap-pcp-priq-v2-resend-0-68d3d=
+925578c@gmail.com/
+> (this is V2, V1 is earlier - thanks to Lian for keeping this going!)
+
+Ah that! I sort of tabled that as a nice-idea-but-still-optimization :P
+
+I'll spend some time thinking about the design and reviewing it. In
+the long run, it will get things more simple, but another thing that
+should not be a blocker, correct?
+
+>
+> Then xswap appeared with the VM_SPARSE idea and exploring it seems
+> necessary because getting the cluster foundation right affects
+> everything built above where it went. Not because the vswap series
+> wasn't worth reviewing.
+>
+> > So what I'm asking for: I'd like us to converge rather than keep two se=
+ries
+> > in flight. My preference is that we land vswap first, then build Baoqua=
+n's
+> > sparse array on top of it as an optimization. That gets the feature in,=
+ and
+> > by then we'd have the A/B data to show whether the sparse array actuall=
+y
+> > beats the xarray.
+> >
+> > If you think that's the wrong order, I'd genuinely like to understand w=
+hy -
+> > after 17 months and 10 revisions I still don't have a clear picture of =
+the
+> > objection.
+>
+> I fully agree we must converge. At the moment I don't think one can
+> can settle that alone as there are several of us reviewing both. I'll try
+> to be more concrete about what I think has to be agreed first.
+>
+> The two interfaces aren't equivalent, xswap has its limitations, but a
+> couple of xswap's properties look genuinely better to me. Runtime
+> on/off rather than a boot parameter is better, more flexibility and
+
+I would also like to point out - I *do* have a runtime parameter in an
+older version of vswap (v3). There is also not a lot of engagement
+from folks in that version - no one expressed any interest in that
+runtime knob in particular. Only Johannes made the case that a boot
+parameter is superior, so I switched over. I think his reasoning makes
+sense at the time FWIW, and it also removes the need for CONFIG_VSWAP
+(which in turns remove a bunch of useless stubs - saving 100 LoCs), so
+I figure folks will prefer less code and less userspace decisions :)
+
+v3: https://lore.kernel.org/all/20260806184254.3790858-1-nphamcs@gmail.com/
+
+Regardless - do you have a specific use case in mind where a runtime
+knob would be useful?
+
+> doesn't conflict with what vswap is trying to do. Some other of these
+> differences involve design decisions rather than just surface knobs,
+> and those are the parts we're stuck with once they ship.
+>
+> So a few current interface difference of vswap and xswap I've noticed are=
+:
+>
+>  - default size: somehow also tangled with VM_SPARSE, which
+> needs an initial virtual value. It's super cheap if not zero cost
+> (the only cost is occupying some vmalloc area, which is fine
+> I guess?). But we still have to pick a number, could be large
+> enough to satisfy everyone?
+
+8PB? ;)
+
+I think choosing a meaningful number that covers from O(dozen of GB)
+to O(terrabytes) scale machine, with different workload shapes, access
+patterns, memory compressibility, etc. is an unsolvable problem. If
+it's cheap, why don't we just max out?
+
+>  - boot vs runtime toggle: I believe a runtime toggle is better. It
+> can still be tuned on boot via cmdline, but it offers the extra
+> ability to turn it on without modifying a base VM boot image or
+> kernel.
+>  - growth / limits: as talked above.
+>  - charging semantics
+>  - there could be other longterm design decisions on top of these as
+> we talked in above.
+>
+> Once these settle, I think the picture will be clean. Your writeback
+> logic and swap table integration are solid, while Baoquan's VM_SPARSE,
+> previous preparation with swap ops give us a structural foundation. A
+> clean long-term architecture means getting the core structure right,
+> let's try not treating this as a race between series.
+
+I've reached out to Baoquan as well, but I figured there's value in
+both discussions in big and small groups, and especially since there's
+a chance some of us might not be coming to LPC. Let's see what we come
+up with.
