@@ -1,85 +1,91 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E212357D0F
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 16:13:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95696360EFC;
+	Tue,  8 Sep 2026 16:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788883993; cv=none; b=c5qUR+vYQeC0F/Mowa48YVmQ4N4q5pUctWEMbj5SH3Lk4BClhAJDZZlJxBoG902SrarhUB8CFUyhjQGa58cnVpvPyYJRDVOZSOqmWu5HBVmVW/1VcsdCW41D1QDa2qSWSFSVkUdw0rq0OhnWNmVj5ftaPKsyN5nhYCHR2g9DCGM=
+	t=1788884335; cv=none; b=t+8HVjRKfpOP1kRWSuhsRGkCO3uqxyvoTRnWu6D60IscPEVJvhVur9UU70h3Pbomi/Bvlxu3NkOdPNgeY58G3WQ0elyxYBVpi83Q2B3SQ1O58AjJrMCSQrWz6/Om9Sc3fnFlPhEW/Pilgk+bsSRoNtF80KjYt9N0OpG38AFKrGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788883993; c=relaxed/simple;
-	bh=uH6of9n2rBHWfIQOS9mKxTMhHVx2BH+BmV3w17ToNbA=;
+	s=arc-20240116; t=1788884335; c=relaxed/simple;
+	bh=f1Jg9wpo1aaPvqekZqgWJP47UkgGXxwkxKzZP/qxiuk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZKMa9AN/uVeZeYSXyUKUo0QvfZ7pt0e3a+OOppIqy99/63TCpjujnzwY3TCovSxUktuA83jSZhW0XJekN30b7CeFiA1d5zXQJmxwhx6ViEFniFLtDZtiBskJ695UtqOmkIyzzguOKF/Crsa8JzVCLFjHSAfv2y7FAz5fGzkyZ+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fxqzrxwi; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=UwWHnjDsixC9JrLcnnx3IbEIVThK0/wz/5Cf3cav5ARR9+0LDkh1MaixWjdLs6/CBK0lEG8eL+huulW8s8Z3cDnN+pWVNC5t3QZ8L4w9+Hh8poFKkuddtpLg5/sIDFvMOCm6E2QKmUpdUioiPQ8a+NrCwyxuVTIIgSgxCuO/SVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=SqyHDiZx; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fxqzrxwi"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38e58034d05so3911737a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 09:13:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788883972; x=1789488772; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=G0ot632abDXUhRdAYyei8Pmi85X+F5W6JzkBTKWHobg=;
-        b=fxqzrxwi2bzga5/vC5mqkMfyxdXc9OjpkhgB2nu/QvIEaAWPMVL6MciTrSgFUNYWu3
-         RjM8v+ptYG/PzK+3bmx4rc4wbwG08FUHhcsRSOvroG8RrCcjSY06fAtta8wLB+2MFF/Q
-         +jAYXoAIsXdEYUODcdnyEriJYSuu1/RDtQzW8/r097SLQ0cfRfqs80xoLPI8PAo8VzR8
-         Dfzo1ZN6m1MxnFG5gQq/BwbQkMTJRCkPxwL7HGGkD5gs+GnPhbgm9cahAlp16dcAOpwN
-         xlWrLBeYo+iH5AyMZ4PDqiU6zDp2vS07v3FvuL8SWi6a3mAEQX2DswpV3PZFmk9bVoPP
-         cn7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788883972; x=1789488772;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=G0ot632abDXUhRdAYyei8Pmi85X+F5W6JzkBTKWHobg=;
-        b=kqr4jNbVFbKKW0pQ0G2cptX02jTG+K08n+9OjkY5ZOxp3roukCBwNwKMq5uzTad9kX
-         oynoCDUqvJ9B+Dd8/EzFDk+RStmjkNjCzWcGUmRWd96QiXHgtn/eI4KuvFnFbQDEwqSH
-         mzl7Afj+maJxDB47VOyPQMqRcXE/xN5ID+xwxcd83XIlD/pyUTbt9cloHtMqgFrfRXVd
-         5QQC8AZSUoQbEcQLRPajegBxlJZwzOuX3r+1LFr04qm0NCY0K13pUNaxu8wyCCCnC87E
-         OOMSgvIrlWUhMtlnNusQzYtGgGQMLvEwM3D7L3lxhS0Ej01qG7dfs0sB8KyoPX3oovGs
-         bDrw==
-X-Forwarded-Encrypted: i=1; AKwUvBxu7sxHuObVsIlmqywpqgz61V9ZFH92QXdNQodMNu21o5TLq7jy+/LwnVNEbYYmhrfO1clYMgE2x1M=@vger.kernel.org
-X-Gm-Message-State: AFuF++m7F4eI+Sda8verCI4TpT8O9QsxdeYBjTy9MTnmDVg2AKTkTxv/
-	5M1DtVlJ2q4AHmmHUP0soxv9ZmB+PQu0IyLR4F7SyjUbH3t+u1CczFqv
-X-Gm-Gg: AYBFou2YC7tGTg16WLLhHq+o5rrK4k1isfQaZp0w06Aol0kuJNJAvHOpJuIL9/tBtZD
-	CZX3L5og0zTTorOxXluEpy43KrCHLEL3qyxgGVKEO0gxDhwVwSUs1B4Y+cvZf+YPIpPxyCsmPH5
-	WmlKxMLNlgYhbEauYWgKqWbHzNQFIBwBg7DadzuoplhOI5GzNqcG22n+0RxRlRMZc3bLBp70wD7
-	LgsbRLCl4y1jpt8FRyASXv4c0bkiPgANBXwgDf7DsRHnXaGLDKx9a6J1MiWf+WhZ0ZfXgX3ewbx
-	qVmyS5zJQjhfFvxykdPBVNJx/3wXmLhdCbcoJ7InZVVg+o9Z7MCrJykI17sTK+5WVBoT68XNdNE
-	eurCAGN7nDr8xIciLgh/7uYAAnnfFpfc1ufFfVU6QZhuhaqCqVZDwTKLIIwj6g6eUtgJyjjChbl
-	ewTruZrya59x/bmskp3T3cZS6UanuzVziWitzwklwqnyutTxw816dyK2Yh7Y0yuDCqbjqGFWWWZ
-	Q==
-X-Received: by 2002:a17:90b:4b0c:b0:37f:fdc8:71b4 with SMTP id 98e67ed59e1d1-39b26121f6cmr45189132a91.2.1788883972013;
-        Tue, 08 Sep 2026 09:12:52 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260fe843sm26901209a91.10.2026.09.08.09.12.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 09:12:51 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 8 Sep 2026 09:12:50 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Petar Stepanovic <pstepanovic@axiado.com>
-Cc: Akhila Kavi <akavi@axiado.com>,
-	Prasad Bolisetty <pbolisetty@axiado.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Tzu-Hao Wei <twei@axiado.com>,
-	Karthikeyan Mitran <kmitran@axiado.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	openbmc@lists.ozlabs.org
-Subject: Re: [PATCH 2/2] hwmon: axiado-tsadc: Add AX3000/AX3005 TSADC support
-Message-ID: <5f01098a-9d83-4f4a-957f-835d63196a98@roeck-us.net>
-References: <20260903-axiado-ax3000-tsadc-v1-0-a8a0f3b251f5@axiado.com>
- <20260903-axiado-ax3000-tsadc-v1-2-a8a0f3b251f5@axiado.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="SqyHDiZx"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=1VrAOeua9RY4Cyl0UJm4PGO/+r6BxBF2vE+BDj2nsg0=; b=SqyHDiZxSCw7IoUpHC4u1i/0a6
+	hBC3yTLqIe+krvblvAb28aAHQHzL3HSltdgJtU575hWdyaB6yQeIIecwFtkNz1xlhVC9+zglTJkF3
+	0zaBIxphWLCs/32EOelKSalU0zCTyYuNDj3XDRT/amKXfFsmC3JA1HDJUd8sOkUbGFO4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1x3yWh-003wRU-M1; Tue, 08 Sep 2026 18:18:27 +0200
+Date: Tue, 8 Sep 2026 18:18:27 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Drew Fustini <fustini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>, Stefan Agner <stefan@agner.ch>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Karl Mehltretter <kmehltretter@gmail.com>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-omap@vger.kernel.org, Alexander Clouter <alex@digriz.org.uk>,
+	"Jeremy J. Peper" <jeremy@jeremypeper.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Vinod Koul <vkoul@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>, Mark Brown <broonie@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Thomas Weissschuh <thomas.weissschuh@linutronix.de>,
+	linux-ide@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-rtc@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-watchdog@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 05/13] ARM: orion/dove/mv78xx0: remove all board files
+Message-ID: <a7792d03-917d-40c8-bb99-c939f374aa38@lunn.ch>
+References: <20260908152808.3928630-1-arnd@kernel.org>
+ <20260908152808.3928630-6-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -88,29 +94,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260903-axiado-ax3000-tsadc-v1-2-a8a0f3b251f5@axiado.com>
+In-Reply-To: <20260908152808.3928630-6-arnd@kernel.org>
 
-On Thu, Sep 03, 2026 at 12:09:48AM -0700, Petar Stepanovic wrote:
-> Add a hwmon driver for the temperature sensor ADC (TSADC) controller
-> found on Axiado AX3000 and AX3005 SoCs. The controller measures
-> temperature at locations within the SoC silicon die.
+On Tue, Sep 08, 2026 at 05:27:55PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Each TSADC controller is registered as a separate hwmon device and
-> exposes one read-only temperature channel. The sensor is configured for
-> continuous conversion during probe.
+> The 'orion' platform is the predecessor to what linux now calls the
+> 'mvebu' line of Marvell SoCs, and originally covered orion5x,
+> mv78xx0, kirkwood, dove and a few others that do not have any
+> upstream support at the moment.
 > 
-> The current TSADC hardware does not support threshold or alarm reporting.
-> All TSADC interrupt sources are masked during initialization, and only
-> the current temperature is exposed through temp1_input.
-> 
-> The averaged 12-bit ADC code is converted to millidegrees Celsius using
-> a lookup table with linear interpolation between adjacent entries. Raw
-> values outside the characterized lookup-table range are clamped to the
-> nearest supported temperature.
-> 
-> Signed-off-by: Petar Stepanovic <pstepanovic@axiado.com>
+> Only a few board files remain here, these are the ones left
+> in 2022 board file purge because they had some level of support
+> in Debian or OpenWRT, mostly for commercial NAS or router boxes.
+> This distro support is now gone, and nobody has converted the
+> board files to devicetree, though the orion5x and dove platforms
+> also come with devicetree support for some other machines.
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Applied.
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-Thanks,
-Guenter
+    Andrew
