@@ -1,113 +1,265 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-93.mta1.migadu.com [95.215.58.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C451259221A
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 17:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A3F58FD04
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 17:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788889036; cv=none; b=KKHl7w7IoaJwJbj9H3eCYCVMvdCRjtdOpQIrSnknx9WWslgS5iKPkSUAupz8MUmbCA2kABRi7T1XVKGtHeD/0+uIogkBAu5FvukcFBCvK4lgNznoDDR1tFoXVzgtOoGwDLPSk9JOhF2OWpK8cVoMBB5uu63oQqwJSlg3fAL/U9A=
+	t=1788889080; cv=none; b=k0luUTtCYPzb1YXIreNGHOZ8FTA/ITB3B4skXAxI1IZj/9ASLkKkAFGxftl3XZdQxay70cq9Bq/v8Q6yJm9CN01sKz5GDPSGH9MIKPzj2s7JSpIFhWj1Cp+rtNVs74x7vz7jEhU7MSKrG/dIPkv4ihOnY4C9xZQaPPH3zwiIVyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788889036; c=relaxed/simple;
-	bh=x6jTWAIrLIpzgDpLBz42fd+VOfZnGCDvdcE7hWJmuGw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vu4o+Izl7uFt7Rx7uUJhJ3bY/HKeV+exqhQN5wMmd9xDP0fdfVDxyW5sukGsRHnjoDyISzll/GUbf5XhVT0fhTz4vg33vTIk/ELt2F4p1YIMsWcU7BhJc/ftvTXkgAoKbNuzLZSbn4r9FAo6AHyqpcHxMmSXTYD6GKkqY4uGnlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ca/HQ8DH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788889080; c=relaxed/simple;
+	bh=3tCFyabxRU4YH+8PFdRE7DXdGGD2gR80e6LzYCAqTks=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VONvSu6MdMTcET5D0zhL7XWNSlStEQZokWA/hDRyEjKXbxq1s/tvvtbfIzfgCbj1u7/JQwtyjjGPvQIgl7I0jHcV+R5v8ELNoYb2rKPv/Y/wRcIDA2c8uU1YBF9Fs6WWl9TotbaFfjXxHBDUxTZrbxRiBobMvZ1Iyh53oVrTmC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=DxBpDn5y; arc=none smtp.client-ip=95.215.58.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ca/HQ8DH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A727B1F00A3A
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 17:37:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788889034;
-	bh=x6jTWAIrLIpzgDpLBz42fd+VOfZnGCDvdcE7hWJmuGw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=ca/HQ8DHSdLskAtbHdPp1qBfNvNKvwm9EcGFd2RKPS1P5sVk9XN1CvEw6ORs6x4ad
-	 1K0X20YKxXTayWsoL1I1bQO6GCoM4b37t6AlTi5VjLGOLo+c+0OY6BXgUhLjrjJc8l
-	 AF2yGBw64cEbT9crbm9TNHrYMTlgAMKSfesds/KqmpEEzx5DdgmCp3rglRT30iOBvx
-	 spkd8YCMi1QgLSvab+b7QrTChQxHasU1XRVG6JTvxIAjHHk//scR936djuAPD1kpcq
-	 8RtAVojOOnNKiFaBvVaq5mufN+HRmBnSbblzYkJO7znhI3PEuSUnsnh6luGsNF+dIO
-	 H0MoHq8JZnUtg==
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f16f16so202604e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 10:37:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwXbL3n0ekd4Bp7RxZSIn9rb8xm0peK32WtBOC3qbm4ejC18SyPiQG6Q6AJ4vmNRKTmUIpvOojilhc=@vger.kernel.org
-X-Gm-Message-State: AFuF++lYebiYKg6Um8RR7wo54OrCOvQftwxxJpLYa9qpgCFexXeDbnWW
-	jgkEVQZkj5EOP32H/iiMjOVg0gEXHGmgl/q511CsA06d+o6K9ZL1Xnto6H0mNRDHMe/1sH4pUty
-	Hqyowz/LZq6hOaiy+izM+oKdefuWSsR8=
-X-Received: by 2002:a05:6512:3b90:b0:5b6:425:4bef with SMTP id
- 2adb3069b0e04-5b763cfb263mr320034e87.32.1788889033394; Tue, 08 Sep 2026
- 10:37:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="DxBpDn5y"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=3tCFyabxRU4YH+8PFdRE7DXdGGD2gR80e6LzYCAqTks=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788889072; v=1; x=1789493872;
+ b=DxBpDn5y6Z0WK57TXCw87c98mocGfmozF6AuizLWy7idmwNTBXMiId8Zzq51xyzMZBpSpRPp
+ e7GZ6h9ASaUh403ZWhq2VnpPI5OqHldPHa9f+W9Nm4FjlNHhRBvVHh0pjRTpIaO+fWMm48pK/pU
+ c6HAoCGaT5WwO2hfJZ3tbzr6aDe8HUG5xPbVnLpwin4yXP2IbdnQarSavTmXrM6GDTDeRWLFZX5
+ AphK5hjBdGkjLwZUDXTDF4Gv4tsEm1rd1q/bBtOc2g7vf/ODgPcl3zM93dII7bO4t3texL3ZlpD
+ Gxgvuf1p+IuLuaAhwAwtAXRbXdtbvFB1vpi79M/MFJwJg==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id bbc1b69037c6cb07;
+	Tue, 08 Sep 2026 17:37:52 +0000
+X-Mizu-Trace-ID: bbc1b69037c6cb07
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 9 Sep 2026 01:37:42 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: "zhen.ni" <zhen.ni@easystack.cn>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v2 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
+ filtering
+Message-ID: <aqBH5j-d4wbTrAVM@wyuan.org>
+References: <20260903041819.1776630-1-zhen.ni@easystack.cn>
+ <a6ce8684-116b-42f2-a88c-154eb86bad59@kernel.org>
+ <a98bde94-d1fb-4246-b7c6-e64303d8388a@easystack.cn>
+ <5d4c247c-b8ea-4d3f-b2b9-d442d372fd03@kernel.org>
+ <6744bcdb-3456-4ba2-95a0-a58c354bfbfa@easystack.cn>
+ <ap-qDThi-NQgVXVD@wyuan.org>
+ <048d7470-a813-4252-a4f0-0ec29694f639@easystack.cn>
+ <ap-zYt-1qCBGKZed@wyuan.org>
+ <ap_P_Pvlpn2rEjBV@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260908152808.3928630-1-arnd@kernel.org> <20260908152808.3928630-11-arnd@kernel.org>
-In-Reply-To: <20260908152808.3928630-11-arnd@kernel.org>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 8 Sep 2026 19:36:59 +0200
-X-Gmail-Original-Message-ID: <CAD++jLnd5=uM56OyJ=J3Bt+o9pv2GmiPUeW8hn8FZXJe54c2=g@mail.gmail.com>
-X-Gm-Features: AcwNN1W-3fWex_aQtlnPS_2IdFq7NxnkbpKmVsEJ4Y3Csr6iBcy20K2ukvxG9ug
-Message-ID: <CAD++jLnd5=uM56OyJ=J3Bt+o9pv2GmiPUeW8hn8FZXJe54c2=g@mail.gmail.com>
-Subject: Re: [PATCH 10/13] ARM: stm32: remove stm32f4/f7/h7 MCU support
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Russell King <linux@armlinux.org.uk>, Drew Fustini <fustini@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, Stefan Agner <stefan@agner.ch>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
-	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrew Lunn <andrew@lunn.ch>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Gregory Clement <gregory.clement@bootlin.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Kristoffer Ericson <kristoffer.ericson@gmail.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Alexander Sverdlin <alexander.sverdlin@siemens.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Karl Mehltretter <kmehltretter@gmail.com>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Christophe Parant <c.parant@phytec.fr>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ap_P_Pvlpn2rEjBV@gremlin>
 
-On Tue, Sep 8, 2026 at 5:30=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wrot=
-e:
+On Tue, Sep 08, 2026 at 10:13:22AM +0100, Lorenzo Stoakes (ARM) wrote:
+> On Tue, Sep 08, 2026 at 03:04:02PM +0800, Weijie Yuan wrote:
+> > On Tue, Sep 08, 2026 at 02:40:10PM +0800, zhen.ni wrote:
+> > >
+> > >
+> > > 在 2026/9/8 14:24, Weijie Yuan 写道:
+> > > >  From an outsider..
+> > > >
+> > > > On Tue, Sep 08, 2026 at 10:41:23AM +0800, zhen.ni wrote:
+> > > > > >
+> > > > > > Sorry but your whole reply reads like a LLM slop. It took a lot of
+> > > > > > mental effor to actually try and engage with it.
+> > > > > >
+> > > > >
+> > > > > This reply was written by me, and its viewpoints are not simply copied
+> > > > > directly from an LLM. The LLM only assists with the wording.
+> > > >
+> > > > So that's probably the reason. Your previous replies was indeed very
+> > > > much like the output of an LLM. Even if the idea is your own, after
+> > > > being "polished" by LLM, it's hard to read. I know English is not our
+> > > > first language, and it's not that easy to speak like a native speaker.
+> > > > But may I ask you did you read it before sending them out? I really
+> > > > found this bunch of overly formal content a little painful to read.
+> > > >
+> > > > So I suspect the LLM may have taken too much liberty in polishing your
+> > > > text, to the point that your replies no longer read like something a
+> > > > person would naturally write.
+> > > >
+> > > > The "Summary and Plan" in your reply in v1, both in its formatting and
+> > > > wording, looks quite similar to LLM-generated text to me. So I can
+> > > > understand why Lorenzo asked whether you had used an LLM. Come on, we
+> > > > all know what LLM writing looks like.
+> > > >
+> > > > That said, I do not know exactly how you used the LLM on your original
+> > > > text, so please forgive me if I have this wrong.
+> > > >
+> > > > Thanks.
+> > > >
+> > > I really can't distinguish the LLM flavor that clearly in English.
+> >
+> > Yes, sometimes I can not as well. But I guess the native ones can.
+> > So.. ;-)
+> >
+> > > I'm sorry for causing some trouble.
+> >
+> > That's fine. No need to say sorry.
+> >
+> > I know and understand that we non-native speakers would rather not make
+> > mistakes over these little language detail issues. But over-polishing
+> > can end up having the opposite effect. Keeping some of your natural
+> > writing style may actually be what the community prefers, especially
+> > these AI days.
+> >
+> > > My normal reply process is to first describe my ideas, then have the
+> > > LLM check for logic and grammar issues, and do a round of polishing. I
+> > > check the final draft once more to see if it has deviated from my
+> > > ideas, and make corresponding revisions.
+> >
+> > Sigh, so it is hard to know where to draw the line. Write more and learn
+> > more about "human-like" writing, perhaps. :)
+> >
+> > Thanks!
+> 
+> Thanks Weijie appreciate your input :) and it's good to get a perspective from a
+> non-native speaker on this!
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The stm32 platform started out as a Cortex-M based microcontoller
-> platform in 2007, with a few of the older products gaining Linux kernel
-> support in 2016. These days, the only relevant chips for Linux are the
-> stm32mp1 (Cortex-A7) and stm32mp2 (Cortex-A35) product lines, with the
-> microcontrollers running smaller RTOSs on new products.
->
-> The microcontrollers were marked as deprecated in the linux-7.3LTS
-> release, which will remain supported for a few more years and
-> is expected to be sufficient for any of the remaining original users.
->
-> Remove the MCU support now, leaving only the stm32mp SoCs in the platform=
-.
->
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Christophe Parant <c.parant@phytec.fr>
-> Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Cc: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Thanks for your kind words!
 
-Acked-by: Linus Walleij <linusw@kernel.org>
+> Generally I empathise with LLM usage for helping non-native speakers with
+> English, that's a great use of it, so I don't object to it _in general_ BUT as
+> Weijie points out there's better ways of using and worse ways of using it.
 
-Yours,
-Linus Walleij
+Honestly, my English isn't that great either. Sometimes, I find I cannot
+express myself very well in English. Then, to avoid unnecessary
+misunderstandings caused by my clumsy wording, I may ask an LLM how to
+phrase something more naturally in English. That way, we don't end up
+wasting everyone's time over wording issues.
+
+So my suggestion would be to use an LLM only to polish small bits of
+text, say a few words or a sentence, rather than feeding it a large
+chunk at once. I've found that when I give agents too much text, it
+tends to polish too aggressively and start expanding things.
+
+(Only for expression issues)
+
+It may be a bit like sending a patch series: if the series is small and
+the changes are limited, it is usually fairly easy for reviewers to
+follow. But once a series grows to a dozen or twenty patches, there is
+much more information to process, and reviewers are more likely to miss
+something. I actually made that mistake myself recently.
+
+So once it gives you an expanded version, and especially if you're not a
+native speaker and aren't very sensitive to the nuances of English, it's
+easy to think, "Well, it says a bit more, but it also sounds more
+complete and precise."
+
+But I suspect that native speakers may naturally pick up on something
+different: the expanded text can start to feel less like something a
+real person would write. It can also become verbose enough that the
+actual point gets buried, which becomes hard to catch for reviewers.
+
+> You have to ensure that your meaning is transmitted properly without it
+> ultimately becoming essentially a conversation between a reviewer and an LLM.
+> 
+> So the technial discussion you are engaging in MUST be your own.
+
+Pessimistically speaking, perhaps this is just becoming a new normal,
+and a new problem, for open source projects: reviewers spend a lot of
+time carefully writing out their feedback, only for all of it to end up
+as prompts for the contributor's agent.
+
+That perhaps makes Linus's point about trust even more relevant.
+
+
+And..
+
+> As for the 'summary' emails - please don't send them at all.
+> 
+> I feel like often they're used to generate a new prompt for the LLM and it
+> really ends up being 'workslopping', that is, making reviewers do more work
+> while the LLM takes care of things for you.
+> 
+> And that crosses the line really from 'aid to English' into it being a problem.
+> 
+> Instead, ENGAGE IN CONVERSATION with the reviewer, in line.
+> 
+> So if a review says:
+> 
+> "Please make this function do X, Y, Z".
+> 
+> Don't put something in a summary email or anything like that. REPLY to them,
+> quoting the request and respond. Like:
+> 
+> 	> Please make this function do X, Y, Z.
+> 
+> 	OK makes sense about X, Y is a bit tricker because of ... and Z is
+> 	impossible because ....
+> 
+> For instance.
+> 
+> That way it is human-to-human interaction at all times, with maybe the LLM
+> helping with translation along the way.
+
+I totally agree with the above. Moreover, I've noticed that some authors
+of patches carrying an Assisted-by tag seem to do this quite often
+lately: After reviewers reply to them, the next version will often
+contain rather stiff, overly "summarized" descriptions of the
+discussion.
+
+Another example is when a patch changes just one line of documentation,
+yet the commit message still goes out of its way to say something like,
+"This is a documentation-only change and does not affect code
+functionality." It is hard not to associate that with a typical LLM
+habit: always trying to give some explicit reassurance or confirmation
+that nothing else was affected. (I don't know if this is a requirement
+for some subsystem, or if these LLM users are also non-English speakers)
+
+I may be broadening the discussion a bit here (sorry for taking it
+somewhat off topic), but I really like this passage from the Git
+project's documentation:
+
+| It's good manners to reply to each comment in the mailing list
+| discussion instead of letting the next version of your patch be your
+| only response. Tell the reviewer whether you plan to make the
+| suggested change, keep the original, or pursue a different approach.
+| This way reviewers can respond to your reasoning before you spend time
+| preparing a version they may not agree with, and later do not need to
+| inspect your v2 to figure out whether you implemented their comment or
+| not.
+
+(Okay, I admit I wrote part of that. ;-))
+
+Of course, that is Git's culture, and it may not necessarily apply to
+the kernel. Still, I think Patrick made a good point that this: "... it
+encourages more social interactions between contributors."
+
+I haven't been in this community for very long, but I've run into this a
+few times recently as well: contributors will often just send a new
+version without replying to comments on the previous one. Sometimes they
+do put a response to you below the three-dash line in the new version,
+though. (And sometimes I suspect that even the commentary part is also
+LLM-generated.)
+
+Submitting-patches already says something related to this, and I
+happened to be wondering recently whether that part could be improved
+and made a little more explicit. But that would also benefit from input
+from people here with much more experience than I have.
+
+Perhaps I could send an RFC and see what the experienced ones think.
+
+Thanks.
+
