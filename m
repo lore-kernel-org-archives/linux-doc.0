@@ -1,85 +1,109 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pg1-f228.google.com (mail-pg1-f228.google.com [209.85.215.228])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD1656B84F
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 17:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7410F5908D3
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 18:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.228
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788889954; cv=none; b=BytKd3aFADWfwZCwBbs7M32UWf3iKqnPAFu2/JIl/b+XhMjCUbJpZktmowyXoa9S2X7IonxXbqi5fc1EqcAL3Dol7AtkDnC3pZPuSHM6+y6P6A38bAa45wbF8qIH4Sve4F1lqerUMiZutq7cZpr9jxJCDnsOLjMP/5+hb+opcaA=
+	t=1788890856; cv=none; b=Knxv34+cYPOtfXW1zr5s3cdaM+zTjDa80Vmk3OUrW0b8xbxoAju2jnORJxT3dWI51UKVdp/HC+JJSl2ZA9XjyxgMJt132roVwOZSngVKcYwLSP7jhxbHc8phASmns51Yyb1PmXZXeKuDLTAdea2DQoJTR+sIAAWxMeQhsyeLAJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788889954; c=relaxed/simple;
-	bh=KLjeMvdxyqc6SnotIiFUKvLtc/Zy+nfps2KNDr3g1+M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d9QVsNOuPQpzhE0KeEIAXqddzai1LaimjlJ6xi6Z4RvfmK4i+nYvN8HkofmBYmNHCscqeScbIKAHNEbtr9rKzK043Kxg/dSBFRvE3EVp22e8OrCEc9rUtDf+4ghi4P+wEFnA/OkO8WlVURJsWnN8LvBb4yojH7H+FxN8Y9pEMwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Le7bFbcB; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788890856; c=relaxed/simple;
+	bh=aVct0QQQt2YqktuHDZgb/IGehlIFoCNOWmk87ahbsdY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YjTBLog+BC4PK4XPa6d9xAiSYkRjh0l9UiEjA/3AHRzKd5l1xNMQGZk+06iMgXptTGBPDSEODs/QB17SdqlV0ScPHM0yL/P2Bho7rGxET3PYPTW8I16pTfVYh4IjcUFB3zQNKN7VL8FDFUihioMGEpPe5hBF18ZcWlhVDKLbfcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=HcqAcyVl; arc=none smtp.client-ip=209.85.215.228
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Le7bFbcB"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-851cbd64814so2230991b3a.1
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 10:52:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="HcqAcyVl"
+Received: by mail-pg1-f228.google.com with SMTP id 41be03b00d2f7-cc1cb472b76so3778657a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 11:07:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788890849; x=1789495649;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=r+VLJNR2ClH5aaw8GL8jeSbQjtC7qAwKNhxP9YK5biY=;
+        b=K6emKRHrYkZwrbJEfMpWpMKWjiu7+PQBf39ongNKOaEHLehvXdItsxDftlePcADu29
+         OY2DSAf3iXHIw16U5srNhwCL3yeCUQD2/5qKogsMB/OmULnWgdIntFg4ImHu8gPEc2Sz
+         emkEerWK5CNy1QP0PpZs20ctYz7TS+5ZJpFl9J0vCapmzoZpRXz+e/nZC+0e3rvj8Fk2
+         DcNQskd7t/xmBpf0l03rrGOe/BVESBtWdfPKrlyaOf+n8k/4/CKQIBcaLxtGI11n+8Eh
+         tF6NrIVMawbYbbtqWL/2BD0TuyqVuSxqG1l+9gE8WMAA9ps9/cae6BOCPiYdL4CmkEg2
+         DCEw==
+X-Forwarded-Encrypted: i=1; AKwUvBwBHmpoLS5HxHujrDT9Iay5OHmW01rf/2xFttUzHcPzer047DO7cWtMryO5B8KarHEacPBMcuafMhw=@vger.kernel.org
+X-Gm-Message-State: AFuF++kOWla8LcL1Q+NzbKtD4FKlfYgCYvp6fdggNjoxz3udEuwPwSrh
+	kXyVQ+LNXJatziY6nJcCmr9jaC/abW5NTK3Gw7/xcB4URknMnr8r7YffyjF5ClRzACHNeUieV9G
+	N/2JeiPShMYhYy41kQogZc0qxTsW7v7tKWGLeYXrxG7hUBOkjjY2IjNSDBRZGd1MO+cIAOlvq8j
+	noU8vnJNtUkQ08epgP9aqTO/EWzjAAQBNkjMHWzgbkFLFVyn0Jbn1MsKs+uSb1vFvK09/G6kVa9
+	gtEFByTlLMF
+X-Gm-Gg: AYBFou2FAhZxRgJ3qJmJeF6RQv/8w4E19DRNpnGCAkRnUdqnI0A6zivaX+m3jD60CCj
+	9E49hiAqeUK6DrInEzMDhL+6+TOdfcaWek+ROecqg/saxlyS3RseYClUcI+TCCW7cLmFtygVYgR
+	R/GdiE0LFAF2GPu/HnvIktmG0HrJDyjQxl9PNRvZJOHaZFzo3O3/aVtKytaTtc8wHmP7C6O92u3
+	5z2EGwBDqMrQhQcUn0VKH6cB9h+OlGw09Nmu2/gPsoHnE3Z2pv1ZRFDuUh6Nt7yFTcHoYB7bJXN
+	iMjjDDrOTc8YorOHE4nE9oGsWVu+jC0HWLxtwMUdHb5+OsCjkJMKJnmV7iyZukTL1d41fMG4ySZ
+	ZeiGBUXVouH3fsMxYQYkLhFUuJpyWdwor8aZy5djxzFeA3hbQVTRbdaPgATlvKRJMNq0rpfozYz
+	ZIDmJqOA+ttpHAc6AV9n9rn8gDH00FFC+l
+X-Received: by 2002:a05:6a21:6e8d:b0:3d1:2f88:913f with SMTP id adf61e73a8af0-3da39fd290fmr48352680637.14.1788890849140;
+        Tue, 08 Sep 2026 11:07:29 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-27.dlp.protect.broadcom.com. [144.49.247.27])
+        by smtp-relay.gmail.com with ESMTPS id a92af1059eb24-14324f7a9a3sm472785c88.4.2026.09.08.11.07.28
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 08 Sep 2026 11:07:29 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-670fbb96c4aso1926958d50.2
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 11:07:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788889951; x=1789494751; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1788890847; x=1789495647; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yuf7kW9a8gMm8dZPCPYh7BVn/yZWMPnrvgi9MavGUdA=;
-        b=Le7bFbcBN7fW7k+Kv4zvNee4tu0BhOdi1XuAx6vYxqNJFa3f0dHwurTzPctMuU3Bnw
-         UGnHQfY0QxrjSj33IsicOXTQFIO9Dn3cDvlYDJ/FL9BxZj/cw54a2OjcBLFsf8cKL+A8
-         eHC7ZTRlPutWNzb+80uHE3DXK+T76Q52M8R+A88/b1lBePUTNEVeZU8CohGEJLoKnywF
-         Spx56465lDDuCybX51HCdKMtFWo6rpnFmt+BtLDCPkdWjOzKPIeIad0fMx/9GjeEWL1+
-         VXSWf7CKAWbTZuEHsDsUfe7Tj/8xRe7YjS78oZX7Gj8cEhKRWo78QcCoDGhLt0pz1kLs
-         PU1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788889951; x=1789494751;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yuf7kW9a8gMm8dZPCPYh7BVn/yZWMPnrvgi9MavGUdA=;
-        b=NvOJmYkcolNbCTuoc/PnRftc9eaOo35l/UPPraFDhrjwhF2QLYoR+2pSeFIodT0SNf
-         G7/mnH5zxE+b8EouNb/0pe1kC82lfw/vW+0I8m0QBT9BH62XXXrAahWzV8W+mXY7Zl2K
-         ao1c5V8TDzXkbjGDU5jdHwMzN/PZMk8Rwa6CIdqnMQSAfnFzeIuu6RCl54ToeSWiCi+s
-         stoHtfWQtv+tMHYtN1Yk/yHW9V+r4xxYJkuRjd77e2gGjtHmYknfxeN177dP3u6z27GE
-         w/GHDx+q3hRK9kHGBnJDEhW+JfuFcmPwm3Y9Vd2B26sdmKjpKRxxW0Z4iWVZGG6It7aQ
-         onGg==
-X-Forwarded-Encrypted: i=1; AKwUvByDrW/jp/q8UYDMjyCNW2muWqy9Shyl3VQOFddPPRzIiDiv2ya5M89Pi2Lj4HJUoGefRd3sOPzQ84I=@vger.kernel.org
-X-Gm-Message-State: AFuF++nKMe3+8hcpRZikBXQ+n6ulxHNX0Z0T8HM7X2ZzbOZW+8oTitky
-	L73Uyz92TITt5d8ZtImlp5Avwg1hD5EQxCp4AGtENsDCmTiRS7hP0FRZ
-X-Gm-Gg: AYBFou2aB8q6FsQvgDK/gK+FM5I9muOv3AHZmslZi2JXEBBalFFBFSY/MiO4uhCUQ+6
-	mbXMeMO0okX5pb7x0ZE+gREqqegDmmNziY1ZW2W3qGnA/JkIaX24XJYqTejJoEoKWTdziivimTl
-	UwmcQrtxdRCVKle9sw58TibeKhKrwLXAoykWg1b0ZJXKqL+7V4ms5I5K6/WFThhQGLMldutFLfB
-	6v6oQu4WMXV+mDsmJ+l3UTKiLBpoG6LAUu9yigHYfuEINgzTjGxHHdd4JZ0nhjw2VUucnsD2mz1
-	mj/9wi3CvJeKtuPrj4ka0kfvxq9FDuTJ7D6NzXJilOhnw1s7NoUlHiyLWtEf1oqKjrZp2WGmnqx
-	/PW1V77seb1RuBI4diCvj/uu/cYjk48XotBHObZm0fa9MFE/Kj/QBDb6vQWBWXqID5Iae7OEXs3
-	NBdQVnAJx0LYGcRY3vy/whYkzln9E8tOdBdvN5kZZIX6JXTOmJEkREYBGpzh2G6JY+HhYlrU1C0
-	MTpJRWDcTyt9EZGBw==
-X-Received: by 2002:a05:6a21:d82:b0:3d3:af86:fb94 with SMTP id adf61e73a8af0-3da3a246eb2mr48825562637.26.1788889951323;
-        Tue, 08 Sep 2026 10:52:31 -0700 (PDT)
-Received: from celestia.taila51cc2.ts.net ([2402:1980:885b:4183:b098:c1b9:7033:be8a])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc45a6abaa2sm5384356a12.23.2026.09.08.10.52.25
+        bh=r+VLJNR2ClH5aaw8GL8jeSbQjtC7qAwKNhxP9YK5biY=;
+        b=HcqAcyVllebQpHp3hz3fhUeGLt/N3JiWe9zv0eAvRZK0Tvity3ySFzAwHa60PIICax
+         nuyLYhEBAmNMbpaVLyQ0l50P/WRlTWgSCMiwuI5JQd1O+2mj0RRtih4aik1GbtCwUW0m
+         wV5PlhurUeHW1C5afcB2z5hELrflePhqXn/XQ=
+X-Forwarded-Encrypted: i=1; AKwUvBwW0bmMnxdTn8COBOp7MmMnYvQ0mCi5K7ktcj1BvUU0eCTVhmQ7OmPU5fTFSmJPpKVcKpgs3ot/acA=@vger.kernel.org
+X-Received: by 2002:a53:e8c5:0:b0:66f:c1be:84d8 with SMTP id 956f58d0204a3-66fc1be866cmr7220600d50.70.1788890847334;
+        Tue, 08 Sep 2026 11:07:27 -0700 (PDT)
+X-Received: by 2002:a53:e8c5:0:b0:66f:c1be:84d8 with SMTP id 956f58d0204a3-66fc1be866cmr7220569d50.70.1788890846854;
+        Tue, 08 Sep 2026 11:07:26 -0700 (PDT)
+Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net. [173.49.113.140])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9106412e038sm27114866d6.20.2026.09.08.11.07.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 10:52:30 -0700 (PDT)
-From: Liew Rui Yan <aethernet65535@gmail.com>
-To: 
-Cc: Liew Rui Yan <aethernet65535@gmail.com>,
-	SJ Park <sj@kernel.org>,
+        Tue, 08 Sep 2026 11:07:25 -0700 (PDT)
+From: Zack Rusin <zack.rusin@broadcom.com>
+To: Borislav Petkov <bp@alien8.de>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	x86@kernel.org,
+	Petr Mladek <pmladek@suse.com>,
+	Joel Granados <joel.granados@kernel.org>,
+	Baoquan He <baoquan.he@linux.dev>
+Cc: Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	virtualization@lists.linux.dev,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-kernel@vger.kernel.org,
+	John Ogness <john.ogness@linutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Kees Cook <kees@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
 	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Dave Young <ruirui.yang@linux.dev>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
+	Bo Gan <bo.gan@broadcom.com>,
+	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>,
+	kexec@lists.infradead.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] Docs/mm/damon/design: clarify when qt_exceeds increases
-Date: Wed,  9 Sep 2026 01:50:23 +0800
-Message-ID: <20260908175105.42558-2-aethernet65535@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	Zack Rusin <zack.rusin@broadcom.com>
+Subject: [PATCH v1 0/4] x86/vmware: Preserve panic diagnostics in vmware.log
+Date: Tue,  8 Sep 2026 14:07:12 -0400
+Message-ID: <cover.1788414671.git.zack.rusin@broadcom.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,65 +111,51 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-qt_exceeds counts how many times the quota of a scheme has exceeded.
+A virtual machine may have neither guest-local persistent storage nor
+working userspace after a panic. The host's vmware.log remains available
+after the VM terminates, and a production encrypted guest is the only
+component able to export readable panic text. Hyper-V already provides
+this class of host-persistent panic reporting.
 
-The value can confuse users when the effective size quota is zero,
-because a zero effective size quota does not always mean the quotas are
-unset.
+Add a panic-only VMware logger that copies the newest 4 KiB of the kernel
+log and sends it with bounded low-bandwidth RPC work. Ordinary guests
+enable text transfer by default; encrypted guests require an administrator
+to opt in through kernel.vmware_record_panic_msg. A separate late dumper
+reports the structured crash event after built-in dumpers and suppresses
+the event while a crash kernel is loaded, because a configured VMware host
+may terminate the VM before the reporting hypercall returns.
 
-If the quotas are unset, that is, both ms and bytes are zero and no
-quota goal is set, qt_exceeds never increases.  But if the user uses
-the temporal auto-tuning algorithm, the effective size quota becomes
-zero once the goal is [over-]achieved.  In that case the quotas are
-still set, so qt_exceeds keeps increasing once per quota reset
-interval while the goal stays achieved.
+Patch 4 makes panic diagnostics run before kdump by default on VMware
+guests. This follows existing platform uses of
+crash_kexec_post_notifiers, with Hyper-V as the closest guest-reporting
+precedent. Unlike Hyper-V, VMware exposes no capability bit for this
+behavior. An explicit crash_kexec_post_notifiers=0 still wins, and patch 4
+can be dropped without affecting patches 1 through 3.
 
-Clarify this on the design document.
+This replaces patches 2 and 3 of Alexey's v2 posting:
+https://lore.kernel.org/all/20260309235250.2611115-1-alexey.makhalov@broadcom.com/
 
-Signed-off-by: Liew Rui Yan <aethernet65535@gmail.com>
----
+The intended merge path is tip's x86/vmware branch. Boris please review the
+VMware transport and policy. Petr and John, please review the panic-only
+dumper use and registration ordering. Joel and Kees, please review the
+sysctl. Baoquan and the KEXEC/KDUMP team, please review the 
+loaded-crash-kernel guard and the default in patch 4.
 
-By the way, I found a thing in the design document that confused me.
+Zack Rusin (4):
+  x86/vmware: Add a bounded panic log sender
+  x86/vmware: Add the vmware_record_panic_msg sysctl
+  x86/vmware: Report guest crashes after kmsg dumpers
+  x86/vmware: Run panic diagnostics before kdump by default
 
-    temporal: More straightforward algorithm. Tries to achieve the goal
-    as fast as possible, using maximum allowed quota, but only for a
-    temporal short time. ---> When the quota is under-achieved, this
-    algorithm keeps tuning quota to a maximum allowed one. Once the
-    quota is [over]-achieved <---, this sets the quota zero. Useful for
-    deterministic control required environments.
+ Documentation/admin-guide/sysctl/kernel.rst |  14 ++
+ arch/x86/include/asm/vmware.h               |   2 +
+ arch/x86/kernel/cpu/vmware.c                | 245 ++++++++++++++++++++
+ 3 files changed, 261 insertions(+)
 
-I'm not sure if "goal" was accidentally written as "quota" here.  Would
-this be better?
 
-    When the goal is under-achieved, this algorithm keeps tuning quota
-    to a maximum allowed one. Once the goal is [over-]achieved, [...]
-
----
- Documentation/mm/damon/design.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index d036340dae8a..e083b74d618b 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -863,6 +863,16 @@ scheme's execution.
-   completely tried to be applied.
- - ``max_nr_snapshots``: Upper limit of ``nr_snapshots``.
- 
-+``qt_exceeds`` is increased for schemes with set quotas when the quota is found
-+full at a quota reset interval boundary.  While the quotas are unset,
-+``qt_exceeds`` never increased.  However, a zero effective size quota does not
-+always mean the quotas are unset, if the ``temporal`` :ref:`auto-tuning
-+algorithm <damon_design_damos_quotas_auto_tuning>` is used, the effective size
-+quota is set to zero once the goal is [over-]achieved.  Since a set quota of
-+zero effective size is always considered full, ``qt_exceeds`` keeps being
-+increased once per quota reset interval in that case, until the goal is
-+under-achieved again.
-+
- "A scheme is tried to be applied to a region" means DAMOS core logic determined
- the region is eligible to apply the scheme's :ref:`action
- <damon_design_damos_action>`.  The :ref:`access pattern
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
 -- 
-2.55.0
+2.53.0
 
