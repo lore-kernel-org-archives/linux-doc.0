@@ -1,132 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-106118.protonmail.ch (mail-106118.protonmail.ch [79.135.106.118])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3E31A680C;
-	Tue,  8 Sep 2026 01:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8099B26056C;
+	Tue,  8 Sep 2026 01:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788831321; cv=none; b=KS5olrGCWFaUtTaQqgRCTR0kII5TPv1lk14evh2IOzN8615wergC5GhLN7uNnfCjXe8UapzZ55gSCiIN29uWOF4rj/kIDRUIHmSM/M4THfWClrOmOtR3VFh5deRYtakGzSf0+qRs69bAgq5H7A8v6Qhy2S1nnIhITUwuskdQH+o=
+	t=1788832635; cv=none; b=rZ8jb3haewy57n3iIjrL/giI8tYh6Hjyt+GAKXlluwY30IafyH/eTazCOOaE/xcR/p8QhqfQQv1t+dWuQ7dpG+sQHBi8aUJ5LdFV329l/HiXSsD0Bqv94wdLqsKoMdoiUqAAFA/QrIglg+nqya+fJ0Ho77nJQMnftwZsVZk4kQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788831321; c=relaxed/simple;
-	bh=HcRShxzvk71BSA6oMKwUhJ3MkEJ8V1MqsW2aKf+Xxos=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=B61y1MgbkMXlMe9NgSDEP8PzRZ8Qvf0DXQAL4f9ZLbI85zgdMZyv8VNUiCQqPIZ06CcFWKXqgLm9QZn/kJ8otbTr1Lae0BXhLh7wcd4/pAit/BcDIOlmaiAJomezfGrGnsYr80+7SluKR1G2NQLwiDcYFMiC9/Rw5GiMHPrel5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fKQyyJhb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788832635; c=relaxed/simple;
+	bh=ll8K1DeCc7dBftjGUkjjBVxBL0oayo50XIYa/iNA8Kg=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AkVGpymLp0yLenaRpW8hDya73zzVzib7YnD2Jdy/umzGSutV3BKNeTszbnerOliFCDqMsqAMfyJyxKra12buZmFNFC8zyQWa+ieCrTLddj5lSaMesv+BYdSsiketI0rbQbtDAN1hV/ZDvuSuma2EG5IA2ugHrZIbmljSJHaineU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=qy8agDaP; arc=none smtp.client-ip=79.135.106.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fKQyyJhb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49CFF1F00A3A;
-	Tue,  8 Sep 2026 01:35:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788831319;
-	bh=jgByKFB/1L+upVT7rUj+pfkyRwkhlSdVhbrR4RRvcu8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=fKQyyJhbZqca+VSht7hwIMTjP0FjW607X040OvzuWYn26H8ppy3D1Or8DB+hNR275
-	 f3SIDJecAajvgXwOOTIJRIpeEson+6ob9M86luy7ooyPmkKM264a3nQCMmUpvCwf+h
-	 D8sP15V8ddysd0kAak/h26GFxCwX94KTNxAwnYWuunxXMC9G8wqVarD/FeXAwT0O9P
-	 StR3FQb5wFrpS05cA7ckSxs4ruZVk65gyTL9H4nDRdsJAM3HI7yp722YzHhHAYCFMQ
-	 sgn5ORsxyck+TDtNDyHkweS0ODgxKf4h90xwHfIQazllPxq1loud8cCoIylj5Eg8E9
-	 DDI/Mlk1E7TWA==
-Date: Tue, 8 Sep 2026 10:35:14 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Pengfei Li <ljdlns1987@gmail.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Mark Rutland <mark.rutland@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- kernel test robot <lkp@intel.com>, Bo Zhang <zhangbo56@xiaomi.com>, Pengfei
- Li <lipengfei28@xiaomi.com>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH v6 3/3] trace: add documentation, selftest and
- tooling for stackmap
-Message-Id: <20260908103514.a1c61f51b84b8d67d6f0f511@kernel.org>
-In-Reply-To: <20260903132409.270195-4-lipengfei28@xiaomi.com>
-References: <20260903132409.270195-1-lipengfei28@xiaomi.com>
-	<20260903132409.270195-4-lipengfei28@xiaomi.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="qy8agDaP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1788832630; x=1789091830;
+	bh=dmXMvzsAojrLI8KMhKwvwOPr21ujpVN7YHvFwQ2zHBg=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=qy8agDaPyL1OWRDzbfHEHgfxApJ3E/ZSl55XfGjo8Sh64GDBKsLjEYfE6SW7yaEqN
+	 l++1ZTr01iKuhzFKDihFmX5lZA9xAKBHxYH3ObyQIlUw1xn5vDN9rx28KooaT4PGu+
+	 q4htZqF+SeCgXOgrWf0AMc+8Fl+7R8Ktl0hBSj0U5qCVjMK+vlox7VrzjE9S/b0h2i
+	 PaNAqR9tLU4uWVGpKn1fN15xo/cRzqzeyvlzRJ2Bxce8C+adcCaRzftDPdgob7xxu9
+	 C/pmk+2YnYAMsxFpjRd/ufdllWNlBPnkw3r8QP8070ginCBrO5FD55CLscY/qsddGy
+	 YvKVZTvOu0kvA==
+Date: Tue, 08 Sep 2026 01:57:02 +0000
+To: Anvesh Jain P <anvesh.p@oss.qualcomm.com>, Sibi Sankar <sibi.sankar@oss.qualcomm.com>, Hans de Goede <hansg@kernel.org>, =?utf-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+From: Birk Skyum <birk.skyum@pm.me>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Daniel J Blueman <daniel@quora.org>, Maya Matuszczyk <maccraft123mc@gmail.com>, linux-arm-msm@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/2] Monitor Yoga Slim 7x EC sensors without taking over cooling
+Message-ID: <20260908015650.84401-1-birk.skyum@pm.me>
+Feedback-ID: 21326998:user:proton
+X-Pm-Message-ID: 759afb0872a01ed65916baee3b25e7d0a368f2d4
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu,  3 Sep 2026 21:24:09 +0800
-Pengfei Li <ljdlns1987@gmail.com> wrote:
+The Yoga Slim 7x firmware tested here (EC 0.99.0, BIOS NHCN62WW) returns
+00 00 00 to command 0x42. The upstream driver correctly rejects that
+malformed thermal capability response. Its legacy fan RPM query (0x22,
+fan ID 1) and thermistor query (0x29) work, and the firmware ramps the fan
+automatically under CPU load.
 
-> Add supporting files for the ftrace stackmap feature:
-> 
+This series adds a Lenovo-specific, read-only path to the existing driver
+and KUnit tests using a simulated I2C adapter. It does not replace the
+strict reference-board response validation, guess a writable fan count,
+or include calibration, LUT programming or temperature reporting.
 
-Could you decouple tools/docs/tests in independent patches?
+This builds on Daniel J Blueman's pending binding and board patches [1].
+They remain separate prerequisites, with Daniel's authorship unchanged.
+The sensor transactions are documented in the public Yoga DSDT and Maya
+Matuszczyk's protocol notes; Anvesh Jain P's pending fan-profile series
+also implements the RPM query [2].
 
-> Documentation/trace/ftrace-stackmap.rst:
->   Documentation covering design, usage, tracefs interface, binary
->   format, and performance characteristics. Added to the 'Core Tracing
->   Frameworks' toctree in Documentation/trace/index.rst. Documents:
->   - Reset clears the map and nothing else: the trace buffer is left
->     untouched and tracing does not have to be stopped, so <stack_id N>
->     records in an already-collected trace can stop resolving after a
->     reset. Read the trace out first if the ids need to stay meaningful
->   - Boot-time activation via trace_options=stackmap: events use the
->     full-stack fallback until the map and required resolver are created
->     and the map is published to global_trace.stackmap
->   - bits parameter range [10, 18] and worst-case memory usage
->   - tracefs file modes (0640 / 0440), with stack_map required and
->     stack_map_stat / stack_map_bin treated as auxiliary observability
->     nodes whose creation failure does not disable deduplication
->   - Best-effort snapshot semantics for stack_map_bin, serialized
->     against reset via the reader_sem
->   - Counter definitions and stable output: successes counts map operations
->     that return a stack ID; drops counts capacity or probe-limit
->     failures; success_rate excludes bypasses that never call the map
->     and remains present as 0% when both counters are zero
->   - Gravestone amplification when the pool is exhausted
-> 
-> tools/testing/selftests/ftrace/test.d/ftrace/stackmap-basic.tc:
->   Functional selftest verifying:
->   - required stackmap tracefs nodes exist; tests that consume auxiliary
->     nodes declare them in '# requires:' and skip if unavailable
->   - enabling stackmap + stacktrace produces stack_id events
->   - stack_map_stat shows non-zero successes; a nonzero drops count is
->     a legitimate by-design fallback and is not treated as failure
->   - reset succeeds while tracing is active, since it clears the map
->     only and leaves the ring buffer alone
->   - reset also clears the map when tracing is stopped
->   The test starts and exits with a map reset so a failed run cannot
->   leak entries or counters into the next case. It reads trace contents
->   BEFORE switching back to the nop tracer (tracer_init()
->   unconditionally resets the ring buffer). The function:tracer
->   dependency is declared in '# requires:' so ftracetest skips on
->   kernels without CONFIG_FUNCTION_TRACER instead of failing spuriously.
+Testing on the Yoga with the EC node enabled and its existing 7.2 kernel:
+- W=3D1 external-module build.
+- Three bind/read/unload cycles; read-only fan1_input and temp1_input.
+- Bounded CPU load: fan rose from 0 to approximately 2800 RPM, with a
+  maximum SoC reading of 55.4 C. Original profile 0x15 was unchanged.
+- Previous monitor restored after testing; boot files unchanged.
 
-If each test has this volume description, it is enough to split those
-tests in independent patches.
+On the stated mainline base, an arm64 KUnit kernel booted in QEMU passes
+all seven tests. These cover sensor decoding, error handling, compatible
+selection, probe, read-only attributes and no-write PM/remove callbacks.
+The QEMU results validate code paths, not Yoga suspend behavior.
 
-[...]
+Two design questions for this RFC:
+- Is this read-only match-data path the preferred way to accommodate
+  the Lenovo firmware alongside the reference-board work?
+- Should the pending Lenovo binding omit the qcom,hamoa-crd-ec fallback,
+  given that this firmware cannot satisfy the reference driver's probe?
 
-> +def main():
-> +    parser = argparse.ArgumentParser(description='Parse ftrace stack_map_bin')
-> +    parser.add_argument('file', help='Path to stack_map_bin file')
-> +    parser.add_argument('--vmlinux', help='Path to vmlinux for symbol resolution')
-> +    parser.add_argument('--json', action='store_true', help='JSON output')
-> +    parser.add_argument('--top', type=int, default=0,
-> +                        help='Show only top N stacks by ref_count')
-> +    args = parser.parse_args()
-> +
-> +    with open(args.file, 'rb') as f:
-> +        data = f.read()
+EC standby notifications and desktop power-profile integration are not
+implemented or claimed by this series. Those need separate validation.
 
-nit: Can this support input from stdin? If we use this on android,
-user may want to do:
+[1] https://lore.kernel.org/all/20260526112409.66325-1-daniel@quora.org/
+[2] https://lkml.iu.edu/hypermail/linux/kernel/2607.3/08806.html
 
-adb shell cat /sys/.../stack_map_bin | python3 stackmap_dump.py 
+Birk Skyum (2):
+  platform: arm64: qcom-hamoa-ec: monitor Slim 7x legacy sensors
+  platform: arm64: qcom-hamoa-ec: test sensor and variant handling
 
-instead of pulling the file.
-
-Thanks,
+ Documentation/hwmon/index.rst               |   1 +
+ Documentation/hwmon/qcom-ec.rst             |  40 +++
+ MAINTAINERS                                 |   2 +
+ drivers/platform/arm64/Kconfig              |  16 +-
+ drivers/platform/arm64/qcom-hamoa-ec-test.c | 294 ++++++++++++++++++++
+ drivers/platform/arm64/qcom-hamoa-ec.c      | 157 ++++++++++-
+ 6 files changed, 505 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/hwmon/qcom-ec.rst
+ create mode 100644 drivers/platform/arm64/qcom-hamoa-ec-test.c
 
 
+base-commit: 28924df2a08f440c73991b83028032c901de2ae4
+--=20
+2.53.0
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
