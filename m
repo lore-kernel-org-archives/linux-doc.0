@@ -1,205 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE503C4B81;
-	Tue,  8 Sep 2026 20:59:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341543F8252;
+	Tue,  8 Sep 2026 21:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788901192; cv=none; b=ObBupEnVVERFZVfxYjlOlR7Bz0Guhsn9Mw4rwIJVAnOzupRlY66/+R69XmMlIKoDNNWO9BNex+1ZGlv7hEPQWNmpZMwdWPgC2NIWlvqTNQBPIfdC8i8yF2i6fyenmyCByzhGTh1tN8Ix/vU95FcKZXenVCJ9FjCgULbpvEJVvyg=
+	t=1788901367; cv=none; b=iP0e9ymPRVJW8d4iMSJjDYJn4Ktqa+yCnoWK5QlY8Ct4zcRWGpXi8eR9Ldre4uSAeNaG76FxPO58SEYONm+VggeLpeZNEykNoPO6GsJRWpggynqC8GyuZzdwDNVnR3n+b2sbRYUlRWMrtnUoVNNV5/ro89tvWKQ+zHxVl+cgF7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788901192; c=relaxed/simple;
-	bh=/cGfZoMmr7KpIZ+1dXwGv9v2Wc3LWJWwGs5e7Tz+VNE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=d5vsW7b5PpgZyy/q6vQOQmWPRPId1EeCNnpmq+5rJ9+OG+9cE7IDMjx2omfaDATU3N8s+w9hsPyZqaszU8Wp/o4BsunjqU5q9O1QF0CpG2oWOgrpg+2/aSuGJ7GkWLthGNzGJiMszm6zf5stDa2ni+Y0I7GdiU+6AjqZG/8z7Qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MdO7GGCn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788901367; c=relaxed/simple;
+	bh=etGFNzryVHVIzhzIbWKVACbTFB0Fz5j+NBDjhPIvoYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YDU57mGSwIckPWb3EW/jt3T0/IPzk/niHs6K4ZE4O0xfYDo0TCfRbE7POVMzNMMmUlKGe/n/aG5tFlXY8jtrUrWPkFIE9BH1AB56tg46d7LJvyb/Z+dk7cLqOBeADpRfmEZIwzcf+EWq1DBrEfAYZN+5iBBrvyVyUsKcMcXtlxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PfpLzjEF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MdO7GGCn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8613E1F00A3A;
-	Tue,  8 Sep 2026 20:59:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PfpLzjEF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E7731F00A3A;
+	Tue,  8 Sep 2026 21:02:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788901191;
-	bh=8qApsahOXbBIqOceZevDiK3r7godzpGwnSgF9lGt9lA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=MdO7GGCn0+KpMxsISFASdD9dBeQiWmdJV6zH6t4gzZ5v/IkbEVIfcTsiIALXNtNLj
-	 dFKVRsqLpM4VxR9/cgaCaaIM8If6JAXGEv7nzSsfCRev6+enJY4RHrDFyU7NHQ5Qvp
-	 xOoik+kf2au/vKN9QZt/hbZQRAsBSK1fRwamdkGXQIrTgIHSfo5GeIVS91y7sTeNAs
-	 RMryxLxJ9s2KHaRhVjS7PJ7AQyWgKEtnuhencnKFV7WGH+LmQdpFNF0YkmKpDJWnO7
-	 38B+TFNamLP1eHAQtxCYJp3TkHMPKvdowdf0jA/KR6oeDesYCBg+6wnzjzvIKo4VyJ
-	 t9x2EB5VjgNtA==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Tue, 08 Sep 2026 21:55:23 +0100
-Subject: [PATCH 23/23] kbuild: use pigz for gzip compression if available
+	s=k20260515; t=1788901361;
+	bh=I1nTJJBN0/8Z3vREycaem0mdZLGZl8Q52gVbOoYMerY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PfpLzjEFh+YzweqpMsSnGG9nwRUxroZS6gFkwEHTj3mq1YzSe5uND/Uhcd0u8mAFj
+	 shvFN9Hyi67FW3zR0+u0oV5tagVTmWfIPwHWh9bVV1Nbh53L1ttUdhi9Gu/AMehuTe
+	 JljHe5fyWsA04oan5Ozd8olgrloRiUED0cnZbLhXCkpNh3zzt40q1mZkRRu6QjEkZz
+	 yLDsKI+L8GaEDb3uWH+uou03ztcNJ1tLfkUL/s4B3gB+rGrK6p2I2zVdKzpXFwFsJg
+	 mDNRepvV2unRPWVExIvkBegwGWqo1uBtYvUhTZvFPdy7LanRwaKX6LFvR6vcKFaEgc
+	 yQ23sn4FI+MoA==
+Date: Tue, 8 Sep 2026 18:02:37 -0300
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: Sizhe Liu <liusizhe5@huawei.com>
+Cc: rostedt@goodmis.org, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, bhelgaas@google.com,
+	yangyccccc@gmail.com, jic23@kernel.org, john.g.garry@oracle.com,
+	will@kernel.org, james.clark@linaro.org, mike.leach@arm.com,
+	leo.yan@linux.dev, peterz@infradead.org, mingo@redhat.com,
+	namhyung@kernel.org, mark.rutland@arm.com,
+	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+	irogers@google.com, adrian.hunter@intel.com,
+	wangyushan12@huawei.com, wuzongyu1@huawei.com,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linuxarm@huawei.com, prime.zeng@hisilicon.com
+Subject: Re: [PATCH v4 0/8] Enhance TLP packet decoder with field-level
+ parsing and versioning
+Message-ID: <aqB37YCMUYKodo3N@x2>
+References: <20260908140509.2485649-1-liusizhe5@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260908-build-speedup-v1-23-5dc1ac01672d@kernel.org>
-References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
-In-Reply-To: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Ard Biesheuvel <ardb@kernel.org>, 
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
- Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, linux-riscv@lists.infradead.org, 
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4672; i=ljs@kernel.org;
- h=from:subject:message-id; bh=/cGfZoMmr7KpIZ+1dXwGv9v2Wc3LWJWwGs5e7Tz+VNE=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLIWlFnOe8Tg5bZ6llWidBaDf//HKzIea68pJ4U1fnOvK
- UmZvHdqRykLgxgXg6yYIsvzL+L7g0TC5nVe8HeDmcPKBDKEgYtTACZykJuR4eic7LZFB/flfLzG
- vKvj/Y0bez9vyL3NYrPz78pFPrkRJjoM/x2cp17LlWRaKbL+v5h5m22pf93yr542HzPtHxn9vL9
- kHisA
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260908140509.2485649-1-liusizhe5@huawei.com>
 
-The gzip step of a kernel build is very lengthily, especially for larger
-builds such as allmodconfig.
+On Tue, Sep 08, 2026 at 10:05:01PM +0800, Sizhe Liu wrote:
+> The original hisi-ptt-decoder only prints raw hex values with generic field
+> names for DW0/DW1/DW2/DW3, without classifying TLP types or decoding
+> DW0/DW1/DW2/DW3 fields according to the hardware-defined packet format.
+> 
+> This series enhances the HiSilicon PTT (PCIe Trace and Tuning) packet
+> decoder in perf tool to provide detailed field-level parsing of TLP headers
+> based on message type, and adds a versioning mechanism for backward
+> compatibility both in hisi_ptt driver and perf tool.
 
-gzip itself cannot be run in parallel, however an alternative tool exists
-that can, providing the same feature set as gzip itself - pigz - which
-works as a drop-in replacement.
+Series is sashiko clean by now, has a Reviewed-by, but it touches both
+kernel and tools, I wouldn't have a problem if it was processed by
+whoever maintains the kernel part.
 
-On a 128-core Threadripper, gzip -9 of a 36 MiB x86-64 vmlinux.bin takes
-1.6s, and with pigz it takes 0.09s, so the performance increase is
-significant.
-
-It is already possible to specify the KGZIP environmental variable to make
-use of pigz, however it seems sensible to make use of pigz if it is
-available.
-
-Therefore default to using pigz if it is available on the system upon which
-the kernel is being built, otherwise fall back to gzip.
-
-The output is byte-for-byte identical between pigz/gzip invocations, but
-gzip and pigz do not produce the same stream as one another.
-
-Therefore, for reproducible builds, the same set of tools should be used.
-
-This seems to already be an implicit requirement in any case, but update
-the reproducible build documentation to make this clear.
-
-Also update the kbuild documentation to reflect the change.
-
-Every x86 build ends with the compression of vmlinux.bin, 36MB for
-defconfig and over 200MB for allmodconfig, no-op builds are unchanged.
-
-Whole build, 128-thread Threadripper 9980X, best of N runs:
-
-                                         before   after     delta
-                                         -------------------------------
-  x86 defconfig, touch mm/vma.c, gcc        7.4s     5.4s     -2.0s (-27%)
-  x86 defconfig, touch mm/vma.c, clang      6.6s     4.9s     -1.7s (-26%)
-  x86 defconfig, clean, gcc                26.2s    24.4s     -1.8s (-7%)
-  x86 defconfig, clean, clang              25.8s    24.3s     -1.5s (-6%)
-  x86 allmodconfig, touch mm/vma.c, gcc    23.7s    15.3s     -8.4s (-35%)
-  x86 allmodconfig, touch mm/vma.c, clang  22.1s    15.2s     -6.9s (-31%)
-  x86 allmodconfig, clean, gcc            291.4s   275.2s     -16.2s (-6%)
-  x86 allmodconfig, clean, clang          278.3s   265.7s     -12.6s (-5%)
-
-Link: https://zlib.net/pigz/
-Assisted-by: LLM
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- Documentation/kbuild/kbuild.rst              | 13 +++++++++++++
- Documentation/kbuild/reproducible-builds.rst | 16 ++++++++++++++++
- Makefile                                     |  2 +-
- 3 files changed, 30 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 5a9013bacfb7..ebfc2319d6da 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -110,6 +110,19 @@ HOSTLDLIBS
- ----------
- Additional libraries to link against when building host programs.
+- Arnaldo
  
-+KGZIP
-+-----
-+The gzip compressor used for the compressed kernel image, compressed
-+modules and packaging.
-+
-+If unset, it defaults to pigz (a parallel implementation of gzip) if available,
-+otherwise gzip.
-+
-+KBZIP2, KLZOP, LZMA, LZ4, XZ, ZSTD
-+----------------------------------
-+The compressor programs for the other formats. Each defaults to the program
-+of the same name.
-+
- .. _userkbuildflags:
- 
- USERCFLAGS
-diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-index bc1eb82211df..b95586df2cb5 100644
---- a/Documentation/kbuild/reproducible-builds.rst
-+++ b/Documentation/kbuild/reproducible-builds.rst
-@@ -76,6 +76,22 @@ include generated files.  You should ensure the source tree is
- pristine by running ``make mrproper`` or ``git clean -d -f -x`` before
- building a source package.
- 
-+Compression tools
-+-----------------
-+
-+The compressed kernel image, compressed modules and packages are produced
-+using the binary specified by the environment variable ``KGZIP`` (described
-+in Documentation/kbuild/kbuild.rst).
-+
-+This variable defaults to ``pigz`` if installed (a parallel implementation
-+of gzip), or ``gzip`` otherwise.
-+
-+The generated output between two invocations of identical builds with
-+either of the default tools will be byte-for-byte equivalent.
-+
-+However, for reproducible builds, ensure the same tool is used on all build
-+hosts, as different tools may generate different output from one another.
-+
- Module signing
- --------------
- 
-diff --git a/Makefile b/Makefile
-index 3805f72428cb..5cb819034372 100644
---- a/Makefile
-+++ b/Makefile
-@@ -561,7 +561,7 @@ PERL		= perl
- PYTHON3		= python3
- CHECK		= sparse
- BASH		= bash
--KGZIP		= gzip
-+KGZIP		:= $(if $(shell command -v pigz 2>/dev/null),pigz,gzip)
- KBZIP2		= bzip2
- KLZOP		= lzop
- LZMA		= lzma
-
--- 
-2.55.0
-
+> ---
+> Changes in v4:
+> - Add missing space in hisi-ptt.rst (Sashiko).
+> - Widen the pattern bit field in struct hisi_ptt_trace_ctrl (Sashiko).
+> - Add protocol defined TLP header length parsing in patch 05/08.
+> - Add MRd and DMRr message types parsing in patch 05/08.
+> - Add comment for enum hisi_ptt_pkt_msg_type in patch 05/08. 
+> - Add DW0 and DW1 fields analysing in patch 06/08.
+> - Refine bit-fields parsing of DW0/DW1/DW2/DW3 based on different requests
+>   in patch 06/08.
+> - Refine the description of pattern=1 in the document in patch 07/08.
+> - Extract the bit-field printing of v1 version into functions in
+>   patch 08/08. 
+> - Link to v3: https://lore.kernel.org/linux-pci/20260903075241.1445338-1-liusizhe5@huawei.com/
+> 
+> Changes in v3:
+> - Add explicit inclusion of <stdbool.h> (Sashiko).
+> - Make patch 07/08 apply cleanly to mainline (Yushan).
+> - Pick up the reviewed-by tag (Yushan).
+> - Link to v2: https://lore.kernel.org/linux-pci/20260827140442.2031128-1-liusizhe5@huawei.com/
+> 
+> Changes in v2:
+> - Split patch 01/10 and patch 02/10 from series v1 into independent patch
+>   series for backporting (Bjorn).
+> - Use bitwise operations instead of C bitfields for cross-platform cases
+>   (Sashiko).
+> - Add `pattern` parameter in hisi_ptt driver for layout compatibility.
+> - Link to v1: https://lore.kernel.org/linux-pci/20260604075005.2219785-1-liusizhe5@huawei.com/
+> 
+> ---
+> Sizhe Liu (8):
+>   perf hisi-ptt: Abstract trace data buf and offset
+>   perf hisi-ptt: Complete the field names for 4DW and 8DW packets
+>   perf hisi-ptt: Extract the raw data printing part
+>   perf hisi-ptt: Merge 4DW and 8DW HEAD0 printing
+>   perf hisi-ptt: Add parsing of supported message types and proto length
+>   perf hisi-ptt: Add field-level parsing for header DW0/DW1/DW2/DW3
+>   hwtracing: hisi_ptt: Add pattern PMU config for trace format selection
+>   perf hisi-ptt: Pass pattern version to decoder for compatibility
+> 
+>  Documentation/trace/hisi-ptt.rst              |  26 +-
+>  drivers/hwtracing/ptt/hisi_ptt.c              |  25 +-
+>  drivers/hwtracing/ptt/hisi_ptt.h              |   4 +
+>  tools/perf/arch/arm64/util/hisi-ptt.c         |  18 +
+>  .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.c   | 593 ++++++++++++++++--
+>  .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.h   | 241 ++++++-
+>  tools/perf/util/hisi-ptt.c                    |  51 +-
+>  tools/perf/util/hisi-ptt.h                    |   9 +-
+>  8 files changed, 872 insertions(+), 95 deletions(-)
+> 
+> -- 
+> 2.33.0
