@@ -1,163 +1,258 @@
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+Received: from mta1.migadu.com (out-78.mta1.migadu.com [95.215.58.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FCD3D3321
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 08:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975724CB8D2
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 09:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788857196; cv=none; b=qZ14D8g02NF83bdIWzMBEbxSttdaoChXuMbxxVRYu5c5fBS1Ij/FEzOsLF52Et01OYH302YNNog1AzW2AJsvsRvn5rkJnGY59vPIOFposdd8GN2iyulLYzcADUvxAhCp4W9hVidFDst67uL5rtIc0riYfBeP48ovypHd4tgsE3k=
+	t=1788858627; cv=none; b=YeAepF4jGsJS3ix+N08IemPkcxMyu8yjfNZUPfLK/YOBE8lW8P/pacQ8KpE/Q2D2QYlW+hTjl+Vulu4J45Cs8LITUXCywrynzlTM6ga2LJg3hWLcE8G9SOJAY7Qg7YboYT7FHsYfsZWB1JFo52NtdT6p8E6TBPbh0uqfm05EK5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788857196; c=relaxed/simple;
-	bh=DaAQfNMDqfA4SiBqN/u9osdm8oWxv6NACh882Mgt+no=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r74jAeCJLJP270F3yvENCTusa8zx5WO+DQ61c1Mxxv4yruxlTHCzPAKoHOM9pw4iLkYxL71fGs0uEUnX/A/WWjwBUlcUrKEKMm2acC1jh8MfbRWjCui1vHG6EISrDdvwKMoPbec4Rv7K6f3UxY2dYv5btWPUEeKeL5p17dNvNr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-982882c21b1so41009241.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 01:46:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788857193; x=1789461993;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Jpscs7JaPB6a7DSYaibBo7ovev0XT0EFpj0jxoPpShE=;
-        b=SjnA/CKUIlLXZpXXTQmuyS71oWNDfWPah8y3pjrm+w+5gpGYwiqzGhErdjfokj7ufQ
-         PzmYTAbnA2Q+nxJaKe+EjR7qMR/x+T4JsnVyBrZ0zyabtun3/x3eZ72lr5RVzAqbXKKu
-         WkhTHbI+XG0KPqupVNiJxCW+CK5D07HAAXphw8Vd1ijsVQRDEaVRDESs37RDkybqACso
-         I9jjdi+vSu7OV54nleOBBInZTDxDzNqK/il4I+etLgu4Rpz72XV7aHY6LzVHiwMPxawx
-         FG81aCpsYDPVPRbpjUyoU3s0koz0evccE8aoJRJgJsECeEDAdqMY3r0e6qxU0oUgzldX
-         PzLQ==
-X-Forwarded-Encrypted: i=1; AKwUvByeL/0GRjNTOhWkqRe8xF/3P4huyU1Jk4ne9zV2RtilpQXNFjrTyxqKizEjoj8gpkz0WB524vuK5sA=@vger.kernel.org
-X-Gm-Message-State: AFuF++k9trpTv4cVvkkhJExp5uOqZKkoyruZvjBwxpV1Brg5ZZ0IUdZ1
-	mtIUR7vMbiRZs8VgY2ZWvClWVdAcQ697aZSGR+WZQAIgukMl65wsF+td2lZa6VCF
-X-Gm-Gg: AYBFou0BxRSUrgPTfw8o244VSwjvLhZ2ycgVJkEtC83nR8vm6DTqAUfDM1Jyn6jGq5I
-	h+ZBnRnZv7ePFAt+we9E1yLiBwuAgBT30BpTSuPfjQO1sTgD0FrvBCH1V++9sPi3zAxc4QfVjBC
-	/rvNkEOfqmb3R93YcIByscPmfUVAOw7kBAgtyEQeQZtaQGgdm2/IBXpmqiNRvZLdPvlgmwHcx9O
-	3LdmkQhGz0xRTgbgGXpbC1/QcMZ8cmuqhrmqeSrYDhJrQBwCRNb9B97f3EO6X5O7hpheVYcCI/W
-	nTfaJQJaqZliblT1FPw+QhOETxcZbs/p4HnSzgRSeRaEICnAG5hnZFW+UVcPVIL0eWQDxA/gVa7
-	Yw7QNJIpY3ZIAzP8lTIaxeqdo+dRmYj9d3hENU2XBFmM4opSueSAbyXuXzDla9qxl4ohUYxzlsK
-	+1Bx9N64mWxWT82uj0dvg2cqS1N8PDYBad7TgdGv+KN3gYnQmjebIFwx5t1XPOPnIoGRQF5WwDY
-	CwvhMATga5gTcebNGNMYQpuVfUeI0c7HlaW
-X-Received: by 2002:a05:6102:5814:b0:786:b28e:f980 with SMTP id ada2fe7eead31-78a4a99f7c6mr10136090137.10.1788857193609;
-        Tue, 08 Sep 2026 01:46:33 -0700 (PDT)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-78a47ad27bdsm7964362137.6.2026.09.08.01.46.32
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Sep 2026 01:46:32 -0700 (PDT)
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-97e986f1996so1017081241.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 01:46:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwyROSmeiIpgFm0rEE/pU5kfDaLtKmhlcV+ebCWuvWLu8TTuDubsfj2pX6Wv28KpxBlumHT4CCAdUk=@vger.kernel.org
-X-Received: by 2002:a05:6102:3054:b0:726:cd42:d023 with SMTP id
- ada2fe7eead31-78a4aa3506cmr8542865137.11.1788857192323; Tue, 08 Sep 2026
- 01:46:32 -0700 (PDT)
+	s=arc-20240116; t=1788858627; c=relaxed/simple;
+	bh=cEdVml3tdgAFLckXNxgJNh/xEbh5hOuVY3ofUnolJE8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NkzsljtoTTNVhiaylVUt1rpBv6WSbgMF1tHSbeiBsTfEXo7P89r9DGiOcMBpfFIzkCa8GjGv2xIGjSVSSy7EnzCAOzBNLG1CzeGn+bG/yFnyaeigvGsZ7YYpTFNQ9OcydGaJsEUvooFQ2jN6s/qPULz6K+uEcLvIoTd+bs7BnG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mGDZGI/7; arc=none smtp.client-ip=95.215.58.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mGDZGI/7"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=cEdVml3tdgAFLckXNxgJNh/xEbh5hOuVY3ofUnolJE8=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788858622; v=1; x=1789463422;
+ b=mGDZGI/7eho1oCAMQAFP5k6uHKGxgtsXd8LnWYLumuY0XG6E3ohGh1nh84Ajwve1i36GIUJ5
+ xuVzopiEDE5v2i0feRjZit/lC2rr588yofYX/0UqHdOYARgBKi9wA3XH2/JPiktRm8IcZNigfLt
+ FhI87zwu4LEy/18YBbZVaA40=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 375bf685a1d0cbc9;
+	Tue, 08 Sep 2026 09:10:05 +0000
+X-Mizu-Trace-ID: 375bf685a1d0cbc9
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <f2f1f7e4-539f-4385-a28b-1fde074cdeca@linux.dev>
+Date: Tue, 8 Sep 2026 17:09:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260809200429.843212-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260809200429.843212-1-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 8 Sep 2026 10:46:21 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXpq170gW12KEzmf5cUkUfRQ-6Vj_hMyeGeUny_WUCohA@mail.gmail.com>
-X-Gm-Features: AcwNN1U6U5lTYgv4OCUonWRRw758LHZnUmo8hmQI7dJ9Temn454yHA3PWD6OCBM
-Message-ID: <CAMuHMdXpq170gW12KEzmf5cUkUfRQ-6Vj_hMyeGeUny_WUCohA@mail.gmail.com>
-Subject: Re: [PATCH v5] arm64: dts: renesas: r8a779g0: Add GICv3 ITS and
- update PCIe nodes
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Marek,
-
-On Sun, 9 Aug 2026 at 22:04, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> This SoC implements GIC600 with GICv3 ITS and PCIe host mode on this
-> SoC can use it. Add GIC ITS node into GIC node, update interrupt-map
-> and add msi-map into PCIe controller node.
-
-I missed before that "msi-map" is not actually added?
-
->
-> The GIC ITS does have master interface to issue transactions to RAM.
-> The interface does support cacheable transactions, however, it does
-> not support shareable attribute, because the AXI port signals are tied
-> to inactive in this implementation. Therefore, add "dma-noncoherent"
-> DT property into the GIC ITS subnode.
->
-> The GIC redistributor does not have cacheable/shareable, therefore
-> add "dma-noncoherent" DT property into the GIC node.
->
-> Co-developed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-
-> --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> @@ -809,6 +809,7 @@ pciec0: pcie@e65d0000 {
->                         resets = <&cpg 624>;
->                         reset-names = "pwr";
->                         max-link-speed = <4>;
-> +                       msi-parent = <&its>;
->                         num-lanes = <2>;
->                         #address-cells = <3>;
->                         #size-cells = <2>;
-
-> @@ -2148,11 +2150,22 @@ ipmmu_mm: iommu@eefc0000 {
->                 gic: interrupt-controller@f1000000 {
->                         compatible = "arm,gic-v3";
->                         #interrupt-cells = <3>;
-> -                       #address-cells = <0>;
-> +                       #address-cells = <2>;
-> +                       #size-cells = <2>;
->                         interrupt-controller;
->                         reg = <0x0 0xf1000000 0 0x20000>,
->                               <0x0 0xf1060000 0 0x110000>;
->                         interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
-> +                       dma-noncoherent;
-> +
-> +                       ranges = <0x0 0x0 0x0 0xf1000000 0x0 0x200000>;
-> +
-> +                       its: msi-controller@40000 {
-> +                               compatible = "arm,gic-v3-its";
-> +                               reg = <0x0 0x40000 0x0 0x20000>;
-> +                               dma-noncoherent;
-> +                               msi-controller;
-
-Likewise, make dtbs_check: "'#msi-cells' is a required property"
-And it must be <1>, so msi-parent above is wrong, too?
-
-> +                       };
->                 };
->
->                 gpu: gpu@fd000000 {
-
-I have already queued this in renesas-devel as commit 7fe73a3a3f2c3718
-("arm64: dts: renesas: r8a779g0: Add GICv3 ITS and update PCIe nodes"),
-but I can still amend it.
-
-Thanks!
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/11] mm/sparse-vmemmap: drop the extra tail page from
+ device DAX reservation
+To: Muchun Song <songmuchun@bytedance.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>
+References: <20260908030335.96549-1-songmuchun@bytedance.com>
+ <20260908030335.96549-10-songmuchun@bytedance.com>
+From: Qi Zheng <qi.zheng@linux.dev>
+In-Reply-To: <20260908030335.96549-10-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-Gr{oetje,eeting}s,
 
-                        Geert
+On 9/8/26 11:03 AM, Muchun Song wrote:
+> The device DAX vmemmap population still reserves one extra tail vmemmap
+> page after the head page.
+> 
+> Drop that extra reservation and let the shared tail page cover all tail
+> vmemmap pages after the head page, so DAX follows the same reservation
+> model as HugeTLB.
+> 
+> This reduces the reserved vmemmap pages for optimized DAX mappings to
+> one and removes the now-unneeded first-tail population from the generic
+> and powerpc paths to simplify the code as well.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+>   arch/powerpc/mm/book3s64/radix_pgtable.c | 46 ++----------------------
+>   include/linux/mm.h                       |  3 +-
+>   mm/mm_init.c                             |  2 +-
+>   mm/sparse-vmemmap.c                      | 13 ++-----
+>   4 files changed, 7 insertions(+), 57 deletions(-)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Looks like sashiko's response [1] is a false positive.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+[1]. 
+https://sashiko.dev/#/patchset/20260908030335.96549-1-songmuchun%40bytedance.com
+
+__SetPageReserved() in vmemmap_shared_tail_page() marks the struct page
+entries stored inside the shared vmemmap backing page, i.e. the metadata
+templates that later represent DEV-DAX tail pages. It does not mark the
+struct page of the backing page itself.
+
+On hot-remove, free_vmemmap_pages() is called with pte_page(*pte), which
+is the backing page. That page is not reserved, so the teardown goes
+through __free_pages(), not free_reserved_pages().
+
+Right?
+
+If so:
+
+Acked-by: Qi Zheng <qi.zheng@linux.dev>
+
+Thanks,
+Qi
+
+> 
+> diff --git a/arch/powerpc/mm/book3s64/radix_pgtable.c b/arch/powerpc/mm/book3s64/radix_pgtable.c
+> index 831c231a4a18..e7e751c48dd2 100644
+> --- a/arch/powerpc/mm/book3s64/radix_pgtable.c
+> +++ b/arch/powerpc/mm/book3s64/radix_pgtable.c
+> @@ -1218,39 +1218,6 @@ int __meminit radix__vmemmap_populate(unsigned long start, unsigned long end, in
+>   	return 0;
+>   }
+>   
+> -static pte_t * __meminit radix__vmemmap_populate_address(unsigned long addr, int node,
+> -							 struct vmem_altmap *altmap,
+> -							 struct page *reuse)
+> -{
+> -	pgd_t *pgd;
+> -	p4d_t *p4d;
+> -	pud_t *pud;
+> -	pmd_t *pmd;
+> -	pte_t *pte;
+> -
+> -	pgd = pgd_offset_k(addr);
+> -	p4d = p4d_offset(pgd, addr);
+> -	pud = vmemmap_pud_alloc(p4d, node, addr);
+> -	if (!pud)
+> -		return NULL;
+> -	pmd = vmemmap_pmd_alloc(pud, node, addr);
+> -	if (!pmd)
+> -		return NULL;
+> -	if (pmd_leaf(*pmd))
+> -		/*
+> -		 * The second page is mapped as a hugepage due to a nearby request.
+> -		 * Force our mapping to page size without deduplication
+> -		 */
+> -		return NULL;
+> -	pte = vmemmap_pte_alloc(pmd, node, addr);
+> -	if (!pte)
+> -		return NULL;
+> -	radix__vmemmap_pte_populate(pmd, addr, node, NULL, NULL);
+> -	vmemmap_verify(pte, node, addr, addr + PAGE_SIZE);
+> -
+> -	return pte;
+> -}
+> -
+>   int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
+>   					      unsigned long start,
+>   					      unsigned long end, int node,
+> @@ -1297,7 +1264,7 @@ int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
+>   		if (!pte_none(*pte)) {
+>   			/*
+>   			 * This could be because we already have a compound
+> -			 * page whose VMEMMAP_RESERVE_NR pages were mapped and
+> +			 * page whose retained vmemmap page was mapped and
+>   			 * this request fall in those pages.
+>   			 */
+>   			next = addr + PAGE_SIZE;
+> @@ -1318,16 +1285,7 @@ int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
+>   					return -ENOMEM;
+>   				vmemmap_verify(pte, node, addr, addr + PAGE_SIZE);
+>   
+> -				/*
+> -				 * Populate the tail pages vmemmap page
+> -				 * It can fall in different pmd, hence
+> -				 * vmemmap_populate_address()
+> -				 */
+> -				pte = radix__vmemmap_populate_address(addr + PAGE_SIZE, node, NULL, NULL);
+> -				if (!pte)
+> -					return -ENOMEM;
+> -
+> -				next = addr + 2 * PAGE_SIZE;
+> +				next = addr + PAGE_SIZE;
+>   				continue;
+>   			}
+>   
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index a2ebe87e7654..969594074fd2 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -5167,7 +5167,6 @@ static inline void vmem_altmap_free(struct vmem_altmap *altmap,
+>   }
+>   #endif
+>   
+> -#define VMEMMAP_RESERVE_NR	2
+>   #ifdef CONFIG_ARCH_WANT_OPTIMIZE_DAX_VMEMMAP
+>   static inline bool __vmemmap_can_optimize(struct vmem_altmap *altmap,
+>   					  struct dev_pagemap *pgmap)
+> @@ -5187,7 +5186,7 @@ static inline bool __vmemmap_can_optimize(struct vmem_altmap *altmap,
+>   	 * For vmemmap optimization with DAX we need minimum 2 vmemmap
+>   	 * pages. See layout diagram in Documentation/mm/vmemmap_dedup.rst
+>   	 */
+> -	return !altmap && (nr_vmemmap_pages > VMEMMAP_RESERVE_NR);
+> +	return !altmap && (nr_vmemmap_pages > VMEMMAP_OPTIMIZATION_PAGES);
+>   }
+>   /*
+>    * If we don't have an architecture override, use the generic rule
+> diff --git a/mm/mm_init.c b/mm/mm_init.c
+> index 7a2e58d631c2..629420a83891 100644
+> --- a/mm/mm_init.c
+> +++ b/mm/mm_init.c
+> @@ -1056,7 +1056,7 @@ static inline unsigned long compound_nr_pages(unsigned long pfn,
+>   	if (!section_vmemmap_optimizable(ms))
+>   		return pgmap_vmemmap_nr(pgmap);
+>   
+> -	return VMEMMAP_RESERVE_NR * (PAGE_SIZE / sizeof(struct page));
+> +	return VMEMMAP_OPTIMIZATION_PAGES * (PAGE_SIZE / sizeof(struct page));
+>   }
+>   
+>   static void __ref memmap_init_compound(struct page *head,
+> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+> index 0201877a7f80..e655d9d1348f 100644
+> --- a/mm/sparse-vmemmap.c
+> +++ b/mm/sparse-vmemmap.c
+> @@ -136,7 +136,6 @@ int __meminit section_nr_vmemmap_pages(unsigned long pfn, unsigned long nr_pages
+>   {
+>   	const struct mem_section *ms = __pfn_to_section(pfn);
+>   	const int order = section_order(ms);
+> -	const int vmemmap_pages = pgmap ? VMEMMAP_RESERVE_NR : VMEMMAP_OPTIMIZATION_PAGES;
+>   	const unsigned long pages_per_compound = 1UL << order;
+>   
+>   	VM_WARN_ON_ONCE(!IS_ALIGNED(pfn | nr_pages, PAGES_PER_SUBSECTION));
+> @@ -147,13 +146,13 @@ int __meminit section_nr_vmemmap_pages(unsigned long pfn, unsigned long nr_pages
+>   
+>   	if (order < PFN_SECTION_SHIFT) {
+>   		VM_WARN_ON_ONCE(!IS_ALIGNED(pfn | nr_pages, pages_per_compound));
+> -		return vmemmap_pages * nr_pages / pages_per_compound;
+> +		return VMEMMAP_OPTIMIZATION_PAGES * nr_pages / pages_per_compound;
+>   	}
+>   
+>   	VM_WARN_ON_ONCE(!IS_ALIGNED(pfn | nr_pages, PAGES_PER_SECTION));
+>   
+>   	if (IS_ALIGNED(pfn, pages_per_compound))
+> -		return vmemmap_pages;
+> +		return VMEMMAP_OPTIMIZATION_PAGES;
+>   
+>   	return 0;
+>   }
+> @@ -521,17 +520,11 @@ static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
+>   		if (!pte)
+>   			return -ENOMEM;
+>   
+> -		/* Populate the tail pages vmemmap page */
+> -		next = addr + PAGE_SIZE;
+> -		pte = vmemmap_populate_address(next, node, NULL, -1, flags);
+> -		if (!pte)
+> -			return -ENOMEM;
+> -
+>   		/*
+>   		 * Reuse the shared page for the rest of tail pages
+>   		 * See layout diagram in Documentation/mm/vmemmap_dedup.rst
+>   		 */
+> -		next += PAGE_SIZE;
+> +		next = addr + PAGE_SIZE;
+>   		rc = vmemmap_populate_range(next, last, node, NULL,
+>   					    page_to_pfn(page), flags);
+>   		if (rc)
+
