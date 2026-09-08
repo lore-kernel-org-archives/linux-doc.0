@@ -1,36 +1,69 @@
-Received: from mta1.migadu.com (out-3.mta1.migadu.com [95.215.58.3])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA7835893
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 04:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064243016E0
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 05:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788840579; cv=none; b=Y3RxLxjG760kJ78ZM5dSKjTt7ZlyhGUtYOg3I6BKm85KtxtwuoyPuPk8fdGZWccewXoBRRLlKLFCC3l0DnHQjdE/XL9iQf6amfaO3WTkDDbyqS2T04KvQnRmMf4pG5n0SfBsW+1wU49BVElBT74TM9sDUevLfOpgo+gjoVbODis=
+	t=1788845107; cv=none; b=GeK+lnOqOX4Ojhs6j6CDS2qX1ptxuPu975oJ1u2dL+Lny5tYIqbjzZhoQw5awL97Oqqe3VBW+3DdppFZT1M3yoTxevlBQOsJYIuY6FrK53rwe+tYfU8diCJXUsYEgkXTZqO2M2h43WjNbQsobITBhkZ16nccZV+4cDPGFcNW+5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788840579; c=relaxed/simple;
-	bh=x0VZgiJePeWqh4cLtuV0TthQ7an0Lkb4/kBk4eS0cSE=;
+	s=arc-20240116; t=1788845107; c=relaxed/simple;
+	bh=yr8hbTbeNs8s7he/80wXBeIAySSnmo+j47sPdYXRQRE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BQuhQfnIk6C5cfaeUUd5NA5JLuYbb0+loOvncZPHHScZtbcYIzhVNddFxkodq4VTdK5AFR5mnhHKNdcDA/YlkWDks03IeWgXjggqzP55PSovJueymGc8FzlWwzc6EByCwBA8GqUazYUIU69q9Zt7cFu8wjmRi5sA+aV1I62hSWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=B6wMX3rO; arc=none smtp.client-ip=95.215.58.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=BRzPrsYKA9qoqcPPjxcIOJubGKwFJ4KgXnv60kSXyVE1vXhAR6bGzQGhpImmFkDr3jI4X+IpexQsJC4+Lp0eyIbQzseJkkM8qtO6emHwKXEUy8uVsbaV0+TRYSNbfLztbUWxFwozI+JQEzlVFQcq7D4c7VZsXA5OQlqznMEuInU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tD2Leewd; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="B6wMX3rO"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=x0VZgiJePeWqh4cLtuV0TthQ7an0Lkb4/kBk4eS0cSE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788840575; v=1; x=1789445375;
- b=B6wMX3rOxLJUReXa9Auyrgrk7+wZbrTI31hMBeZ64A7kLLekvpbjRg5ar5rESFwFZcx0S+fo
- +CV7YXgUzqAHJIJfX/g9zZbVTC6U/IE1Qkx8js0gkjce7/jSuffyvD5H5I2R/UIk7FRsGEvz1Pb
- FOmRXIDG4fZndVAfk7s1tRbk=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id aa67825df359c637;
-	Tue, 08 Sep 2026 04:09:34 +0000
-X-Mizu-Trace-ID: aa67825df359c637
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <3856ab3a-5bc6-4483-a116-601ae431b2c1@linux.dev>
-Date: Tue, 8 Sep 2026 12:09:24 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tD2Leewd"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-cc1c3d79b9bso2998101a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 22:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788845105; x=1789449905; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ym3WdTKLeGIRO2xfNfe+mh7R6C5MMc8hhWmJN+491nc=;
+        b=tD2LeewdW73B8Gp1LgTUyYQEWZh2PcoWYwJpqUQUoIrp4MfDf0fGeq+oKiGBY2ZQ5w
+         PL05/Q2OLSc/NIzCK1u0N3DT1/HjqYwnJBLZrl0vx9EoPSPrhDLF5NwVM+0Ukkgz/mba
+         5R1WoKL5+RekBfwiVufy8kxaygCZjSEV6+qj9/6ONuPgbkhL5Gi+UuTvXnzYVOGFT7zy
+         wnI69pZeWGYcwCkS8xxkokJHXBGiZ9O5hvMIYUl/4sExe5tsBt/FkmTjDhtkJ1LVmcs4
+         r/yX7l4sgiskqfes1tTVs8E1chjAO+VlD3EUSsHVNAionhAvoNm4PHB7MtKJLE2MQ7WQ
+         WQKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788845105; x=1789449905;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Ym3WdTKLeGIRO2xfNfe+mh7R6C5MMc8hhWmJN+491nc=;
+        b=M2jQYXUQ7utaH0F3RsNUvE3oU15IQUNJ6TjoTKJyZ8fAIXf44y/Qj0ZxmENXcV2iWp
+         umGybvmVyAFP8ca06lPbMExi6h/DJLW2qtJynZZt76HhUMPq0stu43bD9XJJqAWUiq9p
+         ZRZKSf5KocAET+VR9kGF7Iewv2GYPIcFGgUEMiku2ElCZn36h8K0GRr0a6SAC1Y3Fdhx
+         kofb9j2uFgOC2BqUlHVPoFy5r5cxRVtNb9Gv1ZejOFUQnv3Vf/m5UP45c6g+Df7hBGrJ
+         WYNM5ZLWXCg/Gni29hFhwRb3xbhDVKggNaAqBnKsD+KFjXhY0AbEiohGkxdMFQvwLOlY
+         XGGA==
+X-Forwarded-Encrypted: i=1; AKwUvByp7Ve8iJ5f2dFbXjMHuH4GxVg9lVkyLuT9BDUCbQcD6YATJUgq36bpQb/L2PKHi+p3Xl0nSNH6yL4=@vger.kernel.org
+X-Gm-Message-State: AFuF++kkqp/SWEhUY0Dk3tBdlHGhqwQqdO6ETbxQCVF32un+cr7R8bJr
+	TBMKBhSGz3tr1Ss+P/SJ8gqxJ/hBIvSCM5fjvAsnCmvNKgUQ4KqTcoEi
+X-Gm-Gg: AYBFou0wKxOMpeZl7PHrfUhUquZJGB1GT2n9ouMtGyQalfptHWJp3woi0Dcl8L+0dNa
+	XDTtB/n8f72VJMrumGq3PaEPp9++gFvdBPRMZ7mATC1xYMxjti/cXtMkb+JtMzs7o3Efk158xEC
+	493hvQyhw2QJLNK9aLOz34jviaYlb7iZxi42BnA7CY7UtnrT1u9ZaeLqf1thTMHpe57LQKX2MXW
+	wOPxxpKmdpFLQ+NwfvqSO0KBtWX1w0CpnZpEapYRGyozBQsFuhRC6YtrY2PNx8CyuEsvqIJ+Dco
+	yHFhEbfJaPd0ccyrVODz4HONmG05IBjKYRBCTfQ6PtdxMcDB/7b70eoeYNidyGa3fMLxUM82vP+
+	gdpmb8wezqM6YLAwmsZ+AE4TO/huDsoUEusYSTF8yPhi5g+dJZYQaovTaldjr974BG5nTdcJUUO
+	cQbDyRsOszbcWgVUiObRrbInJX3nxe0+/jGuG2DrBN1iL/ZPy30Gu+o8Xx7SNUzHvqmqP0Rplmi
+	fkhAwexFYOH7JxwD26xDmY4A5dIRAG2LWhPsg==
+X-Received: by 2002:a17:90b:2784:b0:395:4de5:1054 with SMTP id 98e67ed59e1d1-39b26272bdcmr45563264a91.16.1788845105216;
+        Mon, 07 Sep 2026 22:25:05 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08c39227sm30807563a91.9.2026.09.07.22.25.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Sep 2026 22:25:04 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <2169e4a9-4e18-4cc7-8018-3c9db0891334@roeck-us.net>
+Date: Mon, 7 Sep 2026 22:25:02 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,271 +71,95 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/11] mm/sparse-vmemmap: switch device DAX to shared
- tail vmemmap pages
-To: Muchun Song <songmuchun@bytedance.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Qi Zheng <qi.zheng@linux.dev>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>
-References: <20260908030335.96549-1-songmuchun@bytedance.com>
- <20260908030335.96549-7-songmuchun@bytedance.com>
+Subject: Re: [RFC PATCH 1/2] platform: arm64: qcom-hamoa-ec: monitor Slim 7x
+ legacy sensors
+To: Birk Skyum <birk.skyum@pm.me>, Anvesh Jain P <anvesh.p@oss.qualcomm.com>,
+ Sibi Sankar <sibi.sankar@oss.qualcomm.com>, Hans de Goede
+ <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Daniel J Blueman <daniel@quora.org>,
+ Maya Matuszczyk <maccraft123mc@gmail.com>, linux-arm-msm@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260908015650.84401-1-birk.skyum@pm.me>
+ <20260908015650.84401-2-birk.skyum@pm.me>
 Content-Language: en-US
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20260908030335.96549-7-songmuchun@bytedance.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260908015650.84401-2-birk.skyum@pm.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-
-
-On 2026/9/8 11:03, Muchun Song wrote:
-> HugeTLB vmemmap optimization now uses per-zone shared tail vmemmap pages.
-> Device DAX has not been switched to that mechanism yet.
->
-> Switch device DAX to vmemmap_shared_tail_page() as well. This aligns DAX
-> with HugeTLB by using the common per-zone shared tail vmemmap page.
->
-> The optimization is enabled only for DEV-DAX through pgmap->vmemmap_shift,
-> which is assigned when a DEV-DAX device is initialized. Unlike FS-DAX,
-> DEV-DAX does not modify tail struct pages, so sharing them is safe.
->
-> Since the shared tail page can now back ZONE_DEVICE vmemmap mappings,
-> initialize its entries with PG_reserved for device zones. Also skip
-> poisoning vmemmap-optimizable sections while their struct pages may be
-> shared.
->
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+On 9/7/26 18:57, Birk Skyum wrote:
+> The Yoga Slim 7x EC returns an all-zero response to the reference-board
+> thermal capability command. Probe fails even though its legacy RPM and
+> thermistor queries work and firmware controls the fan automatically.
+> 
+> Select a read-only path for the Lenovo compatible. Expose its first RPM
+> channel and thermistor through hwmon, validating the transfer length and
+> RPM payload count and treating the thermistor's 0xff sentinel as ENODATA.
+> Do not enable SCI, register manual cooling controls or send standby
+> commands on this path. Keep the reference-board behavior and strict
+> capability validation unchanged.
+> 
+> The transactions are documented by the Yoga's FC22 and FC29/TZ39 DSDT
+> methods and Maya Matuszczyk's EC protocol notes. Anvesh Jain P's pending
+> fan-profile series also documents the RPM query. This change does not
+> include its calibration, LUT programming or temperature reporting.
+> 
+> Link: https://github.com/aarch64-laptops/build/blob/2e58842f5fa2f87771c2df017ae4d8c65225ef10/misc/lenovo-yoga-slim-7x/acpi/dsdt.dsl
+> Link: https://lkml.iu.edu/hypermail/linux/kernel/2607.3/08806.html
+> Signed-off-by: Birk Skyum <birk.skyum@pm.me>
 > ---
-> v2:
-> - Explain why sharing tail vmemmap pages is safe for DEV-DAX
->    (suggested by Qi Zheng)
-> ---
->   include/linux/mmzone.h | 10 +++++++++
->   mm/memory_hotplug.c    |  5 +++--
->   mm/sparse-vmemmap.c    | 47 ++++++++++++++----------------------------
->   3 files changed, 28 insertions(+), 34 deletions(-)
->
-> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> index d3778ba976a5..03ed9232f186 100644
-> --- a/include/linux/mmzone.h
-> +++ b/include/linux/mmzone.h
-> @@ -1686,11 +1686,21 @@ static inline bool zone_is_zone_device(const struct zone *zone)
->   {
->   	return zone_idx(zone) == ZONE_DEVICE;
->   }
-> +
-> +static inline struct zone *device_zone(int nid)
-> +{
-> +	return &NODE_DATA(nid)->node_zones[ZONE_DEVICE];
-> +}
->   #else
->   static inline bool zone_is_zone_device(const struct zone *zone)
->   {
->   	return false;
->   }
-> +
-> +static inline struct zone *device_zone(int nid)
-> +{
-> +	return NULL;
-> +}
->   #endif
->   
->   /*
-> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> index b428da66d279..0db0379826df 100644
-> --- a/mm/memory_hotplug.c
-> +++ b/mm/memory_hotplug.c
-> @@ -554,8 +554,9 @@ void remove_pfn_range_from_zone(struct zone *zone,
->   		/* Select all remaining pages up to the next section boundary */
->   		cur_nr_pages =
->   			min(end_pfn - pfn, SECTION_ALIGN_UP(pfn + 1) - pfn);
-> -		page_init_poison(pfn_to_page(pfn),
-> -				 sizeof(struct page) * cur_nr_pages);
-> +		if (!section_vmemmap_optimizable(__pfn_to_section(pfn)))
-> +			page_init_poison(pfn_to_page(pfn),
-> +					 sizeof(struct page) * cur_nr_pages);
->   	}
->   
->   	/*
-> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-> index aed1e7429daa..0201877a7f80 100644
-> --- a/mm/sparse-vmemmap.c
-> +++ b/mm/sparse-vmemmap.c
-> @@ -193,6 +193,8 @@ struct page __ref *vmemmap_shared_tail_page(unsigned int order, struct zone *zon
->   		set_page_node(page, zone_to_nid(zone));
->   		set_page_zone(page, zone_idx(zone));
->   		prep_compound_tail(page, NULL, order);
-> +		if (zone_is_zone_device(zone))
-> +			__SetPageReserved(page);
+>   Documentation/hwmon/index.rst          |   1 +
+>   Documentation/hwmon/qcom-ec.rst        |  40 +++++++
 
-Sashiko said: "
-   Could setting PG_reserved here cause a use-after-free
-   during device hot-remove?
+Platform drivers are not documented here. This directory is intended
+for hardware moitoring drivers in the drivers/hwmon/ directory.
 
-   When a DEV-DAX device is removed and vmemmap_free is called,
-   remove_pte_table calls free_vmemmap_pages. In free_vmemmap_pages,
-   the PG_reserved flag redirects execution:
-
-   arch/x86/mm/init_64.c:free_vmemmap_pages() {
-       ...
-       else if (PageReserved(page))
-           free_reserved_pages(page, order);
-   }
-
-   Does this forcefully drop the refcount and free the shared
-   page to the buddy allocator, leaving a dangling pointer in
-   zone->vmemmap_tails[idx] that breaks other DAX devices
-   sharing this page?
-"
-
-It is a false positive.
-
-The struct page marked reserved here is an entry stored
-inside the shared vmemmap backing page; after mapping, it
-represents a Device DAX tail page. It is not the struct
-page describing the backing page itself.
-
-remove_pte_table() passes pte_page(*pte) to free_vmemmap_pages(),
-which is the latter. The runtime-allocated backing page is
-not reserved, so removal takes the __free_pages() path. Each
-reused PTE takes a reference via get_page(), and removal
-drops one such reference, while the allocation reference
-retained by zone->vmemmap_tails[] remains. Therefore removing
-one DAX device does not free the shared backing page or leave
-a dangling pointer.
-
->   	}
->   
->   	page = virt_to_page(addr);
-> @@ -490,23 +492,6 @@ static bool __meminit reuse_compound_section(unsigned long start_pfn,
->   	return !IS_ALIGNED(offset, nr_pages) && nr_pages > PAGES_PER_SUBSECTION;
->   }
->   
-> -static pte_t * __meminit compound_section_tail_page(unsigned long addr)
-> -{
-> -	pte_t *pte;
-> -
-> -	addr -= PAGE_SIZE;
-> -
-> -	/*
-> -	 * Assuming sections are populated sequentially, the previous section's
-> -	 * page data can be reused.
-> -	 */
-> -	pte = pte_offset_kernel(pmd_off_k(addr), addr);
-> -	if (!pte)
-> -		return NULL;
-> -
-> -	return pte;
-> -}
-> -
->   static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
->   						     unsigned long start,
->   						     unsigned long end, int node,
-> @@ -516,21 +501,18 @@ static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
->   	pte_t *pte;
->   	int rc;
->   	unsigned long flags = VMEMMAP_POPULATE_DAX;
-> +	struct page *page;
-> +	unsigned int order = pfn_to_section_order(start_pfn);
->   
-> -	if (reuse_compound_section(start_pfn, pgmap)) {
-> -		pte = compound_section_tail_page(start);
-> -		if (!pte)
-> -			return -ENOMEM;
-> +	page = vmemmap_shared_tail_page(order, device_zone(node));
-> +	if (!page)
-> +		return -ENOMEM;
->   
-> -		/*
-> -		 * Reuse the page that was populated in the prior iteration
-> -		 * with just tail struct pages.
-> -		 */
-> +	if (reuse_compound_section(start_pfn, pgmap))
->   		return vmemmap_populate_range(start, end, node, NULL,
-> -					      pte_pfn(ptep_get(pte)), flags);
-> -	}
-> +					      page_to_pfn(page), flags);
->   
-> -	size = min(end - start, pgmap_vmemmap_nr(pgmap) * sizeof(struct page));
-> +	size = min(end - start, (1UL << order) * sizeof(struct page));
->   	for (addr = start; addr < end; addr += size) {
->   		unsigned long next, last = addr + size;
->   
-> @@ -546,12 +528,12 @@ static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
->   			return -ENOMEM;
->   
->   		/*
-> -		 * Reuse the previous page for the rest of tail pages
-> +		 * Reuse the shared page for the rest of tail pages
->   		 * See layout diagram in Documentation/mm/vmemmap_dedup.rst
->   		 */
->   		next += PAGE_SIZE;
->   		rc = vmemmap_populate_range(next, last, node, NULL,
-> -					    pte_pfn(ptep_get(pte)), flags);
-> +					    page_to_pfn(page), flags);
-
-Another report is like:
-
-"
-   When this shared tail page is used to back the
-   DEV-DAX tail pages, could concurrent initialization
-   corrupt the compound_head pointer for the entire
-   node?
-
-   Looking at memmap_init_zone_device which calls
-   memmap_init_compound, the head page template is copied
-   unconditionally into the tail pages:
-
-   mm/mm_init.c:memmap_init_compound() {
-       for (pfn = head_pfn + 2; pfn < end_pfn; pfn++)
-           zone_device_page_init_from_template(pfn_to_page(pfn), pfn, 
-&template);
-   }
-
-   Since page_to_pfn(page) here points to a node-wide
-   shared physical page, would this template copy overwrite
-   the compound_head for all DEV-DAX tail pages on the node
-   to point to the latest initialized PMD's head page?
-"
-
-This is also a false positive.
-
-memmap_init_compound() does not initialize the full
-compound range when the section uses vmemmap optimization.
-compound_nr_pages() limits it to:
-
-   2 * PAGE_SIZE / sizeof(struct page)
-
-i.e. exactly the entries in the retained vmemmap page.
-The shared mappings start at addr + PAGE_SIZE, so the
-template-copy loop stops before reaching them.
-
-Thanks
-Muchun
-
->   		if (rc)
->   			return -ENOMEM;
->   	}
-> @@ -883,13 +865,14 @@ int __meminit sparse_add_section(int nid, unsigned long start_pfn,
->   	if (IS_ERR(memmap))
->   		return PTR_ERR(memmap);
->   
-> +	ms = __nr_to_section(section_nr);
->   	/*
->   	 * Poison uninitialized struct pages in order to catch invalid flags
->   	 * combinations.
->   	 */
-> -	page_init_poison(memmap, sizeof(struct page) * nr_pages);
-> +	if (!section_vmemmap_optimizable(ms))
-> +		page_init_poison(memmap, sizeof(struct page) * nr_pages);
->   
-> -	ms = __nr_to_section(section_nr);
->   	__section_mark_present(ms, section_nr);
->   
->   	/* Align memmap to section boundary in the subsection case */
+Guenter
 
