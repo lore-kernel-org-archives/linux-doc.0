@@ -1,53 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D8C35C693;
-	Mon,  7 Sep 2026 22:05:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E251429D;
+	Tue,  8 Sep 2026 00:51:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788818713; cv=none; b=DOZRJa6K0FZ4qxaFhCR5JO9J/alzJnv2PcvhJdcjAjkcCb8C9hLmYGQEyzWd6V02kameigeo3U5g50CbB0S1/Lnkx/DE16RXsqLO6o376wwAuwqueve3iYW1J0aprAXWryaVjOZiPQcHqM7kOS+l9FTXJ+edZWwGiwH9+2O3aq4=
+	t=1788828711; cv=none; b=GvuM/7GVAcX06y3CCXRh5cguV5VGj1lXSdfvoiXIlaoFBuzpoUmQR1eOqidlyq5hsWtzXmp1iy3P8ITrBEG4F/wHtTcdeUjVk6uLg6lTqrp6hCW3/dFDJcdepPtHiFuvyJdFpbU8gM6QojN4Xg45oNwtdNIJxFsg9UNaZvtLOSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788818713; c=relaxed/simple;
-	bh=HSVHMNiebtUlr8duaQtZJpGHybr8L3ocRdK/2rQaS0M=;
+	s=arc-20240116; t=1788828711; c=relaxed/simple;
+	bh=7ApgOXS7+Zc62TeYh/05EG4TAA8IiFgxmmXi2Gv0UiE=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mY5/8pELp0XHkERfzi8DD4I+B6QdECaugCsk/F9LZgxOt5odV8s9Gyoag0gfyuQwaC3s34Zbq3INTjn0N2LeZBB9IKgIgIXS9Q3x4lPsuCXAR9XsQXdUrNn6JRLdqz17xjqOAErqtLtdF3oGrgKxV5gsi1decDwVpgZ7tVOg2Nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CF5D9on2; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=sN3c9gEZ+KHGA5CLu4a3oJ5f2FN6Ehrw3BUwN8Ru+T1l42YX0M8Re0QL5QKHdtV+1fRpLCoJiu5zz3sl2VpApZp/0b2gWg8Xv+OVrUzp2YcN/rIL6XElF3+ZxqlsW/BDgT8tm8kBRnr1MPviFfKemH6bXYKud7+pjBfPD7p3do8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HwGYGMz6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CF5D9on2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 180561F00A3A;
-	Mon,  7 Sep 2026 22:05:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HwGYGMz6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 671F11F00A3A;
+	Tue,  8 Sep 2026 00:51:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788818712;
-	bh=NbEiT9jkipQvcDxldyYNY6XH49wcDR72T8buIXfrPpU=;
+	s=k20260515; t=1788828710;
+	bh=vlSM9I+RRl9gXEOFgqKrbkaOZdEoPx1m6vVEOqLY5Xk=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=CF5D9on2JSVwP4TgeCAzZW971EBA2/YsYl6Uxt18yZ3WxW6nUF9zc9Qs98zDmb107
-	 Gn2rba7r5uwDxILkDqVDFsC2RYO1XTgNPGy7WlZdWj7YwTDsScdkbVgAIVQYB3pajm
-	 NkJrZZrpvSwQfrwS/wRrAokn282sROBWyKJu+iI5iVICFLYEZrdJcPnQWnqID1ks63
-	 EAKUvN/8bvmj8gAB9RyAXsIXIXpGjJaznCj1FWXsucqvUKBfencTnFtKgosyd3r7p5
-	 auF6DtxZ0iXgyzr2y2KWs74XQlQb3u6oCiglvR1Al9cXYvYFwr4Jk0RgPMmY8Zzh7x
-	 YWzT1K4HU/I9w==
-Date: Mon, 7 Sep 2026 23:05:05 +0100
+	b=HwGYGMz6SbXwE/i05mqw9jutk5YGBRI2zTDNa7oDm3g6M4J53dpG6qJS4kq4vAyvM
+	 zwHq+6+XHmdtTKOr3lK8jI5vAGMAWeW81ydBEULaOevAf+bzfM/rbyHQgIBdIwS4X9
+	 ApXHf921HpKQEfXusMRhjMWPW81NjxkpGRtaOZvNqB7fzJmmCFL5H0JT3Kf0k1sHHg
+	 PQtNhqhkb/QMoYioAGI5jDARYRFDo+tOTPdZ/ehiNEhd6o0JALX1+Qx2/j5WB8uRl/
+	 hNPToP86LifPhQYT0esr6IFrB2Z88jtrBcnerNlhQejx2HGxSyqqBYo3LR9o/wXPJI
+	 5T5P+nqe2UAFw==
+Date: Tue, 8 Sep 2026 01:51:44 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>, Conor Dooley
- <conor.dooley@microchip.com>, Johan Hovold <johan@kernel.org>
-Subject: Re: [PATCH v10 00/17] AD9910 Direct Digital Synthesizer
-Message-ID: <20260907230505.277f1a6d@jic23-huawei>
-In-Reply-To: <q2t53ly3vl73kmu3ehvntnj75pxl2smntctcuxzjuaguihqwju@adzts2ezpg5x>
-References: <20260729-ad9910-iio-driver-v10-0-aa1f6167729e@analog.com>
-	<20260802010959.25f9f4df@jic23-huawei>
-	<20260802015846.2be354ec@jic23-huawei>
-	<q2t53ly3vl73kmu3ehvntnj75pxl2smntctcuxzjuaguihqwju@adzts2ezpg5x>
+To: Terry Bowman <terry.bowman@amd.com>
+Cc: Dave Jiang <dave.jiang@intel.com>, Alison Schofield
+ <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ Dan Williams <djbw@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, <linux-cxl@vger.kernel.org>, Tony Luck
+ <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, "Hanjun Guo"
+ <guohanjun@huawei.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Shuai
+ Xue" <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>, Ira Weiny
+ <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Ben Cheatham <Benjamin.Cheatham@amd.com>,
+ Richard Cheng <icheng@nvidia.com>, Robert Richter <rrichter@amd.com>,
+ "Lukas Wunner" <lukas@wunner.de>, <linux-pci@vger.kernel.org>,
+ <linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v20 1/9] PCI/AER: Introduce AER-CXL protocol error kfifo
+Message-ID: <20260908015144.62ee9c1c@jic23-huawei>
+In-Reply-To: <20260902133933.2992457-2-terry.bowman@amd.com>
+References: <20260902133933.2992457-1-terry.bowman@amd.com>
+	<20260902133933.2992457-2-terry.bowman@amd.com>
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,34 +58,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 4 Aug 2026 11:56:26 +0100
-Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
+On Wed, 2 Sep 2026 08:39:25 -0500
+Terry Bowman <terry.bowman@amd.com> wrote:
 
-> On 02/08/26 01:58, Jonathan Cameron wrote:
-> > On Sun, 2 Aug 2026 01:09:59 +0100
-> > Jonathan Cameron <jic23@kernel.org> wrote:
-> >   
-> > > On Wed, 29 Jul 2026 09:25:27 +0100
-> > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-> > >   
-> > > > This patch series adds support for the Analog Devices AD9910 DDS.
-> > > >     
-> > > Series applied with that small Kconfig help tweak and a bit of fuzz
-> > > around the new channel type due to the flow sensor I merged earlier today.  
+> CXL VH RAS handling requires the AER driver to hand off CXL protocol
+> errors to cxl_core for logging and recovery before PCIe AER recovery
+> tears down the device. Introduce pci/pcie/aer_cxl_vh.c to implement
+> this handoff via a kfifo-backed work item.
 > 
-> Thanks! Let me know if you need a v11, I suppose We are going to wait on the
-> mul_u64_add_u64_div_u64() fix anyways.
+> The producer, cxl_forward_error(), is gated by is_cxl_error() and
+> enqueues the error source PCI device and severity. cxl_core registers a
+> consumer via cxl_register_proto_err_work(); the consumer drains the
+> kfifo with for_each_cxl_proto_err(). For uncorrectable errors,
+> cxl_proto_err_wait_for_empty() lets the AER path block until the CXL
+> plane has finished so recovery does not race device teardown.
+
+Do we need most of this last paragraph?
+Maybe the bit about letting AER block but the rest smells like implementation
+details to me with no info on 'why' or anything unexpected.
 > 
-> > And dropped again :( See patch 11 reply.  
+> A rwsem serializes registration, deregistration, enqueue, and dequeue
+> against concurrent AER IRQ threads; a spinlock serializes concurrent
+> kfifo writers. is_aer_internal_error() moves into this file and now
+> evaluates info->status & ~info->mask rather than the raw info->status,
+> so a masked internal-error bit is treated as not-set. For the RCH RCEC
+> path this is equivalent because cxl_rch_enable_rcec() first calls
+> pci_aer_unmask_internal_errors(), which clears those mask bits in
+> hardware before the AER status is read back.
 > 
+> A subsequent patch wires cxl_forward_error() into handle_error_source().
+> 
+> Add MAINTAINERS entries for aer_cxl_vh.c and aer_cxl_rch.c under the CXL
+> entry.
 
-Picked up on top of an immutable  branch with the necessary x86
-fixup. ib-iio-x86-asm-fix-7.3
+I couldn't immediately find any discussion about switching away from panic
+on a kfifo overflow.  Was there a reply to an earlier version with a
+discussion of that?  I'm not against the change but a 'why' 
+here would be good to have.
 
-So this is now on the testing branch of iio.git
+> 
+> Co-developed-by: Dan Williams <djbw@kernel.org>
+> Signed-off-by: Dan Williams <djbw@kernel.org>
+> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
+One trivial thing inline to add to Ben's nits.
+Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 
-Thanks,
+> +/**
+> + * Callback for processing a CXL protocol error from the AER-CXL kfifo.
+> + */
+> +typedef void (*cxl_proto_err_fn_t)(struct cxl_proto_err_work_data *wd);
+> +
+> +void cxl_register_proto_err_work(struct work_struct *work,
+> +				void (*flush)(void));
 
-Jonathan
+Align to after the ( Looks to be 1 space short. If this is a local
+style thing ignore me ;)
 
+> +void for_each_cxl_proto_err(struct cxl_proto_err_work_data *wd,
+> +			    cxl_proto_err_fn_t fn);
+> +void cxl_unregister_proto_err_work(void);
+> +#endif
+> +
+>  void pci_print_aer(struct pci_dev *dev, int aer_severity,
+>  		    struct aer_capability_regs *aer);
+>  int cper_severity_to_aer(int cper_severity);
+> 
+> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
 
