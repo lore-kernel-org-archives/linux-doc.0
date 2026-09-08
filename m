@@ -1,160 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FBE48E0F7;
-	Tue,  8 Sep 2026 19:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B16E4349A6
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 19:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788895780; cv=none; b=bZNrrbt0U640WJkvV3oHfxYLyA8xFlQIP1AG78dy74wA2qJ/EYgoVpkOpGm9BIOi4ozVB7FBqIH0aM8MjPV6VjfyUMcI/5KzhMZ4oIaKTuUTAT2fnmdG2dGF53PzsKgh8c1TZ9kngkDAS8nNBgKWYJBJDNNmGE8NOS+LlMNN7qE=
+	t=1788896416; cv=none; b=t8RJuwQSFGBsCdiAQIb2LCZm6A7AElZXvFn9FPzUrpTBzOILH3zJGBagqMA+pIi6q3PDfBs+2zZV5fhWdjaISsjtSqm4V4ncYbLQ+0WKh8iIxuqekbWEave6JealrNUPdcwW/1HFYEQtKMj2fZ4YxXPz+vl7YQ8OyLBsrLyCoA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788895780; c=relaxed/simple;
-	bh=Al4J46lMgcYKTxQeB5MQKgTMGL+3T2Ip7asxa9z7qCM=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hM7GxlUg0DbLG4LmrvYSt9FunkcAg1GAdzYlufMBy45c8nBZZvqHvnAEGTQVFRvWApTHh5dWC0JZqTzPzwAyqeVJ+YIUH6b/gN/IK5xGXw9lL+wiLNx6UuW83GnBmay+CQG2hyhBn9nVQYB6+7qkqR2/uC2S2I688CyC3kyqlBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jVLwbySD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788896416; c=relaxed/simple;
+	bh=EsrGjrnP7IgSiDLJcakyY4ms71wqAvVcdyupbrs+ipo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OVu/PJzsMQPieE8tdhJelccEaRZq0iSojp1+5aSgGutDHqPNk1s8i21DQBzAEOvfeiwHSoAA+HDx7dfGiFftzsKzJqiuqd+fDdwN/1n6+K2ouqG3qo0S7lj2ePMBda+z7U/kosUnVLCUfPFSBv3oR6qg3D1nnCT5xSdx3M+PovA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TEDHWMJM; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jVLwbySD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE7DB1F00A3A;
-	Tue,  8 Sep 2026 19:29:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788895778;
-	bh=nhNQk165hlg8Es1R+C7owvKNXbIdi3CC/Vc0LGXnoLg=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=jVLwbySD+xfWE88/9nAKcJy4QyLwRkwy821yv/jx8ptmPAZfcyW4iEaWr060enJL7
-	 gnLWPjlOwgQ/VA8WkHx/WRrQcjaTz6GNnP0FsqfnmH6NSR8CLwTeIAXLalxD4BqcG3
-	 euKH5G5ipZmlvY45C/vlW31UfFQGCqk3JHtSPG0+yL2qSNDfQFd85smW3MYz3iAgjj
-	 eXdiYM0fDKuqjtgY4YjsTpofOZW96oeBecsBfae6XeLryt6+yXiUydFxyJk6vJIHxK
-	 gYMCUaMt7rKbiKqEJ8UjD6nZ6cioR8vB5sDbixe+Fa69mczLVhmmDw4AQCHt9ScrEh
-	 FhzzMB5BvgCxA==
-Subject: Re: [PATCH net-next v4 5/7] netconsole: show empty string for an
- unset IP address
-From: netdev-bot+sashiko@kernel.org
-To: gustavold@gmail.com
-Cc: leitao@debian.org, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- corbet@lwn.net, skhan@linuxfoundation.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Tue, 08 Sep 2026 19:29:37 +0000
-Message-ID: <178889577733.219967.15869187759329903017@kernel.org>
-In-Reply-To: <20260903-netcons_ipv6-v4-5-bdd183c844d3@gmail.com>
-References: <20260903-netcons_ipv6-v4-5-bdd183c844d3@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TEDHWMJM"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-482f2ee53e7so3787312f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 12:40:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788896412; x=1789501212; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HzP/HtSzvmP6ZP70XBuHWUc2m2AKpgco5yULa/5Kmis=;
+        b=TEDHWMJM9duaytD8JkqocezS6iP42AtBh5KBUdL6VJfMAo8G72zIpPgMijD++58Po0
+         YwHwizi3QVSNbvl4pEaWbB6M+s9YZwMWDOxMFtEILOG/FKg4VCuHJvoiejsBGj/B8ELd
+         M6MBENKrWZ/n8I8xUJVhLId7XCco84KBIIBd6Q3NUTtCaMHVeFeMf1doV9F52xOheVWd
+         ZafumnTzVsVcJ//LRyR7yjnBPr1uq+kT7RtXKWt7YOL3NTbu2nSpJmOBbctZl8f7VUDn
+         MHay7jF4KqXdYWKswO4Url/5cuki37cFsHDoyppV6YdOQGmyHB73PIIkwYzxyZ1J62Ib
+         xNBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788896412; x=1789501212;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HzP/HtSzvmP6ZP70XBuHWUc2m2AKpgco5yULa/5Kmis=;
+        b=FOLxiD6ua8PnSqxvJj4L+9jL7vWlfJRa9habFWRU4es5QEv7uE/qwaRJvQd6NFYKOi
+         Pe6N6VGuQd9Kgs0SPsQkxoLgpW2VwHIVYBsJrSHWY1mW4RMOy/7GAz5fZCdFluv8LOEK
+         gl7pDz2DgUiy72Zlq6SCsP2tLeHx733HLmTSYotjJyAMwRayaMB3FQk7+arrQQ2FWsxT
+         /O23bEaWMKpiyq0Jpf8rUJVkf2WqmGw3LKr2x8ELksmrqFhCPL2WzgSsfibk/k2e9Fzd
+         BfS2eOhJy6RtsX8laaNG8juueXQvmnsWY7UInKFS8Xei/HvPF+KkeSdwOf1e0tcTRD0c
+         n5/g==
+X-Forwarded-Encrypted: i=1; AKwUvByxdYOu9Z5m20jPlrPmpIwFLQ3wGFw+3cp+2cD8zb2QqWrURx4wvEMZssWqHZFQoC6YkZzcNTasUhk=@vger.kernel.org
+X-Gm-Message-State: AFuF++kFhnFkubzFarRBjVBa8VrrDKTwCzH378l8mPfe8UmjDrcqxCEw
+	geK34ksu10lz86ZTax0bEmYmk5D8cyTHWQCihwHAnmaF6+ZltKyKeUpR
+X-Gm-Gg: AYBFou3OqjjU9tmicsDzUg0nn3lMvznRS3H/2vo6EJHpaCe9l+eyAtHq65O6yKINzJg
+	3oNMaKePYZV4NUmBwfXDf31+gcyGeZCVajRRLvWG5ES5Hf79OKwx4jOzLpomeekyAa6cizhyn3F
+	1qwKEiQMWPyXRNvhRCHsCNNgWcxXP0PKjV5w232Y8ccGnoYc7fJRnyjwnJ6KEL/1eQW7DSdVVuT
+	vr1ACYoTWEdqYIFL8brZp6spOkD6BbeVlGgO8gYAdtFEJzaJ07+GK90+nYESgyMsu/xOOn/um8L
+	KszMGr5I5dFzAg1MIgXSvumqe81e062g9TR8h7hb3HRWmVVctcucH9SSZOOe9yRiHlFGQb2evK2
+	a+ZjE3z5Cs/51sLqSkNDxnc3hafNAo2h4scz83rGnLOAoZl8OnuXlAdI8gfLF1jOVfR4QA3iK4c
+	Yp3Urd2eviyFXfOi641hak1E3f8YQRaldQmx5us3StRsxwvQXrC7LFWC3IOVH/0V4h0nPIJuSSu
+	+xFXOOxaUyh5eHjjJblePawRMZIhxU0TKUQpbNZCOJss3tGNMeYdpGvMUI5jKTQJEYWSJPmKHih
+	tI0E1TbE3H5ZZ9LXeAvBEfLw
+X-Received: by 2002:a05:600c:a087:b0:49c:d26a:cf70 with SMTP id 5b1f17b1804b1-49cf825a75dmr321721005e9.15.1788896412155;
+        Tue, 08 Sep 2026 12:40:12 -0700 (PDT)
+Received: from MacBook-Pro-von-Karl (dynamic-095-117-170-066.95.117.pool.telefonica.de. [95.117.170.66])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d20fc1be3sm991795e9.4.2026.09.08.12.40.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 12:40:10 -0700 (PDT)
+Date: Tue, 8 Sep 2026 21:39:36 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Linus Walleij <linusw@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, Drew Fustini <fustini@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+	Stefan Agner <stefan@agner.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, 
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	Gregory Clement <gregory.clement@bootlin.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
+	Kristoffer Ericson <kristoffer.ericson@gmail.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Alexander Sverdlin <alexander.sverdlin@siemens.com>, 
+	Shawn Guo <shawnguo@kernel.org>, "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH 01/13] ARM: remove sa1100 platform
+Message-ID: <aqBhF5oS1A2W6dAa@gmail.com>
+References: <20260908152808.3928630-1-arnd@kernel.org>
+ <20260908152808.3928630-2-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260908152808.3928630-2-arnd@kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider:
+On Tue, Sep 08, 2026 at 05:27:51PM +0100, Arnd Bergmann wrote:
+>  62 files changed, 19 insertions(+), 10501 deletions(-)
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1
+Note that Sashiko skipped reviewing this patch, because it exceeded
+its current 10000 line limit.
 
-- [Medium] ABI show/store asymmetry for the configfs attributes local_ip
-  and remote_ip: after this patch local_ip_show()/remote_ip_show() emit…
-- [Low] The patch changes the on-read format of two documented configfs
-  attributes (local_ip, remote_ip) from an always-parseable IPv4/IPv6…
+> diff --git a/drivers/rtc/rtc-sa1100.c b/drivers/rtc/rtc-sa1100.c
+> @@ -275,18 +275,10 @@ static int sa1100_rtc_probe(struct platform_device *pdev)
+> -	if (IS_ENABLED(CONFIG_ARCH_SA1100) ||
+> -	    of_device_is_compatible(pdev->dev.of_node, "mrvl,sa1100-rtc")) {
+> -		info->rcnr = base + 0x04;
+> -		info->rtsr = base + 0x10;
+> -		info->rtar = base + 0x00;
+> -		info->rttr = base + 0x08;
+> -	} else {
+> -		info->rcnr = base + 0x0;
+> -		info->rtsr = base + 0x8;
+> -		info->rtar = base + 0x4;
+> -		info->rttr = base + 0xc;
+> -	}
+> +	info->rcnr = base + 0x0;
+> +	info->rtsr = base + 0x8;
+> +	info->rtar = base + 0x4;
+> +	info->rttr = base + 0xc;
 
---
+This drops the layout switch but keeps "mrvl,sa1100-rtc" in
+sa1100_rtc_dt_ids[] and in bindings/rtc/sa1100-rtc.yaml, so a DT with
+that compatible would now silently get the MMP register offsets instead
+of the SA1100 ones.
 
-netconsole: show empty string for an unset IP address
-
-An unset local_ip/remote_ip is now denoted by AF_UNSPEC, and this patch
-makes the configfs show handlers print an empty string instead of
-"0.0.0.0" for that state. netconsole_print_banner() prints an explicit
-"unset" message for the same case.
-
-> diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-> index abcc8515ddd2b..1f18d0a7d2ddb 100644
-> --- a/drivers/net/netconsole.c
-> +++ b/drivers/net/netconsole.c
-
-[ ... ]
-
-> @@ -863,6 +867,8 @@ static ssize_t local_ip_show(struct config_item *item, char *buf)
->  {
->  	struct netconsole_target *nt = to_target(item);
+> diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
+> @@ -614,16 +614,16 @@ config S3C2410_WATCHDOG
+>  	  be called s3c2410_wdt.
 >  
-> +	if (nt->local_ip.family == AF_UNSPEC)
-> +		return sysfs_emit(buf, "\n");
-
-[Severity: Medium]
-Can the value that local_ip_show() now produces be written back into the
-same attribute?
-
-A freshly created target has family == AF_UNSPEC, so local_ip_show()
-emits just "\n". Feeding that back through local_ip_store() reaches
-netpoll_parse_ip_addr():
-
-drivers/net/netconsole.c:netpoll_parse_ip_addr() {
-	len = strlen(str);
-	if (!len)
-		return -1;
-
-	if (str[len - 1] == '\n')
-		len -= 1;
-
-	if (in4_pton(str, len, (void *)&addr->ip, -1, &end) > 0 &&
-	...
-}
-
-An input of "" fails the !len test, and "\n" is trimmed to len 0 so both
-in4_pton() and in6_pton() fail. local_ip_store() then returns -EINVAL:
-
-drivers/net/netconsole.c:local_ip_store() {
-	...
-	if (netpoll_parse_ip_addr(buf, &nt->local_ip) < 0)
-		goto out_unlock;	/* ret == -EINVAL */
-	...
-}
-
-Before this change the show side printed "0.0.0.0", which the store side
-accepted, so "cat local_ip > local_ip" and generic save/restore of all
-target attributes round-tripped.
-
-Should netpoll_parse_ip_addr() (or the store handlers) gain an
-empty-string branch that sets family = AF_UNSPEC?  As it stands there
-seems to be no way to move an address back to the unset state through
-the configfs ABI, and this remains true at the end of the series
-(62342076a29c).
-
-[Severity: Low]
-Should Documentation/networking/netconsole.rst be updated along with
-this?  The attribute table there still describes both attributes as
-plain read-write IP addresses:
-
-	local_ip	Source IP address to use		(read-write)
-	remote_ip	Remote agent's IP address		(read-write)
-
-and the example section still shows "cat cmdline0/remote_ip" producing an
-address.  The later patch in the series, "docs: netconsole: document
-local_ip auto-selection", describes the auto-derivation of an unset
-local_ip, but it does not mention that reading an unset local_ip or
-remote_ip now yields an empty value, nor that such a value cannot be
-written back.
-
->  	if (nt->local_ip.family == AF_INET6)
->  		return sysfs_emit(buf, "%pI6c\n", &nt->local_ip.in6);
->  	else
-> @@ -873,6 +879,8 @@ static ssize_t remote_ip_show(struct config_item *item, char *buf)
->  {
->  	struct netconsole_target *nt = to_target(item);
+>  config SA1100_WATCHDOG
+> -	tristate "SA1100/PXA2xx watchdog"
+> -	depends on ARCH_SA1100 || ARCH_PXA || COMPILE_TEST
+> +	tristate "PXA2xx watchdog"
+> +	depends on ARCH_PXA || COMPILE_TEST
+>  	help
+> -	  Watchdog timer embedded into SA11x0 and PXA2xx chips. This will
+> -	  reboot your system when timeout is reached.
+> +	  Watchdog timer embedded PXA2xx chips. This will reboot your
+> +	  system when timeout is reached.
 >  
-> +	if (nt->remote_ip.family == AF_UNSPEC)
-> +		return sysfs_emit(buf, "\n");
 
-[Severity: Medium]
-Same question for remote_ip: remote_ip_store() -> netpoll_parse_ip_addr()
-rejects the "\n" that remote_ip_show() emits, so
-"cat remote_ip > remote_ip" returns -EINVAL on a target whose remote
-address was never set.
+"embedded into PXA2xx chips" is better.
 
->  	if (nt->remote_ip.family == AF_INET6)
->  		return sysfs_emit(buf, "%pI6c\n", &nt->remote_ip.in6);
->  	else
+The RTC_DRV_SA1100 help text a bit earlier in the patch also still says
+"built into your SA11x0 or PXA2xx CPU".
 
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260903-netcons_ipv6-v4-0-bdd183c844d3%40gmail.com
+Thanks,
+Karl
