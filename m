@@ -1,223 +1,112 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BBF54B1C0
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 14:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190B05505C8;
+	Tue,  8 Sep 2026 14:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788878465; cv=none; b=GmXu5UYqpP28sIGVUi7ikB4YiobZadMcUMMWTDJKssgMBTQ9iklc0PzV0siBfX3x+JY1eETRh3oeb/k5WrhBPso6K25cSleZxIhiUXFg/HOHNdAV5Mvsxk4UpCEGApu5V556oOWNYC9Y+G6f8UYz6AWVPPKK+3ZyZEuEeYkq3hk=
+	t=1788879082; cv=none; b=aZU3xsGdgx1WSbNgzDJys1rToq9LqX1iAwsvM6MJugDDblHsJtXJ8f721efAWvPowXKCtVIy7TdvIkVECbKViHGnyoOTOGGAwRtq9r14iN9H9gxv0OU6Biql891yCswE4PFS61ZtZKPDyWoa7AgLvdy2OTIa2hW+RWcFX3Ky2d4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788878465; c=relaxed/simple;
-	bh=5cup85Qb2q3dpZ9j4NJ+riAqKzhV1ATVnwyRINFCU4Y=;
-	h=Message-ID:Date:From:To:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HRcXDatl0aYzf5n06A9zuDoWNdKAuuLMgVGX1RELTcjQLIiGC0KPKSYDeljAeLp4AnWTZ0ZwPF0aSQInAjAm18W5HUJBhY+3KhvafvBNOqDq1b06fNVQuAQGAJ8mvkpf7Vr2dipYeUVre6XR1bJ/hE+WsVeCRwHZslYLagUtpew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NCNsePWP; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NCNsePWP"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-485850cbac3so3055863f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 07:40:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788878449; x=1789483249; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:subject:to:from:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Miv8sjNJdTG6Gu0+wUlQ27sQKF6CmSEymk2ANPK2DPg=;
-        b=NCNsePWPXgamXF5gE4I3+PMEkTLFk+CMHkSX+Y6c/fky3QE9NjQkeZCz2HIM7CcR3N
-         h+oTpBpH60cySSKTMUG030QaKEw73BFKARvuS/VRF70SRsnEuP/JdlTBKj4mI+TthW4s
-         U3oGATfgegngzuY92haEsHeG3VxR2oP51lbevojyhBOWxgisEfApusaLEl3gxDoo7PrO
-         1FFOAksWQOpIp4Ne5on8E5NH5qjBwFgmFFZ/uzMTPT9LaSSu+TNLYeFKtypkUlUNPGRo
-         /pSXaaqben506bSbbdIZpeosm5j8GvkOGE/oZQZBMbyMm/ize14mfMpGm6OlqgVlL1xi
-         PAWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788878449; x=1789483249;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:subject:to:from:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Miv8sjNJdTG6Gu0+wUlQ27sQKF6CmSEymk2ANPK2DPg=;
-        b=OyAbgT+IcFK3hk7OERLq9MuJC0AiJ5mNTGRZSQXVqIPrinxERYtiSM/kJsYQJMeH/y
-         lynt3FDELJPkggNmxeysQhR1sLxZfklX7X6Xx2ziqltac3J/tr01AeG4742bXD+On777
-         isBCtlo9FZIjL8pQCdoLEF7QP/2MFYfArW8GN7rrOuKZHdHvYbD5gP439CIi0I7OIA8i
-         AHIDame0l/llSnTJr5vcGuzSfAyQ8TPNsHjhDe0r5BvPtVsh3LDP+ME8+MFBJuzr6nAB
-         GhqbL7tFxDHqFlkEb80VfPfN/5fVeSV6BqKT4BMuKQpE1CzZ+2DKeTs6RA3VM9bZKuAQ
-         2ftQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwq3UGDdcSQxexBobsJf9uDMvOe1fJ5PJiznbwCXEeViZpwKjauFxybMBovU7XgezXW8cQv9XOzum0=@vger.kernel.org
-X-Gm-Message-State: AFuF++mSPrwbBH5pIUCgEyD0OPQwVRgzxU+tczU1Nbw1KQza+q1oGgk3
-	L0IZ0H1JFQPyoo/ex3GAQ21FQLdPvtLCSymtdnaQ3jjXRfbvKLEALKzz
-X-Gm-Gg: AYBFou0tD6e1SjMpNgFq3iC6JVI7RP03SwA//3siDrxM8SIBeco+5RFsdJbaTgTLFV8
-	RNN9FtphJk0jn8OKZjGbXrURJZzdYojUanVQJsoCJpft01H1rNgcMGL5HC8RXf93/vd+oaSwnrm
-	fJHmwFU4+qV5cmDzlxG3ZOn9KSrrCy/a5dUwh0Tu8powXCIVabgFwSoIUU5Kz6TKRHw8TQA5po9
-	OjnvIMiPmk3dqUTCa4A5a6eKUo8TSXZ1HGoQbo6VT1ZNt7vF/OTrqU7f+6cucdCDuE4YWzCiu7H
-	sQA/kLKw3nJsvPLjNVMOZi1Csk0BQddXFPvhfu8IFXr3OZ98dltMjX0s3qc14UOkzjn73qN5bru
-	bK6G7D25M5sJrXtnik550gF2m/Phhr4c8zxwFuCnEv+MM+45Gmq33hPzQ3BXgvVZVkz7pRJnPSq
-	Yh+A5YwbgMVlpmEQUA+OxeP/sg5oGU0b0pA3j/za4dRQtnvQ6MB+KvCYxPp3PMibJfstneIreNK
-	gPEb9rB8RW08Uo+o48Zx8BTVyrS33nRN2y3
-X-Received: by 2002:a05:6000:46c2:b0:484:4769:18a4 with SMTP id ffacd0b85a97d-485872cd677mr23543135f8f.14.1788878449028;
-        Tue, 08 Sep 2026 07:40:49 -0700 (PDT)
-Received: from Ansuel-XPS. (host-79-26-252-140.retail.telecomitalia.it. [79.26.252.140])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883959f0sm39338196f8f.10.2026.09.08.07.40.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 07:40:48 -0700 (PDT)
-Message-ID: <6aa01e70.ebbd881c.32bd35.196e@mx.google.com>
-X-Google-Original-Message-ID: <aqAebOgm5w4VILoS@Ansuel-XPS.>
-Date: Tue, 8 Sep 2026 16:40:44 +0200
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
-Subject: Re: [PATCH net-next v15 00/12] net: pcs: Introduce support for
- fwnode PCS
-References: <20260901083001.8044-1-ansuelsmth@gmail.com>
+	s=arc-20240116; t=1788879082; c=relaxed/simple;
+	bh=Nfk9JEwo70bwHGDlZdjGP1hRIyqKW1ZZjVz0jUb29eE=;
+	h=Message-ID:Date:Mime-Version:From:To:Cc:Subject:Content-Type; b=r7XCxVoimOqYH6jnfm2flyGren5DLaHQ95vl2sgmCxJk41cTPSPzdKsv2qomHU4Q4CqNkR5wmuIitM9GNpjHSL0dMPAoReXsOplpuTT41qe4zltgs0SPeGiPXbMYAYTvs0uoxVuRhea/gsWo+HhHNZOKhd+7ShZbXPboNghvF1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4hfRhN3tHvz8XrrJ;
+	Tue, 08 Sep 2026 22:51:00 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+	by mse-fl2.zte.com.cn with SMTP id 688EoqNg024546;
+	Tue, 8 Sep 2026 22:50:53 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Tue, 8 Sep 2026 22:50:56 +0800 (CST)
+X-Zmail-TransId: 2afa6aa020d0d0f-60043
+X-Mailer: Zmail v1.0
+Message-ID: <20260908225056266qjyBORsOReFvHLEQ3NKtR@zte.com.cn>
+Date: Tue, 8 Sep 2026 22:50:56 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260901083001.8044-1-ansuelsmth@gmail.com>
+Mime-Version: 1.0
+From: <wang.yaxin@zte.com.cn>
+To: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
+        <yang.yang29@zte.com.cn>, <thomas.weissschuh@linutronix.de>
+Cc: <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <xu.xin16@zte.com.cn>,
+        <wang.yaxin@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIDAvMyB2NF0gZGVsYXl0b3A6IGFkZCBkZWxheSBtYXgsIHRpbWVzdGFtcCBhbmQgc29ydGluZyBmb3IgdG9wIGxhdGVuY3kgYW5hbHlzaXPCoA==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 688EoqNg024546
+X-TLS: YES
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SOURCE-IP: 10.5.228.133 unknown Tue, 08 Sep 2026 22:51:00 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6AA020D4.000/4hfRhN3tHvz8XrrJ
 
-On Tue, Sep 01, 2026 at 10:29:15AM +0200, Christian Marangi wrote:
-> This series introduce a most awaited feature that is correctly
-> provide PCS with fwnode without having to use specific export symbol
-> and additional handling of PCS in phylink.
-> 
-> At times there were 2 different implementation (this and the one
-> from Sean) but Sean agreed that this can be picked and used in favor
-> of his implementation as long as his case with race condition is
-> correctly handled.
-> 
-> ---
-> First the PCS fwnode:
-> 
-> The concept is to implement a producer-consumer API similar to other
-> subsystem like clock or PHY.
-> 
-> That seems to be the best solution to the problem as PCS driver needs
-> to be detached from phylink and implement a simple way to provide a
-> PCS while maintaining support for probe defer or driver removal.
-> 
-> To keep the implementation simple, the PCS driver devs needs some
-> collaboration to correctly implement this. This is O.K. as helper
-> to correctly implement this are provided hence it's really a matter
-> of following a pattern to correct follow removal of a PCS driver.
-> 
-> A PCS provider have to implement and call fwnode_pcs_add_provider() in
-> probe function and define an xlate function to define how the PCS
-> should be provided based on the requested interface and phandle spec
-> defined in fwnode (based on the #pcs-cells)
-> 
-> fwnode_pcs_get() is provided to provide a specific PCS declared in
-> fwnode at index.
-> 
-> A simple xlate function is provided for simple single PCS
-> implementation, fwnode_pcs_simple_xlate.
-> 
-> A PCS provider on driver removal must call fwnode_pcs_del_provider()
-> to delete itself as a provider.
-> 
-> ---
-> Second PCS handling in phylink:
-> 
-> We have the PCS problem for the only reason that in initial
-> implementation, we permitted way too much flexibility to MAC driver
-> and things started to deviate. At times we couldn't think SoC
-> would start to put PCS outside the MAC hence it was OK to assume
-> they would live in the same driver. With the introduction of
-> 10g in more consumer devices, we are observing a rapid growth
-> of this pattern with multiple PCS external to MAC.
-> 
-> To put a stop on this, the only solution is to give back to phylink
-> control on PCS handling and enforce more robust supported interface
-> definition from both MAC and PCS side.
-> 
-> It's suggested to read patch 0003 of this series for more info, here
-> a brief explaination of the idea:
-> 
-> This series introduce handling of PCS in phylink and try to deprecate
-> .mac_select_pcs.
-> 
-> Phylink now might contain a linked list of available PCS and
-> those will be used for PCS selection on phylink_major_config.
-> 
-> MAC driver needs to define pcs_interfaces mask in phylink_config
-> for every interface that needs a dedicated PCS.
-> 
-> These PCS needs to be provided to phylink at phylink_create time
-> by setting the .fill_available_pcs and .num_possible_pcs in phylink_config.
-> Helpers to parse PCS from fwnode are provided
-> fwnode_phylink_pcs_count() that will return the count of PCS entries
-> described in the firmware node and fwnode_phylink_pcs_parse() that will
-> fill a preallocated array of PCS pointer with the actual available PCS
-> (ignoring the one that still needs to be probed).
-> 
-> phylink_create() will fill the internal PCS list with the passed
-> array of PCS. phylink_major_config and other user of .mac_select_pcs
-> are adapted to make use of this new PCS list.
-> 
-> The supported interface value is also moved internally to phylink
-> struct. This is to handle late removal and addition of PCS.
-> (the bonus effect to this is giving phylink a clear idea of what
-> is actually supported by the MAC and his constraint with PCS)
-> 
-> The supported interface mask in phylink is done by OR the
-> supported_interfaces in phylink_config with every PCS in PCS list.
-> 
-> PCS removal is supported by forcing a mac_config, refresh the
-> supported interfaces and run a phy_resolve().
-> 
-> PCS late addition is supported by introducing a global notifier
-> for PCS provider. If a phylink have the pcs_interfaces mask not
-> zero, it's registered to this notifier.
-> 
-> PCS provider will emit a global PCS add event to signal any
-> interface that a new PCS might be available.
-> 
-> The function will then check if the PCS is related to the MAC
-> fwnode and add it accordingly.
-> 
-> A user for this new implementation is provided as an Airoha PCS
-> driver. This was also tested downstream with the IPQ95xx QCOM SoC
-> and with the help of Daniel also on the various Mediatek MT7988
-> SoC with both SFP cage implementation and DSA attached.
-> 
-> Lots of tests were done with driver unbind/bind and with interface
-> up/down also by adding print to make sure major_config_fail gets
-> correctly triggered and reset once the PCS comes back.
-> 
-> The dedicated commits have longer description on the implementation
-> so it's suggested to also check there for additional info.
-> 
-> It's worth to mention that OpenWrt is currently using this on
-> Mediatek SoC and QCOM ipq807x/ipq60xx/ipq50xx and Airoha are
-> already ported in staging tree for testing.
-> 
+From: Wang Yaxin <wang.yaxin@zte.com.cn>
 
-Any news of this? I feel this version is now very mature and wonder if an
-human review is possible or any feedback of any needed change to make any
-progress?
+Previously delaytop only showed average delays. This patch adds:
+
+1. delay_max fields to track the maximum delay value for each delay type
+   (cpu, blkio, irq, swapin, freepages, thrashing, compact, wpcopy)
+   per task.
+
+2. The -t/--type option displays only the specified delay type with avg/max
+   values side by side, allowing focused analysis:
+     delaytop -t cpu    # Show only CPU delay with avg/max
+     delaytop -t wpcopy # Show Copy-on-Write delay with avg/max
+
+3. Wall-clock timestamp when each maximum delay occurred, displayed in the
+   MAX_TIMESTAMP column when using -t/--type option. This enables:
+   - Identifying the time when a process experienced an abnormal delay max
+   - Correlating delay max across multiple processes at the same timestamp
+   - Cross-referencing with logs, traces, or other metrics at that time
+
+4. When using -t/--type option, tasks are sorted by maximum delay value in
+   descending order (largest delay first), enabling quick identification of
+   top N processes with highest delay spikes.
+
+Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
+
+v3->v4:
+[patch 3/3]
+1. Fix ReST syntax errors (indentation, list formatting) that triggered
+warnings when running 'make htmldocs'. No content changes are made.
+
+v2->v3:
+[patch 1/3]
+1. fix get_field_by_name() MODE_TYPE filter breaking --sort for non-type fields
+2. zero-init stats struct and cap memcpy size in netlink response parsing
+3. fix compare_tasks() count field read as unsigned long long for 32-bit safety
+
+[patch 2/3]
+1. fix 32-bit time_t overflow check to use max representable value instead of (time_t)-1
+2. fix gmtime() pointer aliasing by assigning timespec64 tv_sec to local time_t
+
+[patch 3/3]
+1. fixed Y2038 overflow false negative in format_kernel_timespec()
+2. switched to localtime_r() with stack `struct tm` for thread safety.
+
+Wang Yaxin (3):
+  delaytop: add delay max for delaytop
+  delaytop: add timestamp of delay max
+  delaytop: sort by max delay to highlight top latency processes
+
+ Documentation/accounting/delay-accounting.rst |  87 ++++--
+ Documentation/sphinx/maintainers_include.py   |   2 +-
+ tools/accounting/delaytop.c                   | 286 +++++++++++++++---
+ tools/accounting/getdelays.c                  |   5 +
+ 4 files changed, 319 insertions(+), 61 deletions(-)
 
 -- 
-	Ansuel
+2.47.1
