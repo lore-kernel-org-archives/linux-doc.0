@@ -1,89 +1,118 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB8D492E31
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 22:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9C438E8C3
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 23:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788908347; cv=none; b=nrRGwU8b7By3jDw3EoSo6+anDVyllDAxFjvTnf88594luZYH/WwdbDiLW2mAIVjXKiv8aLo/D02ApDZGu9XDySd17shFsIRqF6nrbkIj3bfWsf9svAXf2qAsMny98STM3FkjGcwwsnzIZZboAhl12C7n2uvSUM7KwQNhwLC54jk=
+	t=1788908458; cv=none; b=a3Awii0dpPA3jJl7qus3VCDlxxKmfdZ1daK+AWvyB37IrOQviWZLQdDc8RbWWiE45NhT9tY9PTbyUJe73bUW89ijflgFEPJBVDBU5TJmui7uvBezuZ9HzhUY/YbJWuQQlamE4MKV9DIrLFScoWhdTbWJxmd/MtXJBucomtErgTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788908347; c=relaxed/simple;
-	bh=RUdKSO/DKe7Tfh1nS3jSt+4GDpq/U0Yu7CmdcHTOt+g=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WeNuLOZVU7d6vUiv5SW3E/2KUvLSOGib7aSycCBO7crTztYby9kWDSv9s5zvPkmGieeV35Ec1tnd04XnjDud4lupdLv5XFle9+C7DiXPJPT/0L5L88Jmd4OdSSKXwzZq3zw+nqWDOHDXWo9JwoJd2Pb4Gfyj8uNghW75aqdbseY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ffiJ/VrE; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788908458; c=relaxed/simple;
+	bh=fptwP/Jn4YXbmICetcoRZcNAlXOMSlSzrap5v02zqEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=saRhX9Yf6pSLb4qm7A5YM8D6vCBcPOawnX/EpIAurcK1FOERhf0lGMG2t3eU7Pnj0Yhj4dk3SEH1BilkoU1hKUvjtGurxGt8ac6mkga4GKfDf0XoojGyWR40pxFUh/HCK7vu+JsirSSyzmI3LE+UOEWn2UBbqUSM+XL5QeEwxCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZsD2llIY; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZkpGMpgC; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ffiJ/VrE"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2db858d60e0so10441025ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 15:59:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZsD2llIY";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZkpGMpgC"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 688Mh8wU693934
+	for <linux-doc@vger.kernel.org>; Tue, 8 Sep 2026 23:00:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=ihPYqdrPGXWVbmFBzBhN4BZ9
+	OU7yUZppyNtH0Hlwg+k=; b=ZsD2llIYuQgi0sjhlL9VY5XcKD05Cms4T5S7p32D
+	FuZh1o86KtTVKXDXy29YuSCtOVg0XQsdeqjUwl3YZHk4UMDPzCMcpWvef5UXgQgx
+	dXjRk+QsQ1nBTKve3ACVZmUnOcdjZVSfdH6j0S1/EwF6ZTjj404E27H/9vvG43LE
+	f8FN4kFyozAONXPxHSpm3CDpypkUp9G3QV8VdiFYAP968Y5m2uUNAFPSJ4oi6PbF
+	SRDP/uXQEdFmFRIpfHKG4hbLplTqPsThnhw1njeIGCiwKPGdyzsjdWjiatKKadND
+	guHN7bu/fd1w2rPO2rZyD+U6kW5VQMOJM6fYSFXJPrK8EQ==
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com [209.85.217.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gjfp4bexj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 23:00:55 +0000 (GMT)
+Received: by mail-vs1-f72.google.com with SMTP id ada2fe7eead31-78b27e0280aso606396137.1
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 16:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788908345; x=1789513145; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1788908454; x=1789513254; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=LxX1rEZrKYtuWO+o8T+2BCvyEblD/tbwlp93Hac6Zsg=;
-        b=ffiJ/VrEhnYYY9rC5uBXBT41DLfnxrjPWoxxoP0NCpAFmU+tUOT/zgboSAUafOta/H
-         TQO2brYc15rA+qt6DYCU/wdEeiG2VFOVyH8LTdXtmqfyWa69H/e4qPSLYRXAre31nLh1
-         4YVWETLIo5/O5TtRa9T/+BTNlWNM6lZeqIY8PhGK4YbYsp0Q/uFqpeg97L14l5HBiIVT
-         x6XUjFWhrxcY62VzI7jc07FcPmNPMyNKD5KreHH6aPxddALmB5hZqh3k3pWNk0YKLu9Z
-         6jJ5l4ImihS4OhpswJBXTS1kOsw3pFTd3rg9zICtI4arxX1jteBK95d2ICpHJ9GrF3KN
-         UYng==
+        bh=ihPYqdrPGXWVbmFBzBhN4BZ9OU7yUZppyNtH0Hlwg+k=;
+        b=ZkpGMpgCDEEU2w2OQ1i83Q7tNf8ngZqYeeovlTmcCnOjZoR10/jEbaJhlnCDzBAVTZ
+         f4pKitFRv1yaMQKGSBR/Hkmny8vXplIc85Y/MuOGk1P8N/Emh2f/NnuDovBqp1KMl11P
+         MWE4UBHMlz1aFCzDBcpnQHCDpnTB+dGTCY8asACaBA3WNGgWsZOLx0qvwR1WpjO49gUV
+         T3XvAITPzb5tbGFttg/iN5rGXc/zfUMESlQaJrA4/GmITTusLfEXWXFZMl+yiAzrNrXH
+         bX3KAiFQAUaOPElUz7TndcBeWPToPtcxgR9BIEOQPDEJurPaL4qLq+9KgW1BYFqfRFkL
+         RN5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788908345; x=1789513145;
+        d=1e100.net; s=20251104; t=1788908454; x=1789513254;
         h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:date:from:x-gm-gg
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LxX1rEZrKYtuWO+o8T+2BCvyEblD/tbwlp93Hac6Zsg=;
-        b=KFQ/x57IACpQ0bE4CUW8cp0cUaIf7IwNUqKOjhgwDxzVzxtPPvwiwQ+3KFB4pnyFZt
-         lmGJVX4yx/LdO70pzCLELVfgriU+hVvY8maML/sakFxM+XckZl1TcEvb8Dd6dcXXe+Je
-         oqdlfDWxO4i9DucU8CdIX45Z+FPaQDGJI6Z3hUMY5rpljTnkcWm2tTNabeYoP4yXPYGy
-         ZR6jdPyNhyMVZ4kACBubng/QW4vW3bnLd8TVEMd44guEn9zBVKjtTcmPYlZJ7yPZSims
-         xVoZEHp+O5lTuEDnAt3l9EKfiyY65Ci38j2BOBy+m3b0iy1nmMjT9yiNxsz+3p4r/XF1
-         W8hw==
-X-Forwarded-Encrypted: i=1; AKwUvBwtMV5U2KJnh0W0GIDwHpV5+XqGJaaHduotfCOqAzXRvjHGMeGX0yupyq7ouMycmFOc5vbRaf9osks=@vger.kernel.org
-X-Gm-Message-State: AFuF++mnO205KRBsUsbEdgRwaiYPRgFN+5DCoYIDx6JDnL+8bHshVNzg
-	fv8/bY/JV2BiZzbPspD0eAYIyN1W8kkm8qV0wpBU1CXa7vyeJwmDBJSi
-X-Gm-Gg: AYBFou20pySZ77q9djME8nL9/1RokMkt463kc0ySAA8cITGhg5ia642VxG51+pT019k
-	MYtfdxYgqRKmNrWfw+GD5owuFeusD6tXNv1wWiV4hFEPhEKu0xSwKhmm7Jst0heBqn+5fU9HNWY
-	W9T0+KsxF8F5YYTrGVBVjNoDptV+Q+5QWw33oQkpa+JBCgjJDjiE0iwR9O0jY8xCunyRvTY1NKN
-	z+8PRcjdoLe34bSnVSP2Aw/4Pp6mxHVUWYzwr43+F5/6JUCfH+2h/x8ILIc3O5PIeiFEIOY2TKs
-	pUPetB+Eb26GcLkldKba6xR6Q9RAjrHWKC6B5OjzHFzJKMBFQajt/bFWaH14NQACOogCMxyoYxQ
-	cJyvy5DG4OS1i7920zPRjCJpwORQcrYWTpQyzluvZ3407lyGio6gPNn+mhllDcH33jnHF+AMish
-	NjAsPHaIJ+QqtfXseZb0HtJAXQGVovvS1OuMPpVHd3yHLIuN7FtLqJ8XMo/C9YgUPQvTwYaA==
-X-Received: by 2002:a17:90b:2ccf:b0:398:a2a3:b631 with SMTP id 98e67ed59e1d1-39b262aaf3dmr49898755a91.19.1788908344988;
-        Tue, 08 Sep 2026 15:59:04 -0700 (PDT)
-Received: from localhost ([216.228.127.131])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1432435648esm46668031c88.5.2026.09.08.15.59.03
+        bh=ihPYqdrPGXWVbmFBzBhN4BZ9OU7yUZppyNtH0Hlwg+k=;
+        b=BQ+ix84MYQw83TkvSioJY9G4h8WD2jissOa0+T0d2ELyBSVNppjbgb/yv1TEi4+/a3
+         T7nWzMndTV+u9TkNe5ZFTc8s+vOYqq8m7JxJ4oj066A2S8otOzZwFCFR5/Rs1lLiatyH
+         Txwr4Gr49Hvwc1Y1J1XXuY8I3n8bCi3GOWKEqx1GJILrY/n5L08rQrOJIgZCO8ySO3yd
+         N7ZtT0NBqKNN9kvftRWkKZXlEd0mtx4+L55vrnQ+0qlQma9c+ox0m4X2P14NDipojjah
+         vbvzLCiqzO1YehtyQrQP0OK9qZF/nnOXP+0cKr1e61m/qqNL332Fdd+uZT9pUJ8MVX53
+         2Nsg==
+X-Forwarded-Encrypted: i=1; AKwUvBwkhE6cOYWvggYiEhtSQNzZl2nVWTr9eEOn49QP3AQzqMVxCobycU59/GagmPBkaRosR1M9ZjvgARg=@vger.kernel.org
+X-Gm-Message-State: AFuF++l323UL5Wo3iSaRTmJEMffey2ss28Phwekjc8uUQGytuRNm5Cw4
+	B6oREmherefxZ+KM+kWkWdT4rSDEWnXdG8yFTuy1qELHZT/BAScqpIYvFOW7SnAbnzljiBuW6pS
+	mNEB50mD8lolcZus7UgHS7g7gZULecydHK/ASYzt2+FFPtr3tZScXEU9lHAf3Yxo=
+X-Gm-Gg: AYBFou0Gzge5EwE7wgiC00bciYh3ePjHVsJaItyc88NxLZd1HIWOVWPSQbJ25oQpTe+
+	kAr8r0TYl6cKKh6CCk9hH3jl6avVmnDQPm3eMp86cow4LuMtGGhkHTkvVerO1zklAeciV7kYhVU
+	qDTad/IKnP+vHiaIuKWVODxNBmmoCLeIBfn8RbLCfrvs13+TvHLtX+6UduJptkFR60/gr+2e7tt
+	D4veS9IuyU9jKeeeqSNVa9arz0fnz0nBD8wJMuNMkSaJrUdkWkdm3tvrT0xeBgyCBQpNBhsJx1b
+	y03JvW/dswfLxGuT3goxipsxiEpXAO0LBaKOI1ElPklpHfuvSNQwl8Jn7SgXTSXjM6YqWZmGCJd
+	so+LvNYygKSEImL2wOuoLX2EqZ7z6Is9+9WIKMYy+0skNko/BT40UXnLYBiENZqJBEvEmtQBy0J
+	9HcheeTrVV55Rh
+X-Received: by 2002:a05:6102:5e90:b0:780:d949:663f with SMTP id ada2fe7eead31-78f73e27b69mr1092818137.4.1788908454357;
+        Tue, 08 Sep 2026 16:00:54 -0700 (PDT)
+X-Received: by 2002:a05:6102:5e90:b0:780:d949:663f with SMTP id ada2fe7eead31-78f73e27b69mr1092766137.4.1788908453845;
+        Tue, 08 Sep 2026 16:00:53 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b6166fbe6fsm3317542e87.41.2026.09.08.16.00.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 15:59:04 -0700 (PDT)
-From: Yury Norov <yury.norov@gmail.com>
-X-Google-Original-From: Yury Norov <ynorov@nvidia.com>
-Date: Tue, 8 Sep 2026 18:58:57 -0400
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: yury.norov@gmail.com, linux-kernel@vger.kernel.org, mingo@kernel.org,
-	peterz@infradead.org, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, kprateek.nayak@amd.com,
-	iii@linux.ibm.com, corbet@lwn.net, meted@linux.ibm.com,
-	tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
-	seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
-	rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
-	srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
-	vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
-	pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
-	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-	rdunlap@infradead.org, kernellwp@gmail.com,
-	linux-doc@vger.kernel.org, jgross@suse.com,
-	virtualization@lists.linux.dev, sunlightlinux@gmail.com
-Subject: Re: [PATCH v12 08/13] sched/core: Push current task from non
- preferred CPU
-Message-ID: <aqCTMREUoCmbtygK@yury>
-References: <20260903063240.268775-1-sshegde@linux.ibm.com>
- <20260903063240.268775-9-sshegde@linux.ibm.com>
- <aptiJP_8SWwZWju6@yury>
- <7d88a3c4-a7e4-4814-9e29-84955b69a5b3@linux.ibm.com>
+        Tue, 08 Sep 2026 16:00:52 -0700 (PDT)
+Date: Wed, 9 Sep 2026 02:00:49 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: rob.clark@oss.qualcomm.com,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>,
+        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>,
+        srinivas.kandagatla@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 09/15] accel/qda: Add DMA-backed GEM objects and
+ memory manager integration
+Message-ID: <iviywddjpdvfx6qcsj7ki2ketbljkzqvkcmwfeop3ur5z2x3dl@fqicfxi5shh7>
+References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
+ <20260817-qda-v2-v2-9-69a02e9090d4@oss.qualcomm.com>
+ <7030a8f8-f320-4b09-b2de-2c8e897409f8@amd.com>
+ <CACSVV00MubttbkVJgMommPMorf67yqn7D1kfwpxVUZ0t-6au8Q@mail.gmail.com>
+ <2febead3-0f0c-4e0d-b11a-8c61ec027f44@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -92,158 +121,101 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7d88a3c4-a7e4-4814-9e29-84955b69a5b3@linux.ibm.com>
+In-Reply-To: <2febead3-0f0c-4e0d-b11a-8c61ec027f44@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=Qu9uG1yd c=1 sm=1 tr=0 ts=6aa093a7 cx=c_pps
+ a=DUEm7b3gzWu7BqY5nP7+9g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=sLzL-2GVjjNmCx-rav0A:9
+ a=CjuIK1q_8ugA:10 a=-aSRE8QhW-JAV6biHavz:22
+X-Proofpoint-ORIG-GUID: 8qKn9VmW4LP5PcK1YPa-lqI_bkpOjELJ
+X-Proofpoint-GUID: 8qKn9VmW4LP5PcK1YPa-lqI_bkpOjELJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA4MDI1MCBTYWx0ZWRfX4OvRssLDfilW
+ FBdfkem23ovMP2IFsZZ7dw3cBDzRJ6SBcvK8gy1BENJcE7IlBWn7lDFQi7bcERT2EwWvl3cTTU3
+ Qt2RGBZpeBZK3/WJdBqD1HBC2Fngxu3thIGAoggTQt4VzLUcFXBz/Crl0w7PhQMWUpnQBJivvsF
+ Kc+G8v+BZMg+YoQ4TAEuORhakh0MHthU3aN43uzAvDjrHQNgPajlSgH49xH8DPG67iYgUSca6Ve
+ j0qb3nnZAbrM6KAiDCzsZrleKUC8zIckhhWT3lIDDN21CUA/wonKtLF4jKCcSd3hUjk5v9d3Leh
+ gKzu/1v18ShyR67PWzQfkjI2tilR9lL75wrIhWFqK3dmeY6oOW8YfBw51iLluB1j6HAJ03yyUJX
+ nz6igipTfi3KH8hOICI6kEgXVmFOVGSCgFc7lls4ITiHX37fBnRrJbp+B/NVhwcwvSqs+hUdBQ+
+ AHNKodT9pImBQaXgx+w==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA4MDI1MCBTYWx0ZWRfX4y3p9F8xQTdH
+ Gve5SKk7mVf3brwmc0ewIycjHfMlXEQYRtWMjPU4PYNkUDZbaWIcPorjDy+SKbcW28FozEcjij/
+ MRWR13w3eKyLWL3WuaOH3Kyzb70aVgU=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-08_03,2026-09-08_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 adultscore=0 spamscore=0 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 malwarescore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609080250
 
-On Mon, Sep 07, 2026 at 08:53:19AM +0530, Shrikanth Hegde wrote:
-> Hi Yury, thanks for taking a look.
-> 
-> On 9/5/26 5:58 AM, Yury Norov wrote:
-> > On Thu, Sep 03, 2026 at 12:02:35PM +0530, Shrikanth Hegde wrote:
-> > > Actively push out the current running task on a non-preferred CPU. Since
-> > > the task is currently running, a stopper thread must be queued to push the
-> > > task out. However, if the task is pinned only to non-preferred CPUs,
-> > > it will continue running there. This helps to maintain userspace
-> > > affinities, unlike CPU hotplug or isolated cpusets.
-> > > 
-> > > Though the code is similar to __balance_push_cpu_stop and quite close to
-> > > push_cpu_stop, it is kept separate as it provides a cleaner
-> > > implementation specifically for CONFIG_PREFERRED_CPU.
-> > > 
-> > > Add the push_task_work_done flag to protect the work buffer.
-> > > 
-> > > For now, only the currently running task is pushed out. This keeps the code
-> > > simpler. In the future, an optimization may be added to move all queued
-> > > tasks on the runqueue.
-> > > 
-> > > This works only for the FAIR scheduling class.
-> > > 
-> > > Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> > > ---
-> > >   kernel/sched/core.c  | 81 ++++++++++++++++++++++++++++++++++++++++++++
-> > >   kernel/sched/sched.h |  8 +++++
-> > >   2 files changed, 89 insertions(+)
-> > > 
-> > > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> > > index b4ef2e92d786..35e7eedad104 100644
-> > > --- a/kernel/sched/core.c
-> > > +++ b/kernel/sched/core.c
-> > > @@ -5808,6 +5808,9 @@ void sched_tick(void)
-> > >   	unsigned long hw_pressure;
-> > >   	u64 resched_latency;
-> > > +	if (!cpu_preferred(cpu))
-> > > +		sched_push_current_non_preferred_cpu(rq);
-> > > +
-> > >   	if (housekeeping_cpu(cpu, HK_TYPE_KERNEL_NOISE))
-> > >   		arch_scale_freq_tick();
-> > > @@ -11202,3 +11205,81 @@ void sched_change_end(struct sched_change_ctx *ctx)
-> > >   		p->sched_class->prio_changed(rq, p, ctx->prio);
-> > >   	}
-> > >   }
-> > > +
-> > > +#ifdef CONFIG_PREFERRED_CPU
-> > > +static DEFINE_PER_CPU(struct cpu_stop_work, npc_push_task_work);
-> > > +
-> > > +static int sched_non_preferred_cpu_push_stop(void *arg)
-> > > +{
-> > > +	struct task_struct *p = arg;
-> > > +	struct rq *rq = this_rq();
-> > > +	struct rq_flags rf;
-> > > +	int cpu;
-> > > +
-> > > +	if (cpu_preferred(rq->cpu)) {
-> > > +		scoped_guard(rq_lock_irqsave, rq)
-> > > +			rq->push_task_work_done = false;
-> > > +		put_task_struct(p);
-> > > +		return 0;
-> > > +	}
-> > > +
-> > > +	raw_spin_lock_irq(&p->pi_lock);
-> > > +
-> > > +	/* This could take rq lock. So call it before rq lock is taken */
-> > > +	cpu = select_fallback_rq(rq->cpu, p);
-> > > +	rq_lock(rq, &rf);
+On Wed, Aug 26, 2026 at 07:15:07PM +0530, Ekansh Gupta wrote:
+> On 24-08-2026 20:37, Rob Clark wrote:
+> >>> qda_memory_dma.c / qda_memory_dma.h
+> >>>   DMA coherent allocation backend. qda_dma_alloc() calls
+> >>>   dma_alloc_coherent() on the CB device and encodes the stream ID
+> >>>   (SID) in the upper 32 bits of the returned DMA address, following
+> >>>   the Qualcomm FastRPC convention for IOMMU address space tagging.
+> >>>   qda_dma_free() strips the SID prefix before calling
+> >>>   dma_free_coherent().
+> >>>
+> >>> qda_memory_manager.c
+> >>>   Adds process-to-device assignment: each DRM file (process) is
+> >>>   assigned one IOMMU context bank device for the lifetime of the
+> >>>   session. qda_memory_manager_assign_device() first checks whether
+> >>>   the process already has a device (reusing it with a refcount
+> >>>   increment), then falls back to claiming an unassigned device.
+> >>>   qda_memory_manager_alloc() and qda_memory_manager_free() delegate
+> >>>   to the DMA backend after resolving the correct CB device for the
+> >>>   calling process.
+> >> Oh, stuff like that is usually a pretty big NO-GO now.
+> >>
+> >> AMD has made the same mistake with KFD and it resulted in a massive chaos.
+> >>
+> >> The DRM file is the driver context your process uses and even if there are multiple DRM files for the same PID you should absolute *NOT* share anything between them.
+> >>
+> >> The general rule of thumb is to not attach anything to the process using the DRM file descriptor.
+> > A couple other things to keep in mind:
 > > 
-> > If select_fallback_rq() grabs the lock, then when it releases the
-> > lock, there's a window for race between the other process and the
-> > subsequent rq_lock(). Or I misunderstand it?
+> > 1. drm device fd can be passed across processes
+> > 2. virtgpu/virglrenderer drm native ctx is a single process that opens
+> > the drm device file N times on behalf of N guest userspace processes.
 > > 
-> 
-> select_fallback_rq taking lock is for any state change that needs to happen
-> such as fallback to possible CPUs etc.
-> 
-> Most of the time it won't grab the rq lock. Even if the task got pulled by load balancer
-> before grabbing the lock, Below (task_rq(p) == rq) will catch that, and it bails out.
-> 
-> So it is safe.
-
-OK... Can you please explain it in the comment above?
-
-...
-
-> > > diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-> > > index 6c3ad70e58b8..678e44134acf 100644
-> > > --- a/kernel/sched/sched.h
-> > > +++ b/kernel/sched/sched.h
-> > > @@ -1298,6 +1298,8 @@ struct rq {
-> > >   	struct list_head cfs_tasks;
-> > > +	bool			push_task_work_done;
-> > > +
+> > All that to say, Christian is right here.. drm_file is your context,
+> > pgtables should be attached to the drm_file (potentially via
+> > drm_gpuvm.. which you perhaps want to use).
 > > 
-> > It should be protected with CONFIG_PREFERRED_CPU. Also, the name
-> > doesn't look correct. You set the variable to 'true' even before
-> > calling the stopper. Maybe need_push_to_npc, or similar?
+> > BR,
+> > -R
 > > 
+> >> Regards,
+> >> Christian.
+> >>
 > 
-> ok. npc_push_work_pending is probably a better one?
-> > Why did you place it between cfs_tasks and avg_rt? If no specific
-> > reason, maybe place it next to CONFIG_PARAVIRT-guarded fields.
-> > 
+> Hi Christian, Rob,
 > 
-> I don't see a common empty space there. I could increase the size.
+> Thank you for highlighting this.
 > 
-> > What about pahole?
+> I'll rework the CB assignment to be per-drm_file. Each open() will get a
+> CB assigned from the available pool (find-first-available, not
+> find-by-PID). The assigned_pid field and PID-matching logic will be
+> removed entirely.
 > 
-> I did check pahole on powerpc which has 128 byte cachelines.
-> 
-> 	int                        online;               /*  4524     4 */
-> 	struct list_head           cfs_tasks;            /*  4528    16 */
-> 
-> 	/* XXX 64 bytes hole, try to pack */
-> 
-> It was empty space. Now, that i check 64 byte cachelines it may not be the
-> optimal one.
-> 
-> I do see, a couple common places for both 64 abd 126 byte cacheline. I believe those
-> are better places. It won't increase the size or cause any existing fields to
-> misalign. It also makes sense to guard it again CONFIG_PREFERRED_CPU. I had not
-> done to avoid ifdefs. But it is used only under it. So i think that makes sense too.
-> 
-> 1.
-> 
-> 	struct balance_callback *  balance_callback;     /*  3608     8 */
-> 	unsigned char              nohz_idle_balance;    /*  3616     1 */
-> 	unsigned char              idle_balance;         /*  3617     1 */
-> 
-> 	/* XXX 6 bytes hole, try to pack */
-> 	long unsigned int          misfit_task_load;     /*  3624     8 */
-> 
-> 
-> 2.
-> 	unsigned int               ttwu_count;           /*  5276     4 */
-> 	unsigned int               ttwu_local;           /*  5280     4 */
-> 
-> 	/* XXX 4 bytes hole, try to pack */
-> 
-> 	struct cpuidle_state *     idle_state;           /*  5288     8 */
+> The hardware has a limited number of context banks that serve many
+> sessions (on fastrpc, via the DT "qcom,nsessions" property), so multiple
+> drm_files may end up sharing the same underlying CB due to hardware
+> constraints, but while implementing that also, I'll ensure that the
+> association goes through drm_file->driver_priv, never through a PID scan.
 
-The struct rq is highly configurable. Depending on your config,
-the holes will migrate to different places. I'd not rely on just
-'optimizing holes' problem. Just put the new field next to logically
-related existing fields.
+I'd strongly suggest to implement a simple case and not to implement CB
+sharing for now.
 
-You've got paravirt-related prev_steal_time and prev_steal_time_rq,
-and you've got the /* For active balancing */ section. Maybe one of
-them?
+> I'll also look into drm_gpuvm for the longer-term address space
+> management as Rob suggested.
 
-Thanks,
-Yury
+Nice. I think I've beeng trying point it out, but maybe not very
+explicit.
+
+-- 
+With best wishes
+Dmitry
