@@ -1,105 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C775599A2F
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 17:47:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10617599A46;
+	Tue,  8 Sep 2026 17:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788889629; cv=none; b=aPw6us0lEi7xDHLL+H+VxEMGEtozfwkPUURlcvwJP6PfFPWByAPXTV6xRQDDtOZ2WH6Lrxbs8MqYAMrbN1ZB5MpUIIpx97onUN+iYNKqC3qyvmZg6+TZsVcalLT+vE7l71A0oTCIF8Mo0JdHv9/Tic8QtPyo6A6PgQFyjKQB1yI=
+	t=1788889647; cv=none; b=QvKMgnSk1GBubPfvhAlmc5zlkbm3xlLr9Y7JcI1z+MaXt0YKQXiMqWQOlVB/Qan0nIAKWbzKJjpZHFolowa7z1+/s0h6GmJYGRGZFndhBj0obWyIx5TzXFYxsK+yK1ffAtsTvlYcR0wpKhNIx/6/Rvm++iEgjMa7syk2EzZWWQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788889629; c=relaxed/simple;
-	bh=f4UIowynbF07Wy7Vh7mDdrS3+ucFbjTlgVg501LnxLs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kAe+omGbl+nGURMpKQOPdFgIoTD8bNI5C40ulGr7Ps8HrfNFp7MPXw+JX92M66sPZT34ltk0zj4iaRkoUo98l1NLRj6PS0nwFVOBrzFtWDQRMIxM5N9qIjG1qz5iNEY6edEZeHAr7cFzxBvGY1ts8iO1PgpQ/XoYxLlDnvTxC2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lU+DGmG8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788889647; c=relaxed/simple;
+	bh=nygTdh8fjI6CsKh6M1+ORwA70aR0m6XMje96txRY9JE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O7vSPSYKj5E66Ul+ECFCxIEksihRFkdKXxtZqEygkRFRpNUMn8Tw+BF7uL2/V3gHar+ccmbi57LwPV8rcoF3X2VhnvgYKh3ui3yxZ8qrUwQdefdqubHqrDF4TiQNAqZEvQKVdbLa5V1ncnr3s3D4rF36C5pu9GoPz0qPPhUtazw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3f4f3xx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lU+DGmG8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F24B81F00A3A
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 17:47:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3f4f3xx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4648E1F00A3A;
+	Tue,  8 Sep 2026 17:47:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788889628;
-	bh=f4UIowynbF07Wy7Vh7mDdrS3+ucFbjTlgVg501LnxLs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=lU+DGmG8pEakhdiNNxqbi2bvLrH6h6KIGnU5HJDVzidc/ZuStDaF2aSYnfIbfB24u
-	 GpQ5L0izwY3jXoIC9+xcP4+bGlTrejpGokbG6/u9mIxGjWJqdd8G0c7iFDuQ53oCQ+
-	 rsRZLB3aGx7N932wNd0USFpGobST2DU7IU+NWg8ThS2W60nVstvmexHBn7uiKj87+D
-	 lUsfAOpH0cNPCPgvcMiJh1t7qRuhgrZJNHCdsRDlSB/u4RXMDS/X67JcS3opn+3yQQ
-	 8ExVtXeQi1AM+KmSoE/apXY6KqZTP9xNRGv206p14HHZw8VTPi7duXAW460FN0CTmJ
-	 BUFMNtFBC8rrA==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5b4af4be667so4900845e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 10:47:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxmGoOH5c3kJt5uFhHsTOCaHEd2OyYl9hvTELA+miumd/n6jYdDPwMEt2CHXINaK9YKRww5zi0pBFA=@vger.kernel.org
-X-Gm-Message-State: AFuF++nFdLRhOkP+V3ZTXXGnKGQApksPo8DRY5egP0IRDvdTjZvNe6mt
-	IZzT/ZoPq2HB+eVjt/kYDIkEdFbS65u46MBFrR9eVda07b+3Ul5KiuNHHN6wtkGRaez16VdiW1Y
-	Wgl7zqCzy3DcLOEPojN6Uu1+rTryjqKo=
-X-Received: by 2002:a05:6512:3ca9:b0:5b6:183c:5c87 with SMTP id
- 2adb3069b0e04-5b6183c5e04mr5069176e87.37.1788889259016; Tue, 08 Sep 2026
- 10:40:59 -0700 (PDT)
+	s=k20260515; t=1788889645;
+	bh=qE44r8Wpvb2pGMbm3TYiV2/ToCaVSkA0bQ2RFs6wnI0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Z3f4f3xxYCQMcl1Hdk7nUEctePMOcq9JS++N3Nt/Ryh86AQqAlYIKGvzqGObYje0R
+	 IL+Muz7ldanJo4IY/Es6GAhVOTbO6x33Nmh5MyN9ofQ50hc9IIt24+ih4Q0j6hkRUv
+	 DC854zV53VOv0nuw0deVaZWSypIoEHWuy9SB7Zu5fxmTHnoEeSqtdjRepoqZnYFCyQ
+	 3xRs/8rSFn5R2g6Q5u1HZ9kNrFgrpATLxpEtWlGHxheezJNJaFnoHTogrM0z6L+Hwb
+	 ygKS/k/aNDttzRBZPky29GFafkQqEsqLA251WqEfQpP8rX4hpgyRyPMUZltLEtwIN+
+	 Ej8ssbEwQ/ucA==
+Date: Tue, 8 Sep 2026 18:47:20 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Terry Bowman <terry.bowman@amd.com>
+Cc: Dave Jiang <dave.jiang@intel.com>, Alison Schofield
+ <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ Dan Williams <djbw@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, <linux-cxl@vger.kernel.org>, Tony Luck
+ <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, "Hanjun Guo"
+ <guohanjun@huawei.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Shuai
+ Xue" <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>, Ira Weiny
+ <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Ben Cheatham <Benjamin.Cheatham@amd.com>,
+ Richard Cheng <icheng@nvidia.com>, Robert Richter <rrichter@amd.com>,
+ "Lukas Wunner" <lukas@wunner.de>, <linux-pci@vger.kernel.org>,
+ <linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v20 4/9] cxl/pci: Thread port and dport through RAS
+ handling helpers
+Message-ID: <20260908184720.1d2e99cb@jic23-huawei>
+In-Reply-To: <20260902133933.2992457-5-terry.bowman@amd.com>
+References: <20260902133933.2992457-1-terry.bowman@amd.com>
+	<20260902133933.2992457-5-terry.bowman@amd.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260908152808.3928630-1-arnd@kernel.org> <20260908152808.3928630-14-arnd@kernel.org>
-In-Reply-To: <20260908152808.3928630-14-arnd@kernel.org>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 8 Sep 2026 19:40:47 +0200
-X-Gmail-Original-Message-ID: <CAD++jLndhdr2XYp2rYvngPMr4hkCtX3Xqv=bs76kuEK5MAq91Q@mail.gmail.com>
-X-Gm-Features: AcwNN1Ujo9rjMuk24CQogLFJvH7ujiRz2lorQ7l9osv6uL8Ek2VIq58WljFfaCg
-Message-ID: <CAD++jLndhdr2XYp2rYvngPMr4hkCtX3Xqv=bs76kuEK5MAq91Q@mail.gmail.com>
-Subject: Re: [PATCH 13/13] ARM: axxia: remove entire platform
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Russell King <linux@armlinux.org.uk>, Drew Fustini <fustini@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, Stefan Agner <stefan@agner.ch>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
-	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrew Lunn <andrew@lunn.ch>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Gregory Clement <gregory.clement@bootlin.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Kristoffer Ericson <kristoffer.ericson@gmail.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Alexander Sverdlin <alexander.sverdlin@siemens.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Karl Mehltretter <kmehltretter@gmail.com>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
-	Anders Berg <anders.berg@lsi.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 8, 2026 at 5:30=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wrot=
-e:
+On Wed, 2 Sep 2026 08:39:28 -0500
+Terry Bowman <terry.bowman@amd.com> wrote:
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The initial Axxia port was contributed by LSI in 2014, but never complete=
-d
-> after the sale of the business unit to Intel, which kept supporting the
-> bulk of the drivers in their own downstream BSP.
->
-> The downstream work has also ended now, and there is no realistic chance
-> that anyone would rewrite it all into an upstreamable port.
->
-> Remove it now that the 7.3LTS release is out and can be used as the
-> base for one more downstream rebase of the downstream patches if needed.
->
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-> Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-> Cc: Anders Berg <anders.berg@lsi.com>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> From: Dan Williams <djbw@kernel.org>
+> 
+> The callers of cxl_handle_ras() and cxl_handle_cor_ras() already hold
+> a struct cxl_port * and optionally a struct cxl_dport * for the device
+> being handled. Passing a generic struct device * requires is_cxl_memdev()
+> to distinguish Endpoints from Ports at trace emission time. Threading
+> Port and Downstream Port directly enables is_cxl_endpoint() and explicit
+> dport/port branching for cleaner trace dispatch.
+> 
+> Refactor cxl_handle_ras() and cxl_handle_cor_ras() to accept struct
+> cxl_port * and struct cxl_dport * directly. The CXL RAS trace event
+> emission logic is split into three branches: Endpoint events are
+> identified via is_cxl_endpoint() and emit with the memdev, dport events
+> emit with dport->dport_dev, and Upstream Port events fall back to
+> port->uport_dev. This branching is transitional: the follow-on patch
+> ("cxl: Add port and dport identifiers to CXL AER trace events") unifies
+> the trace events on port/dport and removes it.
+> 
+> Update cxl_handle_rdport_errors() and cxl_handle_proto_error() to pass
+> Port and Downstream Port to the refactored functions.
+> 
+> RCH Downstream Port correctable trace events now report the dport device
+> (dport->dport_dev) as a consequence of threading Port and Downstream
+> Port through the RAS helpers. The following trace event rework ("cxl: Add
+> port and dport identifiers to CXL AER trace events") adds explicit memdev,
+> Port, Downstream Port, and host fields that provide full context for all
+> device types.
+> 
+> Co-developed-by: Terry Bowman <terry.bowman@amd.com>
+> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
+> Signed-off-by: Dan Williams <djbw@kernel.org>
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+Subject to Ben's question getting a reasonable answer,
+Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 
-Acked-by: Linus Walleij <linusw@kernel.org>
-
-Yours,
-Linus Walleij
