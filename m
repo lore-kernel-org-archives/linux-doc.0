@@ -1,87 +1,147 @@
-Received: from mta0.migadu.com (out-134.mta0.migadu.com [91.218.175.134])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AEB4AD7D9
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 09:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB4F4CA798
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 09:45:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788859784; cv=none; b=ncIQyOxORKzfN0eFXTXAiwQlZhyGpAhm6h1cshqLRw/+8RRHepYmpFG4aXmlKtN8ARCUS12c4LGCfXbMBFP8CwRZNXOsvoJVWcZHid1C8HWWiwooBmyPRb+7dKzAMut4sOMfwLtP/fZrObFgGzyBAFar5X43DltnH0Uw/trFj4I=
+	t=1788860760; cv=none; b=bK6ssbn6knQld4DReoCMdH0gyq2zGkycXYz47WxaV3vpCemU/mr4yoLT1TLoJyazdKJX8iX2FbsxhZpBc1tBoom+fw09ROiX/6qNXnpYjoL8X6F7+TWvY59qDjarNEEjh8AwYlnaaG1EFhBtRyD1J0oxW8cY21akdkoJ1ni1bnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788859784; c=relaxed/simple;
-	bh=15IOOyKa+ijGmMxg7kwu9CI1MNJx0YkgAkPki5J/TZI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=muv/tvegZ0TDtY25h8L5w6nSe/Bv/LuuI0OJNrV/j1ZINuArCdJ6HR/ZlxgF2NWjzlMKJOPRgvtblWPwZM3RIESR7dLCP1ljxaKZzqZWVu2+02tn4aKYceLO+cfyha3+ygga2UZgBwfBXiMe0j67rvX4g38MYOouYmfVNhudSDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NT4ngglp; arc=none smtp.client-ip=91.218.175.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788860760; c=relaxed/simple;
+	bh=G44DxRMCSfchDoDxEWvMl+JE8jqtlWlGW22zD22lDQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n/WYri2roJiPb7rK6xsM8ssOl521w4yCk6T0naWG37tqkgLomY3TJ1MkfY2ZYe3rTGzBMBNj0q9QMVuFnniYZs29Z3mhW+zjUMngmhnfUMSaAx7JksJD2Cd8It+FJm9x09GEWUWcdvdrstWXbboMEycsDzwKBgY0RebEd3fKyFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=e7YDPNss; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NT4ngglp"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=15IOOyKa+ijGmMxg7kwu9CI1MNJx0YkgAkPki5J/TZI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788859780; v=1; x=1789464580;
- b=NT4ngglpu+P1qCAwMpvi5skJVqMX/UTGMoDC8wwv+T+PdUQBVVmjF2FUVhdYdbO9TwQ0CvzN
- VImV7aNtVlKFs6JVQGKU8UHxprvBNk0VJgiTliDg1qEsPoHzunKUJDVQVQimHC01jnyUp+VmXla
- n3/GnnhU8bFZ68YQHQVjMam0=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id c1b4dc536328070e;
-	Tue, 08 Sep 2026 09:29:39 +0000
-X-Mizu-Trace-ID: c1b4dc536328070e
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <cc7003c6-9be6-430e-a37b-e43a08402825@linux.dev>
-Date: Tue, 8 Sep 2026 17:29:34 +0800
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="e7YDPNss"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-482f9309813so4041525f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 02:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1788860755; x=1789465555; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wl0avOHzFae6yeME6k9M5ir8m7lNuNYJR44ZHmJ09/E=;
+        b=e7YDPNsshs7TQMtCzlsQZJAmj7Hfq+ayxy4Dx8E/yRFluokz8tUlVz1cfHHer5m2Ox
+         FS6bCv62whU8Yn0EF+H2Q6dK68yvp/PcF9Pag4yCdNLQR5iSOCay9XYOwqjQI8ZljZEQ
+         9t6fNtWecrXIorLw7l+KJIhGTACRzRR73B1YiuyfpFOno/whtsnWh5CUJt4J/5eG9BIN
+         iXcbJTZbFkrAIg5PbjqtegcanidY31PEGNfjXDsaMvY4TlxBEGp27NKQ5a/Yd7hz+YOh
+         iMCBwJ4y35q9lZ0rJ0qbbcSdXerVs8LUQiebfCTwerTwr7mVskbsIHVodp/QBhH5vwEk
+         D9tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788860755; x=1789465555;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wl0avOHzFae6yeME6k9M5ir8m7lNuNYJR44ZHmJ09/E=;
+        b=OcTPJy6i7PxJF0p5kR9yXu3VPrhAhRWIlb90ZX4bRpq3vBR4tfbnTOcL95FB/srbjG
+         WlH/BcT7yvTwMq8rKzQZqZDJ6xjR5iW2qHsF6GR7mVS5qud99HvdZX9zFPZfAGJp0k+I
+         aPkn/VOgb+8lIFROo/0XVT4qNHm4eEXtiXmcMOZqsexKWBVpGoJZIyRd88XQY5B4RsDt
+         OBArqE/r+YcPjqgIO3IyWqAUgu7iOHpvWwVgsSFVjex36HqV9sMrgTRm1CO0TK2um+33
+         lILdvl36lrW0F43/R+BKHcDG45CXDLcmf2wC0MxynDEPahgFwsWa0x081Zrc/GwiJ9+m
+         tHOQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy1gdkCW0f1P/i5zs1EDVDBvNs96WQz2gN1Tu4NwQXZCl55KSef4koT6ZVnDxgdukyE20NI8eTwFCs=@vger.kernel.org
+X-Gm-Message-State: AFuF++lpO3h8fnt90mxzgcpFtxThDdUDfBgc0jlkldzNM9sKGM4W8xVU
+	MwdgfknIWyCOdoElIgnOF/hm8H2SVRyoTSLG0iiAHRr5heM2BBuIboCqiMmH4QzrFzs=
+X-Gm-Gg: AYBFou1+mFsVm2pJIS0I8UIru9hnag7b58dpBpZYS+i4FbkUZ14a2JVWS+wttJBZ6Us
+	v/t1lvxKsU0b2IfdpDl4A2+ZKQGPdsl79ophIp5HpNAXN1NUSBdfadAu0MFZnOAxpbeOF8DVw1f
+	go9yr49NWNbfVntw/cCvHP5dhn8/EW2qz/kDhV8Hgbw8PpElyhEwQh9z5YLZiO598e0Cr21Cm9K
+	hZTVGHjDMWa0KY3+27M/qS164XZ1y/GHKIoP/+AQ0KYBqb6VA3K+hh11KQvQI107fXpe7sxTds/
+	xI3tcyFtswCbWaFmpJcaoF+QR3gVYORWlKF32bWYOilG1PXCW9nnUibfvsg4U82OhxZD9Xj0A2r
+	WONSqyeD1k7i5ZV17Tm42e0uMY7GjJriSjIgdAGMEd0UaLa3pIE7wO737T2WRF7tTv+CUDwaZsX
+	xLRMpjn1NwPwiz6lK7ZluuZ7U5FGt5c6K5cIzKASUTyNPD+lDo2WN8PMa1rUPsFExzCBR5FF7Vj
+	Q2M18YV7sdQGjSrOtHfZi/XHabxCih+q937/uBreulcDpdiiQA=
+X-Received: by 2002:a05:600c:4714:b0:49d:462:6eda with SMTP id 5b1f17b1804b1-49d04627387mr181766045e9.28.1788860755049;
+        Tue, 08 Sep 2026 02:45:55 -0700 (PDT)
+Received: from localhost (p200300f65f19a904516ed84e8e7b3ca0.dip0.t-ipconnect.de. [2003:f6:5f19:a904:516e:d84e:8e7b:3ca0])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49cf755c22esm381511115e9.0.2026.09.08.02.45.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 02:45:54 -0700 (PDT)
+Date: Tue, 8 Sep 2026 11:45:52 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Alexander Usyskin <alexander.usyskin@intel.com>, Dominik Brodowski <linux@dominikbrodowski.net>, 
+	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+	Dongliang Mu <dzm91@hust.edu.cn>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Danilo Krummrich <dakr@kernel.org>, Takashi Sakamoto <o-takashi@sakamocchi.jp>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH v3] Documentation: Update after split of
+ <linux/mod_devicetable.h>
+Message-ID: <ap_ZJ2jeeNjt5efL@monoceros>
+References: <20260908070031.32833-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/11] Documentation/mm: update DAX vmemmap
- deduplication docs
-To: Muchun Song <songmuchun@bytedance.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
- Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>
-References: <20260908030335.96549-1-songmuchun@bytedance.com>
- <20260908030335.96549-12-songmuchun@bytedance.com>
-From: Qi Zheng <qi.zheng@linux.dev>
-In-Reply-To: <20260908030335.96549-12-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cp3al62w6dmuwvcj"
+Content-Disposition: inline
+In-Reply-To: <20260908070031.32833-1-kmehltretter@gmail.com>
 
 
+--cp3al62w6dmuwvcj
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3] Documentation: Update after split of
+ <linux/mod_devicetable.h>
+MIME-Version: 1.0
 
-On 9/8/26 11:03 AM, Muchun Song wrote:
-> Device DAX now uses the common per-zone shared tail page for vmemmap
-> deduplication. The old documentation still described a DAX-specific
-> layout with a separately populated tail vmemmap page and half the HugeTLB
-> savings.
-> 
-> Update the generic and powerpc documentation to describe the shared layout.
-> In the powerpc document, keep the radix and 64K-specific details, drop the
-> duplicated 4K PUD arithmetic, and replace the repeated device-dax diagrams
-> with a single parameterized PMD/PUD diagram.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
-> v2:
-> - Clarify the commit message to state that the 4K PUD arithmetic is
->    intentionally dropped reported by Sashiko.
-> ---
->   Documentation/arch/powerpc/vmemmap_dedup.rst | 90 ++++----------------
->   Documentation/mm/vmemmap_dedup.rst           | 32 +------
->   2 files changed, 21 insertions(+), 101 deletions(-)
+Hello Karl,
 
-Acked-by: Qi Zheng <qi.zheng@linux.dev>
+On Tue, Sep 08, 2026 at 09:00:31AM +0200, Karl Mehltretter wrote:
+> From: Uwe Kleine-K=F6nig (The Capable Hub) <u.kleine-koenig@baylibre.com>
+>=20
+> Most structs that were defined in <linux/mod_devicetable.h> before were
+> moved to a bus specific header. Follow the movement to get the struct's
+> documentation back.
+>=20
+> For the list of device ids in basics.rst use an explicit list of all the
+> headers that have kernel-doc annotations and that are not described
+> elsewhere (i.e. pci and mei_cl). <linux/device-id/acpi.h> is left out on
+> purpose, ACPI_DEVICE_CLASS() is not a device id struct.
+>=20
+> Also repair the referencing in the zh_CN translation of pci.rst and
+> don't duplicate `struct mei_cl_device_id`.
+>=20
+> Fixes: ad428f5811bd ("mod_devicetable.h: Split into per subsystem headers=
+")
+> Signed-off-by: Uwe Kleine-K=F6nig (The Capable Hub) <u.kleine-koenig@bayl=
+ibre.com>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> [Karl Mehltretter: use the :file: role in pcmcia/driver.rst, say why
+>  acpi.h is left out]
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
-Thanks,
-Qi
+Thanks for picking that up, very appreciated!
 
+Best regards
+Uwe
+
+--cp3al62w6dmuwvcj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqf2U4ACgkQj4D7WH0S
+/k7OVQf+IlKONDaaztlIwfKaa0tzBz113Wbuwo/LTE9M5Uj8sB6TEzOpdW6kLfYy
+/Ff3VZKsMFI23/pBXI6ChqLnre5R88st2b25kIGSVNR/HQdBhb9tDb/+FqGmg3Xe
+FtlnJTfXZQSpofT+HFWdjX/JjJSS2ORm1wEV3FS0jBcsWbJX69KYp2OVihcQk7Kw
+qv8nvMC4wSPu5pxAaY+b5/ub1LcdOzLaaEPJ11X7mU5dG0MrmzE4brRg0jJ+5yEC
+7N7762W0cab51/ZYW9ozmDOsYYWRoINBEuSrfjbKZeDumE3hnD8qRWW/OW9IsvPb
+Au1Jzkj1/mkoW7XHNi5yrAXXHy6wew==
+=27sS
+-----END PGP SIGNATURE-----
+
+--cp3al62w6dmuwvcj--
