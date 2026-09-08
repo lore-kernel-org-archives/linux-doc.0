@@ -1,122 +1,282 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C5E33120E
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 07:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788852973; cv=pass; b=CNL9DD9QYevP1ZW8cwtalRQOxDQpNvCXQ5JieZXtxfDqBMtCi40wKq4j3ZOvV0YyNZr8XvPIHU+5FF9aLgYfFI4j/SkH5V1vM42r4pyGOi97kmInu/N9QUt/OmPqlQd6s/HNaQT2RT1AB3bcwBQOodWoqk0wSG/tqngDLgS35d0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788852973; c=relaxed/simple;
-	bh=TXP8H2J1oJEnyX14qzcCtqrehHnVK+c0H/VLlSeJFyg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XeOAqm2yPXg4Gwz7G1eIQopfXjD0CVIhXo/Th5FarPhpwZhi6xmjXS700Ovs5y8yR02e0jg+H7qd+v4MX2BpXZ6KDdnriLo46ZPnf4UAHqyk2UdlhFCZUD/obqjwil7i1MLTVokLybnCtOGoGBqnKGCMnDXlt7fmN/xvQFlSl+I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=APMIMY56; arc=pass smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FB539658D
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 07:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788853546; cv=none; b=Biveve+s00bdboSBpJcLuXIAbQpVroMJA2ByZxv3dGyEXWdHK8Obmn3wV7HhRbDKBDVGYSc7vQKa2TL3hn/2xmVGByW4YllFGMT8Z6omDPX40cxcIqklSKNmhd+hqJlKwLg96W7CjnPfF3c7GbVrkrQ9uh4845r3yPY4evrT0Uc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788853546; c=relaxed/simple;
+	bh=MYJ8QuS9dJHlh3zGd4Jjmjuv7oAWC7r/tOj6ovNMei0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=nfjigygXWi0EoATX+DCJj1FL75o0WQJ16sCRzTiylMrlLj69upOdXjZFOuBjVEId5BKlvUtOUatgOs0E4CHJFIBN7nxArqv2tV41CEeyHXjpSRH3mX/b8dGHkskB/Qysmsn7IWK/s4CDT4jYUsotZTrT8Tut2hqcTr+vUnDc4rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=meyDObDd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YEHGqRBc; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="APMIMY56"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5b0231a3e86so3845786e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 00:36:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788852969; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fOxudYFgpFrEpH2EPT+V9OYEVll41sS97t99uxX4BRiQ7sQBVPP02Ia0+4zvx6WOxh
-         SPYOzPmAWW05lt77jeyS2HgEegOpsNA7GiOY4wrySPW7EEZznp8ioVi5/v/SleQG2KG5
-         b3eFoVozagRLxLj6pbrspUAOjofSt70eUzHvQdoshwg8s9ua0qDjnjFAglQPbMt3wzWI
-         lDeE1nZJmP8WzjBwA9tRLD9ei+Cd/OmiJxRkytgl03Xp5HtL+/FbeNxO4OiC2xzfPv3T
-         ay7rSkRTbCa59oQOgWfdIG/lvrt3UDT+iwMfcDK/bpzxJ0pTyCZ/IbNFoakgFrGvwkq9
-         3u+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=F1v6XQ7TbQj4QNfNrTJXkLDmDiu9hFvm+f9X7FTcy3k=;
-        fh=vzBwO39dVs5tHVOW3AhohPbGgD5/gQp2cOktraHyD+Y=;
-        b=QSBuRDxkMK2Urur7ndCeBzGrRz+kKrQCYyJd18Yt7zXTYmVfCt7cDDCGMFqg4uVAZ2
-         J8fvU5/2Wtj3z4lILHRQSzhMRoZWlmbW7Btk0IT+bIiwxeWmNyLspf9qLjpeTy+o044R
-         nd7WsYJ07YTois5ElTygwseLtcOORg+yu1u0k7QIDouFiUgAE3lr3lDkWAqxCHqvIyud
-         +DcELcCyodqoRLUy8SkjEwQGQBIW50o5/1Jyxg9Xleh49LwaAmO2dRhVGrBlSW0Pgm1N
-         pri3wbez4mrCIh05CO1N1kL4Co09xVXU/X4WwM7CUVPuygGa8mUC3kecUPvfqBRY53wV
-         cAdw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="meyDObDd";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YEHGqRBc"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6886Lm6Y3299433
+	for <linux-doc@vger.kernel.org>; Tue, 8 Sep 2026 07:45:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	vjCdleB62PQ5+3oSfJm6THWjJHXQHO2Cei/sEBlVgJo=; b=meyDObDdxg1onozh
+	BTIfrgJw9Bf20bmpFLWeHyZoqdWL8TX8jZKczZ2pE6krABotoKHevESc6wzTBOzl
+	OAwYrON/e3Pl7RsZxRn/C14fZyu4VRBSt3xnJLQHdwXsh88S9DC5l9GiZmPVa8hA
+	eT3Vm7Xv/6RxHAs66hv7XBakFwk2uRVloSq8Bl9hzR6PEnOgqphhTOHN2EUHNvJq
+	MqXXrISTRFOLQnXj5HCjf2dsYwA1yuMoVHaaoTwJGFlGxGn9AsLUQL4zxmYGCj/X
+	DkfS9JacTTbaF9b8B28tcXEN5zSj37ztLWzdNQWA+CbGZVik/3TZUBGHipETto+C
+	bV2gbQ==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gjb0p8squ-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 07:45:44 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cc1a439db36so4309025a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 00:45:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1788852969; x=1789457769; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=F1v6XQ7TbQj4QNfNrTJXkLDmDiu9hFvm+f9X7FTcy3k=;
-        b=APMIMY56LA3spLNYenIqbmylPYA+zKFNK8tiqYin+a64sOJiLtoZuAWhrMA2sJqAwI
-         6NAU46LNsfws9z5LgBy9UrLeeKowoKwHPP4cBs6scqrKnF4BX+cS/UR4PzgLCl4xzpJC
-         tqVJ5Az4MN0RPBN6hNlLzj+7vd4fNp3KToNMck67eAmi4odebVmjpzPzL+HiOs4MMkwA
-         rkZiJ74+EK5u1cg0gdAZl7X2J45Qy4FCnay8tudOC8j7yMfGUPTOCN7MiKumXCRpuxa/
-         qSTCREUi17lPn3GRkgrqNhR1xCl0tqKdarBhQREZzHEkALNNXwr4BPxZZTpsjpEIT3kc
-         lMmA==
+        d=oss.qualcomm.com; s=google; t=1788853543; x=1789458343; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vjCdleB62PQ5+3oSfJm6THWjJHXQHO2Cei/sEBlVgJo=;
+        b=YEHGqRBcBcdowYeghmqS0KR/PddShzQCfUrDW9T8rNvAOVSypnoSj6A83LxedMtrYh
+         YKIs4i6/TBkEJE26KrW4Odj3JpXn40cHjHqr9V7SfhLIEOrDwyMGYhMdIn2naMqlFpDe
+         +pLjsN4rnGs+4L818Ng6FkuCQhwRGZ86WkYk1EBFMM0zV422XwqUDOIkNaLHzwMNb3Lf
+         WRtgMfc4slq+oMi6YALGCIAVJEnxbJJ6FvWjML/lUMCELSi7zg1FrML/doltA1N8VO19
+         fSHk9ULQhm7tRk4xcqbf4Xs8RE1aaWRXQrAKgc4LGfNRyuKtlrj5HWsAJTh6kALWv+QP
+         ujXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788852969; x=1789457769;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=F1v6XQ7TbQj4QNfNrTJXkLDmDiu9hFvm+f9X7FTcy3k=;
-        b=NjyIhMoSLdpm/4UpDJsksICCpzRb48h8El015FDIxyyQoB7hXaUEXgf5eNws5JU/uZ
-         ttmPAgsnj0N5h8fNWznCIMdVKPMFZ3eJxWlRiUwXAFbFrB47B7Z3XVuMsGYdHsn0gRIc
-         ljIMbpcpy5PhN7Fa70aMjX2t5ZSJYPb+fsviKbT1YWuRw5oDRK93VOevrfHqmUg9sheq
-         /3hz/hYPbEhHKlMsBS6KY44laA3aiKcFKMYFyt1mQpxlnQrGRtdn1Vn/soP0hJsiCwLF
-         dUOGpDLNh4I/X+MHHyN1KLjt0CooVm8MCI/SQ0iCWx/TPexx8zwhP5wtHsa3MNdaqbAI
-         uuew==
-X-Forwarded-Encrypted: i=1; AKwUvBzklRFO7x+A9lXbYRPYVyYkSUF8kL4sLpqh8gx9MqMjKKo5D7nCW3HRpkPl03VpIZeRQjYrJIOcujY=@vger.kernel.org
-X-Gm-Message-State: AFuF++k5mivYDbykfbkHCuVjnDrk8xCSd1RF5juvl3VLx1vHOhvQ9EBR
-	hX5S7IOvw/YEysIhqt+SOmp+lQ038/d0bNWmpgvs1SOPLCXe1Zr3LuN5wdj+8vWDhW2GhQwQ8/D
-	i8zrjgLvmzz3dXnsk1N4Eop/vVusyLnnPvS8KU2LwCaI9GBlCCUTI+hc=
-X-Gm-Gg: AYBFou3WSW7PhEE8j6qOPeUXWdZIDMnqdaXlv+llknCj8a13G3KxVW+rdIGjuHIgnvC
-	S2kvi9NSgAGyuXim8S3dGsDEmDB63V9lf4q/8P3DZPn9mhPpe+RfuUCpRsTsuCJdQX/j8RymOVu
-	l3lKe3uR72Q3S0eXZo9MycsAjPo/2btryGm7y/J01WPtkkPq+fJcTQJjn39KNvbTao1UDXnQMH8
-	l5+/lFNojVbT6dCZQWWZ/LmDDBMWAjl7u5a+v5tvvLiyFwrAn82UptMjSLRGapEkic8vfkt1TeI
-	pw8ACaweqJ96WAUeZy/fJwz1akQfXCEdOrj/I4+RPWx3LsbOoS4o0cr7ehJGfxMjJ+w4hTrQH3l
-	1st2IsCYIiX5E
-X-Received: by 2002:ac2:5684:0:b0:5b6:4ae:5b80 with SMTP id
- 2adb3069b0e04-5b617081f7amr4126010e87.30.1788852969626; Tue, 08 Sep 2026
- 00:36:09 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788853543; x=1789458343;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vjCdleB62PQ5+3oSfJm6THWjJHXQHO2Cei/sEBlVgJo=;
+        b=XzC1MqEdhG1GFx9nRx2u5++1jjm9FD9IS7jMW1b25azbwhu2yPS8pPdPL/zqTNjj/L
+         t4+gFz2HqLOg80chK/eVbSJH1MUv7/yZf9VtZ9BQJNvyjHeea+s89ps9L8VODPdzB3+n
+         uEiOF5vPgbjqoiK387kHZbQhCJLW1TarKJIIxM6jHVVKJriczlJJW/BY2I+g8oZ2YaGZ
+         90aH9ldJz2kjo/KCgouM7GY5QcJPRRfw54PIanCleTrC4trSqSPan3tW65Dw3lewx2Em
+         xQ3nRLLtnIjoq7iBVmGAZ0jf4WkuJ0px8uGVgfzgslMKYBwis02sRtXoaHh/ETLZ0Yws
+         ssYg==
+X-Forwarded-Encrypted: i=1; AKwUvBw6X3aQ/j8a5zUt5Mb6FWVei7kZH/qvpBJYc1GI7Jng9Sr+YPQMU+VzaYBX/rSgDu08bsa6ZlBW2So=@vger.kernel.org
+X-Gm-Message-State: AFuF++lIMG5ztqUYg1x2nFQF3b1q5D9P3ySotVvsBlhVKYQPUn1M5rNe
+	/icz6vdR7OZUqPkZI1EvP+oV5qkeTtMqxkglrt/pQSvPjZypHlCxdwZzhxy4+6QPF+nJzUb8u2/
+	9KNfe/392iiiR0YQhLIzL5neJ0OiR94NcVCg+FtrWVgnEVxvNQHhrYxdPBMrvB5w=
+X-Gm-Gg: AYBFou2wd80XOhWs+HYQnAtYun8wY9KVsHFknfs+HLJ30hlq+pF9Y75aeDBnOE+cEWx
+	SP2cDv5zbBAfKZAHuCk9ZVMMtem59MGvS1eD+YZfcTIpLZ0TElVuwiLamoxrcXS4RuUheT5JuGC
+	OvoELn9GrxDldE/IC9nvzmaViVrhKSZab+YygcVab/GxteOrv+NQx8vmhEHOGUSBcT4tzWt5FYa
+	9jwkCHXUxQmopEauQX0xmLPLiTubu1J07rZ9OsRHJi6HC+8I33Qt/nLON4M+dtJqEmRnbVZzJTB
+	HkV5888bQAXpxlDn28iKi0mgnqSg9TIWr1rmcgcEwGKr9rsAfQp7Me3Kahri+zVUf445gVKFgNV
+	BZq9Yt+FnEhK5gnnSR5OiR9Xn1xrlfg==
+X-Received: by 2002:a17:90b:1e03:b0:398:b17b:3bd2 with SMTP id 98e67ed59e1d1-39b260dda6emr38832009a91.4.1788853543392;
+        Tue, 08 Sep 2026 00:45:43 -0700 (PDT)
+X-Received: by 2002:a17:90b:1e03:b0:398:b17b:3bd2 with SMTP id 98e67ed59e1d1-39b260dda6emr38831975a91.4.1788853542891;
+        Tue, 08 Sep 2026 00:45:42 -0700 (PDT)
+Received: from [10.219.57.226] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-336c2571039sm14719241eec.25.2026.09.08.00.45.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Sep 2026 00:45:42 -0700 (PDT)
+Message-ID: <a3b73723-9522-40da-806a-643093b1b227@oss.qualcomm.com>
+Date: Tue, 8 Sep 2026 13:15:32 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260902092434.85096-1-marco.crivellari@suse.com> <878q5dovqc.fsf@trenco.lwn.net>
-In-Reply-To: <878q5dovqc.fsf@trenco.lwn.net>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Tue, 8 Sep 2026 09:35:57 +0200
-X-Gm-Features: AcwNN1X0tgHVErGnWNTAtj-AwHFXSO2JZlSTWOTODULdjQcefAhwNCFCUN_CUiU
-Message-ID: <CAAofZF6rNRbapgEUokgj1x=Q2AKb1XqMYv-9vXvELmHPHn58zg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] doc: Rename dynticks-testing to cpunoise
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Michal Hocko <mhocko@suse.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Valentin Schneider <vschneid@redhat.com>, Waiman Long <longman@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/15] accel/qda: Add initial QDA DRM accelerator
+ driver
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap
+ <rdunlap@infradead.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Bill Wendling
+ <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>,
+        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>,
+        srinivas.kandagatla@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
+ <20260817-qda-v2-v2-3-69a02e9090d4@oss.qualcomm.com>
+ <81708487-89ce-4cd5-b39a-2989bdce6088@kernel.org>
+ <3476b5c3-7983-4994-a901-3d7d8bd75255@oss.qualcomm.com>
+ <4ef74e14-8433-4619-ac97-62868c8799d1@kernel.org>
+ <g5orcvzjbwww27vwcsxl3ehrek6lvznxptd7jutifoiuicjnm6@iqq2pus6omsl>
+ <a642833b-f22a-4bea-8a20-0debc47e1895@kernel.org>
+ <4xcyqqrqbvgxojfcmnpwbi2uqk5tvhts52l6sxetltcgb7mo75@lfsgfoq4npz3>
+ <59aa182d-1b4c-4bdc-a1d5-e76cc9c88ed9@kernel.org>
+ <c806d7c5-98f8-4b0b-9d00-969e1917a8e4@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <c806d7c5-98f8-4b0b-9d00-969e1917a8e4@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: hJw-u-vZA_Th_xbsBFxiQSDR09VWEcxr
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA4MDA3OCBTYWx0ZWRfX+x8wY6G8KevB
+ MUM1SjRWtmLLyLqHZu29/DS8nkq/2VGEc0xiyr+LUITSyg04BF3TtXjZveWdpRLCAxLlxlwHfGz
+ jDzWH6zzAPvwsoIeMTGwPcImCOViM1g=
+X-Authority-Analysis: v=2.4 cv=HL3z0Itv c=1 sm=1 tr=0 ts=6a9fbd28 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=wP88gyHQT0P6k6tIFBAA:9 a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-GUID: hJw-u-vZA_Th_xbsBFxiQSDR09VWEcxr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA4MDA3OCBTYWx0ZWRfX5tdKuQgwkfjf
+ DiZIYO5nTCTkfgEyTl1A/O/+bDwDFnw0LzytVFnPM//aPa8JKkU3TUYDmDfSBPXmOn2mX/eYFAf
+ 3oUWG3qJ9t6wxjkmzI/mQ2HUUxHyq51jnZkAcvatCMU0x5Iv3+VOxhV+iy6uwnmUAbTUra6Bi1B
+ RNqcLMYDzeamUXvMrbSqPyiIMmh6l1OQuh2foWdF9va1lpeWqe/GtuIeerM/W/8CCu5cVxfegMw
+ civXuyx3jiCAOGFHVkb+xfBYbGSveR/Jox3OzxYpxfjk1Z4gFyBonrXjYmeTyyA2RFK4YnqYQ7x
+ OY2uL9h07uAOpqOvsSjhxK952gC/1nCVIGunkztQLsacovMDCZ0Jd+0+BFluGZncz8lUZ+XOyfd
+ nCJjVO/oNzjNRyfGGku+Y0GSfbga+1HaEWZnkmuUZvNOPzwa4HaYmd2N2ZgvXifMvqebEyOZKrn
+ 8bNDqbKeta0GoNl9iLw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-08_01,2026-09-07_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1015 suspectscore=0
+ impostorscore=0 spamscore=0 phishscore=0 malwarescore=0 bulkscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2609080078
 
-On Mon, Sep 7, 2026 at 6:46=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wro=
-te:
-> [...]
-> > Marco Crivellari (2):
-> >   doc: Change dynticks-testing repository name
-> >   Documentation/no_hz: Change dynticks-testing repository name
-> >
-> >  Documentation/admin-guide/cpu-isolation.rst | 4 ++--
-> >  Documentation/timers/no_hz.rst              | 4 ++--
-> >  2 files changed, 4 insertions(+), 4 deletions(-)
->
-> Applied, thanks.
+On 31-08-2026 20:28, Ekansh Gupta wrote:
+> On 20-08-2026 19:01, Krzysztof Kozlowski wrote:
+>> On 20/08/2026 12:07, Dmitry Baryshkov wrote:
+>>> On Thu, Aug 20, 2026 at 11:07:45AM +0200, Krzysztof Kozlowski wrote:
+>>>>>>>>
+>>>>>>>> Device node with this compatible is already populated, so this looks
+>>>>>>>> simply wrong or you are adding a duplicated driver.
+>>>>>>>>
+>>>>>>>> That's a no-go, you are supposed to work with existing drivers and grow
+>>>>>>>> them.
+>>>>>>> I'll bring the discussion again here, there was a discussion to move the
+>>>>>>> driver to accel subsystem if we want to support new features/uAPI
+>>>>>>> changes. Please read [1],[2] threads. The intention is to replace
+>>>>>>> fastrpc driver with QDA eventually.
+>>>>>>
+>>>>>> None of them address the problem. You want to grow fastrpc into user of
+>>>>>> dmabuf? So you move it from misc to here.
+>>>>>
+>>>>> It's not as easy and nice, so I think in this case it's better to repeat
+>>>>
+>>>> I disagree. The existing fastrpc driver is not that complicated. It's
+>>>> actually moderate amount of code, much less than Venus was (~7 times less).
+>>>>
+>>>> It easily can grow to support two interfaces and the only difficulty is
+>>>> how to manage these two interfaces simultaneously or exclusively, e.g.
+>>>> opening first one disables the second.
+>>>
+>>> I see the point here.
+>>>
+>>> Would it be acceptable if we add QDA support only on the new platforms
+>>> (e.g. via the SoC-specific compat), provide QDA for those platforms,
+>>> and, once it reaches complete API and feature parity, we remove the old
+>>> fastrpc driver, migrati old platforms.
+>>
+>> The problem with this approach is that we have no guarantees that it
+>> will reach feature parity in respect of old interface, thus old driver
+>> might stay forever. If we agree for duplicated driver, contributors have
+>> no incentives to support old approach.
+> That's a fair concern. Let me lay out the sequence we have in mind and
+> then the concrete reasons parity is not optional for us.
+> 
+> The plan is staged. QDA is enabled first on new platforms, where there
+> is no existing userspace to migrate and the new UAPI can be exercised
+> properly. In parallel we close the remaining feature gaps against
+> fastrpc. Once parity is reached we migrate the older platforms onto QDA
+> and remove drivers/misc/fastrpc.c. The end state is one driver, not two.
+> 
+> On why parity will actually happen: the DSP firmware is not changing.
+> Both drivers implement the same base protocol against the same firmware
+> image, so the feature set is defined by that firmware interface, not by
+> what we feel like implementing. For QDA to support a feature at all it
+> has to implement the same protocol operations fastrpc already does.
+> Parity is a property of the interface rather than of contributor enthusiasm.
+> 
+> Other than the base protocol, there are some features(daemons,
+> capability, session sharing) that exist in fastrpc for performance etc.
+> but are not yet part of QDA. We want to implement them properly rather
+> than port them across as they stand.
+> 
+> The remaining question is how fastrpc can actually be removed once
+> parity exists, without breaking existing userspace. That needs a
+> compatibility path, and it is a deliverable we are committed to rather
+> than an afterthought. For that, we need to settle is whether that path
+> is a userspace shim in the library, an in-kernel translation layer
+> exposing the legacy device nodes, or a hybrid. We evaluated an in-kernel
+> shim during v1 and hit constraints around constructing per-client
+> drm_file contexts from outside the DRM core, so the approach is still
+> open. I'll come back with a concrete proposal, and it will land before
+> fastrpc is removed rather than after.
+> 
+>>
+>> Much better is to refine the old driver, gradually adding new features
+>> while maintaining old stuff. This is the only way we can force
+>> contributors to actively work on minimizing duplicate parts.
+>>
+> I believe you are suggesting we bring the new features we are developing
+> with DRM core utilities into the fastrpc driver. I don't think the two
+> interfaces can share one driver, though, and it isn't a question of code
+> size.
+> 
+> fastrpc is a miscdevice: it accepts raw DMA-BUF fds as arguments and
+> tracks buffers in its own per-file lists, with the fd itself being the
+> buffer identity visible to the DSP. QDA is a drm_driver whose buffers
+> are GEM objects in a per-drm_file handle namespace, with PRIME used for
+> import and the GEM handle being the identity. These are two different
+> buffer ownership models, and neither can be expressed on the other's
+> file type.
+> 
+> Supporting both from one driver therefore means carrying both models
+> simultaneously: two IOCTL surfaces, two buffer lifetimes, two teardown
+> paths, and a memory manager that has to serve both. That is two drivers
+> sharing a directory rather than one driver with two interfaces, and I
+> think it would be harder to review, and harder to eventually untangle,
+> than a separate driver with a stated removal plan.
+> 
+> There is also a positive reason for being in the accel subsystem rather
+> than misc. We can build on existing DRM infrastructure instead of
+> reimplementing it: GEM for buffer management, the device and file
+> lifecycle, and the debug infrastructure. It also positions us for work
+> we have planned around scheduling, drm_gpuvm, etc. Over time this should
+> mean less driver-specific code, not more.
+> 
+> I'll restructure the cover letter so the staged rollout, the
+> compatibility path and the eventual removal of drivers/misc/fastrpc.c
+> are stated properly.
+> 
+> If after this you still want to add or change anything, please let me know.
+> 
+> Thanks,
+> Ekansh> Best regards,
 
-Many thanks!
+Gentle ping on this thread. Wanted to check if there's any update on the
+compatible string and coexistence question above, since it's currently
+blocking respin.
 
---=20
+Thanks,
+Ekansh
 
-Marco Crivellari
+>> Krzysztof
+> 
 
-SUSE Labs
