@@ -1,100 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10617599A46;
-	Tue,  8 Sep 2026 17:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD1656B84F
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 17:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788889647; cv=none; b=QvKMgnSk1GBubPfvhAlmc5zlkbm3xlLr9Y7JcI1z+MaXt0YKQXiMqWQOlVB/Qan0nIAKWbzKJjpZHFolowa7z1+/s0h6GmJYGRGZFndhBj0obWyIx5TzXFYxsK+yK1ffAtsTvlYcR0wpKhNIx/6/Rvm++iEgjMa7syk2EzZWWQs=
+	t=1788889954; cv=none; b=BytKd3aFADWfwZCwBbs7M32UWf3iKqnPAFu2/JIl/b+XhMjCUbJpZktmowyXoa9S2X7IonxXbqi5fc1EqcAL3Dol7AtkDnC3pZPuSHM6+y6P6A38bAa45wbF8qIH4Sve4F1lqerUMiZutq7cZpr9jxJCDnsOLjMP/5+hb+opcaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788889647; c=relaxed/simple;
-	bh=nygTdh8fjI6CsKh6M1+ORwA70aR0m6XMje96txRY9JE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O7vSPSYKj5E66Ul+ECFCxIEksihRFkdKXxtZqEygkRFRpNUMn8Tw+BF7uL2/V3gHar+ccmbi57LwPV8rcoF3X2VhnvgYKh3ui3yxZ8qrUwQdefdqubHqrDF4TiQNAqZEvQKVdbLa5V1ncnr3s3D4rF36C5pu9GoPz0qPPhUtazw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3f4f3xx; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788889954; c=relaxed/simple;
+	bh=KLjeMvdxyqc6SnotIiFUKvLtc/Zy+nfps2KNDr3g1+M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d9QVsNOuPQpzhE0KeEIAXqddzai1LaimjlJ6xi6Z4RvfmK4i+nYvN8HkofmBYmNHCscqeScbIKAHNEbtr9rKzK043Kxg/dSBFRvE3EVp22e8OrCEc9rUtDf+4ghi4P+wEFnA/OkO8WlVURJsWnN8LvBb4yojH7H+FxN8Y9pEMwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Le7bFbcB; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3f4f3xx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4648E1F00A3A;
-	Tue,  8 Sep 2026 17:47:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788889645;
-	bh=qE44r8Wpvb2pGMbm3TYiV2/ToCaVSkA0bQ2RFs6wnI0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Z3f4f3xxYCQMcl1Hdk7nUEctePMOcq9JS++N3Nt/Ryh86AQqAlYIKGvzqGObYje0R
-	 IL+Muz7ldanJo4IY/Es6GAhVOTbO6x33Nmh5MyN9ofQ50hc9IIt24+ih4Q0j6hkRUv
-	 DC854zV53VOv0nuw0deVaZWSypIoEHWuy9SB7Zu5fxmTHnoEeSqtdjRepoqZnYFCyQ
-	 3xRs/8rSFn5R2g6Q5u1HZ9kNrFgrpATLxpEtWlGHxheezJNJaFnoHTogrM0z6L+Hwb
-	 ygKS/k/aNDttzRBZPky29GFafkQqEsqLA251WqEfQpP8rX4hpgyRyPMUZltLEtwIN+
-	 Ej8ssbEwQ/ucA==
-Date: Tue, 8 Sep 2026 18:47:20 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Terry Bowman <terry.bowman@amd.com>
-Cc: Dave Jiang <dave.jiang@intel.com>, Alison Schofield
- <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>, "Bjorn Helgaas" <bhelgaas@google.com>,
- Dan Williams <djbw@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, <linux-cxl@vger.kernel.org>, Tony Luck
- <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, "Hanjun Guo"
- <guohanjun@huawei.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Shuai
- Xue" <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>, Ira Weiny
- <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Ben Cheatham <Benjamin.Cheatham@amd.com>,
- Richard Cheng <icheng@nvidia.com>, Robert Richter <rrichter@amd.com>,
- "Lukas Wunner" <lukas@wunner.de>, <linux-pci@vger.kernel.org>,
- <linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v20 4/9] cxl/pci: Thread port and dport through RAS
- handling helpers
-Message-ID: <20260908184720.1d2e99cb@jic23-huawei>
-In-Reply-To: <20260902133933.2992457-5-terry.bowman@amd.com>
-References: <20260902133933.2992457-1-terry.bowman@amd.com>
-	<20260902133933.2992457-5-terry.bowman@amd.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Le7bFbcB"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-851cbd64814so2230991b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 10:52:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788889951; x=1789494751; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yuf7kW9a8gMm8dZPCPYh7BVn/yZWMPnrvgi9MavGUdA=;
+        b=Le7bFbcBN7fW7k+Kv4zvNee4tu0BhOdi1XuAx6vYxqNJFa3f0dHwurTzPctMuU3Bnw
+         UGnHQfY0QxrjSj33IsicOXTQFIO9Dn3cDvlYDJ/FL9BxZj/cw54a2OjcBLFsf8cKL+A8
+         eHC7ZTRlPutWNzb+80uHE3DXK+T76Q52M8R+A88/b1lBePUTNEVeZU8CohGEJLoKnywF
+         Spx56465lDDuCybX51HCdKMtFWo6rpnFmt+BtLDCPkdWjOzKPIeIad0fMx/9GjeEWL1+
+         VXSWf7CKAWbTZuEHsDsUfe7Tj/8xRe7YjS78oZX7Gj8cEhKRWo78QcCoDGhLt0pz1kLs
+         PU1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788889951; x=1789494751;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yuf7kW9a8gMm8dZPCPYh7BVn/yZWMPnrvgi9MavGUdA=;
+        b=NvOJmYkcolNbCTuoc/PnRftc9eaOo35l/UPPraFDhrjwhF2QLYoR+2pSeFIodT0SNf
+         G7/mnH5zxE+b8EouNb/0pe1kC82lfw/vW+0I8m0QBT9BH62XXXrAahWzV8W+mXY7Zl2K
+         ao1c5V8TDzXkbjGDU5jdHwMzN/PZMk8Rwa6CIdqnMQSAfnFzeIuu6RCl54ToeSWiCi+s
+         stoHtfWQtv+tMHYtN1Yk/yHW9V+r4xxYJkuRjd77e2gGjtHmYknfxeN177dP3u6z27GE
+         w/GHDx+q3hRK9kHGBnJDEhW+JfuFcmPwm3Y9Vd2B26sdmKjpKRxxW0Z4iWVZGG6It7aQ
+         onGg==
+X-Forwarded-Encrypted: i=1; AKwUvByDrW/jp/q8UYDMjyCNW2muWqy9Shyl3VQOFddPPRzIiDiv2ya5M89Pi2Lj4HJUoGefRd3sOPzQ84I=@vger.kernel.org
+X-Gm-Message-State: AFuF++nKMe3+8hcpRZikBXQ+n6ulxHNX0Z0T8HM7X2ZzbOZW+8oTitky
+	L73Uyz92TITt5d8ZtImlp5Avwg1hD5EQxCp4AGtENsDCmTiRS7hP0FRZ
+X-Gm-Gg: AYBFou2aB8q6FsQvgDK/gK+FM5I9muOv3AHZmslZi2JXEBBalFFBFSY/MiO4uhCUQ+6
+	mbXMeMO0okX5pb7x0ZE+gREqqegDmmNziY1ZW2W3qGnA/JkIaX24XJYqTejJoEoKWTdziivimTl
+	UwmcQrtxdRCVKle9sw58TibeKhKrwLXAoykWg1b0ZJXKqL+7V4ms5I5K6/WFThhQGLMldutFLfB
+	6v6oQu4WMXV+mDsmJ+l3UTKiLBpoG6LAUu9yigHYfuEINgzTjGxHHdd4JZ0nhjw2VUucnsD2mz1
+	mj/9wi3CvJeKtuPrj4ka0kfvxq9FDuTJ7D6NzXJilOhnw1s7NoUlHiyLWtEf1oqKjrZp2WGmnqx
+	/PW1V77seb1RuBI4diCvj/uu/cYjk48XotBHObZm0fa9MFE/Kj/QBDb6vQWBWXqID5Iae7OEXs3
+	NBdQVnAJx0LYGcRY3vy/whYkzln9E8tOdBdvN5kZZIX6JXTOmJEkREYBGpzh2G6JY+HhYlrU1C0
+	MTpJRWDcTyt9EZGBw==
+X-Received: by 2002:a05:6a21:d82:b0:3d3:af86:fb94 with SMTP id adf61e73a8af0-3da3a246eb2mr48825562637.26.1788889951323;
+        Tue, 08 Sep 2026 10:52:31 -0700 (PDT)
+Received: from celestia.taila51cc2.ts.net ([2402:1980:885b:4183:b098:c1b9:7033:be8a])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc45a6abaa2sm5384356a12.23.2026.09.08.10.52.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 10:52:30 -0700 (PDT)
+From: Liew Rui Yan <aethernet65535@gmail.com>
+To: 
+Cc: Liew Rui Yan <aethernet65535@gmail.com>,
+	SJ Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] Docs/mm/damon/design: clarify when qt_exceeds increases
+Date: Wed,  9 Sep 2026 01:50:23 +0800
+Message-ID: <20260908175105.42558-2-aethernet65535@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2 Sep 2026 08:39:28 -0500
-Terry Bowman <terry.bowman@amd.com> wrote:
+qt_exceeds counts how many times the quota of a scheme has exceeded.
 
-> From: Dan Williams <djbw@kernel.org>
-> 
-> The callers of cxl_handle_ras() and cxl_handle_cor_ras() already hold
-> a struct cxl_port * and optionally a struct cxl_dport * for the device
-> being handled. Passing a generic struct device * requires is_cxl_memdev()
-> to distinguish Endpoints from Ports at trace emission time. Threading
-> Port and Downstream Port directly enables is_cxl_endpoint() and explicit
-> dport/port branching for cleaner trace dispatch.
-> 
-> Refactor cxl_handle_ras() and cxl_handle_cor_ras() to accept struct
-> cxl_port * and struct cxl_dport * directly. The CXL RAS trace event
-> emission logic is split into three branches: Endpoint events are
-> identified via is_cxl_endpoint() and emit with the memdev, dport events
-> emit with dport->dport_dev, and Upstream Port events fall back to
-> port->uport_dev. This branching is transitional: the follow-on patch
-> ("cxl: Add port and dport identifiers to CXL AER trace events") unifies
-> the trace events on port/dport and removes it.
-> 
-> Update cxl_handle_rdport_errors() and cxl_handle_proto_error() to pass
-> Port and Downstream Port to the refactored functions.
-> 
-> RCH Downstream Port correctable trace events now report the dport device
-> (dport->dport_dev) as a consequence of threading Port and Downstream
-> Port through the RAS helpers. The following trace event rework ("cxl: Add
-> port and dport identifiers to CXL AER trace events") adds explicit memdev,
-> Port, Downstream Port, and host fields that provide full context for all
-> device types.
-> 
-> Co-developed-by: Terry Bowman <terry.bowman@amd.com>
-> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
-> Signed-off-by: Dan Williams <djbw@kernel.org>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
-Subject to Ben's question getting a reasonable answer,
-Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+The value can confuse users when the effective size quota is zero,
+because a zero effective size quota does not always mean the quotas are
+unset.
+
+If the quotas are unset, that is, both ms and bytes are zero and no
+quota goal is set, qt_exceeds never increases.  But if the user uses
+the temporal auto-tuning algorithm, the effective size quota becomes
+zero once the goal is [over-]achieved.  In that case the quotas are
+still set, so qt_exceeds keeps increasing once per quota reset
+interval while the goal stays achieved.
+
+Clarify this on the design document.
+
+Signed-off-by: Liew Rui Yan <aethernet65535@gmail.com>
+---
+
+By the way, I found a thing in the design document that confused me.
+
+    temporal: More straightforward algorithm. Tries to achieve the goal
+    as fast as possible, using maximum allowed quota, but only for a
+    temporal short time. ---> When the quota is under-achieved, this
+    algorithm keeps tuning quota to a maximum allowed one. Once the
+    quota is [over]-achieved <---, this sets the quota zero. Useful for
+    deterministic control required environments.
+
+I'm not sure if "goal" was accidentally written as "quota" here.  Would
+this be better?
+
+    When the goal is under-achieved, this algorithm keeps tuning quota
+    to a maximum allowed one. Once the goal is [over-]achieved, [...]
+
+---
+ Documentation/mm/damon/design.rst | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index d036340dae8a..e083b74d618b 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -863,6 +863,16 @@ scheme's execution.
+   completely tried to be applied.
+ - ``max_nr_snapshots``: Upper limit of ``nr_snapshots``.
+ 
++``qt_exceeds`` is increased for schemes with set quotas when the quota is found
++full at a quota reset interval boundary.  While the quotas are unset,
++``qt_exceeds`` never increased.  However, a zero effective size quota does not
++always mean the quotas are unset, if the ``temporal`` :ref:`auto-tuning
++algorithm <damon_design_damos_quotas_auto_tuning>` is used, the effective size
++quota is set to zero once the goal is [over-]achieved.  Since a set quota of
++zero effective size is always considered full, ``qt_exceeds`` keeps being
++increased once per quota reset interval in that case, until the goal is
++under-achieved again.
++
+ "A scheme is tried to be applied to a region" means DAMOS core logic determined
+ the region is eligible to apply the scheme's :ref:`action
+ <damon_design_damos_action>`.  The :ref:`access pattern
+-- 
+2.55.0
 
