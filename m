@@ -1,202 +1,132 @@
-Received: from mail-m3292.qiye.163.com (mail-m3292.qiye.163.com [220.197.32.92])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C102AE78;
-	Tue,  8 Sep 2026 02:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB7726F2A0
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 02:56:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788835609; cv=none; b=HQCiatqqMh7VXvtg/b/yGNlSwOzRYwxiGT3baBYS9VotweLml6/6xFuayeIJGVvUy8XYsgCCoSD6vX89baeIG6BnNwJJW5B1pyH5/9PkzSkX7PRc1505+6amujrZgVEp+F3X5mSQHB/6d95jUvsveLItccm6Y5dObaCkS74hQkE=
+	t=1788836186; cv=none; b=XndGUuA9qKpgGD296bXg0A9HJ9ejsIqocHjTJOC2Y4DifpuvvBSYj9obvLLvOIZBWwKwQmD3sP1m4uIywmYUR6OrPc12iL0oDT5/XFA6tu9meTKJ5dmtJIw2+CGxqwWYhJXLLFIHsiYkVrvw4soh9H7msmeY9pn4qsy/P1uqmhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788835609; c=relaxed/simple;
-	bh=bkvaihQtTwwvBE9ba51dTul0teoIzaHg5vaIpuaQHhc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CS+IUpxqvDMQMujHGoWXXr32OOZBG0nt9sX8tXnXpGD3h+uf3rq8v/u++IW2rpxGalHTDfTl8/Zmz0fWu/Pom99PO9j/xx+pwrBgqCubvxd7qy/SA7ZBzMYxAmrygjuw7FM5UZgR/bGSUlhHBuW5ci2APhIae/uWxffUWRDdejs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=220.197.32.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
-Received: from [192.168.0.59] (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 1ece1b045;
-	Tue, 8 Sep 2026 10:41:23 +0800 (GMT+08:00)
-Message-ID: <6744bcdb-3456-4ba2-95a0-a58c354bfbfa@easystack.cn>
-Date: Tue, 8 Sep 2026 10:41:23 +0800
+	s=arc-20240116; t=1788836186; c=relaxed/simple;
+	bh=nh2azw4Q09y+V/LEQu8pCrIHmotw2s9BlnECGdIZ6Wg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NlRQsDsfUvkXw9FNziZopsqDqTiTk6bLJRT48zP4tfXRsa0P6RN+O6lPdnOTk8g2XpALRcyK8nn4sWzwiJXrAdjv/bblyU5zQuYgogQeWVAghPVAMUJVC/EJOXkJsJrk9k1cslD+IiJAoWSPRrzHOpwzCrFgQOW98Qca5NXH12g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OerdfL3Y; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OerdfL3Y"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-39b2ad862bdso4426870a91.2
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 19:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788836185; x=1789440985; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ej1AYuaJ6I913RYzOv3nrsx0ow2YNcqJVwdQB6kart8=;
+        b=OerdfL3YcYBRw4G9U5biJhwUtmNLnCZJaaFNuSDNLTibHyCNuJ8L6+9p8Ryh9TUNGP
+         o9C7FsuLtmUPW/PkMyklTgw+3Xbq0mvEfFejkrLyxupDlu372xniUrUwp7cHLrbs/fQg
+         FLdNP+1Wfkv09OvipEKS4Ft9zxg/i6fl22dSbeqG1qzfcZPPEJ76S/65zJrKoTkKdN14
+         8BvYdvH28+J6P7QMVWrsG62pxoaCMoJVz3jjjnQXu7X+qgO5ErNP8djXSHB4NbiDMVgg
+         mkgsoBzB2Jy5+04RFVbzK+BAscPh3UVHuF5kAWksUeU1llKqwU+kcoC9kX5BLASoy3Nr
+         ZRlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788836185; x=1789440985;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ej1AYuaJ6I913RYzOv3nrsx0ow2YNcqJVwdQB6kart8=;
+        b=brbP0E7G9lhbvMPeT2ZmuD9XieF1SqpLLHFA6tUXhzIoTAy18XvuY/D+SoSFcxoA3j
+         kQ4hNEwiXQAobAAzw/VkPvN8ya+DPNbUU7TmLuszaVaFLrsMvnbTjLtlHnnGrsvWd/d6
+         gYZDSUgA6FFQ65FQyicBLDYnj3bhcOMmMR1mFhF4/UQxBQNcVl9mrPqwQV5VfCNJkI2u
+         mVU+B9ZObVTwrWSwOsdLgFr0qAbLBWPyv1E562Nf1NFwr3AH82bB3gW1BDNfkTUJ/AnG
+         SvWjoyskJhuWRnzzzHsi+c9lqDVJ0/upQXs7HXbkvxc3eS1QbmgTwI39dTbkA3lQZ6wz
+         rNqQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxhI3pr6K5i4y+Nv4CWp0c7xWUTLyuWKS+LogCEJG8oq8K5ocVN1KE7VF9pbs3tI9d+AhrtNtIshXo=@vger.kernel.org
+X-Gm-Message-State: AFuF++lIdqGKC0IeBtta5b+moC6A974ZPOm//ISIxN7G6qp6NxjbF1Qu
+	5VjZRPW1wJlqjuthcWkvltX0zGUbKoLNIeMsoT0efu3f5HtANb3ZqJKm
+X-Gm-Gg: AYBFou3JiC1iEHUZ0j8abXioWoi1BXnP5WnF5zMtW6nFrVYgIh4EcAkObo715+/jy76
+	wXLW/lA4ztq4gVYQXB/I+3v7OalMKgTQho7nbXKV4TbPj/JVzblCjrzTH62nwp5OhrwZOiWr/hO
+	w9i2RcbE1iXWpDRC6R677mKKuwVJICoB4BKKD68Ktn9kvEREIWYDUTpqrZSUmG3FKtlvBDcXlcn
+	IMQdKui1Pazp2ZgWxqVN7/Vi5qMVH9TYoQ3/3X1sl16glX29nlxTj88CmqykoSTpl+TwueHiJnC
+	FLnqp1R61dIT5mm9YpKuGtVJkYrVfWfOS/u2t3ZV8tcr4trlmcNfF1RoYHjXKjgoZoMOWMDeXRq
+	nP9eiSWBydocSR4lUqUZVWl+s6LFZX4a2mixV5T6H4SN92zwhg0rQUv2Fp+jeQiJ5HMibWuQAtp
+	1nA29VJbBSdjb0Pe9NC418GEKtETiGN6cLzdv7g2ZfQNm3OTthHb1HZQGxLKxRcJtbcFisz40Rn
+	mE=
+X-Received: by 2002:a17:90b:52c4:b0:36a:5d1f:7b6 with SMTP id 98e67ed59e1d1-39b260d3375mr39542125a91.2.1788836184768;
+        Mon, 07 Sep 2026 19:56:24 -0700 (PDT)
+Received: from localhost.localdomain ([2408:8607:1b00:8:3fb3:b562:896c:1ac7])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b26155324sm22925971a91.17.2026.09.07.19.56.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 19:56:22 -0700 (PDT)
+From: Pengfei Li <ljdlns1987@gmail.com>
+X-Google-Original-From: Pengfei Li <lipengfei28@xiaomi.com>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	kernel test robot <lkp@intel.com>,
+	Bo Zhang <zhangbo56@xiaomi.com>,
+	Pengfei Li <lipengfei28@xiaomi.com>,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH v6 0/3] trace: stack trace deduplication for ftrace ring buffer
+Date: Tue,  8 Sep 2026 10:55:51 +0800
+Message-Id: <20260908025551.4155877-1-lipengfei28@xiaomi.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260908101509.5ca094dacc96053236f7d2f3@kernel.org>
+References: <20260903132409.270195-1-lipengfei28@xiaomi.com> <20260908101509.5ca094dacc96053236f7d2f3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
- filtering
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Steven Rostedt <rostedt@goodmis.org>
-References: <20260903041819.1776630-1-zhen.ni@easystack.cn>
- <a6ce8684-116b-42f2-a88c-154eb86bad59@kernel.org>
- <a98bde94-d1fb-4246-b7c6-e64303d8388a@easystack.cn>
- <5d4c247c-b8ea-4d3f-b2b9-d442d372fd03@kernel.org>
-From: "zhen.ni" <zhen.ni@easystack.cn>
-In-Reply-To: <5d4c247c-b8ea-4d3f-b2b9-d442d372fd03@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa07ee443440229kunma965adf619bcf2
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZTx1LVh1MTE5PGE1CQ01MGlYVFA
-	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVCQk
-	lOS1VKS0tVSkJLQlkG
 
+On Tue, 08 Sep 2026 10:15:09 +0900 Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
+> BTW, to make it easier for review, can you split the patches in
+> several parts? For example, start from a minimum basic functionality
+> (just internal stackmap, seq_read, and reset), use it from tracing,
+> add stat interface, binary interface, and documents, tools, selftests.
+> This makes the series in at least 7 patches, but nicer to focus on
+> one thing for each patch.
 
+Agreed, and the split points you list match where the current patches
+are doing several things at once. v7 will follow that structure:
 
-在 2026/9/7 23:21, Vlastimil Babka (SUSE) 写道:
-> On 9/7/26 06:08, zhen.ni wrote:
->>
->>
->> 在 2026/9/4 16:25, Vlastimil Babka (SUSE) 写道:
->>> On 9/3/26 06:18, Zhen Ni wrote:
->>>> This patch series adds process and memory cgroup filtering support to
->>>> page_owner. Following the previous series that introduced print_mode and
->>>> NUMA node filters:
->>>>     https://lore.kernel.org/linux-mm/20260707115411.1714314-1-zhen.ni@easystack.cn/
->>>>
->>>> This series adds filtering capabilities to page_owner, allowing users to
->>>> filter output by specific processes and memory cgroups. Users can now
->>>> filter page_owner output by PID, TGID, COMM (with wildcard support), and
->>>> memory cgroup path. This makes page_owner debugging more focused and
->>>> efficient for tracking memory allocations in specific contexts.
->>>
->>> I wonder about the usefulness of all the new filters. In my experience
->>> page_owner is useful to find a kernel memory leak code, and for that the
->>> stacktraces are most useful. Dealing with things like pid/tgid/comm/cgroups
->>> sounds more like your aim is to profile and optimize particular userspace to
->>> use less kernel memory? In that case, isn't it rather the area of memory
->>> allocation profiling (or maybe tracing with bpf), not page_owner?
->>>
->>> Moreover, tracing or bpf can already do such kind of filtering and AFAIK
->>> ftrace filters for tracepoints are nice and generic, while this is adding a
->>> bunch of custom parsing and filtering. So that makes me somewhat sceptical.
->>>
->>
->> Thanks for the review, and the scepticism is fair - let me first
->> clarify where I agree with you, then explain the niche I think these
->> filters fill.
-> 
-> Sorry but your whole reply reads like a LLM slop. It took a lot of mental
-> effor to actually try and engage with it.
-> 
+   1. internal stackmap: table, element pool, get_id(), create/destroy
+   2. text seq_file export and reset
+   3. use it from the ftrace stack recording path
+   4. stat interface
+   5. binary interface
+   6. ftrace_stackmap.bits= kernel parameter
+   7. documentation
+   8. userspace parser
+   9. selftest: basic functionality
+  10. selftest: reset semantics and binary ABI header
+  11. selftest: top-level instance gating
 
-This reply was written by me, and its viewpoints are not simply copied 
-directly from an LLM. The LLM only assists with the wording.
+Each patch compiles on its own and does not leave unused helpers or
+tracefs files whose backing code has not been added yet. Patches 4 and
+5 also carry the stat locking fix and the binary export rework from
+your comments on 1/3, so those interfaces arrive in the shape you
+asked for rather than being split first and fixed afterwards.
 
->> In memory usage source analysis and memory leak analysis, I believe
->> page_owner has its own unique niche:
->>
->> 1. Nearly all historical allocation records are queryable. Dynamic
->>      tracing tools (bpf, ftrace) cannot do this.
-> 
-> This seems totally the opposite. page_owner gives you the current allocation
-> snapshot. Tracing can provide the full historical record of allocation and
-> freeing, which can be also postprocessed for snapshots.
-> 
-Here you completely misunderstood my meaning, perhaps I did not express 
-it clearly.
+> The patch description is a key area to focus on; if the explanation
+> proceeds by saying "add Foo, then add Bar, and so on," those changes
+> should likely be split into multiple patches.
 
-The biggest difference between page_owner and dynamic tracing tools is 
-that page_owner traverses all currently allocated pages using PFN; 
-whereas dynamic tracing tools can only view pages after the observation 
-point is established. The pages collected by page_owner include those 
-from relatively early in the kernel — as long as they are still 
-occupying memory, they can be detected. This is what I mean by 
-"historical allocation records."
+That test also flags the current 1/3 and 3/3 accurately. Both of their
+descriptions are lists of independent additions, which is why they grew
+to 949 and 614 lines. I will use it as the check when writing the v7
+descriptions: if a description needs a bullet list of additions, the
+patch is still too coarse.
 
->> 2. The full allocation stack is recorded via stackdepot. Memory
->>      allocation profiling as a code-tagging technique cannot do this.
-> 
-> I think there's some extension (or plan for it), Suren would know better.
-> 
-
-I have previously researched the code and documentation of Memory 
-allocation profiling, so this viewpoint is not directly copied from an 
-LLM. The reason I think it cannot record stacks is: its design goal is 
-to be lightweight and usable in production environments, therefore it 
-chose the code-tagging approach. If it recorded stacks, it would already 
-deviate from its original design goal.
-
->> 3. Zero extra usage cost (works as long as page_owner is enabled) and
->>      a low barrier to entry (one echo line versus writing a bpf
->>      program).
->>
->> On the pain points that motivated the series. On production machines
->> with large memory configurations (e.g., 250GB+):
->>
->> 1. Collecting page_owner information takes minutes to tens of minutes.
->> 2. The output is several gigabytes to over 10GB.
->>
->> That makes the raw output nearly unreadable and forces post-processing
->> with tools/mm/page_owner_sort.c, adding further workload. The root
->> causes are:
-> 
-> the "workload" is just cpu time though
-
-This workload is not just CPU — printing the stack takes up the vast 
-majority of it.
-
-> 
->> 1. The PFN scan itself - unavoidable, it is the price of page_owner's
->>      core function of covering every page.
->> 2. Printing every stack for every page - this dominates the cost and
->>      is avoidable. stackdepot already deduplicates stacks and keeps a
->>      refcount per unique stack; page_owner then re-prints the same stack
->>      once per page, and page_owner_sort deduplicates it all over again
->>      in userspace.
-> 
-> Since it's avoidable, why mention it at all? Oh I know, LLM slop.
-> 
-
-I feel like you haven't really understood what I'm trying to express.
-
->> The filters target exactly this waste: they keep page_owner focused on
->> the user's area of interest instead of paying the full print cost.
->>
->> On the overlap with dynamic tracing and allocation profiling: the
->> features do look similar, but the usage scenarios differ. page_owner
->> is not enabled by default on production systems, so most developers
->> rightly reach for the lighter-weight tools first - dynamic tracing or
->> allocation profiling.
-> 
-> Good! That's an argument against.
-> 
->> But when page_owner is already enabled, or the
->> lighter-weight tools cannot solve (or cannot conveniently solve) the
-> 
-> Adding custom filtering code to kernel vs user convenience is a trade-off.
-> 
->> problem and enabling page_owner is an option, the advantages above
->> kick in: the historical snapshot is filterable in place, and the
->> filtered output is small enough to read directly.
->>
->> So I see the filters as completing page_owner for the scenarios where
->> it is the right tool, rather than competing with the profiling and
->> tracing tooling.
-> 
-> I'm not convinced it's worth it.
-
-You may keep your opinion. I think you haven't carefully read my reply, 
-or you simply assumed this is just an automated reply from an LLM.
-
-Perhaps you haven't actually used page_owner on a server with very large 
-memory to investigate memory usage or leak issues (for example, the NIC 
-ring buffer usage problem cannot be solved with dynamic tracing tools). 
-Once you've used it, you'll know how much you need a filter.
-
-
-Thanks,
-Zhen
+Pengfei
