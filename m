@@ -1,91 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mail-m32101.qiye.163.com (mail-m32101.qiye.163.com [220.197.32.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7619C5221F4
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 10:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1302E52ED33;
+	Tue,  8 Sep 2026 11:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788864706; cv=none; b=PnvIDRRp3QPavkkjymdURKf2pGnA6K5hfsH1lkRs9xP9QnZOxllb5HLylDW5Tt7Ew1cv725d4dBtK6EB1yX4OQRa8FM1Vc/aoooYuqSMm1B+IdSk5gBE2wyDzVY4yPqnQDR+k6wiQMKALvePzwgZ5QaS9v+JUlbAgaEFO/g8nu4=
+	t=1788866666; cv=none; b=nfiLrx0GRPNDfwDBYEjm9qufRMFIN9IS/LN2exqIBtnD9MlkiRU8DOE76ttuCgVMdSmR8/WuvdQbbAbnsmYH+WT5nVSkxHOG7xVdcfIAczWUh8tzb01ptHGI23GEtK3itPhvz27xhh+fnWve0+tpxfEoNOzd6TpVcRZ4dSCsQlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788864706; c=relaxed/simple;
-	bh=sHpZeYcRVzhSqj+u5mtOjNdGHRJ7Cf6FccSDF3BOnTA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FvP0R6nkWxB97Iop07jG4xr77wUlNSeqPaDI6tlECEoEkc/VTxZWzf2hqEqXChW4LezMpHShXf0Wr0A7HhD5zI/n9x7w2b4USoq3S5reErBlTgDeFtfBQT+kjqBwhsmEiUpoeABw2h2R7Sg3wOZWSAxIRw+HUeQHeh4nlMR2/B4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B51tHPwV; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B51tHPwV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788864702; x=1820400702;
-  h=date:from:to:cc:subject:message-id;
-  bh=sHpZeYcRVzhSqj+u5mtOjNdGHRJ7Cf6FccSDF3BOnTA=;
-  b=B51tHPwVZQL/HipkysxnzAtanqldeG6uJ1hIDrSXZhF+DKvnmzidxj5U
-   5+zZKBHefXqpKcTGbfXkOI6u3RncojrMVAXz6GM4P6aCVg5TBwpoLedlb
-   lxWfk8IVmHRQQI/zS2eRcYVelaJjL0PbB6gZFtmAnJtIIj41lu7o0RxmZ
-   AUhW+MxRnL9m3IKie2PTV5LTE0IG19COBlVGKR4Um7lumvGORCUcgk2QU
-   xJ6eIaqbMyFDAOvNLptXTHrj9KB5bpqtrRRaqsqdWw+NskOv1iFzjwvct
-   q2mov/mGgQqvK7IGi0NsWdn+IAZUXJRZMJI56CaA03F0ZfyndVEgGP7CS
-   Q==;
-X-CSE-ConnectionGUID: 0ku+S/rPQKyqMu7iq1n2+A==
-X-CSE-MsgGUID: Lml7c3QPTUO9IjTLYbWYLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="114802393"
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="114802393"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 03:51:36 -0700
-X-CSE-ConnectionGUID: 2mbJ76rQT0miRWqdGC5WAA==
-X-CSE-MsgGUID: KKCifmybTAuwrstEpI17dQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="270923673"
-Received: from igk-lkp-server01.igk.intel.com (HELO cc074f2a4298) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 08 Sep 2026 03:51:34 -0700
-Received: from kbuild by cc074f2a4298 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x3tQJ-000000000f8-3YRy;
-	Tue, 08 Sep 2026 10:51:31 +0000
-Date: Tue, 08 Sep 2026 12:51:02 +0200
-From: kernel test robot <lkp@intel.com>
-To: Honglei Huang <honghuan@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>, linux-doc@vger.kernel.org
-Subject: [drm-xe:drm-xe-next 3/6] htmldocs:
- Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:70: WARNING:
- Lexing literal_block 'struct driver_range {\n        struct drm_gpusvm_range
- base;\n        unsigned int num_pages; // 1: inline_pages, >1: pages[]\n
-        union {\n  ...
-Message-ID: <202609081240.TB3UjW0m-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1788866666; c=relaxed/simple;
+	bh=geMoxwMST3HCJv8S+uchkbckJfNkY31dxvhO/SMdfhs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=II6L5rY6ryuMJ9zRjWGjB6G+ieadmVVqfRsXvrZH/gSidMCJPse+voiRn8/b6lkLomfojHJjX332x+0oOKTd+0AniTojktWfldHdQtJR8jRhRRllYmr46g/llK/Ou5foHwolvT/5o6BbuurtB9jkf8EWcL6dpZWo5FJUc8/+tyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=220.197.32.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
+Received: from [192.168.0.59] (unknown [218.94.118.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 1ed4ad140;
+	Tue, 8 Sep 2026 19:18:59 +0800 (GMT+08:00)
+Message-ID: <be27d762-af18-4efb-8f24-3e39373f53ff@easystack.cn>
+Date: Tue, 8 Sep 2026 19:18:59 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
+ filtering
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Weijie Yuan <wy@wyuan.org>
+Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Steven Rostedt <rostedt@goodmis.org>
+References: <20260903041819.1776630-1-zhen.ni@easystack.cn>
+ <a6ce8684-116b-42f2-a88c-154eb86bad59@kernel.org>
+ <a98bde94-d1fb-4246-b7c6-e64303d8388a@easystack.cn>
+ <5d4c247c-b8ea-4d3f-b2b9-d442d372fd03@kernel.org>
+ <6744bcdb-3456-4ba2-95a0-a58c354bfbfa@easystack.cn>
+ <ap-qDThi-NQgVXVD@wyuan.org>
+ <048d7470-a813-4252-a4f0-0ec29694f639@easystack.cn>
+ <ap-zYt-1qCBGKZed@wyuan.org> <ap_P_Pvlpn2rEjBV@gremlin>
+From: "zhen.ni" <zhen.ni@easystack.cn>
+In-Reply-To: <ap_P_Pvlpn2rEjBV@gremlin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa080be24450229kunm2817d6f71c285e
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCHkofVh9KSRhDSh8YHRkfH1YVFA
+	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
+	lPT09IVUpLS1VKQktLWQY+
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-head:   18299151caddd61adc977a56ef54c3043f5ed85e
-commit: cc2a6cbd6823678fe70ba76f88623827a6e06a87 [3/6] drm/gpusvm: let drm_gpusvm_get_pages() map an array of pages
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260908/202609081240.TB3UjW0m-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609081240.TB3UjW0m-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+在 2026/9/8 17:13, Lorenzo Stoakes (ARM) 写道:
+> On Tue, Sep 08, 2026 at 03:04:02PM +0800, Weijie Yuan wrote:
+>> On Tue, Sep 08, 2026 at 02:40:10PM +0800, zhen.ni wrote:
+>>>
+>>>
+>>> 在 2026/9/8 14:24, Weijie Yuan 写道:
+>>>>   From an outsider..
+>>>>
+>>>> On Tue, Sep 08, 2026 at 10:41:23AM +0800, zhen.ni wrote:
+>>>>>>
+>>>>>> Sorry but your whole reply reads like a LLM slop. It took a lot of
+>>>>>> mental effor to actually try and engage with it.
+>>>>>>
+>>>>>
+>>>>> This reply was written by me, and its viewpoints are not simply copied
+>>>>> directly from an LLM. The LLM only assists with the wording.
+>>>>
+>>>> So that's probably the reason. Your previous replies was indeed very
+>>>> much like the output of an LLM. Even if the idea is your own, after
+>>>> being "polished" by LLM, it's hard to read. I know English is not our
+>>>> first language, and it's not that easy to speak like a native speaker.
+>>>> But may I ask you did you read it before sending them out? I really
+>>>> found this bunch of overly formal content a little painful to read.
+>>>>
+>>>> So I suspect the LLM may have taken too much liberty in polishing your
+>>>> text, to the point that your replies no longer read like something a
+>>>> person would naturally write.
+>>>>
+>>>> The "Summary and Plan" in your reply in v1, both in its formatting and
+>>>> wording, looks quite similar to LLM-generated text to me. So I can
+>>>> understand why Lorenzo asked whether you had used an LLM. Come on, we
+>>>> all know what LLM writing looks like.
+>>>>
+>>>> That said, I do not know exactly how you used the LLM on your original
+>>>> text, so please forgive me if I have this wrong.
+>>>>
+>>>> Thanks.
+>>>>
+>>> I really can't distinguish the LLM flavor that clearly in English.
+>>
+>> Yes, sometimes I can not as well. But I guess the native ones can.
+>> So.. ;-)
+>>
+>>> I'm sorry for causing some trouble.
+>>
+>> That's fine. No need to say sorry.
+>>
+>> I know and understand that we non-native speakers would rather not make
+>> mistakes over these little language detail issues. But over-polishing
+>> can end up having the opposite effect. Keeping some of your natural
+>> writing style may actually be what the community prefers, especially
+>> these AI days.
+>>
+>>> My normal reply process is to first describe my ideas, then have the
+>>> LLM check for logic and grammar issues, and do a round of polishing. I
+>>> check the final draft once more to see if it has deviated from my
+>>> ideas, and make corresponding revisions.
+>>
+>> Sigh, so it is hard to know where to draw the line. Write more and learn
+>> more about "human-like" writing, perhaps. :)
+>>
+>> Thanks!
+> 
+> Thanks Weijie appreciate your input :) and it's good to get a perspective from a
+> non-native speaker on this!
+> 
+> Generally I empathise with LLM usage for helping non-native speakers with
+> English, that's a great use of it, so I don't object to it _in general_ BUT as
+> Weijie points out there's better ways of using and worse ways of using it.
+> 
+> You have to ensure that your meaning is transmitted properly without it
+> ultimately becoming essentially a conversation between a reviewer and an LLM.
+> 
+> So the technial discussion you are engaging in MUST be your own.
+> 
+> As for the 'summary' emails - please don't send them at all.
+> 
+> I feel like often they're used to generate a new prompt for the LLM and it
+> really ends up being 'workslopping', that is, making reviewers do more work
+> while the LLM takes care of things for you.
+> 
+> And that crosses the line really from 'aid to English' into it being a problem.
+> 
+> Instead, ENGAGE IN CONVERSATION with the reviewer, in line.
+> 
+> So if a review says:
+> 
+> "Please make this function do X, Y, Z".
+> 
+> Don't put something in a summary email or anything like that. REPLY to them,
+> quoting the request and respond. Like:
+> 
+> 	> Please make this function do X, Y, Z.
+> 
+> 	OK makes sense about X, Y is a bit tricker because of ... and Z is
+> 	impossible because ....
+> 
+> For instance.
+> 
+> That way it is human-to-human interaction at all times, with maybe the LLM
+> helping with translation along the way.
+> 
 
-   Documentation/userspace-api/landlock:621: ./include/uapi/linux/landlock.h:58: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:621: ./include/uapi/linux/landlock.h:63: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:621: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:630: ./include/uapi/linux/landlock.h:241: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:630: ./include/uapi/linux/landlock.h:264: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:70: WARNING: Lexing literal_block 'struct driver_range {\n        struct drm_gpusvm_range base;\n        unsigned int num_pages; // 1: inline_pages, >1: pages[]\n        union {\n                struct drm_gpusvm_pages inline_pages;\n                struct drm_gpusvm_pages *pages;\n        };\n};\n\nstatic struct drm_gpusvm_pages *\ndriver_pages(struct driver_range *drange)\n{\n        return drange->num_pages == 1 ? :c:type:`drange->inline_pages <drange>` :\n                                        drange->pages;\n}' as "c" resulted in an error at token: '`'. Retrying in relaxed mode. [misc.highlighting_failure]
->> Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:102: WARNING: Lexing literal_block '// GPU fault handler: one fault, one DMA mapping per device\nerr = drm_gpusvm_get_pages(gpusvm, driver_pages(drange),\n                           drange->num_pages, gpusvm->mm,\n                           :c:type:`range->notifier <range>`->notifier,\n                           drm_gpusvm_range_start(range),\n                           drm_gpusvm_range_end(range), :c:type:`ctx`);\n\n// Notifier callback: mark every instance unmapped in one call\ndrm_gpusvm_range_set_unmapped(range, driver_pages(drange),\n                              drange->num_pages, mmu_range);' as "c" resulted in an error at token: '`'. Retrying in relaxed mode. [misc.highlighting_failure]
-   Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+Noted with thanks.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> As for the review - Vlastimil has raised legitimate technical points so I would
+> engage with those directly.
+> 
+> It's very reasonable for him to conclude an LLM was used for more than
+> translation, certainly the rather ludicrious 'document the world in the commit
+> message' approach looks inhuman.
+
+I'm not sure which patch you are referring to, as its commit message
+appears to be unusually long (seemingly stuffed with massive LLM-
+generated information).
+
+For my 8 patches, the commit messages are not generated by an LLM, and
+they are written very concisely.
+
+If you are referring to the cover letter being long, I would like to
+briefly explain. The cover letter itself isn't that long; the extra
+length comes from the test programs and test results I attached. I felt
+it was necessary to let the reviewers know exactly what tests I
+performed and how effective they were, so as to ease the review burden.
+
+However, since this information cannot be placed within the individual
+patches, I had to put it in the cover letter for now. Please note that
+this content will not be included in the final commit messages later on.
+
+> 
+> So engage on the technical points without summary emails, and please put
+> documentation in a documentation file :)
+> 
+> Also I think it's reasonable now for you to use an:
+> 
+> 	Assisted-by: LLM
+> 
+> Tag on this series.
+> 
+
+I resorted to an LLM only to structure the language in my reply email —
+purely for efficiency, to help expedite the review process. For the
+patch series itself, however, I had ample time to prepare, and both the
+code and the documentation were written without any LLM involvement.
+
+Therefore, I believe the Tag in question is not really suitable here.
+
+Thanks,
+Zhen
