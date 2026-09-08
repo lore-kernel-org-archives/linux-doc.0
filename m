@@ -1,105 +1,122 @@
-Received: from mail-m127212.xmail.ntesmail.com (mail-m127212.xmail.ntesmail.com [115.236.127.212])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BCB1D54FA;
-	Tue,  8 Sep 2026 07:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.212
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788851753; cv=none; b=SBf4NhouHUE3CsLezcKGhE3iz6eOPvTuYDDKvx7AhrU14c+pGzMZ6hJPZ6LF5zbK0bANDKplwYzPwLTw6C1dhMIMQGzMQZap2PKSEEX7F3EQzI2Z+d4LgKeBoKv3Xtd1fc8/AKcMc1c44ux24Earx0tETv3OIyrBK+b3lsU0zYk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788851753; c=relaxed/simple;
-	bh=gp3esHASp/g19i1ypvnclFOqgm8xN4o1yOkydMlEUJM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oXsQmlHn6JDgM6RRulR5f5wEE5eEzWZwc8o4jLP6CERez3lentBoXjjJGPIJFqLxdH6t0bw3RiIwHpBVaHg3owmHtZn9pAZ98uZLOH0VmTKfNAU7Bt9YBPFkW6/OiOmhxWqEPzX1xvFeQt0yl/9bEf/O/oso5WBPfN6OyESOMAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=115.236.127.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
-Received: from [192.168.0.59] (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 1ed122a35;
-	Tue, 8 Sep 2026 14:40:10 +0800 (GMT+08:00)
-Message-ID: <048d7470-a813-4252-a4f0-0ec29694f639@easystack.cn>
-Date: Tue, 8 Sep 2026 14:40:10 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C5E33120E
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 07:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788852973; cv=pass; b=CNL9DD9QYevP1ZW8cwtalRQOxDQpNvCXQ5JieZXtxfDqBMtCi40wKq4j3ZOvV0YyNZr8XvPIHU+5FF9aLgYfFI4j/SkH5V1vM42r4pyGOi97kmInu/N9QUt/OmPqlQd6s/HNaQT2RT1AB3bcwBQOodWoqk0wSG/tqngDLgS35d0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788852973; c=relaxed/simple;
+	bh=TXP8H2J1oJEnyX14qzcCtqrehHnVK+c0H/VLlSeJFyg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XeOAqm2yPXg4Gwz7G1eIQopfXjD0CVIhXo/Th5FarPhpwZhi6xmjXS700Ovs5y8yR02e0jg+H7qd+v4MX2BpXZ6KDdnriLo46ZPnf4UAHqyk2UdlhFCZUD/obqjwil7i1MLTVokLybnCtOGoGBqnKGCMnDXlt7fmN/xvQFlSl+I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=APMIMY56; arc=pass smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="APMIMY56"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5b0231a3e86so3845786e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 00:36:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788852969; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fOxudYFgpFrEpH2EPT+V9OYEVll41sS97t99uxX4BRiQ7sQBVPP02Ia0+4zvx6WOxh
+         SPYOzPmAWW05lt77jeyS2HgEegOpsNA7GiOY4wrySPW7EEZznp8ioVi5/v/SleQG2KG5
+         b3eFoVozagRLxLj6pbrspUAOjofSt70eUzHvQdoshwg8s9ua0qDjnjFAglQPbMt3wzWI
+         lDeE1nZJmP8WzjBwA9tRLD9ei+Cd/OmiJxRkytgl03Xp5HtL+/FbeNxO4OiC2xzfPv3T
+         ay7rSkRTbCa59oQOgWfdIG/lvrt3UDT+iwMfcDK/bpzxJ0pTyCZ/IbNFoakgFrGvwkq9
+         3u+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=F1v6XQ7TbQj4QNfNrTJXkLDmDiu9hFvm+f9X7FTcy3k=;
+        fh=vzBwO39dVs5tHVOW3AhohPbGgD5/gQp2cOktraHyD+Y=;
+        b=QSBuRDxkMK2Urur7ndCeBzGrRz+kKrQCYyJd18Yt7zXTYmVfCt7cDDCGMFqg4uVAZ2
+         J8fvU5/2Wtj3z4lILHRQSzhMRoZWlmbW7Btk0IT+bIiwxeWmNyLspf9qLjpeTy+o044R
+         nd7WsYJ07YTois5ElTygwseLtcOORg+yu1u0k7QIDouFiUgAE3lr3lDkWAqxCHqvIyud
+         +DcELcCyodqoRLUy8SkjEwQGQBIW50o5/1Jyxg9Xleh49LwaAmO2dRhVGrBlSW0Pgm1N
+         pri3wbez4mrCIh05CO1N1kL4Co09xVXU/X4WwM7CUVPuygGa8mUC3kecUPvfqBRY53wV
+         cAdw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1788852969; x=1789457769; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=F1v6XQ7TbQj4QNfNrTJXkLDmDiu9hFvm+f9X7FTcy3k=;
+        b=APMIMY56LA3spLNYenIqbmylPYA+zKFNK8tiqYin+a64sOJiLtoZuAWhrMA2sJqAwI
+         6NAU46LNsfws9z5LgBy9UrLeeKowoKwHPP4cBs6scqrKnF4BX+cS/UR4PzgLCl4xzpJC
+         tqVJ5Az4MN0RPBN6hNlLzj+7vd4fNp3KToNMck67eAmi4odebVmjpzPzL+HiOs4MMkwA
+         rkZiJ74+EK5u1cg0gdAZl7X2J45Qy4FCnay8tudOC8j7yMfGUPTOCN7MiKumXCRpuxa/
+         qSTCREUi17lPn3GRkgrqNhR1xCl0tqKdarBhQREZzHEkALNNXwr4BPxZZTpsjpEIT3kc
+         lMmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788852969; x=1789457769;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=F1v6XQ7TbQj4QNfNrTJXkLDmDiu9hFvm+f9X7FTcy3k=;
+        b=NjyIhMoSLdpm/4UpDJsksICCpzRb48h8El015FDIxyyQoB7hXaUEXgf5eNws5JU/uZ
+         ttmPAgsnj0N5h8fNWznCIMdVKPMFZ3eJxWlRiUwXAFbFrB47B7Z3XVuMsGYdHsn0gRIc
+         ljIMbpcpy5PhN7Fa70aMjX2t5ZSJYPb+fsviKbT1YWuRw5oDRK93VOevrfHqmUg9sheq
+         /3hz/hYPbEhHKlMsBS6KY44laA3aiKcFKMYFyt1mQpxlnQrGRtdn1Vn/soP0hJsiCwLF
+         dUOGpDLNh4I/X+MHHyN1KLjt0CooVm8MCI/SQ0iCWx/TPexx8zwhP5wtHsa3MNdaqbAI
+         uuew==
+X-Forwarded-Encrypted: i=1; AKwUvBzklRFO7x+A9lXbYRPYVyYkSUF8kL4sLpqh8gx9MqMjKKo5D7nCW3HRpkPl03VpIZeRQjYrJIOcujY=@vger.kernel.org
+X-Gm-Message-State: AFuF++k5mivYDbykfbkHCuVjnDrk8xCSd1RF5juvl3VLx1vHOhvQ9EBR
+	hX5S7IOvw/YEysIhqt+SOmp+lQ038/d0bNWmpgvs1SOPLCXe1Zr3LuN5wdj+8vWDhW2GhQwQ8/D
+	i8zrjgLvmzz3dXnsk1N4Eop/vVusyLnnPvS8KU2LwCaI9GBlCCUTI+hc=
+X-Gm-Gg: AYBFou3WSW7PhEE8j6qOPeUXWdZIDMnqdaXlv+llknCj8a13G3KxVW+rdIGjuHIgnvC
+	S2kvi9NSgAGyuXim8S3dGsDEmDB63V9lf4q/8P3DZPn9mhPpe+RfuUCpRsTsuCJdQX/j8RymOVu
+	l3lKe3uR72Q3S0eXZo9MycsAjPo/2btryGm7y/J01WPtkkPq+fJcTQJjn39KNvbTao1UDXnQMH8
+	l5+/lFNojVbT6dCZQWWZ/LmDDBMWAjl7u5a+v5tvvLiyFwrAn82UptMjSLRGapEkic8vfkt1TeI
+	pw8ACaweqJ96WAUeZy/fJwz1akQfXCEdOrj/I4+RPWx3LsbOoS4o0cr7ehJGfxMjJ+w4hTrQH3l
+	1st2IsCYIiX5E
+X-Received: by 2002:ac2:5684:0:b0:5b6:4ae:5b80 with SMTP id
+ 2adb3069b0e04-5b617081f7amr4126010e87.30.1788852969626; Tue, 08 Sep 2026
+ 00:36:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
- filtering
-To: Weijie Yuan <wy@wyuan.org>
-Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Steven Rostedt <rostedt@goodmis.org>
-References: <20260903041819.1776630-1-zhen.ni@easystack.cn>
- <a6ce8684-116b-42f2-a88c-154eb86bad59@kernel.org>
- <a98bde94-d1fb-4246-b7c6-e64303d8388a@easystack.cn>
- <5d4c247c-b8ea-4d3f-b2b9-d442d372fd03@kernel.org>
- <6744bcdb-3456-4ba2-95a0-a58c354bfbfa@easystack.cn>
- <ap-qDThi-NQgVXVD@wyuan.org>
-From: "zhen.ni" <zhen.ni@easystack.cn>
-In-Reply-To: <ap-qDThi-NQgVXVD@wyuan.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa07fbedeea0229kunmc6aacfca1acab9
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaQh1OVkoZSB1DThhNShhKTFYVFA
-	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9CTFVISU
-	xNQlVPVUhLS0pZBg++
+References: <20260902092434.85096-1-marco.crivellari@suse.com> <878q5dovqc.fsf@trenco.lwn.net>
+In-Reply-To: <878q5dovqc.fsf@trenco.lwn.net>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Tue, 8 Sep 2026 09:35:57 +0200
+X-Gm-Features: AcwNN1X0tgHVErGnWNTAtj-AwHFXSO2JZlSTWOTODULdjQcefAhwNCFCUN_CUiU
+Message-ID: <CAAofZF6rNRbapgEUokgj1x=Q2AKb1XqMYv-9vXvELmHPHn58zg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] doc: Rename dynticks-testing to cpunoise
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Michal Hocko <mhocko@suse.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Valentin Schneider <vschneid@redhat.com>, Waiman Long <longman@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Sep 7, 2026 at 6:46=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wro=
+te:
+> [...]
+> > Marco Crivellari (2):
+> >   doc: Change dynticks-testing repository name
+> >   Documentation/no_hz: Change dynticks-testing repository name
+> >
+> >  Documentation/admin-guide/cpu-isolation.rst | 4 ++--
+> >  Documentation/timers/no_hz.rst              | 4 ++--
+> >  2 files changed, 4 insertions(+), 4 deletions(-)
+>
+> Applied, thanks.
 
+Many thanks!
 
-在 2026/9/8 14:24, Weijie Yuan 写道:
->  From an outsider..
-> 
-> On Tue, Sep 08, 2026 at 10:41:23AM +0800, zhen.ni wrote:
->>>
->>> Sorry but your whole reply reads like a LLM slop. It took a lot of
->>> mental effor to actually try and engage with it.
->>>
->>
->> This reply was written by me, and its viewpoints are not simply copied
->> directly from an LLM. The LLM only assists with the wording.
-> 
-> So that's probably the reason. Your previous replies was indeed very
-> much like the output of an LLM. Even if the idea is your own, after
-> being "polished" by LLM, it's hard to read. I know English is not our
-> first language, and it's not that easy to speak like a native speaker.
-> But may I ask you did you read it before sending them out? I really
-> found this bunch of overly formal content a little painful to read.
-> 
-> So I suspect the LLM may have taken too much liberty in polishing your
-> text, to the point that your replies no longer read like something a
-> person would naturally write.
-> 
-> The "Summary and Plan" in your reply in v1, both in its formatting and
-> wording, looks quite similar to LLM-generated text to me. So I can
-> understand why Lorenzo asked whether you had used an LLM. Come on, we
-> all know what LLM writing looks like.
-> 
-> That said, I do not know exactly how you used the LLM on your original
-> text, so please forgive me if I have this wrong.
-> 
-> Thanks.
-> 
-> 
-I really can't distinguish the LLM flavor that clearly in English. I'm
-sorry for causing some trouble.
+--=20
 
-My normal reply process is to first describe my ideas, then have the LLM
-check for logic and grammar issues, and do a round of polishing. I check
-the final draft once more to see if it has deviated from my ideas, and
-make corresponding revisions.
+Marco Crivellari
 
-Thanks,
-Zhen
+SUSE Labs
