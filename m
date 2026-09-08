@@ -1,161 +1,212 @@
-Received: from mail-yx1-f100.google.com (mail-yx1-f100.google.com [74.125.224.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC435908D3
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 18:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8103D595741;
+	Tue,  8 Sep 2026 18:13:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788890878; cv=none; b=rFeXxwD/bDC0xJOwn++k2SvROpVka8GrnIoPhcz3/dg1i814Mfq259v7mao6QfTgv3ermeKItwiUn8fhXEUqcjSTByYeo6zH8sf0/ue4KJXAxzY36w9a9YD1Fl0SH85e32qq0lqoH2Wl/ZDrWlEUjXAd0iLReYh0kpcoOR39KYg=
+	t=1788891204; cv=none; b=be+ju2aoKXd+q8GaC25ChLVrvJ+4qA3h98cvFLBMtxkTQGKnpVcjUsLcqrkV1CuURrzDj/4ZtqR1tv2l6VHpaZl/mEcywX4kNPEWyRXaoLSj6607g1Ie1U9lW+RvPKIgAtDzKJXQd37swWL7+Msf34vunBIT0h8UviVmlnqjgcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788890878; c=relaxed/simple;
-	bh=3/G5xnGKNtyLpIWmfEvLNiG/KTtcFKselUmUIESFwoA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZLOuhteLQGz8N9lMSMbdunaGky9p3lBFfuoZm783ye1Aa5IMRLgnZRLBazgXx0xo6cFX1mi0FE/z7Q6JF+CkvRtzASsR31kXcLCDx0FlZyeGJv6/E076FTrxHksA64G40Sz3Iv8xdaGI2qxrgOjQW0br7RPAaL/0y5J9O7SJlXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=LPhhRCyR; arc=none smtp.client-ip=74.125.224.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1788891204; c=relaxed/simple;
+	bh=q3tyUGXjtAIqbsKQHr85fM2v5b40q0UKMmYZXD804ic=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZNMLRcbc9Dwkb9N4Tc1AAV2pCeH7T1/fzp883DgLbkhjHys5G8pI0Q01EJOB8q+9RqKjwvN86NrEuHojYGDL8dqwQ+ub/I5ZT1XrZ+vk/1tYrRM3yDs/3ILWGtmvUyUZotdkos/GivdLWNLRP5CwUbY1k8+tPd7AIiW8ZKqL3P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JVlD2paD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="LPhhRCyR"
-Received: by mail-yx1-f100.google.com with SMTP id 956f58d0204a3-66f8053e7afso3248775d50.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 11:07:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788890863; x=1789495663;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Rb9I7ysehn3T8EdRE3wvUpvmDJ0lCancFwS1A6o0B9Y=;
-        b=hzGtXATY/iJLgZfCPQ0u2aC/jSc72G5TrGQ64jxZQaJn4V47aMWKCfI776w2w33X51
-         wCSlufGBrLettDs5bAdgRxR/PeGJLlrE/MOtXd9zl8FxoQqr68i35qsaqVxrnqz6/doe
-         yRPjQkXI7Pcqcryib28iOSHKSqHKuTywgZ+/Z69mhy/cf8o5tFr31XhS+v6RHF2OOoTt
-         lAYxvmBHpzkNro4GsZndK0aWpsxPFA/Z3xjivURHsp8v34DyMZGuK1cnO4b/eTujCUN0
-         e6u1hF5FqGpGQQ1PuREaxCr8Kcre1/nogsIzYfLMU6CQjvqhNFMJkvqXGd88BjVlaS4d
-         aMbA==
-X-Forwarded-Encrypted: i=1; AKwUvBxf9bartUObbf9OaoEK8OfLkgVIQMv4NHGbaQV4hBhWNVHLun4z+uykFhZiMjK689UT2JbDA1IsGbo=@vger.kernel.org
-X-Gm-Message-State: AFuF++nlbBKhh0OX2r+ZKj438f3ZEyTGZL9EvPCrPAG5SFs4XZcuH7g0
-	u+n/sXjZBdq4csun8jOrqAAxMBIvl/NIy00qxTxvJYM0LJNCsePFaK9bE3OufrYIQHnAJoa+h6w
-	DvULW8mf93ucoAc8N6ey+RCt79ueKiBjrgtbILORLmydLkcvfFTug2FxIQhZm/afRBBZEoDR9X+
-	bd7xEQSLlsu2bF/qSi0897YSrc1kRKEYrZPp/dkc3GgpriHeljdp1XAUqMItDKIk0VHyUuFqCKO
-	fHtddZB0YjU
-X-Gm-Gg: AYBFou35OqdL1vCOukA993hzh2ycywSTqvYh7xWqDk+uvUaa/sIuh1V/SMONQ3QnUGa
-	TMGWHL2oaKPpnu7juuEE1Zs0u/R0vopdEGMSTk3KzCWY5oo+0mrfSAOXFAtfdwl6K4j73vyMWdn
-	Y9mTpVjGNledfHZcQ6yhb9bWXIiM3nHBdgK9qui1DDXAK0fK8EJ+gneyRXccGbpDSB8irs365R0
-	yapBLPJ55AbBH4eo+5IdMmzGMruB0IOBLWxXISDE+MR1+UhsIt1gjLWKid0xEFtrkMNZPusXUQ5
-	JzQvXgtrDqboHxJHgRK9vpYSMbyBtpmIVA4koan/nVI/5aHPFkiA1l5usFlFGPqFgMrnkS39K04
-	aXZUXnhqqwQ7F/PFe+Ew4G52AyUD+dklp3iszdjHsazYDVRIKGOKLpoTXB+WCuOxDneacfH/aOz
-	bj5K/+KJiBYHCbqN9LIM25dq6k+PF+ZHuKVAE=
-X-Received: by 2002:a05:690e:4554:20b0:66f:deac:42e0 with SMTP id 956f58d0204a3-66fdeac4b72mr3150289d50.14.1788890862992;
-        Tue, 08 Sep 2026 11:07:42 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-125.dlp.protect.broadcom.com. [144.49.247.125])
-        by smtp-relay.gmail.com with ESMTPS id 6a1803df08f44-91040555cf4sm1349986d6.0.2026.09.08.11.07.42
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 08 Sep 2026 11:07:42 -0700 (PDT)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-66faff68c0bso604860d50.1
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 11:07:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1788890862; x=1789495662; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Rb9I7ysehn3T8EdRE3wvUpvmDJ0lCancFwS1A6o0B9Y=;
-        b=LPhhRCyRZyuzTQcBAmo2drGqrP28HOzZNxyvGkLAtbfADh+IdFghaBVWH9WHuyXWI1
-         MesUe/3riC8kgFxmKyEKViA837nnijXTOe181u6gaKfb/8It25zsWu6u6rH+U82FmI/V
-         15bDhw/q9LrVwyPKymxR1qlByGuS3WS9Q+cuk=
-X-Forwarded-Encrypted: i=1; AKwUvBzz7t0fhot6egmswGZOoVVPjrE+N0zz8dUGohyJEOKbO1KabBc917n/96wG7xEpokv2WpiodEDX1Hs=@vger.kernel.org
-X-Received: by 2002:a05:690e:1b44:b0:66f:9e32:fe1 with SMTP id 956f58d0204a3-66fb5921a72mr6969454d50.10.1788890861940;
-        Tue, 08 Sep 2026 11:07:41 -0700 (PDT)
-X-Received: by 2002:a05:690e:1b44:b0:66f:9e32:fe1 with SMTP id 956f58d0204a3-66fb5921a72mr6969419d50.10.1788890861415;
-        Tue, 08 Sep 2026 11:07:41 -0700 (PDT)
-Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net. [173.49.113.140])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9106412e038sm27114866d6.20.2026.09.08.11.07.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 11:07:38 -0700 (PDT)
-From: Zack Rusin <zack.rusin@broadcom.com>
-To: Borislav Petkov <bp@alien8.de>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	x86@kernel.org,
-	Petr Mladek <pmladek@suse.com>,
-	Joel Granados <joel.granados@kernel.org>,
-	Baoquan He <baoquan.he@linux.dev>
-Cc: Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	virtualization@lists.linux.dev,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	John Ogness <john.ogness@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Kees Cook <kees@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Dave Young <ruirui.yang@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bo Gan <bo.gan@broadcom.com>,
-	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>,
-	kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	Zack Rusin <zack.rusin@broadcom.com>
-Subject: [PATCH v1 4/4] x86/vmware: Run panic diagnostics before kdump by default
-Date: Tue,  8 Sep 2026 14:07:16 -0400
-Message-ID: <7487011dfb95aadda9515b22a5852680df1982c5.1788414671.git.zack.rusin@broadcom.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1788414671.git.zack.rusin@broadcom.com>
-References: <cover.1788414671.git.zack.rusin@broadcom.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JVlD2paD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E972E1F00A3A;
+	Tue,  8 Sep 2026 18:13:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788891203;
+	bh=eU35bkyDh/FOzv63wY00YqRoS00L3uB7DlSZ4bmKhe0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=JVlD2paDQ8kwI7ZdrDhJncU45Hqih7sy8gRe0JhjYAY/xuGZxsrxwfUUjRWLoWkGc
+	 kDPyz40bYgpBi7qYLNAPcdi+oRFuGt4NkhMv22IGcBbvPdjMwxexYZxLgQ2TmOQw1s
+	 7uNKWr0b6yYrofBN3H0ZZIfvQj7mr5R0aMVZ6aQzRbOsSTGJCzXahzxLqG4Ae6MzZo
+	 6fTE5JILBfMJQkqHpMYp8b9ZLV0+h2eq7VJWaJpTp7K71lTi0MWmcaMPXDCr+wX0Sr
+	 5mPQf6lhzqaUVnMENvCC9RFdDXdk3UrfzWNb9ibO9EixjMY0Gp+/qOfn0R1SYXVcV6
+	 //3psex6atJ/Q==
+Date: Tue, 8 Sep 2026 19:13:19 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Terry Bowman <terry.bowman@amd.com>
+Cc: Dave Jiang <dave.jiang@intel.com>, Alison Schofield
+ <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ Dan Williams <djbw@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, <linux-cxl@vger.kernel.org>, Tony Luck
+ <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, "Hanjun Guo"
+ <guohanjun@huawei.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Shuai
+ Xue" <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>, Ira Weiny
+ <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Ben Cheatham <Benjamin.Cheatham@amd.com>,
+ Richard Cheng <icheng@nvidia.com>, Robert Richter <rrichter@amd.com>,
+ "Lukas Wunner" <lukas@wunner.de>, <linux-pci@vger.kernel.org>,
+ <linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v20 7/9] cxl: Add port and dport identifiers to CXL AER
+ trace events
+Message-ID: <20260908191319.3ae39bdb@jic23-huawei>
+In-Reply-To: <20260902133933.2992457-8-terry.bowman@amd.com>
+References: <20260902133933.2992457-1-terry.bowman@amd.com>
+	<20260902133933.2992457-8-terry.bowman@amd.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The core panic path enters a loaded crash kernel before running kmsg
-dumpers, so the VMware logger cannot preserve the panic in the host log.
-Set crash_kexec_post_notifiers during VMware platform setup. setup_arch()
-runs before ordinary core parameters are parsed, so an explicit
-crash_kexec_post_notifiers=0 still overrides this default. The 0644
-parameter also remains writable at runtime.
+On Wed, 2 Sep 2026 08:39:31 -0500
+Terry Bowman <terry.bowman@amd.com> wrote:
 
-VMware exposes no capability bit for this behavior, so the default changes
-for every VMware guest. Running the logger first adds work to the panic
-path and can reduce kdump reliability.
+> From: Dan Williams <djbw@kernel.org>
+> 
+> Pass struct cxl_port * and struct cxl_dport * to the cxl_aer_* trace events
+> instead of a plain struct device * derived at the caller. The trace event
+> helpers then derive the right strings for Endpoints, Switch Ports, Root
+> Ports, and RCH Downstream Ports consistently across the CPER and native AER
+> paths.
+> 
+> The unified cxl_aer_* events keep "memdev" as the legacy field (Endpoint
+> events populate it with the memdev name; non-Endpoint events emit
+> memdev="") and add new "port" and "dport" string fields populated for all
+> CXL device classes. Updated userspace can key off "port" and "dport"
+> without a parallel set of events.
+> 
+> Remove the separate cxl_port_aer_uncorrectable_error and
+> cxl_port_aer_correctable_error trace events. All CXL AER events now use the
+> unified cxl_aer_* events with port and dport fields.
+> 
+> Rework cxl_cper_handle_prot_err() to use find_cxl_port_by_dev() and the
+> unified trace helpers, replacing the per-port-type branching and
+> bus_find_device() memdev lookup.
+> 
+> The TP_printk format string places "port=%s dport=%s" between "memdev=%s"
+> and "host=%s", changing the text-mode field order from the pre-patch output.
+> This does not affect consumers such as rasdaemon that use libtraceevent to
+> parse fields by name rather than by fixed text position.
+> 
+> For non-Endpoint events (Switch Port, Root Port, RCH Dport), "memdev" is
+> empty and "port"/"dport" carry the topology information.
+> 
+> CPER: trace firmware-supplied protocol errors even when the host device is
+> unbound; the record is self-contained in ras_cap and reads no MMIO. Keep
+> the host lock only to serialize the dport lookup against teardown.
+> 
+> Below are examples of the different CXL devices' error trace logs
+> after this patch:
+> 
+>      ---------------------
+>      | CXL RP - 0C:00.0  |
+>      ---------------------
+>                |
+>      ---------------------
+>      | CXL USP - 0D:00.0 |
+>      ---------------------
+>                |
+>      --------------------
+>      | CXL DSP - 0E:00.0 |
+>      --------------------
+>                |
+>      ---------------------
+>      | CXL EP - 0F:00.0  |
+>      ---------------------
+> 
+> Root Port:
+> cxl_aer_correctable_error: memdev= port=port1 dport=0000:0c:00.0 \
+>    host=pci0000:0c serial=0: status: 'Memory Data ECC Error'
+> 
+> cxl_aer_uncorrectable_error: memdev= port=port1 dport=0000:0c:00.0 \
+>    host=pci0000:0c serial=0: status: 'Cache Address Parity Error'  \
+>    first_error: 'Cache Address Parity Error'
+> 
+> Upstream Switch Port:
+> cxl_aer_correctable_error: memdev= port=port2 dport= host=0000:0d:00.0 \
+>    serial=0: status: 'Memory Data ECC Error'
+> 
+> UCE NA - Upstream Switch Port UCE's are handled in the portdrv driver's
+> PCI AER callbacks that are not CXL aware.
+> 
+> Downstream Switch Port:
+> cxl_aer_correctable_error: memdev= port=port2 dport=0000:0e:00.0 \
+>    host=0000:0d:00.0 serial=0: status: 'Memory Data ECC Error'
+> 
+> cxl_aer_uncorrectable_error: memdev= port=port2 dport=0000:0e:00.0 \
+>    host=0000:0d:00.0 serial=0: status: 'Cache Address Parity Error' \
+>    first_error: 'Cache Address Parity Error'
+> 
+> RCH Downstream Port (RCD attached under a host bridge, no switch):
+> cxl_aer_correctable_error: memdev= port=root0 dport=pci0000:0c \
+>    host=pci0000:0c serial=0: status: 'Memory Data ECC Error'
+> 
+> cxl_aer_uncorrectable_error: memdev= port=root0 dport=pci0000:0c \
+>    host=pci0000:0c serial=0: status: 'Cache Address Parity Error' \
+>    first_error: 'Cache Address Parity Error'
+> 
+> For RCH topologies, both correctable and uncorrectable protocol errors
+> were previously traced against the memdev via the cxl_aer_* events with
+> memdev populated. They now emit memdev="" with the RCH Downstream Port
+> carried in the "dport" field (dport->dport_dev, the host bridge) and the
+> host bridge in "host". Consumers that keyed RCH errors off "memdev" must
+> key off "dport" instead.
+> 
+> Endpoint:
+> cxl_aer_uncorrectable_error: memdev=mem1 port=endpoint4 dport= \
+>    host=0000:0f:00.0 serial=0: status: 'Cache Address Parity Error' \
+>    first_error: 'Cache Address Parity Error'
+> 
+> cxl_aer_correctable_error: memdev=mem1 port=endpoint4 dport= host=0000:0f:00.0 \
+>    serial=0: status: 'Memory Data ECC Error'
+> 
+> Co-developed-by: Terry Bowman <terry.bowman@amd.com>
+> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
+> Signed-off-by: Dan Williams <djbw@kernel.org>
 
-A full log transfer uses 1027 low-bandwidth hypercalls; three checkpoint
-attempts are bounded at 3077. In vmcall tests, a maximum-size transfer
-took at most 7.47 ms; three complete transfers comprising 3081 calls took
-at most 21.58 ms.
+A trivial 'maybe it looks nicer like this' suggestion inline.
+Feel free to ignore.
+Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 
-The crash report remains suppressed while a crash kernel is loaded because
-the host may terminate the VM inside that call. A future report from the
-crash kernel or kdump userspace can restore the event after saving the
-vmcore.
+> diff --git a/drivers/cxl/core/trace.c b/drivers/cxl/core/trace.c
+> index 7f2a9dd0d0e3f..df42d119c53dd 100644
+> --- a/drivers/cxl/core/trace.c
+> +++ b/drivers/cxl/core/trace.c
+> @@ -2,7 +2,42 @@
+>  /* Copyright(c) 2022 Intel Corporation. All rights reserved. */
+>  
+>  #include <cxl.h>
+> +#include <cxlmem.h>
+>  #include "core.h"
+>  
+> +const char *cxl_trace_memdev_name(struct cxl_port *port)
+> +{
+> +	if (is_cxl_endpoint(port)) {
+> +		struct cxl_memdev *cxlmd = to_cxl_memdev(port->uport_dev);
+> +
+> +		return dev_name(&cxlmd->dev);
 
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
----
- arch/x86/kernel/cpu/vmware.c | 1 +
- 1 file changed, 1 insertion(+)
+Similar to below if you make that change.
 
-diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index c21fc835537f..d88c625d8389 100644
---- a/arch/x86/kernel/cpu/vmware.c
-+++ b/arch/x86/kernel/cpu/vmware.c
-@@ -646,6 +646,7 @@ static void __init vmware_platform_setup(void)
- {
- 	u32 eax, ebx, ecx;
- 	u64 lpj, tsc_khz;
-+	crash_kexec_post_notifiers = true;
- 
- 	eax = vmware_hypercall3(VMWARE_CMD_GETHZ, UINT_MAX, &ebx, &ecx);
- 
--- 
-2.53.0
+> +	}
+> +
+> +	return "";
+> +}
+> +
+> +const char *cxl_trace_host_name(struct cxl_port *port)
+> +{
+> +	if (is_cxl_endpoint(port)) {
+> +		struct cxl_memdev *cxlmd = to_cxl_memdev(port->uport_dev);
+> +
+> +		return dev_name(cxlmd->dev.parent);
+
+		return dev_name(to_cxl_memdev(port->uport_dev)->dev.parent);
+
+Maybe that's too ugly though.
+
+> +	}
+> +
+> +	return dev_name(port->uport_dev);
+> +}
 
