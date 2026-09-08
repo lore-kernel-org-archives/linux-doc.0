@@ -1,343 +1,135 @@
-Received: from mta0.migadu.com (out-19.mta0.migadu.com [91.218.175.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FD03E5577
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 08:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD23E41D635;
+	Tue,  8 Sep 2026 08:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788855608; cv=none; b=W3+PzTK8c9wEGk2tvkp7UNd/v3fckHgX90adXezrgBJKOKcloDxOKFjrKty2Mb6wz7AQIFX00t+cdr8Lv9Mcrfgq5ue3b9G7zTecZycEZ/OEXpJEFhuCqaouSjw1z/F0K7hBCNOpkzRvx6fYn+I7NCKxCNKqwAZ0thpT4KyAcZE=
+	t=1788856172; cv=none; b=uZk5W63EBdC1YnLBq88Zmte4Bo5WsS4rUGOpU1hrEIClRNTD2ERZKmutmlRIRM52QlmZyzP3XkJ4Yg0w+PFI25goT7hTmZHLfiLfERXkYpuX/LH/1wXfOonZ3cLXHa2CnufFle5kUtchgSFGR2pipe3LVCA0+4H9Bml0PBfGwzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788855608; c=relaxed/simple;
-	bh=QMukAefZfPUgbpBQK+irv5yH2EpRpWK4MHebJsSatzY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PnCeDvdEqpot9a9kZAYTb3/Gk9tDhnAdthgmTiknbs6GvtKcK2r4XptpPFI3FnCaNli+qhPXXuY09yjKrDduW0EKFrfL8TtIwx05kqgeuGB5t8TUvQdS/7oGgKDKzhy37c8LIv9s76es+NGo8L8TlpVFm3a28IW/5rsby71XtW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xg67lryN; arc=none smtp.client-ip=91.218.175.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788856172; c=relaxed/simple;
+	bh=Ry4s1GPSc8cKBB0DQdEedSRojAHrulU6/auwMzle9BM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mV00ljJAcscuIxjxPe4Rtp+FmfbsZjyX1uHRsWeNKqhi6mDnCX6ifu7MbQlAFKVQtkNMYFIeZW4hTzN1YJTmr5mOWGxC8kf8amYbAwC0zYXUWba4BeSq28vBLP1qOFOCJJ9BmIueQLdPkjhRF+tBU4tqvCKQF9ODgGieIPsakgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e01FnUV6; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xg67lryN"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=QMukAefZfPUgbpBQK+irv5yH2EpRpWK4MHebJsSatzY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788855601; v=1; x=1789460401;
- b=xg67lryNA+Q2GIQcWChikiwvGDVB5I/S93Sd26sq96BTE/kh8Rzxg/uGEcWxjtJJy7gQuO0Z
- 6xh21eSrq0e+k+xIAZ/gtYqzg0+08NwhNoIF5ongyhDH1TtWg4V6NuWZVFPVq4033Ah9vbQj5KF
- 1w/5fxtvwaUdKVlmf6c+WHic=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id e3be1945dc93c990;
-	Tue, 08 Sep 2026 08:20:01 +0000
-X-Mizu-Trace-ID: e3be1945dc93c990
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <99aac41d-a68f-451b-ae10-f7132bb7a291@linux.dev>
-Date: Tue, 8 Sep 2026 16:19:55 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e01FnUV6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788856171; x=1820392171;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Ry4s1GPSc8cKBB0DQdEedSRojAHrulU6/auwMzle9BM=;
+  b=e01FnUV6KKUNZwZOgQ+jco2gIjlqM9zPeNyXReN7RjOmY71zePk3QyzJ
+   rnNgk/rFfmR6e87NX+MQRU0tqPv5qEbCsBSsxgNolglb9LDj1f5/ncow6
+   ElufJGtIWdl/5WytUAKA7v1rzkIuipEz3j87pxm5UdCIX+OKym3ODHGc2
+   90pLUY8D4KSYm5UP+EKeKb7yA03OOfnYKlCHzwfoxLrn1YoSaWOdmqOOR
+   7gQD66rN1S7cJ6ku5y1pFtn0tjAKPW7fPG9GqpKEiDFfLDrEGNiMbRg3x
+   ki4sCvTlidBOM4v2ww+qq+70S/jlxAwd8csbn2gm0eLJM2T314ngIz3Fc
+   A==;
+X-CSE-ConnectionGUID: 2v5Y6J2TQNmtzkKXunj9ZA==
+X-CSE-MsgGUID: 1o0/6yYpRbiocM4+LJ2gjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="99911075"
+X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
+   d="scan'208";a="99911075"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 01:29:30 -0700
+X-CSE-ConnectionGUID: kQ71qvI/TbKfGtKtXDYu/w==
+X-CSE-MsgGUID: k41aV1whTfCrYOJz2zq02Q==
+X-ExtLoop1: 1
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.92])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 01:29:25 -0700
+Date: Tue, 8 Sep 2026 11:29:23 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alexander Usyskin <alexander.usyskin@intel.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH v3] Documentation: Update after split of
+ <linux/mod_devicetable.h>
+Message-ID: <ap_HYy2IVZt-0mxN@ashevche-desk.local>
+References: <20260908070031.32833-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/11] mm/sparse-vmemmap: move HVO helpers to a public
- header
-To: Muchun Song <songmuchun@bytedance.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
- Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>
-References: <20260908030335.96549-1-songmuchun@bytedance.com>
- <20260908030335.96549-8-songmuchun@bytedance.com>
-From: Qi Zheng <qi.zheng@linux.dev>
-In-Reply-To: <20260908030335.96549-8-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260908070031.32833-1-kmehltretter@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-
-
-On 9/8/26 11:03 AM, Muchun Song wrote:
-> The vmemmap optimization helpers currently live in mm/sparse.h,
-> which is an internal MM header. That works for MM code, but
-> prevents powerpc from using the same interfaces without including a
-> private header.
+On Tue, Sep 08, 2026 at 09:00:31AM +0200, Karl Mehltretter wrote:
+> From: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
 > 
-> Move the declarations and inline helpers to
-> include/linux/vmemmap-optimization.h. This is a preparatory change for
-> powerpc, which has its own vmemmap optimization implementation and
-> needs to use the HVO interfaces from architecture code.
-
-Make sense.
-
-Acked-by: Qi Zheng <qi.zheng@linux.dev>
-
-Thanks,
-Qi
-
+> Most structs that were defined in <linux/mod_devicetable.h> before were
+> moved to a bus specific header. Follow the movement to get the struct's
+> documentation back.
 > 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
-> v2:
-> - Fix missing header dependencies.
-> ---
->   MAINTAINERS                          |  1 +
->   include/linux/vmemmap-optimization.h | 91 ++++++++++++++++++++++++++++
->   mm/hugetlb.c                         |  2 +-
->   mm/hugetlb_vmemmap.c                 |  2 +-
->   mm/memory_hotplug.c                  |  1 +
->   mm/sparse.h                          | 73 +---------------------
->   6 files changed, 96 insertions(+), 74 deletions(-)
->   create mode 100644 include/linux/vmemmap-optimization.h
+> For the list of device ids in basics.rst use an explicit list of all the
+> headers that have kernel-doc annotations and that are not described
+> elsewhere (i.e. pci and mei_cl). <linux/device-id/acpi.h> is left out on
+> purpose, ACPI_DEVICE_CLASS() is not a device id struct.
+
+Huh?! The device-id/acpi.h provides the ACPI device ID definition.
+
+> Also repair the referencing in the zh_CN translation of pci.rst and
+> don't duplicate `struct mei_cl_device_id`.
+
+> Fixes: ad428f5811bd ("mod_devicetable.h: Split into per subsystem headers")
+> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+
+...
+
+> Changes since v2
+>   https://lore.kernel.org/r/ede7ce64f20e10660ebf6bc1b41836dad750ae3b.1783349758.git.ukleinek@kernel.org/
+> - use the :file: role for the header path in pcmcia/driver.rst (Randy)
+> - say in the commit message that <linux/device-id/acpi.h> is left out on
+>   purpose (question raised by the Sashiko review)
+
+I am unsatisfied with how the ACPI division was handled in the above mentioned
+split. Id est the include/device-id/acpi.h is *the* header that has to be used
+for the IDs, not the respective "include all" linux/acpi.h.
+Hence the documentation has to allow the use of the device-id/*.h directly in
+the drivers (most of the cases for ACPI).
+
+Alternatively the OF ID *and* ACPI ID must be included to the upper lever bus
+headers. So, spi.h, i2c.h, platform_device.h and so on has to *always* provide
+both.
+
+> - carried Randy's Reviewed-by and Tested-by from v2, the diff changed in
+>   one line of markup only
+> - Uwe asked me to take over the patch:
+>   https://lore.kernel.org/r/apv6yQ1U-HhNglyV@monoceros/
+>   It supersedes my PCI-only patch
+>   https://lore.kernel.org/r/20260905084916.40196-1-kmehltretter@gmail.com/
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c7aaa2e4790e..2985286cbbbf 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12096,6 +12096,7 @@ F:	Documentation/mm/hugetlbfs_reserv.rst
->   F:	Documentation/mm/vmemmap_dedup.rst
->   F:	fs/hugetlbfs/
->   F:	include/linux/hugetlb.h
-> +F:	include/linux/vmemmap-optimization.h
->   F:	include/trace/events/hugetlbfs.h
->   F:	mm/hugetlb.c
->   F:	mm/hugetlb_cgroup.c
-> diff --git a/include/linux/vmemmap-optimization.h b/include/linux/vmemmap-optimization.h
-> new file mode 100644
-> index 000000000000..492dc662aae7
-> --- /dev/null
-> +++ b/include/linux/vmemmap-optimization.h
-> @@ -0,0 +1,91 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * vmemmap-optimization.h
-> + *
-> + * Generic vmemmap optimization declarations.
-> + *
-> + * Author: Muchun Song <songmuchun@bytedance.com>
-> + */
-> +#ifndef _LINUX_VMEMMAP_OPTIMIZATION_H
-> +#define _LINUX_VMEMMAP_OPTIMIZATION_H
-> +
-> +#include <linux/align.h>
-> +#include <linux/log2.h>
-> +#include <linux/mmdebug.h>
-> +#include <linux/mmzone.h>
-> +
-> +#ifdef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
-> +static inline unsigned int section_order(const struct mem_section *section)
-> +{
-> +	return section->order;
-> +}
-> +
-> +static inline void section_set_order(struct mem_section *section, unsigned int order)
-> +{
-> +	VM_WARN_ON(section_order(section) && order && section_order(section) != order);
-> +	section->order = order;
-> +}
-> +
-> +static inline void section_set_order_range(unsigned long pfn, unsigned long nr_pages,
-> +					   unsigned int order)
-> +{
-> +	unsigned long section_nr = pfn_to_section_nr(pfn);
-> +
-> +	if (!IS_ALIGNED(pfn | nr_pages, PAGES_PER_SECTION))
-> +		return;
-> +
-> +	for (unsigned long i = 0; i < nr_pages / PAGES_PER_SECTION; i++)
-> +		section_set_order(__nr_to_section(section_nr + i), order);
-> +}
-> +
-> +static inline unsigned int pfn_to_section_order(unsigned long pfn)
-> +{
-> +	return section_order(__pfn_to_section(pfn));
-> +}
-> +#else
-> +static inline unsigned int section_order(const struct mem_section *section)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void section_set_order(struct mem_section *section, unsigned int order)
-> +{
-> +}
-> +
-> +static inline void section_set_order_range(unsigned long pfn, unsigned long nr_pages,
-> +					   unsigned int order)
-> +{
-> +}
-> +
-> +static inline unsigned int pfn_to_section_order(unsigned long pfn)
-> +{
-> +	return 0;
-> +}
-> +#endif /* CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION */
-> +
-> +static inline bool vmemmap_optimizable_pfn(unsigned long pfn)
-> +{
-> +	const unsigned int order = pfn_to_section_order(pfn);
-> +	const unsigned long nr_pages = 1UL << order;
-> +
-> +	if (!is_power_of_2(sizeof(struct page)))
-> +		return false;
-> +
-> +	return (pfn & (nr_pages - 1)) >= VMEMMAP_OPTIMIZATION_NR_STRUCT_PAGES;
-> +}
-> +
-> +static inline bool vmemmap_optimizable_order(unsigned int order)
-> +{
-> +	if (!IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION))
-> +		return false;
-> +
-> +	if (!is_power_of_2(sizeof(struct page)))
-> +		return false;
-> +
-> +	return order >= VMEMMAP_OPTIMIZATION_MIN_ORDER;
-> +}
-> +
-> +#ifdef CONFIG_SPARSEMEM_VMEMMAP
-> +struct page *vmemmap_shared_tail_page(unsigned int order, struct zone *zone);
-> +#endif /* CONFIG_SPARSEMEM_VMEMMAP */
-> +#endif /* _LINUX_VMEMMAP_OPTIMIZATION_H */
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index fda525bccf50..dff915e6c48b 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -38,6 +38,7 @@
->   #include <linux/mm_inline.h>
->   #include <linux/padata.h>
->   #include <linux/pgalloc.h>
-> +#include <linux/vmemmap-optimization.h>
->   
->   #include <asm/page.h>
->   #include <asm/tlb.h>
-> @@ -52,7 +53,6 @@
->   #include "hugetlb_cma.h"
->   #include "hugetlb_internal.h"
->   #include "mm_init.h"
-> -#include "sparse.h"
->   #include <linux/page-isolation.h>
->   
->   #define HUGE_BOOTMEM_ZONES_VALID	BIT(0)
-> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> index 4a57e6c3352c..25c4e7d2664c 100644
-> --- a/mm/hugetlb_vmemmap.c
-> +++ b/mm/hugetlb_vmemmap.c
-> @@ -15,10 +15,10 @@
->   #include <linux/mmdebug.h>
->   #include <linux/pagewalk.h>
->   #include <linux/pgalloc.h>
-> +#include <linux/vmemmap-optimization.h>
->   
->   #include <asm/tlbflush.h>
->   #include "hugetlb_vmemmap.h"
-> -#include "sparse.h"
->   #include "internal.h"
->   
->   /**
-> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> index 0db0379826df..d7a59167bec4 100644
-> --- a/mm/memory_hotplug.c
-> +++ b/mm/memory_hotplug.c
-> @@ -43,6 +43,7 @@
->   #include "mm_init.h"
->   #include "page_alloc.h"
->   #include "shuffle.h"
-> +#include "sparse.h"
->   
->   enum {
->   	MEMMAP_ON_MEMORY_DISABLE = 0,
-> diff --git a/mm/sparse.h b/mm/sparse.h
-> index 59b825df83b9..e511d99fc26b 100644
-> --- a/mm/sparse.h
-> +++ b/mm/sparse.h
-> @@ -9,77 +9,7 @@
->   #define __MM_SPARSE_H
->   
->   #include <linux/mmzone.h>
-> -
-> -#ifdef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
-> -static inline unsigned int section_order(const struct mem_section *section)
-> -{
-> -	return section->order;
-> -}
-> -
-> -static inline void section_set_order(struct mem_section *section, unsigned int order)
-> -{
-> -	VM_WARN_ON(section_order(section) && order && section_order(section) != order);
-> -	section->order = order;
-> -}
-> -
-> -static inline void section_set_order_range(unsigned long pfn, unsigned long nr_pages,
-> -					   unsigned int order)
-> -{
-> -	unsigned long section_nr = pfn_to_section_nr(pfn);
-> -
-> -	if (!IS_ALIGNED(pfn | nr_pages, PAGES_PER_SECTION))
-> -		return;
-> -
-> -	for (unsigned long i = 0; i < nr_pages / PAGES_PER_SECTION; i++)
-> -		section_set_order(__nr_to_section(section_nr + i), order);
-> -}
-> -
-> -static inline unsigned int pfn_to_section_order(unsigned long pfn)
-> -{
-> -	return section_order(__pfn_to_section(pfn));
-> -}
-> -#else
-> -static inline unsigned int section_order(const struct mem_section *section)
-> -{
-> -	return 0;
-> -}
-> -
-> -static inline void section_set_order(struct mem_section *section, unsigned int order)
-> -{
-> -}
-> -
-> -static inline void section_set_order_range(unsigned long pfn, unsigned long nr_pages,
-> -					   unsigned int order)
-> -{
-> -}
-> -
-> -static inline unsigned int pfn_to_section_order(unsigned long pfn)
-> -{
-> -	return 0;
-> -}
-> -#endif
-> -
-> -static inline bool vmemmap_optimizable_pfn(unsigned long pfn)
-> -{
-> -	const unsigned int order = pfn_to_section_order(pfn);
-> -	const unsigned long nr_pages = 1UL << order;
-> -
-> -	if (!is_power_of_2(sizeof(struct page)))
-> -		return false;
-> -
-> -	return (pfn & (nr_pages - 1)) >= VMEMMAP_OPTIMIZATION_NR_STRUCT_PAGES;
-> -}
-> -
-> -static inline bool vmemmap_optimizable_order(unsigned int order)
-> -{
-> -	if (!IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION))
-> -		return false;
-> -
-> -	if (!is_power_of_2(sizeof(struct page)))
-> -		return false;
-> -
-> -	return order >= VMEMMAP_OPTIMIZATION_MIN_ORDER;
-> -}
-> +#include <linux/vmemmap-optimization.h>
->   
->   /*
->    * mm/sparse.c
-> @@ -139,7 +69,6 @@ static inline void sparse_sections_init(void) {}
->    * mm/sparse-vmemmap.c
->    */
->   #ifdef CONFIG_SPARSEMEM_VMEMMAP
-> -struct page *vmemmap_shared_tail_page(unsigned int order, struct zone *zone);
->   void sparse_init_subsection_map(void);
->   int section_nr_vmemmap_pages(unsigned long pfn, unsigned long nr_pages,
->   		struct vmem_altmap *altmap, struct dev_pagemap *pgmap);
+> Randy's suggestion to add kernel-doc comments to <linux/mei_cl_bus.h> for
+> struct mei_cl_driver and include those instead of the duplicated struct is
+> left for a separate patch, it touches a header outside Documentation/.
+
+Uwe, can you fix that?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
