@@ -1,78 +1,78 @@
-Received: from mail-ot1-f99.google.com (mail-ot1-f99.google.com [209.85.210.99])
+Received: from mail-yx1-f100.google.com (mail-yx1-f100.google.com [74.125.224.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB6159C971
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 18:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC435908D3
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 18:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788890876; cv=none; b=qHR35/sTRCvqu3bp66gn/aX4cCUvzvdsO6Ho5Uu13IVFgfQtORZQ7ea2AYbIEqC9Mr8xuVfzhWm4fWh4gy4BLf5p4IwbJsu1jDAmFgpUCIBO0Cr9d8JdXRnTlCsv2A1ckNuz2WUE/45bBOEzQhHMZRiJNnGSce7Uwo0qBs/ZWlE=
+	t=1788890878; cv=none; b=rFeXxwD/bDC0xJOwn++k2SvROpVka8GrnIoPhcz3/dg1i814Mfq259v7mao6QfTgv3ermeKItwiUn8fhXEUqcjSTByYeo6zH8sf0/ue4KJXAxzY36w9a9YD1Fl0SH85e32qq0lqoH2Wl/ZDrWlEUjXAd0iLReYh0kpcoOR39KYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788890876; c=relaxed/simple;
-	bh=OTLibMJN8TSomAcVsMbXDk3Gt+WGTUspXK8ZV+K+zOA=;
+	s=arc-20240116; t=1788890878; c=relaxed/simple;
+	bh=3/G5xnGKNtyLpIWmfEvLNiG/KTtcFKselUmUIESFwoA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o3xbB6kQeWIuZRXb+Mv8zIrXTx/Spo65kn3hJnkqqTrTrDpnE9UaBXlp3Tuv62OkgYYERKJV8Pexv6ZXLaLgEnBzmRoNLzLucW5m/+aNLSg0eHUCqpoKc3TWFRctcc8LcYAZX3/zuMutEd+RIVeN1kLKcLIZbegEy+WXtch4OOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=KwEQqq3D; arc=none smtp.client-ip=209.85.210.99
+	 MIME-Version; b=ZLOuhteLQGz8N9lMSMbdunaGky9p3lBFfuoZm783ye1Aa5IMRLgnZRLBazgXx0xo6cFX1mi0FE/z7Q6JF+CkvRtzASsR31kXcLCDx0FlZyeGJv6/E076FTrxHksA64G40Sz3Iv8xdaGI2qxrgOjQW0br7RPAaL/0y5J9O7SJlXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=LPhhRCyR; arc=none smtp.client-ip=74.125.224.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="KwEQqq3D"
-Received: by mail-ot1-f99.google.com with SMTP id 46e09a7af769-7f4f3683fbcso4927644a34.0
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="LPhhRCyR"
+Received: by mail-yx1-f100.google.com with SMTP id 956f58d0204a3-66f8053e7afso3248775d50.0
         for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 11:07:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788890862; x=1789495662;
+        d=1e100.net; s=20251104; t=1788890863; x=1789495663;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=X96+zYCvaN6SOrdHaZFaRkSOvwWaLyxQvweykkN1/zc=;
-        b=Z5+EoNobmpIbo6wVPCLhVfj831HZnFwytJK67cuLqYqri2Zc0DcFhZMuY4XXWv7pOg
-         4yk2Ng8rs7ZPkesqfHp/iyN8lw4RdYCbmKXeD4ptfuFmnti+hdV9hTt7XvWUSdkWOt4U
-         4WXxjj6XT/vTi3hqhm+Co4rQuCxyErGjieHaWVSaQjeffuzSOBBTuMTN2oLKSUbeRUro
-         GFMu/t/XSlgl/CXNdGbQFkjm7hgRvCwi7b1y31sH8q3XlkOJaHvkq7lTKrXLICjMFLce
-         TdZeEw+CsrRiNjO2neFuB6ptqScEyjwuozrPMgByBgd1i3kWdkL1QF2L6rtkaKM+5Nok
-         sV/Q==
-X-Forwarded-Encrypted: i=1; AKwUvBz9/36xkEKY9e9sfflxyoy+HQ46/Qrc3ic97mX4K6fB8kvQjf+kTExcoSQ/o44/CJmmSCdrpMB3tm8=@vger.kernel.org
-X-Gm-Message-State: AFuF++leP3Qj9FZ/+sMWTgR0nJsXt934N4AFmdApmuBlGDnggLBA+rlM
-	lXuUgN9qSU4VVVTWQ6KYpC7uIInBDrQpk7T+L/O5eQCVfbDUvUX6viUKfq5bLgYyYw/+a8nZmcw
-	BhPk3OIzBSfDcouMAC1arLReHR79goul7CTu15vpL5lQuEtEkOb5nX5BFePEe6LKG/wChFdPsaK
-	yRSeqQNcL+ivm0uEEmwwAvFVaVt5ZHCEeQ+OszLTLBZeRbsgXICgiK1kVaA9Ay/7ZnS11SHxpXd
-	dkx9UlUG63E
-X-Gm-Gg: AYBFou18Ia1PpH/oJaIYGJjUpQPfBiTx85us7Sx6GTtSEZniMjlg8QcbUEo+FAjT8Yu
-	PJdy0B3UfgQub+7U5BiX0D/MOKcxF5dVC9mYVSa4466FwIr4jfppUYiI6RFo8dTtJMLbv6oTw5l
-	NegWINeQ8lyQJn7BZ5DZ/3Ju3Aofey5tw7fQqGrs78GCu4SSTlV5eZOjRvFRHd3r13ISUee6Id2
-	ozCJxDX8FGcDjq105d8LagJIA4Ux1yhmAGkPi/2Cz8ZsOy8j0E6hcWZBQqOHYcg8xfd9thxFNMG
-	QyABA4i4IAH3kg0Pqilzr0TYCaGBSNaNGvZN9wrqzfjZejFTGETEIsfcbNf+Mk45SlH+b1ajaAN
-	efAJWiAPU11DYvTPYrsZP+8hVkb+kPOWsnNO25EfN1W1RRERfdRcJdqEO4EM5qfMnbG6/SiYevi
-	s31LE8aa+7vmQ4QCNbzQc9jRbz8r2NEMOJ
-X-Received: by 2002:a05:6830:3988:b0:7f8:4a25:88cd with SMTP id 46e09a7af769-7ff475c2a87mr3177427a34.3.1788890861605;
-        Tue, 08 Sep 2026 11:07:41 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-27.dlp.protect.broadcom.com. [144.49.247.27])
-        by smtp-relay.gmail.com with ESMTPS id 46e09a7af769-7f9f6aa689fsm1681305a34.5.2026.09.08.11.07.39
+        bh=Rb9I7ysehn3T8EdRE3wvUpvmDJ0lCancFwS1A6o0B9Y=;
+        b=hzGtXATY/iJLgZfCPQ0u2aC/jSc72G5TrGQ64jxZQaJn4V47aMWKCfI776w2w33X51
+         wCSlufGBrLettDs5bAdgRxR/PeGJLlrE/MOtXd9zl8FxoQqr68i35qsaqVxrnqz6/doe
+         yRPjQkXI7Pcqcryib28iOSHKSqHKuTywgZ+/Z69mhy/cf8o5tFr31XhS+v6RHF2OOoTt
+         lAYxvmBHpzkNro4GsZndK0aWpsxPFA/Z3xjivURHsp8v34DyMZGuK1cnO4b/eTujCUN0
+         e6u1hF5FqGpGQQ1PuREaxCr8Kcre1/nogsIzYfLMU6CQjvqhNFMJkvqXGd88BjVlaS4d
+         aMbA==
+X-Forwarded-Encrypted: i=1; AKwUvBxf9bartUObbf9OaoEK8OfLkgVIQMv4NHGbaQV4hBhWNVHLun4z+uykFhZiMjK689UT2JbDA1IsGbo=@vger.kernel.org
+X-Gm-Message-State: AFuF++nlbBKhh0OX2r+ZKj438f3ZEyTGZL9EvPCrPAG5SFs4XZcuH7g0
+	u+n/sXjZBdq4csun8jOrqAAxMBIvl/NIy00qxTxvJYM0LJNCsePFaK9bE3OufrYIQHnAJoa+h6w
+	DvULW8mf93ucoAc8N6ey+RCt79ueKiBjrgtbILORLmydLkcvfFTug2FxIQhZm/afRBBZEoDR9X+
+	bd7xEQSLlsu2bF/qSi0897YSrc1kRKEYrZPp/dkc3GgpriHeljdp1XAUqMItDKIk0VHyUuFqCKO
+	fHtddZB0YjU
+X-Gm-Gg: AYBFou35OqdL1vCOukA993hzh2ycywSTqvYh7xWqDk+uvUaa/sIuh1V/SMONQ3QnUGa
+	TMGWHL2oaKPpnu7juuEE1Zs0u/R0vopdEGMSTk3KzCWY5oo+0mrfSAOXFAtfdwl6K4j73vyMWdn
+	Y9mTpVjGNledfHZcQ6yhb9bWXIiM3nHBdgK9qui1DDXAK0fK8EJ+gneyRXccGbpDSB8irs365R0
+	yapBLPJ55AbBH4eo+5IdMmzGMruB0IOBLWxXISDE+MR1+UhsIt1gjLWKid0xEFtrkMNZPusXUQ5
+	JzQvXgtrDqboHxJHgRK9vpYSMbyBtpmIVA4koan/nVI/5aHPFkiA1l5usFlFGPqFgMrnkS39K04
+	aXZUXnhqqwQ7F/PFe+Ew4G52AyUD+dklp3iszdjHsazYDVRIKGOKLpoTXB+WCuOxDneacfH/aOz
+	bj5K/+KJiBYHCbqN9LIM25dq6k+PF+ZHuKVAE=
+X-Received: by 2002:a05:690e:4554:20b0:66f:deac:42e0 with SMTP id 956f58d0204a3-66fdeac4b72mr3150289d50.14.1788890862992;
+        Tue, 08 Sep 2026 11:07:42 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-125.dlp.protect.broadcom.com. [144.49.247.125])
+        by smtp-relay.gmail.com with ESMTPS id 6a1803df08f44-91040555cf4sm1349986d6.0.2026.09.08.11.07.42
         for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 08 Sep 2026 11:07:41 -0700 (PDT)
+        Tue, 08 Sep 2026 11:07:42 -0700 (PDT)
 X-Relaying-Domain: broadcom.com
 X-CFilter-Loop: Reflected
-Received: by mail-yx1-f70.google.com with SMTP id 956f58d0204a3-66e63e9b6feso2122624d50.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 11:07:38 -0700 (PDT)
+Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-66faff68c0bso604860d50.1
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 11:07:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1788890858; x=1789495658; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1788890862; x=1789495662; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=X96+zYCvaN6SOrdHaZFaRkSOvwWaLyxQvweykkN1/zc=;
-        b=KwEQqq3DNLTzwafG3ph6aAbagTqUpyYqHtDBwqxGcMnjWQn5+I8N4A4hBXch13P1ZZ
-         dyF26qhFaedjBNU7Pts46CFWNaDNI7jreO2z74c8O7UgmEUEsIvsytHA6TYKKTQbvmYa
-         UJ2OVtgQBuUubMxID68aJ9VrsLEIDJ4CKjd80=
-X-Forwarded-Encrypted: i=1; AKwUvBwwEVZM+HREiVcQqG0JHFAjMmJJ7+WVsFaCnmnk1AkwbTk9woRZtWDilHC5jwpt51uT13xgcPE0v8E=@vger.kernel.org
-X-Received: by 2002:a05:690e:418d:b0:671:4d2:804e with SMTP id 956f58d0204a3-67104d28276mr98602d50.36.1788890858287;
-        Tue, 08 Sep 2026 11:07:38 -0700 (PDT)
-X-Received: by 2002:a05:690e:418d:b0:671:4d2:804e with SMTP id 956f58d0204a3-67104d28276mr98573d50.36.1788890857670;
-        Tue, 08 Sep 2026 11:07:37 -0700 (PDT)
+        bh=Rb9I7ysehn3T8EdRE3wvUpvmDJ0lCancFwS1A6o0B9Y=;
+        b=LPhhRCyRZyuzTQcBAmo2drGqrP28HOzZNxyvGkLAtbfADh+IdFghaBVWH9WHuyXWI1
+         MesUe/3riC8kgFxmKyEKViA837nnijXTOe181u6gaKfb/8It25zsWu6u6rH+U82FmI/V
+         15bDhw/q9LrVwyPKymxR1qlByGuS3WS9Q+cuk=
+X-Forwarded-Encrypted: i=1; AKwUvBzz7t0fhot6egmswGZOoVVPjrE+N0zz8dUGohyJEOKbO1KabBc917n/96wG7xEpokv2WpiodEDX1Hs=@vger.kernel.org
+X-Received: by 2002:a05:690e:1b44:b0:66f:9e32:fe1 with SMTP id 956f58d0204a3-66fb5921a72mr6969454d50.10.1788890861940;
+        Tue, 08 Sep 2026 11:07:41 -0700 (PDT)
+X-Received: by 2002:a05:690e:1b44:b0:66f:9e32:fe1 with SMTP id 956f58d0204a3-66fb5921a72mr6969419d50.10.1788890861415;
+        Tue, 08 Sep 2026 11:07:41 -0700 (PDT)
 Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net. [173.49.113.140])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9106412e038sm27114866d6.20.2026.09.08.11.07.34
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9106412e038sm27114866d6.20.2026.09.08.11.07.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 11:07:34 -0700 (PDT)
+        Tue, 08 Sep 2026 11:07:38 -0700 (PDT)
 From: Zack Rusin <zack.rusin@broadcom.com>
 To: Borislav Petkov <bp@alien8.de>,
 	Ajay Kaher <ajay.kaher@broadcom.com>,
@@ -103,9 +103,9 @@ Cc: Thomas Gleixner <tglx@kernel.org>,
 	kexec@lists.infradead.org,
 	linux-doc@vger.kernel.org,
 	Zack Rusin <zack.rusin@broadcom.com>
-Subject: [PATCH v1 3/4] x86/vmware: Report guest crashes after kmsg dumpers
-Date: Tue,  8 Sep 2026 14:07:15 -0400
-Message-ID: <8243a70e3bc282e3fbc1b507f40b889cb7e74305.1788414671.git.zack.rusin@broadcom.com>
+Subject: [PATCH v1 4/4] x86/vmware: Run panic diagnostics before kdump by default
+Date: Tue,  8 Sep 2026 14:07:16 -0400
+Message-ID: <7487011dfb95aadda9515b22a5852680df1982c5.1788414671.git.zack.rusin@broadcom.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1788414671.git.zack.rusin@broadcom.com>
 References: <cover.1788414671.git.zack.rusin@broadcom.com>
@@ -118,135 +118,44 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-VMware accepts a structured guest-crash event, but a host configured with
-backdoor.coredumpOnCrash may terminate the VM before the hypercall
-returns. Sending the event from a panic notifier could prevent later kmsg
-dumpers and a loaded crash kernel from running.
+The core panic path enters a loaded crash kernel before running kmsg
+dumpers, so the VMware logger cannot preserve the panic in the host log.
+Set crash_kexec_post_notifiers during VMware platform setup. setup_arch()
+runs before ordinary core parameters are parsed, so an explicit
+crash_kexec_post_notifiers=0 still overrides this default. The 0644
+parameter also remains writable at runtime.
 
-Register a second panic-only kmsg dumper with late_initcall_sync(). Kmsg
-dumpers run in registration order, placing the report after the early
-VMware logger and built-in dumpers registered by then. This leaves no
-report before the late initcall, but avoids losing dump output to a
-terminating host.
+VMware exposes no capability bit for this behavior, so the default changes
+for every VMware guest. Running the logger first adds work to the panic
+path and can reduce kdump reliability.
 
-Skip the event when a crash kernel is loaded. The earlier logger can still
-write panic text to vmware.log before __crash_kexec(). If kdump later
-fails, no structured event is sent; issuing it first could prevent kdump
-from running at all.
+A full log transfer uses 1027 low-bandwidth hypercalls; three checkpoint
+attempts are bounded at 3077. In vmcall tests, a maximum-size transfer
+took at most 7.47 ms; three complete transfers comprising 3081 calls took
+at most 21.58 ms.
 
-Issue the event at most once. With CONFIG_PRINTK=n, install a late
-INT_MIN panic notifier. An unexpected dumper registration failure with
-printk enabled leaves reporting disabled because a notifier fallback
-would overtake working dumpers.
+The crash report remains suppressed while a crash kernel is loaded because
+the host may terminate the VM inside that call. A future report from the
+crash kernel or kdump userspace can restore the event after saving the
+vmcore.
 
-Link: https://lore.kernel.org/r/20260309235250.2611115-4-alexey.makhalov@broadcom.com
-Co-developed-by: Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>
-Signed-off-by: Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>
-Co-developed-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
 Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
 ---
- arch/x86/include/asm/vmware.h |  1 +
- arch/x86/kernel/cpu/vmware.c  | 63 +++++++++++++++++++++++++++++++++++
- 2 files changed, 64 insertions(+)
+ arch/x86/kernel/cpu/vmware.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
-index 598d4cd448ec..ea2ce5272a00 100644
---- a/arch/x86/include/asm/vmware.h
-+++ b/arch/x86/include/asm/vmware.h
-@@ -61,6 +61,7 @@
- #define VMWARE_CMD_GETHZ		45
- #define VMWARE_CMD_GETVCPU_INFO		68
- #define VMWARE_CMD_STEALCLOCK		91
-+#define VMWARE_CMD_REPORTGUESTCRASH	102
- /*
-  * Hypercall command mask:
-  *   bits [6:0] command, range [0, 127]
 diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index 3848811550e9..c21fc835537f 100644
+index c21fc835537f..d88c625d8389 100644
 --- a/arch/x86/kernel/cpu/vmware.c
 +++ b/arch/x86/kernel/cpu/vmware.c
-@@ -22,10 +22,14 @@
-  */
+@@ -646,6 +646,7 @@ static void __init vmware_platform_setup(void)
+ {
+ 	u32 eax, ebx, ecx;
+ 	u64 lpj, tsc_khz;
++	crash_kexec_post_notifiers = true;
  
- #include <linux/dmi.h>
-+#include <linux/atomic.h>
-+#include <linux/crash_core.h>
- #include <linux/init.h>
- #include <linux/export.h>
- #include <linux/kmsg_dump.h>
-+#include <linux/limits.h>
- #include <linux/mm.h>
-+#include <linux/panic_notifier.h>
- #include <linux/clocksource.h>
- #include <linux/cpu.h>
- #include <linux/efi.h>
-@@ -323,6 +327,65 @@ static int __init vmware_panic_log_init(void)
- }
- early_initcall(vmware_panic_log_init);
+ 	eax = vmware_hypercall3(VMWARE_CMD_GETHZ, UINT_MAX, &ebx, &ecx);
  
-+static atomic_t vmware_crash_reported = ATOMIC_INIT(0);
-+
-+static void vmware_report_guest_crash(void)
-+{
-+	if (kexec_crash_loaded())
-+		return;
-+	if (atomic_xchg(&vmware_crash_reported, 1))
-+		return;
-+
-+	vmware_hypercall1(VMWARE_CMD_REPORTGUESTCRASH, 0);
-+}
-+
-+static void vmware_crash_report_dump(struct kmsg_dumper *dumper,
-+				     struct kmsg_dump_detail *detail)
-+{
-+	vmware_report_guest_crash();
-+}
-+
-+static struct kmsg_dumper vmware_crash_report_dumper = {
-+	.dump = vmware_crash_report_dump,
-+	.max_reason = KMSG_DUMP_PANIC,
-+};
-+
-+static int vmware_crash_report_notify(struct notifier_block *nb,
-+				      unsigned long action, void *data)
-+{
-+	vmware_report_guest_crash();
-+	return NOTIFY_DONE;
-+}
-+
-+static struct notifier_block vmware_crash_report_nb = {
-+	.notifier_call = vmware_crash_report_notify,
-+	.priority = INT_MIN,
-+};
-+
-+static int __init vmware_crash_report_init(void)
-+{
-+	int ret;
-+
-+	if (!hypervisor_is_type(X86_HYPER_VMWARE))
-+		return 0;
-+
-+	ret = kmsg_dump_register(&vmware_crash_report_dumper);
-+	if (!ret)
-+		return 0;
-+	if (IS_ENABLED(CONFIG_PRINTK)) {
-+		pr_err("failed to register crash report dumper: %d\n", ret);
-+		return 0;
-+	}
-+
-+	ret = atomic_notifier_chain_register(&panic_notifier_list,
-+					     &vmware_crash_report_nb);
-+	if (ret)
-+		pr_err("failed to register crash report notifier: %d\n", ret);
-+
-+	return 0;
-+}
-+late_initcall_sync(vmware_crash_report_init);
-+
- #ifdef CONFIG_PARAVIRT
- static struct cyc2ns_data vmware_cyc2ns __ro_after_init;
- static bool vmw_sched_clock __initdata = true;
 -- 
 2.53.0
 
