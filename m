@@ -1,136 +1,308 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mta1.migadu.com (out-3.mta1.migadu.com [95.215.58.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E4B282F30
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 03:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA7835893
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 04:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788837003; cv=none; b=Ufjr8eXH42P+R9DV6Xknvm1IHGqgYHXdBXpHX3GBE0DG1NatPDptoqgFQMWNyZ/x1yFahBL6tWPs0FuNv/AamD0XclnlbbFHvfVFwOIS6kuvmOhGGFboUukvtLhOSQOPvDftEub2zmHhpGuGPd/vqMPQt+tpLGpWBXRJHM8yo0I=
+	t=1788840579; cv=none; b=Y3RxLxjG760kJ78ZM5dSKjTt7ZlyhGUtYOg3I6BKm85KtxtwuoyPuPk8fdGZWccewXoBRRLlKLFCC3l0DnHQjdE/XL9iQf6amfaO3WTkDDbyqS2T04KvQnRmMf4pG5n0SfBsW+1wU49BVElBT74TM9sDUevLfOpgo+gjoVbODis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788837003; c=relaxed/simple;
-	bh=NIZ40nNzsbeeL8cdyy6ZKPpOyXaqocZlHwIU4WgHUck=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZXBNqRpaa9PtIyc7Ki2zrycR/BeJfFgp+08J+62svJXE85idcHM9YK2eUJ2IJZ2DX7Rsz4MAZlVDzyAnaYFIpMXW3Z4T5JVimNiIL538u3PLvAovjIgAv8oOoBMp9x7JCMlo80jdjG3Mg8t44LQKflUI5OZMZP3GvtQzX2qfU88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q/NFaiyt; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788840579; c=relaxed/simple;
+	bh=x0VZgiJePeWqh4cLtuV0TthQ7an0Lkb4/kBk4eS0cSE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BQuhQfnIk6C5cfaeUUd5NA5JLuYbb0+loOvncZPHHScZtbcYIzhVNddFxkodq4VTdK5AFR5mnhHKNdcDA/YlkWDks03IeWgXjggqzP55PSovJueymGc8FzlWwzc6EByCwBA8GqUazYUIU69q9Zt7cFu8wjmRi5sA+aV1I62hSWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=B6wMX3rO; arc=none smtp.client-ip=95.215.58.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/NFaiyt"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2d942c7cc2fso33775655ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 20:10:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788837001; x=1789441801; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5udmBuXlTT1GwJow6bPNXuqCwSBhZgjyh+ECHMZW2WA=;
-        b=Q/NFaiyt0R/bL+cvpQ0D5PaxfS/njeOH1Jqycs9RrJj65O63iB9yBlZxCETd+uttaW
-         f6lKbbKrdeiA/eTJbydj97Bhc55S4wzidP/cChT4D8/7jkviHA7VAbxwh+YwWxQmXH+z
-         xQk/XsGiOplS+2Q5NJqQJESnKC8cErb8IAsFcPegb8lfwhflYkFPSzGQ+5GQn/BujXFe
-         TPOId7vkUHzeKeaBdLuKranmAx4HjcZej7Y0KtAKNKaW2xyRtmg0bMaB/JmFHZddFHrx
-         zakmmlPaN1TXnhJxj8zo8s1u/l2tVlb7xwt2Re6RVZb1nLIQ33+Bc464g4YjAFntW5Nn
-         HiGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788837001; x=1789441801;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5udmBuXlTT1GwJow6bPNXuqCwSBhZgjyh+ECHMZW2WA=;
-        b=Llo5Z/FGwo3DGatbWZvauK08Uo+Pod5eBoEGg1tvsQ3AM1ApX9y/F290Zeat+tPHlu
-         5jtavFli0494H0JLQl65ZjTUzfIsnzX1SeWBiSZvQWB27l00kHgyAe1glctw/1pf4/Ai
-         adsuLcDEB+ufo6jpSwiLAi2Q1StTaZj3yFVqyAhth0AF6vJMhtlN3/TrzApivvmGHNb/
-         phmn1f2dkB4IMRN/XtQtsw2IgW0LTYwGxMbIWPmW/4Cf/f15HnsIMmHbkMrtYRCSStY0
-         YAtu9bZM0hfx18Qdrhn4p+qCOBBH6LWdtp0wGzBIA0DGcP2RO59uqVY8bZHiy0/eXiQK
-         VKkw==
-X-Forwarded-Encrypted: i=1; AKwUvBzLDKOrx7dxNzOwtnVuZkKjfaEc2MArKth5ZSnNEzicvG7cmjKVAFxl1V9qCbTMhwHn4nVSKv8MKAQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++mSXgn3LuJA4WMgEmPyOuW+oz516YiOGdtMYPcRd+iB/XBZgepD
-	EPyF+Isz556UEfSkUS8mAD+Ecp/2PE33PSF268hfm3Fgof/sYpIpfpFZ
-X-Gm-Gg: AYBFou1schrVbCNsw+aeCgtDNAOd/j56n0hT1fFJQdRPJateJefdsSGeqcvTW4jN2jl
-	pZJ6vlyJf7uk6LIIZTDzWPkd/w8L9lS2SLwhnPXFT3R0odxKbrIHNXixcr2RAL7bMOnavPenFfi
-	b7wkcUdLvV+Y65yT/zG5gD0BXS6k7uDGrRLxWU1CJp6bZqpe34KfukCQupi/UFR7aNYT6iK8pin
-	q7HLvtAPmogAiCa8gU6cT6DL+/jQ9SAvBFpv81mjHEOI+WtjS0dJxsNh7R1ISz5FUOaFEdV2Gbo
-	r8ITWOEXzinkJfjJeh1sbZKM2CUChx+LluiTzWmS8SIX/WTZO0YaevCi7zUKwPnQhCDRWaqJmtw
-	YvfPNZoQFSJq++K9cQ7ywozBTnorUbFWbRACuq/L2x3tSi2RtCqJh90pvxB8cPTjTmwRb+HLh1S
-	wMAvnOCRPbU8ejAL2ULnkB0AmvTZ8RKiFd+mMi1YBetdT3oJfY08y+KNpErO6HymwQqAGNjpmOE
-	9M=
-X-Received: by 2002:a17:903:22c8:b0:2d7:5ebe:a588 with SMTP id d9443c01a7336-2db126d6e31mr377723085ad.13.1788837000864;
-        Mon, 07 Sep 2026 20:10:00 -0700 (PDT)
-Received: from localhost.localdomain ([2408:8607:1b00:8:3fb3:b562:896c:1ac7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2db149cb603sm51255985ad.68.2026.09.07.20.09.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 20:09:59 -0700 (PDT)
-From: Pengfei Li <ljdlns1987@gmail.com>
-X-Google-Original-From: Pengfei Li <lipengfei28@xiaomi.com>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	kernel test robot <lkp@intel.com>,
-	Bo Zhang <zhangbo56@xiaomi.com>,
-	Pengfei Li <lipengfei28@xiaomi.com>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH v6 3/3] trace: add documentation, selftest and tooling for stackmap
-Date: Tue,  8 Sep 2026 11:09:38 +0800
-Message-Id: <20260908030938.14046-1-lipengfei28@xiaomi.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260908103514.a1c61f51b84b8d67d6f0f511@kernel.org>
-References: <20260903132409.270195-1-lipengfei28@xiaomi.com> <20260903132409.270195-4-lipengfei28@xiaomi.com> <20260908103514.a1c61f51b84b8d67d6f0f511@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="B6wMX3rO"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=x0VZgiJePeWqh4cLtuV0TthQ7an0Lkb4/kBk4eS0cSE=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788840575; v=1; x=1789445375;
+ b=B6wMX3rOxLJUReXa9Auyrgrk7+wZbrTI31hMBeZ64A7kLLekvpbjRg5ar5rESFwFZcx0S+fo
+ +CV7YXgUzqAHJIJfX/g9zZbVTC6U/IE1Qkx8js0gkjce7/jSuffyvD5H5I2R/UIk7FRsGEvz1Pb
+ FOmRXIDG4fZndVAfk7s1tRbk=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id aa67825df359c637;
+	Tue, 08 Sep 2026 04:09:34 +0000
+X-Mizu-Trace-ID: aa67825df359c637
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <3856ab3a-5bc6-4483-a116-601ae431b2c1@linux.dev>
+Date: Tue, 8 Sep 2026 12:09:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/11] mm/sparse-vmemmap: switch device DAX to shared
+ tail vmemmap pages
+To: Muchun Song <songmuchun@bytedance.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Qi Zheng <qi.zheng@linux.dev>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>
+References: <20260908030335.96549-1-songmuchun@bytedance.com>
+ <20260908030335.96549-7-songmuchun@bytedance.com>
+Content-Language: en-US
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20260908030335.96549-7-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On Tue, 08 Sep 2026 10:35:14 +0900 Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
-> Could you decouple tools/docs/tests in independent patches?
 
-Yes. v7 splits this patch into the documentation, the userspace parser,
-and the tests, each on its own.
 
-> If each test has this volume description, it is enough to split those
-> tests in independent patches.
-
-Fair point -- the three tests cover unrelated properties and each needed
-its own paragraph, which is the same signal you mentioned on the cover.
-They become three patches in v7:
-
-  - basic functionality: stack_id events are produced and the map fills
-  - reset semantics: the map is cleared while the ring buffer is not,
-    plus the binary ABI header check
-  - instance gating: a secondary instance exposes neither the option
-    nor the stack_map* nodes, and writing the option there is rejected
-
-Each lands after the interface it exercises, so no test references a
-tracefs file that does not exist yet at that point in the series. The
-reset test's ABI header check follows the binary export patch, which is
-being reworked to a streaming seq_file export per your comment on 1/3,
-so the check will match the final header layout.
-
-> > +    with open(args.file, 'rb') as f:
-> > +        data = f.read()
+On 2026/9/8 11:03, Muchun Song wrote:
+> HugeTLB vmemmap optimization now uses per-zone shared tail vmemmap pages.
+> Device DAX has not been switched to that mechanism yet.
 >
-> nit: Can this support input from stdin? If we use this on android,
-> user may want to do:
+> Switch device DAX to vmemmap_shared_tail_page() as well. This aligns DAX
+> with HugeTLB by using the common per-zone shared tail vmemmap page.
 >
-> adb shell cat /sys/.../stack_map_bin | python3 stackmap_dump.py
+> The optimization is enabled only for DEV-DAX through pgmap->vmemmap_shift,
+> which is assigned when a DEV-DAX device is initialized. Unlike FS-DAX,
+> DEV-DAX does not modify tail struct pages, so sharing them is safe.
+>
+> Since the shared tail page can now back ZONE_DEVICE vmemmap mappings,
+> initialize its entries with PG_reserved for device zones. Also skip
+> poisoning vmemmap-optimizable sections while their struct pages may be
+> shared.
+>
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+> v2:
+> - Explain why sharing tail vmemmap pages is safe for DEV-DAX
+>    (suggested by Qi Zheng)
+> ---
+>   include/linux/mmzone.h | 10 +++++++++
+>   mm/memory_hotplug.c    |  5 +++--
+>   mm/sparse-vmemmap.c    | 47 ++++++++++++++----------------------------
+>   3 files changed, 28 insertions(+), 34 deletions(-)
+>
+> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> index d3778ba976a5..03ed9232f186 100644
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -1686,11 +1686,21 @@ static inline bool zone_is_zone_device(const struct zone *zone)
+>   {
+>   	return zone_idx(zone) == ZONE_DEVICE;
+>   }
+> +
+> +static inline struct zone *device_zone(int nid)
+> +{
+> +	return &NODE_DATA(nid)->node_zones[ZONE_DEVICE];
+> +}
+>   #else
+>   static inline bool zone_is_zone_device(const struct zone *zone)
+>   {
+>   	return false;
+>   }
+> +
+> +static inline struct zone *device_zone(int nid)
+> +{
+> +	return NULL;
+> +}
+>   #endif
+>   
+>   /*
+> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+> index b428da66d279..0db0379826df 100644
+> --- a/mm/memory_hotplug.c
+> +++ b/mm/memory_hotplug.c
+> @@ -554,8 +554,9 @@ void remove_pfn_range_from_zone(struct zone *zone,
+>   		/* Select all remaining pages up to the next section boundary */
+>   		cur_nr_pages =
+>   			min(end_pfn - pfn, SECTION_ALIGN_UP(pfn + 1) - pfn);
+> -		page_init_poison(pfn_to_page(pfn),
+> -				 sizeof(struct page) * cur_nr_pages);
+> +		if (!section_vmemmap_optimizable(__pfn_to_section(pfn)))
+> +			page_init_poison(pfn_to_page(pfn),
+> +					 sizeof(struct page) * cur_nr_pages);
+>   	}
+>   
+>   	/*
+> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+> index aed1e7429daa..0201877a7f80 100644
+> --- a/mm/sparse-vmemmap.c
+> +++ b/mm/sparse-vmemmap.c
+> @@ -193,6 +193,8 @@ struct page __ref *vmemmap_shared_tail_page(unsigned int order, struct zone *zon
+>   		set_page_node(page, zone_to_nid(zone));
+>   		set_page_zone(page, zone_idx(zone));
+>   		prep_compound_tail(page, NULL, order);
+> +		if (zone_is_zone_device(zone))
+> +			__SetPageReserved(page);
 
-Good use case, and it is the common one on Android where pulling the
-file first is an extra step. v7 makes the path argument optional and
-reads sys.stdin.buffer when it is omitted or given as '-', so both
+Sashiko said: "
+   Could setting PG_reserved here cause a use-after-free
+   during device hot-remove?
 
-  adb shell cat /sys/.../stack_map_bin | stackmap_dump.py
-  stackmap_dump.py /tmp/stack_map.bin
+   When a DEV-DAX device is removed and vmemmap_free is called,
+   remove_pte_table calls free_vmemmap_pages. In free_vmemmap_pages,
+   the PG_reserved flag redirects execution:
 
-work. Reading from a pipe also suits the streaming export better than
-the current stat-and-read pattern.
+   arch/x86/mm/init_64.c:free_vmemmap_pages() {
+       ...
+       else if (PageReserved(page))
+           free_reserved_pages(page, order);
+   }
 
-Pengfei
+   Does this forcefully drop the refcount and free the shared
+   page to the buddy allocator, leaving a dangling pointer in
+   zone->vmemmap_tails[idx] that breaks other DAX devices
+   sharing this page?
+"
+
+It is a false positive.
+
+The struct page marked reserved here is an entry stored
+inside the shared vmemmap backing page; after mapping, it
+represents a Device DAX tail page. It is not the struct
+page describing the backing page itself.
+
+remove_pte_table() passes pte_page(*pte) to free_vmemmap_pages(),
+which is the latter. The runtime-allocated backing page is
+not reserved, so removal takes the __free_pages() path. Each
+reused PTE takes a reference via get_page(), and removal
+drops one such reference, while the allocation reference
+retained by zone->vmemmap_tails[] remains. Therefore removing
+one DAX device does not free the shared backing page or leave
+a dangling pointer.
+
+>   	}
+>   
+>   	page = virt_to_page(addr);
+> @@ -490,23 +492,6 @@ static bool __meminit reuse_compound_section(unsigned long start_pfn,
+>   	return !IS_ALIGNED(offset, nr_pages) && nr_pages > PAGES_PER_SUBSECTION;
+>   }
+>   
+> -static pte_t * __meminit compound_section_tail_page(unsigned long addr)
+> -{
+> -	pte_t *pte;
+> -
+> -	addr -= PAGE_SIZE;
+> -
+> -	/*
+> -	 * Assuming sections are populated sequentially, the previous section's
+> -	 * page data can be reused.
+> -	 */
+> -	pte = pte_offset_kernel(pmd_off_k(addr), addr);
+> -	if (!pte)
+> -		return NULL;
+> -
+> -	return pte;
+> -}
+> -
+>   static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
+>   						     unsigned long start,
+>   						     unsigned long end, int node,
+> @@ -516,21 +501,18 @@ static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
+>   	pte_t *pte;
+>   	int rc;
+>   	unsigned long flags = VMEMMAP_POPULATE_DAX;
+> +	struct page *page;
+> +	unsigned int order = pfn_to_section_order(start_pfn);
+>   
+> -	if (reuse_compound_section(start_pfn, pgmap)) {
+> -		pte = compound_section_tail_page(start);
+> -		if (!pte)
+> -			return -ENOMEM;
+> +	page = vmemmap_shared_tail_page(order, device_zone(node));
+> +	if (!page)
+> +		return -ENOMEM;
+>   
+> -		/*
+> -		 * Reuse the page that was populated in the prior iteration
+> -		 * with just tail struct pages.
+> -		 */
+> +	if (reuse_compound_section(start_pfn, pgmap))
+>   		return vmemmap_populate_range(start, end, node, NULL,
+> -					      pte_pfn(ptep_get(pte)), flags);
+> -	}
+> +					      page_to_pfn(page), flags);
+>   
+> -	size = min(end - start, pgmap_vmemmap_nr(pgmap) * sizeof(struct page));
+> +	size = min(end - start, (1UL << order) * sizeof(struct page));
+>   	for (addr = start; addr < end; addr += size) {
+>   		unsigned long next, last = addr + size;
+>   
+> @@ -546,12 +528,12 @@ static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
+>   			return -ENOMEM;
+>   
+>   		/*
+> -		 * Reuse the previous page for the rest of tail pages
+> +		 * Reuse the shared page for the rest of tail pages
+>   		 * See layout diagram in Documentation/mm/vmemmap_dedup.rst
+>   		 */
+>   		next += PAGE_SIZE;
+>   		rc = vmemmap_populate_range(next, last, node, NULL,
+> -					    pte_pfn(ptep_get(pte)), flags);
+> +					    page_to_pfn(page), flags);
+
+Another report is like:
+
+"
+   When this shared tail page is used to back the
+   DEV-DAX tail pages, could concurrent initialization
+   corrupt the compound_head pointer for the entire
+   node?
+
+   Looking at memmap_init_zone_device which calls
+   memmap_init_compound, the head page template is copied
+   unconditionally into the tail pages:
+
+   mm/mm_init.c:memmap_init_compound() {
+       for (pfn = head_pfn + 2; pfn < end_pfn; pfn++)
+           zone_device_page_init_from_template(pfn_to_page(pfn), pfn, 
+&template);
+   }
+
+   Since page_to_pfn(page) here points to a node-wide
+   shared physical page, would this template copy overwrite
+   the compound_head for all DEV-DAX tail pages on the node
+   to point to the latest initialized PMD's head page?
+"
+
+This is also a false positive.
+
+memmap_init_compound() does not initialize the full
+compound range when the section uses vmemmap optimization.
+compound_nr_pages() limits it to:
+
+   2 * PAGE_SIZE / sizeof(struct page)
+
+i.e. exactly the entries in the retained vmemmap page.
+The shared mappings start at addr + PAGE_SIZE, so the
+template-copy loop stops before reaching them.
+
+Thanks
+Muchun
+
+>   		if (rc)
+>   			return -ENOMEM;
+>   	}
+> @@ -883,13 +865,14 @@ int __meminit sparse_add_section(int nid, unsigned long start_pfn,
+>   	if (IS_ERR(memmap))
+>   		return PTR_ERR(memmap);
+>   
+> +	ms = __nr_to_section(section_nr);
+>   	/*
+>   	 * Poison uninitialized struct pages in order to catch invalid flags
+>   	 * combinations.
+>   	 */
+> -	page_init_poison(memmap, sizeof(struct page) * nr_pages);
+> +	if (!section_vmemmap_optimizable(ms))
+> +		page_init_poison(memmap, sizeof(struct page) * nr_pages);
+>   
+> -	ms = __nr_to_section(section_nr);
+>   	__section_mark_present(ms, section_nr);
+>   
+>   	/* Align memmap to section boundary in the subsection case */
+
