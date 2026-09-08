@@ -1,163 +1,120 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205CC37996C
-	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 05:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E475636F433
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 05:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788845216; cv=none; b=LlkJTeuYIVEUNeViCUCa23SypliXfqwZCvwz5tsxm81X6j7lq+QUKSWIzQ4PkyF9y7IiFWdr4eIW7QxmHnlO1jyXQle6QGXRY/rQIXlJVuLcvrI3gK5Pa95yWprw5up4bmUsskHqBZWIhzIezxHLl6AIJtMS6GBtiQ/dobFm2Rw=
+	t=1788846413; cv=none; b=RPXYjkmsZ9ijyNCxStPOJKwEg1w6XcDw8bydnKsXPamDO8Myu18rX9S/6j/GnoEi2AplgPyCwi/1I3rpRty6x3vMMhAd0dapMW1GMmhFEdYlrZyFtxGfO9UjBkBVgaZNSqhgjmHfK8bnyOvWHCxKvM+Llq8oCXazqYZYxSVE2pM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788845216; c=relaxed/simple;
-	bh=ZIRVEqjxXGVRKDzZh1TGbLw59T9G6VckCt7458JkZCw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pUoYp3TlCguD6LDk3NpbrQabgz2MrnUqSQfiPE/xX2q0D4HYj5Nk4l4Ts1vurIbhj6qKAzsfQg8Sn1ftwppDTIrISI9C+J4FiBz3VVBz1IoSjWwIR8d1o81cvk4u4vV6uz5FNfyuAQpJQ5RGHg11aFIbD8AjTrRZ3yEB7qXzrmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UkMuKH5D; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1788846413; c=relaxed/simple;
+	bh=EuhR7rnrXb0BdM/v3vGX5RjwAhgOZzPzZOkDquDHEHA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=m/hOuWQpOU+stgknOu4D566BjQCbwEMgw9mw+H3/DVpNjEsTfPZOuAIT2EaUbac1bZGtl++P90dFJfCCxa7dFzI5SDW0zuuPNO62i8oGEnT1YT3UGtg2AztdaIkvxzvPXfQg41uci8Fygo01s219nzGols9hB/TopyqBTMsRgYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T6hjR4/5; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UkMuKH5D"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cc149372c14so1993911a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 22:26:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T6hjR4/5"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cc147d86bebso3479674a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2026 22:46:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788845214; x=1789450014; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1W+fM/Wuxfg9AV61/48GxXECYU1wlppMPQetunuyOIs=;
-        b=UkMuKH5DLx1QhBCXQL0ADKpiw6NCr49GIdGMliXZKWyFc30tkMZ/Y9z1qanozXWTOR
-         YNlfYX6iZPh5J9Jx6UL6nGotIMa/c11eUgg0oibIIR2XZSXVPgLWWFsZUINvByi7VQBY
-         W5tsAMUGJ0SohkHxTmvyDlF6DrtNAmRo+EZMCh4LfDHfYJqNA+JGeTOeSKaVcDMquCbd
-         QyvmLgP0zqLrTb3pay0yYn0jMT8uJLn9uzZ9tj0dT2YF7VbHeaNbY+QzjmbERiEUMIVZ
-         ohIQrbrXRIDeRDlQx/6BK/zyrkFcbf+xzzJFFGXLOUJLi8ye5eIhAMgnoHxX+wZMAa6U
-         ONjg==
+        d=gmail.com; s=20251104; t=1788846411; x=1789451211; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=i+9kcEfU+zg9dMswCCCtsz8ghn2YtDfgBRBD9i8GdfQ=;
+        b=T6hjR4/5O+GCrB/PY+p0heo7CJveR3odWnN0odsVmiJOwt9yt7zkEGThHBHp8wJtIO
+         aFZNNPjuF2KEkLBXFDq3IrcH2I+ZnLCSAr6o1jzo2GAXJUJNMAmCKmPVYazKnSsY3sqY
+         xCMwTLODKZRLxuPs9QG9cB56kANcraqXD53kq/FQycqo4DHDYvAouKpSV0fsilyX/OUW
+         2MwBR/B/wHjDR9bvF0bNIxmkjkFqNvixl4IB1Vwzz1MHkfKCzypJLXIanjOIe3GyLxY/
+         30OEyzMK1TUTHecc5ahwfAR6KNv58nSJ1h+4Vc6be2k0bm417NUuUhnvtXeuI628fykn
+         1fVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788845214; x=1789450014;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=1W+fM/Wuxfg9AV61/48GxXECYU1wlppMPQetunuyOIs=;
-        b=oGw9M5czdKeCIR51CxxcnXka+7zgxboCKzo85bkKIpiV/CgXn1zxOZDuOFAzJ+5JJH
-         vsgdYtYMP0eYYcWdL/ge9aADdkUMM0kiX2FnbnTY8D8rOmiPrli+5AyMSgPgUiV6RHTI
-         7b1N9yjeRvzO4QCcR91OfA65ugYRB00GmtB93/OD4geTOqiS0ilozKygax91CAGTzp+p
-         AfAdL2n1DBgwfIBbuL9Vg6qoiEOZTtckNTV3X1WRr5fN7JRTbu5QGveXrcL0qNY9SRx2
-         8o/HelAT/S9c49Y+Cre+7ImzPyiIvud72SuczcpNJOVYjSQM6ZNF2rsZ5KOtscfkI0JU
-         A8CQ==
-X-Forwarded-Encrypted: i=1; AKwUvByl7gKO4/sWx8NyWrrEa2GutSVCJHzi2I9l4MVFDFPZ2sA6+tZQk5pKr3sc9HGFeMdvl7moVCIiecc=@vger.kernel.org
-X-Gm-Message-State: AFuF++kzLKTexKY1x91bhKrfhy546c6MzuMnb7hPcLpQCbPrHc5CjrFk
-	M/qI6LjclMHVg8ZhDSTn1vpcgT+zGrTU8MHzQvvuVRuKqPcFiMRvbQrYOHq8Jw==
-X-Gm-Gg: AYBFou28M+d8FbS8XmgskX6AS/3C7ALJUNFF8wtlpNPoGCddlcEJ6BYQyWegPV++xyR
-	KreBnbiLbKp6ONctoSIqq4bhfAjC2bzVds65TNJqro8BSFFgjGnFXOCtEZfbDk/TJhGMQH3xwAf
-	O8rAtqc+QmbsnwiEvQPH3aqRbBINTA6H789ecGnzi397M7esT2p7WG95b9RNI3Z6PGlIUOOCPdc
-	W53OyEJv3V6K7Pej720dN6Ix680BDVReOQi+ihVX8Rf76Ovvp8/3ev6NOPyxUTUmwKGcd7jFXBd
-	8cYmk/XrgSHNwgTBudsLKbUHVFXUI697KocozJFYKFpKIt27iXwBmc8wQULo9FbA3B/Xo1ZZrU9
-	3fWpx96tWgnYb3KyXcPfYakTXFFeV5MjiCE+G9MGoG/8xOGQsezMiH7gB7sdZ5f+/r6nhr5Bf/3
-	iOYbcVE0DT2QWa8Ci0vxE4IfO289XGoog9J8aM021FzhRmj9cpdLm2CVaBaaCdakRKTude8acNj
-	CcWXBFPBrF9I/l9T1d99QocpifekndTok3hUw==
-X-Received: by 2002:a17:90a:d004:b0:392:6638:2e6a with SMTP id 98e67ed59e1d1-39b26273267mr41950559a91.13.1788845214308;
-        Mon, 07 Sep 2026 22:26:54 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b58187a9fsm4339012a91.3.2026.09.07.22.26.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Sep 2026 22:26:53 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <1b2d3cca-09a6-42f7-93b3-ac1a2934d301@roeck-us.net>
-Date: Mon, 7 Sep 2026 22:26:52 -0700
+        d=1e100.net; s=20251104; t=1788846411; x=1789451211;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=i+9kcEfU+zg9dMswCCCtsz8ghn2YtDfgBRBD9i8GdfQ=;
+        b=TYZizGSfCHpKkHUp/3WYE+mZgIVMkwZioNqshkMtTqbyIfocDIwrQm/vOsIJCyPq+i
+         s2wdQK57u6RstDx0XpevFrwGeIi2DvAfizUHNCccwlqp4pprxRa9wjpSmyGje0j9wSoa
+         OPKhFlbYN0IO0X96kPWtETcrhT/yQBAvpE1XJvSld4T0Sh22FfA5/tu1QWNcnk9s+RII
+         pmVXcWrytqs+0V8/2DegHpMDpOinxeQmZzFCMNBzd7W0BanXw/Pf+FX6I8OGc2JcZLLx
+         tGiyUaBq50eHZKHwM7KizMC7PnIsO6G3jasi9PYj/pZjf1D1uP0v7q1f+nlaxS65+Ty9
+         TtTw==
+X-Forwarded-Encrypted: i=1; AKwUvBxZFs3XCZ6yIMy9Fv9CiiZ8gQXFbi0rGbLH3BGXF2xTpfXtMnRPBJRnea4uRXC7+VunLBzfccjqNFQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++lbnb1N72iJjxjijDpQcMAVOS8TJuL0fHJKw8YfqP6+ZiBdrScf
+	iCH3aqBLCx60mpyPUxl4amWPa7dkQpOWUpLzw98J6MyseH27AGhb8U7Y
+X-Gm-Gg: AYBFou3OziH2Mlw3UFaZXS/iiWJ04Rh4dDIy+s9gVwrRj0PvnN2dL7NnKc64wGUobvB
+	IOig7lh2NIrvA1Gwy07C7QxpGuOA2jbLRIKMvSxFKFM7FEeF52teAOIYgs2xYvX50g7WpWUr7/R
+	It4qLtF0chv4S0y7Z6HAg4Tggr1xzMyYvy673PBZwOUK6GlJiRpa3R4DDG9mZkBdtxwpbPhXkYe
+	eXq2eCuMpGG0WjgRDr7dp5gZVK0uN+dGrI7TgTHmWsCVXPaOHi8hklqJkqrjl4e5HpN9kuyZTAL
+	PkMcTLopGzhyPR8NdiHw54y5U4Xa8kOC4kWfQI+1Ea99f8KxiZ79H0Ls6rpARJe5qGDhWEaB9G5
+	CYOA22k9SLBmz7cJSN0FNmBPnjoEh+0WqhTFbKf1zl1D6dw7UiATNYnBkTnSFoUELFvcD51Cnic
+	iYLD1zCvU2ScP9fOaN+ugph4hhV7ia/oRV38pyTJdtfP5cTbkelRkslGj256X3e7/iY64jSNEzd
+	fHPl7uuSQpujbQanaU+1s1B
+X-Received: by 2002:a05:6a21:2d05:b0:3cc:f9a0:3ada with SMTP id adf61e73a8af0-3da215a6cc6mr32295410637.16.1788846411208;
+        Mon, 07 Sep 2026 22:46:51 -0700 (PDT)
+Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1434c745a09sm2053384c88.7.2026.09.07.22.46.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 22:46:50 -0700 (PDT)
+From: Hemanth Selam <hemanth.selam@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	intel-wired-lan@lists.osuosl.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH iwl-next v2 0/4] intel: fix typos in comments
+Date: Tue,  8 Sep 2026 11:16:43 +0530
+Message-ID: <20260908054643.11460-1-hemanth.selam@gmail.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <45869dba-955b-425c-88b5-a9793ab2717a@infradead.org>
+References: <45869dba-955b-425c-88b5-a9793ab2717a@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/2] platform: arm64: qcom-hamoa-ec: test sensor and
- variant handling
-To: Birk Skyum <birk.skyum@pm.me>, sashiko-bot@kernel.org
-Cc: Anvesh Jain P <anvesh.p@oss.qualcomm.com>,
- Sibi Sankar <sibi.sankar@oss.qualcomm.com>, Hans de Goede
- <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Daniel J Blueman <daniel@quora.org>,
- Maya Matuszczyk <maccraft123mc@gmail.com>, linux-arm-msm@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260908015650.84401-1-birk.skyum@pm.me>
- <20260908015650.84401-3-birk.skyum@pm.me>
- <20260908020711.ED17B1F00A3A@smtp.kernel.org>
- <20260908021844.42118-1-birk.skyum@pm.me>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260908021844.42118-1-birk.skyum@pm.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/7/26 19:18, Birk Skyum wrote:
-> Thanks for checking this.
-> 
-> The test client is bound to the I2C core's dummy driver by
-> i2c_new_dummy_device(). Unregistering it unbinds that driver and releases
-> the managed hwmon child before the adapter is deleted. I reran the arm64
-> KUnit image on the stated 7.3-rc2 base; all seven cases completed and the
-> guest rebooted normally, including cleanup after the sensor-probe test.
-> 
-> The dummy-driver binding is also documented here:
-> https://docs.kernel.org/driver-api/i2c.html#c.i2c_new_dummy_device
-> 
-> For the hwmon placement, I kept the small read-only sensor path in the
-> existing EC driver, as huawei-gaokun-ec does. Guenter and linux-hwmon are
-> already copied. Would an auxiliary driver under drivers/hwmon be preferred
-> here? I'm happy to split it if that is the preferred direction.
+On Mon, Sep 07, 2026 at 10:27:00AM -0700, Randy Dunlap wrote:
+> How did you choose iwl-next as the target tree?
+>
+> The closest match to that in the MAINTAINERS file is this:
+> INTEL WIRELESS WIFI LINK (iwlwifi)
+[...]
+> but the patches don't touch any of the Intel wifi drivers.
+>
+> I expect that you want net-next there, but I could just be confuzed.
 
+Sorry, the prefix is a confusing one.  Here "iwl" is Intel Wired LAN, not
+iwlwifi.  It is the prefix the Intel ethernet maintainers use for their
+next-queue tree, the one in MAINTAINERS under INTEL ETHERNET DRIVERS:
 
-Your call, really, but it is all or nothing as mentioned
-in the other patch. Platform drivers are not documented in
-Documentation/hwmon/.
+  L: intel-wired-lan@lists.osuosl.org (moderated for non-subscribers)
+  T: git git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git
 
-Guenter
+Intel's own developers tag patches for that tree the same way; recent
+examples on the list are the ice, idpf, ixd and libie series, all
+[PATCH iwl-next].  Since these four patches only touch
+drivers/net/ethernet/intel/ and its documentation, they go through that
+tree rather than straight to net-next.
 
+So I think iwl-next is right here, but Tony and Przemek should correct me
+if they would rather have them another way.
+
+Thanks for looking.
+
+Hemanth
