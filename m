@@ -1,148 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FC257EDB7;
-	Tue,  8 Sep 2026 15:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C95559CBC
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 16:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788883032; cv=none; b=AyOfkC6W+agsRbF9c6SnHRyqgI2+ju/Qpvmz4wVPAysSsJdERNSdcGIxJOkQy2/7yZRU8zUeyMO4SF5A84T1yDgwmj3G2b2QoiNliWd8N368zdNIqXQ2Gq+asLLRKla0ISR+xTPDB2n1uw1kKFMYCsF3evgKOChEWqxlFEE8OlY=
+	t=1788883513; cv=none; b=JfmWpPx6i0awftBePZxCUtv4i1//ffopzWjeUTZQZmrzY39YpStAY42/MgQkCcCCzRmh9sBpyYYAJjHhqNb+HdYizSx5eYA/iEvk6gea2GL/mKeZ80Or7hZpIl5yp4fWVlSRsB0evReVx1WTAidbKKszwXaqAcfLo/UZv88agkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788883032; c=relaxed/simple;
-	bh=wE6BShZdQbly6Vg1sd3BDglUpI4DPevW12nlE/4EB1M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mZKubrkfXU8g1jZfdLg03XaG/dtw5JYjBnD0cdgUDcgMXdFzThcZ7E/eaeZ+vWoL/CVbrPrkMJiwDh3j0OsJVl7EePRAEUMXRgQYYFc3Sn9MX9zDmH5lmCWYiQ2Ap5ztUbD33hi/Q6QTA4puJ1THOOBCeT6N/1e11k5zmA6p4UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HJKdL4ri; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788883513; c=relaxed/simple;
+	bh=fSR0OKhaAXzCGXCd+vmXfghPnZaUrM4xUQPA8J2O/tU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lk4HWil5p713CMcEZKdM9xz5FL+6c6qkF/ZcYbTsjW50E2QEkFsC1dXSRgD2GKjGKisoxkSn0JRgJeCgUrvG4HrrmAsTnkzQ8b3QrYvC/ne5t75PDXHywBt+FvIKr5YSwUqEdmsgTgEU5nkkqSMuofFhVcyt0OQkqt2JviIQL+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LwMeheS6; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HJKdL4ri"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D5121F00A3A;
-	Tue,  8 Sep 2026 15:57:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788883030;
-	bh=+Xk5g9hhke4NmnhJKxFuptmSPt0Ay2UA09dJINvaSs4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=HJKdL4riRsnh3DhO2GkvZ/ogoKy4cKyEmOvTJglm7Ip96uP51Mz6B+llNdwnkey88
-	 LZjxDsVk+bxYDC3x0yZrX+z9K5M8WjQXBHz2A9ZSDLpBDcggVMYJ+W9OeRvRrL9S5Y
-	 7O+ISDfA90VfnmJu98usOYjZzwB2elVtj2fC9KDpoG8tgUEdXQyBu0CWNrUuSSpuHU
-	 kPym+dsZ2ZJALMPqLE6/XBd+DwP8PhFxyjGkUgYyW7VVCTAAQKmnTorAKqKeWDjEEV
-	 yHI92h3lTYDHxB+8tzNmqQsHc0q1ey9cBKFP8p8hpvhYnhWdZpkAUStQjHdaT0XUj4
-	 dSX4btIS8Uatw==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Alexander Graf <graf@amazon.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Baoquan He <baoquan.he@linux.dev>
-Cc: x86@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kexec@lists.infradead.org,
-	linux-mm@kvack.org,
-	linux-efi@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Subject: [PATCH v2 4/4] kho: rename kho_scratch= commandline parameter to kho_bootmem=
-Date: Tue,  8 Sep 2026 17:56:38 +0200
-Message-ID: <20260908155639.2496551-5-pratyush@kernel.org>
-X-Mailer: git-send-email 2.55.0.979.g7e5102b832-goog
-In-Reply-To: <20260908155639.2496551-1-pratyush@kernel.org>
-References: <20260908155639.2496551-1-pratyush@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LwMeheS6"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-398a5aad413so3715723a91.3
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 09:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788883510; x=1789488310; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=hHrvMGywSx2AdPNWfAoWeJA674yVmyK7qs5cNnAxFf4=;
+        b=LwMeheS65Ii/bw9/FGePjWy0hPF1cn2mr3aNuT2JIALFOsgBuOxpIwzHBJE05jQMAZ
+         uPbX+JX+xjl7zjxbBN+lWMgq2Ezmk7rPlCR8yjAslXrOVtrGEy/cm2f/bWh88BTACczt
+         44SDYKWvOKEorn8g2qZXUeWQgft6583Lyr93QQL0sKxHTMvQeufYTsy25457/MF6z3pB
+         PXnxZV+J2jvCwKFd0mDsbpK9qftVQPuDMCR8OWOzKeqM54Pd+C3zZ25pOhVerFLIppT7
+         tGuoVLgEiaB5Uh6uSm4SncE+vGqLAIxFns/GPpK5TrdSOPN+Y1YvXL4F4zeStlMaB1Ys
+         8yCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788883510; x=1789488310;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hHrvMGywSx2AdPNWfAoWeJA674yVmyK7qs5cNnAxFf4=;
+        b=aV5Uba1c569cS22zgYewqelDP9VpoZ+7szaFj8Kp+YqJNN1FirgjZSVu1bZq4sBQoW
+         vIlQuabzOQyf1S9vTAnyfS45au2d6HYPv5PZUmhmXq4kF+xlSKEoK3kQcT6CmutOBsgM
+         Vk3iFNWcy9BIm4OBON5crS97WgeZHC+LY4KWMuNCslCqHwPjxcFF7RIuiMtFaw32QmYi
+         xVbgEVsXNL8bFi5HXTUKgEcRMJOl7N8dSZC4prEtllMEuWE4rNYAVIQ1ua0dQU+eKLrl
+         l1ysLUY2u9WhZ1EABYthbitFWZ1VXWRYNPziSAUJ2A/4+5IyCNbth1ZRFQlQgUl6IIJq
+         W9kw==
+X-Forwarded-Encrypted: i=1; AKwUvBzihwrp4v/rHuGGbmcNtCUqgym1ab9+L5c69zmcSAz01fvYro9vDo1f1EquFF7QXfSdC0Gdky+DBqg=@vger.kernel.org
+X-Gm-Message-State: AFuF++nJnokU9ZNtUz4aGVIfdaBtKE2CgKwFYZm11mMzJrjS2dQdR57R
+	DfNQxXVeIBOkEVWxN3Nq7wdZ0sydav8DL/hof3wZbAxaryXxUUBRPHWp
+X-Gm-Gg: AYBFou1YAr6UwbRYzQXkC2uSHeeqsPMFpAXq9QTArCzzsvi2A81bYgJrr0ox0AjFsut
+	YrSagc59xFOxTKBV0enNJb1c/KWn/3MkOUVoAZzmYaW6/wOnJL2gDVtwHB3aXymyCL3eN1bWhhv
+	hi8I86C+DyHsg6ltnb9ZHt3OBIHtgeVDtukeXirTYRoxCQr27CT/BlVOyrA5Oh6D8K24El0BnkM
+	eakAUOWVa6OKcSiT97iDT7zJRzXe+9K6CYBEb0wg6bQ+HeXQnWahXq0+iQ7FhIgi2Rl8anXITmL
+	sfLv3SQf7NFutpsPhbFb+nxYnIR5cdH1EidVNXQY6JwT4sTF53IeZA6iusPVtGj8nOcKSj854rT
+	UZqApfMtwm4PszFvi11AwpmIFqKyzL8C0x8cijSQ6cop5AIViNIg3OdMBw8fuGppK3k4Y6L4w/U
+	dgy5BdrBoFgDvnLuwETLssey7UyPqUJBPztwVYbGNA9WdRLv6ljXdu8J4hh8NuDjIdsRSAItTMa
+	A==
+X-Received: by 2002:a17:90b:2884:b0:398:e86b:ce14 with SMTP id 98e67ed59e1d1-39b262ab44emr42903754a91.20.1788883510286;
+        Tue, 08 Sep 2026 09:05:10 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08bcd243sm34225571a91.5.2026.09.08.09.05.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 09:05:08 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 8 Sep 2026 09:05:07 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: hwmon: sysfs-interface: Fix bracket
+Message-ID: <897ec778-ed51-4698-80e4-25326d7828ad@roeck-us.net>
+References: <20260903161204.735276-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260903161204.735276-2-manuelebnerli@mailbox.org>
 
-From: "Pratyush Yadav (Google)" <pratyush@kernel.org>
+On Thu, Sep 03, 2026 at 06:12:03PM +0200, Manuel Ebner wrote:
+> Add missing ')'.
+> 
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-KHO now no longer uses "scratch" to describe the memory areas passed by
-previous kernel. Instead, it calls them boot memory, or bootmem in
-short. Rename the kho_scratch= commandline parameter to reflect this
-terminology change.
+Applied.
 
-Signed-off-by: Pratyush Yadav (Google) <pratyush@kernel.org>
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- Documentation/admin-guide/mm/kho.rst            | 4 ++--
- kernel/liveupdate/kexec_handover.c              | 6 +++---
- 3 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6132fa73382a..8a42a924f133 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3031,7 +3031,7 @@ Kernel parameters
- 			"0" | "off" | "n" - kexec handover is disabled
- 			"1" | "on" | "y" - kexec handover is enabled
- 
--	kho_scratch=	[KEXEC,EARLY]
-+	kho_bootmem=	[KEXEC,EARLY]
- 			Format: ll[KMG],mm[KMG],nn[KMG] | nn%
- 
- 			Defines the size of the KHO boot memory region. The
-diff --git a/Documentation/admin-guide/mm/kho.rst b/Documentation/admin-guide/mm/kho.rst
-index 4fae09096038..f14c8d9ad6a4 100644
---- a/Documentation/admin-guide/mm/kho.rst
-+++ b/Documentation/admin-guide/mm/kho.rst
-@@ -20,8 +20,8 @@ need to enable if you would like to preserve their respective state across
- kexec.
- 
- To use KHO, please boot the kernel with the ``kho=on`` command line
--parameter. You may use ``kho_scratch`` parameter to define size of the
--boot memory regions. For example ``kho_scratch=16M,512M,256M`` will reserve a
-+parameter. You may use ``kho_bootmem`` parameter to define size of the
-+boot memory regions. For example ``kho_bootmem=16M,512M,256M`` will reserve a
- 16 MiB low memory bootmem area, a 512 MiB global bootmem region, and 256 MiB
- per NUMA node bootmem regions on boot.
- 
-diff --git a/kernel/liveupdate/kexec_handover.c b/kernel/liveupdate/kexec_handover.c
-index fe4b76ff5a2c..7018e25e4eda 100644
---- a/kernel/liveupdate/kexec_handover.c
-+++ b/kernel/liveupdate/kexec_handover.c
-@@ -671,12 +671,12 @@ unsigned int kho_bootmem_cnt;
-  * The bootmem areas are scaled by default as percent of memory allocated from
-  * memblock. A user can override the scale with command line parameter:
-  *
-- * kho_scratch=N%
-+ * kho_bootmem=N%
-  *
-  * It is also possible to explicitly define size for a lowmem, a global and
-  * per-node bootmem areas:
-  *
-- * kho_scratch=l[KMG],n[KMG],m[KMG]
-+ * kho_bootmem=l[KMG],n[KMG],m[KMG]
-  *
-  * The explicit size definition takes precedence over scale definition.
-  */
-@@ -751,7 +751,7 @@ static int __init kho_parse_bootmem_size(char *p)
- 
- 	return 0;
- }
--early_param("kho_scratch", kho_parse_bootmem_size);
-+early_param("kho_bootmem", kho_parse_bootmem_size);
- 
- static void __init bootmem_size_update(void)
- {
--- 
-2.55.0.979.g7e5102b832-goog
-
+Thanks,
+Guenter
