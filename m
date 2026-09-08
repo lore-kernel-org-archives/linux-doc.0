@@ -1,146 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D125632BB;
-	Tue,  8 Sep 2026 18:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7E155C1DE
+	for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2026 18:30:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788891851; cv=none; b=MCNpVsvboqVQzrdKgSAkpgf+3LKu4TdYY8cMRp9KgM/NcT3ZMxJM/kgL9VkRcRlON1W/WDyRG7olkCwRiFkudMaTb9DqSVsrjq6LQCeNNH9PP1bI9r7cdceE6duf4b6/K82ZXzxHOtreRbImR9+6s5ZevUgp75XpdKTusz4R/e8=
+	t=1788892220; cv=none; b=WX/JrfR1isBw48DAtexNRZ8aH7yB9l5v8FFTs6Th/7JrOldvVHzhVUCERyX3bOEWffe/aMa0ievMCQP90541QLxjZrQBcvvBD04m6suXKAN+1+ii2WjSaXbPH5h/GIRIKF+Vapfg7N17h3/pOEcj3k1z0jucJN/CBW3KqVom3R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788891851; c=relaxed/simple;
-	bh=+oOAQ00yUP89U03Rc65jb+Kg8EAcc6c/BKCzZisXObc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qbQ2y6FclDzuuaUVPHgspfhG+aNfJ+ZoeylepTwuVS/N0kJniOAzQ5FsL47zOYgo3pV6ZKfqdItZvH8cqGWk/EyFmoNKh1BIu9LD6oDb6mX4F/Hyw1stszvmD1gd4lCduVLDc5HlvihfVHouO1QSzTCnGpf0WhMs9JKbgxj72z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A188WLYz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788892220; c=relaxed/simple;
+	bh=9Ljl5aeAKEUYZxDTI1oTdQw1xJ/TGeLSpSVQNjAyIRE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=adnwtf1EXMz3BW4OPML+KH+G2mRAUFUmJNnIugFa+XkTUHgvy44l+0U1jJf1EZjnZuQOm2zuLhlwGAE2dSh5dnL7TmgdZXhDP2V1scd3gV4vqMiHRWDTixI83Vt3nuqsuiP99W2kb1lvPDYFHKoG7DvmUFxAOFDP2il/gKymNqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=hif4G5/I; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A188WLYz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073251F00A3A;
-	Tue,  8 Sep 2026 18:23:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788891849;
-	bh=lyYYVS/FagqYOcVSDJHaTvAxjYarJ5rdqBjkTtuGY5s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=A188WLYztbP23pV9lu3+YZZlCyV+qerocujjhukP+AX2f9SDGUT6Q7ryaSLGhMASz
-	 NlSf9eUz4ckF8jgICbC112SCHOrRXno3/wmsHWHjjpKI0cAKxfnWwxxNwQXPyXDknK
-	 YI5hDim3jAgYo5HwfXDgq3Ace1p8oV65ikDTTrhyoNTCkzctEd/HKhyb19/Aui8BBQ
-	 bbtt+5g8gQeDLIXPluA3taWKMUwV86dJ2GB3z1LzZzz+vYZ8ZTEfYMxq4AMuzIeM92
-	 IS8ydqe48T2A93eH0rfBslB+F3V3hfz2g4JvydoGbhulU2EENjkLiGrW/s1Uhyaviy
-	 b6SbWC5siKvBg==
-Message-ID: <4583e7ba-211c-4695-8127-c5d91f52e73c@kernel.org>
-Date: Tue, 8 Sep 2026 20:23:51 +0200
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="hif4G5/I"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-90ce08834feso70431806d6.0
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 11:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg.org; s=google; t=1788892217; x=1789497017; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9Ljl5aeAKEUYZxDTI1oTdQw1xJ/TGeLSpSVQNjAyIRE=;
+        b=hif4G5/I42vFMX4VmjzMxFiACbq3P2SGGUN9W5ZswvpamVLTgP6Kxz0xeYnr2ISaJb
+         0tpv5IL6leq9vRHHBDro/v7mkWNyWz1AG76wg4tow67mgZncPR6eHiWirDczYlGwhgru
+         LrVIFg+g1UE6liZbeGESuy14nVA+S1VxTZmFbUqkzZ9i8tAkcWxyZnftXuKq16mzPpo/
+         mQ/ZPqmxj3Xq+5swwTLL2fk6EWbbi6SDueCVhcW9oNPKvphkm7ZDSddP348JsPcBSCwi
+         Y3N1GhN09E44/BsZ0i2zoK8PkhlKGoZfpAr81NQHQlM1TpbHiYp+Uba1SkuOvgx7fKNd
+         uBcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788892217; x=1789497017;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9Ljl5aeAKEUYZxDTI1oTdQw1xJ/TGeLSpSVQNjAyIRE=;
+        b=iIAApKPxpi3gkh/9qLWleLBNDHg3mUYF0KPTmUbgJLUSy2Kx/o3u1wa5XbL5K8eNQ+
+         Eo8qT1HJ+7azAYShgiwegbIgMcaNIO8c4ja4cm5C0fU5VY0vdoWAvXiBSRl6kSnSq/Tg
+         G+ODCMUMdUam5ibMKGSsc7IyQN8wuoiCY2pWf/mLCW8/Xl7Bx+Rvrx3qUUpPiw2rIsjG
+         J75VKne3a/3WfMGiW4iFg9JtpUSmcRMcuDrqfAHtnUtF1Wzt52GNObRDX2mrl0ZlD5CR
+         BRYBZa+fLtxqrl+d7LZHmwhJ2NwxDAsvcxCYnLQ/VtXrWZkscPfh6Am61XUMJJ/ep/q8
+         QaRw==
+X-Forwarded-Encrypted: i=1; AKwUvByF5XA+D6CbQqsbSO8ZSKK89UcfohIhyde2nuyIUynrqvB7wU+7LRnvB+3PpTWkxmhq6KMIzl0WyCo=@vger.kernel.org
+X-Gm-Message-State: AFuF++nT0OwnLjcTuBGM7VWKs7HmQTgLd3mi2xHEbpc3r+/x53PFhC1r
+	JCgqvvimEMVRL3d8gP7ZxTWl08krJeVE5T9TAodD49Ah3qpVs54pZNkZfjQNMtOZvXI=
+X-Gm-Gg: AYBFou2Zq4OEiyC/Zspf+IB9Bnh9kvJ9EdERYWt234E57cuV90CWAvJGxRWaVH8pfb7
+	3Owwd0ARyFuqPbbOMOGUJ2YW4qk1Pwsx5IcJOaS2G1me8vnGX5lC3j1k1GOwmv7+Z4iEznxJEj5
+	pE4f+BP8oL2QOQ5LVdB9u8wnLToZeFHyVz7JYcX4i4Nqw7mX/wbCoMfunP5yy4N4cNGkrcB5hjp
+	4kPjcqxJUnyMyJ4WkTGk4b14m2BxqYvYHEm00veltSNl7F44wAH6u1NnZXoncnAJakM3cNFL2Gi
+	QtuwzmbSMGMAmYTGPdMl2d4iBjmxKEvuyLjHn30JEDGEY/5FVh5Zxu+ELhR/SW7P19snxX/eR1V
+	MsEzfj8WI19eCe1Gba4FjaXvGmUBCWlFWhOY6OQbuBwvcAvNKTB3I2zju553G4xM613QwFM+ENj
+	vaPTgdcCiHja482JvDG4qQ4BYK4hU/bIIKtwqRkhFI3thKZmbN/S/GLuBP3pY=
+X-Received: by 2002:a05:620a:a38a:b0:939:f89:3688 with SMTP id af79cd13be357-9398048b90emr2615843685a.42.1788892216424;
+        Tue, 08 Sep 2026 11:30:16 -0700 (PDT)
+Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-939b8fbc1dbsm312983185a.11.2026.09.08.11.30.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 11:30:15 -0700 (PDT)
+Date: Tue, 8 Sep 2026 14:30:11 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Kairui Song <ryncsn@gmail.com>
+Cc: Nhat Pham <nphamcs@gmail.com>, Chris Li <chrisl@kernel.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Yosry Ahmed <yosry@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
+	YoungJun Park <youngjun.park@lge.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>,
+	Wenchao Hao <haowenchao22@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Kunwu Chan <kunwu.chan@linux.dev>,
+	Meta kernel team <kernel-team@meta.com>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org,
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <aqBT_35E-eSoN_zj@cmpxchg.org>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <CAMgjq7AHRzBsbmGOx0s=TQFBwcn=DEU1naR443sO6x+pJd6hAg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/13] ARM: axxia: remove entire platform
-To: Arnd Bergmann <arnd@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Linus Walleij <linusw@kernel.org>, Russell King <linux@armlinux.org.uk>
-Cc: Drew Fustini <fustini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>,
- Stefan Agner <stefan@agner.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade
- <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>,
- Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrew Lunn <andrew@lunn.ch>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Ethan Nelson-Moore <enelsonmoore@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Alexander Sverdlin <alexander.sverdlin@siemens.com>,
- Shawn Guo <shawnguo@kernel.org>, Karl Mehltretter <kmehltretter@gmail.com>,
- "David Hildenbrand (Arm)" <david@kernel.org>,
- Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org,
- Anders Berg <anders.berg@lsi.com>
-References: <20260908152808.3928630-1-arnd@kernel.org>
- <20260908152808.3928630-14-arnd@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260908152808.3928630-14-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMgjq7AHRzBsbmGOx0s=TQFBwcn=DEU1naR443sO6x+pJd6hAg@mail.gmail.com>
 
-On 08/09/2026 17:28, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The initial Axxia port was contributed by LSI in 2014, but never completed
-> after the sale of the business unit to Intel, which kept supporting the
-> bulk of the drivers in their own downstream BSP.
-> 
-> The downstream work has also ended now, and there is no realistic chance
-> that anyone would rewrite it all into an upstreamable port.
-> 
-> Remove it now that the 7.3LTS release is out and can be used as the
-> base for one more downstream rebase of the downstream patches if needed.
-> 
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-> Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-> Cc: Anders Berg <anders.berg@lsi.com>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Mon, Sep 07, 2026 at 01:51:31PM +0800, Kairui Song wrote:
+> Where I've ended up is that unbounded growth is a real concern. On a
+> host with no memcg limit (root cgroup, and most desktop and embedded
+> setups), an unlimited pool means usage can keep growing, with no
+> admin visible ceiling at all. I'm not attached to xswap's percent of RAM
+> knob specifically, but I do think some kind of bound makes sense.
 
+Swap space is just process virtual address space, no?
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Swap entries already have one or more page table entries pointing to
+them, which in turn are managed by trees of vm_area_structs. That
+means rlimits apply, overcommit protection applies, and OOM killer
+attribution works as well (oom_badness()).
 
-Best regards,
-Krzysztof
+Shmem has its own defaults and limit interface on address space.
+
+I'm not quite seeing how the swap space needs an additional limit. How
+could users break things in unique new ways without it?
+
+It would be good to spell out that vector before discussing numbers :)
