@@ -1,119 +1,137 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3B6155821D;
-	Tue,  8 Sep 2026 15:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0123857C70E;
+	Tue,  8 Sep 2026 15:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788882299; cv=none; b=H6EpX9qk6w2dFH2/1V0WAxXGE1AxILbacXQYTXmX1ge+G9E6LqOI8BJB2BdSMjZf9m1fJNGQeoLNa4EiATXfCBI6x12/Pr4J0qLl+Dqln3AwioHwY3w1s9oRMMi2Zz63OhF1TosayDKn9pRwodJXSI750P5UVXtHTQj3M7VGxgM=
+	t=1788883010; cv=none; b=O8BftewNg2WwCklNsdPZipr7gg6wy6Wixz+Hk6/VidvqcTrfD1JFMU6kgg5i0sFJnZ45TB3/cmyWTvePsSjGLvuL+W0jqgZV7w767FIXnPnJXTD1jUsUgIrMuqnBOzSf8f+t+mWgSa4iLHPvhMchGB+9oADGpfTV+Esh9QwIojo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788882299; c=relaxed/simple;
-	bh=GxMGnXYQeONzqdK6e7ly+Ryxj5+TnaiGzWadzF9ASqg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GruLx8RQ6AI7L/IhKuDwFCz6m+oDHWzapY85vorL8E3zorXWdnDFs61QKcHNEwowYdH68FTqKxgIFtT6x7aeCQP7ht5zIEffOskufZdhrr4kWgKGzy5alWR32f6AH2Sz1DmBxynF4XcwNr+nk+US06u0UXdUwdpBMgiW/tcRbhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=LcW3d8Y9; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1788883010; c=relaxed/simple;
+	bh=jqomfzAPcB/YsEZ5Zl+BQ8kUXgK69YV3ld/oKwVf5+g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Imqg2Xs4zmiviULwA0wG2SnGILYsXtAqFxQQZOFimtt1YYSBodPZ30Np3uIzZ7UzoisBRNO7BA6UagE1rjUBvnBUuWhDYkfrWUk87q4e23NfZXrodveIQ6hMvNvQsOqJhgMdMhaYaR2mquq4V4n+X3MwZ6UKvCKT+KbT632F4Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dgzqAq0R; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="LcW3d8Y9"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8FB551477;
-	Tue,  8 Sep 2026 08:44:52 -0700 (PDT)
-Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4C3123F7B4;
-	Tue,  8 Sep 2026 08:44:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788882296; bh=GxMGnXYQeONzqdK6e7ly+Ryxj5+TnaiGzWadzF9ASqg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LcW3d8Y9EnhgIb3Rlfc88EUwA1NZjt8vavC27AHR9l+iN18v85ITcyWSQsN/UPN4o
-	 OLvqyDegHcjXhNJgmbuN3xh1uOIo2IZyl07gOyc3Vx/FuMblFAjLyZXrWSOGkxnxbI
-	 JdSzw6d7rWBZnzC8KL9Vxzg9oHG/Ck26o9OgGRrM=
-Message-ID: <a2a7d988-339c-45f6-b910-5d7dd893b45c@arm.com>
-Date: Tue, 8 Sep 2026 16:44:52 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dgzqAq0R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE3E71F00A3D;
+	Tue,  8 Sep 2026 15:56:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788883008;
+	bh=sRrd8HW6tVkZeGdEyEtiUpIMBkv6a/57SRsi9SBmBeE=;
+	h=From:To:Cc:Subject:Date;
+	b=dgzqAq0Rb4t3E65A90uWXQ8od7s2sZqu5HDBqaJYS739IKSVberiqznPYaCD46X76
+	 hg7VF2iHl6HtZqNtYIGeMQKuNy1OcnIqdyV2Npj8y99of6jDpJGQaTtRm4sV8kXBrT
+	 wZ28xpm0TQ+y8vNp9XgYu7sReJxXI2Srrf7PXc5BJKRImATk8y4scer0CX2Wdk+Ygs
+	 7fNnOlWi69n052qHTsAJcBEsosfaF/dO113v1vD1Hs/MR9HMYD7A5rHRuc+yLNe696
+	 iYg6m/WbEHurdr6ucmTDEdR45Zi7/yEnJJZLhMeePTkWBjoDdJMaLi/3GdTwdzmT7J
+	 YMPEMq8UVBnJA==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baoquan He <baoquan.he@linux.dev>
+Cc: x86@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kexec@lists.infradead.org,
+	linux-mm@kvack.org,
+	linux-efi@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arch@vger.kernel.org
+Subject: [PATCH v2 0/4] kho: rename "scratch" to "bootmem"
+Date: Tue,  8 Sep 2026 17:56:34 +0200
+Message-ID: <20260908155639.2496551-1-pratyush@kernel.org>
+X-Mailer: git-send-email 2.55.0.979.g7e5102b832-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/3] x86,fs/resctrl,arm_mpam: Factor MBA parse-time
- conversion to be per-arch
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Borislav Petkov <bp@alien8.de>
-Cc: x86@kernel.org, james.morse@arm.com, fenghuay@nvidia.com,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
- hpa@zytor.com, corbet@lwn.net, linux-doc@vger.kernel.org, dave.martin@arm.com
-References: <20260709093111.367851-1-ben.horgan@arm.com>
- <165e7636-d7e9-4d16-aad1-657b4a9698d0@intel.com>
- <b0a7035e-7ffe-4e22-a4ae-a177640234b8@intel.com>
- <20260904033751.GCapo9D5ZZXWuQkIpc@fat_crate.local>
- <20260904173615.GOapsBjyiT7uXHd-Qc@fat_crate.local>
- <a82061f1-bb23-403f-b772-d5adf7acb871@arm.com>
- <649aef0d-f915-4288-b3b0-4092adb783b0@intel.com>
-Content-Language: en-US
-From: Ben Horgan <ben.horgan@arm.com>
-In-Reply-To: <649aef0d-f915-4288-b3b0-4092adb783b0@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Reinette,
+From: "Pratyush Yadav (Google)" <pratyush@kernel.org>
 
-On 08/09/2026 16:35, Reinette Chatre wrote:
-> Hi Ben,
-> 
-> On 9/7/26 3:44 AM, Ben Horgan wrote:
->> Hi Boris, Reinette,
->>
->> On 04/09/2026 18:36, Borislav Petkov wrote:
->>> On Thu, Sep 03, 2026 at 08:37:51PM -0700, Borislav Petkov wrote:
->>>> Lemme have a look.
->>>
->>> Sashiko has comments:
->>>
->>> https://sashiko.dev/#/patchset/20260709093111.367851-1-ben.horgan%40arm.com
->>>
->>> Please address them: if valid, fix them, if not, explain why they don't need
->>> to be fixed.
->>>
->>> Thx.
->>>
->>
->> Regarding the first Sashiko comment.
->>
->> The documentation change in patch 3 includes the sentence:
->>
->> "
->> The allocated bandwidth percentage is rounded up to the next control step available on the
->> hardware.
->> "
->>
->> Sashiko rightly objects to the "rounded up". For MPAM systems this can be up or down and we test in
->> test_mpam_resctrl.c:test_percent_to_max_rounding() that it isn't too biased to rounding one way or
->> the other.
->>
->> How about replacing "rounded up" with "rounded up or down" so that the sentence becomes:
->>
->> "
->> The allocated bandwidth percentage is rounded up or down to the next control step available on the
->> hardware.
->> "
->>
->> What do you think? Should I respin the series with this alteration?
-> The change looks good to me since Intel always rounds up. By itself "rounded" may thus be deceiving.
-> One concern is that "next" seems to accompany "round up" to reflect forward/upward movement.
-> How about also replacing "next" with "nearest" or "closest"?
+The term "KHO scratch" is vague and overloaded. It does not accurately
+describe what the memory is for. This was discussed previously at [0].
+The conclusion was to rename "KHO scratch" to "KHO bootmem", since this
+is memory passed by the previous kernel for early boot allocations.
 
-Ok, I'll go with "closest".
+In addition, memblock does not care about the provenance of the memory.
+It cares more about how it should use it. Use MEMBLOCK_KHO_NOPRSRV,
+instead of MEMBLOCK_KHO_SCRATCH, to describe this memory to memblock.
 
-> 
-> I think a respin would be most convenient to ensure the intended changes are made.
+This series does the renames. It also gets rid of a redundant Kconfig.
 
-Will do.
+While the diffstat is big and scary, most of the changes are mechanical.
+The most interesting functional change is in patch 4.
 
-Thanks,
+This series touches a lot of files across a lot of trees. But since all
+of that is purely KHO-related code, I would like to collect ACKs from
+the maintainers and take it via the liveupdate tree.
 
-Ben
+Ideally we should queue it in liveupdate/next early in the v7.4 cycle
+since it will cause a lot of conflicts with other patches throughout the
+KHO tree.
 
-> 
-> Reinette
+[0] https://lore.kernel.org/kexec/agHGOxSnP_VraH1M@kernel.org/T/#u
+
+Changes in v2:
+- Rebase on latest liveupdate/next.
+
+Pratyush Yadav (Google) (4):
+  memblock: get rid of CONFIG_MEMBLOCK_KHO_SCRATCH
+  memblock: rename KHO_SCRATCH to KHO_NOPRSRV
+  kho: rename KHO scratch to KHO bootmem
+  kho: rename kho_scratch= commandline parameter to kho_bootmem=
+
+ .../admin-guide/kernel-parameters.txt         |  15 +-
+ Documentation/admin-guide/mm/kho.rst          |  18 +-
+ Documentation/core-api/kho/index.rst          |  36 +-
+ arch/x86/boot/compressed/kaslr.c              |  12 +-
+ arch/x86/include/uapi/asm/setup_data.h        |   4 +-
+ arch/x86/kernel/e820.c                        |   2 +-
+ arch/x86/kernel/kexec-bzimage64.c             |   6 +-
+ arch/x86/kernel/setup.c                       |   2 +-
+ arch/x86/realmode/init.c                      |   2 +-
+ drivers/firmware/efi/efi-init.c               |   6 +-
+ drivers/of/kexec.c                            |  16 +-
+ include/asm-generic/kexec_handover.h          |   2 +-
+ include/linux/kexec.h                         |   2 +-
+ include/linux/kexec_handover.h                |  16 +-
+ include/linux/memblock.h                      |  30 +-
+ kernel/liveupdate/Kconfig                     |   1 -
+ kernel/liveupdate/kexec_handover.c            | 340 +++++++++---------
+ kernel/liveupdate/kexec_handover_debugfs.c    |  24 +-
+ kernel/liveupdate/kexec_handover_internal.h   |   4 +-
+ mm/Kconfig                                    |   4 -
+ mm/memblock.c                                 |  56 +--
+ mm/mm_init.c                                  |   6 +-
+ tools/testing/memblock/internal.h             |   2 +-
+ 23 files changed, 302 insertions(+), 304 deletions(-)
+
+
+base-commit: c65687600ed075d237a204755d99ad538db34b47
+-- 
+2.55.0.979.g7e5102b832-goog
 
