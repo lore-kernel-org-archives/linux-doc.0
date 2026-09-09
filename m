@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B346B4F6479;
-	Wed,  9 Sep 2026 10:28:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AD0503BCF;
+	Wed,  9 Sep 2026 10:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788949724; cv=none; b=PEFg4gcpCFTFjQTFpFyqBdxpVMfzvVGOsEGNgA/dzcvjkTz+jnVkTD2rJykcFJKh05CKRVKctr6saOBUKcwS7GaF/iRUiTna04k6TT0UPg5hDdB20V8/Xn0A7wbdL67zCWm3HElFCGojmMLlR5Zk5l4FBHg7zbhTMq8QbGoSAAA=
+	t=1788949808; cv=none; b=Er3A2f8WcDoYHof4wJD8sFjfl4JorEDtmj+R6n16Ho0uOufXSTEziFuRbW/Hl0Or0+ZBsJpdoaQntO6deAMAlg9Xlo+uurGn/PfPun6PJbsJ2ZO2+a9Cl8vkt22+RX/NTZBpz0t4f20hD9Z6oqMUbIQdvaMazwk01BTBSQHIQ2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788949724; c=relaxed/simple;
-	bh=BLrTYCgmHQIfCZpgff2lne/0urPO9bDrVp1IxaP6rSA=;
+	s=arc-20240116; t=1788949808; c=relaxed/simple;
+	bh=FHe/QH31mupP1m4iu0vD13NxWrZ4xyiJz9v1+tbGA3Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kGw67RSL3BHmCC0Twjf3PzWU0QJQ/dcOXXbKoGcVXiQk69nNDvq9MhdoTx5Qs6q8ZWbAepbkfOas7HGL5ZM2MhCDRdCz+9zI9IP9GbgmnnhoWO84tHIcvuIO2/qtqOrCxGGBjuR3Yfa6OsJdk/yQvhEU/bpLgu6MNwUEyJmwF5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kleZA+60; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=Dx8mXPfqOJqx9K6B5SwPtGuUvbncZzyN3BNKFB+6pAIK4SzkTkFnQQd5Khj/PCDq8niSRFU+FC3iMIB3e6HAoaK1MgMg5ZJLBzfYF16n1R5au6ekEqqpoLgnODXZ+3yxEU15Oq7NPTVKWI9WTAwUkZB6u4SvTwFxTs4Dvdp1tTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EFdSmY9T; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kleZA+60"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EB001F00A3A;
-	Wed,  9 Sep 2026 10:28:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EFdSmY9T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E9511F00A3E;
+	Wed,  9 Sep 2026 10:30:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788949723;
-	bh=60Fn9vMhQz6j6ntR/n7XOI7vJwXbXBwP3B0Uhh6u4UA=;
+	s=k20260515; t=1788949806;
+	bh=wmA/e9rYIFOKzKx7F80QNep8RynQ6yQBm6VaT9cHi+o=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=kleZA+60Lv1tfMbYFJryHNYaxLvlrFE2+5CgNbMl9BGqJAtpLWeJK14WrfabM7HgB
-	 jKR3YR2lUmigxbTGGVo+xzupsc0LiNpO/q7mJuTEfPnt290ils3CF9HVcMeoXTYNdx
-	 XnjfsTVL4mxfeUk9lFPmSVOzUeOMbaFWdj4Q7Dco5LVTWtutGUKyYWuSKUX5IcSHXk
-	 1ziRbbjHSpqnDANaIwOf3/jrb8hP42S+t0OCol2OoLhW9VdnwLTYliwoInXkCavkJU
-	 9XndRQymonbcrswFomGGDHqDGULXj/10mx5rDVkKq4WvbRk9cDqmNb1xe7VGxJb68n
-	 xrVrMzli4FCcg==
-Message-ID: <b8e23456-00af-4097-a769-210a087d2b90@kernel.org>
-Date: Wed, 9 Sep 2026 12:28:37 +0200
+	b=EFdSmY9Tr/Gpjv3coQVCCLAei3SiUgw7cK+JIPOkMchNIDeci4wCvkrZNLuTaC4j7
+	 bEGRlGfmRyZQ05XzhuBsmwsARWmN4tb3Ry3DuG34aqe3mD4/5hQSnnzEDBMOvgMAqQ
+	 pnoYUzATGe2euowjvcHOMFFOwBTFT9gMs+XU22ml+vm6wVMJllviDeUKVRYzk22M5p
+	 YhBLpJUdHw4eI9zjfajkh/uHZ/LsAMLaiUIxqO/4vI7YXIaFK2KMgIDPNrMKFQGrQG
+	 fzlGNTj52VeEtSYUEPLbuoRBNMAFpIRh9YeYogYQGfocmoz6UsDY6dQY+5vvA1MiTU
+	 WmmlF7mUijV8w==
+Message-ID: <e173c341-eeb0-4361-9729-9b996c3db42e@kernel.org>
+Date: Wed, 9 Sep 2026 12:30:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,21 +35,16 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
- filtering
-To: "zhen.ni" <zhen.ni@easystack.cn>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
- <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260907082620.2083838-1-zhen.ni@easystack.cn>
- <79548641-25f3-4ec3-a549-782fad168962@kernel.org>
- <6e8bfb0d-d595-4e6b-9536-0323ada57e25@easystack.cn>
+Subject: Re: [PATCH] docs/mm: describe set_memory() and set_direct_map() APIs
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Michal Hocko <mhocko@suse.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+ linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20260909-set-memory-docs-v1-1-6065d3f208e4@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -96,54 +91,43 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <6e8bfb0d-d595-4e6b-9536-0323ada57e25@easystack.cn>
+In-Reply-To: <20260909-set-memory-docs-v1-1-6065d3f208e4@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 9/9/26 04:35, zhen.ni wrote:
+On 9/9/26 11:45, Mike Rapoport (Microsoft) wrote:
+> The set_memory() and set_direct_map() APIs change permissions of existing
+> kernel mappings, but their semantics are only described by the code, and
+> that code differs from architecture to architecture.
 > 
+> Add Documentation/mm/kernel-page-tables.rst that briefly describes what the
+> kernel page tables consist of, defines the semantics both APIs have in
+> common, including the parts that are easy to get wrong, and lists the
+> differences between the architecture implementations.
 > 
-> 在 2026/9/8 22:30, David Hildenbrand (Arm) 写道:
->> On 9/7/26 10:26, Zhen Ni wrote:
->>> This patch series adds process and memory cgroup filtering support to
->>> page_owner. Following the previous series that introduced print_mode and
->>> NUMA node filters:
->>>    https://lore.kernel.org/linux-mm/20260707115411.1714314-1-
->>> zhen.ni@easystack.cn/
->>>
->>> This series adds filtering capabilities to page_owner, allowing users to
->>> filter output by specific processes and memory cgroups. Users can now
->>> filter page_owner output by PID, TGID, COMM (with wildcard support), and
->>> memory cgroup path. This makes page_owner debugging more focused and
->>> efficient for tracking memory allocations in specific contexts.
->>>
->>> Targeted filtering provides significant performance benefits on large memory
->>> servers by reducing both execution time and output size. By filtering at the
->>> kernel level before reading, only relevant page allocations are processed,
->>> dramatically reducing the amount of data that needs to be handled in userspace.
->>
->> page_owner is used for debugging. Why do we have to add kernel code to make it
->> faster?
->>
->> How much faster are we talking about?
+> Add kernel-doc comments for the generic set_memory() and set_direct_map()
+> stubs and link them into Documentation/core-api/mm-api.rst.
 > 
-> On my VM with just 2GB of RAM, the raw page_owner output takes real
-> 0m6.178s. Filter it down to PID 1, and it drops to real 0m0.286s. Handle
-> mode takes real 0m0.938s — roughly an 85% speedup. I've also tried this
-> on a 1TB server, and it's very slow. The numbers would look even more
-> extreme.
+> Assisted-by: copilot:claude-opus
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
+> The semantics of set_memory() and set_direct_map() are currently described
+> only by the code, and the code differs from architecture to architecture.
 > 
-> You're right that execution time isn't the main concern for a debug
-> tool. But that's kind of the point — I'm trying to optimize the current
-> execution flow of page_owner, reduce unnecessary overhead, and make the
-> tool more user-friendly (especially for servers with 1TB+ of memory).If
-> the user only cares about a specific slice of memory, why dump
-> everything from the kernel side and then filter it all over again in
-> userspace? Might as well filter at the source.
+> Document what these APIs actually promise, what they merely hint at, and how
+> the architectures disagree.
+> 
+> The discussions that prompted this:
+> 
+> https://lore.kernel.org/all/a98df077-3e97-4eea-8bfe-470bad9ff9e0@kernel.org
+> https://lore.kernel.org/all/5026dbec-0b71-4408-a78a-484a4b8e77dd@intel.com
+> ---
+>  Documentation/core-api/mm-api.rst       |   9 +
+>  Documentation/mm/index.rst              |   1 +
+>  Documentation/mm/kernel-page-tables.rst | 402 ++++++++++++++++++++++++++++++++
 
-Because it results in less kernel code  :)
-
-And less kernel code is good. Unless unavoidable.
+Before I read any of this, how much did you review and edit whatever the LLM
+came up with?
 
 -- 
 Cheers,
