@@ -1,130 +1,108 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE03337B02D
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 17:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B5737BE9C;
+	Wed,  9 Sep 2026 17:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788974824; cv=none; b=FU+ZHXNIM7GsfOjdgonqItfhvkKULDZKV3bkL0Vm065KKdHauifftXGLv1XDYr1ixaH44i5g6/lEULDsdL3/RrX3AWN1UaYxGxwzDWhpCNnGqA46x6D5Bb/SxXYQ197VHJGtnP+JbtFQSzG5SphMZCeyCyyM/DLnZcVp7pS8T5s=
+	t=1788975290; cv=none; b=XJQkYEEzT2UcmUVOHVeyL0hOymIVhjTq3rYdIfzHC47sxSwPQHBT2ILx+7Zn1MTyLQ64tFXdacX9HRpRSQwSLJFaBNR00P8fGUYII45qr8I53Ri62HEWK2w1LIA3WhcSdtaAVdgcjCSHf6ZNWd9FR4uLwp47mc0rDtBJuTKJmzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788974824; c=relaxed/simple;
-	bh=SUxP5gT1ZaOy4mmgP6chw0Cr8VRY83cgnbGtN/GeIrM=;
+	s=arc-20240116; t=1788975290; c=relaxed/simple;
+	bh=Tr4VdxERUhV8HxN7l33149d0J+8lmjsaWAYgZOwAqAU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LMyQ3CaPJmCZNkOB2qodaMH+vD9YsJzx47q46GV+Act0QWR/udvWtzcwtzttFmqLJaitqd6Udk1gc3D1z8L69bwqaF13y0G2rEwtk+L16cHSxMQSMHCIyfydh21Zs9s/zE2wBjpWS4gGJ1trMkRWsnY+07qvSyC1DZDNezfrQsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jI6Ly9NO; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Om9XEbucsxHApDTTn4bjssb+5YAz7jMtILulm4lea6Ej2ojnIbEtNnlaqIe04JD7ZXshxVMIwcfOCDXQSih0pT0ogcxLD4aChBbKTGT8is8d4l9/pphmx1/0j9XBL5iXxh8yr7szLZkiCVjQ95UG300CDr5/cX1tFnI8ZOgmI+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mvn54j8v; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jI6Ly9NO"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-869ac301739so106725b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 10:27:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788974821; x=1789579621; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BxkJmMQiuFGLIVhYvP7iekSRoJyyqxrT2LFSLJP0a4Q=;
-        b=jI6Ly9NOhS1CJVDcDoKjwgjST/iQVlVpolh/hifxBJGV2nz6t+8GlFWLZ4bzANtEHt
-         /Gubm7aHSBwsXnEHDwS28/J38FGObVki5RAT4+MKtWxDxCzdeulLhOlDre6S80gl/1TC
-         7EygHVvY8rB9EzbY4vuEGBvLIXgnThM7ofFVrmOOyUnxK3+Cw8/lUB1Qrw2zcQyD28sq
-         aOwfF4Jak4nLrwlBRcrBmxMV3zq77fRSSDlQwIxXNAn/g3MvLudGjEbIzxRGELLjSs75
-         zSMaaTiP34sWBjEuq0+gSjLhjHao2DyO1AI08J/NXT1fTMGf7TSzj1Dp3m+TJmQDgi3k
-         TF6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788974821; x=1789579621;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BxkJmMQiuFGLIVhYvP7iekSRoJyyqxrT2LFSLJP0a4Q=;
-        b=E3PEq+nhpptpAk2ONd2Xxq3If4tqi/xf0kOoSn9M9kXARmSe1LgoXNDNWTX+mS4NDQ
-         NoWvTPipI8IQAX9TfQ8gK7HqQe7Qj5IuA9A7+4pEe+2JdsMtgchisQVXNMDriG5r9a5a
-         JvI21m++5Grd4iCkmgvrJJ+wtUjaIaodMrAld4GuMcbdB+OudaNl3OIc8BUHwawH39Nz
-         ZBTCnsTbo+nQUI9N4pYLcrjtgNxKTMG+CcERfA4VD9AjZEMfUw/MVH6x9sb5eIu7R6h8
-         g7dBnZwbjuynrENEyzzPbyHAxRol6vkWc+ghDZortbuCdOEKtNf7wqHPdn9bUGAk5KcS
-         MMEw==
-X-Forwarded-Encrypted: i=1; AKwUvBzQrqH9KRrtCwzUNShwNtK09AYoUAftTdrOPOR7Dx+Q2UOzcuLPo5ZNN4Iodohgt2wBL81DS9ZgZ6k=@vger.kernel.org
-X-Gm-Message-State: AFuF++kdMUZDwVd7goWr+Gh8Xe33zHfZVS7lKHNWTO5v4AHLvyq15CDU
-	LG/QVlP7QLjFqfrvPCk+GZvvbCRg6w4MLwjMc8EPHnhsN+P0XrG40a4i
-X-Gm-Gg: AYBFou0FC0L2z781HKeh2BPXYDi3zAvMdELwoHOn7fWqldahA/DtIhw6NDnhIjYfRGB
-	xwS4GgthY3t7/GqI2ypCIgu5WA5QfFGz1NEnLQGOwbMnhmhg0DGoBNCOxkdyNqusC+XE1QepfzQ
-	DVUcvDxPlsYP9MvAaqhM2fbJvUpZqYuppON+xQK6DfbmF4OQTeBZfclaPYET9BboWyT5qJN+jQY
-	12mmS77FT6Co2dSemN0F6S9Z1683pdGPCH5NAw3cr4nFA/DgbbkdIXE9Sm124rW0OYYDvyVSgzs
-	xAl5jIJN2k0z8btNNRAGgsoCW0KCHtCABVnzazdrF6DW1Z4FF0ekbbQzPBvRnvPiuBP5kMb3QOc
-	isJ1OEGHZU7O/PqPzVKlyPAncOray0QbQoWVA/qQGxDWzs761fLEYixmAiUwl2audmmg1ncLuJk
-	sPvNCgDQF5NrrsAu9/zhzj6HIso8b0/tFVmp31KgLmKY3EH2Sbt3wG8XJx9sf2dXPNj+JgyMP8m
-	Wz/+ZCViXtTaq9VgbzJbFe79gcjpXnDcmmtfzIWQsHjD2dGy1jB
-X-Received: by 2002:a05:6a21:9d84:b0:3d3:af85:eb98 with SMTP id adf61e73a8af0-3da3a16a579mr57975715637.26.1788974820346;
-        Wed, 09 Sep 2026 10:27:00 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:2d43:5153:5c50:643e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339a534df1sm52422943eec.7.2026.09.09.10.26.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 10:26:59 -0700 (PDT)
-Date: Wed, 9 Sep 2026 10:26:55 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, mfd@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Arnd Bergmann <arnd@arndb.de>, Daniel Thompson <danielt@kernel.org>, 
-	Jingoo Han <jingoohan1@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Michael Hennerich <michael.hennerich@analog.com>, 
-	Support Opensource <support.opensource@diasemi.com>, Sebastian Reichel <sre@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, patches@opensource.cirrus.com, linux-watchdog@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	llvm@lists.linux.dev
-Subject: Re: [PATCH 00/14] mfd: unused driver purge
-Message-ID: <aqGWjAuGXq_JHvxk@google.com>
-References: <20260909132153.1596191-1-arnd@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mvn54j8v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAC471F000FF;
+	Wed,  9 Sep 2026 17:34:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788975288;
+	bh=bbP+LPyTIrLymnPyx3C1GnkLD9nptQPBrDixZ3LBabw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Mvn54j8v2Vk5488SjbF3KsiKDQLuwtMXnO46zlphInEv8sn11l2eqbEMu4hGV61G+
+	 cx+rU/PkBan/NnZqIXabA8qJDPBHOTUt039zgnfB9DB5cTmmHL63kqgkx1M+I4AVor
+	 W5EA9xrYavVIkzMe1fnHc4vuYGU0spJrfYPeIh/Q4akx3XndXio1JJ+ba+xny17Uiu
+	 hWrLtFldUpaAhx1FNLzW4iJFbOr4ftCV0dwi9WOGNLK3CmItekCctjwLeWKTMr5T0p
+	 GjU0ESvBW/Uofqzu8k4MvE9a33DRHUGq1007291ruVV8ntHY22Pckl1EMBDi5SR69n
+	 hdJb6e2ACj3eA==
+Date: Wed, 9 Sep 2026 18:34:40 +0100
+From: Mark Brown <broonie@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Sarthak Sharma <sarthak.sharma@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+	Leon Romanovsky <leon@kernel.org>, Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Muhammad Usama Anjum <usama.anjum@arm.com>, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 6/6] selftests/mm: add a GUP selftest
+Message-ID: <07dab220-8497-4eea-a4d2-b27a6e01eaf8@sirena.org.uk>
+References: <20260904123631.198697-1-sarthak.sharma@arm.com>
+ <20260904123631.198697-7-sarthak.sharma@arm.com>
+ <b0400430-c3b6-40d5-b476-49189b1cc292@kernel.org>
+ <5e0b9365-cbac-4f2d-b915-85edf3093508@arm.com>
+ <fadb8870-37f8-46f4-aefb-c21bc3a31e5b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="KmRz5TkdMlywIsKu"
+Content-Disposition: inline
+In-Reply-To: <fadb8870-37f8-46f4-aefb-c21bc3a31e5b@kernel.org>
+X-Cookie: Postage will be paid by addressee.
+
+
+--KmRz5TkdMlywIsKu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260909132153.1596191-1-arnd@kernel.org>
 
-On Wed, Sep 09, 2026 at 03:21:37PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> As part of my cleanup of old platforms, I had a look at all drivers that
-> may have become unused because the last platform_data or DT definition
-> was removed, or because of unmet Kconfig dependencies.
-> 
-> These are all the mfd drivers I found. The first ten in the list
-> actually turned out to have been unusable long before my series, and
-> I have added explanations on how I determined this in each patch. The
-> last four patches are still in use in linux-7.3 but become unused after
-> my series [1] that I hope to get merged for 7.4.
-> 
-> Somewhat unorthodox, I took a shortcut here and remove both the mfd drivers
-> and the corresponding subsystem drivers (gpio, hwmon, iio, input, led,
-> media, power, regulator, rtc, video, watchdog, asoc) in a combined patch,
-> to simplify the interdependencies: removing just the mfd driver would
-> leave unselectable or broken drivers in other subsystems.  I also have
-> additional patches for each of the other subsystems, currently a total
-> of 300 patches, many of which still need better testing or proper
-> changelog texts.
-> 
-> Please let me know if you all think this approach is ok, or if I should
-> explode this further and turn these 14 patches into 70 individual ones
-> by splitting them per subsystem.
+On Wed, Sep 09, 2026 at 07:03:59PM +0200, David Hildenbrand (Arm) wrote:
 
-Sounds good to me, especially if Lee makes an immutable branch from this
-pull so we can all pull it in...
+> >> 2) Move it to tools/mm/modules or sth like that.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com> # for input
+...
 
-Thanks.
+> > This is an interesting change. We can keep this open for discussion
+> > here. If required, I can work on this in the future.
 
--- 
-Dmitry
+> Yes, we should in general try moving all test modules out of the core.
+
+If you're working on this please make sure to take a look at how the
+various automated testing systems cope with modules built under
+selftests (personally I think everything I care about uses tuxmake
+builds, but there's other stuff out there).  I think the answer for a
+bunch of them right now is badly, but I didn't actually go check.
+
+--KmRz5TkdMlywIsKu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqhmLAACgkQJNaLcl1U
+h9BPiQf8CxE4IrSgHLYMJ5iNReJ7dS+KVJWt7vcB5HxJrCVmeLsaDp9p6fQbIG3d
+P14bK7/go0oX5sScOruE0zw+rPFYr7OiSZMDNlYwLTXLVLz5PWrn9r25tDHWeRFS
+F3oy5EsiGyp2GxAzVqk7lqmr/AEQGc0M2aN6wcn7/EShuAb51IHocAegVLZe7EJG
+1jGpOfndf3DfYhtwc+u4QxnCDlyx2JEG8zhR6cPKyBUu0CxxsWmEC2rhyIFk5ruO
+r5qdgt/NJpq02ec5v+V7t1GD61kzGf3FkcnE74o1WeSQ3qOo388w0Z4lvpLZUZ1e
+gCvwOoLhVYcOoMtO5UCnK/cxc0pQyQ==
+=tKSS
+-----END PGP SIGNATURE-----
+
+--KmRz5TkdMlywIsKu--
