@@ -1,206 +1,240 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7483BBFBC
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 09:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384942E4257
+	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 09:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788945613; cv=none; b=BmuJm0clW+NlGLyxZiyzFhSaWhGlAUPPVG01lZgvDdcFgdkTXw4HoPJeyFkfQVWJzoCGMTN1Z9OueFrrkilUK3wImM5u4Zfg7I9COPzCzwJq0g5/N5u1eIxnzuUH/1uPgTeh7oZKFeXdcR4OW2pbzyq8H4VZQoLHbYAHHgHqxtg=
+	t=1788946409; cv=none; b=KSalx6k2X/YjYFje6BUo1I0beuOrWwBHwLotr574fUqoMnV0quOOyrqFUyXeL57TaesJs2i5UbU7H1qtZf93bCgH8LledMfVwmRsUuLS6A0DmsgQ2l7uCdNTG8fzS1AC3VlG2LDC1deCa0niy+gxMZE07s/5LiMSQM/3xaQh9ZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788945613; c=relaxed/simple;
-	bh=PdnZQvO3+oKJZgPjnG+zbfgcH9UOhnj7jaju9sYgC4g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m6FQ65+PnoCxHaAPkIJBSuwc2nW1io42BMVY82Hy+bfG1XI7VQ1tZGPHJ6ZtQdvtyQ3y+irSsnbcA2PD6jUQLgQal3tQBqGd3CrOu6qIdF8EOn06THyGDkETGpAYykXCOSdUUbKC1i0mCrQNjffpZ3YLzDYU7fJiDXwWfnaERvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=iMWTsOYm; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1788946409; c=relaxed/simple;
+	bh=oYm9hZ9oiO9Bjj0eMQMf2WQxoTXXj32OWZHcxdpZtLA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=KgqrnnEKuDkLt8F51Awt2j/vyfYGd27yTnnIbYlj5ImWCKFISkuYTHGqZ+hY0BETn7Rbvw6BvanRl9+789p5TsR/eeuvOwBEG9wrxlNtq7MF2Drp6Yiw3pFZfn/E5e0wXo6qFdTskU9qX6d8d4hTpuahOlkdDgHi+QbI46XDCvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=C/kV9M3W; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="iMWTsOYm"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49cf4f81d86so43999455e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 02:20:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1788945606; x=1789550406; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tEerm9pyUvgRnZ+v5dhjRTsyRhn0zUMJ8+Fd7BMxvcE=;
-        b=iMWTsOYmB/Qh30BpKSrjQbq13s2Fmcdn7raP8fzbjdZHHuRf2kHk00dZwVy9b8J8eV
-         2j18MHd3zy6Q7uLr0sNHJKNcWH68h/EcUCfB3FCNAmeAWd2KnFSTOZLxLvUODuUWSkEF
-         DsWoRhboAB3pTKeFmEynnlN6W0npp6wrvMKOl70Pb1TzDFFsxsu2gwqE3nX85bntO7+g
-         CqGUuagNq9dwV04DXP2bolKtuLurF5K+JUW6PfHVTtj93nfvMOGFayHHU/OH5FlvhDqZ
-         LryJGAnWGay5nU4tbZP6dQIpz2VDlTT++pO56SlVnVS8WXmi3tixNy8RhZjs9SuN4gN+
-         Yuzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788945606; x=1789550406;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tEerm9pyUvgRnZ+v5dhjRTsyRhn0zUMJ8+Fd7BMxvcE=;
-        b=IZMmVO4ChLOGrJCLubuEdc1eJXsM778sr19n29Mx5P+eZQl6qYSc3ZPcg22z2GSGVl
-         aVnShvJodPUgWWEjCJINh2nLr/m62xLZw57+oIqOMTyUgCK1J6EJeZLRG2X+dx7K/y/G
-         m+YrS7IDEuwp/w6ZUUbIv3fNUjqe/58Zeiw2BveIRGKHjCAOPAvvZN/FFzaPb+1Nu9QP
-         2W+H6mRnPnW4ZBDL/57KraOOz8jmrHoIxgJFh3dKGYKooKEYunZGBaQqni29Qhg427zH
-         OnUhTDIQaqVNP++tKWxZeK+BqYn/VFlszqjIwCEw7T6aQdY5tsHvLAGDj6D+e14Uva+D
-         Dr+Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzFxtLI9E197GsUvCqiJlAnxL9wI9df1ZJKbuGjf/NYrqFJnHU1VFigm7dfKGfQoIcun+YsCm4Cta4=@vger.kernel.org
-X-Gm-Message-State: AFuF++kQH5ZLPE1bS6OVxKbHhwLtKIayzCHeM8dprchWDf8RiKkJiegp
-	KJWrCUCnF8CKb4X9I5M+/LjKk+iJzPYmoeFjQj+MB0tHZFokpWkyz7hKAOVKPY7vrXg=
-X-Gm-Gg: AYBFou1NFsYVpXNCK6VhfdwLDxvB0tTl055cqvcQ1NC06e2trrobFVNkmV6ei9KnZXd
-	tEi1aoWpe1iSus6fW+c2NQWUHsnn8YB52cPbyyDt3ffedXwVW9IpsFivpmvhl+X0JzDsSBVu4C/
-	/LkRQFLrMuvoVySgXXcGSblqWAvRg8r3Rz/EpcF+WL5SwLvRM42j1oPWMJaLy0eLd/Yfah7e3Xx
-	3PuIbGnz6uednmQ/qmG3/DWLWe8aDhKaoKk60ZUa+S0lm+x7lFVOcPeIZ1XU2D+1LDkCTKM6woY
-	xDzNVA/4kajgq4UOi5IQIXl0epe1wrLYToGX7gT64aynn3VXLw+EIr7GQyI+4AbA80jYOV7xhaO
-	UDoaGDa7jCCrmpIuHsfT0Qq0Z//+AIQSIw4YQ1iM3K6/TPD6xLGVDkSETPoKPrkmh3PAo30L3wo
-	XPMyXwOacxVUGnENeZOMxj25W8I1sYHEr7MQp6M1p568kB8ZNjxwDzKvfjR0KT0fOXf8HoQ+UJc
-	TEP
-X-Received: by 2002:a05:600c:1914:b0:499:60bf:c6f7 with SMTP id 5b1f17b1804b1-49cf8269fdfmr332845835e9.13.1788945605501;
-        Wed, 09 Sep 2026 02:20:05 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49cfbdacc45sm430466665e9.11.2026.09.09.02.20.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 02:20:03 -0700 (PDT)
-Date: Wed, 9 Sep 2026 11:19:58 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Alexander Usyskin <alexander.usyskin@intel.com>, Dominik Brodowski <linux@dominikbrodowski.net>, 
-	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Danilo Krummrich <dakr@kernel.org>, 
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH v3] Documentation: Update after split of
- <linux/mod_devicetable.h>
-Message-ID: <aqEWUBf1pewPP_K2@monoceros>
-References: <20260908070031.32833-1-kmehltretter@gmail.com>
- <ap_HYy2IVZt-0mxN@ashevche-desk.local>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="C/kV9M3W"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260909093317euoutp0154c898fd72ddf441f7ddea80f948d846~TnUUjOiJ61052410524euoutp01I
+	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 09:33:17 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260909093317euoutp0154c898fd72ddf441f7ddea80f948d846~TnUUjOiJ61052410524euoutp01I
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1788946397;
+	bh=zfo8YHC50Fl3ZDYN0nijYPMjYSxHIoKJMO4F8frAXnU=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=C/kV9M3WRkFTIiHUJ8QOf7pYfyOw1aBdcGtpVshU7iADJls+5G5Y/T0CnXV1edH1N
+	 hctXOFL6mdtwRf0+dLYQJkrQapMtxjuEHvnqiKRWzNGvxCBsqWlbkpYyRu4Mt1ivjc
+	 OeTpprLX7QLGy3VH+Y5XHvsyrM1OSac2eb0MvMoo=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260909093316eucas1p29c13790e88a78fc6dee44d78e1498080~TnUUAa8EZ0620106201eucas1p2j;
+	Wed,  9 Sep 2026 09:33:16 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260909093315eusmtip27dce3e492bedeac71737c1cb92630b08~TnUSkSu-H2587025870eusmtip2v;
+	Wed,  9 Sep 2026 09:33:15 +0000 (GMT)
+Message-ID: <565dcd03-4787-4e0f-a37b-9d04a9296b78@samsung.com>
+Date: Wed, 9 Sep 2026 11:33:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vttone5brkwdkpur"
-Content-Disposition: inline
-In-Reply-To: <ap_HYy2IVZt-0mxN@ashevche-desk.local>
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH] dma-mapping: rename dma_opt_mapping_size()
+To: John Garry <john.g.garry@oracle.com>, robin.murphy@arm.com,
+	joro@8bytes.org, will@kernel.org, axboe@kernel.dk, hch@lst.de,
+	sagi@grimberg.me, James.Bottomley@HansenPartnership.com, mkp@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, John Garry <john.garry@linux.dev>
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20260831093620.3481337-1-john.g.garry@oracle.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260909093316eucas1p29c13790e88a78fc6dee44d78e1498080
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260831093715eucas1p296758c633e8ab3c48b3070ae4f5e2f1f
+X-EPHeader: CA
+X-CMS-RootMailID: 20260831093715eucas1p296758c633e8ab3c48b3070ae4f5e2f1f
+References: <CGME20260831093715eucas1p296758c633e8ab3c48b3070ae4f5e2f1f@eucas1p2.samsung.com>
+	<20260831093620.3481337-1-john.g.garry@oracle.com>
 
-
---vttone5brkwdkpur
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3] Documentation: Update after split of
- <linux/mod_devicetable.h>
-MIME-Version: 1.0
-
-Hello Andy,
-
-On Tue, Sep 08, 2026 at 11:29:23AM +0300, Andy Shevchenko wrote:
-> On Tue, Sep 08, 2026 at 09:00:31AM +0200, Karl Mehltretter wrote:
-> > From: Uwe Kleine-K=F6nig (The Capable Hub) <u.kleine-koenig@baylibre.co=
-m>
-> >=20
-> > Most structs that were defined in <linux/mod_devicetable.h> before were
-> > moved to a bus specific header. Follow the movement to get the struct's
-> > documentation back.
-> >=20
-> > For the list of device ids in basics.rst use an explicit list of all the
-> > headers that have kernel-doc annotations and that are not described
-> > elsewhere (i.e. pci and mei_cl). <linux/device-id/acpi.h> is left out on
-> > purpose, ACPI_DEVICE_CLASS() is not a device id struct.
->=20
-> Huh?! The device-id/acpi.h provides the ACPI device ID definition.
-
-<linux/device-id/acpi.h> provides both, struct acpi_device_id and the
-macro ACPI_DEVICE_CLASS. The latter has a kdoc comment, the former
-doesn't. So including <linux/device-id/acpi.h> in the patch makes
-ACPI_DEVICE_CLASS appear in the list of device-id structs, but
-acpi_device_id not.
-
-So while this patch doesn't implement the optimum to get acpi_device_id
-explicitly documented, but the purpose of the patch is to restore the
-=66rom before ad428f5811bd, which is accomplished.
-
->=20
-> > Also repair the referencing in the zh_CN translation of pci.rst and
-> > don't duplicate `struct mei_cl_device_id`.
->=20
-> > Fixes: ad428f5811bd ("mod_devicetable.h: Split into per subsystem heade=
-rs")
-> > Signed-off-by: Uwe Kleine-K=F6nig (The Capable Hub) <u.kleine-koenig@ba=
-ylibre.com>
->=20
-> ...
->=20
-> > Changes since v2
-> >   https://lore.kernel.org/r/ede7ce64f20e10660ebf6bc1b41836dad750ae3b.17=
-83349758.git.ukleinek@kernel.org/
-> > - use the :file: role for the header path in pcmcia/driver.rst (Randy)
-> > - say in the commit message that <linux/device-id/acpi.h> is left out on
-> >   purpose (question raised by the Sashiko review)
->=20
-> I am unsatisfied with how the ACPI division was handled in the above ment=
-ioned
-> split. Id est the include/device-id/acpi.h is *the* header that has to be=
- used
-> for the IDs, not the respective "include all" linux/acpi.h.
-> Hence the documentation has to allow the use of the device-id/*.h directl=
-y in
-> the drivers (most of the cases for ACPI).
-
-I don't care much if drivers include <linux/device-id/acpi.h>
-transitively via <linux/acpi.h> (or another header) or explicitly. My
-preference is the former, but I won't argue if it's done differently.
-
-> Alternatively the OF ID *and* ACPI ID must be included to the upper lever=
- bus
-> headers. So, spi.h, i2c.h, platform_device.h and so on has to *always* pr=
-ovide
-> both.
-
-That is the case today and it's sensible. So without giving a guarantee
-for the next 20 years, I'd say keeping it as is is fine.
-=20
-> > - carried Randy's Reviewed-by and Tested-by from v2, the diff changed in
-> >   one line of markup only
-> > - Uwe asked me to take over the patch:
-> >   https://lore.kernel.org/r/apv6yQ1U-HhNglyV@monoceros/
-> >   It supersedes my PCI-only patch
-> >   https://lore.kernel.org/r/20260905084916.40196-1-kmehltretter@gmail.c=
-om/
-> >=20
-> > Randy's suggestion to add kernel-doc comments to <linux/mei_cl_bus.h> f=
-or
-> > struct mei_cl_driver and include those instead of the duplicated struct=
- is
-> > left for a separate patch, it touches a header outside Documentation/.
->=20
-> Uwe, can you fix that?
-
-It's on my idle-todo-list. So unless someone beats me to it, I will
-addresss that eventually.
+On 31.08.2026 11:36, John Garry wrote:
+> From: John Garry <john.garry@linux.dev>
+>
+> Function dma_opt_mapping_size() implies from its name that it returns a
+> target or sweet spot DMA mapping size. However, it is just an upper limit
+> optimal DMA mapping size. Above this size, DMA mapping performance may
+> significantly degrade.
+>
+> Rename to dma_max_opt_mapping_size() to reflect the real behaviour. Also
+> rename the internal DMA mapping symbols to align with this.
+>
+> The DMA API documentation already described this behaviour properly (so
+> there is nothing to update).
+>
+> Signed-off-by: John Garry <john.garry@linux.dev>
+Applied to dma-mapping-for-next, thanks!
+> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+> index ba23a472f7948..69d4ebe4f96db 100644
+> --- a/Documentation/core-api/dma-api.rst
+> +++ b/Documentation/core-api/dma-api.rst
+> @@ -154,7 +154,7 @@ others should not be larger than the returned value.
+>  ::
+>  
+>  	size_t
+> -	dma_opt_mapping_size(struct device *dev);
+> +	dma_max_opt_mapping_size(struct device *dev);
+>  
+>  Returns the maximum optimal size of a mapping for the device.
+>  
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index 58c624513cd43..1b26c9ce4aabe 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -1762,7 +1762,7 @@ unsigned long iommu_dma_get_merge_boundary(struct device *dev)
+>  	return (1UL << __ffs(domain->pgsize_bitmap)) - 1;
+>  }
+>  
+> -size_t iommu_dma_opt_mapping_size(void)
+> +size_t iommu_dma_max_opt_mapping_size(void)
+>  {
+>  	return iova_rcache_range();
+>  }
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index da93b505d2394..d87d268037d81 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -3747,7 +3747,7 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+>  	 */
+>  	dev->ctrl.max_hw_sectors = min_t(u32,
+>  			NVME_MAX_BYTES >> SECTOR_SHIFT,
+> -			dma_opt_mapping_size(&pdev->dev) >> 9);
+> +			dma_max_opt_mapping_size(&pdev->dev) >> SECTOR_SHIFT);
+>  	dev->ctrl.max_segments = NVME_MAX_SEGS;
+>  	dev->ctrl.max_integrity_segments = 1;
+>  	return dev;
+> diff --git a/drivers/scsi/scsi_transport_sas.c b/drivers/scsi/scsi_transport_sas.c
+> index d689b9ed08a6c..aaa47552a215c 100644
+> --- a/drivers/scsi/scsi_transport_sas.c
+> +++ b/drivers/scsi/scsi_transport_sas.c
+> @@ -223,8 +223,8 @@ static int sas_bsg_initialize(struct Scsi_Host *shost, struct sas_rphy *rphy)
+>  
+>  /*
+>   * Set shost->opt_sectors from the DMA optimal mapping size, but only
+> - * when dma_opt_mapping_size() is strictly less than dma_max_mapping_size(),
+> - * indicating a genuine optimization hint from an IOMMU or DMA backend.
+> + * when dma_max_opt_mapping_size() is strictly less than
+> + * dma_max_mapping_size(), indicating a genuine optimization hint.
+>   * When the two are equal (e.g. IOMMU disabled / passthrough), no real
+>   * hint exists, so leave opt_sectors at 0 to avoid bogus optimal_io_size
+>   * values that break filesystem geometry (e.g. mkfs.xfs stripe alignment).
+> @@ -232,16 +232,16 @@ static int sas_bsg_initialize(struct Scsi_Host *shost, struct sas_rphy *rphy)
+>  static void sas_dma_setup_opt_sectors(struct Scsi_Host *shost)
+>  {
+>  	struct device *dma_dev = shost->dma_dev;
+> -	size_t opt = dma_opt_mapping_size(dma_dev);
+> +	size_t max_opt = dma_max_opt_mapping_size(dma_dev);
+>  	size_t max = dma_max_mapping_size(dma_dev);
+>  	unsigned int opt_sectors;
+>  
+> -	/* opt >= max means no real hint was provided by the DMA layer */
+> -	if (opt >= max)
+> +	/* max_opt >= max means no real hint was provided by the DMA layer */
+> +	if (max_opt >= max)
+>  		return;
+>  
+>  	/* Clamp to max_sectors to avoid overflow in sector arithmetic */
+> -	opt_sectors = min_t(unsigned int, opt >> SECTOR_SHIFT,
+> +	opt_sectors = min_t(unsigned int, max_opt >> SECTOR_SHIFT,
+>  			    shost->max_sectors);
+>  
+>  	/* Guard against zero before rounddown_pow_of_two() */
+> diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+> index 8fae2b7deb20d..eee6de5188c76 100644
+> --- a/include/linux/dma-map-ops.h
+> +++ b/include/linux/dma-map-ops.h
+> @@ -60,7 +60,7 @@ struct dma_map_ops {
+>  	int (*dma_supported)(struct device *dev, u64 mask);
+>  	u64 (*get_required_mask)(struct device *dev);
+>  	size_t (*max_mapping_size)(struct device *dev);
+> -	size_t (*opt_mapping_size)(void);
+> +	size_t (*max_opt_mapping_size)(void);
+>  	unsigned long (*get_merge_boundary)(struct device *dev);
+>  };
+>  
+> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> index a3e880649fa41..efde0e5a58dc2 100644
+> --- a/include/linux/dma-mapping.h
+> +++ b/include/linux/dma-mapping.h
+> @@ -207,7 +207,7 @@ int dma_set_coherent_mask(struct device *dev, u64 mask);
+>  u64 dma_get_required_mask(struct device *dev);
+>  bool dma_addressing_limited(struct device *dev);
+>  size_t dma_max_mapping_size(struct device *dev);
+> -size_t dma_opt_mapping_size(struct device *dev);
+> +size_t dma_max_opt_mapping_size(struct device *dev);
+>  unsigned long dma_get_merge_boundary(struct device *dev);
+>  struct sg_table *dma_alloc_noncontiguous(struct device *dev, size_t size,
+>  		enum dma_data_direction dir, gfp_t gfp, unsigned long attrs);
+> @@ -326,7 +326,7 @@ static inline size_t dma_max_mapping_size(struct device *dev)
+>  {
+>  	return 0;
+>  }
+> -static inline size_t dma_opt_mapping_size(struct device *dev)
+> +static inline size_t dma_max_opt_mapping_size(struct device *dev)
+>  {
+>  	return 0;
+>  }
+> diff --git a/include/linux/iommu-dma.h b/include/linux/iommu-dma.h
+> index 060f6e23ab3c8..fae5d50e4f277 100644
+> --- a/include/linux/iommu-dma.h
+> +++ b/include/linux/iommu-dma.h
+> @@ -39,7 +39,7 @@ int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
+>  		void *cpu_addr, dma_addr_t dma_addr, size_t size,
+>  		unsigned long attrs);
+>  unsigned long iommu_dma_get_merge_boundary(struct device *dev);
+> -size_t iommu_dma_opt_mapping_size(void);
+> +size_t iommu_dma_max_opt_mapping_size(void);
+>  size_t iommu_dma_max_mapping_size(struct device *dev);
+>  void iommu_dma_free(struct device *dev, size_t size, void *cpu_addr,
+>  		dma_addr_t handle, unsigned long attrs);
+> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> index bf2651a70b7c2..82e701648d604 100644
+> --- a/kernel/dma/mapping.c
+> +++ b/kernel/dma/mapping.c
+> @@ -1012,19 +1012,19 @@ size_t dma_max_mapping_size(struct device *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(dma_max_mapping_size);
+>  
+> -size_t dma_opt_mapping_size(struct device *dev)
+> +size_t dma_max_opt_mapping_size(struct device *dev)
+>  {
+>  	const struct dma_map_ops *ops = get_dma_ops(dev);
+>  	size_t size = SIZE_MAX;
+>  
+>  	if (use_dma_iommu(dev))
+> -		size = iommu_dma_opt_mapping_size();
+> -	else if (ops && ops->opt_mapping_size)
+> -		size = ops->opt_mapping_size();
+> +		size = iommu_dma_max_opt_mapping_size();
+> +	else if (ops && ops->max_opt_mapping_size)
+> +		size = ops->max_opt_mapping_size();
+>  
+>  	return min(dma_max_mapping_size(dev), size);
+>  }
+> -EXPORT_SYMBOL_GPL(dma_opt_mapping_size);
+> +EXPORT_SYMBOL_GPL(dma_max_opt_mapping_size);
+>  
+>  unsigned long dma_get_merge_boundary(struct device *dev)
+>  {
 
 Best regards
-Uwe
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
---vttone5brkwdkpur
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqhJLQACgkQj4D7WH0S
-/k4CyggAtK1zDtK07mADDeDBynrhpncLSmcf8R0tSjv+Xk9TNGQ/6jg1KnpiwRJ8
-H7gft1ZYewjr67sx4HJUqIAvhu9a6XSuVFFCJL0qpfdnLCV5HB41Sr774yWBmdgL
-Ohg8uXSIiSxaWulydkjyqpAbMoO58YOFBqn9xH5ffXYsEGdjViQnISWry8jcojuO
-We7CP3HzAH8W2U/7U/SjWHExzFUG2EDHty0IkIkhbbsw0WxSnjKwzwadG/u44t+3
-kaCV6vKQ6pdYoUxazoWAU53UeLIg9QsXwcgEh5Jqyib7efudfyzAoMgK3I0PiQj8
-I4Uq5TLA9bE+cMGACDmAQhLm4cmM0A==
-=3eZW
------END PGP SIGNATURE-----
-
---vttone5brkwdkpur--
