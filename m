@@ -1,45 +1,40 @@
-Received: from mail.mleia.com (mleia.com [178.79.152.223])
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FEB46E000;
-	Wed,  9 Sep 2026 08:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.79.152.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7748470115;
+	Wed,  9 Sep 2026 08:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788942526; cv=none; b=HDtVtT5KxgAtuknLY7s7MqgWc9Z+MvsTXtEPG6fjd2cxWSC9KljaJrQs9qIJ6Q5+3ak+5m06mHc5uvyHyVdPZC6JWnriSRqDBbxVpwMNbctlEdWGRbN8pV7NEWbul+Tnjdebs3d9Fo28kIDr0CNMGFjKpwv1X93rONxIy0fVQfE=
+	t=1788943060; cv=none; b=JzOdgUB3m2Tr81vEBh/K884w5Ml6IY90458ynPqneiDd2k6z61p+GR4nYjHmR2ia2gIvx1Y8+yOPZXBXhwTy2X96TLGEIdaBx+ux3QAh4WdmeZYVQ9N0BLrTcDrwxwTGdtDu11Edscr/1yKpXwsDQOHy/f5pWrpe3asA4Ye46hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788942526; c=relaxed/simple;
-	bh=vfmBXnNeJ1NpJUYwZFwgJkc9eQg51DMt/p2K4/oDTL8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NlRNz9Giitv8YDFwV4OCKs79Uhlu2Wnz2EeWpj+K/NUEf+cvwUpyJj7qov6xckeOzwQVCB0XAsv9uETCXwo4jkM979J2gnlXah9T5Nc/gYnxB8VZ6G06pNcBg53i6tKhuOdJLkeymV5sjRuJaRnW5h504DDbP9gkbubk+34vxC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com; spf=none smtp.mailfrom=mleia.com; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=qqEpXggU; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=lQbPuJHC; arc=none smtp.client-ip=178.79.152.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mleia.com
+	s=arc-20240116; t=1788943060; c=relaxed/simple;
+	bh=5Khv5cvFHTYed7owHSHPM50HghIbRqn856W0Ep0FFSM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=hC/0od5pFsL8CqIwyrkEjOlVAd2s1RTa88inZr8FIK4Gn97Qb4DGimrsPqooN3xasmkBH2M3SYAXKI7P9BvUqy4ShYlRlgKSWxIsiUbZsB1jjdOTd9Vl0+caOV0EOwUiWVnAoRzCLm7h0ltVRgJDRGH7W7FiJYBN59hWe2Pa1/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ar1f3E10; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="qqEpXggU";
-	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="lQbPuJHC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
-	t=1788942522; bh=vfmBXnNeJ1NpJUYwZFwgJkc9eQg51DMt/p2K4/oDTL8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qqEpXggU4ubFz3BdyK7idq/XNCa9aAcHQqo7lhT76xOJNC7ccNJhvHdErYC6cfABu
-	 Jdb1nrLOCxV3O4Cz1gxNl7W1wzgGhZksuon3cL2G0AhvEKS+OIB1HQFKW/XZSDs5Lh
-	 hHq+bQ2PC7Bm2dhOcnzz2PpL8W9VCnQKBioGu+dVhXmDC9AddP8NhmyLrmwjXldIQp
-	 GH6i2ZzRIonII5i5Bmc/xNm9XGVIoeqgHT5iDc1QaklfxXtQVv0kkzLrvU7YTQvnSQ
-	 +zArK/yKsOUzbQNUl/oudEqwUl9lvsL5NhDs7DtF+TH0tCa3gU0qYKbxv6aClPKfzw
-	 OzKhYbo0+5vMA==
-Received: from mail.mleia.com (localhost [127.0.0.1])
-	by mail.mleia.com (Postfix) with ESMTP id ED4BF8702D;
-	Wed,  9 Sep 2026 08:28:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
-	t=1788942521; bh=vfmBXnNeJ1NpJUYwZFwgJkc9eQg51DMt/p2K4/oDTL8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lQbPuJHCUF/s9EUzhJLEsR+4+s06seWE3oYsgcMgjs7C7Cg4K89e/aTL512M8/9JL
-	 Ld2oHt8S6ReEbbZdT9EVFhCrYvZloID0MBZWZZMAp5JCKuF2X2YkJIrzYb5B3GYJyg
-	 cjm0WpR+pOaRQtL6arz9uUdgVnRNlxdp1lM2L/233opCRL4UxR2lA/HJfAnGGQ4ytv
-	 uQjfhU57uJyGaNcKikBKBtP0+I3/4antgAEVE1rRSB9s2PWYMAagDPnit2c7H0Cm/e
-	 KgVxSAum7CmJwrBQ8JU8KM05k/gnNxZNUyvTWXrS6l2EGD+UD8Iy+v61GRa0/ReVaV
-	 HkNxXw1xvOxeg==
-Message-ID: <96ef0d36-51b2-4efe-9f6f-5e4ce6d6046d@mleia.com>
-Date: Wed, 9 Sep 2026 11:28:39 +0300
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ar1f3E10"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=1pfvM1MtV/hEUXdiJQuW5WMua3sDTwevcTlKJNlMLb8=;
+	b=ar1f3E10IzlZjI03rCT4/ytOZSrsk/JVr3e/EeTYS4rKxSwybt7QHeSGTf/+w8+Qo+3fsasjS
+	9ycP+GmlILKqSLdR63PKtNwqDIhf4FFu0xxqJHUq52K/8Y+g56g7Xn2C6Mgsy6myaluQi4wL2SF
+	7VcHFp88IzuV5nowyC3dE+c=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4hfv6P5sh0zRhQs;
+	Wed,  9 Sep 2026 16:26:37 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id D1BD140561;
+	Wed,  9 Sep 2026 16:37:29 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ kwepemk200008.china.huawei.com (7.202.194.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Wed, 9 Sep 2026 16:37:28 +0800
+Message-ID: <07d77598-bc02-4c73-824b-6d320d158c6b@huawei.com>
+Date: Wed, 9 Sep 2026 16:37:19 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,80 +42,73 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/13] ARM: lpc18xx: remove entire platform
-To: Arnd Bergmann <arnd@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Linus Walleij <linusw@kernel.org>, Russell King <linux@armlinux.org.uk>
-Cc: Drew Fustini <fustini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Stefan Agner <stefan@agner.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade
- <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>,
- Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrew Lunn <andrew@lunn.ch>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Ethan Nelson-Moore <enelsonmoore@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Alexander Sverdlin <alexander.sverdlin@siemens.com>,
- Shawn Guo <shawnguo@kernel.org>, Karl Mehltretter <kmehltretter@gmail.com>,
- "David Hildenbrand (Arm)" <david@kernel.org>,
- Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-References: <20260908152808.3928630-1-arnd@kernel.org>
- <20260908152808.3928630-10-arnd@kernel.org>
-From: Vladimir Zapolskiy <vz@mleia.com>
-In-Reply-To: <20260908152808.3928630-10-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
-X-CRM114-CacheID: sfid-20260909_082842_007818_F2240E9C 
-X-CRM114-Status: GOOD (  15.50  )
+Subject: Re: [PATCH v6 03/40] arm64/sysreg: Add MPAMSM_EL1 register
+To: Ben Horgan <ben.horgan@arm.com>
+CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
+	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
+	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
+	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
+	<jonathan.cameron@huawei.com>, <kobak@nvidia.com>, <lcherian@marvell.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
+	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
+	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
+	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
+	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
+	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
+	<zengheng4@huawei.com>, <linux-doc@vger.kernel.org>, Shaopeng Tan
+	<tan.shaopeng@jp.fujitsu.com>
+References: <20260313144617.3420416-1-ben.horgan@arm.com>
+ <20260313144617.3420416-4-ben.horgan@arm.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20260313144617.3420416-4-ben.horgan@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-On 9/8/26 18:27, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The NXP LPC18xx and LPC43xx microcontrollers are the more modern
-> version of the classic LPC32xx line, but they lack memory management
-> units.
-> 
-> These microcontrollers all remain in production as of 2026, but
-> there are no known users running Linux on them.
-> 
-> The platform was marked deprecated in the 7.3-LTS release, which
-> will remain supported for a few more years.
-> 
-> Remove support for both LPC18xx and LPC43xx.
-> 
-> Cc: Frank Li <Frank.Li@nxp.com>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Vladimir Zapolskiy <vz@mleia.com>
-> Cc: imx@lists.linux.dev
-> Cc: devicetree@vger.kernel.org
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Acked-by: Vladimir Zapolskiy <vz@mleia.com>
 
-Since there is no known users of these pretty old NOMMU platforms in
-the Linux kernel, it should be safe to drop them from maintenance.
+在 2026/3/13 22:45, Ben Horgan 写道:
+> The MPAMSM_EL1 register determines the MPAM configuration for an SMCU. Add
+> the register definition.
+> 
+> Tested-by: Gavin Shan <gshan@redhat.com>
+> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Tested-by: Peter Newman <peternewman@google.com>
+> Tested-by: Zeng Heng <zengheng4@huawei.com>
+> Tested-by: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
+> Reviewed-by: Zeng Heng <zengheng4@huawei.com>
+> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Reviewed-by: Gavin Shan <gshan@redhat.com>
+> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+> ---
+>  arch/arm64/tools/sysreg | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
+> index 9d1c21108057..1287cb1de6f3 100644
+> --- a/arch/arm64/tools/sysreg
+> +++ b/arch/arm64/tools/sysreg
+> @@ -5172,6 +5172,14 @@ Field	31:16	PARTID_D
+>  Field	15:0	PARTID_I
+>  EndSysreg
+>  
+> +Sysreg	MPAMSM_EL1	3	0	10	5	3
+> +Res0	63:48
+> +Field	47:40	PMG_D
+> +Res0	39:32
+> +Field	31:16	PARTID_D
+> +Res0	15:0
+> +EndSysreg
+> +
+>  Sysreg	ISR_EL1	3	0	12	1	0
 
--- 
-Best wishes,
-Vladimir
+Reviewed-by: Jinjie Ruan <ruanjinjie@huawei.com>
+
+>  Res0	63:11
+>  Field	10	IS
+
