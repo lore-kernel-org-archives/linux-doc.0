@@ -1,170 +1,303 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944C13C5DA6
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 20:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D313C9EE8
+	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 20:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788985304; cv=pass; b=Rz0eDIyD90VUatpBgPlHaOCtER/B9jjVCsH8ko7HOHSTT8Kh7G8nb/aMSLguP9Leqy49L7MQBq5tYUVVw10tAKqakMPjPusnoJpgdxzDF0JH3KB2sPsLtHMi8x7MF/5VvAaOJAlNYA+pTepRUo4hu9qC59/xK2hPE6UYJZGqgBM=
+	t=1788985521; cv=pass; b=I9Id8LEfGzycfIhk08A9WLGRiOPVckGcx+t4rIPZ2DNH8+CGtUeGxCkGi4tRv7DX8RFwNBU8C3tNSIuXrJuYBfpjuwJXlvk/PXPWrtI0+9q5e/b9mcC7hTOGUBIcRDif/bWTLhGdIX7yGG5LnV8o/NG7cc/mcTaYFExa7+9bNQc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788985304; c=relaxed/simple;
-	bh=0VHC4PV1n3kvmpJBB03kx86ZwKDGKzt09AXVkbRvG6M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b4apKu6dzEa3FWXj/ugz/w5Ko+iCbcOWx3HzWJxXHV5kYE8wOZDVbfblehsxnliDjotyLl5drIJelYOCn5CPj4LLSQV/QR6UuHVaal2Mr3L7rd6WG0LZa+/1gSjz/CLrMNTzmaJkDu/Mu9IUZ3Q6Oh6hXpoXMVlpI8aOhvm28uc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LUIaaVuJ; arc=pass smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788985521; c=relaxed/simple;
+	bh=QoW7AnyixuM599yTqpXsOt8aI1xn2JRyg2Xq5kcrCwI=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k9Eq3jPs+EV0aod8aFP9/zvsGG5wcqr8RrHX7I9/6b7BWvNpXqen6m7P8zZ6ex75lznwRW6u9cGXSKBpUmATGrdibB5/k1M1gz5Z7u5t6yE0Kwg2gfjhtsFGgODTYRd1AWSNgat9/byWQNZ0XC1uzu+Skv2+atMow5kQXfRRaMU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qURk5P93; arc=pass smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LUIaaVuJ"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3a58f2ce443so5312211fa.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 13:21:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788985296; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qURk5P93"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-90cc0ebbf4bso53905736d6.3
+        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 13:25:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788985510; cv=none;
         d=google.com; s=arc-20260327;
-        b=IM6wtmgj05IozWKFHnFeK1dhX+t2/ev3P6SCXvyo30gB4a5/LVFW/Ej5/9uU/VAud7
-         QsfLpVhv703mP8tI0N8NoWfXX3YrXjNkoVKYr6JPLv9b4ma+hoKYArATpH3Bbxr4fX2z
-         gWye6/Y7s+9VuUGb9pki0y29GaV4unD1t2q7PuTW0fEomwk1oHwbyvQ5V5lQ7ilYUpiD
-         u0JuvA5DiTpOsza1CLPW2u/1Kg+077yoJztqVm7ZIpidCxKtGEugte3vHOJjpAHDbxon
-         0Q5pKwb9+zEXFHduyVCAY0DLu4I+cc48FCEdMHKonTK+ITaZovR0LqfdmATNdSYq6ycY
-         L45Q==
+        b=pKWPaoOGra/f/xrpRZ3hsW1B1Wfct9XcHnOHwdRmMlaNaj/+uaYL6R49OrYX3CO/x8
+         3an3mQOVs95N8C/aYtlv3ndvOsfTyFMr2fIxr2HRYfTYPz/Dh0/AYVpnrxVxejxROUFD
+         qFpfAf19n5Ezhu/xrdlg0X8WuCNtIhtf/u/sItAwv7zzrDnsxTVTpHPnnPa/GHNK1i8L
+         tBYodtXMQdQgcUViT72Y0o51jLgmJfm4UTdlG0pGbKA7hIN4RNqd0x5gvm7bdQgFIHZ9
+         V9JoJapK2K34V85lbYTPy7HSsknkmHWew2IiyLyvFvT7JbC64wvPWdlXcdkjWTz0AAQg
+         630A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KA2VpArXTb8DPUcHb4yt2Z+i5iQStht727IOnEs/FJU=;
-        fh=BVqPLBR508w9XJfYTX+Q6qzsxOeAkm0kzD9WWRoEMw0=;
-        b=CoI6cvJbCaL+F5Dfw7zBzY1DnTF8J9JSSWGMYRVycY+93GBvVHxlp1uO42tJ9UI+xw
-         ZeAJ6A/2NVreIorKtSxUX/p0AIGlcQWLVnBJkEA0yis0ssxnsVAymv9H6Gl5sJYRHm8j
-         yR3RkmactpsYhSVGfsM2WfuN5FKBp6+SiTQXtYmPaW8jCJUorL0RCO/AZQXc76TWaiPk
-         ApsJQOd21Z0LOZte/YLCe6EsYfrwUU8rrD9H0X7bUdZTz9L+VXOgxPDLkg+XvvV+4T93
-         TpLYErJ6j+npTowVd7SsVEoupiWmFlS5kV65jEgNGJ3FM5e0kleE8CvaELABLp4EHAys
-         3Jaw==;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=sAJgjokaArCH/jUJWMU61BMeLKssOx+oevwPJuJSlB4=;
+        fh=adjqhUSt4K2RpWzUdnPiY0SsHvCH6GMbWua/rxttHtE=;
+        b=bKa63MT+3Q8sUVvxZm8LNrlXZ4N1qwbPc6Nd8TiV0J5qiL5grg0557jllPpqZT3ddN
+         dt62T7CyI5idNZeSg7MVpDrB63StZxPywo8QbDEQUG3vIwdMmaMqE7Biagd82t/WLG9b
+         XoveSUhsIgh4UUh+zn6POnD7Xcx8W0X5qFWEDYiRrBmTZfzUMgChpFWeH0TSEn7/924h
+         A0gvPyOkotTBwTlV+P04hQBPp2hNVOKPmiYoOvkh0HVMQy+wH/dLWS4ITZ5GtDiUkSi2
+         IfMoufOgJV/08HofyS3wVgDZu03wV/guQRdYTrKa7Tb/AUD1bGTbpTpfSq7ri8ANLapj
+         dvGA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788985296; x=1789590096; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KA2VpArXTb8DPUcHb4yt2Z+i5iQStht727IOnEs/FJU=;
-        b=LUIaaVuJod11/3g/t6MbNyyoSX0CGO7oms/3y74cxk2EqkM2BDpR1KUNdVBrhuAfA9
-         bSMPndRxSTkcgUpnYqN9zDlJgMWyAIZ1UlS4m1CFX6RVka/csj2ljbMnaDf/WDF0xUDh
-         p2RzP3hZ0yLqEloDhD4nDMUMHpuQiLu3xcB5SXR3tnbFjOiY3ZxDtdXHK9mR1nh+VEF4
-         TTnh0U90Ta5H05+5Kn4Vu/aOoDSE/k82LatXfdQtFVmsxCKPCz6dRSa3x5X9sCT78Hxh
-         Q/o0uo7WWnZte+3/JDYeSMruLATwmPWM3pOGCjLoBwn3RAf8UCyqjrKgQFa8QCOsHz5l
-         zJgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788985296; x=1789590096;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1788985510; x=1789590310; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KA2VpArXTb8DPUcHb4yt2Z+i5iQStht727IOnEs/FJU=;
-        b=ZwnNNpRWQOYHzUP+L3n2GlgtHk7kCD6D+1UtJQ9A7q91uG/Ewuo3O1dmnP+c4G8GEK
-         arzpGxTyzMfU8in5Qg1c83LbxbrV8WIeAyo7dDpCgTfK2vbjSbw5K4g6bX0TQKySv796
-         Arn0+R9/+RmXTKykYHRC11CZKi8GEE4KGLtP4iGk8HhwEh0gjYtCAI3f6F+XyicyhfKH
-         qTq9a9QF3KSF42gvhkIHYs2/Kq0bjx9beXP8C5tEjYd2Bf4hdNrnQzdaT4NCRfgt3DDz
-         xQbKaNHhvIWEVoK2cCMnf0N+J7h4FxokL6dU6ldt61bjMLr1XFUO386tj9cfvarPao9X
-         8gVg==
-X-Forwarded-Encrypted: i=1; AKwUvByoit3W8vytYzueYxfFGfkYdrN1uzcCO09V/U5mkDi36URo+QTKLrBTeUkynEKaFLCF3gNxuSKSxHw=@vger.kernel.org
-X-Gm-Message-State: AFuF++mlWEGBTU56IxbIBs9KX0QhhQDRogqQMWRAL8Ac4pH1aQIG8Ok7
-	9jRZ3yX/Ezn8SMRGIdbt5IOqGSXw2TE5TMeVusXgCRraSUSJuB2J4aEjdZVz96Q6W/PyBXIY6qF
-	Rrz/U2OLfeIcfD0l6rBjvzigrzFqQfg8=
-X-Gm-Gg: AYBFou2tnx4Q3Bj2aCEpMQczpf8Byl4yl8i/U2Hi4ZJ3Ktzv7uAbD+hr1AtxZq9BnJV
-	ZDBlb6kl8qT/1d0FTWF1rtuR07bztbOvubHZTIntaQnt+dyoD5CQC36oxx6cTwp8rvLzxmrSqPR
-	dC3WizeG07Zozyax9f1j8Xoz6IIJHA2KmwbTS5Id5yAeQ52Y5ZV/3GzeHQSqOsKxC+comr6roc2
-	kLEl/xBYoY0n34aOtAEjK7xq4zmSF/oXVBz8SgzzX4ue5cOAPfNNCAM03C5H8yOcpmU5/v0sjwC
-	2XRpWb1thvDTmfnr9hy5Xbs8GEknY36Y6azedl6eGpQWTboQkQpdMMixvKBCYdgEim12ZeUEUom
-	IYbUTZK2rRL3uuNfSXaMmXl55ML9tIj1ygK8UwQ5nfaiX
-X-Received: by 2002:a05:651c:b0f:b0:3a3:749e:31a4 with SMTP id
- 38308e7fff4ca-3a58d92c643mr3500071fa.24.1788985296110; Wed, 09 Sep 2026
- 13:21:36 -0700 (PDT)
+        bh=sAJgjokaArCH/jUJWMU61BMeLKssOx+oevwPJuJSlB4=;
+        b=qURk5P93NaTtt5trLDbmc1BUPFr6x0gCMMduokoE3cnwaIvRpYlj1jHU2jfkX04ZZV
+         IjmUKbODrxIHTMwc2xqWpO+XpkI221Fe/HEVbMyG6yV4a4xCB4ehvS5Ql3vvSOGIcx/i
+         WW3MAsBkFyCvPBDTJxnuGl43uWah6KrhZHLD87lv80j5xL/cR46XqWvERDWjyuG9Chf5
+         NabDWspzgakCSj8oBmZuuGRXtbRy9z7N/j9vzPhViK6Smilf25fEUMzDGF3vkviviEyT
+         oXUKtSNK98SLRWm+OmhfzoszLZrlmo5+rBWLZTkedbvCpZNWpqLgWCjsR0jflmW1JHm/
+         ciAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788985510; x=1789590310;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=sAJgjokaArCH/jUJWMU61BMeLKssOx+oevwPJuJSlB4=;
+        b=LZYpZN5vcx+KxdJjJ0kH65wilEtVuWrGIIY/9fagqum0xcldl3IXJB5UfddcGlqOpj
+         uBweP1gYeDFVgzEsUSYgQjmUUxNRnEo3Y2DY9g1cwmrd26FlRYEeLzQ89g7xFf6KF1P8
+         KONA17ks5xfdADVcHaOa6aq/KuxjEMR1jp/xNkPVQMu68gjv99v8jTgqGMw1CxhCErSZ
+         Nvt8gqfhYY3GNF1YImtTsw8u/LZD8BHU9V90tAtkG4JjCw5N03w6tx2KJXu23qL92ZSZ
+         +OHENxi1zGkW6DB9CePosyXC4cGcM+ItEBmju6w/HFwkUgZo1a6LhL4UixzkbNQLnCQZ
+         peSQ==
+X-Gm-Message-State: AFuF++mCNX2D3eVtT+bRhQG8RHB5aziXohSWv8ab5YtwyffZVUwnhbOx
+	Zuro1fQkB5h7hTXiw18+5ltNzV0dIRHI1fqOXznaYnxhErKhqZA4uRN+6+NJ8adWaOt7HLvP0f3
+	LctzMztgoOyDk6m7wMD5FxUtOxna3kLIAu0kIAERS
+X-Gm-Gg: AYBFou1N6rYPNEQvx06XSspnREZRAEvhdKVmzjDNRvqG4HhPTOQwcb7ly8Mw/HV6pXs
+	Vly2y8vtN7xi9y1gIjYuGiXRTAPcJdR3oXhKznBN66HMY4mc92tKYz2h4lCCz47S3DEvFis8R78
+	V6uBt4ls5zGM6DybVbpkdkbu8ZghHK69ZWWIQrjH/gzYwQyiEk7L9nPpgftgAggfONPqc2e6P/4
+	xtzCHKeoh/8i/PONVoNxGUD17zDAZ921gMIdBf7ut0ig18eRrsYp5+L7Aj3Paqb1D/E1Ua/h3Dh
+	fLnVZJsg2BowNE8xnIC9S5jcVdUfcfsBx3xcLSMvO40XjJc4sCTTkyI521O+d9WB84JT7AEws0c
+	l9LqEXw1hqjRlUhDCZPX9wreHJrWNXce+d1CXgciv
+X-Received: by 2002:a05:6214:2028:b0:910:70e1:e73e with SMTP id
+ 6a1803df08f44-91070e1e8eemr54547936d6.36.1788985508825; Wed, 09 Sep 2026
+ 13:25:08 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 9 Sep 2026 13:25:08 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 9 Sep 2026 13:25:07 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <20260902-hugetlb-subpool-always-track-used-v1-2-de1cd14bd713@google.com>
+References: <20260902-hugetlb-subpool-always-track-used-v1-0-de1cd14bd713@google.com>
+ <20260902-hugetlb-subpool-always-track-used-v1-2-de1cd14bd713@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260908152808.3928630-1-arnd@kernel.org> <20260908152808.3928630-9-arnd@kernel.org>
-In-Reply-To: <20260908152808.3928630-9-arnd@kernel.org>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 9 Sep 2026 17:21:24 -0300
-X-Gm-Features: AcwNN1XhCWWR_p45edJ2cAUvnO6YnDwGtKUGW17Fe3LwHfhT5TU0cNccQ42bU4E
-Message-ID: <CAOMZO5Bw72SkBChbRLg+FaYZ34ENAW95-0+LrgcrESu_YtNXFQ@mail.gmail.com>
-Subject: Re: [PATCH 08/13] ARM: imx: remove nommu support
-To: Arnd Bergmann <arnd@kernel.org>, Jesse Taube <mr.bossman075@gmail.com>, 
-	Giulio Benetti <giulio.benetti@benettiengineering.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Linus Walleij <linusw@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Drew Fustini <fustini@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Sudeep Holla <sudeep.holla@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Vladimir Zapolskiy <vz@mleia.com>, Stefan Agner <stefan@agner.ch>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
-	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrew Lunn <andrew@lunn.ch>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Gregory Clement <gregory.clement@bootlin.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Kristoffer Ericson <kristoffer.ericson@gmail.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Alexander Sverdlin <alexander.sverdlin@siemens.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Karl Mehltretter <kmehltretter@gmail.com>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Date: Wed, 9 Sep 2026 13:25:07 -0700
+X-Gm-Features: AcwNN1WKF_ytLnZvmqYqok7fCFO9k5UkC6wmjaHMYmOMsaT-t0wpYlqa0Qxgl0M
+Message-ID: <CAEvNRgGGW+D2GWwjUj5A_L69aeUaaWFn4vx6FE7Q5gkd278+nA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] mm: hugetlb: Fix out_put_pages subpool reserve calculation
+To: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>, Alex Shi <alexs@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Dongliang Mu <dzm91@hust.edu.cn>, Hongxiang Lou <louhongxiang@huawei.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, "Liam R. Howlett" <liam@infradead.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>, Nhat Pham <nphamcs@gmail.com>, 
+	Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
+	Vlastimil Babka <vbabka@kernel.org>, Wupeng Ma <mawupeng1@huawei.com>, 
+	Yanteng Si <si.yanteng@linux.dev>, fvdl@google.com, jthoughton@google.com, 
+	rientjes@google.com, vannapurve@google.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 8, 2026 at 12:29=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
-te:
+Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
+writes:
+
+Copying Sashiko's comments here for discussion :)
+
+> From: Ackerley Tng <ackerleytng@google.com>
 >
-> From: Arnd Bergmann <arnd@arndb.de>
+> When reserving pages for a mapping fails during global accounting, the
+> error path rolls back the adjustments made to the subpool.
 >
-> The i.MX platform has grown support for three separate product
-> lines using Cortex-M based microcontrollers over the years:
+> Currently, this rollback was performed in two separate steps:
 >
->  - i.MX RT1050, a high-end microcontroller
->  - Vybrid vf610 suppors running Linux on either the Cortex-A5
->    CPU or the Cortex-M4 MCU
->  - i.MX7D similarly can run Linux on the Cortex-A7 or the
->    Cortex-M4
+> 1. Returning only the portion of reservations originally satisfied from the
+>    subpool
+> 2. Separately adjusting the subpool used pages counter for the portion that
+>    was requested from the global pool.
 >
-> There are no known upstream users of any of those three, so
-> drop support and simplify the platform to assume that an MMU
-> is present.
+> In (1.), because the used pages counter had not yet been decremented for
+> the global portion, the subpool observed an inflated used pages count. If
+> the mount was configured with both a minimum size and a maximum size, this
+> inflated count prevented the subpool from recognizing that usage fell below
+> the minimum size guarantee.
 >
-> Cc: Frank Li <Frank.Li@nxp.com>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Vladimir Zapolskiy <vz@mleia.com>
-> Cc: Giulio Benetti <giulio.benetti@benettiengineering.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: imx@lists.linux.dev
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> As a result, the subpool failed to restore its reserved pages counter and
+> instead returned that a global reservation should be dropped. The
+> mount-time reservation is permanently destroyed, leaving global reservation
+> counts depleted and causing an underflow when the filesystem is eventually
+> unmounted.
+>
+> Additionally, if concurrent threads modified subpool usage during the
+> reservation attempt, calculating the rollback amount using stale local
+> variables could cause global reservation counts to diverge.
+>
+> Now that used pages are always tracked within the subpool, return the
+> entire requested page count to the subpool in a single call. Global
+> reservations are then adjusted using the difference between the
+> reservations originally requested and those returned, fixing the issues
+> described above.
+>
+> Fixes: 1d3f9bb4c8af ("mm/hugetlb: restore failed global reservations to subpool")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 > ---
->  arch/arm/boot/dts/nxp/imx/Makefile            |    2 -
->  arch/arm/boot/dts/nxp/imx/imxrt1050-evk.dts   |   72 -
->  arch/arm/boot/dts/nxp/imx/imxrt1050-pinfunc.h |  993 -----------
->  arch/arm/boot/dts/nxp/imx/imxrt1050.dtsi      |  160 --
->  arch/arm/boot/dts/nxp/imx/imxrt1170-pinfunc.h | 1561 -----------------
->  arch/arm/boot/dts/nxp/vf/Makefile             |    2 -
->  arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dts  |   61 -
->  arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dts   |   88 -
->  arch/arm/boot/dts/nxp/vf/vf610m4.dtsi         |   61 -
->  arch/arm/configs/imxrt_defconfig              |   35 -
->  arch/arm/configs/vf610m4_defconfig            |   39 -
->  arch/arm/mach-imx/Kconfig                     |   27 +-
->  arch/arm/mach-imx/Makefile                    |    3 -
->  arch/arm/mach-imx/mach-imx7d-cm4.c            |   18 -
->  arch/arm/mach-imx/mach-imxrt.c                |   19 -
+>  mm/hugetlb.c | 49 +++++++++++++++++++++++--------------------------
+>  1 file changed, 23 insertions(+), 26 deletions(-)
+>
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 66b6601abb069..d84ef044d1346 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -6674,12 +6674,14 @@ long hugetlb_reserve_pages(struct inode *inode,
+>  		struct vm_area_struct *vma,
+>  		vma_flags_t vma_flags)
+>  {
+> -	long chg = -1, add = -1, spool_resv, gbl_resv;
+> +	long chg = -1, add = -1;
+>  	struct hstate *h = hstate_inode(inode);
+>  	struct hugepage_subpool *spool = subpool_inode(inode);
+>  	struct resv_map *resv_map;
+>  	struct hugetlb_cgroup *h_cg = NULL;
+> -	long gbl_reserve, regions_needed = 0;
+> +	long regions_needed = 0;
+> +	long gbl_resv_get;
+> +	long gbl_resv_put;
+>  	int err;
+>
+>  	/* This should never happen */
+> @@ -6754,9 +6756,9 @@ long hugetlb_reserve_pages(struct inode *inode,
+>  	 * the subpool has a minimum size, there may be some global
+>  	 * reservations already in place (gbl_reserve).
+>  	 */
+> -	gbl_reserve = hugepage_subpool_get_pages(spool, chg);
+> -	if (gbl_reserve < 0) {
+> -		err = gbl_reserve;
+> +	gbl_resv_get = hugepage_subpool_get_pages(spool, chg);
+> +	if (gbl_resv_get < 0) {
+> +		err = gbl_resv_get;
+>  		goto out_uncharge_cgroup;
+>  	}
+>
+> @@ -6764,7 +6766,7 @@ long hugetlb_reserve_pages(struct inode *inode,
+>  	 * Check enough hugepages are available for the reservation.
+>  	 * Hand the pages back to the subpool if there are not
+>  	 */
+> -	err = hugetlb_acct_memory(h, gbl_reserve);
+> +	err = hugetlb_acct_memory(h, gbl_resv_get);
 
-The imxrt1050-evk dts is used in U-Boot.
+[GLOBAL ACCOUNTING]
 
-Adding Jesse and Giulio, who use this platform in U-Boot.
+>  	if (err < 0)
+>  		goto out_put_pages;
+>
+> @@ -6783,7 +6785,7 @@ long hugetlb_reserve_pages(struct inode *inode,
+>  		add = region_add(resv_map, from, to, regions_needed, h, h_cg);
+>
+>  		if (unlikely(add < 0)) {
+> -			hugetlb_acct_memory(h, -gbl_reserve);
+> +			hugetlb_acct_memory(h, -gbl_resv_get);
+
+Sashiko:
+
+Does this error path complicate the rollback logic? By explicitly freeing the
+previously held global reservations here, it guarantees that out_put_pages
+will need to re-allocate them from scratch if the subpool absorbs them. Does
+this increase the likelihood of the subsequent hugetlb_acct_memory() allocation
+failing?
+
+Ackerley:
+
+Yes, it does. Restoring gbl_resv_get here is the correct thing to do, to
+undo the [GLOBAL ACCOUNTING] (see above). It does look weird that
+hugetlb_acct_memory() is called twice, but the hugetlb_acct_memory() in
+out_put_pages is actually purely meant to follow up after
+hugetlb_subpool_put_pages().
+
+Everything is mathematically correct. Sashiko is also right that this
+could result in allocation within out_put_pages.
+
+I'll add another patch to clean this up, see next revision!
+
+>  			err = add;
+>  			goto out_put_pages;
+>  		} else if (unlikely(chg > add)) {
+> @@ -6819,26 +6821,21 @@ long hugetlb_reserve_pages(struct inode *inode,
+>  	}
+>  	return chg;
+>
+> -out_put_pages:
+> -	spool_resv = chg - gbl_reserve;
+> -	if (spool_resv) {
+> -		/* put sub pool's reservation back, chg - gbl_reserve */
+> -		gbl_resv = hugepage_subpool_put_pages(spool, spool_resv);
+> -		/*
+> -		 * subpool's reserved pages can not be put back due to race,
+> -		 * return to hstate.
+> -		 */
+> -		hugetlb_acct_memory(h, -gbl_resv);
+> -	}
+> -	/* Restore used_hpages for pages that failed global reservation */
+> -	if (gbl_reserve && spool) {
+> -		unsigned long flags;
+> + out_put_pages:
+> +	/*
+> +	 * Return all that was requested from the subpool, let subpool
+> +	 * tell us the new number of reservations that need to be
+> +	 * returned to the global pool.
+> +	 */
+> +	gbl_resv_put = hugepage_subpool_put_pages(spool, chg);
+> +	/*
+> +	 * There may be a difference between the number of
+> +	 * reservations to consume and the number to restore now if
+> +	 * there are multiple threads interacting with the subpool -
+> +	 * restore the difference.
+> +	 */
+> +	hugetlb_acct_memory(h, gbl_resv_get - gbl_resv_put);
+
+Sashiko:
+
+Does ignoring the return value of hugetlb_acct_memory() here lead to accounting
+divergence? If gbl_resv_get > gbl_resv_put, this attempts to allocate global
+pages. If this allocation fails (e.g. out of memory), the failure is silently
+ignored.
+
+Could this lead to the global resv_huge_pages counter diverging from the
+subpool's rsv_hpages counter? If a concurrent operation drops the subpool's
+used_hpages below min_hpages, hugepage_subpool_put_pages() would absorb the
+returned pages into rsv_hpages to satisfy the minimum size constraint. If the
+re-allocation then fails and the subpool is later unmounted, could this
+divergence cause resv_huge_pages to underflow, inflating available_huge_pages
+and potentially enabling a system-wide OOM denial of service?
+
+Ackerley:
+
+Yes I agree that ignoring the return value of hugepage_acct_memory()
+could result in issues, but this isn't unique to this code path. The
+return value of hugepage_acct_memory() is ignored in similar cleanup
+paths.
+
+>
+> -		spin_lock_irqsave(&spool->lock, flags);
+> -		if (spool->max_hpages != -1)
+> -			spool->used_hpages -= gbl_reserve;
+> -		unlock_or_release_subpool(spool, flags);
+> -	}
+>  out_uncharge_cgroup:
+>  	hugetlb_cgroup_uncharge_cgroup_rsvd(hstate_index(h),
+>  					    chg * pages_per_huge_page(h), h_cg);
+>
+> --
+> 2.55.0.970.g62bdec98f9-goog
