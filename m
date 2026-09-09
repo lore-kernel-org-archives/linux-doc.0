@@ -1,67 +1,67 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53268477984
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 13:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6959D568545
+	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 13:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788960918; cv=none; b=oedP+kclN3vhrWc7O+4JxSGq+Vj1ekMJOqXaEOL9+Sl+OW3tceJKrr/5AxGsPntN7/xC4tN5JvjqTIoc7wE4ljP3w2x9Xb3Ic0IXzJtQqE9UmoOHYL+fE10TE3V4rCMi9+A5yGeAHdSwgHmoKPuELXkbddiZAku4jRik9JFT4qQ=
+	t=1788960924; cv=none; b=HyCYWpBKGHa6o3Gm/zub2fUDcPVlA3yMbzrC5nAKgh5f98PuRi+vuYnaiqQNza3vvoKT7Lp14Afr1OO4nJjjWRassiFvUs40SdaXnvx05qn9iYCiF3/1v/kIQAMNL91O/xAj7njOUCb/bsPGHhw9t+qL7n2b6TNojY26FB0rfNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788960918; c=relaxed/simple;
-	bh=pYAXFeuFVimJwDLBUI4en4oiYVdoAA0vzKgHRiam0R4=;
+	s=arc-20240116; t=1788960924; c=relaxed/simple;
+	bh=kqq/tXQuLQQ93shFZ4hQ+WuqOevvJ+OrAuaJieLHuSk=;
 	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I/ei6BeKG8j8AEKdPBQPRC1dUnATBzdhi2vTROxA6ANfUHoxyNaM4DxUXEmtQ1r8YeTaMN/HocU+PrJhaFbQiU5hwxtryNKKb7eLNeBOexhBx4/BuBH3JRuSf4bG/6Al4FeLfm8ZWURPhnSmfSEhRcoIgBOFi7GtTCrUkIe/d5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aXHo/mVH; arc=none smtp.client-ip=209.85.128.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=jU0K+blJ0fmXr352aIB1TASgAvntv8fB724EYIwlmirekYuXiFx8LR/HOXflmOQqFMGCjyKL2S6p4k0nvBj2RklwhMcaRF5CxxkbL2MUdZ9OmFZOktUsTt/xjn9ltxUi4T38qIdpVtIrWx24gLcu51cwYAtZn5MYwCqS+n8FHfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HG8a4yO7; arc=none smtp.client-ip=74.125.224.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aXHo/mVH"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-85a50f6a7f7so81657777b3.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 06:35:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HG8a4yO7"
+Received: by mail-yx2-f12.google.com with SMTP id 00721157ae682-85d46e4cdccso10687867b3.1
+        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 06:35:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788960916; x=1789565716; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788960921; x=1789565721; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:date:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=IF7gGSnNHvzeRxMeQJEXPfnNoiV1RgOi8xQaXNAluos=;
-        b=aXHo/mVHlqCY04RXO/+yLgAoiVc8v+p/f7jRRx+a4qrfZE53PLwBi3PvDHKeSezwje
-         600DrGithzi+RJ1XmZ3EOoX8JmRETN6Zc4cHC4rqHpUuhND3jQ3DqYcqrmotoOza2GkB
-         CJS77HQnLiP0bDDemhEPiU1zqaQVl1sdD/n8qQ3R48qKTlj+lROE+MsJGjjE28dCDpNW
-         4JTwZ+VtcLQwU2N0T0KT7EwhGda22E439GC2l/KMqEblQuLhKgJAK78mpc32BOpyUTgU
-         Ez+wVzdJCEBcXgSyBpBA43HLwgM5ZfcA8IkhXh98NNLOMj0JBiKXTGMlpUXKQ875DVdT
-         salg==
+        bh=wQbDye0Ug6lK7AwcUFZhsBEDnI1W9xjGfK//bEWCpeM=;
+        b=HG8a4yO7rbILcA4TemtLSiBGskvgEAUd+ZUnL0i7PGkUG1BaDH68p6LfA6SpYyqYIe
+         ZzgjWOw9Fkc6CA7bkOS3TgiWz/7ReyQPISMzTJUYhvdcJ1RNjDduOeirCJ/2yfAL5o22
+         8KegJ92SArAm3CdpiEkL8/9Ps3nkbdn4PKwtku9jmBSvoVvUTAVDG1aVjDGI5iGDKXiS
+         vXf2fY6oXyMMnHwrsrciBbllyEODltqec95aeD+aUvAcSKKIIV2YMrHXym5MHBW+W/4T
+         4jpwcoUlp6s6hW8mqEUwg6smITMlXCL6bKFjXa81Dyq9A+yC87YdElZugZhoDYOaDVfA
+         Y2mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788960916; x=1789565716;
+        d=1e100.net; s=20251104; t=1788960921; x=1789565721;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=IF7gGSnNHvzeRxMeQJEXPfnNoiV1RgOi8xQaXNAluos=;
-        b=ezHVQx32Cvt87VM/xsF3/dbTXTWyryenXLKmGjtTRb4h1BUV/YYWUMQcOGPYCT4sDV
-         ZvxbmajDeDSqSkgmd6lqbjjdL//LaAVz8wdbjOZzJvX1/W4oluZxln85yZDB9BJSAX54
-         H0GTe4gIBYMJm7uxWf83mpgk2F6//J8tuaaCVXMoS8l5uS93lXcfTnvqE09jESWH5rpF
-         uApS/J9uEbVmzEbnxmZmnlWQiZkMB0kLMhafzXsdzlxZT8LMav+EowJAssvtWN22xUSs
-         cDXMD5huxts829njhkblZPcAyiMzmipPIAKFpCUlQhti9kSg7/tZsSgiJxPY/XdXtEhA
-         QwKA==
-X-Forwarded-Encrypted: i=1; AKwUvBxreGvvDfcW96Fi1DPsTNK+ocJSR5FbDFQZU0WDzmj1vekzywTxcpc1Yq1Z9Zk4RUQqILld3l+heto=@vger.kernel.org
-X-Gm-Message-State: AFuF++nk0yh5n+iarnkWRaTFW5M4TyexzFpshVHx1qvsr4zZbRHa7eIb
-	rITihE/IIDEwY4wf4zVtQTQbbiE38zXV8lOZ8aR80U/VUgRJVESEY5WR
-X-Gm-Gg: AYBFou0qgwX0MUel3hCRqCRpULYkXNzq3svM0rhAOfSqEDFo37751o8devSkJG42371
-	GviFr2bd5rqWgUcWJr7gDOoGJLBchCxG1zu63FQV6HDQekd1ANgVWxx/xdebGCQOq+X/cjKxkKB
-	+y8qYSbRzcHf/MBsgx8rUQ28O0As31SpNAcOzX2DqhOB8KS9/rmFgYqw0jfb5DqTnCW0NZTYdWT
-	/aeth1YYvHeI87QUY88nhGpr03tRa0oG/XB6hwYvx0SrDsrEUEkjbQElUXoof9fQSkW4ts4m2LW
-	22C+4R7RbClL67ZpOnw+TEJqM2mnqhKNJDHareDG1S7P7FSRmGtYusTMGyHiLhAy0PKHVcig4fV
-	hfvuMQqVT4i7mJJUnvIdBZBjsbWU/uBfzGdzN8BZNX7LmqXHwRE9yBCfaEnd9vkOtOnYSEkv2FO
-	1oH7kzOMiqJEOGMrRYmKLgN5re5AqoPuswwKpz4/t/rCkXJ/l1bCYkRCruICRaIg9IAw==
-X-Received: by 2002:a05:690c:ed6:b0:816:b469:cd12 with SMTP id 00721157ae682-87122f5564bmr131074277b3.8.1788960916082;
-        Wed, 09 Sep 2026 06:35:16 -0700 (PDT)
+        bh=wQbDye0Ug6lK7AwcUFZhsBEDnI1W9xjGfK//bEWCpeM=;
+        b=rRwwtugZOv1rlBPCJ3ZIbXJDWZ0J9A/51JFT63f79fp/GmXKbxJH96+6BZSCoIvcNB
+         DrqNHtACHs9OeOnQqd4jDU014Phx4V9VTNSFcdACC7Pz0DCQbhNHBchH/vkg9nPSUakJ
+         VV05Mice6H1trGdBDMQSIVCbM+QV74Qu3uueQrrpynRQAnFQTzgltCK95hUXP+DqN3rR
+         7nQ5Fs2b+PBb1Ecm7Sou2YPimivSSeYjqpYxHW+SLCQggEoJ4jsvrsRMC7at4T4wFtlW
+         O2ouIePjo/Kndtr9cZXALOhWXeQQQhoB6dbjrMFkNnnq3DUI2qU6x4nsI3MuOLSCXfki
+         +36Q==
+X-Forwarded-Encrypted: i=1; AKwUvBx2UGyxqsd4+lMuZKoHrR+xE9395x8pt0dD8FcJkxuh/oa9kwJyoEfkugmhlbyK7hoXYjQ1KVw1D8Y=@vger.kernel.org
+X-Gm-Message-State: AFuF++lKNHhMhoIP/TpgVvKYsIm6+SNkmAzSwflSGCt2ue0KbN7R6dc5
+	kPgYYOT1iGn2aQztWQzmqODjue4CbECwlHyQO4mXYh1BHnM9jTEV1NVG
+X-Gm-Gg: AYBFou3KKbc0N5V5/6Fa9yS9zW4bDQ2ALCle+YBWPV11iN9WVNBPvdYwuhni9IKNUys
+	3XhemgBoqsTNkPV6N3BTbpJ+vrrYxvVyqQ4CiwPrfMBGyk+Oqr55G/7CgazBZgwbufPMF5ize4y
+	RWWasuEwP4wCa4uOf3O3hQ9iVK9ugof45e+DzHGfxE5fUoXJMZ0kF2ryginhIwJvoZsNraZC2PB
+	m/mJXJYXS4STG4qM5CkC+7HHG/cl3VbwmJm3rX9tQFvofd458FkNZ6BO9dpO4Iukgddblr1zBju
+	c9r7l11mpuTdKG+yulErHIRPM+FmIDWlRHpLdAW3r+pCa9ZyZOhQC3A0uGqxoQCcy7uOBSl5ArM
+	J2w4f+st9A+mSQwidpq3vC0E7RQSRrRkTiiozPfK9NkxhhGPDk2tR4aWXFOA/g51AlX5ucUW/nW
+	w7HJi1VilW/U5nH6NLj6UhGqdRs8mu1hU9vOrrlQ+2oKua/O9Bu5UJNfWx2elv5Mv9KQ==
+X-Received: by 2002:a05:690c:650c:b0:85b:35f6:bc5d with SMTP id 00721157ae682-87f23fe7a98mr29962947b3.13.1788960920937;
+        Wed, 09 Sep 2026 06:35:20 -0700 (PDT)
 Received: from localhost ([45.112.44.120])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-881575de059sm2427287b3.18.2026.09.09.06.35.15
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8714c0e5c6fsm111191177b3.48.2026.09.09.06.35.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 06:35:15 -0700 (PDT)
+        Wed, 09 Sep 2026 06:35:20 -0700 (PDT)
 From: Coiby Xu <coiby.xu@gmail.com>
 X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date: Wed, 9 Sep 2026 21:33:02 +0800
+Date: Wed, 9 Sep 2026 21:34:58 +0800
 To: Randy Dunlap <rdunlap@infradead.org>
 Cc: kexec@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>, 
 	Sourabh Jain <sourabhjain@linux.ibm.com>, Baoquan He <baoquan.he@linux.dev>, 
@@ -69,14 +69,14 @@ Cc: kexec@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
 	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org, 
 	Jinjie Ruan <ruanjinjie@huawei.com>, Mike Rapoport <rppt@kernel.org>, 
 	Pasha Tatashin <pasha.tatashin@soleen.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 8/9] crash_dump: Disallow
- configfs/crash_dm_crypt_key/reuse if crash hotplug supported
-Message-ID: <aqFfvCpcrbN-8qcs@Rk>
+	Shuah Khan <skhan@linuxfoundation.org>, "Rob Herring (Arm)" <robh@kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 9/9] Documentation: kdump: Add arm64 and ppc64le to
+ encrypted dump target support list
+Message-ID: <aqFgNFBdwoS2okjR@Rk>
 References: <20260909003657.1570544-1-coiby.xu@gmail.com>
- <20260909003657.1570544-9-coiby.xu@gmail.com>
- <c0d5f2e9-9bd1-46fb-8111-d3af6b6c9e66@infradead.org>
+ <20260909003657.1570544-10-coiby.xu@gmail.com>
+ <83b9fd96-d0dc-4ced-97cd-287c82cdacbe@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,62 +85,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <c0d5f2e9-9bd1-46fb-8111-d3af6b6c9e66@infradead.org>
+In-Reply-To: <83b9fd96-d0dc-4ced-97cd-287c82cdacbe@infradead.org>
 
-On Tue, Sep 08, 2026 at 10:46:03PM -0700, Randy Dunlap wrote:
+On Tue, Sep 08, 2026 at 10:48:11PM -0700, Randy Dunlap wrote:
 >
 >
 >On 9/8/26 5:36 PM, Coiby Xu wrote:
->> If crash hotplug is supported, dm-crypt keys saved to reserved memory
->> will be taken care of automatically. Thus it doesn't make sense to use
->> configfs/crash_dm_crypt_key/reuse. Not reserving
->> image->dm_crypt_keys_addr makes it implicitly to disallow using this
->> API. Currently x86_64 and ppc64le have implemented crash hotplug
->> feature.
+>> The encrypted dump target support is now extended to arm64 and ppc64le.
 >>
->> Also update the doc accordingly. Note two doc issues are fixed as well.
->>
->> Fixes: 9ebfa8dcaea7 ("crash_dump: reuse saved dm crypt keys for CPU/memory hot-plugging")
+>> Fixes: e3a84be1ec2f ("arm64,ppc64le/kdump: pass dm-crypt keys to kdump kernel")
+>> Reported-by: Sourabh Jain <sourabhjain@linux.ibm.com>
 >> Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
 >> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 >> ---
->>  Documentation/admin-guide/kdump/kdump.rst | 16 ++++++++++------
->>  kernel/crash_dump_dm_crypt.c              | 12 ++++++++----
->>  2 files changed, 18 insertions(+), 10 deletions(-)
+>>  Documentation/admin-guide/kdump/kdump.rst | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
 >>
 >> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
->> index 7587caadbae1..0bf2eb100a05 100644
+>> index 0bf2eb100a05..36ad6125c670 100644
 >> --- a/Documentation/admin-guide/kdump/kdump.rst
 >> +++ b/Documentation/admin-guide/kdump/kdump.rst
->> @@ -577,9 +577,10 @@ with /sys/kernel/config/crash_dm_crypt_keys for setup,
+>> @@ -572,8 +572,8 @@ Write the dump file to encrypted disk volume
+>>  ============================================
 >>
->>  1. Tell the first kernel what logon keys are needed to unlock the disk volumes,
->>      # Add key #1
->> -    mkdir /sys/kernel/config/crash_dm_crypt_keys/7d26b7b4-e342-4d2d-b660-7426b0996720
->> +    VOL1_UUID=7d26b7b4-e342-4d2d-b660-7426b0996720
->> +    mkdir /sys/kernel/config/crash_dm_crypt_keys/$VOL1_UUID
->>      # Add key #1's description
->> -    echo cryptsetup:7d26b7b4-e342-4d2d-b660-7426b0996720 > /sys/kernel/config/crash_dm_crypt_keys/description
->> +    echo cryptsetup:$VOL1_UUID > /sys/kernel/config/crash_dm_crypt_keys/$VOL1_UUID/description
->>
->>      # how many keys do we have now?
->>      cat /sys/kernel/config/crash_dm_crypt_keys/count
->> @@ -591,15 +592,18 @@ with /sys/kernel/config/crash_dm_crypt_keys for setup,
->>      cat /sys/kernel/config/crash_dm_crypt_keys/count
->>      2
->>
->> -    # To support CPU/memory hot-plugging, reuse keys already saved to reserved
->> -    # memory
->> -    echo true > /sys/kernel/config/crash_dm_crypt_key/reuse
->> -
->>  2. Load the dump-capture kernel
->>
->>  3. After the dump-capture kerne get booted, restore the keys to user keyring
+>>  CONFIG_CRASH_DM_CRYPT can be enabled to support saving the dump file to an
+>> -encrypted disk volume (only x86_64 supported for now). User space can interact
+>> -with /sys/kernel/config/crash_dm_crypt_keys for setup,
+>> +encrypted disk volume (only x86_64, arm64, ppc64le supported for now). User
+>> +space can interact with /sys/kernel/config/crash_dm_crypt_keys for setup,
 >
->                             kernel is booted,
+>                                                                  for setup.
 
-Thanks for catching this typo! I'll apply your suggestion to next
-version!
+I'll apply the suggestion, thanks!
 
 [...]
 
