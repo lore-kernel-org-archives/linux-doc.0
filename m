@@ -1,67 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-m49231.qiye.163.com (mail-m49231.qiye.163.com [45.254.49.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E7C22A7F6;
-	Wed,  9 Sep 2026 01:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD9A315D5D;
+	Wed,  9 Sep 2026 02:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788918319; cv=none; b=ArTWI978HAx6SnJdiOUdpHcdtnZJwwBptOjjhjAvHI++NG7EvszD1K0Rwr5d2nSlOT57AMZ7MCd/+GqYYgPolfyYRwE+uXEHGGYQURmd84uYTjQmYQwTpCAv9nVrFmQ+9HVhKylKIL4mfXUxM2coPyE/ShkffkVdg0Hk3RmwETI=
+	t=1788921653; cv=none; b=e05eL8xyPSddTL8D2TRbBhU0vfkDXTqfrHQJKIx/SfMJDoW/Yw2+ui+t3BUjYywiu+a5CDWkAEDNpet3S+74+MxK9gfV+ZFpIfLQfVUu3yPBA+bHFY8ex8piJTkJIXtmIsBiehKxakXFB6ISb3VaAObkSFfiC0BwBdXAvWWgp/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788918319; c=relaxed/simple;
-	bh=c+tIaC+OBf1NPJ9LC30yCb72Nf/ALJorCqnmG38aHUg=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=IrDlc6GJThjOA2sM9p3zptyTirEfqE+qGG2kid4kCFCyBKyQ7PcqpQSCEnU6BHTJixs2oUA+Y80DvGqYZk7soPUOdCF77VSrKlUhBcAmFKMn1D8NOCxnpxLCcf85K6CnTbIbC25XmOjM7R9PsaOgbleXCFZ4m+h+gzza+OMq+jA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=IGTljDXw; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="IGTljDXw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E46D71F00A3A;
-	Wed,  9 Sep 2026 01:45:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1788918317;
-	bh=tp3dXhAy5jR6y6z8B8hfuKasJOA/kRC+FrcfbplZSPw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=IGTljDXwgWO0FriKqdwJFtPwF4QskmkLh1pQ2+3IPqHdcjNgnrUbTK/OI7mrSSwQQ
-	 hx/vqsHOSMfoCqwnOJMQqb12JTW/Pczsmtdwzg/3yJc8S0UKEzUUjhUAx6q2c1x6JF
-	 wQqqLdHznKYFGH7WFtTIn66xXVi5PzmW0nR/aEJ0=
-Date: Tue, 8 Sep 2026 18:45:16 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Muchun Song <songmuchun@bytedance.com>
-Cc: David Hildenbrand <david@kernel.org>, Oscar Salvador
- <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
- Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org, Muchun Song
- <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, Nicholas Piggin
- <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>
-Subject: Re: [PATCH v2 00/11] mm: Switch device DAX to section-based vmemmap
- optimization
-Message-Id: <20260908184516.c026438445ff3db78ee120fa@linux-foundation.org>
-In-Reply-To: <20260908030335.96549-1-songmuchun@bytedance.com>
-References: <20260908030335.96549-1-songmuchun@bytedance.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1788921653; c=relaxed/simple;
+	bh=EV/tgxz05EjxG1zfamVEH0rKeC48U11l8LgxR8wGTNM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lCnIF0d3JLqSrieVu9+kIpQ2Kh/Nm8i5L6r1v/8nZ2oZQMLZgFU3zgKK2S/1kNXCXuNzqBpDDyMgXmxNl04ap+b9jpXDkp/MqaUubmrdRVmoDrQzyHsP8fLHpa2GwfzIv9xVo82jtQmHqEHVVTD70fZ45Qx/ymHrHeBIKT+1PxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=45.254.49.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
+Received: from [192.168.0.59] (unknown [218.94.118.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 1eda0dd33;
+	Wed, 9 Sep 2026 10:35:35 +0800 (GMT+08:00)
+Message-ID: <6e8bfb0d-d595-4e6b-9536-0323ada57e25@easystack.cn>
+Date: Wed, 9 Sep 2026 10:35:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
+ filtering
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260907082620.2083838-1-zhen.ni@easystack.cn>
+ <79548641-25f3-4ec3-a549-782fad168962@kernel.org>
+From: "zhen.ni" <zhen.ni@easystack.cn>
+In-Reply-To: <79548641-25f3-4ec3-a549-782fad168962@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa084054d8e0229kunm29073d571f33c1
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDGk5CVh0eTUNKGElMTExKHlYVFA
+	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVCQk
+	lOS1VKS0tVSkJLQlkG
 
-On Tue,  8 Sep 2026 11:03:24 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
 
-> This series is split out from the earlier, larger series "mm: Generalize
-> HVO for HugeTLB and device DAX" [1]. While the parent series generalizes
-> vmemmap optimization across HugeTLB and device DAX, this subset addresses
-> a single, self-contained step: switching device DAX to the section-based
-> sparse-vmemmap optimization infrastructure introduced for HugeTLB.
+
+在 2026/9/8 22:30, David Hildenbrand (Arm) 写道:
+> On 9/7/26 10:26, Zhen Ni wrote:
+>> This patch series adds process and memory cgroup filtering support to
+>> page_owner. Following the previous series that introduced print_mode and
+>> NUMA node filters:
+>>    https://lore.kernel.org/linux-mm/20260707115411.1714314-1-zhen.ni@easystack.cn/
+>>
+>> This series adds filtering capabilities to page_owner, allowing users to
+>> filter output by specific processes and memory cgroups. Users can now
+>> filter page_owner output by PID, TGID, COMM (with wildcard support), and
+>> memory cgroup path. This makes page_owner debugging more focused and
+>> efficient for tracking memory allocations in specific contexts.
+>>
+>> Targeted filtering provides significant performance benefits on large memory
+>> servers by reducing both execution time and output size. By filtering at the
+>> kernel level before reading, only relevant page allocations are processed,
+>> dramatically reducing the amount of data that needs to be handled in userspace.
 > 
-> ...
+> page_owner is used for debugging. Why do we have to add kernel code to make it
+> faster?
 > 
-> This is intended to be the third smaller step toward the broader HVO
-> generalization. The wider HVO consolidation between HugeTLB and device
-> DAX is left for follow-up series.
+> How much faster are we talking about?
 
-Thanks both, I'll add it to mm.git's mm-new branch.
+On my VM with just 2GB of RAM, the raw page_owner output takes real
+0m6.178s. Filter it down to PID 1, and it drops to real 0m0.286s. Handle
+mode takes real 0m0.938s — roughly an 85% speedup. I've also tried this
+on a 1TB server, and it's very slow. The numbers would look even more
+extreme.
+
+You're right that execution time isn't the main concern for a debug
+tool. But that's kind of the point — I'm trying to optimize the current
+execution flow of page_owner, reduce unnecessary overhead, and make the
+tool more user-friendly (especially for servers with 1TB+ of memory).If
+the user only cares about a specific slice of memory, why dump
+everything from the kernel side and then filter it all over again in
+userspace? Might as well filter at the source.
+
+> 
+> Or are there other limits to actually implementing it without kernel pre-filtering?
+> 
+
