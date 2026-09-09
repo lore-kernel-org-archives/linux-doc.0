@@ -1,325 +1,233 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C6F51C333
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 11:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D78556B9C
+	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 11:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788954504; cv=none; b=JULUxk4hbbd/cc/lMA70yWe+saUWAt45LxuYzFBvJUnCOqvwh3nwyGlOlETplWsNM8EhHv9EuOKgwRoqdkoVzmAmyYM94iAZr7U2doBOzynWMZu1BxcVNRhN1fwtvCKVg2qTVRAHRUhUfPieRKPnnzl7anqN2Ez1oQQTy31elMQ=
+	t=1788954975; cv=none; b=gRPWgM6WtRWBp0vPnXTrxvrf1zlpJBaM44xjgJgJvRZqV2+wRCNRQ97WzlVTO1ihjjT093PThFcJ54wKYkExNWL5rbYs5ogk+eOiEHGsj2ZOCVm/f2N5sQPWJzuImNuT94CJnilF1Th+6wEHmBQ3OIuGK/C5DZV5jly0S6Awuec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788954504; c=relaxed/simple;
-	bh=dLJlSF3ZBqSGM+EH98xrjrLEEm52J5wKUkimSUCNjCc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oU9ff0Btzomb5dNKOuFKS3LYPVJdV3q6P0h31u0Q/cRQhXcgFWg+CFxjsWhXj4bAke45jzBe0YDe+qTeAWHLQ6gFq0INb2xKdBWs7gJghUubVoJP0bdpi5xHCdrR02dTORxuo949dBDD6nqcd7lGeseLZnUTX9EKITGJ9HGt96s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SOlwnT6a; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Kqeiy28z; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1788954975; c=relaxed/simple;
+	bh=LvHU+WY1XnXcp3J6reMyDn4V7yDRysf1KLcYrbeZDcw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=XmGV/0DrVbUABsJrIhZ7inqj/HPSRHQ3UIuY+krr3STtse9lun3Qt7Mtaxtn9Skaw3Y71N2RX2+DKVWEmrJmnJe3e1rw1axLHAZWTN5yWuYRDtRW9crji6RU/oc25g9PXrvf9X1hqlktvIH+VFZms6RP9vmGVuzKkvrfHwd/v4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CD/wq/W7; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SOlwnT6a";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Kqeiy28z"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 689BUAQa1843008
-	for <linux-doc@vger.kernel.org>; Wed, 9 Sep 2026 11:48:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Z/IzRDyDMUb5WeBWrbeDr4JRHgfSmmkXO35ZSpjMdXg=; b=SOlwnT6agTOsVW4a
-	mefURN9OqRc+Ls8K8x487MHwuXzShNHtwFaEVgGsTN/jth+bPnCedNHIu0veEYR8
-	fUtqPfTYzAFgWcYIbB0CMoNQf/Ep+b1MjM7q5PXLpKZZ3wbTRqXZsU2WmK3Th6ev
-	tlojy6786k04j4VEEi9OXbkpV8HlBNsOt0ALkZlSwlfHCBN4GscTKtY78i9QU4Ub
-	hhkZHHd8nzNhZ2LbAuXxjOw3Uzbgx16p4YDcrgEqE7tI+jsj4wHKyIc1WvbspENN
-	ULFor86m/7DoGRrVDSSdZ+Ei2kjN+B19bIvEhivc5wdgWCes+FkBXRL3K3xY6dn8
-	k7bVrw==
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com [209.85.222.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gjxqja2th-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 11:48:22 +0000 (GMT)
-Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-97e9cc5ac86so459723241.1
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 04:48:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1788954501; x=1789559301; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Z/IzRDyDMUb5WeBWrbeDr4JRHgfSmmkXO35ZSpjMdXg=;
-        b=Kqeiy28zRjHPtboo7jfGSe4sBifvD3Zu5ThhSp6JVLBlPGxNUrB3JYgAP5MZetq8K0
-         6XebcJhLB4zq25XCMtt60NR0POmE+4HPbz0Wgb/mSSlqYHdUPFBKK8woNvXwN/yepfUT
-         hwjG5zl565alqq8VicfpNZsbNotGQUo8t/vUnjhpZR7+Hd2OLY9BgJk1Vd8HAnHlW8S4
-         QMqD4befJOKrTu2ZcJM3FLpQt4qa0NTAOD2sacrOHKsxTOmSuFCC0js/OsfEDU2Y2uyl
-         AJKOa+eR4t+IhdI8BdXp+0cRMOVs5F1i3bKQSHOcpPwukEVd2qhJYH1qMGCQWNJkITWS
-         /ygw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788954501; x=1789559301;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Z/IzRDyDMUb5WeBWrbeDr4JRHgfSmmkXO35ZSpjMdXg=;
-        b=JAGKfeVCJsTYWqav+f/7w3KP8RzXh9d6o3bW8Bb4K8gNDhr1fbRFu3DBO5GhCnA5DR
-         2t5k4WQcOp8fNREcc8BrfbOr8HU46cTbKIZR8EIaoH5eJaLvG3hO4TNQmIgMK2bZyMlA
-         JEY8VO9/GMQGpF98ZV9lq0k95KOKNIQbCqFbGyrMzaSX6fOx028IU6MXCQ2BOH6e/Lrs
-         A/s2kZSq8xpVRk3Geu5+7Y2xjGoQB9Xhc782n6vry31l/dtneBc7AwcE8JK4T18WSFBe
-         eLf3RMWBZuAglKuGDXVleztIjpBtiugrlnGzDoThkI5/QrZpIMwuIWB+JEi4q7HqiVcF
-         zRnQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzg2MEH32HLmy+O4l9m0SM6BvV3Jdq1nWOHQ+Lrt4ITWjKEXvFjIHDTb/xeF3NS5gR6emeJIMnUQMA=@vger.kernel.org
-X-Gm-Message-State: AFuF++mvWjtvyxTb2x0RKICqhTL/JReiBN/aRHqfYFxrlVDoP/fsGiEl
-	sg8jzWaG5wtf12lmAMKSk7arm1d5IndlT0o7elxj48iq8emFXOuDKpLSgAd8BVKJD6ChpmHvPxF
-	jk9UNA5i04ncZ0PyXUWECTQ2pmY99P1wq39JGvOYQ9q4tFZaPjPxF7iktQvuKV8I=
-X-Gm-Gg: AYBFou1Z/uW42EgINS/qqGd5dHIPKWGpa/5gQCUsZDebXNVXbkNNBgcsnQQX//xTLWp
-	dc+2cCKyitPTsMorjGwZVm59rRS6vy+M5pyYiqOoxZndwskH2H/WonQPSMNJdLSIsh2DKYKMxkd
-	vqh0EyDIMWxXXNmmPCP+zKyh0vzdal94hVYpXsHpzve0eSidEbQGSbHH2ORsJmyL80Oc2EDBoPe
-	tUvIAjCVUIGLLPffpuUNbxXbp/P7nWqyp1WufyHzqVxLOD43TpzCGObDAWGpWPHdZTf5h0MK3C+
-	50cfC5xlR0bqT2Xxs6yCcbqvn7/7D0L7zxQRan1TkISHOjsRXENJ0iXshGUZZbkwUoqb9YuwH7E
-	OJGE9FqaKaL8JY++U5z5agQPKHVeQK47TEESXaRcXZTLVptnR+e0XEETLdZcUD2bExX5x60yUxd
-	bEn3sTcsIuEf9n
-X-Received: by 2002:a05:6102:644c:b0:786:d33d:af15 with SMTP id ada2fe7eead31-78a4a94a067mr14441109137.6.1788954500866;
-        Wed, 09 Sep 2026 04:48:20 -0700 (PDT)
-X-Received: by 2002:a05:6102:644c:b0:786:d33d:af15 with SMTP id ada2fe7eead31-78a4a94a067mr14441070137.6.1788954500288;
-        Wed, 09 Sep 2026 04:48:20 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a370599810sm42910711fa.24.2026.09.09.04.48.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 04:48:19 -0700 (PDT)
-Date: Wed, 9 Sep 2026 14:48:17 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, rob.clark@oss.qualcomm.com,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Bill Wendling <morbo@google.com>,
-        Justin Stitt <justinstitt@google.com>,
-        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>,
-        srinivas.kandagatla@oss.qualcomm.com, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
-        iommu@lists.linux.dev, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Anandu Krishnan E <anandu.e@oss.qualcomm.com>
-Subject: Re: [PATCH v2 00/15] accel/qda: Qualcomm DSP Accelerator driver
-Message-ID: <rh5ufacfap4x63rjmgd76wlwgn3n2wuelpe4sqwy4yda27nsiq@lg4ltoqwz7ba>
-References: <318f14c2-0e87-4e07-8173-1511dca67d78@kernel.org>
- <CACSVV01T=ytVJKM7NRoBTAJm7vH+JPJNT9Tftu5X9YskGXerwg@mail.gmail.com>
- <e7b4eceb-cb3a-49ea-bed9-728c958594b0@kernel.org>
- <CACSVV03ypjBYkhRpt=TyDwOKhejKKke3x=Fi_TvxXN-5U_rCsw@mail.gmail.com>
- <fb834ae5-7113-4a86-bb84-ca5115c8d7ff@kernel.org>
- <CACSVV018jB4WRRJ_CUHQmkHXZcqauWJXWGgrzY_HA6cFQ+Q3Xw@mail.gmail.com>
- <dd3da35b-1db6-43a4-ae1f-35620692f51f@kernel.org>
- <CACSVV01o_XYuSzaYGbo9pY=459qiA_fgL_KRHVJH+LH4RYcMzQ@mail.gmail.com>
- <23e31249-cce2-421e-88f7-1a2af66e34b6@oss.qualcomm.com>
- <aqCKgM1yCbWjFdgO@baldur>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CD/wq/W7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788954973;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c4eejlWwd5v95yqiSdhvvCd5zgSHMIu25fflPX5vypA=;
+	b=CD/wq/W74UvQuLt42vjeUpGPABa8aquGVkNhQVbxUKdEcnYsbIsLlqfNUAUjmD49kLxR18
+	FEoaPeXSAWBzTEW3JXu42RFTUTeLGl+Meh7PWeG5aOe5lffA0qyH2tKybG4sWqZvibIsp1
+	iCsFheRvGXiTPXhXPdwYwkZe+If3Z3M=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-14-8MsdSkmzP-CU4zuPdIGbJA-1; Wed,
+ 09 Sep 2026 07:56:07 -0400
+X-MC-Unique: 8MsdSkmzP-CU4zuPdIGbJA-1
+X-Mimecast-MFC-AGG-ID: 8MsdSkmzP-CU4zuPdIGbJA_1788954965
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 29D301800627;
+	Wed,  9 Sep 2026 11:56:05 +0000 (UTC)
+Received: from thuth-p1g4.redhat.corp (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 18B4A1956088;
+	Wed,  9 Sep 2026 11:55:59 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Eric Biggers <ebiggers@kernel.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 13/13] lib/crypto: Add documentation about zeroization of key and context data
+Date: Wed,  9 Sep 2026 13:54:49 +0200
+Message-ID: <20260909115455.157093-14-thuth@redhat.com>
+In-Reply-To: <20260909115455.157093-1-thuth@redhat.com>
+References: <20260909115455.157093-1-thuth@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aqCKgM1yCbWjFdgO@baldur>
-X-Proofpoint-ORIG-GUID: wKc8kO2Tb1UbtSewsCW9q3UKRuG_quDm
-X-Proofpoint-GUID: wKc8kO2Tb1UbtSewsCW9q3UKRuG_quDm
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA5MDEzMSBTYWx0ZWRfX9I8+4mq4hFHQ
- VvFpiXGsDFbETnVACgjGoD07i5eppm9gNj3ceXrHqPt88tKxsGtmPHZywAr3z8fj5IkidQfS7Q7
- lKh5a8iRagULYeJma81P/lLsYWdCI6HsP9wV2o29/zWRP24HoO+/g+rQxsu8hFG9Z5C7v6DR7Ir
- WiUgL7x9N5i3lyQFTWJ6CJ3Se/ipJS4BENBrlyBuo55HnHl6V1b0HWvFJdP4HZNPFEbjOFSNvep
- WnI7YG/Vdg+BAVKC8E9x+tKjk8/8afN2oT3g2CfE24vj4Cj4eNQqYxG7f34+h9ucJIm6Z6AXpdO
- KRulD8dyiUIuSOl+59onwubSpr9StlQtt4GC8f6t6h56KJ9ojwr08J62t4zmKfdbkIMTD9pVtz/
- fmQ/6dETyt4jzO5Sd3tII8Om7fzsiPW1iJTAOl8NmBR2pDoe6IRv9rnlJmKtrUiVeb9r/dnCzMt
- n/8/8tDQqryXx73GqSw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA5MDEzMSBTYWx0ZWRfXxzsVtuwts1Xz
- zSpG82lqtTRvP7Rf5xyZBGxAZ7NqczNzOyrN1b+Ns8nLY7ola+bCQMl+T3SsRemD6QyB/qB26wd
- EeXf10b4TmXJhhR9eMvWD88PFBxINiE=
-X-Authority-Analysis: v=2.4 cv=f/p4wuyM c=1 sm=1 tr=0 ts=6aa14786 cx=c_pps
- a=UbhLPJ621ZpgOD2l3yZY1w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=VwQbUJbxAAAA:8
- a=RNmUHPL9eSbnRv9Ut4YA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=TOPH6uDL9cOC6tEoww4z:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-08_03,2026-09-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015 phishscore=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609090131
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Tue, Sep 08, 2026 at 05:44:10PM -0500, Bjorn Andersson wrote:
-> On Wed, Aug 26, 2026 at 06:37:00PM +0530, Ekansh Gupta wrote:
-> > On 20-08-2026 20:17, Rob Clark wrote:
-> > > On Wed, Aug 19, 2026 at 11:15 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > >>
-> > >> On 19/08/2026 17:48, Rob Clark wrote:
-> > >>> On Wed, Aug 19, 2026 at 8:27 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > >>>> The rule of usptream development is that we do not accept duplicated
-> > >>>> code, just because a vendor wants to write something new. This is
-> > >>>> basically the concept applied all over the drivers tree, where we pushed
-> > >>>> back against all sorts of duplications all over the vendors.
-> > >>>>
-> > >>>> What I miss in this thread is why would there be any exception here. We
-> > >>>> do not grant exceptions from standard practices on "I want" reasons.
-> > >>>
-> > >>> I agree that we should not have duplicated drivers just for vendor
-> > >>> lolz.  But when it comes to adopting common frameworks and integrating
-> > >>> better into the ecosystem, this doesn't seem like something we should
-> > >>> actively discourage.  I don't think this is a case of vendor lolz, but
-> > >>
-> > >> No one discourages it. Following standard Linux kernel practices and
-> > >> requirements is not discouraging, do not twist the narrative here.
-> > >> Again, it is standard upstream review telling that we do not duplicate
-> > >> drivers. Ever, unless there is serious exception needed.
-> > > 
-> > > I wasn't trying to twist the narrative, just trying to come up with a
-> > > path forward that isn't "no" or "improve existing driver", since
-> > > neither of those gets us towards a future using common frameworks.
-> > > 
-> > >> I asked why there should be an exception granted? Is the reason for
-> > >> exception following:
-> > >> "We want to adopt common framework"
-> > >> ?
-> > > 
-> > > Possibly?  But I don't think we want two drivers to be any sort of
-> > > long term solution.  (Ie. as long as venus/iris have co-exist.)
-> > > 
-> > >>
-> > >>> rather reacting to drm/accel emerging as the standard framework for
-> > >>> this sort of driver.
-> > >>>
-> > >>> So how do we get from here to there?
-> > >>
-> > >> What is wrong with my proposal?
-> > > 
-> > > Maybe I missed something, my understanding was your proposal was
-> > > "Grow/replace/improve existing driver instead of coming with a
-> > > duplicate"..  grow or improve doesn't move us toward common
-> > > frameworks.  Maybe "replace" is a valid option.  If there is something
-> > > I missed, then I apologize.
-> > > 
-> > > Options I can think of are:
-> > > 
-> > > 1. Hardware cutoff.. new hw gets new driver, existing hw gets existing
-> > >    driver
-> > > 2. Backwards compat chardev registered by new driver, providing existing
-> > >    UABI.  I'm not 100% sure about the feasibility/drawbacks of this..
-> > >    AFAIU the fastrpc folks where planning a backwards compat layer in
-> > >    userspace, so maybe it is possible.
-> > > 3. exception?
-> > > 
-> > > I'd like to know what the feasibility of #2 is, since at a high level
-> > > that sounds like the best option.  Possibly limit exposure of legacy
-> > > UABI to existing hw so we don't get into a place of needing to extend
-> > > the legacy UABI for new hw?
-> > > 
-> > > But #1 sounds like a non-controversial place to start regardless.
-> > > Possibly with #2 coming as followup and necessary step before eventual
-> > > migration to new driver for existing hw?
-> > > 
-> > > Even if we start with #2, how do we handle first-merge-window
-> > > bugs/regressions without reverting addition of new driver and removal
-> > > of old?  It seems like we'd need a window of a couple release cycles
-> > > where both drivers exist?
-> > > 
-> > > Maybe others have other/better options in mind?
-> > To all, I'm seeking on the approach I should follow to go ahead here. I
-> > can work on implementing #1(as per Rob's list) with hw specific
-> > compatible for v4 if it's acceptable.
-> > 
-> 
-> I don't see any reason for you to define a "hw specific compatible",
-> because as you have shown in this series (and as Rob point out), there's
-> no difference in the "hardware".
-> 
-> The only reason for your "hw specific compatible" is to make a software
-> selection in Linux - and that's not what DeviceTree is for.
+Add a central document about zeroization in libcrypto so we don't
+have to repeat this information in the individual kernel docs of
+the zeroization functions all over the place.
 
-That's not exactly true. There are protocol differences. For example,
-polling mode is supported only since a certain timeline in the history.
-Likewise other interface features are not supported on all the FastRPC
-devices. For the polling mode support we were already beaten by the lack
-of SoC-specific compats.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .../crypto/libcrypto-zeroization.rst          | 129 ++++++++++++++++++
+ Documentation/crypto/libcrypto.rst            |   1 +
+ 2 files changed, 130 insertions(+)
+ create mode 100644 Documentation/crypto/libcrypto-zeroization.rst
 
-> As such, I don't see that you have a DeviceTree problem at all, because
-> this is a Linux-internal problem.
-> 
-> > #2(compat driver) is something that we are still exploring as we
-> > couldn't find any standard way to achieve it. We might start a separate
-> > discussion for that once we have few possible designs with us.
-> > 
-> 
-> This is the actual problem!
-> 
-> We have existing user space that depends on the ioctl interface exposed
-> by the current misc driver. You must not break these.
-
-This is clear.
-
-> Hardware cutoff is not a viable solution, because that's just a
-> declaration that we'll let the old platforms rotten - or alternatively
-> you commit to maintain two drivers to the very same feature and quality
-> level.
-> 
-> So the only reasonable solution is #2; from there it's a valid question
-> if you reach that point my stepwise migrating the current misc driver
-> that solution, or if you present a new driver with the fully backwards
-> compatible interface, alongside the new ABI.
-
-I think the general direction was #3 (or #2.1): implement a shim layer
-on top of the QDA driver as a separate module. Put all the historical
-over-complicated solutions into that shim module and let it die at some
-point. Current fastrpc driver lets userspace specify buffers in several
-different ways, forcing the kernel driver to perform a lot of work
-with buffer addresses. I don't think that this legacy code should be a
-part of the QDA. It can go to qda-fastrpc-shim, keeping it out of the
-kernel memory if it's not necessary.
-
-> But this does bring to a question which the cover letter should explain
-> - but doesn't: what problem does this patch series actually solve?
-
-I agree that it should be a part of the cover letter.
-
-As a person who triggered this work, I can propose my reasons:
-
-- Current driver has over-complicated memory manager (both on the
-  userspace and on the kernel side). Correspondng uAPI is not really
-  suitable for virtualization. Using GEM simplifies both the kernel
-  driver and uAPI. Also using handle-offset-length to specify the
-  buffers makes it easy to support virtual QDA devices.
-
-- Current driver predates the accel subsystem. Using common subsystem
-  simplifies reviews. The QDA driver has gotten several comments about
-  the usage of the DMA-BUFs. It'not unlikely that the same issues are
-  present in the current FastRPC driver, just being unnoticed.
-
-- The ideas present in the current FastRPC driver also predate the
-  current design practices. The uAPI was created in the ad-hoc way, just
-  following the momentary needs. Driver code also shows the result of
-  that, having enough of the spaghetti code.
-
-Given all of that, yes, it is possible to provide an evolution of the
-FastRPC driver into the accel+shim, improve the code quality meanwhile
-and end up with the good enough split. However I think that the path
-taken would be longer and the net result might be worse.
-
-With all of that in mind, my suggestion is to continue working on the
-QDA driver, get the core of it to integrate nicely with the accel and
-DMA-BUF usage requirements and implement the (minimal?) fastrpc shim on
-top of it.
-
-
+diff --git a/Documentation/crypto/libcrypto-zeroization.rst b/Documentation/crypto/libcrypto-zeroization.rst
+new file mode 100644
+index 0000000000000..ba9b05320ad53
+--- /dev/null
++++ b/Documentation/crypto/libcrypto-zeroization.rst
+@@ -0,0 +1,129 @@
++.. SPDX-License-Identifier: GPL-2.0-or-later
++
++Crypto Key Zeroization
++======================
++
++This document describes the conventions for zeroizing crypto structures in the
++kernel.
++
++.. contents::
++
++Overview
++--------
++
++Cryptographic key material and intermediate state (such as HMAC contexts) must
++be zeroized after use to prevent sensitive data from lingering on the stack or
++heap, where it could be leaked through memory disclosure vulnerabilities,
++crash dumps, or cold-boot attacks.
++
++For memory that has been allocated with kmalloc() or a similar function,
++kfree_sensitive() should be used instead of kfree() to release the memory.
++
++For other cases, the kernel provides ``memzero_explicit()`` for clearing the
++memory.  Unlike plain ``memset()``, ``memzero_explicit()`` is guaranteed not
++to be optimized away by the compiler, even when the memory being cleared
++appears to be dead.
++
++The crypto library builds on ``memzero_explicit()`` by providing typed
++zeroization helpers for each key and context structure.  These helpers serve
++two purposes:
++
++1. They make ``__cleanup()`` annotations possible, so that structures on
++   the stack are automatically zeroized when they go out of scope.
++
++2. They improve readability by replacing ``memzero_explicit(&key, sizeof(key))``
++   with a self-documenting call like ``aes_zeroize_key(&key)``.
++
++
++What to zeroize
++---------------
++
++The following types of structures hold sensitive material and should be
++zeroized after use:
++
++- **Key structures** (e.g. ``struct aes_key``, ``struct hmac_sha256_key``):
++  contain expanded round keys or prepared key material.
++
++- **HMAC/MAC context structures** (e.g. ``struct hmac_sha256_ctx``,
++  ``struct aes_cmac_ctx``): contain inner and outer hash states derived from
++  the key.
++
++- **Hash context structures** (e.g. ``struct sha256_ctx``): may contain
++  sensitive data being hashed.
++
++Not all of these require explicit cleanup by callers.  Many ``..._final()``
++functions already zeroize their context internally (see `Automatic vs. manual
++zeroization`_ below).
++
++
++Zeroization helpers
++-------------------
++
++Each crypto structure that callers may need to zeroize should have a
++corresponding inline helper function.  The naming convention is::
++
++    <algorithm>_zeroize_<type>(struct <algorithm>_<type> *p);
++
++For example::
++
++    void aes_zeroize_key(struct aes_key *key);
++    void aes_zeroize_enckey(struct aes_enckey *key);
++    void hmac_sha256_zeroize_ctx(struct hmac_sha256_ctx *ctx);
++    void aes_cmac_zeroize_key(struct aes_cmac_key *key);
++    void aes_cmac_zeroize_ctx(struct aes_cmac_ctx *ctx);
++
++Each helper is a ``static inline`` function in the algorithm's header that
++wraps ``memzero_explicit()``, for example::
++
++    static inline void hmac_sha256_zeroize_ctx(struct hmac_sha256_ctx *ctx)
++    {
++            memzero_explicit(ctx, sizeof(*ctx));
++    }
++
++These helpers should include kernel-doc comments following the standard
++conventions::
++
++    /**
++     * hmac_sha256_zeroize_ctx() - Zeroize an hmac_sha256_ctx structure
++     * @ctx: The hmac_sha256_ctx context to zeroize
++     */
++
++
++Using __cleanup for automatic zeroization
++-----------------------------------------
++
++The preferred way to zeroize stack-allocated key and context structures is
++with the ``__cleanup()`` attribute.  This ensures zeroization happens on all
++exit paths, including error returns and early exits.
++
++Note that __cleanup() attributes should not be used in functions that use
++"goto" statements. The benefit of cleanup helpers is the removal of "gotos",
++and that "goto" statements can jump between scopes, so the expectation is
++that usage of "goto" and cleanup helpers is never mixed in the same function.
++
++
++Automatic vs. manual zeroization
++--------------------------------
++
++Many ``..._final()`` functions in the crypto library automatically zeroize
++their context before returning.  When this is the case, the kernel-doc for the
++function documents it::
++
++    After finishing, this zeroizes @ctx.  So the caller does not need to do it.
++
++In these cases, callers on simple code paths (where ``..._final()`` is always
++reached) do not need to add ``__cleanup()`` or explicit zeroization.
++However, ``__cleanup()`` is still recommended whenever there are error paths
++that bypass ``..._final()``, as it ensures zeroization on all paths.
++
++For algorithms where ``_final()`` does *not* zeroize the context (such as the
++SHAKE XOFs, where ``shake_squeeze()`` can be called multiple times), callers
++must explicitly zeroize the context by calling the appropriate helper or using
++``__cleanup()``, for example::
++
++    struct shake_ctx ctx __cleanup(shake_zeroize_ctx);
++
++    shake256_init(&ctx);
++    shake_update(&ctx, data, data_len);
++    shake_squeeze(&ctx, out, out_len);
++    /* ctx is automatically zeroized at end of scope */
+diff --git a/Documentation/crypto/libcrypto.rst b/Documentation/crypto/libcrypto.rst
+index e911e05215979..9533c12caa79d 100644
+--- a/Documentation/crypto/libcrypto.rst
++++ b/Documentation/crypto/libcrypto.rst
+@@ -165,4 +165,5 @@ API documentation
+    libcrypto-signature
+    libcrypto-unauth-encryption
+    libcrypto-utils
++   libcrypto-zeroization
+    sha3
 -- 
-With best wishes
-Dmitry
+2.55.0
+
