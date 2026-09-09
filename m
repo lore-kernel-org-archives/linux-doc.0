@@ -1,303 +1,289 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF993D891B
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 07:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788937858; cv=pass; b=WMseyATgY1Uc8LHHj84s7ty2eSOP3++hJJnKmUNSaEAO65Wly58ne40UwDE/rmyQaylS54yp2oux6HZnxe1LXJjOICU63qTsozqiIxGGRKRDKVdumIi0IggEOcdhJMQT+8xolT/nyPoOjVe/0lTnXApwO65S5JSv0tKoKOtF4ik=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788937858; c=relaxed/simple;
-	bh=cV6UlgSsoeieB0QU53jtGzzQVyQymOnaPmCvkqkbYk0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jo/Rz0+jo9QEsEkPMAdIMgAGVl2Hg2A5/ufeqrZ2FdGEhuqhj+N1D9i39Z1kGu76S5aM/lxalLT3wym56WA/em+/3TNyxIyByNtTrOqZTCNHlv/Psi2KA1DI1PMgZeuEtLNsd4tcodzvmNuBCZxqT5EsOoPKFZk9ShDrSbnJ/7A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XM9U9dFV; arc=pass smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49F73C3787;
+	Wed,  9 Sep 2026 07:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.26.1.71
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788939117; cv=none; b=iMWPTJ+IS9loLCR2zdKkZcRKWocFihDIdzyeQCPQfdilSZVJE2CwFeqc1jtuYZcNLueXVJlVo/IIrnRv9XkwiD7Q6uiE7HNr7aZDUL0NvMPF9Qif867F0RKoch5a9udqytLKcjDnI6ztYowQZ9t2wppXMdnuts7LXM77GIfoQU8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788939117; c=relaxed/simple;
+	bh=B3dXcyHBbZABn/NQVuG1HbjPWFtgtoOGzEyUSAje7Ro=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bnAIwBRmUyknjeUOvYr19KM7lIVI770qrEgPcscQffz9La21Dpg4mcr/8v3Wo6xJyFP7KfgHhF3ov8kbU6msUh1/4D1CJ/jB4Qy8DJ9IGxad2iBOm1P322UvFvT/3G/+q5F26iwCGut4J7RPD0GI/s48XC0WUn1ODDenSR7KDcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=pDKud/JQ; arc=none smtp.client-ip=52.26.1.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XM9U9dFV"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5b4ae3e201cso4797691e87.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 00:10:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788937850; cv=none;
-        d=google.com; s=arc-20260327;
-        b=R94+cYXhuMUjoi55ayzm70VE0KvWEs+5eCcnSf9rO+DQv6f/DG8wb7AW3odGTku9Mq
-         PEb7UdayY7AY3XA3bkYVUmT0C8gUL/NqpmVnm3gxKfTjR7BYfChOfaDQ//kmHc9YiboI
-         IqFpUOmAehmBdblJL8Eo0ezFlVfYGmjhBVITJDg+5ylI6LBo40a2VVYN01S19AAzX3aR
-         +/RCgKd6nNFiDHBnGe4NI7pLgt0yin82vaAjSQtt58zCGSvD08IbyJZ2Ga55BMmqZSMM
-         XZwDbxueaf0VrBL1DLuPr3j/RH6HIqPKwCgZug6QaxWwKss8sSejLNLcSBMZT+V362mX
-         BOWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ROD27d8m1GR2fFN6iwOvveba7kIgkMyQccBJdEpOPig=;
-        fh=UCR3qeqecolhW0hh0Q13JLIkzFe2CohwQ+5iYDzicVs=;
-        b=f1tWWfQczcHxT9X2zAZCOwSojkJtaE3tGGfV9/AMxhDz3ZxgHo78RLvmtodzAzWFua
-         1YhkfKhGcQV8Li7ulDuJqD0mDjwuei9NggdvfkNi82wsXkBo/iziJDR4Ts1dO4JHrs8B
-         8PBEtqXtIbotrdfnOJVyxeoD3K6Qm2xJCLAvzSY78ztuAj206VviDxT+yQk36ZnW0qEJ
-         o0Vco5plUY4YlH5QUchmSCpNvUPT7u+ABoFQC7lHnOiYVPMiKchUZ5wlfrKJNp4O8rUb
-         vqnZhau9GUNa82BvNWC6Vv7lvzVVX7GHgG+BGqecANphdQszgun7oEhyaeYeb580jhk4
-         TS0Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="pDKud/JQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788937850; x=1789542650; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ROD27d8m1GR2fFN6iwOvveba7kIgkMyQccBJdEpOPig=;
-        b=XM9U9dFVh8+9/DSTvcmT2g+ndD8Ks5zbRwdMzNvOmiOxy1RXe32jtZc73F2nWvT3Qe
-         OPp49eSHTDJ05s/wKP+KcwUQ+lvMT96880d1mm71y/XNAnKGD2r/QLQ1aNrutI+tRd6V
-         yqSZ3HHpY43V4+KUTUrXgbDRw1AJFreQ8H6P22jjbLzicEgEwa0dsg4fNeAJIgY467J/
-         sRYlzvaWCCGbyWs82Gft/3ZBsZ3MAzOttAqoK7mO8kQlDtE/lHmb4nOJenpkZE9Dxhf3
-         M+nnKCgUfGdxXxjxY6DZ2eV0uN4NOzarqjm+lB/xq+8Mgl3Ux9T3xcrXl7luzXrscn9B
-         Z0UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788937850; x=1789542650;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ROD27d8m1GR2fFN6iwOvveba7kIgkMyQccBJdEpOPig=;
-        b=rlrPSIosaruhKdqIiU2FR2+tOoqFa7MMPlW7iOyeu8rXfTG5a/QAc+Tg+6OUr+ivkN
-         BrzfgaxXo70faB+5QKP23BHuCLVuiU4NsemClPJj6hDnxxHMei8kucAXiQKPac88qe8d
-         nIHO1djwe4fx/pvc1FSB+BTc+paQzaREpFLsY9ucBoWvnDARYF9+t375CSU8MKezIyL3
-         NPdruP9if9jcoPesE78dEFNPn7xAz11fbh7X5lkgzkYQF6zQRHitYKb/zf3WseMGka62
-         C6Ux4dw/TKpGEH1pAA279ojnpV0Nr4VCj1nxrVaYcvJunI71l1zIw+jma/lb/w5mCO34
-         JEIw==
-X-Forwarded-Encrypted: i=1; AKwUvBwfOLS2caMndVDOz9mi6N2O7avwaCHm8cTyRSAa217tdyshseCY3Ms8+W5UmzATKrxQ43ssnnpcm2I=@vger.kernel.org
-X-Gm-Message-State: AFuF++kTW5ydytSZTSfLNc39lwHtbLSrco8ThxObqImuxNRuvGm0NtlS
-	1ZMZ+7Z+UqMMnaSW0HAdIbUPRdMSrnHcoEcGse32JwrXfqbf98XOwcUburNIfiCS7KRrYY2UaXG
-	bWkG9R/osq68L5zupvSndffDjU/Qm+Zc=
-X-Gm-Gg: AYBFou0225VaJKHMCW85TetvmRRI3PbX3R+hBxxPbNzMmVf0h3ZZK7yFRhv709LspNi
-	uKpv3Q9YJ/lbJhQJjoJUnxaibwvtKHlPC20K+6QcDJYv0Hb3qrqAk4nP7CsfEXnYatKDEroRIOO
-	HdwOQH+yeECy9WlNJac2gsi5dlKX7ACdY2D6JIzlOFQhSRM2yjql+Hh+b7qtPPyOAkbFO4CJQlI
-	se0HFzEQwN5iW9kfX3MrljnBtsc83Glj7/RNeQ9n5HP9eCDrd81ztTvQvSAaoxuCy5HtJmdiBgV
-	8P3SBtTkDQazclj0dbirgZgLX5WdWqWEtXtsbwJ9GQG1jvLRSSWJwebFyYULOQxOqtEfa/WGbT9
-	l/EUUATFPG65c
-X-Received: by 2002:a05:651c:43c2:10b0:3a3:74b9:8a7c with SMTP id
- 38308e7fff4ca-3a374b98b1cmr22174011fa.21.1788937849797; Wed, 09 Sep 2026
- 00:10:49 -0700 (PDT)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1788939115; x=1820475115;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MSjpIZu/1v4fC4fSFEYgRa1JHi5IpKVRhg+9hc2KpXw=;
+  b=pDKud/JQIvvBDNu6j249B+Q8VithDrNBCzQ801PhRBLtIncPScsEUawU
+   pD0i8P5GgpCHPO0c+mQUcrDbpT1+t9YzonY7IDhr7Kvn0EcaUcBesPGHz
+   vYST7lO+CBt7UbCgxAx9AfIBSKiJO6rMPEdM2KofRPSWQgfCnA8zs7YJq
+   dhscKXursFBAttQHMnXDzTxpay0FHbmYWqDn5vz3sjvnV9cVZWghxeMp2
+   stqIHCyBZcPEkHglZVbyT+QZQS1+ZxJBPSXm1OsOKSkQiMnf8hz3kPUgw
+   dYst9psIP5qEtX2apBHOPDGME3tkOYEayQN3BcnNvyU9iXkAjRVz5eZDy
+   g==;
+X-CSE-ConnectionGUID: EjqyPLgGTwKGnZAMf3SUSQ==
+X-CSE-MsgGUID: KyP72gymR3uyDRHUqJRAhQ==
+X-IronPort-AV: E=Sophos;i="6.25,270,1779148800"; 
+   d="scan'208";a="28230546"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 07:31:53 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:11702]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.12.178:2525] with esmtp (Farcaster)
+ id ec0ca0db-f03d-4355-8092-ad5753cc1bd3; Wed, 9 Sep 2026 07:31:52 +0000 (UTC)
+X-Farcaster-Flow-ID: ec0ca0db-f03d-4355-8092-ad5753cc1bd3
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.218) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Wed, 9 Sep 2026 07:31:52 +0000
+Received: from dev-dsk-akiyano-1c-2138b29d.eu-west-1.amazon.com (172.19.83.6)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46;
+ Wed, 9 Sep 2026 07:31:46 +0000
+From: Arthur Kiyanovski <akiyano@amazon.com>
+To: David Miller <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>, <netdev@vger.kernel.org>
+CC: Arthur Kiyanovski <akiyano@amazon.com>, Eric Dumazet
+	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, David Woodhouse
+	<dwmw2@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Miroslav Lichvar
+	<mlichvar@redhat.com>, Maciek Machnikowski <maciek@machnikowski.net>, "Andrew
+ Lunn" <andrew+netdev@lunn.ch>, Andrew Lunn <andrew@lunn.ch>, Carolina Jubran
+	<cjubran@nvidia.com>, Wen Gu <guwen@linux.alibaba.com>, Xuan Zhuo
+	<xuanzhuo@linux.alibaba.com>, David Woodhouse <dwmw@amazon.com>, "Yonatan
+ Sarna" <ysarna@amazon.com>, Zorik Machulsky <zorik@amazon.com>, "Alexander
+ Matushevsky" <matua@amazon.com>, Saeed Bshara <saeedb@amazon.com>, Matt
+ Wilson <msw@amazon.com>, Anthony Liguori <aliguori@amazon.com>, Nafea Bshara
+	<nafea@amazon.com>, Evgeny Schmeilin <evgenys@amazon.com>, Netanel Belgazal
+	<netanel@amazon.com>, Ali Saidi <alisaidi@amazon.com>, Benjamin Herrenschmidt
+	<benh@amazon.com>, Noam Dagan <ndagan@amazon.com>, David Arinzon
+	<darinzon@amazon.com>, Evgeny Ostrovsky <evostrov@amazon.com>, Ofir Tabachnik
+	<ofirt@amazon.com>, Amit Bernstein <amitbern@amazon.com>,
+	<linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, Bjorn Helgaas
+	<bhelgaas@google.com>, <vadim.fedorenko@linux.dev>
+Subject: [PATCH v7 net-next 0/7] ptp: Add PHC timestamp quality attributes
+Date: Wed, 9 Sep 2026 07:31:26 +0000
+Message-ID: <20260909073136.12863-1-akiyano@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260907080831.11281-1-syhuang3@nuvoton.com> <c1f812d6-9938-494f-ae37-e250434a25f7@roeck-us.net>
-In-Reply-To: <c1f812d6-9938-494f-ae37-e250434a25f7@roeck-us.net>
-From: Sheng-Yuan Huang <hsyemail2@gmail.com>
-Date: Wed, 9 Sep 2026 15:10:38 +0800
-X-Gm-Features: AcwNN1UlzTkjD7sEoviBsfQKLTRM8RtP5VhfLDJP0BM5vsjXETF0F6kXVtLWwCo
-Message-ID: <CACW=pY4mpuC1+Z21egn3jJY6jtMhMx1PFFbM+Rcy6giuzXpJ1Q@mail.gmail.com>
-Subject: Re: [PATCH v1] hwmon: (lm75) Add support for Nuvoton NCT7715
-To: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org
-Cc: Sheng-Yuan Huang <syhuang3@nuvoton.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Jean Delvare <jdelvare@suse.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWC004.ant.amazon.com (10.13.139.246) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Thank you for the review. I may have misunderstood which conversion
-you are referring to, so I would like to clarify both parts.
+This series adds quality attributes to PTP Hardware Clock (PHC)
+timestamps, allowing userspace to obtain error bound, clock status,
+timescale, and system counter values alongside timestamps in a single
+call.
 
-If this refers to the NCT7715_CONFIG_* masks, they use the logical bit
-positions of the 16-bit configuration register defined by the
-NCT7715 specification. They are not pre-swapped for the SMBus word
-byte order.
+Motivation
+----------
+The existing PTP APIs return timestamps without any indication of
+their quality. Applications that need clock accuracy and
+synchronization status commonly rely on external tools such as
+ptp4l, which implement synchronization logic and can export their
+measurement of clock accuracy. For managed PHC devices - such as
+the ENA network adapter, whose clock is synchronized by the device
+without userspace involvement - these tools are not available, and
+the existing APIs lack a way to report quality metrics to consumers
+of time.
 
-If this refers to the I2C accessors, the NCT7715 transfers its 16-bit
-configuration register MSB first. The lm75 regmap bus uses
-reg_read/reg_write callbacks. In this path, regmap passes the logical
-register value to the callbacks, and i2c_smbus_*_word_swapped()
-performs the conversion between that value and the SMBus word byte
-order.
+This was previously proposed as an RFC [1] with a single ioctl.
+Based on community feedback, the design was reworked to cover both
+the extended (multi-sample) and precise (cross-timestamp) paths.
 
-I verified this on hardware by changing update_interval. i2cget shows
-0xe060, 0xa060, 0x6060, and 0x2060 for 125, 250, 1000, and 4000 ms,
-respectively. After accounting for the SMBus word byte order, these
-are logical values 0x60e0, 0x60a0, 0x6060, and 0x6020. In each case,
-only the NCT7715 conversion-rate field, bits [7:6], is changed.
+Design
+------
+The UAPI was redesigned based on Thomas Gleixner's proposal [2]:
 
-Guenter Roeck <linux@roeck-us.net> =E6=96=BC 2026=E5=B9=B49=E6=9C=887=E6=97=
-=A5=E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=8811:30=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On 9/7/26 01:08, hsyemail2@gmail.com wrote:
-> > From: Sheng-Yuan Huang <syhuang3@nuvoton.com>
-> >
-> > The Nuvoton NCT7715 is compatible with the LM75 temperature and
-> > limit register layout, but its 16-bit configuration register is
-> > transmitted most-significant byte first. Add support for the NCT7715,
-> > including byte-swapped SMBus accesses for its configuration register.
-> >
-> > Handle its conversion-rate field and shutdown bit separately, since
-> > their bit positions differ from the standard LM75 layout.
-> >
-> I don't think so. See below.
->
-> > Signed-off-by: Sheng-Yuan Huang <syhuang3@nuvoton.com>
-> > ---
-> >   .../devicetree/bindings/hwmon/lm75.yaml       |  1 +
-> >   Documentation/hwmon/lm75.rst                  |  6 ++
-> >   drivers/hwmon/lm75.c                          | 57 ++++++++++++++++++=
--
-> >   3 files changed, 62 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/hwmon/lm75.yaml b/Docume=
-ntation/devicetree/bindings/hwmon/lm75.yaml
-> > index b48bf3fd721f..832a8c5d83e9 100644
-> > --- a/Documentation/devicetree/bindings/hwmon/lm75.yaml
-> > +++ b/Documentation/devicetree/bindings/hwmon/lm75.yaml
-> > @@ -31,6 +31,7 @@ properties:
-> >         - nxp,p3t1750
-> >         - nxp,p3t1755
-> >         - nxp,pct2075
-> > +      - nuvoton,nct7715
-> >         - st,stds75
-> >         - st,stlm75
-> >         - microchip,tcn75
-> > diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rs=
-t
-> > index ca46754e028b..fac0b8f29ddc 100644
-> > --- a/Documentation/hwmon/lm75.rst
-> > +++ b/Documentation/hwmon/lm75.rst
-> > @@ -150,6 +150,12 @@ Supported chips:
-> >
-> >                  https://ams.com/documents/20143/36005/AS6200_DS000449_=
-4-00.pdf
-> >
-> > +  * Nuvoton NCT7715
-> > +
-> > +    Prefix: 'nct7715'
-> > +
-> > +    Addresses scanned: none
-> > +
-> >   Author: Frodo Looijaard <frodol@dds.nl>
-> >
-> >   Description
-> > diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
-> > index 2d2d752aeac9..0b55f6b7c68d 100644
-> > --- a/drivers/hwmon/lm75.c
-> > +++ b/drivers/hwmon/lm75.c
-> > @@ -39,6 +39,7 @@ enum lm75_type {            /* keep sorted in alphabe=
-tical order */
-> >       max6626,
-> >       max31725,
-> >       mcp980x,
-> > +     nct7715,
-> >       p3t1750,
-> >       p3t1755,
-> >       pct2075,
-> > @@ -107,6 +108,15 @@ static const unsigned short normal_i2c[] =3D { 0x4=
-8, 0x49, 0x4a, 0x4b, 0x4c,
-> >   #define LM75_REG_MAX                0x03
-> >   #define PCT2075_REG_IDLE    0x04
-> >
-> > +#define NCT7715_CONFIG_RESOLUTION_12_BIT     GENMASK(14, 13)
-> > +#define NCT7715_CONFIG_SHUTDOWN                      BIT(8)
-> > +#define NCT7715_CONFIG_CONVERSION_RATE_MASK  GENMASK(7, 6)
-> > +#define NCT7715_CONFIG_EXTENDED_MODE         BIT(4)
-> > +#define NCT7715_CONFIG_RATE_0_25HZ           0
-> > +#define NCT7715_CONFIG_RATE_1HZ                      BIT(6)
-> > +#define NCT7715_CONFIG_RATE_4HZ                      BIT(7)
-> > +#define NCT7715_CONFIG_RATE_8HZ                      GENMASK(7, 6)
-> > +
-> >   struct lm75_data {
-> >       const char *label;
-> >       struct regmap                   *regmap;
-> > @@ -122,6 +132,10 @@ struct lm75_data {
-> >   /*-------------------------------------------------------------------=
-----*/
-> >
-> >   static const u8 lm75_sample_set_masks[] =3D { 0 << 5, 1 << 5, 2 << 5,=
- 3 << 5 };
-> > +static const u16 nct7715_sample_set_masks[] =3D {
-> > +     NCT7715_CONFIG_RATE_8HZ, NCT7715_CONFIG_RATE_4HZ,
-> > +     NCT7715_CONFIG_RATE_1HZ, NCT7715_CONFIG_RATE_0_25HZ
-> > +};
-> >
-> >   #define LM75_ALERT_POLARITY_HIGH_8_BIT      (BIT(2))
-> >   #define LM75_ALERT_POLARITY_HIGH_16_BIT     (BIT(2) << 8)
-> > @@ -259,6 +273,15 @@ static const struct lm75_params device_params[] =
-=3D {
-> >               .sample_times =3D (unsigned int []){ 30, 60, 120, 240 },
-> >               .resolutions =3D (u8 []) {9, 10, 11, 12 },
-> >       },
-> > +     [nct7715] =3D {
-> > +             .config_reg_16bits =3D true,
-> > +             .set_mask =3D NCT7715_CONFIG_RESOLUTION_12_BIT,
-> > +             .clr_mask =3D NCT7715_CONFIG_EXTENDED_MODE,
-> > +             .default_resolution =3D 12,
-> > +             .default_sample_time =3D 250,
-> > +             .num_sample_times =3D 4,
-> > +             .sample_times =3D (unsigned int []){ 125, 250, 1000, 4000=
- },
-> > +     },
-> >       [tmp100] =3D {
-> >               .set_mask =3D 3 << 5,     /* 12-bit mode */
-> >               .clr_mask =3D 1 << 7,     /* not one-shot mode */
-> > @@ -354,6 +377,11 @@ static inline long lm75_reg_to_mc(s16 temp, u8 res=
-olution)
-> >   static inline int lm75_write_config(struct lm75_data *data, u16 set_m=
-ask,
-> >                                   u16 clr_mask)
-> >   {
-> > +     if (data->kind =3D=3D nct7715)
-> > +             return regmap_update_bits(data->regmap, LM75_REG_CONF,
-> > +                                       clr_mask | set_mask | NCT7715_C=
-ONFIG_SHUTDOWN,
-> > +                                       set_mask);
-> > +
-> >       return regmap_update_bits(data->regmap, LM75_REG_CONF,
-> >                                 clr_mask | set_mask | LM75_SHUTDOWN, se=
-t_mask);
-> >   }
-> > @@ -486,6 +514,13 @@ static int lm75_update_interval(struct device *dev=
-, long val)
-> >               if (data->params->resolutions)
-> >                       data->resolution =3D data->params->resolutions[in=
-dex];
-> >               break;
-> > +     case nct7715:
-> > +             err =3D lm75_write_config(data, nct7715_sample_set_masks[=
-index],
-> > +                                     NCT7715_CONFIG_CONVERSION_RATE_MA=
-SK);
-> > +             if (err)
-> > +                     return err;
-> > +             data->sample_time =3D data->params->sample_times[index];
-> > +             break;
-> >       case tmp112:
-> >       case as6200:
-> >               err =3D regmap_update_bits(data->regmap, LM75_REG_CONF,
-> > @@ -609,6 +644,8 @@ static int lm75_i2c_reg_read(void *context, unsigne=
-d int reg, unsigned int *val)
-> >       if (reg =3D=3D LM75_REG_CONF) {
-> >               if (!data->params->config_reg_16bits)
-> >                       ret =3D i2c_smbus_read_byte_data(client, LM75_REG=
-_CONF);
-> > +             else if (data->kind =3D=3D nct7715)
-> > +                     ret =3D i2c_smbus_read_word_swapped(client, LM75_=
-REG_CONF);
-> >               else
-> >                       ret =3D i2c_smbus_read_word_data(client, LM75_REG=
-_CONF);
-> >       } else {
-> > @@ -628,8 +665,11 @@ static int lm75_i2c_reg_write(void *context, unsig=
-ned int reg, unsigned int val)
-> >       if (reg =3D=3D PCT2075_REG_IDLE ||
-> >           (reg =3D=3D LM75_REG_CONF && !data->params->config_reg_16bits=
-))
-> >               return i2c_smbus_write_byte_data(client, reg, val);
-> > -     else if (reg =3D=3D LM75_REG_CONF)
-> > +     else if (reg =3D=3D LM75_REG_CONF) {
-> > +             if (data->kind =3D=3D nct7715)
-> > +                     return i2c_smbus_write_word_swapped(client, reg, =
-val);
->
-> This code is double swapping. The calling code swaps (bit settings),
-> regmap calls this function, where the word is swapped again.
->
-> Guenter
->
+- A unified data structure (struct ptp_sys_offset_attrs) is used
+  for both extended and precise ioctls.
+
+- A u32 valid bitmask in struct ptp_clock_attrs indicates which
+  attributes are populated, replacing sentinel values. Drivers
+  set only the bits for attributes they provide.
+
+- System counter values (cycles + counter_id) are carried in
+  struct ptp_sys_time alongside each system timestamp. These are
+  populated by the timekeeping core cross-timestamp infrastructure,
+  which is now merged in net-next [3] - drivers do not fill them.
+  This series therefore applies directly to net-next with no
+  out-of-tree dependency.
+
+- Graceful degradation: the attrs ioctls work even on devices
+  without attrs callbacks, falling back to gettimex64 /
+  getcrosststamp and returning attrs.valid = 0. The capability
+  bits reflect this fallback so cap-respecting userspace does not
+  skip the ioctl on base-only drivers.
+
+A capability flag is added to ptp_clock_caps so userspace can
+discover attributes support.
+
+Patches 2-3 add testptp support for the new ioctls.
+
+Patch 4 implements the attributes for ptp_vmclock, reporting
+error bound, clock status, and timescale.
+
+Patches 5-7 implement the attributes for the ENA driver,
+reporting error bound from the device's PHC layer.
+
+v7:
+- ptp_vmclock: only set PTP_ATTRS_VALID_ERROR_BOUND when the
+  hypervisor flags the base error valid
+  (VMCLOCK_FLAG_TIME_MAXERROR_VALID); otherwise the bit stays clear
+  so userspace sees "not provided" rather than a UINT_MAX that looks
+  like a real ~4.29 s bound. (Simon Horman, sashiko)
+- ptp_vmclock: drop the counter_period_shift >= 128 guard added in
+  v3. counter_period_shift is read from the shared page and passed
+  to the same helper on the main timestamp path in
+  vmclock_get_crosststamp() with no bounds check, so guarding only
+  the new attrs path diverged from the rest of the driver. With the
+  guard gone the attrs path reads the field once, so the divergent
+  double-read the review flagged no longer exists. If the shift
+  should be bounds-checked, that is a fix to the existing driver and
+  better handled on its own. (Simon Horman, sashiko)
+- ptp_vmclock: clear att->valid and att->error_bound at the top of
+  vmclock_populate_ptp_attributes(). The function runs once per
+  seq_count retry iteration and only ORs into att->valid, so a
+  discarded torn read could otherwise leave
+  PTP_ATTRS_VALID_ERROR_BOUND set together with a stale error_bound
+  that is not part of the accepted snapshot. (sashiko)
+- ptp_vmclock: drop David Woodhouse's Reviewed-by from patch 4 as
+  the patch changed.
+- No UAPI changes; patches 1-3 and 5-7 are unchanged from v6.
+
+v6:
+- ptp: reject a non-zero reserved field (request.rsv[]) in the
+  attrs ioctls, matching ptp_sys_offset_extended(). (Jakub Kicinski)
+- ptp: zero-initialize the per-sample system-timestamp snapshot in
+  ptp_sys_offset_extended_attrs() so no uninitialized or stale stack
+  data can reach userspace. (Jakub Kicinski)
+- ptp: translate the kernel enum clocksource_ids to the UAPI enum
+  ptp_counter_id before returning sys_counter_id; sources that are
+  not a raw hardware counter (e.g. kvmclock) are reported as
+  PTP_COUNTER_UNKNOWN with sys_counter = 0. (Jakub Kicinski,
+  David Woodhouse)
+- ptp: initialize the precise cross-timestamp struct and set its
+  clock_id from the validated request; validate clock_id against a
+  precise-path allowlist (CLOCK_REALTIME + CLOCK_AUX) so unsupported
+  clocks return -EINVAL instead of triggering a WARN in
+  get_device_system_crosststamp(). (Jakub Kicinski, David Woodhouse)
+- ptp: make the extended_attrs/precise_attrs capability bits reflect
+  the base-callback fallback (gettimexattrs64 || gettimex64,
+  getcrosststampattrs || getcrosststamp) and document the fallback
+  and the att.valid semantics. (Jakub Kicinski)
+- ptp: echo the full request header back from the attrs ioctls so
+  valid/clock_id/num_samples/rsv round-trip. (Jakub Kicinski)
+- ptp: clarify the FREE_RUNNING vs UNRELIABLE and HOLDOVER status
+  comments and the @error_bound kernel-doc (a maximum bound, not a
+  statistical estimate; not to be trusted when status is UNKNOWN or
+  UNRELIABLE). (Carolina Jubran)
+- ptp: document that both @sts and @att may be NULL in the
+  gettimexattrs64 kernel-doc. (Jakub Kicinski)
+- selftests/ptp: print the returned system counter value and id
+  (sys_counter, sys_counter_id) in the attrs output.
+- Exposing the underlying hw_csid/hw_cycles for derived clocksources
+  (kvmclock, ART, ...) is left to a follow-up; the UAPI leaves room
+  to add them without an ABI change. (David Woodhouse)
+
+v5:
+- ptp: simplify ptp_sys_offset_{extended,precise}_attrs() to copy
+  the request header onto the stack and allocate the result buffer
+  once, instead of memdup_user() + kfree() + kzalloc(). (Saeed
+  Bshara)
+- ptp: deduplicate the kernel-doc for gettimexattrs64 /
+  getcrosststampattrs by referencing the base gettimex64 /
+  getcrosststamp callbacks. (Saeed Bshara)
+- ptp: add missing kernel-doc member descriptions for struct
+  ptp_timestamp and struct ptp_sys_offset_attrs.
+- selftests/ptp: map the clockid to a name and print once instead
+  of three duplicated printfs. (Saeed Bshara)
+- selftests/ptp: make -a a modifier on -x/-X instead of an
+  exclusive option; drop -A (use -X -a); trim the unknown-clock
+  output; print "not reported" for attributes the device does not
+  report. (Saeed Bshara)
+- ptp_vmclock: scope the local 'st' inside the SUPPORT_KVMCLOCK
+  block to fix an unused-variable warning on !CONFIG_KVM_GUEST.
+  (kernel test robot)
+- No UAPI changes; the ioctl structures are unchanged from v4.
+
+v4:
+- Complete UAPI redesign per Thomas Gleixner's proposal [2]:
+  unified data structure with u32 valid bitmask, system counter
+  in ptp_sys_time (populated by core, not drivers), graceful
+  degradation for devices without attrs callbacks. (Thomas Gleixner,
+  David Woodhouse)
+- Counter values moved from driver attrs callback to timekeeping
+  core infrastructure - drivers no longer set counter_id or
+  counter_value.
+- Flexible array member for timestamps[] (kernel bounds the copy,
+  userspace allocates for num_samples requested).
+- Drop separate ptp_clock_attributes kernel struct - driver
+  callbacks fill the UAPI ptp_clock_attrs directly.
+
+v3:
+- Remove patch 5/8 from v2 (return-code bugfix) - sent separately
+  as [PATCH net] to the net tree.
+- Zero-initialize struct ptp_clock_attributes in PTP core ioctl
+  handlers to prevent stack leak of unset fields. (Simon Horman,
+  sashiko)
+- ptp_vmclock: validate counter_period_shift < 128 to prevent
+  undefined behavior on untrusted hypervisor input. (sashiko)
+- ptp_vmclock: add overflow check on err_hi * NSEC_PER_SEC to
+  prevent silent wraparound producing erroneously small error
+  bound. (sashiko)
+- ptp_vmclock: report PTP_TIMESCALE_TAI after tai_adjust() to
+  avoid timescale mismatch. (sashiko)
+- ENA: set counter_id = 0, counter_value = 0 in gettimexattrs64
+  for defense-in-depth. (sashiko)
+
+v2:
+- Fix build bisectability: move ena_com.c consumer updates into
+  patch 6/8 and ena_phc.c caller update into patch 7/8 so each
+  patch compiles independently.
+- Add missing Cc for Amit Bernstein (co-author of ENA patches).
+
+[1] https://lore.kernel.org/netdev/20250724115657.150-1-darinzon@amazon.com/
+[2] https://lore.kernel.org/all/87se7ht25o.ffs@tglx/
+[3] https://lore.kernel.org/all/20260526165826.392227559@kernel.org/
+
+Arthur Kiyanovski (7):
+  ptp: Add ioctls for PHC timestamps with quality attributes
+  selftests/ptp: Extract print_system_timestamp helper in testptp
+  selftests/ptp: Add testptp support for attributes ioctls
+  ptp: ptp_vmclock: Implement attributes ioctls
+  net: ena: Update PHC admin interface for error bound support
+  net: ena: Add error bound to PHC communication layer
+  net: ena: Implement gettimexattrs64 callback for PTP attributes
+
+ .../device_drivers/ethernet/amazon/ena.rst    |   2 +
+ .../net/ethernet/amazon/ena/ena_admin_defs.h  |  17 +-
+ drivers/net/ethernet/amazon/ena/ena_com.c     |  51 ++--
+ drivers/net/ethernet/amazon/ena/ena_com.h     |   5 +-
+ drivers/net/ethernet/amazon/ena/ena_debugfs.c |   3 +
+ drivers/net/ethernet/amazon/ena/ena_phc.c     |  61 +++-
+ drivers/ptp/ptp_chardev.c                     | 208 ++++++++++++-
+ drivers/ptp/ptp_clock.c                       |   4 +-
+ drivers/ptp/ptp_vmclock.c                     | 199 +++++++++++-
+ include/linux/ptp_clock_kernel.h              |  20 ++
+ include/uapi/linux/ptp_clock.h                | 283 +++++++++++++++++-
+ tools/testing/selftests/ptp/testptp.c         | 198 +++++++++---
+ 12 files changed, 941 insertions(+), 110 deletions(-)
+
+
+base-commit: 548b86839f7fb819a4d6c83b71c73ec378d24275
+-- 
+2.47.3
+
