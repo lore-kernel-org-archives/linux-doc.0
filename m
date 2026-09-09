@@ -1,85 +1,116 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mailout2.hostsharing.net (mailout2.hostsharing.net [83.223.78.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618AC4FDE6C;
-	Wed,  9 Sep 2026 15:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14139577E34;
+	Wed,  9 Sep 2026 15:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.78.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788966847; cv=none; b=g3CHXiHajVOuXeycD28wu/m8g0q+UIw2rB1kmhCGm5qDWG1nvf/rVV47OxdZ/l3vBTdT1ORTTACaPAKiPJEduWlk+1/K2Tn3TrKrHv5GM66CB/+KxvTvTGIMlGWSjscg7FZne56GZCAVXq47BzElUkCqAJBZI/7SmAv6djJzCbI=
+	t=1788966988; cv=none; b=Xtz88slZSXjY9Mt97+i+2vYJ7eFmsehylZiU9X+FMfQ6N6i9BuFAUkVeJPM3sD+rNmzSPGohinXh7CJBgp8AVXt4LYcTciyJX8OC9iCWg9D4OHYpl93jbk3YZCkTwvxv/ndVXSMREhjVzPC06yRRyUwkOROSD76gpFsJyNZBK6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788966847; c=relaxed/simple;
-	bh=5nErqxyy4U/PrC3bwsfzZKm5u+9t+1sJ9lGBoWWFN+k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KDj6TTU/s9WTMr0PAj5YyMOJr70QDRFTg6BmESOF4dEosVOYUd7slBFn4HuEsZOSPZjo95FJDmYk9UssKGyF1ikdiGUhRlaE093B2ubsKkltB+YgS6rrJVdP3nYQ0S0BPPRzUDNzMJAWPfALSmHeWGp3TTB6xBDLL8r625fm4uE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qeTehaVC; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qeTehaVC"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71351408E5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788966845; bh=Xovuw/DMI9TMu0yxaKPoqBHlh/i31hlhlIPmpkJokkA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=qeTehaVCs7MB4/Vzyqx78yyUdYsdHLC6soRjmHmBdMPh/+oFVwYfi93Vd8TnqeMnf
-	 mQkGu6AdFOrLRJSScXdBHycoDVNnl13oginUARFLxVlngo42oh1nEAwxvGxQCnY9G9
-	 /ln1YIOlWqlGcRaqzODX3mfAy1nYGkTbIPTjGwyTYzbsW7v3akvSrgKWHGaNX7gu6a
-	 GObCQDybOvC85fmwyMq6BistRYDu7TzGlUs6gdV4Eh5ERqogG5a7K5q3WU06niLQsP
-	 rshgPsyW8elLlUwA2e480YbSpkYUVbBjauUCbO8Cjirl+AgJtIwv0AgLqNWEzU+eCR
-	 aq05xWCMTTgmw==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	s=arc-20240116; t=1788966988; c=relaxed/simple;
+	bh=cbefu7KtBVu8Hz7/GYc4DkPEzBmtg3OsqUYhpmCOoM0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sSPOejruLww/Bd+9yw0cEDYP38ycPsWap85D3LaLkZi6KoTw7WK04cXXJYC3o4YQTJJVnZF7UeAHifMWlk38uT/6rjlULS6E7QZ9xO/Ls0awmkCrJuO2IpXC0psoS9BVG9mX7x+m6BLKUmKjek5ST+1YXTs+nNkjpjlGrh7o4vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.78.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 71351408E5;
-	Wed,  9 Sep 2026 15:14:05 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Ruben Sutton <ruben@scstudios.tech>, linux-doc@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Thorsten Leemhuis <linux@leemhuis.info>,
- workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
- regressions@lists.linux.dev, Ruben Sutton <ruben@scstudios.tech>
-Subject: Re: [PATCH] docs: process: use gender-neutral pronouns
-In-Reply-To: <20260909144100.78177-1-ruben@scstudios.tech>
-References: <20260909144100.78177-1-ruben@scstudios.tech>
-Date: Wed, 09 Sep 2026 09:14:04 -0600
-Message-ID: <87pkymlao3.fsf@trenco.lwn.net>
+	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
+	 client-signature ECDSA (secp384r1) client-digest SHA384)
+	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
+	by mailout2.hostsharing.net (Postfix) with ESMTPS id 2CCF510F6F;
+	Wed, 09 Sep 2026 17:16:15 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id EEB5A6272376; Wed,  9 Sep 2026 17:16:14 +0200 (CEST)
+Date: Wed, 9 Sep 2026 17:16:14 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Terry Bowman <terry.bowman@amd.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <djbw@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-cxl@vger.kernel.org,
+	Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shuai Xue <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>,
+	Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ben Cheatham <Benjamin.Cheatham@amd.com>,
+	Richard Cheng <icheng@nvidia.com>,
+	Robert Richter <rrichter@amd.com>, linux-pci@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v20 6/9] PCI: Cache PCI DSN into pci_dev->dsn during probe
+Message-ID: <aqF4PqdWtKpecQc2@wunner.de>
+References: <20260902133933.2992457-1-terry.bowman@amd.com>
+ <20260902133933.2992457-7-terry.bowman@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260902133933.2992457-7-terry.bowman@amd.com>
 
-Ruben Sutton <ruben@scstudios.tech> writes:
+On Wed, Sep 02, 2026 at 08:39:30AM -0500, Terry Bowman wrote:
+> Subsequent CXL error-reporting code paths need to log the PCI Device
+> Serial Number (DSN) as part of trace events emitted from interrupt or
+> panic context. Computing the DSN there via pci_get_dsn() requires PCI
+> configuration space reads, which are slow, can fail when the link is
+> down or frozen, and may not be safe in some contexts.
+> 
+> Add a u64 dsn field to struct pci_dev and populate it from pci_get_dsn()
+> during pci_init_capabilities() at probe time via pci_dsn_init(). Only
+> write dev->dsn when the read succeeds. The zero initial value from
+> pci_dev allocation already represents 'no DSN available.'
+[...]
+> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
 
-> Several process documents use gendered pronouns when referring
-> generically to developers and maintainers. Use singular they instead,
-> making the language inclusive without changing its meaning.
->
-> Leave pronouns referring to named people and text in attributed
-> quotations unchanged.
->
-> Assisted-by: LLM
-> Signed-off-by: Ruben Sutton <ruben@scstudios.tech>
-> ---
->  Documentation/process/2.Process.rst            | 2 +-
->  Documentation/process/5.Posting.rst            | 2 +-
->  Documentation/process/6.Followthrough.rst      | 2 +-
->  Documentation/process/handling-regressions.rst | 2 +-
->  Documentation/process/howto.rst                | 2 +-
->  Documentation/process/submitting-patches.rst   | 2 +-
->  6 files changed, 6 insertions(+), 6 deletions(-)
+Reviewed-by: Lukas Wunner <lukas@wunner.de>
 
-Ouch.
+> +++ b/drivers/pci/probe.c
+> @@ -2638,6 +2638,22 @@ void pcie_report_downtraining(struct pci_dev *dev)
+>  	__pcie_print_link_status(dev, false);
+>  }
+>  
+> +/*
+> + * Cache the Device Serial Number for use in contexts where config-space reads
+> + * are unsafe (interrupt, panic). Process-context callers that need a fresh
+> + * value (e.g. hotplug device replacement) call pci_get_dsn() and compare it
+> + * against this cached pdev->dsn to detect a changed device. Note pdev->dsn
+> + * is 0 for devices without the DSN capability, so such a comparison cannot
+> + * distinguish a replacement.
+> + */
 
-I have no objection in principle to this change, but if we try to clean
-up the whole kernel in this way we're going to have a *lot* of churn
-and, undoubtedly, some unpleasant discussions at some point.
+A value of 0 is not a valid serial number in the first place:
 
-I'm tempted to raise this question at the maintainers summit to see if I
-can get some sort of project-wide policy laid out.
+PCIe r7.0 sec 7.9.3.2 defines the Device Serial Number as an EUI-64.
+
+In the corresponding IEEE spec on EUIs on page 11 in section
+"Unassigned and NULL EUI values", it says:
+
+   "Many applications have found it useful to define a distinct null
+    identifier, most often indicating the absence of a valid EUI-48 or
+    EUI-64 value. As an example, a null value might be the power-on state
+    for an integrated circuit register, until the hardware or firmware
+    initializes the register with a valid EUI.
+    [...]
+    The all-zeros EUI-48 value (00-00-00-00-00-00) and EUI-64 value
+    (00-00-00-00-00-00-00-00), though assigned to an organization,
+    have not been and will not be used by that assignee as an EUI.
+    (They can be considered as assigned to the IEEE Registration Authority.)"
+
+    https://standards.ieee.org/content/dam/ieee-standards/standards/web/documents/tutorials/eui.pdf
 
 Thanks,
 
-jon
+Lukas
