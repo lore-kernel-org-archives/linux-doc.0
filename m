@@ -1,148 +1,94 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E329B56E068
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 14:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898565678FC;
+	Wed,  9 Sep 2026 14:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788962951; cv=none; b=otyvINvF5V2JUC5wq+pFDe3it2b2nvpL27mRhovTNjq3Jojd5lRLGTOjtNIiERGseh44cUBc5Et0kNM4fmWBZjpyk1LBoPYlRBMBkgjw/YJogsqLTt8qC7CK0+5rBJWYGpJnVsltZ/K/0NMNm703oHsAZTroM8BrUzVtrQy8hqI=
+	t=1788963312; cv=none; b=HRx73hhFLPoxv5GIfD1JvtYF3FBq6asEj6kF7oQP8TMiGEjA4bFkg86ZUS46foN0CAd0lw52NR0cTU9waVvPAHq4fYV/VzgVKA2Hq/IaLqoWcrOKvjrl4qYkvMXeksCMxUS1S+GuoYWiXgT85p4N1P3ATyYtq/pCggOnJjg8N1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788962951; c=relaxed/simple;
-	bh=KLWVqQguonffGnm851cAXBHrTBi1vUkJhAMAInMTy3o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g+wwSXleZTgr8jO4GInC0/GugVw6upHDh++5eevChSnUTWtGS3F8eJLdWFvy2sMgyYTB90WtF0nPf9brHPs7xu8+tHL1b0Gh+BY0KsneuT0eR+DlzHfWWc9mmTudn5bunduhZbRXjJsu15idlXoJ752l7jo3h/+8GfH+SLbpRq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dk6mqAKR; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788963312; c=relaxed/simple;
+	bh=qLidu9+tvo2aLuRdzpmx7JzB21xwTaNQV4UaGLTMvXQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gg+yuaxXQzjFYSV89ZUzI1VeBF8cxK/+a92UUsQXxtepY35y3hGSnQuORaUaoD7rwM1V+EHTWgCGVxLKTAza5BhljnGEDIBrXDvF8lfMFkeyDICgTplVvNDzqj+ii3V8vMleOhzz+pgQ5R83hm5cLQ5PB7VOWvSmq7tx5DVdV9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=JJHZp7MN; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ruGXWRah; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dk6mqAKR"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cc4aa0220f2so215844a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 07:09:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788962949; x=1789567749; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QYNhQ6Yi/iRYbkVUGBJRb8uet/bvchjSmRRTPBWP7EA=;
-        b=dk6mqAKR/Wx4GWI6Qw9PFQEqDmH+DrfJDKmA63sKeAe8lvh2XFyErth8/p+hRo+k14
-         KS6JrlMjjyy/2P3gxBflsdkpjoaOdhqo+2PJy9wZbsE7ZctgDjhKqaoSE3Z5BCZ9J3K6
-         B0mwrMxL0WG9g0aOvU7PxFFgnXFFAPmdk2VeGoxVakHVJ2oXDs5PxOoMbq7lAnwBsdTW
-         InsXSjYomk+r7zEFS0dsJK4RxMBWmr9jqjgQcKcMjEz+9q5aaRgzgjoOo1vmGAH26agN
-         AeiktqdnammJxbsO/YWfF4MDWUgilGGyityuSiBMBY0/4vvRs2rnyAQ6aRLQpD7UUzSA
-         j97Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788962949; x=1789567749;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=QYNhQ6Yi/iRYbkVUGBJRb8uet/bvchjSmRRTPBWP7EA=;
-        b=LDCTfEfauo2mSTsGxfBSLANZxMinv016eX17uahxcmLjnPqvGzaAMhJE/ky+2+z5sQ
-         /jBK7J6RXLLWxPUcjEvxkKlpx2/61g5ESbEgQj4lgIxPuYp7D/xj7u/KEcYjN228xFcl
-         8XxGdY+h97WD9zePiJij0ohkHbajXuM87UKgOTu8RrLg3WOHlpCr+uKehuFXgbTScrcj
-         4yfj4PzcBlG3oz6V4Ycxf78jA3NornPjXzUUM1k/sjYCc/IvPMVO4onSTjO09deBusx9
-         bFg8Snwdjqk7YwYjQRzpgKxHo7YETeZ73YBgcz1QohQUkfR9pKFbrvImKQ01mkd/tphp
-         5fcQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx7MA3Jm/6UTQBtbMVd7A5uKPC8yJTI2/wTe/wIIJz56tNRnOq/d0RXlU66VgN6mKBhvI9hSlE50A0=@vger.kernel.org
-X-Gm-Message-State: AFuF++lIR2TABceGePfY+Us8YGMbsqG8Mhw+qByUH4BPLNtQFBG+8wNl
-	M01jO9YSXd43HN6MeHJYN2tz0BLI6y8C2u9i/YPQaxJoaG3WZJtk4e65
-X-Gm-Gg: AYBFou20ebG9ylYVlAmBT2VmVSwMZvY7zLshnPiIDPzo5w11r6ZGn9Pc4RJVObmZxOt
-	Il3uAcrDpL98T/FQT0wf7fzamSNbiFUY+1eTbeVYUTPkkTWuZJ4sPNFzv0KA9mIHkLsouU45lPp
-	zC99CYoA5xy+1jEEm+PqpbgUBcq5GYnlv8OPtdoBA1CI+GJ8GqvHdSjQicV35odf2GMdQrtEYPy
-	Nl/0YUDQiwT9IxS8tUix44A4gssWiYfuLP/HcJ0vXBH7CQYzBv31hnv3RTVR2wVIoQ7UC0sIGXR
-	SQNEsaeS40G0Wl7GlIt7nR5iwZhxUob2EJybgcBC4RTjSjigFR+yH0tdJMnLAh4P+8fpoyFuHZ6
-	V2izkw6KSR4FZK14ghhUuvEbVuv8MLZOxf93n9z+UXKmDZ2pYniKlXVLSaQ0S3B+je7oPIykLhU
-	gjci4QAG4pHdUqfZxA/oZ0dGS9+A2sz57apTOVoi6k+S0KUUbPrgWbWpUfX/H5iNojrBY4Gkdxi
-	x8pnHSns0XByUbrBvOpFr/47UcvU3tJG4Wcua4pjxe5sXiH
-X-Received: by 2002:a17:90b:2b8b:b0:398:c0ad:711c with SMTP id 98e67ed59e1d1-39b26272f0fmr55218364a91.15.1788962948995;
-        Wed, 09 Sep 2026 07:09:08 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08bcd243sm39687906a91.5.2026.09.09.07.09.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Sep 2026 07:09:08 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <f54c391e-5152-4c60-a52e-9c997c16f706@roeck-us.net>
-Date: Wed, 9 Sep 2026 07:09:06 -0700
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="JJHZp7MN";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ruGXWRah"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hg2rX3nKczMlHT;
+	Wed, 09 Sep 2026 16:15:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788963308;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=N2W999bKnCOzRTmwBAY8qmUKZ1hTQOjdGb2422aSQXU=;
+	b=JJHZp7MN5O2vkb6Pyc9rvKRO4J+SoEd6FP/iPtMxrGydL+UNbJmFNE4QoctBd1ORr9WVKf
+	1Di2c+4IZwoRCrdempi5JCkQjmqndo+kddouSAbUeTr59fp5BOMVWkrYc+CbPbnzG+Ootf
+	wE6sBjzpyPiNA/iiyedjfQxQ9KR9xqQXkaKVCZJLrh6hSoUzvfskpAzfTCGHxIgNZvzE23
+	InwyFVtsaw/7qwAyG7+JTqGkuQIGdpODxXiVMHupxyRF6KXBvRBeGR6+ZYQORST1cpJdRs
+	56OOVPNyE9GeWyyqRz0MfrjdCd6HIWGKE81tKeAwgNDr1U0Dm5JPv4EiPCfSsg==
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788963306;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=N2W999bKnCOzRTmwBAY8qmUKZ1hTQOjdGb2422aSQXU=;
+	b=ruGXWRahAFFWALWGYobdNs6dc5/coFHa/50tbLBQykFxRTCqopnFYqomtonSzKoDW9z3JX
+	2BloDjQMut36D1YekUJ8Pc9BqKV8t0nO5NnZXPfDBJp9n/i5qifGq6HZrLNj3hR3xQykq4
+	cKkbebMqANqnClnpulvb4p/SJvXQN8T1TRcAcRof3/LAIghwDIszeEAkUS1Xr224cYUwH/
+	x60PrSFqKmK+YAKgvZZ4NcWzNySjqW4ZvnrXlrv84scSdginQIeHtpVPIWyhEozllqkE3/
+	GN9hcpMHBkaKcm73Q57uP1/2Li8SyZwQ9O96k4DYrdHNhvC3ICV4J4HYVy/Ceg==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	SJ Park <sj@kernel.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: deprecated.rst: add to syntax highlighting
+Date: Wed,  9 Sep 2026 16:12:54 +0200
+Message-ID: <20260909141255.1367539-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/14] mfd: remove unused rdc321x southbridge support
-To: Arnd Bergmann <arnd@kernel.org>, Lee Jones <lee@kernel.org>,
- mfd@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Arnd Bergmann <arnd@arndb.de>,
- Support Opensource <support.opensource@diasemi.com>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, patches@opensource.cirrus.com,
- linux-watchdog@vger.kernel.org, linux-fbdev@vger.kernel.org
-References: <20260909132153.1596191-1-arnd@kernel.org>
- <20260909132153.1596191-3-arnd@kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260909132153.1596191-3-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: roewc885im3yhw6r1ed98nzfn1iuoamt
+X-MBO-RS-ID: 66f7fa071db24387d5a
 
-On 9/9/26 06:21, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The rdc321x was a 486-class SoC developed by RDC. While RDC's later
-> products closely resemble the DM&P Vortex86 product line and are still
-> sold under both names, I checked the datasheets for those and found that
-> the GPIO and WDT blocks on them are incompatible with the rtc321x.
-> 
-> Remove this driver, as there is no way to run Linux any more on the
-> older chips after i486 support has been removed.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Mark key words 'gfp' and 'GFP_KERNEL' for syntax-highlighting.
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+Suggested-by: SJ Park <sj@kernel.org>
+Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+---
+Suggestion:
+ https://lore.kernel.org/all/20260430010332.114100-1-sj@kernel.org/
+---
+ Documentation/process/deprecated.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index 22a5e62c9..4d4d29b97 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -404,7 +404,7 @@ become, respectively::
+ 	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
+ 	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
+ 
+-The argument gfp is optional, the default value is GFP_KERNEL.
++The argument `gfp` is optional, the default value is `GFP_KERNEL`.
+ If `ptr->flex_member` is annotated with __counted_by(), the allocation
+ will automatically fail if `count` is larger than the maximum
+ representable value that can be stored in the counter member associated
+-- 
+2.54.0
 
