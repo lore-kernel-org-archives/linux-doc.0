@@ -1,227 +1,163 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013037.outbound.protection.outlook.com [40.93.196.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4B4568FA3;
-	Wed,  9 Sep 2026 15:39:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788968345; cv=fail; b=QhjichjVYCIwwxKom4a3Lg4B9fey/HrrVr8hZ4DVj+Da95lLin85Nglr8inRLF6CEjcbH08d3cXNwQLrZXZB7i2S+dC5msj8f4SVkenqQ780zSlmjFAe+to/X8ZCtjd8BIvXR45K/qARjkoma77bMKrxpzc5O2br8SNrmPLQL0M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788968345; c=relaxed/simple;
-	bh=5YcnGfphvgJ3mzagu41orK6gLqArfbOf6ZfwiYR/WZE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cWNWckLC7Vsis5PMsxV/okOpRNCFFCVhlYZr4nIr4t8AtlYx4DbeTEeS1d1WaGmJaKEBc8ZfL03L9thFtSPxN2wr0wQbs9M5Q6rfrNRbY2m+Qejs4pxd2vJlrW8aBiBhmt/9sor8Mf89vUCB1aPJKFE4yhijWmB2t1lUMohO9K0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=O1YgP52a; arc=fail smtp.client-ip=40.93.196.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6015650ED;
+	Wed,  9 Sep 2026 15:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788968422; cv=none; b=Z+Bm9ffwGXEsc/JBO5L9ANmI7PgzQ3mnICftiYfjtyErznLY9VCDlS/130yExj/YZNsaWPOinucrrY2QEE4z6RAiyH5J3b1oqKE8efXp0YKM8hlZsm//jyqrn5aiIZAahMvvPirUtwPVOUKw7fdzEuVVWjLLWQjbz83MoMw4mDQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788968422; c=relaxed/simple;
+	bh=OTpD1mn++QZ6cnu/XQdOkc8XsknDB0Wm8sUuOPNTh+g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PyMNCtlU0ByJfui+vLt27A7oib1QEahPfYXGxD9sCGeyAVSGIj9bypt0ti0DU+9JKurOJtmchmkXnsYLn1sH8Vy5CrWnF8zUJd+Iu+7hNyWoQSljGemAcynZ+KdorWS7/L6qUEJuJYVFaqBk3wkEvdmwaNJrxvENXXwdNfMjwYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b67FWDHV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="O1YgP52a"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GIDS79XUVoK41l64C2uQkUzsCNlY6U6RVg6AFOZozKpbFhZ+5lAsXUUGvd0flreysNVteDx3+8Fq/0KdH2GnT9V5bA65zhrPwp9d/S+p9j9+qzEOpYC93JnG2MTwh2M7rt3jDCsD5zf7X9w3GgHEHVM0YHsaj/iMTK07iLl1iuC8zYKRSrQWYX5odAnFPKfVAPIK8Q7dK01p78VoTsphMJOjB4fUA3Nsf87ev7zi07PGqPIAz50PdH8WPlM9lk46NdyjGcy/O5bCamCFg9TK5Q6zgSv8Y0ehEoWU8LhqefRtGjGoWHyD2HkSH/xnNXOwFtFqvsRsGknH5lv7lJy6Eg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BesFlDqcxgYgt81wwI2Ve8vjSy02cgj3lChN5lpQ8Z8=;
- b=xaupU3EVRTUZnyfVYbwOybS6SiinnzX0XhZeRd6wNtsGZQ2TqpzL42lHi4pKD/+VafBkbglOQ5xNWHXa/a5bpZDS4Gy9pyQjyS1IwskyVh+8EP1aFSf8/+6NsIqwvA2VqUMMzQ1d64wanzqwxTl4YIx8I8x47Cg/p27aD9GQz/uJM7bATNqKaStukK+UGfNwmkLeJ0LuCAcGSk3sesN1mqOCMiX2viGSryqkJBqFNATdWmwAAx5vD0JnKWCi/srr7mGHkcmCumKd5xpjwqygk8aavoo7ub6RxGwuL8y4qWSAFMpAjsEf1dNZClAK5/Lf49VEwmtQtyAxROCGEx05NQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BesFlDqcxgYgt81wwI2Ve8vjSy02cgj3lChN5lpQ8Z8=;
- b=O1YgP52a2INxGIE9JKHaL3gLSkp2T+7W/iAAin7iKa9lfVzsZGgBjw4gmdzD+p5HNaL4tyYwD0MVYm3QSwg/JoRDmKmACQpFLvIEWEH610Rrh3ZF7mJ+qmH9qhMSMFHBIxGWma5dEbRAJJsN0v+wZbggaDEL1shlajguwZnOtXU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH8PR12MB9766.namprd12.prod.outlook.com (2603:10b6:610:2b6::10)
- by SJ2PR12MB7919.namprd12.prod.outlook.com (2603:10b6:a03:4cc::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Wed, 9 Sep 2026
- 15:38:56 +0000
-Received: from CH8PR12MB9766.namprd12.prod.outlook.com
- ([fe80::be0f:431f:5f27:96d9]) by CH8PR12MB9766.namprd12.prod.outlook.com
- ([fe80::be0f:431f:5f27:96d9%5]) with mapi id 15.21.0406.007; Wed, 9 Sep 2026
- 15:38:56 +0000
-Message-ID: <bb5a6b0a-c30b-4475-8be6-f3e3686c93be@amd.com>
-Date: Wed, 9 Sep 2026 10:38:53 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 1/9] PCI/AER: Introduce AER-CXL protocol error kfifo
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Davidlohr Bueso
- <dave@stgolabs.net>, Bjorn Helgaas <bhelgaas@google.com>,
- Dan Williams <djbw@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-cxl@vger.kernel.org,
- Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
- Hanjun Guo <guohanjun@huawei.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Shuai Xue <xueshuai@linux.alibaba.com>,
- Len Brown <lenb@kernel.org>, Ira Weiny <iweiny@kernel.org>,
- Li Ming <ming.li@zohomail.com>, Shuah Khan <skhan@linuxfoundation.org>,
- Ben Cheatham <Benjamin.Cheatham@amd.com>, Richard Cheng <icheng@nvidia.com>,
- Robert Richter <rrichter@amd.com>, Lukas Wunner <lukas@wunner.de>,
- linux-pci@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260902133933.2992457-1-terry.bowman@amd.com>
- <20260902133933.2992457-2-terry.bowman@amd.com>
- <20260908015144.62ee9c1c@jic23-huawei>
-Content-Language: en-US
-From: "Bowman, Terry" <terry.bowman@amd.com>
-In-Reply-To: <20260908015144.62ee9c1c@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DS7PR05CA0044.namprd05.prod.outlook.com
- (2603:10b6:8:2f::10) To CH8PR12MB9766.namprd12.prod.outlook.com
- (2603:10b6:610:2b6::10)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b67FWDHV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE5D41F00A3A;
+	Wed,  9 Sep 2026 15:40:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788968421;
+	bh=AXYYQlIGAZBrAHu4CUr6VQDiXrusLKFHKO4tw/xbR/o=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=b67FWDHVrvKlADudVooPhLmJOQAbQa4r/JfwC9gUSiN2XwdjDzXh8PDhLIbwBJ2Bl
+	 N6Vzk3XSxn9iwept0h4EbsT1QjEwa1ArTZoWsrAUs3sRxTkLtG3u6Tqn48pqVF4w42
+	 Hbr0VynPh2dln0S6/KgjarMmfPtDZf/8puPSLa3d6dAowUIbor3F3E8wZW4gfkHAy7
+	 ioBnUGH/HGUgh73jIHLXiP9er2c5LG71oVhLkOGVgFSr+kjgVMlPqHXLGlxCQA7ZS5
+	 LcMe5V5KBReJ3ihsKdA8eubDNI8HqYBjN9XKnu0HuBHiiD05yVhAVNYtvLFO27T70K
+	 2JOkNN9/OsV+Q==
+Message-ID: <26f620c7-043a-4cb3-a74b-29069bded0dd@kernel.org>
+Date: Wed, 9 Sep 2026 17:40:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH8PR12MB9766:EE_|SJ2PR12MB7919:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0081f200-f4da-4b35-243c-08df0e887579
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|376014|7416014|366016|10067099003|4143699003|6133799003|3023799007|22082099003|18002099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	nvQPreHfzY/oXzJe4Ied+GifjC0xtUuV5x4dru0E5U0nTcMirj/m6JmqrS250y6RXnPv1stddujUWoTag4mETkujxOiyODADqQ6Q4tWbMG0EvRMRGmTygN62TmrcHRKpGgECvYSiYb6kwSV4FWGKp1ADPckSiLDOFaWe1x4hrk51md/SvZusvc5cbGXw3BK6I3U9SwWoyb8tdUXnsagotQdtdzqPbY13o1dYtx11BD4oUDtaZ7NIZezYhj8zxNeI0kte05GViDAlV/MY4xD5LCYGp2PjalIfNzLzWsRyBC6KD+u+pM/CBWOw/eTXyZ9rKuvIrfamji3s/kbP7Npz5BnjE87F0uk64hp5Gex7EYkPIXLPjfi0LVXNyG8oeLtlEd9TWS0zsSlvyOrRcY2vyKr98jXV7cmsbfJ3aXrbMdRwDD55U5CFZTAPA2DUy40ZPYOA4knloOHB4WDZgmPvYceL9VeLKglrH+wP4rg9xi12TqYw9/QldQlhjk1VxSUGe3Fr6ie2dJxJjPTSzCx3tc1qIz7ALJYcM2JFt6+hnNw6oQaO8OID4vZYRmpciyzEInmYkUrn810kQzwNiwWbHxoreQJ1TCKwVavJXH/YvUqgMC++w4OqohpqtP9eyLs1tih/nrnOUJwZys7qqh7tF+JtGsKIxT0vTxNNFl37UJA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH8PR12MB9766.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(7416014)(366016)(10067099003)(4143699003)(6133799003)(3023799007)(22082099003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WXdjS1JGRktlWFRyWUNkYTlHUHk4NzdpMWpvRFNvYWFPaHpsMkZkd1F2Y0t0?=
- =?utf-8?B?NzFvODNqZDllVlVjSVlFbitkcUVJS0F1VlB6YVRWVGl2OVl0K0tmaUFoYVls?=
- =?utf-8?B?aFlvTHM3VWZFZ0xZdnArd3ErQWxQd0lEeTRRRjZLajN6SE4vZnlocE5vVUh3?=
- =?utf-8?B?ZDFURTg3djczVU5XR0pqRml5N1hMNWZnaVJxWEE0c0l2eThSbzMvUzFBeSt3?=
- =?utf-8?B?RGUzRFkyQjd4d2oxOWs0YS85R0xIbTFhaEthd2xUUWNteURYSnBUbDVCY0N6?=
- =?utf-8?B?aDJpc0xWcGp5MnpMdDRkWm8wdDBCanRBNWlpUnUxYXhzS3lKcWFkRUpKSG05?=
- =?utf-8?B?SlArUGZVT0ZNczNUZDRHQzZ0UlJBMHErTFlpcS8rMTM0YXVSOFpPTUxXYkFR?=
- =?utf-8?B?c21kV0FmeHlyVGVTRWRrcnBCdGI0QW1TNk5tbEpUNmI3S0hkbVRUZk4vR0w3?=
- =?utf-8?B?aVo0L0t5N1ZEVTB0MDRDdFp1QXJiRjlQaTRzRFJMejdST2hHRHd1QmpVemE1?=
- =?utf-8?B?T1ZXSEMyOEJKdGYzL0xJUmMyeGxRSDRZeG8zRjdJSEdpcGZBNjVkdTJsMmhK?=
- =?utf-8?B?bVJFS29UQXJXalYxRXFlNUdZMm9JNDhiWkk4V2d5akVtUnRMRXpEcXNBTW0w?=
- =?utf-8?B?Um5oY1pzRGJTOUcyNGFwdmJEQlY1a0VFRXArL0d6ZVVoY2l3bGIxbWR2cEk5?=
- =?utf-8?B?K29KMkpaWCtJQnArN3dIT3E5VjJ5RDJQTU9ydlFuT2xuVFB0bnBqbjhldEgw?=
- =?utf-8?B?MFo5TGgzRkJWOVYzUllJS0diVHVycjBiNHdETzVmdmVDbCtCTWVFdkNqWWRH?=
- =?utf-8?B?YXhiZGhmTU54UllBMUFSMngxZnJjeU81TGZVbFFsMFdQODNKTGtzSVV0azhP?=
- =?utf-8?B?SHppZGY1NDU2VWkvMURxU3cybGZRVXdNL2VpRHlTVi9palFMQjl1b3RiSmxv?=
- =?utf-8?B?TWRTV2xIT2RJQ2hzbktCeC9VWDAySlM3NE1SdWpGV3cwQTIxK1JHU2NyVnJZ?=
- =?utf-8?B?aU5IVjZQMVVIcHdWNDdwcXpuWFNxcklYZEVSOHJVN09sS1dua04zZWl5dlFM?=
- =?utf-8?B?bHBtSmkzcjNvZlJsVDFDN2RmK2RoWEw2d0lCelpIOHN2aWFjTTlCYSs5WDEx?=
- =?utf-8?B?NlFPWlVKWG1KUldyZElYZ1J0TW9iOURBQ1Y2TUNMaWYxdWVJYnJMdWFZU001?=
- =?utf-8?B?cEp6bmkzRnc5WXZXc205bHphYTFZamMzRW00dHcwUVUyNUhKL0laV3R6SWda?=
- =?utf-8?B?UGpqaWJDaStlZWpnSU1pbS9XR216Q29FejcwU0RPZzYyK3pDV21WRnJoSml2?=
- =?utf-8?B?MGVIVDltY1VibFZPMDNib1VmeXJvd2cvQ3FsQlRzelh6VVJJVzNSWXh4T1My?=
- =?utf-8?B?bEtwS1JxMGUxRU9Ga1hsVG5zUHN0dzY1bWI0d1ZpUUx5RzF2S1BTU05EQkh1?=
- =?utf-8?B?RWpxRklTSWw2b3RVYU1FRmZDMXJrOHM5KzRuVTBUZlB0K2h5blRwc09VYW9z?=
- =?utf-8?B?MTFYa0FOd1dSdlA5N1Y2ZnpUd1dEd1Z1UmVVRVBpMlBldlhpTEdPelhoUVVK?=
- =?utf-8?B?VXl1OHR5UlZzaWZVdEdySllNcTJQcnRQVzNYTEY0b0plQS8yVGVDeGZNdm5E?=
- =?utf-8?B?a2xBTVc4aGpQUFQ2dWVxVVlrL2pnVWxxVXhkdDZXWDN1ZGs2ZThoNk0ybFlt?=
- =?utf-8?B?Z3lWaFZJQ0NONmN0N0I2U092YitNcnROTnh5U1RjK3RNVVpnSVBuUVNZbWtm?=
- =?utf-8?B?d1Fac2UzUGdheUgwaUVIZ1FSTit5azlZcTU3NGNMM3pmVmc1QzFqRHlkVEV4?=
- =?utf-8?B?V3lGK0JPMXp5bDE1Z0xQM1N5eTFkd0Erd2pFSlExenAxRXN2aFp5OWpHaUF5?=
- =?utf-8?B?cC9KSmxjQU5Zb055b2xSZUpmd1psNncxbit1cE1hN0VFbVJZcm1VNGN0ajNp?=
- =?utf-8?B?dTFac281RGtIT2g0dlpyOHdZTlFWSERkcU0xTnZPbkI3eXJ3RGtiTXBKc0Rz?=
- =?utf-8?B?cm1NN2ZMd3pPeTB1ckw1RG05UE1MT3E4REk1UXIwV3pVRm1lbElHcXlJcVc4?=
- =?utf-8?B?cEtCZ0xSNTBhWFBxWHdsZ3dxckpWa0NXeUlFdDFmUGlCZ09IVDV6Vk1hVW9F?=
- =?utf-8?B?OGtBRE5JNXNBU0ZLR2t0WU8vSjJBRzlsMnlrRTZtYjdpTjNqU0Z6NUdCR1pl?=
- =?utf-8?B?VDJmN2ZIUDZMWDVhM2lKSFZKSXhoSnpwMFdnVlpYVTJ0TVFFNGk5UVF1YXNq?=
- =?utf-8?B?QkM2dW9INGFSdkU3T1BrVk1RQ3FmaVE1RTg3WkVJY2NmejZIc3ArZ3ZEWkN0?=
- =?utf-8?Q?qSNrTR93aFktEroTp0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0081f200-f4da-4b35-243c-08df0e887579
-X-MS-Exchange-CrossTenant-AuthSource: CH8PR12MB9766.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2026 15:38:56.0331
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FJUxZ1St3eem9psbLKlzfn+rr22kWQ5a1kRb91ESxdJ5aUHa1LOnSYsf3bV3MeJ/BA8/mhd5lNHnlHpD/W2yHA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7919
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 12/45] KVM: guest_memfd: Always fault from guest_memfd
+ if in-place conversion is enabled
+To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
+ binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
+ jmattson@google.com, jthoughton@google.com, michael.roth@amd.com,
+ oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com,
+ rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com,
+ steven.price@arm.com, willy@infradead.org, wyihan@google.com,
+ yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org,
+ suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
+ Randy Dunlap <rdunlap@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Fuad Tabba <fuad.tabba@linux.dev>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-coco@lists.linux.dev
+References: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
+ <20260830-gmem-inplace-conversion-v12-12-85e5fd25252a@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <20260830-gmem-inplace-conversion-v12-12-85e5fd25252a@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 9/7/2026 7:51 PM, Jonathan Cameron wrote:
-> On Wed, 2 Sep 2026 08:39:25 -0500
-> Terry Bowman <terry.bowman@amd.com> wrote:
+On 8/31/26 02:25, Ackerley Tng via B4 Relay wrote:
+> From: Ackerley Tng <ackerleytng@google.com>
 > 
->> CXL VH RAS handling requires the AER driver to hand off CXL protocol
->> errors to cxl_core for logging and recovery before PCIe AER recovery
->> tears down the device. Introduce pci/pcie/aer_cxl_vh.c to implement
->> this handoff via a kfifo-backed work item.
->>
->> The producer, cxl_forward_error(), is gated by is_cxl_error() and
->> enqueues the error source PCI device and severity. cxl_core registers a
->> consumer via cxl_register_proto_err_work(); the consumer drains the
->> kfifo with for_each_cxl_proto_err(). For uncorrectable errors,
->> cxl_proto_err_wait_for_empty() lets the AER path block until the CXL
->> plane has finished so recovery does not race device teardown.
+> If a guest_memfd memslot is created but the guest_memfd does not have the
+> GUEST_MEMFD_FLAG_MMAP set, KVM still fulfils guest faults by looking up the
+> memslot's userspace_addr.
 > 
-> Do we need most of this last paragraph?
-> Maybe the bit about letting AER block but the rest smells like implementation
-> details to me with no info on 'why' or anything unexpected.
-
-
-It is implementation centric. This can be reduced.
-
->>
->> A rwsem serializes registration, deregistration, enqueue, and dequeue
->> against concurrent AER IRQ threads; a spinlock serializes concurrent
->> kfifo writers. is_aer_internal_error() moves into this file and now
->> evaluates info->status & ~info->mask rather than the raw info->status,
->> so a masked internal-error bit is treated as not-set. For the RCH RCEC
->> path this is equivalent because cxl_rch_enable_rcec() first calls
->> pci_aer_unmask_internal_errors(), which clears those mask bits in
->> hardware before the AER status is read back.
->>
->> A subsequent patch wires cxl_forward_error() into handle_error_source().
->>
->> Add MAINTAINERS entries for aer_cxl_vh.c and aer_cxl_rch.c under the CXL
->> entry.
+> Set KVM_MEMSLOT_GMEM_ONLY if in-place conversion is enabled so that the
+> guest_memfd's memory will be used for both shared and private memory. With
+> in-place conversion, guest_memfd will be the only backing memory for the
+> memslot.
 > 
-> I couldn't immediately find any discussion about switching away from panic
-> on a kfifo overflow.  Was there a reply to an earlier version with a
-> discussion of that?  I'm not against the change but a 'why' 
-> here would be good to have.
+> No validation is performed to require userspace_addr to be a mapping from
+> the associated guest_memfd because even after validation, userspace is free
+> to remap something else at the provided userspace_addr.
 > 
-
-The driver panics on kfifo full error during UCE enqueue. This was recommended by you and
-Richard. Changes are at the link below in cxl_forward_error():
-https://lore.kernel.org/linux-cxl/20260902133933.2992457-2-terry.bowman@amd.com/
-
->>
->> Co-developed-by: Dan Williams <djbw@kernel.org>
->> Signed-off-by: Dan Williams <djbw@kernel.org>
->> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
-> One trivial thing inline to add to Ben's nits.
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+> userspace_addr will still be used by functions like kvm_read_guest(), and
+> if userspace_addr does not match up with the corresponding memory in the
+> memslot's guest_memfd (whether userspace_addr points to the wrong offset or
+> some non-guest_memfd memory, etc), that is a user error.
 > 
->> +/**
->> + * Callback for processing a CXL protocol error from the AER-CXL kfifo.
->> + */
->> +typedef void (*cxl_proto_err_fn_t)(struct cxl_proto_err_work_data *wd);
->> +
->> +void cxl_register_proto_err_work(struct work_struct *work,
->> +				void (*flush)(void));
+> Requiring both shared and private memory to come from the only associated
+> guest_memfd simplifies invalidation in stage 2 page tables. On a PUNCH_HOLE
+> operation on a guest_memfd, the invalidation is now guaranteed to be
+> invalidating only memory mapped from the given guest_memfd.
 > 
-> Align to after the ( Looks to be 1 space short. If this is a local
-> style thing ignore me ;)
-> 
+> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> ---
 
-Ok.
+Yeah, that matches what we discussed in the call
 
--Terry
+Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
 
->> +void for_each_cxl_proto_err(struct cxl_proto_err_work_data *wd,
->> +			    cxl_proto_err_fn_t fn);
->> +void cxl_unregister_proto_err_work(void);
->> +#endif
->> +
->>  void pci_print_aer(struct pci_dev *dev, int aer_severity,
->>  		    struct aer_capability_regs *aer);
->>  int cper_severity_to_aer(int cper_severity);
->>
->> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-> 
+-- 
+Cheers,
 
+David
