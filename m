@@ -1,87 +1,55 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893C3282F0C
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 00:37:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB620492E4C;
+	Wed,  9 Sep 2026 00:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788914263; cv=none; b=sBPjDyMIDWpWlL2MxZCa781Ow82zZEDmHK1vQ90j0HIYhjnsBTwwfc0ADK4DQ7101n7bZ1BzdZyg4FOj0V3cuX779m4Yhn8DKi33KIAk922NNWHmur0M7n17rJy9ybVbRS5W8mw00HcWe9bf81+ydaBXvb8IFHMpb5R6iLoSNWM=
+	t=1788914290; cv=none; b=VI1rTCfnN35auArT0mV/4b4i/LRFxOWCTRfuqSCxGpLcOTWd5d6H/dOk0GzXsZwM/qoZRd9n9zOK/i57vn7B4wdKs4ZyO/O55K3eoobfAYPQSpnz7DSZGUynqsdn7H8IJf5Wq8Qpfe2fUN6f/BrNT1IvZ3ieoOxNT351YW29hZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788914263; c=relaxed/simple;
-	bh=hWltHfXGF6tM0pJn0+dwTACm7KNrwHA6EQNSK8fnngg=;
+	s=arc-20240116; t=1788914290; c=relaxed/simple;
+	bh=WDXVCXp54tcC37VGDDpXC7Ad4CbKESWsEb5Si6CaZ7o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B02f6TaHCFVPvtyvzSHhExjx2iKTv4Z7N9lUzANseaTwzZaluWuj+kmmWO1rvEoXbGAHdnUs4jv5aK0ovg8Ak8kcvM9n4H3jBLeVVtwA7PY7pJwyfC74kKLbVMwYOHwTeOA0q+VyszUk4es73LHnfyR3PT07cmofGBlV646s3pM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b67E0KW6; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version; b=lxm0UweuzjYAV8IPBDfs8erE9lvQA8hiF2vS1BoBIOXJnKYthAZ/96A17Sxtx5hCLbCsGSuTFR5laHQibBZNZO5O+GAURNYDkXenBhkQwmhUEFbiZ9W6vjcah7YMHFTCRJUWEVpjYH36i82aOf2HB1KxTHx9eYLMxFF7RBosftw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RJDbuH4X; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b67E0KW6"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccdaea75so522744a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2026 17:37:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788914260; x=1789519060; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Lm7BcEa8+Jgt9xkhmMJfF26Iq1SFFXivMsEEThtEiJo=;
-        b=b67E0KW6w76sjMa7IIOQV7KpwyutMY/UpNjhG+tb3pypdHWBMsRMiPbT4fqzjhBOZx
-         pZUjjARIpymH0YYhqCq9Xj0DM6nSGbwVJnNNH6XozqSQ80mvspNhthpdyhQjpn/uqufq
-         T4etY/QXRQ1ebVTmcI4Q0I+3j6YrZpfdWa6l+hYzzbTioaHjkmv189blSDS4BEMbq7qs
-         q858JQ+KrqGGiEIJp3K+Zyn/Rn11AvL3URiuDsw57/+4bmXYXjPNi0RdubT3SBDD9H/K
-         wfGxqzVsKL4T/oqQ1rNsPhMvs/xTHjCr2O6LQmeUUUpd+gC05jaF5EulbVrd0Fb4iv2y
-         wZpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788914260; x=1789519060;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Lm7BcEa8+Jgt9xkhmMJfF26Iq1SFFXivMsEEThtEiJo=;
-        b=Rx/x+nBbgzbhtFRvb+LRn8kAayeMFLV5N8xg5v7UWDAcHxxMIBFXb7luRacdN1PIqG
-         mzNT/0mKdijH6knex1k+By5tEt3j6DB+khU9+KVBZe7zHOHUQpNHNpNXfXF+dqoS/lCk
-         7+u3H98KJjPaHr4FpcXF/91DzCPjGXmGe2sXLv/r4kQPnR7k+q3mDwOsrMysFz1a/HCm
-         VrxnAV67JnLji5RYi/S8fdVcAl+QXe+6xf/f0OjtznVXiUuV8xZ9xdExSTaQ2XOTEULx
-         aI/I+5s8SewmJdL70qfH+NTXzcZtleFH5Ut0hz6u9K7+7Kl1jPl7cBGOenc9qfgXo1EX
-         KGrw==
-X-Forwarded-Encrypted: i=1; AKwUvBzDEvgCGnetZGV8K7FnwzD7CQbYvi7YSSagmbXTD9yj8RwPdnSlu1A3Tqpx98SOZgDqOTy7jw/aTok=@vger.kernel.org
-X-Gm-Message-State: AFuF++nb9LbUxUpvJwwEThTLHP5r3VXd1JgcGb+ZuZog5PemZfarGkFN
-	33/FjKp9Y4zBMnXC9UD97amN6oPeEj6/dbDBFlpO5TlcLI3ebx4q4iVH
-X-Gm-Gg: AYBFou36k0v9lIN6kqbgaDyxSW833igRkgZr7R+2ZbDj1Ton5vg5/kGlnvYPp9pkFtm
-	y7AvhRJ7OWBck4e0LOSOXq/x0rzkEngetgDbwcOYkTd8n+pnI3M3dFPUaQj9fpAMm1eWADSyCKh
-	Mbh3AT4rNbo0uxQG7192iGykUxUIOhUkENjiqaBI00TxbJjPLr5WWVF4kqsmMmxqf0Q79np2LMH
-	5L8UHDPEUFr6j3sFEyE1sIU5YbTehRikqKMeSku/hrhOuZ7YVL0Dx2ri6PWHqZDrIkg/KlA2in5
-	4H3wSQrUNClrSeYnqJvejvTlLXkf1vZuGU4BYDgloMjEePbdrxtHzZgKmvdc0R5Ztz3YVgU7BE9
-	AQ9eAx+NVwSe4QcoIkyvcGCT8Clk9U4Jhpraf6X0qSNIVCRwIzT+GYOpZLajqPeWbpdQEKW3/7g
-	dAU1ktbiC1nZb4lVUW3xKAjZLg/L0EjBlXYnCeRzkQV36NaR+83/b4TXBxAW5v
-X-Received: by 2002:a17:90b:58eb:b0:398:ceef:edde with SMTP id 98e67ed59e1d1-39b8bf497edmr7501490a91.15.1788914260009;
-        Tue, 08 Sep 2026 17:37:40 -0700 (PDT)
-Received: from localhost ([2400:ac40:62f:1b67:ddd8:990d:9d6f:13b8])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08d0d845sm35551055a91.17.2026.09.08.17.37.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 17:37:39 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-To: kexec@lists.infradead.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Sourabh Jain <sourabhjain@linux.ibm.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Dave Young <ruirui.yang@linux.dev>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Jinjie Ruan <ruanjinjie@huawei.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RJDbuH4X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D81E1F00A3D;
+	Wed,  9 Sep 2026 00:38:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788914288;
+	bh=LW2YRdHu/X4/AGFVGhsWuCM7o9IYlbhU7Z1SrOilMgY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=RJDbuH4Xd8C32OmTjQnl1Ekc1TagPeVNucME62r/LSxjMqbUS/NpGkKhLw7X77v+t
+	 wMD2iRE4JvWPJckS/fJD5vdKocCwK6cSiFHPfLDFm5QCeOdDBUuqXySJuzh+hN4jIL
+	 QJNwBLPpS66PBzJrC250WUOOlP7t5iDk9EddOCFqwsDJ7tkjd/gnVXUWP4NksqxE3f
+	 PA1eV110rvY3PDvvKKUlioPKp2SknHbCSGVw/xhVwLX2zGKcypjNbH7ZZTrctTlWFl
+	 VODweHOCKjSH0rM3I6byMsrxpjMyiMMkucPr1NxyRySHFGmzpeEO1O3IwZgiupc0NQ
+	 qHZVDDlRkOWIw==
+From: SJ Park <sj@kernel.org>
+To: Liew Rui Yan <aethernet65535@gmail.com>
+Cc: SJ Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
 	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v5 9/9] Documentation: kdump: Add arm64 and ppc64le to encrypted dump target support list
-Date: Wed,  9 Sep 2026 08:36:51 +0800
-Message-ID: <20260909003657.1570544-10-coiby.xu@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260909003657.1570544-1-coiby.xu@gmail.com>
-References: <20260909003657.1570544-1-coiby.xu@gmail.com>
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] Docs/mm/damon/design: clarify when qt_exceeds increases
+Date: Tue,  8 Sep 2026 17:38:00 -0700
+Message-ID: <20260909003800.112569-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260908175105.42558-2-aethernet65535@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,31 +58,101 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The encrypted dump target support is now extended to arm64 and ppc64le.
+Hi Liew,
 
-Fixes: e3a84be1ec2f ("arm64,ppc64le/kdump: pass dm-crypt keys to kdump kernel")
-Reported-by: Sourabh Jain <sourabhjain@linux.ibm.com>
-Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
-Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
----
- Documentation/admin-guide/kdump/kdump.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed,  9 Sep 2026 01:50:23 +0800 Liew Rui Yan <aethernet65535@gmail.com> wrote:
 
-diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-index 0bf2eb100a05..36ad6125c670 100644
---- a/Documentation/admin-guide/kdump/kdump.rst
-+++ b/Documentation/admin-guide/kdump/kdump.rst
-@@ -572,8 +572,8 @@ Write the dump file to encrypted disk volume
- ============================================
- 
- CONFIG_CRASH_DM_CRYPT can be enabled to support saving the dump file to an
--encrypted disk volume (only x86_64 supported for now). User space can interact
--with /sys/kernel/config/crash_dm_crypt_keys for setup,
-+encrypted disk volume (only x86_64, arm64, ppc64le supported for now). User
-+space can interact with /sys/kernel/config/crash_dm_crypt_keys for setup,
- 
- 1. Tell the first kernel what logon keys are needed to unlock the disk volumes,
-     # Add key #1
--- 
-2.55.0
+> qt_exceeds counts how many times the quota of a scheme has exceeded.
+> 
+> The value can confuse users when the effective size quota is zero,
+> because a zero effective size quota does not always mean the quotas are
+> unset.
+> 
+> If the quotas are unset, that is, both ms and bytes are zero and no
+> quota goal is set, qt_exceeds never increases.  But if the user uses
+> the temporal auto-tuning algorithm, the effective size quota becomes
+> zero once the goal is [over-]achieved.  In that case the quotas are
+> still set, so qt_exceeds keeps increasing once per quota reset
+> interval while the goal stays achieved.
+> 
+> Clarify this on the design document.
 
+Thank you for keep working on this with patience.
+
+> 
+> Signed-off-by: Liew Rui Yan <aethernet65535@gmail.com>
+> ---
+> 
+> By the way, I found a thing in the design document that confused me.
+> 
+>     temporal: More straightforward algorithm. Tries to achieve the goal
+>     as fast as possible, using maximum allowed quota, but only for a
+>     temporal short time. ---> When the quota is under-achieved, this
+>     algorithm keeps tuning quota to a maximum allowed one. Once the
+>     quota is [over]-achieved <---, this sets the quota zero. Useful for
+>     deterministic control required environments.
+> 
+> I'm not sure if "goal" was accidentally written as "quota" here.  Would
+> this be better?
+> 
+>     When the goal is under-achieved, this algorithm keeps tuning quota
+>     to a maximum allowed one. Once the goal is [over-]achieved, [...]
+
+Good eyes!  Yes, seems it was only mistakenly written in the way.  Please feel
+free to send a separate patch or include it into the next version of this
+patch, whatever better for you.
+
+> 
+> ---
+>  Documentation/mm/damon/design.rst | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+> index d036340dae8a..e083b74d618b 100644
+> --- a/Documentation/mm/damon/design.rst
+> +++ b/Documentation/mm/damon/design.rst
+> @@ -863,6 +863,16 @@ scheme's execution.
+>    completely tried to be applied.
+>  - ``max_nr_snapshots``: Upper limit of ``nr_snapshots``.
+>  
+> +``qt_exceeds`` is increased for schemes with set quotas when the quota is found
+> +full at a quota reset interval boundary.  While the quotas are unset,
+> +``qt_exceeds`` never increased.  However, a zero effective size quota does not
+> +always mean the quotas are unset, if the ``temporal`` :ref:`auto-tuning
+> +algorithm <damon_design_damos_quotas_auto_tuning>` is used, the effective size
+> +quota is set to zero once the goal is [over-]achieved.  Since a set quota of
+> +zero effective size is always considered full, ``qt_exceeds`` keeps being
+> +increased once per quota reset interval in that case, until the goal is
+> +under-achieved again.
+> +
+>  "A scheme is tried to be applied to a region" means DAMOS core logic determined
+>  the region is eligible to apply the scheme's :ref:`action
+>  <damon_design_damos_action>`.  The :ref:`access pattern
+
+I think the clarification is better to be added to the 'temporal' quota tuner,
+since this happens only when it is used.  Maybe the clarification could also be
+shorter.  For example,
+
+'''
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -775,7 +775,9 @@ There are two such tuning algorithms that users can select as they need.
+   fast as possible, using maximum allowed quota, but only for a temporal short
+   time.  When the quota is under-achieved, this algorithm keeps tuning quota to
+   a maximum allowed one.  Once the quota is [over]-achieved, this sets the
+-  quota zero.  Useful for deterministic control required environments.
++  quota zero.  Useful for deterministic control required environments.  Note
++  that the zero quota is a valid quota, and therefore ``qt_exceeds`` :ref:`stat
++  <damon_design_damos_stat>` will keep increasing in the case.
+
+ The goal can be specified with five parameters, namely ``target_metric``,
+ ``target_value``, ``current_value``, ``nid`` and ``path``.  The auto-tuning
+'''
+
+What do you think, Liew?
+
+
+Thanks,
+SJ
+
+[...]
