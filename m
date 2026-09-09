@@ -1,194 +1,153 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265C15616A5
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 15:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788967976; cv=pass; b=pa5YbgCtVCbAN8fW1Ie8bay3D2fgNdCOmOnonyd1rLy3BkVii/K5WkbNY+UH33wsQcF56dta39twumnJ2he/czelzQ/1fRhf9J6DRJI3/+NXQs+Hzgbl5VbrfR/0TMmcS4T52tPGe8Sze09VCg3IfFJmVhpGZfQcpgBy9J3PWkE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788967976; c=relaxed/simple;
-	bh=uhhQTIaQc8uxwzQ47gAsGq8TmGrfD2ovEMzuW5mE1Bk=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kEwzqJJtxJNEiE0OYSAtrBEN5j0wi9VIuuGdeKwQP2fvaIJ1RvWL1nn0d6i41PqV+eeMRoKn1rZlweP4Ry0SbP6uDMF0skO8pzU+ceikJlD1LpZuBQnFfmu6U6jt/K69LYMbRCmZbdySJEkzFr2tUNY+AR9Jjyn+Q2Rh89KDTeI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Pa/3XfJX; arc=pass smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24C8372EF3
+	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 15:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788968048; cv=none; b=Of+QU/T9pupdXWGduZ2TrWggwJ0hxq13QXKeb3c5LehAELWJvMJSm+bE+n8eJjzghG0qdsK2cBY0Qtv9MNxHJzxnbUHPUDkle8LJ6j6QV+0pELX8vpvQgINLe6GYKNuhLzte7izjqqC0srz1SP1PERHI7wrU1GWcuGatYClK4Eg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788968048; c=relaxed/simple;
+	bh=t3yqbvSqtFoLUHow+WwPXXOfeaEh7bClm80fMM9rQTg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aDIJaIzbFiHeH8k8+ufTNknl255rSzPe/MkQd+3e6cYdbZk+Uzbmi2POxmov2F182X4uwvc4vhhnfpv2vng+AOOsNs1onbVU1FgNoLbdNcH3szJYSquFVN3NqzsWlBcdovnAFpY1RaFBh8z7lfTA/MZ+OcECHHXA0hM6Dl6xq9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=NEok5sSU; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Pa/3XfJX"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-91034716d1dso89178636d6.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 08:32:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788967973; cv=none;
-        d=google.com; s=arc-20260327;
-        b=CxbVGSo2IIQW6znJ+bAlwx/jK5ZGrVi5SkYjSSNdmU32uyLi4k6syZuAzhg2JkWItT
-         F1kzQbD4dFFqfbdx5P96SGb3EXEfNRqxOJx4HSb7gm1qmid2pd8VxpKlZd4gddM5DoLr
-         qqoioENE0Zp3mPFyoUjcQLbrMMYsCYSDdp09YdgQOLwvHJUP82FFl3XRIMiHilV2igSK
-         mXag6OhNIKHcLJvDz0flagqZ3Rm8B8BkkZiY87zQld7BJTd1sn/ts8MQK/k2K6mOcdsw
-         rrciYjm8uu3WeAefF7ryV0mvOrLv8Wns1wXeIasHxYGMeCalMV/Get9yZyqYhbuMwBh+
-         WSqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=+0yQ0IytrFR+cprTV6f0ILvHwq0HfsKregN1JLnR5qc=;
-        fh=r6ojAnJ6fsPblGFjDIa3HHC+4wLEdu9bJiL4Wn6wYug=;
-        b=l97aGcm/+TGaND3sZ/vpDaovcwjQDkJpXN2F1C00vuQNoEmpFCA8Zv6Ri/MKm13vdh
-         MypAineGeJtj9iUlFqv616EFUwUOLi/YfGkeqERvnFYumTLTaWXQOshB+Ww2jNYjIb5L
-         gi9binbqhFCYrnSYpv4B8lt5zhO0xvRnlW1UXRSKTKSAODgDqos0GR5YDyULb4ALYkqB
-         8BuFQHNHJCoqN5CHT9nHEhbept7KQAsHepotL1Ag3nR09zHGLOHdrFLqq/M0JWB6RWGV
-         08fCM2NaxQEyMynm/z6Ps6nGe3f/uDcNxxlmkoSLtyJ/Zwi+rrWh7JoFKeV72Oj4WDhN
-         Adwg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="NEok5sSU"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c2637dd37c1so552426666b.0
+        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 08:34:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788967973; x=1789572773; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+        d=linux-foundation.org; s=google; t=1788968045; x=1789572845; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+0yQ0IytrFR+cprTV6f0ILvHwq0HfsKregN1JLnR5qc=;
-        b=Pa/3XfJX1Z23SmoW6Qgtk5M2jiLZeIH0RAVXKxm5hqL7iIUwEQjskVSrOr8EHX3pjV
-         I4RPGlA+VmHOywvJJagD89UGg049dcpbdaWcTR3+IVEcVQ0pKM1UBN7wiupm+KJiSiCD
-         Jmelck7lCe0pWyONQ/+v6gL4dWbiOVFfJZbQP2ZvvrlU98dtDkBmEpMkglPRGlqHGxHv
-         3zha9R84ROcHrKYkduq7rAOfRAf+wF1+OrPNSIQIzAxgPm768gMa5xOzuK5UPMHtbdHV
-         PzUoXJjpoY8dGFA8ioOAWWDUVSiHuJUhjBd5HDhetk4Ls3dmhjt/hZzoZkYtOOOEmhmQ
-         CcFQ==
+        bh=/FowYqhA2IUhImtOTNUOvZbuU0tnu+Lv5LcROnzCHgI=;
+        b=NEok5sSUYgv6ECps3m60yaYR0yDidKtF+BA2vhrVj3cShj1aESvRGR+4/pvSyjpC8N
+         XxRaTX0oil6e1tszK0DPYXOUl49f8NiG8hugX2bZufQJJk0Z4Vhgnk8jp1XXYISDoh07
+         WlVAugi25azOmyIDU3yDf+CWE0Huem64OwdWs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788967973; x=1789572773;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+0yQ0IytrFR+cprTV6f0ILvHwq0HfsKregN1JLnR5qc=;
-        b=M6yOK4sp6zfp7CtmdLTo7gUx+UsvjcGbigsPBXIgwno2jcRMfbF3UYPxn5wsVFIfF7
-         qFqmn+wEyVxPDIU183erJB0SiZ30ET4XNaCL8gECR4qjGWpHI5nCVmf2O0xdcGf+X/v1
-         nlq+u6QpbWc5xoH5YlEV4XfIKKQl8pRqBl3oVDXXtbuvbU0WrYRzXOGKYsr15ziBNQ1+
-         p31ZoWg0P8DKdKNz6+jyjetwowyUFzFEwDtwLmeIBN4aNOMmCsylPrkD7Fpre8toJ99S
-         ZfQDKneUD69Hx4w1ryltPR677HRNa3lMRO+kK/rPagloy+bGICLL8VnQim0i/8ABmRsL
-         2JXw==
-X-Forwarded-Encrypted: i=1; AKwUvByhHcQRl8Q+saqAw7W0QWliRusBTL+YJLOGY2gDB1eCIxmNDZFpcuxRmYyjRulzUaXhvSXbYARs3HY=@vger.kernel.org
-X-Gm-Message-State: AFuF++kPXvnrR8Fi/gyFpgJS5HAREmORGv66pT6rdV04Y4LU+wVq9kfL
-	+TQ2yhFMGYVlD2My9KRT03nd8remlIxXtOHnpNSO1/J+TJ2GGXhWqwIYhDanYcd5GSXdG/tyKTP
-	ZVIPMzSGCBN4LhoocXBxb5hB/kI9zzxlSG6R89Lfa
-X-Gm-Gg: AYBFou2U30/5lpBnjGXmfI1sPGEoOtzOzHuteqbJUE16SF0pv8h9lMWiKx3eZuCal6N
-	NYBhl73byGnua8cJfMhYW4hbYdNf8HOUuDfwRoOfVozELH7mEvLknGCIqY8qQHj/tIon+2SfGu6
-	fatVIjfVNaLQjEWDA7UMnQ6tu9vkChvoAqHkSwdTW4Mz9APv+CEY7B36mVG890m0eSr0ts1v4m8
-	8vxgMYfoaVRuCgoFmN7tZAjq4aVtQNrHjDPjjHZbI8LmjPnfFWAAf1Q6OkNESrEuLyRem1mpePS
-	9us/3g66Gi3kV3IJMU2JZ3bYXYYFY+IOpzQurvkLWSad1bYN+iF0oMrmgnNZszoaLphXG450vJR
-	poAogpq8MyVtTk8BMBuYFBw==
-X-Received: by 2002:ad4:5ce3:0:b0:910:7076:b681 with SMTP id
- 6a1803df08f44-9107076bb36mr33516746d6.2.1788967971471; Wed, 09 Sep 2026
- 08:32:51 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 08:32:50 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 08:32:50 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <apcY5b2o5k04XffH@google.com>
-References: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
- <20260830-gmem-inplace-conversion-v12-23-85e5fd25252a@google.com>
- <CA+EHjTzALzghuG5J-LFuG5pXJ4WgEfrMHgwkMHnq1U-D6yS7Pg@mail.gmail.com> <apcY5b2o5k04XffH@google.com>
+        d=1e100.net; s=20251104; t=1788968045; x=1789572845;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/FowYqhA2IUhImtOTNUOvZbuU0tnu+Lv5LcROnzCHgI=;
+        b=gWc3ukoXF5lRaJIeWRHTB1H14iPVFF0LenATKjgB451h2mFhDkXGdfdQ8F2Sw4CUYr
+         5Bik/Ojdawl1VYKKyP4Uv2SxDU8fTwX0KK3S0Zba/DBjsswZ0dYJL+n8P+hF9HN4gGnz
+         uWHM/OABrLMG4MwZoZkX/MwO+jqfCtfDSIf2b9La9RhAKHYTsxY0WbhZN+wCsWPJjxCh
+         3lXPeDeewnC9h/EainuCKGlfAKVaddTTJRQuPtFCkKljdCfUdJNvLzWuOIY0+UoNxV67
+         P9+Lg0yESgUreLHlpcNkfeLugw6p9Yfj+Hq+R1k7pZn+zlQjRX0XCqWLhebNFY6mCAGz
+         l76w==
+X-Forwarded-Encrypted: i=1; AKwUvBxfocf4WAUDoCp19l6YBpGusc/y1MGcdnbYqUqJxnNqWbOL/wOplOT7FrYwZRGjd9dJxusKlsKoenk=@vger.kernel.org
+X-Gm-Message-State: AFuF++l9bM0cdhvi+ZwTsTRVThlZSs8FiTqp0zN8j4QzeZ5+EckuTupi
+	Xi/3UNwdOmhgs4v2mRTdyRjtKiWzEMRPvaqJaZ1qpU1QEXm0qo53Ep3V8Adaj8r6CRzGZ8nCVlh
+	MUYEPlmzjNg==
+X-Gm-Gg: AYBFou2LxJRQeMALLY8lE77dt7mh2wA73tonPre2I+noRyFvZrOHBNIETjfUl1wPnij
+	5/NWSLox8FGb/+YXgCUsIjKwfxXA5shiXZFqHG0XGqdu1vcRE7gHa9pvzMEz2qMcDt+9FIaZuVW
+	qSVyIZUUtJsShjPWgmKyOOcyAdP2skHReGwxRhWW1PYZEEUNwrB9tWFOHDE6cusP9RxfeJyIy3N
+	H6GF7raz0gAjiGYk3gxtHaKjfQk71H41HFJJILMICA67yfqep4fn6Obd6omldzvAx6cscruTVoe
+	RoKcDke6jYFW66wWaI/ax/MwHrScF5bPh6ImgMT6waT9hSvpPToxYDSVfUQLluHPgWPWKBZ+smD
+	bXmFQlVSKiANBul3daTcs3DaUUI/jvf7BwOfIJEBRsUWBHh6LsrY63N/rxUKzlPX49D8yD/iUqX
+	JEbl3QyjQWSiwqLOWstkuAm9CHl1dD6JAYlTiDT+NmvbqwYulsJKCeXH/+r3SqA1Gy1C0zUXe2K
+	YzzQJn+4ltU7VkBaUtgRB8YpLReP676eACzxlLqj5GaorxCnkE/G4ZEfx8=
+X-Received: by 2002:a17:907:94c7:b0:c25:8fb2:5e24 with SMTP id a640c23a62f3a-c260c99681emr1391101766b.15.1788968044430;
+        Wed, 09 Sep 2026 08:34:04 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com. [209.85.128.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d5cdf7asm819559266b.58.2026.09.09.08.34.04
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Sep 2026 08:34:04 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49d0b98d6d0so39789745e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 08:34:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByF+uuPo+fh+NOoCLticx4AW/xZY0dsGZ08ERG7vxI8skNd8rHSMTY2dKfgZxvdVQYUHPBPbR1zbzU=@vger.kernel.org
+X-Received: by 2002:a17:907:da4:b0:c26:1649:47af with SMTP id
+ a640c23a62f3a-c26164955fcmr1368813666b.37.1788967618809; Wed, 09 Sep 2026
+ 08:26:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 9 Sep 2026 08:32:50 -0700
-X-Gm-Features: AcwNN1UUq4SnqnO43s4JocxnzO6yIsHxwMjPp5Qjf0-uaaWqzT0IH1RML9MbcC4
-Message-ID: <CAEvNRgHm6AbbUUayS=Smck_41CrQ7yXYCN5soFOYZ6N-YqtXNQ@mail.gmail.com>
-Subject: Re: [PATCH v12 23/45] KVM: Let userspace disable per-VM mem
- attributes, enable per-gmem attributes
-To: Sean Christopherson <seanjc@google.com>, Fuad Tabba <fuad.tabba@linux.dev>
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org> <20260908-build-speedup-v1-11-5dc1ac01672d@kernel.org>
+In-Reply-To: <20260908-build-speedup-v1-11-5dc1ac01672d@kernel.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 9 Sep 2026 08:26:42 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiA_UJbKiu8fOezKV=MfEcaFuzZiuk8Fto-Bc1KrA=43Q@mail.gmail.com>
+X-Gm-Features: AcwNN1UWYYtk4z7iDc5cI-l9BNT1_XTZBZ1EzZVT-QGEk4RrzSdK76DVFXE4iKE
+Message-ID: <CAHk-=wiA_UJbKiu8fOezKV=MfEcaFuzZiuk8Fto-Bc1KrA=43Q@mail.gmail.com>
+Subject: Re: [PATCH 11/23] kbuild: implement and use depcheck to check
+ dependency timestamps
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
 	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Randy Dunlap <rdunlap@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev, 
-	Xiaoyao Li <xiaoyao.li@intel.com>
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jens Axboe <axboe@kernel.dk>
 Content-Type: text/plain; charset="UTF-8"
 
-Sean Christopherson <seanjc@google.com> writes:
-
-> On Tue, Sep 01, 2026, Fuad Tabba wrote:
->> Hi Sean, Ackerley,
->>
->> On Mon, 31 Aug 2026 at 01:25, Ackerley Tng via B4 Relay
->> <devnull+ackerleytng.google.com@kernel.org> wrote:
->> ...
->> > +       kvm.gmem_in_place_conversion=
->> > +                       [KVM] Controls whether KVM enables in-place conversion
->> > +                       support for guest_memfd and tracks the private/shared
->> > +                       state of memory per guest_memfd instead of per VM.
->> > +
->> > +                       If enabled, KVM enables the KVM_SET_MEMORY_ATTRIBUTES2
->> > +                       ioctl on guest_memfd file descriptors and disables the
->> > +                       legacy VM-scoped KVM_SET_MEMORY_ATTRIBUTES ioctl for
->> > +                       private memory state tracking. Only the
->> > +                       KVM_MEMORY_ATTRIBUTE_PRIVATE attribute moves to
->> > +                       per-guest_memfd tracking; other attributes remain
->> > +                       per-VM.
->> > +
->> > +                       This parameter toggles KVM's in-place conversion
->> > +                       capability support. Whether a VMM uses separate backends
->> > +                       or out-of-place memory management is determined by
->> > +                       userspace VMM design.
->> > +
->> > +                       Note, this parameter is only available when
->> > +                       CONFIG_KVM_VM_MEMORY_ATTRIBUTES=y. When
->> > +                       CONFIG_KVM_VM_MEMORY_ATTRIBUTES is not set, in-place
->> > +                       conversion is unconditionally enabled.
->> > +
->> > +                       Default is Y (on).
->>
->> The parameter is only settable when CONFIG_KVM_VM_MEMORY_ATTRIBUTES=y, and
->> in that config gmem_in_place_conversion initialises to
->> !IS_ENABLED(CONFIG_KVM_VM_MEMORY_ATTRIBUTES), i.e. N, not Y. Is the doc line
->> wrong, or is N-by-default not what was intended here?
+On Tue, 8 Sept 2026 at 13:57, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
 >
-> The doc is wrong.  The intent is to maintain backwards compatibility with existing
-> deployments if KVM_VM_MEMORY_ATTRIBUTES=y.
+> Each object's .cmd file lists its header dependencies, which often
+> consists of over a thousand dependencies.
 >
+> When little has changed in the tree, this is what make spends most of its
+> time doing, spending over a second, single-threaded when parsing larger
+> directory trees.
 
-Thanks Fuad! I got confused, gmem_in_place_conversion the variable
-defaults to true (because CONFIG_KVM_VM_MEMORY_ATTRIBUTES is by default
-not set), but if the parameter exists, CONFIG_KVM_VM_MEMORY_ATTRIBUTES
-must be set and so the parameter defaults to N.
+Side note: from some kernel build profiles I did long ago, I have this
+memory of it being made much worse by the fact that we use
 
-Will fix in the next revision.
+    "$(wildcard xyzzy)"
 
->> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
->> > index 05c518c9b8078..929fd3e1a01e6 100644
->> > --- a/virt/kvm/kvm_main.c
->> > +++ b/virt/kvm/kvm_main.c
->> > @@ -103,7 +103,10 @@ static bool __ro_after_init allow_unsafe_mappings;
->> >  module_param(allow_unsafe_mappings, bool, 0444);
->> >
->> >  #ifdef kvm_arch_has_private_mem
->> > -bool __ro_after_init gmem_in_place_conversion = false;
->> > +bool __ro_after_init gmem_in_place_conversion = !IS_ENABLED(CONFIG_KVM_VM_MEMORY_ATTRIBUTES);
->> > +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
->> > +module_param(gmem_in_place_conversion, bool, 0444);
->> > +#endif
->> >  EXPORT_SYMBOL_FOR_KVM_INTERNAL(gmem_in_place_conversion);
->> >  #endif
+for all our config header files in those .cmd.o files. That then
+causes extra work for 'make' for all of this.
+
+And we do that 'wildcard' thing not because we want to actually match
+a pattern, but because that was the only way to have 'make' not
+complain about missing config headers.
+
+I'm not even sure the original reason for it is relevant any more -
+this is all a very dim memory from years and years ago when I actually
+tried to look at profiles of 'make' itself (normally when I do kernel
+build profiles I only look at the what the kernel part of the build
+is, not user mode).
+
+I just tried removing the 'wildcard' generation from
+scripts/basic/fixdep.c and the kernel build didn't care about it at
+all. The whole 'wildcard' trick goes all the way back to the original
+commit that added that whole 'fixdep.c' phase.
+
+Maybe the whole thing is entirely stale now and should be removed. I
+probably just didn't trigger the situation where those extra
+'wildcard' things matter. That whole thing is from a quarter century
+ago, and nobody has dared look at that code since..
+
+Or maybe 'make' is better at those wildcards these days - or other
+things have shifted.
+
+From those dim memories, make spent a lot of time doing filesystem
+lookups (directory reading  and 'stat()' calls - the wildcard thing
+triggered more getdents calls), but even more time just in string
+handling.
+
+               Linus
