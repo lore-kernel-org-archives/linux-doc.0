@@ -1,232 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f228.google.com (mail-vk1-f228.google.com [209.85.221.228])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E250A45D5E3;
-	Wed,  9 Sep 2026 21:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7935F43DA3A
+	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 21:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.228
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788990579; cv=none; b=GeclajELSop/Mk1dWl2Y1wDhQwE829JaVrUXzI/FXj7Uc01tjsDkatpgy2e0yNAuxKDwEOp3ET/6B8ojUotqTGEj0Wq1qgSsb4zDYuIxeVk1GvTf41iP6lTSULteuXarMW9Pojku5zIkn3eCfFPP7gW/Qz9myUkDVU42NgiBaVw=
+	t=1788991161; cv=none; b=Lv4sh2Sgz7ow2fci+0P+be+lt+ac1iEBL2EpKi8T6txqfDUKw3X0FalSrFOPVmRcbOdu5H14hT3xL8M7QBE9J3hLXz1KARAhLtqX4Eb+pWUxTdqz6oRlr9ScR049Yk3jdExm2/VI3vfE2Jy98tm68f8r3RQ/8uIlvwpowlM1sh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788990579; c=relaxed/simple;
-	bh=9MpyGWIxUngkFXBOPjetH4RYkQ+9UxFhMjL5z4190vg=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=VYcw0u2ao4ayU5+BtX0LKqhfoTKikIUDPJKXgGxkXeEpX/7xR2GV3M7s0WzKG3Sl8ZySTDa98255k7Vmj2DHfPvSbYwaOdK/Wu92GW7fEDNLYfFu1OwR8tOCsxmHcFypM5aG0swBaYYrGDMDgggWXTRlAbIW1K8WhzbszIv8bJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gkQC/KRr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1788991161; c=relaxed/simple;
+	bh=E5EP89C8aSuUnaX74+VXVio9HwFAaQwDLtCultG/TA4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ODeJrrjLWvB9VUVN9VkTpZ3IpmDkyRrWzFPQRFGbFizCoTnEAT0Pj6Q+nGQBJlxofCRcdEOBz45tDzoUTKMfB1pRI+AcdwkLrX7n625WOwAucl2owJZ1Tcnt9fIkrIwvAWLZZsT6UL4wyVSA3sWkUMxM4cX5gcWZuMrQbTGRSt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=VS7ntVe9; arc=none smtp.client-ip=209.85.221.228
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gkQC/KRr"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BD5E2C2BCB9;
-	Wed,  9 Sep 2026 21:49:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788990577;
-	bh=9MpyGWIxUngkFXBOPjetH4RYkQ+9UxFhMjL5z4190vg=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=gkQC/KRr5M9eb3CXKh1pFzjIhQjYdVLCRNaTJVXdryUuiOKHR9xdZXMJkiJciScXV
-	 4pidhzLqEpzMP5s9Xw6POiMWEtRz1BdEJ+hli2DtlObfuswoHDxbyEgvGKdwBLbUIW
-	 7lw7eMsgq98eJw4nlq/93kgXY1O8B5+AXJ5/L5COfbLiREHh/xvwH2gFIZLEscM/Ni
-	 9vUvuhPla/yKnihOGXUhGrnQzF5BXchL09D9JPe6PJxKSDfH0s0vwxCpHwnef8L/GS
-	 kt4h15qVx6ywIRTNpDgEnXeWryIylI2yDraLIvS17EQFoBOFcuU3Q1t7fSKkUOTh9V
-	 c56pSDyGXBB3w==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93B1CC79FB6;
-	Wed,  9 Sep 2026 21:49:37 +0000 (UTC)
-From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Subject: [PATCH v2 0/4] Fix HugeTLB subpool used_hpages tracking
-Date: Wed, 09 Sep 2026 14:49:25 -0700
-Message-Id: <20260909-hugetlb-subpool-always-track-used-v2-0-30c5d83b572a@google.com>
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="VS7ntVe9"
+Received: by mail-vk1-f228.google.com with SMTP id 71dfb90a1353d-5c7d4c663e9so4841436e0c.3
+        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 14:59:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788991152; x=1789595952;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=qHHcpy5QeLt7Tn0UZNn69+aN/4XUzCy9zf9R/ItNdpQ=;
+        b=fCrkZvCzxfqLgDjlotwUxwB6me0ros4J8vnTH6/sq1MEwroUSzHGQM+3BgrITr/tAa
+         YQGnsM5DsOnGaESjBxTmpeYbWpHX63ORGN7WBPZo3ukGhVDL1ZXRLBmW75KQHgQarjpK
+         0OwDiC2tTy1mUxXaCOJYqTx+VIxkpnPxVhV5O1Jkqg8ar9Q/O5b7u11iiglGNdQqIjCd
+         lm1LFucWgyQT9IMTe53mxCqgyIDtG6s9ikZ5ipTDrDpnfA3O6V7i6nU7x3BckM0ZixV1
+         mK0EwOI8lUwyDP48haf4u2viDRuJnkVYKBQO7Lv+lXSCimtOnu5RHoUxygOLWx9dtFML
+         Gr3w==
+X-Forwarded-Encrypted: i=1; AKwUvBxXOmX5fpAeQ7INhZ3W/iYzxsPFITgGu16AkGvw3Gb8o2jCP+/edpv8ob6Y950kp+H6jVGyH++jk6c=@vger.kernel.org
+X-Gm-Message-State: AFuF++mycqjMHPfVk01pxEt+fRypwU9nEkiLLhqK0l+WCO9ofv4zfPx5
+	CcDSnUEyZ5NwJsgp2c/J6VdEzQUNb/jFow8kANREgNyVfOHu6R9/n3QMM8iEVV420dSXs4N84C4
+	jzH/coRfnVmhPn3C8VmvChU6To3+gvFIdIoxqPf52Dr8yuusO5HzzKQKnOMEYlAglcUTg5O9dw1
+	BEAQStJKzsakMgf/8r9H/i8e77jocaAQr0o7SvYpqEL31Slute2w9DLR09LwlaVn2Y8NR6MI1Ui
+	NrJx1cn1fuBk+7MAhos
+X-Gm-Gg: AYBFou1KeHWIVRBt4jcd3AzzYpWPU7h79oOhwRUWfQATWCe8TkCtd+7f/2YPNzs3Ouy
+	WFn3bk4gAFwVCeQqetjQ62cAuhCIOaZ588ZAYjpi8eEEkvX4sJbrxjXzU1f++I1ei7OUyzM3JL5
+	bx5U2yWx4QcmUejLZ8JLFPVYaaRfmdGw7HO20/AuCYwqFo7TjQZzCUDe4i5xRg/F1glTwighRWq
+	ssiFyIweLM4GhC8MrC/CnuFjCtOhH/5DwbOI4bLpcgZtgBdb/ut48JRTvdg12VF/ovW4T1M4Nlc
+	pQ6c1fHSDyjTfR1DRkUtMelDGOB6fpUgP+62IRVP2rwHq+ZLdyCT9k8kBXBwHibtUISnPDQrhhG
+	N/U2CHzqtcDgP804y1/ag3jirmIwGHd44CtFkPh70mbq1SBc90cst5dd2WbWonyp/3MqJiSwd0J
+	48cq+UPFSgZ0ySk4+jLuv1D8Jq2ZD4jXlqMh+zhVUYM9E=
+X-Received: by 2002:a05:6122:21a4:b0:5c8:3a2f:a497 with SMTP id 71dfb90a1353d-5c83a2fa886mr243186e0c.0.1788991151940;
+        Wed, 09 Sep 2026 14:59:11 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-125.dlp.protect.broadcom.com. [144.49.247.125])
+        by smtp-relay.gmail.com with ESMTPS id 71dfb90a1353d-5c7ec386e92sm8105452e0c.8.2026.09.09.14.59.11
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 09 Sep 2026 14:59:11 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-53094ff7090so57212621cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 14:59:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1788991151; x=1789595951; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qHHcpy5QeLt7Tn0UZNn69+aN/4XUzCy9zf9R/ItNdpQ=;
+        b=VS7ntVe9t2WlsDo/8zeKKHeHNvCb1mubn4GEfOcs37RJc713BEuLDsd6VVqaz4UF/a
+         Qn9zZFQKauAMxlU0vu0O8S54rx4FIrusRbOkJUTDzWThoKPxnrHO6vDFhpQ4IOk0cdoO
+         eWB22xREOrrj2jlN8AnH4yz2+kMImRSo14alk=
+X-Forwarded-Encrypted: i=1; AKwUvBxonP9SyhrRWHXPeKHtJHd2rMO/kIxgz7Zo3n5canN0hGugkiJ0Uqk5ZoseEfTIEd6BkoVi3zMXF20=@vger.kernel.org
+X-Received: by 2002:a05:622a:2592:b0:530:3554:6482 with SMTP id d75a77b69052e-530548511c0mr498367661cf.18.1788991151304;
+        Wed, 09 Sep 2026 14:59:11 -0700 (PDT)
+X-Received: by 2002:a05:622a:2592:b0:530:3554:6482 with SMTP id d75a77b69052e-530548511c0mr498367041cf.18.1788991150882;
+        Wed, 09 Sep 2026 14:59:10 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-53054180b0asm150783051cf.19.2026.09.09.14.59.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Sep 2026 14:59:10 -0700 (PDT)
+Message-ID: <a4167b18-f1ea-48bb-9287-210bdd4f35eb@broadcom.com>
+Date: Wed, 9 Sep 2026 14:58:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/23] kbuild: significantly speed up kernel builds
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Ard Biesheuvel <ardb@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
+ <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
+References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
+Content-Language: en-US, fr-FR
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGXUoWoC/5WNQQ6DIBAAv2I4dxugxNqe/EfjAWFFUiqGVVtj/
- HupP+hx5jCzMcLkkdi92FjCxZOPQwZ5Kpjp9eAQvM3MJJclv3EJ/exwCi3Q3I4xBtDhrVeCKWn
- zhJnQgiylqhTvlOEVy50xYec/x+PRZO49TTGtx3IRP/tPfRHAwaIwVqjWXsWldjG6gGcTX6zZ9
- /0LvU/MwtMAAAA=
-X-Change-ID: 20260902-hugetlb-subpool-always-track-used-2624840f4c08
-To: Alex Shi <alexs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>, 
- Hongxiang Lou <louhongxiang@huawei.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, 
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
- Nhat Pham <nphamcs@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
- Peter Xu <peterx@redhat.com>, Randy Dunlap <rdunlap@infradead.org>, 
- Roman Gushchin <roman.gushchin@linux.dev>, 
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
- Vlastimil Babka <vbabka@kernel.org>, Wupeng Ma <mawupeng1@huawei.com>, 
- Yanteng Si <si.yanteng@linux.dev>, fvdl@google.com, jthoughton@google.com, 
- rientjes@google.com, vannapurve@google.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, Ackerley Tng <ackerleytng@google.com>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788990577; l=7030;
- i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=9MpyGWIxUngkFXBOPjetH4RYkQ+9UxFhMjL5z4190vg=;
- b=2mY/vjTdLF0f8ExceLHlruHjV16Yg/8F5fthq5IUc4Zvg5MAXGlEEuXzOsxThqB6Wlzirq3kp
- 9jAopCxFgbHAJHrDM1GJIrc3eGI6MgrcEFEb/fC07JsEJffr4f/7+O/
-X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
- pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
-X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
- auth_id=649
-X-Original-From: Ackerley Tng <ackerleytng@google.com>
-Reply-To: ackerleytng@google.com
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-HugeTLB subpools currently only track used_hpages when the user configures
-a size limit.
+On 9/8/26 13:55, Lorenzo Stoakes (ARM) wrote:
+> A typical kernel build consists of a frustratingly large amount of time
+> spent stuck in single-threaded bottlenecks.
+> 
+> It turns out that there's a lot we can do about this and doing so
+> significantly impacts kernel build times.
+> 
+> This series makes allmodconfig builds up to 36% faster, incremental builds
+> up to ~70% faster, and noop builds up to ~90% faster.
+> 
+> Builds are faster across the board on every device I tested.
+> 
+> Machines used for perf testing:
+> 
+> * Threadripper -   x86, AMD Threadripper 9980X, 64 cores, 128 threads
+> * EPYC         -   x86, 2 socket EPYC 9754, 256 cores, 512 threads
+> * M2           - arm64, 2022 M2 macbook pro, 8 cores, 8 threads
+>                          (4 perf, 4 efficiency)
 
-This is buggy since when there are existing allocations from the subpool
-that would have satisfied the minimum reservations,
-hugepage_subpool_put_pages() will still restore a reservation to the
-subpool. See below for an example of a false reservation.
-
-In addition, the subpool is considered free prematurely, is freed, and this
-ends up causing a use-after-free.
-
-The fix is to always track used_hpages within subpools, which is also
-beneficial in general because with that information, reservation tracking
-is also fully managed within hugepage_subpool_put_pages().
-
-The invariant is that now (if min_hpages is requested),
-
-  used_hpages + rsv_hpages >= min_hpages
-
-This allows hugepage_subpool_put_pages() to always be able to report how
-many reservations it can absorb and hence return an accurate number of
-reservations to be returned to the global pool.
-
-Hugepage reservations and restorations can always happen in parallel, so
-relying on local variables to compute whether to restore to the global pool
-(on allocation failure) is not safe.
-
-There is complexity and some bugs in hugetlb_reserve_pages() and
-alloc_hugetlb_folio() failure handling paths.
-
-+ In hugetlb_reserve_pages(): On hugetlb_acct_memory() failure,
-  out_put_pages manually calculates how many pages to return using local
-  variables, which is race-prone and can leak reservations or underflow
-  global counters.
-+ In alloc_hugetlb_folio(): When allocation fails and gbl_chg == 1,
-  out_subpool_put skips hugepage_subpool_put_pages(), permanently leaking
-  used_hpages.
-
-By tracking used_hpages in the subpool, these allocation/reservation paths
-can handle failures by consistently returning pages to the subpool, and
-relying on the return value to restore reservations to the global pool.
-
-This series changes subpools to always track used_hpages, which itself
-fixes the false reservation bug, and then uses used_hpages tracking in
-subpools to fix other bugs.
-
-This series is a subset of patches from [1] and replaces [1].
-
-[1] https://lore.kernel.org/all/20260722-hugetlb-alloc-failure-fixes-v4-0-88e8b81970dc@google.com/
-
-Tested:
-
-+ Reproducers (see below) pass
-+ tools/testing/selftests/mm/ksft_hugetlb.sh passes
-+ libhugetlbfs tests pass
-
-Changes in v2:
-
-+ Add patch 4 to avoid a possible page allocation in the cleanup path of
-  hugetlb_reserve_pages(), addresses Sashiko's comment on v1.
-
-v1: https://lore.kernel.org/r/20260902-hugetlb-subpool-always-track-used-v1-0-de1cd14bd713@google.com
-
-I have reproducers, get them from
-
-https://github.com/googleprodkernel/linux-cc/commits/hugetlb-subpool-always-track-used-with-reproducers-v2
-
-Here's an example of a false restoration:
-
-1. Mount time
-    + spool->min_hpages = 1 (user requested min_size=2M)
-    + spool->max_hpages = -1 (no maximum size specified)
-    + spool->rsv_hpages = 1 (reserve min_hpages)
-    + spool->used_hpages = 0 (not tracked when max_hpages == -1)
-    + h->resv_huge_pages = 1 (reserved by hugetlb_acct_memory(h, 1))
-2. Shared mapping of 4MB (2 pages) created (mmap with MAP_SHARED)
-    + In hugetlb_reserve_pages(), region_chg() finds chg = 2 (pages 0 and 1
-      need reservations)
-    + hugepage_subpool_get_pages(spool, 2)
-        + spool->rsv_hpages = 0 (consumed the 1 subpool reservation)
-        + Return 1, since this subpool only had 1 reservation
-    + hugetlb_acct_memory(h, 1)
-        + h->resv_huge_pages = 2 (incremented from 1 to 2 for the global
-          reservation)
-        + region_add() records reservations for pages 0 and 1 in the inode
-          resv_map
-3. Process touches and populates Page 0:
-    + hugetlb_no_page() calls alloc_hugetlb_folio()
-    + Page 0 reuses the existing reservation (vma_needs_reservation()
-      returns 0 => map_chg = MAP_CHG_REUSE = 0)
-    + hugepage_subpool_get_pages() is not called (map_chg == 0)
-    + dequeue_hugetlb_folio_nodemask() consumes 1 reservation:
-      h->resv_huge_pages--;
-    + h->resv_huge_pages = 1 (decremented from 2 to 1)
-4. Process closes the file and exits:
-    + For MAP_SHARED mappings, reservations persist in the inode resv_map
-    + Page 1 reservation remains active
-    + h->resv_huge_pages = 1 (retained for Page 1)
-5. File is truncated to 2MB (truncate -s 2M):
-    + Truncation invokes remove_inode_hugepages() for page range [1,
-      LONG_MAX)
-    + Page 1 was never faulted into page cache => freed = 0
-    + Calls hugetlb_unreserve_pages(inode, 1, LONG_MAX, freed = 0)
-    + region_del() removes Page 1 from resv_map => chg = 1
-6. Inside hugetlb_unreserve_pages(): hugepage_subpool_put_pages(1)
-    + delta = chg - freed = 1 - 0 = 1
-    + Because spool->max_hpages == -1, spool->used_hpages always = 0
-    + spool->used_hpages < spool->min_hpages => 0 < 1 => true
-        <<== subpool assumes 0 pages are in use, ignoring allocated Page 0
-    + spool->rsv_hpages + delta <= spool->min_hpages => 0 + 1 <= 1 => true
-    + spool->rsv_hpages += 1 => spool->rsv_hpages = 1
-        <<== false reservation restored to subpool!
-    + Return 0 (subpool absorbed the reservation)
-7. Back in hugetlb_unreserve_pages(): hugetlb_acct_memory()
-    + hugetlb_acct_memory(h, -0) => does nothing
-    + h->resv_huge_pages = 1 (remains 1, not decremented)
-    + Both reservations have ended (Page 0 allocated, Page 1 truncated),
-      but h->resv_huge_pages remains stuck at 1
-8. Later during unmounting:
-    + subpool_is_free() checks spool->rsv_hpages == spool->min_hpages => 1
-      == 1 => true
-    + Because spool->rsv_hpages was falsely restored to 1, the subpool is
-      erroneously considered completely free
-    + hugetlb_acct_memory(spool->hstate, -spool->min_hpages) decrements
-      h->resv_huge_pages by 1 (1 - 1 = 0), masking the leak on unmount
-9. If the folio outlives the inode, when the folio is freed (Page 0),
-   free_huge_folio() will read subpool from the folio and act on it =>
-   use-after-free and then double free
-
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
----
-Ackerley Tng (4):
-      mm: hugetlb: Track used_hpages when getting/putting pages from subpool
-      mm: hugetlb: Fix out_put_pages subpool reserve calculation
-      mm: hugetlb: Fix subpool usage leak on allocation failure
-      mm: hugetlb: Avoid re-allocating global reservations on region add failure
-
- Documentation/mm/hugetlbfs_reserv.rst              |  17 +--
- .../translations/zh_CN/mm/hugetlbfs_reserv.rst     |  11 +-
- fs/hugetlbfs/inode.c                               |   8 +-
- include/linux/hugetlb.h                            |   4 +-
- mm/hugetlb.c                                       | 147 +++++++++++----------
- 5 files changed, 90 insertions(+), 97 deletions(-)
----
-base-commit: df2908090cda368b01ff43709f51890076c56157
-change-id: 20260902-hugetlb-subpool-always-track-used-2624840f4c08
-
-Best regards,
---
-Ackerley Tng <ackerleytng@google.com>
-
+My AMD EPYC 9454P server shows an improvement in the order of 13% using 
+the arm64's defconfig and make -j97. Thanks for doing this!
+-- 
+Florian
 
