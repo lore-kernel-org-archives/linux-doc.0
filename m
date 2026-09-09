@@ -1,60 +1,56 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5FC569F04;
-	Wed,  9 Sep 2026 16:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F89F30DD30;
+	Wed,  9 Sep 2026 16:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788971435; cv=none; b=LCj1cz5pEydsngfoVNIH2iAbTHMy4GcLGUAG3Pdwsg6MamIJW671n/mobnZXFH5sK4ex9ZVel1tRRawLkjy2fT4DA574yvXbi564cPcMDifL+zwhD6x7sIppRttbHblmNQXq8+XjWnngEfWKhL4OM4gKl5jeJycQ5uBMPr0/qOk=
+	t=1788971688; cv=none; b=q69UVAmpLAkKbDU5Enu0stSE5xUeWUcggbTwDv9DeW49NrsFfEPsX08DNnpAoSQxolVhtcp3+/SVf6efEVbXpSWAcfG5ztC9iKB/hgPLfHBwzzSm0SB1q7p+HuAOJvk6PBwBmXMA2HplyGctHXx7tCVLIKae4ZPd9hHQs0y3Iek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788971435; c=relaxed/simple;
-	bh=wWzKtrFidTzm1N7slbL3klzIb0Qo2W2SWXnk1Ha8gms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sPRggIgSGkWPOos/H5UBqeByDwT2NbXy8bfqZ1pTRA36y5Tus4ZP9y4BWmOkesmxYIvgLBbHzui0u2RU8osJBIn0tZj/sbjWQqkgkg8B4FIe918ZUagq2MJhqx2Bm+JHGgG6+Pdng5Hipi3K5eCEJkD077D1Xr0k8C/Cf0A3fUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dcYf5Ku6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788971688; c=relaxed/simple;
+	bh=qOUYammRv9EjNcGeEMpov2EJisgMbi2/GIrImMJBmbw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition; b=ST9iHOBJixnEWuyxuJTGc8w21jsGQ7kUJpkWGHCVSasW8eEIkMIdylPDBRIg/l1YbAckFdADH6zOL81LS5sR62tDWUEP/rv7w+SVyCsOGguyD78amr9GQsFvdSj9Lx1x6kDpsE6uwesQdL9R71/TeDtsxKi9DXgt77ZZ1OOdn3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ahXBd+Ct; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dcYf5Ku6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AFE61F000FF;
-	Wed,  9 Sep 2026 16:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788971434;
-	bh=Kz7rWeqwh7ufJDv87BxiJfD/gwwv4aMAp/7XS3gBPEo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dcYf5Ku63ij8aECQoJafs4Ipg1pK9oXj9HMZSoM3ml9RYUs9bgWbI892r15HKD+aq
-	 TO6FjMT8mTQhfp+iMomWORtQlAM3jIsyaPwYZSaHoJn7R/JGCghwy4f2f0niwav6ni
-	 eBJdRLPFcGRmhIBelQgMN8TiQon3ZGk+0ZjUxsPj6ZoUq1f644nJlygEq9jKwgJozp
-	 ivMzm6l0Cf1qm0bdrELXOXxe7OHf/vwZsgJpnbZUDSpqIhRXP81TW35ZC+juNo5mm5
-	 w8CyZDKbmN2fe9Tm4ZiwdQMSYdgzFqNx03fbVBS+oujn39g8U1gp6xIrrIUpTbPfjZ
-	 fo6l8mjP/fXXQ==
-Date: Wed, 9 Sep 2026 17:30:19 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH 00/23] kbuild: significantly speed up kernel builds
-Message-ID: <aqGG1iSwF7SyY7d6@gremlin>
-References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
- <CAHk-=wieaheq8rXSps3xRZpNNMQMEj9BH5gU+Dh4q_ZgokO51Q@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ahXBd+Ct"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D3A7B1576;
+	Wed,  9 Sep 2026 09:34:40 -0700 (PDT)
+Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 61F703F7B4;
+	Wed,  9 Sep 2026 09:34:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1788971684; bh=qOUYammRv9EjNcGeEMpov2EJisgMbi2/GIrImMJBmbw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ahXBd+CtAdAUGE7tnGjU8sKS/DnIy1sMSRbI6q74yb7gyVXsUmmuvleGtp1MyOK+1
+	 DuxLt0Lk64FBGI7W7XSLwUbieHuQwu9R4LIhwMIFXQlSm2raAcnEFp8YnlAy8Y4+2F
+	 Tnic1LYUYx9gA+9HouvrqZFLvKcYOc90ra5LMEyo=
+From: Leonardo Bras <leo.bras@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Fuad Tabba <fuad.tabba@linux.dev>,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Wei-Lin Chang <weilin.chang@arm.com>,
+	Yao Yuan <yaoyuan@linux.alibaba.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v20 09/14] KVM: arm64: Allow GCS to be enabled for guests
+Date: Wed,  9 Sep 2026 17:34:37 +0100
+Message-ID: <aqGKnQZOe6leuXgG@LeoBrasDK>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260901-arm64-gcs-v20-9-f31750bdfadb@kernel.org>
+References: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org> <20260901-arm64-gcs-v20-9-f31750bdfadb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,90 +59,84 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wieaheq8rXSps3xRZpNNMQMEj9BH5gU+Dh4q_ZgokO51Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 09, 2026 at 08:37:10AM -0700, Linus Torvalds wrote:
-> On Tue, 8 Sept 2026 at 13:55, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
-> >
-> > A typical kernel build consists of a frustratingly large amount of time
->
-> .. you're preaching to the choir.
+On Tue, Sep 01, 2026 at 10:47:07PM +0100, Mark Brown wrote:
+> Now that required functionality for GCS is in place expose
+> ID_AA64PFR1_EL1.GCS, allowing guests to be given the feature.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/kvm/nested.c   | 3 +--
+>  arch/arm64/kvm/sys_regs.c | 5 +++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm64/kvm/nested.c b/arch/arm64/kvm/nested.c
+> index 17123f0b6dab..a9dea85b6192 100644
+> --- a/arch/arm64/kvm/nested.c
+> +++ b/arch/arm64/kvm/nested.c
+> @@ -1702,11 +1702,10 @@ u64 limit_nv_id_reg(struct kvm *kvm, u32 reg, u64 val)
+>  		break;
+>  
+>  	case SYS_ID_AA64PFR1_EL1:
+> -		/* Only support BTI, SSBS, CSV2_frac */
+> +		/* Only support GCS, BTI, SSBS, CSV2_frac */
+>  		val &= ~(ID_AA64PFR1_EL1_PFAR		|
+>  			 ID_AA64PFR1_EL1_MTEX		|
+>  			 ID_AA64PFR1_EL1_THE		|
+> -			 ID_AA64PFR1_EL1_GCS		|
+>  			 ID_AA64PFR1_EL1_MTE_frac	|
+>  			 ID_AA64PFR1_EL1_NMI		|
+>  			 ID_AA64PFR1_EL1_SME		|
 
-:) Yeah, it's something that's annoyed me for a long time too.
+So, IIUC, this is used to filter features for guests that believe to have 
+an EL2, and now this allows GCS to be used by them.
 
->
-> >                 == allmodconfig FULL build ==
-> >
-> >                         before    after     delta
-> >                       ----------------------------------
-> > Threadripper, gcc       345.3s   275.2s    -70.1s (-20%)
->
-> Well, that's certainly very encouraging. We should do this. I sent out
-> some emails as just reactions to individual patches, but I have no
-> numbers to back any of those emails up, and I never actually applied
-> this series to my tree - they were all based on reading the patches
-> themselves.
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 1f80c26a9839..fb2c9fd42e24 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -2193,10 +2193,12 @@ static u64 sanitise_id_aa64pfr1_el1(const struct kvm_vcpu *vcpu, u64 val)
+>  	      SYS_FIELD_GET(ID_AA64PFR0_EL1, RAS, pfr0) == ID_AA64PFR0_EL1_RAS_IMP))
+>  		val &= ~ID_AA64PFR1_EL1_RAS_frac;
+>  
+> +	if (!system_supports_gcs())
+> +		val &= ~ID_AA64PFR1_EL1_GCS;
+> +
+>  	val &= ~ID_AA64PFR1_EL1_SME;
+>  	val &= ~ID_AA64PFR1_EL1_RNDR_trap;
+>  	val &= ~ID_AA64PFR1_EL1_NMI;
+> -	val &= ~ID_AA64PFR1_EL1_GCS;
+>  	val &= ~ID_AA64PFR1_EL1_THE;
+>  	val &= ~ID_AA64PFR1_EL1_MTEX;
+>  	val &= ~ID_AA64PFR1_EL1_PFAR;
 
-Thanks, will have a read through those!
+And here it says to only mask the feature bit if it's not available.
 
-I do recommend trying them locally ;)
+IIUC this sanitize function is called when resetting a vcpu, is that right?
 
-It makes a surprising difference to defconfig even. (Though you need pigz
-installed for the full effect)
 
->
-> That said:
->
-> > An LLM was used to first determine where the bottlenecks were then to
-> > figure out how to improve them.
-> >
-> > It generated a lot of code, much of it hideous.
->
-> This made me scared to look at the patches originally, and I held off
-> in fear that the patches would be horrible and this build time
-> improvement would be hugely controversial garbage code.
->
-> But:
->
-> > I extensively audited and rewrote a lot of it, and heavily edited commit
-> > messages, the cover letter and comments.
->
-> None of the patches look at all horrible to me. You clearly excised
-> the hideous parts. All of my reactions were of the type "this could
-> probably be taken _further_" rather than me throwing my hands up in
-> disgust.
+> @@ -3444,7 +3446,6 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  				     ~(ID_AA64PFR1_EL1_PFAR |
+>  				       ID_AA64PFR1_EL1_MTEX |
+>  				       ID_AA64PFR1_EL1_THE |
+> -				       ID_AA64PFR1_EL1_GCS |
+>  				       ID_AA64PFR1_EL1_MTE_frac |
+>  				       ID_AA64PFR1_EL1_NMI |
+>  				       ID_AA64PFR1_EL1_RNDR_trap |
+> 
 
-Thanks! :)
+This one looks like to be a mask that's used to compare with 
+arm64_ftr_regs[] on arm64_check_features(). That seems to be called on 
+set_id_aa64pfr1_el1() which is used when we get an ioclt to set a system 
+register.
 
-I made sure to audit everything it came up with patch-by-patch, got it to
-rework the horrors then rewrote large chunks of what it came up with.
+So, basically, does it use this mask to check if the set value is valid?
 
->
-> So the Rust parallelism thing clearly isn't ready based on feedback
-> from that quarter, but the rest looked safe and innocuous. I'm all for
+(So, 1 for nested, 1 for reset, and one for user trying to set a value?)
 
-Sure, happy to drop anything like that.
+If I did not miss anything, FWIW:
+Reviewed-by: Leonardo Bras <leo.bras@arm.com>
 
-Though based on what Miguel said it _might_ be ok perhaps with a nightly
-gate on it? Will see what he/Bjorn say.
-
-> merging this, although it should obviously go in through the right
-> channels. Mostly the kbuild tree, although some of it clearly would be
-> other cases - the objtool change in particular is fairly substantial
-> and needsobjtool people to approve. It didn't look all that
-> contentious, but still..
-
-Agreed, it definitely needs some eyes on it, especially the trickier bits.
-
->
-> Anyway, I'd love for this all to go in. Build times are a pet peeve of mine.
-
-Yeah, it'd be nice to see this benefit everyone!
-
-Am happy to iterate on it as needed to get it upstream.
-
->
->               Linus
-
---
-Cheers, Lorenzo
+Thanks!
+Leo
