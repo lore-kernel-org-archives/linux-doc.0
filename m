@@ -1,128 +1,113 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEA643DA7DF;
-	Wed,  9 Sep 2026 13:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2D2556BB3;
+	Wed,  9 Sep 2026 13:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788958817; cv=none; b=Pvempw6nVD25/ejVqMCk6gGBgPxp+YZoUBvPufuMPbpCb5FDP6hRs6Ymia5W8735yt+A/+w/R5To3xZ73ZBrt8OgzaWV/4sDsZsDsKSVZl5Xgb5xgib2ZeLH8/Hhhl+r7M//rleR6ru7hs+p5KEd7xHqhRyg3lFcpfwnCvngoyM=
+	t=1788960135; cv=none; b=hQdsQ9NwbkzJvU/9OTqF5hCqR9skeA0MqE6XF7EVn6W6l0+uIEFdbz1iUUrdTv10yXpGoN1IJTbmtdm5wE8KpBwPlgLdmn7gR3rNsdfwMzk64tdZBOYxPwfrKfNFbsproJkl5CBKj0ah8nBYMSBc90uiOH5+7vifsA+6W2VRqkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788958817; c=relaxed/simple;
-	bh=COoomdSG2FlqAOqhScp/Ic2bx4OeDuloT0b59UMRbdY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=K7edIsdE+ZvdqCn4lotMVsSje4uQk9jIAC2bOGHinmVTVWXUTu4fKBTUCpTjBpk7aah3s/HsOaddGQ3SjrARm8q6sxNA8RSbO5iiGQaYNRLZs+SCBZ5mRaV/gQCcVM67L0QA1IDazeV0pLZAbDSHXOLpmUyf+942jRCWJw4Jb+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=s58mQgbn; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1788960135; c=relaxed/simple;
+	bh=RekfKfcW3lBm83OBnxS1x6kHsii/XZI6qREEBvgR3yU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=eYTh0G7KLSALMPXvKOyQkKAo9K4Yqqp3SOs3i/+oR98h3+ZjalFz32IHNdl0Wg6hnJb6Zl3Pm4mAnBWzWedJvzRxFP5jFLw7VzBfi7EbmiLNuzoNsUfXhPg6XP1BaKnoBd7VFx8BRXpY/WROHvmflh3njDdABuEH2zHSUIoU4EE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cv2mbJT7; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="s58mQgbn"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52BEA1691;
-	Wed,  9 Sep 2026 06:00:11 -0700 (PDT)
-Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 545113F7B4;
-	Wed,  9 Sep 2026 06:00:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788958815; bh=COoomdSG2FlqAOqhScp/Ic2bx4OeDuloT0b59UMRbdY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=s58mQgbnP66N0tSsR0ISNWZsvL2/PwI5BHGINryKYJdKCuLFiMKLHOvStA5xDsP4h
-	 HqJj8VAURT88yoH+vmDsR5Yo4Ea99qNf7dbdm+V55Qia3YuxFhOXOL8gqZ/CPX+7VP
-	 LVy3xukrI30eMDBzoMp9lI45Uq4J0Wnq6ZUaoJPQ=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>,
-	Fuad Tabba <fuad.tabba@linux.dev>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Wei-Lin Chang <weilin.chang@arm.com>,
-	Yao Yuan <yaoyuan@linux.alibaba.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v20 07/14] KVM: arm64: Forward GCS exceptions to nested guests
-Date: Wed,  9 Sep 2026 14:00:06 +0100
-Message-ID: <aqFYVnIgvXGXzHk7@LeoBrasDK>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260901-arm64-gcs-v20-7-f31750bdfadb@kernel.org>
-References: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org> <20260901-arm64-gcs-v20-7-f31750bdfadb@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cv2mbJT7"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 734AB408EC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1788960132; bh=56CUGci1S6UaR9USh5UuDTlSGJUgi1rO3RZLLOOXpjI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=cv2mbJT7ixffkqVva2v2IFJmWH27Mfn6smqm+6swqXlzynkDTcKqXFIcr98EazY4N
+	 EmLc2iERFaenQ75Sr00VhzCc2q7UDMlWbho4LAsDfND/Pee6EcRbJlD4wX0VRfCWZH
+	 ENDd48ZDybSBUtNIKWENsL7B7+xWHfdlma6hwgHqPWbY7uQQ1h/HAQVBvsdP8EKQFn
+	 ih+ulrvUgrJReyy8er7t0XMqMBRUIKmBu/lTOkE58NdISmqqFw7qCqGS43ujAL0OiB
+	 y1IYWIbyo9t8vDo+2gMBOMzTOVWiYEAOsgTlXm0lsI10ii3FHZbcyyU6ZknQ7e/t6b
+	 afuA9jMQ8wpTQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 734AB408EC;
+	Wed,  9 Sep 2026 13:22:12 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Thomas Huth <thuth@redhat.com>, Eric Biggers <ebiggers@kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
+ <davem@davemloft.net>, "Jason A. Donenfeld" <Jason@zx2c4.com>, Ard
+ Biesheuvel <ardb@kernel.org>
+Cc: linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org, Thomas
+ Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav
+ Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, Shuah
+ Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 13/13] lib/crypto: Add documentation about
+ zeroization of key and context data
+In-Reply-To: <20260909115455.157093-14-thuth@redhat.com>
+References: <20260909115455.157093-1-thuth@redhat.com>
+ <20260909115455.157093-14-thuth@redhat.com>
+Date: Wed, 09 Sep 2026 07:22:11 -0600
+Message-ID: <87bja6muf0.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, Sep 01, 2026 at 10:47:05PM +0100, Mark Brown wrote:
-> For nested guests where HFGITR_EL2.nGCSSTR_EL1 is clear or when there are
-> L2 GCS data check exceptions we need to forward the exception to the guest.
-> Add handling to do so.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+Thomas Huth <thuth@redhat.com> writes:
+
+> Add a central document about zeroization in libcrypto so we don't
+> have to repeat this information in the individual kernel docs of
+> the zeroization functions all over the place.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  arch/arm64/kvm/handle_exit.c | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/arm64/kvm/handle_exit.c b/arch/arm64/kvm/handle_exit.c
-> index db37678dcb05..a8198e96fcb4 100644
-> --- a/arch/arm64/kvm/handle_exit.c
-> +++ b/arch/arm64/kvm/handle_exit.c
-> @@ -304,12 +304,24 @@ static int handle_svc(struct kvm_vcpu *vcpu)
->  	return 1;
->  }
->  
-> +/*
-> + * We might get GCS exceptions that need to be forwarded to the
-> + * hypervisor when a nested guest has HFGITR_EL2.nGCSSTR_EL1 clear, or
-> + * for a GCS data check exception for a L2 guest.
-> + */
->  static int kvm_handle_gcs(struct kvm_vcpu *vcpu)
->  {
-> -	/* We don't expect GCS, so treat it with contempt */
-> -	if (kvm_has_feat(vcpu->kvm, ID_AA64PFR1_EL1, GCS, IMP))
-> -		WARN_ON_ONCE(1);
-> +	if (!kvm_has_gcs(vcpu->kvm)) {
-> +		kvm_inject_undefined(vcpu);
-> +		return 1;
-> +	}
->  
-> +	if (vcpu_has_nv(vcpu)) {
-> +		kvm_inject_nested_sync(vcpu, kvm_vcpu_get_esr(vcpu));
-> +		return 1;
-> +	}
+>  .../crypto/libcrypto-zeroization.rst          | 129 ++++++++++++++++++
+>  Documentation/crypto/libcrypto.rst            |   1 +
+>  2 files changed, 130 insertions(+)
+>  create mode 100644 Documentation/crypto/libcrypto-zeroization.rst
+
+One nit...
+
+> diff --git a/Documentation/crypto/libcrypto-zeroization.rst b/Documentation/crypto/libcrypto-zeroization.rst
+> new file mode 100644
+> index 0000000000000..ba9b05320ad53
+> --- /dev/null
+> +++ b/Documentation/crypto/libcrypto-zeroization.rst
+> @@ -0,0 +1,129 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
 > +
-> +	WARN_ON_ONCE(1);
->  	kvm_inject_undefined(vcpu);
->  	return 1;
->  }
+> +Crypto Key Zeroization
+> +======================
+> +
+> +This document describes the conventions for zeroizing crypto structures in the
+> +kernel.
+> +
+> +.. contents::
+> +
+> +Overview
+> +--------
+> +
+> +Cryptographic key material and intermediate state (such as HMAC contexts) must
+> +be zeroized after use to prevent sensitive data from lingering on the stack or
+> +heap, where it could be leaked through memory disclosure vulnerabilities,
+> +crash dumps, or cold-boot attacks.
+> +
+> +For memory that has been allocated with kmalloc() or a similar function,
+> +kfree_sensitive() should be used instead of kfree() to release the memory.
+> +
+> +For other cases, the kernel provides ``memzero_explicit()`` for clearing the
+> +memory.  Unlike plain ``memset()``, ``memzero_explicit()`` is guaranteed not
+> +to be optimized away by the compiler, even when the memory being cleared
+> +appears to be dead.
 
-Oh handle_gcs, if kvm_has_gcs() && kvm_has_nv() -> Inject synchronous 
-exception. Makes sense.
+Don't mark up function names, just say memzero_explicit().  The
+automarkup code will then do the right thing, including cross-references
+when the functions have kerneldoc documentation.
 
-(it kept bothering me that the !gcs and the gcs case do the same thing, 
-except for a warn_once. So I thougt on suggesting:
+Thanks,
 
-+	if (!kvm_has_gcs(vcpu->kvm))
-+		goto inject_undef;
-[...]
-+	WARN_ON_ONCE(1);
-+inject_undef:
->       kvm_inject_undefined(vcpu);
->       return 1;
-
-But after it was done it did not look better.)
-
-
-So, FWIW:
-Reviewed-by: Leonardo Bras <leo.bras@arm.com>
-
-Thanks!
-Leo
+jon
