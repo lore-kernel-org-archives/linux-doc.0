@@ -1,133 +1,163 @@
-Received: from mailout1.hostsharing.net (mailout1.hostsharing.net [83.223.95.204])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFED2AD32;
-	Wed,  9 Sep 2026 16:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C61958038B;
+	Wed,  9 Sep 2026 16:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788969821; cv=none; b=SWfpSNwjtaF8RyBC6YRNwXOfHqv7yskWw6JTw6DexgGRF2vYqZxgy4Hcu/ATbXh5l/flS285QysUoDIcX1BoM/tPVbZCXGNnOBRidVP/YajBIcW+Ak+QqlqbIVeuh0wf/coBogapLk2Wz6rzMzL25fMRqnwWxyO1LZf9Zi2uHrU=
+	t=1788969862; cv=none; b=KrBH4Fnbdk0BZiYhJm6fp7w4Dp1L3WNAGLppq8ixDLxj41pRPISpQnsdtelfgv4vREYatzq+yCbJnx+SHjQ6LLNSA1m9XOyp/MxLR1hHiPWReXPZfdCQkKBAa6Vx4OPJSD/dN9BDLJtwy78RMq1NNsA8+I9wqWgLTVOf4KpgpvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788969821; c=relaxed/simple;
-	bh=kY17nIjTQAL9Gi1jQOOw8dzs9KXs7EcvbG+ooKYoQhQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UdKnX6cdj3QWeU/uwGD/ctVt2w2obUd4LWnWbIpi3pEaAaKvtMaq6RoUtWhK/UzcW/b4HJ4dR5f6HSuiGU6SQJj11iUO+5pX8/WdEHLTgE/Kkpot4uiI/fs8l4mEbvP7H2vRO3W35O4vQM9MXzzj4as7xYkF4HAKHtkHHAIoJzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.95.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
-	 client-signature ECDSA (secp384r1) client-digest SHA384)
-	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
-	by mailout1.hostsharing.net (Postfix) with ESMTPS id D9590369;
-	Wed, 09 Sep 2026 18:03:35 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id B4F166272378; Wed,  9 Sep 2026 18:03:35 +0200 (CEST)
-Date: Wed, 9 Sep 2026 18:03:35 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Terry Bowman <terry.bowman@amd.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Bjorn Helgaas <bhelgaas@google.com>, Dan Williams <djbw@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-cxl@vger.kernel.org,
-	Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shuai Xue <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>,
-	Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ben Cheatham <Benjamin.Cheatham@amd.com>,
-	Richard Cheng <icheng@nvidia.com>,
-	Robert Richter <rrichter@amd.com>, linux-pci@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v20 0/9] Enable CXL PCIe Port Protocol Error handling and
- logging
-Message-ID: <aqGDV2GQEqxg_1gE@wunner.de>
-References: <20260902133933.2992457-1-terry.bowman@amd.com>
+	s=arc-20240116; t=1788969862; c=relaxed/simple;
+	bh=ylVAzHN5WSnTzmFrbCkgMZvebBClP/wgCU5mvMgmll0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R/WdErDVfkP7bNDfb6KqIWvxYFcxQUwqSVwlyLwGPTlDMDiOf1KbcOhzlkctvMRAdLdEomPDq6AkFdPOD3JX1Lq+Bb9yW2O9HhqmESaRqbYLNXKsbTPPMP8pdC4omuVT4GYSfdoU3Qhym/9ctdx/ycdOFXpmsVDv/XDLtFFHJHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N5Byjyq7; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N5Byjyq7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BA101F00A3D;
+	Wed,  9 Sep 2026 16:03:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788969859;
+	bh=Dk4sipXK68/lmwCc15T8zbjLDSh1adJ4SNP0vi3NXZ4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=N5Byjyq7obOB27n73VYuETuGMgxQqZ+4uhJtACmOFqhcEPaUoNKD2aXjdV+ITaH+G
+	 UnPbxBOmzkYV55oRKDkAQbky+J+Vpfri7xM6m3QbpgNkWbe5uTJcxn15Nv/D6cNIvS
+	 tl/lEN++DrWlUG8ihLFwAdERRhpxECLPBAjwSuL/8bmKXMJ6MgTEJlK6EvNYlYI88T
+	 T48dYf95LW8RuQrgH/FByYkSqQVNdGlgkKg5PKSuoYijMxSTnFrRK5RB6zrjjEGw1Z
+	 YGU5DL38OYmPx6qPPWdZzz84LGm+oNBNJtnNRAKKkTzfx+1XAdUdVWFeVpgtUxIicK
+	 JK65Sc+BlJsQw==
+Message-ID: <307df445-8b53-4de9-8e69-3c586a44be9f@kernel.org>
+Date: Wed, 9 Sep 2026 18:03:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260902133933.2992457-1-terry.bowman@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 11/45] KVM: guest_memfd: Invalidate both SHARED and
+ PRIVATE mappings for in-place conversions
+To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
+ binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
+ jmattson@google.com, jthoughton@google.com, michael.roth@amd.com,
+ oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com,
+ rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com,
+ steven.price@arm.com, willy@infradead.org, wyihan@google.com,
+ yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org,
+ suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
+ Randy Dunlap <rdunlap@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Fuad Tabba <fuad.tabba@linux.dev>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-coco@lists.linux.dev
+References: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
+ <20260830-gmem-inplace-conversion-v12-11-85e5fd25252a@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260830-gmem-inplace-conversion-v12-11-85e5fd25252a@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 02, 2026 at 08:39:24AM -0500, Terry Bowman wrote:
-> Today the kernel handles native CXL.cachemem RAS only for Endpoints and
-> Restricted CXL Host (RCH) Downstream Ports. Root Ports, Upstream Switch
-> Ports, and Downstream Switch Ports are uncovered. This series introduces
-> a unified CXL protocol error path for all CXL device types, in both VH
-> and RCH topologies.
+On 8/31/26 02:25, Ackerley Tng via B4 Relay wrote:
+> From: Sean Christopherson <seanjc@google.com>
+> 
+> When removing one or more folios from a guest_memfd instance, invalidate
+> both SHARED and PRIVATE mappings if in-place conversion is enabled, because
+> stating the obvious, KVM needs to ensure that all mappings to the folio(s)
+> are dropped.
+> 
+> Opportunistically rename the helper to capture that it returns a filter for
+> all gfns in anticipation of zapping only the previous mapping types on
+> conversion.  I.e. when doing in-place conversion to PRIVATE, only SHARED
+> mappings need to be zapped (ignoring that KVM would ideally not invalidate
+> ranges whose attributes aren't changing in the first place).
+> 
+> Note, precisely zapping only the possible mapping types when in-place
+> conversion is disabled is important for functional correctness, not just
+> for performance.  Specifically, if KVM zaps both when SHARED vs. PRIVATE is
+> tracked per-VM, then a PUNCH_HOLE operation on a PRIVATE guest_memfd will
+> incorrectly zap SHARED mappings that have nothing to do with that gmem
+> instance (because they're mapped via a VMA, not a gmem fd).
+> 
+> The incorrect over-zapping of SHARED memory that doesn't belong to the gmem
+> fd requesting the zapping will be resolved in a later patch, where, if
+> in-place conversion is enabled, KVM will use both shared and private memory
+> from the guest_memfd. If both shared and private memory are from the
+> guest_memfd, invalidation will only zap memory belonging to the given gmem
+> instance.
+> 
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> ---
 
-I'm trying to make sense of the existing code.  I know this wasn't
-introduced by you (but by Robert in 0a867568bb0d), but you've moved
-this code around recently and are extending it in this series.
+Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Errors of the RCH downstream port are signaled as internal errors
-of an RCEC on the root bus.  Their handling was plumbed into:
+-- 
+Cheers,
 
-aer_process_err_devices()
-  handle_error_source()
-    cxl_rch_handle_error()
-
-First of all, handle_error_source() calls pci_aer_handle_error(),
-which (for Fatal Errors) will issue an FLR of the RCEC.  Note that
-Uncorrectable Internal Errors have Fatal severity by default
-(PCIe r7.0 sec 7.8.4.4).
-
-If the Uncorrectable Internal Error was the only error, then why is the
-RCEC being reset?  It's just serving as a conduit to inform that there
-are CXL errors at the downstream port.  There's no reason at all to
-issue an FLR to the RCEC in that case.
-
-Second, cxl_rch_handle_error() then walks all the RCiEPs reporting to
-the RCEC.  This also looks weird to me.  Can there ever be more than
-one RCiEP?  I think not, but maybe I'm missing something.  If there's
-only ever a single RCiEP reporting to the RCEC, why perform a walk?
-
-What we actually want to do is retrieve the CXL errors from the
-downstream port's RCRB, but this is done in a fairly roundabout way:
-cxl_rch_handle_error() walks the RCiEPs (aka RCDs), invokes the
-->error_detected() callback for each, which is cxl_error_detected().
-That will then call cxl_handle_rdport_errors() to find the RCH
-downstream port to which the RCD is attached.
-
-Isn't there a simpler way to find the RCH downstream port from which
-the error originated?  Why do we have to go through the RCDs?
-
-Also, putting this in cxl_error_detected() has a weird side effect:
-The function is also invoked when the RCD upstream port experienced
-an error.  But because the retrieval, reporting and handling of
-RCH downstream port errors was put into this function, those errors
-are reported and handled as a side effect of RCD upstream port errors.
-What sense does this make?
-
-The commit message of 0a867568bb0d provides the following hint as
-to why this approach was chosen:
-
-    The reason for choosing this implementation is that the AER service
-    driver claims the RCEC device, but does not allow it to register a
-    custom specific handler to support CXL. Connecting the RCEC hard-wired
-    with a CXL handler does not work, as the CXL subsystem might not be
-    present all the time.
-
-So I think the point may have been to make this work even if the cxl
-module is not loaded?  Is that all?  Is that the only reason?
-We have try_module_get() and symbol_get() helpers.  You could just
-call those prior to invoking functions implemented by the cxl module
-from the AER driver.  There's plenty of precedent for that in the kernel.
-
-The problem is that the present approach is fairly complex and has
-side effects which make it difficult to understand and reason about
-the error handling.  In my view, this should be cleaned up first
-before bolting more functionality on top of it.
-
-Thanks,
-
-Lukas
+David
