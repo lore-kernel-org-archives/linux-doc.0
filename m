@@ -1,101 +1,102 @@
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85651352026
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 15:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265C15616A5
+	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 15:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788967517; cv=pass; b=B5JXfSpWgNAF+RNt4nOVDtIdc0keFJYmB6kglGjebpsZdTZdudG7PNUXUjHo4DLodQ2X/Rsa4KjanplLoSwlH65BIV3xxw6Vc6QpzS97kQkvaaHu40KVTCucbE2qIYeBQjb/WCSn3dLbOLvYW4vr3eI8dgdXcioQGuDiAHmifnI=
+	t=1788967976; cv=pass; b=pa5YbgCtVCbAN8fW1Ie8bay3D2fgNdCOmOnonyd1rLy3BkVii/K5WkbNY+UH33wsQcF56dta39twumnJ2he/czelzQ/1fRhf9J6DRJI3/+NXQs+Hzgbl5VbrfR/0TMmcS4T52tPGe8Sze09VCg3IfFJmVhpGZfQcpgBy9J3PWkE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788967517; c=relaxed/simple;
-	bh=uTvLvNOiD2VaPyg22uQpYQwhoB6nWQlo6kn+/rYg9tw=;
+	s=arc-20240116; t=1788967976; c=relaxed/simple;
+	bh=uhhQTIaQc8uxwzQ47gAsGq8TmGrfD2ovEMzuW5mE1Bk=;
 	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SnbPGLCPtF2Er4SnKtCh54X/EkjDBjzCJSp2OdKmIwmqrGwKpzZCKQNGC9ptouZC4PCRMxRO0N2pnr0y4mGItYUN/4wCaaSm2vQfXglhFe9Y0uslYzcTg3RU+lqMwyMKBJ/aZV5eimhaFMpqb5jYEMntxUgSzedc627Mxq88jOo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U2y3P8Xj; arc=pass smtp.client-ip=74.125.224.42
+	 To:Cc:Content-Type; b=kEwzqJJtxJNEiE0OYSAtrBEN5j0wi9VIuuGdeKwQP2fvaIJ1RvWL1nn0d6i41PqV+eeMRoKn1rZlweP4Ry0SbP6uDMF0skO8pzU+ceikJlD1LpZuBQnFfmu6U6jt/K69LYMbRCmZbdySJEkzFr2tUNY+AR9Jjyn+Q2Rh89KDTeI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Pa/3XfJX; arc=pass smtp.client-ip=209.85.219.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U2y3P8Xj"
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-671061b015eso1218231d50.1
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 08:25:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788967515; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Pa/3XfJX"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-91034716d1dso89178636d6.2
+        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 08:32:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788967973; cv=none;
         d=google.com; s=arc-20260327;
-        b=kycL/pVVyl8DiBGFX2tahQNPxiZVtcdAJjH2PWdl7mNVsoWQdAWHw/znRPEckDXFNB
-         KynKyvKhGcVNnu8jUCOPZZ4RZkq3ZTTOhE8umtTv7DmEGWla9BRehd7XBjaXlul8umps
-         gZ9e5bfGLaR5cVlkJj8kevSjOATz7GAa4P2zURlE8hAVEcq/8/6sLlAZIyNPp8MBmMkK
-         2WWfXE7ZZURDoQ/cece2Olt4ejpX58i5ZWWWOni7y5B2DAikq9ekKJFJv8SaUG89ulv7
-         4ypangIokgrOTeES7E2E51cpiJDJMsxAJNYukmWHsjWCo8iC8oz9IcjbQZCs6YiYAltQ
-         GNOQ==
+        b=CxbVGSo2IIQW6znJ+bAlwx/jK5ZGrVi5SkYjSSNdmU32uyLi4k6syZuAzhg2JkWItT
+         F1kzQbD4dFFqfbdx5P96SGb3EXEfNRqxOJx4HSb7gm1qmid2pd8VxpKlZd4gddM5DoLr
+         qqoioENE0Zp3mPFyoUjcQLbrMMYsCYSDdp09YdgQOLwvHJUP82FFl3XRIMiHilV2igSK
+         mXag6OhNIKHcLJvDz0flagqZ3Rm8B8BkkZiY87zQld7BJTd1sn/ts8MQK/k2K6mOcdsw
+         rrciYjm8uu3WeAefF7ryV0mvOrLv8Wns1wXeIasHxYGMeCalMV/Get9yZyqYhbuMwBh+
+         WSqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
          :from:dkim-signature;
-        bh=m4jJh3TX4gx98qaUfn3Q4oVt1KTvxUkS7IflLLQjx2I=;
-        fh=fxtMLymskGoqGg4cL+dDIDQM3OHA6ARti3zZK5YYvIw=;
-        b=rfFtwB/UTJO9N2Aj+hcQlIlEvIq5osgxWGA9m7eBH75d/2IRRmO73//C4i8aDe0UU2
-         Nn51+AkKKO59Ova5N7Eurf0v28wM1zx1zPFqHQ7TZGnlJH/1+OZnC8kwQYIvpZAdxUM8
-         xvE0mWs0S96DIrzCPpIwQYnPPnsqSEA4rYcsZdmQWwejv3YlcYb/DlhnUvqsGGGBMbCW
-         /Ow8x9YZ3zo6mvtd6aShNwZq01APenXOl9cWvmo8rHyZu/qxBsGPF8rIXMXSo4Z8EYmK
-         9qzWQXLvcsICAymp75gv537D3alyDXLbYtFvAVQGNx343PSt4QgBQlwSIKF2tUwGWmaL
-         lGeg==;
+        bh=+0yQ0IytrFR+cprTV6f0ILvHwq0HfsKregN1JLnR5qc=;
+        fh=r6ojAnJ6fsPblGFjDIa3HHC+4wLEdu9bJiL4Wn6wYug=;
+        b=l97aGcm/+TGaND3sZ/vpDaovcwjQDkJpXN2F1C00vuQNoEmpFCA8Zv6Ri/MKm13vdh
+         MypAineGeJtj9iUlFqv616EFUwUOLi/YfGkeqERvnFYumTLTaWXQOshB+Ww2jNYjIb5L
+         gi9binbqhFCYrnSYpv4B8lt5zhO0xvRnlW1UXRSKTKSAODgDqos0GR5YDyULb4ALYkqB
+         8BuFQHNHJCoqN5CHT9nHEhbept7KQAsHepotL1Ag3nR09zHGLOHdrFLqq/M0JWB6RWGV
+         08fCM2NaxQEyMynm/z6Ps6nGe3f/uDcNxxlmkoSLtyJ/Zwi+rrWh7JoFKeV72Oj4WDhN
+         Adwg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788967515; x=1789572315; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1788967973; x=1789572773; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:mime-version:references
          :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=m4jJh3TX4gx98qaUfn3Q4oVt1KTvxUkS7IflLLQjx2I=;
-        b=U2y3P8Xj3QeUVp4xZOITQEYDK9FZM0EaBg6fTTU19MJNlzeN3D1eTZXKJz3oxxW5Vx
-         3txMBG7CxGTFH3KoiBcC8UmWooFrRXj+9/e705fKKaZG9JY60eA7Ct13WQuXbDCkbpMO
-         67mrDhr4v25ge6UnoUokCmEHLkANhahEfDkLQ4eceLl9eFpXa+Rr4C+EtQSLe+YZr2Ed
-         WAfEsb+oukc/56CLc7NOO3YvJE4rk72Y1faXOw33qKiqCK5KUghdJTj+27nNGARsHtEO
-         MtPwYirQR+qBS86NS1D6lcFNvzTxYBxZFV3+u+ipEl+IysUb5HDMTkBuABnUIRJtQOU0
-         0pMQ==
+        bh=+0yQ0IytrFR+cprTV6f0ILvHwq0HfsKregN1JLnR5qc=;
+        b=Pa/3XfJX1Z23SmoW6Qgtk5M2jiLZeIH0RAVXKxm5hqL7iIUwEQjskVSrOr8EHX3pjV
+         I4RPGlA+VmHOywvJJagD89UGg049dcpbdaWcTR3+IVEcVQ0pKM1UBN7wiupm+KJiSiCD
+         Jmelck7lCe0pWyONQ/+v6gL4dWbiOVFfJZbQP2ZvvrlU98dtDkBmEpMkglPRGlqHGxHv
+         3zha9R84ROcHrKYkduq7rAOfRAf+wF1+OrPNSIQIzAxgPm768gMa5xOzuK5UPMHtbdHV
+         PzUoXJjpoY8dGFA8ioOAWWDUVSiHuJUhjBd5HDhetk4Ls3dmhjt/hZzoZkYtOOOEmhmQ
+         CcFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788967515; x=1789572315;
+        d=1e100.net; s=20251104; t=1788967973; x=1789572773;
         h=content-type:cc:to:subject:message-id:date:mime-version:references
          :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=m4jJh3TX4gx98qaUfn3Q4oVt1KTvxUkS7IflLLQjx2I=;
-        b=WBnKGDGzVGPwIa6VJoz8Ny/upJXhrpFA07KPpKtNDHko3mMG9o4cjihKssQ4rilTTO
-         8h4OAvwh+gGcLO/tt+WaY+Jb1xfIcj4My6m9tCqrVRoX6IfhfnKWgcKnEV503Fx/OkBW
-         gr/VYZuF3zdG9HfFNdkoLmeoKOzZ47EQbht+WvW/cdmXgahWZwJ4LeNgWaIZxV5Ash3B
-         Bt21dBoPro2InTygSnVteTjA1oKKkt1RwCrD087Ie1+uf2t60AuknZpTL4817vocfr7j
-         V1XpPT6HNLTfhnQplfsqM49TWj1zD0EU2ZMC7WgZsrJxJ5tjFco5jgDgafTQElPWYoJ/
-         qE+A==
-X-Forwarded-Encrypted: i=1; AKwUvBw60qsdtxUNDGpvuv9vUN59bzC5DV2W97KNRCEbB9gKx+BkyAsYLoG8XjRIauMzwwKj766lrMBY0es=@vger.kernel.org
-X-Gm-Message-State: AFuF++ky+H4VPuZ11yq7Om9jaJVut/mvxA2chdpp220exBY4Ho6QzUB7
-	Rr5gaKnzEKyb9sgZNGsZ7WlW6M8bEqjCwzQJ2x52sIgbTg+DW9tY+Jms88ogekuCHauH6HKeTRI
-	cqgC5Sc5Cvt9EpuEec2SuV1LnDXXxR7NWcfCIVWrX
-X-Gm-Gg: AYBFou0ZkW5/21zpcBc7duwFEYBmsmSlHPgO4H5tRSpApCaBXZ/VZMqQ8CGPJglmINL
-	NPqyHU2FD3kJj/+Ahd8aDmisMlYj2aT8r81JzvwfaZZ3zl2Nz9VXtV4a3S2q4bOc8uvBSsvP4py
-	nV39rL2DApwPX8tfgJzNXKG9JHFFJkuK4dDcsY2BOeA/BfVyjfihOo5F7PGg40VVEHx/LbR/QZw
-	sPADwVVzFUm1JBgiBHJF15rly6ELoTOEHAEy9rQEMdkxHRHQ0MXoAqdECq19tgwvn9y15b5qtXC
-	Jw+C17CphTnWuXFprZOZ7S0opIlbPXutZRQe99rcGs++gQS/x+n0PB+STTSJlKm9mXrMxt6mEKl
-	yh1VmUZes3AwE
-X-Received: by 2002:a05:690e:d0c:b0:66c:c7e4:2ff1 with SMTP id
- 956f58d0204a3-66fb59519a7mr10665340d50.15.1788967513698; Wed, 09 Sep 2026
- 08:25:13 -0700 (PDT)
+        bh=+0yQ0IytrFR+cprTV6f0ILvHwq0HfsKregN1JLnR5qc=;
+        b=M6yOK4sp6zfp7CtmdLTo7gUx+UsvjcGbigsPBXIgwno2jcRMfbF3UYPxn5wsVFIfF7
+         qFqmn+wEyVxPDIU183erJB0SiZ30ET4XNaCL8gECR4qjGWpHI5nCVmf2O0xdcGf+X/v1
+         nlq+u6QpbWc5xoH5YlEV4XfIKKQl8pRqBl3oVDXXtbuvbU0WrYRzXOGKYsr15ziBNQ1+
+         p31ZoWg0P8DKdKNz6+jyjetwowyUFzFEwDtwLmeIBN4aNOMmCsylPrkD7Fpre8toJ99S
+         ZfQDKneUD69Hx4w1ryltPR677HRNa3lMRO+kK/rPagloy+bGICLL8VnQim0i/8ABmRsL
+         2JXw==
+X-Forwarded-Encrypted: i=1; AKwUvByhHcQRl8Q+saqAw7W0QWliRusBTL+YJLOGY2gDB1eCIxmNDZFpcuxRmYyjRulzUaXhvSXbYARs3HY=@vger.kernel.org
+X-Gm-Message-State: AFuF++kPXvnrR8Fi/gyFpgJS5HAREmORGv66pT6rdV04Y4LU+wVq9kfL
+	+TQ2yhFMGYVlD2My9KRT03nd8remlIxXtOHnpNSO1/J+TJ2GGXhWqwIYhDanYcd5GSXdG/tyKTP
+	ZVIPMzSGCBN4LhoocXBxb5hB/kI9zzxlSG6R89Lfa
+X-Gm-Gg: AYBFou2U30/5lpBnjGXmfI1sPGEoOtzOzHuteqbJUE16SF0pv8h9lMWiKx3eZuCal6N
+	NYBhl73byGnua8cJfMhYW4hbYdNf8HOUuDfwRoOfVozELH7mEvLknGCIqY8qQHj/tIon+2SfGu6
+	fatVIjfVNaLQjEWDA7UMnQ6tu9vkChvoAqHkSwdTW4Mz9APv+CEY7B36mVG890m0eSr0ts1v4m8
+	8vxgMYfoaVRuCgoFmN7tZAjq4aVtQNrHjDPjjHZbI8LmjPnfFWAAf1Q6OkNESrEuLyRem1mpePS
+	9us/3g66Gi3kV3IJMU2JZ3bYXYYFY+IOpzQurvkLWSad1bYN+iF0oMrmgnNZszoaLphXG450vJR
+	poAogpq8MyVtTk8BMBuYFBw==
+X-Received: by 2002:ad4:5ce3:0:b0:910:7076:b681 with SMTP id
+ 6a1803df08f44-9107076bb36mr33516746d6.2.1788967971471; Wed, 09 Sep 2026
+ 08:32:51 -0700 (PDT)
 Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 08:25:12 -0700
+ HTTPREST; Wed, 9 Sep 2026 08:32:50 -0700
 Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 08:25:12 -0700
+ HTTPREST; Wed, 9 Sep 2026 08:32:50 -0700
 From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <bd6c9c74-e374-a9d3-ba1f-8b6f430894fc@google.com>
+In-Reply-To: <apcY5b2o5k04XffH@google.com>
 References: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
- <20260830-gmem-inplace-conversion-v12-18-85e5fd25252a@google.com> <bd6c9c74-e374-a9d3-ba1f-8b6f430894fc@google.com>
+ <20260830-gmem-inplace-conversion-v12-23-85e5fd25252a@google.com>
+ <CA+EHjTzALzghuG5J-LFuG5pXJ4WgEfrMHgwkMHnq1U-D6yS7Pg@mail.gmail.com> <apcY5b2o5k04XffH@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 9 Sep 2026 08:25:12 -0700
-X-Gm-Features: AcwNN1XO0ky4otDKucsugFRBan2HEERm69mRZ8ScY2_txSdjnOuds0rILhuqOBo
-Message-ID: <CAEvNRgEkkvk11_atVj9=+OBym-7SbSMB7MpHcoN6-Q5KS3Lb_A@mail.gmail.com>
-Subject: Re: [PATCH v12 18/45] KVM: guest_memfd: Handle lru_add fbatch
- refcounts during conversion safety check
-To: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>
+Date: Wed, 9 Sep 2026 08:32:50 -0700
+X-Gm-Features: AcwNN1UUq4SnqnO43s4JocxnzO6yIsHxwMjPp5Qjf0-uaaWqzT0IH1RML9MbcC4
+Message-ID: <CAEvNRgHm6AbbUUayS=Smck_41CrQ7yXYCN5soFOYZ6N-YqtXNQ@mail.gmail.com>
+Subject: Re: [PATCH v12 23/45] KVM: Let userspace disable per-VM mem
+ attributes, enable per-gmem attributes
+To: Sean Christopherson <seanjc@google.com>, Fuad Tabba <fuad.tabba@linux.dev>
 Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
 	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
 	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
@@ -104,13 +105,13 @@ Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com,
 	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
 	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
 	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
 	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
 	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
 	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, Chris Li <chrisl@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
 	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
 	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
 	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
@@ -120,57 +121,74 @@ Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com,
 	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
 	Randy Dunlap <rdunlap@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
 	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Fuad Tabba <fuad.tabba@linux.dev>, 
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev, 
+	Xiaoyao Li <xiaoyao.li@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hugh Dickins <hughd@google.com> writes:
+Sean Christopherson <seanjc@google.com> writes:
 
->
-> [...snip...]
->
->> @@ -926,6 +927,7 @@ void lru_cache_drain_for_folio(const struct folio *folio,
->>  			*drained = LRU_CACHE_DRAINED_ALL;
->>  	}
->>  }
->> +EXPORT_SYMBOL_FOR_KVM(lru_cache_drain_for_folio);
+> On Tue, Sep 01, 2026, Fuad Tabba wrote:
+>> Hi Sean, Ackerley,
 >>
->>  atomic_t lru_disable_count = ATOMIC_INIT(0);
+>> On Mon, 31 Aug 2026 at 01:25, Ackerley Tng via B4 Relay
+>> <devnull+ackerleytng.google.com@kernel.org> wrote:
+>> ...
+>> > +       kvm.gmem_in_place_conversion=
+>> > +                       [KVM] Controls whether KVM enables in-place conversion
+>> > +                       support for guest_memfd and tracks the private/shared
+>> > +                       state of memory per guest_memfd instead of per VM.
+>> > +
+>> > +                       If enabled, KVM enables the KVM_SET_MEMORY_ATTRIBUTES2
+>> > +                       ioctl on guest_memfd file descriptors and disables the
+>> > +                       legacy VM-scoped KVM_SET_MEMORY_ATTRIBUTES ioctl for
+>> > +                       private memory state tracking. Only the
+>> > +                       KVM_MEMORY_ATTRIBUTE_PRIVATE attribute moves to
+>> > +                       per-guest_memfd tracking; other attributes remain
+>> > +                       per-VM.
+>> > +
+>> > +                       This parameter toggles KVM's in-place conversion
+>> > +                       capability support. Whether a VMM uses separate backends
+>> > +                       or out-of-place memory management is determined by
+>> > +                       userspace VMM design.
+>> > +
+>> > +                       Note, this parameter is only available when
+>> > +                       CONFIG_KVM_VM_MEMORY_ATTRIBUTES=y. When
+>> > +                       CONFIG_KVM_VM_MEMORY_ATTRIBUTES is not set, in-place
+>> > +                       conversion is unconditionally enabled.
+>> > +
+>> > +                       Default is Y (on).
 >>
+>> The parameter is only settable when CONFIG_KVM_VM_MEMORY_ATTRIBUTES=y, and
+>> in that config gmem_in_place_conversion initialises to
+>> !IS_ENABLED(CONFIG_KVM_VM_MEMORY_ATTRIBUTES), i.e. N, not Y. Is the doc line
+>> wrong, or is N-by-default not what was intended here?
 >
-> I don't mind about the virt/kvm/guest_memfd.c part of it, but I'm finding
-> a KVM patchset modifying mm/folio.c there hard to deal with: and notice
-> Sean also suggesting to separate this part out.
->
-> As you know, I've worked up a patchset "mm/fbatch: drain lru_add_drain()
-> and _all()" which finally removes the problem lru_cache_drain_for_folio()
-> works around. In the initial version posted a week ago, there was no
-> lru_cache_drain_for_folio() in the tree. Now 7.3-rc1 has it, so I
-> intended a replacement 13/25 in my series, giving you just an empty
-> inline lru_cache_drain_for_folio() stub (and enum lru_cache_drained)
-> in linux/swap.h.
->
-> But that won't work for you, if you're adding an EXPORT_SYMBOL_FOR_KVM()
-> in mm/folio.c, and of course conflicts with my removals (in context both
-> above and below your EXPORT line). It's easy for me to remove what's in
-> mm/gup.c and mm/folio.c, but I cannot remove what is not yet there.
->
-> I've wasted hours on this, hoping not to trouble either of you; but
-> seeing now that I shall have to rebase anyway (an unrelated mlock fix),
-> I'm electing to take the only clean way out: I'm going to submit this
-> mm/folio.c part of your patch to Andrew tonight (with a shorter Cc list!),
-> in the hope that it can be accelerated into 7.3-rc2 (or at least get an
-> mm-stable stable base-commit id) which we can both work off independently.
+> The doc is wrong.  The intent is to maintain backwards compatibility with existing
+> deployments if KVM_VM_MEMORY_ATTRIBUTES=y.
 >
 
-Thank you! Will use this in the next revision of this series.
+Thanks Fuad! I got confused, gmem_in_place_conversion the variable
+defaults to true (because CONFIG_KVM_VM_MEMORY_ATTRIBUTES is by default
+not set), but if the parameter exists, CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+must be set and so the parameter defaults to N.
 
-> Whether that's acceptable to Ackerley and to Andrew, I don't know
-> (just as we don't know when either of our patchsets will go further),
-> but let me try.
->
-> Thanks,
-> Hugh
+Will fix in the next revision.
+
+>> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+>> > index 05c518c9b8078..929fd3e1a01e6 100644
+>> > --- a/virt/kvm/kvm_main.c
+>> > +++ b/virt/kvm/kvm_main.c
+>> > @@ -103,7 +103,10 @@ static bool __ro_after_init allow_unsafe_mappings;
+>> >  module_param(allow_unsafe_mappings, bool, 0444);
+>> >
+>> >  #ifdef kvm_arch_has_private_mem
+>> > -bool __ro_after_init gmem_in_place_conversion = false;
+>> > +bool __ro_after_init gmem_in_place_conversion = !IS_ENABLED(CONFIG_KVM_VM_MEMORY_ATTRIBUTES);
+>> > +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>> > +module_param(gmem_in_place_conversion, bool, 0444);
+>> > +#endif
+>> >  EXPORT_SYMBOL_FOR_KVM_INTERNAL(gmem_in_place_conversion);
+>> >  #endif
