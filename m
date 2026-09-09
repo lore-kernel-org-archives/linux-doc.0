@@ -1,33 +1,37 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6015650ED;
-	Wed,  9 Sep 2026 15:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC53568FD9;
+	Wed,  9 Sep 2026 15:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788968422; cv=none; b=Z+Bm9ffwGXEsc/JBO5L9ANmI7PgzQ3mnICftiYfjtyErznLY9VCDlS/130yExj/YZNsaWPOinucrrY2QEE4z6RAiyH5J3b1oqKE8efXp0YKM8hlZsm//jyqrn5aiIZAahMvvPirUtwPVOUKw7fdzEuVVWjLLWQjbz83MoMw4mDQ=
+	t=1788968493; cv=none; b=hbmMwTu5/I25seUw06afC1HXtg3UwI8ji2IVErb6ngtn7Azq8T1s3Qx1sKIS3vYA7xQ1npmxQ0EkB9hhYwK9H0WwceIoHhjliY2uPHz+kM0YmBR19LuXT6n2jViYWc3vZKpCWamrE+a30b9nVLnBOBzYTX6GAj6yePmoBeGtMPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788968422; c=relaxed/simple;
-	bh=OTpD1mn++QZ6cnu/XQdOkc8XsknDB0Wm8sUuOPNTh+g=;
+	s=arc-20240116; t=1788968493; c=relaxed/simple;
+	bh=UdCD/JJTI6/2Htp0aA3cXVU0z9I88iHs73UoUwgV8EU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PyMNCtlU0ByJfui+vLt27A7oib1QEahPfYXGxD9sCGeyAVSGIj9bypt0ti0DU+9JKurOJtmchmkXnsYLn1sH8Vy5CrWnF8zUJd+Iu+7hNyWoQSljGemAcynZ+KdorWS7/L6qUEJuJYVFaqBk3wkEvdmwaNJrxvENXXwdNfMjwYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b67FWDHV; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=ku7/eps9wniV+sHiDiIxhjcFU8/gLSPQzgz/eoiDVLAbBAcm4sqhsEYZCckgAneVrNve3R0qXHoEnoavKG+CQtaPczChYU1twVMYYL1sXOAIoUQ8eV3U5Qgnms1/M2ObhQ2e+V4cFALvfWl14hyWfo0P3pY58bT2lep+Z3jOBeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=31sVd3lT; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b67FWDHV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE5D41F00A3A;
-	Wed,  9 Sep 2026 15:40:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788968421;
-	bh=AXYYQlIGAZBrAHu4CUr6VQDiXrusLKFHKO4tw/xbR/o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=b67FWDHVrvKlADudVooPhLmJOQAbQa4r/JfwC9gUSiN2XwdjDzXh8PDhLIbwBJ2Bl
-	 N6Vzk3XSxn9iwept0h4EbsT1QjEwa1ArTZoWsrAUs3sRxTkLtG3u6Tqn48pqVF4w42
-	 Hbr0VynPh2dln0S6/KgjarMmfPtDZf/8puPSLa3d6dAowUIbor3F3E8wZW4gfkHAy7
-	 ioBnUGH/HGUgh73jIHLXiP9er2c5LG71oVhLkOGVgFSr+kjgVMlPqHXLGlxCQA7ZS5
-	 LcMe5V5KBReJ3ihsKdA8eubDNI8HqYBjN9XKnu0HuBHiiD05yVhAVNYtvLFO27T70K
-	 2JOkNN9/OsV+Q==
-Message-ID: <26f620c7-043a-4cb3-a74b-29069bded0dd@kernel.org>
-Date: Wed, 9 Sep 2026 17:40:00 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="31sVd3lT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=4jGEiWuc3LNhn0aOVdAeuDAY3lihVYe3loGnLwhG5ig=; b=31sVd3lTXwmDP95C/LYFKf+7tj
+	NoGRXuYEaeQCfG2DjsdWcv1/bc/Rxt1IKSMZg4cGFbTfUjLkI89TCkq2acz0oe310Zx0n9GOmyDC5
+	IE9fq8qTbUNoZpIBpcHA6vNJX4X9nk7/kS6f8Oxw6rQVGqJswkHxwwsC3r+HMVGKi0qQ3TcXk71rn
+	gv417w+Ue5sCPiGxo9qylUkqB4+Ni7Ip3Di4xynh9bl+BoPHl/QE97rn2LIH3geyzwGG4/2PCjGjR
+	Dt6k3e8eBQAlxGqhFT1ENF4P86rly7jJNEYkDr3VREuh6V6n3EiqbnX9osqA7KvP3zlhjS0VBLduG
+	Je3u5++A==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x4KQN-0000000CCjG-11zN;
+	Wed, 09 Sep 2026 15:41:23 +0000
+Message-ID: <84851571-6fdb-4a23-9ff7-8e36de16a435@infradead.org>
+Date: Wed, 9 Sep 2026 08:41:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,129 +39,49 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 12/45] KVM: guest_memfd: Always fault from guest_memfd
- if in-place conversion is enabled
-To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
- binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
- jmattson@google.com, jthoughton@google.com, michael.roth@amd.com,
- oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com,
- rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com,
- steven.price@arm.com, willy@infradead.org, wyihan@google.com,
- yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org,
- suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org,
- Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
- <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
- Randy Dunlap <rdunlap@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Fuad Tabba <fuad.tabba@linux.dev>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-coco@lists.linux.dev
-References: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
- <20260830-gmem-inplace-conversion-v12-12-85e5fd25252a@google.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH] Documentation nova: Fix bracket
+To: Manuel Ebner <manuelebnerli@mailbox.org>,
+ Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260909135319.1364776-3-manuelebnerli@mailbox.org>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260830-gmem-inplace-conversion-v12-12-85e5fd25252a@google.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260909135319.1364776-3-manuelebnerli@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/31/26 02:25, Ackerley Tng via B4 Relay wrote:
-> From: Ackerley Tng <ackerleytng@google.com>
+
+
+On 9/9/26 6:53 AM, Manuel Ebner wrote:
+> Add missing ')'.
 > 
-> If a guest_memfd memslot is created but the guest_memfd does not have the
-> GUEST_MEMFD_FLAG_MMAP set, KVM still fulfils guest faults by looking up the
-> memslot's userspace_addr.
-> 
-> Set KVM_MEMSLOT_GMEM_ONLY if in-place conversion is enabled so that the
-> guest_memfd's memory will be used for both shared and private memory. With
-> in-place conversion, guest_memfd will be the only backing memory for the
-> memslot.
-> 
-> No validation is performed to require userspace_addr to be a mapping from
-> the associated guest_memfd because even after validation, userspace is free
-> to remap something else at the provided userspace_addr.
-> 
-> userspace_addr will still be used by functions like kvm_read_guest(), and
-> if userspace_addr does not match up with the corresponding memory in the
-> memslot's guest_memfd (whether userspace_addr points to the wrong offset or
-> some non-guest_memfd memory, etc), that is a user error.
-> 
-> Requiring both shared and private memory to come from the only associated
-> guest_memfd simplifies invalidation in stage 2 page tables. On a PUNCH_HOLE
-> operation on a guest_memfd, the invalidation is now guaranteed to be
-> invalidating only memory mapped from the given guest_memfd.
-> 
-> Suggested-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+ 
 > ---
-
-Yeah, that matches what we discussed in the call
-
-Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
+>  Documentation/gpu/nova/core/todo.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/gpu/nova/core/todo.rst b/Documentation/gpu/nova/core/todo.rst
+> index d5130b2b0..a01c362b1 100644
+> --- a/Documentation/gpu/nova/core/todo.rst
+> +++ b/Documentation/gpu/nova/core/todo.rst
+> @@ -33,7 +33,7 @@ A good example from nova-core would be the ``Chipset`` enum type, which defines
+>  the value ``AD102``. When probing the GPU the value ``0x192`` can be read from a
+>  certain register indication the chipset AD102. Hence, the enum value ``AD102``
+>  should be derived from the number ``0x192``. Currently, nova-core uses a custom
+> -implementation (``Chipset::from_u32`` for this.
+> +implementation (``Chipset::from_u32``) for this.
+>  
+>  Instead, it would be desirable to have something like the ``FromPrimitive``
+>  trait [1] from the num crate.
 
 -- 
-Cheers,
-
-David
+~Randy
