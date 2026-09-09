@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4385F4A68B9;
-	Wed,  9 Sep 2026 22:50:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F8138837A;
+	Wed,  9 Sep 2026 22:55:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788994217; cv=none; b=ipvWlE4bxRblRzOT91d4tbHjHWBVDcDIPrR3RrevQu2DBU53Ud5hKODVMdsvsByoPKAkHun4p1R44+t/LJExVusRQwGDZ0QWlWuRU2oCJliN1+MUD1Jfy6LrtW2XZwVzSqAZm2RN0DLLLMiFt8WD/Dd9dIua406SToKMqHcPklE=
+	t=1788994515; cv=none; b=R/nPztOLi89IbZyzyXbNW6ok7gBjmlPpsm3VrRG3oppQ5rTzb4KZTHfqWgRYGN7UlDR7Nv1Rwgva20x4i+PJ/ta/a8jWS6AWL9B5BK7dOVQT0HstBvCQ46kS89xPHH1z6toNOb4iP5BjzieWD465ixsF1y4Yxb+3SjHnUhrnfyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788994217; c=relaxed/simple;
-	bh=wPjl+daJP4hWYK4D6HuAOKj5/XvCcVuuv0+4D9GzJ4Q=;
+	s=arc-20240116; t=1788994515; c=relaxed/simple;
+	bh=n42Ht4SewGy2TjuGtPnBKSb8T9SoSGxECEkHTL8eTIA=;
 	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=cBqbAMqnVrI4qePw2SYRRYyDqRiJHJZsC0BfDaoaUwWgMH3X2ntU2AELgg/7RuQrb1uHHdL2FSYXhUPMccFN5sjI93sKdv6FJ6zSE48IwrKBG3f8To8WWcM46DToHt4rC5YR1C6Od3Rq9vLggDL6m5/yON5E9P9gCmC7PD1g+TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=U+PeqIpW; arc=none smtp.client-ip=100.103.45.18
+	 Mime-Version:Content-Type; b=KFgwxT5d8wUx9go7yqcMef2Ont/arNIScmqujswrf4lMUYcH8Dj0rool38wGk/nnFG6O1A1DxZT+ymkSy4IkYr7oPshvu+5ffU3pZlYUxYjL+7DdGelJgNJCJhvSKmXxwUK0pQzq2V6oE7miiAVClpRluo7t68tlXOP9XVj5N3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=aMaZpOvm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="U+PeqIpW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42B7B1F000FF;
-	Wed,  9 Sep 2026 22:50:04 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="aMaZpOvm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E50C1F000FF;
+	Wed,  9 Sep 2026 22:55:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1788994205;
-	bh=uakFVAIIg+dbHdGGvnXSLW6H1vVCapIuu4+L13nJJjk=;
+	d=linux-foundation.org; s=korg; t=1788994501;
+	bh=JJKtsP/R+XzqNSFd2tRI6ryvg6jMdWPMorma0LHyLvM=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=U+PeqIpWC5DBh7q130lXHtII8ntvQj6lTQyojE9Aa4ICHDsKDcddEAQ9+1CLiYlQc
-	 x7+ZxQ1yV/yDo+LuIT+OC5chsw2pvOUEhzMvkqoEDtuzInX/VCiD9d2qRnqjPiAo10
-	 TfAJHc5TmbunSfpK8c7oUec5KvYaPajoE1nEE1Sw=
-Date: Wed, 9 Sep 2026 15:50:03 -0700
+	b=aMaZpOvm+QJmid1g9VQpesLwijn9I+3Mz/AtivHJ8/EHdkXOoJaPDgBMaemYqcPFD
+	 3JLeqfZWFYUMNaXd92PhUa/bNluE7+9cvlizDnghCFWi6xP6ZeCehyZhYtlUHtGxFw
+	 wD1v3gA0Q4uFK8IV9pVCtqjgW3ATTmG6frpHUzfk=
+Date: Wed, 9 Sep 2026 15:54:59 -0700
 From: Andrew Morton <akpm@linux-foundation.org>
 To: ackerleytng@google.com
 Cc: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>,
@@ -42,11 +42,14 @@ Cc: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>,
  Wupeng Ma <mawupeng1@huawei.com>, Yanteng Si <si.yanteng@linux.dev>,
  fvdl@google.com, jthoughton@google.com, rientjes@google.com,
  vannapurve@google.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] Fix HugeTLB subpool used_hpages tracking
-Message-Id: <20260909155003.e6c2f4fe3c0bbee3b34578fd@linux-foundation.org>
-In-Reply-To: <20260909-hugetlb-subpool-always-track-used-v2-0-30c5d83b572a@google.com>
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, stable@vger.kernel.org,
+ Zhao Li <enderaoelyther@gmail.com>
+Subject: Re: [PATCH v2 3/4] mm: hugetlb: Fix subpool usage leak on
+ allocation failure
+Message-Id: <20260909155459.dbf9d67ae21a72935bb863d9@linux-foundation.org>
+In-Reply-To: <20260909-hugetlb-subpool-always-track-used-v2-3-30c5d83b572a@google.com>
 References: <20260909-hugetlb-subpool-always-track-used-v2-0-30c5d83b572a@google.com>
+	<20260909-hugetlb-subpool-always-track-used-v2-3-30c5d83b572a@google.com>
 X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -57,31 +60,60 @@ Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 09 Sep 2026 14:49:25 -0700 Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org> wrote:
+On Wed, 09 Sep 2026 14:49:28 -0700 Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org> wrote:
 
-> HugeTLB subpools currently only track used_hpages when the user configures
-> a size limit.
+> From: Ackerley Tng <ackerleytng@google.com>
 > 
-> This is buggy since when there are existing allocations from the subpool
-> that would have satisfied the minimum reservations,
-> hugepage_subpool_put_pages() will still restore a reservation to the
-> subpool. See below for an example of a false reservation.
+> When folio allocation fails early (e.g. buddy allocation failure or
+> cgroup charging failure) and a reservation was not used (meaning an
+> unreserved global page was needed), the subpool page acquired during the
+> allocation attempt must still be returned.
+> 
+> Currently, the subpool cleanup error path only returns the page to the
+> subpool if a reservation was used. If no reservation was used, it skips
+> releasing the page back to the subpool, permanently leaking the subpool's
+> used pages counter.
+> 
+> With subpools now always tracking used pages, always release the page
+> back to the subpool whenever a subpool page was acquired.
+> 
+> Opportunistically rename the local variables tracking global reservations
+> needed and global reservations returned. This clarifies the accounting:
+> a value of zero for needed global reservations indicates an existing
+> reservation satisfies the allocation, while a non-zero value indicates
+> new global pages are required.
+> 
+> Adjust global reservations using the difference between reservations
+> needed and reservations returned to properly handle races where concurrent
+> threads interact with the same subpool.
 
-That sounds annoying, although isn't clear how this affects end-users.
-
-> In addition, the subpool is considered free prematurely, is freed, and this
-> ends up causing a use-after-free.
-
-That sounds alarming.
-
-Do you think it's best for us to submit [1-3] for -stable backporting?
-
-Is it feasible to come up with a set of small little fixes to get
--stable out of trouble and then to prepare broader updates for our
-ongoing mainline development?
-
-If it's "shut up Andrew you're always saying that" then OK, I can take
-that :)
+This one conflicts with "mm/hugetlb: fix max-only subpool accounting on
+alloc_hugetlb_folio failure". 
+https://lore.kernel.org/20260428113037.88766-2-enderaoelyther@gmail.com.
 
 
+> @@ -3074,13 +3074,10 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+>  	return folio;
+>  
+>  out_subpool_put:
+> -	/*
+> -	 * put page to subpool iff the quota of subpool's rsv_hpages is used
+> -	 * during hugepage_subpool_get_pages.
+> -	 */
+> -	if (map_chg && !gbl_chg) {
+> -		gbl_reserve = hugepage_subpool_put_pages(spool, 1);
+> -		hugetlb_acct_memory(h, -gbl_reserve);
+> +	if (map_chg) {
+> +		long gbl_resv_put = hugepage_subpool_put_pages(spool, 1);
+> +
+> +		hugetlb_acct_memory(h, gbl_resv_get - gbl_resv_put);
+>  	}
+>  
+>  out_end_reservation:
 
+Here.
+
+I presently have Zhao Li's patch staged in mm.git's
+mm-hotfixes-unstable branch, awaiting review.
+
+What to do?
