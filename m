@@ -1,198 +1,216 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4A457981B;
-	Wed,  9 Sep 2026 16:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0FA1580395
+	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 16:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788969728; cv=none; b=D4ElAyme8t0p4jDplluyAQVxzEN91rpU3ZUsnD+BtNEEOwkJCo/DOvbriSTj7SkMA/8Eg/7CR6kBEaM2XgaiPPh2Efq4qUxXd5lNPN6vW0jx/ozRyJA8ATvHW1iEC3Tl3t/38/WTFa9pvIo/guSZ8CAAoK/o3vje7ovUqp+JipQ=
+	t=1788969806; cv=none; b=WGhSM7lY9CVsvhtURSxE+Jfhodzju5Q5pWr0wM0keMQs0Uu+oh1kZ55cfZrc0sblSO+0/vL3cKF0ahu6t8IceNJprNFB05GYwLiAOz924QkpB6eMqqzDWQeryro152nNmPOgqz0R40JexdUse38wG8SxiXJ4J1eSbnfHir7UHso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788969728; c=relaxed/simple;
-	bh=7wdl22HPRdCzS/A82zidu8QMWhNyXyiUpgzVSBsOVeg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W4lV0poVItGzKhWMeE9cPUG+In8EbcSrJZhsT2LkWyNYY70dZJJTs9ix9RN+SECio+vfcNFOf1QzwWbCV+qGMVIJEpOxdSDTW9n3mbQNPTo4DxMJC0c8T3a+7fFyn1lEtH1a9Ds+M0Cqf61VE+AV0CZ525XdfV2aNz6N8o/8Src=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BeCk+g4t; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788969806; c=relaxed/simple;
+	bh=On06xCFs+45Cv/iSsThW0gWQ416PGgEnZnw/69MIF+I=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q0KcEnxr+D1BV1xb7eUZVVvUBfsZwmQ2BSrtMVNNRR5vdRLpuYn3hHW7ziRRbbdaDYxOtCHg40CV9Ph5E1g2VdWxTmQIWbCwji6si0XuEv3Oxsd8wKRZx6if0iWApDeHQJPOmRuDYwmOnbzts15WUc95daZcgrS7tJho/XJTPLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AaoIAZgk; arc=none smtp.client-ip=74.125.224.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BeCk+g4t"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=9iMAAvJrvdrcL+VrKnVolhulu7ltCx1RhkOqwZuXLfc=; b=BeCk+g4tO9AMRD/rNn+5zaW9mx
-	KCAsNOu9NW3r5G2Bea3lwmuINSXFIKYR96VEmXoYaXNIxanll1SB6K387fhiZ8Rx2MxEZXPW4XQeq
-	D9u2BuSNuMWKzX3jC/tOVE09QpZ9lKFzEcp3SvxHHe3v5xiWv46ZShP4hyFImfS7vyeY7EqV6DJlK
-	fyt7KRQzK3zOS145E8ylD7KdrVYaLKamPHnrOBz0Vy+j9r3M8wbqFVPc+rVNs/wZD2hNjHAz/Lx8d
-	CxGUtGVTOEvkoJ2h7lkO6DpdFhd/SfOXhDSASyTz3AWTcZf9A5+z9GSshLimLHFS9BOiIi6KPT3ep
-	DBQOPXdQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x4KkO-0000000CGHx-2u4L;
-	Wed, 09 Sep 2026 16:02:04 +0000
-Message-ID: <c0fb5a98-436b-42a5-8e2d-2ffdc6e53e25@infradead.org>
-Date: Wed, 9 Sep 2026 09:02:04 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AaoIAZgk"
+Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66e50968489so412045d50.0
+        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 09:03:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788969804; x=1789574604; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=AausXKsac6c2thgVaA1TemaODiOlglfugBkNliHU0Ak=;
+        b=AaoIAZgkmSISKaCcKTIxCHIdkND4IT9Q1ovu4NYKJo0TUcHdKSzno+TuLODhIdvG9u
+         OxCNAQyjSdpO4WZ9m7Saqgf7FT6WCQyqikjeK88v82zZgfkkIXaNu5VZncE4NojZvl+8
+         t+mDRnwv3jg/NWJNxcQmoGewwG7tv1yrhyUeP1By1UmFvIX9hzOeBVODPr3AOQYn+lAZ
+         YtLmOm79yBPvoERAXd4YCeAqH2ZEgkDLnsXrRg9PyjBykoB38ePuuCGyNmQCuqjYKTmt
+         7acUuxnWpzAQKpxH90+ht8CxcCKZy8/nu0atr23IEB7lgORef8xBTSU3P3DR3iFWfHhH
+         sZZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788969804; x=1789574604;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AausXKsac6c2thgVaA1TemaODiOlglfugBkNliHU0Ak=;
+        b=IcazUc0YT/Q2w+khJJj67k3AZMNyYt4K0iRXbIaAW8M96kqYiQ6AjbzXg3XndExoYJ
+         MtNsVm2qaseBukCRNwq5rTI46hxe094sHIri8TFTMaa4fBiSOk+Hs2bIP+EGHrQQiZOx
+         ZxruAFAk2oBj05y1kMQMCDCXsLyv7ENqzBogJa8GZxxSTbJUq+Vg6aExmltyB4cvMOmm
+         yO7eBqGwCVs5esOXMVXWfesdJse0M/BKqmYYH8N2UOlMPN2A4s6prk2Vlto3MNmB7AzU
+         g11ZvOJChdrRCDWhZUmi7A2Azcud9huWhc7hq18zJxXRmchlY3TSi0fu1waJXl4KCDZy
+         YEoA==
+X-Forwarded-Encrypted: i=1; AKwUvByOivTV0ckzyHG0zauQ4DU/qh5eOwT9qRHs0y/XhN9mF8a8S+aec01BPdvOWfs8GooRajjnN0TfBnE=@vger.kernel.org
+X-Gm-Message-State: AFuF++lm5s+YAgDSGhu6wMcVd4GQKwVd8t4jTR4eYlx34YsOdPS422eq
+	7E5RalyQ2PlFFwaBX633djHnIwLp1aAlxdPtLzbyygxubY2FZ78EePP3
+X-Gm-Gg: AYBFou1XsgLX7jWjSvUE0K7PgT32zPE8HXKsz9dstHIoatF/KtKGCpZhw7PEY2qIOuS
+	LX8uuqiBOkdsZXvV4R5N0hF22CZo3BGMXlye9yN8Avx+6QWtNYWe4fWnlhpXdwuZ5rIBmQJkJEh
+	AGbGwVHaRTH4ew9WYAF63eFmJjFkaj0aY8tss0ma3o8BmeWbi+abg6b9k3xmTtPDK4OK+RPLUZk
+	gJ8w5GW03ePcnGsdgyJDsSWjYpXDqULheHqKED1lMZbaOMFGCwoqMe3/6dkBBwFMYxuK2xwoypn
+	VCCgLTur5YAu/Eu3D/8YpPLI8UCb2BTUs8NiUeTycb5PrH4Ei951XozOMg+ByE/LykotuNN0Xh0
+	92TxF7szQUGiYCjRIwEkNp0DKh58sQxSAY/FOS23ChGjeVbQQYOcYim6R5gVQI199W95IDFr8ip
+	sGuZUCivJmHiZsSLrkmg2mVzIoGFQWT5RAd4l0urO9p/Vzer0CtvwpxfDD8UKYHrGn2pkPS5IB9
+	84K8iNh4Gj/ZqxBORDfQtOJqAGc
+X-Received: by 2002:a05:690e:4188:b0:66e:ac6f:cdf with SMTP id 956f58d0204a3-6710feec5eamr676251d50.5.1788969803429;
+        Wed, 09 Sep 2026 09:03:23 -0700 (PDT)
+Received: from localhost (c-73-105-0-191.hsd1.fl.comcast.net. [73.105.0.191])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-87149ec0e68sm111794017b3.20.2026.09.09.09.03.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 09:03:22 -0700 (PDT)
+From: Yury Norov <yury.norov@gmail.com>
+X-Google-Original-From: Yury Norov <ynorov@nvidia.com>
+Date: Wed, 9 Sep 2026 12:03:21 -0400
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+	corbet@lwn.net, meted@linux.ibm.com, tglx@kernel.org,
+	gregkh@linuxfoundation.org, pbonzini@redhat.com, seanjc@google.com,
+	vschneid@redhat.com, huschle@linux.ibm.com, rostedt@goodmis.org,
+	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
+	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+	christian.loehle@arm.com, tj@kernel.org,
+	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+	rdunlap@infradead.org, kernellwp@gmail.com,
+	linux-doc@vger.kernel.org, jgross@suse.com,
+	virtualization@lists.linux.dev, sunlightlinux@gmail.com
+Subject: Re: [PATCH v13 02/13] cpumask: Introduce cpumask_intersects_and
+Message-ID: <aqGDSeGGIfJvn8uc@yury>
+References: <20260909135617.871006-1-sshegde@linux.ibm.com>
+ <20260909135617.871006-3-sshegde@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 2/5] Documentation: iio: add Open Sensor Fusion driver
- overview
-To: Jinseob Kim <kimjinseob88@gmail.com>, jic23@kernel.org,
- linux-iio@vger.kernel.org
-Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- linux-kernel@vger.kernel.org, joshua.crofts1@gmail.com,
- u.kleine-koenig@baylibre.com, julianbraha@gmail.com, corbet@lwn.net,
- skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-References: <CALMSewJPfQXRX5q4X3gJf=LT6m2FnusTM=DBiWsBqRFiyNP_Gw@mail.gmail.com>
- <CALMSewK17jG3MXTHv4Rj+tFVriw9+tqNuAMcX4KGQGy5NQP_MQ@mail.gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CALMSewK17jG3MXTHv4Rj+tFVriw9+tqNuAMcX4KGQGy5NQP_MQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909135617.871006-3-sshegde@linux.ibm.com>
 
-Hi,
+On Wed, Sep 09, 2026 at 07:26:06PM +0530, Shrikanth Hegde wrote:
+> Introduce bitmap_intersects_and() to determine whether the intersection
+> of three bitmaps is non-empty. Unlike cpumask_first_and_and(), this
+> returns immediately when an intersecting word is found and does not
+> calculate the first matching bit.
+> 
+> Add cpumask_intersects_and() as the corresponding cpumask wrapper.
+> 
+> A subsequent patch uses the helper to determine whether a task
+> has a CPU that is present in its affinity mask, the preferred CPU mask,
+> and task possible CPU mask.
+> 
+> Suggested-by: Yury Norov <yury.norov@gmail.com>
+> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
 
-On 9/9/26 8:05 AM, Jinseob Kim wrote:
-> Document the Linux IIO mapping for Open Sensor Fusion devices.
-> 
-> The overview explains that sensor channels are discovered at runtime
-> from mandatory capability reports. It also documents that OSF0 is a
-> wire-format detail and that protocol_major and protocol_minor carry
-> protocol compatibility information.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
+
+Reviwed-by: Yury Norov <yury.norov@gmail.com>
+
 > ---
->  Documentation/iio/index.rst              |  1 +
->  Documentation/iio/open-sensor-fusion.rst | 84 ++++++++++++++++++++++++
->  MAINTAINERS                              |  1 +
->  3 files changed, 86 insertions(+)
->  create mode 100644 Documentation/iio/open-sensor-fusion.rst
+>  include/linux/bitmap.h  | 14 ++++++++++++++
+>  include/linux/cpumask.h | 18 ++++++++++++++++++
+>  lib/bitmap.c            | 17 +++++++++++++++++
+>  3 files changed, 49 insertions(+)
 > 
-
-What email client did you use to send this patch?
-It is wrapping (longer) lines for you, in a way that's not good.
-It causes malformed patches.
-You can see it below or at
-https://lore.kernel.org/linux-doc/CALMSewK17jG3MXTHv4Rj+tFVriw9+tqNuAMcX4KGQGy5NQP_MQ@mail.gmail.com/T/#u
-
-
-> diff --git a/Documentation/iio/open-sensor-fusion.rst
-> b/Documentation/iio/open-sensor-fusion.rst
-> new file mode 100644
-> index 000000000000..15d41202eb66
-> --- /dev/null
-> +++ b/Documentation/iio/open-sensor-fusion.rst
-> @@ -0,0 +1,84 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
+> index 7df1573a409c..adafbcf2016b 100644
+> --- a/include/linux/bitmap.h
+> +++ b/include/linux/bitmap.h
+> @@ -52,6 +52,7 @@ struct device;
+>   *  bitmap_complement(dst, src, nbits)          *dst = ~(*src)
+>   *  bitmap_equal(src1, src2, nbits)             Are *src1 and *src2 equal?
+>   *  bitmap_intersects(src1, src2, nbits)        Do *src1 and *src2 overlap?
+> + *  bitmap_intersects_and(src1, src2, src3, nbits) Do *src1, *src2 and *src3 overlap?
+>   *  bitmap_subset(src1, src2, nbits)            Is *src1 a subset of *src2?
+>   *  bitmap_empty(src, nbits)                    Are all bits zero in *src?
+>   *  bitmap_full(src, nbits)                     Are all bits set in *src?
+> @@ -181,6 +182,9 @@ void __bitmap_replace(unsigned long *dst,
+>  		      const unsigned long *mask, unsigned int nbits);
+>  bool __bitmap_intersects(const unsigned long *bitmap1,
+>  			 const unsigned long *bitmap2, unsigned int nbits);
+> +bool __bitmap_intersects_and(const unsigned long *bitmap1,
+> +			     const unsigned long *bitmap2,
+> +			     const unsigned long *bitmap3, unsigned int nbits);
+>  bool __bitmap_subset(const unsigned long *bitmap1,
+>  		     const unsigned long *bitmap2, unsigned int nbits);
+>  unsigned int __bitmap_weight(const unsigned long *bitmap, unsigned int nbits);
+> @@ -445,6 +449,16 @@ bool bitmap_intersects(const unsigned long *src1, const unsigned long *src2, uns
+>  		return __bitmap_intersects(src1, src2, nbits);
+>  }
+>  
+> +static __always_inline
+> +bool bitmap_intersects_and(const unsigned long *src1, const unsigned long *src2,
+> +			   const unsigned long *src3, unsigned int nbits)
+> +{
+> +	if (small_const_nbits(nbits))
+> +		return ((*src1 & *src2 & *src3) & BITMAP_LAST_WORD_MASK(nbits)) != 0;
+> +	else
+> +		return __bitmap_intersects_and(src1, src2, src3, nbits);
+> +}
 > +
-> +Open Sensor Fusion
-> +==================
+>  static __always_inline
+>  bool bitmap_subset(const unsigned long *src1, const unsigned long *src2, unsigned int nbits)
+>  {
+> diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
+> index 4c8bb6953107..7c8f16797f94 100644
+> --- a/include/linux/cpumask.h
+> +++ b/include/linux/cpumask.h
+> @@ -824,6 +824,24 @@ bool cpumask_intersects(const struct cpumask *src1p, const struct cpumask *src2p
+>  						      small_cpumask_bits);
+>  }
+>  
+> +/**
+> + * cpumask_intersects_and - (*src1p & *src2p & *src3p) != 0
+> + * @src1p: the first input
+> + * @src2p: the second input
+> + * @src3p: the third input
+> + *
+> + * Return: true if AND of the three cpumasks is non-empty,
+> + *	   otherwise false
+> + */
+> +static __always_inline
+> +bool cpumask_intersects_and(const struct cpumask *src1p,
+> +			    const struct cpumask *src2p,
+> +			    const struct cpumask *src3p)
+> +{
+> +	return bitmap_intersects_and(cpumask_bits(src1p), cpumask_bits(src2p),
+> +				 cpumask_bits(src3p), small_cpumask_bits);
+> +}
 > +
-> +Open Sensor Fusion is a sensor aggregation hub interface. The Linux IIO driver
-> +receives OSF protocol frames from an attached device and registers matching IIO
-> +devices for the sensor classes supported by the driver. The actual sensor
-> +channels are discovered at runtime from mandatory OSF capability reports.
+>  /**
+>   * cpumask_subset - (*src1p & ~*src2p) == 0
+>   * @src1p: the first input
+> diff --git a/lib/bitmap.c b/lib/bitmap.c
+> index ed685127a107..d1cb8a507c60 100644
+> --- a/lib/bitmap.c
+> +++ b/lib/bitmap.c
+> @@ -308,6 +308,23 @@ bool __bitmap_intersects(const unsigned long *bitmap1,
+>  }
+>  EXPORT_SYMBOL(__bitmap_intersects);
+>  
+> +bool __bitmap_intersects_and(const unsigned long *bitmap1,
+> +			     const unsigned long *bitmap2,
+> +			     const unsigned long *bitmap3, unsigned int bits)
+> +{
+> +	unsigned int k, lim = bits / BITS_PER_LONG;
 > +
-> +This document is a driver-facing overview for the Linux IIO mapping. The full
-> +wire protocol, firmware behavior, and hardware model details belong in the Open
-> +Sensor Fusion project documentation.
+> +	for (k = 0; k < lim; ++k)
+> +		if (bitmap1[k] & bitmap2[k] & bitmap3[k])
+> +			return true;
 > +
-> +Device Model
-> +------------
+> +	if (bits % BITS_PER_LONG)
+> +		if ((bitmap1[k] & bitmap2[k] & bitmap3[k]) & BITMAP_LAST_WORD_MASK(bits))
+> +			return true;
+> +	return false;
+> +}
+> +EXPORT_SYMBOL(__bitmap_intersects_and);
 > +
-> +An OSF device sends binary frames from the device to the host.
-> Devices using the
-
-^^^ Should be one line, not two.
-
-> +``opensensorfusion,osf`` compatible are expected to provide
-> +``CAPABILITY_REPORT`` messages so the host can discover which sensor
-> streams are
-
-Same.
-
-> +available. Device Tree describes the attached OSF sensor aggregation
-> hub; it does
-
-Same.
-
-> +not enumerate the individual sensors discovered at runtime.
-> +
-> +The currently supported Linux subset exposes:
-> +
-> +* accelerometer samples as ``IIO_ACCEL`` X/Y/Z channels,
-> +* gyroscope samples as ``IIO_ANGL_VEL`` X/Y/Z channels,
-> +* magnetometer samples as ``IIO_MAGN`` X/Y/Z channels, and
-> +* temperature samples as ``IIO_TEMP``.
-> +
-> +Protocol Scope
-> +---------------
-> +
-> +The driver supports OSF protocol major version 0 for the IIO receive path.
-> +The current wire magic is ``OSF0``; that string is a wire-format detail and is
-> +not the Linux driver identity. Device Tree keeps the generic
-> +``opensensorfusion,osf`` compatible rather than naming a product such as OSF
-> +GREEN or a wire magic value.
-> +
-> +Protocol versioning is carried by the ``protocol_major`` and ``protocol_minor``
-> +fields at fixed offsets in the OSF frame header. The driver currently
-> +supports ``protocol_major`` 0. ``protocol_minor`` changes within major version
-> +0 are intended to remain backward-compatible within the fixed header layout.
-> +Incompatible wire-format changes require a new ``protocol_major``. A future
-> +device that cannot expose compatible version discovery through that fixed
-> +header layout would need a different Device Tree compatible.
-> +
-> +The Linux driver handles device-to-host frames for:
-> +
-> +* ``SENSOR_SAMPLE`` buffered and direct-mode sample data,
-> +* ``CAPABILITY_REPORT`` based IIO device registration, and
-> +* ``DEVICE_STATUS`` cache updates.
-> +
-> +Vendor-private message types are ignored. Command transport, calibration
-> +control ABI, fusion output ABI, and runtime capability removal are outside the
-> +Linux IIO receive path.
-> +
-> +Timestamps
-> +----------
-> +
-> +OSF frames include a device-side ``timestamp_us`` field. Buffered IIO
-> samples use
-
-Same.
-
-> +an IIO timestamp captured on the host when samples are pushed to IIO buffers.
-> +The driver does not correlate the device timestamp with the host IIO
-> +clock.
-> +
-> +Compatibility Notes
-> +-------------------
-> +
-> +This overview describes the implemented receive path, not a normative wire
-> +specification. A publicly versioned specification covering reserved fields,
-> +extensions and physical scale units remains needed for interoperability review.
-> +
-> +The decoder requires the fixed header size and the exact payload lengths of
-> +known messages. It ignores unsupported protocol majors, unknown message types
-> +and frames with nonzero header reserved fields. Unsupported capability entries
-> +are skipped individually; malformed known payloads are rejected. Appending data
-> +to an existing known message is therefore not a compatible extension for this
-> +receiver.
-> +
-> +IIO scale is taken from the initial capability report and is not updated by
-> +sample frames. Devices must supply scales in the units required by each IIO
-> +channel type, including gauss for magnetometers. Historical OSF draft documents
-> +differ on reserved-field handling, trailing extensions and magnetometer units;
-> +those drafts do not establish a canonical specification for this driver.
-
-There is some help for various email clients in Documentation/process/email-clients.rst
-that may help you (or not).
-
--- 
-~Randy
-
+>  bool __bitmap_subset(const unsigned long *bitmap1,
+>  		     const unsigned long *bitmap2, unsigned int bits)
+>  {
+> -- 
+> 2.52.0
