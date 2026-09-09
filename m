@@ -1,180 +1,91 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5674DF4DC;
-	Wed,  9 Sep 2026 13:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80743559C9F;
+	Wed,  9 Sep 2026 13:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788961430; cv=none; b=OTig05ovN0DU83aZ8j6Cm7eURE8WknLBBoe5/scdJ0rTVKBvfhm3Vaq1yUKX6yn+jaHDpsK9GHyZtLYqMF50Qs4+tkmE1MTEo2tBtrghzG2M6hwkQKoaRxoIOj3DGuW8yQ0yxG+3XvWsyLtMg0iik2RuPBJscJ8Kadg6npIh5hw=
+	t=1788961498; cv=none; b=el8SphKcLJLzxnPi02X/FDAMO/lHtmFCOOHe837WejzSjY8hObRiodxQIAS8yzWQkSkqj+TIhEyAoWMuV+o7+ydysjpbLuCkdrADd2b5nRAf6fVknnWUGXX4TeuJOWX1f7NYQmlB/sb/eN8SruF0O4WbJ4IIc8CGymLWkANF0V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788961430; c=relaxed/simple;
-	bh=lGZMY+3lAngy6LJnPBj5kG3thttQubogRdMtqJgJ8SY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TVDIDyTEIFDPJFjv6A7YyBK9LtVPid6yFs9lAdBs5tqbGtqcJkTm7Indk7wkvAh3H+lhcdqLS425xzcQGuZvTEAhxpc7TzgCHgZMQ9zms5D2X6G78Nkv5XHR4piETE404IHA6NRvrqeGnGTuivYrSmON98XP/dvi+jAWBs2dAaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=K4De/OwX; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=g+nPYSIw; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1788961498; c=relaxed/simple;
+	bh=40KVgJMpJer2b9dHQSWw4nT3INJ2/tHV3PM8lSibty4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KCeVBgc0kZwLl4Xaka2J0pDl+eXx0XjhTRZLW6mWhSXdVMJJBPx4xQ7VKos51KkrURAibR9ZG1w4xctaTNP7xoztxQXixRcNOzpiD0+7iADc5sA+sN9HVKehSlqC1zBtevVtOc/EHTEIqYnZ+lD3Xt9Jp9wqV615rqPj+NPBydg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dPYFSc7z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="K4De/OwX";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="g+nPYSIw"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4hg28D34d5zMlJn;
-	Wed, 09 Sep 2026 15:43:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788961420;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=173Ob8EsXjCsDgI7WafhFI278v9VXpWYuN1ryz1+J+U=;
-	b=K4De/OwXl48mVzuflGWaba+fk06HgvVNc0iCVeoYOVFA9DZw5JpFP+k4tTFeLv3QI9jZVz
-	IcohJzScDD/EYDL5HPDgA1GHx5u5LLuaEBbC00OFsxp5K2xKk/AJ8HoNysdiY5D4n9+ZbH
-	/pPvskHWLBN82JCoduTaSP5WSvQIl4+Q/xAFYmQt9tAyHIIlaWyyLOiTRv2NY4IonbQnQz
-	D0XhAhCtasOu9xS+NUmuzfNCeqRKYQB5QI3EwEc/oscJKbIYMFfmgjWAUp+AgHbc0ZmncO
-	UbBSGXXkGvJvLpWw7v88G0oPv/K+3MDfWMuD1Rx5Y1k4ehofZH+wjTlOq8mjOA==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788961418;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=173Ob8EsXjCsDgI7WafhFI278v9VXpWYuN1ryz1+J+U=;
-	b=g+nPYSIwxmHjahoNqvWsMcrreHe343Hb7STFC/W8arrY2azmdbjDK4LhO13PLoSw0/THOE
-	aINPRGGnzCeBYx0BHRTl/0rxTFaGQJGhLxy/DUx90YOgOnQXPWdpxlL7hu7w3FKmpMZZ6H
-	9dEEeSEV4fPzK0M4B3lZBhwrijgjOMs2RJbgNem98tcGHx4MMIH7salfAfJjlABo6VvOpQ
-	nr64058IRXEdP9fMGVcNic2PX4PCETOLhT7S+DcMFHj2NN+Bg90JV+Jy3haQR4APA/tunC
-	Y5dDRqjmp5Fn8jPwjXrCbHtvz8OSBDzb7ohcX/B2ZsIPDoeOHeqlWvrGPlPSZA==
-To: Thorsten Leemhuis <linux@leemhuis.info>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v5] docs: verify/bisect: fix typos, formatting and punctuation
-Date: Wed,  9 Sep 2026 15:41:34 +0200
-Message-ID: <20260909134135.1358766-2-manuelebnerli@mailbox.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dPYFSc7z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1BB1F00A3A;
+	Wed,  9 Sep 2026 13:44:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788961497;
+	bh=311691/uGkvvFKIwGpWDg1KsCLWCsJMoqMq4WdR/uMA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dPYFSc7zuElgqPOrUvKFlinRxJJKwheHPvZj90jo4KmpnxV33/ufuBhrNpkTSj7xj
+	 2RyspHqXkazeIpBw80R2fnKH5h7xSTHlRroygAHqghJUHmdY3lokSSP79WG/GJiDoB
+	 oyBdDww+Ucy2ezUGrlZcwr9zvzgw4CaTeveT7WW6/oC56HlygAVyaKSTf4loP/g25/
+	 JbuxGE+JuFDJrB1jVccueZ0gS7opSWr84NdE4okUrMy+Eb+npKXAoyFyecgv0dupb+
+	 nOt/5qmgDw055SNzS9Q9wTx7telYpSpj52eSu7BEqy7RFlRlIIZ2qyITJuChYmq+Ij
+	 Bdwur7Kmdt/Pg==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1x4Ibe-00000002Iwf-0E2s;
+	Wed, 09 Sep 2026 15:44:54 +0200
+Date: Wed, 9 Sep 2026 15:44:54 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, mfd@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Arnd Bergmann <arnd@arndb.de>, Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@kernel.org>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	patches@opensource.cirrus.com, linux-watchdog@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 09/14] mfd: remove unused lm3533 driver
+Message-ID: <aqFi1qGC2QMzMAq9@hovoldconsulting.com>
+References: <20260909132153.1596191-1-arnd@kernel.org>
+ <20260909132153.1596191-10-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: k5469s64fh6efpaitdjkyqji9ieze3ks
-X-MBO-RS-ID: 93e1a78525eec12d051
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909132153.1596191-10-arnd@kernel.org>
 
-Fix a few typos, formatting and some grammar issues.
+On Wed, Sep 09, 2026 at 03:21:46PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> This driver has apparently never had any users, as it does not support
+> devicetree probing, and no lm3533_platform_data definition ever
+> existed upstream.
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-Acked-by: Thorsten Leemhuis <linux@leemhuis.info>
----
-[v5]
- - fix changelog
+I don't believe we ever required board files to be upstreamed?
 
-[v4]
- https://lore.kernel.org/all/20260904114606.756700-3-manuelebnerli@mailbox.org/
- - remove 'Reviewed-by: Randy Dunlap'
+There's also on-going work to enable devicetree support for this one:
 
-[v3]
- https://lore.kernel.org/all/20260903154336.732305-3-manuelebnerli@mailbox.org/
- + incorporate Thorsten's suggestions
+	https://lore.kernel.org/lkml/20260617080031.99156-1-clamor95@gmail.com/
 
-[v2]
- https://lore.kernel.org/all/20260902115121.687986-2-manuelebnerli@mailbox.org/
- + one more 'your' -> 'you'
- + 'it'
- + incorporate Randy's suggestions
-    https://lore.kernel.org/all/0475c09c-e165-41a5-b654-5c6aefeaab0b@infradead.org/
- + Reviewed-by: Randy Dunlap (added by mistake)
-
-[v1]
- https://lore.kernel.org/all/20260829055501.581856-2-manuelebnerli@mailbox.org/
----
- .../verify-bugs-and-bisect-regressions.rst    | 26 +++++++++----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-index 7d38393f3..91ebb631a 100644
---- a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-+++ b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-@@ -163,7 +163,7 @@ will be considered the 'good' release and used to prepare the .config file.
-      section 'Complementary tasks: cleanup during and after the process'
-      below.
- 
--  d) Once your finished the bisection, put a few things away::
-+  d) Once you have finished the bisection, put a few things away::
- 
-        cd ~/linux/
-        git bisect log > ~/bisect-log
-@@ -178,9 +178,9 @@ will be considered the 'good' release and used to prepare the .config file.
-        ./scripts/config --set-str CONFIG_LOCALVERSION '-local-cafec0cacaca0-reverted'
- 
-     This is optional, as some commits are impossible to revert. But if the
--    second command worked flawlessly, build, install, and boot one more kernel
--    kernel; just this time skip the first command copying the base .config file
--    over, as that already has been taken care off.
-+    second command worked flawlessly, build, install, and boot one more kernel;
-+    just this time skip the first command copying the base .config file over,
-+    as that already has been taken care off.
- 
- * **Complementary tasks**: cleanup during and after the process.
- 
-@@ -229,10 +229,10 @@ depends on your issue:
- Execute all steps till the end of *segment 1* to **verify if your kernel problem
- is present in code supported by Linux kernel developers**. If it is, you are all
- set to report the bug -- unless it did not happen with earlier kernel versions,
--as then your want to at least continue with *segment 2* to **check if the issue
-+as then you want to at least continue with *segment 2* to **check if the issue
- qualifies as regression** which receive priority treatment. Depending on the
- outcome you then are ready to report a bug or submit a preliminary regression
--report; instead of the latter your could also head straight on and follow
-+report; instead of the latter you could also head straight on and follow
- *segment 3* to **perform a bisection** for a full-fledged regression report
- developers are obliged to act upon.
- 
-@@ -550,7 +550,7 @@ be a waste of time. [:ref:`details <introlatestcheck_bisref>`]
-       cd ~/linux/
-       git switch --discard-changes --detach stable/linux-6.1.y
- 
--    Your series is unsupported, if is not listed or carrying a 'end of life'
-+    Your series is unsupported if it is not listed or it is carrying a 'end of life'
-     tag. In that case you might want to check if a successor series (say
-     linux-6.2.y) or mainline (see next point) fix the bug.
- 
-@@ -1183,9 +1183,9 @@ Space requirements
- The numbers mentioned are rough estimates with a big extra charge to be on the
- safe side, so often you will need less.
- 
--If you have space constraints, be sure to hay attention to the :ref:`step about
--debug symbols' <debugsymbols_bissbs>` and its :ref:`accompanying reference
--section' <debugsymbols_bisref>`, as disabling then will reduce the consumed disk
-+If you have space constraints, be sure to pay attention to the :ref:`step about
-+debug symbols <debugsymbols_bissbs>` and its :ref:`accompanying reference
-+section <debugsymbols_bisref>`, as disabling them will reduce the consumed disk
- space by quite a few gigabytes.
- 
- [:ref:`back to step-by-step guide <diskspace_bissbs>`]
-@@ -1254,8 +1254,8 @@ distributions:
-       kernel-install-tools libelf-devel make modutils openssl openssl-devel \
-       perl-base zlib-devel rpm-build ncurses-devel qt6-base-devel
- 
--These commands install a few packages that are often, but not always needed. You
--for example might want to skip installing the development headers for ncurses,
-+These commands install a few packages that are often, but not always needed. For
-+example, you might want to skip installing the development headers for ncurses,
- which you will only need in case you later might want to adjust the kernel build
- configuration using make the targets 'menuconfig' or 'nconfig'; likewise omit
- the headers of Qt6 if you do not plan to adjust the .config using 'xconfig'.
-@@ -1407,7 +1407,7 @@ Occasionally odd things happen when trying to use a config file prepared for one
- kernel (say 6.1) on an older mainline release -- especially if it is much older
- (say 5.15). That's one of the reasons why the previous step in the guide told
- you to boot the kernel where everything works. If you manually add a .config
--file you thus want to ensure it's from the working kernel and not from a one
-+file you thus want to ensure it's from the working kernel and not from one
- that shows the regression.
- 
- In case you want to build kernels for another machine, locate its kernel build
--- 
-2.54.0
-
+Johan
