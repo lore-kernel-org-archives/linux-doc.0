@@ -1,79 +1,75 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D742D3E8C74
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 20:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A0E4302F8
+	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 20:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788985703; cv=none; b=Vle19EbYGFmFIIhjZOliHmadSJGsJXD8BK6eIFClB+3irxDrkk0dF2xp8+bRutp1iJYrQGKRg351fXyCJtteZd4WMyibhqvWcs7hmNF5ZoncrUqw6YTrYmJ6OpseZgpgb/nlDGq2Eogq8Juz+28kivkIDBGw4fXuqZPwobUj6J8=
+	t=1788985771; cv=none; b=Ik8O9cldpkVHs/LwK1lAHclKsZOZH+BsNtOub9P6KqJQXNnJcmCfjSOVBAJE2i/pXISIFw6zf5S0JNem7Q9vBXmp5kWmbKNeCvRjlFeDF2YldJhe+0LhFGd+kjeiNbBJ5XslDuQIuOWoYS14cpMUb+lzHwFTM+nBPJKcDwrYa/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788985703; c=relaxed/simple;
-	bh=W5JXtiEI1GAvGT/64QMWOtm3bVHKWsvJdYfasU41N9E=;
+	s=arc-20240116; t=1788985771; c=relaxed/simple;
+	bh=z+0tLgyCRJJAjKpetPBYp4AGbyWgzkXH+IurDgPiS78=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YB4r0/ecHzzO7xUku9yyNff8HC2DZlf+OUXxiFTJYjxlbbd4iMi9oun5aHKyMBgD6ln20LJK/AoV9Nb+EwrMKJ9zNigXWE6sNmBOer/dGWcBEduyiOkZWPZHUcogKmBExr0fsql56+6CiVKge+dTZvdYFP1wsIT95m+8LUuTVaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gt8ZOElh; arc=none smtp.client-ip=209.85.216.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=PXXbx1RUsqhVmI/kWoQvcU6oB+61SkZWqANR6lF0fITh0pb/ytBS5X3CoSy/JX+np874FZPrJluYT28jGP3Jc7dz9PjOc9N9AD06kA9CNLNsVhYxMBZ2G2KbkJIReTN02Lq9fQ0rWhdzWWGMb7EtaXcxJ6x6YoqY8wlC1H8WV3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gf870PZ2; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gt8ZOElh"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3964e480f76so7366279a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 13:28:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gf870PZ2"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccafb752so1587241a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 13:29:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788985696; x=1789590496; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788985764; x=1789590564; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=DEzU3fsaUeqKNU36+P/KzrJW02m3H6Ngnj8OsDYtm0w=;
-        b=Gt8ZOElhwjuuUxUcP99/D9HeSgGkHyVSX5spNNTrK6ezlxDH3kYrD3FuwgXU4sU6Nd
-         etRG3UdQTh7Jiy1SMrLYPF0+BYVvMx73BxsZ1zguDnCKAshmUSv4WMr10mY4Gh2+cBQA
-         qS3CImtiCwKPdb7Z3U3h81TNLMEiMIeoKs/xcDvANqkjBSDrDVy87PU/5NLKB7OWj09f
-         yvLswRdMwbjScOrcMJgMA9wAn0szAVqU8kZdpUCXj9jWL18SgRbDJUoYHIF0Fsll4Nuo
-         Teldl7MITb5D1h2KcOIRt3U5PCzcKj/ltgrbwVprPisdmDn1tJHj2eIaCQwyAQDyhlCG
-         dtzw==
+        bh=QQ2gcX78zM5THDHJgEgcjT08beP/iAweGRJTqOXZ9/c=;
+        b=Gf870PZ22XfKELmiVeXwwnlhYzjqtlrQXqQ9wBwHKGb8IHRo+KZeHFTaQ7GMirOi9y
+         jLzq9swursocWRRd373GQMFM3dR8C9QAQyCzxnKydvS/g2Ja+424sJOuRwJbl97+4ELz
+         Q8tJPE6kQJvgmWWXJUGgrsBurIykQorLwCTcvgP5VtAEIMxE3Kj8tL5PZCupavsKt2mO
+         q635xqibpof/pRz2ktIHUgojQFOchFTx9fmMCHpnUL+gUWh5+g2cDyR2zniaDW5YQnAZ
+         DXNFQ7ArNgz8OIGkOgxnsrITdLBT7TMz/Hgl5D5e258iPZ+Sc/TMqAq7YG/QKwSdwbaM
+         mtvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788985696; x=1789590496;
+        d=1e100.net; s=20251104; t=1788985764; x=1789590564;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=DEzU3fsaUeqKNU36+P/KzrJW02m3H6Ngnj8OsDYtm0w=;
-        b=kp8rbSk3CW8gpozs5o6rmW2fGIGV2Mnz7V7AeeqF1uNXVjUNSXgU5+9yKns4RWYYIw
-         fNf7IXSZUV5N+S9R028isrx0Iyxc7nY463QJyYtTh+f7+yLciNg02XNxCHs/NkoAqn2P
-         YwXvS43+PY4EGLEnIcOP4hGqy6AQDilltL3UJZt+WIdgZZL8W4jKF2QONfZjlsNXtwse
-         Fxvb0GnD6voIdX6PxCbndFSJu0nRBFr6OlRzvycTRgJ3numd5v7Tfpi+A6LEab1GhY9g
-         vg/bQmp62hSMCQuR1yyvjERknWSc/EkTTtdJmaH/mdbj4hgZQwwJXYCHmdyaZsPryQyn
-         YqSQ==
-X-Forwarded-Encrypted: i=1; AKwUvByIks/r8GQLU9VJGg0sZRjXCMPxXoxdG8BI7uJxIJiQXBuNm+Gjrs8/xOOmIZUTUoqSe85khEsQ0SE=@vger.kernel.org
-X-Gm-Message-State: AFuF++kO87fGteUeg6XsXZRVKh9hMKaPs/KCgJ/Mjm1y4TA6uAny4rWM
-	VbU1PbmZ4MJtEv5NtnjNYIl2ZsCB5R4lxztprBE4oRpjOc/joUA54sMY
-X-Gm-Gg: AYBFou0O6fqaHhOgTh43V0Gnoo6VAm7/yJjbH2sIPfVYgmR6Df6MWjPmQChdgasldXb
-	EmSGSkeF618yseWFpBbGUeSRhBL0VkCrw6074JJp3DWH7rpdDH2Pr5lOXBgihVVz4oJquwcmuZC
-	wtnr70ixrbLpmlLajmXJiXkKOaeWNvNQaBqW1MGLqwieagG/9Kt2Nf9FsX1+GIyOQqshm9lGtuV
-	Ibzgj4DvTjVmDu62sRPwdY0/auxC6Kdn+YpXp6+OpFYYxaZoTqL92jqpp7aq7iQ3ndbqZl15wN3
-	ed0fExbRxFQcz/48OfR+n0MY7YeG7zPGMxXGqqXG6DcEnlcLRvAHiR7Sao3aNUj2MoviFGKe7UR
-	yE9Db3Axdf6YrFxPIFSEd0jmAPEnJMiB9jQ7GaUFdg8QPvyWWKiD5AJcMMvvJt5a5LI0enmYcRi
-	D2waBedIGx4yg/LdlZMwxlzz+kQdZoqBRZyaUXblRVjmZTjzjnqvQ8JbekBXZUEBZxslwu6wV1a
-	N9+455sO22n
-X-Received: by 2002:a17:90b:43:b0:395:5eec:b932 with SMTP id 98e67ed59e1d1-39b26141c79mr58732068a91.11.1788985696439;
-        Wed, 09 Sep 2026 13:28:16 -0700 (PDT)
+        bh=QQ2gcX78zM5THDHJgEgcjT08beP/iAweGRJTqOXZ9/c=;
+        b=CMlRvbT8QL8xSmpqseshlgMKHbOfrTKrxgsLoy/9roiV/ZQTl+v4B3oX/3B9v0z/Qq
+         EkGLbYwjtAioHOG1KYTgSTyWpaY6TDUy0eDqh61xJoZ8YmIlBSs6HRfzJlaRtP/HpVB9
+         gjovaEEkmJWGmIYHspInK6K1qtfWRFrnWMCqv6MyYT9oJIZZiHQV+Mj1isDsEnkAFhch
+         Gq0+izx0F003jqIns8jrVU38LHMwk11miNLBy8sTi3aNNDcxNUS3vAQzOaIUYJgxxZPA
+         5EN/lix1WeOz23BwvcPeUYSMsqfHWT3X90anCIwDIAnNJqQBn2WorfQDqeIwvJV5CdBu
+         AP2g==
+X-Forwarded-Encrypted: i=1; AKwUvByXIZNnSn7cbPwLJMienw/fk78e695Jue1YQQKsg46Z3YFMhj89ys6AWRGNZ2lv7qSm15RexjFFCcY=@vger.kernel.org
+X-Gm-Message-State: AFuF++mSx4TbZv+4YMBX1DPUoLnqpYBL3ooQMw8HTBDpofpCGP9dRl4U
+	UWQicpAE0Ezlqpd9qoytLs2c5JLx7WY0WqQgVzHdOWdAwMcsPMXRgy7G
+X-Gm-Gg: AYBFou34LCbkWm+xCRTXJDnHFsDoKqKg+vHgmR8hHlYjMaPGl3oQwubrodelI3O/68l
+	dKdauCP/bYGpAMtKUJQK8+ktYt6heJE85X805bxELAWW2YMm5on71aNyM25I3yhCGvoKUveetrC
+	+1b8RjFEw8SpE+Tr5UlY28yxVlCk4T0tv5MNLcSk9HoUev4MHOrey+hUOCmvzRHPMieBzCyC6Ab
+	nBimV+B+P40RtUXjzyIs5LIpyerFkX5kZnFfkTbzTj0Nc+BWqnU5Gk9gSCvHEAO/ckrxjiXT4Q+
+	nqTr+OvRCaJ9LOm0/0wPEgo8eZEUIdFIj8bSHXrgttOiJN+oLLITnwBQsU1zVTGviTeccnf/+Zm
+	Y2bch+OnS1r7hDp5j+jB+CZUIO/EN2yyihU6NUHT68HcsBEyizGT5lr04mw3t9JkqYoxbVzNTyV
+	GGuDj/6kF0/Q0vBn4IZHd5Xf4xIF19BJey1kNU8AOIxPCSRGpDg0J/BzJD7SLgmdS9T/2s6cq5H
+	Vl8R6YSJWEINEiOVY3nqBU=
+X-Received: by 2002:a17:90b:17c2:b0:398:9be8:ea6a with SMTP id 98e67ed59e1d1-39bac4571cfmr10334634a91.23.1788985764524;
+        Wed, 09 Sep 2026 13:29:24 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d77388944sm1156264a91.5.2026.09.09.13.28.15
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d7740383asm1159237a91.7.2026.09.09.13.29.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 13:28:15 -0700 (PDT)
+        Wed, 09 Sep 2026 13:29:23 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 9 Sep 2026 13:28:15 -0700
+Date: Wed, 9 Sep 2026 13:29:23 -0700
 From: Guenter Roeck <linux@roeck-us.net>
-To: Paul Louvel <paul.louvel@bootlin.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+To: Zac Lanzon <lanzonza@gmail.com>
+Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+	Aleksa Savic <savicaleksa83@gmail.com>, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] hwmon: (nct6775) Add support for NCT6126D
-Message-ID: <be37aafc-6b6b-478e-b01e-9e6f0a932608@roeck-us.net>
-References: <20260909-bootlin-hwmon-nct6126-v1-0-4e85615fef10@bootlin.com>
- <20260909-bootlin-hwmon-nct6126-v1-2-4e85615fef10@bootlin.com>
+Subject: Re: [PATCH] hwmon: (asus_rog_ryujin) Add ROG Ryujin III 360
+Message-ID: <7e2e3c81-ac92-44ad-ad9f-19add2879be6@roeck-us.net>
+References: <20260903004054.502171-1-lanzonza@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,32 +78,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260909-bootlin-hwmon-nct6126-v1-2-4e85615fef10@bootlin.com>
+In-Reply-To: <20260903004054.502171-1-lanzonza@gmail.com>
 
-On Wed, Sep 09, 2026 at 08:25:55PM +0200, Paul Louvel wrote:
-> Add support for the hardware monitoring functionality of the NCT6126D
-> Super-I/O chip.
+On Wed, Sep 02, 2026 at 08:40:54PM -0400, Zac Lanzon wrote:
+> Add the USB product ID of the base ASUS ROG RYUJIN III 360 (0b05:1aa2,
+> USB product string "ROG RYUJIN III"). It uses the same status report
+> layout and cooler duty channel as the RYUJIN III EXTREME, EVA and
+> WHITE editions, so it can share rog_ryujin_iii_info.
 > 
-> The NCT6126D hardware monitor is nearly identical to the NCT6116D: the
-> fan, PWM, temperature, TSI, alarm.
+> Tested on a ROG RYUJIN III 360: coolant temperature, pump speed and
+> internal fan speed report plausible values that track load, and the
+> internal fan follows pwm2 (30% -> 870 RPM, 40% -> 1590 RPM).
 > 
-> The differences are:
-> 
-> - Device IDs 0xd283 (A version) and 0xd284 (B version), which both fall
->   into the NCT6116D ID range (0xd280) when masked with SIO_ID_MASK.
->   Instead, compare the full value to distinguish from NCT6116D.
-> 
-> - One additional VIN: VHIF scaled at 16 mV/LSB.
-> 
-> - The fan count limit registers are documented for all five fans.
->   Also expose fan4_min.
-> 
-> Assisted-by: opencode:z-ai/glm-5.3-flash
-> Signed-Off: Paul Louvel <paul.louvel@bootlin.com>
+> Assisted-by: Claude:claude-fable-5-1
+> Signed-off-by: Zac Lanzon <lanzonza@gmail.com>
 
-Signed-off-by:
-
-I can not change that, so you'll have to resend.
+Applied.
 
 Thanks,
 Guenter
