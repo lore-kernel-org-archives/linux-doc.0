@@ -1,72 +1,72 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63AB3624B7
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 12:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884513F1ADB
+	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 12:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788958167; cv=none; b=NiwH1kzeyLVbg4ZwVpT78xA7aRAbmLOqu1o3WqJ3ULZDRlgF5giDr61+t9Yn0iVgChTrtMQb6B165OW3c3d1CdVakqMDDE5oCLuPPa0U/BypN8v0IM2BFEDRxypp3Ws3V/9EgEyKVTPbdMadUS14TyVIyncCUWYzmEUWvLWUOus=
+	t=1788958173; cv=none; b=opYTnI6wQ758i7Z419fvsMLP8+eB7wICecOYzD640yBke4hc/xWhNSIuwhpHnW9pqTmu0u8hD4/7BrBBqVNi8so6jjafjS409jxr1ThL2jweyhfgklDT8cw14ohGt+vxnrAtb9B3mU0wdErpNE4rOzLu5LMTabe1hWfXhAeiV3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788958167; c=relaxed/simple;
-	bh=/JM+iIti+L6mtY4ojyqo7wyASznAq7b9TDECJagSqaA=;
+	s=arc-20240116; t=1788958173; c=relaxed/simple;
+	bh=hdC9chR4oiGdO11ceKOevnwapK7aQDqJZOuJTZMipLQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PruT5p8fnTGMD9TE9kN68NOsiGCG04D5MwbIsVjDJs3W2zNrNfQHnMjvrMGqKeGf20jrISnAMuP9U0V6ajvssRSb4KrhaUI/ih4M5AtKji+GFHy8WTlMbGN4R50rPbazhdsFInTm28vPc0Y79DFEOrXI8l76seHJ3/v2tRikQXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MRpo0xiz; arc=none smtp.client-ip=209.85.221.178
+	 MIME-Version:Content-Type; b=hve0zw19vhQSKbgh+Gwhy7ilBa0BQPg0jEbDc+kNv7EPCuIqmnt+JuL9jyfntWWX8rvAYa6iv51k/+4CFFxiWpXsBoZzE7gFkmfvo5KrWZZTNqBl1pUF9lro5FqdQdHg9th2+A0kN1aWYfviVnMX/tzI0gV4roJhXGzcSd1+Lg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CwYKdMCt; arc=none smtp.client-ip=74.125.227.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MRpo0xiz"
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5c7991578c2so2521066e0c.3
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 05:49:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CwYKdMCt"
+Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c67e5292faso378049e0c.1
+        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 05:49:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788958163; x=1789562963; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788958167; x=1789562967; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ZPLLBsAkSiwXWKEjgxa1zjBRHYO2vHTgNGBNa05XyN8=;
-        b=MRpo0xizbtIhzaKYR7XihfjXZ6jNGdTR3QcGlnE3wu1zA4FfTadyDljGHYsSJ/J+mJ
-         MD+9S3gHRiXsMM2yzI7RwJosjg6JdFX/qX5mvxIFu6514jnL+ZZKdGWCMjCKnKAxED7z
-         YXUPKJMvodCNiIfgCiZwE9O7csjldybJw6QhY999QxBg1Tf/vT+WxfNlUL3iK7RVFFYG
-         FZXCwMQlBA/CxFBpv/5gCwPc1LkPxaZ5/Tc2DNiw3AKxKwfmtm0UTdJwNHHlnGEdfrVb
-         VYBFMgJk+ABCntaxNoi57i8pTlI/7T6TMjotMm6MBvAGfEWWKKsiNwAPGVOSeeoK0rWK
-         GZ+w==
+        bh=m8AU8jMCxj9B7t3ZoKrGZwu3jPWHsM2jKuUiHu4W4yQ=;
+        b=CwYKdMCtW+5TzThlGu39Qr/aUW7K1DJuypwrXARkEH+Y/mudboyiL0C71rY1c8nasJ
+         r6SS2gf/6E+NuoVOC7nLNrRkIWiddCMft/HXaJjWhKBVKNgzJyEQrYM2EvP2wuhj2TFI
+         v2Y7ZrTXf8QlJ0Is09xgWF/iwuY8DGICA8EKw3dC8roNzchEtXlSpqLuABj89vGd6r99
+         tVLSuVe3J+ql23L5wWTWWIt7wZUYNOgbtvbLzkKhmMBDJoiTN7dUy/WmbK0jvLjPYhZH
+         q3Xfg3lIjTh3NA1+3xNS5bdQ+iwPJ9YWpVtIWJMhV1Wqmk2+XgumWVN1Nzc8r8P7uvVt
+         uBwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788958163; x=1789562963;
+        d=1e100.net; s=20251104; t=1788958167; x=1789562967;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZPLLBsAkSiwXWKEjgxa1zjBRHYO2vHTgNGBNa05XyN8=;
-        b=E2fggB+9ONGjpRv9XGQ8EjrHESTR/8wEf6y2tLMqe0HwpS5H+AD5qrYi7FwRVVLAOL
-         3daclTvLg8BccPqI2IHb8120ciHQTKt3rNT0/0D4aqyxuH75ZI1No653NtImgUmXgTrE
-         KqZ80nNdgvmZiozY/vSkK0JjKKS0+lUIShXB50sthq11X/A9QpVoFdYyzmm8E4ororGx
-         wfr3V22kIUfUFuRZAGlXmH9FvS5KS4HurzSvDF81TM/EVQrR2IADVg7HyRdm1FiWFoFM
-         PjwpDvAcITG312FdVjXIGoUb2aaINd6mfLQfma+DsEiyeXA+/sly3nrL1WqB46/5qzNb
-         JjdA==
-X-Gm-Message-State: AFuF++m0QMyZcm8C8eRf8aM6HaOgRVNn3IzO0to6tshrY1+pbUfk8aZN
-	RTPkt7M0z+DV/VK1ZqK2xyg4+Mi+tWiMkkYv4SRSPzC6nxCqm8MDraMh
-X-Gm-Gg: AYBFou0DR9ZhPQI7UwOVlSRiKtn30QldhAecuIL3Z+xWVgh81hEULN06+f0rkywvp7D
-	YJsVmBkYzoge1yKQVVAhjnzOx1ihSswCPGAfptzAOEkACNFkiRpmLEDxIpI15hvxQp5msMl08k5
-	r9vLKe6SxfvGu9oUWo0wGKkGQJBDGwnQRGhyo4NZyCI1+tSqHkkgfPUaU+6eEwssvrcdXAiGT4l
-	AQKUW1dJAuiEFkeX2KLmUbxKmAx89zW6b7kJnH3SWr527SlSi0Z3N/0bHLEp0fClHucG99kaLHs
-	uOyfknwYCictGsuHU+HC+sNQR/Ab96ZtGwWiBUlREeVvrPb76E50jSS6VN4GkEJTJE/x1RyRHwg
-	BghCEzbuQF03LuQ9NawMzX8Pplmmib9ZFROYD7cHEdPim1mjpybYk/8iWhcuSs35TZePffzSAmD
-	uc4LGzn4erESbVfeWsIhzLBZj5eJ9aSJmB2Whu6lDGZPRQ+fIkJKw/5DzNMe+H3fXm4sqtB/6y0
-	HAFEUUrdG8sRBQBGli+USqAHuTMlbWCkPT19cq8BL+SxUtzXZcGgNHIaHS1l0g1HszQiepniqsp
-	6wxyP8X5ILjnTfUB71zZ6AHzYXwBdhyCK18EUb4yz2Px3hPy7/ki3BJFbw==
-X-Received: by 2002:a05:6122:4f82:b0:5c2:ac92:eb18 with SMTP id 71dfb90a1353d-5c7ed3f6d2bmr13451243e0c.7.1788958162852;
-        Wed, 09 Sep 2026 05:49:22 -0700 (PDT)
+        bh=m8AU8jMCxj9B7t3ZoKrGZwu3jPWHsM2jKuUiHu4W4yQ=;
+        b=PNMrEPf7JlRNNdOMskkHphw2LZ8ZddY3dvyOryFMOVjdanjXpWPpj9LeIYcWrEGBPV
+         KxijqV/Jr75wJQtQta+Yy8TfyZCNB9d3Ygdlj8w0YYFSvDP4cSZh9GkcCkcX0nlGTRF7
+         lpbhGiWwJ9LxS9u2HeKTtmy10rIkH486RjXDzpRk05p0pDhezqE+S5rbEndW7WUtD7w/
+         91rm6yruLx+jFvHPhtLg569hcdu67s0Wf211KF1Wcol4WgFWjvL9JdemYopLbj/pCcMb
+         qgbrlcXhrAj817UpDPD897WBMMwJmBVWiklOYJAfIPIZvIC3xsiJnIbbg24tjR0wohzl
+         i+EQ==
+X-Gm-Message-State: AFuF++k16dbIovu5jFXQ/hwDRqEbdbUihtJ2Hn0rrQzutiZRhzqYYcxG
+	vlDNxE4igxRa1ivysLsBnPfw8Q3WPMRE/1uIfztCAzJN2SzUeNLz16EG
+X-Gm-Gg: AYBFou1ewYPL1AEgvV29rGlqefO7Q3GcX0debl4aRKGotyl9HGYyZrrLqcP+BzJ+CvZ
+	BO24wsKMsw027HgRqDwYu7MSWj3fVFCq88Bo/ef10g57ZQzzeazWzjyswpzN4a3gK0TsJVk45vu
+	jnMef7n3BQ3kuS840wjp0dVEZvU1zvEOoMFHmklFnOs2aq5fNUWWRzgh1ApYQHJwuesoKIErcet
+	PLfi0DO35sDTPq/qQeDg4aPNewW90jSkSNuyGeVVHRBKVlIxp3XRjNQT0oUMSmeg1xi9BLiYR/2
+	KSL7qgiVsYYlDrqEIqZ7mYmZx1VqHXPPaFrOhe9M72bSm4k4PeY/kXgeNSfmxo+GVoo1DOaxPNl
+	ZZS8Lh0UeiQhxsoXjWFL347B9jjz/2qC8rcLZrG/eVBZ1FIf6yxHhfM1xTKeBHrdEcBebLuoSLL
+	f/OtGaHQIUKaFUIjm5juhSQjZMZjoxQnPLdbJ0Vmc6zde5APCCy9qpHBLCDbli1uRX1G1qhFkVc
+	MJY/MakYYdXS2CcT/12fNPeVrdV5oR/ggknmckFVvJGCclP+Nk/XDWrlVsdLTlnydjncCA5ubu1
+	WRcyqxT+qcUdCMffNpePGFksPyb2c4qTPJqSpGUmhHXi58g=
+X-Received: by 2002:a05:6122:e189:b0:5c0:fb8d:9993 with SMTP id 71dfb90a1353d-5c828511234mr2820528e0c.0.1788958166583;
+        Wed, 09 Sep 2026 05:49:26 -0700 (PDT)
 Received: from localhost.localdomain (smtp.hostdime.com.br. [187.45.177.18])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c7ec24254fsm11993742e0c.10.2026.09.09.05.49.19
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c7ec24254fsm11993742e0c.10.2026.09.09.05.49.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 05:49:21 -0700 (PDT)
+        Wed, 09 Sep 2026 05:49:25 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: corbet@lwn.net
 Cc: linux-doc@vger.kernel.org,
 	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH 3/4] docs: pt_BR: translate maintainer-tip.rst
-Date: Wed,  9 Sep 2026 09:48:46 -0300
-Message-ID: <20260909124905.6156-4-danielmaraboo@gmail.com>
+Subject: [PATCH 4/4] docs: pt_BR: translate submitting-patches.rst
+Date: Wed,  9 Sep 2026 09:48:47 -0300
+Message-ID: <20260909124905.6156-5-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260909124905.6156-1-danielmaraboo@gmail.com>
 References: <20260909124905.6156-1-danielmaraboo@gmail.com>
@@ -79,884 +79,1044 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate Documentation/process/maintainer-tip.rst into Brazilian
+Translate Documentation/process/submitting-patches.rst into Brazilian
 Portuguese and add it to the pt_BR process documentation index.
 
-This document serves as the handbook for the tip tree, providing subsystem
-specific information supplementary to the general development process.
+This document contains guidelines and essential instructions for
+developers submitting code and patches to the Linux kernel.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
+ .../translations/pt_BR/process/2.Process.rst  |   2 +-
  .../translations/pt_BR/process/index.rst      |   1 +
- .../pt_BR/process/maintainer-tip.rst          | 847 ++++++++++++++++++
- 2 files changed, 848 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/maintainer-tip.rst
+ .../pt_BR/process/maintainer-kvm-x86.rst      |   6 +-
+ .../pt_BR/process/submitting-patches.rst      | 961 ++++++++++++++++++
+ 4 files changed, 966 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/translations/pt_BR/process/submitting-patches.rst
 
+diff --git a/Documentation/translations/pt_BR/process/2.Process.rst b/Documentation/translations/pt_BR/process/2.Process.rst
+index 03e288d46..0019b7404 100644
+--- a/Documentation/translations/pt_BR/process/2.Process.rst
++++ b/Documentation/translations/pt_BR/process/2.Process.rst
+@@ -455,7 +455,7 @@ Existem algumas dicas que podem ajudar na sobrevivência na lista linux-kernel:
+ - Use respostas intercaladas, o que torna sua resposta mais fácil
+   de ler. (ou seja, evite o "top-posting" — a prática de colocar sua resposta
+   acima do texto citado ao qual você está respondendo). Para mais detalhes, veja
+-  :ref:`Documentation/process/submitting-patches.rst <interleaved_replies>`.
++  :ref:`Documentation/process/submitting-patches.rst <pt_BR_interleaved_replies>`.
+ 
+ - Pergunte na lista de discussão correta. A lista linux-kernel pode até ser o
+   ponto de encontro geral, mas não é o melhor lugar para encontrar desenvolvedores
 diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
-index 63282b053..e011b55a1 100644
+index e011b55a1..2c63d82bf 100644
 --- a/Documentation/translations/pt_BR/process/index.rst
 +++ b/Documentation/translations/pt_BR/process/index.rst
-@@ -63,6 +63,7 @@ Estas são as regras pelas quais tentamos viver na comunidade do kernel
-    Declaração sobre Drivers do Kernel <kernel-driver-statement>
-    Estilo de gerenciamento do kernel Linux <management-style>
-    Assistentes de código <coding-assistants>
-+   O manual da árvore tip <maintainer-tip>
-    Conclave (Continuidade do projeto) <conclave>
+@@ -26,6 +26,7 @@ sua entrada na comunidade do kernel.
  
- Lidando com bugs
-diff --git a/Documentation/translations/pt_BR/process/maintainer-tip.rst b/Documentation/translations/pt_BR/process/maintainer-tip.rst
+    Como começar <howto>
+    Guia do Processo de Desenvolvimento <development-process>
++   Enviando patches: o guia essencial para colocar o seu código no kernel <submitting-patches>
+    Lista de verificação para submissão de patches do kernel Linux <submit-checklist>
+ 
+ Ferramentas e guias técnicos para desenvolvedores do kernel
+diff --git a/Documentation/translations/pt_BR/process/maintainer-kvm-x86.rst b/Documentation/translations/pt_BR/process/maintainer-kvm-x86.rst
+index 6480ff08b..d9fd272fb 100644
+--- a/Documentation/translations/pt_BR/process/maintainer-kvm-x86.rst
++++ b/Documentation/translations/pt_BR/process/maintainer-kvm-x86.rst
+@@ -122,7 +122,7 @@ Quando se trata de estilo, nomenclatura, padrões, etc., a consistência é a
+ prioridade número um no KVM x86. Se tudo mais falhar, siga o que já existe.
+ 
+ Com algumas ressalvas listadas abaixo, siga o estilo de codificação preferido
+-dos mantenedores da árvore "tip" (:ref:`maintainer-tip-coding-style`), já que
++dos mantenedores da árvore "tip" (:ref:`pt_BR_maintainer-tip-coding-style`), já que
+ patches/séries frequentemente tocam tanto arquivos do KVM quanto arquivos x86
+ não-KVM, ou seja, atraem a atenção de mantenedores do KVM *e* da árvore "tip".
+ 
+@@ -206,7 +206,7 @@ Novos tópicos surgem ocasionalmente, mas, por favor, inicie uma discussão na
+ lista se desejar propor a introdução de um novo tópico; ou seja, não aja por
+ conta própria.
+ 
+-Veja :ref:`the_canonical_patch_format` para mais informações, com uma ressalva:
++Veja :ref:`pt_BR_the_canonical_patch_format` para mais informações, com uma ressalva:
+ não trate o limite de 70-75 caracteres como um limite absoluto e rígido. Em
+ vez disso, use 75 caracteres como um limite firme, mas não rígido, e use 80
+ caracteres como um limite intransponível. Ou seja, permita que o shortlog
+@@ -218,7 +218,7 @@ Changelog
+ O mais importante: escreva os changelogs usando o modo imperativo e evite o uso
+ de pronomes.
+ 
+-Veja :ref:`describe_changes` para mais informações, com uma ressalva: comece com
++Veja :ref:`pt_BR_describe_changes` para mais informações, com uma ressalva: comece com
+ uma breve descrição das mudanças reais e, em seguida, apresente o contexto e o
+ histórico. Note! Esta ordem entra em conflito direto com a abordagem preferida
+ da árvore "tip"! Por favor, siga o estilo preferido da árvore "tip" ao enviar
+diff --git a/Documentation/translations/pt_BR/process/submitting-patches.rst b/Documentation/translations/pt_BR/process/submitting-patches.rst
 new file mode 100644
-index 000000000..e583bad42
+index 000000000..8cf1aae52
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/process/maintainer-tip.rst
-@@ -0,0 +1,847 @@
++++ b/Documentation/translations/pt_BR/process/submitting-patches.rst
+@@ -0,0 +1,961 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+O manual da árvore tip
-+======================
-+
-+O que é a árvore tip?
-+---------------------
-+
-+A árvore tip é uma coleção de vários subsistemas e áreas de
-+desenvolvimento. A árvore tip é tanto uma árvore de desenvolvimento direto quanto uma
-+árvore de agregação para várias árvores de sub-mantenedores. A URL gitweb da árvore tip
-+é: https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-+
-+A árvore tip contém os seguintes subsistemas:
-+
-+   - **Arquitetura x86**
-+
-+     O desenvolvimento da arquitetura x86 ocorre na árvore tip, exceto
-+     pelas partes específicas do KVM e XEN no x86, que são mantidas nos
-+     subsistemas correspondentes e roteadas diretamente para a mainline a partir
-+     dali. Ainda é uma boa prática enviar Cc para os mantenedores x86 nos
-+     patches do KVM e XEN específicos para x86.
-+
-+     Alguns subsistemas x86 têm seus próprios mantenedores além dos
-+     mantenedores gerais do x86. Por favor, envie Cc para os mantenedores gerais do x86 em
-+     patches que toquem em arquivos em arch/x86, mesmo quando não forem indicados
-+     pelo arquivo MAINTAINER.
-+
-+     Note que ``x86@kernel.org`` não é uma lista de discussão. É meramente um
-+     alias de e-mail que distribui mensagens para a equipe de mantenedores de nível superior
-+     do x86. Por favor, sempre envie Cc para a lista de discussão do Linux Kernel (LKML)
-+     ``linux-kernel@vger.kernel.org``, caso contrário, seu e-mail acabará apenas nas
-+     caixas de entrada privadas dos mantenedores.
-+
-+   - **Scheduler**
-+
-+     O desenvolvimento do scheduler ocorre na árvore -tip, na
-+     branch sched/core - com ocasionais árvores de subtópicos para
-+     conjuntos de patches em progresso.
-+
-+   - **Locking e atomics**
-+
-+     O desenvolvimento de locking (incluindo atomics e outras primitivas de
-+     sincronização que estão conectadas ao locking) ocorre na árvore -tip,
-+     na branch locking/core - com ocasionais árvores de subtópicos
-+     para conjuntos de patches em progresso.
-+
-+   - **Subsistema genérico de interrupções e drivers de chip de interrupção**:
-+
-+     - o desenvolvimento do núcleo de interrupções ocorre na branch irq/core
-+
-+     - o desenvolvimento do driver de chip de interrupção também ocorre na branch
-+       irq/core, mas os patches geralmente são aplicados em uma árvore de mantenedor
-+       separada e depois agregados na irq/core
-+
-+   - **Tempo, timers, timekeeping, NOHZ e drivers de chip relacionados**:
-+
-+     - o desenvolvimento do timekeeping, núcleo clocksource, NTP e alarmtimer
-+       ocorre na branch timers/core, mas os patches geralmente são aplicados em
-+       uma árvore de mantenedor separada e depois agregados na timers/core
-+
-+     - o desenvolvimento do driver clocksource/event ocorre na branch
-+       timers/core, mas os patches são em sua maioria aplicados em uma árvore de mantenedor
-+       separada e depois agregados na timers/core
-+
-+   - **Núcleo de contadores de desempenho, suporte a arquitetura e ferramentas**:
-+
-+     - o desenvolvimento do núcleo perf e suporte a arquitetura ocorre na
-+       branch perf/core
-+
-+     - o desenvolvimento de ferramentas perf ocorre na árvore do mantenedor
-+       de ferramentas perf e é agregado à árvore tip.
-+
-+   - **Núcleo de hotplug de CPU**
-+
-+   - **Núcleo RAS**
-+
-+     Em sua maioria, os patches RAS específicos para x86 são coletados na branch
-+     ras/core da árvore tip.
-+
-+   - **Núcleo EFI**
-+
-+     Desenvolvimento EFI na árvore git efi. Os patches coletados são
-+     agregados na branch efi/core da árvore tip.
-+
-+   - **RCU**
-+
-+     O desenvolvimento do RCU ocorre na árvore linux-rcu. As mudanças resultantes
-+     são agregadas na branch core/rcu da árvore tip.
-+
-+   - **Vários componentes de código do núcleo**:
-+
-+       - debugobjects
-+
-+       - objtool
-+
-+       - partes e peças aleatórias
-+
-+
-+Notas de submissão de patch
-+---------------------------
-+
-+Selecionando a árvore/branch
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Em geral, o desenvolvimento contra o head da branch master da árvore tip é
-+adequado, mas para os subsistemas que são mantidos separadamente, possuem sua
-+própria árvore git e são apenas agregados na árvore tip, o desenvolvimento deve
-+ocorrer contra a árvore ou branch do subsistema relevante.
-+
-+Correções de bugs que visam a mainline devem sempre ser aplicáveis contra a
-+árvore do kernel mainline. Potenciais conflitos contra mudanças que já estão
-+na fila da árvore tip são resolvidos pelos mantenedores.
-+
-+Assunto do patch
-+^^^^^^^^^^^^^^^^
-+
-+O formato preferido da árvore tip para prefixos de assunto do patch é
-+'subsys/component:', ex. 'x86/apic:', 'x86/mm/fault:', 'sched/fair:',
-+'genirq/core:'. Por favor, não use nomes de arquivos ou caminhos de arquivos completos como
-+prefixo. 'git log path/to/file' deve lhe dar uma dica razoável na maioria
-+dos casos.
-+
-+A descrição condensada do patch na linha de assunto deve começar com uma
-+letra maiúscula e deve ser escrita em tom imperativo.
-+
-+
-+Changelog
-+^^^^^^^^^
-+
-+As regras gerais sobre changelogs no :ref:`Guia de submissão de patches
-+<pt_BR_describe_changes>`, se aplicam.
-+
-+Os mantenedores da árvore tip valorizam seguir essas regras, especialmente no
-+pedido para escrever changelogs no modo imperativo e não personificando
-+o código ou sua execução. Isso não é apenas um capricho dos
-+mantenedores. Changelogs escritos em palavras abstratas são mais precisos e
-+tendem a ser menos confusos do que aqueles escritos em forma de romances.
-+
-+Também é útil estruturar o changelog em vários parágrafos e não
-+juntar tudo em um só. Uma boa estrutura é explicar
-+o contexto, o problema e a solução em parágrafos separados e nesta
-+ordem.
-+
-+Exemplos para ilustração:
-+
-+  Exemplo 1::
-+
-+    x86/intel_rdt/mbm: Corrigir o manipulador de overflow do MBM durante hot cpu
-+
-+    Quando uma CPU está morrendo, cancelamos o worker e agendamos um novo worker em uma
-+    CPU diferente no mesmo domínio. Mas se o timer já está prestes a
-+    expirar (digamos 0.99s) então essencialmente dobramos o intervalo.
-+
-+    Modificamos o tratamento de hot cpu para cancelar o trabalho atrasado na cpu
-+    que está morrendo e executar o worker imediatamente em uma cpu diferente no mesmo domínio. Não
-+    fazemos o flush do worker porque o worker de overflow do MBM reagenda o
-+    worker na mesma CPU e escaneia a domain->cpu_mask para obter o ponteiro
-+    do domínio.
-+
-+  Versão melhorada::
-+
-+    x86/intel_rdt/mbm: Corrigir o manipulador de overflow do MBM durante hotplug de CPU
-+
-+    Quando uma CPU está morrendo, o worker de overflow é cancelado e reagendado em uma
-+    CPU diferente no mesmo domínio. Mas se o timer já estiver prestes a
-+    expirar isso essencialmente dobra o intervalo, o que pode resultar em um overflow
-+    não detectado.
-+
-+    Cancele o worker de overflow e reagende-o imediatamente em uma CPU diferente
-+    no mesmo domínio. O trabalho também poderia sofrer um flush, mas isso iria
-+    reagendá-lo na mesma CPU.
-+
-+  Exemplo 2::
-+
-+    time: POSIX CPU timers: Garantir que a variável seja inicializada
-+
-+    Se cpu_timer_sample_group retornar -EINVAL, ela não terá escrito em
-+    *sample. Checar o valor de retorno de cpu_timer_sample_group previne o
-+    uso potencial de um valor não inicializado de now no bloco seguinte.
-+    Dado um clock_idx inválido, o código anterior poderia caso contrário sobrescrever
-+    *oldval de maneira indefinida. Isso agora é prevenido. Também exploramos
-+    o curto-circuito do && para amostrar o timer apenas se o resultado for
-+    realmente usado para atualizar *oldval.
-+
-+  Versão melhorada::
-+
-+    posix-cpu-timers: Tornar set_process_cpu_timer() mais robusto
-+
-+    Como o valor de retorno de cpu_timer_sample_group() não é checado,
-+    compiladores e checadores estáticos podem legitimamente avisar sobre um uso potencial
-+    da variável não inicializada 'now'. Isso não é um problema de tempo de execução pois todos
-+    os locais de chamada passam ids de clock válidos.
-+
-+    Além disso, cpu_timer_sample_group() é invocado incondicionalmente mesmo quando o
-+    resultado não é usado porque *oldval é NULL.
-+
-+    Torne a invocação condicional e cheque o valor de retorno.
-+
-+  Exemplo 3::
-+
-+    A entidade também pode ser usada para outros propósitos.
-+
-+    Vamos renomeá-la para ser mais genérica.
-+
-+  Versão melhorada::
-+
-+    A entidade também pode ser usada para outros propósitos.
-+
-+    Renomeie para ser mais genérica.
-+
-+
-+Para cenários complexos, especialmente condições de corrida (race conditions) e problemas
-+de ordenação de memória, é valioso descrever o cenário com uma tabela que mostra
-+o paralelismo e a ordem temporal dos eventos. Aqui está um exemplo::
-+
-+    CPU0                            CPU1
-+    free_irq(X)                     interrupt X
-+                                    spin_lock(desc->lock)
-+                                    wake irq thread()
-+                                    spin_unlock(desc->lock)
-+    spin_lock(desc->lock)
-+    remove action()
-+    shutdown_irq()
-+    release_resources()             thread_handler()
-+    spin_unlock(desc->lock)           access released resources.
-+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-+    synchronize_irq()
-+
-+O Lockdep fornece uma saída útil semelhante para descrever um possível cenário
-+de deadlock::
-+
-+    CPU0                                    CPU1
-+    rtmutex_lock(&rcu->rt_mutex)
-+      spin_lock(&rcu->rt_mutex.wait_lock)
-+                                            local_irq_disable()
-+                                            spin_lock(&timer->it_lock)
-+                                            spin_lock(&rcu->mutex.wait_lock)
-+    --> Interrupt
-+        spin_lock(&timer->it_lock)
-+
-+Referências a funções em changelogs
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Quando uma função é mencionada no changelog, seja no corpo do texto ou na
-+linha de assunto, por favor use o formato 'nome_da_funcao()'. Omitir os
-+parênteses após o nome da função pode ser ambíguo::
-+
-+  Subject: subsys/component: Make reservation_count static
-+
-+  reservation_count is only used in reservation_stats. Make it static.
-+
-+A variante com parênteses é mais precisa::
-+
-+  Subject: subsys/component: Make reservation_count() static
-+
-+  reservation_count() is only called from reservation_stats(). Make it
-+  static.
-+
-+
-+Backtraces em changelogs
-+^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Veja :ref:`pt_BR_backtraces`.
-+
-+Ordenação das tags de commit
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Para ter uma visão uniforme das tags de commit, os mantenedores da tip usam o
-+seguinte esquema de ordenação de tags:
-+
-+ - Fixes: 12+char-SHA1 ("sub/sys: Original subject line")
-+
-+   Uma tag Fixes deve ser adicionada mesmo para alterações que não precisam ser
-+   portadas de volta (backported) para kernels estáveis, ou seja, quando abordar um
-+   problema recém-introduzido que afeta apenas a árvore tip ou o head atual da linha principal (mainline). Estas tags
-+   são úteis para identificar o commit original e são muito mais valiosas
-+   do que mencionar de forma proeminente o commit que introduziu um problema no
-+   próprio texto do changelog, porque elas podem ser automaticamente
-+   extraídas.
-+
-+   O exemplo a seguir ilustra a diferença::
-+
-+     Commit
-+
-+       abcdef012345678 ("x86/xxx: Replace foo with bar")
-+
-+     deixou uma instância não utilizada da variável foo. Remova-a.
-+
-+     Signed-off-by: J.Dev <j.dev@mail>
-+
-+   Por favor, diga em vez disso::
-+
-+     A recente substituição de foo por bar deixou uma instância não utilizada da
-+     variável foo. Remova-a.
-+
-+     Fixes: abcdef012345678 ("x86/xxx: Replace foo with bar")
-+     Signed-off-by: J.Dev <j.dev@mail>
-+
-+   O último coloca as informações sobre o patch em foco e
-+   as complementa com a referência ao commit que introduziu o problema,
-+   em vez de colocar o foco no commit original em primeiro lugar.
-+
-+ - Reported-by: ``Reporter <reporter@mail>``
-+
-+ - Closes: ``URL or Message-ID of the bug report this is fixing``
-+
-+ - Originally-by: ``Original author <original-author@mail>``
-+
-+ - Suggested-by: ``Suggester <suggester@mail>``
-+
-+ - Co-developed-by: ``Co-author <co-author@mail>``
-+
-+   Signed-off-by: ``Co-author <co-author@mail>``
-+
-+   Note que Co-developed-by e Signed-off-by do(s) co-autor(es) devem
-+   vir em pares.
-+
-+ - Signed-off-by: ``Author <author@mail>``
-+
-+   O primeiro Signed-off-by (SOB) após o último par Co-developed-by/SOB é o
-+   SOB do autor, ou seja, a pessoa marcada como autora pelo git.
-+
-+ - Signed-off-by: ``Patch handler <handler@mail>``
-+
-+   SOBs após o SOB do autor são de pessoas que lidam e transportam
-+   o patch, mas não estiveram envolvidas no desenvolvimento. As cadeias de SOB devem
-+   refletir a rota **real** que um patch tomou conforme foi propagado para nós,
-+   com a primeira entrada de SOB sinalizando a autoria principal de um único
-+   autor. Acks devem ser dados como linhas Acked-by e aprovações de revisão
-+   como linhas Reviewed-by.
-+
-+   Se o manipulador fez modificações no patch ou no changelog, então
-+   isso deve ser mencionado **após** o texto do changelog e **acima**
-+   de todas as tags de commit no seguinte formato::
-+
-+     ... o texto do changelog termina.
-+
-+     [ handler: Substituiu foo por bar e atualizou o changelog ]
-+
-+     First-tag: .....
-+
-+   Observe as duas novas linhas vazias que separam o texto do changelog e as
-+   tags de commit daquele aviso.
-+
-+   Se um patch for enviado para a lista de discussão por um manipulador, então o autor tem
-+   que ser notado na primeira linha do changelog com::
-+
-+     From: Author <author@mail>
-+
-+     O texto do changelog começa aqui....
-+
-+   assim a autoria é preservada. A linha 'From:' tem que ser seguida
-+   por uma nova linha vazia. Se essa linha 'From:' estiver faltando, então o patch
-+   seria atribuído à pessoa que o enviou (transportou, manipulou).
-+   A linha 'From:' é automaticamente removida quando o patch é aplicado
-+   e não aparece no changelog final do git. Ela meramente afeta
-+   a informação de autoria do commit resultante do Git.
-+
-+ - Tested-by: ``Tester <tester@mail>``
-+
-+ - Reviewed-by: ``Reviewer <reviewer@mail>``
-+
-+ - Acked-by: ``Acker <acker@mail>``
-+
-+ - Cc: ``cc-ed-person <person@mail>``
-+
-+   Se o patch deve ser portado para stable, então por favor adicione uma tag '``Cc:
-+   stable@vger.kernel.org``', mas não coloque em Cc o stable ao enviar o seu
-+   e-mail.
-+
-+ - Link: ``https://link/to/information``
-+
-+   Para se referir a um e-mail postado nas listas de discussão do kernel, por favor
-+   use o URL de redirecionamento lore.kernel.org::
-+
-+     Link: https://lore.kernel.org/email-message-id@here
-+
-+   Esta URL deve ser usada ao se referir a tópicos de lista de discussão relevantes,
-+   conjuntos de patches relacionados, ou outras threads de discussão notáveis.
-+   Uma maneira conveniente de associar os trailers ``Link:`` com a mensagem de commit
-+   é usar a notação de colchetes semelhante ao markdown, por exemplo::
-+
-+     A similar approach was attempted before as part of a different
-+     effort [1], but the initial implementation caused too many
-+     regressions [2], so it was backed out and reimplemented.
-+
-+     Link: https://lore.kernel.org/some-msgid@here # [1]
-+     Link: https://bugzilla.example.org/bug/12345  # [2]
-+
-+   Você também pode usar os trailers ``Link:`` para indicar a origem do
-+   patch ao aplicá-lo em sua árvore git. Neste caso, por favor use o
-+   domínio dedicado ``patch.msgid.link`` em vez de ``lore.kernel.org``.
-+   Esta prática torna possível que as ferramentas automatizadas identifiquem
-+   qual link usar para recuperar o envio do patch original. Por
-+   exemplo::
-+
-+     Link: https://patch.msgid.link/patch-source-message-id@here
-+
-+Por favor não use tags combinadas, ex. ``Reported-and-tested-by``, pois
-+elas apenas complicam a extração automatizada de tags.
-+
-+
-+Links para documentação
-+^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Fornecer links para a documentação no changelog é uma grande ajuda para depuração e
-+análise posteriores. Infelizmente, os URLs costumam quebrar muito rapidamente
-+porque as empresas reestruturam seus sites frequentemente. Exceções não 'voláteis'
-+incluem o Intel SDM e o AMD APM.
-+
-+Portanto, para documentos 'voláteis', por favor crie uma entrada no bugzilla do kernel
-+https://bugzilla.kernel.org e anexe uma cópia desses documentos
-+à entrada do bugzilla. Finalmente, forneça o URL da entrada do bugzilla no
-+changelog.
-+
-+Reenvio de patch ou lembretes
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Veja :ref:`pt_BR_resend_reminders`.
-+
-+Janela de merge
-+^^^^^^^^^^^^^^^
-+
-+Por favor, não espere que os patches sejam revisados ou mesclados pelos mantenedores da árvore tip
-+em torno ou durante a janela de merge. As árvores ficam fechadas
-+para todos, exceto correções urgentes, durante esse tempo. Elas reabrem assim que a janela de merge
-+fecha e um novo kernel -rc1 é lançado.
-+
-+Grandes séries devem ser enviadas em estado mesclável (mergeable state) *pelo* *menos* uma semana
-+antes da janela de merge abrir. Exceções são feitas para correções de bugs e
-+*às vezes* para pequenos drivers independentes para novos hardwares ou patches minimamente
-+invasivos para ativação de hardware.
-+
-+Durante a janela de merge, os mantenedores se concentram em seguir as
-+alterações upstream, corrigir problemas resultantes da janela de merge, coletar correções de bugs, e
-+se permitir um respiro. Por favor, respeite isso.
-+
-+Os chamados branches _urgent_ serão mesclados na linha principal (mainline) durante a
-+fase de estabilização de cada versão.
-+
-+
-+Git
-+^^^
-+
-+Os mantenedores da árvore tip aceitam pull requests do git de mantenedores que fornecem
-+alterações de subsistema para agregação na árvore tip.
-+
-+Pull requests para novos envios de patches normalmente não são aceitos e não
-+substituem o envio adequado de patch para a lista de discussão. O principal motivo para
-+isso é que o fluxo de trabalho de revisão é baseado em e-mail.
-+
-+Se você enviar uma série maior de patches, é útil fornecer um branch git
-+em um repositório privado que permita que pessoas interessadas façam pull da
-+série facilmente para testes. A maneira usual de oferecer isso é uma URL do git na carta de apresentação (cover letter)
-+da série de patches.
-+
-+Testes
-+^^^^^^
-+
-+O código deve ser testado antes de ser enviado para os mantenedores da árvore tip. Qualquer coisa
-+além de alterações menores deve ser construída, inicializada e testada com
-+opções abrangentes (e pesadas) de depuração do kernel ativadas.
-+
-+Essas opções de depuração podem ser encontradas em kernel/configs/x86_debug.config
-+e podem ser adicionadas a uma configuração de kernel existente executando:
-+
-+	make x86_debug.config
-+
-+Algumas dessas opções são específicas do x86 e podem ser deixadas de fora ao testar
-+em outras arquiteturas.
-+
-+.. _pt_BR_maintainer-tip-coding-style:
-+
-+Notas de estilo de código
++Enviando patches: o guia essencial para colocar o seu código no kernel
++======================================================================
++
++Para uma pessoa ou empresa que deseja enviar uma mudança para o
++kernel Linux, o processo pode, por vezes, ser intimidador se você não
++estiver familiarizado com "o sistema". Este texto é uma coleção de sugestões
++que podem aumentar muito as chances de sua mudança ser aceita.
++
++Este documento contém um grande número de sugestões em um formato relativamente
++conciso. Para informações detalhadas sobre como funciona o processo de
++desenvolvimento do kernel, consulte Documentation/process/development-process.rst.
++Além disso, leia Documentation/process/submit-checklist.rst
++para uma lista de itens a serem verificados antes de enviar o código.
++Para patches de binding de device tree, leia
++Documentation/devicetree/bindings/submitting-patches.rst.
++
++Esta documentação assume que você está usando o ``git`` para preparar seus
++patches. Se você não está familiarizado com o ``git``, é muito recomendado que
++você aprenda a usá-lo, ele tornará a sua vida como um desenvolvedor do kernel e,
++em geral, muito mais fácil.
++
++Alguns subsistemas e árvores de mantenedores possuem informações adicionais
++sobre seus fluxos de trabalho e expectativas, consulte
++Documentation/process/maintainer-handbooks.rst.
++
++Obtenha uma árvore de código-fonte atual
++----------------------------------------
++
++Se você não tiver um repositório com o código-fonte atual do kernel em mãos,
++use o ``git`` para obter um. Você vai querer começar com o repositório mainline,
++que pode ser obtido com::
++
++  git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
++
++Note, no entanto, que você pode não querer desenvolver diretamente na
++árvore mainline. A maioria dos mantenedores de subsistemas mantém suas
++próprias árvores e desejam ver os patches preparados em relação a essas árvores.
++Consulte a entrada **T:** do subsistema no arquivo MAINTAINERS para encontrar
++essa árvore, ou simplesmente pergunte ao mantenedor se a árvore não estiver
++listada lá.
++
++.. _pt_BR_describe_changes:
++
++Descreva as suas mudanças
 +-------------------------
 +
-+Estilo de comentário
-+^^^^^^^^^^^^^^^^^^^^
++Descreva o seu problema. Seja o seu patch uma correção de bug de uma linha ou
++5000 linhas de um novo recurso, deve haver um problema subjacente que o motivou
++a fazer esse trabalho. Convença o revisor de que existe um problema que vale a
++pena corrigir e que faz sentido que ele leia além do primeiro parágrafo.
 +
-+Frases em comentários começam com uma letra maiúscula.
++Descreva o impacto visível ao usuário. Travamentos e bloqueios diretos são
++bastante convincentes, mas nem todos os bugs são tão evidentes. Mesmo que o
++problema tenha sido identificado durante a revisão do código, descreva o impacto
++que você acredita que ele pode ter sobre os usuários. Tenha em mente que a
++maioria das instalações Linux executa kernels de árvores estáveis secundárias
++ou árvores específicas de fornecedores/produtos que selecionam apenas patches
++específicos do upstream, então inclua qualquer coisa que possa ajudar a
++direcionar sua mudança downstream: circunstâncias provocadoras, trechos do
++dmesg, descrições do travamento, regressões de desempenho, picos de latência,
++bloqueios, etc.
 +
-+Comentários de linha única::
++Quantifique as otimizações e compensações. Se você afirma haver melhorias no
++desempenho, consumo de memória, uso da pilha ou tamanho do binário, inclua
++números que as comprovem. Mas também descreva custos que não são óbvios.
++Otimizações geralmente não são gratuitas, sendo trocas entre CPU, memória e
++legibilidade; ou, quando se trata de heurísticas, entre diferentes cargas de
++trabalho. Descreva as desvantagens esperadas da sua otimização para que o
++revisor possa pesar os custos contra os benefícios.
 +
-+	/* Este é um comentário de linha única */
++Uma vez estabelecido o problema, descreva o que você está efetivamente fazendo
++sobre ele, com detalhes técnicos. É importante descrever a mudança em inglês
++claro para o revisor verificar que o código está se comportando como
++você pretendia.
 +
-+Comentários de várias linhas::
++O mantenedor agradecerá se você escrever a descrição do seu patch em uma forma
++que possa ser facilmente inserida no sistema de gerenciamento de código-fonte do
++Linux, o ``git``, como uma "mensagem de commit". Veja
++:ref:`pt_BR_the_canonical_patch_format`.
 +
-+	/*
-+	 * This is a properly formatted
-+	 * multi-line comment.
-+	 *
-+	 * Larger multi-line comments should be split into paragraphs.
-+	 */
++Resolva apenas um problema por patch. Se a sua descrição começar a ficar longa,
++isso é um sinal de que você provavelmente precisa dividir o seu patch.
++Consulte :ref:`pt_BR_split_changes`.
 +
-+Sem comentários no fim da linha (veja abaixo):
++Quando você enviar ou reenviar um patch ou uma série de patches, inclua a
++descrição completa do patch e a justificativa para ele. Não diga apenas
++que esta é a versão N do patch (ou série). Não espere que o mantenedor
++do subsistema consulte versões anteriores do patch ou URLs de referência
++para encontrar a descrição do patch e colocá-la no patch.
++Ou seja, o patch (ou a série) e sua descrição devem ser autossuficientes.
++Isso beneficia tanto os mantenedores quanto os revisores. Alguns revisores
++provavelmente nem chegaram a receber as versões anteriores do patch.
 +
-+  Por favor, abstenha-se de usar comentários no fim da linha. Comentários no fim da linha atrapalham o
-+  fluxo de leitura em quase todos os contextos, mas especialmente em código::
++Descreva suas alterações no modo imperativo, por exemplo, "faça xyzzy executar
++frotz" em vez de "[Este patch] faz xyzzy executar frotz" ou "[Eu] mudei xyzzy
++para executar frotz", como se você estivesse dando ordens à base de código para
++mudar o seu comportamento.
 +
-+	if (somecondition_is_true) /* Não coloque um comentário aqui */
-+		dostuff(); /* Nem aqui */
++Se você quiser se referir a um commit específico, não se refira apenas ao
++ID SHA-1 do commit. Por favor, inclua também o resumo de uma linha do
++commit, para tornar mais fácil para os revisores saberem sobre o que se trata.
++Exemplo::
 +
-+	seed = MAGIC_CONSTANT; /* Nem aqui */
++	Commit e21d2170f36602ae2708 ("video: remove unnecessary
++	platform_set_drvdata()") removed the unnecessary
++	platform_set_drvdata(), but left the variable "dev" unused,
++	delete it.
 +
-+  Use comentários independentes em vez disso::
++Você também deve ter a certeza de usar pelo menos os primeiros doze caracteres do
++ID SHA-1. O repositório do kernel possui um número *muito* grande de objetos, o que torna as
++colisões com IDs mais curtos uma possibilidade real. Tenha em mente que, mesmo que
++não haja colisão com o seu ID de seis caracteres agora, essa condição pode
++mudar daqui a cinco anos.
 +
-+	/* Esta condição não é óbvia sem um comentário */
-+	if (somecondition_is_true) {
-+		/* Isso realmente precisa ser documentado */
-+		dostuff();
-+	}
++Se discussões relacionadas ou qualquer outra informação de contexto por trás da mudança
++puderem ser encontradas na web, adicione tags 'Link:' apontando para isso. Se o patch é o
++resultado de algumas discussões anteriores na lista de e-mails ou algo documentado na
++web, aponte para ele.
 +
-+	/* Esta inicialização mágica precisa de um comentário. Talvez não? */
-+	seed = MAGIC_CONSTANT;
++Ao criar links para arquivos de listas de e-mails, de preferência use o serviço
++de arquivo de mensagens lore.kernel.org. Para criar a URL do link, use o
++conteúdo do cabeçalho ``Message-ID`` da mensagem, sem os colchetes angulares
++circundantes. Por exemplo::
 +
-+  Use o estilo C++, comentários no fim da linha ao documentar structs em headers para
-+  alcançar um layout mais compacto e melhor legibilidade::
++    Link: https://lore.kernel.org/30th.anniversary.repost@klaava.Helsinki.FI
 +
-+        // eax
-+        u32     x2apic_shift    :  5, // Número de bits para deslocar o ID APIC para a direita
-+                                      // para o ID de topologia no próximo nível
-+                                : 27; // Reservado
-+        // ebx
-+        u32     num_processors  : 16, // Número de processadores no nível atual
-+                                : 16; // Reservado
++Por favor, verifique o link para se certificar de que ele está realmente
++funcionando e aponta para a mensagem relevante.
 +
-+  versus::
++No entanto, tente tornar a sua explicação compreensível sem recursos
++externos. Além de fornecer um URL para um arquivo da lista de e-mails ou bug,
++resuma os pontos relevantes da discussão que levaram ao patch conforme enviado.
 +
-+	/* eax */
-+	        /*
-+	         * Número de bits para deslocar o ID APIC para a direita para o ID de topologia
-+	         * no próximo nível
-+	         */
-+         u32     x2apic_shift    :  5,
-+		 /* Reservado */
-+				 : 27;
++Caso o seu patch corrija um bug, use a tag 'Closes:' com um URL que referencie o
++relato nos arquivos da lista de e-mails ou em um rastreador público de bugs. Por exemplo::
 +
-+	/* ebx */
-+		/* Número de processadores no nível atual */
-+	u32     num_processors  : 16,
-+		/* Reservado */
-+				: 16;
++	Closes: https://example.com/issues/1234
 +
-+Comente as coisas importantes:
++Alguns rastreadores de bugs têm a capacidade de fechar os problemas
++automaticamente quando um commit com tal tag é aplicado. Alguns bots que monitoram as listas de
++e-mails também podem rastrear tais tags e tomar certas ações. Rastreadores de bugs
++privados e URLs inválidos são proibidos.
 +
-+  Comentários devem ser adicionados onde a operação não é óbvia. Documentar
-+  o óbvio é apenas uma distração::
++Se o seu patch corrige um bug em um commit específico, por exemplo, você encontrou um problema usando
++``git bisect``, por favor, use a tag 'Fixes:' com pelo menos os primeiros 12
++caracteres do ID SHA-1 e o resumo de uma linha. Não divida a tag em
++várias linhas, as tags estão isentas da regra de "quebra de linha nas 75 colunas" para
++simplificar os scripts de parsing. Por exemplo::
 +
-+	/* Decrementa o refcount e verifica por zero */
-+	if (refcount_dec_and_test(&p->refcnt)) {
-+		do;
-+		lots;
-+		of;
-+		magic;
-+		things;
-+	}
++	Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
 +
-+  Em vez disso, os comentários devem explicar os detalhes não óbvios e documentar
-+  as restrições::
++As seguintes configurações do ``git config`` podem ser usadas para adicionar um formato aprimorado para
++exibir o estilo acima nos comandos ``git log`` ou ``git show``::
 +
-+	if (refcount_dec_and_test(&p->refcnt)) {
-+		/*
-+		 * Explicação muito boa de por que as coisas mágicas abaixo
-+		 * precisam ser feitas, restrições de ordenação e locking,
-+		 * etc..
-+		 */
-+		do;
-+		lots;
-+		of;
-+		magic;
-+		/* Precisa ser a última operação porque ... */
-+		things;
-+	}
++	[core]
++		abbrev = 12
++	[pretty]
++		fixes = Fixes: %h (\"%s\")
 +
-+Comentários de documentação de função:
++Um exemplo de chamada::
 +
-+  Para documentar funções e seus argumentos por favor use o formato kernel-doc
-+  e não comentários de formato livre::
++	$ git log -1 --pretty=fixes 54a4f0239f2e
++	Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
 +
-+	/**
-+	 * magic_function - Faz muitas coisas mágicas
-+	 * @magic:	Ponteiro para os dados mágicos nos quais operar
-+	 * @offset:	Deslocamento no array de dados de @magic
-+	 *
-+	 * Explicação profunda das coisas misteriosas feitas com @magic junto
-+         * com a documentação dos valores de retorno.
-+	 *
-+	 * Note que os descritores de argumento acima estão dispostos
-+	 * de forma tabular.
-+	 */
++.. _pt_BR_split_changes:
 +
-+  Isto se aplica especialmente a funções visíveis globalmente e funções
-+  inline em arquivos de cabeçalho públicos. Pode ser um exagero usar o formato
-+  kernel-doc para cada função (estática) que precisa de uma pequena explicação. O
-+  uso de nomes de funções descritivos frequentemente substitui esses pequenos comentários.
-+  Aplique o bom senso como sempre.
++Separe as suas mudanças
++-----------------------
++
++Separe cada **mudança lógica** em um patch separado.
++
++Por exemplo, se as suas alterações incluírem tanto correções de bugs quanto melhorias
++de desempenho para um único driver, separe essas alterações em dois
++ou mais patches. Se as suas alterações incluírem uma atualização de API e um novo
++driver que utiliza essa nova API, separe-os em dois patches.
++
++Por outro lado, se você fizer uma única alteração em vários arquivos,
++agrupe essas alterações em um único patch. Assim, uma única mudança
++lógica está contida em um único patch.
++
++O ponto a lembrar é que cada patch deve fazer uma mudança facilmente compreendida
++que possa ser verificada pelos revisores. Cada patch deve ser justificável
++por seus próprios méritos.
++
++Se um patch depender de outro patch para que uma mudança seja
++completa, não tem problema. Simplesmente note **"this patch depends on patch X"**
++na descrição do seu patch.
++
++Ao dividir a sua mudança em uma série de patches, tome um cuidado especial para
++garantir que o kernel compile e seja executado adequadamente após cada patch da
++série. Desenvolvedores que usam o ``git bisect`` para rastrear um problema podem acabar
++dividindo a sua série de patches em qualquer ponto; eles não ficarão gratos se você
++introduzir bugs no meio do processo.
++
++Se você não conseguir condensar o seu conjunto de patches em um conjunto menor
++de patches, então publique, digamos, apenas uns 15 de cada vez e aguarde pela
++revisão e integração.
 +
 +
-+Documentando requisitos de locking
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+  Documentar requisitos de locking é uma coisa boa, mas comentários não
-+  são necessariamente a melhor escolha. Em vez de escrever::
 +
-+	/* Caller must hold foo->lock */
-+	void func(struct foo *foo)
-+	{
-+		...
-+	}
++Verifique o estilo das suas mudanças
++------------------------------------
 +
-+  Por favor, use::
++Verifique o seu patch quanto a violações básicas de estilo, cujos detalhes podem ser
++encontrados em Documentation/process/coding-style.rst.
++Não fazer isso simplesmente desperdiça
++o tempo dos revisores e fará com que o seu patch seja rejeitado, provavelmente
++sem sequer ser lido.
 +
-+	void func(struct foo *foo)
-+	{
-+		lockdep_assert_held(&foo->lock);
-+		...
-+	}
++Uma exceção significativa é quando se move código de um arquivo para
++outro -- neste caso você não deve modificar o código movido no
++mesmo patch que o move. Isso delineia claramente o ato de
++mover o código e as suas alterações. Isso ajuda muito a revisão das
++diferenças reais e permite que as ferramentas rastreiem melhor o histórico do
++próprio código.
 +
-+  Em kernels PROVE_LOCKING, lockdep_assert_held() emite um aviso
-+  se o chamador não detém o lock. Comentários não podem fazer isso.
++Verifique os seus patches com o verificador de estilo de patch antes de os submeter
++(scripts/checkpatch.pl). Note, porém, que o verificador de estilo deve ser
++visto como um guia, e não como um substituto para o julgamento humano. Se o seu
++código parecer melhor com uma violação, provavelmente é melhor deixá-lo como está.
 +
-+Regras de chaves
++O verificador emite relatórios em três níveis:
++ - ERROR: coisas que muito provavelmente estão erradas
++ - WARNING: coisas que requerem uma revisão cuidadosa
++ - CHECK: coisas que requerem reflexão
++
++Você deve ser capaz de justificar todas as violações que permanecerem no seu
++patch.
++
++Selecione os destinatários do seu patch
++---------------------------------------
++
++Você deve sempre copiar o(s) mantenedor(es) e a(s) lista(s) do subsistema
++apropriado(s) em qualquer patch para o código que eles mantêm; dê uma
++olhada no arquivo MAINTAINERS e no histórico de revisão do código-fonte
++para ver quem são esses mantenedores. O script scripts/get_maintainer.pl
++pode ser muito útil nesta etapa (passe os caminhos para seus patches
++como argumentos para scripts/get_maintainer.pl). Se você não conseguir
++encontrar um mantenedor para o subsistema em que está trabalhando,
++Andrew Morton (akpm@linux-foundation.org) serve como um mantenedor de
++último recurso.
++
++linux-kernel@vger.kernel.org deve ser usado por padrão para todos os
++patches, mas o volume dessa lista fez com que vários desenvolvedores a
++ignorassem. Por favor, não envie spam para listas e pessoas não
++relacionadas.
++
++Muitas listas relacionadas ao kernel estão hospedadas em kernel.org;
++você pode encontrar uma lista delas em https://subspace.kernel.org.
++Existem listas relacionadas ao kernel hospedadas em outros lugares
++também, no entanto.
++
++Linus Torvalds é o árbitro final de todas as mudanças aceitas no
++kernel do Linux. Seu endereço de e-mail é <torvalds@linux-foundation.org>.
++Ele recebe muitos e-mails e, neste momento, muito poucos patches passam
++por Linus diretamente, então, normalmente, você deve fazer o seu melhor
++para -evitar- enviar e-mails para ele.
++
++Se você tiver um patch que corrija um bug de segurança explorável,
++envie esse patch para security@kernel.org. Para bugs severos, um
++curto embargo pode ser considerado para permitir que os distribuidores
++disponibilizem o patch aos usuários; em tais casos, obviamente, o
++patch não deve ser enviado a nenhuma lista pública. Veja também
++Documentation/process/security-bugs.rst.
++
++Patches que corrigem um bug severo em um kernel já lançado devem ser
++direcionados aos mantenedores stable (estáveis), colocando uma linha como esta::
++
++  Cc: stable@vger.kernel.org
++
++na área de sign-off do seu patch (note, NÃO como um destinatário de e-mail).
++Você também deve ler Documentation/process/stable-kernel-rules.rst
++além deste documento.
++
++Se as alterações afetarem as interfaces userland-kernel,
++por favor, envie ao mantenedor das MAN-PAGES (como listado no arquivo MAINTAINERS)
++um patch para as páginas de manual, ou pelo menos uma notificação da alteração,
++para que alguma informação chegue às páginas de manual. Mudanças na API
++do espaço de usuário também devem ser copiadas para linux-api@vger.kernel.org.
++
++
++Sem MIME, sem links, sem compressão, sem anexos. Apenas texto puro
++------------------------------------------------------------------
++
++Linus e outros desenvolvedores do kernel precisam ser capazes de ler e
++comentar as mudanças que você está enviando. É importante que um
++desenvolvedor do kernel seja capaz de "citar" suas mudanças, usando
++ferramentas de e-mail padrão, para que eles possam comentar em partes
++específicas do seu código.
++
++Por esse motivo, todos os patches devem ser enviados por e-mail "inline". A
++maneira mais fácil de fazer isso é com ``git send-email``, que é
++fortemente recomendado. Um tutorial interativo para ``git send-email``
++está disponível em https://git-send-email.io.
++
++Se você optar por não usar ``git send-email``:
++
++.. warning::
++
++  Tenha cuidado com a quebra de linha do seu editor corrompendo seu patch,
++  se você optar por recortar e colar o seu patch.
++
++Não anexe o patch como um anexo MIME, comprimido ou não.
++Muitos aplicativos populares de e-mail nem sempre transmitirão um
++anexo MIME como texto puro, tornando impossível comentar o seu
++código. Um anexo MIME também leva um pouco mais de tempo para Linus
++processar, diminuindo a probabilidade da sua alteração anexada em MIME
++ser aceita.
++
++Exceção: Se o seu cliente de e-mail estiver danificando os patches,
++alguém pode pedir que você os reenvie usando MIME.
++
++Veja Documentation/process/email-clients.rst para dicas sobre como
++configurar seu cliente de e-mail para que ele envie seus patches intocados.
++
++Responda aos comentários de revisão
++-----------------------------------
++
++Seu patch quase certamente receberá comentários dos revisores sobre maneiras
++pelas quais o patch pode ser melhorado, na forma de uma resposta ao seu
++e-mail. Você deve responder a esses comentários; ignorar revisores é uma
++boa maneira de ser ignorado em troca. Você pode simplesmente responder aos
++e-mails deles para responder aos seus comentários. Comentários de revisão
++ou perguntas que não levam a uma alteração no código devem quase certamente
++resultar em um comentário ou entrada no changelog para que o próximo
++revisor entenda melhor o que está acontecendo.
++
++Certifique-se de dizer aos revisores quais alterações você está fazendo e
++de agradecê-los pelo tempo dedicado. A revisão de código é um processo
++cansativo e demorado, e os revisores às vezes ficam mal-humorados. Mesmo
++nesse caso, no entanto, responda educadamente e resolva os problemas que
++eles apontaram. Ao enviar uma próxima versão, adicione um ``changelog do patch``
++à carta de apresentação (cover letter) ou aos patches individuais,
++explicando a diferença em relação ao envio anterior (veja
++:ref:`pt_BR_the_canonical_patch_format`).
++Notifique as pessoas que comentaram no seu patch sobre as novas versões
++adicionando-as à lista de CC dos patches.
++
++Veja Documentation/process/email-clients.rst para recomendações sobre
++clientes de e-mail e etiqueta de listas de discussão.
++
++.. _pt_BR_interleaved_replies:
++
++Use respostas intercaladas e aparadas em discussões por e-mail
++--------------------------------------------------------------
++O top-posting (responder no topo) é fortemente desencorajado em
++discussões de desenvolvimento do kernel do Linux. Respostas
++intercaladas (ou "inline") tornam as conversas muito mais fáceis de
++acompanhar. Para mais detalhes, veja:
++https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
++
++Como é frequentemente citado na lista de discussão::
++
++  A: http://en.wikipedia.org/wiki/Top_post
++  Q: Onde encontro informações sobre essa coisa chamada top-posting?
++  A: Porque bagunça a ordem em que as pessoas normalmente leem o texto.
++  Q: Por que o top-posting é algo tão ruim?
++  A: Top-posting.
++  Q: Qual é a coisa mais irritante no e-mail?
++
++Da mesma forma, por favor, apare (corte) todas as citações
++desnecessárias que não são relevantes para a sua resposta. Isso torna
++as respostas mais fáceis de encontrar, e economiza tempo e espaço. Para
++mais detalhes, veja: http://daringfireball.net/2007/07/on_top ::
++
++  A: Não.
++  Q: Devo incluir citações após minha resposta?
++
++.. _pt_BR_resend_reminders:
++
++Não desanime - nem fique impaciente
++-----------------------------------
++
++Depois de ter enviado a sua alteração, seja paciente e espere. Os
++revisores são pessoas ocupadas e podem não chegar ao seu patch
++imediatamente.
++
++Era uma vez, patches costumavam desaparecer no vazio sem comentários,
++mas o processo de desenvolvimento funciona de forma mais suave do que
++isso agora. Você deve receber comentários dentro de algumas semanas
++(normalmente 2-3); se isso não acontecer, certifique-se de que você
++enviou seus patches para o lugar certo. Espere por no mínimo uma
++semana antes de reenviar ou dar um "ping" nos revisores -
++possivelmente mais tempo durante períodos ocupados, como as janelas
++de mesclagem (merge windows).
++
++Também não há problema em reenviar o patch ou a série de patches após
++algumas semanas com a palavra "RESEND" adicionada à linha de Assunto::
++
++   [PATCH Vx RESEND] sub/sys: Resumo condensado do patch
++
++Não adicione "RESEND" quando você estiver enviando uma versão
++modificada do seu patch ou série de patches - "RESEND" se aplica
++apenas ao reenvio de um patch ou série de patches que não foram
++modificados de forma alguma em relação ao envio anterior.
++
++
++Inclua PATCH no Assunto
++-----------------------
++
++Devido ao alto tráfego de e-mails para Linus e para a linux-kernel, é
++uma convenção comum prefixar a sua linha de Assunto com [PATCH]. Isso
++permite que Linus e outros desenvolvedores do kernel distingam
++mais facilmente os patches de outras discussões por e-mail.
++
++O ``git send-email`` fará isso por você automaticamente.
++
++
++Assine seu trabalho - o Certificado de Origem do Desenvolvedor
++--------------------------------------------------------------
++
++Para melhorar o rastreamento de quem fez o que, especialmente com patches
++que podem percolar até o seu local de descanso final no kernel através de
++várias camadas de mantenedores, nós introduzimos um procedimento de
++"sign-off" nos patches que estão sendo enviados por e-mail.
++
++O sign-off é uma linha simples no final da explicação do patch, que
++certifica que você o escreveu ou que de outra forma tem o direito de
++repassá-lo como um patch de código aberto. As regras são bem simples:
++se você pode certificar o seguinte::
++
++        Certificado de Origem do Desenvolvedor 1.1
++
++        Ao fazer uma contribuição para este projeto, eu certifico que:
++
++        (a) A contribuição foi criada no todo ou em parte por mim e eu
++            tenho o direito de enviá-la sob a licença de código aberto
++            indicada no arquivo; ou
++
++        (b) A contribuição baseia-se em trabalho anterior que, até onde eu
++            sei, é coberto por uma licença de código aberto apropriada
++            e eu tenho o direito, sob essa licença, de enviar esse
++            trabalho com modificações, tenham sido criadas no todo ou
++            em parte por mim, sob a mesma licença de código aberto (a menos que eu
++            tenha permissão para enviar sob uma licença diferente), conforme
++            indicado no arquivo; ou
++
++        (c) A contribuição foi fornecida diretamente a mim por alguma outra
++            pessoa que certificou (a), (b) ou (c) e eu não a modifiquei.
++
++        (d) Eu entendo e concordo que este projeto e a contribuição
++            são públicos e que um registro da contribuição (incluindo todas
++            as informações pessoais que eu envio com ela, incluindo meu
++            sign-off) é mantido indefinidamente e pode ser redistribuído de forma
++            consistente com este projeto ou com a(s) licença(s) de código
++            aberto envolvida(s).
++
++então você apenas adiciona uma linha dizendo::
++
++	Signed-off-by: Random J Developer <random@developer.example.org>
++
++usando uma identidade conhecida (desculpe, sem contribuições anônimas.)
++Isso será feito para você automaticamente se você usar o ``git commit -s``.
++As reversões também devem incluir "Signed-off-by". O ``git revert -s``
++faz isso por você.
++
++Algumas pessoas também colocam tags extras no final. Elas serão
++apenas ignoradas por enquanto, mas você pode fazer isso para marcar
++procedimentos internos da empresa ou apenas para apontar algum
++detalhe especial sobre o sign-off.
++
++Quaisquer outros SoBs (Signed-off-by:'s) seguindo o SoB do autor
++são de pessoas que manusearam e transportaram o patch, mas não
++estiveram envolvidas no seu desenvolvimento. As cadeias de SoB devem
++refletir a rota **real** que um patch percorreu à medida que foi
++propagado aos mantenedores e, finalmente, para Linus, com a primeira
++entrada de SoB sinalizando a autoria principal de um único autor.
++
++
++Quando usar Acked-by:, Cc: e Co-developed-by:
++---------------------------------------------
++
++A tag Signed-off-by: indica que o signatário esteve envolvido no
++desenvolvimento do patch, ou que ele/ela estava no caminho de
++entrega do patch.
++
++Se uma pessoa não esteve diretamente envolvida na preparação ou manuseio de um
++patch, mas deseja manifestar e registrar sua aprovação, ela pode
++pedir para ter uma linha Acked-by: adicionada ao changelog do patch.
++
++Acked-by: destina-se a ser usado por aqueles responsáveis ou envolvidos com o
++código afetado de uma forma ou de outra. Mais comumente, o mantenedor quando esse
++mantenedor não contribuiu nem encaminhou o patch.
++
++Acked-by: também pode ser usado por outras partes interessadas, como pessoas com conhecimento de
++domínio (por exemplo, o autor original do código sendo modificado), revisores
++do lado do espaço de usuário para um patch uAPI do kernel ou usuários-chave de um recurso. Opcionalmente,
++nestes casos, pode ser útil adicionar um "# Sufixo" para esclarecer seu significado::
++
++	Acked-by: The Stakeholder <stakeholder@example.org> # As primary user
++
++Acked-by: não é tão formal quanto Signed-off-by:. É um registro de que o avaliador
++pelo menos revisou o patch e indicou aceitação. Por isso, os responsáveis pela fusão de
++patches às vezes converterão manualmente um "sim, parece bom para mim" de um avaliador
++em um Acked-by: (mas note que geralmente é melhor pedir um
++ack explícito).
++
++Acked-by: também é menos formal do que Reviewed-by:. Por exemplo, mantenedores podem
++usá-lo para sinalizar que estão de acordo com a inclusão de um patch, mas podem não tê-lo
++revisado tão minuciosamente como se um Reviewed-by: fosse fornecido. Da mesma forma, um
++usuário-chave pode não ter realizado uma revisão técnica do patch, mas ainda assim estar
++satisfeito com a abordagem geral, o recurso ou a interface voltada para o usuário.
++
++Acked-by: não indica necessariamente o reconhecimento de todo o patch.
++Por exemplo, se um patch afeta vários subsistemas e tem um Acked-by: de
++um mantenedor de subsistema, isso geralmente indica o reconhecimento apenas
++da parte que afeta o código desse mantenedor. O bom senso deve ser usado aqui.
++Em caso de dúvida, as pessoas devem consultar a discussão original nos arquivos da
++lista de discussão. Um "# Sufixo" também pode ser usado neste caso para esclarecer.
++
++Se uma pessoa teve a oportunidade de comentar em um patch, mas não
++forneceu tais comentários, você pode opcionalmente adicionar uma tag ``Cc:`` ao patch.
++Esta tag documenta que partes potencialmente interessadas foram incluídas na
++discussão. Note que esta é uma de apenas três tags que você pode usar
++sem a permissão explícita da pessoa nomeada (veja 'Marcar pessoas requer
++permissão' abaixo para detalhes).
++
++Co-developed-by: afirma que o patch foi co-criado por múltiplos desenvolvedores;
++é usado para dar atribuição a coautores (além do autor
++atribuído pela tag From:) quando várias pessoas trabalham em um único patch. Como
++Co-developed-by: denota autoria, cada Co-developed-by: deve ser imediatamente
++seguido por um Signed-off-by: do coautor associado. O procedimento padrão de assinatura
++se aplica, ou seja, a ordem das tags Signed-off-by: deve refletir a
++história cronológica do patch na medida do possível, independentemente se
++o autor for atribuído via From: ou Co-developed-by:. Notavelmente, o último
++Signed-off-by: deve ser sempre o do desenvolvedor que está enviando o patch.
++
++Note que a tag From: é opcional quando o autor no From: também é a pessoa (e
++e-mail) listada na linha From: do cabeçalho do e-mail.
++
++Exemplo de um patch enviado pelo autor do From:::
++
++	<changelog>
++
++	Co-developed-by: First Co-Author <first@coauthor.example.org>
++	Signed-off-by: First Co-Author <first@coauthor.example.org>
++	Co-developed-by: Second Co-Author <second@coauthor.example.org>
++	Signed-off-by: Second Co-Author <second@coauthor.example.org>
++	Signed-off-by: From Author <from@author.example.org>
++
++Exemplo de um patch enviado por um autor do Co-developed-by:::
++
++	From: From Author <from@author.example.org>
++
++	<changelog>
++
++	Co-developed-by: Random Co-Author <random@coauthor.example.org>
++	Signed-off-by: Random Co-Author <random@coauthor.example.org>
++	Signed-off-by: From Author <from@author.example.org>
++	Co-developed-by: Submitting Co-Author <sub@coauthor.example.org>
++	Signed-off-by: Submitting Co-Author <sub@coauthor.example.org>
++
++
++Usando Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: e Fixes:
++---------------------------------------------------------------------
++
++A tag Reported-by dá crédito às pessoas que encontram bugs e os relatam e
++espera-se que isso as inspire a nos ajudar novamente no futuro. A tag destina-se a
++bugs; por favor, não a use para dar crédito a solicitações de recursos. A tag deve ser
++seguida por uma tag Closes: apontando para o relato, a menos que o relato não
++esteja disponível na web. A tag Link: pode ser usada em vez de Closes: se o patch
++corrigir uma parte do(s) problema(s) sendo relatado(s). Note que a tag Reported-by é
++uma de apenas três tags que você pode usar sem a permissão explícita da
++pessoa nomeada (veja 'Marcar pessoas requer permissão' abaixo para detalhes).
++
++Uma tag Tested-by: indica que o patch foi testado com sucesso (em
++algum ambiente) pela pessoa nomeada. Esta tag informa aos mantenedores que
++algum teste foi realizado, fornece um meio para localizar testadores para
++patches futuros e garante crédito para os testadores.
++
++Reviewed-by:, por sua vez, indica que o patch foi revisado e considerado
++aceitável de acordo com a Declaração do Revisor::
++
++	Declaração de supervisão do revisor
++
++	Ao oferecer minha tag Reviewed-by:, eu declaro que:
++
++	 (a) Eu realizei uma revisão técnica deste patch para
++	     avaliar sua adequação e prontidão para inclusão no
++	     kernel mainline.
++
++	 (b) Quaisquer problemas, preocupações ou perguntas relacionadas ao patch
++	     foram comunicadas de volta ao remetente. Eu estou satisfeito
++	     com a resposta do remetente aos meus comentários.
++
++	 (c) Embora possa haver coisas que poderiam ser melhoradas com este
++	     envio, eu acredito que é, neste momento, (1) uma
++	     modificação que vale a pena para o kernel, e (2) livre de problemas
++	     conhecidos que argumentariam contra sua inclusão.
++
++	 (d) Embora eu tenha revisado o patch e acredite que seja sólido, eu
++	     não faço (a menos que explicitamente declarado em outro lugar)
++	     garantias de que alcançará seu propósito
++	     declarado ou funcionará adequadamente em qualquer situação.
++
++Uma tag Reviewed-by é uma declaração de opinião de que o patch é uma
++modificação apropriada do kernel sem nenhum problema técnico sério
++restante. Qualquer revisor interessado (que tenha feito o trabalho e seja uma
++pessoa com identidade conhecida) pode oferecer uma tag Reviewed-by para um patch. Esta tag
++serve para dar crédito aos revisores e para informar os mantenedores do grau de
++revisão que foi feito no patch. Tags Reviewed-by:, quando fornecidas por
++revisores conhecidos por entender a área de assunto e realizar revisões completas,
++normalmente aumentarão a probabilidade de seu patch entrar no kernel.
++
++Ambas as tags Tested-by e Reviewed-by, uma vez recebidas na lista de discussão do testador
++ou revisor, devem ser adicionadas pelo autor aos patches aplicáveis ao enviar as
++próximas versões. No entanto, se o patch mudou substancialmente na versão
++seguinte, essas tags podem não ser mais aplicáveis e, portanto, devem ser removidas.
++Normalmente, a remoção das tags Acked-by, Tested-by ou Reviewed-by de alguém deve ser
++mencionada no changelog do patch com uma explicação (após o separador '---').
++
++Uma tag Suggested-by: indica que a ideia do patch foi sugerida pela pessoa
++nomeada e garante crédito à pessoa pela ideia: se creditarmos diligentemente
++nossos relatores de ideias, eles serão, com sorte, inspirados a nos ajudar novamente no
++futuro. Note que esta é uma de apenas três tags que você pode usar sem
++permissão explícita da pessoa nomeada (veja 'Marcar pessoas requer
++permissão' abaixo para detalhes).
++
++Uma tag Fixes: indica que o patch corrige um bug em um commit anterior. Ela
++é usada para facilitar a determinação de onde um problema se originou, o que pode ajudar
++na revisão da correção de um bug. Esta tag também auxilia a equipe do kernel estável a determinar
++quais versões do kernel estável devem receber sua correção. Este é o método preferido
++para indicar um bug corrigido pelo patch. Veja :ref:`pt_BR_describe_changes`
++para mais detalhes.
++
++Nota: Anexar uma tag Fixes: não subverte o processo de regras do kernel
++estável, nem o requisito de enviar em Cc: para stable@vger.kernel.org em todos os patches
++candidatos estáveis. Para mais informações, por favor, leia
++Documentation/process/stable-kernel-rules.rst.
++
++Por fim, embora fornecer tags seja bem-vindo e tipicamente muito apreciado, por favor
++note que os signatários (ou seja, remetentes e mantenedores) podem usar sua discrição ao
++aplicar as tags oferecidas.
++
++
++Marcar pessoas requer permissão
++-------------------------------
++
++Tenha cuidado ao adicionar as tags mencionadas acima aos seus patches, pois todas
++exceto Cc:, Reported-by: e Suggested-by: precisam de permissão explícita da
++pessoa nomeada. Para essas três, a permissão implícita é suficiente se a pessoa
++contribuiu para o kernel Linux usando esse nome e endereço de e-mail de acordo
++com os arquivos do lore ou o histórico de commits -- e no caso de Reported-by:
++e Suggested-by: tenha feito o relato ou sugestão em público. Note que o
++bugzilla.kernel.org é um local público nesse sentido, mas os endereços de e-mail
++usados lá são privados; portanto, não os exponha em tags, a menos que a pessoa
++os tenha usado em contribuições anteriores.
++
++Usando Assisted-by:
++-------------------
++
++Se você usou qualquer tipo de ferramenta avançada de codificação na criação do seu patch,
++você precisa reconhecer esse uso adicionando uma tag Assisted-by. A falha em
++fazer isso pode impedir a aceitação do seu trabalho. Por favor, veja
++Documentation/process/coding-assistants.rst para detalhes sobre o
++reconhecimento de assistentes de codificação.
++
++
++.. _pt_BR_the_canonical_patch_format:
++
++O formato canônico do patch
++---------------------------
++
++Esta seção descreve como o próprio patch deve ser formatado. Note
++que, se você tiver seus patches armazenados em um repositório ``git``, a formatação
++adequada do patch pode ser obtida com ``git format-patch``. As ferramentas não podem criar
++o texto necessário, no entanto, portanto, leia as instruções abaixo de qualquer maneira.
++
++Linha de Assunto
 +^^^^^^^^^^^^^^^^
 +
-+Chaves devem ser omitidas apenas se a instrução que se segue a 'if', 'for',
-+'while' etc. for verdadeiramente uma única linha::
++A linha de assunto canônica do patch é::
 +
-+	if (foo)
-+		do_something();
++    Assunto: [PATCH 001/123] subsistema: frase de resumo
 +
-+O seguinte não é considerado uma instrução de linha única mesmo
-+que o C não exija chaves::
++O corpo canônico da mensagem do patch contém o seguinte:
 +
-+	for (i = 0; i < end; i++)
-+		if (foo[i])
-+			do_something(foo[i]);
++  - Uma linha ``from`` especificando o autor do patch, seguida por uma linha
++    vazia (necessário apenas se a pessoa enviando o patch não for o autor).
 +
-+Adicionar chaves ao redor do loop externo melhora o fluxo de leitura::
++  - O corpo da explicação, com quebra de linha em 75 colunas, que será
++    copiado para o changelog permanente para descrever este patch.
 +
-+	for (i = 0; i < end; i++) {
-+		if (foo[i])
-+			do_something(foo[i]);
-+	}
++  - Uma linha vazia.
 +
++  - As linhas ``Signed-off-by:``, descritas acima, que também
++    irão para o changelog.
 +
-+Declarações de variáveis
-+^^^^^^^^^^^^^^^^^^^^^^^^
++  - Uma linha de marcador contendo simplesmente ``---``.
 +
-+A ordem preferida das declarações de variáveis no início de uma
-+função é a ordem de árvore de abeto invertida (reverse fir tree order)::
++  - Quaisquer comentários adicionais não adequados para o changelog.
 +
-+	struct long_struct_name *descriptive_name;
-+	unsigned long foo, bar;
-+	unsigned int tmp;
-+	int ret;
++  - O próprio patch (saída do ``diff``).
 +
-+O que está acima é mais rápido de analisar do que a ordem invertida::
++O formato da linha de Assunto torna muito fácil classificar os e-mails
++alfabeticamente pela linha de assunto - praticamente qualquer leitor de e-mail
++suportará isso - pois, como o número de sequência é preenchido com zeros,
++a classificação numérica e alfabética é a mesma.
 +
-+	int ret;
-+	unsigned int tmp;
-+	unsigned long foo, bar;
-+	struct long_struct_name *descriptive_name;
++O ``subsystem`` no Assunto do e-mail deve identificar qual
++área ou subsistema do kernel está recebendo o patch.
 +
-+E ainda mais do que uma ordem aleatória::
++A ``frase de resumo`` no Assunto do e-mail deve descrever de forma concisa
++o patch que esse e-mail contém. A ``frase de resumo`` não deve ser um nome de arquivo.
++Não use a mesma ``frase de resumo`` para cada patch em uma série de patches inteira (onde uma ``série
++de patches`` é uma sequência ordenada de múltiplos patches relacionados).
 +
-+	unsigned long foo, bar;
-+	int ret;
-+	struct long_struct_name *descriptive_name;
-+	unsigned int tmp;
++Tenha em mente que a ``frase de resumo`` do seu e-mail se torna um
++identificador globalmente único para aquele patch. Ela se propaga por todo o caminho
++até o changelog do ``git``. A ``frase de resumo`` pode ser usada posteriormente em
++discussões de desenvolvedores que se referem ao patch. As pessoas vão querer
++pesquisar no Google pela ``frase de resumo`` para ler a discussão sobre esse
++patch. Também será a única coisa que as pessoas poderão ver rapidamente
++quando, dois ou três meses depois, estiverem passando por talvez
++milhares de patches usando ferramentas como ``gitk`` ou ``git log
++--oneline``.
 +
-+Também por favor tente agregar variáveis do mesmo tipo em uma única
-+linha. Não há sentido em desperdiçar espaço na tela::
++Por essas razões, o ``resumo`` não deve ter mais de 70-75
++caracteres, e deve descrever tanto o que o patch altera, quanto
++por que o patch pode ser necessário. É um desafio ser
++sucinto e descritivo, mas é isso que um resumo bem escrito
++deve fazer.
 +
-+	unsigned long a;
-+	unsigned long b;
-+	unsigned long c;
-+	unsigned long d;
++A ``frase de resumo`` pode ser prefixada por tags delimitadas por colchetes
++retos: "Assunto: [PATCH <tag>...] <frase de resumo>". As tags não
++são consideradas parte da frase de resumo, mas descrevem como o patch
++deve ser tratado. Tags comuns podem incluir um descritor de versão se
++as múltiplas versões do patch tiverem sido enviadas em resposta a
++comentários (ou seja, "v1, v2, v3"), ou "RFC" para indicar um pedido de
++comentários.
 +
-+É realmente suficiente fazer::
++Se houver quatro patches em uma série de patches, os patches individuais podem
++ser numerados assim: 1/4, 2/4, 3/4, 4/4. Isso garante que os desenvolvedores
++entendam a ordem na qual os patches devem ser aplicados e que
++eles tenham revisado ou aplicado todos os patches na série de patches.
 +
-+	unsigned long a, b, c, d;
++Aqui estão alguns bons exemplos de Assuntos::
 +
-+Por favor, evite também introduzir divisões de linha em declarações de variáveis::
++    Subject: [PATCH 2/5] ext2: improve scalability of bitmap searching
++    Subject: [PATCH v2 01/27] x86: fix eflags tracking
++    Subject: [PATCH v2] sub/sys: Condensed patch summary
++    Subject: [PATCH v2 M/N] sub/sys: Condensed patch summary
 +
-+	struct long_struct_name *descriptive_name = container_of(bar,
-+						      struct long_struct_name,
-+	                                              member);
-+	struct foobar foo;
-+
-+É muito melhor mover a inicialização para uma linha separada após as
-+declarações::
-+
-+	struct long_struct_name *descriptive_name;
-+	struct foobar foo;
-+
-+	descriptive_name = container_of(bar, struct long_struct_name, member);
-+
-+
-+Tipos de variáveis
-+^^^^^^^^^^^^^^^^^^
-+
-+Por favor use os tipos u8, u16, u32, u64 adequados para variáveis que são destinadas
-+a descrever hardware ou são usadas como argumentos para funções que acessam
-+hardware. Estes tipos definem claramente a largura em bits e evitam
-+truncamento, expansão e confusão entre 32/64 bits.
-+
-+u64 também é recomendado em código que se tornaria ambíguo para kernels
-+de 32 bits quando 'unsigned long' fosse usado em vez disso. Embora em tais
-+situações 'unsigned long long' pudesse ser usado também, u64 é mais curto
-+e também mostra claramente que a operação requer uma largura de 64 bits
-+independente da CPU alvo.
-+
-+Por favor use 'unsigned int' em vez de 'unsigned'.
-+
-+
-+Constantes
++Linha From
 +^^^^^^^^^^
 +
-+Por favor, não use números (hexa)decimais literais em código ou inicializadores.
-+Ou use defines adequados que tenham nomes descritivos ou considere usar
-+um enum.
++A linha ``from`` deve ser a primeira linha no corpo da mensagem,
++e tem a forma:
++
++        From: Patch Author <author@example.com>
++
++A linha ``from`` especifica quem será creditado como o autor do
++patch no changelog permanente. Se a linha ``from`` estiver faltando,
++então a linha ``From:`` do cabeçalho do e-mail será usada para determinar
++o autor do patch no changelog.
++
++O autor pode indicar sua afiliação ou o patrocinador do trabalho
++adicionando o nome de uma organização às linhas ``from`` e ``SoB``,
++por exemplo:
++
++	From: Patch Author (Company) <author@example.com>
++
++Corpo da Explicação
++^^^^^^^^^^^^^^^^^^^
++
++O corpo da explicação será commitado no changelog
++permanente da fonte, então deve fazer sentido para um leitor competente que já
++esqueceu há muito tempo os detalhes imediatos da discussão que podem ter levado a
++este patch. Incluir sintomas da falha que o patch aborda
++(mensagens de log do kernel, mensagens oops, etc.) é especialmente útil para
++pessoas que possam estar pesquisando nas mensagens de commit procurando pelo patch
++aplicável. O texto deve ser escrito com detalhes suficientes para que, quando lido
++semanas, meses ou até anos depois, possa dar ao leitor os detalhes
++necessários para compreender o raciocínio do **por que** o patch foi criado.
++
++Se um patch corrige uma falha de compilação, pode não ser necessário incluir
++_todas_ as falhas de compilação; apenas o suficiente para que seja provável que
++alguém pesquisando pelo patch possa encontrá-lo. Como na ``frase de resumo``,
++é importante ser tanto sucinto quanto descritivo.
++
++.. _pt_BR_backtraces:
++
++Backtraces em mensagens de commit
++"""""""""""""""""""""""""""""""""
++
++Backtraces ajudam a documentar a cadeia de chamadas que leva a um problema. No entanto,
++nem todos os backtraces são úteis. Por exemplo, as cadeias de chamadas iniciais de boot são
++únicas e óbvias. Copiar a saída dmesg completa verbatim, no entanto,
++adiciona informações que distraem, como timestamps, listas de módulos, dumps de
++registradores e pilhas.
++
++Portanto, os backtraces mais úteis devem destilar as informações
++relevantes do dump, o que facilita o foco no problema
++real. Aqui está um exemplo de um backtrace bem aparado::
++
++  unchecked MSR access error: WRMSR to 0xd51 (tried to write 0x0000000000000064)
++  at rIP: 0xffffffffae059994 (native_write_msr+0x4/0x20)
++  Call Trace:
++  mba_wrmsr
++  update_domains
++  rdtgroup_mkdir
++
++Comentários
++^^^^^^^^^^^
++
++A linha marcadora ``---`` serve ao propósito essencial de marcar para
++as ferramentas de manipulação de patches onde a mensagem do changelog termina.
++
++Um bom uso para os comentários adicionais após o marcador ``---`` é
++para um ``diffstat``, para mostrar quais arquivos mudaram, e o número de
++linhas inseridas e excluídas por arquivo. Um ``diffstat`` é especialmente útil
++em patches maiores. Se você for incluir um ``diffstat`` após o
++marcador ``---``, por favor, use as opções do ``diffstat`` ``-p 1 -w 70`` para que
++os nomes dos arquivos sejam listados a partir do topo da árvore de código-fonte do kernel e não
++usem muito espaço horizontal (cabem facilmente em 80 colunas, talvez com algum
++recuo). (o ``git`` gera diffstats apropriados por padrão.)
++
++Outros comentários relevantes apenas para o momento ou para o mantenedor, não
++adequados para o changelog permanente, também devem ir aqui. Um bom
++exemplo de tais comentários podem ser ``changelogs do patch`` que descrevem
++o que mudou entre as versões v1 e v2 do patch.
++
++Por favor, coloque esta informação **após** a linha ``---`` que separa
++o changelog do restante do patch. A informação da versão não
++faz parte do changelog que é commitado na árvore git. É
++informação adicional para os revisores. Se for colocada acima das
++tags de commit, precisará de interação manual para removê-la. Se estiver abaixo
++da linha separadora, ela é automaticamente removida ao aplicar o
++patch. Se disponíveis, adicionar links para as versões anteriores do patch (por exemplo,
++link do arquivo lore.kernel.org) é recomendado para ajudar os revisores::
++
++  <commit message>
++  ...
++  Signed-off-by: Author <author@mail>
++  ---
++  V2 -> V3: Removed redundant helper function
++  V1 -> V2: Cleaned up coding style and addressed review comments
++
++  v2: https://lore.kernel.org/bar
++  v1: https://lore.kernel.org/foo
++
++  path/to/file | 5+++--
++  ...
++
++Veja mais detalhes sobre o formato de patch adequado nas seguintes
++referências.
 +
 +
-+Declarações e inicializadores de struct
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++Cabeçalhos In-Reply-To explícitos
++---------------------------------
 +
-+As declarações de struct devem alinhar os nomes dos membros da struct de forma
-+tabular::
-+
-+	struct bar_order {
-+		unsigned int	guest_id;
-+		int		ordered_item;
-+		struct menu	*menu;
-+	};
-+
-+Por favor, evite documentar os membros da struct dentro da declaração, pois
-+isso frequentemente resulta em comentários formatados de maneira estranha e os membros da struct
-+ficam ofuscados::
-+
-+	struct bar_order {
-+		unsigned int	guest_id; /* ID único do convidado */
-+		int		ordered_item;
-+		/* Ponteiro para uma instância de menu que contém todas as bebidas */
-+		struct menu	*menu;
-+	};
-+
-+Em vez disso, por favor considere usar o formato kernel-doc em um comentário precedendo
-+a declaração da struct, que é mais fácil de ler e tem a vantagem adicional
-+de incluir a informação na documentação do kernel, por exemplo, da
-+seguinte forma::
++Pode ser útil adicionar manualmente cabeçalhos In-Reply-To: a um patch
++(por exemplo, ao usar ``git send-email``) para associar o patch com
++discussões relevantes anteriores, por exemplo, para vincular uma correção de bug ao e-mail com
++o relatório do bug. No entanto, para uma série de múltiplos patches, geralmente é
++melhor evitar usar In-Reply-To: para vincular a versões mais antigas da
++série. Desta forma, múltiplas versões do patch não se tornam uma
++floresta incontrolável de referências nos clientes de e-mail. Se um link for
++útil, você pode usar o redirecionador https://lore.kernel.org/ (por exemplo, no
++texto do e-mail de capa) para vincular a uma versão anterior da série de patches.
 +
 +
-+	/**
-+	 * struct bar_order - Descrição de um pedido de bar
-+	 * @guest_id:		ID único do convidado
-+	 * @ordered_item:	O número do item do menu
-+	 * @menu:		Ponteiro para o menu do qual o item
-+	 *  			foi pedido
-+	 *
-+	 * Informação suplementar para usar a struct.
-+	 *
-+	 * Note que os descritores dos membros da struct acima estão dispostos
-+	 * de forma tabular.
-+	 */
-+	struct bar_order {
-+		unsigned int	guest_id;
-+		int		ordered_item;
-+		struct menu	*menu;
-+	};
++Informações sobre a árvore base
++-------------------------------
 +
-+Inicializadores de struct estáticos devem usar inicializadores C99 e também devem ser
-+alinhados de forma tabular::
++Quando outros desenvolvedores recebem seus patches e iniciam o processo de revisão,
++é absolutamente necessário que eles saibam qual é o commit/branch
++base no qual seu trabalho se aplica, considerando a enorme quantidade de
++árvores de mantenedores presentes hoje em dia. Note novamente a entrada **T:** no
++arquivo MAINTAINERS explicado acima.
 +
-+	static struct foo statfoo = {
-+		.a		= 0,
-+		.plain_integer	= CONSTANT_DEFINE_OR_ENUM,
-+		.bar		= &statbar,
-+	};
++Isso é ainda mais importante para processos automatizados de CI que tentam
++executar uma série de testes a fim de estabelecer a qualidade da sua
++submissão antes que o mantenedor inicie a revisão.
 +
-+Note que embora a sintaxe C99 permita a omissão da vírgula final,
-+nós recomendamos o uso de uma vírgula na última linha porque isso torna
-+o reordenamento e a adição de novas linhas mais fáceis, e também torna tais
-+patches futuros ligeiramente mais fáceis de ler.
++Se você estiver usando ``git format-patch`` para gerar seus patches, você pode
++incluir automaticamente as informações da árvore base em sua submissão ao
++usar a flag ``--base``. A maneira mais fácil e conveniente de usar
++esta opção é com branches de tópicos (topical branches)::
 +
-+Quebras de linha
-+^^^^^^^^^^^^^^^^
++    $ git checkout -t -b my-topical-branch master
++    Branch 'my-topical-branch' set up to track local branch 'master'.
++    Switched to a new branch 'my-topical-branch'
 +
-+Restringir o comprimento da linha a 80 caracteres torna código profundamente indentado difícil de
-+ler. Considere dividir o código em funções auxiliares para evitar quebra de
-+linha excessiva.
++    [perform your edits and commits]
 +
-+A regra de 80 caracteres não é uma regra estrita, então por favor use bom senso ao
-+quebrar linhas. Especialmente strings de formato nunca devem ser divididas.
++    $ git format-patch --base=auto --cover-letter -o outgoing/ master
++    outgoing/0000-cover-letter.patch
++    outgoing/0001-First-Commit.patch
++    outgoing/...
 +
-+Ao dividir declarações de funções ou chamadas de funções, então por favor alinhe
-+o primeiro argumento na segunda linha com o primeiro argumento na primeira
-+linha::
++Quando você abrir ``outgoing/0000-cover-letter.patch`` para edição, você
++notará que ele terá o trailer ``base-commit:`` bem no
++final, o qual fornece ao revisor e às ferramentas de CI informações suficientes
++para realizar o ``git am`` adequadamente sem se preocupar com conflitos::
 +
-+  static int long_function_name(struct foobar *barfoo, unsigned int id,
-+				unsigned int offset)
-+  {
++    $ git checkout -b patch-review [base-commit-id]
++    Switched to a new branch 'patch-review'
++    $ git am patches.mbox
++    Applying: First Commit
++    Applying: ...
 +
-+	if (!id) {
-+		ret = longer_function_name(barfoo, DEFAULT_BARFOO_ID,
-+					   offset);
-+	...
++Por favor, veja ``man git-format-patch`` para mais informações sobre esta
++opção.
 +
-+Namespaces
-+^^^^^^^^^^
++.. note::
 +
-+Namespaces de funções/variáveis melhoram a legibilidade e permitem
-+grepping fácil. Estes namespaces são prefixos de string para nomes
-+de funções e variáveis visíveis globalmente, incluindo inlines. Estes prefixos devem
-+combinar o subsistema e o nome do componente como 'x86_comp\_',
-+'sched\_', 'irq\_', e 'mutex\_'.
++    A funcionalidade ``--base`` foi introduzida no git versão 2.9.0.
 +
-+Isso também inclui funções estáticas de escopo de arquivo que são imediatamente colocadas
-+em templates de driver visíveis globalmente - é útil que esses símbolos
-+também carreguem um bom prefixo, para legibilidade do backtrace.
++Se você não estiver usando git para formatar seus patches, você ainda pode incluir
++o mesmo trailer ``base-commit`` para indicar o hash do commit da árvore
++na qual seu trabalho se baseia. Você deve adicioná-lo na cover
++letter (carta de apresentação) ou no primeiro patch da série e ele deve ser colocado
++abaixo da linha ``---`` ou bem no final de todo o outro
++conteúdo, logo antes da sua assinatura de e-mail.
 +
-+Prefixos de namespace podem ser omitidos para funções e variáveis
-+estáticas locais. Funções verdadeiramente locais, chamadas apenas por outras funções locais,
-+podem ter nomes descritivos mais curtos - nossa preocupação principal é a facilidade de grepping
-+e a legibilidade do backtrace.
++Certifique-se de que o commit base está em uma árvore oficial de mantenedor/mainline
++e não em alguma árvore interna acessível apenas por você - caso contrário seria
++inútil.
 +
-+Por favor note que os prefixos 'xxx_vendor\_' e 'vendor_xxx\_' não são
-+úteis para funções estáticas em arquivos específicos de fornecedores. Afinal,
-+já está claro que o código é específico do fornecedor. Além disso, nomes
-+de fornecedores devem ser apenas para funcionalidades verdadeiramente específicas de fornecedores.
++Ferramentas
++-----------
 +
-+Como sempre, aplique o bom senso e vise a consistência e a legibilidade.
++Muitos dos aspectos técnicos deste processo podem ser automatizados usando
++b4, documentado em <https://b4.docs.kernel.org/en/latest/>. Isso pode
++ajudar com coisas como rastreamento de dependências, execução do checkpatch e
++com a formatação e o envio de e-mails.
 +
++Referências
++-----------
 +
-+Notificações de commit
-+----------------------
++Andrew Morton, "The perfect patch" (tpp).
++  <https://www.ozlabs.org/~akpm/stuff/tpp.txt>
 +
-+A árvore tip é monitorada por um bot por novos commits. O bot envia um email
-+para cada novo commit para uma lista de discussão dedicada
-+(``linux-tip-commits@vger.kernel.org``) e coloca em Cc todas as pessoas que são
-+mencionadas em uma das tags de commit. Ele usa o ID da mensagem de email da
-+tag Link no final da lista de tags para definir o cabeçalho de email In-Reply-To para que
-+a mensagem seja encadeada corretamente com o email de submissão do patch.
++Jeff Garzik, "Linux kernel patch submission format".
++  <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
 +
-+Os mantenedores e submantenedores tip tentam responder ao remetente
-+ao fazer o merge de um patch, mas às vezes eles esquecem ou isso não se encaixa no
-+fluxo de trabalho do momento. Embora a mensagem do bot seja puramente mecânica, ela
-+também implica em um 'Obrigado! Aplicado.'.
++Greg Kroah-Hartman, "How to piss off a kernel subsystem maintainer".
++  <http://www.kroah.com/log/linux/maintainer.html>
++
++  <http://www.kroah.com/log/linux/maintainer-02.html>
++
++  <http://www.kroah.com/log/linux/maintainer-03.html>
++
++  <http://www.kroah.com/log/linux/maintainer-04.html>
++
++  <http://www.kroah.com/log/linux/maintainer-05.html>
++
++  <http://www.kroah.com/log/linux/maintainer-06.html>
++
++Kernel Documentation/process/coding-style.rst
++
++Linus Torvalds's mail on the canonical patch format:
++  <https://lore.kernel.org/r/Pine.LNX.4.58.0504071023190.28951@ppc970.osdl.org>
++
++Andi Kleen, "On submitting kernel patches"
++  Some strategies to get difficult or controversial changes in.
++
++  http://halobates.de/on-submitting-patches.pdf
 -- 
 2.47.3
 
