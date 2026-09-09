@@ -1,155 +1,158 @@
-Received: from sender-op-o11.zoho.com.au (sender-op-o11.zoho.com.au [103.138.129.1])
+Received: from flow-b6-smtp.messagingengine.com (flow-b6-smtp.messagingengine.com [202.12.124.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8735C47DFBD;
-	Wed,  9 Sep 2026 14:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.138.129.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788964966; cv=pass; b=XLSnIIIiS6MBAHOf/YnQRkVDEl7KX59uf9diUqFSr79gUDTU7GrHJE2ydHwMS79wkZmi/v8P+75owRr31RDDJyb9MZfYDWbedG0Yi+Mr8coJ5Nwj7xTKUGeFryHVNIrc3QRer5kC3WQhPn0X+xZDaBbjNLJrPW3233NdsNNSRZg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788964966; c=relaxed/simple;
-	bh=xX3MS2hFLnLzrbqpKEGCXF6NiBKGvB8xeKt3qODVK0I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HhChX+0duqnJwAXMapp9wjP5nMnOm0/p41pjbj7t/nYQMOxY9fwHbC8aNy/WAcyOvZ7J7zCkCZc3nZZWDLN0dymer/zv3CivV0M7Ej0VPl4HNsd+9945APS1WGQEfVDrRsU4UCY6qOdvxfIWXffUXv5Wy72fLDETiGbao24eJdA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=scstudios.tech; spf=pass smtp.mailfrom=scstudios.tech; dkim=pass (1024-bit key) header.d=scstudios.tech header.i=@scstudios.tech header.b=NPUaq6KP; arc=pass smtp.client-ip=103.138.129.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=scstudios.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=scstudios.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF715678DE;
+	Wed,  9 Sep 2026 14:48:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.141
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788965297; cv=none; b=RMGo9DWvCLsp00USR+dE+dFy2b5Xj77efU/8oWpLId67lEP3Z0RkkIn71/Rvi+oVecrbbrfDJKBcGmfShDgE+/16c78O+UdbyXSI+XszNNvB23MSHv43llA+wTjIj2G9uiNCZOXeqGHkgrnQxqpKNNit1W4FPsDaQxZ/lTK7rXo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788965297; c=relaxed/simple;
+	bh=DANpDz5O88+3yz2h+TOOCaNSRoYS8C1lLHKO92u+I0A=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=W57J61snAqEqUH1v4fIiLCkBY7s76KBzMHT8tTaH9T0KwZ7WAR0dEk91aaih/R9tDAO5Ori0o9CSt3EGGbT+5ruSBN+93jcbokfyCzE9AlbUVcU21ra3rIhFRy1IW114gFEK+QSa6o2a9jGdVxmQAM5tRCtMXM02ScOhKgQ7u7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=edOR2XRq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=U9oCnZzC; arc=none smtp.client-ip=202.12.124.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=scstudios.tech header.i=@scstudios.tech header.b="NPUaq6KP"
-ARC-Seal: i=1; a=rsa-sha256; t=1788964899; cv=none; 
-	d=zohomail.com.au; s=zohoarc; 
-	b=HTNWwnBL9lOEczlqwZpZ/LGNV3/Hvg1rSRGFVjRg4XACYO1SM5eoJjmw4i4jPSxXpBY7riFaYcqxf96IkjDhdRKw3F5UXw86OUaM3MyJDq+Q8jbc2WikY7siRla4wGtnsFrVueE6btjSL2qFNvFxXJKRnQEN2yG67WBtfz9AseM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com.au; s=zohoarc; 
-	t=1788964899; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=zD28XhKg0xRAFAYdyTHDmq6D+C7Hst1WBfaQKtFpJ/8=; 
-	b=ioTQBDwFzTdCY4xbtnZtLZ7jjbVIfBm7kmwi/56zcREBoHxgLp5ikpBgocNPGTiNPY7VNFmzin5uROuxdeDTvmM5TrwbTPUq6dBMF+HdEe+mrbgGlsROWO8c52uuUoW8hlwVPYfjUWTtMF3q2Z+o3TeOlLT5HYuwQGJUu9da8cE=
-ARC-Authentication-Results: i=1; mx.zohomail.com.au;
-	dkim=pass  header.i=scstudios.tech;
-	spf=pass  smtp.mailfrom=ruben@scstudios.tech;
-	dmarc=pass header.from=<ruben@scstudios.tech>
-DKIM-Signature: a=rsa-sha256; b=NPUaq6KPuaNFML49GMBxM/sRUtCvmGIPyrLZo7sGmqxcwYOczYXe4l3ItSm55g9YiMDd/y18rpWQGs75oCpcBEdU6+MTq8wvAZP3ScpTuRmly3LcLZNaINMRQmY8qqj7HpfZ7VHCjzjUOhtvoBUojZEFogH1DdMAy3oop3dATYY=; c=relaxed/relaxed; s=zmail; d=scstudios.tech; v=1; bh=zD28XhKg0xRAFAYdyTHDmq6D+C7Hst1WBfaQKtFpJ/8=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Feedback-ID:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by mx.zoho.com.au with SMTPS id 1788964897675430.9683353963428;
-	Thu, 10 Sep 2026 00:41:37 +1000 (AEST)
-From: Ruben Sutton <ruben@scstudios.tech>
-To: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	workflows@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev,
-	Ruben Sutton <ruben@scstudios.tech>
-Subject: [PATCH] docs: process: use gender-neutral pronouns
-Date: Thu, 10 Sep 2026 00:41:00 +1000
-Message-ID: <20260909144100.78177-1-ruben@scstudios.tech>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="edOR2XRq";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="U9oCnZzC"
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailflow.stl.internal (Postfix) with ESMTP id ECD971300FD5;
+	Wed,  9 Sep 2026 10:48:09 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Wed, 09 Sep 2026 10:48:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1788965289;
+	 x=1788972489; bh=7Sf1OydxtJEVq81Rg4jscjKjaiC0B3auBQbEfBVyOBM=; b=
+	edOR2XRqt7+DfOXGudRSD6BrdL1bF5sqrn9v6EqdKgeA+/erWMgnAY42ODb+7mYO
+	vj32XTPHue5DJEyR1N28xHgCZz2al3ec0dTRgSi3sLCQDxXGe2iCq04aMBPDa3vs
+	FRc9njMaUqboKD+lh+FLEVNGEUUwUbDUmSxyTDF++nGLA6zUAIFCUhP5+FtH6E8y
+	mTQx2XHjQn+CvQWdHYW9gDF8hOt1exL51bxu3FWdWfB/M8TljmNcIY6SDPVJ95kz
+	m7qgsWILtPM7JQ60jQ6cbXC99tHUqpKMVwGW85GP8b83r76neE2Hwp0Yc8NByVsP
+	qHsZovzIFQxV0KQMh5H+vw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788965289; x=
+	1788972489; bh=7Sf1OydxtJEVq81Rg4jscjKjaiC0B3auBQbEfBVyOBM=; b=U
+	9oCnZzCRAlpf8z0iDO4Ik36vULuiCRqOlzVIoLsbMb23ctt1HzOoQCg5oEfW7xER
+	KlRpgGsXuJ2/DBkTPwg7CKYo5sd3kyMzRsMYdgDTiK1IhZUNby5zt61BS0RVeI7L
+	ghfFn2TzAKE4UW2slNiU4mrEbMpbqRx0pL/BKh7jMKIacYFNRdoxIbQyhqykZwJi
+	CXNHr9V5jX3sMBKOBL/p0/3PqexLxdTt8mE3/xCzgZySEAXzNpC0EJ2NiyNKvWP7
+	WlT08Rbbinuf3m40vqj+Gm66+pzLzi4UzIs3B/ZPbRWXhQwmex/BNheYgdKgeQZS
+	xTlV7BeIZmtMDyWWIdJ3A==
+X-ME-Sender: <xms:oXGhagtFCVjMuSrNINj070xWbgle3zQCA6S6ZA7B0U5neaTPPvxWWg>
+    <xme:oXGhaoQbrdvXGJ6KHHH8Up4t1QabZ5lHMGI4ZS62N2jsLjDBJy47wB8OqcsIWcSi7
+    H0mlJCCatwQh_BP0ekrd7MN-vavOmW_ewRGMKW6tvTZOEv5bMDOZkXa>
+X-ME-Proxy-Cause: dmFkZTGRw7pJGNg9x4eyP9g2Oo1DXn7SBZCTc/fBE1J6f2Fvw8mIQviGvrfvBUF8Yz5cPc
+    sTJxVd20sVrcxL8FNQouu2b/qPCmDWn8NEAsnm2qXZNER3jeufoYAEcSYO1RMcO4b6r2Tu
+    zIN5rrzJeBXMlqg0gKgHNK4Po9NVJss2gjzWWwIbXYVZJW50LS3dJQkcxeJmqKm1MimBur
+    AFRfPPaNDoXwXf9HpNWtsVgaop38c5pY5A5SlYGzjelRb1rayeBd+80ZTdArTJsnnJBVt6
+    vfobAC6whIpyzO6D4Nj1gOXQFJD4y17okJ7Sa8hF7qAHpCVPWcHe/ueCHIcvje4CQJY/By
+    CMrtaSpqZNb2Fd4fbxt5mAze5P8YGyK1gZX0xN+SZNVwIPYgnxRyu26wRrW5qrJl5u90KV
+    B+KQOVgLC2bOlZgo2LvoKitv1tUnTuicSoyr5CxXbid1wctIC7ksAx/pNU6lvZULcTJVMu
+    TS4GELfWLTmFaqJS0Aw7oz3Sl5+boc4+AjOdYazYXvtZivi3ZATckKc9BHy363OMxaTXEU
+    b3Nu/Eky1cc1APwl+QlpPGSbmXyKNXg8xEtrMoT2/+e9vKjzEedKGnSZhcP+Eytd0wXsJc
+    AZgU7GHpFzELLx2O8crKw/TWK0N0qZjtrTAxsCYDC3pBtJwaF2fPdBrI1q+g
+X-ME-Proxy: <xmx:pnGhas5P8OR8G51w3IBhc_Zadvo1JjINWXdn8rSnknEOYeQmiwm8Dg>
+    <xmx:pnGhak1eOby6alFdvbuvlxs1Hk7aNl4reJxLnQ3z0VUZpsoGcthJfQ>
+    <xmx:pnGhaglx6SV68g1Luwe1v0x64snP-mzbZy-_PFfqwqAgLXqjK32Qkg>
+    <xmx:pnGhaljFV5c4XssIDTc-MH84xjzfvx0bM2cONTuzuy0wF-yajOlFrA>
+    <xmx:qXGhamkfWdroY54p64G_GajNGnPGFNQP8IgzpU369_Lv6URwwOyIorSC>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id DE08632A007E; Wed,  9 Sep 2026 10:48:01 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+X-ThreadId: APaZlxbVBos-
+Date: Wed, 09 Sep 2026 16:47:41 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Johan Hovold" <johan@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Lee Jones" <lee@kernel.org>, mfd@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ "Daniel Thompson" <danielt@kernel.org>,
+ "Jingoo Han" <jingoohan1@gmail.com>,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
+ "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Guenter Roeck" <linux@roeck-us.net>,
+ "Linus Walleij" <linusw@kernel.org>,
+ "Bartosz Golaszewski" <brgl@kernel.org>,
+ "Jonathan Cameron" <jic23@kernel.org>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Pavel Machek" <pavel@kernel.org>,
+ "Michael Hennerich" <michael.hennerich@analog.com>,
+ "Support Opensource" <support.opensource@diasemi.com>,
+ "Sebastian Reichel" <sre@kernel.org>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Helge Deller" <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-watchdog@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ llvm@lists.linux.dev
+Message-Id: <ac367ab8-e57e-4d2f-b1cf-abda8eb6e530@app.fastmail.com>
+In-Reply-To: <aqFi1qGC2QMzMAq9@hovoldconsulting.com>
+References: <20260909132153.1596191-1-arnd@kernel.org>
+ <20260909132153.1596191-10-arnd@kernel.org>
+ <aqFi1qGC2QMzMAq9@hovoldconsulting.com>
+Subject: Re: [PATCH 09/14] mfd: remove unused lm3533 driver
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Several process documents use gendered pronouns when referring
-generically to developers and maintainers. Use singular they instead,
-making the language inclusive without changing its meaning.
+On Wed, Sep 9, 2026, at 15:44, Johan Hovold wrote:
+> On Wed, Sep 09, 2026 at 03:21:46PM +0200, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> 
+>> This driver has apparently never had any users, as it does not support
+>> devicetree probing, and no lm3533_platform_data definition ever
+>> existed upstream.
+>
+> I don't believe we ever required board files to be upstreamed?
 
-Leave pronouns referring to named people and text in attributed
-quotations unchanged.
+No, but there is a general requirement that code must be usable.
 
-Assisted-by: LLM
-Signed-off-by: Ruben Sutton <ruben@scstudios.tech>
----
- Documentation/process/2.Process.rst            | 2 +-
- Documentation/process/5.Posting.rst            | 2 +-
- Documentation/process/6.Followthrough.rst      | 2 +-
- Documentation/process/handling-regressions.rst | 2 +-
- Documentation/process/howto.rst                | 2 +-
- Documentation/process/submitting-patches.rst   | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+With my series to drop almost all Arm board files, the use
+of platform_data becomes so obscure that it becomes reasonable
+to assume that any driver that requires platform_data and does
+not already have an upstream definition for it is fundamentally
+broken.
 
-diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
-index 77f3f80e7c..75b5c236d8 100644
---- a/Documentation/process/2.Process.rst
-+++ b/Documentation/process/2.Process.rst
-@@ -227,7 +227,7 @@ tree, usually (but certainly not always) using the git source management
- tool.  Tools like git (and related tools like quilt or mercurial) allow
- maintainers to track a list of patches, including authorship information
- and other metadata.  At any given time, the maintainer can identify which
--patches in his or her repository are not found in the mainline.
-+patches in their repository are not found in the mainline.
- 
- When the merge window opens, top-level maintainers will ask Linus to "pull"
- the patches they have selected for merging from their repositories.  If
-diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-index 07d7dbed13..6e61204403 100644
---- a/Documentation/process/5.Posting.rst
-+++ b/Documentation/process/5.Posting.rst
-@@ -233,7 +233,7 @@ the patch. Each of these uses this format::
- 
- The tags in common use are:
- 
-- - Signed-off-by: this is a developer's certification that he or she has
-+ - Signed-off-by: this is a developer's certification that they have
-    the right to submit the patch for inclusion into the kernel.  It is an
-    agreement to the Developer's Certificate of Origin, the full text of
-    which can be found in :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-diff --git a/Documentation/process/6.Followthrough.rst b/Documentation/process/6.Followthrough.rst
-index 66fa400c6d..ebb0e4cc95 100644
---- a/Documentation/process/6.Followthrough.rst
-+++ b/Documentation/process/6.Followthrough.rst
-@@ -114,7 +114,7 @@ What happens next
- If a patch is considered to be a good thing to add to the kernel, and once
- most of the review issues have been resolved, the next step is usually
- entry into a subsystem maintainer's tree.  How that works varies from one
--subsystem to the next; each maintainer has his or her own way of doing
-+subsystem to the next; each maintainer has their own way of doing
- things.  In particular, there may be more than one tree - one, perhaps,
- dedicated to patches planned for the next merge window, and another for
- longer-term work.
-diff --git a/Documentation/process/handling-regressions.rst b/Documentation/process/handling-regressions.rst
-index c71b5d403f..6958a2a8b0 100644
---- a/Documentation/process/handling-regressions.rst
-+++ b/Documentation/process/handling-regressions.rst
-@@ -283,7 +283,7 @@ sure your patch description makes this aspect obvious. Once the change is
- merged, tell the Linux kernel's regression tracker and the regressions mailing
- list about the risk, so everyone has the change on the radar in case reports
- trickle in. Depending on the risk, you also might want to ask the subsystem
--maintainer to mention the issue in his mainline pull request.
-+maintainer to mention the issue in their mainline pull request.
- 
- What else is there to known about regressions?
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-index 9438e03d6f..8c60138d03 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -305,7 +305,7 @@ The maintainers of the various kernel subsystems --- and also many
- kernel subsystem developers --- expose their current state of
- development in source repositories.  That way, others can see what is
- happening in the different areas of the kernel.  In areas where
--development is rapid, a developer may be asked to base his submissions
-+development is rapid, a developer may be asked to base their submissions
- onto such a subsystem kernel tree so that conflicts between the
- submission and other already ongoing work are avoided.
- 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 7ae79452e1..4c28a239e8 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -456,7 +456,7 @@ When to use Acked-by:, Cc:, and Co-developed-by:
- ------------------------------------------------
- 
- The Signed-off-by: tag indicates that the signer was involved in the
--development of the patch, or that he/she was in the patch's delivery path.
-+development of the patch, or that they were in the patch's delivery path.
- 
- If a person was not directly involved in the preparation or handling of a
- patch but wishes to signify and record their approval of it then they can
+The only platforms that still use board files now are:
 
-base-commit: 893e11787f78e43b534e252249ac3fff4d1333f8
--- 
-2.54.0 (Apple Git-157)
+arm/omap1
+arm/s3c
+m68k/coldfire
+mips/alchemy
+mips/bcm63xx
+mips/rb532
+mips/txx9
+sh/sh77xx
 
+All of these are now over 20 years old, so I don't expect anyone
+to add new board support or maintain boards for them except for
+what is already upstream.
+
+> There's also on-going work to enable devicetree support for this one:
+>
+> 	https://lore.kernel.org/lkml/20260617080031.99156-1-clamor95@gmail.com/
+
+Ok, I've dropped this patch, thanks for pointing this one out!
+
+      Arnd
