@@ -1,247 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-37.mta1.migadu.com [95.215.58.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B613154529E;
-	Wed,  9 Sep 2026 12:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DD954DAD4
+	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 12:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788955741; cv=none; b=KLz8pHbYvCDCMZRab5KuwIwHeEyYsJlj0w00jBJgrQhWnAPpeKI6oOtrpGz4nxhPOGHV/pQgSe5xYnJc0+SoH+qyVuBwuMGtJV9EMqyc/2Y+2liB7VNXQ7mrMZ20RGpm+CyxDDQpH9DB5PSWVvqysKNNGgpYeB88zydbYPsZVTc=
+	t=1788956433; cv=none; b=ASgwF3QCS1r+qm7UWAHNC+oeoyJhs0nc6Kk9EFkbRPF9cK0YREDo3CQj9O1Y0uNxlCS4aS1t5+NVSHSXx3H0N6mgDkROksTk+qKs3IgSU3wvnbAKS06nAXaUiunPjKcqFeXYUfrnD88D7rMnEFXRzErgtwi9A23GNmTolwQQGP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788955741; c=relaxed/simple;
-	bh=Tr7NeP1XAHfJ7HqrKKBxhlWmTq0V2hBOX4MjlUrY6wo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sqMLKM8J5IWYEAJnG86qNukqnCpAebe15zIsiE9vuONNxw4cu1jUP4egA13BMjfD7Kn6QDx2DIgbfaGxr8TDbPfulDQVJii7NrDw6hr3qWn9kRSL21Gfv+nDhBNX0FPf+ZiPCKEnP/sCntgEminfaJaZDYDgBwvvObRFFw+kbZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QSBO7XfB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788956433; c=relaxed/simple;
+	bh=DvN6ieXZK61nf4vXMKnWI+XqglFmplVl80eiQCsaIOo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t1HPSWA53mo295yUND1xfRPIAzgDkAUUPP0WV2XTtwz42P7zcrxJaE8WkZmDvSfCOf5/NjrbW1xrtVxoLwZ4kne7h8UiQTGqnhdO2BEKEWpCKc1pspyE9uM/g7Z9mXOGtwVb5NDXu/OE8UCiXGLUT2Z5RY1Yd/2WjxYLuS0j+OM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=qRFNhpN2; arc=none smtp.client-ip=95.215.58.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QSBO7XfB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC671F00A3E;
-	Wed,  9 Sep 2026 12:08:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788955739;
-	bh=+vl7JXesMvOyLvN4TqdpRFvW5tHWQV0Z6fTfMaOZcos=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=QSBO7XfB9eJuCgdZw4woX9h6hLVv1DAAKEMcqqTtIlfNGaiMpuLvQbzhC/HsUDqDy
-	 15tzsyERcKb/dCy0KrTkU176RhbTCcy21TSs/XRVe0a2CeHrpUDlqlX+4eqWNdQmSP
-	 ZwfdXLWGjYgxyEXXB+UjA+lgDSAN24eS4K+Y/at+9+bmLKnF2sQtudlKc4XZf2yWBT
-	 GWiqoV+03Qgq8XKU5kEPlMdYwMF4DBOmSD8P6FFdNW88ziMwb+5x2tUJ7KBFC2OEkv
-	 y0F1ASE9ljvI2KQ6gM2g9pgM4YchyP5SgcvLLQZd8YcLUPlszfpfiqg7ho1AxZsTq8
-	 3yCEIs6vu9sRQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1x4H6m-00000006flL-2cBD;
-	Wed, 09 Sep 2026 12:08:56 +0000
-Date: Wed, 09 Sep 2026 13:08:55 +0100
-Message-ID: <86wlsu39uw.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>,
-	Paul Moore <paul@paul-moore.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Doug Gilbert <dgilbert@interlog.com>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	Jaya Kumar <jayalk@intworks.biz>,
-	Simona Vetter <simona@ffwll.ch>,
-	Helge Deller <deller@gmx.de>,
-	Sebastian Reichel <sre@kernel.org>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Peter Xu <peterx@redhat.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Rik van Riel <riel@surriel.com>,
-	Harry Yoo <harry@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Will Deacon <will@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Nick Piggin <npiggin@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Oliver Upton <oupton@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Anup Patel <anup@brainfault.org>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>,
-	Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	Xu Xin <xu.xin16@zte.com.cn>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Michal Hocko <mhocko@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	selinux@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 28/39] mm: drop some redundant checks around hugetlb VMAs
-In-Reply-To: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-28-dacf19cce22b@kernel.org>
-References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
-	<20260908-b4-mmap-prepare-vma-flag-sanify-v1-28-dacf19cce22b@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="qRFNhpN2"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=DvN6ieXZK61nf4vXMKnWI+XqglFmplVl80eiQCsaIOo=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788956426; v=1; x=1789561226;
+ b=qRFNhpN2/B37vRibK0TnNL14Az2f38ujoI7F4SLqn0qh2NMcCL9UXubHet+B3ZgN7KaEj6BX
+ Jxg2rjq6o9rusW4LDFPU/cpvRW/UjRdY4ClzNzcPNTm08A7W+84oqrwSAwAxTayiTJG3UjQ3Slt
+ xvE99E74nfUmmsqRgujpROGCVCRf3KBGyzl2kmvxY1RXEijpey1CKJIVCl2CVCQKm+aVecURfQ7
+ T8d/WYz5DPG67KaZRlTYoJOmtaJzaTLeZ+A0fvU59SSRDoFDY3H93nYbWxzeAsUpi0usnAfE0LB
+ orcCzmkhhmiHqXSRAJoQiXEG5crQEIX9CiVnf3tTjvuYA==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id d9cdd1849f173c62;
+	Wed, 09 Sep 2026 12:20:26 +0000
+X-Mizu-Trace-ID: d9cdd1849f173c62
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 9 Sep 2026 20:20:21 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
+	Hu Haowen <srcres258@furdevs.cn>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: Subject: [RFC] docs/zh_TW: defining a maintainable scope for the
+ Traditional Chinese translation
+Message-ID: <aqFPBQxq5asHzvtn@wyuan.org>
+References: <CAKspUhJAbCWoxgh2eq8R5g_MiNK=oXgKPUWqGOpHh0w1-Fv74A@mail.gmail.com>
+ <ap5xEtMdwXS8Pvcf@wyuan.org>
+ <CAKspUh+=T_v1HpwRkA7OY1m8aU-kZgMviHxDrYpBe__8YYHQhg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: ljs@kernel.org, akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, jannh@google.com, pfalcato@suse.de, david@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org, dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca, leon@kernel.org, paul@paul-moore.com, stephen.smalley.work@gmail.com, perex@perex.cz, tiwai@suse.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, nico.pache@linux.dev, ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev, usama.arif@linux.dev, kas@kernel.org, dgilbert@interlog.com, James.Bottomley@HansenPartnership.com, mkp@kernel.org, jayalk@intworks.biz, simona@ffwll.ch, deller@gmx.de, sre@kernel.org, jhubbard@nvidia.com, peterx@redhat.com, mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen
- @linux.intel.com, x86@kernel.org, acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com, riel@surriel.com, harry@kernel.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com, arnd@arndb.de, muchun.song@linux.dev, osalvador@suse.de, willy@infradead.org, jack@suse.cz, oupton@kernel.org, catalin.marinas@arm.com, maddy@linux.ibm.com, anup@brainfault.org, pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu, borntraeger@linux.ibm.com, frankja@linux.ibm.com, imbrenda@linux.ibm.com, agordeev@linux.ibm.com, gerald.schaefer@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com, davem@davemloft.net, andreas@gaisler.com, viro@zeniv.linux.org.uk, brauner@kernel.org, matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com, chrisl@kernel.
- org, kasong@tencent.com, shikemeng@huaweicloud.com, nphamcs@gmail.com, baoquan.he@linux.dev, youngjun.park@lge.com, hannes@cmpxchg.org, qi.zheng@linux.dev, shakeel.butt@linux.dev, axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, xu.xin16@zte.com.cn, chengming.zhou@linux.dev, mhocko@kernel.org, miklos@szeredi.hu, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-d
- evel@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKspUh+=T_v1HpwRkA7OY1m8aU-kZgMviHxDrYpBe__8YYHQhg@mail.gmail.com>
 
-On Tue, 08 Sep 2026 21:01:32 +0100,
-"Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+On Wed, Sep 09, 2026 at 05:40:44AM +0800, 葉宸佑 wrote:
+> > If the current translation quality is acceptable and it's not
+> > troublesome to move it, I think we can just move it. On the contrary,
+> > if the translation is significantly behind, there is no need to go
+> > through all the trouble, just delete them.
 > 
-> Adjust code which inadvertently perform redundant checks on hugetlb VMAs
-> and clean them up:
-> 
-> * hugetlb VMAs have VMA_DONTEXPAND_BIT set so a VMA_SPECIAL_FLAGS check
->   suffices. (migrate_vma_setup() regains an explicit hugetlb test later in
->   the series, once VMA_SPECIAL_FLAGS is removed.)
-> 
-> * hugetlb VMAs unconditionally set vma->vm_ops, so they are never
->   anonymous.
-> 
-> * hugetlb VMAs do not set VMA_PFNMAP_BIT so checking for this is redundant.
-> 
-> While we're here also drop a VM_BUG_ON() which the simplified check above
-> makes unreachable, and use the new VMA flag API.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  arch/arm64/kvm/mmu.c         | 4 +---
->  drivers/gpu/drm/drm_gpusvm.c | 3 +--
->  mm/migrate_device.c          | 4 ++--
->  3 files changed, 4 insertions(+), 7 deletions(-)
-> 
-> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> index a7968f8d24bf..3c1240ffc38d 100644
-> --- a/arch/arm64/kvm/mmu.c
-> +++ b/arch/arm64/kvm/mmu.c
-> @@ -1463,14 +1463,12 @@ static int get_vma_page_shift(struct vm_area_struct *vma, unsigned long hva)
->  {
->  	unsigned long pa;
->  
-> -	if (vma_is_hugetlb(vma) && !(vma->vm_flags & VM_PFNMAP))
-> +	if (vma_is_hugetlb(vma))
->  		return huge_page_shift(hstate_vma(vma));
->  
->  	if (!(vma->vm_flags & VM_PFNMAP))
->  		return PAGE_SHIFT;
->  
-> -	VM_BUG_ON(vma_is_hugetlb(vma));
-> -
->  	pa = (vma->vm_pgoff << PAGE_SHIFT) + (hva - vma->vm_start);
->  
->  #ifndef __PAGETABLE_PMD_FOLDED
+> I understand the appeal, and for some files I think you are right. But
+> I would like to separate two things that are getting mixed together:
+> relocating a file is cheap and mechanical, while deciding to delete one
+> is neither, and the two do not have to be decided at the same time.
 
-Acked-by: Marc Zyngier <maz@kernel.org>
+Reasonable. Agreed.
 
-	M.
+> The four relocations in section 2 are the cheap case: the files are
+> reachable, they are not the worst offenders, and moving them is a
+> rename plus an :Original: fix. I would rather just do that and revisit
+> their content later.
 
--- 
-Without deviation from the norm, progress is not possible.
+Agreed.
+
+> For deletion, my hesitation is that it is the one decision here we
+> cannot walk back. Marking a file unmaintained can be undone the moment
+> someone turns up to look after it; deleting it means the next person
+> starts from nothing. Right now zh_TW has one native speaker, so
+> "re-translate instead" is only more efficient if the re-translation
+> actually happens.
+
+Yeah, I thought of this point before, so yes, I agree.
+
+Modifying existing contents is way more atractive to new contributors
+than waiting them to start from scratch.
+
+I admit that my initial insistence that aims to keep the directory too
+clean was not conducive to our future development.
+
+Then let's leave some less perfect aspects to attract others to get
+involved.
+
+> So I would suggest: deletion by exception rather than by rule. Rather
+> than "significantly behind means delete", we name the specific files we
+> think are beyond saving and say why. If you would like to propose a
+> list, I am happy to look at each one -- I suspect we would agree on
+> more of them than this exchange makes it sound.
+
+Sure, I'd love to look deeper into specfic files. And take them for
+later discussion. A discussion without specific documents is indeed a
+bit vague. My bad.
+
+> > Tricky?
+> 
+> The six worst are mostly two clusters: admin-guide/mm/damon (5 files,
+> 55 commits between them) and arch/arm64. Those are exactly the files I
+> would expect a Taiwanese reader to skip in favour of the English, so
+> they are strong candidates for whatever we decide "unmaintained" means
+> -- and, if you want to make the case, for deletion.
+
+Yes, I guess nobody would read this? So I'm fine with both decision.
+
+> > However, the former might be clearer and more understandable for the
+> > readers.
+> 
+> Agreed, the notice belongs in the file. I will do it that way.
+
+OK, if no other ideas or objections, let's do so.
+
+> > And after process/, I'd like to do that part "Working with the
+> > development community".
+> 
+> Good -- that is the section of the index that matters most after
+> process/ itself.
+> 
+> Dongliang: Weijie quoted you above on re-translation being more
+> efficient. That was in a different context, so I would rather not
+> assume it carries over.
+
+True. After your detailed analysis and our discussion, I think a simple
+re-translation is clearly not comprehensive enough.
+
+Thanks!
