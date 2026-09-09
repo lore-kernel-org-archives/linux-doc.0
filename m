@@ -1,105 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D88314A98;
-	Wed,  9 Sep 2026 17:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8054A328611;
+	Wed,  9 Sep 2026 17:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788973256; cv=none; b=Kt8jhdR4MGYyU/zX/kzQUig5f/o60jLbDp2dPpK9LbMrYdW41RdbdHeaPwsCy1yNlU/YWp8VTR5KnWufm+rhgnLVzcyj31ru22xZEOKxGicwHt4ODXAnCb/a7V6EzBR65/fVs8sBGo4hIfqaIdl4os/keZRp125SPVeSH+ZvkL0=
+	t=1788973399; cv=none; b=nuRPbGAD5j3IBhKFT3ULEb7socMQ21grzSHH2yilnhZi5k9GRV8BWOcB9TrSVdhvB8P17SgW8GxAgjdLt7MeXKNo8rH73JKutnofkoQ+TntX+EruQIUp9hKmnQdO7x/YICb/fg7e5RSfR9W1OZMRSC0d8jkKocZIQtiuIsOtGX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788973256; c=relaxed/simple;
-	bh=Y/UIq031XmUZ5ZfP5/0PQAgB9eZRuRYbgPHSxMOJLfI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=D7bnA2wlTy19MnO8XHhBNNSBM7S8fVsLNNbi1Da3SO7SS4JgELCFxptaCccx/GMYzIf7ber8YyN3qxZ7FF/N8iPKEvyNnXT5ozlCtKEj68eYAchM/gU83ownEksFwPYCbOkQBruVL9JgbWUF5ll8WoVaKaffGeCbjq7xI8CqXNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I9BP+1Vz; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788973399; c=relaxed/simple;
+	bh=512p7lSBvw7xCoQBN0yV7GJl74kb4lk+PPjU1dHXIlI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition; b=dTMdWQXtKTLEZR6twPxeN3eQfL2pyb/0SMlVdV54pq5S1kfuTXPHxO97/Q2KFhmJmpNsfpT2HnZKBVMDJTpKSLC9RSnNI8D/7yKfZBLfbwXLd6ULBs672IHm8QjLU8e/HNNRMlfxhXyCZrIJ+dqAvsddGB5sYvbuJVso3XVR0No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=NTwgjEGo; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I9BP+1Vz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788973254; x=1820509254;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=Y/UIq031XmUZ5ZfP5/0PQAgB9eZRuRYbgPHSxMOJLfI=;
-  b=I9BP+1VzkOM8xYnLnJKE8e3n+XlufuFpbjh/GLnucoXyE05rlXm0lPLW
-   zDeR0NqRkQAc8XiLEmY+kk6vNKCd6mgT3T/0pgonu/ZedFfwtppuRTSt6
-   jIPWZhY2/XJ1oo4xEYqoUbOaJy0Sk8EW3uFPmwflPjSQXF84tpayVriKt
-   4MMC1IvBBkf1qk8f8qUa3AtSj0JnRgAvDT4lb8f64DVz0dMkZsjZxFxSN
-   5TwlF7ImBeJ6pe2z/2HSLHTTXQ+npAmU+TLjhEOu4vSeZPU+p8qq2hS9O
-   OATZRgVufUXqvctFf0VQ7RU1EQv44gyGsJQcT8POAnwSTp0ujoBUw4Zyf
-   w==;
-X-CSE-ConnectionGUID: ouCzSsBvQa+HVMgenRaDuA==
-X-CSE-MsgGUID: obuP5LFPRsmt0Mo+8EEoPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="93098618"
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="93098618"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 10:00:53 -0700
-X-CSE-ConnectionGUID: fkKchdwgRxWLRLcc7uJdtQ==
-X-CSE-MsgGUID: 8ab9o6KmRpC8CTAQmm6hOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="267084887"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.20])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 10:00:50 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>, SJ Park <sj@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: deprecated.rst: add to syntax highlighting
-In-Reply-To: <20260909141255.1367539-2-manuelebnerli@mailbox.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260909141255.1367539-2-manuelebnerli@mailbox.org>
-Date: Wed, 09 Sep 2026 20:00:47 +0300
-Message-ID: <d35909dea037d1ac5c6a919bf1a7d53d8d5fddb4@intel.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="NTwgjEGo"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 37F6A1576;
+	Wed,  9 Sep 2026 10:03:13 -0700 (PDT)
+Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B54403F528;
+	Wed,  9 Sep 2026 10:03:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1788973396; bh=512p7lSBvw7xCoQBN0yV7GJl74kb4lk+PPjU1dHXIlI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NTwgjEGog+sjhQtxbp4isbtd3o4wjAB5zOfu2pnJ6izw0A6Zy4yfUfF+WLSy8gwWU
+	 p0mmuqeUyga+mogdErUqUJcuVQH4Pe4yDzpEdp4KcwKvNJVezDJ9YqA/wHXrR5bG6A
+	 ZxsYHAoHzYR703S1v95m/VGp7yK/HqbzAqj7OAyc=
+From: Leonardo Bras <leo.bras@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Fuad Tabba <fuad.tabba@linux.dev>,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Wei-Lin Chang <weilin.chang@arm.com>,
+	Yao Yuan <yaoyuan@linux.alibaba.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v20 12/14] KVM: selftests: arm64: Only restore SPSR_EL1 and ELR_EL1 if they change
+Date: Wed,  9 Sep 2026 18:03:12 +0100
+Message-ID: <aqGRUD_UdInNyWik@LeoBrasDK>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260901-arm64-gcs-v20-12-f31750bdfadb@kernel.org>
+References: <20260901-arm64-gcs-v20-0-f31750bdfadb@kernel.org> <20260901-arm64-gcs-v20-12-f31750bdfadb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Wed, 09 Sep 2026, Manuel Ebner <manuelebnerli@mailbox.org> wrote:
-> Mark key words 'gfp' and 'GFP_KERNEL' for syntax-highlighting.
->
-> Suggested-by: SJ Park <sj@kernel.org>
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+On Tue, Sep 01, 2026 at 10:47:10PM +0100, Mark Brown wrote:
+> When EXLOCK is enabled for ELx writes to SPSR_ELx and ELR_ELx generate
+> GCS exceptions. Currently the selftest helpers unconditionally reload the
+> saved values for these registers regardless of if the handler didn't change
+> them. This gets in the way of EXLOCK testing, making it hard to generate
+> contexts which will generate an invalid ERET since we never get as far as
+> doing an exception return while EXLOCK is enabled.
+> 
+> In order to facilitate testing of nested virtualisation emulation of EXLOCK
+> change our reloads into read/modify/write cycles, suppressing the writes
+> when they would not change the value in the register.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 > ---
-> Suggestion:
->  https://lore.kernel.org/all/20260430010332.114100-1-sj@kernel.org/
-> ---
->  Documentation/process/deprecated.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index 22a5e62c9..4d4d29b97 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -404,7 +404,7 @@ become, respectively::
->  	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
->  	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
+>  tools/testing/selftests/kvm/lib/arm64/handlers.S | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/tools/testing/selftests/kvm/lib/arm64/handlers.S b/tools/testing/selftests/kvm/lib/arm64/handlers.S
+> index 0e443eadfac6..367c22d61cba 100644
+> --- a/tools/testing/selftests/kvm/lib/arm64/handlers.S
+> +++ b/tools/testing/selftests/kvm/lib/arm64/handlers.S
+> @@ -33,8 +33,18 @@
 >  
-> -The argument gfp is optional, the default value is GFP_KERNEL.
-> +The argument `gfp` is optional, the default value is `GFP_KERNEL`.
->  If `ptr->flex_member` is annotated with __counted_by(), the allocation
->  will automatically fail if `count` is larger than the maximum
->  representable value that can be stored in the counter member associated
+>  .macro restore_registers
+>  	ldp	x1, x2, [sp, #16 * 16] /* PC, PSTATE */
+> +
+> +	/* Suppress redundant writes to support GCS exception lock testing */
+> +	mrs	x3, elr_el1
+> +	cmp	x1, x3
+> +	beq	.Lskip_elr_\@
+>  	msr	elr_el1, x1
+> +.Lskip_elr_\@:
+> +	mrs	x3, spsr_el1
+> +	cmp	x2, x3
+> +	beq	.Lskip_spsr_\@
+>  	msr	spsr_el1, x2
+> +.Lskip_spsr_\@:
+>  
+>  	/* sp is not restored */
+>  	ldp	x30, xzr, [sp, #16 * 15] /* x30, SP */
+> 
 
-Single backquotes in rst mean "interpreted text" [1], not markdown style
-code.
+Ok, looks fair.
+I don't think there could be any effect that would happen only for writing 
+to the register (when nothing was changed), so that should be safe (as long 
+as it does _not_ run in multiple threads at the same time.
 
 
-BR,
-Jani.
+If that's the case:
+Reviewed-by: Leonardo Bras <leo.bras@arm.com>
 
-
-[1] https://docutils.sourceforge.io/docs/ref/rst/roles.html
-
-
--- 
-Jani Nikula, Intel
+Thanks!
+Leo
