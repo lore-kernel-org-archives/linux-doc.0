@@ -1,258 +1,186 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175075678C1
-	for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2026 14:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792B758F06E;
+	Wed,  9 Sep 2026 14:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788964585; cv=pass; b=RcvxrrwRCezP5vncQhaelVDTL1zRCbSTXd/lXBK1woJnzCOITrzYCeO2gLlH3FVh1jY4ZTKZYtN6A84w2teaMmWpZZMutQOfAB2vK9hGuPHBHoAdnTaBtZhsxEETqLe71H9gpsqR10xySY7irxpeiXSyHVGk1ayd7t43nEGQ4M0=
+	t=1788964806; cv=fail; b=d+YxmLz/o7YspLtDGeJudBEC5uB5cVWyF0DLeDjaMA1ypbtDG1rb7LB0xWKKrcilU4O1yz+5BbIt6jLpMVh4HIr0vwSb2q/iAwno8ddfQnqXAkOeBhbEoyS5bFqeEuDsuVi3K476bGaWQ6VGMSR/ZrBiMocr6xm91//jp4TZUsQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788964585; c=relaxed/simple;
-	bh=7AyHAWTKyqNTciVM9XLOxi3jtsvJfGFJongziGZ+beM=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m4BJDJvVkbVfNQy5NVcH9pfHfZFtkoqcxRG76chnsRLG24nmPkNSzspWbaId16cM4kyp1i8mB5aUb2WoGqPqdwNBaq1xrVbJ3Mlwap1xdf6wSyeHrxkHoETgZ1HEA6suJZSr4thBDaE8Pr+DZS0K6otIZRj6p2FZpboX6sYKOZg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dGsiYTKa; arc=pass smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1788964806; c=relaxed/simple;
+	bh=aYbQLXk37KwSO6iA5VxTwP6Tv/6+VynI3+Bn7a1cXvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DRBkNb7wfg86WP7mwrU1eLxZeeEdkEvRCSBGgLk1AtTOW4EeOug6UkVrllMby3uG1Tb75+JtKNsLl9SN59iI4oAT2BIlr83pCaKp9KofOCh6Xez0rQ/En+XJ+fxJDUZDv3J3UDNVBpZ0eg1ezOqQcDNAu6XLv7pAUr4ojW7r8sw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=TtGGPJ5I; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=FDUp0aca; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dGsiYTKa"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-9106ffe17e9so7256996d6.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 07:36:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788964582; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VAryS//ymDtB4xoG/6mNDTl2ZLyPUommsFsLssuEbibi3SgsXPjQwnV8w1ET98Nj9k
-         kuTPmtv680JmjKetIiyGfK5sQmHW/Ekpo3r7ZzDiB0WenZEFbJEHi6fSXBfC7BkTmp/6
-         DL0zkG3NPzTtb+hfxT5AAvwNhmOmGUqldpzJGx1JCaYxfVA80mSWcnurxgnQIXFUEq9s
-         WN9Yh5SpaIJ4fu2cAgIcrON9V3l85d/1WuTfy94o4+mnJHPVQp3VOFFSYn+V0GbU0xSs
-         /w0HVKQhE4GUffEZfjgkdscmteLRuwOPWiqZHByOVcvAejQmJWG5qWCtoTPK/85FR6m5
-         Ti3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=WOdNfCxlVFqMCNwG5WAXrbnbeG8MIfsFEPI5I8fCsWw=;
-        fh=OCL/cKE3T7X3bWQWygEWh48D+JD8x4c2TLrVOwea1dQ=;
-        b=bB6/xRZ2x0oTSic9wBPbhFtMyIqLx0Vyl2guQVNWa19z/kvzwtk1MQnP+T4JeU+1Jn
-         fcNFCJ9aJRIQBDCcao1/EB8RwfKXfnXxobGEWyi7uJERDjc5vPnGUUMBeyuJ05z+Qp9O
-         cCeiF3t5Xi6Qe3pf7lXIcWqx5EBo7nak2nxhIGDWuRrgQCdsPnP5Qwcyzgl6uFIfvpaX
-         Q6DCtFo1INS2dRbbsvWOb5rE1R9cNkciAXa77R32QwbXcnCTxukaiaI0Cbkmpil1oYdO
-         eaxuXM3eek7z/ONfP4bRfczCx5L6GcYSBgfqcsdGnSZ+pF3sp4Tl92kRshiIdYgReShi
-         p1fg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="TtGGPJ5I";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="FDUp0aca"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6893npgp1578475;
+	Wed, 9 Sep 2026 09:39:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=iLxABrejSUqDTt1/QH
+	DrlHY0R8rI0yqLu3zIX8J+ing=; b=TtGGPJ5I0/tPslm98C45xdSDDX/dh1/rcB
+	pw3p5/lg35GZ9vBnb7zGn4rqv/biZVYRNEcqWZMUl69bpug9HqiwXoZl8kJfLMOC
+	HK6z/SC+bc5cNuk3NFyhaHhSYlGP6E25W0jVz2raaeEOKOGD0X4ex2+lZ4f481II
+	Q6SzgKpFm4lcRdDxCQELcqGrHYoHLBGLAIlJM+te+d1hWkH18yQZuzopmECdNA0m
+	cl1Ts4zbYmCmAwqa5dc3X0xLASUd8cx86cky56sOBHJd8Q+V2u5m19Oe0Fm3E18X
+	bbnQPnIwhEzsdj/MEm/LSVgazVsEGuqf6bGzgDjKoGLkVzycQzsA==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11020110.outbound.protection.outlook.com [52.101.85.110])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4gggfwn796-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 09 Sep 2026 09:38:59 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GpD7cObPJDqnGtvmuWP964XJzEzwsVY0y0WXrUS4H2+U1cDIqPRJVilJj1LIGEjogh+zZR5gE5GEBOSvBiK79Gtr9uOKbpBiNzJ9iAmZchHlSUTmjatHAOMHLbiDTJ7rajWt9KNAcfTn6mTJFWJertUZcwiZJB3GarTqNgPFDZiMKCgXqMKuM0zmC88xW2tiPhyajY7umO7i2RhpEQvpbLtSiVOfHildYZb0QjWtqnW76+rC1469F0YnFuND74eQNN4U9nadO36fgIvU0wUw7n4EYdqOfGH0Po563YjGt4SlVfe1CJA/9w/pXbuA7iR7+cicnFD5yHmN81mA0SHXqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iLxABrejSUqDTt1/QHDrlHY0R8rI0yqLu3zIX8J+ing=;
+ b=lmDGFUjF3uYe7h9+K/15lCfvlvezMBk9wlrslgJgoTFcb9StZtZKADvvBWfetKXh8YqIgjBtFzB1tS5Jp//LmtenWjAf4pg317RDi5zLt5j28M2ySMhJN+vye/9eMCvsVq2HORziDy2C6cmQu7y8HRocfCJCIiKmQ7r9aqA1nyAK6/IoLiscXS9vdzUYqmgndj9khuBEceHXsUdBnB+KvUsP3J+hPnP2BlnsszMKKg/6bYxr1iqWQByxl9eYhcRlctY+v6iGMKOSdkZAR3KOKhXg4SC43I6cvA2BIT4XxumPGkMzJmYkO/NPohnnG0QVke7JmNVwGG6Try36kM4wwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=analog.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788964582; x=1789569382; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WOdNfCxlVFqMCNwG5WAXrbnbeG8MIfsFEPI5I8fCsWw=;
-        b=dGsiYTKaFp9FGDwKvEsAeUcOdGsL74uWemUti0nr4w33aRRJErCdwdKueOTKyD5QAJ
-         JIjJ3YKQ9H32NXQen63CtE80VKgenxExiWL/Ev/1cBnKtjnJMqQvmW3q/0+CS6BeRl5y
-         QYuFNrMPHAH+uboqqIpzvVcd+PcqQTVq9vi3hojyk58+7B92Gg/DHY6VZ2DIInsq9cBR
-         fkR2wDtUxI2pb8qZiYYKUIq5ifPOyPhDqTR6QBmjuzp0in7cZyOKFEr4g+MoEzc3H1b+
-         M2lFJkShzuoJ8Ezbui+5tOjMjTZL6WiKCYg0lSc4oA0ZGb5l5J76QdQv/3qkxmW/gcCW
-         yEBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788964582; x=1789569382;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WOdNfCxlVFqMCNwG5WAXrbnbeG8MIfsFEPI5I8fCsWw=;
-        b=Imyh2jel4B6eOdJJHZwtxf7RRvBYx+vetQraoX5dfTKcew5IHUsg6EgGNe/X0SpAC1
-         9TehHK6yNOCTu/ljDSM3+1ErCHh/9ko/E9skt8dUQYRX1jAtQwXZbUp3NT9xUHbqxsZs
-         tp40wP+Wj9/FnaRF7VOwpoOf/4MS8tWZ2lXvqLlscM/uKMDLRbCZX5ux7xBHAfgkJLyn
-         4QUHgh41WjvWzA6OGzxvSgBiVK0MWNhOowbIsQRBGF5NPZfdh2QGUstZ73N3tzx9bksg
-         6s8mPxWhFE7RZkAGyqSJVHEJItmkzphWFGsjKqEFau2mwTzFVdtbNqViuasATbzZ5Gp8
-         EJ+g==
-X-Forwarded-Encrypted: i=1; AKwUvBwMmyiQcW79rqg4aMm9M5XBME0FxAdlmqxEB/qZYCP7BlBZ/e7/qEOSu1XVN8eWq7z3jGs0sdQkvcw=@vger.kernel.org
-X-Gm-Message-State: AFuF++lMH954v4du9kE8TDmFRrTQGo9rq+XvHYYz/j8N6/vrBg8JG46p
-	s+IVCsG5xNRcFJgiJNwArBOe+GS1o+aHoQwkMnsYP2fspns/WpiKVkVM4D5oRxgxd5A1RpOfPcs
-	A3FfK5HzrUpRaELa9KISN/uvD7KLjJTivJH+ReA/g
-X-Gm-Gg: AYBFou3Kp88BtGR0M1r/r379wmo5eeV+pUQtX3U+BW2fujeFaGmqPVCY5TvxpPe+Sfd
-	+juS+nBGD9AEnMG4MGFOAdKJ7EM+4sxdlu57+idL0zLJ2RBwds1JNcO8fwDQhmxtIuS7l1SwmYt
-	vy1p48GdBD10eoo3Kat+iPDqjMrDY8OghDZzEbvOtqtVM8S9cPLTNK08Q1Kc9SDdNeQck1lXzBC
-	ULkmqbXB8UCGLdulqiJZ9rebQ37yrAsJnTqxk9focIUXTtrVkm2aqJqc78XMyEMOSxVWQ7rvKoQ
-	b6VsW7m3wnH2PKDb78rMWmZcaRftziiHqYUJ56eIziZAHcft2/+I4Kg54ZSKsd5SAjjU83Kyvz6
-	4zTBmfYQg2FI=
-X-Received: by 2002:a05:6214:2f8c:b0:910:3451:341 with SMTP id
- 6a1803df08f44-9103efb48afmr490270826d6.32.1788964580576; Wed, 09 Sep 2026
- 07:36:20 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 07:36:19 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 07:36:19 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <apetw3aqXSawLBt0@yzhao56-desk.sh.intel.com>
-References: <20260830-gmem-inplace-conversion-v12-0-85e5fd25252a@google.com>
- <20260830-gmem-inplace-conversion-v12-12-85e5fd25252a@google.com> <apetw3aqXSawLBt0@yzhao56-desk.sh.intel.com>
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iLxABrejSUqDTt1/QHDrlHY0R8rI0yqLu3zIX8J+ing=;
+ b=FDUp0acaoiGa5YHU1dS686D9x1BxMdrgL8Bc4OOrtg2kNN5h/0OS+d8COpbSQ9SBhQgTHuyF3qFc81MotVwGe0smw/Q3oQl0tfmMoUI0YLS3kkV6Kx0TbyjOwIjYc3CCp7aUhHRP1hMultmL6i5F+o0uTuEJ/TaE2bdBNMgqOLU=
+Received: from PH5P220CA0011.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:34a::11)
+ by AT6PR19MB679231.namprd19.prod.outlook.com (2603:10b6:170:10f::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.8; Wed, 9 Sep 2026
+ 14:38:55 +0000
+Received: from SA2PEPF00003AE4.namprd02.prod.outlook.com
+ (2603:10b6:510:34a:cafe::71) by PH5P220CA0011.outlook.office365.com
+ (2603:10b6:510:34a::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.8 via Frontend Transport; Wed, 9
+ Sep 2026 14:38:55 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SA2PEPF00003AE4.mail.protection.outlook.com (10.167.248.4) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.5
+ via Frontend Transport; Wed, 9 Sep 2026 14:38:54 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id AF99B406543;
+	Wed,  9 Sep 2026 14:38:53 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 8F5E782024B;
+	Wed,  9 Sep 2026 14:38:53 +0000 (UTC)
+Date: Wed, 9 Sep 2026 15:38:52 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, mfd@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Arnd Bergmann <arnd@arndb.de>, Daniel Thompson <danielt@kernel.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+        Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Pavel Machek <pavel@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-watchdog@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 04/14] mfd: remove unused wm8400 driver
+Message-ID: <aqFvfMcocLR4qU7s@opensource.cirrus.com>
+References: <20260909132153.1596191-1-arnd@kernel.org>
+ <20260909132153.1596191-5-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 9 Sep 2026 07:36:19 -0700
-X-Gm-Features: AcwNN1VdQII_SBwvozqnLJxonm84Qmsr9AHJ5M73oMtr5q_ETKWllQrAhks6iFI
-Message-ID: <CAEvNRgEmO-R35susJd+U+k-nB_yFE_gfh+ACrnaOR=ECJdWGuA@mail.gmail.com>
-Subject: Re: [PATCH v12 12/45] KVM: guest_memfd: Always fault from guest_memfd
- if in-place conversion is enabled
-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
-	aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Randy Dunlap <rdunlap@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Fuad Tabba <fuad.tabba@linux.dev>, 
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909132153.1596191-5-arnd@kernel.org>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE4:EE_|AT6PR19MB679231:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec7fac24-9101-4f11-927f-08df0e80133e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700016|23010399003|7416014|376014|61400799027|4143699003|11063799006|56012099006|10067099003|16102099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	umTZJUeE244Ysy4jKRn57ca4h2aKB79jfm6ciPHGP5leBO5wHA28Nmy4JqBwfF9Uqh/ff5J7lbX0RWtuKdvsocfkylpRPGFX2Hw8HDYfF7W3yO+TYcGVL+Fajd+ognL01CmM+mNXv0RU9r+3AQ/7KSfLkyGEX8+Z0ElE1dreBCydVrKcIcoSaLP0s9UYt/qib1T9V0sOz+C784u/S1RcGzm+UpoGYqYiVEs/XGI+yKGvv16siiWoVVgNkiFWbhwCDc51eahMh+86LQWy3ZAxv00JvmWVGvgFAv09HVHb6TPT7HK5qMqijQI/D6wotW2/kygS//+vc9vgeld/oN6u+TNyQcZtjcA01cwLyraBl6BLIbU7w8rEophz/quN8zNRf3TSZGVZwxx7+lzHpVwYkyKgF9zKOTZjHGgMxV4Levsyb7BNSIELadD/OlxeGNBCygS7IP/duFM6ErzAw5fuCdw+6LS/8a7aLdZfXAeQ7hXvEU/O+KEjGeKL3QMA2DsxBrgQEx/jQ+0DluRtJuEbs7gHZ8xA2O0uCf+eUu41mVXa0saQlAXOPZKGd3zGe42owMIb4HH+nNA6uL176FOEk6+/dLhFZbTuAdjhdSqZd/O26c71x7CQmMgPfUW/WKbX4KQYjkYv6x8wNUjkCQ+l4efMhCfHSAiFAvOUwann9b1hyrhhgj/b9J9+Nutl98yQcOFhsLy270njZPvi7O44FQ==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(23010399003)(7416014)(376014)(61400799027)(4143699003)(11063799006)(56012099006)(10067099003)(16102099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	W73cWf+nadA/TjwpKvQt3TuJx5pVAdLs1N5g52ywoVzP6/7gOfiBYcQDqfh/PBmEkBxKDq0NFwUrFM0OGDW3GtFzH355tgzjie/rX2UBmqj2yNRj6u505FSVRH0fToHeF5QsEYK+SMy4sF1IzYS6k9WdxoDImnQWGe9zIMN1OisW9qXBDA/0CwOB2sxE/1zLLbhiYHFZ+crj20416vGmLtm2C+O5M0BFjxkvKnp4kGTnzijDNDottAnTJfp+wF3o5wzBR/LuT5Fn92fEpIrXcxyD4b8/77QK+FDcfr2axvHkkrQGOfOZrkiEIKuE9g/fCyR3KMS7O6OSifpBKf5k7hqwxw5uvBGxEjHrqrqeadULKth63TLASklIvtdRGuJXTF+CMmt/vq9PBsXxAjmrxqSGiH+r8tVivEvhVrs2lN5WbYMoGOeiRJspmTJ2C2BD
+X-Exchange-RoutingPolicyChecked:
+	eWFOBkeid2X4h02brkV7H0m+IyHpFtaCXGSSavq0O+VCN7eNoKFNvudS6UcGSqBnBt3ZlynMScvrmdPGau5d0T+AFZIq8Dxa7DNmn7Kh1e0v6rXQnYdgvrtyinlixbX7MuBIKesS64DVXi3o904xhFj0wMycYWKTppSdvpcx5qtLE6pGpEuQljf4kd9gSGbhbsGBbatP2mH0NuSFHL5ej1CluEp+rN+0jRvdFZKEIDWQe4mGLNnD4nDzcXAupNOsSCpspan+qqJoT8bSbkwAHwOF53pGmS1k3YgkAtVfDWFEyzD3wLqJyuF1S8tFbR1bdsWL07S/ChbIWQdQEOJO5w==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2026 14:38:54.8916
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec7fac24-9101-4f11-927f-08df0e80133e
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF00003AE4.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AT6PR19MB679231
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA5MDE2MyBTYWx0ZWRfXynIz4HG4D4sQ
+ MAOkhMS5r/Buiuc5nK6CHoF/KLLcibYq2FV8rnJ/OxmvXnKrVAZFGhUqS3JpzAjm7VorTzHDIgs
+ MgAH9215NzY/uPRmL/N0rnhtcLhcbuk=
+X-Proofpoint-ORIG-GUID: cQQGe3MGS0BJVNfkCGMGTzoPm8s29Xry
+X-Proofpoint-GUID: cQQGe3MGS0BJVNfkCGMGTzoPm8s29Xry
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA5MDE2MyBTYWx0ZWRfX43Pxx/TTOfCS
+ IhixKPi8xIbQpapsUfIpYMmbOObdn1D2rgvoLtG5wnECczjS8n34rJY/HXMTtjwnvC3MKz9EaY4
+ ujTyqv+iOV1lIUNWUJg9wZipVlSmB6Y8U9IxE3XVcz2TlPAKhTNJkmNxu0EXyFLeu3KhAZ999Bc
+ RsowwrOMMSL6Id/i+N3NINgR926EaGziIyk74HRGslz/q60npQVRz0V6LNt8zWQ91XenZ01a3ZY
+ HhsYn2Aobf8bZAB0va8b6r0F1pm11NicCMhYJvzWs2nlPomlJVi0TZVPDm6CIiEU3so23RNz1S1
+ p4Eu7TflpKaI0RMzavJQYyfZZwYEI4mj3iQVRGebaBE9IdWgE/LzZiNtBQe4jI9NSByGK6rLabj
+ yhFM16nAsobUDGhRe+2pc2GM47wskz5VydWQKw3kpQ8ucPXvCLsGMPg6v7VZQqFRLTeq376zUyl
+ qGOjXybQ+Z07ETUdWjA==
+X-Authority-Analysis: v=2.4 cv=fK4JG5ae c=1 sm=1 tr=0 ts=6aa16f83 cx=c_pps
+ a=54yuESksmrMaP3RwvbuPCA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=w1d2syhTAAAA:8 a=3CKuFnzYrga0DEbIuDIA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Reason: safe
 
-Yan Zhao <yan.y.zhao@intel.com> writes:
+On Wed, Sep 09, 2026 at 03:21:41PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> This driver requires a platform_data definition, which does not exist
+> in the kernel.
+> 
+> According to Mark Brown, the hardware supported by this driver was never
+> shipped in production.
+> 
+> Since this is clearly unused, remove it.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
 
-> On Sun, Aug 30, 2026 at 05:25:13PM -0700, Ackerley Tng via B4 Relay wrote:
->> From: Ackerley Tng <ackerleytng@google.com>
->>
->> If a guest_memfd memslot is created but the guest_memfd does not have the
->> GUEST_MEMFD_FLAG_MMAP set, KVM still fulfils guest faults by looking up the
->> memslot's userspace_addr.
->>
->> Set KVM_MEMSLOT_GMEM_ONLY if in-place conversion is enabled so that the
->> guest_memfd's memory will be used for both shared and private memory. With
->> in-place conversion, guest_memfd will be the only backing memory for the
->> memslot.
->>
->> No validation is performed to require userspace_addr to be a mapping from
->> the associated guest_memfd because even after validation, userspace is free
->> to remap something else at the provided userspace_addr.
->>
->> userspace_addr will still be used by functions like kvm_read_guest(), and
->> if userspace_addr does not match up with the corresponding memory in the
->> memslot's guest_memfd (whether userspace_addr points to the wrong offset or
->> some non-guest_memfd memory, etc), that is a user error.
->>
->> Requiring both shared and private memory to come from the only associated
->> guest_memfd simplifies invalidation in stage 2 page tables. On a PUNCH_HOLE
->> operation on a guest_memfd, the invalidation is now guaranteed to be
->> invalidating only memory mapped from the given guest_memfd.
->>
->> Suggested-by: Sean Christopherson <seanjc@google.com>
->> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
->> ---
->>  Documentation/virt/kvm/api.rst | 22 ++++++++++++++--------
->>  virt/kvm/guest_memfd.c         |  2 +-
->>  2 files changed, 15 insertions(+), 9 deletions(-)
->>
->> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
->> index 90a29424c54c8..668886f50024d 100644
->> --- a/Documentation/virt/kvm/api.rst
->> +++ b/Documentation/virt/kvm/api.rst
->> @@ -6381,10 +6381,16 @@ mapping for userspace_addr is not required to be valid/populated at the time of
->>  KVM_SET_USER_MEMORY_REGION2, e.g. shared memory can be lazily mapped/allocated
->>  on-demand.
->>
->> -When mapping a gfn into the guest, KVM selects shared vs. private, i.e consumes
->> -userspace_addr vs. guest_memfd, based on the state in guest_memfd, which is the
->> -sole authority on private vs. shared memory.  See :ref:`KVM_CREATE_GUEST_MEMFD`
->> -to find out more about the creation-time shared/private status.
->> +When mapping a gfn into the guest, guest faults are always serviced from
->> +guest_memfd regardless of whether memory is shared or private.  KVM determines
->> +shared vs. private based on the state in guest_memfd, which is the sole
->> +authority on private vs. shared memory.  See :ref:`KVM_CREATE_GUEST_MEMFD` to
->> +find out more about the creation-time shared/private status.
->> +
->> +userspace_addr is expected to be the mmap()-ed address corresponding to the
->> +right offset within the guest_memfd. Any mismatch between userspace_addr and
->> +guest_memfd is not validated and is a user error. userspace_addr is only used
->> +for host-side guest accesses such as kvm_read_guest().
->>
->>  If in-place conversion is disabled, KVM selects shared vs. private, i.e consumes
->>  userspace_addr vs. guest_memfd, based on the gfn's KVM_MEMORY_ATTRIBUTE_PRIVATE
->> @@ -6490,10 +6496,10 @@ specified via KVM_CREATE_GUEST_MEMFD.  Currently defined flags:
->>                                 page tables. Private memory cannot.
->>    ============================ ================================================
->>
->> -When the KVM MMU performs a PFN lookup to service a guest fault and the backing
->> -guest_memfd has the GUEST_MEMFD_FLAG_MMAP set, then the fault will always be
->> -consumed from guest_memfd, regardless of whether it is a shared or a private
->> -fault.
->> +When the KVM MMU performs a PFN lookup to service a guest fault, the fault will
->> +always be consumed from guest_memfd, regardless of whether it is a shared or a
->> +private fault (unless in-place conversion is disabled and the backing
->> +guest_memfd does not have the GUEST_MEMFD_FLAG_MMAP flag set).
->>
->>  See KVM_SET_USER_MEMORY_REGION2 for additional details.
->>
->> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
->> index 0afe1468d2d9d..e41802944756b 100644
->> --- a/virt/kvm/guest_memfd.c
->> +++ b/virt/kvm/guest_memfd.c
->> @@ -746,7 +746,7 @@ int kvm_gmem_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
->>  	 */
->>  	WRITE_ONCE(slot->gmem.file, file);
->>  	slot->gmem.pgoff = start;
->> -	if (kvm_gmem_supports_mmap(inode))
->> +	if (gmem_in_place_conversion || kvm_gmem_supports_mmap(inode))
->>  		slot->flags |= KVM_MEMSLOT_GMEM_ONLY;
-> I like this change, which actually enforces in-place conversion -- when
-> gmem_in_place_conversion is true, if userspace sets slot->userspace_addr to a
-> different backend, the host and guest will no longer be able to access the same
-> backend.
->
-> However, since gmem_in_place_conversion is globally and statically specified, it
-> essentially disables the coexistence of VMs using out-of-place conversions when
-> gmem_in_place_conversion is true. Previously, VMs using out-of-place conversions
-> could still boot successfully as long as they switched to using per-gmem memory
-> attributes. Is this change intended?
->
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Yes, this is intended. gmem_in_place_conversion is intended to be global
-for the entire host.
-
-> On a separate note, is kvm_gmem_supports_mmap() still a necessary requirement
-> for setting KVM_MEMSLOT_GMEM_ONLY? When gmem_in_place_conversion is false, if
-> userspace mmap()s the gmem but sets slot->userspace_addr to a different backend,
-> should the KVM_MEMSLOT_GMEM_ONLY flag still be set?
->
-
-Before this patch, requesting an MMAP-able gmem will set
-KVM_MEMSLOT_GMEM_ONLY, so if we change that behavior, we'd be breaking
-the existing contract.
-
-If userspace requests an MMAP-able gmem and then sets up
-slot->userspace_addr to something else, I think that should be
-considered user error? MMAP-able => use gmem for all faults has been a
-thing since before this patch.
-
-Just like how there's no good way to check and maintain the validity of
-the mapped memory behind slot->userspace_addr in relation to the
-provided guest_memfd, the mapping can't be used to determine whether to
-set KVM_MEMSLOT_GMEM_ONLY either.
-
->>
->>  	xa_store_range(&f->bindings, start, end - 1, slot, GFP_KERNEL);
->>
->> --
->> 2.55.0.897.gb25b4bd76c-goog
->>
->>
+Thanks,
+Charles
