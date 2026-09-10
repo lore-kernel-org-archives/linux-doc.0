@@ -1,212 +1,99 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BC33E1226
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 09:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956243FE367;
+	Thu, 10 Sep 2026 09:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789032550; cv=none; b=sb6vgRW7IA9pFYrWK5IxUR0SDoat7sezecQBNB2FudeK4Amp7/yVrHkrWBrCwchPtrBmfXfFlhtNvHoDd5vZIblCQrg6JnQns472TzSHXjFXLWaGSQsTt6flzgdbQlpqGeJdrbUaD/7teo+sRPfPC7F96U9asZaVou4ikXROGTY=
+	t=1789033807; cv=none; b=ePk1/Y+9IbO3zD1kJnrd5qRTgLlHRWF0seddN1Q1yL6DtXYD1XSCVBBOLQXzbxTndFJek4dE6vPx/KgpiUTDDgJfGTs7Zp5Or5+w4eRoOnuJzCcWYyRKkoCclTvxm92NT24A7s1atx+MG62XTBzCOMnVyv6kVuBGO3uEVFbikYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789032550; c=relaxed/simple;
-	bh=YmZhILYI1Ap/QhHEbws/tgVKUcLX7+iRsfdsJ1tAFSs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hbMmciJ+pEPUPjQGlbgq2ykHuJi8IhvmanFJGDzn5LclsXnrs/5BJ+XV88mFMt1R673ekuqUt1TVjI/yeosp0g3HK7UYIusAYlfU7I5v4DyKhXIV6dWbGA3Sn1wL0J4ME3Ek39OB7BKQ4RnL9/yfBIxNrBiMKU2At/jifdFRRiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fl7rpEKW; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789033807; c=relaxed/simple;
+	bh=Lm1iDn1MpImB0Z6Zn3rV0unyaPyNmR3nCxRWSJRkZT0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tpm0y6YQhdGy+0+87g1l8Y0v9hZaIcVw9AGN23vhr5uXmIjKpSQ6vbzlAzPCXHlnO2byuacpjpJoOL7dp6SN9eFwJ127vOlsk2DTXqmtSvZrfy0hShD9hfEPAVo1Da3hfmMaRmhF0bgnF+EVKqqJhGfdl5yYEaiNB3+nDV9ffVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cGCQsyJb; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fl7rpEKW"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49b0d78a801so67379415e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 02:29:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789032546; x=1789637346; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xKhavT2ReA2W483I2xKkmSEJ1FM7bdVhooTyy/B0hnc=;
-        b=fl7rpEKWOGJGTfMOVeV9QpCGl2mMK4Vehvs3dY8Rm+didzRH0gtOfiyzeoU8ALNMoM
-         cT2BPMjJbXV5gQ6sliYvSB0QZIjgDx8/CdX1PBfpXHGSWrpCsIwYqoddBYs/UedP0HG3
-         17GV1ku/mwl67dARTOxQ1Kpd06hZJ0r/c10p5zF0ehwV5FtS0mZnrdm99rFVd8Xtpjiz
-         6VD6yvQSxr2ssCUsOX9CqQ8e534WuIcxyEfYFBisMF9gWWhB//9kRq84KgudvGXGGI2G
-         7qfV7g8OkDajr/59MwtxDvgu3IQT3JAm7g/o50sPZ2s+6GE9ZKKNDlMGj5vUjZoPBa88
-         3WPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789032546; x=1789637346;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xKhavT2ReA2W483I2xKkmSEJ1FM7bdVhooTyy/B0hnc=;
-        b=SFiWo2UhyszDZXZqFL5ltGZA2d63nIXgRFYVR012aIuiyZyzV5H1qRgx+FmNuUM/qD
-         w76Ajw6xJHpv3ABG2NyVk1IE+z+tOaWQLGTg3WfkvncLlUek9xzHEsfEeSSaLuGOLwlI
-         6X3rjhiV52Vwh2CWx8xoQaBYRuHKXWYZdpSxyeHo1OQSAZ3RG3FhoukpxbjKPAzecuYe
-         0Sc5yi5kDirVY7aN9f4Tj9UCLzr/KT76VMFtD8uT81k+3YZXJ3ywtU1qbia+nhU0X3S1
-         m3HAYeOiix0B1S90gr4DeKzz7IakgJv42V5oJUBMAt+utjgsHHQBjbSvnRriTy3Wf5zH
-         8kIA==
-X-Forwarded-Encrypted: i=1; AKwUvBxlGKHN7hljze7dtDmCiuywe1/EsEPbmUMcSOoXLc5Vg6kODzZr7LGmXTdzucidasaB6R3C3WJpa4k=@vger.kernel.org
-X-Gm-Message-State: AFuF++mYdmh2zEDuPv5ndKhVkNlR7NieFrQzRUpatalFrh3DMrzX0wha
-	zafPdwZZP1UqcxhB7TJIwT6L5LoXSkChfPxvOUjj1cvnTokLZXylgv02
-X-Gm-Gg: AYBFou0NlOo1dbRqSREp5+kOxAWzeUwpF5/x3U/lzyvGnI6ohP96dM0hZqFO5cujjnM
-	3MDCnkwFTlJrqI1OO32LM+6OS2EgNwhUea+NK+S+2Lz0gr/GifoZ3dqblq/ZhyWtugU3ZzgzKKm
-	t4bkp2d8MDl0L2X7v15UEEwihdPMPL9noQxPrJcGYk1BTGmHBfftKMEoDZc3H1ff2aonSbvsENy
-	N808Px2Bq45PI1nYDGdrdycTBI9gFw1t+/tyPbi+Uv/kWrOkbPWKyG9IMzBWgvs2OipyebBIfNH
-	B+t6+3Cik1/TvWvaTyGhsAiOUbUu45Vc8RIZ/Veo1hKg9GUXS/MYQj8kABUsZXigln/Z4oV2uUq
-	rU4kTtVW+VKw8FjULwkWr/UtTIv9cVGNU9sD+2OC/Grsf3nMXiZfNYjKrR06f97sf/mqkDyT7yf
-	fPJaK9Zw1B7CgI2k+TU7d2PP78pVwrTKDXWu/GbOC6dVwk9nlU1sPNxvqwme3mzFzw/dDo+SThs
-	BjHmYwBd0KMiNNGT9Y1m8CF57/ds5zwdhCC
-X-Received: by 2002:a05:600c:138b:b0:49e:2a61:a17b with SMTP id 5b1f17b1804b1-49e2a61a41emr9166915e9.5.1789032546119;
-        Thu, 10 Sep 2026 02:29:06 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d20fc23fcsm106027125e9.3.2026.09.10.02.29.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 02:29:05 -0700 (PDT)
-Date: Thu, 10 Sep 2026 10:29:03 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Nick Desaulniers
- <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, Justin Stitt
- <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, Alexey
- Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
- <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti
- <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Mark Rutland
- <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun
- Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?UTF-8?B?QmrDtnJu?=
- Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, Tamir
- Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
- Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet
- <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH 04/23] kallsyms: output binary data to speed output and
- kallsyms assembly
-Message-ID: <20260910102903.1b211f6b@pumpkin>
-In-Reply-To: <20260908-build-speedup-v1-4-5dc1ac01672d@kernel.org>
-References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
-	<20260908-build-speedup-v1-4-5dc1ac01672d@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cGCQsyJb"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02F9F447;
+	Thu, 10 Sep 2026 11:48:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1789033703;
+	bh=Lm1iDn1MpImB0Z6Zn3rV0unyaPyNmR3nCxRWSJRkZT0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cGCQsyJbAP2bXayNbuaQcVxLQP8U/QrZy6zehkn9bzrvreS3Cv+Ni6FePcNLGXwu7
+	 FNzq5zJGumyL4EcU6J/PZVB0CJbi/L0IIHcZRwiu3DUmOw6e/p1PeM6+oM+MissSVk
+	 uX2bwj1E6uvOeR00xun8/VE7mqEeOqq7K4srKUOk=
+Date: Thu, 10 Sep 2026 12:49:58 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Ruben Sutton <ruben@scstudios.tech>, linux-doc@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: [PATCH] docs: process: use gender-neutral pronouns
+Message-ID: <20260910094958.GI1892234@killaraus.ideasonboard.com>
+References: <20260909144100.78177-1-ruben@scstudios.tech>
+ <87pkymlao3.fsf@trenco.lwn.net>
+ <202609091143.0B34CB0E1@keescook>
+ <6e4cb304-fc9c-4cd8-bd6d-2d0dd635f3cf@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6e4cb304-fc9c-4cd8-bd6d-2d0dd635f3cf@leemhuis.info>
 
-On Tue, 08 Sep 2026 21:55:04 +0100
-"Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+On Thu, Sep 10, 2026 at 08:59:04AM +0200, Thorsten Leemhuis wrote:
+> On 9/9/26 20:47, Kees Cook wrote:
+> > On Wed, Sep 09, 2026 at 09:14:04AM -0600, Jonathan Corbet wrote:
+> >> Ruben Sutton writes:
+> >>
+> >>> Several process documents use gendered pronouns when referring
+> >>> generically to developers and maintainers. Use singular they instead,
+> >>> making the language inclusive without changing its meaning.
+> >>>
+> >>> Leave pronouns referring to named people and text in attributed
+> >>> quotations unchanged.
+> >>
+> >> Ouch.
+> >>
+> >> I have no objection in principle to this change, but if we try to clean
+> >> up the whole kernel in this way we're going to have a *lot* of churn
+> >> and, undoubtedly, some unpleasant discussions at some point.
+> >>
+> >> I'm tempted to raise this question at the maintainers summit to see if I
+> >> can get some sort of project-wide policy laid out.
+> > 
+> > FWIW, I'd agree "indefinite they" (or "singular they") is the right
+> > language here: "his or her" is both annoying to read (too many words)
+> > and non-inclusive. Using "their" solves both.
+> I do, too.
+> 
+> But all this makes me wonder: In case we decide to go down that route,
+> how do we prevent gendered pronouns from accidentally sneaking back in,
+> for example, through subsystems that change their docs directly? Do we
+> maybe have something already somewhere that watches changes to
+> Documentation/ where we could plug in a test script that yells if it
+> detects this in next? And yes, obviously someone would then also need to
+> write such a script.
 
-> kallsyms generates an assembly file that consists mostly of .byte entries
-> containing compressed names, token strings and name-sorted sequence
-> numbers.
-> 
-> For an x86-64 build with 158k symbols that is a 37 MiB .S file which takes
-> 0.57s to assemble each of the two to three times it is built over a kernel
-> build.
-> 
-> Each time it is generated it also takes kallsyms a similar amount of time
-> to output it.
-> 
-> Avoid this overhead by instead outputting this data as binary and importing
-> it into the assembly using the .incbin directive.
-> 
-> Tables that are wider than a byte remain part of the assembly to ensure
-> endianness and relative relocations are performed correctly.
-> 
-> With this change, the output assembly file shrinks from 37 MiB to 9.8 MiB,
-> with a 2.6 MiB binary data file alongside it, and the object remains
-> identical.
-> 
-> The generated binary file is deleted correctly on build clean along with
-> all other ephemeral data.
-> 
-> On an x86-64 system with CONFIG_KALLSYMS_ALL set:
-> 
->                        before   after    delta
->   scripts/kallsyms     0.24s    0.18s    0.06s
->   assemble             0.57s    0.16s    0.41s
-> 
-> Per kallsyms invocation/assembly, for a total of 0.47s time saving upon
-> invocation.
-> 
-> An incremental build on the same system was reduced from 11.15s to 9.65s,
-> indicating a total of 1.5 seconds saved over the build.
-> 
-> The kallsyms runs and their assembly are on the serial tail of every build
-> that links vmlinux, no-op builds are unchanged.
-> 
-> Whole build, 128-thread Threadripper 9980X, best of N runs:
-> 
->                                          before   after     delta
->                                          -------------------------------
->   x86 defconfig, touch mm/vma.c, gcc       10.8s     9.9s    -0.92s (-8%)
->   x86 defconfig, touch mm/vma.c, clang     10.7s     9.5s     -1.2s (-11%)
->   x86 defconfig, clean, gcc                29.5s    28.7s    -0.81s (-3%)
->   x86 defconfig, clean, clang              29.7s    28.6s     -1.1s (-4%)
->   x86 allmodconfig, touch mm/vma.c, gcc    45.3s    44.0s     -1.3s (-3%)
->   x86 allmodconfig, touch mm/vma.c, clang  42.9s    40.2s     -2.7s (-6%)
-> 
-> Assisted-by: LLM
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  scripts/kallsyms.c      | 97 ++++++++++++++++++++++++++++++++++++++-----------
->  scripts/link-vmlinux.sh |  2 +-
->  2 files changed, 77 insertions(+), 22 deletions(-)
-> 
-> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-> index 350d118c3b9e..61c5eb537ed4 100644
-> --- a/scripts/kallsyms.c
-> +++ b/scripts/kallsyms.c
-> @@ -5,7 +5,10 @@
->   * This software may be used and distributed according to the terms
->   * of the GNU General Public License, incorporated herein by reference.
->   *
-> - * Usage: kallsyms [--all-symbols] in.map > out.S
-> + * Usage: kallsyms [--all-symbols] [--pc-relative] in.map out.bin > out.S
-> + *
-> + *      The byte tables go to out.bin and are pulled into out.S with .incbin;
-> + *  wider tables stay assembler source for endianness and relocations.
->   *
->   *      Table compression uses all the unused char codes on the symbols and
->   *  maps these to the most used substrings (tokens). For instance, it might
-> @@ -102,7 +105,7 @@ static void sym_arr_free(struct sym_arr *arr)
->  
->  static void usage(void)
->  {
-> -	fprintf(stderr, "Usage: kallsyms [--all-symbols] in.map > out.S\n");
-> +	fprintf(stderr, "Usage: kallsyms [--all-symbols] [--pc-relative] in.map out.bin > out.S\n");
->  	exit(1);
->  }
->  
-> @@ -319,6 +322,40 @@ static void output_label(const char *label)
->  	printf("%s:\n", label);
->  }
->  
-> +static void write_bin(FILE *file, const void *data, size_t len)
-> +{
-> +	if (fwrite(data, 1, len, file) == len)
-> +		return;
-> +
-> +	perror("kallsyms: write");
-> +	exit(EXIT_FAILURE);
-> +}
+This appears to me as similar to the words we decided to ban in commit
+a5f526ecb075 ("CodingStyle: Inclusive Terminology"). As far as I'm
+aware, there's no tooling to enforce this, we instead rely on reviewers
+(and authors in the first place of course) knowing the rules. The
+inclusive terminology discussion that occurred back then made the news,
+helping us to raise awareness of the rules. For gender-neutral pronouns
+we may need to communicate a bit more proactively towards at least
+subsystem maintainers.
 
-It is pretty pointless checking the return value from fwrite().
-Most of the time it is just doing a memcpy().
-Instead call fflush() and the ferror() prior to the fclose().
-(Or just rely on fclose() giving you that error status.)
+-- 
+Regards,
 
-David
+Laurent Pinchart
