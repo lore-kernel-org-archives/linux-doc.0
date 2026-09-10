@@ -1,365 +1,145 @@
-Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-b7-smtp.messagingengine.com (flow-b7-smtp.messagingengine.com [202.12.124.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C617385521
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 19:08:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E88C3AFB06;
+	Thu, 10 Sep 2026 19:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789067284; cv=none; b=OHzh6QGMMIU7Cb8PPE0ex4Xk6F7QqBKQ/HwZg7Zq37PKVYqf8OV3v/Zcjg88jwh5zWIWMO/Di1z5f8v3qRCUa+zONP4VVz1Xi1solU1D2grXBExlYUM1y3yIu9j4pUQlSIgh5y7KasdgdsvoD8g+0wkHSdH9HPNMUNvXCqZeXs4=
+	t=1789067795; cv=none; b=oEgK6j4H3u95P4X6Qi5Q2p6ypy4eRQu9d1vtM9Ej8Sn28VB4o5oG9w1eDLSg1tF4P1XvL8JU12BcC3u0yK78StljOXDz9Lb/xX08GxVHQBIIaLq308Vy/HAnsygSwqoyWPW71xk1UkBQ2HpNtJMJg6AQAQXh8ilYRnBzAAwkW3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789067284; c=relaxed/simple;
-	bh=u/0dTbbqepNClja1zIO/vLnXEkKBw/pQUjJaQL5ltmg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bKaIp3xdZWVwakLd1ZQ3WzE/b9EZ2miBZDVLBBNytUOMs4X4gOkZ/ZgBRguYxzxIdGTIts3cR/WLLu9+/vTsjw1+VwYTX6PBSr31FoLT9nhVM0aaaaERfhL0l5gErHZaFHE3358zL/LAjEaGrPOvMHDVJIXVEnuiCh0lfgoCG2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pLMiqSfX; arc=none smtp.client-ip=74.125.227.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789067795; c=relaxed/simple;
+	bh=kt7E3CEq9Qxo9u0xNZHxn2ztTKUj1sKCjMnDPPYFsZw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=SY/pw8nN2nylr/xcDcdKDvDYGwb2+tjFsh3r0lg/KK4Xz1kkLE9NEeVo5whOQBijci6rjqzu9MQv7moNhdBz7KJ6DW80Skpcdv7EnG02S++tL8089Xuc6TqCFjUKmHwZPKJ3qIguKssP00sCDlCPG1AClhftGxg59pTBcL4bZqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=T6NE9aE2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QYxMmbGp; arc=none smtp.client-ip=202.12.124.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pLMiqSfX"
-Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c67e4d9197so171066e0c.0
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 12:08:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789067281; x=1789672081; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9nta9YJQGhypuCF2vqNw2PosLbFu/KIuZnGsYvK19NI=;
-        b=pLMiqSfX/MBNs0Rp4xRYSKbt0jD50bG7qlLTyowu1ALrSJGYMmLMffs7uCudxoD215
-         f6dN16L9ccIu2lSC1dEvSjeYT6dlT8isP16H68ZUtSM/xexMRnyIln4lPZceB57t/gOe
-         SvNChWfv/nt5Ge1Yu9g1etCw0TOQ2e4819B4s2DvdS4viDleNctyvwV5FZBjhdMT5OEE
-         58hOFYDxKJ/T7BAiybWX7QvvKTgfmz88TWXZBNSeEkw3bo45ZY5fSIuCxna11uye7CU6
-         GfkoALGKjIG32SgT0cqSu4Isq3OWpUUf+NmVqEUv5CIUqXLpdm+lRGYrsXq+reh3p7RN
-         cPqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789067281; x=1789672081;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9nta9YJQGhypuCF2vqNw2PosLbFu/KIuZnGsYvK19NI=;
-        b=kYhmEfcFWNHEi6rYVlOM1CzmOlwd7fenXuJ0+hGyVGi1xIqx8E0c/oK+wTvoKgu2Ff
-         LMz7QdsRepAT9m5V2uCWKPBhCScTxqSNQFgHONshU6v82wJyu0uJtA8TRkN5n7N1Ir0U
-         uoXy14mH4byKTyLIU4cGjMCJPswRhmFJ8h5/EXUk2aDKxkuUYRhhV+OPEPIFfojwPP/9
-         5FbEGJiecBtj/5oAh0WOfb7hfAjA7txO1PlrrTF0stjMGV5s0+pieWM4Vv1ex+RC/ES1
-         rRYbtMMhv+8avuFiyL0yJhFKMIinC0DZQUFDvse/eftnVGKZJjLzPzqp6MvdKPVxxsCN
-         nDSA==
-X-Gm-Message-State: AFuF++nJ8L0PE7HpEyrQpCUQUV/U3pE90GWcn+fO75Wk4Xnb1B1u04E6
-	psgAAgFo2lCohJxsqxe/dd/9RhOoxHf25oD8NoaGTrQHvv6oMzlAjivN
-X-Gm-Gg: AYBFou359e0XHF24L4gKKfoqTnXr+zWosx0JxGTzuUZeGIXJjBhIsqtF5o+fy4RThKU
-	eQurwHb3mrl6NS3dJ/OXSc4uaVNfgCYzr9lb1MuUAWrH1J9TlFp/Xht4exe3WRtN5J7cYZoIhtG
-	5x0hhOyEE3jl4phZlEi99cKdOxv/wEcT9P6wWZ3uWeEdmUgx/xJ0OVGq6L0YzU29EVlnXJM9oLt
-	SEk271mOcoPSEXjzHdMvenSBzyyHjUg9vB/yiQpRlf3p/tWAe5rJn4T4uy2bFsgMiQ8FBgRtp6Z
-	P+l2k1gdpqy3iAYWvW7ehuKZhhikkoMtPTMQVc/YP8GAfv0ttplMQ4+bZnkuyglRG5p6usFqOqP
-	QpjokP85cD8frKO7eXrsoPL+NNviLmnMVphqx0JnrgUxKJZ9HImMMuS5axbXBdMpiZbqH3FHBq1
-	HSaPTPqasd0gAAQfEXtS3HR1eRr6i5BhjNbjoYlTu96iYSLKbHv+gJ57P3hHljICnKQxfi8tuUO
-	w==
-X-Received: by 2002:a05:6122:1b0a:b0:5c6:58e0:b2e0 with SMTP id 71dfb90a1353d-5c8462c4e61mr782205e0c.7.1789067280883;
-        Thu, 10 Sep 2026 12:08:00 -0700 (PDT)
-Received: from x-wing ([2804:14d:78b6:4583:bc62:f651:fe2f:303b])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c8470add08sm299205e0c.3.2026.09.10.12.07.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 12:08:00 -0700 (PDT)
-From: Fabio Pereira da Silva <silvapfabio@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	Fabio Pereira da Silva <silvapfabio@gmail.com>
-Subject: [PATCH v2] docs: translations: pt_BR: translate stable-kernel-rules.rst
-Date: Thu, 10 Sep 2026 16:07:54 -0300
-Message-ID: <20260910190754.1687-1-silvapfabio@gmail.com>
-X-Mailer: git-send-email 2.55.0.windows.2
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="T6NE9aE2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QYxMmbGp"
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailflow.stl.internal (Postfix) with ESMTP id B56C11300123;
+	Thu, 10 Sep 2026 15:16:27 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Thu, 10 Sep 2026 15:16:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1789067786;
+	 x=1789074986; bh=LL5BvvZb4Il/L3smCK764roi3UOjYRXO6PPqF7iA60o=; b=
+	T6NE9aE2vD0JgubP1YTXJkCmky0gcVC6ihsBHZm0RBXVJxnFvHKfpn/jgGp268bN
+	Ocg7RiFvSCyv3dN0vfJMl4FlzZpgO4zM90q5HHZOCpsPTZkmzluvzrr1KvRaqgj3
+	ghFpPAXXhsj+/FIdWBFlcGd47PnXaH44ztoCwJPu7Hg3QUrTpwuAJfdQpSLRG6ok
+	RIcMos4hom4IpDKnTxOGAMJvUM1/Xrm3A2vjwRfr/20H7gjk9LaiALMDUDnq1EcZ
+	kRxAGd0BLSQUoZ5+Db6ZW7jDP7fVF6NvOTVSgvHLp6p1x3Ta5gIVWBi1SBbBNcVc
+	4jz2EzypFMJlbI/B3mORLQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789067786; x=
+	1789074986; bh=LL5BvvZb4Il/L3smCK764roi3UOjYRXO6PPqF7iA60o=; b=Q
+	YxMmbGpUXUe6JWSt6wFgaWgV6kKFrifNL4zpMR8IZ6k9l09yGNmBC/tmkJ7jOHzc
+	zgOhoTRRLmpNbujQkziwK4c6gb22BvDU0Ezlg80E7EUvAlLWaNZ9kh0CkTSmW0IV
+	wlXQOi66Y4gisAqp/Jo89stwVrt44ixZH6W7RlPst3nm/SObEWktzzkILVr4+1+A
+	JE1uf0+5KDx1W/HUbTProIiovUiesG6cjCSnok4CUfzYwk4/OcgXFVGlzwgYW5G3
+	3PWz+DLGnB1EasndokoY6K9TbysUIa/qseWOHKmQORQWYzJ2VSVMZ7TypVR5NNJW
+	u3NpvgNq1yYX6zbJMfO+w==
+X-ME-Sender: <xms:AgKjapCXAUsGR9NzhQT6Weld296MjYYYYWG6pyncwTxdq3DdSnFYRQ>
+    <xme:AgKjaiW8J9J6KMFNr1b_IJMuS-WWoZgFoDLpHRzD5u8XTq9EHOqwM1fQ-1zxZfuPJ
+    In6bkVMOp1J3kJT1pw8149ZOGl03L3WdAPrCq5CqXNRr0V5Z7vvKUYT>
+X-ME-Proxy-Cause: dmFkZTFPUI2hhqqgtUZ+uRBKQ2lOV87vEROkCNR5CaZ6fIgInu/qZ6Et872VXivU4qi3Yb
+    S7K9y0Kh6x/9ahHXeHe+3Rw24dgRP6bfmbpqm1xjXzxznz/CitUohgCt3oeLEdNtCBDFWV
+    wAwlx1y89/OGcLz7Hvg+1884PmXT1R/UZ4htyLe4evizdmRp0asTHgMS4ZwBPFc/D9Y+lL
+    pjbKNCUOIiDW/kC+I7mCHtxy2/HBnsjdGqvOki3WVysUtRiD8CYdPw9xvpyYEClSdNLQWB
+    gQ8Pl57Lb15IwzJNXNzaZUMYe+EMgk0WEb6jBD1eg4FQ4UgkdzcTpXiZHzLwatuZyMzQPR
+    AbajmqzYJ9/lDdDepvVHPNjLIhqYfbx1gMTQq9/fz8LJQzh6PG/f4ScG9y5N/KfjK9+HQY
+    DGntSRz8ZYM8imBuJaefnFLhlOX8sAaBt6BKM1LqdyrSIVsNJYoKWCY4KVxwAcF/mnAt4n
+    oVJPPpYM7s8UyCTE+DjXlJDUBxdqJNXlz0qh7fZswAd6UVlEkQsnkgn0xpHT10dG8DBkoV
+    TRwjPmyzBaUEWsnC/QuC7FM+G10r94P0DlNrsDk/6nOSOSFLMILS/ohAK2o9wIayJCiVAI
+    qwuaG984U3MuKxrFrmRw4NSis4b6zo13+Wx2/aeQ0+fTJLlvOUkIf98DG+RQ
+X-ME-Proxy: <xmx:BwKjajfvbFGu2OjAxcHE_tmdpPRGIP2DBf59mH27GAi-_s4MwoZukA>
+    <xmx:BwKjaudX3nkcDf8KN60flmiSbgkg5YhfeXwsQEWoHH8zn5PLuCzkFw>
+    <xmx:BwKjavJG5SWvaJdpynS7e-HjY8WA-99WOLGxUokNhNz5dK_9LWHD9g>
+    <xmx:BwKjakq9OyXMmSADtkpqIobWGpuhowDn3l_sB6IoiO_PuGO9ClRUlw>
+    <xmx:CgKjag7MJuyBvo36joTkPcVfhRPBUUVFBpIxBKCTUGfQOGfmb5qzZdd3>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id E068A32A007B; Thu, 10 Sep 2026 15:16:17 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AK-jVwBtQCQR
+Date: Thu, 10 Sep 2026 21:15:57 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Guenter Roeck" <linux@roeck-us.net>,
+ "Svyatoslav Ryhel" <clamor95@gmail.com>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Bartosz Golaszewski" <brgl@kernel.org>,
+ "Mark Brown" <broonie@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Daniel Thompson" <danielt@kernel.org>, "Helge Deller" <deller@gmx.de>,
+ devicetree@vger.kernel.org,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ dri-devel@lists.freedesktop.org, "Jonathan Cameron" <jic23@kernel.org>,
+ "Jingoo Han" <jingoohan1@gmail.com>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Lee Jones" <lee@kernel.org>,
+ "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Linus Walleij" <linusw@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-fbdev@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>, mfd@lists.linux.dev,
+ "Michael Hennerich" <michael.hennerich@analog.com>,
+ patches@opensource.cirrus.com, "Pavel Machek" <pavel@kernel.org>,
+ "Rob Herring" <robh@kernel.org>, "Sebastian Reichel" <sre@kernel.org>,
+ "Support Opensource" <support.opensource@diasemi.com>
+Message-Id: <e33b42dc-1561-4819-b028-b13af9e7115b@app.fastmail.com>
+In-Reply-To: <7a92a79e-e22a-4e34-9f11-4086b88f62cc@roeck-us.net>
+References: 
+ <CAPVz0n0ryOns2sCJE_jFana9MVzwEj1QZuPEa8FNhGbHXnMB+A@mail.gmail.com>
+ <11652e5e-053e-45b0-98a0-0c1cb2aeedc4@app.fastmail.com>
+ <7a92a79e-e22a-4e34-9f11-4086b88f62cc@roeck-us.net>
+Subject: Re: [PATCH 08/14] mfd: remove unused aat2870 driver
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Translate stable-kernel-rules.rst into Brazilian Portuguese and add it
-to the pt_BR process documentation index.
+On Thu, Sep 10, 2026, at 20:38, Guenter Roeck wrote:
+>> 
+> ...
+>> drivers/hwmon/ds620.c
+>> drivers/hwmon/f75375s.c
+>> drivers/hwmon/max1111.c
+>> drivers/hwmon/max197.c
+>
+> I missed the rationale for removing those, but then I don't really
+> mind either. I guess we'll hear if someone still uses any of those
+> drivers/chips.
 
-Assisted-by: Opus 5:Opus 5-3-opus
-Signed-off-by: Fabio Pereira da Silva <silvapfabio@gmail.com>
----
-Changes in v2:
-- Add document to Documentation/translations/pt_BR/process/index.rst
-  instead of the top-level index.
-- Remove top-of-file Sphinx label to prevent build error.
-- Fix title underline length.
-- Include Assisted-by: Opus 5:Opus 5-3-opus trailer as per documentation.
+None of these have devicetree support, and they are not usable
+with any of the remaining board files.
 
-v1: https://lore.kernel.org/r/20260910151204.1248-1-silvapfabio@gmail.com
+From what I found:
 
- .../translations/pt_BR/process/index.rst      |   1 +
- .../pt_BR/process/stable-kernel-rules.rst     | 247 ++++++++++++++++++
- 2 files changed, 248 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/stable-kernel-rules.rst
+- da620 apparently never had any users upstream, though it does
+  not require platform data and is theoretically usable with
+  an external dtb
+- f75375s was only used on iop32x (long gone)
+- max197 was used on x86/elan/ts5500, which is still in the
+  tree but cannot be enabled anymore because it is a 486 class SoC.
+  I have sent a separate patch to remove that platform
+- max1111 was used on spitz, which is on its way out for 7.4.
 
-diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
-index 7841eca..0e72c45 100644
---- a/Documentation/translations/pt_BR/process/index.rst
-+++ b/Documentation/translations/pt_BR/process/index.rst
-@@ -59,6 +59,7 @@ Estas são as regras pelas quais tentamos viver na comunidade do kernel
-    Interpretação do Código de Conduta do Kernel Linux <code-of-conduct-interpretation>
-    Modelos de Maturidade para Contribuição no Kernel Linux <contribution-maturity-model.rst>
-    Declaração sobre Drivers do Kernel <kernel-driver-statement>
-+   Tudo sobre lançamentos -stable <stable-kernel-rules>
-    Estilo de gerenciamento do kernel Linux <management-style>
-    Assistentes de código <coding-assistants>
-    Conclave (Continuidade do projeto) <conclave>
-diff --git a/Documentation/translations/pt_BR/process/stable-kernel-rules.rst b/Documentation/translations/pt_BR/process/stable-kernel-rules.rst
-new file mode 100644
-index 0000000..8f732c4
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/stable-kernel-rules.rst
-@@ -0,0 +1,247 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Tudo o que você sempre quis saber sobre lançamentos -stable do Linux
-+====================================================================
-+
-+Regras sobre que tipo de patches são aceitos, e quais não são, na árvore
-+"-stable":
-+
-+- O patch ou uma correção equivalente já deve existir na mainline do Linux
-+  (upstream).
-+- Deve ser obviamente correto e testado.
-+- Não pode ter mais de 100 linhas, incluindo contexto.
-+- Deve seguir as regras de
-+  :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`.
-+- Deve corrigir um bug real que incomoda as pessoas ou apenas adicionar um ID
-+  de dispositivo. Detalhando o primeiro caso:
-+
-+  - Corrige um problema como um oops, uma travada (hang), corrupção de dados,
-+    uma questão real de segurança, uma peculiaridade de hardware, um erro de
-+    compilação (mas não para coisas marcadas como CONFIG_BROKEN), ou algum
-+    problema do tipo "isso não é bom".
-+  - Problemas sérios relatados por um usuário de um kernel de distribuição
-+    também podem ser considerados se corrigirem um problema notável de
-+    desempenho ou de interatividade. Como essas correções não são tão óbvias
-+    e têm um risco maior de uma regressão sutil, elas só devem ser enviadas
-+    por um mantenedor de kernel de distribuição e devem incluir um adendo
-+    apontando para uma entrada no bugzilla, se existir, e informações
-+    adicionais sobre o impacto visível para o usuário.
-+  - Nada do tipo "isso poderia ser um problema...", como uma "condição de
-+    corrida teórica", a menos que uma explicação de como o bug pode ser
-+    explorado também seja fornecida.
-+  - Nenhuma correção "trivial" sem benefício para os usuários (mudanças de
-+    ortografia, limpeza de espaços em branco, etc.).
-+
-+
-+Procedimento para submeter patches para a árvore -stable
-+---------------------------------------------------------
-+
-+.. note::
-+
-+   Patches de segurança não devem ser tratados (apenas) pelo processo de
-+   revisão -stable, mas devem seguir os procedimentos descritos em
-+   :ref:`Documentation/process/security-bugs.rst <securitybugs>`.
-+
-+Existem três opções para submeter uma alteração para as árvores -stable:
-+
-+1. Adicionar uma 'tag stable' à descrição de um patch que você então submete
-+   para inclusão na mainline.
-+2. Pedir para o time -stable pegar um patch que já está na mainline.
-+3. Submeter ao time -stable um patch equivalente a uma alteração já presente
-+   na mainline.
-+
-+As seções abaixo descrevem cada uma das opções em mais detalhes.
-+
-+:ref:`option_1` é **fortemente** preferida, é a mais fácil e mais comum.
-+:ref:`option_2` é voltada principalmente para alterações em que o backport
-+não foi considerado no momento da submissão. :ref:`option_3` é uma alternativa
-+às duas opções anteriores para os casos em que um patch já presente na
-+mainline precisa de ajustes para se aplicar em séries mais antigas (por
-+exemplo, devido a mudanças de API).
-+
-+Ao usar a opção 2 ou 3, você pode pedir que sua alteração seja incluída em
-+séries -stable específicas. Ao fazer isso, garanta que a correção ou uma
-+equivalente seja aplicável, submetida, ou já esteja presente em todas as
-+árvores -stable mais novas ainda suportadas. Isso serve para evitar
-+regressões que os usuários possam encontrar posteriormente ao atualizar, se,
-+por exemplo, uma correção mesclada para a 5.19-rc1 fosse retroportada para a
-+5.10.y, mas não para a 5.15.y.
-+
-+.. _option_1:
-+
-+Opção 1
-+*******
-+
-+Para que um patch que você submete para inclusão na mainline seja
-+automaticamente pego para as árvores -stable posteriormente, adicione esta
-+tag na área de sign-off::
-+
-+  Cc: stable@vger.kernel.org
-+
-+Use ``Cc: stable@kernel.org`` em vez disso ao corrigir vulnerabilidades ainda
-+não publicadas: isso reduz a chance de expor acidentalmente a correção ao
-+público por meio do 'git send-email', já que e-mails enviados para esse
-+endereço não são entregues a lugar nenhum.
-+
-+Depois que o patch é mesclado na mainline, ele será aplicado à árvore stable
-+sem que nada mais precise ser feito pelo autor ou pelo mantenedor do
-+subsistema.
-+
-+Para enviar instruções adicionais ao time -stable, use um comentário embutido
-+no estilo shell para passar notas arbitrárias ou predefinidas:
-+
-+* Especifique quaisquer pré-requisitos adicionais de patches para cherry
-+  picking::
-+
-+    Cc: <stable@vger.kernel.org> # 3.3.x: a1f84a3: sched: Check for idle
-+    Cc: <stable@vger.kernel.org> # 3.3.x: 1b9508f: sched: Rate-limit newidle
-+    Cc: <stable@vger.kernel.org> # 3.3.x: fd21073: sched: Fix affinity logic
-+    Cc: <stable@vger.kernel.org> # 3.3.x
-+    Signed-off-by: Ingo Molnar <mingo@elte.hu>
-+
-+  A sequência de tags tem o significado de::
-+
-+    git cherry-pick a1f84a3
-+    git cherry-pick 1b9508f
-+    git cherry-pick fd21073
-+    git cherry-pick <this commit>
-+
-+  Note que, para uma série de patches, você não precisa listar como
-+  pré-requisitos os patches presentes na própria série. Por exemplo, se você
-+  tiver a seguinte série de patches::
-+
-+    patch1
-+    patch2
-+
-+  em que patch2 depende de patch1, você não precisa listar patch1 como
-+  pré-requisito de patch2 se já tiver marcado patch1 para inclusão em stable.
-+
-+* Aponte pré-requisitos de versão do kernel::
-+
-+    Cc: <stable@vger.kernel.org> # 3.3.x
-+
-+  A tag tem o significado de::
-+
-+    git cherry-pick <this commit>
-+
-+  Para cada árvore "-stable" a partir da versão especificada.
-+
-+  Note que essa marcação é desnecessária se o time -stable puder derivar as
-+  versões apropriadas a partir das tags Fixes:.
-+
-+* Atrase a coleta de patches::
-+
-+    Cc: <stable@vger.kernel.org> # after -rc3
-+
-+* Aponte problemas conhecidos::
-+
-+    Cc: <stable@vger.kernel.org> # see patch description, needs adjustments for <= 6.3
-+
-+Existe ainda uma variante da tag stable que você pode usar para fazer com que
-+as ferramentas de backport do time -stable (por exemplo, AUTOSEL ou scripts
-+que procuram commits contendo uma tag 'Fixes:') ignorem uma alteração::
-+
-+     Cc: <stable+noautosel@kernel.org> # reason goes here, and must be present
-+
-+.. _option_2:
-+
-+Opção 2
-+*******
-+
-+Se o patch já foi mesclado na mainline, envie um e-mail para
-+stable@vger.kernel.org contendo o assunto do patch, o ID do commit, por que
-+você acha que ele deve ser aplicado, e para quais versões do kernel você
-+deseja que ele seja aplicado.
-+
-+.. _option_3:
-+
-+Opção 3
-+*******
-+
-+Envie o patch, depois de verificar que ele segue as regras acima, para
-+stable@vger.kernel.org e mencione as versões do kernel para as quais deseja
-+que ele seja aplicado. Ao fazer isso, você deve anotar o ID do commit
-+upstream no changelog da sua submissão em uma linha separada acima do texto
-+do commit, assim::
-+
-+  commit <sha1> upstream.
-+
-+Ou, alternativamente::
-+
-+  [ Upstream commit <sha1> ]
-+
-+Se o patch submetido se desviar do patch upstream original (por exemplo,
-+porque precisou ser ajustado para uma API mais antiga), isso deve ser muito
-+claramente documentado e justificado na descrição do patch.
-+
-+
-+Após a submissão
-+------------------
-+
-+O remetente receberá um ACK quando o patch tiver sido aceito na fila, ou um
-+NAK se o patch for rejeitado. Essa resposta pode levar alguns dias, de acordo
-+com a agenda dos membros do time -stable.
-+
-+Se aceito, o patch será adicionado à fila -stable, para revisão por outros
-+desenvolvedores e pelo mantenedor relevante do subsistema.
-+
-+
-+Ciclo de revisão
-+------------------
-+
-+- Quando os mantenedores -stable decidem por um ciclo de revisão, os patches
-+  serão enviados ao comitê de revisão, e ao mantenedor da área afetada pelo
-+  patch (a menos que o submissor seja o mantenedor da área), com CC: para a
-+  lista de discussão linux-kernel.
-+- O comitê de revisão tem 48 horas para dar ACK ou NAK ao patch.
-+- Se o patch for rejeitado por um membro do comitê, ou se membros da
-+  linux-kernel se opuserem ao patch, levantando questões que os mantenedores
-+  e membros não perceberam, o patch será removido da fila.
-+- Os patches que receberam ACK serão postados novamente como parte de um
-+  release candidate (-rc) para serem testados por desenvolvedores e
-+  testadores.
-+- Normalmente, apenas um lançamento -rc é feito; porém, se houver quaisquer
-+  problemas pendentes, alguns patches podem ser modificados ou removidos, ou
-+  patches adicionais podem ser enfileirados. Lançamentos -rc adicionais são
-+  então lançados e testados até que nenhum problema seja encontrado.
-+- Responder aos lançamentos -rc pode ser feito na lista de discussão enviando
-+  um e-mail "Tested-by:" com qualquer informação de teste desejada. As tags
-+  "Tested-by:" serão coletadas e adicionadas ao commit de lançamento.
-+- Ao final do ciclo de revisão, o novo lançamento -stable será lançado
-+  contendo todos os patches enfileirados e testados.
-+- Patches de segurança serão aceitos na árvore -stable diretamente pelo time
-+  de segurança do kernel, e não passarão pelo ciclo normal de revisão.
-+  Entre em contato com o time de segurança do kernel para mais detalhes
-+  sobre esse procedimento.
-+
-+
-+Árvores
-+--------
-+
-+- As filas de patches, tanto para versões concluídas quanto para versões em
-+  andamento, podem ser encontradas em:
-+
-+    https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git
-+
-+- Os lançamentos finalizados e marcados de todos os kernels stable podem ser
-+  encontrados em branches separados por versão em:
-+
-+    https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-+
-+- O release candidate de todas as versões do kernel stable pode ser
-+  encontrado em:
-+
-+    https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/
-+
-+  .. warning::
-+     A árvore -stable-rc é um snapshot no tempo da árvore stable-queue e
-+     mudará com frequência, sendo portanto rebaseada com frequência. Ela deve
-+     ser usada apenas para fins de teste (por exemplo, para ser consumida por
-+     sistemas de CI).
-+
-+
-+Comitê de revisão
-+-------------------
-+
-+- É composto por vários desenvolvedores do kernel que se voluntariaram para
-+  essa tarefa, e alguns que não se voluntariaram.
--- 
-2.43.0
+I'm not sure when I'll get around to send the patches.
 
+      Arnd
