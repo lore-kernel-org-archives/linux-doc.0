@@ -1,198 +1,158 @@
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpcmd03117.aruba.it (smtpcmd03117.aruba.it [62.149.158.117])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD87D4A99C2
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 16:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FF74BC017
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 16:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.158.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789056239; cv=none; b=Qf115LUeFzjGLsgqoowznHMxM1a9LgE/iFjO1LB+VtLDe5yb+RFKig+Jif+rxN1UNDeGVMQGJp6gTbQTIx5ZyTV4aOfYPYh4d7COlhnE1vBWjsJTMd+RMV6iqLoow/a8wrcCcElkpmzeHMpqZreSeZNLrN3BmIrx2bEeY9fs9Os=
+	t=1789056701; cv=none; b=EAtwpF9Rr1fZR3f+ykkWYiXHkGGOhNTNYW+F/ROwZwM3sxVwlHF7BhCk/CIn6Efk7UL4zOfkqiEQk6EjF0lCc+RwGyb7heqzdXoHVw8uUZyOYl0wQGLkux8dxiYjJAZnBjdYYonhxsqm1nEaoT/ffuMGkrgmCosgD5woAdNntEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789056239; c=relaxed/simple;
-	bh=AHkASD+KT9hovr17X9EfCxN+oDA7ZS7vi9iIUeCFVhs=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tQV5uaTZgJNPaihupdmbow8IQMdxvIYeudks7anyGnOq4TFcVmDR8zRWBd4hJADcGZBHY3tgnlLeFgoxD7qW4nHklOdYMMp6tQRfELF1mEQU34zo+1iNjacJ9vXEwlHJWpgT38ocW1vmBvjKbbf3e5qb4rj+PptsN/4sWmtTmMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iuhY13a8; arc=none smtp.client-ip=209.85.215.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1789056701; c=relaxed/simple;
+	bh=iDXgxchB8TYh+FnP7dzJIawOFJjBV39fnBJKzCpj7Z8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NO9UIKRWoT1eo/hCDzSmFTpf1JsLQNR4nnO/uLXF6abmN86mqopUqTwpvB9tzQ6G48JZQp6QgoUVdY9uqZnOMXZPCIEgi5lA6kyFYpUgB/QTsi+J5wwz4sFuax+LWMLb0VEWfQluAVOdlHJyFJHhUKdJcAg2kBkZ3iic7eQy4Yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=benettiengineering.com; spf=pass smtp.mailfrom=benettiengineering.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=HiA5HbGx; arc=none smtp.client-ip=62.149.158.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=benettiengineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=benettiengineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iuhY13a8"
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc132709c76so9975750a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 09:03:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789056237; x=1789661037; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PjpQmguvZKqFc40yaCCUF9DxHpcHtd3drRjNMUjWpE8=;
-        b=iuhY13a80KGseO7HZmuA3y94fmHZB0TSKy1X56JoxJyaiXkGKyG10ot87xmhbpxJP6
-         W8fA5QrJKRypQSa+l9BxY//kK8JoC6TiQnGWZr9E3EoWzmtEplTg30Ke8A/yT2pXivDv
-         6b8B4rJf2oLbGheKWXq54phZ3mmC8j8fjWTLtjPFl0QezZRlrU0G6x6gr7eqOM4SwiOK
-         kij6G5FSKnBbmQcXWtfwFby5h8YCVznkRdrXf9Ce6oGz75L1eb25lEoOSirVkGdN2PKO
-         DOIoP2NXZX1D80e9v01orGBOtvq5EfCzmZpnzN2kVluOH8O29+1M24CNDR5Dn8H2mXdL
-         Pnrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789056237; x=1789661037;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PjpQmguvZKqFc40yaCCUF9DxHpcHtd3drRjNMUjWpE8=;
-        b=Li8I2Vm6p6ksGlaqVdj0rHBHwHsl4I31VReXTCB/8oMSNxjI6fCibwRGnC0kPXW0CT
-         QbVnYf5PaSgkkJm52YLDkSDnsMbEVDXPuZb0rAtqEnQOVcPUQbJ/Al+k+ITXRlc1RXOn
-         qy/zz/zMW4sGntcD8AMjs5lPj5kUccA8hyWb8JUlUtnmHAW3u8jjuvXC1H/h5JAD4Vdt
-         CPVXBejr+a0ryLYLLL+gIJuM10PUQmETXUJco6VY9RHFXom0xhLuEAfpaY2bphIIWhDr
-         6BGkpsJxKZWeMD+LnSWBSeViKa/UF2ZKglBzT0Wr6D+cdLgXd/nDwuZO2qh2mQp97mJZ
-         2tJQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwDGByr5TqAcVzM2+ksqWqyXu05cuvrhfZyfUX+2tbwvqc5MLXnkyqUmyscCsa0OcR6PjDzTCz6HUg=@vger.kernel.org
-X-Gm-Message-State: AFuF++k0J4asYJoIlka3Qi5whu3OIxb/RzNnpZpieGoNSpMntydeIzeV
-	V2lgJoqS4srISyH3+shVspkiNxwObalVAPg8GbpgMbb3/QnlABRE8h2UM/Pm/gmXWNdIpl4rtyy
-	L9wGjUQ==
-X-Received: from pgmh20.prod.google.com ([2002:a63:5754:0:b0:cc4:3b01:7730])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:4303:b0:3c3:7179:a640
- with SMTP id adf61e73a8af0-3dacbd6e061mr12520616637.3.1789056236336; Thu, 10
- Sep 2026 09:03:56 -0700 (PDT)
-Date: Thu, 10 Sep 2026 09:03:55 -0700
-In-Reply-To: <20260905011956.GA856309@nvidia.com>
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="HiA5HbGx"
+Received: from [192.168.50.197] ([84.33.84.190])
+	by Aruba SMTP with ESMTPSA
+	id 4hK5x55sfwNy24hK5xnjY8; Thu, 10 Sep 2026 18:08:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1789056508; bh=iDXgxchB8TYh+FnP7dzJIawOFJjBV39fnBJKzCpj7Z8=;
+	h=Date:MIME-Version:Subject:To:From:Content-Type;
+	b=HiA5HbGxAw14LZr7gwc9EMiAgewqgLP5Gpqfh3nZ2bQQPSzOsNH7ezAaxCa+FQlAP
+	 MS7BYBaS0fLpuNOsDujSDvAUyO6R3XyK2iHhr/IoIm5vRLwdup8TTtmM5yas38mtmW
+	 3HBiZqu6f3BwROsmS/pHfcH444I88B5rDk4Mf/Vcg6OU25vq5C9shonmw+6F+NQytv
+	 F8FhHYTokK/+vYJmVdn79o8+RAg9v5a+Ga+4h7hjvMwtxwHDTSw6sSpzkZ5I1J01Ac
+	 EXPY1vZxJQZdon/d1ZxmdTIOk3NwSAgwGNC8wbMJRIm+P8fhFyA1AuT9Ru3E8bEnxI
+	 O+zHjl+4JRH/g==
+Message-ID: <f0c3d321-b1de-45f0-b126-a7e3ff381001@benettiengineering.com>
+Date: Thu, 10 Sep 2026 18:08:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <anphyjFv3FhF61iB@google.com> <2vxzpkzo51wg.fsf@kernel.org>
- <anssOQFNZ2LfihbU@google.com> <2vxzik5f311e.fsf@kernel.org>
- <anyObKiZIhfok5mk@google.com> <2vxzqzjz1x5f.fsf@kernel.org>
- <aoMcqp0gr06YXAPU@google.com> <2vxzy0e3zgqz.fsf@kernel.org>
- <aoSCCTTBn9D5hqzk@google.com> <20260905011956.GA856309@nvidia.com>
-Message-ID: <aqLU653FXjJjhbop@google.com>
-Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live updates
-From: Sean Christopherson <seanjc@google.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>, Tarun Sahu <tarunsahu@google.com>, ackerleytng@google.com, 
-	fuad.tabba@linux.dev, Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com, 
-	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, sagis@google.com, 
-	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
-	linux-kselftest@vger.kernel.org, andre.przywara@arm.com, michael.roth@amd.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, will@kernel.org, 
-	vannapurve@google.com, maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org, 
-	oliver.upton@linux.dev, kvmarm@lists.linux.dev, alexandru.elisei@arm.com, 
-	skhawaja@google.com, aneesh.kumar@kernel.org, linux-doc@vger.kernel.org, 
-	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, kexec@lists.infradead.org, 
-	suzuki.poulose@arm.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/13] ARM: imx: remove nommu support
+To: Fabio Estevam <festevam@gmail.com>, Arnd Bergmann <arnd@kernel.org>,
+ Jesse Taube <mr.bossman075@gmail.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Linus Walleij <linusw@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Drew Fustini <fustini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Vladimir Zapolskiy <vz@mleia.com>, Stefan Agner <stefan@agner.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade
+ <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>,
+ Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrew Lunn <andrew@lunn.ch>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Gregory Clement <gregory.clement@bootlin.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+ Shawn Guo <shawnguo@kernel.org>, Karl Mehltretter <kmehltretter@gmail.com>,
+ "David Hildenbrand (Arm)" <david@kernel.org>,
+ Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+References: <20260908152808.3928630-1-arnd@kernel.org>
+ <20260908152808.3928630-9-arnd@kernel.org>
+ <CAOMZO5Bw72SkBChbRLg+FaYZ34ENAW95-0+LrgcrESu_YtNXFQ@mail.gmail.com>
+Content-Language: en-US
+From: Giulio Benetti <giulio.benetti@benettiengineering.com>
+In-Reply-To: <CAOMZO5Bw72SkBChbRLg+FaYZ34ENAW95-0+LrgcrESu_YtNXFQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfFMBAVhokiHzs+9aOHLUhkqEKrkdLt3VcC599Pt8KJC50kaml/IaBOBq/Ohw5Gg7rNvCqnB//PcQlphuhph1gxDIUTFmEUvKU2YjZZfwqJJ1+BqDe3OH
+ oP7PKgIjhL1ZDEbpE2K//JBm18QD96jH5jY6dRO5oK4L576dgJr5m1siUNT3Lx5k/o/o/szFBxb9WP38SRtSyCSdwKpkl+Xc6IZbaG1i7D+wcLIcsBnyKGDr
+ MOOAyaZA3gbz8r1iKuls411peL8Z88rxOv+O0sKWGt6GVo15tJXCcq6ovO0BpMNY1DbOgln2ampSRot098eLXSnFH7kh2vP/36oQ6cNrxCOAOzpKCl3P3nAz
+ 7886fCdr6n0892TQ04taWf6bIN23JtlzWX1r69UM87k0hijYJGAyOTF+vwh9tgU9hsS7R3gA1J5CjrUNpIwN/p3ijHzkOo0ov+vV3FqNb2/zHdPZmjD1kmYk
+ Yr/wEiKg8IiuS6jMz6uxOpOmlAS6wzpT0D55UW8j1ClAGOVRwkp/2pWtVU0EoEV+FC3TmEDUPcvfKLYQmZjXmqWQCJXhMkVJ+cyJ1Y1ZN1tClKG3giEM/ZWb
+ S8wAFLqRjQGx5XZBW+YDZacimTlNW6MjlZLOtPcJs+2glopjBEVyuAlaaBeynpINagnpnqx5Z+10m3snZssrElDa7lZLH4WgG9Lfvzz7gm2vyYR6SsaYtoYO
+ NCQtOrmKT7fo+f0jjhjSLESsDemVT6cFqs4ftFHJIQ/Z1FxY2YWr70zngepdvAipv+Xel8CJDxSw1D1kYTz5l3d6kx+th5dfTr6N048I6T78fmMm2bbVaU/F
+ s2sHj9z0oDsHSUHlTpneKUDTdZdyNqBTGxCRWtA7Ry9JByTBc2K6BCIQ1WJWJgNL5AHpRpTkczTr06ShwUENYvD+dvXidS2WbMIVs8sLGPpg4PvuGe1DNBkC
+ 5/pQa3lkVPVf1fvjedm+C9SlmFhStfBq4oIEUR5GIb1CUPS9xeJCvpI9t8unfO2So6XXbUBHv/xO+RU2YwIcGOFCOUfJMMVfP4lzz/boG6MD1Z+Aq4nLAp1E
+ A5KK0IiJnjpsgaTD9Q8zHUt64pGQRNXWQmSF7I3BS043zUHukC6Ulu9HeLgQeeLclSn2DwiQPqbs1TmkyVCnD4Di2VmzpUNg4znZcumujj8EHhuuXB7MCO1P
+ LjngNtXLKQr3rcul0mFQ1E10u08rKRuiGr8D4aHtM1chJ4T/eQI3r5iQwk6bskReLqwlilzV3TpiALQeVazxMQaeUnlCyJdFQKF+mVfoaxI+K6bk3+btXYaA
+ 8l3xEqdA7/pa1DFkcPmYzBzRGaLdIL8YCEsa47qLXABM3G5A9uR0TFpR7zIP1Z5ssOpIqgA80MzdK2gRls0zdKteLuC0qtE7d/yH7QFyJ4ZvdCkoxbRyJI4U
+ zLjfNIQBS7QoFLB5qdsCibABaszNRMHHEy/HEX2XXHr4vRKvsXhba7LnVj/wEg6u57VFwVTrWyE2xNStm9vTay1/51JDgny1wy8bnD6XMqywikeffC2RMmEY
+ 0tkjqoO7CPyAb7WyQwX2DX6UWAqxGTn81Q5FLJ5Xs+iy2+jzO8/YVGg541LypTMv3prSvujdXac1b3Zt9Fspv74PNfyBKbklmhJ++Scjm8l5Vz3DFD0h+b2C
+ /x0ajejCkeITuy7cMykwQpmrPW0an0MKc6nXL2EbD6DuqAAS770tyPwjUcIYo0/WXzco6fKilDtWtbtslZ4u7aho4xchWdDt80z1zlIGan7JmdImmrELzbXB
+ 3bVf8r2dhUbDfSSV4/NUn7BKHnLUf1s3X5MLcbnI
 
-On Fri, Sep 04, 2026, Jason Gunthorpe wrote:
-> On Tue, Aug 18, 2026 at 09:02:17AM -0700, Sean Christopherson wrote:
-> > The rule is thou shalt not break userspace.  Whether or not the
-> > breakage is the result of an explicit ABI change is irrelevant.
-> 
-> I argued strongly for this simpler approach, I will write here the
-> reasoning I gave.
-> 
-> Firstly, "live update" is not uABI per-say. It is not "userspace
-> breaking", and it is not a "regression". It is an internal kernel
-> mechanism to allow the kernel to self-upgrade. In the industry it is
-> typical any of these hitless update/patch/etc schemes to only work
-> between a few tightly controlled version pairs.
-> 
-> Asking upstream to carry a full matrix of every single version pair
-> ever released is massive over-engineering and cost on upstream
-> maintainers. Refusing to do this is not a uABI breakage, it is not a
-> regression, it is simply a lack of a feature.
-> 
-> I think upstream should start by agreeing to only support forward
-> going upgrades within a single stable branch. If live update becomes a
-> success then maybe we could do from a stable branch to the immediate
-> next stable branch too. I don't know.
+Hi Fabio, Arnd and Jesse,
 
-From that perspective, what I am proposing actually goes a step further.  I'm
-saying don't commit to supporting *any* specific versions in upstream.  Express
-the feature requirements in the serialization payloads, and let userspace sort
-out what kernels are compatible based on their actual usage.  The kernel may need
-to provide additional discovery mechanisms, e.g. so that userspace can probe to
-see what is supported, but discovery is usually fairly simple to implement and
-maintain.
-
-> This alone is already much more powerful than live patching.
+On 9/9/26 10:21 PM, Fabio Estevam wrote:
+> On Tue, Sep 8, 2026 at 12:29 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>>
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>
+>> The i.MX platform has grown support for three separate product
+>> lines using Cortex-M based microcontrollers over the years:
+>>
+>>   - i.MX RT1050, a high-end microcontroller
+>>   - Vybrid vf610 suppors running Linux on either the Cortex-A5
+>>     CPU or the Cortex-M4 MCU
+>>   - i.MX7D similarly can run Linux on the Cortex-A7 or the
+>>     Cortex-M4
+>>
+>> There are no known upstream users of any of those three, so
+>> drop support and simplify the platform to assume that an MMU
+>> is present.
+>>
+>> Cc: Frank Li <Frank.Li@nxp.com>
+>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+>> Cc: Fabio Estevam <festevam@gmail.com>
+>> Cc: Stefan Agner <stefan@agner.ch>
+>> Cc: Rob Herring <robh@kernel.org>
+>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+>> Cc: Conor Dooley <conor+dt@kernel.org>
+>> Cc: Vladimir Zapolskiy <vz@mleia.com>
+>> Cc: Giulio Benetti <giulio.benetti@benettiengineering.com>
+>> Cc: devicetree@vger.kernel.org
+>> Cc: imx@lists.linux.dev
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>> ---
+>>   arch/arm/boot/dts/nxp/imx/Makefile            |    2 -
+>>   arch/arm/boot/dts/nxp/imx/imxrt1050-evk.dts   |   72 -
+>>   arch/arm/boot/dts/nxp/imx/imxrt1050-pinfunc.h |  993 -----------
+>>   arch/arm/boot/dts/nxp/imx/imxrt1050.dtsi      |  160 --
+>>   arch/arm/boot/dts/nxp/imx/imxrt1170-pinfunc.h | 1561 -----------------
+>>   arch/arm/boot/dts/nxp/vf/Makefile             |    2 -
+>>   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dts  |   61 -
+>>   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dts   |   88 -
+>>   arch/arm/boot/dts/nxp/vf/vf610m4.dtsi         |   61 -
+>>   arch/arm/configs/imxrt_defconfig              |   35 -
+>>   arch/arm/configs/vf610m4_defconfig            |   39 -
+>>   arch/arm/mach-imx/Kconfig                     |   27 +-
+>>   arch/arm/mach-imx/Makefile                    |    3 -
+>>   arch/arm/mach-imx/mach-imx7d-cm4.c            |   18 -
+>>   arch/arm/mach-imx/mach-imxrt.c                |   19 -
 > 
-> The balancing issue here is the impact on the kernel subsystems
-> adopting luo. Every time you change anything about the internal
-> function of the subystem you now have to go test a massive version
-> pair matrix to make sure everything works? No thanks.
-
-No, the subsystem just needs to make sure that it serializes its data using the
-defined ABI (where ABI here means the format of the payload and the meaning of
-any flags in the header).  That should be *easier* for maintainers to handle than
-trying to support arbitrary versions, because it eliminates subjectivity and
-having to make judgment calls or remember magic version numbers.
-
-> Luo is very invasive and a huge PITA at the best of times. It doesn't
-> need to be even worse.
+> The imxrt1050-evk dts is used in U-Boot.
 > 
-> > It's probably fine for Google and other large companies that tightly
-> > control their kernels and use cases, and have the resources to
-> > juggle the resulting complexity, e.g. have kernel engineers on staff
-> > to track feature and dependencies, coordinate and plan kernel
-> > upgrades, etc.
-> 
-> Every downstream that wants to support luo is going to necessarily
-> severely restrict the version pairs that can work. Like a RH type
-> distro may only support it for 9.1.x -> 9.1.x+1 - they can carry the
-> cost of figuring out how to manage their patching and compatability
-> matrix on their own with the tools upstream provides.
-> 
-> > engineers on staff to help them thread the needle you describe
-> > above.  And if supporting live update as a general feature for all
-> > users of the kernel isn't being factored into design considerations,
-> > then that needs to change, otherwise this is all dead in the water.
-> 
-> General uses can use upstream and do CVE upgrades within a single
-> stable branch. That's good enough, lets start there. We don't need to
-> boil the ocean.
+> Adding Jesse and Giulio, who use this platform in U-Boot.
 
-We're in violent agreement on this point, I think we just disagree on how to
-express compatibility.
+MMU-less architecture never had a complete support, I agree that it's
+time to drop it so:
+Acked-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
 
-> > I also don't see the point.  Maintaining a rigid save/restore ABI is
-> > annoying, but it's not _hard_ (or at least, not _that_ hard),
-> > especially if there's a set
-> 
-> I was told KVM had the smallest luo footprint of everything, so
-> perhaps your perspective is different.
-
-Only because KVM already has a massive ABI surface for save/restore.  If you
-want to convince me that magic version numbers are the right approach, then show
-me how KVM's existing save/restore support would be made "better" and easier to
-maintain by throwing away all of KVM's save/restore uAPI and replacing it with a
-versioning scheme.
-
-> In other places luo becomes coupled to the internal datastructures of
-> the kernel, we literally have to preserve lots of kernel memory
-> utterly unchanged without any kind of serialization at all. 
-
-Have to, or choose to?  I have a very, very hard time believing that it's infeasible
-to define a serialization format that is decoupled from kernel internals.
-
-> This inevitably creates restrictions on the evolution of the kernel in
-> general if we can no longer change in-kernel architecture because it would
-> make some data structure incompatible with a kernel 10 years old.
-
-Only if the relevant subsystem defined a poor save/restore ABI in the first place.
-
-> There is also a need for *downgrade*. Meaning the N+1 kernel has to
-> strictly emulate the limitations and capabilities of the N kernel so
-> it can be rolled back. Can you imagine the nightmare of trying to
-> codify the feature progression for every single kernel release forever
-> in some impossible scheme to enable this? Again, no thanks.
-> 
-> So, what upstream can reasonably do, that still provides real value
-> without severely burdening every subsystem, is upgrades within a
-> stable kernel branch only.
-> 
-> If some distro or CSP wants to do more, they can deal with it. They
-> have a far, far simpler problem because they can exactly lock down
-> their version pairs to a very small universe. They don't need a single
-> kernel that can emulate 10 different releases of behaviors
-> concurrently.
-> 
-> Jason
+Best regards
+Giulio Benetti
