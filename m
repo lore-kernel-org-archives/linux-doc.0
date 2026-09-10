@@ -1,227 +1,277 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FE14BB266
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 17:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313D056511F
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 17:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789059676; cv=none; b=g6KLiOuziQUXX9B2FqeQvrdYEKsiMDs2QA4Oab4UJc8IzlkgL8iL7Tr3hPeZikMEKBAQuEQfAwyqrciOGKlxhTTjcvBr2Zzef8Jgs491QpTVxxnKSwjEb87efisOeZx/76z+UmJgLLUqsqabsSHjLIHcX/tu7InM6OoO5s6d2Po=
+	t=1789059846; cv=none; b=IGVSLEaAdp0MHTTddLl+222teybM26hevU4kxb7fhVZTRqMTatCMOW83Yci8jDB+XnO6fwOPeg895a9GgX+CRGos1i4XC4fuy/0C0lLULuuoaJQcDI3BvMPKZKBxsVY35V2KezEccj3WT4mKuiVxWqG0O2LH6nIMZjUU7Zx5KrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789059676; c=relaxed/simple;
-	bh=Llh5B20qiT9l+CISLN3EMkjfjjA3OY1FAbjV2PjhrNc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hAcBr6S7bt6fYxpTthMypg81jPtrAqd7ao5cw+JuwD079KtXmwz9yLm3k0J8HdY/UwIDxScSjZH+oZ78JYktkijUdlhHJ7b+Y9upmKoGGx/OLbfay3Q3n5DpEbVuLnczJURrrF9JCfAVbFJQCx3Cw4oHF8zfdu4yuqDz99zj/rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2MQqVNz; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789059846; c=relaxed/simple;
+	bh=ckiR9yuXJpiot1fFEFedP8FkwiSAVjuSTZmoJWLADls=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a1x56S/NVVH1+9xhoqrrVX+vzEOrYWOGEtbMnKMP7+1DoYHtym2JwOUTNaQyQkeeO33QdfrLgW5FOtZUm+Qi7Fo4dx13j605OexUR3pHRmSJ4i7TDA0YczqJNOHRZUgJdSk/zoibGSvmeFebRZOPvcSE/agsSCDbx3nMAYvq5qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=FN4VExUc; arc=none smtp.client-ip=74.125.230.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2MQqVNz"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-39b31b4281eso1696948a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 10:00:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="FN4VExUc"
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-90cdfcc3e03so13846556d6.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 10:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789059652; x=1789664452; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0/NIUjuuCPvMzukokndyP3uQpFaIojJ8VScY7Mca6Ns=;
-        b=H2MQqVNzOtPdbQPbWmo1HS/090XyrsJvAn7/RMXXnI4H1yGLD82flKuziiQNtAosGV
-         775f+gJGPC8FbEIPVJ/R/XbgrtdfE+Nr5mgU5KPAUpEfCNnzQTNmxSNAv2jd2hwUogQE
-         erhRg123odsPewAsSlQI1NG80KWlD9d70UoUCArgNuZahqrNSTObNl0EeT2+HZcZPAJK
-         bXeCwbsB1/djxUsrzcFtG4ekZsGJKHf9l+2+YQCHVZQmP+/yI7YckjPi/LbQ8YgHZ80B
-         4NbAoIilIjqOBCzOvS30dR3D3tTb6VlKG+iIrEobpMkV1Rv38ZbILfA+Wqe/Y49xQlOP
-         bFLg==
+        d=cmpxchg.org; s=google; t=1789059822; x=1789664622; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Xk2OdPLDjL26fb8Tc2Cwml2fZiaKkha+GiG5IQjjOVM=;
+        b=FN4VExUczsxr2DD9a3du3jbN+Dxm1holDGhdpEM0b3ZXbk2iv+V06u4m435h8YZWwa
+         IPtD3eUTxmC0hf7/naXgoPnbDZuupBjIG/U+ZrayW4dkPPQEsjh7ykf/Q5gjAizERqMQ
+         JDq2giLQV+92kgHJ7QH6NL6kU4P4eI15AekXonC0SfTTMJdN3w1kAN3vr2cziUa1lFli
+         k4ZXSSPgCiU/0kLVtzX5SY9NPz44z1vpLtugZ48m/oApSe3vE8H1f+/B1DQt+F/lSeDx
+         ct9vA53wrxPB/fACX9SfWuI51z2a/xNRVcHvAURDjfpk4W4ovb7FxWTh/d6W5ipQ1izB
+         1mXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789059652; x=1789664452;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0/NIUjuuCPvMzukokndyP3uQpFaIojJ8VScY7Mca6Ns=;
-        b=skn2pBUoPYWuocFT5LnrJaQP97kVRnidbNo0OSu59LjQKQbtm/+WthixjQDlNMH8tO
-         oYzTGj/9nAa023ckFNcNwOO0t7dRoo69fWEKEtFVjUfowxE7WqMecAkkKrv7mzz4/+VI
-         +DHo2gKaaH/j0TOll2vJCVJ5gqt/0a2G9N/wPxYKO64QYXjRZBYmM4avuSaubbzxfnfO
-         mSMrAJ+GHfbS1FtERpi8PnB6rZ3OiFsxpQtIFiyacpR/JqK0Ji4KNOq3mHMwJBKYvJ1s
-         skYGPT1shUx1N/SmijwBLOFyelHqzb1MqpWXtpsRqrr1x0ElmUINVURkgAygFoukmGKw
-         gzqQ==
-X-Forwarded-Encrypted: i=1; AKwUvBywdQv57yX7Usc+BBqNHuEeeBPDJZ9rzGW2uuYskGX3tCUbNe0yq8o2w5jH8jv0JUqnYGu2O4LjzUQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++nw9UuMDLOqcDw3VwaBaGhTfxOCSlbdRO63V2O6NW7lTOgnAHdy
-	EZBcw3ud+tppmXo9r1nCa7wJhud17Ztqow+t5llDqmTd9udHw5x+sB4d
-X-Gm-Gg: AYBFou0JzuP6oYqQQIIj5WMfh476+4OZEw9Mlwnr8uUVJSZZi8VOlreo4Y64gL3uu/o
-	zPg0zYk5Xege/cSwSX6OZEjBj35ZsS0A3ULRc539l3FnJh4ADFlgZeawlWK9R2oLLAXPn/oNp7R
-	nX/1NcA8x2LK2XfyY+kZvlx0DLLd9iS5arbhcDTrscFZxYM0YoRlPTUcDniaFPV2Uq3mTcMr9wk
-	pgpk+RrL/6sJBpWZG28f7n3gEGAOLX3zkKdtLhMJjdAUM5kTgWQj+0GVmO9z2o/Ioe5IHt/c4r0
-	OJ4JOEwc+cv878Z8vt+DKdy8TlMwcfAmyuvq+xc8I0ApV2QPGU/0fYLxFRHekIe0CVmXklwYMJC
-	8+/SOF9r8588pXNsLyBgZAlGWlFdmI2HzIUz6L1nzZuOD3Jr+rBC7wjavZC2gIbXMiP/E7xDnSa
-	MqBa+2djw+JrccrEPgEQt6rARyB8yhf/Hswp3qG5pIuvFFlzLduWvOMkvU7CYLgEHjipkrPHYs7
-	Km9cFa0tY127RuIZ1TCITH09JlEWFA2gwxNKOQCeoQ74QvRWLySMCekY6adx2Xs4GBS8mGfyn3q
-	AZ50ZR9SkCeyFyz2qv9wvJbEMvIBNy7p3ZiZqiYW9lHiP342D1a6PR6Mopxl+EI=
-X-Received: by 2002:a17:90b:39c4:b0:398:9bd4:d18 with SMTP id 98e67ed59e1d1-39d70b7cdfcmr13420866a91.23.1789059649749;
-        Thu, 10 Sep 2026 10:00:49 -0700 (PDT)
-Received: from spider.bream-herring.ts.net ([103.252.203.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d94744dfdsm568538a91.0.2026.09.10.10.00.43
+        d=1e100.net; s=20251104; t=1789059822; x=1789664622;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Xk2OdPLDjL26fb8Tc2Cwml2fZiaKkha+GiG5IQjjOVM=;
+        b=USYCCF84nav9XAyWBj36k43qOMyXaTb3xX0+J7HAgF3FGt1FtDqBgDyPcYkyfsvnVr
+         bRUyKm6/EKDo2QOHNdzDUep4qC2Xzk+Ybu6ORilWkwkG08qAl1pkM+Hzo2IchWkW1geg
+         6Q5MqhYSFsnxsQM+86rXLK1Vza/qv8uT7VFM/2gtL3ByZxeMNzgzPju/0qff81PzDMDf
+         8unfNsweA4RS9sbKGGi04S87zmhYnvbN/gYdGFBUgXMS40FqLs7TyBIJ8a6mjWYklhL3
+         R4XseT9KoKni8S0jcKuKsWI/N7e84ojv62g6urrnIVpKSeoqaOGE4BhHkR6T9euqeT3b
+         Y0lg==
+X-Forwarded-Encrypted: i=1; AKwUvByX+uIOns8wv0tb4IfFPISIFhV9MPgqI1O79FlWtnQ9GMs0sbVwVLK8X3q7/7k8g2vdZ+sZHU8LekA=@vger.kernel.org
+X-Gm-Message-State: AFuF++lb+nPeOeTlHW3BitIKcMc/twX69ur7VQ+Bm9ATpNFxZZTOkC5c
+	fP08p4sfDi9vts51ubxQhOXoBE5OrQqQEdC+PWOolabCyzE7uHbOgVh+bMUiEmlX1oE=
+X-Gm-Gg: AYBFou2JB0jN1Z3H8YIha7K2Bq9yxbmFJI1r53VRjjAaShO9u7fyKCfTzixkovxN9y2
+	5czAtlMOdcwvFqG1N1xsaZA64FSkxTIT3283AghVyfucu80IIXvNDykqoSNxgNlHUQ+AXtxtYMU
+	F8Q30faHw4nmq2ySd/Dg0UE27N8y+I04Jjien4sV8FWTwiVJfGgG5lPpB6yy4BEF3LAZ4J/7F9V
+	dv/VkPMOWjCoHL1Wbg+2YXhOt84Ta2jj5nATFto1jYgCE9a+irSFzhmrUN13EsSUt+Bgm8Ab4pF
+	06SO7UR9TTpXQ0dY9Tz6qyE/eTnwAKVeFFdC60zYh5+aBhv65GM7swPr0eUwL4JgfC/KccjFmXR
+	1CQ4VecGm3K+bWe3spXm4TdMIvAuJj5H6nzotudYs1v5GibxQq5qwpTkNNAdogFRD6xV9HkQH/4
+	Wm/ORv5WrGHbJLLyuy1vZ5bEuc//QM6c56coaZt3ZhD0kWW9hW0QL3O5g/MlnqfCrWL0S8VA==
+X-Received: by 2002:a05:6214:2a4d:b0:911:9375:905e with SMTP id 6a1803df08f44-9120e7339bbmr5689416d6.0.1789059821830;
+        Thu, 10 Sep 2026 10:03:41 -0700 (PDT)
+Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9120f20367dsm669896d6.6.2026.09.10.10.03.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 10:00:47 -0700 (PDT)
-From: Matthias Goergens <matthias.goergens@gmail.com>
-To: paulmck@kernel.org,
-	urezki@gmail.com,
-	harry@kernel.org
-Cc: frederic@kernel.org,
-	neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com,
-	josh@joshtriplett.org,
-	boqun@kernel.org,
-	rostedt@goodmis.org,
-	mathieu.desnoyers@efficios.com,
-	jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	rcu@vger.kernel.org,
+        Thu, 10 Sep 2026 10:03:40 -0700 (PDT)
+Date: Thu, 10 Sep 2026 13:03:37 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Baoquan He <baoquan.he@linux.dev>
+Cc: Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>,
+	Chris Li <chrisl@kernel.org>, Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Yosry Ahmed <yosry@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Barry Song <baohua@kernel.org>,
+	YoungJun Park <youngjun.park@lge.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>,
+	Wenchao Hao <haowenchao22@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Kunwu Chan <kunwu.chan@linux.dev>,
+	Meta kernel team <kernel-team@meta.com>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/1] rcu: make userspace barrier hook drain kvfree_rcu work
-Date: Fri, 11 Sep 2026 01:00:39 +0800
-Message-ID: <20260910170040.344864-1-matthias.goergens@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260910101112.1648978-1-matthias.goergens@gmail.com>
-References: <20260910101112.1648978-1-matthias.goergens@gmail.com>
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kairui Song <ryncsn@gmail.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <aqLi6cIjD2wJwk0B@cmpxchg.org>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aqJXx2vtbKaRLt3x@fedora>
 
-The rcutree.do_rcu_barrier hook currently waits for ordinary RCU
-callbacks, but objects may still be retained in kfree_rcu() batching or a
-partial per-CPU SLUB sheaf. This is consistent with the hook's documented
-rcu_barrier() operation, but incomplete for its intended use as a boundary
-between userspace tests.
+[This reply was not LLM-generated.]
 
-The immediate trigger was a false allocation-leak failure in the bcachefs
-ktest suite while testing performance changes. Its end check writes the
-hook before reading /proc/allocinfo, assuming a complete deferred-free
-drain. Small objects remained visible after repeated hook writes and
-20 seconds of waiting, so otherwise clean tests failed their leak check.
+On Thu, Sep 10, 2026 at 03:09:59PM +0800, Baoquan He wrote:
+> Hi Nhat,
+> 
+> On 09/04/26 at 02:14pm, Nhat Pham wrote:
+> .....snip...
+> > Now, on xswap. Baoquan's working on a series [15] that covers some of the
+> > same ground, and the VM_SPARSE cluster_info idea in it is genuinely good.
+> > I've been reviewing that lineage since July [16] and I'd like whatever
+> > lands to end up with the best parts of both. From my perspective the
+> > differences are:
+> > 
+> > 1. Userspace knobs. xswap asks the admin for a size (a percent of RAM) plus
+> >    a per-device limit to tune afterwards. I'm not aware of any use case
+> >    that needs those, and I don't think users have a good way to answer the
+> >    question anyway - sizing swap for compressed memory depends on memory
+> >    size, workload, and compression ratio all at once. That's precisely the
+> >    provisioning problem vswap exists to remove. The kernel should be as
+> >    transparent and dynamic as possible here, and not add knobs unless
+> >    there's a use case for them.
+> > 
+> > 2. Writeback support. Writeback is core functionality for zswap, not an
+> >    add-on, and a design needs to account for it from the start. This came
+> >    up before, in the discussion around Chris' ghost swapfile RFC [17]: for
+> >    a solution here to be acceptable, it has to work with the primary
+> >    usecase and support disk writeback. Without it, whatever zswap won't
+> >    take (incompressible pages especially) has nowhere to go, and cold
+> >    compressed data can never leave RAM.
+> > 
+> > 3. Cgroup charging behavior. vswap/xswap shouldn't be charged against the
+> >    swap usage counter. It's fundamentally a different resource from
+> >    physical swapfile space, and memory.swap.* should read 0 when nothing is
+> >    on disk [18]. I made the longer argument for this in [19].
+> > 
+> > 4. Data structure (xarray vs sparse vmalloc array). Even with xarray, vswap
+> >    is already on par with or beating baseline. I like the sparse array
+> >    idea, but why are we landing an optimization before the feature itself,
+> >    without any A/B data showing the difference matters?
+> 
+> 
+> Thanks for laying this out, and for the honest push to converge. Let me
+> be equally direct about the ordering: I think the xswap base should land
+> first, and the things vswap demonstrates -  writeback, rmap lookup, the
+> charging semantics, later THP -- should be built on top of it. Because
+> it is the foundation that keeps the swap core simpler, and the first thing
+> to merge should be the one that doesn't have to be redone.
+> 
+> The VM_SPARSE array is not an optimization to bolt on later; it is a
+> structural choice, and the code reflects it. In vswap, the cluster
+> metadata lives in a dynamically-allocated xarray.
+> 
+> struct swap_cluster_info_dynamic {
+>         struct swap_cluster_info ci;
+>         unsigned int index;             /* for cluster_index() */
+>         struct rcu_head rcu;
+>         atomic_long_t *virtual_table;   /* Backing pointers for vswap slots */
+> };
+> 
+> To support dynamic growth and shrink, vswap stores its cluster metadata
+> in an xarray, and that forces two things the plain swap_cluster_info[]
+> array never needed:
+> 
+> 1. Every cluster has to carry an extra index and an rcu_head —
+> 24 bytes per cluster — purely so the xarray can locate it and free
+> it safely.
+> 2. To keep that bookkeeping from leaking into the normal-swap code, the
+> cluster had to be wrapped in a container, swap_cluster_info_dynamic,
+> so the xarray holds a pointer to the wrapper instead of an inline
+> array element.
+> 
+> So in vswap, every cluster access in the shared hot path has to answer
+> "is this a vswap device?" and take a separate branch:
+> 
+> - swap_is_vswap() is checked in 36 places across page_io.c, swapfile.c,
+>   zswap.c and swap.h;
+> - __swap_offset_to_cluster() branches into xa_load() for vswap vs the
+>   flat array otherwise, and the xarray path can return NULL (a cluster
+>   can be torn down);
+> - __swap_cluster_lock() branches into __vswap_cluster_lock(), which
+>   wraps every access in rcu_read_lock() and a CLUSTER_FLAG_DEAD check,
+>   plus kfree_rcu()/container_of()/rcu_head plumbing for node lifetime.
 
-Changing the hook to drain kvfree_rcu() work let the same unmodified
-bcachefs workload pass its allocation check. All eight checkpoints in
-one VM, after 50 through 400 option changes, reported zero retained
-reconcile_scan objects. The retained population on the original kernel
-eventually fell as a sheaf filled; there is no evidence here of unbounded
-growth or OOM.
+Well to state the obvious: the reason it does all that is to make the
+compression space transparent to the user.
 
-Calling kvfree_rcu_barrier() from rcu_barrier_throttled() was proposed and
-agreed during review of the former API in 2024, specifically to restore a
-clean baseline between userspace benchmark runs:
+The user can answer a simple boolean question: whether they want
+compression or not. And it will work on tiny machines, on humongous
+machines, and everything in between. That's a simple policy question
+with a clear answer.
 
-  https://lore.kernel.org/all/20240820155935.1167988-1-urezki@gmail.com/
+What you're doing, asking the user for a static size, is much more
+difficult and has usability issues.
 
-This patch implements that follow-up and documents the expanded hook. It
-also removes the old ordinary-barrier completion shortcut: an unrelated
-rcu_barrier() does not establish that kvfree_rcu() work was drained.
+You're comparing implementations that don't accomplish the same thing.
 
-Four counterbalanced fresh-VM pairs with the full private-cache fixture
-reported 60 to 60 active objects on the unpatched kernel and 60 to 59 on
-the patched kernel. A separate ordinary-callback regression test passed
-on both kernels.
+The problem we're trying to solve is implementing a clean compression
+space abstraction. I'm arguing that vswap does, and xswap does not.
 
-The simplified reproducer below removes that separate regression
-machinery. One additional fresh control/treatment pair with this exact
-41-line source confirmed the same 60 to 60 versus 60 to 59 split. These
-counts reflect the slab layout in the tested configuration.
+While they're both using parts of the swap device code to implement a
+compression space, xswap actually PRESENTS IT TO THE USER as a swap
+device, and then makes optimizations BASED ON BAKED IN LIMITATIONS.
 
-Save the source as rcu_barrier_sheaf_repro.c and create a Makefile
-containing:
+But a conventional, statically sized swap device is a bad abstraction
+for the compression space. Here is why:
 
-  obj-m := rcu_barrier_sheaf_repro.o
+In conventional swap space, one memory page translates to one swap
+page. Compression space doesn't act this way: a memory page can
+consume anything between a few bytes to a full page in compression
+space. It depends on memory contents and compression algorithm. So
+right off the bat, this is a hard question to answer at the host level
+which could run all kinds of workloads.
 
-Build it with:
+In conventional swap space, the resource consumed is a different
+one. You're offloading memory by consuming disk space. This eats into
+the space available to the filesystem, which is totally unrelated.
+Asking the user for this tradeoff is a legitimate policy question.
 
-  make -C /lib/modules/$(uname -r)/build M="$PWD" modules
+Compression space is not a separate resource. It's page tables,
+backing pages, and swap descriptors. It's just MEMORY. There isn't a
+size tradeoff, because moving pages from memory space into compression
+space DOES NOT CONSUME A NEW RESOURCE. It's still just memory. All you
+need for containment already exists: rlimits, OOM killer, cgroup
+memory controls.
 
-Then, as root on a disposable test kernel:
+By making this a user-visible virtual swap device, you're sending
+users down the wrong path. You're asking them to set a new limit on a
+resource that's already limited by other means. You're framing the
+question as conventional swap which behaves completely differently.
 
-  insmod rcu_barrier_sheaf_repro.ko
-  awk '$1 == "rcu_barrier_sheaf_repro" { print $2 }' /proc/slabinfo
-  cat /sys/kernel/slab/rcu_barrier_sheaf_repro/sheaf_capacity
-  echo 1 > /sys/module/rcutree/parameters/do_rcu_barrier
-  awk '$1 == "rcu_barrier_sheaf_repro" { print $2 }' /proc/slabinfo
-  rmmod rcu_barrier_sheaf_repro
+If you ask them "how much swap space", they WILL reference this to
+available RAM capacity. Maybe half of ram, maybe twice the RAM.
 
-The first and second slabinfo readings are 60 and 60 without the patch,
-and 60 and 59 with it.  kmem_cache_destroy() performs per-cache
-deferred-free cleanup when the module is removed, after the measurement.
+But when compression space is referenced to RAM, it's trivial to fill
+it up with zeroed pages or easily compressible data LONG BEFORE the
+process or container would hit any of its MEMORY limits.
 
-// SPDX-License-Identifier: GPL-2.0
-#include <linux/init.h>
-#include <linux/module.h>
-#include <linux/rcupdate.h>
-#include <linux/slab.h>
+This creates an artificial resource shortages. It forces a competition
+where there shouldn't be one. And then you need new controls to manage
+a competition that doesn't have to exist.
 
-struct repro_object {
-	struct rcu_head rcu;
-	unsigned long payload;
-};
+Like I said before, including compression space (which is memory) in
+memory.swap.* (which is for disk space) is not going to be acceptable
+from the cgroup side. We can talk about that if you want.
 
-static struct kmem_cache *repro_cache;
+But asking the user questions they shouldn't have to answer, or
+already answered elsewhere, is weak interface design. Allowing, let
+alone encouraging, answers that create a whole new host of
+organizational issues is outright bad interface design.
 
-static int __init rcu_barrier_sheaf_repro_init(void)
-{
-	struct repro_object *object;
+So if you want to compare implementations, you first have to actually
+implement the same thing:
 
-	repro_cache = kmem_cache_create("rcu_barrier_sheaf_repro",
-					sizeof(*object), 0, SLAB_NO_MERGE, NULL);
-	if (!repro_cache)
-		return -ENOMEM;
+Stop asking user "how large". Let compression space expand towards
+existing memory limits, such that it doesn't create an awkward and
+artificial new resource competition.
 
-	object = kmem_cache_alloc(repro_cache, GFP_KERNEL);
-	if (!object) {
-		kmem_cache_destroy(repro_cache);
-		return -ENOMEM;
-	}
+Then we can compare implementations.
 
-	kfree_rcu(object, rcu);
-	return 0;
-}
+If the optimizations still apply under those constraints, great.
 
-static void __exit rcu_barrier_sheaf_repro_exit(void)
-{
-	kmem_cache_destroy(repro_cache);
-}
-
-module_init(rcu_barrier_sheaf_repro_init);
-module_exit(rcu_barrier_sheaf_repro_exit);
-MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("Reproduce incomplete rcutree.do_rcu_barrier drains");
-
----
-Changes since v1:
-- Add the motivating bcachefs failure and the successful unmodified
-  workload result to both the cover letter and commit message.
-- Drop the incorrect sheaf Fixes: tag and regression framing; describe
-  this as a strengthening of the existing test interface.
-- Credit the agreed 2024 proposal for this extension.
-- Broaden the subject and changelog from sheaves to kvfree_rcu work.
-- Hard-wrap the prose for text-based mail readers.
-
-The code diff is unchanged from v1. The results above are the existing
-validation results; no new kernel tests were run for this prose revision.
-
-v1:
-https://lore.kernel.org/all/20260910101112.1648978-1-matthias.goergens@gmail.com/
-
-Matthias Goergens (1):
-  rcu: make userspace barrier hook drain kvfree_rcu work
-
- .../admin-guide/kernel-parameters.txt         |  7 ++---
- kernel/rcu/tree.c                             | 27 ++++++++++++-------
- 2 files changed, 21 insertions(+), 13 deletions(-)
-
-
-base-commit: 50d05c7c76c96b90462f24debacca971d2e86713
--- 
-2.55.0
+Until then, there is little point in discussing differences that, by
+your own admission, have little to no impact on real world performance.
