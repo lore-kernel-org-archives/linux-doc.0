@@ -1,213 +1,198 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.94])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDF24B2031;
-	Thu, 10 Sep 2026 15:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD87D4A99C2
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 16:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789055341; cv=none; b=cPjfMoR7dKSVsPY9us8lbFvkojdRvfjTcXtSOzeA7kah9zmk0hfb6gsU1Lk2QQPsyeDAYXV3F7Bp7PkO7cvuuy6n6JbOG/z7m/5CufQmUg6/tRL7bDsstZnsH4IJfu0BdkImNHoLDlADHdDiVyn1QkowbZrYqskDeGr3YhdOIH4=
+	t=1789056239; cv=none; b=Qf115LUeFzjGLsgqoowznHMxM1a9LgE/iFjO1LB+VtLDe5yb+RFKig+Jif+rxN1UNDeGVMQGJp6gTbQTIx5ZyTV4aOfYPYh4d7COlhnE1vBWjsJTMd+RMV6iqLoow/a8wrcCcElkpmzeHMpqZreSeZNLrN3BmIrx2bEeY9fs9Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789055341; c=relaxed/simple;
-	bh=uuZUs8CyGKyoIbJX7p5GwQ6gTH4+NO01yolE0a/TQxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X5IBkrIO/gUEUl2C5iGw8i4MXiTMI0awfWUb1NvHLyw8lIaVuV2u4KPNFDHDs+PitsqD3LEoc+vDcLMJj2B7W8SRrVv+qO78/kZ4aQJd6uNJ3vr+DiBI9AejAqRO8pbK7ECl/LwQ963/HFiKdFDIiBms6jO2Fd9lMVBFEa4SLq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=kw5yKkpR; arc=none smtp.client-ip=212.42.244.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
+	s=arc-20240116; t=1789056239; c=relaxed/simple;
+	bh=AHkASD+KT9hovr17X9EfCxN+oDA7ZS7vi9iIUeCFVhs=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=tQV5uaTZgJNPaihupdmbow8IQMdxvIYeudks7anyGnOq4TFcVmDR8zRWBd4hJADcGZBHY3tgnlLeFgoxD7qW4nHklOdYMMp6tQRfELF1mEQU34zo+1iNjacJ9vXEwlHJWpgT38ocW1vmBvjKbbf3e5qb4rj+PptsN/4sWmtTmMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iuhY13a8; arc=none smtp.client-ip=209.85.215.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="kw5yKkpR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
-	t=1789055335; bh=uuZUs8CyGKyoIbJX7p5GwQ6gTH4+NO01yolE0a/TQxk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kw5yKkpRe/Y1tmb9JymSosqjJQjw2qgzZ9KZZqyOmhAQAxTz5HEFZqrYiX3oICPQf
-	 ckaNlryfcAgmbWmlTplxNOFmSwApoY77UM024WyrBpNuKJop80mERVjlCKBEsV9h7C
-	 U5HBWhhLjMM6uGRzezT0msAoFEspWJUThjDU6syaNqM3YlOIMpkIA4pPasaGQMpeVt
-	 DczFspQ1hYXtkffJ+qQHHDqf1EuOrSJn4XAkOwXtyaoUeBU83fAAIFx8iLVtR2o5OB
-	 2Bci4tkbqtQ5t/TTxOYveG5IbW5M45rNI+QR0L4wqde5mduY4arbUKWhFjFdZ3inb1
-	 SJ8Nm0uv2d06g==
-Received: from [2001:bf0:244:244::78] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
-	(envelope-from <n.schier@fritz.com>)
-	id 6aa2d167-6dc7-7f0000032729-7f000001b250-1
-	for <multiple-recipients>; Thu, 10 Sep 2026 17:48:55 +0200
-Received: from mail-auth.fritz.com (unknown [IPv6:2001:bf0:244:244::78])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Thu, 10 Sep 2026 17:48:55 +0200 (CEST)
-Date: Thu, 10 Sep 2026 17:48:53 +0200
-From: Nicolas Schier <n.schier@fritz.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH 16/23] kbuild: batch module finalisation
-Message-ID: <20260910-nondescript-fierce-wapiti-de1cea@l-nschier-aarch64>
-References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
- <20260908-build-speedup-v1-16-5dc1ac01672d@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iuhY13a8"
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc132709c76so9975750a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 09:03:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789056237; x=1789661037; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PjpQmguvZKqFc40yaCCUF9DxHpcHtd3drRjNMUjWpE8=;
+        b=iuhY13a80KGseO7HZmuA3y94fmHZB0TSKy1X56JoxJyaiXkGKyG10ot87xmhbpxJP6
+         W8fA5QrJKRypQSa+l9BxY//kK8JoC6TiQnGWZr9E3EoWzmtEplTg30Ke8A/yT2pXivDv
+         6b8B4rJf2oLbGheKWXq54phZ3mmC8j8fjWTLtjPFl0QezZRlrU0G6x6gr7eqOM4SwiOK
+         kij6G5FSKnBbmQcXWtfwFby5h8YCVznkRdrXf9Ce6oGz75L1eb25lEoOSirVkGdN2PKO
+         DOIoP2NXZX1D80e9v01orGBOtvq5EfCzmZpnzN2kVluOH8O29+1M24CNDR5Dn8H2mXdL
+         Pnrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789056237; x=1789661037;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=PjpQmguvZKqFc40yaCCUF9DxHpcHtd3drRjNMUjWpE8=;
+        b=Li8I2Vm6p6ksGlaqVdj0rHBHwHsl4I31VReXTCB/8oMSNxjI6fCibwRGnC0kPXW0CT
+         QbVnYf5PaSgkkJm52YLDkSDnsMbEVDXPuZb0rAtqEnQOVcPUQbJ/Al+k+ITXRlc1RXOn
+         qy/zz/zMW4sGntcD8AMjs5lPj5kUccA8hyWb8JUlUtnmHAW3u8jjuvXC1H/h5JAD4Vdt
+         CPVXBejr+a0ryLYLLL+gIJuM10PUQmETXUJco6VY9RHFXom0xhLuEAfpaY2bphIIWhDr
+         6BGkpsJxKZWeMD+LnSWBSeViKa/UF2ZKglBzT0Wr6D+cdLgXd/nDwuZO2qh2mQp97mJZ
+         2tJQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwDGByr5TqAcVzM2+ksqWqyXu05cuvrhfZyfUX+2tbwvqc5MLXnkyqUmyscCsa0OcR6PjDzTCz6HUg=@vger.kernel.org
+X-Gm-Message-State: AFuF++k0J4asYJoIlka3Qi5whu3OIxb/RzNnpZpieGoNSpMntydeIzeV
+	V2lgJoqS4srISyH3+shVspkiNxwObalVAPg8GbpgMbb3/QnlABRE8h2UM/Pm/gmXWNdIpl4rtyy
+	L9wGjUQ==
+X-Received: from pgmh20.prod.google.com ([2002:a63:5754:0:b0:cc4:3b01:7730])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:4303:b0:3c3:7179:a640
+ with SMTP id adf61e73a8af0-3dacbd6e061mr12520616637.3.1789056236336; Thu, 10
+ Sep 2026 09:03:56 -0700 (PDT)
+Date: Thu, 10 Sep 2026 09:03:55 -0700
+In-Reply-To: <20260905011956.GA856309@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="4KfRRQPTJ7GRTheh"
-Content-Disposition: inline
-In-Reply-To: <20260908-build-speedup-v1-16-5dc1ac01672d@kernel.org>
-Organization: FRITZ! Technology GmbH
-x-ms-reactions: disallow
-X-purgate-ID: 149429::1789055335-064A40BC-80480D36/0/0
-X-purgate-type: clean
-X-purgate-size: 4263
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
-X-pfmilter: host: postfix-mx-03  mail-id: 2B66AA0198  external: no
+Mime-Version: 1.0
+References: <anphyjFv3FhF61iB@google.com> <2vxzpkzo51wg.fsf@kernel.org>
+ <anssOQFNZ2LfihbU@google.com> <2vxzik5f311e.fsf@kernel.org>
+ <anyObKiZIhfok5mk@google.com> <2vxzqzjz1x5f.fsf@kernel.org>
+ <aoMcqp0gr06YXAPU@google.com> <2vxzy0e3zgqz.fsf@kernel.org>
+ <aoSCCTTBn9D5hqzk@google.com> <20260905011956.GA856309@nvidia.com>
+Message-ID: <aqLU653FXjJjhbop@google.com>
+Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live updates
+From: Sean Christopherson <seanjc@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>, Tarun Sahu <tarunsahu@google.com>, ackerleytng@google.com, 
+	fuad.tabba@linux.dev, Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, sagis@google.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
+	linux-kselftest@vger.kernel.org, andre.przywara@arm.com, michael.roth@amd.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, will@kernel.org, 
+	vannapurve@google.com, maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org, 
+	oliver.upton@linux.dev, kvmarm@lists.linux.dev, alexandru.elisei@arm.com, 
+	skhawaja@google.com, aneesh.kumar@kernel.org, linux-doc@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, kexec@lists.infradead.org, 
+	suzuki.poulose@arm.com
+Content-Type: text/plain; charset="us-ascii"
 
+On Fri, Sep 04, 2026, Jason Gunthorpe wrote:
+> On Tue, Aug 18, 2026 at 09:02:17AM -0700, Sean Christopherson wrote:
+> > The rule is thou shalt not break userspace.  Whether or not the
+> > breakage is the result of an explicit ABI change is irrelevant.
+> 
+> I argued strongly for this simpler approach, I will write here the
+> reasoning I gave.
+> 
+> Firstly, "live update" is not uABI per-say. It is not "userspace
+> breaking", and it is not a "regression". It is an internal kernel
+> mechanism to allow the kernel to self-upgrade. In the industry it is
+> typical any of these hitless update/patch/etc schemes to only work
+> between a few tightly controlled version pairs.
+> 
+> Asking upstream to carry a full matrix of every single version pair
+> ever released is massive over-engineering and cost on upstream
+> maintainers. Refusing to do this is not a uABI breakage, it is not a
+> regression, it is simply a lack of a feature.
+> 
+> I think upstream should start by agreeing to only support forward
+> going upgrades within a single stable branch. If live update becomes a
+> success then maybe we could do from a stable branch to the immediate
+> next stable branch too. I don't know.
 
---4KfRRQPTJ7GRTheh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From that perspective, what I am proposing actually goes a step further.  I'm
+saying don't commit to supporting *any* specific versions in upstream.  Express
+the feature requirements in the serialization payloads, and let userspace sort
+out what kernels are compatible based on their actual usage.  The kernel may need
+to provide additional discovery mechanisms, e.g. so that userspace can probe to
+see what is supported, but discovery is usually fairly simple to implement and
+maintain.
 
-On Tue, Sep 08, 2026 at 09:55:16PM +0100, Lorenzo Stoakes (ARM) wrote:
-> Module finalisation on allmodconfig builds consists of a large number of
-> very short-lived jobs, and the make job dispatcher cannot possibly dispat=
-ch
-> jobs fast enough.
->=20
-> For allmodconfig x86-64 this can be on the order of ~22,000 jobs of a few
-> milliseconds in duration each.
->=20
-> However per-job cost grows with the variables the instance holds, here the
-> savedcmd_* of every .mod.o and .ko read back from the .cmd files, since it
-> walks them all to build each child's environment.
->=20
-> This makes module finalisation very inefficient when large numbers of
-> modules are being built.
->=20
-> Fix this by splitting modules.order into chunks of 128 at a time, run in
-> parallel.
->=20
-> Each instance holds only its own modules' variables and the top-level one
-> reads no per-module .cmd files at all, the same rules serve both levels,
-> and an instance is told its chunk with modfinal-first=3D<index>.
->=20
-> "make modules" with every *.mod.o and *.ko deleted goes from 28.9s to 15.=
-9s
-> with clang 22. No-op "make modules" goes from 5.6s to 4.8s, as checking t=
-he
-> 22,000 targets is spread over the chunks too.
->=20
-> Whole build, 128-thread Threadripper 9980X, best of N runs:
->=20
->                                          before   after     delta
->                                          -------------------------------
->   x86 allmodconfig, no-op make, gcc         1.9s     1.2s    -0.74s (-39%)
->   x86 allmodconfig, no-op make, clang       2.4s     1.6s    -0.77s (-32%)
->   x86 allmodconfig, clean, gcc            304.5s   291.4s     -13.1s (-4%)
->   x86 allmodconfig, clean, clang          301.7s   297.0s     -4.7s (-2%)
->=20
-> Assisted-by: LLM
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  scripts/Makefile.modfinal | 26 +++++++++++++++++++++++++-
->  scripts/mod/sumversion.c  |  4 ++--
->  2 files changed, 27 insertions(+), 3 deletions(-)
->=20
-> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> index 75e9effdf02c..858fa798090b 100644
-> --- a/scripts/Makefile.modfinal
-> +++ b/scripts/Makefile.modfinal
+> This alone is already much more powerful than live patching.
+> 
+> The balancing issue here is the impact on the kernel subsystems
+> adopting luo. Every time you change anything about the internal
+> function of the subystem you now have to go test a massive version
+> pair matrix to make sure everything works? No thanks.
 
-[...]
-> diff --git a/scripts/mod/sumversion.c b/scripts/mod/sumversion.c
-> index 2cbadd3cd97d..5501d6aa0bea 100644
-> --- a/scripts/mod/sumversion.c
-> +++ b/scripts/mod/sumversion.c
-> @@ -249,7 +249,7 @@ static int parse_comment(const char *file, unsigned l=
-ong len)
->  /* FIXME: Handle .s files differently (eg. # starts comments) --RR */
->  static bool stop_char[256];
-> =20
-> -static void init_stop_chars(void)
-> +static void sumversion_init(void)
->  {
->  	static bool done;
->  	int chr;
-> @@ -274,7 +274,7 @@ static int parse_file(const char *fname, struct md4_c=
-tx *md)
->  	len =3D strlen(file);
->  	if (!len)
->  		goto out_file;
-> -	init_stop_chars();
-> +	sumversion_init();
->  	buf =3D xmalloc(len); /* File output buffer. */
-> =20
->  	for (i =3D 0; i < len; i++) {
->=20
-> --=20
-> 2.55.0
->=20
+No, the subsystem just needs to make sure that it serializes its data using the
+defined ABI (where ABI here means the format of the payload and the meaning of
+any flags in the header).  That should be *easier* for maintainers to handle than
+trying to support arbitrary versions, because it eliminates subjectivity and
+having to make judgment calls or remember magic version numbers.
 
-(I have only skimmed through, not yet reviewed this patch.)
+> Luo is very invasive and a huge PITA at the best of times. It doesn't
+> need to be even worse.
+> 
+> > It's probably fine for Google and other large companies that tightly
+> > control their kernels and use cases, and have the resources to
+> > juggle the resulting complexity, e.g. have kernel engineers on staff
+> > to track feature and dependencies, coordinate and plan kernel
+> > upgrades, etc.
+> 
+> Every downstream that wants to support luo is going to necessarily
+> severely restrict the version pairs that can work. Like a RH type
+> distro may only support it for 9.1.x -> 9.1.x+1 - they can carry the
+> cost of figuring out how to manage their patching and compatability
+> matrix on their own with the tools upstream provides.
+> 
+> > engineers on staff to help them thread the needle you describe
+> > above.  And if supporting live update as a general feature for all
+> > users of the kernel isn't being factored into design considerations,
+> > then that needs to change, otherwise this is all dead in the water.
+> 
+> General uses can use upstream and do CVE upgrades within a single
+> stable branch. That's good enough, lets start there. We don't need to
+> boil the ocean.
 
-The change in sumversion.c seems to be wrong here.
+We're in violent agreement on this point, I think we just disagree on how to
+express compatibility.
 
---=20
-Nicolas
+> > I also don't see the point.  Maintaining a rigid save/restore ABI is
+> > annoying, but it's not _hard_ (or at least, not _that_ hard),
+> > especially if there's a set
+> 
+> I was told KVM had the smallest luo footprint of everything, so
+> perhaps your perspective is different.
 
---4KfRRQPTJ7GRTheh
-Content-Type: application/pgp-signature; name="signature.asc"
+Only because KVM already has a massive ABI surface for save/restore.  If you
+want to convince me that magic version numbers are the right approach, then show
+me how KVM's existing save/restore support would be made "better" and easier to
+maintain by throwing away all of KVM's save/restore uAPI and replacing it with a
+versioning scheme.
 
------BEGIN PGP SIGNATURE-----
+> In other places luo becomes coupled to the internal datastructures of
+> the kernel, we literally have to preserve lots of kernel memory
+> utterly unchanged without any kind of serialization at all. 
 
-iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmqi0WIACgkQiMa8nIia
-bbg5EQ/+NGRAk8Ctc+X1OAU6pfHnSz6kq0kRgbNGW5OX2SXnhplNS7CMXxqLkUbZ
-SQAY69x1eLH/K0A4j5Memv4kYSDGoAEawgiydt9wSZuQDi1eDhGnDC1T9q74bds3
-uDrrnCbLogaoGnhXm4g7WcWVmdx+6rKgupL8kFDt4XQbrPVh2lsE5R5KfWvGWyH8
-w/btnaniJv5lTR37xXrMWBXfPqxJY/uhiXW2Tov+iqO/sAdeIhGXWEgc5SPwx3qB
-T0rZdFYTfeJ3BCXJF7x96X19HqORTftMzE4rOQtAwBebquwVV86tVUhPlKub/VpJ
-I2KhiqAspQ+QME+xDGib76j3Z0HD/lm9ARByIO5hbBYHkBmXsOhTXdIDY5gTYm2e
-I52eUWyf2CVwty/1aKNHQnDxo+N45dX9srD7ZbC3OUVSJqLG8oHOKoNGcsUmvVeO
-egN83lroNk0UqyLlvugHgIMi01bNORXUn68pMrzto85iBXlaV0/6zAwpZSNe8fY5
-ofrc7hzoQLkNNJJORkOXjdCdVAuAN+pCcTHLdQ84dMOviKCd4fLEDlpcV6b3kjFe
-Jbu0Sqx0Cy41+Fwh7jmxXTRWhWCWnzpL3GFV65F4wdZtV2ajgaqsOPQfTpnz0yu5
-5iDFJMVpe9pqv7hLuXGIlIYpxmQpm0gEeLqvZE72mDwn5IM2qyM=
-=oTTk
------END PGP SIGNATURE-----
+Have to, or choose to?  I have a very, very hard time believing that it's infeasible
+to define a serialization format that is decoupled from kernel internals.
 
---4KfRRQPTJ7GRTheh--
+> This inevitably creates restrictions on the evolution of the kernel in
+> general if we can no longer change in-kernel architecture because it would
+> make some data structure incompatible with a kernel 10 years old.
+
+Only if the relevant subsystem defined a poor save/restore ABI in the first place.
+
+> There is also a need for *downgrade*. Meaning the N+1 kernel has to
+> strictly emulate the limitations and capabilities of the N kernel so
+> it can be rolled back. Can you imagine the nightmare of trying to
+> codify the feature progression for every single kernel release forever
+> in some impossible scheme to enable this? Again, no thanks.
+> 
+> So, what upstream can reasonably do, that still provides real value
+> without severely burdening every subsystem, is upgrades within a
+> stable kernel branch only.
+> 
+> If some distro or CSP wants to do more, they can deal with it. They
+> have a far, far simpler problem because they can exactly lock down
+> their version pairs to a very small universe. They don't need a single
+> kernel that can emulate 10 different releases of behaviors
+> concurrently.
+> 
+> Jason
