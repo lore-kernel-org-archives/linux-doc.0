@@ -1,45 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87EA1E0E14;
-	Thu, 10 Sep 2026 00:11:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712252609E3;
+	Thu, 10 Sep 2026 00:17:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788999086; cv=none; b=Es6U1QA61JmI9Qxd5ibduUWuQ4UuOeEL5wNXCu0mYZow+et72ApZCkwJWavWod0kxDxQcnIcQB+TMIKgvYCkN40urmpsgYf1ziBOxKrDzu17FHzdaKsozMfWI6IMNibCMZAskRyv2A2/jbyTNDi5elCoZmL4gH6ZrxXx1X0ZmJQ=
+	t=1788999476; cv=none; b=RqkN6Fl36X7F0MSKNuYJJuHRi9v88SRbJQTqsJR9jLDHHZCuCBm+30P1hb5JZI3wOQEEYzQW80VbSDQllQg1TWa1bW+H8li8dT6wmsiH7jL4AAJnbDvlnjeLmHiwGDkY1iWRQ1a/ZFJT+WLIOcq0609497ryld/nFj+OqBKwni4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788999086; c=relaxed/simple;
-	bh=zRmSLC+X5TZ+oSKfZzsz3fszHEeU7reKhCsQ0NyTym0=;
+	s=arc-20240116; t=1788999476; c=relaxed/simple;
+	bh=4J88FcRFWb1CXdp4a2wDQbcHv41WB54o12dX99rBTZw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LKBePFB2Bt3ccr0llIANO7yYefdOBC5C82ZThbyjK9X0CeK5QtDnSPxWHRuudKMgOu0tCxhUSHqQikFLwIz9GmD/RhV9aoHEUrX3bbGR2BcG9GgAqI40bM+RaICKT9pG9Dw8C3mY41oYMUi3n+Y2BXpB8oJw2I1eQlbpVzhZrw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UPiTjEKH; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=BoSWunTqR+/ERjX7Hui40x15BIZqyqc5wsoZn5+JhlXdPTOL2mdilrKhhLR820L7mWLuMXxZrxb5B2vm9zP+fmkzQFs/gKKtkwGLijLJt9aaDoP9BFT2HJFwac/gj5e3xyZ7lnXWco+yTzYYqQHk1c64UawXvVjXNRU5ZQaaHEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XDiIuga1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UPiTjEKH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FEA91F000FF;
-	Thu, 10 Sep 2026 00:11:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XDiIuga1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 769F51F000FF;
+	Thu, 10 Sep 2026 00:17:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788999084;
-	bh=PVjn/yGVC40o3886M+qzt6X0m+lWhLEzPx3J1VAtpgE=;
+	s=k20260515; t=1788999475;
+	bh=TW3K+AgSrwHemRWw14UWea9xECIj/k6NgLwb2UHRsPk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=UPiTjEKHZDLfgBDeOLBrJJvaqLtGTnFmbNW4za49axmICf4zMxXy/+ApX8a+sQjTV
-	 eg0D+7INKKlft+vvG3BUdvyr8Ep2Zd9kTQ/D8uO3GEQKtIL+HYrbdCpV7vUUQnsSq2
-	 0fAOAh212c2hljBrCneQ7LBZ6wAf/nzBkAygLstR/mUHf+8023W1C6Zp5QS2Ni4PLl
-	 fDZ8eLCqDXp6/S6/GYudulnAh4oGN+TRoFFMh7p/uqLniqVrXHHbXXMUuViTTW7srC
-	 QIMZsUuiW3lwveMUAESG2lfAn8M3R8wI0Vp4+1Qf7ke4Wev7b4rjXL6WU7fqwh/2ZQ
-	 1FeNXCpcMvX5w==
+	b=XDiIuga1MVxrtxfrwhhYXePZoy0JGb+ujz65mh5hUYMY67pz0foKfM7Q5QkCL5v0n
+	 lTfa0cCfiS2XfZuigBiP9U0iHcwdRhd2CUM46aewqoVtleZ9nOpf9n/TnU19pVtIA2
+	 utUeA+R2k3MqADcMDel8YPg5y/UPtErXdi911fksXcgktppyMIvkEkrLuLBIFVW721
+	 RSfj6A+rv2AiJzx7SRLLoqkfDUlSg9Kd+1ykynRnzDYAXahm39nr1ayxpyrCVgbZJU
+	 SbdiADH8ni8BbnbdwSnfXengJkE6FhFqUH+qO/l72YS2CRY795lUa5AGNDljhhF/f6
+	 gzdzh8H/kx7Jg==
 From: SJ Park <sj@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
+To: Liew Rui Yan <aethernet65535@gmail.com>
 Cc: SJ Park <sj@kernel.org>,
-	Manuel Ebner <manuelebnerli@mailbox.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	workflows@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	damon@lists.linux.dev,
+	david@kernel.org,
+	liam@infradead.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: deprecated.rst: add to syntax highlighting
-Date: Wed,  9 Sep 2026 17:11:17 -0700
-Message-ID: <20260910001117.109969-1-sj@kernel.org>
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	ljs@kernel.org,
+	mhocko@suse.com,
+	rdunlap@infradead.org,
+	rppt@kernel.org,
+	skhan@linuxfoundation.org,
+	surenb@google.com,
+	vbabka@kernel.org
+Subject: Re: [RFC PATCH] Docs/mm/damon/design: clarify when qt_exceeds increases
+Date: Wed,  9 Sep 2026 17:17:46 -0700
+Message-ID: <20260910001747.110260-1-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <d35909dea037d1ac5c6a919bf1a7d53d8d5fddb4@intel.com>
+In-Reply-To: <20260909100913.30568-1-aethernet65535@gmail.com>
 References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -49,40 +58,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Wed, 09 Sep 2026 20:00:47 +0300 Jani Nikula <jani.nikula@intel.com> wrote:
+On Wed,  9 Sep 2026 18:07:33 +0800 Liew Rui Yan <aethernet65535@gmail.com> wrote:
 
-> On Wed, 09 Sep 2026, Manuel Ebner <manuelebnerli@mailbox.org> wrote:
-> > Mark key words 'gfp' and 'GFP_KERNEL' for syntax-highlighting.
-> >
-> > Suggested-by: SJ Park <sj@kernel.org>
-> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> > ---
-> > Suggestion:
-> >  https://lore.kernel.org/all/20260430010332.114100-1-sj@kernel.org/
-> > ---
-> >  Documentation/process/deprecated.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> > index 22a5e62c9..4d4d29b97 100644
-> > --- a/Documentation/process/deprecated.rst
-> > +++ b/Documentation/process/deprecated.rst
-> > @@ -404,7 +404,7 @@ become, respectively::
-> >  	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
-> >  	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
-> >  
-> > -The argument gfp is optional, the default value is GFP_KERNEL.
-> > +The argument `gfp` is optional, the default value is `GFP_KERNEL`.
-> >  If `ptr->flex_member` is annotated with __counted_by(), the allocation
-> >  will automatically fail if `count` is larger than the maximum
-> >  representable value that can be stored in the counter member associated
+> On Tue, 08 Sep 2026 17:38:00 -0700 SJ Park <sj@kernel.org> wrote:
 > 
-> Single backquotes in rst mean "interpreted text" [1], not markdown style
-> code.
+> > Hi Liew,
+> > 
+> > On Wed,  9 Sep 2026 01:50:23 +0800 Liew Rui Yan <aethernet65535@gmail.com> wrote:
+[...]
+> > > By the way, I found a thing in the design document that confused me.
+> > > 
+> > >     temporal: More straightforward algorithm. Tries to achieve the goal
+> > >     as fast as possible, using maximum allowed quota, but only for a
+> > >     temporal short time. ---> When the quota is under-achieved, this
+> > >     algorithm keeps tuning quota to a maximum allowed one. Once the
+> > >     quota is [over]-achieved <---, this sets the quota zero. Useful for
+> > >     deterministic control required environments.
+> > > 
+> > > I'm not sure if "goal" was accidentally written as "quota" here.  Would
+> > > this be better?
+> > > 
+> > >     When the goal is under-achieved, this algorithm keeps tuning quota
+> > >     to a maximum allowed one. Once the goal is [over-]achieved, [...]
+> > 
+> > Good eyes!  Yes, seems it was only mistakenly written in the way.  Please feel
+> > free to send a separate patch or include it into the next version of this
+> > patch, whatever better for you.
+> 
+> I will send a separate patch.
 
-Because multiple other parts in the doc are using single backquotes, I feel
-this patch is improving the consistency.  Using double backquotes would also be
-nice.  I have no strong opinion here.
+Makes sense to me.
+
+[...]
+> > I think the clarification is better to be added to the 'temporal' quota tuner,
+> > since this happens only when it is used.  Maybe the clarification could also be
+> > shorter.  For example,
+[...]
+> I agree that would be better.  Although users might look up the
+> definition of qt_exceeds first, they are also likely to navigate
+> directly to the temporal section.
+> 
+> I will clarify at the temporal section in the next revision.
+
+Thank you.  Looking forward to patches.
 
 
 Thanks,
