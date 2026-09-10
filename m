@@ -1,127 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D75F47276D;
-	Thu, 10 Sep 2026 11:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641CA472527
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 11:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789039291; cv=none; b=qwQ5E0XzfV0bORbCZiOlImjeq1+I0xw5DtzscRTqls6yi8jhry9pM6NiMA33lL6Gu4tT858+iZItKFHstmsrYkLi92GmsszzUMreuDlCyH7/ciCVThcQfCm5Ta2ly77xUtl0vtdV6nvyC1ucjTq3u8OStC6V3GlSL8vi9E+kkRg=
+	t=1789039370; cv=none; b=Izld2T8V05SOrJ4zqnNso5RdCJ3uSnxI4w0tl01eW19r3R6LvJR3wa3OPucQf7v0FzF86F3GNaZBg7pQ70YjY88/0HsQUa+wBOhbQbpHwVc5n13JsksWZPQwmPsjHngHVUukPThmQvdQnfbXHW1NDpxJxoj9HgBiqySdP0uBQ2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789039291; c=relaxed/simple;
-	bh=FPzIvtgmhSbpU/1pbVMJisRzxaJmuZeATD8N0wykZxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DRVvF7JFQf1ChKPKCJSa1dC6T36LbypTv95uGrntjNcc7WTbg1IXT+DtGEJJtg01dKxRxenotDY0fNYXwTnxA1tKEI+vTXG8N3UkVRrELHq8OQgHNHIb8YGvnzg5Mp+Z1vWx0/35LzHEHb9qYm3Xqqm8Y9G9CMsLJPYiF6RHDVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kxzxAAUf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789039370; c=relaxed/simple;
+	bh=M8X+lWYr0x1xt9g0855Z+8t8fxYXiqA6yfULgUlqBcU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jc8tfBrZlzoaHC+Z/l1unbiFTfK3uPpHv0i6vBZgwRiMI7oP4H8pcbuLxkXsHzlapGrKT2j51r4BdLGWmkSNW8qPYbSfS3QXa+l0gzpj5j9vkdqltgbVG0mxvqGIstRvPXRSIQKXXXJMdoL41h/k9HLtKkQbvBDgA2Ktcpt2rAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hf1DLQ/o; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kxzxAAUf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A6961F000FF;
-	Thu, 10 Sep 2026 11:21:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789039290;
-	bh=FPzIvtgmhSbpU/1pbVMJisRzxaJmuZeATD8N0wykZxk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kxzxAAUfjYsWGUsxd77ZTX3tE3JJL5QVTDc0CoN+OGKRsVNwA8taMOgIhooTrG+RC
-	 dwnR0jlai7SFJ9MxapDb8HTbs0SXwe63sPA/OQ/0HAk1p7qxIZg1fRSVJLlU43nCZl
-	 Mml1FPN4smCiHdGL3gQjgRXgL7F0ej45TsSHiztJsSrADV6hX4RtKmnD4TJJ1Dzofo
-	 Gab0hIcgNwLcYSZC7AW89krjF+d3XB7egDqIdHoeNNEN08xRs1nHZuRVFuOeNEI+kY
-	 bBFtt8tpbGAdUJvjTV6Y77zp96xkeUlxIhcC8wn68YMAfyNhQ1MqRixMbJb/Ya78xq
-	 WbSFvnPTAlwnQ==
-Date: Thu, 10 Sep 2026 12:21:15 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Nicolas Schier <nsc@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH 02/23] scripts/mksysmap: fix escape of '$' in the __pi_
- pattern
-Message-ID: <aqKO4idury5TND0u@gremlin>
-References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
- <20260908-build-speedup-v1-2-5dc1ac01672d@kernel.org>
- <178901395289.3971858.3678831513020211615.b4-review@b4>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hf1DLQ/o"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8693af0d7c4so1296056b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 04:22:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789039369; x=1789644169; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2ad0A/Rr65EAuzEvke4bbMmbpC8hQdLLHmef4KcXvFA=;
+        b=hf1DLQ/o2SZyviRKwHSJfvrsmH+X7OcBhuGIOxz2X+Z8sEfMd/MWKu+kjawK3od4do
+         kNABWkTNAklFu1WN1qo0lE8NCDlCA/CGd08DAqASotUSuMsmpNkiz7MdxWCNfknH/0+r
+         x7bj8O7+ZPVOBl8lZzsEFUN3Ldq/gjighJt+DcHuZf73WWUgxjrZzWcFV9GUEnn9hqzd
+         Fg6vPehT1GyMIXdUo/b0c16H0eUddLmHq+3BwKBAmUvN9dts1wloljOJROGwcJlokmCq
+         hoZQMZppuHgR0xY9Oy+k34eYy89D//tA2DivNr7QkR/4QCNVoMVeqRFSGk/cqX+rL4ki
+         /rfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789039369; x=1789644169;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2ad0A/Rr65EAuzEvke4bbMmbpC8hQdLLHmef4KcXvFA=;
+        b=kHscbLW/GrqyYkDc1jhLh/LcJWE69+CbqZD53BmSXEXq8A+trRUu9hIPAy0t1hQtBM
+         CJJcnHiSINj3Fg7CxtA5o/LpJMrmBmGdhWjKWtOdRXklWk52V6zNx01JrnUfU80rbooP
+         80B/0+skRPXrWeU9+widP2ZK8egPXpZcmaElQSUj5WMGbVhKV9kt0SoXnIcrGiWGx4b3
+         7375C3svpcg+QNBwg4WaIWSurz8Mzb0KW0xOODkjC3xhIOhFw/x58bHRTEuW9ycA4gxK
+         iPg+pCiijCCXpuBcq1Rwx2uv9XsXnJe6LE8M6bAimjxgC8OTsnpIbb4hJ6P4H9zKKT8O
+         h3Gg==
+X-Forwarded-Encrypted: i=1; AKwUvByO2EvNck89JrFNXiLdWLdK0LwqMFtNYeXeMFnhXMniLseJcLpFmh/x2ahG1rSqCdVRC9PErrp7Fik=@vger.kernel.org
+X-Gm-Message-State: AFuF++kyE9IWx6VlgelygtSUVrVxwP4TF3suWUUElMbyalR5zte4Ou4z
+	ZlQHkcdzZ5C15Vf5c1mEj+eyDaDb2POuiRMSNNCI8ulYkvDzjcjk4xI9
+X-Gm-Gg: AYBFou04SZqkE+AwGIIuWJPSmwHswtG53qwc/pSuqqGyPakCWjvncNPTJDGDYeRFMr/
+	mUZdMMJ9y+TSnroy2HJw07ki/jMTliFg5y9aa84fRUq7tV0zpeYBI5JNbIrimlnOsQ1BESd5Vdb
+	EyTex+/0Fr0JM3yRpD6wMEptzP3RHoyo2ax/bvAvrEe8s3mJmywp/NJypkngmzxgEpTpMqOW400
+	vxPRotrZ+FdMAhnqAIywgtGZ8OHWI7j6YjnZLZ4P0lNqktZnsdCytJwKpcbdHw8mG5D5E2vkbR0
+	Lv0grMoxYHhjKRO31UiFpV/0Bfxb4lu2IIcDhRzqPUlP7YdK/uDMa2KbwIIdc9p4CAXTtnVwQpC
+	z7JyPBNi7EAEtAhmNxzSaIRwbrQxarztgSJlbqRjK8gjDm4AKPq3luMRQS0DsVbKqgWX1KR9fEL
+	gQS5vsj3kFJiflLQ2I297DTC2k20c9BrAtMsCFB1bRkYoudCeSODubcTW8/UdOGWFMAGEABPa2Y
+	M9I
+X-Received: by 2002:a05:6a00:300f:b0:86a:8e9b:46c8 with SMTP id d2e1a72fcca58-86a8e9b6359mr2124764b3a.0.1789039368714;
+        Thu, 10 Sep 2026 04:22:48 -0700 (PDT)
+Received: from celestia ([2402:1980:885b:4183:b098:c1b9:7033:be8a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86152045e8dsm7926904b3a.20.2026.09.10.04.22.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 04:22:47 -0700 (PDT)
+From: Liew Rui Yan <aethernet65535@gmail.com>
+To: 
+Cc: Liew Rui Yan <aethernet65535@gmail.com>,
+	SJ Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Docs/mm/damon/design: clarify when qt_exceeds increases
+Date: Thu, 10 Sep 2026 19:22:31 +0800
+Message-ID: <20260910112255.157012-1-aethernet65535@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178901395289.3971858.3678831513020211615.b4-review@b4>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 09, 2026 at 09:19:12PM -0700, Nathan Chancellor wrote:
-> > Commit b18b047002b7 ("kbuild: change scripts/mksysmap into sed script")
-> > converted scripts/mksysmap from a shell script to a sed script.
-> >
-> > However an error was made - escaping of '$' required \\ escaping in shell
-> > but only \ in a sed script.
-> >
-> > This was mostly corrected in commit 7a6c355b55c0 ("scripts/mksysmap: Fix
-> > escape chars '$'"), but this fix missed arm64 PIE namespace local symbols
-> > like __pi_$x and __pi_$d which appear in System.mapand /proc/kallsyms:
-> >
-> > $ grep __pi_\\$ /proc/kallsyms | sort -u
-> > 0000000000000000 d __pi_$d
-> > 0000000000000000 t __pi_$x
-> >
-> > Fix the escaping properly.
-> >
-> > Fixes: b18b047002b7 ("kbuild: change scripts/mksysmap into sed script")
-> >
-> > No measurable change in build time.
->
-> Same comments as before.
+qt_exceeds counts how many times a scheme's quota has been exceeded.
 
-Yeah sorry same screw up!
+When using the temporal auto-tuning algorithm, the effective size quota
+becomes zero once the goal is [over-]achieved.  In this case, the quotas
+are still set, so qt_exceeds keeps increasing once per quota reset
+interval while the goal stays achieved.
 
->
-> > Assisted-by: LLM
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->
-> Same thing, is this worth taking to stable? Truthfully, you could
+Clarify this behavior in the design document.
 
-Ack I think it's probably worth it yes like patch 1.
+Signed-off-by: Liew Rui Yan <aethernet65535@gmail.com>
+---
 
-> probably send these two changes separately from the series so that we
-> could send them to Linus with the other pending Kbuild fixes, unless
-> there are objections from Linus or Nicolas on taking that route? Shaving
-> two patches off of an ~20 patch series is a 10% reduction so seems worth
-> it?
+Changes from RFC v1:
+- RFC v1: https://lore.kernel.org/damon/20260908175105.42558-2-aethernet65535@gmail.com
+- Simplify the explanation.  Do not provide a complete definition of
+  qt_exceeds, but rather explain only the increment condition when using
+  temporal auto-tuning algorithm, simply to prevent users from becoming
+  confused and being unable to find any explanation.
 
-Patch 8 relies on 1 + 2, so as long as that ordering was enforced then that's
-OK.
+---
+ Documentation/mm/damon/design.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-I mean if these go as hotfixes then we naturally get that ordering of cousre!
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index d036340dae8a..3f38a3cf68e4 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -695,7 +695,9 @@ There are two such tuning algorithms that users can select as they need.
+   fast as possible, using maximum allowed quota, but only for a temporal short
+   time.  When the quota is under-achieved, this algorithm keeps tuning quota to
+   a maximum allowed one.  Once the quota is [over]-achieved, this sets the
+-  quota zero.  Useful for deterministic control required environments.
++  quota zero.  Useful for deterministic control required environments.  Note
++  that the zero quota is a valid quota, and therefore ``qt_exceeds`` :ref:`stat
++  <damon_design_damos_stat>` will keep increasing in this case.
+ 
+ The goal can be specified with five parameters, namely ``target_metric``,
+ ``target_value``, ``current_value``, ``nid`` and ``path``.  The auto-tuning
+-- 
+2.55.0
 
->
-> I'll review some of the other low hanging fruit now so that we can start
-> chunking this series out, since I too care deeply about build times.
-
-Thanks!
-
->
-> --
-> Cheers,
-> Nathan
->
-
---
-Cheers, Lorenzo
