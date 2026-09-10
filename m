@@ -1,151 +1,113 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CAA93537E5
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 03:32:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD37379C3C;
+	Thu, 10 Sep 2026 03:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789011148; cv=none; b=EzJAK8fZ3oGYOPzCyS2k3sr30+ug3krgar3cEsMVHQBNb02B3f3DU5/9BU1/07Sd4BJOYe5bKE612ofhmSQdWeo5qDFBrBqYqNTItRIQG8bU98Atf2ZUcs3tDQ72o9tJVXTQ1EDt+GM/lhKgn0WYaKVZKVn/dMuZmvrf3jW8JU0=
+	t=1789011842; cv=none; b=Asq9tLU8KQVxAHsDdWRQnyLILxp+44Xk4fOEEFtpZE5HiJb/FmBfgsvTRcUh2Uyx7te1zLc5xVmcD9+Xwm0FQMdXFnEOt7g+4rE/ro8U+hKzMv1o17qxwyU2noQPhxM7jg9U5ChAAtoLsGdpxJNd+6VD9VeI4CAIpBjY63cGG6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789011148; c=relaxed/simple;
-	bh=D4HunRvKzwgbz3wH3A5yR4Me0etry0KENkQiN7rdUVc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LtWEzYzfl7zevukcrcm18SlljQKuTwMNL/6n+VtvNO926sb5eumVwrHVb1ojbD2evho+zBpcvd5tEUKso8Ur6iZ7+QVX+6RO4//iKEXgoucTGPJVPFAwJI8FkPoESK6ifOcgEuTyelbcQuFAboA89UYqH2vUBt7HZzXaSaD5Oco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fbOInQW+; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789011842; c=relaxed/simple;
+	bh=aHFXpjcIZQG9vX4kBkqYBeDw2g/hbR70cFKTn0d5m1I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Pmyj7FSd2f/SPCOQ4R9SXr7DUTgKtDe0oVQcGzrUUcSxlKzJn2UCmc2x83o+O1zxKkq9BOEM95jC5cmP1E8PQBLerhIu9L3Myy0srEnqo4aIq4OtIUFbwhRy7EUCldWvSayr2XXAOMPsCtiVbRKkJmKtmqULxeFy+3e/FfiJAJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IucH3r1E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fbOInQW+"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49d05d51553so40952125e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 20:32:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789011145; x=1789615945; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UJRPReMfqlNULQmo1hdhh0WFJsW8FZ4M2mPbCe/HToI=;
-        b=fbOInQW+UDgoKHz12Y1wQZPviQs5v37yubpHd+FmrWQ4XNfofN6rGfDsAQfZ1Ote4V
-         t+zF5vx8Dr1ZQzJ6TE3WPWWf5U9l16+5cMfhFhzGQDByOLSYY/Fbx0uvjwW1VnsUGMqf
-         7jG/EbDKIyD0B1F1GxayKIvdEup3yHWEx7zPDPc9zaVbHwXR6dBPSCvj/1KP2ti6g6hq
-         IejpC+3p0HoD3wSwU9qOKwOgA2Grb8+A3YXYjayL+kaq4E0MGi+TZOla1+II2CNJO+XU
-         hmm/OkH56vI+TRpN5YLnUPObctRQF4l3ptfd2ZuAcinKLa8rpVIHRWjPAw8OKRBhchj4
-         7A7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789011145; x=1789615945;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UJRPReMfqlNULQmo1hdhh0WFJsW8FZ4M2mPbCe/HToI=;
-        b=blKQ+00iO/ar46NdKObiigb14e5e4ipX7g1MdRpE4lgM8mr5Sbs4+mTz6wvSmv03Pn
-         tQf/cqFIzAS9LngN2AXoQVaeXsZX+3YVRbkfKAF8RoKS1dvBfo404VRdVcbtpWsfoGQH
-         8qhASRYQOzVezUhtaW4GN632pMQN32AoTyCQMrJq2DmPzj4nVCjptCzIT8AcQvaZjSru
-         g+dL62Pl0B1DeUoD6c/7MxRDaXEBSKQpBLXdwVltpkQwrBTNFYry/Jda5IWOmtjpGp96
-         4S/sDqlZlncG+EHfzM+kFAl0jUJmjw6ktTvd5F2RpAXHTanKv9t5BoEAxs65VLNg2jBm
-         Tw2w==
-X-Forwarded-Encrypted: i=1; AKwUvByjJYmlKnzbkHlEvxSuIvjlw4DvnJsGsJciI/qgaaQs3LtZZ0s4bEk3VYQcUNiZaPZqAcitLisTO0U=@vger.kernel.org
-X-Gm-Message-State: AFuF++kX1bFWkHJwvhUvSoQnyPZ2jNO3b0qWP6MNY/91yXCN6EENDIkB
-	1VRIC+leCtZjfKErRFTTsvBE7cXuy1LzgRdIHUfVdmtKBBcDqz/Eg5S/
-X-Gm-Gg: AYBFou0ZME4WqVjiI0xhZWWuYwg9+i0fZssWwfKVt31zgT3UCrmpZcXD7tZ7vDWUlW7
-	fOUYdXXYOn4xk5pjJUlFOdxpL6cOatWhTD9z79Amj1Jywnlc6Og8i7kos+TM+d/+q8TUzNpzDFf
-	tEFWZe6ZqvBxt7ES9kgkvj6x02NdaskVWX3cDybaCDwthwIKUF7ZYsSBv4YAElySZRWTCabUMpl
-	S3wqrbhoIX8fbse4D5RXPajA1Z3De2NW9yWW8IKKnbNvnT/Yp3KXm8GdTtLcTWiuJWnvLwWUZR4
-	TN1S0ykIGx15FblMeiD1ewGYrZ+JDSvg0gvE3DttFGOSmOlVQHw2QwTl6KMr8FPcslbyscxZRb+
-	+3Qe87/Nx1OQeRUYjIh1lxkAsluD7+sx4nQgAG/+3+Hy6TXbtfnt2kfBL5nHJgyUY6op0qPnFdn
-	wJq7iRmeludpmttsUWFkClxbk/H9VJP1wEO05eetQ3eCJ/PaFeZ8hWYBMhBgf7pHICg0ugk2j+p
-	eOISFBj7nJFq9sNjeGymy+8uyjU4MWvwnndgYTwcamvkCZi7ao3lYuBZTijuwZQ/vAKpyxNe4FA
-	jxKF1Q5upc3QS4LTP05Eurtgl2jBFpKHI7M1Qoi1/O6t9yVFpCOV4IzDQ9hKKEcLJzgPuR9vSKM
-	FLq+BJUT67A==
-X-Received: by 2002:a05:600c:8b88:b0:49c:fc6e:a3d8 with SMTP id 5b1f17b1804b1-49cffde8d95mr350363235e9.23.1789011144508;
-        Wed, 09 Sep 2026 20:32:24 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-b3d9-b901-0402-5aad-0ef4-88ac.310.pool.telefonica.de. [2a02:3100:b3d9:b901:402:5aad:ef4:88ac])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c494basm34734585e9.12.2026.09.09.20.32.22
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 09 Sep 2026 20:32:23 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	David Lechner <dlechner@baylibre.com>,
-	linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] spi: docs: Use the multi-lane mode constants in examples
-Date: Thu, 10 Sep 2026 05:32:19 +0200
-Message-Id: <20260910033219.15996-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IucH3r1E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C52B1F000FF;
+	Thu, 10 Sep 2026 03:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789011840;
+	bh=ANNG6DdUCxlYuWMbFzSeAUQzUyNQIbPodMwECaISSB4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=IucH3r1Ew0YlN89WQk+tOagjPY3acAnwOL3bFDIRIpdNtGQw2KR9pyHhwzq4hkPLj
+	 tEfMzgCNrxRe/3v53B5YCaK/lfCX7/Nc5xLdPmohUr+IT+MxZnU9P59Z9hYD23OvCE
+	 ounljH69wE6SrXwhESgwIlcn7Q7uScbxImgqm47RziwUYXFXTxbCp2j5qzVwPb2z1m
+	 NL/OtgNE8wFVU7i7/7bljfc4fL1sjbSZoWiHrJDovqLFUBiaZb5ApxnwqJtf+tZ0PS
+	 Z5g4fIDH0nw80p0eTXKbN3/omAZL+rOdnaQy4FowCooE/g6XENKGukeEBORrIkM5BW
+	 Sr1RxE2KqYn5g==
+Date: Thu, 10 Sep 2026 04:43:52 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Janani Sunil <jananisunil.dev@gmail.com>
+Cc: Janani Sunil <janani.sunil@analog.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Olivier Moysan
+ <olivier.moysan@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, Linus
+ Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Michael Walle <mwalle@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v6 05/17] iio: adc: Add AD7768 and AD7768-4 core support
+Message-ID: <20260910044352.6241504b@jic23-hlaptop>
+In-Reply-To: <21704002-3bc7-474a-9e27-dd9b7f01a4bb@gmail.com>
+References: <20260904-ad7768-driver-v6-0-e4378f946bfb@analog.com>
+	<20260904-ad7768-driver-v6-5-e4378f946bfb@analog.com>
+	<178866660277.3402141.13365217395986099796.b4-review@b4>
+	<21704002-3bc7-474a-9e27-dd9b7f01a4bb@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The multi-lane documentation names SPI_MULTI_BUS_MODE_* constants,
-including in the transfer initializers. The interface introduced with
-the document uses SPI_MULTI_LANE_MODE_*, so the examples refer to
-undefined macros.
+On Mon, 7 Sep 2026 13:25:53 +0200
+Janani Sunil <jananisunil.dev@gmail.com> wrote:
 
-Use the interface's constants in the descriptions and examples.
+> On 9/6/26 05:50, Jonathan Cameron wrote:
+> >> Add core support for the AD7768 and AD7768-4 simultaneous sampling ADCs.
+> >> Configure supplies, clock and reset, use a custom regmap bus for the SPI
+> >> protocol, and parse the enabled channels and input buffer settings from
+> >> devicetree.
+> >>
+> >> Connect the converter to an IIO backend for buffered capture with CRC,
+> >> provide a fixed safe wideband sampling configuration and add runtime
+> >> power management.
+> >>
+> >> Signed-off-by: Janani Sunil <janani.sunil@analog.com>  
+> > ...
+> >  
+> >> +
+> >> +static int ad7768_get_enable_vref(struct device *dev, unsigned int index)
+> >> +{
+> >> +	const char * const *supply = ad7768_vref_supply_names[index];
+> >> +	int refp_uV;
+> >> +	int refn_uV;
+> >> +
+> >> +	refp_uV = devm_regulator_get_enable_read_voltage(dev, supply[0]);
+> >> +	if (refp_uV < 0)
+> >> +		return dev_err_probe(dev, refp_uV,
+> >> +				     "Failed to get %s supply voltage\n", supply[0]);
+> >> +
+> >> +	refn_uV = devm_regulator_get_enable_read_voltage(dev, supply[1]);
+> >> +	if (refn_uV == -ENODEV)
+> >> +		refn_uV = 0;
+> >> +	else if (refn_uV < 0)
+> >> +		return dev_err_probe(dev, refn_uV,
+> >> +				     "Failed to get %s supply voltage\n", supply[1]);
+> >> +
+> >> +	if (refp_uV <= refn_uV)
+> >> +		return dev_err_probe(dev, -EINVAL,
+> >> +				     "Invalid reference %u voltage\n", index + 1);
+> >> +
+> >> +	return refp_uV - refn_uV;  
+> > Do we never care about the offset inherent in where the negative sits?  
+> 
+> The absolute REFx- voltage does not introduce an offset into the ADC transfer function. The datasheet defines VREF as REFx+ - REFx- and the LSB size as (2 * VREF)/2^24. Zero code remains at AINx+ - AINx- = 0.
 
-Fixes: 05c3bd745bb0 ("spi: Documentation: add page on multi-lane support")
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
- Documentation/spi/multiple-data-lanes.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Fair enough - I'm not sure what I had in mind.
 
-diff --git a/Documentation/spi/multiple-data-lanes.rst b/Documentation/spi/multiple-data-lanes.rst
-index 69cb532d052f..802aece35d56 100644
---- a/Documentation/spi/multiple-data-lanes.rst
-+++ b/Documentation/spi/multiple-data-lanes.rst
-@@ -127,7 +127,7 @@ field to indicate which mode they want to use for a given transfer.
- 
- The possible values for this field have the following semantics:
- 
--- :c:macro:`SPI_MULTI_BUS_MODE_SINGLE`: Only use the first lane. Other lanes are
-+- :c:macro:`SPI_MULTI_LANE_MODE_SINGLE`: Only use the first lane. Other lanes are
-     ignored. This means that it is operating just like a conventional SPI
-     peripheral. This is the default, so it does not need to be explicitly set.
- 
-@@ -149,7 +149,7 @@ The possible values for this field have the following semantics:
-         ----------   ----------------   ----------
-             SDO 0    0-0-0-1-0-0-0-1    SDI 0
- 
--- :c:macro:`SPI_MULTI_BUS_MODE_MIRROR`: Send a single data word over all of the
-+- :c:macro:`SPI_MULTI_LANE_MODE_MIRROR`: Send a single data word over all of the
-     lanes at the same time. This only makes sense for writes and not
-     for reads.
- 
-@@ -160,7 +160,7 @@ The possible values for this field have the following semantics:
-         struct spi_transfer xfer = {
-             .tx_buf = tx_buf,
-             .len = 1,
--            .multi_lane_mode = SPI_MULTI_BUS_MODE_MIRROR,
-+            .multi_lane_mode = SPI_MULTI_LANE_MODE_MIRROR,
-         };
- 
-         spi_sync_transfer(spi, &xfer, 1);
-@@ -172,7 +172,7 @@ The possible values for this field have the following semantics:
-             SDO 0    0-0-0-1-0-0-0-1    SDI 0
-             SDO 1    0-0-0-1-0-0-0-1    SDI 1
- 
--- :c:macro:`SPI_MULTI_BUS_MODE_STRIPE`: Send or receive two different data words
-+- :c:macro:`SPI_MULTI_LANE_MODE_STRIPE`: Send or receive two different data words
-     at the same time, one on each lane. This means that the buffer needs to be
-     sized to hold data for all lanes. Data is interleaved in the buffer, with
-     the first word corresponding to lane 0, the second to lane 1, and so on.
-@@ -185,7 +185,7 @@ The possible values for this field have the following semantics:
-         struct spi_transfer xfer = {
-             .rx_buf = rx_buf,
-             .len = 2,
--            .multi_lane_mode = SPI_MULTI_BUS_MODE_STRIPE,
-+            .multi_lane_mode = SPI_MULTI_LANE_MODE_STRIPE,
-         };
- 
-         spi_sync_transfer(spi, &xfer, 1);
-
-base-commit: 50d05c7c76c96b90462f24debacca971d2e86713
--- 
-2.39.5 (Apple Git-154)
+Jonathan
+> 
+> Regards,
+> Jan
+> 
 
