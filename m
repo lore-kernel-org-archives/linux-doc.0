@@ -1,186 +1,179 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D635598BFD
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 19:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0EF414435
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 19:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789068724; cv=none; b=uc2bUveVOnOXEBwhPIh7C4fmygF3KqmI5PazxnyYlOMJVhDi65bsQDqF/Pq4G26y0gnKWdDJtyhoUDxg7rfskRDwnidH4NMtMzzwTk71CBHW94WQ4vebo43hWA42io6M+0j+Mg4LfMBwYnftBp4nNiueXuOUC1Qdei1OhghLVlU=
+	t=1789069876; cv=none; b=qyy5CLm2iv0tq5nfm4H4B3w5UQH4iFLB4s6oPwgtvsjPYQpsyCp8uqccbvUPtW6rHZO8Zg1EY4Zmfo2E7CeK3J6vvaWO+coF4P/TkBErB8L1MYKGLYrjlUOK1WS0rS0KhTzZXvYMXwSf443H95zNE3cg3s0d/JrJxZj6Z1H9Fvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789068724; c=relaxed/simple;
-	bh=RVscuzOwWBLYOqPI0VAq65UPbl5BzTBhY3MPWSu7TYU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PR+MqI4cmB5iDNb8asUOYFEUkDxi8ldWovNNBFWh3ry+cvWR5NzEYZVEWD6ASe+ccLIH6It3Nhb71u7Zl6LSsJSYjTAUV/p2nnCVbsHcb2bnyeuNb85q/Algzl/9EyD8vqqq5NWHv5jRdCkSEh6u3Q4l/y1+Id8mtP14tuc+Yv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RosHvJK9; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1789069876; c=relaxed/simple;
+	bh=Gb/NW7lzqhq+KuBLm1o7kRc00Nh29yMgnZbOMOCj7iQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AMpNxxf9SNkMI+54AiRYkHI/ZVepTxIh5WJRfeuYyU3S52LWRAROF0ZOV6nhgvR0ln2a80Wiy2I59ZoMBTuNAmbeW+jqG68B4P2H6I/pBgLYtz0ajHSeD7fJQXBV0B+Kve/PEqc9a7O3IHM7AZAwMNnzNYYHPwiYcSkQ4/CH1/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lk0cNn2V; arc=none smtp.client-ip=74.125.227.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RosHvJK9"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-85469b2e1d7so70539b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 12:31:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lk0cNn2V"
+Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c7e8a176c1so133992e0c.0
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 12:51:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789068712; x=1789673512; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1789069867; x=1789674667; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gEdV5Xs8ER2iH6ECRgXfLV1Fk4a++1FtqWHfmbg9CiM=;
-        b=RosHvJK9DLK0FlPnzknkm7VlHCbjT6fsYBPIZKcvabHTFuvKkmzNvbSYKIfikaqHtc
-         7fab1b9E0d3x7/+7bqzQqEkKybK8tvuS1RJM5+ez9HQ3ByWOxS1UTWx4CGZ428GgZPWL
-         mPBxWuS5QN4kF+LEajLA2p6ch7yrI86NwVxJoWW+3acLARqivoKzVNc8A3cPUa67JG8W
-         y+Y81VXs5tzI1Kr5aXGO2kiOfkfJe0LFJB/lG0LnzmLD0ihHV/iUTViFOXYhY1IO0KEJ
-         VwNx2nrsNwn+8yTFMvNE3/ZtaHG/9WrfezbUsXaTPuMioWUfYeRrrG9aOn/IRs0A2SMA
-         ppGA==
+        bh=hVx3QsrOE8nFnIqQ3Xau8tUu6Fb+Ymh244TqNfkRpGA=;
+        b=lk0cNn2VBVwwhx5C0Gu+9FmdfopzQyn2LBG3rhUwQ03z+JURFiBcYtAcMyndujDJR4
+         PpSs+Gzxom3qytGzIcSg/X2W1wX9+2ncVwTZqIdawHbnh8YNCLMbc8493K3xVjxCgTu0
+         zzUfiX+lqz3m0b4WaTpyD2TXcRuEPwMynLp++aqDBUGdpHzjxuJFji+uI/gnaqlVpMi/
+         vKJy+V5Tq+Bg3XcGDCqZJmhY7mlrMqXRvEuGNZt1b2s0ZIBMSKdVsrW8N2FwmnmxxF+R
+         n8xIOlyVHFUDlOZWu8nR2zaiPBs1tKYGjvQHbSdSsyd1dEfqe5Gp4WQALHyrr6LcSter
+         NB1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789068712; x=1789673512;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=gEdV5Xs8ER2iH6ECRgXfLV1Fk4a++1FtqWHfmbg9CiM=;
-        b=OKVDGI0MZfmRlWnMl8VlrAnLb6XNCH7YC/M6liVnUoy4c8RWojF0TpPfXMSQydpHa/
-         pxeImOAsDVWuQRE0CHZf/FA9LEuQMrUJzghdrUi+b5905SpBBTXw1gEo1dzePWm1qio0
-         4zbqE6UKL1HVPeIbvBcqgyTccBeolAYKvyfXTTI+QiAsAWk9b/9/C5L8YhxdIAbXftyX
-         Smt2V+OPABxRj+Qpsf3bFnF9iPGZHqCVuqWPS6jgomv2+zeVMkgiworsJwK80bonugXq
-         cDN/kU1iTPECPmrbzYOlUq6uPCm/STfUTRhfMBdjPep6xWmyV9QJY0T9vfVUi8KYW2ok
-         c2yw==
-X-Forwarded-Encrypted: i=1; AKwUvBz9OLKLJmVJPJvECFnQqu92NXh9PIiRofSutK4y6jAUwO50RzIOfyDZXMUF8ESJefqaBLVTdro7Jf0=@vger.kernel.org
-X-Gm-Message-State: AFuF++nF+F3rpnf+2a06cRgYCXzjiTX1yUpGF/LMPCZuqyiNdjOsFQOY
-	c9wzn6hsDufo5qPGFW2SwFUvUTYKFPS12wRFg10v7+QPtrWYLBsiKrN7
-X-Gm-Gg: AYBFou2xwTNcz8iivYveOuAxopCTccAhsJNNVUExQmxZV0ncU2Hbll5vF6/ZefuqJUA
-	tI1JK8tHitOlY7xtSjHvJQwiz8+Oj7XLfIw5BpsUQ0mKqvf/n/EHP5J19KbJETWZOc9SsNk45uY
-	a1ABuS53dJHDmtzx61630cnJvNJn2rUok4qoOE6OHKv2EwbJPtG384aB93HKhDvvDolkkaLoopK
-	LnsDIRixd9tdnajt94YrmH3Ne1qJNUEXAenNP/PuqrBBuVzV+EjsNYM9fE5PpLYvrGaCdmGI8gz
-	jdYDybFKMNGzAUHIJqHdHNTUZkr90kRKk9tPehzerR5MWbqZJ4GbuzGZsHpjHxT8B1wUufPxp8D
-	i6chmXZq8+oKR2nLL9VVatSFxh+58RJyvmyb1mInIP/NCLOfzRAjIoyu4epYlMB4Lb9lF6vq213
-	wIwCxiDy9GCmZ2oreAKdW4PQi8wcBk/SEwYkyqDpbKxNpsHoygcIFNCKfQIllNJuN3aMi6Nwe7S
-	B/3jhdAmYdJUaDnFIwi0CtF9M8bL6xM/b4W8a6vaIdjbZV6
-X-Received: by 2002:a05:6a00:ba8d:b0:857:72ba:ff0f with SMTP id d2e1a72fcca58-86b34efaaebmr529838b3a.23.1789068712105;
-        Thu, 10 Sep 2026 12:31:52 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86b2a5c052csm79353b3a.58.2026.09.10.12.31.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Sep 2026 12:31:51 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <c5fd98fc-2cfb-434a-8a81-3bf589049670@roeck-us.net>
-Date: Thu, 10 Sep 2026 12:31:49 -0700
+        d=1e100.net; s=20251104; t=1789069867; x=1789674667;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hVx3QsrOE8nFnIqQ3Xau8tUu6Fb+Ymh244TqNfkRpGA=;
+        b=jI++smaC0gFBHxrdEcfMw/BCeElVjzm6y37JCXRdG0GkPosyhOLh6GVSKw6PPeNmMA
+         SajgTGPWdUfFq9S+OPSr2TJGnhB6tEJhx6COY8rt62qEzgG3Pbqp6dcybyAjJtsjbGo8
+         1kqnV87egRWYqaB1pFg2fFSzEB5rvNuwiz1FIWlIkKWZ8gMBZdMLomRZKw0aI2uR/Wdj
+         rQVeKY8Zmv5mDysNO0+XPiUU5o2TFEnmCfjGoPRlCSeYyGhoLS7keEOi0qb0KyoRQEGM
+         OaH2xEa4bZEVqNE121uHLZbFsLCCkp85j/87tYrG3qlEQ9s5rmhbREfjEzHMw8ihyzF/
+         NwOQ==
+X-Gm-Message-State: AFuF++mqZhRRb+1DbhnoSswSZUpdqzf5oCbZB91DOJM4GRgcxfPghLoD
+	pCzDmD4XvzC42DAJROyuwC9V2YFDemmUAQPFJypKB0i1bfmZXC8brah4naK93w==
+X-Gm-Gg: AYBFou2jYf/BKc77fN4xXBYD5x3Qpc1aa1jLxMDO0D1LysPWpfT0NGV4zO3JhdVhMTD
+	LGa6XgpEhx8d+28mrTG5TgNygv7RmJHOIRf18B8jbWPSSATeZbikSkzofl052SCDuMkvp0q34Rj
+	B7msqe7xPIyEYglmsuwbZ77vWT+wH7svsI+J/lx1SjFUPDrP7Uqs404TkwUsn0WZBm4VF3mCqxA
+	lTz1puVag32n6C2zibSXy04JSfFw0YABJe08J32LLMWhlhb37PWnnujuLMEqsOo8/hUDmj3ZvNV
+	PMNcSogfUZ8DbEBnOpAg2RVaEgfh4RaEfh+WzO3a52fpaVTWkSp/9/7rd1UiQPNquClTNZb6K2c
+	xPNsQRtIKW6rK/zWCr8NqCqSSZBEpBTZqFBpXi6UuqyySNNbiu+iTTEJd5s9uAzScgXCsjsX7Xr
+	igKdYhwdNtJ+Xr0cCZoYoLA0GVxE7E1EX7hEutJSAnk5k/XB3iTauAHAbHeIJhID0dek/4qvlRE
+	g==
+X-Received: by 2002:a05:6122:4b10:b0:5c3:61c2:9ec6 with SMTP id 71dfb90a1353d-5c8462f44ccmr2364850e0c.7.1789069866869;
+        Thu, 10 Sep 2026 12:51:06 -0700 (PDT)
+Received: from x-wing ([2804:14d:78b6:4583:ad1c:1455:3098:a6a8])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c8470d661bsm414016e0c.8.2026.09.10.12.51.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 12:51:06 -0700 (PDT)
+From: Fabio Pereira da Silva <silvapfabio@gmail.com>
+To: Daniel Pereira <danielmaraboo@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	Fabio Pereira da Silva <silvapfabio@gmail.com>
+Subject: [PATCH v3] docs: translations: pt_BR: translate programming-language.rst
+Date: Thu, 10 Sep 2026 16:50:59 -0300
+Message-ID: <20260910195100.1701-1-silvapfabio@gmail.com>
+X-Mailer: git-send-email 2.55.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/14] mfd: remove unused aat2870 driver
-To: Arnd Bergmann <arnd@arndb.de>, Svyatoslav Ryhel <clamor95@gmail.com>,
- Arnd Bergmann <arnd@kernel.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Bartosz Golaszewski <brgl@kernel.org>, Mark Brown <broonie@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Helge Deller <deller@gmx.de>, devicetree@vger.kernel.org,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- dri-devel@lists.freedesktop.org, Jonathan Cameron <jic23@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linus Walleij <linusw@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab@kernel.org>, mfd@lists.linux.dev,
- Michael Hennerich <michael.hennerich@analog.com>,
- patches@opensource.cirrus.com, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Support Opensource <support.opensource@diasemi.com>
-References: <CAPVz0n0ryOns2sCJE_jFana9MVzwEj1QZuPEa8FNhGbHXnMB+A@mail.gmail.com>
- <11652e5e-053e-45b0-98a0-0c1cb2aeedc4@app.fastmail.com>
- <7a92a79e-e22a-4e34-9f11-4086b88f62cc@roeck-us.net>
- <e33b42dc-1561-4819-b028-b13af9e7115b@app.fastmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <e33b42dc-1561-4819-b028-b13af9e7115b@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 9/10/26 12:15, Arnd Bergmann wrote:
-> On Thu, Sep 10, 2026, at 20:38, Guenter Roeck wrote:
->>>
->> ...
->>> drivers/hwmon/ds620.c
->>> drivers/hwmon/f75375s.c
->>> drivers/hwmon/max1111.c
->>> drivers/hwmon/max197.c
->>
->> I missed the rationale for removing those, but then I don't really
->> mind either. I guess we'll hear if someone still uses any of those
->> drivers/chips.
-> 
-> None of these have devicetree support, and they are not usable
-> with any of the remaining board files.
-> 
->  From what I found:
-> 
-> - da620 apparently never had any users upstream, though it does
->    not require platform data and is theoretically usable with
->    an external dtb
-> - f75375s was only used on iop32x (long gone)
-> - max197 was used on x86/elan/ts5500, which is still in the
->    tree but cannot be enabled anymore because it is a 486 class SoC.
->    I have sent a separate patch to remove that platform
-> - max1111 was used on spitz, which is on its way out for 7.4.
-> 
+Translate programming-language.rst into Brazilian Portuguese and add it
+to the pt_BR process documentation index.
 
-As I said, I don't have any issues with removing them. Note though
-that the ds620 driver (like many other hwmon drivers) does not require
-devicetree or platform data to work just fine.
+Signed-off-by: Fabio Pereira da Silva <silvapfabio@gmail.com>
+---
+Changes in v3:
+- Remove Assisted-by trailer.
 
-Thanks,
-Guenter
+Changes in v2:
+- Add document to Documentation/translations/pt_BR/process/index.rst
+  instead of the top-level index.
+- Remove top-of-file Sphinx label to prevent cross-reference and build conflict.
+
+v2: https://lore.kernel.org/r/20260910190736.1665-1-silvapfabio@gmail.com
+v1: https://lore.kernel.org/r/20260910151145.1226-1-silvapfabio@gmail.com
+
+ .../translations/pt_BR/process/index.rst      |  1 +
+ .../pt_BR/process/programming-language.rst    | 60 +++++++++++++++++++
+ 2 files changed, 61 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/programming-language.rst
+
+diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
+index 7841eca..6e73b9e 100644
+--- a/Documentation/translations/pt_BR/process/index.rst
++++ b/Documentation/translations/pt_BR/process/index.rst
+@@ -38,6 +38,7 @@ devem estar familiarizados.
+    :maxdepth: 1
+ 
+    Requisitos mínimos <changes>
++   Linguagem de programação <programming-language>
+    Informações sobre clientes de email para Linux <email-clients>
+    Como aplicar patches <applying-patches>
+    Backporting e resolução de conflitos <backporting>
+diff --git a/Documentation/translations/pt_BR/process/programming-language.rst b/Documentation/translations/pt_BR/process/programming-language.rst
+new file mode 100644
+index 0000000..4e5826e
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/programming-language.rst
+@@ -0,0 +1,60 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Linguagem de programação
++========================
++
++O kernel Linux é escrito na linguagem de programação C [c-language]_. Mais
++precisamente, ele normalmente é compilado com ``gcc`` [gcc]_ usando
++``-std=gnu11`` [gcc-c-dialect-options]_: o dialeto GNU da ISO C11. ``clang``
++[clang]_ também é compatível; consulte a documentação sobre :ref:`Compilar o
++Linux com Clang/LLVM <kbuild_llvm>`.
++
++Esse dialeto contém muitas extensões da linguagem [gnu-extensions]_, e muitas
++delas são usadas normalmente dentro do kernel.
++
++Atributos
++---------
++
++Uma das extensões comuns usadas em todo o kernel são os atributos
++[gcc-attribute-syntax]_. Os atributos permitem introduzir semântica definida
++pela implementação em entidades da linguagem (como variáveis, funções ou
++tipos) sem precisar fazer alterações sintáticas significativas na linguagem
++(por exemplo, adicionar uma nova palavra-chave) [n2049]_.
++
++Em alguns casos, os atributos são opcionais (isto é, um compilador que não os
++suporte ainda deve produzir código correto, mesmo que ele seja mais lento ou
++não faça tantas verificações/diagnósticos em tempo de compilação).
++
++O kernel define pseudo-palavras-chave (por exemplo, ``__pure``) em vez de usar
++diretamente a sintaxe de atributos do GNU (por exemplo,
++``__attribute__((__pure__))``), a fim de detectar quais podem ser usados e/ou
++encurtar o código.
++
++Consulte ``include/linux/compiler_attributes.h`` para obter mais informações.
++
++Rust
++----
++
++O kernel oferece suporte à linguagem de programação Rust [rust-language]_ com
++``CONFIG_RUST``. Ela é compilada com ``rustc`` [rustc]_ usando
++``--edition=2021`` [rust-editions]_. As edições são uma forma de introduzir
++pequenas alterações na linguagem que não são compatíveis com versões
++anteriores.
++
++Além disso, alguns recursos instáveis [rust-unstable-features]_ são usados no
++kernel. Recursos instáveis podem mudar no futuro; portanto, alcançar um ponto
++em que apenas recursos estáveis sejam usados é um objetivo importante.
++
++Consulte Documentation/rust/index.rst para obter mais informações.
++
++.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
++.. [gcc] https://gcc.gnu.org
++.. [clang] https://clang.llvm.org
++.. [gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
++.. [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
++.. [gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
++.. [n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
++.. [rust-language] https://www.rust-lang.org
++.. [rustc] https://doc.rust-lang.org/rustc/
++.. [rust-editions] https://doc.rust-lang.org/edition-guide/editions/
++.. [rust-unstable-features] https://github.com/Rust-for-Linux/linux/issues/2
+-- 
+2.43.0
 
