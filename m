@@ -1,109 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712252609E3;
-	Thu, 10 Sep 2026 00:17:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598792BE630;
+	Thu, 10 Sep 2026 00:50:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788999476; cv=none; b=RqkN6Fl36X7F0MSKNuYJJuHRi9v88SRbJQTqsJR9jLDHHZCuCBm+30P1hb5JZI3wOQEEYzQW80VbSDQllQg1TWa1bW+H8li8dT6wmsiH7jL4AAJnbDvlnjeLmHiwGDkY1iWRQ1a/ZFJT+WLIOcq0609497ryld/nFj+OqBKwni4=
+	t=1789001441; cv=none; b=LFCHQ9AYMunm0VxNRAj5c+GAnqP0Z49kbNTnQb+TqpBTsgS0LADa4I7Or9WRsnGzuwEpe0dbvnhMfOrE8uIK6TpObI3ILwlYA/oKmXGiTtreXHlB8rvyPSAWZViewptxLst1CbKr50IceX52pN4Qz8ly8Tmuzn6z/XyXGu2y560=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788999476; c=relaxed/simple;
-	bh=4J88FcRFWb1CXdp4a2wDQbcHv41WB54o12dX99rBTZw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BoSWunTqR+/ERjX7Hui40x15BIZqyqc5wsoZn5+JhlXdPTOL2mdilrKhhLR820L7mWLuMXxZrxb5B2vm9zP+fmkzQFs/gKKtkwGLijLJt9aaDoP9BFT2HJFwac/gj5e3xyZ7lnXWco+yTzYYqQHk1c64UawXvVjXNRU5ZQaaHEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XDiIuga1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789001441; c=relaxed/simple;
+	bh=OUfqSaSl4/5o/CPGEXy3/ysZj47tIBJetf6QTFDcMjs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dZhMY0UteTwvbT0uCGPFga1vc32ElnSudyZzqk08a83ujq9U2e+oC4W7hxCr/37h87KZth4P4Q6PAXdw/FXU+/2YWW1phM46nOMSFyiZka6PpQeJ0zHsgc+KpfgiM1HpLprRo3sd9W3Y2sAbZgxNrYSt8KLOxy0LerB7CLfylnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bVH16en9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XDiIuga1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 769F51F000FF;
-	Thu, 10 Sep 2026 00:17:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bVH16en9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B79931F000FF;
+	Thu, 10 Sep 2026 00:50:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788999475;
-	bh=TW3K+AgSrwHemRWw14UWea9xECIj/k6NgLwb2UHRsPk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=XDiIuga1MVxrtxfrwhhYXePZoy0JGb+ujz65mh5hUYMY67pz0foKfM7Q5QkCL5v0n
-	 lTfa0cCfiS2XfZuigBiP9U0iHcwdRhd2CUM46aewqoVtleZ9nOpf9n/TnU19pVtIA2
-	 utUeA+R2k3MqADcMDel8YPg5y/UPtErXdi911fksXcgktppyMIvkEkrLuLBIFVW721
-	 RSfj6A+rv2AiJzx7SRLLoqkfDUlSg9Kd+1ykynRnzDYAXahm39nr1ayxpyrCVgbZJU
-	 SbdiADH8ni8BbnbdwSnfXengJkE6FhFqUH+qO/l72YS2CRY795lUa5AGNDljhhF/f6
-	 gzdzh8H/kx7Jg==
-From: SJ Park <sj@kernel.org>
-To: Liew Rui Yan <aethernet65535@gmail.com>
-Cc: SJ Park <sj@kernel.org>,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	damon@lists.linux.dev,
-	david@kernel.org,
-	liam@infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	mhocko@suse.com,
-	rdunlap@infradead.org,
-	rppt@kernel.org,
-	skhan@linuxfoundation.org,
-	surenb@google.com,
-	vbabka@kernel.org
-Subject: Re: [RFC PATCH] Docs/mm/damon/design: clarify when qt_exceeds increases
-Date: Wed,  9 Sep 2026 17:17:46 -0700
-Message-ID: <20260910001747.110260-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260909100913.30568-1-aethernet65535@gmail.com>
-References: 
+	s=k20260515; t=1789001440;
+	bh=AUSqn64YUdfo6g8K8mt+IbHKto1e+nIlwSperkdCI9k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=bVH16en9C+TaBgytEXWkNqD0miCCc7zQ1X565iWLbt0QuEbUwxMDup8KnJAR7FFIt
+	 BASBRwhllvvAeDud2fXaposD7XIStImzOp8cs2LzcSPO8PlPkOZtfg1U9pesVvlH8P
+	 oKXt80H3Gc+qpyu+cgqn9A0ghj6VrJBdNTa0KruTzQHm/8ioNFYuTOX8FDuhshuq9H
+	 UDvIifoW1z7CS7PUUBO/983IR/0dGKzNRJ84qGEmRdCGUwq2hINR6FgDWQK/cYX6cz
+	 WKAhihb9IorrrB9iOMsdp1i7xmRbi9YvpwgLbEf0/d/11IVoGB8qBzCRmZPbAOyV4y
+	 BnFp4aWaRd5cA==
+Date: Wed, 9 Sep 2026 17:50:39 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Tony Nguyen <anthony.l.nguyen@intel.com>
+Cc: Hemanth Selam <hemanth.selam@gmail.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, <intel-wired-lan@lists.osuosl.org>,
+ <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH iwl-next v2 0/4] intel: fix typos in comments
+Message-ID: <20260909175039.5149a58e@kernel.org>
+In-Reply-To: <e798b454-1f26-4502-a705-9e32dedcdcb6@intel.com>
+References: <20260907095446.27290-1-hemanth.selam@gmail.com>
+	<e798b454-1f26-4502-a705-9e32dedcdcb6@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed,  9 Sep 2026 18:07:33 +0800 Liew Rui Yan <aethernet65535@gmail.com> wrote:
-
-> On Tue, 08 Sep 2026 17:38:00 -0700 SJ Park <sj@kernel.org> wrote:
-> 
-> > Hi Liew,
+On Wed, 9 Sep 2026 14:07:25 -0700 Tony Nguyen wrote:
+> On 9/7/2026 2:54 AM, Hemanth Selam wrote:
+> > Comment typos across the Intel ethernet drivers, split per driver.  Found with scripts/checkpatch.pl using the
+> > misspelling list in scripts/spelling.txt.  Comments only, no code
+> > changes.
 > > 
-> > On Wed,  9 Sep 2026 01:50:23 +0800 Liew Rui Yan <aethernet65535@gmail.com> wrote:
-[...]
-> > > By the way, I found a thing in the design document that confused me.
-> > > 
-> > >     temporal: More straightforward algorithm. Tries to achieve the goal
-> > >     as fast as possible, using maximum allowed quota, but only for a
-> > >     temporal short time. ---> When the quota is under-achieved, this
-> > >     algorithm keeps tuning quota to a maximum allowed one. Once the
-> > >     quota is [over]-achieved <---, this sets the quota zero. Useful for
-> > >     deterministic control required environments.
-> > > 
-> > > I'm not sure if "goal" was accidentally written as "quota" here.  Would
-> > > this be better?
-> > > 
-> > >     When the goal is under-achieved, this algorithm keeps tuning quota
-> > >     to a maximum allowed one. Once the goal is [over-]achieved, [...]
-> > 
-> > Good eyes!  Yes, seems it was only mistakenly written in the way.  Please feel
-> > free to send a separate patch or include it into the next version of this
-> > patch, whatever better for you.
+> > v1 went out with a bare [PATCH] and a "net:" subject prefix.  As
+> > maintainer-netdev.rst asks, v2 designates the patches to a tree, and
+> > each subject now names the component it touches instead of "net:".  The
+> > series is rebased onto that tree; the diff is unchanged.  
 > 
-> I will send a separate patch.
-
-Makes sense to me.
-
-[...]
-> > I think the clarification is better to be added to the 'temporal' quota tuner,
-> > since this happens only when it is used.  Maybe the clarification could also be
-> > shorter.  For example,
-[...]
-> I agree that would be better.  Although users might look up the
-> definition of qt_exceeds first, they are also likely to navigate
-> directly to the temporal section.
+> Thanks for the changes; looks good. However...
 > 
-> I will clarify at the temporal section in the next revision.
+> netdev maintainers: Everything looks good to me and since there's no 
+> testing to be done. Did you want to take this directly?
+> 
+> If so,
+> 
+> Reviewed-by: Tony Nguyen <anthony.l.nguyen@intel.com>
 
-Thank you.  Looking forward to patches.
-
-
-Thanks,
-SJ
-
-[...]
+SGTM, probably saves everyone a little bit of time if we take directly
