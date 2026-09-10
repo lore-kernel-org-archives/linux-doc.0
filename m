@@ -1,176 +1,410 @@
-Received: from mail-yx2-f5.google.com (mail-yx2-f5.google.com [74.125.224.133])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAAD542804
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 17:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789060622; cv=none; b=Szg0+p5qypUMTvZgXDlO16p5qEYjfdmTddA8AtbUIa0gCrnl8bVcGLCzIHBZsN56GfD00LsbEbpP3cBjeNuzO3JsfCJdshsA1Q44qzft6f6PIo4KdM4j7ALR9EyN74FdRiK7vDPYBVhA2xkdeuDR+vmEBomolnnk/tHkeXeH420=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789060622; c=relaxed/simple;
-	bh=FWOV55/3vGD+VdA6FUY/zNKrvVLuEsU8r1gv1G/TCiY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VuvpgmGHkNL3pZrE6pWrig7aDQQGymJsq3IbYGlPR5vGkIqARuesHf0Hk8u322KTjZz5ezq/dsZXoJJZ2GzpPBKAIpurfJ14F0YB1HIvF/wJV6EvTVvuCIeNgGOD0XtwpvTjklQW0bc4+7+9cpVvbzJgG6keZx4/+zNsYUNa/XQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UyQO7mJI; arc=none smtp.client-ip=74.125.224.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7068E545DB5
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 17:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789060625; cv=pass; b=ZUl527cAHXwdcM0vabl1OpueLZbSre8lkP3v3zcZPlsqF9l5VMuKdITxLPpeYshnasxEZdj3Gs1CBToOAqA3jnVtXlsWtEHkRQk7IDQ9GYY5GhaX4zpMY0l1hVzQr9b6zKSzl1Ssl+TAFmHvjABgvDUIKUmXLhR58hYYkiCYh1k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789060625; c=relaxed/simple;
+	bh=A0RbsDG1ChzNVyidPdX7CwFzL627kDR4hq9OXIehPfo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e5jzF7dR2golF3xT6j2tZgK45maacIfJ/FARS+7d1JI+F+Yo9ySxGrS7ama/ISPrFOEHiX6qMVoKHucnQqmLxAI/JRCEcHRiW7lVozGrHYIWxMAAU5Qk6eCZp7sFLhD/vfnycw7LFvIuMcK9XjGzF/3jOXNCD5+XDiQ/tHD4Nms=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OANOFSma; arc=pass smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UyQO7mJI"
-Received: by mail-yx2-f5.google.com with SMTP id 00721157ae682-86337316fceso4463557b3.1
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 10:16:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OANOFSma"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49d1fb0cf5eso628355e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 10:16:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789060602; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YgjJbIGx/D32qXkpYB6CBlZZE9qCxCMkraVp1VcxqYzDPYRyRBuUZRzGcQyBUSS5VT
+         L8b/X4Zh2MbRFvySnekpWh38fqXxdGYlslyGVlZfL8pL04VPgqAOlx55eMSg0BfB7xFH
+         d18F18y6Ilw634Bmzw6y66iYJwMAkfpIrWPIBmdg6D/xinmCo2QXYdlqARNSi3LGsV9E
+         qcCYrj2s4D60sXLhInLX2V16uXdzIoQ51tdCt1ROACKW1gIccftEEW9E2XPIRkampqzO
+         rcTvETTbeZGyJPKsk/yXOJOWi6PmSmL+UOUNXOuH7oTn7J9fa5GBgrdTWgNveis52f9l
+         uMWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Un/VHATR/EGghh0ufBgw09ip6SjFofuvZJfHCoUMPHk=;
+        fh=2ig6o501mPWEyh1m+T6ozwkr3FjP5QhE2Igvq7u0Q1U=;
+        b=qmfejZJOL99reMg0cxFMAgsdAV2XiOiNUweORk8CG5Rs9QprgEd8C2XkHkjj7GuJ49
+         wbfBFjXrIXU0p0kXMWnr9ofwRSAFmHCfkA5ytTadgxMn14HcSYgrI7veGr7uaWwJqlJc
+         SyDC6RpNlCAP0tyJMtEoyatlEiKyHvCX/RtQkv+mIKtaqNO++AjdLa6zZth80Rco37FP
+         bGNMhCYWQa77CCCLOWv4j9ge9Cb1SZqGmcoit+7aE9aAj14CKmF+ohpyeUILpGaAFDHw
+         JvmYz+kourhLiM7fApcyUYQ3vd+l5IXNegS/yPDrsEveBZ+UB4ci0veeCFiOMZ0tIDYQ
+         1/7A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789060601; x=1789665401; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=58wdEMpjvnsgClzUj13f3cAStl17GU2Ynr7IJ0GHfaE=;
-        b=UyQO7mJILMc6RaXFxZd+oIS8Ciby2dT+G5UAf2HICLTCeZy2OeZ4SqSj1mtfHBMWnT
-         UbtbMVcXC53IGkLrbwRjSkJj+UBrcy1lXHiidUcAECZZ5qjKxce6DbdOcDSJ2+kfbLjl
-         z/0v1PFwo9Bv8p4rctMhUYNLtCJBPFr30iG3wIjfBvCM3J+zVxqgHkF5FTaMP0J2eYBs
-         GKiRDolUAxPSZb253qc4xqsdVKC0VAcB6JvRWjxlobS8eHGDV1sN1fljnJofevFv6GQp
-         bC8/lauxudlS/lrUGU28x5u4+0xJd8OfCmiBLVoDbn6QETB+9+hvIfPezmGomW5hEoP6
-         ju9g==
+        d=gmail.com; s=20251104; t=1789060602; x=1789665402; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Un/VHATR/EGghh0ufBgw09ip6SjFofuvZJfHCoUMPHk=;
+        b=OANOFSmaJ9QgCWjqNumMYGh18urEc6QtY0VoKvgSBIutiUNXmUrYkqwDKasPKkOqJh
+         CEUWHIpHWwhDGue5cMa9uz1VoNexjg1y0Q7hgn6v/1GLKoH46vyThRe7S57k7ZSUYVYr
+         jw5av8NI0z6kZW13dTdST1jaDDAZQHzm7wD+7pC9sc2MG5dqPzxSnxWLEb0xFMviKNWy
+         OxKOV9aP4M+gdh9jzM2wbNRABkNxIgUtKHlicDVggTaVyMlgdz8Ct84ucNApXwzT+1qV
+         eAPlEBHiKUJJb8br4BCTjU7V6EzsPB4Rzyeh14zeFsjTmKEG+XRCdY7IHPVggMzvhWQI
+         T7QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789060601; x=1789665401;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=58wdEMpjvnsgClzUj13f3cAStl17GU2Ynr7IJ0GHfaE=;
-        b=asjZbEb04nQUkGf6G4vO20VkIAj7/dChiBOEJtTLys+dvO5oh+PWZwolGVrPG/EFNa
-         ta9BTUjoYz2fLdJqfGY7Qiyl7dunGDBj+jzkOrQW9Aoi6StEpyriU5Quyg9m1IVOaG7x
-         D0GDJIPpPoRGApOIhwVAfMjH/H/DMBOFFFzcY8Ky/lt6ZWGp18rUsBTpoXPqwspD9xv8
-         +mnvU0MtetOgyzGyFGUgO1UwIybXzIY+U5b+R15bAER7yJ7u/9PB4IbZeCMGRtSgf02j
-         Ub6VcfBcok1sRz51VgqzHulMbgRhHTTuLyL5+FXNM8QI8HqWLqvR7pQtBpoW9gXOvZsW
-         jR5Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwxXAgTsOY6Q7WdA3ejeXs8H3mBSyulABxy468/Ugr3lp4WKnFs7amwH4byKkjOjnkkJLGPbieHQJM=@vger.kernel.org
-X-Gm-Message-State: AFuF++ndwZ6+RbR4g3B/5CDeUj+kPk/NWZ6qdb3qAs2NUtxqzQ1j2E0l
-	wJKrKwU8iv2K2XlCJmXivBZ9IoM4M99IzD1Olc3XA/4of8FoWqUiZrc=
-X-Gm-Gg: AYBFou3A6jzGhMXbx8WpCvpjHutv9TOSh+YUg2bsMQBzrtN06G0+wr0/LUiGglAfDB/
-	3wMgB8FckB7MWSQau3lTBjUxCUpxrEety5YY4Ck8QZbbHICyoywlTCT4vLxo4wP84czc9CZnfMJ
-	FekwtCkCmQmGcV2oQVQ3abpFT4B8Wi1R6u7py26FJ5GrUccO6xaJnRg0mEJmi3+npVTUxvXXMhb
-	YQXqNfzCC3hUAgUAbXY1Xka8bxrjH58qhukG0lCQHqSHOdEcv7hMXkcT7yJpfxP6Hi5KneaSOha
-	iuwqksjmAdUQ+dCAkaxy7zh20p+/vEw+9/FO/33PQ/rjVUBrW1vEnHuSOMvL8ysSvXRLyAArebH
-	F1l+zLrpyc2WNGIl9BPlwpaOAW+o/hvvKjMBRqFO9fRg0gv13SaK/zXBHUnVU+H30/8tI/g5k9/
-	rbknQKVXGMxSe78J9fTuWr9DNvK8XoXwPpbpT9Ds9ElWZvv473I8irT75EZGwPDnjECcrwHFQOe
-	kwb/mibrRyd4imlb23GKwnGfixqCl6uE3VI8txIvREzuecnwQ==
-X-Received: by 2002:a05:690c:c505:b0:873:5c6b:a31e with SMTP id 00721157ae682-884a1163a16mr1213737b3.24.1789060601165;
-        Thu, 10 Sep 2026 10:16:41 -0700 (PDT)
-Received: from localhost (23-116-43-216.lightspeed.sntcca.sbcglobal.net. [23.116.43.216])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-88487ea6026sm2285967b3.32.2026.09.10.10.16.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 10:16:40 -0700 (PDT)
-From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-To: sj@kernel.org,
-	akinobu.mita@gmail.com,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com,
-	ravis.opensrc@gmail.com,
-	rientjes@google.com,
-	weixugc@google.com,
-	jic23@kernel.org,
-	gourry@gourry.net
-Subject: [RFC PATCH v2 7/9] mm/damon/ops-common: use probe-weighted score when probe weights are set
-Date: Thu, 10 Sep 2026 10:16:21 -0700
-Message-ID: <20260910171623.6638-8-ravis.opensrc@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260910171623.6638-1-ravis.opensrc@gmail.com>
-References: <20260910171623.6638-1-ravis.opensrc@gmail.com>
+        d=1e100.net; s=20251104; t=1789060602; x=1789665402;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Un/VHATR/EGghh0ufBgw09ip6SjFofuvZJfHCoUMPHk=;
+        b=T8ye4yuATLVa0rvgK6TsNfVAPL9qcoC5M0/duJYB2jOnaGY+2u3Xr3bG+10d1p5FCi
+         SPChm1Tb+jB6nnQlcLIKdiywH66dfg7A6Tkow9GHYbpGkDXwgsPA2zSY443CQDMdrWZF
+         8mxtTnb7YFzhQmrR4TNiMol5W0e2yc9tOsqBtJMFtUBH7Jzgo0KIT4Ik5HFxI1FUJ24U
+         IYxfhmyNaQJ8IC3bDPIRDMjyqYEOGsvxJeOK6IbzmGoo5OMZtC3fsRSB+uyo013jn/2Y
+         XiBis0gtxwegTVPl2q1WXCs4mLS/7iHM+Wd4Q+R/vM4DeftlOoMPbzhU6c5v3yO0UHVM
+         zrhQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy+3ND10yUQmvd+eFuRfc+PALxOdbKT4t6XY8Ra0nvk6gFplgRpNzhqVuixjPWjGPamq/wrX4iuD0E=@vger.kernel.org
+X-Gm-Message-State: AFuF++k4WseYNgMr8nspBaWVwV8nxJtDiLiIYoEyORjoyhFgDjW1zsMs
+	qc3YtfxfoN7uFA40eHjVrszFX3VqOS7nh0CTWjHGTUzlYWqI2wpG89QDrli57ryNtIziUtI7kmY
+	OeYiTfOrSXlG7lAaovpwLWK7MV1Dplg8=
+X-Gm-Gg: AYBFou2aRT6Cip0Zi29CywH+EwQglo33wkkGOon2zO7yJrXJz9+n/5glLPnHYJ00U4e
+	Jgpi5ypxnQRqfX2o2zbF6dd9+aVf5fVPt6lEyEHi9NG71gGjuXGrLFiqtjhcUl0u2ZaNAfL5lFP
+	f3qqnorwAmSAy2b4fT7vCN8zjfifdFuiAlkSKmgsaVldvY96XQZe9n8M/JdurQ4qeDtYJCTw35k
+	mFTYX2QUlaNLTo5+4/seRQWjAqJ0SfgV8aJQi7FOoiWMt0CIIfMB+wYm3Lg0ah809VDTKS2vWnt
+	jhw8PMDPhHitfqfrXqwHhubfaJkTBrLgvZgECKt69w8Yg+c/+eeoDlNo4j3fOQhXsV9Qp0KbMQj
+	ZispaHyC1Zott
+X-Received: by 2002:a05:600c:8b88:b0:49c:f512:2361 with SMTP id
+ 5b1f17b1804b1-49d2593842emr197602865e9.14.1789060601172; Thu, 10 Sep 2026
+ 10:16:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora>
+In-Reply-To: <aqJXx2vtbKaRLt3x@fedora>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Thu, 10 Sep 2026 10:16:28 -0700
+X-Gm-Features: AcwNN1VTPR2ZTAJOXYkJZpQy9m22jjFCFlr0LTd8tBFFtkKWaolpETKGFGCIdxs
+Message-ID: <CAKEwX=PaQG68C6=jpaRmAXrzw4c_90rv1YwGdmrEWq_RXqVeEA@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Baoquan He <baoquan.he@linux.dev>
+Cc: Kairui Song <kasong@tencent.com>, Chris Li <chrisl@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When probe weights are configured (damon_has_probe_weights()), use
-damon_probe_hits_wsum() for the frequency subscore in damon_hot_score()
-instead of damon_nr_accesses_mvsum().  This routes hardware event counts
-from a perf-event probe into the tiering decision.
+On Thu, Sep 10, 2026 at 12:10=E2=80=AFAM Baoquan He <baoquan.he@linux.dev> =
+wrote:
+>
+> Hi Nhat,
 
-When no probe weights are set the frequency subscore comes from
-nr_accesses_mvsum, so page-table-only monitoring scores from the
-page-table access rate.
+Hi Baoquan,
 
-Export damon_has_probe_weights() so ops-common.c can call it without a
-static dependency on core.c internals.
+Thanks for the detailed explanations. I'm glad it's all laid out - I
+think this clarifies a lot of the confusions both of us have about
+each other's perspectives so far. I suspect we're talking past each
+other a bit (hence the effort to organize some form of VC, or
+preferably a room where we can whiteboard things).
 
-Guard against integer overflow: clamp the probe-weighted subscore to
-DAMON_MAX_SUBSCORE via min_t after the mult_frac scaling so a large
-weighted-hit sum cannot overflow the subscore range.
+It's a very dense conversation, so I hope I don't miss any of your points.
 
-Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
----
- include/linux/damon.h |  1 +
- mm/damon/core.c       |  2 +-
- mm/damon/ops-common.c | 21 ++++++++++++++++++---
- 3 files changed, 20 insertions(+), 4 deletions(-)
+>
+> On 09/04/26 at 02:14pm, Nhat Pham wrote:
+> .....snip...
+> > Now, on xswap. Baoquan's working on a series [15] that covers some of t=
+he
+> > same ground, and the VM_SPARSE cluster_info idea in it is genuinely goo=
+d.
+> > I've been reviewing that lineage since July [16] and I'd like whatever
+> > lands to end up with the best parts of both. From my perspective the
+> > differences are:
+> >
+> > 1. Userspace knobs. xswap asks the admin for a size (a percent of RAM) =
+plus
+> >    a per-device limit to tune afterwards. I'm not aware of any use case
+> >    that needs those, and I don't think users have a good way to answer =
+the
+> >    question anyway - sizing swap for compressed memory depends on memor=
+y
+> >    size, workload, and compression ratio all at once. That's precisely =
+the
+> >    provisioning problem vswap exists to remove. The kernel should be as
+> >    transparent and dynamic as possible here, and not add knobs unless
+> >    there's a use case for them.
+> >
+> > 2. Writeback support. Writeback is core functionality for zswap, not an
+> >    add-on, and a design needs to account for it from the start. This ca=
+me
+> >    up before, in the discussion around Chris' ghost swapfile RFC [17]: =
+for
+> >    a solution here to be acceptable, it has to work with the primary
+> >    usecase and support disk writeback. Without it, whatever zswap won't
+> >    take (incompressible pages especially) has nowhere to go, and cold
+> >    compressed data can never leave RAM.
+> >
+> > 3. Cgroup charging behavior. vswap/xswap shouldn't be charged against t=
+he
+> >    swap usage counter. It's fundamentally a different resource from
+> >    physical swapfile space, and memory.swap.* should read 0 when nothin=
+g is
+> >    on disk [18]. I made the longer argument for this in [19].
+> >
+> > 4. Data structure (xarray vs sparse vmalloc array). Even with xarray, v=
+swap
+> >    is already on par with or beating baseline. I like the sparse array
+> >    idea, but why are we landing an optimization before the feature itse=
+lf,
+> >    without any A/B data showing the difference matters?
+>
+>
+> Thanks for laying this out, and for the honest push to converge. Let me
+> be equally direct about the ordering: I think the xswap base should land
+> first, and the things vswap demonstrates -  writeback, rmap lookup, the
+> charging semantics, later THP -- should be built on top of it. Because
+> it is the foundation that keeps the swap core simpler, and the first thin=
+g
+> to merge should be the one that doesn't have to be redone.
+>
+> The VM_SPARSE array is not an optimization to bolt on later; it is a
+> structural choice, and the code reflects it. In vswap, the cluster
+> metadata lives in a dynamically-allocated xarray.
+>
+> struct swap_cluster_info_dynamic {
+>         struct swap_cluster_info ci;
+>         unsigned int index;             /* for cluster_index() */
+>         struct rcu_head rcu;
+>         atomic_long_t *virtual_table;   /* Backing pointers for vswap slo=
+ts */
+> };
+>
+> To support dynamic growth and shrink, vswap stores its cluster metadata
+> in an xarray, and that forces two things the plain swap_cluster_info[]
+> array never needed:
+>
+> 1. Every cluster has to carry an extra index and an rcu_head =E2=80=94
+> 24 bytes per cluster =E2=80=94 purely so the xarray can locate it and fre=
+e
+> it safely.
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index 88a459a60b296..3147ce30951f5 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -1307,6 +1307,7 @@ unsigned char damon_probe_hits_mvsum(int probe_idx, struct damon_region *r,
- 		struct damon_ctx *ctx);
- unsigned int damon_probe_hits_wsum(struct damon_region *r, bool last, bool mv,
- 		struct damon_ctx *ctx);
-+bool damon_has_probe_weights(struct damon_ctx *c);
- 
- int damon_set_regions(struct damon_target *t, struct damon_addr_range *ranges,
- 		unsigned int nr_ranges, unsigned long min_region_sz);
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index 850880f791c9e..6b3aa86386b76 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -391,7 +391,7 @@ static struct damon_probe *damon_nth_probe(int n, struct damon_ctx *ctx)
- 	return NULL;
- }
- 
--static bool damon_has_probe_weights(struct damon_ctx *c)
-+bool damon_has_probe_weights(struct damon_ctx *c)
- {
- 	struct damon_probe *p;
- 
-diff --git a/mm/damon/ops-common.c b/mm/damon/ops-common.c
-index c36cc39cd2c70..3033a5c0ba690 100644
---- a/mm/damon/ops-common.c
-+++ b/mm/damon/ops-common.c
-@@ -170,9 +170,24 @@ int damon_hot_score(struct damon_ctx *c, struct damon_region *r,
- 	unsigned int age_weight = s->quota.weight_age;
- 	int hotness;
- 
--	freq_subscore = mult_frac(damon_nr_accesses_mvsum(r, c),
--			DAMON_MAX_SUBSCORE,
--			damon_nr_samples_per_aggr(&c->attrs));
-+	if (damon_has_probe_weights(c)) {
-+		unsigned int wsum = damon_probe_hits_wsum(r, false, true, c);
-+
-+		/*
-+		 * Route perf-event hardware event counts into the score.
-+		 * Clamp to DAMON_MAX_SUBSCORE so a large weighted-hit sum
-+		 * cannot overflow the subscore range.
-+		 */
-+		freq_subscore = min_t(int,
-+				mult_frac(wsum, DAMON_MAX_SUBSCORE,
-+					/* +1 guards divide-by-zero: samples-per-aggr can be 0 */
-+					damon_nr_samples_per_aggr(&c->attrs) + 1),
-+				DAMON_MAX_SUBSCORE);
-+	} else {
-+		freq_subscore = mult_frac(damon_nr_accesses_mvsum(r, c),
-+				DAMON_MAX_SUBSCORE,
-+				damon_nr_samples_per_aggr(&c->attrs));
-+	}
- 
- 	age_in_sec = (unsigned long)r->age * c->attrs.aggr_interval / 1000000;
- 	if (age_in_sec)
--- 
-2.43.0
+I will flip it the other way around too.
 
+With this approach, you induce 8 bytes of overhead even on physical
+cluster that has no business storing vswap related information. This
+overhead exists as long as you build with CONFIG_XSWAP, even on
+cgroups that don't use it.
+
+That's sort of why I went with the new cluster struct embedding the
+existing struct, rather than adding the vtable/xs_table to the
+existing struct in v3 and v4. I mean it's small, but why do it if it's
+avoidable?
+
+> 2. To keep that bookkeeping from leaking into the normal-swap code, the
+> cluster had to be wrapped in a container, swap_cluster_info_dynamic,
+> so the xarray holds a pointer to the wrapper instead of an inline
+> array element.
+>
+> So in vswap, every cluster access in the shared hot path has to answer
+> "is this a vswap device?" and take a separate branch:
+>
+> - swap_is_vswap() is checked in 36 places across page_io.c, swapfile.c,
+>   zswap.c and swap.h;
+
+I think if you extend the vmalloc approach to cover the writeback use
+case, you'll find equally many places where you want to check for
+vswap.
+
+It's simply cannot be avoided - if anything, for correctness. Some of
+it will go away as we evolve the code (for e.g, if vswap becomes the
+sole way we can use zswap).
+
+> - __swap_offset_to_cluster() branches into xa_load() for vswap vs the
+>   flat array otherwise, and the xarray path can return NULL (a cluster
+>   can be torn down);
+
+The xa_load() I have no arguments for. It's just data-structure
+requirements, but it should go away were you to move to vmalloc array
+down the line.
+
+But the NULL-check is not an xarray property. It's a fundamental
+requirement for true dynamicity - i.e if the cluster can go away under
+us, then we have to null check wherever we do not have a surefire
+reference, no? For e.g, in do_swap_page(), before adding the page into
+swap cache, you cannot be certain that the swap entry is staying
+around...
+
+> - __swap_cluster_lock() branches into __vswap_cluster_lock(), which
+>   wraps every access in rcu_read_lock() and a CLUSTER_FLAG_DEAD check,
+>   plus kfree_rcu()/container_of()/rcu_head plumbing for node lifetime.
+>
+> With VM_SPARSE, xswap's cluster access is exactly the plain-array line th=
+e
+> rest of swap already uses:
+>
+>     return &si->cluster_info[offset / SWAPFILE_CLUSTER];
+>
+> no branch, no RCU discipline, no tear-down state machine, and no NULL
+> return. So VM_SPARSE doesn't add complexity to close a gap; it lets the
+> cluster layer stay as simple as it already is, which is precisely the
+> part later work (writeback, rmap lookup, memcg charging, THP) has to sit
+> on.
+
+Except you have to write multiple patches to handle dynamic growth
+(and a limited version of the shrinking).
+
+I don't think it's a fair characterization to say "vmalloc is simpler
+(if you just avoid these multiple patches I wrote to custom roll an
+extensible array)".
+
+>
+> I'm not going to claim xswap wins on throughput. I measured it:
+> on a 64G/64-thread swapout, xswap, vswap and plain swap+zswap are all
+> within ~2-3% of each other, effectively identical. Because the cost is
+> dominated by zswap compression, not the cluster table. So the ordering
+> question is not "which is faster" but "which structure should the use-cas=
+e
+> layer be built on". If vswap is chosen, the xarray-based table is an
+> intermediate form. Your own ablative study already showed the flat array
+> wins, and VM_SPARSE is exactly that flat array plus lazy mapping.
+
+I need to clarify this point in particular. What my experiments on the
+synthetic/semi-synthetic benchmarks show is
+
+1. Baseline (old code) / vswap / baseline + flatarray (i.e replacing
+zswap xarray with a flat array) performs within noises in most
+benchmarks, on most metrics
+
+2. vswap and baseline + flatarray both outperforms baseline on free
+time of usemem, by the same margin.
+
+Basically, what I wanted to show that a huge part of the wins come
+from zswap's xarray being very inefficiently used in free path (for
+e.g during process exit). Vswap also uses xarray, but in a more
+optimized way in this path (one single tree walk + one flat array
+walk).
+
+So I'm not quite sure your characterization of "flat array wins" here
+is quite fair. It wins... compared to status quo, not vswap.
+
+So IOW, vmalloc array approach does NOT outperform xarray approach, in
+both of our testing.
+
+>
+> On the metadata side I want to be precise, because it is easy to overstat=
+e:
+> the per-cluster cost that xswap saves is the xarray-induced index + rcu_h=
+ead
+> (20 bytes/cluster or 24bytes for alignment), small.
+
+Thanks for verifying my analysis. I understand that this overhead was
+a long-time concern for folks - Chris pushed me a lot to minimize
+this. Took me awhile to realize I could get around it.
+
+>
+> On writeback: agreed it is required in the end. But it is a consumer of
+> the foundation, not a reason to pick a different one. xswap is deliberate=
+ly
+> the base;
+> - writeback
+> - rmap lookup
+> - THP support
+> - memcg accounting
+> All these can land on top of the xswap base rather than be stranded on a =
+table
+> we later replace. As we have discussed and I have been mentioning in each
+> cover-letter, I didn't touch these core changes, glad to see your work bu=
+ilt
+> on top of it.
+>
+> On the interface, xswap v2 drops the percent knob entirely (your point ab=
+out
+> "why not just max out" is taken): create now takes only an optional
+> priority, a device starts at full RAM, which is free because the VM_SPARS=
+E
+> area is mapped lazily, with an optional per-device size limit for admins
+> who want a ceiling. More importantly, xswap keeps per-device instances
+> because the swap->ops and swap tiering that come next need per-device
+> operations. A single boot-time vswap can't express that, and it breaks th=
+e
+
+Why do we need multiple devices to support per-device operations.
+
+I have decided not to opt it in to swapops yet (vswap swapops),
+because it just doesn't really buy anything quite yet.  But vswap is
+just a normal swap device, no? It can have its own swap device
+operations etc.
+
+> per-device conventions the rest of swap already follows. When I tested it=
+,
+> there is no way to disable it at runtime, so it can't even be A/B-tested
+> against regular swap in the same boot. So I think a boot-time vswap is an
+> independent issue which deserves a separate patch posting with a convinci=
+ng
+> justification later.
+
+
+I think it's the other way around. We need justifications for why we
+should expose virtual swap device to the swap tiering abstraction.
+
+I think we should leave virtual swap device out of this interface (i.e
+being transparent to the user), and add it only IF both are true:
+
+1. There are some cgroups where we want vswap, and other that we don't.
+
+AND
+
+2. This is not something the kernel can decide based on the
+information it already has.
+
+1 seems reasonable, but for the use case I can think of, I can almost
+always come up with a heuristics to decide whether vswap can be
+bypassed (for e.g, if a cgroup only allows for physical swap devices,
+it seems like there's no good reason to use vswap at the moment -
+you're just unnecessarily paying indirection cost). So we don't need
+extra userspace input here.
+
+Of course, this might change in the future. But I struggle to see how
+vswap cannot be extended to fit in the swap tiering model? It's just a
+normal swap device - you can export some special identifier for it,
+and user can echo <that identifier> to the cgroup's swap tiering file.
+
+>
+> So concretely: xswap base first (runtime file-less device + VM_SPARSE
+> cluster foundation + sysfs create/destroy), then the use-case layer, wher=
+e
+> your writeback work, etc is very welcome. The base should be the one that
+> doesn't need to be redone; by both our measurements, that is the flat-clu=
+ster
+> substrate.
+
+It's not quite as simple as that.
+
+I think the other concerns is that can xswap be extended to support
+vswap's full scope. I will note that as of the v1 of your patch
+series, even the dynamic growth portion itself of xswap is still a bit
+buggy. Maybe v2 will fix this, but that would be multiple more
+versions to even unblock a subset of the use cases. Vswap meanwhile
+has more efforts poured into it, including production workload
+exposure. You're asking us to invalidate all of this effort, which
+will set us back quite a bit of time.
