@@ -1,94 +1,94 @@
 Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9188568FC9
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 18:45:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C86359481C
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 18:53:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.204
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789065907; cv=pass; b=qYFImQh2rlRwtXHoK10F6rV4fxpWMazCgvS3mrcBWVn26NClYwORnIDkGOh/BsTHQ5FnQMxTaHJZfe4xlEk0X6/8xfZE1u0FGnfjvn3Fzwv4EmQ5l71FqKVIw3st0q7S9ijgQ0bTw0HlHnkEejyF6B4X8/6V70AANNxXu4+6MWQ=
+	t=1789066399; cv=pass; b=YZp2tReStcl2S21bcdm/lTl5RfMILaU+v52KIzuCURg8LEhk63Vyr4ygyDIg9oH7HMb25dAdT/5QWaIWuUIW5n4BRdGPCQJE7l4m38F1Zpgk/7HyHpsDZGujLyHguvMS6gI/kCHf5Xoe0vGxDP0l3RljUFXQPgE01Ypzha+aKn4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789065907; c=relaxed/simple;
-	bh=ZXmoK/6pYB0EUku110iJZ39Wy6sowbSU+f/mh13+y/4=;
+	s=arc-20240116; t=1789066399; c=relaxed/simple;
+	bh=dT4FNCiiMtIXPLJOvuFJF0jefoKwdOcRJ3SvzlEgqv0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MirekNF77HAdsXvWrx+QI8n/lk83CLBsi3OzMAPY1G/tDgi0V1u7ORzXAAIAEOUk395nV4ME9XABgSj8oVj/7/HPx+wnBlHQqB7m4b1zGMVl9LRnNj82z2BNmJSN3W2V7jJHb6s7J0S60FNqx2tFCjVef84keZlzwkhIi74Fk90=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fLnEKeph; arc=pass smtp.client-ip=74.125.229.204
+	 To:Cc:Content-Type; b=t3U4SIlXgDlZwBWAcgLh5wl4uPze3zfhD7mtJOPjsI8o5oLyBZ0T6utUNkWqu4acvPNCmClU9qoY12eRYNNyJMPzs62ncorIyjCw/4MrzBWOJz4llJ4SWnsa9uQ3t+gsHUb5NP1ZAlNUYrf6ZF3VBN69UofMXNBcIKlySFm1mk8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Sw2RHwaa; arc=pass smtp.client-ip=74.125.229.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fLnEKeph"
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b4a0b17359so9458e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 11:45:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789065903; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Sw2RHwaa"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b4a0b17359so9577e87.0
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 11:53:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789066392; cv=none;
         d=google.com; s=arc-20260327;
-        b=O0SkYjlcOwF1vvpGcOy19RMK7zu7QnAOfPrSNO1L9k2a8xI1D7m1plFYkjoRHzvHHW
-         Rc6QpJ5+aSu7hyzYZ9nT1eXDIX9Vj+dKMvCcF11PDiy0DLBFCMgUdGHj8RmVL4xmvN1Q
-         vkGcKd9/uPia+eYrjt2Ka7LwCqJpN3dXNqlZWCadC0AORAwSMo1/+DyPuYt0DzoCROsD
-         WntqWMFl2w4Tf8ywDGmt9CzI1hAvvWdsZ8+XMFNnsc+p4jCTtJ/VOMIa8lu+2Cx+SdcE
-         0GDNB+jYgFAmgtXzwV+GvzJaMvlIWYmy/2b+ckLKvSdYF9HJGYbeT4It8c/IeUKwBlfw
-         yTsg==
+        b=R5ju6dru9Dj5zHdvE6YwAr0QQS9SiU1Ek4lplloRv9LMRxdf/SDTb5+v7yuL1wVbMJ
+         L4KmHt8f2D59e61vbIDgBIptZuJb8G5BhE4OnvCVlDdhC/qnzq7/HktYalFRbZLuidxd
+         TLpSYCJxpL0V+AGHwOwFpx7oM+4FxNlIoVyQ/mYKtYyDBNyPuWa/5oR9/b3EMfQITRs4
+         3oX1HpIcQdHJ2SkMCTNjIeNmWzOECnRZWdTMpLe7gpOXj8qrCL8NU8ifBS3S9r75MY2f
+         g7cTmNuz9P8zkhmXs8KrM5O3/EIyQv9qCMArslwhcoChEgHsxyFaQVOsO3biKiM1RHEq
+         W/AA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=6mxXlzJuLSIxRk+E9jigAcfOHrY2xXO1oOwkSi2OYVs=;
-        fh=v+szgBmOFqCXLqysfo7fQ3tRMs3Kw1TKHC74iTRWeS4=;
-        b=AlT2n1prHW4WfVLZfRhVDmaB5lFvp2nO+nbyA0r9nbUnqVrODUcilRwW00UB5UJFg5
-         Uf9rDkIV73GpzSk9zLWu2JziHsxhMXh5zUZv+h/8whM1o/pYLXtUTWC9TlvrPFiflVS2
-         nmaZrTzHdA49g0BsWn2fhV86/XWyjSLP4y6cphbbd+eapGeDwITLsQDjPLAGfhoTg4aJ
-         VgbZy4JcTNH9MuY4kevfLjzaHYl/aIoBDCkdN05iHG9i7cfzTubT3Fcf1x+k3bs1jJOs
-         4oBlaH9EvW7854JRnKJ+IT+aBLOhQLOy/JsAL8pQcYz6pUq6Mio+mSvq8V6r6xYfHRRK
-         TZGQ==;
+        bh=uPA7h1yzQiskXY53xtPOVbRZgGvwK1v/3hUYMrYw/Xg=;
+        fh=dONZLHU8xaQk6mE6boqky1qCZfx+e97Z9ZWokkGv5RY=;
+        b=lYKubluCF36R7lmfcOU2MxULDELu46nY/KvhP0OdwCLgpsIuVwjNJ3cbxxCCwVRTSJ
+         DV318Ry7oUNwi71AH/kCUN273MFuVkaN4LnOM9XCv8sAUUQq2xj/PBt/xB2qs+DPeCqS
+         rgAGVsED8gvjXelaNK+xATFvwzwmKyUQFaBwXIIATniERz8QazraPykBIyoK/uf05BYd
+         XQ2wSxbiS+JD8RvxygpfIzh1hp23IgnmdwmSjgnjn3acHYS3rhUW6QAsuK8pdV4IaHPN
+         rTcRcnaO9OywTMa59SaNxOyA9LX8vX7LP6h5TXoUNwh3rmKTRGpI4eFDCYkVOES+2RYs
+         f1qw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789065903; x=1789670703; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1789066392; x=1789671192; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=6mxXlzJuLSIxRk+E9jigAcfOHrY2xXO1oOwkSi2OYVs=;
-        b=fLnEKephQ0nEjdy8vDpRj9pDepK80AbusoyGTByKGSnclQLFszrrzhS94FOPUkbH3X
-         HJs/q5Rh85NVjFtKzWebOLQ4oUyVfbbzpmlNwPnc/mu8FodOYz0AcThfEtXwEpAECVO6
-         BFtIuB0jhsBGdFwxitkRzt6/Lbvb0yAv7e500dpwowdj201YBIRuKD8tPng8PAnAWcqK
-         kt8/ch5T8XmCGLC9PZdMMAHznHmQQy+oQxAcKAtM/jU/U2Z40yeoHb1M8U6FE/iignzY
-         48ccy1RJ6y7Zhs+d5ZBLsRwUO58X1eQxy76JtYn8qFcDUEKsWsM1+fDFxpvCB3L5TWOv
-         PGYg==
+        bh=uPA7h1yzQiskXY53xtPOVbRZgGvwK1v/3hUYMrYw/Xg=;
+        b=Sw2RHwaaXxf51aB+WhflsVPXZjPmG14dd4LokBPYZn/6ZK7idt0TuWHcwAav/rWQ/J
+         eDL6t8jrNOzhMjtU1SidTyEOOIwal+t61/w4oylo6ShSyZHYn7vrPXaTTkeJ125mtlzp
+         6dgwX6oRGqeQoen7xjJiFujW4kOEQWd5pX8BhfUxGS+fNbJQ7XnqkrnIWsCw0ykKcA1V
+         Hru4wYgKWBHQ9f1dQi3R0+hFBxyDmOm4+9SCetyVRT2TG1svlCRnmbi7ps8RcMSy/x+b
+         QMEzSPV81L3d30DWJPWPvUFoT7OY6HznQulPA05Ceuu5BvYhjvJPtKUhjtANy084mqoZ
+         EVkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789065903; x=1789670703;
+        d=1e100.net; s=20251104; t=1789066392; x=1789671192;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=6mxXlzJuLSIxRk+E9jigAcfOHrY2xXO1oOwkSi2OYVs=;
-        b=oJHArOTP69cs0dFQyWdqI+jGwiNXzTRhJ5TmJPU6QMgQfNmEyKTy8o+d6r68Qbu5iC
-         vCDqp+SHSRAC5Ldw63Ffrj40vY0d5QS0exP6I75dJ9zfCcY/bFJjExqOZTDy0bBhJNVl
-         fEbdXLTBfuvuNB5qURFh+KY34v5QMlz8A0ohgupnYLt+2ml8q+mvdx+6nhRYpSkGi8K9
-         HLKUn2Pfab3VBstmN9aEIdx/oQylFk9X1zzYKe5SpxQ6UE5zi8VtbgsToqqU/PFSKdM3
-         hQY/ipWz8srK0qhvbWU3lFGFl9sR/sWdnK5LHOsWHmEUmIU2pmnXV6e9OL8qRhOl/1CO
-         UyLQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz4nN3wCEPHTqFNDobLrjA3s2DPQ+Hj0S8d50ejDpFkzaRYcSNjkCnrRFqgbwJ7Onp1fvNKEGqAyq0=@vger.kernel.org
-X-Gm-Message-State: AFuF++n4Tk3rhNZxGs2NNGtCUrOUDaTLQRdxSszdQCr6QfLLAbLiHRKQ
-	ONDTgditWPPgJVC7nv/IVwWzg48R24EE9sbWFjtriM3Jetvo/YuBs8EYD1H3Taz5mTixMIJr4dQ
-	5mW1q1smHiBJb52t6oZpaijVuX/o/WtjqaCPlmquR
-X-Gm-Gg: AYBFou2L6+U837XUrEbPDdd5jqgBPdj5wrks+rLvZrnbo2UzoZBoSFHs5HbE63odxh0
-	RDumMrOCygxczh8r7c9ib3PX62t3dfxBMZP4F5Nonv5RwGJfIFGHSUBbyq+VIIlRyZbR1DbTxHz
-	HKj+e4bHBnOJjJ3nf9qQO7H+8NAfSVs7miZvVQRfW6xyjx+gl23pWfgLD7V4SY2ks3KFysNSUHD
-	W7zvZMe1R6STIEgr0RQhBE/t2RIVCsNYOBUc4XDAUJY5zoSWi/R9KggUpum4nkbXbpmjywphPB3
-	NfdHulrNGxFrzgSNarT5g6d7CTEO5lg6AFU/sV6F+Yqwy7oBOrv9cmG7g3gL2n0TPcuwcXKOLfk
-	7OsLbWs7K3H2Dxw==
-X-Received: by 2002:a05:6512:2346:b0:5ae:b0ee:f737 with SMTP id
- 2adb3069b0e04-5b8a07b13f4mr18218e87.9.1789065902145; Thu, 10 Sep 2026
- 11:45:02 -0700 (PDT)
+        bh=uPA7h1yzQiskXY53xtPOVbRZgGvwK1v/3hUYMrYw/Xg=;
+        b=JDJpEIBu7WFmWrNsbmXo+DaWWE/ns34+uHyF4IipkBiVvbDcbAGgxjjqarFSGy7PdC
+         QeTm9IIQkGJvYVMJsTS7N21a4GalRtsWMwhtF3Clod3Q1HZ/J9bRbVMNb+wpRQHu4Bm9
+         rQlgpNA0Dl19oDHCPYikyP9Rkr2HXByNLWQFCfi3T99IUEoloPbQQZCzAUhZZFiib8uj
+         GNdZ6y9SmHHj706TSA3RnrLsH8pRfd/JCtjnNs6wM9uB3zvBNf+AUSLKNct/ShZzT/tY
+         j16mXpdpeMjIZnWOOMdn2C18W3vC7GhC3zk3ZUtgGl273UTPNPWiB9LmNIfj4RZFiPFF
+         Um2Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxE09W1PcA1WQVeNuATAXRdQwCZmxc9aP8DFM09udeLVw8CPNygtgOi85N146dZQIG8NTab1l8Ivs8=@vger.kernel.org
+X-Gm-Message-State: AFuF++n7dk3Ozb0QR/e3UP271ZgbwFT1D+pm6L+QNOOWdgwdL98FzATy
+	ReImklp4hMU7n8K/uwRClahESGTN8ZFSUh4axxNKxYIfXU6/Kom0CPiqDcFqP+LG6cXd8iIujkL
+	rl9uPWEXrchydsmZJHYSMOG6dqI30bZkkv2tZEjK/
+X-Gm-Gg: AYBFou1mLokHUxoHL/hUS1VL/NbAfXnj0IgXvS6zc7cdHXiasT+GnRt0gl4YkZa9NzP
+	P2YBqDhk0v3VD+PcwURNwVPxtLRLaxG55WxeCd+JJCm/lttXDNLEu0/H3MPjWEKV9MeswnAdG5F
+	Hto/0T21tp8U2/1R8G5FtKad9BnOYb94HKipjHix6eIaSYMFtYEJpQAW09dL1LbLT0rsN/OLo4O
+	kquZm/O+1K9sDP76vxn1ouxu/yhLsnoj32BA0kSih2Veax79wCKZY5JRptTsnCeptSsl/7EWnjI
+	Fm+sECbRE3UkArlnwikhnkoMfPZlq+P4gVXJgx4FrmBxDqh+4pGOznP/22FNbPKeu+xOYvdLBKb
+	CVFwQOWpScvaE6Q==
+X-Received: by 2002:a05:6512:4009:b0:5b1:4fd9:ac with SMTP id
+ 2adb3069b0e04-5b8a07a0e5fmr23463e87.3.1789066391400; Thu, 10 Sep 2026
+ 11:53:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260825-kvm-arm-prefault-v1-0-befe8947702e@kernel.org>
-In-Reply-To: <20260825-kvm-arm-prefault-v1-0-befe8947702e@kernel.org>
+References: <20260825-kvm-arm-prefault-v1-0-befe8947702e@kernel.org> <20260825-kvm-arm-prefault-v1-6-befe8947702e@kernel.org>
+In-Reply-To: <20260825-kvm-arm-prefault-v1-6-befe8947702e@kernel.org>
 From: Fuad Tabba <tabba@google.com>
-Date: Thu, 10 Sep 2026 19:44:25 +0100
-X-Gm-Features: AcwNN1Xstr2nKNQ0qtLcezmwbWTpmOb8zSO-m5akVdu8AVpy9ds-Ainfdlx4-oc
-Message-ID: <CA+EHjTw=7M+ac5UCfM5yPmuX8RuqZN08TLfXAmTLbQgmuhNWtw@mail.gmail.com>
-Subject: Re: [PATCH 0/8] KVM: arm64: Add KVM_PRE_FAULT_MEMORY support
+Date: Thu, 10 Sep 2026 19:52:35 +0100
+X-Gm-Features: AcwNN1XPPeWtd-a0jzst6s0fMnTr0aHfMbhg6rA4kjyMckfbadgDOVe553duj-k
+Message-ID: <CA+EHjTzOKHNrf=0n2c_E+vbt=pGquz6qzBpJ+eLJ5hjK_nyJMA@mail.gmail.com>
+Subject: Re: [PATCH 6/8] KVM: selftests: Enable pre_fault_memory_test for arm64
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
 	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
@@ -103,155 +103,37 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
 	Claudio Imbrenda <imbrenda@linux.ibm.com>, Leo Soares Passos <Leo.Bras@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Lorenzo,
-
 On Tue, 25 Aug 2026 at 17:01, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
 >
-> This series implements the KVM stage 2 page table pre-faulting feature for
-> arm64.
+> From: Jack Thomson <jackabt@amazon.com>
+>
+> Enable the pre_fault_memory_test to run on arm64 by making it work with
+> different guest page sizes and testing multiple guest configurations.
+>
+> Update the test_assert to compare against the UCALL_EXIT_REASON, for
+> portability, as arm64 exits with KVM_EXIT_MMIO while x86 uses
+> KVM_EXIT_IO.
 
-I know there's likely going to be a V2, but FWIW, I tested this series
-as follows (finally managed to get protected mode running on my Mac):
+The message says this updates the test_assert for portability, but the
+parent has no exit-reason assert and no struct kvm_run; this patch
+adds both, so there was no hardcoded KVM_EXIT_IO to make portable.
 
-QEMU (arm64, -cpu max,pauth=off):
-- Protected-mode host, boots non-protected and protected guests
-- pre_fault_memory_test on a non-protected host, VHE and nVHE, all 13
-guest modes
-- nv_pre_fault_memory_test with kvm-arm.mode=nested
+...
 
-FVP (AEM, FEAT_NV2):
-- nv_pre_fault_memory_test with kvm-arm.mode=nested
+>  int main(int argc, char *argv[])
+>  {
+...
+> +
+>         TEST_REQUIRE(kvm_check_cap(KVM_CAP_PRE_FAULT_MEMORY));
+>
+>         test_pre_fault_memory(0, false);
 
-Apple M4 hardware, running as a KVM host at EL2 under Apple's nested
-virtualization (nVHE only):
-- pre_fault_memory_test, anonymous and anonymous_thp backing, over the five
-  guest modes available there (the IPA is capped at 40 bits and the 64K
-  granule isn't implemented)
-- with kvm-arm.mode=protected, pre_fault_memory_test skips on
-  KVM_CAP_PRE_FAULT_MEMORY, so the pKVM exclusion holds on a live pKVM host
-
-Tested-by: Fuad Tabba < fuad.tabba@linux.dev>
-(happy to retest again when you respin)
+Would it be worth adding an arm64 case for gmem_abort()'s pre-fault path?
 
 Cheers,
 /fuad
 
-
 >
-> == Foundations ==
->
-> The series begins by establishing required foundations:
->
-> 1. Updating kvm_s2_fault_desc to independently store the exception syndrome
->    register (ESR) value, and updating all code paths to use this value
->    exclusively.
->
-> This is needed so we can later generate a synthetic fault to perform the
-> pre-faulting - we need to be sure the code doesn't grab an incorrect ESR
-> from elsewhere.
->
-> 2. Updating kvm_s2_fault_desc to independently store the kvm_s2_mmu and
->    updating all code paths to use this value exclusively.
->
-> Similarly this is needed so we can generate a synthetic fault against the
-> canonical stage 2 MMU (it would make no sense for it to touch nested shadow
-> page tables) - we need to be sure that the code doesn't grab an incorrect
-> MMU from elsewhere.
->
-> 3. Updating the abort paths which consume kvm_s2_fault_desc to also return
->    a kvm_s2_fault_result data structure.
->
-> To perform pre-faulting the code must know the granule size of what was
-> just walked. So the abort paths have to tell us what that was.
->
-> 4. Pass walk flags to kvm_pgtable_get_leaf() to permit walking page tables
->    under the MMU read lock.
->
-> This is Jack's patch, verbatim, which allows the use of the
-> KVM_PGTABLE_WALK_SHARED flag to walk page tables under the MMU read lock.
->
-> Pre-faulting requires it to be able to work in parallel as specified by the
-> API. The read lock precludes page tables being torn down behind our back.
->
-> == Implementation ==
->
-> Pre-faulting is implemented in kvm_arch_vcpu_pre_fault_memory() whose job
-> is to pre-fault the stage 2 page tables which map a specific GPA (which,
-> for arm64, is the guest's IPA).
->
-> This function is called by kvm_vcpu_pre_fault_memory() for each GPA in the
-> range, which itself is ultimately invoked by userland via the
-> KVM_PRE_FAULT_MEMORY ioctl.
->
-> The implementation is simple - try to walk to the stage 2 page table
-> mapping the GPA - if unmapped, fault it in through a synthetic page fault.
->
-> pKVM is not supported regardless of whether the VM is protected or
-> not.
->
-> This is because pKVM instantiates vCPUs upon run, but pre-faulting is
-> typically performed before a vCPU is run. It would be confusing and
-> inconsistent to error out on non-running vCPUs but to pre-fault running
-> ones.
->
-> Jack's original test suite is also included in the series.
->
-> == Credits ==
->
-> This series is based, with gratitude, on Jack Thomson's series and their
-> respins (links provided below) as well as the feedback he received.
->
-> The series includes Jack's v5 "KVM: arm64: Pass walk flags to
-> kvm_pgtable_get_leaf()" patch verbatim, and all three of his test patches,
-> two of which required minor fixups.
->
-> Link: https://patch.msgid.link/20260612162354.73378-1-jackabt.amazon@gmail.com/
-> Link: https://patch.msgid.link/20260113152643.18858-1-jackabt.amazon@gmail.com/
-> Link: https://patch.msgid.link/20251119154910.97716-1-jackabt.amazon@gmail.com/
-> Link: https://patch.msgid.link/20251013151502.6679-1-jackabt.amazon@gmail.com/
-> Link: https://patch.msgid.link/20250911134648.58945-1-jackabt.amazon@gmail.com/
->
-> == Reviewer Notes ==
->
-> I synced with maintainers on this who asked me to take a look, as there hadn't
-> been progress on the series for some time.
->
-> Am happy to rebase again after -rc1.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
-> Jack Thomson (4):
->       KVM: arm64: Pass walk flags to kvm_pgtable_get_leaf()
->       KVM: selftests: Enable pre_fault_memory_test for arm64
->       KVM: selftests: Add option for different backing in pre-fault tests
->       KVM: selftests: Add nested pre-fault test for arm64
->
-> Lorenzo Stoakes (ARM) (4):
->       KVM: arm64: Propagate and use esr in s2fd when handling guest aborts
->       KVM: arm64: Propagate and use mmu in s2fd when handling guest aborts
->       KVM: arm64: Propagate and use kvm_s2_fault_result on S2 fault
->       KVM: arm64: Implement KVM_PRE_FAULT_MEMORY
->
->  Documentation/virt/kvm/api.rst                     |  17 +-
->  arch/arm64/include/asm/esr.h                       | 129 +++++---
->  arch/arm64/include/asm/kvm_emulate.h               |  52 +---
->  arch/arm64/include/asm/kvm_pgtable.h               |   5 +-
->  arch/arm64/include/asm/kvm_pkvm.h                  |   2 +-
->  arch/arm64/kvm/Kconfig                             |   1 +
->  arch/arm64/kvm/arm.c                               |   1 +
->  arch/arm64/kvm/hyp/nvhe/mem_protect.c              |  10 +-
->  arch/arm64/kvm/hyp/pgtable.c                       |   5 +-
->  arch/arm64/kvm/mmu.c                               | 324 +++++++++++++++++----
->  arch/arm64/kvm/nested.c                            |   2 +-
->  tools/testing/selftests/kvm/Makefile.kvm           |   2 +
->  .../selftests/kvm/arm64/nv_pre_fault_memory_test.c | 206 +++++++++++++
->  .../testing/selftests/kvm/pre_fault_memory_test.c  | 152 ++++++++--
->  14 files changed, 736 insertions(+), 172 deletions(-)
-> ---
-> base-commit: aa8e5dc6a7a2a1141ab40706a51010adcd0e57d2
-> change-id: 20260815-kvm-arm-prefault-9bb411b6897d
->
-> Best regards,
 > --
-> Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> 2.55.0
 >
