@@ -1,116 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.94])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827974A5C45;
-	Thu, 10 Sep 2026 15:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F9D47C0E6;
+	Thu, 10 Sep 2026 15:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789054668; cv=none; b=iiceRBQVVaShCGL4ns4W2G5M3vwJeyZd6Q0e+BdJAdxSzy1Gv/ZghEJe7GCcPjejq8Wz9K/6VwlfPqED6ZhyNfqvyGZ9x0Xm8F2EsF1R9V+uRK9R5faCkFntD91Q3HiGpCnNUxgJ9gYDgHdCx/YyOXjiQNXCEJgqXyFjt8r7Kis=
+	t=1789054965; cv=none; b=uqZpHhWW4VhWb3IYUuUn0vlNNivFRNnFgYtKLdVf+qlml2jIDTPAS/tqp805UoR9gyXwDah9y62aBfUCPjFM1JTI6uTSgv32DbvidOvzz0QKq+qhkIck+okeqxtbyJV1lzQgTyCPCjC1MvWKQFV3hMy3q9QZIGq1tVKi2fZ5R9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789054668; c=relaxed/simple;
-	bh=0k/4ax+osrPo62uCJ0EU4cIAtOvs8ABizI1aXz+Izp8=;
+	s=arc-20240116; t=1789054965; c=relaxed/simple;
+	bh=LK8bkV1Vz0floem0tDs4fowSkN+VH/bI8JorqlPfxFI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pOT0H2tcpvt9y20csLYHB6txK1fO0gaHt3HgX6/nG9BlGAiVXBvgkYV8PW0aCtUmNDQtj6zXo4vOkYQGtJ+oTHMfQpj5bWiR6A4Qha72Tdlq8DtB1g0s5fet1G/b6OQtjGNy+M3VwpKiVTDBy5OPPpO9zcHybYkz+CpZpQO58js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VriTx0Z1; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=vEhI2adnYKEjFaB2+xveoEcnm1S+SPsbE1Uz9LCU86YqeHWXdnnTHw21RWTjXLKf1N5Y8vJuBOuJjYv6HhJjzDQLqleeHV6ioNF47LrlwLAPTvUIWxJ4UlRqZPeVL81F9unhRwSSjy4rQdcpyB9WRSVG3eRdwXDjVwb4Kh3i6S0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=m2t/gCBQ; arc=none smtp.client-ip=212.42.244.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VriTx0Z1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB7A1F000FF;
-	Thu, 10 Sep 2026 15:37:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789054667;
-	bh=4uOGjkG74Wm+sX78i/4FEm2X06d3znZeXMj2+quY1Ho=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VriTx0Z1+6noD0EQGTM7piUYegRAzgJglduCw1RaeMRZlbllz9xSu6yTnZ7UEl5vl
-	 whotd+qlDoIYpr4JsafDodioJXAfzTnoS+qbpjRJzc/OxjYEhx8gw8U9IWoPduEJES
-	 GsbH24vd4H2BQJcTReYZXQzsCboLjQmeaf1YRWd+PN/f0xlLAGjn4dssHdtwrJBrLm
-	 /Om5WFlQcP0nZgu6w4psdpdIBUGUPr4RBeLvFwz9r8GjzRCSJ2z40osegFFjsWW5Up
-	 fCb763Q961+NqPZqATF4UMLemfu+ZgJRqQsHx39Rylc93r7sclhafHytagYY0eqxXr
-	 ffcKt16uIxBdQ==
-Date: Thu, 10 Sep 2026 16:37:44 +0100
-From: Harry Yoo <harry@kernel.org>
-To: Matthias Goergens <matthias.goergens@gmail.com>
-Cc: paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org, 
-	joelagnelf@nvidia.com, josh@joshtriplett.org, boqun@kernel.org, urezki@gmail.com, 
-	rostedt@goodmis.org, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com, 
-	qiang.zhang@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	surenb@google.com, vbabka@kernel.org, rcu@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] rcu: drain kfree_rcu sheaves from the userspace
- barrier hook
-Message-ID: <aqLI21uo-UglU6XP@thinkstation>
-References: <20260910101112.1648978-1-matthias.goergens@gmail.com>
- <20260910101112.1648978-2-matthias.goergens@gmail.com>
- <aqKZXmlRGsmJPl3r@thinkstation>
- <20260910134640.2044424-1-matthias.goergens@gmail.com>
+	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="m2t/gCBQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
+	t=1789054956; bh=LK8bkV1Vz0floem0tDs4fowSkN+VH/bI8JorqlPfxFI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m2t/gCBQ5Ji+klRB77okzADkIBpOjucABpFdn1joI6CGFroNQ2dok89iTW7zlsgDJ
+	 OhupApf9LKIRvcGE2XGbdgRc1L/Cyu778E8qiCt5Mx3N/HSwPKfTDWrLuQBULuYETh
+	 DEpZTMKIWNIB95kcOEYyM+KTdXBA1kly0af9dVc2J1yCQpvugpbSIq04iHmdW/EGZ3
+	 Y4A/qaU5/ks6TeFtBhGFS/mS3OdzSq+oJRGgjHfaRsaS82LquTqTSeUDZk3Yd/dQog
+	 lg48YsTm0IrzSWtTPbK8Ble4vH9U4bTyk8isOlH6ribTe1cTR6+aKHV2VGyYR9cK7K
+	 zTVgF+ct8Jfhw==
+Received: from [212.42.244.78] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
+	(envelope-from <n.schier@fritz.com>)
+	id 6aa2cfec-6dc7-7f0000032729-7f000001a7b2-1
+	for <multiple-recipients>; Thu, 10 Sep 2026 17:42:36 +0200
+Received: from mail-auth.fritz.com (unknown [212.42.244.78])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Thu, 10 Sep 2026 17:42:36 +0200 (CEST)
+Date: Thu, 10 Sep 2026 17:42:35 +0200
+From: Nicolas Schier <n.schier@fritz.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Alexey Gladkov <legion@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH 12/23] kbuild: avoid re-running compiler and linker probes
+Message-ID: <20260910-translucent-sweet-sidewinder-7acacb@l-nschier-aarch64>
+References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
+ <20260908-build-speedup-v1-12-5dc1ac01672d@kernel.org>
+ <178901395292.3971858.13236774094648272066.b4-review@b4>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="6NJv2EjhorC/TYUZ"
 Content-Disposition: inline
-In-Reply-To: <20260910134640.2044424-1-matthias.goergens@gmail.com>
+In-Reply-To: <178901395292.3971858.13236774094648272066.b4-review@b4>
+Organization: FRITZ! Technology GmbH
+x-ms-reactions: disallow
+X-purgate-ID: 149429::1789054956-F1CDF0BC-4895A414/0/0
+X-purgate-type: clean
+X-purgate-size: 2705
+X-Notice: Whitelisted
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
+X-pfmilter: host: postfix-mx-03  mail-id: 9AB3CA045E  external: no
 
-Hi Matthias, thanks for reply.
 
-Would you please wraparound the text when writing a reply?
-Each line becomes way too long on text based editors :-)
+--6NJv2EjhorC/TYUZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Anyway, moving on to the topic...
+On Wed, Sep 09, 2026 at 09:19:12PM -0700, Nathan Chancellor wrote:
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index 8583d9f06c52..3c92c87254a3 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -144,6 +144,44 @@ config CC_HAS_ASSUME
+> >  config CC_HAS_NO_PROFILE_FN_ATTR
+> >  	def_bool $(success,echo '__attribute__((no_profile_instrument_functio=
+n)) int x();' | $(CC) -x c - -c -o /dev/null -Werror)
+> > =20
+> > +config CC_HAS_ZERO_INIT_PADDING_BITS
+> > +	def_bool $(cc-option,-fzero-init-padding-bits=3Dall)
+> > +
+> > +config CC_HAS_NO_STACK_CLASH_PROTECTION
+> > +	def_bool $(cc-option,-fno-stack-clash-protection)
+> > +
+> > +config CC_HAS_NO_ADDRSIG
+> > +	def_bool $(cc-option,-fno-addrsig)
+>=20
+> I am generally in favor of this proposal since I think these checks
+> should be cached by Kconfig where possible to clear up running them
+> twice. That said, I wonder if we should pick a better dumping ground for
+> these checks other than init/Kconfig. Maybe init/Kconfig.tools or
+> scripts/Kconfig.tools or something?
 
-On Thu, Sep 10, 2026 at 09:46:40PM +0800, Matthias Goergens wrote:
-> Thanks. I ran into this while testing bcachefs performance changes.
-> The bcachefs ktest end checks write `do_rcu_barrier` before reading
-> `/proc/allocinfo`, with the expectation that allocations still
-> reported afterwards are leaks. Small objects released with
-> `kfree_rcu()` remained visible after repeated writes to the hook and
-> 20 seconds of waiting, so otherwise clean tests failed their leak
-> check.
+Yes, skimming through the patch, I thought about that, too.  Moving more=20
+cc option checks to Kconfig will make building out-of-tree kmods with a=20
+different compiler more dangerous.  Maybe we will have to make the=20
+warning in Makefile's prepare (external kmods) target a bit louder.
 
-Thanks. Some background like this would be nice to be covered in the
-cover letter or commit message :-)
+> I also worry about backsliding and growing cc-option checks. Should we
+> update the documentation to state that it is preferrable for these
+> checks to live in Kconfig so that they can be properly cached?
 
-> Strictly, that ktest is assuming a stronger contract than the hook
-> currently documents: `do_rcu_barrier` promises an ordinary
-> `rcu_barrier()`, not a complete drain of objects still held in
-> `kfree_rcu()` batching. I nevertheless think the stronger behaviour
-> is useful for this test-only quiescence hook, because it lets
-> allocation-leak checks reliably separate deferred frees from genuine
-> leaks.
+Sounds good, yes.
 
-Ack.
- 
-> I followed those allocations across repeated filesystem lifecycles.
-> Their number eventually fell when an RCU sheaf filled, so I have no
-> evidence that this path grows without bound or causes OOM.
+--=20
+Nicolas
 
-Ah, the reason I mentioned unbounded amount of objects was because
-the commit 16128b1f8c823438dc that introduced the knob explains
-what can go wrong (e.g OOMs during the test) without the
-rcutree.do_rcu_barrier.
+--6NJv2EjhorC/TYUZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> The problem I observed is limited to test isolation: the hook can
-> leave deferred frees behind and make them look like leaks. With the
-> proposed change, the same unmodified bcachefs workload passed the
-> leak check.
+-----BEGIN PGP SIGNATURE-----
 
-It'd be more convincing if this part is included in the changelog ;-)
+iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmqiz+cACgkQiMa8nIia
+bbgNERAAgCLMWkWnCF5POqjQiZGkZbm/i9SwwH2BVVg0H8Bf+O6WGCZ4YiM0NOu7
+6d9EZV95NkDD36Y3vCEaq1/GclFeUn2ET6HEprS7tQsmYbcofxLYoQuMV/5Si/18
+jJBz3eksIZYRAnSFGG6K1+Hq3u63l3cV5TmRaquZg76LwJkTjCNsFmfT2wxHP40y
+LmkyOsw9NiHo2Bm75Bz8ds7EVqHU/wPxCAWBuiw6ervOrw4RR7PURz61DaBGIuOc
+9B/HnhACn44debha9z9dUTsDIsPsK2sftFLfgJvD8c1V8vj6D1uhX7Fx/hXRElRA
+srsyf2q67EuQ8hKIU8sch6rKkD9slQJd0/w2XNQsONffnO9RghF+Qu8dzo9mUusZ
+l1vYg30SglV5c7m1FlgCvvmvJSppryu6zZw4FgzOUTfcxt6l+VXTm9jaigCWPXbT
+KAYgvQqNVVgkIAg2WDqyiVTeWQxrxo9ctf3m/6srxI4/AkuGZV/XU2m1QiQJxQ5/
+rdm3WGYjD/gVrLPBr6oIoPWDSgP7C4U4kSuZGq1jWAhPeqaa691z+Z5WbRVoVDO/
+SEc1cIdDE88/z8QwIEsgmaXaVhnaCiW66Npfh9zP1J+/pQV3kvU4kf9CIEQ6QMDf
+MPfl1Si0rJA9thzauvNi6Mu6JsUi9FPz7+Oen1Y22eMfv2st6Sc=
+=TUj9
+-----END PGP SIGNATURE-----
 
-> I also found that this exact follow-on was discussed when
-> `kvfree_rcu_barrier()` was added in 2024: Paul proposed calling it
-> from `rcu_barrier_throttled()` for clean userspace benchmark
-> baselines, and Uladzislau agreed that adding it and documenting both
-> operations was safest:
-> https://lore.kernel.org/all/20240820155935.1167988-1-urezki@gmail.com/
-
-Didn't notice that, and makes sense given the purpose of the knob.
-
-> I will omit the `Fixes:` tag in v2 and present this as a strengthening
-> of the test interface.
-
-Makes sense to me.
-
--- 
-Cheers,
-Harry / Hyeonggon
+--6NJv2EjhorC/TYUZ--
