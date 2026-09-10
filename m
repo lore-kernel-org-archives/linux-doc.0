@@ -1,78 +1,78 @@
-Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021137.outbound.protection.outlook.com [52.101.95.137])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013020.outbound.protection.outlook.com [40.93.201.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF774471D02;
-	Thu, 10 Sep 2026 16:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192F74B4892;
+	Thu, 10 Sep 2026 16:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.20
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789058613; cv=fail; b=f0A+vwpOBuPy/9SY87xfrxIwT3akwl/Z7rA8ri2dlITSWhLRue202YYBZ3Xv31v0uq2SucILDjDXgUgH+3tuDu/sOHOg4DR4HfFQBKERqIdHZQarRcJGrqTFwHRhUbWlDjtpHtPDda9Hflm1as6lAaB1stfj4Mf6kUTIfjXb0IM=
+	t=1789059337; cv=fail; b=t9vYp8y5t2pjhHQxHhmKKepd0ZaNFlpy51rzt1GcXYV+mwHU5GY4LddlbJfWYs6bwxuFb7jbJQJIvXcSbtj2WM63Y1uSNZs4xME+L2MqTmIs6NIOB2BD4cpuAt4rnbnvyealIQjs6nMZT2bLXZMULRMi2d9MOG06VSQk9yXxrac=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789058613; c=relaxed/simple;
-	bh=LnkPUs8Vz8p22GDgf9p4OU1PLE1tJcz8BCu0Dteq+Eg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KVrJ4esB2cX0SjsRQt4c4btFWvxiUPiBYGHTBJAVrPBnShv9jsMxWwXv/Kdge9umzZN/eLKVurlJV9sXMnk3NeV3oBrdkstDDU7yvwJ2k9zi/QiV03SN3I5UD8c6I7Ggnx9xOur6DycZR5dzfENcrTaAYzfHWXDbIpgvPIcUl3E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.95.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+	s=arc-20240116; t=1789059337; c=relaxed/simple;
+	bh=xT8v7Zla/zU/cmmlWNNd6nZHDVSivBolR60kg/eQ+z0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=fQfpHqTfLeJkYWBrXTN8Zxg2rSFCCZ8df4i2BegMKBy98PQ5EoIcDZ3Il4tJSruTDOz5E9ITkOQDFabHMkPzugCvlPtgbYX8xu6PVygJJf/OPGK54bTUFTLMKwNI1CqXBSAO5xSELOPXNxgmnA0UJ6ttL/D6UlUggbV7xJI/JHM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LGzfE6dd; arc=fail smtp.client-ip=40.93.201.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LGzfE6dd"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a/dSqjY/9jCUnwX49wqzzqncq/ueSPx4ewZt6Qkb3KWYWei683nyvW+R9tzkSGsynT0poVbIR4R2YSshP/eOVqhy5fjDk8v6om65SaCLdm1OHkP/v6K+ps4p/zXwdk0yx8RIIr0lnWwRx+iNh0TvSYyacP9VJdxClP3jHnvM1qGSRNiLwgiRfy1dgTS3uwMdRPlM+o/ibtOx1FrjTqnJVHoig7NlC8AJqJIW7EygGwd2lRaorRs/KaEfemscTT56/bp0BrH8sEDb3VJ71a5gAJAaTC/wwczQVOT9Rp+9m//g1cKgckwJ0kkG4H9+eLzFMP8RoDDSZxP79Yf+SXBxJA==
+ b=gf3G8BHu68P6QSbzXMoRPYPlNp+pWt4fVv6JtL2FgyZx0z+hIZERnfyq5sXTP4CSWr1sReImsSz9dazqhIS4GKAdNbLE8ZU+AXfLCg2YUWKN9YHM1p9aSyHDcI/uASLaVyGguqshgAQapbd2auZesWjYIBb0jIQl1cjRtKxVGG+AJAzgJQoarRY9dKNXZpWIdy00kvhnBszmU/McblPzHgERB5X6CryYfJeQnfwCe8cYLmsd4frso2QAGBkWtj+hap64ajdatPl5P368nycEPhqQxJAbwU3+jaaJuS8d7hpHnG8Imu+Exoj7KrNouzlxT9kKp+VNGT+tQNikfiPw9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=bJ+B5Mzhzc/vkAtQlWYHFZ7lwRLodwb5bHEtIZ2braA=;
- b=O90E8oCe3TCQTKtIEnGdgU8J7HfiVJnD1ytR62/AhKvnRdVV6tBuicGjxweQ6m0tO7iZRI+Hw+/ZpGmnxAzZvn68g6LH/4CwAGTuCnrbRMrAKiryVseop6qeCNquVCXsEeH5QV6sSjimMjPEDjuhUmPQvUPc9ZAZGo+BH8RSu9k0b/XfgL+Elvk96fyNlBZbS6KGgKkyCXfNZ/87w7pFpPsHtqFh/Hwak0vcJdU/t9iuMCos7WcbEcAb+OrY9JJ3CNjZETWK43UYiBbrYNux1nT0HmYobCpFJxAW9KrVE7byeNRUpfBb+eMgYUa4724IbnAZAzVEPEPrsow0J6uyEw==
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/ywRwTT4PsKJKKqeOBaSA8/1H4gM7RNZ5ERTbFB6V+g=;
+ b=geQZ3erZGE3U8EmHfv0ttcuJT+h6NI3ahcZlvH2nOC4L7E9gxzrDelT8SdpSD5B58AoT1QkXPZ4POWrXa6Tqil3LZgtAnROEo+MJqoW2r9qMo+X8Tdm1ONddgKhkEe569weu/swc8tnJ6kK9Pn4m4xTRiJ6qZsEh6yflvZ+Wsha64OvtdLAgnPZcqjhwCN7jRNvAelE4N6OY6kx5JC2ebbQrmlRJyBUcAJmtC7tW85ntRHYbt1Ap+q+L9WTDh5kxDdwGXmUNBgxPEyUJhJEpD3BbRwJrDjOa97bPHhsKz7FPx7t2+upMZIB43tJVlaxgVuC7Z1ruP8HUxVWoGEhpqA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/ywRwTT4PsKJKKqeOBaSA8/1H4gM7RNZ5ERTbFB6V+g=;
+ b=LGzfE6ddSWHZQ5ftfxte8L+gUTDdFldE++peczKNJwA1NUTcirIZxym2weQPoa6XGibeiZWD/fNkJwYnGMgK26kOLbF2M0yhWTLwu6S0+rAfADXQw8qfiuHiXNdzfVtkHa3saYnLIwbGKIid7ZnA3Xdd77ozXTUnseOy4Eamqqc=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:183::5)
- by CWLP123MB4179.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:be::14) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH8PR12MB9766.namprd12.prod.outlook.com (2603:10b6:610:2b6::10)
+ by CH3PR12MB7570.namprd12.prod.outlook.com (2603:10b6:610:149::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Thu, 10 Sep
- 2026 16:43:24 +0000
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230]) by CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230%4]) with mapi id 15.21.0406.007; Thu, 10 Sep 2026
- 16:43:24 +0000
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: axboe@kernel.dk,
-	tglx@kernel.org,
-	aacraid@microsemi.com,
-	James.Bottomley@HansenPartnership.com,
-	mkp@kernel.org,
-	frederic@kernel.org,
-	bigeasy@linutronix.de
-Cc: atomlin@atomlin.com,
-	ionut.nechita@windriver.com,
-	corbet@lwn.net,
-	vincent.guittot@linaro.org,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	radu@rendec.net,
-	akpm@linux-foundation.org,
-	steve@abita.co,
-	sean@ashe.io,
-	chjohnst@gmail.com,
-	neelx@suse.com,
-	mproche@gmail.com,
-	nick.lange@gmail.com,
-	marco.crivellari@suse.com,
-	rishil1999@outlook.com,
-	linux-doc@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v16 9/9] docs: add managed_irq_strict flag to isolcpus
-Date: Thu, 10 Sep 2026 12:42:37 -0400
-Message-ID: <20260910164237.500196-10-atomlin@atomlin.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260910164237.500196-1-atomlin@atomlin.com>
-References: <20260910164237.500196-1-atomlin@atomlin.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH2PR18CA0034.namprd18.prod.outlook.com
- (2603:10b6:610:55::14) To CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:183::5)
+ 2026 16:55:30 +0000
+Received: from CH8PR12MB9766.namprd12.prod.outlook.com
+ ([fe80::be0f:431f:5f27:96d9]) by CH8PR12MB9766.namprd12.prod.outlook.com
+ ([fe80::be0f:431f:5f27:96d9%5]) with mapi id 15.21.0406.007; Thu, 10 Sep 2026
+ 16:55:30 +0000
+Message-ID: <90b550f6-bca9-4bb5-b38d-b4577b03ba1d@amd.com>
+Date: Thu, 10 Sep 2026 11:55:26 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v20 2/9] PCI: Establish common CXL Port protocol error
+ flow
+To: "Cheatham, Benjamin" <benjamin.cheatham@amd.com>,
+ Jonathan Cameron <jic23@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Davidlohr Bueso
+ <dave@stgolabs.net>, Bjorn Helgaas <bhelgaas@google.com>,
+ Dan Williams <djbw@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-cxl@vger.kernel.org
+Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Hanjun Guo <guohanjun@huawei.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Shuai Xue <xueshuai@linux.alibaba.com>,
+ Len Brown <lenb@kernel.org>, Ira Weiny <iweiny@kernel.org>,
+ Li Ming <ming.li@zohomail.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ Richard Cheng <icheng@nvidia.com>, Robert Richter <rrichter@amd.com>,
+ Lukas Wunner <lukas@wunner.de>, linux-pci@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260902133933.2992457-1-terry.bowman@amd.com>
+ <20260902133933.2992457-3-terry.bowman@amd.com>
+ <a8ea024b-a608-4eea-bbdc-cba37b2bf2af@amd.com>
+Content-Language: en-US
+From: "Bowman, Terry" <terry.bowman@amd.com>
+In-Reply-To: <a8ea024b-a608-4eea-bbdc-cba37b2bf2af@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0034.namprd11.prod.outlook.com
+ (2603:10b6:806:d0::9) To CH8PR12MB9766.namprd12.prod.outlook.com
+ (2603:10b6:610:2b6::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,156 +80,199 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB6607:EE_|CWLP123MB4179:EE_
-X-MS-Office365-Filtering-Correlation-Id: bbccfb6f-2bc5-4f53-0d8b-08df0f5aa1bb
+X-MS-TrafficTypeDiagnostic: CH8PR12MB9766:EE_|CH3PR12MB7570:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd70682b-88f3-4827-097d-08df0f5c5216
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|23010399003|366016|10067099003|56012099006|6133799003|3023799007|18002099003|22082099003;
+	BCL:0;ARA:13230040|1800799024|7416014|23010399003|376014|366016|6133799003|18002099003|22082099003|3023799007|10067099003|921020|56012099006|11063799006|4143699003;
 X-Microsoft-Antispam-Message-Info:
-	bEiayBMSZcRnZdrYpwyzx2GHAJAQqoHUImcvEnBALidvD8bNDv1p3/gukcX4VB/5EbKdYuDG4/Ku9ntogIzExHaK7loxuvTii5jRYkQ+8ujtdE5pynttehLoWnsz2HLDPAhHG5av9oUgnxq2m7IqqkkjsCKP54sqdljKDz7T2pSF+2vCRhOuLhkNVNKkIjMnOEqpRKxefif3B988rrKjQczsSt9Hu9nzFNT5L/xsOR3geXT4KQHUPVJXD0K3K+OKCNRVKrLmaw9dhYCr3EYQebxQLZMn3dSkUIb3R1AjmRMjI9loLhAkXJcp3amsqgeNxJuVypcDkx6a5mMK6rISmzMuIlVpmj4Sl2Gd3U6pxDqZCQREAy+RiE0h2895uKopwCvdwfjbpWUPvzVh1Ne1UX1t7p6O9N8RZN1F8XO3OfQOmmpRWflwkRa2gIj4LravffJFo8BrAVfYiNjgoiUgkNAjnLvzFghkjvfPSbu94jQoQLw1UvmgGgLPXdlRuvUEfsm4vchg8jPWRwR8KxiNpqu+xUlsUjXuY1Eb+LOR92Ia9k3PVZbUFv4KEzca+SKkMikXd2vbm14PkYSkYRdtseZlsZleD+9n+no1M/TetIdhofgFhRMmy3zGqSXoKGAfTRD7EcD8o0q7xy0rKe4+fwGWw9T3KQYF7uPnN69DJdU=
+	o0hzWeSzqcKr+9mS9KE7rMzFKkguvm5fOoIhyjEtN+4usJ3seZwrKTJCoQbMHaLrmAHCMDEnWN0y4sbKbFqRIisppeyZjAK2vQvLFuzQZwi4C6Xx9jKlIEaQYi4x7fHurIPlppVD2a5NFfg19EG9hOYlu6mIi+qkCR0i68TGC+SSbYesbjX0XEYqObv6aSTk64hqd5WuDOvZp2hUOxQ+auMUbFGPCED0JO/4Qfgp+VqAj8eF/ubuB7Iezzht0M5NXjcgoUNydQfTzISeJcjpY9KG1nBYAQkOKuEzClBTnw38gdzlyKPcZ4064dq7CuHJOI+jcXlqYJTqYSSZ9Xd7jj2jHPVaGyW7nFEp03+S7E3aZ8dNJ4QNIjl51cXbVfIPwht0KclXiFFNBJ3qIw6oKa7YJTlm9cXzLEZjl7UN0ISKFGjQXp3Jrfmdb8zg653w1lx01YEEFXFOvK6IbFOVL6XXiIodW2qbOF5ItHCnN3gLPSu8lk6zjDPLphWOh5BJVYvM/rhyNBy/a1wL3Ty67a1cq0Lf5CzWriwDQOVgCaBN+3Zmc88fmezOrjE67r1FxIRwcF5lPB0Ppu1W/aBe/CkXB7LsYsaLOlKLwwEOromOS22O+DqmtS6wkKvJILPpah6diUEEQ3ecrrxgV1moYumfh5loUPNZ5dHhrXdWrc8qv0kQGiQQOYQx6Bbhkr6omeNjvXfeGvMmS8FbHlh6uw==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(23010399003)(366016)(10067099003)(56012099006)(6133799003)(3023799007)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH8PR12MB9766.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(23010399003)(376014)(366016)(6133799003)(18002099003)(22082099003)(3023799007)(10067099003)(921020)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?GRlCz6+aM+1vSgP+rFsuahenb7DLqDKFHNKRA6h5SM1elnF5j9a1YTQt9Ayb?=
- =?us-ascii?Q?x5Iv0K66rr+iwy4yiZCeL4ODV+286Z3rwA5AVG6Mg3CPMAbEqU1aI7DWVCch?=
- =?us-ascii?Q?iHjQ999i4lTjIPnO+ecSq9dx9Jr2rWIHCPskyuTZrdCEYZj95GmlrzfIJYbd?=
- =?us-ascii?Q?Y4SViMv47V3n3OuXb2KMfpEFn9cvst51j1NHNth/ICK5QOri3rztaPR5GPy+?=
- =?us-ascii?Q?WGoOE/u7GwAsG7AMkEH45TQ/f8fPKVaehlr5AIuiMt0atZbBCxeYh0+Gc0sb?=
- =?us-ascii?Q?PHkAzWcy6Q3WFWd/PQnHJ8Y5A/gV+iPD2OZ5mey2/qy2juLASRdbpwFpBxo1?=
- =?us-ascii?Q?jFOA5UNBWkRl/dCEwIA0nMOJiAB3hsnTXkdjMGhIlLNB7cfQubm562jZfcob?=
- =?us-ascii?Q?NM7M/cfsJ/yzkduOLtlrtpvjro6Y0e0O6m1JP1GwQMqc0pXwkwL9lNJ1S0hV?=
- =?us-ascii?Q?gu2XEzliPKTlQfhz0KLO8Ni4dIkxHog27N7DFBVdKIdEeu6CYL/VPQy1pRHS?=
- =?us-ascii?Q?2fE4VoA73eq6s3VY7OXxX19hydxNUHiJ54EEGTYQn0bKKepXUh7vHCs3Us/I?=
- =?us-ascii?Q?RnBxJvEkTKNx+YMTEwcpxaDl0zIxj7HAkyMXsX2ygCAoiAwHGZMa5DA6fwt6?=
- =?us-ascii?Q?muX2tQ/3E0ovWQpH+qDfvEQfvTRYyh4RfegNlP3HG0uhQRUE4XXKGB5rsJ6i?=
- =?us-ascii?Q?lYXoiMl53QjeP9Ra0Yu2AdPlZa5TfQAX2Y49k4N3rEpMYi9By32gKlv7ms7+?=
- =?us-ascii?Q?W9Jx9bHHer8gOnwYZT2Bsv1shlw/0qEzxBOTw/8djh9MyRyu5wAXjYlM5cPl?=
- =?us-ascii?Q?dxRPQv1ScARm9yvytGNG8F+vPAAW0DlLeMCnq239agdYpaIfYAfQNu+6CRKg?=
- =?us-ascii?Q?LSC91Qe+OKSzbKoWIKYUB/zW+5YWsIC6bgp9PFUNdbVrCIEE6GVQ2NCNgWJA?=
- =?us-ascii?Q?SSkUcGcKsR8Yd1thpgwU4KQ+f9EabGbWgCFfUHYtgBLqwSzPjOCRCzhYgm5j?=
- =?us-ascii?Q?Iq9EpCvolAWM9x79VLde8ayWPDvoSmSen7tgFbUlUV4FyXAvGWjNns9vGFvT?=
- =?us-ascii?Q?G6vPZ8FXJgXwbK3PXKrjMOGtxSrPLT/m9gwY0zVVixNLUCy7TEW9mKQPzSRl?=
- =?us-ascii?Q?qlAbolIukX3M2KvqamGG2KXbJAN3oBfsIq5heOt3Y/3vuLTg+24+UaN/84Ai?=
- =?us-ascii?Q?usRnBGCcFDU39MjPbxPJTuwzpUUq0ef/3iAnxZ5sYLAf8jRN6IctePBntv4v?=
- =?us-ascii?Q?zEeM5puLeddrZ4E3l6bYXEId9pHuYzFIFoRyRwxukGCvNOGITYxSBtU+W1E9?=
- =?us-ascii?Q?j0YyxHTF4H1OdAkUSz54bqgWqXkTVgKILSs4L+wLZeF/NdK9qN2OK09gzEOH?=
- =?us-ascii?Q?y9kixhIsGJB9QqQdl9O0gEvP/E3nOrX5S1VHloP3CiozqBfqGCIEw1gqH4KP?=
- =?us-ascii?Q?fUOy3ciqn7kqxw7BatMcyI8W/iNYFCYotq4XIFx8qbwBCF/yWlNNTm9yQc1I?=
- =?us-ascii?Q?GzmOE3tjjdqPNyTZVbZz5wpSrc/avsaUFGFSTxTyhJsYWsIsCY/OJlJaz+rM?=
- =?us-ascii?Q?a1vuGL5yYHHaUBBOll617iEn2erggrLfSMIxMtZb3xa2GHAdqoHzbBnrsraa?=
- =?us-ascii?Q?dk8k6x+rCVMCBz1nsW2JZsX+qJkQsSqhPgk4xq/HiSFH6uTDDrr3A/jCVif8?=
- =?us-ascii?Q?ZAg3eioc06ZLgpf3WQ+ipW7yBx2n5Co7cyT5Dszh2Do+l0oRoNSIr+3EleQ9?=
- =?us-ascii?Q?a+jadWwDww=3D=3D?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbccfb6f-2bc5-4f53-0d8b-08df0f5aa1bb
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
+	=?utf-8?B?QUlyc2RJWkJXNzZUY3A2REFuZTdXanEzdzA5emJVOE1sYjlpNWlkZ2t0QU9W?=
+ =?utf-8?B?bkVRTHRJbHNSQWdoaEVnbks1QmNQTWJnQlhESkZRSnYwOVNZMFFTUXppNkpO?=
+ =?utf-8?B?SWR6bjFMN2JPdms5NzRVWHVoR0VlcW1leFkwVnlEbGdiUXhVY2pmNzZLRlFC?=
+ =?utf-8?B?YmxHMWxLTEp3ZDA4M1E3VjYvZjVMS09PUWNZRjFBMjVRVURDa0tjNFNkRHYz?=
+ =?utf-8?B?R1RVd2dJQnVadnltcW1MMUhKOHdYTWZESjNQcUNRem9CdjFqYzlab1VLSnRI?=
+ =?utf-8?B?MVVYRk5jeCtFNWMyZXJ6UmNOb3lPTWZXZTluRkxLdjVWM3NjZUY3bnI0eW5G?=
+ =?utf-8?B?eTkrSy9NZEg3MVhUcXc3Q092OUZVWjNBSllLQ0oxbWlLUDIyK2xNSnkwdUNv?=
+ =?utf-8?B?dTVTNXp1NHZOdXlPNy82UWUxMGNqOTVYbEhOSytDSzhsQXQ0T28yN1RXWTBN?=
+ =?utf-8?B?V0tHcTBWcE05c25VODZ4OXE1QzRMZ3gyR1BxNDM5blNGL2FZandRNU9qS1M2?=
+ =?utf-8?B?Y3BlVnhrQmZ5a3IrcGRQTlNnVWFKRW1EZVFRS0VONWZOdjF2RVRZZGVmaXRm?=
+ =?utf-8?B?UUhod1hQb29CVllCdlEvVWZqdUFtdUUwQ21hM3ZPbkNBU0M4NGpsRzh3YWdK?=
+ =?utf-8?B?SlBTUlNLWEh5OTliZnJQL01FcFFsbCtJZnM0OU51akg2ak1BWUk3MHhBemJr?=
+ =?utf-8?B?bEI2T3lyZXZOTnlzTjFTcXdZeWdva3UyYnBRMEp6dUNGMm5NYkY5dzVhQjkx?=
+ =?utf-8?B?L0ZHRzZBcU13TXBWM0xvQTcrSXo2bFNDYWtuSW8zcmp5MFJzTk1DRENYT25y?=
+ =?utf-8?B?Tzl3WmJXKzl4cUh3Ny85NS9ZUjdUVzJpcDRlK1lrc3BpZmJmRkxydGNtUlZm?=
+ =?utf-8?B?L052Z0s0OGZSaXFrd01xT1NvNmRWdXFqbjRkM2xtc3RMQUxUSWtsU3dod0hB?=
+ =?utf-8?B?YzVKMFoyQ2FGV0tyVHM0UzJPdjdnSWpmRHQ4ak4vam02ZC9qZ0NHbDdFSzcr?=
+ =?utf-8?B?SzdtcWhPbjVOaitSQ1BwYkVSM0RpUmpsK0FSZmFwNlNMbXllVkhhTVQwbmhR?=
+ =?utf-8?B?cUVLUkUrc2x5VGdNRWxLWGxvVmlVcFlGM2x4QkZPT2lnQ0J1SnNKSCtzWk11?=
+ =?utf-8?B?QjNVS2p6UFZmbzZ0d1hoU3lLemZyUW03cmlMZTdCS3dkTm1lTVM1NW4xNGJm?=
+ =?utf-8?B?ajFsU2YxOFArTjU4M2dJVlF2Zmh1U3BtTzhTRElSWHQyWGNnbkFYazBnVDA3?=
+ =?utf-8?B?NU5LM25OTEZENVdFOVhaUFZRcEZFaXVHVTBYMG53WThMZm41eVM4Zjc5QkFD?=
+ =?utf-8?B?cHNLYU9hTk8vSVQxSDVGNk1Zb0lpY2xwL0RZcmthQzMzZHh2dlppeFVwbWE4?=
+ =?utf-8?B?Z0xmcmMxWDhVNmJkMGpPUkRYYUJRT2tyRzd5ZS91YWFtdzJ3a1pMZXNsb0Rp?=
+ =?utf-8?B?NGV1R2V4ZThQcXNKckx4Mm13dld4L3pZZ3NGSG5mNGlFZDhyVVUxT21JS21j?=
+ =?utf-8?B?S2JJQ1ZBS0pqMzFnS0NZaTJZVFo1MU4wb3JBNzRVeUcvaDRPNEI5Q3d5VmNh?=
+ =?utf-8?B?d2R5ZERjV3RLeGNNRmdKY1JDeDlTTzQrY21KQkJCWGdtcEpLZzBvNENsU3BH?=
+ =?utf-8?B?dlU0Z0FubkpqSkhoMnpIWnBmaVF5eEYrakM0WGZWdGRqYjNoa3g4Mk1hNFk0?=
+ =?utf-8?B?NjZXTkx1eUpHNU1BTXZSYzRjRmRiVm5Yejh5M0dYRnZBai8rdzJtcUFRSHJh?=
+ =?utf-8?B?aEpxdTY3MmJneThLVG5LNkFDMks5TCtkMk50SGVsVC9xV3lWb09uMEl0Z0xZ?=
+ =?utf-8?B?OW14aTRWN3NVY0U2MmlrSnhDRE92a09OUWo5M3J6WkhQU1hrZnpPS2VSUGZr?=
+ =?utf-8?B?aFJ2TklGbWVqRC9oRE5Cd3hxbFZ6b3lkYzY2Zk9NaXBnSDJCa1NWejJKZEt5?=
+ =?utf-8?B?TzV0bkFueFA4UUFpSzNoVWxQM3NqNnA4aHVCOWxvQTBLUGhBc3IzK1ZFSUdC?=
+ =?utf-8?B?dFRTVEJiK1FJOWw4Z1JtanJ6NUpiT0FVMUF1M2VvNmJpNzBTSytQT082RXU0?=
+ =?utf-8?B?cUpZdnE4MGxKMU5BRjNibCtQTG9zVjV1aXBNN0pwVnNibWZ3ZzlwUE1EMnZk?=
+ =?utf-8?B?ZGJKcDYxeDg4UXNJY1pYaVBPT0syVk9RV1VIaW03aEh6VGpTT3BWQlFkZ2NM?=
+ =?utf-8?B?Z0xBakNldU9Eclorc3AyUWVWUU9GeWVueEpZTGFTZTZvbm93RHhBV2VPd3Nu?=
+ =?utf-8?B?UUMxYU42bC9RRVNHNzlTbEJMZXd3M2tGcUtKME9zM0taN0dnL1U1V0FSdVI3?=
+ =?utf-8?Q?p4+PjLICO3veUnLeJV?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd70682b-88f3-4827-097d-08df0f5c5216
+X-MS-Exchange-CrossTenant-AuthSource: CH8PR12MB9766.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 16:43:24.6534
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 16:55:29.9483
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xGssOx2eql90NgivJLi4uzLhcoElFZFsk0c2DIF4mM81v13EZ508K4Cf/lz/9Pt7lNeQWwuOwOXAnCXLVcDTBg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP123MB4179
+X-MS-Exchange-CrossTenant-UserPrincipalName: EZiEuZ3ZkL+3v89CODu8lXOa6bMsMExuye3Gl4FGm8kaCRLxEkiIbvrBfsKQwpkOg6STorFPP+5ITBDLBpLxEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7570
 
-From: Daniel Wagner <wagi@kernel.org>
+On 9/2/2026 3:57 PM, Cheatham, Benjamin wrote:
+> On 9/2/2026 8:39 AM, Terry Bowman wrote:
+>> Establish a single CXL protocol error path shared by CXL Virtual
+>> Hierarchy (VH) and Restricted CXL Host (RCH) topologies. AER dispatch in
+>> handle_error_source() routes CXL protocol errors, gated by
+>> is_cxl_error(), through the AER-CXL kfifo to a cxl_core consumer for
+>> logging and recovery. Producer and consumer go live together so no CXL
+>> error is silently dropped across a bisect.
+>>
+>> is_cxl_error() expands from Endpoint-only to also cover Root Port,
+>> Upstream Port, and Downstream Port. RCDs report on behalf of an upstream
+>> RCH Downstream Port and instead reach the kfifo via
+>> cxl_rch_handle_error().
+>>
+>> For uncorrectable errors, cxl_proto_err_wait_for_empty() drains the CXL
+>> plane (RAS read, panic policy, state clear) before pci_aer_handle_error()
+>> drives PCIe recovery, so recovery does not tear down RAS iomaps while the
+>> consumer is still reading them. Correctable errors run asynchronously.
+>>
+>> Panic policy: cxl_do_recovery() panics on a confirmed UCE, and also when
+>> the RAS registers cannot be mapped -- an unconfirmable UCE is treated
+>> conservatively as fatal since CXL.mem coherency may be lost. A
+>> mapped-but-clear status is logged as spurious with no panic.
+>>
+>> to_ras_base() centralizes RAS base lookup (dport->regs.ras for
+>> Root/Downstream Ports, port->regs.ras otherwise) and provides an
+>> injection point for RAS status simulation during testing. The
+>> cxl_cor_error_detected() AER callback is removed; correctable Endpoint
+>> errors now route through the kfifo like every other CXL protocol error.
+>>
+>> Update cxl_handle_rdport_errors() with locking to prevent dport from
+>> being freed and RAS from being unmapped.
+>>
+>> At this step cxl_handle_rdport_errors() still dispatches a single
+>> severity per pass (matching the pre-series baseline). The following
+>> patch, "cxl/ras: Handle RCH correctable and uncorrectable errors in one
+>> pass", processes a simultaneously signalled CE and UCE together.
+>>
+>> Co-developed-by: Dan Williams <djbw@kernel.org>
+>> Signed-off-by: Dan Williams <djbw@kernel.org>
+>> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
+>>
+>> ---
+>>
+> 
+> One small nit, but otherwise LGTM:
+> Reviewed-by: Ben Cheatham <benjamin.cheatham@amd.com>
+> 
+> ...
+> 
+>>  pci_ers_result_t cxl_error_detected(struct pci_dev *pdev,
+>>  				    pci_channel_state_t state)
+>>  {
+>> -	struct cxl_dev_state *cxlds = pci_get_drvdata(pdev);
+>> -	struct cxl_memdev *cxlmd = cxlds->cxlmd;
+>> -	struct device *dev = &cxlmd->dev;
+>> -	bool ue;
+>> +	struct cxl_port *port __free(put_cxl_port) = find_cxl_port_by_uport(&pdev->dev);
+>> +	bool ue = false;
+>> +
+>> +	if (!port)
+>> +		return PCI_ERS_RESULT_DISCONNECT;
+>> +
+>> +	if (is_cxl_restricted(pdev))
+>> +		cxl_handle_rdport_errors(pdev);
+>>  
+>> -	scoped_guard(device, dev) {
+>> -		if (!dev->driver) {
+>> +	scoped_guard(device, &port->dev) {
+>> +		if (!port->dev.driver) {
+>>  			dev_warn(&pdev->dev,
+>> -				 "%s: memdev disabled, abort error handling\n",
+>> -				 dev_name(dev));
+>> +				 "%s: port disabled, abort error handling\n",
+>> +				 dev_name(&port->dev));
+>>  			return PCI_ERS_RESULT_DISCONNECT;
+>>  		}
+>>  
+>> -		if (cxlds->rcd)
+>> -			cxl_handle_rdport_errors(cxlds);
+>>  		/*
+>> -		 * A frozen channel indicates an impending reset which is fatal to
+>> -		 * CXL.mem operation, and will likely crash the system. On the off
+>> -		 * chance the situation is recoverable dump the status of the RAS
+>> -		 * capability registers and bounce the active state of the memdev.
+>> +		 * The CXL RAS read is unconditional regardless of channel
+>> +		 * state. Any uncorrectable error bit set in the CXL RAS
+>> +		 * status register triggers a panic below because CXL.mem
+>> +		 * cache coherency is already lost; continuing risks silent
+>> +		 * data corruption.
+>>  		 */
+>> -		ue = cxl_handle_ras(&cxlds->cxlmd->dev, cxlmd->endpoint->regs.ras);
+>> +		ue = cxl_handle_ras(port->uport_dev, to_ras_base(port, NULL));
+>>  	}
+>>  
+>> +	/*
+>> +	 * CXL.mem UCE means cache coherency is lost. Continuing risks
+>> +	 * silent data corruption.
+>> +	 */
+> 
+> Don't need this comment and the last sentence in the comment above.
 
-The managed_irq_strict flag informs multiqueue device drivers where to
-place hardware queues and managed interrupt vectors. Document this new
-flag in the isolcpus command-line argument description, describe its
-relationship and precedence with respect to the legacy managed_irq flag,
-and document HK_TYPE_MANAGED_IRQ_STRICT in the core housekeeping guide.
+I'll keep the panic-site comment (it's the "why" at the point of consequence) and will 
+remove the duplicated coherency/corruption sentence from the block comment above (done 
+in 2/9) so there's no duplication at any point in the series.
 
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Co-developed-by: Aaron Tomlin <atomlin@atomlin.com>
-Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
----
- .../admin-guide/kernel-parameters.txt         | 37 ++++++++++++++++++-
- Documentation/core-api/housekeeping.rst       |  6 ++-
- 2 files changed, 41 insertions(+), 2 deletions(-)
+-Terry
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 68647ff4bdd2..eb608e5139a6 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2822,7 +2822,6 @@ Kernel parameters
- 			  "number of CPUs in system - 1".
- 
- 			managed_irq
--
- 			  Isolate from being targeted by managed interrupts
- 			  which have an interrupt mask containing isolated
- 			  CPUs. The affinity of managed interrupts is
-@@ -2845,6 +2844,42 @@ Kernel parameters
- 			  housekeeping CPUs has no influence on those
- 			  queues.
- 
-+			managed_irq_strict
-+			  Strictly restrict multiqueue hardware queue
-+			  allocation and managed interrupt affinity to
-+			  housekeeping CPUs. Unlike the best-effort
-+			  managed_irq flag, this option guarantees that
-+			  managed interrupts and multiqueue block device
-+			  queues are never created for or mapped to isolated
-+			  CPUs.
-+
-+			  In the block layer (blk-mq), device queue allocation
-+			  and CPU-to-queue mappings are restricted to
-+			  housekeeping CPUs. For devices using managed
-+			  interrupts, hardware completion interrupts are routed
-+			  exclusively to housekeeping cores, shielding isolated
-+			  CPUs from I/O interruptions even if they initiated the
-+			  request.
-+
-+			  If both managed_irq and managed_irq_strict are
-+			  specified, managed_irq_strict takes precedence.
-+
-+			  Note: Using managed_irq_strict restricts the number
-+			  of allocated hardware queues to match the number of
-+			  housekeeping CPUs for single-set drivers. This
-+			  prevents MSI-X vector exhaustion and forces isolated
-+			  CPUs to share submission queues.
-+
-+			  Note: Offlining housekeeping CPUs which serve
-+			  isolated CPUs will fail. The isolated CPUs must
-+			  be offlined before offlining the housekeeping
-+			  CPUs.
-+
-+			  Note: When I/O is submitted by an application on
-+			  an isolated CPU, the hardware completion
-+			  interrupt is handled entirely by a housekeeping
-+			  CPU.
-+
- 			The format of <cpu-list> is described above.
- 
- 	iucv=		[HW,NET]
-diff --git a/Documentation/core-api/housekeeping.rst b/Documentation/core-api/housekeeping.rst
-index ccb0a88b9cb3..6d08c71e6c0e 100644
---- a/Documentation/core-api/housekeeping.rst
-+++ b/Documentation/core-api/housekeeping.rst
-@@ -23,7 +23,7 @@ CPU. It is simply a CPU that can execute housekeeping work. There must
- always be at least one online housekeeping CPU at any time. The CPUs that
- are not	isolated are automatically assigned as housekeeping.
- 
--Housekeeping is currently divided in four features described
-+Housekeeping is currently divided in five features described
- by the ``enum hk_type type``:
- 
- 1.	HK_TYPE_DOMAIN matches the work moved away by scheduler domain
-@@ -44,6 +44,10 @@ by the ``enum hk_type type``:
- 	to HK_TYPE_DOMAIN except it ignores the isolation performed by
- 	cpusets.
- 
-+5.	HK_TYPE_MANAGED_IRQ_STRICT matches the multiqueue block devices and
-+	managed IRQs strictly restricted to housekeeping CPUs through
-+	``isolcpus=managed_irq_strict``.
-+
- 
- Housekeeping cpumasks
- =================================
--- 
-2.55.0
+>> +	if (ue)
+>> +		panic("CXL cachemem error");
+>> +
+>>  	switch (state) {
+>>  	case pci_channel_io_normal:
+>> -		if (ue) {
+>> -			device_release_driver(dev);
+>> -			return PCI_ERS_RESULT_NEED_RESET;
+>> -		}
+>>  		return PCI_ERS_RESULT_CAN_RECOVER;
+>>  	case pci_channel_io_frozen:
+>>  		dev_warn(&pdev->dev,
+>>  			 "%s: frozen state error detected, disable CXL.mem\n",
+>> -			 dev_name(dev));
+>> -		device_release_driver(dev);
+>> +			 dev_name(port->uport_dev));
+>> +		device_release_driver(port->uport_dev);
+>>  		return PCI_ERS_RESULT_NEED_RESET;
+>>  	case pci_channel_io_perm_failure:
+>>  		dev_warn(&pdev->dev,
+>> @@ -335,3 +371,82 @@ pci_ers_result_t cxl_error_detected(struct pci_dev *pdev,
+>>  	return PCI_ERS_RESULT_NEED_RESET;
+>>  }
+>>  EXPORT_SYMBOL_NS_GPL(cxl_error_detected, "CXL");
 
