@@ -1,64 +1,64 @@
-Received: from mail-yx2-f1.google.com (mail-yx2-f1.google.com [74.125.224.129])
+Received: from mail-yx2-f5.google.com (mail-yx2-f5.google.com [74.125.224.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142FB55409C
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 17:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAAD542804
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 17:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789060621; cv=none; b=Z0cT7f9hvU+9Wz5zeeZXvVA8eR753tLVzKUc4lkfbN6EECj9bNOuTyZSa7Z7WlQSpJi20aIuDtzlA+laW7SNzo5mfcqcuoCPiiE7+iKZLC29A3VKs1O2YSB8K3ms0iqKKuOj06NyQ5sK2i3SH0dAdfFZ4HaK+B1JjtWu+NdbP4Y=
+	t=1789060622; cv=none; b=Szg0+p5qypUMTvZgXDlO16p5qEYjfdmTddA8AtbUIa0gCrnl8bVcGLCzIHBZsN56GfD00LsbEbpP3cBjeNuzO3JsfCJdshsA1Q44qzft6f6PIo4KdM4j7ALR9EyN74FdRiK7vDPYBVhA2xkdeuDR+vmEBomolnnk/tHkeXeH420=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789060621; c=relaxed/simple;
-	bh=KwUQXBvFl8h+cWa2Ry5TXnxYBk4dX+ldcnuqkwMZDa4=;
+	s=arc-20240116; t=1789060622; c=relaxed/simple;
+	bh=FWOV55/3vGD+VdA6FUY/zNKrvVLuEsU8r1gv1G/TCiY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m+kNG0GqM4Nuq5uBhOGBpmEJZ42wZahx/aLO38+uix/i9obDA7536kMG6+VCkhMtqjnbxIOh0qx14PHXwPimGkH/Kmk5rASZjGtBJDG6CPtXHWe/5yLZrJWRK5pNnEKxZyzHNArA1um6WTuwT/1w2PKI5+gZjeLZZVTNk7u6Gl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cU0vUtWb; arc=none smtp.client-ip=74.125.224.129
+	 MIME-Version; b=VuvpgmGHkNL3pZrE6pWrig7aDQQGymJsq3IbYGlPR5vGkIqARuesHf0Hk8u322KTjZz5ezq/dsZXoJJZ2GzpPBKAIpurfJ14F0YB1HIvF/wJV6EvTVvuCIeNgGOD0XtwpvTjklQW0bc4+7+9cpVvbzJgG6keZx4/+zNsYUNa/XQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UyQO7mJI; arc=none smtp.client-ip=74.125.224.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cU0vUtWb"
-Received: by mail-yx2-f1.google.com with SMTP id 00721157ae682-85868e38a49so21926487b3.1
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 10:16:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UyQO7mJI"
+Received: by mail-yx2-f5.google.com with SMTP id 00721157ae682-86337316fceso4463557b3.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 10:16:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789060600; x=1789665400; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789060601; x=1789665401; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=33JbaTzVaS9WwHfpEPKLTYlvXLw2aDfEmaGs4zEFu2Y=;
-        b=cU0vUtWbiHNisu9sCZYZcvOaQhi/js+e+HRPkJ3KQUaq35SZdpBc4d3eRNhl6eO622
-         HBYqPVbE7MeBX5f5gxYVNvOt+5mSWXfQ88XP9EL/Dnq4tYppw5ViBkVb/0WlkcD9lYG4
-         +7l573qJW2VU1dJhwe1qzbOY6Efqm88yZaT0quLK8jmgxgqU6e4ayzvRGFz+86cFyoIV
-         u+BAuj7xS7bL0scEo46W5W6VA/IWszvZ7xe2yvww5qwGTMZgCy+ECPNV4vntX6xofi2c
-         drjdEdNqTWc5FQpx94cJM+ZTJHP9YDLjSq7WrDTljODjmYLPX70Zbo8XNh/+0oLXymvu
-         vD9Q==
+        bh=58wdEMpjvnsgClzUj13f3cAStl17GU2Ynr7IJ0GHfaE=;
+        b=UyQO7mJILMc6RaXFxZd+oIS8Ciby2dT+G5UAf2HICLTCeZy2OeZ4SqSj1mtfHBMWnT
+         UbtbMVcXC53IGkLrbwRjSkJj+UBrcy1lXHiidUcAECZZ5qjKxce6DbdOcDSJ2+kfbLjl
+         z/0v1PFwo9Bv8p4rctMhUYNLtCJBPFr30iG3wIjfBvCM3J+zVxqgHkF5FTaMP0J2eYBs
+         GKiRDolUAxPSZb253qc4xqsdVKC0VAcB6JvRWjxlobS8eHGDV1sN1fljnJofevFv6GQp
+         bC8/lauxudlS/lrUGU28x5u4+0xJd8OfCmiBLVoDbn6QETB+9+hvIfPezmGomW5hEoP6
+         ju9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789060600; x=1789665400;
+        d=1e100.net; s=20251104; t=1789060601; x=1789665401;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=33JbaTzVaS9WwHfpEPKLTYlvXLw2aDfEmaGs4zEFu2Y=;
-        b=ixjR9ouxrZmIMf67ZzzwBRYQOSl+rXP7VWu4hFXNO0W8Y8CeLJU3DEP2bZIW4oZmTL
-         LIG35Q1DYKckpt1RVGWK7ecjMJCanqU+JOc9hYeQlxR1kmkuf/UUiR6/GuXTXv5bawCL
-         +HOiQvZu01mYniur0N1n/jSRIe98PMVpViX8TH91WNvs0MPCX74i99vzBXdvTsx6YSdT
-         DzTc5aI+/bH5F+nc6LB8HutlRRWOzc7McXU+7bKqeLJNGgXSt035Iih96cDvB58ev4Qz
-         leekekPWsQKu7HJLNNLBw8FLv+70ugM8z6pzStQwbJJTtG9nvswQiOTIlL8mv7Yax2fa
-         QriA==
-X-Forwarded-Encrypted: i=1; AKwUvBxYdgAcx/Klsfu9dH2D/uarglBam6yMEAcwKi64ryncqwkMnoe0p8XUp6hxbYUDApyHpm0Zpr/tklM=@vger.kernel.org
-X-Gm-Message-State: AFuF++kbFhGjgclT0qLxbqR+eQvbGRXvRF8okR0gRcURqIwZR8/jxuvM
-	BjG6BKdlznMud03fPFK6t/R0G67e6FMmGrbKHK6cIQ2NxhojWPndP+A=
-X-Gm-Gg: AYBFou3WOG1lBal0b/2Gflx/qjHLV2ADgBLcu1HrsWY+ohjFyb6tWeguHtKTbuJsyxM
-	H3v9STs3g1F/nJ8+B32C+glzLPerfpLDlxlFB8YHd+vta79xMgEA5RowiGM1JuKw5b9/U8PrUOi
-	fpbYPJxwMmdROI3iPkwUIrc2CpMf/j/dYaTaim50BpAnoqnXYGhtvPXE7tXOzZzWnt1FY/KuEOU
-	qfR6xhuXFnWeqrNcpmfGY3oJs3hbElnXcZ2YUn30othzmRxJSjQuHRZOtLc/SLy2vZA0Bd8yCeo
-	eLJh+9/HqoVNrkhitA2c6T/41TdDLX9PO0LZGu1CmAjeceH+9FCYfy2kRlMjmZOtkQMHoR1lO0o
-	V33Dw7TyoQ5S3CzaR5tS58dPxAEU2I/yuKAz1tuhsM+rO1I55gzQrXM0mZcaY7R0Zmg6ZvhBv47
-	u2ABEHKeDU3yU18VxK1HcgMgC2cvwKEBZjplmT6IIZsUV50wDBSnMZSy5ieoKO2wsF3D386ArW3
-	iqSuaCvOCo4roaK0sRxt1c0oSqZoSWx19r9CeK4dPjlcKHzlQ==
-X-Received: by 2002:a05:690c:6e87:b0:873:5ddf:d870 with SMTP id 00721157ae682-884b423a43fmr1497757b3.59.1789060599401;
-        Thu, 10 Sep 2026 10:16:39 -0700 (PDT)
+        bh=58wdEMpjvnsgClzUj13f3cAStl17GU2Ynr7IJ0GHfaE=;
+        b=asjZbEb04nQUkGf6G4vO20VkIAj7/dChiBOEJtTLys+dvO5oh+PWZwolGVrPG/EFNa
+         ta9BTUjoYz2fLdJqfGY7Qiyl7dunGDBj+jzkOrQW9Aoi6StEpyriU5Quyg9m1IVOaG7x
+         D0GDJIPpPoRGApOIhwVAfMjH/H/DMBOFFFzcY8Ky/lt6ZWGp18rUsBTpoXPqwspD9xv8
+         +mnvU0MtetOgyzGyFGUgO1UwIybXzIY+U5b+R15bAER7yJ7u/9PB4IbZeCMGRtSgf02j
+         Ub6VcfBcok1sRz51VgqzHulMbgRhHTTuLyL5+FXNM8QI8HqWLqvR7pQtBpoW9gXOvZsW
+         jR5Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwxXAgTsOY6Q7WdA3ejeXs8H3mBSyulABxy468/Ugr3lp4WKnFs7amwH4byKkjOjnkkJLGPbieHQJM=@vger.kernel.org
+X-Gm-Message-State: AFuF++ndwZ6+RbR4g3B/5CDeUj+kPk/NWZ6qdb3qAs2NUtxqzQ1j2E0l
+	wJKrKwU8iv2K2XlCJmXivBZ9IoM4M99IzD1Olc3XA/4of8FoWqUiZrc=
+X-Gm-Gg: AYBFou3A6jzGhMXbx8WpCvpjHutv9TOSh+YUg2bsMQBzrtN06G0+wr0/LUiGglAfDB/
+	3wMgB8FckB7MWSQau3lTBjUxCUpxrEety5YY4Ck8QZbbHICyoywlTCT4vLxo4wP84czc9CZnfMJ
+	FekwtCkCmQmGcV2oQVQ3abpFT4B8Wi1R6u7py26FJ5GrUccO6xaJnRg0mEJmi3+npVTUxvXXMhb
+	YQXqNfzCC3hUAgUAbXY1Xka8bxrjH58qhukG0lCQHqSHOdEcv7hMXkcT7yJpfxP6Hi5KneaSOha
+	iuwqksjmAdUQ+dCAkaxy7zh20p+/vEw+9/FO/33PQ/rjVUBrW1vEnHuSOMvL8ysSvXRLyAArebH
+	F1l+zLrpyc2WNGIl9BPlwpaOAW+o/hvvKjMBRqFO9fRg0gv13SaK/zXBHUnVU+H30/8tI/g5k9/
+	rbknQKVXGMxSe78J9fTuWr9DNvK8XoXwPpbpT9Ds9ElWZvv473I8irT75EZGwPDnjECcrwHFQOe
+	kwb/mibrRyd4imlb23GKwnGfixqCl6uE3VI8txIvREzuecnwQ==
+X-Received: by 2002:a05:690c:c505:b0:873:5c6b:a31e with SMTP id 00721157ae682-884a1163a16mr1213737b3.24.1789060601165;
+        Thu, 10 Sep 2026 10:16:41 -0700 (PDT)
 Received: from localhost (23-116-43-216.lightspeed.sntcca.sbcglobal.net. [23.116.43.216])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-88487ea38e1sm2327237b3.30.2026.09.10.10.16.38
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-88487ea6026sm2285967b3.32.2026.09.10.10.16.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 10:16:38 -0700 (PDT)
+        Thu, 10 Sep 2026 10:16:40 -0700 (PDT)
 From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
 To: sj@kernel.org,
 	akinobu.mita@gmail.com,
@@ -77,9 +77,9 @@ Cc: akpm@linux-foundation.org,
 	weixugc@google.com,
 	jic23@kernel.org,
 	gourry@gourry.net
-Subject: [RFC PATCH v2 6/9] mm/damon: add perf-event overflow handler feeding the report ring
-Date: Thu, 10 Sep 2026 10:16:20 -0700
-Message-ID: <20260910171623.6638-7-ravis.opensrc@gmail.com>
+Subject: [RFC PATCH v2 7/9] mm/damon/ops-common: use probe-weighted score when probe weights are set
+Date: Thu, 10 Sep 2026 10:16:21 -0700
+Message-ID: <20260910171623.6638-8-ravis.opensrc@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260910171623.6638-1-ravis.opensrc@gmail.com>
 References: <20260910171623.6638-1-ravis.opensrc@gmail.com>
@@ -91,604 +91,86 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add mm/damon/perf_source.c, an ops-agnostic perf-event source that turns
-PMU overflow samples into DAMON access reports.  The overflow handler runs
-in NMI context and reports through damon_report_access(), so it works with
-either paddr or vaddr ops.
+When probe weights are configured (damon_has_probe_weights()), use
+damon_probe_hits_wsum() for the frequency subscore in damon_hot_score()
+instead of damon_nr_accesses_mvsum().  This routes hardware event counts
+from a perf-event probe into the tiering decision.
 
-The handler sets whichever address fields the PMU provides: paddr when
-PERF_SAMPLE_PHYS_ADDR is set, vaddr when PERF_SAMPLE_ADDR is set, plus the
-CPU it runs on.  The unified drain matches on whichever is present.  It
-reports both the thread id and the thread group id, because a VA-only PMU
-samples whichever thread of a process happened to access memory while the
-drain matches a target created for that process.
+When no probe weights are set the frequency subscore comes from
+nr_accesses_mvsum, so page-table-only monitoring scores from the
+page-table access rate.
 
-Per-CPU perf events are armed and released through cpuhp callbacks, so a
-CPU coming online while a probe is armed gets a counter and a CPU going
-offline releases its own.
+Export damon_has_probe_weights() so ops-common.c can call it without a
+static dependency on core.c internals.
 
-damon_perf_probe_alloc() allocates a perf-event-backed damon_probe with
-event_driven set, so its hits are credited through the report-ring drain
-rather than the apply_probes vtable; callers set the perf attributes after
-allocation.  Both ops sets honour that flag in their probe vtables: an
-event-driven probe has no software prep action, and is skipped in the
-apply_probes loop, so the drain is the only thing that credits its
-probe_hits[].
+Guard against integer overflow: clamp the probe-weighted subscore to
+DAMON_MAX_SUBSCORE via min_t after the mult_frac scaling so a large
+weighted-hit sum cannot overflow the subscore range.
 
-damon_perf_probe_setup() computes probe_idx by walking ctx->probes,
-assigning 1-based indices because 0 is the zero-init sentinel
-DAMON_PROBE_IDX_NONE, and the overflow handler warns once if it sees 0.
-
-A refcounted per-PMU owner tracks which context owns each PMU type: a
-second context claiming the same type gets -EBUSY, and ownership is
-released when the last probe for that type is torn down.  Module exit
-refuses to unload while any owner remains.
-
-Co-developed-by: Akinobu Mita <akinobu.mita@gmail.com>
-Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
 Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
 ---
- mm/damon/Kconfig       |  18 ++
- mm/damon/Makefile      |   1 +
- mm/damon/paddr.c       |  19 +-
- mm/damon/perf_source.c | 402 +++++++++++++++++++++++++++++++++++++++++
- mm/damon/perf_source.h |  26 +++
- mm/damon/vaddr.c       |  18 +-
- 6 files changed, 482 insertions(+), 2 deletions(-)
- create mode 100644 mm/damon/perf_source.c
- create mode 100644 mm/damon/perf_source.h
+ include/linux/damon.h |  1 +
+ mm/damon/core.c       |  2 +-
+ mm/damon/ops-common.c | 21 ++++++++++++++++++---
+ 3 files changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
-index c7b6f3125e79e..4a4f4381dc3b7 100644
---- a/mm/damon/Kconfig
-+++ b/mm/damon/Kconfig
-@@ -64,6 +64,24 @@ config DAMON_PADDR
- 	  This builds the default data access monitoring operations for DAMON
- 	  that works for the physical address space.
+diff --git a/include/linux/damon.h b/include/linux/damon.h
+index 88a459a60b296..3147ce30951f5 100644
+--- a/include/linux/damon.h
++++ b/include/linux/damon.h
+@@ -1307,6 +1307,7 @@ unsigned char damon_probe_hits_mvsum(int probe_idx, struct damon_region *r,
+ 		struct damon_ctx *ctx);
+ unsigned int damon_probe_hits_wsum(struct damon_region *r, bool last, bool mv,
+ 		struct damon_ctx *ctx);
++bool damon_has_probe_weights(struct damon_ctx *c);
  
-+config DAMON_PERF_SOURCE
-+	bool "perf-event source for DAMON probes"
-+	depends on DAMON && PERF_EVENTS
-+	help
-+	  Provides a PMU-agnostic perf-event overflow handler that feeds
-+	  physical-address access reports into DAMON via damon_report_access().
-+	  Required for DAMON probe-weighted tiering with any address-sampling PMU.
-+
-+	  The overflow handler is NMI-safe: it writes to a per-CPU SPSC
-+	  ring rather than taking any lock. The PMU is selected at probe
-+	  creation time via perf_event_attr (e.g. AMD IBS Op, Intel PEBS).
-+
-+	  A given PMU type may be driven by at most one DAMON context at a
-+	  time (hardware constraint); damon_perf_probe_setup() returns -EBUSY
-+	  if another context already owns that PMU type.  Distinct contexts may
-+	  each drive different PMUs concurrently, each draining its own
-+	  per-context report ring.
-+
- config DAMON_VADDR_KUNIT_TEST
- 	bool "Test for DAMON operations" if !KUNIT_ALL_TESTS
- 	depends on DAMON_VADDR && KUNIT=y
-diff --git a/mm/damon/Makefile b/mm/damon/Makefile
-index 22494754f41e8..1abf6f2a5133f 100644
---- a/mm/damon/Makefile
-+++ b/mm/damon/Makefile
-@@ -9,3 +9,4 @@ obj-$(CONFIG_DAMON_RECLAIM)	+= modules-common.o reclaim.o
- obj-$(CONFIG_DAMON_LRU_SORT)	+= modules-common.o lru_sort.o
- obj-$(CONFIG_DAMON_STAT)	+= modules-common.o stat.o
- obj-$(CONFIG_DAMON_ACMA)	+= modules-common.o acma.o
-+obj-$(CONFIG_DAMON_PERF_SOURCE)	+= perf_source.o
-diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
-index 5fcef3005c536..c6ac44561ee46 100644
---- a/mm/damon/paddr.c
-+++ b/mm/damon/paddr.c
-@@ -179,6 +179,16 @@ static void damon_pa_prep_probes_region(struct damon_region *r,
+ int damon_set_regions(struct damon_target *t, struct damon_addr_range *ranges,
+ 		unsigned int nr_ranges, unsigned long min_region_sz);
+diff --git a/mm/damon/core.c b/mm/damon/core.c
+index 850880f791c9e..6b3aa86386b76 100644
+--- a/mm/damon/core.c
++++ b/mm/damon/core.c
+@@ -391,7 +391,7 @@ static struct damon_probe *damon_nth_probe(int n, struct damon_ctx *ctx)
+ 	return NULL;
+ }
+ 
+-static bool damon_has_probe_weights(struct damon_ctx *c)
++bool damon_has_probe_weights(struct damon_ctx *c)
  {
- 	struct damon_prep *p;
+ 	struct damon_probe *p;
  
-+	/*
-+	 * Event-driven probes have no software prep action: their hits arrive
-+	 * asynchronously through the per-CPU report rings and are applied by
-+	 * the kdamond ring drain, so skip the software prep path here.
-+	 * Reaching this for an event-driven probe is normal (prep runs for
-+	 * every probe); it is silently skipped, not a warning.
-+	 */
-+	if (probe->event_driven)
-+		return;
+diff --git a/mm/damon/ops-common.c b/mm/damon/ops-common.c
+index c36cc39cd2c70..3033a5c0ba690 100644
+--- a/mm/damon/ops-common.c
++++ b/mm/damon/ops-common.c
+@@ -170,9 +170,24 @@ int damon_hot_score(struct damon_ctx *c, struct damon_region *r,
+ 	unsigned int age_weight = s->quota.weight_age;
+ 	int hotness;
+ 
+-	freq_subscore = mult_frac(damon_nr_accesses_mvsum(r, c),
+-			DAMON_MAX_SUBSCORE,
+-			damon_nr_samples_per_aggr(&c->attrs));
++	if (damon_has_probe_weights(c)) {
++		unsigned int wsum = damon_probe_hits_wsum(r, false, true, c);
 +
- 	damon_for_each_prep(p, probe) {
- 		switch (p->action) {
- 		case DAMON_PREP_SET_PGIDLE:
-@@ -268,7 +278,14 @@ static unsigned int damon_pa_apply_probes(struct damon_ctx *ctx,
- 					ctx->addr_unit);
- 			folio = damon_get_folio(PHYS_PFN(pa));
- 			damon_for_each_probe(p, ctx) {
--				if (damon_pa_filter_pass(folio, p))
-+				/*
-+				 * Event-driven probes skip this software apply
-+				 * path; their hits are counted asynchronously by
-+				 * the kdamond ring drain.  Only sampling-based
-+				 * probes credit probe_hits[] here.
-+				 */
-+				if (!p->event_driven &&
-+				    damon_pa_filter_pass(folio, p))
- 					r->probe_hits[i]++;
- 				i++;
- 			}
-diff --git a/mm/damon/perf_source.c b/mm/damon/perf_source.c
-new file mode 100644
-index 0000000000000..1102426152eca
---- /dev/null
-+++ b/mm/damon/perf_source.c
-@@ -0,0 +1,402 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * DAMON perf-event source
-+ *
-+ * Provides a PMU-agnostic NMI-safe overflow handler that feeds
-+ * physical-address access reports into DAMON via damon_report_access().
-+ * The PMU is selected at probe creation time via perf_event_attr.
-+ */
-+
-+#include <linux/cpuhotplug.h>
-+#include <linux/damon.h>
-+#include <linux/module.h>
-+#include <linux/perf_event.h>
-+#include <linux/slab.h>
-+#include "perf_source.h"
-+
-+/* PMU event attribute for perf-event probe configuration */
-+struct damon_perf_event_attr {
-+	u32 type;
-+	u64 config;
-+	u64 config1;
-+	u64 config2;
-+	bool sample_phys_addr;
-+	bool sample_weight_struct;
-+	bool exclude_kernel;
-+	bool exclude_hv;
-+	bool freq;
-+	u64 sample_freq;
-+	u64 sample_period;
-+	u32 wakeup_events;
-+	u32 precise_ip;
-+};
-+
-+struct damon_perf_probe_event {
-+	struct damon_perf_event_attr attr;
-+	void *priv;		/* struct damon_perf_probe_state * */
-+	struct hlist_node hlist_node;
-+	int probe_idx;		/* index into probe_hits[]; set at registration */
-+};
-+
-+struct damon_perf_probe_state {
-+	struct perf_event * __percpu *event;
-+};
-+
-+static DEFINE_PER_CPU(unsigned long, damon_perf_samples_total);
-+static DEFINE_PER_CPU(unsigned long, damon_perf_samples_filtered);
-+static DEFINE_PER_CPU(unsigned long, damon_perf_samples_no_addr);
-+
-+static void damon_perf_overflow(struct perf_event *perf_event,
-+				struct perf_sample_data *data,
-+				struct pt_regs *regs)
-+{
-+	int probe_idx = (int)(unsigned long)perf_event->overflow_handler_context;
-+	struct damon_access_report report = {
-+		.probe_idx = probe_idx,
-+		.size = PAGE_SIZE,
-+		.cpu = smp_processor_id(),
-+	};
-+
-+	/* probe_idx 0 is the zero-init sentinel; a valid index must be >= 1 */
-+	if (WARN_ONCE(probe_idx == 0,
-+		      "damon-perf: overflow handler called with probe_idx=0\n"))
-+		return;
-+
-+	if (!data) {
-+		this_cpu_inc(damon_perf_samples_no_addr);
-+		return;
-+	}
-+
-+	/*
-+	 * Populate whichever address fields the PMU provides.
-+	 * IBS provides PA (and optionally VA); PEBS provides VA only.
-+	 * Gate on sample_flags rather than testing for zero: the flag is
-+	 * the authoritative indicator of field validity.
-+	 */
-+	if (data->sample_flags & PERF_SAMPLE_PHYS_ADDR)
-+		report.paddr = data->phys_addr & PAGE_MASK;
-+	if (data->sample_flags & PERF_SAMPLE_ADDR)
-+		report.vaddr = data->addr;
-+
-+	if (!report.paddr && !report.vaddr) {
-+		this_cpu_inc(damon_perf_samples_filtered);
-+		return;
-+	}
-+
-+	report.is_write = !!(data->data_src.mem_op & PERF_MEM_OP_STORE);
-+	report.tid = task_pid_vnr(current);
-+	report.tgid = task_tgid_vnr(current);
-+	damon_report_access(&report);
-+	this_cpu_inc(damon_perf_samples_total);
-+}
-+
-+static enum cpuhp_state damon_perf_cpuhp_state;
-+
-+/*
-+ * Per-PMU exclusivity: each PMU type may be owned by at most one damon_ctx.
-+ * Multiple probes from the same ctx sharing a PMU type are allowed; a second
-+ * ctx attempting to grab a PMU type already owned returns -EBUSY.
-+ */
-+struct damon_pmu_owner {
-+	struct list_head node;
-+	u32 pmu_type;
-+	atomic_long_t owner_ctx;
-+	atomic_t refcount;
-+};
-+
-+static LIST_HEAD(damon_pmu_owner_list);
-+static DEFINE_SPINLOCK(damon_pmu_owner_lock);
-+
-+static void damon_perf_event_init_attr(struct damon_perf_probe_event *event,
-+				       struct perf_event_attr *attr)
-+{
-+	u64 stype = PERF_SAMPLE_TIME | PERF_SAMPLE_PERIOD | PERF_SAMPLE_ADDR;
-+
-+	/*
-+	 * Gate PERF_SAMPLE_PHYS_ADDR on the probe attribute: Intel PEBS
-+	 * has sample_phys_addr=0 by default; forcing it triggers an
-+	 * NMI-context pagetable walk per sample and sets entry->paddr
-+	 * unconditionally, which prevents the vaddr drain branch from
-+	 * ever being exercised.
-+	 */
-+	if (event->attr.sample_phys_addr)
-+		stype |= PERF_SAMPLE_PHYS_ADDR;
-+	if (event->attr.sample_weight_struct)
-+		stype |= PERF_SAMPLE_WEIGHT_STRUCT;
-+	stype |= PERF_SAMPLE_DATA_SRC;
-+
-+	*attr = (struct perf_event_attr) {
-+		.size = sizeof(*attr),
-+		.type = event->attr.type,
-+		.config = event->attr.config,
-+		.config1 = event->attr.config1,
-+		.config2 = event->attr.config2,
-+		.freq = event->attr.freq,
-+		.sample_type = stype,
-+		.precise_ip = event->attr.precise_ip,
-+		.pinned = 1,
 +		/*
-+		 * Created disabled, and enabled by the caller once the counter
-+		 * is fully set up.
++		 * Route perf-event hardware event counts into the score.
++		 * Clamp to DAMON_MAX_SUBSCORE so a large weighted-hit sum
++		 * cannot overflow the subscore range.
 +		 */
-+		.disabled = 1,
-+		.wakeup_events = event->attr.wakeup_events,
-+		.exclude_kernel = event->attr.exclude_kernel,
-+		.exclude_hv = event->attr.exclude_hv,
-+	};
-+	if (event->attr.freq)
-+		attr->sample_freq = event->attr.sample_freq;
-+	else
-+		attr->sample_period = event->attr.sample_period;
-+}
-+
-+static int damon_perf_cpu_online(unsigned int cpu, struct hlist_node *node)
-+{
-+	struct damon_perf_probe_event *event = hlist_entry(node,
-+			struct damon_perf_probe_event, hlist_node);
-+	struct damon_perf_probe_state *perf = event->priv;
-+	struct perf_event_attr attr;
-+	struct perf_event *perf_event;
-+
-+	if (!perf)
-+		return 0;
-+
-+	damon_perf_event_init_attr(event, &attr);
-+
-+	perf_event = perf_event_create_kernel_counter(&attr, cpu, NULL,
-+						      damon_perf_overflow,
-+						      (void *)(unsigned long)event->probe_idx);
-+	if (IS_ERR(perf_event)) {
-+		pr_warn_ratelimited("damon-perf: cpu %u event create failed: %ld\n",
-+				    cpu, PTR_ERR(perf_event));
-+		return 0;
-+	}
-+	per_cpu(*perf->event, cpu) = perf_event;
-+
-+	perf_event_enable(perf_event);
-+	return 0;
-+}
-+
-+static int damon_perf_cpu_offline(unsigned int cpu, struct hlist_node *node)
-+{
-+	struct damon_perf_probe_event *event = hlist_entry(node,
-+			struct damon_perf_probe_event, hlist_node);
-+	struct damon_perf_probe_state *perf = event->priv;
-+	struct perf_event *perf_event;
-+
-+	if (!perf)
-+		return 0;
-+
-+	perf_event = per_cpu(*perf->event, cpu);
-+	if (perf_event) {
-+		perf_event_disable(perf_event);
-+		perf_event_release_kernel(perf_event);
-+		per_cpu(*perf->event, cpu) = NULL;
-+	}
-+	return 0;
-+}
-+
-+/**
-+ * damon_perf_probe_setup - arm perf_events for a DAMON probe.
-+ * @ctx:   DAMON context that owns the probe.
-+ * @probe: the damon_probe being armed; its list position in ctx->probes
-+ *         determines the probe_idx stored in ring entries.
-+ * @event: perf event descriptor (caller fills .attr fields)
-+ *
-+ * Computes probe_idx by walking ctx->probes so the caller does not need
-+ * to track it externally.  Returns 0 on success, negative errno on failure.
-+ */
-+int damon_perf_probe_setup(struct damon_ctx *ctx,
-+			   struct damon_probe *probe,
-+			   struct damon_perf_probe_event *event)
-+{
-+	struct damon_perf_probe_state *perf;
-+	struct damon_pmu_owner *owner, *found = NULL;
-+	struct damon_probe *p;
-+	int idx = 0;
-+	int err = -ENOMEM;
-+
-+	/*
-+	 * Per-PMU exclusivity: find or create an owner slot for this PMU type.
-+	 * Multiple probes from the same ctx sharing a PMU type are allowed;
-+	 * a second ctx attempting the same PMU type returns -EBUSY.
-+	 */
-+	spin_lock(&damon_pmu_owner_lock);
-+	list_for_each_entry(owner, &damon_pmu_owner_list, node) {
-+		if (owner->pmu_type == event->attr.type) {
-+			long cur = atomic_long_read(&owner->owner_ctx);
-+
-+			if (cur != 0L && cur != (long)ctx) {
-+				spin_unlock(&damon_pmu_owner_lock);
-+				return -EBUSY;
-+			}
-+			atomic_long_set(&owner->owner_ctx, (long)ctx);
-+			atomic_inc(&owner->refcount);
-+			found = owner;
-+			break;
-+		}
-+	}
-+	if (!found) {
-+		/*
-+		 * GFP_ATOMIC: this allocation runs while holding
-+		 * damon_pmu_owner_lock (a spinlock), so it must not sleep.
-+		 */
-+		owner = kzalloc_obj(*owner, GFP_ATOMIC);
-+		if (!owner) {
-+			spin_unlock(&damon_pmu_owner_lock);
-+			return -ENOMEM;
-+		}
-+		owner->pmu_type = event->attr.type;
-+		atomic_long_set(&owner->owner_ctx, (long)ctx);
-+		atomic_set(&owner->refcount, 1);
-+		list_add(&owner->node, &damon_pmu_owner_list);
-+		found = owner;
-+	}
-+	spin_unlock(&damon_pmu_owner_lock);
-+
-+	/* Compute probe_idx by walking ctx->probes list */
-+	damon_for_each_probe(p, ctx) {
-+		if (p == probe)
-+			break;
-+		idx++;
-+	}
-+	/*
-+	 * Probe indices are 1-based (0 is the zero-init sentinel).
-+	 * With DAMON_MAX_PROBES slots (0..DAMON_MAX_PROBES-1), valid probe
-+	 * indices are 1..DAMON_MAX_PROBES-1, so the 0-based list position
-+	 * must be < DAMON_MAX_PROBES-1.
-+	 */
-+	if (idx >= DAMON_MAX_PROBES - 1) {
-+		err = -ENOSPC;
-+		goto release_owner;
-+	}
-+	event->probe_idx = idx + 1;	/* 1-based; 0 is reserved sentinel */
-+
-+	perf = kzalloc_obj(*perf, GFP_KERNEL);
-+	if (!perf)
-+		goto release_owner;
-+
-+	perf->event = alloc_percpu(typeof(*perf->event));
-+	if (!perf->event)
-+		goto free_perf;
-+
-+	event->priv = perf;
-+	INIT_HLIST_NODE(&event->hlist_node);
-+
-+	err = cpuhp_state_add_instance(damon_perf_cpuhp_state,
-+				       &event->hlist_node);
-+	if (err)
-+		goto free_event;
-+
-+	return 0;
-+
-+free_event:
-+	free_percpu(perf->event);
-+free_perf:
-+	kfree(perf);
-+	event->priv = NULL;
-+release_owner:
-+	spin_lock(&damon_pmu_owner_lock);
-+	if (atomic_dec_and_test(&found->refcount)) {
-+		list_del(&found->node);
-+		spin_unlock(&damon_pmu_owner_lock);
-+		kfree(found);
++		freq_subscore = min_t(int,
++				mult_frac(wsum, DAMON_MAX_SUBSCORE,
++					/* +1 guards divide-by-zero: samples-per-aggr can be 0 */
++					damon_nr_samples_per_aggr(&c->attrs) + 1),
++				DAMON_MAX_SUBSCORE);
 +	} else {
-+		spin_unlock(&damon_pmu_owner_lock);
++		freq_subscore = mult_frac(damon_nr_accesses_mvsum(r, c),
++				DAMON_MAX_SUBSCORE,
++				damon_nr_samples_per_aggr(&c->attrs));
 +	}
-+	return err;
-+}
-+EXPORT_SYMBOL_GPL(damon_perf_probe_setup);
-+
-+/**
-+ * damon_perf_probe_teardown - disarm perf_events.
-+ * @event: perf event descriptor previously passed to damon_perf_probe_setup()
-+ */
-+void damon_perf_probe_teardown(struct damon_ctx *ctx,
-+			       struct damon_perf_probe_event *event)
-+{
-+	struct damon_perf_probe_state *perf = event->priv;
-+	struct damon_pmu_owner *owner, *tmp;
-+
-+	if (!perf)
-+		return;
-+
-+	cpuhp_state_remove_instance(damon_perf_cpuhp_state,
-+				    &event->hlist_node);
-+	free_percpu(perf->event);
-+	kfree(perf);
-+	event->priv = NULL;
-+
-+	/*
-+	 * Release per-PMU ownership when the last probe for this
-+	 * ctx/PMU-type pair is torn down.
-+	 */
-+	spin_lock(&damon_pmu_owner_lock);
-+	list_for_each_entry_safe(owner, tmp, &damon_pmu_owner_list, node) {
-+		if (owner->pmu_type == event->attr.type &&
-+		    atomic_long_read(&owner->owner_ctx) == (long)ctx) {
-+			/*
-+			 * Free under the lock so a concurrent same-PMU teardown
-+			 * cannot observe and free the same owner. kfree() under
-+			 * a non-irq spinlock in process context is safe.
-+			 */
-+			if (atomic_dec_and_test(&owner->refcount)) {
-+				list_del(&owner->node);
-+				kfree(owner);
-+			}
-+			break;
-+		}
-+	}
-+	spin_unlock(&damon_pmu_owner_lock);
-+}
-+EXPORT_SYMBOL_GPL(damon_perf_probe_teardown);
-+
-+/**
-+ * damon_perf_probe_alloc - allocate and initialise a perf-event-backed damon_probe.
-+ * @weight: probe weight for probe-weighted tiering scoring.
-+ *
-+ * The caller sets perf->attr directly after allocation to select the PMU
-+ * and sampling parameters (e.g. AMD IBS Op, Intel PEBS).
-+ *
-+ * Returns a new probe on success, NULL on allocation failure.
-+ */
-+struct damon_probe *damon_perf_probe_alloc(unsigned int weight)
-+{
-+	struct damon_probe *probe = damon_new_probe();
-+
-+	if (!probe)
-+		return NULL;
-+	probe->weight = weight;
-+	probe->event_driven = true;
-+	return probe;
-+}
-+EXPORT_SYMBOL_GPL(damon_perf_probe_alloc);
-+
-+static int __init damon_perf_source_init(void)
-+{
-+	int ret;
-+
-+	ret = cpuhp_setup_state_multi(CPUHP_AP_ONLINE_DYN,
-+				      "mm/damon/perf_source:online",
-+				      damon_perf_cpu_online,
-+				      damon_perf_cpu_offline);
-+	if (ret < 0)
-+		return ret;
-+	damon_perf_cpuhp_state = ret;
-+	return 0;
-+}
-+
-+static void __exit damon_perf_source_exit(void)
-+{
-+	spin_lock(&damon_pmu_owner_lock);
-+	if (!list_empty(&damon_pmu_owner_list)) {
-+		spin_unlock(&damon_pmu_owner_lock);
-+		WARN(1, "damon_perf_source: unloading with active probes\n");
-+		return;
-+	}
-+	spin_unlock(&damon_pmu_owner_lock);
-+	cpuhp_remove_multi_state(damon_perf_cpuhp_state);
-+}
-+
-+module_init(damon_perf_source_init);
-+module_exit(damon_perf_source_exit);
-diff --git a/mm/damon/perf_source.h b/mm/damon/perf_source.h
-new file mode 100644
-index 0000000000000..5de55a29785f4
---- /dev/null
-+++ b/mm/damon/perf_source.h
-@@ -0,0 +1,26 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * DAMON perf-event source - public interface
-+ *
-+ * Callers that register perf-event probes include this header.
-+ */
-+
-+#ifndef _DAMON_PERF_SOURCE_H
-+#define _DAMON_PERF_SOURCE_H
-+
-+#ifdef CONFIG_DAMON_PERF_SOURCE
-+
-+#include <linux/damon.h>
-+#include <linux/perf_event.h>
-+
-+struct damon_perf_probe_event;
-+
-+int damon_perf_probe_setup(struct damon_ctx *ctx,
-+			   struct damon_probe *probe,
-+			   struct damon_perf_probe_event *event);
-+void damon_perf_probe_teardown(struct damon_ctx *ctx,
-+			       struct damon_perf_probe_event *event);
-+struct damon_probe *damon_perf_probe_alloc(unsigned int weight);
-+
-+#endif /* CONFIG_DAMON_PERF_SOURCE */
-+#endif /* _DAMON_PERF_SOURCE_H */
-diff --git a/mm/damon/vaddr.c b/mm/damon/vaddr.c
-index 1f2d923e569d6..3d6387d4ef7bb 100644
---- a/mm/damon/vaddr.c
-+++ b/mm/damon/vaddr.c
-@@ -552,6 +552,16 @@ static void damon_va_prep_probe_region(struct damon_ctx *ctx,
- {
- 	struct damon_prep *p;
  
-+	/*
-+	 * Event-driven probes have no software prep action: their hits arrive
-+	 * asynchronously through the per-CPU report rings and are applied by
-+	 * the kdamond ring drain, so skip the software prep path here.
-+	 * Reaching this for an event-driven probe is normal (prep runs for
-+	 * every probe); it is silently skipped, not a warning.
-+	 */
-+	if (probe->event_driven)
-+		return;
-+
- 	damon_for_each_prep(p, probe) {
- 		switch (p->action) {
- 		case DAMON_PREP_SET_PGIDLE:
-@@ -656,7 +666,13 @@ static void damon_va_probe_folio(struct damon_ctx *ctx,
- 	int i = 0;
- 
- 	damon_for_each_probe(probe, ctx) {
--		if (damon_va_filter_pass(folio, probe, pte, pmd, mm,
-+		/*
-+		 * Event-driven probes skip this software apply path; their hits
-+		 * are counted asynchronously by the kdamond ring drain.  Only
-+		 * sampling-based probes credit probe_hits[] here.
-+		 */
-+		if (!probe->event_driven &&
-+		    damon_va_filter_pass(folio, probe, pte, pmd, mm,
- 					r->sampling_addr))
- 			r->probe_hits[i]++;
- 		i++;
+ 	age_in_sec = (unsigned long)r->age * c->attrs.aggr_interval / 1000000;
+ 	if (age_in_sec)
 -- 
 2.43.0
 
