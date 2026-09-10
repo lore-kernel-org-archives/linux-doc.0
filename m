@@ -1,101 +1,216 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-235.mta0.migadu.com [91.218.175.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3BF73DCD95;
-	Thu, 10 Sep 2026 12:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C5247CC79
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 12:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789041833; cv=none; b=qagqsIlTXGREzxWEUTUASQLhHAkGOZnrFKC3TUDkZ8ueJTcFczaKoImyG9+z/Gmljui3DLpaxZhBq9ui/3f4BiIDkwivv4tao6sXCgL95fIPoOZSwTeQl4kfXIIAwnvMVFXQgq3tPV9eHX9CULN41R8lRmCh35FEwjvYb31vLbo=
+	t=1789042747; cv=none; b=PfLUqkYSXQEoQQGNK6K7T+y8EEhCrmZ0lcRzhgbR+/eB0jaMtKvvNGsGvP5Pd7CKXI+0kJvClkXX7Jm8qCKdehM6SI7cB9/fEKZWzO+L8qazI/cyYpzV8A5Tr7WoppHOr1Vb8aDLhPuhr7TuhUgkZIfJv1l6OxFukqe+/1OtrlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789041833; c=relaxed/simple;
-	bh=0CCF0TP1FETNi2uAWTVMBOarnS3/c/OQYtVLcYaZZ4E=;
+	s=arc-20240116; t=1789042747; c=relaxed/simple;
+	bh=B1Nyug3DTFA+APNcDBwCAydWW6t05O9PohPxOGHg7sk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nIqt81b7fn/njsQ0UDqfgh45HUrWWOmc+8zwzN+MjskTfVsLYRTYzWvBpHWsNJUqzikoRIyKGv1qwEMMGvLPyW0V0b9pQ7VRdfrsHdzmvgp8AR1z0fRgR8d+iGtsDddtubzYUkzQ5g4j6UZA1u/dFdkmx3ZqpE8tg39f3stFwYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NCr+Jak8; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gGXk5/8r1w9Qz9nZrsLmVEInS6aRbM2BQc1xLWZxEEGPo1hxRVRFbO7/yYfzyyieEMKoSTX+HTx/t23qBBFgSActwUBy1C9+89fT79w636aG66IGFoK/0WTsBDlD+PO9zy08vWCcJXwbWFO8Es10LAlSKoX3berOOdWI9ZO17Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=oxVnaetq; arc=none smtp.client-ip=91.218.175.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NCr+Jak8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CE221F000FF;
-	Thu, 10 Sep 2026 12:03:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789041831;
-	bh=oCGcFuT2iDgzr5S1IgNo13ZKvL4482evnBdgXEPE9IA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NCr+Jak85cDYzsPnfsyla0J46HSMAlnAzomJZaoiTbkZlvd1igyT4jPflVjjV1zuj
-	 h0G62cCI2H51Huy2B/+TJZWEtpslY4DWMnfZ0+vKTiifD7kuo1GhieDz2neAGtUsfd
-	 u3HAFOyFnxkfvr4ecgxSJ3p3ji8kN8atAJxpteaZ7KT16D1bAvSSTbsC8Sl70zfBJE
-	 OEugSagnTDoSVpm342p6dbCchLlLbgF2MY94pUdG53J9JYuCyrVE+XgpCfmrh3JAFA
-	 uwLybJ1qRIssTZvNo0edoMzYU/NYGJgDzCAuyhss5UiQJqt9yMnixaTqeZ/yG7AsJP
-	 4b0sxGY+Q6LDA==
-Date: Thu, 10 Sep 2026 13:03:49 +0100
-From: Harry Yoo <harry@kernel.org>
-To: Matthias Goergens <matthias.goergens@gmail.com>
-Cc: paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org, 
-	joelagnelf@nvidia.com, josh@joshtriplett.org, boqun@kernel.org, urezki@gmail.com, 
-	rostedt@goodmis.org, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com, 
-	qiang.zhang@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	surenb@google.com, vbabka@kernel.org, rcu@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] rcu: drain kfree_rcu sheaves from the userspace
- barrier hook
-Message-ID: <aqKZXmlRGsmJPl3r@thinkstation>
-References: <20260910101112.1648978-1-matthias.goergens@gmail.com>
- <20260910101112.1648978-2-matthias.goergens@gmail.com>
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="oxVnaetq"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=B1Nyug3DTFA+APNcDBwCAydWW6t05O9PohPxOGHg7sk=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789042741; v=1; x=1789647541;
+ b=oxVnaetqr0pA6KM3VMS2EzT8ViBZUaM0ltVf7VFqSQi1wF6UD8jPhNJKAB0FWLHl643LCgf6
+ OjR0gL+rE2o9uglYoyUb809yGeSz9bkpJURDXfuZ8hilPJ+xNznoPL7vIg77ePkQ16DBYrNguwV
+ HgHHByYZH51LWkAbcq9/P9BQJD7ZwDXH1dmP+K0dljBaqyAbury+Z6cYMixcZ2X8GvS5CWXm+VG
+ oS8+ad1kEMvR0cbMtqL58Omf/os4btB+HjoAQC/CugIcKycKWxaz1EmetPQTLTb9xv44H+UleIQ
+ Dr1E21T4OjY+n69QjbO4JpfYdreDJ2RerWUMkpPGBe9Ag==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id f10a42f29b9d7ab7;
+	Thu, 10 Sep 2026 12:18:51 +0000
+X-Mizu-Trace-ID: f10a42f29b9d7ab7
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 10 Sep 2026 20:18:46 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs/zh_TW: add process/applying-patches Traditional
+ Chinese translation
+Message-ID: <aqKgJh6MfOTS0KtQ@wyuan.org>
+References: <20260817-apply-patches-tw-v1-0-c182c1c425ba@wyuan.org>
+ <20260817-apply-patches-tw-v1-1-c182c1c425ba@wyuan.org>
+ <CAKspUh+bMqOYuV=uTRr35wt-xWd97YR=dfDQGoAvF5MjujOZEg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260910101112.1648978-2-matthias.goergens@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKspUh+bMqOYuV=uTRr35wt-xWd97YR=dfDQGoAvF5MjujOZEg@mail.gmail.com>
 
-On Thu, Sep 10, 2026 at 06:11:12PM +0800, Matthias Goergens wrote:
-> The rcutree.do_rcu_barrier test hook is intended to prevent deferred RCU
-> callbacks from one stress test spilling into the next. Since kfree_rcu()
-> sheaves were added, an object can remain deferred without appearing on an
-> ordinary RCU callback list. rcu_barrier() therefore no longer fulfils the
-> hook's stated purpose by itself.
->
-> Drain kfree_rcu sheaves and kvfree_rcu batches before completing the
-> ordinary RCU barrier.
-
-I'm convinced that the behavior of "do rcu_barrier()" knob
-to imply a kvfree_rcu_barrier() is the right fix.
-
-And also I wonder what's the user-facing problem you are trying to fix.
-You can't pile up unbounded amount of objects via kvfree_rcu() to cause
-an OOM during the userspace tests?
-
-How did you discover the problem?
-
-> Keep the explicit rcu_barrier() because the hook's
-> original ordinary-callback contract should not depend on the current,
-> undocumented fact that kvfree_rcu_barrier() includes one internally.
+On Fri, Aug 21, 2026 at 11:54:02PM +0800, 葉宸佑 wrote:
+> Thanks for taking this on -- and for picking a document that actually
+> matters rather than an easy one. A few things below; the first three
+> produce real breakage, the rest are suggestions.
 > 
-> Keep the existing throttling because this remains a deliberately expensive
-> test-only action. Do not coalesce requests based on the ordinary
-> rcu_barrier() sequence: an unrelated ordinary barrier does not prove that
-> sheaves were drained.
+> ## Must fix
 > 
-> A reproducer creates a private SLAB_NO_MERGE cache whose first allocation
-> populates a 60-object slab. It queues that object with kfree_rcu(), invokes
-> the hook, and reads the active-object count from /proc/slabinfo. In four
-> fresh VM pairs, the parent retained the object (60 to 60). The patched hook
-> drained it (60 to 59).
+> 1. Section levels are flattened (applying-patches.rst:12)
 > 
-> Fixes: ec66e0d59952 ("slab: add sheaf support for batching kfree_rcu() operations")
-
-This Fixes: commit is incorrect because the problem was introduced
-by kvfree_rcu(), not sheaves.
-
-> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         |  7 ++---
->  kernel/rcu/tree.c                             | 27 ++++++++++++-------
->  2 files changed, 21 insertions(+), 13 deletions(-)
+> The English original uses ++++ for the document title (level 1) and
+> ==== for each section (level 2). The translation uses ==== for both, so
+> the file ends up with eleven parallel h1 headings and no document title.
+> zh_TW/process/code-of-conduct.rst:12 keeps the ++++ form; the same here
+> would fix it.
 > 
+> 2. The bold marker at :233 will not render
+> 
+>     **不能**套用
+> 
+> docutils requires the closing strong marker to be followed by
+> whitespace or punctuation; a CJK character does not count. As written
+> this emits "Inline strong start-string without end-string" and prints
+> the asterisks literally. The existing practice in the tree is to escape
+> with a backslash -- see zh_CN/doc-guide/parse-headers.rst.
+> 
+> I checked the other **...**, ``...`` and *...* in the file; this is the
+> only instance that trips the rule (（**fuzz**） and [**y**]es are both
+> fine).
+> 
+> 3. index.rst: wrong section, and the TODO entry is still there
+> 
+> The entry was added to 「其他材料」 at :123, but the English original
+> lists applying-patches under tools and technical guides
+> (Documentation/process/index.rst:46, after email-clients). More
+> importantly, the 「* applying-patches」 TODOList item at :55 is still
+> present, so the document is listed as both translated and not
+> translated.
+> 
+> Moving it into the toctree at :46-49 after email-clients and dropping
+> :55 fixes both.
+> 
+> 4. Please drop the :譯者: block
+> 
+>     +:譯者:
+>     +
+>     + Weijie Yuan <wy@wyuan.org>
+> 
+> We are in the middle of removing exactly these blocks from the zh_TW
+> tree [1] -- adding a new one now would just mean removing it again.
+> 
+> [1] https://lore.kernel.org/linux-doc/20260819145808.291567-1-chenyou910331@gmail.com/
 
--- 
-Cheers,
-Harry / Hyeonggon
+Sure!
+
+Points above copied. My negligence. Will check again.
+
+> ## Suggestions
+> 
+> 5. Missing .. _tw_applying_patches: label
+> 
+> Every other .rst under zh_TW/process/ carries a .. _tw_*: label, and
+> the English original has .. _applying_patches:. Adding it would let
+> 2/2 use :ref: in howto.rst, matching the eight neighbouring entries in
+> that list instead of standing out as a :doc:.
+
+This kind of top-level label is not recommended/allowed right now ;-)
+
+> 
+> 6. Comment alignment at :340
+> 
+> One tab puts the comment at column 40; the surrounding lines are at 48,
+> and the English original uses two tabs.
+
+Got it.
+
+> ## Terminology
+> 
+> The significant decision here is patch -> 修補程式, used 98 times. I
+> think the direction is right -- 修補程式 is the standard Taiwanese
+> rendering -- but it needs to be handled explicitly, because the
+> existing zh_TW tree has 630 instances of 補丁, including in the two
+> files 2/2 touches. Right now the two terms would sit on either side of
+> the same cross-reference.
+> 
+> Could you:
+> 
+>   - add patch -> 修補程式 / 补丁 to glossary.rst, and
+>   - say in the commit message that this is a deliberate localisation
+
+Yes, makes sense. I'll do both.
+
+> Migrating the existing 630 instances is a separate question and I do
+> not think it should ride along with this series; I would rather discuss
+> it on its own once this lands.
+> 
+> A few smaller ones, measured against what the tree already uses:
+> 
+>   :192  指令稿      -> 腳本      (17 files use 腳本; 指令稿 is not
+>                                   used in Taiwan)
+
+Hem, I don't know and use 指令稿 either. So will check later.
+
+>   :165  郵件用戶端  -> 郵件客戶端 (8 files, including email-clients.rst)
+>   :228  回歸        -> 迴歸      (regression; 10 files use 迴歸, 4 use
+>   :259                            回歸 -- 迴歸測試 is the usual form)
+
+Copied.
+
+>   :365
+> 
+> On the other side: 中繼資料, 旗標, 模糊比對, 發行候選版, 當機,
+> 正規表示式 are all good Taiwanese renderings. Would you mind adding
+> those to the glossary too while you are there? It would save the next
+> translation from having to guess.
+
+Yes!
+
+> ## On the CJK/ASCII spacing
+> 
+> This file puts a space between CJK and Latin throughout, which is the
+> opposite of what the v3 glossary currently says. That is on me: I wrote
+> that entry before you raised the question, and we never actually
+> settled it.
+> 
+> Since we both prefer spaces, changing the glossary is the right fix
+> rather than asking you to strip 218 of them. Please leave this file as
+> it is.
+> 
+> Would you send that glossary change yourself once v3 lands? You are the
+
+
+> one who spotted the problem, and you are a maintainer here, so it seems
+> more natural coming from you than from me correcting my own entry. What
+> I had in mind:
+> 
+>   - new translations: a space between CJK and Latin/digits
+>   - existing files: left alone, no tree-wide normalisation
+
+I'd like to do that. If you have time, you can do it in person as well.
+;-)
+
+> The second half matters -- normalising the 2581 existing instances
+> would be exactly the kind of churn Jon objected to in the MAINTAINERS
+> thread.
+
+Yes.
+
+
+It's kind of weird that this series cannot be applied cleanly with
+Linus' current master tip commit 50d05c7c76c9 (Merge tag
+'landlock-7.3-rc3' of
+git://git.kernel.org/pub/scm/linux/kernel/git/mic/linux)
+
+Did I did something stupid? Confused.. But I'll figure it out.
+
+However, since adding new translations is not our current main goal, I
+will put this series on the to-do list for now.
+
+Thanks for your careful review!
