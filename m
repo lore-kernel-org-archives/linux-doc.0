@@ -1,85 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv2-f11.google.com (mail-qv2-f11.google.com [74.125.230.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F1D49BD6D;
-	Thu, 10 Sep 2026 14:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789051217; cv=none; b=QJVx1jS2hqTYi8yKUtA567R3MasTy5J9tV6/vTz3y0EA+ZFYi//Br0yyUfSTfG/OGKEf41bgt45Fw3iKwFmjXOStPp3O/cjj+WsKAhUfz+YXwIKNsDSsH6GETmpwnn5RcWyuVik4qVrWpz5Wz/0dH41HiVTQSD7p+7VoBTkdWO4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789051217; c=relaxed/simple;
-	bh=yfRISRanjw1H3aT/l8T10f0oHjoSPqjx8o6UtE5iThM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b7hluam/9gC9xD51o62Tjzv9rcGOOsI+pWWwfVVUnvpBvPI1GxUfGBwrc3n9it34qR+vEPO7yjmpCC723IE51Rzpq/m3resrbnhQLz8A3ausq9GLarWNtXx9Pobu3zHTlzX1L2ujcaeyRKJI7BDGd17bnCNfFER5r2ZkuNr0KUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZHeHvxvp; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F152483BD9
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 14:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.139
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789051370; cv=pass; b=bDpxknrqhRZOmDWO08aQ6O5SS3GuPJAtidYanGbTwXmYGCRpUL97hCzkkeCYU5YsE7IQ0XlSwBv98Vjvu4cda1jAwh3y3R5Xx3dwRvb/APXiH8njCS88Gmfzo1NfbzCOhd1uJ3drdEvZxgMwRGnOhYPjFIvMzOC9s1T2LeO5ZBM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789051370; c=relaxed/simple;
+	bh=A3NBwT3kopqU6rUQDfTU2NVJM1JpMiHHARAEukPCTcE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bNP4pFCYMkOTp/BFgml4ZEyOzZhlC4atfsB75qIzrwDjX5QBiZ0bFsEUtWWOniyg99IfkuxG0Lq8fIGjkzA6/4Zi4+btqBPVgx+JQOb2MRGcEvzOuH6pAhet1Ph0V7jwzlcICy6eyYbimdrYHYEADldKmr//mNAeBB/9Ueh/fFA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KxBUDI9n; arc=pass smtp.client-ip=74.125.230.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZHeHvxvp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A721F000FF;
-	Thu, 10 Sep 2026 14:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789051215;
-	bh=ZiIRwFEuHdfHVtyCjAJ5wkFmxjF09C/RketUI/wtcPc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ZHeHvxvptj4gChQtNiKjW0RmyP8s3WN/X4u7TguJSn+uC6oPiO5iLn3mV3KfmUjwA
-	 u97EK1rsmi1XOyQtyLiwvn9wi4l9FwDcSwEirpD4+vKLIOvcVnJ2pvmPQRKwfUPJ2v
-	 Bj28PoLfuqdse4OEgPvWiifW0DetnkLI7iCiOus5jQSmFo5SoGye1IJAbboNH8h0r8
-	 KuJEOnMT04yTd3amLajpElescGmWt8/yEvdnF07vTX3Y3NAKYs/pKDM7kZ1QmOf5UR
-	 IwgeobKvlq+7+R95uAbuTL4KM2Krnj/wXDCdfZMVcCYSyVupGPo9QqBwdLxt7AHRY3
-	 dU5WNxHG3umPg==
-From: SJ Park <sj@kernel.org>
-To: SJ Park <sj@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 0/7] mm/damon: introduce probe_hits_wsum DAMOS core filter
-Date: Thu, 10 Sep 2026 07:40:07 -0700
-Message-ID: <20260910144007.174043-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260910141849.170896-1-sj@kernel.org>
-References: 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KxBUDI9n"
+Received: by mail-qv2-f11.google.com with SMTP id 6a1803df08f44-90cdfc57039so20948026d6.0
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 07:42:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789051367; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qy33Phk02Hw49pW3YGDeOkNPPaHvNltBTlMfXDLnonwAVnREMDWs3ZCopTj6f7ooXL
+         fAGN190elVDOZ4jU+FHzuTWAi1sSkYVGHAKZh/0VgePACD0gDKKs5z6J3V0pBTmdLTxi
+         /4ABV86hAyp4P1/XHWkK/D2QhXROgarBL6X3p2pLgHC/AzSlkQO+DR799lKVHjwUj3Jq
+         cQ3Wbpllitq2ISlgLb/qoGox/UkKzqD4pWuVAGjkyk+DRvWIc0H0JuLFNewcJnG78RvL
+         Vomj6vJkZ+1UWn7Mu1iopRztMu2aNPNg2i2srHDl6YZjdNDqkOTOWtJhOjNYMQed9vSg
+         TI9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=A3NBwT3kopqU6rUQDfTU2NVJM1JpMiHHARAEukPCTcE=;
+        fh=OLacKcceFhOGxHuyBn1pHreD5SLtdhXPFBaK54n5tHE=;
+        b=EDr8Qh9dIeX3jqWGC/0xsS1Ei/L+hGHvtkWb+eCezXY68967kUmj3uRrGwnCRF0Ydr
+         yPMROpaQJdaYh+tVTCrG9MuW/hoBEjdDgUh2nKojLAeuhYqNxVRHVI1vQMsXm8lXvIwM
+         QHdEtOnfj5rkE/6mv5r7dwqrcKIGOVhQ2CtrA08X7G6tCBbb09/4UgnYomsBFGOF3xfY
+         svgKGRzhLo/C7BLDKgR9pLIwUAg9tm9dTAj3USrSkfd1iz3ijIoIKNUpRtfMNC1kd5qa
+         B4PkRumduiJ8Zw+2HH76bzHj3N/hBBRIkC1dJj+ZnbgLmR0GRJJCqoDGozu3XqgsTVI3
+         dJPw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789051367; x=1789656167; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=A3NBwT3kopqU6rUQDfTU2NVJM1JpMiHHARAEukPCTcE=;
+        b=KxBUDI9n7UWsOjc5rlh9Gwf2PJ0D/+LSYmdyy/6oismbd/nrNNM11K/IDaDoT+tgJN
+         jQkC2FE2up5sDZc9f07MYtbi3YLC3wZtGk+4//pjfjFoJejFAcmwZdTUUcgEim/+P7lk
+         Xfme03uKsGP0a6rqH70uMnd3510615o1kOK8vUyNpUmJlumXGdfp+RQDkgkZY93Dvz8h
+         wr0T7PYN1eO93/LHWAsWAnts6VSRJ8T1nlIpOjEm9WXVwg0YyQJaurFk5AIisfd+RtsL
+         j7cUBwr4AIlutYdKHnXPf8KPsFiUPAVyfSD1jUxiHz+dF1itJ/v5bBIWb2bOymBIXdwp
+         c/EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789051367; x=1789656167;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=A3NBwT3kopqU6rUQDfTU2NVJM1JpMiHHARAEukPCTcE=;
+        b=GDxGcx/lJ0jv3Y9R6ftpt3Yevge+j/UsDXjojm+E/Q/M9w6hat8wr7BHd99Xd13wlI
+         uhjRHj+8Q8+usS9VAjZaan3PtO79ZdekVA2PyfaYvBmLW8/TEXkIa/In2XqGEvrCuMsb
+         S00ektooyz9nCZULOww1zdoun3be09QkY2h2uVE2emm3dDaZ8u7TnnJTiOHPP5/w9jqU
+         +a/zAN+uDwBc+dzZbphJcGf1Lbx0jkI/DRrfDOaCDzytys/6BpnD0PgPq6h74OX95tYd
+         Kmtv3ZfR2mrQOc8WEXgwUUchaFpY8WYsJP2nuVWuYRnh3qfiBwN8NYqj4T2PP4hs7WJI
+         Z69A==
+X-Gm-Message-State: AFuF++m4DFsWXTfQNTochbDnmsNo/febgTym2SFG11khlHPgz3r/Vv4Z
+	muPjTt+5LbuZius5IrCl76s6OlZrER2vPKW8M8tr4ZdHfqnHtfodoB/Hqm/PjucwybWEi1lLiQr
+	S7derfc86vOWvdF0ryu8PueHv/mStZUc=
+X-Gm-Gg: AYBFou1OaD4KRColGNVS85aZsYRwZ0O7d3/fjEuzs6iE7kbFnt6yKXuhWihBsXchnp3
+	SVc1lqX7YShqjBNyJTVsH0Na3pH9TwrydPUQjrA3J9AkP4c8+i67x0uzYUllBQTnZyGaMpwmWvU
+	tdfvP1T3+7or+NTeXjqUGNkmWN6kcC24+JSaC0OK4RFttOCi0Dm9Ijwt2QU1h5HIPx/E7mGsse9
+	pPKtWtSGjTiCEIkPGMwszuW+feW9M0AH29gklD81WOjrJUfmG/eaXDAPsDoEPHa7rxk/z8WUyGZ
+	RHlUk8KGaG+i1/gIDkcoCCLAMVeivyqXxFUZAK9FOI/cZQoYK/1ijJBb3AyMwI0ykkfR93s6Qoo
+	O1EhPRnz66qWxfVAmINV0rsUY70RuRkGhFf7BFJaI
+X-Received: by 2002:a05:6214:5b0f:b0:910:7078:b4f with SMTP id
+ 6a1803df08f44-91070780df9mr133306426d6.25.1789051367346; Thu, 10 Sep 2026
+ 07:42:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260607064053.195166-1-enelsonmoore@gmail.com> <ap6hIoGppETYr7ey@ryzen>
+In-Reply-To: <ap6hIoGppETYr7ey@ryzen>
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Date: Thu, 10 Sep 2026 07:42:36 -0700
+X-Gm-Features: AcwNN1Wk1zV5NERHaZeTyuW_3PUV8dF4eqEkqONhyMYLHRDUgO1Fa3RjXoXy7mk
+Message-ID: <CADkSEUidf27u7U5mbB4FcDYZa5o6dWQnwf1LwT90Ud34MjfsWA@mail.gmail.com>
+Subject: Re: [PATCH] ata: pata_legacy: remove documentation for removed module parameters
+To: Niklas Cassel <cassel@kernel.org>
+Cc: linux-doc@vger.kernel.org, stable@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Damien Le Moal <dlemoal@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 10 Sep 2026 07:18:40 -0700 SJ Park <sj@kernel.org> wrote:
+Hi, Niklas,
 
-> DAMON can do flexible data attributes monitoring.  The classical data
-> access monitoring can also be done using the attributes monitoring.  The
-> access event is just one of the data attributes that DAMON supports.
-> Users do monitoring to make some actions based on it.  DAMOS is a
-> feature for automating that.  However, DAMOS cannot utilize the data
-> attributes monitoring results.  It is still Data "Access"
-> Monitoring-based Operation Schemes.  It requires users to set the target
-> "access" pattern.
-> 
-> DAMOS core filter is effectively the same as the target access pattern.
-> It is just a more generalized and flexible way of describing the
-> operation action target region.  Introduce a new DAMOS core filter type,
-> probe_hits_wsum.  It specifies the filter target based on a range of the
-> probe hits weighted sum.  Using this, users can apply DAMOS actions to
-> regions of specific data attributes pattern.
+On Mon, Sep 7, 2026 at 4:33=E2=80=AFAM Niklas Cassel <cassel@kernel.org> wr=
+ote:
+> This patch was sent to linux-doc@vger.kernel.org and linux-ide was not
+> even added as CC, so I assume you want this to go via Jonathan's tree.
 
-Sashiko found a minor issue in patch 5 that is better to be fixed.  I will
-send a new version of this series after adding the fix.
+I don't think that was intentional - the script I wrote to integrate
+get_maintainer.pl with git send-email had some bugs causing it to
+exclude entries. I have since fixed them. Feel free to merge it via
+the IDE tree.
 
-
-Thanks,
-SJ
-
-[...]
+Ethan
