@@ -1,186 +1,321 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010036.outbound.protection.outlook.com [52.101.201.36])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585D04A1DF9;
-	Thu, 10 Sep 2026 14:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789052261; cv=fail; b=R2PGGPVNjt/mdTz1sKAmcR9EdKdbm5I5dPN0E30Pj04ATWcwIfx7pPTWB6rFcBZBxRdyJpsxv3OBIGfmdhWyRbGfiUFXb/5rq8D6vH786YdIzt86n1yRYSJoEVaJXCIjhHaG3HNdZxI+zZFjUbdYKUsq2npLUm/aCbtxFf99Gdc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789052261; c=relaxed/simple;
-	bh=D1AjtzIRvzUNwZvWBdovxpUzZSRDHSXdU9N6C1Etxow=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=dSG4jtYBLq5JbWcIoHIifep+WboghvQdRlhLBhlP38Fls96qQ2DQmLxS1nlmXZE0ZZOoeD1MvxIEdi6rEwNXi4ca+rZf958r7vGk2ckxbz7xbR1UqA2Lba9B56KMsrXZvx7Vlzf7gxbpRfRLLQXA+LSbq61znndWTstL4R9U8ao=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=JY0M9lQj; arc=fail smtp.client-ip=52.101.201.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C2C4A6899;
+	Thu, 10 Sep 2026 15:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789052753; cv=none; b=dL3o+ygVr4si7s/ejR1j3Upp1WtIAmIelcLwvqcZj82/1JnvycjJ0tbUxDu+HG/OrFtpY/PhwBf43b1WX0WZxIvz3WIo6R1j3raFdLaLgPSVzj//kMajvQsybqhd6r+O7iOmNhyu+9YA0UmnM+58XIFbwVGSNnTldrxwSYAzoY0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789052753; c=relaxed/simple;
+	bh=Etl5JzVJqML9PmVs917q+ZC+bbgxKo3NsM+f9uGvFK4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FlLvMwHUZCqm0GF20iLLUl+9dor2qC8E24NaG3/7IzDwW+OnA57J/K9ecH/pOSK7BZgFZ/t7854uWgd+ogAOYPdVlrDoD2PsIVS+HaupYLBqAlpd1v2KgiyeprcntUxozNu1oCm4WLEHtG/+SpLKA2AsA8mDO8BU/ElrxptuRz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AClqOoG8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="JY0M9lQj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rRdCAk2Fq+/13RqLNZQVsxCbpuWT+g2W4YG9EYb4d6EdXFHrdiWURjcRCOjdhceO+kUMl8uHj3o4Bn6GiQhxCjyCY3qC5CKmcvbIXcYMjLCJMGCnyRfKI7Oangx/36vaVqt+Wgr/3NruYSKS8zjJL+Goc5R4PxHSAXkbyYqj4zZDG5ni0m6icVtGF39zzkioJtFRMNlcGw9N34uRqCndDJ7MSQJUwN+g5kzeA0QITozVsSE04r0zGTq+a5wsVDmQhatSANGQpdM5CVAzBFMvrMgqpBucJNGmdvi6krYKRAIX7GYfP/bIJwBLTYaQU/2YbbqQquil7NXEyQ4OepuStA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M27KoMW2BdhrJwLzgNuIrPFm0EovMFsSmG+j+Bd7kUI=;
- b=W80POpbjNTffIcqzEthC4tiaIRIdl8QEvi6sDucqETVN69RIfZzqTYe5xEHGPGUzumik+6CFoNNS3N9D7ktM4JZRBjwMQ9ZU1HqVjWr/JYtS24uOipkV/IxloGCBq4OvyUp5MALyNAE6lof69dRR0t0WC3Y9VAqoMgsPtN1PZ20o+Q46dkpA/mAgLemqOCDFN7nzYA1uk8W0is3rhHszjVHUlQsit/S05HU7qh+UVjyUCu/PSBtHuiuHF+aYd7+qQ5MXfZZEj7UCb+H9hRmgunm0y+h2E5rAo8B2QrPJjFOCwpgdmN8F+6P+RBqMcKAALY7dL/EGhKlM2BQDj/LoYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M27KoMW2BdhrJwLzgNuIrPFm0EovMFsSmG+j+Bd7kUI=;
- b=JY0M9lQjLT3zVv2NXpJ2JKbwZJtRnDZUzvM2gCqGEBoqXWpeWyw4ikxrhmKtAXlNV705XyAhN+kPEKYXRllYxXPsKtX5KGG9Tr066p1zkx+yToPRIpcY7j/jPD8S4MwT53t0DSw/QhIT1Jp+6hlZotj9s+2zewttZoo3kmYbmGc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH8PR12MB9766.namprd12.prod.outlook.com (2603:10b6:610:2b6::10)
- by SA3PR12MB324744.namprd12.prod.outlook.com (2603:10b6:806:531::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.8; Thu, 10 Sep
- 2026 14:57:37 +0000
-Received: from CH8PR12MB9766.namprd12.prod.outlook.com
- ([fe80::be0f:431f:5f27:96d9]) by CH8PR12MB9766.namprd12.prod.outlook.com
- ([fe80::be0f:431f:5f27:96d9%5]) with mapi id 15.21.0406.007; Thu, 10 Sep 2026
- 14:57:37 +0000
-Message-ID: <7f560046-02e5-4bb4-9623-409612793cb5@amd.com>
-Date: Thu, 10 Sep 2026 09:57:34 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 1/9] PCI/AER: Introduce AER-CXL protocol error kfifo
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Davidlohr Bueso
- <dave@stgolabs.net>, Bjorn Helgaas <bhelgaas@google.com>,
- Dan Williams <djbw@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-cxl@vger.kernel.org,
- Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
- Hanjun Guo <guohanjun@huawei.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Shuai Xue <xueshuai@linux.alibaba.com>,
- Len Brown <lenb@kernel.org>, Ira Weiny <iweiny@kernel.org>,
- Li Ming <ming.li@zohomail.com>, Shuah Khan <skhan@linuxfoundation.org>,
- Ben Cheatham <Benjamin.Cheatham@amd.com>, Richard Cheng <icheng@nvidia.com>,
- Robert Richter <rrichter@amd.com>, Lukas Wunner <lukas@wunner.de>,
- linux-pci@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260902133933.2992457-1-terry.bowman@amd.com>
- <20260902133933.2992457-2-terry.bowman@amd.com>
- <20260908015144.62ee9c1c@jic23-huawei>
- <bb5a6b0a-c30b-4475-8be6-f3e3686c93be@amd.com>
- <20260909230231.3fe72037@jic23-hlaptop>
-Content-Language: en-US
-From: "Bowman, Terry" <terry.bowman@amd.com>
-In-Reply-To: <20260909230231.3fe72037@jic23-hlaptop>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM6PR02CA0113.namprd02.prod.outlook.com
- (2603:10b6:5:1b4::15) To CH8PR12MB9766.namprd12.prod.outlook.com
- (2603:10b6:610:2b6::10)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AClqOoG8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00E541F00893;
+	Thu, 10 Sep 2026 15:05:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789052743;
+	bh=2qSXLjhAjygcr+iubfm3t6D+tdBAD9pO+lEAOs4Tgrw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AClqOoG8fAdd+WfzrsI/BVzr5vLb7kNVYRigDBFAzV18qOToEIlxubozh0+9DY7IR
+	 3v1hDPcfcfi/rCkmuUy2hqqssTWP3Pkss9oR9rAdmADcf+OzRlbE40BSxPNR926s3E
+	 fDLPRm9CJGDrQGsKMHdwL/q6h9RJIPGXAc0jnT+J0JMFBaEspFW92JtS5NQiaNov9V
+	 UT5AfZd7Edlgsg/cFuDz1EE7ajLmEyEBNceBDW9KHEZUNn6q/X7JskX6Va4Nnvo22J
+	 4QLhlC3klw9Qy4NS8KdiZWNn+h9GdpFJQCqXNngyck3wnegzKTvm4pPgu43J2uVV02
+	 IY03/t/R7ixCw==
+Date: Thu, 10 Sep 2026 16:05:35 +0100
+From: Lee Jones <lee@kernel.org>
+To: Rong Zhang <i@rong.moe>
+Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Ike Panhc <ikepanhc@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Vishnu Sankar <vishnuocv@gmail.com>,
+	Vishnu Sankar <vsankar@lenovo.com>, linux-leds@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v6 04/12] leds: trigger: Add offloaded() callback and
+ provide trigger_may_offload attribute
+Message-ID: <20260910150535.GG1051768@google.com>
+References: <20260902-leds-trigger-hw-changed-v6-0-55693cd78877@rong.moe>
+ <20260902-leds-trigger-hw-changed-v6-4-55693cd78877@rong.moe>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH8PR12MB9766:EE_|SA3PR12MB324744:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7b450187-a54a-485c-09de-08df0f4bda85
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|366016|10067099003|4143699003|11063799006|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	eF3xMCtLG4HmbobbBnVWPuDzXZnWY6iEhrnfQQZHKd+PHrth8kYIY86u7QiRrd12nG/zbo1uEQ+ve3u24PuEr7NlTODSOJFNgq/4i5zi6LhvGJkgTGVJUtri451eaH7WLPz8JmVam1PBANJ7aa9l8WDkHkW75QjwBZyS85AqiySf3P6heQj7q48PBNoZIsbIXsCqeg3H/fGr3z41orJdB74X32OSiIEdzeDBBYy0jHEvHZEwJMc+zAiNNyCbwl3y/vAxFNDaZm5ZADexEqF0lBcXab46ENK1N2W/FYmsRPtr2yg+W50dI3zKalz7xQpSoUNhy2oFhch/0D1c9i7dL6PiSEqvvK0l2LXQSYOSzEZ7C487GokYUrW8VmUqxoSKW9+M+uXKIA4r/wTxnz31x2u/GCNDKKGQQK3rZ9jzqMHgSoL34Ch6j4eHb3uUYDSUBnTwG/MquYecRf6UbsS4pwkfrR4uUYkVXVy/FJ7XuXW6An5e1+aSOvlW0oOOWsujFiK0A/ybFkM8Sqi2dGMMStTMPnjmVrCxthr0aqxHhiqAocINrnp0eQhPmrp2qHNd4Tzb2bViQYSW8pMwq+A0dPzrRyMBGWW8+bPh86oGM7d/2daBLFIrqZAcNI9X0gB+e9Mc/oDu237kOue4eyiQMqimq4dgDJZYbeLSG74c4v4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH8PR12MB9766.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(366016)(10067099003)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aEU0QkVPSDZVbmJqMEN4Nm5ycWtHTUgycEJhNFlsdHg1QnU2SUJ1TXRuMmNX?=
- =?utf-8?B?elo4NHhTdit0amNXVG8yYmZDYmFJMStBSXQxUFdTc3Y0bFlzRFN3VU5RV3BT?=
- =?utf-8?B?ZWM3MGhVT1JvWXpIOFh4Ym1RZWNyNyt0ckhLNElRVGJnR05aL0tzVlRTVWdi?=
- =?utf-8?B?SU1JYXIzaFdCWkZWVXVsT1RkbDU5eS9KanRmZ0hmYTU0S0t1bWZkKzUvdzhn?=
- =?utf-8?B?Rzh3ZmlaYW90bEtpMnl3a3IwUTlJb0dreXErWHhWRU9WSnJqSDN0WVM0SmdW?=
- =?utf-8?B?b2FRZjVEa3lTU3RyME1qbFlyTlk3Nmd5VGNyMUJteEV2OG5VYVdkeGM0Qmt1?=
- =?utf-8?B?VjNtLzU1TzlUZThDYkNSRkh4cDd4dG9jRHRTaUQwRTltdWZFQVRWZzJXdlE5?=
- =?utf-8?B?M0JJelFwY2NHNDZRT1RqZ0UrMFRKSmZFZWtpSlFqYktKZmFlMFMwcVVoanlS?=
- =?utf-8?B?TW85REYreHJtMDc0akRSbCs3ZDdydnZvTFNMcVZsU2JHc1ZucEw4TGpocjZm?=
- =?utf-8?B?cjhhTDNPVnF2K3VrSUFGc2JGN29sNU9HOHlmKzhuOUhucUFzWkZReXpFRTI2?=
- =?utf-8?B?RFVqdjZndWRzbmNMZFp6eEc3UFJnZXBCY2NsNndzNUdicWhhVXdzZkVkWUlh?=
- =?utf-8?B?cUpLRSsvVGlpOCs1bkkwSEM0ckxhZzFrbGdvQ2xzSGxzdGMyTmRxOGRMZm1R?=
- =?utf-8?B?VVFYT20xa3JMdXR1UWlNc09QRmVhL05ndWVSdXMyK2liejJaMUY3TjUyZFZK?=
- =?utf-8?B?S1VUb09qZE1UT3o3UGVKNmRBeC8wZWNNcDJXUTcvN0dHVWRvekZqSEpEL1c3?=
- =?utf-8?B?S3B2ZkpRRFEwVElmY015MktHSlJIMWlmV1cwUlBmT3NEd2lJRS9xVi9xN2Fx?=
- =?utf-8?B?OXlpRU9CY0VjL0dMUkJ5dUE3MGUraGlKbVZsNnNGUjUxUDR0eWJIeWNKNDEr?=
- =?utf-8?B?aktiRnhVK1NmVEFHNmdYQjFxRnhNM29BWExURkpHTTBlNVhkcTEvSnN6MjRL?=
- =?utf-8?B?dmk0U1JseW1Nc2xVTXMxUFN4SUVCcHdFSEpRWXJzNEIwQXNqeXBzTG5HZndS?=
- =?utf-8?B?cjl0bXZMWWxpYkJ4VFRBcjVxSmdmRE5yME5Nb3VxYjhSMTE4RlJka3loTlBF?=
- =?utf-8?B?ZmhDcURZbFNFN3FEUk9XcGFNWW44M1VjcmJleWJJVXF2NE84N2NWSzkzSGNH?=
- =?utf-8?B?Szg3SVlGMlZBcTJrVy9QU0hCRyt6ZW5MZ2Fmc2FtMHhJTitJWmQ2akZiOGtL?=
- =?utf-8?B?M21PYVozSC80S1U5TG9FNFJLREhSeUdHSkFUeTB6d2JOS1lFN0tGeEd0ckpu?=
- =?utf-8?B?MDZQV0REQndGZ25tcFROcEcyMFVSaVdpSzNmeklsZE43Mm5VR0cxMkVWQ2hI?=
- =?utf-8?B?Q29vbmpCYVp1L0FTVnpnb3VvWkVzUkJheldtMEwydThRZDdMaGpHejJFZDVL?=
- =?utf-8?B?cmlMc3JEZjFuVGVLTWNmaEJ4dlhRYXE5QkVIZ01POWJTc3ZPTkdzUXdVTnor?=
- =?utf-8?B?N2xYenMra0lxK3pVbW42R0MvSGZvMEdPUVRPSnBPZEs4SGdRcjF5UUlEMnVr?=
- =?utf-8?B?ckZhb2VINkRNdTM5a2IwRElhY2RiNk9hdE9xSVRabmJxdUcySmorQW1CaExG?=
- =?utf-8?B?TVBySGFIVkt6dzBLMzNTYjhyaFd3Q1lTVHNNOWJ4UnhoNTRReFhGMS9vQktZ?=
- =?utf-8?B?NU45QkxxZHNBV20rcnNIRytRejZUZEx2Z2VLazQwSjMrQzdUQTZhRjI3MFRs?=
- =?utf-8?B?NXlpSzNmS3F6eDBTeS9TWDRxMVE1RCtKcjQ3eGlmTGtCZFJJQ2pOWGt1U3p6?=
- =?utf-8?B?ME0ySkkyNWJleWJTdGdCVnppYlVTMFdtMkxOMFFEK1JzVkxxeGQySGYrb0t0?=
- =?utf-8?B?TjNPbFp3dFcxZ1AxSkFJNlM1TVhDREtuSkIyZVU2dEIyUnZodmtKSmZmc01X?=
- =?utf-8?B?a041YjluVFJFWVF5cDYzaDg4RFRMdXlpbGlLcWIrYmZYTnR2ZWdZVzhESTZP?=
- =?utf-8?B?TEVUNTkyU3JVVTVIU3BGZXFjZERmdGRxemNIREs3b3VDL0JCUXVuc2FYUFRn?=
- =?utf-8?B?ZEJEZWVXRVNDUGJrWVB5bk9qRDFtYnVjZFU1Y211UGhQSlNVQmI1V201MUZH?=
- =?utf-8?B?dGdKZ2dkRHNtVDBKcEhGVklqWi9ZUVhpZWRnaWlhK0pTS2FvYWhLekpydG8w?=
- =?utf-8?B?T0g0NW91U3JNSmtMUm0rZGNxTWFKS3VXM0JBb2ZrT20vcHNDV21BUnJXVEFS?=
- =?utf-8?B?clRNTTlMR0J3WnI2VWpYOUc2NkgwZUlZK3gvUW0zYkQ0SjVoZEV2YmZJcW1B?=
- =?utf-8?Q?T0zuwjlfwo4T15Xcby?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b450187-a54a-485c-09de-08df0f4bda85
-X-MS-Exchange-CrossTenant-AuthSource: CH8PR12MB9766.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 14:57:37.4066
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X783Q9Y0vIpCIPa7HUWjLClShnf4sGiHIkia4kBxJO86eHzvhXMUBSCTVdYJIMV1wNN4w6PNVKdNokblR7gBPQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB324744
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260902-leds-trigger-hw-changed-v6-4-55693cd78877@rong.moe>
 
-On 9/9/2026 5:02 PM, Jonathan Cameron wrote:
-> Hi Terry,
+On Wed, 02 Sep 2026, Rong Zhang wrote:
+
+> There are multiple triggers implementing hardware control. However, the
+> LED trigger core doesn't really know the hardware control (offloaded)
+> state since the coordination is done directly between the trigger and
+> the LED driver. It can only assume private triggers as offloaded and
+> generic ones as not offloaded.
 > 
->>>>
->>>> A subsequent patch wires cxl_forward_error() into handle_error_source().
->>>>
->>>> Add MAINTAINERS entries for aer_cxl_vh.c and aer_cxl_rch.c under the CXL
->>>> entry.  
->>>
->>> I couldn't immediately find any discussion about switching away from panic
->>> on a kfifo overflow.  Was there a reply to an earlier version with a
->>> discussion of that?  I'm not against the change but a 'why' 
->>> here would be good to have.
->>>   
->>
->> The driver panics on kfifo full error during UCE enqueue. This was recommended by you and
->> Richard. Changes are at the link below in cxl_forward_error():
->> https://lore.kernel.org/linux-cxl/20260902133933.2992457-2-terry.bowman@amd.com/
->>
-> Panic on UCE is a given and correct. I ran the not panic on correctable via some
-> of our folk and they were fine with it (at least so far!).  I just saw that
-> you'd stopped panic on this as part of the change log and wondered why.
+> Add an offloaded() callback so that triggers can report their offloaded
+> states to the LED trigger core. When unimplemented, it defaults to true
+> for private triggers and false for generic ones to keep the current
+> behavior unchanged.
 > 
-> Not a problem, just following the breadcrumbs!
+> With that, provide a new attribute "trigger_may_offload", so that
+> userspace can determine:
 > 
-> Jonathan
+> - if the LED device supports hardware control (supported => visible)
+> - which trigger is the hardware control trigger selected by the LED
+>   device
+> - if the trigger is selected ("<foo_trigger>")
+> - if the trigger is offloaded ("[foo_trigger]")
+> 
+> Note: the documentation describes the attribute as "returning a list"
+> despite the LED core currently only supports one hardware control
+> trigger per LED device. This is intentional to make the attribute
+> extensible in the future without breaking userspace.
+> 
+> Acked-by: Ike Panhc <ikepanhc@gmail.com>
+> Signed-off-by: Rong Zhang <i@rong.moe>
+> ---
+> Changes in v6:
+> - Update Date: and KernelVersion: for the document of
+>   /sys/class/leds/<led>/trigger_may_offload
+> 
+> Changes in v3:
+> - Rearrange the series so that the code using the offloaded() callback is
+>   introduced before the driver implementation (thanks Thomas Weißschuh)
+> - Reword documentation (ditto)
+> - Adopt guard() and lockdep (ditto)
+> - Adopt __led_trigger_is_hw_controlled() from newly-integrated PATCH 1
+> ---
+>  Documentation/ABI/testing/sysfs-class-led | 22 ++++++++++++++++++++++
+>  Documentation/leds/leds-class.rst         | 20 ++++++++++++++++++++
+>  drivers/leds/led-class.c                  | 22 ++++++++++++++++++++++
+>  drivers/leds/led-triggers.c               | 30 ++++++++++++++++++++++++++++++
+>  drivers/leds/leds.h                       |  2 ++
+>  include/linux/leds.h                      |  1 +
+>  6 files changed, 97 insertions(+)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentation/ABI/testing/sysfs-class-led
+> index d4c918cc11a1..e3605fc55fa8 100644
+> --- a/Documentation/ABI/testing/sysfs-class-led
+> +++ b/Documentation/ABI/testing/sysfs-class-led
+> @@ -78,6 +78,28 @@ Description:
+>  		(which would often be configured in the device tree for the
+>  		hardware).
+>  
+> +What:		/sys/class/leds/<led>/trigger_may_offload
 
-Hi Jonathan,
+*_to_hw?
 
-This area was raised during your and Richard's v18 reviews. The comments:
-https://lkml.org/lkml/2026/7/23/446
+> +Date:		September 2026
+> +KernelVersion:	7.4
+> +Contact:	linux-leds@vger.kernel.org
+> +Description:
+> +		Names and states of triggers that may be offloaded to hardware.
+> +		Such triggers are also called "hardware control trigger" in some
+> +		context.
+> +
+> +		Only exists when the LED supports trigger offload.
+> +
+> +		Reading this file returns a list of triggers that are capable to
+> +		be offloaded. The optional brackets around the trigger name
+> +		indicate the state of the current trigger:
+> +
+> +		- `foo_trigger`: the trigger is not selected.
+> +		- `<foo_trigger>`: the trigger is selected, but falls back to
+> +		  software blink for some reason (e.g., incompatible trigger
+> +		  parameters)
+> +		- `[foo_trigger]`: the trigger is selected and offloaded to
+> +		  hardware.
+> +
+>  What:		/sys/class/leds/<led>/inverted
+>  Date:		January 2011
+>  KernelVersion:	2.6.38
+> diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
+> index 3913966cfdac..2d41a6db602c 100644
+> --- a/Documentation/leds/leds-class.rst
+> +++ b/Documentation/leds/leds-class.rst
+> @@ -242,6 +242,9 @@ ops and needs to declare specific support for the supported triggers.
+>  
+>  With hw control we refer to the LED driven by hardware.
+>  
+> +A sysfs attribute `trigger_may_offload` is provided for userspace to
+> +query supported triggers and their states.
+> +
+>  LED driver must define the following value to support hw control:
+>  
+>      - hw_control_trigger:
+> @@ -298,6 +301,15 @@ LED driver must implement the following API to support hw control:
+>                  Returns a pointer to a struct device or NULL if nothing
+>                  is currently attached.
+>  
+> +LED trigger should implement the following API to indicate hw control:
+> +    - offloaded:
 
-v19 already implemented the fix from that review: panic on UCE, drop (log) on CE. The 
-v18 code had dropped every severity on overflow without panicking, and you and 
-Richard pointed out a dropped UCE must not be silently lost.
+hw_offloaded?
 
-v20 only tidied the CE branch (early return + clearer log message). The panic policy 
-itself is unchanged since v19.
+> +                return a boolean indicating if the trigger is currently
+> +                offloaded to hardware.
+> +
+> +                If a trigger doesn't implement this callback, the default
+> +                value will be true for private triggers and false for generic
+> +                ones.
+> +
+>  LED driver can activate additional modes by default to workaround the
+>  impossibility of supporting each different mode on the supported trigger.
+>  Examples are hardcoding the blink speed to a set interval, enable special
+> @@ -311,6 +323,14 @@ the end use hw_control_set to activate hw control.
+>  A trigger can use hw_control_get to check if a LED is already in hw control
+>  and init their flags.
+>  
+> +Alternatively, a private trigger can be implemented along with the LED driver if
+> +the LED's hardware control doesn't fit any generic trigger. To associate the
+> +private trigger with the LED classdev, their `trigger_type` must be the same. To
+> +declare that the private trigger provides hardware control for the associated
+> +LED classdev, set the `hw_control_trigger` string to the trigger's name. Since
+> +both the LED classdev and the private trigger are in the same LED driver, it's
+> +not necessary for them to coordinate via `hw_control_*` callbacks.
+> +
+>  When the LED is in hw control, no software blink is possible and doing so
+>  will effectively disable hw control.
+>  
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 39cc2f3ea63f..7e571bd1de5b 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -96,8 +96,30 @@ static const struct bin_attribute *const led_trigger_bin_attrs[] = {
+>  	&bin_attr_trigger,
+>  	NULL,
+>  };
+> +
+> +static DEVICE_ATTR_RO(trigger_may_offload);
+> +static struct attribute *led_trigger_attrs[] = {
+> +	&dev_attr_trigger_may_offload.attr,
+> +	NULL
+> +};
+> +
+> +static umode_t led_trigger_is_visible(struct kobject *kobj,
 
--Terry
+Why doesn't all of this live in the triggers file as well?
+
+> +				      struct attribute *attr,
+> +				      int idx)
+> +{
+> +	struct device *dev = kobj_to_dev(kobj);
+> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+> +
+> +	if (attr == &dev_attr_trigger_may_offload.attr)
+> +		return led_cdev->hw_control_trigger ? attr->mode : 0;
+> +
+> +	return attr->mode;
+> +}
+> +
+>  static const struct attribute_group led_trigger_group = {
+>  	.bin_attrs = led_trigger_bin_attrs,
+> +	.attrs = led_trigger_attrs,
+> +	.is_visible = led_trigger_is_visible,
+>  };
+>  #endif
+>  
+> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+> index 804a04b326c4..de17a8bbb4d4 100644
+> --- a/drivers/leds/led-triggers.c
+> +++ b/drivers/leds/led-triggers.c
+> @@ -42,6 +42,10 @@ static bool __led_trigger_is_hw_controlled(struct led_classdev *led_cdev)
+>  	if (!led_cdev->trigger)
+>  		return false;
+>  
+> +	if (led_cdev->trigger->offloaded)
+> +		return led_cdev->trigger->offloaded(led_cdev);
+> +
+> +	/* Otherwise assume private triggers as always offloaded. */
+
+s/as/are/
+
+>  	return led_cdev->trigger->trigger_type;
+>  }
+>  
+> @@ -341,6 +345,32 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
+>  }
+>  EXPORT_SYMBOL_GPL(led_trigger_set_default);
+>  
+> +ssize_t trigger_may_offload_show(struct device *dev,
+> +				 struct device_attribute *attr, char *buf)
+> +{
+> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+> +	struct led_trigger *trig;
+> +	bool hit, offloaded;
+> +	int len;
+> +
+> +	guard(mutex)(&led_cdev->led_access);
+> +	guard(rwsem_read)(&led_cdev->trigger_lock);
+> +
+> +	trig = led_cdev->trigger;
+> +
+> +	offloaded = __led_trigger_is_hw_controlled(led_cdev);
+> +	hit = offloaded || (trig && !strcmp(led_cdev->hw_control_trigger, trig->name));
+> +
+> +	/* [offloaded] <active_but_not_offloaded> inactive */
+
+Why do they have to live in different 'containers'?
+
+> +	len = sysfs_emit(buf, "%s%s%s\n",
+> +			 offloaded ? "[" : (hit ? "<" : ""),
+> +			 led_cdev->hw_control_trigger,
+> +			 offloaded ? "]" : (hit ? ">" : ""));
+> +
+> +	return len;
+> +}
+> +EXPORT_SYMBOL_GPL(trigger_may_offload_show);
+> +
+>  /* LED Trigger Interface */
+>  
+>  int led_trigger_register(struct led_trigger *trig)
+> diff --git a/drivers/leds/leds.h b/drivers/leds/leds.h
+> index bee46651e068..b08a289397e4 100644
+> --- a/drivers/leds/leds.h
+> +++ b/drivers/leds/leds.h
+> @@ -27,6 +27,8 @@ ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
+>  ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+>  			const struct bin_attribute *bin_attr, char *buf,
+>  			loff_t pos, size_t count);
+> +ssize_t trigger_may_offload_show(struct device *dev,
+> +				 struct device_attribute *attr, char *buf);
+>  
+>  extern struct rw_semaphore leds_list_lock;
+>  extern struct list_head leds_list;
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index d778709f5b1b..bee2b4309a09 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -485,6 +485,7 @@ struct led_trigger {
+>  	const char	 *name;
+>  	int		(*activate)(struct led_classdev *led_cdev);
+>  	void		(*deactivate)(struct led_classdev *led_cdev);
+> +	bool		(*offloaded)(struct led_classdev *led_cdev);
+>  
+>  	/* Brightness set by led_trigger_event */
+>  	enum led_brightness brightness;
+> 
+> -- 
+> 2.55.0
+> 
+
+-- 
+Lee Jones
