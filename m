@@ -1,94 +1,94 @@
 Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C86359481C
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 18:53:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE091549382
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 18:57:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.204
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789066399; cv=pass; b=YZp2tReStcl2S21bcdm/lTl5RfMILaU+v52KIzuCURg8LEhk63Vyr4ygyDIg9oH7HMb25dAdT/5QWaIWuUIW5n4BRdGPCQJE7l4m38F1Zpgk/7HyHpsDZGujLyHguvMS6gI/kCHf5Xoe0vGxDP0l3RljUFXQPgE01Ypzha+aKn4=
+	t=1789066663; cv=pass; b=JCKrJdvC6QTtkHyyL5LAKORdv101oSr2+HxqIJjU2X/yN15cMBSh4FG7O3NbqbRXKRvSrCcOl7lNCxLUNsND3cnQG6dNmco/l5Rdh6ReKhHPYj5DeGugYocMiVGwM4Kehnru2mv3SOiGW8sQgMhsgitrhIgJA0h8BrNVo3eeBOg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789066399; c=relaxed/simple;
-	bh=dT4FNCiiMtIXPLJOvuFJF0jefoKwdOcRJ3SvzlEgqv0=;
+	s=arc-20240116; t=1789066663; c=relaxed/simple;
+	bh=LvLi2WG97zBBaTutxiZFhYxTjRdgTSJJxA2epdOyf9k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t3U4SIlXgDlZwBWAcgLh5wl4uPze3zfhD7mtJOPjsI8o5oLyBZ0T6utUNkWqu4acvPNCmClU9qoY12eRYNNyJMPzs62ncorIyjCw/4MrzBWOJz4llJ4SWnsa9uQ3t+gsHUb5NP1ZAlNUYrf6ZF3VBN69UofMXNBcIKlySFm1mk8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Sw2RHwaa; arc=pass smtp.client-ip=74.125.229.204
+	 To:Cc:Content-Type; b=VoQMnQUQ61hpC6rN7ra1pswym+3w9URiNX/AZWlAGbH6uiOHBjyA/kdVvclRxw8HR8oBkpr0wN8nizq9z6k60RhELYnaXzOVmUUrYpGaGkdBFknk6DVkEJEak5y4a3LXIO+Ffuct4SaXZs6rsIiMbjEaYBNMPG5Fh3XTthsGpgs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oJOtVM85; arc=pass smtp.client-ip=74.125.229.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Sw2RHwaa"
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b4a0b17359so9577e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 11:53:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789066392; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oJOtVM85"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b78e073980so10177e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 11:57:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789066660; cv=none;
         d=google.com; s=arc-20260327;
-        b=R5ju6dru9Dj5zHdvE6YwAr0QQS9SiU1Ek4lplloRv9LMRxdf/SDTb5+v7yuL1wVbMJ
-         L4KmHt8f2D59e61vbIDgBIptZuJb8G5BhE4OnvCVlDdhC/qnzq7/HktYalFRbZLuidxd
-         TLpSYCJxpL0V+AGHwOwFpx7oM+4FxNlIoVyQ/mYKtYyDBNyPuWa/5oR9/b3EMfQITRs4
-         3oX1HpIcQdHJ2SkMCTNjIeNmWzOECnRZWdTMpLe7gpOXj8qrCL8NU8ifBS3S9r75MY2f
-         g7cTmNuz9P8zkhmXs8KrM5O3/EIyQv9qCMArslwhcoChEgHsxyFaQVOsO3biKiM1RHEq
-         W/AA==
+        b=RfTvGYiB88nwjyzeE/SUFNRgKQyjpk6ER+T5zM0m22IxGxv3TSMt/IqD4YyVk1c+gh
+         SFGZLxZl0mG43L5Cvi91r8cJ8x/xBAuwqOkLE3p/SUGOS9+I2GXkq/PyuJVPMr/YPT8T
+         SBArMY9XU2RjKfVoP8pwNYpOxaiXioLJSurEcNl2dKPadvYRLxWxSZRk5QBhlPeMgvpk
+         GVwUTnrAJLj70D4tSW8aKOdT5Vwk8JHFguGTFfDi7R8d+AHQAyvCp7zrOktJwsjdU/za
+         EOtNJqO/M6w9X72edImwkrHy4Civxo/0BFISGPC+3sxhSOwvA7Mmnqi2LyOn+fEYfiER
+         DjxQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=uPA7h1yzQiskXY53xtPOVbRZgGvwK1v/3hUYMrYw/Xg=;
-        fh=dONZLHU8xaQk6mE6boqky1qCZfx+e97Z9ZWokkGv5RY=;
-        b=lYKubluCF36R7lmfcOU2MxULDELu46nY/KvhP0OdwCLgpsIuVwjNJ3cbxxCCwVRTSJ
-         DV318Ry7oUNwi71AH/kCUN273MFuVkaN4LnOM9XCv8sAUUQq2xj/PBt/xB2qs+DPeCqS
-         rgAGVsED8gvjXelaNK+xATFvwzwmKyUQFaBwXIIATniERz8QazraPykBIyoK/uf05BYd
-         XQ2wSxbiS+JD8RvxygpfIzh1hp23IgnmdwmSjgnjn3acHYS3rhUW6QAsuK8pdV4IaHPN
-         rTcRcnaO9OywTMa59SaNxOyA9LX8vX7LP6h5TXoUNwh3rmKTRGpI4eFDCYkVOES+2RYs
-         f1qw==;
+        bh=ZrdVF7ALBocEe70y9+Oret+TDRXY2tEOhMpJsYsf+II=;
+        fh=1w/GdexYeVCpLx8KV7YIUV8SK1jpFzr/v4fQmN7X9fo=;
+        b=RAwUhXPgRm2EwT2FsfoDNNHfdxejRgJROfb+OVkPEoZ7BhSwz3uSbVNPi+BO638kUV
+         25/6vGVdJeN5JYreCa0LWxEWdIdIQQuBa4FXTIUG0Y7iPjQlbQ7/mDv9xxEIe02iWnH8
+         vCfAspYxdChPBhtv1T2Yvs8IfxUC2a06YjBGqymK0GXUTVNHylTZRXNP+F4m84j2EbG4
+         11tn09r9kytFt4kdX9V6uvIewh+i4EexrvTjqb82qGnpgu7UHNezVUxeOHJvHItTdO5o
+         tw7n5E6BAqFy1SkxQsSKpgE0LvydrKI6OBuF+/K8r9RGVsTihw0Me3dU363lbDuXScjC
+         QClQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789066392; x=1789671192; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1789066660; x=1789671460; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uPA7h1yzQiskXY53xtPOVbRZgGvwK1v/3hUYMrYw/Xg=;
-        b=Sw2RHwaaXxf51aB+WhflsVPXZjPmG14dd4LokBPYZn/6ZK7idt0TuWHcwAav/rWQ/J
-         eDL6t8jrNOzhMjtU1SidTyEOOIwal+t61/w4oylo6ShSyZHYn7vrPXaTTkeJ125mtlzp
-         6dgwX6oRGqeQoen7xjJiFujW4kOEQWd5pX8BhfUxGS+fNbJQ7XnqkrnIWsCw0ykKcA1V
-         Hru4wYgKWBHQ9f1dQi3R0+hFBxyDmOm4+9SCetyVRT2TG1svlCRnmbi7ps8RcMSy/x+b
-         QMEzSPV81L3d30DWJPWPvUFoT7OY6HznQulPA05Ceuu5BvYhjvJPtKUhjtANy084mqoZ
-         EVkA==
+        bh=ZrdVF7ALBocEe70y9+Oret+TDRXY2tEOhMpJsYsf+II=;
+        b=oJOtVM85a9xcyN7YMuseSSWyp8vAN2Qfn8tI8OVrWxUeIsBShlbI0OEAysQ6gLuG6p
+         IyfC+Azdn+tz1fniwC4FOS+kyKTdW7UlptpNUrd3+w0KiBiNevQSPciVjvpiExxAsQIa
+         NSl5/L4pB2ug9R3/9LdXDkcE27tmYnbD89oOi2w6ZXnee5diXL15ovuRmc7o+MbuW5nA
+         AauSZEoUy+qpV51brEhIaXQd60IPDVLI6vVI4p6IGVMBvZYRtnaOF2vve6vofXJ2srJ/
+         9x759VHui0Fg02/EFz97Tn+v0DYbCg4VPdsQOP+BdTq0+l6E1HV7FgkkSwETo2zHn1Ap
+         fyag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789066392; x=1789671192;
+        d=1e100.net; s=20251104; t=1789066660; x=1789671460;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=uPA7h1yzQiskXY53xtPOVbRZgGvwK1v/3hUYMrYw/Xg=;
-        b=JDJpEIBu7WFmWrNsbmXo+DaWWE/ns34+uHyF4IipkBiVvbDcbAGgxjjqarFSGy7PdC
-         QeTm9IIQkGJvYVMJsTS7N21a4GalRtsWMwhtF3Clod3Q1HZ/J9bRbVMNb+wpRQHu4Bm9
-         rQlgpNA0Dl19oDHCPYikyP9Rkr2HXByNLWQFCfi3T99IUEoloPbQQZCzAUhZZFiib8uj
-         GNdZ6y9SmHHj706TSA3RnrLsH8pRfd/JCtjnNs6wM9uB3zvBNf+AUSLKNct/ShZzT/tY
-         j16mXpdpeMjIZnWOOMdn2C18W3vC7GhC3zk3ZUtgGl273UTPNPWiB9LmNIfj4RZFiPFF
-         Um2Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxE09W1PcA1WQVeNuATAXRdQwCZmxc9aP8DFM09udeLVw8CPNygtgOi85N146dZQIG8NTab1l8Ivs8=@vger.kernel.org
-X-Gm-Message-State: AFuF++n7dk3Ozb0QR/e3UP271ZgbwFT1D+pm6L+QNOOWdgwdL98FzATy
-	ReImklp4hMU7n8K/uwRClahESGTN8ZFSUh4axxNKxYIfXU6/Kom0CPiqDcFqP+LG6cXd8iIujkL
-	rl9uPWEXrchydsmZJHYSMOG6dqI30bZkkv2tZEjK/
-X-Gm-Gg: AYBFou1mLokHUxoHL/hUS1VL/NbAfXnj0IgXvS6zc7cdHXiasT+GnRt0gl4YkZa9NzP
-	P2YBqDhk0v3VD+PcwURNwVPxtLRLaxG55WxeCd+JJCm/lttXDNLEu0/H3MPjWEKV9MeswnAdG5F
-	Hto/0T21tp8U2/1R8G5FtKad9BnOYb94HKipjHix6eIaSYMFtYEJpQAW09dL1LbLT0rsN/OLo4O
-	kquZm/O+1K9sDP76vxn1ouxu/yhLsnoj32BA0kSih2Veax79wCKZY5JRptTsnCeptSsl/7EWnjI
-	Fm+sECbRE3UkArlnwikhnkoMfPZlq+P4gVXJgx4FrmBxDqh+4pGOznP/22FNbPKeu+xOYvdLBKb
-	CVFwQOWpScvaE6Q==
-X-Received: by 2002:a05:6512:4009:b0:5b1:4fd9:ac with SMTP id
- 2adb3069b0e04-5b8a07a0e5fmr23463e87.3.1789066391400; Thu, 10 Sep 2026
- 11:53:11 -0700 (PDT)
+        bh=ZrdVF7ALBocEe70y9+Oret+TDRXY2tEOhMpJsYsf+II=;
+        b=LgzDeEhjBDTWf6qv1eKpSIg8qPvfq4nG8wv8ly7hRDHbKK3oYT5qvQXVTnyckoPdUr
+         MYS3ALMA6IEOPgBGHnTjd6uytNuVfkF6xuaSf4fZCgfYEcnfxVreiVuzr19ajqibtuzb
+         KKpzS1DhLbN9ASWfDumdUEREBdPxImI3xZauwMwTPBJcft1fYQ7yaw3MJDfNA8LbkGFG
+         DZmyTHf6kO6dMqJ51a8Zx0JPrukbLSpJwnCVraL7zRf9jLTtTMEUdbOU+aeFNHlhimtY
+         N/SQS9VaEqd6wtI1OpJ6CM4Fpxys5YCge3qAC+GqWZxgsqHLJ+arvRDx7qBdWGx0Ur5M
+         HlsA==
+X-Forwarded-Encrypted: i=1; AKwUvByT0oPsE7IijBVK7efPj4fyx2UbXtwifPDssyw8X7/nIrKlJsHZM1SQLVKBJKlA1wKLFcTj/xGM4u0=@vger.kernel.org
+X-Gm-Message-State: AFuF++nYyiXHGUqoAmXjoRhYlrcPwtGmDWC9diXU27XTEdD42ARPjRGS
+	IRr8z2rMzt1EQXezvYnC+qkQcaHA5M2zgJOQArV4sDlbRA9DppxWJMjqWLSrKKyoS5v6XpLctSl
+	6P6UE1va0m0Sm5ZHntPpQ7d5kWYVJSM1YOgYmGMzv
+X-Gm-Gg: AYBFou1DWRDJVCM+Efjz5xNrC3c5nJj+5oF4tZ6NqAGN4lMCgTpJx8z4CDEWlZAOVMZ
+	OLEygKBZ2rnfnirflJRP0htH+BT1NDAVYV9ZKQz5uinTdLLBUyB04wMDGeJgzjgm1yFvZLEphvu
+	zxl8dxMNQfYbDt44aMcHjzvHHYjdBcP/k3NlDApksqBLM9SY1908WJJJF3OuEVuk7N2nBWKl2ga
+	naYPfPhbysT52PqcrOBbKbmVvBuKHP/ADR5bRh1LG33NKAKsQlkRMpAp9lX8wqOa93tgDbQSeZ0
+	0oRTMkIdpaIjEvPADdtru59HvqyUPLgB8bH5+l7pqjQObYwFcNlbre7qPrwQP0osLCK/GS0Co+w
+	lhaXSlv8+S2Bdrsf5F+DYXM9J
+X-Received: by 2002:a05:6512:108c:b0:5b2:a967:c0c9 with SMTP id
+ 2adb3069b0e04-5b8a07ad04amr18706e87.7.1789066659207; Thu, 10 Sep 2026
+ 11:57:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260825-kvm-arm-prefault-v1-0-befe8947702e@kernel.org> <20260825-kvm-arm-prefault-v1-6-befe8947702e@kernel.org>
-In-Reply-To: <20260825-kvm-arm-prefault-v1-6-befe8947702e@kernel.org>
+References: <20260825-kvm-arm-prefault-v1-0-befe8947702e@kernel.org> <20260825-kvm-arm-prefault-v1-8-befe8947702e@kernel.org>
+In-Reply-To: <20260825-kvm-arm-prefault-v1-8-befe8947702e@kernel.org>
 From: Fuad Tabba <tabba@google.com>
-Date: Thu, 10 Sep 2026 19:52:35 +0100
-X-Gm-Features: AcwNN1XPPeWtd-a0jzst6s0fMnTr0aHfMbhg6rA4kjyMckfbadgDOVe553duj-k
-Message-ID: <CA+EHjTzOKHNrf=0n2c_E+vbt=pGquz6qzBpJ+eLJ5hjK_nyJMA@mail.gmail.com>
-Subject: Re: [PATCH 6/8] KVM: selftests: Enable pre_fault_memory_test for arm64
+Date: Thu, 10 Sep 2026 19:57:03 +0100
+X-Gm-Features: AcwNN1WRbRt_RViN6lNXEa633ZkRLMSCIUfMJ0FeZLRCcdVLjr-AEUXzwXInRdA
+Message-ID: <CA+EHjTy8m=b8D6sLOTv3AW05vXqFPRrTYvG7-t3D64Vt1+jAWQ@mail.gmail.com>
+Subject: Re: [PATCH 8/8] KVM: selftests: Add nested pre-fault test for arm64
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
 	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
@@ -103,36 +103,91 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
 	Claudio Imbrenda <imbrenda@linux.ibm.com>, Leo Soares Passos <Leo.Bras@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 25 Aug 2026 at 17:01, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
->
-> From: Jack Thomson <jackabt@amazon.com>
->
-> Enable the pre_fault_memory_test to run on arm64 by making it work with
-> different guest page sizes and testing multiple guest configurations.
->
-> Update the test_assert to compare against the UCALL_EXIT_REASON, for
-> portability, as arm64 exits with KVM_EXIT_MMIO while x86 uses
-> KVM_EXIT_IO.
+Hi,
 
-The message says this updates the test_assert for portability, but the
-parent has no exit-reason assert and no struct kvm_run; this patch
-adds both, so there was no hardcoded KVM_EXIT_IO to make portable.
-
-...
-
->  int main(int argc, char *argv[])
->  {
-...
+On Tue, 25 Aug 2026 at 17:02, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+..
+> +int main(void)
+> +{
+> +       struct nested_s2_state s2;
+> +       struct kvm_vcpu_init init;
+> +       struct kvm_vcpu *vcpu;
+> +       struct kvm_vm *vm;
+> +       struct ucall uc;
+> +       u64 npages;
 > +
->         TEST_REQUIRE(kvm_check_cap(KVM_CAP_PRE_FAULT_MEMORY));
->
->         test_pre_fault_memory(0, false);
+> +       TEST_REQUIRE(kvm_check_cap(KVM_CAP_ARM_EL2));
 
-Would it be worth adding an arm64 case for gmem_abort()'s pre-fault path?
+Would test_supports_el2() work better here? It honours the NV=0
+opt-out, and since HAS_EL2 is set unconditionally below, NV=0 doesn't
+disable this test as things stand.
 
 Cheers,
 /fuad
 
+> +       TEST_REQUIRE(kvm_check_cap(KVM_CAP_PRE_FAULT_MEMORY));
+> +
+> +       vm = vm_create(1);
+> +
+> +       kvm_get_default_vcpu_target(vm, &init);
+> +       init.features[0] |= BIT(KVM_ARM_VCPU_HAS_EL2);
+> +       vcpu = aarch64_vcpu_add(vm, 0, &init, guest_code);
+> +       kvm_arch_vm_finalize_vcpus(vm);
+> +
+> +       npages = TEST_MEM_SIZE / vm->page_size;
+> +       vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS, TEST_MEM_GPA,
+> +                                   TEST_MEM_SLOT, npages, 0);
+> +       virt_map(vm, TEST_MEM_GPA, TEST_MEM_GPA, npages);
+> +
+> +       vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
+> +                                   NESTED_S2_ROOT_GPA, NESTED_S2_ROOT_SLOT,
+> +                                   vm_adjust_num_guest_pages(vm->mode, 1), 0);
+> +
+> +       /* Run the guest until it has ERET'd from vEL2 to vEL1. */
+> +       vcpu_run(vcpu);
+> +       switch (get_ucall(vcpu, &uc)) {
+> +       case UCALL_SYNC:
+> +               TEST_ASSERT_EQ(uc.args[1], 1);
+> +               break;
+> +       case UCALL_ABORT:
+> +               REPORT_GUEST_ASSERT(uc);
+> +               break;
+> +       default:
+> +               TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
+> +       }
+> +
+> +       /*
+> +        * The vCPU's last-run context is vEL1, backed by a shadow stage-2
+> +        * MMU. Enable nested stage-2 with an empty root so that the ioctl
+> +        * fails if it tries to interpret the userspace GPA as an L2 IPA.
+> +        *
+> +        * Prefault in two halves so that the second ioctl exercises a
+> +        * repeated shadow-MMU attach and canonical stage-2 swap.
+> +        *
+> +        * (Note that an implementation that wrongly populates shadow
+> +        * stage-2 page tables would not be caught as userland can't
+> +        * inspect these.)
+> +        */
+> +       s2 = enable_empty_nested_s2(vcpu);
+> +       pre_fault(vcpu, TEST_MEM_GPA, TEST_MEM_SIZE / 2);
+> +       pre_fault(vcpu, TEST_MEM_GPA + TEST_MEM_SIZE / 2, TEST_MEM_SIZE / 2);
+> +       restore_nested_s2(vcpu, &s2);
+> +
+> +       /* Resume at vEL1 and touch the prefaulted range. */
+> +       vcpu_run(vcpu);
+> +       switch (get_ucall(vcpu, &uc)) {
+> +       case UCALL_DONE:
+> +               break;
+> +       case UCALL_ABORT:
+> +               REPORT_GUEST_ASSERT(uc);
+> +               break;
+> +       default:
+> +               TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
+> +       }
+> +
+> +       kvm_vm_free(vm);
+> +       return 0;
+> +}
 >
 > --
 > 2.55.0
