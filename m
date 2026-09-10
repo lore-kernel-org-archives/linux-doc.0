@@ -1,408 +1,226 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo2-f43.google.com (mail-oo2-f43.google.com [74.125.231.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065CD3655FC;
-	Thu, 10 Sep 2026 18:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3C3566C6E
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 18:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.171
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789063640; cv=pass; b=KsT4LD/ezPM8A2C8YJfgRUza9oTZKp2gqo1y7cepJbgJ8Fgw9cmJw8rxEuQPho/+asVzf3A2AnXXEfHgAvRruWumgT2gmbEtLYCEVYnVQ0EUEZgfDcctU763EAXQbvfgFYzNwKMbRDRa2PCszpCqgW6QQGCIxZh9tXlJpVAUd2s=
+	t=1789063896; cv=pass; b=YTtClMUoSsq3sItgNoh7TWjiz2wSjQUjT0aefeBem7UtljyGgyV2CgfjpORbxDXXt1ErTAdWE2AmBc8DcMeo67aIDnN4OKU6EKAIgNx4a15PnHV54myyoIEoJx7wX6ySr1G24LVYYwlUoB8vZXG6Mtdpke04VpOaut5UYxYUHQ8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789063640; c=relaxed/simple;
-	bh=ZZ9k9BJPDjyec6NUEKK5xZV+5aftBFmoP6dqleK93NA=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=pEd0tC/79gy9UTvlF8W2p5L9zE+9tsJSWbAJ7Xl0gNrlC6acnz6b0dmK0sx2Lf0m59xRcjmZF6fVUstCevQ4Q/XmQKlRaXI4v8efbLnfchpmb75Y3lKghBfMFQwppUe2Hh8upf9bvtWZWZZADEJCFeatw8OU0DKQ5DZ80fQXWC0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=cYGoeRQi; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	s=arc-20240116; t=1789063896; c=relaxed/simple;
+	bh=NT0Z/LF1SMhtkavx81DR2GGYYK6aB7iX5ZVgmCMPgvQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fPYHXyoGzvbP6oHkLxi8WyW6ZVeh9xcnTX76LfGHrV0z6nuVDxZG2oYgFxPDajRa+oaSacCQ28H32DFvXkldmH2Tke51FV9iihfxfcCgpbQ5GIszE5y18wKsPDMF9t8SF6v1SmJd86FLmAfA2iIj039LBjAX+BN9PULXdi1yyY8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FKybIG7v; arc=pass smtp.client-ip=74.125.231.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="cYGoeRQi"
-ARC-Seal: i=1; a=rsa-sha256; t=1789063612; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=dTq9HnrijxZVGb1l75Lla0qH6Bqe/9AMX6xReITqc5sDkBx0WQDro5KtgO/GHB8x81Cj545e2EGrvlww+sh0e5zov87TJvYHHDKiREqgZUbfupr936LkQjLJwo3L4a4VXSB0sSKzT+a6mGliLS9zeIMwdT9hjX4J3ZuvEIoRJXo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1789063612; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=2SfrWRVMTCicD0vrJdm191v2eUq49w3e51Pb9Wn9R+s=; 
-	b=f6NQfwxKjRHJgA1IcA6j2zmhYL3pApoRvbQT9bB74i4u0mrVaoPVs6LNCFh4655iwY9y3gDs6Y3POVozfJu4+b9QzLl0V7b5v3Lbs5w1ghGDxCMQn9L74sqXD3w50CK0MxB9UKOTM6sV7gHrxnQM1KUj8JuSnXEOd7aHT8U9d7U=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1789063612;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=2SfrWRVMTCicD0vrJdm191v2eUq49w3e51Pb9Wn9R+s=;
-	b=cYGoeRQiXZuS63LAJT9evzWh7kc94SDr5dsRLNofhzzgTTXKymjN6+6rRmj84U/g
-	Dsc+6YgIr4EI9LCs+zMKnoI970M12AJIA2k97loW97EItvYFgDZm6Wh9tBDH0aJ7nqE
-	hASjpfji5sgUNGcWtqbGFuzzJVGHzDtwoXeya6VKVAAWuxWkoe19OTgp+frIWPzjBDc
-	9ET0lG7BApz60gRC+Gqkuk6akISmspn68jy1LZms3p042P4/5qgYUplJ5W/dRqxgw0n
-	v92hdIu1qGYr/Zyq6+DjFTKjOH+HvuyhtDjgnanOcI8KLyL+eYRcYkmoTYy2NGSZbu9
-	VWaXBKEZPw==
-Received: by mx.zohomail.com with SMTPS id 1789063609615346.12294702549775;
-	Thu, 10 Sep 2026 11:06:49 -0700 (PDT)
-Message-ID: <cdecf33094742331552a4b86d43673cdf1590bf2.camel@rong.moe>
-Subject: Re: [PATCH v6 04/12] leds: trigger: Add offloaded() callback and
- provide trigger_may_offload attribute
-From: Rong Zhang <i@rong.moe>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=
- <linux@weissschuh.net>,  Benson Leung <bleung@chromium.org>, Guenter Roeck
- <groeck@chromium.org>, Marek =?ISO-8859-1?Q?Beh=FAn?=	 <kabel@kernel.org>,
- Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark"	
- <derekjohn.clark@gmail.com>, Hans de Goede <hansg@kernel.org>, Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Ike Panhc
- <ikepanhc@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski
- <kuba@kernel.org>, Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar
- <vsankar@lenovo.com>, 	linux-leds@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- chrome-platform@lists.linux.dev, 	platform-driver-x86@vger.kernel.org
-In-Reply-To: <20260910150535.GG1051768@google.com>
-References: <20260902-leds-trigger-hw-changed-v6-0-55693cd78877@rong.moe>
-	 <20260902-leds-trigger-hw-changed-v6-4-55693cd78877@rong.moe>
-	 <20260910150535.GG1051768@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 11 Sep 2026 02:01:41 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FKybIG7v"
+Received: by mail-oo2-f43.google.com with SMTP id 006d021491bc7-6b1ae71686cso88715eaf.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 11:11:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789063890; cv=none;
+        d=google.com; s=arc-20260327;
+        b=EEaEo1LqclpaXwG2L1FM68pjjzBARoAjsD008umm0vvRjBn6myMYi4ggQ4BZTjavga
+         Ju7oABd7UbLIuxgVXKzGW4yeT0/9A9bTpsSBAssebUuxgaTr/tvl6Un7D2rHRE8p5QIS
+         9YOgt2MXyFq0LMPK+MYzJgn6eLFdxdvFFz65H8N9+t1DQO4486pn8f9ONGMyNIw/qRlP
+         VrYl2hJXm2WJrkuOG9uyQ4QkkkXX2Hiz+xwa3vk7yG3xgw4Jb9v1S+v7Aw0B1ABIXT9S
+         FySAm1iil/7ppHz/0w89lQLLoNsDkVFjoxqf9gcsOPvsuv1ec66l5rBuAHLpIPGzI8BQ
+         momA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=gxuS67QpsgmiVo7SJODgVn7jNGL8PaTVeXELBYXj9Vc=;
+        fh=2bJLZcm5JCi2W5hDNHh6QNB7PbLbqFv/iuXfrvVDA0Q=;
+        b=Q906YPGxQGCu3iugoiE3IGM1NIswS7piw85VVDvoa4whsOFXhR+X4dBnnqnG42gCfn
+         O4/g6LvZZ3rmomYmnAzAWj9cF/ZmQBzceo5tVbxpClyEl403MAqkauD1i75z+jSOVk9h
+         HKEtsxxxWuIeoa3U85LYBnvZqKyrGqsZP5ggmhqBWLcKBjgyKGpgonCSwwtBlkHA131Q
+         bMQ/Kg0yuh2TO/D/9KieMPhZazKyuUVAYQAvIZZu164cqlb6MKqKFH/IW+J++RC0fiRg
+         wqqBn9SDOy/c2PcEmnkze8JvfI4iePZsaJQZnKufISB0/aSg7lymNeWhBPWdHDo6e8IR
+         IPKA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789063890; x=1789668690; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=gxuS67QpsgmiVo7SJODgVn7jNGL8PaTVeXELBYXj9Vc=;
+        b=FKybIG7vbPrID6z1nHaj6kVvqnRQk9kvLUdCSO2+2ma9Rrzv9SNsMhpf6H6ntsMUds
+         JkyN3NfvnmjEM6fiuIEbDJ9ubreYKGMr4WB5YW+WP8daIgGmV93h2QhGZncGxUruNTVl
+         xb2WebfNbk637VrINs16GyzSfy6Udi4tcRoeH/5/HvD6JJC39vardYEfjksmVtn+eq90
+         6nNKA546KE5FFVTONnyAW7NH0ZI0JriDM3YVglc1gMZq/J8BylnjF7IuIBmBXSUxR5sk
+         pKWbcKzTldmYVXmq15a181+DQWmWqY+Hy9X3XmqX1apU7j5PpWG+JMXCx6tSMMlVkN1h
+         l9ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789063890; x=1789668690;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gxuS67QpsgmiVo7SJODgVn7jNGL8PaTVeXELBYXj9Vc=;
+        b=ZVV9M7lO7YFUPLBoAmZ3zZljcD2Q2s0LpVtjaxmRVukpytSqUiPxwgaTBMfyJQI/5M
+         159nFvnortV0/fMRqU4FyoODHNuosoNXTh62T/se0QXRJ1s9UGNR1ZorREfEjfRKLeYK
+         KuNSZJVJn9SU57X+WaEPf/8FZsfXgjiK2JyWIY1QJZ5vGMxmKXlz5TQIFZBhH+/O9F0C
+         q8lh0jIb18ZLwnnaARUd7hkLh69N9MZhup4OnUfKau5omccGxHjgqGdPZ3uA50uej0Go
+         C4ca9U+EH1iCRLbtWNEfOl2A+gBhzXAyydM3nYJ4yo9OZbz+B6fOugMh3qyj4HSlIG0A
+         C5ow==
+X-Forwarded-Encrypted: i=1; AKwUvBwt1XPMIT1aBO13sH5pNuu9bjOfizJEtNBODOEUeyY7kjOB4X+hjkGpnEP1EbBztkaVru5ysoqeTKQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++kabzShjCueyzljNsoNhCbJ28FcGIYyyfWQSPcrlRo47Fg3zuee
+	i2AGxSuqFayLbeDdwL8bSCvKfxxck96Z8PvhtoFYHKMjjOKTyJKKOZLjJNcNejgupmTEzWkGTgb
+	Anh4yBOnH+BLxt/4QDFDxIONFZVIsiRE=
+X-Gm-Gg: AYBFou0GUS1+iRqdBBTrUz5IClSI3nKV2M5id9br4el/RJyCnADurF59k09grrhGtbm
+	keCqMlPqNPWxjgt4neB2oo+mWltt9CpRMOyyLUfSJVlMczikkC3KMxgQnukBqBLQAiDA1DjtVqg
+	KB8WQgPnAHpBE1e58gn26zvSMT6Nx3W/+p4q3NXHVSXSQJzwU1FeuEAt43WIJgSOkFlVErhiec3
+	Kx7tzpIdFVdc9pZtKkZRrxbDL5YwQltAnoZkxxzjjnRHOcbQX/Jx4SHmuTbAvoES1AmvKgAqsqj
+	3n/Q0M3eygA23u7YQgAUtcYV0+EUd2crXapEf7BSdUQB01cQKKL3Drk=
+X-Received: by 2002:a05:6820:55d3:20b0:6b1:ac4f:f708 with SMTP id
+ 006d021491bc7-6c0bc1d3ad3mr241038eaf.17.1789063890425; Thu, 10 Sep 2026
+ 11:11:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-10+b1 
-X-ZohoMailClient: External
+References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
+ <20260908-b4-mmap-prepare-vma-flag-sanify-v1-11-dacf19cce22b@kernel.org>
+In-Reply-To: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-11-dacf19cce22b@kernel.org>
+From: Stephen Smalley <stephen.smalley.work@gmail.com>
+Date: Thu, 10 Sep 2026 14:11:18 -0400
+X-Gm-Features: AcwNN1XLr_yN2lEzELD3PcXDse2cuW9BBHCwsQpnROCV_SxzPvFmiqhSaiK704I
+Message-ID: <CAEjxPJ7hXSi=oLtQPV+7GEvN+txfYwZ-u-v_EysNHM0gSGNrCw@mail.gmail.com>
+Subject: Re: [PATCH 11/39] selinux: reject writable opens of policy file, drop
+ mmap shared/write check
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, 
+	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
+	Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Xu Xin <xu.xin16@zte.com.cn>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+	fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Lee,
-
-Thanks for your review.
-
-On Thu, 2026-09-10 at 16:05 +0100, Lee Jones wrote:
-> On Wed, 02 Sep 2026, Rong Zhang wrote:
->=20
-> > There are multiple triggers implementing hardware control. However, the
-> > LED trigger core doesn't really know the hardware control (offloaded)
-> > state since the coordination is done directly between the trigger and
-> > the LED driver. It can only assume private triggers as offloaded and
-> > generic ones as not offloaded.
-> >=20
-> > Add an offloaded() callback so that triggers can report their offloaded
-> > states to the LED trigger core. When unimplemented, it defaults to true
-> > for private triggers and false for generic ones to keep the current
-> > behavior unchanged.
-> >=20
-> > With that, provide a new attribute "trigger_may_offload", so that
-> > userspace can determine:
-> >=20
-> > - if the LED device supports hardware control (supported =3D> visible)
-> > - which trigger is the hardware control trigger selected by the LED
-> >   device
-> > - if the trigger is selected ("<foo_trigger>")
-> > - if the trigger is offloaded ("[foo_trigger]")
-> >=20
-> > Note: the documentation describes the attribute as "returning a list"
-> > despite the LED core currently only supports one hardware control
-> > trigger per LED device. This is intentional to make the attribute
-> > extensible in the future without breaking userspace.
-> >=20
-> > Acked-by: Ike Panhc <ikepanhc@gmail.com>
-> > Signed-off-by: Rong Zhang <i@rong.moe>
-> > ---
-> > Changes in v6:
-> > - Update Date: and KernelVersion: for the document of
-> >   /sys/class/leds/<led>/trigger_may_offload
-> >=20
-> > Changes in v3:
-> > - Rearrange the series so that the code using the offloaded() callback =
+On Tue, Sep 8, 2026 at 4:07=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
+g> wrote:
+>
+> The policy file has no write method and is exposed read-only (S_IRUGO in
+> selinux_files[]), yet sel_open_policy() performs no open mode check, so a
+> CAP_DAC_OVERRIDE caller can open it O_RDWR. Reject FMODE_WRITE at open, a=
+s
+> kernfs does.
+>
+> The file can then never be mapped with FMODE_WRITE, so do_mmap() always
+> clears VM_MAYWRITE and VM_SHARED for MAP_SHARED mappings and the VM_SHARE=
+D
+> check in sel_mmap_policy() cannot be reached. Remove it.
+>
+> This also stops sel_mmap_policy() clearing VM_MAYWRITE on a mapping that =
 is
-> >   introduced before the driver implementation (thanks Thomas Wei=C3=9Fs=
-chuh)
-> > - Reword documentation (ditto)
-> > - Adopt guard() and lockdep (ditto)
-> > - Adopt __led_trigger_is_hw_controlled() from newly-integrated PATCH 1
-> > ---
-> >  Documentation/ABI/testing/sysfs-class-led | 22 ++++++++++++++++++++++
-> >  Documentation/leds/leds-class.rst         | 20 ++++++++++++++++++++
-> >  drivers/leds/led-class.c                  | 22 ++++++++++++++++++++++
-> >  drivers/leds/led-triggers.c               | 30 +++++++++++++++++++++++=
-+++++++
-> >  drivers/leds/leds.h                       |  2 ++
-> >  include/linux/leds.h                      |  1 +
-> >  6 files changed, 97 insertions(+)
-> >=20
-> > diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentation/=
-ABI/testing/sysfs-class-led
-> > index d4c918cc11a1..e3605fc55fa8 100644
-> > --- a/Documentation/ABI/testing/sysfs-class-led
-> > +++ b/Documentation/ABI/testing/sysfs-class-led
-> > @@ -78,6 +78,28 @@ Description:
-> >  		(which would often be configured in the device tree for the
-> >  		hardware).
-> > =20
-> > +What:		/sys/class/leds/<led>/trigger_may_offload
->=20
-> *_to_hw?
+> neither a PFN map nor a mixed map, ahead of the core enforcing that only
+> such mappings may do so.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-ACK.
+We should likely do something similar for the other sel_open_*() and
+sel_mmap_*() functions too.
+In particular, truncation of the status file can bring down systemd
+since it is mapped by libselinux.
 
->=20
-> > +Date:		September 2026
-> > +KernelVersion:	7.4
-> > +Contact:	linux-leds@vger.kernel.org
-> > +Description:
-> > +		Names and states of triggers that may be offloaded to hardware.
-> > +		Such triggers are also called "hardware control trigger" in some
-> > +		context.
-> > +
-> > +		Only exists when the LED supports trigger offload.
-> > +
-> > +		Reading this file returns a list of triggers that are capable to
-> > +		be offloaded. The optional brackets around the trigger name
-> > +		indicate the state of the current trigger:
-> > +
-> > +		- `foo_trigger`: the trigger is not selected.
-> > +		- `<foo_trigger>`: the trigger is selected, but falls back to
-> > +		  software blink for some reason (e.g., incompatible trigger
-> > +		  parameters)
-> > +		- `[foo_trigger]`: the trigger is selected and offloaded to
-> > +		  hardware.
-> > +
-> >  What:		/sys/class/leds/<led>/inverted
-> >  Date:		January 2011
-> >  KernelVersion:	2.6.38
-> > diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/led=
-s-class.rst
-> > index 3913966cfdac..2d41a6db602c 100644
-> > --- a/Documentation/leds/leds-class.rst
-> > +++ b/Documentation/leds/leds-class.rst
-> > @@ -242,6 +242,9 @@ ops and needs to declare specific support for the s=
-upported triggers.
-> > =20
-> >  With hw control we refer to the LED driven by hardware.
-> > =20
-> > +A sysfs attribute `trigger_may_offload` is provided for userspace to
-> > +query supported triggers and their states.
-> > +
-> >  LED driver must define the following value to support hw control:
-> > =20
-> >      - hw_control_trigger:
-> > @@ -298,6 +301,15 @@ LED driver must implement the following API to sup=
-port hw control:
-> >                  Returns a pointer to a struct device or NULL if nothin=
-g
-> >                  is currently attached.
-> > =20
-> > +LED trigger should implement the following API to indicate hw control:
-> > +    - offloaded:
->=20
-> hw_offloaded?
+Acked-by: Stephen Smalley <stephen.smalley.work@gmail.com>
 
-ACK.
-
->=20
-> > +                return a boolean indicating if the trigger is currentl=
-y
-> > +                offloaded to hardware.
-> > +
-> > +                If a trigger doesn't implement this callback, the defa=
-ult
-> > +                value will be true for private triggers and false for =
-generic
-> > +                ones.
-> > +
-> >  LED driver can activate additional modes by default to workaround the
-> >  impossibility of supporting each different mode on the supported trigg=
-er.
-> >  Examples are hardcoding the blink speed to a set interval, enable spec=
-ial
-> > @@ -311,6 +323,14 @@ the end use hw_control_set to activate hw control.
-> >  A trigger can use hw_control_get to check if a LED is already in hw co=
-ntrol
-> >  and init their flags.
-> > =20
-> > +Alternatively, a private trigger can be implemented along with the LED=
- driver if
-> > +the LED's hardware control doesn't fit any generic trigger. To associa=
-te the
-> > +private trigger with the LED classdev, their `trigger_type` must be th=
-e same. To
-> > +declare that the private trigger provides hardware control for the ass=
-ociated
-> > +LED classdev, set the `hw_control_trigger` string to the trigger's nam=
-e. Since
-> > +both the LED classdev and the private trigger are in the same LED driv=
-er, it's
-> > +not necessary for them to coordinate via `hw_control_*` callbacks.
-> > +
-> >  When the LED is in hw control, no software blink is possible and doing=
- so
-> >  will effectively disable hw control.
-> > =20
-> > diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> > index 39cc2f3ea63f..7e571bd1de5b 100644
-> > --- a/drivers/leds/led-class.c
-> > +++ b/drivers/leds/led-class.c
-> > @@ -96,8 +96,30 @@ static const struct bin_attribute *const led_trigger=
-_bin_attrs[] =3D {
-> >  	&bin_attr_trigger,
-> >  	NULL,
-> >  };
-> > +
-> > +static DEVICE_ATTR_RO(trigger_may_offload);
-> > +static struct attribute *led_trigger_attrs[] =3D {
-> > +	&dev_attr_trigger_may_offload.attr,
-> > +	NULL
-> > +};
-> > +
-> > +static umode_t led_trigger_is_visible(struct kobject *kobj,
->=20
-> Why doesn't all of this live in the triggers file as well?
-
-The current revision only exports trigger_may_offload() to coordinate the
-two files (led-class.c and led-trigger.c).
-
-If we had to move led_trigger_is_visible() into led-triggers.c, the
-trigger_may_offload and led_trigger_attrs must be moved as well. Due to
-the movement, we would have to export led_trigger_attrs and
-led_trigger_is_visible() to fill led_trigger_group.
-
-in short, moving led_trigger_is_visible() requires exporting more
-symbols.
-
-To make things tidier, how about moving led_trigger_group and
-led_trigger_bin_attrs into led-triggers.c as well? In this manner we only
-need to export led_trigger_group, and the #ifdef block here is
-eliminated. What do you think?
-
->=20
-> > +				      struct attribute *attr,
-> > +				      int idx)
-> > +{
-> > +	struct device *dev =3D kobj_to_dev(kobj);
-> > +	struct led_classdev *led_cdev =3D dev_get_drvdata(dev);
-> > +
-> > +	if (attr =3D=3D &dev_attr_trigger_may_offload.attr)
-> > +		return led_cdev->hw_control_trigger ? attr->mode : 0;
-> > +
-> > +	return attr->mode;
-> > +}
-> > +
-> >  static const struct attribute_group led_trigger_group =3D {
-> >  	.bin_attrs =3D led_trigger_bin_attrs,
-> > +	.attrs =3D led_trigger_attrs,
-> > +	.is_visible =3D led_trigger_is_visible,
-> >  };
-> >  #endif
-> > =20
-> > diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-> > index 804a04b326c4..de17a8bbb4d4 100644
-> > --- a/drivers/leds/led-triggers.c
-> > +++ b/drivers/leds/led-triggers.c
-> > @@ -42,6 +42,10 @@ static bool __led_trigger_is_hw_controlled(struct le=
-d_classdev *led_cdev)
-> >  	if (!led_cdev->trigger)
-> >  		return false;
-> > =20
-> > +	if (led_cdev->trigger->offloaded)
-> > +		return led_cdev->trigger->offloaded(led_cdev);
-> > +
-> > +	/* Otherwise assume private triggers as always offloaded. */
->=20
-> s/as/are/
-
-ACK.
-
->=20
-> >  	return led_cdev->trigger->trigger_type;
-> >  }
-> > =20
-> > @@ -341,6 +345,32 @@ void led_trigger_set_default(struct led_classdev *=
-led_cdev)
-> >  }
-> >  EXPORT_SYMBOL_GPL(led_trigger_set_default);
-> > =20
-> > +ssize_t trigger_may_offload_show(struct device *dev,
-> > +				 struct device_attribute *attr, char *buf)
-> > +{
-> > +	struct led_classdev *led_cdev =3D dev_get_drvdata(dev);
-> > +	struct led_trigger *trig;
-> > +	bool hit, offloaded;
-> > +	int len;
-> > +
-> > +	guard(mutex)(&led_cdev->led_access);
-> > +	guard(rwsem_read)(&led_cdev->trigger_lock);
-> > +
-> > +	trig =3D led_cdev->trigger;
-> > +
-> > +	offloaded =3D __led_trigger_is_hw_controlled(led_cdev);
-> > +	hit =3D offloaded || (trig && !strcmp(led_cdev->hw_control_trigger, t=
-rig->name));
-> > +
-> > +	/* [offloaded] <active_but_not_offloaded> inactive */
->=20
-> Why do they have to live in different 'containers'?
-
-The comment might be somewhat misleading...
-
-An LED device can never have an offloaded trigger and an active-but-not-
-offloaded trigger at the same time. The comment just demonstrates how the
-output might look like.
-
-The output is multiplexed to help userspace determine two things in one
-read:
-
-- The name of the LED device's hardware control trigger
-- The state of the said trigger
-
-That being said, if the complexity is undesired, it's OK to convert the
-attribute into a dumb one that only returns the plain name of the
-hardware control trigger. In this manner we will need to provide an
-additional attribute to expose the offloaded state. This can be achieved
-by adopting the attribute "offloaded" from netdev into led-triggers.c.
-What do you think?
-
-Thanks,
-Rong
-
->=20
-> > +	len =3D sysfs_emit(buf, "%s%s%s\n",
-> > +			 offloaded ? "[" : (hit ? "<" : ""),
-> > +			 led_cdev->hw_control_trigger,
-> > +			 offloaded ? "]" : (hit ? ">" : ""));
-> > +
-> > +	return len;
-> > +}
-> > +EXPORT_SYMBOL_GPL(trigger_may_offload_show);
-> > +
-> >  /* LED Trigger Interface */
-> > =20
-> >  int led_trigger_register(struct led_trigger *trig)
-> > diff --git a/drivers/leds/leds.h b/drivers/leds/leds.h
-> > index bee46651e068..b08a289397e4 100644
-> > --- a/drivers/leds/leds.h
-> > +++ b/drivers/leds/leds.h
-> > @@ -27,6 +27,8 @@ ssize_t led_trigger_read(struct file *filp, struct ko=
-bject *kobj,
-> >  ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
-> >  			const struct bin_attribute *bin_attr, char *buf,
-> >  			loff_t pos, size_t count);
-> > +ssize_t trigger_may_offload_show(struct device *dev,
-> > +				 struct device_attribute *attr, char *buf);
-> > =20
-> >  extern struct rw_semaphore leds_list_lock;
-> >  extern struct list_head leds_list;
-> > diff --git a/include/linux/leds.h b/include/linux/leds.h
-> > index d778709f5b1b..bee2b4309a09 100644
-> > --- a/include/linux/leds.h
-> > +++ b/include/linux/leds.h
-> > @@ -485,6 +485,7 @@ struct led_trigger {
-> >  	const char	 *name;
-> >  	int		(*activate)(struct led_classdev *led_cdev);
-> >  	void		(*deactivate)(struct led_classdev *led_cdev);
-> > +	bool		(*offloaded)(struct led_classdev *led_cdev);
-> > =20
-> >  	/* Brightness set by led_trigger_event */
-> >  	enum led_brightness brightness;
-> >=20
-> > --=20
-> > 2.55.0
-> >=20
+> ---
+>  security/selinux/selinuxfs.c | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
+>
+> diff --git a/security/selinux/selinuxfs.c b/security/selinux/selinuxfs.c
+> index c7d91476971c..545a6f89f9e7 100644
+> --- a/security/selinux/selinuxfs.c
+> +++ b/security/selinux/selinuxfs.c
+> @@ -340,6 +340,9 @@ static int sel_open_policy(struct inode *inode, struc=
+t file *filp)
+>         struct policy_load_memory *plm =3D NULL;
+>         int rc;
+>
+> +       if (filp->f_mode & FMODE_WRITE)
+> +               return -EACCES;
+> +
+>         rc =3D avc_has_perm(current_sid(), SECINITSID_SECURITY,
+>                           SECCLASS_SECURITY, SECURITY__READ_POLICY, NULL)=
+;
+>         if (rc)
+> @@ -424,14 +427,6 @@ static const struct vm_operations_struct sel_mmap_po=
+licy_ops =3D {
+>
+>  static int sel_mmap_policy(struct file *filp, struct vm_area_struct *vma=
+)
+>  {
+> -       if (vma->vm_flags & VM_SHARED) {
+> -               /* do not allow mprotect to make mapping writable */
+> -               vm_flags_clear(vma, VM_MAYWRITE);
+> -
+> -               if (vma->vm_flags & VM_WRITE)
+> -                       return -EACCES;
+> -       }
+> -
+>         vm_flags_set(vma, VM_DONTEXPAND | VM_DONTDUMP);
+>         vma->vm_ops =3D &sel_mmap_policy_ops;
+>
+>
+> --
+> 2.55.0
+>
