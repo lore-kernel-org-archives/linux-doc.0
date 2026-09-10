@@ -1,248 +1,183 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011010.outbound.protection.outlook.com [52.101.52.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07994538D88;
-	Thu, 10 Sep 2026 17:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789062490; cv=fail; b=T61xzgy9KRaFY0croYcVD43nqI4jcWhKAq/AT3w0HBDzPo209dkIWze4KeAEC/AzkRQ7pE30vd2srEqHEfzlThkS0vGGdI5FNCTtNrr1aAJORXAciz/TsvKctpzHsutJCEyGNA1wsGUFk97IeGGmmVhSITfrigCY0F8Zb5rR8X4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789062490; c=relaxed/simple;
-	bh=b2Tz6zEG5gZI5sVbuAhItWn93C2GA2AJc3Ph+BdCMJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=X8JWcWYjCRJOpBkasZuz2jZsoT+bj8oYs6JEYsGSZ6tz9fb8KL33fcEQA/ORZJBH31eM4/mJvNSzXbEtCFrwYLrMwJEWZaWZpUIZa0U9LSOiZ7ksEN5ZRyPA9bh3i1iDiHYhDXsbl7PnPM0e0fJjl1cvuweJAwXoVPxsm63Tjo4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kJwGOic9; arc=fail smtp.client-ip=52.101.52.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1D1568FDC;
+	Thu, 10 Sep 2026 17:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789062727; cv=none; b=bGcMyVHbLbAXxZW6NCKMJa902/CAgx5EebEHwQhqm0RohtguCzjb8+xw5sac06JkEdp7lMHt/S8pBJ2p4t8ZDINhupz1H9gMNNwBzUmWu1Q7aCM1Gud8tD+m0vcM9DYCHWml8vGqLMq5S1s6B4CLq2fj84/L/tmjP1rywBhtPEI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789062727; c=relaxed/simple;
+	bh=AnnNIzpbOfyYqkmvYoAw7hwb2MzMdlHdv89Xe+blWGI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bF2QmkcRTUHT4SHStEUZBHfGV+e0xAOP3rVNeDCJd0rJsTczy2unNyMld+9X8sxJmGW4BFBaFWpFWGNUQ3AwLVB2oAwM/6mpdJSHL93MSXWooXw9fhA/wit3stiP+XuTYXnI78QITVL49TLrMUz9B64wKQLmzGN0KfGZvCJVa/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i2j9lgpD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kJwGOic9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wQ+5G0B1PpzlFO7B9xPawSjbZVvFwrDbgt8nbQPWjvGYSnkM2tMMdnKpuOPkcKJ3AQj6NdQ2D1AEj2qMYzZt2j4UtfEHsICDHYaU3AVkxcWHhtIxSPAgaL/qxwUdk3drJqMkZ4nZPMjj8w2JWNxI3mK1A3nk6aSpnb1VlqHpI+koCgs0UnnH1hc3WjKuqgjs8Q+hthkQmCalxlzco2KiF5DKtTMZgTKRPtMc8UNOauLU29Uctpwmj21th0S8oYWeEZKOch1jThbB/Nfi2U+XJcoM2IUmaY0xzU3JBzS/wE35JGJniZHQNwToSRuBvD6QaE094sTaL/X49PnY348DQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dKd7QR80oLZFNIOxPtqaVQEmjNbpvg9cYaMNwW0lJIQ=;
- b=u8N4poEjIueys6+iOUTyNB9mqofzmzMTJYs133FEHK0j+yYzKsoiHleXDIhEH0q6JCNOycsCeaidXJjceh6zfNAhy/YGmEQvQyMMO8OsihCace5LCc66qS1e34oIfIcXRNim1D9yuVkDv8m3i6ecHXv4z28RZFQvmWWnhsOCHoOr6rBVSZNZcum4rKp008zwLy3cYsR4z9UpTRcZKXJ8lcegYGSgqikakEdidgIyfZ/ZY8IgBabxmmoiQgzFDMqLbc9mE4M7HYQkdrmgzsOfrHZACAL7GVGbGD42WKTh+smB/wfnmMOCJu0hcXSbyHv2Le9WvhhVeJK+h42y60KgNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dKd7QR80oLZFNIOxPtqaVQEmjNbpvg9cYaMNwW0lJIQ=;
- b=kJwGOic9vMzTMqzBmVw0yubN+0iGFwo5y/cmTPNL/2lsS0U84gFnoonRMSvbNCtGLxsFgY5l5qQB04Vqh0cCPJ9L+Ie9cphM6t/sLlgmhr3IwGVco+PW4szUV1eb0QiuW2X9HL7US+Pe6r3RQbyDyzgTLQ+c07QGL7GldDD+YpGwHYMlx5a4lgpg7b8hC68qisEL89CoAP+ma9icOpNCF2r9dLgGWgLQM+OKYMehIgTYUupvXiE5jnj37vAVlZhTIRQiFJJhudZAf5M1/sOtCHjs67v45HZfbNVUnijIVsSaoRvqhDZj6TH55RHmrHL9JxaEh3chk/V3xR4wPPoWhQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by DM4PR12MB7623.namprd12.prod.outlook.com (2603:10b6:8:108::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Thu, 10 Sep
- 2026 17:47:43 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0406.007; Thu, 10 Sep 2026
- 17:47:43 +0000
-Date: Thu, 10 Sep 2026 14:47:41 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>, Tarun Sahu <tarunsahu@google.com>,
-	ackerleytng@google.com, fuad.tabba@linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, david@redhat.com,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, sagis@google.com,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>,
-	linux-kselftest@vger.kernel.org, andre.przywara@arm.com,
-	michael.roth@amd.com, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, will@kernel.org, vannapurve@google.com,
-	maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org,
-	oliver.upton@linux.dev, kvmarm@lists.linux.dev,
-	alexandru.elisei@arm.com, skhawaja@google.com,
-	aneesh.kumar@kernel.org, linux-doc@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com,
-	kexec@lists.infradead.org, suzuki.poulose@arm.com
-Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live
- updates
-Message-ID: <20260910174741.GG3968357@nvidia.com>
-References: <2vxzpkzo51wg.fsf@kernel.org>
- <anssOQFNZ2LfihbU@google.com>
- <2vxzik5f311e.fsf@kernel.org>
- <anyObKiZIhfok5mk@google.com>
- <2vxzqzjz1x5f.fsf@kernel.org>
- <aoMcqp0gr06YXAPU@google.com>
- <2vxzy0e3zgqz.fsf@kernel.org>
- <aoSCCTTBn9D5hqzk@google.com>
- <20260905011956.GA856309@nvidia.com>
- <aqLU653FXjJjhbop@google.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqLU653FXjJjhbop@google.com>
-X-ClientProxiedBy: MN0P223CA0001.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:208:52b::19) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i2j9lgpD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919901F00893;
+	Thu, 10 Sep 2026 17:51:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789062716;
+	bh=Ga2HOa1loKq0jBHu59mKdChd26mC2i9x8MQreihVwCk=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=i2j9lgpDVLRaoN4+nZpvoEmxQjIWi/WUTqHCARRpW9v1qb0eK+3RomrY+8XNJgSDP
+	 njKLU11hVrGVJLXioGK4gl5m1cjfT3RNs5V7PG5Ki9DH95snF4uL29cpl8voGj9mDl
+	 vUXwjugOv/Vc4FmiIRdY4Nhqmm3OyqoiGybf4BecBn6G6I4cU0q0NqVsJ8QiLuTE/S
+	 4VQ2j2k7aontLvX2UayKWOric2A5BPY11UEoqEGsc/LcSg2D2WyBfvGMaD24FFPmVW
+	 ftCDpluXqe1KapNtb/eIYxW/2Kzn86gNc+RCE48SIhq4+PZEv7cMzrRB3gm6PHler3
+	 xFI37FcWoJVSw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 4662DCE19CD; Thu, 10 Sep 2026 10:51:56 -0700 (PDT)
+Date: Thu, 10 Sep 2026 10:51:56 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Matthias Goergens <matthias.goergens@gmail.com>
+Cc: urezki@gmail.com, harry@kernel.org, frederic@kernel.org,
+	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+	josh@joshtriplett.org, boqun@kernel.org, rostedt@goodmis.org,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org,
+	rdunlap@infradead.org, surenb@google.com, vbabka@kernel.org,
+	rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] rcu: make userspace barrier hook drain kvfree_rcu
+ work
+Message-ID: <6092a9d0-0125-4da4-ac48-85ccaeb83beb@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20260910101112.1648978-1-matthias.goergens@gmail.com>
+ <20260910170040.344864-1-matthias.goergens@gmail.com>
+ <20260910170040.344864-2-matthias.goergens@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DM4PR12MB7623:EE_
-X-MS-Office365-Filtering-Correlation-Id: 955808a4-384d-4515-11e8-08df0f639d91
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|366016|3023799007|10067099003|4143699003|11063799006|5023799004|56012099006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	iOkj1MhlmuWs3Q3Yka5GYsaQ6TZM66zt/vOEWATmoxG5O/uQppiNzFwdEDPUb7hdWnJxKUa5ydrbsg5Mr2vMoiL237PPoULNrp3d0qyqMzdxTyer91+BYKO6dSiY06hVefKMGUkqsk7H22sDrpoQNY2UCfYakigMFUT1iPjTxK9EYYC00kJ3TNI2aTxhNb6Y0HSxeugLLe7tZwOL+mNxOBM0mwalfAAHqGaDl1OPVMnJNvkdh7jJeSjQjGLsiohm6wYXcrW0j0IzGeUIOspZd3tnb0fkHYGwNPqucC363FRPYprYt5Hbxuo5lkqck4ag+fUY4+0AOBTNBXntIw+z04PB5ohwbYDBPUnTFEZmHZURi7WxtEY/VG2NDYtpaMdYJwEXJHaCbsumZhU6Om+Nm1ieAuTxmFqvKOQlwNWICAjNmyAM75u4yv03+39FcmsQelRCZCK4FBHFBRM6XYFxDwS4gmxRBVxWGg7oPZqHQiiISXwRJhvvB7k/T4nwBYksQryO7dShY6Xt6o+LeL26WUaX0f6z+7XwOCBr8POfP5YMqggoqdrlTopuI0vYgJAySzJ/niiCd5B+LAYYs8ipr46m0GiSzizDRA8aoFuT52DhGJ4HKckghczRsQVPRvp4HOFL75KjjvRuTlzUnbmY71XYwgWuqD/ZouuaPGiN97I=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(366016)(3023799007)(10067099003)(4143699003)(11063799006)(5023799004)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?CkcgztgA/Jzc1R1gVil2wLLNMW7/x8FpqEckdD3A7tisZhL6uHUAPDyhgKWu?=
- =?us-ascii?Q?qpAQDF43DrDtYz21P88z339Y6N4K+IDv7Hf30PUaXw+TpnjewFnmpq1VFfjd?=
- =?us-ascii?Q?xihf/FIg7qeeMAYF15glfPWpAWib8yEqykHrM/c26m/7lm2DDFEQyJUSMB0Q?=
- =?us-ascii?Q?/mBHOOXFIEv3yEEBGUGI4c+ItDWBztW1qko/l8nEdFckWh8k26JliUQIyMMm?=
- =?us-ascii?Q?S4LaXeRDbVUiZuKDqoRPwjJ/wiQsBXDhrLqxVUlsyrZCABhSrV6EOLGcBsQ2?=
- =?us-ascii?Q?lUOePxgZ7rJRONVOHJBrsxUBD2xIEiDQoxVbDOdxXJUxYOkEPRsVrh1JTsjE?=
- =?us-ascii?Q?bx/b/Ds4hFTuyC3VjdXlqMLfyRxPmE5VdALUAsf4CsynjF3i8NkQEyVnbeit?=
- =?us-ascii?Q?Ewjbx8F3abJ4atnT4iisNaugEiW/pzEwdN7DcRJQse5Ekl3B0a2gDMNmxuFd?=
- =?us-ascii?Q?ry5BsR1gkUJkGnPeJyr5ukMZJdAPhp6ZtVDMIidRju8rvlQLv+YHZ2X+mJ5g?=
- =?us-ascii?Q?GKojEMTY1Nj/cPIrfQAoqtJnQBIs3VNzAjy3OwR2iKsUq/c2/b/p+45mPYi7?=
- =?us-ascii?Q?FRCPhaOUZcI2WURlcwdJlkO+EReDfRsngDjN8wK2QtPNdoFPDjo1wcbiLGEI?=
- =?us-ascii?Q?MFCKZhcyYiSc1OSlflx+z1nua5p6I/tS6SWMC0Pr/qwqwKU0CGq0v3dQvbWH?=
- =?us-ascii?Q?JmiLZoVwDmesXQNXhIZDm/d+oxpJj5Qu7XrSNO8LfyuAKY9hlYLO2iWK9jkZ?=
- =?us-ascii?Q?V1VhrQlPCGvYoPo9Zh82rTyYmrjeZuOOWDKAPzwt+d0gi4izrP3uciztB90N?=
- =?us-ascii?Q?eZ4ozD+G0OiUsEHrUeZ2w2w+RdDHbuQUmAUonmHB/97o/lIJdCeoy49/NPvD?=
- =?us-ascii?Q?IZ+SYLbUfUYJjqO55TY/4cfBsrxZ5Kabd4Aw6nvOiTRUzEgAZ5ecY8XWxO9l?=
- =?us-ascii?Q?pncRD5l1ZxV4a/Gm8oaj9HFxm7vjWp1FHDIlMMuq384QWR2LSPd6QaVNBYav?=
- =?us-ascii?Q?uKHqA/uzfZMf7QmA8Yy3Rh1Imb95tWNT+VLmAXUf0UBXcg+cgQYjwwZ6QB28?=
- =?us-ascii?Q?3dHyOJ31urS1ApwqhcvZlG2kw45bHr2XF/PBmVT5N24RFecMk7qk90M585Mr?=
- =?us-ascii?Q?NAfkZeo7NCOhILbuma5woycCBs0vNkHisOUL8G4dn1F7SX3rwft3xoGX6+Sk?=
- =?us-ascii?Q?bCE0RbAOG76wrVqqt5P/u02ltRPCzcoN8AszrVfdgnBp+AEXG4IZHRfujr5O?=
- =?us-ascii?Q?pVsX5Zag2lmBwUbP/kg6UB+ugvK+ZTrUE5k0clTmmjU6dQLw+XJnMp4BNMHe?=
- =?us-ascii?Q?0KxyMJv3VipQAH2EknGHnBDmBoLhM8Si7DoeGg6jGj1Wnid6vomtEmkcPqZw?=
- =?us-ascii?Q?hkY6I+xZxoeqDeANpQawndqBgHUN9Gcc2cB/K/rStoTE8y1UaIoCqU0X3W8g?=
- =?us-ascii?Q?68LqY4011T2G3Y51SyyfJu939YDIlnXbQq0H5PcZRJ0js0psXT5mUhsW2qSv?=
- =?us-ascii?Q?SL7BwWHH1vgwMOHPZ+pRxde80s+7GzMfeRfc/KB/wQ3HZen0vYfODkfuo1bP?=
- =?us-ascii?Q?lB2azXL4rhXNt3ce096ItBnjTusMTCcj4dinuosAipbPgFfcpcWZtPxrIrhj?=
- =?us-ascii?Q?mh6l4M7mXA2owN608yeWON6WeBMRka+zssgWcwob5BShj4MQQpEx3d8Darfo?=
- =?us-ascii?Q?MDAwxPHvGywMQLsDjlP+A0hXgecrIOjc2EJ1/0rk6sUFW4qV?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 955808a4-384d-4515-11e8-08df0f639d91
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 17:47:43.3653
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CEWGcjsHshNcJsfMJji/1z3ihpwnDDTQqqI+ZjL8kHgbwryCscaLqAh64tCaFUxD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7623
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910170040.344864-2-matthias.goergens@gmail.com>
 
-On Thu, Sep 10, 2026 at 09:03:55AM -0700, Sean Christopherson wrote:
-
-> From that perspective, what I am proposing actually goes a step further.  I'm
-> saying don't commit to supporting *any* specific versions in upstream.  Express
-> the feature requirements in the serialization payloads, and let userspace sort
-> out what kernels are compatible based on their actual usage.  The kernel may need
-> to provide additional discovery mechanisms, e.g. so that userspace can probe to
-> see what is supported, but discovery is usually fairly simple to implement and
-> maintain.
-
-I'm not so fussed about the version number scheme itself. Alot of
-different schemes have been proposed over the last year and half, and
-some were very complicated. Nobody came with a more granular proposal
-that also didn't have alot of complexity attached to it.
-
-FWWI this started out with creating device tree fragments with a full
-YAML schema, and the same kind of perfect ABI like you are talking
-about. Yet it did not figure out how to make it discoverable, it was
-super inefficient and very hard to code for.
-
-It has to be discoverable from the ELF, restrictable on the export
-side, easy on maintainers, and not complex to implement.
-
-> No, the subsystem just needs to make sure that it serializes its data using the
-> defined ABI (where ABI here means the format of the payload and the meaning of
-> any flags in the header).  That should be *easier* for maintainers to handle than
-> trying to support arbitrary versions, because it eliminates subjectivity and
-> having to make judgment calls or remember magic version numbers.
-
-I'm pretty sure I have something like PTSD from ABI definitions
-adventures on the uAPI side. :( Please don't call it easier!
-
-I really don't want more of those in the kernel process. I think
-Linus's non-stable-api-nonsense is really a good thing for community
-health.
-
-With the simplification that upstream supports only one version at
-once, a simple "id" to represent that ABI was the simplest, easiest on
-maintainers thing. There is never a fight. Someone has a new idea,
-great no worries, change the ID. Done.
-
-I guess I should say my perspective is to prioritize not burdening the
-maintainers.
-
-> > I was told KVM had the smallest luo footprint of everything, so
-> > perhaps your perspective is different.
+On Fri, Sep 11, 2026 at 01:00:40AM +0800, Matthias Goergens wrote:
+> The bcachefs ktest allocation-leak check writes rcutree.do_rcu_barrier
+> before reading /proc/allocinfo. While testing bcachefs performance
+> changes, small objects released with kfree_rcu() remained visible after
+> repeated writes to the hook and 20 seconds of waiting, causing otherwise
+> clean tests to fail their leak check.
 > 
-> Only because KVM already has a massive ABI surface for save/restore.  
+> The test assumes a stronger contract than the hook currently documents:
+> rcu_barrier() waits for ordinary callbacks, but does not flush objects
+> still held in kfree_rcu() batching or per-CPU SLUB sheaves. The retained
+> population eventually fell as a sheaf filled; there is no evidence here
+> of unbounded growth or OOM.
+> 
+> Changing the hook to drain kvfree_rcu() work let the same unmodified
+> bcachefs workload pass its allocation check. All eight checkpoints in
+> one VM, after 50 through 400 option changes, reported zero retained
+> reconcile_scan objects. This motivated the separate private-cache
+> reproducer used to isolate the incomplete drain from bcachefs.
+> 
+> Calling kvfree_rcu_barrier() from rcu_barrier_throttled() was proposed
+> when the former API was added in 2024, to restore a clean baseline
+> between userspace benchmark runs. The discussion concluded that keeping
+> the existing hook name, adding the second operation and documenting both
+> was the safest compatibility choice, but the follow-up was not added.
+> 
+> Add that drain and document the stronger test interface. Keep the
+> explicit rcu_barrier() so the hook's ordinary-callback contract does not
+> depend on kvfree_rcu_barrier() reaching an ordinary barrier internally.
+> 
+> Do not reuse the ordinary rcu_barrier() sequence as an early-completion
+> check while throttling: an unrelated ordinary barrier does not establish
+> that kvfree_rcu() work was drained. Retain the existing start-rate limit.
+> 
+> Four fresh VM pairs with the full private-cache fixture retained the
+> queued object without the patch (60 to 60 active objects) and drained it
+> with the patch (60 to 59). A separate ordinary-callback regression test
+> passed on both kernels.
+> 
+> Link: https://lore.kernel.org/all/20240820155935.1167988-1-urezki@gmail.com/
+> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  7 ++---
+>  kernel/rcu/tree.c                             | 27 ++++++++++++-------
+>  2 files changed, 21 insertions(+), 13 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 68647ff4bdd2..244a53166249 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -5699,9 +5699,10 @@ Kernel parameters
+>  			there is an ongoing too-long CSD-lock wait.
+>  
+>  	rcutree.do_rcu_barrier=	[KNL]
+> -			Request a call to rcu_barrier().  This is
+> -			throttled so that userspace tests can safely
+> -			hammer on the sysfs variable if they so choose.
+> +			Request that deferred kfree_rcu() objects and
+> +			ordinary call_rcu() callbacks be drained.  This is
+> +			throttled so that userspace tests can safely hammer
+> +			on the sysfs variable if they so choose.
+>  			If triggered before the RCU grace-period machinery
+>  			is fully active, this will error out with EAGAIN.
+>  
+> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> index 96848fc1f02b..014e28ec3bd3 100644
+> --- a/kernel/rcu/tree.c
+> +++ b/kernel/rcu/tree.c
+> @@ -3989,12 +3989,12 @@ EXPORT_SYMBOL_GPL(rcu_barrier);
+>  static unsigned long rcu_barrier_last_throttle;
+>  
+>  /**
+> - * rcu_barrier_throttled - Do rcu_barrier(), but limit to one per second
+> + * rcu_barrier_throttled - Drain deferred RCU frees, but rate-limit starts
+>   *
+> - * This can be thought of as guard rails around rcu_barrier() that
+> - * permits unrestricted userspace use, at least assuming the hardware's
+> - * try_cmpxchg() is robust.  There will be at most one call per second to
+> - * rcu_barrier() system-wide from use of this function, which means that
+> + * This can be thought of as guard rails around the deferred-free barriers
+> + * that permit unrestricted userspace use, at least assuming the hardware's
+> + * try_cmpxchg() is robust.  There will be at most one drain operation started
+> + * per sixteenth of a second from use of this function, which means that
+>   * callers might needlessly wait a second or three.
+>   *
+>   * This is intended for use by test suites to avoid OOM by flushing RCU
+> @@ -4011,18 +4011,25 @@ static void rcu_barrier_throttled(void)
+>  {
+>  	unsigned long j = jiffies;
+>  	unsigned long old = READ_ONCE(rcu_barrier_last_throttle);
+> -	unsigned long s = rcu_seq_snap(&rcu_state.barrier_sequence);
+>  
+>  	while (time_in_range(j, old, old + HZ / 16) ||
+>  	       !try_cmpxchg(&rcu_barrier_last_throttle, &old, j)) {
+>  		schedule_timeout_idle(HZ / 16);
+> -		if (rcu_seq_done(&rcu_state.barrier_sequence, s)) {
+> -			smp_mb(); /* caller's subsequent code after above check. */
+> -			return;
 
-Yeah, you are lucky, other subsystems haven't done that. Honestly, was
-it easy to create?
+Don't we still want to skip the rcu_barrier() in this case?  Or am I missing
+something subtle here?
 
-> If you want to convince me that magic version numbers are the right
-> approach, then show me how KVM's existing save/restore support would
-> be made "better" and easier to maintain by throwing away all of
-> KVM's save/restore uAPI and replacing it with a versioning scheme.
+								Thanx, Paul
 
-I don't know about KVM, but how do I manage something like serializing
-an iommu page table?
-
-I'm replacing all the iommu page table code. It behaves
-differently. It supports different things that old kernels don't
-understand. iommu page tables have to be under continuous active DMA
-during kexec, so they cannot be serialized.
-
-Setting the old stuff as V1 and the new suff as V2 is so easy and is
-unconditionally correct. To my point about supporting only stable
-branches this achieves it with minimal maintainer effort.
-
-Yes, we could do some comprehensive analysis and try to determine
-everything that changed and make micro feature bits, and some thing to
-map the current layout to those bits and then hope all of this is
-correct.. But that's *a lot* of work, probably will have gaps since it
-will never be tested. Seriously, why bother? Explain to me why I
-should spend my time on this and who benifits?
-
-IMHO your KVM example has a much clearer answer to that question. It
-is UAPI so you have to do it anyhow, and you have a robust open source
-ecosystem with alot of VMMs that will consume it. Yeah, I'm on board,
-makes sense.
-
-> Have to, or choose to?  I have a very, very hard time believing that
-> it's infeasible to define a serialization format that is decoupled
-> from kernel internals.
-
-Reduced perfectly everything should become grounded in either HW or
-kernel UAPI definitions. Things are not perfect, the kernel has
-limitations, it doesn't support every HW feature, stuff leaks
-in.. Like my page table example, the new stuff supports ARM CONT, the
-old stuff does not. That is kexec ABI breaking and is only happening
-because of kernel internal details. In the page table work alone there
-are probably ~10-20 micro features like that that would have to be
-identified and delt with. Frankly I'm not confident I could even
-capture them all.
-
-Also there is the push to make kexec downtime lower. That puts
-pressure to just retain kernel things exactly as is, and maybe even
-keep kernel memory as-is. ie a sloppy job serializing to get better
-performance.
-
-> Only if the relevant subsystem defined a poor save/restore ABI in the first place.
-
-I think KVM is the only subsystem that has save/restore :)
-
-Jason
+> -		}
+>  		j = jiffies;
+>  		old = READ_ONCE(rcu_barrier_last_throttle);
+>  	}
+> +	/*
+> +	 * kfree_rcu() can retain objects outside the ordinary callback lists in
+> +	 * per-CPU SLUB sheaves and kvfree_rcu batches.  Test suites use this hook
+> +	 * to prevent deferred frees from spilling into the following test, so
+> +	 * drain those queues as well as ordinary call_rcu() callbacks.
+> +	 *
+> +	 * kvfree_rcu_barrier() currently includes an ordinary barrier, but that
+> +	 * is not part of its documented API.  Keep the explicit rcu_barrier() so
+> +	 * this hook's original contract does not depend on slab implementation
+> +	 * details.
+> +	 */
+> +	kvfree_rcu_barrier();
+>  	rcu_barrier();
+>  }
+>  
+> -- 
+> 2.55.0
+> 
