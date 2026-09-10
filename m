@@ -1,41 +1,40 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6488E472772;
-	Thu, 10 Sep 2026 13:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58574494839;
+	Thu, 10 Sep 2026 13:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789046943; cv=none; b=PS8/GGoVKak5FSQEINK5XbkqV41WJ8pfFUcR6RmWiV9Lf/cBZ/40u+TydAjR+bN6o5P2O3LfyHr87smIX7K8hrM2qUs4oTV9YU+xX7qNt4nVz6x35X0goIzLJLubCyCLTxy663guQgkKm+a5VQND2hT7I3bf035WhYwvh2QBsz0=
+	t=1789048000; cv=none; b=edGNJAYTr9Pq31AkLcba4DPoVyTPCjxiMnDfu3/7Sl8zUVdNhnP6G7Ar/yaqPvjuioyQvmx9D56C3KfWegsHeGaS31emW4wXu0aOCZ2cun0RP34DimIAFsqnY7hHttbCxbDM0Sw0n7qmIemGgQpflg423wPikLw36oFtXDc7rBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789046943; c=relaxed/simple;
-	bh=rb40kngR/1/9RS1g4ilZmUMdvuVrs61YvMqPlf0788g=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HmDJpgUBd1PjIO7mA8e3+LLynjcYQTgEiax9zXe6MzVBjW1Lm3oETF8Q3VoFusPBk8uzKbFI+fjoWR+338EkRkTqDfCSjEPM3sknUDjjPxlQCnhBijC1FNtAI5SOzfPe/iVzWGKTqjwf+i9vVUyzabSqogzKUAlcdHUhDWGdIRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Iv6i5qW3; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1789048000; c=relaxed/simple;
+	bh=AUkXD/rFmYPtCqqzAsWncUxZK0KLle4j6rAaoF5LEDE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=H9PY1miQnVjtYTz2ZtM5GGrWiBEhViDDcpaKn/J4pCP6NeI17HqZ9GC7RmcINTbJ9/NYx3TLuMQSxIegMZ9+tJdlmS54a6WZsYhupg3etIHgaiId4PJG4QdalUV2Dzpa6cSv7SoNTPOKfcUChC9/ewp/ozqya2LCoNN4BUsu3qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=ThS9jBxE; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Iv6i5qW3"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id CA1B8C653DE;
-	Thu, 10 Sep 2026 13:29:40 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 823AD5FA2F;
-	Thu, 10 Sep 2026 13:28:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9840F11C79B47;
-	Thu, 10 Sep 2026 15:28:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1789046924; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=rt27fNfNYQQhhwhCnyhkSYUYvGOP98IAFGMQ/8m3Q9E=;
-	b=Iv6i5qW3kPrUMIHFNdkniPlC16wXLoYajlPU9/HH6ZlRjEBv3lJj/552BRZbFE+1AjByfs
-	MOkjduw+/yLbXNMKMzK1Kp4mJQev6R920n8k63gyLzllzf/vnJT5VPR2IIFBg+LmqmaK88
-	LLqX+m+5Ab927TXhT+WjWDJI4INiMI+xASv8xdnMOHf47hxJLYlwILshdYTkX+mC5/adn6
-	le6/Qwrv5O0+VwrKkVuD86ncc2wtFEZSGYFkVjth9FcgaecpwYRAJm9gn39XjrRuUyE5Tp
-	Dk+Vl5a2lACGTmE20oZvnRRnqifzl9QWO962osd15DZF50l43lMckdajoQHLIw==
-From: "Thomas Richard (congatec GmbH)" <thomas.richard@bootlin.com>
-Date: Thu, 10 Sep 2026 15:28:22 +0200
-Subject: [PATCH 2/2] hwmon: (cgbc-hwmon): Add some temperature sensors
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="ThS9jBxE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=x/dPzdX9SZpdJrsIHbzEoIUdQCJTs8nVvTgtVxAxF9U=; b=ThS9jBxExUNZ7rwq3HrOi17UmZ
+	/i+WEzaimzU5cDZdvA4KZGkw08PlBooIcsqY0EKo6yD4jGWLdFs4tZYtdeLAIDjYpB98sGdVdOz8Q
+	f7M9Mnleo7i/6PSZeEJIgPqyaihWLctSnH6jy1w1fqwG2zL0CWs9rd9xvSPog0Xj49X+knqOThVvq
+	ya/bsS6D0czByHThCrcNv67rOZWzWxyUyJrHODoMcXh7r6RKUD/DwHHpw0C1c3utGhmQVREQuoaKJ
+	ZveLKkQfg5L75VOf9V8Xzg9yo6g93fkzK4vmHgfvKZwazFFuf3XNK1/YWuG2HzwiCp9SDmDvESdtw
+	eQfwyHhw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1x4f6i-000YHf-2R;
+	Thu, 10 Sep 2026 13:46:29 +0000
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH net-next v2 0/4] netconsole: Support messages ratelimit-ing
+Date: Thu, 10 Sep 2026 06:46:09 -0700
+Message-Id: <20260910-netcons_ratelimit-v2-0-ebf0dd91e26e@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,197 +43,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260910-cgbc-hwmon-fix-and-new-sensors-v1-2-ef13ae2fa147@bootlin.com>
-References: <20260910-cgbc-hwmon-fix-and-new-sensors-v1-0-ef13ae2fa147@bootlin.com>
-In-Reply-To: <20260910-cgbc-hwmon-fix-and-new-sensors-v1-0-ef13ae2fa147@bootlin.com>
-To: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Werner Gartner <Werner.Gartner@congatec.com>, linux-hwmon@vger.kernel.org, 
+X-B4-Tracking: v=1; b=H4sIAKG0omoC/23N0QrCIBSA4VeRcz1DrU3nVe8RI5yetgOloTIWY
+ +8ejC67/uH7NyiYCQtYtkHGhQqlCJaphoGfXZyQUwDLQAnVCSM1j1h9iuWeXcUnvajyTvWjuDh
+ 99q2GhsE744PWw7xBxMojrhWGhsFMpab8OWaLPPrPNX/cRXLBjW+DClJr0/trwJFcPKU8wbDv+
+ xeySZjSvQAAAA==
+X-Change-ID: 20260817-netcons_ratelimit-629b04a73c57
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, paulmck@kernel.org, 
+ gustavold@gmail.com, asantostc@gmail.com, netdev@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- "Thomas Richard (congatec GmbH)" <thomas.richard@bootlin.com>, 
- stable@kernel.org
-X-Mailer: b4 0.16.0
-X-Last-TLS-Session-Version: TLSv1.3
+ linux-kselftest@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
+ kernel-team@meta.com
+X-Mailer: b4 0.16-dev-f8e9d
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2699; i=leitao@debian.org;
+ h=from:subject:message-id; bh=AUkXD/rFmYPtCqqzAsWncUxZK0KLle4j6rAaoF5LEDE=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqorSv0nPvhImQizWFrx+LXLzla8sHJh3/OCHNd
+ ycX6fETru6JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaqK0rwAKCRA1o5Of/Hh3
+ bSL2D/4xIpguvU7M/DmY95shqgvrbjP0BvMqw9YOmFy44uDoLwjV9XMXL/5r/7pLDoroaXm0ot0
+ iwmKlSxVdVP/CyFkZq05WT2RMcm8R6wBhhSARym1fyZRULYEfO4Yg0TJopQTHGRVHsXLuV375+Z
+ ON7tCbNl6B+pv4zJoBgGJdlacM5Q/FDR5cpJtGJ4MfRuppQ4oLElou+ivgKyzQqP9HKQStJS7wU
+ UdhtzVS14lEPfdyyEUSpFk3oP34fJLKmDerKHup8rYAu+s9xnmWO1xT8slwO5IKvJMNAjO5wPZY
+ JAF62g0KX1jv0De4dbgw3DWOy+Kv78soQCifiIbenPbbzCxVCEWl9n06Ss90pkoOJFL4FgTsfum
+ 67b9kaKLWFbq+jW/8rgLXiRWAsAMiex8LHN0MnfQHmfwep9VNjY+ex2MVYy1p9LErjw2V8myZCa
+ 5VV+1PdPf0qv98AXO25qcVMfudwj13jUQOIzd4+Tp6Z3a2gZKaV9DQ2vBV7aX6wlhzWPDmNfVoH
+ 0GaC2AsdXuswX/4U8YZWCchBHu65IY9baXe7fjhVLdJAdxzQloKRiH2bH/OZ25vknziLTesMUdg
+ LoUgBIAC8SHkuNShBTFLUqvC3s0wnj+9JrYbD1IxbK9GbNHddgEe8B4dWLb7qGyCeDySiiyJjhJ
+ EvCnu3P4uKfAtMw==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-Add the following temperature sensors:
-- Alternate Board Temperature (temp11_input)
-- Top DIMM 1-7 temperature (temp12_input to temp18_input)
-- Bottom DIMM 1 temperature (temp19_input)
+netconsole hands every console message to every enabled target, with no
+bound on the rate.
 
-This fixes the following warning on conga-SA7:
+At Meta, a few hosts caused some DoS and netconsd was OOM killed in
+some regions, fed by 3 billion RCU messages from thousand hosts and by
+a swap fault that retries forever, which logged 6 million copies of one
+line on a single host in a few hours.
 
-  Board Controller returned an unknown sensor (bc_type=1, bc_id=11), ignore it
+Both floods are being fixed where they are printed, by Paul and me for RCU
+Tasks [1][2] and by me for the swap fault fix [3], but that only ever
+covers the flood already found, not new issues that might be happening.
 
-Also update existing labels to match Congatec documentation.
+Use the ratelimit in the kernel to ratelimit messages from netconsole.
 
-Cc: stable@kernel.org
-Fixes: 08ebc9def79f ("hwmon: Add Congatec Board Controller monitoring driver")
-Signed-off-by: Thomas Richard (congatec GmbH) <thomas.richard@bootlin.com>
+Give each target a token bucket, consulted once per message so that a
+message split into several ncfrag packets is sent whole or dropped
+whole.
+
+It starts with a zero interval, which struct ratelimit_state treats as
+unlimited, so nothing changes until ratelimit_interval_ms and
+ratelimit_burst are written.
+
+What the bucket discards leaves nothing on the wire. An extended target
+sees the loss as a gap in the sequence number the header carries:
+
+	7.2.0-rc7-01460-g75848acaf136,13,628,252392647,-;netconsole selftest: netcons_AGujw 1
+	7.2.0-rc7-01460-g75848acaf136,13,629,252392782,-;netconsole selftest: netcons_AGujw 2
+	7.2.0-rc7-01460-g75848acaf136,13,678,254742125,-;netconsole selftest: netcons_AGujw 1
+
+Crash output is exempt. The bucket is skipped while oops_in_progress is
+set, so a limit configured for steady-state logging cannot cost a target
+part of an oops or a panic.
+
+[1] https://lore.kernel.org/all/anw8Qw8lfeIykski@gmail.com/
+[2] https://lore.kernel.org/all/20260810-rcu_task_shrink_lruvec-v1-1-4d9f7d5251cb@debian.org/
+[3] https://lore.kernel.org/all/20260813-swap-v2-0-4a625ccabdae@debian.org/
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- Documentation/hwmon/cgbc-hwmon.rst | 42 +++++++++++++++++++-------------
- drivers/hwmon/cgbc-hwmon.c         | 49 +++++++++++++++++++++++++-------------
- 2 files changed, 58 insertions(+), 33 deletions(-)
+Changes in v2:
+- Drop the patch that sent a "N messages dropped by rate limit" notice
+  to the target. (Gustavo Luiz Duarte).
+- Link to v1: https://patch.msgid.link/20260818-netcons_ratelimit-v1-0-8c5d2d17789c@debian.org
 
-diff --git a/Documentation/hwmon/cgbc-hwmon.rst b/Documentation/hwmon/cgbc-hwmon.rst
-index 3a5e6e6e8639..c6d09232392a 100644
---- a/Documentation/hwmon/cgbc-hwmon.rst
-+++ b/Documentation/hwmon/cgbc-hwmon.rst
-@@ -28,34 +28,44 @@ system.
- Name          Description
- ============= ======================
- temp1_input   CPU temperature
--temp2_input   Box temperature
-+temp2_input   Case temperature
- temp3_input   Ambient temperature
--temp4_input   Board temperature
--temp5_input   Carrier temperature
--temp6_input   Chipset temperature
--temp7_input   Video temperature
-+temp4_input   CPU Board temperature
-+temp5_input   Carrier Board temperature
-+temp6_input   System Chipset temperature
-+temp7_input   Video Controller/Board temperature
- temp8_input   Other temperature
--temp9_input   TOPDIM temperature
--temp10_input  BOTTOMDIM temperature
--in0_input     CPU voltage
-+temp9_input   Top DIMM 0 temperature
-+temp10_input  Bottom DIMM 0 temperature
-+temp11_input  Alternate Board temperature
-+temp12_input  Top DIMM 1 temperature
-+temp13_input  Top DIMM 2 temperature
-+temp14_input  Top DIMM 3 temperature
-+temp15_input  Top DIMM 4 temperature
-+temp16_input  Top DIMM 5 temperature
-+temp17_input  Top DIMM 6 temperature
-+temp18_input  Top DIMM 7 temperature
-+temp19_input  Bottom DIMM 1 temperature
-+in0_input     CPU Core voltage
- in1_input     DC Runtime voltage
- in2_input     DC Standby voltage
- in3_input     CMOS Battery voltage
--in4_input     Battery voltage
-+in4_input     Battery Supply voltage
- in5_input     AC voltage
- in6_input     Other voltage
--in7_input     5V voltage
-+in7_input     5V Runtime voltage
- in8_input     5V Standby voltage
--in9_input     3V3 voltage
-+in9_input     3V3 Runtime voltage
- in10_input    3V3 Standby voltage
- in11_input    VCore A voltage
- in12_input    VCore B voltage
--in13_input    12V voltage
--curr1_input   DC current
--curr2_input   5V current
--curr3_input   12V current
-+in13_input    12V Runtime voltage
-+in14_input    12V Standby voltage
-+curr1_input   DC Runtime current
-+curr2_input   5V Runtime current
-+curr3_input   12V Runtime current
- fan1_input    CPU fan
--fan2_input    Box fan
-+fan2_input    Case fan
- fan3_input    Ambient fan
- fan4_input    Chiptset fan
- fan5_input    Video fan
-diff --git a/drivers/hwmon/cgbc-hwmon.c b/drivers/hwmon/cgbc-hwmon.c
-index 2effa0b56286..098896ec8c6f 100644
---- a/drivers/hwmon/cgbc-hwmon.c
-+++ b/drivers/hwmon/cgbc-hwmon.c
-@@ -41,32 +41,42 @@ enum cgbc_sensor_types {
- 
- static const char * const cgbc_hwmon_labels_temp[] = {
- 	"CPU Temperature",
--	"Box Temperature",
-+	"Case Temperature",
- 	"Ambient Temperature",
--	"Board Temperature",
--	"Carrier Temperature",
--	"Chipset Temperature",
--	"Video Temperature",
-+	"CPU Board Temperature",
-+	"Carrier Board Temperature",
-+	"System Chipset Temperature",
-+	"Video Controller/Board Temperature",
- 	"Other Temperature",
--	"TOPDIM Temperature",
--	"BOTTOMDIM Temperature",
-+	"Top DIMM 0 Temperature",
-+	"Bottom DIMM 0 Temperature",
-+	"Alternate Board Temperature",
-+	"Top DIMM 1 Temperature",
-+	"Top DIMM 2 Temperature",
-+	"Top DIMM 3 Temperature",
-+	"Top DIMM 4 Temperature",
-+	"Top DIMM 5 Temperature",
-+	"Top DIMM 6 Temperature",
-+	"Top DIMM 7 Temperature",
-+	"Bottom DIMM 1 Temperature",
- };
- 
- static const char * const cgbc_hwmon_labels_in[] = {
--	"CPU Voltage",
-+	"CPU Core Voltage",
- 	"DC Runtime Voltage",
- 	"DC Standby Voltage",
- 	"CMOS Battery Voltage",
--	"Battery Voltage",
-+	"Battery Supply Voltage",
- 	"AC Voltage",
- 	"Other Voltage",
--	"5V Voltage",
-+	"5V Runtime Voltage",
- 	"5V Standby Voltage",
--	"3V3 Voltage",
-+	"3V3 Runtime Voltage",
- 	"3V3 Standby Voltage",
- 	"VCore A Voltage",
- 	"VCore B Voltage",
--	"12V Voltage",
-+	"12V Runtime Voltage",
-+	"12V Standby Voltage",
- };
- 
- /*
-@@ -77,14 +87,14 @@ static const struct {
- 	const char *label;
- 	int id;
- } cgbc_hwmon_labels_curr[] = {
--	{ "DC Current", 0x12 },
--	{ "5V Current", 0x18 },
--	{ "12V Current", 0x1E },
-+	{ "DC Runtime Current", 0x12 },
-+	{ "5V Runtime Current", 0x18 },
-+	{ "12V Runtime Current", 0x1E },
- };
- 
- static const char * const cgbc_hwmon_labels_fan[] = {
- 	"CPU Fan",
--	"Box Fan",
-+	"Case Fan",
- 	"Ambient Fan",
- 	"Chipset Fan",
- 	"Video Fan",
-@@ -255,7 +265,12 @@ static const struct hwmon_channel_info * const cgbc_hwmon_info[] = {
- 			   HWMON_T_INPUT | HWMON_T_LABEL, HWMON_T_INPUT | HWMON_T_LABEL,
- 			   HWMON_T_INPUT | HWMON_T_LABEL, HWMON_T_INPUT | HWMON_T_LABEL,
- 			   HWMON_T_INPUT | HWMON_T_LABEL, HWMON_T_INPUT | HWMON_T_LABEL,
--			   HWMON_T_INPUT | HWMON_T_LABEL, HWMON_T_INPUT | HWMON_T_LABEL),
-+			   HWMON_T_INPUT | HWMON_T_LABEL, HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL, HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL, HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL, HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL, HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL),
- 	HWMON_CHANNEL_INFO(in,
- 			   HWMON_I_INPUT | HWMON_I_LABEL, HWMON_I_INPUT | HWMON_I_LABEL,
- 			   HWMON_I_INPUT | HWMON_I_LABEL, HWMON_I_INPUT | HWMON_I_LABEL,
+---
+Breno Leitao (4):
+      netconsole: add a per-target message rate limit
+      netconsole: allow configuring the rate limit interval through configfs
+      netconsole: allow configuring the rate limit burst through configfs
+      docs: netconsole: document rate limit feature
 
--- 
-2.53.0
+ Documentation/networking/netconsole.rst | 38 +++++++++++++
+ drivers/net/netconsole.c                | 99 +++++++++++++++++++++++++++++++++
+ 2 files changed, 137 insertions(+)
+---
+base-commit: c68a982815dcce5464e3bf2a31ac94f5146c04ca
+change-id: 20260817-netcons_ratelimit-629b04a73c57
+
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
 
