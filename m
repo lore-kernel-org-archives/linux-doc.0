@@ -1,183 +1,161 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1D1568FDC;
-	Thu, 10 Sep 2026 17:51:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFF9372B2B;
+	Thu, 10 Sep 2026 17:57:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789062727; cv=none; b=bGcMyVHbLbAXxZW6NCKMJa902/CAgx5EebEHwQhqm0RohtguCzjb8+xw5sac06JkEdp7lMHt/S8pBJ2p4t8ZDINhupz1H9gMNNwBzUmWu1Q7aCM1Gud8tD+m0vcM9DYCHWml8vGqLMq5S1s6B4CLq2fj84/L/tmjP1rywBhtPEI=
+	t=1789063055; cv=none; b=no7u6jbdual8I5t2GXca4u3JtXTk/4g+qD/ArtF/jwIpnIIYu0oZ6dehDtOBoxwkMcBgSlAV0WhWKbxSiUA/2/nHHOQwwx9U4BqMHNkwLir0WhOUWCSbHOOWW0NbY/T6XXkHVc21B1TyjK/MMxPOB5D94xB106wmXRj2pSmc61A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789062727; c=relaxed/simple;
-	bh=AnnNIzpbOfyYqkmvYoAw7hwb2MzMdlHdv89Xe+blWGI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bF2QmkcRTUHT4SHStEUZBHfGV+e0xAOP3rVNeDCJd0rJsTczy2unNyMld+9X8sxJmGW4BFBaFWpFWGNUQ3AwLVB2oAwM/6mpdJSHL93MSXWooXw9fhA/wit3stiP+XuTYXnI78QITVL49TLrMUz9B64wKQLmzGN0KfGZvCJVa/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i2j9lgpD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789063055; c=relaxed/simple;
+	bh=005N2sSxpCL8rtFHMYeazCBwEKh3g5Hcr1VODd+cWu8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nQHMH23tWYw/AfRykX/M4DrK3n2rR8lSpq0u8sM/sCt9gvBs9RvNF6uPQ0e+MahCy2xMmZpuuFpVq4Fl6soxyvivWGp5eVkX5Z6rP7sd+A7SeSlSZCG7h6IrvswhB1cwFS4U2lpJBmLZJ1Cs8lnXkEvUYBltu3HnCDLjSyxIIz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H0B0rOvQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i2j9lgpD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919901F00893;
-	Thu, 10 Sep 2026 17:51:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H0B0rOvQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3793A1F000FF;
+	Thu, 10 Sep 2026 17:57:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789062716;
-	bh=Ga2HOa1loKq0jBHu59mKdChd26mC2i9x8MQreihVwCk=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=i2j9lgpDVLRaoN4+nZpvoEmxQjIWi/WUTqHCARRpW9v1qb0eK+3RomrY+8XNJgSDP
-	 njKLU11hVrGVJLXioGK4gl5m1cjfT3RNs5V7PG5Ki9DH95snF4uL29cpl8voGj9mDl
-	 vUXwjugOv/Vc4FmiIRdY4Nhqmm3OyqoiGybf4BecBn6G6I4cU0q0NqVsJ8QiLuTE/S
-	 4VQ2j2k7aontLvX2UayKWOric2A5BPY11UEoqEGsc/LcSg2D2WyBfvGMaD24FFPmVW
-	 ftCDpluXqe1KapNtb/eIYxW/2Kzn86gNc+RCE48SIhq4+PZEv7cMzrRB3gm6PHler3
-	 xFI37FcWoJVSw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 4662DCE19CD; Thu, 10 Sep 2026 10:51:56 -0700 (PDT)
-Date: Thu, 10 Sep 2026 10:51:56 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Matthias Goergens <matthias.goergens@gmail.com>
-Cc: urezki@gmail.com, harry@kernel.org, frederic@kernel.org,
-	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
-	josh@joshtriplett.org, boqun@kernel.org, rostedt@goodmis.org,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org,
-	rdunlap@infradead.org, surenb@google.com, vbabka@kernel.org,
-	rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] rcu: make userspace barrier hook drain kvfree_rcu
- work
-Message-ID: <6092a9d0-0125-4da4-ac48-85ccaeb83beb@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20260910101112.1648978-1-matthias.goergens@gmail.com>
- <20260910170040.344864-1-matthias.goergens@gmail.com>
- <20260910170040.344864-2-matthias.goergens@gmail.com>
+	s=k20260515; t=1789063047;
+	bh=6ff58e1r4MAeSOAGMoh1t3fDEZWa+M93NvaAU2f8cPU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=H0B0rOvQX8VpVHxmekklMUtfgBJjxIdYtekM/kNqL9xVctxs/FDGawqOjRLvAi5U2
+	 3jqkXDa1K6CYPa9q/y3fs/h+GSkuJuWOKwNB1VHTHDzI8G65oaogoJQSMe1j41DeYy
+	 z9KS5Mig06RQREdF3WcIf49yGsMmwVTkYrVQEWUD2mqCucrdeHKYmYKWVad2KD9beu
+	 D/SxfPZm/huPD3rluTJY2DWQuzEAcdzK1UbBDgexCuT68UoMUzRGpwOR7WMf7rzKG2
+	 X1861ACcpCmmA0U+ROYG1sjpmk0+jhti4TYK1/zj41Xm6DWNhRAgSArjFqJtXtF0Km
+	 KBwjqnhzCVfzg==
+Message-ID: <c4f13252-f4bf-4006-b908-5094601e5169@kernel.org>
+Date: Thu, 10 Sep 2026 19:57:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260910170040.344864-2-matthias.goergens@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Path forward for Virtualized Swap?
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Kairui Song <kasong@tencent.com>, Chris Li <chrisl@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
+ YoungJun Park <youngjun.park@lge.com>,
+ Chengming Zhou <chengming.zhou@linux.dev>,
+ "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>,
+ "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, =?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?=
+ <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>,
+ Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>,
+ Meta kernel team <kernel-team@meta.com>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-doc@vger.kernel.org,
+ "open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)"
+ <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
+ <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
+ <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org>
+ <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 11, 2026 at 01:00:40AM +0800, Matthias Goergens wrote:
-> The bcachefs ktest allocation-leak check writes rcutree.do_rcu_barrier
-> before reading /proc/allocinfo. While testing bcachefs performance
-> changes, small objects released with kfree_rcu() remained visible after
-> repeated writes to the hook and 20 seconds of waiting, causing otherwise
-> clean tests to fail their leak check.
+On 9/10/26 18:22, Nhat Pham wrote:
+> On Thu, Sep 10, 2026 at 3:57 AM David Hildenbrand (Arm)
+> <david@kernel.org> wrote:
+>>
+>> On 9/8/26 18:45, Nhat Pham wrote:
+>>>
+>>> Hi David!
+>>
+>> Hi!
+>>
+>>>
+>>> Thank you for your suggestions :) More collaboration and communication
+>>> is definitely needed here. Conference is a good place for this, but
+>>> it's not something we can do very frequently, and many folks could not
+>>> attend (visa issues, etc.).
+>>
+>> Right, and conferences usually don't have the capacity to squeeze too many
+>> swap-related topics in, so it would have to be side discussions or BOFs.
+>>
+>>>
+>>> A bi-weekly/monthly series of meetings sound very appealing. Swap
+>>> contributors are very spread out (China, NorAm, Europe, etc.), so
+>>> coordination will be tricky, but let us figure out something.
+>>
+>> Yes, that's an issue. I'd suggest swap maintainers take care of that if they
+>> agree. I could try as well, but it's rather tricky right now on my end ...
+>>
+>> As an alternative, we could also use on/two/ ... slots in the bi-weekly MM
+>> alignment session to talk about swap. (I'd be happy to learn more about all this
+>> as well)
 > 
-> The test assumes a stronger contract than the hook currently documents:
-> rcu_barrier() waits for ordinary callbacks, but does not flush objects
-> still held in kfree_rcu() batching or per-CPU SLUB sheaves. The retained
-> population eventually fell as a sheaf filled; there is no evidence here
-> of unbounded growth or OOM.
-> 
-> Changing the hook to drain kvfree_rcu() work let the same unmodified
-> bcachefs workload pass its allocation check. All eight checkpoints in
-> one VM, after 50 through 400 option changes, reported zero retained
-> reconcile_scan objects. This motivated the separate private-cache
-> reproducer used to isolate the incomplete drain from bcachefs.
-> 
-> Calling kvfree_rcu_barrier() from rcu_barrier_throttled() was proposed
-> when the former API was added in 2024, to restore a clean baseline
-> between userspace benchmark runs. The discussion concluded that keeping
-> the existing hook name, adding the second operation and documenting both
-> was the safest compatibility choice, but the follow-up was not added.
-> 
-> Add that drain and document the stronger test interface. Keep the
-> explicit rcu_barrier() so the hook's ordinary-callback contract does not
-> depend on kvfree_rcu_barrier() reaching an ordinary barrier internally.
-> 
-> Do not reuse the ordinary rcu_barrier() sequence as an early-completion
-> check while throttling: an unrelated ordinary barrier does not establish
-> that kvfree_rcu() work was drained. Retain the existing start-rate limit.
-> 
-> Four fresh VM pairs with the full private-cache fixture retained the
-> queued object without the patch (60 to 60 active objects) and drained it
-> with the patch (60 to 59). A separate ordinary-callback regression test
-> passed on both kernels.
-> 
-> Link: https://lore.kernel.org/all/20240820155935.1167988-1-urezki@gmail.com/
-> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         |  7 ++---
->  kernel/rcu/tree.c                             | 27 ++++++++++++-------
->  2 files changed, 21 insertions(+), 13 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 68647ff4bdd2..244a53166249 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5699,9 +5699,10 @@ Kernel parameters
->  			there is an ongoing too-long CSD-lock wait.
->  
->  	rcutree.do_rcu_barrier=	[KNL]
-> -			Request a call to rcu_barrier().  This is
-> -			throttled so that userspace tests can safely
-> -			hammer on the sysfs variable if they so choose.
-> +			Request that deferred kfree_rcu() objects and
-> +			ordinary call_rcu() callbacks be drained.  This is
-> +			throttled so that userspace tests can safely hammer
-> +			on the sysfs variable if they so choose.
->  			If triggered before the RCU grace-period machinery
->  			is fully active, this will error out with EAGAIN.
->  
-> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> index 96848fc1f02b..014e28ec3bd3 100644
-> --- a/kernel/rcu/tree.c
-> +++ b/kernel/rcu/tree.c
-> @@ -3989,12 +3989,12 @@ EXPORT_SYMBOL_GPL(rcu_barrier);
->  static unsigned long rcu_barrier_last_throttle;
->  
->  /**
-> - * rcu_barrier_throttled - Do rcu_barrier(), but limit to one per second
-> + * rcu_barrier_throttled - Drain deferred RCU frees, but rate-limit starts
->   *
-> - * This can be thought of as guard rails around rcu_barrier() that
-> - * permits unrestricted userspace use, at least assuming the hardware's
-> - * try_cmpxchg() is robust.  There will be at most one call per second to
-> - * rcu_barrier() system-wide from use of this function, which means that
-> + * This can be thought of as guard rails around the deferred-free barriers
-> + * that permit unrestricted userspace use, at least assuming the hardware's
-> + * try_cmpxchg() is robust.  There will be at most one drain operation started
-> + * per sixteenth of a second from use of this function, which means that
->   * callers might needlessly wait a second or three.
->   *
->   * This is intended for use by test suites to avoid OOM by flushing RCU
-> @@ -4011,18 +4011,25 @@ static void rcu_barrier_throttled(void)
->  {
->  	unsigned long j = jiffies;
->  	unsigned long old = READ_ONCE(rcu_barrier_last_throttle);
-> -	unsigned long s = rcu_seq_snap(&rcu_state.barrier_sequence);
->  
->  	while (time_in_range(j, old, old + HZ / 16) ||
->  	       !try_cmpxchg(&rcu_barrier_last_throttle, &old, j)) {
->  		schedule_timeout_idle(HZ / 16);
-> -		if (rcu_seq_done(&rcu_state.barrier_sequence, s)) {
-> -			smp_mb(); /* caller's subsequent code after above check. */
-> -			return;
+> That's awesome! Thanks for the offer David - I think MM alignment is at 9AM
+> PDT Wednesday, usually right? 
 
-Don't we still want to skip the rcu_barrier() in this case?  Or am I missing
-something subtle here?
+Yes, exactly. David R. hosts it!
 
-								Thanx, Paul
+-- 
+Cheers,
 
-> -		}
->  		j = jiffies;
->  		old = READ_ONCE(rcu_barrier_last_throttle);
->  	}
-> +	/*
-> +	 * kfree_rcu() can retain objects outside the ordinary callback lists in
-> +	 * per-CPU SLUB sheaves and kvfree_rcu batches.  Test suites use this hook
-> +	 * to prevent deferred frees from spilling into the following test, so
-> +	 * drain those queues as well as ordinary call_rcu() callbacks.
-> +	 *
-> +	 * kvfree_rcu_barrier() currently includes an ordinary barrier, but that
-> +	 * is not part of its documented API.  Keep the explicit rcu_barrier() so
-> +	 * this hook's original contract does not depend on slab implementation
-> +	 * details.
-> +	 */
-> +	kvfree_rcu_barrier();
->  	rcu_barrier();
->  }
->  
-> -- 
-> 2.55.0
-> 
+David
