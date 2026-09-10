@@ -1,200 +1,277 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f99.google.com (mail-oo1-f99.google.com [209.85.161.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E953484238;
-	Thu, 10 Sep 2026 11:33:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEEE476050
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 11:44:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789040006; cv=none; b=N4nLdz3cvJ1p9Wy/s2kbsOxfFvyVd1MxUDPGqsfiYYd9mXMJdhjD0kOJgg7fELRnnQ6+tO40cx/CBXydYk8JJX9eN+VApE8tOzRRo5GHeBZMAa2wUafwtiXvgHrpwQHM31MDTwecyQnT3eMPp96/lcb1OzWmvQJsK7IjgeYyiXo=
+	t=1789040700; cv=none; b=t3Bm0TnRzNpPIcYe2s2Zfr0wCmahAUQWyC8jPnGgApjXl9kKH4r1L9jWWpX9j1iGDru02Qu/WsatWwqKxeU/C00K5TmPVz2NXEX6l5HzcjSZ60xp7rcG5cV8dy5xdGmQHmYfj+Oz3jCNaj7aWYXWPmR6PS6E4hzKCeL86Q1euFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789040006; c=relaxed/simple;
-	bh=hvVwt6ohh/ZS5jfoRHiM6qKZdBfoz9Vd2295Ug5sbr8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pS45pnZauaRlbg63kpUX9C4UwPUHz5rFBtY21XXDKdvsVKTPDr50VwRTprki8cOMYgZKMGA7aQjBO3gBRK010+iKs0sX7gDDwZ9wGkT8MCQU+r2i8ellAarU02KyHgC6U0fnBC1SLaSe3vQ9BASy4qHYumpx5oolJhYoTqvv4yM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VJQVGUTL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789040700; c=relaxed/simple;
+	bh=/DsxqeVnTaVL66oUjrBzN9bZu+HeUTsU/DCLXExa4pk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QE2EI0PR88E0Cpvwd/9j2Q8QL70PizM6aDK5XWY22w8/MOo/eMHNP5PL0/j4DnvSpglBDpHnxze04zHmWsDzV/Ej+oZ4Y7mNEfTxLXADsOqXLJOy6BDe+Kxwa7gpTk9jgXqk25gtK0AWb61J0N48/rQnda5ubwmnCf9eW8YTyHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=IsFrD8rZ; arc=none smtp.client-ip=209.85.161.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VJQVGUTL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69031F000FF;
-	Thu, 10 Sep 2026 11:33:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789040002;
-	bh=YtIACyToojkPPw7wMDUQ/Ckhd+O2kfDRIKTR1tO2oXk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=VJQVGUTLv8gM7bjQGnsZH2u0qxwm3dviTA391P/zKAGLCSCpght/oHVmkHaPsQoyG
-	 ZRgX9lWQUZXGOSCkFdEocP+IO5b88+kg7x/1mBmDwqMol3y9jajpqGzofXy7V6yt+Y
-	 OA9F4YNfuNGZqPIM7bK4r81u1Hw6sUMA/ZABwup4ghE4BLmJHT7nq8unPWL1TAuofO
-	 ja9w9yv7/7z0GOqAJi4MmGzhF3qhczbIuo5n5ETv7Qvi4FHkdKuWXx1+0/bXnCiNrT
-	 4Vnp7cfAt20DE1FyPVfN3+muefwGix6mQCiO5ZJrCmA7ffCTn+gnm9cg4ZW5sDF816
-	 7Zw+TC6+jPI9A==
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Alex Williamson <alex@shazbot.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org,
-	kvm@vger.kernel.org
-Subject: [PATCH v5 18/18] RDMA/mlx5: Ask P2PDMA whether ATS takes a direct peer-to-peer route
-Date: Thu, 10 Sep 2026 14:32:13 +0300
-Message-ID: <20260910-fix-p2p-acs-v4-0-v5-18-856087f63c0d@nvidia.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260910-fix-p2p-acs-v4-0-v5-0-856087f63c0d@nvidia.com>
-References: <20260910-fix-p2p-acs-v4-0-v5-0-856087f63c0d@nvidia.com>
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="IsFrD8rZ"
+Received: by mail-oo1-f99.google.com with SMTP id 006d021491bc7-6b8e2d8df4fso3440629eaf.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 04:44:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789040697; x=1789645497;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:dkim-signature:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5JQmoypOvlE47deY2L9mHJ74Pirj+9ZMx65VFiwsJ/w=;
+        b=s1yyb3G1WWim2r48oabnbMlgE56J3+7aKGHEOX4o5gGkG9qEZWATVujMDym48svdIK
+         lLgCoe8yQHTXba8Wq0CnyKCScvssE5Ec5cc7DW1saRoSnTXlH5m03+APqmrdTCkojmAu
+         Fpe7S0m/yL6iX9jd/ipv4eFkwUWlOO0KmCaH8BCQhV9hHDmIdvBHchylE1wS/n5pl8ha
+         JeqS58a+3J6oM461MrlZHqkTbDBpE/kIjWD3gLvKWGPcXzjA3lHM+MXgzpHe+fXbCQFW
+         iNz9NZHS0a4Ggh1pIll+CdIBnDqWdLuFn6kAsN6R8+DFKOAHSZeowgat8bAGi+7aq9OW
+         eF1Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzrMwZORnFIIuo0Njolfzj3UpQLdxFkNPrJD+iSxCuVc8paaoLyhZNX7XTHQ+1qfdUhkcL5fzKK3dw=@vger.kernel.org
+X-Gm-Message-State: AFuF++mhQq/YiAcTicOUnoKw2fcStbvxuo/tWPTHflhk/2kmRb2xIcWi
+	kx8KOTtOSyAaxvl74TvGV5FvXY1oqZRnMIx0MEjt9VrppGlVcDAeGRIRd359xsedzV5OBXBNk3L
+	IbY1nyfjyQ82X8OWU2eyEE+2/LfvAOA6oywB4P4Gizj+acwFAGiQQSQ4AX9LdubcrvBDyYwCHzw
+	g2c6hiUiD+H/bzHUp5vs0j/3DxcR9vv7U8qG/0cJVA0isHFMx/dYRJOZJBkrr1JSThslQud1sqI
+	GKSuR8gx4oE
+X-Gm-Gg: AYBFou1Mf02k0sZtnNabUykbq7X/Ash989pGwBVTG7bHNxeHmKDHfKrpXtgNI7Nmd//
+	FgmhgaZSbqmsAClQ9b/5n7je2B0I43a7vKH2/inx2R6JV4JKgShIqm1dd1IXvkg04bIX8qoWSzn
+	CEmksVrXzSNvorEZXkUN/KuQhj3lFdjPmVYLTZmOeqaEo4Y+1YV3WyUY/s6oy3zVC0hc8xCuKbg
+	gYdXhMe+/zXX+YLTySepVKX8y7XgzfSuow9GuXSHSQx+IANgkyHTkBVb0354OB7Mx3Z92PQqzVE
+	3K+JVWCMt4VoQD9+xpkSysTqVDOrgxQOs0Ge1Y5iypY6xuy14qchG3sx41I7mo/oqsBVlnToRK8
+	Pfi0r2SZiCatolSDraSqvKqZHYnkZ69IBA/kTeB8Wis6IRyFWMMKtaNRHqrcAJ9dTZcdwUdtg/Q
+	MBn0L3WkCTRGZcisExqgTQdpVNP0+5n7TY
+X-Received: by 2002:a05:6820:f028:b0:6b7:46fa:169c with SMTP id 006d021491bc7-6bee7b22009mr4011263eaf.49.1789040697338;
+        Thu, 10 Sep 2026 04:44:57 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-25.dlp.protect.broadcom.com. [144.49.247.25])
+        by smtp-relay.gmail.com with ESMTPS id 006d021491bc7-6b6dbbf76ccsm229553eaf.28.2026.09.10.04.44.55
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 10 Sep 2026 04:44:57 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-3a46d5e30bbso29553731fa.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 04:44:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1789040694; x=1789645494; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5JQmoypOvlE47deY2L9mHJ74Pirj+9ZMx65VFiwsJ/w=;
+        b=IsFrD8rZeq81T8nJAgffxaY2wgzKnnAY+49p8FtcWsAcaY7YOnjJ5DXzWKNrlIdk5V
+         r6cC0nAF35laeeFDmw1vfu+XTeR7pYulXRlunvT/3PG0j40hpxzOmtUrA9MQ3gfdUfJx
+         SRrSpiFTciToBwZ91UN4lS5P8TevH/2HWv2gk=
+X-Forwarded-Encrypted: i=1; AKwUvByVJUog/G2Ce6NI98L9zmQWpYGYJ26OYKlutnKtgEl6JSTYvLhteCGC2Nwtqy2MBuYiuCmrMc1FFMM=@vger.kernel.org
+X-Received: by 2002:a05:6512:3f0d:b0:5b6:183b:d20f with SMTP id 2adb3069b0e04-5b8986ce57cmr1233203e87.54.1789040694243;
+        Thu, 10 Sep 2026 04:44:54 -0700 (PDT)
+X-Received: by 2002:a05:6512:3f0d:b0:5b6:183b:d20f with SMTP id
+ 2adb3069b0e04-5b8986ce57cmr1233181e87.54.1789040693727; Thu, 10 Sep 2026
+ 04:44:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.15-dev-18f8f
-Content-Transfer-Encoding: 8bit
+References: <cover.1788414671.git.zack.rusin@broadcom.com> <03e5c9855e9578b00abf8da69764f1b468597218.1788414671.git.zack.rusin@broadcom.com>
+ <4e73yd2ofpdzl6rptzvd74no3hnyfblknoq7wzxlw7f3zjbz7c@srfabx6lsusj>
+In-Reply-To: <4e73yd2ofpdzl6rptzvd74no3hnyfblknoq7wzxlw7f3zjbz7c@srfabx6lsusj>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Thu, 10 Sep 2026 07:44:40 -0400
+X-Gm-Features: AcwNN1V9O4m5Md-NIpRcZHEks8CoV3j2fYxMn4_4djvvW1loHBxxC_mukyVMqHE
+Message-ID: <CABQX2QNc1GP5ZgizK=9+6XN9Ow4dsUKaFD51oGke=OP6hxCyYw@mail.gmail.com>
+Subject: Re: [PATCH v1 2/4] x86/vmware: Add the vmware_record_panic_msg sysctl
+To: Joel Granados <joel.granados@kernel.org>
+Cc: Borislav Petkov <bp@alien8.de>, Ajay Kaher <ajay.kaher@broadcom.com>, 
+	Alexey Makhalov <alexey.makhalov@broadcom.com>, x86@kernel.org, 
+	Petr Mladek <pmladek@suse.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, 
+	virtualization@lists.linux.dev, bcm-kernel-feedback-list@broadcom.com, 
+	linux-kernel@vger.kernel.org, John Ogness <john.ogness@linutronix.de>, 
+	Steven Rostedt <rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Mike Rapoport <rppt@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>, 
+	Jonathan Corbet <corbet@lwn.net>, Bo Gan <bo.gan@broadcom.com>, 
+	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>, kexec@lists.infradead.org, 
+	linux-doc@vger.kernel.org
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="00000000000016e8a6065b1f7fa1"
 
-From: Leon Romanovsky <leonro@nvidia.com>
+--00000000000016e8a6065b1f7fa1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-mlx5_umem_needs_ats() enables ATS for any dma-buf whose caller asked for
-Relaxed Ordering, on the assumption that a switch in the path has CR, RR
-and DT all set. It also enables it for a buffer already mapped with the
-peer's bus addresses, which are not translatable at all.
+On Thu, Sep 10, 2026 at 4:32=E2=80=AFAM Joel Granados <joel.granados@kernel=
+.org> wrote:
+>
+> On Tue, Sep 08, 2026 at 02:07:14PM -0400, Zack Rusin wrote:
+> > Full panic text is useful on ordinary guests. Encrypted guests should
+> > export it only when an administrator opts in. Reporting a crash does no=
+t
+> > require transferring the log.
+> >
+> > Enable panic recording by default for ordinary VMware guests and disabl=
+e
+> > it when guest memory encryption is active. Expose the policy as the
+> > boolean kernel.vmware_record_panic_msg sysctl and document that it
+> > controls only the vmware.log transfer.
+> >
+> > Register the sysctl only after the panic buffer and dumper are ready, a=
+nd
+> > only when sysctl support is built. A registration failure leaves the
+> > internal default in force.
+> >
+> > Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+> > ---
+> >  Documentation/admin-guide/sysctl/kernel.rst | 14 +++++++++++++
+> >  arch/x86/kernel/cpu/vmware.c                | 23 +++++++++++++++++++++
+> >  2 files changed, 37 insertions(+)
+> >
+> > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentatio=
+n/admin-guide/sysctl/kernel.rst
+> > index b6328cd0f43e..4577e935ddcf 100644
+> > --- a/Documentation/admin-guide/sysctl/kernel.rst
+> > +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> > @@ -1690,6 +1690,20 @@ entry will default to 2 instead of 0.
+> >  =3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> >
+> > +vmware_record_panic_msg
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +Controls whether panic kmsg data is written to the host's ``vmware.log=
+``.
+> > +This setting does not control the separate VMware guest-crash event.
+> > +
+> > +=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +0 Do not write panic kmsg data to ``vmware.log``. This is the
+> > +  default for encrypted guests.
+> > +1 Write panic kmsg data to ``vmware.log``. This is the default for
+> > +  ordinary guests.
+> > +=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> This seems like it can be represented in a boolean value. Any reason why
+> you did not use proc_dobool for your handler? Would it make sense to
+> have vmware_record_panic_msg as a boolean?
 
-P2PDMA has read the ACS controls, so ask it through
-dma_buf_p2pdma_map_type(): enable ATS only where the path is not routed
-directly as it stands, but would be for a Translated Request whose
-Completions carry Relaxed Ordering. Exporters that name no provider keep
-the old assumption, since their ACS settings remain hidden.
+Thank you for taking a look! This follows the existing Hyper-V
+implementation of hyperv_record_panic_msg, which uses an int and
+proc_dointvec_minmax with 0/1 bounds. I thought that consistency
+across the codebase was more important even though I agree that bool
+and proc_dobool() would be a better fit.
 
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/infiniband/hw/mlx5/mlx5_ib.h | 36 ++------------------------------
- drivers/infiniband/hw/mlx5/mr.c      | 40 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 42 insertions(+), 34 deletions(-)
+z
 
-diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-index e9ddf2e97a76..ab32742b2180 100644
---- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
-+++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-@@ -1646,40 +1646,8 @@ static inline bool rt_supported(int ts_cap)
- 	       ts_cap == MLX5_TIMESTAMP_FORMAT_CAP_FREE_RUNNING_AND_REAL_TIME;
- }
- 
--/*
-- * PCI Peer to Peer is a trainwreck. If no switch is present then things
-- * sometimes work, depending on the pci_distance_p2p logic for excluding broken
-- * root complexes. However if a switch is present in the path, then things get
-- * really ugly depending on how the switch is setup. This table assumes that the
-- * root complex is strict and is validating that all req/reps are matches
-- * perfectly - so any scenario where it sees only half the transaction is a
-- * failure.
-- *
-- * CR/RR/DT  ATS RO P2P
-- * 00X       X   X  OK
-- * 010       X   X  fails (request is routed to root but root never sees comp)
-- * 011       0   X  fails (request is routed to root but root never sees comp)
-- * 011       1   X  OK
-- * 10X       X   1  OK
-- * 101       X   0  fails (completion is routed to root but root didn't see req)
-- * 110       X   0  SLOW
-- * 111       0   0  SLOW
-- * 111       1   0  fails (completion is routed to root but root didn't see req)
-- * 111       1   1  OK
-- *
-- * Unfortunately we cannot reliably know if a switch is present or what the
-- * CR/RR/DT ACS settings are, as in a VM that is all hidden. Assume that
-- * CR/RR/DT is 111 if the ATS cap is enabled and follow the last three rows.
-- *
-- * For now assume if the umem is a dma_buf then it is P2P.
-- */
--static inline bool mlx5_umem_needs_ats(struct mlx5_ib_dev *dev,
--				       struct ib_umem *umem, int access_flags)
--{
--	if (!MLX5_CAP_GEN(dev->mdev, ats) || !umem->is_dmabuf)
--		return false;
--	return access_flags & IB_ACCESS_RELAXED_ORDERING;
--}
-+bool mlx5_umem_needs_ats(struct mlx5_ib_dev *dev, struct ib_umem *umem,
-+			 int access_flags);
- 
- int set_roce_addr(struct mlx5_ib_dev *dev, u32 port_num,
- 		  unsigned int index, const union ib_gid *gid,
-diff --git a/drivers/infiniband/hw/mlx5/mr.c b/drivers/infiniband/hw/mlx5/mr.c
-index 00e13028762a..286f372e5b0c 100644
---- a/drivers/infiniband/hw/mlx5/mr.c
-+++ b/drivers/infiniband/hw/mlx5/mr.c
-@@ -38,6 +38,7 @@
- #include <linux/export.h>
- #include <linux/delay.h>
- #include <linux/dma-buf.h>
-+#include <linux/dma-buf-mapping.h>
- #include <linux/dma-resv.h>
- #include <rdma/frmr_pools.h>
- #include <rdma/ib_umem_odp.h>
-@@ -47,6 +48,45 @@
- #include "data_direct.h"
- #include "dmah.h"
- 
-+MODULE_IMPORT_NS("DMA_BUF");
-+
-+bool mlx5_umem_needs_ats(struct mlx5_ib_dev *dev, struct ib_umem *umem,
-+			 int access_flags)
-+{
-+	struct dma_buf_attachment *attach;
-+
-+	if (!MLX5_CAP_GEN(dev->mdev, ats) || !umem->is_dmabuf)
-+		return false;
-+
-+	/*
-+	 * The Completer decides whether its Completions carry Relaxed
-+	 * Ordering, and only a Request that asked for it can expect them to.
-+	 */
-+	if (!(access_flags & IB_ACCESS_RELAXED_ORDERING))
-+		return false;
-+
-+	attach = to_ib_umem_dmabuf(umem)->attach;
-+	switch (dma_buf_p2pdma_map_type(attach, 0)) {
-+	case PCI_P2PDMA_MAP_NONE:
-+		/* Nothing is known about the route, so fall back to the bet. */
-+		return true;
-+	case PCI_P2PDMA_MAP_BUS_ADDR:
-+		/*
-+		 * The path is routed directly already and is programmed with
-+		 * the peer's bus addresses. Those are not translatable, so
-+		 * ATS would be wrong as well as pointless.
-+		 */
-+		return false;
-+	default:
-+		break;
-+	}
-+
-+	return dma_buf_p2pdma_map_type(attach,
-+				       PCI_P2PDMA_TLP_TRANSLATED |
-+					       PCI_P2PDMA_TLP_RELAXED_CPL) ==
-+	       PCI_P2PDMA_MAP_BUS_ADDR;
-+}
-+
- static int mkey_max_umr_order(struct mlx5_ib_dev *dev)
- {
- 	if (MLX5_CAP_GEN(dev->mdev, umr_extended_translation_offset))
+--00000000000016e8a6065b1f7fa1
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
--- 
-2.55.0
-
+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
+6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
+SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
+uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
+Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
+b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
+dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
+BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
+Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
+oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
+A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
+A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
+s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
+SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
+QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
+fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
+iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
+3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
+91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
+06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
+b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
+VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
+VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIAt4
+cev6P7GGT9P7O6xhDkrrsIOwZFgZdA7C8KsFBvldMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI2MDkxMDExNDQ1NFowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAKVm+t7Ihid+5m7LkmgrTTT/nFDgrcnNZG55rsNZ
+62mD9lzTnUR3EB4aeSLPE4gqjCo2NvGlEge4LxsJMs+xDtH1AXSVGFlLmHPMS5hvYnHbAlgVbxKR
+aj5+O/M/0qRkxMmCbkSoDljUiqc7xOozqnhSMWctS6WZBm+iIOxRGRFNr2Fjc8r2nFRBlwWXqpaO
+pjlp/ZyPZH/vXQHqUTNpYUH2FuoR47zjvzTyKwSEwHbyo1t3mM31hud3yAuzplEA7ZUsk60RW+aD
+ljBy85uU1rkBSCC99YwDars4rGqOH+iGXcDW964DUqSM1QrwbdxgzeJxaIFp+09N6F2fxPzrGVE=
+--00000000000016e8a6065b1f7fa1--
