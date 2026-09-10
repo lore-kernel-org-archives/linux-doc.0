@@ -1,66 +1,66 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B923655F6
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 01:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C45366054
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 01:32:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789003976; cv=none; b=EVrVzld4WpuC6x0y43MCBssdF2YR13WEay1+oxzno8RpsCjsTvjMtlcwnsayfGAXeHK6nLnQfBUggvhWDt9+DW5c9xokK3d7BkiZGh2E588dpFBCoHtyl2o42n+C4JOBTYy0ulw5bXt9ThG/n4g5TjaABY6mxBPsc8uyHoxtgCo=
+	t=1789003980; cv=none; b=nC+B9/u5na0Y4kYFv0nqPpJKi+D3d7RxhmliQ0jP+x2KdFP6kkIa4IvwAmOrOO34P/Of7C2vWO/mwORi+FAt9cQt73UcPLEbepO+cp1fEexd+OzC0mAqXDtsHcECwHMxMR2ilzKlzckK+HO4B4QfHyYw93mOwbf5mLVPk1Zn1f8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789003976; c=relaxed/simple;
-	bh=Wrt5BREBuyuGcYt2aWXWslgff0dcwvsUynDfCbIh+Rc=;
+	s=arc-20240116; t=1789003980; c=relaxed/simple;
+	bh=5npIdaapraypBrumlWXF26qNLLXzmRV667k+YLJkaDI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pf4YEw5AdqmK0k5R6yFahUPAj18bLtjyx73g4HxomF9HwZjsEt8CdGZtbb3Hw+YJdWn/TxHHmr46rc1kcVy1lBZOh6xE5YqBIZ9cQW9SDSWUNf97QwypQkw6rAnS+4mF5kOWGaZFxFSMr+9X1R0FcGw3E7KRFLbL9VsnRJFPGuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eLT3dHgC; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=CP4BEx96Jy5xbWXEbTXuAm7UP1UYUFP3hkDM2K9qQ261GcGzbiwiXXe1zV3isoBw/qbEjAGeXwL+XZpDx7UmyED2OY3O6k6Ry+Fa3GRwxwgG/tFNf33N3jlspcPwyh9EFsFqOZoDzvbYtG8L+av7+DHZCh3Ie1c7yXdKKosx9tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oTBYOs9h; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eLT3dHgC"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4957eefd361so51355205e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 18:32:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oTBYOs9h"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49b8e527d63so81382795e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2026 18:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789003972; x=1789608772; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789003975; x=1789608775; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=G0noSNcNvP/+I+rxnaf4LKhy/qChedg87Os3I3Fnbpw=;
-        b=eLT3dHgC7yMLi6m1347n09ROs3vSYpE3Z6WyNi9WBErck4EuuWeauqwJmkKbS8Jddu
-         6qK0q4ehhAXZKenmNiYf3ob//zR50xGqFTgEmT8ONXJOlw/Lo2ocn3k++4zHV48AiTUj
-         zs3emWmobC0Nv0/m0/k9qfYexRAOQH24/D2N3zHF70mRogXpH6FKD0b1FbZe1Ll6DjVt
-         iUiQNxWlTM/gP2irbowpAQbvFc1RkJA0QvT5Z3UZkO/ZS6zNg16tBZkjiPZycW7x6HhJ
-         LrLhvd2zvkAFqoHchCXt3xQxta+aUSvlvUUD9pvOdMVGc7zQ/9br7uZ9d+6fQZNIUcwh
-         E4LQ==
+        bh=MYl7DgYw3pPECQ79mBvyISUl5xXzjI6JeiWJOfwAtIc=;
+        b=oTBYOs9hrQ1g2s7H1bO9ogdhbix+86v1yKFtfKCQWjR2iRiM0lteprlG6Tn3bvnNeW
+         RDnjU23cFSUweUOo/dO+YQs57po24Vf3jckqzJ7ygXrMBi2RX2UeRHj+//bkJ8Eiqukq
+         6dmbafTfGj8ObvjKL3mFBCqDa/6+bq4N4jT/jPNvy3dFG8CMTQtFozbVCsxKjxzetMNJ
+         wxRIGzrC4KOjnhjl9GxsScP+rj5w9qgsm2euP4SfZ9sVImxRy5fXrI15ETNA5Ppcuua2
+         NtIxDrLqswMf+z5hVSRi8PvnlqC7QVtXzpLkpX1wHIxIC88GSFYtxvHmgyuubyqaolzO
+         KxCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789003972; x=1789608772;
+        d=1e100.net; s=20251104; t=1789003976; x=1789608776;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=G0noSNcNvP/+I+rxnaf4LKhy/qChedg87Os3I3Fnbpw=;
-        b=X9+Gtvjyn62119T6fRxUA/5RxZalzR/7g54IIQbSvXbPqa7MItYs9gUtaL1n278dk8
-         f+PzrL0MDKa8T4tjWK22QDmBrGafk9vZF+mCXxyamoVi/Im5JH0LiU5wJfiKFGy+88aE
-         YU2IRd1znUllriB1k5btCI/aaTYhr6O2htETtb5Ixk7QMjIOwF5Wi8hGEqFnRHXFAaMh
-         gzI5eU65tcaYOVp1JF0h2O03MAZPpY/kdYRXTeTF3MeD5rUqJqzErKNMhALeJM4ZxNur
-         8VUecsTsQmxLV/wsfBT6+dqTSRMrP8J/2N1SMt1WvGPJ2qCaaeumQcDnXH0OElYG/nQr
-         ArlA==
-X-Forwarded-Encrypted: i=1; AKwUvBy/29fsLzitwB19WBcN0nXWyRhzU6jPZn/fbjyyHL0GL/YDrzdITI8Y0G8xBU4jdHvPnVA3renbUBw=@vger.kernel.org
-X-Gm-Message-State: AFuF++lNplPeF7wL9sNCB3t1dlvbl8VUxtUIqwCmrSutcPbHEPncZJm6
-	86sYLRS7guArgHSeRuv4xx2117QKlQCJStjqGNVKzUIrA8U7INwg0Om0
-X-Gm-Gg: AYBFou3q6ZWOW55PnZtsFjBU2mmEDein8ZOx4mOGZxM4Gsa86SAEgzs6BAhvJwicb4a
-	YjNwLFTs3QyMTo73SFrJJLWYWBQQx4HYrC9He2czg/yV/OrNhfRc2b0GUU2qPdz8Ho+H4v5dbeA
-	XLweSZ1t3xedfPG31imEzqKVsfibDP8RiK2Rjz5dNfOZNTTWmXapdmJlhlADxuF8FN8FKDt6Hn5
-	q01mOiJWnGYCmkYlmjhARvtXUoWlu65x+nrbFHnBOOw/BgBqe/0BJK5V9jAH+GWVUwZ84HN7IMn
-	vt5+vPnRIh8SyiZByPm9MlAi+sWmQMsEL1qJuqlxalI7jmmVxXQfHWKebgkLom62fkzkHWsEhYf
-	A4sbreHMMvZ/DTOwdOnc03wGvh4fEpvbD016VdPYknAR5+0YHQtS2BzBBstC6FR8eXLJFBezPfC
-	YG53Dq6dDFYmUhUE7n+PMNNOIo9ug9bhjgEBm5lig8rW34ZhQOb871y/E8mZepc5Y/9nsBfonnD
-	gbagse9xMQRxMQOUqA0m/HHPZf2IK+lOE/4h1pjkPKHA5jXSg9NuiTtYXyMUn5/IWN3mcLiQAzm
-	q63Ax8QnRQu69MhQ1nPhtNc4m0SRPCcGu658jdjDvBbtbfw/8i9ZhNYaED6Upee5RcxtEeAwgIy
-	opQ==
-X-Received: by 2002:a05:600c:3ba3:b0:49d:e79:612f with SMTP id 5b1f17b1804b1-49d0e79635amr237510065e9.26.1789003972418;
-        Wed, 09 Sep 2026 18:32:52 -0700 (PDT)
+        bh=MYl7DgYw3pPECQ79mBvyISUl5xXzjI6JeiWJOfwAtIc=;
+        b=iRH9vWtV/PAgFOY3Ff/XO5hB06ffVP14m6rrwmIOvJu4ec1iRXP0vFbWaQOLr3Al3g
+         0Atl5ubr9FN4RKFdKSb6DYcAX1jT7J/14X94jr4gSpa1F9n2uGsfcbB1ul+p2j+lSqF4
+         mJlGeXKtMwyfOhjftszD6bhW3B70U/QzIxJ/pPo9bLWcYeQTQtHFJrYnVOrsqa0KAHFP
+         b49hCnJQspWJOzih9kBjJhc2x+mqHf8J6Hg2NFoX9/vmqUajP+ZTaCB549UJe6wsTsS3
+         UT50mDyRXNkXoT1fZiNbbJt7Q8XQLPdEaFH9pOZ3ukOPt0RXeUi2o0rSz64YqJk+6gCR
+         1VBQ==
+X-Forwarded-Encrypted: i=1; AKwUvByjjlyLf9N716XLMsAt5/FS2isHsTVbtogXhHtjy3OksUPXALE8bMQxsCPfW+eVMIhnSCv66uzaD+U=@vger.kernel.org
+X-Gm-Message-State: AFuF++nR1Wc5aDKOCeCCqr/7OmCc+TBP4/e4PXPHnXQxG2XqQiIzIUjR
+	3m/MUfvDtsFkS7aR0D4lFazLqbWZJpqd+yMzBBaNX7xSeRpHAIZ63Y/q
+X-Gm-Gg: AYBFou3jRMwSEeGmP7oIQ6ATe7UNZQ4w0LaasOMpdOhpTfPgY5ySlOQJXp+PXIhDB/x
+	iKGgL1/gzq2A5wS86LviD6u2soBH2eSqseLbnxG9xzUppImXTU7y07UXAhFPBYXVh093aOtQz5K
+	xYRA9uucECvE0gmioEsUgiKsWu5N3wHFakstPo0OPgzft5xYOOf00Nzhh6SV9kNinWwumDCTzsl
+	FZEGNm21yZOUed9zvID6FXcMeKwqUs7T9eOJqZtJQ1d58YFiF3fqxbfTDatcVhvw4OkTY0FWcrl
+	WyCX4kVjpo4wK377AEXgAOLeAhuwSZU4pkqL1Jx3g76edOAP1KQaVVgjE99n2LRs33l8/18Q94J
+	EU4DpvG8dNPiU8Nlr+qdm+sv9Dv5AO4PAW95arpuYoq1Z2gbxYJSdW9HNSlJqoJPdHPJoTstvlI
+	C3c0h7BgF5V1iqz+3bX/yBQ2EoILZmn30SDV1k4xq0KC5BMIbrCpbCfwvRlPqL9ZgyLA8FOERg6
+	mX45YehE+fpvbkPFnY72+2iQIDl2fU+HzWbywggyKqiNsvURnJg82QO1xZCc9TF7ZQd5RRTuhvl
+	eSelm7vP0/MDMjSQZ6kTcFlFhQXLcPX5e3YjY0buw0/Fh96UDJp2gavXzwnzPxhNMwjpciDVGMB
+	B9g==
+X-Received: by 2002:a05:600d:849c:20b0:49c:fe46:7219 with SMTP id 5b1f17b1804b1-49cfe467228mr261724915e9.20.1789003975492;
+        Wed, 09 Sep 2026 18:32:55 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-b090-6201-5565-e933-e630-1831.310.pool.telefonica.de. [2a02:3100:b090:6201:5565:e933:e630:1831])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26d4e3f3sm35852735e9.15.2026.09.09.18.32.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26d4e3f3sm35852735e9.15.2026.09.09.18.32.52
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 09 Sep 2026 18:32:52 -0700 (PDT)
+        Wed, 09 Sep 2026 18:32:54 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
@@ -91,9 +91,9 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	Dominik Brodowski <linux@dominikbrodowski.net>,
 	Michael Schmitz <schmitzmic@gmail.com>,
 	Andreas Kemnade <andreas@kemnade.info>
-Subject: [PATCH v3 1/8] docs: kernel-parameters: Drop the atarimouse= entry
-Date: Thu, 10 Sep 2026 03:32:38 +0200
-Message-Id: <20260910013245.8619-2-kmehltretter@gmail.com>
+Subject: [PATCH v3 2/8] docs: kernel-parameters: Drop the bau= entry
+Date: Thu, 10 Sep 2026 03:32:39 +0200
+Message-Id: <20260910013245.8619-3-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260910013245.8619-1-kmehltretter@gmail.com>
 References: <20260910013245.8619-1-kmehltretter@gmail.com>
@@ -105,34 +105,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Nothing in the tree parses atarimouse=. drivers/input/mouse/atarimouse.c
-only takes a module parameter, and git log -S finds no __setup() for the
-boot parameter anywhere in the git history, so the entry has been stale
-since before it.
+bau= went away with commit 39297dde7390 ("x86/platform/uv: Remove UV
+BAU TLB Shootdown Handler"); nothing parses it any more.
 
 Drop the entry.
 
+Fixes: 39297dde7390 ("x86/platform/uv: Remove UV BAU TLB Shootdown Handler")
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-Reviewed-by: Michael Schmitz <schmitzmic@gmail.com>
 Acked-by: Arnd Bergmann <arnd@arndb.de>
 Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Steve Wahl <steve.wahl@hpe.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 2 --
- 1 file changed, 2 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 7 -------
+ 1 file changed, 7 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 68647ff4bdd2..c8d96de4c00d 100644
+index c8d96de4c00d..99d5bb68968a 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -591,8 +591,6 @@ Kernel parameters
+@@ -624,13 +624,6 @@ Kernel parameters
+ 			Format: <int> (must be >=0)
+ 			Default: 64
  
- 	ataflop=	[HW,M68k]
- 
--	atarimouse=	[HW,MOUSE] Atari Mouse
+-	bau=		[X86_UV] Enable the BAU on SGI UV.  The default
+-			behavior is to disable the BAU (i.e. bau=0).
+-			Format: { "0" | "1" }
+-			0 - Disable the BAU.
+-			1 - Enable the BAU.
+-			unset - Disable the BAU.
 -
- 	atkbd.extra=	[HW] Enable extra LEDs and keys on IBM RapidAccess,
- 			EzKey and similar keyboards
- 
+ 	bdev_allow_write_mounted=
+ 			Format: <bool>
+ 			Control the ability to open a mounted block device
 -- 
 2.53.0
