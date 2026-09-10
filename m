@@ -1,45 +1,62 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956243FE367;
-	Thu, 10 Sep 2026 09:50:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D81C36826E
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 09:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789033807; cv=none; b=ePk1/Y+9IbO3zD1kJnrd5qRTgLlHRWF0seddN1Q1yL6DtXYD1XSCVBBOLQXzbxTndFJek4dE6vPx/KgpiUTDDgJfGTs7Zp5Or5+w4eRoOnuJzCcWYyRKkoCclTvxm92NT24A7s1atx+MG62XTBzCOMnVyv6kVuBGO3uEVFbikYg=
+	t=1789034247; cv=none; b=JmqkmixlF2XjT5HISg0dr6qviyUbHCfazGQN3celQi5wpqlXBV6iSXPfdQtyZlGOU7PPaHvAbtk+IwTDLaiOwpduUByMRWtIdb9NfKfMqkvBwUFF3l6kJQ3FIezw2YGtX9POjGGj5nch2HCMolGvW3Xm/tUGiIyuGdCtINEw0uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789033807; c=relaxed/simple;
-	bh=Lm1iDn1MpImB0Z6Zn3rV0unyaPyNmR3nCxRWSJRkZT0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tpm0y6YQhdGy+0+87g1l8Y0v9hZaIcVw9AGN23vhr5uXmIjKpSQ6vbzlAzPCXHlnO2byuacpjpJoOL7dp6SN9eFwJ127vOlsk2DTXqmtSvZrfy0hShD9hfEPAVo1Da3hfmMaRmhF0bgnF+EVKqqJhGfdl5yYEaiNB3+nDV9ffVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cGCQsyJb; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1789034247; c=relaxed/simple;
+	bh=xI8YmvWvbWNbNFO9Nt0QVTyadiUccqoL4CeHlw1Cq98=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WSVBHWIqsrbwtvyPiYEICTwZmBWk7tkBuI/gluDklIYEqVt6wB1/r+wBW+7ZQjH83NFjNAn8KkDHz1kxezx75rPzndThS0INihBxTV0K3xqPdwIzpAY++5EUFYic5AfwhxPULYKOmPJ9z2uTeDBnGOuQoHgLTbYoS29P5wPNK1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kEXJagfu; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cGCQsyJb"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02F9F447;
-	Thu, 10 Sep 2026 11:48:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1789033703;
-	bh=Lm1iDn1MpImB0Z6Zn3rV0unyaPyNmR3nCxRWSJRkZT0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cGCQsyJbAP2bXayNbuaQcVxLQP8U/QrZy6zehkn9bzrvreS3Cv+Ni6FePcNLGXwu7
-	 FNzq5zJGumyL4EcU6J/PZVB0CJbi/L0IIHcZRwiu3DUmOw6e/p1PeM6+oM+MissSVk
-	 uX2bwj1E6uvOeR00xun8/VE7mqEeOqq7K4srKUOk=
-Date: Thu, 10 Sep 2026 12:49:58 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Ruben Sutton <ruben@scstudios.tech>, linux-doc@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-Subject: Re: [PATCH] docs: process: use gender-neutral pronouns
-Message-ID: <20260910094958.GI1892234@killaraus.ideasonboard.com>
-References: <20260909144100.78177-1-ruben@scstudios.tech>
- <87pkymlao3.fsf@trenco.lwn.net>
- <202609091143.0B34CB0E1@keescook>
- <6e4cb304-fc9c-4cd8-bd6d-2d0dd635f3cf@leemhuis.info>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kEXJagfu"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id ACC371A1A8D;
+	Thu, 10 Sep 2026 09:57:23 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 7C681602B8;
+	Thu, 10 Sep 2026 09:57:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 65F8211C78279;
+	Thu, 10 Sep 2026 11:57:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1789034242; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=/d9m43TxhAffh3ZgQ1jebeO+R7ZKEi4Q/arfkRVVd4A=;
+	b=kEXJagfuHj+Ex1oMPbUBWxtgifSU41VUI9E0sXmqowTJRfarf3WpgK1OPAky2CIElKghe3
+	E4jF0Qq49rtgGsORPOyzfsAIbMjppGCFifmdE5UTwa99E46oDwnjbZLqp1TU8FJgqzrrkB
+	7UFZX/61PJq65f5sO5DOxhOQFFDP6wmKsZNy6F9nC9ZwoAGDufDEqne3LPHbbLGM0U2lVH
+	QAfD6QXjB2fRBwQ5Ocxzu/Myk3lPErNOrg8ZEXUTo7dAkd00/uobt6LAARxdv3i+hhZDg9
+	F3K+Tur2sJ8cV+RTr9K5uGWX7JTOCr6XqjiFxOKT42tpsKqWMvRWmcJEqPdTvA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Jon Hunter <jonathanh@nvidia.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Michael Walle
+ <mwalle@kernel.org>,  Takahiro Kuwano <takahiro.kuwano@infineon.com>,
+  Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
+ <vigneshr@ti.com>,  Nicolas Ferre <nicolas.ferre@microchip.com>,
+  Alexandre Belloni <alexandre.belloni@bootlin.com>,  Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>,  Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
+ <skhan@linuxfoundation.org>,  Randy Dunlap <rdunlap@infradead.org>,  Steam
+ Lin <STLin2@winbond.com>,  Hsin-Yi Wang <hsinyi@chromium.org>,  Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>,  linux-mtd@lists.infradead.org,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  "linux-tegra@vger.kernel.org"
+ <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH v5 03/25] mtd: spi-nor: Refactor Read Status/Write
+ Status support
+In-Reply-To: <b78b8e6a-2fab-489f-aa1b-a2ab23051794@nvidia.com> (Jon Hunter's
+	message of "Thu, 10 Sep 2026 05:38:01 +0100")
+References: <20260904-winbond-v7-1-spi-nor-rv-addition-v5-0-2909a45fe4fa@bootlin.com>
+	<20260904-winbond-v7-1-spi-nor-rv-addition-v5-3-2909a45fe4fa@bootlin.com>
+	<b78b8e6a-2fab-489f-aa1b-a2ab23051794@nvidia.com>
+User-Agent: mu4e 1.12.12; emacs 30.2
+Date: Thu, 10 Sep 2026 11:57:11 +0200
+Message-ID: <87ecf1sa2w.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,53 +64,53 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6e4cb304-fc9c-4cd8-bd6d-2d0dd635f3cf@leemhuis.info>
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Thu, Sep 10, 2026 at 08:59:04AM +0200, Thorsten Leemhuis wrote:
-> On 9/9/26 20:47, Kees Cook wrote:
-> > On Wed, Sep 09, 2026 at 09:14:04AM -0600, Jonathan Corbet wrote:
-> >> Ruben Sutton writes:
-> >>
-> >>> Several process documents use gendered pronouns when referring
-> >>> generically to developers and maintainers. Use singular they instead,
-> >>> making the language inclusive without changing its meaning.
-> >>>
-> >>> Leave pronouns referring to named people and text in attributed
-> >>> quotations unchanged.
-> >>
-> >> Ouch.
-> >>
-> >> I have no objection in principle to this change, but if we try to clean
-> >> up the whole kernel in this way we're going to have a *lot* of churn
-> >> and, undoubtedly, some unpleasant discussions at some point.
-> >>
-> >> I'm tempted to raise this question at the maintainers summit to see if I
-> >> can get some sort of project-wide policy laid out.
-> > 
-> > FWIW, I'd agree "indefinite they" (or "singular they") is the right
-> > language here: "his or her" is both annoying to read (too many words)
-> > and non-inclusive. Using "their" solves both.
-> I do, too.
-> 
-> But all this makes me wonder: In case we decide to go down that route,
-> how do we prevent gendered pronouns from accidentally sneaking back in,
-> for example, through subsystems that change their docs directly? Do we
-> maybe have something already somewhere that watches changes to
-> Documentation/ where we could plug in a test script that yells if it
-> detects this in next? And yes, obviously someone would then also need to
-> write such a script.
+Hello Jon,
 
-This appears to me as similar to the words we decided to ban in commit
-a5f526ecb075 ("CodingStyle: Inclusive Terminology"). As far as I'm
-aware, there's no tooling to enforce this, we instead rely on reviewers
-(and authors in the first place of course) knowing the rules. The
-inclusive terminology discussion that occurred back then made the news,
-helping us to raise awareness of the rules. For gender-neutral pronouns
-we may need to communicate a bit more proactively towards at least
-subsystem maintainers.
+On 10/09/2026 at 05:38:01 +01, Jon Hunter <jonathanh@nvidia.com> wrote:
 
--- 
-Regards,
+> Hi Miguel,
+>
+> On 04/09/2026 19:12, Miquel Raynal wrote:
+>
+> ...
+>
+>> This is a really hard to review patch, it is big, full of changes
+>> everywhere, but I cannot really split it further. The commit log is
+>> really important, it tries to explain the steps I went through when
+>> trying to refactor the whole QE/SR handling for which I received
+>> feedback from Michael, Tudor and Sashiko.
+>> Ideally we could expect test coverage of each case:
+>> - BFPT_DWORD15_QER_NONE: Probably not needed
+>> - BFPT_DWORD15_QER_SR2_BIT1_BUGGY: Expected from Hsin-Yi (flag is being
+>>    renamed _NO_1B_WR)
+>> - BFPT_DWORD15_QER_SR2_BIT1_NO_RD: Tested with a chip re-enabling RDCR
+>>    in a fixup
+>> - BFPT_DWORD15_QER_SR1_BIT6: TBD
+>> - BFPT_DWORD15_QER_SR2_BIT7: TBD
+>> - BFPT_DWORD15_QER_SR2_BIT1: TBD
+>> - BFPT_DWORD15_QER_SR2_BIT1_1B: Done.
+>> There will probably be breakages on older chips. These cannot be
+>> guessed because they are not properly listed in manufacturer
+>> fixups (yet). If we want a cleanup/simplification, we will have to cope
+>> with this risk.
+>> I hope the diff stats will motivate people to have a look and report
+>> their testing.
+>> I will also eagerly monitor Sashiko's output which will probably be
+>> very useful to catch niche weird cases where these changes might break.
+>
+>
+> Since this landed in -next I am seeing a flash/boot issue on one of our
+> Jetson boards. This board, Tegra234 Jetson Orin Nano
+> (tegra234-p3768-0000+p3767-0005.dts), uses a QSPI flash device and the
+> kernel is used to flash this device. Following this commit, on boot I
+> now see ...
+>
+> spi-nor spi0.0: probe with driver spi-nor failed with error -22
 
-Laurent Pinchart
+Thanks for catching this early! I'll get back to you with a proposal
+very soon.
+
+Miqu=C3=A8l
