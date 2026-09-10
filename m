@@ -1,120 +1,97 @@
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+Received: from mta0.migadu.com (out-166.mta0.migadu.com [91.218.175.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76E838239D
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 15:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789053905; cv=pass; b=DpnpjLZ9Hl+t8HIPxrh/i8M8eIIo/SpfiWO8qNEkl+TvocdnD0AzT9nckWplD02/2tMGhxL9aH8OvPHPF2AOdtZSWauzxog43rPC0j33GOow9eHD/hh89vLNszSIFxqhhUTz8dYGC/Ozy00Q4e2asRbHCxDaA4e8Od7aoEutdEo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789053905; c=relaxed/simple;
-	bh=bOQl++HQp38ecokFc6DKNKy+x3lAP5zWzCNZdfvs83Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IfYBS37bpEnDzCmB9iVuixQQ3Ur5+fUpO1YyOaq7NVS3dXoGz61lufMHVbw2wRB49b4mC2GOlGH+wQu4Zn9v8/L4QRPVYN3gJ4/yP4XVOaHTkvSM/G3oVztuhgCcOZPSA0Il72/IJ0UdearzfU0ObTYp7wByGYwesqyyVN0c6Rs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cn/yJCMb; arc=pass smtp.client-ip=209.85.217.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD04A2737FC
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 15:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.166
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789054030; cv=none; b=JW3f2ydUnZYs8KRZLARDZIM4bym9s5b423mH3mn0huIJsmqh/smWCn4bsZ6qRp1vSKz2Rg+oppBGQhpx2FUMYiVMznkmnkCmUoN6iWj2+7fHzfIRx2wolmmUwgUjVvkaUo5ubXFhVTdKzo3ae62idh/msOIpzVzaSJI8eKvUZg0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789054030; c=relaxed/simple;
+	bh=LsSls8wk6XCwjAOhbC+5FYnfEZQF0/QblHRVEhNIZQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JdAg7yEoXal3DN3HL8oxagNn2BlWk2jgxp2r8T9I3S4HNW2q6M3+8fIv/+4X+1AxoLVJ1wcirGATGwUt8lqi0h8QW0LM+Lz9ezaPne6Ubg6Gq7hjHNkVQ+XN7bf2KQlfSdroFufKuH11AXIh2IxwUngxuY3l8x8EI2IDdB9ZA1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=GbbdRAGj; arc=none smtp.client-ip=91.218.175.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cn/yJCMb"
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-7855bfd6ab6so2200777137.1
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 08:25:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789053902; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eW5nO5D+5aFiw6n4iBQzsHnVh9xNIIu62cuojIKoNhHIdGSDyfzIKJuhvHGLAt9Nfl
-         Xc425ldyY3Smxp69mxBHbVvuqZ7ixxLuC/eKXV2IHzPp7VjA/4x1cKUhtBEY1zSy0+pw
-         V2y45GU6+Ivu+B7A8pHjGA5BbV4G2avdThQTxEi5pN6QAhFdETtpR0ODej4yd2uXbm/A
-         49d8d5nGeLRO3e9ze7ysTNCDmfWZ+VXUNCQbQPWC6S+ue+qPezkbkACI6qtjjTJeMpFy
-         Leqkmui+0RCnb3aIgOUHqM+Og6mXMs28ZUtcMpJ5H6sXMHeAdZhnzivgqmMDAtb8g5ju
-         wI4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=xJtAvom7TmuKLxSMog7d2kQ4do95d+Yb5DU+2shbOfU=;
-        fh=ed+5m1HG+SLW4j3djLPAadBui8HWri8tn/SQofCirZw=;
-        b=q+weSwb/MYrtCGAwKV9dMrOwBCatZ1V6F6gTMSB/3jzyOi0pV5FvqnFkcietRmX35L
-         +f6DzoLRzH8FD6XFCIUNL3XlLH+11OLgmsvce96pymFLpvjSH6R2m+mYqYyWuRyNfL1U
-         iWi+KbMErkY4Ces43g/yzT8l0+A+5ofJ3RHh27JYeffe4HqYpiRTxHEmtADNQXsTMOzR
-         2LGIIxG9x5K2Y9fZMNgyHeWzztT3Vogtg7amd9XFSN9r0rY54XLH5Z/HSi03vFYzvJ23
-         ctab2lPcczTW5c5ln7rygyJ/UrgJCK9S4xZ/ihHXT4SH+rti+FbJZ+kXLe8OOndcDBhk
-         O2qQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789053902; x=1789658702; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xJtAvom7TmuKLxSMog7d2kQ4do95d+Yb5DU+2shbOfU=;
-        b=Cn/yJCMbocTJjB6xv4kScaBFDV2f2HxFL/OGyCUDrqr5pUeRYSpjt9Kg3rd/wtQitd
-         8s8mkxRB4QQb9Wc4jFIIrKnQQP7yHiPC3AGCsGhLy6pA8MyyMHjMgns5H6IMxPstxzs2
-         bAQfT13UCgVWsP6wv/74I6xsyIAkXbN9FsBMJLt0r/WuvyrXaIc9EKieA0kUoa8ekU/6
-         jvOuGeR7Wg8EqP0G+wWUWU6lIVNrbcdjijAg5+y+pvGjih6zsFz8Vihi4yr2QbT8ZNii
-         l9SMDyzZwOQ7FKbPqKZLc/dPNxJPmiUeJ5UMqFyMbXX0BVD+4nYAQ9KeyYnGJU1OWtFW
-         iLtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789053902; x=1789658702;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xJtAvom7TmuKLxSMog7d2kQ4do95d+Yb5DU+2shbOfU=;
-        b=VcoNufHVncECvQXuMMIU+HWmasnSUkPZNPXyISyUzG0SExSE+Ta5uV4hKZw4n5ltFI
-         KfK5pK801vsjXv63ARw8bmDQ27vmHKVKOW6aT/mpn8NojNCuNI247DUYDnYD8ZuiZ/w0
-         HswxgDWX0JNEhKWfV+4ZSFFtNkBv3/uYzMrV+qpgtLSThYXjyR6+GQzfLLpE2rMoyC5z
-         P751/m5jGaE+CIrAjIzng+NxCJAa5zS2mQdyY+iVrkQp3iPcHvV+KoxWvghsuMh9GuJb
-         je2i+hkpMjfCG3bJhXjKCq9ccqQHoo7dIKgOHmT+7ehbppcXdCHLF2Kxs2drFMS/ST5c
-         sYQA==
-X-Forwarded-Encrypted: i=1; AKwUvBypdGM8JdIbyfAazypOTbN1oBaxWyl664tbfbr7lePEZOK4ACfPCA7Fd7J50c+CK7Dxsa8UHFOGWvQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++n6yGpCrZVILb4nqJJ2ORYrhUI67gjsfWO3cg+zj8nyq8CYn7Iw
-	JKOlf40udokmtFwSCRKp8QEnh57k7mAUID4+ACbaojtzIM96VXgaN7rpxRuFFhN8KTEfwiQ701R
-	b7NafOubCqVz5F7SVI2/zVze1dudHH9E=
-X-Gm-Gg: AYBFou2Kl3VK4/lNMgIEz8SPDHzXp9GduGXJZxEKf/UCOw7pYbdkx2WJ+eIbePXmr+s
-	RZDuM+fkRo1e2tuHki9JYMd2+BhXUudBYUUr4LpX4PwdkGS9k6+YnDtfb4cAdMMvN4SFUAWeBHH
-	tFhyJ3JRyajySgEwLTPbppFGEheaVNz5mZpTe/T6ImjrlqW/UWe/sCLhiygWAe7SGYQjK/8GXa3
-	ORkYKbstWX6qNukrlCwDdTPEVR/YRzFaA4lppvXWgXBNUxTSetxKHkyLFSIekP5A2IKcdM+oV7+
-	IposLHyF1To8OUqmS7U9TM5yWFSCuSwymlu+E3vhFe36Qv3LUm130VVubG9gjkp6WGG9lGFKCbw
-	3hK2QjaFIFa/JHJ1A1mj8eMFk0TwUsNdSEcBwGKC58H507Gs1V4mHvH5l7XOWwcaABZpz
-X-Received: by 2002:a05:6102:b0f:b0:784:b9ec:910b with SMTP id
- ada2fe7eead31-78a4ab294c6mr21019932137.12.1789053902190; Thu, 10 Sep 2026
- 08:25:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="GbbdRAGj"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=LsSls8wk6XCwjAOhbC+5FYnfEZQF0/QblHRVEhNIZQY=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789054023; v=1; x=1789658823;
+ b=GbbdRAGjEGXAzKWFBNuG9nA0hpLqM4Pe1TNsZ7ffCIrmS4I2aRfkfm3vdlvqhBGAee0prP02
+ Y7SMiwRpDxZp4FUXa2EeFRxJoIKqqmh5fxgitXlJpV61/wFaPfE66C2fco5OzjfKhLa30uLkJdj
+ +rYKHc6l9zpgpmpyKPg2VgAo3jhMGOBpMvm7sJ+m9Z3l21WvsJliI6Xpas9l5TdiVRJgWfjDRi7
+ VTkuOsr9gClTylYdE5e3ms69oQvJ4LAqY/ql3wjM/pwv2mWyRF/Jgy6R8MPUFugbfGZvbnw0zKV
+ d54KECVsCZB4dDAYUdcE49RJZiE6pQrrSLBBaFGpRdHbg==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id fc010f885fb15325;
+	Thu, 10 Sep 2026 15:26:53 +0000
+X-Mizu-Trace-ID: fc010f885fb15325
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 10 Sep 2026 23:26:49 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Fabio Pereira da Silva <silvapfabio@gmail.com>
+Cc: Daniel Pereira <danielmaraboo@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: translations: pt_BR: translate
+ programming-language.rst
+Message-ID: <aqLMOaNNMa-crNxy@wyuan.org>
+References: <20260910151145.1226-1-silvapfabio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260910151204.1248-1-silvapfabio@gmail.com>
-In-Reply-To: <20260910151204.1248-1-silvapfabio@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Thu, 10 Sep 2026 12:24:50 -0300
-X-Gm-Features: AcwNN1UP8bgal5cv8ishyJYf5JOsCycwT5IK3DfxI2RbZj5muVzNAW3W3n-dDbk
-Message-ID: <CAMAsx6f3DiyOkfmy90T_SHxkmMxoJm9kaoppAB3uPq1WT6QXtQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: translations: pt_BR: translate stable-kernel-rules.rst
-To: Fabio Pereira da Silva <silvapfabio@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260910151145.1226-1-silvapfabio@gmail.com>
 
-Em qui., 10 de set. de 2026 =C3=A0s 12:12, Fabio Pereira da Silva
-<silvapfabio@gmail.com> escreveu:
->
+Hi,
 
+On Thu, Sep 10, 2026 at 12:11:45PM -0300, Fabio Pereira da Silva wrote:
+> Translate programming-language.rst into Brazilian Portuguese and add it
+> 
+> to the pt_BR process documentation index.
+
+Why is there an extra blank line between? :-)
+
+> 
+> Signed-off-by: Fabio Pereira da Silva <silvapfabio@gmail.com>
+
+Off-topic: Just out of curiosity, why is there no diffstats here?
+Handmade patches? But perhaps it doesn't matter much.
+
+> diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+> index 71eb024fbec8..d24da0262f73 100644
 > --- a/Documentation/translations/pt_BR/index.rst
 > +++ b/Documentation/translations/pt_BR/index.rst
 > @@ -73,6 +73,7 @@ kernel e sobre como ver seu trabalho integrado.
->     Requisitos m=C3=ADnimos <process/changes>
+>     Requisitos mínimos <process/changes>
 >     CVEs <process/cve>
->     Lista de verifica=C3=A7=C3=A3o para patches <process/submit-checklist=
->
-> +   Tudo sobre lan=C3=A7amentos -stable <process/stable-kernel-rules>
+>     Lista de verificação para patches <process/submit-checklist>
+> +   Linguagem de programação <process/programming-language>
 >     Interface de drivers do kernel Linux <process/stable-api-nonsense>
 >     Conclave (Continuidade do projeto) <process/conclave>
 >     Manuais dos mantenedores <process/maintainer-handbooks>
-
-Good morning, you added the index to the old index.rst, please add it
-to process/index.rst instead.
-
-> +.. _stable_kernel_rules:
+> diff --git a/Documentation/translations/pt_BR/process/programming-language.rst b/Documentation/translations/pt_BR/process/programming-language.rst
+> new file mode 100644
+> index 000000000000..5fdda01742d0
+> --- /dev/null
+> +++ b/Documentation/translations/pt_BR/process/programming-language.rst
+> @@ -0,0 +1,62 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-This label can cause a conflict; please, if the label is not being
-used by the repository, add _pt_BR to the front or remove it.
+> +.. _programming_language:
+
+     ^^
+
+Have you compiled the document? I suspect that a warning will be
+received here stating that there are duplicate labels/references.
+
+
+Thanks.
