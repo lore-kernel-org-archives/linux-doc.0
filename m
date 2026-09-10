@@ -1,186 +1,257 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9854A3D30
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 18:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789065490; cv=none; b=LiudUwC+m7pothfHhqdqmBqIQ4GeTkTSSUCE7AgA2l6k7yPlLGrjP8msWtZ4sHAb4zdf5DjX8ODgowI4fKarJgl1rlP0LbnPbU3PPnSjNyRtk2z4PEgbDxBP/C6Wv/swehI95+ZChtc8pBdodPe7CzmQ5z8vdbM13TkSyc2CEsI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789065490; c=relaxed/simple;
-	bh=XqQ/TBdyys53bJSV2TlOxB+9gn0LoZosuGJ+Op+jijg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bhvFFqOEOyPMtvy+9bAakBt1/CCh4Wl9fj+WZaMDd6vkw8zI3eIXthPCfmYTC2dZxJBLlmkBgaUCGazJybzGWRxcBiwZzawn2pz7HPt2XNq5n29LqzC6WszsCgUxxNHK9rQjwxk4fo5uaaao2lum2pf0SoS8BLr1z3x3kbVeXZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ByiblXtc; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9188568FC9
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 18:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789065907; cv=pass; b=qYFImQh2rlRwtXHoK10F6rV4fxpWMazCgvS3mrcBWVn26NClYwORnIDkGOh/BsTHQ5FnQMxTaHJZfe4xlEk0X6/8xfZE1u0FGnfjvn3Fzwv4EmQ5l71FqKVIw3st0q7S9ijgQ0bTw0HlHnkEejyF6B4X8/6V70AANNxXu4+6MWQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789065907; c=relaxed/simple;
+	bh=ZXmoK/6pYB0EUku110iJZ39Wy6sowbSU+f/mh13+y/4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MirekNF77HAdsXvWrx+QI8n/lk83CLBsi3OzMAPY1G/tDgi0V1u7ORzXAAIAEOUk395nV4ME9XABgSj8oVj/7/HPx+wnBlHQqB7m4b1zGMVl9LRnNj82z2BNmJSN3W2V7jJHb6s7J0S60FNqx2tFCjVef84keZlzwkhIi74Fk90=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fLnEKeph; arc=pass smtp.client-ip=74.125.229.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ByiblXtc"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-381b831d535so102526a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 11:38:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fLnEKeph"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b4a0b17359so9458e87.0
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 11:45:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789065903; cv=none;
+        d=google.com; s=arc-20260327;
+        b=O0SkYjlcOwF1vvpGcOy19RMK7zu7QnAOfPrSNO1L9k2a8xI1D7m1plFYkjoRHzvHHW
+         Rc6QpJ5+aSu7hyzYZ9nT1eXDIX9Vj+dKMvCcF11PDiy0DLBFCMgUdGHj8RmVL4xmvN1Q
+         vkGcKd9/uPia+eYrjt2Ka7LwCqJpN3dXNqlZWCadC0AORAwSMo1/+DyPuYt0DzoCROsD
+         WntqWMFl2w4Tf8ywDGmt9CzI1hAvvWdsZ8+XMFNnsc+p4jCTtJ/VOMIa8lu+2Cx+SdcE
+         0GDNB+jYgFAmgtXzwV+GvzJaMvlIWYmy/2b+ckLKvSdYF9HJGYbeT4It8c/IeUKwBlfw
+         yTsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=6mxXlzJuLSIxRk+E9jigAcfOHrY2xXO1oOwkSi2OYVs=;
+        fh=v+szgBmOFqCXLqysfo7fQ3tRMs3Kw1TKHC74iTRWeS4=;
+        b=AlT2n1prHW4WfVLZfRhVDmaB5lFvp2nO+nbyA0r9nbUnqVrODUcilRwW00UB5UJFg5
+         Uf9rDkIV73GpzSk9zLWu2JziHsxhMXh5zUZv+h/8whM1o/pYLXtUTWC9TlvrPFiflVS2
+         nmaZrTzHdA49g0BsWn2fhV86/XWyjSLP4y6cphbbd+eapGeDwITLsQDjPLAGfhoTg4aJ
+         VgbZy4JcTNH9MuY4kevfLjzaHYl/aIoBDCkdN05iHG9i7cfzTubT3Fcf1x+k3bs1jJOs
+         4oBlaH9EvW7854JRnKJ+IT+aBLOhQLOy/JsAL8pQcYz6pUq6Mio+mSvq8V6r6xYfHRRK
+         TZGQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789065487; x=1789670287; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1789065903; x=1789670703; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=9u7TJ9tgwm2KnuZFSYIca8LwnX5gbxqDtxG2LPSH6i0=;
-        b=ByiblXtc3+xG0Oh2cV0vBgSMKuqQtcRusXb89NrFQsnx41PBnsEtuNsoJ95Wrw2fMF
-         8RdITLXQ2BAgyIbQRdFDCTbBCNvrWhrhglJ4fSPw2G/Khp+aha2xy60L8EX92MDwC2q5
-         1n2d0lhk9L90B8Z/IHmcEnGRpAQnUFQFzweH2z+xskdkPUzwkiB042sQ7k7UdKKxP3yX
-         PjE0jP1l9ISxDvP7PJWkgkGSdf8PCnNj8gqSJkOXxuU3GgyB8xVrLSpJm9qkg2INdzs9
-         jC6zyRl7S5N2xWI4TPbPYsnMtmFELgKVjgZBfteAxH2aL7ec56dgJvSvbqM3k5hg961W
-         BVsQ==
+        bh=6mxXlzJuLSIxRk+E9jigAcfOHrY2xXO1oOwkSi2OYVs=;
+        b=fLnEKephQ0nEjdy8vDpRj9pDepK80AbusoyGTByKGSnclQLFszrrzhS94FOPUkbH3X
+         HJs/q5Rh85NVjFtKzWebOLQ4oUyVfbbzpmlNwPnc/mu8FodOYz0AcThfEtXwEpAECVO6
+         BFtIuB0jhsBGdFwxitkRzt6/Lbvb0yAv7e500dpwowdj201YBIRuKD8tPng8PAnAWcqK
+         kt8/ch5T8XmCGLC9PZdMMAHznHmQQy+oQxAcKAtM/jU/U2Z40yeoHb1M8U6FE/iignzY
+         48ccy1RJ6y7Zhs+d5ZBLsRwUO58X1eQxy76JtYn8qFcDUEKsWsM1+fDFxpvCB3L5TWOv
+         PGYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789065487; x=1789670287;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20251104; t=1789065903; x=1789670703;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=9u7TJ9tgwm2KnuZFSYIca8LwnX5gbxqDtxG2LPSH6i0=;
-        b=EgVeaWjUTEx4nTz1UPkgVUVTKQ/5GT2kp2jlTB4R8gCVLDmEGDKMRcDxCmkO/LBI+8
-         HqsbboeMbbverGCVp4JTOHJdYtjuUb8VhXNBPIg7eHoyzbloBHEmASUGKT/J2Ce4rFFb
-         8tr1OOX5T2Zp0JvHo5mGe5D8z4NZdveCAM9y+fbNYgVFsHI42uWdQNaYAE78uA9/jnt7
-         LWD6anyeV3m+b4JK810uHUWc871bj09pErIy32rQOkhZda5xBapzQ2CflLcPzMniLQNI
-         r7Jk6QCV1aD7JvgZFA9eUT4BLSySZRvw9UpkOe9SbIJE8LQhtwzYdiVQ88V3tByg12hr
-         tu6A==
-X-Forwarded-Encrypted: i=1; AKwUvBzOgDuMThN7RWBD3PGpL1S7z2NlJfi6ysZmHguO58iGDSxjFW9hVsDRxLLxjtKbLw6l+1r3SYk3CWE=@vger.kernel.org
-X-Gm-Message-State: AFuF++lCdiv/1gTUSdcFN0TnN+8mnkutFhGUX8lmqiVGoevVcCFGNzho
-	SHT5TkLK4sUqWgERBkpb19haTFZrVRTOIsJ18hjZ+w/cuYxoyOKCxeKw
-X-Gm-Gg: AYBFou0acwerE2zWmRzWXKnJ4w20Of+blWNhfus03Y5SRLWMbcymX6UubeHFSG53qOQ
-	emlrqdPSArKJJbAIGd1vbObfT0nBahzf8hZWKCItJSBeYpSRuHYlnYEf0ndIQK64o1Kkg46TPxF
-	vgnAdX2GWrczyKPthuUbgqUOQDtF+mVigxF0h6xBEZCcSoJKdIzXv2513FSMY9ZIpvjA/Csq8oH
-	oHMdzWlfZL+rv3wvLrMbLBNNqXBiJ/EGqQCzUfHvo+AxPwXwwVYEDtnDFfYW8jqMDoy3pwo9QGJ
-	b3yhQL5tv8fBhW/lQ45o0oXkmFHgvZFXg1AA5HFscBhBpuwoAD2TCvrYHaByZ+sd8gceo/ah2Yc
-	1+0dFmfEX19JHR6iiZrRFeSREUVMOcJHZq6FnVb9aSlnxEST7oIsKLyx2WmhNIQpYvQH8cZZgjw
-	EWTH068diyQPhGkWaeduNm4q6AF7AyGztOp+L4lNUpcDBkTVNKVfSmbuU68W4XrSk6nhu0FaKTf
-	acdjfVtIt0kypjE9FNpEfbTBKPaA+41FC4/+yC+wEUa9EJz
-X-Received: by 2002:a17:90b:35d2:b0:39d:8d38:8b04 with SMTP id 98e67ed59e1d1-39d9bbea1d3mr52593a91.1.1789065486698;
-        Thu, 10 Sep 2026 11:38:06 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d95752809sm851731a91.13.2026.09.10.11.38.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Sep 2026 11:38:06 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <7a92a79e-e22a-4e34-9f11-4086b88f62cc@roeck-us.net>
-Date: Thu, 10 Sep 2026 11:38:03 -0700
+        bh=6mxXlzJuLSIxRk+E9jigAcfOHrY2xXO1oOwkSi2OYVs=;
+        b=oJHArOTP69cs0dFQyWdqI+jGwiNXzTRhJ5TmJPU6QMgQfNmEyKTy8o+d6r68Qbu5iC
+         vCDqp+SHSRAC5Ldw63Ffrj40vY0d5QS0exP6I75dJ9zfCcY/bFJjExqOZTDy0bBhJNVl
+         fEbdXLTBfuvuNB5qURFh+KY34v5QMlz8A0ohgupnYLt+2ml8q+mvdx+6nhRYpSkGi8K9
+         HLKUn2Pfab3VBstmN9aEIdx/oQylFk9X1zzYKe5SpxQ6UE5zi8VtbgsToqqU/PFSKdM3
+         hQY/ipWz8srK0qhvbWU3lFGFl9sR/sWdnK5LHOsWHmEUmIU2pmnXV6e9OL8qRhOl/1CO
+         UyLQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz4nN3wCEPHTqFNDobLrjA3s2DPQ+Hj0S8d50ejDpFkzaRYcSNjkCnrRFqgbwJ7Onp1fvNKEGqAyq0=@vger.kernel.org
+X-Gm-Message-State: AFuF++n4Tk3rhNZxGs2NNGtCUrOUDaTLQRdxSszdQCr6QfLLAbLiHRKQ
+	ONDTgditWPPgJVC7nv/IVwWzg48R24EE9sbWFjtriM3Jetvo/YuBs8EYD1H3Taz5mTixMIJr4dQ
+	5mW1q1smHiBJb52t6oZpaijVuX/o/WtjqaCPlmquR
+X-Gm-Gg: AYBFou2L6+U837XUrEbPDdd5jqgBPdj5wrks+rLvZrnbo2UzoZBoSFHs5HbE63odxh0
+	RDumMrOCygxczh8r7c9ib3PX62t3dfxBMZP4F5Nonv5RwGJfIFGHSUBbyq+VIIlRyZbR1DbTxHz
+	HKj+e4bHBnOJjJ3nf9qQO7H+8NAfSVs7miZvVQRfW6xyjx+gl23pWfgLD7V4SY2ks3KFysNSUHD
+	W7zvZMe1R6STIEgr0RQhBE/t2RIVCsNYOBUc4XDAUJY5zoSWi/R9KggUpum4nkbXbpmjywphPB3
+	NfdHulrNGxFrzgSNarT5g6d7CTEO5lg6AFU/sV6F+Yqwy7oBOrv9cmG7g3gL2n0TPcuwcXKOLfk
+	7OsLbWs7K3H2Dxw==
+X-Received: by 2002:a05:6512:2346:b0:5ae:b0ee:f737 with SMTP id
+ 2adb3069b0e04-5b8a07b13f4mr18218e87.9.1789065902145; Thu, 10 Sep 2026
+ 11:45:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/14] mfd: remove unused aat2870 driver
-To: Arnd Bergmann <arnd@arndb.de>, Svyatoslav Ryhel <clamor95@gmail.com>,
- Arnd Bergmann <arnd@kernel.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Bartosz Golaszewski <brgl@kernel.org>, Mark Brown <broonie@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Helge Deller <deller@gmx.de>, devicetree@vger.kernel.org,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- dri-devel@lists.freedesktop.org, Jonathan Cameron <jic23@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linus Walleij <linusw@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab@kernel.org>, mfd@lists.linux.dev,
- Michael Hennerich <michael.hennerich@analog.com>,
- patches@opensource.cirrus.com, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Support Opensource <support.opensource@diasemi.com>
-References: <CAPVz0n0ryOns2sCJE_jFana9MVzwEj1QZuPEa8FNhGbHXnMB+A@mail.gmail.com>
- <11652e5e-053e-45b0-98a0-0c1cb2aeedc4@app.fastmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
- oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
- VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
- 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
- onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
- DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
- rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
- WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
- qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
- 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
- qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
- H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
- njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
- dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
- j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
- scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
- zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
- RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
- F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
- FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <11652e5e-053e-45b0-98a0-0c1cb2aeedc4@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260825-kvm-arm-prefault-v1-0-befe8947702e@kernel.org>
+In-Reply-To: <20260825-kvm-arm-prefault-v1-0-befe8947702e@kernel.org>
+From: Fuad Tabba <tabba@google.com>
+Date: Thu, 10 Sep 2026 19:44:25 +0100
+X-Gm-Features: AcwNN1Xstr2nKNQ0qtLcezmwbWTpmOb8zSO-m5akVdu8AVpy9ds-Ainfdlx4-oc
+Message-ID: <CA+EHjTw=7M+ac5UCfM5yPmuX8RuqZN08TLfXAmTLbQgmuhNWtw@mail.gmail.com>
+Subject: Re: [PATCH 0/8] KVM: arm64: Add KVM_PRE_FAULT_MEMORY support
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Steffen Eiden <seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
+	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Sean Christopherson <seanjc@google.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Leo Soares Passos <Leo.Bras@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/10/26 11:14, Arnd Bergmann wrote:
-> On Thu, Sep 10, 2026, at 18:40, Svyatoslav Ryhel wrote:
->> __
->> Hello Arnd! May you please spare AAT2870 from being removed? I have a
->> device which uses aat2870 (LG Optimus 2X P990 Tegra 2, not upstreamed
->> yet, but in process as well) and atm I am working on converting this
->> driver to use OF. Thank you!
-> 
-> Sure, I have removed this patch from my series now.
-> 
->> P. S. If you are planning to remove more old drivers, please CC me in
->> since I may be interested in some additional driver upgrades for
->> devices I own.
-> 
-> Please have a look at
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/log/?h=board-remove-7.3
-> 
-> I tried to be careful about figuring out exactly which drivers are
-> unused, but I'm sure there are still a few false positive and false
-> negative ones in there. I've added the current list of driver files below,
-> let me know if you see something that shouldn't be there.
-> 
->       Arnd
-> 
-...
-> drivers/hwmon/ds620.c
-> drivers/hwmon/f75375s.c
-> drivers/hwmon/max1111.c
-> drivers/hwmon/max197.c
+Hi Lorenzo,
 
-I missed the rationale for removing those, but then I don't really
-mind either. I guess we'll hear if someone still uses any of those
-drivers/chips.
+On Tue, 25 Aug 2026 at 17:01, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+>
+> This series implements the KVM stage 2 page table pre-faulting feature for
+> arm64.
 
-Guenter
+I know there's likely going to be a V2, but FWIW, I tested this series
+as follows (finally managed to get protected mode running on my Mac):
 
+QEMU (arm64, -cpu max,pauth=off):
+- Protected-mode host, boots non-protected and protected guests
+- pre_fault_memory_test on a non-protected host, VHE and nVHE, all 13
+guest modes
+- nv_pre_fault_memory_test with kvm-arm.mode=nested
+
+FVP (AEM, FEAT_NV2):
+- nv_pre_fault_memory_test with kvm-arm.mode=nested
+
+Apple M4 hardware, running as a KVM host at EL2 under Apple's nested
+virtualization (nVHE only):
+- pre_fault_memory_test, anonymous and anonymous_thp backing, over the five
+  guest modes available there (the IPA is capped at 40 bits and the 64K
+  granule isn't implemented)
+- with kvm-arm.mode=protected, pre_fault_memory_test skips on
+  KVM_CAP_PRE_FAULT_MEMORY, so the pKVM exclusion holds on a live pKVM host
+
+Tested-by: Fuad Tabba < fuad.tabba@linux.dev>
+(happy to retest again when you respin)
+
+Cheers,
+/fuad
+
+
+>
+> == Foundations ==
+>
+> The series begins by establishing required foundations:
+>
+> 1. Updating kvm_s2_fault_desc to independently store the exception syndrome
+>    register (ESR) value, and updating all code paths to use this value
+>    exclusively.
+>
+> This is needed so we can later generate a synthetic fault to perform the
+> pre-faulting - we need to be sure the code doesn't grab an incorrect ESR
+> from elsewhere.
+>
+> 2. Updating kvm_s2_fault_desc to independently store the kvm_s2_mmu and
+>    updating all code paths to use this value exclusively.
+>
+> Similarly this is needed so we can generate a synthetic fault against the
+> canonical stage 2 MMU (it would make no sense for it to touch nested shadow
+> page tables) - we need to be sure that the code doesn't grab an incorrect
+> MMU from elsewhere.
+>
+> 3. Updating the abort paths which consume kvm_s2_fault_desc to also return
+>    a kvm_s2_fault_result data structure.
+>
+> To perform pre-faulting the code must know the granule size of what was
+> just walked. So the abort paths have to tell us what that was.
+>
+> 4. Pass walk flags to kvm_pgtable_get_leaf() to permit walking page tables
+>    under the MMU read lock.
+>
+> This is Jack's patch, verbatim, which allows the use of the
+> KVM_PGTABLE_WALK_SHARED flag to walk page tables under the MMU read lock.
+>
+> Pre-faulting requires it to be able to work in parallel as specified by the
+> API. The read lock precludes page tables being torn down behind our back.
+>
+> == Implementation ==
+>
+> Pre-faulting is implemented in kvm_arch_vcpu_pre_fault_memory() whose job
+> is to pre-fault the stage 2 page tables which map a specific GPA (which,
+> for arm64, is the guest's IPA).
+>
+> This function is called by kvm_vcpu_pre_fault_memory() for each GPA in the
+> range, which itself is ultimately invoked by userland via the
+> KVM_PRE_FAULT_MEMORY ioctl.
+>
+> The implementation is simple - try to walk to the stage 2 page table
+> mapping the GPA - if unmapped, fault it in through a synthetic page fault.
+>
+> pKVM is not supported regardless of whether the VM is protected or
+> not.
+>
+> This is because pKVM instantiates vCPUs upon run, but pre-faulting is
+> typically performed before a vCPU is run. It would be confusing and
+> inconsistent to error out on non-running vCPUs but to pre-fault running
+> ones.
+>
+> Jack's original test suite is also included in the series.
+>
+> == Credits ==
+>
+> This series is based, with gratitude, on Jack Thomson's series and their
+> respins (links provided below) as well as the feedback he received.
+>
+> The series includes Jack's v5 "KVM: arm64: Pass walk flags to
+> kvm_pgtable_get_leaf()" patch verbatim, and all three of his test patches,
+> two of which required minor fixups.
+>
+> Link: https://patch.msgid.link/20260612162354.73378-1-jackabt.amazon@gmail.com/
+> Link: https://patch.msgid.link/20260113152643.18858-1-jackabt.amazon@gmail.com/
+> Link: https://patch.msgid.link/20251119154910.97716-1-jackabt.amazon@gmail.com/
+> Link: https://patch.msgid.link/20251013151502.6679-1-jackabt.amazon@gmail.com/
+> Link: https://patch.msgid.link/20250911134648.58945-1-jackabt.amazon@gmail.com/
+>
+> == Reviewer Notes ==
+>
+> I synced with maintainers on this who asked me to take a look, as there hadn't
+> been progress on the series for some time.
+>
+> Am happy to rebase again after -rc1.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+> Jack Thomson (4):
+>       KVM: arm64: Pass walk flags to kvm_pgtable_get_leaf()
+>       KVM: selftests: Enable pre_fault_memory_test for arm64
+>       KVM: selftests: Add option for different backing in pre-fault tests
+>       KVM: selftests: Add nested pre-fault test for arm64
+>
+> Lorenzo Stoakes (ARM) (4):
+>       KVM: arm64: Propagate and use esr in s2fd when handling guest aborts
+>       KVM: arm64: Propagate and use mmu in s2fd when handling guest aborts
+>       KVM: arm64: Propagate and use kvm_s2_fault_result on S2 fault
+>       KVM: arm64: Implement KVM_PRE_FAULT_MEMORY
+>
+>  Documentation/virt/kvm/api.rst                     |  17 +-
+>  arch/arm64/include/asm/esr.h                       | 129 +++++---
+>  arch/arm64/include/asm/kvm_emulate.h               |  52 +---
+>  arch/arm64/include/asm/kvm_pgtable.h               |   5 +-
+>  arch/arm64/include/asm/kvm_pkvm.h                  |   2 +-
+>  arch/arm64/kvm/Kconfig                             |   1 +
+>  arch/arm64/kvm/arm.c                               |   1 +
+>  arch/arm64/kvm/hyp/nvhe/mem_protect.c              |  10 +-
+>  arch/arm64/kvm/hyp/pgtable.c                       |   5 +-
+>  arch/arm64/kvm/mmu.c                               | 324 +++++++++++++++++----
+>  arch/arm64/kvm/nested.c                            |   2 +-
+>  tools/testing/selftests/kvm/Makefile.kvm           |   2 +
+>  .../selftests/kvm/arm64/nv_pre_fault_memory_test.c | 206 +++++++++++++
+>  .../testing/selftests/kvm/pre_fault_memory_test.c  | 152 ++++++++--
+>  14 files changed, 736 insertions(+), 172 deletions(-)
+> ---
+> base-commit: aa8e5dc6a7a2a1141ab40706a51010adcd0e57d2
+> change-id: 20260815-kvm-arm-prefault-9bb411b6897d
+>
+> Best regards,
+> --
+> Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>
