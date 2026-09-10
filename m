@@ -1,198 +1,210 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF643C10BA;
-	Thu, 10 Sep 2026 08:31:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB553AEF51;
+	Thu, 10 Sep 2026 08:31:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789029100; cv=none; b=bKjvoiffqynHaDHZ9rtsaAIL6EIOB3ODhpjG2XtbQWeBH8L8/vQvadxAmSk0YzpAaOQN94MtfKD1kRLhBiKivBrAt/FEFvtg5ZH3YPblyOvAgUdiAq/gpbKaaQ8W+6AvXewATWO+l91wL+6xFPvSXFgYlg8Tlb79pH8Be27LPAg=
+	t=1789029105; cv=none; b=b85azHDKbDkaj+c/eilC06ko8X2ADKN88aarFxN0irmP+vTBZQrlArkOMUeODHIhccCAjIrtU72ldFJMzfQtoLF331eWC+lD84HaZNnpkUbFFUifIsSDg9CLPHTiuznvdjakJSRxEsJRUBi4F8LZGWMeCzZdBsJBu/3zXXhi6m8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789029100; c=relaxed/simple;
-	bh=CIGQHvLLoACXjfixLkZL3B8Gbv5ycX8kffcfuKagc0E=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=f5KmZBnx/2FDIi8mZmdCStD5o5Aeh9Rm1yaubF2/5aDG95ExMH8pUz7bgLZElBEejF2euRv3Q1Ybl/ju2jAY5G5ykGddLmxhOhoszsYSun10BYp3x1LqmYT6zgveiVbhS6di/KBUt5espLIUmRddENrahdN5o8NjSr0GFWKVJ6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jbs9L774; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789029105; c=relaxed/simple;
+	bh=oH57KK8uwOpt+q19tA/dGcXMsq1CU/m0u5KjaXNlYl4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rjpuFyc4JegrNkeAusQf7BJeV8cU1uhINpeFjDakPJPbogccHkU5W6kXmnqpYtCrFAYtCVdTv3MLmiz2OIMpN5WBsbUuMt5X2gJmZ//7nGOc8toS3NGSfkIHQktMa9gRgdds52vzYejQJr+H4wnVKCnKdxzaR2N2v0mtyJIsILU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Es9kxPtS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jbs9L774"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91E0B1F000FF;
-	Thu, 10 Sep 2026 08:31:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Es9kxPtS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D671F000FF;
+	Thu, 10 Sep 2026 08:31:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789029098;
-	bh=PHX2CV6L+xADuSOjNgypR5thAFREjphJZG3812TT6xk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Jbs9L774dWGD9ZHMlCbeL49FX9vlK2YEyc0hEWEdmTcclKioEhnxT+Pw1LsNoDCmD
-	 qcvDnny9irKur50klFnQDq9WEuGJYCZIQGv0qpGsm5buR0hBQC/04l1gxySODQFoq9
-	 QKEF0dhrqpYKtSDWVha8SSsQQphJAYgczpsjJut5CvxrCzTgq6JgotAQKO2zOKPPK/
-	 yfeu8PCxGg0UPuJhW9VaR8y90OOEIlJFrCdbMX45206oswgm1b394Q4RY7AgOc41b9
-	 iSzhT3MZ5pNJekxuiXqIauGaTJKRqegxGlRI+7DP/h2llV9k0AQZrOxDFJ0T0OcunZ
-	 QGeBC5Sp1lqxQ==
-Subject: Re: [PATCH v7 net-next 7/7] net: ena: Implement gettimexattrs64
- callback for PTP attributes
-From: netdev-bot+sashiko@kernel.org
-To: akiyano@amazon.com
-Cc: davem@davemloft.net, kuba@kernel.org, richardcochran@gmail.com,
- netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
- dwmw2@infradead.org, tglx@linutronix.de, mlichvar@redhat.com,
- maciek@machnikowski.net, andrew+netdev@lunn.ch, andrew@lunn.ch,
- cjubran@nvidia.com, guwen@linux.alibaba.com, xuanzhuo@linux.alibaba.com,
- dwmw@amazon.com, ysarna@amazon.com, zorik@amazon.com, matua@amazon.com,
- saeedb@amazon.com, msw@amazon.com, aliguori@amazon.com, nafea@amazon.com,
- evgenys@amazon.com, netanel@amazon.com, alisaidi@amazon.com, benh@amazon.com,
- ndagan@amazon.com, darinzon@amazon.com, evostrov@amazon.com, ofirt@amazon.com,
- amitbern@amazon.com, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, shuah@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, horms@kernel.org, bhelgaas@google.com,
- vadim.fedorenko@linux.dev, dwmw@amazon.co.uk
-Date: Thu, 10 Sep 2026 08:31:36 +0000
-Message-ID: <178902909615.219967.17316162800507267391@kernel.org>
-In-Reply-To: <20260909073136.12863-8-akiyano@amazon.com>
-References: <20260909073136.12863-8-akiyano@amazon.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1789029103;
+	bh=9cR2txGyC7hZ49ejFrxQhSQyUnrI0Q1sWnkbjpwbCtA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Es9kxPtS55Hy7OsFUILeQFymIS5K0P9YigfU3e1Yv2z8+OhRki9yMVMVuOuJ9Ks/j
+	 m5kG5FgQzpPNXhlBmdDwPdgleGvgw4qtC3Bhovupoq5NPFPDf+nlNhh2BfhG+D7pda
+	 FC9EuOnbg32glBn8w6TGAQxO5Am8mlUn/w/guQKoShjZ77nkslbO7zMiTgscQBPr4L
+	 OxT8o8nu5b/YJ0Mm6A1YXz6Ra3+Pge4OhJVsSJ5CnxAr3WPNKbzTSy+K/MhdLkbYt3
+	 oih3fntLu+DOoEWgIslKeMfPAS0wRCmFXPaUANmRBp1Ead7Qi/PzXkb/g7jWz2F0Nr
+	 sEcf1990GkizQ==
+Date: Thu, 10 Sep 2026 10:31:38 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Borislav Petkov <bp@alien8.de>, Ajay Kaher <ajay.kaher@broadcom.com>, 
+	Alexey Makhalov <alexey.makhalov@broadcom.com>, x86@kernel.org, Petr Mladek <pmladek@suse.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"H . Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev, 
+	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org, 
+	John Ogness <john.ogness@linutronix.de>, Steven Rostedt <rostedt@goodmis.org>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Kees Cook <kees@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Dave Young <ruirui.yang@linux.dev>, Jonathan Corbet <corbet@lwn.net>, Bo Gan <bo.gan@broadcom.com>, 
+	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>, kexec@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] x86/vmware: Add the vmware_record_panic_msg sysctl
+Message-ID: <4e73yd2ofpdzl6rptzvd74no3hnyfblknoq7wzxlw7f3zjbz7c@srfabx6lsusj>
+References: <cover.1788414671.git.zack.rusin@broadcom.com>
+ <03e5c9855e9578b00abf8da69764f1b468597218.1788414671.git.zack.rusin@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xiixfssqgqvtj5o7"
+Content-Disposition: inline
+In-Reply-To: <03e5c9855e9578b00abf8da69764f1b468597218.1788414671.git.zack.rusin@broadcom.com>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider:
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1
+--xiixfssqgqvtj5o7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-- [Medium] ena_phc_gettimexattrs64()
-  (drivers/net/ethernet/amazon/ena/ena_phc.c:57-60) unconditionally…
-- [Low] ena_phc_gettimexattrs64()
-  (drivers/net/ethernet/amazon/ena/ena_phc.c:28-62) is a verbatim…
+On Tue, Sep 08, 2026 at 02:07:14PM -0400, Zack Rusin wrote:
+> Full panic text is useful on ordinary guests. Encrypted guests should
+> export it only when an administrator opts in. Reporting a crash does not
+> require transferring the log.
+>=20
+> Enable panic recording by default for ordinary VMware guests and disable
+> it when guest memory encryption is active. Expose the policy as the
+> boolean kernel.vmware_record_panic_msg sysctl and document that it
+> controls only the vmware.log transfer.
+>=20
+> Register the sysctl only after the panic buffer and dumper are ready, and
+> only when sysctl support is built. A registration failure leaves the
+> internal default in force.
+>=20
+> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+> ---
+>  Documentation/admin-guide/sysctl/kernel.rst | 14 +++++++++++++
+>  arch/x86/kernel/cpu/vmware.c                | 23 +++++++++++++++++++++
+>  2 files changed, 37 insertions(+)
+>=20
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/=
+admin-guide/sysctl/kernel.rst
+> index b6328cd0f43e..4577e935ddcf 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -1690,6 +1690,20 @@ entry will default to 2 instead of 0.
+>  =3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> =20
+> +vmware_record_panic_msg
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Controls whether panic kmsg data is written to the host's ``vmware.log``.
+> +This setting does not control the separate VMware guest-crash event.
+> +
+> +=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +0 Do not write panic kmsg data to ``vmware.log``. This is the
+> +  default for encrypted guests.
+> +1 Write panic kmsg data to ``vmware.log``. This is the default for
+> +  ordinary guests.
+> +=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
---
+This seems like it can be represented in a boolean value. Any reason why
+you did not use proc_dobool for your handler? Would it make sense to
+have vmware_record_panic_msg as a boolean?
 
-net: ena: Implement gettimexattrs64 callback for PTP attributes
+Best
 
-Adds ena_phc_gettimexattrs64() to the ENA PHC code and registers it in
-ena_ptp_clock_info so the PTP_SYS_OFFSET_EXTENDED_ATTRS ioctl is supported.
-The new callback reports the device error_bound value and sets the
-corresponding valid bit; other attributes are left unreported.
-
-A couple of questions below.
-
-> diff --git a/drivers/net/ethernet/amazon/ena/ena_phc.c b/drivers/net/ethernet/amazon/ena/ena_phc.c
-> index 2bcb5af564e2..725c36fe3f6e 100644
-> --- a/drivers/net/ethernet/amazon/ena/ena_phc.c
-> +++ b/drivers/net/ethernet/amazon/ena/ena_phc.c
-> @@ -25,6 +25,43 @@ static int ena_phc_feature_enable(struct ptp_clock_info *clock_info,
->  	return -EOPNOTSUPP;
+> +
+> +
+>  warn_limit
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
+> index bf59653d6e07..3848811550e9 100644
+> --- a/arch/x86/kernel/cpu/vmware.c
+> +++ b/arch/x86/kernel/cpu/vmware.c
+> @@ -31,6 +31,7 @@
+>  #include <linux/efi.h>
+>  #include <linux/reboot.h>
+>  #include <linux/static_call.h>
+> +#include <linux/sysctl.h>
+>  #include <linux/wordpart.h>
+>  #include <linux/sched/cputime.h>
+>  #include <asm/div64.h>
+> @@ -255,6 +256,19 @@ static int vmware_log_rpc(const char *buffer, size_t=
+ length)
 >  }
->  
-> +static int ena_phc_gettimexattrs64(struct ptp_clock_info *clock_info,
-> +				   struct timespec64 *ts,
-> +				   struct ptp_system_timestamp *sts,
-> +				   struct ptp_clock_attrs *att)
-> +{
-> +	struct ena_phc_info *phc_info =
-> +		container_of(clock_info, struct ena_phc_info, clock_info);
-> +	u32 error_bound_nsec;
-> +	unsigned long flags;
-> +	u64 timestamp_nsec;
-> +	int rc;
+> =20
+>  static struct page *vmware_panic_page;
+> +static int vmware_record_panic_msg;
 > +
-> +	spin_lock_irqsave(&phc_info->lock, flags);
+> +static const struct ctl_table vmware_panic_sysctls[] =3D {
+> +	{
+> +		.procname	=3D "vmware_record_panic_msg",
+> +		.data		=3D &vmware_record_panic_msg,
+> +		.maxlen		=3D sizeof(vmware_record_panic_msg),
+> +		.mode		=3D 0644,
+> +		.proc_handler	=3D proc_dointvec_minmax,
+> +		.extra1		=3D SYSCTL_ZERO,
+> +		.extra2		=3D SYSCTL_ONE,
+> +	},
+> +};
+> =20
+>  static void vmware_panic_log_dump(struct kmsg_dumper *dumper,
+>  				  struct kmsg_dump_detail *detail)
+> @@ -263,6 +277,9 @@ static void vmware_panic_log_dump(struct kmsg_dumper =
+*dumper,
+>  	char *buffer =3D page_address(vmware_panic_page);
+>  	size_t length =3D 0;
+> =20
+> +	if (!READ_ONCE(vmware_record_panic_msg))
+> +		return;
 > +
-> +	ptp_read_system_prets(sts);
+>  	memcpy(buffer, VMWARE_LOG_PREFIX, VMWARE_LOG_PREFIX_LEN);
+>  	kmsg_dump_rewind(&iter);
+>  	(void)kmsg_dump_get_buffer(&iter, true,
+> @@ -283,6 +300,9 @@ static int __init vmware_panic_log_init(void)
+>  	if (!hypervisor_is_type(X86_HYPER_VMWARE))
+>  		return 0;
+> =20
+> +	vmware_record_panic_msg =3D
+> +		!cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT);
 > +
-> +	rc = ena_com_phc_get_timestamp(phc_info->adapter->ena_dev,
-> +				       &timestamp_nsec,
-> +				       &error_bound_nsec);
-> +
-> +	ptp_read_system_postts(sts);
-> +
-> +	spin_unlock_irqrestore(&phc_info->lock, flags);
-> +
-> +	if (rc)
-> +		return rc;
-> +
-> +	*ts = ns_to_timespec64(timestamp_nsec);
-> +
+>  	vmware_panic_page =3D alloc_page(GFP_KERNEL);
+>  	if (!vmware_panic_page) {
+>  		pr_err("failed to allocate panic log buffer\n");
+> @@ -295,6 +315,9 @@ static int __init vmware_panic_log_init(void)
+>  		__free_page(vmware_panic_page);
+>  		vmware_panic_page =3D NULL;
+>  	}
+> +	if (vmware_panic_page && IS_ENABLED(CONFIG_SYSCTL) &&
+> +	    !register_sysctl("kernel", vmware_panic_sysctls))
+> +		pr_err("failed to register panic log sysctl\n");
+> =20
+>  	return 0;
+>  }
+> --=20
+> 2.53.0
+>=20
 
-[Severity: Low]
-This isn't a bug, but the body above is a verbatim copy of
-ena_phc_gettimex64(): same container_of(), same
-spin_lock_irqsave(&phc_info->lock, flags) / ptp_read_system_prets() /
-ena_com_phc_get_timestamp() / ptp_read_system_postts() /
-spin_unlock_irqrestore() sequence, same rc handling and same
-*ts = ns_to_timespec64(timestamp_nsec).
+--xiixfssqgqvtj5o7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Since ena_phc_gettimexattrs64() already tolerates att == NULL (and is in
-fact called with sts == NULL and att == NULL from ptp_clock_gettime() in
-drivers/ptp/ptp_clock.c), could ena_phc_gettimex64() simply become:
+-----BEGIN PGP SIGNATURE-----
 
-	static int ena_phc_gettimex64(struct ptp_clock_info *clock_info,
-				      struct timespec64 *ts,
-				      struct ptp_system_timestamp *sts)
-	{
-		return ena_phc_gettimexattrs64(clock_info, ts, sts, NULL);
-	}
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqiaukACgkQupfNUreW
+QU+hBwv7BUPdw+1A6g/8FaJQhp+DUve6X7M2spaDjh1f9BHHbZb/KPAOVO5m4AtF
+/aowgx9K9H/WzUdWN/dowHicF95lzhLY3uRo1r8KjkOR/ua4ae6IhTXNqYz2s73T
+38wmYvOE1s6s2Ppee9Q9XEUfWLssbSiO9SGUwL6V1pJLFqO2YIC4hqwxiTQa9CrJ
+0n7SuzrUkNdromDUugsmDcCkAI35dHC3YsAJCmG4qiEPP/TJbhoK5DNHxAKend77
+vtDmeOZ2SQx3bp1t6tfjANJUUVzLV7RemZ3mTqE/M6bK22OkNpUmVBR97yJFGx3F
+lVhq18Vfmgo2kIuf1wYVkbooD0WZBYIbGWURjAG5VDb0F+QCcRCcY8altL4JoUfZ
+87+jFw7ZW6pSmkoPwbfHv6KI+hVIEOTJh7UuSIOyGHLThtOTVncw45G79kcC7Rpi
+R2KXavaDOLV/8+uuJyAmJfZlaJ0QIuU+9uxvhvsYVyDF5WszAkji43yJ8Mu86Zt5
+waTRn0nA
+=IjZN
+-----END PGP SIGNATURE-----
 
-Passing a non-NULL error_bound to ena_com_phc_get_timestamp() has no side
-effect beyond storing the value, since that function guards the store with
-if (error_bound). Keeping two copies of the PHC doorbell/poll sequence means
-a later fix can land in only one of them.
-
-> +	if (att) {
-> +		att->error_bound = error_bound_nsec;
-> +		att->valid |= PTP_ATTRS_VALID_ERROR_BOUND;
-> +	}
-
-[Severity: Medium]
-Is PTP_ATTRS_VALID_ERROR_BOUND being advertised here without a device
-capability gate?
-
-The only capability check in the driver is in ena_com_phc_config(), which
-accepts:
-
-	/* Supporting only PHC V0 (readless mode with error bound) */
-	if (get_feat_resp.u.phc.version != ENA_ADMIN_PHC_FEATURE_VERSION_0) {
-
-ENA_ADMIN_PHC_FEATURE_VERSION_0 is 0, which is the same numeric value that
-pre-series firmware reports for the old name ENA_ADMIN_PHC_TYPE_READLESS.
-The preceding commit only renames u8 type to u8 version and re-documents 0
-as "readless with error_bound"; it also carves u32 error_bound out of the
-previously reserved (must-be-zero) bytes of struct ena_admin_phc_resp.
-
-So can a PHC-capable device whose firmware predates error_bound still pass
-that version check, leave the DMA bytes at zero, and have
-ena_com_phc_get_timestamp() copy that zero out:
-
-	/* PHC timestamp value is returned to the caller */
-	*timestamp = resp->timestamp;
-	if (error_bound)
-		*error_bound = resp->error_bound;
-
-In that case userspace receives error_bound = 0 ns with the validity bit
-asserted, i.e. it is told the timestamp is exact, rather than being told the
-attribute is unavailable, which is what the valid bitmask exists to express.
-
-The device-side error signal does not seem to help here either:
-ENA_ADMIN_PHC_ERROR_FLAG_ERROR_BOUND (checked via ENA_PHC_ERROR_FLAGS) is a
-new flag that error_bound-unaware firmware would never set.
-
-Would it make sense to gate the valid bit on a distinct feature version
-value or an explicitly advertised device bit? Alternatively, if every
-PHC-capable ENA firmware that reports version 0 does populate error_bound
-and no older firmware exists in the field, could the commit message state
-that?
-
-> +
-> +	return 0;
-> +}
-> +
->  static int ena_phc_gettimex64(struct ptp_clock_info *clock_info,
->  			      struct timespec64 *ts,
->  			      struct ptp_system_timestamp *sts)
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260909073136.12863-1-akiyano%40amazon.com
+--xiixfssqgqvtj5o7--
