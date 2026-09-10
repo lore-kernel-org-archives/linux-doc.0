@@ -1,154 +1,89 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CEF4A014B;
-	Thu, 10 Sep 2026 13:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CEC492E20
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 13:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789048014; cv=none; b=cezWTbxhkH1k5IxZiYZut0Og8fMBaBeDbZnRM3e18G6a5YxnSMAazjy/U6PTNCG81fpNc2MxAKCelkqUkUfx2mtNaCicyXQ7u2VQpVjqqBm6Iv+M8aRpc7xEM4D+zIderY5lf+ahTPo4jWD6yEETo2zniovPS1y6L2YfgOYsZCo=
+	t=1789048770; cv=none; b=BLUDd1Fu52eobS8nKKzI72ab5LtbEcg0y05OOxW2JnMaYQxAmK+mPfOjPhhhNZ4hDjuVj/+wo1kk37wgFx7vTrQy9ZUkW77HalPflBdx23WvF17M+qo2hV+kRi/oSCM/Tc/U9JQ9Ud+x1eJCFi+jhwSvR+gM0l7S63IhoYyAWSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789048014; c=relaxed/simple;
-	bh=YweghrEN35d/HrIQDZzlztjwvxtnA6T6pjRwWdD/VPs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nsepmUYcPN3wniAc5eRJ6dshPUm8Z8Mq4+6MOyTJy6K+d5ulDL+/Jfg1kez4pm0Ri1UTJUBUgaIZkIInWUV/TFt6DIHml5Siktu67ngXCcbWnmU3BGrZP+fX8P6O2paIOszI4WRAESbjBkE8XyfcDifVZQxCqwkXBLLnzrlZ8k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=emUrnd93; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1789048770; c=relaxed/simple;
+	bh=Y6jWV6ZpYD55iJx0rXT/G22pEri5CwgcxUksOlBcAeI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WQh/goOqaaGxCfWab2Hy4hywVggeC1CC52d7kWi9nQnWQoE9WBGQKdkwHV9LThFBOtn/1uWRsu4yXEUW0rFCe3KfMfM19N88IgZzzvwT1vON43WhlwmLJN5OeUp/YmPUb2TRY5vJ7zzWS3qkc/wxaQXAi196zbrGMR6a7LzadPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KNkpLH1j; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="emUrnd93"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=6lGdzSD4TWF0V5JshmLHmzYOBwaLk4uPT6kfJ83UM0I=; b=emUrnd93Yuv4NEnksdN6lxuBsA
-	tVtnv5Q7g5R6zpN3PRmLr1Cqz5U7IcQ4Tc9f3nGmWu5RuhS98UGEKZJqoUmEUPj5G35WDn65HSI/8
-	4cn8mhLBgZcczZrDYuzaEfbb5833XmrYVDfGWOnFxgYeNkKHbcjFwkyVg2Ezzi8ls9i/9zCWxDZmx
-	6tgEyp6fffjV5rQiOV9AeKp+IbaMQI3wTcYL9mxN1wfXBXd1QibPLtsPTcYfm+QBHvM7q0tFt49sE
-	oRlYZ8LBI40m8arU6D8FkVPDt6rS+EghqVQ+LJpikgQ9HCn0VuTLLpRmpnXLZEFJriiqGBmVvzx5B
-	vyiMb9Gg==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1x4f73-000YIn-2e;
-	Thu, 10 Sep 2026 13:46:50 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Thu, 10 Sep 2026 06:46:13 -0700
-Subject: [PATCH net-next v2 4/4] docs: netconsole: document rate limit
- feature
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KNkpLH1j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789048768;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1GxlXop5BNMoKQi4jo+ZeUE7mc82UQ20F3V6hMG+loI=;
+	b=KNkpLH1jrIQfL3SfZAW58/tuhZKdbyz7f5FdoblV4xsIW2hAH+I28mQCK7AKKfTwfjQwV/
+	Xd7giQYSzaeBAI0DhCjQi8P8SdGngPAubTH5anMcwrbjQCbHeY3zf8rKl1CCmQCOjG/iPb
+	qJpRdzlYWamU8auRpSjR0JrvrQP6fcI=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-208-dGqvfRB9OYy5zpPFlfNstA-1; Thu,
+ 10 Sep 2026 09:59:26 -0400
+X-MC-Unique: dGqvfRB9OYy5zpPFlfNstA-1
+X-Mimecast-MFC-AGG-ID: dGqvfRB9OYy5zpPFlfNstA_1789048764
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3E64319540D4;
+	Thu, 10 Sep 2026 13:59:24 +0000 (UTC)
+Received: from thuth-p1g4.redhat.corp (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 870D346E;
+	Thu, 10 Sep 2026 13:59:20 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <david@davidgow.net>,
+	linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Rae Moar <raemoar63@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	workflows@vger.kernel.org
+Subject: [PATCH] Documentation: kunit: Fix bad debugfs path
+Date: Thu, 10 Sep 2026 15:59:19 +0200
+Message-ID: <20260910135919.435500-1-thuth@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260910-netcons_ratelimit-v2-4-ebf0dd91e26e@debian.org>
-References: <20260910-netcons_ratelimit-v2-0-ebf0dd91e26e@debian.org>
-In-Reply-To: <20260910-netcons_ratelimit-v2-0-ebf0dd91e26e@debian.org>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, paulmck@kernel.org, 
- gustavold@gmail.com, asantostc@gmail.com, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com
-X-Mailer: b4 0.16-dev-f8e9d
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3209; i=leitao@debian.org;
- h=from:subject:message-id; bh=YweghrEN35d/HrIQDZzlztjwvxtnA6T6pjRwWdD/VPs=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqorSvOedOtB9UAZ59DRyvRo3o8+LhENkpQBRXW
- XSVIz9YvN6JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaqK0rwAKCRA1o5Of/Hh3
- bS0TEAClh/SWx9vqpLBePxbdQOQOMmR4vb3mi6OcbDYi8vnA8taJTN4KRz6OIB+ngdCVPd9SvN7
- UcNF3tEH8cKSnXEBCFtgzrnRa4ZN5nDHNuVJS2sFx0/qoecMfRLIcK2ePonCjtFT4axIes4XQEC
- I0brZpUw0zTfyBgREuuhfbxAYYPMVIKawnS0QLO80L4bWpyyTrp3ywW+XTdYr8HmKhoTzAZbZg8
- 0x2aVgGBFqo6+ndo+dFF7pfV+HfoYBi4uhowYU2gIti/g0vVIMmMgby/hor1C/Z5IQ8BFPffADk
- zsF8qiSkcszDon2L8lzqw42J5KJadPpa3g8/FhG3iJhdMybitTH+jktxTAOxNpM23OFVB4AV4G2
- DUt3bpyxntRpAxsFgtDszjZ3jrJv7I8TyVBtCSHY18M3iuDgJMtNlwUGwm4SkiXte1FH5P1af2M
- BvIkaNtISRrXuJg7z2vvJdq1CLUV/N7bgRBWLM1HjhuxZ6UjjW5AuoUIHrfsp96BjbZcqmqhzuK
- NK5a8oYWZz0rukX5vKZ8vwPtUcTOdJa8pT0tJMdgJhdJ+4WJYccpTe+njlchS6JV+ZmQOB6Iu5Q
- jLQzcfD8XWxoWVm2xfFnon0f5XQZ+wKrqk2bdced8Rf+SL2zOo4f+oIDGADdMhg+c+wCHhYptqH
- LyQCerzAFZdSSsw==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-Describe the per-target token bucket and the two configfs files that
-drive it: ratelimit_interval_ms and ratelimit_burst.
+The path of debugfs is /sys/kernel/debug/ and not /sys/kernel/debugfs/.
 
-Spell out the two properties that are not obvious from the file names.
-The limit is accounted per message rather than per packet, so a message
-split into several ncfrag packets is never truncated by the bucket
-running dry halfway through.
-
-Note in the message ID section that a message the bucket discards never
-reaches the counter, so those drops leave no gap in the IDs.
-
-Signed-off-by: Breno Leitao <leitao@debian.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- Documentation/networking/netconsole.rst | 38 +++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ Documentation/dev-tools/kunit/run_manual.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index 4ab5d7b05cf102..a9ccf798346562 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -177,6 +177,41 @@ You can modify these targets in runtime by creating the following targets::
-  cat cmdline1/remote_ip
-  10.0.0.3
+diff --git a/Documentation/dev-tools/kunit/run_manual.rst b/Documentation/dev-tools/kunit/run_manual.rst
+index 98e8d5b288085..59c3313a6d15c 100644
+--- a/Documentation/dev-tools/kunit/run_manual.rst
++++ b/Documentation/dev-tools/kunit/run_manual.rst
+@@ -87,7 +87,7 @@ the ``/sys/kernel/debug/kunit/<test_suite>/run`` file:
  
-+Rate limiting
-+-------------
-+
-+Netconsole hands every console message to every enabled target, so a host that
-+logs continuously can saturate the receiving agent. Each target carries a token
-+bucket that drops messages once the configured rate is exceeded, controlled by
-+two files in the target directory:
-+
-+        ===================== ================================================
-+        ratelimit_interval_ms Length of the accounting interval, in
-+                              milliseconds. Zero, the default, sends
-+                              everything.
-+        ratelimit_burst       Messages allowed per interval. Defaults to
-+                              10; zero drops every message once an
-+                              interval is set.
-+        ===================== ================================================
-+
-+Unlike most target parameters, both knobs can be written while the target is
-+enabled, which is when a flooding target most likely needs them.
-+
-+The limit is applied per message, not per packet, so a message big enough to be
-+split into several `ncfrag` packets is either sent whole or not at all.
-+
-+Crash output bypasses the bucket. While an oops, BUG() or panic() is in
-+progress every message is sent, whatever the limit says, so a small burst
-+cannot cost you part of a crash dump.
-+
-+A drop leaves nothing on the wire. On an extended target it shows up as a gap
-+in the sequence number the header carries; a basic target has no such marker.
-+
-+Capping a target at 500 messages a minute::
-+
-+  echo 60000 > ratelimit_interval_ms
-+  echo 500 > ratelimit_burst
-+
- Append User Data
- ----------------
+ .. code-block :: bash
  
-@@ -359,6 +394,9 @@ indicate that a message was dropped during transmission, as it may never have
- been sent via netconsole. The message ID, on the other hand, is only assigned
- to messages that are actually transmitted via netconsole.
+-	echo "any string" > /sys/kernel/debugfs/kunit/<test_suite>/run
++	echo "any string" > /sys/kernel/debug/kunit/<test_suite>/run
  
-+A message the target's rate limit discards is dropped before the ID is
-+assigned, so those drops leave no gap in the sequence of IDs either.
-+
- Example::
- 
-   echo "This is message #1" > /dev/kmsg
-
+ As a result, the test suite runs and the results are printed to the kernel
+ log.
 -- 
-2.53.0-Meta
+2.55.0
 
