@@ -1,70 +1,70 @@
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD185867DE
-	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 19:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12FF53D0BB
+	for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 19:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789067265; cv=none; b=KgPIy8goUXdpubykc5+8YVk/5aTKXPknthHGNS9Yk7FtKg+swAxEjJek5QCBnPaY9ntRtejxCcQE8df9NuXkGV5oDpo+bB7S3ByCUiPbxRCcwOAIs28lrrOVjnODQvxOSrN7HMV3lRLPoAW3U57MBQJkYQ1VeQhHB1E+pzS2C9o=
+	t=1789067275; cv=none; b=fvpAYHc9CLnR2U9RXbseSq1UKBWnhuDqqVfEZq27kwCKnctdD3HB2t25/OYquCN02mv3N85bC+ewrVKxaH6tx1BnfdfqaCqTsWQE6AF4Avvu6Z87x7uwpeyd/6xpj2U7Tl2/y8hwQnB9AfK6QwzEcijguqmzGh+o3gzHJzZ3BT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789067265; c=relaxed/simple;
-	bh=yoseB6NvFkEMNpnUvnB+jdU8AEs7rHAKhVoRrbLuJRg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gyRB18pFxZi2OGcgqunQjOeMr6ECYYvQrF9OEkFY0NvIga+4/NVrWbbzFdMwg51FO9x4fNF/6FJcOw504Kfpd9tpMs1PC3rxbvc5wNfJADWwwPMWpsoizIQHC6+sLbS0AdyVt/g2cUdeEf09wEAe+9AUUwDyQks0vYPC58oq8IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B2PUd3/y; arc=none smtp.client-ip=209.85.222.49
+	s=arc-20240116; t=1789067275; c=relaxed/simple;
+	bh=55fNjsL0YzhBBXh/8ifYNriAC2d51UMaI8TZmEGTnac=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Fz/plytabeOVrWOOTAPxbn8XFlRWVSyTSkN4Fvzhh+jJmXxiqOB2stFlN7YrAVGZ8B4/GWL/wUQZesStQRvtrIKGOfhbv6YDgl/5XJv9w5EBMuH13h57u60CFFm7nkqUNsxgZARWq6qjvGx/Roe1B7Uq1aFdXCgK3/ySL+/dFwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BqTQ+O2b; arc=none smtp.client-ip=74.125.227.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B2PUd3/y"
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-966e7380109so177956241.3
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 12:07:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BqTQ+O2b"
+Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c67e529da9so79023e0c.2
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 12:07:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789067263; x=1789672063; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789067272; x=1789672072; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=CO26wWANOD88jwdHKgWjjDCs9aOhd+wvVApfcj4XEOw=;
-        b=B2PUd3/yEHXg8k931hP914vz+wuQN0zjJpBcTfe8nF57Sz0SOXhuEyeESnsCnP8hcL
-         jva03foms3kbavXq9HALfUNABzKI8WEvIm4lNBvYhybI/G4FMfGrPu8MBpWwGTZFflgh
-         LZVJZekCrNxvm8dEiAZVJGEilMHrrTuRJDewMe1NKQVItdLvfaIFfi5G2ckbuF3Pf+h7
-         Kp20KJgiUnSJbt142udfv3YsQeETLM61i/82UborL32czip5hbcRWIwr0oRvID7z5fKG
-         XzMi7yHQT1jgpzfpxqQepvcMcmeIEc/5uwOvtGJNuTn2sPYZSkQKNfg6cyKoIwKz1FcP
-         ilHg==
+        bh=zMobSeq0Oh4543STo+E8eGV9sAEro05LNNhcKN2dLi8=;
+        b=BqTQ+O2b9LQyIupAe7ImgmUD64dOfk1rkY3wnejqN+BL8RiRripq+9MdK8GSaOMnZ8
+         Nw/gj+9cIMda4kGTVF+HoJvao77gl5rq68W9zJ/4fEFgzsEMVhZBcOMRMsVf6LP6Tykw
+         No0Uu1iLXMn/EZdpVrd75cyRhB+IscVT8ryx/kt2mpUG752sbcwgsC08Tpo2OrWCUvgj
+         gz1r6//hnN72l6cCJveY3SOYq4x04fVN0karY1FVFYFhkTW0anUo8vxh4tLXtmX0oQ4r
+         0c2v7rAuua3eUsfK1atLS977I4CDdp0IDNLh3J14fUZY1xiNqtSjQmej4Yk1VLQtkZxy
+         qEsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789067263; x=1789672063;
+        d=1e100.net; s=20251104; t=1789067272; x=1789672072;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=CO26wWANOD88jwdHKgWjjDCs9aOhd+wvVApfcj4XEOw=;
-        b=grMOdIqpg7LQAsRxgrm7xF/yZV9FGgFeSjVHLgiffRJQ7DIDiuHA0O6Njdnn6GkvW+
-         vmDgrA6ZYj0C7bGaoU0RMPxGc2Nb3/+rW+Da2IQZt2S28Wjznk/WwlUYuAXmBip6ClPe
-         CYridGY9QWEUMnGzu7jbRRqIXukgV/BGhC8IXLiFpxVKjaMAz0jqwKKhIDRtdFjNoYzl
-         D6zhXmQwC/Xx526njrspE2UvJyEmeueqIHDU5d5nEMn650XpfNvIwVvdD6BtvjobkRWX
-         QYN3gxKzPvzZAKyKfXYctaSi+h0+8tRQ7NarVtXbohBEQGy3HSqxVgOD5jKw63D/7AAM
-         jw2A==
-X-Gm-Message-State: AFuF++lhlSv0zLVLJm/tKyPZzFluJGON79K/fdtvQuaTN8EQWpf9O6NX
-	GX9gr26H1zNqjYa3KFkSqX9GJEEyLTLAUftXfpI565VTk3ZFQoq60b8nbD/c6A==
-X-Gm-Gg: AYBFou16+WwK0dNGYwyACG25OywQPfOinD+2WROuLfo0bDAHCg51AC2yCXHJ0XKCip2
-	lYXOkHP4uWrrADcq5MiTcBCiVhoa293t37MI53O3Qa0hu9GJ1ZEWALA2rUADqnsNW3vpkO516nm
-	QvuGC4UtXjLFRESXJ8xo2HqXifndkpo2pRTSHmpPLfPNdqMineEsQj+ZhW9LBGB9wd5ynu0wlT8
-	jJbQ5lNmZrYElDnsTtynNX8URpDfRhJm3V8+oVXNmoICBycEZzcE3bX2quOKiqsOkshDCITSw2+
-	1ahgtqfecuzWSlyZS4Kdkk3QSA/XEd3UWS3ajkBegEOPpFA5gA5hRBwvsiFoSrq4veoA2x7kSF4
-	Mw2IlFZJZSxg35uGdrB12JvERbnSurWCp3J0cA8n0Im+0svYu5Y3Syd+ayfEMwVd7fTjQ3RuSeU
-	qSTY8Cp0vC3y/yU3U1uFgL56OMC2Cw2PoFbVQQUxJAZ79pgsOny6N4vIKpOxDsf5M/V6EfcOo0O
-	g==
-X-Received: by 2002:a05:6122:311a:b0:5c7:d204:db7b with SMTP id 71dfb90a1353d-5c8462776e8mr1842787e0c.3.1789067262946;
-        Thu, 10 Sep 2026 12:07:42 -0700 (PDT)
+        bh=zMobSeq0Oh4543STo+E8eGV9sAEro05LNNhcKN2dLi8=;
+        b=bvYLGjkBP8EBWS3YGQkXm3W5E6q0LnBB3Gt2f2CxyXDdlIhoDg4otW1GzQ5aXXNLMq
+         vrW9B//GkrW7s5n6rhLt6m5XMUcRvMBBxsFtWFS7KIpGGAIQLWeQErkgScbKLM/hGtCg
+         qB2M/wXtLamaZFQyLUgjte0lPPWmQX1ITFoppXLLbOHF6UofRvuH4XdTiXqxlKkhrwRq
+         MZt0mgAS0MicQ6HhOuXOKm9wCB7DSXDFRgA2E5gJGFpPPSLgj/Xs3tkXIRBBuQs0hJlf
+         E502u3QKFauexIV5+OjPLKkg0IzhakKxSucB76Bcbc3s5l3/75Syo2B6TFoQUdaTCGVV
+         3npw==
+X-Gm-Message-State: AFuF++mT2CHhWk9DjM5urj7asqieJOA5+1cztQWa9dXoIv43qfOuSsJp
+	9Iyf7U3Ukwf5qn45PRTvlfI/d6jaeMjWHn8Fo3ZRIuyrglvbA7qDLTuw
+X-Gm-Gg: AYBFou02+skbrLBhjg0O5TRX3So8v3hs01CGBVCqy/+rJawbcBcKgSMOf1E1NM2uS5A
+	xagDGc1tmhoSPU0UgPFyoOWXOD+cPP4yBsg6rgtO/yoAH4EqZo5GUTQb+Cz8RuUGYyBtsjO0fVa
+	cHhy+2V9/WN1YlpFqbcELa81JYp+zhnNxIe0eNxruB1I6VcnwVXYdLZ+78AhLyyHFr7uzB66uGL
+	YnGfvbAyg7vis2V8cufIVHIkLGELPsCH9cHfLtKhqS/H2+WmK1AnHxELM8vbarlLhXqzOfUkLaP
+	j2zJNLOX9nZ+yROcDDIt/gRUcBDbJfeB0tvG4NjlBMZ0R9Mz6Q6uGe1OOaIxlIMILECKh/SUS9f
+	JxAiM7QY5pO9ykfzgxnAwUoFVQcV3U0Bqlc87OeDMHNuDR/P5D7D+wbKapRVwcuac0nu642Y5iv
+	2sFjWb+FofVBh1rWjH8U2BTCYCx5T7eWFEXlXWLM7YhWsq7lG6mXZBB4PK0RQ3O81qE2GeJxXMC
+	Q==
+X-Received: by 2002:a05:6122:420e:b0:5c5:731b:11d2 with SMTP id 71dfb90a1353d-5c8463028afmr724557e0c.8.1789067271932;
+        Thu, 10 Sep 2026 12:07:51 -0700 (PDT)
 Received: from x-wing ([2804:14d:78b6:4583:bc62:f651:fe2f:303b])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-982b9f41426sm421383241.6.2026.09.10.12.07.40
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c8470add08sm298844e0c.3.2026.09.10.12.07.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 12:07:42 -0700 (PDT)
+        Thu, 10 Sep 2026 12:07:51 -0700 (PDT)
 From: Fabio Pereira da Silva <silvapfabio@gmail.com>
 To: Daniel Pereira <danielmaraboo@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org,
 	Fabio Pereira da Silva <silvapfabio@gmail.com>
-Subject: [PATCH v2] docs: translations: pt_BR: translate programming-language.rst
-Date: Thu, 10 Sep 2026 16:07:36 -0300
-Message-ID: <20260910190736.1665-1-silvapfabio@gmail.com>
+Subject: [PATCH v2] docs: translations: pt_BR: translate researcher-guidelines.rst
+Date: Thu, 10 Sep 2026 16:07:45 -0300
+Message-ID: <20260910190745.1676-1-silvapfabio@gmail.com>
 X-Mailer: git-send-email 2.55.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -75,7 +75,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate programming-language.rst into Brazilian Portuguese and add it
+Translate researcher-guidelines.rst into Brazilian Portuguese and add it
 to the pt_BR process documentation index.
 
 Assisted-by: Opus 5:Opus 5-3-opus
@@ -85,93 +85,208 @@ Changes in v2:
 - Add document to Documentation/translations/pt_BR/process/index.rst
   instead of the top-level index.
 - Remove top-of-file Sphinx label to prevent cross-reference and build conflict.
+- Fix trailing newline at end of file.
 - Include Assisted-by: Opus 5:Opus 5-3-opus trailer as per documentation.
 
-v1: https://lore.kernel.org/r/20260910151145.1226-1-silvapfabio@gmail.com
+v1: https://lore.kernel.org/r/20260910151155.1237-1-silvapfabio@gmail.com
 
- .../translations/pt_BR/process/index.rst      |  1 +
- .../pt_BR/process/programming-language.rst    | 60 +++++++++++++++++++
- 2 files changed, 61 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/programming-language.rst
+ .../translations/pt_BR/process/index.rst      |   1 +
+ .../pt_BR/process/researcher-guidelines.rst   | 173 ++++++++++++++++++
+ 2 files changed, 174 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/researcher-guidelines.rst
 
 diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
-index 7841eca..6e73b9e 100644
+index 7841eca..edef9b5 100644
 --- a/Documentation/translations/pt_BR/process/index.rst
 +++ b/Documentation/translations/pt_BR/process/index.rst
-@@ -38,6 +38,7 @@ devem estar familiarizados.
-    :maxdepth: 1
+@@ -60,6 +60,7 @@ Estas são as regras pelas quais tentamos viver na comunidade do kernel
+    Modelos de Maturidade para Contribuição no Kernel Linux <contribution-maturity-model.rst>
+    Declaração sobre Drivers do Kernel <kernel-driver-statement>
+    Estilo de gerenciamento do kernel Linux <management-style>
++   Diretrizes para pesquisadores <researcher-guidelines>
+    Assistentes de código <coding-assistants>
+    Conclave (Continuidade do projeto) <conclave>
  
-    Requisitos mínimos <changes>
-+   Linguagem de programação <programming-language>
-    Informações sobre clientes de email para Linux <email-clients>
-    Como aplicar patches <applying-patches>
-    Backporting e resolução de conflitos <backporting>
-diff --git a/Documentation/translations/pt_BR/process/programming-language.rst b/Documentation/translations/pt_BR/process/programming-language.rst
+diff --git a/Documentation/translations/pt_BR/process/researcher-guidelines.rst b/Documentation/translations/pt_BR/process/researcher-guidelines.rst
 new file mode 100644
-index 0000000..4e5826e
+index 0000000..5daf25d
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/process/programming-language.rst
-@@ -0,0 +1,60 @@
++++ b/Documentation/translations/pt_BR/process/researcher-guidelines.rst
+@@ -0,0 +1,173 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+Linguagem de programação
-+========================
++Diretrizes para pesquisadores
+++++++++++++++++++++++++++++++
 +
-+O kernel Linux é escrito na linguagem de programação C [c-language]_. Mais
-+precisamente, ele normalmente é compilado com ``gcc`` [gcc]_ usando
-+``-std=gnu11`` [gcc-c-dialect-options]_: o dialeto GNU da ISO C11. ``clang``
-+[clang]_ também é compatível; consulte a documentação sobre :ref:`Compilar o
-+Linux com Clang/LLVM <kbuild_llvm>`.
++A comunidade do kernel Linux dá boas-vindas a pesquisas transparentes sobre o
++kernel Linux, as atividades envolvidas em sua produção e quaisquer outros
++subprodutos de seu desenvolvimento. O Linux se beneficia muito desse tipo de
++pesquisa, e a maioria dos aspectos do Linux é orientada por pesquisa de uma
++forma ou de outra.
 +
-+Esse dialeto contém muitas extensões da linguagem [gnu-extensions]_, e muitas
-+delas são usadas normalmente dentro do kernel.
++A comunidade aprecia muito quando pesquisadores compartilham descobertas
++preliminares antes de tornar seus resultados públicos, especialmente quando a
++pesquisa envolve segurança. Envolver-se cedo ajuda a melhorar tanto a
++qualidade da pesquisa quanto a capacidade do Linux de se beneficiar dela. Em
++qualquer caso, recomenda-se compartilhar com a comunidade cópias de acesso
++aberto das pesquisas publicadas.
 +
-+Atributos
-+---------
++Este documento procura esclarecer quais práticas a comunidade do kernel Linux
++considera aceitáveis e não aceitáveis ao realizar esse tipo de pesquisa. No
++mínimo, essa pesquisa e as atividades relacionadas devem seguir as regras
++éticas padrão de pesquisa. Para obter mais informações sobre ética em pesquisa
++em geral, ética na tecnologia e pesquisas sobre comunidades de desenvolvedores
++em particular, consulte:
 +
-+Uma das extensões comuns usadas em todo o kernel são os atributos
-+[gcc-attribute-syntax]_. Os atributos permitem introduzir semântica definida
-+pela implementação em entidades da linguagem (como variáveis, funções ou
-+tipos) sem precisar fazer alterações sintáticas significativas na linguagem
-+(por exemplo, adicionar uma nova palavra-chave) [n2049]_.
++* `História da ética em pesquisa <https://www.unlv.edu/research/ORI-HSR/history-ethics>`_
++* `Ética do IEEE <https://www.ieee.org/about/ethics/index.html>`_
++* `Visões de desenvolvedores e pesquisadores sobre a ética de experimentos em projetos de código aberto <https://arxiv.org/pdf/2112.13217.pdf>`_
 +
-+Em alguns casos, os atributos são opcionais (isto é, um compilador que não os
-+suporte ainda deve produzir código correto, mesmo que ele seja mais lento ou
-+não faça tantas verificações/diagnósticos em tempo de compilação).
++A comunidade do kernel Linux espera que todos que interagem com o projeto
++participem de boa-fé para tornar o Linux melhor. Pesquisas sobre qualquer
++artefato disponível publicamente (incluindo, entre outros, o código-fonte)
++produzido pela comunidade do kernel Linux são bem-vindas, embora pesquisas
++sobre desenvolvedores devam ser explicitamente opcionais.
 +
-+O kernel define pseudo-palavras-chave (por exemplo, ``__pure``) em vez de usar
-+diretamente a sintaxe de atributos do GNU (por exemplo,
-+``__attribute__((__pure__))``), a fim de detectar quais podem ser usados e/ou
-+encurtar o código.
++Pesquisas passivas baseadas inteiramente em fontes disponíveis publicamente,
++incluindo publicações em listas de discussão públicas e commits em
++repositórios públicos, são claramente permitidas. No entanto, como em
++qualquer pesquisa, a ética padrão ainda deve ser seguida.
 +
-+Consulte ``include/linux/compiler_attributes.h`` para obter mais informações.
++Pesquisas ativas sobre o comportamento de desenvolvedores, por outro lado,
++devem ser realizadas com a concordância explícita e a divulgação completa aos
++desenvolvedores envolvidos. Desenvolvedores não podem ser envolvidos ou
++submetidos a experimentos sem consentimento; isso também faz parte da ética
++padrão de pesquisa.
 +
-+Rust
-+----
++Pesquisas
++=========
 +
-+O kernel oferece suporte à linguagem de programação Rust [rust-language]_ com
-+``CONFIG_RUST``. Ela é compilada com ``rustc`` [rustc]_ usando
-+``--edition=2021`` [rust-editions]_. As edições são uma forma de introduzir
-+pequenas alterações na linguagem que não são compatíveis com versões
-+anteriores.
++Frequentemente, pesquisas assumem a forma de questionários enviados a
++mantenedores ou colaboradores. Como regra geral, porém, a comunidade do
++kernel obtém pouco valor desses questionários. O processo de desenvolvimento
++do kernel funciona porque cada desenvolvedor se beneficia de sua participação,
++mesmo trabalhando com outras pessoas que têm objetivos diferentes. Responder
++a um questionário, no entanto, é uma exigência unilateral colocada sobre
++desenvolvedores ocupados, sem benefício correspondente para eles ou para a
++comunidade do kernel como um todo. Por esse motivo, esse método de pesquisa é
++desencorajado.
 +
-+Além disso, alguns recursos instáveis [rust-unstable-features]_ são usados no
-+kernel. Recursos instáveis podem mudar no futuro; portanto, alcançar um ponto
-+em que apenas recursos estáveis sejam usados é um objetivo importante.
++Os membros da comunidade do kernel já recebem e-mails demais e provavelmente
++perceberão solicitações de questionário como mais uma exigência sobre seu
++tempo. Enviar essas solicitações priva a comunidade de um tempo valioso dos
++colaboradores e dificilmente produzirá uma resposta estatisticamente útil.
 +
-+Consulte Documentation/rust/index.rst para obter mais informações.
++Como alternativa, pesquisadores devem considerar participar de eventos de
++desenvolvedores, organizar sessões nas quais o projeto de pesquisa e seus
++benefícios para os participantes possam ser explicados e interagir diretamente
++com a comunidade nesses espaços. As informações recebidas serão muito mais
++ricas do que as obtidas em uma pesquisa por e-mail, e a comunidade se
++beneficiará da oportunidade de aprender com seus conhecimentos.
 +
-+.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
-+.. [gcc] https://gcc.gnu.org
-+.. [clang] https://clang.llvm.org
-+.. [gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
-+.. [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
-+.. [gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
-+.. [n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
-+.. [rust-language] https://www.rust-lang.org
-+.. [rustc] https://doc.rust-lang.org/rustc/
-+.. [rust-editions] https://doc.rust-lang.org/edition-guide/editions/
-+.. [rust-unstable-features] https://github.com/Rust-for-Linux/linux/issues/2
++Patches
++=======
++
++Para esclarecer: enviar patches aos desenvolvedores *é* interagir com eles,
++mas eles já consentiram em receber *contribuições de boa-fé*. O envio de
++patches intencionalmente defeituosos ou vulneráveis, ou a contribuição de
++informações enganosas para discussões, não é algo consentido. Essa
++comunicação pode prejudicar o desenvolvedor (por exemplo, consumindo tempo,
++esforço e motivação) e prejudicar o projeto ao erodir toda a confiança da
++comunidade de desenvolvedores no colaborador (e em sua organização como um
++todo), enfraquecendo os esforços para fornecer feedback construtivo aos
++colaboradores e colocando usuários finais em risco de falhas de software.
++
++A participação no próprio desenvolvimento do Linux por pesquisadores, assim
++como por qualquer outra pessoa, é bem-vinda e incentivada. Pesquisar o código
++do Linux é uma prática comum, especialmente no desenvolvimento ou na execução
++de ferramentas de análise que produzem resultados acionáveis.
++
++Ao interagir com a comunidade de desenvolvedores, enviar um patch tem sido
++tradicionalmente a melhor forma de causar impacto. O Linux já tem muitos bugs
++conhecidos; o que é muito mais útil é ter correções examinadas. Antes de
++contribuir, leia atentamente a documentação apropriada:
++
++* Documentation/process/development-process.rst
++* Documentation/process/submitting-patches.rst
++* Documentation/admin-guide/reporting-issues.rst
++* Documentation/process/security-bugs.rst
++
++Em seguida, envie um patch (incluindo um registro do commit com todos os
++detalhes listados abaixo) e acompanhe qualquer feedback de outros
++desenvolvedores.
++
++Ao enviar patches produzidos a partir de pesquisas, os registros dos commits
++devem conter pelo menos os detalhes a seguir, para que os desenvolvedores
++tenham o contexto apropriado para entender a contribuição. Responda:
++
++* Qual é o problema específico encontrado?
++* Como o problema poderia ser alcançado em um sistema em execução?
++* Que efeito o encontro do problema teria sobre o sistema?
++* Como o problema foi encontrado? Inclua especificamente detalhes sobre
++  quaisquer programas de teste, análise estática ou dinâmica e quaisquer
++  outras ferramentas ou métodos usados no trabalho.
++* Em qual versão do Linux o problema foi encontrado? É fortemente preferível
++  usar a versão mais recente ou uma branch linux-next recente (consulte
++  Documentation/process/howto.rst).
++* O que foi alterado para corrigir o problema e por que se acredita que a
++  correção está correta?
++* Como a alteração foi testada na compilação e em tempo de execução?
++* Qual commit anterior esta alteração corrige? Isso deve constar em uma tag
++  `Fixes:`, conforme descrito na documentação.
++* Quem mais revisou este patch? Isso deve constar nas tags `Reviewed-by:`
++  apropriadas; veja abaixo.
++
++Por exemplo::
++
++  From: Author <author@email>
++  Subject: [PATCH] drivers/foo_bar: Add missing kfree()
++
++  The error path in foo_bar driver does not correctly free the allocated
++  struct foo_bar_info. This can happen if the attached foo_bar device
++  rejects the initialization packets sent during foo_bar_probe(). This
++  would result in a 64 byte slab memory leak once per device attach,
++  wasting memory resources over time.
++
++  This flaw was found using an experimental static analysis tool we are
++  developing, LeakMagic[1], which reported the following warning when
++  analyzing the v5.15 kernel release:
++
++   path/to/foo_bar.c:187: missing kfree() call?
++
++  Add the missing kfree() to the error path. No other references to
++  this memory exist outside the probe function, so this is the only
++  place it can be freed.
++
++  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=y using GCC
++  11.2 show no new warnings, and LeakMagic no longer warns about this
++  code path. As we don't have a FooBar device to test with, no runtime
++  testing was able to be performed.
++
++  [1] https://url/to/leakmagic/details
++
++  Reported-by: Researcher <researcher@email>
++  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar")
++  Signed-off-by: Author <author@email>
++  Reviewed-by: Reviewer <reviewer@email>
++
++Se você é um colaborador de primeira viagem, recomenda-se que o próprio patch
++seja avaliado por outras pessoas em particular antes de ser publicado nas
++listas públicas. (Isso é obrigatório se tiver sido explicitamente informado
++de que seus patches precisam de uma revisão interna mais cuidadosa.) Espera-se
++que essas pessoas incluam sua tag `Reviewed-by` no patch resultante. Encontrar
++outro desenvolvedor familiarizado com a contribuição para o Linux, especialmente
++dentro da sua própria organização, e pedir ajuda para revisar antes de enviar
++os patches às listas públicas tende a melhorar significativamente a qualidade
++dos patches resultantes e, com isso, reduzir a carga sobre os demais
++desenvolvedores.
++
++Se ninguém puder revisar os patches internamente e você precisar de ajuda para
++encontrar alguém, ou se tiver outras perguntas relacionadas a este documento e
++às expectativas da comunidade de desenvolvedores, entre em contato com a lista
++de discussão privada do Technical Advisory Board:
++<tech-board@groups.linuxfoundation.org>.
+\ No newline at end of file
 -- 
 2.43.0
 
