@@ -1,259 +1,109 @@
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FA844E053
-	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 18:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789150867; cv=pass; b=mxfWk81S8P622+22vdR7kZu+pEJV2GJ3ZtUyNXLfsYWVdIHvb+E2/DRgC7LeChQpkJvQBQU+vwGMy7PduyBplRfYgYRi+fIhm7rTLwAQNLnegf/AXG7mIB7Cxyh/k9CgTOPBLkkMZgp0ix2eKcoS/nE6iwIGvPSf4aeVYbTJ4Ls=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789150867; c=relaxed/simple;
-	bh=ospiNi4mvJbHDyKvltQYpdK+X0l90zSr5sr0fKih89Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rD2jZmBpLzRInP2O0jWyHFhRPPSLrizF9ANL4SBSKCTUziJtB9cXdm9An/ddkEg4iALQJU2y4Tht+PV0QHWEXufnpYTE9jcAtUYjDaQxk/ffYIcuPCCfC4A0zLbNxCqADIqf6l3QTERi7TMpZpoMK6fvDN4nRIoI+Mo4Px6PMT8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fZy1O7nY; arc=pass smtp.client-ip=74.125.224.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377344AD4B5;
+	Fri, 11 Sep 2026 18:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789151105; cv=none; b=QNsH910ngB6MJvwRqohIlvdDg2YPmQBDe9uQJNY0nU7WFuVzbmTVXAKRnnTagidONzwPL2tgww4+/vF4uuw4X+wDPMVG3y9JN/aHoFYIqKf///yd71gB5LvSo4f8hc8j2HU1sgSE3cAbdeDH/P4E2iTq2iaHkvPUdS/MORiTBI8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789151105; c=relaxed/simple;
+	bh=8i6j2kj0J2WWxOx2+kQFd3c8jjZ5eNeBsSQ7ZDg5KOs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TLGTKBa88oKwQ4Mc6iHZUlMTsgIoBFbmZS5SgP5Qwf1CdY8qX7pHPfeneSy7W0V8POYt2YEhiFKCowcnDrOT7aB1r6vEiCqkhxGPgHLytFkDx7IJmcWK/CjNcT+NwwhQuaP2u+zKQOviN0SYLjWW7GZLJC9prdVzTrF0g4zfZcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RlyhOewu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fZy1O7nY"
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-66bd7857841so1311722d50.3
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 11:21:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789150865; cv=none;
-        d=google.com; s=arc-20260327;
-        b=adW8iGmyzcq9A1m01OMZ3M5oZr1xN4+Hyf8Lc/QDFaJnvlzwylAf71uXlP4r7Enz/d
-         XXNHaoQRA4UJTiWgnSR+LI4FDr90cpMB4unI5Fv8hHcEJ/ZPtWeaoSuNFspOIg/KHBJO
-         65jwnx6iZPJCtHY9KrPFtk5J3NlaXO+ycQ2pEaDxUdKtMTgxW4jM2+CBqawLp16aVw6o
-         wf0zF36wdCQ567/G2Y+GlJLHqgQT+/n3nmIGr+DaXgM3m1Czy2XLeZxaCgWXw2oUwkIU
-         PBmrrQz6Op0J4WP04OAeXelVgr1qHYBcxZoY5ZDdrg5yL4yXWm70ZpfUEpcA0j7gaG9l
-         TkyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0PfkoOh/05AN64bzT3WIDHrUSVJxMax1VSqub7HGYzA=;
-        fh=l8E2t66k1THa4g01jWPe4jNic4Qs4+aTZrbOaDaUywE=;
-        b=NEuYz3vjWsbBXEc8Omk73e6MBOJi5TicHLEoXcSes/LaboleEZ6AR2Io4zEhxaBUv4
-         phHT08P5oqMg7GRdbDBrosrlV26wVqiOfrE7X3GWxKhH2DaXefk/NdIaI98YpUteaU8u
-         3v9hD7R6VXJSjhfTf0bjTTkGlOMdv9rtj8WVSXrPZEMMIUMrqUgfTyNgnuEQ89kmdo8Q
-         B/jUkT2+5xVHRUQut4DLDVmPPzJvzBG2ULuUxLiSwt5c85eMZ+br04jFOnvg8wy6AJEE
-         zHvAWJdHLE0nS73gsAqmOp0kuDvZR7Sfpq8UTocIhzF2UX22w/4BEH3ny3DgpN3w3IB2
-         mwIA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789150865; x=1789755665; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0PfkoOh/05AN64bzT3WIDHrUSVJxMax1VSqub7HGYzA=;
-        b=fZy1O7nYX4F8RpCBL719cejwO2JBZBHCsQ4M29xWe4J1TICgnhFF4vaFKW0LcVXdmJ
-         7JdqsQw8HdHi3qOgLEDUvZWJMdsBhJvjcwAlk7s4SAP6Ge1bQDyq7QlkphqhoqP2sjxu
-         hlvtKZOtj97s5AEkAIFBG6SfqtoFA9gozAIKE/u7v19trAtrqTj1kwsXEWMxfPpYViU1
-         A6r7wP8ya52+HMgnFwqsiTQib+gLaQKrY4yT8f7y2bOXz5s2XRFZO4o9qvbLDU28U4sZ
-         lUNz9mwfWNtI+Bz1r1H2qcuU/MZANI+qNPsIsj2VRtTm7dbTNkjPC+WsuM/oSxn58NcQ
-         vk5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789150865; x=1789755665;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0PfkoOh/05AN64bzT3WIDHrUSVJxMax1VSqub7HGYzA=;
-        b=BKpBE97KvQMLGd1Ir2gNEPgz2G+nYPE1L36f+SO5WQpTFoiz1Pt4ys88XBdr6jqkEU
-         q75AwA8wkV4CY6tPziCQj34I/niuqfk2NuCYZehcHYRR7W9pTNIUnWed9wFTDhrPX+C0
-         EECE2eDfsQAiDE3FQ6S/y3Sr+8ZW+KiBXNebHkuzB+/KMkmgOl/xXO6R0TPwyLoRRpG4
-         GqT03xoaj/PDFR+1QZ0eQr3VTHdryiHReJ385WbmOdwJPoBnT/U8FvOZYR6FjylFTzAj
-         eu+f2e0NgaQZtkrVxl8MEeHmZ4c73FYSok8but7NXRHTqiBJOFTpdNSa6vCb7TT2GYRZ
-         nnWw==
-X-Forwarded-Encrypted: i=1; AKwUvBwNA2kESzdKUTXOwsDNr/OSPPGTzIV8ZzzOvMAdaWhNcKKBIIaqgUThtWFc14Cb8LGbrafAfwdH2pQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++lmgzHyol68IrZk2K424dEJ4Ae/s4A1dyJOi9oHeUtTL6H8PQm5
-	FxP2ONTmfL82v/GTRZwXG8i/74B4C8JeOcVI5FjtD02Cap3Nm/78lgd8U+GU2P1mSC01FCSC9Nt
-	wTPVHUlD8Adff54hzd0BWCkAUN0qLrB8=
-X-Gm-Gg: AYBFou3lyBwm1iVKTpeLUx+5c9QJ8b1X6ybokwO41ejUigB2qN8vHRE07/WCfH/6ljB
-	pqC4aTBJTEZBgmhY5H6f24i1dp9YeYKuY1KLnQXeuST3zNiBcVSesICPwlfgAPFc1yykwKHgmR9
-	KwTGuF/s+M8rD2CPzUEut7y2Bu7v/VFPpFuLfI/N0Z7cAqRWGD/JmUOv3xrCiHKNOECTbWnZMgJ
-	96p0NILboF7d/VM3gQAAJdtay3hgd0a3ds1Et9VhFQifE22CI7aAU/GtNMapqcPhsbu2u6QQR7B
-	o+Kjgu2KdPpgsZo4EWku9WEul25M/IBkLrYvuorlvqugA/RKQ6YnL6kkGFEaMtIMvJz1RldtGdl
-	5DrYnIrzEuaK2OvTz+GTWSrCsa8f+ee95Sg==
-X-Received: by 2002:a05:690e:450f:20b0:66f:c1bc:c072 with SMTP id
- 956f58d0204a3-671246c1531mr1637688d50.58.1789150864802; Fri, 11 Sep 2026
- 11:21:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RlyhOewu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A91F51F000FF;
+	Fri, 11 Sep 2026 18:24:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789151103;
+	bh=KKNF1BR24z2hq8JFatue1wvWlNPndjqBIvnaGAC0Uqw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RlyhOewuf7WxDS24cLgcR2lbriVrR+lDPmqXJfTUdN7HYmOtPDB7j29KJoKmkpr7u
+	 9dqd9F2fStdlb21DzGnuUfNIyWROL1gANAZJ0qjYWB/6XSgAE66XdKzhjEvztMH6y/
+	 WNkeO+nCbxN55cNXSDyzriyPcgD6rjPOPIYw0L/X8Mo9q2WLBD6vR9suM9BrdAOCwm
+	 cE91VtBDpXsIt+yE63okTLAec+OzU8mjS9nuLiDwWrUoQHXbcg+8fewCBFye1Z/s/i
+	 Cf5IKRquZU9fbuPpaiB3MB88n5PvmtmvjQc+S508IpZltqFEuRdIU52lhVvEaAEoVf
+	 0f7uPMOW2n9yg==
+Date: Fri, 11 Sep 2026 19:24:50 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Nicolas Schier <n.schier@fritz.com>
+Cc: David Laight <david.laight.linux@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH 12/23] kbuild: avoid re-running compiler and linker probes
+Message-ID: <aqRGYXKDzXZMXmmp@gremlin>
+References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
+ <20260908-build-speedup-v1-12-5dc1ac01672d@kernel.org>
+ <178901395292.3971858.13236774094648272066.b4-review@b4>
+ <20260910-translucent-sweet-sidewinder-7acacb@l-nschier-aarch64>
+ <20260911183333.1df0f2e2@pumpkin>
+ <20260911-invaluable-indigo-seal-e31aec@l-nschier-aarch64>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260908-dd-cmap-part2-clean-v9-0-3a3f621f4a10@gmail.com>
- <20260908-dd-cmap-part2-clean-v9-15-3a3f621f4a10@gmail.com> <20260909-primitive-nano-hound-8ee2aa@l-nschier-aarch64>
-In-Reply-To: <20260909-primitive-nano-hound-8ee2aa@l-nschier-aarch64>
-From: jim.cromie@gmail.com
-Date: Fri, 11 Sep 2026 12:20:38 -0600
-X-Gm-Features: AcwNN1UJu3AgSAwYav9ulJp2R_HPP-fzpsFCD13LL3sQevEBQ_irSbDy0UqSCw8
-Message-ID: <CAJfuBxx0VFCS820JLqawLdcpb49Nj-=xnSYdg6ytOub6NidM4A@mail.gmail.com>
-Subject: Re: [PATCH v9 15/39] kbuild, dyndbg: Clean up builtin module-name ambiguities
-To: Nicolas Schier <n.schier@fritz.com>
-Cc: Jason Baron <jbaron@akamai.com>, Shuah Khan <shuah@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@net.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260911-invaluable-indigo-seal-e31aec@l-nschier-aarch64>
 
-On Wed, Sep 9, 2026 at 9:50=E2=80=AFAM Nicolas Schier <n.schier@fritz.com> =
-wrote:
->
-> On Tue, Sep 08, 2026 at 06:55:11PM -0600, Jim Cromie via B4 Relay wrote:
-> [...]
->
-> > diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Docume=
-ntation/admin-guide/dynamic-debug-howto.rst
-> > index 9c2f096ed1d8..99bbae37d34e 100644
-> > --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> > +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> [...]
-> > @@ -161,17 +161,21 @@ file
-> >       file kernel/freezer.c   # ie column 1 of control file
-> >       file drivers/usb/*      # all callsites under it
-> >       file inode.c:start_*    # parse :tail as a func (above)
-> > -     file inode.c:1-100      # parse :tail as a line-range (above)
-> > +     file inode.c:1-100      # parse :tail as a line-range (below)
+On Fri, Sep 11, 2026 at 08:17:57PM +0200, Nicolas Schier wrote:
+> On Fri, Sep 11, 2026 at 06:33:33PM +0100, David Laight wrote:
+> > On Thu, 10 Sep 2026 17:42:35 +0200
+> > Nicolas Schier <n.schier@fritz.com> wrote:
 > >
-> >  module
-> > -    The given string is compared against the module name
-> > -    of each callsite.  The module name is the string as
-> > -    seen in ``lsmod``, i.e. without the directory or the ``.ko``
-> > -    suffix and with ``-`` changed to ``_``.  Examples::
-> > -
-> > -     module sunrpc
-> > -     module nfsd
-> > -     module drm*     # both drm, drm_kms_helper
-> > +    The query string is compared against the subsystem module name of
-> > +    each callsite, as shown in the control file, or its simple name.
-> > +    The simple module name is the string as seen in ``lsmod``,
-> > +    i.e. without the directory or the ``.ko`` suffix and with ``-``
-> > +    changed to ``_``.
-> > +    Examples::
-> > +
-> > +        module nfsd        # simple modname (as from lsmod)
-> > +     module init/main   # subsystem modname (as in control file)
-> > +     module */main      # any subsystem ending in main
-> > +        module main     # simple modname, selects same as above
-> > +     module drm*        # both drm, drm_kms_helper
->
-> The five lines above have mixed indentation, please switch them all to
-> one tab (no spaces).
->
-
-thanks, will fix.
-
->
-> [...]
-> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > index 0a4fdd8bd975..e129c4d10ed8 100644
-> > --- a/scripts/Makefile.lib
-> > +++ b/scripts/Makefile.lib
-> > @@ -23,6 +23,32 @@ modname_flags  =3D -DKBUILD_MODNAME=3D$(call name-fi=
-x,$(modname)) \
-> >                -D__KBUILD_MODNAME=3D$(call name-fix-token,$(modname))
-> >  modfile_flags  =3D -DKBUILD_MODFILE=3D$(call stringify,$(modfile))
+> > ...
+> > > Yes, skimming through the patch, I thought about that, too.  Moving more
+> > > cc option checks to Kconfig will make building out-of-tree kmods with a
+> > > different compiler more dangerous.  Maybe we will have to make the
+> > > warning in Makefile's prepare (external kmods) target a bit louder.
 > >
-> > +# Dynamic debug subsystem modname with clean heuristic and override su=
-pport
-> > +dd_modname_override =3D $(strip $(firstword $(DD_MODNAME_$(target-stem=
-).o) \
-> > +                                       $(DD_MODNAME)))
-> > +dd_obj :=3D $(strip $(filter-out .,\
-> > +             $(patsubst drivers/%,%,\
-> > +             $(patsubst arch/$(SRCARCH)/%,%,\
-> > +             $(patsubst arch/%/,%,$(obj))))))
+> > One problem is that distributions have a nasty habit of shipping kernels
+> > that are compiled with a different compiler version to they actually
+> > ship as a compiler.
+> > In some cases the versions are clearly the same - but the version
+> > strings differ.
 >
-> May it become problematic if there is a conflict with
->
->   arch/sh/drivers/dma/*
->   arch/sh/drivers/pci/*
->
-> vs.
->
->   drivers/dma/*
->   drivers/pci/*
->
-> ?
+> yeah, I guess you hit the mark.
 
-2 questions here really -
-- what should happen ?   strip arch/sh/ and then also drivers ?
-- what will happen - I will play with the expressions to find out.
+I mean this is a problem that already exists for any flags already specified in
+Kconfig.
 
+Out-of-tree modules are historically something that we don't go to great lengths
+to support and haven't historically worried about breaking, either.
 
->
->
-> > +dd_modname_default =3D $(strip $(if $(filter $(notdir $(obj)),$(__modn=
-ame)),\
-> > +                      $(__modname),\
-> > +                      $(if $(filter main core common util init snapsho=
-t \
-> > +                                    process,$(__modname)),\
-> > +                          $(dd_obj),\
-> > +                          $(if $(word 2,$(__modname)),\
-> > +                              $(dd_obj),\
-> > +                              $(if $(dd_obj),$(dd_obj),$(__modname))))=
-))
->
-> This looks quite complex.  I _think_ this should be equivalent, but
-> perhaps a bit more simple to maintenance:
->
-> dd_modname_default =3D \
->     $(or \
->         $(filter $(notdir obj), $(__modname)), \
->         $(filter-out main core common util init snapshot process, $(__mod=
-name)), \
->         $(dd_obj)))
->
-> (Removed $(strip) and the last $(__modname) fallback as both are already
-> in definition of 'dd_modname'.)
->
-> What do you think?
+I'm sure distros can find ways around this if a problem were to arise. But I
+don't think it's something to worry about all that much.
 
-it does read better.  I will try it too.
+I expect a _lot_ of these, in any case, would only require the compilers to be
+within a fair few major versions of one another anyway.
 
-
-
-
-
-> > +dd_modname =3D $(strip $(or $(dd_modname_override),\
-> > +                       $(dd_modname_default),\
-> > +                       $(__modname)))
-> > +dd-name-subst =3D $(subst $(comma),_,$(subst -,_,$(strip $1)))
-> > +dd-name-fix-token =3D $(subst $(space),_,$(call dd-name-subst,$1))
-> > +dd_tok =3D $(call dd-name-fix-token,$(dd_modname))
-> > +dd_modname_flags =3D $(if $(dd_modname),\
-> > +     -DKBUILD_DD_MODNAME=3D$(call stringify,$(dd_tok)))
-> > +
-> > +modfile_flags +=3D $(dd_modname_flags)
->
-> dd-name-subst and dd-name-fix-token are not needed, dd_modname_flags is
-> used only once and can be folded:
->
->
-> dd_tok =3D $(call name-fix,$(subst $(space),_,$(dd_modname)))
->
-> modfile_flags +=3D $(if (dd_modname), -DKBUILD_DD_MODNAME=3D$(dd_tok))
->
-
-yes, this all looks cleaner and more comprehensible. thanks.
-
->
-
->
 >
 > --
 > Nicolas
+
+--
+Cheers, Lorenzo
