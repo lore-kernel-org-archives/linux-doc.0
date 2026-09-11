@@ -1,96 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B503B434983;
-	Fri, 11 Sep 2026 08:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5DC3ACA6F;
+	Fri, 11 Sep 2026 08:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789114771; cv=none; b=u2PXLtGjDPXtARcvvmtlbKhiTgzch3Y/mkD7XIsOf+zRF414U2Lq6KXSVYvX7s+UDeCNuDPFHBPjToFCwYK6PHh3iuS9sACrHWmRhTJgkFTCCSF/vuav82mWQTr8C80ny1ejaXo4xSNNVByxoOhkpYuo1RWbUwtY0wW3y/xPihc=
+	t=1789114795; cv=none; b=m99x+luv2/I9c9mrGzEafwEGuFu52efwIMz4wTvsug2dIFun9BdTfENRxK3TYvzwZ2+2YMbL/S/K01WW/8/QjOaF7L/3wmz4jztNQykRLcNm2FwIsL4VP11T7MndgC9a7mPCL66MYp3hW1GKtTluZZdxpxk+F3C+ssK+cKCoDw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789114771; c=relaxed/simple;
-	bh=ePVUWYy1WmpEjDl6lK+lvTdr9681C/JJnc/TLu9nOSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ADaoIOxv1xAUkQH4yVsTZ6irWyoe1Cjt28GMvlucXWpqDcOtJPomAfudXld4SZVckc7oEJpVJ2vvLnY8jhHurt0lIzjMiP2LZekQwMj8uLwonjoXEzMKjaP6g6YL9xtX8c1UmDzjlJS4tTPuC7WTbpzjSRTwpPX3r3g6EEGzTCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxtrHbyI; arc=none smtp.client-ip=192.198.163.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1789114795; c=relaxed/simple;
+	bh=z3OYYiSsddSRydFxGjCmoFTiAMj0wTdLvLEaV80PuVo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Gp/wqO4K+KdCR2LyDP58w+9cxNC+m/BmgKstZT+YlZNzM+L+1cQLTVLmKTsxnK7nRWxeOnjMyjqsehd+wOw3I1kEYKB1rWp94/uUeQiaw7I88YzhlFJHmgNxEBZtju3NuQl8LcUCWP44szodG1XhajrHjZq2tdsM8BBAtMwmsX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=pLvxGjqS; arc=none smtp.client-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxtrHbyI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789114770; x=1820650770;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ePVUWYy1WmpEjDl6lK+lvTdr9681C/JJnc/TLu9nOSY=;
-  b=UxtrHbyI9WOuNew7RSBGkRsPn358RbdFZ4/EByR3gEYcTzXvdGVoYccR
-   kV9U8l3MuTAn+eRR+AJ0lMh67KmINm+AUEIPkXC3wKy4izEmZk+dySK90
-   EoJiP5N17NkE7ZQcDiiooHeewv+ypQ94xX4DX+BFVR8a2BGivlfjdgNEZ
-   H1C62QVrkeL89slb5fL+72/Oh1VLScfZsiv67VxjPnC0uWiMK5gOJAjK5
-   A9ALcLz4PoW1zLO89QNY0Q51O4R7cU7zZL3RaX+wrDEfArxVsrFJ8FdV5
-   Ga8kVRJxwDhXOLP3gjdyJAxVkeXNlPMMa6cnFuTj1EoXda30phTSmxWyU
-   w==;
-X-CSE-ConnectionGUID: 3b9HGguHTxG66jGoS3csGw==
-X-CSE-MsgGUID: sRLQkicBRc2e3CZphbnyaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="85832"
-X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="85832"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 01:19:22 -0700
-X-CSE-ConnectionGUID: YtiXrPu5RpKImt1K5sLzFQ==
-X-CSE-MsgGUID: KkU2ZgFSS5WnRiBieYr5jA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="301758984"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.80])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 01:19:11 -0700
-Date: Fri, 11 Sep 2026 11:19:06 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Michael Walle <mwalle@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux@analog.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v7 04/17] iio: adc: adi-axi-adc: Add support for CRC
-Message-ID: <aqO5el6eRuMW7NuK@ashevche-desk.local>
-References: <20260910-ad7768-driver-v7-0-7f70b07627e1@analog.com>
- <20260910-ad7768-driver-v7-4-7f70b07627e1@analog.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="pLvxGjqS"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=DE5zARm1WiMEsfgjTTF4N0W92kd6jmsXzW2TA0JqO4g=;
+	b=pLvxGjqSDVVZWgMHGLKbmYAIWr8kI0PJBj/87XvcTbLIaUUwBBPvM4zXHtbqC5QTApKmrkpOV
+	MJPHShVGAjcRSKjAbnaK2vII8KR1phaRwEwNbCagERmQXBdiOYYHB9rM7dWNVmO8jQib1n5BITS
+	fJYK8/iSH+RtFpyuoVWlSOc=
+Received: from mail.maildlp.com (unknown [172.19.162.92])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4hh6cy1D1WzLlX5;
+	Fri, 11 Sep 2026 16:08:50 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id AB37E40565;
+	Fri, 11 Sep 2026 16:19:45 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ kwepemk200008.china.huawei.com (7.202.194.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 11 Sep 2026 16:19:44 +0800
+Message-ID: <aa37cd26-b870-47c7-abe9-75370a33f1d1@huawei.com>
+Date: Fri, 11 Sep 2026 16:19:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260910-ad7768-driver-v7-4-7f70b07627e1@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 04/40] KVM: arm64: Preserve host MPAM configuration
+ when changing traps
+To: Ben Horgan <ben.horgan@arm.com>
+CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
+	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
+	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
+	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
+	<jonathan.cameron@huawei.com>, <kobak@nvidia.com>, <lcherian@marvell.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
+	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
+	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
+	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
+	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
+	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
+	<zengheng4@huawei.com>, <linux-doc@vger.kernel.org>, Shaopeng Tan
+	<tan.shaopeng@jp.fujitsu.com>
+References: <20260313144617.3420416-1-ben.horgan@arm.com>
+ <20260313144617.3420416-5-ben.horgan@arm.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20260313144617.3420416-5-ben.horgan@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-On Thu, Sep 10, 2026 at 07:36:22PM +0200, Janani Sunil wrote:
-> Add support for enabling and disabling Cyclic Redundancy Check (CRC)
-> processing in the AXI ADC backend. CRC provides data integrity verification
-> for high-speed ADC data streams, ensuring reliable data transfer between
-> the ADC frontend and backend processing systems.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
--- 
-With Best Regards,
-Andy Shevchenko
+在 2026/3/13 22:45, Ben Horgan 写道:
+> When KVM enables or disables MPAM traps to EL2 it clears all other bits in
+> MPAM2_EL2.  Notably, it clears the partition ids (PARTIDs) and performance
+> monitoring groups (PMGs). Avoid changing these bits in anticipation of
+> adding support for MPAM in the kernel. Otherwise, on a VHE system with the
+> host running at EL2 where MPAM2_EL2 and MPAM1_EL1 access the same register,
+> any attempt to use MPAM to monitor or partition resources for kernel space
+> would be foiled by running a KVM guest. Additionally, MPAM2_EL2.EnMPAMSM is
+> always set to 0 which causes MPAMSM_EL1 to always trap. Keep EnMPAMSM set
+> to 1 when not in a guest so that the kernel can use MPAMSM_EL1.
+> 
+> Tested-by: Gavin Shan <gshan@redhat.com>
+> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Tested-by: Peter Newman <peternewman@google.com>
+> Tested-by: Zeng Heng <zengheng4@huawei.com>
+> Tested-by: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
+> Reviewed-by: Zeng Heng <zengheng4@huawei.com>
+> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Reviewed-by: Gavin Shan <gshan@redhat.com>
+> Acked-by: Marc Zyngier <maz@kernel.org>
+> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+> ---
+>  arch/arm64/kvm/hyp/include/hyp/switch.h | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm64/kvm/hyp/include/hyp/switch.h b/arch/arm64/kvm/hyp/include/hyp/switch.h
+> index 2597e8bda867..0b50ddd530f3 100644
+> --- a/arch/arm64/kvm/hyp/include/hyp/switch.h
+> +++ b/arch/arm64/kvm/hyp/include/hyp/switch.h
+> @@ -267,7 +267,8 @@ static inline void __deactivate_traps_hfgxtr(struct kvm_vcpu *vcpu)
+>  
+>  static inline void  __activate_traps_mpam(struct kvm_vcpu *vcpu)
+>  {
+> -	u64 r = MPAM2_EL2_TRAPMPAM0EL1 | MPAM2_EL2_TRAPMPAM1EL1;
+> +	u64 clr = MPAM2_EL2_EnMPAMSM;
+> +	u64 set = MPAM2_EL2_TRAPMPAM0EL1 | MPAM2_EL2_TRAPMPAM1EL1;
+>  
+>  	if (!system_supports_mpam())
+>  		return;
+> @@ -277,18 +278,21 @@ static inline void  __activate_traps_mpam(struct kvm_vcpu *vcpu)
+>  		write_sysreg_s(MPAMHCR_EL2_TRAP_MPAMIDR_EL1, SYS_MPAMHCR_EL2);
+>  	} else {
+>  		/* From v1.1 TIDR can trap MPAMIDR, set it unconditionally */
+> -		r |= MPAM2_EL2_TIDR;
+> +		set |= MPAM2_EL2_TIDR;
+>  	}
+>  
+> -	write_sysreg_s(r, SYS_MPAM2_EL2);
+> +	sysreg_clear_set_s(SYS_MPAM2_EL2, clr, set);
+>  }
+>  
+>  static inline void __deactivate_traps_mpam(void)
+>  {
+> +	u64 clr = MPAM2_EL2_TRAPMPAM0EL1 | MPAM2_EL2_TRAPMPAM1EL1 | MPAM2_EL2_TIDR;
+> +	u64 set = MPAM2_EL2_EnMPAMSM;
 
+Reviewed-by: Jinjie Ruan <ruanjinjie@huawei.com>
+
+> +
+>  	if (!system_supports_mpam())
+>  		return;
+>  
+> -	write_sysreg_s(0, SYS_MPAM2_EL2);
+> +	sysreg_clear_set_s(SYS_MPAM2_EL2, clr, set);
+>  
+>  	if (system_supports_mpam_hcr())
+>  		write_sysreg_s(MPAMHCR_HOST_FLAGS, SYS_MPAMHCR_EL2);
 
