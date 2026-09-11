@@ -1,95 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1586B4483A4;
-	Fri, 11 Sep 2026 08:21:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF813F5BC5;
+	Fri, 11 Sep 2026 08:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789114870; cv=none; b=sksWmi7UootbDpXzHdtWEzlS5vMn4wxvV8PySec0nvDA/fHrlqtcgQ4A+U2dppUUGoEVOoi8JncDTBAgG/6Cf8f/0VtKViodFooVYnJhYSYEFQRgEKqWjoYj7nWp8wZRoxpwT/5Qll7Mev1VdHQhHbRuWWrFzGH7QO5HHD/X4n8=
+	t=1789116600; cv=none; b=fJ4mhgVEnZwAGq9kYX6rIPqOXkxBqRO0Y8C1Dbxte4nxRBm4AyMMLojugS3LC8I4sSH88WowN0wGftxnArJGa4h7LjqWRVvbx2e8zCymh71BGpPjmDHfpbVmZfW0OJwfhdDwDecMUrUjvLYA2d2OWxj0ArLiyWSMVRy9qACzNK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789114870; c=relaxed/simple;
-	bh=v3SqCyll3YR89/x8v+GFS6cTW8xU0bcAQpo9tyK7rl8=;
+	s=arc-20240116; t=1789116600; c=relaxed/simple;
+	bh=3NhHLWVmt+gs/rZOfVUr+KaH4csZME4/acqF82d4dAs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RGgPfPpRv9Z+mSnyDwOTU+5uBu0/nX2SLGkKgMQJASKDs8Sp6nlAFrMkbn7OHJjftOULOxWNgV6rnmQZHV7tIluX4e/mv4/mUBTHRC1AJJSNYRDQabCe5AsPp6Tq6Hi4xFrBLQNV3Bt6sAOzR1hIDuN6tCw2gdJvml/PH80KhUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YMNsm5gq; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=a4WcvLhVOHLkYtMYf7P2u1AjPmeVfhHzoVkc8YqcENX+FJiV45LwILCREWJEUyVPJ7nii57V0+VMStU4IT6prMGB/KXNnC8NDXUr9Gm3XO2c1YgRk/KBnNkap1Xvf0LpTxIMr0pZkcq98mgh3rcOiC8YiTqhVxz16eXFzIQQpy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MwQcgq3+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YMNsm5gq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789114868; x=1820650868;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v3SqCyll3YR89/x8v+GFS6cTW8xU0bcAQpo9tyK7rl8=;
-  b=YMNsm5gq/aoQL1Hgmq4stIN9AnfBJ8HguWp62T10PSC1MC/jzTV6TfQ9
-   qEDufDUsGP5mO31+CtYexik2DJNIvSZwEI7piusWI7NzC2JVm0l9vwl+J
-   lsmhd7MznPI4ZTXiXIxoU9vHs4J5fb1z1pt7lZhXs3T5l8bJjTeYZ8r7H
-   lattlXa7dX4UL1YCidMoi51sOUANUChQUukuXMs0lPyoQtsizKUtM0pDd
-   Ac6dLuzFmtcqQ5CN7M3YSH1d2hEd3sVo//kLEcNa0J00u7T2ARAAQirgc
-   Zhopa9OBPOc9lZ/BVBdQ2ZLd00YvyO7m0wCTUuaxQVkuD6m5iPCTvtLKO
-   Q==;
-X-CSE-ConnectionGUID: Z7QPMbRDS8afqRG/z6j2bA==
-X-CSE-MsgGUID: CL7U6K35TL+BfoUk7Qc1Kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89704634"
-X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="89704634"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 01:21:06 -0700
-X-CSE-ConnectionGUID: xPowJkcdRhadQuVTg+5xUw==
-X-CSE-MsgGUID: eqJJohaZRKC8Ls6ewOTXrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="265662799"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.80])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 01:21:01 -0700
-Date: Fri, 11 Sep 2026 11:20:59 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Michael Walle <mwalle@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux@analog.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v7 07/17] iio: adc: ad7768: Add power mode helper
-Message-ID: <aqO565DUVzp7b4w5@ashevche-desk.local>
-References: <20260910-ad7768-driver-v7-0-7f70b07627e1@analog.com>
- <20260910-ad7768-driver-v7-7-7f70b07627e1@analog.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MwQcgq3+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B9A1F000FF;
+	Fri, 11 Sep 2026 08:49:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789116599;
+	bh=c5wojoNR/9MT1OzH90KMZIuqpJeR8FtHDdJSM7U0YaY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MwQcgq3+m4OrOCr8xlerHt0z8cvtCfjiHsLlUTdsBLwuJ35w9T8NI+hL7ayt/rCr6
+	 7O7eahn605Pq4tFYHAjPOU5cjyfoXufzc5dHDDXQspYefaSOedXZDScYJGc7oxnY5x
+	 8Wf+E0gGXydz9s7avCnrhHzFRfUf3u470KoSO3MZtUcQhDS2qQz5MtgVwdMM1v7MrG
+	 PDS1Q9NE6apivNOG2OPTo/Vbt8+mJINKTrizvYsOFM97aUIliTSrUjab5EH8wXo2Ie
+	 +dgBv2wtixIh15eEi6x3lil4keXZhkld2xdXLRm6l/boxl9yRsMaeM4WfVWqLnE//W
+	 xDJU0b0pUzmVg==
+Date: Fri, 11 Sep 2026 10:49:55 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Colin Huang <colin.huang2@amd.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Colin Huang <u8813345@gmail.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: pmbus: Add Infineon tda38740
+ and tda38725
+Message-ID: <20260911-placid-clever-lizard-de1258@quoll>
+References: <20260910-add-tda38740-and-tda38725-v4-0-dbae7fabce09@gmail.com>
+ <20260910-add-tda38740-and-tda38725-v4-1-dbae7fabce09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260910-ad7768-driver-v7-7-7f70b07627e1@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260910-add-tda38740-and-tda38725-v4-1-dbae7fabce09@gmail.com>
 
-On Thu, Sep 10, 2026 at 07:36:25PM +0200, Janani Sunil wrote:
-> Describe each power mode and its internal master-clock divisor in a
-> table. Replace the open-coded fast-mode setup with a helper that records
-> the active mode, preparing for dynamic mode selection.
+On Thu, Sep 10, 2026 at 08:35:50PM +0800, Colin Huang wrote:
+> From: Colin Huang <u8813345@gmail.com>
+> 
+> Add devicetree bindings for the Infineon TDA38740 and TDA38725
+> single-voltage synchronous buck regulators with PMBus interface.
+> 
+> Signed-off-by: Colin Huang <u8813345@gmail.com>
+> ---
+>  .../bindings/hwmon/pmbus/infineon,tda38740.yaml    | 46 ++++++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/infineon,tda38740.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/infineon,tda38740.yaml
+> new file mode 100644
+> index 000000000000..28eeb85f13df
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/infineon,tda38740.yaml
+> @@ -0,0 +1,46 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+There is no blank line here. Do not come with own style (like your
+version 1).
 
--- 
-With Best Regards,
-Andy Shevchenko
+> +$id: http://devicetree.org/schemas/hwmon/pmbus/infineon,tda38740.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Infineon TDA38740 and TDA38725 PMBus Synchronous Buck Regulator
+> +
+> +maintainers:
+> +  - Colin Huang <u8813345@gmail.com>
+> +
+> +description: |
+> +  The Infineon TDA38740/TDA38725 is a 40A/25A single-voltage synchronous
+> +  buck regulator with a PMBus interface designed for industrial use.
+> +
+> +  Datasheet:
+> +  https://www.infineon.com/row/public/documents/24/49/infineon-tda38740-tda38725-datasheet-en.pdf
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - infineon,tda38725
+> +      - infineon,tda38740
 
+I don't see how you responded to Conor's feedback.
+
+Best regards,
+Krzysztof
 
