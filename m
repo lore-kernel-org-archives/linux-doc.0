@@ -1,406 +1,341 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-oo2-f42.google.com (mail-oo2-f42.google.com [74.125.231.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD2632E128
-	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 14:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C10346798
+	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 14:16:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789135702; cv=none; b=qrXWF3sNnjIKguiby6y0gCaB3iNmPjG9nIeGFt9JXotG8AAQbSy15bf2YOZWJOdZePS8HCqr+M/twK0u/AAAAiIdnrl3olKvIdG8uG9DqunddkL8kCbagEt5vkentLaQZgWbEiJnOElouRD0znEwV2ExH2VNkZJDH1V2uZhKVHc=
+	t=1789136219; cv=none; b=UwfHTDDW/u8iGUxOZbZFQnAuWhrWl455PhvvZkrHooN6NWrnfoiP6UD60kKUv1FR3JsJN9QzYoLPbTWu3c9ccydjFAjhPBYoyI6yxQskrKRjY/9wX7hrv4KLYwsGRV9R4JUA/lafexfIuEG3vy3EkBaOnnFMnjDyQ/+nrE+1Hkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789135702; c=relaxed/simple;
-	bh=Y5gzuVoI9szX4PY+8YRQV966EhlHioE/3pQ9KAz2CMM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nh75o4KFpz67zrUKC5PPSJzqN0pnZlGKY/ba4NpfTbsC3Evj+Ln23AF1RWN6tvyx2+RCJraBvoKA2Wl939bHDMuJmAhFWnwlnqMWc9s8BJzhjZxmsyRLxr5Lyx2kGzM2P/8MQLjPQjOnBxRCLBj+EUq8ZfL+mVbavvg4qRNlCc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OLRIG3RE; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1789136219; c=relaxed/simple;
+	bh=kiSWLP1eNUSGPQCliihnmIyxoN3d5qoP3JCsIs56mXY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pqdeJ8IIoBOnd9e7RgdOpDo0vK9PIVpzbXsZHrxasgbbIQ3+ByzvfPYFPAxmKU3r65iyGCLTHc8FpMxTNh4mx6xKWvt7blgyJEDag9oyPOGeB3PSi2/OzMKTvASjdk/fYI1gLO42csRdY6yNSd2MoLPx5+oS/5KsInrJRBK7Dp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HmF3VblH; arc=none smtp.client-ip=74.125.231.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLRIG3RE"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7f4e729368fso1063290a34.0
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 07:08:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HmF3VblH"
+Received: by mail-oo2-f42.google.com with SMTP id 46e09a7af769-7fc4034841cso801175a34.3
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 07:16:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789135699; x=1789740499; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZjLf6+iZ0PXye5aRZ/dUkHiadjJGzqPf0A0418Uc0K8=;
-        b=OLRIG3REq2p+2XcSz8bZvRR3cDprZNf7MPqID+6uoJPCjERFU3OcRdrnPXUSjxW6rm
-         f70bg4gC1LiKxt5YiVNiyJjdXqB/ezdWi+UVsISuteMqwNTNZevpRnmtP25LrEx1t/us
-         Rp2OoIBGmSOn1fUb9h1eztaCeE8VKi9Mua9kBHVFIBngTmla7ob/j+fwfS4mB6b8ZZ1/
-         JwEIBNpSGt19U+nCcE5pFGknei+RTiWLL0clp2/ACe7BJNoNE0sPikZPyeEha0e7RE1U
-         BTrV1eS20JMmqhLYZgXrAB+a629O44aHiT7zRJg5LIJKX4b9NzhXXIML/Q17Ooh/Ygoa
-         F9uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789135699; x=1789740499;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1789136215; x=1789741015; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZjLf6+iZ0PXye5aRZ/dUkHiadjJGzqPf0A0418Uc0K8=;
-        b=R7vkObWqo4S3/eywIz6czR7DIW83TeHS6/Z+5em+ir0M0SUpoQkKtnfmZi7yZT5q8v
-         vyYWpc0YFSMkUY7xeUXIECbyo08GdJocOS+N/TMagk9KugHRqkK5Kxb4/HGOWgo95Lgc
-         WqeEFeMReDW/B5Yord6H1lBmTjc8oIiVynGC6uskav9iMjHaWCvsI08sHCqdgAcOvvZw
-         vySm0Lm2KeGjVH4ftdhpDgvhQISK77XZOZMU3Io3gOZl9HWmg5s6plXkzfDpVKZCDZcu
-         4CcYIejEnXfVoN2Jsk4WGQzSyFHA9xvccunlS9fOJcAmMx1pp5mJewq8+1CLN7MGYlRP
-         P5Kw==
-X-Forwarded-Encrypted: i=1; AKwUvBwwy26pM8eGB/5Ecqh2yjhw/vrmRFJ0DQ75g5c0Za3DZxdlTpibjAdnhW6vEwO4/aGq6XgT9ijdEBo=@vger.kernel.org
-X-Gm-Message-State: AFuF++lLptBuNjsJwp8cnrfPr4EVurMdkBZN855mKfLe/BwvcDoowv7f
-	U2Bpm3Xs3SFHTTeimUfqUtbdSr45qVKTRE3thXeRy8i3feuDsWPnyTkz
-X-Gm-Gg: AYBFou2inPjLePLcNaJ57BfW3V/apFs3mNAw1LIrrE3qhJNfeIt2s50lOCMn1lPB+IE
-	ltbDFiqDnK+RQhHLyMike3YpzwK61d65peiVyAMC/yj0gUo3GfvKtyRLi23SoFPr4Fq9efZrt2d
-	uZ/7J9vePh4e3jwKg7C8WbXdLV6yXItwRsUJsGUPkHPUru3Rtol+qIVanm8OTMSV1OJzuoEOy3t
-	uA551LzLaIVW5StLjD9pTv47EZ2fAP2+S/F7hpuw4KpbQ4xogUsRG0DPbFbzvafX59tnnxX/R5r
-	107hk1ORETJKIM0uofkhlnWdcQ1MrqUAz+OqHB7OiJ1u9vEAd8o81pr5ixAaMbTqgJ3XSVD4Bsg
-	SqlIyie55kPNUS5vJ2xnuGxIDgPgWzLjOCFXYzYVuU5cDfS73GmHO7/e9Ak8pgTJ0T937IZ+nbB
-	xSHQUkCPlyEWv1wksKzLzTM7/6NIgcJr4M5UW+4paIQPuMqD8qYGi6kkBw3HBCyv9REFVfpobVz
-	N3EawYQAJpI8Y+L1r/gHfiL91hZ8w==
-X-Received: by 2002:a05:6830:6af8:b0:7f8:9fba:2cd8 with SMTP id 46e09a7af769-803ff332991mr3304795a34.9.1789135698444;
-        Fri, 11 Sep 2026 07:08:18 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:47::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-803f5adf69csm2520486a34.7.2026.09.11.07.08.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 07:08:17 -0700 (PDT)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Hongxiang Lou <louhongxiang@huawei.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Peter Xu <peterx@redhat.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Usama Arif <usama.arif@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Wupeng Ma <mawupeng1@huawei.com>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	fvdl@google.com,
-	jthoughton@google.com,
-	rientjes@google.com,
-	vannapurve@google.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Ackerley Tng <ackerleytng@google.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] mm: hugetlb: Track used_hpages when getting/putting pages from subpool
-Date: Fri, 11 Sep 2026 07:08:14 -0700
-Message-ID: <20260911140816.3236725-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260909-hugetlb-subpool-always-track-used-v2-1-30c5d83b572a@google.com>
-References: 
+        bh=lzESgw1FhZRMEULjQ2VIw5gEjh8pVkl3QN7J61DD380=;
+        b=HmF3VblHaC4zJXItNF73llXT0CvDp1FE+GXBRvqNqN/I6Enyxw6S9jx74JNGQXp4Ai
+         rgb7TIY6WMaYFtvSqlatz8Z0WSwsoER7s79oW6b4ZSBo6EZ97fCWyfFHOH4ZGfej/fMz
+         s8SxW0bwkkCfUg83j7xme3AtWFHQke6jghST7XxxlPR88OsSlPD2R0xtnQXu3um6Xr6s
+         vogtmgDAcaHoR8Xo10+BlHyfkORTlqwE6XKgj0u3pgNduhVgB/xTmg/pqcn2nk5fy/Se
+         /txsrP/062jtdGaHCjC85EOLp+X6v5RrqpvMseG4d4D/8cAjx1Wc2QQTNgViUOXltj8B
+         WOZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789136215; x=1789741015;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=lzESgw1FhZRMEULjQ2VIw5gEjh8pVkl3QN7J61DD380=;
+        b=Aoc5WggS7/52/JRHwQBKOOmcvIP1Q0npBSnKBoQuzR+jR4C5x8i3PrE/2+PVT6koFi
+         aVIunLRzu+l70yT21LT8tubalVVRcY+74/lZ9atTnAFeiVtqmeHEIi3LPiyAhROWBQun
+         VOGIcs9GpWy1oFlc4gbqYBmofGI3U9+p1bkIDx435Ns0x4OGBguCDAsua4x6Wm/ePHuG
+         wWleVes3hIiIYAb87Hy5Phn8PnRQ4omvAmWuD2cesnCWO+UKpp8zFkxJmVczMsrc05rc
+         4KLKRkvySWdBL6UHT04VZR98/jbWTR22xSTA05i1nTxoMCDMLIJsCE9wvNMcVvdck6dX
+         WLug==
+X-Forwarded-Encrypted: i=1; AKwUvBwayxxNp3LN6KHL33gSeHoNZjP2smwGZ2vPikNyOzvyaSvsCRQ71ZslHzUEabRPebnLs1mGeU8QAGQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++mFRJY3SaXoCIs1hi3FBh+K1SnWbKYJ0H1/Tw8NpaIfztTPKdbu
+	8iFAYohl7G9W5OdK7yPdXIS3nVteeTNWS+rA70G45969c/ls2TbpSPKL
+X-Gm-Gg: AYBFou1ojMsmTXI2QRVb9rE0egj9zGWAS4udfUof5SCuY4p/GAd+jb3Ue6khas/cw66
+	/MNNATLp4HJh6qkymFnAEvIjIa34mCaLBQ2WZXkuuCA33mo2E1sjeD2Sg2NU4lmeEcOoxAQug6+
+	bDbL6XxK+McxcKujvClawdzFrcniVAFx23tN0VMuYOVkjUQJTtL0lS0MZdDOxTHUez1Y+BmvLY1
+	pex3jFcOw4syOXh9kuOyATdR3wx3wWgmMb6vjlZQOpflu2bg1mC0ruSUAY2VjEBtxbD40LCuBf7
+	IX/m2qsBs7maa770XET/oje8E0gFAMXXasRl8oY33VCr10WczCmCh8tCZgThwSzG/nGnm8iA4V4
+	w2sMAs4/RRUE2egyQ+FCqTYz6jEB9yGI70w3G5obGTlCCXDqUKhBeoRbVoiu1ZJXGuoLrsEEo0C
+	9xav3hScLjFsqMQoxyxuj78Dc4M5cg78X+PnXEPhiAbDwHcRh24nVoWyqHsdD/sx3k2EMpyAcrm
+	AuwGHGvSKqOIIsHSlLzDVRRDvCWbcZ6/205+TfN5nxhGS07
+X-Received: by 2002:a05:6820:1845:b0:6b7:46fa:1699 with SMTP id 006d021491bc7-6c0bc7c3857mr3255417eaf.46.1789136215533;
+        Fri, 11 Sep 2026 07:16:55 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365b348cbsm6930530c88.3.2026.09.11.07.16.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Sep 2026 07:16:54 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <49109bf9-7765-45c5-bd28-4a3d9ceb2636@roeck-us.net>
+Date: Fri, 11 Sep 2026 07:16:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] hwmon: (lm75) Add support for Nuvoton NCT7715
+To: hsyemail2@gmail.com, linux-hwmon@vger.kernel.org
+Cc: Sheng-Yuan Huang <syhuang3@nuvoton.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Jean Delvare <jdelvare@suse.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260911072654.15722-1-syhuang3@nuvoton.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260911072654.15722-1-syhuang3@nuvoton.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 09 Sep 2026 14:49:26 -0700 Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org> wrote:
-
-> From: Ackerley Tng <ackerleytng@google.com>
-Hi Ackerley,
-
-Thank you for working on this fix / simplification! 
-
-> HugeTLB subpools currently only track used_hpages when the user
-> configures a size limit.
+On 9/11/26 00:26, hsyemail2@gmail.com wrote:
+> From: Sheng-Yuan Huang <syhuang3@nuvoton.com>
 > 
-> This is buggy since when there are existing allocations from the
-> subpool that would have satisfied the minimum reservations,
-> hugepage_subpool_put_pages() will still restore a reservation to the
-> subpool. See below for an example of a false reservation.
-
-I'm not sure if I see the false reservation example, could I be
-missing something here : -)
-
-> In addition, the subpool is considered free prematurely, is freed, and
-> this ends up causing a use-after-free.
-
-That doesn't sound like a fun time!!
-
-> The fix is to always track used_hpages within subpools, which is also
-> beneficial in general because with that information, reservation
-> tracking is also fully managed within hugepage_subpool_put_pages().
-
-This is an increditly reasonable approach and I really like how we can
-get rid of a lot of the if (spool->max_hpages) ... special casing.
-Having different conditions for checking whether a subpool was / wasn't
-free was also a bit strange to me as well...
-
-> The subpool always knows how many pages were allocated through it. Every
-> page allocated through the subpool increments used_hpages, regardless of
-> whether a reservation was taken from it.
+> The Nuvoton NCT7715 is compatible with the LM75 temperature and
+> limit register layout. Add support for the NCT7715, including its
+> 16-bit configuration register.
 > 
-> Conceptually, now, every allocation involving a subpool uses a page from
-> the subpool, which must be returned to the subpool. Every page taken from
-> the subpool tries to use a subpool reservation. Restoring a page to the
-> subpool reservations only if the page was taken from subpool
-> reservations. (If used_hpages >= min_hpages, the page must have not have
-> been taken from the reservations.)
+> Handle its conversion-rate field and shutdown bit separately, since
+> their bit positions differ from the standard LM75 layout.
 > 
-> Always tracking used_hpages provides the subpool with information of both
-> used and reserved counts to make the correct decision for both max_size and
-> min_size correctly.
-> 
-> With used_hpages always tracked, subpool_is_free() can be simplified, such
-> that the subpool can be declared free if there are no more pages in use.
-
-Awesome!
-
-> Also update the
-> 
-> + Documentation for used_hpages in the subpool struct, since it no longer
->   matters whether the used pages count against the maximum.
-> + Docstring for hugepage_subpool_{get,put}_pages
-> + Documentation to use active voice, and remove some details in favor of
->   having details documented in the docstring
-> 
-> Also update statfs reporting. Previously, if max_hpages is negative,
-> used_hpages is static at 0, so returning max_hpages - used_hpages returns
-> -1 and is always correct. Now, if the subpool doesn't have a maximum
-> requested size, indicate no limit for free pages (-1). If it does have a
-> maximum size, report the difference between the requested size and the
-> number of used pages. This difference is always positive, because if the
-> mount does have a maximum size, hugepage_subpool_get_pages() ensures that
-> the subpool usage never exceeds the maximum.
-
-> Fixes: 1c5ecae3a93fa ("hugetlbfs: add minimum size accounting to subpools")
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> Cc: stable@vger.kernel.org
-
-Feel free to add my:
-Reviewed-by: Joshua Hahn <joshua.hahnjy@gmail.com>
-
+> Signed-off-by: Sheng-Yuan Huang <syhuang3@nuvoton.com>
 > ---
->  Documentation/mm/hugetlbfs_reserv.rst              | 17 +----
->  .../translations/zh_CN/mm/hugetlbfs_reserv.rst     | 11 +---
->  fs/hugetlbfs/inode.c                               |  8 ++-
->  include/linux/hugetlb.h                            |  4 +-
->  mm/hugetlb.c                                       | 73 +++++++++++++---------
->  5 files changed, 55 insertions(+), 58 deletions(-)
+> v2:
+> - Use the standard SMBus word representation for the NCT7715
+>    configuration register, removing the NCT7715-specific byte swapping
+>    and updating its configuration masks accordingly.
 > 
-> diff --git a/Documentation/mm/hugetlbfs_reserv.rst b/Documentation/mm/hugetlbfs_reserv.rst
-> index a49115db18c76..d244583fdcbc3 100644
-> --- a/Documentation/mm/hugetlbfs_reserv.rst
-> +++ b/Documentation/mm/hugetlbfs_reserv.rst
-> @@ -314,21 +314,8 @@ huge pages.  If they can not be reserved, the mount fails.
->  The routines hugepage_subpool_get/put_pages() are called when pages are
->  obtained from or released back to a subpool.  They perform all subpool
->  accounting, and track any reservations associated with the subpool.
-> -hugepage_subpool_get/put_pages are passed the number of huge pages by which
-> -to adjust the subpool 'used page' count (down for get, up for put).  Normally,
-> -they return the same value that was passed or an error if not enough pages
-> -exist in the subpool.
-> -
-> -However, if reserves are associated with the subpool a return value less
-> -than the passed value may be returned.  This return value indicates the
-> -number of additional global pool adjustments which must be made.  For example,
-> -suppose a subpool contains 3 reserved huge pages and someone asks for 5.
-> -The 3 reserved pages associated with the subpool can be used to satisfy part
-> -of the request.  But, 2 pages must be obtained from the global pools.  To
-> -relay this information to the caller, the value 2 is returned.  The caller
-> -is then responsible for attempting to obtain the additional two pages from
-> -the global pools.
-> -
-> +hugepage_subpool_get/put_pages() use the number of huge pages passed to adjust
-> +the subpool 'used page' count.
->  
->  COW and Reservations
->  ====================
-> diff --git a/Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst b/Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst
-> index 20947f8bd0654..ae1f1f31477fc 100644
-> --- a/Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst
-> +++ b/Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst
-> @@ -246,15 +246,8 @@ hugepage_subpool的min_hpages字段中被跟踪。在挂载时，hugetlb_acct_me
->  被调用以预留指定数量的巨页。如果它们不能被预留，挂载就会失败。
->  
->  当从子池中获取或释放页面时，会调用hugepage_subpool_get/put_pages()函数。
-> -hugepage_subpool_get/put_pages被传递给巨页数量，以此来调整子池的 “已用页面” 计数
-> -（get为下降，put为上升）。通常情况下，如果子池中没有足够的页面，它们会返回与传递的相同的值或
-> -一个错误。
-> -
-> -然而，如果预留与子池相关联，可能会返回一个小于传递值的返回值。这个返回值表示必须进行的额外全局
-> -池调整的数量。例如，假设一个子池包含3个预留的巨页，有人要求5个。与子池相关的3个预留页可以用来
-> -满足部分请求。但是，必须从全局池中获得2个页面。为了向调用者转达这一信息，将返回值2。然后，调用
-> -者要负责从全局池中获取另外两个页面。
-> -
-> +它们负责所有子池的统计核算，并跟踪与子池相关联的预留。
-> +hugepage_subpool_get/put_pages()函数使用传入的巨页数量来调整子池的“已用页面”计数。
->  
->  COW和预留
->  ==========
-> diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-> index 7611a8470ea26..5113f743f6fc7 100644
-> --- a/fs/hugetlbfs/inode.c
-> +++ b/fs/hugetlbfs/inode.c
-> @@ -1109,8 +1109,12 @@ static int hugetlbfs_statfs(struct dentry *dentry, struct kstatfs *buf)
->  
->  			spin_lock_irq(&sbinfo->spool->lock);
->  			buf->f_blocks = sbinfo->spool->max_hpages;
-> -			free_pages = sbinfo->spool->max_hpages
-> -				- sbinfo->spool->used_hpages;
-> +			if (sbinfo->spool->max_hpages == -1) {
-> +				free_pages = -1;
-> +			} else {
-> +				free_pages = sbinfo->spool->max_hpages -
-> +					     sbinfo->spool->used_hpages;
-> +			}
->  			buf->f_bavail = buf->f_bfree = free_pages;
->  			spin_unlock_irq(&sbinfo->spool->lock);
->  			buf->f_files = sbinfo->max_inodes;
-> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> index 16c4c4caa126c..4551ff3023640 100644
-> --- a/include/linux/hugetlb.h
-> +++ b/include/linux/hugetlb.h
-> @@ -39,8 +39,8 @@ struct hugepage_subpool {
->  	spinlock_t lock;
->  	long count;
->  	long max_hpages;	/* Maximum huge pages or -1 if no maximum. */
-> -	long used_hpages;	/* Used count against maximum, includes */
-> -				/* both allocated and reserved pages. */
-> +	long used_hpages;	/* Used page count, includes both */
-> +				/* allocated and reserved pages. */
->  	struct hstate *hstate;
->  	long min_hpages;	/* Minimum huge pages or -1 if no minimum. */
->  	long rsv_hpages;	/* Pages reserved against global pool to */
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 4f6f58bf3db6c..e72e22f887478 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -130,12 +130,8 @@ static inline bool subpool_is_free(struct hugepage_subpool *spool)
->  {
->  	if (spool->count)
->  		return false;
-> -	if (spool->max_hpages != -1)
-> -		return spool->used_hpages == 0;
-> -	if (spool->min_hpages != -1)
-> -		return spool->rsv_hpages == spool->min_hpages;
->  
-> -	return true;
-> +	return spool->used_hpages == 0;
->  }
->  
->  static inline void unlock_or_release_subpool(struct hugepage_subpool *spool,
-> @@ -193,13 +189,18 @@ void hugepage_put_subpool(struct hugepage_subpool *spool)
->  	unlock_or_release_subpool(spool, flags);
->  }
->  
-> -/*
-> - * Subpool accounting for allocating and reserving pages.
-> - * Return -ENOMEM if there are not enough resources to satisfy the
-> - * request.  Otherwise, return the number of pages by which the
-> - * global pools must be adjusted (upward).  The returned value may
-> - * only be different than the passed value (delta) in the case where
-> - * a subpool minimum size must be maintained.
-> +/**
-> + * hugepage_subpool_get_pages - Get pages from a subpool
-> + * @spool: pointer to subpool structure (may be NULL)
-> + * @delta: number of pages to allocate or reserve
-> + *
-> + * Check and update subpool page usage counts when allocating or
-> + * reserving @delta hugepages.
-> + *
-> + * Context: Takes spool->lock using spin_lock_irq().
-> + * Return: Non-negative number of reservations that cannot be
-> + *         satisfied by the subpool, or -ENOMEM if the subpool maximum
-> + *         limit would be exceeded.
->   */
->  static long hugepage_subpool_get_pages(struct hugepage_subpool *spool,
->  				      long delta)
-> @@ -211,15 +212,14 @@ static long hugepage_subpool_get_pages(struct hugepage_subpool *spool,
->  
->  	spin_lock_irq(&spool->lock);
->  
-> -	if (spool->max_hpages != -1) {		/* maximum size accounting */
-> -		if ((spool->used_hpages + delta) <= spool->max_hpages)
-> -			spool->used_hpages += delta;
-> -		else {
-> -			ret = -ENOMEM;
-> -			goto unlock_ret;
-> -		}
-> +	if (spool->max_hpages != -1 &&
-> +	    spool->used_hpages + delta > spool->max_hpages) {
-> +		ret = -ENOMEM;
-> +		goto unlock_ret;
->  	}
->  
-> +	spool->used_hpages += delta;
+>   .../devicetree/bindings/hwmon/lm75.yaml       |  1 +
+>   Documentation/hwmon/lm75.rst                  |  6 +++
+>   drivers/hwmon/lm75.c                          | 52 ++++++++++++++++++-
+>   3 files changed, 57 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/lm75.yaml b/Documentation/devicetree/bindings/hwmon/lm75.yaml
+> index b48bf3fd721f..832a8c5d83e9 100644
+> --- a/Documentation/devicetree/bindings/hwmon/lm75.yaml
+> +++ b/Documentation/devicetree/bindings/hwmon/lm75.yaml
+> @@ -31,6 +31,7 @@ properties:
+>         - nxp,p3t1750
+>         - nxp,p3t1755
+>         - nxp,pct2075
+> +      - nuvoton,nct7715
+>         - st,stds75
+>         - st,stlm75
+>         - microchip,tcn75
+> diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
+> index ca46754e028b..fac0b8f29ddc 100644
+> --- a/Documentation/hwmon/lm75.rst
+> +++ b/Documentation/hwmon/lm75.rst
+> @@ -150,6 +150,12 @@ Supported chips:
+>   
+>                  https://ams.com/documents/20143/36005/AS6200_DS000449_4-00.pdf
+>   
+> +  * Nuvoton NCT7715
 > +
->  	/* minimum size accounting */
->  	if (spool->min_hpages != -1 && spool->rsv_hpages) {
->  		if (delta > spool->rsv_hpages) {
-> @@ -240,11 +240,19 @@ static long hugepage_subpool_get_pages(struct hugepage_subpool *spool,
->  	return ret;
->  }
->  
-> -/*
-> - * Subpool accounting for freeing and unreserving pages.
-> - * Return the number of global page reservations that must be dropped.
-> - * The return value may only be different than the passed value (delta)
-> - * in the case where a subpool minimum size must be maintained.
-> +/**
-> + * hugepage_subpool_put_pages - Release pages back to a subpool
-> + * @spool: pointer to subpool structure (may be NULL)
-> + * @delta: number of pages to free or unreserve
-> + *
-> + * Check and update subpool page usage counts when freeing or
-> + * unreserving @delta hugepages.
-> + *
-> + * Context: Takes spool->lock using spin_lock_irqsave(). May release
-> + *          and free @spool if its usage count and references reach
-> + *          zero.
-> + * Return: Non-negative number of reservations that the subpool cannot
-> + *         absorb.
->   */
->  static long hugepage_subpool_put_pages(struct hugepage_subpool *spool,
->  				       long delta)
-> @@ -257,19 +265,24 @@ static long hugepage_subpool_put_pages(struct hugepage_subpool *spool,
->  
->  	spin_lock_irqsave(&spool->lock, flags);
->  
-> -	if (spool->max_hpages != -1)		/* maximum size accounting */
-> -		spool->used_hpages -= delta;
-> +	spool->used_hpages -= delta;
->  
->  	 /* minimum size accounting */
->  	if (spool->min_hpages != -1 && spool->used_hpages < spool->min_hpages) {
-> -		if (spool->rsv_hpages + delta <= spool->min_hpages)
-> 
-> +		/*
-> +		 * limit is the maximum number of reservations that
-> +		 * can be restored to this subpool.
-> +		 */
-> +		long limit = spool->min_hpages - spool->used_hpages;
+> +    Prefix: 'nct7715'
 > +
-> +		if (spool->rsv_hpages + delta <= limit)
->  			ret = 0;
->  		else
-> -			ret = spool->rsv_hpages + delta - spool->min_hpages;
-> +			ret = spool->rsv_hpages + delta - limit;
->  
->  		spool->rsv_hpages += delta;
-> -		if (spool->rsv_hpages > spool->min_hpages)
-> -			spool->rsv_hpages = spool->min_hpages;
-> +		if (spool->rsv_hpages > limit)
-> +			spool->rsv_hpages = limit;
->  	}
->  
->  	/*
-> 
-> -- 
-> 2.55.0.1007.g17ff1f9808-goog
+> +    Addresses scanned: none
+> +
+>   Author: Frodo Looijaard <frodol@dds.nl>
+>   
+>   Description
+> diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
+> index 2d2d752aeac9..ad7128629e56 100644
+> --- a/drivers/hwmon/lm75.c
+> +++ b/drivers/hwmon/lm75.c
+> @@ -39,6 +39,7 @@ enum lm75_type {		/* keep sorted in alphabetical order */
+>   	max6626,
+>   	max31725,
+>   	mcp980x,
+> +	nct7715,
+>   	p3t1750,
+>   	p3t1755,
+>   	pct2075,
+> @@ -107,6 +108,15 @@ static const unsigned short normal_i2c[] = { 0x48, 0x49, 0x4a, 0x4b, 0x4c,
+>   #define LM75_REG_MAX		0x03
+>   #define PCT2075_REG_IDLE	0x04
+>   
+> +#define NCT7715_CONFIG_RESOLUTION_12_BIT	GENMASK(6, 5)
+> +#define NCT7715_CONFIG_SHUTDOWN			BIT(0)
+
+Same as LM75_SHUTDOWN, and thus unnecessary.
+
+> +#define NCT7715_CONFIG_CONVERSION_RATE_MASK	GENMASK(15, 14)
+> +#define NCT7715_CONFIG_EXTENDED_MODE		BIT(12)
+> +#define NCT7715_CONFIG_RATE_0_25HZ		0
+> +#define NCT7715_CONFIG_RATE_1HZ			BIT(14)
+> +#define NCT7715_CONFIG_RATE_4HZ			BIT(15)
+> +#define NCT7715_CONFIG_RATE_8HZ			GENMASK(15, 14)
+> +
+
+This matches the bit settings of TMP112, meaning the code working for TMP112
+works here just fine.
+
+>   struct lm75_data {
+>   	const char *label;
+>   	struct regmap			*regmap;
+> @@ -122,6 +132,10 @@ struct lm75_data {
+>   /*-----------------------------------------------------------------------*/
+>   
+>   static const u8 lm75_sample_set_masks[] = { 0 << 5, 1 << 5, 2 << 5, 3 << 5 };
+> +static const u16 nct7715_sample_set_masks[] = {
+> +	NCT7715_CONFIG_RATE_8HZ, NCT7715_CONFIG_RATE_4HZ,
+> +	NCT7715_CONFIG_RATE_1HZ, NCT7715_CONFIG_RATE_0_25HZ
+> +};
+>   
+>   #define LM75_ALERT_POLARITY_HIGH_8_BIT	(BIT(2))
+>   #define LM75_ALERT_POLARITY_HIGH_16_BIT	(BIT(2) << 8)
+> @@ -259,6 +273,15 @@ static const struct lm75_params device_params[] = {
+>   		.sample_times = (unsigned int []){ 30, 60, 120, 240 },
+>   		.resolutions = (u8 []) {9, 10, 11, 12 },
+>   	},
+> +	[nct7715] = {
+> +		.config_reg_16bits = true,
+> +		.set_mask = NCT7715_CONFIG_RESOLUTION_12_BIT,
+> +		.clr_mask = NCT7715_CONFIG_EXTENDED_MODE,
+
+We don't use chip specific defines for any of the other chips,
+so don't do it here either.
+
+> +		.default_resolution = 12,
+> +		.default_sample_time = 250,
+> +		.num_sample_times = 4,
+> +		.sample_times = (unsigned int []){ 125, 250, 1000, 4000 },
+> +	},
+>   	[tmp100] = {
+>   		.set_mask = 3 << 5,	/* 12-bit mode */
+>   		.clr_mask = 1 << 7,	/* not one-shot mode */
+> @@ -354,6 +377,11 @@ static inline long lm75_reg_to_mc(s16 temp, u8 resolution)
+>   static inline int lm75_write_config(struct lm75_data *data, u16 set_mask,
+>   				    u16 clr_mask)
+>   {
+> +	if (data->kind == nct7715)
+> +		return regmap_update_bits(data->regmap, LM75_REG_CONF,
+> +					  clr_mask | set_mask | NCT7715_CONFIG_SHUTDOWN,
+
+NCT7715_CONFIG_SHUTDOWN == LM75_SHUTDOWN, so this conditional
+is unnecessary. There are several similar instances of unnecessary duplication
+in the code. Please drop all that. The chip appears to be a clone of tmp112,
+and there is no reason to handle this chip differently. If you want to use
+a different sample time default, fine, but that does not warrant the extra code.
+
+I'll stop the review here. Please drop all the extra code.
+
+Regarding Sashiko's feedback: It doesn't understand that the byte order
+is swapped in the regmap write function. THis is a false positive.
+
+Thanks,
+Guenter
+
+> +					  set_mask);
+> +
+>   	return regmap_update_bits(data->regmap, LM75_REG_CONF,
+>   				  clr_mask | set_mask | LM75_SHUTDOWN, set_mask);
+>   }
+> @@ -486,6 +514,13 @@ static int lm75_update_interval(struct device *dev, long val)
+>   		if (data->params->resolutions)
+>   			data->resolution = data->params->resolutions[index];
+>   		break;
+> +	case nct7715:
+> +		err = lm75_write_config(data, nct7715_sample_set_masks[index],
+> +					NCT7715_CONFIG_CONVERSION_RATE_MASK);
+> +		if (err)
+> +			return err;
+> +		data->sample_time = data->params->sample_times[index];
+> +		break;
+>   	case tmp112:
+>   	case as6200:
+>   		err = regmap_update_bits(data->regmap, LM75_REG_CONF,
+> @@ -770,7 +805,7 @@ static int lm75_generic_probe(struct device *dev, const char *name,
+>   	data->orig_conf = status;
+>   
+>   	/* Enforce polarity active-low (default) or active-high (devicetree) */
+> -	if (!data->params->config_reg_16bits)
+> +	if (!data->params->config_reg_16bits || data->kind == nct7715)
+>   		pol_mask = LM75_ALERT_POLARITY_HIGH_8_BIT;
+>   	else
+>   		pol_mask = LM75_ALERT_POLARITY_HIGH_16_BIT;
+> @@ -848,6 +883,7 @@ static const struct i2c_device_id lm75_i2c_ids[] = {
+>   	{ .name = "max31725", .driver_data = max31725 },
+>   	{ .name = "max31726", .driver_data = max31725 },
+>   	{ .name = "mcp980x", .driver_data = mcp980x },
+> +	{ .name = "nct7715", .driver_data = nct7715 },
+>   	{ .name = "p3t1750", .driver_data = p3t1750 },
+>   	{ .name = "p3t1755", .driver_data = p3t1755 },
+>   	{ .name = "pct2075", .driver_data = pct2075 },
+> @@ -972,6 +1008,10 @@ static const struct of_device_id lm75_of_match[] = {
+>   		.compatible = "nxp,pct2075",
+>   		.data = (void *)pct2075
+>   	},
+> +	{
+> +		.compatible = "nuvoton,nct7715",
+> +		.data = (void *)nct7715
+> +	},
+>   	{
+>   		.compatible = "st,stds75",
+>   		.data = (void *)stds75
+> @@ -1129,13 +1169,21 @@ static int lm75_suspend(struct device *dev)
+>   {
+>   	struct lm75_data *data = dev_get_drvdata(dev);
+>   
+> -	return regmap_update_bits(data->regmap, LM75_REG_CONF, LM75_SHUTDOWN, LM75_SHUTDOWN);
+> +	if (data->kind == nct7715)
+> +		return regmap_update_bits(data->regmap, LM75_REG_CONF,
+> +					  NCT7715_CONFIG_SHUTDOWN,
+> +					  NCT7715_CONFIG_SHUTDOWN);
+> +	return regmap_update_bits(data->regmap, LM75_REG_CONF,
+> +				  LM75_SHUTDOWN, LM75_SHUTDOWN);
+>   }
+>   
+>   static int lm75_resume(struct device *dev)
+>   {
+>   	struct lm75_data *data = dev_get_drvdata(dev);
+>   
+> +	if (data->kind == nct7715)
+> +		return regmap_update_bits(data->regmap, LM75_REG_CONF,
+> +					  NCT7715_CONFIG_SHUTDOWN, 0);
+>   	return regmap_update_bits(data->regmap, LM75_REG_CONF, LM75_SHUTDOWN, 0);
+>   }
+>   
+
