@@ -1,112 +1,95 @@
-Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084B7455199;
-	Fri, 11 Sep 2026 08:20:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1586B4483A4;
+	Fri, 11 Sep 2026 08:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789114830; cv=none; b=TDQAHTzOKvzrmI+ofjaN1QgJe+osTAxV7bUAWn7A4PyGiZN4xJt5rddrE8oSLUuLip5j5T8UxIPE2TZ/YMyCObcdTr4w0qpEQ6sV+7TJO37wd3I64LGiSyFnnVEXnfTSvWaOjwH9+yWVRcWyPfG3fGCs+Doyp1KMyHKNy4nNaTs=
+	t=1789114870; cv=none; b=sksWmi7UootbDpXzHdtWEzlS5vMn4wxvV8PySec0nvDA/fHrlqtcgQ4A+U2dppUUGoEVOoi8JncDTBAgG/6Cf8f/0VtKViodFooVYnJhYSYEFQRgEKqWjoYj7nWp8wZRoxpwT/5Qll7Mev1VdHQhHbRuWWrFzGH7QO5HHD/X4n8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789114830; c=relaxed/simple;
-	bh=00IoiYJMvc428TUnHqRDhNjDZIuoPykN8PPXnyrtpcU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=eBzaZryqiwkMXPfM7kUfzmWFDCKW/UeBEVODidLEXI0dsVbA6lIuT5astznnjnPGUb4WiXLgMeH6J5GMNTHejBxHBGXmA1ut3XhJShB1CaPeKnL1X8xFARdnP84OWi89pwbCManEJUbhhk65r9sn4OUZw0DQyOo6swlxqwPWCJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=VUXwpXLP; arc=none smtp.client-ip=113.46.200.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1789114870; c=relaxed/simple;
+	bh=v3SqCyll3YR89/x8v+GFS6cTW8xU0bcAQpo9tyK7rl8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RGgPfPpRv9Z+mSnyDwOTU+5uBu0/nX2SLGkKgMQJASKDs8Sp6nlAFrMkbn7OHJjftOULOxWNgV6rnmQZHV7tIluX4e/mv4/mUBTHRC1AJJSNYRDQabCe5AsPp6Tq6Hi4xFrBLQNV3Bt6sAOzR1hIDuN6tCw2gdJvml/PH80KhUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YMNsm5gq; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="VUXwpXLP"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=UPlgI6itf/jQAT/aGqHZlGQ1rbaMbhD6LnTalkOaXRQ=;
-	b=VUXwpXLPX3wlAPyKd9HP3OrmXW/ey4+zvbJbIX499s4n/+IXiH0dkVEQr5TrMy2E3XAeziUBI
-	RR1vctPY0rEiuDKk8KSfefyOOHQNi1FOLtB6ohyZdvDu1rfdf/aZquVFDwQ4S7mK7uJu0FiGKWR
-	iGRHUTDuyAd1BdWFcR4o6Lo=
-Received: from mail.maildlp.com (unknown [172.19.163.214])
-	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hh6dd0TMyzKm5t;
-	Fri, 11 Sep 2026 16:09:25 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 476474056C;
-	Fri, 11 Sep 2026 16:20:24 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- kwepemk200008.china.huawei.com (7.202.194.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Fri, 11 Sep 2026 16:20:22 +0800
-Message-ID: <66752c5a-8bdf-4895-b692-585ccfce3b01@huawei.com>
-Date: Fri, 11 Sep 2026 16:20:21 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YMNsm5gq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789114868; x=1820650868;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=v3SqCyll3YR89/x8v+GFS6cTW8xU0bcAQpo9tyK7rl8=;
+  b=YMNsm5gq/aoQL1Hgmq4stIN9AnfBJ8HguWp62T10PSC1MC/jzTV6TfQ9
+   qEDufDUsGP5mO31+CtYexik2DJNIvSZwEI7piusWI7NzC2JVm0l9vwl+J
+   lsmhd7MznPI4ZTXiXIxoU9vHs4J5fb1z1pt7lZhXs3T5l8bJjTeYZ8r7H
+   lattlXa7dX4UL1YCidMoi51sOUANUChQUukuXMs0lPyoQtsizKUtM0pDd
+   Ac6dLuzFmtcqQ5CN7M3YSH1d2hEd3sVo//kLEcNa0J00u7T2ARAAQirgc
+   Zhopa9OBPOc9lZ/BVBdQ2ZLd00YvyO7m0wCTUuaxQVkuD6m5iPCTvtLKO
+   Q==;
+X-CSE-ConnectionGUID: Z7QPMbRDS8afqRG/z6j2bA==
+X-CSE-MsgGUID: CL7U6K35TL+BfoUk7Qc1Kw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89704634"
+X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
+   d="scan'208";a="89704634"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 01:21:06 -0700
+X-CSE-ConnectionGUID: xPowJkcdRhadQuVTg+5xUw==
+X-CSE-MsgGUID: eqJJohaZRKC8Ls6ewOTXrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
+   d="scan'208";a="265662799"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.80])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 01:21:01 -0700
+Date: Fri, 11 Sep 2026 11:20:59 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v7 07/17] iio: adc: ad7768: Add power mode helper
+Message-ID: <aqO565DUVzp7b4w5@ashevche-desk.local>
+References: <20260910-ad7768-driver-v7-0-7f70b07627e1@analog.com>
+ <20260910-ad7768-driver-v7-7-7f70b07627e1@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/40] KVM: arm64: Make MPAMSM_EL1 accesses UNDEF
-To: Ben Horgan <ben.horgan@arm.com>
-CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
-	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
-	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
-	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
-	<jonathan.cameron@huawei.com>, <kobak@nvidia.com>, <lcherian@marvell.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
-	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
-	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
-	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
-	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
-	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
-	<zengheng4@huawei.com>, <linux-doc@vger.kernel.org>, Shaopeng Tan
-	<tan.shaopeng@jp.fujitsu.com>
-References: <20260313144617.3420416-1-ben.horgan@arm.com>
- <20260313144617.3420416-6-ben.horgan@arm.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20260313144617.3420416-6-ben.horgan@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910-ad7768-driver-v7-7-7f70b07627e1@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
+On Thu, Sep 10, 2026 at 07:36:25PM +0200, Janani Sunil wrote:
+> Describe each power mode and its internal master-clock divisor in a
+> table. Replace the open-coded fast-mode setup with a helper that records
+> the active mode, preparing for dynamic mode selection.
 
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-在 2026/3/13 22:45, Ben Horgan 写道:
-> The MPAMSM_EL1 register controls the MPAM labeling for an SMCU, Streaming
-> Mode Compute Unit. As there is no MPAM support in KVM, make sure MPAMSM_EL1
-> accesses trigger an UNDEF.
-> 
-> Tested-by: Gavin Shan <gshan@redhat.com>
-> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-> Tested-by: Peter Newman <peternewman@google.com>
-> Tested-by: Zeng Heng <zengheng4@huawei.com>
-> Tested-by: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
-> Reviewed-by: Zeng Heng <zengheng4@huawei.com>
-> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Reviewed-by: Gavin Shan <gshan@redhat.com>
-> Acked-by: Marc Zyngier <maz@kernel.org>
-> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
-> ---
-> Changes since v2:
-> Remove paragraph from commit on allowed range of values
-> ---
->  arch/arm64/kvm/sys_regs.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> index 1b4cacb6e918..0edd655934a9 100644
-> --- a/arch/arm64/kvm/sys_regs.c
-> +++ b/arch/arm64/kvm/sys_regs.c
-> @@ -3376,6 +3376,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
->  
->  	{ SYS_DESC(SYS_MPAM1_EL1), undef_access },
->  	{ SYS_DESC(SYS_MPAM0_EL1), undef_access },
-> +	{ SYS_DESC(SYS_MPAMSM_EL1), undef_access },
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Reviewed-by: Jinjie Ruan <ruanjinjie@huawei.com>
-
-> +
->  	{ SYS_DESC(SYS_VBAR_EL1), access_rw, reset_val, VBAR_EL1, 0 },
->  	{ SYS_DESC(SYS_DISR_EL1), NULL, reset_val, DISR_EL1, 0 },
->  
 
