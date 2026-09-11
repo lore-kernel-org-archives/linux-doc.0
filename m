@@ -1,233 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6C3337699;
-	Fri, 11 Sep 2026 21:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789160569; cv=fail; b=icFpGyo+u6hJuhsF2uIPu+Cx2ll0BDsp1YustmzGRh8oRghhCBMDIlL+T+VSIjuFDSqm94ohH33/mpDel+Rd6N0zEu7nobJjIjRGiMg1ulnbfX7jxbBsyIpaVVkR6+fq2Wx0NFiKOUqrlBt+y3d6Ied9vfw2I92KjpES+MuAJSc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789160569; c=relaxed/simple;
-	bh=wy81qti5XQ6yTEtPW76WdWZnt+E+eE/kNfYoU6NEvyI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=asQoeFU5cnIE/e4kkPQVQnbZkrJNYEgGN7ttplhl3LmhXCVs/0nFhiZ2kXpqzP1WOWVMP+NMAjYd7PajDsYeFRgOGmcei9n5Nb16kF+JZLrFJfchrNRElof0A5B4+sjEE2hXw91hSvH/F/RpVEUOyJjMFg7rcY9EXii3IPowWCI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UKlErTfU; arc=fail smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C013F927B;
+	Fri, 11 Sep 2026 21:10:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789161032; cv=none; b=HXgkzjxLKaO6u4811kkIu77/a+d2moPUhLR4e9cc2OaLj8gisZGi2F+xulOGEm8G1zgk7b1iPMoqwazTtGV4vM/x2IekBsLpQF3dFNCybeAdDRLvkeJsOhxBzbSHwx4TjGi2JpTaZHggiVPR6JIsTT3iBTYw8Dr2Pak37sG2uPY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789161032; c=relaxed/simple;
+	bh=0iINUGSDQ0Mrto36jzZm49BkosYjKrXgLDl3kcWJdpM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RpzM7Hi/iC7mrP65pFvxmQbLx/dFBudGXeMAw8PxBOPjGilwETVsm2NPgHYQCR+xuifQGhcw4PtS0e/MvYY4bHaCXwFhDsoVn0ub2NYAwyM6MuqyBtVLqbV4X7qKCBg1YUK1A5ngZuel+VNSB6h5M2vTFbRSNTiDAlj/r7J7c2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=XwmygFmu; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UKlErTfU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789160568; x=1820696568;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=wy81qti5XQ6yTEtPW76WdWZnt+E+eE/kNfYoU6NEvyI=;
-  b=UKlErTfUgdsFos4yW6cH5NloEVLyWFk2mEvBZaSyEULipCn11y9eKpON
-   dnbzSJmommQRdUwCPVs4tZsnGSGTOXCBH/FOFIUcuEGa2YqTF8cI36TZ3
-   SRTK7nBUoaeDhKyhy18ZzKGadpE7acSbxLKJDL0dBR+vHB3aFZwZiXoWH
-   NXovoKZxAw3gFXwM+At9s1iwrQCveM1uWGWYTHMYddNRhqeGGD+6YnVCf
-   kTCmrKAQhTVmJG0wx/hO10h015M8bMuk2GB2eQIWBSYZxqpGO1cOWlx31
-   SPfzgLm3iEsPGEq9xLxL1B2PyQDumUdrdfa9YVT1Ri+Pk5N02LE5n79rv
-   Q==;
-X-CSE-ConnectionGUID: jD/xCzheQ6eeNZC0O11Htw==
-X-CSE-MsgGUID: 0XxrYNjLTA6Icw4HnebmKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="100224151"
-X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
-   d="scan'208";a="100224151"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 14:02:47 -0700
-X-CSE-ConnectionGUID: Xgs1/aOGT2G/BGMx1g8lEA==
-X-CSE-MsgGUID: 22hXtuJ3So2n38JuI2Ka0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
-   d="scan'208";a="265828554"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 14:02:46 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Fri, 11 Sep 2026 14:02:46 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46 via Frontend Transport; Fri, 11 Sep 2026 14:02:46 -0700
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.40) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Fri, 11 Sep 2026 14:02:39 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KJRNpvA7zwTlPZiaLp95w0X6YOsCvCm4Vf5cvDKyHf5il3Px9IkYkk2b4466WcvAfqVqAvWqgVZjtSlzyeb1891WHpaIVbQN4yGoISYNU1yfpuI7cskoiKne/WsaH/fmYgeAPqZXZMfFF0Gsm/8tXXcmWSXl7IcInuK6KMrAO/p2zXqxNJQzX+qUEISqpJn7bHAbL4+I11nEnDdgapp0dfv4AitliZcxo5SK96+RevC670lmXmeeTWnSKKcM8+G/qi+h2H3a9TjFK/grOSa57jnx7tqpLUkKu/LyQZl+R3h/b0IyGUYv1wS0mnZ2uhvVwwiSmn/PukMzdBoe5n8VsA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wy81qti5XQ6yTEtPW76WdWZnt+E+eE/kNfYoU6NEvyI=;
- b=BlVveiel0u+zq6DRR3wLbXSGO4XQXVECcL+xzipb48Vzlcy6nLGwmPS6PDesy5PC4hXFWYOyBbO6QXpnF6E5/2NZbPIExmq3+6h/VgzMPtpA4JEc5sQ3vSs7ubDf7ajNXqEurzj+kO0bn4PIrfwOi5VWKUbbVU4Oq9ZKzdic06Ts8E/Uqm/j0hnBUZeH3uabTOS08OGa/JHhSZ4BRuilRbtsNCO/uVuMUlfT0/9HZncS/8veqSrB5U1ZdiegQzB09hJ9gi1l+RlZpA2EiAFgTBrll7md1HtPAjQ9h6dSmfOI5q9H7uwJz9UE7QaW3OqTkpHj1QCxsLHj+3BusEPlTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA3PR11MB8986.namprd11.prod.outlook.com (2603:10b6:208:577::21)
- by SA0PR11MB4655.namprd11.prod.outlook.com (2603:10b6:806:9d::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.10; Fri, 11 Sep
- 2026 21:02:36 +0000
-Received: from IA3PR11MB8986.namprd11.prod.outlook.com
- ([fe80::e6f0:6afb:6ef9:ab5c]) by IA3PR11MB8986.namprd11.prod.outlook.com
- ([fe80::e6f0:6afb:6ef9:ab5c%6]) with mapi id 15.21.0406.007; Fri, 11 Sep 2026
- 21:02:36 +0000
-From: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
-To: Hemanth Selam <hemanth.selam@gmail.com>, "Nguyen, Anthony L"
-	<anthony.l.nguyen@intel.com>, "Kitszel, Przemyslaw"
-	<przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, "Jakub
- Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH iwl-next v2 4/4] Documentation/eth/intel: fix repeated
- words in comments
-Thread-Topic: [PATCH iwl-next v2 4/4] Documentation/eth/intel: fix repeated
- words in comments
-Thread-Index: AQHdP6TFwVPdzIj/BEaWgQd5972abbbJ4mhw
-Date: Fri, 11 Sep 2026 21:02:36 +0000
-Message-ID: <IA3PR11MB8986845ADB6B6F2AFF0ADB68E5BE2@IA3PR11MB8986.namprd11.prod.outlook.com>
-References: <20260907095446.27290-1-hemanth.selam@gmail.com>
- <20260907095446.27290-5-hemanth.selam@gmail.com>
-In-Reply-To: <20260907095446.27290-5-hemanth.selam@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA3PR11MB8986:EE_|SA0PR11MB4655:EE_
-x-ms-office365-filtering-correlation-id: 6bd1cc53-91ee-49e3-f55d-08df104801dd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|23010399003|376014|7416014|366016|18002099003|22082099003|921020|38070700021|3023799007|10067099003|11063799006|4143699003|56012099006|6133799003;
-x-microsoft-antispam-message-info: C3piK8G5frq1B2/aAYTsZCh1nEiu7Bzmb4/zhpV3hNHEd56wXJBCCq2hkkYN5M6XTgN5KhqO4I7oxIDNWbcnaAB4gXnVzBUY/KhhUWlTTQYvouTChLrmJuxMCc6fsFSRzgmKnb5dVvaWIHGtbu9bnUwRO3yyJApxnhBNVBE1QQTGl1F+qO4FJIXJVIO9Igbhlg8a1WyPAY/xn100FQuHyeS3N8dFcAAtJ1hyzNRJXBkg0/WNE+9SvrKAej1ff5u/L/3HmnR/HWXqI8Jw0EMX8105dY4Ak30hw6w8JLIi6uZmrxKmK7N68c82Xk2d5ELEnbmTu0I7Y685VvJNy3q883C1wJAZpGPuovXbyRihEtTgY6eEkVLwhcZzRb3tRwbYiRPH0VkVhPpmCEhE7X0BajQnSZgn9/8RSCga/ra3qbZVaHMGAKiTGV96T8iBEoqlUGl+M98utNNHxGAT6fhoYwScLni5FBnZDw4sZtSsIcLA1v6c0HAP4+2uwImzuIItY44CnSOOq87lSeoNL32IixyTyjJPG0DIupoXv5GuZFBp5GOgXt6vmbS077acuL9pLREdoyK/pL7129l632KrQOLMlgbURm/VU6pxvpDlnDupDrJMFREjSvzFu5PwCdmQjmyXpmtaTcoKvzmg1r4YMnnDKQQGguXcatyjGJE0+eSsTUPEsP3L8F+B6umpknrTwlYLrFhZX/mOysFoDH01Y3YGEaaTnyw2IFiMY65glD5cwNT9qtjHEkVYKd/XBITg
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB8986.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(7416014)(366016)(18002099003)(22082099003)(921020)(38070700021)(3023799007)(10067099003)(11063799006)(4143699003)(56012099006)(6133799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?djB0RTMxVEY5akNySXpLVXVCTDZsK3RYUG1Ia25EY1QrOTNKMWVkaEk2NnQz?=
- =?utf-8?B?eFk3ZlhUdURNRFkwRFZpa1V0eVhGUmczRnpkM3NESWFwL1NvM2tpMHpEZ1lw?=
- =?utf-8?B?V1F2UVRRRkNEY3J6aWFIemk3WmtJQ1ZCNXJ2YTh0T2dqNXhlVTBsQXlwYnRj?=
- =?utf-8?B?Zm1HMlJTK1d5U21sM0txcWUvU2gxU0I1WkpyYVhVcHg3dGlydXhZVUhLTTlF?=
- =?utf-8?B?c1RaYXcyTzR1Z25DUWlWZjRFV3plTWFCalpRbkJ6YWg2cEovbis4NHhFa1Vi?=
- =?utf-8?B?d2kzcjVVSW9FTEFQTkI5c3FjczRFYzhYZG5rbHpPRUdGTWlGek1FYVNib2Q5?=
- =?utf-8?B?dDkwMGFnT0NHL0lsdnB6bXRqQ1V3OU5vWk9iK2cxdGdIZ1hkUko4V212WnN5?=
- =?utf-8?B?MVdNcUtNbjB6SU4rU1IycU1aaE5uTHA3U0RFSWFIbTVKK2RYZ2FxbUJ3UmZU?=
- =?utf-8?B?YjVqclJvZlg2RUJHSU16NG5OZHptTUdaMlRyVHFqMjYxSGZyQWp4bEcyTXds?=
- =?utf-8?B?TDIrYjNFV0kxQ09qRGF5S2czRDU1bHJuWkVocFVTeEloNUUxQmF5SXpxUnA5?=
- =?utf-8?B?bERXNGJHV0Q0TGZIMExDeTNCaTl2TGxjS3hIRkkzZmZMMW9UQm9EN1QrQ2U2?=
- =?utf-8?B?R2JhNzdVUVR0MEEzM1FsS0drSzI1Y1lXTDI2S0FpM2JlQ2llMmhnR2hTN1Bj?=
- =?utf-8?B?UmZ3REtOTFBtc3B1VVRUeUlQU2FhTXRCM1M2c3RFNjlrUkc0NU1zbU1EQUdS?=
- =?utf-8?B?ajcxSlgvVjV3Ty9hNlVEcFFxeGhPZVpleGlIQmx3cUNuRUk5Q2N4T1Bxc0ZG?=
- =?utf-8?B?NWZNditzRk1GVUM2MmsrMVZ4djJWMWRMWlNRR1RVcHc4SGQ4TWZYZThNYUhV?=
- =?utf-8?B?clNxWmNZL1M2S3RDVklRNGVwTUwwQTdkU09OdmY0WWlGUXZNTm1taTl4eElh?=
- =?utf-8?B?Z3I0Q2NETUtSVlVuTmo1dDY4KzZtV0h0emNBSGF2VWwzUVUzK2FKck9qSTR4?=
- =?utf-8?B?cVB0YWJVNHdVcTZtZmk5UVBHdlRIOTJJWjBxTlhEaFNGd1hrZytHQk1EeXFP?=
- =?utf-8?B?V3pjRXBqUWc0djhCOE1mMVpBSkttL3prR3FsakRSNDNJQXY2TGozWlZHN0h6?=
- =?utf-8?B?NGVoT3hUcWI1TnJIelppbTZtUXUwQ3YxQkRJMmhTNDByRGg5ZkFUcFFpZytl?=
- =?utf-8?B?QkhucWdoTVp3T2VROXRZM0hsYkt1ajR3UktDSmtZNUZTTW96QmhqQnNTU1pL?=
- =?utf-8?B?S1VJUllMRkJBOE1FaTI0cG1sMUkwY0VyZTQ0clJ6Z0ZhbGY2MDdobWNVQ3dR?=
- =?utf-8?B?Q3c5NmVwdG1DK3NYa3AyZ1IveU5CeGg5Qm9jTEdicjcxUEhIdFBWSFpubHd6?=
- =?utf-8?B?T1g5SklKRkJLSERzejlrakVLSm9wTDNtWDlNUGVZVGswMjBBV2pPVVpyc2VL?=
- =?utf-8?B?TXMxN2tRRWxtRmR0aWxCdjVyVXpYb0IzOThNR1hRS3VOM1doa2ljYUhCalNW?=
- =?utf-8?B?TVhyQWhVakJRUUN4QkpQRE5GeFNReTdrSzViM08yVmJBZjBQejFJRDZEdG5x?=
- =?utf-8?B?VlBnL0VDc251bDVpRDFMdUtpMXQyd21NR3ZVUWN1Vm9lNTBqK01yUGhHMWxu?=
- =?utf-8?B?YVpvZ1gzN3dTVUlyL2FyMVVlZjFTb3BDRVloclRQZElpR0w2TWF0d01IWVZK?=
- =?utf-8?B?UllFWU0ydm9FdWlCN3AzakdmU3BwTWplNzhLMWRKYWpDTXQ4dmpUVzZ0bmJU?=
- =?utf-8?B?aUFNUUt3Q0FKYnVFMjEza0p3cnJITVpGdWJFNUhkYytIcVB2bmxaUmdxb2Iy?=
- =?utf-8?B?RVVXZ2pCSkFqQytvUDlQSE1USXlIaXhZUndWYXYydXQrQlZaRExKQUZ6SmNw?=
- =?utf-8?B?Nm9QMUlsek4xYkFpRlVWU0R2K01ZR0tIU2FjQTRJRjdFSnY3UGZCbCs4YnFU?=
- =?utf-8?B?WndaSEJuM012ekJTbFg1K2gxNFJPeVNBZTJNRk11dmxtU3BUOEN6YmpvMjNa?=
- =?utf-8?B?Mmd3cCtwVTlkQThycThJR3kwNTZjNkJwMyt1WHZTZTBrYWIzRUZyWll4QkVZ?=
- =?utf-8?B?bkp6QTl3c0d1dFdhbWkrWW1FVVY2S0h0MEhRbFJPblRheWtXbWdpUE10TEpH?=
- =?utf-8?B?UE1GdElGcThQUk55aHlUaXZEZGpCVjY3RUVQTXBiNndKSTBwLzJNelJKR0Nq?=
- =?utf-8?B?eEhmYWtTM21ZSG9TM0hHODkzT0xpOURqNHRaQ2J5bGVpUEg5dnhyU1A1WWRn?=
- =?utf-8?B?WC83SERWTDlwaFlSbnJGRE5zTlZRNzJSb2VEVnVGR1ZvSXZzdE0zZW5nZldB?=
- =?utf-8?B?ZEVZdytFR0g0ekJVanNOcTBkTUxaalJrS1BCZGd6c0hZSGlGZWhFQT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XwmygFmu"
+Received: by linux.microsoft.com (Postfix, from userid 1223)
+	id 9116720B7166; Fri, 11 Sep 2026 14:09:48 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9116720B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1789160988;
+	bh=THnrSOejQfaU28Paks7cQy0EHvgqxbuZFWhp6Jm3Ero=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XwmygFmujO2UbAZ1RmnH0Ql9C1sNKBELIeu5ztEkbxAPK7vO2PC/JBRFOb2TrqXwy
+	 pJ7Mj4mXbO5VTmCCM7QuTkga7DYPjT27bt/6Etjh68VhvYyRGLsv33uUR0UTshvubi
+	 B/NCR72QiQVEPMVPV8DlO2RBeycywq9s8yv+4Wrs=
+From: Meagan Lloyd <meaganlloyd@linux.microsoft.com>
+To: linux-i3c@lists.infradead.org
+Cc: meaganlloyd@linux.microsoft.com,
+	alexandre.belloni@bootlin.com,
+	vitor.soares@toradex.com,
+	samagazaryan@google.com,
+	gregkh@linuxfoundation.org,
+	arnd@arndb.de,
+	boris.brezillon@collabora.com,
+	oleksandr.shulzhenko.viktorovych@intel.com,
+	tgopinath@linux.microsoft.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux@roeck-us.net,
+	Frank.Li@nxp.com,
+	jorge.marques@analog.com,
+	pgaj@cadence.com,
+	wsa+renesas@sang-engineering.com,
+	tommaso.merciai.xr@bp.renesas.com,
+	nuno.sa@analog.com,
+	Michael.Hennerich@analog.com,
+	jic23@kernel.org,
+	dlechner@baylibre.com,
+	andy@kernel.org,
+	lorenzo@kernel.org,
+	enelsonmoore@gmail.com,
+	rppt@kernel.org,
+	pratyush@kernel.org,
+	giovanni.cabiddu@intel.com,
+	gabewhigham@gmail.com,
+	haren@linux.ibm.com,
+	pasha.tatashin@soleen.com,
+	jirislaby@kernel.org,
+	adrian.ho.yin.ng@altera.com,
+	ustc.gu@gmail.com,
+	jszhang@kernel.org,
+	adrian.hunter@intel.com,
+	akhilrajeev@nvidia.com,
+	tze.yee.ng@altera.com,
+	manikanta.guntupalli@amd.com,
+	shubhrajyoti.datta@amd.com,
+	jarkko.nikula@linux.intel.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux@analog.com,
+	linux-iio@vger.kernel.org
+Subject: [PATCH 0/3] I3C character device driver using driver_override
+Date: Fri, 11 Sep 2026 14:09:32 -0700
+Message-ID: <20260911210935.1353126-1-meaganlloyd@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: cGiQ+qwpeermjTnwf49SfrzYo2X24qogP8uYg4427jr+46F5C2rXhOiNOVpHzGuRaE00g4Tl9D7HosODy0a2d8a2ucyLOfdNBb5uI0qCBz+rwYEkXtrtqXy8o+RdGynveH1FeIe9rzmTkdVoBKgrdatAJZCy6bi037JAQPM7qDvGF6aG3zV45h6mC/jfZaA6qgCGaaQNAYwZSErbjeedZnHWyKlue7xzp+va3WnB04X/oAEOKt0DcP82M0i+Ub28YGFmRRFlNzS0AmwHENy1Y1LyXq3bdzI+c0XSzy/wslmZAHE8qrCHo7pnIo5tfts5vn1YIU/u7XIi/gcW1SKIAw==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB8986.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6bd1cc53-91ee-49e3-f55d-08df104801dd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2026 21:02:36.4786
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ai0/SGyvItALv1OqmlU0ONj7YaMfyxoYhiJ4hsdaGBmLntgBJQRZsn9VnNuBCqTQ4VbZkxrL52rHV06vy/9x1BxOm4k7tqcEc/f4rKGkyr4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4655
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSGVtYW50aCBTZWxhbSA8
-aGVtYW50aC5zZWxhbUBnbWFpbC5jb20+DQo+IFNlbnQ6IE1vbmRheSwgU2VwdGVtYmVyIDcsIDIw
-MjYgMTE6NTUgQU0NCj4gVG86IE5ndXllbiwgQW50aG9ueSBMIDxhbnRob255Lmwubmd1eWVuQGlu
-dGVsLmNvbT47IEtpdHN6ZWwsDQo+IFByemVteXNsYXcgPHByemVteXNsYXcua2l0c3plbEBpbnRl
-bC5jb20+OyBBbmRyZXcgTHVubg0KPiA8YW5kcmV3K25ldGRldkBsdW5uLmNoPjsgRGF2aWQgUy4g
-TWlsbGVyIDxkYXZlbUBkYXZlbWxvZnQubmV0PjsgRXJpYw0KPiBEdW1hemV0IDxlZHVtYXpldEBn
-b29nbGUuY29tPjsgSmFrdWIgS2ljaW5za2kgPGt1YmFAa2VybmVsLm9yZz47IFBhb2xvDQo+IEFi
-ZW5pIDxwYWJlbmlAcmVkaGF0LmNvbT47IFNpbW9uIEhvcm1hbiA8aG9ybXNAa2VybmVsLm9yZz47
-IEpvbmF0aGFuDQo+IENvcmJldCA8Y29yYmV0QGx3bi5uZXQ+OyBTaHVhaCBLaGFuIDxza2hhbkBs
-aW51eGZvdW5kYXRpb24ub3JnPjsgUmFuZHkNCj4gRHVubGFwIDxyZHVubGFwQGluZnJhZGVhZC5v
-cmc+OyBpbnRlbC13aXJlZC1sYW5AbGlzdHMub3N1b3NsLm9yZw0KPiBDYzogbmV0ZGV2QHZnZXIu
-a2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgbGludXgtDQo+IGRvY0B2
-Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDogW1BBVENIIGl3bC1uZXh0IHYyIDQvNF0gRG9jdW1l
-bnRhdGlvbi9ldGgvaW50ZWw6IGZpeCByZXBlYXRlZA0KPiB3b3JkcyBpbiBjb21tZW50cw0KPiAN
-Cj4gRHJvcCByZXBlYXRlZCB3b3JkcyByZXBvcnRlZCBieSBjaGVja3BhdGNoLnBsLiBPbmx5IHRv
-dWNoZXMNCj4gZG9jdW1lbnRhdGlvbiB0ZXh0Lg0KPiANCj4gQXNzaXN0ZWQtYnk6IEN1cnNvcjpj
-bGF1ZGUtb3B1cy01DQo+IFNpZ25lZC1vZmYtYnk6IEhlbWFudGggU2VsYW0gPGhlbWFudGguc2Vs
-YW1AZ21haWwuY29tPg0KPiAtLS0NCj4gDQo+IE5vdGVzOg0KPiAgICAgdjI6IGRlc2lnbmF0ZSB0
-aGUgcGF0Y2ggdG8gaXdsLW5leHQgYW5kIHVzZSBhIHN1YmplY3QgcHJlZml4DQo+IG5hbWluZyB0
-aGUNCj4gICAgIGNvbXBvbmVudCwgYXMgbWFpbnRhaW5lci1uZXRkZXYucnN0IGFza3M7IHYxIHdl
-bnQgb3V0IHdpdGggYSBiYXJlDQo+ICAgICBbUEFUQ0hdIGFuZCBhICJuZXQ6IiBwcmVmaXguIFJl
-YmFzZWQgb250byBpd2wtbmV4dCwgZGlmZg0KPiB1bmNoYW5nZWQuDQo+IA0KPiAgICAgdjE6IGh0
-dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDI2MDkwNzA2NDUyOC42NjAyLTEtDQo+IGhlbWFu
-dGguc2VsYW1AZ21haWwuY29tLw0KPiANCj4gIERvY3VtZW50YXRpb24vbmV0d29ya2luZy9kZXZp
-Y2VfZHJpdmVycy9ldGhlcm5ldC9pbnRlbC9pNDBlLnJzdCB8IDINCj4gKy0gIERvY3VtZW50YXRp
-b24vbmV0d29ya2luZy9kZXZpY2VfZHJpdmVycy9ldGhlcm5ldC9pbnRlbC9pYXZmLnJzdCB8DQo+
-IDIgKy0NCj4gIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
-KQ0KPiANCj4gZGlmZiAtLWdpdA0KPiBhL0RvY3VtZW50YXRpb24vbmV0d29ya2luZy9kZXZpY2Vf
-ZHJpdmVycy9ldGhlcm5ldC9pbnRlbC9pNDBlLnJzdA0KPiBiL0RvY3VtZW50YXRpb24vbmV0d29y
-a2luZy9kZXZpY2VfZHJpdmVycy9ldGhlcm5ldC9pbnRlbC9pNDBlLnJzdA0KPiBpbmRleCA1M2Q5
-ZDU4MjlkNjkuLmUwMWYwYWRkYTNmNiAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9uZXR3
-b3JraW5nL2RldmljZV9kcml2ZXJzL2V0aGVybmV0L2ludGVsL2k0MGUucnN0DQo+ICsrKyBiL0Rv
-Y3VtZW50YXRpb24vbmV0d29ya2luZy9kZXZpY2VfZHJpdmVycy9ldGhlcm5ldC9pbnRlbC9pNDBl
-LnJzdA0KPiBAQCAtNjkyLDcgKzY5Miw3IEBAIHF1ZXVlczogZm9yIGVhY2ggdGMsIDxudW0gcXVl
-dWVzPkA8b2Zmc2V0PiAoZS5nLg0KPiBxdWV1ZXMgMTZAMCAxNkAxNiBhc3NpZ25zDQo+ICAxNiBx
-dWV1ZXMgdG8gdGMwIGF0IG9mZnNldCAwIGFuZCAxNiBxdWV1ZXMgdG8gdGMxIGF0IG9mZnNldCAx
-Ni4gTWF4DQo+IHRvdGFsICBudW1iZXIgb2YgcXVldWVzIGZvciBhbGwgdGNzIGlzIDY0IG9yIG51
-bWJlciBvZiBjb3JlcywNCj4gd2hpY2hldmVyIGlzIGxvd2VyLikNCj4gDQo+IC1odyAxIG1vZGUg
-Y2hhbm5lbDog4oCYY2hhbm5lbOKAmSB3aXRoIOKAmGh34oCZIHNldCB0byAxIGlzIGEgbmV3IG5l
-dyBoYXJkd2FyZQ0KPiAraHcgMSBtb2RlIGNoYW5uZWw6IOKAmGNoYW5uZWzigJkgd2l0aCDigJho
-d+KAmSBzZXQgdG8gMSBpcyBhIG5ldyBoYXJkd2FyZQ0KPiAgb2ZmbG9hZCBtb2RlIGluIG1xcHJp
-byB0aGF0IG1ha2VzIGZ1bGwgdXNlIG9mIHRoZSBtcXByaW8gb3B0aW9ucywgdGhlDQo+IFRDcywg
-dGhlIHF1ZXVlIGNvbmZpZ3VyYXRpb25zLCBhbmQgdGhlIFFvUyBwYXJhbWV0ZXJzLg0KPiANCj4g
-ZGlmZiAtLWdpdA0KPiBhL0RvY3VtZW50YXRpb24vbmV0d29ya2luZy9kZXZpY2VfZHJpdmVycy9l
-dGhlcm5ldC9pbnRlbC9pYXZmLnJzdA0KPiBiL0RvY3VtZW50YXRpb24vbmV0d29ya2luZy9kZXZp
-Y2VfZHJpdmVycy9ldGhlcm5ldC9pbnRlbC9pYXZmLnJzdA0KPiBpbmRleCBlYjkyNmMzYmQ0Y2Qu
-LjU4NDA1Njk5MTdmNSAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9uZXR3b3JraW5nL2Rl
-dmljZV9kcml2ZXJzL2V0aGVybmV0L2ludGVsL2lhdmYucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRp
-b24vbmV0d29ya2luZy9kZXZpY2VfZHJpdmVycy9ldGhlcm5ldC9pbnRlbC9pYXZmLnJzdA0KPiBA
-QCAtMTcxLDcgKzE3MSw3IEBAIHF1ZXVlczogZm9yIGVhY2ggdGMsIDxudW0gcXVldWVzPkA8b2Zm
-c2V0PiAoZS5nLg0KPiBxdWV1ZXMgMTZAMCAxNkAxNiBhc3NpZ25zDQo+ICAxNiBxdWV1ZXMgdG8g
-dGMwIGF0IG9mZnNldCAwIGFuZCAxNiBxdWV1ZXMgdG8gdGMxIGF0IG9mZnNldCAxNi4gTWF4DQo+
-IHRvdGFsICBudW1iZXIgb2YgcXVldWVzIGZvciBhbGwgdGNzIGlzIDY0IG9yIG51bWJlciBvZiBj
-b3JlcywNCj4gd2hpY2hldmVyIGlzIGxvd2VyLikNCj4gDQo+IC1odyAxIG1vZGUgY2hhbm5lbDog
-4oCYY2hhbm5lbOKAmSB3aXRoIOKAmGh34oCZIHNldCB0byAxIGlzIGEgbmV3IG5ldyBoYXJkd2Fy
-ZQ0KPiAraHcgMSBtb2RlIGNoYW5uZWw6IOKAmGNoYW5uZWzigJkgd2l0aCDigJhod+KAmSBzZXQg
-dG8gMSBpcyBhIG5ldyBoYXJkd2FyZQ0KPiAgb2ZmbG9hZCBtb2RlIGluIG1xcHJpbyB0aGF0IG1h
-a2VzIGZ1bGwgdXNlIG9mIHRoZSBtcXByaW8gb3B0aW9ucywgdGhlDQo+IFRDcywgdGhlIHF1ZXVl
-IGNvbmZpZ3VyYXRpb25zLCBhbmQgdGhlIFFvUyBwYXJhbWV0ZXJzLg0KPiANCg0KUmV2aWV3ZWQt
-Ynk6IEFsZWtzYW5kciBMb2t0aW9ub3YgPGFsZWtzYW5kci5sb2t0aW9ub3ZAaW50ZWwuY29tPg0K
+This is a rework and revival option for Vitor Soares' I3C character
+device driver patch series from 2020 [1] that I've been exploring for a
+few months.  Recently there was a revival posted to the list [2], so I
+wanted to share this design option as well.
+
+In [1] and [2], the i3cdev driver automatically attaches and detaches
+depending whether another driver has attached/not. In [1], Boris was
+suggesting we explore a more straightforward and traditional binding
+method aligning with the Linux driver model. At the time, there wasn't
+a way to auto-bind while keeping manual binding possible as they shared
+the same match() hook. Now with the new driver_override feature, the
+auto-binding of i3cdev on boot can be avoided if the i3cdev driver has
+an empty match ID table. After boot, where specialized drivers would have
+already bound, user-space can explicitly opt-in by setting the
+driver_override sysfs file with 'i3cdev' and manually binding via sysfs
+(or by simply loading the driver if it's loadable). This can also be
+easily automated with udev rules that run whenever the I3C core exposes
+a new device.
+
+One downside of the automatic attach/de-attach is that if a different
+driver is loaded later, the first driver could have altered something
+on the device, breaking any assumptions of the subsequent driver.
+
+My series builds on [1] through:
+0. Addressing code review feedback in [1] from Greg, Boris, and Randy.
+1. Using actual_len for accurate read response reporting. The kernel
+will report actual_len received from the core to user-space via the
+uapi i3cdev_xfer struct.
+2. Placing limits on the number of transfers and bytes in requests to
+prevent unlimited-sized transfers or kernel memory allocation
+3. Checking inputs and descriptive return codes as guard-rails
+for user-space and to ease use of the i3cdev driver
+4. Checking on MWL to ensure that we respect device limits
+5. Proper lifetime management of i3cdev_data and underlying device
+6. Addressing dangling fops in the event we have an open file descriptor
+when a device gets unbound.
+7. Fast-path locking to ensure transfers complete before a device is
+unbound.
+8. Allowing only one file descriptor per I3C device to avoid bugs
+around multiple processes interacting with the device and altering
+the device underneath the other. For example, without this, one process
+could change the device's page or address pointer register underneath
+the other process.
+9. copy_struct_from_user to ensure struct i3cdev_xfer could be extended
+in a compatible way. This is to be forward-looking towards potential
+HDR mode expansion and code reuse.
+10. Reserving the IOCTL number formally
+11. Updating the Documentation to be a syntax correct example program
+template.
+12. Preserving /dev/bus/i3c/<bus id>-<Provisional ID> naming while
+allowing sysfs path to be neatly named i3cdev-<minor>. This avoids
+repeated <bus id>-<Provisional ID> in the sysfs paths which can be
+confusing/circular-looking.
+    e.g. /sys/bus/i3c/devices/0-deadbeef001/i3cdev/0-deadbeef001 ->
+         /sys/bus/i3c/devices/0-deadbeef001/i3cdev/i3cdev-0
+13. Updating all naming references related to i3c_priv_xfer to align
+with new i3c_xfer struct
+14. Updating the MAINTAINERS file for the new pieces of code
+
+Note that i3c-tools [3] or a fork of it will need small updates:
+1. Update include/uapi/linux/i3c/i3cdev.h to match updated uapi structs
+2. In i3ctransfer.c, use actual_len for reads
+
+I've added MODULE_VERSION("1.0.0") in the i3cdev driver, so i3c-tools
+could use that to determine whether to use the old out-of-tree uapi or this one.
+
+[1] https://lore.kernel.org/linux-i3c/cover.1582069402.git.vitor.soares@synopsys.com/
+[2] https://lore.kernel.org/linux-i3c/ap_1-gFF7S821xJT@ninjato/T/#m9107c1785a4a16b1b3cb84c3269d17fac35819c8
+[3] https://github.com/vitor-soares-snps/i3c-tools
+
+Meagan Lloyd (3):
+  i3c: master: enable driver_override for I3C
+  i3c: set i3c_xfer.actual_len in controller drivers
+  i3c: add i3cdev character device module for user-space access
+
+ Documentation/userspace-api/i3c/i3cdev.rst    | 152 ++++
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ MAINTAINERS                                   |   7 +
+ drivers/hwmon/lm75.c                          |   7 +-
+ drivers/hwmon/tmp108.c                        |   2 +
+ drivers/i3c/Kconfig                           |  12 +
+ drivers/i3c/Makefile                          |   1 +
+ drivers/i3c/i3cdev.c                          | 730 ++++++++++++++++++
+ drivers/i3c/master.c                          |   6 +
+ drivers/i3c/master/adi-i3c-master.c           |   5 +-
+ drivers/i3c/master/dw-i3c-master.c            |   4 +-
+ drivers/i3c/master/i3c-master-cdns.c          |   5 +-
+ drivers/i3c/master/mipi-i3c-hci/core.c        |   5 +-
+ drivers/i3c/master/renesas-i3c.c              |   3 +
+ drivers/iio/adc/ad4062.c                      |  10 +-
+ drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i3c.c   |   3 +
+ include/uapi/linux/i3c/i3cdev.h               |  70 ++
+ 17 files changed, 1016 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/userspace-api/i3c/i3cdev.rst
+ create mode 100644 drivers/i3c/i3cdev.c
+ create mode 100644 include/uapi/linux/i3c/i3cdev.h
+
+
+base-commit: cab40cfc9e116acd4d60f95b4b1264cab78f3803
+-- 
+2.49.0
+
