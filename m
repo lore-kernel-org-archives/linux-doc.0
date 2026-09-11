@@ -1,189 +1,144 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E5E63AB285;
-	Fri, 11 Sep 2026 08:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011233EDE4D;
+	Fri, 11 Sep 2026 08:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789114628; cv=none; b=k3ObvtZ+sG5cFiGBKaTbBrW9j5uJ8LgKI3Ax2XVHj9tiHBumccFgX8Qffklw3onXJL8VEhP2vAab3bZgRrFevuCjbwtZLQVelkY5lZw9WQVdTmpnTAoHW+rDnqHnOT3theXmopTmeKzE9gHy5uwwthiXblBaNwbXgM200x8D95g=
+	t=1789114678; cv=none; b=SKXt7zqO6ivMAYBOG+nYOBrTD6Xb+01DJBZ4YXLf87h6xD1N0FVD5odjrDXdcgj+a9A/4cKR7DpunDhL4D2EX8hyv3bI4VfXFcUL5QlS2GPsofye3eR+6AomgT1FSHQ68sZq5S0SmxTUNmw/V8vLHgkR/frkJGv3L7YQ7OUfuyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789114628; c=relaxed/simple;
-	bh=TPsGC4LYcFPbDZQDuzzjee885teUbGy2eenjNKg1Wwk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rTLwn7uYU6H1T8LwhnsIyDutckUJrBpKsoTnxL9ylYzPetqlshyyxb6GLVjjKnxkfMqL0QYUQO2nak9Rp8POFPXYwOOUZ6SJ0/Y3/BYt/l6cXaP9Lf3mVRSAsccQpts4z8r0znJdt9Qc8ouArPrkBfFXQphXmK0/t/AHD/EjcMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=NvrLUj+M; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1789114678; c=relaxed/simple;
+	bh=WZHMjb20+W4xFwOZ8JRAqDKu4IPBUcK2Cj9TC41u53Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EArH0KWJrnjI9m7QChE5LiPL350bbEnRNYDJlYsmOBsOWTfTGpOUDZgOlsRvPna6i8PpPycdZN24NJ118mT7bDnF5YitN0eH1JzAezONBzm0/JJqbTpfTB2r8o2bBHucxagEiBwrdVCS2TyOde+SxYpIfqkBx7rYWXeZ5sYVva4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h2K0RRgf; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="NvrLUj+M"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E2BB16A3;
-	Fri, 11 Sep 2026 01:17:00 -0700 (PDT)
-Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 856213F7B4;
-	Fri, 11 Sep 2026 01:16:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789114624; bh=TPsGC4LYcFPbDZQDuzzjee885teUbGy2eenjNKg1Wwk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NvrLUj+Mtl4RA3Ci+dQCi4Gu3PXOmCVqm7akSjQwrC1/trQKc6gx45SUUy+CNd310
-	 +qNENUqr/roCWCUblLUjNKqP4qjFFk5o9CwjIyqxXUZJek54f9iqQ9P8w0hgZ6YiNk
-	 6CJsKjn5GPbcZlawTAoAOw52b3Bp0nI+y83w+6i4=
-Message-ID: <1cd6fa61-df0d-4743-8f68-84cdf7f8722c@arm.com>
-Date: Fri, 11 Sep 2026 09:16:57 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h2K0RRgf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789114677; x=1820650677;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WZHMjb20+W4xFwOZ8JRAqDKu4IPBUcK2Cj9TC41u53Q=;
+  b=h2K0RRgfEvHdly6fVvouxIjKZduJXJydCmBa4ZjSzPpmSJsMO/j2TRaG
+   FO+JMlul69iliHoOfOUIXjD56J71gDizeAvhjBuFskjKf+BTEBQKX77r6
+   MHVRm9OVKgfwe/P9oQ7LNpOdBDQpyd4rCf3wVHhequCAHyOuM9xyIj8FP
+   sbja2RP3vJdj/y5rbZ5v0AwDoCcuYAPDemMp25+7b+FpOj2E37UliwFoh
+   Wi0LGB8eQZz9E/dg0gvccu+Q9hX64qaQ0psG2zca+J5AKuxbJSS5kHXgi
+   oL2AxZe8zcgUOR9n313lIhIHCrIpyvOu/TVQ9vbl8ogrk0CDoVe1tDrf+
+   g==;
+X-CSE-ConnectionGUID: uTTXpkrfQ6Gqehg1xotmXQ==
+X-CSE-MsgGUID: FFkb3VLrR/GpDVhEAyV6eg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="100739529"
+X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
+   d="scan'208";a="100739529"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 01:17:56 -0700
+X-CSE-ConnectionGUID: WI3y7o50TLONHoFHS6tneQ==
+X-CSE-MsgGUID: lKWLOOSETLWONAu+zfVVUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
+   d="scan'208";a="271383434"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.80])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 01:17:51 -0700
+Date: Fri, 11 Sep 2026 11:17:48 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v7 08/17] iio: adc: ad7768: Derive output data rates
+Message-ID: <aqO5LMbBHhgrcn78@ashevche-desk.local>
+References: <20260910-ad7768-driver-v7-0-7f70b07627e1@analog.com>
+ <20260910-ad7768-driver-v7-8-7f70b07627e1@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 02/40] arm_mpam: Reset when feature configuration bit
- unset
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
- baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
- dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
- fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
- jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- peternewman@google.com, punit.agrawal@oss.qualcomm.com,
- quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
- scott@os.amperecomputing.com, sdonthineni@nvidia.com,
- tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
- will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
- joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
- zengheng4@huawei.com, linux-doc@vger.kernel.org
-References: <20260313144617.3420416-1-ben.horgan@arm.com>
- <20260313144617.3420416-3-ben.horgan@arm.com>
- <7500ec7f-5e65-408c-a4ed-3f7af161219b@huawei.com>
-Content-Language: en-US
-From: Ben Horgan <ben.horgan@arm.com>
-In-Reply-To: <7500ec7f-5e65-408c-a4ed-3f7af161219b@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910-ad7768-driver-v7-8-7f70b07627e1@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Jinjie,
+On Thu, Sep 10, 2026 at 07:36:26PM +0200, Janani Sunil wrote:
+> Derive valid output data rates from the master clock, power mode and
+> decimation ratio.
+> 
+> Replace the fixed x64 decimation and open-coded DCLK divider in
+> ad7768_configure_capture() with the derived default output rate and the
+> new decimation and clock-divider helpers. Select the maximum rate
+> supported by the configured data interface for the initial capture
+> configuration.
 
-On 11/09/2026 07:44, Jinjie Ruan wrote:
-> 
-> 
-> 在 2026/3/13 22:45, Ben Horgan 写道:
->> To indicate that the configuration, of the controls used by resctrl, in a
->> RIS need resetting to driver defaults the reset flags in mpam_config are
->> set. However, these flags are only ever set temporarily at RIS scope in
->> mpam_reset_ris() and hence mpam_cpu_online() will never reset these
->> controls to default. As the hardware reset is unknown this leads to unknown
->> configuration when the control values haven't been configured away from the
->> defaults.
->>
->> Use the policy that an unset feature configuration bit means reset. In this
->> way the mpam_config in the component can encode that it should be in reset
->> state and mpam_reprogram_msc() will reset controls as needed.
->>
->> Fixes: 09b89d2a72f3 ("arm_mpam: Allow configuration to be applied and restored during cpu online")
->> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
->> ---
->> This goes back to the initial feature configuration policy that James
->> used in the MPAM base driver rfc but I unfortunately
->> suggested him to change it.
->> ---
->>  drivers/resctrl/mpam_devices.c | 40 ++++++++++------------------------
->>  1 file changed, 12 insertions(+), 28 deletions(-)
->>
->> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
->> index 0fd6590a9b5c..ff861291bd4e 100644
->> --- a/drivers/resctrl/mpam_devices.c
->> +++ b/drivers/resctrl/mpam_devices.c
->> @@ -1364,17 +1364,15 @@ static void mpam_reprogram_ris_partid(struct mpam_msc_ris *ris, u16 partid,
->>  		__mpam_intpart_sel(ris->ris_idx, partid, msc);
->>  	}
->>  
->> -	if (mpam_has_feature(mpam_feat_cpor_part, rprops) &&
->> -	    mpam_has_feature(mpam_feat_cpor_part, cfg)) {
->> -		if (cfg->reset_cpbm)
->> -			mpam_reset_msc_bitmap(msc, MPAMCFG_CPBM, rprops->cpbm_wd);
->> -		else
->> +	if (mpam_has_feature(mpam_feat_cpor_part, rprops)) {
->> +		if (mpam_has_feature(mpam_feat_cpor_part, cfg))
->>  			mpam_write_partsel_reg(msc, CPBM, cfg->cpbm);
->> +		else
->> +			mpam_reset_msc_bitmap(msc, MPAMCFG_CPBM, rprops->cpbm_wd);
->>  	}
->>  
->> -	if (mpam_has_feature(mpam_feat_mbw_part, rprops) &&
->> -	    mpam_has_feature(mpam_feat_mbw_part, cfg)) {
->> -		if (cfg->reset_mbw_pbm)
->> +	if (mpam_has_feature(mpam_feat_mbw_part, rprops)) {
->> +		if (mpam_has_feature(mpam_feat_mbw_part, cfg))
->>  			mpam_reset_msc_bitmap(msc, MPAMCFG_MBW_PBM, rprops->mbw_pbm_bits);
-> 
-> This condition is written backwards, but it looks like it has already
-> been fixed later.
-> 
-> Otherwise, LGTM
-> Reviewed-by: Jinjie Ruan <ruanjinjie@huawei.com>
+...
 
+> +	freq_cfg = ad7768_find_freq_config(st, st->power_mode_idx, freq);
+> +	if (!freq_cfg)
+> +		return -EINVAL;
+> +
+> +	mclk = clk_get_rate(st->mclk);
+> +	chan_per_doutx = st->chip_info->num_channels / st->datalines;
+> +	if (!chan_per_doutx)
+> +		return -EINVAL;
+> +
+> +	dclk = freq_cfg->freq_hz * AD7768_SAMPLE_SIZE * chan_per_doutx;
+> +	if (dclk > mclk)
+> +		return -EINVAL;
+> +
+> +	dclk_div = DIV_ROUND_CLOSEST(mclk, dclk);
+> +
+> +	/* Set the divider to the next-lowest supported power of two. */
+> +	dclk_div = rounddown_pow_of_two(min(dclk_div, AD7768_MAX_DCLK_DIV));
+> +
+> +	switch (dclk_div) {
+> +	case 1:
+> +		dclk_div_reg = AD7768_INTERFACE_CFG_DCLK_DIV_1;
+> +		break;
+> +	case 2:
+> +		dclk_div_reg = AD7768_INTERFACE_CFG_DCLK_DIV_2;
+> +		break;
+> +	case 4:
+> +		dclk_div_reg = AD7768_INTERFACE_CFG_DCLK_DIV_4;
+> +		break;
+> +	case 8:
+> +		dclk_div_reg = AD7768_INTERFACE_CFG_DCLK_DIV_8;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return regmap_update_bits(st->regmap, AD7768_REG_INTERFACE_CFG,
+> +				  AD7768_INTERFACE_CFG_DCLK_DIV_MSK,
+> +				  FIELD_PREP(AD7768_INTERFACE_CFG_DCLK_DIV_MSK,
+> +					     dclk_div_reg));
 
-Thanks for your reviews. As you hint at this has already been merged and so it's too late to apply
-any tags. Good to know that the code survives being looked at by an extra pair of eyes. :)
+(Some of) this code is moved in the same series! Please, make sure it's not got
+-+ in this patch. This can be achieved, exempli gratia, by creating a helper to
+begin with at the proper location from the start.
 
-Ben
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> 
->>  		else
->>  			mpam_write_partsel_reg(msc, MBW_PBM, cfg->mbw_pbm);
->> @@ -1384,16 +1382,14 @@ static void mpam_reprogram_ris_partid(struct mpam_msc_ris *ris, u16 partid,
->>  	    mpam_has_feature(mpam_feat_mbw_min, cfg))
->>  		mpam_write_partsel_reg(msc, MBW_MIN, 0);
->>  
->> -	if (mpam_has_feature(mpam_feat_mbw_max, rprops) &&
->> -	    mpam_has_feature(mpam_feat_mbw_max, cfg)) {
->> -		if (cfg->reset_mbw_max)
->> -			mpam_write_partsel_reg(msc, MBW_MAX, MPAMCFG_MBW_MAX_MAX);
->> -		else
->> +	if (mpam_has_feature(mpam_feat_mbw_max, rprops)) {
->> +		if (mpam_has_feature(mpam_feat_mbw_max, cfg))
->>  			mpam_write_partsel_reg(msc, MBW_MAX, cfg->mbw_max);
->> +		else
->> +			mpam_write_partsel_reg(msc, MBW_MAX, MPAMCFG_MBW_MAX_MAX);
->>  	}
->>  
->> -	if (mpam_has_feature(mpam_feat_mbw_prop, rprops) &&
->> -	    mpam_has_feature(mpam_feat_mbw_prop, cfg))
->> +	if (mpam_has_feature(mpam_feat_mbw_prop, rprops))
->>  		mpam_write_partsel_reg(msc, MBW_PROP, 0);
->>  
->>  	if (mpam_has_feature(mpam_feat_cmax_cmax, rprops))
->> @@ -1491,16 +1487,6 @@ static int mpam_save_mbwu_state(void *arg)
->>  	return 0;
->>  }
->>  
->> -static void mpam_init_reset_cfg(struct mpam_config *reset_cfg)
->> -{
->> -	*reset_cfg = (struct mpam_config) {
->> -		.reset_cpbm = true,
->> -		.reset_mbw_pbm = true,
->> -		.reset_mbw_max = true,
->> -	};
->> -	bitmap_fill(reset_cfg->features, MPAM_FEATURE_LAST);
->> -}
->> -
->>  /*
->>   * Called via smp_call_on_cpu() to prevent migration, while still being
->>   * pre-emptible. Caller must hold mpam_srcu.
->> @@ -1508,14 +1494,12 @@ static void mpam_init_reset_cfg(struct mpam_config *reset_cfg)
->>  static int mpam_reset_ris(void *arg)
->>  {
->>  	u16 partid, partid_max;
->> -	struct mpam_config reset_cfg;
->> +	struct mpam_config reset_cfg = {};
->>  	struct mpam_msc_ris *ris = arg;
->>  
->>  	if (ris->in_reset_state)
->>  		return 0;
->>  
->> -	mpam_init_reset_cfg(&reset_cfg);
->> -
->>  	spin_lock(&partid_max_lock);
->>  	partid_max = mpam_partid_max;
->>  	spin_unlock(&partid_max_lock);
-> 
 
