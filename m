@@ -1,522 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f3.google.com (mail-qk2-f3.google.com [74.125.230.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314EE3F075A;
-	Fri, 11 Sep 2026 03:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789098119; cv=none; b=Kh1DoDfumu6zvLwMfA9aITX1AiNn4juugZo9JUEDNwgF/DhM6FtWDVjqiQ/hcXJ66gwoVHJ9c7tvFp4VHF/inMNuA53nnR5lubOpvmRe6wMCOQpaS5fW9TV/LoWbslWMpSKc7pNBDIOSAh+tYNbFEYalW/xwgUsHsKC+rmO8iI4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789098119; c=relaxed/simple;
-	bh=VpJGxMTipozDFAvYMDee2tr9QCYZI5q2bpenjluesyw=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=u5pFGbhDsLk6gclcGoPX8LOlTKsHCIiK4kYy9M4wbumqKuoYpj1gaNG142cKSGQivLYJPOEV/nF2MuIw6D1zxLSVts/MheuDxzvtY0jsn95j5ynO4tzFNipM3OCg2uMW7NkcbGBOetd1KhDsulgp35QKFH9FZwXiHirwrXes324=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h8+JpELe; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE69A3EA962
+	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 03:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.195
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789098288; cv=pass; b=skynGzIhDf/frJSdxvBZfhpF4Jwd+dPvs6Z+V7yLKwKx4Y/yrOIWWZ5DhYSbvubedT2E6jQxoESU9ca+g61emBTK7gHHZ/bPmCem4BI8Z/NvIu78iPtSY/eGibxvTfPbTYExFm/XN9jL4Jz196XFQ8v+F3Ge26tYOjqyEY3//xc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789098288; c=relaxed/simple;
+	bh=9MUCzlT67j02Tdxv5MkPUdx0rDyVjNu0IwYTyNrltgs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pbFX36SfTi/z7uQmLWT9Av3Xb2O/hEhJpum8yGQIRtPLRmuoVXoDHoWHOB0gEJXleUobAl/NOb8OGVHzMHWWF61++5nSjKsS1BPOD0HgwCz9BuSTBLtcXvaXQaMjVqtyhg26yc3ZaASlYlu5XdpR+j51gHLCoinCVl6Kp2k8vdc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G2V24x4G; arc=pass smtp.client-ip=74.125.230.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h8+JpELe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE55D1F00898;
-	Fri, 11 Sep 2026 03:41:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789098116;
-	bh=eRxR7RzZLbKx/bUm1gKHR338EUGdzrRDXLG5n5wIHcc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=h8+JpELeHqO8nvZTwVm2fbiwANf7pnx4oQ2s+fI4nFFufjobi6+FDUtpNBpU1snwF
-	 hXm+Iuh1+Noa6TgKKwX5BuECghri2kvjLFuha23e8UCm1btageDK9TAXCCuX+9BhdH
-	 hl2bNf+ubakyqPJcPhWbX2bDBz+xCiT1qvWnvNJ+E6lEWzj1DClmQTANC0sP/fPqRW
-	 5ZdJDvisNzLV1oxmoovUuAvN/MrFwBPwP7/ugkVr5g3BM+Ycoh6l/x70PEvRObb6x6
-	 ZIh9hH1A2LDunrHxJC8vMmxinhRQrMd6sWJWDvE+KYpG8JVbtSYqiSpZ++jFMr6laq
-	 p4JKGUr8NaX5g==
-Subject: Re: [PATCH v27 net-next 10/10] net/nebula-matrix: add common dev
- start/stop operation
-From: netdev-bot+sashiko@kernel.org
-To: illusion.wang@nebula-matrix.com
-Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
- sam.chen@nebula-matrix.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
- corbet@lwn.net, kuba@kernel.org, horms@kernel.org, linux-doc@vger.kernel.org,
- pabeni@redhat.com, vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com,
- edumazet@google.com, enelsonmoore@gmail.com, skhan@linuxfoundation.org,
- hkallweit1@gmail.com, linux-kernel@vger.kernel.org
-Date: Fri, 11 Sep 2026 03:41:55 +0000
-Message-ID: <178909811525.219967.16038617986565417580@kernel.org>
-In-Reply-To: <20260907123848.30256-11-illusion.wang@nebula-matrix.com>
-References: <20260907123848.30256-11-illusion.wang@nebula-matrix.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G2V24x4G"
+Received: by mail-qk2-f3.google.com with SMTP id d75a77b69052e-51bfca7f85aso3859881cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 20:44:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789098286; cv=none;
+        d=google.com; s=arc-20260327;
+        b=I+SIomly+LzEUt2icTwN0SrdJuBWPSHnWLiUIkSdQTEjvh2WL/4w5O0BhKjZrz3DJt
+         XiIVY7f9ZgxeQwL0RLJLq3J2tMtu6m1ALTY0Q9a1gaWolxbsI1lIbmUFDEv+MW/fZeq0
+         sZJkfz0YQ7RJsKoaq+gydv1u2f5OpAOFh4qybkp+UL1bbQsPlxVam9CDmfZ4WD7abdke
+         lQk9CQ1eIZ2xbzQrdh7VnBYQnGTpr4EyttK5cTwjFt9oJNvuzI0aWxpE+6jUc5TDv3ZA
+         mOCpl30TNlFcCwoJUB3zzE/Kq9ufw/LD+m4ur3OxnPaXzawMvmggb7OdxmaTzFtvweOo
+         qAtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9MUCzlT67j02Tdxv5MkPUdx0rDyVjNu0IwYTyNrltgs=;
+        fh=9wRCh4E/OAgSH4H7aCH48qIoUpi/WGp4hGrymcyvrZ8=;
+        b=IE9l8nFzBQnVH/l7EWc79L0gSjbfvKD9dMwh2f3R/O3CaKDajU1zfYxJxMpEd0+8NY
+         8wODD4KiMU+zetJiGCdJhSVLBtt8WfTybCKwMRZ2Xg3AElXj8k+ESTeYsVENwKlWzeO/
+         4/OTnxi1cPEE1uOYEqDv910frxS2QVDd6mUUT3JiGu5U3bgNda6s3sMmeccNkRfIHGyj
+         3G4weTuw8tK38CQE3W6j5UA7fkgK2g8u65lvzDJqyWzDGGenlDNSRe8o8Vl1TuLcdugM
+         xmTx9/3JjKaer1BZExNWypFzbC2VNkI9CBFBlJlA6R+8OkRBARAzHACYK4ao0O3S+G5a
+         IqSA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789098286; x=1789703086; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9MUCzlT67j02Tdxv5MkPUdx0rDyVjNu0IwYTyNrltgs=;
+        b=G2V24x4GGyCwAd8LaJ2X8PGNbql6wdGj7itobGHv+DWtilwCENd20LNJWE0FPLHB3/
+         0AjlkwMCGqs9CTmfIsOad/o7305l5dxeD1ZFHVPrHnNcoEDHmmOEkUoLBmMXN0uGF9mA
+         NFt62u0bdoESjLGcIpLtJ0v7+FmJRxrD/o1lT5g+LldSZZhD3Og4hV+mUCCZhqbjd2JS
+         rECTuLTUzPCSAjku7N+dnRXlt7UYkl6EGUg9xcf0TT9TiheCSHMZR1kposahxXE8JxLQ
+         5XMF89T6zDhqWdtlqtNhZhEm9Fss7ApuSwbHeeM2sCdkBm+3v8htMXW4iBX0va4HMp+v
+         aDTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789098286; x=1789703086;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9MUCzlT67j02Tdxv5MkPUdx0rDyVjNu0IwYTyNrltgs=;
+        b=YzS7rSzejuZQwRzoTrOZr/lsdMb+lkVJqEoGRoOFyCHcCyMQA743qSjHlr8Z8nm/fm
+         8lYregW1fg42mJ4D4duVVJSOJ0qIP3ek2LdWx/kALh7eiqpVyuv5R4P6KWTFOR97Hhfb
+         xB86+v0qYuAbXEcSCnf3w94CQUatda5SZrAtnj+tvrel2m/wxG44GSu3keiT0Qb88VKA
+         N10CvCf0yKnvwwud6Zrpg4avGXpFycCuldXwDl2kY3bD45xKDN7anFOYtb4dCfkhV5sC
+         40BY9lbtxg88+0B4LC2qljGsfSWkbdCHhaEGlvFPAtqkGU4vKKjlNuUQPgZ6J6PHxA+G
+         9MPA==
+X-Forwarded-Encrypted: i=1; AKwUvBwcP7SBxjgsATPxMnIzAPZhmTM+XLXIDmu3K8sF9Q0c1nho/sMgE1GSWxcz+It/bzGYwLHYcvYX8qc=@vger.kernel.org
+X-Gm-Message-State: AFuF++mY1T5i3ZP8wHx6MoqNIkkZqaTVzPwBcws8Bw6UC6aGKFLf9Br/
+	WWzf3V0C8fVadVjk7bJbpfuD9hFWQH61b1l9tnT9jCokwdtbCo4J+wtDA2CUrpZhox81od/zrvf
+	Tyvhnmm1rurm+iAOCL2Chydq3g2R44Pk=
+X-Gm-Gg: AYBFou36M2x6g2dE5ztyR13KPZl/gKJRHqGKhZhhbn6BN6CtfEi75O+S63UY5TLlO4V
+	ZD2yr9nAJ/bANzgNUUJJbYrJQpq2UyRcZyNt5xRJpsnhy2+w5ZC4udM9Nynco1EW1R8D5qZbQBI
+	zXnLlLCGui2LPUgY8zOdOEjMavYQhikaICPxqKsX67C5V553ERv5IuTAU3PczRoaVZf5ZLfO69j
+	yXiEPnqXz7LQLn7VphPmg4+emtRxtDHUbIDMnA7NrUCFQJmZ0cVbsQpnRPr8P2jFKm61ol9OGKT
+	/pqOWGiQ0gIpQUNJyb/leFMx3C/6ZoGa2WpW4ri2VCiFYp1F07r19l/wDLqa0O3GtNh2hDnKyPE
+	M5qq0OB+cp6XlmL8HH+QgiN79Fv8x3pqHXDksRCsN
+X-Received: by 2002:a05:622a:5987:b0:52d:918b:92e1 with SMTP id
+ d75a77b69052e-530c84f326bmr40390581cf.5.1789098285727; Thu, 10 Sep 2026
+ 20:44:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-Thank you for your contribution! Sashiko AI review found 8 potential
-issue(s) to consider:
-
-Critical: 0 · High: 0 · Medium: 5 · Low: 3
-
-- [Medium] nbl_dev_setup_common_dev() (drivers/net/ethernet/nebula-
-  matrix/nbl/nbl_core/nbl_dev.c:304-314) drops the `if…
-- [Medium] nbl_dev_stop() (nbl_dev.c:510-521) and the nbl_dev_start()
-  err_destroy_map unwind (nbl_dev.c:472-488) only log a failed…
-- [Medium] nbl_dev_enable_mailbox_irq() (nbl_dev.c:80-99) publishes the
-  software interrupt-mode flag before the hardware interrupt exists: it…
-- [Medium] In nbl_dev_start() (nbl_dev.c:446-448) a failure of
-  nbl_dev_cfg_msix_map() jumps to err_cancel_work, deliberately skipping…
-- [Medium] The device is enabled with pcim_enable_device() in
-  nbl_probe(), which makes MSI/MSI-X vector release devres-managed:…
-- [Low] The err_destroy_map comment added to nbl_dev_start()
-  (nbl_dev.c:480-481) states "If the RPC fails the device may remain…
-- [Low] The comment in nbl_dev_init_msix_cnt() (nbl_dev.c:22-24) states
-  that the mailbox vector is "allocated in nbl_dev_start() via…
-- [Low] Several newly added call sites in nbl_dev.c have continuation
-  lines that do not line up with the open parenthesis (checkpatch CHECK:…
-
---
-
-net/nebula-matrix: add common dev start/stop operation
-
-This adds nbl_dev_start() and nbl_dev_stop() to configure the hardware
-MSI-X map, allocate MSI-X vectors, request the mailbox interrupt and tear
-all of that down again.  Thin nbl_core_start() / nbl_core_stop() wrappers
-are hooked into nbl_probe() and nbl_remove().  The VSI/ETH identity fetch
-in nbl_dev_setup_common_dev() is also changed to run unconditionally.
-
-A few questions below on the interrupt enable ordering, the rollback paths
-and some of the new comments.
-
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
-> index 7813ff31a3cfc..af003a240e7ba 100644
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
-
-[ ... ]
-
-> @@ -17,6 +28,189 @@ static void nbl_dev_init_msix_cnt(struct nbl_dev_mgt *dev_mgt)
->  	msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].num = 1;
->  }
->  
-
-[ ... ]
-
-> +static int nbl_dev_enable_mailbox_irq(struct nbl_dev_mgt *dev_mgt)
-> +{
-> +	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
-> +	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
-> +	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
-> +	struct nbl_msix_info *msix_info = &dev_common->msix_info;
-> +	u16 local_vec_id;
-> +
-> +	if (!msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].num)
-> +		return 0;
-> +
-> +	local_vec_id =
-> +		msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].base_vector_id;
-> +	chan_ops->set_queue_state(dev_mgt->chan_ops_tbl->priv,
-> +				  NBL_CHAN_IRQ_RDY,
-> +				  NBL_CHAN_TYPE_MAILBOX, true);
-> +
-> +	return disp_ops->set_mailbox_irq(dev_mgt->disp_ops_tbl->priv,
-> +					    local_vec_id, true);
-> +}
-
-[Severity: Medium]
-Is this ordering the reverse of the invariant documented a few lines below
-in nbl_dev_disable_mailbox_irq()?  NBL_CHAN_IRQ_RDY is published here
-before the hardware interrupt is armed, and on a non-control PF
-set_mailbox_irq() is itself an ack-requesting mailbox RPC
-(nbl_disp_chan_set_mailbox_irq_req()).
-
-With IRQ_RDY already set, nbl_chan_send_msg() takes the sleeping branch:
-
-	if (test_bit(NBL_CHAN_IRQ_RDY, chan_info->state)) {
-		while (!READ_ONCE(wait_head->acked)) {
-			ret = wait_event_timeout(wait_head->wait_queue, ...);
-
-That branch has no queue_work(clean_task) fallback, unlike the polling
-else-branch, so the ring is only drained by the very mailbox MSI-X this RPC
-is supposed to arm.  nbl_hw_cfg_mailbox_qinfo() clears MSIX_IDX and
-MSIX_IDX_VALID at init and only nbl_hw_set_mailbox_irq() sets them again.
-
-If the responder's nbl_disp_chan_set_mailbox_irq_resp() takes an error
-branch, it still sends the ack without arming the requester's routing:
-
-	if (src_id >= disp_mgt->common->max_pf) { err = NBL_CHAN_RESP_PERM_DENY; goto ack_out; }
-	...
-	ack_out:
-		nbl_chan_fill_ack_info(&chan_ack, src_id, NBL_CHAN_MSG_MAILBOX_SET_IRQ, msg_id, err, NULL, 0);
-
-Can that wakeup then be lost, so the sender burns the full
-NBL_CHAN_ACK_WAIT_TIME and reports -ETIMEDOUT instead of the remote error,
-with the late ack later hitting a slot already marked
-NBL_MBX_STATUS_TIMEOUT?  That looks like exactly the "Channel waiting ack
-failed" / "Skip ack with invalid status" class of message the disable-path
-comment says it wants to avoid.
-
-Would arming the hardware while still in polling mode and setting
-NBL_CHAN_IRQ_RDY afterwards be the mirror of the disable path?
-
-[Severity: Low]
-This isn't a bug, but the continuation line here is indented past the open
-parenthesis, which checkpatch flags as "Alignment should match open
-parenthesis".  The same applies to the set_mailbox_irq() call in
-nbl_dev_disable_mailbox_irq(), the cfg_msix_map() call in
-nbl_dev_cfg_msix_map(), and the reworked get_eth_id() call in
-nbl_dev_setup_common_dev().
-
-[ ... ]
-
-> +static int nbl_dev_init_interrupt_scheme(struct nbl_dev_mgt *dev_mgt)
-> +{
-> +	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
-> +	struct nbl_msix_info *msix_info = &dev_common->msix_info;
-> +	struct nbl_common_info *common = dev_mgt->common;
-> +	int needed = 0;
-> +	int err;
-> +	int i;
-> +
-> +	for (i = 0; i < NBL_MSIX_TYPE_MAX; i++)
-> +		needed += msix_info->serv_info[i].num;
-> +
-> +	err = pci_alloc_irq_vectors(common->pdev, needed, needed,
-> +				    PCI_IRQ_MSIX | PCI_IRQ_AFFINITY);
-
-[Severity: Low]
-With this function added, is the existing comment in nbl_dev_init_msix_cnt()
-still accurate?
-
-	/* mailbox vector allocated in nbl_dev_start() via
-	 * nbl_dev_request_mailbox_irq()
-	 */
-
-The vectors are allocated here by pci_alloc_irq_vectors(), while
-nbl_dev_request_mailbox_irq() only resolves an already allocated vector via
-pci_irq_vector() and attaches a handler with request_irq().  The matching
-release is likewise in nbl_dev_clear_interrupt_scheme(), not in
-nbl_dev_free_mailbox_irq().  The commit message itself lists allocation as
-step 2 and the IRQ request as step 3, so should that comment be updated to
-point at nbl_dev_init_interrupt_scheme()?
-
-> +	if (err < 0) {
-> +		dev_err(common->dev,
-> +			"pci_alloc_irq_vectors failed, err = %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void nbl_dev_clear_interrupt_scheme(struct nbl_dev_mgt *dev_mgt)
-> +{
-> +	struct nbl_common_info *common = dev_mgt->common;
-> +
-> +	pci_free_irq_vectors(common->pdev);
-> +}
-
-[Severity: Medium]
-nbl_probe() enables the device with pcim_enable_device(), which makes MSI-X
-release devres-managed: pci_alloc_irq_vectors() -> __pci_enable_msix_range()
--> pci_setup_msi_context() -> pcim_setup_msi_release() registers
-pcim_msi_release(), and that action calls pci_free_irq_vectors() itself on
-detach.
-
-Is the explicit call here safe in that case?  The kernel-doc of
-pci_free_irq_vectors() in drivers/pci/msi/api.c says:
-
- * WARNING: Do not call this function if the device has been enabled
- * with pcim_enable_device(). In that case, IRQ vectors are automatically
- * managed via pcim_msi_release() and calling pci_free_irq_vectors() can
- * lead to double-free issues.
-
-Today the second call appears to be absorbed by the !dev->msix_enabled early
-return in pci_disable_msix(), but should the driver either use unmanaged
-pci_enable_device() with explicit cleanup, or leave the release to the
-managed lifecycle?
-
-[ ... ]
-
-> @@ -99,17 +301,18 @@ static int nbl_dev_setup_common_dev(struct nbl_adapter *adapter)
->  	INIT_WORK(&common_dev->clean_mbx_task, nbl_dev_clean_mailbox_task);
->  	nbl_dev_register_chan_task(dev_mgt, NBL_CHAN_TYPE_MAILBOX,
->  				   &common_dev->clean_mbx_task);
-> -	if (common->has_ctrl) {
-> -		ret = disp_ops->get_vsi_id(priv, NBL_VSI_DATA, &common->vsi_id);
-> -		if (ret)
-> -			goto err_cleanup;
-> -		ret = disp_ops->get_eth_id(priv, common->vsi_id,
-> -					   &common->eth_num,
-> -					   &common->eth_id,
-> -					   &common->logic_eth_id);
-> -		if (ret)
-> -			goto err_cleanup;
-> -	}
-> +	/*
-> +	 * Even if has_ctrl=false (no dedicated control PF channel), we fetch
-> +	 * VSI/ETH info via regular mailbox message instead of dedicated
-> +	 * control command.
-> +	 */
-> +	ret = disp_ops->get_vsi_id(priv, NBL_VSI_DATA, &common->vsi_id);
-> +	if (ret)
-> +		goto err_cleanup;
-> +	ret = disp_ops->get_eth_id(priv, common->vsi_id, &common->eth_num,
-> +			     &common->eth_id, &common->logic_eth_id);
-> +	if (ret)
-> +		goto err_cleanup;
-
-[Severity: Medium]
-Dropping the has_ctrl guard makes every non-control PF issue two
-synchronous mailbox RPCs from inside its own probe():
-
-nbl_probe() -> nbl_core_init() -> nbl_dev_init() ->
-nbl_dev_setup_common_dev() -> nbl_disp_chan_get_vsi_id_req() ->
-nbl_chan_send_msg(dstid = common->mgt_pf = 0)
-
-and the transport error propagates straight out:
-
-	ret = chan_ops->send_msg(disp_mgt->chan_ops_tbl->priv, &chan_send);
-	if (ret < 0)
-		return ret;
-
-What happens if function 0 is not bound yet?  The mailbox QINFO entries used
-to route a non-control PF's traffic are programmed only by the control PF:
-
-nbl_chan_cfg_qinfo_map_table() {
-	hw_ops->get_host_pf_mask(p, &pf_mask);
-	for (func_id = 0; func_id < NBL_MAX_PF; func_id++)
-		if (!(pf_mask & (1 << func_id)))
-			hw_ops->cfg_mailbox_qinfo(p, func_id, bus, devid, func_id);
-}
-
-and that is only reached from nbl_dev_setup_ctrl_dev().  So before PF0's
-probe has run, does the non-control PF get -ETIMEDOUT here and fail probe
-permanently, with no -EPROBE_DEFER and no retry?
-
-This is reachable without special hardware, for example unbinding PF0 and
-then binding another PF, PF0 probe failing for an unrelated reason, or
-async_probe making PF1 race ahead of PF0.
-
-The commit message says:
-
-    The control PF's responder is reachable once its own probe has
-    completed and the mailbox queue is operational.
-
-Should the identity fetch be deferred to a later point such as
-nbl_dev_start() or ndo_open(), or should probe return -EPROBE_DEFER when
-the manager PF has not answered?  This cross-PF probe dependency also looks
-unrelated to the patch subject.
-
->  
->  	dev_mgt->common_dev = common_dev;
->  	nbl_dev_init_msix_cnt(dev_mgt);
-> @@ -231,3 +434,96 @@ void nbl_dev_remove(struct nbl_adapter *adapter)
->  		nbl_dev_remove_ctrl_dev(adapter);
->  	nbl_dev_remove_common_dev(adapter);
->  }
-> +
-> +/* ----------  Dev start process  ---------- */
-> +int nbl_dev_start(struct nbl_adapter *adapter)
-> +{
-> +	struct nbl_dev_mgt *dev_mgt = adapter->core.dev_mgt;
-> +	struct nbl_dev_common *common_dev = dev_mgt->common_dev;
-> +	int cleanup_ret;
-> +	int ret;
-> +
-> +	ret = nbl_dev_cfg_msix_map(dev_mgt);
-> +	if (ret)
-> +		goto err_cancel_work;
-
-[Severity: Medium]
-Does skipping nbl_dev_destroy_msix_map() on this branch leak resources on
-the manager PF?
-
-On a non-control PF, cfg_msix_map is an ack-requesting RPC
-(nbl_disp_chan_cfg_msix_map_req()), and `if (ret < 0) return ret;` cannot
-tell "remote never configured" from "remote configured but the ack was lost
-or timed out".  On the responder side the commit point has no rollback:
-
-nbl_res_intr_cfg_msix_map() {
-	intr_mgt->func_intr_res[func_id].interrupts = tmp_interrupts;
-	...
-	hw_ops->cfg_msix_map(res_mgt->hw_ops_tbl->priv, func_id,
-			     true, official_tbl->dma, common->hw_bus,
-			     common->devid, common->function);
-}
-
-so the coherent MSI-X map table, the interrupts[] array, the global vector
-IDs taken from intr_net_bmap/intr_other_bmap and an armed FUNCTION_MSIX_MAP
-entry all stay committed for the requesting function.
-
-The requester never sends NBL_CHAN_MSG_DESTROY_MSIX_MAP afterwards, since
-nbl_probe() only runs nbl_core_remove() when nbl_core_start() fails:
-
-	core_start_err:
-		nbl_core_remove(adapter);
-
-Calling nbl_dev_destroy_msix_map() on this path looks harmless, as
-__nbl_res_intr_destroy_msix_map() returns 0 immediately when interrupts is
-NULL.  Would jumping to err_destroy_map here be more consistent with the
-commit message claim that "a failure at any stage leaves the device and
-kernel in a consistent state"?
-
-> +
-> +	ret = nbl_dev_init_interrupt_scheme(dev_mgt);
-> +	if (ret)
-> +		goto err_destroy_map;
-> +
-> +	ret = nbl_dev_request_mailbox_irq(dev_mgt);
-> +	if (ret)
-> +		goto err_destroy_map;
-> +
-> +	ret = nbl_dev_enable_mailbox_irq(dev_mgt);
-> +	if (ret)
-> +		goto err_disable_irq;
-> +
-> +	return 0;
-> +
-> +err_disable_irq:
-> +	cleanup_ret = nbl_dev_disable_mailbox_irq(dev_mgt);
-> +	if (cleanup_ret)
-> +		dev_err(dev_mgt->common->dev,
-> +			"rollback: disable mailbox IRQ failed: %d\n",
-> +			cleanup_ret);
-> +	nbl_dev_free_mailbox_irq(dev_mgt);
-> +err_destroy_map:
-> +	/*
-> +	 * Destroy device-side MSI-X map BEFORE releasing kernel-side
-> +	 * vectors.  This masks all hardware vectors and clears the
-> +	 * pcompleter map entry, so no MSI-X message can fire after
-> +	 * pci_free_irq_vectors() releases the vectors.
-> +	 *
-> +	 * For non-control PFs this is a polling-mode mailbox RPC
-> +	 * (IRQ_RDY already cleared by disable above, or never set).
-> +	 * If the RPC fails the device may remain armed; pci_clear_master()
-> +	 * in nbl_remove() is the final safety net.
-> +	 */
-
-[Severity: Low]
-Is nbl_remove() actually reached on this path?  A nbl_dev_start() failure
-propagates through nbl_core_start() into nbl_probe(), which does
-`goto core_start_err` and falls through to the adapter_init_err label:
-
-	core_start_err:
-		nbl_core_remove(adapter);
-	adapter_init_err:
-		pci_clear_master(pdev);
-		return err;
-
-The PCI core does not call .remove after a failed probe, so the safety net
-described here appears to live in nbl_probe()'s error label rather than in
-nbl_remove().  Could the comment name the label that really runs?
-
-> +	cleanup_ret = nbl_dev_destroy_msix_map(dev_mgt);
-> +	if (cleanup_ret)
-> +		dev_err(dev_mgt->common->dev,
-> +			"rollback: destroy MSI-X map failed: %d\n",
-> +			cleanup_ret);
-> +	nbl_dev_clear_interrupt_scheme(dev_mgt);
-> +err_cancel_work:
-> +	/*
-> +	 * destroy_msix_map() polling send may requeue clean_mbx_task.
-> +	 * Drain before returning on all rollback paths.
-> +	 */
-> +	cancel_work_sync(&common_dev->clean_mbx_task);
-> +	return ret;
-> +}
-> +
-> +void nbl_dev_stop(struct nbl_adapter *adapter)
-> +{
-> +	struct nbl_dev_mgt *dev_mgt = adapter->core.dev_mgt;
-> +	struct nbl_dev_common *common_dev = dev_mgt->common_dev;
-> +	int ret;
-> +
-> +	ret = nbl_dev_disable_mailbox_irq(dev_mgt);
-> +	if (ret)
-> +		dev_err(dev_mgt->common->dev,
-> +			"Failed to disable mailbox IRQ: %d\n", ret);
-> +	nbl_dev_free_mailbox_irq(dev_mgt);
-> +
-> +	/*
-> +	 * Destroy hardware MSI-X map BEFORE releasing kernel-side
-> +	 * vectors.  Masks all device vectors and clears pcompleter
-> +	 * map entry first; pci_free_irq_vectors() then runs with no
-> +	 * possibility of a stale MSI-X message arriving.
-> +	 */
-> +	ret = nbl_dev_destroy_msix_map(dev_mgt);
-> +	if (ret)
-> +		dev_err(dev_mgt->common->dev,
-> +			"Failed to destroy MSI-X map: %d\n", ret);
-> +
-> +	nbl_dev_clear_interrupt_scheme(dev_mgt);
-
-[Severity: Medium]
-Does the code above match the comment when nbl_dev_destroy_msix_map()
-fails?  The failure is only logged and pci_free_irq_vectors() runs anyway,
-so the device-side pcompleter map entry stays valid and the vectors stay
-armed while the host side releases them.  The same applies to the
-err_destroy_map path in nbl_dev_start().
-
-On a non-control PF that RPC can return -ETIMEDOUT, -EREMOTEIO or -EPERM
-whenever the manager PF cannot answer (PF0 unbound first, lost ack,
-responder error).
-
-The fallback named in both the comment and the changelog also looks like it
-runs too late.  In nbl_remove():
-
-	nbl_core_stop(adapter);
-	nbl_core_remove(adapter);
-
-	pci_clear_master(pdev);
-
-pci_clear_master() only executes after the vectors are already freed.  And
-nbl_res_intr_cfg_msix_map() tags the map-table DMA with the control PF's
-BDF:
-
-	/*
-	 * cfg_msix_map uses the control PF's own BDF (common->hw_bus etc.),
-	 * not the target function's BDF. ...
-	 */
-	hw_ops->cfg_msix_map(..., true, official_tbl->dma, common->hw_bus, common->devid, common->function);
-
-so can clearing bus mastering on the departing non-control PF quiesce that
-DMA at all?  Should the teardown either retry or keep the vectors until the
-device-side map is confirmed destroyed, and should the comment and the
-changelog sentence "pci_clear_master() in nbl_remove() provides the final
-safety net if a teardown RPC to the manager PF cannot complete" be adjusted?
-
-> +
-> +	/*
-> +	 * destroy_msix_map() sends ack-requested messages which may
-> +	 * requeue clean_mbx_task via polling send path.  Drain work
-> +	 * after the operation.
-> +	 */
-> +	cancel_work_sync(&common_dev->clean_mbx_task);
-> +}
-
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
-> index 9896c1b49be2b..02cb35d32012f 100644
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
-
-[ ... ]
-
-> @@ -127,7 +137,13 @@ static int nbl_probe(struct pci_dev *pdev,
->  		goto adapter_init_err;
->  	}
->  	pci_set_drvdata(pdev, adapter);
-> +	err = nbl_core_start(adapter);
-> +	if (err)
-> +		goto core_start_err;
-> +
->  	return 0;
-> +core_start_err:
-> +	nbl_core_remove(adapter);
->  adapter_init_err:
->  	pci_clear_master(pdev);
->  	return err;
-
-[ ... ]
-
-Thanks for considering these.
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260907123848.30256-1-illusion.wang%40nebula-matrix.com
+References: <20260908152808.3928630-1-arnd@kernel.org> <20260908152808.3928630-4-arnd@kernel.org>
+In-Reply-To: <20260908152808.3928630-4-arnd@kernel.org>
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Date: Thu, 10 Sep 2026 20:44:34 -0700
+X-Gm-Features: AcwNN1V1fOC0jmd_i5r-nVHD_ZWN_P0KCiZNA7MUoO0nuGcjQ9okMtkGALkOIWk
+Message-ID: <CADkSEUjYhRk-ezaXZkHzFTFQnySFSisKtZfEP-_NtLnQF+6-1Q@mail.gmail.com>
+Subject: Re: [PATCH 03/13] ARM: remove riscpc
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Linus Walleij <linusw@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+	Drew Fustini <fustini@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Sudeep Holla <sudeep.holla@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Stefan Agner <stefan@agner.ch>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
+	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
+	Tony Lindgren <tony@atomide.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrew Lunn <andrew@lunn.ch>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	Gregory Clement <gregory.clement@bootlin.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
+	Kristoffer Ericson <kristoffer.ericson@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Alexander Sverdlin <alexander.sverdlin@siemens.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Karl Mehltretter <kmehltretter@gmail.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
+	Ian Molton <spyro@f2s.com>, Jens Axboe <axboe@kernel.dk>, Helge Deller <deller@gmx.de>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, "Paul E. McKenney" <paulmck@kernel.org>, linux-block@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi, everyone,
+
+On Tue, Sep 8, 2026 at 8:29=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wrot=
+e:
+> The main limitation here is the CPU bus that does not allow 16-bit
+> wide data transfers and hence requires the kernel to be built with the
+> -march=3Darmv3 compiler option that was discontinued in gcc-9.
+>
+> As gcc-8 is barely supported for compiling the kernel, this one
+> will not see another LTS kernel release, so remove it now.
+
+Because I think it's cool that the kernel still supports actual Acorn
+hardware, I patched gcc 16.2 to restore ARMv3m support:
+https://github.com/EthanNelson-Moore/gcc-arm-retro
+
+This ended up being surprisingly straightforward - only a couple
+hundred lines changed - and it would be even fewer lines had I not
+reverted a commit that adds a use of ldrh instead of fixing it.
+
+It is able to compile a kernel successfully (once you update the GCC
+version check to check for -march=3Darmv3m support instead - I can send
+my patch). I haven't tested it, but I am fairly confident that it
+would run, because the assembler will reject code the compiler
+generates with unsupported instructions - this is how I found the
+commit I needed to revert.
+
+I am working on a clocksource driver, which uses both timers (to
+hopefully fix the awful time drift), and removes the dependency on
+LEGACY_TIMER_TICK.
+
+I also have patches for several cleanups to Risc PC-related code.
+
+I am aware that this has no actual use case, but it was fun. No LLM
+was used for any part of the work.
+
+Ethan
