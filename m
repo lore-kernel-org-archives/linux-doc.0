@@ -1,99 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93D53C10A0;
-	Fri, 11 Sep 2026 11:28:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DC03C4176;
+	Fri, 11 Sep 2026 11:32:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789126153; cv=none; b=EwYrbwGMbCTigbYckgYyO4OW2KXdqZ+K3pJZjxIiBPUgDJt7MVnkB5w1V6pbR7iO1E4OdyDtXcO9xCgzjEUQhaM2ISPEnXMnJqOL24M+WAxrulFE9SvhKRWqKR2koEi9wVYxGeP/fOkNjvwDnDUKXFWhXvOUN4IwAWJXzhGO1tA=
+	t=1789126354; cv=none; b=jjC8G8GrQJHy/e0tsiGGN88lTiEmi33EYaTwY2fhEXjIG7u1HrIVgsXG3hl43LBY36j2AoAHmvRoHWyu8/hlcC786ykRd3bQRXUwUf15wwOQFnnWHSSFaLuL57JN2R8P61/3pl9DmUr1RUT+5Mz7Qe7WhUdQDZv8TnJqm+wU6+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789126153; c=relaxed/simple;
-	bh=XMxz3xWwdRk7Fg5cORCddjoeCBzF69+zQWbsu3cN3+Q=;
+	s=arc-20240116; t=1789126354; c=relaxed/simple;
+	bh=mcwyVbWOJ/TfKmQoQX0l+SJ37BAG5DpRv7tbIYppDXI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N9kham9cd21ryJ0Z5kbp27mzinT0xRW93AScn1EDUX0V2BDLD3PZkVoXwenRKMYtDVetBwBqjPQ8kmA1lcqExuorLy2Gj8jnuU6UGq730M+IKMjW/zk0WescWo9IkTnfoj7J/NOVr3Z+OvLG3QzNqxCX5PB94aYz2fh9XyG1UTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XcaafniE; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=HYV3WwEmAo3S2CadhuuSR6U+4bRiFC0OnbXigGBQcESWAwKWwvMTIoZTcgpNcHbj8m2q/Y+ZSIdm07fi+YTXDVH1DY8DwyMKWmdZ18SUnSjkSqS3/P5I8u/3nWW8cnIERTTgXOXGk+7VvQ+jdHZaQq72D5Df0lcChzS+BK1v8FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ngM6IP5I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XcaafniE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41AB41F00893;
-	Fri, 11 Sep 2026 11:28:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ngM6IP5I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DC751F000FF;
+	Fri, 11 Sep 2026 11:32:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789126128;
-	bh=TdwEh7wUoEZtB1Tewr8qRCnFQlC7xBSTZiMIf5U/rjY=;
+	s=k20260515; t=1789126336;
+	bh=mcwyVbWOJ/TfKmQoQX0l+SJ37BAG5DpRv7tbIYppDXI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XcaafniETDZ2wSKshYLr6RtM3Sy36Vvk9x/PRAb7U5Vsd5tHji8Y5MUvTIcmc6tXq
-	 43fsW07NSMowcy2CrrI6dSrbNTz4TevR+A9k/LA5KmAmkrf8lxCwnKmxc/M+aNiWS4
-	 2OxL8+5hczzpmlY07cIZ9csCmNw9hGd934G1GxWVY6Uc9NpWxYoM+y27Ufsh8MqTkS
-	 YHWkS9RKL7qg1Hfhlo3MZPpecwBlKy6O8hFerGRfFlGex5bH9O0EzMCuoBG5z+YTez
-	 JT7aoNeua+A+sFXxwhF2OKCeUdt2ixwEaGX96dYDlPPBkDkLgL9XEGI3L09PlHhW5Z
-	 2hH322CB8yvTA==
-Date: Fri, 11 Sep 2026 12:28:34 +0100
+	b=ngM6IP5Ips1PcyuAaKQbkTNILTCi2yDow4kz88XMamK6hQFrzuA/ESPzyS15dRNbw
+	 FdmWJsmFkS9jr6N08h2gs/F3PaZPuZy17cbKN9gZCCvBPtGmHPOR5WqHGMbM1iAcUZ
+	 NQ4r3k53OB3+Q+fPnQK9UrYKubf3EN+9cILPUQ7k9qlBmQ/s64uSpA/sp/ohSiVFPZ
+	 wdrRH6e0np+Db0X33f+GJ39tvmT/ogqM8iLLHiV4P509K2Qdx6kxH1uMTifIVjkvs5
+	 p1e3ZDZ+YAuHokDI60IrEgub3Letiv6f3QEpSVAuPRbmp6ESv9FuSTlyEydhvTspWD
+	 jhxYV0ocEITcw==
+Date: Fri, 11 Sep 2026 12:32:09 +0100
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH 00/23] kbuild: significantly speed up kernel builds
-Message-ID: <aqPlUt6aIvof2LcM@gremlin>
-References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
- <a4167b18-f1ea-48bb-9287-210bdd4f35eb@broadcom.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: "zhen.ni" <zhen.ni@easystack.cn>, Zi Yan <ziy@nvidia.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R . Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
+ filtering
+Message-ID: <aqPmlw8WYW9HSzIV@gremlin>
+References: <20260907082620.2083838-1-zhen.ni@easystack.cn>
+ <79548641-25f3-4ec3-a549-782fad168962@kernel.org>
+ <6e8bfb0d-d595-4e6b-9536-0323ada57e25@easystack.cn>
+ <b8e23456-00af-4097-a769-210a087d2b90@kernel.org>
+ <22D1EC4B-FBCB-421E-B8DA-345B5F3505FB@nvidia.com>
+ <d8d34e16-57fa-48b7-93a9-afbf4b950ce6@easystack.cn>
+ <98ca914b-4722-448d-b5a4-7f095d0ca433@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <a4167b18-f1ea-48bb-9287-210bdd4f35eb@broadcom.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <98ca914b-4722-448d-b5a4-7f095d0ca433@kernel.org>
 
-On Wed, Sep 09, 2026 at 02:58:59PM -0700, Florian Fainelli wrote:
-> On 9/8/26 13:55, Lorenzo Stoakes (ARM) wrote:
-> > A typical kernel build consists of a frustratingly large amount of time
-> > spent stuck in single-threaded bottlenecks.
+On Fri, Sep 11, 2026 at 01:06:46PM +0200, David Hildenbrand (Arm) wrote:
+> On 9/11/26 09:58, zhen.ni wrote:
 > >
-> > It turns out that there's a lot we can do about this and doing so
-> > significantly impacts kernel build times.
 > >
-> > This series makes allmodconfig builds up to 36% faster, incremental builds
-> > up to ~70% faster, and noop builds up to ~90% faster.
+> > 在 2026/9/9 23:54, Zi Yan 写道:
+> >> On 9 Sep 2026, at 6:28, David Hildenbrand (Arm) wrote:
+> >>
+> >>>
+> >>> Because it results in less kernel code  :)
+> >>>
+> >>> And less kernel code is good. Unless unavoidable.
+> >>
+> >> An alternative is to add BPF hooks like bpf_iter to do the filtering
+> >> and by default, when no BPF program is attached, everything is printed.
+> >>
+> >>
 > >
-> > Builds are faster across the board on every device I tested.
-> >
-> > Machines used for perf testing:
-> >
-> > * Threadripper -   x86, AMD Threadripper 9980X, 64 cores, 128 threads
-> > * EPYC         -   x86, 2 socket EPYC 9754, 256 cores, 512 threads
-> > * M2           - arm64, 2022 M2 macbook pro, 8 cores, 8 threads
-> >                          (4 perf, 4 efficiency)
+> > I’ve also thought about a similar approach—perhaps a new bpf_iter type
+> > that could iterate over all pages by PFN. The advantage would be that
+> > you can fully customize what you want to print and what you want to
+> > filter. However, doing so would require refactoring the entire
+> > page_owner, and I’m not sure whether it’s worth pursuing in this
+> > direction.I’d also like to hear everyone’s thoughts on this.
 >
-> My AMD EPYC 9454P server shows an improvement in the order of 13% using the
-> arm64's defconfig and make -j97. Thanks for doing this!
+> Certainly better than having more and more manual filters added to the code base.
 
-Nice thanks! Good to confirm others are seeing the benefits :)
+Agreed.
 
+bpf seems the ideal fit here I think?
+
+Means that those who want this information can get it and those who don't are
+unaffected.
+
+>
 > --
-> Florian
+> Cheers,
 >
+> David
 
 --
 Cheers, Lorenzo
