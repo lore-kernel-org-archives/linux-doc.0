@@ -1,163 +1,494 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305E63CF211
-	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 11:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF9A3CF95A
+	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 12:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789127860; cv=none; b=gpwLKo+qe03xJDvIzdVS8NQgLBJz4kyDIWJvRU+o9/uZ6Y36T3CIqeeo61x1E4l9G/ZG6GcyTNjirj5IZK9gSnOOBFz2LE+q5HQvwa0ifXopgZDICe9hYXrqfPwqKHwXOE4l46IelOGyraajtdNDyyf0Mb8hT5r979VUeSdnXvw=
+	t=1789128935; cv=none; b=A/nQtD1q/MX06CrmTVIj8brlRnEMwQH8QXs+4PRxOqCehrJt6wA89I38sveBsmZOUAjI0I/33l1gz+HgqfhH+bnlZUgHQzKK5mA5+kvV/H+Laf+fJ3LOqyw8fo2IhMuNLJNZfJarJXoZ4D+idFpzK6VAupI/e/ynrdsXHJd1ZRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789127860; c=relaxed/simple;
-	bh=1lRC8ZGjaJk1CFMMkFB+zwt0ch81ggJd9O2XFlK/4VY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V3T6JyUhl1123WWWhhVSYVIwWzUYvDjbEoVoeRqzPjFQLHcnRRePqixi9nqaIH3SW73NNH6+MlBbd/hpcUPlh/suTX8jUTWGJVdLgBg0zeN/jAsMyIZ0wwCzD7gjvtSG9A2fzX0TF64TanTymD+kQbmvxmSWry00YYQd2S3GObA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=cUBzSOOU; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1789128935; c=relaxed/simple;
+	bh=XJ9obYSWtY4qthMuIzrbSVIGHV8ERc0eSptJiFIpbKo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uanQgO5lwj/5elYthazJUorScFCH7ePCkDrbVGvYFZcpo4GQkyHCpPUj/OLoxj59v43a1qfZ2aFbppjtxP5vWXRUBllK6tY7jjAlsloLPzJBlqRKvKir0GZ97ZXs/TORr06CDlckLEHJvXpANU1qMfWpVaj3IbpqIg9U8wvisTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=b6zkASsm; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="cUBzSOOU"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49e6697179cso1539125e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 04:57:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="b6zkASsm"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d8fb334ddcso7057665ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 05:15:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1789127856; x=1789732656; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=bytedance.com; s=google; t=1789128933; x=1789733733; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=wr7n2cO3L1gr9+vq7aPZsfQwfFiNJgEahYqoxuJotBY=;
-        b=cUBzSOOUwzzqxDC+vpZBsvPZyne0rSo5Iv2fNaVmgBjouOyMtE6UfB8G9bsZefMktB
-         dKs9pIMO+8B2F/GdHaOaMo+0h27j493jL7A9DkGlrh+J4/dzg7ykHEZC3tk9SY/s+s/I
-         PU7xVdgEwQl+Eub1RVsJ6h7b40tYHFZ348G5S6M87Y7vJtLwcIIMWc0xJPEnLSZqE5iA
-         pdnpef71I1Yn3dDf8LEQJ62R/6BKeuzVwbDmgxAlkDnt6eF0//hs6KPBH1FRNCgaNXRc
-         pHzjD/fabk+Jsz7S5C+O491YMjAc9M6HMloUkXdPBUWgTiodBv+UX9UObFCTEW7lv2vt
-         nkXQ==
+        bh=HtKZQct/qW4J5I+VejgYdZtvYsRIM1Drv1Z+7+Cq5s8=;
+        b=b6zkASsm1xdPyXO6AQcyGj2ywQ9HKib9At15Bx1cjbX7TN54adMWQ6VhcgqUxM9Y4Y
+         1mKZz11WAkSIwFnlQyDDxTABF/uaU7idf2lLYHq2cfSUE0Cy0yvd4Q7dpIOuMuhVoGTc
+         eYM44xt2HY0B5PYep3KW3/DVr35HrHkpQPwYmBaBAgXl0ubowo67XRX+K4fto2e1PaNG
+         UL8YWfnLClw3WY5Rx9yMIx+IFxdGVx9zlTuX3foTJYxH4Tq8iLpaN7GgfnBvXQhbfhlu
+         VhZbKb1Jwrmj3yHytwc62SvMpEZwOtq1rbaKGPEYejtZvIXMtyzrsgGbWJsODEoXY9mS
+         6u+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789127856; x=1789732656;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wr7n2cO3L1gr9+vq7aPZsfQwfFiNJgEahYqoxuJotBY=;
-        b=spYTzUB5qUTk12AJoo56B3S6LCPEfKugDxRuv7DrsXSvsT+KRtqaExWjlELXY/i+L/
-         UbcTgwSwl3UVh4PjIpa8h6xQhZxYuEm0izslPg6EoK5FGvrnrdRTE5yhaXar17VYG5gh
-         6UYhnMs86c8UukXnYcJdop1/1B0MrNW9TpA17t7gsQQTB2NgdyXLf8QOUzT1zjUzGjD4
-         J3GrQ6U/NrmAJWoabjb8OQqnhFLwv61IN6mwNbnyXwLOurcuUjIOWtnsxHHqkrJociSw
-         Lowyl8jGJ/3JRdVY6LvYmuWYkabeIdkY8yqWkSIUDzPmVpunHwc1wXWkgk3NqydhBYyl
-         eJ+A==
-X-Forwarded-Encrypted: i=1; AKwUvBwS+39+dRtNk7cnj0TA6BO/bJ0/l432HguE1CtXKIYsdKDNbKjMAqjtRbc+WSLirx3B3XwuCid+u9U=@vger.kernel.org
-X-Gm-Message-State: AFuF++kcNANUIOcfrAyOiQuFajf7FIKyDFGO1Ca5cbH5m8fBolKj8s90
-	ksf371BUavC/1AZmNWfY2h62z+IwAbV4Gmt9OhfQJodKy+NfXMG4J+te47mykeJjVic=
-X-Gm-Gg: AYBFou3ACOp+FoPugnClB1EaRuAz2uComkOlYO6TGD0q7sDKGe+W41DOI+2phARa+3l
-	+2nRhORU1BS9G9HfpDO7pOKcCToguP2w+w0/C/kLkjuYMcft74bGEbBKs+bABevlxtWBmcXHlYN
-	yvnRo44WIo9BSjCL1NL+hbpJAXMCYZWrZMtDEdSvF+lsnqtoLeTZ3qfrSnmGo+AGU7SdpacSvV2
-	krP/1WBDnnxWSxMnQ+AyqsqkUUpCDiGCEWLX9eqHACAEfl7GepH9NyCPydNHSghd6EMwsidRTWa
-	gXRD6/gjHce4F9C2bQ8nT5y4y+bcwnjXRiTI+BDywVgOFR/gPLQUjz/oGEBIiw67J1avqGkcRKn
-	xKyvNftMyE05Ryrf95guYJV/gEo/GEjX4/7C34an6ysTRoROgo+xN++5nyRLkk7LeusVaEcZPNA
-	EGujvMkjiqu5sayHjuSzFwJafI4+460hhhua0OMs+0RiuyP7Oetx7I7qgdq8WlMHOSRj5FptL64
-	Vnrd9ZSu4hquc+ZmTPT7Ihi3OZP8Z3X7BoP
-X-Received: by 2002:a05:600d:8496:20b0:499:8aff:59b6 with SMTP id 5b1f17b1804b1-49e6199234amr30006585e9.14.1789127856324;
-        Fri, 11 Sep 2026 04:57:36 -0700 (PDT)
-Received: from ?IPV6:2a07:de40:8100:0:89a9:fd0e:583d:4a53? ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c300e2sm164777985e9.8.2026.09.11.04.57.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2026 04:57:35 -0700 (PDT)
-Message-ID: <f24ddba6-b7fa-434a-8a2c-9f04af6969e6@suse.com>
-Date: Fri, 11 Sep 2026 13:57:34 +0200
+        d=1e100.net; s=20251104; t=1789128933; x=1789733733;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HtKZQct/qW4J5I+VejgYdZtvYsRIM1Drv1Z+7+Cq5s8=;
+        b=kFd/l0cVEF4+ZwpUQkuBZ5SPMggvaoZlNnzg1mKLtrEhZdNXyH/jzMzeEE/r90uCXL
+         0eWO/2uU+OwBVxyaHWcJ686sXKdKpjWbp4K+8KtaB4E6N/5rrnK/kORlZCrd1jsbvo1N
+         eK+LECugtrnq/9WJnjSmDHW+saB377b333soG61UGsIS/6lFQvbODB3wVd8cE9AcKq7h
+         1BlmFeKNOYfqGAiyamyrYnpqV0DyzU7NZ288ro4pqw67wC8Gi9ayJnYGglXcqNkxRdJC
+         B2+kixpoDV/ZHeHeEpgFsFPbefgeqnWiGbkELFTJRrIuAgSRySCQ6BiVm3WkDHSAaCqz
+         lH1w==
+X-Forwarded-Encrypted: i=1; AKwUvBzJtwpklzur5qnLrODniV7GFm4NFDiVL1iipFCq9OSuzKqSLw5rr6HvZMuzHraO3TIw99I2fW5mueo=@vger.kernel.org
+X-Gm-Message-State: AFuF++l+F51sUnZm3UTQqDmUAZQICLz6z080jK8+94GYbq7QGS/WFGnU
+	CAvm7EZosPOJ7exc07E+JHj+VSf2FCMWCW7V3XM7SbA2pS/49D6qnNbJaDtTTye6P28=
+X-Gm-Gg: AYBFou0XUvV6d8DVqfx2gTN2BpJpbI8C5+npJ+fbCdIFz2aoAtQXJLlgW+6D5qzUvnH
+	PWztL21aZy8RAfx9AyymL9yf9p4Dz4BxP+lVxTv/QkesFsKES22xOqdbHAF1nxZiTjVW44szlLC
+	j/0Epxmz1fUy5lVqrDwlQ3xw+FXD2UIHJ7fVo3ztrXZ4w3xhEWBGHJRcFh7azTF9mh8CTQ7KOGv
+	RjpIK4+vSKtrWVf97hcCwEkMFHMlH2RkcyUxZms2LMGSeIxsrPmCL1U55P9NG1P5JpE6qC1MltI
+	N8Trr7i/znMnX/7JLLejpjmmYPcPNIXlt93jIdbsKLPdcWMrp7bvWQp8FELhnoGw7YAfMZaYPs2
+	eKrhS1yWzrIWOKXZWZDwvcWV7pUWpaUzzoM9jWTXCqGLMsZkqBfW5jiWb25gva9/91F50B36Z7R
+	UraqIr/m36cqu91XC7UQ2XuOGz3TtiOGPeRukVYfY5xNoVDz2TKIYnp3JnOt2JyRVM35PZutfFW
+	2ljt9aolKX7wJmyfIlBzGOZL6ekrgxEgxfK/qlmTb9FkFCNHRJE
+X-Received: by 2002:a17:90b:1d44:b0:38e:57a3:f218 with SMTP id 98e67ed59e1d1-39d9c234a8emr6774079a91.13.1789128931521;
+        Fri, 11 Sep 2026 05:15:31 -0700 (PDT)
+Received: from FJ7FR2JRQ3 ([2409:8a28:f48:3091:908c:b537:572a:4db0])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33baf0ea9a1sm3178278eec.8.2026.09.11.05.15.11
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 11 Sep 2026 05:15:30 -0700 (PDT)
+From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+To: Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>,
+	Conor Dooley <conor@kernel.org>,
+	Anup Patel <anup@brainfault.org>
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Yunhui Cui <cuiyunhui@bytedance.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Will Deacon <will@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Yuanzhu <yuanzhu@bytedance.com>,
+	Yicong Yang <yang.yicong@picoheart.com>,
+	Susheng Yang <yang.susheng@zte.com.cn>,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+Subject: [PATCH v10 0/9] riscv: add SBI Supervisor Software Events support
+Date: Fri, 11 Sep 2026 20:14:47 +0800
+Message-ID: <20260911121456.33223-1-zhangzhanpeng.jasper@bytedance.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/23] modpost: hash module source per-file, not per-byte
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Ard Biesheuvel <ardb@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
- <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
- <20260908-build-speedup-v1-13-5dc1ac01672d@kernel.org>
- <434a7a10-d83e-4402-be91-816bbbc15bb7@suse.com> <aqPYvKR_eRsFlEd-@gremlin>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <aqPYvKR_eRsFlEd-@gremlin>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/11/26 12:41 PM, Lorenzo Stoakes (ARM) wrote:
-> On Thu, Sep 10, 2026 at 02:52:50PM +0200, Petr Pavlu wrote:
->> On 9/8/26 10:55 PM, Lorenzo Stoakes (ARM) wrote:
->>> modpost spends a long time md4 hashing module source at a per-byte
->>> granularity.
->>>
->>> Fix this by doing this hashing per-file instead by accumulating a per-file
->>> buffer in parse_file().
->>>
->>> All 11,189 .mod.c files and Module.symvers were confirmed to be identical
->>> with this change applied.
->>>
->>> This is especially impactful for allmodconfig incremental builds (where
->>> CONFIG_MODULE_SRCVERSION_ALL is set).
->>>
->>> Whole build, 128-thread Threadripper 9980X, best of N runs:
->>>
->>>                                          before   after     delta
->>>                                          -------------------------------
->>>   x86 allmodconfig, touch mm/vma.c, gcc    40.6s    38.2s     -2.4s (-6%)
->>>   x86 allmodconfig, touch mm/vma.c, clang  36.2s    35.0s     -1.2s (-3%)
->>>
->>> Assisted-by: LLM
->>> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->>> ---
->>>  scripts/mod/sumversion.c | 56 +++++++++++++++++++++++++++++++++++++-----------
->>>  1 file changed, 44 insertions(+), 12 deletions(-)
->>
->> Support for the module srcversion is being removed in "module: remove
->> MODULE_VERSION() and srcversion" [1] and scripts/mod/sumversion.c should
->> be gone completely.
-> 
-> Hmm, that series doesn't remove the script though, is that planned as a follow up?
+RISC-V does not architecturally define a supervisor-mode non-maskable
+interrupt (NMI). An interrupt that arrives while Linux has cleared SIE stays
+pending and is not observed until interrupts are enabled again. That is
+correct for ordinary interrupt handling, but some kernel work needs an
+NMI-like notification that can run even inside an interrupt-disabled region:
+sampling a PMU overflow at the instruction that caused it, or taking a
+high-priority RAS report promptly, cannot wait for the next unmask boundary.
 
-My reply to that series [1] notes that it should also remove
-scripts/mod/sumversion.c. It should be done in the next version.
+The SBI Supervisor Software Events (SSE) extension [1] fills this gap. It lets
+Linux register handlers for events that the SBI implementation can deliver
+ahead of ordinary traps and interrupts, giving RISC-V the NMI-like supervisor
+notification mechanism it otherwise lacks.
 
-> 
-> I guess I can drop this patch from the series then :) Also patch 17 I think?
+SSE can carry several event sources: high-priority RAS reports, double traps,
+and PMU overflow, with room for further standard and platform events. This
+series focuses on PMU overflow, its first user. Delivering overflows through
+SSE lets perf sample the code that was actually running while interrupts were
+disabled, rather than the later point where execution reached an
+interrupt-unmask boundary.
 
-I agree. The module srcversion is no longer needed since build IDs are
-nowadays the standard mechanism for providing effectively the same
-functionality. While I'm not sure when the mentioned removal will land,
-reviewing and polishing this patch and patch 17 would IMO be wasteful at
-this point.
+This series implements the Linux side of that interface: the architecture
+entry machinery, a firmware driver that exposes SSE events to in-kernel
+clients, PMU overflow delivery, and regression tests. Per-hart local events
+and system-wide global events share one client API.
 
-[1] https://lore.kernel.org/linux-modules/4e321525-708c-4964-9937-d94ea27e8d85@suse.com/
+SSE delivery model
+==================
 
--- 
-Thanks,
-Petr
+Linux first registers a handler and an event stack with the SBI
+implementation, then enables the event. When an event source is signalled, the
+M-mode SBI implementation preempts Linux even in an interrupt-disabled region:
+it saves the interrupted supervisor state and constructs an S-mode context
+that enters the registered handler. Linux can now run its own handler, for
+example to take a perf sample or process a RAS report, then completes the
+event with another SBI call, allowing the interrupted context to resume.
+
+The typical hardware-triggered delivery flow is (software-injected events skip
+the hardware trigger):
+
+       <--------- Linux kernel ----------->  <-- Firmware --->  <- Hardware ->
+     interrupted context  SSE handler             OpenSBI          Hardware
+              |                 |                    |                 |
+[1] setup     |                 |-register & enable-->                 |
+              |                 |                    |                 |
+[2] trigger   |                 |                    <----trigger------|
+              |                 |                    |                 |
+[3] save      |                 |            +--------------+          |
+              |                 |            | context save |          |
+              |                 |            +--------------+          |
+              |                 |                    |                 |
+[4] inject    |                 |        +-----------------------+     |
+              |                 |        | handler context setup |     |
+              |                 |        +-----------------------+     |
+              |                 <---inject (mret) ---|                 |
+              |                 |                    |                 |
+[5] handle    |        +----------------+            |                 |
+              |        | event handling |            |                 |
+              |        +----------------+            |                 |
+              |                 |                    |                 |
+[6] complete  |                 |-----complete------->                 |
+              |                 |                    |                 |
+[7] restore   |                 |           +-----------------+        |
+              |                 |           | context restore |        |
+              |                 |           +-----------------+        |
+              |                 |                    |                 |
+[8] resume    <------------resume (mret) ------------|                 |
+              |                 |                    |                 |
+
+The context used to enter the handler exists only for this handoff; it is not
+the task context that the event interrupted. The architecture entry code joins
+the two sides: it moves execution onto the event's dedicated stack and shadow
+call stack, establishes the current task, and presents the interrupted
+registers to the callback as a normal pt_regs. Clients can therefore operate
+on the original interrupted context without depending on the firmware entry
+details.
+
+Linux implementation
+====================
+
+An SSE handler runs in NMI-like context: it must not sleep, must not take a
+page fault, and may interrupt code that holds arbitrary locks or is partway
+through kernel entry. The implementation is shaped by those constraints.
+
+Because it is NMI-like, an SSE can arrive at any point where interrupts are
+disabled, including while Linux is midway through exception entry, a task
+switch, or a KVM guest transition, where the normal kernel entry state is only
+partially established. The SSE entry wrapper (the architecture assembly that
+runs before the client callback) copes with this: it preserves Linux-owned
+stvec, hstatus, and task stack metadata across the handler and any nested
+exception, and its earliest instructions, which run before the event stack and
+current task are set up, are kept outside kprobe instrumentation.
+
+The callback receives the interrupted registers as a pt_regs and is allowed to
+edit them. On RISC-V a6 and a7 carry SBI call arguments and results, so a
+callback that wants to influence an in-flight SBI call the event interrupted
+edits them there. The entry wrapper copies just a6 and a7 from that pt_regs
+back into the context handed to the completion SBI call, so the edit takes
+effect when the interrupted code resumes; the rest of the interrupted state is
+restored by firmware and left untouched.
+
+The firmware driver maps the SBI event state machine onto kernel resource
+ownership. A callback, stack, and attribute buffer stay alive until firmware
+has removed every registration that can refer to them. Failed partial
+operations remain tracked for later cleanup, an aborted CPU-offline operation
+restores the requested event state, and shutdown and kexec mask SSE before
+Linux stops servicing handlers.
+
+PMU overflow and perf
+=====================
+
+The RISC-V SBI PMU driver delivers overflows through ordinary interrupts by
+default. When firmware implements SSE and the local PMU-overflow event, the
+driver routes overflows through SSE instead. The choice is made once at setup
+and is not switched at runtime; an operational failure disables sampling
+rather than risking two active routes for the same overflow.
+
+This changes where perf can observe an overflow, not how applications use
+perf. A normal PMU interrupt raised while S-mode interrupts are masked is
+handled only once they are enabled again, so the resulting sample often points
+at the unmask boundary rather than at the code that consumed the cycles. SSE
+can enter Linux at the original point and remove that source of sampling bias.
+No new perf option or perf.data format is introduced.
+
+The entry code supplies the interrupted pt_regs needed for register samples
+and for kernel and user callchains. DWARF callchains additionally require a
+copy of the interrupted user stack. Since an SSE handler cannot take a normal
+page fault, this series takes a temporary reference to the resident user pages
+with fast-only GUP, copies them through their kernel mappings, and truncates
+the sample at the first page that is not immediately available. The existing
+in-atomic copy remains unchanged outside SSE context.
+
+The PMU integration retains perf's throttling and stopped-event semantics. It
+restarts only runnable counters and orders the CPU power-management callbacks
+so that counters cannot resume after a hart has failed to restore its SSE
+delivery path.
+
+Hardware results
+================
+
+We measured this on a RISC-V server platform. The same kernel source
+and perf binary were used for both routes; one delivered PMU overflows through
+ordinary interrupts and the other through SSE. The table shows the mean of
+three runs of three million single-CPU "perf bench sched pipe" operations. The
+"ops/s" columns are workload throughput (higher is better, so they show the
+profiling overhead); the "samples/s" columns are the sampling rate perf
+actually achieved against the requested -F frequency:
+
+  rate       IRQ ops/s   SSE ops/s   delta   IRQ samples/s   SSE samples/s
+  -F 99        337,707     339,555   +0.55%            98.0            98.6
+  -F 999       338,352     338,289   -0.02%           995.7           998.0
+  -F 5000      329,002     333,034   +1.23%          5001.7          5001.6
+
+There were no lost samples. Across these normal frequency settings, both
+delivery modes reached the requested sample rate and workload throughput
+differed by no more than 1.23%.
+
+The "perf bench sched pipe" workload also shows why the delivery mechanism
+matters to the resulting profile. Ordinary PMU interrupts cannot enter an
+interrupt-disabled kernel critical section. Overflows raised there remain
+pending until interrupts are enabled again. Samples consequently accumulate
+at the enable boundary rather than at the code that consumed the cycles. In
+the IRQ profile, finish_task_switch() and _raw_spin_unlock_irqrestore()
+therefore accounted for 54.99% of all samples.
+
+SSE can enter Linux while S-mode interrupts are disabled. The PMU-SSE
+profile therefore samples inside those critical sections and exposes the
+scheduler, locking, address-space switching, and wake-up paths doing the
+actual work. The leading entries from the two -F 999 reports show the
+difference.
+
+With ordinary PMU interrupt delivery:
+
+  overhead   symbol
+    36.63%   finish_task_switch.isra.0
+    18.36%   _raw_spin_unlock_irqrestore
+     7.66%   __internal_syscall_cancel
+     7.55%   do_trap_ecall_u
+     4.19%   mutex_lock
+     3.64%   mutex_unlock
+     3.06%   exit_to_user_mode_loop
+
+With PMU-SSE delivery:
+
+  overhead   symbol
+     5.48%   __kprobes_text_end
+     5.29%   __schedule
+     5.10%   ret_from_exception
+     4.71%   do_raw_spin_lock
+     4.01%   do_trap_ecall_u
+     3.99%   mutex_lock
+     3.66%   switch_mm
+     3.43%   mutex_unlock
+     3.29%   exit_to_user_mode_loop
+     3.28%   psi_group_change
+
+The ordinary interrupt profile is dominated by two interrupt-enable
+boundaries. With SSE, those two entries account for only 3.37%. The samples
+are instead distributed across scheduler paths within the critical sections.
+
+At perf's configured limit of 100,000 samples per second, both routes still
+made progress without lost samples. In this deliberately saturated regime SSE
+reduced workload throughput by 2.7% to 5.8%, which exposes the additional
+firmware-entry cost and marks a practical upper boundary for sampling.
+Thirty-second perf top runs at the same rate each processed about 3.1 million
+samples with no loss, stalls, or kernel failures.
+
+The DWARF callchain path gets dedicated coverage because it was the source of
+the corruption this series fixes. On the same platform,
+"perf record -a -g --call-graph dwarf,512 -F 999" layered on a concurrent
+"hackbench -g25 -l600" -- the configuration that previously corrupted
+spinlocks and mutexes under SSE -- now completes cleanly, with no lost
+samples, lockups, RCU stalls, or faults, including a 431-iteration soak.
+Patch 9 adds a regression test that drives the non-faulting user-stack copy
+through the SSE handler with 32 concurrent samplers and checks perf's
+truncation semantics.
+
+Changes in v10
+==============
+
+V10 turns the earlier feature series into a path suitable for sustained perf
+use. In particular, it:
+
+  - reconstructs and publishes the interrupted context for perf register
+    samples and kernel and user callchains;
+  - preserves current, task stack metadata, stvec, hstatus, and shadow-call
+    stack state across synthetic entry and nested exceptions;
+  - prevents fault-disabled accesses from entering the generic RISC-V page
+    fault path and provides a non-faulting SSE user-stack copy;
+  - makes event lifetime and rollback explicit across partial firmware
+    operations, CPU hotplug, shutdown, crash, and kexec;
+  - closes PMU throttle, counter restart, CPU power-management, and cleanup
+    races without adding a runtime SSE-to-IRQ transition; and
+  - expands the framework stress coverage and adds a regression test for
+    high-frequency DWARF user-stack sampling.
+
+Changes in v9:
+  - Rebased the original series onto RISC-V for-next.
+  - Preserved Linux-owned trap, virtualization, and supervisor state across
+    the synthetic SSE handler.
+  - Added framework stress modes and updated MAINTAINERS.
+
+Previous versions:
+  v9:
+    https://lore.kernel.org/r/cover.1778331862.git.zhangzhanpeng.jasper@bytedance.com
+  v8:
+    https://lore.kernel.org/r/20251105082639.342973-1-cleger@rivosinc.com
+
+How to test
+===========
+
+Enable the SSE framework and SSE overflow delivery:
+
+  CONFIG_RISCV_SBI_SSE=y
+  CONFIG_RISCV_PMU_SBI=y
+  CONFIG_RISCV_PMU_SBI_SSE=y
+
+PMU-SSE also requires two OpenSBI fixes:
+
+  f30a54f3b3a0 ("lib: sbi: pmu: Remove MIP clearing from pmu_sse_enable()")
+    [2], included since OpenSBI v1.7,
+    which keeps an overflow pending while its SSE event is temporarily
+    disabled; and
+  35511bc6ee1c ("lib: sbi: sse: clear SPV for non-virtualized events") [3],
+    not yet included in a tagged release,
+    which stops a stale HSTATUS.SPV from being applied to a non-virtualized
+    event.
+
+Build tools/testing/selftests/riscv, then run:
+
+  for stress in 0 1 2; do
+          ./run_sse_test.sh stress=$stress || break
+  done
+  ./sse_perf_ustack
+
+Useful perf regression workloads include:
+
+  perf record -e cycles -a -- sleep 1
+  perf top
+  perf record -g -F 999 -- hackbench
+  perf record --call-graph dwarf,8192 -F 999 -- hackbench
+  perf record -a -C 3 -e cycles -F 999 -- \
+          taskset -c 3 perf bench sched pipe -l 3000000
+
+Limitations and follow-up work
+==============================
+
+This series does not yet deliver SSE events into a guest or unwind a guest
+stack; a later KVM-SSE series will let the host receive an event from firmware
+and inject the corresponding event into the guest.
+
+Hibernation and crash kernels are unsupported: the current SBI interface
+cannot reconstruct firmware registrations after an image is restored, and a
+crash kernel cannot take over the registrations left by the crashed kernel, so
+it leaves SSE masked.
+
+[1] https://docs.riscv.org/reference/sbi/ext-sse.html
+[2] https://github.com/riscv-software-src/opensbi/commit/f30a54f3b3a091c225a00476f4039bf399badd1f
+[3] https://github.com/riscv-software-src/opensbi/commit/35511bc6ee1c9c17b6a89b44c52e2044bb51b979
+
+Acknowledgements
+================
+
+The original five feature patches were developed by Clément Léger and
+Himanshu Chauhan. Thanks to Susheng Yang for reporting the perf callchain
+failure and for providing a workload that made it reproducible.
+
+Sorry for keeping you waiting. Since v9 I spent a good deal of time hardening
+the lifecycle and error paths and reproducing and analysing the bugs that only
+show up in the callchain path, until the series finally passed both functional
+and sustained stress testing on hardware. I am confident in v10, but, echoing
+Clément, SSE is a genuinely complex feature: it adds a new NMI-like entry path
+into the kernel to stand in for a hardware NMI. I would therefore welcome wider
+community testing and feedback, especially under high-frequency delivery and
+more complex handlers.
+
+---
+
+Clément Léger (5):
+  riscv: add SBI SSE extension definitions
+  riscv: add support for SBI Supervisor Software Events extension
+  drivers: firmware: add riscv SSE support
+  perf: RISC-V: add support for SSE event
+  selftests/riscv: add SSE test module
+
+Zhanpeng Zhang (4):
+  riscv: sse: mask events during shutdown and kexec
+  riscv: mm: avoid enabling interrupts for nofault page faults
+  perf: RISC-V: support callchains with SSE delivery
+  selftests/riscv: add perf user-stack SSE copy regression test
+
+ Documentation/arch/riscv/index.rst            |    1 +
+ Documentation/arch/riscv/pmu-sse.rst          |   55 +
+ MAINTAINERS                                   |   22 +
+ arch/riscv/include/asm/asm.h                  |   14 +-
+ arch/riscv/include/asm/perf_event.h           |   10 +
+ arch/riscv/include/asm/sbi.h                  |   63 +
+ arch/riscv/include/asm/scs.h                  |    7 +
+ arch/riscv/include/asm/sse.h                  |   82 ++
+ arch/riscv/include/asm/thread_info.h          |    1 +
+ arch/riscv/kernel/Makefile                    |    1 +
+ arch/riscv/kernel/asm-offsets.c               |   14 +
+ arch/riscv/kernel/entry.S                     |   14 +
+ arch/riscv/kernel/machine_kexec.c             |   11 +
+ arch/riscv/kernel/perf_callchain.c            |  142 +++
+ arch/riscv/kernel/reset.c                     |   18 +
+ arch/riscv/kernel/sbi_sse.c                   |  246 ++++
+ arch/riscv/kernel/sbi_sse_entry.S             |  226 +++
+ arch/riscv/kernel/smp.c                       |   17 +
+ arch/riscv/mm/fault.c                         |   11 +-
+ drivers/firmware/Kconfig                      |    1 +
+ drivers/firmware/Makefile                     |    1 +
+ drivers/firmware/riscv/Kconfig                |   18 +
+ drivers/firmware/riscv/Makefile               |    3 +
+ drivers/firmware/riscv/riscv_sbi_sse.c        | 1223 +++++++++++++++++
+ drivers/perf/Kconfig                          |   11 +
+ drivers/perf/riscv_pmu.c                      |   14 +-
+ drivers/perf/riscv_pmu_sbi.c                  |  544 ++++++--
+ include/linux/cpuhotplug.h                    |    1 +
+ include/linux/perf/riscv_pmu.h                |   20 +-
+ include/linux/riscv_sbi_sse.h                 |   95 ++
+ tools/testing/selftests/riscv/Makefile        |    2 +-
+ tools/testing/selftests/riscv/sse/Makefile    |   10 +
+ .../selftests/riscv/sse/module/Makefile       |   22 +
+ .../riscv/sse/module/riscv_sse_test.c         | 1154 ++++++++++++++++++
+ .../selftests/riscv/sse/run_sse_test.sh       |   59 +
+ .../selftests/riscv/sse/sse_perf_ustack.c     |  564 ++++++++
+ 36 files changed, 4596 insertions(+), 101 deletions(-)
+ create mode 100644 Documentation/arch/riscv/pmu-sse.rst
+ create mode 100644 arch/riscv/include/asm/sse.h
+ create mode 100644 arch/riscv/kernel/sbi_sse.c
+ create mode 100644 arch/riscv/kernel/sbi_sse_entry.S
+ create mode 100644 drivers/firmware/riscv/Kconfig
+ create mode 100644 drivers/firmware/riscv/Makefile
+ create mode 100644 drivers/firmware/riscv/riscv_sbi_sse.c
+ create mode 100644 include/linux/riscv_sbi_sse.h
+ create mode 100644 tools/testing/selftests/riscv/sse/Makefile
+ create mode 100644 tools/testing/selftests/riscv/sse/module/Makefile
+ create mode 100644 tools/testing/selftests/riscv/sse/module/riscv_sse_test.c
+ create mode 100644 tools/testing/selftests/riscv/sse/run_sse_test.sh
+ create mode 100644 tools/testing/selftests/riscv/sse/sse_perf_ustack.c
+
+base-commit: 77ae27fd98f3b548797c9f22c10ab5cf1c4ada53
+--
+2.50.1 (Apple Git-155)
