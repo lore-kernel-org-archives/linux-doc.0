@@ -1,189 +1,198 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.94])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C44D4AFE08;
-	Fri, 11 Sep 2026 18:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789150247; cv=none; b=EqjKMxjboHAEHGB9QK109mDr4946Lmh/jendB/0leT06/IZ8MlHebjNIJmUdGmPV99tKp6JxTh49tut6lTkoXiGNdD0OOxzRcYD4g8bZzzbKsLrR0V1uB0P696KnNF+CeQ9YuOM+aybzvsU/wGFq5lgI6rneR+MZ1LHUmcgebi8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789150247; c=relaxed/simple;
-	bh=HiXUwfB+4U/xUpyEGVb/EMeam4+iG8adYAIKsP37yh4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MI2i2LwTqrkWevB/DA7Ks+LCc4ZCnB3ApFg0Z8iUAmOIzYnt6pCKkdX4L+FQGqM74s1eQa4O8G8Wz8jfjsEcDoO1QoL7r0Fxb6y2b8UEn4alrkilKKspJTd8A9OmMA8ok5WK2iwZVqnEsuS5sSL4R3VMWmmugRPEss1E0bEHVUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=hR+36mzQ; arc=none smtp.client-ip=212.42.244.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6011498939
+	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 18:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789150495; cv=pass; b=qew9lj/rN1qDE3sOn3yCWuyW/I5Kbl+orPsdQqb72NriXAsFrmxIlePLZR4Wbe7G1wyAcnwEsrI6LyivagpbT6ElcrpapwBo5/ba1Sqk5cGtGwjtA9M0uFgke7/Y806zu6SKyHrePfHTbkX47GUu/CdvsEX/xz6IzM0F8JCFN68=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789150495; c=relaxed/simple;
+	bh=GBuxWMSsg4wZZ3OpOH0+odAqCmKuZujhQPqIzTdn0Yk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L0rPq7iwar/TGaS0w0d0+aHlwmOoWwzPjfvib/Pg6UmygZ0SeJhau/TKIO1Np0Z96iN8zoC2NR9nDPzvZtJF72cdsLG4102yqfR8APDtomjWG/9eddmJ+dbtJpq1c1XsKmYdI87QhLTarPCNdv4a/KmKEV6Iojbl50/tzdk4ioo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VX0N/ICf; arc=pass smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="hR+36mzQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
-	t=1789150227; bh=HiXUwfB+4U/xUpyEGVb/EMeam4+iG8adYAIKsP37yh4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hR+36mzQyixe5THHS68Z7oZZlRIG+Ih3UoLL1BWcc1NKiHu5yfuvvZ3PeA8HsaaZM
-	 wpqKNgAnhSoLeoOyyesVQrqn/GY9K8f5+aevV7RXvVGhSStcQ7VkeKrLQjj6x94QMP
-	 bj5Mk8xS1JwoSKDhzLKC2qy15uZyyr9WI9dQ55ZEMhAq4RZcgj5FgoVbR4DaqHSq5Z
-	 J6YPaTOtocigcccnEQy5vXqhN0RJJwBJEmkMfeokD07s3b8D6hERPE+UmNWFIbBIDQ
-	 CpF9zDCxgqafA2mNB0r6jjir20f3LIolX/B4doBNUVqwmyCG317UaapcsrukyZzjYq
-	 M4A5nOMB9H82Q==
-Received: from [212.42.244.78] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
-	(envelope-from <n.schier@fritz.com>)
-	id 6aa44413-6dc7-7f0000032729-7f000001d950-1
-	for <multiple-recipients>; Fri, 11 Sep 2026 20:10:27 +0200
-Received: from mail-auth.fritz.com (unknown [212.42.244.78])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Fri, 11 Sep 2026 20:10:27 +0200 (CEST)
-Date: Fri, 11 Sep 2026 20:10:26 +0200
-From: Nicolas Schier <n.schier@fritz.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH 12/23] kbuild: avoid re-running compiler and linker probes
-Message-ID: <20260911-mottled-gerbil-of-abracadabra-bacb17@l-nschier-aarch64>
-References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
- <20260908-build-speedup-v1-12-5dc1ac01672d@kernel.org>
- <178901395292.3971858.13236774094648272066.b4-review@b4>
- <20260910-translucent-sweet-sidewinder-7acacb@l-nschier-aarch64>
- <aqPXj1nDQ06KRhf4@gremlin>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VX0N/ICf"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c262204cc80so181327166b.3
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 11:14:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789150492; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ATxm1+ALEBPWWGBBFzePbl/+8In0GktcWvBslfKlJitJ8FW/S4omSFex5JYSH1A4k8
+         AaiP3ljWSnsDzM7YEay6LSjvVwSLVYkZrvZbAc4iAxsHq4f78CYJes104YP4cEQXdTJJ
+         oHiuAs3JEE+SpEebIMmnJB16PQjeZt9pUxeckTuzA2tyBOxTSdCq1zndIzaVWP0bvUMd
+         W2as7EQI3qJX0TlddRepJdevTU5v3/mZbZZccoqSJj3j7qmsT6TyrbPNcZ+YLc4X/ex7
+         1/QExH2QqqBDnv4Qryxs2rQUL35b8X2O/VK/WMWPydbHVp3iaKGSS1ai6uldv95nQuYM
+         vDuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=sgMffH9c4Ut5GzZRUzz1jul/MtsWXNFvANxlyz2Cqvc=;
+        fh=Q4paFLjhqmD+vNPqWQiFIHhWdswf3Jn4aaO7pAxQI4c=;
+        b=bgvr1LAxoDeOdZr//kzJ24AlowrQ7ehRSTsxSza5Ylnpu/h3ce+BwBa6ml5z8HE+Qb
+         D20Bs4sOZjGOygbCB3PgLJ6Z8xu4tqYpPC3xLzrlopcL8PADq6PRi1k3FWu11d8hWlRO
+         GqBnCO8MQgQG3/zSMFz61bus2Ke2rJ6ia7F25iek5tz7p7COJIH1zdGxxhY0sWpmqkKL
+         vzHTk276ZYkTTB5IMYyosIKSG8Fv//zON5K0kKvvChqp+pEc0EQ3OIIIlzj0TS7p6Kfe
+         T7PRhxLtowI0gjvwZ3bhnwtIE/c/U+Jn6vtTUrwaQWGWTIjlaAhMI7mUfNOcw093SIkZ
+         PRvA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789150492; x=1789755292; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=sgMffH9c4Ut5GzZRUzz1jul/MtsWXNFvANxlyz2Cqvc=;
+        b=VX0N/ICfu6nRhxaCAHv2F/9u4G0ce6Yvyyj9kYf6yKwcgmh4mGHhVrKRzUUGrUe82e
+         dBSCR9VM4bbbucXmQuVRNwen9qIBQbUC5lhp/BJhA6uozTYw3JJ6C3hY61Bc8V2N0oMH
+         OsenC7xrPsCNjt4k17SfnYGAnwLGIXuWASqa3KcopYNNdixArZx47YK8Wn6LzSXzvDJX
+         x1NsCnbmPvYJES2RR+9eDOEqUPc0DMcZd2UUzDR+6XBPvO+0zHxNEKNqw1xrCN+LHBha
+         tcZ3NcfQQ/VmrXX0AlN2GTuAzmN1CX+k2fKbafpWss5W//1XDE4S+Nyi3zOpUrriKaLu
+         wWKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789150492; x=1789755292;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sgMffH9c4Ut5GzZRUzz1jul/MtsWXNFvANxlyz2Cqvc=;
+        b=pNR6xpKZkVja3aVetlhQRUzcYjU3YV687a763KJw8yBySpIQd4RBjRYYehcHWcSIgt
+         WEI1ufCTw5i3JgJVssLK2WopJYXkyU2XBR0zV6zxKoaIHnAFgxyWJ4U9YR2IgXEE06qM
+         cR2Tn6JGBvsuY6nhHTPRPRWMvHw29KhgoS1PiglRLsOYEm1iU+2iIZWd7aXqAegNdFPr
+         cFdDNE6t5kuoYrB7pStSryRmu2jjTxdkuOm1Usd50B20Adk4HWIDg/us/AMXjRKNaMgu
+         pz1qSIP59fNNF1c5N6/VJWCQ/BmyclT/UanQCzujG3VSb/EITtZzDySWDJd3uUgiCpGA
+         q1+w==
+X-Forwarded-Encrypted: i=1; AKwUvBz6zfs4jGqSilfO0IwEob+aCwiAfBCCy/drey/PnegnfL1MmLbdnzqAff5T+xH02TD2wmDa6my4Lzs=@vger.kernel.org
+X-Gm-Message-State: AFuF++kkm2xqbPwXp4mu6NJnFjJyu2OxoIurLzF8ARsFWgFLqglI/RVV
+	YFvbleFczVsCaLeh/kVdvEezDKAX3C/hj4vlNP37SEaDEnnQPmkcNokBFyOaLsvJ6sszYoEQG7/
+	dDH9RuWVShs9BVXhjjoNTaaxMPMe14ek=
+X-Gm-Gg: AYBFou0MTomo+VFasWGYZiu7RFl13uTn8M1l33DxWrGGbz4EUIQZdrHG/uasksNZtOr
+	LGMm2qlbTpT95wAaDvFY72KInm9MX8c35Fbk0OaCaTyYyg5hlKbBts4bh5JqqBodQ+0vSiXm0ws
+	fOYW3w0IEB0oIN5b5eNgBSTMwJjtRWTafmi7uvhXfZD/bO15oGi0VtNri/q7W3XB95+PeGEgOtP
+	eBk2xwZHFW968bFG2JRM0NzkPctz5lP6aDa98sFsPL8JUxSyq+bD7HJguMKdwecCtIiM0LMgA0/
+	VEl7sr2Gmz8grFrHnj6bNAvZ/GfVMTjkSkpUOh0NO1ou/zjLcT6891NfEQ4VpAICVFDc3UmZPu1
+	AEw+Jxr2GfUuU
+X-Received: by 2002:a17:907:1c10:b0:c29:286e:2e3e with SMTP id
+ a640c23a62f3a-c29666d5f9dmr241723566b.38.1789150491872; Fri, 11 Sep 2026
+ 11:14:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="iQrCf81kTXDdOy/g"
-Content-Disposition: inline
-In-Reply-To: <aqPXj1nDQ06KRhf4@gremlin>
-Organization: FRITZ! Technology GmbH
-x-ms-reactions: disallow
-X-purgate-ID: 149429::1789150227-F94CE0BC-0719254D/0/0
-X-purgate-type: clean
-X-purgate-size: 3410
-X-Notice: Whitelisted
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
-X-pfmilter: host: postfix-mx-03  mail-id: B7F39A0438  external: no
-
-
---iQrCf81kTXDdOy/g
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <CAMgjq7AHRzBsbmGOx0s=TQFBwcn=DEU1naR443sO6x+pJd6hAg@mail.gmail.com>
+ <CAKEwX=O8i+OsP6BJXNZNk07hveN9HDT+PoyMTAU6gOc-xp0Ppg@mail.gmail.com>
+ <CAMgjq7BQeQQOZMDPFJ+8LS2N4t3x53r6Nm+9o0_pi92oVUgjgQ@mail.gmail.com> <CAKEwX=MS-7C96i4tzBijHN=-xuZgny_wQEa_0YjfHzhoNysdYQ@mail.gmail.com>
+In-Reply-To: <CAKEwX=MS-7C96i4tzBijHN=-xuZgny_wQEa_0YjfHzhoNysdYQ@mail.gmail.com>
+From: Kairui Song <ryncsn@gmail.com>
+Date: Sat, 12 Sep 2026 02:14:13 +0800
+X-Gm-Features: AcwNN1X_Mr5nGygMYASuHxKAbKSbuoEdUvrKDUVcI7Vk1_FQ39e_c44cG1FLDGc
+Message-ID: <CAMgjq7B7Mc7vpQN0gBknsSrfZWXdif5L7nU29YskG9mzS-_jsA@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Nhat Pham <nphamcs@gmail.com>, YoungJun Park <youngjun.park@lge.com>
+Cc: Chris Li <chrisl@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 11, 2026 at 11:30:12AM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Thu, Sep 10, 2026 at 05:42:35PM +0200, Nicolas Schier wrote:
-> > On Wed, Sep 09, 2026 at 09:19:12PM -0700, Nathan Chancellor wrote:
-> > > > diff --git a/init/Kconfig b/init/Kconfig
-> > > > index 8583d9f06c52..3c92c87254a3 100644
-> > > > --- a/init/Kconfig
-> > > > +++ b/init/Kconfig
-> > > > @@ -144,6 +144,44 @@ config CC_HAS_ASSUME
-> > > >  config CC_HAS_NO_PROFILE_FN_ATTR
-> > > >  	def_bool $(success,echo '__attribute__((no_profile_instrument_fun=
-ction)) int x();' | $(CC) -x c - -c -o /dev/null -Werror)
+On Sat, Sep 12, 2026 at 12:57=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
+e:
+>
+> On Fri, Sep 11, 2026 at 9:10=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wr=
+ote:
+> >
+> > A boot time bool will cause real trouble for us, at least. We have
+> > many VMs with fixed boot images and fixed cmdlines. However, the VM
+> > itself is used by different customers, some are ZRAM only users, and
+> > quite a lot don't want any kind of compression (e.g. their data is
+> > dense compression is just waste of CPU) and prefer plain swap. So I do
+> > hope we can have a runtime tunable instead of modifying the cmdline
+> > and rebooting or rebuilding the base image for different cases, and we
+> > have already seen that a runtime toggle isn't hard at all.
+>
+> Ah yeah I see. But before moving back to runtime parameter, do you
+> think we can come up with a heuristics for this that have does not
+> require userspace input? In v4, I'm doing this at folio_alloc_swap()
+> time:
+>
+> a. If the cgroup enables zswap, then always go vswap.
+>
+> b. If zswap is not available for the cgroup, then bypass vswap, and go
+> straight for physical swap entries. My intuition is that we are not
+> buying anything for these zram users, as we need a physical swap slot
+> anyway. Thanks to your design, both can co-exist in the system now -
+> that's something I actually did not envision possible in the original
+> version of vswap. Pretty cool eh :)
+
+Thanks for the test and idea! Yeah, I always hoped we could do this
+because there are some very promising use cases for raw and plain
+swap, not just ZRAM.
+
+> Would something like this fix it for you? ZRAM users will not get
+> vswap indirection overhead at all, because it would bypass vswap :)
+> Down the line we can revisit this decision - for e.g, if there is a
+> use case for vswap-on-top-of-swapfile. There might be other interface
+> that makes more sense.
+
+Hmm, this interface looks confusing though. you mean tangles vswap
+with zswap through the cgroup's zswap limit? I originally expected
+this to be a problem solved by tiering, skipping certain tiers seems
+much more intuitive. Maybe Youngjun have some idea here?
+
+> > > > doesn't conflict with what vswap is trying to do. Some other of the=
+se
+> > > > differences involve design decisions rather than just surface knobs=
+,
+> > > > and those are the parts we're stuck with once they ship.
 > > > >
-> > > > +config CC_HAS_ZERO_INIT_PADDING_BITS
-> > > > +	def_bool $(cc-option,-fzero-init-padding-bits=3Dall)
-> > > > +
-> > > > +config CC_HAS_NO_STACK_CLASH_PROTECTION
-> > > > +	def_bool $(cc-option,-fno-stack-clash-protection)
-> > > > +
-> > > > +config CC_HAS_NO_ADDRSIG
-> > > > +	def_bool $(cc-option,-fno-addrsig)
+> > > > So a few current interface difference of vswap and xswap I've notic=
+ed are:
+> > > >
+> > > >  - default size: somehow also tangled with VM_SPARSE, which
+> > > > needs an initial virtual value. It's super cheap if not zero cost
+> > > > (the only cost is occupying some vmalloc area, which is fine
+> > > > I guess?). But we still have to pick a number, could be large
+> > > > enough to satisfy everyone?
 > > >
-> > > I am generally in favor of this proposal since I think these checks
-> > > should be cached by Kconfig where possible to clear up running them
-> > > twice. That said, I wonder if we should pick a better dumping ground =
-for
-> > > these checks other than init/Kconfig. Maybe init/Kconfig.tools or
-> > > scripts/Kconfig.tools or something?
+> > > 8PB? ;)
 > >
->=20
-> (Sorry hadn't seen you'd replied also!)
->=20
-> > Yes, skimming through the patch, I thought about that, too.  Moving more
-> > cc option checks to Kconfig will make building out-of-tree kmods with a
-> > different compiler more dangerous.  Maybe we will have to make the
-> > warning in Makefile's prepare (external kmods) target a bit louder.
->=20
-> I guess this bit can be a follow up potentially?
-
-yes, sure.
-
+> > Right I saw that at V1 :).
 > >
-> > > I also worry about backsliding and growing cc-option checks. Should we
-> > > update the documentation to state that it is preferrable for these
-> > > checks to live in Kconfig so that they can be properly cached?
+> > I'm not sure if this is the reason that is in conflict with VM_SPARSE
+> > in your mind? Techically, at least for 64 bit, we can just apply the
+> > same limit to VM_SPARSE, for 64 bit machines we have a lot of virtual
+> > space to consume and that should be fine (VM_SPARSE is just the
+> > cluster map, which is much smaller compared to swap space).
 > >
-> > Sounds good, yes.
->=20
-> I can add a doc update as part of this series, unless you guys want to ha=
-ndle
-> separately?
+> > And another thing is do we really need that much in any case? Will
+> > things like, e.g. 64 times the physical memory (max pfn) be enough? I
+> > know Baoquan suggest just use the physical memory size. So that could
+> > be tunable, it's really easy to tune, just a number.
+>
+> Potentially, but we have many users at Meta. There's a huge diversity
+> of machine types, workingset size, access patterns (both frequency and
+> file:anon split), compressibility, etc.
 
-I don't think it has to be part of the series, it's long enough already. =
-=20
-But if you want to prepare some docmentation about the preference of=20
-cc-option checks, feel free to go ahead or not.
-
-Kind regards
-Nicolas
-
---iQrCf81kTXDdOy/g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmqkRAoACgkQiMa8nIia
-bbh/KQ//Samyl3M+cgoMbxZIs/cR+MwpyWz5bB6lThR5UVELLhuPCTUNC7vWi1ML
-vr3kXdcn7sXCBHA4hoe7PhlINVSGc5kaWiIyry21IPlsJ0ekFdPF8B40PL80yjk8
-y/uU49y0qpRVqTKgSw75t2oyL5boj5TPFwfPRQT8UY3WtvNFyWWLqxP1sq2H15Rb
-8PF/3F1o5b2TdURepbF3drc33OzpVoHQBe+4OWezT8HKe6wsvTlUcpxhnt5eMp3D
-pVCVlxwL4SL0l5JC6gUkCq9DcCL8SltfEvUdAPQbcRCyz6ZgME/zI9Cic7j1b3fn
-tyRHMX+hGWWeDvOpIj7iued1yGWB67DmNfsTeQi7VYR8nFF421w48w8WbVZZV6i2
-8m4dzzmQE7+k574d98GJVHQHR150J1j5OnktE4no2ncIlywpYgnnPFV6dQgjl5ZW
-wlLDK8Hb/224l9Iedak4vWld3VMCNTjn72dDV9LSZzsioM/xNqZc/0tKBnOa67F8
-kbMjM6J4jcmUxuAEWqnSxhBv4t5TFWL9C1nVduQten5kqNWvYdyRuo9AQoeCyRmc
-74nUR4m7g8oCKCGxDYB0oymnuE7HwmtMAQYsq99gZiUVenSZfHl2SXoEdQlWsaTl
-Lr54hkpu2IMqPkMg1EPuCi4U+4x1GAt2mcZAsPaFTXV4lMKhfjg=
-=hl7O
------END PGP SIGNATURE-----
-
---iQrCf81kTXDdOy/g--
+You can just set the number as 8PB? :)
