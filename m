@@ -1,270 +1,345 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7111403B11
-	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 07:27:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA7D64
+	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 07:27:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789111639; cv=none; b=Z6pkBAzlkyNEMKkOqQJ6AG+twWiWKX/4GffJTrPeFb/uZA7vE/zGqYtST4LBwGa9yZFUdILVNGP3UC7UshTlvlBcKEyGzbeLCibCd8BrjRotwZCUOOKzoc2dRucxX+8KsO3Ts/o+NQMBrqWs6XlgFD47UEzCQgk0yA3PTVXub9Y=
+	t=1789111675; cv=none; b=FXgekOVrheaiqYMqplA7mZIJ2V2EFpGFw2v/3fug+aKFPyy8x0j30BRjZMazfvexIv4WniEZooO3JG0p3UJ/Zr4cMnjUgHHkWOLcwULYAR27azhKzdTdNl+vsB26DhDkAPavcEWh5m6/XPeZOOaYigM2psq5SNCm7JW7+eT+VR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789111639; c=relaxed/simple;
-	bh=9LCSHI9dJmXTshg5eLes8LVmGe5qn+MubAPy/BL7Mt4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aTlcR3QRuLexhFSCnRnvnOR1f8Dd1vxhX+YuijpuhnZhLzpfcAr8fqwP1Ak2Q6EhsDpE0LGo/PYYiHuSVJrfQkAuGGF9rsBXHZ4GHlj3AXKF1cuUq8XCEY96WpHydRzu8v+3jgCBWWgjGQ6oMEM7ehTsaBjwQsuipKDfeoSGiuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B4JcEx1h; arc=none smtp.client-ip=209.85.215.175
+	s=arc-20240116; t=1789111675; c=relaxed/simple;
+	bh=tlKXicP68mvDD8epUYHfxWJsPL4pCrrhzzFZISH5/wo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A827jt7P4UuHWrCaxk8PfDjrx/xHDsx+nOVyud/h9DpUfDYWLFTnb+Qf3bSFsN1xfc5VimhT+d1ALhn87xiDY/U+odYZ0lpB3fNMXzq8IhwVObvEQ9DOkASt4gJVovdZ9tG1p4+62P4aQaleAsVHzNhRtrt0kHb94l69DoEBf4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XVnA8FMY; arc=none smtp.client-ip=74.125.231.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B4JcEx1h"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-ca7c1176317so609769a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 00:27:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XVnA8FMY"
+Received: by mail-oi2-f12.google.com with SMTP id 5614622812f47-4b37a30eb3bso500589b6e.1
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 00:27:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789111635; x=1789716435; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DSWkYiMfJ8v4uw6eOjZdWs71agTehwoYxv/jnWrsoXU=;
-        b=B4JcEx1hDuSeKhTCHtTabCuKYgIH2g1jqjeZEGicQhEfBs19FV412SZ7oQLe6ZAstv
-         6/Lpw1pAzRyHhXgXN7IcsEZtCFQ5g9KUewU63yAQpj2gRty8gW2sfcZ41J9k+fR+GAzn
-         0TKO/gj9ZKebxkpmsYN9QIswrz/7qQeaDJxAbSKxKgtOZafiUvMmZfq59niCYoc/V8xZ
-         6ELbYNoGP8TI2kvV1pixABVQifDPpbbo0B0+nCMkeDJKY+HPX25JdDJSTRhK14ZrPOfh
-         ykgrD7GDpbqMPH1fbFDJHn5Zd94ZwhNBjf3+E8Jsd/idMaW3jZABGNQy63th1VyhmSy4
-         Xv6A==
+        d=gmail.com; s=20251104; t=1789111672; x=1789716472; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Sk5Zw3zB+tKbZjukRzXRoZkYqPkXDjjNC32OYp6g6yE=;
+        b=XVnA8FMYbWFYOxFm+mNVfsi1dQ7KcFLqtPj7UtFP82K09HftBoXskkWslAB9oxVAsl
+         34LiYvsy5RyRga900ujMq9umJOKNKlfm14tj2UuVLmhqqu0v6GGGwX+2b4LaGqhuyr/X
+         NKFGfoBdaCeDE4E1OZ4O0hJNzeX1WXVjKCLKtbaylZAGLWrLKVtBlm/Qx8fIoWLNv66D
+         AoqtzB2LezQ7oS3b0O8mty/Oknsr/uuqry+h9Lu+I+CCzBAb0UBjoRUEAx5uffDQ1Agn
+         wi30WjokuDm6HyDuebAEqac3V2l0Ly6yPgTfIgXlJodEJ06kAH+86tS6lrOPrRhqjBSt
+         D6eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789111635; x=1789716435;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1789111672; x=1789716472;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DSWkYiMfJ8v4uw6eOjZdWs71agTehwoYxv/jnWrsoXU=;
-        b=cU8sSKr2ZFfO+EFTCufmK5N0FIwb+ON3JxDoCHmGAQHm4iEFYHSO87Li16ouFaE3GB
-         boRwIRX3fpIcOfduEeFRL7Qy04+ExJWziE4aIjrTxVJ69UYND5wY0iibJcQivxFeBV2Q
-         Yk5cfo4MUPVhbI39vhax0iAfaPPkltKlF/RWTWPvGgDdli9ZY2OooKu5oPHmljGuTM1h
-         37LYJ7DDWDwGNsQB+0FRPMZcMrYnY+oZ0d4UwRiQpJDmt57moZOkmbnaA7YbXUSEYgu9
-         SH/zTSfJP6Cd8e4UlK7Xe8FT3MuthE3MybO54wDwAohUl1UZxNIbmGREiiaxvk0BD8QN
-         pqEw==
-X-Forwarded-Encrypted: i=1; AKwUvBzZgHnn9LMI10hcaykNZstHyMLfkLtyx4e4E7Tk7TRmtq8bLAHgpBTwSBmYd0fK6YlrnQ9Mm1j/6lM=@vger.kernel.org
-X-Gm-Message-State: AFuF++nJTpW8L4HQY3m18wRVhXGF4oRkciSeaXT1Aqd/+32Qktii20+A
-	onRHO3Rm0r+q/8Jm43pYeLj559uRiyxQJ/J7XJ35V/ZL9MTWqyuyzYT9
-X-Gm-Gg: AYBFou3dHC8y6z29zUVpzWQRbbfkwmyKl51udoVxl/fnoArRxDmc0eae1BkxW73U8CB
-	EfFXtmU/9yC5LVgyQJHXOVwSdva4N8MLbJgD0de23+Fdpi4Oy+MpjnC4cwS/oPS/a/C15AIvqjx
-	vM0qL+MCv6UYo+VZO0SUSG0UVF5ZCNZKCPiYa5Bg6YWtJ53pEC0LQFxbBcpc+Q509X/1DLzWrPj
-	k2yWr4s3tyNonjI+PmajXKEf5Zsbtosb9c8eXu7SwwfKK+X/9xzl5TzePAd/g/snakiT3GGBnqD
-	e6Bpp7iRbKFsoEEZett/DvZU5sLX+8kARb0Z62H8xORkHo40NEo6eGotZe3l9i5B4nBGzh3U7lL
-	XCbFhNxjtxYCaFPipUsqUrgdEtBnJVKcPObEDj4ijJsvJ+VBD79azeXBngd/BtCOzbS22Cw7TLv
-	O4jCQSKnCe8wl3fFZZ1yUuE4hueTmEjNYjIRbY8Ujk7tr0okW7NcP15L/i9MJ6RCdQaWapO33J6
-	PLqFUkETH9EdxUkOs6uwTFInLLKmnKNBjmfsT5DrBuBrTcblpV2o/PHonjuaVA/nc+3RJ4Yhm5s
-X-Received: by 2002:a05:6a21:e58d:b0:3d3:ae0f:5268 with SMTP id adf61e73a8af0-3daed38e438mr5837524637.20.1789111634934;
-        Fri, 11 Sep 2026 00:27:14 -0700 (PDT)
-Received: from cs00-MS-7C09.. (2001-b400-e381-6723-6ed9-0e2b-d17e-b72e.emome-ip6.hinet.net. [2001:b400:e381:6723:6ed9:e2b:d17e:b72e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4e9a8a9sm4023136eec.13.2026.09.11.00.27.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 00:27:14 -0700 (PDT)
-From: hsyemail2@gmail.com
-X-Google-Original-From: syhuang3@nuvoton.com
-To: Guenter Roeck <linux@roeck-us.net>,
-	linux-hwmon@vger.kernel.org
-Cc: Sheng-Yuan Huang <syhuang3@nuvoton.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2] hwmon: (lm75) Add support for Nuvoton NCT7715
-Date: Fri, 11 Sep 2026 15:26:53 +0800
-Message-ID: <20260911072654.15722-1-syhuang3@nuvoton.com>
-X-Mailer: git-send-email 2.43.0
+        bh=Sk5Zw3zB+tKbZjukRzXRoZkYqPkXDjjNC32OYp6g6yE=;
+        b=gI9RVxK82Fg+rmqj7tkhetaUJGhvloVLXcWn8LxQxGoVhXI2ibJ/weC8Qws70s1Gkg
+         EW4h9nyW/Nrv5wPT42cw3ieY+GKSfPMdShh0EMJkrvFbyZJ4Oygr0W0mhwsbWNWrW+jk
+         KfLNkgJ9qTpX5UgimFDMqXw9PScdpLH3oCTmrIfI77aqmaUEh+bpTdsIxlFWEQxWp/cB
+         MyD8KdKE1Aeqq++ULpCO6hgswN4LnKfkrGEfa6smTwFbwqpb9pqPpBn7XqEWjP8S9eJN
+         F1Qq/Tm02j6dlvhswPSLEPe/4FlgWzz9yYduc/1hGJkZr15jm4mlnt5btoCb1QWaeC64
+         r+Pg==
+X-Forwarded-Encrypted: i=1; AKwUvBxLqGnx4o3n4/RzLHZ7hUv78h2YmCBwueMzpqFA0yhI6WJfaAmZMXiqYjmqNoPx/C+2YwJy1s3xUvk=@vger.kernel.org
+X-Gm-Message-State: AFuF++mYPS9lJfHKtCYvSWlF9h2r4A4GBldMKQLVP+Gbk08a+MMcIoTz
+	bQrcgKtaHCOBq9hkmXeSLy2hWJ+NzCiWRWqGXzOgPoTY1F9Z8mm6XDjv
+X-Gm-Gg: AYBFou06ZsMLPU9Z629cf0smeal/oUkY0TdGMduF/TKLjBmqsSSAbjmknj1uqHZny5q
+	ABWQ4RlOEmSKwhO+GodQg85ftnoSq+aVkiRpR6HHtMzPYs+Z4b/G6LR6LwIK8H0s0FPD0pSzDpC
+	nttkkz+dsKbRr7hNuTmmdOaUQEJrQwm66ifxvJzzOldfvnAVAFrZJU6PuGzG8BfiDyVYbWbMgtK
+	0I4KVy1YatcBzQEpYCaUcqOHJEr11SmnZe3yexXWqng9nyEPVputgDDuyzLvLUyNH/UsiVtdcYU
+	01mptlqvjD/xddsCquRH25hb/7rKe9jhKNcI8KScaPM6gPb7gagGEphmjjIbc2xzbV9sOkGLT3F
+	hF0DAccgyH+V7G9IXX1/R2y95CW+CLxnbhrDkVZslbE6UHYb0KqLR+r9cVIDf9qE8dvXUVxJuGB
+	0WQ4OK0b08YEaM2GA9WkYIKRiKx8AgjGQ0TyuVDyvG+gJFEQ+8tVZB+i+X8l3I93a/upl3Y1F0
+X-Received: by 2002:a05:6809:344:20b0:4c3:6d05:18b2 with SMTP id 5614622812f47-4c36d051ba9mr1617046b6e.21.1789111671795;
+        Fri, 11 Sep 2026 00:27:51 -0700 (PDT)
+Received: from [127.0.0.1] ([144.24.58.22])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4c3314b1b12sm1546853b6e.7.2026.09.11.00.27.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Sep 2026 00:27:50 -0700 (PDT)
+Message-ID: <307d6fd5-a8fa-4777-b513-9a8cce46f38a@gmail.com>
+Date: Fri, 11 Sep 2026 15:27:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 00/12] tracing: wprobe: x86: Add wprobe for watchpoint
+Content-Language: en-US
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@kernel.org>, x86@kernel.org
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
+ <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-perf-users@vger.kernel.org
+References: <178875277830.93794.14247844688761142429.stgit@devnote2>
+From: Jinchao Wang <wangjinchao600@gmail.com>
+In-Reply-To: <178875277830.93794.14247844688761142429.stgit@devnote2>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Sheng-Yuan Huang <syhuang3@nuvoton.com>
+On 9/7/2026 11:46 AM, Masami Hiramatsu (Google) wrote:
+> Hi,
+> 
+> Here is the 15th version of the series for adding new wprobe (watch probe)
+> which provides memory access tracing event. Moreover, this can be used
+> via event trigger. Thus it can trace memory access on dynamically
+> allocated objects too.
+> The previous version is here:
+> 
+>   https://lore.kernel.org/all/178810001186.64882.2161016469449127450.stgit@devnote2/
+> 
+> In this version, previous bugfix patches for BTF kflag resolution and
+> RCU-protected kprobe blacklist were sent to Linus via probe/fixes, reducing
+> the series to 12 patches. This version addresses feedbacks from Sashiko on
+> v14[1], and more local fixes such as x86 debug register manipulation, validates
+> watched address and natural alignment, tracks missed events on SMP update
+> failures(*), prevents in-place command string modification during trigger
+> parsing, adds explicit failure checks in selftests, and documents BTF
+> typecast and struct offset syntax. I also added Assited-by: tags for this
+> update.
+> 
+> [1] https://sashiko.dev/#/patchset/178810001186.64882.2161016469449127450.stgit%40devnote2
+> (*) currently it just increase a missed counter.
+> 
+> Detailed changes are here.
+> 
+> Changes in v15:
+>  - x86/mce: Move local_db_save() to entry of exc_machine_check_kernel()
+>    and restore it on early return from mce_check_crashing_cpu() to
+>    prevent nested #DB on watched variables.
+>  - x86/hw_breakpoints: Always preserve DR7_FIXED_1 in
+>    arch_install_hw_breakpoint(), arch_uninstall_hw_breakpoint(), and
+>    hw_breakpoint_restore() for architectural compliance.
+>  - x86/hw_breakpoints: Wrap local_db_save() in a cpu_dr7_seq loop to
+>    detect NMI breakpoint updates and ensure DR7 is disabled before entry.
+>  - x86/hw_breakpoints: In local_db_restore(), restore DR7_FIXED_1 if
+>    saved dr7 is 0 and an NMI updated breakpoints, preserving KVM guest
+>    isolation.
+>  - x86/hw_breakpoints: Always write "val | DR7_FIXED_1" to hardware DR7
+>    in local_db_restore() for architectural compliance.
+>  - x86/hw_breakpoints: Avoid modifying saved dr7 in-place across retry
+>    loops.
+>  - x86/hw_breakpoints: Temporarily clear breakpoint enable bit in DR7
+>    before updating debug address register and re-enable it afterward to
+>    comply with x86 specification and avoid spurious #DBs.
+>  - HWBP: Annotate counter_arch_bp(bp)->address and bp->attr.bp_addr with
+>    WRITE_ONCE() in both update and rollback paths to prevent data races
+>    with concurrent readers (e.g. NMI handlers).
+>  - tracing/wprobe: Introduce trace_wprobe_is_valid_addr() to validate
+>    target address and natural alignment for wprobe length during event
+>    creation and trigger setup.
+>  - tracing/wprobe: Initialize irq_work and work immediately after
+>    allocation in alloc_trace_wprobe() and check tw->work.func in
+>    free_trace_wprobe() to prevent WARN_ON(!work->func) on early failures.
+>  - tracing/wprobe: Record SMP local update failures in tw->missed counter
+>    and expose missed event count as a trailing comment in trigger file.
+>  - tracing/wprobe: Duplicate field string in wprobe_trigger_typecast_parse()
+>    to avoid modifying glob in place so tracing_log_err() logs the pristine
+>    command string.
+>  - tracing/wprobe: Remove leftover offset and adjust debug print in
+>    wprobe_trigger_print().
+>  - tracing/wprobe: Add set_wprobe and clear_wprobe triggers to readme_msg
+>    in trace.c.
+>  - tracing/wprobe: Move variable declarations to function entry in
+>    trace_wprobe_show(), fix tab indentation in trace.c, and wrap lines
+>    exceeding 100 columns.
+>  - Documentation: Document BTF typecast in fetchargs and BTF struct
+>    offset resolution in set_wprobe trigger in wprobetrace.rst.
+>  - selftests/ftrace: Add explicit failure checks with fail helper across
+>    trigger-wprobe.tc, trigger-wprobe-btf-typecast.tc, and
+>    trigger-wprobe-btf-offset.tc.
+>  - selftests/ftrace: Declare fprobe README requirement in trigger tests
+>    and trigger file check in trigger-wprobe-syntax-errors.tc requires line.
+> 
+> 
+> Public branch
+> -------------
+> I will push this branch as topic/wprobe-v2 to my tree so that it
+> can be easily tested.
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git/log/?h=topic/wprobe-v2
+> 
+> This is based on linux-trace tree's linux-trace/probes/fixes.
+> 
+> Usage
+> -----
+> 
+> The basic usage of this wprobe is similar to other probes;
+> 
+>   w:[GRP/][EVENT] [r|w|rw]@<ADDRESS|SYMBOL[+|-OFFS]>[:LEN] [FETCHARGS]
+> 
+> This defines a new wprobe event. For example, to trace jiffies update,
+> you can do;
+> 
+>  echo 'w:my_jiffies w@jiffies:8 value=+0($addr)' >> dynamic_events
+>  echo 1 > events/wprobes/my_jiffies/enable
+> 
+> Moreover, this can be combined with event trigger to trace the memory
+> access on slab objects. The trigger syntax is;
+> 
+>   set_wprobe:WPROBE_EVENT:FIELD[+|-OFFSET][:COUNT] [if FILTER]
+>   clear_wprobe:WPROBE_EVENT[:FIELD[+|-OFFSET][:COUNT]] [if FILTER]
+> 
+> set_wprobe sets WPROBE_EVENT's watch address on FIELD[+|-OFFSET].
+> clear_wprobe clears WPROBE_EVENT's watch address if it is set to
+> FIELD[+|-OFFSET]. If FIELD is omitted, forcibly clear the watch address
+> when trigger event is hit.
+> 
+> For example, trace the first 8 byte of the dentry data structure passed
+> to do_truncate() until it is deleted by dentry_kill().
+> (Note: all tracefs setup uses '>>' so that it does not kick do_truncate())
+> 
+>   # echo 'w:watch rw@-1:8 address=$addr value=+0($addr)' > dynamic_events
+> 
+>   # echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
+>   # echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
+> 
+>   # echo 'f:dentry_kill dentry_kill dentry=$arg1' >> dynamic_events
+>   # echo 'clear_wprobe:watch:dentry' >> events/fprobes/dentry_kill/trigger
+> 
+>   # echo 1 >> events/fprobes/truncate/enable
+>   # echo 1 >> events/fprobes/dentry_kill/enable
+> 
+>   # echo aaa > /tmp/hoge
+>   # echo bbb > /tmp/hoge
+>   # echo ccc > /tmp/hoge
+>   # rm /tmp/hoge
+> 
+> Then, the trace data will show;
+> 
+>  # tracer: nop
+>  #
+>  # entries-in-buffer/entries-written: 32/32   #P:8
+>  #
+>  #                                _-----=> irqs-off/BH-disabled
+>  #                               / _----=> need-resched
+>  #                              | / _---=> hardirq/softirq
+>  #                              || / _--=> preempt-depth
+>  #                              ||| / _-=> migrate-disable
+>  #                              |||| /     delay
+>  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+>  #              | |         |   |||||     |         |
+>                sh-107     [004] ...1.     9.990418: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+>                sh-107     [004] ...1.     9.990914: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b3de78
+>                sh-107     [004] ...1.     9.993175: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049ddd40
+>                sh-107     [004] .....     9.995198: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880048083a8
+>                sh-107     [004] ...1.     9.995389: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db998
+>                sh-107     [004] ..Zff     9.997503: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+>                sh-107     [004] ..Zff     9.997509: watch: (path_openat+0x211/0xda0) address=0xffff8880048083a8 value=0x8200080
+>                sh-107     [004] ..Zff     9.997514: watch: (path_openat+0xa56/0xda0) address=0xffff8880048083a8 value=0x8200080
+>                sh-107     [004] ..Zff     9.997518: watch: (path_openat+0xae2/0xda0) address=0xffff8880048083a8 value=0x8200080
+>                sh-107     [004] .....     9.997521: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880048083a8
+>                sh-107     [004] ...1.     9.997582: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004808270
+>                sh-107     [004] ...1.     9.999365: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db728
+>                sh-107     [004] ...1.     9.999388: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b1c000
+>                rm-113     [005] ..Zff    10.000965: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.000971: watch: (path_lookupat+0x97/0x1e0) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.000984: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.000988: watch: (path_lookupat+0x97/0x1e0) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.001010: watch: (lookup_one_qstr_excl+0x28/0x140) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.001014: watch: (lookup_one_qstr_excl+0xd1/0x140) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.001018: watch: (may_delete_dentry+0x1c/0x200) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.001021: watch: (may_delete_dentry+0x195/0x200) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.001031: watch: (vfs_unlink+0x5e/0x260) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] d.Z..    10.001067: watch: (d_make_discardable+0x1b/0x40) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] d.Z..    10.001071: watch: (d_make_discardable+0x29/0x40) address=0xffff8880048083a8 value=0x200080
+>                rm-113     [005] ...1.    10.001072: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880048083a8
+>                rm-113     [005] ...1.    10.001218: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880048083a8
+>                sh-107     [004] ...1.    10.001416: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db110
+>                sh-107     [004] ...1.    10.001444: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db248
+>                sh-107     [004] ...1.    10.001500: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+>                sh-107     [004] ...1.    10.002067: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b41e78
+>                sh-107     [004] ...1.    10.904920: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b41e78
+>                sh-107     [004] ...1.    10.905129: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+> 
+> 
+> Thank you,
+> 
+> ---
+> base-commit: 0c4256196b3a105307e2235fbfd85e768bbcdd0f
+> 
+> Jinchao Wang (2):
+>       x86/hw_breakpoints: Make DR7 updates NMI safe
+>       x86/hw_breakpoints: Add arch_modify_local_hw_breakpoint_addr() API
+> 
+> Masami Hiramatsu (Google) (10):
+>       x86/mce: Fix hardware debug register corruption on task migration
+>       HWBP: Add modify_local_hw_breakpoint_addr() API
+>       tracing/wprobe: Add wprobe (watchpoint probe) trace event support
+>       x86: hw_breakpoint: Add a kconfig to clarify when a breakpoint fires
+>       selftests: tracing: Add a basic testcase for wprobe
+>       selftests: tracing: Add syntax testcase for wprobe
+>       tracing/wprobe: Add set_wprobe and clear_wprobe event triggers
+>       selftests: tracing: Add wprobe trigger testcase
+>       tracing/wprobe: Support BTF typecast in fetchargs
+>       tracing/wprobe: Support BTF struct offset resolution in set_wprobe trigger
+> 
+> 
+>  Documentation/trace/index.rst                      |    1 
+>  Documentation/trace/wprobetrace.rst                |  200 +++
+>  arch/Kconfig                                       |   18 
+>  arch/x86/Kconfig                                   |    2 
+>  arch/x86/include/asm/debugreg.h                    |   67 +
+>  arch/x86/include/asm/hw_breakpoint.h               |    2 
+>  arch/x86/kernel/cpu/mce/core.c                     |   29 
+>  arch/x86/kernel/hw_breakpoint.c                    |  151 +-
+>  arch/x86/kernel/nmi.c                              |    7 
+>  arch/x86/kernel/traps.c                            |   10 
+>  include/linux/hw_breakpoint.h                      |    6 
+>  include/linux/trace_events.h                       |    3 
+>  kernel/events/hw_breakpoint.c                      |   48 +
+>  kernel/trace/Kconfig                               |   24 
+>  kernel/trace/Makefile                              |    1 
+>  kernel/trace/trace.c                               |   13 
+>  kernel/trace/trace.h                               |    6 
+>  kernel/trace/trace_events_trigger.c                |    2 
+>  kernel/trace/trace_probe.c                         |   36 
+>  kernel/trace/trace_probe.h                         |   22 
+>  kernel/trace/trace_wprobe.c                        | 1522 ++++++++++++++++++++
+>  tools/testing/selftests/ftrace/config              |    3 
+>  .../ftrace/test.d/dynevent/add_remove_wprobe.tc    |   63 +
+>  .../test.d/dynevent/wprobes_syntax_errors.tc       |   23 
+>  .../test.d/trigger/trigger-wprobe-btf-offset.tc    |   85 +
+>  .../test.d/trigger/trigger-wprobe-btf-typecast.tc  |   85 +
+>  .../test.d/trigger/trigger-wprobe-syntax-errors.tc |   37 
+>  .../ftrace/test.d/trigger/trigger-wprobe.tc        |  107 +
+>  28 files changed, 2476 insertions(+), 97 deletions(-)
+>  create mode 100644 Documentation/trace/wprobetrace.rst
+>  create mode 100644 kernel/trace/trace_wprobe.c
+>  create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/add_remove_wprobe.tc
+>  create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/wprobes_syntax_errors.tc
+>  create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
+>  create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-typecast.tc
+>  create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-syntax-errors.tc
+>  create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
+> 
+> --
+> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Hi Masami,
 
-The Nuvoton NCT7715 is compatible with the LM75 temperature and
-limit register layout. Add support for the NCT7715, including its
-16-bit configuration register.
+I see the watch address update currently goes irq_work -> workqueue ->
+on_each_cpu().  I would like to discuss that path.
 
-Handle its conversion-rate field and shutdown bit separately, since
-their bit positions differ from the standard LM75 layout.
+The race window wprobe may be used to watch can be very narrow --
+sometimes it lives entirely inside a single function -- and the trigger
+does not always run in in_task() context.  The current path defers the
+update to a work item, so by the time the debug registers are updated the
+window may already be gone.
 
-Signed-off-by: Sheng-Yuan Huang <syhuang3@nuvoton.com>
----
-v2:
-- Use the standard SMBus word representation for the NCT7715
-  configuration register, removing the NCT7715-specific byte swapping
-  and updating its configuration masks accordingly.
+Now that we have modify_local_hw_breakpoint_addr(), the trigger could arm
+the local CPU directly and use smp_call_function_single_async() for the
+remote ones.  That should improve the overlap between the watch and the window.
 
- .../devicetree/bindings/hwmon/lm75.yaml       |  1 +
- Documentation/hwmon/lm75.rst                  |  6 +++
- drivers/hwmon/lm75.c                          | 52 ++++++++++++++++++-
- 3 files changed, 57 insertions(+), 2 deletions(-)
+What do you think?
 
-diff --git a/Documentation/devicetree/bindings/hwmon/lm75.yaml b/Documentation/devicetree/bindings/hwmon/lm75.yaml
-index b48bf3fd721f..832a8c5d83e9 100644
---- a/Documentation/devicetree/bindings/hwmon/lm75.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/lm75.yaml
-@@ -31,6 +31,7 @@ properties:
-       - nxp,p3t1750
-       - nxp,p3t1755
-       - nxp,pct2075
-+      - nuvoton,nct7715
-       - st,stds75
-       - st,stlm75
-       - microchip,tcn75
-diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
-index ca46754e028b..fac0b8f29ddc 100644
---- a/Documentation/hwmon/lm75.rst
-+++ b/Documentation/hwmon/lm75.rst
-@@ -150,6 +150,12 @@ Supported chips:
- 
-                https://ams.com/documents/20143/36005/AS6200_DS000449_4-00.pdf
- 
-+  * Nuvoton NCT7715
-+
-+    Prefix: 'nct7715'
-+
-+    Addresses scanned: none
-+
- Author: Frodo Looijaard <frodol@dds.nl>
- 
- Description
-diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
-index 2d2d752aeac9..ad7128629e56 100644
---- a/drivers/hwmon/lm75.c
-+++ b/drivers/hwmon/lm75.c
-@@ -39,6 +39,7 @@ enum lm75_type {		/* keep sorted in alphabetical order */
- 	max6626,
- 	max31725,
- 	mcp980x,
-+	nct7715,
- 	p3t1750,
- 	p3t1755,
- 	pct2075,
-@@ -107,6 +108,15 @@ static const unsigned short normal_i2c[] = { 0x48, 0x49, 0x4a, 0x4b, 0x4c,
- #define LM75_REG_MAX		0x03
- #define PCT2075_REG_IDLE	0x04
- 
-+#define NCT7715_CONFIG_RESOLUTION_12_BIT	GENMASK(6, 5)
-+#define NCT7715_CONFIG_SHUTDOWN			BIT(0)
-+#define NCT7715_CONFIG_CONVERSION_RATE_MASK	GENMASK(15, 14)
-+#define NCT7715_CONFIG_EXTENDED_MODE		BIT(12)
-+#define NCT7715_CONFIG_RATE_0_25HZ		0
-+#define NCT7715_CONFIG_RATE_1HZ			BIT(14)
-+#define NCT7715_CONFIG_RATE_4HZ			BIT(15)
-+#define NCT7715_CONFIG_RATE_8HZ			GENMASK(15, 14)
-+
- struct lm75_data {
- 	const char *label;
- 	struct regmap			*regmap;
-@@ -122,6 +132,10 @@ struct lm75_data {
- /*-----------------------------------------------------------------------*/
- 
- static const u8 lm75_sample_set_masks[] = { 0 << 5, 1 << 5, 2 << 5, 3 << 5 };
-+static const u16 nct7715_sample_set_masks[] = {
-+	NCT7715_CONFIG_RATE_8HZ, NCT7715_CONFIG_RATE_4HZ,
-+	NCT7715_CONFIG_RATE_1HZ, NCT7715_CONFIG_RATE_0_25HZ
-+};
- 
- #define LM75_ALERT_POLARITY_HIGH_8_BIT	(BIT(2))
- #define LM75_ALERT_POLARITY_HIGH_16_BIT	(BIT(2) << 8)
-@@ -259,6 +273,15 @@ static const struct lm75_params device_params[] = {
- 		.sample_times = (unsigned int []){ 30, 60, 120, 240 },
- 		.resolutions = (u8 []) {9, 10, 11, 12 },
- 	},
-+	[nct7715] = {
-+		.config_reg_16bits = true,
-+		.set_mask = NCT7715_CONFIG_RESOLUTION_12_BIT,
-+		.clr_mask = NCT7715_CONFIG_EXTENDED_MODE,
-+		.default_resolution = 12,
-+		.default_sample_time = 250,
-+		.num_sample_times = 4,
-+		.sample_times = (unsigned int []){ 125, 250, 1000, 4000 },
-+	},
- 	[tmp100] = {
- 		.set_mask = 3 << 5,	/* 12-bit mode */
- 		.clr_mask = 1 << 7,	/* not one-shot mode */
-@@ -354,6 +377,11 @@ static inline long lm75_reg_to_mc(s16 temp, u8 resolution)
- static inline int lm75_write_config(struct lm75_data *data, u16 set_mask,
- 				    u16 clr_mask)
- {
-+	if (data->kind == nct7715)
-+		return regmap_update_bits(data->regmap, LM75_REG_CONF,
-+					  clr_mask | set_mask | NCT7715_CONFIG_SHUTDOWN,
-+					  set_mask);
-+
- 	return regmap_update_bits(data->regmap, LM75_REG_CONF,
- 				  clr_mask | set_mask | LM75_SHUTDOWN, set_mask);
- }
-@@ -486,6 +514,13 @@ static int lm75_update_interval(struct device *dev, long val)
- 		if (data->params->resolutions)
- 			data->resolution = data->params->resolutions[index];
- 		break;
-+	case nct7715:
-+		err = lm75_write_config(data, nct7715_sample_set_masks[index],
-+					NCT7715_CONFIG_CONVERSION_RATE_MASK);
-+		if (err)
-+			return err;
-+		data->sample_time = data->params->sample_times[index];
-+		break;
- 	case tmp112:
- 	case as6200:
- 		err = regmap_update_bits(data->regmap, LM75_REG_CONF,
-@@ -770,7 +805,7 @@ static int lm75_generic_probe(struct device *dev, const char *name,
- 	data->orig_conf = status;
- 
- 	/* Enforce polarity active-low (default) or active-high (devicetree) */
--	if (!data->params->config_reg_16bits)
-+	if (!data->params->config_reg_16bits || data->kind == nct7715)
- 		pol_mask = LM75_ALERT_POLARITY_HIGH_8_BIT;
- 	else
- 		pol_mask = LM75_ALERT_POLARITY_HIGH_16_BIT;
-@@ -848,6 +883,7 @@ static const struct i2c_device_id lm75_i2c_ids[] = {
- 	{ .name = "max31725", .driver_data = max31725 },
- 	{ .name = "max31726", .driver_data = max31725 },
- 	{ .name = "mcp980x", .driver_data = mcp980x },
-+	{ .name = "nct7715", .driver_data = nct7715 },
- 	{ .name = "p3t1750", .driver_data = p3t1750 },
- 	{ .name = "p3t1755", .driver_data = p3t1755 },
- 	{ .name = "pct2075", .driver_data = pct2075 },
-@@ -972,6 +1008,10 @@ static const struct of_device_id lm75_of_match[] = {
- 		.compatible = "nxp,pct2075",
- 		.data = (void *)pct2075
- 	},
-+	{
-+		.compatible = "nuvoton,nct7715",
-+		.data = (void *)nct7715
-+	},
- 	{
- 		.compatible = "st,stds75",
- 		.data = (void *)stds75
-@@ -1129,13 +1169,21 @@ static int lm75_suspend(struct device *dev)
- {
- 	struct lm75_data *data = dev_get_drvdata(dev);
- 
--	return regmap_update_bits(data->regmap, LM75_REG_CONF, LM75_SHUTDOWN, LM75_SHUTDOWN);
-+	if (data->kind == nct7715)
-+		return regmap_update_bits(data->regmap, LM75_REG_CONF,
-+					  NCT7715_CONFIG_SHUTDOWN,
-+					  NCT7715_CONFIG_SHUTDOWN);
-+	return regmap_update_bits(data->regmap, LM75_REG_CONF,
-+				  LM75_SHUTDOWN, LM75_SHUTDOWN);
- }
- 
- static int lm75_resume(struct device *dev)
- {
- 	struct lm75_data *data = dev_get_drvdata(dev);
- 
-+	if (data->kind == nct7715)
-+		return regmap_update_bits(data->regmap, LM75_REG_CONF,
-+					  NCT7715_CONFIG_SHUTDOWN, 0);
- 	return regmap_update_bits(data->regmap, LM75_REG_CONF, LM75_SHUTDOWN, 0);
- }
- 
--- 
-2.43.0
-
+Thanks,
+Jinchao
