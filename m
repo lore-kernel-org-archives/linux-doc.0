@@ -1,240 +1,308 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89D4C377AA8;
-	Fri, 11 Sep 2026 12:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE2D47798A;
+	Fri, 11 Sep 2026 12:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789130592; cv=none; b=PmgX6oAE81tFX4GMfZgLg4Fhu9UryYLW4jObfDFMl9i+M1cdLdwvEzdNfMxLFkwVbWeFk4qphwvHxJNNKcofXGWN+eAvabiuJ9h9uwdH5qGu6yV+q1cW1ApoYL2E9xp6IJ+e7SEdT/KgGgEqOSBH9c8Grro+Pjr7CU013/faWtc=
+	t=1789130757; cv=none; b=ur25MqpG/mOWvZbTs3HC3Qehx6M/eDUXnPKAm+48TcW0F8OI5RK1bZAPItFzKFDtWQ3c3t6rfdGuq4Tm6DJYjB99q1yEbhtX+ka3SM8V4JkDQbeyxt4sjVULd6sOUlCizfYo3PZSoji6O6AhfDs+BYKIxQiqsVVUxgFKwhdCmKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789130592; c=relaxed/simple;
-	bh=AYEkP013J/2d/muDFR6I2PEvoL5OJnQHcQnfIXL8Gdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sI2Osc2ZKoFRRv/J5ZqKiwdyIGtmJCVo/o9t1iTQQ8IzYFK3bXFE0UEclDYDXo9lrqTzmrCLytpWtxlfMtsgqKhysDzoGH7RlptSxe6rOlZONCChsGw1joTbaPAptELmtIa8IlsiMMmaBYGfYX+mUVJ1IR2KPQ9GTXhA0+EBEUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Y7t2/5La; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Y7t2/5La"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4485B1655;
-	Fri, 11 Sep 2026 05:43:06 -0700 (PDT)
-Received: from thinkpad-e142931.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 17A4F3F7B4;
-	Fri, 11 Sep 2026 05:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789130589; bh=AYEkP013J/2d/muDFR6I2PEvoL5OJnQHcQnfIXL8Gdw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y7t2/5Lam2g8qRhPXwbiismNNJmPzYkbs1njyR8gmpp7Vck5F0dEP+USPHwGkVj4y
-	 zyEVPrSL46la0hde1suMA5O66hKqdPYQmIy0jLuQtj8JZiZhItI8liJqlOlZKutbU7
-	 R7cp0KjoRS0TqixmTVP9fKudIHZb6fIM75NhVQfI=
-Date: Fri, 11 Sep 2026 13:42:57 +0100
-From: Wei-Lin Chang <weilin.chang@arm.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
-	Itaru Kitayama <itaru.kitayama@fujitsu.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Fuad Tabba <tabba@google.com>, Joey Gouly <joey.gouly@arm.com>, 
-	Steffen Eiden <seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
-	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Sean Christopherson <seanjc@google.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Leo Soares Passos <Leo.Bras@arm.com>
-Subject: Re: [PATCH 8/8] KVM: selftests: Add nested pre-fault test for arm64
-Message-ID: <g45xmukndzivuxowpjxlajrjzx2ljevliroenbx4h4wgrnpoi6@eozuucl3usi3>
-References: <20260825-kvm-arm-prefault-v1-0-befe8947702e@kernel.org>
- <20260825-kvm-arm-prefault-v1-8-befe8947702e@kernel.org>
- <aqOgEQKBGH-YqGr3@sm-arm-grace07>
- <aqPIUtNTJFwUvJME@gremlin>
+	s=arc-20240116; t=1789130757; c=relaxed/simple;
+	bh=NAlEuAjAAvqC1pgj124dsNfJ2Vahdu9c7oKTi27QScA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=e6RokVdpmUS7iXzgIR2bb/bxCunMRfK8ZvP1t+W+ovqZuiwzIwdVL54sDrOebKbt7/FldFbryXmfBUQG1L3bsdTD5nXMKwzEhlGCzcHZuYudKbAyKMBgu3Fmt6EMFtsbBQzGSHnYkNjIvh9e6jGUNnm33rPfZ4ZCA9K22ujEuyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E672421B74;
+	Fri, 11 Sep 2026 12:45:50 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A0B8A137DE;
+	Fri, 11 Sep 2026 12:45:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4OL4Jfv3o2r8EQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Fri, 11 Sep 2026 12:45:47 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com,
+	javierm@redhat.com,
+	airlied@gmail.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	geert@linux-m68k.org,
+	rdunlap@infradead.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	nouveau@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	sashiko-reviews@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v5 04/14] drm/panic: Return errno codes if panic output fails
+Date: Fri, 11 Sep 2026 14:43:57 +0200
+Message-ID: <20260911124540.279841-5-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260911124540.279841-1-tzimmermann@suse.de>
+References: <20260911124540.279841-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqPIUtNTJFwUvJME@gremlin>
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: E672421B74
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
 
-On Fri, Sep 11, 2026 at 10:32:17AM +0100, Lorenzo Stoakes (ARM) wrote:
-> +cc Wei-Lin
-> 
-> On Fri, Sep 11, 2026 at 03:30:41PM +0900, Itaru Kitayama wrote:
-> > Hi Lorenzo,
-> >
-> > On Tue, Aug 25, 2026 at 05:00:42PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > > From: Jack Thomson <jackabt@amazon.com>
-> > >
-> > > Add an arm64 nested-virt selftest for KVM_PRE_FAULT_MEMORY. The guest
-> > > enters vEL1 and exits to userspace with a nested/shadow stage-2 MMU as
-> > > the vCPU's last-run context.
-> > >
-> > > Before prefaulting, userspace enables HCR_EL2.VM and points VTTBR_EL2 at
-> > > an empty nested stage-2 root. A prefault implementation that incorrectly
-> > > treats the userspace GPA as an L2 IPA will fail the ioctl; the correct
-> > > path targets the canonical stage-2 and succeeds.
-> > >
-> > > Restore the original nested state before resuming the guest, then touch
-> > > the prefaulted range to check that vEL1 still runs correctly.
-> > >
-> > > Signed-off-by: Jack Thomson <jackabt@amazon.com>
-> > > [ljs: partial progress, >4 KiB pgsize, commit msg, comment fixups]
-> > > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > > ---
-> > >  tools/testing/selftests/kvm/Makefile.kvm           |   1 +
-> > >  .../selftests/kvm/arm64/nv_pre_fault_memory_test.c | 206 +++++++++++++++++++++
-> > >  2 files changed, 207 insertions(+)
-> >
-> > I wonder whether this selftest can use functions Wei-Lin proposed
-> > some time ago [1]: 20260325003620.2214766-1-weilin.chang@arm.com
-> > or would you prefer this test as propose, since it is clear as
-> > to what needs to be done to enter L2.
-> 
-> I think if these aren't merged yet then that could be a follow up?
+Return errno codes from the panic output helpers to detect invalid
+panic handling. Avoid flushing the display if an error ocured. The
+unflushed display output might be helpful in debugging.
 
-This selftest doesn't require setting up L1's stage-2 for L2, so to me
-the current approach is okay.
+For now, test the result values in the panic test cases. A later patch
+will add support for retrying failed panic output.
 
-[...]
+v2:
+- forward return value of draw_panic_screen_user() (Sashiko)
+- forward errno code from drm_panic_get_qr_code
 
-> > > +static void guest_code(void)
-> > > +{
-> > > +	u64 sp;
-> > > +
-> > > +	GUEST_ASSERT_EQ(get_current_el(), 2);
-> > > +
-> > > +	/*
-> > > +	 * Mirror the EL2 translation regime into the real EL1 registers so
-> > > +	 * that vEL1 runs on the test's stage-1 page tables. With E2H=1, the
-> > > +	 * _EL1 accessors read the EL2 registers, and the _EL12 accessors
-> > > +	 * write the real EL1 registers.
-> > > +	 */
-> > > +	write_sysreg_s(read_sysreg(sctlr_el1), SYS_SCTLR_EL12);
-> > > +	write_sysreg_s(read_sysreg(tcr_el1), SYS_TCR_EL12);
-> > > +	write_sysreg_s(read_sysreg(ttbr0_el1), SYS_TTBR0_EL12);
-> > > +	write_sysreg_s(read_sysreg(mair_el1), SYS_MAIR_EL12);
-> > > +	write_sysreg_s(read_sysreg(cpacr_el1), SYS_CPACR_EL12);
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/drm_panic.c            | 47 +++++++++++++++++---------
+ drivers/gpu/drm/tests/drm_panic_test.c | 16 +++++----
+ 2 files changed, 41 insertions(+), 22 deletions(-)
 
-Just FYI, the at.c selftest uses a macro for these.
+diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+index 62490d32019c..cc33a2b4bb52 100644
+--- a/drivers/gpu/drm/drm_panic.c
++++ b/drivers/gpu/drm/drm_panic.c
+@@ -480,7 +480,7 @@ static void drm_panic_logo_draw(struct drm_scanout_buffer *sb, struct drm_rect *
+ 				   fg_color);
+ }
+ 
+-static void draw_panic_screen_user(struct drm_scanout_buffer *sb)
++static int draw_panic_screen_user(struct drm_scanout_buffer *sb)
+ {
+ 	u32 fg_color = drm_draw_color_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR,
+ 						    sb->format->format);
+@@ -491,7 +491,7 @@ static void draw_panic_screen_user(struct drm_scanout_buffer *sb)
+ 	unsigned int msg_width, msg_height;
+ 
+ 	if (!font)
+-		return;
++		return -EINVAL;
+ 
+ 	r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
+ 	drm_panic_logo_rect(&r_logo, font);
+@@ -510,6 +510,8 @@ static void draw_panic_screen_user(struct drm_scanout_buffer *sb)
+ 		drm_panic_logo_draw(sb, &r_logo, font, fg_color);
+ 
+ 	draw_txt_rectangle(sb, font, panic_msg, panic_msg_lines, true, &r_msg, fg_color);
++
++	return 0;
+ }
+ 
+ /*
+@@ -549,7 +551,7 @@ static int draw_line_with_wrap(struct drm_scanout_buffer *sb, const struct font_
+  * Draw the kmsg buffer to the screen, starting from the youngest message at the bottom,
+  * and going up until reaching the top of the screen.
+  */
+-static void draw_panic_screen_kmsg(struct drm_scanout_buffer *sb)
++static int draw_panic_screen_kmsg(struct drm_scanout_buffer *sb)
+ {
+ 	u32 fg_color = drm_draw_color_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR,
+ 						    sb->format->format);
+@@ -564,7 +566,7 @@ static void draw_panic_screen_kmsg(struct drm_scanout_buffer *sb)
+ 	int yoffset;
+ 
+ 	if (!font || font->width > sb->width)
+-		return;
++		return -EINVAL;
+ 
+ 	yoffset = sb->height - font->height - (sb->height % font->height) / 2;
+ 
+@@ -591,6 +593,8 @@ static void draw_panic_screen_kmsg(struct drm_scanout_buffer *sb)
+ 			start--;
+ 		}
+ 	}
++
++	return 0;
+ }
+ 
+ #if defined(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+@@ -767,7 +771,9 @@ static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb)
+ 	max_qr_size = min(3 * sb->width / 4, 3 * sb->height / 4);
+ 
+ 	qr_width = drm_panic_get_qr_code(&qr_image);
+-	if (qr_width <= 0)
++	if (qr_width < 0)
++		return qr_width;
++	else if (!qr_width)
+ 		return -ENOSPC;
+ 
+ 	qr_canvas_width = qr_width + QR_MARGIN * 2;
+@@ -808,10 +814,11 @@ static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb)
+ 	return 0;
+ }
+ 
+-static void draw_panic_screen_qr_code(struct drm_scanout_buffer *sb)
++static int draw_panic_screen_qr_code(struct drm_scanout_buffer *sb)
+ {
+ 	if (_draw_panic_screen_qr_code(sb))
+-		draw_panic_screen_user(sb);
++		return draw_panic_screen_user(sb);
++	return 0;
+ }
+ #else
+ static void drm_panic_qr_init(void) {};
+@@ -882,23 +889,25 @@ static bool drm_panic_is_format_supported(const struct drm_format_info *format)
+ 	return drm_draw_can_convert_from_xrgb8888(format->format);
+ }
+ 
+-static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
++static int draw_panic_dispatch(struct drm_scanout_buffer *sb)
+ {
++	int ret;
++
+ 	switch (drm_panic_type) {
+ 	case DRM_PANIC_TYPE_KMSG:
+-		draw_panic_screen_kmsg(sb);
++		ret = draw_panic_screen_kmsg(sb);
+ 		break;
+-
+ #if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+ 	case DRM_PANIC_TYPE_QR:
+-		draw_panic_screen_qr_code(sb);
++		ret = draw_panic_screen_qr_code(sb);
+ 		break;
+ #endif
+-
+ 	case DRM_PANIC_TYPE_USER:
+ 	default:
+-		draw_panic_screen_user(sb);
++		ret = draw_panic_screen_user(sb);
+ 	}
++
++	return ret;
+ }
+ 
+ static void drm_panic_set_description(const char *description)
+@@ -945,9 +954,15 @@ static void draw_panic_plane(struct drm_plane *plane, const char *description)
+ 
+ 	drm_panic_set_description(description);
+ 
+-	draw_panic_dispatch(&sb);
+-	if (plane->helper_private->panic_flush)
+-		plane->helper_private->panic_flush(plane);
++	ret = draw_panic_dispatch(&sb);
++	if (!ret) {
++		/*
++		 * Only flush if we have a panic screen to display. Otherwise
++		 * it's probably better to leave the display output as-is.
++		 */
++		if (plane->helper_private->panic_flush)
++			plane->helper_private->panic_flush(plane);
++	}
+ 
+ 	drm_panic_clear_description();
+ 
+diff --git a/drivers/gpu/drm/tests/drm_panic_test.c b/drivers/gpu/drm/tests/drm_panic_test.c
+index ad2f3a2f93b6..fdd77b0cc54c 100644
+--- a/drivers/gpu/drm/tests/drm_panic_test.c
++++ b/drivers/gpu/drm/tests/drm_panic_test.c
+@@ -30,7 +30,7 @@ struct drm_test_mode {
+ 	const int width;
+ 	const int height;
+ 	const u32 format;
+-	void (*draw_screen)(struct drm_scanout_buffer *sb);
++	int (*draw_screen)(struct drm_scanout_buffer *sb);
+ 	const char *fname;
+ };
+ 
+@@ -87,7 +87,7 @@ static void drm_test_panic_screen_user_map(struct kunit *test)
+ 	const struct drm_test_mode *params = test->param_value;
+ 	char *fb;
+ 	int fb_size;
+-	int i;
++	int i, ret;
+ 
+ 	sb->format = drm_format_info(params->format);
+ 	fb_size = params->width * params->height * sb->format->cpp[0];
+@@ -102,7 +102,8 @@ static void drm_test_panic_screen_user_map(struct kunit *test)
+ 	sb->height = params->height;
+ 	sb->pitch[0] = params->width * sb->format->cpp[0];
+ 
+-	params->draw_screen(sb);
++	ret = params->draw_screen(sb);
++	KUNIT_ASSERT_EQ(test, ret, 0);
+ 
+ 	for (i = 0; i < fb_size; i++)
+ 		drm_panic_check_color_byte(test, fb[i]);
+@@ -119,7 +120,7 @@ static void drm_test_panic_screen_user_page(struct kunit *test)
+ {
+ 	struct drm_scanout_buffer *sb = test->priv;
+ 	const struct drm_test_mode *params = test->param_value;
+-	int fb_size, p, i, npages;
++	int fb_size, p, i, npages, ret;
+ 	struct page **pages;
+ 	u8 *vaddr;
+ 
+@@ -146,7 +147,8 @@ static void drm_test_panic_screen_user_page(struct kunit *test)
+ 	sb->height = params->height;
+ 	sb->pitch[0] = params->width * sb->format->cpp[0];
+ 
+-	params->draw_screen(sb);
++	ret = params->draw_screen(sb);
++	KUNIT_ASSERT_EQ(test, ret, 0);
+ 
+ 	for (p = 0; p < npages; p++) {
+ 		int bytes_in_page = (p == npages - 1) ? fb_size - p * PAGE_SIZE : PAGE_SIZE;
+@@ -182,6 +184,7 @@ static void drm_test_panic_screen_user_set_pixel(struct kunit *test)
+ {
+ 	struct drm_scanout_buffer *sb = test->priv;
+ 	const struct drm_test_mode *params = test->param_value;
++	int ret;
+ 
+ 	sb->format = drm_format_info(params->format);
+ 	sb->set_pixel = drm_test_panic_set_pixel;
+@@ -189,7 +192,8 @@ static void drm_test_panic_screen_user_set_pixel(struct kunit *test)
+ 	sb->height = params->height;
+ 	sb->private = test;
+ 
+-	params->draw_screen(sb);
++	ret = params->draw_screen(sb);
++	KUNIT_ASSERT_EQ(test, ret, 0);
+ }
+ 
+ static void drm_test_panic_desc(const struct drm_test_mode *t, char *desc)
+-- 
+2.55.0
 
-> > > +
-> > > +	/* Run vEL1 on the same stack. */
-> > > +	asm volatile("mov %0, sp" : "=r"(sp));
-> > > +	write_sysreg(sp, sp_el1);
-> > > +
-> > > +	/*
-> > > +	 * Drop TGE so that vEL1 is a nested context rather than host EL0.
-> > > +	 * KVM backs it with a shadow stage-2 MMU even though vstage-2 is
-> > > +	 * disabled (HCR_EL2.VM=0).
-> > > +	 */
-> > > +	write_sysreg(read_sysreg(hcr_el2) & ~HCR_EL2_TGE, hcr_el2);
-> > > +	isb();
-> > > +
-> > > +	write_sysreg(PSR_MODE_EL1h | PSR_F_BIT | PSR_I_BIT | PSR_A_BIT |
-> > > +		     PSR_D_BIT, spsr_el2);
-> > > +	write_sysreg((u64)guest_el1_code, elr_el2);
-> > > +	asm volatile("eret");
-> > > +
-> > > +	GUEST_ASSERT(false);
-> > > +}
-> > > +
-
-[...]
-
-> > > +
-> > > +static struct nested_s2_state enable_empty_nested_s2(struct kvm_vcpu *vcpu)
-> > > +{
-> > > +	struct nested_s2_state state = {
-> > > +		.hcr_el2 = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_HCR_EL2)),
-> > > +		.vttbr_el2 = vcpu_get_reg(vcpu,
-> > > +					   KVM_ARM64_SYS_REG(SYS_VTTBR_EL2)),
-> > > +	};
-> > > +
-> > > +	TEST_ASSERT(!(state.hcr_el2 & HCR_EL2_TGE),
-> > > +		    "vCPU should be in nested/vEL1 context");
-> > > +
-> > > +	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_VTTBR_EL2),
-> > > +		     NESTED_S2_ROOT_GPA);
-> > > +	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_HCR_EL2),
-> > > +		     state.hcr_el2 | HCR_EL2_VM);
-> > > +
-> > > +	return state;
-> > > +}
-> > > +
-> > > +static void restore_nested_s2(struct kvm_vcpu *vcpu,
-> > > +			      struct nested_s2_state *state)
-> > > +{
-> > > +	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_HCR_EL2), state->hcr_el2);
-> > > +	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_VTTBR_EL2),
-> > > +		     state->vttbr_el2);
-> > > +}
-> > > +
-> > > +int main(void)
-> > > +{
-> > > +	struct nested_s2_state s2;
-> > > +	struct kvm_vcpu_init init;
-> > > +	struct kvm_vcpu *vcpu;
-> > > +	struct kvm_vm *vm;
-> > > +	struct ucall uc;
-> > > +	u64 npages;
-> > > +
-
-[...]
-
-> > > +
-> > > +	/*
-> > > +	 * The vCPU's last-run context is vEL1, backed by a shadow stage-2
-> > > +	 * MMU. Enable nested stage-2 with an empty root so that the ioctl
-> > > +	 * fails if it tries to interpret the userspace GPA as an L2 IPA.
-> > > +	 *
-> > > +	 * Prefault in two halves so that the second ioctl exercises a
-> > > +	 * repeated shadow-MMU attach and canonical stage-2 swap.
-> > > +	 *
-> > > +	 * (Note that an implementation that wrongly populates shadow
-> > > +	 * stage-2 page tables would not be caught as userland can't
-> > > +	 * inspect these.)
-> > > +	 */
-> > > +	s2 = enable_empty_nested_s2(vcpu);
-> > > +	pre_fault(vcpu, TEST_MEM_GPA, TEST_MEM_SIZE / 2);
-> > > +	pre_fault(vcpu, TEST_MEM_GPA + TEST_MEM_SIZE / 2, TEST_MEM_SIZE / 2);
-> > > +	restore_nested_s2(vcpu, &s2);
-
-Sorry I don't get what enable_empty_nested_s2(), restore_nested_s2()
-brings to the test?
-
-After quickly going through the prefault implementation there isn't
-anything about it that is nested related, how would giving L2 an empty
-stage-2 translation affect the outcome if it misinterprets the GPA as an
-L2 IPA?
-
-In other words would there be potential false positives if we don't call
-these functions?
-
-Thanks,
-Wei-Lin Chang
-
-> > > +
-> > > +	/* Resume at vEL1 and touch the prefaulted range. */
-> > > +	vcpu_run(vcpu);
-> > > +	switch (get_ucall(vcpu, &uc)) {
-> > > +	case UCALL_DONE:
-> > > +		break;
-> > > +	case UCALL_ABORT:
-> > > +		REPORT_GUEST_ASSERT(uc);
-> > > +		break;
-> > > +	default:
-> > > +		TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
-> > > +	}
-> > > +
-> > > +	kvm_vm_free(vm);
-> > > +	return 0;
-> > > +}
-> > >
-> > > --
-> > > 2.55.0
-> > >
-> 
-> --
-> Cheers, Lorenzo
