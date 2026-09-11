@@ -1,104 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0938043DEB6
-	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 10:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F5C42EEC4;
+	Fri, 11 Sep 2026 10:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789123072; cv=none; b=Ro2IYUZ+hA7QP0Fd0/woMt+Scw4n9jLlByH/HTtA/vsA5D5BnSA38SZtPffvuNuEwoQ6TmyEW3rvS474hZAmIkg7d75OGxcND+3NYsDmxp8dp6gl1MS/92RyAjWz+OcebILjHxFY3IWEqrhq8Gs9F+BWCvB9hQb9TYpZ/eKvRhY=
+	t=1789123318; cv=none; b=ENoSwDTm2el1VqvxfbfPctRUEcC2QMj8EPkohd8GfiSeC0uEM8evenaRImOJ/LjvWPnjH+QG9PVF+nCQiJcNZe1oj71CisjwqixwLooQADMcs63DhwJmH+RMPDheXsE70s71ZSD9D16ZUm6sjDxeevxSWLtThBLzcwMxjUmq8Z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789123072; c=relaxed/simple;
-	bh=u3ml56j4b77Wl1GbiGVHUmqogW08AlS96mTkV2PdT1A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KC/cfEwJVdx0cGbE06WhFNOYcWght56zz+0SDhn0/ww855KSF+FzbI8hZtzZMVhed1ibYBUidX0kJS5WwbYYq3EiL4Gcc/OZQiSnkLZfEXQSfs8PJJr8BoBYOVnXLhH/EMEt8AxuLLcYDgPLag0osLkLW/IuKyY6LpfFrvBhdg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R+PgXW8Z; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1789123318; c=relaxed/simple;
+	bh=5YCaSg6B8lnKNS5mnwM54lBHOHshfmcrbaZ2cubXQ4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JX2H7kzq6nu6BHrEn9IC5RMfJyAuoHN6sqgRcNhttkz5QPXPuzSFdJ/fQJxBOVXM48yJ4hJqpbtFWarJ9NVKm0YFsMahFZZriumXOyUPhjDfI4DpDXZBOeIPsfQeDgtTc3/dRMnNN1eoy68NxTbE1Hr4sGUvazymPAJI56XrdvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hcs4lsBd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R+PgXW8Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789123068; x=1820659068;
-  h=date:from:to:cc:subject:message-id;
-  bh=u3ml56j4b77Wl1GbiGVHUmqogW08AlS96mTkV2PdT1A=;
-  b=R+PgXW8ZTVKdl3dP24X91gd4Vkchn4k17HXVR9+tSnO/uqd87PZ9zT4O
-   351Y72kyNQPmQ84Q8svU9KswDc65jfEecnTnXFS3kyTh4GFd3Yexpt+hL
-   JkYWgyr1bcDNDLZl4YPEVvUbh7RWQe0zUPem1Hs1k1ewfRjOwYoKrJ8wT
-   9TGnF2DsqLnhIt1lKPecu5MKsfjH1/DInpbHLmbkXg5nJSc/EqVFAezWY
-   WWwRm3SOWg6q907+qnwcvux9Ae1B8nHzL4tLVuZbgcnLif7+4IAQnUVUv
-   cZZGpC98SgEMGfDMxmjEcUrxn77ixCqZZXM5c45mKty0sE+DD/THuORZ2
-   w==;
-X-CSE-ConnectionGUID: ZsRN889SRISVB+Y3epzo0Q==
-X-CSE-MsgGUID: 9YpSxd9SQnO/0JHV05iINA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="100936760"
-X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="100936760"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 03:37:40 -0700
-X-CSE-ConnectionGUID: Yo5Ovl7FSyuoOr0ZG2dk5A==
-X-CSE-MsgGUID: Bh5Zt72aQT6CqFBs9bQUSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="268207484"
-Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Sep 2026 03:37:39 -0700
-Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x4ydU-000000000lj-3gdS;
-	Fri, 11 Sep 2026 10:37:36 +0000
-Date: Fri, 11 Sep 2026 12:36:52 +0200
-From: kernel test robot <lkp@intel.com>
-To: Waqar Hameed <waqar.hameed@axis.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-doc@vger.kernel.org
-Subject: [linux-next:master 5112/5916] htmldocs:
- Documentation/ABI/testing/sysfs-class-power-rt9467:1: WARNING: Inline
- emphasis start-string without end-string. [docutils]
-Message-ID: <202609111242.3THMmby4-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hcs4lsBd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E852A1F00893;
+	Fri, 11 Sep 2026 10:41:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789123317;
+	bh=MMJozD+RewnE2WYnIY4zmGHYgUsIL3AEVPRTDj0LFp8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hcs4lsBdMwnW3lvB6exZIai5ol6Yll7bG/D1+ACDRwDpO3fOZPtNZtrr/wRrMfVnF
+	 2j60pbtJ6hWpfKQa7KB2OZKJ6MVp/0vCxO6uHD6KrHWQqBZ6kEPkhf7pZQJr/102YE
+	 T1jWWci85XBcjR4t7bz+BKek9UUwRB2J3+EJ11gmbc4zCByQt1yfpJBpmjxqNfMqkG
+	 3ToKl+ijDkkohsVu6wnXupOLnIvcJUBY0ztyBT2+7I01TALqv+YgH4HIxdTJWXPF21
+	 OCt+c8Um107UgPvZi5Npr/ihPA+ggNXAevh4vJJClnZvexnYba42/50f1AwJmO7j+o
+	 2kw3fJzuWq5fA==
+Date: Fri, 11 Sep 2026 11:41:43 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH 13/23] modpost: hash module source per-file, not per-byte
+Message-ID: <aqPYvKR_eRsFlEd-@gremlin>
+References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
+ <20260908-build-speedup-v1-13-5dc1ac01672d@kernel.org>
+ <434a7a10-d83e-4402-be91-816bbbc15bb7@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <434a7a10-d83e-4402-be91-816bbbc15bb7@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f2bfbc3554ca6919484030729424b9dee2942d24
-commit: 3f21de6784a654503cc148169d1f59d89971da13 [5112/5916] power: supply: rt9467: Use POWER_SUPPLY_PROP_LOAD_SWITCH
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260911/202609111242.3THMmby4-lkp@intel.com/reproduce)
+On Thu, Sep 10, 2026 at 02:52:50PM +0200, Petr Pavlu wrote:
+> On 9/8/26 10:55 PM, Lorenzo Stoakes (ARM) wrote:
+> > modpost spends a long time md4 hashing module source at a per-byte
+> > granularity.
+> >
+> > Fix this by doing this hashing per-file instead by accumulating a per-file
+> > buffer in parse_file().
+> >
+> > All 11,189 .mod.c files and Module.symvers were confirmed to be identical
+> > with this change applied.
+> >
+> > This is especially impactful for allmodconfig incremental builds (where
+> > CONFIG_MODULE_SRCVERSION_ALL is set).
+> >
+> > Whole build, 128-thread Threadripper 9980X, best of N runs:
+> >
+> >                                          before   after     delta
+> >                                          -------------------------------
+> >   x86 allmodconfig, touch mm/vma.c, gcc    40.6s    38.2s     -2.4s (-6%)
+> >   x86 allmodconfig, touch mm/vma.c, clang  36.2s    35.0s     -1.2s (-3%)
+> >
+> > Assisted-by: LLM
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > ---
+> >  scripts/mod/sumversion.c | 56 +++++++++++++++++++++++++++++++++++++-----------
+> >  1 file changed, 44 insertions(+), 12 deletions(-)
+>
+> Support for the module srcversion is being removed in "module: remove
+> MODULE_VERSION() and srcversion" [1] and scripts/mod/sumversion.c should
+> be gone completely.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609111242.3THMmby4-lkp@intel.com/
+Hmm, that series doesn't remove the script though, is that planned as a follow up?
 
-All warnings (new ones prefixed by >>):
+I guess I can drop this patch from the series then :) Also patch 17 I think?
 
-   Using alabaster theme
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
->> Documentation/ABI/testing/sysfs-class-power-rt9467:1: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline emphasis start-string without end-string. [docutils]
-   WARNING: ./block/blk-map.c:366 Excess function parameter 'op' description in 'bio_copy_kern'
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:387: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
-   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:410: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
-
-
-vim +1 Documentation/ABI/testing/sysfs-class-power-rt9467
-
-eedb923279b78c ChiaEn Wu 2023-01-03 @1  What:		/sys/class/power_supply/rt9467-*/sysoff_enable
-
-:::::: The code at line 1 was first introduced by commit
-:::::: eedb923279b78cbfe16dd54dade0d73e9977f118 Documentation: power: rt9467: Document exported sysfs entries
-
-:::::: TO: ChiaEn Wu <chiaen_wu@richtek.com>
-:::::: CC: Sebastian Reichel <sre@kernel.org>
+>
+> [1] https://lore.kernel.org/linux-modules/20260731-module_ver_remove-v2-0-c9163858f382@linuxfoundation.org/
+>
+> --
+> Thanks,
+> Petr
 
 --
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers, Lorenzo
