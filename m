@@ -1,384 +1,139 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F614A64EA
-	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 16:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789145885; cv=pass; b=XskkvCkJXasZn35sd442dYFJmPiYeFm/37Qv6qgrUXvvUUldFxnuRnlZqLEWJamiy4cxXI/E/22BCKgKsSkiJSH25kv//LoVm5tyfVXf1UFh71AkNzuwn2P7y8lv1UzY90/bTc4DIismQ2WzlsKcLbFcS7ceTsJlTiPFmB78TyM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789145885; c=relaxed/simple;
-	bh=VYReojEXuXxtQgY+IrRq+iMHb665k0hg6mJkBTAX55I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lLPKSFw4FmMuSwN4XfWVQdhNVicRDFko33B9z+pV+1yZD0MmIOOjbxB/EC7wyNx+P817chj8aZiUQXzOV10NVaX9kMA+vTBNsA7YlKD6Ck0+yNNjjeh+3ayWomItTM3Au7h5/jEVbZZ97NkblSzU+TOq7xluoXi8/9ikOAyPc6U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T4+WZX6p; arc=pass smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B542C4A8420
+	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 17:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789146027; cv=none; b=u2fz/EYpZO/PRrj85ibmTHVJTQACFQnZv7lHilV0VxkvgdbYKHap1vAWXxLIo5rP612npXS15ojbmgjCiVBY4prY7tuE4ZCmww4a1jZE1Z3R5QCsTu3fG3XRexvBHu4avN1mSuh5OgJpaddZLQeO6r2GXNAIZlMPzH/5r51JCx4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789146027; c=relaxed/simple;
+	bh=pKfXcTh9ufGXtOnZL+dqvriCFW8mQUY1BS2IMX9Ms9A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h4PEzbmv/bhIRfqR24Q0Tf0rEkcVNwVR3yrTUOA6xwnVEDlEC+zI8H7vWtcFArDfaQplUNkULP4juf+N4CK/SQVoBXaesqJhJ1BjrpYLu2VnQvxwW5qZ6bBFAm7aNv5/QGzvCxc3MgxEYUDEINjatlj745NOPB3QYeZVyP70V00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=v9IZvae8; arc=none smtp.client-ip=209.85.160.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T4+WZX6p"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485b1d2874aso57668f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 09:57:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789145867; cv=none;
-        d=google.com; s=arc-20260327;
-        b=FMEsP67pEFcp9oe3R9KtXRt7MXTuv/Y8A+ui16qaTj5x20da1NUbkjlSpFTjhQTL2A
-         cUF6L0eGuNcIYh+wzb/tGagrB3XCiOivzgQxdDeElIlPSsJIwujDqD/X30+VDjJL3b03
-         HkUjxFCRq8Qj8yv85uBNmdbslflGM00rJ7j6YQzzer/pDjU8Q6wT+OjAePPUIAmgkWXb
-         VxM4Rvv3+CdjmDP03pjQ5G6G5VpSR0qhJQqla9GSwd0VWR97M/xC4fYNKSFmqosGf8cj
-         Yp82ORwALvy2ecRp3RkQOvbJn10Bjyd1i1yxP2HgA+CWiB2NtOwqm1lql4qjXJG8HJeR
-         nxkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3G70g5xjg3njVB0Ao8zue+pNyHQGRtR9l9P4/x23hB8=;
-        fh=j5fNG71xAf7Rl7Zqi/mwhtk9I7hUrEqbDixHU2yqVUs=;
-        b=VRVSTovcHxKjxhUJlP+M40RnyAzzBH1+2THaB6xG49BnzTcoWyfEZIhotXrM9A9dIE
-         bHGQ3G8BYRwVYyBuqM7ER1PkgZtL/EiUvQa28oFOKNvPylZQBMffZgyjKb23YjW2kLFC
-         NBu7FacNUB3DGeE/Lwr/XjN86QclYZrMi3ND6QdDS5Y0k8jrYbLsQxiThAxIdJQfC0AN
-         hunnFet/T4MrbxDZs3wOrK2HZYfeismPEQL2cCMI33i3ZIcWH6Iw2WdfCAaMzljkEorF
-         mk1sXHbxEpEjKawEXrl+3gCvFC68/agpnRsA/6Vb9G+eVVVfzQrXV8dLz+5p7Tyd2jfx
-         /fGw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v9IZvae8"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-475920b9ca2so422743fac.1
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 10:00:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789145867; x=1789750667; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=google.com; s=20251104; t=1789146018; x=1789750818; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=3G70g5xjg3njVB0Ao8zue+pNyHQGRtR9l9P4/x23hB8=;
-        b=T4+WZX6p7Y0T5qqlLfLHMY3AGOt/BjCaOEg/JML0niRDp6z1+KLV5+zpNqSAH5vGAH
-         FH3wh5lOpKVGQxjht9ddJf2WSPhY6/agb2NWx+OIH5ybI5qyXdsH2vEBtMgaZXSw2EJI
-         Zlc8WGSnOJccWuKkyeqmk7qHPQUBF16iHHF8vwdbD/Z5qZZnTJnrNYbQLPNOUaOmcbcl
-         aDpYHo3N1rbk5PjEEuKVw2KOSl5V0aEJFleseEHW2kPormCuJ39jy+7dIaNLBGS+pRfH
-         GyBoNkS7rakX2RG/mjBTt+owehFYo2SgaAT5IomqqT+eQ3Qnrm8yAGR6Lf19tv6n4BHM
-         sX1Q==
+        bh=mwDk3fh+JvGyN78BSU6J48zvCwmsI7FUHYkydOLS1VI=;
+        b=v9IZvae8x3v7JgAqqSmQc7lofPXLQdMwsx7ZhjXhc6Rlpl2KXPkWOgZ7a+IWL1nWMu
+         +DP7CEjyls27Vt8D1cL0jT+Md5SqE0bLYtHiyKJI+uqfPE9PiFmcr6FNR2FzmWN97zh1
+         E6BDQ3j9Fri8ayc2ozmMvpEO05vlOeAd7hkh805miCy4eRQb3DJR8eU1yyinK9jeylJe
+         7z/suCBZ489WUbR1mp71Z8Xy/pqvoJtchYDW9KJvtxm1wv2YWt1EMsbNq3PvIb6XW7Fw
+         skXJnHHu+m4b2yqsY5m7z5talvSxE0sgVpsj0+2v33enKhdmqMwoQY9as3qhj2+VVyoy
+         tR9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789145867; x=1789750667;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1789146018; x=1789750818;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3G70g5xjg3njVB0Ao8zue+pNyHQGRtR9l9P4/x23hB8=;
-        b=bw8JRgDFJbGkOJbP2kHI+uqKlBvH6VTSasLOhanB7HG9shHj6iCPvq12tRD0ZQbf84
-         Y/jm+Ee/c0Cd0qW6jRk5Fy20jtaqRzS9+w0XXi9g5tdALl8P2GUI5OrlaOnXVxvvgNJ2
-         lr4Ngwk2SECaxEHnX70Zd0Kkf4q9J3zG6SevjqUYgZ/9sxwg7P/NBzNOBHh89ZkZijDF
-         Xgn58OL+LNhnyLxgAy2FFB/213kNfgm2VPwPn20Ztfx9Q2YcIJDNEcXE7kajr5VkIedE
-         b490tXVLi4Y4wgLjuWJ+QGutLB8gRmk0OFo1VzSZeOCP9Uxu3Qr0AGFijwTRtvvTdrIZ
-         rKQg==
-X-Forwarded-Encrypted: i=1; AKwUvBxJRIEA+dQLMGN9Me7CLap01fe87TrKLZOjpx3uRAzr3LQrZGZSxbza8lcWRFyQ/YY1mFyh70Qr8zM=@vger.kernel.org
-X-Gm-Message-State: AFuF++kuT6wSdG62NExKpBKmhM+X3QQMDNLZjMFRIOqh0lieizz/2F6s
-	ZbYm0V72EiZT6ZdiKP8TOa2XFsVw7Kz3tH7bjj97tbR5xSbq+SjcFN1i1YgpxB6wOKSKausczt4
-	7lsH4o7c5+8IvEDezJDcLCNV95usd5qc=
-X-Gm-Gg: AYBFou3hI0im7wikIoKwXqg79qyU9toRMjZzTbMyx2kAGWV4lPGUbMeP2pzirkg2N4P
-	xeUQCWVoifC8nrNJlKBjVxOhg3auIcXYmP8exWhfbqxKtmOwT10ZXMI90YdjrangMTKcD6PIhfD
-	kU4WPfgsYWutD1iRIO5WbDlczXDuNw/E2jlCqLOG+mMwghdazOy71iX5Bit35b1mAB7gocZZRj8
-	L8pvkik8yurSJvlHHjNgQFPLFQocZuZdfs9Mulv+Nd7AxSmSzZLDptMI9efrK74R8KveQaRj2Aq
-	zuHmwk3zLmyOCuOJoCZLLGB8J2xobs0W0Vo/sPq9kz528zTzSsDrDEC/Hr7UJtr/V5EBkKn1yXG
-	0uCZY27t3TYQ=
-X-Received: by 2002:a05:6000:240b:b0:482:ea08:8c8a with SMTP id
- ffacd0b85a97d-486eb33c4f5mr10751769f8f.20.1789145866856; Fri, 11 Sep 2026
- 09:57:46 -0700 (PDT)
+        bh=mwDk3fh+JvGyN78BSU6J48zvCwmsI7FUHYkydOLS1VI=;
+        b=HcK78Vps8qST6wKE+FW4AEZsazJlkxwGM0AV85+t5VQv7jSkVGaMZVGpX7IM1c0gbd
+         aSeytHKm8nZ8pYyJGb+4I7tFB7KMhejhiPH4wX6MZe3zPTgOWhr/kNSfDlY4ZExY8yqv
+         fLgaMl9b4ZAnAHl6gbDHCYAn1dij5xIMO0GENchRPDsLRYvUGrSIHHLfNHnYyRzEGw2i
+         aXSqdzosz8a8S8Y+W911udHniCmei6C94HSdwBmBYbdXABOLLarUMiT9dwV8wnoa9oNz
+         tc3ISgVMjq+lWPUfzqz8OUqs3VW75Y7jKMbQQqtmjoTbaNgXlcV1P/cTbWfR6RlgUVU7
+         pC8w==
+X-Forwarded-Encrypted: i=1; AKwUvBwDpRBPazK9pLMxxcQHcQVczTG1wynbAVAAEzh/OT7Fn859y6HGYNonzkB5XvxbQqNdXYQ1HFcmXVo=@vger.kernel.org
+X-Gm-Message-State: AFuF++lyYU6fNGacJ7bRHCzp8k92kxFouUoLmWBcz+SjQDL0EHLxjSCh
+	rZ48oenTr7dHC41dIQz6/kmQwLSdHyzKeEYosrO8dh0vd7XAbQSstuhxWf78/Tv8zw==
+X-Gm-Gg: AYBFou3X9oRV0/IXV5Y7WNt4nkIkYc2o7mWfRKAILwhuI5+8w9NUdFYpKEF/tglhohg
+	rJMBZt4r3lk1p/LYVQOYlxXmKM6mVFwpzGgflBV5AGurWWMiMxRIoAQlI+y+ZbPDdoCICCzBzjj
+	zlYcamMTsR5F5NaTMneksy4jQYuhx4ldqbs+CO587ewSRIjUTbwikX0cIhavHEXo29ifK0Glcli
+	Yt/JyaBQbd4U9woENVlry0+YN8OHOo2iOmy9lMQ+dDrb8nqFeEcwveXHkgHCBnbBmL8RFRDyl51
+	J38p/4YGddRifX60V6v87yOUYk1i7/fD/SiQ/QSPNil1Y8wTQ6YfFpfCpGai/AFu3j/Iu/ngYNO
+	n6gxum9RUgsVQpUcWudUNGtvhT4RE9yWvuysdnbapMncGO8z1A9/PjIIYmQeTHZIPEkMLQ/y2Ng
+	BrRintTEWVnemNnwZCJv6hWbN0qnz8XaK2GXEX6cyjLfIJewrtC5ZvrFNEEety8mItjflOFmK5A
+	MmjoErYl6KwFo3feQ01NKku9lf3vQy16jSgi9Ms
+X-Received: by 2002:a05:6870:7183:b0:475:a112:1275 with SMTP id 586e51a60fabf-47debded110mr3337322fac.34.1789146016740;
+        Fri, 11 Sep 2026 10:00:16 -0700 (PDT)
+Received: from google.com (192.150.203.35.bc.googleusercontent.com. [35.203.150.192])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-47df8bd0284sm2467114fac.9.2026.09.11.10.00.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 10:00:14 -0700 (PDT)
+Date: Fri, 11 Sep 2026 17:00:10 +0000
+From: David Matlack <dmatlack@google.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Josh Hilke <jrhilke@google.com>,
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
+	Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v8 06/12] PCI: liveupdate: Auto-preserve upstream bridges
+ across Live Update
+Message-ID: <aqQzmvgILmU8F4TR@google.com>
+References: <20260728221007.2098560-7-dmatlack@google.com>
+ <20260910235126.GA367952@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <CAMgjq7AHRzBsbmGOx0s=TQFBwcn=DEU1naR443sO6x+pJd6hAg@mail.gmail.com>
- <CAKEwX=O8i+OsP6BJXNZNk07hveN9HDT+PoyMTAU6gOc-xp0Ppg@mail.gmail.com> <CAMgjq7BQeQQOZMDPFJ+8LS2N4t3x53r6Nm+9o0_pi92oVUgjgQ@mail.gmail.com>
-In-Reply-To: <CAMgjq7BQeQQOZMDPFJ+8LS2N4t3x53r6Nm+9o0_pi92oVUgjgQ@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Fri, 11 Sep 2026 09:57:35 -0700
-X-Gm-Features: AcwNN1WArL_JByzG5ZwCWzeldSKlDzHuBhpFh51SZKu7QF3uO9ezUafnCe2ZS5c
-Message-ID: <CAKEwX=MS-7C96i4tzBijHN=-xuZgny_wQEa_0YjfHzhoNysdYQ@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Kairui Song <ryncsn@gmail.com>
-Cc: Chris Li <chrisl@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910235126.GA367952@bhelgaas>
 
-On Fri, Sep 11, 2026 at 9:10=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wrot=
-e:
->
->> >
-> > >
-> > > > 4. Data structure (xarray vs sparse vmalloc array). Even with xarra=
-y, vswap
-> > > >    is already on par with or beating baseline. I like the sparse ar=
-ray
-> > > >    idea, but why are we landing an optimization before the feature =
-itself,
-> > > >    without any A/B data showing the difference matters?
-> > >
-> > > This is where I'd push back a little. To be clear, my concern isn't t=
-he
-> > > size of the win, it's that VM_SPARSE isn't purely an optimization. It
-> > > changes the cluster/metadata layout and avoids RCU conventions,
-> > > could help avoid some future sleep while atomic limitations and
-> > > it's tangled with the initial size issue too. So bolting it on afterw=
-ards
-> > > could mean rewriting the parts of vswap that touch it and could be
-> > > costly some conflict in ideas. That's why I'd rather we agree on
-> > > it now, not that it has to land first.
-> >
-> > I don't think the current code differs significantly from the existing
-> > model, no?
-> >
-> > For the most part, RCU played quite nicely with the current swap code.
-> > Practically, it's just:
-> >
-> > 1. If you have a reference to the swap entry, you can assume entry and
-> > the cluster owning it is safe.
-> >
-> > 2. If you don't, then do not assume it's safe once you exit the rcu
-> > read section.
-> >
-> > What conflicts specifically do you have in mind here :)
->
-> Yeah you're right. I'm just a bit worried if that RCU period will be
-> extended, and it's always better to make the convention as simple as
-> possible. I'm already trying to get rid of the local lock, in that
-> swap queue series, that is not so painful and still a bit troublesome
-> for a few new use cases.
+On 2026-09-10 06:51 PM, Bjorn Helgaas wrote:
+> On Tue, Jul 28, 2026 at 10:10:00PM +0000, David Matlack wrote:
+> > When a PCI device is preserved across a Live Update, all of its upstream
+> > bridges up to the root port must also be preserved. This enables the PCI
+> > core and any drivers bound to the bridges to manage bridges correctly
+> > across a Live Update.
+> > 
+> > Notably, this will be used in subsequent commits to ensure that
+> > preserved devices can continue performing memory transactions without a
+> > disruption or change in routing.
+> > 
+> > To preserve bridges, the PCI core tracks the number of downstream
+> > devices preserved under each bridge using a reference count in struct
+> > pci_dev_ser. This allows a bridge to remain preserved until all its
+> > downstream preserved devices are unpreserved or finish their
+> > participation in the Live Update.
+> 
+> This seems to hint that we're going to allow bridge reconfiguration in
+> some cases, e.g., for hot-adds.  The simplest case is "leave config of
+> all bridges the same", and I thought that was what the previous patch
+> commit log said.
+> 
+> What's the benefit added by this patch?
 
-Completely understood. Your inquiry made me give it a double take - I
-took Baoquan's code and hacked it on top of my vswap patch series, and
-it seems reasonably simple :)
+It is used in the following patches:
 
-https://lore.kernel.org/all/20260910232704.3364879-1-nphamcs@gmail.com/
+ PCI: liveupdate: Adopt ACS controls in incoming preserved devices
+ PCI: liveupdate: Adopt ARI Forwarding Enable on preserved bridges
+ PCI: liveupdate: Do not disable bus mastering on preserved devices during kexec
 
-Seems to slot in quite nicely. I mean, we're converging to the *same*
-architecture, just different data structure. We can switch down the
-line - it just would require a lot more testing, benchmarking,
-evaluating, etc. to adopt this.
+to preserve certain configuration on bridges that have downstream
+endpoints that are being preserved. To support P2PDMA we will also have
+to preserve bridge memory windows (future series).
 
-> >
-> > I think a lot of these wins come from the fact that the zswap's xarray
-> > specifically is *really* bad in certain paths. For instance, in the
-> > free path (swap_range_free() -> zswap_invalidate()), there is no
-> > batching behavior, so we walk the tree from scratch for each entry
-> > rather than using an xas iterator for the entire batch. That goes away
-> > in the current vswap model, because the xarray manages cluster rather
-> > than entries, so you just do one tree walk + one flat array walk.
->
-> Right but with vswap replacing zswap, isn't the performance is still
-> basically unchanged according to your test (or just a little bit
-> faster)? My test still doesn't show a measurable improvement.
-
-Yeah in my test it also improves in some cases but not others. But
-FWIW, the xarray-less approach does not outperform the xarray-version
-yet :) I tested with the old coupled design, only replacing xarray
-with a per-cluster flat array - so basically Baoquan's design but
-without the vmalloc overhead. It performs basically on par with the
-xarray (where it wins, it matches xarray's wins, etc.).
-
-And I tried my best to keep the old code intact (all the
-swap_is_vswap() that Baoquan disliked was for that too haha). That
-make sure physical-swapfile-only users, and those who still disable
-vswap at boottime, has no overhead.
-
->
-> > zswap and swapfile coupled, but only remove the xarray and replace it
-> > with the flat array in swapfile's cluster struct. I observe the same
-> > win, basically (especially on the usemem benchmark).
->
-> Yeah, merging the zswap xarray into cluster should buy a lot of
-> performance gain, the only concern is the cluster it self is in a
-> xarray tree so if your vswap space gets huge, could that somehow
-> become an issue? Zswap used a split xarray, and swap also used to have
-> a 64M partition for the swap cache xarray, which is gone after the
-> swap table.
-
-Hmm not in my testing so far, both in production and synth-benchs, and
-we have some pretty big swap users.
-
-As long as the xarray does not lock us into any model, we can always
-optimize further IMHO. There are several axes of scaling - another one
-is raising the size of the cluster.
-
->
-> ...
->
-> > > We were also discussing the limitation of the global cluster cache in
-> > > that thread, so I paused my other work for a while and posted the swa=
-p
-> > > queue series first. That one is orthogonal on purpose, and helps both
-> > > swap tier and vswap, it reduces the overhead enough to cancel out
-> > > the layering cost due to missing caching for either:
-> > > https://lore.kernel.org/linux-mm/20260829-swap-pcp-priq-v2-resend-0-6=
-8d3d925578c@gmail.com/
-> > > (this is V2, V1 is earlier - thanks to Lian for keeping this going!)
-> >
-> > Ah that! I sort of tabled that as a nice-idea-but-still-optimization :P
-> >
-> > I'll spend some time thinking about the design and reviewing it. In
-> > the long run, it will get things more simple, but another thing that
-> > should not be a blocker, correct?
->
-> Right, definitely not a blocker. I think the swap queue could be
-> merged after tiering and other stuff, as an optimization, just to
-> demonstrate that we don't need another layer of cache; we can just use
-> the devices directly without any cache above them. It will also
-> deprecate plist; with the only plist rotate user is gone, we can get
-> rid of a large chunk of common plist code.
-
-Look forward to seeing more of this! It was a personal request from
-me, so I appreciate that you look into this.
-
->
-> ...
->
-> > > The two interfaces aren't equivalent, xswap has its limitations, but =
-a
-> > > couple of xswap's properties look genuinely better to me. Runtime
-> > > on/off rather than a boot parameter is better, more flexibility and
-> >
-> > I would also like to point out - I *do* have a runtime parameter in an
-> > older version of vswap (v3). There is also not a lot of engagement
-> > from folks in that version - no one expressed any interest in that
-> > runtime knob in particular. Only Johannes made the case that a boot
-> > parameter is superior, so I switched over. I think his reasoning makes
-> > sense at the time FWIW, and it also removes the need for CONFIG_VSWAP
-> > (which in turns remove a bunch of useless stubs - saving 100 LoCs), so
-> > I figure folks will prefer less code and less userspace decisions :)
-> >
-> > v3: https://lore.kernel.org/all/20260806184254.3790858-1-nphamcs@gmail.=
-com/
->
-> Ah, thanks for the reminder.
->
-> > Regardless - do you have a specific use case in mind where a runtime
-> > knob would be useful?
->
-> A boot time bool will cause real trouble for us, at least. We have
-> many VMs with fixed boot images and fixed cmdlines. However, the VM
-> itself is used by different customers, some are ZRAM only users, and
-> quite a lot don't want any kind of compression (e.g. their data is
-> dense compression is just waste of CPU) and prefer plain swap. So I do
-> hope we can have a runtime tunable instead of modifying the cmdline
-> and rebooting or rebuilding the base image for different cases, and we
-> have already seen that a runtime toggle isn't hard at all.
-
-Ah yeah I see. But before moving back to runtime parameter, do you
-think we can come up with a heuristics for this that have does not
-require userspace input? In v4, I'm doing this at folio_alloc_swap()
-time:
-
-a. If the cgroup enables zswap, then always go vswap.
-
-b. If zswap is not available for the cgroup, then bypass vswap, and go
-straight for physical swap entries. My intuition is that we are not
-buying anything for these zram users, as we need a physical swap slot
-anyway. Thanks to your design, both can co-exist in the system now -
-that's something I actually did not envision possible in the original
-version of vswap. Pretty cool eh :)
-
-Would something like this fix it for you? ZRAM users will not get
-vswap indirection overhead at all, because it would bypass vswap :)
-Down the line we can revisit this decision - for e.g, if there is a
-use case for vswap-on-top-of-swapfile. There might be other interface
-that makes more sense.
-
->
-> > > doesn't conflict with what vswap is trying to do. Some other of these
-> > > differences involve design decisions rather than just surface knobs,
-> > > and those are the parts we're stuck with once they ship.
-> > >
-> > > So a few current interface difference of vswap and xswap I've noticed=
- are:
-> > >
-> > >  - default size: somehow also tangled with VM_SPARSE, which
-> > > needs an initial virtual value. It's super cheap if not zero cost
-> > > (the only cost is occupying some vmalloc area, which is fine
-> > > I guess?). But we still have to pick a number, could be large
-> > > enough to satisfy everyone?
-> >
-> > 8PB? ;)
->
-> Right I saw that at V1 :).
->
-> I'm not sure if this is the reason that is in conflict with VM_SPARSE
-> in your mind? Techically, at least for 64 bit, we can just apply the
-> same limit to VM_SPARSE, for 64 bit machines we have a lot of virtual
-> space to consume and that should be fine (VM_SPARSE is just the
-> cluster map, which is much smaller compared to swap space).
->
-> And another thing is do we really need that much in any case? Will
-> things like, e.g. 64 times the physical memory (max pfn) be enough? I
-> know Baoquan suggest just use the physical memory size. So that could
-> be tunable, it's really easy to tune, just a number.
-
-Potentially, but we have many users at Meta. There's a huge diversity
-of machine types, workingset size, access patterns (both frequency and
-file:anon split), compressibility, etc.
-
-Tuning even just one number, but for a combinatorial explosions of
-these factors, cost a lot of time and effort. This is a per-host
-property, which often means big hosts with multiple services
-co-located cannot decide alone.
-
-And even if sysadmin lets users decide this value, it's very likely
-they'll get that wrong (improper tuning or just copy the config from
-another place), which in turns cost engineering hours to go chase that
-down.
-
-So I always lean towards as plug-and-play as possible. And as I said
-earlier, it's easier to add knobs than to remove them (or ask users to
-stop using them).
-
->
-> For things like an extremely high amount of zero folio swap, I think
-> remapping the zero folio it self is definately a better idea instead
-> of wasting a lot of SWAP entries and metadata in the long term
->
-
-I don't disagree here.
-
-We tried doing that in the past, but it was slightly buggy. It might
-be solvable, we just don't have the manpower to deal with this yet :(
-
-
-> > >  - boot vs runtime toggle: I believe a runtime toggle is better. It
-> > > can still be tuned on boot via cmdline, but it offers the extra
-> > > ability to turn it on without modifying a base VM boot image or
-> > > kernel.
-> > >  - growth / limits: as talked above.
-> > >  - charging semantics
-> > >  - there could be other longterm design decisions on top of these as
-> > > we talked in above.
-> > >
-> > > Once these settle, I think the picture will be clean. Your writeback
-> > > logic and swap table integration are solid, while Baoquan's VM_SPARSE=
-,
-> > > previous preparation with swap ops give us a structural foundation. A
-> > > clean long-term architecture means getting the core structure right,
-> > > let's try not treating this as a race between series.
-> >
-> > I've reached out to Baoquan as well, but I figured there's value in
-> > both discussions in big and small groups, and especially since there's
-> > a chance some of us might not be coming to LPC. Let's see what we come
-> > up with.
->
-> I'll be there this year if nothing goes wrong :), I hope we can come
-> up with something.
-
-I'm excited to see you and the rest of the swap cabal too :)
+If we are ok with applying those policies to all bridges on the system
+whenever one or more endpoints anywhere on the system are being
+preserved, then I agree we don't need this patch. But I thought it would
+be cleaner to track things per-device.
