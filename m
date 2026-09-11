@@ -1,161 +1,330 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B25035E1CC;
-	Fri, 11 Sep 2026 09:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DCF3803C2;
+	Fri, 11 Sep 2026 09:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789118646; cv=none; b=pJn5VIYGVT4H6bJsD2+aWV2Ns5xTvX0WGmejHjP4leZ5TCYeuBjV0oV/N4Pjc9itSqEF0wla94iEKE1XQEG9rtM0DNUPpbz509Y3cjh9vkloemY6HhjBEmrWSYB+dROzW32zO2+UOrNbgM0eNBElD+xi1h3MnYJVnduM1OdAjAo=
+	t=1789119147; cv=none; b=qQTnb9jvKu79Q4l0vGuCBCyQJQQoENAIQEKiMKjvwrqiSSWhWNJVbbtykg6Qx48neqT7GFwojHLtk6L6yE6d9DzGXeU8qC5B7wCX0MAbprFhw2DDrogrDsgHduSmTV/dlcSZ/Gf/uUPXENREpA/yxBxpSYliCY934DZ8+p4/LZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789118646; c=relaxed/simple;
-	bh=Sfd8ZgRtiG55d4LBdYws7fViMlYKKVBDaZg+zx7RwXU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cB0XKxOwg0LQbd9+oxbk7xRezthYWVdrPM4gvk2+hn9KIM58PHXjiFRaRpAV+1Pw5dIfAozun2EHRdcKeQ9uPuRd9brUDHkwr1o3yOyOyUb/4vG/PUnQMHjLJJgU7gVwKtJzFHSlWizouNjP5sU7u0RJcdgyjje7qW2xKGgqMN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 816ca6bcadc211f19a56ed5b684f684d-20260911
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_DIGIT_LEN
-	HR_FROM_NAME, HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER
-	HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT
-	HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED
-	SA_EXISTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
-	CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
-	GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:cd898db3-aa58-4243-9f15-549dc5c5af81,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:10
-X-CID-INFO: VERSION:1.3.19,REQID:cd898db3-aa58-4243-9f15-549dc5c5af81,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:10
-X-CID-META: VersionHash:7db8b62,CLOUDID:d588ab34e2fae290c15b505d55a92e3c,BulkI
-	D:260911163932ELB1A0S5,BulkQuantity:6,SF:17|19|38|66|78|81|82|102|127|136|
-	850|865|898,TC:nil,Content:0|15|50|99,EDM:-3|-100,IP:-2,URL:0,File:nil,RT:
-	nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
-	,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 816ca6bcadc211f19a56ed5b684f684d-20260911
-X-User: liuzhe1@kylinos.cn
-Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
-	(envelope-from <liuzhe1@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1964776151; Fri, 11 Sep 2026 17:23:53 +0800
-From: Zhe Liu <liuzhe1@kylinos.cn>
-To: tj@kernel.org,
-	hannes@cmpxchg.org,
-	mkoutny@suse.com,
-	corbet@lwn.net,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org
-Cc: skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	dietmar.eggemann@arm.com,
-	rostedt@goodmis.org,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	kprateek.nayak@amd.com,
-	dtcccc@linux.alibaba.com,
-	changhuaixin@linux.alibaba.com,
-	shanpeic@linux.alibaba.com,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Zhe Liu <liuzhe1@kylinos.cn>
-Subject: [PATCH v3 3/3] docs: cgroup-v2: document CPU quota and burst ordering
-Date: Fri, 11 Sep 2026 17:22:58 +0800
-Message-Id: <20260911092258.660771-4-liuzhe1@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260911092258.660771-1-liuzhe1@kylinos.cn>
-References: <20260911092258.660771-1-liuzhe1@kylinos.cn>
+	s=arc-20240116; t=1789119147; c=relaxed/simple;
+	bh=Yih7f6/tNVBNBYGkVJA3bfFcNrZN2aPjeDZKrvcepGM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YwIaUWckVM7dktqcALVxfcaakL8erycw/k8wFtg9+EAhAakRSiwLhRumyd5NMaxx/fFxLrHYhGszeFTrLMS5dQ7ReeJePMRY/+9fVQ6elRemqqyTx2C3ujt0Kjui4YXKcwJCJjNWvsQLtA+iNYPybA3+6JT5Sj3FwGdykZ9Kw3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PyVXNLha; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PyVXNLha"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEA7C1F000FF;
+	Fri, 11 Sep 2026 09:32:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789119146;
+	bh=AAnYNMY4qKWEt8VqW/gq+QbhtFwungyZcJ3iIQPiMA8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PyVXNLhamoEGYHMpL3Q4rsa62whZA3bWfw9FqxNQ9ZIkavOuDy970b4hzpf2VW5dg
+	 665PYTj+s7h/ZpnGzvIrO7TazHzP/S34FTp1JgiopifMNbEFVlz8LjHjFudfClI06S
+	 fTx1a+taFDlr6OMVCRlomCP09wbk7mrAuXNG3PuHZNmqmO8PmURwzsInlvjuYwC0MY
+	 kfDOwkFljeuVcpEWeZkbjNn2zn2wGDhTWG/JupNmCyWYIItr98C4LEgrD5I8aUCAui
+	 H4W2AMiROm14Ib7hqF0UXbne1UGnoeMO6gi2gMDXWquReVHt2aM95Kmicp6nwQXife
+	 ZCpaJ+H/2FLyQ==
+Date: Fri, 11 Sep 2026 10:32:17 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Itaru Kitayama <itaru.kitayama@fujitsu.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Fuad Tabba <tabba@google.com>, Joey Gouly <joey.gouly@arm.com>, 
+	Steffen Eiden <seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
+	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Sean Christopherson <seanjc@google.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Leo Soares Passos <Leo.Bras@arm.com>, 
+	Wei-Lin Chang <weilin.chang@arm.com>
+Subject: Re: [PATCH 8/8] KVM: selftests: Add nested pre-fault test for arm64
+Message-ID: <aqPIUtNTJFwUvJME@gremlin>
+References: <20260825-kvm-arm-prefault-v1-0-befe8947702e@kernel.org>
+ <20260825-kvm-arm-prefault-v1-8-befe8947702e@kernel.org>
+ <aqOgEQKBGH-YqGr3@sm-arm-grace07>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqOgEQKBGH-YqGr3@sm-arm-grace07>
 
-Document that quota and burst can be configured in either order, and that
-the configured burst is retained across quota changes while its runtime
-contribution is capped by the current quota.
++cc Wei-Lin
 
-Signed-off-by: Zhe Liu <liuzhe1@kylinos.cn>
----
- Documentation/admin-guide/cgroup-v2.rst |  7 ++++++-
- Documentation/scheduler/sched-bwc.rst   | 22 +++++++++++++---------
- 2 files changed, 19 insertions(+), 10 deletions(-)
+On Fri, Sep 11, 2026 at 03:30:41PM +0900, Itaru Kitayama wrote:
+> Hi Lorenzo,
+>
+> On Tue, Aug 25, 2026 at 05:00:42PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > From: Jack Thomson <jackabt@amazon.com>
+> >
+> > Add an arm64 nested-virt selftest for KVM_PRE_FAULT_MEMORY. The guest
+> > enters vEL1 and exits to userspace with a nested/shadow stage-2 MMU as
+> > the vCPU's last-run context.
+> >
+> > Before prefaulting, userspace enables HCR_EL2.VM and points VTTBR_EL2 at
+> > an empty nested stage-2 root. A prefault implementation that incorrectly
+> > treats the userspace GPA as an L2 IPA will fail the ioctl; the correct
+> > path targets the canonical stage-2 and succeeds.
+> >
+> > Restore the original nested state before resuming the guest, then touch
+> > the prefaulted range to check that vEL1 still runs correctly.
+> >
+> > Signed-off-by: Jack Thomson <jackabt@amazon.com>
+> > [ljs: partial progress, >4 KiB pgsize, commit msg, comment fixups]
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > ---
+> >  tools/testing/selftests/kvm/Makefile.kvm           |   1 +
+> >  .../selftests/kvm/arm64/nv_pre_fault_memory_test.c | 206 +++++++++++++++++++++
+> >  2 files changed, 207 insertions(+)
+>
+> I wonder whether this selftest can use functions Wei-Lin proposed
+> some time ago [1]: 20260325003620.2214766-1-weilin.chang@arm.com
+> or would you prefer this test as propose, since it is clear as
+> to what needs to be done to enter L2.
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 86a2a0099178..e94285d48d0c 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1231,7 +1231,12 @@ will be referred to. All time durations are in microseconds.
- 	A read-write single value file which exists on non-root
- 	cgroups.  The default is "0".
- 
--	The burst in the range [0, $MAX].
-+	The burst in microseconds, with a lower bound of 0 and an upper bound
-+	independent of the current quota. The configured value is retained
-+	when the quota changes and may be larger than the current quota.
-+	During CFS runtime refill, the burst contribution is capped at the
-+	current quota. The quota and burst files can therefore be written
-+	in either order.
- 
- 	This file affects only processes under the fair-class scheduler and a BPF
- 	scheduler with the ``cgroup_set_bandwidth`` callback depending on what
-diff --git a/Documentation/scheduler/sched-bwc.rst b/Documentation/scheduler/sched-bwc.rst
-index e881a945c188..19cd08195f6b 100644
---- a/Documentation/scheduler/sched-bwc.rst
-+++ b/Documentation/scheduler/sched-bwc.rst
-@@ -90,20 +90,22 @@ bandwidth restriction in place, such a group is described as an unconstrained
- bandwidth group. This represents the traditional work-conserving behavior for
- CFS.
- 
--Writing any (valid) positive value(s) no smaller than cpu.cfs_burst_us will
--enact the specified bandwidth limit. The minimum quota allowed for the quota or
--period is 1ms. There is also an upper bound on the period length of 1s.
--Additional restrictions exist when bandwidth limits are used in a hierarchical
--fashion, these are explained in more detail below.
-+Writing any valid positive quota value will enact the specified bandwidth
-+limit. The minimum quota allowed for the quota or period is 1ms. There is
-+also an upper bound on the period length of 1s. Additional restrictions
-+exist when bandwidth limits are used in a hierarchical fashion, these are
-+explained in more detail below.
- 
- Writing any negative value to cpu.cfs_quota_us will remove the bandwidth limit
- and return the group to an unconstrained state once more.
- 
- A value of 0 for cpu.cfs_burst_us indicates that the group can not accumulate
- any unused bandwidth. It makes the traditional bandwidth control behavior for
--CFS unchanged. Writing any (valid) positive value(s) no larger than
--cpu.cfs_quota_us into cpu.cfs_burst_us will enact the cap on unused bandwidth
--accumulation.
-+CFS unchanged. A valid positive value written to cpu.cfs_burst_us is retained
-+when the quota changes. If it is larger than the current quota, the burst
-+contribution during runtime refill is capped at the current quota.
-+
-+The quota and burst files can be updated in either order.
- 
- Any updates to a group's bandwidth specification will result in it becoming
- unthrottled if it is in a constrained state.
-@@ -243,4 +245,6 @@ Examples
- 	# echo 50000 > cpu.cfs_period_us /* period = 50ms */
- 	# echo 10000 > cpu.cfs_burst_us /* burst = 10ms */
- 
--   Larger buffer setting (no larger than quota) allows greater burst capacity.
-+   A larger buffer setting allows greater burst capacity. If the configured
-+   burst is larger than the quota, the burst contribution is capped at the
-+   quota during runtime refill.
--- 
-2.25.1
+I think if these aren't merged yet then that could be a follow up?
 
+>
+> Thanks,
+> Itaru.
+>
+> >
+> > diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
+> > index 66a9a4e62888..1e0edd0f99f7 100644
+> > --- a/tools/testing/selftests/kvm/Makefile.kvm
+> > +++ b/tools/testing/selftests/kvm/Makefile.kvm
+> > @@ -173,6 +173,7 @@ TEST_GEN_PROGS_arm64 += arm64/debug-exceptions
+> >  TEST_GEN_PROGS_arm64 += arm64/hello_el2
+> >  TEST_GEN_PROGS_arm64 += arm64/host_sve
+> >  TEST_GEN_PROGS_arm64 += arm64/hypercalls
+> > +TEST_GEN_PROGS_arm64 += arm64/nv_pre_fault_memory_test
+> >  TEST_GEN_PROGS_arm64 += arm64/external_aborts
+> >  TEST_GEN_PROGS_arm64 += arm64/mmio_sign_ext
+> >  TEST_GEN_PROGS_arm64 += arm64/page_fault_test
+> > diff --git a/tools/testing/selftests/kvm/arm64/nv_pre_fault_memory_test.c b/tools/testing/selftests/kvm/arm64/nv_pre_fault_memory_test.c
+> > new file mode 100644
+> > index 000000000000..b3833aea2a34
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/kvm/arm64/nv_pre_fault_memory_test.c
+> > @@ -0,0 +1,206 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * nv_pre_fault_memory_test - Test KVM_PRE_FAULT_MEMORY on a vCPU whose
+> > + * last-run context is nested.
+> > + *
+> > + * The guest starts at vEL2, mirrors its EL2 translation regime into the
+> > + * real EL1 registers, drops HCR_EL2.TGE and ERETs to vEL1, then exits to
+> > + * userspace from vEL1 so that the vCPU's last-run context selects a
+> > + * shadow stage-2 MMU. Userspace then enables an empty nested stage-2
+> > + * before prefaulting. Prefaulting must target the canonical stage-2,
+> > + * regardless of the vCPU's nested state.
+> > + */
+> > +#include "kvm_util.h"
+> > +#include "processor.h"
+> > +#include "test_util.h"
+> > +#include "ucall.h"
+> > +
+> > +#include <asm/sysreg.h>
+> > +#include <linux/sizes.h>
+> > +
+> > +#define TEST_MEM_SLOT		10
+> > +#define NESTED_S2_ROOT_SLOT	11
+> > +#define TEST_MEM_SIZE		SZ_2M
+> > +#define TEST_MEM_GPA		SZ_1G
+> > +#define NESTED_S2_ROOT_GPA	(TEST_MEM_GPA + TEST_MEM_SIZE)
+> > +
+> > +struct nested_s2_state {
+> > +	u64 hcr_el2;
+> > +	u64 vttbr_el2;
+> > +};
+> > +
+> > +static void guest_el1_code(void)
+> > +{
+> > +	u64 offset;
+> > +
+> > +	GUEST_ASSERT_EQ(get_current_el(), 1);
+> > +
+> > +	/* Exit to userspace with the vEL1 (nested) context live. */
+> > +	GUEST_SYNC(1);
+> > +
+> > +	/*
+> > +	 * Touch the prefaulted range. vstage-2 is disabled, so the shadow
+> > +	 * stage-2 is a 1:1 view of the canonical IPA space.
+> > +	 */
+> > +	for (offset = 0; offset < TEST_MEM_SIZE; offset += SZ_4K)
+> > +		READ_ONCE(*(u64 *)(TEST_MEM_GPA + offset));
+> > +
+> > +	GUEST_DONE();
+> > +}
+> > +
+> > +static void guest_code(void)
+> > +{
+> > +	u64 sp;
+> > +
+> > +	GUEST_ASSERT_EQ(get_current_el(), 2);
+> > +
+> > +	/*
+> > +	 * Mirror the EL2 translation regime into the real EL1 registers so
+> > +	 * that vEL1 runs on the test's stage-1 page tables. With E2H=1, the
+> > +	 * _EL1 accessors read the EL2 registers, and the _EL12 accessors
+> > +	 * write the real EL1 registers.
+> > +	 */
+> > +	write_sysreg_s(read_sysreg(sctlr_el1), SYS_SCTLR_EL12);
+> > +	write_sysreg_s(read_sysreg(tcr_el1), SYS_TCR_EL12);
+> > +	write_sysreg_s(read_sysreg(ttbr0_el1), SYS_TTBR0_EL12);
+> > +	write_sysreg_s(read_sysreg(mair_el1), SYS_MAIR_EL12);
+> > +	write_sysreg_s(read_sysreg(cpacr_el1), SYS_CPACR_EL12);
+> > +
+> > +	/* Run vEL1 on the same stack. */
+> > +	asm volatile("mov %0, sp" : "=r"(sp));
+> > +	write_sysreg(sp, sp_el1);
+> > +
+> > +	/*
+> > +	 * Drop TGE so that vEL1 is a nested context rather than host EL0.
+> > +	 * KVM backs it with a shadow stage-2 MMU even though vstage-2 is
+> > +	 * disabled (HCR_EL2.VM=0).
+> > +	 */
+> > +	write_sysreg(read_sysreg(hcr_el2) & ~HCR_EL2_TGE, hcr_el2);
+> > +	isb();
+> > +
+> > +	write_sysreg(PSR_MODE_EL1h | PSR_F_BIT | PSR_I_BIT | PSR_A_BIT |
+> > +		     PSR_D_BIT, spsr_el2);
+> > +	write_sysreg((u64)guest_el1_code, elr_el2);
+> > +	asm volatile("eret");
+> > +
+> > +	GUEST_ASSERT(false);
+> > +}
+> > +
+> > +static void pre_fault(struct kvm_vcpu *vcpu, u64 gpa, u64 size)
+> > +{
+> > +	struct kvm_pre_fault_memory range = {
+> > +		.gpa = gpa,
+> > +		.size = size,
+> > +	};
+> > +	int ret;
+> > +
+> > +	do {
+> > +		ret = __vcpu_ioctl(vcpu, KVM_PRE_FAULT_MEMORY, &range);
+> > +	} while ((!ret && range.size) ||
+> > +		 (ret < 0 && (errno == EINTR || errno == EAGAIN)));
+> > +
+> > +	TEST_ASSERT(!ret, "KVM_PRE_FAULT_MEMORY failed, ret: %d errno: %d",
+> > +		    ret, errno);
+> > +	TEST_ASSERT_EQ(range.size, 0);
+> > +}
+> > +
+> > +static struct nested_s2_state enable_empty_nested_s2(struct kvm_vcpu *vcpu)
+> > +{
+> > +	struct nested_s2_state state = {
+> > +		.hcr_el2 = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_HCR_EL2)),
+> > +		.vttbr_el2 = vcpu_get_reg(vcpu,
+> > +					   KVM_ARM64_SYS_REG(SYS_VTTBR_EL2)),
+> > +	};
+> > +
+> > +	TEST_ASSERT(!(state.hcr_el2 & HCR_EL2_TGE),
+> > +		    "vCPU should be in nested/vEL1 context");
+> > +
+> > +	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_VTTBR_EL2),
+> > +		     NESTED_S2_ROOT_GPA);
+> > +	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_HCR_EL2),
+> > +		     state.hcr_el2 | HCR_EL2_VM);
+> > +
+> > +	return state;
+> > +}
+> > +
+> > +static void restore_nested_s2(struct kvm_vcpu *vcpu,
+> > +			      struct nested_s2_state *state)
+> > +{
+> > +	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_HCR_EL2), state->hcr_el2);
+> > +	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_VTTBR_EL2),
+> > +		     state->vttbr_el2);
+> > +}
+> > +
+> > +int main(void)
+> > +{
+> > +	struct nested_s2_state s2;
+> > +	struct kvm_vcpu_init init;
+> > +	struct kvm_vcpu *vcpu;
+> > +	struct kvm_vm *vm;
+> > +	struct ucall uc;
+> > +	u64 npages;
+> > +
+> > +	TEST_REQUIRE(kvm_check_cap(KVM_CAP_ARM_EL2));
+> > +	TEST_REQUIRE(kvm_check_cap(KVM_CAP_PRE_FAULT_MEMORY));
+> > +
+> > +	vm = vm_create(1);
+> > +
+> > +	kvm_get_default_vcpu_target(vm, &init);
+> > +	init.features[0] |= BIT(KVM_ARM_VCPU_HAS_EL2);
+> > +	vcpu = aarch64_vcpu_add(vm, 0, &init, guest_code);
+> > +	kvm_arch_vm_finalize_vcpus(vm);
+> > +
+> > +	npages = TEST_MEM_SIZE / vm->page_size;
+> > +	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS, TEST_MEM_GPA,
+> > +				    TEST_MEM_SLOT, npages, 0);
+> > +	virt_map(vm, TEST_MEM_GPA, TEST_MEM_GPA, npages);
+> > +
+> > +	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
+> > +				    NESTED_S2_ROOT_GPA, NESTED_S2_ROOT_SLOT,
+> > +				    vm_adjust_num_guest_pages(vm->mode, 1), 0);
+> > +
+> > +	/* Run the guest until it has ERET'd from vEL2 to vEL1. */
+> > +	vcpu_run(vcpu);
+> > +	switch (get_ucall(vcpu, &uc)) {
+> > +	case UCALL_SYNC:
+> > +		TEST_ASSERT_EQ(uc.args[1], 1);
+> > +		break;
+> > +	case UCALL_ABORT:
+> > +		REPORT_GUEST_ASSERT(uc);
+> > +		break;
+> > +	default:
+> > +		TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
+> > +	}
+> > +
+> > +	/*
+> > +	 * The vCPU's last-run context is vEL1, backed by a shadow stage-2
+> > +	 * MMU. Enable nested stage-2 with an empty root so that the ioctl
+> > +	 * fails if it tries to interpret the userspace GPA as an L2 IPA.
+> > +	 *
+> > +	 * Prefault in two halves so that the second ioctl exercises a
+> > +	 * repeated shadow-MMU attach and canonical stage-2 swap.
+> > +	 *
+> > +	 * (Note that an implementation that wrongly populates shadow
+> > +	 * stage-2 page tables would not be caught as userland can't
+> > +	 * inspect these.)
+> > +	 */
+> > +	s2 = enable_empty_nested_s2(vcpu);
+> > +	pre_fault(vcpu, TEST_MEM_GPA, TEST_MEM_SIZE / 2);
+> > +	pre_fault(vcpu, TEST_MEM_GPA + TEST_MEM_SIZE / 2, TEST_MEM_SIZE / 2);
+> > +	restore_nested_s2(vcpu, &s2);
+> > +
+> > +	/* Resume at vEL1 and touch the prefaulted range. */
+> > +	vcpu_run(vcpu);
+> > +	switch (get_ucall(vcpu, &uc)) {
+> > +	case UCALL_DONE:
+> > +		break;
+> > +	case UCALL_ABORT:
+> > +		REPORT_GUEST_ASSERT(uc);
+> > +		break;
+> > +	default:
+> > +		TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
+> > +	}
+> > +
+> > +	kvm_vm_free(vm);
+> > +	return 0;
+> > +}
+> >
+> > --
+> > 2.55.0
+> >
+
+--
+Cheers, Lorenzo
