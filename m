@@ -1,157 +1,77 @@
-Received: from mail-qk2-f3.google.com (mail-qk2-f3.google.com [74.125.230.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE69A3EA962
-	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 03:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.195
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789098288; cv=pass; b=skynGzIhDf/frJSdxvBZfhpF4Jwd+dPvs6Z+V7yLKwKx4Y/yrOIWWZ5DhYSbvubedT2E6jQxoESU9ca+g61emBTK7gHHZ/bPmCem4BI8Z/NvIu78iPtSY/eGibxvTfPbTYExFm/XN9jL4Jz196XFQ8v+F3Ge26tYOjqyEY3//xc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789098288; c=relaxed/simple;
-	bh=9MUCzlT67j02Tdxv5MkPUdx0rDyVjNu0IwYTyNrltgs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pbFX36SfTi/z7uQmLWT9Av3Xb2O/hEhJpum8yGQIRtPLRmuoVXoDHoWHOB0gEJXleUobAl/NOb8OGVHzMHWWF61++5nSjKsS1BPOD0HgwCz9BuSTBLtcXvaXQaMjVqtyhg26yc3ZaASlYlu5XdpR+j51gHLCoinCVl6Kp2k8vdc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G2V24x4G; arc=pass smtp.client-ip=74.125.230.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BD12F5A0E;
+	Fri, 11 Sep 2026 04:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789101128; cv=none; b=j++8IlKfal9VpCh19YB0+wFw60sRzUlPwdDhZSM/oFue/TFVdB5sFTyQkXXtmL2qM/YZM0tNGKqEUQA5DiZbpua0hW6F7jNvqpbvatqSh/gxEnnbBfK3vyabLfZYyQuT97pssWV/wQxW0DUjGnv40wCzu8/fmcd9EvGqz6Qej28=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789101128; c=relaxed/simple;
+	bh=cEScVFGDdkbeR+3r7iH2a8OUoRNNEg4QrEzRNMPhI3k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bJk4ECCR9GIIqVCFqFs1z2z0uOX9MnYxkXws42ZekQ+4HM/+EU3keiVnVHp7SED2q62Fi8QtIb5xlqGARETAgfYsJWFuDbeVUB5WO7ICBPg4J75EvaSPvDq5S2DOa/EpLvvQD3kVdwHmKWYc/+VOCRor4jCaF+9R9L79V0I2OkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=f4AKmI0S; arc=none smtp.client-ip=180.181.231.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G2V24x4G"
-Received: by mail-qk2-f3.google.com with SMTP id d75a77b69052e-51bfca7f85aso3859881cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2026 20:44:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789098286; cv=none;
-        d=google.com; s=arc-20260327;
-        b=I+SIomly+LzEUt2icTwN0SrdJuBWPSHnWLiUIkSdQTEjvh2WL/4w5O0BhKjZrz3DJt
-         XiIVY7f9ZgxeQwL0RLJLq3J2tMtu6m1ALTY0Q9a1gaWolxbsI1lIbmUFDEv+MW/fZeq0
-         sZJkfz0YQ7RJsKoaq+gydv1u2f5OpAOFh4qybkp+UL1bbQsPlxVam9CDmfZ4WD7abdke
-         lQk9CQ1eIZ2xbzQrdh7VnBYQnGTpr4EyttK5cTwjFt9oJNvuzI0aWxpE+6jUc5TDv3ZA
-         mOCpl30TNlFcCwoJUB3zzE/Kq9ufw/LD+m4ur3OxnPaXzawMvmggb7OdxmaTzFtvweOo
-         qAtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9MUCzlT67j02Tdxv5MkPUdx0rDyVjNu0IwYTyNrltgs=;
-        fh=9wRCh4E/OAgSH4H7aCH48qIoUpi/WGp4hGrymcyvrZ8=;
-        b=IE9l8nFzBQnVH/l7EWc79L0gSjbfvKD9dMwh2f3R/O3CaKDajU1zfYxJxMpEd0+8NY
-         8wODD4KiMU+zetJiGCdJhSVLBtt8WfTybCKwMRZ2Xg3AElXj8k+ESTeYsVENwKlWzeO/
-         4/OTnxi1cPEE1uOYEqDv910frxS2QVDd6mUUT3JiGu5U3bgNda6s3sMmeccNkRfIHGyj
-         3G4weTuw8tK38CQE3W6j5UA7fkgK2g8u65lvzDJqyWzDGGenlDNSRe8o8Vl1TuLcdugM
-         xmTx9/3JjKaer1BZExNWypFzbC2VNkI9CBFBlJlA6R+8OkRBARAzHACYK4ao0O3S+G5a
-         IqSA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789098286; x=1789703086; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9MUCzlT67j02Tdxv5MkPUdx0rDyVjNu0IwYTyNrltgs=;
-        b=G2V24x4GGyCwAd8LaJ2X8PGNbql6wdGj7itobGHv+DWtilwCENd20LNJWE0FPLHB3/
-         0AjlkwMCGqs9CTmfIsOad/o7305l5dxeD1ZFHVPrHnNcoEDHmmOEkUoLBmMXN0uGF9mA
-         NFt62u0bdoESjLGcIpLtJ0v7+FmJRxrD/o1lT5g+LldSZZhD3Og4hV+mUCCZhqbjd2JS
-         rECTuLTUzPCSAjku7N+dnRXlt7UYkl6EGUg9xcf0TT9TiheCSHMZR1kposahxXE8JxLQ
-         5XMF89T6zDhqWdtlqtNhZhEm9Fss7ApuSwbHeeM2sCdkBm+3v8htMXW4iBX0va4HMp+v
-         aDTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789098286; x=1789703086;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9MUCzlT67j02Tdxv5MkPUdx0rDyVjNu0IwYTyNrltgs=;
-        b=YzS7rSzejuZQwRzoTrOZr/lsdMb+lkVJqEoGRoOFyCHcCyMQA743qSjHlr8Z8nm/fm
-         8lYregW1fg42mJ4D4duVVJSOJ0qIP3ek2LdWx/kALh7eiqpVyuv5R4P6KWTFOR97Hhfb
-         xB86+v0qYuAbXEcSCnf3w94CQUatda5SZrAtnj+tvrel2m/wxG44GSu3keiT0Qb88VKA
-         N10CvCf0yKnvwwud6Zrpg4avGXpFycCuldXwDl2kY3bD45xKDN7anFOYtb4dCfkhV5sC
-         40BY9lbtxg88+0B4LC2qljGsfSWkbdCHhaEGlvFPAtqkGU4vKKjlNuUQPgZ6J6PHxA+G
-         9MPA==
-X-Forwarded-Encrypted: i=1; AKwUvBwcP7SBxjgsATPxMnIzAPZhmTM+XLXIDmu3K8sF9Q0c1nho/sMgE1GSWxcz+It/bzGYwLHYcvYX8qc=@vger.kernel.org
-X-Gm-Message-State: AFuF++mY1T5i3ZP8wHx6MoqNIkkZqaTVzPwBcws8Bw6UC6aGKFLf9Br/
-	WWzf3V0C8fVadVjk7bJbpfuD9hFWQH61b1l9tnT9jCokwdtbCo4J+wtDA2CUrpZhox81od/zrvf
-	Tyvhnmm1rurm+iAOCL2Chydq3g2R44Pk=
-X-Gm-Gg: AYBFou36M2x6g2dE5ztyR13KPZl/gKJRHqGKhZhhbn6BN6CtfEi75O+S63UY5TLlO4V
-	ZD2yr9nAJ/bANzgNUUJJbYrJQpq2UyRcZyNt5xRJpsnhy2+w5ZC4udM9Nynco1EW1R8D5qZbQBI
-	zXnLlLCGui2LPUgY8zOdOEjMavYQhikaICPxqKsX67C5V553ERv5IuTAU3PczRoaVZf5ZLfO69j
-	yXiEPnqXz7LQLn7VphPmg4+emtRxtDHUbIDMnA7NrUCFQJmZ0cVbsQpnRPr8P2jFKm61ol9OGKT
-	/pqOWGiQ0gIpQUNJyb/leFMx3C/6ZoGa2WpW4ri2VCiFYp1F07r19l/wDLqa0O3GtNh2hDnKyPE
-	M5qq0OB+cp6XlmL8HH+QgiN79Fv8x3pqHXDksRCsN
-X-Received: by 2002:a05:622a:5987:b0:52d:918b:92e1 with SMTP id
- d75a77b69052e-530c84f326bmr40390581cf.5.1789098285727; Thu, 10 Sep 2026
- 20:44:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="f4AKmI0S"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
+	from:content-type:reply-to; bh=YKpfvW0m7fMGPwroikXgrjlEkqn9S1O/EG9PiSNdpjs=; 
+	b=f4AKmI0SRdE8F+kpVQXiub5fRB7v/nIJ2L3G5tkE0IFsgd3K5CaDIQI3l0p6UZbJ2mO3DjrYlbi
+	mwMOSsi1YjJvikFFyKFw84u7aOz8+H3rMWlPaKAxz6HCbmXt6Ks7qZfJyo/9beOxaupITxz4wWd54
+	j2YL0NVc9k8WR4GaxdmtC9sUVr/uqoFmjw63bokCWOsuCmOTimCzaqm6zyJFLcH1qWw9BprNSOn41
+	XtLLUsVM8HzahjPISNGoNcffLAgI4iKEBcI61DQnEo3QcG9qnDnm5rG7I0BmJ7ej8pNVX5IXlAWyJ
+	qIwseeWShWs2Q0+zzrLpuBeXusz+FN1H6SPQ==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.98.2 #2 (Debian))
+	id 1x4svP-0000000CtQw-0BeT;
+	Fri, 11 Sep 2026 12:31:44 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 11 Sep 2026 14:31:43 +1000
+Date: Fri, 11 Sep 2026 14:31:43 +1000
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Alex Ousherovitch <aousherovitch@rambus.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>,
+	Shuah Khan <shuah@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>,
+	devicetree@vger.kernel.org,
+	Joel Wittenauer <Joel.Wittenauer@cryptography.com>,
+	linux-api@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thi Nguyen <thin@rambus.com>
+Subject: Re: [PATCH v4 04/19] crypto: cmh - add SHA-2/SHA-3/SHAKE ahash
+Message-ID: <aqOEL-YUVFuThcmf@gondor.apana.org.au>
+References: <20260825221539.255951-1-aousherovitch@rambus.com>
+ <20260825221539.255951-5-aousherovitch@rambus.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260908152808.3928630-1-arnd@kernel.org> <20260908152808.3928630-4-arnd@kernel.org>
-In-Reply-To: <20260908152808.3928630-4-arnd@kernel.org>
-From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Date: Thu, 10 Sep 2026 20:44:34 -0700
-X-Gm-Features: AcwNN1V1fOC0jmd_i5r-nVHD_ZWN_P0KCiZNA7MUoO0nuGcjQ9okMtkGALkOIWk
-Message-ID: <CADkSEUjYhRk-ezaXZkHzFTFQnySFSisKtZfEP-_NtLnQF+6-1Q@mail.gmail.com>
-Subject: Re: [PATCH 03/13] ARM: remove riscpc
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Linus Walleij <linusw@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Drew Fustini <fustini@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Sudeep Holla <sudeep.holla@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Stefan Agner <stefan@agner.ch>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
-	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrew Lunn <andrew@lunn.ch>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Gregory Clement <gregory.clement@bootlin.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Kristoffer Ericson <kristoffer.ericson@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Alexander Sverdlin <alexander.sverdlin@siemens.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Karl Mehltretter <kmehltretter@gmail.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
-	Ian Molton <spyro@f2s.com>, Jens Axboe <axboe@kernel.dk>, Helge Deller <deller@gmx.de>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, "Paul E. McKenney" <paulmck@kernel.org>, linux-block@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260825221539.255951-5-aousherovitch@rambus.com>
 
-Hi, everyone,
-
-On Tue, Sep 8, 2026 at 8:29=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wrot=
-e:
-> The main limitation here is the CPU bus that does not allow 16-bit
-> wide data transfers and hence requires the kernel to be built with the
-> -march=3Darmv3 compiler option that was discontinued in gcc-9.
+On Tue, Aug 25, 2026 at 03:15:23PM -0700, Alex Ousherovitch wrote:
 >
-> As gcc-8 is barely supported for compiling the kernel, this one
-> will not see another LTS kernel release, so remove it now.
+> +/*
+> + * .update -- buffer incoming data, submit full blocks to HW.
 
-Because I think it's cool that the kernel still supports actual Acorn
-hardware, I patched gcc 16.2 to restore ARMv3m support:
-https://github.com/EthanNelson-Moore/gcc-arm-retro
+Please drop block buffering in new drivers.  The Crypto API handles
+this for you.  Take a look at the aspeed driver for an example.
 
-This ended up being surprisingly straightforward - only a couple
-hundred lines changed - and it would be even fewer lines had I not
-reverted a commit that adds a use of ldrh instead of fixing it.
-
-It is able to compile a kernel successfully (once you update the GCC
-version check to check for -march=3Darmv3m support instead - I can send
-my patch). I haven't tested it, but I am fairly confident that it
-would run, because the assembler will reject code the compiler
-generates with unsupported instructions - this is how I found the
-commit I needed to revert.
-
-I am working on a clocksource driver, which uses both timers (to
-hopefully fix the awful time drift), and removes the dependency on
-LEGACY_TIMER_TICK.
-
-I also have patches for several cleanups to Risc PC-related code.
-
-I am aware that this has no actual use case, but it was fun. No LLM
-was used for any part of the work.
-
-Ethan
+Cheers,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
