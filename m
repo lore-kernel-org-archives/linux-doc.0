@@ -1,144 +1,184 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2936E38DC71;
-	Fri, 11 Sep 2026 19:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789153247; cv=none; b=EpqNYhlgopS0qUGJzi6XnyyfSJTdt4NjIV9yo9iOBKwuDuqcFUb+KpCS16r77x3AeM8fo/DZNE3PLszv6QU7180iLSNBe6SttyIptKvBsi26+9on6yapBaNZVA9H5dI9yStWZhysTolfWK8SWDd2n24zRu05DsT5nc63Qg3NJgo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789153247; c=relaxed/simple;
-	bh=U7ek17ewJSjncfJmFJyagh0BYwbFrs14o0h4aRXgvWY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PMX5K8K1bNWf8gESeHs/v/acdCTWlFnWNWFahuzKeDZ/0RAWpeVEVyeMr/hVBBtyE3w3y+q0NDH6FeTqcey3gQTDdWU9CZa4c017f0lUogWn6ngBlGEHcLkSYC3GzjF1MHwExmeTNe8S1lNeKUjnT1DTjETex7TEY2bMs6qHVGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=NIykgXGt; arc=none smtp.client-ip=212.42.244.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CFC3F1678
+	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 19:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789153455; cv=pass; b=IFjv5XLL/P4m4XrQvrD1vSLCI+9QALXqIqjWgX3voMhcIxnxqczlPwmDhgT+VkoFfEV93H/Uk6KZLHz8G2ruKc71LcJlCfC3s+NphYqx4o+7pZidBJclWC0j6PJJyWggojUAkCRYDyZVYPB/YwR2FLLq7Fr+bd3gPCpKpXR6U2U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789153455; c=relaxed/simple;
+	bh=trX+U7XJlu2wfrqosEL7RKHWRz95q3a0XycwYv9NMmY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bivkGcSxIdgoRXTsebdP24YKtLgh7Gy0YEUIOoGKm2e8VVRpLoyWwFhhhFMGCDF6+1sXy76MW4ZypGkdhfSIIhP+y2Mf9vXP/hdJtv3G8IzHXKZDUjNFCXvn1KXk1l+VtU1/klMzZmvgO+3LpOpkuXcn6Hesufy/jL5kQTyYG/s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=guED+60N; arc=pass smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="NIykgXGt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
-	t=1789153240; bh=U7ek17ewJSjncfJmFJyagh0BYwbFrs14o0h4aRXgvWY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NIykgXGt8va9dimaVsp85Ph4Lf7pd6XWnrdykh6l34G3WP8CS3WhPvZy9/QghHsod
-	 2g7gSr0GnpwYuXqZt9HpfvLzoH6wfWYdEoJhWzvrKryQK9nkuM49hSw2x5mML0e1vj
-	 yxSr2/0pm6sa3w8cnIylI45IPB7gyLLFpK1/1d4Xrz0o6YrVqx9XIPo9r8C/h8c5qP
-	 k5hXuctundU1Eu0Yv7MceKlrhcxlTWrzdajqKWLZXxNbTHGheoFA15vqxKex35ywy/
-	 Wp5QToYM2jPUrmYPLc+USGo4VLJ6Xw2EC1ij0cyeF7FUsebSrKixKlaqrsUA6OVpu4
-	 015MX/cN7Hj3g==
-Received: from [2001:bf0:244:244::78] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
-	(envelope-from <n.schier@fritz.com>)
-	id 6aa44fd8-0449-7f0000032729-7f0000018a32-1
-	for <multiple-recipients>; Fri, 11 Sep 2026 21:00:40 +0200
-Received: from mail-auth.fritz.com (unknown [IPv6:2001:bf0:244:244::78])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Fri, 11 Sep 2026 21:00:40 +0200 (CEST)
-Date: Fri, 11 Sep 2026 21:00:40 +0200
-From: Nicolas Schier <n.schier@fritz.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH 20/23] kbuild: rust: parallelise rustc front end
-Message-ID: <20260911-impressive-heavy-bobcat-6ceeb1@l-nschier-aarch64>
-References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
- <20260908-build-speedup-v1-20-5dc1ac01672d@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="guED+60N"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-495437bb891so6337865e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 12:04:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789153451; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QtHmvsaKkQSkGhjkmjdKCSSkraiZimt2miDBTOeOnniAkgOx0Y64R+ECm21SzxKAPU
+         YckKV3uogf1ACdJb3x+eIT4OkNKF/VtBpeqVivXhUtV8rw2raJNYQGCDVFZyFKG2jciG
+         3cfzZQBr7evra/LPoCFshNlEGhq7XDLTPttWAiYJk+VUU8Eiq7ISkvEHRbl9HExxsuhm
+         5LywUgwMuous69p/sk+fgldsuOvb4KQOWLWMX+5VJ6E85T0n+Ff3ANyiS0Lx8gBCJzBx
+         pEMhO99PHmeUMEgHF3xWlpyvY5MxH+evckk5qM/aNyo1X7S6pb1BB3voDDsTIJaW8Cqg
+         DHRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=trX+U7XJlu2wfrqosEL7RKHWRz95q3a0XycwYv9NMmY=;
+        fh=9QBYqrJXQAmF0jOUvbK52pmJnyN4CTJMh834rHtFdSM=;
+        b=O0zBWwFo78RdufJ8Iau2uLdWsyb+GlufUXFD+feHCDlw9rcEaxO1c6pzAWG4BPrpSA
+         H/EPSM6MQFuRgo8UkLvLZVvBjJgpuely4DcpYvhPPek8i6U6tN11DJ6Xau8+9qM0oga4
+         oVKAP11Xiz0mjqTfRpvZv0OZ2Olnf8dggvNpfX/Lbfe4rZQPg++9QXineUze+/Qwhj51
+         cLWKZW9IR9Vg/D8Jy3huYQ+NptbLVY30pDHAnJDJTycIRfHIbCLvWD2+U8T3rDAfQya5
+         /Hlk0KlfOjEpaXeJZ5iZ8G1IiSugoVFPSCW4pTCEBn0m2UR8fpYEqXSIS2oAAAh03mLC
+         miLw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789153451; x=1789758251; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=trX+U7XJlu2wfrqosEL7RKHWRz95q3a0XycwYv9NMmY=;
+        b=guED+60N9+7cL2o6r9EPpthdfQPVqZkG1OXjvqUx2o2JRExpILfXtPPkI/X8ey4as6
+         dKsiFfySJHOKnLnBILgFwNydmhCWDXyOoqF92TR0943aJzhX0BIkV6Yecc+VoSPME0J2
+         ipvhtsAsUsEjH4XSJ06th4871uh4PJ2ht+2CYBWpWd+6NUjcB+3Ph2d4uQRU5pD7+R+g
+         /RDfqZbDUhbcOrEUYXpI6beBmfU7zRCiMrcQZtfPT6XYMOkpmhezMwMxDv6AngTeOWA6
+         ISYzeB6suuXFsCZ228rNDj3xuNjmc43QN22rdKP6O+QLyIqm2ghaQ7Ze4A35ELA0XFcM
+         Fltw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789153451; x=1789758251;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=trX+U7XJlu2wfrqosEL7RKHWRz95q3a0XycwYv9NMmY=;
+        b=Qvp3RVebUQ/LJg+j5+vXDC4kWhXV3hxVzF+VaThsIlQaenc/DT4VIO82mlbj5rAnLM
+         bY1EClBqvbCA0lJmd/anVyvedkcBGv7GGp0j8nJUp5pP/6QmdbreXtJtbEaPCC0mPFwV
+         s7QjYXyEPQOVlSoHc+o9EvREQDVePW+wkyII0sIMt64e1RMyB7KV/SlddViwo61qJrYx
+         /6qWWZ//DSpo8zijTHCFJWT90w+gpY+d+bgYju9p/NiDESLhIYzqcttWq0Vi1XeIsTRa
+         QPEGBddJDd4k7DGOonL/A0NS+GPKjwO/GPUpfVJNqar/tSX2mR2GjEcbBv7o/1HHPhbE
+         dfgw==
+X-Forwarded-Encrypted: i=1; AKwUvBwxExF85yZpHpH9MVSWlPTEoBrjU6+3sHeluHFISBMvZMAK5itLT6tyLI8QItL6dyIS4WAKetOIjqc=@vger.kernel.org
+X-Gm-Message-State: AFuF++kIlbbxwEenlHIYk3lX5sOWh8Q/Rm1YmKm9urTUFvvRB3ErZJjJ
+	RCDrLbxSIXLcOYMYs4gnpbJKlbJeDFyBK3khb0aUBlC9thVXOkS/uDIG1oELmGc6gOGoWEBjTMv
+	7y53tJe/rQHJvfoFDI2viyhNjxDiN+j0=
+X-Gm-Gg: AYBFou0KgVqZvJEjLBF26tdsDHSpalcV0tRS3Nv1hOS3bPYBF/4XXAnUsTNNvwYFthE
+	r3Vzg2xBcjnP24QROH5cEnw+qpnxBtyLKo945AO0PeIN0k+fBk5TuYweyEvBZ2387ZT8J9UHv+I
+	FJ1+EM+sjlpwb2zMoBUWwt/uZAhDo+wUFlX8ZCTq+P9Tft1TWpvbqidxlVNdiKDJXLmslh9Odjl
+	Zlyu6PDkTz7i7F5aar5ugeoEB2dHugc33UpgSXIYxnGvbmmUjrSePKgeRfaGKLdXdEE0138+9JJ
+	4P9t9LmofBc5s0a7yIgvGIxy9aw1jHmq7m1sNMX9bTNOSz2pJMCegO1e1ieLE8nJOoQHxvnS3xj
+	0d672xbroNhA=
+X-Received: by 2002:a05:600c:3584:b0:49c:ff66:7d88 with SMTP id
+ 5b1f17b1804b1-49d26d7f8a2mr170508775e9.7.1789153450782; Fri, 11 Sep 2026
+ 12:04:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260908-build-speedup-v1-20-5dc1ac01672d@kernel.org>
-Organization: FRITZ! Technology GmbH
-x-ms-reactions: disallow
-X-purgate-ID: 149429::1789153240-3E7E2965-9B10CB31/0/0
-X-purgate-type: clean
-X-purgate-size: 1792
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
-X-pfmilter: host: postfix-mx-01  mail-id: 9436CA0635  external: no
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <CAMgjq7AHRzBsbmGOx0s=TQFBwcn=DEU1naR443sO6x+pJd6hAg@mail.gmail.com>
+ <CAKEwX=O8i+OsP6BJXNZNk07hveN9HDT+PoyMTAU6gOc-xp0Ppg@mail.gmail.com>
+ <CAMgjq7BQeQQOZMDPFJ+8LS2N4t3x53r6Nm+9o0_pi92oVUgjgQ@mail.gmail.com>
+ <CAKEwX=MS-7C96i4tzBijHN=-xuZgny_wQEa_0YjfHzhoNysdYQ@mail.gmail.com> <CAMgjq7B7Mc7vpQN0gBknsSrfZWXdif5L7nU29YskG9mzS-_jsA@mail.gmail.com>
+In-Reply-To: <CAMgjq7B7Mc7vpQN0gBknsSrfZWXdif5L7nU29YskG9mzS-_jsA@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Fri, 11 Sep 2026 12:03:59 -0700
+X-Gm-Features: AcwNN1WTqoBlEbiKI6CdE02QFoxhwTxTh-PKBQg_YuUX7rc2TMIFeAiuSkD6Ytk
+Message-ID: <CAKEwX=PxZ68_4240DC8HjcqPRE0bQWGmouoqapqqTQ2b0xqpvg@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Kairui Song <ryncsn@gmail.com>
+Cc: YoungJun Park <youngjun.park@lge.com>, Chris Li <chrisl@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 08, 2026 at 09:55:20PM +0100, Lorenzo Stoakes (ARM) wrote:
-> Rust crates are compiled in a serial chain on the critical path - core,
-> bindings, kernel crates and then the drivers - each a rustc invocation.
-> 
-> With CONFIG_RUST set and every rust driver enabled, the entire chain takes
-> around 25 seconds on a 128-thread machine, with the associated C code
-> taking 24 seconds.
-> 
-> Each time a change is made to any of the bindings, it triggers a rebuild.
-> 
-> Use the -Zthreads option to have rustc perform builds in parallel. This has
-> been available since rust 1.84 (rust-lang/rust#132282), and the kernel
-> requires rust 1.85 or above.
-> 
-> A future -j/--jobs option is planned for
-> rustc:(rust-lang/compiler-team#1005), so check to see if this available and
-> if so use it.
-> 
-> If the user's rustc supports neither, then it falls back gracefully and
-> neither are used.
-> 
-> The threads are taken from make's jobserver, so a parallel build is not
-> oversubscribed. It was found that benefits level off at 8 threads (16 was
-> found to be around the same, and 32 slower).
-[...]
+On Fri, Sep 11, 2026 at 11:14=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wro=
+te:
+>
+> > Would something like this fix it for you? ZRAM users will not get
+> > vswap indirection overhead at all, because it would bypass vswap :)
+> > Down the line we can revisit this decision - for e.g, if there is a
+> > use case for vswap-on-top-of-swapfile. There might be other interface
+> > that makes more sense.
+>
+> Hmm, this interface looks confusing though. you mean tangles vswap
+> with zswap through the cgroup's zswap limit? I originally expected
+> this to be a problem solved by tiering, skipping certain tiers seems
+> much more intuitive. Maybe Youngjun have some idea here?
 
-> diff --git a/Makefile b/Makefile
-> index 997fc7ebe096..7d23d7b64be3 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1204,6 +1204,10 @@ KBUILD_RUSTFLAGS += --remap-path-prefix=$(srcroot)/= --remap-path-scope=macro
->  endif
->  endif
->  
-> +ifdef CONFIG_RUST
-> +KBUILD_RUSTFLAGS += $(if $(CONFIG_RUSTC_HAS_JOBS),-j8,$(if $(CONFIG_RUSTC_HAS_ZTHREADS),-Zthreads=8))
-> +endif
+It wouldn't be confusing if this is something users don't have to
+think about at all :) My point is that we don't have a use case where
+we need userspace input on vswap-enablement on a per-cgroup basis yet,
+so let's just keep it all transparent. From user perspective, they
+enable zswap, and it just works - vswap is just an internal
+implementation details.
 
-Is there a reason for the 'ifdef CONFIG_RUST'?
+I have discussed with Youngjun regarding vswap participation in swap
+tiering interface in the first version of this new design. It's
+technically achievable, but we decided to post-pone that for now until
+a true use case comes about - trying to cut down as much code as
+possible...
 
-Hard-coding '8' feels a bit odd.  If some kind of KBUILD_RUST_JOBS would 
-be used, it could allow users to disable or override the parallelism for 
-rust.  Does it make sense to have rust parallelism configurable?
+>
+> >
+> > Potentially, but we have many users at Meta. There's a huge diversity
+> > of machine types, workingset size, access patterns (both frequency and
+> > file:anon split), compressibility, etc.
+>
+> You can just set the number as 8PB? :)
 
--- 
-Nicolas
+Sure, but with the vmalloc-array approach, there is more metadata
+overhead even if we have not allocated the backing page of the
+clusters yet. This will be annoying on the smaller size machines
+(O(dozen of GB)) to also pay the overhead of 8PB-swap space metadata
+reservation.
+
+With xarray yeah it's truly just a number limit. Put it as big as it is all=
+owed.
+
+The "allowed" part brings me to the next point - not sure if you have
+seen my other thread, but I think we need to be even more careful with
+this limit - I have found another weird interaction between memcg and
+swap subsytem, specifically with the refcount of private id. I think
+this is another argument for transparency - this limit is now also
+capped on architectural (page size?) and implementational (refcount
+type) details of the host and the kernel.
+
+https://lore.kernel.org/all/CAKEwX=3DNYoMH8pTKeCvA=3DXHFmmNVMeDz3mxbhp5q6-P=
+xSTJ5wOg@mail.gmail.com/
+
+Seems a bit much to ask the userspace to know all of this. Better to just l=
+et:
+
+a. the space grow on demand, automatically.
+
+b. the space be limited by an implementation-induced cap.
+
+all transparent to user (until we have a true use case for a userspace
+sizing knob).
