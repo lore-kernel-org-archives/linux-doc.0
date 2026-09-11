@@ -1,153 +1,120 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11022081.outbound.protection.outlook.com [40.107.209.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75274BA1F4;
-	Fri, 11 Sep 2026 21:29:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789162151; cv=fail; b=txw/WP2Md0Bqkm/yvG9Z/dlPAIh/9CmKFICBxX6HFns3SQBHBTRS0HKhXcih8Zm16hlyAJ5b6YYrz5QJaK6GwgAM3WUTun5YulRsAG784YqnMeGgt35G+LBGu4EprlIEcSOfAq+3i0wop2xpr9+oQc0NTqL39d5q7h2d6xXRia4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789162151; c=relaxed/simple;
-	bh=zxxiHFeoTFgxoc0spEtnWDt7lbs3P+gGcOlYkyel8+I=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=NS4jQ96R2er264idXeLCwZleuZRTyPXARLI4iGtkKGCDd5ztESPIrkhfWGpOF5slepJhWAd5iE0HQPjeeN13vwppE+F2h+GwXL6pUvcqCz9RC35Wxl3a7xM1TkfZlYAEO+eUao81+o/aK28m41/WD4VXThpd0ewMW3icjAhOBog=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=JSm1wBdy; arc=fail smtp.client-ip=40.107.209.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=rambus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22074BA1F5
+	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 21:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789162595; cv=none; b=ucEdX1OWSPxo+TAsRhkUNY7EtZezjMCe7KbV6/61EXKEPLPtssA9ziVKCDbbqLBdlWCUvnxXsIDCO6V3OUDK+ZyzEfiDa/tLLN+FihfqwPVws9WxWLNb8fU3v2m22w3jQCfesUr7185lvTFvFSKATuB60a0TyKdZHl0PufnqrhA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789162595; c=relaxed/simple;
+	bh=SUiTHckpupA2Vw6P+vJ70ESxWaG0bfUVp4jLYBx9i3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KMBOHfzx6Hjurvk1fNlxliALwg6VmxkuDQyaq0uamSlhrkzHDM/mssqe1a4d9CB9Mi/1HQLdFUq8lOzey7oqi8/pJiyBMj8W2H91fYoELWaoDnS7hTmBFPJqwxflBo4eSKWuVvOysoUCPWgdCxKNB/nfSr0cEfc5n9YG7d8LDW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CP7b68Lw; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b="JSm1wBdy"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JwTEebsCniZ2ROnBBac5lsh+Cd1e3GMzVooq4AwS/fpVEwJkkEFL9yuSHNe6XCh3lDhwXTxHm4WFFM8JcdjKizqXZUhWRJ3E0nv4ZMYs4fT24QCSe3XIj21/g6qoMoEqyFDExBAy+4ywYoYysS9VMzDsYG9z5gxrW0KtezE2GmSoL9OPV/v1HhRLEtEFMgvqB5SY+r+KzkqLUjnytcmOapi1PlKFk4KxRJEH9FhJeVfSj6uTWj7uG5+isdtUIvpgeLbXGt1pPogtUsRXUE605iXVyCrLGoOwW0eN5r/35mBIluOEzFtznbkFb84cLfUVYKKI9ToXlA+wL9sIs4untw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QVB56YhnglpNFEROeYGpD4J4uZsyLLIQMC7gA4CtWCU=;
- b=J3FiXjlVdvbBXZcfKpuTyJjOt4sOCQ75QK8mCiTUpTtNfFEp4hYuhTO1laUWCSo2zbJHuEr5bPLNKpvKrGPeg7E6kLPE0bZEHQVoGzqH4pBvPnXlM6R0pIYmFOF/NfLtFdutgKN9/eJeyNDyRKI210jMGNkAvT5CfYJyHg770Qc7agm5KQl1l5IN4KSIxFDWZZy0kTwXyNqr0yLtFcZ8JSdBUGNiRi2FR2vpWdMek/zigUPA6thsq34ZnCe4HinlcWZ1bQ2TQZzu+F5+aF4nsRtJO93jcnlF/HB1VWvsziHU9A3DoEnvpWr8NerdFPmzYRHT+maphQ/7wFH2Le3aHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=rambus.com; dmarc=pass action=none header.from=rambus.com;
- dkim=pass header.d=rambus.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QVB56YhnglpNFEROeYGpD4J4uZsyLLIQMC7gA4CtWCU=;
- b=JSm1wBdyTJ0aV55Qlm2W45gpYT0fgTDYGlg6O0VdPXG3O1DMUFv83DnzV4KVtT+6RkQvys9SWzzVbayobcz0jLzYusGSPmdEu0U8bgaTiw6k0h1uKXq2u/fIBiAYcD5wkUtfoJ75NfzOqHx35M70KOLY1RHywT07YH1TqLOhb2UYc+9+AJuCzWAMXYGhDZ9zmNtPnpAL74EOz//3vlITd6JqMNLsTCYLIZxMZjfVCRiOuw5LEXgiUcSrzxQH0LYknD8YZgmMsKJTJoLf8S2uXePVvKBvz0Wu95Bkbj5iTF0nX3brkm6/4RBcXSZMqf9eFL7LQGST33m2rw9GHampgQ==
-Received: from SA3PR04MB9001.namprd04.prod.outlook.com (2603:10b6:806:398::17)
- by BY5PR04MB6836.namprd04.prod.outlook.com (2603:10b6:a03:21b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.10; Fri, 11 Sep
- 2026 21:29:06 +0000
-Received: from SA3PR04MB9001.namprd04.prod.outlook.com
- ([fe80::3da3:45d7:8860:e196]) by SA3PR04MB9001.namprd04.prod.outlook.com
- ([fe80::3da3:45d7:8860:e196%4]) with mapi id 15.21.0406.007; Fri, 11 Sep 2026
- 21:29:06 +0000
-From: "Ousherovitch, Alex" <aousherovitch@rambus.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor+dt@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Palmer Dabbelt
-	<palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Rob Herring
-	<robh@kernel.org>, "Krishnamoorthy, Saravanakrishnan"
-	<skrishnamoorthy@rambus.com>, Shuah Khan <shuah@kernel.org>, Alexandre Ghiti
-	<alex@ghiti.fr>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"Wittenauer, Joel" <Joel.Wittenauer@cryptography.com>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, Shuah
- Khan <skhan@linuxfoundation.org>, "Nguyen, Thi" <thin@rambus.com>
-Subject: RE: [PATCH v4 04/19] crypto: cmh - add SHA-2/SHA-3/SHAKE ahash
-Thread-Topic: [PATCH v4 04/19] crypto: cmh - add SHA-2/SHA-3/SHAKE ahash
-Thread-Index: AQHdNN9iaUPmaZ+DjEW1WtISsJVxD7bI4yWAgAEbzvA=
-Date: Fri, 11 Sep 2026 21:29:06 +0000
-Message-ID:
- <SA3PR04MB900105B881F46FD7B90F7E3BD7BE2@SA3PR04MB9001.namprd04.prod.outlook.com>
-References: <20260825221539.255951-1-aousherovitch@rambus.com>
- <20260825221539.255951-5-aousherovitch@rambus.com>
- <aqOEL-YUVFuThcmf@gondor.apana.org.au>
-In-Reply-To: <aqOEL-YUVFuThcmf@gondor.apana.org.au>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=rambus.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA3PR04MB9001:EE_|BY5PR04MB6836:EE_
-x-ms-office365-filtering-correlation-id: ec3da269-a28c-4916-f681-08df104bb573
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|366016|7416014|376014|1800799024|10067099003|4143699003|11063799006|56012099006|18002099003|22082099003|38070700021;
-x-microsoft-antispam-message-info:
- K62nuIPoWtqRidPJAkIkPf1vKJPKZrr8zvO7O5qmhpMEcNIsURiMSC4IselObxhka3JAWnHwSPaFjeWVKBK9z3AaDAH/vH9PWwu8kpZydsKweS5i8ZU833oUQQnuye0I6lG0IwyYAaOJV8noX4YH4Q+3EVcmJD6i0HSV34KXUWoZF0p2LrTbaPU1iTN00FxEFmcBRwLPHTu+sKOp4PtYEFHD1gC2XNFtgkKKLb79e/IRfc6isg8PXR1HZR7z6stFjPPDNaK9y+lTepWuERo1D82KvIrSqjqkVcD39OGdlOcY9E8eb2JngVm+SAKbuc0WA47NWt+ZlnJzRaD4IfFr9wYi7Q4Y0o9VLwhtdInJgoKvfHU0s2gDDazKWjZM1GEdAf26T9SR/AadRql2NYPnw1dYsB0blWf875R45h9Lbe75gH3ul8odxfIjLX9JA1WCX+laQZFQONpb5KAx9Sv/Bt8FNKSU+S1KvoUV0EUKJazygckdqXrzUj7n+Zxsr9crSGcpMsi2tSDDpSS0lBfdtpr4m3N7OOH9fpOrCBQ9HpZS5RzQLGBpdePtXfygv8DUoMS26iSkmCAP02v+s+lBrnxaJykPCTowqH8Ku1u7Ta/R+GOipUSrCfNOYH86uYSXZKF2uwEEuCVdOQrfvBe6+f5oNG+7+XFRwyAefhZitujNosT3v+sbV2nCVBdeKEtCicGXJO/pQ2Ku0etV6w1FKpdhXAsqayLztR5rK+9km94=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR04MB9001.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(7416014)(376014)(1800799024)(10067099003)(4143699003)(11063799006)(56012099006)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?bBhwwm/bI6NcnbMZwkGILQFqR/cwZYge3EBtrSZ1Z8HwEz79YlXDXAd8PdSZ?=
- =?us-ascii?Q?hnXQQw1ytS2C75xWXklZnkmi+C6PBL/fRsY9PuP5NtowT5MRe8wWI6mTtGx5?=
- =?us-ascii?Q?9zux4TM9aqFZlFCMoNJR6q5JwgFpZo6WlxYfZ/r+e2XkHpux96M95mvjFBzq?=
- =?us-ascii?Q?x8B+No5WKQPBhByJ2JObfsoejGUFd7NZuTFq8/gTPlgp59ZnI3CrvXgFB8Nx?=
- =?us-ascii?Q?kNIQQVwg0JrVbLmBHF9Iuj2Un+cmcicaZdffkISMHeQ2iVpODw31JsQ+m7sO?=
- =?us-ascii?Q?OHCnX5yGBKJRUmSeiim4sr7g3uLpeFa7uJ4G9GxfY1tY6GWCOUtIgPJrq2dG?=
- =?us-ascii?Q?JQZC9wU3heVRUSYcH8qVZP/Bx/Rr3KWUqiKW/6YCtUr6Qshn7HbAYdklEInD?=
- =?us-ascii?Q?f9WP7thkLHDHkKF8zbWICtVAg2RofkEJrpQAAjaX1Me0H2GTsno0wqwxqE+Y?=
- =?us-ascii?Q?2SjBQR3L9wJvbrIe6Zzo5Y1SPM6/IhD8piOHRvKvT07zJn8K/hoxxJ2ajduT?=
- =?us-ascii?Q?98ej7hjW1tdThiM/N4NG32EX6BtLzFOve9bainvr4w4YkJ5xw4KeStvo2B9+?=
- =?us-ascii?Q?uzPznL815vQsUKo4mYxulhi3Pt+gnDm8PBzVdlsP7x31aMppG68287J7SqzA?=
- =?us-ascii?Q?V5PSarZAiN7t6qChswRkQfaz6ILQzbkLajCZs8H7m2jUEb4Ozol8yGSkt+Cy?=
- =?us-ascii?Q?MEcuwJSHYqzK+boJ1/Ra43zVJA70ikEGEx1kYC5Pqsqxu1CLzWUfck2z8m3w?=
- =?us-ascii?Q?h19fN3IRtnWkS/oyOoBs5dDg9IYQEjd4vv/CQN/vZiX7fqRbLf5o3kHOM2un?=
- =?us-ascii?Q?2KDCPPxs8V84MUcoWNPdTA3mWFuuidDPntwz7SH8LfFK3uekiPer1dmaz13V?=
- =?us-ascii?Q?C/Z5XRkN1j67Ptf1pYSZNuu7RyVwHsdwKcLHzwWFkOkLAJ4q75owyDkzS67F?=
- =?us-ascii?Q?NHucn0oFp2KuP2H+MjDeQztO6sjl1JU09oL2PrmDOQkrF4RGZaEWnYrVttAx?=
- =?us-ascii?Q?G4cZnHNu0ycLwORuSfRS6HCq4y9Ke+JorNUxW21y56LNG+dQ+wyDl1ygy2Mx?=
- =?us-ascii?Q?Vm5O06O5gshAYNmHFTTu/WWAzErUw3+fmSWPIbou4b/v3KgbZyM2YQwzOUeS?=
- =?us-ascii?Q?N/C+u66Tk7IIxtDOc/gW8/vWaON6TwNnDfaOMJGa7oim9iwukUIBfFEE5Rmo?=
- =?us-ascii?Q?7bbjBaZNSiT+EohnI/xk8EQPQCI8vgDxduJDfD4lCZSLXShVaQUnCJx1wcr8?=
- =?us-ascii?Q?206onyq90oacmam2TDD/3jxymS9y/uLyzg/u6uXLy6NBa06879qRY/VMjjJR?=
- =?us-ascii?Q?DlpuXUUS5o/eykdc/y5/VL1tP8o0JAMu/hz3+boJuGLtNke89ly4uRwUMyxL?=
- =?us-ascii?Q?z5AYZenl1iy4AKcpvFT+lmaX6qhqrVnxXcLuYAecK1QwESi9I41RoFjnsrZq?=
- =?us-ascii?Q?sQxmX5IbhjSI/t6MKGAH4ylAmvqg8E4IHUgfYmuuY2QSwglZIWVuSgi5kAM8?=
- =?us-ascii?Q?/lZTOy8857q7IFybyV+kHDsVyEUX7NBT3glvfd8wHBI4VABbPDgYVENb2flS?=
- =?us-ascii?Q?JRA6C8NhON/veiiAjHxzaa3Xjyttcy8ObwDxLbkHGfOgG1mHZ9I0g964yH0i?=
- =?us-ascii?Q?UABbDGR1BiGOy0fVhSaYTWoYNbtkD/CJ8MzHJgQr+kQpDwBPiRXuYXQ3N3g0?=
- =?us-ascii?Q?r551MDeDD/1ZjgIhwLyQ1uql1qBKNGs0nVmxPlfNFP+viVcUBWdbWgCyU6+7?=
- =?us-ascii?Q?PpLnnUf7nA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CP7b68Lw"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-381b831d535so2518987a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 14:36:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789162593; x=1789767393; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=pAQK5OeklF/DWV0T96iTwyf4EXdJqbJCKpAuQ260Jy8=;
+        b=CP7b68Lwz0lZMiJCKXojOECPwsid+PDrcCgP31nW95CaQB5XMMIZGrL+WiRjMFUtXR
+         C1gMDtj+lqVM074ZA0iUrgCPmFydNGJDFFUrNztS4lbGyjthP/P74PysMRUY1ukwzxCM
+         +1Dg5oOQ0qURCwZLeZ6Vj/X3GZ4Z8W2VgWFo8r0o79y1MvOnLKOxp0kvkfM8pv439hHh
+         ts3MXePzZDKruG5SO9FpI/hYmIGi1GVBs51iKsVqztsplR5ODJuG5/HS62dbs/lKkTBQ
+         W2oEjJoR6X0Uns0xyRM3xMQShpvrS4o5jGqCg87yndNnvQsCprR3GnbWKph26T8YtFNr
+         JyeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789162593; x=1789767393;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pAQK5OeklF/DWV0T96iTwyf4EXdJqbJCKpAuQ260Jy8=;
+        b=VbRplkNMmw1RFKw7xiLE7uEU+x2ZNVaOzEiu8QvAdItTMFGpUAdcjCNtQMU59RgFXR
+         6gT7YMprEKTUaNvuQ46ExTdTywBWw668N8YQESuZPmZF5gyGiD88DEOMQ11I6gmeJpSG
+         dqtxv9qCXlReuubBWYpisGMuOtTdrPX/1zOhEfhNC2KO4/Z8zdTAaycwC6u1URzqLqfC
+         2924KgyJphGJxxCXJc+5DUIYnfSft2LQhOziD3APht7n85zZ6mAF6Hx1oZxVUOC9uMCy
+         xJJw/gEbinBgipyoBS3JVOdOkpXM6rLUIqHPBgbjoe7nhvqcyqRYEIu8PQJWQbKWthMY
+         g6lQ==
+X-Forwarded-Encrypted: i=1; AKwUvByB0TfM+YkeTVuZBwhH/FCBA/h3PlvLNbn2JkFjFe7EA9sXa6Nq6aM2gw/u0pfTODlm1bCESdP2P5s=@vger.kernel.org
+X-Gm-Message-State: AFuF++mFiuT/fKdUtVVTRGBV5C4ZaRODJi9yHTh0oKBTb2bXiPKKMxRO
+	nLnfR1JXmAmILWES50kgkyNyJd+yPifuE78evIDRgzvUwlNTL5YjJtLw
+X-Gm-Gg: AYBFou3sQWbxqVC4LYZsIoGSgBR5fuAZ1nT++Be4zmrTFsn8ZLtL1KCZdWPKNt4aLBI
+	RWtOCKHrETx3hkxKgQO4olj2huN1DOrWXbDFSqhfNogXHd+lfUEP1zmLGtb/pRZxpgp1cerrC29
+	ftIcvTZlf/CZcDl9c3X21h36SpvWCXX+K3lCdFA1boglsyvn5mLqRQh4bKP4T8NTUOcXcgU1Zl6
+	4YS0l1IhPAOwbG/sdkYSmun1ePCLqnta9fk1Uz75tGVyASC4oReo5enbay+a3w6O1+GN9dpAY8P
+	pom+/Hb7csscnQkXVKWZUpdEFNUwq32G+LdqpG7sFUPw2FQanCL7Jo4otQ0APojVYXHOxxSBUh2
+	XgJY5t67HmP9trdNDMsTmqIeaNxm+wSabTGzM2FdNc+Gj91BVEOcFvo5ne8vsCrnGTT2FkPV9w8
+	YvFkI9oQw6vP1d3ja9vUNq9CAb1NJOFSQGPXq1yTjNLNY3s7h5Va7pCifmrm10nphlLwuai4hkO
+	upOiIH4ka/n
+X-Received: by 2002:a17:90b:384d:b0:398:e1f4:bda1 with SMTP id 98e67ed59e1d1-39d9c22ccc1mr761107a91.21.1789162593165;
+        Fri, 11 Sep 2026 14:36:33 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d9959ac65sm6442721a91.16.2026.09.11.14.36.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 14:36:32 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 11 Sep 2026 14:36:30 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Meagan Lloyd <meaganlloyd@linux.microsoft.com>
+Cc: linux-i3c@lists.infradead.org, alexandre.belloni@bootlin.com,
+	vitor.soares@toradex.com, samagazaryan@google.com,
+	gregkh@linuxfoundation.org, arnd@arndb.de,
+	boris.brezillon@collabora.com,
+	oleksandr.shulzhenko.viktorovych@intel.com,
+	tgopinath@linux.microsoft.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, Frank.Li@nxp.com,
+	jorge.marques@analog.com, pgaj@cadence.com,
+	wsa+renesas@sang-engineering.com, tommaso.merciai.xr@bp.renesas.com,
+	nuno.sa@analog.com, Michael.Hennerich@analog.com, jic23@kernel.org,
+	dlechner@baylibre.com, andy@kernel.org, lorenzo@kernel.org,
+	enelsonmoore@gmail.com, rppt@kernel.org, pratyush@kernel.org,
+	giovanni.cabiddu@intel.com, gabewhigham@gmail.com,
+	haren@linux.ibm.com, pasha.tatashin@soleen.com,
+	jirislaby@kernel.org, adrian.ho.yin.ng@altera.com,
+	ustc.gu@gmail.com, jszhang@kernel.org, adrian.hunter@intel.com,
+	akhilrajeev@nvidia.com, tze.yee.ng@altera.com,
+	manikanta.guntupalli@amd.com, shubhrajyoti.datta@amd.com,
+	jarkko.nikula@linux.intel.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux@analog.com, linux-iio@vger.kernel.org
+Subject: Re: [PATCH 1/3] i3c: master: enable driver_override for I3C
+Message-ID: <342236b8-11f0-44bc-b0f3-2f167a6f521b@roeck-us.net>
+References: <20260911210935.1353126-1-meaganlloyd@linux.microsoft.com>
+ <20260911210935.1353126-2-meaganlloyd@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: rambus.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA3PR04MB9001.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec3da269-a28c-4916-f681-08df104bb573
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2026 21:29:06.2137
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: utTWSI8OSUGXLBt894sZh2rit7D8lJbLq7CqLyuEREJ9CGGIsR/R72EAoMfT4DR8pchHYyn3R9hvIzWDJ9NmIXRSUWhe+792Ni7n9GdltS4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6836
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260911210935.1353126-2-meaganlloyd@linux.microsoft.com>
 
-On Fri, Sep 11, 2026 at 02:31:43PM +1000, Herbert Xu wrote:
-> Please drop block buffering in new drivers.  The Crypto API handles
-> this for you.  Take a look at the aspeed driver for an example.
+On Fri, Sep 11, 2026 at 02:09:33PM -0700, Meagan Lloyd wrote:
+> Opt-in to driver_override sysfs functionality for I3C subsystem.
+> 
+> Update some I3C drivers that are assuming that if their .probe is
+> invoked that the bus match function already checked the ID table. Go
+> ahead and verify in .probe that i3c_device_match_id() returns a valid
+> match before using the i3c_device_id pointer.
+> 
+> Signed-off-by: Meagan Lloyd <meaganlloyd@linux.microsoft.com>
+> Assisted-by: Claude:claude-opus-4.8 copilot
+> ---
+>  drivers/hwmon/lm75.c                        |  7 ++++++-
+>  drivers/hwmon/tmp108.c                      |  2 ++
 
-Done for v5.  The SHA-2/SHA-3/SHAKE, SM3 and cSHAKE ahash drivers now
-set CRYPTO_AHASH_ALG_BLOCK_ONLY and let the Crypto API buffer partial
-blocks (modelled on drivers/crypto/aspeed).  The hand-rolled holdback
-is gone.
-Since BLOCK_ONLY's buffering is scatterlist-based, these drivers also
-drop CRYPTO_ALG_REQ_VIRT.
-cSHAKE stays cra_blocksize 1 as an XOF, so the HC core buffers the
-sub-rate remainder across its context save/restore.
+Separate patches for each hwmon driver, please. Each patch should use the
+standard prefix used in hwmon drivers.
 
 Thanks,
-Alex
+Guenter
