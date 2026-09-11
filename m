@@ -1,155 +1,234 @@
-Received: from mta0.migadu.com (out-167.mta0.migadu.com [91.218.175.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013007.outbound.protection.outlook.com [40.93.196.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BE344C4FF
-	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 19:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.167
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789156567; cv=none; b=i6AQcGFhnGLTRMeAFUqLnGaC1Y+Tjsx3mAMf1hJKgognWX41EU0ABC9EZhx4p//aYPfFnNllEcNs9rr9NWQOWZ68mCT4GuNmLpS8u7NTnP86M/PLFqVMjA5ZISMfgt8zFhVYkLkkC50UAW46IHL2GrP3l6d+2iW1MJs7lE51NJ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789156567; c=relaxed/simple;
-	bh=ZXn9b98sKbqLypZH0aIB7sqpEcIF9OpKxPnoD71YjMw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l3FBQiTjmEUAIMAy4L0j2b5viSLgbmuGcEt9t9ZNiqIICOURwmwCLSEcp1UQscWx3EZ3zrgRg3WPUdYUuuPanOmsw3991HpkVEL9BmNX+Liq3EnaUH6EYH5/fSgVgTl+TaOADqubomtqWwxbmrfBlLES5fv7PS0G7Meq5LFBRQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=kJSDz+pX; arc=none smtp.client-ip=91.218.175.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BAA4AF175;
+	Fri, 11 Sep 2026 20:51:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789159866; cv=fail; b=Taqj/TvRLUBONzO+YvsmO3bHlsHHrnhb/eJ6Pw2e3HGiuDOjClVernJss39p3Hh30RwwHCcpQtH9furRXH2aN9xFdj0yI2NOM9+J9ojb7srWUn7IKPEIq/yWqZCyslPtku6UIzwNQaOpi84D7oGN1ZR2gfkf9ItrY0ZMO2eHuFA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789159866; c=relaxed/simple;
+	bh=+hfdXQ7vp6U4SUpJtfQ4EvkAy0y4l8atqTy4e0motPU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=EyT0jYsy7kllttsFJUb/TvYee828sRvOo6dR/vn0B5xSaTwdKl/yAmcKSvJDOwoz68La5j84FWyzg5c6kml1FNu9g18QWWILkLcBvHREmIKjryoxN68r7sEDrmaHHahW9Iv++vUeRjDDkYB5DBqLkh3dHMthMzUSVUoVKG5Bemk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=34sIGnmF; arc=fail smtp.client-ip=40.93.196.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="kJSDz+pX"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=ZXn9b98sKbqLypZH0aIB7sqpEcIF9OpKxPnoD71YjMw=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789156554; v=1; x=1789761354;
- b=kJSDz+pXen2gTMr1K0N86h4wRKjFiyAc/HKeSQWnw/28uOwJbmU5uVlxHTBaeQv3pzXvqYJj
- 40LCwg4AatMLsX2n4EYIsvaNxgqnHLsrpXCv3o8PSs83iTl+V1P/qZ0Z3Vj9yyQlL+TC9m+r0lv
- Xq1FO/miLdTZbtzJjj/N4vbxqDAM7/IedK7z9Vlcf4kd6qoRg7p7+prKd05UlrJAwB+/pElI6ER
- QdchZlFoq6uh4Af/VyDWvuG3GiOiM7K+ZqWokgtteb9ftwSNv7B44r2ZYxDra3knNRiRkPM32Zh
- VWOwxM8w3fwF0QnYh1pToFnRvTMTB95bFqzqdKs6iOpYw==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 8e3bd5d72649b28d;
-	Fri, 11 Sep 2026 19:55:43 +0000
-X-Mizu-Trace-ID: 8e3bd5d72649b28d
-X-Migadu-Flow: FLOW_OUT
-Date: Sat, 12 Sep 2026 03:55:40 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] docs/zh_TW: add process/applying-patches Traditional
- Chinese translation
-Message-ID: <aqRcvOC72e7lna0J@wyuan.org>
-References: <20260817-apply-patches-tw-v1-0-c182c1c425ba@wyuan.org>
- <20260817-apply-patches-tw-v1-1-c182c1c425ba@wyuan.org>
- <CAKspUh+bMqOYuV=uTRr35wt-xWd97YR=dfDQGoAvF5MjujOZEg@mail.gmail.com>
- <aqKgJh6MfOTS0KtQ@wyuan.org>
- <CAKspUhK+60mzSnh+_u_+8_P99LG7LkDp1xp1_feSgd0_ax5s1w@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="34sIGnmF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AS3uIz1JsrziVMRjPN2R8vJNcbOZEHzYyY6ehV37bSYPp10Xu9Ksact9ZsHAsQShS02YY21p/8CCZgouuJ9MAN82IxyhFE9PfAwi/7b6YHTrsUcaPz1XIefkMKrwaf2PvcCbUhQO3lBgzv/f/P6551fk2NNzxI730bjmcPqTcYqV+IeCy4O7/+BmFnpHaiykjYny9kIwZLfozbh24ogy2bRJjOlGMvCYBYJ7T9L7be9PegddCmGEMoPb3HDaNJGKUeEdxzHakTha1bUw+3cMe9qXKL+frQdTB8+j5MDzyVPnwADOPtU9qVMW9wtYPKKVvXds59YQK9VrHQrTpED2Eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LXxqLR4c2ImOCgEMjntylrnwrMjq5DmOtvU+Z/gNuJM=;
+ b=qqHAYTROROzaA3EpBJUU6VJ6wGnDMnpi9jPpI9gLTz52YcQqPev49eLA8qDdjT3JhiTolHatCv+FUJ97QnlZBN/ULnqZlai3mgYzQcDkpjXO+cJp3/ix1Gyrt4eFnr2omAj+zY4POLJwEHDJOpzgJpEIeaC2EZueQ82ptShU+NuHm6iNWRSydc6rQ9sIt918W5YeXv1tp8JWMIHaW3r/AxJPa5Vc9SXHJYMbpzk+4mjw6MaiYYdBgc+OsGlPC44ep3HzVMXanMXLBkiQpBgddANLJC73/V5cOxWDbjmNTIfWNUYGDbiFo/toCsT25FOxYSgtZbKpjAPrYC8oR1/dbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LXxqLR4c2ImOCgEMjntylrnwrMjq5DmOtvU+Z/gNuJM=;
+ b=34sIGnmFusMO6CgYna5PHAou6e0KqUydzGH+0j5h/wiBvhRlADUQQx0AskXk5mo0P5prJDviFui+R3lQv3pE7f6tM3BOMO+wME5jLVB2/EGOuOF237pgAg5l6vsR9P0kV+7YUxJISTtvjRsl+FELi+oXNdN2gt7NV7BlOyoFpNw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
+ by SA3PR12MB208015.namprd12.prod.outlook.com (2603:10b6:806:517::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Fri, 11 Sep
+ 2026 20:50:58 +0000
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2d79:122f:c62b:1cd8]) by DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2d79:122f:c62b:1cd8%3]) with mapi id 15.21.0406.007; Fri, 11 Sep 2026
+ 20:50:58 +0000
+Message-ID: <0819d227-083e-4ce1-b376-81e5941404f2@amd.com>
+Date: Fri, 11 Sep 2026 14:50:55 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] drm/amd/display: use kunit/visibility.h for test
+ helpers
+To: Albert Esteve <aesteve@redhat.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>
+References: <20260907-visibility-unification-v1-0-6a962e5b3351@redhat.com>
+Content-Language: en-US
+From: Alex Hung <alex.hung@amd.com>
+In-Reply-To: <20260907-visibility-unification-v1-0-6a962e5b3351@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR02CA0006.namprd02.prod.outlook.com
+ (2603:10b6:303:16d::12) To DM4PR12MB8476.namprd12.prod.outlook.com
+ (2603:10b6:8:17e::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKspUhK+60mzSnh+_u_+8_P99LG7LkDp1xp1_feSgd0_ax5s1w@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|SA3PR12MB208015:EE_
+X-MS-Office365-Filtering-Correlation-Id: 618414cc-02a8-47aa-bccd-08df10466190
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|6133799003|18002099003|22082099003|56012099006|10067099003|921020|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	ICzMOX023LjSJ3WNIlp2gIHU52yRsrA9IyKS8X8xzcISxl+DjHLdrDQueYWR5tI4uskv42Z0PUGyPcHpH4B0CWaL+FTX3tESxaQQOTeyif8H/mTvvEgPn8t0IKItpBHgJH/PX/JSnXGckuM/xmkU0WGH7hlcgAudUGELiP7uHZ61rxBNWyWld2gUNOrlaHmXeOVGYK3mAOHkUnWJl+1MO51k1yx3BqKKTNotE+z8eIl4bIiaxgoOoDajTpx4gF1iaG8grZdN8DYsxYoMekr1WBqpgkBIAqhQ5W3L64cCVQC/L9VOKCv9Jxw0EQ9se7VmpAfTY+34ytuoufO9XIHfhAphGN2Ed7Fc8r4MKVLlV76OdPF3EOv5AZtRfsZjplPMijs90eYqRIYp8w5DLA+tf/PlaCXDJqXERzq7Rmlpe1FOffNY4H4tob+ZV1h9aAT/shQDLnHrUVa8b928MV1dO1rpsqaQZbi1edH80cDp7NJTziT1g07tJHsLpdpTz34gwBoYa6wcdMZ0nV9OJMznu7y8BhUO13wKe/zJlLR6BoEFsgJ32qCYw7K64LqDZDSf61Ql4SxVv7zKScyifezopfEXXh84oes0YfvrOo9LH/e4RcuGE9NhXUMrovRyUJCba+2rxL16DQq9MwQ2Xn4K8ef2vw4n6E4y8NIHOOjnTq+SsxZIg8hI5yXffRb2f/ek+SHbYlUlOi/RKfKWKvhORw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB8476.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(6133799003)(18002099003)(22082099003)(56012099006)(10067099003)(921020)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VVJvamR3WjFmS2RCTWcrWXVSSkZvZnVTRXMvR1pyMm1KOStObnBhMGJqUzNW?=
+ =?utf-8?B?MUMzOTFiV3BzSHFEN3Zhck80YndQZEVuaTA0U2dlZEdUZHM5UnZIL3JkL3pX?=
+ =?utf-8?B?eTJuck84eklrbDJ4TE0xQWlNbm45TzVoSDdOdHc3OENQc3cvanhRU1E5b2tX?=
+ =?utf-8?B?d3dHYXRmbW84ZmFzMmYyWXEzdnczaG1MRDFvVGFYWUFhc1BXTWNpOU9Td2xz?=
+ =?utf-8?B?QUVZNlhiaE1JS0o3aDFOVmp1STJmTTdXWVBPM1JXL1psWTU2cnpGSkcvTUJQ?=
+ =?utf-8?B?RzZZM2FYK1kwcnZaaUdQSzk5NlhyWGNOU2xRSkhIcU9yVmFTZzUyRGNPVEZy?=
+ =?utf-8?B?YitnRVh2T2JLWmgwbnd5VmtjZTJvZjdtK2U5dW1tcWdWcWllUThnWmpYenlw?=
+ =?utf-8?B?eThvK05rbFdSQi9SSnI1am5UQ2JjSG9jWWNZdlpEcjB5WGdWNU1Pc3I4QTh6?=
+ =?utf-8?B?VlVHVHU5c2kxQmR2UUROWDZGNjRQRE5iTWIweUJkdzEzaWJIMm9ZS1RsV1Zj?=
+ =?utf-8?B?TkdhVU9CZThUQnlNQVBHRTl3cFZnT2kzZE42TUp6bmxjY3g4ckFRdHlhUWhL?=
+ =?utf-8?B?QWdoTmZMdkQ1N2llcERCZ1FqRDNsTytWU2Nma2hVQ0FIZmxLRVVhR3FUVDAz?=
+ =?utf-8?B?MTJzTzlRWkxUZ1VoY1VCUzlHVXVQNm5ndTIwY1lrcVlwazJtK1Bid0hlRjFi?=
+ =?utf-8?B?bVlKbUpKYmdpM0hBUUhtemhmTWhncEh2Y3ByeHFDMWVhS2NSMDB3WU41Nmt1?=
+ =?utf-8?B?U2hnRHdtbC9XWWRDS2plR3dLZUM0WEVGU0VuZ1pnWFVUa1VMQlZtY2lKa2lk?=
+ =?utf-8?B?OWRDWSt1UlVmV3FKZGtYVStraFAwc2xmbHhRb0diT1RLQ0szcExJbzQvNFc4?=
+ =?utf-8?B?ekk3QUEvWjMyaFNnT2o0aEJuNnltZVVJTzNYd09hUnZGa2t3bE9BYlAzRThH?=
+ =?utf-8?B?M0l3SFlhazg3dEJ5V3BUMy96WFF2YXEreHFSSXM5RVROcGtnOVZyY1p5WDBE?=
+ =?utf-8?B?V2QzbHRYV2k2YmRsbVNTako1VTBsYXdRc1dudVJKYWMyd001Q2RUTCtPNHdm?=
+ =?utf-8?B?aVl6N1RHZURQeHNUVzVzN2pTMFMreWVzeHJoZlFQUWNlTHJWc2lBUGxTUmZK?=
+ =?utf-8?B?WkNybVlIMlF5cFhPbUtvQ25KdWRaN0hYMTlXZi9vNlR0SS9Mc2ZacUtSenhi?=
+ =?utf-8?B?cnRmUzBHd000N2NFR1ovR0ZtWFZIQmhFVytBT2ljR2MxYktmWkxKOGMyZDNr?=
+ =?utf-8?B?OWVndUFxaDlZZWpqbFNMNVkrM1RWZ1hjSjQyMWVUVmk0U2pzUGVVeEdOM25j?=
+ =?utf-8?B?UnBaZ3RNVlovUUxSSzZCM3hSMHR2citoQURHUFpSNWl2WTRJWE8vWDBmL294?=
+ =?utf-8?B?dUE1aEMrL1F3YVRlMzVGaDlJcndrc3hwcTZvTUlwUzA0Ui9TQ1Z4VWRIcVRJ?=
+ =?utf-8?B?RGRNYUEvaUdTZ3VTTklIWWtEMDhTSE5CdllRZlF6dWNFQ3Z5clJLYUpUT1hM?=
+ =?utf-8?B?dnQxTWNZdjVrVXlpd0RwcXE5TzFXU1JIWlhrMk9xbWhtb2tmbWZOc3RiR1pZ?=
+ =?utf-8?B?SzhQMll1enZHbjlkZlgvZmJySjNOMDJPczZlUXBKNWJ0ejFRYzRXQnVPbm1C?=
+ =?utf-8?B?MHUrNEI2QmMrT1lROFF5VG1DeHZrYllsOFlad3dOc0lZOVdmZmtIQzg4Nm9l?=
+ =?utf-8?B?K0xiWHlDaFU0WVFsMi8yYnliZ0wxNkI4dCs0TjkwNllMd3RLTVhnKzFSdGNQ?=
+ =?utf-8?B?WVNpNngwWkpNWE5xajFLVTgwMzZXODZxVVh2cUJzWXpYUFJWMTZ2YUw5eUYv?=
+ =?utf-8?B?aUlpTXdkZ21TL2RaV1BGRDRBU01MTkQvMElxS1drZWFGQVM5UjBIOElhcEJx?=
+ =?utf-8?B?QmJQcHV0QXlTVHpzcCtWUEFvL1hyTjJVdmpIcWpHN3c2eUk1Tyt0S0k5REpY?=
+ =?utf-8?B?SjRLMk4yOHZhbGFNSzBNdGlMRlhCZEwvc3NqUUt0R2piOWN5WmRjRStraHhv?=
+ =?utf-8?B?QmY1UjlOeWg2TjJXNnZYMTQzTnhMZ0R4eWE2ZzZoWGpNZjNjZHQ0cyt4UWtR?=
+ =?utf-8?B?RUN2dFZybDZ0WHk5NmdDeUVwNEE2VS82em1rSGZwYUxmNzV6bXM1bUREYWkw?=
+ =?utf-8?B?ejZUQk1GSlk0Q3hiMS9WV1lwdWlTMHdkUGxzUS8xMCtIaGpGUEowNHF6SnNv?=
+ =?utf-8?B?SUpTYjlMcHhaWVd2NjZpUFd5c2NZK3ltRnRndWcrcnA3SzhWSkE3Y1VtUGFI?=
+ =?utf-8?B?dGd4elAzelcreTlVajVzcXRka2pvMVJwNHNDaFlFaTVtNTJtUWxVaFZqRjlu?=
+ =?utf-8?Q?OWZcVHhPR59Ntf6iGq?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 618414cc-02a8-47aa-bccd-08df10466190
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2026 20:50:58.2330
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OLTilAmBWDgpunm8tQfFrHQgQp+322fxdPfw1CtiMrZjBYh8wPsA9fXAXr04EQFR+3TMK2KMlGap7if8v8VayQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB208015
 
-On Fri, Sep 11, 2026 at 04:50:39PM +0800, 葉宸佑 wrote:
-> On Thu, Sep 10, 2026 at 08:18:46PM +0800, Weijie Yuan wrote:
-> > > 5. Missing .. _tw_applying_patches: label
-> >
-> > This kind of top-level label is not recommended/allowed right now ;-)
+Looks good to me, and I will forward this to next week's test and update 
+the results.
+
+
+On 9/7/26 07:28, Albert Esteve wrote:
+> [Some people who received this message don't often get email from aesteve@redhat.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
 > 
-> You are right, and I checked: doc-guide/sphinx.rst says cross-references
-> between documents need no special syntax, just the path. Withdrawn --
-> sorry for sending you the wrong way.
+> amdgpu_dm grew its own STATIC_IFN_KUNIT / EXPORT_IF_KUNIT /
+> INLINE_IFN_KUNIT macros instead of using kunit/visibility.h. This
+> series switches the KUnit helpers over to the common API.
 > 
-> Reading that section also makes my point 6 land differently. The same
-> text says:
+> VISIBLE_IF_KUNIT is gated on CONFIG_KUNIT rather than
+> CONFIG_DRM_AMD_DC_KUNIT_TEST, so the helpers are non-static whenever
+> KUnit is enabled. EXPORT_SYMBOL_IF_KUNIT places the symbols in the
+> EXPORTED_FOR_KUNIT_TESTING namespace; the AMD DC test files import
+> that namespace with MODULE_IMPORT_NS().
 > 
->   For most use cases, the former is preferred, as it is cleaner and more
->   suited for people reading the source files.  If you come across a
->   :doc: usage that isn't adding any value, please feel free to convert
->   it to just the document path.
+> INLINE_IFN_KUNIT is dropped rather than generalized. It was only used
+> on amdgpu_dm_fixpt_from_s3132(), inverted the original static inline,
+> and is unnecessary for tests in another translation unit.
 > 
-> So the two files in 2/2 should converge on README.rst's bare-path form
-> rather than howto.rst's :doc:, which is the opposite of what I suggested.
-
-Sure, but I didn't directly carry the concern from the CN side when
-sending this series, so now paste it here now (again) for reference. :)
-
-<20260817-apply-patches-v3-0-45e3bd2b1ccc@wyuan.org>:
-
---- >8 ---
-
-The second patch updates existing zh_CN references to point to the new
-translation.  In ordinary paragraphs, the absolute Documentation/...rst
-path is used and is handled by automarkup.  The entry in process/howto.rst
-is a definition-list term, which automarkup does not process.  It therefore
-uses the named :doc: form as the minimal explicit-link exception, without
-reintroducing a cn_applying_patches label and using :ref:.
-
-RFC:
-
-I considered the two competing preferences for cross-references. Jon
-recommends using a plain absolute Documentation/...rst path, while
-another view (I found the discussion in 2021, so I added your email
-addresses, thanks.) is to avoid :doc: markup where automarkup can create
-the link automatically.  I follow both rules where they apply: the plain
-path is used in normal paragraphs.  However, this particular entry is a
-definition-list term, which automarkup does not process, so the plain
-path is rendered as text rather than a link.  The named :doc: form is
-therefore used only for this narrow exception, without adding a
-translation-specific label. (Seems to be a workaround)
-
-I would welcome guidance on one stylistic point.  (Since I missed
-previous discussions)  The surrounding entries in this definition list
-use :ref:, while this new entry uses the named :doc: form because it
-links to a whole document without a translation-specific label. Does
-this look out of place here?  If so, I am happy to follow the preferred
-cross-reference style.
-
---- >8 ---
-
-And, I think this might be the best way to avoid changing the rendering
-method? Although it may seem a bit ugly in terms of the writing style.
-
-(It's been almost a month now. I might need to review my statement to
-see if there are any mistakes.) Sorry ;-)
-
-> > It's kind of weird that this series cannot be applied cleanly with
-> > Linus' current master tip commit 50d05c7c76c9
-> >
-> > Did I did something stupid? Confused..
+> Tested with:
+>    ./tools/testing/kunit/kunit.py run --arch=x86_64 \
+>      --kunitconfig=drivers/gpu/drm/amd/display/amdgpu_dm/tests
 > 
-> Nothing stupid -- I hit the same thing trying to apply your series for
-> review. Your base includes my process/ series, which Alex picked up on
-> 18 August but which has not reached Linus yet, so process/index.rst
-> differs between the two trees. It applies on Alex's docs-next.
-
-Oh, that makes sense. It turns out that process/index.rst has been
-updated. However, I really should have double-checked instead of posting
-it on the list to ask.
-
-> > However, since adding new translations is not our current main goal, I
-> > will put this series on the to-do list for now.
+> (CONFIG_GCOV omitted; it is not available on x86_64.)
 > 
-> Makes sense -- it will apply cleanly once Alex's pull request lands, so
-> there is little to do until then.
-
-Okay.
-
-> > > Would you send that glossary change yourself once v3 lands?
-> >
-> > I'd like to do that. If you have time, you can do it in person as well.
-> > ;-)
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
 > 
-> If possible, please make the changes while you're at it; I need to
-> prepare the subsequent patch series.
+> Signed-off-by: Albert Esteve <aesteve@redhat.com>
+> ---
+> Albert Esteve (3):
+>        drm/amd/display: replace STATIC_IFN_KUNIT with VISIBLE_IF_KUNIT
+>        drm/amd/display: replace EXPORT_IF_KUNIT with EXPORT_SYMBOL_IF_KUNIT
+>        drm/amd/display: drop INLINE_IFN_KUNIT
+> 
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  79 ++++-----
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_audio.c    |  26 +--
+>   .../amd/display/amdgpu_dm/amdgpu_dm_backlight.c    |  74 ++++----
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c    | 133 +++++++--------
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c  |  12 +-
+>   .../amd/display/amdgpu_dm/amdgpu_dm_connector.c    | 190 ++++++++++-----------
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c  |  38 ++---
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c |  52 +++---
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_cursor.c   |  10 +-
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_dmub.c |  30 ++--
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_freesync.c |  10 +-
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c | 105 ++++++------
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  | 140 +++++++--------
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c  | 146 ++++++++--------
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_ism.c  |  40 ++---
+>   .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  60 +++----
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    | 104 +++++------
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_pp_smu.c   | 116 ++++++-------
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c  |  22 +--
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_quirks.c   |   4 +-
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c   |   9 +-
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_services.c |  10 +-
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c   |  18 +-
+>   .../display/amdgpu_dm/tests/amdgpu_dm_audio_test.c |   1 +
+>   .../amdgpu_dm/tests/amdgpu_dm_backlight_test.c     |   1 +
+>   .../display/amdgpu_dm/tests/amdgpu_dm_color_test.c |   1 +
+>   .../amdgpu_dm/tests/amdgpu_dm_colorop_test.c       |   1 +
+>   .../amdgpu_dm/tests/amdgpu_dm_connector_test.c     |   1 +
+>   .../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c   |   1 +
+>   .../display/amdgpu_dm/tests/amdgpu_dm_crtc_test.c  |   1 +
+>   .../amdgpu_dm/tests/amdgpu_dm_cursor_test.c        |   1 +
+>   .../display/amdgpu_dm/tests/amdgpu_dm_dmub_test.c  |   1 +
+>   .../amdgpu_dm/tests/amdgpu_dm_freesync_test.c      |   1 +
+>   .../display/amdgpu_dm/tests/amdgpu_dm_hdcp_test.c  |   1 +
+>   .../amdgpu_dm/tests/amdgpu_dm_helpers_test.c       |   1 +
+>   .../display/amdgpu_dm/tests/amdgpu_dm_irq_test.c   |   1 +
+>   .../display/amdgpu_dm/tests/amdgpu_dm_ism_test.c   |   1 +
+>   .../amdgpu_dm/tests/amdgpu_dm_kunit_helpers.c      |   1 +
+>   .../amdgpu_dm/tests/amdgpu_dm_mst_types_test.c     |   1 +
+>   .../display/amdgpu_dm/tests/amdgpu_dm_plane_test.c |   1 +
+>   .../amdgpu_dm/tests/amdgpu_dm_pp_smu_test.c        |   1 +
+>   .../display/amdgpu_dm/tests/amdgpu_dm_psr_test.c   |   1 +
+>   .../amdgpu_dm/tests/amdgpu_dm_quirks_test.c        |   1 +
+>   .../amdgpu_dm/tests/amdgpu_dm_replay_test.c        |   1 +
+>   .../amdgpu_dm/tests/amdgpu_dm_services_test.c      |   1 +
+>   .../amd/display/amdgpu_dm/tests/amdgpu_dm_test.c   |   1 +
+>   .../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c    |   1 +
+>   drivers/gpu/drm/amd/display/dc/core/dc_sink.c      |   6 +-
+>   drivers/gpu/drm/amd/display/dc/core/dc_stream.c    |   2 +-
+>   drivers/gpu/drm/amd/display/dc/dm_helpers.h        |  13 +-
+>   tools/lib/python/kdoc/xforms_lists.py              |   3 +-
+>   51 files changed, 748 insertions(+), 728 deletions(-)
+> ---
+> base-commit: bc35965f6940a9bf834d54187b6088b8eb09206d
+> change-id: 20260907-visibility-unification-fd358c580447
+> 
+> Best regards,
+> --
+> Albert Esteve <aesteve@redhat.com>
 
-Sure! Appreciate it. ;-)
-
-Thanks!
