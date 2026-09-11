@@ -1,214 +1,146 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013044.outbound.protection.outlook.com [40.93.201.44])
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBBF42668E;
-	Fri, 11 Sep 2026 06:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789108871; cv=fail; b=pffTzWYYhHpSpXRpH2bykZNQ/aScVYloKbHAwcpf/yO9ZMf2bzRyHPL5S5esQlN8RBKj9+mpj6i0mVosvwGuKsyS/L9ge4ionljSMU+dKuzWeZaq9RSRl6TWYjfUKoEL+OL9TMmfWEFwp9/561NmJrb9pEHyujnxiqiNHzNa0Yw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789108871; c=relaxed/simple;
-	bh=3OpP4RVmEWuKp0b89EXWlT29yBYutOj/XQd1IkGVn34=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=J6292AzJZBi+EjzJtsBKU/3c+tUwFNGrPPhAiAtZU0pDdx0JoFksAAN3tybJ9G6gp1j+VV6mnVOEubxDq/LVBwDYhU863TB6QuV/pL+oCVWVGXXFWTvSUoEiuuu7ahZKsJozSJ0ELSEDC8vQCZ8GtY1mKmrQd6H0iijD0XwxxKE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=RUzff3hl; arc=fail smtp.client-ip=40.93.201.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD7943B6DA;
+	Fri, 11 Sep 2026 06:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789108932; cv=none; b=TuSmJBMJf6Zk02iKozF7iAQnX1ycPTgeOm1emZB7fwHG6tuzn2J9OjOe6miR0S3ocrpk84taNWQhdXXW9un6T9rpm/iMiM5XzE4o8q+H0kj8vtCnM+MEuhObyUYwZVMSGv7cbDPtK82q9qW4QlDBCrp7rUyZWhTYOk9j0k4So7s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789108932; c=relaxed/simple;
+	bh=457f5cRwPoXHuVT5tY7qO1+iTVrHBYEEa5+bQdA01u0=;
+	h=Message-ID:Date:MIME-Version:Subject:CC:References:From:To:
+	 In-Reply-To:Content-Type; b=GP93KOZdwnhW25PPHGySJEfUIur0VKBM3HXM3j1ZzOodAiL4VCQ66QH6TjdJPNva9q3p0zHYqJ1ku/ZupXNqK2LKdUOzmoNAk/QPyX+5cLVuQqtUnxALy6Sft8eXext+wbp9drLiK5MPjkSeLVlO1wOe0ZMtMul4gmh7O4zPv/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=GIIMTrkX; arc=none smtp.client-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="RUzff3hl"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WzJ92hQxxv+pEywr9WQi3hNs+B+YqCcGTOiDcLIFqOuqJRA71nBq6t4hIPGGW5sOGIkx3SyKBFV9XnfZIkXsecnU9fx5FzqHm4B65NSGbxmHIazcjlyPo3RgtrIr1QAJbsjObzTaxa9Zrj1MtBcFNwHf32zyuObeycsW1jut+TesaUAVFeX7lQsvBdFsCnZJad7AvB7sqmKhjyLcISY+9CDZFLCPQBIfnKBFPp4cJUaTMHbRETZ/5ti3Gx9ombpg4OU/02JpQa6dCNaasMt0ycNCx+cI9W0c02WwHTJ4bd1frFwe3tPhUCIrSbIA2UTrvSYaRACSQRZ+atJ8H0t3xQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3OpP4RVmEWuKp0b89EXWlT29yBYutOj/XQd1IkGVn34=;
- b=MsIbLH3oP+wwfQ6yMiBb08idfdg8PmG3q/UcgQGsLQWFG6unjyIjBH8Beqveo7LwV3hRuKXUauVS3in1w8umTriDmS1s+jI8/KwWD6nH886V6n6ekwPm352/Pg80EEQA0QSg4WqTV8wk8SSCTm7f3e5TmFuw0MQT75RNSEzh6GosmZENRHGZFyBCBb0wtbhlGcH9PwspLbqXfZ28x+Wg9ojkFKzcw6Uu73rtklJ+Po+u5TJ8BuFBscDGCY7Q/zjSsHfEBi3Rizu1xIweEO4sx/qSrNg7E6vGDJ9ugpVM84zXzktMjyFiBgozKYjSA6uiPbKoYBb+nPrXMAT1/9+ZHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3OpP4RVmEWuKp0b89EXWlT29yBYutOj/XQd1IkGVn34=;
- b=RUzff3hlgHkv806JhcjXkcbS/MBy4DFI7lxT2soMl9agtguijYgeAvkQG3tOvpIEyAZYfg9rhK+01L2CMxhF+ZbpziYQ4nTKcfruM4vTf70DkOAPfmpsLkLanMHnhoMlFG863nmZKjqu7VTtI+Eb60CfIoItvzCLY+n9jCB36vY=
-Received: from BN9PR12MB5259.namprd12.prod.outlook.com (2603:10b6:408:100::17)
- by LV2PR12MB5773.namprd12.prod.outlook.com (2603:10b6:408:17b::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.14; Fri, 11 Sep
- 2026 06:40:53 +0000
-Received: from BN9PR12MB5259.namprd12.prod.outlook.com
- ([fe80::122c:cca7:c2b3:90ed]) by BN9PR12MB5259.namprd12.prod.outlook.com
- ([fe80::122c:cca7:c2b3:90ed%2]) with mapi id 15.21.0406.005; Fri, 11 Sep 2026
- 06:40:52 +0000
-From: "Garg, Shivank" <shivankg@amd.com>
-To: "Gupta, Pankaj" <Pankaj.Gupta@amd.com>, "Sampat, Pratik Rajesh"
-	<PratikRajesh.Sampat@amd.com>, "nikita.kalyazin@linux.dev"
-	<nikita.kalyazin@linux.dev>, "ying.huang@linux.alibaba.com"
-	<ying.huang@linux.alibaba.com>, "patrick.roy@linux.dev"
-	<patrick.roy@linux.dev>, "joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>,
-	"david@kernel.org" <david@kernel.org>, "pbonzini@redhat.com"
-	<pbonzini@redhat.com>, "jmattson@google.com" <jmattson@google.com>,
-	"hannes@cmpxchg.org" <hannes@cmpxchg.org>, "jack@suse.cz" <jack@suse.cz>,
-	"tglx@kernel.org" <tglx@kernel.org>, "Dadhania, Nikunj"
-	<nikunj.dadhania@amd.com>, "Roth, Michael" <Michael.Roth@amd.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "mhocko@suse.com" <mhocko@suse.com>,
-	"gourry@gourry.net" <gourry@gourry.net>, "iweiny@kernel.org"
-	<iweiny@kernel.org>, "chao.p.peng@linux.intel.com"
-	<chao.p.peng@linux.intel.com>, "byungchul@sk.com" <byungchul@sk.com>,
-	"x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-	"ricarkol@google.com" <ricarkol@google.com>, "vannapurve@google.com"
-	<vannapurve@google.com>, "shuah@kernel.org" <shuah@kernel.org>,
-	"seanjc@google.com" <seanjc@google.com>, "jackmanb@google.com"
-	<jackmanb@google.com>, "Kalra, Ashish" <Ashish.Kalra@amd.com>,
-	"willy@infradead.org" <willy@infradead.org>, "surenb@google.com"
-	<surenb@google.com>, "pshier@google.com" <pshier@google.com>,
-	"matthew.brost@intel.com" <matthew.brost@intel.com>, "fuad.tabba@linux.dev"
-	<fuad.tabba@linux.dev>, "skhan@linuxfoundation.org"
-	<skhan@linuxfoundation.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"mingo@redhat.com" <mingo@redhat.com>, "rakie.kim@sk.com" <rakie.kim@sk.com>,
-	"ackerleytng@google.com" <ackerleytng@google.com>, "apopple@nvidia.com"
-	<apopple@nvidia.com>, "ziy@nvidia.com" <ziy@nvidia.com>, "vbabka@kernel.org"
-	<vbabka@kernel.org>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-CC: "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"sashiko-bot@kernel.org" <sashiko-bot@kernel.org>, "linux-mm@kvack.org"
-	<linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH v3 1/9] KVM: guest_memfd: take the invalidate lock when
- unbinding a dying file
-Thread-Topic: [PATCH v3 1/9] KVM: guest_memfd: take the invalidate lock when
- unbinding a dying file
-Thread-Index: AQHdJKV15sg2STvrekyb2rIxlphFqbbHzK2AgAFbAYA=
-Date: Fri, 11 Sep 2026 06:40:52 +0000
-Message-ID: <f186fbb9fbb0590390bd226ccb5a45cb071180da.camel@amd.com>
-References: <20260805-shivank-gmem-migrate-v3-0-00d8bdec4e1d@amd.com>
-	 <20260805-shivank-gmem-migrate-v3-1-00d8bdec4e1d@amd.com>
-	 <dedad87b-909d-4d14-b914-ff2e28c414ce@kernel.org>
-In-Reply-To: <dedad87b-909d-4d14-b914-ff2e28c414ce@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR12MB5259:EE_|LV2PR12MB5773:EE_
-x-ms-office365-filtering-correlation-id: dae5d2e4-137f-4b69-c2b1-08df0fcfa00c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|921020|38070700021|11063799006|56012099006|4143699003|18002099003|22082099003|10067099003;
-x-microsoft-antispam-message-info:
- KydwV5FvG6eYBI5DdL95U5DcSvbO1JyuSSaLN/id5VJ0rEVEtN4OgkORvJCwbihsYogZWUO8x8QzuAxftSiUvRroTBVnQlzjxKZ10YQQuBwQS3ngkMHIcE6m1atxgl0zHUiCrelWRiCjspr1bz5TNLRIkc40kM38tazlu3I+LIpWPBkqd547wGNHpRkqMTN0zIQXaZvv6Mb6V0xWABJLAvfk6Ja2gDNP/Nd3rqile6MWtBDfXra1vlSh2N6IW4bh1D5q/rWd5zsJuKfqKQD0VS52ZtU6rzPL9lLCe7ahwSiF+WxTjj3IGMR5ZnKlxMBjhI/JRDlRRr0KGw1kt0paMY84iatJx6jbj3vXNXhTgqyrM296r143cUxFXrdY26Sb5WWt3eUQx0VmLTCv8iuD69E+mxqK25rgMF/Ger75DuQTn1fvaCw6LXkjTNQIPAn33LDRUpMfl+ILRvvh6fUnke1l8HmaU8v8a0DzrqVvXM5WZLHQcNHL5OSpRP+3E4qbHo3LuxyH/qGrbE8JjT/HZloyq7+jv5G0mvqR3Geu8vLWfXpA7+bNJNiNyK1lPFqtGSalboLfOXCVuO47EQqrLztDqC8XAvnFfQqmpM4uPkg9heSXNakHbX0MD9+lth9CeN+diGHAK3BGcQ0puMtWHnehklG2IjYF8PZSM0LlnBnceyXmvJpfPIrEJWtRs+i0o1Jama4nw2cTju1sw8DGeU9+7Gx6QFuagpBFoBn0rfMh8zIpbnA0OUswUQoeIjAp
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5259.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(921020)(38070700021)(11063799006)(56012099006)(4143699003)(18002099003)(22082099003)(10067099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?U2pGWExjREhlRDNHWUFrTUpsRG12dmh2by9JOFJYR3p6TXlFRWw1ZnFjKzRX?=
- =?utf-8?B?TU5FeWVGNXZGKy9oYVNvVTV5V2l5bGlxN0pjT3Q5VjhHVmJPQ0U3ZlljVG1h?=
- =?utf-8?B?eFZnK2Y0VzBjM1hUbzhUazhwQ2I3eEV2bVoxOVVoNTMxYkZLUEQvQVM3NUpw?=
- =?utf-8?B?WTR1OCtjWDJ1d3o0eUFYUEdnTHlaaC9ZUnA3bUQ1bDBMcW5pb2dNRngxanNt?=
- =?utf-8?B?d3VvYXM0Ync1TlJJTlRWWUdtQnZUT090WDcraUMrMXVWNllDZitKQUhhS0l5?=
- =?utf-8?B?eGZUSldtZHhzN1RvRG92UGErZFBzL2hQZUh3WU01aTJsdHV4Qnk4SDYzME03?=
- =?utf-8?B?dTJuWTY4VHdVbWowVGZIMEpIMGFFWm84QWxxbUJqSXdvczlMbkNRR1ZGMk05?=
- =?utf-8?B?TStXanoxQWVoWGhuUVNaaVJ6a01CSTZsOFFyd1BtQzd2aTJSOTFDL3g1dmUw?=
- =?utf-8?B?QktOVjE2WmRxTzN1ZnJkOVQzbm9CZVhvTGlGMDJyVzIzbVlOa2djeHgvWGFy?=
- =?utf-8?B?Q0FjUjRKUllVMFc1NjVucXI0UGU3QzZaQlpTK1FFV3VQaENqZERlNjVhcHpx?=
- =?utf-8?B?TFhsWVhta0hmRW1kTG1FdVowNlgxaWE1VXZXa0NEOXJQR3ZORjk2cDh3cXdq?=
- =?utf-8?B?WElrcm4vOHk0N2ZMbzljRVJZbktWaHltLzhzQUVYdHI1MHVGL3NFTGNWRUc0?=
- =?utf-8?B?bTlrZTBCWTN5c3RiT0Nqb2FUYklwWXVRb09nRGJYNEdzTzdjU0JZZ3BWM3N3?=
- =?utf-8?B?TnlhR09JeUhLaStRWlpaVmNMdHU4RFJFQzJ6cnY1bDF2eEZtMUdZS0dFc2w3?=
- =?utf-8?B?YXl6MDZNYkE4RExCY1JXZGlYUHVCNkVxT1pmamhqRy9vMC9CR01meXg5K1pY?=
- =?utf-8?B?eXprRHlSQWFGZWVMczlObDdKNFRBU3N2bnd4ODRscnI3TS9CaDZFTENJamRq?=
- =?utf-8?B?MlVWY09IUUY0KzJTVlg3TlVRTnRLN1lvVjBaSmZPNWdzN242azFHbVJScVRm?=
- =?utf-8?B?d29adG5JNUpENDJTdVlSdkQyVEFSY2pVZ3pVcU8vcWpSKzZiVlUvVEZFZTkz?=
- =?utf-8?B?K3pJMkdPdkdWSjJvL3lwaHlOdnVxRDBzMWVaQmlqbFVOdDNBSFJoWWYvdno2?=
- =?utf-8?B?dlRuU3ljdnJaOWFaWUkwOGhidmo3NmowYjdodEpjOG1MVVV3aHp0a3lSbFdH?=
- =?utf-8?B?NkxKNWQvMHhpQTVzWUFlMWxWTVdUeG1zRmwwREh3WXdXbTFjQUQvWUcrTCt5?=
- =?utf-8?B?U2QzeDJJQkV1cDMzNVBta1RZd2tiNDdGRi9la0tYeFQ1cXB6VFU0N01KQXY1?=
- =?utf-8?B?c1NJR1Y4N2VhdXFub2RMSm5NYm56bEcxS0VWcEljQ1hyZzBVUVoxek9oRVgw?=
- =?utf-8?B?ZUhORm1CUFJEeFFsQ2h5dlJscFgrZStCZnExR1NadGwrd1dRZ09CM0txOUlJ?=
- =?utf-8?B?R09xK2EydWxFL0FqNGtBUFZoaDVBbnE3M09UZlY5ZnRadG4zam03ZHhBdExa?=
- =?utf-8?B?UlA5UU9xQjh3bnZYVDVOS1AwQkxMVlpta000NDFkQ0RDT0ZDa3ZjamVUNGlJ?=
- =?utf-8?B?SFgxMzR5L0VXNkZ6SlRKdWxPZjZrVlE5Mmo1eDlrcmxOa3hWTFJCeHU5dGN1?=
- =?utf-8?B?NTdVVmdyQ1hlMS8vS3BpUk1rZ2xNV2Rwby83N3lJZVVZMDhrbmF4ZEFXT1RZ?=
- =?utf-8?B?VXNrSWFhNXhFcjkyZHA4SGRyZlVHc0R3TFNDdnFmNUROTzQvZkhoQlA0MGhP?=
- =?utf-8?B?bnQrNStyQTdQb0M4ZHE3aGVIZk41RVZGcnB4RG8wOVVyVjYrNjJVUURpN2Np?=
- =?utf-8?B?dTZpWTVkdkFzNDltU2Z3WXpXeCtXYVhPenc1aEFBNXZiTUNOaUVqbW0rejRl?=
- =?utf-8?B?b21EWFNRdTR4SHVpSXpQWlNzbHpRQnMwUG04ZFRFcWIvV29IdUFuOFdPd1ps?=
- =?utf-8?B?NndiQTQ4YSsrSVRlUDRtYW1zbmN6aEE5dms3T3lsbkQ5amoxemhpWWYzL1hN?=
- =?utf-8?B?bkRIMHZEVGdtSXdpZzZ5VjV0Mi93MlEvYW9MRDFxdFNFdVYyYXZPNU1NZmZU?=
- =?utf-8?B?aWsrZWdnSnpFektwVi9EODNqQzNrOWE2cGs1b0VyUVVqZEsvMVNvZUpRVXJk?=
- =?utf-8?B?dDUrMEQxSzFTTXVRTXdmNnJFMEZqUEt0VkxOckNOOHB6YnFJb3VCdEczVkdQ?=
- =?utf-8?B?ek5XTDhYMHRGMERvV1FpZGNhQzRvb1RRZTB0NkZ3WDFjcndUY3hDam1jaERJ?=
- =?utf-8?B?LzhkOE13NFRKSis4TW56TGM4VWtqdE5Jalhadm9LQmhGaUlSUjZRVFJqUUhJ?=
- =?utf-8?B?NXpKTTM1OW1EanA1U3FTdVdsOXcxL2VDeC9RMHlxVWhmNlJYOUhGQT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <DB1C65BD1B891541A0217BA6EF413C97@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="GIIMTrkX"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=bIPghYDjldaQhWAAAGEJ/xvZF4ExUts68Xdqztjk628=;
+	b=GIIMTrkXpqOqobIhcZXPy2aapSwvv1ajs9SmI2b4KVEHN2OH174sPwQ5kyIdAFR8KzyW793Hk
+	35P4G8ADMp0dxlidnCJ9WqB82klTzW32sH/2Kj0/YpwEEQ+Q7LB7vtrChIFEqnWucFlouvDVAUp
+	6rybl2B2o7iGh2R+eYM5ZlA=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4hh4Rz4CYxz1prKW;
+	Fri, 11 Sep 2026 14:30:55 +0800 (CST)
+Received: from whupemo200004.china.huawei.com (unknown [7.152.184.18])
+	by mail.maildlp.com (Postfix) with ESMTPS id 8F41A40575;
+	Fri, 11 Sep 2026 14:41:52 +0800 (CST)
+Received: from [10.67.120.233] (10.67.120.233) by
+ whupemo200004.china.huawei.com (7.152.184.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 11 Sep 2026 14:41:49 +0800
+Message-ID: <4019452b-b25f-4c17-bc5c-570a28782bf1@huawei.com>
+Date: Fri, 11 Sep 2026 14:41:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5259.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dae5d2e4-137f-4b69-c2b1-08df0fcfa00c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2026 06:40:52.7493
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2p/08LSyMI8UYbnIjD5oGCRvHfUo1VNGZtN/1XvfwTv2Sv5mAPNPh+T2a6qKCQm1cPY5t3lNFZVYYPYevDs2kA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5773
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/8] Enhance TLP packet decoder with field-level
+ parsing and versioning
+CC: <rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <bhelgaas@google.com>, <yangyccccc@gmail.com>,
+	<jic23@kernel.org>, <john.g.garry@oracle.com>, <will@kernel.org>,
+	<james.clark@linaro.org>, <mike.leach@arm.com>, <leo.yan@linux.dev>,
+	<peterz@infradead.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+	<mark.rutland@arm.com>, <alexander.shishkin@linux.intel.com>,
+	<jolsa@kernel.org>, <irogers@google.com>, <adrian.hunter@intel.com>,
+	<wangyushan12@huawei.com>, <wuzongyu1@huawei.com>,
+	<linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+	<linux-perf-users@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
+	<prime.zeng@hisilicon.com>, Arnaldo Carvalho de Melo <acme@kernel.org>
+References: <20260908140509.2485649-1-liusizhe5@huawei.com>
+ <aqB37YCMUYKodo3N@x2>
+From: Sizhe Liu <liusizhe5@huawei.com>
+To: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <aqB37YCMUYKodo3N@x2>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ whupemo200004.china.huawei.com (7.152.184.18)
 
-T24gVGh1LCAyMDI2LTA5LTEwIGF0IDExOjU4ICswMjAwLCBEYXZpZCBIaWxkZW5icmFuZCAoQXJt
-KSB3cm90ZToNCj4gT24gOC81LzI2IDA4OjQwLCBTaGl2YW5rIEdhcmcgd3JvdGU6DQo+ID4ga3Zt
-X2dtZW1fdW5iaW5kKCkgc2tpcHMgbWFwcGluZy0+aW52YWxpZGF0ZV9sb2NrIHdoZW4gdGhlIGd1
-ZXN0X21lbWZkDQo+ID4gZmlsZSBpcyBhbHJlYWR5IGR5aW5nLiBBbGwgb3RoZXIgcGF0aHMgdGhh
-dCBtb2RpZnkgZi0+YmluZGluZ3MgaG9sZA0KPiA+IHRoYXQgbG9jay4NCj4gPiANCj4gPiBrdm1f
-Z21lbV9pbnZhbGlkYXRlX3tzdGFydCxlbmR9KCkgY2hlY2tzIGYtPmJpbmRpbmdzIGluZGVwZW5k
-ZW50bHkgdG8NCj4gPiBkZWNpZGUgd2hldGhlciB0byBiZWdpbiBvciBlbmQgS1ZNIE1NVSBpbnZh
-bGlkYXRpb25zLiBTbywgdGhlIGJpbmRpbmdzDQo+ID4gbXVzdCByZW1haW4gc3RhYmxlIGJldHdl
-ZW4gdGhlIHR3byBjYWxscy4gSWYgYSBiaW5kaW5nIGlzIHJlbW92ZWQgaW4gdGhhdA0KPiA+IHdp
-bmRvdywgc3RhcnQgaW5jcmVtZW50cyBtbXVfaW52YWxpZGF0ZV9pbl9wcm9ncmVzcyBidXQgZW5k
-IGRvZXMgbm90DQo+ID4gZGVjcmVtZW50IGl0LiBFeGFtcGxlLCB1bmJpbmQgcmFjZSB3aXRoIG1l
-bW9yeSBmYWlsdXJlOg0KPiA+IA0KPiA+ICAgQ1BVIDA6IG1lbW9yeSBmYWlsdXJlICAgICAgICAg
-ICAgICAgQ1BVIDE6IG1lbXNsb3QgZGVsZXRlDQo+ID4gICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIChndWVzdF9tZW1mZCBmaWxlIGlzIGR5aW5nKQ0K
-PiA+ICAga3ZtX2dtZW1fZXJyb3JfZm9saW8oKQ0KPiA+ICAgICBrdm1fZ21lbV9pbnZhbGlkYXRl
-X3N0YXJ0KCkNCj4gPiAgICAgICBmaW5kcyBiaW5kaW5nDQo+ID4gICAgICAgbW11X2ludmFsaWRh
-dGVfaW5fcHJvZ3Jlc3MrKw0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAga3ZtX2dtZW1fdW5iaW5kKCkNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgZ2V0X2ZpbGVfYWN0aXZlKCkgZmFpbHMNCj4gPiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgc3RvcmUgTlVMTCBpbiBiaW5kaW5ncw0KPiA+ICAgICBrdm1f
-Z21lbV9pbnZhbGlkYXRlX2VuZCgpDQo+ID4gICAgICAgbm8gYmluZGluZyBmb3VuZA0KPiA+ICAg
-ICAgIGNvdW50ZXIgc3RheXMgZWxldmF0ZWQNCj4gPiANCj4gPiBtbXVfaW52YWxpZGF0ZV9yZXRy
-eSgpIHRoZW4gcmV0dXJucyAxIGZvcmV2ZXIsIHNvIGd1ZXN0IHBhZ2UgZmF1bHRzDQo+ID4gcmV0
-cnkgd2l0aG91dCBldmVyIGluc3RhbGxpbmcgYSBtYXBwaW5nIGFuZCB0aGUgZ3Vlc3QgaGFuZ3Mu
-DQo+ID4gDQo+ID4gVGFrZSB0aGUgaW52YWxpZGF0ZSBsb2NrIGluIHRoZSBkeWluZy1maWxlIHBh
-dGggdG9vLiBUaGlzIHByZXZlbnRzIHVuYmluZA0KPiA+IGZyb20gcmVtb3ZpbmcgYSBiaW5kaW5n
-IGFuZCBsZWFraW5nIG1tdV9pbnZhbGlkYXRlX2luX3Byb2dyZXNzLiBUaGlzIGlzDQo+ID4gc2Fm
-ZSBiZWNhdXNlIGFueSBjYWxsZXIgdGhhdCByZWFjaGVzIHRoaXMgcGF0aCBob2xkcyBzbG90c19s
-b2NrLCBzbw0KPiA+IGt2bV9nbWVtX3JlbGVhc2UoKSBjYW5ub3QgbnVsbGlmeSB0aGUgc2xvdHMt
-PmdtZW0uZmlsZSwgdW50aWwNCj4gPiBrdm1fZ21lbV91bmJpbmQoKSBmaW5pc2hlcy4NCj4gPiAN
-Cj4gPiBSZXBvcnRlZC1ieTogU2FzaGlrbyA8c2FzaGlrby1ib3RAa2VybmVsLm9yZz4NCj4gPiBD
-bG9zZXM6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDI2MDcyODA5MjAyNy4yMjVDRjFG
-MDAwRTlAc210cC5rZXJuZWwub3JnDQo+ID4gRml4ZXM6IGFlNDMxMDU5ZTc1ZCAoIktWTTogZ3Vl
-c3RfbWVtZmQ6IFJlbW92ZSBiaW5kaW5ncyBvbiBtZW1zbG90IGRlbGV0aW9uIHdoZW4gZ21lbSBp
-cyBkeWluZyIpDQo+ID4gU2lnbmVkLW9mZi1ieTogU2hpdmFuayBHYXJnIDxzaGl2YW5rZ0BhbWQu
-Y29tPg0KPiA+IC0tLQ0KPiANCj4gVGhpcyB3YXMgc2VudCBpbmRlcGVuZGVudGx5IGluIHRoZSBt
-ZWFudGltZSwgY29ycmVjdD8gKG9yIHdhcyBpdCBpbmNsdWRlZCBpbg0KPiB0aGlzIHNlcmllcywg
-SU9XIHdoYXQncyB0aGUgZXhwZWN0ZWQgcGF0Y2ggZmxvdykNCg0KWWVzLA0KSSBzcGxpdCBpdCBv
-dXQgb2YgdGhpcyBzZXJpZXMgYmVjYXVzZSBpdCB3YXMgaW5kZXBlbmRlbnQgZml4IGFuZCBzaG91
-bGQgbm90DQp3YWl0IG9uIGd1ZXN0X21lbWZkIGZvbGlvIG1pZ3JhdGlvbi4NCmh0dHBzOi8vbG9y
-ZS5rZXJuZWwub3JnL2t2bS8yMDI2MDkwMS1nbWVtLXVuYmluZC1maXgtdjItMS0xMmZlYmUxZDIy
-MTZAYW1kLmNvbQ0KSSdsbCBkcm9wIGl0IGZyb20gdGhpcyBzZXJpZXMgZm9yIG5leHQgcG9zdGlu
-Zy4NCg0KU2ltaWxhciBmb3Igc2VsZnRlc3QgZml4ZXM6DQpodHRwczovL2xvcmUua2VybmVsLm9y
-Zy9rdm0vMjAyNjA5MDctZ21lbS1zZWxmdGVzdHMtZml4LXYzLTAtN2E0YmU1YzFjYzhhQGFtZC5j
-b20NCg0KDQpUaGFua3MsDQpTaGl2YW5rDQo=
+On 2026/9/9 5:02, Arnaldo Carvalho de Melo wrote:
+> On Tue, Sep 08, 2026 at 10:05:01PM +0800, Sizhe Liu wrote:
+>> The original hisi-ptt-decoder only prints raw hex values with
+>> generic field names for DW0/DW1/DW2/DW3, without classifying TLP
+>> types or decoding DW0/DW1/DW2/DW3 fields according to the hardware-
+>> defined packet format.
+>> 
+>> This series enhances the HiSilicon PTT (PCIe Trace and Tuning) packet
+>> decoder in perf tool to provide detailed field-level parsing of TLP
+>> headers based on message type, and adds a versioning mechanism for
+>> backward compatibility both in hisi_ptt driver and perf tool.
+> 
+> Series is sashiko clean by now, has a Reviewed-by, but it touches both
+> kernel and tools, I wouldn't have a problem if it was processed by whoever
+> maintains the kernel part.
+> 
+> - Arnaldo
+> 
+
+Hi Suzuki,
+
+The series is now Sashiko-clean and has Reviewed-by tags. It touches both
+driver and tools. Arnaldo is fine with the tools part. Would you mind
+reviewing the driver part and picking it up through your tree if it looks good?
+
+If there are any changes needed, please let me know.
+
+Link: https://lore.kernel.org/all/20260908140509.2485649-1-liusizhe5@huawei.com/
+
+Thanks for your time!
+Sizhe
+
+>> --- Changes in v4: - Add missing space in hisi-ptt.rst (Sashiko). -
+>> Widen the pattern bit field in struct hisi_ptt_trace_ctrl (Sashiko). 
+>> - Add protocol defined TLP header length parsing in patch 05/08. -
+>> Add MRd and DMRr message types parsing in patch 05/08. - Add comment
+>> for enum hisi_ptt_pkt_msg_type in patch 05/08. - Add DW0 and DW1
+>> fields analysing in patch 06/08. - Refine bit-fields parsing of DW0/
+>> DW1/DW2/DW3 based on different requests in patch 06/08. - Refine the
+>> description of pattern=1 in the document in patch 07/08. - Extract
+>> the bit-field printing of v1 version into functions in patch 08/08. -
+>> Link to v3: https://lore.kernel.org/linux-
+>> pci/20260903075241.1445338-1-liusizhe5@huawei.com/
+>> 
+>> Changes in v3: - Add explicit inclusion of <stdbool.h> (Sashiko). -
+>> Make patch 07/08 apply cleanly to mainline (Yushan). - Pick up the
+>> reviewed-by tag (Yushan). - Link to v2: https://lore.kernel.org/
+>> linux-pci/20260827140442.2031128-1-liusizhe5@huawei.com/
+>> 
+>> Changes in v2: - Split patch 01/10 and patch 02/10 from series v1
+>> into independent patch series for backporting (Bjorn). - Use bitwise
+>> operations instead of C bitfields for cross-platform cases (Sashiko).
+>> - Add `pattern` parameter in hisi_ptt driver for layout
+>> compatibility. - Link to v1: https://lore.kernel.org/linux-
+>> pci/20260604075005.2219785-1-liusizhe5@huawei.com/
+>> 
+>> --- Sizhe Liu (8): perf hisi-ptt: Abstract trace data buf and offset 
+>> perf hisi-ptt: Complete the field names for 4DW and 8DW packets perf
+>> hisi-ptt: Extract the raw data printing part perf hisi-ptt: Merge
+>> 4DW and 8DW HEAD0 printing perf hisi-ptt: Add parsing of supported
+>> message types and proto length perf hisi-ptt: Add field-level
+>> parsing for header DW0/DW1/DW2/DW3 hwtracing: hisi_ptt: Add pattern
+>> PMU config for trace format selection perf hisi-ptt: Pass pattern
+>> version to decoder for compatibility
+>> 
+>> Documentation/trace/hisi-ptt.rst              |  26 +- drivers/
+>> hwtracing/ptt/hisi_ptt.c              |  25 +- drivers/hwtracing/ptt/
+>> hisi_ptt.h              |   4 + tools/perf/arch/arm64/util/hisi-
+>> ptt.c         |  18 + .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
+>> | 593 ++++++++++++++++-- .../hisi-ptt-decoder/hisi-ptt-pkt-
+>> decoder.h   | 241 ++++++- tools/perf/util/hisi-
+>> ptt.c                    |  51 +- tools/perf/util/hisi-
+>> ptt.h                    |   9 +- 8 files changed, 872
+>> insertions(+), 95 deletions(-)
+>> 
+>> -- 2.33.0
+
