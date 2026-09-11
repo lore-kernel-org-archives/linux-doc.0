@@ -1,166 +1,128 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C50925771;
-	Fri, 11 Sep 2026 16:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34C1337B81;
+	Fri, 11 Sep 2026 16:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789144593; cv=none; b=nA1u03KG6gSPDTrHrDMdHHOhWFvfgQY2Lv7XAGXvuTVaN6X/WBmVTAK3AbVcyXk+KvsUVUak6/TLBMvv+ju8tlahrkqftroBshf9Vj201TBhsHe8AN7gA8l/XeOvC2EC34vl5/AAMZD5mlIIxfMSV/uhnt+iyVOlf7aOo6V43d8=
+	t=1789145046; cv=none; b=JXltsk/+BezXxGLdJPKbhGsWjOCuCF2xhcjKY8PbI2n/B/X+l7cfrIof6zuAdfvdkGjK3JsmENnIUiWn9vzB0/G1oy4BWhMMUv/qNkycXKPtpkEo+vabGV+GVV89eEnU/5sGEbrBVKL9s8y2h678P9Y36bd5w9gYrzHEbZJvz88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789144593; c=relaxed/simple;
-	bh=H44AQj3oR+IQy3azOI/ivx0DJ8iUEA1Ay8aEgAaMp74=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sNPbUHo4GseVxn3vHZp66wBZ8CML4QZtnFZ60VkGm4X8xsVvnDJh8D6spQaAOuvGQvNYE6XOiy4twoSZc7F883zN2xZXerDD3L5UxwvWIbgMB8HKFd0zcGGsstQ18tRkUL1R5AcuXL1/WqgGMEyl5MMXoFLcWMaWxnZNVUjewIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=pfrvmLHi; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1789145046; c=relaxed/simple;
+	bh=SgjYkhTSvrNQobs81bP+X0p5lyA+pnHIZkqQnoIThvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JcQxeq1mDUccFI/EVckmhVRZDl6M7xXNP3XLJiaWyBSF1J74U3yYk4qjJDlpTrSibVo2F/KPBKPFl8RO5Im+QOwQo/Jd5cp0VKD+8OOuSDc8BFpkXhl8xbMdJMFrINAPvg1K4zIgNmhqA6X2gvlukz0dUl+G/Y5H1EZpA/wC1hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hb8KUVi2; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="pfrvmLHi"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 184702BCA;
-	Fri, 11 Sep 2026 09:36:27 -0700 (PDT)
-Received: from e134344.cambridge.arm.com (e134344.arm.com [10.2.212.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C94F83F7B4;
-	Fri, 11 Sep 2026 09:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789144590; bh=H44AQj3oR+IQy3azOI/ivx0DJ8iUEA1Ay8aEgAaMp74=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pfrvmLHiSYUABsaFb68pCpbuD023bLB6gCZD5YWYKCuD1M3jlOlxGyWLhbzR94u8e
-	 anRMEe7HXVJR66B+h1MQOuMDFkaNbC9HXaPVMPlJl9ohbaBgXg9dtX1BCiii3AUwa2
-	 QDK0M8jSxKR3P0gkpfku2Y1tYYd84EXsX1pv9xWU=
-From: Ben Horgan <ben.horgan@arm.com>
-To: ben.horgan@arm.com
-Cc: james.morse@arm.com,
-	reinette.chatre@intel.com,
-	fenghuay@nvidia.com,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	corbet@lwn.net,
-	x86@kernel.org,
-	linux-doc@vger.kernel.org,
-	dave.martin@arm.com,
-	Dave Martin <Dave.Martin@arm.com>,
-	Ben Horgan <Ben.Horgan@arm.com>
-Subject: [PATCH v6 3/3] fs/resctrl: Factor MBA parse-time conversion to be per-arch
-Date: Fri, 11 Sep 2026 17:36:13 +0100
-Message-ID: <20260911163613.1131447-4-ben.horgan@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260911163613.1131447-1-ben.horgan@arm.com>
-References: <20260911163613.1131447-1-ben.horgan@arm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hb8KUVi2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789145045; x=1820681045;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SgjYkhTSvrNQobs81bP+X0p5lyA+pnHIZkqQnoIThvc=;
+  b=hb8KUVi2K8eboY3FDPIC97c3/f7CE0F5xk5VayuS/sHX94QReL59vEbL
+   L2/OJDl3/2U9MHa2ZgwW/lkiQNRJ7WfsJYG4pUk+a7TuzvdbxcWr4nW3h
+   F1FlOPtDTp3xdUO/9WukhpjJUnkqLmm1cUDG4V4ZeYsSCuE1KUtvpJREE
+   0ml3YAThPxzTRdV7Tah70lUX30f6N3CvX4zQsCyZch9sRJFWMpQPskNNo
+   iB/rZ8E1D04/HpgN+Z2tDy7a4wCbpnkX3EZytOePH+x/Frhzch3SUvS+k
+   oxNQoLV81nxOCO7GM3FY0tFUYdeNnkAOWhd5AFVYbLT6UBQYxvEnFa0Vk
+   Q==;
+X-CSE-ConnectionGUID: v39/LWfwQRSOrqQBX7x90A==
+X-CSE-MsgGUID: 1sAC4a9gSjS6gH0WVfgBmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="89485133"
+X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
+   d="scan'208";a="89485133"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 09:44:04 -0700
+X-CSE-ConnectionGUID: UbMeKaogTO+sadtbQf+J6A==
+X-CSE-MsgGUID: 03lti0sPT/mKaqjMZmtm9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
+   d="scan'208";a="296950336"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.80])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 09:43:59 -0700
+Date: Fri, 11 Sep 2026 19:43:56 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v7 09/17] iio: adc: ad7768: Configure channel sampling
+ profiles
+Message-ID: <aqQvzEmvNEqYMGLV@ashevche-desk.local>
+References: <20260910-ad7768-driver-v7-0-7f70b07627e1@analog.com>
+ <20260910-ad7768-driver-v7-9-7f70b07627e1@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910-ad7768-driver-v7-9-7f70b07627e1@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-From: Dave Martin <dave.martin@arm.com>
+On Thu, Sep 10, 2026 at 07:36:27PM +0200, Janani Sunil wrote:
+> At buffered capture setup, select the fastest compatible power mode for
+> the enabled channel rates. Group channels into the two hardware mode
+> profiles and program their decimation, mode selection, and data clock.
 
-The control value parser for the MB resource currently coerces the memory
-bandwidth percentage value from userspace to be an exact multiple of the
-rdt_resource::resctrl_membw::bw_gran parameter.
+...
 
-On MPAM systems, this results in somewhat worse-than-worst-case rounding, since
-the bandwidth granularity advertised to resctrl by the MPAM driver is in general
-only an approximation to the actual hardware granularity on these systems, and
-the hardware bandwidth allocation control value is not natively a percentage --
-necessitating a further conversion in the resctrl_arch_update_domains() path,
-regardless of the conversion done at parse time.
+> +	/*
+> +	 * The output data rate ranges overlap between the power modes. At a
+> +	 * common ODR, the faster mode has lower noise, so prefer the fastest
+> +	 * mode that supports every enabled channel.
+> +	 */
+> +	while (mode_idx--) {
+> +		bool supported = true;
 
-For MPAM and x86 use their custom pre-prepared parse-time conversion,
-resctrl_arch_preconvert_bw(). This will avoid accumulated error from rounding
-the value twice on MPAM systems. For x86 systems there is no functional change.
+Unneeded.
 
-Clarify the documentation, but avoid overly exact promises.
+> +		unsigned int channel;
 
-Clamping to bw_min and bw_max still feels generic: leave it in the core code,
-for now.
+> +		for_each_set_bit(channel, scan_mask,
+> +				 st->chip_info->num_channels) {
 
-[ BH: Split out x86 specific changes ]
-Signed-off-by: Dave Martin <Dave.Martin@arm.com>
-Signed-off-by: Ben Horgan <Ben.Horgan@arm.com>
-Reviewed-by: Ben Horgan <ben.horgan@arm.com>
-Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
----
-Changes since v3:
-Parameter order swap (Reinette)
-Reflow commit message to use 80 characters (Reinette)
-Adjust comment line length (Reinette)
-Add Reinette's R-b
+Make it a single line (83 characters, yes).
 
-Changes since v4:
-Make Dave the author as he wrote the patch
+> +			if (!ad7768_find_freq_config(st, mode_idx,
+> +						     st->ch_freq[channel])) {
+> +				supported = false;
+> +				break;
+> +			}
+> +		}
 
-Changes since v5:
-Document that the rounding can be up or down
----
- Documentation/filesystems/resctrl.rst | 17 +++++++++--------
- fs/resctrl/ctrlmondata.c              |  6 +++---
- 2 files changed, 12 insertions(+), 11 deletions(-)
+> +		if (supported)
+> +			return ad7768_set_power_mode(st, mode_idx);
 
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index e4b66af55ffb..dd4f80da419c 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -236,12 +236,11 @@ with respect to allocation:
- 		user can request.
- 
- "bandwidth_gran":
--		The granularity in which the memory bandwidth
--		percentage is allocated. The allocated
--		b/w percentage is rounded off to the next
--		control step available on the hardware. The
--		available bandwidth control steps are:
--		min_bandwidth + N * bandwidth_gran.
-+		The approximate granularity in which the memory bandwidth
-+		percentage is allocated. The allocated bandwidth percentage is
-+		rounded up or down to the closest control step available on the
-+		hardware. The available hardware steps are no larger than this
-+		value.
- 
- "delay_linear":
- 		Indicates if the delay scale is linear or
-@@ -881,8 +880,10 @@ The minimum bandwidth percentage value for each cpu model is predefined
- and can be looked up through "info/MB/min_bandwidth". The bandwidth
- granularity that is allocated is also dependent on the cpu model and can
- be looked up at "info/MB/bandwidth_gran". The available bandwidth
--control steps are: min_bw + N * bw_gran. Intermediate values are rounded
--to the next control step available on the hardware.
-+control steps are, approximately, min_bw + N * bw_gran.  The steps may
-+appear irregular due to rounding to an exact percentage: bw_gran is the
-+maximum interval between the percentage values corresponding to any two
-+adjacent steps in the hardware.
- 
- The bandwidth throttling is a core specific mechanism on some of Intel
- SKUs. Using a high bandwidth and a low bandwidth setting on two threads
-diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
-index 18ec9f564b5a..cafebdff70dc 100644
---- a/fs/resctrl/ctrlmondata.c
-+++ b/fs/resctrl/ctrlmondata.c
-@@ -37,8 +37,8 @@ typedef int (ctrlval_parser_t)(struct rdt_parse_data *data,
- /*
-  * Check whether MBA bandwidth percentage value is correct. The value is
-  * checked against the minimum and max bandwidth values specified by the
-- * hardware. The allocated bandwidth percentage is rounded to the next
-- * control step available on the hardware.
-+ * hardware. The allocated bandwidth percentage is converted as appropriate
-+ * for consumption by the specific hardware driver.
-  */
- static bool bw_validate(char *buf, u32 *data, struct rdt_resource *r)
- {
-@@ -71,7 +71,7 @@ static bool bw_validate(char *buf, u32 *data, struct rdt_resource *r)
- 		return false;
- 	}
- 
--	*data = roundup(bw, (unsigned long)r->membw.bw_gran);
-+	*data = resctrl_arch_preconvert_bw(r, bw);
- 	return true;
- }
- 
+		/* No channel found with the requested frequency configuration */
+		if (channel == st->chip_info->num_channels)
+
+> +	}
+
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
