@@ -1,143 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821AA468C0F
-	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 09:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1727646D577;
+	Fri, 11 Sep 2026 09:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789117651; cv=none; b=LYc8pT//GEl5PDyHSu17UbAZTFBHKeOvDpTPqE8diRE9gKaUaxHoVvmtLxtvhTvIfUE6bo/k3/52Kbv3OHcL1zg35sLBkT/yXJUdf72e2rWnU1SVjQxSquq7qCH0nshZk9rFGY9+v++X8rXdXGztq8sDp6pH/W2NnznZLb7aaTQ=
+	t=1789117778; cv=none; b=qlZ+mrz+XcJc4FSQwlj5moIG7Ou3UY5+UJDYCIFJqgk4FU1xVHn664cDCXI+MzAjGWscvU3IyJPw9yOxLucdkQ52vEuODZVz27ijsGyG4Suq5opVZToQ9uzSGOXuuxsz5PIFrr48HXAffjmFLLg7URCAL0PVZAuEyBmH1Q0ozwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789117651; c=relaxed/simple;
-	bh=/dL3pCPr3MM7dPLehJhDV3xFjQwplqUCQL5XgTxif+k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NKIR5MidipJoYzJFNz22Bdb7N9+D7wODp0YJ2qd/vEBB0eGWbgpZMsP/IbPbn5FUtZAg84pePWZxr+3MbPud4JHIq8cCROR0D6RlXCtv+o65a9v9/2uY+5hrPbI0m2DX4b4Sai54sJD8Iip9vuL+q4PCEeL+/sIIQ3ZVMPd9hz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ozwuuEUQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789117778; c=relaxed/simple;
+	bh=t+6MYxy5XUjX01KpC8TpqcYswDVyBlb/TK9KQ1ZJYVc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=FD1B+B8H9Q4mM9pzbrHpsVjH8c+i3E6brRADvkcyetYKc3U5szjVw0wzMCYUZwhiW7X/q3jW22KRMZXyuze86mfRngC2seEAlsUgjmRZMRZKA6lbetErrdRdsD8UEuH58U8IYWN6rM5U6nhri1sHvXEXefn56EMb5Xq1It4Nxvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DSrRpMzo; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ozwuuEUQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5736F1F0089A
-	for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 09:07:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789117650;
-	bh=/VGcQS0ZeRYJfc9e784tdLXi12bCcFoGI0t9ozoHPBo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=ozwuuEUQ8Z5se6zO5/fvu0pYLAOc5jGBs3n7Ao8KmKbvgwFVyNUnWcGSZguymLUAt
-	 RVKzsVQaratM2qCL/JX11MdyergavYIT/AlSFNnuGbejufqwsbMAaHjmmUCx7QSWAX
-	 gkSSivPrnNsep6lmjwegM8eFlO37g5AD3iliEMWZVSB9ellqVprjaNTpKigOOglQX4
-	 A07yKT36YEPA0DyRIxKNtXe/lzyMTs9aSi5aHQJz7Dato7ohCLajMILy+cSmGin6G+
-	 dg8cO5vN/lLlf3Dj3aYxfuGDuqOkh2HnLG2wOopDnvUs9h4DBtVxyeNV0hoAqF2pr+
-	 wf2Osx0fo8QlA==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5b4afc8465eso959860e87.2
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 02:07:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBw/d9v1IC9WZmeI01/56oUOjB8ydfflojiYV/p/6U5RZK/ymmoGpJAbTe2khj8//h/CAKYdtRv3ovs=@vger.kernel.org
-X-Gm-Message-State: AFuF++nLYsY5Fj8VnSkyOAfxQEU4OzC+QCOfn9m+yy9PP/c7HdUwRrg+
-	vs7jLGenzvkcjBZaFhgUVpyjZW0hEAoL5N8bxY0K8agppxtZ37dPA1UXfbsujXBEsagnTOLLhlx
-	UOZTp7c129KnFQPpvXX+Vk/CWHTnE9lo=
-X-Received: by 2002:a05:6512:3054:b0:5b6:1a7c:fd99 with SMTP id
- 2adb3069b0e04-5b8a0348f4fmr751726e87.63.1789117648568; Fri, 11 Sep 2026
- 02:07:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DSrRpMzo"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 57DF31A01AD;
+	Fri, 11 Sep 2026 09:09:34 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 24DA5601DE;
+	Fri, 11 Sep 2026 09:09:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5556811C7AF8E;
+	Fri, 11 Sep 2026 11:09:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1789117772; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=t+6MYxy5XUjX01KpC8TpqcYswDVyBlb/TK9KQ1ZJYVc=;
+	b=DSrRpMzo7xommH6ljF3n40eJNp4XkPIlSTnxYdGK9noi1maEjPYXHwbRBMJQlyifjzSK9/
+	OIJM1vSUZQWh5eGnUsmf7KridG6Y3f5lk5k3s1++gtzvm/aPAHNhxj6bBHccAghi6hSI0Z
+	U5rUj/t0oe1S2TpcRMVagB65Vjjc59OyYzz/FODdv6v2j5MVX+/m7t9MyC+isQw3SpZwq7
+	8D+DLBC82Gvc00XvStT/u28NAMGJkU/QusWmjSMxhTQ77O72cS4LJ8UgxxKwA+U31Cdjcp
+	d0V4UO4PuyEmfZtPDicT7LOHM3eezIDw+jsib6AWDgIWLilFWBlupjm9kwcXig==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Jon Hunter <jonathanh@nvidia.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Michael Walle
+ <mwalle@kernel.org>,  Takahiro Kuwano <takahiro.kuwano@infineon.com>,
+  Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
+ <vigneshr@ti.com>,  Nicolas Ferre <nicolas.ferre@microchip.com>,
+  Alexandre Belloni <alexandre.belloni@bootlin.com>,  Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>,  Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
+ <skhan@linuxfoundation.org>,  Randy Dunlap <rdunlap@infradead.org>,  Steam
+ Lin <STLin2@winbond.com>,  Hsin-Yi Wang <hsinyi@chromium.org>,  Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>,  linux-mtd@lists.infradead.org,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  "linux-tegra@vger.kernel.org"
+ <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH v5 03/25] mtd: spi-nor: Refactor Read Status/Write
+ Status support
+In-Reply-To: <87ecf1sa2w.fsf@bootlin.com> (Miquel Raynal's message of "Thu, 10
+	Sep 2026 11:57:11 +0200")
+References: <20260904-winbond-v7-1-spi-nor-rv-addition-v5-0-2909a45fe4fa@bootlin.com>
+	<20260904-winbond-v7-1-spi-nor-rv-addition-v5-3-2909a45fe4fa@bootlin.com>
+	<b78b8e6a-2fab-489f-aa1b-a2ab23051794@nvidia.com>
+	<87ecf1sa2w.fsf@bootlin.com>
+User-Agent: mu4e 1.12.12; emacs 30.2
+Date: Fri, 11 Sep 2026 11:09:26 +0200
+Message-ID: <87tsnwqhmh.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260908152808.3928630-1-arnd@kernel.org> <20260908152808.3928630-4-arnd@kernel.org>
- <CADkSEUjYhRk-ezaXZkHzFTFQnySFSisKtZfEP-_NtLnQF+6-1Q@mail.gmail.com>
-In-Reply-To: <CADkSEUjYhRk-ezaXZkHzFTFQnySFSisKtZfEP-_NtLnQF+6-1Q@mail.gmail.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 11 Sep 2026 11:07:16 +0200
-X-Gmail-Original-Message-ID: <CAD++jL=ysmPgs8yKH5KBobuv-eeCHHgZwvo1kvHOFuTwhkaOew@mail.gmail.com>
-X-Gm-Features: AcwNN1VlOYTrU3ZTl5zPPP6nearnDuFcxxJJedZ2i25yyIxB1qlTUVLyGBWuTQs
-Message-ID: <CAD++jL=ysmPgs8yKH5KBobuv-eeCHHgZwvo1kvHOFuTwhkaOew@mail.gmail.com>
-Subject: Re: [PATCH 03/13] ARM: remove riscpc
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>, Russell King <linux@armlinux.org.uk>
-Cc: Arnd Bergmann <arnd@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Drew Fustini <fustini@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, Stefan Agner <stefan@agner.ch>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
-	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrew Lunn <andrew@lunn.ch>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Gregory Clement <gregory.clement@bootlin.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Kristoffer Ericson <kristoffer.ericson@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Alexander Sverdlin <alexander.sverdlin@siemens.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Karl Mehltretter <kmehltretter@gmail.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
-	Ian Molton <spyro@f2s.com>, Jens Axboe <axboe@kernel.dk>, Helge Deller <deller@gmx.de>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, "Paul E. McKenney" <paulmck@kernel.org>, linux-block@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, Sep 11, 2026 at 5:44=E2=80=AFAM Ethan Nelson-Moore
-<enelsonmoore@gmail.com> wrote:
+Hello Jon,
 
-> Because I think it's cool that the kernel still supports actual Acorn
-> hardware, I patched gcc 16.2 to restore ARMv3m support:
-> https://github.com/EthanNelson-Moore/gcc-arm-retro
-
-For the record: I also think this is cool.
-
-One question: is ARMv3m there in Clang/LLVM? I only
-know that we have ARMv4t.
-
-To the bigger question.
-
-The community has a built in tension around this:
-
-- One camp that are enthusiast like yourself. That kind of people
-  are running the show inside arch/m68k on Amigas and Ataris.
-
-- One camp who get their paycheck from present day companies
-  and constantly on top of the latest technology. As can be
-  seen Qualcomm just taped out a brand new ARMv7 SoC
-  named Kuno, for example.
-
-As you can see this leads to a bit of tension.
-
-What I'm after here is not one camp is doing the right thing
-and the other one is not, because that inevitably boils down
-to the question of what is the meaning of life. Or "what is fun"
-actually (Torvalds wrote a book named "just for fun") and
-either case could be argued to be quite fun, or meaningful.
-
-> I am working on a clocksource driver, which uses both timers (to
-> hopefully fix the awful time drift), and removes the dependency on
-> LEGACY_TIMER_TICK.
+>> spi-nor spi0.0: probe with driver spi-nor failed with error -22
 >
-> I also have patches for several cleanups to Risc PC-related code.
+> Thanks for catching this early! I'll get back to you with a proposal
+> very soon.
 
-As SoC maintainers I think we want to hear about a plan to
-migrate RiscPC to device tree should it stay supported. And I
-do not think it is that hard to achieve with the right focus by the
-right people.
+Here is a proposal, please let me know if that fixes your issue fully.
 
-Actually testing it on actual hardware would be a further
-requirement, so we're not doing dreamscapes here.
+Link: https://lore.kernel.org/linux-mtd/DLCD7NN2IW82.33ISZCKO1E7UY@kernel.o=
+rg/T/#t
 
-I want to heat from Russell on this.
+FYI it is only compile tested.
 
-The ARM kernel started as a passionate project by him, on that very
-machine, and he should decide if we keep it going.
-
-IIUC the Clang/LLVM compiler has essentially solved the compiler
-issue.
-
-> I am aware that this has no actual use case, but it was fun. No LLM
-> was used for any part of the work.
-
-My position is that using LLMs is good in many ways because
-when used right by the right people it allows us to keep a wider
-range of hardware supported.
-
-Yours,
-Linus Walleij
+Thanks,
+Miqu=C3=A8l
