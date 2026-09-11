@@ -1,197 +1,76 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205F7440658;
-	Fri, 11 Sep 2026 06:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2303D647C;
+	Fri, 11 Sep 2026 07:03:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789109117; cv=none; b=iz2nb6dEA5HZUCoowX3PnloI94mKDuPG1Lo1UjPEpWTCmqp5zl2LQso0c3BarNKl/DeoOvJEa8bVuXL0DX9ZPPaLayQHK15mvquxXIaJMsywMsSU6VCGSArf7kLSP/tSwh10Q3aCyvPs6lJo5Emp924vgD9gHnJOlBqV3kWCpUg=
+	t=1789110204; cv=none; b=Iz3BQrfJaSnCateGcTXFjjKFG08SLdQksD/OIueqnDjA1Ke7P2tDYdVsVS5m955XWDJgeX976j3B2zigdn2SDMvRUqor/CC0By13Y0mDe9IzJsY+KFcl41qfvz54+ORe8fK4DFzQkD0YVD0MyDgDRYwKb+DpFXPdKygOVITtc2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789109117; c=relaxed/simple;
-	bh=W1lWyTR9TQELRjUZzDM3zaPLgGVyw3UieRYuB72Jvz4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=oF2TWa5DhaRcgbShCPWH1Z80w+ayGW/rQjGqFSsk4b31xT5sycEgANikZzIAkoAFGKOQR7dV5VqGsDzOfQm7GvJjoJEq4UZnb2DS2IP66Xf3VQZqupyJLt42WFjcAYkl9aHBtLChqwPGQTq/ZptWiffkaFZeUf9tQdpI15VepW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Qx9AWqzd; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Qx9AWqzd; arc=none smtp.client-ip=45.249.212.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1789110204; c=relaxed/simple;
+	bh=XfnCNwQRJmMHNboMQkxeZV5+wm9+CQAH6rOmQEgC1/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LqKW1lPtFPikCCv/SqGcCXOD4AguyVzBMpejS5HqsDlIROwWrwaUPcAa6EGuFl1plXlXIGHtuujFKy1cG3CLJ5yhZkS1PNOiM/nIgp3zAG5RXGLm/rLpZoIHMaywLU//NveTm82RnLtQRJswzc9/Nx8pUYQLjeFWnH6F9J49FDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gg0J95fH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Qx9AWqzd";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Qx9AWqzd"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=SnNyIUKsorVAxqnwfpbUZwRMslljnk+vTb4CfKa2qOg=;
-	b=Qx9AWqzdHat03JckLm3M8BwOru2v7x0iL94Pntu/72z8LkNpVGJ0CuQsvObLbQQZKy7qxI+f7
-	POuCv4NaoAy2ApgQCxpmYgcqAwymFuufmDUhl++spML+a+SLlMEmg5rpQS//Ncrukr4XM5cLTau
-	hBIxU4k/6aa13wBQtOpnpjM=
-Received: from canpmsgout06.his.huawei.com (unknown [172.19.92.157])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTPS id 4hh4ln1Nbtz126MCC;
-	Fri, 11 Sep 2026 14:44:37 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=SnNyIUKsorVAxqnwfpbUZwRMslljnk+vTb4CfKa2qOg=;
-	b=Qx9AWqzdHat03JckLm3M8BwOru2v7x0iL94Pntu/72z8LkNpVGJ0CuQsvObLbQQZKy7qxI+f7
-	POuCv4NaoAy2ApgQCxpmYgcqAwymFuufmDUhl++spML+a+SLlMEmg5rpQS//Ncrukr4XM5cLTau
-	hBIxU4k/6aa13wBQtOpnpjM=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4hh4WT0hVGzRhQs;
-	Fri, 11 Sep 2026 14:33:57 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4382940579;
-	Fri, 11 Sep 2026 14:44:50 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- kwepemk200008.china.huawei.com (7.202.194.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Fri, 11 Sep 2026 14:44:48 +0800
-Message-ID: <7500ec7f-5e65-408c-a4ed-3f7af161219b@huawei.com>
-Date: Fri, 11 Sep 2026 14:44:47 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gg0J95fH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3421F000FF;
+	Fri, 11 Sep 2026 07:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789110187;
+	bh=fLOv9PqRHm0Dp6AEU3FrEQYqlkc9d2Rysj5SU5cG6RY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Gg0J95fHymQW9M8DoQvwqtACHc8nmHNl3IQWWBWUFvaP/N3OpVH0jrAGtc44djAkT
+	 3+G3/D5vLC4wPjCNtA0WMtNa/MO2TkPe+ebtT0UBqnDRZIkTsEYY1dAJmZPRs98rUD
+	 MTp1DoYUVl4Xyk70tm07cBt9bKGNME+RcofIzO0pHken0ud47IeATdooHTXZXjsNX+
+	 6/K92K/LJCRnlHk5J3CkxuKAOYAfuojyK1U4E7MqSpT85p7Z5gLNfE5K07Vcov9cEX
+	 5Unv0Z/nW7hykBvwro5/waAjxNj8kmwAmp9xKsZUeK9e5HOSQzr27Q2OGR3euIz1ut
+	 laaSeYJmaKqFA==
+Date: Fri, 11 Sep 2026 09:03:03 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Petar Stepanovic <pstepanovic@axiado.com>
+Cc: Akhila Kavi <akavi@axiado.com>, 
+	Prasad Bolisetty <pbolisetty@axiado.com>, Guenter Roeck <linux@roeck-us.net>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Harshit Shah <hshah@axiado.com>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Tzu-Hao Wei <twei@axiado.com>, 
+	Karthikeyan Mitran <kmitran@axiado.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: add Axiado AX3000 and AX3005
+ PWM fan controller
+Message-ID: <20260911-melodic-naughty-kestrel-efc72e@quoll>
+References: <20260903-axiado-ax3000-pwm-fan-v2-0-ef43df46163e@axiado.com>
+ <20260903-axiado-ax3000-pwm-fan-v2-1-ef43df46163e@axiado.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 02/40] arm_mpam: Reset when feature configuration bit
- unset
-To: Ben Horgan <ben.horgan@arm.com>
-CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
-	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
-	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
-	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
-	<jonathan.cameron@huawei.com>, <kobak@nvidia.com>, <lcherian@marvell.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
-	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
-	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
-	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
-	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
-	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
-	<zengheng4@huawei.com>, <linux-doc@vger.kernel.org>
-References: <20260313144617.3420416-1-ben.horgan@arm.com>
- <20260313144617.3420416-3-ben.horgan@arm.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20260313144617.3420416-3-ben.horgan@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260903-axiado-ax3000-pwm-fan-v2-1-ef43df46163e@axiado.com>
 
-
-
-在 2026/3/13 22:45, Ben Horgan 写道:
-> To indicate that the configuration, of the controls used by resctrl, in a
-> RIS need resetting to driver defaults the reset flags in mpam_config are
-> set. However, these flags are only ever set temporarily at RIS scope in
-> mpam_reset_ris() and hence mpam_cpu_online() will never reset these
-> controls to default. As the hardware reset is unknown this leads to unknown
-> configuration when the control values haven't been configured away from the
-> defaults.
+On Thu, Sep 03, 2026 at 01:38:39AM -0700, Petar Stepanovic wrote:
+> Add a Devicetree binding for the PWM fan controller found on the
+> Axiado AX3000 and AX3005 SoCs.
 > 
-> Use the policy that an unset feature configuration bit means reset. In this
-> way the mpam_config in the component can encode that it should be in reset
-> state and mpam_reprogram_msc() will reset controls as needed.
+> The controller measures fan speed using a hardware tachometer block.
+> Fan speed is controlled through a PWM signal supplied by an external
+> PWM controller.
 > 
-> Fixes: 09b89d2a72f3 ("arm_mpam: Allow configuration to be applied and restored during cpu online")
-> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+> Add a MAINTAINERS entry for the binding.
+> 
+> Signed-off-by: Petar Stepanovic <pstepanovic@axiado.com>
 > ---
-> This goes back to the initial feature configuration policy that James
-> used in the MPAM base driver rfc but I unfortunately
-> suggested him to change it.
-> ---
->  drivers/resctrl/mpam_devices.c | 40 ++++++++++------------------------
->  1 file changed, 12 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
-> index 0fd6590a9b5c..ff861291bd4e 100644
-> --- a/drivers/resctrl/mpam_devices.c
-> +++ b/drivers/resctrl/mpam_devices.c
-> @@ -1364,17 +1364,15 @@ static void mpam_reprogram_ris_partid(struct mpam_msc_ris *ris, u16 partid,
->  		__mpam_intpart_sel(ris->ris_idx, partid, msc);
->  	}
->  
-> -	if (mpam_has_feature(mpam_feat_cpor_part, rprops) &&
-> -	    mpam_has_feature(mpam_feat_cpor_part, cfg)) {
-> -		if (cfg->reset_cpbm)
-> -			mpam_reset_msc_bitmap(msc, MPAMCFG_CPBM, rprops->cpbm_wd);
-> -		else
-> +	if (mpam_has_feature(mpam_feat_cpor_part, rprops)) {
-> +		if (mpam_has_feature(mpam_feat_cpor_part, cfg))
->  			mpam_write_partsel_reg(msc, CPBM, cfg->cpbm);
-> +		else
-> +			mpam_reset_msc_bitmap(msc, MPAMCFG_CPBM, rprops->cpbm_wd);
->  	}
->  
-> -	if (mpam_has_feature(mpam_feat_mbw_part, rprops) &&
-> -	    mpam_has_feature(mpam_feat_mbw_part, cfg)) {
-> -		if (cfg->reset_mbw_pbm)
-> +	if (mpam_has_feature(mpam_feat_mbw_part, rprops)) {
-> +		if (mpam_has_feature(mpam_feat_mbw_part, cfg))
->  			mpam_reset_msc_bitmap(msc, MPAMCFG_MBW_PBM, rprops->mbw_pbm_bits);
+>  .../bindings/hwmon/axiado,ax3000-pwm-fan.yaml      | 72 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  8 +++
+>  2 files changed, 80 insertions(+)
 
-This condition is written backwards, but it looks like it has already
-been fixed later.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Otherwise, LGTM
-Reviewed-by: Jinjie Ruan <ruanjinjie@huawei.com>
-
->  		else
->  			mpam_write_partsel_reg(msc, MBW_PBM, cfg->mbw_pbm);
-> @@ -1384,16 +1382,14 @@ static void mpam_reprogram_ris_partid(struct mpam_msc_ris *ris, u16 partid,
->  	    mpam_has_feature(mpam_feat_mbw_min, cfg))
->  		mpam_write_partsel_reg(msc, MBW_MIN, 0);
->  
-> -	if (mpam_has_feature(mpam_feat_mbw_max, rprops) &&
-> -	    mpam_has_feature(mpam_feat_mbw_max, cfg)) {
-> -		if (cfg->reset_mbw_max)
-> -			mpam_write_partsel_reg(msc, MBW_MAX, MPAMCFG_MBW_MAX_MAX);
-> -		else
-> +	if (mpam_has_feature(mpam_feat_mbw_max, rprops)) {
-> +		if (mpam_has_feature(mpam_feat_mbw_max, cfg))
->  			mpam_write_partsel_reg(msc, MBW_MAX, cfg->mbw_max);
-> +		else
-> +			mpam_write_partsel_reg(msc, MBW_MAX, MPAMCFG_MBW_MAX_MAX);
->  	}
->  
-> -	if (mpam_has_feature(mpam_feat_mbw_prop, rprops) &&
-> -	    mpam_has_feature(mpam_feat_mbw_prop, cfg))
-> +	if (mpam_has_feature(mpam_feat_mbw_prop, rprops))
->  		mpam_write_partsel_reg(msc, MBW_PROP, 0);
->  
->  	if (mpam_has_feature(mpam_feat_cmax_cmax, rprops))
-> @@ -1491,16 +1487,6 @@ static int mpam_save_mbwu_state(void *arg)
->  	return 0;
->  }
->  
-> -static void mpam_init_reset_cfg(struct mpam_config *reset_cfg)
-> -{
-> -	*reset_cfg = (struct mpam_config) {
-> -		.reset_cpbm = true,
-> -		.reset_mbw_pbm = true,
-> -		.reset_mbw_max = true,
-> -	};
-> -	bitmap_fill(reset_cfg->features, MPAM_FEATURE_LAST);
-> -}
-> -
->  /*
->   * Called via smp_call_on_cpu() to prevent migration, while still being
->   * pre-emptible. Caller must hold mpam_srcu.
-> @@ -1508,14 +1494,12 @@ static void mpam_init_reset_cfg(struct mpam_config *reset_cfg)
->  static int mpam_reset_ris(void *arg)
->  {
->  	u16 partid, partid_max;
-> -	struct mpam_config reset_cfg;
-> +	struct mpam_config reset_cfg = {};
->  	struct mpam_msc_ris *ris = arg;
->  
->  	if (ris->in_reset_state)
->  		return 0;
->  
-> -	mpam_init_reset_cfg(&reset_cfg);
-> -
->  	spin_lock(&partid_max_lock);
->  	partid_max = mpam_partid_max;
->  	spin_unlock(&partid_max_lock);
+Best regards,
+Krzysztof
 
