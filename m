@@ -1,67 +1,33 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013043.outbound.protection.outlook.com [40.107.162.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E82493D2E;
-	Fri, 11 Sep 2026 15:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789141654; cv=fail; b=W6jYNSlqomiNfw5QCMNH7S2Ezp5P5IMTKf/kTbHEdgRalc+1PFzsp2EyIMUU5/oRC/ZL1Ws7cax6NIm+M6XRDxgCErGDrChiju7ktzaecO0+CwPC2efa79h4WjvQPRS0O5lGZr5MfWshQYdrXwVvnswKycOQKKMycbDlXhTUdvg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789141654; c=relaxed/simple;
-	bh=brdE7ZhsMWRD1TzB0eznvuTn1K2X5TaCXPkPX7akyMQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=VYeqlKMTkBZKMikJ9jbfKikE3zizitVzDZLmydXVlvoaSB3srKyPzKFW5UijR11680hp+M+FsDx8gI3X3nQFYAX8XGNAwO2c6DwVdf7i6pb5ZkX73BVHyBqKu/YUkEVFbcrAkQgrspjzaQhhNg+ZkipMxRJ5cyZ8t/v65Q28IYw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=Cjy8KZXl; arc=fail smtp.client-ip=40.107.162.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432D749DBB6;
+	Fri, 11 Sep 2026 15:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789141710; cv=none; b=tyADllyoc7tFe7ldnx9nQmO+8zt/4l8wAauDGV2KdxYPbGrHxIQUAB6/GEYgGAvacmTSQnmwxoAIXOmxQn5bypRDpdVWfDAsX+dLmfTkmbmpQ5guRHFXr6MpcX5dPb0opow6xBIq1rGLcCDQVgEgaLCcdQzCwFWGlyHcGirzVe0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789141710; c=relaxed/simple;
+	bh=Y+NGrhRQ5CXlNd3IQKDekZLbTEeM9snKTFtrc8dgpKI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qHdEkAcV3aSvhpgb016LhvwrKdmEXVJ6C0u49LznDiFTDoetYO99O0HXEwO8VsvUNSWw38c1PVLePLFlLR6hIudBBlRcyDoTq7rrdcr1H7Ic7w/ylwDlhPqtrRHHUTL/CAxUrcMsp10dAJVlIfzulAIqDuKikGhr74Lncem4DLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZXJpZCg+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="Cjy8KZXl"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AvgHwMRAy+jT9+G/KXsq2toexNEE9onK4w1AiiH+6HtEyLP6luLeRLav9DslVFatWwvmhCxDilAAVCPI7Enrz/bEF+MfHvH7JFydM3ZyIvnMbzRSRpJCM7lKmxMG7jSF+YL6G2vaQ8XhyBnOwODEglu6VRt9vSzRcMYWNq73ClymelzOnkCoPmlQ1/e9VuoKjHfJsLuERV+C7pTwqC3TibjDz6YtNF6cIzMijVTWFqDUpaupjglGSFLd5dKEq5IzxQBgCdeQI0XfIvzJUozgpr8tCynroCk3HWOIhIG/QGGUjbNNcJaLFPMcZR8toyeL140gXlet6y+3AvzWY/CHUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2u9/ITUVxtMTvUDcBFfcR9iA3t9lqeXHZ3mC/OQF5NQ=;
- b=MuqTsdlKcvSWKIhAK4Z9YH28L57gN5IHKJE/qOVjPlgyJTujzevOAdYViwmwHOW8RUK17moniZ2blZy5KSGPDQnxKwqvGuqkf+0zymT03+p0qZ9EN8BT+nJUbtoCSdBvN2tAN1q9obdPDsB/7wOyN3dInbGCmqECZwlri3XDajBcCaqOGaS2oPbBR+uuNo4VibjXtEqQmvNBdh6m/OkYtQ1S1QSFeV+6BSNwOidgzjf4M5u92uDhrd47UU2ZabC+To9SQtSrybt16MkSvzSksb9/1U2VJqLJIP7VRbMGHbCb/nP5MBHV3QOMVSyof7CoMvuVRtwkENiEcyEE7y47Lw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.60) smtp.rcpttodomain=kernel.org smtp.mailfrom=foss.st.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2u9/ITUVxtMTvUDcBFfcR9iA3t9lqeXHZ3mC/OQF5NQ=;
- b=Cjy8KZXlkXnCet05JnPsa+G5uXAtDBhShZTeDdmKsXsUiBHk1LjZmP9NuQx2p8BBe7K/gytBSTPZdnRkahK6/WRpjGnp4dY8+CAu0CJvWV/rl4DrYMyhE1kmW+aKIc1Q7UYocyo4PuITM/A0nPyiWycITT5XtK7I6R+9/R6jghnK0FFG6orX/nagYjTR1Sh7w4fGXyohqobosMayELT1jTe09uGMpYs9DMAQpuck03+FzMkBhObQpup+F9YIsPhqT4dSoNJMCm1akDvD8mLE3Mzrkwkc882Qvw85KRcVP+7OPWWfQVl2eNo5h/q/9gl2/+0RW+qmVtXd9QXYEEb7hA==
-Received: from DU6P191CA0029.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:53f::28)
- by PRAPR10MB5251.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:291::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Fri, 11 Sep
- 2026 15:47:25 +0000
-Received: from DU2PEPF00028D10.eurprd03.prod.outlook.com
- (2603:10a6:10:53f:cafe::25) by DU6P191CA0029.outlook.office365.com
- (2603:10a6:10:53f::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.9 via Frontend Transport; Fri, 11
- Sep 2026 15:47:25 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.60)
- smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.60; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.60) by
- DU2PEPF00028D10.mail.protection.outlook.com (10.167.242.24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Fri, 11 Sep 2026 15:47:25 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
- (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Fri, 11 Sep
- 2026 17:51:40 +0200
-Received: from [10.48.86.79] (10.48.86.79) by STKDAG1NODE2.st.com
- (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Fri, 11 Sep
- 2026 17:46:09 +0200
-Message-ID: <cf9c29bd-7e44-445b-b493-fb120898e706@foss.st.com>
-Date: Fri, 11 Sep 2026 17:46:08 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZXJpZCg+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B345D1F000FF;
+	Fri, 11 Sep 2026 15:48:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789141706;
+	bh=kSE0RFPcW66QetBMRHN3NYdbRmSwi1ygaMp/uike9ZY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ZXJpZCg+Ka6sQVyvZMjIrT6bir9r5OrfoCjNypIUJsiKw3rmpiJr/dBK1p0h7Iwu7
+	 sQAv+3e4cowP0A1D8qIKRj7Qi7F1x0NTMyuUYQME4Zr5xXRhG3glI476rxTAK05/cJ
+	 4xhnU4imQl9Bd3yjIDZtueffrWuie/DtvHk1WIpOJeBH1ulLzFpVkCu0+2kQg0/TWK
+	 rvEC3zUd9+3bB8gWMOGApGEME1E8UUy7KQ8VpN664AP09xRrVEZ/+h+xOnk94T3ko5
+	 x4uwefjYLsf5zmgGZk9ZfLa4379XjfnvbWCDRrIZP/OUnuwdpcpuRGBPV+nPL77W4z
+	 y0JQ91PEULNlQ==
+Message-ID: <891915e3-3333-45f3-81a8-1ad38fa7ee37@kernel.org>
+Date: Fri, 11 Sep 2026 17:48:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,167 +35,354 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/13] ARM: stm32: remove stm32f4/f7/h7 MCU support
-To: Arnd Bergmann <arnd@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Linus Walleij
-	<linusw@kernel.org>, Russell King <linux@armlinux.org.uk>
-CC: Drew Fustini <fustini@kernel.org>, Arnd Bergmann <arnd@arndb.de>, "Rob
- Herring" <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liviu Dudau
-	<liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, "Lorenzo
- Pieralisi" <lpieralisi@kernel.org>, Frank Li <Frank.Li@nxp.com>, Sascha Hauer
-	<s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>,
-	"Stefan Agner" <stefan@agner.ch>, Maxime Coquelin
-	<mcoquelin.stm32@gmail.com>, "Aaro Koskinen" <aaro.koskinen@iki.fi>, Andreas
- Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, Roger
- Quadros <rogerq@kernel.org>, "Tony Lindgren" <tony@atomide.com>, Nicolas
- Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea
-	<claudiu.beznea@tuxon.dev>, Andrew Lunn <andrew@lunn.ch>, Sebastian
- Hesselbarth <sebastian.hesselbarth@gmail.com>, Gregory Clement
-	<gregory.clement@bootlin.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
-	Kristoffer Ericson <kristoffer.ericson@gmail.com>, Ethan Nelson-Moore
-	<enelsonmoore@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
-	Alexander Sverdlin <alexander.sverdlin@siemens.com>, Shawn Guo
-	<shawnguo@kernel.org>, Karl Mehltretter <kmehltretter@gmail.com>, "David
- Hildenbrand (Arm)" <david@kernel.org>, Nicolas Pitre <npitre@baylibre.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>,
-	<imx@lists.linux.dev>, <linux-stm32@st-md-mailman.stormreply.com>,
-	<linux-omap@vger.kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Christophe Parant <c.parant@phytec.fr>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Dario Binacchi
-	<dario.binacchi@amarulasolutions.com>
-References: <20260908152808.3928630-1-arnd@kernel.org>
- <20260908152808.3928630-11-arnd@kernel.org>
+Subject: Re: [PATCH v10 6/6] selftests/mm: add a GUP selftest
+To: Sarthak Sharma <sarthak.sharma@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Mark Brown <broonie@kernel.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Muhammad Usama Anjum <usama.anjum@arm.com>, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Rik van Riel <riel@surriel.com>
+References: <20260911110950.200240-1-sarthak.sharma@arm.com>
+ <20260911110950.200240-7-sarthak.sharma@arm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
-In-Reply-To: <20260908152808.3928630-11-arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260911110950.200240-7-sarthak.sharma@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To STKDAG1NODE2.st.com
- (10.75.128.133)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D10:EE_|PRAPR10MB5251:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17775c1d-c7d6-4ec2-8441-08df101bfa07
-X-LD-Processed: 75e027c9-20d5-47d5-b82f-77d7cd041e8f,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|376014|7416014|82310400026|23010399003|1800799024|36860700016|56012099006|10067099003|11063799006|4143699003|22082099003|18002099003|41080700001;
-X-Microsoft-Antispam-Message-Info:
- imajK4QF5klaq03WdR/S+NJ7NNvxoXUvkBY5RWAVJLylQplErPggEU0auLmsFr/C6RHythvTPwpK0e9UrcFIL7srCo7kzlGeVyR3esOabRGdjJNm9nJ3nQP0iSurYKV8H3VIp3tYWKv21ffzM+uCmWlZYnrE8zmfWUKUHoIB8RMYzreL4e6UdvgE0GmcDuPIVdJ9sg/Iet/U54ozMaEmAX7XNBqJ8ssmNqnjZCIA90x0tniVS8PFGhb6AHVtnXGIbDG5iEmaApWESFZJAW6OhfdhUNx6kzkMZAvLM5+Xgqj5F4k0W5ZNj7ZMi04o4vYVAXkMB4X/34MiQuVEdoRbO/8owL4J6y3791Fujkf3DBtF+h3OvpxPVyGWeHDhMG1So3UlceLFkwUgCNRkEqo6xwYEmwCH2Kzw0FqjsjqLK3odh42BhUIX0Ruwr3a0N1A88JMJpQVSsiZlVqX9k/dNOTJoGp4tGoiXamxdA4bZTDZCjOc8YPio/F1ZSToqtVstmd12FqhqGLflc5Liznwdxf3YacRbm4moOEESurtYzVgUDigNpxV8SROa4rFsPVjXi3QqZVuXxhMCJV5VaPLJ8IYX3RH1Gn7u3ka3ncSvfVLl8YZP63PQv+b+JLaqcpTmc4SfsAUCHNQ+Zn1S3e0oxhb+rlYoWvGLYmPDPB5SipSBbJ7d/oFmFqrXQb0261aazDJ2GG9GA0CO7C1fCt7Die+f406rNE+emouIlWugwMxpO01kjZsV7zxv6BEqKEefGl/GW3sv3nhQvPQ4G+3rYA==
-X-Forefront-Antispam-Report:
- CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(23010399003)(1800799024)(36860700016)(56012099006)(10067099003)(11063799006)(4143699003)(22082099003)(18002099003)(41080700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- //Efo6JpJHlKdtxE0rhW2Sn6nfy7+D1TLhVolKmg+cRE4F5KVMVVOJ/V5r4RZBGEglEj0iFK0paEqjljMYjZ28IPixRPNs3GRQ5daFrXFczvkAGZav1UjnhBSpiCC75vjzSdhpDfVAGqGZSphTtle6rR6JSP828qH+3JyGExejwnAjX237WGWy3qi4aG5jImgzg2NgYkspTCAqpaje/hB1ZXd21JdmNhm0GREEmMNvvlx1TJzpY+gVk917KzBC37PLagXX7vKFmDM5pgZClmM3ZGHegeyd0ftz/KMBcStk2LCsDbvo3v70owsYtkx+IjJVPfOPAcLa68ER2lcBRnwYukoK4sLKSUv59jd9TYKR7ULOLnDHnTILnKqAA4uDOhaeng0uYavScCsiMDf7UKq7ws5LKhKD6dOijjCTgl9QHU0oe8yOUg+LBQmkk+C3eT
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2026 15:47:25.4060
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17775c1d-c7d6-4ec2-8441-08df101bfa07
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource: DU2PEPF00028D10.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAPR10MB5251
 
-Hi Arnd
+On 9/11/26 13:09, Sarthak Sharma wrote:
+> Add a new GUP selftest which uses kselftest_harness.h. Cover
+> 12 mapping configurations: THP enabled, THP disabled and
+> HugeTLB, each across private/shared mappings and with/without
+> FOLL_WRITE. Run 5 test cases for every variant: get_user_pages,
+> get_user_pages_fast, pin_user_pages, pin_user_pages_fast and
+> pin_user_pages_longterm.
+> 
+> Use two default hugeTLB pages and derive the mapping size from
+> their size. This exercises GUP both within a single HugeTLB page
+> and across a HugeTLB boundary, without reserving an excessive
+> number of pages.
+> 
+> Sweep four nr_pages_per_call values for each test: 1, 512, 123 and
+> all pages. This preserves the coverage previously provided by
+> run_gup_matrix(): 12 mapping combinations x 5 GUP/PUP operations x 4
+> batch sizes. In total the selftest reports 60 TAP cases and issues
+> 240 ioctls.
+> 
+> Do not carry DUMP_USER_PAGES_TEST into the new selftest because its
+> output is written to the kernel log and the selftest does not verify
+> that output.
+> 
+> Add the new gup binary to the selftests/mm build, run_vmtests.sh and
+> MAINTAINERS. Update mm/Kconfig to describe the benchmark and
+> selftest split.
+> 
+> Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
+> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
+> Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
+> ---
+>  MAINTAINERS                               |   1 +
+>  mm/Kconfig                                |  19 +-
+>  tools/testing/selftests/mm/Makefile       |   1 +
+>  tools/testing/selftests/mm/gup.c          | 263 ++++++++++++++++++++++
+>  tools/testing/selftests/mm/run_vmtests.sh |   1 +
+>  5 files changed, 273 insertions(+), 12 deletions(-)
+>  create mode 100644 tools/testing/selftests/mm/gup.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cae3af861a7c..c47e655c4111 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17188,6 +17188,7 @@ F:	mm/gup.c
+>  F:	mm/gup_test.c
+>  F:	mm/gup_test.h
+>  F:	tools/mm/gup_bench.c
+> +F:	tools/testing/selftests/mm/gup.c
+>  F:	tools/testing/selftests/mm/gup_longterm.c
+>  
+>  MEMORY MANAGEMENT - KSM (Kernel Samepage Merging)
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index c180d40cd671..61ab1b8a2ebd 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -1291,24 +1291,19 @@ config PERCPU_STATS
+>  	  be used to help understand percpu memory usage.
+>  
+>  config GUP_TEST
+> -	bool "Enable infrastructure for get_user_pages()-related unit tests"
+> +	bool "Enable infrastructure for get_user_pages()-related unit tests and benchmarks"
+>  	depends on DEBUG_FS
+>  	help
+>  	  Provides /sys/kernel/debug/gup_test, which in turn provides a way
+> -	  to make ioctl calls that can launch kernel-based unit tests for
+> -	  the get_user_pages*() and pin_user_pages*() family of API calls.
+> +	  to make ioctl calls that can launch kernel-based unit tests and
+> +	  benchmarks for the get_user_pages*() and pin_user_pages*() families
+> +	  of API calls.
+>  
+> -	  These tests include benchmark testing of the _fast variants of
+> -	  get_user_pages*() and pin_user_pages*(), as well as smoke tests of
+> +	  These include benchmark testing of the _fast variants of
+> +	  get_user_pages*() and pin_user_pages*(), as well as tests of
+>  	  the non-_fast variants.
+>  
+> -	  There is also a sub-test that allows running dump_page() on any
+> -	  of up to eight pages (selected by command line args) within the
+> -	  range of user-space addresses. These pages are either pinned via
+> -	  pin_user_pages*(), or pinned via get_user_pages*(), as specified
+> -	  by other command line arguments.
+> -
+> -	  See tools/testing/selftests/mm/gup_test.c
+> +	  See tools/testing/selftests/mm/gup.c and tools/mm/gup_bench.c.
+>  
+>  comment "GUP_TEST needs to have DEBUG_FS enabled"
+>  	depends on !GUP_TEST && !DEBUG_FS
+> diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
+> index 11ca9b11fef1..9c03624fd293 100644
+> --- a/tools/testing/selftests/mm/Makefile
+> +++ b/tools/testing/selftests/mm/Makefile
+> @@ -58,6 +58,7 @@ endif
+>  
+>  TEST_GEN_FILES = cow
+>  TEST_GEN_FILES += compaction_test
+> +TEST_GEN_FILES += gup
+>  TEST_GEN_FILES += gup_longterm
+>  TEST_GEN_FILES += hmm-tests
+>  TEST_GEN_FILES += hugetlb-madvise
+> diff --git a/tools/testing/selftests/mm/gup.c b/tools/testing/selftests/mm/gup.c
+> new file mode 100644
+> index 000000000000..31ae38e09136
+> --- /dev/null
+> +++ b/tools/testing/selftests/mm/gup.c
+> @@ -0,0 +1,263 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#define __SANE_USERSPACE_TYPES__ // Use ll64
+> +#include <fcntl.h>
+> +#include <errno.h>
+> +#include <stdbool.h>
+> +#include <string.h>
+> +#include <unistd.h>
+> +#include <dirent.h>
+> +#include <sys/ioctl.h>
+> +#include <sys/mman.h>
+> +#include <mm/gup_test.h>
+> +#include "vm_util.h"
+> +#include "kselftest_harness.h"
+> +
+> +#define MB (1UL << 20)
+> +
+> +/* Just the flags we need, copied from the kernel internals. */
+> +#define FOLL_WRITE	0x01	/* check pte is writable */
 
-On 9/8/26 17:28, Arnd Bergmann wrote:
- > From: Arnd Bergmann <arnd@arndb.de>
- >
- > The stm32 platform started out as a Cortex-M based microcontoller
- > platform in 2007, with a few of the older products gaining Linux kernel
- > support in 2016. These days, the only relevant chips for Linux are the
- > stm32mp1 (Cortex-A7) and stm32mp2 (Cortex-A35) product lines, with the
- > microcontrollers running smaller RTOSs on new products.
- >
- > The microcontrollers were marked as deprecated in the linux-7.3LTS
- > release, which will remain supported for a few more years and
- > is expected to be sufficient for any of the remaining original users.
- >
- > Remove the MCU support now, leaving only the stm32mp SoCs in the platform.
- >
- > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
- > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
- > Cc: Rob Herring <robh@kernel.org>
- > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
- > Cc: Conor Dooley <conor+dt@kernel.org>
- > Cc: Christophe Parant <c.parant@phytec.fr>
- > Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
- > Cc: Dario Binacchi <dario.binacchi@amarulasolutions.com>
- > Cc: devicetree@vger.kernel.org
- > Cc: linux-stm32@st-md-mailman.stormreply.com
- > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
- > ---
- >   Documentation/arch/arm/index.rst              |   5 -
- >   Documentation/arch/arm/stm32/overview.rst     |   8 +-
- >   .../arch/arm/stm32/stm32f429-overview.rst     |  25 -
- >   .../arch/arm/stm32/stm32f746-overview.rst     |  32 -
- >   .../arch/arm/stm32/stm32f769-overview.rst     |  34 -
- >   .../arch/arm/stm32/stm32h743-overview.rst     |  33 -
- >   .../arch/arm/stm32/stm32h750-overview.rst     |  34 -
- >   arch/arm/Kconfig.debug                        |  38 -
- >   arch/arm/boot/dts/st/Makefile                 |  11 -
- >   arch/arm/boot/dts/st/stm32429i-eval.dts       | 349 --------
- >   arch/arm/boot/dts/st/stm32746g-eval.dts       | 236 ------
- >   arch/arm/boot/dts/st/stm32f4-pinctrl.dtsi     | 482 -----------
- >   arch/arm/boot/dts/st/stm32f429-disco.dts      | 243 ------
- >   arch/arm/boot/dts/st/stm32f429-pinctrl.dtsi   |  91 --
- >   arch/arm/boot/dts/st/stm32f429.dtsi           | 800 ------------------
- >   arch/arm/boot/dts/st/stm32f469-disco.dts      | 260 ------
- >   arch/arm/boot/dts/st/stm32f469-pinctrl.dtsi   |  92 --
- >   arch/arm/boot/dts/st/stm32f469.dtsi           |  18 -
- >   arch/arm/boot/dts/st/stm32f7-pinctrl.dtsi     | 436 ----------
- >   arch/arm/boot/dts/st/stm32f746-disco.dts      | 234 -----
- >   arch/arm/boot/dts/st/stm32f746-pinctrl.dtsi   |  55 --
- >   arch/arm/boot/dts/st/stm32f746.dtsi           | 727 ----------------
- >   .../dts/st/stm32f769-disco-mb1166-reva09.dts  |  13 -
- >   arch/arm/boot/dts/st/stm32f769-disco.dts      | 243 ------
- >   arch/arm/boot/dts/st/stm32f769-pinctrl.dtsi   |  55 --
- >   arch/arm/boot/dts/st/stm32f769.dtsi           |  37 -
- >   arch/arm/boot/dts/st/stm32h7-pinctrl.dtsi     | 301 -------
- >   arch/arm/boot/dts/st/stm32h743.dtsi           | 738 ----------------
- >   arch/arm/boot/dts/st/stm32h743i-disco.dts     | 145 ----
- >   arch/arm/boot/dts/st/stm32h743i-eval.dts      | 185 ----
- >   arch/arm/boot/dts/st/stm32h747i-disco.dts     | 149 ----
- >   arch/arm/boot/dts/st/stm32h750.dtsi           |   6 -
- >   arch/arm/boot/dts/st/stm32h750i-art-pi.dts    | 229 -----
- >   arch/arm/configs/stm32_defconfig              |  80 --
- >   arch/arm/mach-stm32/Kconfig                   |  38 +-
- >   arch/arm/mach-stm32/board-dt.c                |   7 -
- >   36 files changed, 7 insertions(+), 6462 deletions(-)
- >   delete mode 100644 Documentation/arch/arm/stm32/stm32f429-overview.rst
- >   delete mode 100644 Documentation/arch/arm/stm32/stm32f746-overview.rst
- >   delete mode 100644 Documentation/arch/arm/stm32/stm32f769-overview.rst
- >   delete mode 100644 Documentation/arch/arm/stm32/stm32h743-overview.rst
- >   delete mode 100644 Documentation/arch/arm/stm32/stm32h750-overview.rst
- >   delete mode 100644 arch/arm/boot/dts/st/stm32429i-eval.dts
- >   delete mode 100644 arch/arm/boot/dts/st/stm32746g-eval.dts
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f4-pinctrl.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f429-disco.dts
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f429-pinctrl.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f429.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f469-disco.dts
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f469-pinctrl.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f469.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f7-pinctrl.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f746-disco.dts
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f746-pinctrl.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f746.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f769-disco-mb1166-reva09.dts
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f769-disco.dts
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f769-pinctrl.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32f769.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32h7-pinctrl.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32h743.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32h743i-disco.dts
- >   delete mode 100644 arch/arm/boot/dts/st/stm32h743i-eval.dts
- >   delete mode 100644 arch/arm/boot/dts/st/stm32h747i-disco.dts
- >   delete mode 100644 arch/arm/boot/dts/st/stm32h750.dtsi
- >   delete mode 100644 arch/arm/boot/dts/st/stm32h750i-art-pi.dts
+BTW, it's odd that we support passing GUP-flags ... we should probably switch at
+some point simpler attributes (bool write) or custom flags (but we don't seem to
+need many ...).
 
-Acked-by: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> +
+> +/* Page counts exercising single, THP-batch, partial, and full-mapping GUP. */
+> +static const int nr_pages_list[] = { 1, 512, 123, -1 };
 
+
+Would we want to calculate 512 dynamically at runtime using the PMD pagesize?
+Could be something for a follow-up patch.
+
+> +
+> +#define GUP_TEST_FILE "/sys/kernel/debug/gup_test"
+> +#define NR_HUGE_PAGES 2
+
+I'd call this "NR_HUGETLB_PAGES".
+
+[...]
+
+> +
+> +FIXTURE_SETUP(gup_test)
+> +{
+> +	int mmap_flags = MAP_PRIVATE | MAP_ANONYMOUS;
+> +	char *p;
+> +
+> +	self->size = 128 * MB;
+> +
+> +	if (variant->hugetlb) {
+> +		if (!hp_size)
+> +			SKIP(return, "HugeTLB not available\n");
+> +
+> +		if (hugetlb_free_default_pages() < NR_HUGE_PAGES)
+> +			SKIP(return, "Not enough huge pages\n");
+> +
+> +		self->size = NR_HUGE_PAGES * hp_size;
+> +		mmap_flags |= MAP_HUGETLB;
+> +	}
+> +
+> +	if (variant->shared)
+> +		mmap_flags = (mmap_flags & ~MAP_PRIVATE) | MAP_SHARED;
+> +
+> +	/* gup_fd has to be >= 0. Already checked in main() */
+> +	self->gup_fd = open(GUP_TEST_FILE, O_RDWR);
+> +	ASSERT_GE(self->gup_fd, 0);
+> +
+> +	self->addr = mmap(NULL, self->size, PROT_READ | PROT_WRITE,
+> +			  mmap_flags, -1, 0);
+> +
+> +	ASSERT_NE(self->addr, MAP_FAILED) {
+> +		int err = errno;
+> +
+> +		close(self->gup_fd);
+> +		TH_LOG("mmap failed: %s", strerror(err));
+> +	}
+> +
+> +	if (variant->thp)
+> +		madvise(self->addr, self->size, MADV_HUGEPAGE);
+> +	else if (!variant->hugetlb)
+> +		madvise(self->addr, self->size, MADV_NOHUGEPAGE);
+> +
+> +	for (p = self->addr; (unsigned long)p < (unsigned long)self->addr
+> +			+ self->size; p += psize())
+> +		p[0] = 0;
+> +}
+> +
+> +FIXTURE_TEARDOWN(gup_test)
+> +{
+> +	munmap(self->addr, self->size);
+> +	close(self->gup_fd);
+> +}
+> +
+> +static void run_gup_cmd(struct __test_metadata *_metadata,
+> +			 FIXTURE_DATA(gup_test) *self,
+> +			 const FIXTURE_VARIANT(gup_test) *variant,
+> +			 unsigned long command)
+
+We prefer two tab indents.
+
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < (int)ARRAY_SIZE(nr_pages_list); i++) {
+> +		struct gup_test gup = {
+> +			.addr = (unsigned long)self->addr,
+> +			.size = self->size,
+> +			.nr_pages_per_call = nr_pages_list[i] < 0 ?
+> +				self->size / psize() : nr_pages_list[i],
+> +			.gup_flags = variant->write ? FOLL_WRITE : 0,
+> +		};
+> +
+> +		TH_LOG("nr_pages_per_call=%u", gup.nr_pages_per_call);
+> +		ASSERT_EQ(ioctl(self->gup_fd, command, &gup), 0);
+> +		ASSERT_EQ(gup.size, self->size);
+> +	}
+> +}
+> +
+> +TEST_F(gup_test, get_user_pages)
+> +{
+> +	run_gup_cmd(_metadata, self, variant, GUP_BASIC_TEST);
+> +}
+> +
+> +TEST_F(gup_test, pin_user_pages)
+> +{
+> +	run_gup_cmd(_metadata, self, variant, PIN_BASIC_TEST);
+> +}
+> +
+> +TEST_F(gup_test, get_user_pages_fast)
+> +{
+> +	run_gup_cmd(_metadata, self, variant, GUP_FAST_BENCHMARK);
+> +}
+> +
+> +TEST_F(gup_test, pin_user_pages_fast)
+> +{
+> +	run_gup_cmd(_metadata, self, variant, PIN_FAST_BENCHMARK);
+> +}
+> +
+> +TEST_F(gup_test, pin_user_pages_longterm)
+> +{
+> +	run_gup_cmd(_metadata, self, variant, PIN_LONGTERM_BENCHMARK);
+> +}
+
+Heh, is there actually a reason why these kernel things are called _BENCHMARK?
+
+I think they are really just tests that can be used for benchmarking ... the
+measurement logic is entirely in user space.
+
+We could consider cleaning that up as a follow-up.
+
+> +
+> +int main(int argc, char **argv)
+> +{
+> +	int fd;
+> +
+> +	fd = open(GUP_TEST_FILE, O_RDWR);
+
+Could do
+
+const int fd = open(GUP_TEST_FILE, O_RDWR);
+
+
+Thanks for doing that!
+
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+
+I think reasonable extensions will be to execute tests on all available mTHP
+sizes and all available hugetlb sizes, similar to what cow.c already does.
+
+Can you look into that as part of some follow-up work? mTHP support will be
+interesting for testing some of the patches Rik has been working on.
+
+-- 
+Cheers,
+
+David
