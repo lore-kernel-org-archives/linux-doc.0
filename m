@@ -1,120 +1,98 @@
-Received: from mail-m19731118.qiye.163.com (mail-m19731118.qiye.163.com [220.197.31.118])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C0945D905;
-	Fri, 11 Sep 2026 09:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9F0459AFC;
+	Fri, 11 Sep 2026 09:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789118060; cv=none; b=gJsab+usyfhRIXsZnJKmO4mvDIK9k5jFfa505s1c+2Nry+Bcl+6lu2NmxLjAYfR1HFpVHF19dkgZxJUmxG3+nwsWvnuUuViFW6ZyeZtTLptZqJkl1iEEFT8dawPvkCctnnaKTfLwQ8iiFShIDhm9ra2uQOmVz81zCLmTInaLTZw=
+	t=1789118226; cv=none; b=rk3CdJbAEYbjXbKbEFqWjHaFAG/jk1s0yT9l6kdMCBs4iCY+EM1Z9DNI3pppwbwEG2aalQXIAxCSUlomM8rsq4b5f5jChKR3pwiWReAJ94m3aq2XEx84SXr2b+WvbA/lHpPJqBo9315w7R+XfVfykQ05sANJi1iNmNK80RjuNIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789118060; c=relaxed/simple;
-	bh=qxVNMX40CNQMQpVGltOdYeoTsYxN5+q1bx7KbFStMPI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e1ZRtP0Ey/WNG/xOoTwv0YWl2RVV8fYD38yGIn768326DGw8Rh/j2RM7Y655QxX+a9AagKB1rosIPsI1nYy711S7ZCOMFbpkAN+2qzklYMi/To3r0989RoDjGGmO74Yzg7wuReDgfeU71icM2D1i3jrPe601cIU3ug/Ap88Kejo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=220.197.31.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
-Received: from [192.168.0.59] (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 1ef640672;
-	Fri, 11 Sep 2026 15:58:28 +0800 (GMT+08:00)
-Message-ID: <d8d34e16-57fa-48b7-93a9-afbf4b950ce6@easystack.cn>
-Date: Fri, 11 Sep 2026 15:58:27 +0800
+	s=arc-20240116; t=1789118226; c=relaxed/simple;
+	bh=y4VNhJAktDNpssOv4fj1+dd7jYwgGkHIusbvYWB/ZOM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rFSPKPmEtEUspzHucKGJD+E7Dx7A3ThjHqLk1bs4EMSS00faxE3gLejT+nhWiiM+X280Jy78y5Gm+w3szyy+AqKvSanxkIshocG+rjn9dZgUO2SjfMdamz45gk2qW7HzJO0ziDUAxJrLq9MPakRc1IhlJ2DIIKbnlU8xwdaT+MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RbxSeSbZ; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbxSeSbZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 461631F00893;
+	Fri, 11 Sep 2026 09:16:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789118224;
+	bh=9sp1kFZZ0O6uT9i63Hix+4jeTVWCdlo9frW6hVcqvPU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RbxSeSbZZUU0Ne8WJuZalWlgBdFvk4xRMp9Ec5R+eTdN31MG6FizPvealsA8XcP1v
+	 zNS5ieOGImLE2jalyPZo4vsiTdEfdUkdB7GmVkBOf1vxa4SHkKXsGBTvg0avzvhGGg
+	 deKE1DrgNkIX1pL2e9ZZ9QtOCasm9rCQZwiwcuv9+jAyGAYazY/1fZfbAtrB+Zh3ej
+	 NWcg19p2iAlvNl7WI95KE38yDNvPQOt8/ixv+HzhfDYf0JZnCUmE7FuSKFKpOvbPZu
+	 vwVSPh+NomvlJ4fIvsfBXc71GY1MwJdG0NzylODt5gOCTZANrP/D3O723K3yAQCT+4
+	 JhYiRwBiB3F2w==
+Date: Fri, 11 Sep 2026 10:16:55 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Fuad Tabba <tabba@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Joey Gouly <joey.gouly@arm.com>, Steffen Eiden <seiden@linux.ibm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
+	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Sean Christopherson <seanjc@google.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Leo Soares Passos <Leo.Bras@arm.com>
+Subject: Re: [PATCH 0/8] KVM: arm64: Add KVM_PRE_FAULT_MEMORY support
+Message-ID: <aqPGWNxm0rOMRaXw@gremlin>
+References: <20260825-kvm-arm-prefault-v1-0-befe8947702e@kernel.org>
+ <CA+EHjTw=7M+ac5UCfM5yPmuX8RuqZN08TLfXAmTLbQgmuhNWtw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
- filtering
-To: Zi Yan <ziy@nvidia.com>, "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260907082620.2083838-1-zhen.ni@easystack.cn>
- <79548641-25f3-4ec3-a549-782fad168962@kernel.org>
- <6e8bfb0d-d595-4e6b-9536-0323ada57e25@easystack.cn>
- <b8e23456-00af-4097-a769-210a087d2b90@kernel.org>
- <22D1EC4B-FBCB-421E-B8DA-345B5F3505FB@nvidia.com>
-From: "zhen.ni" <zhen.ni@easystack.cn>
-In-Reply-To: <22D1EC4B-FBCB-421E-B8DA-345B5F3505FB@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa08f79a0bc0229kunmf7504aa32b18de
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZH04dVk9MGklKShlPS04aS1YVFA
-	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
-	lPT09IVUpLS1VKQktLWQY+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTw=7M+ac5UCfM5yPmuX8RuqZN08TLfXAmTLbQgmuhNWtw@mail.gmail.com>
 
+On Thu, Sep 10, 2026 at 07:44:25PM +0100, Fuad Tabba wrote:
+> Hi Lorenzo,
+>
+> On Tue, 25 Aug 2026 at 17:01, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> >
+> > This series implements the KVM stage 2 page table pre-faulting feature for
+> > arm64.
+>
+> I know there's likely going to be a V2, but FWIW, I tested this series
+> as follows (finally managed to get protected mode running on my Mac):
+>
+> QEMU (arm64, -cpu max,pauth=off):
+> - Protected-mode host, boots non-protected and protected guests
+> - pre_fault_memory_test on a non-protected host, VHE and nVHE, all 13
+> guest modes
+> - nv_pre_fault_memory_test with kvm-arm.mode=nested
+>
+> FVP (AEM, FEAT_NV2):
+> - nv_pre_fault_memory_test with kvm-arm.mode=nested
+>
+> Apple M4 hardware, running as a KVM host at EL2 under Apple's nested
+> virtualization (nVHE only):
+> - pre_fault_memory_test, anonymous and anonymous_thp backing, over the five
+>   guest modes available there (the IPA is capped at 40 bits and the 64K
+>   granule isn't implemented)
+> - with kvm-arm.mode=protected, pre_fault_memory_test skips on
+>   KVM_CAP_PRE_FAULT_MEMORY, so the pKVM exclusion holds on a live pKVM host
+>
+> Tested-by: Fuad Tabba < fuad.tabba@linux.dev>
+> (happy to retest again when you respin)
 
+Perfect, much appreciated thanks! :)
 
-在 2026/9/9 23:54, Zi Yan 写道:
-> On 9 Sep 2026, at 6:28, David Hildenbrand (Arm) wrote:
-> 
->> On 9/9/26 04:35, zhen.ni wrote:
->>>
->>>
->>> 在 2026/9/8 22:30, David Hildenbrand (Arm) 写道:
->>>> On 9/7/26 10:26, Zhen Ni wrote:
->>>>> This patch series adds process and memory cgroup filtering support to
->>>>> page_owner. Following the previous series that introduced print_mode and
->>>>> NUMA node filters:
->>>>>     https://lore.kernel.org/linux-mm/20260707115411.1714314-1-
->>>>> zhen.ni@easystack.cn/
->>>>>
->>>>> This series adds filtering capabilities to page_owner, allowing users to
->>>>> filter output by specific processes and memory cgroups. Users can now
->>>>> filter page_owner output by PID, TGID, COMM (with wildcard support), and
->>>>> memory cgroup path. This makes page_owner debugging more focused and
->>>>> efficient for tracking memory allocations in specific contexts.
->>>>>
->>>>> Targeted filtering provides significant performance benefits on large memory
->>>>> servers by reducing both execution time and output size. By filtering at the
->>>>> kernel level before reading, only relevant page allocations are processed,
->>>>> dramatically reducing the amount of data that needs to be handled in userspace.
->>>>
->>>> page_owner is used for debugging. Why do we have to add kernel code to make it
->>>> faster?
->>>>
->>>> How much faster are we talking about?
->>>
->>> On my VM with just 2GB of RAM, the raw page_owner output takes real
->>> 0m6.178s. Filter it down to PID 1, and it drops to real 0m0.286s. Handle
->>> mode takes real 0m0.938s — roughly an 85% speedup. I've also tried this
->>> on a 1TB server, and it's very slow. The numbers would look even more
->>> extreme.
->>>
->>> You're right that execution time isn't the main concern for a debug
->>> tool. But that's kind of the point — I'm trying to optimize the current
->>> execution flow of page_owner, reduce unnecessary overhead, and make the
->>> tool more user-friendly (especially for servers with 1TB+ of memory).If
->>> the user only cares about a specific slice of memory, why dump
->>> everything from the kernel side and then filter it all over again in
->>> userspace? Might as well filter at the source.
->>
->> Because it results in less kernel code  :)
->>
->> And less kernel code is good. Unless unavoidable.
-> 
-> An alternative is to add BPF hooks like bpf_iter to do the filtering
-> and by default, when no BPF program is attached, everything is printed.
-> 
-> 
+I won't carry the tags forward to v2 just in case anything breaks there, so
+appreciate you taking another run at the v2 also thanks! :)
 
-I’ve also thought about a similar approach—perhaps a new bpf_iter type
-that could iterate over all pages by PFN. The advantage would be that
-you can fully customize what you want to print and what you want to
-filter. However, doing so would require refactoring the entire
-page_owner, and I’m not sure whether it’s worth pursuing in this
-direction.I’d also like to hear everyone’s thoughts on this.
+>
+> Cheers,
+> /fuad
 
-Thanks,
-Zhen
+--
+Cheers, Lorenzo
