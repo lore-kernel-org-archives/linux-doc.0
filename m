@@ -1,456 +1,268 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7430949E136;
-	Fri, 11 Sep 2026 11:10:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058A03F9F26;
+	Fri, 11 Sep 2026 11:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789125066; cv=none; b=tTeq7x1uCJUzUmrtPV/yN4sJYkAlQKxd1PulObtNvnOrilO7c3zUxjBHf3e/sEZvdOHxqvp0mojchghvSyni6vP/2VIhxVIi0trsYBwVITx7hh96G2ox4WOGPhHZxYtpB1oMpyxxCVQoW0bdh0Up9ufyXljUyQWxjaKpaXBcnO8=
+	t=1789125250; cv=none; b=RasBeHOdgmPNBAHO34clFELTW5Gn9oxjS4dThhvYL6u4XSUZRewEUehszPCbvi7v+/3IJGLzCPpa7wfN2r8cGH5ez2vQcqQWLO4XWvD7mNIfvAWUm2okQq4f4arMH/A1yDmoxDjNHu/jueLFWOhZsBkfw3puTcpIxGnSl2C8uCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789125066; c=relaxed/simple;
-	bh=9tmo7LnCa2gZ4wvu0gRKk4iwWl/CuwVoGBbOWdqP/EI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jLJWQO0xMZERJ39EekI7euTHadUK2R+jxdg7mcgr3s1Lu/Vk5vmFgQltDjjXeWJFiD/46pzoRuwgULhmDTdKLD3RcKlJQ+EUYlg1zYpP0Uz6TAgoNHO4kKDU4+ZcjwVB7yAwl9GU5iCNkaC3M4Yl2AKuIHJ3f9hMwGKPEWa+5YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=WVKHKK2C; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1789125250; c=relaxed/simple;
+	bh=Bx1Bw0eYD4pUvh0AZGKDAN4NZUp9e4NKw/5ARf2wcGs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SvoFWHYsKa4+exQCaL6OlhwEf6Hl/HFEilDpDb1LU3p1otDjysyG9C0q6IiPtVEiBu7xECDO4KsjYRHrBtm5hYfCy7X/O2esz0dt6K/p2VkIvyEQJybgDMaIdrV+VzyQ/M5KRik71QEdCEszQ6Zh1rteMJi9bi3NwXM/Q1fMuF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ApN9Jd2L; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="WVKHKK2C"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D1E1416F2;
-	Fri, 11 Sep 2026 04:10:52 -0700 (PDT)
-Received: from a081061.blr.arm.com (a081061.arm.com [10.164.19.84])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DC3523F59E;
-	Fri, 11 Sep 2026 04:10:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789125056; bh=9tmo7LnCa2gZ4wvu0gRKk4iwWl/CuwVoGBbOWdqP/EI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WVKHKK2CFRceqwP6ticU/SyBU/FGoDLRCcmtzTdsI2lPWtcXGHbIWX88nv7R0yBJA
-	 scGnq6iw62DmXaezxSuhbRbvjeR+vbMnJBddDfuHJkUajBaiCTfFIK52bGgQY68vdZ
-	 6SmcdkicYEKbBoyPttJuiYZxIhCO3JOArbrJ+CSo=
-From: Sarthak Sharma <sarthak.sharma@arm.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Peter Xu <peterx@redhat.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Muhammad Usama Anjum <usama.anjum@arm.com>,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sarthak Sharma <sarthak.sharma@arm.com>
-Subject: [PATCH v10 6/6] selftests/mm: add a GUP selftest
-Date: Fri, 11 Sep 2026 16:39:50 +0530
-Message-ID: <20260911110950.200240-7-sarthak.sharma@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260911110950.200240-1-sarthak.sharma@arm.com>
-References: <20260911110950.200240-1-sarthak.sharma@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ApN9Jd2L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C7B21F000FF;
+	Fri, 11 Sep 2026 11:13:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789125248;
+	bh=eEiu+dYbooe4FFdt2OzJ4X3pzYtltDuzxKebV5om8a4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ApN9Jd2LSZsZuEwCALwQVmenV2EiisMRIX1KmZ+bpVPAI55c6M3ivFvOuAjGNynP0
+	 OhLYDDhy9XUDrYd26JdxA0XHZt6KmCJU6Yxdn/velVaZ8GoDkfazt9Q/7zAYq5JEDZ
+	 baIPdR6L+/JOCYMGNnwnw2yvI+RfIB+zXglYQy6aYP1Kt02uqCnGi1uOPY3FULKQpf
+	 WwEm2fi4fzE52u1un8rCGKBqEQqqkOrMQ5N7QiWQgN0fTBn0DVdKKFMNsZq0fk3FYO
+	 S2BQ0X4N58BZwStf/GCh/OAFe6rWRhriOYn590HCkXaWmu7PvhjzvSDmgdGxrh26Mi
+	 nRqTdGWvzhEXg==
+Date: Fri, 11 Sep 2026 12:13:54 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Nicolas Schier <nsc@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH 00/23] kbuild: significantly speed up kernel builds
+Message-ID: <aqPhbrUQaqpdgFsW@gremlin>
+References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
+ <178901395286.3971858.10992395592923835285.b4-review@b4>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <178901395286.3971858.10992395592923835285.b4-review@b4>
 
-Add a new GUP selftest which uses kselftest_harness.h. Cover
-12 mapping configurations: THP enabled, THP disabled and
-HugeTLB, each across private/shared mappings and with/without
-FOLL_WRITE. Run 5 test cases for every variant: get_user_pages,
-get_user_pages_fast, pin_user_pages, pin_user_pages_fast and
-pin_user_pages_longterm.
+On Wed, Sep 09, 2026 at 09:19:12PM -0700, Nathan Chancellor wrote:
+> > A typical kernel build consists of a frustratingly large amount of time
+> > spent stuck in single-threaded bottlenecks.
+> >
+> > It turns out that there's a lot we can do about this and doing so
+> > significantly impacts kernel build times.
+> >
+> > This series makes allmodconfig builds up to 36% faster, incremental builds
+> > up to ~70% faster, and noop builds up to ~90% faster.
+> >
+> > Builds are faster across the board on every device I tested.
+> >
+> > Machines used for perf testing:
+> >
+> > * Threadripper -   x86, AMD Threadripper 9980X, 64 cores, 128 threads
+> > * EPYC         -   x86, 2 socket EPYC 9754, 256 cores, 512 threads
+> > * M2           - arm64, 2022 M2 macbook pro, 8 cores, 8 threads
+> >                         (4 perf, 4 efficiency)
+> >
+> > Cutting to the chase:
+> >
+> > 		== allmodconfig FULL build ==
+> >
+> >                         before    after     delta
+> >                       ----------------------------------
+> > Threadripper, gcc       345.3s   275.2s    -70.1s (-20%)
+> > Threadripper, clang     345.5s   265.7s    -79.8s (-23%)
+> > EPYC, gcc               188.6s   121.1s    -67.5s (-36%)
+> > EPYC, clang             261.7s   184.6s    -77.1s (-29%)
+> >
+> > 		== allmodconfig INCREMENTAL build ==
+> >
+> >                         before    after     delta
+> >                       ----------------------------------
+> > Threadripper, gcc        46.4s    15.3s    -31.1s (-67%)
+> > Threadripper, clang      44.4s    15.2s    -29.1s (-66%)
+> > EPYC, gcc                82.0s    24.3s    -57.7s (-70%)
+> > EPYC, clang              77.6s    24.3s    -53.3s (-69%)
+> >
+> > 		== allmodconfig NO-OP build ==
+> >
+> >                         before    after     delta
+> >                       ----------------------------------
+> > Threadripper, gcc       12.97s    1.18s   -11.79s (-91%)
+> > Threadripper, clang     13.84s    1.64s   -12.20s (-88%)
+> > EPYC, gcc               25.92s    1.52s   -24.40s (-94%)
+> > EPYC, clang             27.58s    2.17s   -25.41s (-92%)
+> >
+> > 		== defconfig FULL build ==
+> >
+> >                         before    after     delta
+> >                       ----------------------------------
+> > Threadripper, gcc        35.3s    28.6s     -6.7s (-19%)
+> > Threadripper, clang      33.5s    26.1s     -7.4s (-22%)
+> > EPYC, gcc                31.2s    20.6s    -10.6s (-34%)
+> > EPYC, clang              38.6s    32.2s     -6.4s (-17%)
+> > M2, gcc                 564.0s   512.4s    -51.6s (-9%)
+> > M2, clang               616.1s   569.4s    -46.7s (-8%)
+> >
+> > 		== defconfig INCREMENTAL build ==
+> >
+> >                         before    after     delta
+> >                       ----------------------------------
+> > Threadripper, gcc        11.6s     5.5s     -6.1s (-53%)
+> > Threadripper, clang      11.6s     5.0s     -6.6s (-57%)
+> > EPYC, gcc                19.3s     9.2s    -10.1s (-52%)
+> > EPYC, clang              20.1s     8.6s    -11.5s (-57%)
+> > M2, gcc                  18.6s     9.9s     -8.7s (-47%)
+> > M2, clang                18.6s     8.2s    -10.4s (-56%)
+> >
+> > 		== defconfig NO-OP build ==
+> >
+> >                         before    after     delta
+> >                       ----------------------------------
+> > Threadripper, gcc        0.96s    0.47s    -0.49s (-51%)
+> > Threadripper, clang      1.21s    0.55s    -0.66s (-55%)
+> > EPYC, gcc                1.47s    0.66s    -0.81s (-55%)
+> > EPYC, clang              1.87s    0.80s    -1.07s (-57%)
+> > M2, gcc                  5.59s    1.69s    -3.90s (-70%)
+> > M2, clang                6.62s    1.74s    -4.88s (-74%)
+> >
+> > Further performance numbers are provided for each commit giving a sense of
+> > what each contributes to the final result.
+> >
+> > 			== Testing ==
+> >
+> > Beyond x86, allmodconfig was built with the series for arm64, arm, riscv,
+> > powerpc64, s390 and loongarch, and for arm64, arm, s390 and loongarch the
+> > System.map is identical to what the previous shell mksysmap produces for
+> > the same vmlinux.
+> >
+> > Also tested were parisc64 and m68k build as far as mainline lets them
+> > (a driver's static assertion and an undefined-symbol check on parisc, gcc
+> > 16 internal compiler errors on m68k, none of it from this series).
+> >
+> > Kernels for x86, arm64, arm, riscv, loongarch, powerpc64, s390, m68k and
+> > parisc64 all boot under qemu, every text symbol of System.map is in
+> > /proc/kallsyms at the relocated address, and a module loads and unloads.
+> > The s390, arm and loongarch kernels also pass the kallsyms selftest.
+> >
+> > An x86 kernel with CONFIG_MODVERSIONS, CONFIG_EXTENDED_MODVERSIONS and
+> > CONFIG_MODULE_SRCVERSION_ALL boots, loads and unloads modules. External
+> > modules build against both in-tree and O= builds, and every commit builds
+> > on x86 defconfig.
+> >
+> > Build times are the best of several runs, no unexpected errors or
+> > warnings were seen.
+> >
+> > While some aspects of the build process have been changed, all tooling
+> > should function identically to before.
+>
+> I appreciate all of the testing that you have done! I will test this
+> side by side on a couple of my own machines to see what results I get
+> but I do like those results.
 
-Use two default hugeTLB pages and derive the mapping size from
-their size. This exercises GUP both within a single HugeTLB page
-and across a HugeTLB boundary, without reserving an excessive
-number of pages.
+Ack thanks :)
 
-Sweep four nr_pages_per_call values for each test: 1, 512, 123 and
-all pages. This preserves the coverage previously provided by
-run_gup_matrix(): 12 mapping combinations x 5 GUP/PUP operations x 4
-batch sizes. In total the selftest reports 60 TAP cases and issues
-240 ioctls.
+>
+> > 			== LLM usage ==
+> >
+> > An LLM was used to first determine where the bottlenecks were then to
+> > figure out how to improve them.
+> >
+> > It generated a lot of code, much of it hideous.
+> >
+> > I extensively audited and rewrote a lot of it, and heavily edited commit
+> > messages, the cover letter and comments.x
+> >
+> > The LLM has also orchestrated build runs, testing, debugging and analysis.
+> >
+> > I have manually checked for correctness in both build and running kernels
+> > generated with this series applied.
+> >
+> > Performance improvements were also verified manually.
+> >
+> > Since an LLM was used extensively, each commit carries an Assisted-by tag.
+>
+> Thank you for calling all of this out as well.
 
-Do not carry DUMP_USER_PAGES_TEST into the new selftest because its
-output is written to the kernel log and the selftest does not verify
-that output.
+Of course, I am on the receiving end of a flood of LLM patches in mm, so it's
+important to me to be transparent and consistent.
 
-Add the new gup binary to the selftests/mm build, run_vmtests.sh and
-MAINTAINERS. Update mm/Kconfig to describe the benchmark and
-selftest split.
+I repeatedly tell people - audit what it makes with a human pass, fix up
+awful code/comments/commit msgs, make sure you understand it + on you to
+make upstreamable + obviously ack that you used it.
 
-Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
-Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
-Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
----
- MAINTAINERS                               |   1 +
- mm/Kconfig                                |  19 +-
- tools/testing/selftests/mm/Makefile       |   1 +
- tools/testing/selftests/mm/gup.c          | 263 ++++++++++++++++++++++
- tools/testing/selftests/mm/run_vmtests.sh |   1 +
- 5 files changed, 273 insertions(+), 12 deletions(-)
- create mode 100644 tools/testing/selftests/mm/gup.c
+So what's good for the goose is good for the gander :)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cae3af861a7c..c47e655c4111 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17188,6 +17188,7 @@ F:	mm/gup.c
- F:	mm/gup_test.c
- F:	mm/gup_test.h
- F:	tools/mm/gup_bench.c
-+F:	tools/testing/selftests/mm/gup.c
- F:	tools/testing/selftests/mm/gup_longterm.c
- 
- MEMORY MANAGEMENT - KSM (Kernel Samepage Merging)
-diff --git a/mm/Kconfig b/mm/Kconfig
-index c180d40cd671..61ab1b8a2ebd 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -1291,24 +1291,19 @@ config PERCPU_STATS
- 	  be used to help understand percpu memory usage.
- 
- config GUP_TEST
--	bool "Enable infrastructure for get_user_pages()-related unit tests"
-+	bool "Enable infrastructure for get_user_pages()-related unit tests and benchmarks"
- 	depends on DEBUG_FS
- 	help
- 	  Provides /sys/kernel/debug/gup_test, which in turn provides a way
--	  to make ioctl calls that can launch kernel-based unit tests for
--	  the get_user_pages*() and pin_user_pages*() family of API calls.
-+	  to make ioctl calls that can launch kernel-based unit tests and
-+	  benchmarks for the get_user_pages*() and pin_user_pages*() families
-+	  of API calls.
- 
--	  These tests include benchmark testing of the _fast variants of
--	  get_user_pages*() and pin_user_pages*(), as well as smoke tests of
-+	  These include benchmark testing of the _fast variants of
-+	  get_user_pages*() and pin_user_pages*(), as well as tests of
- 	  the non-_fast variants.
- 
--	  There is also a sub-test that allows running dump_page() on any
--	  of up to eight pages (selected by command line args) within the
--	  range of user-space addresses. These pages are either pinned via
--	  pin_user_pages*(), or pinned via get_user_pages*(), as specified
--	  by other command line arguments.
--
--	  See tools/testing/selftests/mm/gup_test.c
-+	  See tools/testing/selftests/mm/gup.c and tools/mm/gup_bench.c.
- 
- comment "GUP_TEST needs to have DEBUG_FS enabled"
- 	depends on !GUP_TEST && !DEBUG_FS
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-index 11ca9b11fef1..9c03624fd293 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -58,6 +58,7 @@ endif
- 
- TEST_GEN_FILES = cow
- TEST_GEN_FILES += compaction_test
-+TEST_GEN_FILES += gup
- TEST_GEN_FILES += gup_longterm
- TEST_GEN_FILES += hmm-tests
- TEST_GEN_FILES += hugetlb-madvise
-diff --git a/tools/testing/selftests/mm/gup.c b/tools/testing/selftests/mm/gup.c
-new file mode 100644
-index 000000000000..31ae38e09136
---- /dev/null
-+++ b/tools/testing/selftests/mm/gup.c
-@@ -0,0 +1,263 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define __SANE_USERSPACE_TYPES__ // Use ll64
-+#include <fcntl.h>
-+#include <errno.h>
-+#include <stdbool.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <dirent.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+#include <mm/gup_test.h>
-+#include "vm_util.h"
-+#include "kselftest_harness.h"
-+
-+#define MB (1UL << 20)
-+
-+/* Just the flags we need, copied from the kernel internals. */
-+#define FOLL_WRITE	0x01	/* check pte is writable */
-+
-+/* Page counts exercising single, THP-batch, partial, and full-mapping GUP. */
-+static const int nr_pages_list[] = { 1, 512, 123, -1 };
-+
-+#define GUP_TEST_FILE "/sys/kernel/debug/gup_test"
-+#define NR_HUGE_PAGES 2
-+
-+static unsigned long hp_size;
-+
-+FIXTURE(gup_test)
-+{
-+	int gup_fd;
-+	char *addr;
-+	unsigned long size;
-+};
-+
-+FIXTURE_VARIANT(gup_test)
-+{
-+	bool thp;
-+	bool hugetlb;
-+	bool write;
-+	bool shared;
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_write)
-+{
-+	.thp = false,
-+	.hugetlb = false,
-+	.write = true,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_read)
-+{
-+	.thp = false,
-+	.hugetlb = false,
-+	.write = false,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_write_thp)
-+{
-+	.thp = true,
-+	.hugetlb = false,
-+	.write = true,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_read_thp)
-+{
-+	.thp = true,
-+	.hugetlb = false,
-+	.write = false,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_write_hugetlb)
-+{
-+	.thp = false,
-+	.hugetlb = true,
-+	.write = true,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_read_hugetlb)
-+{
-+	.thp = false,
-+	.hugetlb = true,
-+	.write = false,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_write)
-+{
-+	.thp = false,
-+	.hugetlb = false,
-+	.write = true,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_read)
-+{
-+	.thp = false,
-+	.hugetlb = false,
-+	.write = false,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_write_thp)
-+{
-+	.thp = true,
-+	.hugetlb = false,
-+	.write = true,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_read_thp)
-+{
-+	.thp = true,
-+	.hugetlb = false,
-+	.write = false,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_write_hugetlb)
-+{
-+	.thp = false,
-+	.hugetlb = true,
-+	.write = true,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_read_hugetlb)
-+{
-+	.thp = false,
-+	.hugetlb = true,
-+	.write = false,
-+	.shared = true,
-+};
-+
-+FIXTURE_SETUP(gup_test)
-+{
-+	int mmap_flags = MAP_PRIVATE | MAP_ANONYMOUS;
-+	char *p;
-+
-+	self->size = 128 * MB;
-+
-+	if (variant->hugetlb) {
-+		if (!hp_size)
-+			SKIP(return, "HugeTLB not available\n");
-+
-+		if (hugetlb_free_default_pages() < NR_HUGE_PAGES)
-+			SKIP(return, "Not enough huge pages\n");
-+
-+		self->size = NR_HUGE_PAGES * hp_size;
-+		mmap_flags |= MAP_HUGETLB;
-+	}
-+
-+	if (variant->shared)
-+		mmap_flags = (mmap_flags & ~MAP_PRIVATE) | MAP_SHARED;
-+
-+	/* gup_fd has to be >= 0. Already checked in main() */
-+	self->gup_fd = open(GUP_TEST_FILE, O_RDWR);
-+	ASSERT_GE(self->gup_fd, 0);
-+
-+	self->addr = mmap(NULL, self->size, PROT_READ | PROT_WRITE,
-+			  mmap_flags, -1, 0);
-+
-+	ASSERT_NE(self->addr, MAP_FAILED) {
-+		int err = errno;
-+
-+		close(self->gup_fd);
-+		TH_LOG("mmap failed: %s", strerror(err));
-+	}
-+
-+	if (variant->thp)
-+		madvise(self->addr, self->size, MADV_HUGEPAGE);
-+	else if (!variant->hugetlb)
-+		madvise(self->addr, self->size, MADV_NOHUGEPAGE);
-+
-+	for (p = self->addr; (unsigned long)p < (unsigned long)self->addr
-+			+ self->size; p += psize())
-+		p[0] = 0;
-+}
-+
-+FIXTURE_TEARDOWN(gup_test)
-+{
-+	munmap(self->addr, self->size);
-+	close(self->gup_fd);
-+}
-+
-+static void run_gup_cmd(struct __test_metadata *_metadata,
-+			 FIXTURE_DATA(gup_test) *self,
-+			 const FIXTURE_VARIANT(gup_test) *variant,
-+			 unsigned long command)
-+{
-+	int i;
-+
-+	for (i = 0; i < (int)ARRAY_SIZE(nr_pages_list); i++) {
-+		struct gup_test gup = {
-+			.addr = (unsigned long)self->addr,
-+			.size = self->size,
-+			.nr_pages_per_call = nr_pages_list[i] < 0 ?
-+				self->size / psize() : nr_pages_list[i],
-+			.gup_flags = variant->write ? FOLL_WRITE : 0,
-+		};
-+
-+		TH_LOG("nr_pages_per_call=%u", gup.nr_pages_per_call);
-+		ASSERT_EQ(ioctl(self->gup_fd, command, &gup), 0);
-+		ASSERT_EQ(gup.size, self->size);
-+	}
-+}
-+
-+TEST_F(gup_test, get_user_pages)
-+{
-+	run_gup_cmd(_metadata, self, variant, GUP_BASIC_TEST);
-+}
-+
-+TEST_F(gup_test, pin_user_pages)
-+{
-+	run_gup_cmd(_metadata, self, variant, PIN_BASIC_TEST);
-+}
-+
-+TEST_F(gup_test, get_user_pages_fast)
-+{
-+	run_gup_cmd(_metadata, self, variant, GUP_FAST_BENCHMARK);
-+}
-+
-+TEST_F(gup_test, pin_user_pages_fast)
-+{
-+	run_gup_cmd(_metadata, self, variant, PIN_FAST_BENCHMARK);
-+}
-+
-+TEST_F(gup_test, pin_user_pages_longterm)
-+{
-+	run_gup_cmd(_metadata, self, variant, PIN_LONGTERM_BENCHMARK);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	int fd;
-+
-+	fd = open(GUP_TEST_FILE, O_RDWR);
-+	if (fd == -1) {
-+		ksft_print_header();
-+		if (errno == EACCES)
-+			ksft_exit_skip("Please run this test as root\n");
-+		if (errno == ENOENT) {
-+			DIR *debugfs = opendir("/sys/kernel/debug");
-+
-+			if (!debugfs)
-+				ksft_exit_skip("Mount debugfs at /sys/kernel/debug\n");
-+			closedir(debugfs);
-+			ksft_exit_skip("Check CONFIG_GUP_TEST in kernel config\n");
-+		}
-+		ksft_exit_fail_msg("Failed to open %s: %s\n", GUP_TEST_FILE, strerror(errno));
-+	}
-+	close(fd);
-+
-+	hp_size = default_huge_page_size();
-+	if (hp_size)
-+		hugetlb_setup_default(NR_HUGE_PAGES);
-+
-+	return test_harness_run(argc, argv);
-+}
-diff --git a/tools/testing/selftests/mm/run_vmtests.sh b/tools/testing/selftests/mm/run_vmtests.sh
-index 8f1e828e4f39..ae0ab5efabae 100755
---- a/tools/testing/selftests/mm/run_vmtests.sh
-+++ b/tools/testing/selftests/mm/run_vmtests.sh
-@@ -251,6 +251,7 @@ fi
- 
- CATEGORY="mmap" run_test ./map_fixed_noreplace
- 
-+CATEGORY="gup_test" run_test ./gup
- CATEGORY="gup_test" run_test ./gup_longterm
- 
- CATEGORY="userfaultfd" run_test ./uffd-unit-tests
--- 
-2.53.0
+>
+> > 			== What was changed? ==
+> >
+> > Fundamentally the series improves build times by parallelising
+> > single-threaded tasks as much as possible and improving the efficiency of
+> > code used in the build process.
+> >
+> > kbuild, kallsyms, modpost, objtool, mksysmap and the rust build system were
+> > all updated as part of this change.
+> >
+> > Nothing too controversial was included. There are further improvements that
+> > could be made, but they would either by very invasive (large scale C header
+> > changes) or generate diminishing returns.
+> >
+> > 			== Patches ==
+> >
+> >    mksysmap (1, 2):  A couple of bugfixes the rest of the series relies
+> >                      upon.
+>
+> As I note in other threads of this review, I think we should take these
+> to Linus now, they seem Obviously CorrectTM and it helps chunk out the
+> series.
 
+Ack thanks. I will continue to include them in respins just to enforce the
+ordering in the meantime, but it should all come out in the wash I think?
+
+I can add something in the cover letter too about these.
+
+>
+> I have just reviewed a few of the low hanging fruit patches. I will try
+> to take a look at the rest over the next couple of weeks but I might not
+> get to them until after Plumbers. I would greatly appreciate if there
+> are others who are more knowledgeable in these areas who could review
+> these changes, as I don't know too much about some of the corners of
+> Kbuild yet.
+
+Thanks so much for taking a look! I'll be at plumbers so feel free to come
+say hi + discuss any of this in person.
+
+And thanks to everybody else reviewing also!
+
+I've replied to the more straightforward stuff, will take a deeper look at
+Linus's comments + anything else that needs a deeper think + sashiko
+reports a little later before sending a v2.
+
+>
+> --
+> Cheers,
+> Nathan
+>
+
+--
+Cheers, Lorenzo
