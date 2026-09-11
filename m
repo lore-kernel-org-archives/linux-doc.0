@@ -1,309 +1,240 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011017.outbound.protection.outlook.com [40.107.130.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9F64766AB;
-	Fri, 11 Sep 2026 12:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789130133; cv=fail; b=ix+0up5ewgB8l/7Q6ckJ4enMkP9MWyaioqJAUrU58j4cx6sDWIRY53K7Xu8FUcRFLvH7/7x5zrnip25913cYMqNu8wOYD5gQ3Lj0Nwb1WoiNPt6zSObSnErzSTuHYXEJkl0comX7b+vq3k7P7cmUrz+6VVDniSPxv2WKtWTLAeA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789130133; c=relaxed/simple;
-	bh=IpL5O1JQA4Hi/xf8TdDdp5TqcQDx+zKoTy/S3TnJsPQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CoviuinWdYyRXXSoI7tBeJP8KNN21frYd8UoN5IKWlahXEPMDypHEe14OrXfg+E40BHR1Zil/xVH0lI0PjiRyGPJpCJkBfhKEYlhOt87xR6epr61PEa6ia7WyvVNBYQCs+F5V7BlCXPfzSonv3c0Fz/C/AWR2a+igLWGsy1jckY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=@siemens.com header.b=DHNgNtqd; arc=fail smtp.client-ip=40.107.130.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siemens.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89D4C377AA8;
+	Fri, 11 Sep 2026 12:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789130592; cv=none; b=PmgX6oAE81tFX4GMfZgLg4Fhu9UryYLW4jObfDFMl9i+M1cdLdwvEzdNfMxLFkwVbWeFk4qphwvHxJNNKcofXGWN+eAvabiuJ9h9uwdH5qGu6yV+q1cW1ApoYL2E9xp6IJ+e7SEdT/KgGgEqOSBH9c8Grro+Pjr7CU013/faWtc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789130592; c=relaxed/simple;
+	bh=AYEkP013J/2d/muDFR6I2PEvoL5OJnQHcQnfIXL8Gdw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sI2Osc2ZKoFRRv/J5ZqKiwdyIGtmJCVo/o9t1iTQQ8IzYFK3bXFE0UEclDYDXo9lrqTzmrCLytpWtxlfMtsgqKhysDzoGH7RlptSxe6rOlZONCChsGw1joTbaPAptELmtIa8IlsiMMmaBYGfYX+mUVJ1IR2KPQ9GTXhA0+EBEUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Y7t2/5La; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siemens.com header.i=@siemens.com header.b="DHNgNtqd"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IebD7eDqglX4tBXQtGyCNY78K4u0F3sozgR0wV7BhNlvL6G9Bd7CjFAKCt95vvuNaXgqzNtGuB+D/SSKGknjvhUlSNIHAFW00CHbBBKPrlE3Q5XykXZXb24y45dOwVSGwxXbBa60vKzVI0R2/OtQtWk4c6M06cmI72yq8lwJ6omGS1MHA9pAA9GYWIAc29aCs4A6UT+b/x8VlgBZQWHm6cpTdQvgoyBDkl/ND1D/twQm5UMQ/EwgACageqVo14E1Cpc/rQF0dlGmfxTrEea3/JZmxtuAY2VFAm6qXLXLZEmoSm6KuPQqBy/U5j9ofW7sKdx+CTfNRPRiZzOx8yV5Dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4sQCF+ocBQXtTf7aJgpTLYuw2EBeIBNCxBoDEVfsKSI=;
- b=udQpJrowAJeNxpguae03Spz4JiIkyfk+dfQVlHgCuqzKLtqCg7oVVTBEHQwqP16PcvchZY78cxg53ODtYm7RyyTO7ys+794+SZZNkVl951Jad/0V/m2pAMYDyXNHEOUWLzzyyEzjqCVeRBoGj8uo6+Q90J1jm75GQZqTbDtnoXbgFYwt2q7a77/V/IWmeamPEjNdU+iWB5H9DXLtK6VGTRq4PtEruHuObTf9uACrtNN88w4xh3mdXXj1sfFk6AGYR8/kt/cEm1k4kZ0Jje5A/J8GpHFF9exE2LcGu6O+gYja9sUUyXdlQmHaD4TayvlhBSy5PYt/Q3HKn2TTfi3sgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4sQCF+ocBQXtTf7aJgpTLYuw2EBeIBNCxBoDEVfsKSI=;
- b=DHNgNtqdXe2pxdYQEcHbGqYkH7jQ2H6Jir0sZRTFwVdg5I48tgof94bF704PIGLoqTHAmaZ1B/RnuJDsMXj0zkDWckxPlDceTkxNhdn1U/ZJUsI8p2OKlBg+uqoeWcoaIpM1NPAKqm82ChfBhqdlg8q06o1fVdgHhReGxauL5MO8JuJJkvgnr5VLf0Ed+RsOCM3lpNeAnHKP19Z7KZab2hkpszvBAf6bq9xPnMnE1vWPOgKVQ0FfWEzCuOlOXqS7CxIGeS/cjMino+kccAcHpb1NYV++rDozyhSvkMZKX+ewGZjgI96w55XCLc4dQScVHVWuOL5nU+Movsnb/jqKbg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-Received: from AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:3dd::5)
- by PA2PR10MB8602.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:421::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Fri, 11 Sep
- 2026 12:35:26 +0000
-Received: from AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::5f49:b0e9:d295:22d8]) by AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::5f49:b0e9:d295:22d8%6]) with mapi id 15.21.0406.007; Fri, 11 Sep 2026
- 12:35:21 +0000
-From: Tobias Schaffner <tobias.schaffner@siemens.com>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Gabriele Monaco <gmonaco@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rpm@xenomai.org,
-	jan.kiszka@siemens.com,
-	Tobias Schaffner <tobias.schaffner@siemens.com>
-Subject: [PATCH v2 3/3] rv: collect per-edge dwell time for per-cpu DA/HA monitors
-Date: Fri, 11 Sep 2026 14:34:38 +0200
-Message-ID: <20260911123439.463052-4-tobias.schaffner@siemens.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260911123439.463052-1-tobias.schaffner@siemens.com>
-References: <20260911123439.463052-1-tobias.schaffner@siemens.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: JN3P275CA0022.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:71::15)
- To AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:3dd::5)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Y7t2/5La"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4485B1655;
+	Fri, 11 Sep 2026 05:43:06 -0700 (PDT)
+Received: from thinkpad-e142931.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 17A4F3F7B4;
+	Fri, 11 Sep 2026 05:43:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789130589; bh=AYEkP013J/2d/muDFR6I2PEvoL5OJnQHcQnfIXL8Gdw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y7t2/5Lam2g8qRhPXwbiismNNJmPzYkbs1njyR8gmpp7Vck5F0dEP+USPHwGkVj4y
+	 zyEVPrSL46la0hde1suMA5O66hKqdPYQmIy0jLuQtj8JZiZhItI8liJqlOlZKutbU7
+	 R7cp0KjoRS0TqixmTVP9fKudIHZb6fIM75NhVQfI=
+Date: Fri, 11 Sep 2026 13:42:57 +0100
+From: Wei-Lin Chang <weilin.chang@arm.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
+	Itaru Kitayama <itaru.kitayama@fujitsu.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Fuad Tabba <tabba@google.com>, Joey Gouly <joey.gouly@arm.com>, 
+	Steffen Eiden <seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
+	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Sean Christopherson <seanjc@google.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Leo Soares Passos <Leo.Bras@arm.com>
+Subject: Re: [PATCH 8/8] KVM: selftests: Add nested pre-fault test for arm64
+Message-ID: <g45xmukndzivuxowpjxlajrjzx2ljevliroenbx4h4wgrnpoi6@eozuucl3usi3>
+References: <20260825-kvm-arm-prefault-v1-0-befe8947702e@kernel.org>
+ <20260825-kvm-arm-prefault-v1-8-befe8947702e@kernel.org>
+ <aqOgEQKBGH-YqGr3@sm-arm-grace07>
+ <aqPIUtNTJFwUvJME@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR10MB4992:EE_|PA2PR10MB8602:EE_
-X-MS-Office365-Filtering-Correlation-Id: 785d058b-b548-4ba1-c5f4-08df10012483
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|366016|10070799003|6133799003|10067099003|11063799006|18002099003|56012099006|22082099003|55112099003;
-X-Microsoft-Antispam-Message-Info:
-	LvDf/YF0pWwgPlOY04rxI8NLBR1upb+8wCcX8fXkxGRHixYk+R0F5Qo9IUZBANzQ0K7akUlZ+dDlGsh/sM8pQ5pX9bOCs4tUOXuXjDjwkLdhl1QJkMRQEB1Uomzhc/iLTED8xt3e697DQaunZpzwy3X9ZalbXlEte9BzXGb+r/N9BMKWS2zBcQ8A10eOeS7dYrB+BJ5TeY9BxXMQs3uhWQpsikdvEIe1I6lfTgkkxV0wRo3A7QkXnX1FPN7410MYsQRezAvm2snioZNncW5WKOcpttcjbNpJG3b3oOo/ZL/ADLyt/MRogqsSzSMbL8ElChBirszxyT7MpyV/jx5b+6dNM1jIJ48l7/JlWIcZOmMIeAtXZcR6vx7VSyCmbHLWRB0cKDjTlZajc61mK2yuZhGw79weycL4iFPTBcz80vYN1wk0Xf6UuWK5513+RQHwb23LNhI+ZE5WiDBMuf0iWcakxCTkkUvHoNG53PwQaajg7tT2chDXtOcs04d1ko20J6hLjaUnTzc7YlENDtqBVo/X8ciOdq07TL/3eeOWSMEQgd/M3YTkJj0b+n7aAExS9lOUFmS/sf0IocYxt3BQR3/d7JPW34NSGqq8P7wIC+pA/f7M0/lMO4uh3xTNSBT4yisQCzv/8dsSim1CvxilPlyHRrgBviMwmqW4oYbKM98=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(366016)(10070799003)(6133799003)(10067099003)(11063799006)(18002099003)(56012099006)(22082099003)(55112099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?TNu/oN15Om2c/GkfknDTRJuEGssGQGi243BLqM0I/4hlcRlyTQ+23GFBXs6b?=
- =?us-ascii?Q?c10KxcHI/3C7GmjdOU6poU0lO4XS3FSQKOfkyo+L85zjAwpid2GD9Z6Sz1Ta?=
- =?us-ascii?Q?J4l6CepYyOxcIK4BwU5Pzd5JUn1aHTbnXDLZrEerNEB/AKIVvrg5hmydCbbp?=
- =?us-ascii?Q?imgWYs0pTLZkLbwJ0AJ6v8oee5qznZRSL3IqfN8P/XKp60puaWFeQGNviAN0?=
- =?us-ascii?Q?l6CdkUkPFA+vcL4jNfG2DUeCOwL5HYzAi3WcdMigS1rJe4xXkQzkpBZ+Kcqk?=
- =?us-ascii?Q?8akBiGVgfrlxafFPdrXbcsVBSGHyjJICwHmQquauD/sKtY6B4uctRBnVv5DB?=
- =?us-ascii?Q?7IT2RnLVnYQU8PmTQIz965StzC12f9p42yUCaVaiUblTGjBlLc1RkbVezy8G?=
- =?us-ascii?Q?RiRpHB1SRsYVAySCDR7sGdclQhyWrLqBRCKaQjezm7FmaqsBh9bkjlV9wQ/1?=
- =?us-ascii?Q?jg7Sjt37bvk2y0VPMq5pVzGRGz3AEkkJTgV/TH56vA5tfFJd+pIRK8z11JlX?=
- =?us-ascii?Q?thgcUMjyD63BSmVjzWNzidACXiYL2oSzW9yNzSEGIZ88lhhcjlK3nPkdM0U9?=
- =?us-ascii?Q?m4di+i5pt2FyWie6yUd+SMmOc97B1An3u9dsJBrXr7C7wLq3/2Tjl03cYSjS?=
- =?us-ascii?Q?GSlWsYH+5fI2roGA2x1sebtfbwidDIxYbVItOD2ax7cJRAV1ZCIPzWSdMiiG?=
- =?us-ascii?Q?NgVFsWbDVxraxiCo+GGIyVUTFLMHCTsF/8xYOMOR9rvIHBFyru9cSQIQ5Bty?=
- =?us-ascii?Q?w4tdIvNjrOHb82dkGmpOVpR7I6wNH980UeM0MAm+pP85o8XjCZtLpIBVgtXa?=
- =?us-ascii?Q?gjQUZvbvtrkCcw8/MLthUFiw2mPBYH16fxJV+evwoFJs4GXXspnFOPVNHNDe?=
- =?us-ascii?Q?fh1SsMHfaJM81XJj9k9e5HTsEDkAqNWC7LD0NEton6Ltgc5yDLJowEg/5Zxx?=
- =?us-ascii?Q?sqZpebcJVoOAs2TnKPWF+iM69Q7tOp5rLiTn3QTjloKhELSJ8i1qXVzqtKTS?=
- =?us-ascii?Q?9uznDnaroOf6Zcq6wx8E+f7Nup8mDEhZeoyoBMyj7pGzgzd+HxUM5/LL8r7/?=
- =?us-ascii?Q?GoUm5lwRcBBKoQ4yEbkmqfYtXarb9l448VE7LtQ/A4RL+zkvCmDOoY/rAh7d?=
- =?us-ascii?Q?Ewah4/ZShyYM5iq3mpB3qLV/Cw08JTybqFlsn9yL+uKHxLZLftJaataJSI69?=
- =?us-ascii?Q?sM0nYOtrNyoCdOaEQ1NguVqWw0wocc2uO8udsa2CYq/o5u5GRRj3PXXpvSsF?=
- =?us-ascii?Q?cbgpOPkPVi6eXS+Pur0SQ6sPgO1XvEOcOHL4K3kwmN9Lms8Pm+H9B2Rk7C9G?=
- =?us-ascii?Q?BmbaxpP0jKcGHDnEhk3wpGGmscDnCQ93nN6cJ9cxQCULb3if8MP8e1tFphMo?=
- =?us-ascii?Q?fF04FRHw7sZM1ZvRFpQxfSYHFx1e1D6M/zz1fBgcWXaJ4T+ugYLX082XK0VZ?=
- =?us-ascii?Q?rSEkR+gjZgorJL/hWmHYObK60nI/6+4Kr3GDtYDFvWz2+8hoLS2qTp8fuHBu?=
- =?us-ascii?Q?kHbUfAaGvldlO/O6gQzFl/bSTn9mkGceP8wn9bACOeoxwsMpzGapQ3LhGDJi?=
- =?us-ascii?Q?xZ7CkYXtARmIHTiIK/hpDILbe6oQFM5Ypn6JoGl+DRF3fXilFqJMJxwa+ACQ?=
- =?us-ascii?Q?nWkcG1Kro3H14HkmXKYxFUT/Zo3Gq3kpjJsmyPhBOK1kugrxoc5Q9TzUJ8Bl?=
- =?us-ascii?Q?nHujGuJofy2x+12bT221xR4PswMNJrr0cEY6f184sK/hB2ROvfCfNT8CICPD?=
- =?us-ascii?Q?GvjlnbPj8pzUpCpGHofMfX7Pdg99lOjIbVrqP3RIm8xRWO4+N/Yqs57p/pn5?=
-X-MS-Exchange-AntiSpam-MessageData-1: SiM1GyiTB5az2P8kIqqoWEgBolA1rag3l24=
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 785d058b-b548-4ba1-c5f4-08df10012483
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2026 12:35:20.9611
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cii/h1F8Zs5Lnm/oImBT4jYJ4tf8FMJzxIzkp1VUKlXpz3plOmnMgTVddLGJZOXZFBOvPDFG6i2DbE9o0DfMH3HHaItSt0Hoh0KwM9Y8Q4I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR10MB8602
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqPIUtNTJFwUvJME@gremlin>
 
-With the core facility in place, hook it into the DA/HA layer so that any
-per-CPU automaton monitor also reports how long it lingers in each state.
+On Fri, Sep 11, 2026 at 10:32:17AM +0100, Lorenzo Stoakes (ARM) wrote:
+> +cc Wei-Lin
+> 
+> On Fri, Sep 11, 2026 at 03:30:41PM +0900, Itaru Kitayama wrote:
+> > Hi Lorenzo,
+> >
+> > On Tue, Aug 25, 2026 at 05:00:42PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > > From: Jack Thomson <jackabt@amazon.com>
+> > >
+> > > Add an arm64 nested-virt selftest for KVM_PRE_FAULT_MEMORY. The guest
+> > > enters vEL1 and exits to userspace with a nested/shadow stage-2 MMU as
+> > > the vCPU's last-run context.
+> > >
+> > > Before prefaulting, userspace enables HCR_EL2.VM and points VTTBR_EL2 at
+> > > an empty nested stage-2 root. A prefault implementation that incorrectly
+> > > treats the userspace GPA as an L2 IPA will fail the ioctl; the correct
+> > > path targets the canonical stage-2 and succeeds.
+> > >
+> > > Restore the original nested state before resuming the guest, then touch
+> > > the prefaulted range to check that vEL1 still runs correctly.
+> > >
+> > > Signed-off-by: Jack Thomson <jackabt@amazon.com>
+> > > [ljs: partial progress, >4 KiB pgsize, commit msg, comment fixups]
+> > > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > > ---
+> > >  tools/testing/selftests/kvm/Makefile.kvm           |   1 +
+> > >  .../selftests/kvm/arm64/nv_pre_fault_memory_test.c | 206 +++++++++++++++++++++
+> > >  2 files changed, 207 insertions(+)
+> >
+> > I wonder whether this selftest can use functions Wei-Lin proposed
+> > some time ago [1]: 20260325003620.2214766-1-weilin.chang@arm.com
+> > or would you prefer this test as propose, since it is clear as
+> > to what needs to be done to enter L2.
+> 
+> I think if these aren't merged yet then that could be a follow up?
 
-Pack the automaton state and its entry timestamp into one word so the
-transition cmpxchg updates both atomically. This prevents nested events
-from attributing dwell time to the wrong edge and requires a native
-64-bit cmpxchg.
+This selftest doesn't require setting up L1's stage-2 for L2, so to me
+the current approach is okay.
 
-Account a transition as soon as its state change is committed. An HA
-constraint that rejects the transition can therefore reset the monitor
-without leaving an accounting window for nested events.
+[...]
 
-Add a selftest that enables a per-CPU monitor, checks the stats file
-appears and is populated under load, and skips cleanly otherwise.
+> > > +static void guest_code(void)
+> > > +{
+> > > +	u64 sp;
+> > > +
+> > > +	GUEST_ASSERT_EQ(get_current_el(), 2);
+> > > +
+> > > +	/*
+> > > +	 * Mirror the EL2 translation regime into the real EL1 registers so
+> > > +	 * that vEL1 runs on the test's stage-1 page tables. With E2H=1, the
+> > > +	 * _EL1 accessors read the EL2 registers, and the _EL12 accessors
+> > > +	 * write the real EL1 registers.
+> > > +	 */
+> > > +	write_sysreg_s(read_sysreg(sctlr_el1), SYS_SCTLR_EL12);
+> > > +	write_sysreg_s(read_sysreg(tcr_el1), SYS_TCR_EL12);
+> > > +	write_sysreg_s(read_sysreg(ttbr0_el1), SYS_TTBR0_EL12);
+> > > +	write_sysreg_s(read_sysreg(mair_el1), SYS_MAIR_EL12);
+> > > +	write_sysreg_s(read_sysreg(cpacr_el1), SYS_CPACR_EL12);
 
-Signed-off-by: Tobias Schaffner <tobias.schaffner@siemens.com>
----
- include/linux/rv.h                            |  9 ++++-
- include/rv/da_monitor.h                       | 16 +++++++--
- include/rv/ha_monitor.h                       |  2 +-
- tools/testing/selftests/verification/config   |  3 ++
- .../verification/test.d/rv_edge_stats.tc      | 33 +++++++++++++++++++
- 5 files changed, 58 insertions(+), 5 deletions(-)
- create mode 100644 tools/testing/selftests/verification/test.d/rv_edge_stats.tc
+Just FYI, the at.c selftest uses a macro for these.
 
-diff --git a/include/linux/rv.h b/include/linux/rv.h
-index 541ba404926a..6c5c2fa7dd68 100644
---- a/include/linux/rv.h
-+++ b/include/linux/rv.h
-@@ -21,12 +21,19 @@
- #include <linux/list.h>
- #include <linux/types.h>
- 
-+/* Edge statistics pack the state and its entry timestamp into one word. */
-+#ifdef CONFIG_RV_EDGE_STAT
-+#define da_state_t	unsigned long
-+#else
-+#define da_state_t	unsigned int
-+#endif
-+
- /*
-  * Deterministic automaton per-object variables.
-  */
- struct da_monitor {
- 	bool		monitoring;
--	unsigned int	curr_state;
-+	da_state_t	curr_state;
- };
- 
- #ifdef CONFIG_RV_LTL_MONITOR
-diff --git a/include/rv/da_monitor.h b/include/rv/da_monitor.h
-index 34b8fba9ecd4..bd7bd422b39a 100644
---- a/include/rv/da_monitor.h
-+++ b/include/rv/da_monitor.h
-@@ -16,6 +16,7 @@
- 
- #include <rv/automata.h>
- #include <linux/rv.h>
-+#include <rv/edge_stat.h>
- #include <linux/stringify.h>
- #include <linux/bug.h>
- #include <linux/sched.h>
-@@ -112,7 +113,7 @@ static inline void da_monitor_reset(struct da_monitor *da_mon)
-  */
- static inline void da_monitor_start(struct da_monitor *da_mon)
- {
--	da_mon->curr_state = model_get_initial_state();
-+	da_mon->curr_state = da_state_entered(model_get_initial_state());
- 	da_monitor_init_hook(da_mon);
- 	/* Pairs with smp_load_acquire in da_monitoring(). */
- 	smp_store_release(&da_mon->monitoring, 1);
-@@ -275,6 +276,11 @@ static inline void da_monitor_reset_state_all(void)
-  */
- static inline int da_monitor_init(void)
- {
-+	int retval = rv_edge_stats_create(rv_this.root_d);
-+
-+	if (retval)
-+		return retval;
-+
- 	da_monitor_reset_state_all();
- 	return 0;
- }
-@@ -286,6 +292,7 @@ static inline void da_monitor_destroy(void)
- {
- 	da_monitor_reset_all();
- 	da_monitor_sync_hook();
-+	rv_edge_stats_remove();
- }
- 
- #ifndef da_implicit_guard
-@@ -683,9 +690,11 @@ static inline void da_trace_error(struct da_monitor *da_mon,
- static inline bool da_event(struct da_monitor *da_mon, enum events event, da_id_type id)
- {
- 	enum states curr_state, next_state;
-+	da_state_t old;
- 
--	curr_state = READ_ONCE(da_mon->curr_state);
-+	old = READ_ONCE(da_mon->curr_state);
- 	for (int i = 0; i < MAX_DA_RETRY_RACING_EVENTS; i++) {
-+		curr_state = da_state_of(old);
- 		next_state = model_get_next_state(curr_state, event);
- 		if (next_state == INVALID_STATE) {
- 			react(curr_state, event);
-@@ -693,7 +702,8 @@ static inline bool da_event(struct da_monitor *da_mon, enum events event, da_id_
- 				       model_get_event_name(event), id);
- 			return false;
- 		}
--		if (likely(try_cmpxchg(&da_mon->curr_state, &curr_state, next_state))) {
-+		if (likely(da_state_try_commit(&da_mon->curr_state, &old,
-+					       next_state, event))) {
- 			if (!da_monitor_event_hook(da_mon, curr_state, event, next_state, id))
- 				return false;
- 			da_trace_event(da_mon, model_get_state_name(curr_state),
-diff --git a/include/rv/ha_monitor.h b/include/rv/ha_monitor.h
-index 28d3c74cabfc..4def2aac92de 100644
---- a/include/rv/ha_monitor.h
-+++ b/include/rv/ha_monitor.h
-@@ -312,7 +312,7 @@ static inline void __ha_monitor_timer_callback(struct ha_monitor *ha_mon)
- 	if (unlikely(READ_ONCE(ha_mon_destroying)))
- 		return;
- 	/* Ensure consistent curr_state if we race with da_monitor_reset */
--	curr_state = smp_load_acquire(&ha_mon->da_mon.curr_state);
-+	curr_state = da_state_of(smp_load_acquire(&ha_mon->da_mon.curr_state));
- 	if (unlikely(!da_monitor_handling_event(&ha_mon->da_mon)))
- 		return;
- 
-diff --git a/tools/testing/selftests/verification/config b/tools/testing/selftests/verification/config
-index 43072c1c38f4..caf3a96ac8b4 100644
---- a/tools/testing/selftests/verification/config
-+++ b/tools/testing/selftests/verification/config
-@@ -1 +1,4 @@
- CONFIG_RV=y
-+CONFIG_PREEMPT_TRACER=y
-+CONFIG_RV_MON_WIP=y
-+CONFIG_RV_EDGE_STAT=y
-diff --git a/tools/testing/selftests/verification/test.d/rv_edge_stats.tc b/tools/testing/selftests/verification/test.d/rv_edge_stats.tc
-new file mode 100644
-index 000000000000..616bb0b5166e
---- /dev/null
-+++ b/tools/testing/selftests/verification/test.d/rv_edge_stats.tc
-@@ -0,0 +1,33 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+# description: Test per-edge dwell-time statistics (stats)
-+
-+MON=wip
-+
-+check_requires "$MON:monitor"
-+
-+# The "stats" file is created on enable; if it is still missing the kernel was
-+# built without CONFIG_RV_EDGE_STAT, so skip.
-+echo 1 > "monitors/$MON/enable"
-+if [ ! -e "monitors/$MON/stats" ]; then
-+	echo 0 > "monitors/$MON/enable"
-+	echo "CONFIG_RV_EDGE_STAT is not enabled."
-+	exit_unsupported
-+fi
-+
-+# The first line is the column header; the body has one line per (cpu, edge).
-+head -n1 "monitors/$MON/stats" | grep -q "^# cpu edge label count sum_ns max_ns"
-+[ "$(grep -cvE '^#' "monitors/$MON/stats")" -gt 0 ]
-+
-+# Drive some scheduler activity so the automaton records transitions.
-+for _ in 1 2 3 4 5 6 7 8 9 10; do
-+	(true) &
-+	wait
-+done
-+
-+# At least one edge must now show a non-zero count. Do not require a non-zero
-+# dwell: a coarse local_clock() may legitimately return the same value twice.
-+grep -vE '^#' "monitors/$MON/stats" | \
-+	awk '$4 > 0 && $5 >= $6 { hit = 1 } END { exit !hit }'
-+
-+echo 0 > "monitors/$MON/enable"
--- 
-2.43.0
+> > > +
+> > > +	/* Run vEL1 on the same stack. */
+> > > +	asm volatile("mov %0, sp" : "=r"(sp));
+> > > +	write_sysreg(sp, sp_el1);
+> > > +
+> > > +	/*
+> > > +	 * Drop TGE so that vEL1 is a nested context rather than host EL0.
+> > > +	 * KVM backs it with a shadow stage-2 MMU even though vstage-2 is
+> > > +	 * disabled (HCR_EL2.VM=0).
+> > > +	 */
+> > > +	write_sysreg(read_sysreg(hcr_el2) & ~HCR_EL2_TGE, hcr_el2);
+> > > +	isb();
+> > > +
+> > > +	write_sysreg(PSR_MODE_EL1h | PSR_F_BIT | PSR_I_BIT | PSR_A_BIT |
+> > > +		     PSR_D_BIT, spsr_el2);
+> > > +	write_sysreg((u64)guest_el1_code, elr_el2);
+> > > +	asm volatile("eret");
+> > > +
+> > > +	GUEST_ASSERT(false);
+> > > +}
+> > > +
 
+[...]
+
+> > > +
+> > > +static struct nested_s2_state enable_empty_nested_s2(struct kvm_vcpu *vcpu)
+> > > +{
+> > > +	struct nested_s2_state state = {
+> > > +		.hcr_el2 = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_HCR_EL2)),
+> > > +		.vttbr_el2 = vcpu_get_reg(vcpu,
+> > > +					   KVM_ARM64_SYS_REG(SYS_VTTBR_EL2)),
+> > > +	};
+> > > +
+> > > +	TEST_ASSERT(!(state.hcr_el2 & HCR_EL2_TGE),
+> > > +		    "vCPU should be in nested/vEL1 context");
+> > > +
+> > > +	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_VTTBR_EL2),
+> > > +		     NESTED_S2_ROOT_GPA);
+> > > +	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_HCR_EL2),
+> > > +		     state.hcr_el2 | HCR_EL2_VM);
+> > > +
+> > > +	return state;
+> > > +}
+> > > +
+> > > +static void restore_nested_s2(struct kvm_vcpu *vcpu,
+> > > +			      struct nested_s2_state *state)
+> > > +{
+> > > +	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_HCR_EL2), state->hcr_el2);
+> > > +	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_VTTBR_EL2),
+> > > +		     state->vttbr_el2);
+> > > +}
+> > > +
+> > > +int main(void)
+> > > +{
+> > > +	struct nested_s2_state s2;
+> > > +	struct kvm_vcpu_init init;
+> > > +	struct kvm_vcpu *vcpu;
+> > > +	struct kvm_vm *vm;
+> > > +	struct ucall uc;
+> > > +	u64 npages;
+> > > +
+
+[...]
+
+> > > +
+> > > +	/*
+> > > +	 * The vCPU's last-run context is vEL1, backed by a shadow stage-2
+> > > +	 * MMU. Enable nested stage-2 with an empty root so that the ioctl
+> > > +	 * fails if it tries to interpret the userspace GPA as an L2 IPA.
+> > > +	 *
+> > > +	 * Prefault in two halves so that the second ioctl exercises a
+> > > +	 * repeated shadow-MMU attach and canonical stage-2 swap.
+> > > +	 *
+> > > +	 * (Note that an implementation that wrongly populates shadow
+> > > +	 * stage-2 page tables would not be caught as userland can't
+> > > +	 * inspect these.)
+> > > +	 */
+> > > +	s2 = enable_empty_nested_s2(vcpu);
+> > > +	pre_fault(vcpu, TEST_MEM_GPA, TEST_MEM_SIZE / 2);
+> > > +	pre_fault(vcpu, TEST_MEM_GPA + TEST_MEM_SIZE / 2, TEST_MEM_SIZE / 2);
+> > > +	restore_nested_s2(vcpu, &s2);
+
+Sorry I don't get what enable_empty_nested_s2(), restore_nested_s2()
+brings to the test?
+
+After quickly going through the prefault implementation there isn't
+anything about it that is nested related, how would giving L2 an empty
+stage-2 translation affect the outcome if it misinterprets the GPA as an
+L2 IPA?
+
+In other words would there be potential false positives if we don't call
+these functions?
+
+Thanks,
+Wei-Lin Chang
+
+> > > +
+> > > +	/* Resume at vEL1 and touch the prefaulted range. */
+> > > +	vcpu_run(vcpu);
+> > > +	switch (get_ucall(vcpu, &uc)) {
+> > > +	case UCALL_DONE:
+> > > +		break;
+> > > +	case UCALL_ABORT:
+> > > +		REPORT_GUEST_ASSERT(uc);
+> > > +		break;
+> > > +	default:
+> > > +		TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
+> > > +	}
+> > > +
+> > > +	kvm_vm_free(vm);
+> > > +	return 0;
+> > > +}
+> > >
+> > > --
+> > > 2.55.0
+> > >
+> 
+> --
+> Cheers, Lorenzo
