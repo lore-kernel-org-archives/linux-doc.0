@@ -1,90 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348CF455639;
-	Sat, 12 Sep 2026 13:37:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158F8343883
+	for <linux-doc@vger.kernel.org>; Sat, 12 Sep 2026 14:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789220225; cv=none; b=HHQTeYyRGLNcs2+hufXh11obPU9EnA3awpFic1OQRM3HPOpWc5op5EbpFDiEswXIhxhWpeOb3YSotZtr37j8OwgjMVj+k/y3jzO8sJdA1vG+CSC8Vv/MWljEk2w4drt13bOxeCkb/hT3qm0++oDWxtYuny92ya2qlI6BPvC904o=
+	t=1789222823; cv=none; b=Rplcpt+AyfpUKx5jTi7xmqTMf8D0PU5jtPWP5VoGQeyTDrurdaGtKO3OZLScfbMIAKi3aOSJz4IEqPhoj5105GOFiRSBQOXF2HDuXp2O5DxVpYc2V+i+MvQYsL5+I27Ifu3zp2zj9BhTYzSfkT1b97DcROIzJuCv9wleG4mP5Bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789220225; c=relaxed/simple;
-	bh=oNST79umTYOnUVPeaIvOX5gmne1rcIc1dIFSgwmJbY0=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=WnhEcFP/fS5TuD8OuumS7tiUbD8K1qhEa0jd4TYHcilOqy/tWt5+wFUN5IuhmrDiIMrPbxD0qiQglUkuOL5fWuGfnzXWDwKX/VvldnwP+Xkj5qZNX3ZIt4Na6Q+Tj8lF8GgwDyJ6hr/YfsR7fg8DOtBr2kCxg/jFd1DbPZuj0Jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lg9J3tjW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789222823; c=relaxed/simple;
+	bh=biqxF2WqF9FsEWFi0SeRE5ItXS6SATDbQxMgWQtNwgc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lO61woYv011jiT29ijbdewwmAWvF29Lv91MqZE5skPH+3cmYlH0FgQW3xPoIeHTtnVKo1EnHmYekLbotvfvc8JWHgesZbPIdPSHZHMUeL2HhrJbjZ5iho9tRNJpGv5V2kGZihmiMSchB5Ed/5j0xac+QMapJGxNKmuH25sJd/P0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X9wS6sgy; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lg9J3tjW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8BDC1F000FF;
-	Sat, 12 Sep 2026 13:37:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789220224;
-	bh=jwd4Rk+LghulteCFZ22CToEe8Fypa34me6oLaUXnTn4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Lg9J3tjWv8hrtyNST5+hW8b/otbqwiOm6OjnlTpt+7n+lCWW06FZZfpXKLEu/V9dg
-	 q0LFsRJKg0nW7JrKPw0BInBM1iBIKlex33UOc0XsJTGaeJi6BUTakRPQK6X7JHQBee
-	 EeKJTM/b5CzGiQ8OLKq5G2hDgoZ8Ar8hfhifOnWjeVQA+Wseyo4byuVFzcEEujmWv9
-	 +QiMTexATwKHLauFvivoKoarjHfOn1Q8u5hnaldxchV8rr1rKIb8DYVQbEF7wHLSZk
-	 /cRBK5Yp9JPM3tSzLuOfyxgHMtUakohY1o45O96Gl2Ul7Mmr9DDy9NBtZA4uWmMbSB
-	 lzRza60O8j68Q==
-Date: Sat, 12 Sep 2026 22:36:58 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Jinchao Wang <wangjinchao600@gmail.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra
- <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Thomas Gleixner
- <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, Alexander
- Shishkin <alexander.shishkin@linux.intel.com>, Ian Rogers
- <irogers@google.com>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v15 00/12] tracing: wprobe: x86: Add wprobe for
- watchpoint
-Message-Id: <20260912223658.c4495241023f72e3cf48bf0c@kernel.org>
-In-Reply-To: <307d6fd5-a8fa-4777-b513-9a8cce46f38a@gmail.com>
-References: <178875277830.93794.14247844688761142429.stgit@devnote2>
-	<307d6fd5-a8fa-4777-b513-9a8cce46f38a@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X9wS6sgy"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-39d654f02baso458867a91.3
+        for <linux-doc@vger.kernel.org>; Sat, 12 Sep 2026 07:20:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789222821; x=1789827621; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=we0ycuhD13NPMWrxsYvOqSZt4f6T+4762jU+NZLRKXc=;
+        b=X9wS6sgyPv70YucXExX/1Ce4CRnkgEBlcbO4tXFe2BDHC5ArRqa3qtidYPXbc+Eb86
+         t0mtTuUgnC3wg6ofDeOJ0aTvX3bUhY5Ktd7u/+uecMOcrv+vBAhjk/aq9zz+u/HFyO+/
+         j35JVG5kq7mNh+HuEE3Yye9zQxxnTCTJ+GuoOyhGUkS5sUPnXXGr4/ZHm0BPUWIbpty1
+         Kq4WauWQpzAb/3mjBQtH6WP4wQm4W4uV+2X8I5QHGgF3Jgx7UaiH3mOKt2who7ft2dck
+         plOwJ3A5714iuVwbgSw5ymHhx7MgqNunxTATC7VsY4aQe6zVBWd+3OgROJDd1P+Xs1Yr
+         XOsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789222821; x=1789827621;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=we0ycuhD13NPMWrxsYvOqSZt4f6T+4762jU+NZLRKXc=;
+        b=L9/D6MkI/vtY1Wk9Q6gv7QnjmxUCk0tRCwsM/nA4V/afeG81Qo4lkNYRiUkrPtkAU3
+         csC+NGzEQHdTkpXa6wMTXHDPKwYZvOgsY1JEHPPVir/v45FP2jm55rdIUNL1OsrayJta
+         hq8+2KLgjYZ2eEjED5r7+M2+r6KOonFHEbRILjZvBbb6VyRvCnvDGmIHBPur2KKSKB9/
+         QbS15QBRJImuv8WuRI9BnRJJ+f6W4pbqyyl2vpgvJaPgqBe24ogieOILiYf3mUP0mqy5
+         /d/pxDZ1e2YsKARhcQbbUhwa1IEPLsUY9veOcGoNhhz2ExNMH9Buz+yBqFPDAwoGOCkI
+         BskA==
+X-Forwarded-Encrypted: i=1; AKwUvBxzVuFNZLIzso/9Q3GFSqHJCgCmKwm9GwMeAHbygArcVYHmZLOxQ2zMu2QiEcI46LOvjxEYHbmVHP8=@vger.kernel.org
+X-Gm-Message-State: AFuF++miYaSe1FnjYvRlV5PtVFMbvuEb23t4Q9/m5Lecyu1019Y20Yeo
+	ci3XQKX7ADMVCrnxk6QoNb9l1LlHJZE6C1TG2s+/c+jwzYQ1Z8CjU/C+
+X-Gm-Gg: AYBFou0R1lDsfgOuE6zyzxujVN01d7kAGK48vjE3gQKGTKGgCtrt3p1sOJy8KqIhQLP
+	zKAt61jXl0+X3ne6Y4/JHfGRCbtrgMe+pXWFE5yULD0O02YcCbcdC061W0YSzSSWcW5uIxuhZry
+	HiY25wEb+A+mokYrkVUkVmHcUms9E41lP6QDVsjqVr45F1VAnrbKA+8TKbrY58z+swiCfKSqiSt
+	5VEcoqti3AwbjpJxaJKowu3rEGnchD5tuFBlpN/2p1VmK/nFDFIgCxkx3zTAuY+APl1Y2SdlaGr
+	rrlC3JtDITu1mDYqJBnI9JeOKetHm/Q22nKVnSX3wmOazg9Ya2k7zfyLhydXxmbtoGXyidnM/SO
+	+x7JiDCSsyeVxz8h14ezyPCpgnJSIsvB/wr84DITwMwzDo76QJZ6uc4og0tr3FgQ8OR/SRWfcqm
+	XLmXWp0jH2wzZSzL7M0ubvegHwh+QVySfXurAKGOBmSLI8axk3aUqefAPRlRkKGLqCnf7/9Q98+
+	VWQMGPId7yB
+X-Received: by 2002:a17:90b:2dcd:b0:398:dcfe:967a with SMTP id 98e67ed59e1d1-39dbc6d53e5mr5724044a91.17.1789222821301;
+        Sat, 12 Sep 2026 07:20:21 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d95994375sm10641268a91.17.2026.09.12.07.20.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Sep 2026 07:20:20 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sat, 12 Sep 2026 07:20:19 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/4] hwmon: (pmbus/core) increase number of phases and
+ add new mask
+Message-ID: <5d6bb7de-5cd2-4708-b894-fe8648a9c49c@roeck-us.net>
+References: <20260911-hwmon-max20826-support-v2-0-5e30cbd97d84@analog.com>
+ <20260911-hwmon-max20826-support-v2-1-5e30cbd97d84@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260911-hwmon-max20826-support-v2-1-5e30cbd97d84@analog.com>
 
-On Fri, 11 Sep 2026 15:27:41 +0800
-Jinchao Wang <wangjinchao600@gmail.com> wrote:
+On Fri, Sep 11, 2026 at 02:53:37PM +0100, Nuno Sá wrote:
+> Increase the number of phases to 16 as a new upcoming device supports
+> such a number.
+> 
+> While at it, add a new mask for controlling the source of the output
+> voltage.
+> 
+> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
 
-> Hi Masami,
-> 
-> I see the watch address update currently goes irq_work -> workqueue ->
-> on_each_cpu().  I would like to discuss that path.
-> 
-> The race window wprobe may be used to watch can be very narrow --
-> sometimes it lives entirely inside a single function -- and the trigger
-> does not always run in in_task() context.  The current path defers the
-> update to a work item, so by the time the debug registers are updated the
-> window may already be gone.
-> 
-> Now that we have modify_local_hw_breakpoint_addr(), the trigger could arm
-> the local CPU directly and use smp_call_function_single_async() for the
-> remote ones.  That should improve the overlap between the watch and the window.
-
-Hm, that is a good idea. Maybe we can check the current context and if
-possible call modify_local_hw_breakcpoint_addr() directly for current
-CPU core, and kick irq_work for other cores.
-Does this make sense for you?
+Applied.
 
 Thanks,
-
-> 
-> What do you think?
-> 
-> Thanks,
-> Jinchao
-
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Guenter
