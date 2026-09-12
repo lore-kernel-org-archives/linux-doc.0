@@ -1,244 +1,231 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C774195A6
-	for <linux-doc@vger.kernel.org>; Sat, 12 Sep 2026 08:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789202419; cv=none; b=LbRPJDWN573byazmz2nhptdtBPScrTAsGVxFl3aFn4AUWqrwal7PdCaADAl11W00aDCS1L28zyTqCJWYqmG0kL9o6lXKspwFAWPzZtgZM5IoAjRiuFj785ac7f1ACmgTdgLOzZS0yGyjpxjKwcschCoY1+KCuYhFHkfDLncg6ww=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789202419; c=relaxed/simple;
-	bh=vVKv47cmfAuACjoqEhj5I+LzS+aoqmIZBNi2XYraPes=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gjGlR7mgAy2j9osj8jSJu2J7Ld43950onFTEJDZSpENQk0raRljE427MIQThi7YgAtsF5WIsSPMqMiIa1DP1s83ndDHWm9NpzYEmZkHljbm2uLbbyeJaJTp+DD3lWg7IJq3KsIpDIFX/8z3M012M8LwblxlGHKC4rxGHdBVZc74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SuRJoFSp; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2780442D763
+	for <linux-doc@vger.kernel.org>; Sat, 12 Sep 2026 08:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789202919; cv=pass; b=fyYGXKCH6JMv3JJLAJ5wSXTD8rd9gTyB1RhF/PC/PhsEEZaU4GRmXvSY10EsI4IyFSBJ3JftQxQGpL08iGB+TIFf4TaeiT0qjnBSShcY34J3kohMa0C55I18e5SvhUEM4Mp0bQ31uAqtAX22sjjSp5VN/SVb6y05j1clAKHHAcg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789202919; c=relaxed/simple;
+	bh=PEtxQYkjYgQRxaF03D30N0xMCnigd147rHHH7QHltEQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Kh1AeQq6rEjEefxADKDaFGk7ZFLN6sfqFY/PuGvGLxI6ddNr/unzz7gAEEFYP1TIbug6lXFHq3nQv+Y56Fddm2I9JTSR08Mot1F/Vh3mGc7YT/OAw79afIS75oFPzOzkLg/Nb/ls6ZSzw67VihZS30BJmuYgCYehmLNQCqGkq9U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EhX9cfsT; arc=pass smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SuRJoFSp"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccb65437so217122a91.3
-        for <linux-doc@vger.kernel.org>; Sat, 12 Sep 2026 01:40:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EhX9cfsT"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6a20319d030so2535791a12.2
+        for <linux-doc@vger.kernel.org>; Sat, 12 Sep 2026 01:48:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789202916; cv=none;
+        d=google.com; s=arc-20260327;
+        b=HdRVbqpsT3zu0wQp+v88xOEEPQuj5WkEdmh5P9kgSpPSm1Pvk9QbyuwnGvKmcUgo+2
+         JrzTyWquijWS+zRK07aC7WRQ17b7d06Y3RY4aB53yNPW0+9Agm+yyDleF4nb9v3wR65M
+         9dyMg+oWnNtWRR0qLE2wY/oeFXYsKuZ/24aqEEEpUtSBm94zL7xr/R1UESy6nqWBIiE4
+         JByxKtBmuEwtHvz4sNsBgMSCHT6EVKgBv7K6xwtxNYTJWDEGp+bvhETe5mbHd+7uGEtI
+         pXE+4wKiah1Fs7wi/8msy/b0+x6sa6ki4Y1eOp0nfReVcc/xyT76UsQ8blWQBw2Zy4k1
+         XSrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=I4VBvSxEGrUfJJhcCbVvt54AZ/dw8YbEqxSSPOGIQHY=;
+        fh=VJJU6sIvQahOScl4xKJRK1vb4o6Lf6jgjiaAuO/N6FY=;
+        b=Gh/cXY3HNWfWiJcVLno7ySn9a6dhMvrdOk6DatIgj1ZbR4y2jP2fIGRbyV3LGVG5KH
+         3Bm3oBuyLV43d+pAPu0O1bwHmEamq8YqaraPzdMiKHQ0RlbWVY3wC1KUJClbAbOu5sc1
+         y7Ax2GHPjWfmS+2ZvSRojpehXKmAVLDfsbNi5XJl4U6aBBeMeQ2CLYG1C2yEapP2DzcP
+         cQGfYXrLcaHU0jVAmFgeUNAR1MQSW9XbrF1t8aRaqQ6PSp0OzkZZl3QtOMmA4ZBisUTU
+         Xyij0y2X0KgLoHWb3oiA5dJQ9GsYyiocCGRAN3EV/PMsOt92CCV0rLcD65ZEzBKuHsdu
+         BHMQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789202417; x=1789807217; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=D62nAxto8FBPn6ofyV4nlMYglOuFu5fWBNRz3jiEv7M=;
-        b=SuRJoFSpIRLQ4qAK7vXrgRvw1ZjJlXGd87wKCyWlcf3mCVn7nZQGlukWbPx7sz8UnU
-         HUtXJNHtLY7JHXsaTqe7MgLhM/j3Z48gRgfO0WUsQA6tchB45JeCh42gsrVjMuYw8UMy
-         WID73GfLw5paL3my0tyhEPrgxjEP/XWTiqraYb6vplu9lkrWRygNTc6WtMDVFCJD13t5
-         OiqrwpICbWRZO/9WYPTi4vn5t4BPi75O/mUfIF9BidamN2rFRV/qY12vZGf4ohxO5LY2
-         ckgk/0edon7NK/MG8l3g8BYms/GX6eQ1gjlep425d2F5zR0edBWIgHD55X0oEfQoqAKH
-         vUiA==
+        d=gmail.com; s=20251104; t=1789202916; x=1789807716; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=I4VBvSxEGrUfJJhcCbVvt54AZ/dw8YbEqxSSPOGIQHY=;
+        b=EhX9cfsTA8wuzqlx4v0gI7INYdvOI07HVCKskWVxtYxlHU3ehzVsoxO1P1oohG3jYi
+         nhYfe2s/cBhfDjlnSZV2gp56s9x3/hoj3XQ5wY2lk5ixBD8B1YDl0Q9UCRnb3Cw6VLes
+         x7lY9ZCYQ/LZ1OHTtHj0WXhsqx+ip4fZRzU68j8MwYJ/R3nxiRx94JN6H0e1HaNpaCMc
+         0cAb0UxJRiGOPdvbiUZ3iecH08hEB1wnwjZYuFn7r5uCpHfOkBa8dl/NyUpw8BvCob9+
+         GBE95j0TpbLAMoXNeeuZi8bkIL45PNSe66OlTXqDAbwvMMVYzQARcSvHuB4ARFwcVeen
+         /YgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789202417; x=1789807217;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=D62nAxto8FBPn6ofyV4nlMYglOuFu5fWBNRz3jiEv7M=;
-        b=SayhdGwEvYhKJbsirHBnTvPVb2pEneS2qT0RgIPk5gXqSLMkqMjFFO8BZzAvSK7Fkr
-         r+XQD9oJLGQrLB/t2D79a5PND59NuchUoAWeF1CToTU4yVJaBU0AVi4yzzlT4y8ePgrF
-         HAuCw5/hdEDTzFyLRsFgL4GyFg0cYz/fT0EjuyxpkAemZGLj0Ezij2FGM4InK+av/vkH
-         jmV1cS44r3eFerJvGFIv0vbIHoXj+YS8Q+C4iCmCeC2c/UFJ7/IE8Xr7F9EkJMmaA0ns
-         SXJVspo8WPAHUk3Lwx2Pvm1PVSxr3y18SQXHaScyVV3uTggy14p+BZGiCX5ja8qOrwdS
-         Q16Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxj7fDrq2rB/eGOAxwH0eiZhA8sxxMIL7gMFAaHL43vcNMafBR4q6yuxp3iWC/Iv29VnzHJJvFl0e4=@vger.kernel.org
-X-Gm-Message-State: AFuF++m2WsIurfZR9fldX6NxbAei/hcH+U57htRLkoYD+F7BVcUpUjw+
-	twrWQ8I+u964woaujr6oH8wcJWj1kvLFZX82Lzt0yCvbVrAxFWiAsMfJ
-X-Gm-Gg: AYBFou0U/qCWM7UpaICA4ZSNzy/Ts6O/MyGBEDsHrdoTMLGZm+HqS3tSb/6y3T7m3Jg
-	MDhLO1uq3++BwNUZKMY80oUnd07eRYKR/kL8KF5j27O4zNAKxa5oQ8pxy+j56P9uhtuL91qYgUH
-	ERQDRVbOg0d7IV5V2htGjeHpoD23FAAFhQ9nXKAQ2mLjQPlmHMxzuX7BrZX7tdLajVEaJWZ/9Dp
-	lVh8eeu/Hm05pLjPIziAfqqhrPRpucnnQzbUg8t2qIHy8iUBofguKOa5iwfTmcWu1czxud7IL4Z
-	2zbae+CYhrqkp4zcVVuAOt4//a/gUQzMWLMR3WquEo4webNPrNt2HY3zDPMKAIJHdBpJW21/cqG
-	SI/Ce+J7RpummdQAHygHSaNUwVUTsJLAKqwSQAFkJp+SfBY4L9xcHJz+tNloObFsfFfkqny8H4H
-	0LnFyJuMB2H68LJOAV0TugzzU/YCTdQo1OLtlf+t6upJxwEnx1FeEqxOL/YKv74MuS+H2iA4Qh6
-	cZYgk921NcpOVset4oRCiOSWTCSOyBCPTI6CnVS
-X-Received: by 2002:a17:90b:28cd:b0:38e:97f0:aa4b with SMTP id 98e67ed59e1d1-39dbc69b2c5mr3272923a91.13.1789202417155;
-        Sat, 12 Sep 2026 01:40:17 -0700 (PDT)
-Received: from lipengfei28-ThinkStation-P368.mioffice.cn ([2408:8607:1b00:8:16a3:d08b:6ddb:dec6])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d95091214sm9790583a91.3.2026.09.12.01.40.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2026 01:40:16 -0700 (PDT)
-From: Li Pengfei <ljdlns1987@gmail.com>
-X-Google-Original-From: Li Pengfei <lipengfei28@xiaomi.com>
-To: rostedt@goodmis.org,
-	mhiramat@kernel.org
-Cc: mathieu.desnoyers@efficios.com,
-	mark.rutland@arm.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	lkp@intel.com,
-	linux-trace-kernel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	zhangbo56@xiaomi.com,
-	lipengfei28@xiaomi.com
-Subject: [RFC PATCH v7 10/10] selftests/ftrace: add a stackmap instance gating test
-Date: Sat, 12 Sep 2026 16:37:53 +0800
-Message-Id: <20260912083753.3426176-11-lipengfei28@xiaomi.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260912083753.3426176-1-lipengfei28@xiaomi.com>
-References: <20260912083753.3426176-1-lipengfei28@xiaomi.com>
+        d=1e100.net; s=20251104; t=1789202916; x=1789807716;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=I4VBvSxEGrUfJJhcCbVvt54AZ/dw8YbEqxSSPOGIQHY=;
+        b=NJ6aIUgqCK+hB2vNHKk7RenFxpkUGQJkhRfTo/cBMKPot9o9kIKq+pFjGdtcedrKSn
+         4f/DqDgYh8DpfV4NawOw71BUU2yPaDDrR427+v9kC7H5nERz+C9yEspDQ441n7iCGHHm
+         PB7gGL+aENxcsz2g7bi7Y+P9NBFpQii+ttbxvlO739nTu5sAPeRYtcbITTJghWsgwAAK
+         /38MaWkHFcHpJBTI6PLFzchcZ+mqNuHBUGwmyFNls8Az9tNOQnu3AmYnIs/C28oQ5Tgh
+         Ffi+6m2iDs+earWv9poTuZuVRu8vbGG1Jn3KUsYGXIpniMqmCeQdPKg6lwL1XvSuFC6x
+         JfmA==
+X-Forwarded-Encrypted: i=1; AKwUvBwH6wgSQRgkzNiuNhAZdy8v4gMJcOJS8CPKiVnuLuUoC4VxTcmr4KbrxkeQ4EJKI65mD2NRIBENsvA=@vger.kernel.org
+X-Gm-Message-State: AFuF++kQlxpG3oQxHoOtziTmY31dg4StHxJdv5LgXhf6q6vg3XLFcB8T
+	MAs4OD8/FGOCY/jp+Rw2VGAvo0Lr1nvjN7gaacaNiuWUJ7tOVmGvsKi8FL+aeI5GDEDblzWAosz
+	pwVCFgRFUG4aElaIIsm9l0ef444X9gAs=
+X-Gm-Gg: AYBFou39v9lRfb2CunMVaYQUtwWvrOs4wQVx55YG6ptm0dTBhil41K+fWlxnjcTugne
+	HxNQqB05312RJ9bAwJ6MLRTwqkBAEwmwXjLRVv5/FzVvfYR2JlsPBX+yJyEMxRCJSMswqoCmZi7
+	Tj282ByceJuXxgwJAZjdIer4etdtNtVM/aEnToXTv1yBj7Dz787YlpjPTa+O0bsK6DOrcKsMkUc
+	Lg4R7c5a0JG0fU+1TBfhF5ri0A+oY9BXBBgLhxYjx76dacrsxPyro43ZGM1LCXYgBk5KToaVbhS
+	RiEmQu/2gE1XLKb5EXjtX5otLemjAPFd2lzfO8Yeijrxi7KC7ybjAJAKhaIObb7EGzVbHtgK2Lf
+	ltHaUdUB07dw/Rg==
+X-Received: by 2002:a05:6402:354a:b0:6a9:93c0:113e with SMTP id
+ 4fb4d7f45d1cf-6a9b5603d6cmr3580548a12.9.1789202916079; Sat, 12 Sep 2026
+ 01:48:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <CAMgjq7AHRzBsbmGOx0s=TQFBwcn=DEU1naR443sO6x+pJd6hAg@mail.gmail.com>
+ <CAKEwX=O8i+OsP6BJXNZNk07hveN9HDT+PoyMTAU6gOc-xp0Ppg@mail.gmail.com>
+ <CAMgjq7BQeQQOZMDPFJ+8LS2N4t3x53r6Nm+9o0_pi92oVUgjgQ@mail.gmail.com>
+ <CAKEwX=MS-7C96i4tzBijHN=-xuZgny_wQEa_0YjfHzhoNysdYQ@mail.gmail.com>
+ <CAMgjq7B7Mc7vpQN0gBknsSrfZWXdif5L7nU29YskG9mzS-_jsA@mail.gmail.com> <CAKEwX=PxZ68_4240DC8HjcqPRE0bQWGmouoqapqqTQ2b0xqpvg@mail.gmail.com>
+In-Reply-To: <CAKEwX=PxZ68_4240DC8HjcqPRE0bQWGmouoqapqqTQ2b0xqpvg@mail.gmail.com>
+From: Kairui Song <ryncsn@gmail.com>
+Date: Sat, 12 Sep 2026 16:47:59 +0800
+X-Gm-Features: AcwNN1Vvr5dRguutvcgehjz-XZkuALg4SjwQULHioJZ7yEPwdeM7nc8UPMPMn9E
+Message-ID: <CAMgjq7D40KGRjwpFMH4x4fhJ18OQyZwPtovhc8Hm3Y7+__d4Lw@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: YoungJun Park <youngjun.park@lge.com>, Chris Li <chrisl@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Pengfei Li <lipengfei28@xiaomi.com>
+On Sat, Sep 12, 2026 at 3:04=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
+:
+>
+> On Fri, Sep 11, 2026 at 11:14=E2=80=AFAM Kairui Song <ryncsn@gmail.com> w=
+rote:
+> >
+> > > Would something like this fix it for you? ZRAM users will not get
+> > > vswap indirection overhead at all, because it would bypass vswap :)
+> > > Down the line we can revisit this decision - for e.g, if there is a
+> > > use case for vswap-on-top-of-swapfile. There might be other interface
+> > > that makes more sense.
+> >
+> > Hmm, this interface looks confusing though. you mean tangles vswap
+> > with zswap through the cgroup's zswap limit? I originally expected
+> > this to be a problem solved by tiering, skipping certain tiers seems
+> > much more intuitive. Maybe Youngjun have some idea here?
+>
+> It wouldn't be confusing if this is something users don't have to
+> think about at all :) My point is that we don't have a use case where
+> we need userspace input on vswap-enablement on a per-cgroup basis yet,
 
-Verify both enforcement points for the global-instance-only stackmap
-option.
+Ha, you really can't assume that for everyone :), we even have
+workloads working at different compression levels, and the tiering
+series shows different cgroups working on different devices, there has
+been pathes enabling per-cgroup swap device a decade ago.
 
-Require options/stackmap and stack_map on the top-level instance. Read a
-shared-kernel random UUID from /proc/sys/kernel/random/uuid and combine
-it with ftracetest's $PID to create collision-resistant owned and foreign
-secondary-instance names, including across PID namespaces. Verify that
-neither the option nor any stack_map node appears in the owned instance.
-Also require writing stackmap through its aggregate trace_options file
-to fail and leave the option unset.
+> > > Potentially, but we have many users at Meta. There's a huge diversity
+> > > of machine types, workingset size, access patterns (both frequency an=
+d
+> > > file:anon split), compressibility, etc.
+> >
+> > You can just set the number as 8PB? :)
+>
+> Sure, but with the vmalloc-array approach, there is more metadata
+> overhead even if we have not allocated the backing page of the
+> clusters yet. This will be annoying on the smaller size machines
+> (O(dozen of GB)) to also pay the overhead of 8PB-swap space metadata
+> reservation.
 
-Create the foreign instance as a sentinel. Remove the owned instance
-explicitly and verify the sentinel remains, proving that cleanup does
-not remove unrelated instances.
+Not al all? With VM_SPARSE, you literally have zero overhead, unless
+you really use these slots.
 
-Defer signal exit across each mkdir and ownership assignment so cleanup
-removes a directory only after this invocation has created it. Put mkdir
-in an if condition so ftracetest's errexit mode cannot bypass return-code
-handling, the explicit failure path, or ownership bookkeeping. Track both
-directories separately and remove only those created by this test. Keep
-the auxiliary stack_map_stat and stack_map_bin nodes optional on the
-global side.
+And even if you really use these slots, the overhead in both CPU and
+memory is lower than Xarray, if I did the math right. I just ran a
+quick test with Baoquan's Xswap, forcing it to start with 8PB on boot;
+it was smooth as batter on a 1GB box and still worked fine after heavy
+anon memory pressure.
 
-Signed-off-by: Pengfei Li <lipengfei28@xiaomi.com>
----
- .../test.d/ftrace/stackmap-instance-gate.tc   | 114 ++++++++++++++++++
- 1 file changed, 114 insertions(+)
- create mode 100644 tools/testing/selftests/ftrace/test.d/ftrace/stackmap-instance-gate.tc
+See below (8PB xswap device with almost no metadata overhead, the only
+overhead comes from zswap so I reduced the tree number but that can be
+easily merged into clusters as we discussed before):
 
-diff --git a/tools/testing/selftests/ftrace/test.d/ftrace/stackmap-instance-gate.tc b/tools/testing/selftests/ftrace/test.d/ftrace/stackmap-instance-gate.tc
-new file mode 100644
-index 000000000000..818dbb7bfeb8
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/ftrace/stackmap-instance-gate.tc
-@@ -0,0 +1,114 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# description: ftrace - stackmap option is gated to the top-level trace instance
-+# requires: stack_map options/stackmap instances
-+
-+# The 'stackmap' option is added to TOP_LEVEL_TRACE_FLAGS, matching the
-+# convention used for global-only options like 'printk' and 'record-cmd'.
-+# Verify that:
-+# 1. The global instance exposes options/stackmap and the required
-+#    stack_map node. stack_map_stat and stack_map_bin are auxiliary and
-+#    may be absent if their tracefs creation failed.
-+# 2. A newly created secondary instance under instances/ does NOT expose
-+#    options/stackmap or any stack_map* nodes.
-+
-+fail() {
-+    echo "FAIL: $1"
-+    exit_fail
-+}
-+
-+instance_token=$(cat /proc/sys/kernel/random/uuid 2>/dev/null) || {
-+    echo "could not obtain a collision-resistant instance token"
-+    exit_unresolved
-+}
-+[ -n "$instance_token" ] || exit_unresolved
-+owned_instance=stackmap_gate_owned_${PID}_${instance_token}
-+owned_dir=instances/$owned_instance
-+foreign_instance=stackmap_gate_foreign_${PID}_${instance_token}
-+foreign_dir=instances/$foreign_instance
-+owned_created=0
-+foreign_created=0
-+
-+remove_owned() {
-+    if [ "$owned_created" -eq 1 ]; then
-+        rmdir "$owned_dir" || return 1
-+        owned_created=0
-+    fi
-+}
-+
-+cleanup() {
-+    if [ "$owned_created" -eq 1 ]; then
-+        rmdir "$owned_dir" 2>/dev/null || :
-+    fi
-+    if [ "$foreign_created" -eq 1 ]; then
-+        rmdir "$foreign_dir" 2>/dev/null || :
-+    fi
-+}
-+trap cleanup EXIT
-+trap 'exit 1' HUP INT TERM
-+
-+# 1. Global instance must expose the option and required map node
-+test -e options/stackmap || fail "options/stackmap missing on global instance"
-+test -e stack_map        || fail "stack_map missing on global instance"
-+
-+# 2. Create a foreign sentinel and an owned secondary instance. Defer signal
-+# exit across each mkdir and ownership assignment: cleanup must remove a path
-+# only after this invocation has successfully created it.
-+interrupted=0
-+trap 'interrupted=1' HUP INT TERM
-+create_rc=0
-+if mkdir "$foreign_dir"; then
-+    foreign_created=1
-+else
-+    create_rc=$?
-+fi
-+trap 'exit 1' HUP INT TERM
-+[ "$interrupted" -eq 0 ] || exit 1
-+[ "$create_rc" -eq 0 ] || fail "could not create foreign sentinel instance"
-+
-+interrupted=0
-+trap 'interrupted=1' HUP INT TERM
-+create_rc=0
-+if mkdir "$owned_dir"; then
-+    owned_created=1
-+else
-+    create_rc=$?
-+fi
-+trap 'exit 1' HUP INT TERM
-+[ "$interrupted" -eq 0 ] || exit 1
-+[ "$create_rc" -eq 0 ] || fail "could not create secondary instance"
-+
-+if [ -e "$owned_dir/options/stackmap" ]; then
-+    fail "secondary instance unexpectedly exposes options/stackmap"
-+fi
-+
-+for f in stack_map stack_map_stat stack_map_bin; do
-+    if [ -e "$owned_dir/$f" ]; then
-+        fail "secondary instance unexpectedly has $f"
-+    fi
-+done
-+
-+# 3. The aggregate trace_options file still reaches set_tracer_flag(),
-+#    so writing 'stackmap' there must be rejected on a secondary
-+#    instance. Otherwise the bit could appear set in trace_options
-+#    while the hot path silently falls back to a full stack trace
-+#    (tr->stackmap == NULL).
-+if echo stackmap > "$owned_dir/trace_options" 2>/dev/null; then
-+    fail "secondary instance accepted 'echo stackmap > trace_options'"
-+fi
-+if grep -qw stackmap "$owned_dir/trace_options"; then
-+    fail "secondary instance trace_options reports stackmap as set"
-+fi
-+
-+remove_owned || fail "could not remove owned secondary instance"
-+if [ -e "$owned_dir" ]; then
-+    fail "owned secondary instance still exists after removal"
-+fi
-+if [ ! -d "$foreign_dir" ]; then
-+    fail "owned cleanup removed foreign sentinel instance"
-+fi
-+rmdir "$foreign_dir" || fail "could not remove foreign sentinel instance"
-+foreign_created=0
-+
-+echo "stackmap option gating to top-level instance works"
-+exit 0
--- 
-2.34.1
+### Before XSWAP
+# free -m
+               total        used        free      shared  buff/cache   avai=
+lable
+Mem:            1464         405         756           1         544       =
+ 1058
+Swap:              0           0           0
 
+### Create a XSWAP device, I hardcoded the max size in code to 8PB,
+### and use fewer ZSWAP trees:
+# echo 0 > /sys/kernel/mm/xswap/create
+[  140.289280] xswap: adding extendable swap type 0 (prio -1, init 733
+clusters =3D 375295 pages, max 2199023255552 pages)
+# free -m
+               total        used        free      shared  buff/cache   avai=
+lable
+Mem:            1464         407         755           1         545       =
+ 1057
+Swap:           1465           0        1465
+
+### Lift the ceiling to 8PB:
+# echo 4294967296 > /sys/kernel/debug/xswap/type0_cluster_limit
+# free -m
+               total        used        free      shared  buff/cache   avai=
+lable
+Mem:            1464         403         756           1         547       =
+ 1060
+Swap:     8589934591           0  8589934591
+
+### Run memhog:
+# time memhog 12G
+...
+________________________________________________________
+Executed in    4.36 secs    fish           external
+   usr time    0.46 secs    0.00 millis    0.46 secs
+   sys time    3.77 secs    3.80 millis    3.76 secs
+
+### After memhog:
+# free -m
+               total        used        free      shared  buff/cache   avai=
+lable
+Mem:            1464         336        1136           0         222       =
+ 1127
+Swap:     8589934591          31  8589934560
+
+The only different from vswap now is that you just hides everything :)
+(writeback is not hard to add)
+
+> https://lore.kernel.org/all/CAKEwX=3DNYoMH8pTKeCvA=3DXHFmmNVMeDz3mxbhp5q6=
+-PxSTJ5wOg@mail.gmail.com/
+
+Right I saw that, but 64 bit of private id will make shadows really
+awkward, not for SWAP but for file folios and file mappings, swap
+table is actully fine since memcg_table is standaone, and we can
+workaround the hieratical refault distance issue in other ways (e.g.
+record the reclaim level instead of memcgid direct). I think 24 bit is
+good for now? As I've never see anyone ran into issues
+with even 16 bits in production.
