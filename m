@@ -1,203 +1,127 @@
-Received: from mail-qk2-f1.google.com (mail-qk2-f1.google.com [74.125.230.193])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C81736F8F9
-	for <linux-doc@vger.kernel.org>; Sat, 12 Sep 2026 02:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.193
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789178951; cv=pass; b=WnhLY/s1JfwIqulceM9ACXVn0cgbKrbITi5p3Ulbm+gMH5IuvxcGWmc6kQgWkiu6EWE7z6osyeSKtwONFk1WStHqe3/35dnSh9HLPRwAndR+bUMS6sxoesJKshYGFUW/uUaY6GX60lNrYrYfA4GpMa8ZNso+35l2RpDfegP2VBs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789178951; c=relaxed/simple;
-	bh=mdT9ENWPEzBfkyRK8P1a2dUQlY39G8cEaKSfK8TCWpw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JuMWJRqssV9ZyBaEfrUbLGE5ik0WtbDRs7A/JEy7QC16aB+B9ZdB0JGJpW43i0GEnMtdfRCFG/hfKa1c+ZYSjSGpyFkrwMY5BKdPJkTnByKUFC0LLH17hncD40Es3zKyXCjz9FbszaM7JEG7Uz13l7tyXVC+e/CZjc0XF3448NU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=haSfbs4D; arc=pass smtp.client-ip=74.125.230.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819873876C3
+	for <linux-doc@vger.kernel.org>; Sat, 12 Sep 2026 02:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789180969; cv=none; b=KQV+Zt+l2dB85e3nlPfW55AEdy/mo0Wi/y/dDZXIdwDHdKqsJ+eVfi7jP18KAtBTmgY0r4lwqWYEeFK8c7Bvh1mCQDVDE30JPGs4+vzX6sAb9w8wzJwpo/SpPkR5Tyc/XFwJHR2JdmJSb6htxQaWGn83wAIGOBD8ayuaZvt59aI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789180969; c=relaxed/simple;
+	bh=9f7h9PLAGNr5QREiP4rXwCLceZZ+OvQlKMgj7JBEccA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rsHFYAdcuXGoPbNpKi/gBJYERf/8JOwcWBZ//L+xf9NUHt6CvVWvjBVVsjgWfpOPbVEzxbP9e1eJGwgZbxlbmTxRcZ5m8Oo5TMhcH4r0RZnBtHqwnNNdhNnqm+ONqVqjmPidKC+mnbKx6UN+yDeLasmbiCMlHN/x71N0x9UDwNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PklKXUbH; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="haSfbs4D"
-Received: by mail-qk2-f1.google.com with SMTP id d75a77b69052e-530178f21ffso10442581cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 19:09:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789178947; cv=none;
-        d=google.com; s=arc-20260327;
-        b=G4SkyYFFHUgwu7wcERXB/6rGWV8ewwoE9s3XoSPMAiELTMS9knscEdPDZlTq1aJ4l9
-         35Q6C2MH4/6NOlJWjEppD4AvoQYdkuVxc9tr+NPDmtebrnLLOKDkPDIp4ncStWaUWmYV
-         QcuY2Y6R7DYOME48dfK5ZMj+5ZdO9bPXHxl1LjnK5MjCFlAS27PgN0kmK1HsO8IvDlHc
-         +oDpxpCZ2M2LqdiFHgKyDf/q8/5GNzpMkZi+JUGK9harnntmnOO0RuTSGZzd5hy59y4V
-         qmYYcAZVfgsC7Az+9Qi834Vgrwgog+Gq0hiXC/NqnWWTIwdN2rPfCm7gLohxe7ncfogR
-         E5+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mdT9ENWPEzBfkyRK8P1a2dUQlY39G8cEaKSfK8TCWpw=;
-        fh=f93CiFU4B3yu8AGHjkGMKDoDiN6dDAk4D+YfchcwjRk=;
-        b=gGLPLXpNVLZpvCBtPvi5JkC+b7sUDMiGoxcDZL++7M5Q8KI4vxn2qHu2ItROKQspoA
-         4d+IaJvV2ZG8MIbBukAU85znw8DvuWiTxgCfdUW7nCgLLmzLmMISmxKVsGSPUuEd3Wtx
-         3FJZ8KI3MXrTc4lwPZdG2jWOk83NyqkP9B84Pf5j8IcLhthdZzMq5V7Z8i58dPdR6EyQ
-         1eKcVtMacv55H1ZVkm08fhLIo8YC8GMi1T010Br5xB0FlT8S//Tt18fy/fBfj9eC9fiJ
-         +IUjFD5NaanPxtdp6bDKjV4jw8d6rXFDRzh7/9GPqu5MRBtfdgzRQkS1/fiTqK5YgnPh
-         LT/A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PklKXUbH"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccd66bb4so165732a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 19:42:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789178947; x=1789783747; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mdT9ENWPEzBfkyRK8P1a2dUQlY39G8cEaKSfK8TCWpw=;
-        b=haSfbs4DLoa/DAimtNX+pLEgqVbB7AgCSaa9bMdLPLPuxwKrwGhBx6UXOTpqKsX3In
-         HmPfspx9fu9BmY6nqeDEKMHkk4AfRVKdygG1wjixkkNt491Q5PdYIBST2VNmRyWmEFzQ
-         qX1Hc/DXQC5bNhj0fQXw31rlPm+l7E6BUz++lSI3Kw24acU8zmdqgk88WwKlS9ljAf4u
-         BMtf0NbTwyATUMBTOiHfCfoai66hcwlO1fS98WJDfMROGq1Kj8b5+1Bq05A23o/VE9sA
-         jpNl9UK+fREU+YaTa3g4rVRk84pTrhtji2/oOGf0OpTqWofga//DHQycVfrqmj0xByET
-         u7Sw==
+        d=gmail.com; s=20251104; t=1789180966; x=1789785766; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KsxAOkX7Z0gktBYPmfGgeg8Ie2GzO8n+hdt9t2tFXNY=;
+        b=PklKXUbHrl0mESqR6cCz+z1uSVCL/gU9evRoA+t0HTJ5g2+6IN+gQk6SRzR51PcG84
+         4002eTU4pfv3+VCXOFlDjL7Lhu23TUl5pjvlrWc4IzDelmIA+KCiZSI+sZv3udFhC5bZ
+         64W7dC9js1bAqW5Q5Trfg6lsqco8XFiofhwDGEp9FYHBdz/3mJ5BPY1eGfJHgdr6JBds
+         YBWoVrAdFpAOgcK322tiy7YDkP40ncS9Wjvgd15OHI4TkDoVzOkHfETd1zBIcSl1bDa8
+         tYfcfV5bUiDXBG9scdFCWHimShA3Z65iTE/6GK5r1awOxvDDsZ0P3Qk9gHkdlftd2R0K
+         RUHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789178947; x=1789783747;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mdT9ENWPEzBfkyRK8P1a2dUQlY39G8cEaKSfK8TCWpw=;
-        b=llC7laNnvtwGiB0+sZ95V4wiJrVwRO0yFS1z6UgcMlcsO0UUPzrcfv/IWto6xrFUMG
-         1/TJp6B186HQ4OY5B+tGlYRYvgTlBR4XuGrycHkqY8dX+2lk2g1Cpdz7OR5K34QJV1rl
-         6LXM3UZo9Wh0ajMyW6iI8uktPayXWIGi/CRVZJDd/yW3KWjpmvdnjz02qUZTt2V7Ca2h
-         02ZJjGDEL4aI3uNa+K1G7ygJe6skXIjjQAsC51U8gWlMIzC9foO9PPOTUa89amx9dput
-         V4Fz5X4uLAwkS7oClKEIuaE7anNY4s/qDzk8ThRu0y0G0XuyjCM5SEHBcvHJrFd4UnCd
-         qG4g==
-X-Forwarded-Encrypted: i=1; AKwUvBwJlVgmAA+sjhjKp7m33Gk59v2hYUP6ADDWuDleDFu4t7DfpEHB2/RYFha29rZXK5lIHSKk4j9tQEo=@vger.kernel.org
-X-Gm-Message-State: AFuF++lL9pWFjwuQo7nGiX29YPEJQka+BcGWIEmxvY+1m6JoPP+XrrYA
-	M/FKmeEvjz3tCw4n8452HvGLXuf5Mwq1GmCfbkStB58D9onP2xf/ikkmtVgL/yTomGaFk7elea/
-	LzQHAZUOGTFvprpTc43r+SxtLCrFw1Zc=
-X-Gm-Gg: AYBFou3DzDZyUBli8pjCxJedr2hVLv8WMCtFyrxpBJw11SjYcwZxMnAyi8hAhdxXquU
-	0zGtRFmGP6djIwbP7Rm0rDjeVoAuwYuFcD6pMug+Be36TkGNtpHNllGtDS7QRsaHrq6NreCTdAb
-	hJ6nmrJURyLnF+qSK1Xo0iy25PGRL6Vup9JiCEYr9lS3VCacG9VsFhX9TMNY332xi5NtQLsx8Xs
-	o1yFn6GadAxwCwat9f+ovunyBXl3OiusVMVYB+48s1MnIkWkFwpzi7Y+GmF6cKvqr39nMjYI7SR
-	/8P1FXjbCsQGFuidZ9XUzArGUXmcmJzXH9p4P3bPgi8E7rcYRp4laGPr8hZ+7jEaPhXEPHpMYt9
-	6I3zvDpN/FvjyeMmmLckEEcyKDQ8/Dm3p0H6oBftl
-X-Received: by 2002:ac8:5dc6:0:b0:530:d1d6:792d with SMTP id
- d75a77b69052e-530e7dd8ae5mr13590681cf.15.1789178947506; Fri, 11 Sep 2026
- 19:09:07 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789180966; x=1789785766;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KsxAOkX7Z0gktBYPmfGgeg8Ie2GzO8n+hdt9t2tFXNY=;
+        b=g76xduFEzPzDuZw6PFnNfTU+946EusCjm4vjJdtc+FLgLo5hLRWozgm/oSUVVSU2g+
+         7DOdq5x6I5xqzbWawNsZDo1caLBoEOd9KvUQHFghWprzIiHNPbaDKIbHQAmT7yKbnObH
+         T1k7bTIMuA0eMt7MXv9bzQ50yA4Zm4XHwqrQL2L+rxv5xE4oiztR4Sy6m2wHpBIv6vok
+         wsjpWRL70a1U7nA+jD8c/62nWKIwdiUcozJSKFRNwBunypAPjkAtVpLGqoVESxR6fQys
+         pyEsjLiePHQrSRcALgAMI0JgNtEbVuJi1ULA+1lK+5O0FX4BLvVbNPNHK2yL6Iu4isZw
+         eOKA==
+X-Gm-Message-State: AFuF++lhweBvQk2V2rHhUWYr3t8gPZ6Fo4DfYf4VmP/b7GxwVtevdJJ1
+	B7K8uAe7t0bY5mkzPW3R1W0StlTXAJ1CBBzuhi38bhiEDhSMJssX/UGS
+X-Gm-Gg: AYBFou2Jlg2MJAf1nnGz0LlTsd+wV6Il+HcfQWrDpwheTB7QFEinN12Mzox6uvp289Y
+	YvBo2mILBwn7MEXxAFYpSSv0TsXSRQJvrsGIHUiQF9KJNsQD7BOoO+4aPRwEbG3dUbcIqq1Hqnf
+	JPGPyW2RlNnjY+5ODiDkzHf8vFn16P1UPs1fnOp9ESZfSEZtwiNt3ecLUP8pRIt0FCnQisbbt/J
+	yzZXxsdIpW2FFLVKJWNoW4XcxJnOuPHxWSjkil84tJbv/L1ATPASu7o+VtuylUM73G5MTSehvy5
+	HMc85rQs7t9jle1cc9Roz6vUoT/6VxOvsPpLSvpw3uJ+zdU+zPLcmVF9yCOye2ulod384z8RuST
+	25saaRdRtTUrsvRvkqV7pk8CxIb+hDaJZnXd85IgZz3yEjPK513UhLqu6aAemdgYB9hC94wSFe+
+	ig1PwH9kFCVH5JbESjk7K10RmhPZqpzyAJlFvw10YRhxKfGL8VTvDp2p+7ZJ40LKUuzWkMMO0LC
+	FtX0Nv0Edu7b64Hjg==
+X-Received: by 2002:a17:90b:2588:b0:36a:5d1f:7b6 with SMTP id 98e67ed59e1d1-39dbbe87b09mr1694147a91.2.1789180965146;
+        Fri, 11 Sep 2026 19:42:45 -0700 (PDT)
+Received: from kernel.tail6741c6.ts.net ([185.220.238.35])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d950913a6sm7879099a91.6.2026.09.11.19.42.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 19:42:44 -0700 (PDT)
+From: Kunwu Chan <kunwu.chan@gmail.com>
+To: paulmck@kernel.org,
+	dlustig@nvidia.com,
+	joelagnelf@nvidia.com,
+	corbet@lwn.net,
+	akiyks@gmail.com,
+	luc.maranget@inria.fr,
+	j.alglave@ucl.ac.uk,
+	dhowells@redhat.com,
+	npiggin@gmail.com,
+	boqun@kernel.org,
+	peterz@infradead.org,
+	will@kernel.org,
+	parri.andrea@gmail.com,
+	stern@rowland.harvard.edu
+Cc: linux-doc@vger.kernel.org,
+	lkmm@lists.linux.dev,
+	linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org,
+	skhan@linuxfoundation.org,
+	Kunwu Chan <kunwu.chan@gmail.com>
+Subject: [PATCH v2 0/2] Documentation/litmus-tests: Add SRCU fastpath litmus tests
+Date: Sat, 12 Sep 2026 10:42:23 +0800
+Message-ID: <20260912024225.2872265-1-kunwu.chan@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260908152808.3928630-1-arnd@kernel.org> <20260908152808.3928630-4-arnd@kernel.org>
- <CADkSEUjYhRk-ezaXZkHzFTFQnySFSisKtZfEP-_NtLnQF+6-1Q@mail.gmail.com> <aqRI3N5FPX1dpIlk@gmail.com>
-In-Reply-To: <aqRI3N5FPX1dpIlk@gmail.com>
-From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Date: Fri, 11 Sep 2026 19:08:55 -0700
-X-Gm-Features: AcwNN1XgIQzd6k50BFzIHmb9Q0P_yN5Y-RnB_uEDdmfcLkrtltvi4fLr_oEAXtE
-Message-ID: <CADkSEUgkPyikkhqLBOVEeS-H8L7CvUN8VD88=dUuTeFB8pUM5w@mail.gmail.com>
-Subject: Re: [PATCH 03/13] ARM: remove riscpc
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Arnd Bergmann <arnd@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Linus Walleij <linusw@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Drew Fustini <fustini@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, Stefan Agner <stefan@agner.ch>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
-	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrew Lunn <andrew@lunn.ch>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Gregory Clement <gregory.clement@bootlin.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Kristoffer Ericson <kristoffer.ericson@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Alexander Sverdlin <alexander.sverdlin@siemens.com>, Shawn Guo <shawnguo@kernel.org>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
-	Ian Molton <spyro@f2s.com>, Jens Axboe <axboe@kernel.dk>, Helge Deller <deller@gmx.de>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, "Paul E. McKenney" <paulmck@kernel.org>, linux-block@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi, Karl,
+This series moves the SRCU fastpath litmus tests from
+tools/memory-model/litmus-tests/ to Documentation/litmus-tests/srcu/,
+as suggested by Paul McKenney.
 
-On Fri, Sep 11, 2026 at 11:43=E2=80=AFAM Karl Mehltretter
-<kmehltretter@gmail.com> wrote:
-> I've made a RiscPC emulator in the browser using QEMU and WASM. It boots
-> Linux kernels and currently emulates a StrongARM RiscPC:
+This series splits the two litmus-test patches from the earlier
+[PATCH 00/13] srcu: Round out atomic SRCU support series:
+https://lore.kernel.org/rcu/20260907075829.2073224-1-kunwu.chan@linux.dev/
 
-That's awesome. Are you planning to add support for the NetWinder to the b?
+The two tests verify the memory ordering required by the reader-free
+synchronize_srcu_atomic() fastpath: the grace-period anchor must be
+ordered before the per-CPU lock-counter scan.
 
-A couple things that I didn't see when I glanced through the code:
+Patch 1 verifies that the anchor-before-scan ordering forbids a reader
+from being missed by the scan, while patch 2 shows that reversing the
+ordering permits the problematic outcome.
 
-* QEMU needs to model the broken ldrh/strh instructions for the Risc
-PC (but not the NetWinder). I am not sure exactly what their behavior
-is on real hardware (though I have seen forum posts where people
-investigated this - I'll let you know when I find them). For now, you
-could just have them load/store a random value (:p). It would also be
-helpful if it could print a warning when one of these instructions is
-executed, to help people detect and remove instances of them in e.g.
-JITs.
+Changes in v2:
+- Use a filter for the P0 scan result, as suggested by Paul McKenney.
 
-* On ARMv3, CP15 register c0 is write-only, and you don't model this.
-This caused Linux on ARMv3 to be broken for a very long time before
-support was eventually removed - it was broken even in 2.4.18-rmk4. A
-patch to run Linux on the CL-PS7500FE (=3D ARM710 Risc PC on a chip,
-used in the Acorn A7000+) works around this by keeping a copy of it:
-http://webpal.bigbrd.com/patch-2.4.18-rmk4-wp3.gz. According to a
-comment in later 2.4 versions, that approach won't work, but I don't
-understand why. Also, the patch fails to fix other reads to the
-register outside cpu_get_pgd() (I forget which ones).
+Tested with herd7 7.58 using linux-kernel.cfg.
 
-A few things I know about early ARM hardware and Linux that might help you:
+Kunwu Chan (2):
+  Documentation/litmus-tests: Add SRCU fastpath anchor-before-scan test
+  Documentation/litmus-tests: Add SRCU fastpath scan-before-anchor test
 
-Before 2.6, ARM support in the mainline kernel was very incomplete
-and, IIRC, unusable. To build a working kernel, you needed to apply a
-patch from http://ftp.armlinux.org.uk/pub/linux/arm/kernel/. There are
-no patches for versions newer than 2.4.27, but the 2.4.27 patch mostly
-applies correctly to 2.4.37.11 (I didn't try to fully fix it up
-though). The last patch that was released was 2.6.0-rmk2 - it has some
-relevant changes like the CL-PS7500 PS/2 mouse driver. There is also
-an unreleased 2.6.4 patch - I should ask RMK if he still has it.
+ Documentation/litmus-tests/README             | 21 +++++++
+ .../SRCU-fastpath-anchor-before-scan.litmus   | 57 +++++++++++++++++++
+ .../SRCU-fastpath-scan-before-anchor.litmus   | 54 ++++++++++++++++++
+ 3 files changed, 132 insertions(+)
+ create mode 100644 Documentation/litmus-tests/srcu/SRCU-fastpath-anchor-before-scan.litmus
+ create mode 100644 Documentation/litmus-tests/srcu/SRCU-fastpath-scan-before-anchor.litmus
 
-The NetWinder development team shipped patches to their kernel with
-additional features for the NetWinder (and other ARM hardware,
-including Acorn). This is the last one:
-http://www.netwinder.org/mirror/users/r/ralphs/kernel/patch-2.4.21-rmk1-nw1=
-.gz
-I don't think most of those changes ended up in mainline.
+-- 
+2.43.0
 
-The Risc PC and NetWinder lost their audio drivers when OSS was
-removed in commit 727dede0ba8afbd8d19116d39f2ae8d19d00033d. RMK was
-working on an ALSA driver for the NetWinder but never finished it
-(IIRC it is in 2.6.0-rmk2 but probably doesn't work).
-
-> I used LLMs a lot while building it.
-
-I don't use LLMs for environmental reasons, because they are often
-inaccurate, and because I like using my own brain and don't want it to
-atrophy, but we are all entitled to our own opinion.
-
-> Your GCC work looks useful for this. I will look at building the RiscPC
-> Linux kernel with it, and at emulating the original ARMv3 CPU too.
-
-Great. Let me know if it works.
-
-P.S. I have a few UI suggestions for the emulator:
-* Make the display bigger and able to lock the mouse/keyboard and go
-into fullscreen.
-* Remove the LK201 keyboard - the NetWinder used a normal PC keyboard
-(if you add it), and the Risc PC used an Acorn PS/2 keyboard (a normal
-British PC keyboard but with no Windows key):
-https://chrisacorns.computinghistory.org.uk/32bit_UpgradesA2G/Acorn_RiscPC_=
-Keyboard.html.
-Just keep virtual keys for the keys that you can't input in a web
-browser.
-* It should be possible to middle click using a modifier key if the
-emulator ever runs Risc OS, because middle clicking is heavily used in
-Risc OS.
-* I think some of the explanatory text is unnecessary.
-* The skeuomorphism is cute but inaccurately represents a Risc PC, and
-I think it clutters the UI unnecessarily.
-
-Ethan
