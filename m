@@ -1,50 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F87373BF2;
-	Sat, 12 Sep 2026 12:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B05478E25;
+	Sat, 12 Sep 2026 13:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789216742; cv=none; b=nnMu5KW2ic1FzEd00kF1rFzxk8zumCIgyyPO11sAt/jGxbSeOZhKuMxl2/7l2btpsZ7krYM7jPHIFUbuvByjimVxcQXCZFOlbQB152DCe0i+0uSw3k7Gq7C34vtaYlN2IxiLlo7zZHMnX8SrDh36mSyIEMVhJhU7hjuu6P6Mp/I=
+	t=1789219338; cv=none; b=QAqoD5p4tCv9YDUgefX9y+p5Bs5Qgj3P48rr+dRzmiMOSTKBtJkWlFN+9pn/XPDE5EwA25MQrVsZnZGXWo764TTFsQMbaVXCf597g6UMgWjIoxpQ9+tkUxQhHPUkGS9AL4j5JHnfLV6M6aOK9/z4brtgRJaSkRtauLALuzQphP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789216742; c=relaxed/simple;
-	bh=A6/3MCg9R79ckuXy//FTcJ984yL2uDU8Tu77/oKLL9M=;
+	s=arc-20240116; t=1789219338; c=relaxed/simple;
+	bh=BOCroOJEaN/c+qJk5JxHZ9/qarv56VFO8jjyDmUDmlY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SGOlVUT4+iYKbIvK0qZp4RCdwn7G1H62uMHBvL3CEv+Gm9bp0dm4ChS6wxThx1PWxnQ5TnRqU7JjPcNj6MMw4nF9WgYUDAT1g80OdYO+ct6UZfb/DzhkaluI45K1lwQ48mQSM2WwqFqnXPJw4TAsKAFVjmdfR9ILhtGSIAAc1lI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OU/qQOMZ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=fkBacL25niAxeyBeUkpRgiAlb9scAUEY4LPtuhTQ+vWp3OYBoGNWgFV078FPqVmRnHLQ444mETBYHW0xvUXX8U1qMohWuFaKvWSlDLgJgKJcViybNyViDor4LFTioxxqmh+T9YpoE+gb5indVTrztnfbxmpfEDnaKGhTvbXbWTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y394gTHB; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OU/qQOMZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF5EB1F000FF;
-	Sat, 12 Sep 2026 12:38:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789216741;
-	bh=f7BZbyDY4BGxf9J7NMaAvN3pKH3axxWfzqLfVJA35v0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OU/qQOMZrx3Zfqb5o9u572FP0my6GnkeeCUTqpIb0ST/RHPATM0Moxl6lszbMkFDP
-	 O9SQzueAd87sGWu3/t4q+zCik7MFb/iLfZqO1TtuezOql9f+ROwJSSg7qKhIrSrVe8
-	 66+fqXkNO2UDPb9l++ZXDS1ffyB1BvyRNZQdFCl55pS6afvAOJhbzJydCAlsAxPOD5
-	 5WcMZKjPGMF7Bv3ijEyvUgHT3vsVamb2Q5aAg1A7LeKzXni6lefcIfxTUY2Euk0Jxo
-	 BSBzBswY1Ng/whLpV4+0FNH3XTo5DhxUszNayfGVP518mTc/yPk1SQxvIq/FGQx642
-	 Sn5mm3mXZ6TIg==
-Date: Sat, 12 Sep 2026 20:38:56 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Linus Walleij <linusw@kernel.org>, driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH v12 3/3] gpio: Leverage revocable for accessing struct
- gpio_chip
-Message-ID: <aqVH4Fl7pew8PKf1@tzungbi-laptop>
-References: <20260908134223.13638-1-tzungbi@kernel.org>
- <20260908134223.13638-4-tzungbi@kernel.org>
- <CAMRc=McssNYy09bnzUpf9LEB94UOWimyVZNOrKRPn1EUVF8iTg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y394gTHB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789219336; x=1820755336;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BOCroOJEaN/c+qJk5JxHZ9/qarv56VFO8jjyDmUDmlY=;
+  b=Y394gTHByj7QPUVqdk+jf2PIPJjxAHfJFbqZWNnCsKLEmp2ajq7w84gx
+   KXU7l3faGZzkqkOUUMwoHt0NhpPbXCGwh4a08vmcO+RVEKSOLerCFBwX1
+   tfPIsBZN9nvHirq0yNmA71Ag+heKTy5IK/SBSBsBLzP5GYZK1mUY6PhuY
+   JLqdsapHKwFfa2qdKVNkimuIWIQoA8nbVovRj7dS8A2YVCJk1ro51/kI8
+   Ap0IxRZfq23cs0DKDrjaaD7xsitEpTKrof7fd6YCLxpj2jYSxFhB0tcYD
+   ATE7QRNIiD8t/2R5h3rKpQZpBlNohjm8LUOlhpl6xiYUS/nbGyp3WjAKg
+   w==;
+X-CSE-ConnectionGUID: Y9lYbDEDRRq5I9EkNxZXlw==
+X-CSE-MsgGUID: Jqo12sXkQ6S9RkHv6bGl0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="100318961"
+X-IronPort-AV: E=Sophos;i="6.27,99,1787036400"; 
+   d="scan'208";a="100318961"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 06:22:14 -0700
+X-CSE-ConnectionGUID: B7LDMt1jQ96Kz7kW5wmCEw==
+X-CSE-MsgGUID: hFNH3Yn6Qq+pFFUYU0vguw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,99,1787036400"; 
+   d="scan'208";a="272158036"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.239])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 06:22:05 -0700
+Date: Sat, 12 Sep 2026 16:22:02 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Meagan Lloyd <meaganlloyd@linux.microsoft.com>
+Cc: linux-i3c@lists.infradead.org, alexandre.belloni@bootlin.com,
+	vitor.soares@toradex.com, samagazaryan@google.com,
+	gregkh@linuxfoundation.org, arnd@arndb.de,
+	boris.brezillon@collabora.com,
+	oleksandr.shulzhenko.viktorovych@intel.com,
+	tgopinath@linux.microsoft.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, linux@roeck-us.net, Frank.Li@nxp.com,
+	jorge.marques@analog.com, pgaj@cadence.com,
+	wsa+renesas@sang-engineering.com, tommaso.merciai.xr@bp.renesas.com,
+	nuno.sa@analog.com, Michael.Hennerich@analog.com, jic23@kernel.org,
+	dlechner@baylibre.com, andy@kernel.org, lorenzo@kernel.org,
+	enelsonmoore@gmail.com, rppt@kernel.org, pratyush@kernel.org,
+	giovanni.cabiddu@intel.com, gabewhigham@gmail.com,
+	haren@linux.ibm.com, pasha.tatashin@soleen.com,
+	jirislaby@kernel.org, adrian.ho.yin.ng@altera.com,
+	ustc.gu@gmail.com, jszhang@kernel.org, adrian.hunter@intel.com,
+	akhilrajeev@nvidia.com, tze.yee.ng@altera.com,
+	manikanta.guntupalli@amd.com, shubhrajyoti.datta@amd.com,
+	jarkko.nikula@linux.intel.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux@analog.com, linux-iio@vger.kernel.org
+Subject: Re: [PATCH 1/3] i3c: master: enable driver_override for I3C
+Message-ID: <aqVR-jBabQKcsfjL@ashevche-desk.local>
+References: <20260911210935.1353126-1-meaganlloyd@linux.microsoft.com>
+ <20260911210935.1353126-2-meaganlloyd@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,58 +79,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMRc=McssNYy09bnzUpf9LEB94UOWimyVZNOrKRPn1EUVF8iTg@mail.gmail.com>
+In-Reply-To: <20260911210935.1353126-2-meaganlloyd@linux.microsoft.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Sep 10, 2026 at 12:32:48AM -0700, Bartosz Golaszewski wrote:
-> On Tue, 8 Sep 2026 15:42:23 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
-> > The underlying chip can be removed asynchronously.  `gdev->srcu` is used
-> > to ensure the synchronization before accessing `gdev->chip`.
-> >
-> > Revocable encapsulates the details.  Leverage revocable for accessing
-> > the struct gpio_chip and remove the `gdev->srcu`.
-> >
-> > Tested-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> > ---
+On Fri, Sep 11, 2026 at 02:09:33PM -0700, Meagan Lloyd wrote:
+> Opt-in to driver_override sysfs functionality for I3C subsystem.
 > 
-> Could you address the following issue pointed out by sashiko?
+> Update some I3C drivers that are assuming that if their .probe is
+> invoked that the bus match function already checked the ID table. Go
+> ahead and verify in .probe that i3c_device_match_id() returns a valid
+> match before using the i3c_device_id pointer.
 > 
-> > diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> > index 66d2325bfae87..a7d3c4d9018c8 100644
-> > --- a/drivers/gpio/gpiolib.c
-> > +++ b/drivers/gpio/gpiolib.c
-> > @@ -898,10 +897,10 @@ static void gpiodev_release(struct device *dev)
-> >  	synchronize_srcu(&gdev->desc_srcu);
-> >  	cleanup_srcu_struct(&gdev->desc_srcu);
-> >
-> > +	revocable_put(&gdev->chip_rev);
-> >  	ida_free(&gpio_ida, gdev->id);
-> >  	kfree_const(gdev->label);
-> >  	kfree(gdev->descs);
-> > -	cleanup_srcu_struct(&gdev->srcu);
-> >  	kfree(gdev);
-> >  }
-> 
-> Could this cause a use-after-free crash during concurrent device removal?
-> 
-> The revocable object chip_rev is embedded directly in the gpio_device struct.
-> The new access cleanup pattern drops the SRCU lock before dropping the kref
-> on the revocable object.
-> 
-> During asynchronous device removal, revocable_revoke() executes
-> synchronize_srcu() to wait for readers. Because the reader drops the SRCU lock
-> first, revocable_revoke() will unblock, proceed to gpio_device_put(gdev), and
-> gpiodev_release() will execute kfree(gdev) while the reader thread is still
-> active.
-> 
-> The reader thread will then attempt to call kref_put() on the chip_rev that is
-> embedded inside the now-freed gdev.
+> Signed-off-by: Meagan Lloyd <meaganlloyd@linux.microsoft.com>
+> Assisted-by: Claude:claude-opus-4.8 copilot
 
-While callers who use embedded allocations should properly pin the container,
-the revocable primitive itself shouldn't rely on that.
+Assisted-by: LLM
 
-I have fixed this in v13[1] by caching the flag locally inside the handle,
-ensuring the teardown never touches the container's memory after unlocking
-SRCU.
+...
 
-[1] https://lore.kernel.org/all/20260912123529.7951-2-tzungbi@kernel.org
+>  drivers/hwmon/lm75.c                        |  7 ++++++-
+>  drivers/hwmon/tmp108.c                      |  2 ++
+>  drivers/i3c/master.c                        |  6 ++++++
+>  drivers/iio/adc/ad4062.c                    | 10 ++++++++--
+>  drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i3c.c |  3 +++
+
+No, each IIO driver should have its own patch.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
