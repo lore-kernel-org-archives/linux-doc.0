@@ -1,155 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696E122FF22;
-	Sat, 12 Sep 2026 00:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789172946; cv=none; b=tgK8jdmVhNMJeGIlTEHfrG6g1/CFia92Cy7kYr5MB12YJFxXmOXOZ8AfiqDHazC4A+WJGJ4T9Xp6VJvRwn+tay52u75ClCOIctFxqqLs/TdXY/mCCgdjseLl5WxMvpqk3SLJfjcdHJbqMfovnyzXgyFMJ1RB/wlY6icLthxS6bE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789172946; c=relaxed/simple;
-	bh=yRInyT4nAwQjg+M4AjyOXPgq3Tn/6M48qni9EzTqffY=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DhcCczgLCbiXZMK8WVzReSyFhzpH1piereINp9m9HPi80qEYHqaubF0wejEpKSktzYZxmZa+4irm5vTc+z6EfDWoDeyazagDUP4DClgLb/ZhATtslNwKk2hzQY/FJvSiTNOdI1Qmv0puXUpp+POTBBia8i60vo9dxy2k8R8Q08Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n7Qc59br; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42F0233936
+	for <linux-doc@vger.kernel.org>; Sat, 12 Sep 2026 01:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789176586; cv=pass; b=bkqbjMJTKdDYHS7OnY7rAHwikMRltW+VKVacLnXKHUGve/JxPMGq+yfxvWpheHn0voLCUN9bBM3u46scJxQcb1B/+QNdSqkOyDkEiQvOPbrdQnPLEJg0sZuEyRumPCCzGx0EKmDPZBz9t3uUjItSupRjXU7huEcSMvMYcW6BmwA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789176586; c=relaxed/simple;
+	bh=MqFZZ1MZCCOk3B2AWbqhU4vVtD/Z+SwXDy5HKI6vso0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=obWk63JuHcJczXJv5yqv1IHbsm7EMlPChMQ7ry+l9fs0kNl4x7bCrzZ/RI5ImuYdjQTnFSr5kcK1icPabz8XhqC0vw9PXqfie+7iWCPltfzJp0iahxxYj78BASX8ZCk4+16kt4AKXWcBPAlVA8k1a0R2Qojb59Ou5Y32rbcAQZI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0x0f.com; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=0x0f.com header.i=@0x0f.com header.b=QAqLa2iA; arc=pass smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0x0f.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n7Qc59br"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC1831F000FF;
-	Sat, 12 Sep 2026 00:28:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789172941;
-	bh=6CSta5XhIEPFGyil8kLX3aNZhGbqnm9QcBrHZcXnFkA=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=n7Qc59brARl+nNjXgAcuCuR/XEFef3Fk18OB5E/Zv59cMsMbeCa0zYE+1xxDd1D0p
-	 ut8YTzL0gqafmKVP3wsptrGg5z88HeO61gm1hqzjJqglNpn4LGJHgNNdE+fxZrxA4P
-	 iE4MVj3TscEQmXAZL/MpytvkWbdv1eb7giclK/K0exAxaRkcG+6iM/AjCm7RUekNEX
-	 uNhf9jnnXmvMH825rFcw2oBwsIuCHKude5lhaW1x50Gn1QB98KL5GwFgq3lImcxwHN
-	 d8gKUYuHPMhrdZguXZP1hBexbcD/yFLSsCTbqVs3Ybh/KO9Jlb9ZR6yTbnlj4scsLp
-	 p3DBONSsOGSbg==
-Subject: Re: [PATCH net-next v14 6/6] net: dsa: mxl862xx: document devlink
- flash and info support
-From: netdev-bot+sashiko@kernel.org
-To: daniel@makrotopia.org
-Cc: jiri@resnulli.us, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, gregkh@linuxfoundation.org,
- rafael@kernel.org, dakr@kernel.org, andrew@lunn.ch, olteanv@gmail.com,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Date: Sat, 12 Sep 2026 00:28:59 +0000
-Message-ID: <178917293947.219967.869838796504417154@kernel.org>
-In-Reply-To: =?utf-8?q?=3Cb442cc1c7dc708aecef0e4044298c31a86959238=2E1788976?=
- =?utf-8?q?064=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
-References: =?utf-8?q?=3Cb442cc1c7dc708aecef0e4044298c31a86959238=2E17889760?=
- =?utf-8?q?64=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=0x0f.com header.i=@0x0f.com header.b="QAqLa2iA"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d8fe517774so6416525ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2026 18:29:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789176583; cv=none;
+        d=google.com; s=arc-20260327;
+        b=PeDP6ga4LSQpvtaHwvFcHWdh9FMUrOSpPbT2v0NoUii9SxDmLmB4nBc3nAn+zPanYO
+         Bclci3qFpChP/lYJI0aNTnKpgA4S/0M38TyWPUXrN/oDu3GPP+uJ2yLKIuF9AvAX127A
+         6Ah0zGTi4LYsJGwahIAFlZBFeruuFmh+rAjPeyaT2MCPj2YDtMMitR7gg6fWb48QCioY
+         3st1PwRoy5Qlsrey5+ifJVjRk5sf7Ff2DW8QxG643KJ0Ldo8ewVKcxYG3D29UTcLewsz
+         qzUyxEoLdtpZriWqjT44xRdXHEe7FaW7NLEacfMns2NfmCTKcx7+YM01oJRm3qRxw5qa
+         AQzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=MqFZZ1MZCCOk3B2AWbqhU4vVtD/Z+SwXDy5HKI6vso0=;
+        fh=aM1oiHKzjcyBO6/GWQdjGBZeeVAPbHj2O+xQ1pcsmAY=;
+        b=j2d5ssvqiFxzj+vfjsVeSvjbxji7pgnnlxJl7X+6BozOv6EpjIFJcNfeVtH13XYrOL
+         hwgNdf51Fi0pitQ3XL0e7NGZY7gONJbH53ISQ/v8PNmeiGbiP5Apcs1TfckYWvxpzH4M
+         411tW0IDk26BNmkfx9fdNUJ9xZq8wCLW3XrMrTG2wlr/XjwBlzB8nPHM8sySdwaWQEir
+         hH5ZDGB97Fo2he62FrFLw0ETa9twzYOMRZIjErzNMCNlBcDer4tBVFGO9O0yTxB7CQYW
+         n9a0tCxd7//lm9ja1+N3NfzyitzDY07oljwpxiw22RVLTJAr/whLn26+35Por73XJ724
+         rnyQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=0x0f.com; s=google; t=1789176583; x=1789781383; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MqFZZ1MZCCOk3B2AWbqhU4vVtD/Z+SwXDy5HKI6vso0=;
+        b=QAqLa2iAbwvbRxmC6B/DPpQl65ZVNzEquWN6wGgAhav0o7h1rYsToOePhjX5FWfOwV
+         2QVaUBzUttmd9Bo86TSJ6STiOqDzCq4lJcczZXWAE7fbGVZ3m8PWgwWu+anMzWklqRTP
+         /wcfwddYmq2X1nPNtWMdy+IL2+QUWEynTsNoA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789176583; x=1789781383;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=MqFZZ1MZCCOk3B2AWbqhU4vVtD/Z+SwXDy5HKI6vso0=;
+        b=Q0wp4dx3P6B4xXN+4HFFtFwTE/pMvVkSiSgXTns+LhFwvhSv9+52nAPdhoXtv5jIHE
+         ak7U5ZhLPbgovRjcnutwrn1YqPySYSKSbA6O9nzRjaPhiEk1vQs3Uk1ZbZUpy2uc/A2Z
+         n7JslgP/9LcxrB5J2VuGZfxBKNiDmZvxEHVJGVrx2Vv413JtDCOdpySb3sdjY6xY9FQP
+         U0p/6MH89Bup0/SiqV8/Fk2wymZfyDsl04+hQZwfsbC2YEOXwcT9E++8u+j3tZMHpkjN
+         6JvxnA3foEJUKo2bb0/XlBzF7KcHhThZ2qQ2wzdNDXVD1V6oLstzz3YfKStnFQiDbJBS
+         x/ow==
+X-Forwarded-Encrypted: i=1; AKwUvBxpzEQ8QcJQRyr3Mp+/4qlzrJpIrEVa9dSn2JsFBI7NPBsp7kMZaw1qaPW9MIK76IlZLAoGh2Vo3ng=@vger.kernel.org
+X-Gm-Message-State: AFuF++nTMQY8SvpPwBs4ZTxlIMyerx8zJQuY5wx/BLY8MmkJDByAQPDZ
+	6q79E8+LImn1ppO3VSEy1IesnDoTN3lUHCeqr7yXfig2VLuoBO2WfD1Q6jGZEz9wXr9iVN1uI9P
+	NXgxRZ/KWK1s3gZX7IUEQ7w28E9qJAH8iCwx5dNQzGQ==
+X-Gm-Gg: AYBFou3LabeKfINXu8hBTj2IeGG6bhA/Mo6ykeh5Q3A67+4yC+StHgXTC+VLhKToVr6
+	f5AmGRC4WwnAj5phrEhq9o5Ge+gq+oN1ubGGqrhE8aneOcim2/F/jgZVBNkxGrTK7sCOsb8nrRx
+	1ldjdswVmqN770r/RTX1gL5PKeELIZBWxCiJP/XN1+q+n6gsr6LArJHy0BQcRek9K/W/dNdp5u7
+	P2agwUAWXxgYValHp2SC5yKHcp9ysDeiToJn4Wk9H1/8ZoNhytPb15EkZusqiMsiHVNgpSvyF4L
+	k/8olFrfNHtdFyJvMi7cTolLpuE8VgRi4CPSIuxJWqZHpVWRyx/6Qw==
+X-Received: by 2002:a17:90b:4fc2:b0:381:6c5:3f63 with SMTP id
+ 98e67ed59e1d1-39d9bc42d1bmr12376403a91.6.1789176583130; Fri, 11 Sep 2026
+ 18:29:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260908152808.3928630-1-arnd@kernel.org> <20260908152808.3928630-4-arnd@kernel.org>
+ <CADkSEUjYhRk-ezaXZkHzFTFQnySFSisKtZfEP-_NtLnQF+6-1Q@mail.gmail.com>
+ <CAD++jL=ysmPgs8yKH5KBobuv-eeCHHgZwvo1kvHOFuTwhkaOew@mail.gmail.com>
+ <CAFr9PX=_FmMdR4TeP+tqURZdZCTjw8UYxAxeszs_vcpTbX+_aw@mail.gmail.com> <CAD++jL=zaF1zcTv6Mta5Xw69WeLC30NRcH0_pkSkLJJ0UtnZHQ@mail.gmail.com>
+In-Reply-To: <CAD++jL=zaF1zcTv6Mta5Xw69WeLC30NRcH0_pkSkLJJ0UtnZHQ@mail.gmail.com>
+From: Daniel Palmer <daniel@0x0f.com>
+Date: Sat, 12 Sep 2026 10:29:30 +0900
+X-Gm-Features: AcwNN1UYIuhyU3FVES8GlXYNI9phDxlCK3dBrZsiSwUakZtphqfaiRPyo96Awf4
+Message-ID: <CAFr9PX=tVOzqGU4k0zSzXheuU5z5LZi4LSGdUvjChrSTrbyjJg@mail.gmail.com>
+Subject: Re: [PATCH 03/13] ARM: remove riscpc
+To: Linus Walleij <linusw@kernel.org>
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Arnd Bergmann <arnd@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Drew Fustini <fustini@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, Stefan Agner <stefan@agner.ch>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
+	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
+	Tony Lindgren <tony@atomide.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrew Lunn <andrew@lunn.ch>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	Gregory Clement <gregory.clement@bootlin.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
+	Kristoffer Ericson <kristoffer.ericson@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Alexander Sverdlin <alexander.sverdlin@siemens.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Karl Mehltretter <kmehltretter@gmail.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
+	Ian Molton <spyro@f2s.com>, Jens Axboe <axboe@kernel.dk>, Helge Deller <deller@gmx.de>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, "Paul E. McKenney" <paulmck@kernel.org>, linux-block@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider:
+Hi Linus,
 
-Critical: 0 · High: 0 · Medium: 0 · Low: 2
+On Sat, 12 Sept 2026 at 03:15, Linus Walleij <linusw@kernel.org> wrote:
+> I would say using generic entry would be a prerequisite for
+> doing m68k SMP so we don't introduce *more* entry
+> oddities, but after that I'm game.
 
-- [Low] Documentation/networking/devlink/mxl862xx.rst (new "Flash update"
-  section, lines 70-74) states unconditionally that `-EIO` from `devlink…
-- [Low] Documentation/networking/devlink/mxl862xx.rst describes
-  ``asic.rev`` as "The chip version read from the same register word" as…
+I have started this for one part of the m68k tree (68000), but it's
+one of those things that is hard/frustrating to test on real hardware.
+For the last few weeks I've had claude create a QEMU that can boot all
+of the m68k supported machines to Linux, Netbsd and their original OS.
+It already found this:
+https://lore.kernel.org/linux-m68k/20260828094940.3882602-1-daniel@0x0f.com/
 
---
+> As SoC maintainer I see that m68k has a lot of technical debt
+> like drivers under arch/m68k and no proper hardware description
+> (such as device tree)
 
-net: dsa: mxl862xx: document devlink flash and info support
+I have m68k machines using devicetree... :)
 
-Adds a new Documentation/networking/devlink/mxl862xx.rst describing the
-devlink info versions and the flash update flow of the mxl862xx DSA
-driver, including the MCUboot rescue mode recovery. The file is linked
-from the devlink index and added to the driver's MAINTAINERS entry.
+> There are things like
+> amiints.c, cia.c, ataints.c, q40ints.c etc that should be in
+> drivers/irqchip. So many time.c that should be in
+> drivers/clocksource/* and many other unmodern things.
 
-Two questions about the wording of the new document below.
+Would be easier with devicetree. But is anyone crazy enough to go
+through the pain of merging the devicetree support and then arguing
+about devicetree bindings for each of those drivers only to be told
+m68k should just be removed?
 
-> diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-> new file mode 100644
-> index 0000000000000..5b24d8cb57bc9
-> --- /dev/null
-> +++ b/Documentation/networking/devlink/mxl862xx.rst
-> @@ -0,0 +1,74 @@
+> Albeit I think actually going and fixing that can't be super-hard
+> in the age of LLMs. So listing things like this likely will just make
+> someone go and do it. :D
 
-[ ... ]
+Once you have an emulator that the LLM can operate it can do the
+change/build/test/debug cycle all on its own.
+With a test harness it can even test the changes work on the real hardware.
+But I don't think that's enough to convince people the changes are
+worth reviewing/merging.
 
-> +   * - ``asic.rev``
-> +     - fixed
-> +     - 0
-> +     - The chip version read from the same register word, so it is
-> +       omitted whenever ``asic.id`` is.
+Cheers,
 
-[Severity: Low]
-Is "the same register word" accurate here?  mxl862xx_read_chip_id() in
-mxl862xx.c reads two separate words and builds the part number from both:
-
-	reg.addr = cpu_to_le32(MXL862XX_CHIPID_L);
-	...
-	reg.addr = cpu_to_le32(MXL862XX_CHIPID_M);
-	...
-	priv->asic_id = FIELD_GET(MXL862XX_CHIPID_L_PNUML, chipid_l) |
-			FIELD_GET(MXL862XX_CHIPID_M_PNUMM, chipid_m) << 4;
-	priv->asic_rev = FIELD_GET(MXL862XX_CHIPID_M_VERSION, chipid_m);
-
-So the revision comes only from MXL862XX_CHIPID_M, while the part number
-spans MXL862XX_CHIPID_L and MXL862XX_CHIPID_M.  The adjacent asic.id row
-already says "CHIP ID registers" in the plural.
-
-The row's conclusion still holds, but for a different reason: both puts in
-mxl862xx_devlink_info_get() sit behind one gate,
-
-	if (priv->asic_id) {
-
-and a failed read of either word leaves both cached values at zero.  Would
-it be clearer to say the revision comes from the CHIP ID registers as well
-and that both are omitted because they share that gate?
-
-[ ... ]
-
-> +If the recovery fails, the loader needs a power cycle: ``devlink dev
-> +flash`` then returns ``-EIO`` and says so in its extack message. The
-> +driver only re-examines the switch when it binds, so on a board where
-> +the switch can be power cycled on its own, unbind and rebind the driver
-> +afterwards to have the recovered switch recognised.
-
-[Severity: Low]
-Does -EIO always mean the loader needs a power cycle?  The only site
-producing that errno is mxl862xx_devlink_flash_update() in mxl862xx-fw.c:
-
-	if (READ_ONCE(priv->rescue_failed)) {
-		NL_SET_ERR_MSG_MOD(extack,
-				   "download recovery failed, power cycle the switch");
-		return -EIO;
-	}
-
-but mxl862xx_rescue_heal_work_fn() also sets that flag after a drain that
-succeeded:
-
-	if (device_schedule_reprobe(dev, MXL862XX_FW_REPROBE_DELAY_MS))
-		WRITE_ONCE(priv->rescue_failed, true);
-
-device_schedule_reprobe() in drivers/base/dd.c returns -ENOMEM when its
-kzalloc_obj() fails, and -EINVAL when the device raced an unbind.  In that
-case the loader is back at READY and only the reprobe hand-off was lost, so
-what is actually needed is an unbind/rebind rather than a power cycle -
-rescue_ready is only ever set by mxl862xx_rescue_mode_detect() at probe.
-
-The flag is also set when mxl862xx_rescue_drain() aborts on a transient
-SMDIO error or -ETIMEDOUT, not just on the loader-stuck verdict from
-mxl862xx_rescue_drain_finish().
-
-Could the sentence be softened to say -EIO means the driver gave up on the
-recovery and the switch needs a power cycle and/or a driver rebind before it
-is re-examined?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1788976064.git.daniel%40makrotopia.org
+Daniel
