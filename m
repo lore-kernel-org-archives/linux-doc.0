@@ -1,222 +1,91 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711402E7631
-	for <linux-doc@vger.kernel.org>; Sat, 12 Sep 2026 17:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CCE4BEE43;
+	Sat, 12 Sep 2026 17:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789234326; cv=none; b=uxtqy+NhyX+zrusBfflsSrV/sGbsUxBCieWeCa9YwQy432l1sA7EZSHKJWfT2jqXb6aw0DezAaTuzrGRr+GcqzOhBZlOwUabf2L0jrao3Bu01jtlE1PnHFka00xG5P1xejm//ctyTFrNVKf5o7pfoPXu03uMxY5TLquKjl2ziYk=
+	t=1789234557; cv=none; b=oY4EujTELBdYvjbD3cGVdy/FJt51t+9Yi5vZfYIsCDv0T49cih4PUWlNKxR0n8IA0Ki5WhozUxl2FwtzE3T4olM4yQZZSwgEUXOGFlBR5SbT28p1EuGx1KzaS39EmM5GHkIugiS/usKMN34v+sLE/ijqiwLnqvauhnXptUV5bi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789234326; c=relaxed/simple;
-	bh=Jkf0YZSlcFgLfLyrbr0OSFkYg9rN+0VYiQJO3omdIxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gWZvCGcLmnmKlaypLkW2EWGUTm80xPbTipjlxIfOYIMdsq4k+Fh35MuVpKRXpF2gEz/lkIp2W2JStZcRB7JfgvX0HfyT+GfWeK4b6jaPZNen1CIQINoChksYaXx1jHVP/UwMAXegd3/H4NzEa25feBFeBajiTuf0DN9Z4jWeLlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=O9RO2c1M; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1789234557; c=relaxed/simple;
+	bh=2ym46DYtEiXCcUt0q5Snjkv/IVipx/Y/0aVb/GzE2N8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CjMC7CcWGSajcDQizCHyFgZH7raRpGvm9jcn6hDHzdbfblNpqmWnBeblm80mQmld7uKgOWfuW0joj98Ym1l+zy8WAin6IZyd3hVg2UTBPIAfBLOBQOdaR44TFa/ARtrSsLlJpj1XcT86KUQVIfUzp4Pt/L4bofqyCpjpz71lwIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qVdsQMhf; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="O9RO2c1M"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d8fe517774so11636675ad.0
-        for <linux-doc@vger.kernel.org>; Sat, 12 Sep 2026 10:32:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789234325; x=1789839125; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pBslPyab51IM3cN1q+WywRAJYOzHWq5eKWBrdVKUM1w=;
-        b=O9RO2c1MyVoyN+roDjyRKZktvn3cO4hWzs1y5cUL9Tj/EPMQhmnRLpKDA+fOySHYBQ
-         HffLRJpq7cQC0+a5m0fHp7jx5qeEIQ/4KpxwFzdC/mPiaGMZznC80KZ4eAv9389vH5XI
-         +iZcys2TuxOCRa1JeKWLOt/2zYa9M7HmNEAbhgY1CH4oRnc1OFoIT1UhZZAkzutbeJMi
-         zTIiTVMpNWk06hdxoU7YT1wzrqwOavEnSZ+Hpg+NApE1j7EiegOF+sJd+TmWKfbtxZ1A
-         bRPtswuMw9GK9FYLYGs4Dm6RwDEmNPGZm6hcMl0p/y67EbpsDfI+r3NxwaLJYSF1c2SJ
-         /33g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789234325; x=1789839125;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pBslPyab51IM3cN1q+WywRAJYOzHWq5eKWBrdVKUM1w=;
-        b=NrbSzYLIxgtQJ7IMVQ6TBQaOuWwM0uE7wErmw7SLPu6iMImoJllsvAOmytbb+vhlps
-         n/EfYiri2YXcsy6BJPgPTXaD9FcKo/BYagky7r9ApNyM3gLC3HdoazwBZOZ5vsf3oou5
-         0tivgrIhnlZcw/GJwhsClGNuq9o7bxk2osTs/2zMhf2bcR6R8Viwyy7jAVzVFL0jj0zt
-         Ld4lkCS9RP7T4YMzOKkycjs2q9yDQx/yhwIcoC6RtuAvFWbo0gcD27568HyT9Vl9eD7w
-         bcD3ApwrHuUfFocNJKWD72zB+AHfA/W76lwrTmFqF/M73XMvHFOhcgjEhwhmmu2HmBi2
-         XK0Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzRn1j61MAVXxIGsA4SGlb6hSl5t+YHIWZuaMaWSGsT2KHpLdXdIod3xBkjlbNr600o2matKZmJpF8=@vger.kernel.org
-X-Gm-Message-State: AFuF++mM63VyHPIJBO/Z+cakPp1D4d2Zt21cJ9X6X5Dhz7UCfU35V2Xt
-	4g0fJCV6ypvIo+DPdTB21TqWBxIbPMMmEo5o071nUCAG9j0+pTTCfFVlX61frokudA==
-X-Gm-Gg: AYBFou0M9WuGYfS1ko+hKFXrNhjh9y/IiyLUhFBi3sgvVnb1zEa7gpjF4qxk7KXRk36
-	jrZQzfqDLy61BRPPw8FbnG57rK5QbGpomwK+p/8GvsOokmPfrgcCPtmcqSp0Nomm90XFqgpNw4I
-	drB6D1uliWGQ4NGZhfU8LpvlqTW6eC2Voj5y8+T113My/GAf2SjeE3qgsez1NYGQJqxOn5Y/+UA
-	UtSe+uvBBc/vX6jzqC6PPqKwhcUYGfsuD/jk8Qb4GPsg8gcUH56elOwFsTvLQIkyQ1jDKqxCyGx
-	e6b7O0zZAAfuvMwCRspIX1L/N9xbntABVAR5+3/qTeyxIddQSA3I+BFZNRl3WC3/Nt97HoK7kHc
-	x+1c/q3TBU8c6gHgNMt7MKDSY77O4DmEehJRb6RJ8fqSVmWAH0lwTs06goBzJLUPhV5qImCjEYd
-	nUXQ0pd2A/k09vwAiHNvBpY1GXG0l8ffpBGYveX1kkuvthlNj6Z+E/OgNa6OHIYQR2DfR/qOBcI
-	om1IuhHdRsqx83f9aMiu7KFVz1JBXTa84gho/zv
-X-Received: by 2002:a17:902:e881:b0:2d8:d4cc:be64 with SMTP id d9443c01a7336-2dd2a35a58cmr165076475ad.17.1789234324159;
-        Sat, 12 Sep 2026 10:32:04 -0700 (PDT)
-Received: from google.com (192.150.203.35.bc.googleusercontent.com. [35.203.150.192])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd2cfc5c7bsm25731245ad.51.2026.09.12.10.32.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2026 10:32:02 -0700 (PDT)
-Date: Sat, 12 Sep 2026 17:31:58 +0000
-From: David Matlack <dmatlack@google.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v8 05/12] PCI: liveupdate: Preserve bus numbers during
- Live Update
-Message-ID: <aqWMjrea2MMMZHxr@google.com>
-References: <20260728221007.2098560-6-dmatlack@google.com>
- <20260910235104.GA367522@bhelgaas>
- <aqRIJs1SdJwoV_cf@google.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qVdsQMhf"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=SkHWeSKclNj15GV7KAPfWvuOJ9MQh29mBLhr/+HSj8Q=; b=qVdsQMhfQoh+HOVWoQCmMZ3kpR
+	G0e0CrRtUTUuUYDCePSWAqwA/0IW9XulYz+aBuVBS6eVcxKN/hfsvWMgD624omXZ8rqV2RihIqALl
+	sxNE9+fxDRLtVEzOF87R8QZJZVYwWWN9kUSb9IK2KwHYO2P/CQQ6B8BLvfaNl/TwSs76NLG1eBhZ2
+	e0n861bUadhrd3GpVtUnfapY6ifDreIk8e123644wxKvqR27RWcvMEyvNMV2O/ca1L2FcpQ2A5dd/
+	KAlrvvEvMGoSBvcv1HxmRr4O+MKxxiH5bcaHbeZ9ZR0jmqItdQYvhuEtfWWI5rUIKXPdGgsjUxmCc
+	66A5Z4NQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x5Rde-000000012qD-2dww;
+	Sat, 12 Sep 2026 17:35:42 +0000
+Message-ID: <01ae4e36-cc13-4420-a46b-69de5fd37fb5@infradead.org>
+Date: Sat, 12 Sep 2026 10:35:41 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqRIJs1SdJwoV_cf@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/vfs: Fix the struct file_system_type copy
+To: Karl Mehltretter <kmehltretter@gmail.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+ Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260912073250.51074-1-kmehltretter@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260912073250.51074-1-kmehltretter@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 2026-09-11 06:30 PM, David Matlack wrote:
-> On 2026-09-10 06:51 PM, Bjorn Helgaas wrote:
-> > On Tue, Jul 28, 2026 at 10:09:59PM +0000, David Matlack wrote:
 
-> > > +bool pci_liveupdate_preserve_bus_numbers(struct pci_bus *bus, struct pci_dev *dev)
-> > > +{
-> > > +	struct pci_dev *parent = bus->self;
-> > > +
-> > > +	if (dev->liveupdate.preserve_bus_numbers)
-> > > +		return true;
-> > > +
-> > > +	if (parent && parent->liveupdate.preserve_bus_numbers) {
-> > > +		/*
-> > > +		 * Preserve bus numbers if the parent bridge is required to
-> > > +		 * preserve bus numbers. Otherwise the PCI core could expand
-> > > +		 * this bridge's reservation beyond its parent (which cannot
-> > > +		 * expand).
-> > > +		 */
-> > > +		dev->liveupdate.preserve_bus_numbers = true;
-> > > +	} else {
-> > > +		/*
-> > > +		 * Otherwise preserve bus numbers if there are any incoming
-> > > +		 * preserved devices. This ensures that the PCI core does not
-> > > +		 * allocate a bus number to a non-preserved device that
-> > > +		 * conflicts with the bus number already assigned to a preserved
-> > > +		 * device.
-> > > +		 *
-> > > +		 * This is slightly more restrictive than it needs to be. For
-> > > +		 * example, each host bridges have their own range of bus
-> > > +		 * numbers that won't conflict with other host bridges. But the
-> > > +		 * previous kernel should have assigned a sane bus topology and
-> > > +		 * it is simpler to just adopt that entire topology.
-> > > +		 */
-> > > +		dev->liveupdate.preserve_bus_numbers =
-> > > +			pci_has_incoming_preserved_devices();
-> > > +	}
-> > > +
-> > > +	return dev->liveupdate.preserve_bus_numbers;
-> > 
-> > I'm not sure why you don't just return
-> > pci_has_incoming_preserved_devices() in all cases, which is what the
-> > commit log suggests this patch does.  What's gained by all the logic
-> > here?  It's not like devices will be hot-added during the kexec.
+
+On 9/12/26 12:32 AM, Karl Mehltretter wrote:
+> Commit dc651e25a6d2 ("fs: RCU-ify filesystems list") replaced the next
+> pointer of struct file_system_type with an hlist_node, but the copy of
+> the structure in vfs.rst still shows "struct file_system_type * next".
+> Show the hlist_node.
 > 
-> To protect against pci_has_incoming_preserved_devices() flipping from
-> true to false while the PCI core is in the middle of a scan. It is not
-> likely to ever happen given most host bridge scanning should happen
-> during early boot, but theoretically possible with the way the PCI core
-> code is structured. I did not see way to structurally ensure these 2
-> things cannot race. A lot of the host bridge scanning happens without
-> taking the rescan lock, for example.
+> Fixes: dc651e25a6d2 ("fs: RCU-ify filesystems list")
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
-After working on this more, I do see a way to simplify the logic in
-pci_liveupdate_preserve_bus_numbers().
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
 
-pci_liveupdate_preserve_bus_numbers() is used in 2 places during
-scanning. First to decide if the PCI core should preserve bus numbers or
-is free to allocate new ones, and second to decide if the PCI core is
-allowed to assign bus numbers to bridges that are missing bus numbers.
+> ---
+>  Documentation/filesystems/vfs.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+> index d3a93eec3945f83e057fbd6bc3ce519da03ea66f..56c68f4aefbac6f7be979f5ebc2a0aee886e13ae 100644
+> --- a/Documentation/filesystems/vfs.rst
+> +++ b/Documentation/filesystems/vfs.rst
+> @@ -117,7 +117,7 @@ members are defined:
+>  		const struct fs_parameter_spec *parameters;
+>  		void (*kill_sb) (struct super_block *);
+>  		struct module *owner;
+> -		struct file_system_type * next;
+> +		struct hlist_node list;
+>  		struct hlist_head fs_supers;
+>  
+>  		struct lock_class_key s_lock_key;
 
-The latter case should never happen during initial scanning unless a
-bridge was somehow reset during the kexec, but could legitimately happen
-if a bridge is later hot-plugged and I did not want Live Update to
-unnecessarily break that scenario. But then that creates this problem
-where pci_has_incoming_preserved_devices() can suddenly flip from true
-to false at any time and I needed all the complex logic to keep it
-consistent for a given scan.
-
-Instead we can split the handling of these cases:
-
- 1. When the PCI core needs to decide if it should preserve bus numbers
-    due to Live Update, pci_liveupdate_preserve_bus_numbers() can return
-    true forever if any device was preserved by the previous kernel,
-    which simplifies the logic.
-
- 2. Then to handle the case of a bridge is enumerated that does not have
-    bus numbers assigned, we can handle that separately. If we reorder this
-    with the next commit so the PCI core knows exactly which bridges have
-    preserved downstream endpoints, then it is possible to determine if it
-    is safe for the PCI core to allow bus numbers to be assigned to an
-    unconfigured bridge.
-
-After re-ordering, we can end up with something like this:
-
-  bool pci_liveupdate_preserve_bus_numbers(void)
-  {
-  	return pci_liveupdate.had_incoming;
-  }
-
-  bool pci_liveupdate_refuse_bus_numbers(struct pci_bus *bus, struct pci_dev *dev)
-  {
-  	struct pci_dev *bridge;
-
-  	for_each_pci_bridge(bridge, bus) {
-  		if (!bridge->liveupdate.was_incoming || bridge->subordinate)
-  			continue;
-
-  		pci_err(dev, "Not assigning bus numbers, preserved bridge %s lost its bus number configuration\n",
-  			pci_name(bridge));
-  		return true;
-  	}
-
-  	return false;
-  }
-
-The net effect on pci_scan_bridge_extend() is:
-
-  bool preserve_bus_numbers = !pcibios_assign_all_busses() ||
-  			    pci_liveupdate_preserve_bus_numbers();
-  ...
-  	if (pci_liveupdate_refuse_bus_numbers(bus, dev))
-  		goto out;
-
-We could further scope pci_liveupdate_preserve_bus_numbers() to only
-return true for host bridges with preserved endpoints downstream, but
-that doesn't seem worth the extra complexity. It also seems nice to keep
-the pci_liveupdate_preserve_bus_numbers() policy global to match how the
-existing pcibios_assign_all_busses() policy is global.
-
-Does that look reasonable?
+-- 
+~Randy
