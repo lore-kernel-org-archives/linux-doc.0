@@ -1,126 +1,154 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3EB361943;
-	Sun, 13 Sep 2026 16:36:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4BC3624A5;
+	Sun, 13 Sep 2026 17:11:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789317414; cv=none; b=s+cQzpMS4Rxy0vmtGg62nCgYWnk0mQ2XWjhP0E3XyOR/W116v1pKkZWO8YJl/n7ZISQj2bzXxXmgsMjJOFDfZJHmU9SdxJblRSUSlnlo2OT63qt7ogkJAcLNd/g4HK0hHuPDo9PIPHFsY1QzX0ZM42evp51sauicxZas6zJRUnM=
+	t=1789319503; cv=none; b=nByfaY4DqQ7BLjYXiUyIltb/ZUhE0EGsYF93mD8pEU33VzqqaDRUdRWc3nTDH6wakDnAZtFDv3BYuQCef1WYqk/rocltueoRB/Dc/7OAUG2zKA227SnUgTFagUy7Q6w92bSaEGWBtbISQDUnhh+youn+zh1IAHNwbysG2V/Amw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789317414; c=relaxed/simple;
-	bh=3cetiHmsplFWJ+S96Qjna0YXLC/+Qhfff+MJkaGC2AU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EpmnLeEtkx4/mzmFJyM+n0YBQKZFTs77RculjMXbDdW+rBFE2a5m/jWK+H1rWdtBtO+JjkEdBsSG2E0A/j49G4+Ku/g4rsFc4UU8h8H3VEOKDqmmIto68cMEMvQfbAAbNLQK8k18cGajLhB8YtX6YpDtpdSk/CRXGjeoRnUuJxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VMRn/4Gg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789319503; c=relaxed/simple;
+	bh=+sIdpXfxlsc4yuIGGMUlFltyY0YTPsT2xoJif27dxFM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FfJhFe0mAYW8oe6JwugdZpHp/aJf3hckKuRg2KTb78OPO3XdAyj4KwGmH8okejeHpkRVUbZjt5MHzjvUoiluQUio5bLXqTzJQOHVtW/dyzlAcH1ZqIRHw6sA1nRtdQyfZvN/NaUUGSg1s+OsuQ6oky70YT8WtizOznQTXjdHB9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jqZAw3Sv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VMRn/4Gg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B2A71F000FF;
-	Sun, 13 Sep 2026 16:36:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jqZAw3Sv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 943271F000FF;
+	Sun, 13 Sep 2026 17:11:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789317413;
-	bh=4B9lPYJZx2WtDB/f5GYcYiGdJjQEGc2VffrdMkBYbGc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VMRn/4Ggw0dXaUy1jNqG3n3Y3lFltR1JKKPxPddcpiouSI90FL6bJhQ0xjuXhlNvp
-	 QO1eJQCBNg+tmWZk87cuALgFzNb/l7wfaiANKKcLbSXgtVUrkWdkNh64DthcliwB3k
-	 0oxm7Ms59/P2/kAKOj9iBsmBiBTunJMFV80yf35hbkPAs4+FIHmmbL3vZJD6FpvmxZ
-	 mHQ7218RLoe2DdnCFuFPUqEz4+gu0Hl6ff15ZY13jwu8GRfFcoVd5HkF51bunsZjp/
-	 xGN3TJ3cymEhnAkRu8EhgLboTMnYMtazjxkrpjpzHNudJWLJHnoXfwaiSJEJt+1Gbn
-	 Meb3psVdxKrCA==
-Date: Sun, 13 Sep 2026 17:36:39 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Yann Droneaud <yann@droneaud.fr>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH 17/23] modpost: perform srcversion hashing in parallel
-Message-ID: <aqbP9ewBMAGAXbQB@gremlin>
-References: <20260908-build-speedup-v1-0-5dc1ac01672d@kernel.org>
- <20260908-build-speedup-v1-17-5dc1ac01672d@kernel.org>
- <4e447b33-574e-425e-bc92-2b728128cf18@droneaud.fr>
+	s=k20260515; t=1789319502;
+	bh=2ZHtfSZyRuUi4qVh2TQmjcCNtITXl+b4Bizxwjd/UP8=;
+	h=From:To:Cc:Subject:Date;
+	b=jqZAw3Svg9VeStTqsuM2WGZ+gm8UQ5KiloAG7a6ktDPvG+XICMq1upxg7wh3hAfBJ
+	 CXwKLNfw3naYioZJon5rKR+hh5FyF84I/D0hUpfWnB77tR496PigKftzDqpq79B5E6
+	 jv2VSCIWSQ1b5DHYE6bepvZKyt39g4Z+MCHDl6WMdQNb1HcW6OLciWpOih4E7xHpmn
+	 QmUqDPfh6KvDAywF4LsNCGY6GQhO1b1YKWJPVTiCUmOcor7zRvmpSoh/UMTiqXJuyw
+	 MYSnz1ogFepuEuwiZAWChIMSzzFKdNehxDA8wdDLTPQNHmGxRST1RKk2WIduca091T
+	 NytkNKwAGv8AQ==
+From: SJ Park <sj@kernel.org>
+To: 
+Cc: SJ Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH 0/8] mm/damon: introduce hugepage_size probe filter
+Date: Sun, 13 Sep 2026 10:11:22 -0700
+Message-ID: <20260913171133.102366-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4e447b33-574e-425e-bc92-2b728128cf18@droneaud.fr>
 
-On Sat, Sep 12, 2026 at 01:50:00PM +0200, Yann Droneaud wrote:
-> Hi,
->
-> Le 08/09/2026 à 22:55, Lorenzo Stoakes (ARM) a écrit :
-> > modpost does a lot of single-threaded work hashing files from each object's
-> > .cmd file.
-> >
-> > This makes the build slower than it needs to be, so do this work in
-> > parallel.
->
->
-> If you're going parallel, it would be nicer to do it under make's jobserver
-> supervision.
+Knowing whether a given memory is backed by a hugepage of specific size
+is useful for efficient utilization of hugepages.  For easy monitoring
+of the information, introduce a new data attribute probe filter type,
+hugepage_size.  It works similar to the DAMOS filter of the same name.
+It works for memory that is backed by a hugepage of a given size range.
 
-Ack, though this patch is going to be dropped due to mod versions being removed
-upstream.
+Patch 1 introduces the new probe filter type to DAMON API and extends
+related data structures.  Patch 2 updates probe filter commit logic to
+handle the size range.  Patch 3 Updates the filtering logic to support
+the new type.  Patch 4 adds new DAMON sysfs files for the size range.
+Patch 5 updates DAMON sysfs interface to fully support the new filter
+type.  Patches 6-8 updates design, usage and ABI documents for the new
+feature.
 
->
->
-> > This is egregious for allmodconfig builds - for instance x86-64 can end up
-> > opening 200,000 files individually and hashing them all serially.
-> >
-> > Parallelise this operation by maintaining a thread pool for the hashing
-> > work.
-> >
-> > Combined with the per-file hashing commit this cuts modpost's run time
-> > nearly in half for an allmodconfig build.
-> >
-> > Module.symvers and every *.mod.S are byte for byte the same.
-> >
-> > modpost is on the serial tail of every allmodconfig build, however
-> > defconfig does not set CONFIG_MODULE_SRCVERSION_ALL and is unchanged.
-> >
-> > Whole build, 128-thread Threadripper 9980X, best of N runs:
-> >
-> >                                           before   after     delta
-> >                                           -------------------------------
-> >    x86 allmodconfig, touch mm/vma.c, gcc    33.4s    30.2s     -3.2s (-10%)
-> >    x86 allmodconfig, touch mm/vma.c, clang  31.1s    28.1s     -3.0s (-10%)
-> >
-> > Assisted-by: LLM
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > ---
-> >   scripts/mod/Makefile     |  1 +
-> >   scripts/mod/modpost.c    | 72 ++++++++++++++++++++++++++++++++++++++++++++++--
-> >   scripts/mod/modpost.h    |  2 ++
-> >   scripts/mod/sumversion.c |  3 +-
-> >   4 files changed, 74 insertions(+), 4 deletions(-)
-> >
->
-> Regards.
->
->
+Test
+====
 
---
-Cheers, Lorenzo
+Set THP always and start a test workload using masim [1].
+
+    $ echo always | sudo tee /sys/kernel/mm/transparent_hugepage/enabled
+    $ ./masim.py run --config_file ./configs/stairs-500mb.cfg --repeat 10
+
+Using the DAMON user-space tool, damo [2], start DAMON with two probes.
+The primary probe monitors access.  The secondary probe monitors 2 MiB
+sized hugepages.  The region adjustment weight is given to only the
+primary probe.  That is, this setup is for showing access temperature
+and additionally how many 2 MiB hugepages are being used for the region
+of the access temperature.
+
+    $ sudo ./damo start $(pidof masim) \
+            --probe_prep set_pgidle --probe_filter allow pgidle_unset \
+            --probe_filter allow hugepage_size 2M 2M --probe_weight 1 0 \
+            --nr_probe_preps 1 0 --nr_probe_filters 1 1 --nr_probes 2
+
+Show the monitoring results.
+
+    $ sudo ./damo report attrs
+    heatmap: 000004[...]666666668988888888888844444430000000000000000000000000000000000000000000014[...]8
+    # min/max temperatures: -470,000,000, 10,000,500, column size: 64.119 MiB
+    probes
+    - prep: set_pgidle, filter: allow pgidle_unset (weight: 1)
+    - allow hugepage_size [2.000 MiB, 2.000 MiB] (weight: 0)
+    intervals: sample 5 ms aggr 100 ms (max probe hits 20)
+    #   size         address       age           probe_hits
+    0   354.039 MiB  85.833 TiB    4.700 s       0 0
+    1   1.843 GiB    127.724 TiB   4.700 s       0 6
+    2   936.781 MiB  127.726 TiB   4.600 s       0 16
+    [...]
+    25  44.000 KiB   127.723 TiB   0 ns          15 20
+    26  11.492 MiB   127.723 TiB   0 ns          16 20
+    27  2.160 MiB    127.723 TiB   0 ns          19 20
+    [...]
+    47  376.000 KiB  127.723 TiB   300 ms        1 20
+    48  48.000 KiB   127.723 TiB   400 ms        2 20
+    49  812.000 KiB  127.723 TiB   500 ms        9 20
+    memory bw estimate: 0 B per second
+    total size: 5.009 GiB
+    record DAMON intervals: sample 5 ms, aggr 100 ms
+
+The first probe_hits count and the age show the access temperature of
+each region.  The second probe_hits count shows the ratio of 2 MiB
+hugepages in the region.
+
+For example, region 2, which has 936 MiB size, is quite cold (not
+accessed for 4.6 seconds) but uses 2 MiB THP for ~80% (16/20) of the
+region.  Maybe not a very efficient use of THP.
+
+On the other hand, region 49, which is 812 KiB size, is somewhat hot
+(accessed about 9 times per 100 ms for the last 500 ms) and fully backed
+by 2 MiB hugepage.  Maybe this is a good use of THP.
+
+[1] https://github.com/sjp38/masim
+[2] https://github.com/damonitor/damo
+
+SJ Park (8):
+  mm/damon/api: introduce DAMON_FILTER_TYPE_HUGEPAGE_SIZE
+  mm/damon/core: commit hugepage_size type damon filter
+  mm/damon/ops-common: support hugepage_size damon filter matching
+  mm/damon/sysfs: add min,max files under probe filter directory
+  mm/damon/sysfs: support hugepage_size probe filter
+  Docs/mm/damon/design: update for hugepage_size probe filter
+  Docs/admin-guide/mm/damon/usage: update for hugepage_size
+  Docs/ABI/damon: update for hugepage_size probe filter
+
+ .../ABI/testing/sysfs-kernel-mm-damon         | 14 +++++
+ Documentation/admin-guide/mm/damon/usage.rst  |  4 +-
+ Documentation/mm/damon/design.rst             |  2 +
+ include/linux/damon.h                         |  8 +++
+ mm/damon/core.c                               | 20 +++++--
+ mm/damon/ops-common.c                         | 10 ++++
+ mm/damon/sysfs.c                              | 55 +++++++++++++++++++
+ 7 files changed, 107 insertions(+), 6 deletions(-)
+
+
+base-commit: 91c120b49e83b867e29684fd229c3e1f07190071
+-- 
+2.47.3
