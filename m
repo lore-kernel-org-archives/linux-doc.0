@@ -1,44 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C6E27AC31;
-	Sun, 13 Sep 2026 21:36:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E857385D7E;
+	Sun, 13 Sep 2026 22:13:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789335366; cv=none; b=OqIPeePfcf51NLriuoPRQZks50A/8OKmweC30QrPtXP3vsFDKcp7tNCh8u9pYZKh3MmVR88SmNpzc59y0gDvRA9CMganua8uY5QvaUV1VNogQAxHovOaF3pUoJq9vRK/jZq7QzJGDrOpj/25qJ3pDplq6Se9+++354PN7AzEFxY=
+	t=1789337581; cv=none; b=eP0ukIcIrGxU2+NyIAsheIrVGp+2NLozokA+LjBcH2JZc2XxlI0B5h3aubH3Z8g25whpP1jgtZLBPxPnUHlYLxtCWnPqkNwQwOTL2LtyQnoA/hb9vY7rJ1myDuKAoeU9mqtissa1SMAy9Og/leulCEIyl1yBD9tRyqvb53A7J1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789335366; c=relaxed/simple;
-	bh=wfBxIlyZFdJesp37kdfQkdBw6lC9u2iFd9MD7VVg77U=;
+	s=arc-20240116; t=1789337581; c=relaxed/simple;
+	bh=0rbFvorL0Du/euB+4vx4r86cYkWnhaRhySS7yjK4Vcg=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DqzBTd7f9bV8Boa5QHtfcLfkU5hdCI86yP7Bhzfk/tD0gtZ3RvRgDlKQ1bZPeWQKOfxCjNdOgB7MRnDdBMUML6IH1sYnBMmIwK0mBMulaLcSfJzIbVefem8IQ4ktHol/AtFnScEt/AfUG1hBTKDOlY2xDgLqlrRiquV4oZhx08E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+KbhuFI; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=gF8QoD04gxPYgugKHmSA100Ou9qv82BFFINvHuBgrQFkrpQEJLJBqrt7VEQvTX708gs7WpNijASCoIiRfvc6h261MLqIEss7rAYOewba3tTtQQ69dicCvuHg4olnGboypOwwOLm0n3+3L3YdRboBiTNQTsSi3bsM+qqOBi/zdyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UqDEiZtE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D+KbhuFI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A8B1F000FF;
-	Sun, 13 Sep 2026 21:36:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UqDEiZtE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 055C31F000FF;
+	Sun, 13 Sep 2026 22:12:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789335365;
-	bh=G1Js9//BeLuE9hP/9FqaTGqM9Di5NadEVmxH1VEV4RQ=;
+	s=k20260515; t=1789337580;
+	bh=JsD2EE4lsoHYAQP6NY5gIjFuae5qmCmIRSey9o/2VII=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=D+KbhuFIT9UDjsHUEhcQseIAyTW10T0ckHV5BN+I0e0O+0ajZLnBoOjq/9pdY1JJk
-	 M8w8/3mrQQ9wih31asgCaM7RLlVp/ga0ZPuPLpUMydyFo6tYsKAth0TPxO6qFzTP5m
-	 DthxPMLbNdKG6C/yH9oCilS5xDdOW4VZD7dPF1Z7OumF2thaED15HCDzlcJaaRcq45
-	 HNf1B+yMddd6MT04pmtZOnBdI1IvUHQ6/4dKWDdhLTTZJKu1Hp+IGbydPdnRjEbaY/
-	 Z/lHgksuDrmOJwGJkiXebA30FLIEYVBt4wF1Z2JeClLR7aAslaXn0e+3TUhevxxODP
-	 GrfYVwP6heqKQ==
-Date: Sun, 13 Sep 2026 22:35:58 +0100
+	b=UqDEiZtEjon6I5Kp6ooo0AjXeMpHUi1fjoMP8mQlQS4OoktXKCU1qdJQLbh9R8lIh
+	 0H30wHy/1VeNojPIYGwLl27DbKpKGaVm75wMm96PN1/A9/uGwsIEH+i+DTVck2f6BD
+	 3LqYVNkruTN52HmG9oLZpAqCzyhoPmNuIhSfb6GdlEgHW+tsLS/RBzvY4hZ1xxHxVP
+	 FpgL38Madf6ss4DcQW6j+F/+ncZvQAxeDN1QqUg4NihG86dcfK4gcd2QwVO57bUaOJ
+	 5VbmprCY28nOtoIGmdKfJUNJIA9K+ciYk4sCzBJ1J2weqOt/L7gB6jjP5JwnHSTQK7
+	 UBjYV6u/D2OzA==
+Date: Sun, 13 Sep 2026 23:12:53 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Jinseob Kim <kimjinseob88@gmail.com>
-Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
- andy@kernel.org, linux-kernel@vger.kernel.org, rdunlap@infradead.org,
- joshua.crofts1@gmail.com, u.kleine-koenig@baylibre.com,
- julianbraha@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 0/5] iio: add Open Sensor Fusion UART support
-Message-ID: <20260913223558.62ef475b@jic23-hlaptop>
-In-Reply-To: <CALMSewJPfQXRX5q4X3gJf=LT6m2FnusTM=DBiWsBqRFiyNP_Gw@mail.gmail.com>
-References: <CALMSewJPfQXRX5q4X3gJf=LT6m2FnusTM=DBiWsBqRFiyNP_Gw@mail.gmail.com>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>
+Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Marcelo
+ Schmitt <marcelo.schmitt@analog.com>, Joshua Crofts
+ <joshua.crofts1@gmail.com>, Radu Sabau <radu.sabau@analog.com>, Salih Erim
+ <salih.erim@amd.com>, Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>,
+ Jakub Szczudlo <jakubszczudlo40@gmail.com>, <linux@analog.com>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 0/4] iio: adc: ade9000: add ADE9430 support
+Message-ID: <20260913231253.5b6f0ae2@jic23-hlaptop>
+In-Reply-To: <20260907101623.8730-1-antoniu.miclaus@analog.com>
+References: <20260907101623.8730-1-antoniu.miclaus@analog.com>
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -49,36 +54,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On Mon, 7 Sep 2026 13:16:17 +0300
+Antoniu Miclaus <antoniu.miclaus@analog.com> wrote:
 
-> Protocol specification remains an open review question. The accessible
-> historical protocol-v0 drafts at OSF revision
-> 11d11eb413e6a0e861e4d45fdccadc71c5f15c48 disagree on reserved fields,
-> trailing extensions and magnetometer units. They do not establish a
-> versioned normative specification for this implementation. The driver
-> requires exact known payload lengths and capability scales in IIO units,
-> including gauss for magnetometers. Documentation now makes those
-> constraints explicit. This does not establish protocol maturity or
-> resolve the request for a canonical compatibility specification; feedback
-> on that requirement is still needed before merge.
+> The ADE9430 is a polyphase energy metering device from the same family as
+> the ADE9000. It is register-compatible with the ADE9000 but omits the
+> on-chip dip/swell detection and has no on-chip digital integrator; it
+> relies on an external analog integrator for Rogowski coil current sensors.
+> 
+> This series adds ADE9430 support to the existing ade9000 driver, reusing
+> the dip/swell-less channel table introduced for the ADE9078 and adding a
+> matching chip_info for the ADE9430 full-scale codes. A has_digital_integrator
+> flag in chip_info gates the DICOEFF register write so it is skipped on the
+> ADE9430.
+> 
+> Patch 1 is a standalone fix included with this series because it corrects
+> the ADE9000 full-scale RMS/PCF codes to the same family-A values the
+> ADE9430 uses. It carries a Fixes: tag and Cc: stable and can be applied
+> independently of the rest of the series.
 
-Please put this statement right at the top of your cover letter.
-Probably in shorter form.  "Specification still undergoing review,"
+Make sure to check what sashiko called out.
+https://sashiko.dev/#/patchset/20260907101623.8730-1-antoniu.miclaus%40analog.com
 
-This changes this puts a big external dependency on the patch set
-(I'd have preferred this remained an RFC but I know others asked for
- that to change!)
+I'm not going to look at all on a v1 :)
+> 
+> Antoniu Miclaus (4):
+>   iio: adc: ade9000: fix ADE9000 full-scale RMS and PCF codes
+>   dt-bindings: iio: adc: adi,ade9000: add adi,ade9430 compatible
+>   iio: adc: ade9000: add support for ADE9430
+>   docs: iio: ade9000: document ADE9430 support
+> 
+>  .../bindings/iio/adc/adi,ade9000.yaml         | 22 +++++++-----
+>  Documentation/iio/ade9000.rst                 | 36 ++++++++++---------
+>  drivers/iio/adc/Kconfig                       |  1 +
+>  drivers/iio/adc/ade9000.c                     | 29 +++++++++++++--
+>  4 files changed, 59 insertions(+), 29 deletions(-)
+> 
+> 
+> base-commit: 26bdafb3bdf58436579a1f6f0ef1ddb9011015ea
 
-Given limited review capacity I want people to make a decision on whether
-they wish to review knowing that the specification is still potentially
-in flux.
-
-A such I for one am going to hold off on reviewing new versions until
-you post a patch that at the top of the cover letter says.
-"Specification is now reviewed and has moved to the stage where we can
- rely on it as being stable + ideally a pointer to an errata process so
- we have a grasp on how specification fixes are handled.
-
-Thanks and good luck getting to that point!
-
-Jonathan
