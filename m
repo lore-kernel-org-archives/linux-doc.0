@@ -1,126 +1,245 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D5037F75E
-	for <linux-doc@vger.kernel.org>; Sun, 13 Sep 2026 09:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD344BEE52
+	for <linux-doc@vger.kernel.org>; Sun, 13 Sep 2026 12:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789293079; cv=none; b=BSvVAj6qwuc3vxrlJtmTk1S07Abolj36bHhF68IzpdLvukcD2wMgPVq5E/35V35YvETCC7dGoRgg5BP2lOUr+YLWjhq6HzL4DrGespemb9Vokw/DgJWOL2XFmUsw2g+ojslX6mkUi4jdlh5YpiZkbuucDi+o2iM+28kEeXqE9EE=
+	t=1789301294; cv=none; b=tbKyXv3aGX/T/tl8tiFumpYeWXTE+EDfYu7YupJHzUmjmcbgWF5O9kT4jnYkMyKUL79wRxmRcgDbxgMwLC6S7D4I9s6nmZgUs7fSecxrm5IEFFo9si0GOjMFvk7JEhuXUo8aE39EEBl8hX7Jj56+ntmjIHmJy3MtcQtuEDkWRbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789293079; c=relaxed/simple;
-	bh=jbVm0RLVeDlU9P10OCDpld57tDHcD90z/kytGFhXC6k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b4cOJZCvoDUs5h517WuRS2I7HJBJucIJ4A87lkZ5/nB7t3G1qLo3ZMk5LDgaV6H5EBr5CYV1Ij/5jv9lPpi5UUe9//7v5SidaAsfvUXIlYLgpJ+dBvNcyigD96pI1w0+GoxRO+cyb/e9DIj6T2VhSUHkRmD4lgUbC/XJDgNtSPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nw/4EyLQ; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789301294; c=relaxed/simple;
+	bh=KNlvNGvxQ2hrf2oBkBliX0eBjTI83KiOoFJQuV0zvhI=;
+	h=Date:Message-ID:From:To:Subject:In-Reply-To:References:Cc:
+	 Content-Type:MIME-Version; b=cH4alZjZ+p5b/UDjB+1LIPw/yxW4FtoRd8z2P1IRTMSNIIpgA1b/Kovqt5RFNgGdY6ioz0/kzpqVLRbVDvCt+qHhBtC6ADYiQ+slLEqA7W07RilmrN4DuXY0pFUVsXph0BFzy5lWHynUZZxbaOEQodIMyectprpPCfzuYEbHUp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lRNGUjTy; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Vw6riFWa; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nw/4EyLQ"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843af75de5so193524f8f.3
-        for <linux-doc@vger.kernel.org>; Sun, 13 Sep 2026 02:51:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lRNGUjTy";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Vw6riFWa"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68DATv5c2052422
+	for <linux-doc@vger.kernel.org>; Sun, 13 Sep 2026 12:08:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	TRKYA9mVvempr/6gm9Uvztlav9Ha/BqjYUGbx8YbOLc=; b=lRNGUjTybCpU8/ls
+	t2LZ/yoEe5tS2rXBKnFB08ZrP83cyeUW5gOG1M91fjTq16aWG6nH4SBKV6a0+fgC
+	9PzRcKqQS1Jw76cdYX8aoUhIjF/3naOrrCKWiuB72YmY/2EJS8lKfXuGHco8meaq
+	QZUzPZYfrmwAizFGEuVAExAaKiN+JJ17v8T+H5XqwxEV0ao9Uh6GdnU2uIemvKI5
+	f8vC6BRYRLegF85n6zEFjFBsZ9Rq+AbnuO6dQwKJdIvimvYRWwmour3hAv+1kjsA
+	F7NdypkPTclqBWQjQkZtZ8UnKV4nwirkOpjym8FpEk0blUHPr/XD+iG/qVD9y0Zp
+	Xst1mg==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gmy9dk66v-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Sun, 13 Sep 2026 12:08:11 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-8696b921ac0so3844050b3a.3
+        for <linux-doc@vger.kernel.org>; Sun, 13 Sep 2026 05:08:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789293076; x=1789897876; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gcs5SoEwbG5DjCJj0LVT0Z2R1O7xtBNzbwteyqKUk8E=;
-        b=nw/4EyLQCkwYfTO5vXLsjIHg8oWDopE6qgjNyiU6hL/cLbwFTeFG9MnCSG5O7SwpKV
-         9CCwIUoSa7pd2xxsDWHj3ezcRfrxb+uBrdV6woLkRplgmGkfnti9BrSlRinXQTZBXyG4
-         G+c1z43+41VOop36KotSePgGb/2pIf4pim847+TvN8m88HXPmB0RvpuDitYX0U2xkUKs
-         7HILPXEC1B/aYpFATI98vCdoXVXLf0ElQPt964bdt8Y2jq3qaprVAFeHNNDzNff4a6SX
-         tg4+mJn/auZWVfAPSkSlS0lI4J+qBhh0RTGGbEkwwBuotxN0zNL7s5iHYWinOy6xp7gh
-         SlRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789293076; x=1789897876;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=oss.qualcomm.com; s=google; t=1789301290; x=1789906090; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:cc:references
+         :in-reply-to:subject:to:from:message-id:date:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=gcs5SoEwbG5DjCJj0LVT0Z2R1O7xtBNzbwteyqKUk8E=;
-        b=oYzOjtpoTRV19Cnsi7PUqVVyO3RJgCKoSxOcDiX4u8aiVaLJEXrde4Icjn+jI/WisR
-         jtCHWQJsjZa6LfiqvhlfJ4H8V7ERwpn8xdYhw8K/qrXr7darWrjFU7Wo//lEzD2cQn55
-         JBGScNQBDfjrqHaR7dkKjIfli3u239J6apQExrxR/5VkXN6E31cI/skFZ4el3fE23Rn+
-         QgAsBji/unqbzPEO1qh8enYICKv5JtZ7YIZOWaJ8Pc9HCjyfb47dVHWqao3k/zcotvX0
-         Ov3sxG5azH/NY5+DRhI7TffqQutDCdvcoAHW9VdBXjt7x89Hd4LrdR1EMRaUF4rTV0Y1
-         bjqQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzFbyx2k4aUR8XZg+8AOqhSTwwfPHbVU99gBuKEbnK23CBNSe1YHza0z/6pyuwfGUJ4+0JtdbWN74M=@vger.kernel.org
-X-Gm-Message-State: AFuF++nnEbQvaPQUW8hFqWc1prOYxIsWoUhU5y44Gx/mPvMYSzuS72Fa
-	9yuoM6JfxI5nvVkQf4r2w5eGijwp3R95Wp7x9CyYnI3KM2si3O9BWnU9
-X-Gm-Gg: AYBFou2y9mpMALPJ5OjWy7hHSGAn6wFL6nUxS7ShkgaJ8UJRPN/9xljguzTEvelavB+
-	LKIHjlbmY/kssYnP/U1J3GlnqaNHJb2zoruy7aatZuWx35YAcZojSy68spP9yg+MqNrlr6qGqoA
-	3Z+ngU53h51EIw3nAFPlu9mQlHvhUWzlG8VMBhLOcO12X/SOLq6UZnXvGYZqPpX7ZaSgEhTQJ6H
-	R/wwenb47m9xLIzRUqkos/fSNko2Oyp82CHp2FeJV5g/Ja2wcIowXtUtoRyC6GLUZPd0qOiB8UO
-	iwxAE3Wnrra1ui0IqC4uMaM2Cg+ej0xIFpeOpq6aHWCzlit3ZMDky8uKBYATi0FvJFEo1u4noyR
-	3ZRFJC396SaFPQAFlxXzraCooegZ7kcpyZVw8MOwzKui4MK+9lEIgnQGHlGOCb6CB+WQKvpJJHy
-	gNpgqvi5AgoKZ1vtv85vB625E0ymwWZZrJC42hVhAXyTijgpF6CAntEmnsP78U3PvVWpxJb1GLe
-	qqjiTB9Mb6yLBpTQeadf2duWYc/U0ws3qQqnZeY/9lBz2P5t5yGroWx4vcja2R6u3K4tF+GMYB6
-	02bQFXcmr59SbP411aRoGrIR
-X-Received: by 2002:a5d:5d0b:0:b0:486:f768:395b with SMTP id ffacd0b85a97d-486f768400emr6172871f8f.0.1789293075665;
-        Sun, 13 Sep 2026 02:51:15 -0700 (PDT)
-Received: from pop-os.. (98.102.222.87.dynamic.jazztel.es. [87.222.102.98])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb3602eesm17401532f8f.34.2026.09.13.02.51.14
+        bh=TRKYA9mVvempr/6gm9Uvztlav9Ha/BqjYUGbx8YbOLc=;
+        b=Vw6riFWapa/RiZ06+kE6x8O9RcdGIivON15bzbfKezPLWl4mUa0V+pb1+9NTciVawF
+         tsDr+9p/Qhphl4I5dVp+1ctLA9ZnEuMXzuttfdzV6xcJc81DFdaOpHSV/UfvPQG1tVsl
+         Uwvenf3xMNdFo+To3gaMk7ZzhTrJui4lAM9sS2wjZ9TCX9bxTINvwvfL+mUhCNiZUoCI
+         If2TAXygZjF3+Ez4C8U/x6lNqYEsZBqWeRODIRVIfWZuCz+fkVMj9CvFjal/AOJgr9qi
+         DeqElSyPeKS537OMHScGBp9a6yagoSrsnmpmm6uezE/cNa85B0MZTR1aY1+KmFIVoqT0
+         xm/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789301290; x=1789906090;
+        h=mime-version:content-transfer-encoding:content-type:cc:references
+         :in-reply-to:subject:to:from:message-id:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TRKYA9mVvempr/6gm9Uvztlav9Ha/BqjYUGbx8YbOLc=;
+        b=R9EAJuniEPT9ewKZ88RtLZQ/MwrjKVLHoML9buwljeS7h0v4Dl6m1Dmc8cZ1i7br9N
+         hjaFhYDqZmOs7rBpeCUn6mDBGTyKdZRdR7euB3qjRmyuJhgP6E1CWI+s/O8NwzasqN61
+         I7gZ7xzZYH95P7Epz88r8IEeRwioH6zvwda2Ex0w1U/imW92fmvB2ycIk5NLwglmCYi/
+         S3MeHKlSsU/2sMCDVUo0RdIv3SNwiZYNSwCb9jCDlfKC+xTuEy3Hyle9VyMcqQj28PLO
+         DOen+k/LN3Qbjus5hqJqoh+p2B1ZZrAv+OgMJPBVKBFz49n7W50Iv/FrHZVt8EEGscqx
+         ZTPA==
+X-Forwarded-Encrypted: i=1; AKwUvBzCJLvRPRV8xoiy4C+3bC+igcx4twmS3IHyxewb7BWUpLTpadrZ043F34iTEXVJQK+OZDt2mD7R2Rc=@vger.kernel.org
+X-Gm-Message-State: AFuF++lSXhPqgfpqCw9gNLK4otwLDQnnkbWVkXTf7X6Tkss8ZyqplnKO
+	UPIPtRNQV8sh0oPhmmxzxbO4dS2wKL3y7nj09ngWCAkF/3MM3nQP6DpbYZu0JPZX7qTMJMYDky4
+	AGgP3fSuhESzUPFc/FrES6HwaNDDgQKiUSMkaUkeb3VxDRIYq55QhPGwcBPt/RwA=
+X-Gm-Gg: AYBFou2EqmlNMYBRJDGgFhGUaPmJh+uD2MJsODVd2sAjcixgjyMoknN3p5A0qCVYoLJ
+	wWzZ9AjY4ZdIBRwQdsmiqL/OBMOXihgaUYiPwqEeOAbiwah0aQX4F5df1OrGJfZRuDWz86NgLD2
+	1qH7vH/WxG8FFaEL8M8O3bywDa1fO1XH3hRoQKVNHoq3OdN6QQnDai+Cdd1AX7Hll4bI2JzMn+8
+	S+faVqxSeq3oT8R+d5tBuxXDJn2CDMHJtzBa2ShjIxREg6LmDaI6IgoeC1/8EsdBGJD0XfB4aHD
+	TF6XD6jcTs23xx3UWTg/ZNXnkXM2ztvtNrjppxvQ12dhLmB7X72qcN62eA==
+X-Received: by 2002:a05:6a00:3d01:b0:85c:2d83:bbf1 with SMTP id d2e1a72fcca58-86ccb44e113mr10858295b3a.20.1789301289858;
+        Sun, 13 Sep 2026 05:08:09 -0700 (PDT)
+X-Received: by 2002:a05:6a00:3d01:b0:85c:2d83:bbf1 with SMTP id d2e1a72fcca58-86ccb44e113mr10858220b3a.20.1789301289287;
+        Sun, 13 Sep 2026 05:08:09 -0700 (PDT)
+Received: from localhost ([2a12:a305:4::30fb])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86b5062c60bsm3183947b3a.22.2026.09.13.05.08.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2026 02:51:15 -0700 (PDT)
-From: Miguel Garcia <miguelgarciaroman8@gmail.com>
-To: rafael@kernel.org,
-	u.kleine-koenig@baylibre.com
-Cc: kmehltretter@gmail.com,
-	andriy.shevchenko@linux.intel.com,
-	corbet@lwn.net,
-	linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Miguel Garcia <miguelgarciaroman8@gmail.com>
-Subject: [PATCH] ACPI: device-id: document struct acpi_device_id
-Date: Sun, 13 Sep 2026 11:51:05 +0200
-Message-ID: <20260913095111.2543502-1-miguelgarciaroman8@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sun, 13 Sep 2026 05:08:08 -0700 (PDT)
+Date: Sun, 13 Sep 2026 08:08:04 -0400
+Message-ID: <b811b28d52275928699251b0b064a642.guodong.xu@oss.qualcomm.com>
+From: Guodong Xu <guodong.xu@oss.qualcomm.com>
+To: Andy Chiu <tchiu@tenstorrent.com>
+Subject: Re: [PATCH v3 2/3] riscv: hwprobe: export the availability of
+ vector to user
+In-Reply-To: <apGwuxgYZsZHiB8o@Tao-Chiu's-Mac>
+References: <20260725001614.2578617-3-tchiu@tenstorrent.com>
+ <20260813233854.86799-1-mark.hsj@gmail.com> <apGwuxgYZsZHiB8o@Tao-Chiu's-Mac>
+Cc: Mark Harris <mark.hsj@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Paul Walmsley <pjw@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+        Alexandre Ghiti <alex@ghiti.fr>,
+        Samuel Holland <samuel.holland@sifive.com>, bergner@tenstorrent.com,
+        kito.cheng@sifive.com, dfustini@oss.tenstorrent.com,
+        greentime.hu@sifive.com, Andrew Jones <andrew.jones@oss.qualcomm.com>,
+        Aleksa Paunovic <aleksa.paunovic@htecgroup.com>,
+        Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>,
+        Xu Lu <luxu.kernel@bytedance.com>,
+        Yao Zihong <zihong.plct@isrc.iscas.ac.cn>,
+        Jingwei Wang <wangjingwei@iscas.ac.cn>,
+        Deepak Gupta <debug@rivosinc.com>,
+        =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: hcG-1kcKwcGTlruVIt8E8ldl3Z1JZMBG
+X-Proofpoint-ORIG-GUID: hcG-1kcKwcGTlruVIt8E8ldl3Z1JZMBG
+X-Authority-Analysis: v=2.4 cv=NelzRGD4 c=1 sm=1 tr=0 ts=6aa6922b cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=VwQbUJbxAAAA:8
+ a=qudAywcBR2F4KdnsAu4A:9 a=QEXdDO2ut3YA:10 a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEzMDE3MiBTYWx0ZWRfX2fN7I9XihFeD
+ Z778qlSx0/nnOd8cQWvT4TeNDKp557CV/qlZIjkPxD7b8j0QMmFFLE2ctH+iKPUtxnsTOToZA/X
+ SHllS/c1tuygwpOvYoj6s1yCnjfQeHE=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEzMDE3MiBTYWx0ZWRfX5JXTsoPwEnNY
+ UXpcRHQDEiNdN4j4/uouS/j0PO7YG7JEqQ7w8A5+qJgH2DX2rceuj2/CC1DhFMYDc//hLgGomCz
+ F2cAr9fs4i9vITRHgm+eoUVMusAiPISiTcPTZsxSMhXPB+MhmLs4tzuRuiDfVh7XXd+ue5m2Qd7
+ qTCFHWHA+HQFPkogE+IoWmDaLts5xAuy9zedKaWaVEGWDLO38gSfg1Kb57zcGunLpKbqvzPC7ZA
+ Rpr6crwlEFIG6uHL2T3CaH60fbHSBWnMUoD27ruPNv2Jl9NVWNvw2pG0gk9Ztw1w3osuflQhfCg
+ aY54pfcrtDfW+i73AhfgzzRNzYPeUPJdpv1ee9W+Swbz0oPseLpeSGoN6A1AD7zcfr1Xbiji2Tb
+ YqniTbChgBl7iJjIUFyd9Et/s8ebuFRG483SFu9D8QE2o329E10KFnl+/FIxUzOlaf0SctlxU9a
+ lIKH5ILkZG6IPyTtyyw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-13_04,2026-09-11_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0 impostorscore=0 priorityscore=1501 clxscore=1015
+ spamscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609130172
 
-struct acpi_device_id lacks kernel-doc, so extracting documentation from
-its header describes ACPI_DEVICE_CLASS but not the matching table entry.
+Hi Andy,
 
-Document the four members, ID and class-code matching, and the table
-terminator. This complements the pending documentation header-split
-update without changing its include directives.
+On Fri, 28 Aug 2026 11:00:59 -0500, Andy Chiu wrote:
+> On Thu, Aug 13, 2026 at 04:38:54PM -0700, Mark Harris wrote:
+>> > Add RISCV_HWPROBE_KEY_EXT_ENABLED, a positional modifier key that carries
+>> > no value of its own. Within a single request, keys placed after it report
+>> > extensions that are both present and enabled for the calling process,
+>> > while keys before it keep reporting hardware presence. This masks out V
+>> > and its V-dependent sub-extensions when V is disabled for the process, and
+>> > lets userland obtain both views in one query:
+>> >
+>> >       [ {IMA_EXT_0}, {EXT_ENABLED}, {IMA_EXT_0} ]
+>> >           present       modifier       enabled
+> >
+> > [...]
+> >
+>> indicate that existing keys should be reinterpreted in a new manner.
+>> Using a key as a modifier with no value and changing the keys to
+>> be order-dependent seems like an unnecessarily confusing ugly hack
+>> that we would have to live with for decades to come, just to slightly
+>> simplify code needed in the short term to handle older kernels.
+>
+> [...]
+>
+>> Because ifunc resolvers may not have access to external symbols
+>> beyond __riscv_hwprobe(), it is really attractive to be able to
+>> obtain extension availability information using the same function.
+>> But that doesn't mean that the kernel has to be involved.  The
+>> function is in libc, so it could call the vDSO function and then
+>> optionally modify the resulting values according to its own
+>> process-specific information about enabled or disabled extensions.
+>> This extra information would ideally come from the initial hwcaps
 
-An LLM drafted this comment and changelog after being asked to address
-the missing documentation noted in the header-split discussion. The
-field descriptions were checked against the ACPI matching code. The
-extracted documentation passes kernel-doc and a focused Sphinx HTML
-build with warnings treated as errors; checkpatch reports no warnings.
+It already does, and I can be more definite than "ideally" here.
+ld.so invokes every ifunc resolver through elf_ifunc_invoke(), which
+calls the resolver as resolver(GLRO(dl_hwcap), __riscv_hwprobe, NULL);
+dl_hwcap is AT_HWCAP from the auxv, which is ELF_HWCAP from the kernel
+riscv_get_elf_hwcap() who already considers the prctl V ON or OFF.
 
-Link: https://lore.kernel.org/all/aqEWUBf1pewPP_K2@monoceros/
-Assisted-by: LLM
-Signed-off-by: Miguel Garcia <miguelgarciaroman8@gmail.com>
----
- include/linux/device-id/acpi.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+glibc's RISC-V memcpy resolver receives that argument today and ignores
+it, keying only on hwprobe IMA_EXT_0. So the glibc-side fix is to consult
+the dl_hwcap argument the resolver is already handed: no new kernel
+interface needed.
 
-diff --git a/include/linux/device-id/acpi.h b/include/linux/device-id/acpi.h
-index 65800cefd..8c3b30ebf 100644
---- a/include/linux/device-id/acpi.h
-+++ b/include/linux/device-id/acpi.h
-@@ -9,6 +9,16 @@ typedef unsigned long kernel_ulong_t;
- 
- #define ACPI_ID_LEN	16
- 
-+/**
-+ * struct acpi_device_id - ACPI device matching table entry
-+ * @id: NUL-terminated hardware ID (_HID) or compatible ID (_CID) to match.
-+ * @driver_data: Data private to the driver.
-+ * @cls: PCI-defined class, subclass and programming interface code (_CLS).
-+ * @cls_msk: Mask selecting the class-code fields to match.
-+ *
-+ * Use @id for ID matching or ACPI_DEVICE_CLASS() for class-code matching.
-+ * Terminate the table with an entry whose @id is empty and @cls is zero.
-+ */
- struct acpi_device_id {
- 	__u8 id[ACPI_ID_LEN];
- 	kernel_ulong_t driver_data;
--- 
-2.43.0
+Refer to glibc.git, sysdeps/unix/sysv/linux/riscv/multiarch/memcpy.c
+  select_memcpy_ifunc (uint64_t dl_hwcap, __riscv_hwprobe_t hwprobe_func)
 
+PS: I briefly verified this solution can work using QEMU.
+
+> Unfortunately, I think the riscv community has decided to stop using
+> hwcap and move forward with hwprobe. Although I agree with you that it
+
+If you can clarify what 'stop using hwcap' means, that could help a lot.
+The policy I know of is that new multi-letter extensions are exported
+through hwprobe only, and the policy doesn't say user space stop reading
+hwcap bits.
+
+From what I can see, hwcap is still in use, and with new single-letter
+extensions being ratified, hwcap is being extended as well. Like 'B'.
+Andrew stated the policy on his RFC: "If RISC-V defines a single letter
+extension, such as V or B, then we should add it to hwcap" [1].
+
+It's true that ELF_HWCAP only carries the single-letter extensions,
+and multi-letter extensions go to hwprobe. But here we are talking about
+'V'.
+
+> is a convenient way to add such per-process's extension enablement
+> status.
+
+For V in particular, AT_HWCAP is already the per-process view. Your
+own commit 50724efcb370 ("riscv: hwcap: change ELF_HWCAP to a
+function") clears COMPAT_HWCAP_ISA_V whenever the prctl state is not
+ON, and Documentation/arch/riscv/vector.rst still tells ELF programs
+to read that bit to learn whether they may use V.
+
+>> (which reflect the vector prctl) and any tunables, so it is
+>> process-wide, can support arbitrary extensions, and can be checked
+>> without any kernel syscalls and without callers having to know or
+>> care whether a particular extension can be disabled.  If the prctl
+>> was used to re-enable vector in some thread that may not affect it,
+>> but that seems like the desired behavior, at least for ifunc
+>> resolvers, since they are assumed to produce the same result in any
+>> thread and at any point during the process lifetime.
+>
+> [...]
+>
+> I think the argument comes down to: do we expect the mismatch between
+> an extension's availability and existence to grow? Using the same set of
+> keys sounds like a good idea if we expect more extensions comes with
+> per-process enablement status. On the other hand, if future extension
+> supports come without the ability to turn it off, then this
+> implementation may be an overshoot.
+
+My position is with Mark: a positional modifier key is the wrong
+shape for hwprobe, and I don't think the kernel needs to change for
+this. For V, the per-process answer is already in AT_HWCAP, and
+glibc's resolvers should use the hwcap argument they receive.
+
+If a second extension with per-process enablement ever appears, that
+is the time to pick a hwprobe flag or an independent bit, as Palmer
+suggested. Or a solution based on glibc tunable as Mark mentioned.
+
+[1] https://lore.kernel.org/all/wozbsfbvlhsqhvrvjsxyx2u5rpagwlnezythkutzqwikmzeoah@lc3brdn5cu3t/
+
+BR,
+Guodong Xu
