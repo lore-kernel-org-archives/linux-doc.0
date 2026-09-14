@@ -1,230 +1,391 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CCC42254A;
-	Mon, 14 Sep 2026 09:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789377919; cv=none; b=gs72/vjxN8DzS3Zebj+Lr2gSGcZBZIToM/w6xJjsYKdu1EEqHDZQNO/N6Bar7NqGLL05o1598cZzO0n+dgbUeCZr97ANXhMf4mLSM2LqbSZNV+aQKMAav7TOyFKxpMGgurpzmO8Hq9uqlCUeCmoIi9s1ivCTlqMn5c9geJ6q/us=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789377919; c=relaxed/simple;
-	bh=i4Q5FyYbPndNo8fJS+kn8FrZCIOZYFQdzUc223QKkJ8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XErDzd00kfXUz4MKSV1KoeKilCONIwdLMSkVN0xisDSE0XOYRvDRIChonh5slm516ZTZhxwgBN2RMS2uK8QEJkF+MqnS61MPcOHGMfRQy5Opnm6rxOeaFHLbHADCOm+poRtsAg+yo/ASma5pH/9s8ieYjz3RlX3+2TU+7IvDj4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NactYzSq; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C205841B357
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 09:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789378617; cv=pass; b=BXFMVUWz/a/5HXdRhFQcFQ3UJPnTvVaK51MurJyBS0+z5qkgHs5Z6BFPMfp8fROSB4XYHbnn4RprDqd1UkFi5IJpZNJ68nLzRRraqKxGTfQJNcS3CrvJrYaz2E764rmVisDlUtO4fTxCkrZ1JoRabzucuvlwZ8GZkTMXJ7nOhHo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789378617; c=relaxed/simple;
+	bh=wbTsbaaraRurUVBMZm1/N3nbYDvOMB8ZhzA+hO9kfIY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bpkDUusxklvnSeR5zaHRl4sTOfQ3BsxuXmc/Y4NwNNouL7lccDTrIH70R6L5nYZWuoJaqN+jfpfh0aKEMIpKo3soWHrVeIbkMThR0+CoGlEzgPVxFheqzY1wc2VRm4+P86f4LI1ZTBSkTZjP709DPoAB82NVD9tmK2F7aQEggdU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=psTZMUxj; arc=pass smtp.client-ip=74.125.227.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NactYzSq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9291F1F00893;
-	Mon, 14 Sep 2026 09:25:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789377917;
-	bh=MlHxyJY4HAa/6VNWaILQ/yCa4l1lTL7VmN2BOtdjyCg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=NactYzSqVtEBr8OHpwOtVkFw5kxseKF3YcaZG8wVn1eLJj62D5ttndc5JuTVpSZb7
-	 QDbb3RreMSkIfnOTzv6pQqNvIVUkZVlXHSvJ312gkgM5sehMVfK90hRuLW6qcv4eta
-	 OV2nqkzEWV526oBEvYWw9vgUIJOjryqeXVk0ZF27iHcosnu9O6k/QdKx/lPl/2x97D
-	 kncuHUTQBgnqlDV5ZYDTJwF41btSavfUYgxwP8Bwvn89dagzdZG+yi78TWX6pYW+QP
-	 DllhYEpcTK+de9iM2AT209f/K8c+bPM8ehIImodv0mOA5YR4jq3f0ZuROr6dm+GpbI
-	 oFZSxnflXLVcw==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Mon, 14 Sep 2026 10:22:20 +0100
-Subject: [PATCH v2 21/21] kbuild: use pigz for gzip compression if
- available
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="psTZMUxj"
+Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c7e8a176c1so817583e0c.0
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 02:36:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789378614; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Yb7YSgNljM8evqXkjF+GGHmXPtq183uzJ4yO4Ndkv99YQm5c3kVvibsnOv0UPy1zj+
+         tHNWt8sFAqc9jFXfgdqLkc/kJgFKuT4cEPTCADpEXsyvOP8rOg98zXmJEbrgaV76TNTk
+         jkQjgZUEXwMpTryV/Zr+J0mxV7cv3DTueGMUzZFxCFOayBSA0wgx0PUN8gsV/7+0TWff
+         u3eNDnwRD/7qTn//SbV2CqETYsa9fkQpa9MKxqRf4pijnpzzsNAuwkXWkeQ1CptEpfJf
+         nNYO4ji3+s5n9Nw8ABgo2l24sa5GihwgwO4noIZC+ukcg3GhtU+VHtvrCTrKmXYiWV2/
+         Pe3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bH2hEpXtRoRU2iikLb41kShYLYcasMrhcO4+UhblFzQ=;
+        fh=XcZXDoqxDK/JKUi6UWUXtX6hBJilaGm1HxQXHshDaOY=;
+        b=Rvs1ZhS7HAKBFAvIj4XHmMr29qtK6xDFXaQREKKeeXEBAMgupTXvvQF/iGV+11QTqW
+         zkY8By+GUylS41ewzHlHitE2Fqom3XhWoylpQbCS+NISlL2BxVmFlx7nnNvSwMBTqK+x
+         Rf9S/Tm+dVx8jE0wbXB0F5QwfQnWDrJb3d7a30+W10iBfCDNaJFtmIR7oSx1k6uscy6j
+         lCzxymGQ+HTKTNjFd+OAZpWuHV3WpVoYr8B3anGfhmjaYPbeUCGcZZR4so+hGTgAY4qB
+         s1g+r1vOmVtwd+z/srrrEwBzFmZempbXS9p6PAl86EfyeVVJPRCd+NEMY25DG7Wxcilf
+         od7Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789378614; x=1789983414; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bH2hEpXtRoRU2iikLb41kShYLYcasMrhcO4+UhblFzQ=;
+        b=psTZMUxjGibfNKdUxqs2LYkifssd0mqqMAIRzgrCW+mAZDj9acj0dP+bjjJIW/mXVM
+         CJEU81R5Y3eh7Vp59cjbnxAk4SH5rFaS6BhGaYiNHLXe8zQWlYqcDbVk7Dn0xjJ7nNs0
+         ZGMS5NCPUkIVvwgyORYTdhSF+g0bYEA8TedwWliyQXnnIsqjnyJ3rPZuH61IS4fCGmFe
+         EId+yukwBxdM6phB/q2Y+7tECuRj1L72ez1QnZnQC4LLDohgAKE+SFKpkpCZdzBjiuxD
+         8i2VapveuA1v+Nrdl9ok+RYbLjCOO5cGXzZV8gAaOQs+BsWvYJ+oWIN9eyxyK3sTLXdx
+         57hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789378614; x=1789983414;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bH2hEpXtRoRU2iikLb41kShYLYcasMrhcO4+UhblFzQ=;
+        b=Fb28l86m87VoE2KtG6xx2nbtLNVpYpV0T/Pc94oi5jzDZjxfwNCQZp+f0QlxjVBK2d
+         zBjzbloQ7A4Ou40inZBLZrMultUv8oozArMSmPRKn2HipQf98PgUEC/9K3026+0XH9pm
+         dgYeMv1O3pjNSFAxzUIsL2gh1YHpDePxIlr0wShhRRJsm1NVbboNFplxaLshy7J3pG4t
+         iCkGzAgIGYVSZdz7o+3ImL1JoSrQ0uDY5kPOBJ66iIKr1nJ7ewpZzkYQml1U/8Bnl+IG
+         ODSbZR33Jjz2R3ThmW1Dg9ZKVkwS7vqosODzhLtKkVzonYqkFP2LCVPRdfOzy6tMf3Ak
+         P1PA==
+X-Forwarded-Encrypted: i=1; AKwUvBx2/A6BhrR2l+emuGutTMEzWkyHkBTx5KT0CBh43B3fclBnfJySPcYMQJS9k5KTwkHS5pEUAXksJ3o=@vger.kernel.org
+X-Gm-Message-State: AFuF++l+HDFmnqL0sI7NAmcdpOPDCuyyJP2piycKxnQkDUX7lcNKPYML
+	uwG/BZ9LLq8Dkedbj3tBibX+BygiOPoDYgbTNvXhQTuI5DipRLQInNsVrWgiaAO1ZKEizjI7trG
+	XngwKjyEoJ3b7i/IxtgbX89/so7gq4/w=
+X-Gm-Gg: AYBFou2SGRJ535TKECUIjYnoUlVvX60hQ/x8YWhUM4sk4iHQwmGjnt0j9b7VjEEHxtF
+	u1pZSgruIxAtju7AMobsaUzshpDeFcB1ntMU4duhgchPjuRJ5vtCaa2/x7bs7WJchgPcyjKiMdZ
+	bZ+ruib3EEflaz7APCmAG6NVNKouH5DUPbfeJ3eXnSlTdyY2uBcacSEYVdNLt5iISTJ7ofsxtee
+	6apoKomosxL+tOK13goH/qT80XJPzZFxYf4VJf4v4n4veVBPhASrVr5hd3+N8EHTwwLWch3UOx9
+	fHnvwJGonMau7bsw95+Feca0eaI+LNx7GJcVrlyUiPKf+N52m1MAHGBGBQ==
+X-Received: by 2002:a05:6122:8cc:b0:5bd:71b1:d5c6 with SMTP id
+ 71dfb90a1353d-5c981b4a790mr891390e0c.4.1789378614538; Mon, 14 Sep 2026
+ 02:36:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260914-build-speedup-v2-21-39817ec5db23@kernel.org>
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
-In-Reply-To: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Ard Biesheuvel <ardb@kernel.org>, 
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
- Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, linux-riscv@lists.infradead.org, 
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, 
- linux-hardening@vger.kernel.org, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5694; i=ljs@kernel.org;
- h=from:subject:message-id; bh=i4Q5FyYbPndNo8fJS+kn8FrZCIOZYFQdzUc223QKkJ8=;
- b=kA0DAAoWz53NioHifxQByyZiAGqnvMKhMxKk7nhnTotN8bFtS5mi2KGLdyf4BR2mUrrr2HgKo
- oh1BAAWCgAdFiEE5/QXv1IUVp6J0E9Gz53NioHifxQFAmqnvMIACgkQz53NioHifxTdcAEAgxQT
- 3P1Mksw674GaGcJ3ObMt8+QNeMwgQ/URc1cuwUAA/2r9twxzcl7zW9cuqgQgIpT5Cxv77pTPS/E
- IZxIBN/EB
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+References: <20260910-add-tda38740-and-tda38725-v4-0-dbae7fabce09@gmail.com>
+ <20260910-add-tda38740-and-tda38725-v4-2-dbae7fabce09@gmail.com> <7317a007-3995-47b3-b9f8-3aaf7702c7a4@roeck-us.net>
+In-Reply-To: <7317a007-3995-47b3-b9f8-3aaf7702c7a4@roeck-us.net>
+From: Colin Huang <u8813345@gmail.com>
+Date: Mon, 14 Sep 2026 17:36:42 +0800
+X-Gm-Features: AcwNN1VEtBxmaPHhbUkPMT-6OnFxOWdVDaJlXfoqr6_GZOAayu7CdhuyNqvV14E
+Message-ID: <CAPBH0A-PGwYQRD=eVZaZfzuT+LA3iasbqrVvS4-umekjg5r6VA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] hwmon: (pmbus/tda38740) Add driver for Infineon TDA38740/TDA38725
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Colin Huang <colin.huang2@amd.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The gzip step of a kernel build is very lengthily, especially for larger
-builds such as allmodconfig.
+Guenter Roeck <linux@roeck-us.net> =E6=96=BC 2026=E5=B9=B49=E6=9C=8810=E6=
+=97=A5=E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8811:19=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> On 9/10/26 05:35, Colin Huang wrote:
+> > From: Colin Huang <u8813345@gmail.com>
+> >
+> > Add a PMBus driver for Infineon TDA38740 and TDA38725
+> > single-voltage synchronous buck regulators.
+> >
+> > Signed-off-by: Colin Huang <u8813345@gmail.com>
+> > ---
+> >   Documentation/hwmon/index.rst    |  1 +
+> >   Documentation/hwmon/tda38740.rst | 65 +++++++++++++++++++++++++++
+> >   drivers/hwmon/pmbus/Kconfig      |  9 ++++
+> >   drivers/hwmon/pmbus/Makefile     |  1 +
+> >   drivers/hwmon/pmbus/tda38740.c   | 94 +++++++++++++++++++++++++++++++=
++++++++++
+> >   5 files changed, 170 insertions(+)
+> >
+> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.=
+rst
+> > index f07977a20271..aeff87b3d46d 100644
+> > --- a/Documentation/hwmon/index.rst
+> > +++ b/Documentation/hwmon/index.rst
+> > @@ -265,6 +265,7 @@ Hardware Monitoring Kernel Drivers
+> >      sy7636a-hwmon
+> >      tc654
+> >      tc74
+> > +   tda38740
+> >      thmc50
+> >      tmp102
+> >      tmp103
+> > diff --git a/Documentation/hwmon/tda38740.rst b/Documentation/hwmon/tda=
+38740.rst
+> > new file mode 100644
+> > index 000000000000..55ce12f14914
+> > --- /dev/null
+> > +++ b/Documentation/hwmon/tda38740.rst
+> > @@ -0,0 +1,65 @@
+> > +.. SPDX-License-Identifier: GPL-2.0-only
+> > +
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +Kernel driver tda38740
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +Supported chips:
+> > +  * Infineon TDA38740
+> > +  * Infineon TDA38725
+> > +
+> > +    Prefix: 'tda38740'
+> > +
+> > +    Addresses scanned: -
+> > +
+> > +    Datasheet:
+> > +      https://www.infineon.com/row/public/documents/24/49/infineon-tda=
+38740-tda38725-datasheet-en.pdf
+> > +
+> > +Author: Colin Huang <u8813345@gmail.com>
+> > +
+> > +Description
+> > +-----------
+> > +
+> > +The TDA38740 and TDA38725 are single-output synchronous buck regulator=
+s with a
+> > +PMBus interface. They expose basic voltage, current, power and tempera=
+ture
+> > +telemetry through the standard PMBus hwmon interfaces.
+> > +
+> > +Sysfs entries
+> > +-------------
+> > +
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> > +curr1_alarm          Input current alarm
+> > +curr1_input          Measured input current
+> > +curr1_label          "iin"
+> > +
+> > +curr2_crit           Critical maximum output current
+> > +curr2_crit_alarm     Output current critical high alarm
+> > +curr2_input          Measured output current
+> > +curr2_label          "iout"
+> > +
+> > +in1_crit             Critical maximum input voltage
+> > +in1_crit_alarm               Input voltage critical high alarm
+> > +in1_input            Measured input voltage
+> > +in1_label            "vin"
+> > +
+> > +in2_crit             Critical maximum output voltage
+> > +in2_crit_alarm               Output voltage critical high alarm
+> > +in2_input            Measured output voltage
+> > +in2_label            "vout"
+> > +in2_lcrit            Critical minimum output voltage
+> > +in2_lcrit_alarm              Output voltage critical low alarm
+> > +
+> > +power1_alarm         Input power alarm
+> > +power1_input         Measured input power
+> > +power1_label         "pin"
+> > +
+> > +power2_input         Measured output power
+> > +power2_label         "pout"
+> > +
+> > +temp1_crit           Critical high temperature
+> > +temp1_crit_alarm     Chip temperature critical high alarm
+> > +temp1_input          Measured temperature
+> > +temp1_max            Maximum temperature
+> > +temp1_max_alarm              Chip temperature high alarm
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> > +
+> > diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> > index bcfdc4ce4c10..e4ca80dd0574 100644
+> > --- a/drivers/hwmon/pmbus/Kconfig
+> > +++ b/drivers/hwmon/pmbus/Kconfig
+> > @@ -763,6 +763,15 @@ config SENSORS_TDA38640_REGULATOR
+> >         If you say yes here you get regulator support for Infineon
+> >         TDA38640 as regulator.
+> >
+> > +config SENSORS_TDA38740
+> > +     tristate "Infineon TDA38725/TDA38740"
+> > +     help
+> > +       If you say yes here you get hardware monitoring support for Inf=
+ineon
+> > +       TDA38725 and TDA38740.
+> > +
+> > +       This driver can also be built as a module. If so, the module wi=
+ll
+> > +       be called tda38740.
+> > +
+> >   config SENSORS_TPS25990
+> >       tristate "TI TPS25990"
+> >       help
+> > diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefil=
+e
+> > index e288fe72a437..eb06d47816fd 100644
+> > --- a/drivers/hwmon/pmbus/Makefile
+> > +++ b/drivers/hwmon/pmbus/Makefile
+> > @@ -70,6 +70,7 @@ obj-$(CONFIG_SENSORS_STEF48H28)     +=3D stef48h28.o
+> >   obj-$(CONFIG_SENSORS_SQ24860)       +=3D sq24860.o
+> >   obj-$(CONFIG_SENSORS_STPDDC60)      +=3D stpddc60.o
+> >   obj-$(CONFIG_SENSORS_TDA38640)      +=3D tda38640.o
+> > +obj-$(CONFIG_SENSORS_TDA38740)       +=3D tda38740.o
+> >   obj-$(CONFIG_SENSORS_TPS25990)      +=3D tps25990.o
+> >   obj-$(CONFIG_SENSORS_TPS40422)      +=3D tps40422.o
+> >   obj-$(CONFIG_SENSORS_TPS53679)      +=3D tps53679.o
+> > diff --git a/drivers/hwmon/pmbus/tda38740.c b/drivers/hwmon/pmbus/tda38=
+740.c
+> > new file mode 100644
+> > index 000000000000..6d3e9884f733
+> > --- /dev/null
+> > +++ b/drivers/hwmon/pmbus/tda38740.c
+> > @@ -0,0 +1,94 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * Hardware monitoring driver for Infineon TDA38725/TDA38740
+> > + *
+> > + * Copyright (c) 2023 9elements GmbH
+> > + *
+> > + */
+> > +
+> > +#include <linux/err.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/init.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include "pmbus.h"
+> > +
+> > +/*
+> > + * TDA38725/TDA38740 only support Linear format for VOUT related comma=
+nds,
+> > + * with exponents in the range of -8 to -12 (see datasheet VOUT_MODE
+> > + * description). Direct format is not supported by this device.
+> > + */
+> > +static int tda38740_identify(struct i2c_client *client,
+> > +                          struct pmbus_driver_info *info)
+> > +{
+> > +     int vout_mode;
+> > +
+> > +     vout_mode =3D pmbus_read_byte_data(client, 0, PMBUS_VOUT_MODE);
+> > +     if (vout_mode < 0 || vout_mode =3D=3D 0xff)
+> > +             return vout_mode < 0 ? vout_mode : -ENODEV;
+> > +
+> > +     if ((vout_mode >> 5) !=3D 0)
+> > +             return -ENODEV;
+> > +
+>
+> What is the point of this code ? The PMBus core, in pmbus_identify_common=
+(),
+> already compares the configured mode (info->format[PSC_VOLTAGE_OUT]) with
+> the value in the PMBUS_VOUT_MODE register and bails out if it does not ma=
+tch.
+> The code here just seems to duplicate that. Am I missing something ?
+Hi Guenter,
+  Thanks for your review.
+  Yes, code is duplicating.
+  I will remove this function in next.
 
-gzip itself cannot be run in parallel, however an alternative tool exists
-that can, providing the same feature set as gzip itself - pigz - which
-works as a drop-in replacement.
+Best regards,
+Colin Huang
 
-On a 128-core Threadripper, gzip -9 of a 36 MiB x86-64 vmlinux.bin takes
-1.6s, and with pigz it takes 0.09s, so the performance increase is
-significant.
+> > +     info->format[PSC_VOLTAGE_OUT] =3D linear;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static struct pmbus_driver_info tda38740_info =3D {
+> > +     .pages =3D 1,
+> > +     .format[PSC_VOLTAGE_IN] =3D linear,
+> > +     .format[PSC_CURRENT_OUT] =3D linear,
+> > +     .format[PSC_CURRENT_IN] =3D linear,
+> > +     .format[PSC_POWER] =3D linear,
+> > +     .format[PSC_TEMPERATURE] =3D linear,
+> > +     .func[0] =3D PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
+> > +         | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
+> > +         | PMBUS_HAVE_IIN
+> > +         | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
+> > +         | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
+> > +         | PMBUS_HAVE_POUT | PMBUS_HAVE_PIN,
+> > +     .identify =3D tda38740_identify,
+> > +};
+> > +
+> > +static int tda38740_probe(struct i2c_client *client)
+> > +{
+> > +     struct tda38740_data *data;
+> > +
+>
+> This definition got lost, and I don't immediately see why it would be
+> needed.
+>
+> Thanks,
+> Guenter
+>
+Thanks for the review.
+I plan to change it to:
+```
+static int tda38740_probe(struct i2c_client *client)
+{
+return pmbus_do_probe(client, &tda38740_info);
+}
+```
+Best regards,
+Colin Huang
 
-It is already possible to specify KGZIP on the make command line to make
-use of pigz, however it seems sensible to make use of pigz if it is
-available.
 
-Therefore default to using pigz if it is available on the system upon which
-the kernel is being built, otherwise fall back to gzip.
-
-Modules are compressed one per make job at install time, so a parallel
-compressor gains nothing there and with -jN would run N times the core
-count in threads. Limit pigz to a single thread for module compression.
-
-The output is byte-for-byte identical between pigz/gzip invocations, but
-gzip and pigz do not produce the same stream as one another.
-
-Therefore, for reproducible builds, the same set of tools should be used.
-
-This seems to already be an implicit requirement in any case, but update
-the reproducible build documentation to make this clear.
-
-Also update the kbuild documentation to reflect the change.
-
-Every x86 build ends with the compression of vmlinux.bin, 36MB for
-defconfig and over 200MB for allmodconfig, no-op builds are unchanged.
-
-Whole build, 128-thread Threadripper 9980X, best of N runs:
-
-                                         before   after     delta
-                                         -------------------------------
-  x86 defconfig, touch mm/vma.c, gcc        7.7s     6.0s     -1.7s (-22%)
-  x86 defconfig, touch mm/vma.c, clang      6.9s     5.4s     -1.5s (-21%)
-  x86 defconfig, clean, gcc                28.2s    26.3s     -1.8s (-6%)
-  x86 defconfig, clean, clang              28.7s    27.2s     -1.5s (-5%)
-  x86 allmodconfig, touch mm/vma.c, gcc    23.7s    15.4s     -8.3s (-35%)
-  x86 allmodconfig, touch mm/vma.c, clang  22.5s    15.6s     -7.0s (-31%)
-  x86 allmodconfig, clean, gcc            294.1s   278.6s     -15.5s (-5%)
-  x86 allmodconfig, clean, clang          283.9s   266.8s     -17.1s (-6%)
-
-Link: https://zlib.net/pigz/
-Assisted-by: LLM
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- Documentation/kbuild/kbuild.rst              | 15 +++++++++++++++
- Documentation/kbuild/reproducible-builds.rst | 16 ++++++++++++++++
- Makefile                                     |  2 +-
- scripts/Makefile.modinst                     |  4 +++-
- 4 files changed, 35 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 9b2b127676c3..ebfc2945ac03 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -110,6 +110,21 @@ HOSTLDLIBS
- ----------
- Additional libraries to link against when building host programs.
- 
-+KGZIP
-+-----
-+The gzip compressor used for the compressed kernel image, compressed
-+modules and packaging.
-+
-+Defaults to pigz (a parallel implementation of gzip) if it is available,
-+otherwise gzip. Set ``KGZIP=`` on the make command line to use another
-+program. Modules are compressed one per make job, so pigz is limited to a
-+single thread there.
-+
-+KBZIP2, KLZOP, LZMA, LZ4, XZ, ZSTD
-+----------------------------------
-+The compressor programs for the other formats. Each defaults to the program
-+of the same name.
-+
- .. _userkbuildflags:
- 
- USERCFLAGS
-diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-index bc1eb82211df..ec0135da4464 100644
---- a/Documentation/kbuild/reproducible-builds.rst
-+++ b/Documentation/kbuild/reproducible-builds.rst
-@@ -76,6 +76,22 @@ include generated files.  You should ensure the source tree is
- pristine by running ``make mrproper`` or ``git clean -d -f -x`` before
- building a source package.
- 
-+Compression tools
-+-----------------
-+
-+The compressed kernel image, compressed modules and packages are produced
-+using the program named by the make variable ``KGZIP`` (described in
-+Documentation/kbuild/kbuild.rst).
-+
-+It defaults to ``pigz`` if installed (a parallel implementation of gzip),
-+or ``gzip`` otherwise.
-+
-+The generated output between two invocations of identical builds with
-+either of the default tools will be byte-for-byte equivalent.
-+
-+However, for reproducible builds, ensure the same tool is used on all build
-+hosts, as different tools may generate different output from one another.
-+
- Module signing
- --------------
- 
-diff --git a/Makefile b/Makefile
-index 790ef23c5e8a..38c0cdc9f591 100644
---- a/Makefile
-+++ b/Makefile
-@@ -561,7 +561,7 @@ PERL		= perl
- PYTHON3		= python3
- CHECK		= sparse
- BASH		= bash
--KGZIP		= gzip
-+KGZIP		:= $(if $(shell command -v pigz 2>/dev/null),pigz,gzip)
- KBZIP2		= bzip2
- KLZOP		= lzop
- LZMA		= lzma
-diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-index 9ba45e5b32b1..58dafec8f910 100644
---- a/scripts/Makefile.modinst
-+++ b/scripts/Makefile.modinst
-@@ -145,8 +145,10 @@ endif
- #
- # Compression
- #
-+# Modules are compressed in parallel by make itself, so keep the compressor
-+# single-threaded when it is pigz.
- quiet_cmd_gzip = GZIP    $@
--      cmd_gzip = $(KGZIP) -n -f $<
-+      cmd_gzip = $(KGZIP) $(if $(filter pigz,$(notdir $(firstword $(KGZIP)))),-p 1) -n -f $<
- quiet_cmd_xz = XZ      $@
-       cmd_xz = $(XZ) --check=crc32 --lzma2=dict=1MiB -f $<
- quiet_cmd_zstd = ZSTD    $@
-
--- 
-2.55.0
-
+> > +     data =3D devm_kzalloc(&client->dev, sizeof(*data), GFP_KERNEL);
+> > +     if (!data)
+> > +             return -ENOMEM;
+> > +
+> > +     memcpy(&data->info, &tda38740_info, sizeof(tda38740_info));
+> > +
+> > +     return pmbus_do_probe(client, &data->info);
+> > +}
+> > +
+> > +static const struct i2c_device_id tda38740_id[] =3D {
+> > +     { .name =3D "tda38725"},
+> > +     { .name =3D "tda38740"},
+> > +     {}
+> > +};
+> > +MODULE_DEVICE_TABLE(i2c, tda38740_id);
+> > +
+> > +static const struct of_device_id __maybe_unused tda38740_of_match[] =
+=3D {
+> > +     { .compatible =3D "infineon,tda38725"},
+> > +     { .compatible =3D "infineon,tda38740"},
+> > +     {}
+> > +};
+> > +MODULE_DEVICE_TABLE(of, tda38740_of_match);
+> > +
+> > +static struct i2c_driver tda38740_driver =3D {
+> > +     .driver =3D {
+> > +             .name =3D "tda38740",
+> > +             .of_match_table =3D of_match_ptr(tda38740_of_match),
+> > +     },
+> > +     .probe =3D tda38740_probe,
+> > +     .id_table =3D tda38740_id,
+> > +};
+> > +
+> > +module_i2c_driver(tda38740_driver);
+> > +
+> > +MODULE_DESCRIPTION("PMBus driver for Infineon TDA38725/TDA38740");
+> > +MODULE_LICENSE("GPL");
+> > +MODULE_IMPORT_NS("PMBUS");
+> >
+>
