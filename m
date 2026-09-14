@@ -1,391 +1,149 @@
-Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C205841B357
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 09:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789378617; cv=pass; b=BXFMVUWz/a/5HXdRhFQcFQ3UJPnTvVaK51MurJyBS0+z5qkgHs5Z6BFPMfp8fROSB4XYHbnn4RprDqd1UkFi5IJpZNJ68nLzRRraqKxGTfQJNcS3CrvJrYaz2E764rmVisDlUtO4fTxCkrZ1JoRabzucuvlwZ8GZkTMXJ7nOhHo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789378617; c=relaxed/simple;
-	bh=wbTsbaaraRurUVBMZm1/N3nbYDvOMB8ZhzA+hO9kfIY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bpkDUusxklvnSeR5zaHRl4sTOfQ3BsxuXmc/Y4NwNNouL7lccDTrIH70R6L5nYZWuoJaqN+jfpfh0aKEMIpKo3soWHrVeIbkMThR0+CoGlEzgPVxFheqzY1wc2VRm4+P86f4LI1ZTBSkTZjP709DPoAB82NVD9tmK2F7aQEggdU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=psTZMUxj; arc=pass smtp.client-ip=74.125.227.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8B638DC7F
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 09:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789379534; cv=none; b=FZEThWN5dUJ/TGW5J3prHFa4TTvcEye2dZ91QielOSMNgL6msTQL1Q6Z0soOrCAA2Nqo6KOxMzZMS4eVQO9iCwCiypkORkj3iZG060UPVG/AQR12cWXt8tupnZsR0uRpCeiXC87xaYooW9WgKHbOGvsy/hs4GZb9u6MKBLc9p0U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789379534; c=relaxed/simple;
+	bh=NwHFKXeGfWvXfFDB8Dx4MlVGi15SX/g36tkiFox1vmM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ENHxrKS5nE+RuvfpC/NRYmMuKf8QHWoZER/wy/J9+XRkswBPp6Z3jiW6szik8ELEcKdG/FcwO3z27qZVdXbwMbPQzejcICEbx4qPWrjQKAWlvqdE0WyJeRSPqPpIYjcT40ftrS4GRqdWdFVzI0C05TDuyuYHiwPi1IBWs0tVYgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R3MNSyKB; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="psTZMUxj"
-Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c7e8a176c1so817583e0c.0
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 02:36:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789378614; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Yb7YSgNljM8evqXkjF+GGHmXPtq183uzJ4yO4Ndkv99YQm5c3kVvibsnOv0UPy1zj+
-         tHNWt8sFAqc9jFXfgdqLkc/kJgFKuT4cEPTCADpEXsyvOP8rOg98zXmJEbrgaV76TNTk
-         jkQjgZUEXwMpTryV/Zr+J0mxV7cv3DTueGMUzZFxCFOayBSA0wgx0PUN8gsV/7+0TWff
-         u3eNDnwRD/7qTn//SbV2CqETYsa9fkQpa9MKxqRf4pijnpzzsNAuwkXWkeQ1CptEpfJf
-         nNYO4ji3+s5n9Nw8ABgo2l24sa5GihwgwO4noIZC+ukcg3GhtU+VHtvrCTrKmXYiWV2/
-         Pe3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bH2hEpXtRoRU2iikLb41kShYLYcasMrhcO4+UhblFzQ=;
-        fh=XcZXDoqxDK/JKUi6UWUXtX6hBJilaGm1HxQXHshDaOY=;
-        b=Rvs1ZhS7HAKBFAvIj4XHmMr29qtK6xDFXaQREKKeeXEBAMgupTXvvQF/iGV+11QTqW
-         zkY8By+GUylS41ewzHlHitE2Fqom3XhWoylpQbCS+NISlL2BxVmFlx7nnNvSwMBTqK+x
-         Rf9S/Tm+dVx8jE0wbXB0F5QwfQnWDrJb3d7a30+W10iBfCDNaJFtmIR7oSx1k6uscy6j
-         lCzxymGQ+HTKTNjFd+OAZpWuHV3WpVoYr8B3anGfhmjaYPbeUCGcZZR4so+hGTgAY4qB
-         s1g+r1vOmVtwd+z/srrrEwBzFmZempbXS9p6PAl86EfyeVVJPRCd+NEMY25DG7Wxcilf
-         od7Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3MNSyKB"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d6ff2f2c50so2183055ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 02:52:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789378614; x=1789983414; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1789379532; x=1789984332; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=bH2hEpXtRoRU2iikLb41kShYLYcasMrhcO4+UhblFzQ=;
-        b=psTZMUxjGibfNKdUxqs2LYkifssd0mqqMAIRzgrCW+mAZDj9acj0dP+bjjJIW/mXVM
-         CJEU81R5Y3eh7Vp59cjbnxAk4SH5rFaS6BhGaYiNHLXe8zQWlYqcDbVk7Dn0xjJ7nNs0
-         ZGMS5NCPUkIVvwgyORYTdhSF+g0bYEA8TedwWliyQXnnIsqjnyJ3rPZuH61IS4fCGmFe
-         EId+yukwBxdM6phB/q2Y+7tECuRj1L72ez1QnZnQC4LLDohgAKE+SFKpkpCZdzBjiuxD
-         8i2VapveuA1v+Nrdl9ok+RYbLjCOO5cGXzZV8gAaOQs+BsWvYJ+oWIN9eyxyK3sTLXdx
-         57hw==
+        bh=CugJTnFpNDzD6RvkvwHqkwu4HooaScng7d0KUVoknX0=;
+        b=R3MNSyKBLpH0R4jKdW57KBEweLMlACLe75vanhA0QnCXBaJJhRgieYJLBX3yi41elH
+         W/Uq2IA2jl5YHFCTJBmW+No2f8nQ/yOw3svMQU4ljo6g444drtK4fG2mN+ZgK0Juhzmh
+         eKZHwX3jTzN5N4V57K9CrYs9FnLtUo7W5wyjMXSIoaZmQHccWc5qmmo1q2SziEORRNxk
+         SBA3IrjQyyl4P7tduirAWY+X63fE37wM6NW7qfBlYOyd/JWDjFyEc3dZ/O8l1un+K1TT
+         qiVpVBa+QeTzXc9Av7z24OnwgrojZT+CjjrCwR7+KPEub60MElecKPabhuZGGVs5MEoS
+         EZnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789378614; x=1789983414;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1789379532; x=1789984332;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=bH2hEpXtRoRU2iikLb41kShYLYcasMrhcO4+UhblFzQ=;
-        b=Fb28l86m87VoE2KtG6xx2nbtLNVpYpV0T/Pc94oi5jzDZjxfwNCQZp+f0QlxjVBK2d
-         zBjzbloQ7A4Ou40inZBLZrMultUv8oozArMSmPRKn2HipQf98PgUEC/9K3026+0XH9pm
-         dgYeMv1O3pjNSFAxzUIsL2gh1YHpDePxIlr0wShhRRJsm1NVbboNFplxaLshy7J3pG4t
-         iCkGzAgIGYVSZdz7o+3ImL1JoSrQ0uDY5kPOBJ66iIKr1nJ7ewpZzkYQml1U/8Bnl+IG
-         ODSbZR33Jjz2R3ThmW1Dg9ZKVkwS7vqosODzhLtKkVzonYqkFP2LCVPRdfOzy6tMf3Ak
-         P1PA==
-X-Forwarded-Encrypted: i=1; AKwUvBx2/A6BhrR2l+emuGutTMEzWkyHkBTx5KT0CBh43B3fclBnfJySPcYMQJS9k5KTwkHS5pEUAXksJ3o=@vger.kernel.org
-X-Gm-Message-State: AFuF++l+HDFmnqL0sI7NAmcdpOPDCuyyJP2piycKxnQkDUX7lcNKPYML
-	uwG/BZ9LLq8Dkedbj3tBibX+BygiOPoDYgbTNvXhQTuI5DipRLQInNsVrWgiaAO1ZKEizjI7trG
-	XngwKjyEoJ3b7i/IxtgbX89/so7gq4/w=
-X-Gm-Gg: AYBFou2SGRJ535TKECUIjYnoUlVvX60hQ/x8YWhUM4sk4iHQwmGjnt0j9b7VjEEHxtF
-	u1pZSgruIxAtju7AMobsaUzshpDeFcB1ntMU4duhgchPjuRJ5vtCaa2/x7bs7WJchgPcyjKiMdZ
-	bZ+ruib3EEflaz7APCmAG6NVNKouH5DUPbfeJ3eXnSlTdyY2uBcacSEYVdNLt5iISTJ7ofsxtee
-	6apoKomosxL+tOK13goH/qT80XJPzZFxYf4VJf4v4n4veVBPhASrVr5hd3+N8EHTwwLWch3UOx9
-	fHnvwJGonMau7bsw95+Feca0eaI+LNx7GJcVrlyUiPKf+N52m1MAHGBGBQ==
-X-Received: by 2002:a05:6122:8cc:b0:5bd:71b1:d5c6 with SMTP id
- 71dfb90a1353d-5c981b4a790mr891390e0c.4.1789378614538; Mon, 14 Sep 2026
- 02:36:54 -0700 (PDT)
+        bh=CugJTnFpNDzD6RvkvwHqkwu4HooaScng7d0KUVoknX0=;
+        b=D/qHCXUrRtITh3HX8dcIKxFsQX/rToLv3I6OuWnjrNdCb4zqvojak5Me2MW25zNK4+
+         kAVXmhtMogvPwKOWPOonldYjRKR6NI4dpsR7/aFJKXkZ4rp5a/nOeu8M8see0/e5ck8y
+         ya9JraHaprKEb7wrWjO7kK8bv0LPz5o1fsLLI7KL/54jut2AC90E3DHv+NgdXWto+3QY
+         MKSo2zxbedCKhgGjjHZ7pG7dDwcGZT+rKuYNhF7BC0b/U0gMg6vR32JJWkWWc0ytI3YN
+         aDyJJ4vnrOmXnJCwpTl+QqqZFtOMpr0he/zYSo3UCyYPqD0FFfAHGfxTHzRuqUhKFK9w
+         /XNw==
+X-Forwarded-Encrypted: i=1; AKwUvBxPp3Ghj54R3uQVFvlqDvFtrKWAuETb0oj+i/53E830zcsIFeHBCZCWnn4QVpV9wnu3fLVgi/tanJQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++nzZz6C2HTyMbXmDQFOZzUprxG0w1T6GhDUJfn7sIgjoOwed7OQ
+	x88hw5CAxBx05Ah4TUdaKrQQzxHSpfFV2VEv0PkQAxZ1oSea0IoT1/mZ
+X-Gm-Gg: AYBFou3xTJimJ5wsVsqI1XkCAhXcLog8csdTGTnklqJ67KgqqGiwAAuYumnuTLuIGYn
+	ZPSEfn2k4+KburXV+jaF65ZMUxXb7Us6nOV+1ZG/r8XgoYXmeLMRpabxEuigFSXgNt3dr2BCPTq
+	agQfZXFz02Z25u+nfXyzVTOt2ZbAtIcAGhX6sBME8z0Ky2erxqpIBU4E8Dqg/qbCnKbY9tMNcRV
+	Ntlni+d/nijo6mp1yxlWinVzfhod5Jr0TeRbkITp0vAkrlUrhMJDZ1/prUf9L8JZe8IEk/t8PWf
+	Vuu7P+SQDgpGRozIaLD8ykmNA2ne6bY6S9dB31Cx7t//AVyWHRi8XkDGohnhtLD5dKERG3ZIalw
+	GpubiQ/fdmaA8QhJwd3htN9Ybire0pv7VVjqk2M/tyeJ0Ep8tZt5ZjL0FIml9zGwGkSl8JQKWSx
+	DblwONo0miM3sdv7L01ZvyAL/XDu27J79UnGO4ETHsB37+dTZzJuQOxGSB5rk27/fsMhNlri5O5
+	C+IgyM4
+X-Received: by 2002:a05:6a20:d80d:b0:3c3:94bb:ceb8 with SMTP id adf61e73a8af0-3db404fcb8bmr2241794637.1.1789379531607;
+        Mon, 14 Sep 2026 02:52:11 -0700 (PDT)
+Received: from elitemini ([2400:4050:d860:9700:75bf:9e2e:8ac9:3001])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86b287c2775sm4183562b3a.9.2026.09.14.02.52.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 02:52:10 -0700 (PDT)
+Date: Mon, 14 Sep 2026 18:52:06 +0900
+From: Masaharu Noguchi <nogunix@gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Akira Yokosawa <akiyks@gmail.com>, 
+	Chen Miao <chenmiao.ku@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: sphinx-pre-install: warn about unsupported
+ Docutils versions
+Message-ID: <aqfDff8BC8vJAOAg@elitemini>
+References: <20260913-docs-sphinx-pre-install-docutils-v1-1-d923c769af91@gmail.com>
+ <20260914074206.05579309@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260910-add-tda38740-and-tda38725-v4-0-dbae7fabce09@gmail.com>
- <20260910-add-tda38740-and-tda38725-v4-2-dbae7fabce09@gmail.com> <7317a007-3995-47b3-b9f8-3aaf7702c7a4@roeck-us.net>
-In-Reply-To: <7317a007-3995-47b3-b9f8-3aaf7702c7a4@roeck-us.net>
-From: Colin Huang <u8813345@gmail.com>
-Date: Mon, 14 Sep 2026 17:36:42 +0800
-X-Gm-Features: AcwNN1VEtBxmaPHhbUkPMT-6OnFxOWdVDaJlXfoqr6_GZOAayu7CdhuyNqvV14E
-Message-ID: <CAPBH0A-PGwYQRD=eVZaZfzuT+LA3iasbqrVvS4-umekjg5r6VA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] hwmon: (pmbus/tda38740) Add driver for Infineon TDA38740/TDA38725
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Colin Huang <colin.huang2@amd.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260914074206.05579309@foz.lan>
 
-Guenter Roeck <linux@roeck-us.net> =E6=96=BC 2026=E5=B9=B49=E6=9C=8810=E6=
-=97=A5=E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8811:19=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On 9/10/26 05:35, Colin Huang wrote:
-> > From: Colin Huang <u8813345@gmail.com>
-> >
-> > Add a PMBus driver for Infineon TDA38740 and TDA38725
-> > single-voltage synchronous buck regulators.
-> >
-> > Signed-off-by: Colin Huang <u8813345@gmail.com>
-> > ---
-> >   Documentation/hwmon/index.rst    |  1 +
-> >   Documentation/hwmon/tda38740.rst | 65 +++++++++++++++++++++++++++
-> >   drivers/hwmon/pmbus/Kconfig      |  9 ++++
-> >   drivers/hwmon/pmbus/Makefile     |  1 +
-> >   drivers/hwmon/pmbus/tda38740.c   | 94 +++++++++++++++++++++++++++++++=
-+++++++++
-> >   5 files changed, 170 insertions(+)
-> >
-> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.=
-rst
-> > index f07977a20271..aeff87b3d46d 100644
-> > --- a/Documentation/hwmon/index.rst
-> > +++ b/Documentation/hwmon/index.rst
-> > @@ -265,6 +265,7 @@ Hardware Monitoring Kernel Drivers
-> >      sy7636a-hwmon
-> >      tc654
-> >      tc74
-> > +   tda38740
-> >      thmc50
-> >      tmp102
-> >      tmp103
-> > diff --git a/Documentation/hwmon/tda38740.rst b/Documentation/hwmon/tda=
-38740.rst
-> > new file mode 100644
-> > index 000000000000..55ce12f14914
-> > --- /dev/null
-> > +++ b/Documentation/hwmon/tda38740.rst
-> > @@ -0,0 +1,65 @@
-> > +.. SPDX-License-Identifier: GPL-2.0-only
-> > +
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Kernel driver tda38740
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Supported chips:
-> > +  * Infineon TDA38740
-> > +  * Infineon TDA38725
-> > +
-> > +    Prefix: 'tda38740'
-> > +
-> > +    Addresses scanned: -
-> > +
-> > +    Datasheet:
-> > +      https://www.infineon.com/row/public/documents/24/49/infineon-tda=
-38740-tda38725-datasheet-en.pdf
-> > +
-> > +Author: Colin Huang <u8813345@gmail.com>
-> > +
-> > +Description
-> > +-----------
-> > +
-> > +The TDA38740 and TDA38725 are single-output synchronous buck regulator=
-s with a
-> > +PMBus interface. They expose basic voltage, current, power and tempera=
-ture
-> > +telemetry through the standard PMBus hwmon interfaces.
-> > +
-> > +Sysfs entries
-> > +-------------
-> > +
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> > +curr1_alarm          Input current alarm
-> > +curr1_input          Measured input current
-> > +curr1_label          "iin"
-> > +
-> > +curr2_crit           Critical maximum output current
-> > +curr2_crit_alarm     Output current critical high alarm
-> > +curr2_input          Measured output current
-> > +curr2_label          "iout"
-> > +
-> > +in1_crit             Critical maximum input voltage
-> > +in1_crit_alarm               Input voltage critical high alarm
-> > +in1_input            Measured input voltage
-> > +in1_label            "vin"
-> > +
-> > +in2_crit             Critical maximum output voltage
-> > +in2_crit_alarm               Output voltage critical high alarm
-> > +in2_input            Measured output voltage
-> > +in2_label            "vout"
-> > +in2_lcrit            Critical minimum output voltage
-> > +in2_lcrit_alarm              Output voltage critical low alarm
-> > +
-> > +power1_alarm         Input power alarm
-> > +power1_input         Measured input power
-> > +power1_label         "pin"
-> > +
-> > +power2_input         Measured output power
-> > +power2_label         "pout"
-> > +
-> > +temp1_crit           Critical high temperature
-> > +temp1_crit_alarm     Chip temperature critical high alarm
-> > +temp1_input          Measured temperature
-> > +temp1_max            Maximum temperature
-> > +temp1_max_alarm              Chip temperature high alarm
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> > +
-> > diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> > index bcfdc4ce4c10..e4ca80dd0574 100644
-> > --- a/drivers/hwmon/pmbus/Kconfig
-> > +++ b/drivers/hwmon/pmbus/Kconfig
-> > @@ -763,6 +763,15 @@ config SENSORS_TDA38640_REGULATOR
-> >         If you say yes here you get regulator support for Infineon
-> >         TDA38640 as regulator.
-> >
-> > +config SENSORS_TDA38740
-> > +     tristate "Infineon TDA38725/TDA38740"
-> > +     help
-> > +       If you say yes here you get hardware monitoring support for Inf=
-ineon
-> > +       TDA38725 and TDA38740.
-> > +
-> > +       This driver can also be built as a module. If so, the module wi=
-ll
-> > +       be called tda38740.
-> > +
-> >   config SENSORS_TPS25990
-> >       tristate "TI TPS25990"
-> >       help
-> > diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefil=
-e
-> > index e288fe72a437..eb06d47816fd 100644
-> > --- a/drivers/hwmon/pmbus/Makefile
-> > +++ b/drivers/hwmon/pmbus/Makefile
-> > @@ -70,6 +70,7 @@ obj-$(CONFIG_SENSORS_STEF48H28)     +=3D stef48h28.o
-> >   obj-$(CONFIG_SENSORS_SQ24860)       +=3D sq24860.o
-> >   obj-$(CONFIG_SENSORS_STPDDC60)      +=3D stpddc60.o
-> >   obj-$(CONFIG_SENSORS_TDA38640)      +=3D tda38640.o
-> > +obj-$(CONFIG_SENSORS_TDA38740)       +=3D tda38740.o
-> >   obj-$(CONFIG_SENSORS_TPS25990)      +=3D tps25990.o
-> >   obj-$(CONFIG_SENSORS_TPS40422)      +=3D tps40422.o
-> >   obj-$(CONFIG_SENSORS_TPS53679)      +=3D tps53679.o
-> > diff --git a/drivers/hwmon/pmbus/tda38740.c b/drivers/hwmon/pmbus/tda38=
-740.c
-> > new file mode 100644
-> > index 000000000000..6d3e9884f733
-> > --- /dev/null
-> > +++ b/drivers/hwmon/pmbus/tda38740.c
-> > @@ -0,0 +1,94 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Hardware monitoring driver for Infineon TDA38725/TDA38740
-> > + *
-> > + * Copyright (c) 2023 9elements GmbH
-> > + *
-> > + */
-> > +
-> > +#include <linux/err.h>
-> > +#include <linux/i2c.h>
-> > +#include <linux/init.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include "pmbus.h"
-> > +
-> > +/*
-> > + * TDA38725/TDA38740 only support Linear format for VOUT related comma=
-nds,
-> > + * with exponents in the range of -8 to -12 (see datasheet VOUT_MODE
-> > + * description). Direct format is not supported by this device.
-> > + */
-> > +static int tda38740_identify(struct i2c_client *client,
-> > +                          struct pmbus_driver_info *info)
-> > +{
-> > +     int vout_mode;
-> > +
-> > +     vout_mode =3D pmbus_read_byte_data(client, 0, PMBUS_VOUT_MODE);
-> > +     if (vout_mode < 0 || vout_mode =3D=3D 0xff)
-> > +             return vout_mode < 0 ? vout_mode : -ENODEV;
-> > +
-> > +     if ((vout_mode >> 5) !=3D 0)
-> > +             return -ENODEV;
-> > +
->
-> What is the point of this code ? The PMBus core, in pmbus_identify_common=
-(),
-> already compares the configured mode (info->format[PSC_VOLTAGE_OUT]) with
-> the value in the PMBUS_VOUT_MODE register and bails out if it does not ma=
-tch.
-> The code here just seems to duplicate that. Am I missing something ?
-Hi Guenter,
-  Thanks for your review.
-  Yes, code is duplicating.
-  I will remove this function in next.
+Hi Mauro,
 
-Best regards,
-Colin Huang
+Thank you for looking at this.  Both directions you suggest are ones I went
+down first; here is what I measured.
 
-> > +     info->format[PSC_VOLTAGE_OUT] =3D linear;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static struct pmbus_driver_info tda38740_info =3D {
-> > +     .pages =3D 1,
-> > +     .format[PSC_VOLTAGE_IN] =3D linear,
-> > +     .format[PSC_CURRENT_OUT] =3D linear,
-> > +     .format[PSC_CURRENT_IN] =3D linear,
-> > +     .format[PSC_POWER] =3D linear,
-> > +     .format[PSC_TEMPERATURE] =3D linear,
-> > +     .func[0] =3D PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
-> > +         | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
-> > +         | PMBUS_HAVE_IIN
-> > +         | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-> > +         | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
-> > +         | PMBUS_HAVE_POUT | PMBUS_HAVE_PIN,
-> > +     .identify =3D tda38740_identify,
-> > +};
-> > +
-> > +static int tda38740_probe(struct i2c_client *client)
-> > +{
-> > +     struct tda38740_data *data;
-> > +
->
-> This definition got lost, and I don't immediately see why it would be
-> needed.
->
-> Thanks,
-> Guenter
->
-Thanks for the review.
-I plan to change it to:
-```
-static int tda38740_probe(struct i2c_client *client)
-{
-return pmbus_do_probe(client, &tda38740_info);
-}
-```
-Best regards,
-Colin Huang
+On Mon, 14 Sep 2026 07:42:06 +0200, Mauro Carvalho Chehab wrote:
+> If so, maybe a more interesting patch would be to adjust pdf generaion
+> to use a more reasonable memory limit, as 6GB sounds too little.
 
+main_memory is counted in words rather than bytes, so that 6000000 is not 6
+GB -- but raising it does not help either.  Fedora 44, the broken pairing
+held fixed, varying only extra_mem_top/extra_mem_bot:
 
-> > +     data =3D devm_kzalloc(&client->dev, sizeof(*data), GFP_KERNEL);
-> > +     if (!data)
-> > +             return -ENOMEM;
-> > +
-> > +     memcpy(&data->info, &tda38740_info, sizeof(tda38740_info));
-> > +
-> > +     return pmbus_do_probe(client, &data->info);
-> > +}
-> > +
-> > +static const struct i2c_device_id tda38740_id[] =3D {
-> > +     { .name =3D "tda38725"},
-> > +     { .name =3D "tda38740"},
-> > +     {}
-> > +};
-> > +MODULE_DEVICE_TABLE(i2c, tda38740_id);
-> > +
-> > +static const struct of_device_id __maybe_unused tda38740_of_match[] =
-=3D {
-> > +     { .compatible =3D "infineon,tda38725"},
-> > +     { .compatible =3D "infineon,tda38740"},
-> > +     {}
-> > +};
-> > +MODULE_DEVICE_TABLE(of, tda38740_of_match);
-> > +
-> > +static struct i2c_driver tda38740_driver =3D {
-> > +     .driver =3D {
-> > +             .name =3D "tda38740",
-> > +             .of_match_table =3D of_match_ptr(tda38740_of_match),
-> > +     },
-> > +     .probe =3D tda38740_probe,
-> > +     .id_table =3D tda38740_id,
-> > +};
-> > +
-> > +module_i2c_driver(tda38740_driver);
-> > +
-> > +MODULE_DESCRIPTION("PMBus driver for Infineon TDA38725/TDA38740");
-> > +MODULE_LICENSE("GPL");
-> > +MODULE_IMPORT_NS("PMBUS");
-> >
->
+	             core-api             admin-guide
+	----------------------------------------------------------------
+	stock        FAILS 26x Dim 1194p  FAILS capacity 13p
+	+60M words   FAILS 26x Dim 1194p  FAILS 40x Dim 2886p, no capacity
+
+core-api does not move at all, and admin-guide, once TeX has all the memory
+it asks for, fails on "Dimension too large" instead: the memory was masking
+those boxes, not causing them.  Neither produces a PDF.
+
+> This is also another parameter that may require adjustments.
+> If I'm not mistaken, this is related to the maximum level depth
+> on titles.
+
+That one is maxlistdepth, which Documentation/conf.py already sets to 10.
+\fb@put@frame is framed.sty's frame placement macro, and what it reports is
+a box past TeX's maximum dimension, 16383.99998pt, which no setting raises.
+Bisecting a single block under the kernel's LaTeX settings, 1450 lines
+builds and 1500 does not, at stock memory and at ten times it;
+memory-barriers.txt is 3016 lines.  I wrote an override for \fb@put@frame
+too, and dropped it: the same content passes unframed under an older
+Docutils.
+
+> On both cases, I don't think you can blame docutils or sphinx
+> version: those are distro-specific configuration parameters.
+
+This is what I should have shown in v1.  Same container, same TeX Live, same
+unmodified texmf.cnf, same tree; only the two Python packages differ:
+
+	sphinx   docutils   core-api   admin-guide
+	------------------------------------------
+	8.2.3    0.21.2     ok         ok
+	8.2.3    0.22.4     FAILS      FAILS
+	9.0.4    0.22.4     FAILS      FAILS
+	9.1.0    0.22.4     ok         ok
+
+The 9.0.4 row is a plain "pip install sphinx==9.0.4": 9.0.x declares
+"docutils>=0.20,<0.23" upstream, so pip resolves Docutils to 0.22.4 by
+itself, with no distribution involved.
+
+You are right that it takes a combination, and I will say that plainly
+rather than pointing at one package.
+
+> I don't mind having a warning
+
+One thing needs fixing regardless: Akira pointed out that the fix for this,
+sphinx-doc/sphinx#3099, landed in Sphinx 9.1.0 rather than 9.0.0, so v1's
+constant skips the 9.0.4 row above.  I think that calls for a v2, with the
+constant fixed and the commit message reworded as described.
+
+Thanks,
+Masaharu
