@@ -1,330 +1,266 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B115848E0DB
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 16:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789404594; cv=pass; b=XWdl++LCpqxcLymL4yoFZNfhPyAzz7FDBPQznqxznhbpEFtJ6m6AHbQ6bf/uvBxo08rvsua7mJV9m9X5lc8wU20oHUEsgOHOc5AQ6hgW5SzQVt5p8wZzBg3jeu8VgmPtCMeQNz8yrNY1iQpHwWpY0Ilty8gI7pfWjfRn3GDng6E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789404594; c=relaxed/simple;
-	bh=7jqLPXF1igJUd80a+c0Yy1y5YA/B5JPdvkj9X3w++FA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j9AWx8C6NzJX1MfysdcKoT5+quMoOD1vY5o+3V6eCqgAjqW895Is1G66mn9GabfxA8mxt5qKflOZKmvkFhyrmZjHBkNAhyxM9cCVvGjs+AW9BKYGDvqMe/FxJnYgPQLfbCDy9/cgPvjfcqyKydfXYPnuTtRs22wSWycEL8sTdMQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JrQILUID; arc=pass smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2635E48F844;
+	Mon, 14 Sep 2026 16:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789404702; cv=none; b=fvwOFpkxsaWWxkCuJD2CzYc+qM9TVDCqu0adhuVz2gOnVpGWOMKUv2RZ0LJvZOTbdM6OFt6iksFIi/DB5KEpGb2H9mXZ/V4yrOqIUeSXcH72XCkn6oyy4qEnCw/aD8s6TuZpj0SejqC152Vyln+otIDz7PTuuqLJqgT6ueMPhAI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789404702; c=relaxed/simple;
+	bh=uGY6NcMWNLywvTowFym9tgnQwZjzy9Owr6elQkyVpjk=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=YHt38HarHcVMVVkdicMBp8qgC602SZTn3JFkKHtL1QtKRSgvxLCk7fAKnLPH6iWK8+4qhL9JzUBO6xqYUrEARpB7lAi/YPmRHjidNMVsrU5duIlIW17YiO9IEr/FGjHo7TyQ+2wRhTUUlgUL7cf8lIT/D8ChUMG70y2OiSnggRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=UPqg+1WX; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JrQILUID"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f6350f89so1123106f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 09:49:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789404591; cv=none;
-        d=google.com; s=arc-20260327;
-        b=d5zkJbDfXzeSSRitKZ8QufyjBHhuUQmwsB5qLDGbzxW5MzPmci9CWEYwTG9fG1i6Kz
-         CQ/OwHHt/cCd5JAKx98GDZJSs+yZ9UGh5lL+EdkEQmz+RVOs6T5JOqf4ibYqdUH55zJk
-         WjgFQJxqKeuwAVNJ4SUcKlS6xXVlDepd56cylWTy9Qqfexwhlb8cWSx88dYglKuEsOqu
-         PAF0kxNL/wO3Rq81mvyeckeuDv25e/KWv42QM0NqloWcEwB7JlJaEiOCVM+KOObXx2Be
-         qplYHL353xL1JkNyv6Wz7cI/mdPYJ++zF+Yv7NlSBknrdiS2au9fm6Xh2JCLXnfS9DmY
-         ToOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=G183+Yxm6/Twsin5qYVqwM95g4Sy/Qck0fET7NLxE+k=;
-        fh=gM9Cxw0zZptofSZR5BrZjTtRpuN3gAl0MZVP+eAvBlY=;
-        b=dvhe7tYEBcw0RI7iLB6CwLtKE8El4QgeIRKpEMx4q1ZyeuWkz+IpJtGt3pAwZs+l3C
-         gYpUuT2LFl69IXWLlvFvA9al3cLl+CD9sB5WDC1kjcFtWEkhG43TErgEe7nCFnyQ28GU
-         5OTUAjarmkPZVfBnngnYonT9jGBdFVbc7OGLqwGugzPpropzj3NxsDucZcgiVDxh0rNP
-         Si1GIjiKvZxsgESzQvPetf54Zx+7wQswS1wrEtZeCcZJyTVVNHkj22LuD/1G3guKWrpF
-         KMhXNjlfopYDapEFIcIcQQL7bioMxfjwgFTMrGllaRJ3LN8Vw7/SPS9enz2qBZVS/cmR
-         gP6g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789404591; x=1790009391; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=G183+Yxm6/Twsin5qYVqwM95g4Sy/Qck0fET7NLxE+k=;
-        b=JrQILUID1bKBhb+/x3xIgPavKzr+v2xHSfsbF9dZU9Ee480JcjOvWdw60nLeUeeusQ
-         AWsoT8npn0DBvLpBDqky1T2wBqSSBFGunkpjoNWQOEz9ZXkHouxEcHx6v/qTC0HNqIMS
-         om1ADZuRMc052tqrcywgFTjZlen5YhGzeXz8WYDSDdgMmquoWWLnX0PbJlpyp7sPZ4N6
-         Tz+j4NxQc9nXE1hV7wudS68m595/97lKGe88pRVRJssFxTb0DxCr53vpf19ohR5cJDTw
-         cSA9pURmDtXQ6EJLY2LDocQ1fbW0k1UPZO5NsTJ64MOexBX4WrnLNi6SD/1FqXRPIQnT
-         srnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789404591; x=1790009391;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=G183+Yxm6/Twsin5qYVqwM95g4Sy/Qck0fET7NLxE+k=;
-        b=HnCgK9LydSkjUZzi0RwxlWhSY027TwECcLDmvT56XQOaOc1IK3txBKQ+1IPO3oM2il
-         0osmM7ofOkVsxp0hGLeG38EYl1K4LPrdkCcfEF+XYqyNpfSg8UThTlIq6yk/kgLYC5u0
-         troq0IBCZfExmWVBwMcdvVl+70s/JFUPvtBMzzW6VVOg/yfTNf+MnQHAvvqKpPKOotwQ
-         ibb/xVeeXXaR7WdAyHx0wR83um0NcPUdM/K9hkwUJc+rDXSmaBQZkagDz3z04Xo7JK45
-         bdyojMqmHTbzlIdURFjOlFHRZzeLjEMvPiHzmfA/PWjuP00VxG95GuxcTO6nBV7lplrV
-         jyrA==
-X-Forwarded-Encrypted: i=1; AKwUvBy2WtMTw/WRIfAyO62bYOmaFgaLJ/PCfLdIzUa0x+c4T/uyFPjsWdJxStB32bijQEF90aL9mhNu/A8=@vger.kernel.org
-X-Gm-Message-State: AFuF++lU3mC0Xfnw5HiL9cQLA5ERdkBpCTLpotPj9DCnCIL/OjW5T4FA
-	8EzZs6KMNF2iy0G2cqst39p2hNmNrMhXYPvqxk7nREX4nd8smsOW5f6HKHoit4wmGdAFq+0+GSe
-	lQSwm2AgwPoDZdU1mu0H0Q0Be9n00j0w=
-X-Gm-Gg: AYBFou2ASkyXs68tvMN1fDRKcJeOqWak6fqiiJ/E+12IJNLU/vS/sMNETIZVZphzIj0
-	9SDVY3pvwm3lqPgvghIcWef46lJMXe9WxWZfU4DSbb00VnS8W4DDZULk8LZmcsuVN1ooC5ZZpSz
-	16U/jkHBy7lbl9/1f3oFpCwQOOVrkDRKP2g7kB79dsBjVFWoi0krYkHgyIDOowdPNMcQYnLEqz0
-	yyo+tbWcu5WKLuS+ztJacya7BYRswf/iETzyQcTjpIJSYgtvwOCkPTaWufgsxE8E6dcUvp6PLIU
-	8uHzhMWItlakOKQf3jLPKudur+oq1rqrpZYeYRDY42SFPKRFrOO4C+6uqvllflNi26rGtDk7DL7
-	lW91lmPY/s4wj
-X-Received: by 2002:a05:6000:27c8:b0:487:4ba:97f0 with SMTP id
- ffacd0b85a97d-48704ba998fmr1121463f8f.23.1789404590535; Mon, 14 Sep 2026
- 09:49:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="UPqg+1WX"
+Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 68EGnuOe3963808
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Mon, 14 Sep 2026 09:49:57 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 68EGnuOe3963808
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2026082801; t=1789404601;
+	bh=chqvEsr84Q297eDSZWoD36RZB2nZvFGrsL9c2mf5qBQ=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=UPqg+1WX23h3Ki5DLrty1pJx1am44iqWHAyIVVRI9r5yZ0J2cNq/MctPf7fMKr0Nn
+	 1YGB5OcBbL6YqDk32/y1VC1DUpsxdZaJ0ojSZhe8qeiGwSjiIFm7smQ4QJ9Yx8iTtq
+	 wd3waGp1gGqIyiv10qjg0VAYZIm0gE18GeUOH4Gkf13htytTHq8YQMCf8LSqUnGWp4
+	 nnKj/qVbZk1Hye5oVOx7+nQyO8rNnREqM0BHrOWHcL7tICPNAhTMCN0lVlRsV1u+cB
+	 rC9NpgEtdZ5Cf1Ki4BlrNSpYuzW/XrLi2+rCMZx/UZOwL2EgCOj6sn9KaOggIsy0MH
+	 wSEhy1WjEjh3g==
+Date: Mon, 14 Sep 2026 09:49:50 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Kees Cook <kees@kernel.org>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+CC: Linus Torvalds <torvalds@linux-foundation.org>,
+        Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>,
+        Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+        =?ISO-8859-1?Q?Bj=F6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <lossin@kernel.org>,
+        Andreas Hindborg <a.hindborg@kernel.org>,
+        Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Tamir Duberstein <tamird@kernel.org>,
+        Alexandre Courbot <acourbot@nvidia.com>,
+        =?ISO-8859-1?Q?Onur_=D6zkan?= <work@onurozkan.dev>,
+        Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        linux-hardening@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_21/21=5D_kbuild=3A_use_pi?=
+ =?US-ASCII?Q?gz_for_gzip_compression_if_available?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <202609140844.FA7E848A@keescook>
+References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org> <20260914-build-speedup-v2-21-39817ec5db23@kernel.org> <202609140844.FA7E848A@keescook>
+Message-ID: <BCCCC1E7-25B7-4A8D-BDFC-D5D1FA295F6C@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <CAMgjq7AHRzBsbmGOx0s=TQFBwcn=DEU1naR443sO6x+pJd6hAg@mail.gmail.com>
- <CAKEwX=O8i+OsP6BJXNZNk07hveN9HDT+PoyMTAU6gOc-xp0Ppg@mail.gmail.com>
- <CAMgjq7BQeQQOZMDPFJ+8LS2N4t3x53r6Nm+9o0_pi92oVUgjgQ@mail.gmail.com>
- <CAKEwX=MS-7C96i4tzBijHN=-xuZgny_wQEa_0YjfHzhoNysdYQ@mail.gmail.com>
- <CAMgjq7B7Mc7vpQN0gBknsSrfZWXdif5L7nU29YskG9mzS-_jsA@mail.gmail.com>
- <CAKEwX=PxZ68_4240DC8HjcqPRE0bQWGmouoqapqqTQ2b0xqpvg@mail.gmail.com> <CAMgjq7D40KGRjwpFMH4x4fhJ18OQyZwPtovhc8Hm3Y7+__d4Lw@mail.gmail.com>
-In-Reply-To: <CAMgjq7D40KGRjwpFMH4x4fhJ18OQyZwPtovhc8Hm3Y7+__d4Lw@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Mon, 14 Sep 2026 09:49:38 -0700
-X-Gm-Features: AcwNN1WO51K14Fm2T1tur-3vx3APS3D8nhOV3AEZCzJzOrHll5YjpThxvhcytDE
-Message-ID: <CAKEwX=NvHj-Py22-QuR10gynfRk0g5y8g6Cs2+L-hbuAyfmXFw@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Kairui Song <ryncsn@gmail.com>
-Cc: YoungJun Park <youngjun.park@lge.com>, Chris Li <chrisl@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Barry Song <baohua@kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 12, 2026 at 1:48=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wrot=
-e:
+On September 14, 2026 9:39:07 AM PDT, Kees Cook <kees@kernel=2Eorg> wrote:
+>On Mon, Sep 14, 2026 at 10:22:20AM +0100, Lorenzo Stoakes (ARM) wrote:
+>> On a 128-core Threadripper, gzip -9 of a 36 MiB x86-64 vmlinux=2Ebin ta=
+kes
+>> 1=2E6s, and with pigz it takes 0=2E09s, so the performance increase is
+>> significant=2E
 >
-> On Sat, Sep 12, 2026 at 3:04=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wro=
-te:
-> >
-> > On Fri, Sep 11, 2026 at 11:14=E2=80=AFAM Kairui Song <ryncsn@gmail.com>=
- wrote:
-> > >
-> > > > Would something like this fix it for you? ZRAM users will not get
-> > > > vswap indirection overhead at all, because it would bypass vswap :)
-> > > > Down the line we can revisit this decision - for e.g, if there is a
-> > > > use case for vswap-on-top-of-swapfile. There might be other interfa=
-ce
-> > > > that makes more sense.
-> > >
-> > > Hmm, this interface looks confusing though. you mean tangles vswap
-> > > with zswap through the cgroup's zswap limit? I originally expected
-> > > this to be a problem solved by tiering, skipping certain tiers seems
-> > > much more intuitive. Maybe Youngjun have some idea here?
-> >
-> > It wouldn't be confusing if this is something users don't have to
-> > think about at all :) My point is that we don't have a use case where
-> > we need userspace input on vswap-enablement on a per-cgroup basis yet,
+>Neat! I wanna go learn how pigz accomplishes this -- I thought the
+>problem with gzip was a common lookup table=2E Anyway=2E=2E=2E
 >
-> Ha, you really can't assume that for everyone :), we even have
-> workloads working at different compression levels, and the tiering
-> series shows different cgroups working on different devices, there has
-> been pathes enabling per-cgroup swap device a decade ago.
-
-I still don't think you're getting my points.
-
-Compression levels have nothing to do with vswap selection. It has to
-do with *zswap* (i.e compressed swapping) selection (or the algorithm
-being selected). Vswap is just the transparent mechanism underneath.
-
-Once you HAVE selected zswap, then the question of "do you want vswap
-or not" is easier to answer:
-
-1. Overhead: rather minimal with vswap (at least based on the testing
-I have done so far).
-
-2. Usability: vswap buys you the decoupling of swap space from
-physical swapfile.
-
-I struggle to see why you would not enable vswap if you enable zswap.
-And more accurately, a scenario where you want vswap in some cgroups
-with zswap, but not others.
-
-Taking a step back from all of this - we're arguing about the
-participation of vswap/xswap in an interface that has not even been
-merged yet. None of us can say for sure how it will look, or if it
-will be merged in the first place. I think that making sure vswap can
-participate in that interface is already more than reasonable. Once
-that interface is in, AND the usecase that necessitates per-cgroup
-vswap selection presents itself, then we can expose vswap later.
-
+>> --- a/Documentation/kbuild/reproducible-builds=2Erst
+>> +++ b/Documentation/kbuild/reproducible-builds=2Erst
+>> @@ -76,6 +76,22 @@ include generated files=2E  You should ensure the so=
+urce tree is
+>>  pristine by running ``make mrproper`` or ``git clean -d -f -x`` before
+>>  building a source package=2E
+>> =20
+>> +Compression tools
+>> +-----------------
+>> +
+>> +The compressed kernel image, compressed modules and packages are produ=
+ced
+>> +using the program named by the make variable ``KGZIP`` (described in
+>> +Documentation/kbuild/kbuild=2Erst)=2E
+>> +
+>> +It defaults to ``pigz`` if installed (a parallel implementation of gzi=
+p),
+>> +or ``gzip`` otherwise=2E
+>> +
+>> +The generated output between two invocations of identical builds with
+>> +either of the default tools will be byte-for-byte equivalent=2E
+>> +
+>> +However, for reproducible builds, ensure the same tool is used on all =
+build
+>> +hosts, as different tools may generate different output from one anoth=
+er=2E
+>> +
+>>  Module signing
+>>  --------------
+>> =20
 >
-> > > > Potentially, but we have many users at Meta. There's a huge diversi=
-ty
-> > > > of machine types, workingset size, access patterns (both frequency =
-and
-> > > > file:anon split), compressibility, etc.
-> > >
-> > > You can just set the number as 8PB? :)
-> >
-> > Sure, but with the vmalloc-array approach, there is more metadata
-> > overhead even if we have not allocated the backing page of the
-> > clusters yet. This will be annoying on the smaller size machines
-> > (O(dozen of GB)) to also pay the overhead of 8PB-swap space metadata
-> > reservation.
+>This doc update seems totally unneeded? Having the same build tools for R=
+B
+>is already a known requirement=2E I don't think anything new is added her=
+e?
 >
-> Not al all? With VM_SPARSE, you literally have zero overhead, unless
-> you really use these slots.
+>> diff --git a/Makefile b/Makefile
+>> index 790ef23c5e8a=2E=2E38c0cdc9f591 100644
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -561,7 +561,7 @@ PERL		=3D perl
+>>  PYTHON3		=3D python3
+>>  CHECK		=3D sparse
+>>  BASH		=3D bash
+>> -KGZIP		=3D gzip
+>> +KGZIP		:=3D $(if $(shell command -v pigz 2>/dev/null),pigz,gzip)
 >
-> And even if you really use these slots, the overhead in both CPU and
-> memory is lower than Xarray, if I did the math right. I just ran a
-> quick test with Baoquan's Xswap, forcing it to start with 8PB on boot;
-> it was smooth as batter on a 1GB box and still worked fine after heavy
-> anon memory pressure.
+>I think the more idiomatic way to do this is:
 >
-> See below (8PB xswap device with almost no metadata overhead, the only
-> overhead comes from zswap so I reduced the tree number but that can be
-> easily merged into clusters as we discussed before):
+>KGZIP :=3D $(call try-run,command -v pigz,pigz,gzip)
 >
-> ### Before XSWAP
-> # free -m
->                total        used        free      shared  buff/cache   av=
-ailable
-> Mem:            1464         405         756           1         544     =
-   1058
-> Swap:              0           0           0
+>However, parallelism needs to be set=2E We can't let it eat all CPUs: it
+>needs to respect the -j make option (and make its CPU reservation known
+>to "make"), which we already have a solution for in
+>scripts/jobserver-exec=2E
 >
-> ### Create a XSWAP device, I hardcoded the max size in code to 8PB,
-> ### and use fewer ZSWAP trees:
-> # echo 0 > /sys/kernel/mm/xswap/create
-> [  140.289280] xswap: adding extendable swap type 0 (prio -1, init 733
-> clusters =3D 375295 pages, max 2199023255552 pages)
-> # free -m
->                total        used        free      shared  buff/cache   av=
-ailable
-> Mem:            1464         407         755           1         545     =
-   1057
-> Swap:           1465           0        1465
+>However, I would actually argue that given such an improvement we should =
+just
+>make pigz explicitly required and not optional=2E It is packaged everywhe=
+re:
 >
-> ### Lift the ceiling to 8PB:
-> # echo 4294967296 > /sys/kernel/debug/xswap/type0_cluster_limit
-> # free -m
->                total        used        free      shared  buff/cache   av=
-ailable
-> Mem:            1464         403         756           1         547     =
-   1060
-> Swap:     8589934591           0  8589934591
+>  =E2=94=82 Debian / Ubuntu              =E2=94=82 =E2=9C=85          =E2=
+=94=82 pigz (main)
+>  =E2=94=82 Fedora                       =E2=94=82 =E2=9C=85          =E2=
+=94=82 pigz 2=2E8 (current)
+>  =E2=94=82 RHEL / CentOS / Rocky / Alma =E2=94=82 =E2=9C=85 via EPEL =E2=
+=94=82 pigz =E2=80=94 not in base/AppStream
+>  =E2=94=82 openSUSE / SLE               =E2=94=82 =E2=9C=85          =E2=
+=94=82 pigz
+>  =E2=94=82 Arch Linux                   =E2=94=82 =E2=9C=85          =E2=
+=94=82 pigz (extra)
+>  =E2=94=82 Alpine                       =E2=94=82 =E2=9C=85          =E2=
+=94=82 pigz
+>  =E2=94=82 Gentoo                       =E2=94=82 =E2=9C=85          =E2=
+=94=82 app-arch/pigz 2=2E8
 >
-> ### Run memhog:
-> # time memhog 12G
-> ...
-> ________________________________________________________
-> Executed in    4.36 secs    fish           external
->    usr time    0.46 secs    0.00 millis    0.46 secs
->    sys time    3.77 secs    3.80 millis    3.76 secs
+>Only RHEL appears a little glitchy, but likely they would trivially move
+>it to base since it's already packaged, but off in EPEL=2E
 >
-> ### After memhog:
-> # free -m
->                total        used        free      shared  buff/cache   av=
-ailable
-> Mem:            1464         336        1136           0         222     =
-   1127
-> Swap:     8589934591          31  8589934560
+>So, I would say that pigz would be best run as something like:
 >
-> The only different from vswap now is that you just hides everything :)
-> (writeback is not hard to add)
-
-Ah I see hmmm. I probably messed up my napkin math.
-
-Regardless, I think we have strayed far from my original ask. It's a
-good idea, but with significantly less exposure to correctness and
-performance testing. Baoquan himself said it:
-
-"Throughput is within ~2-3% of plain swap+zswap on a 64G/64-thread
-swapout, so it is dominated by zswap compression, not the cluster table."
-
-I've even tried to show that that if we are to want it, replacing the
-xarray with vmalloc is simple, conceptually.
-
-Why are we throwing away all of the testing, validation, design work?
-
-Let's recap the arguments so far:
-
-1. We began with: it's more performant/less overhead. Which
-intuitively makes sense, but the numbers have not played out yet. And
-as I have said, we still keep the old code in tact. Optimizations can
-be done on top after the main use cases have been landed - it in fact
-gives us a testing grounds for optimizations.
-
-2. Now we have moved on to "it's simpler". My apologies, but I have to
-push back on this, because the comparison so far is so unfair it's
-farcical.
-
-With xswap, we're rolling a custom-written extensible array. It
-requires a 1000+LoC patch series to implement.
-
-With vswap, we're using a data structure that work out-of-the-box
-(xarray), with well-understood API and concurrency model. Yes, it
-involves more null checks and interactions with RCU, but with vmalloc
-we're adding a workqueue to support only tail-shrink, and have to
-invoke vmalloc API, which includes nasty surprises such as sleepable
-allocations, which can cause deadlocks in lock section.
-
-If we're comparing LoC, the first 2 patches of vswap, which enables
-writeback-less swap virtualization, is "+440 / -37" and "+456 / -29",
-respectively (including places where I have to set things up for
-writeback, detailed documentation of the encodings, etc.).
-
-I don't think vmalloc is significantly simpler. It *looks* simpler,
-because the interface looks like plain array access, but unlike the
-xarray we're in charge of maintaining the entire data structure
-itself, not just using it, so we have to take into account the data
-structure's implementation in the complexity equations.
-
-3. Userspace API - there's more to argue here, but I will note that
-vswap can be runtime-enabled and sized too. I just don't think there's
-a good use case for it yet (but we're discussing this in other
-threads).
-
+>  KGZIP :=3D $(PYTHON3) $(abs_srctree)/scripts/jobserver-exec $(abs_srctr=
+ee)/scripts/parallel-pigz
 >
-> > https://lore.kernel.org/all/CAKEwX=3DNYoMH8pTKeCvA=3DXHFmmNVMeDz3mxbhp5=
-q6-PxSTJ5wOg@mail.gmail.com/
+>with scripts/parallel-pigz being something like:
 >
-> Right I saw that, but 64 bit of private id will make shadows really
-> awkward, not for SWAP but for file folios and file mappings, swap
-> table is actully fine since memcg_table is standaone, and we can
-> workaround the hieratical refault distance issue in other ways (e.g.
-> record the reclaim level instead of memcgid direct). I think 24 bit is
-> good for now? As I've never see anyone ran into issues
-> with even 16 bits in production.
+>	#!/bin/sh
+>	exec pigz -p ${PARALLELISM:-1} "$@"
+>
+>> --- a/scripts/Makefile=2Emodinst
+>> +++ b/scripts/Makefile=2Emodinst
+>> @@ -145,8 +145,10 @@ endif
+>>  #
+>>  # Compression
+>>  #
+>> +# Modules are compressed in parallel by make itself, so keep the compr=
+essor
+>> +# single-threaded when it is pigz=2E
+>>  quiet_cmd_gzip =3D GZIP    $@
+>> -      cmd_gzip =3D $(KGZIP) -n -f $<
+>> +      cmd_gzip =3D $(KGZIP) $(if $(filter pigz,$(notdir $(firstword $(=
+KGZIP)))),-p 1) -n -f $<
+>>  quiet_cmd_xz =3D XZ      $@
+>
+>Then this could be:
+>
+>	cmd_gzip =3D SINGLE_THREADED=3D1 $(KGZIP) -n -f $<
+>
+>and we patch scripts/jobserver-exec:
+>
+>diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
+>index 21b319e6c9a5=2E=2E8b953148ee9f 100755
+>--- a/scripts/jobserver-exec
+>+++ b/scripts/jobserver-exec
+>@@ -5,6 +5,7 @@
+> Determines how many parallel tasks "make" is expecting, as it is
+> not exposed via any special variables, reserves them all, runs a subproc=
+ess
+> with PARALLELISM environment variable set, and releases the jobs back ag=
+ain=2E
+>+If SINGLE_THREADED is set, nothing is reserved and PARALLELISM is 1=2E
+>=20
+> See:
+>     https://www=2Egnu=2Eorg/software/make/manual/html_node/POSIX-Jobserv=
+er=2Ehtml#POSIX-Jobserver
+>diff --git a/tools/lib/python/jobserver=2Epy b/tools/lib/python/jobserver=
+=2Epy
+>index 0b1ffdf9f7a3=2E=2Efc38c5020b22 100755
+>--- a/tools/lib/python/jobserver=2Epy
+>+++ b/tools/lib/python/jobserver=2Epy
+>@@ -29,6 +29,11 @@ $claim child to do the actual work=2E
+> The end goal here is to keep the total number of build tasks under the
+> limit established by the initial ``make -j$n_proc`` call=2E
+>=20
+>+Setting the ``SINGLE_THREADED`` environment variable skips the reservati=
+on
+>+entirely and runs the command with ``PARALLELISM=3D1``=2E This is meant =
+for callers
+>+that run many short commands in parallel themselves, where each one shou=
+ld use
+>+only the job slot it already holds=2E
+>+
+> See:
+>     https://www=2Egnu=2Eorg/software/make/manual/html_node/POSIX-Jobserv=
+er=2Ehtml#POSIX-Jobserver
+> """
+>@@ -68,6 +73,13 @@ class JobserverExec:
+>         self=2Eis_open =3D True  # We only try once
+>         self=2Eclaim =3D None
+>         #
+>+        # SINGLE_THREADED asks for no reservation at all: the command ru=
+ns
+>+        # with PARALLELISM=3D1, using only the slot its caller already h=
+olds=2E
+>+        #
+>+        if os=2Eenviron=2Eget('SINGLE_THREADED'):
+>+            self=2Eclaim =3D 1
+>+            return
+>+        #
+>         # Check the make flags for "--jobserver=3DR,W"
+>         # Note that GNU Make has used --jobserver-fds and --jobserver-au=
+th
+>         # so this handles all of them=2E
+>
 
-I think you misunderstood me. I'm not proposing raising the private id
-- I'm proposing we raise the size of the refcnt field. That's the
-thing that gets saturated.
-
-Technically I think you can reproduce it with baseline - if my napkin
-math is correct, if a cgroup has more than 8TB worth of swap entries
-(4k size), then the refcnt will be saturated. You can already create
-an 8TB swapfile today, IIUC (even without vswap).
-
-Anyway that can be fixed as the independently from swap
-virtualization. One thing at a time.
+If we are going to add dependencies, can we add *any* scripting language t=
+hat is less stone tablet than POSIX awk?
