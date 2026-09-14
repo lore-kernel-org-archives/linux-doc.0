@@ -1,165 +1,87 @@
-Received: from mta0.migadu.com (out-34.mta0.migadu.com [91.218.175.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D928C3E717A
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 08:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.34
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B249A409632;
+	Mon, 14 Sep 2026 08:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789373081; cv=none; b=cK/FsElz9SLIz4hobTEXRe3Gu6YGk9O+HN7taKwu4dPDBvhi5vqpuYWLWqKKyjV2aLRHKLyBjAFtJWqg9xrae2Gy+k6r8V7YHdzB7M5f4s7JQs+hDjVbaniAq44kjJvA23B7C1uplhlSFXMWYE3e1t1stiX+INmgPP1tekTpNoE=
+	t=1789373628; cv=none; b=LRYGdwBZwRut8agemcx040kOlqtcZpIITpQha85iTyhwZyI1zIj6vnb2fql5/dqEqojODSJ1Rm6+O3UTVxGPqcsSpOm3/pPxUAUGQp7UfXN5LxrznpXDAJX4arA28ISuTAwai8ZqO/FKSzjfDxzbgw24EmCPGyaV2iyYnPUZTXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789373081; c=relaxed/simple;
-	bh=T2TbIB10b98M8VFnbRgkYEzSgOl2JI73PuH/i08J044=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fWmdo4kVImpVR431UUOmvFNIckc39jYYLkcEZH/vVgGQyYTcDYCQUMITwMHOjlhSk4+PpzsnA4JQnDdyEeYzNxrOX+7aXDJNscb0kDIsylF+dBVlg5RfEBfB9zOOrIh3OjYLKbgJj5c9inEZ1ml6dYMjPn1tbijicxCwyxLjNCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Zblgm2PK; arc=none smtp.client-ip=91.218.175.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1789373628; c=relaxed/simple;
+	bh=IUx9npSbM6aOGbT981H4LjgrA0kKmEs/fDvfjpfynoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pTO9ADwfWBDcCLeQZa0kWcpfGAteLjIwIkvSGpVpCryTQJfbk0UHU4CToZ4G8mu/86BrWrpd3ytzRg0fls91jBUKE7XXLmqIseqNb1F67Q76LRtQXkgTOyPPRcy85zhohJqFH+0bd2E9rX0gUtR35l8O1fn4Fh+vnBAx+InUD0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Ie0F5Yrz; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Zblgm2PK"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=T2TbIB10b98M8VFnbRgkYEzSgOl2JI73PuH/i08J044=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789373075; v=1; x=1789977875;
- b=Zblgm2PKALYugzvDRWf9IF9Ys3ClEX0rguv1i5JhO9h6K74DCAigiTHanIx+nWPDoYQSkMnT
- ATW0hppLcOrT9TFoTCaDTlF4bNvPQwKCQv1iaF1LcSLYQNIiKYGmorpQvFXCz+OOFpL6IfZgRSk
- Gm3HahWM5ryVROBJmLYQQmvM=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 95a8c5560b05925a;
-	Mon, 14 Sep 2026 08:04:35 +0000
-X-Mizu-Trace-ID: 95a8c5560b05925a
-X-Migadu-Flow: FLOW_OUT
-From: Troy Mitchell <troy.mitchell@linux.dev>
-Date: Mon, 14 Sep 2026 16:03:54 +0800
-Subject: [PATCH v5 2/6] dt-bindings: hwmon: Move LM63 family to a dedicated
- binding
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Ie0F5Yrz"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 294771570;
+	Mon, 14 Sep 2026 01:13:42 -0700 (PDT)
+Received: from localhost (unknown [10.2.196.114])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 65B693F7B4;
+	Mon, 14 Sep 2026 01:13:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789373625; bh=IUx9npSbM6aOGbT981H4LjgrA0kKmEs/fDvfjpfynoU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ie0F5Yrzn4+JUTJXdJ59qKHeSnntkVs/evhaYFzCMI5fXmKYH+ALw+LAaNOIZflIx
+	 cchmn6Qw7oauzbwstdIZIrMFDU5g5YkP0LZS323YQUWkpNicFH6hRlQqRd42sDydXD
+	 VqDiywdnOT+pXi0AJXMsRgbNU6Aemrf8+CG/mmpE=
+Date: Mon, 14 Sep 2026 09:13:43 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc: James Clark <james.clark@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suyash Mahar <smahar@meta.com>, Leo Yan <leo.yan@linux.dev>,
+	linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 00/14] perf cs-etm: Per-thread mode fixes and snapshot
+ wrap support
+Message-ID: <20260914081343.GF200420@e132581.arm.com>
+References: <20260811-james-cs-unformatted-per-thread-fix-v1-0-90565318f5f8@linaro.org>
+ <aqdL33fw9AoxTrPq@x2>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260914-ctl2301-v5-2-b44b81cd2c3c@linux.dev>
-References: <20260914-ctl2301-v5-0-b44b81cd2c3c@linux.dev>
-In-Reply-To: <20260914-ctl2301-v5-0-b44b81cd2c3c@linux.dev>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Yixun Lan <dlan@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: Troy Mitchell <troy.mitchell@linux.dev>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
- linux-doc@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3142;
- i=troy.mitchell@linux.dev; h=from:subject:message-id;
- bh=T2TbIB10b98M8VFnbRgkYEzSgOl2JI73PuH/i08J044=;
- b=owGbwMvMwCU2g/N9w09jE33G02pJDFnLVxXsZdHWM1131i9na/d5B/8zkZlcXyN4dvLkb4zS8
- tuY6Di9o5SFQYyLQVZMkaX7Ac+2Ap8o2wKBQl+YOaxMIEMYuDgFYCJOHYwMJ4p2KnTLf+Y67L/0
- 98ub2scOzst+xPbF6Gzqb9cem/elkxgZFkW//RqtkzO/f+tWR0duw+u3r5Qt3RK6eOLEwOiSVgZ
- DDgA=
-X-Developer-Key: i=troy.mitchell@linux.dev; a=openpgp;
- fpr=3FE5535CF1B0E658E57DB59BAE1C2FBEA7DB42E1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqdL33fw9AoxTrPq@x2>
 
-Move the National Semiconductor LM63, LM64, and LM96163 compatibles out
-of trivial-devices.yaml and into a dedicated binding. Describe their
-integrated fan control and preserve the optional interrupt used by the
-ALERT output. Permit use as thermal cooling devices via #cooling-cells.
+Hi Arnaldo,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
----
- .../devicetree/bindings/hwmon/national,lm63.yaml   | 53 ++++++++++++++++++++++
- .../devicetree/bindings/trivial-devices.yaml       |  6 ---
- 2 files changed, 53 insertions(+), 6 deletions(-)
+On Sun, Sep 13, 2026 at 10:20:31PM -0300, Arnaldo Carvalho de Melo wrote:
+> On Tue, Aug 11, 2026 at 04:30:03PM +0100, James Clark wrote:
+> > Fix a few issues with per-thread mode:
+> >   - With TRBE, thread migrations hit a queue without a decoder assert
+> >   - On nVHE, everything looks like guest trace instead of host
+> >   - Tracing multiple threads didn't really work
+> 
+> This series applies cleanly to perf-tools-next but has no Reviewed-by
+> nor was processed by Sashiko.
+> 
+> Can somebody from the ARM camp take a look at it, please?
 
-diff --git a/Documentation/devicetree/bindings/hwmon/national,lm63.yaml b/Documentation/devicetree/bindings/hwmon/national,lm63.yaml
-new file mode 100644
-index 0000000000000..f2e0993cfbef3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/national,lm63.yaml
-@@ -0,0 +1,53 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/hwmon/national,lm63.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: LM63-compatible temperature sensors with integrated fan control
-+
-+maintainers:
-+  - Guenter Roeck <linux@roeck-us.net>
-+
-+description: |
-+  The LM63 family provides local and remote temperature monitoring together
-+  with fan speed monitoring and PWM fan control. Supported devices include
-+  the National Semiconductor LM63, LM64 and LM96163.
-+
-+allOf:
-+  - $ref: hwmon-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - national,lm63
-+      - national,lm64
-+      - national,lm96163
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  "#cooling-cells":
-+    const: 2
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        temperature-sensor@4c {
-+            compatible = "national,lm63";
-+            reg = <0x4c>;
-+            #cooling-cells = <2>;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-index 2de8eb09cb7d1..e46912ba2fd66 100644
---- a/Documentation/devicetree/bindings/trivial-devices.yaml
-+++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-@@ -368,16 +368,10 @@ properties:
-           - mps,mpq82d00
-             # Murata D1U74T-W power supply unit
-           - murata,d1u74t
--            # Temperature sensor with integrated fan control
--          - national,lm63
--            # Temperature sensor with integrated fan control
--          - national,lm64
-             # Temperature sensor
-           - national,lm95235
-             # Temperature sensor
-           - national,lm95245
--            # Temperature sensor with integrated fan control
--          - national,lm96163
-             # Serial Interface ACPI-Compatible Microprocessor System Hardware Monitor
-           - national,lm80
-             # Serial Interface ACPI-Compatible Microprocessor System Hardware Monitor
+James has sent v2 [1] and I gave some words on it. Adrian also has one
+comment for snapshot callbacks refactoring.
 
--- 
-2.55.0
+Sashiko also sent out review on the series.
 
+Thanks,
+Leo
+
+[1] https://lore.kernel.org/linux-perf-users/20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org/
