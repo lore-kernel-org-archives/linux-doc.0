@@ -1,65 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7AF4483A0;
-	Mon, 14 Sep 2026 11:23:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7AE46AF0A;
+	Mon, 14 Sep 2026 12:04:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789385034; cv=none; b=Y1ZY02/GCxBirzSZjkwdQWWZ4RnSp7Hv42zNWOyqDf3kSNaYs+vbtKZ3uWsWYXRq/th1UpvX4crjx6g5H1SCqFnd7ECHYeobWxc5hivMEg88LfSqpniGshk8WYrvdjElPYsaHUR1cN083oX6Ai17itolBCwH66olfy8bOFIbaIs=
+	t=1789387451; cv=none; b=biw2Q+/dHFNaI/N+JjftlOD3SIEiEtg94/h7J9XvgVbsL7UZNs3FHDTHFK3kfkXnSZov6H2FEOFx5sL/hdmEkYOZqFthF8TlGh6f7VBw0XjVMj+s1yZykf0YCLjA7F3s6o6eas3BqbFS1wxuua3VqXBInn/gJDvN4Es1aRU41gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789385034; c=relaxed/simple;
-	bh=OmXiaQz8oAAg8BSkVKc3iM7ZxXZ/pDOr0Gp5QWWZ59o=;
+	s=arc-20240116; t=1789387451; c=relaxed/simple;
+	bh=RtTpxP8pV4hDCH5g+i9GKn9uX3fK5Dxgw5A97QNxBu4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dh7/d7BjUUnBYtM3mlqZFLZtDuRaMVmu2zlJLj6TvTOM1WLhUFGD/jKu1f7gfm5pmx4+ytfwKXRzCjJep0CKggh/2a7ju4+ymAF4aAk/P0TcwNBtA6RejE0VL5EARAUgu1WFa9WPsJqSdhDblcLE3rZxdwljfvpO1wk/pReIjE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JlT0ZyR3; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=NReY4+KNO7UlivrHcoc7dm7CKrBxCzwwSnDc/MunyORDHYpIiz0CLNHBv0qNBneXZ46sZ4jQ5If9rP6f8IDfaJBU7E2+hN2xabH0OLPhnC98V0MLGrQxH7RNXMQpqC2qJ8Vh4Wn0P7I+Jjxdx/vv7Yuc+1qr0ToL+VdxJHsB+fA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mc2jwCH1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JlT0ZyR3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDAD81F00893;
-	Mon, 14 Sep 2026 11:23:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mc2jwCH1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F79F1F000FF;
+	Mon, 14 Sep 2026 12:04:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789385032;
-	bh=xO95Pk5XRLE0oFtxojC3cgHS1ScHTkbYcAUHrZA8bgM=;
+	s=k20260515; t=1789387449;
+	bh=mARYk2W4/W/SIK+a0P/KNzlHDuVLH3eh3p7dXfsuvk0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=JlT0ZyR3T4YxaoWD2Gy/8ilH9ZdzDvp8yYkAbLDw18vxgb0xs1z25SKd5SCk/v6Xb
-	 2W6J1OORi84LXIaIP6FyM//CxgpOYApjVFD6j/Zf+RxxYBUuWtoMvnPfo7+OHSVTFU
-	 5rHbOKZL3uC2Nr/g+/lKqHiZJrBnBqAJyMEeuTwwpRP0CgmDgGH/aLtxa+y+l7rj/T
-	 jT8i2UzjTcdKjYthKu1N1fIJ0TDVUEjkvkB/RXgLy7euriCuVma+JaP9Mdfv+4Ppzs
-	 mP6z+qXFlhNXNHrisQ2Tl4TIvap0oYRBbnTNZ4v2OPHopn3pAqXgO+7ofmTBH7c8b3
-	 7SflxJ9eN1n6Q==
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Alex Williamson <alex@shazbot.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
+	b=Mc2jwCH1PvIMJoHyW8DTyVMyF1+L4f7PhXHUsU1X6mB1yEZAkZ2Pip9+nr+qnGS0H
+	 RiJ5Avm/txkwAWCGGsYR3A+CPL7IZr9n1YXcDc2y9yLJQdLu5/So+SrSAbENyOvVoA
+	 FyS+cY0DS5z9MQClh0Iqjwca67Rf+3BFNPeEsTCmywZRbl1zDisfQtmv6Mnae3Ez7T
+	 SAgDj8wYZeX1KaK+B0TKbm5zeqEcoY3XSbqW7QY2jP4ERqtO0TNVQ/nU5Pmc/BKuSB
+	 3O0nOoH8Ah8qKcCTptw3qH9KfsZD9BxvjI9o6L/EBn4M76JGTzJQ0DhsXqBoopIME0
+	 0gkWU+0p7kGrQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1x65Pr-00000008bDg-3ZNt;
+	Mon, 14 Sep 2026 12:04:07 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: Oliver Upton <oupton@kernel.org>,
+	Karl Mehltretter <kmehltretter@gmail.com>
+Cc: kvmarm@lists.linux.dev,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	kvm@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org,
-	kvm@vger.kernel.org
-Subject: [PATCH v6 16/18] PCI/P2PDMA: Document TLP-class routing
-Date: Mon, 14 Sep 2026 14:22:49 +0300
-Message-ID: <20260914-fix-p2p-acs-v4-0-v6-16-5ef07ec9ef06@nvidia.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260914-fix-p2p-acs-v4-0-v6-0-5ef07ec9ef06@nvidia.com>
-References: <20260914-fix-p2p-acs-v4-0-v6-0-5ef07ec9ef06@nvidia.com>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Alexandru Elisei <alexandru.elisei@arm.com>
+Subject: Re: [PATCH] Documentation: KVM: Fix the event_source sysfs path in the PMU attribute description
+Date: Mon, 14 Sep 2026 13:04:07 +0100
+Message-ID: <178938739482.3215146.12715753514288503521.b4-ty@b4>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260905085849.40479-1-kmehltretter@gmail.com>
+References: <20260905085849.40479-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,97 +56,27 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.15-dev-18f8f
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: oupton@kernel.org, kmehltretter@gmail.com, kvmarm@lists.linux.dev, pbonzini@redhat.com, kvm@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org, skhan@linuxfoundation.org, rdunlap@infradead.org, alexandru.elisei@arm.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On Sat, 05 Sep 2026 10:58:49 +0200, Karl Mehltretter wrote:
+> The PMU device directories live under /sys/bus/event_source/devices,
+> the document spells the bus even_source.
+> 
+> Fix the spelling.
 
-The P2PDMA documentation stated that the mapping result is not defined for
-Relaxed Ordering or ATS-translated Requests. It now is.
+Applied to next, thanks!
 
-Replace that paragraph with what the three TLP-sensitive ACS controls do,
-the table of outcomes per class, and the interface a client uses to name
-its traffic. Record that a caller claiming Relaxed Ordering Completions is
-asserting provider behaviour the PCIe specification leaves optional.
+[1/1] Documentation: KVM: Fix the event_source sysfs path in the PMU attribute description
+      commit: 1e3b8f0af9ae1de02d3bb42c6bb699af62510c10
 
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- Documentation/driver-api/pci/p2pdma.rst | 61 +++++++++++++++++++++++++++++----
- 1 file changed, 55 insertions(+), 6 deletions(-)
+Cheers,
 
-diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
-index 42b18610bf7d..96a4c1d1b0fb 100644
---- a/Documentation/driver-api/pci/p2pdma.rst
-+++ b/Documentation/driver-api/pci/p2pdma.rst
-@@ -28,12 +28,61 @@ through the host bridge when either applicable port redirects. If an ACS
- Control register cannot be read, P2P DMA is rejected because the kernel cannot
- establish a usable route.
- 
--This evaluation assumes clients issue strictly ordered Requests carrying an
--Untranslated address. Its result is not defined when clients use Relaxed
--Ordering or issue ATS-translated Requests because those TLP attributes can
--select different routes through the fabric. Unless ACS Translation Blocking
--is enabled, a Port with ACS Direct Translated P2P enabled routes a
--Translated Request directly to the peer regardless of the redirect controls.
-+Three of those controls act on TLP attributes that the client chooses rather
-+than on the topology, so the same path routes differently for different
-+traffic. ACS Translation Blocking rejects any Request whose Address Type is
-+not Untranslated, and takes precedence over every other P2P control. ACS
-+Direct Translated P2P routes a Translated Request to the peer regardless of
-+Request Redirect and Egress Control. ACS Completion Redirect leaves alone
-+Completions that carry the Relaxed Ordering attribute.
-+
-+A client therefore describes its traffic with ``enum pci_p2pdma_tlp_flags``
-+and asks ``pci_p2pdma_map_type_tlp()``. ``pci_p2pdma_map_type()`` answers for
-+the default: strictly ordered Requests carrying an Untranslated address.
-+
-+The two directions are decided independently. Translation Blocking (TB),
-+Direct Translated P2P (DT), Request Redirect (RR) and Egress Control (EC) on
-+the client-side port decide the Request:
-+
-+=====  =====  =======  ============  ==========
-+TB     DT     RR/EC    TLP class     Request
-+=====  =====  =======  ============  ==========
-+set    x      x        translated    blocked
-+clear  set    x        translated    direct
-+clear  clear  clear    translated    direct
-+clear  clear  set      translated    redirected
-+x      x      clear    untranslated  direct
-+x      x      set      untranslated  redirected
-+=====  =====  =======  ============  ==========
-+
-+Completion Redirect (CR) on the provider-side port decides the Completions:
-+
-+=====  =========  ==========
-+CR     TLP class  Completion
-+=====  =========  ==========
-+x      relaxed    direct
-+clear  strict     direct
-+set    strict     redirected
-+=====  =========  ==========
-+
-+A path is bus addressable only where both directions route directly, so with
-+nothing enabled every class is. A blocked Request is not supported, because
-+Translation Blocking rejects the Address Type wherever the Request is
-+addressed. Anything else goes through the host bridge.
-+
-+Note that DT only matters where RR or EC would otherwise redirect: it
-+overrides them for a Translated address rather than granting a direct route
-+that was not already there.
-+
-+Translation Blocking is not a routing control, so it is evaluated on every
-+client-side port rather than at the divergence alone. A Request it rejects
-+has no host bridge fallback, because the Address Type is rejected wherever
-+the Request is addressed.
-+
-+The Completer chooses whether a Completion carries Relaxed Ordering, and the
-+PCIe specification does not require it to copy that attribute from the
-+Request. A caller passing ``PCI_P2PDMA_TLP_RELAXED_CPL`` is asserting that
-+its provider does.
- 
- However, if the P2P transaction reaches the host bridge then it might have to
- hairpin back out the same root port, be routed inside the CPU SOC to another
-
+	M.
 -- 
-2.55.0
+Without deviation from the norm, progress is not possible.
+
 
