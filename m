@@ -1,156 +1,127 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mail-106113.protonmail.ch (mail-106113.protonmail.ch [79.135.106.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B4539B4A5;
-	Mon, 14 Sep 2026 23:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF85A3914FE;
+	Mon, 14 Sep 2026 23:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789428955; cv=none; b=rRP//TYQB/V60uunex+VExghP0IcHC6UHvtI+3A/RSypOfcGWGTnq3tq8Q4BnVRSeNyEAv/lDpckmsNat4HDpwtMDU9rbVPch1m82wVKWfYxuWCZMvk5DAYqcnMwtq7otR7qnmwMEMP9y7UYhyn3QNw5qs7jqmAY9ZLaPO/XODs=
+	t=1789429072; cv=none; b=TtKXOBLWitrnjBycwIoYGU/PIn1HCmiNPDD/w4IL8y1Ws3Bcu7ESNxXZcn0H5UpGrvakXhY3jWEQHB86S7R6S54E8GFZ24wST8H1Vesz8xNemw2GGXfCgHNgdPc1BUPKI5FaKKEol/+nkjG9QjLJTyPuBYIHou4x1gGj7USCiYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789428955; c=relaxed/simple;
-	bh=e5se2PCCXCuuQ0N24X/vEeKchXbPoFoVqhHUfm7Gzgs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WLMlrjjTCjOLkTNWe7vWlQfMHLbAOTDWvuwLwGP2JVmqqDuZtGvEV2MxKs4txNqYkzxVRfSxD8e3trumtl99+w0H0HhPxe/uDw6Gwt1H0X+Q5+hZ/VakdE+OYPNiT8KLg479kvZq0UIX4UWIlPGj1MJ9kdm3RamJxprVvKyvU/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DAchMDFE; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1789429072; c=relaxed/simple;
+	bh=QAUxjGI5TxT/Xrun8/+iXgykTgc7YxBk6r5VOLa/my8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PcQQZgM0yn5IrGC8l/hqn4CqpEsbDJYF58jlnwz+ajqAGbCYjx2uEJZwtD5UgfRCTb/AxuVfPDMpT0voV4/3LwjdOP0+kpGc1G7xM50Wlz8tB/fa2StAiacqcfi7LRn4LgUanqO7vBpilMDbMXdJbexGPvDHJPaR72OkArXA4Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vasily.cc; spf=pass smtp.mailfrom=vasily.cc; dkim=pass (2048-bit key) header.d=vasily.cc header.i=@vasily.cc header.b=aGzQ055d; arc=none smtp.client-ip=79.135.106.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vasily.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vasily.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DAchMDFE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=hV5S8eWWU67ONbMdimBKBA99jBaB6zXI/hRE2BYResY=; b=DAchMDFE+AqYzU+0lt+cwmQFG/
-	xt+UdTYXZeJmP/j/GrhBYKPlK0C8Pt3NLUJvq+SL06LhjYWXZusHc9MZbCXcJAv58trdtmZEg8Mi0
-	43nToNpVZcXnpCB3V44iUAOtB5cZpyhFFtOw8pElkTFLp8jcSXzLSOGJGNIzCQdKr65o07frIh0bs
-	v1w7F1UaeKu1xeFxFR+OwsovdKt3sAUcvzObxFfrvVNJ3rL621BcbFwtTF7l+KAo8ZcedR8d6iYkU
-	u2bROOmz4oTsAMquLR01RvQi9xsJ9d6lF0Mc/UpzmERGmax5NgBwo3T5VbwDDf7CmaY94gw0IbXW4
-	IS+oiE2g==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6GD9-00000004rt7-0Qst;
-	Mon, 14 Sep 2026 23:35:43 +0000
-Message-ID: <0b3aa22e-8939-489c-a3dd-c7f9552714d7@infradead.org>
-Date: Mon, 14 Sep 2026 16:35:42 -0700
+	dkim=pass (2048-bit key) header.d=vasily.cc header.i=@vasily.cc header.b="aGzQ055d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vasily.cc;
+	s=protonmail2; t=1789429067; x=1789688267;
+	bh=YSVnX4Jvacy6T1gV7Hqcr9WgSmXcyvrQmUksEOriBYA=;
+	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=aGzQ055d3xo0qaK483INjdPOl690K6aRZ6asItwSQI0sRNc//sFyclt0hFuPvxrc3
+	 82jcVeV3YNoAgdlSH/XPnfs6ozuoTtD6fEaEzci2pOJv3Tr9ecUjKEWqT4dizVC70I
+	 VMEkkSp7MI/fKbBUtgEerv/fW2aoVxjRGq14nsWsAQskMqknounYrFE3NZajb3qMCx
+	 TPqsO6L9/MVNfhMoiJZIeqBGODYpbNk1HrZmL+imNy/zMpaiQMwYx3juVt/5CyeFmn
+	 MdlQ41U4fLAQIZ/1ndSqNkTfnZowLDO22CMpqSfbYFH6dXvp88fPnriLjtZODDUBHe
+	 VAvu1o5QOIF/A==
+X-Pm-Submission-Id: 4hkM5P3V9yz1DDKv
+From: Vas Zayarskiy <contact@vasily.cc>
+To: linux@roeck-us.net,
+	Aleksa Savic <savicaleksa83@gmail.com>,
+	Jack Doan <me@jackdoan.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-hwmon@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v3 0/4] hwmon: AMPINEL support and shared fixes
+Date: Tue, 15 Sep 2026 02:37:24 +0300
+Message-ID: <20260914233728.22725-1-contact@vasily.cc>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v11 00/15] Begin upstreaming Homa transport
- protocol
-To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org
-Cc: pabeni@redhat.com, edumazet@google.com, horms@kernel.org,
- kuba@kernel.org, skhan@linuxfoundation.org, bagasdotme@gmail.com,
- linux-doc@vger.kernel.org, corbet@lwn.net
-References: <20260914230517.1190-1-ouster@cs.stanford.edu>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260914230517.1190-1-ouster@cs.stanford.edu>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+This revision addresses Guenter's review by separating shared fixes from
+AMPINEL support and leaving the keyboard interface with hid-generic.
 
-On 9/14/26 4:05 PM, John Ousterhout wrote:
-> This patch series begins the process of upstreaming the Homa transport
-> protocol. Homa is an alternative to TCP for use in datacenter
-> environments. It provides 10-100x reductions in tail latency for short
-> messages relative to TCP. Its benefits are greatest for mixed workloads
-> containing both short and long messages running under high network loads.
-> Homa is not API-compatible with TCP: it is connectionless and message-
-> oriented (but still reliable and flow-controlled). Homa's new API not
-> only contributes to its performance gains, but it also eliminates the
-> massive amount of connection state required by TCP for highly connected
-> datacenter workloads (Homa uses ~ 1 socket per application, whereas
-> TCP requires a separate socket for each peer).
-> 
+Changes since v2:
+- Add a HID prerequisite: hid-generic must consult a specialized driver's
+  match callback before yielding. ID-table matching alone makes it yield
+  the keyboard even if the hwmon driver rejects that interface. The AMPINEL
+  match callback accepts only USB interface 1 and retains the transport
+  check before accessing the parent. HID maintainers are copied for review.
+- Widen the shared power/current caches, clamp overflowing power to
+  LONG_MAX, handle unavailable power, and prevent negative Aquastream XT
+  calibration results from wrapping into the unsigned current cache.
+- Expire the initial cache for every device in a separate patch.
+- Use the existing raw-event path for serial numbers, temperatures and
+  timestamps. Store AMPINEL values in hwmon units during decoding.
+- Omit current deviation until its semantics are established; remove
+  AMPINEL keyboard callbacks and the unrelated expiry documentation.
 
-[snip]
+Validation:
+- Both modules build and link against Linux 7.2.5. Both changed objects
+  build on this 7.3-rc3 base for x86_64 and i386 with W=1 and Sparse.
+- All 995 captured AMPINEL reports pass the C replay harness with ASan/UBSan.
+  Shared regression cases cover High Flow Next power and unavailable data,
+  existing fan/pump power paths, Aquastream XT current, and initial expiry.
+  The tests reproduce failures with the previous conversion/cache code.
+- A userspace harness extracts the actual core/generic/AMPINEL match
+  functions and tests both driver registration orders, keyboard fallback,
+  non-USB rejection and special-driver overrides. The original hid-generic
+  fails the fallback test. Probe descriptor validation is also covered.
+- All seven Python tests pass. Strict checkpatch passes for all four
+  signed patches. The changed RST renders without warnings.
 
-> John Ousterhout (15):
->   net: homa: define user-visible API for Homa
->   net: homa: create homa_wire.h
->   net: homa: create homa_impl.h
->   net: homa: create homa_pool.h and homa_pool.c
->   net: homa: create homa_tx_pool.h and homa_tx_pool.c
->   net: homa: create homa_peer.h and homa_peer.c
->   net: homa: create homa_sock.h and homa_sock.c
->   net: homa: create homa_interest.h and homa_interest.c
->   net: homa: create homa_rpc.h and homa_rpc.c
->   net: homa: create homa_outgoing.c
->   net: homa: create homa_utils.c
->   net: homa: create homa_incoming.c
->   net: homa: create homa_timer.c
->   net: homa: create homa_plumbing.c
->   net: homa: create Makefile and Kconfig
-> 
->  .../userspace-api/ioctl/ioctl-number.rst      |    1 +
->  MAINTAINERS                                   |    7 +
->  include/uapi/linux/homa.h                     |  290 ++++
->  net/Kconfig                                   |    1 +
->  net/Makefile                                  |    1 +
->  net/homa/Kconfig                              |   20 +
->  net/homa/Makefile                             |   16 +
->  net/homa/homa_impl.h                          |  593 ++++++++
->  net/homa/homa_incoming.c                      |  886 +++++++++++
->  net/homa/homa_interest.c                      |  192 +++
->  net/homa/homa_interest.h                      |   92 ++
->  net/homa/homa_outgoing.c                      |  537 +++++++
->  net/homa/homa_peer.c                          |  669 +++++++++
->  net/homa/homa_peer.h                          |  457 ++++++
->  net/homa/homa_plumbing.c                      | 1302 +++++++++++++++++
->  net/homa/homa_pool.c                          |  553 +++++++
->  net/homa/homa_pool.h                          |  184 +++
->  net/homa/homa_rpc.c                           |  735 ++++++++++
->  net/homa/homa_rpc.h                           |  545 +++++++
->  net/homa/homa_sock.c                          |  544 +++++++
->  net/homa/homa_sock.h                          |  513 +++++++
->  net/homa/homa_timer.c                         |  136 ++
->  net/homa/homa_tx_pool.c                       |  527 +++++++
->  net/homa/homa_tx_pool.h                       |  139 ++
->  net/homa/homa_utils.c                         |  119 ++
->  net/homa/homa_wire.h                          |  346 +++++
->  26 files changed, 9405 insertions(+)
->  create mode 100644 include/uapi/linux/homa.h
->  create mode 100644 net/homa/Kconfig
->  create mode 100644 net/homa/Makefile
->  create mode 100644 net/homa/homa_impl.h
->  create mode 100644 net/homa/homa_incoming.c
->  create mode 100644 net/homa/homa_interest.c
->  create mode 100644 net/homa/homa_interest.h
->  create mode 100644 net/homa/homa_outgoing.c
->  create mode 100644 net/homa/homa_peer.c
->  create mode 100644 net/homa/homa_peer.h
->  create mode 100644 net/homa/homa_plumbing.c
->  create mode 100644 net/homa/homa_pool.c
->  create mode 100644 net/homa/homa_pool.h
->  create mode 100644 net/homa/homa_rpc.c
->  create mode 100644 net/homa/homa_rpc.h
->  create mode 100644 net/homa/homa_sock.c
->  create mode 100644 net/homa/homa_sock.h
->  create mode 100644 net/homa/homa_timer.c
->  create mode 100644 net/homa/homa_tx_pool.c
->  create mode 100644 net/homa/homa_tx_pool.h
->  create mode 100644 net/homa/homa_utils.c
->  create mode 100644 net/homa/homa_wire.h
-> 
-> --
-> 2.43.0
+Both revised modules are now installed on Hearth, Linux 7.2.5. Their loaded
+ELF build IDs match the packaged binaries. All 60 raw USB/hwmon comparisons
+matched across initial loading, telemetry-driver reload, persistent
+activation, deep suspend/resume and reboot. The AMPINEL keyboard stays bound
+to hid-generic, with its input registration unchanged through the reload
+and resume. HID input names and capabilities were preserved across reboot.
+The reboot selected both revised binaries without manual intervention.
+The installation journal had no warnings or faults. Resume reinitialized
+the USB controller and reset several devices including AMPINEL; the same
+warning pattern is present in logs from 2026-08-29, before v3. Both interfaces
+recovered without intervention. No Oops, BUG or call trace was found during
+resume or reboot. Boot had no AMPINEL failure or USB-controller reset warning;
+it retained the expected out-of-tree module notice and existing system
+warnings. Live loading used generic-first order; the opposite order is
+covered only by the userspace harness. Power-off cold boot and alarm-generated
+keys remain untested. Shared-device numeric tests are synthetic. The HID
+prerequisite needs review with the AMPINEL patch.
 
-In a (mostly) x86_64 defconfig, where CONFIG_MEMCG is not set:
+Telemetry units were checked against the device display at idle and under
+load. Channel labels are report order. Alarms, protection configuration,
+negative hotspot temperatures and other firmware remain unverified.
 
-../net/homa/homa_rpc.c: In function ‘homa_rpc_alloc_server’:
-../net/homa/homa_rpc.c:133:22: error: ‘struct sock’ has no member named ‘sk_memcg’
-  133 |         if (hsk->sock.sk_memcg) {
-      |                      ^
-../net/homa/homa_rpc.c:134:68: error: ‘struct sock’ has no member named ‘sk_memcg’
-  134 |                 struct mem_cgroup *old = set_active_memcg(hsk->sock.sk_memcg);
-      | 
+AI assistance: Codex assisted with the implementation, tests and submission
+text; Sparse was used for static analysis.
+
+V2: https://lore.kernel.org/linux-hwmon/20260914220128.287145-1-contact@vasily.cc/
+
+Vas Zayarskiy (4):
+  HID: generic: Respect specialized drivers match callbacks
+  hwmon: (aquacomputer_d5next) Avoid truncating scaled sensor readings
+  hwmon: (aquacomputer_d5next) Expire the initial sensor cache
+  hwmon: (aquacomputer_d5next) Add AMPINEL support
+
+ Documentation/hwmon/aquacomputer_d5next.rst |  11 ++
+ drivers/hid/hid-generic.c                   |   8 +-
+ drivers/hwmon/Kconfig                       |   4 +-
+ drivers/hwmon/aquacomputer_d5next.c         | 121 ++++++++++++++++++--
+ 4 files changed, 132 insertions(+), 12 deletions(-)
 
 
--- 
-~Randy
-
+base-commit: 46fde107b4e881f179bf02bca69d8a0020561b3c
