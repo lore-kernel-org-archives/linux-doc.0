@@ -1,104 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f1.google.com (mail-yx2-f1.google.com [74.125.224.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8DF43F8BA;
-	Mon, 14 Sep 2026 18:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8C349B208
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 18:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789408829; cv=none; b=OtnOSU+I53uBn3g2S6n0RlKYos9tyobyAtDQ2MWu5t5o4lOKsVM2HKVa5fPmVM66JsnY6jNNdrqX+1+cEJmZSGsqGquDiTyCF/iIRzibGc5HrreDlvHfNYSdVJvZs1bowNui58zV1nhGVWe7aZKwVsEgfP4OZ5Y3Y5gGWwkK/G0=
+	t=1789409416; cv=none; b=ErBV2N+JL7wdjsVqCtQUvXK26mXc94arT0yqvF7hPhax58vyK5skuDd2KXWRE3K3QPnSia7JLMhhOinz/iyX3dL3injiwUZLPIrR2vyurEVfQnMCuTCskefDyjs11cKN1gm7qG2TcvebFS+62cM5qDTLTbH3macmtY0IZykdzho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789408829; c=relaxed/simple;
-	bh=3+cqU+7jmuS3Vs/6V/yEs66Msl6H9pWzW4OWZhoiFlA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PLlawIGd3hNFX3aGseGj9/gLxmr8TnNuoaJtdk+3IBsNLdh9jEn0Y0QNbiSl/guPC2Y+q8cP5ACwKA+LbTIs/xYrZBARroAQcD8jQx/Onrr0TjNkJm7B42VeBOnuUc47BBac8qwLV5luOLVTGw8WulqRZimuQWEfFOOEgOJ/vSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ODZLqWaY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789409416; c=relaxed/simple;
+	bh=BYAdkqFw+JhFCbVAYMWPqM8MRr41rR9mE0Rhks0Supk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=M8tawII6eNRgzqg+8KuFkzG1mwdXU/fHkKkhOFV/scs1AfVJcNV4VOqONAFrFyshwABgoMbHn7Mobjwt3ik9eGHG/TUxuG36UZFdOFFruas7uyewdZqTs6QQUOwZd5dt3TH5pcfHYdQ/TqlyNy2kqQLaICrhQy4smiUZzeoRX7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=northecho.dev; spf=none smtp.mailfrom=northecho.dev; dkim=pass (2048-bit key) header.d=northecho-dev.20251104.gappssmtp.com header.i=@northecho-dev.20251104.gappssmtp.com header.b=f9J4rNKn; arc=none smtp.client-ip=74.125.224.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=northecho.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=northecho.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ODZLqWaY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0B891F00893;
-	Mon, 14 Sep 2026 18:00:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789408827;
-	bh=NXbbt1iUoauMs+fLO9RzZKe19lkdH+Cr594Dnv6SVKQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ODZLqWaYMLu9jeAppJFzYzDYbmDcJaGKcKFa9maRrc6IVgd+L6cfnoF+W8eb4TyYP
-	 VBuHxSYqLE0IKj4JLNPRHFMrajD3oqPR0Hli5WItdUw2yzXh5Fs1Z4z4Pk7XJ9ltAI
-	 lK9ar1JcXgrjYpleMvYP9gD/0aeoVIW9MHRWXi6H63l0hudVVU0iyu3NXARJ9wAmpg
-	 Ta47EUvAsb1kOr/kor+xnCOr7kifair0OdB5MBceq0djdxtfuvb8ncAwhxJHq7rgYO
-	 0kgGIOgELBX9Z2bS9EIKYMvoB7j/ksCVXBCRHVF9/hI3IZndRa3knP+m3HefHNC/k0
-	 1UIcN90vCw8zQ==
-Date: Mon, 14 Sep 2026 11:00:27 -0700
-From: Kees Cook <kees@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=northecho-dev.20251104.gappssmtp.com header.i=@northecho-dev.20251104.gappssmtp.com header.b="f9J4rNKn"
+Received: by mail-yx2-f1.google.com with SMTP id 00721157ae682-858ef75b39fso839487b3.1
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 11:10:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=northecho-dev.20251104.gappssmtp.com; s=20251104; t=1789409406; x=1790014206; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8OIGXq9LPdM6hJ4yEHsUVyge0A5woOLwG6L03+WxApo=;
+        b=f9J4rNKns/0LpxZsG4KapWQ9XfPOjMaVjJ0DMIfPd6PHGm0iqm3yVF3dA3MS7RAwBN
+         m5y6f9rom2lfcGmvnz3RxOoT4ckQ2mBhMnQJKmknpnpzymt3axCpXUU7lG6b1qWTM9Iz
+         uQPnlQT+AjssfbI2SjUNnXakEFxtkAO9+AnQXoIBjAXKh6dnPDhCbckxm7bqxE9L5q/1
+         EFEFmnje9/XnNC7DahGWUWCaKO4I0JEIS8IA6Zdp/oJcxi+pmPdsaZ/PR+Hty1hGcbIl
+         I6MyXQUH7hENNBUevAo9vZeWmq0zN1CTMU/x14rdqlghz2k0PsnCentJHo0J6xmscaB1
+         jBRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789409406; x=1790014206;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8OIGXq9LPdM6hJ4yEHsUVyge0A5woOLwG6L03+WxApo=;
+        b=Eoztk+/Fj/EGGRD1wnysL67S/07V51fBKhLIQ9U0CkVoV84pY82KBOmAI/3CzMbdSH
+         JSsRkdIYvnKwQz/jtOEtS62P75M9+DwunWisfROlrmUQP/V3diI3ce9ZvN8IEfd34rtb
+         3DbRazq93hyZbpghptBIXgjBea/s9HN6aWHN0R5+AQED5d3w2wZR+VqQ4hREEtyQzFUD
+         7Sw4SVeBNYaq7YcK3fmO1XSr93YPXyUn2kswqDU+5ImjkP5Rarr8x6j83nJKp4yLbiY8
+         Apv6De6WaQgumLpi6DnYnY3HeyqeTveY9Pm3nuIdof7LSZ72gTf//uZJrII9O3zPdTS/
+         t7YQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwE65/lLIXTSX3v12+zs0/plzMRr0yLRGDrqj5l1IFegnGV3s8PwK/IaNQvAGvOZjePbn96vNufcMc=@vger.kernel.org
+X-Gm-Message-State: AFuF++mscE55fToSLBNpODHKjwTPwB+IS7MQpCaRH/wikz6lbn1by0iQ
+	mMKn3s6lqjxF0zDezWYkD1hsmsFRJXhT6GmnKyWmJAYTR6hIhmFLoSmTwFhqSBvYOURk
+X-Gm-Gg: AYBFou1gHDs+b1Bm2zjtzzHklaHUrTmweyOa0Yoiwmjn1kxN5jl7vgL5JKCMGFp5aMK
+	VXmntH1VZfzztlm0SyxVvqC3RaRsfVDwc1vrqj7Zrv2pDweGXU8lE4ylPFVebHtr+WCqfZr1+U5
+	o6Ceg2XldkFF+192aTGyO3l6EuDJKb4ARnCCY/nprH2TkE5urI7DA3XsNjuRTozHAgqDQ+jV+Xo
+	GrAJUF26MRAY3VpJsczXD3qaroFBP8if5EjplpGpG08w8q0wKmiELw4ql2LEghFaNrn6Q20mFDU
+	jYcu4qwaM38SckPq1MPXXFruPLDnlOa2INAitR/bp8lS7Rpmh32KlBJKqgObL8fQatkOSPlgsTr
+	Dj/sqjvPKwfCIruoi57ALMKC02dJ8BbdR6L2JUQzU8ds+VXxoHssJPuIxTYjhavWFZZnoNNoUce
+	sEqNGWFk2EvnRI/mfNcNqh2NGZinBZrsuX9anPYK2KMrDwdH5F5dc3wNZWSTtUExadUNAWjnuET
+	J/szwsMYEH2pUMPPxoeUTl4Uu6K2RTWcEVGQMI=
+X-Received: by 2002:a05:690c:6c87:b0:861:a34b:7de6 with SMTP id 00721157ae682-88d1992ba59mr15916227b3.0.1789409401043;
+        Mon, 14 Sep 2026 11:10:01 -0700 (PDT)
+Received: from kelso (99-10-92-174.lightspeed.rlghnc.sbcglobal.net. [99.10.92.174])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-88488856486sm39517817b3.37.2026.09.14.11.10.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 11:10:00 -0700 (PDT)
+From: Christopher Lusk <clusk@northecho.dev>
+To: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 14/21] kbuild: batch module finalisation
-Message-ID: <202609141056.6AE2C82E@keescook>
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
- <20260914-build-speedup-v2-14-39817ec5db23@kernel.org>
+	linux-security-module@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: landlock: clarify TTY signal scoping
+Date: Mon, 14 Sep 2026 14:09:46 -0400
+Message-ID: <20260914180946.1462099-1-clusk@northecho.dev>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260914.b8a029f9abb8@gnoack.org>
+References: <20260914.b8a029f9abb8@gnoack.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260914-build-speedup-v2-14-39817ec5db23@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 14, 2026 at 10:22:13AM +0100, Lorenzo Stoakes (ARM) wrote:
-> Module finalisation on allmodconfig builds consists of a large number of
-> very short-lived jobs, and the make job dispatcher cannot possibly dispatch
-> jobs fast enough.
+LANDLOCK_SCOPE_SIGNAL mediates signal delivery when a sandboxed process
+selects the recipient, including SIGIO through fowner.  It does not mediate
+signals directed by the TTY layer to processes attached to a terminal in
+response to terminal activity.  This distinction was clarified while
+discussing TIOCSIG handling because the PTY master acts as a capability and
+the signal recipients have attached to the terminal.
 
-This "cannot possibly" sounds like a weird LLM language intensifier. I'd
-rather a concrete description of the problem, not this kind of
-(redundant?) vagueness.
+Document the TTY-driven signal paths which are outside the scope and advise
+controlling access to the terminal or PTY master instead.  This records the
+outcome of the RFC discussion and avoids implying that
+LANDLOCK_SCOPE_SIGNAL covers every signal-delivery mechanism.
 
-> [...]
-> Fix this by splitting modules.order into chunks of 128 at a time, run in
-> parallel.
+The documentation text and changelog were drafted with assistance from
+Claude (claude-opus-4-8) and Codex (gpt-5.6-sol).
 
-Why "128"? This seems tied to the 128-thread test machine, but ends up
-getting hard-coded, but this choice of value needs some rationale, IMO.
+The userspace API documentation builds successfully with the kernel-pinned
+Sphinx dependencies.  The remaining warnings are unrelated to the changed
+Landlock text.
 
+Link: https://lore.kernel.org/r/20260914.b8a029f9abb8@gnoack.org
+Suggested-by: Günther Noack <gnoack@google.com>
+Assisted-by: Claude:claude-opus-4-8
+Assisted-by: Codex:gpt-5.6-sol
+Signed-off-by: Christopher Lusk <clusk@northecho.dev>
+---
+ Documentation/userspace-api/landlock.rst | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+index 84cb7bf6b3ed..64418b09840d 100644
+--- a/Documentation/userspace-api/landlock.rst
++++ b/Documentation/userspace-api/landlock.rst
+@@ -430,6 +430,21 @@ The operations which can be scoped are:
+     This limits the sending of signals to target processes which run within the
+     same or a nested Landlock domain.
+ 
++    This scope does not cover signals delivered by the TTY layer.  A process
++    holding a PTY master, or otherwise driving a terminal, can cause the TTY
++    driver to deliver signals to processes attached to that terminal across
++    Landlock domain boundaries.  This includes ``SIGINT``, ``SIGQUIT``, and
++    ``SIGTSTP`` via the ``TIOCSIG`` :manpage:`ioctl(2)` command or the
++    corresponding control characters.  The TTY layer may also deliver
++    ``SIGWINCH``, ``SIGHUP``, and ``SIGCONT``.
++
++    These signals originate from the TTY driver in response to terminal
++    activity rather than from a :manpage:`kill(2)`-style request.  They can
++    only reach processes attached to the terminal.  To restrict this
++    interaction, control possession of the PTY master and terminal attachment.
++    For example, do not pass a PTY master to a sandboxed process if its slave
++    has processes from outside the Landlock domain attached to it.
++
+ ``LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET``
+     This limits the set of abstract :manpage:`unix(7)` sockets to which we can
+     :manpage:`connect(2)` to socket addresses which were created by a process in
 -- 
-Kees Cook
+2.55.0
+
