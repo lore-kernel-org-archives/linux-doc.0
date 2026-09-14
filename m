@@ -1,159 +1,183 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF17485507
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 15:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789401415; cv=pass; b=mlEI5j+CST9byvyRrUzEP8BH9SNvaInL7vMhj+Y1Rjv79Bp63n8PToYs49AMGKqRTTZIq6knsFLvyKMICX6z2Oqw/8I8MBmPGoGzxyHWIry0ZyQt34GPoKh/enMeL+Q604TUYYQmaJRk2LyZf0bXjebfTF2X0ZxJhg0p9Y5V+RU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789401415; c=relaxed/simple;
-	bh=LfklUHIPWaWmrp2t1aYWGciesvwPpwkoe+iBPGV/Vsc=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aa00/tfBcyS2g9AWYliOGuT6z5TT0d9HA25dkqL2Q7pYQh0E1jTumu4xH+h/vd75eq2i0LKnjylDsl03lkDyvw12y5KDEbJbX6+n8GW3yhiWeRGOr7tTw5GISzjnrAzBhq9Wn0CRXXf1KgRqEi0X+Mz+RwXklhICFRhxioZUGCM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ORPK6RDL; arc=pass smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3568455600
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 15:57:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789401432; cv=none; b=KSM9KPLy55vKxWen3P6KEX7K/zyWAYeMq87VwMC8lXF1puFQpdIWZvYakdpo1XzQV05pS9usVN9GnRzh1QIVD9fbL8YaaTIFgcHujRPmU5uxXBWoggmuNizW10TxJZQCbyD8t4UDKVVa3iMWQ7oByA2J13c7A1L37780lQXQACE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789401432; c=relaxed/simple;
+	bh=ywhjiYa8sz83VLckyrtdhzFmvCtPRCP4Hc4K0b9W5kM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fiOctwWokH5zSOOY1mF4jvME+6z+q9jebIgoY8mBpGmf2IapJgH9PC8b+YlFfWr5z7rwEkWHVAiaEPeuDzxK4uVPucWHygZqQZqUckncp8YMX68izqIWEvBM0qqnrYkW+8Npfb2PHOWI4Y3+YUMMTuqfM7EF0UJvYSExYYQx2J0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y1omn6uf; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ORPK6RDL"
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5c80b099b4eso1887017e0c.1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 08:56:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789401412; cv=none;
-        d=google.com; s=arc-20260327;
-        b=bfOCak4eHQjBCG1uUXKNJNnSi0oW+bcbE5PUP/gJVNkox6HZqnPX3Me1uvDkYdYW/H
-         2f1sRHWEIEn/Xdja9IqF3FlJUi1vYckcRmRK5H3pfjsCLvbgwrk9n+MI+MuTCdIHXruE
-         RIO0z8nK8wANYWCf+kyi6HX+30a3aKh7j+cgBt4wtCXySuIRcvN9uNhoKgJ3kJEJ/U+8
-         OZmVYYBMXVtoaf7WH8cobupp1+DnHJu479LNfjjfcjk2JpTDzc8a+zvWEBN5d3hFbi1Y
-         gdiVUx2/7yv9lymjeYjdpplFJtawJFWWGrVeAY6mSEXdOrwbvYF70cYnhTT9TiiXyGag
-         9LHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=LfklUHIPWaWmrp2t1aYWGciesvwPpwkoe+iBPGV/Vsc=;
-        fh=ME0qvcGy2TGcwQd8DaHNNlUDYaPtJ5EOs783pNo5jj8=;
-        b=liOd7b/F6tTiemW8atYOtiZn/dwy56mrFVwPmJ2B5WVz0IgU/+qkH+fOk3mul1r4IH
-         CEMeJtlnJddSi/Y0VC4rKJzIcvbj5sCXqWUtXnPRjORzYxkHhU50QMciHe2dOb1AHB+7
-         tbHa0/lYXEBhA2jfWqNjrse3/M638/bCqCEjPdqEJzjeCrAk083YS/EmH27+FFjQmGry
-         tu1Z2wxoWTeMRCQyaG4QYzqtWLMty9lm/mkxAnB7eqdDSDk76KJwFq1CRmr8V3AhIorh
-         iI5HgUivYs5TYtGOX/wPbM0gVuguUtEp0vnYr0roBWikOjDJBtDWX8KJNCTkYoT7NYxl
-         VXTw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y1omn6uf"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b0dd3e1d0so847055e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 08:57:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789401412; x=1790006212; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LfklUHIPWaWmrp2t1aYWGciesvwPpwkoe+iBPGV/Vsc=;
-        b=ORPK6RDL2qaDKA5qkerGeElEfbx9YwRujFEaZhCL0VNvY0AzCbv8fnSYrPg3qMOsb5
-         aoDMPQ7OfsXtp71hbc1oEdjmS1QYAoZnI1EljL14obvc/xZxs2FGnBJT637uQ7q+ILmd
-         cK1WrYxcS9kTBNsC3PnkzJJnQVfzZW/a1lwiJElk/oqbu4Homlg6pPaXmtxi5hVPzGE6
-         f2iTowXyeVt1aCqoweYNjrxT1d/x2d6c6LFuCqaOpSVTRuuemI9IjS4ilIPv9KQsstJH
-         /mMlGL0g39MaZrpSLmVmMiGjsqzWEQv7sbestBxHK/aIge9FaIHlETemJZLgZqIwKRo2
-         8ASA==
+        d=gmail.com; s=20251104; t=1789401429; x=1790006229; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Tamt12O2uhKCFMMbIkEpJmlX30Wke4onDdSC/Kq2BvI=;
+        b=Y1omn6ufOmc6TMlYctDhWyQL4V0fiPDtr4OPJz12u7h/dqorDa4z0/3veP3eVU+E2l
+         lIHxTkyebhYrUB6SZfe5djhUOU/jPXiaGCj2GS8S6MffLUAKLRcQOYaoIxW2XuL9VqJd
+         8xsXLe2klBnrDsYI4/BMvqAiPpTUJsE/gDefPij0GFMVkoqPqZ7+ps9uIg5TwvwkkGWU
+         IiEmgzMJicqztKRML7fhbY6MLrBO+shWdig93H2IUoZEEsokg9LdeUYCmUdW1CXyZALa
+         4HMEgoUsKRTMUQJSs8EEvf8dUJgrx/bFhtUz/0TLRMvDjNp2N05rIj1i1BB8JL4KtL5Y
+         wFnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789401412; x=1790006212;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1789401429; x=1790006229;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LfklUHIPWaWmrp2t1aYWGciesvwPpwkoe+iBPGV/Vsc=;
-        b=bzYaAfFb9d7qfqI5KOTJ/Yt0IeYIZFRXx6KS+Q3DiToICRmK8u6TEvc9BpZ72eOaEL
-         /1ERZMBuSu3Cahg/JxE8wmH1tU/H31ZZD9blR+N8mEotI9pFGPbbkLrKyUC87u4SIkIK
-         tk+e6B0vn/SKwrZgDAEUgeB/QEPWW+BdQg9+sRjdXQcScaEpN9GV/tBxG3dwXo/IXPjc
-         fCg9w8XkiLUKw8zEwtkAb5M5lsAtsr3sbmzginc4q57sfvyYuJApwEI77Ne9EhHs+Y6C
-         d4WPhMz4icLDcQQFhdXquetaz9KUZr+Hcj8X1pLU+6NLNiGKjJKCm8lrQqELHqLfNOPW
-         PPlw==
-X-Forwarded-Encrypted: i=1; AKwUvBzvNCyUty6qAMiZSbjclBRxcZmcWgKCGz/3vvBRnLZoh1lw8Q0gYzC9A0gZPaYhtHMT8GXbRJZZ524=@vger.kernel.org
-X-Gm-Message-State: AFuF++msge1kudrf/PmfTcwSEAIZBeqSaaXSn8jBMuc45aUVcVfSbmOR
-	wGK9KhYw4LVwyGZ0ItbSKQl8zdKWdyyH1jOjB8LmpRgYpW6SSLGfJE7Xfqnj+W5jB4tO8/ddWRL
-	6fVjoxpKW25JpJWLLZ9nRtf/5SyRtrMER4u+bN61Q
-X-Gm-Gg: AYBFou2dQEPQxQM8Jn8Q3M9ENGAfNOE4hdzyMXuBpAiPvtzV0dVnZx+7GyffUzfAp8B
-	eOxoAyFlQcejGddpEcdtbkoCmmcKSeENYe6ka1KuTDf/U+dQbpReXxJCQx/GQF++kK18+6QK+XQ
-	WIuIbBpNtA83omOzhPjDV+bUazukGUnD49VulTnTpbQHP7WqkmvU97lF1oub+Ap+a6KvaWDbBC5
-	1Z14pWOU+2SQJ5VMA8xkyGAl+w3MXhlhr1z8AnjPTFahTkYN2ShY3TWx2Kny4P52trZOYCBM2tE
-	It1oVdTCH7nQGmUwI4SyDrRFMq/7uj9hC9lAC1trgQ5neyhXdn3qtMFg6O/goP+RghUvjokuMoL
-	Y3GW2b5ZMgg==
-X-Received: by 2002:a05:6122:4b8c:b0:5c6:64ac:d6f3 with SMTP id
- 71dfb90a1353d-5c981d3a2b4mr3488872e0c.3.1789401389359; Mon, 14 Sep 2026
- 08:56:29 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 14 Sep 2026 08:56:28 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 14 Sep 2026 08:56:28 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <20260909155003.e6c2f4fe3c0bbee3b34578fd@linux-foundation.org>
-References: <20260909-hugetlb-subpool-always-track-used-v2-0-30c5d83b572a@google.com>
- <20260909155003.e6c2f4fe3c0bbee3b34578fd@linux-foundation.org>
+        bh=Tamt12O2uhKCFMMbIkEpJmlX30Wke4onDdSC/Kq2BvI=;
+        b=LcR2KlpuHWUvt7WRcodUN9rCELHtAlb2g+K1ZEps9o0Fykw4cM+8Q8aGD/CH6gGmZA
+         7V6TIIGDJvFVnm7OdQRP9j0oYnIoTDL4rqV9+QZfhyTKw7LsBbsInwcSEQFYyDmOQOTL
+         AbjZy0nlo12n3WKgYmN7MHCJsoPNppefR5bEiqJ3LOTr0oZgY7pn+0UZ85aBxwndbYfM
+         JMg1VjccPLOVtk6m4kyrOWtOtOvigxTO+xdO1itQ7JHTXEFTwy2OSu6NyzQou7+w/KOj
+         wd0neEj3gxA6+IusklUrtb733m7zL38zQXai19dI5zn8OWU5aU4SUxtjSt53n5emLWRY
+         73dA==
+X-Gm-Message-State: AFuF++mLxmwKWhFkYeb3OExydAH2sUdttoIpqCBVsuZY0/IBlgFmqT37
+	j+3mneswLv35uLXeANI4ROQhgdCmkDlBTLJi0dgIbbEb2ck3u9fy0zUQkYFTCXjnemZrsg==
+X-Gm-Gg: AYBFou2Mq+7CYJGQj0bYCP31p/ZEfl+Olk5QB6WZSC3YXdZyqGVTdVrH+K5atE6tENE
+	xy36OooQUsgukDvItuaG3P9vgBiVstUR6P7AJnRYkzyV97mP4dy9pOeevizOl0FJmIhFSPoKxZG
+	x8mEeysdew05vV+fkqXR9bWMioHUjdETT0ShgTTUWOccHClBmMp4och5wSL5EKWfAIb40ATt5V3
+	BT+Q9oOFcUX3ijpc+2tLVG0Bz7+E3SFhDzzULoEjUlwBHS4ayedJVhRGLwwpAx0nWYICR6haRU9
+	iVR7JGI7EpiIOsRBO7UFjp/VpW9KNuFAsJWWCb5MYwSJs43ufUeZJUC2j4B5N0+q8VT+B0ufALt
+	sWks7SpvZdoSzx87EhFf3bNzSErKCra1Dr5E1bBEn3sca9p0HLVnpuPkvez4qlOwYuBZ0iLF4IS
+	fb5jyCgpIUEJGeYvpqQMLStDBCXQwXtWnpDN4emTBvPkDowdYp168IDLdPjQIe2WGMt3D1i6VWT
+	jEd8OTQNxraieLdKyKb
+X-Received: by 2002:a05:600c:19c8:b0:49c:f9b8:bae0 with SMTP id 5b1f17b1804b1-49e7a68a919mr41608245e9.2.1789401428854;
+        Mon, 14 Sep 2026 08:57:08 -0700 (PDT)
+Received: from Nuel20.localdomain ([105.113.61.233])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e7d6aa69csm787275e9.11.2026.09.14.08.57.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 08:57:08 -0700 (PDT)
+From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	mchehab@kernel.org,
+	aleksander.lobakin@intel.com,
+	aleksandr.loktionov@intel.com,
+	tudor.ambarus@linaro.org,
+	emmaonana18@gmail.com,
+	bvanassche@acm.org
+Subject: [PATCH] docs: kdoc: fix struct_group_tagged() parsing regression
+Date: Mon, 14 Sep 2026 16:51:27 +0100
+Message-ID: <20260914155127.21515-1-emmaonana18@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 14 Sep 2026 08:56:28 -0700
-X-Gm-Features: AcwNN1VbtSw2suRdJEPwwVSKB7yg54T9kxDFDisYSP9Jtt5N7Dkjunh5FrFt35g
-Message-ID: <CAEvNRgEwbUXj5cVQq4A-U=AMOzP3S1mjnrOC79Li71wf-E+dDw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] Fix HugeTLB subpool used_hpages tracking
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>, Alex Shi <alexs@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Hongxiang Lou <louhongxiang@huawei.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Michal Hocko <mhocko@kernel.org>, Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Nhat Pham <nphamcs@gmail.com>, Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, Wupeng Ma <mawupeng1@huawei.com>, 
-	Yanteng Si <si.yanteng@linux.dev>, fvdl@google.com, jthoughton@google.com, 
-	rientjes@google.com, vannapurve@google.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Andrew Morton <akpm@linux-foundation.org> writes:
+kernel-doc reports struct_group_tagged() members as excess because
+the macro transformation rewrites it to an anonymous struct and drops their
+member names.
 
-> On Wed, 09 Sep 2026 14:49:25 -0700 Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org> wrote:
->
->> HugeTLB subpools currently only track used_hpages when the user configures
->> a size limit.
->>
->> This is buggy since when there are existing allocations from the subpool
->> that would have satisfied the minimum reservations,
->> hugepage_subpool_put_pages() will still restore a reservation to the
->> subpool. See below for an example of a false reservation.
+Keep the tag and member name when transforming struct_group_tagged(). The
+nested members are then recorded as names such as fast.order; accept the
+existing unqualified @order documentation tag during validation.
 
-"false reservation" should have read "false reservation
-restoration". Will fix in the next revision.
+Add a regression test based on struct page_pool_params.
 
->
-> That sounds annoying, although isn't clear how this affects end-users.
->
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Link: https://lore.kernel.org/all/0cf8ea5f-418f-45f0-907c-3d1ed4f03e9f@infradead.org/
+Fixes: 2f07ddbd5793 ("docs: xforms_lists: better evaluate struct_group macros")
+Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+---
+ tools/lib/python/kdoc/kdoc_parser.py  |  4 ++-
+ tools/lib/python/kdoc/xforms_lists.py |  2 +-
+ tools/unittests/test_kdoc_parser.py   | 37 +++++++++++++++++++++++++++
+ 3 files changed, 41 insertions(+), 2 deletions(-)
 
-I'll also add this to next revision:
+diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+index d9ad1ddc87dd..ced09504f3d7 100644
+--- a/tools/lib/python/kdoc/kdoc_parser.py
++++ b/tools/lib/python/kdoc/kdoc_parser.py
+@@ -635,7 +635,9 @@ class KernelDoc:
+                 continue
+             if param_name.startswith("{unnamed_"):
+                 continue
+-            if param_name in self.entry.parameterlist:
++            if param_name in self.entry.parameterlist or \
++               any(actual.endswith('.' + param_name)
++                   for actual in self.entry.parameterlist):
+                 continue
+ 
+             hint = self.get_suggestions_hint(param_name, self.entry.parameterlist)
+diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
+index e3dda2fe8a53..9e8b3a6b1da1 100644
+--- a/tools/lib/python/kdoc/xforms_lists.py
++++ b/tools/lib/python/kdoc/xforms_lists.py
+@@ -60,7 +60,7 @@ class CTransforms:
+         #
+         (CMatch("struct_group"), r"struct { \2+ };"),
+         (CMatch("struct_group_attr"), r"struct { \3+ };"),
+-        (CMatch("struct_group_tagged"), r"struct { \3+ };"),
++        (CMatch("struct_group_tagged"), r"struct \1 { \3+ } \2;"),
+         (CMatch("__struct_group"), r"struct { \4+ };"),
+     ]
+ 
+diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
+index c4a76ed13dbc..1a8287e99f2e 100755
+--- a/tools/unittests/test_kdoc_parser.py
++++ b/tools/unittests/test_kdoc_parser.py
+@@ -418,6 +418,43 @@ class TestSelfValidate(GenerateKdocItem):
+         """
+         self.run_test(self.SOURCE, [self.DEFAULT.copy()], self.EXPORTS)
+ 
++
++class TestStructGroupTagged(GenerateKdocItem):
++    def test_nested_struct_group_tagged_members(self):
++        source = """
++            /**
++             * struct page_pool_params - page pool parameters
++             * @fast: Fast path parameters.
++             * @order: Order of pages.
++             * @pool_size: Number of pages.
++             * @slow: Slow path parameters.
++             * @netdev: Net device pointer.
++             * @queue_idx: Queue index.
++             * @flags: Flags.
++             */
++            struct page_pool_params {
++                struct_group_tagged(page_pool_params_fast, fast,
++                                    unsigned int order;
++                                    unsigned int pool_size;
++                );
++                struct_group_tagged(page_pool_params_slow, slow,
++                                    struct net_device *netdev;
++                                    unsigned int queue_idx;
++                                    unsigned int flags;
++                );
++            };
++        """
++
++        kernel_doc = KernelDoc(self.config, "test.c", self.xforms)
++        patcher = patch('builtins.open', new_callable=mock_open,
++                        read_data=dedent(source))
++        with patcher:
++            _, entries = kernel_doc.parse_kdoc()
++
++        self.assertEqual(len(entries), 1)
++        self.assertEqual(entries[0].warnings, [])
++
++
+ #
+ # Class and logic to create dynamic tests from YAML
+ #
+-- 
+2.43.0
 
-hugepage_subpool_put_pages() falsely absorbing reservations (aka
-reservations being falsely restored to the subpool) means
-hugepage_subpool_put_pages() will return 0, and h->resv_huge_pages won't
-be decremented. The page(s) still being reserved in h->resv_huge_pages
-means fewer HugeTLB page(s) for use in the entire host.
-
->> In addition, the subpool is considered free prematurely, is freed, and this
->> ends up causing a use-after-free.
->
-> That sounds alarming.
->
-> Do you think it's best for us to submit [1-3] for -stable backporting?
->
-> Is it feasible to come up with a set of small little fixes to get
-> -stable out of trouble and then to prepare broader updates for our
-> ongoing mainline development?
-
-Please see [1]. I don't think it'll be easy to come up with a complete
-set of small fixes to fix all the issues that are fixed here.
-
->
-> If it's "shut up Andrew you're always saying that" then OK, I can take
-> that :)
-
-[1] https://lore.kernel.org/all/CAEvNRgHbzY30n1hz2vv7BiBMMhci+NEv_ubP1LjQNmBuu6Kjgw@mail.gmail.com/
