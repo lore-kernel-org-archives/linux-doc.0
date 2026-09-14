@@ -1,189 +1,136 @@
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CB647F791
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 14:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F91480353
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 14:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789396551; cv=none; b=lRoMeobJK3LA7d2k9krDESoXCLa+sXsLxF1ENxUAua+Pi2qH1ldM4fnl/91dUw/SZ3+eMIhuK2sTkNd02VCPHLEJJPyrzRiyO4ZZBLEDUrYB6DQtMIMLb6coAG27Zxcbbf+rNMtQCrHnSgYUWhXHKXMTV/dfZn8ZpKbqAKKShiw=
+	t=1789396801; cv=none; b=HoT81qiM/W7TGpgBR/vWe1G1lMa7DOlUTBcf1fOEOImM1NrMcNxkZFdZuQ6yjrnTTeUFjkIxqaAJ4yOlYCZ9+HXYFJkT15675Z7Y1RTMbQ/xjzjVCov0mM/NxUZD6tw0KlleuJq9kGRw2agZveo7iiW/qt05IEGH0MpyjWwXz0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789396551; c=relaxed/simple;
-	bh=LglaGc1H0R+sxZA6wiKDg7CCL2SBWvqlpF/H4iHUw3I=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=IwFLBdGr1lmxRW7C07wLPgAv/qg0H1wa+y/YgvUaPUCyFrVY+eSDKG99A67+NrEYMeqD7mO1eWKmPttCzE8d5e3V88d2v2xIbQ+yCvT7s0RBA29fjZpmz2GSNIZJjW1BqFigVZyNILTIu59mw0MFGAd3PBHYOmLJimijjBYome8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LtvLjXah; arc=none smtp.client-ip=209.85.216.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1789396801; c=relaxed/simple;
+	bh=k5pbw3gWXkD+2lSDgyawLTDWIcAys0OeL71nHG/+9K0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l8cMboPo/C/+t+/+5Ob5ACm42Oln+m1D9e/wbycyTBUuGIRUNgHMBJAg5pOaIGg1EnC9xBggsND2pilyLhttJwwRmQYYHGkrhbWg+fuan+OxfLEaKUh7IyhAcc7H/mWHvC3JZl20feDZp8vUiRGWGyTYB/igZ7ANs2cKS+Y+v/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e4667YEZ; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LtvLjXah"
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-385d2703b64so4645292a91.1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 07:35:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e4667YEZ"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cebad4afso2047667a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 07:39:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789396549; x=1790001349; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LpPRVgi7aIALsRKspaYc+kGuwDrBnRXT3lk0rEcHOXU=;
-        b=LtvLjXahCCiUglmMqRe8i5nUW1Xi3A62sVdLhtjxNGcwPyiC/ckUMG5Elscgs2f+80
-         GFiBdV/Hip1iLa64dzcGQmt5ImwJ4kgL+Ixyl7QAKzqAQyXo5FyvwXrPCmPOXHe4mWWG
-         bzclg9uXHNG2F3Aeo6sLHUAzsgtmTFFu6iAs8oTSL7T7KBX0n8bFw1mXAiP5l/uCq8ci
-         MinbxRnX377igCzZJJfxkrG3NPHP6e+7UIpLGTrKPeqgKOjjh4ZhogGMtRjIk/YUb5tS
-         ahDQsj0uzrmx42f7VHS/un1H04zgHLUW9hwNbcWGKwf3chdQNa1XCOP0hQWflaoOqPJw
-         XhsQ==
+        d=gmail.com; s=20251104; t=1789396798; x=1790001598; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Q7je+QGWbrv106IbpMWADgcAusdkekcf43RbJ56qmHI=;
+        b=e4667YEZxcRS9doRa/bZ3tm6gfoQOg9hsnYwQfQlgc1bAHPbTID3GJEWtblQKpadSs
+         ytMMOsmjDNSvr2xlYNOyRtBrHeoNAsK77VB/WNH8gaoa/NynfsrnOxE2ZkmrYnWgWI5D
+         oBXgtfYqw15EtjIE+FE9I0jdbt0mkHPdDgy6TTIIhMJZrFhNz/VePPuKbJE2kdVM4HvP
+         ajy62iQlY3k3DgjC0F5RWNgiHwxJA6UozoKpzP3sp7e8I9aFt/BqANvgyxbeCSxsphR6
+         +V2zqvvjek6vhIX9ux4bwgkrN1dmhrBEUWrGQctlxQs4gteXOneufNRPxyfw4Y7NJN5X
+         OTJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789396549; x=1790001349;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1789396798; x=1790001598;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LpPRVgi7aIALsRKspaYc+kGuwDrBnRXT3lk0rEcHOXU=;
-        b=Ak6TZkF1L5S/i1v4g/enKUTSxTapC7t0wDeA5fPdQLBejLNSGRPuTQ94MR8FxpCuHS
-         UguYkmTfpORcYs8NexNpdrz430Q1ivxgFTPEv/kviMuAQgkpwCtVnd2YYSgs1sLFoIuI
-         7Q7ByRjstPuQW/AOm0v8/K4vZydStl3L5JCi88BMphbAL+nn2rkFgZEhGNOkUKGkpB4Z
-         x6QPW+WowFwb9Y+Zph8UuPkC/90h7jiKrR0BK+OVZHZKnYi3uNUrQYgXiDHa4LTvOYb8
-         xLEb2o/3x6qhNXPcsnIWHvcHA10e89zWk4QW1qYaA0m5Jbi5UTMJ6FKIXSi4J2RAFOQl
-         8rMQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzX3v/wKoiQ6WtTSNWMq/ZTdCtvLADKVlbX4mNiQNBQg06AQzrRb6XcREuxzZWx9WZkrz0MAOu2eHo=@vger.kernel.org
-X-Gm-Message-State: AFuF++mjMFPA+Bvn4lDuQpLDD+cfSXI5jwvWZCYMykJYuRlcZwO72GIB
-	qst93FEIF1y79KF+3bFJ5gRintJ91oypapIps+fEiWLAFz0hsyorI9w9Vv/d/rPbVC618Obwlma
-	AsdFbKA==
-X-Received: from pjbin5.prod.google.com ([2002:a17:90b:4385:b0:39d:8c01:3e57])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:2790:b0:398:9beb:a2b7
- with SMTP id 98e67ed59e1d1-39dd56bdc08mr8132347a91.25.1789396549085; Mon, 14
- Sep 2026 07:35:49 -0700 (PDT)
-Date: Mon, 14 Sep 2026 07:35:48 -0700
-In-Reply-To: <178939019982.94750.4441254006258061798.stgit@devnote2>
+        bh=Q7je+QGWbrv106IbpMWADgcAusdkekcf43RbJ56qmHI=;
+        b=LEUVaMiWyVrBqvIA5ZT5Q2WTJ9Y3bI+G7BZQOF6vOnLG3Ul1ZxAX0igzmKP/P2hXNs
+         u5iqTaa4hz96w4LZ1d8bIihl2ucoXDqy4yq/0Jj+QucX3hd3fxl4ixizP1z06cXrQJsd
+         CoNnrFiib+slyV/fYmhJvN/L8JS+ZgXJH9wV0QM9scHTgCSncCiN93IPn75w8E6+yQmU
+         XgNZH9/ytZznZdDYW4Ty1N0KbvA+BrfaaMixkuc2UugMLrd6boJ7W4ubfty9Il/uGwjR
+         h2f3yfBFrB0yauKaOzlldVSVRwDh98z6A8h5N6UCVp7JUn2QWAqRg1LsTCStsHjGwOqc
+         fZNg==
+X-Gm-Message-State: AFuF++lqeleLnPca52ZbW54qEASQW4M+ewjHWXtvNyqNvl1OJTeMRnAi
+	NaWgWb/5blis9fvvGtVmQZ53VCAw7jDsktaNDAEkFo9cXuspqaSCu6MPuGRdFo9o
+X-Gm-Gg: AYBFou20e+1jv+gkJ01HPdZSX/2eKnpvQc5n/CpuweP8rP2FQ2W5McOZxd/2efHDQGV
+	Ej0Ip35SLz9XQMHpGIWzH1pQvRSiMXrSUimiXpfkkY+ypRv2SULCHgIBcyat8qg6II96+RiUbUJ
+	umFukc5nvK8YlvTuC2jXbFK2EqMWuB5hRc2WmvFRdVM2p/PW3472WUKps1T1R+isCaZ48n73wuz
+	POj6Mx6Wd+HF9/edYA3UBPHMcyQautb5I/wndcZrZuu7+3HRSrx7EnBGsYhaWqPtkyTKf57ebXd
+	/L2pirLpH72JlHxpE9tzfdgkE0f+sExYj7tTSiHVQCuZKkU+TIKCrVa9K7MX8JM5VPG+7ezxQsK
+	UOtd2fUy5xwcbsO+o6dgjdhVhUJIBiwNbIpQwyLKYSG1880lM0veNOgMfNBIC+0OS99NurV/uAE
+	rjUr+imnVZwe3/Lmert1OI3nv+ly8oCIritm92ooGgk7kUgsUtzVElu7GDCBl0eLuF3n01jfs7c
+	M+yxIalCujCWyWVMQ==
+X-Received: by 2002:a05:6a21:3383:b0:3d3:adad:f176 with SMTP id adf61e73a8af0-3db40733007mr7430953637.24.1789396798408;
+        Mon, 14 Sep 2026 07:39:58 -0700 (PDT)
+Received: from kernel.tail6741c6.ts.net ([185.220.238.35])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc4c6572ecasm5149444a12.22.2026.09.14.07.39.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 07:39:57 -0700 (PDT)
+From: Kunwu Chan <kunwu.chan@gmail.com>
+To: paulmck@kernel.org,
+	dlustig@nvidia.com,
+	joelagnelf@nvidia.com,
+	corbet@lwn.net,
+	akiyks@gmail.com,
+	luc.maranget@inria.fr,
+	j.alglave@ucl.ac.uk,
+	dhowells@redhat.com,
+	npiggin@gmail.com,
+	boqun@kernel.org,
+	peterz@infradead.org,
+	will@kernel.org,
+	parri.andrea@gmail.com,
+	stern@rowland.harvard.edu
+Cc: linux-doc@vger.kernel.org,
+	lkmm@lists.linux.dev,
+	linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org,
+	skhan@linuxfoundation.org,
+	Kunwu Chan <kunwu.chan@gmail.com>
+Subject: [PATCH v3 0/2] Documentation/litmus-tests: Add SRCU fastpath litmus tests
+Date: Mon, 14 Sep 2026 22:39:40 +0800
+Message-ID: <20260914143943.1503066-1-kunwu.chan@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <178939017565.94750.9431053336761330458.stgit@devnote2> <178939019982.94750.4441254006258061798.stgit@devnote2>
-Message-ID: <aqgGRKOE138ePqmX@google.com>
-Subject: Re: [PATCH v16 02/13] KVM: x86: Prevent host DR7 debug register leak
- into guest OS on NMI
-From: Sean Christopherson <seanjc@google.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@kernel.org>, x86@kernel.org, Jinchao Wang <wangjinchao600@gmail.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	"H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 14, 2026, Masami Hiramatsu (Google) wrote:
-> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> 
-> When KVM enters a guest OS, host hardware breakpoints are disabled
-> before running the guest. However, an NMI can occur during guest
-> execution, where local_db_save() or arch_install_hw_breakpoint()
-> can be invoked.
-> 
-> In particular, if local_db_save() or arch_install_hw_breakpoint()
-> is executed from NMI, hardware DR7 can be modified or restored with
-> host breakpoint settings, leaking host breakpoints into the guest OS
-> or clobbering the guest's debug registers.
+This series moves the SRCU fastpath litmus tests from
+tools/memory-model/litmus-tests/ to Documentation/litmus-tests/srcu/,
+as suggested by Paul McKenney.
 
-Not for local_db_save(), at least not AFAICT.  On VM-Exit, both Intel and AMD
-purge DR7, i.e. load 0x400, so local_db_save() => local_db_restore() is more or
-less a nop.  Even if that weren't the case, actually saving/restoring DR7 would
-be the right thing to do, in any context.
+This series splits the two litmus-test patches from the earlier
+[PATCH 00/13] srcu: Round out atomic SRCU support series:
+https://lore.kernel.org/rcu/20260907075829.2073224-1-kunwu.chan@linux.dev/
 
-> Introduce a per-CPU flag, cpu_dr_in_guest, to indicate that the CPU
-> is executing in guest mode. Set this flag in vcpu_enter_guest()
-> during entering the guest with disabling host breakpoints.
-> If this flag is set, local_db_save() and local_db_restore() return
-> immediately, and arch_install_hw_breakpoint() returns an error.
-> In addition, protect cpu_dr_in_guest in within_cpu_entry() to
-> prevent recursive #DB exceptions.
-> 
-> Fixes: f85d40160691 ("KVM: X86: Disable hardware breakpoints unconditionally before kvm_x86->run()")
-> Assisted-by: Antigravity:gemini-3.8-flash
-> Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> ---
-> Changes in v16:
->  - Newly added.
-> ---
->  arch/x86/include/asm/debugreg.h |    6 ++++++
->  arch/x86/kernel/hw_breakpoint.c |   10 ++++++++++
->  arch/x86/kvm/x86.c              |    7 +++++++
->  3 files changed, 23 insertions(+)
-> 
-> diff --git a/arch/x86/include/asm/debugreg.h b/arch/x86/include/asm/debugreg.h
-> index 854d82b88ff4..50f830972698 100644
-> --- a/arch/x86/include/asm/debugreg.h
-> +++ b/arch/x86/include/asm/debugreg.h
-> @@ -18,6 +18,7 @@
->  #define DR7_FIXED_1	0x00000400
->  
->  DECLARE_PER_CPU(unsigned long, cpu_dr7);
-> +DECLARE_PER_CPU(bool, cpu_dr_in_guest);
->  
->  #ifndef CONFIG_PARAVIRT_XXL
->  /*
-> @@ -129,6 +130,9 @@ static __always_inline unsigned long local_db_save(void)
->  {
->  	unsigned long dr7;
->  
-> +	if (this_cpu_read(cpu_dr_in_guest))
-> +		return 0;
+The two tests verify the memory ordering required by the reader-free
+synchronize_srcu_atomic() fastpath: the grace-period anchor must be
+ordered before the per-CPU lock-counter scan.
 
-This is broken.  If an NMI hits between KVM writing cpu_dr_in_guest and clearing
-DR7, and there are active breakpoints, then local_db_save() won't disable breakpoints
-as it should, and the relevant code in exc_nmi() will run with breakpoints enabled.
+Patch 1 verifies that the anchor-before-scan ordering forbids a reader
+from being missed by the scan, while patch 2 shows that reversing the
+ordering permits the problematic outcome.
 
-	kvm_load_xfeatures(vcpu, true);
+Changes in v3:
+- Add a critical-section write after the smp_mb() in P1 of both
+  litmus tests, so the barrier properly models the lock-increment
+  to critical-section ordering in __srcu_read_lock().  The smp_mb()
+  was previously vacuous because P1 had no subsequent memory access.
+  Suggested by Akira Yokosawa.
+- Adjust indentation of the SRCU entries in litmus-tests/README.
+-v2: https://lore.kernel.org/all/20260912024225.2872265-1-kunwu.chan@gmail.com/
 
-	this_cpu_write(cpu_dr_in_guest, true);
-	barrier();
+Changes in v2:
+- Use a filter for the P0 scan result, as suggested by Paul McKenney.
 
-  <NMI here is problematic>
+Tested with herd7 7.58 using linux-kernel.cfg.
+ 
+Kunwu Chan (2):
+  Documentation/litmus-tests: Add SRCU fastpath anchor-before-scan test
+  Documentation/litmus-tests: Add SRCU fastpath scan-before-anchor test
 
-	if (unlikely(vcpu->arch.switch_db_regs &&
-		     !(vcpu->arch.switch_db_regs & KVM_DEBUGREG_AUTO_SWITCH))) {
-		set_debugreg(DR7_FIXED_1, 7);
-		set_debugreg(vcpu->arch.eff_db[0], 0);
+ Documentation/litmus-tests/README             | 21 +++++++
+ .../SRCU-fastpath-anchor-before-scan.litmus   | 58 +++++++++++++++++++
+ .../SRCU-fastpath-scan-before-anchor.litmus   | 56 ++++++++++++++++++
+ 3 files changed, 135 insertions(+)
+ create mode 100644 Documentation/litmus-tests/srcu/SRCU-fastpath-anchor-before-scan.litmus
+ create mode 100644 Documentation/litmus-tests/srcu/SRCU-fastpath-scan-before-anchor.litmus
 
-> +
->  	if (cpu_feature_enabled(X86_FEATURE_HYPERVISOR) && !hw_breakpoint_active())
->  		return 0;
->  
-> @@ -157,6 +161,8 @@ static __always_inline void local_db_restore(unsigned long dr7)
->  	 * not be good.
->  	 */
->  	barrier();
-> +	if (this_cpu_read(cpu_dr_in_guest))
-> +		return;
->  	if (dr7)
->  		set_debugreg(dr7, 7);
->  }
-> diff --git a/arch/x86/kernel/hw_breakpoint.c b/arch/x86/kernel/hw_breakpoint.c
-> index f846c15f21ca..68de7ed79d88 100644
-> --- a/arch/x86/kernel/hw_breakpoint.c
-> +++ b/arch/x86/kernel/hw_breakpoint.c
-> @@ -40,6 +40,9 @@
->  DEFINE_PER_CPU(unsigned long, cpu_dr7);
->  EXPORT_PER_CPU_SYMBOL(cpu_dr7);
->  
-> +DEFINE_PER_CPU(bool, cpu_dr_in_guest);
-> +EXPORT_PER_CPU_SYMBOL_GPL(cpu_dr_in_guest);
-> +
->  /* Per cpu debug address registers values */
->  static DEFINE_PER_CPU(unsigned long, cpu_debugreg[HBP_NUM]);
->  
-> @@ -102,6 +105,9 @@ int arch_install_hw_breakpoint(struct perf_event *bp)
->  
->  	lockdep_assert_irqs_disabled();
->  
-> +	if (this_cpu_read(cpu_dr_in_guest))
-> +		return -EBUSY;
+-- 
+2.43.0
 
-If we decide this is how to fix arch_install_hw_breakpoint() clobbering DRs from
-NMI context, I would rather have more generic flag to tell perf that KVM is about
-to enter the guest, e.g. so that we don't have to separately solve the same problem
-for other perf events:
-
-https://lore.kernel.org/all/3585d823-00f3-46ae-a799-b62a95743e76@linux.intel.com
