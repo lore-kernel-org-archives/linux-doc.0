@@ -1,67 +1,67 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77580490BE5
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 15:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAB847D934
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 15:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789399658; cv=none; b=bF3EZVC4xlecysFceocvyKyPYgziRV8WYrQGhmttrBOBDQCC3qWwgeJd68ndM9MYCEtcRU++8ck+usKD/v1Ko3P3bfP8QEwElLnq3DzDcVc3EtUwxv/mp9SHvUW9c66ZU42il3w0PBn1CLPb1KhRHnOu3LwDOKbScTvApeVCwME=
+	t=1789399722; cv=none; b=XRuI2mE93lBw/a+DBHUPO+j4ICj4P6Jc2mRfznWimjrOwdI2QFW1UouiYQTQ1/MyxFqhwmh3MrJcVUJP0E0EFCA61xsxK+cElW4Ge1PAIrsU/8u6+42R7/GV7bK+3C1naY+dOqpZ7ucI5yR7RmCW023aDzquWPBaabxB+3r+KX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789399658; c=relaxed/simple;
-	bh=ZS6o/WSKtEv+tq7yhpuj7HzqHie5XNyiWlWsjAP+xCs=;
+	s=arc-20240116; t=1789399722; c=relaxed/simple;
+	bh=/5GD500jhxrjrGdu3756syYeLWpVMCMPoBV0ibDiq+k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cFXv5jMM8gRnvEwlFd1TIMa4Rv5Crs+5wM5qJXj1qR6CCdAXnCChIh4lfCVnfvIwNE8dnaN7mMHF+Pvwir12/VMkpZk3UHCwB0EW0exH4GWp5ydjHIwG7WHjYTuPPsAuZtz1I317uOp8ODre6IMFjOeTQM3U7wBY1cSyRK/0vk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KJoGEX0m; arc=none smtp.client-ip=74.125.227.141
+	 Content-Type:Content-Disposition:In-Reply-To; b=IS+VgaOVdMVqdsmKAaqrCDoWwkst6mFX2gValyCmQb0sQRRnVlgj7cRnnDlNA9rNUnGOBOGrOFiNvP2Curb1RZ5ytwYiB/yYqsUzx4xnyga0pWjchAybmeQ5GENvHjOtrh9f1fXm4Vf5e1rfpnox2adm3LI6lR2vCMnkoCYSIPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ko2q6DFA; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KJoGEX0m"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2db22383fe8so15381875ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 08:27:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ko2q6DFA"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8692a856865so2592719b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 08:28:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789399656; x=1790004456; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789399721; x=1790004521; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=PfRkneusuDLpVUWSi6geaiexHAd3QjIrlrdoCv9lokU=;
-        b=KJoGEX0msOBtMKlBpSKqAIUFslkNytQB1JCAN+tPMCPdP5KTBiQmYuJRTeaMl6y5XE
-         SXymhypvC7n/GjSYEiAEjgmQ3qtqZBK7xcfQ1oarzEhEjHVldgCp8cXl0bGPXB0kxs5X
-         nAB6E4b+Gaf73gbNTf/oLzUFw9QFDmQVu5tfVCh+HJXx/lqDiw30mhmiNtmL53Wk93zU
-         7uGPANZQaz0cWewU1AxiZW4MYFhN6Tfb32bmxn2pHA+sB/XTELzbHZhfH69abkOhXN4Q
-         hBoHzsJoRsV9/g+Ko7vf0xCgI+fni7++i/L5qlSM4E4T/J0BJpqGxR7k9op9v2HBNNpf
-         dpGQ==
+        bh=P1JKkCEZE/08JY/nIzj8bs0RkzGsOhreN3VjKeZuF/k=;
+        b=ko2q6DFAjx/o+eac30ySmNqgpBKJnOfuY+7jneFK5LLdxpUzTS5AhAX4HMZEJh1kmk
+         rMG3TrXQ3NJKyBrHcaot9gRyZn4M1IOOdA5NOBQCPO+Oc5BsWRNz21VtUDO5s0iJPE6l
+         Y6YBX/AFRCiLXYyXqoSsgW2y21HQLq1OfXgCIts5oxsfh75AwEC8L3HLeqrz45QNpl9G
+         BRgc4Pt4oGPCqXMSjoxyT3UnK4qZ2Ho+92ytRb7BKCkXGAhRWbDv4KpdQ51v8fqQBTuV
+         ppjq75Sn7RQewbguvj8paaVq5H7zytk3n1nDBVYTeMO74V+2h2RRiF4e5hypORlXusUI
+         ta/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789399656; x=1790004456;
+        d=1e100.net; s=20251104; t=1789399721; x=1790004521;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PfRkneusuDLpVUWSi6geaiexHAd3QjIrlrdoCv9lokU=;
-        b=aM140+7+I2lF3B03LuZSIznjV+gSkwmeYRLHWfD7Luz2xltm6SEwbNAV4U3PxrWEX3
-         9e/5IFiSdAkkzVOSVvSXqmQ2crUg6RkVUibNx1UMCGRfIlj2567kB52ONAxVYlMAJt9e
-         pytZF1B1uP3rOwt4TvKug6nWbIwwSv8zodei19YLCfnnRWq/ThqiW//X8OjaPW0qJ4Ka
-         c4WYkh1WTFdn3D1UX2iyWF3ptZMkkmi/kIYZZO655Wc5XR4OPNwfWdfGZ/Cs4kY6X0sV
-         ske9UdpHIiv7PVZyP8yfTNCN+5R6CBsnufsZd/jSLLt9339/8xgDru3fbYJYN531HvUx
-         87Ww==
-X-Forwarded-Encrypted: i=1; AKwUvBy8YvvWTm6Iw1al/3ltGcjAzT3/Bt9GZPh8OsnKKaF1+ruQUOX4Xgv1S1COHGvYLOuZoNCBwasIj1A=@vger.kernel.org
-X-Gm-Message-State: AFuF++nflm2qsDLu7kS0t/Fmodlv8e8GdeZNKKRWusiEhHeM5nRhkkmt
-	0woI0Nl+qq7g+fABP7bING24nP9SzmnX4tRrZYGJ8SHVVk8nnE1Svoh5
-X-Gm-Gg: AYBFou2D9o8tYVvC1Zbk7w1eoxfJcVCmNIMu9dIWo4t9+OZdsmbD7LxxHaSvAd5k7xZ
-	uYHOaMqFZLY8lKdcZO8dGVHYdSU5xFgOe7qCIAYZKP0ZQICxM0kqKQ5zWJx1D2PIOcF+4whc4QD
-	kvQ/Jp9wIseYGwSEVF8TPI4qkqFV3zyvSAN4oYLcNKgQqZblggez76sHGn2sLb8AQDgAxwqu7WW
-	lPkQr3zb+tjyVfK7iKFAZa0kf8R7GBMWT2ULih7GaUHqtWLmTq/L5j7SpzDp2zL+ENleCdU7GlC
-	DUFvi8OEHjHshcXpfaylRY8pIXkCYgScR3P0ZMbqamotC+r6jpXobm1mh+Ia34N0BXU/HJZ/Rvc
-	YzCuoiBzADlQ00nxl6sWKfXMSNwCS4T5ndesIPlvcorCCyCQ7Y8J0MzW6UX+LJOBGh5ab6/997R
-	q/xj7IOxlS2K+cdvD8Hh7bPvH0xCHgMbBwQIpJm8YUaO02r7bBhWxTCBUbYh18yqRakqqVElPTF
-	bWYadpnz1Hb
-X-Received: by 2002:a17:903:1b47:b0:2dd:7549:39d0 with SMTP id d9443c01a7336-2dd75493c43mr14817515ad.18.1789399655793;
-        Mon, 14 Sep 2026 08:27:35 -0700 (PDT)
+        bh=P1JKkCEZE/08JY/nIzj8bs0RkzGsOhreN3VjKeZuF/k=;
+        b=SrO+4drU05bMtxyPJeg8A3/IEnJbvMabVQZEQ9xmLYW/+kV5FPdQYguDGpobD+DcJ7
+         R+gUX4l5ZqP5aDFDNQbVxXUsWUupXbKZtrFMNwloPCwnUexwHSZ4V6bFIWGp4IpgHPTJ
+         l00lAMzsAD05VpjCa67S2UukfRB3E8iJpDqGvB8iZIEVmGrksHdOlXHCE52hG5W9xEq4
+         DE5X56h5Gkn7wcHGMGiBPVnhMc8csMmfsrpCgEQBi8ElqDomhu0Evzy7RsVoZ5O8HdpA
+         eR4SPvoxMfv83xtQ/iqJXs3X8I3agkv3ErevTI8EqZi+tRaB0I/g4mvxP1MmQnlGJD40
+         3OFw==
+X-Forwarded-Encrypted: i=1; AKwUvByKTe+1UGPzd6lcJXjmXJUsWcfVrNge0IcWgRzHe2lq7UAQgZQlfGApnJae2TdfoKaOv21tT00v1oY=@vger.kernel.org
+X-Gm-Message-State: AFuF++k4B8sdAMll7y15VUP+BYqTtPZdEzk+RwGS9nXupi40TYs7TyiQ
+	TIpDVk3ruiu95BQknfHDUCSAkPVlTv9eJkWI5HACFjRt7i5aAuTplido
+X-Gm-Gg: AYBFou1dUua/vS9kEK7tEl4+HTcE/2j55wyl5zVk12KpBu3nSRWqO2OqvR49i/8ld1v
+	0JKH1HRhOxM/f09kv37niYJSI7NGJ6lXnqkE5mqjNSuXiDHSLP7EJLyanQGdLpkhAMtVS/joVWN
+	0gEgtnjFAGvnYPvxz+Vbrum3I59lYM86jjAZ8t/Im13WmHsZTDf9fFUwwdeqbhSGxe76RoJpa4i
+	MJbrSXmGDVWAWRsUG2A/8MVlAnlNVIjNE8hUHdp4uI2umWtZs+gtH9avE42Ztx5ba0cDuoHqUDE
+	9YRhKczXHRjkq/tp4lEe5PGVr5Gy8dDKxooah6ww4t7dJdqKta7nYRKjNsL1msqlqANZfezcULW
+	l+EhJIjn3kiPpS3HpzJZuy2A5F3Asv4f/CJHbkNqCFgyhjduEkFzVcdLI8YGhUVQszcr4ni3Ce6
+	Y1Y8q6SfNxvD/xz65+vqBNZTtNlfair7M8JSAspAIuFEJq4wN4ALumFM6RmUHScRSrIp8e2VRku
+	Ej+NOQ5YTGj
+X-Received: by 2002:a05:6a00:1797:b0:857:72ba:ff12 with SMTP id d2e1a72fcca58-86f865b48c2mr6631339b3a.26.1789399720794;
+        Mon, 14 Sep 2026 08:28:40 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd2ce92e99sm51522035ad.25.2026.09.14.08.27.34
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86b2a5c052csm4929479b3a.58.2026.09.14.08.28.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 08:27:35 -0700 (PDT)
+        Mon, 14 Sep 2026 08:28:39 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 14 Sep 2026 08:27:34 -0700
+Date: Mon, 14 Sep 2026 08:28:38 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Troy Mitchell <troy.mitchell@linux.dev>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -73,12 +73,11 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Randy Dunlap <rdunlap@infradead.org>, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
 	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v5 3/6] dt-bindings: hwmon: Add Sensylink CTF2301
-Message-ID: <429a3f35-2ef2-4e92-84e1-be605dfef31f@roeck-us.net>
+	linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.de>
+Subject: Re: [PATCH v5 4/6] hwmon: (lm63) Add Sensylink CTF2301 support
+Message-ID: <db900549-54be-456e-9fae-5f04c69e7d1f@roeck-us.net>
 References: <20260914-ctl2301-v5-0-b44b81cd2c3c@linux.dev>
- <20260914-ctl2301-v5-3-522def70acb4@linux.dev>
+ <20260914-ctl2301-v5-4-522def70acb4@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,20 +86,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260914-ctl2301-v5-3-522def70acb4@linux.dev>
+In-Reply-To: <20260914-ctl2301-v5-4-522def70acb4@linux.dev>
 
-On Mon, Sep 14, 2026 at 04:18:03PM +0800, Troy Mitchell wrote:
-> Add the Sensylink CTF2301 temperature sensor and fan controller to the
-> LM63 family binding. The chip follows the LM63 register model and can
-> provide a thermal cooling device when #cooling-cells is present.
+On Mon, Sep 14, 2026 at 04:18:04PM +0800, Troy Mitchell wrote:
+> Add Sensylink CTF2301 support to the LM63 driver. CTF2301 follows
+> the LM63-style temperature, tachometer, and PWM register layout,
+> while using a 12-bit local temperature register and requiring the
+> ALERT/TACH pin to be configured for tachometer input.
 > 
-> Do not provide a national,lm63 fallback because the CTF2301 is not fully
-> compatible with LM63. It uses different conversion-rate encodings,
-> extended local-temperature registers, additional fan lookup table
-> entries, and device-specific PWM and ALERT/TACH configuration. An older
-> LM63 driver would therefore not operate the device correctly.
+> Register an optional thermal cooling device when the device tree
+> node provides #cooling-cells, allowing thermal zones to control
+> the fan through the existing PWM path without changing behavior
+> for existing LM63-family users.
 > 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 > Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
 
 Applied.
