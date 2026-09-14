@@ -1,170 +1,254 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C2B41D123
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 21:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789422292; cv=none; b=mvnuGVT3WoxomuGHYWelJsWCpEjaNb45S8p8oj47kqMC3n6KS4bm+hSyxNupUAn9DlNnOIdV2JqeELdzyto8UqzfoFa8r0OoDQ1kSqXHSwUKjacGM/fcf0jBRaOwcS3todJOh418TPWAvhvBMfQPMpruhr/SLRKAf6uJc0KYzZI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789422292; c=relaxed/simple;
-	bh=jq28sXgMOG83pqsfn4DsTwpWb6M2x0VMwZWrEfMyIQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AD+06ze+9Z8r09YrwvJj4weZP2fiSWOPTiH8ZSjPu7cOJwl9+wABVduYQxxF+LPVgkyI2NFrJNEKu4ZisGcCI7plfV5Srrg1TdNCggRp66P9NEYV+O9ZHmfAOcwxwGTuIdlw5FAwQylb7F/bWhGovi0cxu60dSBHH+HKPTgeSEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F5k0jKWA; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19B03E5A0E;
+	Mon, 14 Sep 2026 21:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789422632; cv=fail; b=uAZCkuFKLV6CpFRNA7ECu7098Rpk4t+oULMpmUmWjv+GLDmHjrd7dxGmD5FNoVEMMNTQOzjV2VR4q+nPKtbK0rONVFpcCv8BS43+QQTabBAkBvWmDPQnDeNy+LXxLOzqMiFhz06sK3HoDECn9UZsrCHlm7/MZ3EBGt97/mqQv0s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789422632; c=relaxed/simple;
+	bh=8huS7A3BYDLedFsQykGTw3czDH19ZwlJ+jk3LWobCdQ=;
+	h=Message-ID:Date:Subject:From:To:CC:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=i5sYiVs3huI97naR4EgH8O7IbLSohMcBADwPxmJIoCTypvhEfhAsY245VZoqRGJ/jfoABnfHQqb78TOXAtA+QzhJX9/uR56XXAV20o4vUk1CAWBzCuvvYmFhDx6hhCWjnTAQSFYao43pmL8d4ScN+RuMBr3+DhHua29V88jXM2c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1OaUKt9; arc=fail smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F5k0jKWA"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49e78adf099so20513485e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 14:44:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789422288; x=1790027088; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=MMWuFoZNpTbVauKFWQOZe8Q8+oQNvVLrh3IMG7Y4F/I=;
-        b=F5k0jKWA5V7fsrPZW1nrHXuRGeJXyZ58u3g3QbvJYBLesJa7CsHFAcUr8F6NDqwRZg
-         rldl7fTLMER31itXf6qPIcl5CK2PeJI/mtnDyg4h3IsTrxctV/75DAFB7xz+71jc8jHI
-         FTSPkI6hSWQePq2HVJovw4Y0Qhbs11GUMbzc4npv+ply1DiqrpenWVxLy0/mp0QHhPPA
-         apF+kSzyr+CS5A2IMOgQlxZ4/G47QCoDPsQezvtRAYpKyRE2qIQln9KxX5iMdnkqs9Z5
-         4igLWbBdBqy8XCJkGoUoOGIncMjtJ7IPRa+WaIklABXnV2vaoqDENZuuSoEbc8ciwmD3
-         W5cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789422288; x=1790027088;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MMWuFoZNpTbVauKFWQOZe8Q8+oQNvVLrh3IMG7Y4F/I=;
-        b=l3TEyU+6d3YCPcjXXC6eEmO5rtsxRCea2aXm/Vhdy21AORXc3CaL68sa34HXTiDlyD
-         GMZ6ea1fXWsYDXQoGFbb001FaJA0bZjL2WleQx/0omArRfykNMwOky6+bYTdZ9QdQb02
-         k0IsoiQ6aepp2JOWC4uDB+KNqAtNn7X2jRcfj4L9yUokFE5UeXQj4LVVF7gqvRtjroHZ
-         zPrgeDEKJVt+GAp+Y3SgG/BQowCYhVW9Gg10aNatYTrUSHmAaeKnocxKzF8LpRSIQKCM
-         KrZsBY0diIiHckMxAhoIoyu20MCSur1DlJqhJoLdOOTau6O6FRTUgIfY4wYTEr+NkenI
-         gfgQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxmfv7zsP8EBI88eQt0iunQF5nj0+p3TqWtqtlHMz86VvjLiOMn6ken/G7GQFIayQjE06TCYwFuBDY=@vger.kernel.org
-X-Gm-Message-State: AFuF++mDAJznyq661FRjZyjZ7at+qAiD5YNSMt10IbnrxKTgEKISD7P0
-	pfYor7QttdoDlESFVhMQbEaWO0Li3mzy2oQDf7aKrFVfbHCKJ00Tn99h
-X-Gm-Gg: AYBFou2pwitkCtPs68COmLUFThEg4AkO83WVeYbnMGrew687HtKOrI4zfmz+h2MJyRm
-	Yix+iJuEDcd4TrXwVTXDNlYRMPVi9OJ86x5zaVxl65T34VG6fNOxedEeyZOE1AXmnuYKJYEwo4F
-	zX6DA52YYzyMAMKCZADk04iXTEfRAeVCkQeDJ786YLyaEAxUHVCFZBN0N6hePns2rM2iZSc/inH
-	djxmetWT6UE43DZYD7h/MH7LP+ds/arcU+Ki/APYyle1+fJdWXvq7sRrPfC8yqh2ahY4ji+hwap
-	QVGoaLnvlnh/mr6DMeXS7j5YHKxvLQ98gd0DwLJce0k8i9fz4dNWITQEBpq+vbYscu8d6zL+CEP
-	MEI/x7oTNcop6fYfS6jwnz5GfzNBxfOAgQNjzHQ4lGma7wdC/sW29eGB7Ijl/vY7gAgOZhzMNOW
-	kz29nhLuyrYGzG/WML7xKeBA1kX6xQBlJVoDOJzmNsHkFgy65V26uxAJzbDLXAv+z9TsHzXnCk7
-	GOX6bKDYr4JsSYJWAa0yRh/rvk5J+noWE7E
-X-Received: by 2002:a05:6000:454f:b0:487:36a:c870 with SMTP id ffacd0b85a97d-487036ac895mr3178523f8f.11.1789422288113;
-        Mon, 14 Sep 2026 14:44:48 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb2ed0fbsm29878025f8f.3.2026.09.14.14.44.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 14:44:47 -0700 (PDT)
-Date: Mon, 14 Sep 2026 22:44:32 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, linux-kbuild@vger.kernel.org,
- x86@kernel.org, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Courbot
- <acourbot@nvidia.com>, Alexandre Ghiti <alex@ghiti.fr>, Alexey Gladkov
- <legion@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Andreas Hindborg
- <a.hindborg@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann
- <arnd@arndb.de>, Benno Lossin <lossin@kernel.org>, Bill Wendling
- <morbo@google.com>, =?UTF-8?B?QmrDtnJu?= Roy Baron
- <bjorn3_gh@protonmail.com>, Boqun Feng <boqun@kernel.org>, Borislav Petkov
- <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Danilo Krummrich <dakr@kernel.org>, Dave
- Hansen <dave.hansen@linux.intel.com>, Gary Guo <gary@garyguo.net>, "Gustavo
- A. R. Silva" <gustavoars@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, Ingo Molnar
- <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Josh Poimboeuf
- <jpoimboe@kernel.org>, Justin Stitt <justinstitt@google.com>, Kees Cook
- <kees@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Mark
- Rutland <mark.rutland@arm.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier
- <nsc@kernel.org>, Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Palmer
- Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>,
- Tamir Duberstein <tamird@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, Will Deacon <will@kernel.org>, LKML
- <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-arch@vger.kernel.org, llvm@lists.linux.dev,
- linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org, Jens
- Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH v2 03/21] kallsyms: output binary data to speed output
- and kallsyms assembly
-Message-ID: <20260914224432.7ed40d48@pumpkin>
-In-Reply-To: <cda4d320-599d-41c8-a37f-827688b552f9@web.de>
-References: <20260914-build-speedup-v2-3-39817ec5db23@kernel.org>
-	<cda4d320-599d-41c8-a37f-827688b552f9@web.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1OaUKt9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789422631; x=1820958631;
+  h=message-id:date:subject:from:to:cc:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=8huS7A3BYDLedFsQykGTw3czDH19ZwlJ+jk3LWobCdQ=;
+  b=B1OaUKt9qjTp8mgtWM7WT9DysrAhekPdebz5grxWULAYeiYwp843TwLr
+   0nKOeVTAZK/HjfYDEtODGufcPEyi+AiuBhPhQ/TalQGaL7h96uH7/oBxz
+   58ede7XRg7wHsGRjDzCLm6qba8dr+8CPtMhhWxsXtvehFai4xfXqQv2x5
+   K5DL2c4z1yoswiA+fYzqD/r/A1xSzuBUrdxgcHyrBX7/nE3q0d2gPx3vO
+   anXmnBDHfztTbV4BGF1QBRUHL2Qxf2v/WK43yCzQDyi/XSpankYYrwIq3
+   tiEBrSZnM2DQozUr8qYFzB+j1OrwDP/vwoHn77kOLE5dy2eV9+bKqnXxY
+   Q==;
+X-CSE-ConnectionGUID: dxyduozlQoa7C9oxqJqkcg==
+X-CSE-MsgGUID: 7qE7K8R6SoaBsjSVYkLvIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89823705"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="89823705"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 14:50:30 -0700
+X-CSE-ConnectionGUID: i42pwL1NQZWmX5hkGuizxA==
+X-CSE-MsgGUID: qyKj4p+ZRBSPhq17DBqMqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="276522582"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 14:50:31 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Mon, 14 Sep 2026 14:50:29 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46 via Frontend Transport; Mon, 14 Sep 2026 14:50:29 -0700
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.1) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Mon, 14 Sep 2026 14:50:28 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=H8OueLJOR4qJitqqlYaNA278rh35q71/29TZWEyYJdmzqUjNMQpinb4cjPFHwHWSgmLCwJDhdP7mJYKNq57yP6plGMvC9SHYB+D6731DW2ISyQiRbMAn2X9sKjMV7EbXoHkXNdx/heIBvUu2SmRe1bCjS8xfxLrL2f6fV6R4BsBD0iHDyOrqiioicSrAXqRaLEqeoa99skBk3FgBRa8TBt0SBNsSW3DVkCwqEJhD1dcpmYz/ncv6pd+H/fR834+dcgWSJR2R47IF8g9djEDHsp2rKEayXd+Tdg4XSZkmxe1l8sem/bBJFEpwGOIfE9n/lCMsSCPVANFKfM4z/5yrpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5BZH4QSKWaVMeuvWpaWf7kkT0xxgeJeXxNdCK9cj8C4=;
+ b=y57wtqo/LzG0+ux0QOjGbxax0qOucyWM80lXlLmiV2sOWnwoA7Y0zOarAcUH/W50MVgh9BjXhsgWZbnlfpBuE5m4Jw/P0ugfN+EdkV2yU2FZlLqm9Ip1WqjH7ohQmO2mmBgY70ZOz0+WPWaQq34P5JLc/BYwSdG0vROIQDKlY0mZ5ZRzRI/SFNnHzCt1SfZpeYISa9y5fRaxvUOXXe7lRSi8TPKveYgA6He+MNYAkI5NelqrTvAhczxhAxHvL37zN+Mu08iJEA0mDgbpu4fVRTzc8NOQNHptG9vhmfUEFyu1wZ+eBQWHbaz6xyrEclHaDJ8YjXT1mJdfe4lF0XxoDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
+ by CH3PR11MB905664.namprd11.prod.outlook.com (2603:10b6:610:363::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
+ 2026 21:50:25 +0000
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc%5]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
+ 21:50:25 +0000
+Message-ID: <dbaf3440-9d10-42a4-80fa-677451085198@intel.com>
+Date: Mon, 14 Sep 2026 14:50:23 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] x86/resctrl: Fix ABMC counter programming for
+ extended counter ranges
+From: Reinette Chatre <reinette.chatre@intel.com>
+To: Babu Moger <babu.moger@amd.com>, <tony.luck@intel.com>, <bp@alien8.de>
+CC: <x86@kernel.org>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
+	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <dave.hansen@linux.intel.com>, <hpa@zytor.com>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<eranian@google.com>, <peternewman@google.com>
+References: <cover.1788545152.git.babu.moger@amd.com>
+ <9e85f67add9ac84f55e4b0fced92ed8994f8419a.1788545152.git.babu.moger@amd.com>
+ <afd86b47-d508-4739-ba6f-fd1c341e09a8@intel.com>
+ <10240e0e-6879-4378-8763-cb1a9baf1f2d@amd.com>
+ <30dc55d0-511d-4f5f-92df-5dd0add354a2@intel.com>
+Content-Language: en-US
+In-Reply-To: <30dc55d0-511d-4f5f-92df-5dd0add354a2@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4P221CA0021.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:303:8b::26) To SJ2PR11MB8370.namprd11.prod.outlook.com
+ (2603:10b6:a03:540::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|CH3PR11MB905664:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c202105-2e8a-4b7c-1707-08df12aa2f07
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|7416014|376014|1800799024|6133799003|10067099003|4143699003|11063799006|56012099006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: GEqo2UvuvyccUSJ9dYY6JyJp4aDpsJx6F/OtKlksZstrZfB7A+JcC/QXyLc62n8U7Aa1/ECezzEfBy2/zbqUicbvotWpn2E7k+pPicGIeWpcBKGW6idEkRZv3x9ecV3pZyjjX51sHGJnitLR+pJ4FgAxnmkvhS4SWpxkZoWQhZVkh/k5//HrU69CoqomMI5dg3g/2LE4zzLKTw87vQa1euMU4kq4BugOTskNeMDPcGArNQ1NiBgjm3lkjTMM2660FyKviaExsDZOyhj4W3Ong9eXIrqnjf39uaA2EYzc49TX7y9HS9JEAlndhsYOx616LtVYy1bzyPovUSbifUveQYF3oUTm5/vEEc12nKvkP57N5uK6lafXiRLbtjqvoBFkxGkICakVYfrtVhSP5UwZtp9yFWm32AyWV82Js0G3XWXh4TBVuaWUMg3nAr8cRfvrsa4j8HriOCc8VsvEFIAFwqLu0dz0ZfLuB0Ctb3+BW8zCGbfG3WI5R89Ott/jKk5OdzSNmF0aNXHXOwDFAVwY+LY9cYwaocRhPPsedMrB9iawof94BInCt1ovbfWGPbxhs/SeV5nTQIhhoWpZZq3VVe+7opVA8OyMk9A2752mkpIUOmEv8SuKhN4EUiWcU5Or5rAXctXWt7fe0fjkIDmvRkwsGm91ViWTuNvFZLJ0zjE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(7416014)(376014)(1800799024)(6133799003)(10067099003)(4143699003)(11063799006)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bE96TW5pSVJCRnU3WnlwU1MxUWJadW1UYlVSYTlaRldoUURRRTVXWWJIN21K?=
+ =?utf-8?B?d0loRk5KS2tjbTVwQ0d4bVhya0toRnZEUzBPejZmY1E3VTA5T3pDK25qM1ps?=
+ =?utf-8?B?NXVYK1BPY1B4SXVPQW1mekVwOU5ySWVXUDFGbWRkTHBscEtlMnRsMXZYQzJx?=
+ =?utf-8?B?VHF2RXllREVYNEZ5SjllTUxhSFlaZHJvSkhEQkdRbk1NeWYwNG44WTZTRjlL?=
+ =?utf-8?B?VkdJa0o2K3F0OFcvazhtQVFYUGNCT0JrRnRoNmNFSUNyNXhrWXYyT3ZRR0dq?=
+ =?utf-8?B?ZnhGejhrMDRIdEh1WnhpS0pxVmRlY0xDcTVQYWRnNzZvT0g5bjJ2QjlYUWFm?=
+ =?utf-8?B?S1JIcG5ZUWc2ZGRQY1hjcVpHTjdzQkJyRXQ5QXovUFdJTXQwM3BpTDhUcDdl?=
+ =?utf-8?B?Ym1NRVpZRFZ6b1d2NHhWWlo5S2ZsZWFuUmRLMUxvMG0zUmlaU2hkVW1iK3Av?=
+ =?utf-8?B?RFp5MU8zZGFFbVJuTFlkMUFqMXhxd3diKzFZeDdnOVlUdVBNZld0SHgxOWY5?=
+ =?utf-8?B?cnlSS3JaY2kzWkpiUXF3ZXRQYm12RmNjcVo5U3BKUHIxQW80aWJwR2c0QXkr?=
+ =?utf-8?B?RHN5cXVob3dTNDhuU2ZDTE55TTZ5RHFUc2ZBT0ZwV3lWMm1ybEc2ZnhCTjFU?=
+ =?utf-8?B?REQ4YkxmQnVoWU1aUEpacG9oUHlyZTk2NFcyUzliMmR5blVzMEd2a2l2YXV5?=
+ =?utf-8?B?QUt3OHNXWHdSbWdJalB1dldWR0hneUx2NVpIUFZxV0ttZ1hBeUxXQWRvWlFw?=
+ =?utf-8?B?UE1qNWxHSlczUUl0YUw3Wm1wZ1JvcUhyaHZiWGdEK2l3eS9mRGtqYW01bGZK?=
+ =?utf-8?B?Wittai9laU52bHBsSGZKalJnWWhtcXhwMUFyMEZ1VmJXRmV6R05kMjBuNVJH?=
+ =?utf-8?B?aVVsRFBhSTlsVDJKTEIyT3lucElNd0pyN1BmMG1yLzVGcU1VSkdMRm05Mm41?=
+ =?utf-8?B?K3hpbjdvd29aUld6a0g4a3IzVUtNN0s5TUpkNnBpanVZOVJ1SExtL1U4Z0NZ?=
+ =?utf-8?B?QXBKK0lwNXVxMXRZbXpVdlFUVkRYZ0J4UVRtUVU2MVozQU5FWGw1WUlhbS9X?=
+ =?utf-8?B?eXFpc05MczNNcWNnTUFHalU0SEtQQ21LcHRialhYSnNjODI5OGo2OXhZNUNQ?=
+ =?utf-8?B?MmV3UkoxT2d0OVp3eUkvVTdUSVhqYkhMd29BaytDK1JuQVp4RUNoM3pYZk5Z?=
+ =?utf-8?B?aHEvNHBxeDM0WUNlV2pUYzNFUE9sWElFbXVaZEJUMmliVHNLUjBqUGtuNmMy?=
+ =?utf-8?B?VmJqbHJBSzNudUdCYTYyc3VIRXNkeldjVmkvaG4rdWFsTTluQlVRTktOZm5t?=
+ =?utf-8?B?eEEzTnlWaTMycjVsRHFQY3JlQlB4ZmY5S1MwWEtGV2J1YzVpdVFMOE5XUHBS?=
+ =?utf-8?B?eEZyR0J6cys5OVhiT0lMaHJ5dks1Q2J1Um11Z3UxRU1PcHRXU2ZtTnFzK3cy?=
+ =?utf-8?B?NlBMYnRVam1YTGFlQklCK1diVFk4anhncG5mMkE0V3RGbW1RTmlsa3Z3enZm?=
+ =?utf-8?B?dHlUTjZuM05rTW9tayt1cFNlYVdZOGpTTzh0S0wvTUVEMFErQkozQUlmSTZC?=
+ =?utf-8?B?TlJWOUxSOVR1UjRiUDI4aXd1THpnYklZNkNDM2hNQll5N0pIY1FGVVhTRjEz?=
+ =?utf-8?B?aDRvTEZmandtcWRZT0g4VFhhVkloa09OQjQzbTc1VkZzTE1LM21TbFRMZTlH?=
+ =?utf-8?B?TE4xUFVIeEUwT3FuQ2FvbTVVNUd0eXp1RlZwTVNIdXpxT0VYcmtObXhRZVdq?=
+ =?utf-8?B?SDdGY29GWXRkaEZKZW4vVVBuYzlFbnROeU02ZEFIVFlPU1hldS81Nkpmdmt3?=
+ =?utf-8?B?QU83ZUI5bnNRSFZQOXdwbVVqejhTYkl0eXk0S2tqdXhmWHFCM1ZEVS9MMHFL?=
+ =?utf-8?B?NWtsZmFoRnNzcGtpNnZzTTYyMnBmemU4L2dMeTViVDFnSzlPOGhSRGhmNFVj?=
+ =?utf-8?B?ekd6SWwxV1RrYlZYUkhPclM5NmtiUjZGVWk5cmxQNUhidkpqek1oMnA3c3Br?=
+ =?utf-8?B?cjZOZmRMQk8zRnB1MlVQNS9kRW0rM1RLQUtmMWJhcHdyMEFCeXRQQ1lCa3RJ?=
+ =?utf-8?B?SjdudGxwamplVFVCN25OM2ZXL2RoalpEVXdobmQ5LytTS1QzS0NXRUNZb3h5?=
+ =?utf-8?B?bHpLRDVzL1dLeVJyZ2xOcEc0ZE5WTW1IVThqYTFJbE5KVFNuVlYyMktDOVZR?=
+ =?utf-8?B?aXJ5cm9mOG94eUhFdWVNWlMvQlJ4d1I5SWxiOWFHaElpdXkrZHgzbjRydEpS?=
+ =?utf-8?B?dHU0elVJQmQ1VVVLWVJHck54dWxqQ2FxRkQrV280a01Rcmg2Z1BLZzF2RTFM?=
+ =?utf-8?B?VWpzdXZpeE45T2l5bnhOcjdrL1VpWnVZYzVNRy9pTDNQUTNsMUZMSEhLaW0z?=
+ =?utf-8?Q?UmKTu5uGjV6N+5FA=3D?=
+X-Exchange-RoutingPolicyChecked: VXbrdzvcp+OuqkGWv62mXJBoGmzJtKAQnb/8WDRssA8MlpjaZm44PtsFXE7WD8XaYZMmmcrRBWtwMTUGmnI6bqzTptw8tVpj9FBBxK259djjCyUonjVqx3x02SV/eCHd55wVe+bICXKiYq1rOIVLQbvNC/LjbeRQ7ZZjKGKyPtzZr4WopBsNjo0BCQ9kJ/gk89VR0gaJm/B7TMZhKx6aHsW6jPEGCV6mHkKJnh2sNy5838d9tSZUCM7p+W7cp3IzAPP95ygLzfC87fHtXbt1CuF1HuVH8Co4fIwNvIrMDPiMgNIdY0TqH8q6Z0D5IWWmcLmd+aDkIjOQHlo4FZelLw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c202105-2e8a-4b7c-1707-08df12aa2f07
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 21:50:25.5655
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fB5ZpSHWeixkMTIr5LpqGCThXY0nDo4KDqRk4rkTofXwmKCKsgtbdP4f36FufGamZV8n/V08OGhmppr2ft6JTvzSyBmmtF/8PUIwNnhcMCA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB905664
+X-OriginatorOrg: intel.com
 
-On Mon, 14 Sep 2026 22:16:12 +0200
-Markus Elfring <Markus.Elfring@web.de> wrote:
+Hi Babu,
 
-> =E2=80=A6
-> > +++ b/scripts/kallsyms.c =20
-> =E2=80=A6
-> > @@ -413,26 +438,24 @@ static void write_src(void)
-> >  		/* Encode length with ULEB128. */
-> >  		if (table[i]->len <=3D 0x7F) {
-> >  			/* Most symbols use a single byte for the length. */
-> > -			printf("\t.byte 0x%02x", table[i]->len);
-> > +			fputc(table[i]->len, out_bin_file);
-> >  			off +=3D table[i]->len + 1;
-> >  		} else {
-> >  			/* "Big" symbols use two bytes. */
-> > -			printf("\t.byte 0x%02x, 0x%02x",
-> > -				(table[i]->len & 0x7F) | 0x80,
-> > -				(table[i]->len >> 7) & 0x7F);
-> > +			fputc((table[i]->len & 0x7F) | 0x80, out_bin_file);
-> > +			fputc((table[i]->len >> 7) & 0x7F, out_bin_file);
-> >  			off +=3D table[i]->len + 2;
-> >  		}
-> > -		for (k =3D 0; k < table[i]->len; k++)
-> > -			printf(", 0x%02x", table[i]->sym[k]);
-> > +		fwrite(table[i]->sym, 1, table[i]->len, out_bin_file);
-> > =20
-> >  		/*
-> >  		 * Now that we wrote out the compressed symbol name, restore the
-> > -		 * original name and print it in the comment.
-> > +		 * original name for the comments below.
-> >  		 */
-> >  		expand_symbol(table[i]->sym, table[i]->len, buf);
-> >  		strcpy((char *)table[i]->sym, buf);
-> > -		printf("\t/* %s */\n", table[i]->sym);
-> >  	}
-> > +	write_incbin(out_bin_name, bin_start, bin_pos(out_bin_file));
-> >  	printf(".size kallsyms_names, . - kallsyms_names\n");
-> >  	printf("\n");
-> >   =20
-> =E2=80=A6
->=20
-> I suggest to avoid return value ignorance a bit more.
-> https://cmu-sei.github.io/secure-coding-standards/sei-cert-c-coding-stand=
-ard/rules/error-handling-err/err33-c/
-> https://cwe.mitre.org/data/definitions/252.html
+On 9/14/26 2:30 PM, Reinette Chatre wrote:
+> On 9/14/26 10:17 AM, Babu Moger wrote:
+>> On 9/11/26 17:03, Reinette Chatre wrote:
+>>> On 9/4/26 11:06 AM, Babu Moger wrote:
+> 
+> ...
+> 
+>>>>
+>>>> Fix the issues with the following changes:
+>>>>
+>>>> 1. Update the cntr_id field handling to support the full hardware ABMC
+>>>> counter range and ensure that counter programming does not interfere with
+>>>> unrelated counters.
+>>>
+>>> Sashiko's assessment that this statement is not accurate looks correct to me.
+>>>
+>>> Looks like the enumeration needs a check to limit the number of supported
+>>> counters if the hardware supports more than what can be configured? It seems
+>>> awkward that such hardware could exist and unclear why the spec has a mismatch in
+>>
+>>
+>> You're right. The spec overlooked this scenario. I've notified the concerned team.
+>>
+>>
+>> Do you want me add this check?
+>>
+>> -               r->mon.num_mbm_cntrs = (ebx & GENMASK(15, 0)) + 1;
+>> +               r->mon.num_mbm_cntrs = (ebx & GENMASK(12, 0)) + 1;
+>>
+> 
+> Yes please.
+> 
+>>
+>>> the number of bits here. Even if cntr_id expands further to use the remaining
+>>> reserved bits it would still not be sufficient to configure all the numbers
+>>> that hardware may claim to support. Are there perhaps more field width changes
+>>> in this upcoming spec update?
+>>
+>> Two fields(ctrl_id and bw_src) in here are changing for this register. I dont know about other changes yet.
+>>
+>>>
+>>>>
+>>>> 2. Expand the bw_src field to 15 bits.
+>>>
+>>> Do the comments describing the RMID field width when reading the monitoring
+>>> data (__cntr_id_read() and __rmid_read_phys()) need an update also?
+>>
+>> The RMID field width is expected to change. We can revisit this when that happens.
+> 
+> 
+> This patch is that change, no? bw_src is expanded to 15 bits, and bw_src contains
+> the RMID.
+> 
+> This is the new RMID field width for monitoring configuration, after configuration
+> the counter needs to be read for the monitoring data via MSR_IA32_QM_EVTSEL and per
+> __cntr_id_read() the RMID field is still restricted (although not enforce by resctrl)
+> to 12 bits:
+> 
+> 	* 43:32   RMID            RMID or counter ID in ABMC mode
+> 
+> resctrl also supports switching between "default" and "mbm_event" mode and there
+> is no support for the number of RMIDs changing between the modes ... this reading
+> an event in "default" mode should support the same number of RMIDs as 
+> "mbm_event" mode and we see in __rmid_read_phys() (although, again not enforced)
+> that it supports even fewer bits for RMID
+> 	
+> 	IA32_QM_EVTSEL.RMID (bits 41:32) are configured with valid RMID
+> 
+> Looks like after this patch there are quite a few different field widths for RMID
+> between what is documented, used directly, and actually enforced.
+> 
+To add to this it looks like PLZA currently supports 12 bit RMIDs per
 
-And I suggest you do some real coding...
-The error is sticky and can be checked using ferror().
-Code that looks at the return value from fprintf() fwrite() etc is very
-often broken because the only time they can actual fail is when the
-buffer is flushed during close.
-Adding error checks to every call just make the code unreadable.
+	https://lore.kernel.org/lkml/702b88901bc62f07829144a96cc887471b427da8.1787772750.git.babu.moger@amd.com/
 
-David
+I assume this field will also be updated to 15 bits?
 
->=20
-> Regards,
-> Markus
+Reinette
+
+
 
