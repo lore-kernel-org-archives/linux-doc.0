@@ -1,38 +1,38 @@
 Received: from smtp1.cs.Stanford.EDU (smtp1.cs.stanford.edu [171.64.64.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6140C3AFB1C
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 23:05:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF3D3F23D0
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 23:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=171.64.64.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789427147; cv=none; b=Cl9Ent7UUtQJgRb1/qYtEB8mosmQPN+v/9w5QQADr8KoKEWG+/rotOsG5pt4B0n9hgYYrpkjovndu1gFMyfZgd9YOD/fY49OSYuwF7HoIYq24o9qkpDzviI1hwN/+PqKYXK1UHPlx5WhEzQ0OrrMvqFenLJ4M0xqV56WPmDb3Ek=
+	t=1789427153; cv=none; b=DoA4S9uhqZ0ZKTLLBY3K5hu2ZxK8AsbmEO8P4grUPaGfY8+VWpeWRW0kRyqeo0i3X1BFmnUbtZZ8Rxr7yKpFH/LWR5kzVJfF/oMZ09/00xCIfjl0XnGCSngupPQo1umAYgNQ4Rf4oDbfmxi+MR0q7e9Gtmms9bbomQLGtdt5Syc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789427147; c=relaxed/simple;
-	bh=P2vh+m9vhD1yAdcrkyN5OCEwpU4OB1uR33RNwjIcCqk=;
+	s=arc-20240116; t=1789427153; c=relaxed/simple;
+	bh=2KoHPjsAHxPo3nIbxfVJxqkhA+ZJXDX3Ce7FCTkVtR4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aLKcwr/4XpEyhexQY3HS3q+MlMYGGcW5xCeRLLEmnt9wsVFdmgX4iRyM8lfb+0sVc5sRt8wouzkJzF8Eq0cpDqDPhwuo5XhdK3ZK8Tbnw2Q3C8F0eDuhJsdv6qqFY+FccUGLfPUuNrnNXZDQvJzht2YGnmgA64+taA/emvvX12w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu; spf=pass smtp.mailfrom=cs.stanford.edu; dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b=ZH6wK7ta; arc=none smtp.client-ip=171.64.64.25
+	 MIME-Version; b=cnm+OMvG3il/wX+Dq5QqRDPQfyiJlFR8e+32w8Q12bdzWP/h+mf2wH0mWdiABqFJUQ1QfszF9XDuAnH+U/Xc+BWAk1ggD6Mmkzs66DnbS1MS+6cXSW71tIkLHjBrnMc2m46thLnCpCsh4pxitpH9vzyMZZAQX+SBja4n0Ghf5LY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu; spf=pass smtp.mailfrom=cs.stanford.edu; dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b=S/fRkX/+; arc=none smtp.client-ip=171.64.64.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.stanford.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b="ZH6wK7ta"
+	dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b="S/fRkX/+"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=cs.stanford.edu; s=cs2308; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=3iVwswjto9RaOm5tJDfms1F+b1ffPI54hyW7yLXRnjg=; t=1789427145; x=1790291145; 
-	b=ZH6wK7tav8iaHq5/hhNCu2L+W0naQCz71O1XlxjyB75y4oA+FyB7VBamNhZ9X5VUp/fqW1cWuno
-	wtWmktOdJuDk1s7peoOim63uVdkdLqdOwVtIEPHJ+CH+hPGfZl9VRInWUXDY2s+YyONVD3w6Qrah7
-	U3gMhqgx2Bda/p0q5QtxDrPw6vsgzSkWSAz6JwB2WgpEDEP+/+JxbHYl+Yul0l7PTkH9I75kzZstW
-	AFKOA16aQBu/VvdT3gDEXqs8G18f32cYQ430yz8bH00/h9mEoNzHsfIRllQXYl9Q/88TrfIkwFxQC
-	Z/grueCZ3aYBCKiGENJI6XaLG0EG1IjQUXWQ==;
+	bh=bw4oc5DLF9c3gOEPfGZiQT1lxobwSrd7ZD+ekmX2O7E=; t=1789427151; x=1790291151; 
+	b=S/fRkX/+Tk5Gnnd0su5EHxEBwq4AY9JisD4eFp73hhMzqSec8W5VOtkw8VCllrnt7QB2IS6HdPn
+	poZemP+2/C41Iza+MGTyGLXATRfvXVLxMz8yMISqF8RkisztfAIgSXIYOiQqwneEcD6GlDDHvUHf4
+	0BUC4SybCFdYIu4IuTN/5244Qy+CzziDWndwervvgilWfYhpK6DI7DUTNiQ1w5Zv+TqqDPHSw4twl
+	glsechPJAT7q7FqZz8uu/AB9ExGZI89IktGnwC8JOHy9MEmM+NMEwUyNsMcEqz+B3fIm7pDXUSwso
+	ZC7YQHCl0A/50YpitZHYQ5PySBUU/fKi5EgQ==;
 Received: from ouster448.stanford.edu ([172.24.72.71]:60752 helo=cs.stanford.edu)
 	by smtp1.cs.Stanford.EDU with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ouster@cs.stanford.edu>)
-	id 1x6Fk5-0007WN-AF; Mon, 14 Sep 2026 16:05:42 -0700
+	id 1x6FkC-0007WN-Ku; Mon, 14 Sep 2026 16:05:49 -0700
 From: John Ousterhout <ouster@cs.stanford.edu>
 To: netdev@vger.kernel.org
 Cc: pabeni@redhat.com,
@@ -44,9 +44,9 @@ Cc: pabeni@redhat.com,
 	linux-doc@vger.kernel.org,
 	corbet@lwn.net,
 	John Ousterhout <ouster@cs.stanford.edu>
-Subject: [PATCH net-next v11 08/15] net: homa: create homa_interest.h and homa_interest.c
-Date: Mon, 14 Sep 2026 16:05:08 -0700
-Message-ID: <20260914230517.1190-9-ouster@cs.stanford.edu>
+Subject: [PATCH net-next v11 11/15] net: homa: create homa_utils.c
+Date: Mon, 14 Sep 2026 16:05:11 -0700
+Message-ID: <20260914230517.1190-12-ouster@cs.stanford.edu>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260914230517.1190-1-ouster@cs.stanford.edu>
 References: <20260914230517.1190-1-ouster@cs.stanford.edu>
@@ -58,10 +58,10 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Score: -101.0
-X-Scan-Signature: d6ed69fe359c6065cef900a7b1f0f3b8
+X-Scan-Signature: f381877c06e33db9b8e2eda11595152b
 
-These files implement the homa_interest struct, which is used to
-wait for incoming messages.
+This file contains functions for constructing and destructing
+"struct homa" and "struct homa_net" objects.
 
 Signed-off-by: John Ousterhout <ouster@cs.stanford.edu>
 
@@ -73,329 +73,184 @@ Changes for v20:
     share access to those pages.
   * This eliminates the need for Homa to retain references to skb's
     after they have been passed to ip*xmit.
-* Fix use-after-free race.
-* Abort polling loop in homa_interest_wait if there is a signal.
-* Clean up APIs: introduce new function homa_interest_notify_shared, move
-  functionality from homa_wait_shared to homa_interest_wait
+* Cleanup after errors in homa_init.
 
-Changes for v18:
-* Fix minor issues with indentation and lockdep annotations
-
-Changes for v14:
-* Fix race in homa_wait_shared (an RPC could get lost if it became
-  ready at the same time that homa_interest_wait returned with an error)
-* Remove nonblocking parameter from homa_interest_wait (handle this elsewhere)
+Changes for v16:
+* Use cpu_relax when spinning
 
 Changes for v11:
-* Clean up sparse annotations
+* Move link_mbps variable from struct homa_pacer back to struct homa
 
-Changes for v10: none
+Changes for v10:
+* Remove log messages after alloc errors
 
 Changes for v9:
-* Remove unused field homa_interest->core
----
- net/homa/homa_interest.c | 192 +++++++++++++++++++++++++++++++++++++++
- net/homa/homa_interest.h |  92 +++++++++++++++++++
- 2 files changed, 284 insertions(+)
- create mode 100644 net/homa/homa_interest.c
- create mode 100644 net/homa/homa_interest.h
+* Add support for homa_net objects
+* Use new homa_clock abstraction layer
+* Various name improvements (e.g. use "alloc" instead of "new" for functions
+  that allocate memory)
 
-diff --git a/net/homa/homa_interest.c b/net/homa/homa_interest.c
+Changes for v8:
+* Accommodate homa_pacer refactoring
+
+Changes for v7:
+* Make Homa a pernet subsystem
+* Add support for tx memory accounting
+* Remove "lock_slow" functions, which don't add functionality in this
+  patch series
+* Use u64 and __u64 properly
+---
+ net/homa/homa_impl.h  |   5 ++
+ net/homa/homa_utils.c | 119 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 124 insertions(+)
+ create mode 100644 net/homa/homa_utils.c
+
+diff --git a/net/homa/homa_impl.h b/net/homa/homa_impl.h
+index d52b6a631b0c..a3ac3574eb60 100644
+--- a/net/homa/homa_impl.h
++++ b/net/homa/homa_impl.h
+@@ -363,11 +363,16 @@ static inline bool homa_make_header_avl(struct sk_buff *skb)
+ 
+ extern unsigned int homa_net_id;
+ 
++void     homa_destroy(struct homa *homa);
++int      homa_init(struct homa *homa);
+ void     homa_message_out_init(struct homa_rpc *rpc, int length);
++void     homa_net_destroy(struct homa_net *hnet);
++int      homa_net_init(struct homa_net *hnet, struct homa *homa);
+ int      homa_resend_data(struct homa_rpc *rpc, int start, int end);
+ void     homa_rpc_handoff(struct homa_rpc *rpc);
+ int      homa_rpc_tx_end(struct homa_rpc *rpc);
+ struct sk_buff *__homa_skb_alloc(int length);
++void     homa_spin(int ns);
+ int      homa_tx_copy_from_user(struct homa_rpc *rpc, struct iov_iter *iter,
+ 				bool xmit);
+ struct sk_buff *homa_tx_skb_alloc(struct homa_rpc *rpc, u32 offset, u32 *end);
+diff --git a/net/homa/homa_utils.c b/net/homa/homa_utils.c
 new file mode 100644
-index 000000000000..66ea429aac27
+index 000000000000..94799976a8ab
 --- /dev/null
-+++ b/net/homa/homa_interest.c
-@@ -0,0 +1,192 @@
++++ b/net/homa/homa_utils.c
+@@ -0,0 +1,119 @@
 +// SPDX-License-Identifier: BSD-2-Clause OR GPL-2.0+
 +
-+/* This file contains functions for managing homa_interest structs. */
++/* This file contains miscellaneous utility functions for Homa, such
++ * as initializing and destroying homa structs.
++ */
 +
 +#include "homa_impl.h"
-+#include "homa_interest.h"
++#include "homa_peer.h"
 +#include "homa_rpc.h"
-+#include "homa_sock.h"
-+
-+/* DESIGN NOTES:
-+ * The key idea behind the design of the interest mechanism is to reduce usage
-+ * of socket locks while handing off ready RPCs to application threads. Private
-+ * handoffs do not require the socket lock to be acquired at all. Shared
-+ * handoffs must acquire the socket lock to select one thread from a pool of
-+ * waiting threads. But in the normal case the thread receiving the ready RPC
-+ * does not need to acquire the socket lock again after the RPC has been
-+ * handed off to it. The HOMA_INTEREST_HANDOFF_ACTIVE mechanism eliminates
-+ * races that would otherwise be present in the absence of locking.
-+ */
++#include "homa_tx_pool.h"
 +
 +/**
-+ * homa_interest_init_shared() - Initialize an interest and queue it up on
-+ * a socket.
-+ * @interest:  Interest to initialize
-+ * @hsk:       Socket on which the interests should be queued. Must be locked
-+ *             by caller.
++ * homa_init() - Constructor for homa objects.
++ * @homa:   Object to initialize.
++ *
++ * Return:  0 on success, or a negative errno if there was an error.
 + */
-+void homa_interest_init_shared(struct homa_interest *interest,
-+			       struct homa_sock *hsk)
-+	__must_hold(hsk->lock)
++int homa_init(struct homa *homa)
 +{
-+	interest->rpc = NULL;
-+	atomic_set(&interest->state, 0);
-+	interest->blocked = 0;
-+	init_waitqueue_head(&interest->wait_queue);
-+	interest->hsk = hsk;
-+	list_add(&interest->links, &hsk->interests);
++	int err;
++
++	memset(homa, 0, sizeof(*homa));
++
++	atomic64_set(&homa->next_outgoing_id, 2);
++	homa->link_mbps = 25000;
++	homa->peertab = homa_peer_alloc_peertab();
++	if (IS_ERR(homa->peertab)) {
++		err = PTR_ERR(homa->peertab);
++		homa->peertab = NULL;
++		goto error;
++	}
++	homa->socktab = kmalloc(sizeof(*homa->socktab), GFP_KERNEL);
++	if (!homa->socktab) {
++		err = -ENOMEM;
++		goto error;
++	}
++	homa_socktab_init(homa->socktab);
++	err = homa_tx_pool_init(homa);
++	if (err) {
++		pr_err("Couldn't initialize homa_tx_pool (errno %d)\n",
++		       -err);
++		goto error;
++	}
++
++	/* Wild guesses to initialize configuration values... */
++	homa->resend_ticks = 5;
++	homa->resend_interval = 5;
++	homa->timeout_ticks = 100;
++	homa->timeout_resends = 5;
++	homa->request_ack_ticks = 2;
++	homa->dead_frags_limit = 100;
++	homa->max_gso_size = 1000;
++	homa->wmem_max = 100000000;
++	homa->bpage_lease_usecs = 10000;
++	homa->bpage_lease_cycles = homa->bpage_lease_usecs  * 2500;
++	return 0;
++
++error:
++	homa_destroy(homa);
++	return err;
 +}
 +
 +/**
-+ * homa_interest_init_private() - Initialize an interest that will wait
-+ * on a particular (private) RPC, and link it to that RPC.
-+ * @interest:   Interest to initialize.
-+ * @rpc:        RPC to associate with the interest. Must be private, and
-+ *              caller must have locked it.
-+ *
-+ * Return:      0 for success, otherwise a negative errno.
++ * homa_destroy() -  Destructor for homa objects.
++ * @homa:      Object to destroy. It is safe if this object has already
++ *             been previously destroyed.
 + */
-+int homa_interest_init_private(struct homa_interest *interest,
-+			       struct homa_rpc *rpc)
-+	__must_hold(rpc->bucket->lock)
++void homa_destroy(struct homa *homa)
 +{
-+	if (rpc->private_interest)
-+		return -EINVAL;
++	/* The order of the following cleanups matters! */
++	if (homa->socktab) {
++		homa_socktab_destroy(homa->socktab, NULL);
++		kfree(homa->socktab);
++		homa->socktab = NULL;
++	}
++	if (homa->peertab) {
++		homa_peer_free_peertab(homa->peertab);
++		homa->peertab = NULL;
++	}
++	homa_tx_pool_cleanup(homa);
++}
 +
-+	interest->rpc = rpc;
-+	atomic_set(&interest->state, 0);
-+	interest->blocked = 0;
-+	init_waitqueue_head(&interest->wait_queue);
-+	interest->hsk = rpc->hsk;
-+	INIT_LIST_HEAD(&interest->links);
-+	rpc->private_interest = interest;
++/**
++ * homa_net_init() - Initialize a new struct homa_net.
++ * @hnet:    Struct to initialize.
++ * @homa:    The main Homa data structure to use for the net.
++ * Return:  0 on success, otherwise a negative errno.
++ */
++int homa_net_init(struct homa_net *hnet, struct homa *homa)
++{
++	memset(hnet, 0, sizeof(*hnet));
++	hnet->homa = homa;
++	hnet->prev_default_port = HOMA_MIN_DEFAULT_PORT - 1;
 +	return 0;
 +}
 +
 +/**
-+ * homa_interest_wait() - Wait for an interest to have an actionable RPC,
-+ * or for an error to occur.
-+ * @interest:     Interest to wait for; must previously have been initialized
-+ *                and linked to a socket or RPC. On return, the interest
-+ *                will have been unlinked if it is shared and its ready flag
-+ *                is set; otherwise it may still be linked.
-+ *
-+ * Return: 0 for success (the ready flag is set in the interest), or -EINTR
-+ * if the thread received an interrupt. When this function returns, the
-+ * interest will no longer be linked to a socket (if it ever was).
++ * homa_net_destroy() - Release any resources associated with a homa_net.
++ * @hnet:    Object to destroy; must not be used again after this function
++ *           returns.
 + */
-+int homa_interest_wait(struct homa_interest *interest)
++void homa_net_destroy(struct homa_net *hnet)
 +{
-+	struct homa_sock *hsk = interest->hsk;
-+	int result = 0;
-+	int iteration;
-+	int wait_err;
++	homa_socktab_destroy(hnet->homa->socktab, hnet);
++	homa_peer_free_net(hnet);
++}
 +
-+	interest->blocked = 0;
++/**
++ * homa_spin() - Delay (without sleeping) for a given time interval.
++ * @ns:   How long to delay (in nanoseconds)
++ */
++void homa_spin(int ns)
++{
++	u64 end;
 +
-+	/* This loop iterates in order to poll and/or reap dead RPCS. */
-+	for (iteration = 0; ; iteration++) {
-+		if (iteration != 0)
-+			/* Give NAPI/SoftIRQ tasks a chance to run. */
-+			schedule();
-+
-+		if (atomic_read_acquire(&interest->state) & HOMA_INTEREST_READY)
-+			goto done;
-+
-+		if (signal_pending(current)) {
-+			wait_err = -ERESTARTSYS;
-+			goto check_err;
-+		}
-+
-+		/* See if we can cleanup dead RPCs while waiting. */
-+		if (homa_rpc_reap(hsk) != 0)
-+			continue;
-+
-+		break;
-+	}
-+
-+	interest->blocked = 1;
-+	wait_err = wait_event_interruptible_exclusive(interest->wait_queue,
-+						      atomic_read_acquire(&interest->state) &
-+						      HOMA_INTEREST_READY);
-+
-+check_err:
-+	if (wait_err == -ERESTARTSYS) {
-+		int ready;
-+
-+		/* An interrupt occurred. We have to do two things.  First,
-+		 * unlink the interest from the socket (if it was linked).
-+		 * Second, check to see if in the meantime the interest
-+		 * received a handoff. If so, ignore the interrupt. Must hold
-+		 * the socket lock while checking, in order to eliminate races
-+		 * with homa_rpc_handoff. Technically these are only needed
-+		 * for shared interests, but it's harmless to do them for
-+		 * private interests as well.
-+		 */
-+		homa_sock_lock(hsk);
-+		list_del_init(&interest->links);
-+		ready = atomic_read_acquire(&interest->state) &
-+			HOMA_INTEREST_READY;
-+		homa_sock_unlock(hsk);
-+		if (ready == 0)
-+			result = -EINTR;
-+	}
-+
-+done:
-+	/* Make sure that the handing off thread has completely finished
-+	 * accessing the interest, so that it's safe for our caller to
-+	 * reuse the interest's memory.
-+	 */
-+	while (atomic_read(&interest->state) & HOMA_INTEREST_HANDOFF_ACTIVE)
++	end = homa_clock() + homa_ns_to_cycles(ns);
++	while (homa_clock() < end)
 +		cpu_relax();
-+	return result;
 +}
-+
-+/**
-+ * homa_interest_notify_private() - If a thread is waiting on the private
-+ * interest for an RPC, wake it up.
-+ * @rpc:      RPC that may (potentially) have a private interest. Must be
-+ *            locked by the caller.
-+ */
-+void homa_interest_notify_private(struct homa_rpc *rpc)
-+	__must_hold(rpc->bucket->lock)
-+{
-+	if (rpc->private_interest) {
-+		/* See comment in homa_interest_notify_shared. */
-+		atomic_set_release(&rpc->private_interest->state,
-+				   HOMA_INTEREST_READY |
-+				   HOMA_INTEREST_HANDOFF_ACTIVE);
-+		wake_up(&rpc->private_interest->wait_queue);
-+		atomic_set_release(&rpc->private_interest->state,
-+				   HOMA_INTEREST_READY);
-+	}
-+}
-+
-+/**
-+ * homa_interest_notify_shared() - Hand an RPC off to one of the interests
-+ * available for a socket.
-+ * @hsk:      Socket for the handoff; must have at least one interest.
-+ *            Must be locked by caller.
-+ * @rpc:      RPC to handoff; can be NULL to indicate that the socket
-+ *            has been shutdown. Caller must have taken a reference.
-+ */
-+void homa_interest_notify_shared(struct homa_sock *hsk, struct homa_rpc *rpc)
-+	__must_hold(hsk->lock)
-+{
-+	struct homa_interest *interest;
-+
-+	interest = list_first_entry(&hsk->interests,
-+				    struct homa_interest, links);
-+	list_del_init(&interest->links);
-+	interest->rpc = rpc;
-+
-+	/* The dance below eliminates two race conditions: (a) a waking up
-+	 * thread doesn't see the change to state and (b) a waking up thread
-+	 * recycles the memory of the interest before we have finished
-+	 * accessing it in wake_up.
-+	 */
-+	atomic_set_release(&interest->state,
-+			   HOMA_INTEREST_READY | HOMA_INTEREST_HANDOFF_ACTIVE);
-+	wake_up(&interest->wait_queue);
-+	atomic_set_release(&interest->state, HOMA_INTEREST_READY);
-+}
-diff --git a/net/homa/homa_interest.h b/net/homa/homa_interest.h
-new file mode 100644
-index 000000000000..cb0b3f0d4f18
---- /dev/null
-+++ b/net/homa/homa_interest.h
-@@ -0,0 +1,92 @@
-+/* SPDX-License-Identifier: BSD-2-Clause OR GPL-2.0+ */
-+
-+/* This file defines struct homa_interest and related functions.  */
-+
-+#ifndef _HOMA_INTEREST_H
-+#define _HOMA_INTEREST_H
-+
-+#include "homa_rpc.h"
-+#include "homa_sock.h"
-+
-+/**
-+ * struct homa_interest - Holds info that allows applications to wait for
-+ * incoming RPC messages. An interest can be either private, in which case
-+ * the application is waiting for a single specific RPC response and the
-+ * interest is referenced by an rpc->private_interest, or shared, in which
-+ * case the application is waiting for any incoming message that isn't
-+ * private and the interest is present on hsk->interests.
-+ */
-+struct homa_interest {
-+	/**
-+	 * @rpc: If ready is set, then this holds an RPC that needs
-+	 * attention, or NULL if this is a shared interest and hsk has
-+	 * been shutdown. If ready is not set, this will be NULL if the
-+	 * interest is shared; if it's private, it holds the RPC the
-+	 * interest is associated with. If non-NULL, a reference has been
-+	 * taken on the RPC.
-+	 */
-+	struct homa_rpc *rpc;
-+
-+	/**
-+	 * @state: Used to manage the process of handing off an RPC.  Consists
-+	 * of the following bits:
-+	 * HOMA_INTEREST_READY:
-+	 *     Nonzero means the interest is ready for attention: either there
-+	 *     is an RPC that needs attention or @hsk has been shutdown.
-+	 * HOMA_INTEREST_HANDOFF_ACTIVE:
-+	 *     Nonzero means a handing-off thread is still accessing the
-+	 *     interest. Used to ensure that the handing-off thread is
-+	 *     completely finished before homa_interest_wait returns (so
-+	 *     that the interest can safely be deleted).
-+	 */
-+#define HOMA_INTEREST_READY           1
-+#define HOMA_INTEREST_HANDOFF_ACTIVE  2
-+	atomic_t state;
-+
-+	/**
-+	 * @blocked: Zero means a handoff was received without the thread
-+	 * needing to block; nonzero means the thread blocked.
-+	 */
-+	int blocked;
-+
-+	/**
-+	 * @wait_queue: Used to block the thread while waiting (will never
-+	 * have more than one queued thread).
-+	 */
-+	struct wait_queue_head wait_queue;
-+
-+	/** @hsk: Socket that the interest is associated with. */
-+	struct homa_sock *hsk;
-+
-+	/**
-+	 * @links: If the interest is shared, used to link this object into
-+	 * @hsk->interests.
-+	 */
-+	struct list_head links;
-+};
-+
-+/**
-+ * homa_interest_unlink_private() - Detach a private interest from its
-+ * RPC. Note: this can race with homa_rpc_handoff, so on return it's
-+ * possible that the interest is ready.
-+ * @interest:    Interest to remove. Must have been initialized with
-+ *               homa_interest_init_private. Its RPC must be locked by
-+ *               the caller.
-+ */
-+static inline void homa_interest_unlink_private(struct homa_interest *interest)
-+	__must_hold(interest->rpc->bucket->lock)
-+{
-+	if (interest == interest->rpc->private_interest)
-+		interest->rpc->private_interest = NULL;
-+}
-+
-+void     homa_interest_init_shared(struct homa_interest *interest,
-+				   struct homa_sock *hsk);
-+int      homa_interest_init_private(struct homa_interest *interest,
-+				    struct homa_rpc *rpc);
-+void     homa_interest_notify_private(struct homa_rpc *rpc);
-+void     homa_interest_notify_shared(struct homa_sock *hsk,
-+				     struct homa_rpc *rpc);
-+int      homa_interest_wait(struct homa_interest *interest);
-+
-+#endif /* _HOMA_INTEREST_H */
 -- 
 2.43.0
 
