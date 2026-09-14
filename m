@@ -1,137 +1,130 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E40C33F368;
-	Mon, 14 Sep 2026 03:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDC435C19F;
+	Mon, 14 Sep 2026 03:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789356335; cv=none; b=OIZKS0SLSbuorQ/PjZMraz4MCDErEk0aLROY9wFE5f9UrPBVuEn8Q5XaUBjaLxMRGiThAnbHJR2ARbEP3qslzAhwObcqEyP9M8Cbopwq4Sn5jrTw9Nd3xW+13DUP0ciLnehB6kNyawQT2sttQ9WEiurj8wGal7pjfpY4IELFlFo=
+	t=1789357204; cv=none; b=Bz1bbXd7g4NUI3TERWNuqN74MGxTnxFVv/D9qfJCGbjIX8y4dSddxUAnVMoTQIuvvk2/BeXDP4tQoGeCHS3hWoXy5e+9HCO4f4f3ab9myjIDqevIEHGYe4mLj2MGVr9PmIX4JoGEBfYl9t/v2xxBGZdS3JvdFhbEK1T6yDoyIp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789356335; c=relaxed/simple;
-	bh=IfYsHEx+dOEMQvXwuS4Xc+ipk1ag8b/cNpivaCbIiCA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=C9q+x2YMXyy2xSQ8QfH2TKb/CwDHj5tSr93aOgLGTTsewwUAv6wVxkoZfquefuH/dwueysliqk5EtH0XmJa7FS1X+MtwFNENvlMtaSuvDCTBHFAgIRh8bv6dfr2xyPDdild3VWkzquPhYD7RGNfJBs6YUiszbyuZDVtmBR9E5zI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=YHg+SJUo; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=NVYyaaRJ; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1789357204; c=relaxed/simple;
+	bh=1A6s3fqev0839R6hce//sj+/jCLqDJTSBW2SC0bjfpA=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=YAIijsDBCk/O1l5y7L4q9Ort/+eTEJIG8ZLJxbEq+oY7rKz6bFNyRj9Uk57UkpPJq5pN4eizEHIJ6GE+Am3ubyyHbleMWkup/vT1EXfckm2ZsjQl9gIO10FbbWTE/3qXytcuLSj8wKwVcaGw4LgMoyauMnmGeuUqm/bVrKwe8EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=pHy6fbef; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="YHg+SJUo";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NVYyaaRJ"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4hjrBb1wS5zMlGx;
-	Mon, 14 Sep 2026 05:25:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1789356327;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=QE3DwC9lelsk2shdi0iKu40ERDnwThYWKwgZfqGr5DY=;
-	b=YHg+SJUoRkWTT2P9SbT9katzwCv9KeGugMT/3EbomDXIO45rQNGlH3XnQ4TyVpCgest2Lq
-	womAmTZVZL7B+MV8hldzF6J/lbFiwHZuxkpyeFojKf1WNhGf4aa8vbPMUmv5ihW9HVLo9R
-	EgYP821paC+crOGDluqWq+cfvSTas5hCq0CFz9xgBVMKL6aJDCGH5kH8W+6wyqr1wpxi8O
-	ZPFyf2XpMH3SaluA7hZ5Ye97Vuo9gKs3csj2re6a7fZRwdLUBi+jyQdDtm5akxTysyO+WX
-	8L/zrDGtQTyrEatc8SRaH2Brfn9+KFwlVXdHUN8cS3wZ1ZqAozPHUm/HcA6qig==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1789356325;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=QE3DwC9lelsk2shdi0iKu40ERDnwThYWKwgZfqGr5DY=;
-	b=NVYyaaRJLB+1gv3cC/cmzSiUB/b5fwDSbaIREvkKwdfrn2Yc1y+nKhjLN5GkRtLPrGTJK8
-	sPQW+zoFICZYDsVaMOES4yiZKtGcwUyzO5eGM/stSFx52lrFcrGWWzcMAvPHGYmGKRdQOU
-	znz3HQvZjocJJJ4DFPd7jYRWYlX4eGaQNMo2yXQ65KaJstn35eMb0ZxTC4BTCNqFkwDGld
-	07dxhQbDpKJiJWl/uG7CGmzcGPUwBdCIB6PClCijQ/6wlNUOykb2qWQAEchMTJMwZ9hPsb
-	tXJWxdFw6wE+sAhBqX5ctUwCFvWdSTsFC5gFsYD/NoQVzkcw/lQbD5UqaHCjdw==
-To: linux-pci@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rob Herring <robh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] PCI: rcar-gen4: Update how to obtain platform firmware
-Date: Mon, 14 Sep 2026 05:24:58 +0200
-Message-ID: <20260914032520.99699-1-marek.vasut+renesas@mailbox.org>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="pHy6fbef"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92FF91F000FF;
+	Mon, 14 Sep 2026 03:39:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1789357202;
+	bh=x5zisV7HoQ8XMweM1XOT4E07P1NlnKsteMfQzVmO4Js=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=pHy6fbeflVTU8QtsqFS5eh8OvOR3ntwRr+lHZYMkoAT3ltm91/zKHpwN5XKZntEOS
+	 ILIVvwKavB+/VLgc77oFP5R90/PbqE2ALcouMF/TdFK9XZ9ovr5QioyLZB1yLh6r2e
+	 gdt1bOJXa+0zPlb1i7I7WNxSlmbqXRfHn0UsNCp4=
+Date: Sun, 13 Sep 2026 20:39:59 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: David Hildenbrand <david@kernel.org>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes
+ <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, Ryan
+ Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
+ <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
+ <usama.arif@linux.dev>, Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, Minchan Kim
+ <minchan@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, Peter
+ Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Arnaldo
+ Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>, Dave
+ Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Mark Rutland
+ <mark.rutland@arm.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian
+ Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, James
+ Clark <james.clark@linaro.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ linux-perf-users@vger.kernel.org, Juergen Gross <jgross@suse.com>, Stefano
+ Stabellini <sstabellini@kernel.org>, Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>, xen-devel@lists.xenproject.org, Eric
+ Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk
+ Kim <jaegeuk@kernel.org>, linux-fscrypt@vger.kernel.org, Oscar Salvador
+ <osalvador@suse.de>, Chao Yu <chao@kernel.org>,
+ linux-f2fs-devel@lists.sourceforge.net, Tal Zussman <tz2294@columbia.edu>,
+ Gao Xiang <xiang@kernel.org>, Jan Kara <jack@suse.cz>, Yue Hu
+ <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep
+ Dhavale <dhavale@google.com>, Hongbo Li <hongbohbli@tencent.com>, Chunhai
+ Guo <guochunhai@vivo.com>, linux-erofs@lists.ozlabs.org,
+ linux-fsdevel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Axel Rasmussen
+ <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu
+ <weixugc@google.com>, linux-trace-kernel@vger.kernel.org, Trond Myklebust
+ <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ linux-nfs@vger.kernel.org, Ilya Dryomov <idryomov@gmail.com>, Alex Markuze
+ <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>,
+ ceph-devel@vger.kernel.org, Song Liu <song@kernel.org>, Yu Kuai
+ <yukuai@fygo.io>, Li Nan <magiclinan@didiglobal.com>, Xiao Ni
+ <xiao@kernel.org>, linux-raid@vger.kernel.org, Richard Weinberger
+ <richard@nod.at>, Zhihao Cheng <chengzhihao1@huawei.com>,
+ linux-mtd@lists.infradead.org, Baoquan He <baoquan.he@linux.dev>, Pasha
+ Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Dave Young <ruirui.yang@linux.dev>, Shuah
+ Khan <skhan@linuxfoundation.org>, kexec@lists.infradead.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 00/16] Remove PG_private by using page/folio->private
+ checks instead
+Message-Id: <20260913203959.6b46b0b5a052aec818a7f267@linux-foundation.org>
+In-Reply-To: <20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com>
+References: <20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: hqp166d518p71f9fi7c7zzu85utw4ewu
-X-MBO-RS-ID: 7b1d09850c6af42e9e9
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Renesas R-Car V4H (r8a779g0) has PCIe controller, and it requires
-specific firmware downloading. The firmware is now available via
-linux-firmware.git repository, update the documentation about how
-to obtain the firmware and drop the conversion script.
+On Sun, 13 Sep 2026 22:23:58 -0400 Zi Yan <ziy@nvidia.com> wrote:
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-pci@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- .../PCI/controller/rcar-pcie-firmware.rst     | 19 +++++--------------
- 1 file changed, 5 insertions(+), 14 deletions(-)
+> This patchset removes PG_private to make space for upcoming PG_folio for
+> identifying pages from a folio (more details in Note below). Instead of
+> checking PG_private, all code is changed to check page/folio->private !=
+> NULL instead.
+> 
+> MM people are cc'd on all patches and subsystem people are cc'd on the
+> cover letter and corresponding patches.
+> 
+> Patch 6 is picked up separately in f2fs tree, but since mm-new does not
+> have it yet, it is sent for MM testing.
 
-diff --git a/Documentation/PCI/controller/rcar-pcie-firmware.rst b/Documentation/PCI/controller/rcar-pcie-firmware.rst
-index 67d3bf66e3158..edf4a156fff21 100644
---- a/Documentation/PCI/controller/rcar-pcie-firmware.rst
-+++ b/Documentation/PCI/controller/rcar-pcie-firmware.rst
-@@ -7,21 +7,12 @@ Firmware of PCIe controller for Renesas R-Car V4H
- Renesas R-Car V4H (r8a779g0) has a PCIe controller, requiring a specific
- firmware download during startup.
- 
--However, Renesas currently cannot distribute the firmware free of charge.
-+Firmware file "rcar_gen4_pcie.bin" is distributed in the linux-firmware repository:
-+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/
-+since linux-firmware.git commit
-+56bb432a65bc ("rcar_gen4_pcie: add firmware for Renesas R-Car Gen4 PCIe controller")
- 
--The firmware file "104_PCIe_fw_addr_data_ver1.05.txt" (note that the file name
--might be different between different datasheet revisions) can be found in the
--datasheet encoded as text, and as such, the file's content must be converted
--back to binary form. This can be achieved using the following example script:
--
--.. code-block:: sh
--
--	$ awk '/^\s*0x[0-9A-Fa-f]{4}\s+0x[0-9A-Fa-f]{4}/ { print substr($2,5,2) substr($2,3,2) }' \
--		104_PCIe_fw_addr_data_ver1.05.txt | \
--			xxd -p -r > rcar_gen4_pcie.bin
--
--Once the text content has been converted into a binary firmware file, verify
--its checksum as follows:
-+Download the file and verify the file checksum as follows:
- 
- .. code-block:: sh
- 
--- 
-2.53.0
+AI review claims to have found a pre-existing critical level deadlock
+in f2fs:
+
+	https://sashiko.dev/#/patchset/20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com
+
+it also had a few things to say about this patchset and, as always,
+hugetlb.c.
+
+
+Thanks, The MM bits appear adequately reviewed and review of the non-MM
+bits are, as usual:
+
+  Great to have but I won't permit lack of other-than-MM review to
+  block MM improvements.
+
+So I'll queue it all up and shall push it into -next after a few days.
+
+Acks from non-MM maintainers are appreciated.
+
+If a non-MM patch appears in linux-next I'll autodrop the mm.git copy
+of that patch.
 
