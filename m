@@ -1,129 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B63D29DB64;
-	Mon, 14 Sep 2026 02:48:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB0F3385B9;
+	Mon, 14 Sep 2026 03:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789354083; cv=none; b=kMKGuD2ySnvc5Wzjw69j0Kfr8Br0/V540iGQ5pksqiB//M9Qyk2IN0NPLnqAGVcsmJRZ36LHlNVbTCQzicM+eGOXgbN6DF4M/1zxD1Ai1bFusq4q/fyO9ziZrJLz7pmd/z/6rFTeJkbPa6IH4298eCJ9AgohNCg56ykBPtWwsyo=
+	t=1789355589; cv=none; b=nAScXVMmsxeyAqxACzd0yUq4CRKys1xl6WiOA08jvhEGL2zzQ5zVut9nIUAiqJuLbdXtqfsm4PjtL2vFOA1MjBWEC/ZrrlqHzw4SQ7YQs9dpIOPrGq7WHjBvG3Ngh3uvNqsDPm6hKwaaeOcBvJVc6g6BJ2t67AWYgwm4eJF81/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789354083; c=relaxed/simple;
-	bh=IAJ6fPDFQagSBdd1b89WAP4SrwNCphxleFJBLrYbSl4=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=cAsT7/DyKM/aAUXOVKaYyjobPjp/CtBPTuY0yXewzNbvXOQ/HiEvAtqYqRKfFIgaXBdMOqz2S0yKG2QStpXSxqlvHFzxVFt0+nICAB2CCGw3U+bQyzr+Ncnajbh7IQH+B3MAaBORlhDac3QhV5llVlbJ2JrxeUGRFfa6wrmyRXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aUYWUEkw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789355589; c=relaxed/simple;
+	bh=XqDBQG9I/kQldxTtUTL+ST32GQ6BWJOlxbv1O1OdUso=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CWCn84OsruAFbhZQlBvEbekgxPG+2ErJlUM85oVhSeSn6063bgzZRN/tw5XBs1+gTv+KVCRvQ9BtsWCtfFYXxGDQUcWMB+cbFHgIczoLA3uInIC2w0mqpOFzt1o9tC4+eznbDjhuDkQP8/4QIWsCD3nvFdGup0hG55CMagSCDvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Ui7YEX0E; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dXx9Iapv; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aUYWUEkw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 087EF1F000FF;
-	Mon, 14 Sep 2026 02:47:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789354081;
-	bh=AXLI3k9/pMTK/BtsjTVMEyDksi2gFy8I9idpjBEt+8w=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aUYWUEkwRAc/MPD1E8wD6u4bTIsbzSq0kvntl9FVDaEATIYAy4I4sIHXFRhg9t4Yz
-	 04T63Uk3AKoDRg5NkaKSEjHUhOI2lbC8ikAkEKvl4oLWjLlij9tg1sMybkHau92g4w
-	 i3lIV7y5nDKFszslBx9YR0befexyZn9Vr1fRxtdL1d8YPb2I927c60O5OWDxlgwQWC
-	 iLso1LRAbVRq0e23KFOTaH+/kqOtLqBi3rSyUQuZVP+dNpzy+Hg3aD3BwD7OI5jIoU
-	 CW38fNAoU1X6qNgr88GSJx29l8IxFbmBXdbF6TD/ns1HI3wJQltPrXO1+RIlLwDk4I
-	 VHxM1iKtfDtGA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 16/16] mm/page-flags: remove PG_private
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Qi Zheng" <qi.zheng@linux.dev>, "Lorenzo Stoakes" <ljs@kernel.org>, "Shakeel
- Butt" <shakeel.butt@linux.dev>, "Johannes Weiner" <hannes@cmpxchg.org>, "Kairui
- Song" <kasong@tencent.com>, "Alistair Popple" <apopple@nvidia.com>, "Ryan
- Roberts" <ryan.roberts@arm.com>, "Gregory Price" <gourry@gourry.net>, "Baolin
- Wang" <baolin.wang@linux.alibaba.com>, "David Hildenbrand" <david@kernel.org>,
- =?utf-8?b?TWF0dGhldyBXaWxjb3ggKE9yYWNsZSk=?= <willy@infradead.org>, "Dev
- Jain" <dev.jain@arm.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Vlastimil
- Babka" <vbabka@kernel.org>, "Suren Baghdasaryan" <surenb@google.com>, "Liam
- R. Howlett" <liam@infradead.org>, "Michal Hocko" <mhocko@suse.com>, "Lance
- Yang" <lance.yang@linux.dev>, "Ying Huang" <ying.huang@linux.alibaba.com>, "Zi
- Yan" <ziy@nvidia.com>, "Muchun Song" <muchun.song@linux.dev>, "Mike
- Rapoport" <rppt@kernel.org>, "Barry Song" <baohua@kernel.org>, "Nico Pache" <nico.pache@linux.dev>, "Usama
- Arif" <usama.arif@linux.dev>
-Cc: "Steven Rostedt" <rostedt@goodmis.org>, "Jan Kara" <jack@suse.cz>, "Baoquan
- He" <baoquan.he@linux.dev>, linux-mm@kvack.org, kexec@lists.infradead.org, linux-kernel@vger.kernel.org, "Masami
- Hiramatsu" <mhiramat@kernel.org>, linux-fsdevel@vger.kernel.org, "Pratyush
- Yadav" <pratyush@kernel.org>, "Pasha Tatashin" <pasha.tatashin@soleen.com>, "Mathieu
- Desnoyers" <mathieu.desnoyers@efficios.com>, "Dave Young" <ruirui.yang@linux.dev>, "Jonathan
- Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-In-Reply-To: <20260913-remove-pg_private-v4-16-848550f7574e@nvidia.com>
-References: <20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com>
- <20260913-remove-pg_private-v4-16-848550f7574e@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 14 Sep 2026 02:47:59 +0000
-Message-Id: <20260914024800.087EF1F000FF@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Ui7YEX0E";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dXx9Iapv"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hjqwC55rVzKp1n;
+	Mon, 14 Sep 2026 05:12:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1789355579;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0fI6f3FOiJn+yr/ZG6phPn13meKh+HsNJMQ50OGU9CA=;
+	b=Ui7YEX0ELcK69vcBJxavXE1UUg7xcdr5+6Ps9UUGlHGsM19GaD1isy0Iid3/PBE7dz7Vkl
+	6z3qRbyLuSvu7KfyeUwg0+/u9bJVybWA/F7HvZp2+ijiP844pWBQihxUFk3IyT2L2bPUKr
+	0bAwkseeETVMA9iZu3RRsnvmXLfbqpVuQTupJmJMfH/dasoxrnzzNAAehrfpEfiU65iveZ
+	omDQJLaXm8zCy+voei38SUgdMQP4t3lChD5DhWtuxI4PIyLw7GOoQNtKjXTC07ocWx/IFX
+	Zoul1GkH9zmW6YsRTGDMlnQfuXgo3KnwjMON065bnXSRHkKfbQBiKJEDwb2s5g==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1789355578;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0fI6f3FOiJn+yr/ZG6phPn13meKh+HsNJMQ50OGU9CA=;
+	b=dXx9Iapvp1VemEj5g6FDYviBG5mdjhwEOUxPtyeJnYpyz2HbH3LmUnz6onQlUufaSnRLlS
+	kMwsLSJUOYJnBq1wLQ7WLstKmXYDe0WjI1tNcuStQ31Pa6eMCjIk1ebFQYL7OEKkD1uDsl
+	2PwlYS7bZMSODeuaGsGgYbhyYVaRaS+IrRnQelq247hv3A0EsDh0KkYj//BBG0UqiJB3du
+	zZtdx3+sMS06eIMeyHJMAr9Sx+gWcpkxL/aYvtcrtOgnDlDNSjCu/NebGWRXleQxlo5roY
+	3I2+/ZOt2GytP8FjoGdeZkaMJvlcoufL+LZwvqpkIAVwjfAPIOrD/ro80kLxGA==
+To: linux-sound@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: [PATCH] ALSA: doc: cs35l56: Point to kernel.org firmware repository
+Date: Mon, 14 Sep 2026 05:12:30 +0200
+Message-ID: <20260914031252.98932-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: d480095db436342707e
+X-MBO-RS-META: 8zggmroufeborg9d47hyqwrcijnwzmwx
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] Silent memory leak of folio private data due to missing check for =
-leaked `folio->private` data when a head page is freed.
---
+Use the primary mirror of linux-firmware at kernel.org.
+No functional change.
 
-commit ebe4dd474a496c46897e3f790e03a43cc0508eaf
-Author: Zi Yan <ziy@nvidia.com>
+Fixes: 088fb4ee17fc ("ALSA: doc: cs35l56: Add information about Cirrus Logic CS35L54/56/57")
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: David Rhodes <david.rhodes@cirrus.com>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-sound@vger.kernel.org
+Cc: patches@opensource.cirrus.com
+---
+ Documentation/sound/codecs/cs35l56.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-mm/page-flags: remove PG_private
+diff --git a/Documentation/sound/codecs/cs35l56.rst b/Documentation/sound/codecs/cs35l56.rst
+index b3f8c1c238518..4a246f535d260 100644
+--- a/Documentation/sound/codecs/cs35l56.rst
++++ b/Documentation/sound/codecs/cs35l56.rst
+@@ -50,7 +50,7 @@ DSP. Firmware files are essential to enable the full capabilities of the
+ amplifier.
+ 
+ Firmware is distributed in the linux-firmware repository:
+-https://gitlab.com/kernel-firmware/linux-firmware.git
++https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/
+ 
+ On most SoundWire systems the amplifier has a default minimum capability to
+ produce audio. However this will be
+-- 
+2.53.0
 
-folio->private !=3D NULL indicates a folio carries private data, replacing
-PG_private. All PG_private users are converted. Remove PG_private and
-reserve the space as PG_folio for future use. Unused PG_private functions
-are removed too.
-
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index 08988877331ba..10f4ad075ea48 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-
-[ ... ]
-
-> @@ -105,7 +101,7 @@ enum pageflags {
->  	PG_owner_2,		/* Owner use. If pagecache, fs may use */
->  	PG_arch_1,
->  	PG_reserved,
-> -	PG_private,		/* If pagecache, has fs-private data */
-> +	PG_folio,		/* Do not use: reserved for folio identification */
-
-[Severity: High]
-With the removal of PG_private, does the free path for head pages fail to
-validate whether private data is leaked?
-
-Previously, the memory management subsystem checked for PG_private during p=
-age
-freeing (via PAGE_FLAGS_CHECK_AT_FREE) to catch filesystem leaks, and issue=
-d a
-bad_page() warning if it was still set.=20
-
-While tail pages are explicitly checked for leaked private data in the free
-path:
-
-	if (tail_page->private) {
-		bad_page(tail_page, "nonzero private");
-		...
-
-The head page's private field appears to be unconditionally zeroed without
-validation in __free_pages_prepare() in mm/page_alloc.c:
-
-	page_cpupid_reset_last(page);
-	page->flags.f &=3D ~PAGE_FLAGS_CHECK_AT_PREP;
-	page->private =3D 0;
-	reset_page_owner(page, order);
-
-Can this silently mask bugs where filesystems leak private data (like an
-un-detached buffer_head)? Should we add a check for page->private !=3D NULL
-for head pages before unconditionally zeroing it?
-
->  	PG_private_2,		/* If pagecache, has fs aux data */
->  	PG_reclaim,		/* To be reclaimed asap */
->  	PG_swapbacked,		/* Page is backed by RAM/swap */
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260913-remove-pg_=
-private-v4-0-848550f7574e@nvidia.com?part=3D16
