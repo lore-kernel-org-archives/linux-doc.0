@@ -1,113 +1,171 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1457429014;
-	Mon, 14 Sep 2026 14:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5180481231;
+	Mon, 14 Sep 2026 14:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789396980; cv=none; b=qodUr6RtKRv5OOK54EL1u3tx6AmH6YiU6UfVPa/AxPM6p+KsDD4pzW2aG69TzT2PurZhgg+QoijtxQZopyBV5uUHFOryWwLjwotpunYw4nk9DFOZiq+pfY4g0Go6j/LGXApc27AV7fkbfSmLvBQXRhmfB1WSqvaNNz18wZGJ2V0=
+	t=1789397098; cv=none; b=sOWxYdOP/51n7amSiNBjmZ1/RW/Ht4yklj4YO3BvVEu2IUIgEQtcv+jQIHmjtu7MNVWX136DZIlZ1KIlodlTg3H/83DMd5AHmQL5KKfV5ABRQ6WbAHjK1i7IeCLQt9rTZdGBC/JVJmVYSeoRYqO9K13zPW/6Aw8nLkkN/t7MKDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789396980; c=relaxed/simple;
-	bh=oUfXONRmdPZZVsyxIJqYvpxibqhdMN9N5osXAb11toE=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=UPSWZXti2wQW1eQaZAK2npq9tPuOfyp7x6LU9iMVorx2vOwkpylrhXg+JyxiowhRUQyIIM09eA1gCbi/hmMB7xcyYg4f8yTW/bbI9KqY4K28x6iR/7eydV+LXNIfxC0k2VBKVUGgvslTO3sipZLvq4jykKx8VFvB9oW/nwGZqQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=Y1jHUpcR; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=v09KwDrj; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1789397098; c=relaxed/simple;
+	bh=RntbVU0Z4ThmJWOrjg629wHRID68BlJ4FDpxm1xg33A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CcpVLFS1L3OgLZzJn1dOLrmZq61L8oKIH010Jm1Yg81tNB79HnW8KTd5+NOOB5wy4lTIpoAxqNX3C/oX7pV1zcR3yu6XCU5NUT8TfvNj6FqTb/ASQdCxS9dk5L6e9wXESCIbl3WUDNxGxWqqu7kOdqM7TNr3/y2uHp9dyaiAq58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V1fmbN7j; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="Y1jHUpcR";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="v09KwDrj"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1789396956; bh=QdSMxLfH7VT3rsmMwkVtLgH
-	fnAcvTNOrmWQqrtRvl/w=; b=Y1jHUpcRgLqej4D9Ctek4/1ydwQKSblW6COCRGP/XuhuoU+oT5
-	WS3kiBHgYG4F+rUY/4t1wok4ojckZZd55kZbkqzM0O4llspF+cX93mFglcvTzRV9LC5wqw3GBhe
-	kS4n9wqstqMxEJuTT40X3nxQ4rXzm8Td2xERtaEi4knRgZ0fOulNcY0Pawfbv/SXDoeYCWa+OMN
-	qLyB7pnAcwgHttwniwJ6I42/zRYoVhhPhLIRcQSkKCLVn0wfYAobc5IVqrtwGEjsPl8Zp7LYIwT
-	jAP70CCC3pl31j2osEDCoIBWbX/a9112MFeHLske98O/IRDczKhK8mTXWYDoAri8LkQ==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1789396956; bh=QdSMxLfH7VT3rsmMwkVtLgH
-	fnAcvTNOrmWQqrtRvl/w=; b=v09KwDrjF4QtwpEd+jknffYykzU6U/N8faq1ZvpZoqDPO9wh5m
-	Gv/n+ge+C4GlBL7EpjkJ4mcCbWio+Av+aEBg==;
-Date: Mon, 14 Sep 2026 15:42:37 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-CC: Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_2/3=5D_module=3A_fix_up_documenta?=
- =?US-ASCII?Q?tion_for_add=5Ftaint=28=29_and_add=5Ftaint=5Fmodule=28=29?=
-In-Reply-To: <20260914-bind_taint-v4-2-eadf8a090903@linuxfoundation.org>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org> <20260914-bind_taint-v4-2-eadf8a090903@linuxfoundation.org>
-Message-ID: <066AC452-108A-45B4-A008-3FF84C85EAD6@mainlining.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V1fmbN7j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9D371F000FF;
+	Mon, 14 Sep 2026 14:44:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789397096;
+	bh=xH6BjEeSRz31ISnhR+m3g6NPZnp3Vl94LjU9afJPu7M=;
+	h=From:To:Cc:Subject:Date;
+	b=V1fmbN7jDWRflvAsoPY08+yEA3EyvAbYsKKzDZrD4ML+Ph1Cj5AhSLRIciEc7QcnF
+	 PI/cUe1er7GoFfREhKI1SxfA4TCQbHG0VXxzi0lhPMjoz1YOGJt0iPVPRYrAG08wUQ
+	 k7dqdFUzxYYRGAOCaIyp34gYCv5ndy6Xg0fpS4g9Nm7ISI2U5X77WSqoH0lx8soslR
+	 Wy66YgGqugzDeifbBnrPQeiRGXAQ2kP0kzRqr3z05WgQU8ywwGaerU0U6hrY2oSM1q
+	 F5R6BKombCs1noEEwE0VXTlNEXfLbR+ogcrouaQZaC2XR9fVJdZMEcP569FrUXb7fV
+	 L1XNGCMSaub4g==
+From: SJ Park <sj@kernel.org>
+To: 
+Cc: SJ Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v2 0/8] mm/damon: introduce hugepage_size probe filter
+Date: Mon, 14 Sep 2026 07:44:37 -0700
+Message-ID: <20260914144448.93732-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-On 14 September 2026 15:30:32 BST, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->When add_taint_module() was added, the documentation for it was copied
->directly from add_taint().  But that documentation was a bit wrong
->(wrong variable name, and misleading boolean reference.)  Fix up both
->functions to have the correct documentation for how to use the
->lockdep_ok parameter to these functions.
->
->Reported-by: Petr Pavlu <petr.pavlu@suse.com>
->Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->---
-> kernel/module/main.c | 5 +++--
-> kernel/panic.c       | 5 +++--
-> 2 files changed, 6 insertions(+), 4 deletions(-)
->
->diff --git a/kernel/module/main.c b/kernel/module/main.c
->index 444d990c9983..369794876c3e 100644
->--- a/kernel/module/main.c
->+++ b/kernel/module/main.c
->@@ -197,8 +197,9 @@ static inline int strong_try_module_get(struct module *mod)
->  * @flag: one of the TAINT_* constants.
->  * @lockdep_ok: whether lock debugging is still OK.
->  *
->- * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
->- * some noteworthy-but-not-corrupting cases, it can be set to true.
->+ * If something bad has gone wrong, you'll want
->+ * @lockdep_ok = LOCKDEP_NOW_UNRELIABLE, but for some
->+ * noteworthy-but-not-corrupting cases, it can be set to LOCKDEP_STILL_OK.
->  */
-> void add_taint_module(struct module *mod, unsigned flag,
-> 		      enum lockdep_ok lockdep_ok)
->diff --git a/kernel/panic.c b/kernel/panic.c
->index 213725b612aa..892045d8409e 100644
->--- a/kernel/panic.c
->+++ b/kernel/panic.c
->@@ -948,8 +948,9 @@ unsigned long get_taint(void)
->  * @flag: one of the TAINT_* constants.
->  * @lockdep_ok: whether lock debugging is still OK.
->  *
->- * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
->- * some notewortht-but-not-corrupting cases, it can be set to true.
->+ * If something bad has gone wrong, you'll want
->+ * @lockdep_ok = LOCKDEP_NOW_UNRELIABLE, but for some
->+ * noteworthy-but-not-corrupting cases, it can be set to LOCKDEP_STILL_OK.
->  */
-> void add_taint(unsigned flag, enum lockdep_ok lockdep_ok)
-> {
->
->
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
+Knowing whether a given memory is backed by a hugepage of specific size
+is useful for efficient utilization of hugepages.  For easy monitoring
+of the information, introduce a new data attribute probe filter type,
+hugepage_size.  It works similar to the DAMOS filter of the same name.
+It works for memory that is backed by a hugepage of a given size range.
 
-Thanks.
---- Thanks!
-https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
+Patch 1 introduces the new probe filter type to DAMON API and extends
+related data structures.  Patch 2 updates probe filter commit logic to
+handle the size range.  Patch 3 Updates the filtering logic to support
+the new type.  Patch 4 adds new DAMON sysfs files for the size range.
+Patch 5 updates DAMON sysfs interface to fully support the new filter
+type.  Patches 6-8 updates design, usage and ABI documents for the new
+feature.
+
+Test
+====
+
+Set THP always and start a test workload using masim [1].
+
+    $ echo always | sudo tee /sys/kernel/mm/transparent_hugepage/enabled
+    $ ./masim.py run --config_file ./configs/stairs-500mb.cfg --repeat 10
+
+Using the DAMON user-space tool, damo [2], start DAMON with two probes.
+The primary probe monitors access.  The secondary probe monitors 2 MiB
+sized hugepages.  The region adjustment weight is given to only the
+primary probe.  That is, this setup is for showing access temperature
+and additionally how many 2 MiB hugepages are being used for the region
+of the access temperature.
+
+    $ sudo ./damo start $(pidof masim) \
+            --probe \
+                --probe_prep set_pgidle --probe_filter allow pgidle_unset \
+                --probe_weight 1 \
+            --probe \
+                --probe_filter allow hugepage_size 2M 2M
+
+Show the monitoring results.
+
+    $ sudo ./damo report attrs
+    heatmap: 000000000003[...]666666666666666666666666666666666666666666666668888888888888988888888[...]8
+    # min/max temperatures: -2,770,000,000, 68,474,934, column size: 69.784 MiB
+    probes
+    - prep: set_pgidle, filter: allow pgidle_unset (weight: 1)
+    - allow hugepage_size [2.000 MiB, 2.000 MiB] (weight: 0)
+    intervals: sample 5 ms aggr 100 ms (max probe hits 20)
+    #   size         address       age           probe_hits
+    0   250.805 MiB  86.185 TiB    27.700 s      0 0
+    1   556.285 MiB  86.184 TiB    27.400 s      0 0
+    2   1.629 GiB    127.488 TiB   8.500 s       0 4
+    3   535.770 MiB  127.490 TiB   8.400 s       0 7
+    4   1.066 GiB    127.490 TiB   8.200 s       0 6
+    5   501.332 MiB  127.492 TiB   600 ms        0 12
+    [...]
+    50  146.133 MiB  127.492 TiB   200 ms        2 20
+    51  16.000 KiB   127.492 TiB   200 ms        11 20
+    52  144.000 KiB  127.492 TiB   200 ms        17 20
+    53  48.000 KiB   127.492 TiB   200 ms        18 20
+    54  1.930 MiB    127.492 TiB   200 ms        19 20
+    [...]
+    101 1.996 MiB    127.492 TiB   2.100 s       1 20
+    102 1.992 MiB    127.492 TiB   2.100 s       20 20
+    103 1.984 MiB    127.492 TiB   2.200 s       1 20
+    104 2.000 MiB    127.492 TiB   2.300 s       20 20
+    105 2.000 MiB    127.492 TiB   2.600 s       20 20
+    memory bw estimate: 0 B per second
+    total size: 5.452 GiB
+    record DAMON intervals: sample 5 ms, aggr 100 ms
+
+The first probe_hits count and the age show the access temperature of
+each region.  The region is sorted by access temperature, which is a
+weighted sum of the first probe_hits count and the age.  That is,
+regions at the beginning of the list are colder than those at the end of
+the list.  The second probe_hits count shows the ratio of 2 MiB
+hugepages in the region.
+
+For example, region 5, which has 501.332 MiB size, has not accessed for
+the last 600 milliseconds and uses 2 MiB THP for ~60% (12/20) of the
+region.
+
+Region 105, which is 2 MiB size, has been accessed at least 20 times per
+100 milliseconds for the last 2.6 seconds) and fully backed by 2 MiB
+hugepage.
+
+[1] https://github.com/sjp38/masim
+[2] https://github.com/damonitor/damo
+
+Changes from RFC
+- RFC: https://lore.kernel.org/20260913171133.102366-1-sj@kernel.org
+- Commit size range for newly added hugepage_size filter.
+- Rebase to latest mm-new.
+
+SJ Park (8):
+  mm/damon/api: introduce DAMON_FILTER_TYPE_HUGEPAGE_SIZE
+  mm/damon/core: commit hugepage_size type damon filter
+  mm/damon/ops-common: support hugepage_size damon filter matching
+  mm/damon/sysfs: add min,max files under probe filter directory
+  mm/damon/sysfs: support hugepage_size probe filter
+  Docs/mm/damon/design: update for hugepage_size probe filter
+  Docs/admin-guide/mm/damon/usage: update for hugepage_size
+  Docs/ABI/damon: update for hugepage_size probe filter
+
+ .../ABI/testing/sysfs-kernel-mm-damon         | 14 +++++
+ Documentation/admin-guide/mm/damon/usage.rst  |  4 +-
+ Documentation/mm/damon/design.rst             |  2 +
+ include/linux/damon.h                         |  8 +++
+ mm/damon/core.c                               | 26 +++++++--
+ mm/damon/ops-common.c                         | 10 ++++
+ mm/damon/sysfs.c                              | 55 +++++++++++++++++++
+ 7 files changed, 113 insertions(+), 6 deletions(-)
+
+
+base-commit: 40d32defbd03e19f5767a2118f8d28cd0241dded
+-- 
+2.47.3
