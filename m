@@ -1,110 +1,126 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E828749B1F0;
-	Mon, 14 Sep 2026 15:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388D447126D;
+	Mon, 14 Sep 2026 15:41:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789399885; cv=none; b=MPtYa/vSBpUJu/b/H4bbVLjyCBuST7Meb59IGLSJuWm/A/rRpAA+XxdfoXowWtwXMWq+EmjUqXYfOTt1QB1YSRu6MwhIukoo+9PDnJE8c57nQhWixY5rnKIMZHTttlS+di5vN34uTaQkzO3x09zvQFIngeNI/I/eg2KZBsRft64=
+	t=1789400501; cv=none; b=MjtPYqY/hTV1epMisNxQqC1Cl3xxEORUmqRlgZPAoyKecYNnWiCMgnzdMdahB1Pr742F3W5R4g/j3s2y+SwJwYd+RBMGAXFqHZchwLxPGnnQA6/V1PR0efJrKZ2pGrLzcfmHURk4tktktNbY1Otuf8xx5HVoxISNVR3TbS1dTw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789399885; c=relaxed/simple;
-	bh=W+U/rCt6aUK3pukanrLOxptv8XEN9hA8AU/asIRljhY=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=N3/2aRX56Z5onoaLhFB+7vlg+FgkmrKkbFKXrTrP5yFi/lt3ysX3iQNgNNGuhG1tjPDTq2JHDLGmt6g0Rr4caMK4WtzZ03Pi+g5a4JqVySjJ1Zm8Tv2EzpisBZ/sI0AZ7tTNNBWvPbVvmOlDaww2+3MgiSERrhIfpxyL8Rzyth8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RbCEKtn4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789400501; c=relaxed/simple;
+	bh=1C11XBaWmlMwkcWzSZFuI1CdhCAjTwmTkCRbColifqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q5XWwjTfDIRMNXpDSOJqc2WVJIkiuB7EsHdD15jKJMH21B3z5Rewhw95TZKvQq5mEk3HJPUfBeruMKmbSP2Ygm0+Ngz7KX2hZDCnEFhGarcld8jtda93gTMu2mjP2fxlPF8c1M5AxpakOG2u0PADbC1fvVlrER4u7cY4pw9SauU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mXV5Pwoo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbCEKtn4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73F361F0089A;
-	Mon, 14 Sep 2026 15:31:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mXV5Pwoo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA81B1F00893;
+	Mon, 14 Sep 2026 15:41:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789399883;
-	bh=nR/vh4GvI0WOU5I3SDjzgrYVoTA8r4/N125W3zwVcoM=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=RbCEKtn4AO+w1y1Nm4+9OPjd3F5HeNMHAg3uez+4FdxFCGDSSpv7EiKf+nOYlAqRD
-	 WpbEgLLqAW4/l8pXzRAprjeTjPg5iYhCGnBEarYYppZgnkrHtBmnFS9mupbuYxw5uF
-	 9IaiI70goJcN/QHzRT88UUSpAI4Re7c2DETfrByKeR3s4TjTlq6nG8lVpXAeCBJkvv
-	 0JK4xXezKzgYlQ+Oc3bwKs3QN943NILxYGwTYwEDkh+jk8qAJukkZVAb2U57/OORtM
-	 maeohl2NdOmJIEX01jxCO7utzNVfC1W0jyXsjrJ+AH6xFXa9Zfjke3MaE5gkTOu/bL
-	 U9AI6BB36tibg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D092A3924A79;
-	Mon, 14 Sep 2026 15:30:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1789400500;
+	bh=LlgemL/nYzkX38RnFaAaX6AJ/gCOHK0upUXgQVTNyVk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mXV5PwooPI1WG5VI/r91KTvTitOS8mKo2hdWjhq8fQbgJe/U1VtQIvCZhBFeEdQKt
+	 sJ/FeF7uTtkAzcHRc8f5Ll+aLRcYHhzklf6O/JXjMXPtD5OBoexg9d2a4PnvCcpEbl
+	 W/dAeRct7RHYjVh5dIM7laA5XqDce+wFcD3gA75Af+ngIz6ah9LyD+WIr1XbTIjcS8
+	 +iABBytm/WzGYmh7PTm+E7oZlMlYvz0OhAhPDkyiGjJ4DohAsKrTtwTGq4S9XWafHd
+	 rItgUDmQjLg4/0Tf3JbQKE14I0mOX5K5QsN1iGeDTE9T/DqILWzH0KpIXD5cEG32KS
+	 D9OnMl0TAmaOA==
+Date: Mon, 14 Sep 2026 08:41:39 -0700
+From: Kees Cook <kees@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Alexey Gladkov <legion@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 00/21] kbuild: significantly speed up kernel builds
+Message-ID: <202609140833.88C0E16E50@keescook>
+References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [f2fs-dev] [PATCH v4 00/16] Remove PG_private by using
- page/folio->private checks instead
-From: patchwork-bot+f2fs@kernel.org
-Message-Id: 
- <178939981839.647967.9641554131485178993.git-patchwork-notify@kernel.org>
-Date: Mon, 14 Sep 2026 15:30:18 +0000
-References: <20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com>
-In-Reply-To: <20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com>
-To: Zi Yan <ziy@nvidia.com>
-Cc: david@kernel.org, willy@infradead.org, akpm@linux-foundation.org,
- muchun.song@linux.dev, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- baolin.wang@linux.alibaba.com, nico.pache@linux.dev, ryan.roberts@arm.com,
- dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev,
- usama.arif@linux.dev, gourry@gourry.net, ying.huang@linux.alibaba.com,
- apopple@nvidia.com, hannes@cmpxchg.org, qi.zheng@linux.dev,
- shakeel.butt@linux.dev, kasong@tencent.com, mark.rutland@arm.com,
- irogers@google.com, jack@suse.cz, linux-doc@vger.kernel.org,
- amarkuze@redhat.com, peterz@infradead.org, kexec@lists.infradead.org,
- dave.hansen@linux.intel.com, ruirui.yang@linux.dev, adrian.hunter@intel.com,
- linux-mm@kvack.org, hongbohbli@tencent.com, hpa@zytor.com,
- guochunhai@vivo.com, skhan@linuxfoundation.org, tz2294@columbia.edu,
- baoquan.he@linux.dev, matthew.brost@intel.com, anna@kernel.org,
- sstabellini@kernel.org, zbestahu@gmail.com, rakie.kim@sk.com,
- minchan@kernel.org, richard@nod.at, x86@kernel.org,
- ceph-devel@vger.kernel.org, ebiggers@kernel.org,
- alexander.shishkin@linux.intel.com, mingo@redhat.com, slava@dubeyko.com,
- weixugc@google.com, yukuai@fygo.io, xen-devel@lists.xenproject.org,
- xiang@kernel.org, magiclinan@didiglobal.com, mhiramat@kernel.org,
- joshua.hahnjy@gmail.com, xiao@kernel.org, byungchul@sk.com,
- james.clark@linaro.org, acme@kernel.org, linux-raid@vger.kernel.org,
- linux-fscrypt@vger.kernel.org, bp@alien8.de, rostedt@goodmis.org,
- linux-mtd@lists.infradead.org, axelrasmussen@google.com,
- jefflexu@linux.alibaba.com, namhyung@kernel.org, jaegeuk@kernel.org,
- yuanchu@google.com, idryomov@gmail.com, osalvador@suse.de, jgross@suse.com,
- pratyush@kernel.org, linux-nfs@vger.kernel.org, tytso@mit.edu,
- oleksandr_tyshchenko@epam.com, song@kernel.org, corbet@lwn.net,
- pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-perf-users@vger.kernel.org,
- senozhatsky@chromium.org, tglx@kernel.org, jolsa@kernel.org,
- linux-fsdevel@vger.kernel.org, mathieu.desnoyers@efficios.com,
- linux-trace-kernel@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- trondmy@kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
 
-Hello:
+On Mon, Sep 14, 2026 at 10:21:59AM +0100, Lorenzo Stoakes (ARM) wrote:
+> This series makes allmodconfig builds up to 36% faster, ...
 
-This series was applied to jaegeuk/f2fs.git (dev)
-by Jaegeuk Kim <jaegeuk@kernel.org>:
+This is very nice!
 
-On Sun, 13 Sep 2026 22:23:58 -0400 you wrote:
-> Hi all,
-> 
-> This patchset removes PG_private to make space for upcoming PG_folio for
-> identifying pages from a folio (more details in Note below). Instead of
-> checking PG_private, all code is changed to check page/folio->private !=
-> NULL instead.
-> 
+> incremental builds
+> up to ~70% faster, and noop builds up to ~90% faster.
+
+Some of the changes for this seem to add complexity that I'm not sure
+is balanced against the gain? I am still looking through the series,
+though, maybe I'll change my opinion. ;)
+
+> 		== allmodconfig FULL build ==
+
+Did you try Clang CONFIG_LTO=y builds?
+
+> 			== LLM usage ==
 > [...]
+> I extensively audited and rewrote a lot of it, and heavily edited commit
+> messages, the cover letter and comments.
 
-Here is the summary with links:
-  - [f2fs-dev,v4,06/16] f2fs: stop using PG_private
-    https://git.kernel.org/jaegeuk/f2fs/c/60105162524e
-  - [f2fs-dev,v4,07/16] f2fs: convert the ->private flag helpers to folio-only
-    (no matching commit)
+I feel like the commit logs still need a lot of work. The LLM verbosity
+problem appears in many of them, for example spending 80% of the commit
+log describing every step of some process as background before getting
+to the actual change. I think a human writing this would be much more
+terse about the background. I have, however, been known to be too terse
+in my own commit logs. :P
 
-You are awesome, thank you!
+> [...]
+> Nothing too controversial was included. There are further improvements that
+> could be made, but they would either by very invasive (large scale C header
+> changes) or generate diminishing returns.
+
+One area I think might solved via an LLM is the 3-pass kallsyms stuff.
+If we could get a deterministic kallsyms build in 1 pass, that would be
+very nice. A lot of people have tried, but it has eluded upstreaming.
+
+-Kees
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Kees Cook
