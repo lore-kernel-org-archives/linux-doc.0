@@ -1,77 +1,64 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2654A2613
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 15:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFAC49B5C5;
+	Mon, 14 Sep 2026 15:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789399394; cv=none; b=FLTTQIsLjInWT777Q0XHaBbsf9HDeKV0WnGoFma3rVx8ysVoHcVk6mCq0dca5lg6LpOqJikX3EqfXqXgED9gmS2wGoZ0SV3QjN3d3HcXjmPe6ouffZInqSjjnLL9u3SrIhkmH/VEImi8T60dATIj16T7UyjRy8snYju4xmXO4dA=
+	t=1789399496; cv=none; b=qXg1hoyTWZMLDPmGWUGAC5o82I3HUrXQnKSYixtpHPPzTb/zyAmJ6iX1Wck0AHm18s/dUTl79HdS3/HsGpB9n6C2mppXMM+1Y/NfVzOcEHwBCLfUjlde7eutABbT5wdFyqSR+DRprAiRD9qvjG/UXwzWzMJ8kPU1Z+3VPy/d3hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789399394; c=relaxed/simple;
-	bh=mGj/Stj8K3Ly3kqIusqXMbha7ae3v/sekGPhJYB4iro=;
+	s=arc-20240116; t=1789399496; c=relaxed/simple;
+	bh=jfKIlrnTmBvLbSkuzoW7nwMNniJMwOJsHByASfjaE18=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F2F/XalLQzxOhZ0XofRBCn8JTVHQZ3CTJ72crBjP5Gzi52RETO48cSm6O2Jc0skhuuPAWuHE679ktQbkUE/rqvqzIA/ss5QLXxP43f1iKZri8nARYwJgzHD5W29Ik11loVQybC8q/iHVz2j4Kd8GxaZBdT9bt6oH3HysIHPdrzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jEcCvUhy; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=lXc0xh2RcYDd5bfQFuX2s5yepb0vle9QSTd3kGa+HjuhzDwtW4S+7BmBdED/ZsvocwbfYFjirKbse/apAwgYghbwgclv83Tue1+T9n1DGpjo/YBPaDyu16uQtNg3hdUYhnNv3moTRwBCzj2Zba9WHVUVLwPhkzPEFuy7MSYWvZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D6by0sBS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jEcCvUhy"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-398beb616f5so854383a91.1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 08:23:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789399392; x=1790004192; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ztuGSF+PDwQIAlTtGQea9d1yEzizsRF7saPQJxLq9mM=;
-        b=jEcCvUhyjSFEwYFKdX12WSyztXAubvqy7nLzNmneeLglUcE+zOmrWjcekuOh8KhgZO
-         RmQ1tM0ejA62CPbIhl44JnhuOzhoJOSSxt1E9WyPW6VIo5+56MnQfeN7tHqDJJE6qAHR
-         LvCTm2/TOd/PJxJBq/tXdQYRdCVOHX+g2sQRjwxIc4pCtNWYweSqPLe8r9/Fl5dicXfn
-         3CCycS4bOmQdpuvSGHJmP1N3pSgY6bfgerpMhVuTqbTVXEKptgqMgK+0Voplshx9n34t
-         crpk6KSAwQHRqOVktBhYYEzLOW5En5gVc79EBaJAL3e9uJM2Kdnuo7YSazJ7Vd1F1YCV
-         9J3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789399392; x=1790004192;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ztuGSF+PDwQIAlTtGQea9d1yEzizsRF7saPQJxLq9mM=;
-        b=jbpuU0DbII87lfFYF71CL0q3a4MjlpkPzZcvfF9QEGaRVXOYVjR63f/NQsBfe42bh1
-         lhQo8Ue7gTqJ/66TZIqnzts1sQZEzKuwGrFSEFw0zRI0LQhz2VplkH/aSBDbv/F7/eIK
-         06TVS7Qp0oBK+MGDRgWuOTEDjSTqLY9gGSsWR4zURdTtkIZx8zP2QsOoF7g9MDW+KQpq
-         l5spdrtcLIpolr94Fpe27fApm/8MK76qoV4KfEZ7MHGHDDN3R2ISQmw3JRRRmGYIvGde
-         laArGxcZ/ZIR88RwA6Uz+GGIsf4kqVF330cJr0e2I5sHtNHUov0SXl5VJLY4fEHDoIoq
-         5kiQ==
-X-Forwarded-Encrypted: i=1; AKwUvByOMe20kfntpgaFK/AkUPah+cRwf2TOMhzhPXYIXTtXuzvYfQqVLY8QDUqnuPVDXg5qtq4zqr8CShc=@vger.kernel.org
-X-Gm-Message-State: AFuF++nwyVoSKtZA6N3+8fuRuzuJE8xsPObfFW9ofosLlZMr8LZNmOZf
-	MOo8I4wjeeaJ9Rdbpr23Y9i4cyPJ81mdg/VaaH1tGnENNT3XkznV6vt7
-X-Gm-Gg: AYBFou1cSa4K4LGUsC48usPR8nCHYigq4RX7ahGZ+Diu29mnD6HsARUnPq3EMP/p6Yi
-	bu/9H6m67oIFgME4tldKB6VHGC/UK4J9V8N3KgeOBWVTcLL/1Y1iOaTlYBvRqCleyPMXozKakme
-	mAzhiEhe9AmH27qzyoEa5ioS42xumZyvzxw8o5jtOcE0quek7lNFrG7FgjUnWHmFdpA6k7I60nY
-	hE1lNgfejk6BqPV65m5zdmnH7ZgW0X7lZD7Vz58smPMOCSl+IH9ZRil2V2tz9ldjAc2jUj+Y6Dw
-	Yq0m4w+kpv3gi9nlzuMmITjKydWqO4XCk7dyVyZ7O03jwt8ZHs29xqqMWc2g6M/B4dYCd3mx/rX
-	MpNVB2u8Y7oTpxfFxldiNBUSOKNgyNnDfD5NL0iQVltGVONjp7Cs9l6Hfa+qlBHL5wJOOUIbOQN
-	ltr/hDU9ccVqZjromVSwfyiak2J6TG21jz40+6zt7/uWDBZXINIQGen7BDlAskEi8+VSB+5cAUL
-	/lTRtu/VE01
-X-Received: by 2002:a17:90b:57c4:b0:38e:c232:9d2c with SMTP id 98e67ed59e1d1-39dec375390mr3341232a91.2.1789399391514;
-        Mon, 14 Sep 2026 08:23:11 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d9540fd76sm24274448a91.9.2026.09.14.08.23.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 08:23:10 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 14 Sep 2026 08:23:09 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: tze.yee.ng@altera.com
-Cc: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] hwmon: (socfpga) add Agilex 5 channel mapping
-Message-ID: <0cac6379-d89c-4ca4-bb8f-9fcfc6086f9d@roeck-us.net>
-References: <41bb317cbfb6f4e2711581f2ccb22071db17b19e.1789373027.git.tze.yee.ng@altera.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D6by0sBS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D28771F000FF;
+	Mon, 14 Sep 2026 15:24:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789399495;
+	bh=WL86cKdk/ZUM1qTOZj4B+L+bc1frQqDRCUlhlSxv/JQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=D6by0sBSuPsWnPY/q+3+4xxuX6qvTRutko6G8MFgm2Cgx7icFf77LFko08xgOogFa
+	 Q7hoHM9IO7d/MfeE/M35aFQUHhgNS8dCHhTb2vdRWWhepoRdkSG+3aIrGEpcO2uL1O
+	 SGeyDR+u4PbiXRNjfxFaz4YYPqI/uqF6Q1hTc37azbSMl2Z+PG2xV7V/wVVpLW1+5N
+	 jKCFeGb0EYtA5i/SCA7hk6dbkuVRO9cq3VEyZas+X47IL8Eijo12e4khM0fl5mUJV2
+	 Hg+16wB7QyUOYfGnlM4ppjr1ZK+lmVnEEdNmQ/oqGVaJ3hUpBtr7eI85g02Pn16I33
+	 zLHsGFg95m+vg==
+Date: Mon, 14 Sep 2026 16:24:41 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: John Stoffel <john@stoffel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 11/21] kbuild: avoid re-running compiler and linker
+ probes
+Message-ID: <aqgRXk6DXyAah488@gremlin>
+References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
+ <20260914-build-speedup-v2-11-39817ec5db23@kernel.org>
+ <27304.3198.867048.379684@quad.stoffel.home>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,28 +67,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <41bb317cbfb6f4e2711581f2ccb22071db17b19e.1789373027.git.tze.yee.ng@altera.com>
+In-Reply-To: <27304.3198.867048.379684@quad.stoffel.home>
 
-On Mon, Sep 14, 2026 at 05:13:35PM +0800, tze.yee.ng@altera.com wrote:
-> From: Tze Yee Ng <tze.yee.ng@altera.com>
-> 
-> Add temperature channel mapping for Agilex 5 and bind it to the
-> "intel,agilex5-svc" compatible string. Reuse the Agilex voltage channels.
-> Agilex 5 omits temperature channel 2 (top-left corner) because that
-> sensor is not present; remaining sensors keep Agilex channel numbers.
-> 
-> The "intel,agilex5-svc" compatible is added to the stratix10-svc match
-> table by a separate patch [1]. Without that change the service layer does
-> not bind on Agilex 5, so the socfpga-hwmon device is never created; this
-> patch depends on it.
-> 
-> Update the socfpga-hwmon documentation to list Agilex 5, the matching
-> compatible string, and the SDM temperature/voltage channel tables.
-> 
-> Signed-off-by: Tze Yee Ng <tze.yee.ng@altera.com>
-> Link: https://lore.kernel.org/all/20260907082203.2639395-4-adrian.ho.yin.ng@altera.com/ [1]
+On Mon, Sep 14, 2026 at 11:02:22AM -0400, John Stoffel wrote:
+> >>>>> "Lorenzo" == Lorenzo Stoakes (ARM) <ljs@kernel.org> writes:
+>
+> > Each kernel make invocation begins with ~30 compiler and linker runs each
+> > of which performs duplicate probe for a number of compiler and linker
+> > options.
+>
+> > This is useless work - the compiler and its version is known, so use these
+> > to determine which options are available, once.
+>
+> > A convention already exists for this - CC_HAS_xxx, LD_HAS_xxx in Kconfig
+> > files (for example, CC_HAS_COUNTED_BY), so convert these probes to Kconfig
+> > options where appropriate.
+>
+> > This change avoids a sublte issue with ppc32 (big endian) - clang doesn't
+>                        ^^^^^^
+>
+> subtle
 
-Applied.
+Oops!
 
-Thanks,
-Guenter
+I love that I ran this through AI review several times and it missed
+something as simple as this :)
+
+>
+> > accept -fno-stack-clash-protection on this sub-target, so keep this option
+> > in the Makefile.
+>
+> > With gcc and clang, defconfig and allmodconfig, the recorded command
+> > lines are unchanged, a build with nothing to do rebuilds nothing and W=1
+> > continues to function correctly.
+>
+> > Doing this improves all builds, but has a particularly positive impact on
+> > no-op builds (builds where nothing has changed).
+>
+> > Whole build, 128-thread Threadripper 9980X, best of N runs:
+>
+> >                                          before   after     delta
+> >                                          -------------------------------
+> >   x86 defconfig, no-op make, gcc           0.78s    0.60s    -0.18s (-23%)
+> >   x86 defconfig, no-op make, clang         0.94s    0.66s    -0.28s (-30%)
+> >   x86 defconfig, touch mm/vma.c, gcc        8.6s     8.5s    -0.16s (-2%)
+> >   x86 defconfig, touch mm/vma.c, clang      8.0s     7.7s    -0.24s (-3%)
+> >   x86 defconfig, clean, clang              29.8s    29.4s    -0.37s (-1%)
+> >   x86 allmodconfig, no-op make, gcc        12.9s    12.7s    -0.23s (-2%)
+> >   x86 allmodconfig, no-op make, clang      14.2s    13.9s    -0.29s (-2%)
+> >   x86 allmodconfig, touch mm/vma.c, clang  32.2s    31.9s    -0.30s (-1%)
+>
+> Are these deltas just per-patch, but cumulative with all the previous
+> patches applied?
+>
+
+Per-patch. I let the threadripper do builds for a LONG time to accumulate
+these... :)
+
+--
+Cheers, Lorenzo
