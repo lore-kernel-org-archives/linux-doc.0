@@ -1,371 +1,353 @@
-Received: from mail-244107.protonmail.ch (mail-244107.protonmail.ch [109.224.244.107])
+Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F361C3B2FD4;
-	Mon, 14 Sep 2026 23:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86C22D73A0;
+	Mon, 14 Sep 2026 23:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.143.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789429084; cv=none; b=FX8HUKUkUlWV885YTDV4F5bGPdJGD9JNHGDWSFO8eeLN2SnVVdyTIq3nbOYL/Gqv1zlL9HlPIHLJxC12SYHhxZKksRl3GhAeIo3OHht2RwtMWx+n8HC6aPZaj88pqeaXKBJ7B86PXjMSbll84Bj2vu4RBUoo8jfgXCPfccoMe3g=
+	t=1789429852; cv=none; b=MnCnqJ4a+hWzU1vQVFoBgpEcf5noXxDWGG/2HOQnTytj+0MX/ZDu+LmHyssmn2/lcLX8cknc0bJ3ANMyYjcs/7nNvLXBk7HXmuTqbMt3JJ73/zCHnp43ioz1h32TTGI3x95tcii+Cx9VA5assoCIczHXM9uCBEGpQbYmtnxA11Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789429084; c=relaxed/simple;
-	bh=+3l6/hAEENAGMfP0VLMsxBy7amHlxZeguhGYIxUPpQg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xe+jI6UGIpiD03uNcMY19zkRKixMwzykZ7uNX0ogq1dNdaSu6Ai9O/KlfDWvcRI6ufqK48i4UJKm+hQd12F17yRsAGI9sWnZwtQzXaT/y5/RlbCrfyYK5P7ygq54IV5fvqRbF42ME3xzPo1NUtwMYaz3NOKkHYGt0r4TByWwuoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vasily.cc; spf=pass smtp.mailfrom=vasily.cc; dkim=pass (2048-bit key) header.d=vasily.cc header.i=@vasily.cc header.b=nTa40stb; arc=none smtp.client-ip=109.224.244.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vasily.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vasily.cc
+	s=arc-20240116; t=1789429852; c=relaxed/simple;
+	bh=ku23Ddch2mZ/2zWmPS5XMcgBtLZIXvqmNAmX33FPQJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a2Q3Xi7nl2yhefQV+UOUcEgfVSvfTCqDWXq8DLrzS3zdaIHPEl+jaeeVVH80/8BWYfylMgYZIdT7qP5Naw9elbHoN+Q+F7uHdiOPX82kaITMq0xw7Cd4mTNRjw/LFgLB8YZWRmmIsGHy5wWlmdBNN2coo+r8WM5+xwPqHjZJONQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=Spi3IfKJ; arc=none smtp.client-ip=148.163.143.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vasily.cc header.i=@vasily.cc header.b="nTa40stb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vasily.cc;
-	s=protonmail2; t=1789429074; x=1789688274;
-	bh=DXm57IH84I+Z/2Zqi7VYiba7Lxjq0R6Hm6M0atmougI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:From:To:
-	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=nTa40stbC9pZ4JqmpArr/raEydGcvDhQugLHNtBZU3YLTbF1aPG+gswXAFciA4OHd
-	 l7D25nbDdnttwDCQtDJHOWldSvFm/2OmVTdOLfERG13qHCOTqS2m2nkjDrEG6OVFSH
-	 pTTCBhYRhgSdAMbOKbTg5uGajJx/uXYNju/7HXwglB48uqzHVKEO+MjMCxJglzuBg9
-	 XQx2u6SbdbnKv1B24PpqLtAHODJxn6zkSfbggTHcFIu/B/dmDhlnD4TER34kiZ+Kv4
-	 w7akFmzO+3IIJNkBqyJRnAtthBG1Vejxs1atdTyoMHy0970MvfNJZ2sge9VaEm1TaK
-	 bxlj5OAhRSUPA==
-X-Pm-Submission-Id: 4hkM5X2cdLz1DDX8
-From: Vas Zayarskiy <contact@vasily.cc>
-To: linux@roeck-us.net,
-	Aleksa Savic <savicaleksa83@gmail.com>,
-	Jack Doan <me@jackdoan.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v3 4/4] hwmon: (aquacomputer_d5next) Add AMPINEL support
-Date: Tue, 15 Sep 2026 02:37:28 +0300
-Message-ID: <20260914233728.22725-5-contact@vasily.cc>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260914233728.22725-1-contact@vasily.cc>
-References: <20260914233728.22725-1-contact@vasily.cc>
+	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="Spi3IfKJ"
+Received: from pps.filterd (m0134424.ppops.net [127.0.0.1])
+	by mx0b-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68EN1ZkU3352244;
+	Mon, 14 Sep 2026 23:49:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=cc
+	:content-type:date:from:message-id:mime-version:subject:to; s=
+	pps0720; bh=BgixqtpyB38o3XY2oscHlzHiD+X2kqerFNseLSwBY1w=; b=Spi3
+	IfKJOoBzqCTThh26JAsodV1anoacuSWzddRtaspX9w8+bDruCYP0IufX/uMog7YL
+	7bwELT+8a5H86Dww2S88k5Ve6TXagVcdpp+3eFgDN3tNRHNrMbVejnX10PxfRPRI
+	JtlFfmaMrGMPVn5RdM03JfhsAMBzAuBGkEO4NqtJJyFJIY8uJhpFR/LypLg3bFjB
+	gWswAt5H01c3huEkhkezkvARahj9xjenAwYnRsfkrIgCQlFCvH8QZlEW8bW/qMc/
+	XAOcsax6+XfLFfV/CIr7HQHZcOYxJTSRIhMY5HjRbKxEmSzV1hGN+BvE/MEkBplq
+	BFGYe80gt3qsNNfxgg==
+Received: from p1lg14878.it.hpe.com (p1lg14878.it.hpe.com [16.230.97.204])
+	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 4gpn7hcf6f-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 14 Sep 2026 23:49:50 +0000 (GMT)
+Received: from p1lg14886.dc01.its.hpecorp.net (unknown [10.119.18.237])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by p1lg14878.it.hpe.com (Postfix) with ESMTPS id E4BDD147A9;
+	Mon, 14 Sep 2026 23:49:48 +0000 (UTC)
+Received: from HPE-5CG20646DK.localdomain (unknown [16.231.227.36])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by p1lg14886.dc01.its.hpecorp.net (Postfix) with ESMTPS id 14E84806B64;
+	Mon, 14 Sep 2026 23:49:41 +0000 (UTC)
+Date: Mon, 14 Sep 2026 18:49:38 -0500
+From: Kyle Meyer <kyle.meyer@hpe.com>
+To: akpm@linux-foundation.org, corbet@lwn.net, david@redhat.com,
+        linmiaohe@huawei.com, shuah@kernel.org, tony.luck@intel.com,
+        jane.chu@oracle.com, jiaqiyan@google.com
+Cc: Liam.Howlett@oracle.com, bp@alien8.de, hannes@cmpxchg.org, jack@suse.cz,
+        joel.granados@kernel.org, kyle.meyer@hpe.com, laoar.shao@gmail.com,
+        lorenzo.stoakes@oracle.com, mclapinski@google.com, mhocko@suse.com,
+        nao.horiguchi@gmail.com, osalvador@suse.de, rafael.j.wysocki@intel.com,
+        rppt@kernel.org, russ.anderson@hpe.com, shawn.fan@intel.com,
+        surenb@google.com, vbabka@suse.cz, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH v3] mm/memory-failure: Support disabling soft offline for
+ HugeTLB pages
+Message-ID: <aqiIEkrc6aDBOqRg@hpe.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Proofpoint-GUID: -OZ1egiv-0_rkLUWk5mvi5IhLB3ihwUa
+X-Proofpoint-ORIG-GUID: -OZ1egiv-0_rkLUWk5mvi5IhLB3ihwUa
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE0MDM0MCBTYWx0ZWRfX4EeDazthgUzO
+ LLUjnQKXrkHQlp8jhLNGNx43SiXHtlBtXji0UEGn3qiw+18ZH+Jhj5srbWJq1/j7ImlH1i3LgXq
+ 1YgzqkM+ylPp12jNi2pPyw8CpaUuoxMun346MqrPr7EqeAJVBTm1quCi+yzGbmVcHKhWD+UYz0Z
+ WFXjTKNIZW3LaU2IDaG7C2qcm6AKONPEirctifQkVmjr3RaEZrgMT17D7pvO16oBxWokp8ZJ7Es
+ 1xZqXkE8M10JaVQCxd3pk+8jHwgLhIxG+lyJYNn3jDGv7vcUJi4Od/mdnnwDR8hyhTFG9vzOxd0
+ SF8fUyCct21W0YLDOQC2Gt0i1Fc5ftsauv0yJ+c7pBryDhTdP9lOHh36cmitFTRIiyQdjWYPer2
+ hlJRom+y/sXFZYYJxdd6mMSEtZOVewaOW+qcSZHnCS0DpTTmSXUOAJIHEa1N5XpV9Qdj9CNkCV+
+ makygRo9TYkhHrfTnCQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE0MDM0MCBTYWx0ZWRfX02HMWpRZM5hP
+ 7iUGhR6Ql5A7+nzFh26BcjaPUAuqtrP7ZTNF5qQuCJ2cH6guavuDPS/P+QjgNlQOqiw4yOeKRNj
+ nuH9JiWolp/1e7UKTdIWN0Dkfm8NZZ8=
+X-Authority-Analysis: v=2.4 cv=Gt3XaU1C c=1 sm=1 tr=0 ts=6aa8881e cx=c_pps
+ a=UObrlqRbTUrrdMEdGJ+KZA==:117 a=UObrlqRbTUrrdMEdGJ+KZA==:17
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=gQcMVamqm3wCPoSYhaRC:22 a=3haJ9R1Aw3gUfsUHDaCR:22 a=VwQbUJbxAAAA:8
+ a=QyXUC8HyAAAA:8 a=MvuuwTCpAAAA:8 a=Sg6dGvN4MyGzWyVrZPUA:9 a=CjuIK1q_8ugA:10
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-14_05,2026-09-14_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ suspectscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609140340
 
-Add read-only total power, total current, input voltage, hotspot
-temperature and six channel currents for the Aquacomputer AMPINEL.
+Soft offlining a HugeTLB page dissolves it, permanently reducing the
+HugeTLB page pool. This can be problematic for workloads that depend on
+a fixed number of HugeTLB pages.
 
-Decode its 544-byte input report through the existing serial-number,
-temperature and update path, with power, current and voltage handled in
-the device-specific switch. Store all readings in hwmon units.
+Currently, soft offline must be disabled to prevent HugeTLB pages from
+being soft offlined.
 
-Match only the USB telemetry interface, leaving the separate keyboard
-interface to hid-generic. Validate the telemetry collection and report
-size before opening the device. Channel labels follow report order;
-configuration and alarms are not supported.
+This patch allows soft offline to be disabled for HugeTLB pages while
+remaining enabled for non-HugeTLB pages.
 
-Assisted-by: LLM sparse
-Signed-off-by: Vas Zayarskiy <contact@vasily.cc>
+Commit 56374430c5dfc ("mm/memory-failure: userspace controls
+soft-offlining pages") introduced the following sysctl interface to
+control soft offline:
+
+/proc/sys/vm/enable_soft_offline
+
+The interface does not distinguish between page types:
+
+    0 - Soft offline is disabled
+    1 - Soft offline is enabled
+
+Convert enable_soft_offline to a bitmask and support disabling soft
+offline for HugeTLB pages:
+
+Bits:
+
+    0 - Enable soft offline
+    1 - Disable soft offline for HugeTLB pages
+
+Supported values:
+
+    0 - Soft offline is disabled
+    1 - Soft offline is enabled
+    3 - Soft offline is enabled (disabled for HugeTLB pages)
+
+Existing behavior is preserved.
+
+Update documentation and HugeTLB soft offline selftests.
+
+Suggested-by: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Kyle Meyer <kyle.meyer@hpe.com>
 ---
- Documentation/hwmon/aquacomputer_d5next.rst |  11 ++
- drivers/hwmon/Kconfig                       |   4 +-
- drivers/hwmon/aquacomputer_d5next.c         | 107 +++++++++++++++++++-
- 3 files changed, 116 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
-index 49163f387..faf1c51c1 100644
---- a/Documentation/hwmon/aquacomputer_d5next.rst
-+++ b/Documentation/hwmon/aquacomputer_d5next.rst
-@@ -13,6 +13,7 @@ Supported devices:
- * Aquacomputer Quadro fan controller
- * Aquacomputer High Flow Next sensor
- * Aquacomputer Leakshield leak prevention system
-+* Aquacomputer AMPINEL power monitor
- * Aquacomputer Aquastream XT watercooling pump
- * Aquacomputer Aquastream Ultimate watercooling pump
- * Aquacomputer Poweradjust 3 fan controller
-@@ -69,6 +70,16 @@ The Aquastream XT pump exposes temperature readings for the coolant, external se
- and fan IC. It also exposes pump and fan speeds (in RPM), voltages, as well as pump
- current.
+Tony's patch:
+* https://lore.kernel.org/all/20250904155720.22149-1-tony.luck@intel.com
+
+v1:
+* https://lore.kernel.org/all/aMGkAI3zKlVsO0S2@hpe.com
+
+v1 -> v2:
+* Make the interface extensible, as suggested by David.
+* Preserve existing behavior, as suggested by Jiaqi and David.
+* https://lore.kernel.org/all/aMiu_Uku6Y5ZbuhM@hpe.com
+
+v2 -> v3:
+* Minor documentation updates.
+* Use page_folio(page) instead of pfn_folio(pfn) for HugeTLB page check.
+
+---
+ .../ABI/testing/sysfs-memory-page-offline     |  3 +++
+ Documentation/admin-guide/sysctl/vm.rst       | 27 +++++++++++++++----
+ mm/memory-failure.c                           | 17 +++++++++---
+ .../selftests/mm/hugetlb-soft-offline.c       | 19 ++++++++++---
+ 4 files changed, 54 insertions(+), 12 deletions(-)
+
+diff --git a/Documentation/ABI/testing/sysfs-memory-page-offline b/Documentation/ABI/testing/sysfs-memory-page-offline
+index 00f4e35f916f..19aa539fb910 100644
+--- a/Documentation/ABI/testing/sysfs-memory-page-offline
++++ b/Documentation/ABI/testing/sysfs-memory-page-offline
+@@ -20,6 +20,9 @@ Description:
+ 		number, or a error when the offlining failed.  Reading
+ 		the file is not allowed.
  
-+The AMPINEL exposes total power, total current, input voltage, hotspot
-+temperature and six channel currents. Channel numbers follow report order;
-+their mapping to physical connector pins has not been verified. The readings
-+are received approximately twice per second. Only sensor reads are supported;
-+the driver does not configure protection settings or report alarms.
++		Soft-offline can be controlled via sysctl:
++		Documentation/admin-guide/sysctl/vm.rst
 +
-+For AMPINEL, ``power1_input`` is total power, ``in0_input`` is input voltage,
-+``temp1_input`` is hotspot temperature, ``curr1_input`` is total current, and
-+``curr[2-7]_input`` are the six channel currents.
+ What:		/sys/devices/system/memory/hard_offline_page
+ Date:		Sep 2009
+ KernelVersion:	2.6.33
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index 5b318d17aa4b..ee1941e44643 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -309,16 +309,33 @@ physical memory) vs performance / capacity implications in transparent and
+ HugeTLB cases.
+ 
+ For all architectures, enable_soft_offline controls whether to soft offline
+-memory pages.  When set to 1, kernel attempts to soft offline the pages
+-whenever it thinks needed.  When set to 0, kernel returns EOPNOTSUPP to
+-the request to soft offline the pages.  Its default value is 1.
++memory pages.
+ 
+-It is worth mentioning that after setting enable_soft_offline to 0, the
++enable_soft_offline is a bitmask:
 +
- The Aquastream Ultimate pump exposes coolant temp and an external temp sensor, along
- with speed, power, voltage and current of both the pump and optionally connected fan.
- It also exposes pressure and flow speed readings.
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 3d8b2c958..06cb246ff 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -257,14 +257,14 @@ config SENSORS_AHT10
- 	  will be called aht10.
- 
- config SENSORS_AQUACOMPUTER_D5NEXT
--	tristate "Aquacomputer D5 Next, Octo, Quadro, Farbwerk, Farbwerk 360, High Flow Next"
-+	tristate "Aquacomputer D5 Next and other USB devices"
- 	depends on USB_HID
- 	select CRC16
- 	help
- 	  If you say yes here you get support for sensors and fans of
- 	  the Aquacomputer D5 Next watercooling pump, Octo and Quadro fan
- 	  controllers, Farbwerk and Farbwerk 360 RGB controllers, High Flow
--	  Next sensor, where available.
-+	  Next sensor and AMPINEL power monitor, where available.
- 
- 	  This driver can also be built as a module. If so, the module
- 	  will be called aquacomputer_d5next.
-diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-index b58f5b5c9..e661c4dfa 100644
---- a/drivers/hwmon/aquacomputer_d5next.c
-+++ b/drivers/hwmon/aquacomputer_d5next.c
-@@ -2,7 +2,7 @@
- /*
-  * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk, Farbwerk 360, Octo,
-  * Quadro, High Flow Next, Aquaero, Aquastream Ultimate, Leakshield,
-- * High Flow USB/MPS Flow family)
-+ * High Flow USB/MPS Flow family, AMPINEL)
-  *
-  * Aquacomputer devices send HID reports (with ID 0x01) every second to report
-  * sensor values, except for devices that communicate through the
-@@ -23,6 +23,7 @@
- #include <linux/module.h>
- #include <linux/seq_file.h>
- #include <linux/unaligned.h>
-+#include <linux/usb.h>
- 
- #define USB_VENDOR_ID_AQUACOMPUTER	0x0c70
- #define USB_PRODUCT_ID_AQUAERO		0xf001
-@@ -33,6 +34,7 @@
- #define USB_PRODUCT_ID_OCTO		0xf011
- #define USB_PRODUCT_ID_HIGHFLOWNEXT	0xf012
- #define USB_PRODUCT_ID_LEAKSHIELD	0xf014
-+#define USB_PRODUCT_ID_AMPINEL		0xf015
- #define USB_PRODUCT_ID_AQUASTREAMXT	0xf0b6
- #define USB_PRODUCT_ID_AQUASTREAMULT	0xf00b
- #define USB_PRODUCT_ID_POWERADJUST3	0xf0bd
-@@ -41,7 +43,7 @@
- enum kinds {
- 	d5next, farbwerk, farbwerk360, octo, quadro,
- 	highflownext, aquaero, poweradjust3, aquastreamult,
--	aquastreamxt, leakshield, highflow
-+	aquastreamxt, leakshield, highflow, ampinel
- };
- 
- static const char *const aqc_device_names[] = {
-@@ -56,7 +58,8 @@ static const char *const aqc_device_names[] = {
- 	[aquaero] = "aquaero",
- 	[aquastreamult] = "aquastreamultimate",
- 	[poweradjust3] = "poweradjust3",
--	[highflow] = "highflow" /* Covers MPS Flow devices */
-+	[highflow] = "highflow", /* Covers MPS Flow devices */
-+	[ampinel] = "ampinel"
- };
- 
- #define DRIVER_NAME			"aquacomputer_d5next"
-@@ -111,6 +114,16 @@ static u8 aquaero_secondary_ctrl_report[] = {
- #define AQC_FAN_POWER_OFFSET		0x06
- #define AQC_FAN_SPEED_OFFSET		0x08
- 
-+/* AMPINEL offsets include the report ID byte. */
-+#define AMPINEL_DATA_INTERFACE		1
-+#define AMPINEL_STATUS_REPORT_SIZE	544
-+#define AMPINEL_NUM_CHANNELS		6
-+#define AMPINEL_CHANNEL_CURRENT_START	0x6f
-+#define AMPINEL_POWER			0xc7
-+#define AMPINEL_CURRENT			0xc9
-+#define AMPINEL_VOLTAGE			0xcf
-+#define AMPINEL_HOTSPOT			0xe1
++Bits::
 +
- /* Specs of the Aquaero fan controllers */
- #define AQUAERO_SERIAL_START			0x07
- #define AQUAERO_FIRMWARE_VERSION		0x0B
-@@ -516,6 +529,24 @@ static const char *const label_highflow_speeds[] = {
- 	"Flow speed [dL/h]"
- };
++	0 - Enable soft offline
++	1 - Disable soft offline for HugeTLB pages
++
++Supported values::
++
++	0 - Soft offline is disabled
++	1 - Soft offline is enabled
++	3 - Soft offline is enabled (disabled for HugeTLB pages)
++
++The default value is 1.
++
++If soft offline is disabled for the requested page type, EOPNOTSUPP is returned.
++
++It is worth mentioning that after disabling soft offline, the
+ following requests to soft offline pages will not be performed:
  
-+static const char *const label_ampinel_temp[] = {
-+	"Hotspot"
-+};
++- Request to soft offline pages from sysfs.
 +
-+static const char *const label_ampinel_power[] = {
-+	"Total power"
-+};
-+
-+static const char *const label_ampinel_voltage[] = {
-+	"VCC In"
-+};
-+
-+static const char *const label_ampinel_current[] = {
-+	"Total current",
-+	"Channel 1", "Channel 2", "Channel 3",
-+	"Channel 4", "Channel 5", "Channel 6"
-+};
-+
- struct aqc_fan_structure_offsets {
- 	u8 voltage;
- 	u8 curr;
-@@ -869,6 +900,10 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
- 		break;
- 	case hwmon_power:
- 		switch (priv->kind) {
-+		case ampinel:
-+			if (channel == 0)
-+				return 0444;
-+			break;
- 		case aquastreamult:
- 			/* Special case to support pump and fan power */
- 			if (channel < 2)
-@@ -889,6 +924,10 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
- 		break;
- 	case hwmon_curr:
- 		switch (priv->kind) {
-+		case ampinel:
-+			if (channel < AMPINEL_NUM_CHANNELS + 1)
-+				return 0444;
-+			break;
- 		case aquastreamult:
- 			/* Special case to support pump and fan current */
- 			if (channel < 2)
-@@ -907,6 +946,10 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
- 		break;
- 	case hwmon_in:
- 		switch (priv->kind) {
-+		case ampinel:
-+			if (channel == 0)
-+				return 0444;
-+			break;
- 		case d5next:
- 			/* Special case to support +5V and +12V voltage sensors */
- 			if (channel < priv->num_fans + 2)
-@@ -1336,12 +1379,17 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
- 		return 0;
+ - Request to soft offline pages from RAS Correctable Errors Collector.
  
- 	priv = hid_get_drvdata(hdev);
-+	if (priv->kind == ampinel &&
-+	    (report->type != HID_INPUT_REPORT || size != AMPINEL_STATUS_REPORT_SIZE ||
-+	     data[0] != STATUS_REPORT_ID))
-+		return 0;
+-- On ARM, the request to soft offline pages from GHES driver.
++- Request to soft offline pages from GHES driver.
  
- 	/* Info provided with every report */
- 	priv->serial_number[0] = get_unaligned_be16(data + priv->serial_number_start_offset);
- 	priv->serial_number[1] = get_unaligned_be16(data + priv->serial_number_start_offset +
- 						    SERIAL_PART_OFFSET);
--	priv->firmware_version = get_unaligned_be16(data + priv->firmware_version_offset);
-+	if (priv->firmware_version_offset)
-+		priv->firmware_version = get_unaligned_be16(data + priv->firmware_version_offset);
+ - On PARISC, the request to soft offline pages from Page Deallocation Table.
  
- 	/* Physical temperature sensor readings */
- 	for (i = 0; i < priv->num_temp_sensors; i++) {
-@@ -1394,6 +1442,17 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index a8b03e2920ba..6c4ce39f46df 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -69,11 +69,14 @@
+ #include "page_alloc.h"
+ #include "internal.h"
  
- 	/* Special-case sensor readings */
- 	switch (priv->kind) {
-+	case ampinel:
-+		priv->power_input[0] =
-+			min_t(u64, get_unaligned_be16(data + AMPINEL_POWER) * 100000ULL,
-+			      LONG_MAX);
-+		priv->current_input[0] = get_unaligned_be16(data + AMPINEL_CURRENT) * 10;
-+		for (i = 0; i < AMPINEL_NUM_CHANNELS; i++)
-+			priv->current_input[i + 1] =
-+				get_unaligned_be16(data + AMPINEL_CHANNEL_CURRENT_START +
-+						   i * AQC_SENSOR_SIZE);
-+		priv->voltage_input[0] = get_unaligned_be16(data + AMPINEL_VOLTAGE);
-+		break;
- 	case aquaero:
- 		/* Read calculated virtual temp sensors */
- 		i = priv->num_temp_sensors + priv->num_virtual_temp_sensors;
-@@ -1519,8 +1578,26 @@ static void aqc_debugfs_init(struct aqc_data *priv)
- 		debugfs_create_file("power_cycles", 0444, priv->debugfs, priv, &power_cycles_fops);
- }
- 
-+static bool aqc_match(struct hid_device *hdev, bool ignore_special_driver)
-+{
-+	struct usb_interface *intf;
++#define SOFT_OFFLINE_ENABLED		BIT(0)
++#define SOFT_OFFLINE_SKIP_HUGETLB	BIT(1)
 +
-+	if (ignore_special_driver || hdev->quirks & HID_QUIRK_IGNORE_SPECIAL_DRIVER)
-+		return false;
-+
-+	if (hdev->product != USB_PRODUCT_ID_AMPINEL)
-+		return true;
-+
-+	if (!hid_is_usb(hdev))
-+		return false;
-+
-+	intf = to_usb_interface(hdev->dev.parent);
-+	return intf->cur_altsetting->desc.bInterfaceNumber == AMPINEL_DATA_INTERFACE;
-+}
-+
- static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
- {
-+	struct hid_report *report;
- 	struct aqc_data *priv;
- 	int ret;
+ static int sysctl_memory_failure_early_kill __read_mostly;
  
-@@ -1537,6 +1614,14 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	if (ret)
- 		return ret;
+ static int sysctl_memory_failure_recovery __read_mostly = 1;
  
-+	if (hdev->product == USB_PRODUCT_ID_AMPINEL) {
-+		report = hdev->report_enum[HID_INPUT_REPORT].report_id_hash[STATUS_REPORT_ID];
-+		if (hdev->maxcollection != 1 ||
-+		    hdev->collection[0].usage != (HID_UP_MSVENDOR | 1) ||
-+		    !report || report->size != (AMPINEL_STATUS_REPORT_SIZE - 1) * 8)
-+			return -ENODEV;
-+	}
-+
- 	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
- 	if (ret)
- 		return ret;
-@@ -1546,6 +1631,15 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		goto fail_and_stop;
+-static int sysctl_enable_soft_offline __read_mostly = 1;
++static int sysctl_enable_soft_offline __read_mostly = SOFT_OFFLINE_ENABLED;
  
- 	switch (hdev->product) {
-+	case USB_PRODUCT_ID_AMPINEL:
-+		priv->kind = ampinel;
-+		priv->num_temp_sensors = 1;
-+		priv->temp_sensor_start_offset = AMPINEL_HOTSPOT;
-+		priv->temp_label = label_ampinel_temp;
-+		priv->power_label = label_ampinel_power;
-+		priv->voltage_label = label_ampinel_voltage;
-+		priv->current_label = label_ampinel_current;
-+		break;
- 	case USB_PRODUCT_ID_AQUAERO:
- 		/*
- 		 * Aquaero presents itself as three HID devices under the same product ID:
-@@ -1795,6 +1889,9 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ static int sysctl_panic_on_unrecoverable_mf __read_mostly;
+ 
+@@ -157,7 +160,7 @@ static const struct ctl_table memory_failure_table[] = {
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_ONE,
++		.extra2		= SYSCTL_THREE,
+ 	},
+ 	{
+ 		.procname	= "panic_on_unrecoverable_memory_failure",
+@@ -2982,12 +2985,20 @@ int soft_offline_page(unsigned long pfn, int flags)
+ 		return -EIO;
  	}
  
- 	switch (priv->kind) {
-+	case ampinel:
-+		priv->serial_number_start_offset = AQC_SERIAL_START;
-+		break;
- 	case aquaero:
- 		priv->serial_number_start_offset = AQUAERO_SERIAL_START;
- 		priv->firmware_version_offset = AQUAERO_FIRMWARE_VERSION;
-@@ -1890,6 +1987,7 @@ static const struct hid_device_id aqc_table[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_QUADRO) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_HIGHFLOWNEXT) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_LEAKSHIELD) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_AMPINEL) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_AQUASTREAMXT) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_AQUASTREAMULT) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_POWERADJUST3) },
-@@ -1902,6 +2000,7 @@ MODULE_DEVICE_TABLE(hid, aqc_table);
- static struct hid_driver aqc_driver = {
- 	.name = DRIVER_NAME,
- 	.id_table = aqc_table,
-+	.match = aqc_match,
- 	.probe = aqc_probe,
- 	.remove = aqc_remove,
- 	.raw_event = aqc_raw_event,
+-	if (!sysctl_enable_soft_offline) {
++	if (!(sysctl_enable_soft_offline & SOFT_OFFLINE_ENABLED)) {
+ 		pr_info_once("disabled by /proc/sys/vm/enable_soft_offline\n");
+ 		put_ref_page(pfn, flags);
+ 		return -EOPNOTSUPP;
+ 	}
+ 
++	if (sysctl_enable_soft_offline & SOFT_OFFLINE_SKIP_HUGETLB) {
++		if (folio_test_hugetlb(page_folio(page))) {
++			pr_info_once("disabled for HugeTLB pages by /proc/sys/vm/enable_soft_offline\n");
++			put_ref_page(pfn, flags);
++			return -EOPNOTSUPP;
++		}
++	}
++
+ 	mutex_lock(&mf_mutex);
+ 
+ 	if (PageHWPoison(page)) {
+diff --git a/tools/testing/selftests/mm/hugetlb-soft-offline.c b/tools/testing/selftests/mm/hugetlb-soft-offline.c
+index bc202e4ed2bd..9837c315a81e 100644
+--- a/tools/testing/selftests/mm/hugetlb-soft-offline.c
++++ b/tools/testing/selftests/mm/hugetlb-soft-offline.c
+@@ -5,6 +5,8 @@
+  *   offlining failed with EOPNOTSUPP.
+  * - if enable_soft_offline = 1, a hugepage should be dissolved and
+  *   nr_hugepages/free_hugepages should be reduced by 1.
++ * - if enable_soft_offline = 3, HugeTLB pages should stay intact and soft
++ *   offlining failed with EOPNOTSUPP.
+  *
+  * The test allocates 8 default hugepages
+  */
+@@ -31,6 +33,9 @@
+ 
+ #define EPREFIX " !!! "
+ 
++#define SOFT_OFFLINE_ENABLED		(1 << 0)
++#define SOFT_OFFLINE_SKIP_HUGETLB	(1 << 1)
++
+ static int do_soft_offline(int fd, size_t len, int expect_errno)
+ {
+ 	char *filemap = NULL;
+@@ -55,6 +60,7 @@ static int do_soft_offline(int fd, size_t len, int expect_errno)
+ 	ksft_print_msg("Allocated %#lx bytes of hugetlb pages\n", len);
+ 
+ 	hwp_addr = filemap + len / 2;
++	errno = 0;
+ 	ret = madvise(hwp_addr, pagesize, MADV_SOFT_OFFLINE);
+ 	ksft_print_msg("MADV_SOFT_OFFLINE %p ret=%d, errno=%d\n",
+ 		       hwp_addr, ret, errno);
+@@ -82,7 +88,7 @@ static int set_enable_soft_offline(int value)
+ 	char cmd[256] = {0};
+ 	FILE *cmdfile = NULL;
+ 
+-	if (value != 0 && value != 1)
++	if (value < 0 || value > 3)
+ 		return -EINVAL;
+ 
+ 	sprintf(cmd, "echo %d > /proc/sys/vm/enable_soft_offline", value);
+@@ -128,13 +134,17 @@ static int create_hugetlbfs_file(struct statfs *file_stat)
+ static void test_soft_offline_common(int enable_soft_offline)
+ {
+ 	int fd;
+-	int expect_errno = enable_soft_offline ? 0 : EOPNOTSUPP;
++	int expect_errno = 0;
+ 	struct statfs file_stat;
+ 	unsigned long hugepagesize_kb = 0;
+ 	unsigned long nr_hugepages_before = 0;
+ 	unsigned long nr_hugepages_after = 0;
+ 	int ret;
+ 
++	if (!(enable_soft_offline & SOFT_OFFLINE_ENABLED) ||
++	    (enable_soft_offline & SOFT_OFFLINE_SKIP_HUGETLB))
++		expect_errno = EOPNOTSUPP;
++
+ 	ksft_print_msg("Test soft-offline when enabled_soft_offline=%d\n",
+ 		       enable_soft_offline);
+ 
+@@ -165,7 +175,7 @@ static void test_soft_offline_common(int enable_soft_offline)
+ 	// No need for the hugetlbfs file from now on.
+ 	close(fd);
+ 
+-	if (enable_soft_offline) {
++	if (expect_errno == 0) {
+ 		if (nr_hugepages_before != nr_hugepages_after + 1) {
+ 			ksft_test_result_fail("MADV_SOFT_OFFLINE should reduced 1 hugepage\n");
+ 			return;
+@@ -190,8 +200,9 @@ int main(int argc, char **argv)
+ 	if (!hugetlb_setup_default(8))
+ 		ksft_exit_skip("not enough hugetlb pages\n");
+ 
+-	ksft_set_plan(2);
++	ksft_set_plan(3);
+ 
++	test_soft_offline_common(3);
+ 	test_soft_offline_common(1);
+ 	test_soft_offline_common(0);
+ 
+-- 
+2.51.0
+
