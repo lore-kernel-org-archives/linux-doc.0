@@ -1,609 +1,232 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154933B777C
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 07:16:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2080E3EE1F8;
+	Mon, 14 Sep 2026 07:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789370176; cv=none; b=Qi0maDkVI3FZfJ+ua46uUKuuA1n1eJgZjUM0aHit6sN0jubThpr4zgmnDzSdkqjUrrd7OlFend1FJ7MPXaKpez3rZEy4grvR/sbIZZUaoulIeSbhJ6yNdllTMm7eXi1ux/yGKU/m34b/NX8i9g/TCBM5/s+Sj1TWSdud7M6Gnmw=
+	t=1789372001; cv=none; b=R16qKteYiMJGhqwKQoJ8OdyScQiat+daXFF2PfDNOYIBkl5LRoOBm0zSYxeInH5S6OFfBRN5pQGizeX5LXWQIYrMYNm6lveLP89ZmWNSNQ4Vuq7KFPxpb8PXWpPKlVXYLRxupGdxJG2Eh0IC9yRBz+3eZ4ySAZOR28vkhHXHYRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789370176; c=relaxed/simple;
-	bh=Z3gRReMI2MXyvkvdZqOZSuEsRFPZ8FFXXeV2fQqgflA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bnuloq+w/nsn3GCL3nkyzjWDHQsAiVGIbY8ARHwSBljbJ/2HxmM6z2x5gBo5FWekeJD3LFUdDBuf338I0qtgiW4i2ggTnHNBxaNExoAs06BAsZmU/3J536Vw2KLpIXCtPYY1hD005BtzuyFyu7YRPokDjf22xmMn2F8wPBterG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kyc87FPl; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789372001; c=relaxed/simple;
+	bh=QIWfivjx2GOW8s4orZRtQu6ys0g6jRn4SzCAEClhEY4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=g5+qJIIE9VeovUB4rfMaqQusvg2DJRVOrXNQCBpBGPie5FY9tVcyzdE9boJhAseRlacqrSaLThK4LM7yz+WzorXU9Td2XcCQJVqNl7x3enppgvtm3sebp8oC2ZtumuDtFW/LU4H90YKFXeV5Zs3+dP+v2gUFyCR2As8wD/NcJUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=1DeEcovY; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kyc87FPl"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843c2790ccso893351f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 00:16:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789370172; x=1789974972; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YYUlTUTs+mnKKTV+ZLnSvoMgwNBVxWwasV2EoQomx3k=;
-        b=kyc87FPlTdJ1dx29+7UoMI6q6f96fene8oGQMMrcLh1K2owyliTMm+Y+LclkeXhKqa
-         FDBzcwPHii5S+qnfJKv6REdzKDVqW+vLM2ai4xORTuaqDTk6mhkw0EsV9/PR/dV+vG9L
-         V6B/f829miqiPkS2l/r4MsjjgCp2hDkWE1wh7lsWXuzmuk+vb+yvCtnaQfQtlusP3IFj
-         uzuWT+bfp9bN1Ox9wEZx5I3Ncxv2Ee7aSCdfi1C0xeDgrKreaTxjLmZWbK08OTgzBkHh
-         CUq6lUbSK5jrkq3OiPHWPW4DEOMWmlK26cjEH7/UF1i2fcf20tuKARH5URT4ZIDpjw6K
-         JZ1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789370172; x=1789974972;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YYUlTUTs+mnKKTV+ZLnSvoMgwNBVxWwasV2EoQomx3k=;
-        b=gla1X83mKgtCCjQ5+tLulIBZGyldgyn1cCQ445hBGYxp7ozol03mIgHtQ/MM3zdrVH
-         N7w4Z+La18qYmzaViPzqxyEDLcAuAYgOMihItAOGDO9uSMkmXpwfdmwehPGrKfk8rdcQ
-         m2m43sVkFJDoPx/9VjA/lChcjzf7f3ZtMcHPgxWbknapvuDiGIJ2BA/rIr8dkoNP5Wzi
-         yyqoBPAf/EFTXPnpFQTjB3EoCqGkTwKsKGDdMWQHiq/WdxQFl+8DnpeOtrA5GZcSurhS
-         2UbIuKhFshgXwSSm1UAUPpa+iOI5qCh3H7aiktFqf8Zz+fTClZDQENEKAFJ3ehyPv1f2
-         +1fg==
-X-Gm-Message-State: AFuF++mw11mPBfOIMg0nhZeZaNmh3o5M+MclxWIt1D/6WsyKDcfKswA5
-	Cz2AUaRnXPgJ6I9Hgu+FQ9zXUzKFV59zsZXJX0b3gyQ0XUzkH+PacKya
-X-Gm-Gg: AYBFou3K45V1fweNPD9q7MJj5H7lnDGI4KKpbLCrobXZem7ONMiFEnCBdmr1Hx68ojq
-	VlvEF8OSQ8qYAp9rRcdjnUF3ijwTZQyLcBvea52WKGWClSNfQpLJmqxy4JCjKaVLs2Mp4OkMGct
-	xGEb1u2lqpDuB6Osc9DAJicIe7YHX0FpcUlV2czpUDIz3TyN7ksHfsikp82ntRytiYeccZnOR7e
-	/cy6M+n0y2Yf3uTcYwEeo/FUHww5ZBbiAihMM+AB37JgOjPAyrw8tVO3aeGtUv/gegBT5iguEgX
-	t9ewYUjN3h/VY41A8SDE8aHNuHkXyfP/Lc/SsOZXeqebM0WAW73B9XTGq4uXrc7Xis7Qgi+VtLa
-	xmAUu3hsnCHL8gvE7Ntfp1p3jmCAAv6WgidEBHBaTNspCCFin3aeGeHVEQLNs1jaelG+klUODfe
-	Zxe/MwQQDRDAtzv8ik3szSa0niky8rNDBdPJJJQ+alP776IASRIvfYPLo1tz7DWQHeaUT3jm0Su
-	1bOJsxeEkYGQTUfXIBSm7qI7lzikF2+YYu1SDEM
-X-Received: by 2002:a05:6000:29d2:b0:487:37d:ae8d with SMTP id ffacd0b85a97d-487037db15amr623668f8f.21.1789370172183;
-        Mon, 14 Sep 2026 00:16:12 -0700 (PDT)
-Received: from fedora-tap.advaoptical.com ([82.166.23.19])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb357288sm25161082f8f.29.2026.09.14.00.16.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 00:16:11 -0700 (PDT)
-From: Sagi Maimon <maimon.sagi@gmail.com>
-To: Richard Cochran <richardcochran@gmail.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	netdev@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sagi Maimon <maimon.sagi@gmail.com>
-Subject: [PATCH net-next v14 4/4] ptp: ocp: add TAP CPLD flashing via devlink
-Date: Mon, 14 Sep 2026 10:15:55 +0300
-Message-ID: <20260914071555.11684-5-maimon.sagi@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20260914071555.11684-1-maimon.sagi@gmail.com>
-References: <20260914071555.11684-1-maimon.sagi@gmail.com>
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="1DeEcovY"
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68E5gaVs490418;
+	Mon, 14 Sep 2026 03:46:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=WPCsp3n8DXeeLf7tNTMYsUERDfb
+	n++9ND/Bwb+vOmI8=; b=1DeEcovYKQDZhyC9mTQLZno61GTPsW510UTPzUrLpCv
+	UQoB+yeHIszptkmi4o1v0FEZTvuW0pARtDK3oIrhXvBSF41AS67Wz55n/uVSlN1f
+	KJk4Jqs80mtjM2Q/tg9nV1/FsTG5I3DjswZkElzBYjC0EZQ0EHO/panciMnFs6Np
+	kgtplrOnilGXEaJFaRA/Vjzi2k7nygzsASn7LFiKsHKhIUotV5n7xih/al6nWLNL
+	N81nNjv62qu/beTUT0fBgEtzcZyeqGmDhokY4oqWxjO4TWABX+Kx8O+38cQ32EDT
+	grsUi4ayoUlcHv4QBvLUsrQ2I8ZZw4pRooevhakTHVw==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4gnn2ccmtt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 14 Sep 2026 03:46:11 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 68E7kAUS009379
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 14 Sep 2026 03:46:10 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Mon, 14 Sep
+ 2026 03:46:10 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Mon, 14 Sep 2026 03:46:09 -0400
+Received: from ATORRENO-L02.ad.analog.com ([10.66.6.192])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 68E7juAU031751;
+	Mon, 14 Sep 2026 03:45:59 -0400
+From: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Date: Mon, 14 Sep 2026 15:45:17 +0800
+Subject: [PATCH] hwmon: (pmbus/max34440): Add support for ADPM12300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20260914-dev_adpm12300-v1-1-15fc8143d457@analog.com>
+X-B4-Tracking: v=1; b=H4sIAAymp2oC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDS0MT3ZTUsvjElIJcQyNjAwNdY0MT07TEpNQ0MzMDJaCegqLUtMwKsHn
+ RsbW1ACHROXRfAAAA
+X-Change-ID: 20260914-dev_adpm12300-3145fabef660
+To: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+CC: <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Alexis Czezar Torreno
+	<alexisczezar.torreno@analog.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789371956; l=5505;
+ i=alexisczezar.torreno@analog.com; s=20250213; h=from:subject:message-id;
+ bh=QIWfivjx2GOW8s4orZRtQu6ys0g6jRn4SzCAEClhEY4=;
+ b=M4+H6J796rM3s3lUGEy41M3aTNU4w4j61ZZmjXdDhdwc0WZ/d9pOtKsVYXwbu3fWtrlztcTpa
+ rY6j5hk9F0pDXS2H8j/xK7T1qPnMCrdNortlLn7yy9VrB/AlB/hQM1h
+X-Developer-Key: i=alexisczezar.torreno@analog.com; a=ed25519;
+ pk=XpXmJnRjnsKdDil6YpOlj9+44S+XYXVFnxvkbmaZ+10=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: JeXnKaFR6CB4kWs3kSFpIilAiklGsRjS
+X-Proofpoint-ORIG-GUID: JeXnKaFR6CB4kWs3kSFpIilAiklGsRjS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE0MDEwOCBTYWx0ZWRfX6aLIMX32YrOv
+ G8XWHysNPIpOQb8ed5CleLMrBGGKOduw2T5fWnysP0KpWE13gVBxv1qqZZBUAmZFB08RqGurC1p
+ DHJVDULD0Hp87XlhzNJguOlznK1vMOwHNNVABrUNxlPZ9EbAnaXNKiuYiQKFiSQcVSo9+iERghy
+ o+QiAmZ2BQ4yRjNQ4YCyM5+wVb7jhDWkWTV9m27cdFTbvxEkjHA5M8v8PyMiG/XRFZzDosRWvBt
+ 7J5ESXGcru2Rz55GPkb+zgJKSlTP5mCd1+TpaEIe35vJ6GxM5rxXnrv2PINfMuG8THY3PLjs4aQ
+ CSSYWGBlD4jv0cERPYqUrKboor9ewL8ut81Sm3zWlLvHSYCpcadV0QD1RjQikwQKBHYCG4mRL2m
+ 5a83ta+rYuN2zQkviQZAwm0MtQwvLvjZRw45zzE+ye1UogjTG1HRmt/Z2u/sto59MTu4M6X0MMq
+ bBTioLu6eYYcYaffoDA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE0MDEwOCBTYWx0ZWRfX68Hbm2BWeYEX
+ TZQ89IP/g5uyCYXTBNq86SUpxl143k9hZhRiJJBEaMA1ewfBIDDjFkjTwA7WzR9juAN+Mhh+6W8
+ ZBus57o2Ryp8Noq6ZyBm5qnZOW/1q+RZJ7bsHI0J2ylmcWANOnlW
+X-Authority-Analysis: v=2.4 cv=bcH+w+PB c=1 sm=1 tr=0 ts=6aa7a643 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22 a=gAnH3GRIAAAA:8
+ a=Xpb0v-N9-WCVBoyP4joA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-14_02,2026-09-13_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 bulkscore=0
+ suspectscore=0 phishscore=0 adultscore=0 spamscore=0 malwarescore=0
+ clxscore=1011 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609140108
 
-The Lattice MachXO3 CPLD on the ADVA TimeCard X1 is programmed over I2C
-using in-system programming (ISP).  Build on the TMC bus arbitration added
-previously and expose the update path as a devlink flash component, next
-to the card flash the driver already writes through devlink.
+ADPM12300 is a quarter brick DC/DC Power Module. It is a high power
+non-isolated converter capable of delivering regulated 12V with
+continuous power level of 3000W. Uses PMBus.
 
-The component is named fw.cpld and reported as a running version, so
-->info_get() both publishes the USERCODE of the image currently in the
-part and lets the core accept the name:
-
-  devlink dev flash pci/0000:02:00.0 file adva-cpld.bin component fw.cpld
-
-Flashing acquires the bus, erases the configuration flash, programs the
-image page by page and activates it with the MachXO3 REFRESH command,
-reporting progress with the standard devlink notifications.  The CPLD is
-required to come back with DONE set, not busy and no error code before the
-update is called successful, as drivers/fpga/machxo2-spi.c does.
-
-The whole sequence runs under cpld_lock and the i2c adapter lock, so an
-EEPROM read blocks for as long as programming takes; the alternative is
-reading the TMC bus instead.  Flashing is privileged:
-DEVLINK_CMD_FLASH_UPDATE carries GENL_ADMIN_PERM.
-
-Signed-off-by: Sagi Maimon <maimon.sagi@gmail.com>
+Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
 ---
- Documentation/ABI/testing/sysfs-timecard     |   4 +
- Documentation/networking/devlink/ptp_ocp.rst |  37 ++-
- drivers/ptp/ptp_ocp.c                        | 327 ++++++++++++++++++-
- 3 files changed, 361 insertions(+), 7 deletions(-)
+ADPM12300 is a quarter brick DC/DC Power Module. It is a high power
+non-isolated converter capable of delivering regulated 12V with
+continuous power level of 3000W. Identical to ADPM12250, it simply
+has a higher power rating. Uses PMBus.
+---
+ Documentation/hwmon/max34440.rst | 28 ++++++++++++++++++----------
+ drivers/hwmon/pmbus/Kconfig      |  4 ++--
+ drivers/hwmon/pmbus/max34440.c   |  2 ++
+ 3 files changed, 22 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-timecard b/Documentation/ABI/testing/sysfs-timecard
-index c440d8930384..6ddca452bc63 100644
---- a/Documentation/ABI/testing/sysfs-timecard
-+++ b/Documentation/ABI/testing/sysfs-timecard
-@@ -35,6 +35,10 @@ Description:	(RO, root only) The flags set in the status register of the
- 		probe, and reported from that cached value as the fixed
- 		"cpld.id" version by devlink dev info.
+diff --git a/Documentation/hwmon/max34440.rst b/Documentation/hwmon/max34440.rst
+index 866f22b88e9b360ff54aa52807484bb3e859e56e..8ce10aa425d5db30d13f3868c3466ef32efefdee 100644
+--- a/Documentation/hwmon/max34440.rst
++++ b/Documentation/hwmon/max34440.rst
+@@ -27,6 +27,14 @@ Supported chips:
  
-+		New CPLD firmware is programmed with devlink dev flash,
-+		selecting the "fw.cpld" component; see
-+		Documentation/networking/devlink/ptp_ocp.rst.
-+
- What:		/sys/class/timecard/ocpN/available_clock_sources
- Date:		September 2021
- Contact:	Jonathan Lemon <jonathan.lemon@gmail.com>
-diff --git a/Documentation/networking/devlink/ptp_ocp.rst b/Documentation/networking/devlink/ptp_ocp.rst
-index 3f997cd9f3a3..37e9f1ebd1a8 100644
---- a/Documentation/networking/devlink/ptp_ocp.rst
-+++ b/Documentation/networking/devlink/ptp_ocp.rst
-@@ -5,7 +5,7 @@ ptp_ocp devlink support
- ========================
+     Datasheet: -
  
- This document describes the devlink features implemented by the ``ptp_ocp``
--device driver.
-+device driver: the info versions it reports and its flash update support.
++  * ADI ADPM12300
++
++    Prefixes: 'adpm12300'
++
++    Addresses scanned: -
++
++    Datasheet: -
++
+   * Maxim MAX34440
  
- Info versions
- =============
-@@ -33,3 +33,38 @@ The ``ptp_ocp`` driver reports the following versions
-        reprograms the on-card mux, so the driver does that once from its
-        own worker and reports the cached value here; the version is
-        omitted until that read has succeeded.
-+   * - ``fw.cpld``
-+     - running
-+     - USERCODE of the image programmed into the TAP CPLD, formatted as
-+       ``0x%08x``.  Read together with ``cpld.id`` and reported the same
-+       way.  This is the component name to pass to ``devlink dev flash``
-+       to update the CPLD.
-+
-+Flash update
-+============
-+
-+The driver implements ``devlink dev flash`` for two separate targets,
-+selected with the component name.
-+
-+.. list-table:: Flash components
-+   :widths: 20 80
-+
-+   * - Component
-+     - Description
-+   * - (none)
-+     - The card's own flash, written through the SPI controller the driver
-+       exposes.  The card runs the new image after its next reset.
-+   * - ``fw.cpld``
-+     - The configuration flash of the TAP CPLD on ADVA TimeCard X1 boards,
-+       programmed over I2C with the MachXO3 in-system programming commands
-+       and activated with a REFRESH, so the new image runs immediately.
-+       The image is the raw configuration bitstream, a whole number of
-+       16-byte pages; container formats such as ``.jed`` are rejected.
-+
-+Programming the CPLD claims the shared I2C bus for the whole cycle, so
-+reads of the card's EEPROM block until it completes.  Progress is reported
-+with the standard devlink status notifications.
-+
-+Example::
-+
-+    $ devlink dev flash pci/0000:02:00.0 file adva-cpld.bin component fw.cpld
-diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
-index 98cb26077181..58b90b2b282f 100644
---- a/drivers/ptp/ptp_ocp.c
-+++ b/drivers/ptp/ptp_ocp.c
-@@ -434,12 +434,16 @@ struct ptp_ocp {
- 	u8			*cpld_buf;
- 	/* Lattice device ID; 0 if unread */
- 	u32			cpld_id;
-+	/* USERCODE of the programmed image; valid once cpld_id is set */
-+	u32			cpld_usercode;
- 	/* the one-shot ID read is finished, successfully or not */
- 	bool			cpld_id_tried;
- 	/* failed ID read attempts so far */
- 	unsigned int		cpld_id_attempts;
- 	/* x1 TAP CPLD present */
- 	bool			has_cpld;
-+	/* EN_CFG_TP issued but not yet REFRESH'd */
-+	bool			cpld_in_config_mode;
- };
+     Prefixes: 'max34440'
+@@ -105,11 +113,11 @@ This driver supports multiple devices: hardware monitoring for Maxim MAX34440
+ PMBus 6-Channel Power-Supply Manager, MAX34441 PMBus 5-Channel Power-Supply
+ Manager and Intelligent Fan Controller, and MAX34446 PMBus Power-Supply Data
+ Logger; PMBus Voltage Monitor and Sequencers for MAX34451, MAX34452, MAX34460,
+-and MAX34461; PMBus DC/DC Power Module ADPM12160, ADPM12200, and ADPM12250. The
+-MAX34451 and MAX34452 support monitoring voltage or current of 16 channels based
+-on GIN pins. The MAX34460 supports 12 voltage channels, and the MAX34461 supports
+-16 voltage channels. The ADPM12160, ADPM12200, and ADPM12250 also monitor both
+-input and output of voltage and current.
++and MAX34461; PMBus DC/DC Power Module ADPM12160, ADPM12200, ADPM12250 and
++ADPM12300. The MAX34451 and MAX34452 support monitoring voltage or current of 16
++channels based on GIN pins. The MAX34460 supports 12 voltage channels, and the
++MAX34461 supports 16 voltage channels. The ADPM12160, ADPM12200, ADPM12250 and
++ADPM12300 also monitor both input and output of voltage and current.
  
- #define OCP_REQ_TIMESTAMP	BIT(0)
-@@ -476,6 +480,13 @@ static int ptp_ocp_adva_board_init(struct ptp_ocp *bp, struct ocp_resource *r);
- static const struct ocp_sma_op ocp_adva_sma_op;
- static const struct ocp_sma_op ocp_adva_x1_sma_op;
+ The driver is a client driver to the core PMBus driver. Please see
+ Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
+@@ -167,8 +175,8 @@ in[1-6]_reset_history	Write any value to reset history.
+ .. note::
  
-+/* Flash component naming the CPLD image, as reported by ->info_get(). */
-+#define ADVA_CPLD_COMPONENT	"fw.cpld"
-+
-+static int adva_x1_cpld_flash(struct ptp_ocp *bp, struct devlink *devlink,
-+			      const struct firmware *fw,
-+			      struct netlink_ext_ack *extack);
-+
- static const struct ocp_attr_group fb_timecard_groups[];
+     - MAX34446 only supports in[1-4].
+-    - ADPM12160, ADPM12200, and ADPM12250 only supports in[1-2]. Label is "vin1"
+-      and "vout1" respectively.
++    - ADPM12160, ADPM12200, ADPM12250, and ADPM12300 only supports in[1-2].
++      Label is "vin1" and "vout1" respectively.
  
- static const struct ocp_attr_group art_timecard_groups[];
-@@ -2158,6 +2169,17 @@ ptp_ocp_devlink_flash_update(struct devlink *devlink,
- 	const char *msg;
- 	int err;
+ Curr
+ ~~~~
+@@ -190,9 +198,9 @@ curr[1-6]_reset_history	Write any value to reset history.
  
-+	if (params->component) {
-+		if (!bp->has_cpld ||
-+		    strcmp(params->component, ADVA_CPLD_COMPONENT)) {
-+			NL_SET_ERR_MSG_MOD(extack,
-+					   "unsupported flash component");
-+			return -EOPNOTSUPP;
-+		}
-+
-+		return adva_x1_cpld_flash(bp, devlink, params->fw, extack);
-+	}
-+
- 	dev = ptp_ocp_find_flash(bp);
- 	if (!dev) {
- 		dev_err(&bp->pdev->dev, "Can't find Flash SPI adapter\n");
-@@ -2180,6 +2202,8 @@ static int
- ptp_ocp_devlink_info_get(struct devlink *devlink, struct devlink_info_req *req,
- 			 struct netlink_ext_ack *extack)
- {
-+	enum devlink_info_version_type ver_type =
-+					DEVLINK_INFO_VERSION_TYPE_COMPONENT;
- 	struct ptp_ocp *bp = devlink_priv(devlink);
- 	const char *fw_image;
- 	char buf[32];
-@@ -2202,6 +2226,16 @@ ptp_ocp_devlink_info_get(struct devlink *devlink, struct devlink_info_req *req,
- 		err = devlink_info_version_fixed_put(req, "cpld.id", buf);
- 		if (err)
- 			return err;
-+
-+		/* The flashable component: naming it here is what lets
-+		 * "devlink dev flash ... component fw.cpld" through, as the
-+		 * core matches the name against the versions reported here.
-+		 */
-+		sprintf(buf, "0x%08x", READ_ONCE(bp->cpld_usercode));
-+		err = devlink_info_version_running_put_ext(req, "fw.cpld", buf,
-+							   ver_type);
-+		if (err)
-+			return err;
- 	}
+     - in6 and curr6 attributes only exist for MAX34440.
+     - MAX34446 only supports curr[1-4].
+-    - For ADPM12160, ADPM12200, and ADPM12250, curr[1] is "iin1"
++    - For ADPM12160, ADPM12200, ADPM12250, and ADPM12300, curr[1] is "iin1"
+     - For ADPM12160, and ADPM12200 curr[2-6] are "iout[1-5]".
+-    - For ADPM12250, curr[2-4] are "iout[1-3]".
++    - For ADPM12250, and ADPM12300 curr[2-4] are "iout[1-3]".
  
- 	if (!bp->has_eeprom_data) {
-@@ -4296,13 +4330,25 @@ static const struct ocp_attr_group art_timecard_groups[] = {
+ Power
+ ~~~~~
+@@ -228,7 +236,7 @@ temp[1-8]_reset_history	Write any value to reset history.
+ .. note::
+    - temp7 and temp8 attributes only exist for MAX34440.
+    - MAX34446 only supports temp[1-3].
+-   - ADPM12160, ADPM12200, and ADPM12250 only supports temp[1].
++   - ADPM12160, ADPM12200, ADPM12250, and ADPM12300 only supports temp[1].
  
- /* Lattice LCMXO3LF ISC command codes */
- #define CPLD_CMD_READ_ID      0xE0000000UL
-+#define CPLD_CMD_READ_USERCODE 0xC0000000UL
- #define CPLD_CMD_READ_STATUS  0x3C000000UL
-+#define CPLD_CMD_EN_CFG_TP    0x74   /* enable config, transparent mode */
-+#define CPLD_CMD_DIS_CFG      0x26
-+#define CPLD_CMD_ERASE        0x0E
-+#define CPLD_CMD_RESET_ADDR   0x46
-+#define CPLD_CMD_WRITE_PAGE   0x70
-+#define CPLD_CMD_SET_DONE     0x5E
-+#define CPLD_CMD_REFRESH      0x79
-+#define CPLD_PAGE_SIZE        16
-+#define CPLD_POLL_US          10000  /* status poll interval while busy */
-+#define CPLD_ERASE_MS         15000  /* config sector erase, datasheet max */
- #define CPLD_ID_MAX_ATTEMPTS  10     /* one per sync_work tick */
  
- /* Status register bit positions (Lattice LCMXO3LF datasheet) */
- #define CPLD_STATUS_DONE   BIT(8)
- #define CPLD_STATUS_BUSY   BIT(12)
- #define CPLD_STATUS_FAILED BIT(13)
-+#define CPLD_STATUS_ERR    GENMASK(25, 23)
+ .. note::
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index 3289ab50a0280d93204ea5fab22e2435c8f01328..90305d5d59e8249b83f33ccef1cb749615bd75e3 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -454,8 +454,8 @@ config SENSORS_MAX34440
+ 	help
+ 	  If you say yes here you get hardware monitoring support for Maxim
+ 	  MAX34440, MAX34441, MAX34446, MAX34451, MAX34452, MAX34460, and
+-	  MAX34461. Other compatible devices are ADPM12160, ADPM12200, and
+-	  ADPM12250.
++	  MAX34461. Other compatible devices are ADPM12160, ADPM12200,
++	  ADPM12250, and ADPM12300.
  
- /*
-  * Issue one I2C transaction on the TMC bus: @cmd if not negative, then
-@@ -4522,6 +4568,48 @@ static int adva_x1_mux_select(struct ptp_ocp *bp, int ch)
- 	return adva_x1_i2c_xfer(bp, ADVA_MUX_ADDR, val, NULL, 0, NULL, 0);
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called max34440.
+diff --git a/drivers/hwmon/pmbus/max34440.c b/drivers/hwmon/pmbus/max34440.c
+index 866d25ae8971c49d3e296efb69fc486e5dbac668..7f71dfe486438752fbbded6ed9c4172dd8ab8534 100644
+--- a/drivers/hwmon/pmbus/max34440.c
++++ b/drivers/hwmon/pmbus/max34440.c
+@@ -812,10 +812,12 @@ static int max34440_probe(struct i2c_client *client)
+ 	return pmbus_do_probe(client, &data->info);
  }
  
-+/*
-+ * Argument bytes that follow an ISC opcode.  Returns NULL with @nargs set
-+ * when the arguments are all zero: adva_x1_i2c_xfer() zeroes the buffer.
-+ */
-+static const u8 *adva_x1_cpld_args(u8 cmd, u8 *nargs)
-+{
-+	static const u8 en_cfg_tp[] = { 0x08, 0x00 };
-+	/* cfg sector only */
-+	static const u8 erase_cfg[] = { 0x04, 0x00, 0x00 };
-+
-+	switch (cmd) {
-+	case CPLD_CMD_EN_CFG_TP:
-+		*nargs = sizeof(en_cfg_tp);
-+		return en_cfg_tp;
-+	case CPLD_CMD_ERASE:
-+		*nargs = sizeof(erase_cfg);
-+		return erase_cfg;
-+	case CPLD_CMD_RESET_ADDR:
-+	case CPLD_CMD_SET_DONE:
-+		*nargs = 3;
-+		return NULL;
-+	case CPLD_CMD_DIS_CFG:
-+	case CPLD_CMD_REFRESH:
-+		*nargs = 2;
-+		return NULL;
-+	default:
-+		*nargs = 0;
-+		return NULL;
-+	}
-+}
-+
-+/* Send an ISC command with the fixed arguments that belong to it. */
-+static int adva_x1_cpld_write(struct ptp_ocp *bp, u8 cmd)
-+{
-+	const u8 *args;
-+	u8 nargs;
-+
-+	args = adva_x1_cpld_args(cmd, &nargs);
-+
-+	return adva_x1_i2c_xfer(bp, ADVA_CPLD_ADDR, cmd, args, nargs, NULL, 0);
-+}
-+
- /*
-  * Send a 4-byte command and read back without an intermediate STOP: two
-  * messages in one transfer is the Lattice write -> repeated START -> read,
-@@ -4547,14 +4635,82 @@ static int adva_x1_cpld_read_status(struct ptp_ocp *bp, u32 *status)
- 	return 0;
- }
- 
-+/* Poll the status register until the CPLD goes idle, or @max_ms elapses.
-+ * The deadline is on wall time, so the I2C transactions count against it,
-+ * and the status is read once more after it expires before giving up.
-+ */
-+static int adva_x1_cpld_wait_ready(struct ptp_ocp *bp, unsigned int max_ms)
-+{
-+	u32 status = 0;
-+	int err = 0, ret;
-+
-+	ret = read_poll_timeout(adva_x1_cpld_read_status, err,
-+				err || (status & CPLD_STATUS_FAILED) ||
-+				!(status & CPLD_STATUS_BUSY),
-+				CPLD_POLL_US, max_ms * USEC_PER_MSEC, false,
-+				bp, &status);
-+	if (ret)
-+		return ret;
-+	/* Keep the transport errno so it reaches userspace as-is; -EIO is
-+	 * reserved for the CPLD itself reporting FAILED.
-+	 */
-+	if (err)
-+		return err;
-+	if (status & CPLD_STATUS_FAILED)
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+/* Wait for BUSY to clear, ignoring a pending cancel.  An ISC command issued
-+ * while the part is still erasing or programming may not latch, so an abort
-+ * has to wait the operation out before it can leave configuration mode.
-+ */
-+static int adva_x1_cpld_wait_idle(struct ptp_ocp *bp, unsigned int max_ms)
-+{
-+	u32 status = 0;
-+	int err = 0, ret;
-+
-+	ret = read_poll_timeout(adva_x1_cpld_read_status, err,
-+				err || !(status & CPLD_STATUS_BUSY),
-+				CPLD_POLL_US, max_ms * USEC_PER_MSEC, false,
-+				bp, &status);
-+	if (ret)
-+		return ret;
-+
-+	return err;
-+}
-+
-+/* Leave transparent configuration mode.  cpld_in_config_mode stays set when
-+ * DIS_CFG does not get through, so a later cleanup() tries again rather than
-+ * recording an exit that never happened.
-+ */
-+static void adva_x1_cpld_exit_config(struct ptp_ocp *bp)
-+{
-+	int err;
-+
-+	if (!bp->cpld_in_config_mode)
-+		return;
-+
-+	adva_x1_cpld_wait_idle(bp, CPLD_ERASE_MS);
-+
-+	err = adva_x1_cpld_write(bp, CPLD_CMD_DIS_CFG);
-+	if (err)
-+		dev_warn(&bp->pdev->dev,
-+			 "CPLD left in configuration mode: %d\n", err);
-+	else
-+		bp->cpld_in_config_mode = false;
-+}
-+
- /*
-- * Read the Lattice device ID into bp->cpld_id.  Done once, off the
-- * unprivileged devlink path, which reports the cached value.  -EBUSY means
-- * cpld_lock is held, so the caller can retry rather than wait behind a long
-- * CPLD operation.
-+ * Read the Lattice device ID and the image USERCODE under one bus claim.
-+ * Done once, off the unprivileged devlink path, which reports the cached
-+ * values.  -EBUSY means cpld_lock is held, so the caller can retry rather
-+ * than wait behind a long CPLD operation.
-  */
- static int adva_x1_cpld_read_id(struct ptp_ocp *bp)
- {
-+	u32 id, usercode;
- 	u8 data[4];
- 	int ret;
- 
-@@ -4568,8 +4724,19 @@ static int adva_x1_cpld_read_id(struct ptp_ocp *bp)
- 	if (ret)
- 		goto release;
- 	ret = adva_x1_cpld_cmd_read(bp, CPLD_CMD_READ_ID, data, 4);
--	if (!ret)
--		WRITE_ONCE(bp->cpld_id, get_unaligned_be32(data));
-+	if (ret)
-+		goto deselect;
-+	id = get_unaligned_be32(data);
-+
-+	ret = adva_x1_cpld_cmd_read(bp, CPLD_CMD_READ_USERCODE, data, 4);
-+	if (ret)
-+		goto deselect;
-+	usercode = get_unaligned_be32(data);
-+
-+	/* cpld_id is the validity flag for both, so publish it last. */
-+	WRITE_ONCE(bp->cpld_usercode, usercode);
-+	WRITE_ONCE(bp->cpld_id, id);
-+deselect:
- 	adva_x1_mux_select(bp, -1);
- release:
- 	adva_x1_bus_release(bp);
-@@ -4627,6 +4794,154 @@ cpld_status_show(struct device *dev, struct device_attribute *attr,
- }
- static DEVICE_ATTR_ADMIN_RO(cpld_status);
- 
-+/*
-+ * Program the CPLD configuration flash from @fw and activate it.  Selected
-+ * by the "fw.cpld" flash component; the SPI flash keeps the default path.
-+ * Runs under cpld_lock with the i2c adapter lock held, so an EEPROM read
-+ * blocks for as long as programming takes.
-+ */
-+static int adva_x1_cpld_flash(struct ptp_ocp *bp, struct devlink *devlink,
-+			      const struct firmware *fw,
-+			      struct netlink_ext_ack *extack)
-+{
-+	size_t offset;
-+	int err;
-+	u32 st;
-+
-+	if (!fw->size || fw->size % CPLD_PAGE_SIZE) {
-+		NL_SET_ERR_MSG_MOD(extack,
-+				   "image must be a whole number of 16-byte pages");
-+		return -EINVAL;
-+	}
-+
-+	mutex_lock(&bp->cpld_lock);
-+
-+	err = adva_x1_bus_claim(bp);
-+	if (err)
-+		goto unlock;
-+	err = adva_x1_mux_select(bp, ADVA_MUX_CHANNEL);
-+	if (err)
-+		goto release;
-+
-+	/* Set before EN_CFG_TP, not after: the CPLD may have entered config
-+	 * mode even if the write errors or the wait times out, and only this
-+	 * makes the exit path send DIS_CFG.  A stray DIS_CFG is harmless;
-+	 * leaving config mode enabled is not.
-+	 */
-+	bp->cpld_in_config_mode = true;
-+
-+	err = adva_x1_cpld_write(bp, CPLD_CMD_EN_CFG_TP);
-+	if (!err)
-+		err = adva_x1_cpld_wait_ready(bp, 5000);
-+	if (err)
-+		goto exit_config;
-+
-+	devlink_flash_update_status_notify(devlink, "Erasing",
-+					   ADVA_CPLD_COMPONENT, 0, 0);
-+	err = adva_x1_cpld_write(bp, CPLD_CMD_ERASE);
-+	if (!err)
-+		err = adva_x1_cpld_wait_ready(bp, CPLD_ERASE_MS);
-+	if (err)
-+		goto exit_config;
-+
-+	err = adva_x1_cpld_write(bp, CPLD_CMD_RESET_ADDR);
-+	if (err)
-+		goto exit_config;
-+
-+	for (offset = 0; offset < fw->size; offset += CPLD_PAGE_SIZE) {
-+		u8 args[3 + CPLD_PAGE_SIZE] = { 0x00, 0x00, 0x01 };
-+
-+		memcpy(&args[3], fw->data + offset, CPLD_PAGE_SIZE);
-+		err = adva_x1_i2c_xfer(bp, ADVA_CPLD_ADDR, CPLD_CMD_WRITE_PAGE,
-+				       args, sizeof(args), NULL, 0);
-+		if (!err)
-+			err = adva_x1_cpld_wait_ready(bp, 100);
-+		if (err)
-+			goto exit_config;
-+
-+		if (!(offset % (CPLD_PAGE_SIZE * 64)))
-+			devlink_flash_update_status_notify(devlink,
-+							   "Programming",
-+							   ADVA_CPLD_COMPONENT,
-+							   offset, fw->size);
-+	}
-+	devlink_flash_update_status_notify(devlink, "Programming",
-+					   ADVA_CPLD_COMPONENT,
-+					   fw->size, fw->size);
-+
-+	err = adva_x1_cpld_write(bp, CPLD_CMD_SET_DONE);
-+	if (!err)
-+		err = adva_x1_cpld_wait_ready(bp, 1000);
-+	if (err)
-+		goto exit_config;
-+
-+	err = adva_x1_cpld_read_status(bp, &st);
-+	if (err)
-+		goto exit_config;
-+	if (!(st & CPLD_STATUS_DONE)) {
-+		err = -EIO;
-+		goto exit_config;
-+	}
-+
-+	devlink_flash_update_status_notify(devlink, "Activating",
-+					   ADVA_CPLD_COMPONENT, 0, 0);
-+	err = adva_x1_cpld_write(bp, CPLD_CMD_REFRESH);
-+	if (err)
-+		goto exit_config;
-+
-+	/* REFRESH reboots the CPLD out of configuration mode, so the exit
-+	 * path must not send DIS_CFG afterwards even if a check below fails.
-+	 */
-+	bp->cpld_in_config_mode = false;
-+
-+	/* The new image is already running, so a segment that is not back
-+	 * yet must not be reported as a failed update: retry the reselect
-+	 * rather than sampling the mux once at a fixed delay.
-+	 */
-+	msleep(1500);
-+	err = read_poll_timeout(adva_x1_mux_select, err, !err, CPLD_POLL_US,
-+				3000 * USEC_PER_MSEC, false,
-+				bp, ADVA_MUX_CHANNEL);
-+	if (err)
-+		goto deselect;
-+
-+	err = adva_x1_cpld_wait_ready(bp, 3000);
-+	if (err)
-+		goto deselect;
-+
-+	/* Require DONE set, not busy and no error code, as machxo2-spi.c does
-+	 * after a refresh: without it a CRC or preamble error reads back as a
-+	 * successful update.
-+	 */
-+	err = adva_x1_cpld_read_status(bp, &st);
-+	if (err)
-+		goto deselect;
-+	if (!(st & CPLD_STATUS_DONE) || (st & CPLD_STATUS_BUSY) ||
-+	    (st & CPLD_STATUS_ERR)) {
-+		dev_err(&bp->pdev->dev,
-+			"CPLD refresh left status 0x%08x\n", st);
-+		NL_SET_ERR_MSG_MOD(extack, "CPLD did not come back configured");
-+		err = -EIO;
-+		goto deselect;
-+	}
-+
-+	/* The image on the part changed, so the cached USERCODE has too. */
-+	WRITE_ONCE(bp->cpld_id, 0);
-+	WRITE_ONCE(bp->cpld_id_tried, false);
-+	bp->cpld_id_attempts = 0;
-+
-+exit_config:
-+	adva_x1_cpld_exit_config(bp);
-+deselect:
-+	adva_x1_mux_select(bp, -1);
-+release:
-+	adva_x1_bus_release(bp);
-+unlock:
-+	mutex_unlock(&bp->cpld_lock);
-+
-+	return err;
-+}
-+
- static struct attribute *adva_timecard_attrs[] = {
- 	&dev_attr_serialnum.attr,
- 	&dev_attr_gnss_sync.attr,
++/* ADPM12300 is just ADPM12250 with higher power capacity. Reuses driver data */
+ static const struct i2c_device_id max34440_id[] = {
+ 	{ .name = "adpm12160", .driver_data = adpm12160 },
+ 	{ .name = "adpm12200", .driver_data = adpm12200 },
+ 	{ .name = "adpm12250", .driver_data = adpm12250 },
++	{ .name = "adpm12300", .driver_data = adpm12250 },
+ 	{ .name = "max34440", .driver_data = max34440 },
+ 	{ .name = "max34441", .driver_data = max34441 },
+ 	{ .name = "max34446", .driver_data = max34446 },
+
+---
+base-commit: 1f7154a56e446d4f68542fc04f7376a7d6404609
+change-id: 20260914-dev_adpm12300-3145fabef660
+
+Best regards,
 -- 
-2.47.0
+Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
 
