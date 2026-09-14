@@ -1,121 +1,151 @@
-Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4D248A8DB
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 15:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B01C355F5C;
+	Mon, 14 Sep 2026 16:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789401579; cv=none; b=AZAqzunTsRI8GJ8cf6PP4DQR6W2KnZtV/Lfje1OTvErCoKRWmCe1cJRGesrzokz8TL5DApdbQ8aL4FgVJC0+OUTKtoF2s3powG9YtTR19sYVZYLChJe3s4a4mJrY/WtV7BigpGDBkjiisineiFude2taXCSaGt5oq3fklsGGwiU=
+	t=1789401610; cv=none; b=sfVp4gDy6UPT9gMUnt/1jUqUIaYfH8yBe1Wmx5+zkzl7YT6n0F/3IL40glQwCVjp2S5NDOy8FE/R45ffNoSbJWv6kTyL2PSeBhJOhnJOELB6TZkxUy4lp6XCzYuyHYkAWME4jdvh7C62DF+k5VsALpgFpOxJZWNme76cjWcwofI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789401579; c=relaxed/simple;
-	bh=xMRNGFwT5MG/tN2Z4rVlgZAaGoxD3wGYA7E+SDFQua8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tTqUgPSfxULFrQcHCcf76x33p2fA+a+vFEKXz5kiUmnUAl0ITsy74WlLPmphnULVBLqxqqKlN+tHG6z/NYXGr9jBwN+jxh5Tu6nWiI3EBcKBbVeNbvnpeI3ARTyCQSDJxnbcQT/LqH/nA9GRqdd/OJHzRJtIP9uU5wO5iurAGts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=PG7A22pd; arc=none smtp.client-ip=74.125.228.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1789401610; c=relaxed/simple;
+	bh=0GnuuD3RN7mxP4ohIigh76mhE5e1ugt5yWwWBcvB9S8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LP00CgR+yqQGCjYoTtmMgJCG+mHVgR0j2IHRWbMhdBDeZPRmz8o245L3AXIQBOn0oLcZCfoJgFFIhnMdlGhW8S2ArT8sqI/IV/bwf5GUSy1NTWsgHqVN4VHBdc0viRkNtdxq/DsaIeAfvupREsZ9qRIsUOShuSRT7ijd/W/VNm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=O5UQncFB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kvKecyHe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hBNJNLia; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jBiinCsU; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="PG7A22pd"
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a60591ae52so3980101a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 08:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1789401575; x=1790006375; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lW3GLwaZtw2SQDM2dpduYrEemaWK0EaPlBH9/B8yf6k=;
-        b=PG7A22pdSZADKuyhzgOllBVp4nZDuJps02wjl0qddEJGdKCES1jf/AB060J8H+xprT
-         rTed5n9/RNp2i6iRyGSwFKvuiSRZMVsxpAvEATzhWugWPtpWeo6RAeVDjULOg0xL1wYL
-         BDfgf/n/hEs5WVn0vdLYyETIHkjdxPsdD7m+E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789401575; x=1790006375;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=lW3GLwaZtw2SQDM2dpduYrEemaWK0EaPlBH9/B8yf6k=;
-        b=U2CIDAtjv0QJw1r3i7cpM8k6m1Bwl1RWZ2M4Kkb3diqvrJApEx17rksqPnHT+LL7er
-         BX1R1NDcN1L/S7U1MdJ9oATqfbUp3lo3H8o397ilkrSzkja5IuDz7mR9A9KcO6NJJoeo
-         4EVyO+1x86veOENcMgLUgHhhnLMLmtrUHI91HuBQoaAElNT0UuKhmHaUFdHnpIcIaeBq
-         MPaNLGYWHqlgKBW02/kf8dlsYifddXjPF863oc0+BUbYE3JO6V6AZyLYEbSjuIoZ8iyV
-         XvM0EpgrA8CcZ+g2DGmLR1DUylc15X61LycAKrBu1/ggE3uzAi9UivxJWaTNkkdkVwfS
-         L2dw==
-X-Forwarded-Encrypted: i=1; AKwUvBxqXFIK4SWgBINRkEvxOHSogHlf4a5Y5CNn9F332/GmWSKZd8Q7mQG/ifJleui34S+qyoMRURui4XE=@vger.kernel.org
-X-Gm-Message-State: AFuF++mj+WmJH4BnnOL9uByTen9QB9LHjlL0ofbqonnRICzp7KM7ixb2
-	7xcstmk1y4W6mlgWwkwdgy96eXutPs2ljlZhPMpMaqqEQzAwUS6Y4BM1gYWsqaBgWvKtLiL7nJM
-	DgVbTUkY=
-X-Gm-Gg: AYBFou1tFDVKlJTmjQq8h6FO5XfzHTcpf4g/l3O1VudDS8opXvp1MdysSDZzATHpoyX
-	ZbvY8LtR1YVIOD5vY6XhbRi070KyajTITz0F6ViHFcnLDx8jXDmx6S0UyFB1IMrbEdetgwRl9tn
-	R0j5IBPBo35gFopH0Cl5/YMWSCTAMO5xmArRi9BpekI8SN4+B9QrtBZZlyW5VAHUCZXLkAxRuyc
-	B2xeDe8+kHMn2V71dJX4Zq5uR36hHeo67tRMQ2dyhO8YY4MK6w3RSiFOvV4euEF24MBoHWal6Bo
-	uy3WbCOVjRKgRfleeLBr+rLJM5Btco9NjTrD5q4/xqqunw0GApLfhZpRvb292YqKOb9wT10Hfnv
-	sfRdi+dPaVC9YIEJ1dNAPVOEK10ts45frVBRYaStIyz1n/AuNcMplntqYTdgx0RKdcdPYsKU4SR
-	RH83lwg2QZQpsWQEGEPn9aovk+08p1b3wWu6aurRR9fq02V6EvdW4Dx3xg0GIgaSjKa6hziDgOU
-	y2plLDIo6sVI2Q5OCvZrdU2x3Z+sh1fRjkKSmEDgLE7F5zKRn9ugAS/jj2w
-X-Received: by 2002:a05:6402:210d:b0:6a6:4a5:bd37 with SMTP id 4fb4d7f45d1cf-6a9f61fac9bmr4495224a12.8.1789401574828;
-        Mon, 14 Sep 2026 08:59:34 -0700 (PDT)
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com. [74.125.228.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a9b5920f4asm4413897a12.16.2026.09.14.08.59.34
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Sep 2026 08:59:34 -0700 (PDT)
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c29703cb470so409069166b.0
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 08:59:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBy+OOEfhPtEWxRCxP9R6EII4dQVv/RLDSERjXcVjGf/2u128+69HjACoZg4fUFQuByGZwJi37ILfTQ=@vger.kernel.org
-X-Received: by 2002:a17:907:3f9f:b0:c29:444c:8f28 with SMTP id
- a640c23a62f3a-c29b84c2597mr415053566b.5.1789401247404; Mon, 14 Sep 2026
- 08:54:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="O5UQncFB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kvKecyHe";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hBNJNLia";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jBiinCsU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0E2691FAB3;
+	Mon, 14 Sep 2026 15:59:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789401603; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ypmlbFago3ygmwUl6mmYy6JkpzcEACBTSW5/tOwqdrk=;
+	b=O5UQncFBZv3LUfKquF9wFTX+dyfZRxRCTtCZ7YBy8z2BzUgeDL1UbeSPshtnqj7fx6w2Zd
+	PN7iqgajZ83bhzVTfQMWQ+FFvqDdGXfiX9H4mavZgygUzoM0W3HHTza7Kqu3D8eCGdZpKq
+	94g2qfB+PmpyBc96aq9hxCCZlJnkD4E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789401603;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ypmlbFago3ygmwUl6mmYy6JkpzcEACBTSW5/tOwqdrk=;
+	b=kvKecyHeaV/e8v4E0W2VYM7e2KDDdS0qvIQE6zwOP35dnlKmzNPOukVfXNmcspHwXL6JL6
+	+25fXi+44MAJ4CBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hBNJNLia;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jBiinCsU
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789401599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ypmlbFago3ygmwUl6mmYy6JkpzcEACBTSW5/tOwqdrk=;
+	b=hBNJNLiaGX/NhpufusbJi6XUL9lpKITHP2mf+5ta7baIpSUOw8axS8Yy4XlM1jLqjN11PP
+	XcTDerm+iIic293lWPIEtQSYammtFg3gUGZuG0BTAKfInxw3fLGpnQKnbWgJ2yK0LYObWa
+	Dng7gjt0dpLEHBX0lVHrqLCD8cVp2Ts=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789401599;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ypmlbFago3ygmwUl6mmYy6JkpzcEACBTSW5/tOwqdrk=;
+	b=jBiinCsUtTzjVql4TONTFndzWcQ7Aa7Eq922W99xbe0YyMY4phCBCyTk4ZMljIqeFGkreN
+	njTp+HYB9yCCR7CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD05313515;
+	Mon, 14 Sep 2026 15:59:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DMEBKf4ZqGqgDQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 14 Sep 2026 15:59:58 +0000
+Date: Mon, 14 Sep 2026 17:59:58 +0200
+Message-ID: <87cxufombl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] docs: sound: hdspm: clean up driver doc.
+In-Reply-To: <20260914050900.1312415-1-rdunlap@infradead.org>
+References: <20260914050900.1312415-1-rdunlap@infradead.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org> <202609140833.88C0E16E50@keescook>
-In-Reply-To: <202609140833.88C0E16E50@keescook>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 14 Sep 2026 08:53:50 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whB0X28MNAg71it=1SfFyV7rB+PK3qajpRyWoxXHW81fw@mail.gmail.com>
-X-Gm-Features: AcwNN1VyLYI7E7T_24gtwZZHDPdmXi1EUi9s9xthPRH35xQepEwWHVnUZ8r6fdo
-Message-ID: <CAHk-=whB0X28MNAg71it=1SfFyV7rB+PK3qajpRyWoxXHW81fw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/21] kbuild: significantly speed up kernel builds
-To: Kees Cook <kees@kernel.org>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 0E2691FAB3
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,infradead.org:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-On Mon, 14 Sept 2026 at 08:41, Kees Cook <kees@kernel.org> wrote:
->
-> One area I think might solved via an LLM is the 3-pass kallsyms stuff.
-> If we could get a deterministic kallsyms build in 1 pass, that would be
-> very nice. A lot of people have tried, but it has eluded upstreaming.
+On Mon, 14 Sep 2026 07:09:00 +0200,
+Randy Dunlap wrote:
+> 
+> Do some overall document cleanups:
+> 
+> - add driver name for clarification
+> - fix some punctuation issues
+> - correct some capitalization
+> - correct some grammar
+> - convert a few words from German to English
+> - eliminate double use of "note:"
+> - unindent Precise Pointer bullets so that they are not part of the Hint
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Question: Is the precise_ptr documentation applicable to this driver?
+> 	Is preceise_ptr used in this driver? Not that I can see.
 
-Even the three-pass one hasn't apparently always been entirely
-deterministic. We've had random reports over the years of it failing
-in some circumstances.
+AFAIK, the precise_ptr has been dropped together with the support of
+RME RayDAT and AIO models (commit 0dca1793063c).  Essentially
+precise_ptr is always on.  Would you work on cleanup, too?
 
-Maybe we've fixed it all, or maybe the failures just go imperceptibly
-rare. Regardless, it has definitely been fragile.
 
-               Linus
+thanks,
+
+Takashi
