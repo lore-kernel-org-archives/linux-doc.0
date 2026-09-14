@@ -1,127 +1,148 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADB33BB57;
-	Mon, 14 Sep 2026 04:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D523793B1
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 04:56:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789359701; cv=none; b=YoKTO25J78SgDdD0B8ynYQm7GTb0jIBxBpF12z6fQtxXJHtRv5d/B/zN+ivtEL4on80KNkuGOC2IlXgRHdsNNCTjVlHUmXOluZHvja40ftozplkkE1FgC/PfbZbEluCs6c09U5pDVTF+VnI/1qlTV1Fo4jds9oiamb3tV5pBM9c=
+	t=1789361781; cv=none; b=gvUzmvoNRMuYpvD1NvnlnNkLSCis3HYvi8Cylrxj/u9aaktVIxpOSs1vPDf8ecRfr/i66JTNJt22o45rNDizcQ+JcQUPcz5nWPPWf3AFlVAtPKnC1BVJ3VOiYYbMuc6FQ4sOBvQRHurSYtv8EHOPAlbF1btOJ1IFbpijcNY5tcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789359701; c=relaxed/simple;
-	bh=5yBImpPhXxVUThXrTXYsYs0uHEPA90uyj7jZucucxoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IJpIFWEeEQBbGDfBYE8HItsPHn5Bc+nOAcgIJIKzTdCgW2KxhMIiA05mkKJcKxxe+gGUJvRwnuW04utsLpN6VxkYNfXdQ+RmNDcCDja81DeO7R3DSiQK0XYuGk4qnkT5ZkBAZqRWW4dNM2psZ8WCkFDWknLNXH81wOJ3l52Am/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VHq/c8Pp; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1789361781; c=relaxed/simple;
+	bh=O5WelON0JzWT56tRHoEHUuYtivqLrByhNTcT26MlpDk=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=NySQQtyd7/q61VRtAW3sYgCJCi+OO4Od/D5/zySOTvFE1wgUyFiycGiBKXt8nRCjxTUo8WcEDZzH0+Hvpa4urJrzvCl68uY3dwDU4FVKGhc+5cfDhwjEn2sNrbS61wqKSKaliI2DMes4xqHb0f0Ym1xjw/wzaJEr+YpLZr4swSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CNQ4ZFxL; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VHq/c8Pp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=XIa/QTT2Vtv8NiYChAuw57Ae+l0UAwkEY31SNMwQavs=; b=VHq/c8Pp7UCdPy63XwI1Y7/evy
-	Zs6wNzMUH3y9lsWgsWNb5RSGYeSQu3+dwRZdgXhGjQadm2skLDAn/gsZQSr0RPAMMeECDGpa+etFJ
-	GZ9W0qUhgJ+QpqD56J7NZ5uRTrraPD2HDAatD107Dp3uDh0n+iOUAQepIYxNbT07CT1OivKUu4rqR
-	9T7pMp18HVSaFbknP5sOsW0VTb6JH/cNVnoDNqHZ/wAn8VlL9cIRO8bUeAaRAYVhxkupw1SgasBjf
-	4D0IoMEvGnWlzdIMpEsme0E/QLtp6CUPuirl9Z1VPsWGxuq6MgoCtKLvy6o4mAhIx6zXHL2D24MjY
-	lZwDMIbg==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x5yBr-00000008huW-1WeH;
-	Mon, 14 Sep 2026 04:21:11 +0000
-Date: Mon, 14 Sep 2026 05:21:11 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Kairui Song <kasong@tencent.com>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>,
-	"H. Peter Anvin" <hpa@zytor.com>, linux-perf-users@vger.kernel.org,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	xen-devel@lists.xenproject.org, Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, linux-fscrypt@vger.kernel.org,
-	Oscar Salvador <osalvador@suse.de>, Chao Yu <chao@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Tal Zussman <tz2294@columbia.edu>, Gao Xiang <xiang@kernel.org>,
-	Jan Kara <jack@suse.cz>, Yue Hu <zbestahu@gmail.com>,
-	Jeffle Xu <jefflexu@linux.alibaba.com>,
-	Sandeep Dhavale <dhavale@google.com>,
-	Hongbo Li <hongbohbli@tencent.com>,
-	Chunhai Guo <guochunhai@vivo.com>, linux-erofs@lists.ozlabs.org,
-	linux-fsdevel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	linux-trace-kernel@vger.kernel.org,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>, linux-nfs@vger.kernel.org,
-	Ilya Dryomov <idryomov@gmail.com>,
-	Alex Markuze <amarkuze@redhat.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>, ceph-devel@vger.kernel.org,
-	Song Liu <song@kernel.org>, Yu Kuai <yukuai@fygo.io>,
-	Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>,
-	linux-raid@vger.kernel.org, Richard Weinberger <richard@nod.at>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	linux-mtd@lists.infradead.org, Baoquan He <baoquan.he@linux.dev>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dave Young <ruirui.yang@linux.dev>,
-	Shuah Khan <skhan@linuxfoundation.org>, kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 00/16] Remove PG_private by using page/folio->private
- checks instead
-Message-ID: <aqd2N1J3ui1llWWG@casper.infradead.org>
-References: <20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CNQ4ZFxL"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cbee846deecso3980910a12.1
+        for <linux-doc@vger.kernel.org>; Sun, 13 Sep 2026 21:56:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789361779; x=1789966579; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=km/TqSCTfzLqarwQbGGqhjbHOtRBeDdNGNhH+O/Vwc0=;
+        b=CNQ4ZFxLdP9hDT8u7BCKpojmpNl+iDowxHI1hKhVxGETPo+EKls12jIZ+ZB2SAF2z5
+         zGvGH/5ZAjMwYmsSyYDi1jXLdbnqDjMRUJKJ7nrhhFW1UwV4mFbWDTraOmJgDElQMziW
+         hmQRQnGECfte5DmDf5iamQsJfhAKcbjY7piKXiRXRJ+zQLMNs1/GA2lLLoP+B1kGVBdk
+         643DLCDeC48PxcT9RTf3HOCEQwiR/NhnF7WUmFlSqqWgcX/ygE/U0xgzlD8fBdljYRk6
+         msJ9w3SKpeP3u4kevKuoyBDbdBMaDxp+BSWFOD7PRTbXJC3RAX70H/cyjIghL3ePbPJy
+         glMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789361779; x=1789966579;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=km/TqSCTfzLqarwQbGGqhjbHOtRBeDdNGNhH+O/Vwc0=;
+        b=C6dMG0kzYcCVUw+bM915zsKUWojkMpWCBBST+vcEqsW9UUz8liFY42OZ/QAx7RuXTx
+         AuxWrUxwopCi+fcwwmYlp3n6YCscgrz6Gaa6wE1IIxm6lNuJL9FhqRR9nG3aa3QwdPuI
+         v01OW2AVKjFw7XBSzE55MTiQtyZxFssnS/lG7TU3KA9SFlMSUIs7S3JPB79wISErJqbk
+         hKqamMXLpwq+HPHnOKGD6F79evU7XBQ0otvdIF3rupB6vpwJq5K9i+tqqkxcEWT6MHkY
+         f1umCiV9Yx0OmhrIw/Y8F2v53RAyC+UXwHqlgY3+CXWdHbKgYeqpV7FvfMOH+Ly4aC2+
+         RQmA==
+X-Forwarded-Encrypted: i=1; AKwUvBzS04gdxyqRGbqEhnxM1qzzIKzz5EbpMWbbaPnebksdNhKYf6q7V4VCHfGjw3993wlQKaho5pOdlXg=@vger.kernel.org
+X-Gm-Message-State: AFuF++lErGW9g09LB+nKneVfsKqTxYp5bwX5jukIM3dbe0NsoHWoNzbZ
+	aEpgYH2uAz06jtWugLLUf3jdtHxdfYDz/qzjQMncEpqRy9RciRf3rAZE
+X-Gm-Gg: AYBFou2ZhzwNbZzH8MT67jI6FssQa1SOsS95h4pS3iBCfJB07okSu9Q4gyYaGRCJ2hd
+	vso6lW9AjalnS/iYWVMxVPCoz932H7pfOv1BoMiUHFRiun3v3OsWXBdm0KHzheX7Nn3EETc090P
+	O7shQFo/nj0Su2MluSbssRBzYdCzX7eAufAPBz/gBtKUkzTYH6BG2+iWzepQD5g6sZSgnj6Hq6i
+	NbfCZ4UbTfV04QfzhZQgCemC0TAi9mxBHu8r/0f6jQf+svbMHBLSpZp1RFr3GWbn9whrfuEj40R
+	QOKpx7w6BeS/E4VHpSUqpUQUhjzXdj1V8HyaBKBOLoxUnNoxn4nClqSCEA0Q5pduuRM9CUY6w/2
+	MqcyA2pCgrmPvhKwzU67VZhqiGWaFpt0vvbwQnzB/Nxp4SrDVL98JlUbgDPEvaX7xfqzFuML4GU
+	mBfCDAv3FFdw9GGmS/zc0ovo0hKOA3KOQhR1FTl+oMICfJcW2FybWvWIDHzEW8vo+Mpi6fca2RG
+	Tz/FmMtaYF/L/DLq7EaZ7ThRB3zbtrQfNUCY5VtPpfL
+X-Received: by 2002:a05:6a21:6f09:b0:3c4:1916:9d40 with SMTP id adf61e73a8af0-3db4051cbbemr1627993637.12.1789361779594;
+        Sun, 13 Sep 2026 21:56:19 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc4c65a8120sm4371704a12.30.2026.09.13.21.56.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Sep 2026 21:56:19 -0700 (PDT)
+Message-ID: <53fbb5e6-70c3-49cd-96a3-3477f048eebc@gmail.com>
+Date: Mon, 14 Sep 2026 13:56:16 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com>
+User-Agent: Mozilla Thunderbird
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] docs: sphinx-pre-install: warn about unsupported Docutils
+ versions
+To: Masaharu Noguchi <nogunix@gmail.com>
+Cc: Chen Miao <chenmiao.ku@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <20260913-docs-sphinx-pre-install-docutils-v1-1-d923c769af91@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20260913-docs-sphinx-pre-install-docutils-v1-1-d923c769af91@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Sep 13, 2026 at 10:23:58PM -0400, Zi Yan wrote:
->       md/md-bitmap: replace PagePrivate() with page_private()
->       buffer: replace page_buffer() with page_private() and delete it
+Hi,
 
-Sorry, looks like I screwed up git send-email usage.  I'm proposing
-replacing these two patches wth the three I sent.
+On Sun, 13 Sep 2026 12:13:23 +0900, Masaharu Noguchi wrote:
+> Sphinx declares the range of Docutils versions it supports, but a
+> distribution can relax that upper bound when it wants to ship a newer
+> Docutils.  The pair then installs happily, and htmldocs builds without
+> a complaint, so nothing looks wrong until pdfdocs is run.
+> 
+> Fedora 44 ships such a pair: Sphinx 8.2.3 (which declares
+> "docutils>=0.20,<0.22") is patched to accept "<0.23" and is installed
+> alongside Docutils 0.22.4.  make pdfdocs then fails to produce four of
+> its books.
+
+It sounds to me like a packaging issue in Fedora side.
+
+I'd rather ask Fedora's Sphinx maintainer to backport the fix applied
+in Sphinx 9.1.0 to their Sphinx 8.2.3.
+
+>            admin-guide runs out of TeX main memory 13 pages in:
+> 
+>   ! TeX capacity exceeded, sorry [main memory size=6000000].
+>   \sphinxafterbreak ->\copy \sphinxcontinuationbox
+> 
+> while arch, core-api and translations stop on
+> 
+>   ! Dimension too large.
+>   \fb@put@frame ...p \ifdim \dimen@ >\ht \@tempboxa
+>   \end{sphinxVerbatim}
+> 
+> Both come from the large literal blocks those books include whole --
+> memory-barriers.txt, devices.txt, kernel-parameters.txt and
+> arch/sparc/oradax/dax-hv-api.txt.  Keeping everything else fixed and
+> varying only the two versions shows that neither component is at fault
+> on its own:
+> 
+>   sphinx   docutils   core-api   admin-guide
+>   ------------------------------------------
+>   8.1.3    0.21.2     ok         ok
+>   8.2.3    0.21.2     ok         ok
+>   8.2.3    0.22.4     FAILS      FAILS
+>   9.1.0    0.22.4     ok         ok
+> 
+> Sphinx gained Docutils 0.22 support in 9.0.0
+
+This is not the case.  It was done in Sphinx 9.1.0.
+
+>                                                and upstream decided not
+> to backport it to 8.2.x [1], so this pair will stay broken rather than
+> be fixed in a later 8.2 point release.
+> 
+
+As this is an transient issue, I don't see much point in bothering it
+in a kernel documentation script.  Fedora 45 will come with Sphinx 9.1.0.
+
+Regards, Akira
+
+PS:
+
+I was involved in testing the upstream fix.
+  (https://github.com/sphinx-doc/sphinx/issues/3099)
+
+[...]
