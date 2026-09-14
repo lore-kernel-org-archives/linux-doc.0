@@ -1,218 +1,113 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC4A481641
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 14:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1457429014;
+	Mon, 14 Sep 2026 14:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789396816; cv=none; b=Q/WWmwHWCKCQnggVnmA8jYZJtM+KC6+4fLNhObH/FJde84s3PVR5bQdSNdLqVVZRZtlFeYExKufiNikwcDHgZUEGwaqKP6WL5ckyBofSyIXHpbnW1Lw+e3S2i7PP46LHPqiz5ZQMHgbDg0J82W49boTnG3Go8o5oT8KMzWoF8Cw=
+	t=1789396980; cv=none; b=qodUr6RtKRv5OOK54EL1u3tx6AmH6YiU6UfVPa/AxPM6p+KsDD4pzW2aG69TzT2PurZhgg+QoijtxQZopyBV5uUHFOryWwLjwotpunYw4nk9DFOZiq+pfY4g0Go6j/LGXApc27AV7fkbfSmLvBQXRhmfB1WSqvaNNz18wZGJ2V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789396816; c=relaxed/simple;
-	bh=PchcDlD3Npn6+8wPRM9VRYzNcIBmakxNDUNZLTTsXSk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GHqtIS3nupKCoYa+jT1KfvnmS9h/YwIffDyviacy1QyF0YoHO4DToY4esjnJPWr+Ksa0D5eXzx+msJiWsP+wtl25qPaB8H0P6/n6u+yB2+EN1DlvmRI+8dv7UxCKBbUQl8d2FyYKMD4ZyWJthhyTOdUEnmxEP7JEhHNNB8G+0UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ov0r6epr; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789396980; c=relaxed/simple;
+	bh=oUfXONRmdPZZVsyxIJqYvpxibqhdMN9N5osXAb11toE=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=UPSWZXti2wQW1eQaZAK2npq9tPuOfyp7x6LU9iMVorx2vOwkpylrhXg+JyxiowhRUQyIIM09eA1gCbi/hmMB7xcyYg4f8yTW/bbI9KqY4K28x6iR/7eydV+LXNIfxC0k2VBKVUGgvslTO3sipZLvq4jykKx8VFvB9oW/nwGZqQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=Y1jHUpcR; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=v09KwDrj; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ov0r6epr"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cbee846deecso4524780a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 07:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789396811; x=1790001611; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/kBzFP/HpzVRM8R641fR3ZeSCydIAXhP1zBP9Whsejw=;
-        b=Ov0r6eprPvy5QIg7aXFGexQt7qTAriSmaBWATxy4Hh21HAuE+6xqi2/GyTSgJYCSl4
-         jMyGe6Gh7XfR//RWndf7ZJ+jl1/x5D8G5vsD37O4c4BH9+IIVqhaeIjzbvrsnf2VwO1f
-         A2kO+k+NrcWt9xFCuMMKu9i1Pdep0F5v18C6lPs6YPvXInVCLZ2rHMK8CLWXRqq+hn+H
-         5SnDb9Xde0En3NWVatWPp+sHv+mEJ5WVeoq+WV2cNn5lRBAQM5uYrrxGtpkCjN836+fw
-         L1LwZGedZSFoyFU1lBTx/HYGGXO7QAG9DyW1NrZYwxGk+VUaqYXbAoj/7Xotqk5K2+44
-         VscA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789396811; x=1790001611;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/kBzFP/HpzVRM8R641fR3ZeSCydIAXhP1zBP9Whsejw=;
-        b=DQ03Va3Met9fZ73lV3T0NiminraGZZCUNVAd4ybULk7D41qH/I2xckCftmt8EPsQ4q
-         nRqdyqTs/ka7ky5FilYFhrDLyCKUq+bmxhJ0OhbVjTk6wDoaVs6hEMrOa4TPgyteeJ2n
-         2WhmSSw69vVFicBCdxYz994sJC+GuVmtf7U/yC6Lq/KXHg1Eo+lSVLpP3ljYz8/zIMP7
-         z5Byzr6AA56dJPboZehoa3F+YXCwt1JElYpFiSn7ECCiB4IzzMTio/VYoJsJ4Uo8ve/4
-         SkVQ+MeJEUHle/bLcHQ2KdqUdF5il/WvW3G4hS5GSP9kTecp5JbXFblH10uzL6WFJHP6
-         RdKQ==
-X-Gm-Message-State: AFuF++mIRbt3I3XWKqQi9jML9X6NHm8D4tnE5zBMyF60iN9Fig4WVybq
-	clY7F8xd382YwromDm1Jfd8T2myel8/c+kFL2bgsV0OuJPwEE8vBZ1Rp
-X-Gm-Gg: AYBFou1xxWwimueW9Q1gAFcS5bIRw6o7RpPmz50s+hUNlZQW3hg2yBgkW6pL7DeX38m
-	Bi4wvmNdnTyD3Ni8d6HbT3d/BAIbmtV/t5wA2UnBf73OOCHyfK2eR0l1rn/f3ONdppYoCdsG8CJ
-	JQRScY+hHkeVFCUSdnJFd3bb/oWbpllmjinGE0sqZhBZLlhUCiReQzkB/jwJ7QMUHFUzn4WMDiV
-	+h/V/496R+BYmyodOji/qsujybR4dc/jCTrhvVtQiFVeqUOhYA/vPH9hyJ/JNrM7lzgNzzU6LCE
-	MdO1bQWrEyQb6Lll0RPW1mtzeVo1nz8BN663146UfpZWPWzqWn9xBNT7crqsfy3ltygsb884StM
-	lmV5m1SoEG4pcanrU5gBeXS86qAibV2Nz1rPcxz/RXeSS20vqm/G1nwGkhTPees+f3N3sc1njET
-	UOzL7NtD+5iPhboA2NBK/+Y/0U8UzO1ptX+NwgSienkoq9Z23xYPpK/5boeQ1yptM7OgFBHVt1Z
-	fyH9UpT9wS2rJ3THQ==
-X-Received: by 2002:a05:6a21:4d06:b0:3da:e1b5:2baa with SMTP id adf61e73a8af0-3db404b4e1dmr6402183637.2.1789396811120;
-        Mon, 14 Sep 2026 07:40:11 -0700 (PDT)
-Received: from kernel.tail6741c6.ts.net ([185.220.238.35])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc4c6572ecasm5149444a12.22.2026.09.14.07.40.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 07:40:10 -0700 (PDT)
-From: Kunwu Chan <kunwu.chan@gmail.com>
-To: paulmck@kernel.org,
-	dlustig@nvidia.com,
-	joelagnelf@nvidia.com,
-	corbet@lwn.net,
-	akiyks@gmail.com,
-	luc.maranget@inria.fr,
-	j.alglave@ucl.ac.uk,
-	dhowells@redhat.com,
-	npiggin@gmail.com,
-	boqun@kernel.org,
-	peterz@infradead.org,
-	will@kernel.org,
-	parri.andrea@gmail.com,
-	stern@rowland.harvard.edu
-Cc: linux-doc@vger.kernel.org,
-	lkmm@lists.linux.dev,
-	linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rdunlap@infradead.org,
-	skhan@linuxfoundation.org,
-	Kunwu Chan <kunwu.chan@gmail.com>
-Subject: [PATCH v3 2/2] Documentation/litmus-tests: Add SRCU fastpath scan-before-anchor test
-Date: Mon, 14 Sep 2026 22:39:42 +0800
-Message-ID: <20260914143943.1503066-3-kunwu.chan@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260914143943.1503066-1-kunwu.chan@gmail.com>
-References: <20260914143943.1503066-1-kunwu.chan@gmail.com>
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="Y1jHUpcR";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="v09KwDrj"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1789396956; bh=QdSMxLfH7VT3rsmMwkVtLgH
+	fnAcvTNOrmWQqrtRvl/w=; b=Y1jHUpcRgLqej4D9Ctek4/1ydwQKSblW6COCRGP/XuhuoU+oT5
+	WS3kiBHgYG4F+rUY/4t1wok4ojckZZd55kZbkqzM0O4llspF+cX93mFglcvTzRV9LC5wqw3GBhe
+	kS4n9wqstqMxEJuTT40X3nxQ4rXzm8Td2xERtaEi4knRgZ0fOulNcY0Pawfbv/SXDoeYCWa+OMN
+	qLyB7pnAcwgHttwniwJ6I42/zRYoVhhPhLIRcQSkKCLVn0wfYAobc5IVqrtwGEjsPl8Zp7LYIwT
+	jAP70CCC3pl31j2osEDCoIBWbX/a9112MFeHLske98O/IRDczKhK8mTXWYDoAri8LkQ==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1789396956; bh=QdSMxLfH7VT3rsmMwkVtLgH
+	fnAcvTNOrmWQqrtRvl/w=; b=v09KwDrjF4QtwpEd+jknffYykzU6U/N8faq1ZvpZoqDPO9wh5m
+	Gv/n+ge+C4GlBL7EpjkJ4mcCbWio+Av+aEBg==;
+Date: Mon, 14 Sep 2026 15:42:37 +0100
+From: Bradley Morgan <brads@mainlining.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+CC: Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-trace-kernel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_2/3=5D_module=3A_fix_up_documenta?=
+ =?US-ASCII?Q?tion_for_add=5Ftaint=28=29_and_add=5Ftaint=5Fmodule=28=29?=
+In-Reply-To: <20260914-bind_taint-v4-2-eadf8a090903@linuxfoundation.org>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org> <20260914-bind_taint-v4-2-eadf8a090903@linuxfoundation.org>
+Message-ID: <066AC452-108A-45B4-A008-3FF84C85EAD6@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-If the synchronize_srcu_atomic() fastpath instead places its lock scan
-before the grace-period anchor, the scan can miss a reader whose
-increment was already visible before the anchor.  That reader already
-existed when the grace period started, so completing the grace period
-without waiting for it would violate the SRCU grace-period guarantee.
+On 14 September 2026 15:30:32 BST, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>When add_taint_module() was added, the documentation for it was copied
+>directly from add_taint().  But that documentation was a bit wrong
+>(wrong variable name, and misleading boolean reference.)  Fix up both
+>functions to have the correct documentation for how to use the
+>lockdep_ok parameter to these functions.
+>
+>Reported-by: Petr Pavlu <petr.pavlu@suse.com>
+>Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>---
+> kernel/module/main.c | 5 +++--
+> kernel/panic.c       | 5 +++--
+> 2 files changed, 6 insertions(+), 4 deletions(-)
+>
+>diff --git a/kernel/module/main.c b/kernel/module/main.c
+>index 444d990c9983..369794876c3e 100644
+>--- a/kernel/module/main.c
+>+++ b/kernel/module/main.c
+>@@ -197,8 +197,9 @@ static inline int strong_try_module_get(struct module *mod)
+>  * @flag: one of the TAINT_* constants.
+>  * @lockdep_ok: whether lock debugging is still OK.
+>  *
+>- * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
+>- * some noteworthy-but-not-corrupting cases, it can be set to true.
+>+ * If something bad has gone wrong, you'll want
+>+ * @lockdep_ok = LOCKDEP_NOW_UNRELIABLE, but for some
+>+ * noteworthy-but-not-corrupting cases, it can be set to LOCKDEP_STILL_OK.
+>  */
+> void add_taint_module(struct module *mod, unsigned flag,
+> 		      enum lockdep_ok lockdep_ok)
+>diff --git a/kernel/panic.c b/kernel/panic.c
+>index 213725b612aa..892045d8409e 100644
+>--- a/kernel/panic.c
+>+++ b/kernel/panic.c
+>@@ -948,8 +948,9 @@ unsigned long get_taint(void)
+>  * @flag: one of the TAINT_* constants.
+>  * @lockdep_ok: whether lock debugging is still OK.
+>  *
+>- * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
+>- * some notewortht-but-not-corrupting cases, it can be set to true.
+>+ * If something bad has gone wrong, you'll want
+>+ * @lockdep_ok = LOCKDEP_NOW_UNRELIABLE, but for some
+>+ * noteworthy-but-not-corrupting cases, it can be set to LOCKDEP_STILL_OK.
+>  */
+> void add_taint(unsigned flag, enum lockdep_ok lockdep_ok)
+> {
+>
+>
+Reviewed-by: Bradley Morgan <brads@mainlining.org>
 
-This litmus test models the reversed ordering, with the lock scan placed
-before the grace-period anchor.  "seq" models the grace-period anchor in
-->srcu_gp_seq and "ctr" models the per-CPU ->srcu_ctrs[].srcu_locks
-counter.  P0 scans the lock counter before writing the anchor, with an
-smp_mb() between them.  P1 models the reader-side counter increment and
-its smp_mb() from __srcu_read_lock(), which orders the increment against
-subsequent critical-section access.  P2 models an observer that sees the
-reader's increment before seeing the anchor.
-
-The same outcome is allowed with this ordering, and herd7 reports
-"Sometimes".  The litmus-tests README is also updated to describe both
-SRCU fastpath tests.
-
-Tested with herd7 7.58 using linux-kernel.cfg.
-
-Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
----
- Documentation/litmus-tests/README             | 21 +++++++
- .../SRCU-fastpath-scan-before-anchor.litmus   | 56 +++++++++++++++++++
- 2 files changed, 77 insertions(+)
- create mode 100644 Documentation/litmus-tests/srcu/SRCU-fastpath-scan-before-anchor.litmus
-
-diff --git a/Documentation/litmus-tests/README b/Documentation/litmus-tests/README
-index 6c666f3422ea..f96eeacb002b 100644
---- a/Documentation/litmus-tests/README
-+++ b/Documentation/litmus-tests/README
-@@ -78,3 +78,24 @@ RCU+sync+read.litmus
- RCU+sync+free.litmus
-     Both the above litmus tests demonstrate the RCU grace period guarantee
-     that an RCU read-side critical section can never span a grace period.
-+
-+
-+SRCU (/srcu directory)
-+----------------------
-+
-+SRCU-fastpath-anchor-before-scan.litmus
-+    This models the synchronize_srcu_atomic() fastpath with the
-+    grace-period anchor ordered before the lock-counter scan.  This
-+    ordering prevents readers that existed before the grace period
-+    from being missed by the scan.  See
-+    SRCU-fastpath-scan-before-anchor.litmus for the reversed
-+    ordering.
-+
-+SRCU-fastpath-scan-before-anchor.litmus
-+    This models the synchronize_srcu_atomic() fastpath with the
-+    lock-counter scan ordered before the grace-period anchor.  This
-+    permits the scan to miss readers that existed before the grace
-+    period, violating the SRCU grace-period guarantee.  See
-+    SRCU-fastpath-anchor-before-scan.litmus for the opposite
-+    ordering.
-+
-diff --git a/Documentation/litmus-tests/srcu/SRCU-fastpath-scan-before-anchor.litmus b/Documentation/litmus-tests/srcu/SRCU-fastpath-scan-before-anchor.litmus
-new file mode 100644
-index 000000000000..d8808571063f
---- /dev/null
-+++ b/Documentation/litmus-tests/srcu/SRCU-fastpath-scan-before-anchor.litmus
-@@ -0,0 +1,56 @@
-+C SRCU-fastpath-scan-before-anchor
-+
-+(*
-+ * Result: Sometimes
-+ *
-+ * If the synchronize_srcu_atomic() fastpath instead places its lock
-+ * scan before the grace-period anchor, the scan can miss a reader whose
-+ * increment was already visible before the anchor.  That reader already
-+ * existed when the grace period started, so completing the grace period
-+ * without waiting for it would violate the SRCU grace-period guarantee.
-+ *
-+ * This litmus test models the reversed ordering, with the lock scan
-+ * placed before the grace-period anchor.  "seq" models the grace-period
-+ * anchor in ->srcu_gp_seq and "ctr" models the per-CPU
-+ * ->srcu_ctrs[].srcu_locks counter.  P0 scans the lock counter before
-+ * writing the anchor, with an smp_mb() between them.  P1 models the
-+ * reader-side counter increment and its smp_mb() from
-+ * __srcu_read_lock(), which orders the increment against subsequent
-+ * critical-section access.  P2 models an observer that sees the
-+ * reader's increment before seeing the anchor.
-+ *
-+ * The same outcome is allowed with this ordering, and herd7 reports
-+ * "Sometimes".  See SRCU-fastpath-anchor-before-scan.litmus for the
-+ * opposite ordering, which forbids this outcome.
-+ *)
-+
-+{}
-+
-+P0(int *seq, int *ctr)
-+{
-+	int r2;
-+
-+	r2 = READ_ONCE(*ctr);
-+	smp_mb();
-+	WRITE_ONCE(*seq, 1);
-+}
-+
-+P1(int *ctr, int *x)
-+{
-+	WRITE_ONCE(*ctr, 1);
-+	smp_mb();
-+	WRITE_ONCE(*x, 1);
-+}
-+
-+P2(int *seq, int *ctr)
-+{
-+	int r3;
-+	int r4;
-+
-+	r3 = READ_ONCE(*ctr);
-+	smp_mb();
-+	r4 = READ_ONCE(*seq);
-+}
-+
-+filter (0:r2 = 0)
-+exists (2:r3 = 1 /\ 2:r4 = 0)
--- 
-2.43.0
-
+Thanks.
+--- Thanks!
+https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
