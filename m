@@ -1,208 +1,107 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3D0386568;
-	Mon, 14 Sep 2026 06:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2630135F5ED
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 06:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789365986; cv=none; b=R4y0uFOwan6r3Wa0buQCSCZdvz4LmNwPJURDco6vv4ABRbPoxI3pT1blJsl6eQKS3wISccdpe+/U8JMVuKpyZsRn2yygQdc9iTx4Hv9/134Xije4LMVwXtxIjStZbD6plnRDpwWMQwik6ZJOWrgotEkOL32yerYG87rSOFcpWd8=
+	t=1789366135; cv=none; b=fDoydBklrOTbW3tz52RAsMY6EGtbargGNi3vqXbWTgCOdsEjFiL88TUxYd1vcVWE94Iw5mnL4mAYAfg0NZmatGowYtIqv0bibLPvbbwAq3ugG3nK+1NsCkng23ikg9riS9oEH2Zy7Wt7p1VrVIQsEcaWTG1JOFfwNYB4tsIAjZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789365986; c=relaxed/simple;
-	bh=DixS3tEKSYRrT3FZLg+4MjDlPssTyO7kEHO/LWsK2vE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HnxJBBBuEuuDyFfhGqzUjXB0RghpPQvz5ySFr8mDjkOto+ZZfkT2+ndxQCH+wOhtKjxJFJCjdrT00wz53XV+52QTgnTIo4Kv9GePt1XJTznxvB0p0TjnPg5LcRPuGT4XJFyQEmUAJ4NFrFUzLnSsj6S1TxR0a6SiS5IKqPP+y5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=W9aZreI3; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1789366135; c=relaxed/simple;
+	bh=4nrXIJVDXaUkwf+YC5VoiLxfZ+FG+C1MAP9IRBoZSks=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VkiVOPVBR7N6WY+iDf0Zy7Ro9QttB5Bsh8iRnNWFsrLWltcFNZHTYd+jCvwVV6lZMfWaqlAib+01RAX/ithkNd6lODxdTaJnpA0y5c8lxdNT8YER6F45ZYt7AMLphAtXFavvCkfhDrTgkPNu4WWf2xJzK7APlzscmJUxlnhSquY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SngrwB5Q; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W9aZreI3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=fvuBTJV1Dk/Ie/KYF79kHSdwiXYxbsMSNO4Fc9UKz0o=; b=W9aZreI3epRThy7331DjmM/0PA
-	r4ERMCz5LLco6M8kdqrAqVMlRWoTJlrEHQfpB5as56vf8GSa21lqYZKUMSKAyH+anfcVc+X1ZW2Gw
-	p35ms9MmcVqfyHJdphQN/tH/oxYP4B1rTStbbA69uZwFRa0Ih92MyyIjrdvl56qu8rlA9DAd/azk6
-	y8M/JPx4ttzPvUqhMZAIi8t9GC/gla4+O1f+JDgxc2HTVkw+nPVehpPs7Qd6knBbpR+QLDGkQ9efo
-	Cm2q3q5cD8ZNB9qxj1TW/+MyKI7Q37wnBs1zzpxv0S4IUKFIgVmV4fJK3/eaOUPMT2/+WxtbPUdtN
-	IlIUn3UQ==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x5zpY-00000002PUa-2Upr;
-	Mon, 14 Sep 2026 06:06:16 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Ronak Jain <ronak.jain@amd.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SngrwB5Q"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2dd58e1e2c7so9314545ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 13 Sep 2026 23:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789366133; x=1789970933; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=J7ZLRztZ4qGLXwZmjT6Sfe0hmRUFOBvBkpnxtaBdgb8=;
+        b=SngrwB5QlFLlgcJVXTQdKyiSY1F7Cav+E1EcZAIfIKbc5Bi1Yr6hYFk7jcDmCz8Amr
+         t8IZNXpRo15QIF7IaPJUwl6fRljWgImLGAAkkanK1YVLQamZkywFAv45m7WNccgO3Qbd
+         Y0fF2+FyMTwrLzkoKMD/bUI7LfwiC0RbnyDNCKUt7oz98iFjU/SFKKsxsr2Y0z223eyX
+         MO5X9SdKygY7opegjeZs2PObbSyi8pdffHkAoPJiSS1VsYa9MRWVHdAzCSnlgOvigYzK
+         9rq2bXC2oZ+0gHNrHriKAq5g00+QEiKQTDkT4ttAa7PgSIU0nHzkHS+0mPVOGdGcRbPS
+         Nv9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789366133; x=1789970933;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=J7ZLRztZ4qGLXwZmjT6Sfe0hmRUFOBvBkpnxtaBdgb8=;
+        b=FTwNRBkRZJ5f57UMLP+Mi3KkrnlYbWmP8VVLBfTP3o2Qw+T5b2P/xI43GEpUYLntzu
+         LaysBkAlBO14N43hGM68RZ6w8ssY6SVfpEKd3TgETg5+aoX1+onjbxlEkU8x5dkBbVl6
+         FPGioKzUf/TXQYivGp9Bk+VfdNBuIG1X8nia4bKhLlVHbWXKGDTADvV26btABENMvfSe
+         +bgQFgPUuNJQiRYdenPwS1g1+xv+9ZlaJtznCfv49xf+O/uyVKeTYW9/4OqzGK42expL
+         Huzjs1OFmVSkpLWJsLK3gATFutcjrQAy25bfh4YO5g98f13MsThWH5/y3okYdq7cSfo2
+         wmnA==
+X-Forwarded-Encrypted: i=1; AKwUvBxpQxNZpQG/i2hRbefTh3I6ds8Opy6oj57ofZd/JEYxgKJ9ZjjSPQ7ddy/xpqBaPgZcwZtGq6+jbwU=@vger.kernel.org
+X-Gm-Message-State: AFuF++l8WiWH/4IRX/zG9wpXrkip2GOma5hBpM+Fb83TlIwBZPxYWelH
+	ZM621kVH8y9TSOJ7cr7I95p8c1y/i2SR/p5I5ML2vR/3I5X886s5xGWZ
+X-Gm-Gg: AYBFou3PDK2sywYQL/iOvv+J4DTqQyIUxlyOzbtBp6UVbOUeFLVyQqvxZhlrVpvVzm5
+	WcZmm9eJj79b95reRQTfh7KJEjB4zIA1xX8XWhl6lDz1Ky5F4c+KJL68y94NHlwLOWRqvL6a8ZS
+	H4VKAOhTOCuWqJu6nktQ4OgkvhFL7i58V9iIWouMZWQBAgEQ2k0mvjq2Uxp14BJL8DpzfBX6gfX
+	VnNRm4rxbLQjAPRK3mJTMToBlgcaWI8t5mb3OfpKnqXUm69IKngzoUd9VUHmCk0jiA+tptNzFrw
+	lCJazAtaDahI6xUYgNaVrhRjvTEYkg3VFixvblC548klg/QHfN4MiLcHLylnvXq1QTgRKPfBIG4
+	QO2+kduLevH9JNJkVZ0VhttB8QjkhJ7/yNAHfimu3GXv0JQWLDGyohauWy3AMwozRU684CioXE2
+	PG9V85hi7RP1JYYsVKMEr/GzrBcHvgzndSW/aTlHHvUxr5xWMfPaMyfVtciRWJMh6VxwvKM9WCM
+	KuNdQYMgo2n9+1AjjZD4ESh/Mkw0tlglNenpQ+E
+X-Received: by 2002:a17:90b:4b81:b0:398:cb56:e92 with SMTP id 98e67ed59e1d1-39debfb92b4mr2677452a91.11.1789366133460;
+        Sun, 13 Sep 2026 23:08:53 -0700 (PDT)
+Received: from lipengfei28-ThinkStation-P368.mioffice.cn ([2408:8607:1b00:8:a252:ce11:2d53:3638])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d9959ac65sm18651790a91.16.2026.09.13.23.08.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Sep 2026 23:08:52 -0700 (PDT)
+From: Li Pengfei <ljdlns1987@gmail.com>
+X-Google-Original-From: Li Pengfei <lipengfei28@xiaomi.com>
+To: sashiko-bot@kernel.org
+Cc: Pengfei Li <lipengfei28@xiaomi.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Mark Rutland <mark.rutland@arm.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] firmware: zynqmp: use literal blocks for commands
-Date: Sun, 13 Sep 2026 23:06:15 -0700
-Message-ID: <20260914060615.1398531-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.55.0
+	kernel test robot <lkp@intel.com>,
+	Bo Zhang <zhangbo56@xiaomi.com>,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH v7 05/10] trace: make the stackmap capacity settable on the kernel command line
+Date: Mon, 14 Sep 2026 14:08:23 +0800
+Message-Id: <20260914060824.4003131-1-lipengfei28@xiaomi.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260912085841.48E7B1F00893@smtp.kernel.org>
+References: <20260912083753.3426176-1-lipengfei28@xiaomi.com> <20260912083753.3426176-6-lipengfei28@xiaomi.com> <20260912085841.48E7B1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Use literal blocks for 'cat' and 'echo' commands to separate them from
-the surrounding text. Otherwise the lines run together, without any
-clear break before or after the commands.
+From: Pengfei Li <lipengfei28@xiaomi.com>
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Michal Simek <michal.simek@amd.com>
-Cc: Ronak Jain <ronak.jain@amd.com>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
+> Does passing this NULL pointer directly to kstrtoul() cause an immediate NULL
+> pointer dereference and kernel panic, since kstrtoul() does not check for a
+> NULL pointer before dereferencing it?
 
- Documentation/ABI/stable/sysfs-driver-firmware-zynqmp |   70 +++++++---
- 1 file changed, 50 insertions(+), 20 deletions(-)
+Yes. Booting with a bare "ftrace_stackmap.bits" panics. Will fix in v8:
 
---- linux-next-20260911.orig/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
-+++ linux-next-20260911/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
-@@ -141,32 +141,44 @@ Description:
- 
- 		Usage:
- 
--		Select over temperature config ID to enable/disable feature
-+		Select over temperature config ID to enable/disable feature::
-+
- 		# echo 1 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
- 
--		Check over temperature config ID is selected or not
-+		Check over temperature config ID is selected or not::
-+
- 		# cat /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
-+
- 		The expected result is 1.
- 
--		Select over temperature config ID to configure OT limit
-+		Select over temperature config ID to configure OT limit::
-+
- 		# echo 2 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
- 
--		Check over temperature config ID is selected or not
-+		Check over temperature config ID is selected or not::
-+
- 		# cat /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
-+
- 		The expected result is 2.
- 
--		Select external watchdog config ID to enable/disable feature
-+		Select external watchdog config ID to enable/disable feature::
-+
- 		# echo 3 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
- 
--		Check external watchdog config ID is selected or not
-+		Check external watchdog config ID is selected or not::
-+
- 		# cat /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
-+
- 		The expected result is 3.
- 
--		Select external watchdog config ID to configure time interval
-+		Select external watchdog config ID to configure time interval::
-+
- 		# echo 4 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
- 
--		Check external watchdog config ID is selected or not
-+		Check external watchdog config ID is selected or not::
-+
- 		# cat /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
-+
- 		The expected result is 4.
- 
- Users:		Xilinx
-@@ -205,52 +217,70 @@ Description:
- 
- 		Usage:
- 
--		Enable over temperature feature
-+		Enable over temperature feature::
-+
- 		# echo 1 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
- 		# echo 1 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_value
- 
--		Check whether the over temperature feature is enabled or not
-+		Check whether the over temperature feature is enabled or not::
-+
- 		# cat /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_value
-+
- 		The expected result is 1.
- 
--		Disable over temperature feature
-+		Disable over temperature feature::
-+
- 		# echo 1 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
- 		# echo 0 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_value
- 
--		Check whether the over temperature feature is disabled or not
-+		Check whether the over temperature feature is disabled or not::
-+
- 		# cat /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_value
-+
- 		The expected result is 0.
- 
--		Configure over temperature limit to 50 Degree Celsius
-+		Configure over temperature limit to 50 Degree Celsius::
-+
- 		# echo 2 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
- 		# echo 50 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_value
- 
--		Check whether the over temperature limit is configured or not
-+		Check whether the over temperature limit is configured or not::
-+
- 		# cat /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_value
-+
- 		The expected result is 50.
- 
--		Enable external watchdog feature
-+		Enable external watchdog feature::
-+
- 		# echo 3 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
- 		# echo 1 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_value
- 
--		Check whether the external watchdog feature is enabled or not
-+		Check whether the external watchdog feature is enabled or not::
-+
- 		# cat /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_value
-+
- 		The expected result is 1.
- 
--		Disable external watchdog feature
-+		Disable external watchdog feature::
-+
- 		# echo 3 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
- 		# echo 0 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_value
- 
--		Check whether the external watchdog feature is disabled or not
-+		Check whether the external watchdog feature is disabled or not::
-+
- 		# cat /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_value
-+
- 		The expected result is 0.
- 
--		Configure external watchdog timer interval to 500ms
-+		Configure external watchdog timer interval to 500ms::
-+
- 		# echo 4 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
- 		# echo 500 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_value
- 
--		Check whether the external watchdog timer interval is configured or not
-+		Check whether the external watchdog timer interval is configured or not::
-+
- 		# cat /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_value
-+
- 		The expected result is 500.
- 
- Users:		Xilinx
+	if (!str)
+		return -EINVAL;
+
+Thanks.
+
+Pengfei
