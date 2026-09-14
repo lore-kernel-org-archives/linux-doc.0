@@ -1,325 +1,330 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29CD36B927
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 16:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789404366; cv=none; b=GoobXm4ZtRzE+L3FSoUkMzrR2LygRt6QNoKeih1D4Wdy4lT3Xj5PWh+2/i7U8RBQR/DFzGTA8bcltnaLhOHguKIeQ//23ONAhXw86ZM43xTaWcob0+3/OS8eMcV8+1SU08KG9q6lb5AEdjE6w9q5idav43kt+SKBuHcJ7Q4XHPg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789404366; c=relaxed/simple;
-	bh=AbWZZSRMSxWU4lPtaJRbw3aXLmhhfKL9PttGs9UHNEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ppSKTcrxShKuSfdBMHkpc4JSwXweRoeeS2ljziElLWl9QQXyUoaJH/JeclUIEDmWfG1HITTULbE09hzsnMv799GAyCN05wQyyGEa7/YakZjxVUKLd7XmYS07lPmttKASWsrYahKiie9g4evnt8bcPOnPyYooj4WmdaXq2oE84Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HZtBxv6A; arc=none smtp.client-ip=74.125.228.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B115848E0DB
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 16:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789404594; cv=pass; b=XWdl++LCpqxcLymL4yoFZNfhPyAzz7FDBPQznqxznhbpEFtJ6m6AHbQ6bf/uvBxo08rvsua7mJV9m9X5lc8wU20oHUEsgOHOc5AQ6hgW5SzQVt5p8wZzBg3jeu8VgmPtCMeQNz8yrNY1iQpHwWpY0Ilty8gI7pfWjfRn3GDng6E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789404594; c=relaxed/simple;
+	bh=7jqLPXF1igJUd80a+c0Yy1y5YA/B5JPdvkj9X3w++FA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j9AWx8C6NzJX1MfysdcKoT5+quMoOD1vY5o+3V6eCqgAjqW895Is1G66mn9GabfxA8mxt5qKflOZKmvkFhyrmZjHBkNAhyxM9cCVvGjs+AW9BKYGDvqMe/FxJnYgPQLfbCDy9/cgPvjfcqyKydfXYPnuTtRs22wSWycEL8sTdMQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JrQILUID; arc=pass smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HZtBxv6A"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469a34908so1858397b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 09:46:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JrQILUID"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f6350f89so1123106f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 09:49:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789404591; cv=none;
+        d=google.com; s=arc-20260327;
+        b=d5zkJbDfXzeSSRitKZ8QufyjBHhuUQmwsB5qLDGbzxW5MzPmci9CWEYwTG9fG1i6Kz
+         CQ/OwHHt/cCd5JAKx98GDZJSs+yZ9UGh5lL+EdkEQmz+RVOs6T5JOqf4ibYqdUH55zJk
+         WjgFQJxqKeuwAVNJ4SUcKlS6xXVlDepd56cylWTy9Qqfexwhlb8cWSx88dYglKuEsOqu
+         PAF0kxNL/wO3Rq81mvyeckeuDv25e/KWv42QM0NqloWcEwB7JlJaEiOCVM+KOObXx2Be
+         qplYHL353xL1JkNyv6Wz7cI/mdPYJ++zF+Yv7NlSBknrdiS2au9fm6Xh2JCLXnfS9DmY
+         ToOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=G183+Yxm6/Twsin5qYVqwM95g4Sy/Qck0fET7NLxE+k=;
+        fh=gM9Cxw0zZptofSZR5BrZjTtRpuN3gAl0MZVP+eAvBlY=;
+        b=dvhe7tYEBcw0RI7iLB6CwLtKE8El4QgeIRKpEMx4q1ZyeuWkz+IpJtGt3pAwZs+l3C
+         gYpUuT2LFl69IXWLlvFvA9al3cLl+CD9sB5WDC1kjcFtWEkhG43TErgEe7nCFnyQ28GU
+         5OTUAjarmkPZVfBnngnYonT9jGBdFVbc7OGLqwGugzPpropzj3NxsDucZcgiVDxh0rNP
+         Si1GIjiKvZxsgESzQvPetf54Zx+7wQswS1wrEtZeCcZJyTVVNHkj22LuD/1G3guKWrpF
+         KMhXNjlfopYDapEFIcIcQQL7bioMxfjwgFTMrGllaRJ3LN8Vw7/SPS9enz2qBZVS/cmR
+         gP6g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789404364; x=1790009164; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1789404591; x=1790009391; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=vaEn4gJaLG6//UlaQV046R50HUoC/N5LfAqjMif4QV0=;
-        b=HZtBxv6AQhpZhM2bzd3LC6nI0HmDWWrfo94WoN+4IiWrbFLRUj6mcGvyGM2zWsEs/p
-         UcAaN0gwGQlnOUuIwrLgriIVtXN1oK3X0x5OfR9/g54iJnAv2lsXUzRSsFnMktLx+Dfm
-         PtA6hvFdFQkhAnNXTa52P/V+mVSAIxJpz3GUWcbBuNHTzbmecyxJtilSbJJ5FiPweyiC
-         res3g+8cFm5a+w8OdrY8VcBAH/16QBLPSoW/4DSzfgMrORabVB8zfa21N5Xi8HS50Rd+
-         R94hFys6pXsnm+FWAUyUE7Gro/1hfUck0VWa+Scelz8DVA025pcvjjXoNLeBDjP/KbM8
-         bR0w==
+        bh=G183+Yxm6/Twsin5qYVqwM95g4Sy/Qck0fET7NLxE+k=;
+        b=JrQILUID1bKBhb+/x3xIgPavKzr+v2xHSfsbF9dZU9Ee480JcjOvWdw60nLeUeeusQ
+         AWsoT8npn0DBvLpBDqky1T2wBqSSBFGunkpjoNWQOEz9ZXkHouxEcHx6v/qTC0HNqIMS
+         om1ADZuRMc052tqrcywgFTjZlen5YhGzeXz8WYDSDdgMmquoWWLnX0PbJlpyp7sPZ4N6
+         Tz+j4NxQc9nXE1hV7wudS68m595/97lKGe88pRVRJssFxTb0DxCr53vpf19ohR5cJDTw
+         cSA9pURmDtXQ6EJLY2LDocQ1fbW0k1UPZO5NsTJ64MOexBX4WrnLNi6SD/1FqXRPIQnT
+         srnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789404364; x=1790009164;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1789404591; x=1790009391;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=vaEn4gJaLG6//UlaQV046R50HUoC/N5LfAqjMif4QV0=;
-        b=IQzbadFEv+lUrjUqidFtsWGvqMzv/eE7djAj7LT6T3tfeDj8PU8k/Ll6LUMW2uO4fz
-         5M1E8q43AdOUMllvqnWfI4R+LfVnjA05016d4Dht6r0jTfPTJHFVI8serpOsxg7qJI1n
-         yNLQqs3RoNsjaUNZm4Q/Dr1f5Q8Zy4EX/S0iRk3XXeaKukWtq4K6xuNe72vJgeV0XL2w
-         42XfsLGROVr/ANX6HkbN0LbrXJqvs6pXLa5MrzAekd1dqNT53jJW27+c3NtMGn/sCTjD
-         7zSXdh/dpXfywcwpkpBdv75Q+RXjIr7eESWNKMVnBRHzP4zmmqO4shYmG3RbSImPM+dh
-         D2gQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw5AIDJEyQDiMM/zJNZsQPrBmlCea66zQwg3epC68Mtv+MLYSv61bEZf2mwbjTyK8Cm2Z8VHQYwZAQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++kQtfKHMiIQZXi8Qdt4jeicJRP+nMdQrzfk2wG7aQVZsRsRCmf1
-	YIQ/mZsHQbJGwGHB5V4Cxqr4FF8JWzsO9CrvRvk1iYvsBdR1OjLFgHmhJ7A/XJEk2w==
-X-Gm-Gg: AYBFou04/7BnJvcwsxBCnCWdrw5kylKCYBgDKgLOjVzvc5rm1ENufuMwmN96X6vygi/
-	ucATXsdoE9qF1u29ppUyc1iVKZRtWgcg0Xwlf0+S4aWkzYjvK87+dJD+JnmGbCmHWl6LGLnUphv
-	9OCTgz3ocksn6jI/asJfPQKXXjIYo/XHtBWmwVystOCCH9Kw2DxYTATnY6pipdAYKgHICrz2Szs
-	sgTCpGsatHe2ZkDeCxfIJtz6GOU795p/IACNeA6itX8KtKOUFfPWZaQhjlnRr3LUvD+w/Iok1WG
-	QPyHT6d2KmiJ0CszN/CuWNjyuOWQgEa7SkGuKGUoWwya0H+BfUYYV30ERjw54tCIPjJhNHOtTIC
-	mRrdTUAgj2LyTUr/hQJ0ePlFkq6NjCr2x9EL2jfKNeO0ib8jS4oCaR8IdfvJ+ugewkxHaUxBbwr
-	3PmAgyb/Hx61Us0Wh3V0Uvod8s3OJicgT7zNQrnW+5KIErBu1uEUuRDJqOFZoh8AKpa+cX1QX1W
-	TNeKXRzHyhU05f0MZjA9OcmmesCQvO2esGZ4ECI
-X-Received: by 2002:a05:6a00:2992:b0:857:7337:5db9 with SMTP id d2e1a72fcca58-86f860d2bdfmr7633241b3a.23.1789404363216;
-        Mon, 14 Sep 2026 09:46:03 -0700 (PDT)
-Received: from google.com (132.200.185.35.bc.googleusercontent.com. [35.185.200.132])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86b21f0597dsm4930607b3a.0.2026.09.14.09.46.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 09:46:02 -0700 (PDT)
-Date: Mon, 14 Sep 2026 16:45:58 +0000
-From: David Matlack <dmatlack@google.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v8 08/12] PCI: liveupdate: Adopt ACS controls in incoming
- preserved devices
-Message-ID: <aqgkxmXlhfqsdfAa@google.com>
-References: <20260728221007.2098560-9-dmatlack@google.com>
- <20260910235149.GA364189@bhelgaas>
- <aqRJF8OME7hn7CJr@google.com>
+        bh=G183+Yxm6/Twsin5qYVqwM95g4Sy/Qck0fET7NLxE+k=;
+        b=HnCgK9LydSkjUZzi0RwxlWhSY027TwECcLDmvT56XQOaOc1IK3txBKQ+1IPO3oM2il
+         0osmM7ofOkVsxp0hGLeG38EYl1K4LPrdkCcfEF+XYqyNpfSg8UThTlIq6yk/kgLYC5u0
+         troq0IBCZfExmWVBwMcdvVl+70s/JFUPvtBMzzW6VVOg/yfTNf+MnQHAvvqKpPKOotwQ
+         ibb/xVeeXXaR7WdAyHx0wR83um0NcPUdM/K9hkwUJc+rDXSmaBQZkagDz3z04Xo7JK45
+         bdyojMqmHTbzlIdURFjOlFHRZzeLjEMvPiHzmfA/PWjuP00VxG95GuxcTO6nBV7lplrV
+         jyrA==
+X-Forwarded-Encrypted: i=1; AKwUvBy2WtMTw/WRIfAyO62bYOmaFgaLJ/PCfLdIzUa0x+c4T/uyFPjsWdJxStB32bijQEF90aL9mhNu/A8=@vger.kernel.org
+X-Gm-Message-State: AFuF++lU3mC0Xfnw5HiL9cQLA5ERdkBpCTLpotPj9DCnCIL/OjW5T4FA
+	8EzZs6KMNF2iy0G2cqst39p2hNmNrMhXYPvqxk7nREX4nd8smsOW5f6HKHoit4wmGdAFq+0+GSe
+	lQSwm2AgwPoDZdU1mu0H0Q0Be9n00j0w=
+X-Gm-Gg: AYBFou2ASkyXs68tvMN1fDRKcJeOqWak6fqiiJ/E+12IJNLU/vS/sMNETIZVZphzIj0
+	9SDVY3pvwm3lqPgvghIcWef46lJMXe9WxWZfU4DSbb00VnS8W4DDZULk8LZmcsuVN1ooC5ZZpSz
+	16U/jkHBy7lbl9/1f3oFpCwQOOVrkDRKP2g7kB79dsBjVFWoi0krYkHgyIDOowdPNMcQYnLEqz0
+	yyo+tbWcu5WKLuS+ztJacya7BYRswf/iETzyQcTjpIJSYgtvwOCkPTaWufgsxE8E6dcUvp6PLIU
+	8uHzhMWItlakOKQf3jLPKudur+oq1rqrpZYeYRDY42SFPKRFrOO4C+6uqvllflNi26rGtDk7DL7
+	lW91lmPY/s4wj
+X-Received: by 2002:a05:6000:27c8:b0:487:4ba:97f0 with SMTP id
+ ffacd0b85a97d-48704ba998fmr1121463f8f.23.1789404590535; Mon, 14 Sep 2026
+ 09:49:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqRJF8OME7hn7CJr@google.com>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <CAMgjq7AHRzBsbmGOx0s=TQFBwcn=DEU1naR443sO6x+pJd6hAg@mail.gmail.com>
+ <CAKEwX=O8i+OsP6BJXNZNk07hveN9HDT+PoyMTAU6gOc-xp0Ppg@mail.gmail.com>
+ <CAMgjq7BQeQQOZMDPFJ+8LS2N4t3x53r6Nm+9o0_pi92oVUgjgQ@mail.gmail.com>
+ <CAKEwX=MS-7C96i4tzBijHN=-xuZgny_wQEa_0YjfHzhoNysdYQ@mail.gmail.com>
+ <CAMgjq7B7Mc7vpQN0gBknsSrfZWXdif5L7nU29YskG9mzS-_jsA@mail.gmail.com>
+ <CAKEwX=PxZ68_4240DC8HjcqPRE0bQWGmouoqapqqTQ2b0xqpvg@mail.gmail.com> <CAMgjq7D40KGRjwpFMH4x4fhJ18OQyZwPtovhc8Hm3Y7+__d4Lw@mail.gmail.com>
+In-Reply-To: <CAMgjq7D40KGRjwpFMH4x4fhJ18OQyZwPtovhc8Hm3Y7+__d4Lw@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Mon, 14 Sep 2026 09:49:38 -0700
+X-Gm-Features: AcwNN1WO51K14Fm2T1tur-3vx3APS3D8nhOV3AEZCzJzOrHll5YjpThxvhcytDE
+Message-ID: <CAKEwX=NvHj-Py22-QuR10gynfRk0g5y8g6Cs2+L-hbuAyfmXFw@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Kairui Song <ryncsn@gmail.com>
+Cc: YoungJun Park <youngjun.park@lge.com>, Chris Li <chrisl@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-09-11 06:31 PM, David Matlack wrote:
-> On 2026-09-10 06:51 PM, Bjorn Helgaas wrote:
-> 
-> > > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> > > index 77b17b13ee61..22001bdf4c97 100644
-> > > --- a/drivers/pci/pci.c
-> > > +++ b/drivers/pci/pci.c
-> > > @@ -34,6 +34,8 @@
-> > >  #include <linux/aer.h>
-> > >  #include <linux/bitfield.h>
-> > >  #include <linux/suspend.h>
-> > > +
-> > > +#include "liveupdate.h"
-> > >  #include "pci.h"
-> > >  
-> > >  DEFINE_MUTEX(pci_slot_mutex);
-> > > @@ -1008,6 +1010,9 @@ void pci_enable_acs(struct pci_dev *dev)
-> > >  	bool enable_acs = false;
-> > >  	int pos;
-> > >  
-> > > +	if (!pci_liveupdate_enable_adopted_acs_controls(dev))
-> > > +		return;
-> > 
-> > Ugh.  The asymmetry between pci_save_state(), which does nothing
-> > ACS-related, and pci_restore_state(), which enables it, is sort of
-> > sketchy to begin with.
-> > 
-> > The command-line parsing in this path feels like kind of a wart (not
-> > that you're touching it).
-> > 
-> > It just seems like this path is already hard to analyze, and
-> > liveupdate is making it harder.
-> > 
-> > If we could save/restore the ACS state around the reset, wouldn't that
-> > solve this without any liveupdate specials here?
-> 
-> Yeah that would simplify the liveupdate support greatly. Let me work on
-> that for v9.
+On Sat, Sep 12, 2026 at 1:48=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wrot=
+e:
+>
+> On Sat, Sep 12, 2026 at 3:04=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wro=
+te:
+> >
+> > On Fri, Sep 11, 2026 at 11:14=E2=80=AFAM Kairui Song <ryncsn@gmail.com>=
+ wrote:
+> > >
+> > > > Would something like this fix it for you? ZRAM users will not get
+> > > > vswap indirection overhead at all, because it would bypass vswap :)
+> > > > Down the line we can revisit this decision - for e.g, if there is a
+> > > > use case for vswap-on-top-of-swapfile. There might be other interfa=
+ce
+> > > > that makes more sense.
+> > >
+> > > Hmm, this interface looks confusing though. you mean tangles vswap
+> > > with zswap through the cgroup's zswap limit? I originally expected
+> > > this to be a problem solved by tiering, skipping certain tiers seems
+> > > much more intuitive. Maybe Youngjun have some idea here?
+> >
+> > It wouldn't be confusing if this is something users don't have to
+> > think about at all :) My point is that we don't have a use case where
+> > we need userspace input on vswap-enablement on a per-cgroup basis yet,
+>
+> Ha, you really can't assume that for everyone :), we even have
+> workloads working at different compression levels, and the tiering
+> series shows different cgroups working on different devices, there has
+> been pathes enabling per-cgroup swap device a decade ago.
 
-Here's the patch I have prepped for v9 to save/restore ACS controls
-around reset:
+I still don't think you're getting my points.
 
-From 0c69424454de0c569aca67bc69f496db915a9bcf Mon Sep 17 00:00:00 2001
-From: David Matlack <dmatlack@google.com>
-Date: Fri, 11 Sep 2026 20:05:04 +0000
-Subject: [PATCH] PCI: Save and restore the ACS Control register
+Compression levels have nothing to do with vswap selection. It has to
+do with *zswap* (i.e compressed swapping) selection (or the algorithm
+being selected). Vswap is just the transparent mechanism underneath.
 
-Save the ACS Control register in pci_save_state() and write it back
-in pci_restore_state(), instead of recomputing the ACS controls from
-scratch with pci_enable_acs().
+Once you HAVE selected zswap, then the question of "do you want vswap
+or not" is easier to answer:
 
-This makes ACS symmetric with the rest of a device's saved state. Today
-pci_save_state() ignores ACS entirely and pci_restore_state() re-enables
-the ACS controls from the kernel's current ACS policy. As a result, a
-device can come out of a reset with different ACS controls than it went
-in with, e.g. any controls programmed outside of pci_enable_acs() are
-silently dropped.
+1. Overhead: rather minimal with vswap (at least based on the testing
+I have done so far).
 
-pci_enable_acs() runs when a driver binds to a device
-(pci_dma_configure()), i.e. after pci_bus_add_device() has already saved
-the device's state. Refresh the saved ACS Control register there as
-well, otherwise a subsequent reset would revert ACS back to the
-configuration left behind by firmware.
+2. Usability: vswap buys you the decoupling of swap space from
+physical swapfile.
 
-Devices that rely on device-specific quirks to enable an ACS equivalent
-keep that configuration outside of the ACS Control register, so keep
-configuring ACS from scratch for them. Do the same for devices that have
-no saved ACS state at all.
+I struggle to see why you would not enable vswap if you enable zswap.
+And more accurately, a scenario where you want vswap in some cgroups
+with zswap, but not others.
 
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: David Matlack <dmatlack@google.com>
----
- drivers/pci/pci.c    | 66 +++++++++++++++++++++++++++++++++++++++++++-
- drivers/pci/pci.h    |  5 ++++
- drivers/pci/quirks.c |  7 +++++
- 3 files changed, 77 insertions(+), 1 deletion(-)
+Taking a step back from all of this - we're arguing about the
+participation of vswap/xswap in an interface that has not even been
+merged yet. None of us can say for sure how it will look, or if it
+will be merged in the first place. I think that making sure vswap can
+participate in that interface is already more than reasonable. Once
+that interface is in, AND the usecase that necessitates per-cgroup
+vswap selection presents itself, then we can expose vswap later.
 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index b2879a6be5f8..dd25c01736b4 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -1021,6 +1021,55 @@ static void pci_std_enable_acs(struct pci_dev *dev, struct pci_acs *caps)
- 		caps->ctrl |= (dev->acs_capabilities & PCI_ACS_TB);
- }
- 
-+/**
-+ * pci_save_acs_state - save the ACS Control register
-+ * @dev: the PCI device
-+ *
-+ * Record the ACS controls currently programmed in hardware so that
-+ * pci_restore_acs_state() can reapply them after a reset.
-+ */
-+static void pci_save_acs_state(struct pci_dev *dev)
-+{
-+	struct pci_cap_saved_state *save_state;
-+
-+	if (!dev->acs_cap)
-+		return;
-+
-+	save_state = pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_ACS);
-+	if (!save_state)
-+		return;
-+
-+	pci_read_config_word(dev, dev->acs_cap + PCI_ACS_CTRL,
-+			     (u16 *)&save_state->cap.data[0]);
-+}
-+
-+/**
-+ * pci_restore_acs_state - restore the ACS Control register
-+ * @dev: the PCI device
-+ */
-+static void pci_restore_acs_state(struct pci_dev *dev)
-+{
-+	struct pci_cap_saved_state *save_state = NULL;
-+
-+	if (dev->acs_cap && !pci_need_dev_specific_enable_acs(dev))
-+		save_state = pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_ACS);
-+
-+	/*
-+	 * Devices that rely on device-specific quirks to enable an ACS
-+	 * equivalent keep that configuration outside of the ACS Control
-+	 * register, so there is nothing useful to restore for them. Configure
-+	 * ACS from scratch instead, which also covers devices that have no
-+	 * saved ACS state at all.
-+	 */
-+	if (!save_state) {
-+		pci_enable_acs(dev);
-+		return;
-+	}
-+
-+	pci_write_config_word(dev, dev->acs_cap + PCI_ACS_CTRL,
-+			      *(u16 *)&save_state->cap.data[0]);
-+}
-+
- /**
-  * pci_enable_acs - enable ACS if hardware support it
-  * @dev: the PCI device
-@@ -1057,6 +1106,15 @@ void pci_enable_acs(struct pci_dev *dev)
- 	__pci_config_acs(dev, &caps, config_acs_param, 0, 0);
- 
- 	pci_write_config_word(dev, pos + PCI_ACS_CTRL, caps.ctrl);
-+
-+	/*
-+	 * pci_enable_acs() runs when a driver binds to the device, i.e. after
-+	 * pci_bus_add_device() has already saved the device's state. Refresh
-+	 * the saved ACS Control register so that a subsequent reset restores
-+	 * the controls programmed here rather than the ones left behind by
-+	 * firmware.
-+	 */
-+	pci_save_acs_state(dev);
- }
- 
- /**
-@@ -1800,6 +1858,7 @@ int pci_save_state(struct pci_dev *dev)
- 	pci_save_aer_state(dev);
- 	pci_save_ptm_state(dev);
- 	pci_save_tph_state(dev);
-+	pci_save_acs_state(dev);
- 	return pci_save_vc_state(dev);
- }
- EXPORT_SYMBOL(pci_save_state);
-@@ -1877,7 +1936,7 @@ void pci_restore_state(struct pci_dev *dev)
- 	pci_restore_msi_state(dev);
- 
- 	/* Restore ACS and IOV configuration state */
--	pci_enable_acs(dev);
-+	pci_restore_acs_state(dev);
- 	pci_restore_iov_state(dev);
- 
- 	dev->state_saved = false;
-@@ -3532,6 +3591,11 @@ void pci_allocate_cap_save_buffers(struct pci_dev *dev)
- 	if (error)
- 		pci_err(dev, "unable to allocate suspend buffer for LTR\n");
- 
-+	error = pci_add_ext_cap_save_buffer(dev, PCI_EXT_CAP_ID_ACS,
-+					    sizeof(u16));
-+	if (error)
-+		pci_err(dev, "unable to allocate suspend buffer for ACS\n");
-+
- 	pci_allocate_vc_save_buffers(dev);
- }
- 
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index ba3c3fddddc2..037c1674f164 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -1095,6 +1095,7 @@ void pci_acs_init(struct pci_dev *dev);
- void pci_enable_acs(struct pci_dev *dev);
- #ifdef CONFIG_PCI_QUIRKS
- int pci_dev_specific_acs_enabled(struct pci_dev *dev, u16 acs_flags);
-+bool pci_need_dev_specific_enable_acs(struct pci_dev *dev);
- int pci_dev_specific_enable_acs(struct pci_dev *dev);
- int pci_dev_specific_disable_acs_redir(struct pci_dev *dev);
- void pci_disable_broken_acs_cap(struct pci_dev *pdev);
-@@ -1105,6 +1106,10 @@ static inline int pci_dev_specific_acs_enabled(struct pci_dev *dev,
- {
- 	return -ENOTTY;
- }
-+static inline bool pci_need_dev_specific_enable_acs(struct pci_dev *dev)
-+{
-+	return false;
-+}
- static inline int pci_dev_specific_enable_acs(struct pci_dev *dev)
- {
- 	return -ENOTTY;
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 7aee30734303..e500c202d2ec 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -5476,6 +5476,13 @@ static const struct pci_dev_acs_ops *pci_dev_acs_ops_get(struct pci_dev *dev)
- 	return NULL;
- }
- 
-+bool pci_need_dev_specific_enable_acs(struct pci_dev *dev)
-+{
-+	const struct pci_dev_acs_ops *p = pci_dev_acs_ops_get(dev);
-+
-+	return p && p->enable_acs;
-+}
-+
- int pci_dev_specific_enable_acs(struct pci_dev *dev)
- {
- 	const struct pci_dev_acs_ops *p = pci_dev_acs_ops_get(dev);
+>
+> > > > Potentially, but we have many users at Meta. There's a huge diversi=
+ty
+> > > > of machine types, workingset size, access patterns (both frequency =
+and
+> > > > file:anon split), compressibility, etc.
+> > >
+> > > You can just set the number as 8PB? :)
+> >
+> > Sure, but with the vmalloc-array approach, there is more metadata
+> > overhead even if we have not allocated the backing page of the
+> > clusters yet. This will be annoying on the smaller size machines
+> > (O(dozen of GB)) to also pay the overhead of 8PB-swap space metadata
+> > reservation.
+>
+> Not al all? With VM_SPARSE, you literally have zero overhead, unless
+> you really use these slots.
+>
+> And even if you really use these slots, the overhead in both CPU and
+> memory is lower than Xarray, if I did the math right. I just ran a
+> quick test with Baoquan's Xswap, forcing it to start with 8PB on boot;
+> it was smooth as batter on a 1GB box and still worked fine after heavy
+> anon memory pressure.
+>
+> See below (8PB xswap device with almost no metadata overhead, the only
+> overhead comes from zswap so I reduced the tree number but that can be
+> easily merged into clusters as we discussed before):
+>
+> ### Before XSWAP
+> # free -m
+>                total        used        free      shared  buff/cache   av=
+ailable
+> Mem:            1464         405         756           1         544     =
+   1058
+> Swap:              0           0           0
+>
+> ### Create a XSWAP device, I hardcoded the max size in code to 8PB,
+> ### and use fewer ZSWAP trees:
+> # echo 0 > /sys/kernel/mm/xswap/create
+> [  140.289280] xswap: adding extendable swap type 0 (prio -1, init 733
+> clusters =3D 375295 pages, max 2199023255552 pages)
+> # free -m
+>                total        used        free      shared  buff/cache   av=
+ailable
+> Mem:            1464         407         755           1         545     =
+   1057
+> Swap:           1465           0        1465
+>
+> ### Lift the ceiling to 8PB:
+> # echo 4294967296 > /sys/kernel/debug/xswap/type0_cluster_limit
+> # free -m
+>                total        used        free      shared  buff/cache   av=
+ailable
+> Mem:            1464         403         756           1         547     =
+   1060
+> Swap:     8589934591           0  8589934591
+>
+> ### Run memhog:
+> # time memhog 12G
+> ...
+> ________________________________________________________
+> Executed in    4.36 secs    fish           external
+>    usr time    0.46 secs    0.00 millis    0.46 secs
+>    sys time    3.77 secs    3.80 millis    3.76 secs
+>
+> ### After memhog:
+> # free -m
+>                total        used        free      shared  buff/cache   av=
+ailable
+> Mem:            1464         336        1136           0         222     =
+   1127
+> Swap:     8589934591          31  8589934560
+>
+> The only different from vswap now is that you just hides everything :)
+> (writeback is not hard to add)
+
+Ah I see hmmm. I probably messed up my napkin math.
+
+Regardless, I think we have strayed far from my original ask. It's a
+good idea, but with significantly less exposure to correctness and
+performance testing. Baoquan himself said it:
+
+"Throughput is within ~2-3% of plain swap+zswap on a 64G/64-thread
+swapout, so it is dominated by zswap compression, not the cluster table."
+
+I've even tried to show that that if we are to want it, replacing the
+xarray with vmalloc is simple, conceptually.
+
+Why are we throwing away all of the testing, validation, design work?
+
+Let's recap the arguments so far:
+
+1. We began with: it's more performant/less overhead. Which
+intuitively makes sense, but the numbers have not played out yet. And
+as I have said, we still keep the old code in tact. Optimizations can
+be done on top after the main use cases have been landed - it in fact
+gives us a testing grounds for optimizations.
+
+2. Now we have moved on to "it's simpler". My apologies, but I have to
+push back on this, because the comparison so far is so unfair it's
+farcical.
+
+With xswap, we're rolling a custom-written extensible array. It
+requires a 1000+LoC patch series to implement.
+
+With vswap, we're using a data structure that work out-of-the-box
+(xarray), with well-understood API and concurrency model. Yes, it
+involves more null checks and interactions with RCU, but with vmalloc
+we're adding a workqueue to support only tail-shrink, and have to
+invoke vmalloc API, which includes nasty surprises such as sleepable
+allocations, which can cause deadlocks in lock section.
+
+If we're comparing LoC, the first 2 patches of vswap, which enables
+writeback-less swap virtualization, is "+440 / -37" and "+456 / -29",
+respectively (including places where I have to set things up for
+writeback, detailed documentation of the encodings, etc.).
+
+I don't think vmalloc is significantly simpler. It *looks* simpler,
+because the interface looks like plain array access, but unlike the
+xarray we're in charge of maintaining the entire data structure
+itself, not just using it, so we have to take into account the data
+structure's implementation in the complexity equations.
+
+3. Userspace API - there's more to argue here, but I will note that
+vswap can be runtime-enabled and sized too. I just don't think there's
+a good use case for it yet (but we're discussing this in other
+threads).
+
+>
+> > https://lore.kernel.org/all/CAKEwX=3DNYoMH8pTKeCvA=3DXHFmmNVMeDz3mxbhp5=
+q6-PxSTJ5wOg@mail.gmail.com/
+>
+> Right I saw that, but 64 bit of private id will make shadows really
+> awkward, not for SWAP but for file folios and file mappings, swap
+> table is actully fine since memcg_table is standaone, and we can
+> workaround the hieratical refault distance issue in other ways (e.g.
+> record the reclaim level instead of memcgid direct). I think 24 bit is
+> good for now? As I've never see anyone ran into issues
+> with even 16 bits in production.
+
+I think you misunderstood me. I'm not proposing raising the private id
+- I'm proposing we raise the size of the refcnt field. That's the
+thing that gets saturated.
+
+Technically I think you can reproduce it with baseline - if my napkin
+math is correct, if a cgroup has more than 8TB worth of swap entries
+(4k size), then the refcnt will be saturated. You can already create
+an 8TB swapfile today, IIUC (even without vswap).
+
+Anyway that can be fixed as the independently from swap
+virtualization. One thing at a time.
