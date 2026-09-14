@@ -1,38 +1,38 @@
 Received: from smtp1.cs.Stanford.EDU (smtp1.cs.stanford.edu [171.64.64.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DF23A9639
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 23:05:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91213AEF35
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 23:05:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=171.64.64.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789427143; cv=none; b=R5nKJ43DqX0lkc6CKmTKOv6zjm73eroh4GDSZxdhXHQtEt5QqaiQ46C0gahGhUBCFwoGz7zmvIY+0umvHkzEkfGCqp3kMNMgL9H6Nd50XBrFQ0YA0O+PhjpzxeiUtrT0OKJ4hrOEd8mrIeEgVl0vcZ0BsNiO3YkHiyTRbCALhgU=
+	t=1789427146; cv=none; b=o2wxcvN46HYw0sLx386tfjMgVRMRe4e+yjBn6JLZFKVuJuuqxU5pFg+luvHDui9n9yHTzApPdjfhfHOf4dfCyAG5yoKGB5Di12MxEngVtLGgM9pI3DD96J9Idufr88a55w7J7WFUR5UH0/wJQu5Wai6Tpk3s8aYkAgLL05Wdkko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789427143; c=relaxed/simple;
-	bh=+qmG3mGlxqWYVyhGmCN7gAEFYnkoPN8tEwEA0TlNCrE=;
+	s=arc-20240116; t=1789427146; c=relaxed/simple;
+	bh=bco/ujejP90Xk7AYMYcbxbzhScabn7vEjACU1TI4gAk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q/bLiaViAoMkKKpyU3RhyG/xs4j8UkIwccbvGKzXt8rdRibjcVQzTgr/WkoRKqWwwOnZYUCJhevM8ClcOqTO8KHnjk73s3Rd0levuzpKQECIXtOKUGh4Cs1t04FhiFVTy4VBMXbHZKHSUuoGgzV7jqkTkxvXZ1MeJTqUt9XPYWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu; spf=pass smtp.mailfrom=cs.stanford.edu; dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b=mBmx0dRx; arc=none smtp.client-ip=171.64.64.25
+	 MIME-Version; b=iFcUE+n8Ug95QRfU9QbYmwwlUJaMT8bz028fUsL04iJHhCK35pVAK+B/+hEvi7MiUBeUnucMujmDYSKOMWCrFNHAWkkE3ckccjwyiq2vF8Z2heYUSjZM97bO60XFGsSY7fpuAa9SPxKBe/sNvwReiSjmyNrZL/Lh2w+h+LjB5cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu; spf=pass smtp.mailfrom=cs.stanford.edu; dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b=m4w6wvSH; arc=none smtp.client-ip=171.64.64.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.stanford.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b="mBmx0dRx"
+	dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b="m4w6wvSH"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=cs.stanford.edu; s=cs2308; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=cNEe2d7i+ihUe/Z3H/e8L9mvX/sHQ/eSktdBoR+Rf0w=; t=1789427141; x=1790291141; 
-	b=mBmx0dRxg3Tgz8xAEXG5DgeHjpiKJXzQDUu/OqppoiGyOxHjfcs7KG+k/JLCtUzTyF4duzghtGx
-	/TCP64W2VFz/alh6Q/HuOEZLGTXFxO7rFNkxcn8LwfbcM/pmECgg0Z8aLyQFHy02SCEELuSwcT/gW
-	qUyDDW5i6zCkbgzyER06S46jP2dMMclij33UARnoB9Ke+iB2P5HRMLBY4+SkFdnyk6A/h/wzYAHV6
-	JZRoONH6hfNZB9mr8EyRWl5DP8MH7sgzs1gwuFQf3Mtafsp1cvE7+v7P9nhWXe4Yk+ezGwIXpak90
-	EC0mjk1IKB7dvf9Q0RJhbFDveq+DmfM/4TzA==;
+	bh=elzapfc0dH7CGbenxDBSwTPfccfe4kNwOwt8+6BX+L0=; t=1789427143; x=1790291143; 
+	b=m4w6wvSHPXSSh62rDZDnd+30uyi0xl8nSaAWqhoz8birncuavoXqkjXLY5Nde6bZHIRjFm70vJ5
+	YkiOUZT0D/SWrkT7kkzPQEsXRPA7aodWWxGQLb0kp0lxW6k+DVc0pkjPk/B245uEhA/UIj25izS4L
+	MEDjYsYDrc99wE6OjQ544KcCks8CSB4oMlUZlfobZiqJQazo3CdhVd05vSlkurk4gaqE4qf30zv3a
+	YwSoMT6n5vI7wjk4hA1kNS6+IvHyhR66RfC5CIUQrk9jYtE7EMN4gzQw0RoDyGZeo6DSwiC+JrZ9I
+	cPg9n6fglwzIjTVDTRjATTSSPrE6tJm6zMGQ==;
 Received: from ouster448.stanford.edu ([172.24.72.71]:60752 helo=cs.stanford.edu)
 	by smtp1.cs.Stanford.EDU with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ouster@cs.stanford.edu>)
-	id 1x6Fjy-0007WN-Vz; Mon, 14 Sep 2026 16:05:38 -0700
+	id 1x6Fk2-0007WN-6I; Mon, 14 Sep 2026 16:05:41 -0700
 From: John Ousterhout <ouster@cs.stanford.edu>
 To: netdev@vger.kernel.org
 Cc: pabeni@redhat.com,
@@ -44,9 +44,9 @@ Cc: pabeni@redhat.com,
 	linux-doc@vger.kernel.org,
 	corbet@lwn.net,
 	John Ousterhout <ouster@cs.stanford.edu>
-Subject: [PATCH net-next v11 06/15] net: homa: create homa_peer.h and homa_peer.c
-Date: Mon, 14 Sep 2026 16:05:06 -0700
-Message-ID: <20260914230517.1190-7-ouster@cs.stanford.edu>
+Subject: [PATCH net-next v11 07/15] net: homa: create homa_sock.h and homa_sock.c
+Date: Mon, 14 Sep 2026 16:05:07 -0700
+Message-ID: <20260914230517.1190-8-ouster@cs.stanford.edu>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260914230517.1190-1-ouster@cs.stanford.edu>
 References: <20260914230517.1190-1-ouster@cs.stanford.edu>
@@ -57,13 +57,11 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -101.0
-X-Scan-Signature: 718846882798e04200bb22d25938c657
+X-Spam-Score: -96.8
+X-Scan-Signature: 87486537fbe28b4e3cd855d70a6e48e3
 
-Homa needs to keep a small amount of information for each peer that
-it has communicated with, including information about the peer itself
-plus routing information to communicate with that peer. These files define
-the peer-specific state and provide functions for storing and accessing it.
+These files provide functions for managing the state that Homa keeps
+for each open Homa socket.
 
 Signed-off-by: John Ousterhout <ouster@cs.stanford.edu>
 
@@ -71,1202 +69,1140 @@ Signed-off-by: John Ousterhout <ouster@cs.stanford.edu>
 Changes for v20:
 * Separate routing information (flows and dst_entry's) from the homa_peer
   struct: there can be multiple routes to a single peer.
-* Don't hold locks while transmitting packets.
-* When detecting IPv4 vs. IPv6, prefer info in addresses rather than info
-  from the socket; this moves Homa closer to allowing dual-stack IPv6
-  sockets.
-* Use time_before for jiffies comparisons.
+* Refactor outbound message management:
+  * Outbound message data is now buffered in kernel pages that are
+    independent of skbs; skbs are then created "just in time" that
+    share access to those pages.
+  * This eliminates the need for Homa to retain references to skb's
+    after they have been passed to ip*xmit.
+* Fix issues related to RCU:
+  * Redesign socktab scanning mechanism.
+  * Safe traversal of active_rpcs in homa_sock_shutdown.
+* Fix race that could lose wmem wakeups. Also add code to homa_sock_shutdown
+  to wakt up threads waiting for tx memory.
+* Introduce homa_sock_link objects: fixes problems that could occur
+  because of port number changes in homa_sock_bind.
+* Fix races related to socket lifetimes (e.g., wasn't using reference counts
+  properly).
 
 Changes for v19:
-* Bug fix: don't modify peer->flow in homa_peer_reset_dst unless the
-  function succeeds.
-
-Changes for v18:
-* Fix 2 synchronization issues related to reclamation
-* Simplify reclamation (eliminate gc_stop_count).
+* Use a flag bit in homa_sock instead of SOCK_NOSPACE in struct socket
+  (this is needed because hsk->sock.sk_socket can become NULL at
+  inconvenient times).
+* Fix bug with initialization order in homa_sock_init.
 
 Changes for v16:
-* Clean up and simplify reference counting mechanism (use refcount_t
-  instead of atomic_t, eliminate dead_peers mechanism)
-* Fix synchronization bugs in homa_dst_refresh (use RCU properly)
-* Remove addr field of struct homa_peer
-* Create separate header file for murmurhash hash function
+* Add error_msg field to struct homa_sock (for HOMAIOCINFO)
+* Acquire RCU read lock in homa_sock_wakeup_wmem for safety
+* Refactor homa_sock_init to reduce time in atomic context
 
 Changes for v11:
 * Clean up sparse annotations
 
 Changes for v10:
-* Use kzalloc instead of __GFP_ZERO
-* Remove log messages after alloc errors
-* Fix issues found by sparse, xmastree.py, etc.
-* Add missing initialization for peertab->lock
+* Revise sparse annotations to eliminate __context__ definition
+* Replace __u16 with u16, __u8 with u8, etc.
+* Use the destroy function from struct proto properly (fixes races in
+  socket cleanup)
 
 Changes for v9:
-* Add support for homa_net objects
-* Implement limits on the number of active homa_peer objects. This includes
-  adding reference counts in homa_peers and adding code to release peers
-  where there are too many.
-* Switch to using rhashtable to store homa_peers; the table is shared
-  across all network namespaces, though individual peers are namespace-
-  specific
-* Invoke dst->ops->check in addition to checking the obsolete flag
-* Various name improvements
-* Remove the homa_peertab_gc_dsts mechanism, which is unnecessary
+* Add support for homa_net objects; there is now a single socket table shared
+  across all network namespaces
+* Set SOCK_RCU_FREE in homa_sock_init, not homa_sock_shutdown
+* Various name improvements (e.g. use "alloc" instead of "new" for functions
+  that allocate memory)
+
+Changes for v8:
+* Update for new homa_pool APIs
 
 Changes for v7:
-* Remove homa_peertab_get_peers
+* Refactor homa_sock_start_scan etc. (take a reference on the socket, so
+  homa_socktab::active_scans and struct homa_socktab_links are no longer
+  needed; encapsulate RCU usage entirely in homa_sock.c).
+* Add functions for tx memory accounting
+* Refactor waiting mechanism for incoming messages
+* Add hsk->is_server, setsockopt SO_HOMA_SERVER
 * Remove "lock_slow" functions, which don't add functionality in this
-  patch
-* Remove unused fields from homa_peer structs
+  patch series
+* Remove locker argument from locking functions
 * Use u64 and __u64 properly
-* Add lock annotations
-* Refactor homa_peertab_get_peers
-* Use __GFP_ZERO in kmalloc calls
+* Take a reference to the socket in homa_sock_find
 ---
- net/homa/homa_peer.c | 669 +++++++++++++++++++++++++++++++++++++++++++
- net/homa/homa_peer.h | 457 +++++++++++++++++++++++++++++
- 2 files changed, 1126 insertions(+)
- create mode 100644 net/homa/homa_peer.c
- create mode 100644 net/homa/homa_peer.h
+ net/homa/homa_sock.c | 544 +++++++++++++++++++++++++++++++++++++++++++
+ net/homa/homa_sock.h | 513 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 1057 insertions(+)
+ create mode 100644 net/homa/homa_sock.c
+ create mode 100644 net/homa/homa_sock.h
 
-diff --git a/net/homa/homa_peer.c b/net/homa/homa_peer.c
+diff --git a/net/homa/homa_sock.c b/net/homa/homa_sock.c
 new file mode 100644
-index 000000000000..e387a399299b
+index 000000000000..a5fd321bacf2
 --- /dev/null
-+++ b/net/homa/homa_peer.c
-@@ -0,0 +1,669 @@
++++ b/net/homa/homa_sock.c
+@@ -0,0 +1,544 @@
 +// SPDX-License-Identifier: BSD-2-Clause OR GPL-2.0+
 +
-+/* This file provides functions related to homa_peer, homa_route, and
-+ * homa_peertab objects.
-+ */
++/* This file manages homa_sock and homa_socktab objects. */
 +
 +#include "homa_impl.h"
++#include "homa_interest.h"
 +#include "homa_peer.h"
-+#include "homa_rpc.h"
-+
-+#include <linux/xxhash.h>
-+
-+/* Wrapper to allow xxhash to be used as rhashtable hash function. */
-+static u32 xxh32_hash(const void *data, u32 len, u32 seed)
-+{
-+	return xxh32(data, len, seed);
-+}
-+
-+const struct rhashtable_params peer_ht_params = {
-+	.key_len     = sizeof(struct homa_peer_key),
-+	.key_offset  = offsetof(struct homa_peer, ht_key),
-+	.head_offset = offsetof(struct homa_peer, ht_linkage),
-+	.nelem_hint = 10000,
-+	.hashfn = xxh32_hash,
-+	.obj_cmpfn = homa_peer_compare
-+};
-+
-+const struct rhashtable_params route_ht_params = {
-+	.key_len     = sizeof(struct homa_route_key),
-+	.key_offset  = offsetof(struct homa_route, key),
-+	.head_offset = offsetof(struct homa_route, ht_linkage),
-+	.nelem_hint = 10000,
-+	.hashfn = xxh32_hash
-+};
++#include "homa_pool.h"
 +
 +/**
-+ * homa_peer_alloc_peertab() - Allocate and initialize a homa_peertab.
-+ *
-+ * Return:    A pointer to the new homa_peertab, or ERR_PTR(-errno) if there
-+ *            was a problem.
++ * homa_socktab_init() - Constructor for homa_socktabs.
++ * @socktab:  The object to initialize; previous contents are discarded.
 + */
-+struct homa_peertab *homa_peer_alloc_peertab(void)
++void homa_socktab_init(struct homa_socktab *socktab)
 +{
-+	struct homa_peertab *peertab;
-+	int err;
++	int i;
 +
-+	peertab = kzalloc_obj(*peertab, GFP_KERNEL);
-+	if (!peertab)
-+		return ERR_PTR(-ENOMEM);
++	spin_lock_init(&socktab->write_lock);
++	socktab->next_sequence = 1;
++	for (i = 0; i < HOMA_SOCKTAB_BUCKETS; i++)
++		INIT_HLIST_HEAD(&socktab->buckets[i]);
++}
 +
-+	spin_lock_init(&peertab->lock);
-+	err = rhashtable_init(&peertab->peer_ht, &peer_ht_params);
-+	if (err)
-+		goto error;
-+	err = rhashtable_init(&peertab->route_ht, &route_ht_params);
-+	if (err) {
-+		rhashtable_destroy(&peertab->peer_ht);
-+		goto error;
++/**
++ * homa_socktab_destroy() - Destructor for homa_socktabs: deletes all
++ * existing sockets.
++ * @socktab:  The object to destroy.
++ * @hnet:     If non-NULL, only sockets for this namespace are deleted.
++ */
++void homa_socktab_destroy(struct homa_socktab *socktab, struct homa_net *hnet)
++{
++	struct homa_socktab_scan scan;
++	struct homa_sock *hsk;
++
++	for (hsk = homa_socktab_start_scan(socktab, &scan); hsk;
++			hsk = homa_socktab_next(&scan)) {
++		if (hnet && hnet != hsk->hnet)
++			continue;
++
++		/* In actual use there should be no sockets left when this
++		 * function is invoked, so the code below will never be
++		 * invoked. However, it is useful during unit tests.
++		 */
++		homa_sock_shutdown(hsk);
++		homa_sock_destroy(&hsk->sock);
 +	}
-+	peertab->route_ht_valid = true;
-+	rhashtable_walk_enter(&peertab->route_ht, &peertab->route_ht_iter);
-+	peertab->gc_threshold = 5000;
-+	peertab->net_max = 10000;
-+	peertab->idle_secs_min = 10;
-+	peertab->idle_secs_max = 120;
-+
-+	homa_peer_update_sysctl_deps(peertab);
-+	return peertab;
-+
-+error:
-+	homa_peer_free_peertab(peertab);
-+	return ERR_PTR(err);
++	homa_socktab_end_scan(&scan);
 +}
 +
 +/**
-+ * homa_peer_free_net() - Garbage collect all of the peer information
-+ * associated with a particular network namespace.
-+ * @hnet:    Network namespace whose peers should be freed. There must not
-+ *           be any active sockets or RPCs for this namespace.
++ * homa_socktab_start_scan() - Begin an iteration over all of the sockets
++ * in a socktab.
++ * @socktab:   Socktab to scan.
++ * @scan:      Will hold the current state of the scan; any existing
++ *             contents are discarded. The caller must eventually pass this
++ *             to homa_socktab_end_scan.
++ *
++ * Return:     The first socket in the table, or NULL if the table is
++ *             empty. If non-NULL, a reference is held on the socket to
++ *             prevent its deletion.
++ *
++ * Each call to homa_socktab_next will return the next socket in the table.
++ * All sockets that are present in the table at the time this function is
++ * invoked will eventually be returned, as long as they are not removed
++ * from the table. It is safe to remove sockets from the table while the
++ * scan is in progress. If a socket is removed from the table during the scan,
++ * it may or may not be returned by homa_socktab_next. New entries added
++ * during the scan may or may not be returned.
 + */
-+void homa_peer_free_net(struct homa_net *hnet)
++struct homa_sock *homa_socktab_start_scan(struct homa_socktab *socktab,
++					  struct homa_socktab_scan *scan)
 +{
-+	struct homa_peertab *peertab = hnet->homa->peertab;
-+	struct rhashtable_iter iter;
-+	struct homa_route *route;
++	scan->socktab = socktab;
++	scan->hsk = NULL;
++	scan->current_bucket = 0;
++	scan->avail = 0;
++	scan->sequence = U64_MAX;
 +
-+	spin_lock_bh(&peertab->lock);
-+	rhashtable_walk_enter(&peertab->route_ht, &iter);
-+	rhashtable_walk_start(&iter);
++	return homa_socktab_next(scan);
++}
++
++/**
++ * homa_socktab_fill_scan() - Refill the @socks array for a homa_socktab_scan.
++ * On return, if its @avail member is zero it means all of the sockets in
++ * the socktab have been scanned.
++ * @scan:      State of the scan. Normally the @avail member will be zero,
++ *             but this is not necessary.
++ */
++void homa_socktab_fill_scan(struct homa_socktab_scan *scan)
++{
++	struct homa_sock_link *slink;
++	struct hlist_head *bucket;
++	struct hlist_node *next;
++
++	rcu_read_lock();
++	bucket = &scan->socktab->buckets[scan->current_bucket];
++	next = rcu_dereference(hlist_first_rcu(bucket));
++	while (scan->avail < HOMA_MAX_SCANNED_SOCKS) {
++		if (!next) {
++			if (scan->current_bucket >= HOMA_SOCKTAB_BUCKETS - 1)
++				break;
++			scan->current_bucket++;
++			scan->sequence = U64_MAX;
++			bucket = &scan->socktab->buckets[scan->current_bucket];
++			next = rcu_dereference(hlist_first_rcu(bucket));
++			continue;
++		}
++		slink = hlist_entry(next, struct homa_sock_link, links);
++		next = rcu_dereference(hlist_next_rcu(next));
++		if (slink->sequence < scan->sequence) {
++			scan->sequence = slink->sequence;
++			scan->socks[scan->avail] = slink->hsk;
++			if (refcount_inc_not_zero(&slink->hsk->sock.sk_refcnt))
++				scan->avail++;
++		}
++	}
++	rcu_read_unlock();
++}
++
++/**
++ * homa_socktab_next() - Return the next socket in an iteration over a socktab.
++ * @scan:      State of the scan.
++ *
++ * Return:     The next socket in the table, or NULL if the iteration has
++ *             returned all of the sockets in the table.  If non-NULL, a
++ *             reference is held on the socket to prevent its deletion (this
++ *             module will release the reference in the next call to
++ *             homa_socktab_next or homa_socktab_end). Sockets are not returned
++ *             in any particular order. It's possible that the returned socket
++ *             has been shutdown.
++ */
++struct homa_sock *homa_socktab_next(struct homa_socktab_scan *scan)
++{
++	if (scan->hsk) {
++		sock_put(&scan->hsk->sock);
++		scan->hsk = NULL;
++	}
++
++	if (scan->avail == 0) {
++		homa_socktab_fill_scan(scan);
++		if (scan->avail == 0)
++			return NULL;
++	}
++
++	scan->hsk = scan->socks[scan->avail - 1];
++	scan->avail--;
++	return scan->hsk;
++}
++
++/**
++ * homa_socktab_end_scan() - Must be invoked on completion of each scan
++ * to clean up state associated with the scan.
++ * @scan:      State of the scan.
++ */
++void homa_socktab_end_scan(struct homa_socktab_scan *scan)
++{
++	if (scan->hsk) {
++		sock_put(&scan->hsk->sock);
++		scan->hsk = NULL;
++	}
++	while (scan->avail > 0) {
++		sock_put(&scan->socks[scan->avail - 1]->sock);
++		scan->avail--;
++	}
++}
++
++/**
++ * homa_sock_init() - Constructor for homa_sock objects. This function
++ * handles Homa-specific initialization.
++ * @hsk:    Object to initialize. The Homa-specific parts must have been
++ *          initialized to zeroes by the caller.
++ *
++ * Return:  0 for success, otherwise a negative errno.
++ */
++int homa_sock_init(struct homa_sock *hsk)
++{
++	struct homa_pool *buffer_pool;
++	struct homa_socktab *socktab;
++	struct homa_sock *other;
++	struct homa_net *hnet;
++	struct homa *homa;
++	int starting_port;
++	int result = 0;
++	int i;
++
++	hnet = (struct homa_net *)net_generic(sock_net(&hsk->sock),
++					      homa_net_id);
++	homa = hnet->homa;
++	socktab = homa->socktab;
++
++	/* Do things requiring memory allocation before locking the socket,
++	 * so that GFP_ATOMIC is not needed.
++	 */
++	buffer_pool = homa_pool_alloc(hsk);
++	if (IS_ERR(buffer_pool))
++		return PTR_ERR(buffer_pool);
++
++	/* Initialize the fields private to Homa. We can initialize
++	 * everything except the port and hash table links without acquiring
++	 * the socket table lock.
++	 */
++	hsk->homa = homa;
++	hsk->hnet = hnet;
++	hsk->buffer_pool = buffer_pool;
++
++	hsk->is_server = false;
++	hsk->shutdown = false;
++	hsk->ip_header_length = (hsk->inet.sk.sk_family == AF_INET) ?
++				sizeof(struct iphdr) : sizeof(struct ipv6hdr);
++	hsk->error_msg = "no error";
++	spin_lock_init(&hsk->lock);
++	atomic_set(&hsk->protect_count, 0);
++	INIT_LIST_HEAD(&hsk->active_rpcs);
++	INIT_LIST_HEAD(&hsk->dead_rpcs);
++	INIT_LIST_HEAD(&hsk->waiting_for_bufs);
++	INIT_LIST_HEAD(&hsk->ready_rpcs);
++	INIT_LIST_HEAD(&hsk->interests);
++	for (i = 0; i < HOMA_CLIENT_RPC_BUCKETS; i++) {
++		struct homa_rpc_bucket *bucket = &hsk->client_rpc_buckets[i];
++
++		spin_lock_init(&bucket->lock);
++		bucket->id = i;
++		INIT_HLIST_HEAD(&bucket->rpcs);
++	}
++	for (i = 0; i < HOMA_SERVER_RPC_BUCKETS; i++) {
++		struct homa_rpc_bucket *bucket = &hsk->server_rpc_buckets[i];
++
++		spin_lock_init(&bucket->lock);
++		bucket->id = i + 1000000;
++		INIT_HLIST_HEAD(&bucket->rpcs);
++	}
++
++	/* Initialize fields outside the Homa part. */
++	hsk->sock.sk_sndbuf = homa->wmem_max;
++	sock_set_flag(&hsk->inet.sk, SOCK_RCU_FREE);
++
++	/* This is needed to prevent blocking when allocating memory in
++	 * functions like ip_route_output_flow, which could be invoked
++	 * while atomic.
++	 */
++	hsk->sock.sk_allocation = GFP_ATOMIC;
++
++	/* Pick a default port. Must keep the socktab locked from now
++	 * until the new socket is added to the socktab, to ensure that
++	 * no other socket chooses the same port.
++	 */
++	spin_lock_bh(&socktab->write_lock);
++	starting_port = hnet->prev_default_port;
 +	while (1) {
-+		route = rhashtable_walk_next(&iter);
-+		if (!route)
++		hnet->prev_default_port++;
++		if (hnet->prev_default_port < HOMA_MIN_DEFAULT_PORT)
++			hnet->prev_default_port = HOMA_MIN_DEFAULT_PORT;
++		other = homa_sock_find(hnet, hnet->prev_default_port);
++		if (!other)
 +			break;
-+		if (IS_ERR(route))
-+			continue;
-+		if (route->key.hnet != hnet)
-+			continue;
-+		if (rhashtable_remove_fast(&peertab->route_ht,
-+					   &route->ht_linkage,
-+					   route_ht_params) == 0) {
-+			homa_route_release(route);
-+			hnet->num_routes--;
-+			peertab->num_routes--;
-+		}
-+	}
-+	rhashtable_walk_stop(&iter);
-+	rhashtable_walk_exit(&iter);
-+	WARN(hnet->num_routes != 0, "%s ended up with hnet->num_routes %d",
-+	     __func__, hnet->num_routes);
-+	spin_unlock_bh(&peertab->lock);
-+}
-+
-+/**
-+ * homa_route_delete_fn() - This function is invoked for each entry in
-+ * the route_ht hash table by the rhashtable code when the table is being
-+ * deleted. It frees its argument.
-+ * @object:     homa_peer to free.
-+ * @dummy:      Not used.
-+ */
-+void homa_route_delete_fn(void *object, void *dummy)
-+	__must_hold(((struct homa_route *)object)->key.hnet->homa->peertab->lock)
-+{
-+	struct homa_route *route = object;
-+
-+	/* Must unlink from the peer here (peertab is going away so
-+	 * it won't be safe to do it later, if the reference count doesn't
-+	 * drop to zero here).
-+	 */
-+	homa_peer_unlink(route);
-+	homa_route_release(route);
-+}
-+
-+/**
-+ * homa_peer_free_peertab() - Destructor for homa_peertabs.
-+ * @peertab:  The table to destroy. Caller must ensure that it will never
-+ *            be accessed again.
-+ */
-+void homa_peer_free_peertab(struct homa_peertab *peertab)
-+{
-+	if (peertab->route_ht_valid) {
-+		rhashtable_walk_exit(&peertab->route_ht_iter);
-+		rhashtable_free_and_destroy(&peertab->route_ht,
-+					    homa_route_delete_fn,
-+					    NULL);
-+		rcu_barrier();
-+		rhashtable_destroy(&peertab->peer_ht);
-+		peertab->route_ht_valid = false;
-+	}
-+	kfree(peertab);
-+}
-+
-+/**
-+ * homa_peer_alloc() - Allocate and initialize a new homa_peer object.
-+ * @hsk:        Socket for which the peer will be used.
-+ * @addr:       Address of the desired host: IPv4 addresses are represented
-+ *              as IPv4-mapped IPv6 addresses.
-+ * Return:      The peer associated with @addr, or a negative errno if an
-+ *              error occurred. On a successful return the reference count
-+ *              will be incremented for the returned peer. Sets hsk->error_msg
-+ *              on errors.
-+ */
-+struct homa_peer *homa_peer_alloc(struct homa_sock *hsk,
-+				  const struct in6_addr *addr)
-+{
-+	struct homa_peer *peer;
-+
-+	peer = kzalloc_obj(*peer, GFP_ATOMIC);
-+	if (!peer) {
-+		hsk->error_msg = "couldn't allocate memory for homa_peer";
-+		return (struct homa_peer *)ERR_PTR(-ENOMEM);
-+	}
-+	peer->ht_key.addr = *addr;
-+	peer->ht_key.hnet = hsk->hnet;
-+	refcount_set(&peer->refs, 1);
-+	spin_lock_init(&peer->lock);
-+
-+	return peer;
-+}
-+
-+/**
-+ * homa_peer_free() - Release any resources in a peer and free the homa_peer
-+ * struct.
-+ * @peer:   Peer to free. The @refs field must be zero (this also implies
-+ *          for example, that the peer is not on any lists and
-+ *          peer->grantable_rpcs is empty).
-+ */
-+void homa_peer_free(struct homa_peer *peer)
-+{
-+	kfree(peer);
-+}
-+
-+/**
-+ * homa_peer_get() - Returns the peer associated with a given host; creates
-+ * a new homa_peer if one doesn't already exist.
-+ * @hsk:        Socket where the peer will be used.
-+ * @addr:       Address of the desired host: IPv4 addresses are represented
-+ *              as IPv4-mapped IPv6 addresses.
-+ *
-+ * Return:      The peer associated with @addr, or a negative errno if an
-+ *              error occurred. On a successful return the reference count
-+ *              will be incremented for the returned peer. The caller must
-+ *              eventually call homa_peer_release to release the reference.
-+ */
-+struct homa_peer *homa_peer_get(struct homa_sock *hsk,
-+				const struct in6_addr *addr)
-+	__must_hold(hsk->homa->peertab->lock)
-+{
-+	struct homa_peertab *peertab = hsk->homa->peertab;
-+	struct homa_peer_key key;
-+	struct homa_peer *peer;
-+	int status;
-+
-+	key.addr = *addr;
-+	key.hnet = hsk->hnet;
-+
-+	/* Fast path: use existing entry if it exists. */
-+	peer = rhashtable_lookup(&peertab->peer_ht, &key, peer_ht_params);
-+	if (peer) {
-+		refcount_inc(&peer->refs);
-+		return peer;
-+	}
-+
-+	/* No existing entry, so we have to create a new one. */
-+	peer = homa_peer_alloc(hsk, addr);
-+	if (IS_ERR(peer))
-+		return peer;
-+	status = rhashtable_lookup_insert_fast(&peertab->peer_ht,
-+					       &peer->ht_linkage,
-+					       peer_ht_params);
-+	if (status != 0) {
-+		pr_err("homa_peer_get received unexpected error return from rhashtable_lookup_insert_fast");
-+		hsk->error_msg = "unexpected error return from rhashtable_lookup_insert_fast";
-+		homa_peer_free(peer);
-+		return ERR_PTR(status);
-+	}
-+	return peer;
-+}
-+
-+/**
-+ * homa_route_alloc() - Allocate and initialize a new homa_route.
-+ * object.
-+ * @hsk:       Socket for which the homa_route will be used.
-+ * @key:       Key that will be used for this entry in peertab->route_ht.
-+ *             Contains the destination address and other information needed
-+ *             to create a flowi and a dst_entry.
-+ * Return:     A new homa_route corresdponding to @hsk and @key, or a
-+ *             negative errno if an error occurred. Sets hsk->error_msg on
-+ *             errors. On success, all fields have been initialized except
-+ *             @peer; the route has not been inserted in route_ht and its
-+ *             reference count will be one.
-+ */
-+struct homa_route *homa_route_alloc(struct homa_sock *hsk,
-+				    const struct homa_route_key *key)
-+{
-+	struct homa_route *route;
-+	struct dst_entry *dst;
-+	int err;
-+
-+	route = kzalloc_obj(*route, GFP_ATOMIC);
-+	if (!route) {
-+		hsk->error_msg = "couldn't allocate memory for homa_route";
-+		return ERR_PTR(-ENOMEM);
-+	}
-+	spin_lock_init(&route->lock);
-+	refcount_set(&route->refs, 1);
-+	route->access_jiffies = jiffies;
-+	route->key = *key;
-+
-+	/* Find a dst_entry to use for this route. */
-+	route->flow.flowi_secid = key->secid;
-+	if (ipv6_addr_v4mapped(&route->key.daddr)) {
-+		struct rtable *rt;
-+
-+		flowi4_init_output(&route->flow.u.ip4, key->bound_dev_if,
-+				   key->mark, 0, RT_SCOPE_UNIVERSE,
-+				   IPPROTO_HOMA, 0,
-+				   ipv6_to_ipv4(route->key.daddr),
-+				   ipv6_to_ipv4(route->key.saddr), 0, 0,
-+				   key->uid);
-+		rt = ip_route_output_flow(sock_net(&hsk->sock),
-+					  &route->flow.u.ip4, &hsk->sock);
-+		if (IS_ERR(rt)) {
-+			err = PTR_ERR(rt);
++		sock_put(&other->sock);
++		if (hnet->prev_default_port == starting_port) {
++			spin_unlock_bh(&socktab->write_lock);
++			result = -EADDRNOTAVAIL;
 +			goto error;
 +		}
-+		rcu_assign_pointer(route->dst, &rt->dst);
-+	} else {
-+		/* This code is derived from code in tcp_v6_connect. */
-+		route->flow.u.ip6.flowi6_proto = IPPROTO_HOMA;
-+		route->flow.u.ip6.daddr = route->key.daddr;
-+		route->flow.u.ip6.saddr = route->key.saddr;
-+		route->flow.u.ip6.flowlabel = ip6_make_flowinfo(0, 0);
-+		route->flow.u.ip6.flowi6_oif = key->bound_dev_if;
-+		route->flow.u.ip6.flowi6_mark = key->mark;
-+		route->flow.u.ip6.fl6_dport = 0;
-+		route->flow.u.ip6.fl6_sport = 0;
-+		route->flow.u.ip6.flowi6_uid = key->uid;
-+		dst = ip6_dst_lookup_flow(sock_net(&hsk->sock), &hsk->sock,
-+						   &route->flow.u.ip6, NULL);
-+		rcu_assign_pointer(route->dst, dst);
-+
-+		if (IS_ERR(route->dst)) {
-+			err = PTR_ERR(route->dst);
-+			goto error;
-+		}
-+		route->dst_cookie = rt6_get_cookie(dst_rt6_info(dst));
++		spin_unlock_bh(&socktab->write_lock);
++		cond_resched();
++		spin_lock_bh(&socktab->write_lock);
 +	}
-+	return route;
++	result = homa_sock_link(hsk, hnet->prev_default_port);
++	spin_unlock_bh(&socktab->write_lock);
++	if (result == 0)
++		return result;
++
 +error:
-+	hsk->error_msg = "couldn't find route for peer";
-+	kfree(route);
-+	return ERR_PTR(err);
++	hsk->shutdown = true;
++	hsk->homa = NULL;
++	homa_pool_free(buffer_pool);
++	return result;
 +}
 +
 +/**
-+ * homa_route_free() - Release any resources in a homa_route and
-+ * free the object's memory. May be invoked either as an RCU callback
-+ * or directly (if invoked directly, caller must ensure exclusive
-+ * access to the object, e.g. it was never actually published in
-+ * route_ht).
-+ * @head:     @rcu_head field  in the route to free.
-+ */
-+void homa_route_free(struct rcu_head *head)
-+{
-+	struct homa_route *route;
-+
-+	route = container_of(head, struct homa_route, rcu_head);
-+	dst_release(rcu_dereference_protected(route->dst, 1));
-+	spin_lock_bh(&route->key.hnet->homa->peertab->lock);
-+	homa_peer_unlink(route);
-+	spin_unlock_bh(&route->key.hnet->homa->peertab->lock);
-+	kfree(route);
-+}
-+
-+/**
-+ * homa_route_get() - Returns a homa_route object that can be
-+ * used to communicate with a given host over a given socket. Indirectly
-+ * provides access to a homa_peer object for @addr.
-+ * @hsk:        Socket where the peer will be used.
-+ * @addr:       Address of the desired host: IPv4 addresses are represented
-+ *              as IPv4-mapped IPv6 addresses.
++ * homa_sock_link() - Add a socket to the hash table for its socktab,
++ * so that it will be discoverable through homa_sock_find. If the socket
++ * is already linked, the current link will be removed.
++ * @hsk:    Socket to link in; hsk->port will be used to determine
++ *          where the socket is linked in it socktab. Caller must hold
++ *          the lock for the socket's socktab.
++ * @port:   Port to use for the socket; if this function succeeds, this
++ *          number will be stored in hsk.
 + *
-+ * Return:      The homa_route associated with @addr, or a negative
-+ *              errno if an error occurred. On a successful return the
-+ *              reference count will be incremented for the returned object.
-+ *              The caller must eventually call homa_peer_route_release to
-+ *              release the reference.
++ * Return:  0 for success, otherwise a negative errno.
 + */
-+struct homa_route *homa_route_get(struct homa_sock *hsk,
-+				  const struct in6_addr *addr)
++int homa_sock_link(struct homa_sock *hsk, int port)
++	__must_hold(hsk->homa->socktab->write_lock)
 +{
-+	struct homa_peertab *peertab = hsk->homa->peertab;
-+	struct homa_route *route, *other;
-+	struct homa_route_key route_key;
-+	struct homa_peer *peer;
++	struct homa_socktab *socktab = hsk->homa->socktab;
++	struct homa_sock_link *slink;
 +
-+	/* See if we already have a suitable route cached. */
-+	rcu_read_lock();
-+	homa_route_key_init(&route_key, hsk, addr);
-+	route = rhashtable_lookup(&peertab->route_ht, &route_key,
-+				  route_ht_params);
-+	if (route && refcount_inc_not_zero(&route->refs)) {
-+		route->access_jiffies = jiffies;
-+		rcu_read_unlock();
-+		return route;
-+	}
-+
-+	/* No existing entry, so we have to create a new one. Switch from
-+	 * RCU to real locking for this.
-+	 */
-+	rcu_read_unlock();
-+	route = homa_route_alloc(hsk, &route_key);
-+	if (IS_ERR(route))
-+		return route;
-+
-+	spin_lock_bh(&peertab->lock);
-+	peer = homa_peer_get(hsk, addr);
-+	if (IS_ERR(peer)) {
-+		spin_unlock_bh(&peertab->lock);
-+		homa_route_free(&route->rcu_head);
-+		route = ERR_PTR(PTR_ERR(peer));
-+		return route;
-+	}
-+	route->peer = peer;
-+
-+	/* Insert the new entry in the flow table. It's possible that
-+	 * someone else already created the entry concurrently.
-+	 */
-+	other = rhashtable_lookup_get_insert_fast(&peertab->route_ht,
-+						  &route->ht_linkage,
-+						  route_ht_params);
-+	if (IS_ERR(other)) {
-+		/* Couldn't insert; return the error info. */
-+		hsk->error_msg = "rhashtable_lookup_get_insert_key failed in homa_route_get";
-+		spin_unlock_bh(&peertab->lock);
-+		homa_route_free(&route->rcu_head);
-+		route = other;
-+	} else if (other) {
-+		/* Someone else already created the desired object; use that
-+		 * one instead of ours.
-+		 */
-+		refcount_inc(&other->refs);
-+		spin_unlock_bh(&peertab->lock);
-+		homa_route_free(&route->rcu_head);
-+		route = other;
-+		route->access_jiffies = jiffies;
-+	} else {
-+		/* The new object was inserted in the hash table. */
-+		refcount_inc(&route->refs);
-+		peertab->num_routes++;
-+		route_key.hnet->num_routes++;
-+		spin_unlock_bh(&peertab->lock);
-+	}
-+	return route;
-+}
-+
-+/**
-+ * homa_route_validate() - Check to be sure that the information in the
-+ * route for an RPC is still valid; if not, try to allocate a new route
-+ * for the RPC.
-+ * @rpc:    RPC whose routing information should be checked.
-+ * Return:  Zero for success, or a negative errno if the route was invalid
-+ *          and no new route could be created.
-+ */
-+int homa_route_validate(struct homa_rpc *rpc)
-+	__must_hold(rpc->bucket->lock)
-+{
-+	struct homa_route *route, *old;
-+	struct dst_entry *dst;
-+
-+	old = rpc->route;
-+	rcu_read_lock();
-+	dst = rcu_dereference_protected(old->dst, 1);
-+	rcu_read_unlock();
-+	if (!dst_check(dst, rpc->route->dst_cookie)) {
-+		struct homa_peertab *peertab = rpc->hsk->homa->peertab;
-+
-+		/* Existing route is no longer valid; remove it from
-+		 * the hash table and try to create a new one.
-+		 */
-+		spin_lock_bh(&peertab->lock);
-+		if (rhashtable_remove_fast(&peertab->route_ht, &old->ht_linkage,
-+					   route_ht_params) == 0) {
-+			homa_route_release(old);
-+			peertab->num_routes--;
-+			old->key.hnet->num_routes--;
-+		}
-+		spin_unlock_bh(&peertab->lock);
-+		route = homa_route_get(rpc->hsk, &rpc->route->peer->addr);
-+		if (IS_ERR(route))
-+			return PTR_ERR(route);
-+		old = xchg(&rpc->route, route);
-+		homa_route_release(old);
-+	}
++	slink = kmalloc_obj(*slink, GFP_ATOMIC | __GFP_ACCOUNT);
++	if (!slink)
++		return -ENOMEM;
++	homa_sock_unlink(hsk);
++	slink->hsk = hsk;
++	slink->sequence = socktab->next_sequence;
++	socktab->next_sequence++;
++	hlist_add_head_rcu(&slink->links,
++			   &socktab->buckets[homa_socktab_bucket(hsk->hnet,
++								 port)]);
++	hsk->port = port;
++	hsk->inet.inet_num = port;
++	hsk->inet.inet_sport = htons(port);
++	hsk->slink = slink;
 +	return 0;
 +}
 +
-+/**
-+ * homa_route_gc() - This function is invoked by Homa at regular intervals;
-+ * its job is to ensure that the number of routes stays within limits. If
-+ * the number grows too large, it selectively deletes routes (and peers)
-+ * to get back under the limit.
-+ * @peertab:   Structure to garbage-collect.
++/*
++ * homa_sock_unlink() - Unlinks a socket from its socktab. Once this method
++ * returns, the socket will not be discoverable through the socktab.
++ * @hsk:  Socket to unlink. Caller must hold the lock for the socket's
++ *        socktab.
 + */
-+void homa_route_gc(struct homa_peertab *peertab)
++void homa_sock_unlink(struct homa_sock *hsk)
++	__must_hold(hsk->homa->socktab->write_lock)
 +{
-+#define EVICT_BATCH_SIZE 5
-+	struct homa_route *victims[EVICT_BATCH_SIZE];
-+	int num_victims;
-+	int i;
++	struct homa_sock_link *slink;
 +
-+	spin_lock_bh(&peertab->lock);
-+	if (peertab->num_routes < peertab->gc_threshold)
-+		goto done;
-+	num_victims = homa_route_pick_victims(peertab, victims,
-+					      EVICT_BATCH_SIZE);
-+	if (num_victims == 0)
-+		goto done;
-+
-+	for (i = 0; i < num_victims; i++) {
-+		struct homa_route *route = victims[i];
-+
-+		if (rhashtable_remove_fast(&peertab->route_ht,
-+					   &route->ht_linkage,
-+					   route_ht_params) == 0) {
-+			peertab->num_routes--;
-+			route->key.hnet->num_routes--;
-+			homa_route_release(route);
-+		}
-+	}
-+done:
-+	spin_unlock_bh(&peertab->lock);
++	slink = hsk->slink;
++	if (!slink)
++		return;
++	hsk->slink = NULL;
++	hlist_del_rcu(&slink->links);
++	kfree_rcu(slink, rcu_head);
 +}
 +
 +/**
-+ * homa_route_pick_victims() - Select a few routes that can be freed.
-+ * @peertab:      Choose routes that are stored here.
-+ * @victims:      Return addresses of victims here.
-+ * @max_victims:  Limit on how many victims to choose (and size of @victims
-+ *                array).
-+ * Return:        The number of routes stored in @victims; may be zero.
++ * homa_sock_shutdown() - Disable a socket so that it can no longer
++ * be used for either sending or receiving messages. Any system calls
++ * currently waiting to send or receive messages will be aborted. This
++ * function will terminate any existing use of the socket, but it does
++ * not free up socket resources: that happens in homa_sock_destroy.
++ * @hsk:       Socket to shut down.
 + */
-+int homa_route_pick_victims(struct homa_peertab *peertab,
-+			    struct homa_route *victims[], int max_victims)
++void homa_sock_shutdown(struct homa_sock *hsk)
 +{
-+	struct homa_route *route;
-+	int num_victims = 0;
-+	int to_scan;
-+	int i, idle;
++	struct homa_socktab *socktab;
++	struct homa_rpc *rpc;
 +
-+	/* Scan 2 routes for every potential victim and keep the "best"
-+	 * routes for removal.
-+	 */
-+	rhashtable_walk_start(&peertab->route_ht_iter);
-+	for (to_scan = 2 * max_victims; to_scan > 0; to_scan--) {
-+		route = rhashtable_walk_next(&peertab->route_ht_iter);
-+		if (!route) {
-+			/* Reached the end of the table; restart at
-+			 * the beginning.
-+			 */
-+			rhashtable_walk_stop(&peertab->route_ht_iter);
-+			rhashtable_walk_exit(&peertab->route_ht_iter);
-+			rhashtable_walk_enter(&peertab->peer_ht,
-+					      &peertab->route_ht_iter);
-+			rhashtable_walk_start(&peertab->route_ht_iter);
-+			route = rhashtable_walk_next(&peertab->route_ht_iter);
-+			if (!route)
-+				break;
-+		}
-+		if (IS_ERR(route)) {
-+			/* rhashtable decided to restart the search at the
-+			 * beginning.
-+			 */
-+			route = rhashtable_walk_next(&peertab->route_ht_iter);
-+			if (!route || IS_ERR(route))
-+				break;
-+		}
-+
-+		/* Has this route been idle long enough to be candidate for
-+		 * eviction?
-+		 */
-+		idle = jiffies - route->access_jiffies;
-+		if (idle < peertab->idle_jiffies_min)
-+			continue;
-+		if (idle < peertab->idle_jiffies_max &&
-+		    route->key.hnet->num_routes <= peertab->net_max)
-+			continue;
-+
-+		/* Sort the candidate into the existing list of victims. */
-+		for (i = 0; i < num_victims; i++) {
-+			if (route == victims[i]) {
-+				/* This can happen if there aren't very many
-+				 * routes and we wrapped around in the hash
-+				 * table.
-+				 */
-+				route = NULL;
-+				break;
-+			}
-+			if (homa_route_prefer_evict(peertab, route, victims[i]))
-+				swap(route, victims[i]);
-+		}
-+
-+		if (num_victims < max_victims && route) {
-+			victims[num_victims] = route;
-+			num_victims++;
-+		}
-+	}
-+	rhashtable_walk_stop(&peertab->route_ht_iter);
-+	return num_victims;
-+}
-+
-+/**
-+ * homa_route_prefer_evict() - Given two routes, determine which one is
-+ * a better candidate for eviction.
-+ * @peertab:    Overall information used to manage routes.
-+ * @route1:     First route.
-+ * @route2:     Second route.
-+ * Return:      True if @route1 is a better candidate for eviction than @route2.
-+ */
-+int homa_route_prefer_evict(struct homa_peertab *peertab,
-+			    struct homa_route *route1,
-+			    struct homa_route *route2)
-+{
-+	/* Prefer a route whose homa_net is over its limit; if both are either
-+	 * over or under, then prefer the route with the longest idle time.
-+	 */
-+	if (route1->key.hnet->num_routes > peertab->net_max) {
-+		if (route2->key.hnet->num_routes <= peertab->net_max)
-+			return true;
-+		else
-+			return time_before(route1->access_jiffies,
-+					   route2->access_jiffies);
-+	}
-+	if (route2->key.hnet->num_routes > peertab->net_max)
-+		return false;
-+	else
-+		return time_before(route1->access_jiffies,
-+				   route2->access_jiffies);
-+}
-+
-+/**
-+ * homa_peer_add_ack() - Add a given RPC to the list of unacked
-+ * RPCs for its server. Once this method has been invoked, it's safe
-+ * to delete the RPC, since it will eventually be acked to the server.
-+ * @rpc:    Client RPC that has now completed. Must be locked by caller.
-+ */
-+void homa_peer_add_ack(struct homa_rpc *rpc)
-+	__must_hold(rpc->bucket->lock)
-+{
-+	struct homa_peer *peer = rpc->route->peer;
-+	struct homa_ack_hdr ack;
-+
-+	homa_peer_lock(peer);
-+	if (peer->num_acks < HOMA_MAX_ACKS_PER_PKT) {
-+		peer->acks[peer->num_acks].client_id = cpu_to_be64(rpc->id);
-+		peer->acks[peer->num_acks].server_port = htons(rpc->dport);
-+		peer->num_acks++;
-+		homa_peer_unlock(peer);
++	homa_sock_lock(hsk);
++	if (hsk->shutdown || !hsk->homa) {
++		homa_sock_unlock(hsk);
 +		return;
 +	}
 +
-+	/* The peer has filled up; send an ACK message to empty it. The
-+	 * RPC in the message header will also be considered ACKed.
++	/* The order of cleanup is very important, because there could be
++	 * active operations that hold RPC locks but not the socket lock.
++	 * 1. Set @shutdown; this ensures that no new RPCs will be created for
++	 *    this socket (though some creations might already be in progress)
++	 *    and incoming packets will be dropped.
++	 * 2. Remove the socket from its socktab, so no-one will ever find
++	 *    it again.
++	 * 3. Go through all of the RPCs and delete them; this will
++	 *    synchronize with any operations in progress.
++	 * 4. Perform other socket cleanup: at this point we know that
++	 *    there will be no concurrent activities on individual RPCs.
++	 * 5. Don't delete the buffer pool until after all of the RPCs
++	 *    have been reaped.
++	 * See "Homa Locking Strategy" in homa_impl.h for additional information
++	 * about locking.
 +	 */
-+	memcpy(ack.acks, peer->acks, sizeof(peer->acks));
-+	ack.num_acks = htons(peer->num_acks);
-+	peer->num_acks = 0;
-+	homa_peer_unlock(peer);
-+	homa_xmit_control(ACK, &ack, sizeof(ack), rpc);
++	hsk->shutdown = true;
++
++	/* This protects against RPC deletions during the RCU scan of
++	 * active_rpcs below.
++	 */
++	atomic_inc(&hsk->protect_count);
++	homa_sock_unlock(hsk);
++
++	socktab = hsk->homa->socktab;
++	spin_lock_bh(&socktab->write_lock);
++	homa_sock_unlink(hsk);
++	spin_unlock_bh(&socktab->write_lock);
++
++	rcu_read_lock();
++	list_for_each_entry_rcu(rpc, &hsk->active_rpcs, active_links) {
++		homa_rpc_lock(rpc);
++		homa_rpc_end(rpc);
++		homa_rpc_unlock(rpc);
++	}
++	wake_up_interruptible_poll(sk_sleep(&hsk->sock), EPOLLOUT);
++	rcu_read_unlock();
++	homa_unprotect_rpcs(hsk);
++
++	homa_sock_lock(hsk);
++	while (!list_empty(&hsk->interests))
++		homa_interest_notify_shared(hsk, NULL);
++	homa_sock_unlock(hsk);
 +}
 +
 +/**
-+ * homa_peer_get_acks() - Copy acks out of a peer, and remove them from the
-+ * peer.
-+ * @peer:    Peer to check for possible unacked RPCs.
-+ * @count:   Maximum number of acks to return.
-+ * @dst:     The acks are copied to this location.
++ * homa_sock_destroy() - Release all of the internal resources associated
++ * with a socket; is invoked at time when that is safe (i.e., all references
++ * on the socket have been dropped).
++ * @sk:       Socket to destroy.
++ */
++void homa_sock_destroy(struct sock *sk)
++{
++	struct homa_sock *hsk = homa_sk(sk);
++
++	if (!hsk->homa)
++		return;
++
++	while (!list_empty(&hsk->dead_rpcs))
++		homa_rpc_reap(hsk);
++
++	WARN_ON_ONCE(refcount_read(&hsk->sock.sk_wmem_alloc) != 1);
++
++	if (hsk->buffer_pool) {
++		homa_pool_free(hsk->buffer_pool);
++		hsk->buffer_pool = NULL;
++	}
++}
++
++/**
++ * homa_sock_bind() - Associates a server port with a socket; if there
++ * was a previous server port assignment for @hsk, it is abandoned.
++ * @hnet:      Network namespace with which port is associated.
++ * @hsk:       Homa socket.
++ * @port:      Desired server port for @hsk. If 0, then this call
++ *             becomes a no-op: the socket will continue to use
++ *             its randomly assigned client port.
 + *
-+ * Return:   The number of acks extracted from the peer (<= count).
++ * Return:  0 for success, otherwise a negative errno. If an error is
++ *          returned, hsk->error_msg is set.
 + */
-+int homa_peer_get_acks(struct homa_peer *peer, int count, struct homa_ack *dst)
++int homa_sock_bind(struct homa_net *hnet, struct homa_sock *hsk,
++		   u16 port)
 +{
-+	/* Don't waste time acquiring the lock if there are no ids available. */
-+	if (peer->num_acks == 0)
-+		return 0;
++	struct homa_socktab *socktab = hnet->homa->socktab;
++	struct homa_sock *owner;
++	int result = 0;
 +
-+	homa_peer_lock(peer);
++	if (port == 0)
++		return result;
++	if (port >= HOMA_MIN_DEFAULT_PORT) {
++		hsk->error_msg = "port number invalid: in the automatically assigned range";
++		return -EINVAL;
++	}
++	homa_sock_lock(hsk);
++	spin_lock_bh(&socktab->write_lock);
++	if (hsk->shutdown) {
++		hsk->error_msg = "socket has been shut down";
++		result = -ESHUTDOWN;
++		goto done;
++	}
 +
-+	if (count > peer->num_acks)
-+		count = peer->num_acks;
-+	memcpy(dst, &peer->acks[peer->num_acks - count],
-+	       count * sizeof(peer->acks[0]));
-+	peer->num_acks -= count;
-+
-+	homa_peer_unlock(peer);
-+	return count;
++	owner = homa_sock_find(hnet, port);
++	if (owner) {
++		sock_put(&owner->sock);
++		if (owner != hsk) {
++			hsk->error_msg = "requested port number is already in use";
++			result = -EADDRINUSE;
++		}
++		goto done;
++	}
++	result = homa_sock_link(hsk, port);
++	if (result == 0)
++		hsk->is_server = true;
++done:
++	spin_unlock_bh(&socktab->write_lock);
++	homa_sock_unlock(hsk);
++	return result;
 +}
 +
 +/**
-+ * homa_peer_update_sysctl_deps() - Update any peertab fields that depend
-+ * on values set by sysctl. This function is invoked anytime a peer sysctl
-+ * value is updated.
-+ * @peertab:   Struct to update.
++ * homa_sock_find() - Returns the socket associated with a given port.
++ * @hnet:       Network namespace where the socket will be used.
++ * @port:       The port of interest.
++ * Return:      The socket that owns @port, or NULL if none. If non-NULL
++ *              then this method has taken a reference on the socket and
++ *              the caller must call sock_put to release it.
 + */
-+void homa_peer_update_sysctl_deps(struct homa_peertab *peertab)
++struct homa_sock *homa_sock_find(struct homa_net *hnet, u16 port)
 +{
-+	peertab->idle_jiffies_min = peertab->idle_secs_min * HZ;
-+	peertab->idle_jiffies_max = peertab->idle_secs_max * HZ;
++	int bucket = homa_socktab_bucket(hnet, port);
++	struct homa_sock *result = NULL;
++	struct homa_sock_link *slink;
++	struct homa_sock *hsk;
++
++	rcu_read_lock();
++	hlist_for_each_entry_rcu(slink, &hnet->homa->socktab->buckets[bucket],
++				 links) {
++		hsk = slink->hsk;
++		if (hsk && hsk->port == port && hsk->hnet == hnet &&
++		    !hsk->shutdown &&
++		    refcount_inc_not_zero(&hsk->sock.sk_refcnt)) {
++			result = hsk;
++			break;
++		}
++	}
++	rcu_read_unlock();
++	return result;
 +}
-diff --git a/net/homa/homa_peer.h b/net/homa/homa_peer.h
++
++/**
++ * homa_sock_wait_wmem() - Block the thread until @hsk's usage of tx
++ * packet memory drops below the socket's limit.
++ * @hsk:          Socket of interest.
++ * @nonblocking:  If there's not enough memory, return -EWOLDBLOCK instead
++ *                of blocking.
++ * Return: 0 for success, otherwise a negative errno.
++ */
++int homa_sock_wait_wmem(struct homa_sock *hsk, int nonblocking)
++{
++	long timeo = hsk->sock.sk_sndtimeo;
++	int result;
++
++	/* Note: we can't use sock_wait_for_wmem because that function
++	 * is not available to modules (as of August 2025 it's static).
++	 */
++	if (nonblocking)
++		timeo = 0;
++	set_bit(HOMA_SOCK_NOSPACE, &hsk->flags);
++
++	/* Must wakeup if either memory becomes available or HOMA_SOCK_NOSPACE
++	 * gets cleared. The wmem_avl check is needed to handle a race where
++	 * memory gets freed just before HOMA_SOCK_NOSPACE is set above. The
++	 * HOMA_SOCK_NOSPACE check is needed to handle a race where multiple
++	 * threads wakeup and one thread consumes enough memory that the
++	 * wmem_avl check fails for the other. This approach means that we may
++	 * exceed the memory limit if multiple threads wake up at once, but
++	 * it prevents thread starvation that could occur if the second
++	 * thread were to go back to sleep.
++	 */
++	result = wait_event_interruptible_timeout(*sk_sleep(&hsk->sock),
++						  homa_sock_wmem_avl(hsk) ||
++						  hsk->shutdown ||
++						  !test_bit(HOMA_SOCK_NOSPACE,
++							    &hsk->flags),
++						  timeo);
++	if (hsk->shutdown)
++		return -ESHUTDOWN;
++	if (signal_pending(current))
++		return -EINTR;
++	if (result == 0)
++		return -EWOULDBLOCK;
++	return 0;
++}
+diff --git a/net/homa/homa_sock.h b/net/homa/homa_sock.h
 new file mode 100644
-index 000000000000..a0c80997ce19
+index 000000000000..21a7802a999c
 --- /dev/null
-+++ b/net/homa/homa_peer.h
-@@ -0,0 +1,457 @@
++++ b/net/homa/homa_sock.h
+@@ -0,0 +1,513 @@
 +/* SPDX-License-Identifier: BSD-2-Clause OR GPL-2.0+ */
 +
-+/* This file contains definitions related to managing peers and routes
-+ * (homa_peer, homa_route, homa_peertab).
-+ */
++/* This file defines structs and other things related to Homa sockets.  */
 +
-+#ifndef _HOMA_PEER_H
-+#define _HOMA_PEER_H
++#ifndef _HOMA_SOCK_H
++#define _HOMA_SOCK_H
 +
-+#include "homa_wire.h"
-+#include "homa_sock.h"
++/* Forward declarations. */
++struct homa;
++struct homa_pool;
++struct homa_sock;
 +
-+#include <linux/rhashtable.h>
-+
-+struct homa_rpc;
++/* Number of hash buckets in a homa_socktab. Must be a power of 2. */
++#define HOMA_SOCKTAB_BUCKET_BITS 10
++#define HOMA_SOCKTAB_BUCKETS BIT(HOMA_SOCKTAB_BUCKET_BITS)
 +
 +/**
-+ * struct homa_peertab - Stores homa_peer and homa_route objects. There is
-+ * one of these per struct homa.
++ * struct homa_socktab - A hash table that maps from port numbers (either
++ * client or server) to homa_sock objects.
++ *
++ * This table is managed exclusively by homa_socktab.c, using RCU to
++ * minimize synchronization during lookups.
 + */
-+struct homa_peertab {
++struct homa_socktab {
 +	/**
-+	 * @lock: Used to synchronize updates to @peer_ht, @route_ht, as well
-+	 * as other operations on this object.
++	 * @write_lock: Controls all modifications to this object; not needed
++	 * for socket lookups (RCU is used instead). Also used to
++	 * synchronize port allocation.
 +	 */
-+	spinlock_t lock;
-+
-+	/** @peer_ht: Hash table that stores struct peers. */
-+	struct rhashtable peer_ht;
++	spinlock_t write_lock;
 +
 +	/**
-+	 * @route_ht:  Hash table that stores homa_peer_flow objects.
-+	 * There can be multiple entries in this table for each peer.
++	 * @next_sequence: Next sequence number to assign for a
++	 * homa_sock_link.
 +	 */
-+	struct rhashtable route_ht;
++	u64 next_sequence;
 +
 +	/**
-+	 * @route_ht_iter: Used to scan route_ht to find routes to garbage
-+	 * collect.
++	 * @buckets: Heads of chains for hash table buckets. Chains
++	 * consist of homa_sock_link objects, in decreasing order of
++	 * sequence number.
 +	 */
-+	struct rhashtable_iter route_ht_iter;
++	struct hlist_head buckets[HOMA_SOCKTAB_BUCKETS];
++};
 +
-+	/** @num_routes: Total number of objects currently in @route_ht. */
-+	int num_routes;
++/**
++ * struct homa_sock_link - Used to link a socket into a list associated
++ * with a bucket in a homa_socktab. This is a separate dynamically
++ * allocated object because a socket may need to change its position in
++ * the homa_socktab (because its port number changes); during the
++ * transition, multiple of these objects may exist for a socket so that
++ * socktab scans are not disrupted by the change in position. The lifetime
++ * of these objects is managed with RCU.
++ */
++struct homa_sock_link {
++	/** @hsk: The socket associated with this link. */
++	struct homa_sock *hsk;
 +
 +	/**
-+	 * @route_ht_valid: True means route_ht has been initialized and must
-+	 * eventually be destroyed (it also means peer_ht has been initialized).
++	 * @sequence: Unique sequence number for this struct among all structs
++	 * in a socktab (smaller means older).
 +	 */
-+	bool route_ht_valid;
++	u64 sequence;
 +
 +	/**
-+	 * @gc_stop_count: Nonzero means that route garbage collection
-+	 * should not be performed (conflicting state changes are underway).
++	 * @links: Links this object into the chain for a bucket in a
++	 * homa_socktab.
 +	 */
-+	int gc_stop_count;
++	struct hlist_node links;
 +
-+	/**
-+	 * @gc_threshold: If @num_routes is less than this, don't bother
-+	 * doing any peer garbage collection. Set externally via sysctl.
-+	 */
-+	int gc_threshold;
-+
-+	/**
-+	 * @net_max: If the number of peers for a homa_net exceeds this number,
-+	 * work aggressively to reclaim peers for that homa_net. Set
-+	 * externally via sysctl.
-+	 */
-+	int net_max;
-+
-+	/**
-+	 * @idle_secs_min: A peer will not be considered for garbage collection
-+	 * under any circumstances if it has been idle less than this many
-+	 * seconds. Set externally via sysctl.
-+	 */
-+	int idle_secs_min;
-+
-+	/**
-+	 * @idle_jiffies_min: Same as idle_secs_min except in units
-+	 * of jiffies.
-+	 */
-+	int idle_jiffies_min;
-+
-+	/**
-+	 * @idle_secs_max: A peer that has been idle for less than
-+	 * this many seconds will not be considered for garbage collection
-+	 * unless its homa_net has more than @net_threshold peers. Set
-+	 * externally via sysctl.
-+	 */
-+	int idle_secs_max;
-+
-+	/**
-+	 * @idle_jiffies_max: Same as idle_secs_max except in units
-+	 * of jiffies.
-+	 */
-+	int idle_jiffies_max;
-+
-+	/** @rcu_head: Holds state of a pending call_rcu invocation. */
++	/** @rcu_head: Used for RCU-based freeing of this object. */
 +	struct rcu_head rcu_head;
 +};
 +
 +/**
-+ * struct homa_peer_key - Used to look up homa_peer structs in homa_peertab->peer_ht.
++ * struct homa_socktab_scan - Records the state of an iteration over all
++ * the entries in a homa_socktab, in a way that is safe against concurrent
++ * reclamation of sockets.
 + */
-+struct homa_peer_key {
-+	/**
-+	 * @addr: Address of the desired host. IPv4 addresses are represented
-+	 * with IPv4-mapped IPv6 addresses. Must be the first variable in
-+	 * the struct, because of union in homa_peer.
-+	 */
-+	struct in6_addr addr;
++struct homa_socktab_scan {
++	/** @socktab: The table that is being scanned. */
++	struct homa_socktab *socktab;
 +
-+	/** @hnet: The network namespace in which this peer is valid. */
-+	struct homa_net *hnet;
++	/**
++	 * @hsk: Points to the current socket in the iteration, or NULL if
++	 * we're at the beginning of the iteration or have reached the end of
++	 * the current bucket. If non-NULL then we are holding a reference
++	 * to this socket.
++	 */
++	struct homa_sock *hsk;
++
++	/**
++	 * @current_bucket: The index of the bucket in socktab->buckets
++	 * currently being scanned.
++	 */
++	int current_bucket;
++
++	/**
++	 * @avail: The first @avail entries in @links are valid and
++	 * available for homa_sock_next to return.
++	 */
++	int avail;
++
++	/**
++	 * @socks: Used to collect a bunch of sockets by scanning hash table
++	 * bucket chains. Sockets are then returned from here by
++	 * homa_socktab_next. We own a reference for each of these sockets.
++	 */
++#define HOMA_MAX_SCANNED_SOCKS 5
++	struct homa_sock *socks[HOMA_MAX_SCANNED_SOCKS];
++
++	/**
++	 * @sequence: All homa_sock_links with @sequence numbers >= this
++	 * have already been scanned from @current_bucket.
++	 */
++	u64 sequence;
 +};
 +
 +/**
-+ * struct homa_peer - One of these objects exists for each machine that we
-+ * have communicated with (either as client or server). This struct contains
-+ * information that is common to all uses of the peer.
++ * struct homa_rpc_bucket - One bucket in a hash table of RPCs.
 + */
-+struct homa_peer {
-+	union {
-+		/**
-+		 * @addr: IPv6 address for the machine (IPv4 addresses are
-+		 * stored as IPv4-mapped IPv6 addresses).
-+		 */
-+		struct in6_addr addr;
 +
-+		/** @ht_key: The hash table key for this peer in peertab->peer_ht. */
-+		struct homa_peer_key ht_key;
++struct homa_rpc_bucket {
++	/**
++	 * @lock: serves as a lock both for this bucket (e.g., when
++	 * adding and removing RPCs) and also for all of the RPCs in
++	 * the bucket. Must be held whenever looking up an RPC in
++	 * this bucket or manipulating an RPC in the bucket. This approach
++	 * has the following properties:
++	 * 1. An RPC can be looked up and locked (a common operation) with
++	 *    a single lock acquisition.
++	 * 2. Looking up and locking are atomic: there is no window of
++	 *    vulnerability where someone else could delete an RPC after
++	 *    it has been looked up and before it has been locked.
++	 * 3. The lookup mechanism does not use RCU.  This is important because
++	 *    RPCs are created rapidly and typically live only a few tens of
++	 *    microseconds.  As of May 2025 RCU introduces a lag of about
++	 *    25 ms before objects can be deleted; for RPCs this would result
++	 *    in hundreds or thousands of RPCs accumulating before RCU allows
++	 *    them to be deleted.
++	 * This approach has the disadvantage that RPCs within a bucket share
++	 * locks and thus may not be able to work concurrently, but there are
++	 * enough buckets in the table to make such colllisions rare.
++	 *
++	 * See "Homa Locking Strategy" in homa_impl.h for more info about
++	 * locking.
++	 */
++	spinlock_t lock;
++
++	/**
++	 * @id: identifier for this bucket, used in error messages etc.
++	 * It's the index of the bucket within its hash table bucket
++	 * array, with an additional offset to separate server and
++	 * client RPCs.
++	 */
++	int id;
++
++	/** @rpcs: list of RPCs that hash to this bucket. */
++	struct hlist_head rpcs;
++};
++
++/**
++ * define HOMA_CLIENT_RPC_BUCKETS - Number of buckets in hash tables for
++ * client RPCs. Must be a power of 2.
++ */
++#define HOMA_CLIENT_RPC_BUCKETS 1024
++
++/**
++ * define HOMA_SERVER_RPC_BUCKETS - Number of buckets in hash tables for
++ * server RPCs. Must be a power of 2.
++ */
++#define HOMA_SERVER_RPC_BUCKETS 1024
++
++/**
++ * struct homa_sock - Information about an open socket.
++ */
++struct homa_sock {
++	/* Info for other network layers. Note: IPv6 info (struct ipv6_pinfo
++	 * comes at the very end of the struct, *after* Homa's data, if this
++	 * socket uses IPv6).
++	 */
++	union {
++		/** @sock: generic socket data; must be the first field. */
++		struct sock sock;
++
++		/**
++		 * @inet: generic Internet socket data; must also be the
++		 first field (contains sock as its first member).
++		 */
++		struct inet_sock inet;
 +	};
 +
 +	/**
-+	 * @refs: Number of outstanding references to this peer. Does *not*
-+	 * include a reference for the entry in peertab->peer_ht. The peer
-+	 * can be freed when this value becomes zero.
++	 * @homa: Overall state about the Homa implementation. NULL
++	 * means this socket was never initialized or has been deleted.
 +	 */
-+	refcount_t refs;
++	struct homa *homa;
 +
 +	/**
-+	 * @ht_linkage: Used by rashtable implement to link this peer into
-+	 * peertab->peer_ht.
++	 * @hnet: Overall state specific to the network namespace for
++	 * this socket.
 +	 */
-+	struct rhash_head ht_linkage;
++	struct homa_net *hnet;
 +
 +	/**
-+	 * @lock: used to synchronize access to fields in this struct, such
-+	 * as @num_acks, @acks, @dst, and @dst_cookie.
++	 * @buffer_pool: used to allocate buffer space for incoming messages.
++	 * Storage is dynamically allocated.
++	 */
++	struct homa_pool *buffer_pool;
++
++	/**
++	 * @port: Port number: identifies this socket uniquely among all
++	 * those on this node.
++	 */
++	u16 port;
++
++	/**
++	 * @is_server: True means that this socket can act as both client
++	 * and server; false means the socket is client-only.
++	 */
++	bool is_server;
++
++	/**
++	 * @shutdown: True means the socket is no longer usable (either
++	 * shutdown has already been invoked, or the socket was never
++	 * properly initialized). Note: can't use the SOCK_DEAD flag for
++	 * this because that flag doesn't get set until much later in the
++	 * process of closing a socket.
++	 */
++	bool shutdown;
++
++	/**
++	 * @ip_header_length: Length of IP headers for this socket (depends
++	 * on IPv4 vs. IPv6).
++	 */
++	int ip_header_length;
++
++	/** @slink: Links this socket into a homa_socktab bucket. */
++	struct homa_sock_link *slink;
++
++	/**
++	 * @error_msg: Static string giving human-readable information about
++	 * the reason for the last error returned by a Homa kernel call.
++	 * Applications can fetch this with the HOMAIOCINFO ioctl to figure
++	 * out why a call failed.
++	 */
++	char *error_msg;
++
++	/* Information above is (almost) never modified; start a new
++	 * cache line below for info that is modified frequently.
++	 */
++
++	/**
++	 * @lock: Must be held when modifying fields such as interests
++	 * and lists of RPCs. This lock is used in place of sk->sk_lock
++	 * because it's used differently (it's always used as a simple
++	 * spin lock).  See "Homa Locking Strategy" in homa_impl.h
++	 * for more on Homa's synchronization strategy.
 +	 */
 +	spinlock_t lock ____cacheline_aligned_in_smp;
 +
 +	/**
-+	 * @num_acks: the number of (initial) entries in @acks that
-+	 * currently hold valid information.
++	 * @protect_count: counts the number of calls to homa_protect_rpcs
++	 * for which there have not yet been calls to homa_unprotect_rpcs.
 +	 */
-+	int num_acks;
++	atomic_t protect_count;
 +
 +	/**
-+	 * @acks: info about client RPCs whose results have been completely
-+	 * received.
++	 * @flags: Additional state information: an OR'ed combination of
++	 * various single-bit flags. See below for definitions. Must be
++	 * manipulated with test_bit etc. because some of the manipulations
++	 * occur without holding @lock.
 +	 */
-+	struct homa_ack acks[HOMA_MAX_ACKS_PER_PKT];
++	unsigned long flags;
 +
++	/* Valid bit numbers for @flags:
++	 * HOMA_SOCK_NOSPACE -     Nonzero means that the socket has hit its
++	 *                         limit on tx buffer space and threads are
++	 *                         blocked waiting for skbs to be released. Used
++	 *                         instead of the SOCK_NOSPACE flag in
++	 *                         @sock.sk_socket->flags. This is because
++	 *                         @sock.sk_socket can become NULL unexpectedly
++	 *                         (especially since Homa never acquires the
++	 *                         Linux socket lock). Thus code using sk_socket
++	 *                         requires tricky synchronization and is
++	 *                         error-prone.
++	 */
++#define HOMA_SOCK_NOSPACE        0
++
++	/**
++	 * @active_rpcs: List of all existing RPCs related to this socket,
++	 * including both client and server RPCs. This list isn't strictly
++	 * needed, since RPCs are already in one of the hash tables below,
++	 * but it's more efficient for homa_timer to have this list
++	 * (so it doesn't have to scan large numbers of hash buckets).
++	 * The list is sorted, with the oldest RPC first. Manipulate with
++	 * RCU so timer can access without locking.
++	 */
++	struct list_head active_rpcs;
++
++	/**
++	 * @dead_rpcs: Contains RPCs for which homa_rpc_end has been
++	 * called, but which have not yet been reaped by homa_rpc_reap.
++	 */
++	struct list_head dead_rpcs;
++
++	/**
++	 * @dead_frags: An estimate of the amount of memory tied up in
++	 * RPCs that are dead but have not yet been reaped. The sum of
++	 * rpc->msgout.num_frags + 1 for all of the dead RPCs (the 1 accounts
++	 * for the RPC itself). Used to detect when the reaper is lagging
++	 * behind. See "RPC Reaping Strategy" in homa_rpc_reap code for
++	 * deetails.
++	 */
++	u64 dead_frags;
++
++	/**
++	 * @waiting_for_bufs: Contains RPCs that are blocked because there
++	 * wasn't enough space in the buffer pool region for their incoming
++	 * messages. Sorted in increasing order of message length.
++	 */
++	struct list_head waiting_for_bufs;
++
++	/**
++	 * @ready_rpcs: List of all RPCs that are ready for attention from
++	 * an application thread.
++	 */
++	struct list_head ready_rpcs;
++
++	/**
++	 * @interests: List of threads that are currently waiting for
++	 * incoming messages via homa_wait_shared.
++	 */
++	struct list_head interests;
++
++	/**
++	 * @client_rpc_buckets: Hash table for fast lookup of client RPCs.
++	 * Modifications are synchronized with bucket locks, not
++	 * the socket lock.
++	 */
++	struct homa_rpc_bucket client_rpc_buckets[HOMA_CLIENT_RPC_BUCKETS];
++
++	/**
++	 * @server_rpc_buckets: Hash table for fast lookup of server RPCs.
++	 * Modifications are synchronized with bucket locks, not
++	 * the socket lock.
++	 */
++	struct homa_rpc_bucket server_rpc_buckets[HOMA_SERVER_RPC_BUCKETS];
 +};
 +
 +/**
-+ * struct homa_route_key - Used to look up homa_route structs in
-+ * homa_peertab_route_ht. These fields represent all of the information
-+ * that could impact the choice of a particular struct dst_entry.
++ * struct homa_v6_sock - For IPv6, additional IPv6-specific information
++ * is present in the socket struct after Homa-specific information.
 + */
-+struct homa_route_key {
-+	/**
-+	 * @saddr: Source network address. IPv4 addresses are represented
-+	 * with IPv4-mapped IPv6 addresses.
-+	 */
-+	struct in6_addr saddr;
-+	/**
-+	 * @daddr: Destination network address. IPv4 addresses are represented
-+	 * with IPv4-mapped IPv6 addresses.
-+	 */
-+	struct in6_addr daddr;
++struct homa_v6_sock {
++	/** @homa: All socket info except for IPv6-specific stuff. */
++	struct homa_sock homa;
 +
-+	/**
-+	 * @hnet: The network namespace in which this route is valid. This
-+	 * needs to be a homa_hnet pointer, not just struct net, in order
-+	 * to access homa_hnet->num_routes.
-+	 */
-+	struct homa_net *hnet;
-+
-+	/**
-+	 * @sk_policy_out: sk->sk_policy[XFRM_POLICY_OUT]: uniquely
-+	 * determines IPsec policy, if any.
-+	 */
-+	struct xfrm_policy *sk_policy_out;
-+
-+	/** @uid: sock->sk_sk_uid */
-+	kuid_t uid;
-+
-+	/** @mark: sock->sk_mark */
-+	u32 mark;
-+
-+	/** @secid: flowic.secid produced by security_sk_classify_flow. */
-+	u32 secid;
-+
-+	/** @bound_dev_if: sock->sk_bound_dev_if */
-+	int bound_dev_if;
++	/** @inet6: Socket info specific to IPv6. */
++	struct ipv6_pinfo inet6;
 +};
 +
-+/**
-+ * struct homa_route - Holds a dst_entry for communicating with a
-+ * particular peer, as well as information needed to cache the dst_entry
-+ * and share it for multiple RPCs. There can be more than one of these
-+ * objects per peer, which have different homa_route_keys.
-+ */
-+struct homa_route {
-+	/**
-+	 * @lock: used to synchronize uypdates to this struct.
-+	 */
-+	spinlock_t lock;
-+
-+	/**
-+	 * @refs: Number of outstanding references to this object. Includes
-+	 * one reference for the entry in peertab->route_ht, plus one for each
-+	 * call to homa_route_get that has not been canceled by a call to
-+	 * homa_peer_route_release; the object will be freed (via RCU) when
-+	 * this count becomes zero.
-+	 */
-+	refcount_t refs;
-+
-+	/**
-+	 * @access_jiffies: Time in jiffies of most recent access to this
-+	 * object; used for garbage collection.
-+	 */
-+	unsigned long access_jiffies;
-+
-+	/** @key: Identifies this entry in peertab->route_ht. */
-+	struct homa_route_key key;
-+
-+	/**
-+	 * @peer: Peer with which this route is associated. This object holds a
-+	 * reference on the peer.
-+	 */
-+	struct homa_peer *peer;
-+
-+	/**
-+	 * @dst: Used to route packets to this peer; this object owns a
-+	 * reference that must eventually be released.
-+	 */
-+	struct dst_entry __rcu *dst;
-+
-+	/**
-+	 * @dst_cookie: Used to check whether dst is still valid. This is
-+	 * accessed without synchronization, which is racy, but the worst
-+	 * that can happen is using an obsolete dst.
-+	 */
-+	u32 dst_cookie;
-+
-+	/**
-+	 * @flow: Contains parameters used to generate @dst; must be
-+	 * retained and passed to ip*xmit.
-+	 */
-+	struct flowi flow;
-+
-+	/**
-+	 * @ht_linkage: Used by rashtable to link this object into
-+	 * peertab->route_ht.
-+	 */
-+	struct rhash_head ht_linkage;
-+
-+	/** @rcu_head: Holds state of a pending call_rcu invocation. */
-+	struct rcu_head rcu_head;
-+};
-+
-+void     homa_dst_refresh(struct homa_peertab *peertab,
-+			  struct homa_peer *peer, struct homa_sock *hsk);
-+void     homa_peer_add_ack(struct homa_rpc *rpc);
-+struct homa_peer
-+	*homa_peer_alloc(struct homa_sock *hsk, const struct in6_addr *addr);
-+struct homa_peertab
-+	*homa_peer_alloc_peertab(void);
-+int      homa_peer_dointvec(const struct ctl_table *table, int write,
-+			    void *buffer, size_t *lenp, loff_t *ppos);
-+void     homa_peer_free(struct homa_peer *peer);
-+void     homa_peer_free_net(struct homa_net *hnet);
-+void     homa_peer_free_peertab(struct homa_peertab *peertab);
-+struct homa_peer
-+	*homa_peer_get(struct homa_sock *hsk, const struct in6_addr *addr);
-+int      homa_peer_get_acks(struct homa_peer *peer, int count,
-+			    struct homa_ack *dst);
-+void     homa_peer_lock_slow(struct homa_peer *peer);
-+void     homa_peer_release_fn(void *object, void *dummy);
-+void     homa_peer_update_sysctl_deps(struct homa_peertab *peertab);
-+void     homa_peer_set_cutoffs(struct homa_peer *peer, int c0, int c1,
-+			       int c2, int c3, int c4, int c5, int c6, int c7);
-+struct homa_route
-+	*homa_route_alloc(struct homa_sock *hsk,
-+			  const struct homa_route_key *key);
-+void     homa_route_delete_fn(void *object, void *dummy);
-+void     homa_route_free(struct rcu_head *head);
-+void     homa_route_gc(struct homa_peertab *peertab);
-+struct homa_route
-+	*homa_route_get(struct homa_sock *hsk,
-+				    const struct in6_addr *addr);
-+u32      homa_route_hash(const void *data, u32 len, u32 seed);
-+int      homa_route_pick_victims(struct homa_peertab *peertab,
-+				 struct homa_route *victims[], int max_victims);
-+int      homa_route_prefer_evict(struct homa_peertab *peertab,
-+				 struct homa_route *route1,
-+				 struct homa_route *route2);
-+int      homa_route_validate(struct homa_rpc *rpc);
-+
-+extern const struct rhashtable_params peer_ht_params;
-+extern const struct rhashtable_params route_ht_params;
++int                homa_sock_bind(struct homa_net *hnet, struct homa_sock *hsk,
++				  u16 port);
++void               homa_sock_destroy(struct sock *sk);
++void               homa_socktab_fill_scan(struct homa_socktab_scan *scan);
++struct homa_sock  *homa_sock_find(struct homa_net *hnet, u16 port);
++int                homa_sock_init(struct homa_sock *hsk);
++int                homa_sock_link(struct homa_sock *hsk, int port);
++void               homa_sock_shutdown(struct homa_sock *hsk);
++void               homa_sock_unlink(struct homa_sock *hsk);
++int                homa_sock_wait_wmem(struct homa_sock *hsk, int nonblocking);
++void               homa_socktab_destroy(struct homa_socktab *socktab,
++					struct homa_net *hnet);
++void               homa_socktab_end_scan(struct homa_socktab_scan *scan);
++void               homa_socktab_init(struct homa_socktab *socktab);
++struct homa_sock  *homa_socktab_next(struct homa_socktab_scan *scan);
++struct homa_sock  *homa_socktab_start_scan(struct homa_socktab *socktab,
++					   struct homa_socktab_scan *scan);
 +
 +/**
-+ * homa_peer_lock() - Acquire the lock for a peer.
-+ * @peer:    Peer to lock.
++ * homa_sock_lock() - Acquire the lock for a socket.
++ * @hsk:     Socket to lock.
 + */
-+static inline void homa_peer_lock(struct homa_peer *peer)
-+	__acquires(peer->lock)
++static inline void homa_sock_lock(struct homa_sock *hsk)
++	__acquires(hsk->lock)
 +{
-+	spin_lock_bh(&peer->lock);
++	spin_lock_bh(&hsk->lock);
 +}
 +
 +/**
-+ * homa_peer_unlock() - Release the lock for a peer.
-+ * @peer:   Peer to lock.
++ * homa_sock_unlock() - Release the lock for a socket.
++ * @hsk:   Socket to lock.
 + */
-+static inline void homa_peer_unlock(struct homa_peer *peer)
-+	__releases(peer->lock)
++static inline void homa_sock_unlock(struct homa_sock *hsk)
++	__releases(hsk->lock)
 +{
-+	spin_unlock_bh(&peer->lock);
++	spin_unlock_bh(&hsk->lock);
 +}
 +
 +/**
-+ * homa_route_hold() - Increment the reference count on a route.
-+ * Caller must eventually invoke homa_route_release to decrement the
-+ * reference count again.
-+ * @route:   Route whose reference count should be incremented. Caller must
-+ *           already hold a reference to this.
++ * homa_socktab_bucket() - Compute the bucket number in a homa_socktab
++ * that will contain a particular socket.
++ * @hnet:   Network namespace of the desired socket.
++ * @port:   Port number of the socket.
++ *
++ * Return:  The index of the bucket in which a socket matching @hnet and
++ *          @port will be found (if it exists).
 + */
-+static inline void homa_route_hold(struct homa_route *route)
++static inline int homa_socktab_bucket(struct homa_net *hnet, u16 port)
 +{
-+	refcount_inc(&route->refs);
++	return hash_32((uintptr_t)hnet ^ port, HOMA_SOCKTAB_BUCKET_BITS);
 +}
 +
 +/**
-+ * homa_route_release() - Release a reference on a route (cancels the effect of
-+ * a previous call to homa_route_hold). If the reference count becomes zero
-+ * then the route may be deleted at any time.
-+ * @route:      Object to release.
++ * homa_client_rpc_bucket() - Find the bucket containing a given
++ * client RPC.
++ * @hsk:      Socket associated with the RPC.
++ * @id:       Id of the desired RPC.
++ *
++ * Return:    The bucket in which this RPC will appear, if the RPC exists.
 + */
-+static inline void homa_route_release(struct homa_route *route)
++static inline struct homa_rpc_bucket
++		*homa_client_rpc_bucket(struct homa_sock *hsk, u64 id)
 +{
-+	if (refcount_dec_and_test(&route->refs))
-+		call_rcu(&route->rcu_head, homa_route_free);
++	/* We can use a really simple hash function here because RPC ids
++	 * are allocated sequentially.
++	 */
++	return &hsk->client_rpc_buckets[(id >> 1) &
++	       (HOMA_CLIENT_RPC_BUCKETS - 1)];
 +}
 +
 +/**
-+ * homa_peer_compare() - Comparison function for entries in @peertab->peer_ht.
-+ * @arg:   Contains one of the keys to compare.
-+ * @obj:   homa_peer object containing the other key to compare.
-+ * Return: 0 means the keys match, 1 means mismatch.
++ * homa_server_rpc_bucket() - Find the bucket containing a given
++ * server RPC.
++ * @hsk:         Socket associated with the RPC.
++ * @id:          Id of the desired RPC.
++ *
++ * Return:    The bucket in which this RPC will appear, if the RPC exists.
 + */
-+static inline int homa_peer_compare(struct rhashtable_compare_arg *arg,
-+				    const void *obj)
++static inline struct homa_rpc_bucket
++		*homa_server_rpc_bucket(struct homa_sock *hsk, u64 id)
 +{
-+	const struct homa_peer_key *key = arg->key;
-+	const struct homa_peer *peer = obj;
-+
-+	return !(ipv6_addr_equal(&key->addr, &peer->ht_key.addr) &&
-+		 peer->ht_key.hnet == key->hnet);
++	/* Each client allocates RPC ids sequentially, so they will
++	 * naturally distribute themselves across the hash space.
++	 * Thus we can use the id directly as hash.
++	 */
++	return &hsk->server_rpc_buckets[(id >> 1)
++			& (HOMA_SERVER_RPC_BUCKETS - 1)];
 +}
 +
 +/**
-+ * homa_route_xmit() - Transmit a packet according to a given route.
-+ * @skb:      Packet to transmit.
-+ * @hsk:      Socket on which to transmit packet.
-+ * @route:    Route to use to transmit packet.
-+ * @priority: Priority for packet.
-+ * Return:    0 for success, otherwise a negative errno.
++ * homa_bucket_lock() - Acquire the lock for an RPC hash table bucket.
++ * @bucket:    Bucket to lock.
++ * @id:        Id of the RPC on whose behalf the bucket is being locked.
++ *             Used only for metrics.
 + */
-+static inline int homa_route_xmit(struct sk_buff *skb, struct homa_sock *hsk,
-+				  struct homa_route *route, int priority)
++static inline void homa_bucket_lock(struct homa_rpc_bucket *bucket, u64 id)
++	__acquires(bucket->lock)
 +{
-+	rcu_read_lock();
-+	dst_hold(rcu_dereference(route->dst));
-+	skb_dst_set(skb, rcu_dereference(route->dst));
-+	rcu_read_unlock();
-+	if (ipv6_addr_v4mapped(&route->peer->addr)) {
-+		hsk->inet.tos = priority << 5;
-+		return ip_queue_xmit(&hsk->inet.sk, skb, &route->flow);
++	spin_lock_bh(&bucket->lock);
++}
++
++/**
++ * homa_bucket_unlock() - Release the lock for an RPC hash table bucket.
++ * @bucket:   Bucket to unlock.
++ * @id:       ID of the RPC that was using the lock.
++ */
++static inline void homa_bucket_unlock(struct homa_rpc_bucket *bucket, u64 id)
++	__releases(bucket->lock)
++{
++	spin_unlock_bh(&bucket->lock);
++}
++
++static inline struct homa_sock *homa_sk(const struct sock *sk)
++{
++	return (struct homa_sock *)sk;
++}
++
++/**
++ * homa_sock_wmem_avl() - Returns true if the socket is within its limit
++ * for output memory usage. False means that no new messages should be sent
++ * until memory is freed.
++ * @hsk:   Socket of interest.
++ * Return: See above.
++ */
++static inline bool homa_sock_wmem_avl(struct homa_sock *hsk)
++{
++	return refcount_read(&hsk->sock.sk_wmem_alloc) < hsk->sock.sk_sndbuf;
++}
++
++/**
++ * homa_sock_wakeup_wmem() - Invoked when tx packet memory has been freed;
++ * if memory usage is below the limit and there are tasks waiting for memory,
++ * wake them up.
++ * @hsk:   Socket of interest.
++ */
++static inline void homa_sock_wakeup_wmem(struct homa_sock *hsk)
++{
++	/* Note: can't use sk_stream_write_space for this functionality
++	 * because it uses a different test to determine whether enough
++	 * memory is available.
++	 */
++	if (test_bit(HOMA_SOCK_NOSPACE, &hsk->flags) &&
++	    homa_sock_wmem_avl(hsk)) {
++		clear_bit(HOMA_SOCK_NOSPACE, &hsk->flags);
++		rcu_read_lock();
++		wake_up_interruptible_poll(sk_sleep(&hsk->sock), EPOLLOUT);
++		rcu_read_unlock();
 +	}
-+	return ip6_xmit(&hsk->inet.sk, skb, &route->flow.u.ip6, 0,
-+			NULL, priority << 5, 0);
 +}
 +
-+/**
-+ * homa_peer_unlink() - Remove the connection between a route and its peer,
-+ * potentially freeing the peer in the process.
-+ * @route:    Route to disconnect.
-+ */
-+static inline void homa_peer_unlink(struct homa_route *route)
-+	__must_hold(route->hnet->homa->peertab->lock)
-+{
-+	struct homa_peertab *peertab;
-+
-+	if (!route->peer)
-+		return;
-+
-+	/* Note: we don't need to use RCU for freeing peers because we have
-+	 * already used RCU for freeing routes, so we know there are no
-+	 * outstanding uses. By holding the peertab lock we have locked
-+	 * out calls to homa_peer_get.
-+	 */
-+	peertab = route->key.hnet->homa->peertab;
-+	if (refcount_dec_and_test(&route->peer->refs)) {
-+		rhashtable_remove_fast(&peertab->peer_ht,
-+				       &route->peer->ht_linkage,
-+				       peer_ht_params);
-+		homa_peer_free(route->peer);
-+	}
-+	route->peer = NULL;
-+}
-+
-+/**
-+ * homa_route_key_init() - Initialize the fields of a key for
-+ * peertab->route_ht. Note: caller must hold an RCU read lock.
-+ * @key:      Key to initialize
-+ * @hsk:      Socket from which to pull fields for the key other than
-+ *            daddr.
-+ * @daddr:    Destination address for the key.
-+ */
-+static inline void homa_route_key_init(struct homa_route_key *key,
-+				       const struct homa_sock *hsk,
-+				       const struct in6_addr *daddr)
-+{
-+	struct flowi_common flowic;
-+
-+	memset(key, 0, sizeof(*key));
-+	if (hsk->sock.sk_family == AF_INET)
-+		ipv6_addr_set_v4mapped(hsk->inet.inet_saddr, &key->saddr);
-+	else
-+		key->saddr = hsk->inet.pinet6->saddr;
-+	key->daddr = *daddr;
-+	key->hnet = hsk->hnet;
-+	key->sk_policy_out = rcu_dereference(hsk->sock.sk_policy[XFRM_POLICY_OUT]);
-+	key->uid = hsk->sock.sk_uid;
-+	key->mark = hsk->sock.sk_mark;
-+	flowic.flowic_secid = 0;
-+	security_sk_classify_flow(&hsk->sock, &flowic);
-+	key->secid = flowic.flowic_secid;
-+	key->bound_dev_if = hsk->sock.sk_bound_dev_if;
-+}
-+
-+#endif /* _HOMA_PEER_H */
++#endif /* _HOMA_SOCK_H */
 -- 
 2.43.0
 
