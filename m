@@ -1,38 +1,38 @@
 Received: from smtp1.cs.Stanford.EDU (smtp1.cs.stanford.edu [171.64.64.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3663AB269
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 23:05:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3216F3AC0FE
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 23:05:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=171.64.64.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789427136; cv=none; b=ePlf/Oi8PmfmZ1LPjLvvtwQsCkpW7g4TG9D4RnK7oPDK+ai5niDvrW6eIfU0QVMbLwmjJM2o4ZoKpBr26Ko1rYlZ9ihDcG2HTI4+SszqML4yKpr9zELDeJLX+ICcx/owuBeVrlGMfqZBwE0qxCQNm1P4B1dwW7ggPGwHg34ymUA=
+	t=1789427138; cv=none; b=C8dENpUxT+fGBDiHDe0q4D5r7MIOn11W6ir6j+PT3nwOI0/23xRMq/up2JkyGpQZuphU+Hb8Pf9BwUhemK8mV5L5RFyWalF15Cnf2WAcxAnOXwi4SYDATdD/EFm8uA1w+kejcf/xZssQjxFYh17QsE3e07+P9+JwvuZljAvCDto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789427136; c=relaxed/simple;
-	bh=FNmZqnZZL1wcbL+4DFr1hinh2JwBmZvLBSvzeRpeBYM=;
+	s=arc-20240116; t=1789427138; c=relaxed/simple;
+	bh=HYRgaRlhLvj27qvX1G63JVfYovlcHYf1HvFBofPox0w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Cxol+HWnJ8UQWlvRG/UwpT3ECI6Rqo6rtW+2+EW7V4P8J4TLcs9Lq8cvlD8Tv7pbHMElISZn6BVsOvwfnMEf/35BPfdTrNKUmmMx28LJX4sUrXi4qOHDyVBLnHfJ6Z4d8Jn0WgATLc1ackslEl7rUYsMET2AVM5Rp/rbv9c4rCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu; spf=pass smtp.mailfrom=cs.stanford.edu; dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b=ES9EEuvh; arc=none smtp.client-ip=171.64.64.25
+	 MIME-Version; b=MHjHoaatOofEZ+MbJSvDP6f3yPJN4ljrACSNPh3GmAtrQKzwUP8GUQKiFvBmt0Hk48/e8ZT9eaGzHz4wB5wHZAxkYy5qGfYH+P0JKw4Yg6ak56OYDYTJCFr2SMRRmdDeEMiLBepl7wAwRFoIB9MuiVDkg9L3L0xlgp2bIWpmCPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu; spf=pass smtp.mailfrom=cs.stanford.edu; dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b=Ky0tYAQH; arc=none smtp.client-ip=171.64.64.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.stanford.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b="ES9EEuvh"
+	dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b="Ky0tYAQH"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=cs.stanford.edu; s=cs2308; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=5jN+CUiV85XSy5l+qbUwpPO9tMMciH7HPlJmKhgcTbA=; t=1789427134; x=1790291134; 
-	b=ES9EEuvh7HuectxLrkRDaHHv00KwqRYlqPvx3vQzDC0GBQu36J8C8iKB3bv3Glia1E0xpKMAzwx
-	hRHUZrO21dmvFUU6rUHVlIRamcZdyX9OCI0ypcdGLqxKu/NyiNxciERWXyNpGr6JmoHndRCZAoxmA
-	I6h/ZSgITnBtTkyGcUO3r/kcdK4QXpLiZikH6aOqp4+/Dv1ogS8HmEGKSZQvskv/pydBhZrEVW+UK
-	7JXoUKXIq69B50GftKUdVbdQ8ROR3ZHDACAhePXRxVTPyuLc8M3ZP0/tKNN4us6vNZR3/KVYsT+F0
-	AOySSQLOXtfHIaHVT+dxkkdJzTodZhqzt6Cw==;
+	bh=i+S/8DdAI7NPe29/8FliPEitt6zMMmq1ytZDaOmPX+k=; t=1789427136; x=1790291136; 
+	b=Ky0tYAQHyLIfreDC/Bqf2nmVT16scfDGN+ZTZXpZy5+hfanQVdU1DHMGyKInxyJpwat5agDiICV
+	Pl9AZajLmgyKhP9Hsi7ZytSawGnMcpD78gU6GaMhZxHFbwbbbOiHUM5ZgEBdtkoWLodaLCO3JJoIU
+	pQNcsR2wgdUoa/rZ/qpmvGcXp0wTGb7uKO0lpEJymbmipO19k7cy6iX1qd4py4Z72+dp+r7uvMJAQ
+	TotnZgnd7L6C4yBsGwk2Mdc1dU/3wZckWDdTOKCZueJDYFy2LaQn+z+HuqDrV2LHCyX+MZK7AiJDK
+	KzfXU6QHihSRG+ufLIJUm90G0eCPYgCRAliw==;
 Received: from ouster448.stanford.edu ([172.24.72.71]:60752 helo=cs.stanford.edu)
 	by smtp1.cs.Stanford.EDU with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ouster@cs.stanford.edu>)
-	id 1x6Fjs-0007WN-DN; Mon, 14 Sep 2026 16:05:30 -0700
+	id 1x6Fju-0007WN-JC; Mon, 14 Sep 2026 16:05:32 -0700
 From: John Ousterhout <ouster@cs.stanford.edu>
 To: netdev@vger.kernel.org
 Cc: pabeni@redhat.com,
@@ -44,9 +44,9 @@ Cc: pabeni@redhat.com,
 	linux-doc@vger.kernel.org,
 	corbet@lwn.net,
 	John Ousterhout <ouster@cs.stanford.edu>
-Subject: [PATCH net-next v11 03/15] net: homa: create homa_impl.h
-Date: Mon, 14 Sep 2026 16:05:03 -0700
-Message-ID: <20260914230517.1190-4-ouster@cs.stanford.edu>
+Subject: [PATCH net-next v11 04/15] net: homa: create homa_pool.h and homa_pool.c
+Date: Mon, 14 Sep 2026 16:05:04 -0700
+Message-ID: <20260914230517.1190-5-ouster@cs.stanford.edu>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260914230517.1190-1-ouster@cs.stanford.edu>
 References: <20260914230517.1190-1-ouster@cs.stanford.edu>
@@ -57,619 +57,818 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -96.8
-X-Scan-Signature: b613ce83982973846f7cf29c2b2fae6d
+X-Spam-Score: -99.2
+X-Scan-Signature: e9f2c07ba6b4705ca4c78092842e7fa3
 
-This header file defines "struct homa", which contains overall information
-about the Homa transport, "struct homa_net", which defines overall Homa
-that is specific to a particular network namesapce, plus various odds and
-ends that are used throughout the Homa implementation.
+These files implement Homa's mechanism for managing application-level
+buffer space for incoming messages. This mechanism is needed to allow
+Homa to copy data out to user space in parallel with receiving packets;
+it was discussed in a talk at NetDev 0x17.
 
 Signed-off-by: John Ousterhout <ouster@cs.stanford.edu>
 
 ---
 Changes for v20:
+* Add cgroup memory accounting (__GFP_ACCOUNT).
 * Separate routing information (flows and dst_entry's) from the homa_peer
   struct: there can be multiple routes to a single peer.
 * Don't hold locks while transmitting packets.
-* Make handling of dead RPCs more robust: it's now OK to continue
-  manipulating dead RPCs as if they were still alive, except for code
-  that could potentially make a dead RPC visible again. This eliminates
-  many (fragile) error checks.
-* Refactor outbound message management:
-  * Outbound message data is now buffered in kernel pages that are
-    independent of skbs; skbs are then created "just in time" that
-    share access to those pages.
-  * This eliminates the need for Homa to retain references to skb's
-    after they have been passed to ip*xmit.
+* Use more conservative synchronization for homa_pool ref counts
+  (previous approach had races).
+* Tighten limits on the sizes of buffer pools.
+* Fix synchronization issues, add missing memory barriers.
+
 Changes for v19:
-* Add support for ARM64 clock
+* Add homa_pool_unlink and homa_pool_release functions to encapsulate
+  cleanup.
+* Made accounting in homa_pool_avail_bytes more precise.
 
 Changes for v18:
-* Change API for homa_set_doff slightly
+* Rename homa_pool_release_buffers to homa_pool_free_bufs
 
 Changes for v16:
-* Remove various fields and functions:
-  * net field in struct homa_net
-  * bytes_left, next_sibling, and last_sibling fields in struct homa_skb_info
-  * is_homa_pkt()
-  * homa_from_skb()
-  * homa_net_from_skb()
-  * homa_usecs_to_cycles()
-* Rename homa_net_from_net to homa_net
-* Use consume_skb and kfree_skb_reason instead of kfree_skb
-
-Changes for v12:
-* Use tsc_khz instead of cpu_khz
-* Make is_homa_pkt work properly with IPv6 (it only worked for IPv4)
+* Add homa_pool_avail_bytes() for new HOMAIOCINFO ioctl
 
 Changes for v11:
-* Move link_mbps variable from struct homa_pacer back to struct homa.
+* Rework the mechanism for waking up RPCs that stalled waiting for
+  buffer pool space
 
 Changes for v10:
-* Eliminate __context__ definition
-* Replace __u16 with u16, __u8 with u8, etc.
-* Refactor resend mechanism
+* Fix minor syntactic issues such as reverse xmas tree
 
 Changes for v9:
-* Move information from sync.txt into comments in homa_impl.h
-* Add limits on number of active peer structs
-* Introduce homa_net objects; there is now a single global struct homa
-  shared by all network namespaces, with one homa_net per network namespace
-  with netns-specific information.
-* Introduce homa_clock as an abstraction layer for the fine-grain clock.
+* Eliminate use of _Static_assert
+* Use new homa_clock abstraction layer.
+* Allow memory to be allocated without GFP_ATOMIC
 * Various name improvements (e.g. use "alloc" instead of "new" for functions
   that allocate memory)
-* Eliminate sizeof32 definition
+* Remove sync.txt, move its contents into comments (mostly in homa_impl.h)
 
 Changes for v8:
-* Pull out pacer-related fields into separate struct homa_pacer in homa_pacer.h
+* Refactor homa_pool APIs (move allocation/deallocation into homa_pool.c,
+  move locking responsibility out)
 
 Changes for v7:
-* Make Homa a per-net subsystem
-* Track tx buffer memory usage
-* Refactor waiting mechanism for incoming packets: simplify wait
-  criteria and use standard Linux mechanisms for waiting
-* Remove "lock_slow" functions, which don't add functionality in this
-  patch series
-* Rename homa_rpc_free to homa_rpc_end
-* Add homa_make_header_avl function
 * Use u64 and __u64 properly
+* Eliminate extraneous use of RCU
+* Refactor pool->cores to use percpu variable
+* Use smp_processor_id instead of raw_smp_processor_id
 ---
- net/homa/homa_impl.h | 524 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 524 insertions(+)
- create mode 100644 net/homa/homa_impl.h
+ net/homa/homa_pool.c | 553 +++++++++++++++++++++++++++++++++++++++++++
+ net/homa/homa_pool.h | 184 ++++++++++++++
+ 2 files changed, 737 insertions(+)
+ create mode 100644 net/homa/homa_pool.c
+ create mode 100644 net/homa/homa_pool.h
 
-diff --git a/net/homa/homa_impl.h b/net/homa/homa_impl.h
+diff --git a/net/homa/homa_pool.c b/net/homa/homa_pool.c
 new file mode 100644
-index 000000000000..d365748dc5ba
+index 000000000000..0aadfbc53ef1
 --- /dev/null
-+++ b/net/homa/homa_impl.h
-@@ -0,0 +1,524 @@
++++ b/net/homa/homa_pool.c
+@@ -0,0 +1,553 @@
++// SPDX-License-Identifier: BSD-2-Clause OR GPL-2.0+
++
++#include "homa_impl.h"
++#include "homa_pool.h"
++
++/* This file contains functions that manage user-space buffer pools. */
++
++/* Used when determining how many bpages to consider for allocation. */
++#define MIN_EXTRA 4
++
++/**
++ * set_bpages_needed() - Set the bpages_needed field of @pool based
++ * on the length of the first RPC that's waiting for buffer space.
++ * The caller must own the lock for @pool->hsk.
++ * @pool: Pool to update.
++ */
++static void set_bpages_needed(struct homa_pool *pool)
++{
++	struct homa_rpc *rpc = list_first_entry(&pool->hsk->waiting_for_bufs,
++						struct homa_rpc, buf_links);
++
++	pool->bpages_needed = (rpc->msgin.length + HOMA_BPAGE_SIZE - 1) >>
++			      HOMA_BPAGE_SHIFT;
++}
++
++/**
++ * homa_pool_alloc() - Allocate and initialize a new homa_pool (it will have
++ * no region associated with it until homa_pool_set_region is invoked).
++ * @hsk:          Socket the pool will be associated with.
++ * Return: A pointer to the new pool or a negative errno.
++ */
++struct homa_pool *homa_pool_alloc(struct homa_sock *hsk)
++{
++	struct homa_pool *pool;
++
++	pool = kzalloc_obj(*pool, GFP_KERNEL_ACCOUNT);
++	if (!pool)
++		return ERR_PTR(-ENOMEM);
++	pool->hsk = hsk;
++	return pool;
++}
++
++/**
++ * homa_pool_set_region() - Associate a region of memory with a pool.
++ * @hsk:          Socket whose pool the region will be associated with.
++ *                Must not be locked, and the pool must not currently
++ *                have a region associated with it.
++ * @region:       First byte of the memory region for the pool, allocated
++ *                by the application; must be page-aligned.
++ * @region_size:  Total number of bytes available at @buf_region.
++ * Return: Either zero (for success) or a negative errno for failure.
++ */
++int homa_pool_set_region(struct homa_sock *hsk, void __user *region,
++			 u64 region_size)
++{
++	struct homa_pool_core __percpu *cores;
++	struct homa_bpage *descriptors;
++	int i, result, num_bpages;
++	struct homa_pool *pool;
++	u64 min_size;
++
++	if (((uintptr_t)region) & ~PAGE_MASK) {
++		hsk->error_msg = "buffer pool is not page aligned";
++		return -EINVAL;
++	}
++
++	/* The region must be large enough to hold a private bpage for
++	 * each core, plus enough additional space for a couple of
++	 * full-size messages. Otherwise we could deadlock over allocation
++	 * (no free pages available, so no attempt is made to steal back
++	 * private pages).
++	 */
++	min_size = nr_cpu_ids;
++	min_size = min_size * HOMA_BPAGE_SIZE + 2 * HOMA_MAX_MESSAGE_LENGTH;
++	if (region_size < min_size) {
++		hsk->error_msg = "buffer pool is not large enough";
++		return -EINVAL;
++	}
++
++	/* The region must not be so large that offsets into the region
++	 * overflow the 32-bit values used in bpage_offsets in
++	 * homa_recvmsg_args.
++	 */
++	if (region_size > 0x100000000ULL) {
++		hsk->error_msg = "buffer pool cannot be larger than 4 GB";
++		return -EINVAL;
++	}
++
++	/* Allocate memory before locking the socket, so we can allocate
++	 * without GFP_ATOMIC.
++	 */
++	num_bpages = region_size >> HOMA_BPAGE_SHIFT;
++	descriptors = kmalloc_array(num_bpages, sizeof(struct homa_bpage),
++				    GFP_KERNEL | __GFP_ZERO | __GFP_ACCOUNT);
++	if (!descriptors)
++		return -ENOMEM;
++	cores = alloc_percpu_gfp(struct homa_pool_core, __GFP_ZERO);
++	if (!cores) {
++		result = -ENOMEM;
++		goto error;
++	}
++
++	homa_sock_lock(hsk);
++	pool = hsk->buffer_pool;
++	if (pool->region) {
++		result = -EINVAL;
++		homa_sock_unlock(hsk);
++		goto error;
++	}
++
++	pool->num_bpages = num_bpages;
++	pool->descriptors = descriptors;
++	atomic_set(&pool->free_bpages, pool->num_bpages);
++	pool->bpages_needed = INT_MAX;
++	pool->cores = cores;
++	pool->check_waiting_invoked = 0;
++
++	for (i = 0; i < pool->num_bpages; i++) {
++		struct homa_bpage *bp = &pool->descriptors[i];
++
++		spin_lock_init(&bp->lock);
++		bp->owner = -1;
++	}
++
++	/* Barrier ensures that concurrent cores trying to access
++	 * newly-created region will see all the region's data.
++	 */
++	smp_store_release(&pool->region, (char __user *)region);
++	homa_sock_unlock(hsk);
++	return 0;
++
++error:
++	kfree(descriptors);
++	free_percpu(cores);
++	return result;
++}
++
++/**
++ * homa_pool_free() - Destructor for homa_pool. After this method
++ * returns, the object should not be used (it will be freed here).
++ * @pool: Pool to destroy.
++ */
++void homa_pool_free(struct homa_pool *pool)
++{
++	if (homa_pool_exists(pool)) {
++		kfree(pool->descriptors);
++		free_percpu(pool->cores);
++		pool->region = NULL;
++	}
++	kfree(pool);
++}
++
++/**
++ * homa_pool_get_rcvbuf() - Return information needed to handle getsockopt
++ * for HOMA_SO_RCVBUF.
++ * @pool:         Pool for which information is needed.
++ * @args:         Store info here.
++ */
++void homa_pool_get_rcvbuf(struct homa_pool *pool,
++			  struct homa_rcvbuf_args *args)
++{
++	args->start = (uintptr_t)pool->region;
++	args->length = (u64)pool->num_bpages << HOMA_BPAGE_SHIFT;
++}
++
++/**
++ * homa_bpage_available() - Check whether a bpage is available for use.
++ * @bpage:      Bpage to check
++ * @now:        Current time (homa_clock() units)
++ * Return:      True if the bpage is free or if it can be stolen, otherwise
++ *              false.
++ */
++bool homa_bpage_available(struct homa_bpage *bpage, u64 now)
++{
++	return bpage->refs == 0 || (bpage->refs == 1 && bpage->owner >= 0 &&
++				    bpage->expiration <= now);
++}
++
++/**
++ * homa_pool_get_pages() - Allocate one or more full pages from the pool.
++ * @pool:         Pool from which to allocate pages
++ * @num_pages:    Number of pages needed
++ * @pages:        The indices of the allocated pages are stored here; caller
++ *                must ensure this array is big enough. Reference counts have
++ *                been set to 1 on all of these pages (or 2 if set_owner
++ *                was specified).
++ * @set_owner:    If nonzero, the current core is marked as owner of all
++ *                of the allocated pages (and the expiration time is also
++ *                set). Otherwise the pages are left unowned.
++ * Return: 0 for success, -1 if there wasn't enough free space in the pool.
++ */
++int homa_pool_get_pages(struct homa_pool *pool, int num_pages, u32 *pages,
++			int set_owner)
++{
++	int core_num = smp_processor_id();
++	struct homa_pool_core *core;
++	u64 now = homa_clock();
++	int alloced = 0;
++	int limit = 0;
++	int free;
++
++	core = this_cpu_ptr(pool->cores);
++
++	/* Atomically check for available space and decrement the
++	 * free page counter.
++	 */
++	free = atomic_read_acquire(&pool->free_bpages);
++	while (1) {
++		if (free < num_pages)
++			return -1;
++		if (atomic_try_cmpxchg(&pool->free_bpages, &free,
++				       free - num_pages))
++			break;
++	}
++
++	/* Once we get to this point we know we will be able to find
++	 * enough free pages; now we just have to find them.
++	 */
++	while (alloced != num_pages) {
++		struct homa_bpage *bpage;
++		int cur;
++
++		/* If we don't need to use all of the bpages in the pool,
++		 * then try to use only the ones with low indexes. This
++		 * will reduce the cache footprint for the pool by reusing
++		 * a few bpages over and over. Specifically this code will
++		 * not consider any candidate page whose index is >= limit.
++		 * Limit is chosen to make sure there are a reasonable
++		 * number of free pages in the range, so we won't have to
++		 * check a huge number of pages.
++		 */
++		if (limit == 0) {
++			int extra;
++
++			limit = pool->num_bpages -
++				atomic_read(&pool->free_bpages);
++			extra = limit >> 2;
++			limit += (extra < MIN_EXTRA) ? MIN_EXTRA : extra;
++			if (limit > pool->num_bpages)
++				limit = pool->num_bpages;
++		}
++
++		cur = core->next_candidate;
++		core->next_candidate++;
++		if (cur >= limit) {
++			core->next_candidate = 0;
++
++			/* Must recompute the limit for each new loop through
++			 * the bpage array: we may need to consider a larger
++			 * range of pages because of concurrent allocations.
++			 */
++			limit = 0;
++			continue;
++		}
++		bpage = &pool->descriptors[cur];
++
++		/* Figure out whether this candidate is free (or can be
++		 * stolen). Do a quick check without locking the page, and
++		 * if the page looks promising, then lock it and check again
++		 * (must check again in case someone else snuck in and
++		 * grabbed the page).
++		 */
++		if (!homa_bpage_available(bpage, now))
++			continue;
++		if (!spin_trylock_bh(&bpage->lock))
++			/* Rather than wait for a locked page to become free,
++			 * just go on to the next page. If the page is locked,
++			 * it probably won't turn out to be available anyway.
++			 */
++			continue;
++		if (!homa_bpage_available(bpage, now)) {
++			spin_unlock_bh(&bpage->lock);
++			continue;
++		}
++		if (bpage->owner >= 0)
++			atomic_fetch_inc_release(&pool->free_bpages);
++		if (set_owner) {
++			bpage->refs = 2;
++			bpage->owner = core_num;
++			bpage->expiration = now +
++					    pool->hsk->homa->bpage_lease_cycles;
++		} else {
++			bpage->refs = 1;
++			bpage->owner = -1;
++		}
++		spin_unlock_bh(&bpage->lock);
++		pages[alloced] = cur;
++		alloced++;
++	}
++	return 0;
++}
++
++/**
++ * homa_pool_alloc_msg() - Allocate buffer space for an incoming message.
++ * @rpc:  RPC that needs space allocated for its incoming message (space must
++ *        not already have been allocated). The fields @msgin->num_buffers
++ *        and @msgin->buffers are filled in. Must be locked by caller.
++ * Return: The return value is normally 0, which means either buffer space
++ * was allocated or the @rpc was queued on @hsk->waiting. If a fatal error
++ * occurred, such as no buffer pool present, then a negative errno is
++ * returned.
++ */
++int homa_pool_alloc_msg(struct homa_rpc *rpc)
++	__must_hold(rpc->bucket->lock)
++{
++	struct homa_pool *pool = rpc->hsk->buffer_pool;
++	int full_pages, partial, i, core_id;
++	struct homa_pool_core *core;
++	u32 pages[HOMA_MAX_BPAGES];
++	struct homa_bpage *bpage;
++	struct homa_rpc *other;
++
++	if (!homa_pool_exists(pool))
++		return -ENOMEM;
++	if (rpc->state == RPC_DEAD)
++		return 0;
++
++	/* First allocate any full bpages that are needed. */
++	full_pages = rpc->msgin.length >> HOMA_BPAGE_SHIFT;
++	if (unlikely(full_pages)) {
++		if (homa_pool_get_pages(pool, full_pages, pages, 0) != 0)
++			goto out_of_space;
++		for (i = 0; i < full_pages; i++)
++			rpc->msgin.bpage_offsets[i] = pages[i] <<
++					HOMA_BPAGE_SHIFT;
++	}
++	rpc->msgin.num_bpages = full_pages;
++
++	/* The last chunk may be less than a full bpage; for this we use
++	 * the bpage that we own (and reuse it for multiple messages).
++	 */
++	partial = rpc->msgin.length & (HOMA_BPAGE_SIZE - 1);
++	if (unlikely(partial == 0))
++		goto success;
++	core_id = smp_processor_id();
++	core = this_cpu_ptr(pool->cores);
++	bpage = &pool->descriptors[core->page_hint];
++	spin_lock_bh(&bpage->lock);
++	if (bpage->owner != core_id) {
++		spin_unlock_bh(&bpage->lock);
++		goto new_page;
++	}
++	if ((core->allocated + partial) > HOMA_BPAGE_SIZE) {
++		if (bpage->refs == 1) {
++			/* Bpage is totally free, so we can reuse it. */
++			core->allocated = 0;
++		} else {
++			bpage->owner = -1;
++
++			/* We know the reference count can't reach zero here
++			 * because of check above, so we won't have to decrement
++			 * pool->free_bpages.
++			 */
++			bpage->refs--;
++			spin_unlock_bh(&bpage->lock);
++			goto new_page;
++		}
++	}
++	bpage->expiration = homa_clock() +
++			    pool->hsk->homa->bpage_lease_cycles;
++	bpage->refs++;
++	spin_unlock_bh(&bpage->lock);
++	goto allocate_partial;
++
++	/* Can't use the current page; get another one. */
++new_page:
++	if (homa_pool_get_pages(pool, 1, pages, 1) != 0) {
++		homa_pool_free_bufs(pool, rpc->msgin.num_bpages,
++				    rpc->msgin.bpage_offsets);
++		rpc->msgin.num_bpages = 0;
++		goto out_of_space;
++	}
++	core->page_hint = pages[0];
++	core->allocated = 0;
++
++allocate_partial:
++	rpc->msgin.bpage_offsets[rpc->msgin.num_bpages] = core->allocated
++			+ (core->page_hint << HOMA_BPAGE_SHIFT);
++	rpc->msgin.num_bpages++;
++	core->allocated += partial;
++
++success:
++	return 0;
++
++	/* We get here if there wasn't enough buffer space for this
++	 * message; add the RPC to hsk->waiting_for_bufs. The list is sorted
++	 * by RPC length in order to implement SRPT.
++	 */
++out_of_space:
++	homa_sock_lock(pool->hsk);
++	list_for_each_entry(other, &pool->hsk->waiting_for_bufs, buf_links) {
++		if (other->msgin.length > rpc->msgin.length) {
++			list_add_tail(&rpc->buf_links, &other->buf_links);
++			goto queued;
++		}
++	}
++	list_add_tail(&rpc->buf_links, &pool->hsk->waiting_for_bufs);
++
++queued:
++	set_bpages_needed(pool);
++	homa_sock_unlock(pool->hsk);
++	return 0;
++}
++
++/**
++ * homa_pool_get_buffer() - Given an RPC, figure out where to store incoming
++ * message data.
++ * @rpc:        RPC for which incoming message data is being processed; its
++ *              msgin must be properly initialized and buffer space must have
++ *              been allocated for the message.
++ * @offset:     Offset within @rpc's incoming message.
++ * @available:  Will be filled in with the number of bytes of space available
++ *              at the returned address (could be zero if offset is
++ *              (erroneously) past the end of the message).
++ * Return:      The application's virtual address for buffer space corresponding
++ *              to @offset in the incoming message for @rpc.
++ */
++void __user *homa_pool_get_buffer(struct homa_rpc *rpc, int offset,
++				  int *available)
++{
++	int bpage_index, bpage_offset;
++
++	bpage_index = offset >> HOMA_BPAGE_SHIFT;
++	if (offset >= rpc->msgin.length) {
++		WARN_ONCE(true, "%s got offset %d >= message length %d\n",
++			  __func__, offset, rpc->msgin.length);
++		*available = 0;
++		return NULL;
++	}
++	bpage_offset = offset & (HOMA_BPAGE_SIZE - 1);
++	*available = (bpage_index < (rpc->msgin.num_bpages - 1))
++			? HOMA_BPAGE_SIZE - bpage_offset
++			: rpc->msgin.length - offset;
++	return rpc->hsk->buffer_pool->region +
++			rpc->msgin.bpage_offsets[bpage_index] + bpage_offset;
++}
++
++/**
++ * homa_pool_free_bufs() - Release buffer space so that it can be
++ * reused.
++ * @pool:         Pool that the buffer space belongs to. Doesn't need to
++ *                be locked.
++ * @num_buffers:  How many buffers to release.
++ * @buffers:      Points to @num_buffers values, each of which is an offset
++ *                from the start of the pool to the buffer to be released.
++ * Return:        0 for success, otherwise a negative errno.
++ */
++int homa_pool_free_bufs(struct homa_pool *pool, int num_buffers, u32 *buffers)
++{
++	int i;
++
++	if (!homa_pool_exists(pool))
++		return -EINVAL;
++	for (i = 0; i < num_buffers; i++) {
++		u32 bpage_index = buffers[i] >> HOMA_BPAGE_SHIFT;
++		struct homa_bpage *bpage;
++
++		if (bpage_index >= pool->num_bpages)
++			return -EINVAL;
++		bpage = &pool->descriptors[bpage_index];
++
++		spin_lock_bh(&bpage->lock);
++		if (bpage->refs == 0 || (bpage->refs == 1 &&
++					 bpage->owner >= 0)) {
++			/* This bpage is already free; looks like the app
++			 * has misbehaved and freed an offset multiple times.
++			 */
++			spin_unlock_bh(&bpage->lock);
++			return -EINVAL;
++		}
++		bpage->refs--;
++		if (bpage->refs == 0)
++			atomic_fetch_inc(&pool->free_bpages);
++		spin_unlock_bh(&bpage->lock);
++	}
++	return 0;
++}
++
++/**
++ * homa_pool_check_waiting() - Checks to see if there are enough free
++ * bpages to wake up any RPCs that were blocked. Whenever
++ * homa_pool_free_bufs is invoked, this function must be invoked later,
++ * at a point when the caller holds no locks (homa_pool_free_bufs may
++ * be invoked with locks held, so it can't safely invoke this function).
++ * This is regrettably tricky, but I can't think of a better solution.
++ * @pool:         Information about the buffer pool.
++ */
++void homa_pool_check_waiting(struct homa_pool *pool)
++{
++	if (!homa_pool_exists(pool))
++		return;
++	while (atomic_read_acquire(&pool->free_bpages) >= pool->bpages_needed) {
++		struct homa_rpc *rpc;
++
++		homa_sock_lock(pool->hsk);
++		if (list_empty(&pool->hsk->waiting_for_bufs)) {
++			pool->bpages_needed = INT_MAX;
++			homa_sock_unlock(pool->hsk);
++			break;
++		}
++		rpc = list_first_entry(&pool->hsk->waiting_for_bufs,
++				       struct homa_rpc, buf_links);
++		if (!homa_rpc_try_lock(rpc)) {
++			/* Can't just spin on the RPC lock because we're
++			 * holding the socket lock and the lock order is
++			 * rpc-then-socket (see "Homa Locking Strategy" in
++			 * homa_impl.h). Instead, release the socket lock
++			 * and try the entire operation again.
++			 */
++			homa_sock_unlock(pool->hsk);
++			cpu_relax();
++			continue;
++		}
++		list_del_init(&rpc->buf_links);
++		if (list_empty(&pool->hsk->waiting_for_bufs))
++			pool->bpages_needed = INT_MAX;
++		else
++			set_bpages_needed(pool);
++		homa_sock_unlock(pool->hsk);
++		homa_pool_alloc_msg(rpc);
++		homa_rpc_unlock(rpc);
++	}
++}
++
++/**
++ * homa_pool_avail_bytes() - Return a count of the number of bytes currently
++ * unused and available for allocation in a pool.
++ * @pool:    Pool of interest.
++ * Return:    See above.
++ */
++u64 homa_pool_avail_bytes(struct homa_pool *pool)
++{
++	struct homa_pool_core *core;
++	struct homa_bpage *bpage;
++	u64 avail;
++	int cpu;
++
++	if (!homa_pool_exists(pool))
++		return 0;
++	avail = atomic_read(&pool->free_bpages);
++	avail *= HOMA_BPAGE_SIZE;
++	for (cpu = 0; cpu < nr_cpu_ids; cpu++) {
++		core = per_cpu_ptr(pool->cores, cpu);
++		bpage = &pool->descriptors[core->page_hint];
++		if (bpage->owner == cpu) {
++			if (bpage->refs > 1)
++				avail += HOMA_BPAGE_SIZE - core->allocated;
++			else
++				avail += HOMA_BPAGE_SIZE;
++		}
++	}
++	return avail;
++}
+diff --git a/net/homa/homa_pool.h b/net/homa/homa_pool.h
+new file mode 100644
+index 000000000000..80b14475d0be
+--- /dev/null
++++ b/net/homa/homa_pool.h
+@@ -0,0 +1,184 @@
 +/* SPDX-License-Identifier: BSD-2-Clause OR GPL-2.0+ */
 +
-+/* This file contains definitions that are shared across the files
-+ * that implement Homa for Linux.
++/* This file contains definitions used to manage user-space buffer pools.
 + */
 +
-+#ifndef _HOMA_IMPL_H
-+#define _HOMA_IMPL_H
++#ifndef _HOMA_POOL_H
++#define _HOMA_POOL_H
 +
-+#include <linux/bug.h>
++#include <linux/percpu.h>
 +
-+#include <linux/audit.h>
-+#include <linux/icmp.h>
-+#include <linux/init.h>
-+#include <linux/list.h>
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/kthread.h>
-+#include <linux/completion.h>
-+#include <linux/proc_fs.h>
-+#include <linux/sched/signal.h>
-+#include <linux/skbuff.h>
-+#include <linux/socket.h>
-+#include <linux/vmalloc.h>
-+#include <net/icmp.h>
-+#include <net/ip.h>
-+#include <net/netns/generic.h>
-+#include <net/protocol.h>
-+#include <net/inet_common.h>
-+#include <net/gro.h>
-+#include <net/rps.h>
-+
-+#include <linux/homa.h>
-+#include "homa_wire.h"
-+
-+/* Forward declarations. */
-+struct homa;
-+struct homa_peer;
-+struct homa_rpc;
-+struct homa_route;
-+struct homa_sock;
++#include "homa_rpc.h"
 +
 +/**
-+ * union sockaddr_in_union - Holds either an IPv4 or IPv6 address (smaller
-+ * and easier to use than sockaddr_storage).
++ * struct homa_bpage - Contains information about a single page in
++ * a buffer pool.
 + */
-+union sockaddr_in_union {
-+	/** @sa: Used to access as a generic sockaddr. */
-+	struct sockaddr sa;
++struct homa_bpage {
++	/** @lock: to synchronize shared access. */
++	spinlock_t lock;
 +
-+	/** @in4: Used to access as IPv4 socket. */
-+	struct sockaddr_in in4;
++	/**
++	 * @refs: Counts number of distinct uses of this
++	 * bpage (1 tick for each message that is using
++	 * this page, plus an additional tick if the @owner
++	 * field is set).
++	 */
++	int refs;
 +
-+	/** @in6: Used to access as IPv6 socket.  */
-+	struct sockaddr_in6 in6;
++	/**
++	 * @owner: kernel core that currently owns this page
++	 * (< 0 if none).
++	 */
++	int owner;
++
++	/**
++	 * @expiration: homa_clock() time after which it's OK to steal this
++	 * page from its current owner (if @refs is 1).
++	 */
++	u64 expiration;
++} ____cacheline_aligned_in_smp;
++
++/**
++ * struct homa_pool_core - Holds core-specific data for a homa_pool (a bpage
++ * out of which that core is allocating small chunks).
++ */
++struct homa_pool_core {
++	/**
++	 * @page_hint: Index of bpage in pool->descriptors,
++	 * which may be owned by this core. If so, we'll use it
++	 * for allocating partial pages.
++	 */
++	int page_hint;
++
++	/**
++	 * @allocated: if the page given by @page_hint is
++	 * owned by this core, this variable gives the number of
++	 * (initial) bytes that have already been allocated
++	 * from the page.
++	 */
++	int allocated;
++
++	/**
++	 * @next_candidate: when searching for free bpages,
++	 * check this index next.
++	 */
++	int next_candidate;
 +};
 +
 +/**
-+ * struct homa - Stores overall information about the Homa transport, which
-+ * is shared across all Homa sockets and all network namespaces.
++ * struct homa_pool - Describes a pool of buffer space for incoming
++ * messages for a particular socket; managed by homa_pool.c. The pool is
++ * divided up into "bpages", which are a multiple of the hardware page size.
++ * A bpage may be owned by a particular core so that it can more efficiently
++ * allocate space for small messages.
 + */
-+struct homa {
++struct homa_pool {
 +	/**
-+	 * @next_outgoing_id: Id to use for next outgoing RPC request.
-+	 * This is always even: it's used only to generate client-side ids.
-+	 * Accessed without locks. Note: RPC ids are unique within a
-+	 * single client machine.
++	 * @hsk: the socket that this pool belongs to.
 +	 */
-+	atomic64_t next_outgoing_id;
++	struct homa_sock *hsk;
 +
 +	/**
-+	 * @peertab: Info about all the other hosts we have communicated with;
-+	 * includes peers from all network namespaces.
++	 * @region: beginning of the pool's region (in the app's virtual
++	 * memory). Divided into bpages. 0 means the pool hasn't yet been
++	 * initialized. This pointer is used for lock-free synchronization
++	 * between a core creating the region and other cores attempting
++	 * to use it.
 +	 */
-+	struct homa_peertab *peertab;
++	char __user *region;
++
++	/** @num_bpages: total number of bpages in the pool. */
++	int num_bpages;
++
++	/** @descriptors: kmalloced area containing one entry for each bpage. */
++	struct homa_bpage *descriptors;
 +
 +	/**
-+	 * @socktab: Information about all open sockets. Dynamically
-+	 * allocated; must be kfreed.
++	 * @free_bpages: the number of pages still available for allocation
++	 * by homa_pool_get_pages. This equals the number of pages with zero
++	 * reference counts, minus the number of pages that have been claimed
++	 * by homa_pool_get_pages but not yet allocated.
 +	 */
-+	struct homa_socktab *socktab;
++	atomic_t free_bpages;
 +
 +	/**
-+	 * @tx_pools: One tx_page_pool for each NUMA node on the machine.
-+	 * If there are no cores for a node, then its value is NULL.
++	 * @bpages_needed: the number of free bpages required to satisfy the
++	 * needs of the first RPC on @hsk->waiting_for_bufs, or INT_MAX if
++	 * that queue is empty.
 +	 */
-+	struct homa_tx_pool *tx_pools[MAX_NUMNODES];
++	int bpages_needed;
 +
-+	/** @max_numa: Highest NUMA node id in use by any core. */
-+	int max_numa;
++	/** @cores: core-specific info; dynamically allocated. */
++	struct homa_pool_core __percpu *cores;
 +
 +	/**
-+	 * @tx_page_frees_per_sec: Rate at which to return pages from
-+	 * homa_tx_page_pools back to Linux. This is the total rate across
-+	 * all pools. Set externally via sysctl.
++	 * @check_waiting_invoked: incremented during unit tests when
++	 * homa_pool_check_waiting is invoked.
 +	 */
-+	int tx_page_frees_per_sec;
-+
-+	/**
-+	 * @tx_pages_to_free: Space in which to collect pages that are
-+	 * about to be released. Dynamically allocated.
-+	 */
-+	struct page **tx_pages_to_free;
-+
-+	/**
-+	 * @tx_pages_to_free_slots: Maximum number of pages that can be
-+	 * stored in tx_pages_to_free;
-+	 */
-+	int tx_pages_to_free_slots;
-+
-+	/**
-+	 * @tx_page_free_time: homa_clock() time when the next tx
-+	 * page should be freed. Could be in the past.
-+	 */
-+	u64 tx_page_free_time;
-+
-+	/**
-+	 * @tx_page_pool_min_kb: A floor on the amount of space for Homa to
-+	 * retain in a pool, specified in Kbytes. Set externally via
-+	 * sysctl.
-+	 */
-+	int tx_page_pool_min_kb;
-+
-+	/**
-+	 * @link_mbps: The raw bandwidth of the network uplink, in
-+	 * units of 1e06 bits per second.  Set externally via sysctl.
-+	 */
-+	int link_mbps;
-+
-+	/**
-+	 * @resend_ticks: When an RPC's @silent_ticks reaches this value,
-+	 * start sending RESEND requests.
-+	 */
-+	int resend_ticks;
-+
-+	/**
-+	 * @resend_interval: minimum number of homa timer ticks between
-+	 * RESENDs for the same RPC.
-+	 */
-+	int resend_interval;
-+
-+	/**
-+	 * @timeout_ticks: abort an RPC if its silent_ticks reaches this value.
-+	 */
-+	int timeout_ticks;
-+
-+	/**
-+	 * @timeout_resends: Assume that a server is dead if it has not
-+	 * responded after this many RESENDs have been sent to it.
-+	 */
-+	int timeout_resends;
-+
-+	/**
-+	 * @request_ack_ticks: How many timer ticks we'll wait for the
-+	 * client to ack an RPC before explicitly requesting an ack.
-+	 * Set externally via sysctl.
-+	 */
-+	int request_ack_ticks;
-+
-+	/**
-+	 * @dead_frags_limit: If hsk->dead_frags is less than this number
-+	 * for a socket, then Homa reaps RPCs in a way that minimizes impact
-+	 * on performance but may permit dead RPCs to accumulate. If
-+	 * dead_frags exceeds this value, then Homa switches to a more
-+	 * aggressive approach to reaping RPCs. Set externally via sysctl.
-+	 */
-+	int dead_frags_limit;
-+
-+	/**
-+	 * @max_dead_frags: The largest value of hsk->dead_frags that has
-+	 * existed so far for any socket.  Readable via sysctl, and may be
-+	 * reset via sysctl to begin recalculating.
-+	 */
-+	int max_dead_frags;
-+
-+	/**
-+	 * @max_gso_size: Maximum number of bytes that will be included
-+	 * in a single output packet that Homa passes to Linux. Can be set
-+	 * externally via sysctl to lower the limit already enforced by Linux.
-+	 */
-+	int max_gso_size;
-+
-+	/**
-+	 * @wmem_max: Limit on the value of sk_sndbuf for any socket. Set
-+	 * externally via sysctl.
-+	 */
-+	int wmem_max;
-+
-+	/**
-+	 * @timer_ticks: number of times that homa_timer has been invoked
-+	 * (may wraparound, which is safe).
-+	 */
-+	u32 timer_ticks;
-+
-+	/**
-+	 * @bpage_lease_usecs: how long a core can own a bpage (microseconds)
-+	 * before its ownership can be revoked to reclaim the page.
-+	 */
-+	int bpage_lease_usecs;
-+
-+	/**
-+	 * @bpage_lease_cycles: same as bpage_lease_usecs except in
-+	 * homa_clock() units.
-+	 */
-+	int bpage_lease_cycles;
-+
-+	/**
-+	 * @next_id: Set via sysctl; causes next_outgoing_id to be set to
-+	 * this value; always reads as zero. Typically used while debugging to
-+	 * ensure that different nodes use different ranges of ids.
-+	 */
-+	int next_id;
-+
-+	/**
-+	 * @destroyed: True means that this structure is being destroyed
-+	 * so everyone should clean up.
-+	 */
-+	bool destroyed;
-+
++	int check_waiting_invoked;
 +};
 +
-+/**
-+ * struct homa_net - Contains Homa information that is specific to a
-+ * particular network namespace.
-+ */
-+struct homa_net {
-+	/** @homa: Global Homa information. */
-+	struct homa *homa;
-+
-+	/**
-+	 * @prev_default_port: The most recent port number assigned from
-+	 * the range of default ports.
-+	 */
-+	u16 prev_default_port;
-+
-+	/**
-+	 * @num_routes: The total number of struct homa_peers that exist
-+	 * for this namespace. Managed by homa_peer.c under the peertab lock.
-+	 */
-+	int num_routes;
-+};
++bool     homa_bpage_available(struct homa_bpage *bpage, u64 now);
++struct   homa_pool *homa_pool_alloc(struct homa_sock *hsk);
++int      homa_pool_alloc_msg(struct homa_rpc *rpc);
++u64      homa_pool_avail_bytes(struct homa_pool *pool);
++void     homa_pool_check_waiting(struct homa_pool *pool);
++void     homa_pool_free(struct homa_pool *pool);
++void __user *homa_pool_get_buffer(struct homa_rpc *rpc, int offset,
++				  int *available);
++int      homa_pool_get_pages(struct homa_pool *pool, int num_pages,
++			     u32 *pages, int leave_locked);
++void     homa_pool_get_rcvbuf(struct homa_pool *pool,
++			      struct homa_rcvbuf_args *args);
++int      homa_pool_free_bufs(struct homa_pool *pool, int num_buffers,
++			     u32 *buffers);
++int      homa_pool_set_region(struct homa_sock *hsk, void __user *region,
++			      u64 region_size);
 +
 +/**
-+ * struct homa_skb_info - Additional information needed by Homa for each
-+ * outbound DATA packet. Space is allocated for this at the very end of the
-+ * linear part of the skb.
++ * homa_pool_unlink() - Remove an RPC from any lists related to buffer
++ * pool memory, so the RPC will not be accessed by this module again.
++ * @rpc:     RPC to unlink. Must be locked, and the rpc's socket must
++ *           also be locked.
 + */
-+struct homa_skb_info {
-+	/**
-+	 * @data_bytes: total bytes of message data across all of the
-+	 * segments in this packet.
-+	 */
-+	int data_bytes;
-+
-+	/**
-+	 * @dont_defer: True means that homa_qdisc_enqueue should pass this
-+	 * packet along without considering NIC congestion. This flag is set
-+	 * by the pacer when it retransmits packets after deferral.
-+	 */
-+	bool dont_defer;
-+};
-+
-+/**
-+ * homa_get_skb_info() - Return the address of Homa's private information
-+ * for an sk_buff.
-+ * @skb:     Socket buffer whose info is needed.
-+ * Return: address of Homa's private information for @skb.
-+ */
-+static inline struct homa_skb_info *homa_get_skb_info(struct sk_buff *skb)
++static inline void homa_pool_unlink(struct homa_rpc *rpc)
++	__must_hold(rpc->bucket->lock)
++	__must_hold(rpc->hsk->lock)
 +{
-+	return (struct homa_skb_info *)(skb_end_pointer(skb)) - 1;
++	list_del_init(&rpc->buf_links);
 +}
 +
 +/**
-+ * homa_set_doff() - Fills in the doff TCP header field for a packet.
-+ * @skb:   Packet whose doff field is to be set.
-+ * @size:  Size of the "header" in bytes (must be a multiple of 4). This is
-+ *         needed for two reasons. First, for TSO to work it must indicate
-+ *         the number of bytes that should be replicated in each segment.
-+ *         The bytes after this will be distributed among segments. Second,
-+ *         for TCP hijacking to work it must have a valid value (20 is a
-+ *         good choice if the packet isn't a TSO frame).
++ * homa_pool_release() - Invoked when RPCs are being reaped: releases
++ * pool space owned by the RPC.
++ * @rpc:        RPC to clean up. Caller must ensure that no-one else can
++ *              access the RPC concurrently (e.g., it is being reaped).
 + */
-+static inline void homa_set_doff(struct sk_buff *skb, int size)
++static inline void homa_pool_release(struct homa_rpc *rpc)
 +{
-+	tcp_hdr(skb)->doff = size >> 2;
-+}
-+
-+/** skb_is_ipv6() - Return true if the packet is encapsulated with IPv6,
-+ *  false otherwise (presumably it's IPv4).
-+ */
-+static inline bool skb_is_ipv6(const struct sk_buff *skb)
-+{
-+	return ipv6_hdr(skb)->version == 6;
-+}
-+
-+/**
-+ * ipv6_to_ipv4() - Given an IPv6 address produced by ipv4_to_ipv6, return
-+ * the original IPv4 address (in network byte order).
-+ * @ip6:  IPv6 address; assumed to be a mapped IPv4 address.
-+ * Return: IPv4 address stored in @ip6.
-+ */
-+static inline __be32 ipv6_to_ipv4(const struct in6_addr ip6)
-+{
-+	return ip6.in6_u.u6_addr32[3];
-+}
-+
-+/**
-+ * canonical_ipv6_addr() - Convert a socket address to the "standard"
-+ * form used in Homa, which is always an IPv6 address; if the original address
-+ * was IPv4, convert it to an IPv4-mapped IPv6 address.
-+ * @addr:   Address to canonicalize (if NULL, "any" is returned).
-+ * Return: IPv6 address corresponding to @addr.
-+ */
-+static inline struct in6_addr canonical_ipv6_addr(const union sockaddr_in_union
-+						  *addr)
-+{
-+	struct in6_addr mapped;
-+
-+	if (addr) {
-+		if (addr->sa.sa_family == AF_INET6)
-+			return addr->in6.sin6_addr;
-+		ipv6_addr_set_v4mapped(addr->in4.sin_addr.s_addr, &mapped);
-+		return mapped;
++	if (rpc->msgin.num_bpages > 0) {
++		homa_pool_free_bufs(rpc->hsk->buffer_pool,
++				    rpc->msgin.num_bpages,
++				    rpc->msgin.bpage_offsets);
++		rpc->msgin.num_bpages = 0;
 +	}
-+	return in6addr_any;
 +}
 +
 +/**
-+ * skb_canonical_ipv6_saddr() - Given a packet buffer, return its source
-+ * address in the "standard" form used in Homa, which is always an IPv6
-+ * address; if the original address was IPv4, convert it to an IPv4-mapped
-+ * IPv6 address.
-+ * @skb:   The source address will be extracted from this packet buffer.
-+ * Return: IPv6 address for @skb's source machine.
++ * homa_pool_exists() - Determine whether a pool has been fully initialized
++ * with a memory region.
++ * @pool:     Pool to check.
++ * Return:    True if there is a memory region associated with the pool,
++ *            false if SO_HOMA_RCVBUF hasn't been invoked for the socket.
 + */
-+static inline struct in6_addr skb_canonical_ipv6_saddr(struct sk_buff *skb)
++static inline bool homa_pool_exists(struct homa_pool *pool)
 +{
-+	struct in6_addr mapped;
-+
-+	if (skb_is_ipv6(skb))
-+		return ipv6_hdr(skb)->saddr;
-+	ipv6_addr_set_v4mapped(ip_hdr(skb)->saddr, &mapped);
-+	return mapped;
-+}
-+
-+/**
-+ * homa_make_header_avl() - Invokes pskb_may_pull to make sure that all the
-+ * Homa header information for a packet is in the linear part of the skb
-+ * where it can be addressed using skb_transport_header.
-+ * @skb:     Packet for which header is needed.
-+ * Return:   The result of pskb_may_pull (true for success)
-+ */
-+static inline bool homa_make_header_avl(struct sk_buff *skb)
-+{
-+	int pull_length;
-+
-+	pull_length = skb_transport_header(skb) - skb->data + HOMA_MAX_HEADER;
-+	if (pull_length > skb->len)
-+		pull_length = skb->len;
-+	return pskb_may_pull(skb, pull_length);
-+}
-+
-+extern unsigned int homa_net_id;
-+
-+/**
-+ * homa_net() - Return the struct homa_net associated with a particular
-+ * struct net.
-+ * @net:     Get the Homa data for this net namespace.
-+ * Return:   see above.
-+ */
-+static inline struct homa_net *homa_net(struct net *net)
-+{
-+	return (struct homa_net *)net_generic(net, homa_net_id);
-+}
-+
-+/**
-+ * homa_clock() - Return a fine-grain clock value that is monotonic and
-+ * consistent across cores.
-+ * Return: see above.
-+ */
-+static inline u64 homa_clock(void)
-+{
-+	/* This function exists to make it easy to switch time sources
-+	 * if/when new or better sources become available.
++	/* This barrier allows lockless concurrent allocation of the pool:
++	 * it ensures that if the pool exists we'll see all of the initialized
++	 * values related to the pool.
 +	 */
-+	return ktime_get_ns();
++	return smp_load_acquire(&pool->region) != NULL;
 +}
 +
-+/**
-+ * homa_clock_khz() - Return the frequency of the values returned by
-+ * homa_clock, in units of KHz.
-+ * Return: see above.
-+ */
-+static inline u64 homa_clock_khz(void)
-+{
-+	return 1000000;
-+}
-+
-+/**
-+ * homa_ns_to_cycles() - Convert from units of nanoseconds to units of
-+ * homa_clock().
-+ * @ns:      A time measurement in nanoseconds
-+ * Return:   The time in homa_clock() units corresponding to @ns.
-+ */
-+static inline u64 homa_ns_to_cycles(u64 ns)
-+{
-+	u64 tmp;
-+
-+	tmp = ns * homa_clock_khz();
-+	do_div(tmp, 1000000);
-+	return tmp;
-+}
-+
-+/* Homa Locking Strategy:
-+ *
-+ * (Note: this documentation is referenced in several other places in the
-+ * Homa code)
-+ *
-+ * In the Linux TCP/IP stack the primary locking mechanism is a sleep-lock
-+ * per socket. However, per-socket locks aren't adequate for Homa, because
-+ * sockets are "larger" in Homa. In TCP, a socket corresponds to a single
-+ * connection between two peers; an application can have hundreds or
-+ * thousands of sockets open at once, so per-socket locks leave lots of
-+ * opportunities for concurrency. With Homa, a single socket can be used for
-+ * communicating with any number of peers, so there will typically be just
-+ * one socket per thread. As a result, a single Homa socket must support many
-+ * concurrent RPCs efficiently, and a per-socket lock would create a bottleneck
-+ * (Homa tried this approach initially).
-+ *
-+ * Thus, the primary locks used in Homa spinlocks at RPC granularity. This
-+ * allows operations on different RPCs for the same socket to proceed
-+ * concurrently. Homa also has socket locks (which are spinlocks different
-+ * from the official socket sleep-locks) but these are used much less
-+ * frequently than RPC locks.
-+ *
-+ * Lock Ordering:
-+ *
-+ * There are several other locks in Homa besides RPC locks, all of which
-+ * are spinlocks. When multiple locks are held, they must be acquired in a
-+ * consistent order in order to prevent deadlock. Here are the rules for Homa:
-+ * 1. Except for RPC locks, socket locks, and the grant lock, all locks
-+ *    should be considered "leaf" locks: don't acquire other locks while
-+ *    holding them.
-+ * 2. The lock order is:
-+ *    * Grant lock
-+ *    * RPC lock
-+ *    * Socket lock
-+ *    * Other lock
-+ *
-+ * It may seem surprising that RPC locks are acquired *before* socket locks,
-+ * but this is essential for high performance. Homa has been designed so that
-+ * many common operations (such as processing input packets) can be performed
-+ * while holding only an RPC lock; this allows operations on different RPCs
-+ * to proceed in parallel. Only a few operations, such as handing off an
-+ * incoming message to a waiting thread, require the socket lock. If socket
-+ * locks had to be acquired first, any operation that might eventually need
-+ * the socket lock would have to acquire it before the RPC lock, which would
-+ * severely restrict concurrency.
-+ *
-+ * Socket Shutdown:
-+ *
-+ * It is possible for socket shutdown to begin while operations are underway
-+ * that hold RPC locks but not the socket lock. For example, a new RPC
-+ * creation might be underway when a socket is shut down. The RPC creation
-+ * will eventually acquire the socket lock and add the new RPC to those
-+ * for the socket; it would be very bad if this were to happen after
-+ * homa_sock_shutdown thinks it has deleted all RPCs for the socket.
-+ * In general, any operation that acquires a socket lock must check
-+ * hsk->shutdown after acquiring the lock and abort if hsk->shutdown is set.
-+ *
-+ * Spinlock Implications:
-+ *
-+ * Homa uses spinlocks exclusively; this is needed because locks typically
-+ * need to be acquired at atomic level, such as in SoftIRQ code.
-+ *
-+ * Operations that can block, such as memory allocation and copying data
-+ * to/from user space, are not permitted while holding spinlocks (spinlocks
-+ * disable interrupts, so the holder must not block. This results in awkward
-+ * code in several places to move restricted operations outside locked
-+ * regions. Such code typically looks like this:
-+ *   - Acquire a reference on an object such as an RPC, in order to prevent
-+ *     the object from being deleted.
-+ *   - Release the object's lock.
-+ *   - Perform the restricted operation.
-+ *   - Re-acquire the lock.
-+ *   - Release the reference.
-+ * It is possible that the object may have been modified by some other party
-+ * while it was unlocked, so additional checks may be needed after reacquiring
-+ * the lock. As one example, an RPC may have been terminated, in which case
-+ * any operation in progress on that RPC should be aborted after reacquiring
-+ * the lock.
-+ *
-+ * Lists of RPCs:
-+ *
-+ * There are a few places where Homa needs to process all of the RPCs
-+ * associated with a socket, such as the timer. Such code must first lock
-+ * the socket (to protect access to the link pointers) then lock
-+ * individual RPCs on the list. However, this violates the rules for locking
-+ * order. It isn't safe to unlock the socket before locking the individual RPCs,
-+ * because RPCs could be deleted and their memory recycled between the unlock
-+ * of the socket lock and the lock of the RPC; this could result in corruption.
-+ * Homa uses two different approaches to handle this situation:
-+ * 1. Use ``homa_protect_rpcs`` to prevent RPC reaping for a socket. RPCs can
-+ *    still be terminated, but their memory won't go away until
-+ *    homa_unprotect_rpcs is invoked. This allows the socket lock to be
-+ *    released before acquiring RPC locks; after acquiring each RPC lock,
-+ *    the RPC must be checked to see if it has been terminated; if so, skip it.
-+ * 2. Use ``spin_trylock_bh`` to acquire the RPC lock while still holding the
-+ *    socket lock. If this fails, then release the socket lock and retry
-+ *    both the socket lock and the RPC lock. Of course, the state of both
-+ *    socket and RPC could change before the locks are finally acquired.
-+ *
-+ * Locks and Packet Transmission:
-+ *
-+ * Homa must not hold locks while transmitting packets (e.g. by calling
-+ * ip_queue_xmit or ip6_xmit). This is because homa_qdisc could be invoked
-+ * during the transmission process, and it may need to acquire locks under
-+ * some conditions (such as an RPC lock). Homa_qdisc is invoked with the
-+ * qdisc lock held, so invoking ip*xmit with a lock held can result in
-+ * AB-BA deadlocks.
-+ */
-+
-+#endif /* _HOMA_IMPL_H */
++#endif /* _HOMA_POOL_H */
 -- 
 2.43.0
 
