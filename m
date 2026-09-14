@@ -1,161 +1,261 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011009.outbound.protection.outlook.com [40.107.130.9])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013071.outbound.protection.outlook.com [40.93.196.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B69411FBB
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 08:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122533E5A03;
+	Mon, 14 Sep 2026 09:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.71
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789376395; cv=fail; b=UPKPsu2PZj1Rz5hoIPcP2X0xyqIswFjgk9KFqZErd1GwjGgAGYU5ngoIUHFBGyYqFuU405SgYOM4Z0AdqFkAvgnq2X2htSYYY7P0TfwM/hhppKyD/iAksnzcRfU2TMnsFv7aPLRrUMjRP/xd5oC1wF4lSad03s7uwp4xE6bOlj0=
+	t=1789377227; cv=fail; b=mX3lrlieoW8klcoer6+Y3CtFayyZAklpvRFmQl5cksuNmtSTKG6S3V6VuRg3tL8GUZReSMwNs5XWQGE2LQRnWJBIa4N4iuoLY0E1B1OIrC9+Htm22zTDLgTA4UqEnKcr/ySaM/A4oOD06uuK4JNR8dDkdnDDxBn9UUxr6vUvek8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789376395; c=relaxed/simple;
-	bh=wRRIUeLJRXKraOX+mK6oghQs0GFm8FBu9CzJpb4Av0I=;
-	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VgGVbmnYrMMM97WJUaW9dA9MMfB4l6dhx//pFReYMogWWnNxeu1zxkzHJThmZZNYeBa1qK8hwYOCBVzVw2eBd+sjrn8KlBODmt7tHKZDAJQ9fbHHuIJvmdYrL8etRQiPAfPU47b+e66Rmm5Mh7tmiseFoCOc2FBVFrBO5EJyLYc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=axis.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=jvY239hg; arc=fail smtp.client-ip=40.107.130.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axis.com
+	s=arc-20240116; t=1789377227; c=relaxed/simple;
+	bh=tdmIi/CJ4YmwAtx3tZNC9BTq5NA6nhtv5/7oiLNFSE0=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=d6aMF/VUb+HrZv9WKYn0L7YjsWo9hVDSo9vQXOZng/am4n8b+tpAuIVNzLbLNRL9FQrt92QtNXUVPEFlel0G92OFA6BIgxUDyrYrZs8M859IpoDrs1WhyhsOn9ZmkotfVFW9Q4nKifVwM/raM8iiYO2aBbvowtDf3O2LR4Oz1Ok=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=IF7MtYXE; arc=fail smtp.client-ip=40.93.196.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="jvY239hg"
+	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="IF7MtYXE"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zUFTn2mXr2nQ0nQcnlFWPdVfcLn0wObxb0JNgPgsFSBumU+nV/JisfqwTMinDSYz6xLzc4C2Jek9b87oik75kbuFhAOBYCWhJ0ySpFX1PJW78N3N9QTB8XwHZqb0Kri4KQ+LKgofLwf30kwYNmx9S7mFuwoBrNvb7MDb3iYKm45KyOPkfxoJnuxovAIe5LwgTB31Wmz3KCzxQdh825GV2g8429YKJ2blPXpjddwYMFEvDe9fPBiUDTZzZcYpELJ7jgGQ057mhG4AbHjj7YZ6rWQApjyeMsfccx9+DCKLEZrnr4HIJ0luAE7q3Z9BOU+F0iJNU42OC2gprqRqfQkOMQ==
+ b=RsEokVH+3Nn67gZrYRH+Q/fK4NmmY1dv2L+Pkt2Yj8CEJghMbAspdPpCVL1MSkQLBCQS5yS8wW8L7aCcC+HOH2GTrx+Z/93XobJuKC9x4F+NJ6PWo1oiUdK4vLW5WfV8GKikfxVMcl6wb1RcV4OhKYSwMjnr2ybVLtfc3QSEx11z7Q53g7qiKqkgU1OrvH6b9DtCnN2J0kkRILiCtBaeoePb9pFhwAQ3ecEYh2ubESgABis3emGuNI8yg+8ZvAGkriaWDgnSGA77KI5TfPFHlLat6wf807LEJMXESSX4ORiTm9mitSoQGPvMWFt0CoZnsBK9Wda+cpdcvwrtd4C4Bw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q/iDdzeBJfcAsznYRQ71w2Qjq/3hEZfVxkctx8ANXoI=;
- b=UHUv23L8U9j5mCsGs92rWWZxdyob0CF47IrfYMlLRH2WxSsXnl8exiKZK8kAyjVhLFUZLgXjGyawNnvlkwmpwr6eX9qHpWx7XjtiPjMYIOl22wilNqe1mp/j4IyXriQb5ZpX99HNACBEMa9Tyhz0OHDNlBziZckSCV2Ds/O8bEXU4c+E7/MYK5Vd/j0GbrNyjiDXKO0Sb/3CpbuimccxfhLbv2UWatz6/RWxYwJcKxjPA+IqyJ2PUDr0Fvlzeu2grFBRWEjDqd8bCRtXBHlNxEpv6TtYPXMh760UnjuvtDX1E6z8r0kBf+cZauME8TArqX+6Z/lAxQU0viOZcACQFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=axis.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=axis.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ bh=skpHTK1vuKh/x6yI5TNI/3AtL3E42bWHDLtcmLnA9QI=;
+ b=a4w/RNXoQ0ZafyiKVs8m4EtbSvyr5XYP7Y5QVbFmYSg6bn9dHh8Dn3ERKga4nRdaOCnUZpD6m9RY9tSCIetNF8SQ91gMVSfIEnheBVi+bR2bSylcVTqoIfQxSUkqfIvo8EjhC0Sl3gWqveAVnzxYvJe43nzBEk61oEhRX04HsvKcKoM2ChL/n8cBtS+EwMEumcNswaWq/PpQLwziGz68Uog0HkNS0SfTwOyFSaR2LS2hvvEC+451TqxzcFUfUAfMrKbDt6yX15oM31AxH819lpnGgrE33cgLmNgAYsaatxzfgMQovfghMUf5seMCHSiJEDhWWlfRUDAAtERX83tSGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
+ dkim=pass header.d=altera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q/iDdzeBJfcAsznYRQ71w2Qjq/3hEZfVxkctx8ANXoI=;
- b=jvY239hgtf9tJKufMJiLWbq7AH20gOqzDdh6BspG7lFvKFwuj8i6UIyyQ6XdPQjqe+qY9c05ZDk8TTxQDPGq87X7zwmIHejBoHE4SOHs/y5CjJfRygV0KFhJkIh/KF1sbmrPvnqov9IOTbNTHmYg87FtxintyulcXHcodGKhoSM=
-Received: from ZR1PEPF000077DE.CHEP278.PROD.OUTLOOK.COM (2603:10a6:918::40b)
- by AMBPR02MB453737.eurprd02.prod.outlook.com (2603:10a6:20b:7b4::12) with
+ bh=skpHTK1vuKh/x6yI5TNI/3AtL3E42bWHDLtcmLnA9QI=;
+ b=IF7MtYXEPd9ALP6sKp2TEPAiey3tOywRnazaATezezmnkYF6fXn7xdqjtK2fsFwcx+UPsN0zvvKdZP1BhADQMVD3tQX0CQR0IopqbUoU68aKncDcV5cHvRX9hwq4wqfdsuUYnBWkidtFoCqMjFcSaO/Dj9kFSnmFO9GC15xbEfoO3GFlosu8WzgJU0m+RM0+18LqZEE/sJr8R4YQ3Vl21L3ih+WB2U9fRwGp9hZsv5uavljItyeDsn4D8lefisHVOIbvoVNEh/RiVi6nNXSQET/iKPe1TYQ6aFR7SUvmOygRY4jjWYOUBQjDKDmc7MLThqymMCVARO6HGTYOR7w1qw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=altera.com;
+Received: from SJ0PR03MB5950.namprd03.prod.outlook.com (2603:10b6:a03:2d3::20)
+ by IA5PR03MB989679.namprd03.prod.outlook.com (2603:10b6:208:607::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
- 2026 08:59:44 +0000
-Received: from MI3PEPF00008494.eurprd03.prod.outlook.com (2603:10a6:298:1::5b)
- by ZR1PEPF000077DE.outlook.office365.com (2603:10a6:918::40b) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.11
- via Frontend Transport; Mon, 14 Sep 2026 08:59:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- MI3PEPF00008494.mail.protection.outlook.com (10.167.240.155) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.428.7 via Frontend Transport; Mon, 14 Sep 2026 08:59:43 +0000
-Received: from pc67007-2609 (10.4.0.13) by se-mail10w.axis.com (10.20.40.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Mon, 14 Sep
- 2026 10:59:43 +0200
-From: Waqar Hameed <waqar.hameed@axis.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-doc@vger.kernel.org>
-Subject: Re: [linux-next:master 5111/5916] htmldocs:
- Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline
- emphasis start-string without end-string. [docutils]
-In-Reply-To: <202609110722.GAZVme6v-lkp@intel.com>
-References: <202609110722.GAZVme6v-lkp@intel.com>
-User-Agent: a.out
-Date: Mon, 14 Sep 2026 10:59:37 +0200
-Message-ID: <pndse3cp5s6.a.out@axis.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.11; Mon, 14 Sep
+ 2026 09:13:41 +0000
+Received: from SJ0PR03MB5950.namprd03.prod.outlook.com
+ ([fe80::53a0:bf93:6b6b:de01]) by SJ0PR03MB5950.namprd03.prod.outlook.com
+ ([fe80::53a0:bf93:6b6b:de01%5]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
+ 09:13:41 +0000
+From: tze.yee.ng@altera.com
+To: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>,
+	Tze Yee Ng <tze.yee.ng@altera.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] hwmon: (socfpga) add Agilex 5 channel mapping
+Date: Mon, 14 Sep 2026 17:13:35 +0800
+Message-ID: <41bb317cbfb6f4e2711581f2ccb22071db17b19e.1789373027.git.tze.yee.ng@altera.com>
+X-Mailer: git-send-email 2.43.7
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR05CA0103.namprd05.prod.outlook.com
+ (2603:10b6:a03:334::18) To SJ0PR03MB5950.namprd03.prod.outlook.com
+ (2603:10b6:a03:2d3::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-="; micalg=pgp-sha512;
-	protocol="application/pgp-signature"
-X-ClientProxiedBy: se-mail10w.axis.com (10.20.40.10) To se-mail10w.axis.com
- (10.20.40.10)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MI3PEPF00008494:EE_|AMBPR02MB453737:EE_
-X-MS-Office365-Filtering-Correlation-Id: 33c648c8-ae2a-41d6-2bd1-08df123e84f0
+X-MS-TrafficTypeDiagnostic: SJ0PR03MB5950:EE_|IA5PR03MB989679:EE_
+X-MS-Office365-Filtering-Correlation-Id: dc23d273-f9f8-4763-6e39-08df12407802
+X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|376014|23010399003|1800799024|10067099003|22082099003|18002099003|56012099006|11063799006|13003099007;
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|6133799003|55112099003|18002099003|10067099003|56012099006|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	ImBcN0s1pZrv9waeuZM3sDVF6Xf/fWVf1jXs7HyhHM0Wd+3galPV17r2bLfaCI58+Dv5RAzz3tvj0L0991hEkmkMCMgZarmYWUE4Mv4BbpP/t/gLVpMBOjhjF2JtRbR2JGOyZzGHs0gzxn5XbUva0wuq8rETwCCC9MskfLsyQ1Q43yZL+BonZpF2SccOqqfL4z8JcbQ6Vmiy/9nGZ1wZn5STZ1wsVONa120oiuRGvf45iGMY6ZIrsMlppf9PqUakiZpwcChPrXTtgXgxHn/r+DdsxcoJ6O+108WU4dJy2yC0vghG57KJB62lfpboRxFXGXlI7ZyJcGcMbU81k2kW4pDIAtWT9kQl/Ye//2CzCw1BPFR1iH7z1cpd0cm6iYSeGog0idrhP+6t2eEkX+v2iBcy2kLBCQcK1/b1sH9KKJKxyaBN9DbOVEfR3bnrgBrxXHlrwrEue11Paug6svhwb/xMobWTEBGzNUk15p/4mhTut/H4dJvxxZ+pB+90pl+OXTHNw3QPTMZH8ES/C875ir/UFFrZoUE4cIWuC/qI7WkPCOnArGV9aVb8DYxwFxsd/XZcw5TLPZhrZYOxJ/Ju9lDMBH8mWd+9EIeOq6WP4HjDczsfnXPDj3mXMRnxHx5FWeCrRICSw+iIgcCSYl9S9qbFHAd1ZWENK5V0p3tjRr8=
+	ViFdz7FY2cgdN7UzHJdlE0rC+VplLkksfDQUR42JRgLSGQU+GK6Shbxw9IXi8+djXMfnozCAwR/N/jwsNLJADdI3Uq2QTODWXumXoa0glwoGDiLHh6ewQEA94XOtAnJmB14uB+7BtwwHurV0M4+/P8dSxjpW9a2bTc7gu5mpqEHQw5r6x3zA+P4kOGKooD1/DptYv7hafPSZKjDZ1a4QHPbeAokFm+QDGZJWAoetQIjdS1JxBHmovnBqN1GSZ9Dh1C4/gg3T5OVPP2Es6pMHoXXGGf6Lnqr5/qkVo4lDp2yT474Kr47UTZwbElPe9+zg/s/zGFHe0iTc+vDodxC8SyEbNp3jQktirE0DpN3I+fjLLJ6mgzXXD70r+RdxjmlE3WgsTvpwlcJLY3T/ugk0VYUBxJqHiiWh6eAU9+ZKkgtNc5p+YUtp4BhJd3/UwFALPqKmR8kFoW9t2FhX1LJoTajlDsnbKXkEb5keSrvoDZznit8Q3KS8z96yi+F9gMnbpDIz4RLC8xrSGU/ycDxRfvNkOGspcMvnIYZa38IQI0L0E6ri4Gzkw+lsYtOnv0Xhvyg/+GWN4w51mx2gtCbt0rUwC/Lb+kgy0Xo/ghu0ZKhmEl1IFpsc77D6+YZsWnjH13nHU7d6PiMxGJVz7bnjAIpBIZVKT6E0J1kKQJdmG3Y=
 X-Forefront-Antispam-Report:
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(23010399003)(1800799024)(10067099003)(22082099003)(18002099003)(56012099006)(11063799006)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB5950.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(6133799003)(55112099003)(18002099003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	z4+m6omZQfdVAHdSUSUSdnjcTuDPdiXFhq7QKgYo7J+88DMbdVNnBLtZVyQlshcGQFGMVuZG94Wpnb6V0mgwVvsQA3TCamy8/eVjAe9iwBSh1j/gvd27+DqJuj7yv3EW+9BFk2ET0T0BoZWFC4zzoj1JsTr89kR+2KU3AVtTeYhPwCahP+0dQ5j1kSv7vurfi87Isnndwjc8pHgQ2n/ckx/P6m+7ZPOWZSciH0p1wDxLR9LMotKM6RxAvMDjHrAhbhEV9xsBM2n14pJIyKaBvq6JipThzPEIaO1mSfai7QKTZHTImF4+yiLqpbCUkXfgHgCjVpctY2k+kZ7oEFJnkZttNDxBVBxERcmx9mxZKWbF7em42rhEWZ6bp2V7pgW19DZT6a9UGotHfPF8ZWlCyNiE1g3sf9cRrtO23B/cSpXIKBbPCcQyPug4QmJN0jBT
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 08:59:43.6919
+	=?us-ascii?Q?67dIyjzYDruyNDFPpw/R5bzFQLvJdQATZKOn/oe8lDiMbDKY4++JkWxsC4vp?=
+ =?us-ascii?Q?NHmkWA53hgFIWDPmXbJChJysTPvSzF/n14jMUm6tW3D9YCtAmcEwmoUFuKMr?=
+ =?us-ascii?Q?NxL2ZkXxDGMORCv7j9EyHu+0xEs2GOcfL1dRAPpbyJKebS1ZR1Dm9JwS2RVN?=
+ =?us-ascii?Q?IGi6sBn6sccuxgup8oYc3l+iBYmxhlFxQcn6UuiSlQT8uE6TBuVMRjawsMpM?=
+ =?us-ascii?Q?dCc7NUC9Lg9qcvIvLXASILBOyaLNlOPE/ZI8dI0GiM9X66/ZJWc+Q715nfOF?=
+ =?us-ascii?Q?Hn1hjCcuumYCSNqPJvvi1NMQ3xEYPUadcWRM0u6DVOT7SrwPIuZWZUem2KMN?=
+ =?us-ascii?Q?UX+rfs6hRY1OI8E3SxIvyOF3DDKHNA72S1IXxDE/VtKDXuKOn/oQW+TOghKl?=
+ =?us-ascii?Q?fFMNhanvGGjHz6n1JZhPWTn5pH46sC5KJprUGUQHvuOgQv81BDH9vM7Wvav7?=
+ =?us-ascii?Q?MCLbeZJUOAXASpC6TLAZZL3G9l1gbE7bVYWDSWD5iWrN5Dh8SZRK47Dd+6t1?=
+ =?us-ascii?Q?74T80F8RRGfPMH7o9dG1Hb3SAxcdJGSBRZIBqEy9bUJLaOIZh5sf4eD5Kd/f?=
+ =?us-ascii?Q?+uvLRUgluhaGgOLREOrlHU9lhcBotnAa/7KeYfCOJL/fE8tBYRiBh5Nozqiu?=
+ =?us-ascii?Q?sxS8D/LvCxthYqv1Wn+DZMarm6iUOBQiN+aQH7at0w5bz53vc+Di2Wg/Zp+J?=
+ =?us-ascii?Q?ZkQuBw+BzyckdGxacwNHMyq3HU3AhXg1Y7XlxYo7ysVlAQXL9MIb9lUL6ri5?=
+ =?us-ascii?Q?Nc8IKrusdztl+B/z6sJ7Nxe2Tee8LTt1O3eoiOEkBFJgREakn0SXLonLC09o?=
+ =?us-ascii?Q?zwmRVIGUKTnQ3cRM7B2Lb3XfvqC5t0m2Eu/xiraqnLXWdozJ+u45SAVe37EF?=
+ =?us-ascii?Q?uYyL1IJ+tlpidSBPEv2gXlzNcrgDxJ25KwNJGzqpi+IlpfohFSDVAgyPsq+b?=
+ =?us-ascii?Q?rDfFxkZSMDrzUcfQUX+lVwf588g9sNxdZn9Sso70IjuANad60NG6dmWDLw3S?=
+ =?us-ascii?Q?AA6JeJwBQJ6ees9+NjuU/jsP/8S7RkkFetmq96nqEuYavtqOCSIOeIeujh8b?=
+ =?us-ascii?Q?A83c6TJq6WNhUHEkaEBJh9zUxKX2qbmDdMf68Ek7cRvF4t2t8mF5GWh7r7am?=
+ =?us-ascii?Q?/bEyi5EnZ8PhBX+O0TzOatRwLmy/Gv1ehv1mVGWUF7iDmuv+8y5XoHVsAW3X?=
+ =?us-ascii?Q?Vdy8PInL8v5TiDW0KZGgoFudo5JVcODvHNNy5qi6XYthMkX3CxcMxD0ux0/k?=
+ =?us-ascii?Q?ikb5QUz8o9r+zFVOYj/DCB2jlr+KFw95WMUyvO7CSWuSzs6WU1GeVj3aarRI?=
+ =?us-ascii?Q?KUx4A0PKfON4c9td/46aOs73f6QnMM1hAMmlPMlwGvQ4BK8LwBRnSN0F/Itk?=
+ =?us-ascii?Q?YO+B0dYIEvP00+wgJyU5zsz6iJidug1xj2+XFOqul1tgyz+9dwj6MdLTRIF6?=
+ =?us-ascii?Q?TLaDD0Hko6hsuDpNcM7MrAdtbwT1D69PeoJJrDRn2LVXVZCBVr8L47MeYXpO?=
+ =?us-ascii?Q?s3MdXWo0sPxXmkjDqN0QaSdHOjOT4esMzSBFSSQLSpnoUcrO/o2Z6qn3nJlN?=
+ =?us-ascii?Q?+BXVn2VYV2o0A3ywXvXCuhIAHpd+PD7c/eh9bSQkSwd5tvGig0OxO4DJspTf?=
+ =?us-ascii?Q?WzVkIXcoAfczMcebj2Nx5zXCCfY4uw8qhnxPXPGXyinWIOArx4/JEhljuH0Q?=
+ =?us-ascii?Q?oetYNnumujXEu14rkh80thVqgK+b5RHhkKOuHTB/n5lcfExc5iPYWJOI8bSI?=
+ =?us-ascii?Q?vL2wrTTkqg=3D=3D?=
+X-OriginatorOrg: altera.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc23d273-f9f8-4763-6e39-08df12407802
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB5950.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 09:13:41.4119
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33c648c8-ae2a-41d6-2bd1-08df123e84f0
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MI3PEPF00008494.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR02MB453737
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DZTQuAct4FydRrO9cDDsH3Za30sTTp6dB3n+HuBDFiF1+cJtH7STJ/Htai279v7NFOYK40JXBJ+CBGaGV2DLNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA5PR03MB989679
 
---=-=-=
-Content-Type: text/plain
+From: Tze Yee Ng <tze.yee.ng@altera.com>
 
-On Fri, Sep 11, 2026 at 07:40 +0200 kernel test robot <lkp@intel.com> wrote:
+Add temperature channel mapping for Agilex 5 and bind it to the
+"intel,agilex5-svc" compatible string. Reuse the Agilex voltage channels.
+Agilex 5 omits temperature channel 2 (top-left corner) because that
+sensor is not present; remaining sensors keep Agilex channel numbers.
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   f2bfbc3554ca6919484030729424b9dee2942d24
-> commit: cb012fe405f0f487e9480472f3558e678556ed49 [5111/5916] power: supply: rt9471: Use POWER_SUPPLY_PROP_LOAD_SWITCH
-> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-> reproduce: (https://download.01.org/0day-ci/archive/20260911/202609110722.GAZVme6v-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202609110722.GAZVme6v-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    Using alabaster theme
->    WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
->    WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
->    WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
->    WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
->>> Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline emphasis start-string without end-string. [docutils]
+The "intel,agilex5-svc" compatible is added to the stratix10-svc match
+table by a separate patch [1]. Without that change the service layer does
+not bind on Agilex 5, so the socfpga-hwmon device is never created; this
+patch depends on it.
 
-[...]
+Update the socfpga-hwmon documentation to list Agilex 5, the matching
+compatible string, and the SDM temperature/voltage channel tables.
 
-I actually saw this in when working in [1]. Since this was present in
-many different files in `Documentation/ABI/testing/sysfs-class-power*`,
-I just assumed this was known and therefore deliberately ignored. Is
-that your view as well Sebastian? Otherwise, I can easily clean this up
-and make it correct once for all...
+Signed-off-by: Tze Yee Ng <tze.yee.ng@altera.com>
+Link: https://lore.kernel.org/all/20260907082203.2639395-4-adrian.ho.yin.ng@altera.com/ [1]
+---
+v2:
+ - Drop the dual-compatible rationale from the commit message and code
+   comments (Guenter Roeck).
+ - Note the dependency on the intel,agilex5-svc SVC patch.
+---
+ Documentation/hwmon/socfpga-hwmon.rst | 52 +++++++++++++++++++++++++++
+ drivers/hwmon/socfpga-hwmon.c         | 22 ++++++++++++
+ 2 files changed, 74 insertions(+)
 
-[1] https://lore.kernel.org/lkml/cover.1788290289.git.waqar.hameed@axis.com/
+diff --git a/Documentation/hwmon/socfpga-hwmon.rst b/Documentation/hwmon/socfpga-hwmon.rst
+index e5da42556a62..664103a38195 100644
+--- a/Documentation/hwmon/socfpga-hwmon.rst
++++ b/Documentation/hwmon/socfpga-hwmon.rst
+@@ -7,6 +7,7 @@ Supported chips:
+ 
+  * Altera Stratix 10 SoC FPGA
+  * Altera Agilex SoC FPGA
++ * Altera Agilex 5 SoC FPGA
+ 
+ Authors:
+       - Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+@@ -32,3 +33,54 @@ driver based on the service layer compatible string:
+ 
+   * intel,stratix10-svc
+   * intel,agilex-svc
++  * intel,agilex5-svc
++
++Channel mappings are fixed in the driver (not described in DT). The tables
++below list the SDM page/channel encodings used for each family.
++
++Temperature channels
++~~~~~~~~~~~~~~~~~~~~
++
++==========  ====  =======  =================================
++Family      Page  Channel  Label
++==========  ====  =======  =================================
++Stratix 10  0     0        Main Die SDM
++Agilex      0     0        Main Die SDM
++Agilex      1     0        Main Die corner bottom left max
++Agilex      2     0        Main Die corner top left max
++Agilex      3     0        Main Die corner bottom right max
++Agilex      4     0        Main Die corner top right max
++Agilex 5    0     0        Main Die SDM
++Agilex 5    1     0        Main Die corner bottom left max
++Agilex 5    3     0        Main Die corner bottom right max
++Agilex 5    4     0        Main Die corner top right max
++==========  ====  =======  =================================
++
++Agilex 5 omits SDM temperature channel 2 (top-left corner on Agilex)
++because that sensor is not present in hardware. The remaining sensors keep
++the same channel numbers as Agilex.
++
++Voltage channels
++~~~~~~~~~~~~~~~~
++
++==========  ====  =======  =================
++Family      Page  Channel  Label
++==========  ====  =======  =================
++Stratix 10  0     2        0.8V VCC
++Stratix 10  0     3        1.8V VCCIO_SDM
++Stratix 10  0     6        0.9V VCCERAM
++Agilex      0     2        0.8V VCC
++Agilex      0     3        1.8V VCCIO_SDM
++Agilex      0     4        1.8V VCCPT
++Agilex      0     5        1.2V VCCCRCORE
++Agilex      0     6        0.9V VCCH
++Agilex      0     7        0.8V VCCL
++Agilex 5    0     2        0.8V VCC
++Agilex 5    0     3        1.8V VCCIO_SDM
++Agilex 5    0     4        1.8V VCCPT
++Agilex 5    0     5        1.2V VCCCRCORE
++Agilex 5    0     6        0.9V VCCH
++Agilex 5    0     7        0.8V VCCL
++==========  ====  =======  =================
++
++Agilex 5 reuses the Agilex voltage SDM page/channel layout and labels.
+diff --git a/drivers/hwmon/socfpga-hwmon.c b/drivers/hwmon/socfpga-hwmon.c
+index 5b43274d0aa2..5fe5ccab1e4f 100644
+--- a/drivers/hwmon/socfpga-hwmon.c
++++ b/drivers/hwmon/socfpga-hwmon.c
+@@ -433,6 +433,26 @@ static const struct socfpga_hwmon_board_data agilex_hwmon_board = {
+ 	.num_volt = ARRAY_SIZE(agilex_hwmon_volt_channels),
+ };
+ 
++/*
++ * Agilex 5 exposes the SDM and three corner temperature sensors. Channel 2
++ * (top-left corner on Agilex) is not present in hardware, so the SDM channel
++ * numbering keeps the gap (0, 1, 3, 4) rather than renumbering.
++ */
++static const struct socfpga_hwmon_channel agilex5_hwmon_temp_channels[] = {
++	{ SOCFPGA_HWMON_CHAN(0, 0), "Main Die SDM" },
++	{ SOCFPGA_HWMON_CHAN(1, 0), "Main Die corner bottom left max" },
++	{ SOCFPGA_HWMON_CHAN(3, 0), "Main Die corner bottom right max" },
++	{ SOCFPGA_HWMON_CHAN(4, 0), "Main Die corner top right max" },
++};
++
++/* Agilex 5 reuses the Agilex voltage SDM page/channel encoding and labels. */
++static const struct socfpga_hwmon_board_data agilex5_hwmon_board = {
++	.temp = agilex5_hwmon_temp_channels,
++	.num_temp = ARRAY_SIZE(agilex5_hwmon_temp_channels),
++	.volt = agilex_hwmon_volt_channels,
++	.num_volt = ARRAY_SIZE(agilex_hwmon_volt_channels),
++};
++
+ static const struct socfpga_hwmon_board_data *
+ socfpga_hwmon_get_board(struct device *dev)
+ {
+@@ -443,6 +463,8 @@ socfpga_hwmon_get_board(struct device *dev)
+ 
+ 	if (of_device_is_compatible(np, "intel,stratix10-svc"))
+ 		return &s10_hwmon_board;
++	if (of_device_is_compatible(np, "intel,agilex5-svc"))
++		return &agilex5_hwmon_board;
+ 	if (of_device_is_compatible(np, "intel,agilex-svc"))
+ 		return &agilex_hwmon_board;
+ 
+-- 
+2.43.7
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJKBAEBCgA0FiEEJ8UDrpF3Qa2EMzPqAqqYDPCo9PIFAmqnt3kWHHdhcWFyLmhh
-bWVlZEBheGlzLmNvbQAKCRACqpgM8Kj08n4vD/9WzUDTWNZaw3nDqKfh6Xr6pplh
-3K/h0SClceJlrueYDKg4p/pxOVTRm1ZCibxJiaIEp234ivRgDIN9y2j0XZXlmDW+
-v3f8QqwqoKpGLO8Vh92zUJ+qaQoa0+ifWXHSKZYlCIq3Qr8S/jCR5TEDNqA3qmG1
-RZUjQmLKymvUfz+Jlh1Pm7+3SeosxIN3MqQLG54PgZ5FQyl9wccBMXMohckee4nU
-ad5xY+1vGPk7xYB6NCpNRTWs9/qbMcRR3/JcgMeCM5UCbQUV+WqfyKz/U17mXo8k
-kro8FU66TRLQ7JpovrrKYPYDkEDFqmsMfQxzjd/UFD5mSgOJOoXZrBkhzzCJo6V6
-P6t84WfMpghtq3ymFAr11R6Drg4MKS9a9nGYGxtz5sXK8gb9NM9t6rqm+Ovun+C/
-UUo+BTakXWbxbdOxH8xZpfkHAh+C2u8BV7M7wx043VVXS5rA2rMQ0Q0h5LDjdZGo
-+hJpUt5OeZJGT46/w29HWXWiwD0GQ33d+lJRlO+7uBS3g2/VeloaiN7udI5CTtlS
-ZK0AmFJWgTIDG0kg7niBYc4fie8IlZ2jU013fL77MOFKzPWa4rFqzrLvPsNak+oS
-rzcdUya6EW8iL+AhjqeVh57b5Lk/TYf79OJl6XSO0DerR8TKDOXkY8byVrvMrCA4
-j1J7VG6x9TQrHqxTMg==
-=3z85
------END PGP SIGNATURE-----
---=-=-=--
