@@ -1,129 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC51033998;
-	Mon, 14 Sep 2026 01:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B832AD35;
+	Mon, 14 Sep 2026 02:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789348837; cv=none; b=Po00GjIuN05jq/Sap93cgZnYsn6hWgqqLOkQtqILCxGRWxe57WQrQNJFN5Zfgb2l96SU2vuDqaDO1iclZXz9QLKYYhMKwqb63pHOhzBzG967qGB8bt22yT9VD7liiG93mod3/tEMTR6gpsTrJiJofY6W1lP89J4mSbDcHvtOjuM=
+	t=1789351304; cv=none; b=OTeAIxHQzrePSK5/jLf3kMsg86/KtWyN+nifSnkjEshQUVw+hVCdc4gD1RyFgPkuPMkMqbTs3wisMADsUnj25LsW2Ut2X2tYfeP81AB05WkDLjdzVOo4pPv8BsTyzahRUukTM5sg6FcdbA4abIBi054L2TyVAERgGdPpbCRiiY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789348837; c=relaxed/simple;
-	bh=3ca8p5g2xMf5iWc0hlpy7f7BLo6a5dixz41iJOhoJH0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c7/8KN+YI55rkhwgaLw301TWCutvDrW2qpvY+6/eie/t6hU5EmNXNEYJdA5f2/uqlP7t0cHMDZcJZ0OzB+J3zEqYhYbI1Q+MxAkp6NhWuspKvuO2a0W12EqbFdWDlLVa+FSyVNjw2adApguAemHDBFyo+ENFecZZu/8fX9023Uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kq24UEU3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789351304; c=relaxed/simple;
+	bh=04k4f9e5gea5+x/CyoY7hoQpWb9+xswIoo6JawiSkYs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ayp/xzWbm3BhSNTWPXIUxku4qrXzE/J8cHMLM888qHUgdqfosQiwUmx4cIw99jTK3AK+UwxNqc9eLmfi86CtXEYF65tVEkFUAsdP/6LmKJlpnJYk61K8Uk8UgCwTaXMfselDbQx82yB2Gh3RDAWIijOuy6BA5mpf0r5OEampcN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RNX6qIEI; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kq24UEU3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EF0F1F000FF;
-	Mon, 14 Sep 2026 01:20:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789348835;
-	bh=cjQJOduHqAwj6o7DipSItmVFnQfPwlvihYn4mDcpUD0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kq24UEU3HqY8/TTUrb1EXUbWdo5ZauWVeW/Z5ll7ftQHqY4sVATatElsiAsoBMR6q
-	 D+d8stydFiSSF70rz4XefQXbO/yl93pWYgxUwmcVaIY7qkMn86/thfoU+Vdz8H3D9p
-	 /59xH3aSNtdc27ZV6rpmcEWnxftOSsxILMWWvfXL5tkRE3apKASq2hSI6iP9hjQUla
-	 FglS3eUuU8hbp/h41PmnY583lhfq8P3L9lapGAriHK4U+RmWUAD2zcigPP9bkIp5AT
-	 7RxBcSDSqSM6zvdg3OBqzg1ZBLcLhbHpCwpjPSh11u9fSqDLT6dveM0/K4Ln7FmtqZ
-	 DenlbWQmZFsjw==
-Date: Sun, 13 Sep 2026 22:20:31 -0300
-From: Arnaldo Carvalho de Melo <acme@kernel.org>
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>, Leo Yan <leo.yan@arm.com>,
-	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suyash Mahar <smahar@meta.com>, Leo Yan <leo.yan@linux.dev>,
-	linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 00/14] perf cs-etm: Per-thread mode fixes and snapshot
- wrap support
-Message-ID: <aqdL33fw9AoxTrPq@x2>
-References: <20260811-james-cs-unformatted-per-thread-fix-v1-0-90565318f5f8@linaro.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RNX6qIEI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=0K3FOZW0zXjce4YXC5/62Q2NjlSiguNAa7sWXDR+mmA=; b=RNX6qIEImbEpECsvjNGu91bNRz
+	yaSVbyKOKYXWyh9Nor9441rBV7Z+ldsK3+YQBshlzZcvrAwMhF/ylVGXbZnVmyvGLYbPx38cTHGTn
+	qx7O1+KBCv8GGsUZBXDJU9a/l2/6yEZ2u7XVxXJIjvAFE+grSdWJtJCczgRmFRQPiZkt1602SwW1r
+	a6oUln1Sw5PA2faxleEzQ2DlEm7o9D+HgHD0/5p089Q1V1IHA1NttaNNzZV37TtMvWAMaE0YZfb4c
+	rIKtkpklpccmMKeDlEqjjlGXaq5lUvVir3/EU7LeLBairbXCoU13wkfcSoMJjad4ISvBDRkDWr4DN
+	9R5zjqBA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x5w0l-00000002AKp-2Bzk;
+	Mon, 14 Sep 2026 02:01:35 +0000
+Message-ID: <38c933e8-b026-42e7-8b68-6b469e39abe9@infradead.org>
+Date: Sun, 13 Sep 2026 19:01:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260811-james-cs-unformatted-per-thread-fix-v1-0-90565318f5f8@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] platform/x86: bitland-mifs-wmi: Support WUJIE15 PRO HPT
+To: Bozhen Peng <bozhenpeng93@gmail.com>, Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Armin Wolf <W_Armin@gmx.de>, Gladyshev Ilya <foxido@foxido.dev>,
+ Mingyou Chen <qby140326@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, platform-driver-x86@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <0da43a8c-1755-49fe-b8e2-403489297f06@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <0da43a8c-1755-49fe-b8e2-403489297f06@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 11, 2026 at 04:30:03PM +0100, James Clark wrote:
-> Fix a few issues with per-thread mode:
->   - With TRBE, thread migrations hit a queue without a decoder assert
->   - On nVHE, everything looks like guest trace instead of host
->   - Tracing multiple threads didn't really work
+Hi,
 
-This series applies cleanly to perf-tools-next but has no Reviewed-by
-nor was processed by Sashiko.
+On 9/13/26 6:12 PM, Bozhen Peng wrote:
+> diff --git a/Documentation/wmi/devices/bitland-mifs-wmi.rst b/Documentation/wmi/devices/bitland-mifs-wmi.rst
+> index 9e86ecc29..fd966cf18 100644
+> --- a/Documentation/wmi/devices/bitland-mifs-wmi.rst
+> +++ b/Documentation/wmi/devices/bitland-mifs-wmi.rst
+> @@ -7,6 +7,37 @@ Bitland MIFS driver (bitland-mifs-wmi)
+>  Introduction
+>  ============
+>  
+> +MECHREVO WUJIE15 PRO (HPT) firmware variant
+> +-----------------------------------------
 
-Can somebody from the ARM camp take a look at it, please?
+The underline should be at least as long as the heading line.
 
-Thanks,
+-- 
+~Randy
 
-- Arnaldo
- 
-> After adding a tests for those, it turns out there were some snapshot
-> bugs not picked up by the other snapshot tests. That showed that the
-> different snapshot searches for Intel BTS and Arm SPE were inconsistent
-> and I think all tracers can benefit from using the same pointer fixup
-> logic, so that gets refactored into the common auxtrace.c. Then SPE can
-> just share the Intel BTS search as it was obviously copied from it
-> originally. IntelPT keeps the more advanced duplicate data search, but
-> in the future that could probably be made the common one and all tracers
-> would benefit from using it (except maybe BTS if it always has a very
-> small buffer, but I doubt the overhead of the duplicate search would be
-> an issue). For now this is more of a refactor rather than behavioral
-> change so don't do that yet.
-> 
-> Signed-off-by: James Clark <james.clark@linaro.org>
-> ---
-> James Clark (14):
->       perf cs-etm: Fix nVHE per-thread decoding
->       perf cs-etm: Warn for invalid timestamp option
->       perf cs-etm: Turn on context packet timestamps in per-thread mode
->       perf cs-etm: Use per-CPU queues for per-thread mode
->       perf cs-etm: Increase default timestamp generation period
->       perf auxtrace: Turn Intel BTS snapshot search into a generic one
->       perf arm-spe: Use generic snapshot search
->       perf auxtrace: intel-pt: Use new snapshot_has_wrapped callback
->       perf cs-etm: Queue partial AUX records
->       perf cs-etm: Don't print missing buffers in snapshot mode
->       perf auxtrace: cs-etm: Capture wrapped snapshots
->       perf test: Allow infinite named_thread loops
->       perf test: Add test for per-thread mode
->       perf cs-etm: Test multiple per-thread threads
-> 
->  Documentation/userspace-api/perf_ring_buffer.rst   |   6 +-
->  tools/perf/Documentation/perf-test.txt             |   2 +-
->  tools/perf/arch/arm/util/cs-etm.c                  |  30 ++++-
->  tools/perf/arch/arm64/util/arm-spe.c               | 147 +--------------------
->  tools/perf/arch/x86/util/intel-bts.c               | 115 +---------------
->  tools/perf/arch/x86/util/intel-pt.c                |  58 +++-----
->  .../perf/tests/shell/coresight/per-thread-multi.sh |  78 +++++++++++
->  tools/perf/tests/shell/coresight/per-thread.sh     |  48 +++++++
->  .../perf/tests/shell/coresight/raw_dump_stress.sh  |   5 -
->  tools/perf/tests/workloads/named_threads.c         |   7 +-
->  tools/perf/util/auxtrace.c                         | 136 +++++++++++++++++--
->  tools/perf/util/auxtrace.h                         |  20 ++-
->  tools/perf/util/cs-etm.c                           |  98 ++++++++++----
->  13 files changed, 382 insertions(+), 368 deletions(-)
-> ---
-> base-commit: bf10e6ee2ac3034c9068e03eed418fd16961984e
-> change-id: 20260605-james-cs-unformatted-per-thread-fix-50e723aa7f0e
-> 
-> Best regards,
-> --  
-> James Clark <james.clark@linaro.org>
