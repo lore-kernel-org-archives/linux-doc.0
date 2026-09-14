@@ -1,87 +1,110 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B249A409632;
-	Mon, 14 Sep 2026 08:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mta0.migadu.com (out-48.mta0.migadu.com [91.218.175.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED73D3F327D
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 08:20:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789373628; cv=none; b=LRYGdwBZwRut8agemcx040kOlqtcZpIITpQha85iTyhwZyI1zIj6vnb2fql5/dqEqojODSJ1Rm6+O3UTVxGPqcsSpOm3/pPxUAUGQp7UfXN5LxrznpXDAJX4arA28ISuTAwai8ZqO/FKSzjfDxzbgw24EmCPGyaV2iyYnPUZTXc=
+	t=1789374003; cv=none; b=n6rBZAPP5hUmnChlPlQwjy7DLqudqM6KvDbcAr4xkNM7VUdzlLBEtiDJpdZlfIMCQapsdTgOHoBMGyWMfS/kFjGygRmpcDTeUJm6XZzHXxODKc6FtSBhU/6i4h+UbWFQBfDqjwBuh+Qke+G5q6MbV1Z8M6aG/xnAjrY/9Y0nctQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789373628; c=relaxed/simple;
-	bh=IUx9npSbM6aOGbT981H4LjgrA0kKmEs/fDvfjpfynoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pTO9ADwfWBDcCLeQZa0kWcpfGAteLjIwIkvSGpVpCryTQJfbk0UHU4CToZ4G8mu/86BrWrpd3ytzRg0fls91jBUKE7XXLmqIseqNb1F67Q76LRtQXkgTOyPPRcy85zhohJqFH+0bd2E9rX0gUtR35l8O1fn4Fh+vnBAx+InUD0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Ie0F5Yrz; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1789374003; c=relaxed/simple;
+	bh=U7vTt2iELlQ0EEFdakKRfkx0wSobYgfSFzBqINVEnHs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 In-Reply-To:References; b=Q/S2luG5aYlybqX9WldrOrsJugih+eOjbPoriKZa38v5dp8UTbjc6jXP0sFNM97hc3IphNbkgM2lt2nLJ3AKaM29V/f2P5CKJRGYt7PkauuJc5kb/qkdxOr6cW4LbAY9mgi9DYSWWOEYIa5Cl6GcoUKyy4tmx5FdN5f7o00x6Ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UK7DmuMD; arc=none smtp.client-ip=91.218.175.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Ie0F5Yrz"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 294771570;
-	Mon, 14 Sep 2026 01:13:42 -0700 (PDT)
-Received: from localhost (unknown [10.2.196.114])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 65B693F7B4;
-	Mon, 14 Sep 2026 01:13:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789373625; bh=IUx9npSbM6aOGbT981H4LjgrA0kKmEs/fDvfjpfynoU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ie0F5Yrzn4+JUTJXdJ59qKHeSnntkVs/evhaYFzCMI5fXmKYH+ALw+LAaNOIZflIx
-	 cchmn6Qw7oauzbwstdIZIrMFDU5g5YkP0LZS323YQUWkpNicFH6hRlQqRd42sDydXD
-	 VqDiywdnOT+pXi0AJXMsRgbNU6Aemrf8+CG/mmpE=
-Date: Mon, 14 Sep 2026 09:13:43 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: James Clark <james.clark@linaro.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>,
-	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suyash Mahar <smahar@meta.com>, Leo Yan <leo.yan@linux.dev>,
-	linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 00/14] perf cs-etm: Per-thread mode fixes and snapshot
- wrap support
-Message-ID: <20260914081343.GF200420@e132581.arm.com>
-References: <20260811-james-cs-unformatted-per-thread-fix-v1-0-90565318f5f8@linaro.org>
- <aqdL33fw9AoxTrPq@x2>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UK7DmuMD"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=U7vTt2iELlQ0EEFdakKRfkx0wSobYgfSFzBqINVEnHs=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789373998; v=1; x=1789978798;
+ b=UK7DmuMDV0VPrT5MmKknXCqLYrMAI/3rY1tOmAtZZL5XIAOpbl7EE374D19gQGnOPXE4LDgv
+ k2Um6ED2NATlrru+MbYUXcGbZXWmtV+f7di7ZqQ2yq5HRFNxc317ZO30E23i79Ks0cePx8El0No
+ AqMVoFOZDQSWY5YN844+v+L4=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta12.migadu.com with ESMTPS id 85b6144fd9a19aa4;
+	Mon, 14 Sep 2026 08:19:58 +0000
+X-Mizu-Trace-ID: 85b6144fd9a19aa4
+X-Migadu-Flow: FLOW_OUT
+From: Troy Mitchell <troy.mitchell@linux.dev>
+Date: Mon, 14 Sep 2026 16:18:03 +0800
+Subject: [PATCH v5 3/6] dt-bindings: hwmon: Add Sensylink CTF2301
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqdL33fw9AoxTrPq@x2>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260914-ctl2301-v5-3-522def70acb4@linux.dev>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Yixun Lan <dlan@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: Troy Mitchell <troy.mitchell@linux.dev>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+ linux-doc@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
+In-Reply-To: <20260914-ctl2301-v5-0-b44b81cd2c3c@linux.dev>
+References: <20260914-ctl2301-v5-0-b44b81cd2c3c@linux.dev>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1686;
+ i=troy.mitchell@linux.dev; h=from:subject:message-id;
+ bh=U7vTt2iELlQ0EEFdakKRfkx0wSobYgfSFzBqINVEnHs=;
+ b=owGbwMvMwCU2g/N9w09jE33G02pJDFnL1x76eWbBXPl7F+xPi/5g/Tg77+OZHetkKg7IdR5t6
+ xb8IHrIsqOUhUGMi0FWTJGl+wHPtgKfKNsCgUJfmDmsTCBDGLg4BWAiJy8y/GRMuGXty6XuH9Lj
+ l1CYWmXifsWjbZ64w4c5n+eXKc85fIKRYV76CZb9U913eTW3f6nbbRjNZHAsTkhQ5u5be+9lVud
+ 2MgEA
+X-Developer-Key: i=troy.mitchell@linux.dev; a=openpgp;
+ fpr=3FE5535CF1B0E658E57DB59BAE1C2FBEA7DB42E1
 
-Hi Arnaldo,
+Add the Sensylink CTF2301 temperature sensor and fan controller to the
+LM63 family binding. The chip follows the LM63 register model and can
+provide a thermal cooling device when #cooling-cells is present.
 
-On Sun, Sep 13, 2026 at 10:20:31PM -0300, Arnaldo Carvalho de Melo wrote:
-> On Tue, Aug 11, 2026 at 04:30:03PM +0100, James Clark wrote:
-> > Fix a few issues with per-thread mode:
-> >   - With TRBE, thread migrations hit a queue without a decoder assert
-> >   - On nVHE, everything looks like guest trace instead of host
-> >   - Tracing multiple threads didn't really work
-> 
-> This series applies cleanly to perf-tools-next but has no Reviewed-by
-> nor was processed by Sashiko.
-> 
-> Can somebody from the ARM camp take a look at it, please?
+Do not provide a national,lm63 fallback because the CTF2301 is not fully
+compatible with LM63. It uses different conversion-rate encodings,
+extended local-temperature registers, additional fan lookup table
+entries, and device-specific PWM and ALERT/TACH configuration. An older
+LM63 driver would therefore not operate the device correctly.
 
-James has sent v2 [1] and I gave some words on it. Adrian also has one
-comment for snapshot callbacks refactoring.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
+---
+ Documentation/devicetree/bindings/hwmon/national,lm63.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Sashiko also sent out review on the series.
+diff --git a/Documentation/devicetree/bindings/hwmon/national,lm63.yaml b/Documentation/devicetree/bindings/hwmon/national,lm63.yaml
+index f2e0993cfbef3..4c8d0a15fbd12 100644
+--- a/Documentation/devicetree/bindings/hwmon/national,lm63.yaml
++++ b/Documentation/devicetree/bindings/hwmon/national,lm63.yaml
+@@ -12,7 +12,8 @@ maintainers:
+ description: |
+   The LM63 family provides local and remote temperature monitoring together
+   with fan speed monitoring and PWM fan control. Supported devices include
+-  the National Semiconductor LM63, LM64 and LM96163.
++  the National Semiconductor LM63, LM64 and LM96163, and the Sensylink
++  CTF2301.
+ 
+ allOf:
+   - $ref: hwmon-common.yaml#
+@@ -23,6 +24,7 @@ properties:
+       - national,lm63
+       - national,lm64
+       - national,lm96163
++      - sensylink,ctf2301
+ 
+   reg:
+     maxItems: 1
 
-Thanks,
-Leo
+-- 
+2.55.0
 
-[1] https://lore.kernel.org/linux-perf-users/20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org/
