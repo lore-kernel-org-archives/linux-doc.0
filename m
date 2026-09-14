@@ -1,118 +1,176 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5AB385D8E;
-	Mon, 14 Sep 2026 18:32:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B54137B40C;
+	Mon, 14 Sep 2026 18:34:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789410736; cv=none; b=hCgxWav00xixAnW1OHdILFemqIltfiMMvLpIBp6UQOKdU8ZVE+/6z4u8dhngz89IKeialhPh/VXXTLsiLnTPw6D/MnmMQ303uJ7YJPkrZFv8q2ymZoh6De1smbKl9mxByyEpDRrH+UsLxEJOXoH+o0jSCu73gQabrgaUcTiY0ho=
+	t=1789410896; cv=none; b=KlwmunIkETA0BjRjrIUCV+K/sPlmR+HcFwx3btXYa2ehQoUB3hwMm6T7K96566B5BzPqL+kXdWbbOs99fqtw1w7q4OvOzcd3rZ4A8Q/oAVFmu/y9M8qua8lOUEDzyUtk2WWyLWMMawu2FIC5VJQKgJOhDnkFL2w6p6qcoi0Vz3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789410736; c=relaxed/simple;
-	bh=D2+hleGXIMDN227b5SNY36r7EzpYxCREKmva1l2nkHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nv8YZUORR9KkQpXQ/WxoTj3VMl+zvfVc2n39giYCHlYb0Y6+D3kxMYM2GCbMVC4KO3pp3+2BpscVskTrOBXfn6wq98hR9khr9LkrLhYntrHeByGvSPP754tz3+vq/JimqnucM5Zpg1JJtP++O3vjMIlNvziOFEn6pm35sRfBwlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LT1cFNgk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789410896; c=relaxed/simple;
+	bh=HeEHSOmnu6L0MO+BvK8YZCzbsf5XxGPND3GMPmB3hBs=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HpqfeJEZfQ4aKfCQPdC1KG/8AlA3Ez7FV+hWwgBmTnvO+bGWU7Amn0afj5hmMauunLRVR2bTPTHlbBIplbUYGkXLeuUeiSMCMAeYFKunbDe1P9UVhmyHtEZ7KCN/u+PYjz/hZ8GLcO8DtkqllwN5bYDWV8N1qJ0wzvJj2oeDuUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nqJaG1dc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LT1cFNgk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5DB41F00893;
-	Mon, 14 Sep 2026 18:32:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nqJaG1dc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7899A1F00893;
+	Mon, 14 Sep 2026 18:34:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789410734;
-	bh=qh1ZerciXS6mhhgUbgOWtjBtb3wIfa62KF3pRdi9HRg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LT1cFNgkvbD3eoVT/UaBEH3+r1ZmImzoNjg1sB0fKgYfiWphX+2k3leDEJjTKPvkI
-	 UCeZKsCtpOsU1Qh6ZRgd9PGKscvkwgEZ/CXkgLZsggzcTd3LcxREE5AMbc7rSZ176a
-	 7gNUxLvYBfZ5rTEMblheppVavtWDrYGJ9aihGEv2SwKX80uE2nVnkBoFYyryneR1eY
-	 l99LJZaV59sYUO8uU85RDxazHEX6uhwHzX4FGdH4s0ESmZYKyjLD5malFkq7HqRZYp
-	 MO93SpFQpfLWTJCfXhlr1iU+iBNmOcV7d+vp6+IkNPD3Hj/IjfJ9MaHA5ebXh1WWUJ
-	 +Cz7fAfk/ogdA==
-Date: Mon, 14 Sep 2026 11:32:14 -0700
-From: Kees Cook <kees@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 18/21] kbuild: rust: optionally parallelise rustc
- front end
-Message-ID: <202609141124.F24B6F77@keescook>
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
- <20260914-build-speedup-v2-18-39817ec5db23@kernel.org>
+	s=k20260515; t=1789410893;
+	bh=zuQ/cNLib+ohmA59rvN9InBTbPJi2qXYvtBFBlrAdGE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=nqJaG1dcJayOMBnu2uuw6XjZBRPU4XOcId6PE3UBFB3sRu3lUaLGUlZtyXgSn88a8
+	 DhWyLabQW0B7ttHmNuRjKNGJaNz6sZWDDGKxsDuyeV5dwWecayGIogEJo00EFxRYF1
+	 AfkTTllMlvrTaecUvImio6rGTNXivEC6drRXfnz/3uqvskNnLfVcblG1pZfJi5tF38
+	 6DDKwCFNy7qHTR8xUqe0GKAFPRzpSfyI4o2idA016BQKpqJJcIxCZ0KaAPgHJyayxL
+	 e9OKOl59Fd/MjcuFHX8aFuwmm/oFlxtJf2jYqdZ/Zgc6g+lEfkO2W3s5wrAzyf8ktm
+	 14qstqILo3K/w==
+Subject: Re: [PATCH net-next v15 1/6] net: dsa: add devlink flash_update
+ callback to dsa_switch_ops
+From: netdev-bot+sashiko@kernel.org
+To: daniel@makrotopia.org
+Cc: jiri@resnulli.us, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, gregkh@linuxfoundation.org,
+ rafael@kernel.org, dakr@kernel.org, andrew@lunn.ch, olteanv@gmail.com,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
+Date: Mon, 14 Sep 2026 18:34:51 +0000
+Message-ID: <178941089199.22033.6731579125161335389@kernel.org>
+In-Reply-To: =?utf-8?q?=3Ca35ce7431d32ff6802e1bd1d5f0988756cd91e82=2E1789175?=
+ =?utf-8?q?618=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
+References: =?utf-8?q?=3Ca35ce7431d32ff6802e1bd1d5f0988756cd91e82=2E17891756?=
+ =?utf-8?q?18=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260914-build-speedup-v2-18-39817ec5db23@kernel.org>
 
-On Mon, Sep 14, 2026 at 10:22:17AM +0100, Lorenzo Stoakes (ARM) wrote:
-> The threads are taken from make's jobserver, so a parallel build is not
-> oversubscribed. It was found that benefits level off at 8 threads (16 was
-> found to be around the same, and 32 slower).
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider:
 
-I think it's worth noting that this comes from rustc itself (it has
-built-in support for the make jobserver). See commit ecab4115c44c
-("kbuild: mark `rustc` (and others) invocations as recursive").
+Critical: 0 · High: 0 · Medium: 0 · Low: 1
 
-What happens when there is no jobserver, e.g. "make" without -j, or
-"make -j1"?
+- [Low] net/dsa/devlink.c installs `.flash_update =
+  dsa_devlink_flash_update` unconditionally in the single shared…
 
-> [...]
-> rustc has a parallel front end, enabled with -Zthreads, available since
-> rust 1.84 [0] and therefore on every rustc the kernel supports.
-> 
-> It is not yet stable and its output is not reproducible, so it cannot be
-> [...]
-> +The number of threads rustc's parallel front end may use, passed to it as
-> +``-Zthreads``. Unset by default, as the parallel front end is not yet
-> +stable and its output is not reproducible. The gain levels off at 8
-> +threads.
+--
 
-Okay, unstable, not reproducible.
+net: dsa: add devlink flash_update callback to dsa_switch_ops
 
-> Generated output was confirmed byte-for-byte identical.
+This adds a devlink_flash_update callback to dsa_switch_ops and a
+trampoline in net/dsa/devlink.c that forwards devlink dev flash requests
+to the driver. The trampoline is installed unconditionally in
+dsa_devlink_ops and returns -EOPNOTSUPP when the driver does not
+implement the callback.
 
-But this says otherwise? I am confused. Reproducible or not?
+> diff --git a/net/dsa/devlink.c b/net/dsa/devlink.c
+> index ed342f345692b..25311a87cbc56 100644
+> --- a/net/dsa/devlink.c
+> +++ b/net/dsa/devlink.c
+> @@ -20,6 +20,18 @@ static int dsa_devlink_info_get(struct devlink *dl,
+>  	return -EOPNOTSUPP;
+>  }
+>  
+> +static int dsa_devlink_flash_update(struct devlink *dl,
+> +				    struct devlink_flash_update_params *params,
+> +				    struct netlink_ext_ack *extack)
+> +{
+> +	struct dsa_switch *ds = dsa_devlink_to_ds(dl);
+> +
+> +	if (!ds->ops->devlink_flash_update)
+> +		return -EOPNOTSUPP;
+> +
+> +	return ds->ops->devlink_flash_update(ds, params, extack);
+> +}
+> +
+
+[ ... ]
+
+> @@ -169,6 +181,7 @@ dsa_devlink_sb_occ_tc_port_bind_get(struct devlink_port *dlp,
+>  
+>  static const struct devlink_ops dsa_devlink_ops = {
+>  	.info_get			= dsa_devlink_info_get,
+> +	.flash_update			= dsa_devlink_flash_update,
+
+[Severity: Low]
+Since dsa_devlink_ops is shared by every DSA switch, does this make
+devlink->ops->flash_update non-NULL even for the majority of drivers that
+do not set ds->ops->devlink_flash_update?
+
+The devlink core uses that pointer as the capability gate for the whole
+feature, in devlink_nl_flash_update_doit():
+
+	if (!devlink->ops->flash_update)
+		return -EOPNOTSUPP;
+	...
+	ret = request_firmware_direct(&params.fw, file_name, devlink->dev);
+	if (ret) {
+		NL_SET_ERR_MSG_ATTR(info->extack, nla_file_name,
+				    "failed to locate the requested firmware file");
+		return ret;
+	}
+
+	devlink_flash_update_begin_notify(devlink);
+	ret = devlink->ops->flash_update(devlink, &params, info->extack);
+	devlink_flash_update_end_notify(devlink);
+
+With that early return now unreachable for DSA, two behaviour changes seem
+to follow for switches that do not implement the callback:
+
+- devlink dev flash with a missing or unreadable file returns -ENOENT with
+  the extack "failed to locate the requested firmware file" instead of the
+  previous -EOPNOTSUPP, which hides the fact that the device cannot be
+  flashed at all.
+
+- a DEVLINK_CMD_FLASH_UPDATE / DEVLINK_CMD_FLASH_UPDATE_END notification
+  pair is multicast for a device where no flash takes place.
+
+Does the same apply to the legacy ioctl path?  DSA user ports have no
+ethtool_ops->flash_device, so ethtool_flash_device() falls back to the
+attached devlink instance:
+
+	if (!dev->ethtool_ops->flash_device) {
+		req->devlink = netdev_to_devlink_get(dev);
+		return 0;
+	}
+
+and devlink_compat_flash_update() carries the same gate that is now dead
+for DSA:
+
+	if (!devlink->ops->flash_update) {
+		ret = -EOPNOTSUPP;
+		goto out_unlock;
+	}
+
+so ethtool -f swpN file would read the file and emit the begin/end
+notifications before failing.
+
+There is also devlink_flash_component_get(), which infers component-update
+support from ops->info_get being non-NULL; DSA's info_get trampoline is
+installed unconditionally too, so a component request on a switch without
+either callback now gets past that check as well.
+
+The commit message covers part of this:
+
+    the devlink core will then have fetched the firmware file from
+    userspace before the request fails, which is acceptable for an
+    operation as infrequent as a firmware update.
+
+Could the errno change from -EOPNOTSUPP to -ENOENT and the emitted
+FLASH_UPDATE/FLASH_UPDATE_END notifications be mentioned there as well, or
+alternatively the ops table selected based on
+ds->ops->devlink_flash_update?
+
+>  	.sb_pool_get			= dsa_devlink_sb_pool_get,
+>  	.sb_pool_set			= dsa_devlink_sb_pool_set,
+>  	.sb_port_pool_get		= dsa_devlink_sb_port_pool_get,
 
 -- 
-Kees Cook
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1789175618.git.daniel%40makrotopia.org
