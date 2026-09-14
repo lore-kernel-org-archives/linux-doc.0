@@ -1,276 +1,214 @@
-Received: from mta0.migadu.com (out-7.mta0.migadu.com [91.218.175.7])
+Received: from mta0.migadu.com (out-2.mta0.migadu.com [91.218.175.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456BD3F825B
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 07:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717243EC83E
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 08:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789372323; cv=none; b=J5rd51Z8cBPUMyXR7Fr/bVxGOQ56iolWZ6W1+t742MyHfY+aSUTYcu8Rp+lvkjZ1sm/uo7yEtxOvvgWfOxRxNeocnnv/zLmAUZhXPwapiiBxtPUrUSXyHyEaWFGMrcALfi9F1MgdsVyau+nj7F9W9riqQtEdegwdI5S0rlNBh4U=
+	t=1789373061; cv=none; b=ZaWj/C1mDsDKHaOWQNHzHsmvU3zfpf3/41QwjtPM0HqUm+JXehMkS0AuxcBu41CrErnszRPAL2Fu17bxyU27lQDBqp/RdBzCSuPSFq65qkECt2aE5bWNqn6PimWjeX3nNf3ar3XZdr4NHoMv3ViqlxILsGMpBgQIPGBFomBMfGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789372323; c=relaxed/simple;
-	bh=nXlIXZyzZAmUaaXn6/AG1Qoa90qlZRNpDV2IZ5Xt6I8=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=OPKyqh8CGWtPyn/m7M3rXtXM/9BjczvWx34do38hMzNyRagT4kgJjqSNGfJ1SHyN81hIYeIPpvMNPW/eON8330qGUbnsxLtjHWjg5gFRlZJwRoLsraXobhM3HvnAXDXnd1Rww6nHCLUclHLU9aJ7G69axnJWNVUf3bSw+bu8KSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BwcSvFdE; arc=none smtp.client-ip=91.218.175.7
+	s=arc-20240116; t=1789373061; c=relaxed/simple;
+	bh=t0co+EMESSDhgYhaPg3OwtEoMvGBbLYnHGWIN7TKjs8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JlATV2N+cd6r7k1FJj+MkGOZ/Lki6OreR9Dl/KmzXEVxZgckRYmn2dApTj6i4dpm6bvF2lb8NNVKDuzokJnBSfYpD7JaALg0yOkfVF93YB7+YvUr+S8r2GB6GbrlRazQRRDcACFb9DPivXQHvTey+MQWXiJa5bUyAQAWhNLBGPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xUjvYGJu; arc=none smtp.client-ip=91.218.175.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BwcSvFdE"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xUjvYGJu"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=nXlIXZyzZAmUaaXn6/AG1Qoa90qlZRNpDV2IZ5Xt6I8=;
+DKIM-Signature: a=rsa-sha256; bh=t0co+EMESSDhgYhaPg3OwtEoMvGBbLYnHGWIN7TKjs8=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789372317; v=1; x=1789977117;
- b=BwcSvFdElIUHCrFEATDcx/wtsn0aU0ZDfA152keO1eLQwSqs7cgfZjS6XOj/O2ewQoTZk+NR
- vu0Rr6gGGPGWkmw1sN4Cz1OpiABBGEKw4wxU4B61n5wXki9xHdFycd2PvCiIAM/OllaDj3VeFwh
- tI56Kt+FFaGgM9I1Cu4XAT8Y=
+ t=1789373056; v=1; x=1789977856;
+ b=xUjvYGJun8dPXgG+ijOrwQQvhGTi8OG07C9b8z7PrVOSn+NevhZzLoix2G6oNxZecVgDsHCS
+ 5dTUdFHQ3Et3kcjgXC+6unN8QLALBg6gx549mk6AgwdZqQmZq/j/o2E9eNaS66pljkLf3FvaIPR
+ 2FYe9S8dGcJa6afreENsDgGY=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id 7f6bbc8e5bf97846;
-	Mon, 14 Sep 2026 07:51:57 +0000
-X-Mizu-Trace-ID: 7f6bbc8e5bf97846
+Received: by mta11.migadu.com with ESMTPS id 1f50532f36ddc758;
+	Mon, 14 Sep 2026 08:04:16 +0000
+X-Mizu-Trace-ID: 1f50532f36ddc758
 X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+From: Troy Mitchell <troy.mitchell@linux.dev>
+Subject: [PATCH v5 0/6] hwmon: (lm63) Add Sensylink CTF2301 support
+Date: Mon, 14 Sep 2026 16:03:52 +0800
+Message-Id: <20260914-ctl2301-v5-0-b44b81cd2c3c@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.700.51.1.1\))
-Subject: Re: [PATCH v3 01/11] mm/sparse-vmemmap: introduce
- CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <178937209455.4188640.17761540933640972197.b4-review@b4>
-Date: Mon, 14 Sep 2026 15:51:40 +0800
-Cc: Muchun Song <songmuchun@bytedance.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- Oscar Salvador <osalvador@suse.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Jonathan Corbet <corbet@lwn.net>,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org,
- linux-doc@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>,
- Qi Zheng <qi.zheng@linux.dev>,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>,
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2XNTQqDMBCG4atI1rVMJolJu+o9ShfmrwZEi9pgE
+ e/eKBTFLr8hz5uJ9K4LrifXbCKdi6EPbZOGOGXEVGXzdHmwaRMEFHChRW6GGhnQHDgtNEhmUAF
+ Jr1+d82FcS/dH2lXoh7b7rOFIl+t/I6ZMfpFOGsU9Gi5vdWje49m6SJZGxJ8rQCLdHCbnvPCac
+ VQSy6Njm1MgNseS85Zr5b0WGuzR8Z1ju/94cpoxYQWWICTs3TzPX7YwifxGAQAA
+X-Change-ID: 20250916-ctl2301-0416b073c280
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Yixun Lan <dlan@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
  Randy Dunlap <rdunlap@infradead.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <42F502DE-9DEE-447B-9323-0CBB2300FAFE@linux.dev>
-References: <20260911050228.58884-1-songmuchun@bytedance.com>
- <20260911050228.58884-2-songmuchun@bytedance.com>
- <178937209455.4188640.17761540933640972197.b4-review@b4>
-To: Mike Rapoport <rppt@kernel.org>
-X-Mailer: Apple Mail (2.3864.700.51.1.1)
+Cc: Troy Mitchell <troy.mitchell@linux.dev>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+ linux-doc@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ Jean Delvare <jdelvare@suse.de>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6878;
+ i=troy.mitchell@linux.dev; h=from:subject:message-id;
+ bh=t0co+EMESSDhgYhaPg3OwtEoMvGBbLYnHGWIN7TKjs8=;
+ b=owGbwMvMwCU2g/N9w09jE33G02pJDFnLV+UWvH/67Jfwdq/9ZTNb43Jr62fObnDTfLbFcPrSh
+ WfqE6K8OkpZGMS4GGTFFFm6H/BsK/CJsi0QKPSFmcPKBDKEgYtTACaStYeRYepVvlbxxrmFk8+x
+ LDZgVdlhcM+tLdp9+TuVf0J25/t/n2dkeM3YKMghXmvtu/Itk/4eXfUooYofp7+z7jRuf8+w+PF
+ kVgA=
+X-Developer-Key: i=troy.mitchell@linux.dev; a=openpgp;
+ fpr=3FE5535CF1B0E658E57DB59BAE1C2FBEA7DB42E1
 
+Sensylink CTF2301 is a system-level thermal management solution chip.
 
+The CTF2301 is an I2C/SMBus compatible device featuring:
+  - One local temperature sensor with +/-0.5 degree C accuracy and
+    0.0625 degree C resolution.
+  - One remote temperature sensor for external diode-connected
+    transistors, offering +/-1 degree C accuracy and 0.125 degree C
+    resolution (temperature range: -40 degree C to +125 degree C).
+  - An integrated PWM fan controller capable of operating in two modes:
+      1. Direct-DCY: Open-loop direct duty cycle control.
+      2. Auto-Temp: Closed-loop automatic fan speed control based on
+         measured temperature.
+  - A 1-channel fan speed monitor (TACH input) for RPM measurement.
 
-> On Sep 14, 2026, at 15:48, Mike Rapoport <rppt@kernel.org> wrote:
->=20
-> Hi,
+As Guenter pointed out on v1, the CTF2301 register map is a near match
+for the LM63/LM96163 family (local and remote temperature, tachometer and
+PWM fan control), so this version drops the standalone ctf2301 driver
+and instead adds CTF2301 as a new chip type in the existing lm63 driver.
+This reuses the shared temperature, limit, alarm and PWM handling instead
+of duplicating it.
 
-Hi,
+The CTF2301-specific differences are handled on top of lm63: 12-bit local
+temperature input and high-limit values, nine conversion rates, 12
+fan-control lookup table entries, and optional 22.5 kHz high-resolution
+PWM. When no IRQ is described, the shared ALERT/TACH pin is configured as
+a tachometer input. The LM63 family can also register as a thermal cooling
+device when the device tree provides the #cooling-cells property.
 
->=20
->> The section-based vmemmap optimization infrastructure is still =
-guarded by
->> CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP, but it also can be used by =
-device
->> DAX. Introduce CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION as a common =
-config
->=20
-> CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION is a bit mouthful :)
->=20
-> I think that dropping _SPARSEMEM won't hurt readability.
+Tested on a SpacemiT K3 CoM260 by booting an initramfs and verifying the
+CTF2301 probe. Temperature, tachometer, PWM, and conversion-rate behavior
+were checked against direct I2C register accesses and the datasheet.
 
-Yes, I'll simplify it in v4.
+Datasheet:
+https://www.sensylink.com/upload/1/net.sensylink.portal/1689557281035.pdf
 
->=20
->> for the shared infrastructure.
->>=20
->> Select the new option from HUGETLB_PAGE_OPTIMIZE_VMEMMAP and from
->> DEV_DAX when the architecture opts in to DAX vmemmap optimization, =
-and
->> use it to guard the generic sparse-vmemmap state and helpers.
->>=20
->> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
->> Acked-by: Qi Zheng <qi.zheng@linux.dev>
->>=20
->> diff --git a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h =
-b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
->> index bc3e549795c3f..5f8424eade2bd 100644
->> --- a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
->> +++ b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
->> @@ -11,7 +11,7 @@
->> #undef CONFIG_PGTABLE_LEVELS
->> #undef CONFIG_ILLEGAL_POINTER_VALUE
->> #undef CONFIG_SPARSEMEM_VMEMMAP
->> -#undef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
->> +#undef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
->> #undef CONFIG_NR_CPUS
->> #undef CONFIG_PARAVIRT_XXL
->>=20
->> diff --git a/drivers/dax/Kconfig b/drivers/dax/Kconfig
->> index 602f9a0839a91..6250954b0fa7a 100644
->> --- a/drivers/dax/Kconfig
->> +++ b/drivers/dax/Kconfig
->> @@ -8,6 +8,8 @@ if DAX
->> config DEV_DAX
->> tristate "Device DAX: direct access mapping device"
->> depends on TRANSPARENT_HUGEPAGE
->> + depends on ZONE_DEVICE
->> + select SPARSEMEM_VMEMMAP_OPTIMIZATION if =
-ARCH_WANT_OPTIMIZE_DAX_VMEMMAP
->> help
->>  Support raw access to differentiated (persistence, bandwidth,
->>  latency...) memory via an mmap(2) capable character
->> diff --git a/fs/Kconfig b/fs/Kconfig
->> index d1c210c6508f0..9b32ce79cc805 100644
->> --- a/fs/Kconfig
->> +++ b/fs/Kconfig
->> @@ -278,6 +278,7 @@ config HUGETLB_PAGE_OPTIMIZE_VMEMMAP
->> def_bool HUGETLB_PAGE
->> depends on ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
->> depends on SPARSEMEM_VMEMMAP
->> + select SPARSEMEM_VMEMMAP_OPTIMIZATION
->>=20
->> config HUGETLB_PMD_PAGE_TABLE_SHARING
->> def_bool HUGETLB_PAGE
->> diff --git a/include/linux/mm.h b/include/linux/mm.h
->> index c49ef99b4413b..a2ebe87e76546 100644
->> --- a/include/linux/mm.h
->> +++ b/include/linux/mm.h
->> @@ -5175,6 +5175,9 @@ static inline bool =
-__vmemmap_can_optimize(struct vmem_altmap *altmap,
->> unsigned long nr_pages;
->> unsigned long nr_vmemmap_pages;
->>=20
->> + if (!IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION))
->> + return false;
->> +
->> if (!pgmap || !is_power_of_2(sizeof(struct page)))
->> return false;
->>=20
->> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
->> index acd94cecc0d39..97511f651ebc0 100644
->> --- a/include/linux/mmzone.h
->> +++ b/include/linux/mmzone.h
->> @@ -102,9 +102,9 @@
->>  *
->>  * HVO which is only active if the size of struct page is a power of =
-2.
->>  */
->> -#define MAX_FOLIO_VMEMMAP_ALIGN \
->> - (IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP) && \
->> - is_power_of_2(sizeof(struct page)) ? \
->> +#define MAX_FOLIO_VMEMMAP_ALIGN \
->> + (IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION) && \
->> + is_power_of_2(sizeof(struct page)) ? \
->> MAX_FOLIO_NR_PAGES * sizeof(struct page) : 0)
->>=20
->> /* The number of retained vmemmap pages with HVO enabled. */
->> @@ -116,7 +116,8 @@
->> #define __VMEMMAP_OPTIMIZATION_NR_ORDERS \
->> (MAX_FOLIO_ORDER - VMEMMAP_OPTIMIZATION_MIN_ORDER + 1)
->> #define VMEMMAP_OPTIMIZATION_NR_ORDERS \
->> - (__VMEMMAP_OPTIMIZATION_NR_ORDERS > 0 ? =
-__VMEMMAP_OPTIMIZATION_NR_ORDERS : 0)
->> + ((__VMEMMAP_OPTIMIZATION_NR_ORDERS > 0 && \
->> +  IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION)) ? =
-__VMEMMAP_OPTIMIZATION_NR_ORDERS : 0)
->>=20
->> enum migratetype {
->> MIGRATE_UNMOVABLE,
->> @@ -1155,7 +1156,7 @@ struct zone {
->> /* Zone statistics */
->> atomic_long_t vm_stat[NR_VM_ZONE_STAT_ITEMS];
->> atomic_long_t vm_numa_event[NR_VM_NUMA_EVENT_ITEMS];
->> -#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
->> +#ifdef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
->> struct page *vmemmap_tails[VMEMMAP_OPTIMIZATION_NR_ORDERS];
->> #endif
->> } ____cacheline_internodealigned_in_smp;
->> @@ -2019,7 +2020,7 @@ struct mem_section {
->> unsigned long section_mem_map;
->>=20
->> struct mem_section_usage *usage;
->> -#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
->> +#ifdef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
->> /*
->> * Normally, sections hold regular (order-0) pages. However, for
->> * sections with HVO enabled, this tracks the compound page order
->> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
->> index 86dd0470da117..462e89e055485 100644
->> --- a/include/linux/page-flags.h
->> +++ b/include/linux/page-flags.h
->> @@ -208,14 +208,13 @@ enum pageflags {
->> static __always_inline bool compound_info_has_mask(void)
->> {
->> /*
->> - * Limit mask usage to HugeTLB vmemmap optimization (HVO) where it
->> - * makes a difference.
->> + * Limit mask usage to HVO where it makes a difference.
->> *
->> * The approach with mask would work in the wider set of conditions,
->> * but it requires validating that struct pages are naturally aligned
->> * for all orders up to the MAX_FOLIO_ORDER, which can be tricky.
->> */
->> - if (!IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP))
->> + if (!IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION))
->> return false;
->>=20
->> return is_power_of_2(sizeof(struct page));
->> diff --git a/mm/Kconfig b/mm/Kconfig
->> index bc7befafb47b5..c180d40cd6712 100644
->> --- a/mm/Kconfig
->> +++ b/mm/Kconfig
->> @@ -461,6 +461,10 @@ config SPARSEMEM_VMEMMAP
->>  pfn_to_page and page_to_pfn operations.  This is the most
->>  efficient option when sufficient kernel resources are available.
->>=20
->> +config SPARSEMEM_VMEMMAP_OPTIMIZATION
->> + bool
->> + depends on SPARSEMEM_VMEMMAP
->> +
->> #
->> # Select this config option from the architecture Kconfig, if it is =
-preferred
->> # to enable the feature of HugeTLB/dev_dax vmemmap optimization.
->> diff --git a/mm/sparse.h b/mm/sparse.h
->> index d3a71ef4fad0f..3151d4db75753 100644
->> --- a/mm/sparse.h
->> +++ b/mm/sparse.h
->> @@ -10,7 +10,7 @@
->>=20
->> #include <linux/mmzone.h>
->>=20
->> -#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
->> +#ifdef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
->> static inline unsigned int section_compound_order(const struct =
-mem_section *section)
->> {
->> return section->compound_page_order;
->> @@ -75,7 +75,7 @@ static inline bool vmemmap_optimizable_pfn(unsigned =
-long pfn)
->>=20
->> static inline bool vmemmap_optimizable_order(unsigned int order)
->> {
->> - if (!IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP))
->> + if (!IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION))
->> return false;
->>=20
->> if (!is_power_of_2(sizeof(struct page)))
->=20
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Register description:
+https://github.com/TroyMitchell911/ctf2301-datasheet
 
-Thank you Mike.
+Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
+---
+Changes in v5:
+- Quantize CTF2301 12-bit local-temperature limit writes to the
+  0.0625 degree C hardware resolution before updating the cache, so
+  immediate reads remain consistent after a hardware refresh.
+- Link to v4: https://patch.msgid.link/20260831-ctl2301-v4-0-b335d52a0570@linux.dev
 
->=20
-> --=20
-> Sincerely yours,
-> Mike.
->=20
+Changes in v4:
+- Rebase onto v7.3-rc1, which includes the SpacemiT I2C timing
+  prerequisite, and remove the obsolete dependency note.
+- Do not add the SENSORS_LM63 THERMAL dependency suggested on v3 because
+  CONFIG_THERMAL is boolean and v7.3-rc1 removes such tautological
+  expressions.
+- Preserve the upstream five-bit PWM frequency multiplier mask in the
+  LM63 initialization error-handling path.
+- Sort the chip type enum and remove redundant CTF2301 8-bit local
+  temperature cache updates.
+- Serialize CTF2301 12-bit local temperature cache reads.
+- Keep PWM configuration caches synchronized after partial I2C write
+  failures.
+- Override the CoM260 I2C6 pin configuration through &i2c6_1_cfg,
+  as suggested by Yixun.
+- Add Krzysztof's Acked-by and Reviewed-by tags.
+- Link to v3: https://patch.msgid.link/20260805-ctl2301-v3-0-fd4b8ffb5b0d@linux.dev
+
+Changes in v3:
+- Add the Sensylink website link to the vendor-prefix commit.
+- Preserve the optional interrupt from the trivial-devices binding.
+- Explain in the commit message of patch 3/6 why CTF2301 cannot use
+  national,lm63 as a fallback compatible.
+- Check both bytes of CTF2301 local temperature values before caching them.
+- Use the schema-valid 25 mA drive strength for the K3 I2C6 pins.
+- Link to v2: https://patch.msgid.link/20260721-ctl2301-v2-0-ef5fb342872a@linux.dev
+
+Changes in v2:
+- Replace the standalone CTF2301 driver with a new lm63 chip type, as
+  suggested by Guenter, reusing the existing temperature, limit, alarm,
+  tachometer, PWM, and automatic fan-control paths.
+- Add the temperature thresholds, alarms, and automatic fan-control lookup
+  table support which were missing from the v1 driver.
+- Handle CTF2301-specific 12-bit local temperature values, nine conversion
+  rates, 12 lookup table entries, shared ALERT/TACH pin, and optional
+  22.5 kHz high-resolution PWM.
+- Propagate SMBus failures from lm63 initialization and write paths.
+- Add optional thermal cooling-device support for the LM63 family using
+  the existing manual PWM control path.
+- Move the National LM63-family compatibles from trivial-devices.yaml to a
+  dedicated binding which permits #cooling-cells.
+- Add CTF2301 to the LM63-family binding instead of keeping the standalone
+  schema from v1. Do not declare #cooling-cells on K3 CoM260 yet because
+  the board has no thermal consumer.
+- Fix the binding errors reported by Rob by using a plain compatible string
+  and wrapping the description.
+- Document CTF2301 support in the lm63 hwmon documentation and provide the
+  detailed register description used for review.
+- Add the K3 CoM260 I2C6 pinctrl state and CTF2301 device node for hardware
+  testing.
+- Link to v1: https://lore.kernel.org/r/20250916-ctl2301-v1-0-97e7c84f2c47@linux.dev
+
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+To: Paul Walmsley <pjw@kernel.org>
+To: Palmer Dabbelt <palmer@dabbelt.com>
+To: Albert Ou <aou@eecs.berkeley.edu>
+To: Alexandre Ghiti <alex@ghiti.fr>
+To: Yixun Lan <dlan@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-hwmon@vger.kernel.org
+Cc: linux-riscv@lists.infradead.org
+Cc: spacemit@lists.linux.dev
+Cc: linux-doc@vger.kernel.org
+
+---
+Troy Mitchell (6):
+      dt-bindings: vendor-prefixes: Add Sensylink
+      dt-bindings: hwmon: Move LM63 family to a dedicated binding
+      dt-bindings: hwmon: Add Sensylink CTF2301
+      hwmon: (lm63) Add Sensylink CTF2301 support
+      riscv: dts: spacemit: Add K3 I2C6 pinctrl state
+      riscv: dts: spacemit: Add CTF2301 on K3 CoM260
+
+ .../devicetree/bindings/hwmon/national,lm63.yaml   |  55 +++
+ .../devicetree/bindings/trivial-devices.yaml       |   6 -
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ Documentation/hwmon/lm63.rst                       |  22 ++
+ arch/riscv/boot/dts/spacemit/k3-com260.dtsi        |  17 +
+ arch/riscv/boot/dts/spacemit/k3-pinctrl.dtsi       |  11 +
+ drivers/hwmon/Kconfig                              |   8 +-
+ drivers/hwmon/lm63.c                               | 426 +++++++++++++++++----
+ 8 files changed, 462 insertions(+), 85 deletions(-)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20250916-ctl2301-0416b073c280
+
+Best regards,
+--  
+Troy Mitchell <troy.mitchell@linux.dev>
 
