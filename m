@@ -1,273 +1,386 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out28-124.mail.aliyun.com (out28-124.mail.aliyun.com [115.124.28.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F33B4718FA;
-	Mon, 14 Sep 2026 12:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E325457E6A;
+	Mon, 14 Sep 2026 12:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789388874; cv=none; b=IdwHESI4ETDg4sqNqZPhOJ7HwZcFcVWWLYYtEsY5PGRxbM4AvTBHo+ZwEjxppotR4wNvZFCgf9c/yPvT6EInx+VB8ePWXyT3+o6028myMVf5hcefWUXxQ4m3rggI4UayJNcZTba73/gnXZm65bRTGVlCCil+RLSG3IDX2r16UmE=
+	t=1789389288; cv=none; b=NX33A8LYlcEHRj+03l1xa7kUWlwt127mORQrqmi2zAfTUfdNCo+fx8Am4LF5YkgxJAvuPnRPlg2x8uaxb1Xt4yNXlEWjaTIneD+2mV+yUjUldx74dEAt6jpApj6qvmW0JM399kwtXTAnqy1dF5Io7FFaRD/ioRvrS4x62Ltcf8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789388874; c=relaxed/simple;
-	bh=jWGri653x+FF39q+LmajuQGRo5SzD2ymgUKx4l9C5To=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qdIaXOXZRfsYNqeYNTULJXzwX+EZymTN2z5QN/z9r7uA9CEYXaO+0+UiMepKUnJOwgvTr7U3dcJehUejsADyu8PPI3xC+KsGWKsBICSi+2eTJ7f57GPj0+FRWTHbpzW+81CcwWg92gf7VtyDZcQHtb+M2/QKkHrbkDRaXg5R9tE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g4O+bSjA; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g4O+bSjA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52A1A1F000FF;
-	Mon, 14 Sep 2026 12:27:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789388872;
-	bh=BMhGWlwfT+kVNUcgZl5xzinPFe97kBLDh0bd5vegWbI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=g4O+bSjAHjTi57+vAIDvU1ks+7o+rzYFjUbigrjCjg17nvqd1jGyDP1VtSVQxO4g3
-	 iWMBQ/i3EEkRBwXOaeDTT4pefcZnQGoIMQJPBfjuxa3ea1CV2gGJMmaOsQfyvpjeR8
-	 tUqDPxajomLAJnjey9V8wJyuV6Fpsf+U+ztKrhq+6lw83Ofn7SXsMCQ/frfrX2fL0+
-	 SmBdw/QW/JGG6P8p+Zyonz7EODdmwlI0Lx5lKL3/osgipOt0wQTOemgbQKWzU7Y8QB
-	 wxEkxH693Zdw0DzOvJ5KJAkDCk85esyYwPt4Dd0wnxYD5ibhmDjeZOd5ISUHHznqzY
-	 LtCKLs/QHj60w==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Mon, 14 Sep 2026 13:26:24 +0100
-Subject: [PATCH v2 13/13] KVM: selftests: Add nested pre-fault test for
- arm64
+	s=arc-20240116; t=1789389288; c=relaxed/simple;
+	bh=sRYKHtGV2b6oK3dlNP3Vw/FQQlQXpabK0aCeSSQz+/Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=j4ilUIQG9TImN1ytVO8Q9ry2VLVpETUG/X+lq80pw4npKruZKYD69AGWHh0AsRPwf/AQEjMflUoQKqGB68/SOfGfizWGjfneZ0Ti6fdIBV4dHhut90tCj+M58f9W+RaSeld7uoGU1xaX96JP+m9gHErVhCQzSwfPgw3sy4iAz1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.06750221|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0331837-0.00316563-0.963651;FP=17173941139267919538|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037028158;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=18;RT=18;SR=0;TI=SMTPD_---.jDG7RBC_1789389273;
+Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.jDG7RBC_1789389273 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Mon, 14 Sep 2026 20:34:34 +0800
+From: "illusion.wang" <illusion.wang@nebula-matrix.com>
+To: dimon.zhao@nebula-matrix.com,
+	illusion.wang@nebula-matrix.com,
+	alvin.wang@nebula-matrix.com,
+	sam.chen@nebula-matrix.com,
+	netdev@vger.kernel.org
+Cc: andrew+netdev@lunn.ch,
+	corbet@lwn.net,
+	kuba@kernel.org,
+	horms@kernel.org,
+	linux-doc@vger.kernel.org,
+	pabeni@redhat.com,
+	vadim.fedorenko@linux.dev,
+	lukas.bulwahn@redhat.com,
+	edumazet@google.com,
+	enelsonmoore@gmail.com,
+	skhan@linuxfoundation.org,
+	hkallweit1@gmail.com,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v28 net-next 01/10] net/nebula-matrix: add minimum nbl build framework
+Date: Mon, 14 Sep 2026 20:34:15 +0800
+Message-ID: <20260914123429.56596-2-illusion.wang@nebula-matrix.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260914123429.56596-1-illusion.wang@nebula-matrix.com>
+References: <20260914123429.56596-1-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260914-kvm-arm-prefault-v2-13-26fb47f74b73@kernel.org>
-References: <20260914-kvm-arm-prefault-v2-0-26fb47f74b73@kernel.org>
-In-Reply-To: <20260914-kvm-arm-prefault-v2-0-26fb47f74b73@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
- Oliver Upton <oupton@kernel.org>, Fuad Tabba <tabba@google.com>, 
- Joey Gouly <joey.gouly@arm.com>, Steffen Eiden <seiden@linux.ibm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Jack Thomson <jackabt@amazon.com>, 
- Jack Thomson <jackabt.amazon@gmail.com>, 
- Alexandru Elisei <alexandru.elisei@arm.com>, 
- Vincent Donnefort <vdonnefort@google.com>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Sean Christopherson <seanjc@google.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>, 
- Leo Soares Passos <Leo.Bras@arm.com>, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6315; i=ljs@kernel.org;
- h=from:subject:message-id; bh=jWGri653x+FF39q+LmajuQGRo5SzD2ymgUKx4l9C5To=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLKWP//mfv35lTUVKdURlyISHZeIll25YXRhSnPj4e5+H
- uO0nmuqHaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZhI1FGG//WhzxW2LovbErLl
- ys3M9UGqNv9q1Q+vrde4Liadd7zihRcjw+1iy8RZ/ke3f/TeuUtLKGVVP2PvgelHFezK/zK9qHx
- 3mgMA
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+Content-Transfer-Encoding: 8bit
 
-Add an arm64 nested-virtualisation selftest for KVM_PRE_FAULT_MEMORY.
+From: illusion wang <illusion.wang@nebula-matrix.com>
 
-The guest enters vEL2, sets up its EL2 translation configuration into the
-real EL1 registers then ERETs to vEL1 and exits to userspace so its vCPU
-last-run context is nested backed by a shadow stage 2 MMU.
+This patch adds the minimum build infrastructure:
+1. Add Kconfig, Makefile and MAINTAINERS entries;
+2. Add corresponding driver documentation;
+3. Add PCI driver skeleton with empty stubs for nbl driver.
 
-The test then asserts that pre-faulting ignores that and instead targets
-the canonical stage 2 page tables only.
+Note: the documentation describes the final full driver features;
+implementation will be added in subsequent patches of this series.
 
-Userspace cannot observe a mistargeted pre-fault, so simply assert that the
-pre-faulting works correctly when the last-run context was nested.
-
-Based on a patch by Jack Thomson with gratitude. The test here is
-simplified and focused on what can be asserted.
-
-Link: https://lore.kernel.org/kvmarm/20260612162354.73378-6-jackabt.amazon@gmail.com/
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Signed-off-by: illusion wang <illusion.wang@nebula-matrix.com>
 ---
- tools/testing/selftests/kvm/Makefile.kvm           |   1 +
- .../selftests/kvm/arm64/nv_pre_fault_memory_test.c | 158 +++++++++++++++++++++
- 2 files changed, 159 insertions(+)
+ .../device_drivers/ethernet/index.rst         |   1 +
+ .../ethernet/nebula-matrix/nbl.rst            |  28 +++++
+ MAINTAINERS                                   |  10 ++
+ drivers/net/ethernet/Kconfig                  |   1 +
+ drivers/net/ethernet/Makefile                 |   1 +
+ drivers/net/ethernet/nebula-matrix/Kconfig    |  32 ++++++
+ drivers/net/ethernet/nebula-matrix/Makefile   |   6 ++
+ .../net/ethernet/nebula-matrix/nbl/Makefile   |   6 ++
+ .../net/ethernet/nebula-matrix/nbl/nbl_core.h |  13 +++
+ .../nbl/nbl_include/nbl_include.h             |  14 +++
+ .../net/ethernet/nebula-matrix/nbl/nbl_main.c | 100 ++++++++++++++++++
+ 11 files changed, 212 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
+ create mode 100644 drivers/net/ethernet/nebula-matrix/Kconfig
+ create mode 100644 drivers/net/ethernet/nebula-matrix/Makefile
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/Makefile
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
 
-diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index 66a9a4e62888..1e0edd0f99f7 100644
---- a/tools/testing/selftests/kvm/Makefile.kvm
-+++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -173,6 +173,7 @@ TEST_GEN_PROGS_arm64 += arm64/debug-exceptions
- TEST_GEN_PROGS_arm64 += arm64/hello_el2
- TEST_GEN_PROGS_arm64 += arm64/host_sve
- TEST_GEN_PROGS_arm64 += arm64/hypercalls
-+TEST_GEN_PROGS_arm64 += arm64/nv_pre_fault_memory_test
- TEST_GEN_PROGS_arm64 += arm64/external_aborts
- TEST_GEN_PROGS_arm64 += arm64/mmio_sign_ext
- TEST_GEN_PROGS_arm64 += arm64/page_fault_test
-diff --git a/tools/testing/selftests/kvm/arm64/nv_pre_fault_memory_test.c b/tools/testing/selftests/kvm/arm64/nv_pre_fault_memory_test.c
+diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
+index d9980c84487a..403ae9c2b06a 100644
+--- a/Documentation/networking/device_drivers/ethernet/index.rst
++++ b/Documentation/networking/device_drivers/ethernet/index.rst
+@@ -48,6 +48,7 @@ Contents:
+    meta/fbnic
+    microsoft/netvsc
+    mucse/rnpgbe
++   nebula-matrix/nbl
+    netronome/nfp
+    pensando/ionic
+    pensando/ionic_rdma
+diff --git a/Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst b/Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
 new file mode 100644
-index 000000000000..09c1db303856
+index 000000000000..5540291cf376
 --- /dev/null
-+++ b/tools/testing/selftests/kvm/arm64/nv_pre_fault_memory_test.c
-@@ -0,0 +1,158 @@
-+// SPDX-License-Identifier: GPL-2.0-only
++++ b/Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
+@@ -0,0 +1,28 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++================================================================
++Linux Base Driver for Nebula-matrix m18110-NIC/m18000-NIC family
++================================================================
++
++Overview:
++=========
++The m18110-NIC/m18000-NIC (marketed as SNIC s1000) is a series
++of network interface cards for the Data Center Area.
++
++This driver provides the core infrastructure for m18110/m18000-NIC
++devices, including:
++
++- PCI device enumeration and resource (BAR) management
++- Firmware command interface via PF mailbox
++- Channel-based communication between driver and firmware
++- Device initialization and teardown
++
++Support
++=======
++
++For more information about m18110-NIC/m18000-NIC, please visit the following URL:
++https://www.nebula-matrix.com/snic_s1000_en
++
++If an issue is identified with the released source code on the supported kernel
++with a supported adapter, email the specific information related to the issue to
++open@nebula-matrix.com.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 460cb7268845..ab55ba0da0a2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18654,6 +18654,16 @@ F:	Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
+ F:	Documentation/hwmon/nct7363.rst
+ F:	drivers/hwmon/nct7363.c
+ 
++NEBULA-MATRIX ETHERNET DRIVER (nebula-matrix)
++M:	Illusion Wang <illusion.wang@nebula-matrix.com>
++M:	Dimon Zhao <dimon.zhao@nebula-matrix.com>
++M:	Alvin Wang <alvin.wang@nebula-matrix.com>
++M:	Sam Chen <sam.chen@nebula-matrix.com>
++L:	netdev@vger.kernel.org
++S:	Maintained
++F:	Documentation/networking/device_drivers/ethernet/nebula-matrix/
++F:	drivers/net/ethernet/nebula-matrix/
++
+ NETCONSOLE
+ M:	Breno Leitao <leitao@debian.org>
+ S:	Maintained
+diff --git a/drivers/net/ethernet/Kconfig b/drivers/net/ethernet/Kconfig
+index 8581ccba1505..c2b0161d0bec 100644
+--- a/drivers/net/ethernet/Kconfig
++++ b/drivers/net/ethernet/Kconfig
+@@ -130,6 +130,7 @@ config FEALNX
+ 
+ source "drivers/net/ethernet/ni/Kconfig"
+ source "drivers/net/ethernet/natsemi/Kconfig"
++source "drivers/net/ethernet/nebula-matrix/Kconfig"
+ source "drivers/net/ethernet/netronome/Kconfig"
+ source "drivers/net/ethernet/8390/Kconfig"
+ source "drivers/net/ethernet/nvidia/Kconfig"
+diff --git a/drivers/net/ethernet/Makefile b/drivers/net/ethernet/Makefile
+index 2b1153d35b52..a306dae23bcb 100644
+--- a/drivers/net/ethernet/Makefile
++++ b/drivers/net/ethernet/Makefile
+@@ -67,6 +67,7 @@ obj-$(CONFIG_NET_VENDOR_MUCSE) += mucse/
+ obj-$(CONFIG_NET_VENDOR_MYRI) += myricom/
+ obj-$(CONFIG_FEALNX) += fealnx.o
+ obj-$(CONFIG_NET_VENDOR_NATSEMI) += natsemi/
++obj-$(CONFIG_NET_VENDOR_NEBULA_MATRIX) += nebula-matrix/
+ obj-$(CONFIG_NET_VENDOR_NETRONOME) += netronome/
+ obj-$(CONFIG_NET_VENDOR_NI) += ni/
+ obj-$(CONFIG_NET_VENDOR_NVIDIA) += nvidia/
+diff --git a/drivers/net/ethernet/nebula-matrix/Kconfig b/drivers/net/ethernet/nebula-matrix/Kconfig
+new file mode 100644
+index 000000000000..dd0e91d14131
+--- /dev/null
++++ b/drivers/net/ethernet/nebula-matrix/Kconfig
+@@ -0,0 +1,32 @@
++# SPDX-License-Identifier: GPL-2.0
++#
++# Nebula-matrix network device configuration
++#
++
++config NET_VENDOR_NEBULA_MATRIX
++	bool "Nebula-matrix devices"
++	default y
++	help
++	  If you have a network (Ethernet) card belonging to this class, say Y.
++	  Note that the answer to this question doesn't directly affect the
++	  kernel: saying N will just cause the configurator to skip all
++	  the questions about Nebula-matrix cards. If you say Y, you will be asked
++	  for your specific card in the following questions.
++
++if NET_VENDOR_NEBULA_MATRIX
++
++config NBL
++	tristate "Nebula-matrix Ethernet Controller m18110/m18000 support"
++	depends on PCI && (64BIT || COMPILE_TEST) && !CPU_BIG_ENDIAN
++	help
++	  This driver provides the core infrastructure for Nebula-matrix
++	  Ethernet Controller m18110/m18000 Family of devices, including
++	  PCI enumeration, firmware mailbox and channel communication.
++
++	  More specific information on configuring the driver is in
++	  <file:Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst>.
++
++	  To compile this driver as a module, choose M here. The module
++	  will be called nbl.
++
++endif # NET_VENDOR_NEBULA_MATRIX
+diff --git a/drivers/net/ethernet/nebula-matrix/Makefile b/drivers/net/ethernet/nebula-matrix/Makefile
+new file mode 100644
+index 000000000000..42cdf2db8f0c
+--- /dev/null
++++ b/drivers/net/ethernet/nebula-matrix/Makefile
+@@ -0,0 +1,6 @@
++# SPDX-License-Identifier: GPL-2.0
++#
++# Makefile for the Nebula-matrix network device drivers.
++#
++
++obj-$(CONFIG_NBL) += nbl/
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/Makefile b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
+new file mode 100644
+index 000000000000..6c14d1071c0c
+--- /dev/null
++++ b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
+@@ -0,0 +1,6 @@
++# SPDX-License-Identifier: GPL-2.0
++# Copyright (c) 2026 Nebula Matrix Limited.
++
++obj-$(CONFIG_NBL) := nbl.o
++
++nbl-objs +=	nbl_main.o
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+new file mode 100644
+index 000000000000..a3d63c698aea
+--- /dev/null
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+@@ -0,0 +1,13 @@
++/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * nv_pre_fault_memory_test - Test KVM_PRE_FAULT_MEMORY on a vCPU whose
-+ * last-run context is nested.
-+ *
-+ * The guest enters vEL2, sets up its EL2 translation configuration into the
-+ * real EL1 registers then ERETs to vEL1 and exits to userspace so its vCPU
-+ * last-run context is nested backed by a shadow stage 2 MMU.
-+ *
-+ * Assert that pre-faulting ignores that and targets the canonical stage-2
-+ * page tables only.
++ * Copyright (c) 2026 Nebula Matrix Limited.
 + */
-+#include "kvm_util.h"
-+#include "processor.h"
-+#include "test_util.h"
-+#include "ucall.h"
 +
-+#include <asm/sysreg.h>
-+#include <linux/sizes.h>
++#ifndef _NBL_CORE_H_
++#define _NBL_CORE_H_
 +
-+#define TEST_MEM_SLOT		10
-+#define TEST_MEM_SIZE		SZ_2M
-+#define TEST_MEM_GPA		SZ_1G
++enum {
++	NBL_CAP_HAS_NET_BIT,
++};
 +
-+static void guest_el1_code(void)
++#endif
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+new file mode 100644
+index 000000000000..16b10bcf1d36
+--- /dev/null
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2026 Nebula Matrix Limited.
++ */
++
++#ifndef _NBL_INCLUDE_H_
++#define _NBL_INCLUDE_H_
++
++#include <linux/types.h>
++
++/*  ------  Basic definitions  -------  */
++#define NBL_DRIVER_NAME					"nbl"
++
++#endif
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+new file mode 100644
+index 000000000000..199626159a4c
+--- /dev/null
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+@@ -0,0 +1,100 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2026 Nebula Matrix Limited.
++ */
++
++#include <linux/device.h>
++#include <linux/pci.h>
++#include <linux/module.h>
++#include <linux/bits.h>
++#include "nbl_include/nbl_include.h"
++#include "nbl_core.h"
++
++static int nbl_probe(struct pci_dev *pdev,
++		     const struct pci_device_id *id)
 +{
-+	u64 offset;
-+
-+	GUEST_ASSERT_EQ(get_current_el(), 1);
-+
-+	/* Exit to userspace with the vEL1 (nested) context live. */
-+	GUEST_SYNC(1);
-+
-+	/*
-+	 * Touch the prefaulted range. vstage-2 is disabled, so the shadow
-+	 * stage-2 is a 1:1 view of the canonical IPA space.
-+	 */
-+	for (offset = 0; offset < TEST_MEM_SIZE; offset += SZ_4K)
-+		READ_ONCE(*(u64 *)(TEST_MEM_GPA + offset));
-+
-+	GUEST_DONE();
++	return -ENODEV;
 +}
 +
-+static void guest_code(void)
++static void nbl_remove(struct pci_dev *pdev)
 +{
-+	u64 sp;
-+
-+	GUEST_ASSERT_EQ(get_current_el(), 2);
-+
-+	/*
-+	 * Mirror the EL2 translation regime into the real EL1 registers so
-+	 * that vEL1 runs on the test's stage-1 page tables. With E2H=1, the
-+	 * _EL1 accessors read the EL2 registers, and the _EL12 accessors
-+	 * write the real EL1 registers.
-+	 */
-+	write_sysreg_s(read_sysreg(sctlr_el1), SYS_SCTLR_EL12);
-+	write_sysreg_s(read_sysreg(tcr_el1), SYS_TCR_EL12);
-+	write_sysreg_s(read_sysreg(ttbr0_el1), SYS_TTBR0_EL12);
-+	write_sysreg_s(read_sysreg(mair_el1), SYS_MAIR_EL12);
-+	write_sysreg_s(read_sysreg(cpacr_el1), SYS_CPACR_EL12);
-+
-+	/* Run vEL1 on the same stack. */
-+	asm volatile("mov %0, sp" : "=r"(sp));
-+	write_sysreg(sp, sp_el1);
-+
-+	/*
-+	 * Drop TGE so that vEL1 is a nested context rather than host EL0.
-+	 * KVM backs it with a shadow stage-2 MMU even though vstage-2 is
-+	 * disabled (HCR_EL2.VM=0).
-+	 */
-+	write_sysreg(read_sysreg(hcr_el2) & ~HCR_EL2_TGE, hcr_el2);
-+	isb();
-+
-+	write_sysreg(PSR_MODE_EL1h | PSR_F_BIT | PSR_I_BIT | PSR_A_BIT |
-+		     PSR_D_BIT, spsr_el2);
-+	write_sysreg((u64)guest_el1_code, elr_el2);
-+	asm volatile("eret");
-+
-+	GUEST_ASSERT(false);
 +}
 +
-+static void pre_fault(struct kvm_vcpu *vcpu, u64 gpa, u64 size)
-+{
-+	struct kvm_pre_fault_memory range = {
-+		.gpa = gpa,
-+		.size = size,
-+	};
-+	int ret;
++/*
++ * PCI Device IDs for Leonis/NBL Network Controllers
++ *
++ * Vendor ID: 0x1F0F
++ * SNIC v3r1 product Device IDs range: 0x3403-0x3412
++ */
++#define NBL_VENDOR_ID				0x1F0F
 +
-+	do {
-+		ret = __vcpu_ioctl(vcpu, KVM_PRE_FAULT_MEMORY, &range);
-+	} while ((!ret && range.size) ||
-+		 (ret < 0 && (errno == EINTR || errno == EAGAIN)));
++#define NBL_DEVICE_ID_M18110			0x3403
++#define NBL_DEVICE_ID_M18110_LX			0x3404
++#define NBL_DEVICE_ID_M18110_BASE_T		0x3405
++#define NBL_DEVICE_ID_M18110_LX_BASE_T		0x3406
++#define NBL_DEVICE_ID_M18110_OCP		0x3407
++#define NBL_DEVICE_ID_M18110_LX_OCP		0x3408
++#define NBL_DEVICE_ID_M18110_BASE_T_OCP		0x3409
++#define NBL_DEVICE_ID_M18110_LX_BASE_T_OCP	0x340a
++#define NBL_DEVICE_ID_M18000			0x340b
++#define NBL_DEVICE_ID_M18000_LX			0x340c
++#define NBL_DEVICE_ID_M18000_BASE_T		0x340d
++#define NBL_DEVICE_ID_M18000_LX_BASE_T		0x340e
++#define NBL_DEVICE_ID_M18000_OCP		0x340f
++#define NBL_DEVICE_ID_M18000_LX_OCP		0x3410
++#define NBL_DEVICE_ID_M18000_BASE_T_OCP		0x3411
++#define NBL_DEVICE_ID_M18000_LX_BASE_T_OCP	0x3412
 +
-+	TEST_ASSERT(!ret, "KVM_PRE_FAULT_MEMORY failed, ret: %d errno: %d",
-+		    ret, errno);
-+	TEST_ASSERT_EQ(range.size, 0);
-+}
++/* All below IDs belong to Leonis ASIC family, different form-factor variants,
++ * share the same hardware initialization flow without differentiated ops.
++ */
++static const struct pci_device_id nbl_id_table[] = {
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_LX),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_BASE_T),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_LX_BASE_T),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_OCP),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_LX_OCP),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_BASE_T_OCP),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_LX_BASE_T_OCP),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_LX),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_BASE_T),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_LX_BASE_T),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_OCP),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_LX_OCP),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_BASE_T_OCP),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_LX_BASE_T_OCP),
++	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) },
++	/* required as sentinel */
++	{ }
++};
++MODULE_DEVICE_TABLE(pci, nbl_id_table);
 +
-+int main(void)
-+{
-+	struct kvm_vcpu_init init;
-+	struct kvm_vcpu *vcpu;
-+	struct kvm_vm *vm;
-+	struct ucall uc;
-+	u64 npages;
++static struct pci_driver nbl_driver = {
++	.name = NBL_DRIVER_NAME,
++	.id_table = nbl_id_table,
++	.probe = nbl_probe,
++	.remove = nbl_remove,
++};
 +
-+	TEST_REQUIRE(test_supports_el2());
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_PRE_FAULT_MEMORY));
++module_pci_driver(nbl_driver);
 +
-+	vm = vm_create(1);
-+
-+	kvm_get_default_vcpu_target(vm, &init);
-+	init.features[0] |= BIT(KVM_ARM_VCPU_HAS_EL2);
-+	vcpu = aarch64_vcpu_add(vm, 0, &init, guest_code);
-+	kvm_arch_vm_finalize_vcpus(vm);
-+
-+	npages = TEST_MEM_SIZE / vm->page_size;
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS, TEST_MEM_GPA,
-+				    TEST_MEM_SLOT, npages, 0);
-+	virt_map(vm, TEST_MEM_GPA, TEST_MEM_GPA, npages);
-+
-+	/* Run the guest until it has ERET'd from vEL2 to vEL1. */
-+	vcpu_run(vcpu);
-+	switch (get_ucall(vcpu, &uc)) {
-+	case UCALL_SYNC:
-+		TEST_ASSERT_EQ(uc.args[1], 1);
-+		break;
-+	case UCALL_ABORT:
-+		REPORT_GUEST_ASSERT(uc);
-+		break;
-+	default:
-+		TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
-+	}
-+
-+	/*
-+	 * The vCPU's last-run context is vEL1, so its hw_mmu is a shadow
-+	 * stage-2 MMU.
-+	 *
-+	 * Pre-faulting must ignore that and populate the canonical stage-2.
-+	 */
-+	pre_fault(vcpu, TEST_MEM_GPA, TEST_MEM_SIZE);
-+
-+	/* Resume at vEL1 and touch the prefaulted range. */
-+	vcpu_run(vcpu);
-+	switch (get_ucall(vcpu, &uc)) {
-+	case UCALL_DONE:
-+		break;
-+	case UCALL_ABORT:
-+		REPORT_GUEST_ASSERT(uc);
-+		break;
-+	default:
-+		TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
-+	}
-+
-+	kvm_vm_free(vm);
-+	return 0;
-+}
-
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Nebula Matrix Network Driver");
++MODULE_AUTHOR("Illusion Wang <illusion.wang@nebula-matrix.com>");
 -- 
-2.55.0
+2.47.3
 
