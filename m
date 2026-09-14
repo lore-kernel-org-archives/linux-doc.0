@@ -1,178 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-71.mta0.migadu.com [91.218.175.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08FD483BED;
-	Mon, 14 Sep 2026 15:00:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C882485CED
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 15:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789398026; cv=none; b=kg4Eq3JUgkMvn3wHC74hAvibYgn5Ju1qG2GUdQvFASXORFsFd04zU7iZfu2vuS5ADi3mB9nTw9uN6AEbulk6B7HJSNUMgqRwSPCgTWZBfMIZPjYoDmQD0AOt3lMFy5NCXQeO4hGV6YrbHr2UnwhdB/bjAwvUBcyzfGuawXt7yzA=
+	t=1789398047; cv=none; b=SMn3mRny7f2XC5Or6ZwUsu5EY6pBHxngb9jtSnKupnrNk5A2F5CkPNSDbj8A4NiUFD5BjuBYhQOBckedC4FhR41xBl/IwlLt8rltHp0nhtinKuolY7wqu5L7KiRiYvA3Mk2M8toWIYSLQliD/9xW0TehERJ/V3gIt4/B3CwcN1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789398026; c=relaxed/simple;
-	bh=UFrVRLvfvmL7sB7G5odMQ/5YgrxZlazK/5+N6FdQKJI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=owTUnhJmZDEy8zUeivAdrxWogpM5lktKB/BVW7+a1tR8i7l/SK0o90mV3feRKeZBGmenvWG9wlxQzJVs8Mo2T7VJfu8BMEc3tX+QUoyxxSr8vuiOvKFrBjGECj9EEkLMcIb2ppzGI5AzLPpXAgw1FXU6QKTfMrwN/RgZuwq04TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dg2Fe5DA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789398047; c=relaxed/simple;
+	bh=hwtaTLMA1sYqRp29cSIfiy68ZXQatt6fyt/Ot6ycecQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VxPLSbTzssrabyJa7wja/FwlUU0Zx9jLqTONIEaVr3m0QD9jtPLcXVqnWGuaOrcYiIFWGwSk72mdRVoH3HDu5xa7XZpWmrHeteQRSzlqr3WPIIeQxdOvJ2T9nqXP2ty1Ut4O5v/VRgnrUQ5it+v5JtBQXtEFthYWFo+P5JhpIw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lMeKd2OP; arc=none smtp.client-ip=91.218.175.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dg2Fe5DA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 751251F00893;
-	Mon, 14 Sep 2026 14:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789398024;
-	bh=r1G+xFXCQNVBF8wxMQxvWMHZYPsF0so/uZjMXa7bsyg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=dg2Fe5DAsf6cgSnFAtqKyclWLIYcQDBRezlkLWBcpnByHIDcZeYX1ozgrOmMphJP/
-	 VIYfYlEL34LjVlmE0u9d55V0O+Mprf3eoWuZJRt8M1uKntD6yXAmC7zM3P6IqpE3xx
-	 2Ov9QmoID5RyN3+5U5MaSJV2Nn867bU50b2moHPwXMaGK1k1CE+ZSHBRrc1xUY6bj0
-	 qLwdNI3DP2/EjP/nsa9rxNfzOvxVTH4iaP37WYXwkICznAVOxz1wsvoq3Hk6aRF/Mn
-	 N9xg2+rHHkWqvIyhlFPeawYni8ydfuf7wItDpyMV5A3ltZ9Wgnp+NId197Rc10bBAD
-	 KH3DZtVDniryQ==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Mon, 14 Sep 2026 15:57:22 +0100
-Subject: [PATCH v2 02/40] mm/vma: predicate setting mmap_prepare VMA fields
- on new vma alloc
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lMeKd2OP"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=hwtaTLMA1sYqRp29cSIfiy68ZXQatt6fyt/Ot6ycecQ=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789398042; v=1; x=1790002842;
+ b=lMeKd2OPeWI5xdKjNJhCkAzknfMSH3RcFG8v98Xjq6Jbnhz7ZldVTq96SOQRXtR08hV7RCoH
+ cPRdDhiiI27IBrsHJWsgKDzE9eTSoIy4NkKO9nxRG8GALCPQjSg3Fj9QUJow8DlmfbXfncTvmeq
+ 7Rqo7LO/JVX98DBt9SGf8Adc=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta12.migadu.com with ESMTPS id 24f60d578e23c651;
+	Mon, 14 Sep 2026 15:00:27 +0000
+X-Mizu-Trace-ID: 24f60d578e23c651
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 14 Sep 2026 23:00:24 +0800
+From: Baoquan He <baoquan.he@linux.dev>
+To: Kairui Song <ryncsn@gmail.com>,
+	"David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Nhat Pham <nphamcs@gmail.com>, Chris Li <chrisl@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Yosry Ahmed <yosry@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Barry Song <baohua@kernel.org>,
+	YoungJun Park <youngjun.park@lge.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>,
+	Wenchao Hao <haowenchao22@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Kunwu Chan <kunwu.chan@linux.dev>,
+	Meta kernel team <kernel-team@meta.com>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org,
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <aqgMCIOFi0dKx_6L@fedora>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
+ <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
+ <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org>
+ <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+ <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-2-7d9781ed5361@kernel.org>
-References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
-In-Reply-To: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
- Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
- Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Janosch Frank <frankja@linux.ibm.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Andreas Larsson <andreas@gaisler.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, 
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
- Xu Xin <xu.xin@linux.dev>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
- linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
- fuse-devel@lists.linux.dev, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1712; i=ljs@kernel.org;
- h=from:subject:message-id; bh=UFrVRLvfvmL7sB7G5odMQ/5YgrxZlazK/5+N6FdQKJI=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLJWcK89H34+9rDukTPlXlUr9mobCb2evH31Oq6GVWeuK
- SfJfrj5u6OUhUGMi0FWTJHl+Rfx/UEiYfM6L/i7wcxhZQIZwsDFKQAT0TrHyDBDbMXH3D098s27
- zgjc7/XoKWxPfnGaXUNR+5lwt6iF3FNGhie1c54s+xB6nWfStIkPbh83S7ihqrxvBf+zyefq36X
- lrWUCAA==
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
 
-It only makes sense to manipulate VMA fields if we allocated a new VMA,
-rather than merged it.
+On 09/12/26 at 12:20am, Kairui Song wrote:
+> On Fri, Sep 11, 2026 at 12:23 AM Nhat Pham <nphamcs@gmail.com> wrote:
+> >
+> > On Thu, Sep 10, 2026 at 3:57 AM David Hildenbrand (Arm)
+> > <david@kernel.org> wrote:
+> > >
+> > > On 9/8/26 18:45, Nhat Pham wrote:
+> > > > On Mon, Sep 7, 2026 at 4:30 AM David Hildenbrand (Arm) <david@kernel.org> wrote:
+> > > >>
+> > > >> On 9/4/26 23:14, Nhat Pham wrote:
+> > > >>
+> > > >> Hi,
+> > > >>
+> > > >>> To Kairui, Johannes, Yosry, Chris, David, Andrew, and other (z)swap folks -
+> > > >>> I need some help here.
+> > > >>
+> > > >> I'll mostly ignore swap-related stuff because (a) -EBUSY and (b) we have quite
+> > > >> some swap experts around :)
+> > > >>
+> > > >> Reading below, I do wonder if the swap subsystem needs some more coordination
+> > > >> and collaboration?
+> > > >>
+> > > >> For example, maybe having bi-weekly/monthly meetings to get everybody aligned
+> > > >> and uptodate could be something reasonable?
+> > > >>
+> > > >> This approach has proven fairly helpful in areas where (1) multiple companies
+> > > >> are involved (2) many concurrent development is happening, and (3) people have
+> > > >> different priorities and requirements.
+> > > >>
+> > > >> Is there already something like that to organize development? Should we get
+> > > >> started with that?
+> > > >
+> > > > Hi David!
+> > >
+> > > Hi!
+> > >
+> > > >
+> > > > Thank you for your suggestions :) More collaboration and communication
+> > > > is definitely needed here. Conference is a good place for this, but
+> > > > it's not something we can do very frequently, and many folks could not
+> > > > attend (visa issues, etc.).
+> > >
+> > > Right, and conferences usually don't have the capacity to squeeze too many
+> > > swap-related topics in, so it would have to be side discussions or BOFs.
+> > >
+> > > >
+> > > > A bi-weekly/monthly series of meetings sound very appealing. Swap
+> > > > contributors are very spread out (China, NorAm, Europe, etc.), so
+> > > > coordination will be tricky, but let us figure out something.
+> > >
+> > > Yes, that's an issue. I'd suggest swap maintainers take care of that if they
+> > > agree. I could try as well, but it's rather tricky right now on my end ...
+> > >
+> > > As an alternative, we could also use on/two/ ... slots in the bi-weekly MM
+> > > alignment session to talk about swap. (I'd be happy to learn more about all this
+> > > as well)
+> >
+> > That's awesome! Thanks for the offer David - I think MM alignment is at 9AM
+> > PDT Wednesday, usually right? That works for me of course, but Baoquan
+> > and Kairui (and other swap folks) - would this time be convenient for
+> > you?
+> >
+> 
+> Thanks for setting this up!
+> 
+> Is 9AM PDT fixed, or can it be adjusted? 9AM PDT is midnight for the
+> UTC+8 folks.
+> 
+> The time is still fine for me, though, I tend to stay up quite late
+> anyway ;) so that time works fine on my end if the slot is fixed.
+> 
+> Is there a calendar invite or something, please send me one, I'm happy
+> to do a swap sync discussion there.
 
-VMA merging does not compare vm_ops or vm_private_data, so a merged VMA
-keeps its own, which is also what the legacy f_op->mmap path does since it
-never touches an existing VMA. Previously set_vma_user_defined_fields()
-overwrote the merged VMA's fields with those set for the new mapping. In
-practice these are the same values, with rare exceptions such as shmem
-selecting vm_ops based on whether the file has been unlinked, so no
-user-visible change is expected.
-
-Make this dependency explicit, and additionally constify have_mmap_prepare
-while we're here.
-
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- mm/vma.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/mm/vma.c b/mm/vma.c
-index a319a9fc2f29..cd9e2113f66e 100644
---- a/mm/vma.c
-+++ b/mm/vma.c
-@@ -2892,7 +2892,7 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
- {
- 	struct mm_struct *mm = current->mm;
- 	struct vm_area_struct *vma = NULL;
--	bool have_mmap_prepare = file && file->f_op->mmap_prepare;
-+	const bool have_mmap_prepare = file && file->f_op->mmap_prepare;
- 	VMA_ITERATOR(vmi, mm, addr);
- 	const pgoff_t anon_pgoff = addr >> PAGE_SHIFT;
- 	MMAP_STATE(map, mm, &vmi, addr, len, pgoff, anon_pgoff, vma_flags, file);
-@@ -2935,7 +2935,7 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
- 		allocated_new = true;
- 	}
- 
--	if (have_mmap_prepare && !map_is_anon(&map))
-+	if (have_mmap_prepare && allocated_new && !map_is_anon(&map))
- 		set_vma_user_defined_fields(vma, &map);
- 
- 	__mmap_complete(&map, vma);
-
--- 
-2.55.0
+Thanks for opening this up for discussion. While the time slot is a
+little late for me, I am not very sure if I can attend, will see.
 
