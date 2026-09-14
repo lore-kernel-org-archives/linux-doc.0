@@ -1,41 +1,34 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D0E463B86;
-	Mon, 14 Sep 2026 12:10:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D247E39EF12;
+	Mon, 14 Sep 2026 12:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789387860; cv=none; b=Ql8rDV6fDEDO2DNCTxsvRjGbMcZqfPN0sQUxnwLdyPv4oy7MUxEsX6Mnm24WZdpZwx3jqZHcjXUxqvyvF5z9j2XLy43/sFB+pi4nHGRsKcj2ogrxKs7SpBsStAHpzoWW/3HhMYbNfqABKxCf+B/y3QyIehQvuCQuqhWUAI+JvY0=
+	t=1789388798; cv=none; b=G0crNDBkRhWXVeaMcIIchLpoM4NMck3xpoLFAMOIX0qkleqO6YnRrnYYevj1AGXZSMJVaKAKnvTQPaFUrieXqLNxfqWPSn9wuXvmUyynTcByHsIvS+7j5s77IC1unwl71gCwuTO2TFkQNjj1LfdWgbQuhn7SdbObsR4/DGXGw94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789387860; c=relaxed/simple;
-	bh=tbCmJto27lZvoHrdaDlAjBK2u9Sy9ypdNQr9qyG8YAs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=V/3P76nRurIqe/R1rMFkfYFNyWMkAHh5HPohv496r22ge6Ehp+w9HAl5OEyxLs/LqQsDxx3AigpUBkUDwmofePRusRYLrPtir+mG2yJAnr3oaphcCTYrIzLOW4kTXTizzC+5pdg+WFz4UffD+XCzD3/4uB19hgSaBV1CCn8qPBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=t8hcCBD8; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1789388798; c=relaxed/simple;
+	bh=78T28CfC11xHjAOl1sq7P1//hmjKZwVVx3B8uhlN6B0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=c03Podr4zC92BdhoIxxSr/wCaCsR/FhRQFggVwfDjuI9jWxumtaubsXl1eUdfDTkJN7UBTBVnRU8k0svH4vdwq4F6h21nPO4FISAiasGv1pgQ2x6vsKmfl43BA+HUJpmDux9C4PvkriTex9AJ9CP80O7p0gfkPAd6zdXcLAfDrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d93HJtdo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="t8hcCBD8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=DFvyBMTDpflO+4J/qxAqOv/mmKbukWTA8t09UNH9jao=; b=t8hcCBD8GHn6vMKWb2/55BbkJ8
-	aMzYCAypnWhxBmpimfdrxRksKGtFApdfm/E1D2gUfpcIn1tJ8k1pV/TBCSu/pPMcGUgtL9JYT/eeM
-	UxtvLr+s5zBlr8qaGxfUXEw1bM+MJxZVPGgnNDZHj6KzffCv66+uzOYqEQDkop0I5R8NFrYfGeHV9
-	BIpH7V0Pj6TVatI9G2+xefLgxM0p0P5+cR2N3zUlSLk3/MfpWLLqq7vdOnU3NBrBM5Q6i7DNi0rkn
-	AjKLEbzQ5vXjmlUwEV1F+ZB5xzzmP2lScToXs9F/wk26Bk6Q0vezqPTzdN6+CpJYMNqkJwCihVjl2
-	slcwuPiA==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1x65WS-003bZs-05;
-	Mon, 14 Sep 2026 12:10:56 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Mon, 14 Sep 2026 05:09:55 -0700
-Subject: [PATCH net-next v3 5/5] docs: netconsole: document rate limit
- feature
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d93HJtdo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DA711F000FF;
+	Mon, 14 Sep 2026 12:26:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789388796;
+	bh=9cesBeWPjuV+79g9ggA9zyeW1Rrm2zGZzQyniKaIpEY=;
+	h=From:Subject:Date:To:Cc;
+	b=d93HJtdoydPWf6reyNoURC5DkuZ8G5KiwzBay4+9gTUwvF+pR2rj3EFS3bIBZBN7g
+	 FxGmKbFYOhBHFiedgw7OPsYtD+GOJfvjNJHmJAVyOIQxlRNyk+CACHaL0I7ggH92RH
+	 ORyAwk0wZoJkibOcWkc8f+YyAefPdTWukjsnc+zAzSegQ/x3hKgxONyN6La5ZAUu6W
+	 QLH9XorGlUHYaISc0QmAHvRkZAMwHbmhjGXuiSgXysKTPxGdX0ES43OLO+HLaqLUeC
+	 8MuHkkj8krkIIz/KkVoOKD7p3yBdg1OqmgkheUOs45Dm15FCJm+2pfgOAwJe340Iyq
+	 LXzMLSdGKhEWg==
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Subject: [PATCH v2 00/13] KVM: arm64: Add KVM_PRE_FAULT_MEMORY support
+Date: Mon, 14 Sep 2026 13:26:11 +0100
+Message-Id: <20260914-kvm-arm-prefault-v2-0-26fb47f74b73@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,158 +37,185 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260914-netcons_ratelimit-v3-5-8e81b789ab37@debian.org>
-References: <20260914-netcons_ratelimit-v3-0-8e81b789ab37@debian.org>
-In-Reply-To: <20260914-netcons_ratelimit-v3-0-8e81b789ab37@debian.org>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, paulmck@kernel.org, 
- gustavold@gmail.com, asantostc@gmail.com, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com
-X-Mailer: b4 0.16-dev-f8e9d
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5831; i=leitao@debian.org;
- h=from:subject:message-id; bh=tbCmJto27lZvoHrdaDlAjBK2u9Sy9ypdNQr9qyG8YAs=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqp+QxCVKz6qJI7mRuYe7t79aBjF/GzvIAZFkCQ
- rJeSdto32WJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaqfkMQAKCRA1o5Of/Hh3
- bYQXD/9mN6CJiqY6kF0foFIajYJrRoW+V5LMGGgzd+OL4csJYaIGkVtIXqK3/eQmpppm0FYLbl2
- 85rl/bdR9Je6m3xhJsODsIb7AIvDyVxRjk2cMSmAFsRI1f82c0X65gKkl2p8RUEr43+Z3MFR/Zt
- JW40RFFVVxF6ApMkeH0ZCxW6fLPxfTkNLU2ThKwfjB+B1cXWQHKo6PR+I23UiQp80Pst+mlF1Ru
- 0J5/ASEpd3+li0jITGSaaiJAZeLHE10x5vi0Vc7CfE94nXkg4aGVxBEY5Qx82b3WEJoORoBQ3DG
- VjwLR6PyEknlSMG7rKwcvejY7sB46zjtQnlFaKoeicVo55/G0lu2AddYErHP/nKdK6LSwpjV3Lv
- itKVtoXKIh/6HYs+SA1QNdwVfxZC4YbdqXPwFx0FYFVfnQuyKa2E0m5Y0EG+A+koaDOXzFDeUB0
- zB13x2dE8/FR0cMcnV3u80y2f4y7AMgZg5RbjOF9QbM4QG8wrWw5BUi0qguSk6k5uJ6fMbERVRw
- PrAmSmFFOVMNHpnCi0RRT1b+kc2VbYG2hL8sLjHFs2SdgWZGrBXPpB7p2Or4e0rgyvyQhJWi0P9
- RzA/+J85As+JXRxcr9slTq8W6Y2yc/aGzNXWaTSh7ktyzTRtwb4CiNwez4jv2zTzrCXCzbgsncv
- wBXZ1CkwhHJ1bbw==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22NzQ6CMBCEX4Xs2TVtgxQ8+R6GQysLNPzUbLHRE
+ N7dQjx6/GYy36wQiB0FuGYrMEUXnJ8TqFMGj97MHaFrEoMSqhClvOAQJzQ84ZOpNa9xwcraXEp
+ blJVuIM32wr0P5b1O3LuweP4cD1Hu6U+m/siiRIGWWiqrXGuh6DYQzzSePXdQb9v2BT35Q8WxA
+ AAA
+X-Change-ID: 20260815-kvm-arm-prefault-9bb411b6897d
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+ Oliver Upton <oupton@kernel.org>, Fuad Tabba <tabba@google.com>, 
+ Joey Gouly <joey.gouly@arm.com>, Steffen Eiden <seiden@linux.ibm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, Jack Thomson <jackabt@amazon.com>, 
+ Jack Thomson <jackabt.amazon@gmail.com>, 
+ Alexandru Elisei <alexandru.elisei@arm.com>, 
+ Vincent Donnefort <vdonnefort@google.com>, 
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ Sean Christopherson <seanjc@google.com>, 
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+ Leo Soares Passos <Leo.Bras@arm.com>, 
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6729; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=78T28CfC11xHjAOl1sq7P1//hmjKZwVVx3B8uhlN6B0=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLKWP/8SfiQn4Crfqp5Tunp7OFssbAJj73/3V3whUM4qv
+ Xx5vWRoRykLgxgXg6yYIsvzL+L7g0TC5nVe8HeDmcPKBDKEgYtTACaiVcPwz9x2H/vT1fx6AuIT
+ 0xa8ePFEr+LejULHuo4FDpoJ0+yy9zH8lWzd+KFJau406x87pi4p6JrxQNYrckEa7/P1SRM0JiS
+ XcgEA
+X-Developer-Key: i=ljs@kernel.org; a=openpgp;
+ fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-Describe the per-target token bucket and the two configfs files that
-drive it: ratelimit_interval_ms and ratelimit_burst.
+This series implements the KVM stage 2 page table pre-faulting feature for
+arm64.
 
-Spell out the two properties that are not obvious from the file names.
-The limit is accounted per message rather than per packet, so a message
-split into several ncfrag packets is never truncated by the bucket
-running dry halfway through.
+== Foundations ==
 
-List both files in the target parameter table too, and qualify the rule
-underneath it. Only a disabled target can have its parameters updated,
-these two aside.
+The series begins by establishing required foundations:
 
-Note in the message ID section that a message the bucket discards never
-reaches the counter, so those drops leave no gap in the IDs.
+1. Updating kvm_s2_fault_desc to independently store the exception syndrome
+   register (ESR) value, and updating all code paths to use this value
+   exclusively.
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
+This is needed so we can later generate a synthetic fault to perform the
+pre-faulting - we need to be sure the code doesn't grab an incorrect ESR
+from elsewhere.
+
+2. Updating kvm_s2_fault_desc to independently store the kvm_s2_mmu and
+   updating all code paths to use this value exclusively.
+
+Similarly this is needed so we can generate a synthetic fault against the
+canonical stage 2 MMU (it would make no sense for it to touch nested shadow
+page tables) - we need to be sure that the code doesn't grab an incorrect
+MMU from elsewhere.
+
+3. Updating the abort paths which consume kvm_s2_fault_desc to also return
+   a kvm_s2_fault_result data structure.
+
+To perform pre-faulting the code must know the granule size of what was
+just walked. So the abort paths have to tell us what that was.
+
+4. Pass walk flags to kvm_pgtable_get_leaf() to permit walking page tables
+   under the MMU read lock.
+
+This is Jack's patch, verbatim, which allows the use of the
+KVM_PGTABLE_WALK_SHARED flag to walk page tables under the MMU read lock.
+
+Pre-faulting requires it to be able to work in parallel as specified by the
+API. The read lock precludes page tables being torn down behind our back.
+
+== Implementation ==
+
+Pre-faulting is implemented in kvm_arch_vcpu_pre_fault_memory() whose job
+is to pre-fault the stage 2 page tables which map a specific GPA (which,
+for arm64, is the guest's IPA).
+
+This function is called by kvm_vcpu_pre_fault_memory() for each GPA in the
+range, which itself is ultimately invoked by userland via the
+KVM_PRE_FAULT_MEMORY ioctl.
+
+The implementation is simple - try to walk to the stage 2 page table
+mapping the GPA - if unmapped, fault it in through a synthetic page fault.
+
+pKVM is not supported regardless of whether the VM is protected or
+not.
+
+This is because pKVM instantiates vCPUs upon run, but pre-faulting is
+typically performed before a vCPU is run. It would be confusing and
+inconsistent to error out on non-running vCPUs but to pre-fault running
+ones.
+
+== Credits ==
+
+This series is based, with gratitude, on Jack Thomson's series and their
+respins (links provided below) as well as the feedback he received.
+
+The series includes Jack's v5 "KVM: arm64: Pass walk flags to
+kvm_pgtable_get_leaf()" patch verbatim and two of his test patches (with
+minor fixups), plus a nested pre-fault test based on his.
+
+Link: https://patch.msgid.link/20260612162354.73378-1-jackabt.amazon@gmail.com/
+Link: https://patch.msgid.link/20260113152643.18858-1-jackabt.amazon@gmail.com/
+Link: https://patch.msgid.link/20251119154910.97716-1-jackabt.amazon@gmail.com/
+Link: https://patch.msgid.link/20251013151502.6679-1-jackabt.amazon@gmail.com/
+Link: https://patch.msgid.link/20250911134648.58945-1-jackabt.amazon@gmail.com/
+
+== Reviewer Notes ==
+
+I synced with maintainers on this who asked me to take a look, as there hadn't
+been progress on the series for some time.
+
+Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
- Documentation/networking/netconsole.rst | 71 ++++++++++++++++++++++++++-------
- 1 file changed, 57 insertions(+), 14 deletions(-)
+v2:
+* Split series - Added 1/13 for the esr.h helpers, 2/13 for converting
+  callers to use them, and move what was 1/8 to 3/13 to propagate
+  s2fd->esr, as per Marc.
+* Made esr helpers __always_inline as per Marc.
+* Renamed esr_trap_get_class() -> esr_get_ec() + dropped churn as per Marc.
+* Updated 5/13 (was 3/8) to drop the kvm_s2_fault_result.mapped flag.
+* Also updated 5/13 so abort handlers return -EAGAIN instead of swallowing, as
+  per Marc.
+* Split implementation patch further -> topup_mmu_memcache() change to 6/13,
+  EHWPOISON change -> 7/13 and docs change -> 10/13, as per Marc.
+* No longer mkyoung existing walked ranges, updated docs to reflect, as per
+  Marc.
+* Eliminated s2fd->pre_fault as per Marc.
+* Eliminated the redundant page table level in pre_fault_s2() as per Marc.
+* Put the commit message for 9/13 on a diet as per Marc.
+* Fixed up commit message for 11/13 (was 6/8) to correct reasoning about
+  exit-reason assert, as per Fuad.
+* Simplified: nested test 13/13 (was 8/8), dropping the empty nested-S2
+  setup and using test_supports_el2() to handle NV=0 opt-out, as per
+  Wei-Lin and Fuad.
+* Re-authored patch 13/13 to me as the changes are substantial enough to
+  require it. Updated commit message to give Jack credit for original.
 
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index 4ab5d7b05cf102..9fe4888fe136b3 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -127,23 +127,26 @@ To remove a target::
- 
- The interface exposes these parameters of a netconsole target to userspace:
- 
--	=============== =================================       ============
--	enabled		Is this target currently enabled?	(read-write)
--	extended	Extended mode enabled			(read-write)
--	release		Prepend kernel release to message	(read-write)
--	dev_name	Local network interface name		(read-write)
--	local_port	Source UDP port to use			(read-write)
--	remote_port	Remote agent's UDP port			(read-write)
--	local_ip	Source IP address to use		(read-write)
--	remote_ip	Remote agent's IP address		(read-write)
--	local_mac	Local interface's MAC address		(read-only)
--	remote_mac	Remote agent's MAC address		(read-write)
--	transmit_errors	Number of packet send errors		(read-only)
--	=============== =================================       ============
-+	===================== ================================= ============
-+	enabled               Is this target currently enabled? (read-write)
-+	extended              Extended mode enabled             (read-write)
-+	release               Prepend kernel release to message (read-write)
-+	dev_name              Local network interface name      (read-write)
-+	local_port            Source UDP port to use            (read-write)
-+	remote_port           Remote agent's UDP port           (read-write)
-+	local_ip              Source IP address to use          (read-write)
-+	remote_ip             Remote agent's IP address         (read-write)
-+	local_mac             Local interface's MAC address     (read-only)
-+	remote_mac            Remote agent's MAC address        (read-write)
-+	transmit_errors       Number of packet send errors      (read-only)
-+	ratelimit_interval_ms Rate limit interval, milliseconds (read-write)
-+	ratelimit_burst       Messages allowed per interval     (read-write)
-+	===================== ================================= ============
- 
- The "enabled" attribute is also used to control whether the parameters of
- a target can be updated or not -- you can modify the parameters of only
--disabled targets (i.e. if "enabled" is 0).
-+disabled targets (i.e. if "enabled" is 0). The two rate limit parameters
-+are the exception, see `Rate limiting`_.
- 
- To update a target's parameters::
- 
-@@ -177,6 +180,43 @@ You can modify these targets in runtime by creating the following targets::
-  cat cmdline1/remote_ip
-  10.0.0.3
- 
-+Rate limiting
-+-------------
-+
-+Netconsole hands every console message to every enabled target, so a host that
-+logs continuously can saturate the receiving agent. Each target carries a token
-+bucket that drops messages once the configured rate is exceeded, controlled by
-+two files in the target directory:
-+
-+        ===================== ================================================
-+        ratelimit_interval_ms Length of the accounting interval, in
-+                              milliseconds. Zero, the default, sends
-+                              everything.
-+        ratelimit_burst       Messages allowed per interval. Defaults to
-+                              10; zero drops every message once an
-+                              interval is set.
-+        ===================== ================================================
-+
-+Unlike most target parameters, both knobs can be written while the target is
-+enabled, which is when a flooding target most likely needs them. Either write
-+restarts the interval with a full burst, so a new limit applies from that
-+moment on.
-+
-+The limit is applied per message, not per packet, so a message big enough to be
-+split into several `ncfrag` packets is either sent whole or not at all.
-+
-+Crash output bypasses the bucket. Every message is sent while a panic is in
-+progress, and an oops or a BUG() turns the limit off for the rest of the boot,
-+so a small burst cannot cost you part of a crash dump.
-+
-+A drop leaves nothing on the wire. On an extended target it shows up as a gap
-+in the sequence number the header carries; a basic target has no such marker.
-+
-+Capping a target at 500 messages a minute::
-+
-+  echo 60000 > ratelimit_interval_ms
-+  echo 500 > ratelimit_burst
-+
- Append User Data
- ----------------
- 
-@@ -359,6 +399,9 @@ indicate that a message was dropped during transmission, as it may never have
- been sent via netconsole. The message ID, on the other hand, is only assigned
- to messages that are actually transmitted via netconsole.
- 
-+A message the target's rate limit discards is dropped before the ID is
-+assigned, so those drops leave no gap in the sequence of IDs either.
-+
- Example::
- 
-   echo "This is message #1" > /dev/kmsg
+v1:
+https://lore.kernel.org/r/20260825-kvm-arm-prefault-v1-0-befe8947702e@kernel.org
 
+---
+Jack Thomson (3):
+      KVM: arm64: Pass walk flags to kvm_pgtable_get_leaf()
+      KVM: selftests: Enable pre_fault_memory_test for arm64
+      KVM: selftests: Add option for different backing in pre-fault tests
+
+Lorenzo Stoakes (ARM) (10):
+      arm64: Add ESR fault helpers
+      KVM: arm64: Use ESR helpers in guest abort handling
+      KVM: arm64: Propagate and use esr in s2fd when handling guest aborts
+      KVM: arm64: Propagate and use mmu in s2fd when handling guest aborts
+      KVM: arm64: Propagate and use kvm_s2_fault_result on S2 fault
+      KVM: arm64: Size the stage-2 memcache from the fault MMU
+      KVM: arm64: Propagate EHWPOISON in kvm_s2_fault_pin_pfn()
+      KVM: arm64: Implement KVM_PRE_FAULT_MEMORY
+      Documentation: KVM: document arm64 KVM_PRE_FAULT_MEMORY
+      KVM: selftests: Add nested pre-fault test for arm64
+
+ Documentation/virt/kvm/api.rst                     |  18 +-
+ arch/arm64/include/asm/esr.h                       |  44 +++
+ arch/arm64/include/asm/kvm_emulate.h               |  52 ++--
+ arch/arm64/include/asm/kvm_pgtable.h               |   5 +-
+ arch/arm64/include/asm/kvm_pkvm.h                  |   2 +-
+ arch/arm64/kvm/Kconfig                             |   1 +
+ arch/arm64/kvm/arm.c                               |   1 +
+ arch/arm64/kvm/hyp/nvhe/mem_protect.c              |  10 +-
+ arch/arm64/kvm/hyp/pgtable.c                       |   5 +-
+ arch/arm64/kvm/mmu.c                               | 300 +++++++++++++++++----
+ arch/arm64/kvm/nested.c                            |   2 +-
+ tools/testing/selftests/kvm/Makefile.kvm           |   2 +
+ .../selftests/kvm/arm64/nv_pre_fault_memory_test.c | 158 +++++++++++
+ .../testing/selftests/kvm/pre_fault_memory_test.c  | 152 +++++++++--
+ 14 files changed, 615 insertions(+), 137 deletions(-)
+---
+base-commit: aa8e5dc6a7a2a1141ab40706a51010adcd0e57d2
+change-id: 20260815-kvm-arm-prefault-9bb411b6897d
+
+Best regards,
 -- 
-2.53.0-Meta
+Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
