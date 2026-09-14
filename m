@@ -1,210 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DB937A848;
-	Mon, 14 Sep 2026 18:35:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2674713C9C4;
+	Mon, 14 Sep 2026 18:37:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789410904; cv=none; b=YBvkjuu2V74FE5E5tGGIJFFa+o9e53jQ6lseCKm3KayZJodCc/NhvLRlbebxdveY9C+LFkuVXo7x4+5UdHJPM8IXOjNIp4j2IeeiNN7DfhXKxZp2jxPmvQCJEDC5dyNjNAjjVOYq1XsHQeLQjp+NrJaCkCAgMhhC+K+J+C6R4xg=
+	t=1789411079; cv=none; b=MsepIHyGGc1X6itoL0pk+vKs5PiW/QYKQ2uO/hYTXTXfHoJ4/l8VIqJPxUnL89iuVdiOcUPCdqsjY0Qwvwb19OOU3gVpmFpdeGiOy+OoqVSqNuh0TPLITWhtjuf6oDLpKobeWpUFHsWZKS+avvt668cWdSJ698/IboVZaAsv+OE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789410904; c=relaxed/simple;
-	bh=2DWjr6tfneSycRcLITs7xeFzwLWXpQLQrPpHQRvNPXs=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QQdejJNJ0z0z7R6U4zCiVby10y4Jd4ayaWIS9pVnOuy6MP8E5Wv9jrtuyADRuZt3Zr0LsrTYBe7PW0HoM3g8beRpyB9QlT32ZTxw/KCF+kJkh2eHkasp6Z2ILpHEEjavr0GWs7BZn6AVQ/BIYnff75EPfUCJhwcxBw5xPq5kcSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BtcCjaBh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789411079; c=relaxed/simple;
+	bh=SjZhDK0nqC8Zf70N+lOhNCSuAoux/KPPcpOxFpCchJE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kvle6ksgH74A8km/lXKkQsMEmSVqH5QaJ2pJCfhAU88gdv2di/gF+4L2InDsBgMgdLF/i8AUr7T7ML64p5YGqUJjbzCWsBzO6lc5WcCjDcN3E2jvkzNGEbmv5NHjo9u5vFIGnLi2P/etOItPpL434ABnf5rVgLuaTwLkq6twGIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fG+V7yzl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BtcCjaBh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7C321F00893;
-	Mon, 14 Sep 2026 18:34:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fG+V7yzl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC2811F000FF;
+	Mon, 14 Sep 2026 18:37:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789410899;
-	bh=wJxDxY9HWSSHy0WuS/Cypa1Lkj/6kf8RiQsbB8ldFW0=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=BtcCjaBhvvNpCho11De7PyZK3RQgVjpHqyCqB8JQfhTlSlUWgDvQ76F9hU+PtOg+4
-	 fZMeF77wz4E6oXlhbDrsdUBJghxPpL4v42Tjes6Ds1F9HQBiVq6c1liGBh/zkoa7Tp
-	 3NqWiMnHvtupX1If/TK06C4IsEqrTK/WGUp9hqZOty9WUUwBuYrMGJERLNw07mtKYu
-	 Hno4pnhfnIRnjX/DhjaoJeeXe9Igp5zMHhiZIKhqhwad4IR4dVWio4FpfvyvZWMWTP
-	 yM7HxbKwJZGN4kSvFonsdkjsmI0bvW+iDlDtb6KPI0RSAU5cMePWjznwOL3ZI0a5f9
-	 ogBieMvA3Vtmg==
-Subject: Re: [PATCH net-next v15 6/6] net: dsa: mxl862xx: document devlink
- flash and info support
-From: netdev-bot+sashiko@kernel.org
-To: daniel@makrotopia.org
-Cc: jiri@resnulli.us, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, gregkh@linuxfoundation.org,
- rafael@kernel.org, dakr@kernel.org, andrew@lunn.ch, olteanv@gmail.com,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Date: Mon, 14 Sep 2026 18:34:58 +0000
-Message-ID: <178941089843.22033.11660782467868066665@kernel.org>
-In-Reply-To: =?utf-8?q?=3Cc0d50bd459b97f4f5efd8a4fc09ab4f9ee4d605a=2E1789175?=
- =?utf-8?q?618=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
-References: =?utf-8?q?=3Cc0d50bd459b97f4f5efd8a4fc09ab4f9ee4d605a=2E17891756?=
- =?utf-8?q?18=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1789411074;
+	bh=TOeAKXfv/9Zy/Vfek9QqwXZIIUS3I0SElaU0l07Cf5U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fG+V7yzlO/w0vfzga+Er1Im9w2nHQjGIE6fv/TcE9yZN36AcVaiP2eUfJDKBas6On
+	 RFQ/MFy1HF88siOyqxgZmP7n353ap4t60XaHQhej2n7EEy0y8CU1JCQ4YVVihSjaDC
+	 Bfi9nJWUmjg/GkyX4dXIEssOZ4wsxkyBjZzeiIIJIEy34FGa4X8vievIYjeAOaij/p
+	 Jwt8bVmiMB/Mbdant7+aLCkTFR32BG08p1eflMNYApfK35ofOF+o5rgQ67xfqHu607
+	 Prx2UzuIbDPwMzgAqVndZnJMOen14O0sM1o80y2ItrBJL/QPa++KMVODvol6LUxWey
+	 Bw8hYleVDBFsg==
+Date: Mon, 14 Sep 2026 11:37:54 -0700
+From: Kees Cook <kees@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Alexey Gladkov <legion@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 20/21] kbuild: build rust crates in parallel with the
+ rest of the build
+Message-ID: <202609141133.7CA979C89@keescook>
+References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
+ <20260914-build-speedup-v2-20-39817ec5db23@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260914-build-speedup-v2-20-39817ec5db23@kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issue(s) to consider:
+On Mon, Sep 14, 2026 at 10:22:19AM +0100, Lorenzo Stoakes (ARM) wrote:
+> Care is taken to ensure that external rust modules can still be built
+> against the tree - make modules_prepare ... (where ... are other goals)
+> will build rust/ first.
+> [...]
+>  prepare: prepare0
+>  ifdef CONFIG_RUST
+>  	+$(Q)$(CONFIG_SHELL) $(srctree)/scripts/rust_is_available.sh
+> -	$(Q)$(MAKE) $(build)=rust
+>  endif
+>  
+>  PHONY += remove-stale-files
+> @@ -1760,6 +1763,12 @@ modules: modules_prepare
+>  # Target to prepare building external modules
+>  modules_prepare: prepare
+>  	$(Q)$(MAKE) $(build)=scripts scripts/module.lds
+> +ifdef CONFIG_RUST
+> +# Ensure rust/ is built before any external rust module which will rely upon it.
+> +ifneq ($(filter modules_prepare,$(MAKECMDGOALS)),)
+> +	$(Q)$(MAKE) $(build)=rust
+> +endif
+> +endif
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 2
+As far as I can see, nothing orders this recipe against the tree build,
+which also descends into rust/ through "obj-$(CONFIG_RUST) += rust/"
+in Kbuild, while $(build-dir) only depends on prepare. Before this
+patch that was fine, because prepare had already built rust/ by the
+time either of them ran. Now "make -jN modules_prepare all" can have
+two make processes building rust/ at the same time, and so can
+"make -jN rustdoc all" or "make -jN rusttest all", whose recipes also
+run "$(MAKE) $(build)=rust". That means two rustc runs writing the same
+objects in rust/ ...
 
-- [Medium] Documentation vs implementation mismatch on the `fw` info
-  version.
-- [Low] The Flash update section says "All ports of the switch are closed
-  for the duration of the update and the driver reprobes the switch…
-- [Low] Every `rescue_failed` cause is reported by
-  mxl862xx_devlink_flash_update() (mxl862xx-fw.c:998-1001) with the…
+> +# Rust code elsewhere in the tree depends upon rust/.
+> +ifdef CONFIG_RUST
+> +$(KBUILD_RUST_DIRS): | rust
+> +endif
+> [...]
+> +export KBUILD_RUST_DIRS := drivers lib mm samples
 
---
-
-net: dsa: mxl862xx: document devlink flash and info support
-
-This adds Documentation/networking/devlink/mxl862xx.rst describing the
-devlink info versions and the flash update behaviour of the mxl862xx
-driver, links it from the devlink index and adds the file to the driver's
-MAINTAINERS entry.
-
-A few questions below about places where the new document and the driver
-code seem to describe different behaviour.
-
-> diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-> new file mode 100644
-> index 0000000000000..7cbd538a5f3db
-> --- /dev/null
-> +++ b/Documentation/networking/devlink/mxl862xx.rst
-> @@ -0,0 +1,81 @@
-
-[ ... ]
-
-> +   * - ``fw``
-> +     - running, stored
-> +     - 1.0.70
-> +     - Version of the firmware running on the switch, reported as both
-> +       running and stored since the switch boots it from its own flash.
-> +       It is omitted while no firmware version is known: after a failed
-> +       flash, and in MCUboot rescue mode while an interrupted download
-> +       is still being recovered in the background. Once the loader is
-> +       ready to accept a new image the version appears as "0.0.0",
-> +       which no released firmware reports, so version-comparing tools
-> +       offer any available release as an upgrade. Use ``devlink dev
-> +       flash`` to tell a recovering switch from a ready one, see below;
-> +       a missing version on its own does not say why.
-
-[Severity: Medium]
-Does the "omitted ... after a failed flash" wording hold for a flash that
-was started from rescue mode?
-
-mxl862xx_devlink_info_get() returns early on the rescue path and publishes
-the cached version without the all-zero test that guards the normal path:
-
-	if (READ_ONCE(priv->rescue_mode)) {
-		if (!READ_ONCE(priv->rescue_ready))
-			return 0;
-
-		snprintf(buf, sizeof(buf), "%u.%u.%u",
-			 priv->fw_version.major, priv->fw_version.minor,
-			 priv->fw_version.revision);
-		ret = devlink_info_version_running_put(req,
-				DEVLINK_INFO_VERSION_GENERIC_FW, buf);
-
-On failure mxl862xx_devlink_flash_update() zeroes the cache but only the
-success path clears rescue_mode:
-
-	if (ret) {
-		memset(&priv->fw_version, 0, sizeof(priv->fw_version));
-		priv->asic_id = 0;
-		priv->asic_rev = 0;
-	}
-
-so rescue_mode and rescue_ready both stay set and devlink dev info keeps
-reporting fw running/stored "0.0.0" - which this document defines as "the
-loader is ready to accept a new image" - while the loader was actually
-left mid transfer by the no_end path and devlink dev flash answers -EBUSY
-("device is reinitializing, retry later") because skip_teardown is set.
-
-Normally this window lasts until the deferred reprobe fires, but if
-device_schedule_reprobe() fails with -ENOMEM nothing else re-classifies
-the switch, so it persists. Should either the rescue branch also suppress
-an all-zero version, or the document describe this case?
-
-> +
-> +Flash update
-> +============
-> +
-> +The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-> +The signed firmware image is transferred to the switch over the same
-> +MDIO bus which is also used to manage the switch, then verified and
-> +installed by the MCUboot bootloader running on the switch. All ports
-> +of the switch are closed for the duration of the update and the driver
-> +reprobes the switch after it has rebooted into the new firmware. A
-> +complete flash and reprobe cycle takes about one minute.
-
-[Severity: Low]
-This isn't a bug, but "closed for the duration of the update" reads as if
-the pre-flash administrative state comes back once the cycle completes.
-
-mxl862xx_devlink_flash_update() closes and detaches the user ports and
-closes the conduit:
-
-	dsa_switch_for_each_user_port(dp, ds) {
-		if (dp->user) {
-			dev_close(dp->user);
-			netif_device_detach(dp->user);
-		}
-	}
-	dsa_switch_for_each_cpu_port(dp, ds)
-		dev_close(dp->conduit);
-
-and the rest of the function never records the previous state nor reopens
-anything before scheduling the reprobe, so the interfaces come back
-registered but down and userspace has to bring them up again. The commit
-message of "net: dsa: mxl862xx: add devlink flash_update and info_get"
-does say this ("The closed user ports and conduit are not returned to
-their pre-flash administrative state across the reprobe; userspace brings
-them back up"). Could that sentence be mentioned here as well?
-
-[ ... ]
-
-> +If the driver gives up on the recovery, ``devlink dev flash`` returns
-> +``-EIO`` and says so in its extack message. The switch then needs a
-> +power cycle, a driver rebind, or both: the driver only re-examines the
-> +switch when it binds, so on a board where the switch can be power
-> +cycled on its own, unbind and rebind the driver afterwards to have the
-> +recovered switch recognised.
-
-[Severity: Low]
-This paragraph and the extack text in the driver seem to disagree about
-the remedy.
-
-mxl862xx_devlink_flash_update() always advises a power cycle:
-
-	if (READ_ONCE(priv->rescue_failed)) {
-		NL_SET_ERR_MSG_MOD(extack,
-				   "download recovery failed, power cycle the switch");
-		return -EIO;
-	}
-
-but mxl862xx_rescue_heal_work_fn() sets rescue_failed for two different
-situations. One is a drain error, where a power cycle is the right advice.
-The other is a successful drain whose hand-off failed:
-
-	if (device_schedule_reprobe(dev, MXL862XX_FW_REPROBE_DELAY_MS))
-		WRITE_ONCE(priv->rescue_failed, true);
-
-In that second case the loader is already sitting at a clean READY and
-only the driver needs to re-examine it, yet flashing stays refused with
--EIO for the lifetime of the binding and a power cycle alone does not
-clear the flag. Would it make sense for the extack to mention the rebind
-too, so it matches what this document says?
+Doesn't this make all of drivers/, lib/, mm/ and samples/ wait for rust/?
+That's a lot of stall: drivers/ is most of the tree. I think then a
+CONFIG_RUST build has most of its C work waiting on the rust chain;
+only the other top-level directories start early? This didn't create new
+build delays for those configurations?
 
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1789175618.git.daniel%40makrotopia.org
+Kees Cook
