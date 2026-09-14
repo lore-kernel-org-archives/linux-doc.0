@@ -1,298 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A834A480DEC;
-	Mon, 14 Sep 2026 14:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CB647F791
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 14:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789396263; cv=none; b=cwcQcCJUMHfrXwM9yMxGgriRuyu6li7jgm/CJjgYm3MnDZ7gNcVwTl4MtGbiyMKMWgv6MOUCGtsH9ocz8YzBr5CjTTsOR1bcvGwSAk94XyVRvSJCClhnV/LmjvhydaduVLYczIZiBTtpOluTRDE1EnVAnKD2koLiA+nhRXGh7+I=
+	t=1789396551; cv=none; b=lRoMeobJK3LA7d2k9krDESoXCLa+sXsLxF1ENxUAua+Pi2qH1ldM4fnl/91dUw/SZ3+eMIhuK2sTkNd02VCPHLEJJPyrzRiyO4ZZBLEDUrYB6DQtMIMLb6coAG27Zxcbbf+rNMtQCrHnSgYUWhXHKXMTV/dfZn8ZpKbqAKKShiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789396263; c=relaxed/simple;
-	bh=Z3E1hZeNvURbzCH4DGhMWQZAayLO6QmTSTK8h0higAc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AWdnjTuNq/keWl4o4qGMJHcbqWV/uCsCo2Tglsqexf1OswmDIlDoHXqMLYXLJLCYcv3XDT508GHxkTFovqZFpku5snkm0jrEapqt0REPBuWItX7NwBxNfqglVs3TvBWW+o0lbDxbpvv+KHi6bF/wuoj7TbZeP8mjht5MRDXpD6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oX+q0OYO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789396551; c=relaxed/simple;
+	bh=LglaGc1H0R+sxZA6wiKDg7CCL2SBWvqlpF/H4iHUw3I=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=IwFLBdGr1lmxRW7C07wLPgAv/qg0H1wa+y/YgvUaPUCyFrVY+eSDKG99A67+NrEYMeqD7mO1eWKmPttCzE8d5e3V88d2v2xIbQ+yCvT7s0RBA29fjZpmz2GSNIZJjW1BqFigVZyNILTIu59mw0MFGAd3PBHYOmLJimijjBYome8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LtvLjXah; arc=none smtp.client-ip=209.85.216.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oX+q0OYO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 824541F000FF;
-	Mon, 14 Sep 2026 14:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789396261;
-	bh=QU/gZVED0AtjJX6+GC2V0P7psA+KVinUaVQghPSJtXw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=oX+q0OYO1Fktez0rwXQHiVnV+hWx4Kv7NlHOJGc7Y4bbZyCPD80FO1KcxhSpBfbYX
-	 X++G0vdPmuBOKbkgMFl2U3G1wS7V1NvnCp4W8x7oTys1xs8hwXO5UaWq2TASnRagEG
-	 zhwpPDJwB20IhdrlkZivltLl7K4/RF0a8GokOf40=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Mon, 14 Sep 2026 16:30:33 +0200
-Subject: [PATCH v4 3/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LtvLjXah"
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-385d2703b64so4645292a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 07:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789396549; x=1790001349; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LpPRVgi7aIALsRKspaYc+kGuwDrBnRXT3lk0rEcHOXU=;
+        b=LtvLjXahCCiUglmMqRe8i5nUW1Xi3A62sVdLhtjxNGcwPyiC/ckUMG5Elscgs2f+80
+         GFiBdV/Hip1iLa64dzcGQmt5ImwJ4kgL+Ixyl7QAKzqAQyXo5FyvwXrPCmPOXHe4mWWG
+         bzclg9uXHNG2F3Aeo6sLHUAzsgtmTFFu6iAs8oTSL7T7KBX0n8bFw1mXAiP5l/uCq8ci
+         MinbxRnX377igCzZJJfxkrG3NPHP6e+7UIpLGTrKPeqgKOjjh4ZhogGMtRjIk/YUb5tS
+         ahDQsj0uzrmx42f7VHS/un1H04zgHLUW9hwNbcWGKwf3chdQNa1XCOP0hQWflaoOqPJw
+         XhsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789396549; x=1790001349;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LpPRVgi7aIALsRKspaYc+kGuwDrBnRXT3lk0rEcHOXU=;
+        b=Ak6TZkF1L5S/i1v4g/enKUTSxTapC7t0wDeA5fPdQLBejLNSGRPuTQ94MR8FxpCuHS
+         UguYkmTfpORcYs8NexNpdrz430Q1ivxgFTPEv/kviMuAQgkpwCtVnd2YYSgs1sLFoIuI
+         7Q7ByRjstPuQW/AOm0v8/K4vZydStl3L5JCi88BMphbAL+nn2rkFgZEhGNOkUKGkpB4Z
+         x6QPW+WowFwb9Y+Zph8UuPkC/90h7jiKrR0BK+OVZHZKnYi3uNUrQYgXiDHa4LTvOYb8
+         xLEb2o/3x6qhNXPcsnIWHvcHA10e89zWk4QW1qYaA0m5Jbi5UTMJ6FKIXSi4J2RAFOQl
+         8rMQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzX3v/wKoiQ6WtTSNWMq/ZTdCtvLADKVlbX4mNiQNBQg06AQzrRb6XcREuxzZWx9WZkrz0MAOu2eHo=@vger.kernel.org
+X-Gm-Message-State: AFuF++mjMFPA+Bvn4lDuQpLDD+cfSXI5jwvWZCYMykJYuRlcZwO72GIB
+	qst93FEIF1y79KF+3bFJ5gRintJ91oypapIps+fEiWLAFz0hsyorI9w9Vv/d/rPbVC618Obwlma
+	AsdFbKA==
+X-Received: from pjbin5.prod.google.com ([2002:a17:90b:4385:b0:39d:8c01:3e57])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:2790:b0:398:9beb:a2b7
+ with SMTP id 98e67ed59e1d1-39dd56bdc08mr8132347a91.25.1789396549085; Mon, 14
+ Sep 2026 07:35:49 -0700 (PDT)
+Date: Mon, 14 Sep 2026 07:35:48 -0700
+In-Reply-To: <178939019982.94750.4441254006258061798.stgit@devnote2>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260914-bind_taint-v4-3-eadf8a090903@linuxfoundation.org>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
-In-Reply-To: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
-To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Bradley Morgan <brads@mainlining.org>, 
- Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-trace-kernel@vger.kernel.org, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Johan Hovold <johan@kernel.org>
-X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10654;
- i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=Z3E1hZeNvURbzCH4DGhMWQZAayLO6QmTSTK8h0higAc=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDFkrWIWK++seileE2bVHfp3Rr9rS6XP9Kp9pw7fmFX/rj
- 95emn6zI5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACZieZxhwaWmQ6+s72aJf4qc
- 8zYtu/qL11G7WoZ51p6S8fsUbC5PsLgtIiRvonpy7aqzAA==
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
- fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Mime-Version: 1.0
+References: <178939017565.94750.9431053336761330458.stgit@devnote2> <178939019982.94750.4441254006258061798.stgit@devnote2>
+Message-ID: <aqgGRKOE138ePqmX@google.com>
+Subject: Re: [PATCH v16 02/13] KVM: x86: Prevent host DR7 debug register leak
+ into guest OS on NMI
+From: Sean Christopherson <seanjc@google.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@kernel.org>, x86@kernel.org, Jinchao Wang <wangjinchao600@gmail.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-The ability to add and remove devices from a driver through the sysfs
-"bind" and "unbind" files was created all those decades ago as a way
-that kernel developers can iterate faster, and provide a debugging way
-for users to attempt to add a new device to a driver without having to
-rebuild their kernel.
+On Mon, Sep 14, 2026, Masami Hiramatsu (Google) wrote:
+> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> 
+> When KVM enters a guest OS, host hardware breakpoints are disabled
+> before running the guest. However, an NMI can occur during guest
+> execution, where local_db_save() or arch_install_hw_breakpoint()
+> can be invoked.
+> 
+> In particular, if local_db_save() or arch_install_hw_breakpoint()
+> is executed from NMI, hardware DR7 can be modified or restored with
+> host breakpoint settings, leaking host breakpoints into the guest OS
+> or clobbering the guest's debug registers.
 
-This api over the years has been abused and recently come under a major
-fuzzing "attack" through tools like syzbot which decided that it would
-attempt to just randomly bind any driver to any type of device, causing
-loads of unneeded errors and pointless kernel patches to be generated by
-unsuspecting new developers.
+Not for local_db_save(), at least not AFAICT.  On VM-Exit, both Intel and AMD
+purge DR7, i.e. load 0x400, so local_db_save() => local_db_restore() is more or
+less a nop.  Even if that weren't the case, actually saving/restoring DR7 would
+be the right thing to do, in any context.
 
-Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
-will be set on the driver if the bind/unbind sysfs files are ever
-written to.  This lets kernel developers "know" that a user is
-attempting to do something that is not normal, and as such, if the
-kernel breaks they get to keep the shiny pieces laying around on the
-floor.
+> Introduce a per-CPU flag, cpu_dr_in_guest, to indicate that the CPU
+> is executing in guest mode. Set this flag in vcpu_enter_guest()
+> during entering the guest with disabling host breakpoints.
+> If this flag is set, local_db_save() and local_db_restore() return
+> immediately, and arch_install_hw_breakpoint() returns an error.
+> In addition, protect cpu_dr_in_guest in within_cpu_entry() to
+> prevent recursive #DB exceptions.
+> 
+> Fixes: f85d40160691 ("KVM: X86: Disable hardware breakpoints unconditionally before kvm_x86->run()")
+> Assisted-by: Antigravity:gemini-3.8-flash
+> Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> ---
+> Changes in v16:
+>  - Newly added.
+> ---
+>  arch/x86/include/asm/debugreg.h |    6 ++++++
+>  arch/x86/kernel/hw_breakpoint.c |   10 ++++++++++
+>  arch/x86/kvm/x86.c              |    7 +++++++
+>  3 files changed, 23 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/debugreg.h b/arch/x86/include/asm/debugreg.h
+> index 854d82b88ff4..50f830972698 100644
+> --- a/arch/x86/include/asm/debugreg.h
+> +++ b/arch/x86/include/asm/debugreg.h
+> @@ -18,6 +18,7 @@
+>  #define DR7_FIXED_1	0x00000400
+>  
+>  DECLARE_PER_CPU(unsigned long, cpu_dr7);
+> +DECLARE_PER_CPU(bool, cpu_dr_in_guest);
+>  
+>  #ifndef CONFIG_PARAVIRT_XXL
+>  /*
+> @@ -129,6 +130,9 @@ static __always_inline unsigned long local_db_save(void)
+>  {
+>  	unsigned long dr7;
+>  
+> +	if (this_cpu_read(cpu_dr_in_guest))
+> +		return 0;
 
-The flag is 'Y' which was unused, and can remembered as the user is
-"yeeting" the device being operated on here (thrown with force without
-regard for the thing being thrown).
+This is broken.  If an NMI hits between KVM writing cpu_dr_in_guest and clearing
+DR7, and there are active breakpoints, then local_db_save() won't disable breakpoints
+as it should, and the relevant code in exc_nmi() will run with breakpoints enabled.
 
-Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
-as many times crashes/oops/warnings/failures happen within the callback,
-and the taint flag needs to be there to show what was being attempted.
-If it were to be set after the callback happens, the oops report would
-not properly reflect what foolishness was being attempted.
+	kvm_load_xfeatures(vcpu, true);
 
-Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
-the tool from hitting bind/unbind, should be run with panic_on_taint
-enabled so that they fall over and don't continue on, thinking that they
-actually found a real issue.
+	this_cpu_write(cpu_dr_in_guest, true);
+	barrier();
 
-Userspace operations that rely on the bind/unbind files to work around
-the lack of will to upgrade a kernel image to a newer version with
-proper support for new devices, or the lack of will to submit valid
-device ids to driver authors, will still work properly, but now the
-kernel will be flagged in a way that will show that perhaps those users
-should reconsider their behavior and work to have the drivers properly
-support these devices in a "native" manner.
+  <NMI here is problematic>
 
-Finally, the bind/unbind files can find real use-after-free issues with
-some drivers by forcing the process to happen virtually without having
-to rely on manual removal processes.  Those real bugs should still be
-worked on, but by adding this taint flag, developers can more easily
-determine bug reports that are actually worth looking at.
+	if (unlikely(vcpu->arch.switch_db_regs &&
+		     !(vcpu->arch.switch_db_regs & KVM_DEBUGREG_AUTO_SWITCH))) {
+		set_debugreg(DR7_FIXED_1, 7);
+		set_debugreg(vcpu->arch.eff_db[0], 0);
 
-Reviewed-by: Johan Hovold <johan@kernel.org>
-Tested-by: Johan Hovold <johan@kernel.org>
-Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- Documentation/admin-guide/tainted-kernels.rst | 52 ++++++++++++++-------------
- drivers/base/bus.c                            |  3 ++
- include/linux/panic.h                         |  3 +-
- include/trace/events/module.h                 |  3 +-
- kernel/panic.c                                |  5 +--
- tools/debugging/kernel-chktaint               |  8 +++++
- 6 files changed, 46 insertions(+), 28 deletions(-)
+> +
+>  	if (cpu_feature_enabled(X86_FEATURE_HYPERVISOR) && !hw_breakpoint_active())
+>  		return 0;
+>  
+> @@ -157,6 +161,8 @@ static __always_inline void local_db_restore(unsigned long dr7)
+>  	 * not be good.
+>  	 */
+>  	barrier();
+> +	if (this_cpu_read(cpu_dr_in_guest))
+> +		return;
+>  	if (dr7)
+>  		set_debugreg(dr7, 7);
+>  }
+> diff --git a/arch/x86/kernel/hw_breakpoint.c b/arch/x86/kernel/hw_breakpoint.c
+> index f846c15f21ca..68de7ed79d88 100644
+> --- a/arch/x86/kernel/hw_breakpoint.c
+> +++ b/arch/x86/kernel/hw_breakpoint.c
+> @@ -40,6 +40,9 @@
+>  DEFINE_PER_CPU(unsigned long, cpu_dr7);
+>  EXPORT_PER_CPU_SYMBOL(cpu_dr7);
+>  
+> +DEFINE_PER_CPU(bool, cpu_dr_in_guest);
+> +EXPORT_PER_CPU_SYMBOL_GPL(cpu_dr_in_guest);
+> +
+>  /* Per cpu debug address registers values */
+>  static DEFINE_PER_CPU(unsigned long, cpu_debugreg[HBP_NUM]);
+>  
+> @@ -102,6 +105,9 @@ int arch_install_hw_breakpoint(struct perf_event *bp)
+>  
+>  	lockdep_assert_irqs_disabled();
+>  
+> +	if (this_cpu_read(cpu_dr_in_guest))
+> +		return -EBUSY;
 
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-index 9ead927a37c0..abbf5e3dd749 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -79,30 +79,31 @@ which bits are set::
- Table for decoding tainted state
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--===  ===  ======  ========================================================
--Bit  Log  Number  Reason that got the kernel tainted
--===  ===  ======  ========================================================
--  0  G/P       1  proprietary module was loaded
--  1  _/F       2  module was force loaded
--  2  _/S       4  kernel running on an out of specification system
--  3  _/R       8  module was force unloaded
--  4  _/M      16  processor reported a Machine Check Exception (MCE)
--  5  _/B      32  bad page referenced or some unexpected page flags
--  6  _/U      64  taint requested by userspace application
--  7  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
--  8  _/A     256  ACPI table overridden by user
--  9  _/W     512  kernel issued warning
-- 10  _/C    1024  staging driver was loaded
-- 11  _/I    2048  workaround for bug in platform firmware applied
-- 12  _/O    4096  externally-built ("out-of-tree") module was loaded
-- 13  _/E    8192  unsigned module was loaded
-- 14  _/L   16384  soft lockup occurred
-- 15  _/K   32768  kernel has been live patched
-- 16  _/X   65536  auxiliary taint, defined for and used by distros
-- 17  _/T  131072  kernel was built with the struct randomization plugin
-- 18  _/N  262144  an in-kernel test has been run
-- 19  _/J  524288  userspace used a mutating debug operation in fwctl
--===  ===  ======  ========================================================
-+===  ===  =======  ========================================================
-+Bit  Log  Number   Reason that got the kernel tainted
-+===  ===  =======  ========================================================
-+  0  G/P        1  proprietary module was loaded
-+  1  _/F        2  module was force loaded
-+  2  _/S        4  kernel running on an out of specification system
-+  3  _/R        8  module was force unloaded
-+  4  _/M       16  processor reported a Machine Check Exception (MCE)
-+  5  _/B       32  bad page referenced or some unexpected page flags
-+  6  _/U       64  taint requested by userspace application
-+  7  _/D      128  kernel died recently, i.e. there was an OOPS or BUG
-+  8  _/A      256  ACPI table overridden by user
-+  9  _/W      512  kernel issued warning
-+ 10  _/C     1024  staging driver was loaded
-+ 11  _/I     2048  workaround for bug in platform firmware applied
-+ 12  _/O     4096  externally-built ("out-of-tree") module was loaded
-+ 13  _/E     8192  unsigned module was loaded
-+ 14  _/L    16384  soft lockup occurred
-+ 15  _/K    32768  kernel has been live patched
-+ 16  _/X    65536  auxiliary taint, defined for and used by distros
-+ 17  _/T   131072  kernel was built with the struct randomization plugin
-+ 18  _/N   262144  an in-kernel test has been run
-+ 19  _/J   524288  userspace used a mutating debug operation in fwctl
-+ 20  _/Y  1048576  device was manually bound or unbound from a driver
-+===  ===  =======  ========================================================
- 
- Note: The character ``_`` is representing a blank in this table to make reading
- easier.
-@@ -189,3 +190,6 @@ More detailed explanation for tainting
-  19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
-      to use the devices debugging features. Device debugging features could
-      cause the device to malfunction in undefined ways.
-+
-+ 20) ``Y`` If userspace wrote to the `bind` or `unbind` sysfs files and
-+     successfully bound or removed a device from a driver.
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index d17bd91490ee..c51ad96d4de4 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -19,6 +19,7 @@
- #include <linux/string.h>
- #include <linux/mutex.h>
- #include <linux/sysfs.h>
-+#include <linux/panic.h>
- #include "base.h"
- #include "power/power.h"
- 
-@@ -241,6 +242,7 @@ static ssize_t unbind_store(struct device_driver *drv, const char *buf,
- 
- 	dev = bus_find_device_by_name(bus, NULL, buf);
- 	if (dev && dev->driver == drv) {
-+		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
- 		device_driver_detach(dev);
- 		err = count;
- 	}
-@@ -264,6 +266,7 @@ static ssize_t bind_store(struct device_driver *drv, const char *buf,
- 
- 	dev = bus_find_device_by_name(bus, NULL, buf);
- 	if (dev && driver_match_device(drv, dev)) {
-+		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
- 		err = device_driver_attach(drv, dev);
- 		if (!err) {
- 			/* success */
-diff --git a/include/linux/panic.h b/include/linux/panic.h
-index f1dd417e54b2..8e7250b0e913 100644
---- a/include/linux/panic.h
-+++ b/include/linux/panic.h
-@@ -88,7 +88,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
- #define TAINT_RANDSTRUCT		17
- #define TAINT_TEST			18
- #define TAINT_FWCTL			19
--#define TAINT_FLAGS_COUNT		20
-+#define TAINT_FORCED_BIND		20
-+#define TAINT_FLAGS_COUNT		21
- #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
- 
- struct taint_flag {
-diff --git a/include/trace/events/module.h b/include/trace/events/module.h
-index e5a006be9dc6..19df3e39bba4 100644
---- a/include/trace/events/module.h
-+++ b/include/trace/events/module.h
-@@ -26,7 +26,8 @@ struct module;
- 	{ (1UL << TAINT_OOT_MODULE),		"O" },		\
- 	{ (1UL << TAINT_FORCED_MODULE),		"F" },		\
- 	{ (1UL << TAINT_CRAP),			"C" },		\
--	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" })
-+	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" },		\
-+	{ (1UL << TAINT_FORCED_BIND),		"Y" })
- 
- TRACE_EVENT(module_load,
- 
-diff --git a/kernel/panic.c b/kernel/panic.c
-index 892045d8409e..a4dbb6b8cd2b 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -826,6 +826,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
- 	TAINT_FLAG(RANDSTRUCT,			'T', ' '),
- 	TAINT_FLAG(TEST,			'N', ' '),
- 	TAINT_FLAG(FWCTL,			'J', ' '),
-+	TAINT_FLAG(FORCED_BIND,			'Y', ' '),
- };
- 
- #undef TAINT_FLAG
-@@ -862,9 +863,9 @@ static void print_tainted_seq(struct seq_buf *s, bool verbose)
-  * exact size is allocated dynamically; the initial buffer remains
-  * as a fallback if allocation fails.
-  *
-- * The verbose taint string currently requires up to 327 characters.
-+ * The verbose taint string currently requires up to 344 characters.
-  */
--#define INIT_TAINT_BUF_MAX 350
-+#define INIT_TAINT_BUF_MAX 370
- 
- static char init_taint_buf[INIT_TAINT_BUF_MAX] __initdata;
- static char *taint_buf __refdata = init_taint_buf;
-diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
-index e1571c04afb5..d8628be37214 100755
---- a/tools/debugging/kernel-chktaint
-+++ b/tools/debugging/kernel-chktaint
-@@ -211,6 +211,14 @@ else
- 	addout "J"
- 	echo " * fwctl's mutating debug interface was used (#19)"
- fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "Y"
-+	echo " * device was manually bound or unbound from a driver (#20)"
-+fi
- echo "Raw taint value as int/string: $taint/'$out'"
- 
- # report on any tainted loadable modules
+If we decide this is how to fix arch_install_hw_breakpoint() clobbering DRs from
+NMI context, I would rather have more generic flag to tell perf that KVM is about
+to enter the guest, e.g. so that we don't have to separately solve the same problem
+for other perf events:
 
--- 
-2.55.0
-
+https://lore.kernel.org/all/3585d823-00f3-46ae-a799-b62a95743e76@linux.intel.com
