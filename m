@@ -1,78 +1,78 @@
-Received: from mail-pg1-f225.google.com (mail-pg1-f225.google.com [209.85.215.225])
+Received: from mail-pl1-f228.google.com (mail-pl1-f228.google.com [209.85.214.228])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB7C49E5D7
-	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 20:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950294766AE
+	for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 20:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.228
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789417464; cv=none; b=U/NteOC0MJHkTxoyC4J8oELXkAFudfoeHrIfFOHTi9ygPxUDIDqoHwCPdeee/1j2ZwaSphs/579RrvA8poLSSQCqwyLg5AoUEkecAI+oHTTeXtQAjgsX9crVvcl5SWaJtl2ueRKj56Z+ShK/3Vlswq9oLif/PH67hJsfA0Hig0U=
+	t=1789417465; cv=none; b=JgTAlA3U8NuKWrsYojSFha1eKnRUdv9JdiMSOY2ZR5Xh8cW8gqrK64TQm/5GOsfNBoiNgoS6QrNrKAjp3B5atOFmNv4oxhKrJrblG6rib7xzcbOmPPeVovbEtBGlUmAvs1DHwyPEbjRZ54XVcHcea9eTmPKVRFpzk9jHT2oRJKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789417464; c=relaxed/simple;
-	bh=k2tzbk1Xu7br+97MZVzboFVQLhf+xwYbmmoNash5Lbs=;
+	s=arc-20240116; t=1789417465; c=relaxed/simple;
+	bh=QzGyE3gc3NE4McPOtuP5S55HZ8A8IfEQPntOV+MpgGA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rLwNEmRWvjJj6mjPM4yh3HZlQzszeOKSXhvprfiat1tQzYs6SiywUSfm9DR90tLo+urX68h4K5EZEKFnOVLlvYtkSOGZFWdQX77/6zXglS0VLVtc8MjcvwkW1CmDL5uq9/8UqJMjHtFqACwgTxB8zDH2pcjKMRFJ0fOPQ21Ukpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Ox7RP5GA; arc=none smtp.client-ip=209.85.215.225
+	 MIME-Version; b=BTVc33VsEOtmitNnD5W4D8vJXWmaxW8UCu37sq5fZ3LtWmi3DoWt+tThhv60IPZ8h3IKMSuagpJP4QgfEBiJmAewO9F0Fo9YilmLs3Oza+YeMwzjc3cH1VSUPjKi6vzS04qDONP0w6jvrANQJ3KpSH9+7XNVuWgcZn+nljePWSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=OkMlmVxB; arc=none smtp.client-ip=209.85.214.228
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Ox7RP5GA"
-Received: by mail-pg1-f225.google.com with SMTP id 41be03b00d2f7-cc4aa0246b7so334190a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 13:24:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="OkMlmVxB"
+Received: by mail-pl1-f228.google.com with SMTP id d9443c01a7336-2d7200b2e15so15047995ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 13:24:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789417461; x=1790022261;
+        d=1e100.net; s=20260707; t=1789417463; x=1790022263;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Lw4cU/iYb1d+4k9XS51T95AvbCYV5HtwSci4L0F+IcE=;
-        b=xcS+gET9pJFcEsP7BdJZ3BiCsIhyidE49R8zOORHlXrg3yAqjWUkWaWNaMLT6joL7e
-         uaLPU9NsYY5QL2DTU+QVA/xjUIi6NEFWKm3dFgeXKL9RIMuAcZje3TCXnC1t/D8Tuo2i
-         EX0BuYAPKh7/tFsGzoZRN+IR9+6ck5HCsxO1UcboF7CUNzHIutHZohDbdszE/Ef7hwej
-         6V175IxB65CpTQAD2LtexfXOxVlzMQr1v+1fC6WvRAPJiNs8ljvrGu6eFxEStWYjaHbM
-         QdDj79Sg6bc2ogEvfZU+LoVPBEzMFwgysRojeNE6k8h3fe+9+wzf30glQapuzwgHHGC0
-         KnJQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxltuwe8FDqAXhmzI7O1cJgjfRiVGQ9L8hAM0bI0fyJeVVV1hYBCGuFTV98m9kxef9xOJqWQOkx9LE=@vger.kernel.org
-X-Gm-Message-State: AFuF++lVyKbmqa3pNjYm9hudU88o9cquXlUZgF3eo6FYglk1s9bsrLLU
-	a4Xjifx4jKGFz4zBskHpEEyvD2TSW2pFGQFcAZUSFm58cpNFNJHTwM3QGVLZyQl5ttodyflS72v
-	7gFkX7QzN4HJqXvm3gY1GbDk4Su+acE9UfWsml6XLximHLmPpxBmdTCjozUscrNIISUgKpUG5tF
-	yIhZ4Emt0HNCRywIDRpVXesYhaKsMDepuGC2s7bbOT6JfGJPW0P+55vFPdtNTeRgkP0Xa3ocJYd
-	47rQc4kZ+4p1H61yQ==
-X-Gm-Gg: AYBFou0PisPLJh9coo/rcrP/dclqIIgeqWIH6hlPDLkb2hqSsgbr33eMPrMO1joNPAE
-	+MMxMZs9SsMDp4oqyuohkkG4plpPshpk21H+Lr2meGHQsHWhjICyDwxPyn81APH7VHlJU7V+6Ya
-	RXAkao4dg3c4xquwVJsBtuXHQXTcP6YH+SVJu0qvZBH+pB57p7PYQZl3QTgc3LDT/ZbQKJgp+V3
-	dUYHPsqBqNeF2qu3NlCLoClGMTRdRJLVkJCH/pt9MZGFSPL730Ih8vEZAQ/jiLcmLj88HkbL7/a
-	eXSnPKw38pfPhnlfsrUbu38XSrp44CnvR/5llN3n36WC229ZRifzOYoalQeLM28WzBKOM7OA5BD
-	liWaMS1dLmnWXJDziQyy4NIkXYfUkE5/34uvQZRD8+I5BZ/5VLLeDslf6NH7uBJvTeStyqhx379
-	fTvhxG3vgRW704NoWPxf5F2ARmS1jw3gIey23Zcg==
-X-Received: by 2002:a05:6a21:9f07:b0:3d3:b02a:61a5 with SMTP id adf61e73a8af0-3db406dc613mr9934607637.28.1789417460824;
-        Mon, 14 Sep 2026 13:24:20 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-29.dlp.protect.broadcom.com. [144.49.247.29])
-        by smtp-relay.gmail.com with ESMTPS id 41be03b00d2f7-cc4c62a4114sm4645021a12.1.2026.09.14.13.24.20
+        bh=9PdHc/PVNJgEKpmU97s5aFFCrW71lWLYc+Sp0PVMH3I=;
+        b=PINY7kHCnEtqG9zRtSg/PTxSORJVTjUdsFglwKugQHApDVAJJx1L17E5iGTbPK5pqM
+         lEUzeGxrJj3XcmnJBNFuHmPP/Vy0Voki31fD+jFuCyxZ64J5zN6HOiC0ESlVQWDtCHo1
+         b/trHq1yx/89H8EFfRSrDWn/EvNwRYxuy9q1StE5tQenMwvjbyBowiR5IxgytidsCSnG
+         PASKkmxVtdTEqWDsXQveKCXlXsay5A5Ah6nMv594d/kM6F6epzs0i6g/BfRTsWZ5Q42d
+         mqshtFWGXGZlUfkNqxAEoAac3Ys49pdD9haXpnuipEPBIOYdlCWQQIX9J2e08xKX9Fla
+         ftYw==
+X-Forwarded-Encrypted: i=1; AKwUvBw5B+Vfw+XbcWhK4XERvIVuzWF/GEeuFD8RIFZhJvgLcxYmcdVE/Vu6rhnSXU7lVuCFj7P4Y+Wg7Ms=@vger.kernel.org
+X-Gm-Message-State: AFuF++kUWG4knD0UOCjjKbHyl/XZvt1cITIRtysVJhQrqZx/PeDtFiUm
+	u5VXfpa38CR/IS+JqIuk7hTpjK1eQvp89x6Tdfkho2H4xCdZGJQVlhhKb8PtjUJ9tfWhlQvkYNb
+	77eO5bqk/UsrWEzsdCTc28lwr2ffgSMgxI8dp5YcVXrp6zpnMyAMZptbwvXJtzzsKRhQem7+reF
+	tX7N8Eh0Q0ziPm7jcGorzVPEkagsbAssX92vfRBTD2ol9EJODS9zRjcOGJowsOxb1zUwl21YIF/
+	zqIFPvbaZIcljohyA==
+X-Gm-Gg: AYBFou0POgj32UEfePmuQSyJMQQ7dbfqsR/F2oZ+InvJij7heEixpkgJzyWCQSAe5uR
+	CnBKIMaqvhEzNOUdJy7HntZe03h/T/w0aQfhJROfG7Rhg8GIlr/F2xmPs6/XzCNxCXeNDWL8S9x
+	29ZHRMWDHxmyRtHRQxVptxUqC/lUJBytyx+y/vOFAtbvtwOWtYp4u8Lrgq7fK9QonStVmuHzSk/
+	5OlgFTFmIRaXwIwg1nBgo7EFrZnuz3wrQvzmIbVpIDRBPHInscIjtG5J099ehhn9KX/h7FABsMf
+	mUj3ZSmmMZrx5aKe48RrnGV8vCIl+CELPzj9oYBLwWlwZp1kbmuSfkg8tBP5hVOC/beWlJ5XiE0
+	VwQ+8GsCEmTzUdthG6wpgfjzY/MCdhvB7R0tRNst+oaeqJJPP8cjUt1DglbFG4zFyMH0nI5ntuY
+	WitX7CNfbFDNHKv+QsgT7KZeHvxNfK9NhYQDE+dA==
+X-Received: by 2002:a17:903:2281:b0:2d6:fd55:3a9d with SMTP id d9443c01a7336-2dd6c5c121bmr77826505ad.3.1789417462842;
+        Mon, 14 Sep 2026 13:24:22 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-25.dlp.protect.broadcom.com. [144.49.247.25])
+        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-2dd2cfcb819sm4861875ad.11.2026.09.14.13.24.22
         for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 14 Sep 2026 13:24:20 -0700 (PDT)
+        Mon, 14 Sep 2026 13:24:22 -0700 (PDT)
 X-Relaying-Domain: broadcom.com
 X-CFilter-Loop: Reflected
-Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-47d81384b4bso3752143fac.3
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 13:24:19 -0700 (PDT)
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-6b1413d9c19so4040880eaf.3
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 13:24:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1789417459; x=1790022259; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1789417461; x=1790022261; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Lw4cU/iYb1d+4k9XS51T95AvbCYV5HtwSci4L0F+IcE=;
-        b=Ox7RP5GA1kaNnqbnJyMQpVpqIbSLW5KM5CZ/7pfC+R4XLd9LAuApy2yxuotxRV7pSz
-         Yo401mUcfLZtrRR8wr0zTULlYaUs/9hXg4pES+qV8bWlkP7X1PPKjbdXQobXnk1jousa
-         79Ii2aoIzK8Sk4Y4Eogw4q9DkCcKgHr5KQtLA=
-X-Forwarded-Encrypted: i=1; AKwUvBz65JPEvG1hC4MvIzvyDGZ+QgTzFXU+YmEa2ChKBomo5et65Noy+xVqZqvt1yZlhVwZapdaAPTLxdo=@vger.kernel.org
-X-Received: by 2002:a05:6870:44b:b0:47b:dbb4:7cbb with SMTP id 586e51a60fabf-481f9b10f9fmr4289082fac.14.1789417458750;
-        Mon, 14 Sep 2026 13:24:18 -0700 (PDT)
-X-Received: by 2002:a05:6870:44b:b0:47b:dbb4:7cbb with SMTP id 586e51a60fabf-481f9b10f9fmr4289044fac.14.1789417458237;
-        Mon, 14 Sep 2026 13:24:18 -0700 (PDT)
+        bh=9PdHc/PVNJgEKpmU97s5aFFCrW71lWLYc+Sp0PVMH3I=;
+        b=OkMlmVxBDf6ujDO7831RpnCzvz4ocnitJ/JT1sCzf18S/H6QMJj2dMMnh/GVN4HAub
+         gTTvmONnAb5EV7zXI8HCtLruWwjzBV/BWfkvxfFnb1slZ8O4TnqzWZnulvtFp0sg/C8g
+         +qhcyxS/P/t0NRGAWOEJPZCBIBM6RbtJq9uqQ=
+X-Forwarded-Encrypted: i=1; AKwUvBzvu4OtkFSa4xobQLEF5kZDZnqItXFnncDjfkS9StqeebJ/n0yZgxR36uar3HpHlQIJBQJHlhWjOLE=@vger.kernel.org
+X-Received: by 2002:a05:6820:1f0f:b0:6b1:b375:481 with SMTP id 006d021491bc7-6c53bf22621mr4454244eaf.0.1789417461168;
+        Mon, 14 Sep 2026 13:24:21 -0700 (PDT)
+X-Received: by 2002:a05:6820:1f0f:b0:6b1:b375:481 with SMTP id 006d021491bc7-6c53bf22621mr4454212eaf.0.1789417460636;
+        Mon, 14 Sep 2026 13:24:20 -0700 (PDT)
 Received: from lvn-dbc2489.lvn.broadcom.net ([192.19.161.250])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-47df8699bc6sm11623741fac.3.2026.09.14.13.24.16
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-47df8699bc6sm11623741fac.3.2026.09.14.13.24.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 13:24:17 -0700 (PDT)
+        Mon, 14 Sep 2026 13:24:19 -0700 (PDT)
 From: Rishi Chhibber <rishi.chhibber@broadcom.com>
 To: gregkh@linuxfoundation.org,
 	arnd@arndb.de
@@ -92,9 +92,9 @@ Cc: bryan-bt.tan@broadcom.com,
 	yin.ding@broadcom.com,
 	tapas.kundu@broadcom.com,
 	Rishi Chhibber <rishi.chhibber@broadcom.com>
-Subject: [PATCH v3 3/4] Documentation: misc: Add vmw_zerocopy driver documentation
-Date: Mon, 14 Sep 2026 13:22:08 -0700
-Message-ID: <714b2c18a9f4ad7a4adc927941965ef45e8438c7.1789413109.git.rishi.chhibber@broadcom.com>
+Subject: [PATCH v3 4/4] selftests: misc: Add vmw_zerocopy selftest
+Date: Mon, 14 Sep 2026 13:22:09 -0700
+Message-ID: <bdd076790dccd495db77b1e932cf2f1236090df2.1789413109.git.rishi.chhibber@broadcom.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1789413109.git.rishi.chhibber@broadcom.com>
 References: <cover.1789413109.git.rishi.chhibber@broadcom.com>
@@ -108,325 +108,376 @@ Content-Transfer-Encoding: 8bit
 X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
 Summary of changes:
-- Add Documentation/misc-devices/vmw_zerocopy.rst describing the device
-  node, the ioctl interface, the message types and the buffer limits
-- Link it from Documentation/misc-devices/index.rst
+- Add tools/testing/selftests/drivers/misc/vmw_zerocopy: a
+  kselftest_harness test covering the ioctl input-validation paths, plus
+  its Makefile and config fragment
+- Add the target to tools/testing/selftests/Makefile
 
-Document the userspace interface of the vmw_zerocopy driver added earlier
-in this series: the /dev/vmw_zc device node, the VMW_ZC_IOCTL_MSG ioctl and
-its message types, the data and metadata size limits, and an example call
-sequence.
+Cover the input-validation paths of the vmw_zerocopy ioctl added earlier in
+this series: an unknown ioctl number, a bad message pointer, an unknown
+message type, a non-zero reserved word, neither buffer supplied,
+zero-length and oversized data and metadata buffers, a wrapping
+address+length, a wrapping PAGE_ALIGN() of the end address, an unmapped
+buffer, and zero-length and oversized raw payloads.
 
-The prose also covers the parts of the design that are not apparent from
-the interface alone: how a PFN list replaces a data copy, the metadata
-feedback path and why those pages need different release handling from the
-data pages, the atomic submission semantics of placing both PFN lists in a
-single datagram, the transport abstraction, and why the destination
-resource id is owned by the kernel rather than selectable by userspace.
+These are all rejected before any datagram is sent, so they need no
+hypervisor peer. Two further tests submit a well-formed message and assert
+only that any failure is not a validation error, which holds whether or not
+a peer is listening; they also check that repeated sends do not depend on
+per-call setup surviving. The whole test therefore runs on any guest where
+the module loads, and skips cleanly when /dev/vmw_zc is absent so it does
+not fail on kernels built without CONFIG_VMW_ZC.
 
 Signed-off-by: Rishi Chhibber <rishi.chhibber@broadcom.com>
 Reviewed-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
 Reviewed-by: Vishnu Dasa <vishnu.dasa@broadcom.com>
 ---
- Documentation/misc-devices/index.rst        |   1 +
- Documentation/misc-devices/vmw_zerocopy.rst | 278 ++++++++++++++++++++
- 2 files changed, 279 insertions(+)
- create mode 100644 Documentation/misc-devices/vmw_zerocopy.rst
+ tools/testing/selftests/Makefile              |   1 +
+ .../drivers/misc/vmw_zerocopy/.gitignore      |   1 +
+ .../drivers/misc/vmw_zerocopy/Makefile        |  20 ++
+ .../drivers/misc/vmw_zerocopy/config          |   2 +
+ .../misc/vmw_zerocopy/test_vmw_zerocopy.c     | 276 ++++++++++++++++++
+ 5 files changed, 300 insertions(+)
+ create mode 100644 tools/testing/selftests/drivers/misc/vmw_zerocopy/.gitignore
+ create mode 100644 tools/testing/selftests/drivers/misc/vmw_zerocopy/Makefile
+ create mode 100644 tools/testing/selftests/drivers/misc/vmw_zerocopy/config
+ create mode 100644 tools/testing/selftests/drivers/misc/vmw_zerocopy/test_vmw_zerocopy.c
 
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index f911edaecbfa..8d1687a2d566 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -27,4 +27,5 @@ fit into other categories.
-    spear-pcie-gadget
-    tps6594-pfsm
-    uacce
-+   vmw_zerocopy
-    xilinx_sdfec
-diff --git a/Documentation/misc-devices/vmw_zerocopy.rst b/Documentation/misc-devices/vmw_zerocopy.rst
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index 2d960626750e..325723e92bf3 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -20,6 +20,7 @@ TARGETS += devices/error_logs
+ TARGETS += devices/probe
+ TARGETS += dmabuf-heaps
+ TARGETS += drivers/dma-buf
++TARGETS += drivers/misc/vmw_zerocopy
+ TARGETS += drivers/ntsync
+ TARGETS += drivers/s390x/uvdevice
+ TARGETS += drivers/net
+diff --git a/tools/testing/selftests/drivers/misc/vmw_zerocopy/.gitignore b/tools/testing/selftests/drivers/misc/vmw_zerocopy/.gitignore
 new file mode 100644
-index 000000000000..80a6277acf28
+index 000000000000..68941a8c0553
 --- /dev/null
-+++ b/Documentation/misc-devices/vmw_zerocopy.rst
-@@ -0,0 +1,278 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+======================================
-+VMware Zero-Copy Buffer Sharing Driver
-+======================================
-+
-+Overview
-+========
-+
-+The VMware zero-copy driver (``vmw_zerocopy``) provides a misc character
-+device at ``/dev/vmw_zc`` that allows guest userspace to share memory buffers
-+with a VMware hypervisor-side peer without copying the payload through a
-+kernel bounce buffer.
-+
-+The driver's responsibilities are strictly bounded:
-+
-+- Pin the caller's user pages with ``pin_user_pages_fast()``.
-+- Collect the physical page frame numbers (PFNs) of those pages.
-+- Transmit the PFN list to the hypervisor peer through the driver's
-+  transport backend (currently VMCI; see `Transport Abstraction`_).
-+- Unpin the pages when the ioctl returns.
-+
-+The hypervisor reads the payload directly from the guest's physical frames.
-+No data is copied into or out of kernel memory.
-+
-+
-+How Zero Copy Works
-+===================
-+
-+A conventional driver copies application data into a kernel buffer and then
-+sends that buffer to the device.  This driver does not.
-+
-+When userspace calls ``VMW_ZC_IOCTL_MSG`` with a ``VMW_ZC_MSG_USER_BUFFER``
-+message, the kernel:
-+
-+1. Calls ``pin_user_pages_fast()`` to pin the data and metadata pages in
-+   place, preventing them from being swapped or moved for the duration of
-+   the ioctl.
-+2. Iterates over the pinned pages and records each page's PFN using
-+   ``page_to_pfn()``.
-+3. Packs the PFN list into a ``struct vmw_zc_host_message`` and hands it to
-+   the transport backend for delivery to the hypervisor peer (currently
-+   VMCI's ``vmci_datagram_send()``).
-+4. Calls ``unpin_user_pages()`` before returning.
-+
-+The hypervisor receives the datagram, maps the listed guest-physical frames
-+directly, and accesses the buffer contents without any copy traversing the
-+guest kernel.  The guest kernel never touches the payload data itself.
-+
-+
-+Metadata Feedback Path
-+======================
-+
-+Each ``VMW_ZC_MSG_USER_BUFFER`` call may supply two separate buffers:
-+
-+- **data buffer** - the payload the hypervisor will read.  Pages are pinned
-+  with ``gup_flags = 0`` (read-only from the caller's perspective).
-+- **metadata buffer** - a control region (up to 64 KiB) the hypervisor
-+  writes into.  Pages are pinned with ``FOLL_WRITE`` so the hypervisor can
-+  store per-operation results directly in the caller's own memory.
-+
-+Both PFN lists travel in a single VMCI datagram.  The hypervisor, while those
-+pages are still pinned, writes per-operation information - such as completion
-+status, byte counts, or application-level result codes - directly into the
-+metadata pages.
-+
-+Because the metadata pages are the same physical pages that userspace mapped,
-+userspace can read the hypervisor's response immediately after the ioctl
-+returns by reading its own buffer.  No additional system call is required to
-+retrieve the result.
-+
-+Key properties of this feedback path:
-+
-+- **Per-call**: a fresh metadata region is provided with each ioctl, so
-+  results from one call do not interfere with another.
-+- **Synchronous**: the result is present in the metadata buffer when the
-+  ioctl returns; no polling or waiting is required.
-+- **In-place**: the hypervisor writes into the caller's own pinned pages;
-+  the result does not pass through any intermediate kernel buffer.
-+- **Rich**: up to 64 KiB of arbitrary per-operation result data per call.
-+
-+
-+Atomic Submission Semantics
-+============================
-+
-+Both the data PFN list and the metadata PFN list are placed in a single
-+``struct vmw_zc_host_message`` and delivered in one transport ``send()``
-+call (currently backed by a single ``vmci_datagram_send()``).  The
-+hypervisor receives the complete bundle atomically.  There is no state held
-+between ioctl calls: if the send fails, nothing has been committed on the
-+hypervisor side.  This makes error recovery straightforward for the caller.
-+
-+
-+Transport Abstraction
-+=====================
-+
-+The driver is split along a small internal interface so that VMCI is a
-+swappable backend rather than something the ioctl path depends on directly:
-+
-+- ``vmw_zerocopy_core.c`` owns the misc device, the ioctl, and user page
-+  pinning.  It builds a ``struct vmw_zc_host_message`` on the stack and
-+  hands it to a transport for delivery.  It contains no VMCI-specific code.
-+- ``vmw_zerocopy_vmci.c`` implements delivery over VMCI: creating the
-+  driver's VMCI datagram handle, maintaining the per-peer datagram buffers
-+  described under `Constraints`_, and calling ``vmci_datagram_send()``.
-+
-+The two are joined by ``struct vmw_zc_transport_ops``, defined in the
-+driver-private ``vmw_zerocopy_priv.h``::
-+
-+    struct vmw_zc_transport_ops {
-+            int  (*init)(void);
-+            void (*exit)(void);
-+            int  (*send)(const struct vmw_zc_host_message *msg);
-+    };
-+
-+VMCI is currently the only transport, selected at compile time with
-+``vmw_zc_transport = &vmw_zc_vmci_transport`` in ``vmw_zerocopy_core.c``.
-+The destination is owned entirely by the transport backend, so ``send()`` takes
-+no address argument.  Adding a second transport means implementing this
-+interface in a new source file and pointing ``vmw_zc_transport`` at it - the
-+ioctl, pinning, and message-building code do not change.
-+
-+
-+Use Cases
-+=========
-+
-+This driver is suited to workloads where:
-+
-+- A guest application needs to hand large buffers to a VMware hypervisor
-+  service without incurring a kernel-to-kernel copy of the payload.
-+- Per-operation completion feedback (status, byte count, result code) is
-+  required synchronously with the send, without a separate receive call.
-+- The metadata region is bounded (<= 64 KiB) and the response latency must be
-+  bounded by the ioctl round-trip rather than by a polling interval.
-+
-+Examples include guest-side offload of data transformation, checksum, or
-+inspection workloads where the hypervisor peer processes each buffer and
-+reports the outcome directly into the caller's metadata page.
-+
-+
-+Userspace API
-+=============
-+
-+Device
-+------
-+
-+The driver registers a misc character device::
-+
-+    /dev/vmw_zc
-+
-+The device is created with mode ``0644`` so that unprivileged guest
-+userspace can open it without additional privilege.
-+
-+ioctl
-+-----
-+
-+All operations use a single ioctl::
-+
-+    ioctl(fd, VMW_ZC_IOCTL_MSG, &msg)
-+
-+where ``msg`` is a ``struct vmw_zc_guest_message`` defined in
-+``include/uapi/linux/vmw_zerocopy.h``.
-+
-+Addressing the peer
-+-------------------
-+
-+Userspace does not address the peer.  The destination is a compile-time
-+constant owned by the transport backend, and there is no initialisation call
-+and no per-message address field.
-+
-+This is deliberate.  The destination is a VMCI resource ID in the hypervisor
-+context, and that namespace belongs to the platform: low IDs are the
-+hypervisor's own control entry points.  A device node that unprivileged
-+userspace can open must therefore not let userspace name a destination, or it
-+becomes an unfiltered writer onto the hypervisor's control namespace.
-+``msg.reserved`` exists only to keep the structure layout fixed and must be
-+zero; a non-zero value returns ``-EINVAL``.
-+
-+Message types
-+-------------
-+
-+``VMW_ZC_MSG_USER_BUFFER``
-+  Transfer a buffer, with optional metadata feedback.  Fill
-+  ``msg.u.data`` as follows:
-+
-+  =====================  =================================================
-+  Field                  Meaning
-+  =====================  =================================================
-+  ``buffer``             ``__u64`` userspace address of the data buffer;
-+                         0 if no data buffer.
-+  ``buffer_length``      Length in bytes; 1-65536 (64 KiB maximum).
-+  ``metadata``           ``__u64`` userspace address of the metadata buffer;
-+                         0 if no metadata buffer.
-+  ``metadata_length``    Length in bytes; 1-65536 (64 KiB maximum).
-+  =====================  =================================================
-+
-+  At least one of ``buffer`` or ``metadata`` must be non-zero.
-+  The metadata buffer must remain mapped for the duration of the ioctl; the
-+  hypervisor may write into it at any point while the call is in progress.
-+
-+``VMW_ZC_MSG_RAW``
-+  Send a small inline payload (<= 36 bytes) to the peer without pinning any
-+  user pages.  Fill ``msg.u.raw_buffer.raw_buffer`` with the payload and
-+  set ``msg.u.raw_buffer.raw_len`` to the payload length.  Useful for
-+  lightweight control or signaling messages.
-+
-+Pointer fields (``buffer``, ``metadata``) are declared as ``__u64`` so that
-+``struct vmw_zc_guest_message`` has the same layout on 32-bit and 64-bit
-+userspace.  The argument pointer itself still needs conversion for 32-bit
-+callers, so ``.compat_ioctl`` is set to ``compat_ptr_ioctl``.
-+
-+Example call sequence
-+---------------------
-+
-+The following pseudo-code illustrates the typical usage pattern::
-+
-+    /* Step 1: open the device */
-+    fd = open("/dev/vmw_zc", O_RDWR);
-+
-+    /* Step 2: allocate data and metadata buffers */
-+    void *data     = mmap(NULL, DATA_SIZE,     PROT_READ,             ...);
-+    void *metadata = mmap(NULL, METADATA_SIZE, PROT_READ | PROT_WRITE,...);
-+    /* fill data buffer with payload */
-+
-+    /* Step 3: transfer the buffer and wait for metadata feedback.
-+     * There is no destination to supply; the driver owns it.
-+     */
-+    struct vmw_zc_guest_message xfer_msg = {
-+        .message_type = VMW_ZC_MSG_USER_BUFFER,
-+        .u.data = {
-+            .buffer          = (uint64_t)(uintptr_t)data,
-+            .buffer_length   = DATA_SIZE,
-+            .metadata        = (uint64_t)(uintptr_t)metadata,
-+            .metadata_length = METADATA_SIZE,
-+        },
-+    };
-+    ioctl(fd, VMW_ZC_IOCTL_MSG, &xfer_msg);
-+
-+    /* Step 4: read the result - no extra syscall needed */
-+    struct my_result *res = (struct my_result *)metadata;
-+    if (res->status == 0)
-+        /* success */;
-+
-+
-+Constraints
-+===========
-+
-+**One destination, fixed by the driver.**
-+The peer is not selectable by userspace; see "Addressing the peer" above.
-+The send path builds its datagram on the stack per call, so it performs no
-+allocation, holds no driver lock, and has no shared mutable state.  Concurrent
-+senders are serialised only where the VMCI transport itself serialises them.
-+
-+**Send-only.**
-+The driver transmits PFN descriptors to the hypervisor; it does not receive
-+datagrams.  Hypervisor responses are delivered through the metadata writeback
-+path described above, not through a kernel receive queue.
-+
-+**Buffer size limits.**
-+Data and metadata buffers are both capped at 64 KiB (``SZ_64K``).  These limits
-+bound the worst-case VMCI datagram size and the number of pages that must
-+remain pinned during the ioctl.
-+
-+**Inline raw payload limit.**
-+The ``VMW_ZC_MSG_RAW`` message carries at most 36 bytes
-+(``VMW_ZC_MAX_RAW_BUFFER_LEN``).
-+
-+**Incompatible with encrypted guest memory.**
-+The driver's correctness depends on the hypervisor being able to read and
-+write guest physical pages.  Hardware memory encryption (AMD SEV-SNP, Intel
-+TDX) intentionally prevents this.  The Kconfig dependency
-+``depends on !X86_MEM_ENCRYPT`` enforces this constraint at build time and
-+prevents the module from being enabled in encrypted-memory guests.
-+
-+**x86 only.**
-+The driver depends on ``CONFIG_X86`` and ``CONFIG_HYPERVISOR_GUEST``.  Its
-+current transport backend uses ``VMWARE_VMCI`` (see `Transport
-+Abstraction`_), which is an x86 VMware platform interface.
++++ b/tools/testing/selftests/drivers/misc/vmw_zerocopy/.gitignore
+@@ -0,0 +1 @@
++test_vmw_zerocopy
+diff --git a/tools/testing/selftests/drivers/misc/vmw_zerocopy/Makefile b/tools/testing/selftests/drivers/misc/vmw_zerocopy/Makefile
+new file mode 100644
+index 000000000000..195826f72f9c
+--- /dev/null
++++ b/tools/testing/selftests/drivers/misc/vmw_zerocopy/Makefile
+@@ -0,0 +1,20 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
++include ../../../../../build/Build.include
++
++UNAME_M := $(shell uname -m)
++
++ifeq ($(filter $(UNAME_M),x86_64 i686 i386),)
++nothing:
++.PHONY: all clean run_tests install
++.SILENT:
++else
++
++TEST_GEN_PROGS := test_vmw_zerocopy
++
++top_srcdir ?= ../../../../../..
++
++CFLAGS += -Wall -Werror $(KHDR_INCLUDES)
++
++include ../../../lib.mk
++
++endif
+diff --git a/tools/testing/selftests/drivers/misc/vmw_zerocopy/config b/tools/testing/selftests/drivers/misc/vmw_zerocopy/config
+new file mode 100644
+index 000000000000..03e4a430c5ff
+--- /dev/null
++++ b/tools/testing/selftests/drivers/misc/vmw_zerocopy/config
+@@ -0,0 +1,2 @@
++CONFIG_VMWARE_VMCI=m
++CONFIG_VMW_ZC=m
+diff --git a/tools/testing/selftests/drivers/misc/vmw_zerocopy/test_vmw_zerocopy.c b/tools/testing/selftests/drivers/misc/vmw_zerocopy/test_vmw_zerocopy.c
+new file mode 100644
+index 000000000000..af8035c4fa0f
+--- /dev/null
++++ b/tools/testing/selftests/drivers/misc/vmw_zerocopy/test_vmw_zerocopy.c
+@@ -0,0 +1,276 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * selftest for the VMware zero-copy buffer sharing UAPI
++ *
++ * Copyright (c) 2026 Broadcom. All Rights Reserved. The term
++ * "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
++ *
++ * Every input check in the driver runs before the message reaches the
++ * transport, so all of the tests below are meaningful without a hypervisor
++ * peer listening: they assert that bad input is rejected with the documented
++ * errno. Tests that would require a live peer only assert "not one of the
++ * input-validation errnos", since the transport result depends on the host.
++ */
++
++#include <errno.h>
++#include <fcntl.h>
++#include <stdint.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <sys/mman.h>
++#include <unistd.h>
++
++#include <linux/vmw_zerocopy.h>
++
++#include "../../../kselftest_harness.h"
++
++#define VMW_ZC_PATH	"/dev/" VMW_ZC_DEVICE_NAME
++
++/* Driver-private, but fixed by the UAPI's documented buffer limits. */
++#define VMW_ZC_TEST_MAX_BUFFER	65536
++
++FIXTURE(vmw_zc) {
++	int fd;
++	void *data;
++	void *metadata;
++	size_t page_size;
++};
++
++FIXTURE_SETUP(vmw_zc)
++{
++	self->page_size = (size_t)getpagesize();
++
++	self->fd = open(VMW_ZC_PATH, O_RDWR);
++	if (self->fd < 0)
++		SKIP(return, "cannot open %s: %s", VMW_ZC_PATH,
++		     strerror(errno));
++
++	self->data = mmap(NULL, self->page_size, PROT_READ | PROT_WRITE,
++			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	ASSERT_NE(MAP_FAILED, self->data);
++
++	self->metadata = mmap(NULL, self->page_size, PROT_READ | PROT_WRITE,
++			      MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	ASSERT_NE(MAP_FAILED, self->metadata);
++
++	memset(self->data, 0xa5, self->page_size);
++}
++
++FIXTURE_TEARDOWN(vmw_zc)
++{
++	if (self->data)
++		munmap(self->data, self->page_size);
++	if (self->metadata)
++		munmap(self->metadata, self->page_size);
++	if (self->fd >= 0)
++		close(self->fd);
++}
++
++/* An unknown ioctl number must be rejected, not silently accepted. */
++TEST_F(vmw_zc, unknown_ioctl)
++{
++	struct vmw_zc_guest_message msg = { };
++
++	EXPECT_EQ(-1, ioctl(self->fd, _IOW(VMW_ZC_IOCTL_MAGIC, 0x7f,
++					   struct vmw_zc_guest_message), &msg));
++	EXPECT_EQ(ENOTTY, errno);
++}
++
++TEST_F(vmw_zc, bad_message_pointer)
++{
++	EXPECT_EQ(-1, ioctl(self->fd, VMW_ZC_IOCTL_MSG, NULL));
++	EXPECT_EQ(EFAULT, errno);
++}
++
++TEST_F(vmw_zc, unknown_message_type)
++{
++	struct vmw_zc_guest_message msg = { };
++
++	msg.message_type = 0xffff;
++	EXPECT_EQ(-1, ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg));
++	EXPECT_EQ(EINVAL, errno);
++}
++
++/*
++ * The destination is owned by the kernel: @reserved is not an address and a
++ * caller that treats it as one (e.g. a binary built against the older header
++ * where this word was peer_id) must fail loudly rather than be misrouted.
++ */
++TEST_F(vmw_zc, reserved_must_be_zero)
++{
++	struct vmw_zc_guest_message msg = { };
++
++	msg.message_type = VMW_ZC_MSG_USER_BUFFER;
++	msg.reserved = 1;
++	msg.u.data.buffer = (__u64)(uintptr_t)self->data;
++	msg.u.data.buffer_length = 64;
++
++	EXPECT_EQ(-1, ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg));
++	EXPECT_EQ(EINVAL, errno);
++}
++
++TEST_F(vmw_zc, neither_buffer_nor_metadata)
++{
++	struct vmw_zc_guest_message msg = { };
++
++	msg.message_type = VMW_ZC_MSG_USER_BUFFER;
++
++	EXPECT_EQ(-1, ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg));
++	EXPECT_EQ(EINVAL, errno);
++}
++
++TEST_F(vmw_zc, zero_length_buffer)
++{
++	struct vmw_zc_guest_message msg = { };
++
++	msg.message_type = VMW_ZC_MSG_USER_BUFFER;
++	msg.u.data.buffer = (__u64)(uintptr_t)self->data;
++	msg.u.data.buffer_length = 0;
++
++	EXPECT_EQ(-1, ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg));
++	EXPECT_EQ(EINVAL, errno);
++}
++
++TEST_F(vmw_zc, oversized_buffer)
++{
++	struct vmw_zc_guest_message msg = { };
++
++	msg.message_type = VMW_ZC_MSG_USER_BUFFER;
++	msg.u.data.buffer = (__u64)(uintptr_t)self->data;
++	msg.u.data.buffer_length = VMW_ZC_TEST_MAX_BUFFER + 1;
++
++	EXPECT_EQ(-1, ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg));
++	EXPECT_EQ(EINVAL, errno);
++}
++
++TEST_F(vmw_zc, oversized_metadata)
++{
++	struct vmw_zc_guest_message msg = { };
++
++	msg.message_type = VMW_ZC_MSG_USER_BUFFER;
++	msg.u.data.metadata = (__u64)(uintptr_t)self->metadata;
++	msg.u.data.metadata_length = VMW_ZC_TEST_MAX_BUFFER + 1;
++
++	EXPECT_EQ(-1, ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg));
++	EXPECT_EQ(EINVAL, errno);
++}
++
++/*
++ * A near-top address must be rejected by the range check before any page-count
++ * arithmetic runs, whether it wraps on start + length or only on the
++ * subsequent page alignment.
++ */
++TEST_F(vmw_zc, address_length_overflow)
++{
++	struct vmw_zc_guest_message msg = { };
++
++	msg.message_type = VMW_ZC_MSG_USER_BUFFER;
++	msg.u.data.buffer = ~(__u64)0 - 15;
++	msg.u.data.buffer_length = 4096;
++
++	EXPECT_EQ(-1, ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg));
++	EXPECT_EQ(EFAULT, errno);
++}
++
++/*
++ * The page-alignment-only wrap: start + length does not overflow, but rounding
++ * the end up to a page boundary would, which previously yielded nr_pages == 1.
++ */
++TEST_F(vmw_zc, address_page_align_overflow)
++{
++	struct vmw_zc_guest_message msg = { };
++
++	msg.message_type = VMW_ZC_MSG_USER_BUFFER;
++	msg.u.data.buffer = ~(__u64)0 - 0x7ff;
++	msg.u.data.buffer_length = 0x800;
++
++	EXPECT_EQ(-1, ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg));
++	EXPECT_EQ(EFAULT, errno);
++}
++
++TEST_F(vmw_zc, unmapped_buffer)
++{
++	struct vmw_zc_guest_message msg = { };
++	void *gap;
++
++	gap = mmap(NULL, self->page_size, PROT_NONE,
++		   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	ASSERT_NE(MAP_FAILED, gap);
++	ASSERT_EQ(0, munmap(gap, self->page_size));
++
++	msg.message_type = VMW_ZC_MSG_USER_BUFFER;
++	msg.u.data.buffer = (__u64)(uintptr_t)gap;
++	msg.u.data.buffer_length = 64;
++
++	EXPECT_EQ(-1, ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg));
++	EXPECT_EQ(EFAULT, errno);
++}
++
++TEST_F(vmw_zc, zero_length_raw)
++{
++	struct vmw_zc_guest_message msg = { };
++
++	msg.message_type = VMW_ZC_MSG_RAW;
++	msg.u.raw_buffer.raw_len = 0;
++
++	EXPECT_EQ(-1, ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg));
++	EXPECT_EQ(EINVAL, errno);
++}
++
++TEST_F(vmw_zc, oversized_raw)
++{
++	struct vmw_zc_guest_message msg = { };
++
++	msg.message_type = VMW_ZC_MSG_RAW;
++	msg.u.raw_buffer.raw_len = VMW_ZC_MAX_RAW_BUFFER_LEN + 1;
++
++	EXPECT_EQ(-1, ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg));
++	EXPECT_EQ(EINVAL, errno);
++}
++
++/*
++ * A well-formed send passes every input check, so it must not fail with one
++ * of the validation errnos. Whether it ultimately succeeds depends on a peer
++ * being present, which this test cannot assume.
++ */
++TEST_F(vmw_zc, well_formed_send_passes_validation)
++{
++	struct vmw_zc_guest_message msg = { };
++	int rc;
++
++	msg.message_type = VMW_ZC_MSG_USER_BUFFER;
++	msg.u.data.buffer = (__u64)(uintptr_t)self->data;
++	msg.u.data.buffer_length = 64;
++	msg.u.data.metadata = (__u64)(uintptr_t)self->metadata;
++	msg.u.data.metadata_length = 64;
++
++	rc = ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg);
++	if (rc < 0) {
++		EXPECT_NE(EINVAL, errno);
++		EXPECT_NE(EFAULT, errno);
++		EXPECT_NE(ENOTTY, errno);
++		TH_LOG("send returned %s; a hypervisor peer may not be present",
++		       strerror(errno));
++	}
++}
++
++/* Repeated sends must not depend on any per-call setup surviving. */
++TEST_F(vmw_zc, repeated_raw_sends)
++{
++	struct vmw_zc_guest_message msg = { };
++	int i;
++
++	msg.message_type = VMW_ZC_MSG_RAW;
++	msg.u.raw_buffer.raw_len = VMW_ZC_MAX_RAW_BUFFER_LEN;
++	memset(msg.u.raw_buffer.raw_buffer, 0x5a,
++	       sizeof(msg.u.raw_buffer.raw_buffer));
++
++	for (i = 0; i < 16; i++) {
++		if (ioctl(self->fd, VMW_ZC_IOCTL_MSG, &msg) < 0) {
++			EXPECT_NE(EINVAL, errno);
++			EXPECT_NE(ENOTTY, errno);
++		}
++	}
++}
++
++TEST_HARNESS_MAIN
 -- 
 2.52.0
 
