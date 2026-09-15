@@ -1,86 +1,81 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D386333064D;
-	Tue, 15 Sep 2026 22:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D40B4DB547;
+	Tue, 15 Sep 2026 23:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789512429; cv=none; b=uHLNQv/XUY1nV2COu4Gj40lRVXCgCUNyoVNehnmwtViHIy19dhJKIPrOxsh0PbS+b5azmIpCISlwtAJDRdGvvyx6lp4vTMPMoZIcyZ8xrFETGBquaAz/EHkaf0J2p6R3epioPxEkhfV0MA9F2o5ZoRmPbDLVNEAmZTS1vGgqhFA=
+	t=1789515571; cv=none; b=hO99QNDyyi0VDIsmYQa8+JWT+CTe/MW9V6akP9lh4KZ+Ai4QulmMJeHzJ0gYl8I86l4gr/nKsEk9OsqkcZH40z+mWtbojevHU58a0OTN+GPHCySosgxnvIZhCjVqW4cB22k+zmQB+WYrDgJ6Czy+jn/q0AzxKxR1rPlh/AKJWHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789512429; c=relaxed/simple;
-	bh=09bEKkrAQ6evoRQnE+/6I6r4zrScGTzu6bRQiAt7xeY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U6/jfhWImpqHUnfwv39z6VNOBneXTDjo+MPr1Ilk+6JvKpLQjWsvRrD5WR/jxLdpntyOQa3Q1qMQMOcAmX5/1+s2v3HY123vHfA4SL2HTFrJRHG1l1fkK31pIDKP7eo3WTears8Zk7EHHPI4LokxAHf/FGOInX/v8EccPIh9niY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=UOdbI1PU; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1789515571; c=relaxed/simple;
+	bh=cBmzsGH8/A1iaHTmWPrlLf2myh+niSK2c22kmFiWMjM=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=mQ2+xcw/6W4vt6/6JXOjKEybs6aPg8iTiRDqgh7Kq2yoVrgaJOZdXi7YF4FWc2LsW6Qb84MfjWzkB9GdhivtOLkvaH5W/+fG1fp665Bxo86czbQybdL0TSxYCenvsgrkm4un5WSmauXoE2r6J/1rVXiJbuna8HasX03I3oybk7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=oOejxibo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UOdbI1PU"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=xOQT/3q2OYyCT4rjMqHcsKLwm9oUZFfMFiMm4p6KLC0=; b=UOdbI1PULOKFgQAcQ+Nf3vezGJ
-	dJNwppl2Od0Xe0VBQNzp5dV8/rUhortlGp0SfhG6VzHRRqFZKHM4jQd6S8r7gL/Ip37thgbFilowE
-	XKsJ+IP4bGzX6nCAesqCUuplp+uFrwAYo0OZAdJu4jYSJgzcSUdcGyriduiqqJW25wn1tPq7UcwY4
-	1SLFSsF6MPdLZHZ5tGMSxzLEYV+GjwPrQDvRi8Fnxd80BgCGHtSGrWIvtS+QUFJ3WvQP/R10vwTRN
-	d/IcaGMnVz1mubHBxWdshKM0q8FkGzTFVl+WvxrmXX70NqiFb2S/o5Qds0toL2RmuqPP8sqDIVLhO
-	MX1sE59A==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6bvZ-000000082HU-2IjM;
-	Tue, 15 Sep 2026 22:47:01 +0000
-Message-ID: <fa9f518f-e10a-41e4-99ba-b281741c22db@infradead.org>
-Date: Tue, 15 Sep 2026 15:46:59 -0700
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="oOejxibo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392231F000FF;
+	Tue, 15 Sep 2026 23:39:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1789515569;
+	bh=4m6z6CRskb4Hb1ZLGj5f4sRG4VITlSDdQKTs+jezx5E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=oOejxiboHlvkVxPn0NeFBbBeevJUCag7z37xbXN/w5CIeoOvk835Wv/hOl+kA09z5
+	 i/mlUtuf4DlVmbIU5a4h5a2m9HWWRGSffdZdgKDJNYzH+ub5cE8X3+zCtjGERAyTau
+	 RgyOda1PsB32Ob5dwbCdraALkMRWVwi14wMuRh78=
+Date: Tue, 15 Sep 2026 16:39:28 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: SJ Park <sj@kernel.org>
+Cc: "Liam R. Howlett" <liam@infradead.org>, David Hildenbrand
+ <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Lorenzo Stoakes
+ <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>, Mike Rapoport
+ <rppt@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Suren Baghdasaryan <surenb@google.com>,
+ Vlastimil Babka <vbabka@kernel.org>, damon@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 0/8] mm/damon: introduce hugepage_size probe filter
+Message-Id: <20260915163928.9d6260f445d895429d115fd8@linux-foundation.org>
+In-Reply-To: <20260915143359.91472-1-sj@kernel.org>
+References: <20260915143359.91472-1-sj@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: power/cpuidle: Fix repeating phrase
-To: Syazwina Fazrul <norsyazwina.fazrul@gmail.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Daniel Lezcano <daniel.lezcano@kernel.org>,
- Christian Loehle <christian.loehle@arm.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260915220105.14655-1-norsyazwina.fazrul@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260915220105.14655-1-norsyazwina.fazrul@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Tue, 15 Sep 2026 07:33:49 -0700 SJ Park <sj@kernel.org> wrote:
 
-
-On 9/15/26 3:00 PM, Syazwina Fazrul wrote:
-> remove repeating 'with the' phrase
+> Knowing whether a given memory is backed by a hugepage of specific size
+> is useful for efficient utilization of hugepages.  For easy monitoring
+> of the information, introduce a new data attribute probe filter type,
+> hugepage_size.  It works similar to the DAMOS filter of the same name.
+> It works for memory that is backed by a hugepage of a given size range.
 > 
-> Signed-off-by: Syazwina Fazrul <norsyazwina.fazrul@gmail.com>
+> Patch 1 introduces the new probe filter type to DAMON API and extends
+> related data structures.  Patch 2 updates probe filter commit logic to
+> handle the size range.  Patch 3 Updates the filtering logic to support
+> the new type.  Patch 4 adds new DAMON sysfs files for the size range.
+> Patch 5 updates DAMON sysfs interface to fully support the new filter
+> type.  Patches 6-8 updates design, usage and ABI documents for the new
+> feature.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+All queued up, thanks.  With a -fix for [7/8].
 
-> ---
->  Documentation/admin-guide/pm/cpuidle.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/pm/cpuidle.rst b/Documentation/admin-guide/pm/cpuidle.rst
-> index be4c1120e3f0..e91ebd432f6f 100644
-> --- a/Documentation/admin-guide/pm/cpuidle.rst
-> +++ b/Documentation/admin-guide/pm/cpuidle.rst
-> @@ -316,7 +316,7 @@ interval" value.
->  
->  Now, the governor is ready to walk the list of idle states and choose one of
->  them.  For this purpose, it compares the target residency of each state with
-> -the predicted idle duration and the exit latency of it with the with the latency
-> +the predicted idle duration and the exit latency of it with the latency
->  limit coming from the power management quality of service, or `PM QoS <cpu-pm-qos_>`_,
->  framework.  It selects the state with the target residency closest to the predicted
->  idle duration, but still below it, and exit latency that does not exceed the
+> Test
 
--- 
-~Randy
+fyi, I'm always reluctant to include testing info in the permanent
+record.  Because it's development-time info which becomes obsolete very
+quickly.
+
+It isn't useful to someone who is reading the changelog in mainline in
+2028 (or even Nov 2026) because the patchset will have had far more testing
+since these words were written.
+
+It is of course very useful info but I suggest it be maintained below
+the "---", where all short-term development-time info is best
+maintained.
+
