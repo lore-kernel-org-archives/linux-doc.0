@@ -1,66 +1,33 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848A148664C
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 08:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F39FF46AA8B;
+	Tue, 15 Sep 2026 08:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789461245; cv=none; b=uYJn5dBc8lmYcMPaE5IM6suEI+pSm6dZNUj2uA9KpxRId8Y++xzsUOmSjOL4FYmb7ngIgqc6SiPTS0hO2Bf7d5ARTZE45ndd5I2hp28+ZowfWtckkSNgkdDtKuI4J0yo4LmElvd9IlsdlC2SoCZXjv3bjQBUsrmA9ZmPA0K7RLc=
+	t=1789461571; cv=none; b=Z6YFP0rTAlrlJA1aOUAm8fBKdpiVXRwwII3o+44Z9dZq1/RVK3FII3ECTVAFVyZr5ce269pEU9LplErsfWv6Rami0GmMhy5SNWFPYOjJu8Sjrqytfq5RU5ruNCU7uAtxxSkkGM0VrwdZtXQFz7uWkftQEfshe5boM96EOwwEckM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789461245; c=relaxed/simple;
-	bh=6oazE5lyXKugirOnKSHAnIRQytAaJZ5lnjV8psy6s3o=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=E3UTZusMuFZAHhUn/QePXWLWbxU5FzuZ+aEZ+heYwXEzy13xD4GgpuXUhg5Lib15qQ0kJVD0nOC2dHkEt5PyQtVfvLyEyOuc4uY7yLOh7PPG0cyNE6PEjvlYTO9zZ5irs6X4+IPC/KA6+RUrI6OsSaRI8RXTfnotQ7LkSsvP7nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lv9HSILP; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789461571; c=relaxed/simple;
+	bh=yHlIrOdPfLjj9Gu8t0QO/KBvaVLhX4WuZRnvoHBDFI8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q+0LSZVnLW9NUBY+6NRN/dy6wanm1b+tnd44qhKJRruqv22moim9CF36LHlDkyuMcXsh0Lpmw353ssewfpB315wwzgm9NrPJcmhHva/p92HXGXqOB1loHM8dqcpr9oFKO2znZBD+zUTA6ycap3LE6yNHI4XYCS5FBUWnln5nXuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZQ+8sTEO; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lv9HSILP"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccd5cf03so17080a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 01:34:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789461243; x=1790066043; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hpbLL6EWSOuJK30L0ZNRx6vvSYbzSqSPnWalwqYVt2E=;
-        b=Lv9HSILPLnHuKbxt6mga2pl32QOF55q2Kqi4InTfgt5dc2LKcxHM2kMp6pD/bufxGR
-         IYNErJ6dWYlED2qwNRyK2xzX6jcdK0cFXoDCHeMXqR6WNUQWFc+0A3QRp/mdmDjzqPip
-         etwN04Z4Vu7EGQzWZswRS1GXXixhQme3U/an0cpeEzBPAl0xolIlH0d4IiRlwDzJMP34
-         EmmTX+5VAZCeRMe7hPRcET+WbjYqbZdhxJJcHnyz28h/ZlkA4b4ca/qS2v9QmDgZbbnf
-         oPsWUTwbjJqnzMu03wFKec+PhZ2nJOsoRiWTFS7tWrKAyIXe4YzMNFxEBfjH4NIZziX0
-         evPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789461243; x=1790066043;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hpbLL6EWSOuJK30L0ZNRx6vvSYbzSqSPnWalwqYVt2E=;
-        b=RswPG/qvNL0505HRvcqTEjtjaIh3p8Exd6eyrLZJIutVcQ+STGofuoFzYarOdwan4t
-         wG9zclEvzBgtIOYDKKTfqUnSR0KZS3R8TC1RvVKZZrxfO+c3Y1YIRnhyxzZGzy8g8QcE
-         hQa3lxBKHWiRiTptpxW0unohXzydmEmOTrROTxU1CXx9ZPPZdBumYlXcZkH2Yn6I2+0B
-         H2UrDsZlFOAQb0o+4tQdFzFyBLFuklg2H2jZbvqEb7L2rwbFE0tZ+BHUmmR9QSrVL/pq
-         JV1zxSSVtQal9y6TIUQQeM0XV6go34ELFHSfzW1A1RaWSdD4vmMRUSGZCg1HpQ5A0HC2
-         MEmw==
-X-Gm-Message-State: AFuF++lfc//RIfoh2SBhe4YZuELWxVA8eTTGZ5bYSb3LGkqwBHGARG9b
-	Teeso+43NAQzLY1RRWMp/Zp+jyKQSw9Iva//fGZFlLa0i+4Hk3LTMrEQ
-X-Gm-Gg: AYBFou3dmJiCGN4jLlSKECsj8mJ6CWkbjaApQN8NxWU4/x5qQQwYbAcJ4YmXfm7CE6Z
-	sbxTV72V4nWd2LurhSk3jFFau26HDZK7HPhovUcZ9u/dHUHWW+8VSaT7HBnyWlqTMVL4Q/OIbVA
-	UEni1HcyUt4VNKCAab14+34i7/LTo1Lnrqsh457gyMI1XBY3J8A0PdbeaMRC3Me52Ib6NY8k6Q/
-	RrnU/8RWMzaGeu94hm7Q36odbbVtjChtFWWqcCRgcL/Gr6FpxsZsbvvTU0HJrSH64MCAYko4WnP
-	BNgpa3ZPBvqcpxVwAIdLU/n8AeB3FKj4vbkvZYX33JsIB7aCArK1rU+wskRaD+NavemxXhDwi2S
-	t9htDu50LwMGNs3oIP/ooYgXD2bqRKJY5le0HzG1oxdiTHV6BOsepw9DJYXp8Y9ZwOlsf949yR4
-	N4OZo3HHlftqV1+FLFhS7p44ckxCwWlluOyL6hcqP2cn8PotG6lZUzDE4IDm5ZiLUaMnG9UOI+r
-	1N597pa28R9qX5qREA3rYu2AMnxnINZiqjavvJrd+g8Kg==
-X-Received: by 2002:a17:903:b88:b0:2da:e967:7953 with SMTP id d9443c01a7336-2dd8384d004mr1520765ad.12.1789461242775;
-        Tue, 15 Sep 2026 01:34:02 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4fa50e3sm34165946eec.29.2026.09.15.01.33.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2026 01:34:02 -0700 (PDT)
-Message-ID: <9106d07e-a8e5-4379-bec6-eb4ee9f0df5c@gmail.com>
-Date: Tue, 15 Sep 2026 17:33:59 +0900
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZQ+8sTEO"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 963E0169C;
+	Tue, 15 Sep 2026 01:39:24 -0700 (PDT)
+Received: from [10.164.19.84] (a081061.arm.com [10.164.19.84])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C1D203F7B4;
+	Tue, 15 Sep 2026 01:39:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789461568; bh=yHlIrOdPfLjj9Gu8t0QO/KBvaVLhX4WuZRnvoHBDFI8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZQ+8sTEOSXh+kPQv2ubox6sTg5+iNgLqJuOkCnT+cygDDQ9XBo7U6XJaXymP1pGJ+
+	 Y0DmwYp1Zo0S2RIxo6AMwXMKi0Cw0M1zWx99eH1J1EXwt/XnrQjnJAF3bhvS8fMaz7
+	 9qNmLrgH0LmpVPxUIkfIWBGKVDlRCIz9VcfSw9kU=
+Message-ID: <e6caa3e6-084c-442b-8d0e-e851ba75914c@arm.com>
+Date: Tue, 15 Sep 2026 14:09:18 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,144 +35,167 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v3 1/2] Documentation/litmus-tests: Add SRCU fastpath
- anchor-before-scan test
-To: Kunwu Chan <kunwu.chan@gmail.com>
-Cc: linux-doc@vger.kernel.org, lkmm@lists.linux.dev,
- linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
- rdunlap@infradead.org, skhan@linuxfoundation.org, paulmck@kernel.org,
- dlustig@nvidia.com, joelagnelf@nvidia.com, corbet@lwn.net,
- luc.maranget@inria.fr, j.alglave@ucl.ac.uk, dhowells@redhat.com,
- npiggin@gmail.com, boqun@kernel.org, peterz@infradead.org, will@kernel.org,
- parri.andrea@gmail.com, stern@rowland.harvard.edu
-References: <20260914143943.1503066-1-kunwu.chan@gmail.com>
- <20260914143943.1503066-2-kunwu.chan@gmail.com>
+Subject: Re: [PATCH v10 6/6] selftests/mm: add a GUP selftest
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Mark Brown <broonie@kernel.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Muhammad Usama Anjum <usama.anjum@arm.com>, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Rik van Riel <riel@surriel.com>
+References: <20260911110950.200240-1-sarthak.sharma@arm.com>
+ <20260911110950.200240-7-sarthak.sharma@arm.com>
+ <891915e3-3333-45f3-81a8-1ad38fa7ee37@kernel.org>
 Content-Language: en-US
-In-Reply-To: <20260914143943.1503066-2-kunwu.chan@gmail.com>
+From: Sarthak Sharma <sarthak.sharma@arm.com>
+In-Reply-To: <891915e3-3333-45f3-81a8-1ad38fa7ee37@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 9/14/26 23:39, Kunwu Chan wrote:
-> synchronize_srcu_atomic() may end its grace period immediately when
-> its scan of the per-CPU lock counters finds no readers.  Correctness
-> requires the grace-period anchor written by srcu_gp_start() to precede
-> the smp_mb() ordering the lock scan.  This ordering ensures that any
-> reader whose lock increment is missed by the scan cannot have
-> incremented its lock counter before the grace-period anchor, and
-> therefore cannot be a pre-existing reader of this grace period.
+
+On 9/11/26 9:18 PM, David Hildenbrand (Arm) wrote:
+
+[...]
+
+>> +
+>> +/* Just the flags we need, copied from the kernel internals. */
+>> +#define FOLL_WRITE	0x01	/* check pte is writable */
 > 
-> This litmus test models the key ordering between the grace-period
-> anchor and the lock counter scan, where "seq" models the
-> grace-period anchor in ->srcu_gp_seq and "ctr" models the per-CPU
-> ->srcu_ctrs[].srcu_locks counter.  P0 writes the anchor before the
-> smp_mb() and the lock scan.  P1 models the reader-side counter
-> increment and its smp_mb() from __srcu_read_lock(), which orders
-> the increment against subsequent critical-section access.  P2 models
-> an observer that sees the reader's increment before seeing the
-> anchor.
+> BTW, it's odd that we support passing GUP-flags ... we should probably switch at
+> some point simpler attributes (bool write) or custom flags (but we don't seem to
+> need many ...).
+
+Agreed
+
 > 
-> The outcome is forbidden by LKMM, and herd7 reports "Never".  See
-> SRCU-fastpath-scan-before-anchor.litmus for the reversed ordering,
-> which permits this outcome.
+>> +
+>> +/* Page counts exercising single, THP-batch, partial, and full-mapping GUP. */
+>> +static const int nr_pages_list[] = { 1, 512, 123, -1 };
 > 
-> Tested with herd7 7.58 using linux-kernel.cfg.
 > 
-> Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
-> ---
->  .../SRCU-fastpath-anchor-before-scan.litmus   | 58 +++++++++++++++++++
->  1 file changed, 58 insertions(+)
->  create mode 100644 Documentation/litmus-tests/srcu/SRCU-fastpath-anchor-before-scan.litmus
+> Would we want to calculate 512 dynamically at runtime using the PMD pagesize?
+> Could be something for a follow-up patch.
+
+Yeah this can be done.
+
 > 
-> diff --git a/Documentation/litmus-tests/srcu/SRCU-fastpath-anchor-before-scan.litmus b/Documentation/litmus-tests/srcu/SRCU-fastpath-anchor-before-scan.litmus
-> new file mode 100644
-> index 000000000000..e0492a4d8e07
-> --- /dev/null
-> +++ b/Documentation/litmus-tests/srcu/SRCU-fastpath-anchor-before-scan.litmus
-> @@ -0,0 +1,58 @@
-> +C SRCU-fastpath-anchor-before-scan
-> +
-> +(*
-> + * Result: Never
-> + *
-> + * The synchronize_srcu_atomic() fastpath may end its grace period
-> + * immediately when its scan of the per-CPU lock counters finds no
-> + * readers.  Correctness requires the grace-period anchor written by
-> + * srcu_gp_start() to precede the smp_mb() ordering the lock scan.
-> + * This ordering ensures that any reader whose lock increment is missed
-> + * by the scan cannot have incremented its lock counter before the
-> + * grace-period anchor, and therefore cannot be a pre-existing reader
-> + * of this grace period.
-> + *
-> + * This litmus test models the key ordering between the grace-period
-> + * anchor and the lock counter scan, where "seq" models the
-> + * grace-period anchor in ->srcu_gp_seq and "ctr" models the per-CPU
-> + * ->srcu_ctrs[].srcu_locks counter.  P0 writes the anchor before the
-> + * smp_mb() and the lock scan.  P1 models the reader-side counter
-> + * increment and its smp_mb() from __srcu_read_lock(), which orders the
-> + * increment against subsequent critical-section access.  P2 models an
-> + * observer that sees the reader's increment before seeing the anchor.
-> + *
-> + * The outcome is forbidden by LKMM, and herd7 reports "Never".  See
-> + * SRCU-fastpath-scan-before-anchor.litmus for the reversed ordering,
-> + * which permits this outcome.
-> + *)
-> +
-> +{}
-> +
-> +P0(int *seq, int *ctr)
-> +{
-> +	int r2;
-> +
-> +	WRITE_ONCE(*seq, 1);
-> +	smp_mb();
-> +	r2 = READ_ONCE(*ctr);
-> +}
-> +
-> +P1(int *ctr, int *x)
-> +{
-> +	WRITE_ONCE(*ctr, 1);
-> +	smp_mb();
-> +	WRITE_ONCE(*x, 1);
-> +}
-> +
-> +P2(int *seq, int *ctr)
-> +{
-> +	int r3;
-> +	int r4;
-> +
-> +	r3 = READ_ONCE(*ctr);
-> +	smp_mb();
-> +	r4 = READ_ONCE(*seq);
-> +}
-> +
-> +filter (0:r2 = 0)
-> +exists (2:r3 = 1 /\ 2:r4 = 0)
+>> +
+>> +#define GUP_TEST_FILE "/sys/kernel/debug/gup_test"
+>> +#define NR_HUGE_PAGES 2
+> 
+> I'd call this "NR_HUGETLB_PAGES".
 
-Another knee-jerk reaction with exaggeration  :-)
+Okay.
 
-Why does P1() have an access to an un-shared variable x ?
-smp_mb() in P1() can't pair with any of other thread's smp_mb().
-This doesn't make sense!
+[...]
 
-Let me rephrase.
+>> +static void run_gup_cmd(struct __test_metadata *_metadata,
+>> +			 FIXTURE_DATA(gup_test) *self,
+>> +			 const FIXTURE_VARIANT(gup_test) *variant,
+>> +			 unsigned long command)
+> 
+> We prefer two tab indents.
 
-Litmus tests is supposed to be minimal.
-Every memory access and memory barrier is expected to
-have some effect in the outcome of the test. 
+Okay.
 
-In this case,
+> 
+>> +{
+>> +	int i;
+>> +
+>> +	for (i = 0; i < (int)ARRAY_SIZE(nr_pages_list); i++) {
+>> +		struct gup_test gup = {
+>> +			.addr = (unsigned long)self->addr,
+>> +			.size = self->size,
+>> +			.nr_pages_per_call = nr_pages_list[i] < 0 ?
+>> +				self->size / psize() : nr_pages_list[i],
+>> +			.gup_flags = variant->write ? FOLL_WRITE : 0,
+>> +		};
+>> +
+>> +		TH_LOG("nr_pages_per_call=%u", gup.nr_pages_per_call);
+>> +		ASSERT_EQ(ioctl(self->gup_fd, command, &gup), 0);
+>> +		ASSERT_EQ(gup.size, self->size);
+>> +	}
+>> +}
+>> +
+>> +TEST_F(gup_test, get_user_pages)
+>> +{
+>> +	run_gup_cmd(_metadata, self, variant, GUP_BASIC_TEST);
+>> +}
+>> +
+>> +TEST_F(gup_test, pin_user_pages)
+>> +{
+>> +	run_gup_cmd(_metadata, self, variant, PIN_BASIC_TEST);
+>> +}
+>> +
+>> +TEST_F(gup_test, get_user_pages_fast)
+>> +{
+>> +	run_gup_cmd(_metadata, self, variant, GUP_FAST_BENCHMARK);
+>> +}
+>> +
+>> +TEST_F(gup_test, pin_user_pages_fast)
+>> +{
+>> +	run_gup_cmd(_metadata, self, variant, PIN_FAST_BENCHMARK);
+>> +}
+>> +
+>> +TEST_F(gup_test, pin_user_pages_longterm)
+>> +{
+>> +	run_gup_cmd(_metadata, self, variant, PIN_LONGTERM_BENCHMARK);
+>> +}
+> 
+> Heh, is there actually a reason why these kernel things are called _BENCHMARK?
+> 
+> I think they are really just tests that can be used for benchmarking ... the
+> measurement logic is entirely in user space.
+> 
+> We could consider cleaning that up as a follow-up.
 
-P1(int *ctr)
-{
-	WRITE_ONCE(*ctr, 1);
-}
+Yeah this can be worked on as well.
 
-should be good enough, I guess.
+> 
+>> +
+>> +int main(int argc, char **argv)
+>> +{
+>> +	int fd;
+>> +
+>> +	fd = open(GUP_TEST_FILE, O_RDWR);
+> 
+> Could do
+> 
+> const int fd = open(GUP_TEST_FILE, O_RDWR);
 
-(That is, IF I understand what you are testing here...)
+Okay.
 
-Regards, Akira
+> 
+> 
+> Thanks for doing that!
+> 
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+Thank you David!
+
+> 
+> 
+> I think reasonable extensions will be to execute tests on all available mTHP
+> sizes and all available hugetlb sizes, similar to what cow.c already does.
+> 
+> Can you look into that as part of some follow-up work? mTHP support will be
+> interesting for testing some of the patches Rik has been working on.
+
+Yup, I'll take that up.
+
+Apart from the indentation, const int fd and the NR_HUGE_PAGES rename,
+is there anything else I should incorporate in a respin? I think other
+changes would require a separate series. If you want me to fold any
+other change in a respin, please let me know.
 
