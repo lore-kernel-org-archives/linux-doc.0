@@ -1,49 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABACF4C955F;
-	Tue, 15 Sep 2026 18:50:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E86B4CC292;
+	Tue, 15 Sep 2026 18:56:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789498255; cv=none; b=gpYU6Ow64UOCNJ6lSze2C5DO00Gljiwa3yhpWt9NlpzLGJp4Mm/VkHmiLqYZ2KXnAfwNLKptJSOViGXEw2SGrTJq2P3ji246Qqf84DPrfkvpkS/1BkI66gw+rZuHc3rpl7WXt96l/+QNRChBP3I/pIc4zQicTfagT2tGpuSdrzI=
+	t=1789498602; cv=none; b=LloNnKY9A0yDreY1m0jnEXrOr818QKdLAX0sHebC9V+g3O/EWzHyeAJslkWWAeU7iPOSTrxRSXc9VrujHct2EXrO5LzXYKRIsJAU74xFeO7GPclqM6qr3xFzc/DLC6FzvuI9Zh3MWI7bdxbomHcVKzgCqN+u9ViRR6jiapug5CM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789498255; c=relaxed/simple;
-	bh=tbJyO1qSfQZ0pjEHRIQQPcppBex2tM7wt2X3DLWlaak=;
+	s=arc-20240116; t=1789498602; c=relaxed/simple;
+	bh=EDn0+1E7Yshbd0kRZWyFRJ9+bGgFoE73iFEDBFw05Yk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HmdhsjB4gmLDP/T86+E5CWme+yqeDibQiAi/AZMZGlfqnI7iHjYYV5hiPFbe0HI9JHg7FLJvBZsFkIAIFsSRIdaDYwDCS/qyQUIxkJAj4j2rHXomcEkZj31XqBE1ObAcQcvsRFtg4bBdlMq4znlkqfJ6BmyPlXL45cliBVG+dEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=HGXzba2J; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=cxpmtE1raTFEwShhGm067mx+jRNYdq3MfruqKYTQBLF0N+VTPiCBT245i44hIDiF1kuXimU+bAPBIbprhvnddsxwp4lB9Zyf3aq8hEqV69SHPnPg0liskoI9yRYrDYq53B7xpMSoReK24yhnxIA6Ps7pg6xqJTfk/hPA84gaGDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UzRWKz/g; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="HGXzba2J"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 93DD2408B4
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UzRWKz/g"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BADDF4090B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1789498251; bh=/rqDGNFB1EvMVZVpxGsWgt/E/NZkIXTIaDmimmq2Rhc=;
+	t=1789498600; bh=Rsepp53wmdFvcjhxH+SZlO9xP8vtYlvbJCuU3Gb4BxE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=HGXzba2JDGuMqzSPH60oln1TwZV00Bcn2Xea3xM3bWcFT0ZtzD7VUjGJ6jkB5Wpws
-	 t2WUq+VhD+xI5gYCXaZgzAsNIUot3g7jgixehFBEJbzmmmRBjImlkebq0PxrdoSnMT
-	 ++FCZE3TOP/1TNKmkkFLkK6VcPY8zwEcnknEtqnlKBngyp9m2SNvuln9RXvUbwIud3
-	 2XSPbyvF6skwRkVyRudLbU46YDS7Ixw4YEquq2CRF0kkRyuYLcemmfuoS1Cv8xQPOK
-	 oCNxDSmXttMerQvbNEkeP2gB5wRl+AJrtJf4Ht46aZMpTjBkFcusT0A5YY51IntLjK
-	 Al3LVViCSybJA==
+	b=UzRWKz/gL76bsYRzmkkw/cMgDVoueXkuRGyY22r868vyVRyL4uuDAFl/JkG7Ug52l
+	 99PnMEG5jFR5yrrXVGSCn1cHcIkuGShrvhhpDXGpeMJZ949ZjXtqGzC5k0rI6JCcat
+	 f45CC2dmBV6xGKorRvqwj9liU09AT6gO1D2xu3I2jRHpJ+jbVXXfDVsXOmVVfrkgfA
+	 q1cLQJbqzUYUdbez6d8MUZUOACBWXYWGWVF2SZcZDmxsLbetTtHqXSFJ5LTN3q/VP1
+	 CBLKOYDgX9X5GaQd/CsL9n1gKOv4hdaNC5DPUPaLw1TJEEl5wzgPbbDNw02q5PTy6X
+	 A3KZZAVwdKAcg==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 93DD2408B4;
-	Tue, 15 Sep 2026 18:50:51 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id BADDF4090B;
+	Tue, 15 Sep 2026 18:56:40 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org
-Cc: skhan@linuxfoundation.org, rdunlap@infradead.org, mchehab@kernel.org,
- aleksander.lobakin@intel.com, aleksandr.loktionov@intel.com,
- tudor.ambarus@linaro.org, emmaonana18@gmail.com, bvanassche@acm.org
-Subject: Re: [PATCH] docs: kdoc: fix struct_group_tagged() parsing regression
-In-Reply-To: <20260914155127.21515-1-emmaonana18@gmail.com>
-References: <20260914155127.21515-1-emmaonana18@gmail.com>
-Date: Tue, 15 Sep 2026 12:50:50 -0600
-Message-ID: <87mrti9wmt.fsf@trenco.lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Michal Simek
+ <michal.simek@amd.com>, Ronak Jain <ronak.jain@amd.com>,
+ linux-arm-kernel@lists.infradead.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH] firmware: zynqmp: use literal blocks for commands
+In-Reply-To: <20260914060615.1398531-1-rdunlap@infradead.org>
+References: <20260914060615.1398531-1-rdunlap@infradead.org>
+Date: Tue, 15 Sep 2026 12:56:39 -0600
+Message-ID: <87ik469wd4.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,31 +52,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com> writes:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> kernel-doc reports struct_group_tagged() members as excess because
-> the macro transformation rewrites it to an anonymous struct and drops their
-> member names.
+> Use literal blocks for 'cat' and 'echo' commands to separate them from
+> the surrounding text. Otherwise the lines run together, without any
+> clear break before or after the commands.
 >
-> Keep the tag and member name when transforming struct_group_tagged(). The
-> nested members are then recorded as names such as fast.order; accept the
-> existing unqualified @order documentation tag during validation.
->
-> Add a regression test based on struct page_pool_params.
->
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Link: https://lore.kernel.org/all/0cf8ea5f-418f-45f0-907c-3d1ed4f03e9f@infradead.org/
-> Fixes: 2f07ddbd5793 ("docs: xforms_lists: better evaluate struct_group macros")
-> Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
->  tools/lib/python/kdoc/kdoc_parser.py  |  4 ++-
->  tools/lib/python/kdoc/xforms_lists.py |  2 +-
->  tools/unittests/test_kdoc_parser.py   | 37 +++++++++++++++++++++++++++
->  3 files changed, 41 insertions(+), 2 deletions(-)
+> Cc: Michal Simek <michal.simek@amd.com>
+> Cc: Ronak Jain <ronak.jain@amd.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+>
+>  Documentation/ABI/stable/sysfs-driver-firmware-zynqmp |   70 +++++++---
+>  1 file changed, 50 insertions(+), 20 deletions(-)
+>
+> --- linux-next-20260911.orig/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
+> +++ linux-next-20260911/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
+> @@ -141,32 +141,44 @@ Description:
+>  
+>  		Usage:
+>  
+> -		Select over temperature config ID to enable/disable feature
+> +		Select over temperature config ID to enable/disable feature::
+> +
+>  		# echo 1 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
 
-This seems perhaps a reasonable fix.  Did you write this on your own, or
-was there an LLM involved?
-
-Thanks,
+I was sure that this wouldn't work, since the literal block is not
+indented relative to the containing text.  Sphinx does the right thing,
+though... so applied, thanks,
 
 jon
