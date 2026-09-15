@@ -1,97 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC0949E5ED;
-	Tue, 15 Sep 2026 11:32:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4803E4D2EC3;
+	Tue, 15 Sep 2026 11:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789471957; cv=none; b=ZXr3p+o78iV1O6PiKEfP/aOlpSsgy4/BMSMPEI6nEq6fO4NP8J1k0DhTCoE5Ln7IEdOiHbAjFfFpo0tiCaMSPXqtBJ4q2eFKs+LlAkBOvRjjknG8ZjhVciqmxIMrUdhaq4IpLiNBrJP7s5riMBhzkirOZrX0kH3/0xag5xRekGk=
+	t=1789472167; cv=none; b=kAswy1JAT/UnrrNLBVprN3EdwcojInfe7HhwYmPRCT+BxVXpp6yfCrCvj0iNcYpmUObwYAaiEA7O2BK9OFOryJeiHN2uxs0BKFnhCFgFSX1h3EKefFvLXrOzBTgTOzGy5ahbfNm1uZ7s7hjLGs/yzXf4wAGHQI4SqCx5OKn98tY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789471957; c=relaxed/simple;
-	bh=67KRdlHJTtCCvUQ3abaX4uEN0RtScY8ogWpXP0rzNDQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=b0bTVNOr+7AfpLXrE4e/aNjcylRoGcVxZIkSgrfsFgwQvxqdqrvfv1IVORgQqESyuf58jf0Ca2P9b0qt6EFf+yVS09X3/5CD4F6XM9vW8v2wfA89SQwi9KyW6hCMEGHaKL/pW3Uni0CQC1EjWiSLsqgnnaBH/fh4doq7/M/sGts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kbvaAp8m; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789472167; c=relaxed/simple;
+	bh=f6k58a+kyyJlKOysXGIm7+YVKxFPsWG0XnA963ZSmGs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P5wzn5BD/7W+UjIy7MF7NOm2JoIT8KFUT15vDVCMQ9KpsVDlXMyL9SH+mtnM6krC13Q23M7xcDkDMYu7S/m8vQA6lrd+1wpcQHA08t5v0IfrwEIKaoMGJ7RafOY4ChZ74aUOM37/Fs7nW1DLxXJKtdHHk1/ibMGBok33VoNa2pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GYZsbVig; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kbvaAp8m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789471955; x=1821007955;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=67KRdlHJTtCCvUQ3abaX4uEN0RtScY8ogWpXP0rzNDQ=;
-  b=kbvaAp8mh7Y+kqVczbZF6satGmnmUlt26Ubw1LpIZEN9rnVCS0WPaFf5
-   tHtpQwkc9oZqll2NMqKt3VfwDjwuhqf+2yn4YJ5X3sbTU1WkkapVNl/Dx
-   VWmbtNHrEDX3fuHmBN8X3ci/VBVRBibt9VhTXtrLCFC5t3kpcORry727i
-   JZz0UXLzfKZdNV8wzgs1YDNunNufQ2dGPpvtX2mdGXTrF08MJ6G1vqhvs
-   HkDFxoCFDb+OPLueAFUAa7RvY6WxrORDUyGy9pkhoJ0uIq87+J4UfYqVM
-   lMLIrFe8Ol9LIvbaKbdkIfFajH9JouxPqPFnXSw/+iiwnbtlus/sYNir+
-   A==;
-X-CSE-ConnectionGUID: prY/0r0GTEuEnRrCuSpQlg==
-X-CSE-MsgGUID: oD8mJ7ktQCKTpRMbpadR2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100428316"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="100428316"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 04:32:34 -0700
-X-CSE-ConnectionGUID: /CzOd16QRhm4IxPrFWNuOA==
-X-CSE-MsgGUID: oHba7CFNTh20gGqwuYSNnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="1380268"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.24])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 04:32:30 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: hansg@kernel.org, Pit Henrich <pithenrichmail@googlemail.com>
-Cc: hmh@hmh.eng.br, mpearson-lenovo@squebb.ca, derekjohn.clark@gmail.com, 
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
- platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Pit Henrich <pithenrich2d@gmail.com>
-In-Reply-To: <20260825191210.55090-1-pithenrich2d@gmail.com>
-References: <20260825191210.55090-1-pithenrich2d@gmail.com>
-Subject: Re: [PATCH v4] platform/x86: thinkpad-acpi: Add X1 Fold keyboard
- attachment detection
-Message-Id: <178947194489.31094.3187386530887461716.b4-ty@b4>
-Date: Tue, 15 Sep 2026 14:32:24 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GYZsbVig"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A1D91F00893;
+	Tue, 15 Sep 2026 11:35:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789472164;
+	bh=4BVB43/k5lHtsFkUgtZDywdRjbEBMWb9Mg6O6YdeHrM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GYZsbVigjxwfzphIbqofaPFJmaKXOkEJuH9NfOFwlWENp60vpodSbVNNMVPrnsCGh
+	 mKkYFPjcJBJCWstEr5ZbUWw1p8gupBALyutxo/nsXoXJJVjfsUUEDeTeRzg9vNDFKw
+	 QyLxl+67I5PApcQALeqp8arjqQrJPg8lKGehuzOG7XGzc750cxvm391kPGZaHUEXVh
+	 rRpJvi2VXfCOPb4wIvdWYnRC2MlJNBFBn7hGBAKR93OKepAk7efnXRPGiZufX/FUGN
+	 bMk95QWIuEMEbgWtoC+OwCCABis9Vc8v3v1aLMq5PD8Vs1rzrsq653sDeKOiCR8bmb
+	 RSzE6TAD8kDPw==
+Date: Tue, 15 Sep 2026 12:35:53 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nsc@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, Linux-Arch <linux-arch@vger.kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 00/21] kbuild: significantly speed up kernel builds
+Message-ID: <aqks-ZmauZMcOELA@gremlin>
+References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
+ <202609140833.88C0E16E50@keescook>
+ <CAHk-=whB0X28MNAg71it=1SfFyV7rB+PK3qajpRyWoxXHW81fw@mail.gmail.com>
+ <7646eb0c-7c4a-4ec2-9562-66a74c4d9858@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7646eb0c-7c4a-4ec2-9562-66a74c4d9858@app.fastmail.com>
 
-On Tue, 25 Aug 2026 21:12:10 +0200, Pit Henrich wrote:
+On Tue, Sep 15, 2026 at 10:53:51AM +0200, Arnd Bergmann wrote:
+> On Mon, Sep 14, 2026, at 17:53, Linus Torvalds wrote:
+> > On Mon, 14 Sept 2026 at 08:41, Kees Cook <kees@kernel.org> wrote:
+> >>
+> >> One area I think might solved via an LLM is the 3-pass kallsyms stuff.
+> >> If we could get a deterministic kallsyms build in 1 pass, that would be
+> >> very nice. A lot of people have tried, but it has eluded upstreaming.
+> >
+> > Even the three-pass one hasn't apparently always been entirely
+> > deterministic. We've had random reports over the years of it failing
+> > in some circumstances.
+>
+> This tends to break whenever a linker (rather than the compiler) starts
+> creating a new type of symbols that show up in pass 2.
+>
+> > Maybe we've fixed it all, or maybe the failures just go imperceptibly
+> > rare. Regardless, it has definitely been fragile.
+>
+> The rate seems to be once every few years, looking at the list
+> of exceptions added to scripts/kallsyms.c (now scripts/mksysmap):
+>
+> efe6e3068067 ("kallsyms: fix nonconverging kallsyms table with lld")
+> 516d980f8541 ("scripts/kallsyms: skip ppc compiler stub *.long_branch.* / *.plt_branch.*")
+> b9b74be163a2 ("ARM: 8555/1: kallsyms: ignore ARM mode switching veneers")
+>
+> I'm sure there are other instances on architectures that get less
+> build coverage.
 
-> ThinkPad X1 Fold 16 Gen 1 firmware reports whether the keyboard is
-> magnetically attached (on the screen), but thinkpad-acpi does not expose
-> this to userspace. The state can be obtained via ACPI methods: GDST (get
-> device state).
-> 
-> Add a read-only keyboard_attached_on_screen sysfs attribute, gated by
-> a DMI match.
-> 
-> [...]
+Yeah, it's stuff like this that makes it more sensible in general to use
+existing tooling where that makes sense, e.g. also the .mod.S stuff.
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo-next branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo-next branch only once I've pushed my
-local branch there, which might take a while.
+Though I also think dropping some of these arches would be a good idea ;)
+*ahem*.
 
-FYI [if applicable to your patch], as per Linus' policy change, also
-fixes are mostly routed through for-next unless the fix is for a
-commit introduced in the most recent cycle or is clearly a regression
-fix.
+In any case, I think the bigger picture ideas like a single pass kallsyms is
+stuff for the future.
 
-The list of commits applied:
-[1/1] platform/x86: thinkpad-acpi: Add X1 Fold keyboard attachment detection
-      commit: ab0b68221ea686085a146736569ac32d773affcb
+The way I see it: grab the really low-hanging fruit (this series), then the
+medium-hanging fruit, and only then enter the pits of hell to fight the
+satanic hordes which clasp on to what remains.
+
+>
+>      Arnd
 
 --
- i.
-
+Cheers, Lorenzo
