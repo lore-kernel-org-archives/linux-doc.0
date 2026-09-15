@@ -1,49 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E86B4CC292;
-	Tue, 15 Sep 2026 18:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4E94D0A0E;
+	Tue, 15 Sep 2026 19:01:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789498602; cv=none; b=LloNnKY9A0yDreY1m0jnEXrOr818QKdLAX0sHebC9V+g3O/EWzHyeAJslkWWAeU7iPOSTrxRSXc9VrujHct2EXrO5LzXYKRIsJAU74xFeO7GPclqM6qr3xFzc/DLC6FzvuI9Zh3MWI7bdxbomHcVKzgCqN+u9ViRR6jiapug5CM=
+	t=1789498904; cv=none; b=LDolBX65q5UEhcFxoCgJr40262dFJWuzwKuxiHiSBJjhFylExQwBHA1+c+RtEaPF8t/062Umq2c+ryGsM8yP1RhJtxkYOpaHOVbVzIfsIlmDF5EOkzaXqKDmoQaXc2ZJOAJNbyA0VxfQ5ZdCxrk891r2mYxxFf5qbHxy11SUES0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789498602; c=relaxed/simple;
-	bh=EDn0+1E7Yshbd0kRZWyFRJ9+bGgFoE73iFEDBFw05Yk=;
+	s=arc-20240116; t=1789498904; c=relaxed/simple;
+	bh=hz6WpxHBLdfj00DT4yjkTDK/eZ9ZQwe/iMYxzBfpPtY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=cxpmtE1raTFEwShhGm067mx+jRNYdq3MfruqKYTQBLF0N+VTPiCBT245i44hIDiF1kuXimU+bAPBIbprhvnddsxwp4lB9Zyf3aq8hEqV69SHPnPg0liskoI9yRYrDYq53B7xpMSoReK24yhnxIA6Ps7pg6xqJTfk/hPA84gaGDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UzRWKz/g; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=pQAknnH41fSN1umvmBQPtPq3hcSRGehqGbMmsVjJYI/fsxGqTziDZc12zU/b2efct4xU6PN4o1QBRNJrjJu6z02U2uZ/NFUyIV94mQhuPyBtJ+BO6lLH01xSaWC8M0RRYgZc1Ch3K4afOG9Ur3XTuUSZtEsxVWjfafcI9r3hKO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AAuFfRU4; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UzRWKz/g"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BADDF4090B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AAuFfRU4"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E2413408B4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1789498600; bh=Rsepp53wmdFvcjhxH+SZlO9xP8vtYlvbJCuU3Gb4BxE=;
+	t=1789498881; bh=c3liCs63qQh0M9f9bUmlkj6aak+AlCP0QcMNZjfc/4I=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=UzRWKz/gL76bsYRzmkkw/cMgDVoueXkuRGyY22r868vyVRyL4uuDAFl/JkG7Ug52l
-	 99PnMEG5jFR5yrrXVGSCn1cHcIkuGShrvhhpDXGpeMJZ949ZjXtqGzC5k0rI6JCcat
-	 f45CC2dmBV6xGKorRvqwj9liU09AT6gO1D2xu3I2jRHpJ+jbVXXfDVsXOmVVfrkgfA
-	 q1cLQJbqzUYUdbez6d8MUZUOACBWXYWGWVF2SZcZDmxsLbetTtHqXSFJ5LTN3q/VP1
-	 CBLKOYDgX9X5GaQd/CsL9n1gKOv4hdaNC5DPUPaLw1TJEEl5wzgPbbDNw02q5PTy6X
-	 A3KZZAVwdKAcg==
+	b=AAuFfRU4YFhdrqXqdxJbeZlyXT8JoCPsiQ6zW2Bu/S6f8oSbaIKt7GDj6JgqWesPp
+	 PGjov0ZWcUaF81B040nuRDiNfABxPmo0QmNHSKks4jagZqUUAIEBzRnKFAKdmpADq8
+	 uBBoaIHENP9nKCsCMz0oXRopzrWfkRpBqi2L8BS9WSYNOHmXYpG6naebTMrogQL9pc
+	 1bKUFgHJBK2A1tEC7pPkZ4uR2/WLfhTEC4yDWiSxQcU0mJ/htEbfYPCK0ReOXUqhIw
+	 bKNfZdeWb/3KHXSzZhooUFflR7EniVKy5J/PHI+raER1b8u/l0hPqdbINLy64K9Dqu
+	 1JYEVhJrtO+1w==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id BADDF4090B;
-	Tue, 15 Sep 2026 18:56:40 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id E2413408B4;
+	Tue, 15 Sep 2026 19:01:20 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Michal Simek
- <michal.simek@amd.com>, Ronak Jain <ronak.jain@amd.com>,
- linux-arm-kernel@lists.infradead.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Shuah Khan <skhan@linuxfoundation.org>,
+Cc: Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  linux-doc@vger.kernel.org
-Subject: Re: [PATCH] firmware: zynqmp: use literal blocks for commands
-In-Reply-To: <20260914060615.1398531-1-rdunlap@infradead.org>
-References: <20260914060615.1398531-1-rdunlap@infradead.org>
-Date: Tue, 15 Sep 2026 12:56:39 -0600
-Message-ID: <87ik469wd4.fsf@trenco.lwn.net>
+Subject: Re: [PATCH] docs: kernel-doc: include "define" as an identifier type
+In-Reply-To: <20260912055202.103573-1-rdunlap@infradead.org>
+References: <20260912055202.103573-1-rdunlap@infradead.org>
+Date: Tue, 15 Sep 2026 13:01:20 -0600
+Message-ID: <87eceu9w5b.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,36 +52,32 @@ Content-Type: text/plain
 
 Randy Dunlap <rdunlap@infradead.org> writes:
 
-> Use literal blocks for 'cat' and 'echo' commands to separate them from
-> the surrounding text. Otherwise the lines run together, without any
-> clear break before or after the commands.
+> Update the list of identifier types to include "define", which was
+> added in 2014 in commit
+> cbb4d3e6510b ("scripts/kernel-doc: handle object-like macros")
 >
+> Fixes: 91a3d6be99e6 ("doc-guide: kernel-doc: tell about object-like macros")
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
-> Cc: Michal Simek <michal.simek@amd.com>
-> Cc: Ronak Jain <ronak.jain@amd.com>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > Cc: Jonathan Corbet <corbet@lwn.net>
 > Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 > Cc: linux-doc@vger.kernel.org
 >
->  Documentation/ABI/stable/sysfs-driver-firmware-zynqmp |   70 +++++++---
->  1 file changed, 50 insertions(+), 20 deletions(-)
+>  Documentation/doc-guide/kernel-doc.rst |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> --- linux-next-20260911.orig/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
-> +++ linux-next-20260911/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
-> @@ -141,32 +141,44 @@ Description:
->  
->  		Usage:
->  
-> -		Select over temperature config ID to enable/disable feature
-> +		Select over temperature config ID to enable/disable feature::
-> +
->  		# echo 1 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
+> --- linux-next-20260911.orig/Documentation/doc-guide/kernel-doc.rst
+> +++ linux-next-20260911/Documentation/doc-guide/kernel-doc.rst
+> @@ -565,8 +565,8 @@ identifiers: *[ function/type ...]*
+>    Include documentation for each *function* and *type* in *source*.
+>    If no *function* is specified, the documentation for all functions
+>    and types in the *source* will be included.
+> -  *type* can be a ``struct``, ``union``, ``enum``, ``typedef`` or ``var``
+> -  identifier.
+> +  *type* can be a ``struct``, ``union``, ``enum``, ``typedef``, ``var``,
+> +  or ``define`` identifier.
 
-I was sure that this wouldn't work, since the literal block is not
-indented relative to the containing text.  Sphinx does the right thing,
-though... so applied, thanks,
+Applied, thanks.
 
 jon
