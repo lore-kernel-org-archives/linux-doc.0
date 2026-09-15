@@ -1,156 +1,166 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956C74A204A
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 11:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E6B390C9E;
+	Tue, 15 Sep 2026 11:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789471809; cv=none; b=ksxkkq8CBUTALLAO4RiFysIguz7/8+UMwZ0UPIiu76c0xC5vmxhPMvcDryeLpkb+0gJoGvoiYAVdVVmtamtZKgFrefDoCCIUCHzBav1JSXvZuw7e+utlDDTYabmN0G6WBfWzIbTlPTPnuG/HjTYVbZiRGF9HZncRQocm9Ukwkm4=
+	t=1789471848; cv=none; b=utPHLQR3LLq5yIP/v/ZJoXwshSEURCOFpVY1bovCBK6RcityVrmCOngfPOibPi7sBa/C6Srx5wiY5Xg3TCfXdyv3N08AXKg1YsIeV5kWtYMXA0T2/bvDgXrgLnYXigVDiHsFmYp0gMeb3KzZLqpFLhUDkI+VR+5dLDmv/lHTR4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789471809; c=relaxed/simple;
-	bh=APKTuDGLjMsk92bnnkXJ0rRlkzi8IPJqTj2KURSVBU4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n94HIPuo4ghCTADM/sHpcZ7hkd5+kZ4gHet0ZHSXUUjGMkjvOYp7T/EkcviLmLH/a2xnYhx7+HfNQsVegGZrlbbehet6g53o/Z5GS9KVUzsCXVZY+fT9JTuDZsZYRgCkDz4UqHTFZWQ6DdfvMrSCu8vEvP/e623+33BcGlSScNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QfmW0HZG; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789471848; c=relaxed/simple;
+	bh=odVPNm+7LRHp0tjKuPnp4sfEi1fdkqz/WFeeAWo6QFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VeW9ZZAzP4bC1O7cEf+b6GEwn6NlkNd/hDJGI5XBWERlf5er0YmIZyywF8QIJzx0+lxei5AOoxicSt8wllxAfo/Mi1cZMBGSPP3w4rCf5TsP7BRNbptxfOZUGROjIMqBD/6Bs8XosE5qtaZ3aj5XZs96NiKjkBPHcc0rJADR+X4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jgHCyQAl; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QfmW0HZG"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-495437bb891so5802145e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 04:30:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789471803; x=1790076603; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dGOErKOPioTgO3v0/s/JdPfHHqPEsYrQAaTIvwRdmxw=;
-        b=QfmW0HZGIofUmjnkWGL2TIVkFUxUuxZhOFjQCkuHPy/WVprMzaImb5IXvjMXS/wCGL
-         uT++ASkA8Nzq8SsnOaIO0UueO+47EwRvo5F5Q2iv3015O88zbQeDLcIPKzLSIcrifmLG
-         RVNd4ny1+Cy+QmrUym6h9ZUTtl8MXydeYJyp4q1FqUlyFJQXlfCStv7fqRBhRq+m6drU
-         2MOKbXWfrGw4Cn3wFCJXObY+cq2LnTd2bB/lN0FlToSkrHYz2p1ue1fBhw1OzHr5z4oA
-         4tpDK1zE80uk+drClpQQOLiuwshUO/kVmbzbC0pFA/whcZ8lOZHZwDWrcDKDnhhs+UpU
-         /o/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789471803; x=1790076603;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dGOErKOPioTgO3v0/s/JdPfHHqPEsYrQAaTIvwRdmxw=;
-        b=PEdMJOuXVenFLj5VQE3SitRwszTS55Yj+UyFeL3ss8S1U/CCUTiHWyR182RyoB6Uzb
-         Qgw9O+uBj6JldvQuBhK/TZuK6DOMEeup98cL9KduvDxle+W2xL0GjZ3++86tfwFTJCpG
-         1IjYcCGqnZIJPkXTExqCUj7+d+tHYVbZnuvQVMLMHbnMGRyXXMOVtHOlemkviHkeRjiR
-         HDhD0zsF8KcKiCEIsoabDu9Qf2OqxpRi6J9AAhGS4D/kZhqXYoA0O1mgb02su2zk07Ui
-         4TEGf/Z+Q1eozn/tSd6g2J+8kK4VSkk2xtCScl2ukYlMPc2LOzdZyx/46k0mn7dozELl
-         67jA==
-X-Forwarded-Encrypted: i=1; AKwUvByKo6DCWWLOHzruZCaN/kmcMkNhHLYS4pEi44lBa3cUskZYOB0JERwnFPx6aEmRC55NO4BWNJ3oWEw=@vger.kernel.org
-X-Gm-Message-State: AFuF++lFrlXzWL9zGIlyIhiqEgeTVtCnhAp0iAs0kdlmNEJwRXMAPcPC
-	w3akoQcsOt8KCEjVuaEX07FkkTUL4nq3CevWLwKoBY2/0cXeQhAppUrd
-X-Gm-Gg: AYBFou2peXCM+lRisc1HtS7cpUWotkfTshU59YnEd4oBoBn0sQqJzPjkH18r0Z+X9H1
-	fDQlcZuIHhaaI/B9Mi9jxcJqIXnh7dEdQWS1vo4uh45C6tKfeBef0ev1Zry7l5sTLsh9RRQsru+
-	yTv5JWRe+fTDKo4aEOOCwXK3Ixe+rC59T5OhjiHDigUMKaWYPIudJK0R5gyqr4FWz/DEdQqVK7c
-	3s2BWk9+ppeuGDPKtz8O1JiDjLSuJ9hev0+iE/mW2uiRL+T1QEhGJKw4R0Q1faPmbOKNsY5Zpa5
-	qPeCpTr//lCnENumsCQu56koj48fpW4QLF6uDMnyG5D5PhCwkqKmrqNTgi83j5NpFsJaYXAca8J
-	fsTcYuzO+dDZDI3uXEvxXaeUwWfHEu93bkVp7i0fxsRoNteXnV9DoZzQprmrZQVV8zn/ocBLnVF
-	BKhIKjiUK0jdEJ2PpHeBzCDjHbCBqyYTmM/LFo3N74y/SV2AIrHTQSMrNA28rNAdItD8YQ2KlJg
-	P9mR40VvooOOgmz4EYNwv0TILCRuf2k3fhr
-X-Received: by 2002:a05:600c:33a1:b0:49d:28b1:260d with SMTP id 5b1f17b1804b1-49e7d74ce16mr30558965e9.12.1789471802734;
-        Tue, 15 Sep 2026 04:30:02 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb32d3c7sm31448164f8f.10.2026.09.15.04.30.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 04:30:02 -0700 (PDT)
-Date: Tue, 15 Sep 2026 12:29:59 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>, Nick Desaulniers
- <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, Justin Stitt
- <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, Alexey
- Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
- <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti
- <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Mark Rutland
- <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun
- Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?UTF-8?B?QmrDtnJu?=
- Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, Tamir
- Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
- Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet
- <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, "Gustavo A. R.
- Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, Jens Axboe
- <axboe@kernel.dk>, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 17/21] objtool: decode instructions and resolve
- branch targets in parallel
-Message-ID: <20260915122959.2348bf90@pumpkin>
-In-Reply-To: <aqkR9Xqu-0Tem1zm@gremlin>
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
-	<20260914-build-speedup-v2-17-39817ec5db23@kernel.org>
-	<202609141112.F8983EE9C@keescook>
-	<aqkR9Xqu-0Tem1zm@gremlin>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgHCyQAl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789471846; x=1821007846;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=odVPNm+7LRHp0tjKuPnp4sfEi1fdkqz/WFeeAWo6QFA=;
+  b=jgHCyQAlFd1IU9RO337FWJ/aIZIL1T92wdb5MGeVEEBjnHEcpa381rG8
+   eBTyPiL3i6KidPS4IQI9MRL8T6I6Gx74yOPN7OLZsSgfhwmzbOL1E6mTK
+   pF+0YafUzr6swhjCVA9mNEAlnhk9HUHTZvogTue6Ggb3nyxfn4fN+YBFN
+   GshiPEr6+BVI64iklwU+7kK4aMjKSJZkRx5IV4FGPCngGevo2oA/6qakB
+   AD0tYH839L80Qw03RzhNEdx9zrqkpu/v6WYYj5vbRRb0bDoH8Uo5eNMfB
+   EznSjpPqDfSaSefzlATMxtidycSL7ky9FopJGhqRHYtEauHNCA4qDALf/
+   Q==;
+X-CSE-ConnectionGUID: 6i3y18k2RPK5hlGN1nLxAQ==
+X-CSE-MsgGUID: Bs9oq7zsR0SBmqPiWAan5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100495589"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="100495589"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 04:30:45 -0700
+X-CSE-ConnectionGUID: qWT5UoJmQryOQlPvSltQgg==
+X-CSE-MsgGUID: EEBG6GS1QbCdK3y/0gtbZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="270348266"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.253])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 04:30:40 -0700
+Date: Tue, 15 Sep 2026 14:30:36 +0300
+From: Tony Lindgren <tony.lindgren@linux.intel.com>
+To: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Liam Merwick <liam.merwick@oracle.com>,
+	Vishal Annapurve <vannapurve@google.com>,
+	Ninad Naik <ninadnaik07@gmail.com>,
+	Joerg Roedel <joerg.roedel@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	coconut-svsm@lists.linux.dev
+Subject: Re: [PATCH v2 6/8] KVM: SEV: Add SNP vCPU state get and set commands
+Message-ID: <aqksXLLcmFDkM9Xj@tlindgre-MOBL1>
+References: <20260908103338.427254-1-joro@8bytes.org>
+ <20260908103338.427254-7-joro@8bytes.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260908103338.427254-7-joro@8bytes.org>
 
-On Tue, 15 Sep 2026 11:09:25 +0100
-"Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+On Tue, Sep 08, 2026 at 12:33:36PM +0200, Jörg Rödel wrote:
+> From: Joerg Roedel <joerg.roedel@amd.com>
+> --- a/arch/x86/kvm/svm/sev.c
+> +++ b/arch/x86/kvm/svm/sev.c
+...
+> +static int snp_get_vcpu_state(struct kvm_vcpu *vcpu,
+> +			      struct kvm_sev_cmd *argp)
+> +{
+> +	struct vcpu_svm *svm = to_svm(vcpu);
+> +	struct kvm *kvm = vcpu->kvm;
+> +	struct kvm_sev_snp_vcpu_state state = {};
+> +
+> +	if (!is_sev_snp_guest(vcpu))
+> +		return -ENOTTY;
+> +	if (!to_kvm_sev_info(kvm)->snp_context)
+> +		return -EINVAL;
+> +
+> +	guard(mutex)(&svm->sev_es.snp_vmsa_mutex);
+> +
+> +	if (VALID_PAGE(svm->sev_es.snp_guest_vmsa_gpa) &&
+> +	    VALID_PAGE(svm->vmcb->control.vmsa_pa)) {
+> +		state.vmsa_gpa = svm->sev_es.snp_guest_vmsa_gpa;
+> +		state.valid_fields |= KVM_SEV_SNP_VCPU_STATE_VMSA_VALID;
+> +	}
+> +
+> +	if (VALID_PAGE(svm->vmcb->control.ghcb_gpa)) {
+> +		state.ghcb_gpa = svm->vmcb->control.ghcb_gpa;
+> +		state.valid_fields |= KVM_SEV_SNP_VCPU_STATE_GHCB_VALID;
+> +	}
+> +
+> +	if (copy_to_user(u64_to_user_ptr(argp->data), &state, sizeof(state)))
+> +		return -EFAULT;
+> +
+> +	return 0;
+> +}
+> +
+> +static int snp_set_vcpu_state(struct kvm_vcpu *vcpu,
+> +			      struct kvm_sev_cmd *argp)
+> +{
+> +	struct vcpu_svm *svm = to_svm(vcpu);
+> +	struct kvm *kvm = vcpu->kvm;
+> +	struct kvm_sev_info *sev = to_kvm_sev_info(kvm);
+> +	struct kvm_sev_snp_vcpu_state state;
+> +	int ret;
+> +
+> +	if (!is_sev_snp_guest(vcpu))
+> +		return -ENOTTY;
+> +	if (!sev->snp_direct_vmsa)
+> +		return -EINVAL;
+> +	if (!sev->snp_context || kvm->arch.pre_fault_allowed)
+> +		return -EINVAL;
+> +
+> +	if (copy_from_user(&state, u64_to_user_ptr(argp->data), sizeof(state)))
+> +		return -EFAULT;
+> +
+> +	if (memchr_inv(state.pad, 0, sizeof(state.pad)) ||
+> +	    state.valid_fields & ~(KVM_SEV_SNP_VCPU_STATE_VMSA_VALID |
+> +				   KVM_SEV_SNP_VCPU_STATE_GHCB_VALID))
+> +		return -EINVAL;
+> +
+> +	if (state.valid_fields & KVM_SEV_SNP_VCPU_STATE_VMSA_VALID) {
+> +		if (!PAGE_ALIGNED(state.vmsa_gpa) ||
+> +		    !page_address_valid(vcpu, state.vmsa_gpa) ||
+> +		    IS_ALIGNED(state.vmsa_gpa, PMD_SIZE))
+> +			return -EINVAL;
+> +	}
+> +
+> +	guard(mutex)(&svm->sev_es.snp_vmsa_mutex);
+> +
+> +	if (state.valid_fields & KVM_SEV_SNP_VCPU_STATE_VMSA_VALID) {
+> +		ret = sev_snp_install_guest_vmsa(svm, state.vmsa_gpa);
+> +		if (ret)
+> +			return ret;
+> +	} else {
+> +		svm->sev_es.snp_has_guest_vmsa = true;
+> +		svm->sev_es.snp_guest_vmsa_gpa = INVALID_PAGE;
+> +		svm->vmcb->control.vmsa_pa = INVALID_PAGE;
+> +	}
+> +
+> +	if (state.valid_fields & KVM_SEV_SNP_VCPU_STATE_GHCB_VALID)
+> +		svm->vmcb->control.ghcb_gpa = state.ghcb_gpa;
+> +	else
+> +		svm->vmcb->control.ghcb_gpa = INVALID_PAGE;
+> +
+> +	vmcb_mark_all_dirty(svm->vmcb);
+> +	return 0;
+> +}
+> +
 
-> > > +static unsigned int decode_threads(unsigned long text_size)
-> > > +{
-> > > +	const long nr_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-> > > +
-> > > +	if (text_size < DECODE_THREADED_MIN_TEXT || nr_cpus < 2)
-> > > +		return 1;
-
-The text_size check ought to be before the sysconf() call.
-
-> > > +
-> > > +	return min_t(unsigned int, nr_cpus, DECODE_MAX_THREADS);
-
-Why min_t() -  you might as well make nr_cpus 'unsigned int'.
-
-> > > +}  
-> >
-> > No, anything using _SC_NPROCESSORS_ONLN internally is wrong, whether its
-> > pigz or objtool.  
-> 
-> Why? We shouldn't cap a 4 CPU box to 4 CPUs?
-
-You almost certainly don't want to use more...
-(Unless they end up waiting for disk)
-
-> 
-> The idea is that the empirically obtained 16 core limit should naturally be
-> capped to the number of CPUs.
-
-The 'empirical' limit is very likely to be system dependant.
-There might also be situations where you don't want the build to run as fast
-as possible because the system is performing other workloads.
-(Not to mention if you have had to add tracing to find a bug.)
-
-> 
-> I guess in a world where make hands jobs off this could be dropped, though,
-> if the complexity there seems worthwhile.
-
-You need to pull tokens out of the make pipe :-)
-
-David
-
+Nice, looks like snp_get/set_vcpu_state() could quite easily make use
+of KVM_EXPORT/IMPORT_VCPU?
