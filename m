@@ -1,127 +1,100 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0C02F83B5;
-	Tue, 15 Sep 2026 19:24:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8EEA3BB4A
+	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 19:26:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789500272; cv=none; b=DSR5lecAsI0fHGsgD7aXn24r8ftm2n4uRD+ciq4/FXzAynTUh7CIXz5c6tHzj1ZHCaOksWEFwaDNHCtF/ZbG+rlxdm5VVsF3IXLAJKhymL5q23rMBto/874y5VdJGgZYGpkkwW9jIXwoVfX0wFgWk/GU3Zf8IOzB3hFSRZEQVIE=
+	t=1789500412; cv=none; b=rxQ6W3pdDH1ZB0opemaTbraURP1aR3iINbYc2kPHefhY05uONsR2xcYiNm3yx9JNgPdWCMRD3K3uWDdKEzsAvR/0+vqg0NLxMHB8aMVRz9gmpN7HsuwNjVTnPLELwKiG1QuwRcueUnw/g+KiAMGGtv7OT4TzQVLdGBJV/GJohQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789500272; c=relaxed/simple;
-	bh=ryg6nKUTx68Fy1dXWgSE+1SwKBJ00iCeTFDkDWlbsGc=;
+	s=arc-20240116; t=1789500412; c=relaxed/simple;
+	bh=rMHmV+D0Ce7Zl+9QPHbqJ8krGNUj2OY6tr3z7SHVtpU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fl3mPd8DaDPtkokLjGCWOFiD/WAWkPLGYgnHNtUZRYY+De7PJd0xmCqVuy2HGFxxPbYYYQS5+fo9cLjaH4BXG9Ts9xEcTd8QKiUxzyhKyRnGoUSK22LTFBf7sIEBdpsH+GBvQ+cKzscjRhs9ByXTyzXOVlTDfVArGt+8/51uCVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=SjgS7EqU; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=TI8MXMmU8d9TxgePPTNuonIsDQZJ553ZwCge+X+a65mK/YyD+KWtzEj/BlkLyhv0Itdym0EXXGhNfuSfGmP0IAgb1bXZDybXxFDFM1GV8+P2m7JC+aUYHQQqFb0zIwYyA/jwkcK3bvzH1GE9gDkrwlKry5fib7hWP/9YFwbCEiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NokrHQA/; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="SjgS7EqU"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A67FE408B4
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NokrHQA/"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E51BA408B4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1789500270; bh=XeBqOYrRmdMVCcJUy+mieps24xpx7J1+H++2XiHOYfw=;
+	t=1789500410; bh=CCS4ywA5oohfMKVA8PHgc+vaVYFqVV6V3sd1dJYizNk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=SjgS7EqUiA0XnNYKrm0TM3g1+MJlKS7/WeYv+9+XqRIRzPrUrDNpDad0LSBXOjoSP
-	 2ch7CTHosjos9JTPzeWb4W+o/lpooNW3iHrzniKxPROYddY185J/h8NI1tf/foJomG
-	 8rSC3GgEaLyOPQOt4Un1xurephTnah76trFTWbqZMoVVcBXOHw9rbm9ErG4CfYZXEL
-	 cR2OUZTcx5KKY4BX1LuozWzoWC40YKjV7TsPHzi18kl/yQ7BNnv555/5vNjYaKKZuh
-	 FYc4+Um3dYockbKbDSft9TRnHoW6JcOcU7kYd6l+3peU5euHLonU2F9KIV4a/nh4Kn
-	 J5+J2H4mZIT7g==
+	b=NokrHQA/Xh8zx1qPWbPypi/rKm1WeIVf/pEq5ouX8LoFDBvN8jlacYY2bQPJYIFXs
+	 827Z+Mlsa7lbO8V5Q3jQV3eYFqxwHk+2scTgWQO1qToft8XrEG5CEnNmRs54O7MOYT
+	 l8bQSDjV1gNRrUWGFhto/kiOYyTXDvdeC/tvHGxnYHjywqgaxQ9srdV05rfxI26nKM
+	 gjpRwugC7vxMZMmkz7Yn17kqOTl1VVBXf5huoz+VZMctHJqxOUHBr1WD4O6vrzrnbO
+	 6PxO4Je8+7eRGHLdlNynbqax6tbXv3dpW8v4TrKwGu76C2uSL2KvUQGuXYrcm6cWr6
+	 GbKS5EEs0ZqHQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A67FE408B4;
-	Tue, 15 Sep 2026 19:24:30 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id E51BA408B4;
+	Tue, 15 Sep 2026 19:26:49 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, Uwe =?utf-8?Q?Kleine-K?=
- =?utf-8?Q?=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>, Randy Dunlap <rdunlap@infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Alexander Usyskin <alexander.usyskin@intel.com>,
- Dominik Brodowski <linux@dominikbrodowski.net>, Bjorn Andersson
- <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, Alex
- Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu
- <dzm91@hust.edu.cn>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Takashi Sakamoto
- <o-takashi@sakamocchi.jp>, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH v3] Documentation: Update after split of
- <linux/mod_devicetable.h>
-In-Reply-To: <20260908070031.32833-1-kmehltretter@gmail.com>
-References: <20260908070031.32833-1-kmehltretter@gmail.com>
-Date: Tue, 15 Sep 2026 13:24:29 -0600
-Message-ID: <87h5jq8gia.fsf@trenco.lwn.net>
+To: Karl Mehltretter <kmehltretter@gmail.com>, Madhavan Srinivasan
+ <maddy@linux.ibm.com>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>, Haren Myneni
+ <haren@us.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Ritesh
+ Harjani <ritesh.list@gmail.com>
+Subject: Re: [PATCH v2] docs: powerpc: vas-api: Fix the structure name and
+ the ioctl number in the example
+In-Reply-To: <20260907004925.10948-1-kmehltretter@gmail.com>
+References: <20260907004925.10948-1-kmehltretter@gmail.com>
+Date: Tue, 15 Sep 2026 13:26:48 -0600
+Message-ID: <87cxue8gef.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
 Karl Mehltretter <kmehltretter@gmail.com> writes:
 
-> From: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@baylibre.c=
-om>
+> struct vas_setup_attr does not exist; the name is struct
+> vas_tx_win_open_attr. The example also defines VAS_TX_WIN_OPEN with the
+> request number 1, while arch/powerpc/include/uapi/asm/vas-api.h has used
+> 0x20 since the ioctl was added.
 >
-> Most structs that were defined in <linux/mod_devicetable.h> before were
-> moved to a bus specific header. Follow the movement to get the struct's
-> documentation back.
+> Use struct vas_tx_win_open_attr and 0x20.
 >
-> For the list of device ids in basics.rst use an explicit list of all the
-> headers that have kernel-doc annotations and that are not described
-> elsewhere (i.e. pci and mei_cl). <linux/device-id/acpi.h> is left out on
-> purpose, ACPI_DEVICE_CLASS() is not a device id struct.
->
-> Also repair the referencing in the zh_CN translation of pci.rst and
-> don't duplicate `struct mei_cl_device_id`.
->
-> Fixes: ad428f5811bd ("mod_devicetable.h: Split into per subsystem headers=
-")
-> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
-aylibre.com>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> [Karl Mehltretter: use the :file: role in pcmcia/driver.rst, say why
->  acpi.h is left out]
+> Fixes: c12e38b1d52e ("Documentation/powerpc: VAS API")
+> Suggested-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
 > Assisted-by: LLM
 > Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 > ---
-> Changes since v2
->   https://lore.kernel.org/r/ede7ce64f20e10660ebf6bc1b41836dad750ae3b.1783=
-349758.git.ukleinek@kernel.org/
-> - use the :file: role for the header path in pcmcia/driver.rst (Randy)
-> - say in the commit message that <linux/device-id/acpi.h> is left out on
->   purpose (question raised by the Sashiko review)
-> - carried Randy's Reviewed-by and Tested-by from v2, the diff changed in
->   one line of markup only
-> - Uwe asked me to take over the patch:
->   https://lore.kernel.org/r/apv6yQ1U-HhNglyV@monoceros/
->   It supersedes my PCI-only patch
->   https://lore.kernel.org/r/20260905084916.40196-1-kmehltretter@gmail.com/
+> v2: also fix the ioctl request number in the example (Ritesh)
+> v1: https://lore.kernel.org/r/20260905104313.43620-1-kmehltretter@gmail.com/
 >
-> Randy's suggestion to add kernel-doc comments to <linux/mei_cl_bus.h> for
-> struct mei_cl_driver and include those instead of the duplicated struct is
-> left for a separate patch, it touches a header outside Documentation/.
+>  Documentation/arch/powerpc/vas-api.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
->  Documentation/PCI/pci.rst                     |  2 +-
->  Documentation/driver-api/basics.rst           | 31 +++++++++++++++++--
->  .../driver-api/mei/mei-client-bus.rst         | 12 ++-----
->  Documentation/pcmcia/driver.rst               |  2 +-
->  Documentation/staging/rpmsg.rst               |  2 +-
->  Documentation/translations/zh_CN/PCI/pci.rst  |  8 ++---
->  6 files changed, 39 insertions(+), 18 deletions(-)
+> diff --git a/Documentation/arch/powerpc/vas-api.rst b/Documentation/arch/powerpc/vas-api.rst
+> index 1d0d055356e3..f74ea9fbc8a0 100644
+> --- a/Documentation/arch/powerpc/vas-api.rst
+> +++ b/Documentation/arch/powerpc/vas-api.rst
+> @@ -136,7 +136,7 @@ a connection with NX co-processor engine:
+>  	follows::
+>  
+>  		#define VAS_MAGIC 'v'
+> -		#define VAS_TX_WIN_OPEN _IOW(VAS_MAGIC, 1,
+> +		#define VAS_TX_WIN_OPEN _IOW(VAS_MAGIC, 0x20,
+>  						struct vas_tx_win_open_attr)
+>  
+>  		struct vas_tx_win_open_attr attr;
+> @@ -265,7 +265,7 @@ Simple example
+>  		{
+>  			int rc, fd;
+>  			void *addr;
+> -			struct vas_setup_attr txattr;
+> +			struct vas_tx_win_open_attr txattr;
+>  
 
-This one adds some new build warnings:
-
-  Documentation/translations/zh_CN/PCI/pci:98: ./include/linux/pci.h:3: WAR=
-NING: Duplicate C declaration, also defined at PCI/pci:3.
-  Declaration is '.. c:struct:: pci_driver'. [duplicate_declaration.c]
-  kernel/Documentation/translations/zh_CN/PCI/pci:106: ./include/linux/devi=
-ce-id/pci.h:3: WARNING: Duplicate C declaration, also defined at PCI/pci:3.
-  Declaration is '.. c:struct:: pci_device_id'. [duplicate_declaration.c]
+Applied, thanks.
 
 jon
