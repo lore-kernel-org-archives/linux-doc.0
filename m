@@ -1,167 +1,166 @@
-Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
+Received: from flow-b8-smtp.messagingengine.com (flow-b8-smtp.messagingengine.com [202.12.124.143])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B9649E5E6;
-	Tue, 15 Sep 2026 17:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.147.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE893BB128;
+	Tue, 15 Sep 2026 18:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789494980; cv=none; b=DB8NlwizsfdHQDYCC2tybaTcg9dV6M7Uf5a/XHEbo2TdU+nROr4yYXcTPIUQfTr9G0ihyb6MVTsAHxHIHsh0WEmWWzubyB3XiT198SH+Ee6qEsEYGxDnhYHS7eW/yIXKiksgUbDJUfXCl6uDgKC1SY7KNGgPmI8EB/6TnDbxgCA=
+	t=1789495430; cv=none; b=tK4FFG8ohWsp5+XDk7sY5HDSHWhrl7zpA1HVcXy8oWwz/yb4HSSOGyHE/JV/KOmZa7w0AzD81ylvTzJr59pgEcAXtFF/IN+hQTVwmNZSatbH8G7rSDFAraPhGkEz1S9BVRNCL37Yor7BPsSXfDYXZGXO58YKSmisJa8b/PNadog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789494980; c=relaxed/simple;
-	bh=EwzSM2YpKfya0JXRveWZ69rYR1xw5kgFdDFZ8hLc6HA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IIPXy0gSGUhChIq94CbuID7ItJHmRK71c23nHUqBiFdBbkhvEJHXtT9lz/KnjBrB2zsXFeJxelCam5q5hQC/IY0kH+DZ9L9KYagxaBAQVa5xUrIUTcq8O5MXdNJNVjNKElRSE6Nc8hdrdlpqCjwZELOJn5n4qsDseyx7n9+pUAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=JtkvPdj9; arc=none smtp.client-ip=148.163.147.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
+	s=arc-20240116; t=1789495430; c=relaxed/simple;
+	bh=acA8Pl0ra8uGRhaY3yUxU7JeUeRVK1VSh+mJtBE56Dw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=FjRt/+BS8Hn6v7Iig5+S2PbQwc3+TzJco9Px79pzrcaif7dTkFr+tA6ullkbQpIq8+llqCoACoCyW0i9BxC8aSKLvwX/FDq6/wON5VwzStrS2x8A5rdZNVyx0VtF/AO4ZKYQgxEODbBk06FYXPAcGMpExxU0HzdpOMK0uSW16VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=U4sf78++; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oq9Ixf7y; arc=none smtp.client-ip=202.12.124.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="JtkvPdj9"
-Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
-	by mx0a-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FHsVqr2942025;
-	Tue, 15 Sep 2026 17:55:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pps0720; bh=PNlXKXX5IyXBrJN4ylgfbuPEUG
-	zQwPHtOwfHhk/bIe4=; b=JtkvPdj9EgRpDPcHrWl7UiRg4FD51sG7bJwVBqU6NW
-	Uf9ZBrOUOIdWZdWKf3O6D1LdCvuCCfHBVsothhkDzcEQvQqpUa+X3DE2tXlkrmaq
-	TwHA1tHiyDDO39sk9SEBf3lo8SVxRGAdRe/PmOH1oG2U32Ew1HRH3/0SvQnq+ooO
-	K2eGSGVE35K+NtUNjDt9OOnemYoYORplPC7JhdkdpeH9DTdCYMi3Gziqdeq3MRUw
-	O5s18X3g6ws5CMnEnGIjZAuhE5rAO37Xlpzok4myiSzSteUdQL3O4OYsdgwNOqRJ
-	wJibhZ7YuJ/A1lYAxITpmgTpsQD3Am432oLyRbNyZ3hw==
-Received: from p1lg14879.it.hpe.com (p1lg14879.it.hpe.com [16.230.97.200])
-	by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 4gq95pstj8-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 15 Sep 2026 17:55:12 +0000 (GMT)
-Received: from p1lg14885.dc01.its.hpecorp.net (unknown [10.119.18.236])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by p1lg14879.it.hpe.com (Postfix) with ESMTPS id 6BD1312EB9;
-	Tue, 15 Sep 2026 17:55:11 +0000 (UTC)
-Received: from HPE-5CG20646DK.localdomain (unknown [16.231.227.36])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTPS id B4FBC805E88;
-	Tue, 15 Sep 2026 17:55:06 +0000 (UTC)
-Date: Tue, 15 Sep 2026 12:55:03 -0500
-From: Kyle Meyer <kyle.meyer@hpe.com>
-To: Michal Hocko <mhocko@suse.com>
-Cc: akpm@linux-foundation.org, corbet@lwn.net, david@redhat.com,
-        linmiaohe@huawei.com, shuah@kernel.org, tony.luck@intel.com,
-        jane.chu@oracle.com, jiaqiyan@google.com, Liam.Howlett@oracle.com,
-        bp@alien8.de, hannes@cmpxchg.org, jack@suse.cz,
-        joel.granados@kernel.org, laoar.shao@gmail.com,
-        lorenzo.stoakes@oracle.com, mclapinski@google.com,
-        nao.horiguchi@gmail.com, osalvador@suse.de, rafael.j.wysocki@intel.com,
-        rppt@kernel.org, russ.anderson@hpe.com, shawn.fan@intel.com,
-        surenb@google.com, vbabka@suse.cz, linux-acpi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v3] mm/memory-failure: Support disabling soft offline for
- HugeTLB pages
-Message-ID: <aqmGd0GGUCkbZpkZ@hpe.com>
-References: <aqiIEkrc6aDBOqRg@hpe.com>
- <aqkCbgHmMGxI_GLG@tiehlicka>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="U4sf78++";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oq9Ixf7y"
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailflow.stl.internal (Postfix) with ESMTP id 5358A1300085;
+	Tue, 15 Sep 2026 14:03:43 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Tue, 15 Sep 2026 14:03:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1789495422;
+	 x=1789502622; bh=M+18z9TRevaxtOpUOsKP4yasoi0N4a+EiZHqRi1jYdY=; b=
+	U4sf78++DYavqgGlejlEwUXoEqhIsCFB/2NyMKaj1PndBkbO10J1TMqWCQzUYQ9k
+	CTbm52mBhfYJSzo7pJnhLJi2SRLdZ/DVdPmXmQb1D3hIh8EpSvsDulGT6hQvUFIl
+	s0XDhlwy8JxTxnRPbwZ8jQBUc/hT3IDcWw2vdOWMrVTXA9ZLM45kBy2fOChmGOqv
+	0+L20OS6Ia1ohb1HeKO1C98ue8KmLWJK5lQn+jdj5x6oU046t+BwxkTtESnJG923
+	Lu2frFKww9pEJwXwyFRjRWXBSJW2faQu3PiYgYk4lGG/swolQik/CSxOyRbDqKzZ
+	5i/cSlA0RTVVNA5vyJ1UPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789495422; x=
+	1789502622; bh=M+18z9TRevaxtOpUOsKP4yasoi0N4a+EiZHqRi1jYdY=; b=o
+	q9Ixf7yRpyn6OvcbGl5rXjJFa1njovmQxMYA4/EkJhzjD+maxV5GG3ba19SaW++G
+	QOs6J0Fa/LV1lhtIdMIv5u3xcXBUQ/BkWbwv2PwZIHlLdfK4i2AUGu8CtspgtS8c
+	EWbgkgpdTYWZOz/tN4VFpLBiz9bx7j7kSMWM1k6IOH5QrWdbjh9m+DsvGh3OX/+q
+	Taj+DrKSfg4H32xe+YDJe5XD6ZR2tm8J04XsaAu0J35LGaavhJOritpYkOeAJ783
+	j8NjM0zLLgbkFuWyOYBUo5LLRpGC7dSHRYUJ8wIUxD2UbwvDMvzzE9DiB6DFOo42
+	tzIy3NobehRhziIOFHhPA==
+X-ME-Sender: <xms:cYipailbmg0-tN27ofHkhd07IO9gZOWNIOQrLQ9DCYqzmFuBBSchdw>
+    <xme:cYipakp6-uuZN1YnstpXkrEp_5StGTOJ0BtK_HxcCa3-ZFjlPC2cZMGQDppbVG_uA
+    JTnyuDh-VT8k9QjS8W0fkX0MgtjMGCzioAvPHVpm5r0ohPlZ5ZtiQ>
+X-ME-Proxy-Cause: dmFkZTFLubBmkF9VxUXZctMrdWBp2PvxU3vddrDMSNApH/C34f5Jo4vGvSjFWGqcIiCAm3
+    t2jJUO6j4wP3lQHA6L91qY+aXHlhV17TaNSiKSTmW0xstZgu79Dl5jU03KzK1s2YlOJo/3
+    wa4j2nKMRel037MnTHQ8te/M/aE7zD4CsPrI9tQLPGUChDom3CR70v4zVmv3gD6zyRZry/
+    fxHOTxmp3YVEprGwCEBNhJAcVk1vsP7wwArzoSgdgEFZ4vL9ELlAkcVUbdVwjHtuSZqaWP
+    AWe9eJ3y4fgUpnZHio/2j2aSBhv/10jGSapZIF0QaWlVDG6ssnreMapOlCHyUWq6kttutf
+    oDo7WlKZ5fFrKrT5By2389BEZwy+E2RhGE3phrfshauQuSZFgNJgWkijQF179i664QRgP6
+    LWCHtGbyIntI8ToE6NC1nHUqRV3n/l7uF4Eg8HGHeMFuBET58m59Ywkhe67LY7fOzyBVcI
+    2Q7BJAsK3NiPZYa+Jk7vj6XEdScnNdAgzPbI5zWgH6tlyIhnXAgIix0rQDdHElBplOBVyO
+    ekn2oaLCLvIcziLphnqNFkN6LJXV4JahCtpz7G1bwv76eoWQ39SAfPB6eTwfYtTu3wFAkR
+    34zZQJYlvXiTbuPfeqaj/5YlnP92Hdkc8ppMPu1ilrNf3/OICLnd/8+gehrQ
+X-ME-Proxy: <xmx:eIipatwHmU1_ouWm4I4RW_lK9XEMTS_CpIwSlkIYf8iZURXKG1MQPg>
+    <xmx:eIiparsReeDpWZOQeMc6tmSPPtMQx5IHt8-Vd8XR-iDUaNV_5h26nQ>
+    <xmx:eIipaucVS9uDmW_RRTNLCtqQ-2PAstNP4U_wVoGhtDrwlfy64or6jg>
+    <xmx:eIipajGS1AnUEw8rJ-AJ0f-ObcOldpUsOc-p5zmlPVGDO0QxR48S1A>
+    <xmx:foipaoajkqxqQ1sWqPi4SzqugSxTjUav0JGVACWsRKXejYebtAmyZxYQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 2D5C132A0081; Tue, 15 Sep 2026 14:03:29 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqkCbgHmMGxI_GLG@tiehlicka>
-X-Proofpoint-ORIG-GUID: ZGyhASJQPrkZtald6s-qe-XaJzb3rLwu
-X-Authority-Analysis: v=2.4 cv=SJ3Xx+vH c=1 sm=1 tr=0 ts=6aa98681 cx=c_pps
- a=5jkVtQsCUlC8zk5UhkBgHg==:117 a=5jkVtQsCUlC8zk5UhkBgHg==:17
- a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gQcMVamqm3wCPoSYhaRC:22 a=_ZmgHqWwjZUDpi_pur5s:22 a=VwQbUJbxAAAA:8
- a=MvuuwTCpAAAA:8 a=OCHxr62PC90mTwIpeikA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDI2MCBTYWx0ZWRfX/bF3jfMe5L2R
- j63mU1nIBKQUtxaBXijRxEhjpUkMVc4zIvOsjeAo1gXa6d8EaQ3zY67L76NuqyOpj1PqfHtArmO
- 2vl0Zj/ywj1xKqs1a/mzZMNwlkOXYrqejAwJQ505r93PdMuHej9YKGoy+OOhjdgIGcbnHU5kPaU
- yvvrSCWy5ejLgHtdaE3GjSon0dkRbhoyLPGlPM5ivm10iaII7ndWeW/6v4Wb+WicsOGN6iGbq5y
- TmACnEazHYCmP+PBiUKK1AlL2cSjGIx6qbmqEPScHv5nRJqfghhw+WYCVTjioKj934H6QVwbEyn
- +l7ofYSeMOrVz1JhspzsrFr1N4lD/2CI+O885v1QKv5nzT3CrROQPCxW5DGn1rcxZV1AAEnv7EB
- 8HBx6GOAVf7DeSMdD7b3ATQFGeRAgDSkWYdpFHxj64RkQev4NJH17HwCiED+iffIRQ5Flebq0JV
- zWia0hniMaXW7l/WWHg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDI2MCBTYWx0ZWRfX63h0+WaHo6KX
- o28u0TT4xIFnPPwvxBVPnt73ZCm6PXqMR4K+TANuw3CaFV5L9FIl2AQlI4GVDKvAEj81K9dRKGJ
- DaYbaSq0UXlb+dnZCcP9Cbxr0DS1x+w=
-X-Proofpoint-GUID: ZGyhASJQPrkZtald6s-qe-XaJzb3rLwu
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-15_05,2026-09-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 phishscore=0 adultscore=0 bulkscore=0
- clxscore=1015 lowpriorityscore=0 malwarescore=0 spamscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609150260
+X-ThreadId: ArHA-gVR6p-N
+Date: Tue, 15 Sep 2026 20:02:38 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Nick Desaulniers" <ndesaulniers@google.com>,
+ "Kees Cook" <kees@kernel.org>
+Cc: "Lorenzo Stoakes" <ljs@kernel.org>,
+ "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nsc@kernel.org>, "Bill Wendling" <morbo@google.com>,
+ "Justin Stitt" <justinstitt@google.com>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Alexey Gladkov" <legion@kernel.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Albert Ou" <aou@eecs.berkeley.edu>, "Alexandre Ghiti" <alex@ghiti.fr>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Will Deacon" <will@kernel.org>, "Mark Rutland" <mark.rutland@arm.com>,
+ "Ard Biesheuvel" <ardb@kernel.org>,
+ "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
+ "Josh Poimboeuf" <jpoimboe@kernel.org>,
+ "Peter Zijlstra" <peterz@infradead.org>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ "Gary Guo" <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ "Benno Lossin" <lossin@kernel.org>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "Danilo Krummrich" <dakr@kernel.org>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Tamir Duberstein" <tamird@kernel.org>,
+ "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ "Jonathan Corbet" <corbet@lwn.net>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
+ Linux-Arch <linux-arch@vger.kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ "Jens Axboe" <axboe@kernel.dk>, linux-hardening@vger.kernel.org
+Message-Id: <90006ad1-73df-4bd0-a434-61875edd5bb9@app.fastmail.com>
+In-Reply-To: 
+ <CAKwvOdmgeyqivO4pVa=30XDWpXvdRzBR8f13rfuPzDx=LJ1Tsw@mail.gmail.com>
+References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
+ <20260914-build-speedup-v2-21-39817ec5db23@kernel.org>
+ <202609140844.FA7E848A@keescook> <aqk9gakQhxToLnDI@gremlin>
+ <202609150955.A51C9F7A20@keescook>
+ <CAKwvOdmgeyqivO4pVa=30XDWpXvdRzBR8f13rfuPzDx=LJ1Tsw@mail.gmail.com>
+Subject: Re: [PATCH v2 21/21] kbuild: use pigz for gzip compression if available
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 15, 2026 at 10:31:42AM +0200, Michal Hocko wrote:
-> On Mon 14-09-26 18:49:38, Kyle Meyer wrote:
-> > Soft offlining a HugeTLB page dissolves it, permanently reducing the
-> > HugeTLB page pool. This can be problematic for workloads that depend on
-> > a fixed number of HugeTLB pages.
-> > 
-> > Currently, soft offline must be disabled to prevent HugeTLB pages from
-> > being soft offlined.
-> > 
-> > This patch allows soft offline to be disabled for HugeTLB pages while
-> > remaining enabled for non-HugeTLB pages.
-> > 
-> > Commit 56374430c5dfc ("mm/memory-failure: userspace controls
-> > soft-offlining pages") introduced the following sysctl interface to
-> > control soft offline:
-> > 
-> > /proc/sys/vm/enable_soft_offline
-> > 
-> > The interface does not distinguish between page types:
-> > 
-> >     0 - Soft offline is disabled
-> >     1 - Soft offline is enabled
-> > 
-> > Convert enable_soft_offline to a bitmask and support disabling soft
-> > offline for HugeTLB pages:
-> > 
-> > Bits:
-> > 
-> >     0 - Enable soft offline
-> >     1 - Disable soft offline for HugeTLB pages
-> > 
-> > Supported values:
-> > 
-> >     0 - Soft offline is disabled
-> >     1 - Soft offline is enabled
-> >     3 - Soft offline is enabled (disabled for HugeTLB pages)
-> > 
-> > Existing behavior is preserved.
-> > 
-> > Update documentation and HugeTLB soft offline selftests.
-> 
-> This is adding a lot of user interfaces to control something you can
-> disable by config option for an admin only functionality.
+On Tue, Sep 15, 2026, at 19:47, Nick Desaulniers wrote:
+> On Tue, Sep 15, 2026 at 10:31=E2=80=AFAM Kees Cook <kees@kernel.org> w=
+rote:
+>> On Tue, Sep 15, 2026 at 03:30:43PM +0100, Lorenzo Stoakes (ARM) wrote:
+>> a)
+>> My main concern is the lack of respecting the -j make argument. In my
+>> mind, this is a blocker, because it means a build will now _always_ s=
+pin
+>> up max CPUs (not what -j has limited it to), and for CIs, shared comp=
+ute
+>> systems, or whatever, this violates the requested parallelism level. =
+For
+>> example, if I'm doing a long-running Coccinelle replacement in one tr=
+ee
+>> (which uses half the CPUs), any builds I launch I'm asking for the ot=
+her
+>> half of my CPUs to be used so they don't thrash my cache.
+>>
+>> This is the kind of "why are all the CPUs spinning up?" question I
+>> helped track down with commit 51e46c7a4007 ("docs, parallelism: Rearr=
+ange
+>> how jobserver reservations are made") forever ago.
+>
+> Parse -j from MAKEFLAGS (https://stackoverflow.com/a/76517886),
+> forward it to pigz?
 
-I may be missing it, but I'm not aware of a config option that disables soft
-offline specifically for HugeTLB pages.
+That still has a potential O(n=C2=B2) problem: if one builds N kernels
+with a top-level jobserver on N CPUs, and they all take the same
+amount of time, you end up with N pigz processes each trying to use
+N cpus at the same time. Ideally we'd use the equivalent of
+-flto=3Dauto in the compiler, which respects jobserver settings,
+but I don't think pigz supports this at the moment.
 
-> I fail to to see any actual justification for all of that. If an admin
-> can disolve a hugetlb page it has power to allocate a new one as well.
-
-Allocating HugeTLB pages after boot is not guaranteed.
-
-> Not to menation that the whole soft offlining is mostly a testing
-> feature so adding a lot of fine grained configuration space seems
-> excessive to me.
-
-Can you elaborate on "mostly a testing feature"? For example, how does that
-apply to the BIOS/GHES path discussed here?
-
-https://lore.kernel.org/all/aMkOCmGBhZKhKPrI@hpe.com
-
-If you think this should be handled differently, I'm open to suggestions.
-
-Thanks for the feedback,
-Kyle Meyer
+      Arnd
