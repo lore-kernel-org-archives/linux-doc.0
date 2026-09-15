@@ -1,78 +1,76 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59137470E85;
-	Tue, 15 Sep 2026 13:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5CF313E0D
+	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 13:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789478905; cv=none; b=Mneccg9ezC2N3gVknsDEWoEz/GmeF66000x846Qz8oPy7Nl/Y9qE7Dh0kYJWi7E23fl7xjInNpGqzxlGtd80ZQkcbnqVsxwB2BXyM6SeGbelNkLhoM99S9HkbtqaPSsbtCxyHxEKoClTt++K0CROXW0eUjlm/zSxtoRhAnAXMaw=
+	t=1789479669; cv=none; b=V0kuLh1cgx34FHBhEZa/+Ip4jNyDg6/bWiFRgVq5KBpWK87vJu9MgQhbwO7icD0O9vj198eifDRq1BJVogpWEJmKDDMh9kcFTTXX5JdZc6IIV9vKyHqLU5tMquAQuMm2ISzEXEF2BabV4PkS/1+3uWGs+ougacRq9ySZ1GyELZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789478905; c=relaxed/simple;
-	bh=8oS9W40Kxi3jCDLjbplhmNHApFzpmxWBjEyHqggrd0A=;
+	s=arc-20240116; t=1789479669; c=relaxed/simple;
+	bh=B5rz/HvywjwIe0LUBJ1IJyXaj9n79ASijN34ANZfpEQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g+PugYpor2eH0otu/hmr2d5qefKGpcyoABXqJrpnVbGMTfedwYyYMzqj6yGSBf6gKttaIYRvzUlEkac4gEaEN5yBG2Gige1r5o/a2N/o5wSUhidj/fC+dlnF1W7RISG6kKBWvzzJeWsq0We7S+8ScIj2ml/SItN0+3uCyKgp1Oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Jnmr+6bd; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=JHEMkaeAbDANOENqP63+yDCi6WYexWK38TFjy89I02G5/GZIFjs8bfIqb+KVyOqsm35rAm7qc1cWfz5K7VRG6DSbOOpU3Sy3nf+UlW+fLR6RfeIbF4K7o8R6CY1Vu3KEiEk24PpDydMti0QE8/pYmFs4SFV/4qLIwcqJ/jPiFOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rPIdmwnb; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Jnmr+6bd"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FD1cwV879799;
-	Tue, 15 Sep 2026 13:28:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=8oS9W40Kxi3jCDLjbplhmNHApFzpmx
-	WBjEyHqggrd0A=; b=Jnmr+6bd5JlMLNu1gUkunm9XI3jex6vE/3DA/zjHS4Nlnd
-	QQzW3P//6McQCzjWz959MU60PUorYfn3houYI4t3dMOJGjUIdsw2/AupgiWzOT0b
-	D3La1ggZhB0CqFFBRjptRLE/q02J9reVfo7iZG84tIrp5z/jeK2icg5tkv5hCBlU
-	BZt9REZHCEM0sz0OYEinvxGb7TP2FDV9fPXYwZmgkIy9jvoBWkCtCR63lGjvORPO
-	CJoS4CIpkAzl4n6dnw8hCU/inXvRxtKRvSUIUQ032EWKBcRSHlA/5YeGAbpDhQB/
-	JvYI07jM0enx7oBMLcaWb4NQYgUEByg3IfJmxlbw==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gmx83q97x-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 15 Sep 2026 13:28:01 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68FD56PQ739092;
-	Tue, 15 Sep 2026 13:28:00 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4gpw6d2364-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 15 Sep 2026 13:28:00 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68FDRusb42402280
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Sep 2026 13:27:56 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6CEA42005A;
-	Tue, 15 Sep 2026 13:27:56 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C78632004B;
-	Tue, 15 Sep 2026 13:27:52 +0000 (GMT)
-Received: from dhcp-9-123-3-18.bl1-in.ibm.com (unknown [9.123.3.18])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Tue, 15 Sep 2026 13:27:52 +0000 (GMT)
-Date: Tue, 15 Sep 2026 18:57:49 +0530
-From: Gautam Menghani <gautam@linux.ibm.com>
-To: Fuad Tabba <fuad.tabba@linux.dev>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oupton@kernel.org>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Joey Gouly <joey.gouly@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Steffen Eiden <seiden@linux.ibm.com>,
-        Nicholas Piggin <npiggin@gmail.com>, Will Deacon <will@kernel.org>,
-        Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
-        kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] KVM: PPC: Book3S HV: Fix comment naming a
- non-existent KVM_VCPU_RUN ioctl
-Message-ID: <aqlH1QKaLP-4mNy3@dhcp-9-123-3-18.bl1-in.ibm.com>
-References: <20260915084441.3846947-1-fuad.tabba@linux.dev>
- <20260915084441.3846947-4-fuad.tabba@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rPIdmwnb"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d6ff2b8503so1755555ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 06:41:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789479667; x=1790084467; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=s2vjAIuglDzNtvLvUN1SnWxls+9kNR302LnOw/HxEJQ=;
+        b=rPIdmwnbS/JISWDC99dOEGKcKTbgboHy8Nop+C2aqxiH4N0PQXyJkpIq173379jvFj
+         8zDXsglYUIb93lcYgM+GpK7RbQl1nneLQiz1rGeEtJJRbsYCExVCRK8aLoYy1peKxzHb
+         sCybGoYw6AYQXjPbLPl/HUrWYdVRmH2hYhkD2Y4ldqI6IbSLW/FdenD8N1I5yshrMkmp
+         ZgIemKMXJYqE8+uTlqJMlqyOncAJsBRA2JProfPLyYn5MHgYM5BaJvBAKNcctfTmYgM3
+         HQaqhsgWYiNvxohlc9dToBtyOtRccziAvdR2U4Glo6WNCbmjwBe3XfBeNwR9kl6NQsIX
+         hgLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789479667; x=1790084467;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=s2vjAIuglDzNtvLvUN1SnWxls+9kNR302LnOw/HxEJQ=;
+        b=HuExM8f6bFrJjX6oQ/tgiT1ULe8P+Kb6AGuIOCMN0oKvIyg72euwajtqF5IGbFtVXN
+         QPTEYgj1+INrtx72SdMn2pR7lEHfqNAgWgOHZabOtxRQrnEPVESZuQfy+8A0K/MQtZ36
+         YP4fsPpya75W4lyhUycxSQmqRqaIpqgnSToTTi22KJ7TmXOslIYlrhlEPpvpQ4a9+IAv
+         BUPLJDl9UL5jGdGaG+4KsSMau9Pu0J/RIyWC31FkcqHZBHlOxRdK4lJHcxncqsRsargp
+         gumHD3DVopCXap/G2WcZ3sjS+JsxDwQuEhHg8cjAflQ0Sogz5cSq5+g5uXZztBEq2t8h
+         YLCw==
+X-Forwarded-Encrypted: i=1; AKwUvBzl+LK/LvapVmFjo6yuNE/Uc3k6bbAPD8i7wfZGP9u+hUMeGGN2BY++5XmKX7UE+P4lVZTwCz/pEV4=@vger.kernel.org
+X-Gm-Message-State: AFuF++n91Gv6BU7Xn5CN9b6mEZk639XF5lOKxYXCwhqGHhlW7lItncQ4
+	9Rc4MHx7Ma4CdzNipBvQbDPi1qzsrvht4891L3kKeLDnpwhw/aSRswvm
+X-Gm-Gg: AYBFou2B0cvJhQsi1AyeHrBSzM3LPcTzUBPsbC72T7ttghV1J8YaNY1wDfgMIK6Ac5D
+	33iWQbOEMKwMCaLmiU/g1GVwlg5ODtnd6b9jGoNMZfyg7MBJw2vevisHDQ7FNF13tceUSG/pZts
+	LPnybfEIDhtjFzoJUuLqJRTFcmh4oi7DEFxAYmYr6HEguVL+GRGrGo7Hjh6Gn5ez5pYAy1zCRBp
+	pCe43jsEiqsTWkt379sXK/P+Fh2Sq+eCMmE4KGJV/xI5suiSBUXHD4nuWYPz00ABB3ckjn00k7g
+	hAoW+I+K1AL6o/2NvkJphn9vLUdY1Hl3o352XBjp3po2qOqIGr+DaAJdpAw69OtdYjlRI1WiuXx
+	/21//B6fJUAgGyPTqwkJ3tV7jy/3wgE7ICh5e0x0L5Y08oueXoZuAO87/UlJj0LrK+7C6/1iHAE
+	wkuk+iYn64Le38Kf8f+aa517wpBi8F6lDVuukRSWsQVZPHAOlcwbqbW5RQrq+eNUTeTFTj0g==
+X-Received: by 2002:a17:902:8642:b0:2dd:7671:3101 with SMTP id d9443c01a7336-2dd76713155mr39390835ad.3.1789479667073;
+        Tue, 15 Sep 2026 06:41:07 -0700 (PDT)
+Received: from elitemini ([2400:4050:d860:9700:75bf:9e2e:8ac9:3001])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd2cfce707sm68398605ad.55.2026.09.15.06.41.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2026 06:41:06 -0700 (PDT)
+Date: Tue, 15 Sep 2026 22:41:01 +0900
+From: Masaharu Noguchi <nogunix@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Chen Miao <chenmiao.ku@gmail.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2] docs: sphinx-pre-install: warn about unsupported
+ Docutils versions
+Message-ID: <aqlKnXHFVqO6baEW@elitemini>
+References: <20260914-docs-sphinx-pre-install-docutils-v2-1-6a2a6deedd19@gmail.com>
+ <b5df5eee-661e-4f46-9abf-1bd9cec8069d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,34 +79,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260915084441.3846947-4-fuad.tabba@linux.dev>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDE4OSBTYWx0ZWRfX/MU2l+5qWr4I
- vzvkD9PCj/CkBx1I7vx5Oj8Na5YrnftJRDDwyQrA52HalBXJX3nuUoaQl7EAYLK8nMjVCiRXnXa
- uB8FISwe7UlfD3H1tNLohmnrZNcMh0QfWR1VSPvhxPOwS0MPWpKFagUi9IZOzg8U2fxOlWTOtf0
- T+s9sKyF8sBKI0YIe3dq2UAPQhrNjtRZPqdxzNJaMLAlMgfPnvDIvaZhGE35CC5ALfkzPatiiPc
- wmxBNb54WGtlC+Ctdx7sqgqPGRMeUYN6Jlt0DR0bMCGuWlMok/cDDB9y3kvp6QRI4yG0QApwRia
- Di8DZfMBZjF1PSy1yU8Kst8nLkZKfgv2SZXKVxnT/QF8z7ib3htj6c7idmtUjSf3hOTusLaQG1S
- FLNE2joxenwVqHiB1Dl8InHzmlAJmAjY5wcReV4+TN+lp6q3MQsWCbzI6GMzYguMSo5MKHMhevh
- TyTndstMDaWOy8n+oTA==
-X-Proofpoint-ORIG-GUID: _0Ubch5FA5CSZaCYcQERoegakgj3a6NK
-X-Proofpoint-GUID: y3fBKQ0zr8qklAFyFjxogaJ2nr2fiwy2
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDE4OSBTYWx0ZWRfX95G/Cj0NlyCS
- ZlbGyfEmhHWE1n0L9K/FzaFP+nlglsN69dqeW/TBgnO6H3BYUGlTOlEXApU7sfJlo0PRr9yldgM
- +7Rtl9HD+wH3+IaJ8lrzei531JaoVU0=
-X-Authority-Analysis: v=2.4 cv=cY9HPXDM c=1 sm=1 tr=0 ts=6aa947e1 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VnNF1IyMAAAA:8
- a=90UzZmcSQ78tuVnzBuAA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-15_04,2026-09-14_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 bulkscore=0 clxscore=1011 suspectscore=0
- impostorscore=0 malwarescore=0 phishscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609150189
+In-Reply-To: <b5df5eee-661e-4f46-9abf-1bd9cec8069d@gmail.com>
 
-Reviewed-by: Gautam Menghani <gautam@linux.ibm.com>
+Hi Akira,
+
+On Tue, 15 Sep 2026 16:52:03 +0900, Akira Yokosawa wrote:
+> I think this can annoy people who only care HTML docs.
+>
+> Why not do this check after the PDF doc builds have actually failed.
+>
+> That is what sphinx-build-wrapper is doing with LatexFontChecker().check()
+> (see line 557 of tools/docs/sphinx-build-wrapper)
+
+You are right, and that is a better place for it.  v3 follows it: the
+check moves into tools/lib/python/kdoc/docutils_version.py, shaped like
+latex_fonts.py, and sphinx-build-wrapper calls it from the same two
+build_failed branches, next to LatexFontChecker.  sphinx-pre-install is
+left untouched.
+
+Measured on a broken pair: htmldocs now prints nothing new and still
+exits 0, and the message appears only when pdfdocs has actually failed,
+just above the error.  A working pair stays quiet in both.
+
+Thank you for pointing at Ubuntu 26.04 LTS; that turned out to be the
+strongest case for having this at all, so I checked it.  It has Sphinx
+8.2.3 with Docutils 0.22.4, and its python3-sphinx depends on
+"python3-docutils (>= 0.20)" with no upper bound at all, where Fedora 44
+arrives at the same pair by patching the "<0.22" that Sphinx declares.
+Both fail the same way here:
+
+	              core-api            admin-guide
+	---------------------------------------------------------
+	Ubuntu 26.04  FAILS 26x Dim       FAILS capacity, 13 p
+	Fedora 44     FAILS 26x Dim       FAILS capacity, 13 p
+
+An LTS makes this a good deal less transient than Fedora 44 alone.
+
+v3 follows shortly.
+
+Thanks,
+Masaharu
