@@ -1,190 +1,170 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2EE47A88F
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 10:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFBF48125C;
+	Tue, 15 Sep 2026 10:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789467419; cv=none; b=DeDuRKYY5WOwFmk+41s/BfTXen7+FJ1a+W9fMeCDcnnTvdbEzo7N1dd8sa42T0c+w64h465SYjcYLgoL4QZjslFEpRKh0+pWx+n6M+VPgIHy8Robm6ZAPO3Zxd+WboHqnfFZWY1vsbmUHN/Jz40kFNofu20XctSBqiBGWBTRds0=
+	t=1789469057; cv=none; b=B18uUeWYu/Af7jyJuJwgiE3g8tInNXwf3eNF50nYtf1y2+ZdOgFHAl6QDqz5bKw0sME09JXAIn9xtM6IZntP9ATd6Y43CzhqHdi69AUZfzn9DjlqJtn9KTuKMUaPV4VaJ8zszKhUEuiUnqMEL+m7ewfoFepuK81MEa2kdxZCl5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789467419; c=relaxed/simple;
-	bh=N4fsCDWKXj8cFUOuROoEasUX7c1f/yp1SRGQJLzc1Nw=;
+	s=arc-20240116; t=1789469057; c=relaxed/simple;
+	bh=b6c3JYoc+w5EEpNyoNB9KUGB91ElnPEyAcmxG0RJU58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hQpeQwC1vL3vGwoNpi3QV0D1iz9+ttI36409Q8XI55aSPFGFClNd9ORml4AfimatUV5gkHoGeWc63t7q8jRTEbUF9k/yNA9DncxGtV3Hzju9pdiulHmzTcu1yj5v5Y4jTBHKBwHtZC4y1Rjt2iIsQkNMZyPeSw6EFcG4shMnuwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cpIm+PFw; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=fDzT2FM3; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=DDF8vXLEXgmSX2Dheh4LqlFp7lYecqAmqtK3Bqd6joZYm1spTErmsCm6afjpyFt7TLnuoWN7/I6DMADq0UvlXf0M23osJnCFkEbbGO680NCz11KmJsOJ74paWOHJtIL2ZUPHz65I+nP42Y+Qzqo2k6LuVrrmT8Kwr9pvZnBylbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUToMrdF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cpIm+PFw";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="fDzT2FM3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789467415;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nl7n8UtlhHNNnQK/R4cfZiAkVCgsHC/OU98HtE4D5Wg=;
-	b=cpIm+PFwCQwe6DdkUPdE5TAd7DghtihlWWYPw5djzD3pxCq9R+KMTq4eEL3QP8ZKYOZyKC
-	VsjGHfinbp5odzwlyNeAXcAc+UmWH+gMdVnK0V55jmKcoJrazeNR62d44mg0pz0Mn1IAFn
-	76TPZmgDMupwBWXzlLkPeL8C1gSgORU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-685-oknl6tdQNBetc4p3CrJQMQ-1; Tue, 15 Sep 2026 06:16:54 -0400
-X-MC-Unique: oknl6tdQNBetc4p3CrJQMQ-1
-X-Mimecast-MFC-AGG-ID: oknl6tdQNBetc4p3CrJQMQ_1789467413
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-49d0ae342b9so30498095e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 03:16:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1789467413; x=1790072213; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Nl7n8UtlhHNNnQK/R4cfZiAkVCgsHC/OU98HtE4D5Wg=;
-        b=fDzT2FM30uTs0LU8vhtVg5yeVQN664cEEkCTbixot3m+6/dO7U5lxsnFfbKLcWePW0
-         eealzO3XEQDavNBjpD9orzsFIlLnEa7MAcD3J9KC6W4poj9EAGnQ3jY0UbrxE8gJPo/d
-         bVGQ6M5S7pklM4DGoamszHM82CMo/WO7uK/Wm/4d53iphplLWH7HopoYUWhlM6B9ysWh
-         H8MDPflENfIyhtTJoyHGzBeVKdEplSxwrXzfSDC10fcGT1V45/zRMt7kW94b416jJGIA
-         KrDITQIAhy4oqXDY27d5wxWQRQv3g6mfRPL4ONLlFirJBcJfOPd3cLVhJ9nyq7XQhQcz
-         RIGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789467413; x=1790072213;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Nl7n8UtlhHNNnQK/R4cfZiAkVCgsHC/OU98HtE4D5Wg=;
-        b=BF+FXLMwovxLAk3H9BNXE+nGO+33zqSqnYQIgIlklM5yvOTOwcGXj8FnxBmPR8/LES
-         MH9piKq/K4uzZ/dp4EK/ZnN7lxOPptRq0CoRRUmywixbvOW86DRngQ8SPq+U0yOEuZKf
-         aLr3so7zOWGRYxSse/Do3D+puPnYN7siNE/N4pAr2/vUM28e/z79SEXUMbL2VEDAtEpl
-         6OE7/xcDGxHYEm3bjkMMMc9F6DRunMAxglMb6I3FCjR4QGbwlsYxp0NEuBhdBqwMWOB6
-         fPM5M1YfqSVGv4MkvOxGrm1ZWkpAJvPLqY82BDg3+pHdG2UoAql3cAcSLcQ2xvtJvJUn
-         DI2Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxLGAL6P4Dfb9QyIZTtXMGo2skn5fCJeBYv/XTqu/3Y26CC+mkSYunpK+vUnPoRoa1jVB1TBkX4xZI=@vger.kernel.org
-X-Gm-Message-State: AFuF++mK9a7ub+DibljlehI/ANIJcekDXH4yo/pPEvGVSXEH3XX6LER4
-	UWLjGfBGMN9zgJw01kebbD4r5LBxUzbKka8frK7y3Otjqa2nBY4Ce8paVQnVe6K5WhBGmiv1AZx
-	OskYjABls16LFsBQh6tRGY4xYxPi9DBkKrGTKaVU2vw2PYvUA70VzXrnkbskFgw==
-X-Gm-Gg: AYBFou2zfCpMA7gwBV7NKinCFBO3ixyfJgPJIlD6+GazCNnuwKeEUp7r08VVpj8wW9Q
-	ncmy5u4bwvmofOEy+SgyUX7VRLdOIr1qjy41G+2ubh0GH2ZQgYZhhCi1y58Z2p+jq9fQfUTlX0g
-	cse5+jlNvLD4JGawV5fz8K51DU8nTyHanbZJ3J9isaAXs24hr0X2djzsjwq/sWmQPX5YjiaSqWX
-	MCPSOW7Oi234h2vPJdZQsVWTnGNjOwMtBTvMdgjRH/Cw9ruaUQ8+3gIVAHBDmXuh0lQRWvTcfTp
-	XCscYJl8M6+GJ68Lu91EKxpihTeqDICZ0RnVGhHHql7BGMqkiimwSZtPj3YQ2lksBZZNNyZKHNT
-	CEmj5tf4QoBI5tNbpzPVyqalWVqXbOI65485lOljQg/0jXw==
-X-Received: by 2002:a05:600c:3145:b0:49e:74c6:d973 with SMTP id 5b1f17b1804b1-49e822c5633mr7078965e9.31.1789467412886;
-        Tue, 15 Sep 2026 03:16:52 -0700 (PDT)
-X-Received: by 2002:a05:600c:3145:b0:49e:74c6:d973 with SMTP id 5b1f17b1804b1-49e822c5633mr7078495e9.31.1789467412452;
-        Tue, 15 Sep 2026 03:16:52 -0700 (PDT)
-Received: from sgarzare-redhat (host-79-53-30-11.retail.telecomitalia.it. [79.53.30.11])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e7d69f3c0sm57509095e9.6.2026.09.15.03.16.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 03:16:51 -0700 (PDT)
-Date: Tue, 15 Sep 2026 12:16:47 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowangio@gmail.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, virtualization@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, sargun@sargun.me, jlinbox@meta.com, 
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next 0/6] vsock: assign the guest vsock device to a
- network namespace
-Message-ID: <aqkaTXHDf5nfPL9w@sgarzare-redhat>
-References: <20260902-vsock-guest-ns-v1-0-9995383e9a8b@meta.com>
- <apqGcFDFm9_Wtw4q@sgarzare-redhat>
- <apsANK7ySuRzzK0V@devvm29614.prn0.facebook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUToMrdF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B602B1F000FF;
+	Tue, 15 Sep 2026 10:44:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789469055;
+	bh=TX67wToN/vV4eRD0qfWhTbazK7mBj1488P8wyNJ2Z0M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mUToMrdFqpeuheHAXi+Pj/C8B/wZ416xsc1z+zaIAr2kYrfLWdLP9vYofremSY/hL
+	 b/Zvg44C1l7bbJ1HRRxXPUwmtSGgW4OV0+wNhOY3eqwgUkqxgAAk1tFhJJW+v+L8m1
+	 lwj57hY24E7NydH0vUQZp9n1HYwfzif+2V7uCr4No8tdoVJKJZeqULh8GS5e50N+Ec
+	 4vpem0My//+hAumuuN7z6e17rNWHOuvkI0nbsIqVFmAq420l7jNd8vFnbh8BtrPWr9
+	 qmhteJUsi0b0VFt189BXSM2Ge6jlRDfpRVdDjKIoUBcqwlhsXJoKgBW4Vyno6cw3fQ
+	 ga53PG7fyFWcQ==
+Date: Tue, 15 Sep 2026 11:44:01 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 14/21] kbuild: batch module finalisation
+Message-ID: <aqkZvtAKWYf9-1ZW@gremlin>
+References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
+ <20260914-build-speedup-v2-14-39817ec5db23@kernel.org>
+ <202609141056.6AE2C82E@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <apsANK7ySuRzzK0V@devvm29614.prn0.facebook.com>
+In-Reply-To: <202609141056.6AE2C82E@keescook>
 
-On Fri, Sep 04, 2026 at 10:30:28AM -0700, Bobby Eshleman wrote:
->On Fri, Sep 04, 2026 at 10:55:17AM +0200, Stefano Garzarella wrote:
->> On Wed, Sep 02, 2026 at 04:00:46PM -0700, Bobby Eshleman wrote:
->> > vsock network namespaces let a host put each VM in a namespace of its
->> > own. A guest has no equivalent yet. It has a single G2H device that
->> > cannot be assigned to a network namespace.
->>
->> Thanks for this, I'll do a proper review next week, in the mean time some
->> comments below:
->>
->> >
->> > This series lets a guest move that device into a network namespace. A
->> > new ioctl on /dev/vsock, IOCTL_VM_SOCKETS_ASSIGN_G2H_NETNS, assigns the
->> > device to the namespace of the calling process. The namespace's existing
->>
->> Why an ioctl?
->>
->> I'm asking because I'd like to know if you've already considered any
->> alternatives (sysfs, netlink, etc.)
->>
->> How do you think the ioctl should be used? Should we provide an userspace
->> tool, or extending some existing tools?
->>
->> Thanks,
->> Stefano
+On Mon, Sep 14, 2026 at 11:00:27AM -0700, Kees Cook wrote:
+> On Mon, Sep 14, 2026 at 10:22:13AM +0100, Lorenzo Stoakes (ARM) wrote:
+> > Module finalisation on allmodconfig builds consists of a large number of
+> > very short-lived jobs, and the make job dispatcher cannot possibly dispatch
+> > jobs fast enough.
 >
->Really only because /dev/vsock exists and the prior series used it.
+> This "cannot possibly" sounds like a weird LLM language intensifier. I'd
 
-Yeah, I vaguely remember that we may have discussed switching to netlink 
-in that thread, but I can't find it.
+Again that's my writing actually, probably best to stop assuming LLM now ;)
 
->
->Considering netlink, it might be the better option because there is a
->lot of prior art solving problems we might have in the future. For
->example, I was thinking about when users suddenly lose access to vsock,
->with just the current assign ioctl there is no way for apps or users to
->figure out why this happened. We can have an ioctl() setter for user,
->but in netdev world users can actually get a notification via netlink as
->to which namespace the device went to and what its ifindex is there (see
->__dev_change_net_namespace() for the RTM_DELLINK and RTM_NEWLINK
->messages). There is probably more, but that's the case that comes to
->mind.
+> rather a concrete description of the problem, not this kind of
+> (redundant?) vagueness.
 
-netlink seems like the right way to go, do you think it'll be a real 
-pain to implement?
+In the very next paragraph I say:
+
+	For allmodconfig x86-64 this can be on the order of ~22,000 jobs of
+	a few milliseconds in duration each.
+
+You did also say that the commit messages were over-long, so there's a
+trade-off here :)
+
+But I think best to expand it a bit if it's not clear.
+
+The general idea is that each job is so short (ms) that the work of
+dispatching them exceeds the time doing the work, so you need to shard
+things.
+
+And the work of dispatching is heavy - each modfinal instance means it has
+to process ~22k .cmd files of every .mod.o and .ko.
+
+I will update the commit message to reflect this.
+
+As a result, we need to batch these (see below).
 
 >
->>
->> > ns_mode then decides who may use it: a "global" namespace shares the
->> > device with every other global namespace, and a "local" namespace keeps
->> > the host connection to itself. The device starts out in the initial
->> > namespace, so until the ioctl is issued nothing has moved and no mode
->> > has changed. There is no explicit unassign as assigning the device back
->> > to the initial namespace is equivalent.
->> >
->> > The ioctl requires CAP_NET_ADMIN in the initial user namespace.
->> >
->> > Connections that can no longer reach the device after a move are reset,
->> > so that a namespace which has lost access cannot keep using a socket it
->> > opened while it still had access. Following netdevs, the device returns
->> > to the initial namespace when the namespace it was moved to is deleted.
->> >
->> > Transports opt in through a new netns_assign_allow callback. Only
->> > virtio-vsock implements it here.
->>
->> Why? (Not asking to support all the others, asking to explain the reason or
->> ask helps from others to extend it)
->>
->> Thanks,
->> Stefano
+> > [...]
+> > Fix this by splitting modules.order into chunks of 128 at a time, run in
+> > parallel.
 >
->Sure, can add a note here about extending it. I just didn't want to
->implement code without having an environment allowing me to test it.
+> Why "128"? This seems tied to the 128-thread test machine, but ends up
 
-It's fine, I'm not asking you to do it ;-)
+Honestly Kees :) you really think I'd let a hardcoded-to-my-machine
+variable through to the point of being called out in the commit msg? :P
 
-Sorry again for the delay, I hope to review this series today/tomorrow.
+No, that's not what this is.
 
-Thanks,
-Stefano
+> getting hard-coded, but this choice of value needs some rationale, IMO.
 
+The rationale bit is fair enough, I thought it was somewhat implied but
+it's a heuristically-determined value which determines how best to shard
+the jobs.
+
+So, it's about both getting parallelism and batching up to offset this job
+dispatch overhead, there's naturally an equilibrium.
+
+Emperically:
+
+  modules per chunk   32     64    128    256    512
+  wall time         4.05s  4.07s  4.05s  4.03s  4.18s
+
+But in more detail, allmodconfig tree (~11k modules on x86-64), best of 2,
+make modules with *.ko *.mod.o deleted:
+
+    modules per chunk    instances    wall
+    -----------------    ---------    ------
+                    1        11171    10.22s
+                    2         5586     6.72s
+                    4         2793     4.97s
+                    8         1397     4.26s
+                   16          699     4.05s
+                   32          350     4.05s
+                   64          175     4.07s
+                  128           88     4.05s
+                  256           44     4.03s
+                  512           22     4.18s
+
+which I think makes things clearer.
+
+So realistically 32 - 256 is the right sort of range. You also have to take
+into account the fact that you might be building fewer modules.
+
+The argument for 128 is that this is the mid-point of where the graph
+flattens off for a larger number of modules.
+
+For a smaller number, you're going to have a single dispatch or less and
+the delta won't be that much anyway.
+
+So it's very much a sensibly derived empirical value.
+
+I'll update the commit message to give this rationale there.
+
+>
+> --
+> Kees Cook
+
+And for avoidance of doubt, it's ME replying to things :P I deal with a LOT
+of AI slop in mm so am quite sensitive to doing things right here (TM).
+
+--
+Cheers, Lorenzo
