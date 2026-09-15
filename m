@@ -1,110 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBC4481FA1;
-	Tue, 15 Sep 2026 16:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FF843551D
+	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 17:09:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789491152; cv=none; b=b8gi//R5FtFvgu1mv4Ke0ilAfMXY8N22gXF3GAz8cgwtKQ51Ccl3vONNHz0PQoDNiA8jTwH5U63dhUTwGDgIcj1HNfIIBX4wsT/D9ngKM14fW8WhK8B7M6rGPnD43BbGrk1ed12Q/I0+nfTnCRdk0WgJYIHkF+PHGG8WAl7Jr30=
+	t=1789492177; cv=none; b=J3dGQi/kTUh3gU/l9Ay5M+y7U9oqPZAPAY9wzdWwGZjLuFE1h5j0XqfQL10BeOLnH2Aw9+p3JvsO//ivpX2okBimGz1sRPVRCw+Xg/VExgPgsqQ4RzqneCvmh9dehNZD3PZ6j57e4YgQRtIoyXfzfvDKLfwTQGr61JPjsUfMyAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789491152; c=relaxed/simple;
-	bh=ypzeoRTb6xYEsb/0WCuvTZKzTa2DaEvHlXj54ddwHQY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N7hYa4lrVtnxf5x5UhpgXyqTt1UBwcejW8SJu9EobR8bx4wdu6kyeHbh2pL/At+Isl4Iikp5k4Wooomm4mjNQ70I5X0nvgqFWMxO4b4fuB+iEt97jxK9UbFBZTgSbOTE9CGetkLVSNzqHkslhdAl2QOMT7Ywq+h/ZmyMeUDfzro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cuDOM1nN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789492177; c=relaxed/simple;
+	bh=C3zoy/9VsAfZabk3hbv9KlBEnMZNR9UmRIwAl2VpG2o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HIrQTqdWeLO8qlKqKx5ecLd+up351kO+DmKyA0mdtGz7gN+ekCXua66PNt1tjQbJ1nRMx/FITyaechZfTZvzS3hWgs9kiGZfTHunl/ZUmivmQa4EQq10UbRRTl14gSx2vn/MynfoKbBSY+AAwMsTEKwdROBcfZ9mJXygdxLc2Yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AwxGMjyO; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cuDOM1nN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB07D1F000FF;
-	Tue, 15 Sep 2026 16:52:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789491151;
-	bh=ypzeoRTb6xYEsb/0WCuvTZKzTa2DaEvHlXj54ddwHQY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cuDOM1nNDsxtF7PlFuKdms5h3NHvIeOPwqUQNtOl5kbk9O5dbaHIR/RrEzZUyG/3i
-	 qSeL1n5WZRN1ll37KYIKax7VZLddYiaN5mCgEA+o5Jyf4GNB5aC/E77HsxtUsnI0Nl
-	 TizghtMccZece/nmMV3joeDyInkBxIB4OBAn5L2KplAWNR6bK5s1N1tafFN5vdesA0
-	 mzBUc/1bIzzXDMQsb27ampVmHD+ZSaxXeuOhxBtBRcKTAhYKq3nIPvhi6hW3nkeHk/
-	 x8tY7cksKZJULwkgj3LWM16v3X62dPLE/HyWNWZe9O8tqegycyv7ZTSrdYI+6t4ilu
-	 /oyUBJKLv7xuw==
-Date: Tue, 15 Sep 2026 17:52:23 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Guodong Xu <guodong.xu@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
-	Chen Wang <chen.wang@linux.dev>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	devicetree@vger.kernel.org, spacemit@lists.linux.dev,
-	sophgo@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	Palmer Dabbelt <palmer@sifive.com>,
-	Andy Chiu <tchiu@tenstorrent.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Peter Bergner <bergner@oss.tenstorrent.com>,
-	Zihong Yao <zihong.plct@isrc.iscas.ac.cn>,
-	Mark Harris <mark.hsj@gmail.com>,
-	Aurelien Jarno <aurelien@aurel32.net>,
-	Andrew Jones <andrew.jones@oss.qualcomm.com>
-Subject: Re: [PATCH v7 09/11] riscv: cpufeature: Introduce ISA bases bitmap
- and rva23u64 detection
-Message-ID: <20260915-widget-defiling-e22497c228cc@spud>
-References: <20260915-rva23u64-hwprobe-v2-v7-0-aa35ebd9ae96@oss.qualcomm.com>
- <20260915-rva23u64-hwprobe-v2-v7-9-aa35ebd9ae96@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AwxGMjyO"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d90ba1d807so48505ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 10:09:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789492170; x=1790096970; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=i7mmyqxL4Ir0d/CfwYClhfzZRHAjxnBiwBulaRxIKo8=;
+        b=AwxGMjyO3w0ZFJysg9WSkLH+6ScUYJLSO1aqzkesrvGqdRERTAOvxMEVSrfYGrnXuj
+         zjT1DITrCJ3WHAmiEXzPEhJuCAjRcCPAxHDYhbNr+u1tgDMPPuZh0k7SYk8hVPiF1waK
+         FBrMYG8wwmZ5T9guURYeM6x4tlrGn/zbr/EKeenrD9y+4M3ZKczwRjfLKX+Rq6JfD3SN
+         9DJnmNrdPMXoMq66qyMywYz/J6rDZVcDZTMfNSBW8LGiZRJreXiDg3ip+nS1KzO2YSeC
+         INMr5rc+06I6bStcphKGh+oa0Qds0E/a+VVj5wvaxcEQrT37aht2kuAiAcmoYCXTuMEj
+         oBeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789492170; x=1790096970;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=i7mmyqxL4Ir0d/CfwYClhfzZRHAjxnBiwBulaRxIKo8=;
+        b=mrQfXATl0imPPEhjWoyBdNaoPj43rSxH1gN3Nz81E6RMW1DMq8KavsXXGulzi5ZavW
+         MIDuIyszxO0vFKYVv4by+8j+f5FS58wQAHo3KATQr9Jb1xW61kYtDmE0lI+dgUzWkT6X
+         fiO364+/9dDVPf7+p2shsFy8CYX6kM6izacZVdCFOs+uJLzyIjLlBshoXvcz0dqRxxGz
+         gzp0/2Z3u6ufb80mGgquN4nggKqXEVlAhSFIpRT0TdRhsVgQw2ZJAjngFQ+mTYCh7nHs
+         zfld8c+IGUFx2rz06KzUtww6ZWDF+/iHKuMqTu9okmNsQZbPZcs68ssGBXWqjU6TdDIO
+         1HMQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwkAcMCylBm34eWaSxDnxDdhHydhCQqq0l5oVcflJKMG7YSnkAa+GeuhZXofY0C2UX0Rq8uAQ1ssdw=@vger.kernel.org
+X-Gm-Message-State: AFuF++m4UmOzOA+8RuXLj6fwMD8UCSIoNQB5TOCYngJh0pjs9eJb55RG
+	pXVu24u3cs4xqaOuD2eCn+U6cwDrFk/vSP+hG+GMuJ2x3Rp1GauDxfU3
+X-Gm-Gg: AYBFou17OdYRUFpjiSsSUZ6eZyjiBv6v7bRQ74en47qxMnw7d0Z4vWsxg5wLDJtwqgQ
+	VVQyU+HS9gEJz28ZAtFi/ee+qhITdnGqDnpIJVeXNoqaLRTQggmwJ1S134PFybHK9cdRtv+Iqb4
+	hM5yVgmDIl6/DKxPqGMfKDqh/nMbYjpx3g9W14I4unGoDb49PElqtcYynKSSgwZ463ZDynKCOXB
+	CSsUErqeCv45ZWYyUsNlb+dCO38EJ8DzHenRhmBhdvAw3qqry3CVtdva43VVywLNm9eABGEHHnE
+	RFWfMU7ee4W9Q4wgKL1F/sd/Qufau0U6gVBLTJVdHGUkNiwsnH4LRSwfQAW2CfMBzBjfgk99iEi
+	syQP+sQEP5kipgwwxKrBsuNxN0XDleioJ/ZmBSbSxCvPWFmYh+9WZdFWip9NljgZRr0NqXX7Bha
+	A2Ib+qYpRM1PDCWnbu+PJvgXhOZNCecIvSfVAIEydEYzTTCMMbspWvBYP2YLJMPuETbkHdwIIoW
+	+fpuqoHo25l2qLEcJpF8tewbLbpGJ8xMZ8UF03zEMLRLMwR
+X-Received: by 2002:a17:90a:e7d2:b0:39b:92bb:9ef0 with SMTP id 98e67ed59e1d1-39dec0bdc60mr15161562a91.20.1789492169910;
+        Tue, 15 Sep 2026 10:09:29 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e1a033df0sm58769a91.4.2026.09.15.10.09.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Sep 2026 10:09:29 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <d45d4de8-6925-40ad-a5b7-b8cef6356175@roeck-us.net>
+Date: Tue, 15 Sep 2026 10:09:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HzK562KHekWwgPYZ"
-Content-Disposition: inline
-In-Reply-To: <20260915-rva23u64-hwprobe-v2-v7-9-aa35ebd9ae96@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/4] hwmon: (aquacomputer_d5next) Add AMPINEL support
+To: Vas Zayarskiy <contact@vasily.cc>
+Cc: Aleksa Savic <savicaleksa83@gmail.com>, Jack Doan <me@jackdoan.com>,
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+ linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <20260914233728.22725-1-contact@vasily.cc>
+ <20260914233728.22725-5-contact@vasily.cc>
+ <a968a02f-c513-42f0-993f-ede4f785025c@roeck-us.net>
+ <ICzeTYsqVwKewqbj_Gv2WM93k1Kr6uygPhcTJ3M8PBtvmoV3AlfEnRWAspP-fQgdmRW4IR1OPPpDLhmQiIqEAh5OuCKvwRzxAHSO-7rnYAQ=@vasily.cc>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <ICzeTYsqVwKewqbj_Gv2WM93k1Kr6uygPhcTJ3M8PBtvmoV3AlfEnRWAspP-fQgdmRW4IR1OPPpDLhmQiIqEAh5OuCKvwRzxAHSO-7rnYAQ=@vasily.cc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---HzK562KHekWwgPYZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/14/26 22:29, Vas Zayarskiy wrote:
+> Hi Guenter,
+> 
+> Thanks for the review. I will add the trailing comma and separate the shared report validation and handling of an unknown firmware-version offset from the AMPINEL addition. I also noted the -ENODATA and conversion/scaling wording corrections on patch 2.
+> 
+>> If the match function _is_ needed, the reason needs to be explained, even
+>> more so since this may impact USB_PRODUCT_ID_AQUAERO.
+> 
+> The requirement is to keep AMPINEL's keyboard interface bound to hid-generic while the hwmon driver handles telemetry. Both interfaces share the same VID/PID and match aqc_table. With the existing __check_hid_generic(), that ID match is enough for hid-generic to decline the keyboard. Returning -ENODEV from aqc_probe(), or rejecting it in aqc_match() alone, does not make it eligible for hid-generic.
+> 
+> The Aquaero collection check rejects its non-telemetry interfaces during probe, but that check alone does not establish keyboard fallback to hid-generic. V3 leaves Aquaero's collection filtering in probe: aqc_match() accepts it subject to the same generic-driver override checks the core already applies when there is no match callback. I do not have Aquaero hardware and have not validated its keyboard behavior.
+> 
+> The matcher test demonstrates the AMPINEL rejection with the original hid-generic logic and passes with patch 1. This is a userspace harness, not a live kernel fallback test. With both revised modules loaded on the physical AMPINEL, the keyboard registration/capabilities survived hwmon reload and suspend/resume, and its capabilities were preserved on reboot. I will make the matching rationale explicit in the next revision.
+> 
+>> FWIW, the raw even can happen prior to this, which will result
+>> in bad data. This also affetcs other devices supported by this
+>> driver (and those with fans can crash when it happens).
+> 
+> Could you clarify the path that permits raw_event during probe here? I checked the series base, 46fde107b4e881f179bf02bca69d8a0020561b3c. include/linux/hid.h documents that callbacks are blocked during probe unless the driver calls hid_device_io_start(). In hid-core.c, hid_device_probe() holds driver_input_lock around the driver's probe, and __hid_input_report() returns -EBUSY when it cannot acquire that lock.
+> 
+> aqc_probe() does not call hid_device_io_start(), and neither hid_hw_start() nor hid_hw_open() releases that lock. My reading is that normal USB reports cannot reach aqc_raw_event() until initialization has completed. Is there another path that bypasses this protection? I have not reproduced the race, and would like to understand it before adding a shared initialization fix.
+> 
 
-On Tue, Sep 15, 2026 at 03:15:35AM -0400, Guodong Xu wrote:
-> Introduce a per-hart and host-wide bitmap of conformant ISA "bases"
-> (named profile-class sets such as IMA and RVA23U64), computed at init
-> time by riscv_init_isa_bases().
->=20
-> Register riscv_init_isa_bases() as an arch_initcall. That is late
-> enough that core_initcall(tagged_addr_init) has probed senvcfg.PMM and
-> populated have_user_pmlen_*; without that ordering,
-> riscv_have_user_pmlen(7) would still return its default false and the
-> RVA23U64 detection path would always bail. It is also early enough that
-> arch_initcall_sync(init_hwprobe_vdso_data) finds the bases populated
-> when it snapshots the hwprobe values into the vDSO data page.
->=20
-> Consider this as the cache that subsequent consumers (hwprobe's
-> RVA23U64 base behavior bit, /proc/cpuinfo's "isa bases" lines, etc.)
-> can read without recomputing, which keeps them consistent with
-> each other.
->=20
-> Signed-off-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
-> Signed-off-by: Guodong Xu <guodong.xu@oss.qualcomm.com>
+You are correct. Sorry, I missed the part about callbacks being blocked during probe
+unless hid_device_io_start() is called.
 
-Something is wrong here with the signoffs here, Drew's probably missing
-either authorship or a Co-developed-by tag?
+Thanks,
+Guenter
 
---HzK562KHekWwgPYZ
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaql3xwAKCRB4tDGHoIJi
-0j7yAP91eT382HzKXLp423gHB51yfWxN+iAs4R+MhBlF05j5GwEA5GjMcnOJVD8Y
-sEFBqUBTL8evUR1CilJLWuZxaN1wQAU=
-=myHc
------END PGP SIGNATURE-----
-
---HzK562KHekWwgPYZ--
