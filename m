@@ -1,88 +1,97 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07F04CDA2B;
-	Tue, 15 Sep 2026 19:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA283DAAD4;
+	Tue, 15 Sep 2026 19:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789499127; cv=none; b=WY+YVE21ZC8smaazrim45RHNdeuuHnUlwvje3YVjwB9q0zixtEsBSZwR5BMEz5dEfRdSjVeGl1wL/q7qO4z/Ej0XccTfmSNtAfTF9eFw2dP9/mQju8/3qkuNcSZHaB43ouTImiK4+1QVt2zw6z/N41a77o4mdCQYPG+4PsqjbsI=
+	t=1789499206; cv=none; b=DwvnnZDNKOq70wpE7iXWydzOcK5aptYOxYFjNOEp8VHCXtOKKP06SKNd/USUZF/XyrzLeAN1PWZbKtrafW3j+4hD6hKlFDBhY1WQO/EE+pKDRCJmDxjYUFMLAW1RbL5WGIdiCq3FF1yi8hRUygTgdSJ6kUSbjVjaI2xcLTBwvPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789499127; c=relaxed/simple;
-	bh=n3loMqr+GZfBR6Ve82tKdG4Jkfg6eHJMDQWbwHfIQpQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HYe7PQLPjCSi899GSbXwGJTvRh+L7jD56P+VkfDycOwYQw1UHMiYlldatj8Y2flIEaHmLutbaipJVARuJf5UoxYn0eOOWDFxau2o2LDARyeLRFm39pddHQouzfcMKcurz+SDt1NSE8pCaVfTsnm7lOviBjQfvpFeedK1awTx44U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AezeimY/; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1789499206; c=relaxed/simple;
+	bh=gumlr/GqX6cF6RSTi+qwgYubkmqyrtVgLeWZvuc4/Og=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MFwDkTR0PYGXw+83nPfhkXNK9soDGJZb3YVv+psZzvYQT0tOs8JfnKPOxA99bKiHFOOF9zP9BBwB3u/vadEYZSwDcag83IYLL5e9G/wiixprv00VWcJQ6r0YvvylPuwLR+iObMs7eSg1Q1Be4FC7TYhU8QNtvYNSUhPPJN1hQ1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Bo0/mgxz; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AezeimY/"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B2E62408B4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1789499125; bh=s1U6htYr3KDizbM+pvOno5keAAu3JxFYL37YugBOwe0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=AezeimY/EDjo3fPXgLQ44KDX5OPDDr1xgkzE1EhmKpD7gPcaQSQjTSBElZiXRAxkA
-	 KILGB8FKia8q5oNdr52WrUsQ98GO/HtHsqLdegw4wrlygVFdOuGgh9g9snNDr4/8xu
-	 3nvYU1Vx2XmgdCGifzb4oYWcVmckQsdkkneZfv9nQVhXlKHvuBuFghnI5XGCItVg/g
-	 ZbyiL+JDMXAEQJLWXR3mnwgj5xXni5CX8KEjZWj/8+FYBxZMvVy+Lx9PB0iDEc1rxP
-	 2yXvNg8nDcC3z1IJWmSFuW7cFS4GUm3/ZxZF6K/VLoGUYXIlJW0ebXouEL15PEJbdx
-	 SQIzW0KKooMcA==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B2E62408B4;
-	Tue, 15 Sep 2026 19:05:24 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, Geert Uytterhoeven
- <geert@linux-m68k.org>, linux-m68k@lists.linux-m68k.org, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
- linux-doc@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, Randy
- Dunlap <rdunlap@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, Steve Wahl
- <steve.wahl@hpe.com>, Dimitri Sivanich <dimitri.sivanich@hpe.com>, Mike
- Travis <mike.travis@hpe.com>, Tony Luck <tony.luck@intel.com>,
- linux-edac@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, linux-samsung-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Tony Lindgren <tony@atomide.com>,
- Kevin Hilman <khilman@baylibre.com>, linux-omap@vger.kernel.org, Dominik
- Brodowski <linux@dominikbrodowski.net>, Michael Schmitz
- <schmitzmic@gmail.com>, Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH v3 0/8] docs: kernel-parameters: Remove eight entries
- for parameters that no longer exist
-In-Reply-To: <20260910013245.8619-1-kmehltretter@gmail.com>
-References: <20260910013245.8619-1-kmehltretter@gmail.com>
-Date: Tue, 15 Sep 2026 13:05:23 -0600
-Message-ID: <875x069vyk.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Bo0/mgxz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=OUYtQpgBPLuj7yRytKfvp24wERJMCxuXVbcvj5Jm6oI=; b=Bo0/mgxzovV+Y0o0ufU0EoaD1O
+	+SxDs+ByZzZ8L///YaNaqF4WJwO0m86K8Hk5o4v2FNYmEcnYHvzprnMYww4z0usa2iGoTbUK2W1xP
+	z0J3XlklgzZFP1gA7Wsglp5wkv872DtFIPZOMZJLEtzmzFZN2zW8z237AW0J+oOUwvdEpMcp5R641
+	2M86WJuMA9p12Say5WiyzjU+535RQj8LU0d72BYckOBIzRVdFTYDKRZg+0TScVJfBrk6E5lYVbtfJ
+	IFETfYDSVr12WsjZfoY/aPptR20zD0zx6TTzrNkWpfY/tQKXOEyhpV/udruGeX5f6aOmylkV6apzx
+	5yZGuxyA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x6YUK-00000007pNq-0fGX;
+	Tue, 15 Sep 2026 19:06:40 +0000
+Message-ID: <ae2964c7-7875-4966-ad1c-b98d6050d42e@infradead.org>
+Date: Tue, 15 Sep 2026 12:06:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] firmware: zynqmp: use literal blocks for commands
+To: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Cc: Michal Simek <michal.simek@amd.com>, Ronak Jain <ronak.jain@amd.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+References: <20260914060615.1398531-1-rdunlap@infradead.org>
+ <87ik469wd4.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87ik469wd4.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Karl Mehltretter <kmehltretter@gmail.com> writes:
 
-> kernel-parameters.txt still documents eight boot parameters whose parsing
-> code was removed with the drivers or platforms that used them, one of
-> them (atarimouse=) since before the git history. There is one patch per
-> parameter, with a Fixes: tag where the removal is in git history.
-> Each entry was checked with git grep for its __setup(), early_param()
-> and module_param() handler and with git log -S for the removing commit,
-> and the name is absent from the whole tree at that commit.
->
-> Changes in v3:
-> - patch 3: name the commit that turned edac_report= into a module
->   parameter (fee27d7d9788) and the one that removed it (7fc0b9b995f2),
->   Fixes: tag moved to the latter (Boris)
-> - the pata_legacy patch is dropped, Ethan's patch from June covers all
->   six parameters that commit 3c4d783f6922 removed:
->   https://lore.kernel.org/r/20260607064053.195166-1-enelsonmoore@gmail.com/
-> - collect Reviewed-by and Acked-by tags
-> - the "Found by cross-checking ..." paragraph dropped from the messages
 
-I've applied the set, thanks.
+On 9/15/26 11:56 AM, Jonathan Corbet wrote:
+> Randy Dunlap <rdunlap@infradead.org> writes:
+> 
+>> Use literal blocks for 'cat' and 'echo' commands to separate them from
+>> the surrounding text. Otherwise the lines run together, without any
+>> clear break before or after the commands.
+>>
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> ---
+>> Cc: Michal Simek <michal.simek@amd.com>
+>> Cc: Ronak Jain <ronak.jain@amd.com>
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Shuah Khan <skhan@linuxfoundation.org>
+>> Cc: linux-doc@vger.kernel.org
+>>
+>>  Documentation/ABI/stable/sysfs-driver-firmware-zynqmp |   70 +++++++---
+>>  1 file changed, 50 insertions(+), 20 deletions(-)
+>>
+>> --- linux-next-20260911.orig/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
+>> +++ linux-next-20260911/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
+>> @@ -141,32 +141,44 @@ Description:
+>>  
+>>  		Usage:
+>>  
+>> -		Select over temperature config ID to enable/disable feature
+>> +		Select over temperature config ID to enable/disable feature::
+>> +
+>>  		# echo 1 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
+> 
+> I was sure that this wouldn't work, since the literal block is not
+> indented relative to the containing text.  Sphinx does the right thing,
+> though... so applied, thanks,
 
-jon
+Yeah, I did test it and looked at the output. :)
+
+-- 
+~Randy
+
