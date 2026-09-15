@@ -1,128 +1,88 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp1.cs.Stanford.EDU (smtp1.cs.stanford.edu [171.64.64.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C90337C0FD;
-	Tue, 15 Sep 2026 20:01:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B73C4D9911
+	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 20:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=171.64.64.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789502467; cv=none; b=P4kRzIg5gJxqrafzn6jga4eaAcFMAUUulO2w+zMwl7dnlP/bnNn5r8OTflgps/j8BbPfzO8ZCRe+Hxj3JI4qLuDZXhB1q5zmrajyfP9YU3eFq0MjmOfwnjSqmLQqD98dfQmMv9rsAIeateM+PPtbbOcNbhqEhcrrImmXzf6VJD4=
+	t=1789504955; cv=none; b=u0i0vVUxUVBGd7gc5/5xo+0KErsSWXnRlwu/ZzX+0VLrY5ze32VhOBdj2Z+CrqQS3zVT+EXAt4B33LKdZnMYnpVzFa1y7fgblgBAs2vNwzn/mt1Fapbvzmm2yeG8LJRQcoRwH2hg2HIsgHTGM05+JpAI7CFfNPgeCRgXDijn5F8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789502467; c=relaxed/simple;
-	bh=ewEiEZmi9YENEKJhwlm5yoLn+voAzmpf24VkSUzMWck=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Vh7WTD3XP7Wj4ob00oTbG/EFnwwOrOlTE37ycDYP2GXZsTMYcnuOsQ6MBAo4AJ3JPch3ro4od68hduxy/BLnyZjNRU80ppEQouJPNDUWJOj8L+5eSkhQsSb+/J9eE3+jdVY/QDqkZVleCV/hMEmdq4NNokAXGHPIsRDCITnyHBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=U77+zCiO; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1789504955; c=relaxed/simple;
+	bh=u7FDXWmnNDm49g7TPgHmEvv/bk6vlPCVL5GgQXLAVUc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jH4slG2vbInkVyzj4bZJbQetmhzXFcE/nInpmrGLg6uBo4Z2/Xgsaa9R74BLC08ueFqtq+YXE74VvaYN/BAK3jus8YP/qlwQfs+7N5YzAYGtL542J9g9yxMWmxa9W+x+3mXiIFHbkAU8fBlXcTUhcyyZkzV6bHQAP90O7TawlpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu; spf=pass smtp.mailfrom=cs.stanford.edu; dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b=r/QQ5Vnp; arc=none smtp.client-ip=171.64.64.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.stanford.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="U77+zCiO"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3141B408B4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1789502465; bh=pzaZ9uFqRmySZgYh1RyRb48ALwREuuSFoEme0WL8a48=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=U77+zCiOdELXvSDgo4Ar52K4HrO5837kmr5IAUxugtSs2C7LOjNVfamnQSdh8gZ51
-	 Xn4sLKGmI5oRLjzEvB+5MjAVHIJrQ0gP8jeOnjSOoRHwFdvH5PksAofr5i6Htz7Vzu
-	 khR4BLmkR5YVDiArBqIFkk+ZBN/a2f0Ladeh/Ss4+C0xKSMlGpQAr2yRRDIsYVlAB8
-	 YcDA2cAf3dNzUd5PWzJB63E4ZrmH7plB7x4EJdUbK9woybYGl62qeB203fRNlujPK8
-	 4yZB2zOxBIY+oBD/6aR8ooGwfG2ukvsAIAExB/mcYFCEGCUXatgd4srH/s7rzvwTyx
-	 4C9DPeu5uBasw==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3141B408B4;
-	Tue, 15 Sep 2026 20:01:05 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Masaharu Noguchi <nogunix@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>
-Cc: Akira Yokosawa <akiyks@gmail.com>, Chen Miao <chenmiao.ku@gmail.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Masaharu Noguchi <nogunix@gmail.com>
-Subject: Re: [PATCH v3] docs: report Sphinx/Docutils pairs that break PDF
- builds
-In-Reply-To: <20260915-docs-sphinx-pre-install-docutils-v3-1-95ee86793673@gmail.com>
-References: <20260915-docs-sphinx-pre-install-docutils-v3-1-95ee86793673@gmail.com>
-Date: Tue, 15 Sep 2026 14:01:04 -0600
-Message-ID: <87a4pi708v.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b="r/QQ5Vnp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=cs.stanford.edu; s=cs2308; h=Content-Transfer-Encoding:Content-Type:Cc:To:
+	Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:Sender:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Pj8eddDYSCvJtz7Uw4MAcyZwqXmAJ5FKe6DPoEprKSI=; t=1789504953; x=1790368953; 
+	b=r/QQ5Vnp7/tfaOW1SX2TnrIe+X0B2ZsNzSuW6PAPtOxE7CgAS4qjqiXvXG+PmOGnCZEknq15BYn
+	Pur2PL9Ge6vUh5ziNNEecjxjd6/NUOaMED7RaXf60HqECkbVNVPTfDQiYwzGWzr8VS+d7mpHCRSGp
+	gvqKinKwFsbfX4zELaEHjDsy1qtMrD+ZIXeJHxoSw8H1ZoDQrlPgUdHjIorrYdlIGIK6SJwAEj8/9
+	vQ7wv2LPReeAU7SVeEprTEdhDOYWMPs9dpvRfMnTR8GdEr7RHRj8kJVT7Y38h/zXy63xXvw/qXPUG
+	gZlV3cLlah/otcoCxFVtrcjtbnoEM1Hrigkg==;
+Received: from mail-yx2-f43.google.com ([74.125.224.171]:33311)
+	by smtp1.cs.Stanford.EDU with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.94.2)
+	(envelope-from <ouster@cs.stanford.edu>)
+	id 1x6Zz3-00016q-Qs
+	for linux-doc@vger.kernel.org; Tue, 15 Sep 2026 13:42:31 -0700
+Received: by mail-yx2-f43.google.com with SMTP id 956f58d0204a3-66f7f72a284so267974d50.2
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 13:42:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzjiVPd1iBywtUC260iM2uq6vIrNE/6JJ0yDXhshJg7gNXWw/j0DzImaoBo58ppVN6DIzAeMekCR4o=@vger.kernel.org
+X-Gm-Message-State: AFuF++kt+5bhpVYqK4wD1TWvx8Ktjf06GaF33ZCXQPWdLOaEVuRNVWTi
+	g55EYa5j7o6MpLUYAesMoCAUWHzwB9JjBwY6JN163j1ViH1fBmKVJf51Hgs9qpFJlge8ds3y3iM
+	d63i3az1RNcTreUBmQYoOxDvCKvGpE84=
+X-Received: by 2002:a05:690e:bcf:b0:670:f743:6eb6 with SMTP id
+ 956f58d0204a3-671632908b7mr65549d50.51.1789504949147; Tue, 15 Sep 2026
+ 13:42:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260914230517.1190-1-ouster@cs.stanford.edu> <0b3aa22e-8939-489c-a3dd-c7f9552714d7@infradead.org>
+In-Reply-To: <0b3aa22e-8939-489c-a3dd-c7f9552714d7@infradead.org>
+From: John Ousterhout <ouster@cs.stanford.edu>
+Date: Tue, 15 Sep 2026 13:41:53 -0700
+X-Gmail-Original-Message-ID: <CAGXJAmzj2KgJ+G5LU_t5XOU5a1t0D9WnGxVi_Wh64=XBwy2Q5A@mail.gmail.com>
+X-Gm-Features: AcwNN1W9wZds5d_F9sMlHMUJvdKbr-fWWhDJVfzeKQXflDMQezvVz_O5mepmVGE
+Message-ID: <CAGXJAmzj2KgJ+G5LU_t5XOU5a1t0D9WnGxVi_Wh64=XBwy2Q5A@mail.gmail.com>
+Subject: Re: [PATCH net-next v11 00/15] Begin upstreaming Homa transport protocol
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: netdev@vger.kernel.org, pabeni@redhat.com, edumazet@google.com, 
+	horms@kernel.org, kuba@kernel.org, skhan@linuxfoundation.org, 
+	bagasdotme@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Score: -1.0
+X-Scan-Signature: b65b8f26ca423de213f14dca1c6ea011
 
-Masaharu Noguchi <nogunix@gmail.com> writes:
+On Mon, Sep 14, 2026 at 4:35=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
+> wrote:
+>
+> In a (mostly) x86_64 defconfig, where CONFIG_MEMCG is not set:
+>
+> ../net/homa/homa_rpc.c: In function =E2=80=98homa_rpc_alloc_server=E2=80=
+=99:
+> ../net/homa/homa_rpc.c:133:22: error: =E2=80=98struct sock=E2=80=99 has n=
+o member named =E2=80=98sk_memcg=E2=80=99
+>   133 |         if (hsk->sock.sk_memcg) {
+>       |                      ^
+> ../net/homa/homa_rpc.c:134:68: error: =E2=80=98struct sock=E2=80=99 has n=
+o member named =E2=80=98sk_memcg=E2=80=99
+>   134 |                 struct mem_cgroup *old =3D set_active_memcg(hsk->=
+sock.sk_memcg);
+>       |
 
-> Sphinx declares the range of Docutils versions it supports, but that range
-> does not always describe what its LaTeX builder can take: a distribution
-> may relax the upper bound to ship a newer Docutils, and Sphinx 9.0.x
-> declares support for Docutils 0.22 by itself.  Either way the pair
-> installs happily and htmldocs builds without a complaint, so nothing looks
-> wrong until pdfdocs is run, where four of the books fail:
->
->   ! Dimension too large.
->   \fb@put@frame ...p \ifdim \dimen@ >\ht \@tempboxa
->   l.86321 \end{sphinxVerbatim}
->
-> That is arch, core-api and translations; admin-guide runs out of TeX
-> memory first and stops 13 pages in, and fails on the same boxes once given
-> more.  Each of the four includes a large literal file whole; the one in
-> core-api, memory-barriers.txt, is 3016 lines.  Docutils 0.22 is what puts
-> those blocks into sphinxVerbatim rather than sphinxalltt, and
-> sphinxVerbatim is framed, so they hit the size limit of
-> sphinx-doc/sphinx#3099 [1] -- open since 2016 and fixed only in Sphinx
-> 9.1.0.  None of the three is at fault on its own: it takes the Docutils
-> version, the Sphinx version and blocks this large.
->
-> Keeping everything else fixed -- one Debian 13 container, one TeX Live, an
-> unmodified texmf.cnf, one kernel tree -- and varying only the two Python
-> packages:
->
->   sphinx   docutils   core-api   admin-guide
->   ------------------------------------------
->   8.2.3    0.21.2     ok         ok
->   8.2.3    0.22.4     FAILS      FAILS
->   9.0.4    0.22.4     FAILS      FAILS
->   9.1.0    0.22.4     ok         ok
->
-> Two distributions ship the failing pair today.  Ubuntu 26.04 LTS has
-> Sphinx 8.2.3 with Docutils 0.22.4 and no upper bound at all in the
-> python3-sphinx dependency, and Fedora 44 reaches the same pair from the
-> other side: it patches the "docutils>=0.20,<0.22" that Sphinx 8.2.3
-> declares so that it accepts "<0.23".  Both fail identically here.  The
-> 9.0.4 row needs no distribution's help: 9.0.0 through 9.0.4 declare
-> "docutils>=0.20,<0.23" themselves, so a plain "pip install sphinx==9.0.4"
-> resolves Docutils to 0.22.4.  Upstream ships this sort of work in a new
-> minor rather than backporting it [2], so neither 8.2.x nor 9.0.x will grow
-> the #3099 fix in a point release.
->
-> Report it where it is useful: once pdfdocs has actually failed, next to
-> the error, in the same place LatexFontChecker already explains the CJK
-> variable font failures.  Ask the interpreter behind sphinx-build for both
-> versions -- a venv and the system install can differ -- and name the two
-> ways out.  htmldocs never runs this and stays silent, which matters
-> because most people who build the documentation never build a PDF.
->
-> [1]: https://github.com/sphinx-doc/sphinx/issues/3099
-> [2]: https://github.com/orgs/sphinx-doc/discussions/14055
->
-> Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
+Oops, I will conditionalize this code properly. Thanks for reporting.
 
-I'm sorry, but no.  This is a great deal of complexity to catch a
-single, hard-coded mismatch that will soon disappear into history.
-Instead:
-
-- File bugs with the distributors involved
-
-- If you *really* wanted to test for this sort of thing, it could be
-  much more simply done with a Sphinx extension.  Trying to parse
-  shebangs and such seems ... inelegant.
-
-Finally, this has the look of LLM-generated stuff; if so, you need to be
-adding Assisted-by tags to your patches.
-
-Thanks,
-
-jon
+-John-
