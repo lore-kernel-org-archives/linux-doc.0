@@ -1,97 +1,81 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA283DAAD4;
-	Tue, 15 Sep 2026 19:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49644D09EE;
+	Tue, 15 Sep 2026 19:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789499206; cv=none; b=DwvnnZDNKOq70wpE7iXWydzOcK5aptYOxYFjNOEp8VHCXtOKKP06SKNd/USUZF/XyrzLeAN1PWZbKtrafW3j+4hD6hKlFDBhY1WQO/EE+pKDRCJmDxjYUFMLAW1RbL5WGIdiCq3FF1yi8hRUygTgdSJ6kUSbjVjaI2xcLTBwvPw=
+	t=1789499364; cv=none; b=p2oTQ2AxaNq3LNTy+M+8syTzN7dfh2MgwSpK0myBOzW+8CEnqL4gjSv1A+dwmlP6OLhXkeICPjknu2JIWzxZI0psNmTSlB0mdaaUPNjwRQL3bnuVpBtGdLxV3ykZRki1A4emtFCaLSlLnkL3smt1PdwzMjZyvzhIUbW36vZYuA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789499206; c=relaxed/simple;
-	bh=gumlr/GqX6cF6RSTi+qwgYubkmqyrtVgLeWZvuc4/Og=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MFwDkTR0PYGXw+83nPfhkXNK9soDGJZb3YVv+psZzvYQT0tOs8JfnKPOxA99bKiHFOOF9zP9BBwB3u/vadEYZSwDcag83IYLL5e9G/wiixprv00VWcJQ6r0YvvylPuwLR+iObMs7eSg1Q1Be4FC7TYhU8QNtvYNSUhPPJN1hQ1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Bo0/mgxz; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1789499364; c=relaxed/simple;
+	bh=r6vTlWu8L+pqG2KYIxQD7/yU1/Nk0zwPFB3r5hkcTwM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=lJxM/LLDncnsOFH8a3rS/A1CAtF//aUq3BHsq5KygA4Ll4aMlf6UlNko9AlYOsMwc7zrtb/EeDMAFjnIfqLb7tvCw416IIYU+uGwYq1J1LlC+4KfG18RxSP3FhZtZ5kqsLdfhFhkcash/tNkBJbFaehDj3PQSGoub2NXTKhJUmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Ddk8RccR; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Bo0/mgxz"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=OUYtQpgBPLuj7yRytKfvp24wERJMCxuXVbcvj5Jm6oI=; b=Bo0/mgxzovV+Y0o0ufU0EoaD1O
-	+SxDs+ByZzZ8L///YaNaqF4WJwO0m86K8Hk5o4v2FNYmEcnYHvzprnMYww4z0usa2iGoTbUK2W1xP
-	z0J3XlklgzZFP1gA7Wsglp5wkv872DtFIPZOMZJLEtzmzFZN2zW8z237AW0J+oOUwvdEpMcp5R641
-	2M86WJuMA9p12Say5WiyzjU+535RQj8LU0d72BYckOBIzRVdFTYDKRZg+0TScVJfBrk6E5lYVbtfJ
-	IFETfYDSVr12WsjZfoY/aPptR20zD0zx6TTzrNkWpfY/tQKXOEyhpV/udruGeX5f6aOmylkV6apzx
-	5yZGuxyA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6YUK-00000007pNq-0fGX;
-	Tue, 15 Sep 2026 19:06:40 +0000
-Message-ID: <ae2964c7-7875-4966-ad1c-b98d6050d42e@infradead.org>
-Date: Tue, 15 Sep 2026 12:06:37 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Ddk8RccR"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BE4274090B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1789499362; bh=lOg3uXb5f/Prl9xDMmMuiDmMSucetHILyt/F6LeO0fs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Ddk8RccRWEIcLrdqoVaF8OfjYCyvDRqsM83i4hOoCJitzdv4pt41/kqWElT4Vi4BU
+	 eEGDtaapXxBu6P+Am70nm2L+c0lM8s4VQAKN7U32Qx8NJC0UYO4GzJC1t5G3gV+JG/
+	 5XXSSD+W+WE7GAWY8VRognFxjuAzTnzqc7NRj8RRfze6RWxdKhA3FgiH3Lu3AcRHt+
+	 U3mtoUKO811z5ihvvvWIMQQhT8Rd5LYjGizqNkBR7/1hR8biIf3YFHRemgDegZovIJ
+	 GclT8BwN0I28Ac7P3W+459pTKGh67H2A1K6l9uDBAwC6ucoJBw/vA0pNAr1zx94eo3
+	 ydOijOf2uMnaw==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id BE4274090B;
+	Tue, 15 Sep 2026 19:09:21 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Ruben Sutton <ruben@scstudios.tech>, linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Thorsten Leemhuis <linux@leemhuis.info>,
+ workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
+ regressions@lists.linux.dev, Ruben Sutton <ruben@scstudios.tech>
+Subject: Re: [PATCH] docs: process: use gender-neutral pronouns
+In-Reply-To: <20260909144100.78177-1-ruben@scstudios.tech>
+References: <20260909144100.78177-1-ruben@scstudios.tech>
+Date: Tue, 15 Sep 2026 13:09:20 -0600
+Message-ID: <871pau9vrz.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] firmware: zynqmp: use literal blocks for commands
-To: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Cc: Michal Simek <michal.simek@amd.com>, Ronak Jain <ronak.jain@amd.com>,
- linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-References: <20260914060615.1398531-1-rdunlap@infradead.org>
- <87ik469wd4.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87ik469wd4.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Ruben Sutton <ruben@scstudios.tech> writes:
 
+> Several process documents use gendered pronouns when referring
+> generically to developers and maintainers. Use singular they instead,
+> making the language inclusive without changing its meaning.
+>
+> Leave pronouns referring to named people and text in attributed
+> quotations unchanged.
+>
+> Assisted-by: LLM
+> Signed-off-by: Ruben Sutton <ruben@scstudios.tech>
+> ---
+>  Documentation/process/2.Process.rst            | 2 +-
+>  Documentation/process/5.Posting.rst            | 2 +-
+>  Documentation/process/6.Followthrough.rst      | 2 +-
+>  Documentation/process/handling-regressions.rst | 2 +-
+>  Documentation/process/howto.rst                | 2 +-
+>  Documentation/process/submitting-patches.rst   | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
 
-On 9/15/26 11:56 AM, Jonathan Corbet wrote:
-> Randy Dunlap <rdunlap@infradead.org> writes:
-> 
->> Use literal blocks for 'cat' and 'echo' commands to separate them from
->> the surrounding text. Otherwise the lines run together, without any
->> clear break before or after the commands.
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> ---
->> Cc: Michal Simek <michal.simek@amd.com>
->> Cc: Ronak Jain <ronak.jain@amd.com>
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Shuah Khan <skhan@linuxfoundation.org>
->> Cc: linux-doc@vger.kernel.org
->>
->>  Documentation/ABI/stable/sysfs-driver-firmware-zynqmp |   70 +++++++---
->>  1 file changed, 50 insertions(+), 20 deletions(-)
->>
->> --- linux-next-20260911.orig/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
->> +++ linux-next-20260911/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
->> @@ -141,32 +141,44 @@ Description:
->>  
->>  		Usage:
->>  
->> -		Select over temperature config ID to enable/disable feature
->> +		Select over temperature config ID to enable/disable feature::
->> +
->>  		# echo 1 > /sys/devices/platform/firmware\:zynqmp-firmware/feature_config_id
-> 
-> I was sure that this wouldn't work, since the literal block is not
-> indented relative to the containing text.  Sphinx does the right thing,
-> though... so applied, thanks,
+I have gone ahead and applied this as a clear improvement.
 
-Yeah, I did test it and looked at the output. :)
+I do still fear a deluge of patches changing pronouns throughout the
+kernel tree, though...that would be a lot of churn, and sooner or later
+it will surely bring people out of the woodwork that we would probably
+prefer not to hear from.
 
--- 
-~Randy
-
+jon
