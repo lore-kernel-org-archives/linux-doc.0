@@ -1,353 +1,159 @@
-Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011032.outbound.protection.outlook.com [40.93.194.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86C22D73A0;
-	Mon, 14 Sep 2026 23:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.143.35
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789429852; cv=none; b=MnCnqJ4a+hWzU1vQVFoBgpEcf5noXxDWGG/2HOQnTytj+0MX/ZDu+LmHyssmn2/lcLX8cknc0bJ3ANMyYjcs/7nNvLXBk7HXmuTqbMt3JJ73/zCHnp43ioz1h32TTGI3x95tcii+Cx9VA5assoCIczHXM9uCBEGpQbYmtnxA11Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789429852; c=relaxed/simple;
-	bh=ku23Ddch2mZ/2zWmPS5XMcgBtLZIXvqmNAmX33FPQJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a2Q3Xi7nl2yhefQV+UOUcEgfVSvfTCqDWXq8DLrzS3zdaIHPEl+jaeeVVH80/8BWYfylMgYZIdT7qP5Naw9elbHoN+Q+F7uHdiOPX82kaITMq0xw7Cd4mTNRjw/LFgLB8YZWRmmIsGHy5wWlmdBNN2coo+r8WM5+xwPqHjZJONQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=Spi3IfKJ; arc=none smtp.client-ip=148.163.143.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEC115746F;
+	Tue, 15 Sep 2026 00:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789430866; cv=fail; b=M2oVdSbbG39WZkuVMKm4qjexhtvq2l2xwZ5ntnMwbCMRwgUnvXy4m1hYZcuq3FH9eVe6WEg5mkOrWWOweWseE5krLOvIKuytVsGRXZuXim9qZb0Y57eb+Sjfdp0M2Jk+GNfDGi+6/PhzSFzreNyGsbgxnB7Sx5ZTpYgzOp5WOog=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789430866; c=relaxed/simple;
+	bh=0zDKjRCRCqxmvxjpSBas4zpCfximBiEZwc6pE6zeE+c=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=dqjDFZqBkHLp6j1WyrdJ+TVQgobpb+dSTPzv9/OZrVf+VS1J0Apf+E5wSRQ0my8ETnCg2ozeSmTRp018ab/rZ1Mc1Iwypqnyl21SAbCvMJxXGoaJxIw6GJp89rv5p4tToGflduetSmVRC+uaNuMsEhq3VABT+qalqed3boHM50Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Mee3t5nd; arc=fail smtp.client-ip=40.93.194.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="Spi3IfKJ"
-Received: from pps.filterd (m0134424.ppops.net [127.0.0.1])
-	by mx0b-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68EN1ZkU3352244;
-	Mon, 14 Sep 2026 23:49:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=cc
-	:content-type:date:from:message-id:mime-version:subject:to; s=
-	pps0720; bh=BgixqtpyB38o3XY2oscHlzHiD+X2kqerFNseLSwBY1w=; b=Spi3
-	IfKJOoBzqCTThh26JAsodV1anoacuSWzddRtaspX9w8+bDruCYP0IufX/uMog7YL
-	7bwELT+8a5H86Dww2S88k5Ve6TXagVcdpp+3eFgDN3tNRHNrMbVejnX10PxfRPRI
-	JtlFfmaMrGMPVn5RdM03JfhsAMBzAuBGkEO4NqtJJyFJIY8uJhpFR/LypLg3bFjB
-	gWswAt5H01c3huEkhkezkvARahj9xjenAwYnRsfkrIgCQlFCvH8QZlEW8bW/qMc/
-	XAOcsax6+XfLFfV/CIr7HQHZcOYxJTSRIhMY5HjRbKxEmSzV1hGN+BvE/MEkBplq
-	BFGYe80gt3qsNNfxgg==
-Received: from p1lg14878.it.hpe.com (p1lg14878.it.hpe.com [16.230.97.204])
-	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 4gpn7hcf6f-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 14 Sep 2026 23:49:50 +0000 (GMT)
-Received: from p1lg14886.dc01.its.hpecorp.net (unknown [10.119.18.237])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by p1lg14878.it.hpe.com (Postfix) with ESMTPS id E4BDD147A9;
-	Mon, 14 Sep 2026 23:49:48 +0000 (UTC)
-Received: from HPE-5CG20646DK.localdomain (unknown [16.231.227.36])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by p1lg14886.dc01.its.hpecorp.net (Postfix) with ESMTPS id 14E84806B64;
-	Mon, 14 Sep 2026 23:49:41 +0000 (UTC)
-Date: Mon, 14 Sep 2026 18:49:38 -0500
-From: Kyle Meyer <kyle.meyer@hpe.com>
-To: akpm@linux-foundation.org, corbet@lwn.net, david@redhat.com,
-        linmiaohe@huawei.com, shuah@kernel.org, tony.luck@intel.com,
-        jane.chu@oracle.com, jiaqiyan@google.com
-Cc: Liam.Howlett@oracle.com, bp@alien8.de, hannes@cmpxchg.org, jack@suse.cz,
-        joel.granados@kernel.org, kyle.meyer@hpe.com, laoar.shao@gmail.com,
-        lorenzo.stoakes@oracle.com, mclapinski@google.com, mhocko@suse.com,
-        nao.horiguchi@gmail.com, osalvador@suse.de, rafael.j.wysocki@intel.com,
-        rppt@kernel.org, russ.anderson@hpe.com, shawn.fan@intel.com,
-        surenb@google.com, vbabka@suse.cz, linux-acpi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v3] mm/memory-failure: Support disabling soft offline for
- HugeTLB pages
-Message-ID: <aqiIEkrc6aDBOqRg@hpe.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Mee3t5nd"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=We14TIstiKgvgW9uJ/qx4HoeucdoaMDPDHezQBAeb/tAcvl0h5iV68JepGSf6DbCs48jLPog02ZaUT/lM4rvktnIqk7n1xHTCOCW14vKy9jKo0Jst+3du1zfgxaawlXm3kYpCTVX8oihLsmanrxEFw58FXo5jRqevAsOm6yw0TJ6yMPrNoU+2Iq6FCb0iea7VQmoWboMMffv2paiOvNGHFRKaH11AFnWidrSdhkwcRlHITbOvfMy3UtMoCt4Fck3IKr44k4LqhmTqXFtofqClhVSKMo7BZGjUwXzbBEGPkRB8KiIuwzkOs4r0EUrjgsuDSrnQqF2/TxntzBmWnUa0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7RMhOxoqJtOaDIu18C0ThPBs4GrJeVPxabKxy7It78g=;
+ b=CjlQc9Zus+E5t79fzxbymyEaeYvtfv83OWcz84p0sU6mvqNl7WWFxvuChFxtlVH+Jgcv1X7D5KyyYOHjwxjLT/fiLrVxZuvdOTWCvHzaUFVfIGLUuIaFHFT72f87kVotXwnyLURL7hQYhRiBxGH7gDV7SbGb//qUD7vm247b7nFGjLJPsW0UPtAQxLY3Z7ffkV/+x8cAK0V0mR5Xf2iJTsWCoYSZxniPko4z5SBY5NEmYeD41T6f+zRyu1jVqYjUpcnYDWofpDDLXbf243gNdXYkkvaksgb2zoOf8jmPQZsyj8TTzduRs+x5CZcftptXLlB7nXFlhD9PgNZpRw0XIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7RMhOxoqJtOaDIu18C0ThPBs4GrJeVPxabKxy7It78g=;
+ b=Mee3t5ndapHxvOJwSL9PbjSu48ydgHsRqsDLttGmIC+5tFEuHVQjHaqAl+SzSbrzQzD0VcexiPo/yWybM2/+jILdg0Dw9UWd3QMUFjQddhi9KdzS+zsir1WB4Wf8Vt5rOg66FlKOKfbCjA4kNdNE+X6xyd3w0PePDzgbXWPfmXqOpWAgSXkzxYAjuNIV14tumA5SAs2QlJF1MFMe/sbm1tjbshNVN3ecIOrF8R6g9qMwEffleFJN72pq3NO8hfX7f1X3ctoaEtOtgwqRWiGrr0HeGfFfCUD9oMH5X+HSvcrziVoGLdVQoXWxBAywb5QLPnRvPwZPHE1b5vZPDj8hoA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by LV2PR12MB5823.namprd12.prod.outlook.com (2603:10b6:408:178::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.13; Tue, 15 Sep
+ 2026 00:07:39 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0406.007; Tue, 15 Sep 2026
+ 00:07:39 +0000
+From: Yury Norov <ynorov@nvidia.com>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	linux-kbuild@vger.kernel.org
+Cc: Yury Norov <ynorov@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] make: accelerate tagging process
+Date: Mon, 14 Sep 2026 20:07:33 -0400
+Message-ID: <20260915000735.1146790-1-ynorov@nvidia.com>
+X-Mailer: git-send-email 2.53.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BN9PR03CA0804.namprd03.prod.outlook.com
+ (2603:10b6:408:13f::29) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Proofpoint-GUID: -OZ1egiv-0_rkLUWk5mvi5IhLB3ihwUa
-X-Proofpoint-ORIG-GUID: -OZ1egiv-0_rkLUWk5mvi5IhLB3ihwUa
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE0MDM0MCBTYWx0ZWRfX4EeDazthgUzO
- LLUjnQKXrkHQlp8jhLNGNx43SiXHtlBtXji0UEGn3qiw+18ZH+Jhj5srbWJq1/j7ImlH1i3LgXq
- 1YgzqkM+ylPp12jNi2pPyw8CpaUuoxMun346MqrPr7EqeAJVBTm1quCi+yzGbmVcHKhWD+UYz0Z
- WFXjTKNIZW3LaU2IDaG7C2qcm6AKONPEirctifQkVmjr3RaEZrgMT17D7pvO16oBxWokp8ZJ7Es
- 1xZqXkE8M10JaVQCxd3pk+8jHwgLhIxG+lyJYNn3jDGv7vcUJi4Od/mdnnwDR8hyhTFG9vzOxd0
- SF8fUyCct21W0YLDOQC2Gt0i1Fc5ftsauv0yJ+c7pBryDhTdP9lOHh36cmitFTRIiyQdjWYPer2
- hlJRom+y/sXFZYYJxdd6mMSEtZOVewaOW+qcSZHnCS0DpTTmSXUOAJIHEa1N5XpV9Qdj9CNkCV+
- makygRo9TYkhHrfTnCQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE0MDM0MCBTYWx0ZWRfX02HMWpRZM5hP
- 7iUGhR6Ql5A7+nzFh26BcjaPUAuqtrP7ZTNF5qQuCJ2cH6guavuDPS/P+QjgNlQOqiw4yOeKRNj
- nuH9JiWolp/1e7UKTdIWN0Dkfm8NZZ8=
-X-Authority-Analysis: v=2.4 cv=Gt3XaU1C c=1 sm=1 tr=0 ts=6aa8881e cx=c_pps
- a=UObrlqRbTUrrdMEdGJ+KZA==:117 a=UObrlqRbTUrrdMEdGJ+KZA==:17
- a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gQcMVamqm3wCPoSYhaRC:22 a=3haJ9R1Aw3gUfsUHDaCR:22 a=VwQbUJbxAAAA:8
- a=QyXUC8HyAAAA:8 a=MvuuwTCpAAAA:8 a=Sg6dGvN4MyGzWyVrZPUA:9 a=CjuIK1q_8ugA:10
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-14_05,2026-09-14_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 clxscore=1015 priorityscore=1501 phishscore=0
- suspectscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609140340
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|LV2PR12MB5823:EE_
+X-MS-Office365-Filtering-Correlation-Id: e51fd5d2-ee26-4db6-9377-08df12bd5aec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|1800799024|7416014|376014|366016|10067099003|56012099006|11063799006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	1Xpe8sI7QVv6yI/2aDlNgAIQUFwYZmrWEXohduex69ESj9WgqkYTYZSY0qoiG+a/1u/ajHXrXjl6lG1thMUZRaG6nYHQLflRvTlINcDe9ETCuadG4FQeh44mvABMQt3uL6fhWE4PrWg/Yr7FKvncmmznyjK7Rrh+RGgEXaD9YnorEpPyb7HhR3Pz6/Cx3hpll6CgWkyfmvvy6Lj6nCsb7f1JJtIuNLWdnOB+bGTe0m/nFquSUuZMeKz5iAmN+imsA51gB4HTht/3NfbnIm7bjTJrjaK3KM+j1f3TisC7YMgwllDYkbfQgAo3dsnbPvEpKMT6VYewgMOXZCFIG5ZCT27XjJOYolsw1kvt4nPyIwV+xhLuGpGTTh2D98GvhEHdDO4UvG9CopEVxTKkCtPQ0chowslkGl4wvechX8IapSegy1tIPnNiu6WRuKojwmL1G2rTj/YkTcD2tw7e6LilPn6uCMS3geRGetg2v91igVKmUVQk0ei/Yq6JB74Kr9Yr+0NRrVE8v3Ix2CjdITejWbc6z7OfDcpF+3ysBKzhk50+ijds3zB7Z0ibexgZWWSTNcWRuZ5BFILqQUQF3m+s2b1+/r6FHV6gExcSRe1WTZlb9hqssk3+oMPolLhg5ZL6Q3NaVratGub7zI95rIM8L+fQG13aV1rJj11Wx2hPmkc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(7416014)(376014)(366016)(10067099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?IwlaF8QFov9PalGKPZV1wiOg7GUY4KTpcCaEdX6y9BR4Jmi/XHFskLk+eGpT?=
+ =?us-ascii?Q?jOIv77K0eD9W/Atmd2yH/SI4dR0r1sqb37nuclarl0hp+EJ3JscEnUAWz31U?=
+ =?us-ascii?Q?1kz/qiRQa91D4wcc2BhTTxWxtI3UapyE67e9C55X2Z1CYvvImPJECmTDw4/S?=
+ =?us-ascii?Q?cIgcDAVxhfAiVmkmiysc0Bp3urMH27FGDsX1AfiaQmNtw9Vu7yu60/c8fJNf?=
+ =?us-ascii?Q?80HJr5RtHpDAUyc5WLMJhipfHuefrj18H8lrZJ+PUTYPL5zqNwue8Iy9HnJ6?=
+ =?us-ascii?Q?wzZvZgURd2U5zgElzeH7v3urd29qvWvjOt17yGGi7XsSgmSbW6vWHA6ccf6P?=
+ =?us-ascii?Q?ZhmhHInnQ31HYUY4z/NsdxahQO3M+xqiUzo6kl/e2jp56/MFRz6fod7YVvzZ?=
+ =?us-ascii?Q?W2XQw7LFv1fLKTG8phdQh54jaqOnEmMIT1t9ggf0CP+0uL1VbxaE0xZo+hkX?=
+ =?us-ascii?Q?eUpJb1XefaRdgIdzvXrZRjRcldkoLcmzzb9/sPm7QN1+e5oCOSMYSzUQkoaJ?=
+ =?us-ascii?Q?yOw022f8iIoCGA83iTivlcgrkhnGWIrbc16GYcHzSNoQofEBL7h7cmitNmVe?=
+ =?us-ascii?Q?GIEhcLlYJcH9qtfMpP7lDsfOB54RY9QbbtKb3LVSa4sqd0Va+4ROKDlfYV9B?=
+ =?us-ascii?Q?xmtInxzZsST2vj6YdLG/frjbiuVG/i+2JHwq1sz8vZ6hn1Lg9C+0mG3VnqfA?=
+ =?us-ascii?Q?A791UGiACf/JlD4BrnykOYXUFm8C5Qt6ipw6hc+JX+dTU2Gh0UByplehv5c9?=
+ =?us-ascii?Q?Dq4YDByEtH5QtciTrPDDu2Wft23XDSkp4RTR8Lr+jS7Px4LKr9+ZnnwkwMrS?=
+ =?us-ascii?Q?XJhNtcFjrFjlqOgHaYa5/HIOThS+d/ECE5aLa8JtvQFJilp7GhCCCivOqwPv?=
+ =?us-ascii?Q?Grgu6KRNTl+5yyTGwg/DYCT12KvmHYuOuHgKF0TySsko7b0r60tiLS6wj4a8?=
+ =?us-ascii?Q?NEPmb5FWl17JE5RogEB2a95vIqKV/wK93VXxOS0NmOJIgxmOzjin4nlUs3DE?=
+ =?us-ascii?Q?4DnIbLhN6ddXhsTytezclEYdqtpu3QVfrct0gn+YuPUDCoDvTSfPG0ZkqV3C?=
+ =?us-ascii?Q?P/KYtQiIm3HWjbgiXqafXKmnZyR9Y01YoLiEqrng3DECF4U/E2YaUngVsob+?=
+ =?us-ascii?Q?EHQqbrYRJA5kejG+JQfV6RX/Sm2+7l47dsk49Ua0mKbJD84eu/2OsJdVrP2i?=
+ =?us-ascii?Q?vVTscvjIK2sM3m6G1iKDr6O9ohDO8NAsWP8sQzy+xRwHd11oRkRFJf2NSbQe?=
+ =?us-ascii?Q?phasug9HHvdcZ+yetBNgvHotEqjJIlA6+1fmr7CntFK0/GDH7RSK/8QBmBA8?=
+ =?us-ascii?Q?HfZUql+5dxfTbpC7suelvPcKluYu5syfG8XWqsiUwZ91E+tteOd/CA5fdq3H?=
+ =?us-ascii?Q?2e4bhjZe1o7IlqfPZmDs2DRu0fEMJSbcS45DvyosRBK3GFjc3nsKMRUfA4ks?=
+ =?us-ascii?Q?IHJbNrN2yGMOw8tIr4mnvtu8UKlV9VMyJ9UM+W1ns5g/rPhAoDjym8kVlOcD?=
+ =?us-ascii?Q?Pi45XKSgKAXP/hxtXq2VI2zf51jh85agelpaiJeNqm+aUo8A9zVPx1bNRvkp?=
+ =?us-ascii?Q?NdCwPtUXE+aJOE7J0SlEB5xU5EGnF3sDR5ndLVFJOKdFuB22SWNWtCD9wwbB?=
+ =?us-ascii?Q?HG3UoJuePshW8eNO4/AtqLeu1j/GFxckY+hiKDI0ohLWvPyKrxreB+NRxvmj?=
+ =?us-ascii?Q?T2Wg0Yxd2P9ue//CR0k2w7+jY8I7VyR5PkhFTnpFwo5bn4ThCfV642xfSlX1?=
+ =?us-ascii?Q?QwX8MS4XQQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e51fd5d2-ee26-4db6-9377-08df12bd5aec
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 00:07:39.4640
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aFFt/Wfw/eSdwm4Sz3Jtt675+r9NVqRuJ2CMr5ySfzqmHQG9lwGoaLI28PxnfRUv6FOqA6i5H80tteeYp8XXvA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5823
 
-Soft offlining a HugeTLB page dissolves it, permanently reducing the
-HugeTLB page pool. This can be problematic for workloads that depend on
-a fixed number of HugeTLB pages.
+The tags generation takes about 5 minutes on my working station, which
+is comparable to building the whole localyesconfig.
 
-Currently, soft offline must be disabled to prevent HugeTLB pages from
-being soft offlined.
+This series adds support for parallel execution of ctags, and caching of
+the intermediate tags. With that, the tagging performance numbers with
 
-This patch allows soft offline to be disabled for HugeTLB pages while
-remaining enabled for non-HugeTLB pages.
+		time  make -j8 ALLSOURCE_ARCHS=all tags
 
-Commit 56374430c5dfc ("mm/memory-failure: userspace controls
-soft-offlining pages") introduced the following sysctl interface to
-control soft offline:
+look like:
 
-/proc/sys/vm/enable_soft_offline
+                          real          user         sys
+Clean tags build before   4m40.797s     4m14.229s     0m39.341s
+Clean tags build after    1m39.203s     9m1.450s      2m7.552s
+Single file update        0m7.738s      0m7.042s      0m4.031s
+Unchanged sources         0m0.722s      0m0.482s      0m0.304s
 
-The interface does not distinguish between page types:
+The cache is compressed and takes less than 10% of the tags file.
+The caching doesn't measurably affect clean tags build performance.
 
-    0 - Soft offline is disabled
-    1 - Soft offline is enabled
+Yury Norov (2):
+  make: parallelize tags generation
+  make: cache per-directory tags
 
-Convert enable_soft_offline to a bitmask and support disabling soft
-offline for HugeTLB pages:
+ .gitignore                      |   1 +
+ Documentation/kbuild/kbuild.rst |  48 ++++++
+ Makefile                        |   6 +-
+ scripts/Makefile.tags           |  15 ++
+ scripts/tags.sh                 | 266 ++++++++++++++++++++++++++++++--
+ 5 files changed, 323 insertions(+), 13 deletions(-)
+ create mode 100644 scripts/Makefile.tags
 
-Bits:
-
-    0 - Enable soft offline
-    1 - Disable soft offline for HugeTLB pages
-
-Supported values:
-
-    0 - Soft offline is disabled
-    1 - Soft offline is enabled
-    3 - Soft offline is enabled (disabled for HugeTLB pages)
-
-Existing behavior is preserved.
-
-Update documentation and HugeTLB soft offline selftests.
-
-Suggested-by: Tony Luck <tony.luck@intel.com>
-Signed-off-by: Kyle Meyer <kyle.meyer@hpe.com>
----
-
-Tony's patch:
-* https://lore.kernel.org/all/20250904155720.22149-1-tony.luck@intel.com
-
-v1:
-* https://lore.kernel.org/all/aMGkAI3zKlVsO0S2@hpe.com
-
-v1 -> v2:
-* Make the interface extensible, as suggested by David.
-* Preserve existing behavior, as suggested by Jiaqi and David.
-* https://lore.kernel.org/all/aMiu_Uku6Y5ZbuhM@hpe.com
-
-v2 -> v3:
-* Minor documentation updates.
-* Use page_folio(page) instead of pfn_folio(pfn) for HugeTLB page check.
-
----
- .../ABI/testing/sysfs-memory-page-offline     |  3 +++
- Documentation/admin-guide/sysctl/vm.rst       | 27 +++++++++++++++----
- mm/memory-failure.c                           | 17 +++++++++---
- .../selftests/mm/hugetlb-soft-offline.c       | 19 ++++++++++---
- 4 files changed, 54 insertions(+), 12 deletions(-)
-
-diff --git a/Documentation/ABI/testing/sysfs-memory-page-offline b/Documentation/ABI/testing/sysfs-memory-page-offline
-index 00f4e35f916f..19aa539fb910 100644
---- a/Documentation/ABI/testing/sysfs-memory-page-offline
-+++ b/Documentation/ABI/testing/sysfs-memory-page-offline
-@@ -20,6 +20,9 @@ Description:
- 		number, or a error when the offlining failed.  Reading
- 		the file is not allowed.
- 
-+		Soft-offline can be controlled via sysctl:
-+		Documentation/admin-guide/sysctl/vm.rst
-+
- What:		/sys/devices/system/memory/hard_offline_page
- Date:		Sep 2009
- KernelVersion:	2.6.33
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 5b318d17aa4b..ee1941e44643 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -309,16 +309,33 @@ physical memory) vs performance / capacity implications in transparent and
- HugeTLB cases.
- 
- For all architectures, enable_soft_offline controls whether to soft offline
--memory pages.  When set to 1, kernel attempts to soft offline the pages
--whenever it thinks needed.  When set to 0, kernel returns EOPNOTSUPP to
--the request to soft offline the pages.  Its default value is 1.
-+memory pages.
- 
--It is worth mentioning that after setting enable_soft_offline to 0, the
-+enable_soft_offline is a bitmask:
-+
-+Bits::
-+
-+	0 - Enable soft offline
-+	1 - Disable soft offline for HugeTLB pages
-+
-+Supported values::
-+
-+	0 - Soft offline is disabled
-+	1 - Soft offline is enabled
-+	3 - Soft offline is enabled (disabled for HugeTLB pages)
-+
-+The default value is 1.
-+
-+If soft offline is disabled for the requested page type, EOPNOTSUPP is returned.
-+
-+It is worth mentioning that after disabling soft offline, the
- following requests to soft offline pages will not be performed:
- 
-+- Request to soft offline pages from sysfs.
-+
- - Request to soft offline pages from RAS Correctable Errors Collector.
- 
--- On ARM, the request to soft offline pages from GHES driver.
-+- Request to soft offline pages from GHES driver.
- 
- - On PARISC, the request to soft offline pages from Page Deallocation Table.
- 
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index a8b03e2920ba..6c4ce39f46df 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -69,11 +69,14 @@
- #include "page_alloc.h"
- #include "internal.h"
- 
-+#define SOFT_OFFLINE_ENABLED		BIT(0)
-+#define SOFT_OFFLINE_SKIP_HUGETLB	BIT(1)
-+
- static int sysctl_memory_failure_early_kill __read_mostly;
- 
- static int sysctl_memory_failure_recovery __read_mostly = 1;
- 
--static int sysctl_enable_soft_offline __read_mostly = 1;
-+static int sysctl_enable_soft_offline __read_mostly = SOFT_OFFLINE_ENABLED;
- 
- static int sysctl_panic_on_unrecoverable_mf __read_mostly;
- 
-@@ -157,7 +160,7 @@ static const struct ctl_table memory_failure_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.extra2		= SYSCTL_THREE,
- 	},
- 	{
- 		.procname	= "panic_on_unrecoverable_memory_failure",
-@@ -2982,12 +2985,20 @@ int soft_offline_page(unsigned long pfn, int flags)
- 		return -EIO;
- 	}
- 
--	if (!sysctl_enable_soft_offline) {
-+	if (!(sysctl_enable_soft_offline & SOFT_OFFLINE_ENABLED)) {
- 		pr_info_once("disabled by /proc/sys/vm/enable_soft_offline\n");
- 		put_ref_page(pfn, flags);
- 		return -EOPNOTSUPP;
- 	}
- 
-+	if (sysctl_enable_soft_offline & SOFT_OFFLINE_SKIP_HUGETLB) {
-+		if (folio_test_hugetlb(page_folio(page))) {
-+			pr_info_once("disabled for HugeTLB pages by /proc/sys/vm/enable_soft_offline\n");
-+			put_ref_page(pfn, flags);
-+			return -EOPNOTSUPP;
-+		}
-+	}
-+
- 	mutex_lock(&mf_mutex);
- 
- 	if (PageHWPoison(page)) {
-diff --git a/tools/testing/selftests/mm/hugetlb-soft-offline.c b/tools/testing/selftests/mm/hugetlb-soft-offline.c
-index bc202e4ed2bd..9837c315a81e 100644
---- a/tools/testing/selftests/mm/hugetlb-soft-offline.c
-+++ b/tools/testing/selftests/mm/hugetlb-soft-offline.c
-@@ -5,6 +5,8 @@
-  *   offlining failed with EOPNOTSUPP.
-  * - if enable_soft_offline = 1, a hugepage should be dissolved and
-  *   nr_hugepages/free_hugepages should be reduced by 1.
-+ * - if enable_soft_offline = 3, HugeTLB pages should stay intact and soft
-+ *   offlining failed with EOPNOTSUPP.
-  *
-  * The test allocates 8 default hugepages
-  */
-@@ -31,6 +33,9 @@
- 
- #define EPREFIX " !!! "
- 
-+#define SOFT_OFFLINE_ENABLED		(1 << 0)
-+#define SOFT_OFFLINE_SKIP_HUGETLB	(1 << 1)
-+
- static int do_soft_offline(int fd, size_t len, int expect_errno)
- {
- 	char *filemap = NULL;
-@@ -55,6 +60,7 @@ static int do_soft_offline(int fd, size_t len, int expect_errno)
- 	ksft_print_msg("Allocated %#lx bytes of hugetlb pages\n", len);
- 
- 	hwp_addr = filemap + len / 2;
-+	errno = 0;
- 	ret = madvise(hwp_addr, pagesize, MADV_SOFT_OFFLINE);
- 	ksft_print_msg("MADV_SOFT_OFFLINE %p ret=%d, errno=%d\n",
- 		       hwp_addr, ret, errno);
-@@ -82,7 +88,7 @@ static int set_enable_soft_offline(int value)
- 	char cmd[256] = {0};
- 	FILE *cmdfile = NULL;
- 
--	if (value != 0 && value != 1)
-+	if (value < 0 || value > 3)
- 		return -EINVAL;
- 
- 	sprintf(cmd, "echo %d > /proc/sys/vm/enable_soft_offline", value);
-@@ -128,13 +134,17 @@ static int create_hugetlbfs_file(struct statfs *file_stat)
- static void test_soft_offline_common(int enable_soft_offline)
- {
- 	int fd;
--	int expect_errno = enable_soft_offline ? 0 : EOPNOTSUPP;
-+	int expect_errno = 0;
- 	struct statfs file_stat;
- 	unsigned long hugepagesize_kb = 0;
- 	unsigned long nr_hugepages_before = 0;
- 	unsigned long nr_hugepages_after = 0;
- 	int ret;
- 
-+	if (!(enable_soft_offline & SOFT_OFFLINE_ENABLED) ||
-+	    (enable_soft_offline & SOFT_OFFLINE_SKIP_HUGETLB))
-+		expect_errno = EOPNOTSUPP;
-+
- 	ksft_print_msg("Test soft-offline when enabled_soft_offline=%d\n",
- 		       enable_soft_offline);
- 
-@@ -165,7 +175,7 @@ static void test_soft_offline_common(int enable_soft_offline)
- 	// No need for the hugetlbfs file from now on.
- 	close(fd);
- 
--	if (enable_soft_offline) {
-+	if (expect_errno == 0) {
- 		if (nr_hugepages_before != nr_hugepages_after + 1) {
- 			ksft_test_result_fail("MADV_SOFT_OFFLINE should reduced 1 hugepage\n");
- 			return;
-@@ -190,8 +200,9 @@ int main(int argc, char **argv)
- 	if (!hugetlb_setup_default(8))
- 		ksft_exit_skip("not enough hugetlb pages\n");
- 
--	ksft_set_plan(2);
-+	ksft_set_plan(3);
- 
-+	test_soft_offline_common(3);
- 	test_soft_offline_common(1);
- 	test_soft_offline_common(0);
- 
 -- 
-2.51.0
+2.53.0
 
