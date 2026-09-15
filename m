@@ -1,312 +1,199 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A3D4AE8BF
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 15:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F55E21A453;
+	Tue, 15 Sep 2026 15:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789487237; cv=none; b=E0jTRCKCiG80KyLVMbqbztwlUmaE1HjYE93nU1O+XOGsqH8DftI4vbFNaP15zbzxEQOq3zSOt1rVRwuBjOIfz3qH+7R4QS0MZLbZRqW3Mdz1UH/WymorvcVAErjGUwljvj/cJMgMP6xC7EaswbIC6P5+7n9T9x1JSGVFqEkBveo=
+	t=1789487345; cv=none; b=hlxCfze2DuglBMpa9WEFdlIztCUz1ZKiviK4TMheIfTKc7ih344aPMJqrmzhPjroRWWUX6U83Dx1hdnZN2I7ie+KUPm03HuKBgJgI0HKrSKfqNdy2wua0yyBogcVDnw3Pq7OOAwRANHwf8Xr5vfwpKhNpQ2tx4Nhf6MrpozSANY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789487237; c=relaxed/simple;
-	bh=8MNWOZVbUM9+qIbH/qe53BIN87Z+DiijyIQXccjKz0s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pouDo5cxfGJnatkQI5UnefETioWfMDBZimwkhxyGdFlEPJ+9Ux5qIZOFaoNLlxsPFHKNM2rcqS9jIg4rM4pd7+ObNSOrEetc99XwOLyBI4Ogr6M4c305ti7FKIK7hQgQAVYozdqZ9/2aanwY5jLlJaQTXqlyDylUfX8fF787uvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SN6L/Bkg; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Pe5AqwX5; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1789487345; c=relaxed/simple;
+	bh=3fePGUpcFKcyg8Wmo61Zos3owlK/geK2GV8guwQ9n+k=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CxHVALOBCyqBViiq3TyXqaFo5WDg2Vw1RX/vLqoGGBbNl3j+QJhfGZ3RwNgV3iue0jDD5DNGot+0ELcKnc0TpPjYaldfDjM6aFKoRrMLWKYZIS2121WOnIO2LojhUTWlxbb8iB5pEy1FQEzFb0IWN8gZ70dy0OwDAa/Qmhn7yhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=sdb0u63E; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SN6L/Bkg";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Pe5AqwX5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789487231;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BBSTiFiICLW/KYf65rwgeCPALG3azRBCohXrrfoupYc=;
-	b=SN6L/Bkg+rF1GW8OPenkY2DcTRfqvkdHEWIinA5imYMDMS8MQC4PoDMCk/LMKsQ8Q+x8+v
-	APhuL7ieyj3Wzd620vDtumxe8zyx+fKu6sjHDUMzWkI0/4aeK4d7FNLRZykKODuIyfXVFH
-	IHifyV4qTX0/5+RzndpIlLF48QCT6XU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-390-EwgmgofPOOCpLqE5YVSeOA-1; Tue, 15 Sep 2026 11:47:10 -0400
-X-MC-Unique: EwgmgofPOOCpLqE5YVSeOA-1
-X-Mimecast-MFC-AGG-ID: EwgmgofPOOCpLqE5YVSeOA_1789487229
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-49cf5bd2f12so48964275e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 08:47:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1789487229; x=1790092029; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BBSTiFiICLW/KYf65rwgeCPALG3azRBCohXrrfoupYc=;
-        b=Pe5AqwX5dlJipFc3223AWSKxxmKaPKm2FkdolAL3qcxYge5Xgr1zgwz0VNdzx+PSDi
-         IMl5e2q4I90AMyB+oVnLHVk9UFuejosjajEbNLUV//eYrtLYIjKjUF3jeUlk5XcV/NPl
-         XtZS1cltelWfK8QX3PyfUd+N4Bca4GMoauTGZamczUgprlYmXNCDftySN5wC0XeVSM3F
-         46I8Wu28XRLvevNhmZgOwsBqM7afDzfmoddb2vvhFbMujAGCpHvRTQTyj9jqa5dNO6mM
-         94I+vzMZDNhyG6LikDD7+mLUTVp+A8xCq43XaD2Tycn7pUnQ4K/DKtpo4auqd0YOprKQ
-         t2OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789487229; x=1790092029;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BBSTiFiICLW/KYf65rwgeCPALG3azRBCohXrrfoupYc=;
-        b=XRFH8VuXF5Nen/D+MMwUt2wW7m656b9niV+wg966oehsavfqYc8gCrYMxVX9G69tGG
-         9fV8lCEmpo9FWLB0VKqZF1JCL5Og8y3NpCZ49Lq2Ze+1D0BXV2O4PFIr+b/iwkUjg7ZJ
-         eY2vUOlCrHbsgf4bCPktXX4yoARnHhBvbGaLNG7njMcSiyeTzsqUfPzOJ+XZeXBYTlfY
-         U8EfaXpxKkeXVPNzNoB3WuhFHW1ZPKIxXb2WWJFtOjSBvFsWZ0M32D2b9YkpvfwCM721
-         8IHn4fVUZLHgsaMZSzM7tUC5GufERBbdsDl0UbbJqoRzmsXq41FH5RHuSXAmG2AlPqdc
-         D1Uw==
-X-Forwarded-Encrypted: i=1; AKwUvBwB/6tGsUcjeFEyatV+LNjfXhkoMC004YwLeOEoann7Q9w8PCBZHa54CaKMEep6H7/SFiF2wyQcXsE=@vger.kernel.org
-X-Gm-Message-State: AFuF++l0/xs8iXwyUqXAtAwI8fnF+aw4+7NGFkPafhpoTi8YgboG179e
-	Xp4rY2tfHQ3lCJNO6t59MAvkfzPXEDQhoCtfjBX3B+6ZkrSWYlRgmynyWSiMxoOwtjLXVHJCv1H
-	uzKsbNfVi6O/1b5OXAy0VDJDzRrcYJKfdsBcXvpjZKDr/CEMlLXo3nyv1NALiig==
-X-Gm-Gg: AYBFou1ws1Zl6z4/MpbiEW8Bt/aq/feHTPue6Ksbch7gyOjqfY90sXsgtfoQRFgWQOW
-	Rml6q0ABMXLT/BjJHo4F9O19JGynPlWQU3/r8ufxR4pLejtIcV45s5jkfIhTGqge5txrj16l/+u
-	6G2pzNy+Lo+PqvNGAkikATn7pRZg4ClnBZLjQ6WrBTLnbYp1AI4VdjkR8rFqEe9tbURCOLaMW4l
-	Dx/qHNfK7bdceXMAUtjbf1sTyeonEbTvClqZ25YkLA+cqVeHomMQMp/m9W4D7DXT0PfDFClnWEy
-	ddUf+WTMYfeirh0CRH7ToAZBsZO8LuQNeyqdM4MGBtUoOYo4sR359VfZwPUnO98lYVtrVM8MCSx
-	nbUAxzz3apSOBRGd7EGmjbcde1eUb0ysC3KDUz4XAktcFRw==
-X-Received: by 2002:a05:600c:19cb:b0:49c:eb17:cf3b with SMTP id 5b1f17b1804b1-49e7a6692afmr89061185e9.8.1789487229114;
-        Tue, 15 Sep 2026 08:47:09 -0700 (PDT)
-X-Received: by 2002:a05:600c:19cb:b0:49c:eb17:cf3b with SMTP id 5b1f17b1804b1-49e7a6692afmr89060745e9.8.1789487228579;
-        Tue, 15 Sep 2026 08:47:08 -0700 (PDT)
-Received: from sgarzare-redhat (host-79-53-30-11.retail.telecomitalia.it. [79.53.30.11])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e7d23b7e7sm52958155e9.1.2026.09.15.08.47.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 08:47:07 -0700 (PDT)
-Date: Tue, 15 Sep 2026 17:47:02 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowangio@gmail.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, virtualization@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, sargun@sargun.me, jlinbox@meta.com, 
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next 3/6] vsock/virtio: support guest device network
- namespace
-Message-ID: <aqlkWGyoUYrgQUzz@sgarzare-redhat>
-References: <20260902-vsock-guest-ns-v1-0-9995383e9a8b@meta.com>
- <20260902-vsock-guest-ns-v1-3-9995383e9a8b@meta.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="sdb0u63E"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 044491570;
+	Tue, 15 Sep 2026 08:49:00 -0700 (PDT)
+Received: from e132581.arm.com (unknown [10.2.196.114])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 39FEF3F882;
+	Tue, 15 Sep 2026 08:49:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789487343; bh=3fePGUpcFKcyg8Wmo61Zos3owlK/geK2GV8guwQ9n+k=;
+	h=From:Subject:Date:To:Cc:From;
+	b=sdb0u63EAITu5AIbhYgw8fQlKTjNqyAS1DJhxJi1Y9UeOhZaIa3LmsG5GNzD82k4g
+	 nkR4SGWkINzJ/M0VSxM64psGlDurfep/ECzQwnlZYdnQ8WKfvAw84uA0qbVc3YVpz5
+	 ND+X3byucoD4FQXlpGjEDYqgpvV7aTG07dAJkbVs=
+From: Leo Yan <leo.yan@arm.com>
+Subject: [PATCH 00/25] CoreSight / perf: Support AUX sampling
+Date: Tue, 15 Sep 2026 16:48:46 +0100
+Message-Id: <20260915-arm_cs_support_aux_sample-v1-0-35cf6f297d20@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260902-vsock-guest-ns-v1-3-9995383e9a8b@meta.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAN5oqWoC/x3MSwqAMAwA0atI1ha02Fq8ikgpGjXgpyQqgnh3i
+ 8u3mHlAkAkFmuwBxouE9i2hzDPo57BNqGhIBl1oWzhtVeDV9+LljHHnw4fz9hLWuKDStbG2MpU
+ xzkHqI+NI9/9uu/f9AApfwmBrAAAA
+X-Change-ID: 20260826-arm_cs_support_aux_sample-275664545588
+To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ James Clark <james.clark@linaro.org>, Mike Leach <mike.leach@arm.com>, 
+ Anshuman Khandual <anshuman.khandual@arm.com>, 
+ Yeoreum Yun <yeoreum.yun@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
+Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, coresight@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ Leo Yan <leo.yan@arm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789487340; l=6419;
+ i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
+ bh=3fePGUpcFKcyg8Wmo61Zos3owlK/geK2GV8guwQ9n+k=;
+ b=5Ldui6l9hwo13O0cxQcRs2k0r7j9TBAfT7JQ4cWIE7ds+u+5rm0MDfZjOG0drt26+lm7Htc8F
+ avasupR7zFWChnez0rEmbcdX0xqgFbcGtVdNp6R9HXG9SSq6oa3Rtht
+X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
+ pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
 
-On Wed, Sep 02, 2026 at 04:00:49PM -0700, Bobby Eshleman wrote:
->From: Bobby Eshleman <bobbyeshleman@meta.com>
->
->virtio-vsock did not have namespace support (the device was always
->accessible to any global namespace).
->
->Make the virtio-vsock device assignable to a namespace and initialize it
->to init_net. Because virtio-vsock and init_net are both hardcoded to
->global mode, nothing changes until the assign ioctl is issued.
->
->When the device's local-mode namespace is being destroyed, received
->packets are reset until new valid a namespace has been assigned and/or
->automatically returned to, and the next RX batch begins (in
->virtio_transport_rx_work). They are reset rather than dropped because
->vsock does not retransmit, so a silent drop would leave the host waiting
->for a timeout, and a connection request arriving in that window has no
->socket whose teardown would tell it otherwise. This requires making
->virtio_transport_reset_no_sock() available outside of the common code.
->
->When a device is assigned to a namespace, every already established
->vsock socket that is no longer able to reach the device is forcibly
->reset. For that reason, adding new sockets to the connected table must
->be performed atomically with regards to namespace assignment. This
->ensures that when the socket is added to the connected table that it
->actually passes the new reachability conditions set by ns assignment. If
->it wins the race to the table and does NOT pass the reachability tests,
->then the reset sweep will correctly catch it. This is the purpose
->of the new helper 'vsock_maybe_set_connected()'.
->
->Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
->---
-> include/linux/virtio_vsock.h            |  2 ++
-> net/vmw_vsock/virtio_transport.c        | 28 ++++++++++++++++++++++------
-> net/vmw_vsock/virtio_transport_common.c | 28 +++++++++++++++++++++-------
-> 3 files changed, 45 insertions(+), 13 deletions(-)
->
->diff --git a/include/linux/virtio_vsock.h b/include/linux/virtio_vsock.h
->index f91704731057..9c68ce1d7fb4 100644
->--- a/include/linux/virtio_vsock.h
->+++ b/include/linux/virtio_vsock.h
->@@ -286,6 +286,8 @@ void virtio_transport_inc_tx_pkt(struct virtio_vsock_sock *vvs, struct sk_buff *
-> u32 virtio_transport_get_credit(struct virtio_vsock_sock *vvs, u32 wanted);
-> void virtio_transport_put_credit(struct virtio_vsock_sock *vvs, u32 credit);
-> void virtio_transport_deliver_tap_pkt(struct sk_buff *skb);
->+int virtio_transport_reset_no_sock(const struct virtio_transport *t,
->+				   struct sk_buff *skb, struct net *net);
-> int virtio_transport_purge_skbs(void *vsk, struct sk_buff_head *list);
-> int virtio_transport_read_skb(struct vsock_sock *vsk, skb_read_actor_t read_actor);
-> int virtio_transport_notify_set_rcvlowat(struct vsock_sock *vsk, int val);
->diff --git a/net/vmw_vsock/virtio_transport.c b/net/vmw_vsock/virtio_transport.c
->index 4f9aa9c4c3aa..a453a4f828dc 100644
->--- a/net/vmw_vsock/virtio_transport.c
->+++ b/net/vmw_vsock/virtio_transport.c
->@@ -540,9 +540,14 @@ static bool virtio_transport_msgzerocopy_allow(void)
-> 	return true;
-> }
->
->+static bool virtio_transport_netns_assign_allow(void)
->+{
->+	return true;
->+}
->+
-> bool virtio_transport_stream_allow(struct vsock_sock *vsk, u32 cid, u32 port)
-> {
->-	return vsock_net_mode_global(vsk);
->+	return vsock_g2h_net_reachable(sock_net(sk_vsock(vsk)));
-> }
->
-> static bool virtio_transport_seqpacket_allow(struct vsock_sock *vsk,
->@@ -587,6 +592,7 @@ static struct virtio_transport virtio_transport = {
-> 		.seqpacket_has_data       = virtio_transport_seqpacket_has_data,
->
-> 		.msgzerocopy_allow        = virtio_transport_msgzerocopy_allow,
->+		.netns_assign_allow       = virtio_transport_netns_assign_allow,
->
-> 		.notify_poll_in           = virtio_transport_notify_poll_in,
-> 		.notify_poll_out          = virtio_transport_notify_poll_out,
->@@ -616,7 +622,7 @@ virtio_transport_seqpacket_allow(struct vsock_sock *vsk, u32 remote_cid)
-> 	struct virtio_vsock *vsock;
-> 	bool seqpacket_allow;
->
->-	if (!vsock_net_mode_global(vsk))
->+	if (!vsock_g2h_net_reachable(sock_net(sk_vsock(vsk))))
-> 		return false;
->
-> 	seqpacket_allow = false;
->@@ -634,6 +640,9 @@ static void virtio_transport_rx_work(struct work_struct *work)
-> 	struct virtio_vsock *vsock =
-> 		container_of(work, struct virtio_vsock, rx_work);
-> 	struct virtqueue *vq;
->+	struct net *net;
->+
->+	net = vsock_g2h_net_get();
->
-> 	mutex_lock(&vsock->rx_lock);
->
->@@ -682,10 +691,14 @@ static void virtio_transport_rx_work(struct work_struct *work)
->
-> 			virtio_transport_deliver_tap_pkt(skb);
->
->-			/* Force virtio-transport into global mode since it
->-			 * does not yet support local-mode namespacing.
->-			 */
->-			virtio_transport_recv_pkt(&virtio_transport, skb, NULL);
->+			if (unlikely(!net)) {
->+				virtio_transport_reset_no_sock(
->+					&virtio_transport, skb, &init_net);
+This series adds AUX sampling support to Arm CoreSight. A PMU sample can
+carry a window of recent AUX trace, which perf generates callchain and
+branch stack for the sampled thread. This provides execution history for
+context-based profiling.
 
-Why init_net?
+The series can be divided into four parts:
 
->+				kfree_skb(skb);
->+				continue;
->+			}
->+
->+			virtio_transport_recv_pkt(&virtio_transport, skb, net);
-> 		}
-> 	} while (!virtqueue_enable_cb(vq));
->
->@@ -694,6 +707,9 @@ static void virtio_transport_rx_work(struct work_struct *work)
-> 		virtio_vsock_rx_fill(vsock);
-> out_nofill:
-> 	mutex_unlock(&vsock->rx_lock);
->+
->+	if (net)
->+		put_net(net);
+1. Patches 01 ~ 03 for event core:
 
-put_net() should handle NULL net, right?
+   The perf event core changes warn on non-positive AUX snapshot
+   returns before checking alignment padding. Space for a non-zero AUX
+   payload has already been reserved, so a zero return leaves that
+   payload unwritten. CoreSight fills unavailable trace with zeros and
+   returns the requested size.
 
-> }
->
-> static int virtio_vsock_vqs_init(struct virtio_vsock *vsock)
->diff --git a/net/vmw_vsock/virtio_transport_common.c b/net/vmw_vsock/virtio_transport_common.c
->index 88df82364f77..313ef263fd2d 100644
->--- a/net/vmw_vsock/virtio_transport_common.c
->+++ b/net/vmw_vsock/virtio_transport_common.c
->@@ -1315,8 +1315,8 @@ static int virtio_transport_reset(struct vsock_sock *vsk,
->  * loopback, this is the namespace of the socket. For vhost, this is the
->  * namespace of the VM (i.e., vhost_vsock).
->  */
->-static int virtio_transport_reset_no_sock(const struct virtio_transport *t,
->-					  struct sk_buff *skb, struct net *net)
->+int virtio_transport_reset_no_sock(const struct virtio_transport *t,
->+				   struct sk_buff *skb, struct net *net)
-> {
-> 	struct virtio_vsock_hdr *hdr = virtio_vsock_hdr(skb);
-> 	struct virtio_vsock_pkt_info info = {
->@@ -1355,6 +1355,7 @@ static int virtio_transport_reset_no_sock(const struct virtio_transport *t,
->
-> 	return t->send_pkt(reply, net);
-> }
->+EXPORT_SYMBOL_GPL(virtio_transport_reset_no_sock);
->
-> /* This function should be called with sk_lock held and SOCK_DONE set */
-> static void virtio_transport_remove_sock(struct vsock_sock *vsk)
->@@ -1478,9 +1479,14 @@ virtio_transport_recv_connecting(struct sock *sk,
->
-> 	switch (le16_to_cpu(hdr->op)) {
-> 	case VIRTIO_VSOCK_OP_RESPONSE:
->-		sk->sk_state = TCP_ESTABLISHED;
->+		/* An assign cannot see a socket that is not connected yet. */
->+		if (!vsock_maybe_set_connected(vsk)) {
->+			skerr = ECONNRESET;
->+			err = -ENETUNREACH;
->+			goto destroy;
->+		}
->+
-> 		sk->sk_socket->state = SS_CONNECTED;
->-		vsock_insert_connected(vsk);
-> 		sk->sk_state_change(sk);
-> 		break;
-> 	case VIRTIO_VSOCK_OP_INVALID:
->@@ -1736,8 +1742,6 @@ virtio_transport_recv_listen(struct sock *sk, struct sk_buff *skb,
->
-> 	lock_sock_nested(child, SINGLE_DEPTH_NESTING);
->
->-	child->sk_state = TCP_ESTABLISHED;
->-
-> 	vchild = vsock_sk(child);
-> 	vsock_addr_init(&vchild->local_addr, le64_to_cpu(hdr->dst_cid),
-> 			le32_to_cpu(hdr->dst_port));
->@@ -1758,7 +1762,17 @@ virtio_transport_recv_listen(struct sock *sk, struct sk_buff *skb,
-> 	if (virtio_transport_space_update(child, skb))
-> 		child->sk_write_space(child);
->
->-	vsock_insert_connected(vchild);
->+	/* An assign cannot see a socket that is not connected yet, and the
->+	 * check in vsock_assign_transport() above has since dropped
->+	 * vsock_register_mutex.
->+	 */
->+	if (!vsock_maybe_set_connected(vchild)) {
->+		release_sock(child);
->+		virtio_transport_reset_no_sock(t, skb, sock_net(sk));
->+		sock_put(child);
->+		return -ENETUNREACH;
->+	}
->+
-> 	vsock_enqueue_accept(sk, child);
-> 	virtio_transport_send_response(vchild, skb);
->
->
->-- 
->2.53.0-Meta
->
+   It also prevents AUX sampling and pause/resume from nesting through
+   an NMI. A driver guard alone can leave perf's pause state
+   (aux_paused) inconsistent with the hardware state. The event core
+   ensures only one AUX callback is exclusively invoked.
+
+   Export the output copy helpers so CoreSight can fill sample payloads
+   when the driver is built as a module.
+
+2. Patches 04 ~ 09 for ETM perf:
+
+   The ETM perf changes separate the lifetime of the published CoreSight
+   context from that of the AUX output handle.
+
+   Centralize buffer updates, and end AUX output when throttling stops
+   an event without PERF_EF_UPDATE so a later restart can acquire a
+   fresh handle.
+
+   Make hardware-state transitions reflect completed operations.
+
+3. Patches 10 ~ 13 for TRBE driver:
+
+   TRBE snapshot buffers need padding to meet the CPU's alignment and
+   wrap constraints. Use circular buffer mode for overwrite snapshots,
+   retaining Fill mode on CPUs that require the write out-of-range
+   workaround.
+
+   TRBE faults can still raise interrupts in circular mode. Track when
+   the sink is handling an interrupt so an AUX sampling NMI can skip a
+   snapshot while the interrupted handler is updating the buffer. Make
+   repeated sink disable safe for deferred cleanup after a snapshot
+   failure.
+
+4. Patches 14 ~ 25 for AUX sampling and decoding:
+
+   Shared atomic STOP and AUX action bits prevent an NMI stop from
+   tearing down the context while pause, resume or snapshot accesses it.
+   The AUX operation finishes and then completes the deferred stop,
+   publishing the stopped state only after hardware teardown.
+
+   Add snapshot_aux() to the CoreSight driver to pause the source, update
+   the sink buffer, disable the path, copy the recent trace into the PMU
+   sample, and then re-enable the path and resume the source.
+
+   Patch 17 fixes history collection for zero-IP PMU samples. Perf clears
+   the IP when a user-only sampling interrupt skids into the kernel, but
+   the timestamp and TID remain valid for matching the trace history.
+
+   In perf, decode each embedded payload as an independent trace window,
+   selecting the decoder with the sampled CPU and using the sample's
+   PID/TID and traced context IDs to attribute history to the sampled
+   thread. Refactor common timeless decoding and history collection, and
+   drain pending OpenCSD output so buffered history is not lost.
+
+   Attach reconstructed callchains and branch stacks to the original PMU
+   samples, preserving histories already present in the samples. Add a
+   test, and document the recording and decoding workflow and its
+   limitations.
+
+The initial support targets unformatted trace from per-CPU sinks such as
+TRBE. Shared formatted sinks such as ETR can mix trace from multiple CPUs,
+consuming the limited sample window with execution unrelated to the
+sampled thread.
+
+This series is based on Amir's series "perf: Add CoreSight branch
+history to existing samples" [1] for perf tool's branch / callchain
+generating.
+
+[1] https://lore.kernel.org/linux-perf-users/cover.1787005265.git.aaupov@fb.com/
+
+Signed-off-by: Leo Yan <leo.yan@arm.com>
+---
+Leo Yan (25):
+      perf/core: Reject non-positive AUX snapshot sizes
+      perf/core: Prevent AUX sampling from racing with pause/resume
+      perf/core: Export output copy helpers for CoreSight
+      coresight: perf: End AUX output when an event is throttled
+      coresight: perf: Extract AUX buffer update helper
+      coresight: perf: Simplify flow for CPUs without a path
+      coresight: perf: Validate the live context through its path
+      coresight: perf: Validate context before resuming trace
+      coresight: perf: Improve hardware state transitions
+      coresight: trbe: Pad snapshot buffers
+      coresight: trbe: Use circular buffer mode for snapshots
+      coresight: trbe: Track per-CPU sink interrupt handling
+      coresight: trbe: Handle an already disabled sink
+      coresight: perf: Look up the trace path in etm_event_pause()
+      coresight: perf: Serialize AUX pause and resume with event stops
+      coresight: perf: Support AUX sampling with per-CPU sinks
+      perf cs-etm: Allow history collection for samples with zero IP
+      perf cs-etm: Unify timeless buffer decoding
+      perf cs-etm: Propagate errors from trace queue flushing
+      perf cs-etm: Drain pending packets before finishing trace blocks
+      perf cs-etm: Complete packet draining with end of trace
+      perf cs-etm: Centralize sample history collection
+      perf cs-etm: Decode AUX samples into callchains and branch stacks
+      perf test: Add CoreSight AUX sample decoding test
+      Documentation: coresight: Document AUX sample decoding
+
+ Documentation/trace/coresight/coresight-perf.rst |  39 ++
+ drivers/hwtracing/coresight/coresight-etm-perf.c | 396 +++++++++++++-----
+ drivers/hwtracing/coresight/coresight-etm-perf.h |   2 +
+ drivers/hwtracing/coresight/coresight-trbe.c     | 122 ++++--
+ include/linux/coresight.h                        |   2 +
+ kernel/events/core.c                             |  26 +-
+ kernel/events/ring_buffer.c                      |   2 +
+ tools/perf/arch/arm/util/cs-etm.c                |   6 +
+ tools/perf/tests/shell/coresight/aux_sample.sh   | 189 +++++++++
+ tools/perf/util/cs-etm-decoder/cs-etm-decoder.c  |  39 ++
+ tools/perf/util/cs-etm-decoder/cs-etm-decoder.h  |   7 +
+ tools/perf/util/cs-etm.c                         | 491 ++++++++++++++++-------
+ 12 files changed, 1040 insertions(+), 281 deletions(-)
+---
+base-commit: 134e1295eedfc9a3c6e4e63d8ef45dc63749449b
+change-id: 20260826-arm_cs_support_aux_sample-275664545588
+
+Best regards,
+-- 
+Leo Yan <leo.yan@arm.com>
 
