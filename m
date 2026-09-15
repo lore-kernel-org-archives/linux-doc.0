@@ -1,102 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474BA35839C;
-	Tue, 15 Sep 2026 22:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F7743B6D3
+	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 22:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789509731; cv=none; b=AN3bClEtWc5uIs/TVYEYN/c1wIPrgs8Kpm1XoBUp/L5Fypk/AQi+d3N4/MPPy3+hcllTH1AnMKGVHkcgnPKW7SvIJkJzOykILfU0S93LlPNrbkKa3us0xUsdm/rZLr6DgLTkQ4e2BuSe4buHc0HHzcKg2yawhyj3dS1q2G9AOgQ=
+	t=1789509756; cv=none; b=SgEegHu5gEpCk9gcx4rxbtJHqero4LSH9E0EfunX8okYEoH9WAD017U2id8KtlRGqBCkD6DtzeFhSsEP753baBVac5YwFVd9B1HBTgzc0zQec9AKDqTEVPhWbFzUubJfVcK53+4R9PapYLlG4DBRh49FxK112IwiKM04z6+/sUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789509731; c=relaxed/simple;
-	bh=GLZJu+ZNY9Xk/LATlKZ6lQE23AXTXhfnz25McRPlX8c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E/f5zeZaDoxk+QXAU6IvOLzW62HZ3E+yHy0NGND6whjZyRoYl4kYa6NF/afBPBjTvisaAy3fAFLoAT3HrBY9EG+jsMrmyCzHva0yGPUUIbtn9Fhd2jF4mY2mcxPSJlj2E2scnJ3s3WlCnOiSPr5Gsnsx6lldaD+utqVzQTdZ9g0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NhjFqyCu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789509756; c=relaxed/simple;
+	bh=bA5ljx6B7ITW0N/BGPzHL/Zxz6YCyPP3gMhy0+PZ8fE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XeGlfkiEMqHU23wB4pqAXP6b7qaxCHOwUgUopD7b3B6kPteEJgHXy15T1lQJr0jeuy//4p7c0CEf6Fd2a6kcMDxYgKHWWVolDjkJEPfDJoXEsbJiAs0C7NPiU+dS4OGJTc42XZ8jkiH/NwTlnKy1zCUTxcmRIvFUXURc22O55LA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GAvwXvmB; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NhjFqyCu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B2071F000FF;
-	Tue, 15 Sep 2026 22:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789509730;
-	bh=MYpcvYi0IhmOHWDTtKoEKyqBM/oTdTRBAh47Pzw1eLM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NhjFqyCuf8kyiZrL8wY656bZcNEMfDONA7ohqItUHpNPPG3RszZNsFe41LjXRURME
-	 +Brcrgy3eDk7P+9HGc7hlLmQLDyVCZxm/ZfOiNjxYdojZGbHPo6VC4dvsNy/jQhp7S
-	 4lRuGandHFa8e6bwRcRg8mt63DY7D/CByAtl8ts/+TTpqupT9obT+FWTWzs3EyXxLA
-	 1q0NUyi8fe0j3UcQbLwqsGtRg0rS8wPA2VTTT05j4pQ0qScvUD3mVhM615/f3tAGUb
-	 4uKhgbMFUacif9I6QmFR9+s5WA6WBmhGNWcj8przi9Qggqhx5QGvhJNwSESCb1R/WM
-	 GicpUqzdPobjw==
-Date: Tue, 15 Sep 2026 15:02:04 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Nicolas Schier <n.schier@fritz.com>
-Cc: Erkan Erdem <hexvalid@gmail.com>, Julian Braha <julianbraha@gmail.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GAvwXvmB"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49d1ca5b0d6so2087725e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 15:02:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789509753; x=1790114553; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=G8HiHaihSRj3NAinCMOoe99n81qEN+3jpEfhb65vi+w=;
+        b=GAvwXvmBuws1EzjCKqb8vlhZdrvt6YwfW1iawqyyDcVKTS4SsCOuJKkZgphkdzLQkC
+         k/6f9O/WDTVFnjKFcHD8zNS5+ZQK8afwgo9LlmTqxnMSSuxykNUifbU5dRZSlSwsbH44
+         txN6q67bW2tOvzXX6uQZvR6E5lrxc+VwBJEOY8sWGN4CGpTyL7TDNszZ5DQIHa/R93oj
+         cuRKZ2A/Z/r9ZA2f5WK38RqqCvWyShi7g30eBiwF5LDgqWqgnbOR4XvJrrIEIP5DMfck
+         nFsvuDyz5k2LaMpL9Xha7g9eD14XmOoeTI4AnppnijIz0OdEVZds1vOchpzgLPd6m5ZC
+         pklw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789509753; x=1790114553;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=G8HiHaihSRj3NAinCMOoe99n81qEN+3jpEfhb65vi+w=;
+        b=wKGRMvzjyBS3iQZ+wpAS17kBkBb3a/8ikSsMMmpnYnmKsQamhxgWraI60tio7kDzGt
+         rgmAcbQ5s/g6gAuJvaNmCwoIt8HB1QxVQ32c/9SrOLWF0rkU+G+VP0FvYSNwQf9da9dN
+         9qownZYm42Dx7Tubn5Q5mEbQlq9YMC7j/k4YtwOiJxwhxKQR2B7Yli55NxxWjZsfCmTG
+         DxKSxIVNwtOV5+9+RgOeNChCjG7gRZkpTjhWX1fRvABOE/QP4IRPMg436FmeaBRJBlvt
+         bMr834UpJGqmfG7PLkYKjm8iCXPgE6RSIoGNWUzH7uOYFLL/qf7Km2gS9VYc7z0Df2q9
+         cS7g==
+X-Forwarded-Encrypted: i=1; AKwUvBzas7dF1abBn0ykZNIjzvq/hGHpDGPMSZzjqqy8EfW4SRzzJWoejZZUfDqH+wlU9gHdLHe2xORlsq0=@vger.kernel.org
+X-Gm-Message-State: AFuF++nb1XmKLNlp35PDyoYmooU9aTfMyq5ipqcqqVFm3gEW04729J17
+	CluomH2VvSXqyM/VIB1Y13eaP1LWbLv+vKwZqBmzVWJBQf2UK3DoPsSf
+X-Gm-Gg: AYBFou0+GCE4QAeaut2h9xJoDAVc99hLE2SBFZzZ+DvebOTxh2080eMZ5UvLqVNfENG
+	D9CL8C31vfZksR2H4JbCxUR0OqrbiTFux5ydp+0LMUZdaNrWSv5Nrfly3VkrWc4V2+n55WonUUA
+	F+iyD90nqc05vNX9olOPqG9/FeVvtqMvgYcAnOF1HNGkFu0qZUVxaNh06yjWKIQQI+E3zoJVSdr
+	9uahVmYZHNEBW/jshr4R+2iYYUEje0s6bgyOoLGa//3dK3gaYbatMJTgdUVEFPHiTNUe8op5AGU
+	nBD96PK0vP/wNhHyrhpb0JtNd/diWyVQlc72WG1jixmSG924uVHsaVitg2BBu09dY7zi1Om7Bit
+	HjHixdvjxePimuaGNh3fd5caLDaHoJ4158rfBKgSyW49fWLMqRdGCFi6BpCFezbMTT5zJe9LyNu
+	6qMdHwaTvCR6WRn4wi91AXXL5L6qVLLRhCsyt7AOENeJ/iykI3R5rfrW/NWFOiBIaUxOzCdvATt
+	rdUxw==
+X-Received: by 2002:a05:600c:1d07:b0:49c:e27c:6b10 with SMTP id 5b1f17b1804b1-49eb7314c2emr245005e9.3.1789509753103;
+        Tue, 15 Sep 2026 15:02:33 -0700 (PDT)
+Received: from epiphany ([143.58.158.93])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83aeae01sm27747445e9.6.2026.09.15.15.02.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2026 15:02:32 -0700 (PDT)
+From: Syazwina Fazrul <norsyazwina.fazrul@gmail.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Syazwina Fazrul <norsyazwina.fazrul@gmail.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Christian Loehle <christian.loehle@arm.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev
-Subject: Re: [PATCH v2] docs: kconfig: fix shell function syntax in caveats
-Message-ID: <20260915220204.GA1534234@ax162>
-References: <20260907103739.23212-1-hexvalid@gmail.com>
- <20260915-pastel-industrious-rhino-8bddce@l-nschier-aarch64>
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: power/cpuidle: Fix repeating phrase
+Date: Tue, 15 Sep 2026 23:00:55 +0100
+Message-ID: <20260915220105.14655-1-norsyazwina.fazrul@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260915-pastel-industrious-rhino-8bddce@l-nschier-aarch64>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 15, 2026 at 12:59:40PM +0200, Nicolas Schier wrote:
-> On Mon, Sep 07, 2026 at 01:37:37PM +0300, Erkan Erdem wrote:
-> > Kconfig separates a function name from its arguments with a comma, but
-> > the caveats section uses Make-style whitespace in its shell calls.
-> > These expressions expand as undefined variables rather than invoking
-> > the shell function, so the supposedly working CC_HAS_ENDIAN_FLAG
-> > example fails to parse.
-> > 
-> > Add the missing commas to the shell calls in this section. Keep the
-> > Make examples unchanged.
-> > 
-> > Fixes: 316d55d55f49 ("Documentation: kconfig: document a new Kconfig macro language")
-> > Assisted-by: LLM
-> > Signed-off-by: Erkan Erdem <hexvalid@gmail.com>
-> > ---
-> > 
-> > Changes in v2, addressing Julian Braha's review:
-> > - Remove whitespace after the comma in the three remaining shell calls.
-> > 
-> > v1: https://lore.kernel.org/all/20260905124045.42713-1-hexvalid@gmail.com/
-> > 
-> > The issue, patch and changelog were prepared with an AI coding assistant.
-> > The assistant also prepared the v2 revision and ran the checks below.
-> > 
-> > Validation:
-> > - Re-ran the documented working CC_HAS_ENDIAN_FLAG example using the
-> >   Kconfig conf tool built with Clang on macOS. With a test helper returning
-> >   y for either endian flag, the original example fails to parse; v2
-> >   executes both probes and sets CC_HAS_ENDIAN_FLAG=y for both endiannesses.
-> > - Rebuilt the changed page alone with Sphinx, treating warnings as errors.
-> > - The complete kernel documentation set and kernel were not built.
-> > 
-> >  Documentation/kbuild/kconfig-macro-language.rst | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> 
-> Thanks!  I'll queue it for kbuild-fixes, but it might be defered to v7.4 
-> if no other build relevant fix will pop-up.
+remove repeating 'with the' phrase
 
-I am not opposed to this going via -fixes but given that it is just
-documentation examples and there do not appear to be any problematic
-instances in tree, I feel like this could very reasonably go through
--next. 316d55d55f49 is from 4.18, so the examples have been wrong for a
-long time. With that, I would probably not classify it as urgent.
+Signed-off-by: Syazwina Fazrul <norsyazwina.fazrul@gmail.com>
+---
+ Documentation/admin-guide/pm/cpuidle.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/Documentation/admin-guide/pm/cpuidle.rst b/Documentation/admin-guide/pm/cpuidle.rst
+index be4c1120e3f0..e91ebd432f6f 100644
+--- a/Documentation/admin-guide/pm/cpuidle.rst
++++ b/Documentation/admin-guide/pm/cpuidle.rst
+@@ -316,7 +316,7 @@ interval" value.
+ 
+ Now, the governor is ready to walk the list of idle states and choose one of
+ them.  For this purpose, it compares the target residency of each state with
+-the predicted idle duration and the exit latency of it with the with the latency
++the predicted idle duration and the exit latency of it with the latency
+ limit coming from the power management quality of service, or `PM QoS <cpu-pm-qos_>`_,
+ framework.  It selects the state with the target residency closest to the predicted
+ idle duration, but still below it, and exit latency that does not exceed the
 -- 
-Cheers,
-Nathan
+2.52.0
+
