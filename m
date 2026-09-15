@@ -1,82 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92BAB4BA9FA;
-	Tue, 15 Sep 2026 17:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B334ADD80
+	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 17:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789493484; cv=none; b=Xxme545xcEXPxTPwYSlR+BVgQJuRGqaGTKqQ0SrGBVBwcnYlPUMAiJcaPy/p7os8zE+Zre72iINzcKMksKXq+XyyJgU+5C1c7IlJpy0TlLhr72SRHdsbOjJvWPj3z2EmBORbZrWh0+eEc5DQJxn20M4nbh2XdVMTrbaOQOthKt8=
+	t=1789494216; cv=none; b=skIKlp63g5mShz1A+1+SN9TWKje72RKIhROoQHfRsBscAQVP4b2+mZOFI3Zxujl02qa0zPImxqGq0+lVBP9+cSPIUCsZ/Wn9GcXIXbDjgZwkgRn+u9UnMiG6y6261cgMpEYDWVkBr2QYIWzLWyUpMogyMsTyDGUKFc1UdArS5lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789493484; c=relaxed/simple;
-	bh=mUNMfc8k+NfjJvSRvRuXqZV/4RRo8HUjNaU/VwKVbTE=;
+	s=arc-20240116; t=1789494216; c=relaxed/simple;
+	bh=2Qb0/zNGbWdfLqIl2/hEdN2XdIGVrGsupUwvjhaalpI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MugGrtuNo8HkPnIyvIs0bYsnvw6r0n16lwkMbQjmDHBNT7M/bv0+4QmZa0TjZ20i/tuzP/2dKaZ5FFTi/A59AbiuPG+6AOH2YWj3NlByAwE06fa0rUUSva0TENo+lzL+PvKjPLbSlG9vHlpnAd4zP1GedeWuVXdrY7E29bGw2z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DUdStQ71; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gQz0fx1up9NZpbRrSqqmZB49w8fSVAyuWx5P4pyvB+pZv7x9d19eq+RLew1Rhrlqf/YGjqbhCswnJENVGg75Og4uUiux8xtIIyXnIbGcJI2kk4uzuHiLtJsL70thEq6JTgoTsbZylyKOPToX67Qc3OpzXKgI/vYKwgzwm3awN6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CXQVWNfr; arc=none smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DUdStQ71"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E961F00893;
-	Tue, 15 Sep 2026 17:31:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789493480;
-	bh=wWvthobti2pF6h9qNUQka5J7xC5moBjykTsxqt8of7M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DUdStQ716xOP57w5uopB3gZVM8T+Vn4Zdpx+MZkbU32Utq9tUXSiJA79aBzvj1Fth
-	 xZ2tn3YJM9oMNchSSEYAe+afithuZVIxRPDcu3LjIn2a1bcfNRDbb1ACUsF41lxI1z
-	 IfaeCz77ML8DvMbde/EKxq+BIq6nl+mJv80lRtx9z4J0ZqaFEgTlwKpIh7i4GiExph
-	 J4BBH+jt/Vlf0jfNOPAqYhOlJ6Ha1ZVaTXLsFOz9Hq4LGL3cGRjAiZKAzPS9PAw9I4
-	 Wu3/MOYVURHUJr9Wp5FZ2H5SOizPVYCB2t9Rnvyg2P9I792yxHAjYexnNqiVxtuL3Z
-	 sa7mRqrKsA2AQ==
-Date: Tue, 15 Sep 2026 10:31:20 -0700
-From: Kees Cook <kees@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 21/21] kbuild: use pigz for gzip compression if
- available
-Message-ID: <202609150955.A51C9F7A20@keescook>
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
- <20260914-build-speedup-v2-21-39817ec5db23@kernel.org>
- <202609140844.FA7E848A@keescook>
- <aqk9gakQhxToLnDI@gremlin>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CXQVWNfr"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7f4df360cc9so1060723a34.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 10:43:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789494208; x=1790099008; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=UT4ouAJLFU2Y0pobOZCiwGU7eYX5lu0wzqAZh/2lqXU=;
+        b=CXQVWNfrRZ4GnugKS8hGIPnD7dMR/gXzEetZyPwZSE2DDKUsfZtdlzj98QdyrAwIDI
+         /bORgxtSnHh89UNA+O88gYJAFws1ttU0Dbf97zY37lcazcji8aJ01U8/BFi8urW3/NvK
+         KewIyg3ns3zr5KfncK3SudwyiqJqLg+VYranZ8FKw1PueJdAvCfsKjz2NKISQGCiyC9f
+         WY94ZVtxsKqIHFrpInLlVuG73iNhY8YXqbEe4LKHPDpuKCgluVzIrw+4Lm5m8wuOtEXF
+         fdr3nYXbs9PwnJZtyNzMUWagftl/N5lYOlokb6k0uau/bMWxDWIxDpXzsckTYHXZJe7t
+         QuAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789494208; x=1790099008;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UT4ouAJLFU2Y0pobOZCiwGU7eYX5lu0wzqAZh/2lqXU=;
+        b=W46YF+21AnrpLeVzJy2vG4AWKGTmj5NlIV29ymTxSaMpS2oC7IGcu0PmzvlgrXAwgV
+         X9RlPmsyl4b+oXABghyS9vstmKkkc2rep5Q2Ux1ESeG4uyJIHlvgGvGExOyD6E4IKwe6
+         3UGAUOD3I7awwMHBu5RaX0HaKt20hJj0ZL7cbsgksjmh+f0Z7Lkf1noLWTuHRqlEMqSt
+         CnjCIisFMvU/SuJZlcphngy4rXx3hbKty1HoHltpC8fK7HFrY4HhsKq/9jv15po3oaym
+         qeZzhSMIJ/p1qAqh8NjX0CVAiCFpeDY1TZV4NBSiPdKCBAGrTHTOyJn51yY+GynqYolx
+         LD1w==
+X-Forwarded-Encrypted: i=1; AKwUvBzCwGCVrGuiWZYm1q8Qyj8Z8IATl/B+kMgxUs6fxRr586lI9+ac6zupSRAHi2hxEZDtTlDD1siqQOE=@vger.kernel.org
+X-Gm-Message-State: AFuF++l2dOThIZ6I9XumidAWPvJKIPk8rbfVPlxkYtrpmK7Zq9nnQTBh
+	Bd7dLzJ5W3JU9+rfORVdooXA05Z2nmwL81cJvM32/FTuXgkn4Zd7h61V
+X-Gm-Gg: AYBFou0ibfvG6X50J1y+ai2I3CvnQPLeSVt5tJv5YkQHVJfZw7SAJ6Dyv7m7TUjCnhb
+	JEq3Ej705xgFvFQc6nPu4wroKmQ03Y0T2tqCPCj4gIlwEK38PlOO7/f7u7hwa35KCrA4B6u793R
+	JtZzuajUXEEWuXlK4hGZZUQDcK4hSjvEooUHVj3yGeE1gtaFJmK7UsJj94e7PGdEpVOK2XWQrKH
+	PWgGUML0sfh+OlgubzRGr2r/+IgfnqMiq5i8RVcwD6b2z+cX3AWZmTjwrpLeMRjz/ec4BtHi1U8
+	GXNvqW6+vuNETFP96xB6XoB3SoEek5Kw4HuuqaV3/XvisID/cUP3ujmbwMri+SKGkS5174u2xrz
+	XSREKFYSe+GqriEISyvyywV0BTZkWeTd2nFBXSKV5jIkMVPQVFNciZ0fgdYiNOXTv4J6rJ7Am7D
+	NChxGZZrPwb36SBdYKa5zRQX+rnyey9dMKti2Il0aUR1m4/8NdSkB50X//LfYD246X1zfYMvkci
+	3QKp0iHnt7kPB+eZDWd
+X-Received: by 2002:a9d:7d8d:0:b0:804:36ec:d875 with SMTP id 46e09a7af769-809823dcba1mr2371764a34.4.1789494207629;
+        Tue, 15 Sep 2026 10:43:27 -0700 (PDT)
+Received: from devvm29614.prn0.facebook.com ([2a03:2880:ff:50::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-80505548bbfsm12975740a34.18.2026.09.15.10.43.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2026 10:43:27 -0700 (PDT)
+Date: Tue, 15 Sep 2026 10:43:23 -0700
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowangio@gmail.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	virtualization@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	sargun@sargun.me, jlinbox@meta.com,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next 0/6] vsock: assign the guest vsock device to a
+ network namespace
+Message-ID: <aqmDuxMuEN5lS/0J@devvm29614.prn0.facebook.com>
+References: <20260902-vsock-guest-ns-v1-0-9995383e9a8b@meta.com>
+ <apqGcFDFm9_Wtw4q@sgarzare-redhat>
+ <apsANK7ySuRzzK0V@devvm29614.prn0.facebook.com>
+ <aqkaTXHDf5nfPL9w@sgarzare-redhat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,130 +94,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aqk9gakQhxToLnDI@gremlin>
+In-Reply-To: <aqkaTXHDf5nfPL9w@sgarzare-redhat>
 
-On Tue, Sep 15, 2026 at 03:30:43PM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Mon, Sep 14, 2026 at 09:39:07AM -0700, Kees Cook wrote:
-> > On Mon, Sep 14, 2026 at 10:22:20AM +0100, Lorenzo Stoakes (ARM) wrote:
-> > > On a 128-core Threadripper, gzip -9 of a 36 MiB x86-64 vmlinux.bin takes
-> > > 1.6s, and with pigz it takes 0.09s, so the performance increase is
-> > > significant.
-> >
-> > Neat! I wanna go learn how pigz accomplishes this -- I thought the
-> > problem with gzip was a common lookup table. Anyway...
+On Tue, Sep 15, 2026 at 12:16:47PM +0200, Stefano Garzarella wrote:
+> On Fri, Sep 04, 2026 at 10:30:28AM -0700, Bobby Eshleman wrote:
+> > On Fri, Sep 04, 2026 at 10:55:17AM +0200, Stefano Garzarella wrote:
+> > > On Wed, Sep 02, 2026 at 04:00:46PM -0700, Bobby Eshleman wrote:
+> > > > vsock network namespaces let a host put each VM in a namespace of its
+> > > > own. A guest has no equivalent yet. It has a single G2H device that
+> > > > cannot be assigned to a network namespace.
+> > > 
+> > > Thanks for this, I'll do a proper review next week, in the mean time some
+> > > comments below:
+> > > 
+> > > >
+> > > > This series lets a guest move that device into a network namespace. A
+> > > > new ioctl on /dev/vsock, IOCTL_VM_SOCKETS_ASSIGN_G2H_NETNS, assigns the
+> > > > device to the namespace of the calling process. The namespace's existing
+> > > 
+> > > Why an ioctl?
+> > > 
+> > > I'm asking because I'd like to know if you've already considered any
+> > > alternatives (sysfs, netlink, etc.)
+> > > 
+> > > How do you think the ioctl should be used? Should we provide an userspace
+> > > tool, or extending some existing tools?
+> > > 
+> > > Thanks,
+> > > Stefano
+> > 
+> > Really only because /dev/vsock exists and the prior series used it.
 > 
-> Yeah not sure on the details :)
-
-Things I have now learned about a DEFLATE stream (RFC 1951):
-
-- The Huffman tables are per-block, so emitting multiple tables in a
-  single stream is already required. (I only just knew about ZIP indexes
-  being singular, but I was confused: that's about the container not
-  the compression.)
-- Each pigz thread keeps a 32K back-reference window for its tables so
-  it isn't starting a fresh table each block.
-
-Very cool! The first makes parallelism possible at all, and the second
-makes it work well: it's not just restarting the compression at every
-block boundary.
-
-> > I think the more idiomatic way to do this is:
-> >
-> > KGZIP := $(call try-run,command -v pigz,pigz,gzip)
+> Yeah, I vaguely remember that we may have discussed switching to netlink in
+> that thread, but I can't find it.
 > 
-> try-run is defined in scripts/Makefile.compiler which is only included ~200
-> lines after KGZIP is set.
+> > 
+> > Considering netlink, it might be the better option because there is a
+> > lot of prior art solving problems we might have in the future. For
+> > example, I was thinking about when users suddenly lose access to vsock,
+> > with just the current assign ioctl there is no way for apps or users to
+> > figure out why this happened. We can have an ioctl() setter for user,
+> > but in netdev world users can actually get a notification via netlink as
+> > to which namespace the device went to and what its ifindex is there (see
+> > __dev_change_net_namespace() for the RTM_DELLINK and RTM_NEWLINK
+> > messages). There is probably more, but that's the case that comes to
+> > mind.
 > 
-> That'll also set up and tear down a temp dir for a probe that doesn't need
-> that, so I think it's fine as it is.
+> netlink seems like the right way to go, do you think it'll be a real pain to
+> implement?
 
-Yeah, good points. What you have is quite simple.
+It is really not bad... it'll include a yaml spec in
+Documentation/netlink/specs/ of call names and perms, a new target for
+generated code in the Makefile, a handler, and then
+tools/net/ynl/ynl-regen.sh generates the plumbing.
 
-> > However, parallelism needs to be set. We can't let it eat all CPUs: it
-> > needs to respect the -j make option (and make its CPU reservation known
-> > to "make"), which we already have a solution for in
-> > scripts/jobserver-exec.
 > 
-> The only place where it's invoked is vmlinux.bin at the end of the serial
-> tail, where all the tokens would be free anyway.
+> > 
+> > > 
+> > > > ns_mode then decides who may use it: a "global" namespace shares the
+> > > > device with every other global namespace, and a "local" namespace keeps
+> > > > the host connection to itself. The device starts out in the initial
+> > > > namespace, so until the ioctl is issued nothing has moved and no mode
+> > > > has changed. There is no explicit unassign as assigning the device back
+> > > > to the initial namespace is equivalent.
+> > > >
+> > > > The ioctl requires CAP_NET_ADMIN in the initial user namespace.
+> > > >
+> > > > Connections that can no longer reach the device after a move are reset,
+> > > > so that a namespace which has lost access cannot keep using a socket it
+> > > > opened while it still had access. Following netdevs, the device returns
+> > > > to the initial namespace when the namespace it was moved to is deleted.
+> > > >
+> > > > Transports opt in through a new netns_assign_allow callback. Only
+> > > > virtio-vsock implements it here.
+> > > 
+> > > Why? (Not asking to support all the others, asking to explain the reason or
+> > > ask helps from others to extend it)
+> > > 
+> > > Thanks,
+> > > Stefano
+> > 
+> > Sure, can add a note here about extending it. I just didn't want to
+> > implement code without having an environment allowing me to test it.
 > 
-> So I don't think it really buys anything at all?
-
-There are 2 things I'm thinking about:
-
-a)
-My main concern is the lack of respecting the -j make argument. In my
-mind, this is a blocker, because it means a build will now _always_ spin
-up max CPUs (not what -j has limited it to), and for CIs, shared compute
-systems, or whatever, this violates the requested parallelism level. For
-example, if I'm doing a long-running Coccinelle replacement in one tree
-(which uses half the CPUs), any builds I launch I'm asking for the other
-half of my CPUs to be used so they don't thrash my cache.
-
-This is the kind of "why are all the CPUs spinning up?" question I
-helped track down with commit 51e46c7a4007 ("docs, parallelism: Rearrange
-how jobserver reservations are made") forever ago.
-
-The next is kind of a special-case version of the above concern:
-
-b)
-There's nothing that ties KGZIP to only being used for final images
-(and in fact, it also does modules, as you show), and it's defined as
-part of "cmd_gzip", so it could be used at any moment in the build:
-
-$ git grep call.*,gzip | wc -l
-23
-
-And it does have one use outside of the (presumed) final image build in
-the per-arch /boot/ rules besides modules, for config_data:
-
-$ git grep call.*,gzip | grep -v /boot/
-Documentation/kbuild/makefiles.rst:            $(call if_changed,gzip)
-kernel/Makefile:        $(call if_changed,gzip)
-scripts/Makefile.modinst:       $(call cmd,gzip)
-
-So I'm nervous about a general-purpose tool and Kbuild infrastructure
-suddenly going max parallel in the middle of a build some day when
-another gzip use is added.
-
-> Using jobserver-exec would also put python3 and two wrapper scripts in
-> front of every gzip in the build including tar -I "$(KGZIP)" when packaging
-> and some arm and m68k scripts too.
-
-Does that impact wall-clock results meaningfully? I'd really like to
-avoid losing correctness in favor of speed here, especially when we
-already have a solution at hand for exactly this problem.
-
-> Overall I think it's less complexity and really no delta to just invoke it
-> as normal.
+> It's fine, I'm not asking you to do it ;-)
 > 
-> It's designed as drop-in so it makes sense to use it as that.
-
-It is possible that it is so fast no one will notice, but I really worry
-that there are going to be many sysadmins driven to figuring out why
-their build systems suddenly spike the CPU use, and then waste their
-time tracking it down and reporting it to us, but we can solve it today.
-
-> > Only RHEL appears a little glitchy, but likely they would trivially move
-> > it to base since it's already packaged, but off in EPEL.
+> Sorry again for the delay, I hope to review this series today/tomorrow.
 > 
-> Definitely not something for this series, the fallback is one invocation of
-> command -v and I don't really want to break RHEL either :)
+> Thanks,
+> Stefano
 > 
-> If, once this has landed, we want to go that way then it's simple enough
-> for us to change it.
 
-Fair enough, though I do worry that this is vaguely "undiscoverable" in
-the sense that if you happen to have pigz installed, suddenly it gets
-used. (We have other such "try to use this other tool first" logic,
-really; we have Kconfig stuff for detecting all sorts of capabilities,
-but I couldn't find examples like this one. Maybe I missed it.)
+No rush!
 
-So the "make it the default" suggestion is more about having better
-determinism in the build requirements. Perhaps add pigz to changes.rst
-and/or ver_linux so it is seen/recorded somewhere?
-
--Kees
-
--- 
-Kees Cook
+Thanks,
+Bobby
