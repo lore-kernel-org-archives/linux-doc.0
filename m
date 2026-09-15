@@ -1,269 +1,179 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACD745D5C2
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 07:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0042B394EB7
+	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 07:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789456671; cv=none; b=XMPGaWxz6MtHTrcViYtmr65jkAy08eGAWnm9zHjWqVjZlL8xIn/D4rzFuyjiGPuR2UsFy1MZisiT83xW/HQItjTEJpeBPEC3vF+B5ot2kthmd5OeFdb/FKe27954DQpvkiPDOB0njHxDr4SaHTM/KKov3eIEfePfSIvM4m8+IhU=
+	t=1789458728; cv=none; b=BnlX98sUv0/tkWppkrI2HlfijuDbWf6kwj04N4W3zRdaqgx0Kk5S2AYjYGoVxDrAaAgHPyonNfGFAJ8raWZBPbuZovG2740SwS+O/PbldYb+V2zyhsrrzJMXMmOIz53wVUnSdnWRq6IsIwsnzbROznFoaAzBpQpu07sF5dE+C8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789456671; c=relaxed/simple;
-	bh=hAXGf3fwKFEiB3f4/YXlhsIaiotd9AUAeVeNMwuOMCQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RWpMVCQD2E0hs+664QNBya5z+Dj1tdQ0WGNXfR3Tf/OgUWpUYuXvxzGHMYAVWKhj2U3Qa9CtkYXxO6EIwyzlGapLQtM0jtgZJJgH1CmVJpDhatcE48EWnmbpuSwx7CFE6PKJAQ/mOLmLksnhxCLUhaGTcdAf1geC7Fl5tKoUsNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UIhqtdmh; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=SOUpZoXE; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1789458728; c=relaxed/simple;
+	bh=nUrrJ67BvVR5ReXOWw06MC+NIt4Yqnp5jRGHZjfrxAw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=R+gjZ9/pTu26G7hS3gidL9bpfCLEJRweQgXt6LDbG0n9FhxW1gGlStH/w2y68PIzJLXOwNgHrsnh37FyCL6SRwNPtfMNgmEAorVxs7q6MeMWOn+GOmVXz96axKs9+i7BuBYoQ3uc3u9j6mP2c3AdY1Yh4ZcSKtGY2OAyfjRk4VU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GKOgCUBl; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UIhqtdmh";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SOUpZoXE"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68F6ZBEL2983656
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 07:17:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	xlfk++XyU1ksGb867DX9M/DYidhT/J3K0XN0SWFOlDU=; b=UIhqtdmhYfZGZQJA
-	FBERNDICmZ+DiCoaE9/9Ba+de1bRnGJNuXWg2e80AqWSEGjWYed7uG00K43AAi3c
-	f5VZ9xpVDpLt6q4bBxqCA6b6mM2rKD/rC3SY4qVqqoHU6AuSraDcAVinEykwFpSH
-	PsUdmTwe+dW/tGfuInRYMtebxkJCy6ErmQwc1yX1lQlFtkOuZmwlJR1BJecyv75l
-	TMAYbg2dmQP39DS9KpeeNgIGHoTlgEF05UC1HAmh1gmvio/PLtODyk95lK++O9XJ
-	P5K9yzTaDX8zvpgkfGQBT4QdNNiHmBHXybD9Yx37U21U2R4yN2V+MRXZi6A/JNjo
-	imPlwA==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gpnet2xqs-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 07:17:49 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38e8e864ef0so7210787a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 00:17:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GKOgCUBl"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccc02279so2705686a91.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 00:52:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789456669; x=1790061469; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xlfk++XyU1ksGb867DX9M/DYidhT/J3K0XN0SWFOlDU=;
-        b=SOUpZoXE8K2LQQD8p1g91cqWygvVYsUIjbfdWP3cSnfTe4jvZ7sl1Er3b1rRukg6X0
-         FxTHvMUzp3cogkOE8YMU1RmyHeR1SlI6GbGF5HuIgmg+yPFTWxs65+ORaSCRdURpSkzk
-         /KXCEBT5nfnYQZNzxQXSzKNOGLCM98yZB9BvIOog17Hn6uiSbP0al2BSi/0JctAYLPMB
-         WQqB4NkgwTied71qiFEeLE1psh9bYzx3ygaqTRPE6GC87d8qOVgikO9vdNE45IDCeH/O
-         vyrSHt1sGesAqcg/62oXsrj6/dA+otNZiEh9tIFOO1TBb2GClbiRd2R502K8Oy3xlLvG
-         mACQ==
+        d=gmail.com; s=20251104; t=1789458725; x=1790063525; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=InihkQshOO4cHzIVJSU1wlqwaITpxYmllW34k3TOqVo=;
+        b=GKOgCUBlhvAOZxYTpENTtNzGYQDf+waVYTfMFec7GM+fuIBB0KsJxlYoc5/UPafxlR
+         byBO5PvsmhRgYjoBXKKTjrtQ+J2EzGa1LFYLqnjHRFg7PtS9uTO53gZgBEKPa8VHOyA5
+         MxG0YFAXbrBFNfFW6fAy98LF2cWwN8tQJPSre1fe9npmQac2J7by265amyIzVbvgjK2V
+         oyxlpGcJSYCXkAptbBMovyaKQyyvkEu84x2GNPrUwJE3rPBh6TKJD97kz0jFjknpMo5u
+         xCow9ZIrqOOgfsVltcNb0BwjD3q7eJB//c2XBFYKeN7LRQt/wWytendQEBVrlB2LQTHW
+         qnvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789456669; x=1790061469;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xlfk++XyU1ksGb867DX9M/DYidhT/J3K0XN0SWFOlDU=;
-        b=q+Wx9b3Ny3wyc5hHvnAgXsf76y67fiisNC02/j7t1gGS444LBWL0bu3wVXHZ1O9Ttb
-         /T41Ek4iIbeSO4PkLRL68Mfv6KPl21UGqqOKp/ceRqqfVY3XtGiP4oEwiWYsmWAkU+dN
-         9dUkw32WlsiMT3dEzg2J/fSqcB3milUTWnGGsl2K+aS0Y1Mc2MR3BMxgcEzFYj85qaSf
-         7k4M+CWnmGeiSytSNShKPg9hoE69YCZ+lEW6Leh+vyWzDOrFMyGS1c9IDhuFU/7MkD/Q
-         ilA8AcpWZ1JaK6WZvGmJ7YOQ3O0Y3Geqk8opUlqi3nQNVHuECPNZI8WKiQRKFShk6/G+
-         uNhA==
-X-Gm-Message-State: AFuF++mpFrIfZwlv5WI12vsHZvKbvbVKfMKORuE4SR2/GsOdCdjLZkBn
-	RewWSUZUXRK552VXchEJvJJCTMI4RilV6j3A4rZ9w9udvyyJruKdhfZJcEwUPtVnkYGyuvPwvdx
-	qzGhTp7Uo3jiLxBj8IsY5NlLatMNLgG+Nqb3OIV85lEDghpOwPjwP8igwyeFktaA=
-X-Gm-Gg: AYBFou3WFhiqusDxM7TZtoL5vGLlIxu6Vk6tPfvFRA8E43RCGGJI+ZSTQkW8FIRuLbs
-	mmjisLUNYfG92TJMF0URxDmtfAYQdI2gUihUy1p+p+kKuwQQpQ96ZLk3kBpOp0Gtz3bjD8VKwoE
-	4oym66kFu4CMXR+BFsHTnA2pkrU31rH3WhQT7Qb1odJ5zLfufCQ2ldWLrIzcjq6zG78gmawIvvs
-	J5M7WeuZDV0qdrbYuPYtU0l46qZw8iD4oHPQNhIQGF2mgskTxPCKXq27aBY4JCwued7iuuB3kLx
-	6lNPUjnoMl9sdSvL6vf2B8Z8Zk8w2IiJmfNCKP78vxOoe5s5kf9Xi1/NTU9y
-X-Received: by 2002:a17:90b:3e50:b0:39e:2f2:214b with SMTP id 98e67ed59e1d1-39e02f221afmr4277494a91.16.1789456668472;
-        Tue, 15 Sep 2026 00:17:48 -0700 (PDT)
-X-Received: by 2002:a17:90b:3e50:b0:39e:2f2:214b with SMTP id 98e67ed59e1d1-39e02f221afmr4277428a91.16.1789456667863;
-        Tue, 15 Sep 2026 00:17:47 -0700 (PDT)
-Received: from [127.0.1.1] ([2a12:a305:4::30fb])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39dfdaccc0fsm3447120a91.15.2026.09.15.00.17.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 00:17:47 -0700 (PDT)
-From: Guodong Xu <guodong.xu@oss.qualcomm.com>
-Date: Tue, 15 Sep 2026 03:15:37 -0400
-Subject: [PATCH v7 11/11] riscv: hwprobe: Introduce rva23u64 base behavior
+        d=1e100.net; s=20260707; t=1789458725; x=1790063525;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=InihkQshOO4cHzIVJSU1wlqwaITpxYmllW34k3TOqVo=;
+        b=1wjYi274n/nEYkNkLegn0RDIjOkTWm0f78nzqXYb9ScHGTR0QwrLwaI1WrmSJ82kp1
+         XRMwx4TZ44mbOKMnkOIjNzLJ3Duuh2njqB2Vh68XUN6TNfnru8otun/mR/Py9MOpaFX/
+         dJ4trb/DknekhlxfWMkwcir/942HM1BNGNPkNBMxqFSNhZnbNskDCwtZbVQxgo2fJHbk
+         rfqcRVfvVpwAFch6jiPm3oNbiRXmBzchENwkYX4eUxuk+n2jKdkZ1Oa+AQYblUBMMon8
+         18ETXxdBUGQvsOnuC3Rj3PHjv9cqrdtnq7st1PR3FkoJ0/Uen83KSCl0Epu7IKHFilFr
+         cPtQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwJXNTUWJU5s16nUas5b06bQQIyfwAXIv4jF5WO7z0YrHFuUs9be0oyGzD2ZHzt2cATJUO2D7Ai2S8=@vger.kernel.org
+X-Gm-Message-State: AFuF++lNxhL5v29WbhXcRvYbhSDQ+K+pYYQNagDqbu8LhRyGOmf8AHMp
+	ruaWc9rg/OBEFToOfw1Gl2xFEfqckc0Y9UdYjlrShNZpM8HvAhznfzMu
+X-Gm-Gg: AYBFou3GiaBlNqsEk0rmhmkl4Vxn4J7wFb0EaM0BrjPP1LngZ+Y/hLyCL5fLOpgUIq5
+	PC9qU947jQNXSMwIhZH9m0pEOr2oh0e7gc/lkloPcuXT8KvYurmouXiBZtWGckZkylCPKF+vBcR
+	BsWTiLCLOSJwHbkY4ERiZC7d+mD6Z1t7cnk3ARqW+g9On4qLyjq2VZjkZZ075pmnCG9u9cSdNoB
+	+MlK9+2Qg7oruVaw71Q+5vB/IP+mqHsMW/IQfpTUZP7dsNVuLRkjjFNlA0AlB/k00fvyqjIDT3s
+	Xm13e4tmbHYaS1OK6QLgpu0uTLcuRaoPexclD5P06U4sOhg8/BvSYecny8keDGaaK9PyhpE9Gak
+	JPFexOsjnaWwRl470fLpPa6PRyM7Rc3oo95Ujng/GZd02F6XuQiJTPstD4gZ15hS+2p1UgOO5jS
+	mvgPFtwTHA6p6zRRepUNI13dJI37SPqIkK9PmWCx6wCLACFJ7vMZxwFTENGjpWid6Qd8q9RMyjG
+	P/Z6UzjtFvYxlw3aM5wEEx2CYvCVV6mVto09yUVDvDy
+X-Received: by 2002:a17:90a:e704:b0:39a:e002:f192 with SMTP id 98e67ed59e1d1-39dec0d27f3mr13913010a91.22.1789458725101;
+        Tue, 15 Sep 2026 00:52:05 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39dfdb3045bsm4141912a91.17.2026.09.15.00.52.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Sep 2026 00:52:04 -0700 (PDT)
+Message-ID: <b5df5eee-661e-4f46-9abf-1bd9cec8069d@gmail.com>
+Date: Tue, 15 Sep 2026 16:52:03 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH v2] docs: sphinx-pre-install: warn about unsupported
+ Docutils versions
+To: Masaharu Noguchi <nogunix@gmail.com>
+Cc: Chen Miao <chenmiao.ku@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <20260914-docs-sphinx-pre-install-docutils-v2-1-6a2a6deedd19@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20260914-docs-sphinx-pre-install-docutils-v2-1-6a2a6deedd19@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260915-rva23u64-hwprobe-v2-v7-11-aa35ebd9ae96@oss.qualcomm.com>
-References: <20260915-rva23u64-hwprobe-v2-v7-0-aa35ebd9ae96@oss.qualcomm.com>
-In-Reply-To: <20260915-rva23u64-hwprobe-v2-v7-0-aa35ebd9ae96@oss.qualcomm.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
-        Chen Wang <chen.wang@linux.dev>, Inochi Amaoto <inochiama@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>,
-        Conor Dooley <conor@kernel.org>, devicetree@vger.kernel.org,
-        spacemit@lists.linux.dev, sophgo@lists.linux.dev,
-        linux-kselftest@vger.kernel.org, Palmer Dabbelt <palmer@sifive.com>,
-        Andy Chiu <tchiu@tenstorrent.com>, Florian Weimer <fweimer@redhat.com>,
-        Peter Bergner <bergner@oss.tenstorrent.com>,
-        Zihong Yao <zihong.plct@isrc.iscas.ac.cn>,
-        Mark Harris <mark.hsj@gmail.com>,
-        Aurelien Jarno <aurelien@aurel32.net>,
-        Guodong Xu <guodong.xu@oss.qualcomm.com>,
-        Andrew Jones <andrew.jones@oss.qualcomm.com>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5107;
- i=guodong.xu@oss.qualcomm.com; s=default; h=from:subject:message-id;
- bh=hAXGf3fwKFEiB3f4/YXlhsIaiotd9AUAeVeNMwuOMCQ=;
- b=owGbwMvMwCXWtEl1Z3CGpCDjabUkhqwVH7YpVSuJte9Zvqye67H+4vxXO2sv8DXe11vvPKvAz
- K5jldmljlIWBjEuBlkxRZbDR1uyt77yifZ9zvkDZg4rE8gQBi5OAZjI9yBGhifdP94cOHHwtdIF
- NvV1l00OBU1YXDvX8duRD6KLxEN1krgZGR7811SWUZ3wqXElB7PmRZ5JE2Yy20bnNv1eNPOccrF
- 8GBMA
-X-Developer-Key: i=guodong.xu@oss.qualcomm.com; a=openpgp;
- fpr=90B1DC3DF0BD10FD1227BD6344F254AF42F143EE
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDEwMiBTYWx0ZWRfX/hRvnArvUuxK
- f5SrO5TZfqTIVmPqaLCdT3x8OupeKtpYlGIA+JYjc87UHo/108qlhm7pD78x582pp56l323JfVH
- 7SxUa+2eszJvMsYGtwQHkeSNd7MEjDE=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDEwMiBTYWx0ZWRfX3KTED/e6Lyos
- 2VkTB0NYI/QY+pPXMhXRZjWosTQkLI1TffMZq6iDSwJbWDHfJa01DGXe/9ujHnxntAq1Y0jt8Hg
- zgkwcGFwsS53TKCCWiiEIYU8Mp1VbyHUGgDd5Gbps5FiuyPr6xFV8WW0bDTB99zk2WrA+WpGu6T
- dtsJ877VQbYF9UgYxgao3aadrrJdEvV2mZEdZCvgPORWU7IFzo+LPThwLzWGk0Eg1+y4OzAKeOc
- G/xtRcbChd3FD9VU7zDV9HTGB3wCUPPYhgFGlJTMbaEH/ErGAUtsl0v3XK8E18ccnFrJbG8aeMh
- biG5OGjEEEG/EU1ClAdPXFlb3vb7of1mPqk8ACZzRbolCKNv2i3eom7L0D5YfXqjgbXhuTpqFvn
- Ko8BU9QZRHekWYKUguBiDN8NZmXZl2QfB26zya7O7rmNw2sDy3XvkCzY/Vel1oV2aGU+ODh/sKT
- 3JiVlR6VqAb8GzQEj9w==
-X-Authority-Analysis: v=2.4 cv=PKKaavqC c=1 sm=1 tr=0 ts=6aa8f11d cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
- a=jBCMAwuHs6T3S2td1yAA:9 a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-GUID: HwLuv8awhy_ef1dl4Dd0iM0yaWapMLtu
-X-Proofpoint-ORIG-GUID: HwLuv8awhy_ef1dl4Dd0iM0yaWapMLtu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-15_02,2026-09-14_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 malwarescore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 phishscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609150102
 
-Provide a hwprobe base-behavior bit so userspace can check RVA23U64
-support in one call.  Without it, a consumer needs five hwprobe
-calls and four prctl calls, which is error-prone to require of every
-caller.  Most software treats RVA23U64 as a new base anyway, so
-expose it directly.
+Hi,
 
-Signed-off-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
-Signed-off-by: Guodong Xu <guodong.xu@oss.qualcomm.com>
----
-v7: Use riscv_isa_base_available().
-v6: Rebase onto riscv/for-next: define
-    RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64 in the _BITULL() style of
-    commit 8da45c93dfa9.
-v5: No change.
-v4: No change.
-v3: No change.
-v2:
-- Detect RVA23U64 by reading from the cached hart_isa[].isa_bases
-  bitmap populated by riscv_init_isa_bases() at init time, sharing
-  one source of truth with /proc/cpuinfo.
----
- Documentation/arch/riscv/hwprobe.rst               |  8 ++++++++
- arch/riscv/include/uapi/asm/hwprobe.h              |  3 ++-
- arch/riscv/kernel/sys_hwprobe.c                    | 23 +++++++++++++++-------
- tools/testing/selftests/riscv/hwprobe/which-cpus.c |  2 +-
- 4 files changed, 27 insertions(+), 9 deletions(-)
+On Mon, 14 Sep 2026 19:35:40 +0900, Masaharu Noguchi wrote:
+> Sphinx declares the range of Docutils versions it supports, but that range
+> does not always describe what its LaTeX builder can take: a distribution
+> may relax the upper bound to ship a newer Docutils, and Sphinx 9.0.x
+> declares support for a Docutils its LaTeX builder cannot cope with. Either
+> way the pair installs happily and htmldocs builds without a complaint, so
+> nothing looks wrong until pdfdocs is run, where four of the books fail:
+> 
+>   ! Dimension too large.
+>   \fb@put@frame ...p \ifdim \dimen@ >\ht \@tempboxa
+>   l.86321 \end{sphinxVerbatim}
+> 
+> That is arch, core-api and translations; admin-guide runs out of TeX
+> memory first and stops 13 pages in, and fails on the same boxes once given
+> more.  Each of the four includes a large literal file whole; the one in
+> core-api, memory-barriers.txt, is 3016 lines.  Docutils 0.22 is what puts
+> those blocks into sphinxVerbatim rather than sphinxalltt, and
+> sphinxVerbatim is framed, so they hit the size limit of
+> sphinx-doc/sphinx#3099 [1] -- open since 2016 and fixed only in Sphinx
+> 9.1.0.  None of the three is at fault on its own: it takes the Docutils
+> version, the Sphinx version and blocks this large.
+> 
+> Keeping everything else fixed -- one Debian 13 container, one TeX Live, an
+> unmodified texmf.cnf, one kernel tree -- and varying only the two Python
+> packages:
+> 
+>   sphinx   docutils   core-api   admin-guide
+>   ------------------------------------------
+>   8.2.3    0.21.2     ok         ok
+>   8.2.3    0.22.4     FAILS      FAILS
+>   9.0.4    0.22.4     FAILS      FAILS
+>   9.1.0    0.22.4     ok         ok
+> 
+> The 9.0.4 row needs no help from a distribution: 9.0.0 through 9.0.4
+> declare "docutils>=0.20,<0.23" themselves, so a plain "pip install
+> sphinx==9.0.4" resolves Docutils to 0.22.4.  Fedora 44 reaches the same
+> state from the other direction, shipping Sphinx 8.2.3 -- which declares
+> "docutils>=0.20,<0.22" -- patched to accept "<0.23".  Upstream ships this
+> sort of work in a new minor rather than backporting it -- the Docutils
+> 0.22 support went out as 9.0.0 after a backport to 8.2.x was asked for and
+> declined [2] -- so neither 8.2.x nor 9.0.x will grow the #3099 fix in a
+> point release.
+> 
+> Check for it, since sphinx-pre-install exists precisely to catch a
+> documentation build environment that will not work.  Ask the interpreter
+> behind sphinx-build for its Docutils version -- a venv and the system
+> install can differ -- and warn when Sphinx is older than 9.1.0 while
+> Docutils is 0.22 or newer, naming both ways out -- a newer Sphinx or an
+> older Docutils.  Only warn: the build is left to proceed, and htmldocs is
+> unaffected.  The bound Sphinx declares is no use here: it is either what
+> the distribution changed, or, for 9.0.x, wider than what the LaTeX builder
+> delivers.
+> 
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 32a14331eb9de..dc70470093b1b 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -67,6 +67,14 @@ * :c:macro:`RISCV_HWPROBE_KEY_BASE_BEHAVIOR`: A bitmask containing the base
-       programs (it may still be executed in userspace via a
-       kernel-controlled mechanism such as the vDSO).
- 
-+  * :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64`: Support for all mandatory
-+    extensions of RVA23U64, as defined in the RISC-V Profiles specification
-+    starting from commit 0273f3c921b6 ("rva23/rvb23 ratified").
-+
-+    The RVA23U64 base is based upon the IMA base and therefore IMA extension
-+    keys (e.g. :c:macro:`RISCV_HWPROBE_KEY_IMA_EXT_0`:) may be used to probe
-+    optional extensions.
-+
- * :c:macro:`RISCV_HWPROBE_KEY_IMA_EXT_0`: A bitmask containing extensions
-   that are compatible with the :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_IMA`:
-   base system behavior.
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 9a121ee3b4369..4f5d51788c416 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -22,7 +22,8 @@ struct riscv_hwprobe {
- #define RISCV_HWPROBE_KEY_MARCHID	1
- #define RISCV_HWPROBE_KEY_MIMPID	2
- #define RISCV_HWPROBE_KEY_BASE_BEHAVIOR	3
--#define		RISCV_HWPROBE_BASE_BEHAVIOR_IMA	_BITULL(0)
-+#define		RISCV_HWPROBE_BASE_BEHAVIOR_IMA		_BITULL(0)
-+#define		RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64	_BITULL(1)
- #define RISCV_HWPROBE_KEY_IMA_EXT_0	4
- #define		RISCV_HWPROBE_IMA_FD		_BITULL(0)
- #define		RISCV_HWPROBE_IMA_C		_BITULL(1)
-diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-index 656cb100ac489..51a85e61088bf 100644
---- a/arch/riscv/kernel/sys_hwprobe.c
-+++ b/arch/riscv/kernel/sys_hwprobe.c
-@@ -223,6 +223,17 @@ static bool hwprobe_ext0_has(const struct cpumask *cpus, u64 ext)
- 	return (pair.value & ext);
- }
- 
-+static bool hwprobe_has_isa_base(const struct cpumask *cpus, unsigned int base)
-+{
-+	int cpu;
-+
-+	for_each_cpu(cpu, cpus) {
-+		if (!riscv_isa_base_available(hart_isa[cpu].isa_bases, base))
-+			return false;
-+	}
-+	return true;
-+}
-+
- #if defined(CONFIG_RISCV_PROBE_UNALIGNED_ACCESS)
- static u64 hwprobe_misaligned(const struct cpumask *cpus)
- {
-@@ -305,14 +316,12 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 	case RISCV_HWPROBE_KEY_MIMPID:
- 		hwprobe_arch_id(pair, cpus);
- 		break;
--	/*
--	 * The kernel already assumes that the base single-letter ISA
--	 * extensions are supported on all harts, and only supports the
--	 * IMA base, so just cheat a bit here and tell that to
--	 * userspace.
--	 */
- 	case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
--		pair->value = RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
-+		pair->value = 0;
-+		if (hwprobe_has_isa_base(cpus, RISCV_ISA_BASE_IMA))
-+			pair->value |= RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
-+		if (hwprobe_has_isa_base(cpus, RISCV_ISA_BASE_RVA23U64))
-+			pair->value |= RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64;
- 		break;
- 
- 	case RISCV_HWPROBE_KEY_IMA_EXT_0:
-diff --git a/tools/testing/selftests/riscv/hwprobe/which-cpus.c b/tools/testing/selftests/riscv/hwprobe/which-cpus.c
-index 587feb198c049..f8c797b1d0fd9 100644
---- a/tools/testing/selftests/riscv/hwprobe/which-cpus.c
-+++ b/tools/testing/selftests/riscv/hwprobe/which-cpus.c
-@@ -105,7 +105,7 @@ int main(int argc, char **argv)
- 	pairs[0] = (struct riscv_hwprobe){ .key = RISCV_HWPROBE_KEY_BASE_BEHAVIOR, };
- 	rc = riscv_hwprobe(pairs, 1, 0, NULL, 0);
- 	assert(rc == 0 && pairs[0].key == RISCV_HWPROBE_KEY_BASE_BEHAVIOR &&
--	       pairs[0].value == RISCV_HWPROBE_BASE_BEHAVIOR_IMA);
-+	       (pairs[0].value & RISCV_HWPROBE_BASE_BEHAVIOR_IMA));
- 
- 	pairs[0] = (struct riscv_hwprobe){ .key = RISCV_HWPROBE_KEY_IMA_EXT_0, };
- 	rc = riscv_hwprobe(pairs, 1, 0, NULL, 0);
+As this is expected to be resolved in Fedora 45, I didn't see much
+point in adding this warning.  I now see Ubuntu 24.04 LTS has the
+problematic pair of Sphinx and docutils ...  So it might be worth
+to have. 
 
--- 
-2.43.0
+That said, with your approach, under a build env with a problematic
+pair, this is what you'd see in "make htmldocs":
 
+$ make htmldocs
+Warning: Sphinx 8.2.3 with Docutils 0.22.4 produces
+   broken LaTeX for the large literal blocks in this
+   documentation: pdfdocs will fail. Building them needs
+   Sphinx 9.1.0 or later, or Docutils below 0.22.
+   HTML builds are unaffected.
+[...]
+
+I think this can annoy people who only care HTML docs.
+
+Why not do this check after the PDF doc builds have actually failed.
+
+That is what sphinx-build-wrapper is doing with LatexFontChecker().check()
+(see line 557 of tools/docs/sphinx-build-wrapper), which is to
+show the way to work around PDF build errors caused by "variable font"
+flavor of Noto CJK fonts [3].  (Fedora and openSUSE have started to
+deploy such fonts in 2024.)
+
+[3]: https://bugzilla.redhat.com/show_bug.cgi?id=2271559
+
+Regards, Akira
+
+> [1]: https://github.com/sphinx-doc/sphinx/issues/3099
+> [2]: https://github.com/orgs/sphinx-doc/discussions/14055
+> 
+> Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
+> ---
+
+[...]
