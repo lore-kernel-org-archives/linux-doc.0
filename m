@@ -1,109 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216533B7767;
-	Tue, 15 Sep 2026 09:05:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF74466AE6;
+	Tue, 15 Sep 2026 09:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789463114; cv=none; b=QpswTbO0VXWOZnquWBfxMjyjpUsdkXyEf8/SFGeDYc3bVsxA/bkfYXH5P/qDQG6T6+uyGHXXDxlaDeDzXucSf1LNXVVTDb1kAaX2bHK4a8XdkiAQmLICRmoDBV/usAZMIFTH0NzHMnYT2XWkzLwhCTxMsdOa/TEmjJnOyo7PWA0=
+	t=1789463514; cv=none; b=TwyCp0z0QmLv8NNz0YFA0U8zFG9jltEdMzNg7PB3HWx4gkDUDvGVM868NxDbMSo3mJ7lk/0UiX0gGSnfspu93ChZgiHYkUTMKnxAjml2k/BTP61GvVAFSQm2/VNRE67JqZaxy/nP/bSWb3PU/l6LRuAN9lSpTy+NuBWoREDXWhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789463114; c=relaxed/simple;
-	bh=y/vUqzrKeu/r7XdZR4ORRSmgFmJFbw3RdKT2VQhAyi0=;
+	s=arc-20240116; t=1789463514; c=relaxed/simple;
+	bh=J6KfTbZZsfezM0agr1fPfH3MsGi/UPS3jgcNYXWsm5o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nAlKNXgeSr5HldrPKrDktYPLQ1yj97EVJHfyeH3a444iYoLmtrtfD5/bNiDLonrtFScA98MCv9uNzLi/8ke5vodoYILlcy9qAfjiuzQcDzO5ZLYYAEe+mH4M4gyzjlbBv3unD1Ah2xIL3XCN1dPp919XMh9MbCWkEJPdPwDhFqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JOmntclh; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JOmntclh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1876F1F000FF;
-	Tue, 15 Sep 2026 09:05:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789463112;
-	bh=DJ0y64alg7jGYdmLdKrHS632yEcH2PEJo6faH44x4cU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JOmntclhVD5AGN4cYEQa6rgCkMfFEXrRaYFqUBZbQ8f4ogIEybqKN4tGn8UpWi49/
-	 YsUNjkl0/8sAv4SUgDrSMUckib1MqTiVA24YdqbSyZEB8jEHdn+ui+P21Ob478ONXE
-	 cK5c+CW4I0nqFreZIMp8bm/qa1lyZFQC4Bt2l2eIBntnBNtzF0R4UJDy/koOM0JkBH
-	 x5cLquISXKUrmsQ599V6spaFG3prgfqiqRuoHlNlMbNmoPZBDxPYrnlkrU9gIrOG4l
-	 lAtt7U+RYboJicMyBeVofxR613HxXjxqr0iqPZ1GJDzDpJr92EFGWE0q5Pqa0O+W7v
-	 EJC29/N/KFu6Q==
-Date: Tue, 15 Sep 2026 09:05:10 +0000
-From: Yixun Lan <dlan@kernel.org>
-To: Troy Mitchell <troy.mitchell@linux.dev>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+	 Content-Type:Content-Disposition:In-Reply-To; b=GG9cnLlFUCz0QodH8N6Jtvs/C36jTvYUWBLEQvFJDHDlsY97Q/7X5Bglw06SLfkfBrWugJErFQrgskK+y33RX9DVfIedOP8hdht1K4gibr2w7Zq0IYzziclgEohJRCncGM9zNY2VFkWd4Cowb2VJu1du/E6/7NWeymNGuqfGAKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 40A2E68C4E; Tue, 15 Sep 2026 11:11:47 +0200 (CEST)
+Date: Tue, 15 Sep 2026 11:11:46 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Md Haris Iqbal <haris.iqbal@linux.dev>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 6/6] riscv: dts: spacemit: Add CTF2301 on K3 CoM260
-Message-ID: <20260915090510-GKB266329@kernel.org>
-References: <20260914-ctl2301-v5-0-b44b81cd2c3c@linux.dev>
- <20260914-ctl2301-v5-6-522def70acb4@linux.dev>
+Subject: Re: [v2 for-next 2/3] block: allow error injection rules to delay
+ bios
+Message-ID: <20260915091146.GC15715@lst.de>
+References: <20260830012002.80275-1-haris.iqbal@linux.dev> <20260830012002.80275-3-haris.iqbal@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260914-ctl2301-v5-6-522def70acb4@linux.dev>
+In-Reply-To: <20260830012002.80275-3-haris.iqbal@linux.dev>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Hi Troy,
+The delay does look fine, but I'd really like to not use up one of the
+scare bio flags for it.  Can we insist on the delay only working for
+an error, so that we never have to reinsert?
 
-
-On 16:18 Mon 14 Sep     , Troy Mitchell wrote:
-> Enable I2C6 on the K3 CoM260 module and describe the Sensylink
-> CTF2301 temperature sensor and fan controller at address 0x4c.
-> 
-> Override the I2C6 pin power source at board level because the IO rail
-> voltage is board-specific.
-> 
-> Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
-> ---
->  arch/riscv/boot/dts/spacemit/k3-com260.dtsi | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-
-Reviewed-by: Yixun Lan <dlan@kernel.org>
-
-> diff --git a/arch/riscv/boot/dts/spacemit/k3-com260.dtsi b/arch/riscv/boot/dts/spacemit/k3-com260.dtsi
-> index 37627963a6492..92dea86397798 100644
-> --- a/arch/riscv/boot/dts/spacemit/k3-com260.dtsi
-> +++ b/arch/riscv/boot/dts/spacemit/k3-com260.dtsi
-> @@ -58,6 +58,23 @@ serial-number {
->  	};
->  };
->  
-> +&i2c6_1_cfg {
-> +	i2c6-1-pins {
-> +		power-source = <3300>;
-> +	};
-> +};
-> +
-> +&i2c6 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&i2c6_1_cfg>;
-> +	status = "okay";
-> +
-> +	temperature-sensor@4c {
-> +		compatible = "sensylink,ctf2301";
-> +		reg = <0x4c>;
-> +	};
-> +};
-> +
->  &i2c8 {
->  	pinctrl-names = "default";
->  	pinctrl-0 = <&i2c8_cfg>;
-> 
-> -- 
-> 2.55.0
-> 
-
--- 
-Yixun Lan (dlan)
