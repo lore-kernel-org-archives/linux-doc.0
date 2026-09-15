@@ -1,78 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F6417BCA;
-	Tue, 15 Sep 2026 22:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D386333064D;
+	Tue, 15 Sep 2026 22:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789511146; cv=none; b=gu5Pzs/U6OWSWiJoAnaTt2S5s4EE5TWWfOAq0V3gCQZdSIrKKwjnr1nd8Zp6G994hls0+SqW/v9R9gprBV2+xz1yBewMrTdT5Fl04E/+MJBQD/i86lepHAMGb6YDK4dr8dllv3JAKLyHiViCKjHT+GQnUHHry1vRS6dyfq+PxBs=
+	t=1789512429; cv=none; b=uHLNQv/XUY1nV2COu4Gj40lRVXCgCUNyoVNehnmwtViHIy19dhJKIPrOxsh0PbS+b5azmIpCISlwtAJDRdGvvyx6lp4vTMPMoZIcyZ8xrFETGBquaAz/EHkaf0J2p6R3epioPxEkhfV0MA9F2o5ZoRmPbDLVNEAmZTS1vGgqhFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789511146; c=relaxed/simple;
-	bh=WmWs9jPf1QhIbh0wratZlEyglAqvOhfdXBCOK1ktGew=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lCCAJtC3Kvxo+okshAbGQjefA1C5eUhjCEosP1ryELOAgujvJdZcXsWV5udW6bhdY6IdqB5tni1AgtKW1h8RZtJ3Q5+xhcWCanaoeqqYbuM8brhhubwj8bSrvFXzCtSyMlO8jONoaRMMIfaCoAt0aDhNw/4WnT+uzlB7k+LGm6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i5IXNL+f; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789512429; c=relaxed/simple;
+	bh=09bEKkrAQ6evoRQnE+/6I6r4zrScGTzu6bRQiAt7xeY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U6/jfhWImpqHUnfwv39z6VNOBneXTDjo+MPr1Ilk+6JvKpLQjWsvRrD5WR/jxLdpntyOQa3Q1qMQMOcAmX5/1+s2v3HY123vHfA4SL2HTFrJRHG1l1fkK31pIDKP7eo3WTears8Zk7EHHPI4LokxAHf/FGOInX/v8EccPIh9niY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=UOdbI1PU; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i5IXNL+f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EC881F000FF;
-	Tue, 15 Sep 2026 22:25:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789511145;
-	bh=2kecQaR0F7g0/H9mop9k/ZA1PCRux2SHgqjXnuf3tgU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=i5IXNL+fVFTtOFiiRyVTkNuytpziNyfhPeJrdEo9rSE5W+iLdKiE3IJQYf+PtFR2x
-	 wTtpo6KRfyPuBDuWwyIB7v1BQAfmCl05JRLSWdlBCiZaDhMw3UucXQudZ3qG3tvEHW
-	 rbPFfmhXJf2YcVEeeN/pggWtlHx9N64OBke0aa+ueA0xGpd5MP/L8Z8VME3U24tApq
-	 TmPswHCzQD0LWELmWVs6W+hyy9+dKlpg08xPNt8/a4EorHlXr4r1aTMKNKrhKWVuPr
-	 2+BB4KwfZNPp+HgbCIq/92kvRyWg/hMn3yeb7u0Ck3LVPGzLWjmyjUSggfDR4Eu3k2
-	 z6n1C3Y21E0pQ==
-From: Oliver Upton <oupton@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Fuad Tabba <fuad.tabba@linux.dev>,
-	Mark Brown <broonie@kernel.org>
-Cc: Oliver Upton <oupton@kernel.org>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Leonardo Bras <leo.bras@arm.com>,
-	Wei-Lin Chang <weilin.chang@arm.com>,
-	Yao Yuan <yaoyuan@linux.alibaba.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH v20 02/14] KVM: arm64: Fix FGT mapping for HFGITR_EL2.nGCSEPP
-Date: Tue, 15 Sep 2026 15:25:32 -0700
-Message-ID: <178951103683.10790.7238421458148276106.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260901-arm64-gcs-v20-2-f31750bdfadb@kernel.org>
-References: <20260901-arm64-gcs-v20-2-f31750bdfadb@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UOdbI1PU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=xOQT/3q2OYyCT4rjMqHcsKLwm9oUZFfMFiMm4p6KLC0=; b=UOdbI1PULOKFgQAcQ+Nf3vezGJ
+	dJNwppl2Od0Xe0VBQNzp5dV8/rUhortlGp0SfhG6VzHRRqFZKHM4jQd6S8r7gL/Ip37thgbFilowE
+	XKsJ+IP4bGzX6nCAesqCUuplp+uFrwAYo0OZAdJu4jYSJgzcSUdcGyriduiqqJW25wn1tPq7UcwY4
+	1SLFSsF6MPdLZHZ5tGMSxzLEYV+GjwPrQDvRi8Fnxd80BgCGHtSGrWIvtS+QUFJ3WvQP/R10vwTRN
+	d/IcaGMnVz1mubHBxWdshKM0q8FkGzTFVl+WvxrmXX70NqiFb2S/o5Qds0toL2RmuqPP8sqDIVLhO
+	MX1sE59A==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x6bvZ-000000082HU-2IjM;
+	Tue, 15 Sep 2026 22:47:01 +0000
+Message-ID: <fa9f518f-e10a-41e4-99ba-b281741c22db@infradead.org>
+Date: Tue, 15 Sep 2026 15:46:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: power/cpuidle: Fix repeating phrase
+To: Syazwina Fazrul <norsyazwina.fazrul@gmail.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Christian Loehle <christian.loehle@arm.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260915220105.14655-1-norsyazwina.fazrul@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260915220105.14655-1-norsyazwina.fazrul@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 01 Sep 2026 22:47:00 +0100, Mark Brown wrote:
-> The encoding to trap mapping currently maps a FGT on OP_GCSPOPX to
-> HFGITR_EL2.nGCSEPP but as per DDI0601 2026-06 this FGT controls trapping
-> of GCSPUSHX and GCSPOPCX, and not the separate GCSPOPX instruction.
-> Update the mapping to reflect the architecture.
+
+
+On 9/15/26 3:00 PM, Syazwina Fazrul wrote:
+> remove repeating 'with the' phrase
 > 
+> Signed-off-by: Syazwina Fazrul <norsyazwina.fazrul@gmail.com>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
+> ---
+>  Documentation/admin-guide/pm/cpuidle.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/Documentation/admin-guide/pm/cpuidle.rst b/Documentation/admin-guide/pm/cpuidle.rst
+> index be4c1120e3f0..e91ebd432f6f 100644
+> --- a/Documentation/admin-guide/pm/cpuidle.rst
+> +++ b/Documentation/admin-guide/pm/cpuidle.rst
+> @@ -316,7 +316,7 @@ interval" value.
+>  
+>  Now, the governor is ready to walk the list of idle states and choose one of
+>  them.  For this purpose, it compares the target residency of each state with
+> -the predicted idle duration and the exit latency of it with the with the latency
+> +the predicted idle duration and the exit latency of it with the latency
+>  limit coming from the power management quality of service, or `PM QoS <cpu-pm-qos_>`_,
+>  framework.  It selects the state with the target residency closest to the predicted
+>  idle duration, but still below it, and exit latency that does not exceed the
 
-Applied to fixes, thanks!
-
-[02/14] KVM: arm64: Fix FGT mapping for HFGITR_EL2.nGCSEPP
-        https://git.kernel.org/kvmarm/kvmarm/c/089e4f3c4862
-
---
-Best,
-Oliver
+-- 
+~Randy
