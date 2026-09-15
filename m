@@ -1,125 +1,127 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-43.ptr.blmpb.com (va-2-43.ptr.blmpb.com [209.127.231.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7574AD7D7
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 15:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CCC4A843F
+	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 15:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789486948; cv=none; b=ntYb3vvG55zc28l4KUxSpTtTGZ52WxhJLRfolP2kyfB7pOoqInFF9rFWG05FpP74lB52hdA3b4UElAQ0fSVTRAjOBtGxtpwMcDo7MSh5p/iVucV+8RaMPvV689jVl0QUFoQGGJu3u1UCHliMVLT1HQxQM3OX7lqxu38UyjuTFV8=
+	t=1789487041; cv=none; b=Bhjv5lOcTIwmzLrSmRWUcggCc4KxY6TnICHjE//kTAWf9lNJixp/FQmiHPwHWBcp8bAuUo6PRUrlt0amRheSwNJeO9BdiYoimwSkOdHqbyHvcWfgxXDneKUP0IbCXtL+9JwLLoNH8y3glVa3ieE8ItdA1lQ3BOAaS9jlzx89Er4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789486948; c=relaxed/simple;
-	bh=E+BuIG99Fs3gW60ZhBJoousphtXqpfMPQp9AyvW4hbQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tc7d4JJg2FPELzQQYeF/vFssM7XBSRdY+Ix6aZNDSqmXdUpKq0gDgmNjmwpQePNoNyv1XrezyTmR+vW03ceCB7eLbW5aB2H2pWHJMrhmapuS04hmytxjh0U7SFdwJLPn7DjIAupMX5jXqlktmG6sr4SC1g1TTlRfwcrpdo4FHWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PxHIBRno; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=DlOX6hOI; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1789487041; c=relaxed/simple;
+	bh=X0OA0zd3t2u7iXfF0yPqLYpX2BIJuMIZZ+1R/TrabeE=;
+	h=Date:In-Reply-To:Mime-Version:References:Content-Type:Cc:From:
+	 Subject:Message-Id:To; b=qDOqFLnUPfYS3ONY00izy4irETOjz6C9JRo5e1C29mGDAJgT2gUln6YkF8GvLm8eUZMz2vAqLJplJmz58/IpOVPgd8pPCZ6Rtsf7u/AcGTO6w+ZYJEpaxWfMCYZQIb82qB3BHBJksHtGhys5wTicbQ4zVdPnhY1le4kFTvdwKiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io; spf=pass smtp.mailfrom=fygo.io; dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b=Yxfwj8cU; arc=none smtp.client-ip=209.127.231.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fygo.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PxHIBRno";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="DlOX6hOI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789486945;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=piCn16bJNZqtD+Ea5Vr8Xw4q1fEfx3gnyjZeao+goZc=;
-	b=PxHIBRnoQ4pGw3F/jX2cLQ2uc4y3Ys59EJmn9NVhE85Eq3bGd1Rt0cLPGsMbmZsjPdz6pY
-	MFlwKs5Wq6qxOI26Kp3uWVJpn6RInBA9BtVopB8vlxFNknADn4SQfG3fUudGM5nwZxRxUR
-	/+DuWVIePu6CeI9u+VsY7eakgck1kWM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-221-le5eieW9NUiHPmgakNa3zA-1; Tue, 15 Sep 2026 11:42:22 -0400
-X-MC-Unique: le5eieW9NUiHPmgakNa3zA-1
-X-Mimecast-MFC-AGG-ID: le5eieW9NUiHPmgakNa3zA_1789486941
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-49e64b80b94so27066675e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 08:42:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1789486941; x=1790091741; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=piCn16bJNZqtD+Ea5Vr8Xw4q1fEfx3gnyjZeao+goZc=;
-        b=DlOX6hOIOTQudbeylDTBlu/1eLr9D/e5UdJ9lUKctUFbOHE1dWtRspL03jEZThfnZK
-         2r9x2G6W/KEs+Taf4kKG4JW04VUulVg06CzD60FHprlShrmlQBgygtTPIfwi23cu+CJn
-         WUXykqvUdumij86ZGAFuDTDMOhs77zJSQAgidBG6cAb1/40T6XBMmY6L86zK1nS9NZqV
-         X7NqNE0mQdI+pah/MqDGkf1n/BO8uRmbebbrYyS6C9PwdtL3QxWpVsw2vj2cdA83uyoB
-         aWY+SuOz1WLFZy8WQ00FwStPAcp3qcZk7ThKX4P2+r9UYRi5FJmngKRxfMQeKB9amC8G
-         v0cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789486941; x=1790091741;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=piCn16bJNZqtD+Ea5Vr8Xw4q1fEfx3gnyjZeao+goZc=;
-        b=hOY4Vitev99mpIf7iI3ddtpp7uDeG8s6owu89fq+4JJHr17TiYJlgPrqJdcc1VOgP7
-         nmCv+vj4RCBpqoW2Jf9sLqr9RC/e/VfFYu14AHySQ2Lc7PN/wug+ySQcVK2DslnUeda6
-         MQ2fIQilwR7uwzLWNn73k8wtVZOppM4PmYIQbRJ/pzrXPgAf3YUhrrstcK453MwqwqPJ
-         j/0Lch/xsDYlBEGGxxh1qqFFzu0gAaYIAJG3a55hAkkWWTlj0hDiRf6t62hB089f3UMs
-         xrJyOLhWC9a42OXxCqjfa086kse4P/5l1OTq1DYIOQ6cPoCsq0vsuvfDX8MwR180E+n6
-         FGyQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwBcrV/X6suu8Ty88Y1pNpz6Yhl5w4CzK0MLVxW39BqkQ7wMZdCw04exAF79o1zuc6veQOUSX7nIig=@vger.kernel.org
-X-Gm-Message-State: AFuF++lWYlh1Z3iXyL/Jxd3mcK5pSUDZeryPEcNdjjIG62IBve0+6h3A
-	0oxaAy1E1JusT45xjEYjOk1LIQ0sSeMHvtwV8LLT2x6s82LdTdab4MTpIYpKoziQpLdVbuGws8b
-	AoQOHRuCkydNp5+u2C+oSlzX8u6CYoyatUNfyIPUx2zBUq+2PlRUL+vb1MsAupA==
-X-Gm-Gg: AYBFou3b3ymkcuYSUdYXbMIKBzSLrHUrLKRZR1m80Av2s9HcLwmjT0Lc6k/e6rz/RMa
-	QMEbN+Dq0RVxzcZYDTGKQXa0ctWp2BsnsT9ZtcZfGmbeb2r2Jbt6JA98biwkE5nUXT0qm0N1e7v
-	s/pMeH/tdWW6uIAmqwGmaQ4TU4Q71rgermXiskAYNsJiv+kLiMxwHHZJucj3dTvFB65ulVwpW6a
-	kI3nSc1SntkQt6zutrin81UOBSvQgGBIcfaFkv8i3WJQUBmlAJS2pvEzRf9hegeLTqpNrOn6MiH
-	BG4SVghYDRdyIvy/Jk1Wz8WgF217QhMx/cHgA/30EJYXWWst0u989MkSG4FdqITo22HRH/Y/yRp
-	1tmgzxohNqxUOfLYrStFjTrSiZ9uoToalso9Bo9YOhXsdXw==
-X-Received: by 2002:a05:600c:8b74:b0:49c:ee20:e787 with SMTP id 5b1f17b1804b1-49e7a658021mr197080955e9.1.1789486940752;
-        Tue, 15 Sep 2026 08:42:20 -0700 (PDT)
-X-Received: by 2002:a05:600c:8b74:b0:49c:ee20:e787 with SMTP id 5b1f17b1804b1-49e7a658021mr197079685e9.1.1789486940213;
-        Tue, 15 Sep 2026 08:42:20 -0700 (PDT)
-Received: from sgarzare-redhat (host-79-53-30-11.retail.telecomitalia.it. [79.53.30.11])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870b39ea31sm949332f8f.23.2026.09.15.08.42.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 08:42:19 -0700 (PDT)
-Date: Tue, 15 Sep 2026 17:42:17 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowangio@gmail.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, virtualization@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, sargun@sargun.me, jlinbox@meta.com, 
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next 1/6] vsock: constify the transport in
- vsock_for_each_connected_socket()
-Message-ID: <aqkcd_oMWK-QtXWQ@sgarzare-redhat>
-References: <20260902-vsock-guest-ns-v1-0-9995383e9a8b@meta.com>
- <20260902-vsock-guest-ns-v1-1-9995383e9a8b@meta.com>
+	dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b="Yxfwj8cU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1789487022;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=d0n1MM6xxPsL/QERF+JcaetyUJsQd2U/h4AXxBLwz/w=;
+ b=Yxfwj8cUnFaenowRxaFu7ujBz88KmMiwrPqOyEtY6KZc4/KQz4cV/ZtjypgMIhf0dG2Uad
+ 6g6MGTRY3tKrIxSxXvqAu5qt3BMoccdgG3hBtOlsZsePr6nKRM5o7U1EdtYm6DEbWtVQBI
+ WM92Ay6NSYf0X2LK2355OATd/dEsYA0u/CMQBtXoHf4B21rN+d/C7OtAPByvu/uEEG++16
+ pp4Rn4USo8LFuLM6R4KRW0n1ICP901jwzGYtcrg68abH3D+RbEZOATqpUFQANlaz7XtIEB
+ w0JSFBa6avJtYocfqxxBYQXyT6MyxrO7G73aMh85L3A+71SaK3HzCkh+IVHoSA==
+Date: Tue, 15 Sep 2026 23:43:32 +0800
+In-Reply-To: <20260915064950.GA13417@lst.de>
+User-Agent: Mozilla Thunderbird
+X-Lms-Return-Path: <lba+26aa967ad+4153f6+vger.kernel.org+yukuai@fygo.io>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260902-vsock-guest-ns-v1-1-9995383e9a8b@meta.com>
+Mime-Version: 1.0
+X-Original-From: yu kuai <yukuai@fygo.io>
+Content-Transfer-Encoding: quoted-printable
+References: <cover.1789237876.git.yukuai@fygo.io> <ef547fdb7a6c8e39a25a1b9473c444f24a0f03be.1789237876.git.yukuai@fygo.io> <20260915064950.GA13417@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Reply-To: yukuai@fygo.io
+Cc: "Jens Axboe" <axboe@kernel.dk>, "Josef Bacik" <josef@toxicpanda.com>, 
+	"Tejun Heo" <tj@kernel.org>, "Johannes Weiner" <hannes@cmpxchg.org>, 
+	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	"Jonathan Corbet" <corbet@lwn.net>, 
+	"Shuah Khan" <skhan@linuxfoundation.org>, 
+	"Randy Dunlap" <rdunlap@infradead.org>, "Coly Li" <colyli@fygo.io>, 
+	"Kent Overstreet" <kent.overstreet@linux.dev>, 
+	"Alasdair Kergon" <agk@redhat.com>, "Mike Snitzer" <snitzer@kernel.org>, 
+	"Mikulas Patocka" <mpatocka@redhat.com>, 
+	"Benjamin Marzinski" <bmarzins@redhat.com>, "Song Liu" <song@kernel.org>, 
+	"Li Nan" <magiclinan@didiglobal.com>, "Xiao Ni" <xiao@kernel.org>, 
+	"Andreas Gruenbacher" <agruenba@redhat.com>, 
+	"Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, 
+	"Andrew Morton" <akpm@linux-foundation.org>, 
+	"Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, 
+	"Kemeng Shi" <shikemeng@huaweicloud.com>, 
+	"Nhat Pham" <nphamcs@gmail.com>, "Baoquan He" <baoquan.he@linux.dev>, 
+	"Barry Song" <baohua@kernel.org>, 
+	"Youngjun Park" <youngjun.park@lge.com>, 
+	"Nathan Chancellor" <nathan@kernel.org>, 
+	"Nick Desaulniers" <ndesaulniers@google.com>, 
+	"Bill Wendling" <morbo@google.com>, 
+	"Justin Stitt" <justinstitt@google.com>, 
+	"Nilay Shroff" <nilay@linux.ibm.com>, "Tao Cui" <cuitao@kylinos.cn>, 
+	<linux-block@vger.kernel.org>, <cgroups@vger.kernel.org>, 
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-bcache@vger.kernel.org>, <dm-devel@lists.linux.dev>, 
+	<linux-raid@vger.kernel.org>, <gfs2@lists.linux.dev>, 
+	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>, 
+	<llvm@lists.linux.dev>
+From: "yu kuai" <yukuai@fygo.io>
+Subject: Re: [PATCH v2 2/3] blk-cgroup: store blkcg in bio instead of blkg
+Message-Id: <06e3c977-461c-4469-80ec-b9f54aa51eea@fygo.io>
+To: "Christoph Hellwig" <hch@lst.de>, "Yu Kuai" <yukuai@kernel.org>, 
+	"yu kuai" <yukuai@fygo.io>
+Received: from [192.168.1.104] ([39.182.0.142]) by smtp.larksuite.com with ESMTPS; Tue, 15 Sep 2026 15:43:40 +0000
 
-On Wed, Sep 02, 2026 at 04:00:47PM -0700, Bobby Eshleman wrote:
->From: Bobby Eshleman <bobbyeshleman@meta.com>
->
->Allow const transports to be passed too. The function only compares the
->pointer against vsk->transport, which is itself const, and never writes
->through it.
->
->No functional change.
->
->Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
->---
-> include/net/af_vsock.h   | 2 +-
-> net/vmw_vsock/af_vsock.c | 2 +-
-> 2 files changed, 2 insertions(+), 2 deletions(-)
+Hi,
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+=E5=9C=A8 2026/9/15 14:49, Christoph Hellwig =E5=86=99=E9=81=93:
+> On Sun, Sep 13, 2026 at 02:54:39PM +0800, Yu Kuai wrote:
+>> @@ -6243,10 +6245,17 @@ static void bfq_insert_request(struct blk_mq_hw_=
+ctx *hctx, struct request *rq,
+>>   	bool idle_timer_disabled =3D false;
+>>   	blk_opf_t cmd_flags;
+>>   	LIST_HEAD(free);
+>>  =20
+>>   #ifdef CONFIG_BFQ_GROUP_IOSCHED
+>> +	/*
+>> +	 * Pin the blkg used to look up bfqg.  If this is the first IO for
+>> +	 * the blkcg on this queue, create the bfqg before holding bfqd->lock.
+>> +	 */
+>> +	if (rq->bio && !bio_flagged(rq->bio, BIO_BLKG_REF))
+>> +		bio_blkg(rq->bio);
+> Can rq->bio be NULL here?  flush or empty passthrough request should
+> never enter the scheuler.
+Yes, rq->bio should never be NULL.
+>
+>>   	if (!cgroup_subsys_on_dfl(io_cgrp_subsys) && rq->bio)
+>>   		bfqg_stats_update_legacy_io(q, rq);
+> But I guess given that the code below checks it, we should at least
+> be consistent, so I guess it is better to keep it for now.
+>
+>>  =20
+>>   static inline void dm_bio_record(struct dm_bio_details *bd, struct bio=
+ *bio)
+>>   {
+>>   	bd->bi_bdev =3D bio->bi_bdev;
+>> -	bd->bi_flags =3D bio->bi_flags;
+>> +	/* Restoring an ownership bit cannot recreate the associated reference=
+. */
+>> +	bd->bi_flags =3D bio->bi_flags & ~(1U << BIO_BLKG_REF);
+> I have a bit of a hard time parsing this, the line also is overly
+> long.
 
+This is an issue found by AI, if the new flag is recorded to bi_flags, and =
+the flag can be
+restored to new bio by dm_bio_restore() without actually acquire a blkg ref=
+erence. And I
+checked this is the only place to read/write bi_flags directly in driver.
+
+--=20
+Thanks,
+Kuai
