@@ -1,140 +1,77 @@
-Received: from mail-10626.protonmail.ch (mail-10626.protonmail.ch [79.135.106.26])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E2C3D969D;
-	Tue, 15 Sep 2026 05:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191BF3911D5;
+	Tue, 15 Sep 2026 05:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789449793; cv=none; b=pRcLek2SBrv6fzEXQ9ycX2xFN2g2m7nEKdZ0+MzpNskjS/0vkVTYyj3zjEPrCSJOYzjASA7o2Lp32ZyXCvPLfg82kPfiRSlvHmprP9u7GedbPnU0Nib3okdLzFAXTdiRJomS5cYKq4aryt6lO+tZ0CA/errmCNT76DRy/7QlmLs=
+	t=1789449989; cv=none; b=QH7VgbtvaZQ+h7pdjzh5iDfLuPiM1NZBr7KpNqLgzHRWSDwtFEus4HbwWDcStZvLANCwQ/UiFdhrfqEIdyHOPeDWZd9tSdKrFHFEC6T3sP6FbmXuLnGZA50UCj6hQ2jPwTagoPWbS0Iqesa98T9OfLSvGPTuQiqKpDX63C5+cC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789449793; c=relaxed/simple;
-	bh=jyHf8WbXjIhWw5PDgBgJVPysvBHwJ+Gb90CwBkglMqE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=chYvRstPV/M+5U+7fcs8ZQjpvmyo4zya99C6UMOnZC29XMOBuC69ZDuB4+q1YXKP/NWxHXPAXqAxjatcBE4JrbADoL8d2wlJUL7FNCarSh9Brfe90lgn8pNa6EYz2QoE0+GezAUZph3JLwS8+wiWHHBFkHLB5ag8bMrUWQ0B3es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vasily.cc; spf=pass smtp.mailfrom=vasily.cc; dkim=pass (2048-bit key) header.d=vasily.cc header.i=@vasily.cc header.b=Ae8uSLrG; arc=none smtp.client-ip=79.135.106.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vasily.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vasily.cc
+	s=arc-20240116; t=1789449989; c=relaxed/simple;
+	bh=aP00zB2vwTB3f8YJgoYb84OWuA0nhfnOSanrcoTEzV0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cJs9KetVL2cUFOQsO6wM8y/BpdSXjT23YHae8G1QLNcQs0mGFVnq0ig0K16U4jhAKsC66/ilB2AibZhAxEtrRLYhwpeAECe5ZuE1nCkmKaW6gUsDbCDuLvc8J26NmJRZfU48tq5mbsc9jSuhfaZ1omCGfY09UZO0WsemLeYs/bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ILyBTldE; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vasily.cc header.i=@vasily.cc header.b="Ae8uSLrG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vasily.cc;
-	s=protonmail2; t=1789449777; x=1789708977;
-	bh=YOjkT0WRYH9ZTgYOKmI+YvNyNviW0Bc5NH9GRz2IL6Y=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=Ae8uSLrGbsd9t0kQBv3LCjo8GHuqcon+ZBcqWs9vnJsPi4vBkUDe4P0FSJfIyfBJs
-	 iqG/ZddFrrcd2h8h2pHR3Q5RWEMvcJQw2/S3I0FKePTedL8Gb+ym1hdzepvcQT4ogT
-	 LIolXaTrvHzXSrQaNeVMVIQK0uBwRkBkqF2O4a+EFQa+auYJZ3tSpSFYPhr6Q/GYh2
-	 +NObTKVpyM8HuLxWo6xNAnBIgbu6jqLYKJl6OE/ErfCe9EqFJZZ15FlM4w3EiF6y5z
-	 phefRQ+YIDtMhQMslDJyHsv3G2YHvJcscigIqw1u2Q4Ot7Dl43Icocqd9PVu13Cs9i
-	 AIKXXm21DUfdQ==
-Date: Tue, 15 Sep 2026 05:22:52 +0000
-To: Guenter Roeck <linux@roeck-us.net>
-From: Vas Zayarskiy <contact@vasily.cc>
-Cc: Aleksa Savic <savicaleksa83@gmail.com>, Jack Doan <me@jackdoan.com>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3 1/4] HID: generic: Respect specialized drivers match callbacks
-Message-ID: <5g3KauGo4e-yup8ACh6gfs0kZHbWatAAG3hXvT9HlYXSEbcNFslfWO7kfnaOtVtHPrl9w51LTnUhmOpLbAeoo8NfVaRIu2CU3GKsZcuW4nQ=@vasily.cc>
-In-Reply-To: <feb99d33-074e-444b-8fc3-ae53ec365965@roeck-us.net>
-References: <20260914233728.22725-1-contact@vasily.cc> <20260914233728.22725-2-contact@vasily.cc> <feb99d33-074e-444b-8fc3-ae53ec365965@roeck-us.net>
-Feedback-ID: 162318860:user:proton
-X-Pm-Message-ID: 78560f0f608a43a1f54be93cbb1ef2a516160b2a
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ILyBTldE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=1c5mzcm+uSJH/DtWgavu8DM7f9DCOGPDOW8edkuJv3o=; b=ILyBTldE/3fvwiQvczW6GZNgXS
+	T3LpZ3NJGXxj9F1An1TrTZNKWD0lZHNsV2AuTJHxoHWCr8hJFr5afzFrt5Q9u1DCdI+qOJluLTwZE
+	xy9tuNnAIOyn5froN9s3iY9wERMiqCqEAcBQUTB7vLYgg2ZN4OGtL350VDB4L8PDcVSS353p/5QQR
+	jA6dm8HYS7F2MdOi10Z4tQ07ncPMurEjuLtEHWfVGzgr8b5+FW/3J0BF9Jyb7+8+LNCwi9Da2it8Z
+	wHgWYtLk99tcWxDFOxA1hz2Xne3Vma+lulgZEDrDTtqcFG71mC00yhCN/EzDzUjWWZDyHe9pSD4ZT
+	WRt2K5Og==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x6LgU-00000005F2l-3sGI;
+	Tue, 15 Sep 2026 05:26:22 +0000
+Message-ID: <4169629e-74c1-4a21-a187-6c65d70502fa@infradead.org>
+Date: Mon, 14 Sep 2026 22:26:16 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi Guenter,
-
-> That was from 2022 and seems to have been abandoned, making me wonder
-> if it is still broken for Logitech devices or if another solution
-> was found.
-
-The 2022 ->match() change was proposed to repair the fallback problem expos=
-ed by wildcard enrollment of Logitech Bluetooth devices. Maintainers instea=
-d reverted that wildcard enrollment in a9d9e46c755a, restoring the previous=
- explicit device matching (https://github.com/torvalds/linux/commit/a9d9e46=
-c755a189ccb44d91b8cf737742a975de8). The way I understand it, the wildcard e=
-nrollment was reverted, and that's why the ->match() change simply was not =
-needed anymore.
-
-In the hwmon-next base used for this series, Bluetooth devices are still se=
-lected through explicit entries in hidpp_devices[], and hid-logitech-hidpp =
-has no match callback. So the Logitech regression was resolved without adop=
-ting the generic matching change.
-
-For AMPINEL, the reason for patch 1 is to leave its separate keyboard inter=
-face bound to hid-generic, so it can issue e.g. shutdown commands on abnorm=
-al readings. Both interfaces match the hwmon driver's ID table. The existin=
-g __check_hid_generic() therefore rejects the keyboard even when the hwmon =
-match callback declines that interface. The hwmon fixes and sensor readings=
- do not depend on this HID change; it is needed by this design to preserve =
-the keyboard's generic binding.
-
-Jiri, Benjamin: is there a preferred way to express this per-interface sele=
-ction while retaining hid-generic for the keyboard? I would welcome guidanc=
-e on whether this callback check is the appropriate approach.
-
-
-Thanks,
-Vas
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 0/2] ipv6: update NUD_FAILED neighbors from NA
+ messages
+To: Lawrence Lee <lfqlee314@gmail.com>, David Ahern <dsahern@kernel.org>,
+ Ido Schimmel <idosch@nvidia.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Cc: Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
+ Arun Ajith S <aajith@arista.com>, Roopa Prabhu <roopa@nvidia.com>,
+ Jaehee Park <jhpark1013@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>,
+ linux-wpan@vger.kernel.org, linux-bluetooth@vger.kernel.org
+References: <cover.1789448374.git.lfqlee314@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <cover.1789448374.git.lfqlee314@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
 
+On 9/14/26 10:01 PM, Lawrence Lee wrote:
+> Testing:
+> - x86_64 current-config and allyesconfig builds with W=1
 
-On Tuesday, September 15th, 2026 at 7:31 AM, Guenter Roeck <linux@roeck-us.=
-net> wrote:
+What does current-config mean?
 
-> On 9/14/26 16:37, Vas Zayarskiy wrote:
-> > A driver can reject an interface in its match callback even when its ID
-> > table matches. hid-generic currently yields based on the ID table alone=
-,
-> > leaving such an interface without a driver.
-> >
-> > Consult the callback after matching the ID table so hid-generic can kee=
-p
-> > interfaces declined by specialized drivers. This allows the AMPINEL
-> > hwmon driver to leave the separate keyboard interface to hid-generic.
-> >
-> > The same callback check was proposed previously for Logitech devices:
-> >
-> > Link: https://lkml.iu.edu/hypermail/linux/kernel/2212.0/06724.html
->=20
-> That was from 2022 and seems to have been abandoned, making me wonder
-> if it is still broken for Logitech devices or if another solution
-> was found.
->=20
-> Guenter
->=20
-> >
-> > Assisted-by: LLM sparse
-> > Signed-off-by: Vas Zayarskiy <contact@vasily.cc>
-> > ---
-> >   drivers/hid/hid-generic.c | 8 +++++++-
-> >   1 file changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/hid/hid-generic.c b/drivers/hid/hid-generic.c
-> > index c2de91674..ebc38ae76 100644
-> > --- a/drivers/hid/hid-generic.c
-> > +++ b/drivers/hid/hid-generic.c
-> > @@ -31,7 +31,13 @@ static int __check_hid_generic(struct device_driver =
-*drv, void *data)
-> >   =09if (hdrv =3D=3D &hid_generic)
-> >   =09=09return 0;
-> >
-> > -=09return hid_match_device(hdev, hdrv) !=3D NULL;
-> > +=09if (!hid_match_device(hdev, hdrv))
-> > +=09=09return 0;
-> > +
-> > +=09if (hdrv->match)
-> > +=09=09return hdrv->match(hdev, false);
-> > +
-> > +=09return 1;
-> >   }
-> >
-> >   static bool hid_generic_match(struct hid_device *hdev,
->=20
-> 
+> - tools/testing/selftests/net/ndisc_unsolicited_na_test.sh: 14 passed
+> - Local NIPA checks: all substantive checks passed
+> - Sashiko local review completed
+
+thanks.
+-- 
+~Randy
+
