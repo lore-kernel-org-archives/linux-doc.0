@@ -1,211 +1,150 @@
 Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD50426429
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 04:38:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD207431E49
+	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 05:01:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789447101; cv=none; b=aYRtCc2/MyX3Etxjl9dE8ONTyMPYhTdFeusADWaVXfVOyrsuQOic9IlhYPkPLY4GPbZ1byOdcKuFO27fQxYKvZsIU6V6+OZ2kRIqyStLzF45bc5Mj2Y9iyWSjHujga9vGE2hNCBFZ+A3ctvh+F6n+eRSIQ3Ev6zLDT1WwhESFAk=
+	t=1789448498; cv=none; b=hYyt5FwOTXh21ZQD404qdNouUuGqotZpOFN5pHMwxf04CW0N+LVgJt3MFav8fk9CpB3m/cix22hWMPOLTVmyXQEPE6sPkPLU9JhVhzJdqIY2B0JwXwRhLdSayJFr2YP9NpGZPu0wM3Qc+oiA4vbw+bUo13aWW3V+POR+qhlEwII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789447101; c=relaxed/simple;
-	bh=byONPyUZbkcaNu5MmKjxg+IDL9AWfX3kyeQ9JGh+YMg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KMr8mmhvISrbGOcKxbM8dgrzRk30MpnBdZAHNlw4z/Gfi48AyTtvI1Clcexyi5eKCibpIQvaSN4Xe4cmcIo7jt984hKsOach+JUYRtxkkuYDeWRz6VEc6NQwgMElFIjw+IC0ImQxYQkWbfKFDYla8/kLMo1MWnJ6egmTauIsKK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RZU3Fx3w; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1789448498; c=relaxed/simple;
+	bh=WvJDz0SMer3VBOphKTbusnWx9vBwOwyigPUnd+wAAiA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AB97BGpUaJkimuI1Iz/25GiJa+CkRHzLJoadNFrwayrU3timh7yuX6LTHWm+GwhrnaddMtITVgtn/ys43so7E8zTbhPlnLl77EcKWLYR9alOlryq6OsP1ncBEtry36QuV5jfXf570qk3QSS+vgx50iCptLm48tWZvOHosWUsjEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CESLyb8q; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RZU3Fx3w"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-39b31b4281eso2850014a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 21:38:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CESLyb8q"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccafb751so2836882a91.2
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 22:01:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789447100; x=1790051900; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uNE3bwaTCGDX6nDbrRzGF5uf2GpBaOmhy8mPPMtypEM=;
-        b=RZU3Fx3wmFiq7fRosmJ43OKj+j+MVx/0aKvlZtCyYo5VMC0XAARZqP5v0SHCmv4MvS
-         BXrlRgnTgRzVodnATslPzDcPK/FdB8NEFIZ1La/F2CfObFiUBCi3QrzivtQQQtQpK8IS
-         IweXH5ZPMhqzVYwSqSA1msO37/4t2bPKcmREHLmEBn7/o4yEqWsns4iX78czqWjYE20F
-         fOlRB0hJVdD306cV0hA27RNG/MmB+U9WFd4H6TuZ6PP0Eyo8aKj7GHyiK/9YeaGe6RUN
-         zu/jRml+vDhkSe8Waeu3XfXcxMNTEw6+ak+wuZHCmsEQc3v/elG4Y2AnYK/d66ZiDx4w
-         s1lw==
+        d=gmail.com; s=20251104; t=1789448495; x=1790053295; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ptBV0v6Gt6jAGsqstGkmrulpyxyqgfaikKMDt/h5aaw=;
+        b=CESLyb8qb9mC71opDonoVuBQSmNLGkr0FyokxmGTXBXKnoGBaohfQtCFhF9iYDfSZX
+         OfGYYFOzGxa4dsd6j/zDtS3Cj4a3AGa5Jgfo/pd75wLuIaRmJ60D350O2I53HL0JbM7Y
+         SE4OMaXtERlI24QAe/wrufjpOkVXCuFppv5+fe5PKlShsccsf0EP2nRdjP+6sMye1e1i
+         brCrnikbGHwPIZF0H5foqV7lrJ0oGAEgNgHtTVhR7uTwHOOmREhZUCnimhLJMchiBk6G
+         w0hU0HuoY3ONKkoG5l27rBui5zgFaPh48lKsfBqYcAqTFfo24Z938eEoWWXxi/ZA7q8W
+         EBpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789447100; x=1790051900;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=uNE3bwaTCGDX6nDbrRzGF5uf2GpBaOmhy8mPPMtypEM=;
-        b=TgoCl+ExXDSgKIviaWfneyWZ72cT36u5qxfvK9F1e4voZ5t+giJrMA12ld1JQ+0rnR
-         caLH47WttZ3C9COZnXpXbGo5yd9UhKbosnv2a6lj4r3ByrC8lspwZci7mzGk7+GzuJ6C
-         FqbtbpFnnEx2tCDtg5VnBfuT0tBDmFdgm6h1JstapBQgwbf4rgEyBTSXfH5XzxUrlCQ0
-         4y169czP9FI6b9SlymvXYMH2JdFTiTPKp/tqgfpHypSiKD8A3+WUb33Q4OCdxW9z0OlR
-         zM3wgoyb8mtbIGmjtecl2Shr/1rAwQGfe3ZyjU9VJgZajsJ6ecgtBsWrvPZQUOYt9rQ0
-         zGXg==
-X-Forwarded-Encrypted: i=1; AKwUvBwQr4rSkqX7dmHu3kkfno1neRIfw2VOtJJaffqXdKv10faj2TIfdOU23n+n+1jAqPnuiMaaffcgec4=@vger.kernel.org
-X-Gm-Message-State: AFuF++nzx9FoFeyL9xpo4tmEEMi2D6zDmgNGet7TqRmR/F3EreYLlSlG
-	/gs7gj/V3ulMfTwp7VOF1IQF/M2JZtuonfACWw6caLKwKpogBLDDaN3Y
-X-Gm-Gg: AYBFou3UbQXeP31OFOaJsxFbjJYtp6+dCcO9Y6YTzm+nnfRtxC/T9STWjcDU2p+fBAI
-	f6P3dXa9VRYaNnF/Awh6WpHkWU+1yrA54YchPb1DLM5zJUKnkiEdJdGicrLIV0wB53avM4ykPRc
-	AYSbYDPtvJrriItJ2i3BtT8Jl6wDc0+NYw/fyObOMsjZqrvP3nv2icF3E/mSl5DUSxKSumUG5B2
-	zFK97HZ1zSihaUnY5MyStWDYJesc6JLmeJ8DmWZ0JzHJC1TOmNlPpDSPFGa69XxGJ4OXYTH9Kyk
-	QvJAWEx8bkRva1lzhflZW39ooA+7faGNiGJs+5WdnuoRLNwElM0NhFmcNsrPGKI80yqWMWdqQN6
-	zbu9kU80QN3awOHA97eiPKfWtimJFMu5wGmmbwRRX/Yxf0Sst9fBF65cJlUW0lMeDlL97nVmHH9
-	hxR6vYF736oPkjKz2xgqwniI0QK/2yBy2JiR+SFfaFD7mgBgxNgE23gQBywHePjrTAyeN0GxR7G
-	CmdvIuL0r2qWsAbqDK6Of4Or+/3MD0kaaMCtejgIKqGr9ah
-X-Received: by 2002:a17:90b:4a85:b0:39d:f731:e5f3 with SMTP id 98e67ed59e1d1-39df731eb5dmr204600a91.24.1789447099934;
-        Mon, 14 Sep 2026 21:38:19 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1438d89556asm3067248c88.13.2026.09.14.21.38.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Sep 2026 21:38:19 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <b7b45dac-d9ad-4af3-a1fd-8d9aced30dc4@roeck-us.net>
-Date: Mon, 14 Sep 2026 21:38:17 -0700
+        d=1e100.net; s=20260707; t=1789448495; x=1790053295;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ptBV0v6Gt6jAGsqstGkmrulpyxyqgfaikKMDt/h5aaw=;
+        b=YxFR69QRh+hIxyWWsxVMDKe3tYupeREzFZG7L+IaEUFe1yjBUlEfI4WsfxQTYmdzyi
+         dJeNaOAflCCIuBFFDj9Gs1pVkhf1Q6rrY9djbTr6XH9mvBQo86cKqkqC3nUUXFaX5hDB
+         cZQxf5YIeFecFm+ZcwJIcpvN2NOa06PeUaiXaSmBSPwKG2WWMfvgodz8LF7gz0fNFhML
+         VmfjnecC6gnkW4CNbhX9/d1lVIcyAoIOFNCQeiEveEe4C0WyVu8tClm+oXQ07DJysfB6
+         0UB2/7+eAnpImdesxElsqOB/xMDNZMXUo0mLKAaNKhPxI+4ajhDr+xh7S14MTjhLXHXv
+         yQZQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxmNxh95XFCbGxXXtcE3e+KjSQRZuxOJYMOpVTR7hRLPJ9UlrElubObyZDQYlo+zSOHczI+53UWnhE=@vger.kernel.org
+X-Gm-Message-State: AFuF++kFtxTHaluRbhjxsvqCoOa8efhX4xh+KCpaIizUzWp0vyykVw9+
+	YtuAFsQ/iPVEpchl/KvoOWxx/i0Sp7JrszkRrCeCxXN1XziO/4cUwxwO
+X-Gm-Gg: AYBFou3GSKiN9YcbJTN+hE9qJMiLPRqv8qzM0x7pXWPqE62yVMBdLyKfFKrqG1W2B5s
+	BE8jOiGIJdgF1NXJPNO+wl4fzBaAUVlAeiJez5vuUHa0/nmDNgSpb3mLy8ypqoU6hGqWtQDoqWo
+	oSmIcKDK9xxfC9hYck42jTEtAom6Y0KtDsSNi45LzP4qn0qpQ95jOBOJLBQUDBlWsSgrz/+pDkg
+	w3zl74CmSduSbPeO7Ffsvh9/G/Yht2RNVF8L/pOIvU5hXlbx2V+q0k6+yZE2pG3P39f6bO7WYR0
+	7a5S/4VdXL94x0jaTT5gNaUjVf0K+EEotEXQ4Z1EYcUwqL8LrCDIFgrC9lEDito47sk8eE+/cLN
+	yJx9vTnfAgIhb1tpbTtCzFVEc3Dk84IOVasQ6b8lmIsuHxXcZ0mjfvA1fKeXJwlM2qSiUwWce2c
+	QOfCe3tQHBJ2d2d+mTTdUZDYoiCrZjIm0nxAu4FGN88llzWN6a6okRVqgmfaUeFiss0kuWSQCPk
+	iVgZ/CGGWmPYJr6Ux4xpZKRNwGgQxHQl+5O2wrQWAcSYy7+IT/gCh8jqEp5oNL14Q3ZKScDfWLZ
+	Phq7ZAb0Ci2ftY1W7Dyn
+X-Received: by 2002:a17:90b:57cb:b0:39d:f130:f8fd with SMTP id 98e67ed59e1d1-39df13108cdmr11368757a91.11.1789448494978;
+        Mon, 14 Sep 2026 22:01:34 -0700 (PDT)
+Received: from lawlee-vm0.d4y3nv5wwgfelhhopdxv1tqjld.dx.internal.cloudapp.net ([13.93.150.60])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4e51449sm26872358eec.5.2026.09.14.22.01.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 22:01:34 -0700 (PDT)
+From: Lawrence Lee <lfqlee314@gmail.com>
+To: David Ahern <dsahern@kernel.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Simon Horman <horms@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	netdev@vger.kernel.org,
+	Arun Ajith S <aajith@arista.com>,
+	Roopa Prabhu <roopa@nvidia.com>,
+	Jaehee Park <jhpark1013@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alexander Aring <alex.aring@gmail.com>,
+	linux-wpan@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org
+Subject: [PATCH net-next v2 0/2] ipv6: update NUD_FAILED neighbors from NA messages
+Date: Tue, 15 Sep 2026 05:01:30 +0000
+Message-ID: <cover.1789448374.git.lfqlee314@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] hwmon: (aquacomputer_d5next) Avoid truncating
- scaled sensor readings
-To: Vas Zayarskiy <contact@vasily.cc>, Aleksa Savic
- <savicaleksa83@gmail.com>, Jack Doan <me@jackdoan.com>,
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>
-References: <20260914233728.22725-1-contact@vasily.cc>
- <20260914233728.22725-3-contact@vasily.cc>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260914233728.22725-3-contact@vasily.cc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/14/26 16:37, Vas Zayarskiy wrote:
-> High Flow Next power is reported in watts. Multiplying the 16-bit value
-> by one million can overflow both the signed intermediate and the u32
-> cache. Store power in long, perform the conversion in u64, and clamp to
-> LONG_MAX. The other existing power conversions fit in a signed 32-bit
-> value. Return ENODATA for unavailable power instead of exposing the
+Neighbor Advertisements for existing NUD_FAILED entries are currently
+ignored. This can leave a first-hop router with an unusable neighbor after
+the host becomes reachable and announces itself, particularly when
+forwarding is offloaded away from the kernel and traffic destined to the
+FAILED neighbor is unable to trigger the kernel's normal neighbor
+resolution process.
+Allowing neighbor entries to be updated from NAs already received by the
+kernel is preferable since it creates less work compared to periodically
+probing FAILED neighbors (e.g. using NTF_EXT_MANAGED).
 
--ENODATA
+Extend accept_untracked_na to treat FAILED entries like absent entries.
+Require a target link-layer address, IPv6 forwarding, and acceptance by the
+sysctl, including its source-prefix check in mode 2. Recover the entry only
+to STALE, including for solicited NAs, to maintain parity with handling of
+non-existent neighbor cache entries.
 
-> stored error as a reading.
-> 
-> Widen the shared current cache to u32. The Aquastream XT calibration can
-> exceed 65535 mA; clamp its negative calibration results to zero before
+Patch #1 implements the behavior and updates RFC 9131-related comments and
+accept_untracked_na documentation.
 
-That isn't a calibration. It is a conversion or scaling to hwmon ABI units.
+Patch #2 extends ndisc_unsolicited_na_test.sh to cover FAILED-entry
+recovery and each acceptance gate, including in-prefix and out-of-prefix
+mode 2.
 
-> assigning to the unsigned cache. This also permits devices with scaled
-> aggregate currents to store milliamperes directly.
-> 
-> Assisted-by: LLM sparse
-> Signed-off-by: Vas Zayarskiy <contact@vasily.cc>
-> ---
->   drivers/hwmon/aquacomputer_d5next.c | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-> index 1ca70e726..9178ac4cb 100644
-> --- a/drivers/hwmon/aquacomputer_d5next.c
-> +++ b/drivers/hwmon/aquacomputer_d5next.c
-> @@ -19,6 +19,7 @@
->   #include <linux/hwmon.h>
->   #include <linux/jiffies.h>
->   #include <linux/ktime.h>
-> +#include <linux/limits.h>
->   #include <linux/module.h>
->   #include <linux/seq_file.h>
->   #include <linux/unaligned.h>
-> @@ -599,9 +600,9 @@ struct aqc_data {
->   	u32 speed_input_min[1];
->   	u32 speed_input_target[1];
->   	u32 speed_input_max[1];
-> -	u32 power_input[8];
-> +	long power_input[8];
->   	u16 voltage_input[8];
-> -	u16 current_input[8];
-> +	u32 current_input[8];
->   
->   	/* Label values */
->   	const char *const *temp_label;
-> @@ -976,7 +977,7 @@ static int aqc_legacy_read(struct aqc_data *priv)
->   
->   		/* Calculation derived from linear regression */
->   		sensor_value = get_unaligned_le16(priv->buffer + AQUASTREAMXT_PUMP_CURR_OFFSET);
-> -		priv->current_input[0] = DIV_ROUND_CLOSEST(sensor_value * 176, 100) - 52;
-> +		priv->current_input[0] = max(DIV_ROUND_CLOSEST(sensor_value * 176, 100) - 52, 0);
->   
->   		sensor_value = get_unaligned_le16(priv->buffer + AQUASTREAMXT_PUMP_VOLTAGE_OFFSET);
->   		priv->voltage_input[0] = DIV_ROUND_CLOSEST(sensor_value * 1000, 61);
-> @@ -1070,6 +1071,8 @@ static int aqc_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
->   		}
->   		break;
->   	case hwmon_power:
-> +		if (priv->power_input[channel] == -ENODATA)
-> +			return -ENODATA;
->   		*val = priv->power_input[channel];
->   		break;
->   	case hwmon_pwm:
-> @@ -1426,7 +1429,8 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
->   			priv->power_input[0] = -ENODATA;
->   		else
->   			priv->power_input[0] =
-> -			    get_unaligned_be16(data + HIGHFLOWNEXT_POWER) * 1000000;
-> +			    min_t(u64, get_unaligned_be16(data + HIGHFLOWNEXT_POWER) * 1000000ULL,
-> +				  LONG_MAX);
->   
->   		priv->voltage_input[0] = get_unaligned_be16(data + HIGHFLOWNEXT_5V_VOLTAGE) * 10;
->   		priv->voltage_input[1] =
+Thanks to Ido Schimmel for feedback on the original RFC.
 
+---
+v2:
+- Full implementation of logic to update FAILED entries to STALE.
+- Update the RFC 9131-related comments and sysctl documentation.
+- Add selftests to verify state changes only when the accept_untracked_na
+  setting is enabled.
+
+v1 (RFC):
+https://lore.kernel.org/r/20260813233344.445265-1-lfqlee314@gmail.com
+
+Testing:
+- x86_64 current-config and allyesconfig builds with W=1
+- tools/testing/selftests/net/ndisc_unsolicited_na_test.sh: 14 passed
+- Local NIPA checks: all substantive checks passed
+- Sashiko local review completed
+
+Lawrence Lee (2):
+  ipv6: update NUD_FAILED neighbors from NA messages
+  selftests: net: test untracked NA recovery of FAILED neighbors
+
+ Documentation/networking/ip-sysctl.rst        |  28 ++--
+ include/net/ndisc.h                           |  15 ++-
+ net/6lowpan/ndisc.c                           |  15 ++-
+ net/ipv6/ndisc.c                              |  94 ++++++++-----
+ .../net/ndisc_unsolicited_na_test.sh          | 124 +++++++++++++++---
+ 5 files changed, 201 insertions(+), 75 deletions(-)
+
+
+base-commit: 272a65db243bfa34b9277632830e0e06d7e3518e
+-- 
+2.43.0
