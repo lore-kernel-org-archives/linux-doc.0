@@ -1,185 +1,199 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0B0382283
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 06:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.141
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789453938; cv=pass; b=Y0JrwWetINusk/VY1+1jrI9p8LqeDIBnXPg3ZGueCFeP2HmEPNumu5qxbHm9nfXQDAK5PQ4VRve9YNefCrtlqN/ptg6+XneaO3/hh2KINDDpG0GvF6LuhPGxE4riMWeCkmcFszNSGejh7iF0JiyfZzZciT7YxeTcvJa9XsI6MFQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789453938; c=relaxed/simple;
-	bh=kmDAMC6MFeucn2qpBg3Klhb1ZEFA9BC3craQuU4rvac=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hixPeLJxXhCslZwtWLeiv1zJRtLxmOxTv5cPG3SUXM4LK4hDDDpICWGQZW6Jg88na4huwjTxYkVWWHPz0Y2uLEx14Ap6EOz9tA32iGhTcOaqhKPCnfcgViakzyCUX3PJ9yw+ZFUPdD6lFHZVGp0FfJfttBj0P5s3fQ7LiuCYt6Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G5CRJ9r3; arc=pass smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65184399EA
+	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 06:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789454707; cv=none; b=ZE8r52B0l2NIrLnR1wj5fyt7IIjcFQ5SjxX4UMC/n3i1z9HnwVVtUpdAUL2M6dT8gGDt3rQzJNFfXpD5wzdvgbL9tr3XDdc/3K4X9iHOW6Vkv14uZ9xygjixuIF+il/snPh57h2rGQkb7oxtnP6YT/2JuprtFYWsEGI8qMEuCy8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789454707; c=relaxed/simple;
+	bh=VMJgWKEeLbEF+5uGy7m1N0gpmXanMrHiGWE7G/bgYUw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UVTkQoB3/h64lvhwtBvPWJ3KypMB9XapFzrJjIu1BqyCPo6XwvBTeJdU6ri/vStiYBTqgFCT5L+gdDKyQWigFBEYoPHkd9X8LR/PEtGys4AETz50kFp2mZ7ZrqCeFaojqatk8X90Pd4O9f07/alZGSN4nNVMBURJk+NF8V5olTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=T/Xdn2g2; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G5CRJ9r3"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-39da614ab21so476001a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2026 23:32:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789453936; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gwKRmLT1fnEIt2PR/S3bk9OvnwFXp9cHgmhUnZBgOWwystR7WKBrdM+96VeJP5+Cj2
-         InH2MlF5W8VmKuJPg06u2UGESjNLRMoQxzOhMNoeuks3UVo3giA3JHqfh5nVU/vGZYO2
-         Z0twKwzmr2o5TuPoLvknLeSPKMU47LwhUW4oImubOodFhSv6x0CutO2BhZqgTeU8dI/B
-         8v/4i4vFW21wuJ5HjkbVyuifzWEKDD9N2fpm2qkRy4Pp7K8+VOV3XzF5ruLoO/2tANd/
-         UX87nl41ZXy0YjDV8IQ11l23nURH79Orlj6V5mQ3FptkVvZoJ+aUIdgIjDpRhZxQM0il
-         HUqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kmDAMC6MFeucn2qpBg3Klhb1ZEFA9BC3craQuU4rvac=;
-        fh=ibhaVocd00mCkrV4K9R60MHZaiRabBviApqKt0lxW6s=;
-        b=kZh9BJtikdoEwglgDPoubFlukWlU9/tQJQ/jR06qCncMITnfSdDcJjWQLxP8rsIj1R
-         DzRUatI8wl7ux00eMG5SDCrvIByuJDA71coXccAxEudj5UHWSAQS/osvzmVPd1/RlCOn
-         nPSbM150JmhwD5GjKZLikxD6QC10QCsMWpd5YHXcmeQSuzoYhjH9UEBep46A3RTXho7L
-         UPuwLDKQe2hag0O9ob1XqYHdBNUKsFqldPT2x2V15Kcg8u5KvbvL6VMyKVFTbsvzXNFl
-         rmrDWLxLxHxRJ2uK9E7CDquB84RAJoQX1eF/mMA1Dn8iJI02rzZhDz7b+TBvEBs0+oJy
-         P60w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789453936; x=1790058736; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=kmDAMC6MFeucn2qpBg3Klhb1ZEFA9BC3craQuU4rvac=;
-        b=G5CRJ9r3yU+mY0l+N74B7S/Mjb6TnQqtFCT50TddgkDTFjmeAX7LKtouzxIblxQu7Z
-         h7Z4cg9OQsXlODWiJ4sgVavpB9ZRE2A1fqvhWaI1/oMaUm3ZJIy6GIsgazv3vqM5McEt
-         xGkXdE0pqihCwZshnRy0aSMMIslo+uYXDX7ueQ3LEQJU48Z96j4JVTpAVHnxfBhXKjop
-         mbYpAvHUDnqE3aI2WoyhirXJaLKHJWQBpEM8NK0EDDeCtbvcdTvgNOOCPFFavZBqhcMf
-         Bups1FuNo0+Wrg5gZmFapMkMsrAxt8m5jDvfLJ8SCIT13V3atN0IADBmd6R01ATsyRkn
-         s+hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789453936; x=1790058736;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kmDAMC6MFeucn2qpBg3Klhb1ZEFA9BC3craQuU4rvac=;
-        b=01rt5EZcLiHsBXywjvvDYFQdmTCa2H7ouhBLcof74zCslUs6AjP6KIlwqdlDsFDwvz
-         nNTLFa9BgRoT5DtMb0tLmE4YC/mKUzryfRiro+rCIRcfwLNDyZaCaP8bDRUvDHBnvJYl
-         5R1z+Ts2OpwsHlrbE3h8hoVOLTv4OHI2PcTVhW/aR+5bNbYLefy9ENUgAO3ZGfkx4wAJ
-         Zw17df0D6aoYsR8VeWl0Djixd+laXbve0zLdlGvDrqPhqtw8icj/eKzXZCFFUdHM/xcs
-         mjRJQFWNKV/KJxAW/nVx9ajbaKiQHAU7q0LlIcRMi2v+yPZzAKUplvQE4Lok7Itx2Lnj
-         XfAg==
-X-Forwarded-Encrypted: i=1; AKwUvBwOUvaXCsnIWA1XvTMLkX1BP1+HRsB61Wz1i2w+GLuCNNE5TiIUWF4cvPuAhBbwDI+/7CaNUvsTiDw=@vger.kernel.org
-X-Gm-Message-State: AFuF++ngas6oQddr3cPFt/QB9BAC7rNmcnIdu1uhmoaH+yDA4uocHLLw
-	zvpL8zzjAcI0K1S34nWJtglwvKyJY3lxlvlI8V/gGXFUSQ7lpx6Trj+kodGeB8Oc1GhmH3MzlrC
-	HTBOjQUUmdYJu8VBqp1tvqDshg+MBvvA=
-X-Gm-Gg: AYBFou3Sqank7CPH5IQ5JbDnOLj/k3mdvY3EQSzhUYfSxenwWcrUaFmgjxRMq9bqYuR
-	CKdzu7+t/6oaHoY34M7QLc+RK3ePdkH6TuoIc1lkrBBJq9j2r9nCm8/zirIIvXhAOPI0wlyznGp
-	ylrDOJQ2IEfx7mYeEV2xAzQPxtEptc5q0myA1MZsSIRcZe2tloFxo8NIj95hXO8HtcbjXfdYFOc
-	nj1HkSNuG6wyRBD7at0UvxJxb4lQv58lUv6ckg56+ZdDNJ0ZluBjzv90jv1MqwZB5/OA5eHbxkx
-	Xj9dUg1WvHr0cXXX/Qw6Dwu8hJJ3dl+K32oHgjgFWNxP4kX/xznMhAK3Hx6f+k18KJUb7sKPFC6
-	d6Y7Axq2DeR23pgwDlAKrmxXK1Q/s+FxQYTvbogBMQW+oUimQrHk3M4nKe5zV0kRKRRjIDoaAHD
-	TEONVDtqCPEuEFQ5jY0Mz3ZYkU8B846bTKsIRixyez7xlaRiUIGA==
-X-Received: by 2002:a17:90b:390d:b0:396:d27b:86a4 with SMTP id
- 98e67ed59e1d1-39dec02ca06mr8212249a91.2.1789453935885; Mon, 14 Sep 2026
- 23:32:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="T/Xdn2g2"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=VMJgWKEeLbEF+5uGy7m1N0gpmXanMrHiGWE7G/bgYUw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789454702; v=1; x=1790059502;
+ b=T/Xdn2g2FUWeWKEVMnmA2X9N+5Wj8X5145Ho2+/kn5q16FacMLgJhDnHlupzglpeCZ2/Nbyh
+ l1VmCndUDhsK7G8/j9WWJ+9oKzLzgCiDa1OtT8YTSmfje9hclk42/RU8I00bhSHQYn2bZkct+9b
+ jb/PfoeO6b+O679kV6gEOe1U=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta11.migadu.com with ESMTPS id 79b6f2ba6867b9a0;
+	Tue, 15 Sep 2026 06:45:00 +0000
+X-Mizu-Trace-ID: 79b6f2ba6867b9a0
+X-Migadu-Flow: FLOW_OUT
+Date: Tue, 15 Sep 2026 14:44:48 +0800
+From: Baoquan He <baoquan.he@linux.dev>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>,
+	Chris Li <chrisl@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Yosry Ahmed <yosry@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Barry Song <baohua@kernel.org>,
+	YoungJun Park <youngjun.park@lge.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>,
+	Wenchao Hao <haowenchao22@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Kunwu Chan <kunwu.chan@linux.dev>,
+	Meta kernel team <kernel-team@meta.com>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org,
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kairui Song <ryncsn@gmail.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <aqjpYHbZ14A8xRtK@fedora>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora>
+ <aqLZ5TVDAqEbIeMN@linux.dev>
+ <aqP81aqNbwAbs2P0@fedora>
+ <aqQrPLPXHXiuKup0@linux.dev>
+ <aqjcFb6MFNiA6n4V@fedora>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org> <20260914-build-speedup-v2-18-39817ec5db23@kernel.org>
-In-Reply-To: <20260914-build-speedup-v2-18-39817ec5db23@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 15 Sep 2026 07:32:02 +0100
-X-Gm-Features: AcwNN1XuX4yn0GdoJd77RsJx70W4snllWWAl7hBlEl0V9VQzhH3zC86aEhQjx38
-Message-ID: <CANiq72naY0=iBaxfbWQaPv_06X4SjFSix4NybDQdht33+Tcs0g@mail.gmail.com>
-Subject: Re: [PATCH v2 18/21] kbuild: rust: optionally parallelise rustc front end
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nsc@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqjcFb6MFNiA6n4V@fedora>
 
-On Mon, Sep 14, 2026 at 10:24=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.=
-org> wrote:
->
-> Rust crates are compiled in a serial chain on the critical path - core,
-> bindings, kernel crates and then the drivers - each a rustc invocation.
+On 09/15/26 at 01:48pm, Baoquan He wrote:
+> On 09/11/26 at 09:45am, Shakeel Butt wrote:
+> > On Fri, Sep 11, 2026 at 09:06:29PM +0800, Baoquan He wrote:
+> > > On 09/10/26 at 09:39am, Shakeel Butt wrote:
+> > > > On Thu, Sep 10, 2026 at 03:09:59PM +0800, Baoquan He wrote:
+> > > > > Hi Nhat,
+> > > > > 
+> > > > > On 09/04/26 at 02:14pm, Nhat Pham wrote:
+> > > > > .....snip...
+> > > > 
+> > > > [...]
+> > > > 
+> > > > > With VM_SPARSE, xswap's cluster access is exactly the plain-array line the
+> > > > > rest of swap already uses:
+> > > > > 
+> > > > >     return &si->cluster_info[offset / SWAPFILE_CLUSTER];
+> > > > > 
+> > > > > no branch, no RCU discipline, no tear-down state machine, and no NULL
+> > > > > return. So VM_SPARSE doesn't add complexity to close a gap; it lets the
+> > > > > cluster layer stay as simple as it already is, which is precisely the
+> > > > > part later work (writeback, rmap lookup, memcg charging, THP) has to sit
+> > > > > on.
+> > > > > 
+> > > > > I'm not going to claim xswap wins on throughput. I measured it:
+> > > > > on a 64G/64-thread swapout, xswap, vswap and plain swap+zswap are all
+> > > > > within ~2-3% of each other, effectively identical. 
+> > > > 
+> > > > So the claim is VM_SPARSE is simpler than xarray based approach. I feel like
+> > > > we are discussing implementation details before deciding the design and
+> > > > architecture. So, instead of VM_SPARSE vs xarray, let's discuss and decide the
+> > > > need for dynamic growth. Why we want dynamic growth upfront or can it be added
+> > > > later? Once we decide that then it will be very easy to pick an implementation
+> > > > that would take us there.
+> > > 
+> > > Hi Shakeel,
+> > > 
+> > > Thank you for joining the discussion and for taking the time to comment.
+> > 
+> > Hi Baoquan,
+> > 
+> > I am mainly trying to facilitate the discussion but your use of LLM is causing
+> > more confusion. LLM use is fine but please at least re-read before sending that
+> > the sentences flow and makes sense.
+> 
+> Sorry, my bad. I used LLM to find Nhat's words. But I did check it by
+> myself. I wrote most of them by myself. While at it ath the moment, my
+> logic could be unclear.
+> 
+> As said, how swap_cluster_info[] is built is the foundation. Whatever
+> you do, you have to make swap_cluster_info[] ready, then you can do
+> writeback, rmap lookup, thp support, etc, on top of it.
+> swap_cluster_info[] is the basement, then you continue building 2nd
+> floor, 3rd floor, till a high building is done with things added. Nobody
+> wants to claim he just need the high building, while no basement.
+> 
+> Now, the foundation has been built with the lazy vmalloc, it can grow on
+> demand. It keeps swap_cluster_info accessing as swap_cluster_info[],
+> a basic array semantics. And since we our target is to support a very
+> large swap device with an extendable logical space, grow on demand and
+> shrink becomes important. Now it is there.
 
-This confused the LWN article... :)
+By the way, with my understanding, only grow is enough for xswap. You
+can reserve a huge space for it, while in fact you could only really use
+it within a small space. Then it's fine, grow the swap_cluster_info[] to
+the place it ever used, and it mostly will be used again. E.g on a small
+system with 10G RAM, we set si->max as 2x10=20G. In fact it could only
+reach 2G swap space. That's fine. 2G is the place we need, keep it. The
+left 18G is untouched and surely no swap_cluster_info[] built for it.
+Anyway, Nhat strongly suggested shrink is necessary. I am wondering if
+there's really use case.
 
-There is a critical path in the graph, indeed, and doing it in
-`prepare` is painful, but to clarify: each crate is already built in
-parallel with others where possible, and the fact that each crate is
-built by one `rustc` is unrelated, plus the flag this patch proposes
-is also unrelated to that.
-
-I guess the LLM was trying to add context to the numbers below, but it
-looks like it will easily confuse readers.
-
-> Each time a change is made to any of the bindings, it triggers a rebuild.
-
-This seems oddly focused (i.e. not sure why `bindings` is mentioned in
-particular). It is also at least independent of this patch, i.e. it
-will remain true regardless of the patch.
-
-> rustc has a parallel front end, enabled with -Zthreads, available since
-> rust 1.84 [0] and therefore on every rustc the kernel supports.
->
-> It is not yet stable and its output is not reproducible, so it cannot be
-> used by default - stabilisation is being worked on [1].
-
-Not sure what it means by "by default". In any case, the main issue
-with the flag is that it has had issues recently, not so much the fact
-that it is unstable.
-
-> Add optional build parameter KBUILD_RUST_THREADS, which when set passes
-> that many threads to rustc.
->
-> Observed build time changes with KBUILD_RUST_THREADS=3D8 (rustc 1.98, cla=
-ng):
-
-I assume the improvements are most notable due to the work being on
-`prepare`, i.e. there is no other work available. When that is
-relaxed, this should be way less needed. Though it will be still very
-nice to have for full Rust rebuilds, like when changing the compiler
-versions often, due to `core` mainly (e.g. I have to do that often, so
-I would like it :).
-
-In any case, I am not sure about adding a Kbuild variable already for
-this at the moment, especially with that name, i.e. it is not really
-"threads" but "frontend jobs" and the flag will not be called that in
-the future anyway.
-
-And if someone wants to risk their kernel builds, then they can
-already pass the flag today...
-
-(We probably also want to know what the flag will finally do before
-committing to particular names, e.g. whether it affects
-codegen/reproducibility in any way. But perhaps Kbuild doesn't mind
-having new variables that may be replaced soon.)
-
-Thanks!
-
-Cheers,
-Miguel
+> 
+> That's my understanding, not sure if there's anything I can't get so
+> that writeback need be made first.
+> 
+> [I type each of above by hand.]
+> > 
+> > > 
+> > > Agreed on requirement first - but this one was already decided, and not by me. In
+> > > the July ghost swapfile thread Nhat rejected exactly the shape of "grow only, can
+> > > be added later":
+> > > 
+> > >     "Except for my virtual swap design, which does support dynamic growth AND
+> > >      shrinking of capacity on demand ;) If it cannot grow (and furthermore, if it
+> > >      requires userspace operation to trigger swapfile growth), why do we need this
+> > >      at all? Might as well create a new swapfile with swapon?"
+> > > 
+> > > To me what it converged on was "dynamic growth and shrink, no writeback yet".
+> > 
+> > I am not getting how out of context above paragraph shows the conclusion about
+> > dynamic growth/shrink and *no writeback*.
+> > 
+> > > So automatic growth *and* shrink is the requirement, and the simpler alternative
+> > > was already on the table.
+> > > 
+> > > And I keep mentioning it in the cover-letter of each version of my posting. I
+> > > only did the foundtation via lazy vmalloc. And Nhat will do the core
+> > > part including writabck, rmap lookup, memcg accounting, zero page fill,
+> > > etc.
+> > 
+> > I don't see any evidense of this decision. Actually this whole email thread
+> > shows that there is no such decision.
+> > 
+> > > 
+> > > What is still genuinely open, and I would like us to settle, is how large the
+> > > device's address space should be, because the metadata scales with it:
+> > 
+> > With dynamic growth/shrink, is this really a blocker?
+> > 
+> > Anyways, I will let Nhat and others discuss the technical details (unless I am
+> > asked for it). My main reason to join the conversation is to converge the
+> > discussion to a decision and resolution.
