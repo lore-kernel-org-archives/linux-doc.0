@@ -1,320 +1,149 @@
-Received: from va-2-19.ptr.blmpb.com (va-2-19.ptr.blmpb.com [209.127.231.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9418403E9B
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 15:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A84A3CEB99;
+	Tue, 15 Sep 2026 15:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789487702; cv=none; b=rdg2k840ZlDWckOnZjjMqHPBsdDY4eZRAI2/zhGVL85RL8yyDUrQu0Ke1iUJXeid0KxJ8VaCe/bHmLp4EjOCj3Jw6Tpk+5/lvLme7cQ9BWIzEFbAqwkg0O5efuMc+4WTAqAOESxS5dO3ql57S9emkKyuGiXhYo215IVj09N1liY=
+	t=1789487789; cv=none; b=Q705y/HZ6XDmIMXPnOuyx9PwFJ4WSM0q0d9FipQfOJTAuebjgWXpYex9pS5A26rpYZFKqkFn6uDclBSqRe+VHxArOjF9PyY6l3FE999Iy9TLydHFeGRcSOPzOkwu9+cQkB4Vj5mqQRSUuVaiEa+s4mffNALBFOEx/iJktfX2VrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789487702; c=relaxed/simple;
-	bh=Xsn6DqvvOV+Iyp7MPv5ignkXFskUrJdLJ8ErPAvqBm4=;
-	h=To:Mime-Version:Subject:Date:Content-Type:In-Reply-To:Cc:
-	 References:From:Message-Id; b=AJQy7QAURe/0O2a7ulAdWzVVeMBB+hbw8TAH/ljlp5mU9CqzeSVCw7+AqkEmRf4HAwiwhwNVl2k00fC6CTppzw7G2yEyAz7/klT84PjuL6WL/uKGqouW+CZl4qdcagpoGt645LltU6pQAG1t+nEXLlcKix3/SQZTQZODTZkY6yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io; spf=pass smtp.mailfrom=fygo.io; dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b=B/4Zr5bH; arc=none smtp.client-ip=209.127.231.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fygo.io
+	s=arc-20240116; t=1789487789; c=relaxed/simple;
+	bh=hhnl9J25vhWtjndIDpRn+fChbPLcG8O6KBl9AaJuEss=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lFcPPer++6Wp7ggBsDpMSEPsiCMrHHhthcp1Zw2Pq5vysUMyEx8Vs65pDN9Twdo3b6tFui8c20kA8g/bFNUQbgTZ3PBWI7JG+Ykvj4VewRgTO6FECKCL6z4v+OcxGSJdEQ4EL6tTCrZyrURi4/nFv2rglNq1Ebd4672IKSsZad4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=E9kjYKDL; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b="B/4Zr5bH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1789487692;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=Xsn6DqvvOV+Iyp7MPv5ignkXFskUrJdLJ8ErPAvqBm4=;
- b=B/4Zr5bH8MdScgdsEqbXfpogI+k3yIBEhKi+5p5tFtQEHKCTfLZfMg5fAHAFAu0p96bxfJ
- 8OYbIER8NYCiDzICyPHP0lC4Df3G667tGSJtg6clYxzTqjtW0VSQB+5lF1gsRieqjQY0y+
- JwvWLZpSDkLOVCpLMPwJuXDD5jGABcW7mVZKZ7C5lbSKxL6KajY7ekqTg9MtFKwkPLT4ed
- sH46YSEEAsRkvofV/FK+qK2Fgy3v6i0Z89MSoli//K7VK8OgXdGsy3p3tA1gSUqrV+r6rk
- 0uI64RDLSRkSYpM5MTc+gAN8fDkOB++9eWQSJUsOf7Bi1LVG4PPxLBaaXAgGCw==
-To: "Nilay Shroff" <nilay@linux.ibm.com>, "Yu Kuai" <yukuai@kernel.org>, 
-	"Jens Axboe" <axboe@kernel.dk>, "Josef Bacik" <josef@toxicpanda.com>, 
-	"Tejun Heo" <tj@kernel.org>, "Johannes Weiner" <hannes@cmpxchg.org>, 
-	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	"Jonathan Corbet" <corbet@lwn.net>, 
-	"Shuah Khan" <skhan@linuxfoundation.org>, 
-	"Randy Dunlap" <rdunlap@infradead.org>, "Coly Li" <colyli@fygo.io>, 
-	"Kent Overstreet" <kent.overstreet@linux.dev>, 
-	"Alasdair Kergon" <agk@redhat.com>, "Mike Snitzer" <snitzer@kernel.org>, 
-	"Mikulas Patocka" <mpatocka@redhat.com>, 
-	"Benjamin Marzinski" <bmarzins@redhat.com>, "Song Liu" <song@kernel.org>, 
-	"Li Nan" <magiclinan@didiglobal.com>, "Xiao Ni" <xiao@kernel.org>, 
-	"Andreas Gruenbacher" <agruenba@redhat.com>, 
-	"Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, 
-	"Andrew Morton" <akpm@linux-foundation.org>, 
-	"Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, 
-	"Kemeng Shi" <shikemeng@huaweicloud.com>, 
-	"Nhat Pham" <nphamcs@gmail.com>, "Baoquan He" <baoquan.he@linux.dev>, 
-	"Barry Song" <baohua@kernel.org>, 
-	"Youngjun Park" <youngjun.park@lge.com>, 
-	"Nathan Chancellor" <nathan@kernel.org>, 
-	"Nick Desaulniers" <ndesaulniers@google.com>, 
-	"Bill Wendling" <morbo@google.com>, 
-	"Justin Stitt" <justinstitt@google.com>, "yu kuai" <yukuai@fygo.io>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="E9kjYKDL"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FFVVU91231597;
+	Tue, 15 Sep 2026 15:55:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=BxPHWNTD4L6hnARkU6EXSH4kWdMAVf
+	IaMl336Sudec4=; b=E9kjYKDLqa8Q+ZrT0cPcL1qYV/gnwiw+sxKC49wqewEvhH
+	tIADKnBC+dls2N51zMbDqePuAYDevMoXKHla6vFDD8JoWOv96RL1jj6HJPXY9odG
+	JycOY+BiKY/H7iElmqDltBiOUlasXOq8PQLA0kq5OKgttSeCwFYsATOXT5fmWSNk
+	3UtsJSJYHtaZYUUI1qAAJ4doLYIRSy1Iv6OBvnBRvtKV5q82PaUbMZ3bWUxo8INZ
+	qFbmqcEH6ml3syFE7jWxl8OSJiea34IxLnNV2O+fvzHqipjjTZKYNhQVmslJOv+m
+	unhB2F/cUhFrMg5fRMiEbuwvStjIdz8Kayh7V29g==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gmxcuyn9w-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 15 Sep 2026 15:55:57 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68FFAb9O4140789;
+	Tue, 15 Sep 2026 15:55:57 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gq03bt272-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Sep 2026 15:55:57 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68FFtrIB49742122
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 15 Sep 2026 15:55:53 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 075C420040;
+	Tue, 15 Sep 2026 15:55:53 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8FF5720049;
+	Tue, 15 Sep 2026 15:55:49 +0000 (GMT)
+Received: from fedora (unknown [9.5.7.39])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 15 Sep 2026 15:55:49 +0000 (GMT)
+Date: Tue, 15 Sep 2026 21:33:35 +0530
+From: Amit Machhiwal <amachhiw@linux.ibm.com>
+To: Fuad Tabba <fuad.tabba@linux.dev>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oupton@kernel.org>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Joey Gouly <joey.gouly@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Steffen Eiden <seiden@linux.ibm.com>,
+        Nicholas Piggin <npiggin@gmail.com>, Will Deacon <will@kernel.org>,
+        Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
+        kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] KVM: PPC: Book3S HV: Fix comment naming a
+ non-existent KVM_VCPU_RUN ioctl
+Message-ID: <20260915213132.36dc8e16-c4-amachhiw@linux.ibm.com>
+Mail-Followup-To: Fuad Tabba <fuad.tabba@linux.dev>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Sean Christopherson <seanjc@google.com>, 
+	Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Steffen Eiden <seiden@linux.ibm.com>, 
+	Nicholas Piggin <npiggin@gmail.com>, Will Deacon <will@kernel.org>, Fuad Tabba <tabba@google.com>, 
+	kvm@vger.kernel.org, kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+References: <20260915084441.3846947-1-fuad.tabba@linux.dev>
+ <20260915084441.3846947-4-fuad.tabba@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Received: from [192.168.1.104] ([39.182.0.142]) by smtp.larksuite.com with ESMTPS; Tue, 15 Sep 2026 15:54:50 +0000
-Subject: Re: [PATCH v2 3/3] blk-cgroup: move async bio punt state to blkcg
-Date: Tue, 15 Sep 2026 23:54:41 +0800
-X-Original-From: yu kuai <yukuai@fygo.io>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <f27ee89f-5a52-4cfc-a14a-e5019ae61d89@linux.ibm.com>
-Reply-To: yukuai@fygo.io
-Cc: "Christoph Hellwig" <hch@lst.de>, "Tao Cui" <cuitao@kylinos.cn>, 
-	<linux-block@vger.kernel.org>, <cgroups@vger.kernel.org>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-bcache@vger.kernel.org>, <dm-devel@lists.linux.dev>, 
-	<linux-raid@vger.kernel.org>, <gfs2@lists.linux.dev>, 
-	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>, 
-	<llvm@lists.linux.dev>
-References: <cover.1789237876.git.yukuai@fygo.io> <326e4904402440323532168095f2eb0c6f697836.1789237877.git.yukuai@fygo.io> <f27ee89f-5a52-4cfc-a14a-e5019ae61d89@linux.ibm.com>
-X-Lms-Return-Path: <lba+26aa96a4b+fc73eb+vger.kernel.org+yukuai@fygo.io>
-From: "yu kuai" <yukuai@fygo.io>
-Message-Id: <52df0198-9949-4801-ac0f-c86935d1aceb@fygo.io>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260915084441.3846947-4-fuad.tabba@linux.dev>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDIyNyBTYWx0ZWRfXzIn1dK9Rs4+u
+ 1ZEQ/kXTnyAJedfW8z4wkUc+E/d/fluIN3zAK/YxHn7TBgfGnVk8JCl1Vo4xL/psXanz4tD0KHN
+ Qk8+rU03trQthHv6QNcjQwVMiXf22AE=
+X-Proofpoint-ORIG-GUID: 91WZ0m3lDBs7CXxyV9apPpYw-pvyJRYH
+X-Proofpoint-GUID: gJPvzoGNYexcjx6bjMrZBuLr-2VMHt02
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDIyNyBTYWx0ZWRfX2lI7grsp7nJ1
+ cuAIeOKMuz8GpYcvBYKxSINyr/44QJ0DukUXFCTX9jVSMoNPc8e2hL04yKEFu6QZkdb+59nh0Jd
+ ccDYNy+6xXy7HYfPOCdM84EIZwhQZrY9ZZQ02ekC92bGNvoUW2mhzmoGZOjXO5Ei3Hl061hrfbu
+ 0NJ9HKjIEBmau5r4ovHptHj2vsuFpFnFVRAWe4fscsP3kI5RMn/X9VVRMv8yEumnqvg2Vf+Qo3z
+ wT5KDwRX02eFMCZzPVbh0PJlqdntI1LRqViiypazFF5+zw4LbY+pn0mW8soX6sVr3xuQKrdhn3B
+ nDc/Wus556R+i80gYYiOpRWubLPVyZsIAsWVgUpEqnQ7+sXqX4wTIv55rmUsRV8XdEp/1LbjVgH
+ wOZVpU/TMkhz0n63NDtHhGFIu1TZDWH1VLvk13Qk7+yktxo9jecZGj/frjCTs4QdRN68mKHxqoU
+ UfMVdIj4nAQR3WNm6+w==
+X-Authority-Analysis: v=2.4 cv=F+7C5ahN c=1 sm=1 tr=0 ts=6aa96a8e cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8
+ a=e7Yo3nX338CflZNYmVUA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-15_04,2026-09-15_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 phishscore=0 clxscore=1011 malwarescore=0
+ lowpriorityscore=0 bulkscore=0 spamscore=0 impostorscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609150227
 
-Hi,
+On 2026/09/15 09:44 AM, Fuad Tabba wrote:
+> There is no KVM_VCPU_RUN ioctl. The one that enters the guest is
+> KVM_RUN, so refer to it by that name.
+> 
+> Signed-off-by: Fuad Tabba <fuad.tabba@linux.dev>
+> ---
+>  arch/powerpc/kvm/book3s_hv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
+> index dbac3573b2c89..db090f4c5e95b 100644
+> --- a/arch/powerpc/kvm/book3s_hv.c
+> +++ b/arch/powerpc/kvm/book3s_hv.c
+> @@ -269,7 +269,7 @@ static void kvmppc_fast_vcpu_kick_hv(struct kvm_vcpu *vcpu)
+>   * stolen time for a vcore when it is inactive, or for a vcpu
+>   * when it is in state RUNNING or NOTREADY.  NOTREADY is a bit of
+>   * a misnomer; it means that the vcpu task is not executing in
+> - * the KVM_VCPU_RUN ioctl, i.e. it is in userspace or elsewhere in
+> + * the KVM_RUN ioctl, i.e. it is in userspace or elsewhere in
 
-=E5=9C=A8 2026/9/13 21:29, Nilay Shroff =E5=86=99=E9=81=93:
-> On 9/13/26 12:24 PM, Yu Kuai wrote:
->> From: Yu Kuai <yukuai@fygo.io>
->>
->> blkcg_punt_bio_submit() currently queues punted bios on=20
->> blkg->async_bios,
->> so it has to call bio_blkg() to find or create a queue-local blkg.=C2=A0=
- Bios
->> now carry and pin the blkcg css, so punted bio lifetime no longer=20
->> needs to
->> be anchored by a blkg.
->>
->> Keeping the punt state in blkg can instantiate a blkg even when no blkcg
->> policy is enabled, just to bounce submission from a shared kthread.=C2=
-=A0=20
->> Move
->> async_bio_lock, async_bios and async_bio_work to struct blkcg, and queue
->> punted bios on bio_blkcg() for non-root cgroups.=C2=A0 Root or=20
->> unassociated bios
->> are submitted directly.
->>
->> This preserves the priority-inversion avoidance while preventing
->> blkcg_punt_bio_submit() from creating blkgs that are not needed by any
->> policy.
->>
->> Signed-off-by: Yu Kuai <yukuai@fygo.io>
->> ---
->> =C2=A0 block/blk-cgroup.c | 52 ++++++++++++++++++++++++++---------------=
------
->> =C2=A0 block/blk-cgroup.h | 14 ++++++-------
->> =C2=A0 2 files changed, 35 insertions(+), 31 deletions(-)
->>
->> diff --git a/block/blk-cgroup.c b/block/blk-cgroup.c
->> index 59ccfefe16a8..aa3cee107ebe 100644
->> --- a/block/blk-cgroup.c
->> +++ b/block/blk-cgroup.c
->> @@ -180,14 +180,10 @@ static void blkg_free(struct blkcg_gq *blkg)
->> =C2=A0 =C2=A0 static void __blkg_release(struct rcu_head *rcu)
->> =C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct blkcg_gq *blkg =3D container_of(rc=
-u, struct blkcg_gq,=20
->> rcu_head);
->> =C2=A0 -#ifdef CONFIG_BLK_CGROUP_PUNT_BIO
->> -=C2=A0=C2=A0=C2=A0 WARN_ON(!bio_list_empty(&blkg->async_bios));
->> -#endif
->> -
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 blkg_free(blkg);
->> =C2=A0 }
->> =C2=A0 =C2=A0 /*
->> =C2=A0=C2=A0 * A group is RCU protected, but having an rcu lock does not=
- mean=20
->> that one
->> @@ -226,23 +222,23 @@ static void blkg_release(struct percpu_ref *ref)
->> =C2=A0 }
->> =C2=A0 =C2=A0 #ifdef CONFIG_BLK_CGROUP_PUNT_BIO
->> =C2=A0 static struct workqueue_struct *blkcg_punt_bio_wq;
->> =C2=A0 -static void blkg_async_bio_workfn(struct work_struct *work)
->> +static void blkcg_async_bio_workfn(struct work_struct *work)
->> =C2=A0 {
->> -=C2=A0=C2=A0=C2=A0 struct blkcg_gq *blkg =3D container_of(work, struct =
-blkcg_gq,
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- async_bio_work);
->> +=C2=A0=C2=A0=C2=A0 struct blkcg *blkcg =3D container_of(work, struct bl=
-kcg,=20
->> async_bio_work);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct bio_list bios =3D BIO_EMPTY_LIST;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct bio *bio;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct blk_plug plug;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool need_plug =3D false;
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 /* as long as there are pending bios, @blkg c=
-an't go away */
->> -=C2=A0=C2=A0=C2=A0 spin_lock(&blkg->async_bio_lock);
->> -=C2=A0=C2=A0=C2=A0 bio_list_merge_init(&bios, &blkg->async_bios);
->> -=C2=A0=C2=A0=C2=A0 spin_unlock(&blkg->async_bio_lock);
->> +=C2=A0=C2=A0=C2=A0 /* as long as there are pending bios, @blkcg can't g=
-o away */
->> +=C2=A0=C2=A0=C2=A0 {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 guard(spinlock)(&blkcg->asyn=
-c_bio_lock);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bio_list_merge_init(&bios, &=
-blkcg->async_bios);
->> +=C2=A0=C2=A0=C2=A0 }
->>
-> Instead of using guard(spinlock)(...) here, I think we could use the
-> simpler spin_lock()/spin_unlock() helpers. IMO, they are easier
-> to read and reason about for these short critical sections.
-Ok.
->
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* start plug only when bio_list contains=
- at least 2 bios */
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (bios.head && bios.head->bi_next) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 need_plug =3D tru=
-e;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 blk_start_plug(&p=
-lug);
->> @@ -259,19 +255,20 @@ static void blkg_async_bio_workfn(struct=20
->> work_struct *work)
->> =C2=A0=C2=A0 * cgroup.=C2=A0 Use this helper instead of submit_bio to pu=
-nt the=20
->> actual issuing to
->> =C2=A0=C2=A0 * a dedicated per-blkcg work item to avoid such priority in=
-versions.
->> =C2=A0=C2=A0 */
->> =C2=A0 void blkcg_punt_bio_submit(struct bio *bio)
->> =C2=A0 {
->> -=C2=A0=C2=A0=C2=A0 struct blkcg_gq *blkg =3D bio_blkg(bio);
->> +=C2=A0=C2=A0=C2=A0 struct blkcg *blkcg =3D bio_blkcg(bio);
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 if (blkg && blkg->parent) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_lock(&blkg->async_bio_l=
-ock);
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bio_list_add(&blkg->async_bi=
-os, bio);
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_unlock(&blkg->async_bio=
-_lock);
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 queue_work(blkcg_punt_bio_wq=
-, &blkg->async_bio_work);
->> +=C2=A0=C2=A0=C2=A0 if (blkcg && cgroup_parent(blkcg->css.cgroup)) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 guar=
-d(spinlock)(&blkcg->async_bio_lock);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bio_=
-list_add(&blkcg->async_bios, bio);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 queue_work(blkcg_punt_bio_wq=
-, &blkcg->async_bio_work);
->
-> Again same here, replace guard() with spin_lock() and spin_unlock()
-> helpers.
->
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Never bounce if there is =
-no non-root blkg to queue on. */
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Never bounce if there is =
-no non-root blkcg to queue on. */
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 submit_bio(bio);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 }
->> =C2=A0 EXPORT_SYMBOL_GPL(blkcg_punt_bio_submit);
->> =C2=A0 @@ -350,15 +347,10 @@ static struct blkcg_gq *blkg_alloc(struct=
-=20
->> blkcg *blkcg, struct gendisk *disk,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 blkg->q =3D disk->queue;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 INIT_LIST_HEAD(&blkg->q_node);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 blkg->blkcg =3D blkcg;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 blkg->blkcg_id =3D blkcg->css.id;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 blkg->iostat.blkg =3D blkg;
->> -#ifdef CONFIG_BLK_CGROUP_PUNT_BIO
->> -=C2=A0=C2=A0=C2=A0 spin_lock_init(&blkg->async_bio_lock);
->> -=C2=A0=C2=A0=C2=A0 bio_list_init(&blkg->async_bios);
->> -=C2=A0=C2=A0=C2=A0 INIT_WORK(&blkg->async_bio_work, blkg_async_bio_work=
-fn);
->> -#endif
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u64_stats_init(&blkg->iostat.sync)=
-;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for_each_possible_cpu(cpu) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u64_stats_init(&p=
-er_cpu_ptr(blkg->iostat_cpu, cpu)->sync);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 per_cpu_ptr(blkg-=
->iostat_cpu, cpu)->blkg =3D blkg;
->> @@ -1399,10 +1391,16 @@ static void blkcg_css_free(struct=20
->> cgroup_subsys_state *css)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (blkcg->cpd[i]=
-)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 blkcg_policy[i]->cpd_free_fn(blkcg->cpd[i]);
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_unlock(&blkcg_pol_mutex);
->> =C2=A0 +#ifdef CONFIG_BLK_CGROUP_PUNT_BIO
->> +=C2=A0=C2=A0=C2=A0 {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 guard(spinlock)(&blkcg->asyn=
-c_bio_lock);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WARN_ON(!bio_list_empty(&blk=
-cg->async_bios));
->> +=C2=A0=C2=A0=C2=A0 }
->> +#endif
->
-> This is a slightly different case. At this point blkcg_css_free() is
-> freeing the blkcg object after its final reference has gone away, so
-> there should be no concurrent context accessing blkcg->async_bios.
-> Therefore, I don't think we need to acquire async_bio_lock here just
-> to perform the WARN_ON() check.
+The erroneous name was introduced by commit c7b676709c16 ("KVM: PPC: Book3S HV:
+Fix accounting of stolen time") and has sat untouched since.  KVM_VCPU_RUN was
+never a real ioctl; KVM_RUN is correct.
 
-Perhaps is it better just to remove the check? blkcg will be pinned
-by any bio inside the list, so I believe this is safe.
+Reviewed-by: Amit Machhiwal <amachhiw@linux.ibm.com>
 
-> The clang context annotation cannot infer this object-lifetime property
-> and will therefore report an unprotected access. I think we should
-> explicitly mark this access as context-unsafe.
->
-> But wait, even better, we could introduce a bio_list_empty_careful()=20
-> helper,
-> similar to list_empty_careful(), for this purpose:
->
-> static inline bool bio_list_empty_careful(const struct bio_list *bl)
-> =C2=A0=C2=A0=C2=A0=C2=A0__context_unsafe(/* intentional lockless access t=
-o @bl->head */)
-> {
-> =C2=A0=C2=A0=C2=A0=C2=A0return bl->head =3D=3D NULL;
-> }
->
-> Then this could simply become:
->
-> WARN_ON(!bio_list_empty_careful(&blkcg->async_bios));
->
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 free_percpu(blkcg->lhead);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfree(blkcg);
->> =C2=A0 }
->> =C2=A0 =C2=A0 static struct cgroup_subsys_state *
->> @@ -1447,10 +1445,18 @@ blkcg_css_alloc(struct cgroup_subsys_state=20
->> *parent_css)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_lock_init(&blkcg->lock);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 refcount_set(&blkcg->online_pin, 1);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 INIT_HLIST_HEAD(&blkcg->blkg_list);
->> +#ifdef CONFIG_BLK_CGROUP_PUNT_BIO
->> +=C2=A0=C2=A0=C2=A0 spin_lock_init(&blkcg->async_bio_lock);
->> +=C2=A0=C2=A0=C2=A0 {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 guard(spinlock)(&blkcg->asyn=
-c_bio_lock);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bio_list_init(&blkcg->async_=
-bios);
->> +=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0 INIT_WORK(&blkcg->async_bio_work, blkcg_async_bio_wo=
-rkfn);
->> +#endif
->
-> This is interesting. As you know, while an object is being allocated
-> and before it is published, it can't be accessed concurrently. So
-> guarding blkcg->async_bios with blkcg->async_bio_lock is not necessary
-> here. Moreover, since blkcg is zero-initialized, we could simply remove
-> both the guard(...) and the bio_list_init() call above.
->
-> Thanks,
-> --Nilay
-
---=20
 Thanks,
-Kuai
+Amit
