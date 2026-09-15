@@ -1,148 +1,167 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7006243D4FE
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 17:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789494976; cv=pass; b=p9DKYAA1a9XpFmUJtAE777rrQ0PAzj5WVeRIZn+6h3hVzZbW9Ii+eZ/1ZwBEHUo1vAH8XN+4XHvZsqrrf9wj6MnPB+9F+prpF3ehlUtLjBY2iN0Ui1G4/zofXlzbiTp+/VirUZWMxeXYwTxeIWdkaOr7vCUtyiCm0Gifer0jK+Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789494976; c=relaxed/simple;
-	bh=P7a2zFFMvnl7AMMV9J8HoSFvOnO26MuCDolXpy7oTxA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QPqYqKuZKfgkmTosdfWQRTyVxe3BHPYZ1SbEojgFdQP73zFAQWvCjTI16FAMM7Q06aeOrYoBhZoWhx9HBVHLvUMnf/NM5z86F1NiYvFEAWjaNqI2heCwAYaXEQV1Lv6AL4M0vptj+s250q/p1ywMB2hR/xlJLO/m5D1SCnNpU5c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=a6KqVcGU; arc=pass smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B9649E5E6;
+	Tue, 15 Sep 2026 17:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.147.86
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789494980; cv=none; b=DB8NlwizsfdHQDYCC2tybaTcg9dV6M7Uf5a/XHEbo2TdU+nROr4yYXcTPIUQfTr9G0ihyb6MVTsAHxHIHsh0WEmWWzubyB3XiT198SH+Ee6qEsEYGxDnhYHS7eW/yIXKiksgUbDJUfXCl6uDgKC1SY7KNGgPmI8EB/6TnDbxgCA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789494980; c=relaxed/simple;
+	bh=EwzSM2YpKfya0JXRveWZ69rYR1xw5kgFdDFZ8hLc6HA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IIPXy0gSGUhChIq94CbuID7ItJHmRK71c23nHUqBiFdBbkhvEJHXtT9lz/KnjBrB2zsXFeJxelCam5q5hQC/IY0kH+DZ9L9KYagxaBAQVa5xUrIUTcq8O5MXdNJNVjNKElRSE6Nc8hdrdlpqCjwZELOJn5n4qsDseyx7n9+pUAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=JtkvPdj9; arc=none smtp.client-ip=148.163.147.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a6KqVcGU"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4843e397f74so707068f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 10:56:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789494973; cv=none;
-        d=google.com; s=arc-20260327;
-        b=i07FWib34YTJ51ALffewFAQYNa4+NWYloIND6geRUT0AJ3nCZSzFm7yxY99Ws3rcHj
-         CShis303mjVN0Whw84vX+PxqDUcO1dESuwWtaceORq5VCpYNnqD3h8XT8yFTHL3BA875
-         7+6OuXnhYMsFHPDrCvIEiZGRoUUOsor0K8+ime8ECqRk/nlpHyfoK2AVGZBGkkTuSESd
-         cwpId2OCQLICGO6ZMKxnD5cCWALFyuropSs1KbsZ7hE9Lg5BsexjXb2cwS+V16OfMK6F
-         w9H+Pwe8DFVwVNSUznC6PmZa2vAY48m2ZYC8GKbD0DkMMiOoGzwcua5c3xcvJXDmOjea
-         k+kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=GXjIVxCi/wI/JEAgJbDGbjdOXMojQ1soppHskXz6ugY=;
-        fh=s6vElBKZS9DprHfwMb7idSbcMG4X/qvzXxGF1OXec60=;
-        b=LRrdKETx/owrGk7zDvv620BwJ5S3jwWAUz3uUkcNqByF31fucemOd5GujSdZyblVvN
-         7GSiMn1FkAWVPIF6TjLPpE7xehTYYaNEt65BUpZf1brpGTYuo09+JJAVZyhSTvaJLp/9
-         sizCl4CrvCCM/uqVczVlURikVtbQp8Z/Ls3ZGkuQw9XRg/VF2f28Jz9fXYGj/WV2NVVk
-         jmNaXMjUO0BciLts9/McDSyp6w22kI4CazOPIyY6q8lgNkVJX8MoyS83m+2PqBgUWMVW
-         3R+LHeMEvj2qD3zP6qOVtVEGZlQ31uOp2h3m9mQOXDLvWUt0Nq1fVEuUZ65QkG36wYSJ
-         38qg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789494973; x=1790099773; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GXjIVxCi/wI/JEAgJbDGbjdOXMojQ1soppHskXz6ugY=;
-        b=a6KqVcGUw2fLFtF1Hm9cc5yrvLvRY7YxPEhLHNJIfcavwgt1rbW5yhhfaSMX9+BAED
-         DGIeBSCgb1PlyB68lxCyUYa/zeD7s7Lo+A6Qmv93dYvmxfOjOqiT4T0+b7iIrlo89kl3
-         YmXf3optvEP5cx8oa/c2vYZz/Cpd/9YBfStzMILEteq521PB7cv0n4n8ZyMgrCmgFcCE
-         lMSUEJYprCL+/e4j6Ny2nYOmfUuoU2z79ZlpeYGa4QTjMUcNXGJrHFAK5pWg2+Dyb0Pk
-         ebFFkqcbAhZKuXXO3iWlS5mmW4BKwKJfkzmb/CfloFnTWbyEEabpV3Xv4BxGONXxY8dZ
-         5NfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789494973; x=1790099773;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GXjIVxCi/wI/JEAgJbDGbjdOXMojQ1soppHskXz6ugY=;
-        b=FT2QXlnFOFkSf+PnMDJCy3Rl04qAKkCAQj0WIsdQgABMYhCpYlXmJ0EAQmHmECvqtW
-         ne5RegjfR0v+q76XqfvwMtKujosNWUNDZoEERRqE+FhadWLBzHMQd3nJtwlm+D54x1cd
-         WpDCDxX19XsPcBwv4XK2s8Q4LTwzmsOuQ0e3vTT3cUVCxh1fnprcdqOJ+lGMJ7CspZz8
-         EH4JhP552vgPMDBbF9biQw0Dn0GnQXI0MzpWSmyaPnnu+9o4nKQuoAMZTHmoiEB4P/Bc
-         cKrTZsjDV/kDQsufSROXPZqwM2Sj9bS1YATmkbC1ip//LlRMK+1QiSROLhZV2pjV5c4B
-         ZONQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxbfBnhkhuYmwPfr7CmfT8ydgEHz54Gr2ENbHKHI7cRypcXN71RhXgeXbVLKK2bIMxupiG3x+NCfus=@vger.kernel.org
-X-Gm-Message-State: AFuF++knxr7wl6qAZ2MjjQfQxYXg/df1I59Y9cVc/LhhagBxbLx8N87R
-	8+LUQkVTW8jTSxPqxw5c7d6jjIX6Kbm1jm6QjN7KNX1yODDNIGQyVkKAyc4+H1ioZ46uzhXZBlD
-	nzw6xm+JZuKfYQvvHYB0EH+sCLXV2yWQxgM/eo60N
-X-Gm-Gg: AYBFou1us+am720z5S5N2glz01rk4tRwNUIKV8TXDZuFmzlPNzr+4ijEJ3hi0MNl2Xj
-	tT8sF7qdqUGwuzFRo1CJdT56qIXlVUsFBl0i9GDkRST5V/5sNS4MW7wgRe1rL+pJr52mOea4G9d
-	lIJJljAG8rQGD+ueuRedZnLWdKIh7IuNAMXcpRwtni83iJTEMjmdAbUYsoCp0OyTyFCh6PGEwFy
-	2kiNJ3YpSbTm9Y4pNBlALgppr7ER4ClabEY+WchNxLj3BlMEFneNHc1x/bmmeM6oCX8cSvNMGOj
-	9kOJIgGwN/e2Cz/Pc3QFD/m0MWik9ZnIWPB0xg0eN8UgGUnSj2v1CsXnosWcNIu9naye7B9y5nD
-	OD6d9ibUz+TA5jSe39GtAk4/HgNs3ju5OoHsj7aPJpLqfmKwBq7ZIc/RKy4jo+vJFSBM=
-X-Received: by 2002:adf:eec3:0:b0:487:13f:4968 with SMTP id
- ffacd0b85a97d-48705b5d792mr5756089f8f.11.1789494972051; Tue, 15 Sep 2026
- 10:56:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="JtkvPdj9"
+Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
+	by mx0a-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FHsVqr2942025;
+	Tue, 15 Sep 2026 17:55:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pps0720; bh=PNlXKXX5IyXBrJN4ylgfbuPEUG
+	zQwPHtOwfHhk/bIe4=; b=JtkvPdj9EgRpDPcHrWl7UiRg4FD51sG7bJwVBqU6NW
+	Uf9ZBrOUOIdWZdWKf3O6D1LdCvuCCfHBVsothhkDzcEQvQqpUa+X3DE2tXlkrmaq
+	TwHA1tHiyDDO39sk9SEBf3lo8SVxRGAdRe/PmOH1oG2U32Ew1HRH3/0SvQnq+ooO
+	K2eGSGVE35K+NtUNjDt9OOnemYoYORplPC7JhdkdpeH9DTdCYMi3Gziqdeq3MRUw
+	O5s18X3g6ws5CMnEnGIjZAuhE5rAO37Xlpzok4myiSzSteUdQL3O4OYsdgwNOqRJ
+	wJibhZ7YuJ/A1lYAxITpmgTpsQD3Am432oLyRbNyZ3hw==
+Received: from p1lg14879.it.hpe.com (p1lg14879.it.hpe.com [16.230.97.200])
+	by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 4gq95pstj8-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 15 Sep 2026 17:55:12 +0000 (GMT)
+Received: from p1lg14885.dc01.its.hpecorp.net (unknown [10.119.18.236])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by p1lg14879.it.hpe.com (Postfix) with ESMTPS id 6BD1312EB9;
+	Tue, 15 Sep 2026 17:55:11 +0000 (UTC)
+Received: from HPE-5CG20646DK.localdomain (unknown [16.231.227.36])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTPS id B4FBC805E88;
+	Tue, 15 Sep 2026 17:55:06 +0000 (UTC)
+Date: Tue, 15 Sep 2026 12:55:03 -0500
+From: Kyle Meyer <kyle.meyer@hpe.com>
+To: Michal Hocko <mhocko@suse.com>
+Cc: akpm@linux-foundation.org, corbet@lwn.net, david@redhat.com,
+        linmiaohe@huawei.com, shuah@kernel.org, tony.luck@intel.com,
+        jane.chu@oracle.com, jiaqiyan@google.com, Liam.Howlett@oracle.com,
+        bp@alien8.de, hannes@cmpxchg.org, jack@suse.cz,
+        joel.granados@kernel.org, laoar.shao@gmail.com,
+        lorenzo.stoakes@oracle.com, mclapinski@google.com,
+        nao.horiguchi@gmail.com, osalvador@suse.de, rafael.j.wysocki@intel.com,
+        rppt@kernel.org, russ.anderson@hpe.com, shawn.fan@intel.com,
+        surenb@google.com, vbabka@suse.cz, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3] mm/memory-failure: Support disabling soft offline for
+ HugeTLB pages
+Message-ID: <aqmGd0GGUCkbZpkZ@hpe.com>
+References: <aqiIEkrc6aDBOqRg@hpe.com>
+ <aqkCbgHmMGxI_GLG@tiehlicka>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
- <20260914-build-speedup-v2-14-39817ec5db23@kernel.org> <202609141056.6AE2C82E@keescook>
- <aqkZvtAKWYf9-1ZW@gremlin> <202609150943.000EC9277@keescook>
-In-Reply-To: <202609150943.000EC9277@keescook>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 15 Sep 2026 10:56:01 -0700
-X-Gm-Features: AcwNN1WPMMWK_d5_qt02ICUH5UNGl72dPPgrM0zv_mQxUiZh6yRKMNR6HBnx31I
-Message-ID: <CAKwvOdms6QWc7RMW6hJb3qzgmpK+aw40C7b_h7eG161ie_Y8ZA@mail.gmail.com>
-Subject: Re: [PATCH v2 14/21] kbuild: batch module finalisation
-To: Kees Cook <kees@kernel.org>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqkCbgHmMGxI_GLG@tiehlicka>
+X-Proofpoint-ORIG-GUID: ZGyhASJQPrkZtald6s-qe-XaJzb3rLwu
+X-Authority-Analysis: v=2.4 cv=SJ3Xx+vH c=1 sm=1 tr=0 ts=6aa98681 cx=c_pps
+ a=5jkVtQsCUlC8zk5UhkBgHg==:117 a=5jkVtQsCUlC8zk5UhkBgHg==:17
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=gQcMVamqm3wCPoSYhaRC:22 a=_ZmgHqWwjZUDpi_pur5s:22 a=VwQbUJbxAAAA:8
+ a=MvuuwTCpAAAA:8 a=OCHxr62PC90mTwIpeikA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDI2MCBTYWx0ZWRfX/bF3jfMe5L2R
+ j63mU1nIBKQUtxaBXijRxEhjpUkMVc4zIvOsjeAo1gXa6d8EaQ3zY67L76NuqyOpj1PqfHtArmO
+ 2vl0Zj/ywj1xKqs1a/mzZMNwlkOXYrqejAwJQ505r93PdMuHej9YKGoy+OOhjdgIGcbnHU5kPaU
+ yvvrSCWy5ejLgHtdaE3GjSon0dkRbhoyLPGlPM5ivm10iaII7ndWeW/6v4Wb+WicsOGN6iGbq5y
+ TmACnEazHYCmP+PBiUKK1AlL2cSjGIx6qbmqEPScHv5nRJqfghhw+WYCVTjioKj934H6QVwbEyn
+ +l7ofYSeMOrVz1JhspzsrFr1N4lD/2CI+O885v1QKv5nzT3CrROQPCxW5DGn1rcxZV1AAEnv7EB
+ 8HBx6GOAVf7DeSMdD7b3ATQFGeRAgDSkWYdpFHxj64RkQev4NJH17HwCiED+iffIRQ5Flebq0JV
+ zWia0hniMaXW7l/WWHg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDI2MCBTYWx0ZWRfX63h0+WaHo6KX
+ o28u0TT4xIFnPPwvxBVPnt73ZCm6PXqMR4K+TANuw3CaFV5L9FIl2AQlI4GVDKvAEj81K9dRKGJ
+ DaYbaSq0UXlb+dnZCcP9Cbxr0DS1x+w=
+X-Proofpoint-GUID: ZGyhASJQPrkZtald6s-qe-XaJzb3rLwu
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-15_05,2026-09-15_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 priorityscore=1501 phishscore=0 adultscore=0 bulkscore=0
+ clxscore=1015 lowpriorityscore=0 malwarescore=0 spamscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609150260
 
-On Tue, Sep 15, 2026 at 9:49=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
->
-> On Tue, Sep 15, 2026 at 11:44:01AM +0100, Lorenzo Stoakes (ARM) wrote:
-> > On Mon, Sep 14, 2026 at 11:00:27AM -0700, Kees Cook wrote:
-> > > On Mon, Sep 14, 2026 at 10:22:13AM +0100, Lorenzo Stoakes (ARM) wrote=
-:
-> > > > Module finalisation on allmodconfig builds consists of a large numb=
-er of
-> > > > very short-lived jobs, and the make job dispatcher cannot possibly =
-dispatch
-> > > > jobs fast enough.
-> > >
-> > > This "cannot possibly" sounds like a weird LLM language intensifier. =
-I'd
-> >
-> > Again that's my writing actually, probably best to stop assuming LLM no=
-w ;)
->
-> Apologies; whatever the opposite of the Turing Test is, I have failed.
-> :P The AIs are winning: humans are suspicious of each other now. :)
+On Tue, Sep 15, 2026 at 10:31:42AM +0200, Michal Hocko wrote:
+> On Mon 14-09-26 18:49:38, Kyle Meyer wrote:
+> > Soft offlining a HugeTLB page dissolves it, permanently reducing the
+> > HugeTLB page pool. This can be problematic for workloads that depend on
+> > a fixed number of HugeTLB pages.
+> > 
+> > Currently, soft offline must be disabled to prevent HugeTLB pages from
+> > being soft offlined.
+> > 
+> > This patch allows soft offline to be disabled for HugeTLB pages while
+> > remaining enabled for non-HugeTLB pages.
+> > 
+> > Commit 56374430c5dfc ("mm/memory-failure: userspace controls
+> > soft-offlining pages") introduced the following sysctl interface to
+> > control soft offline:
+> > 
+> > /proc/sys/vm/enable_soft_offline
+> > 
+> > The interface does not distinguish between page types:
+> > 
+> >     0 - Soft offline is disabled
+> >     1 - Soft offline is enabled
+> > 
+> > Convert enable_soft_offline to a bitmask and support disabling soft
+> > offline for HugeTLB pages:
+> > 
+> > Bits:
+> > 
+> >     0 - Enable soft offline
+> >     1 - Disable soft offline for HugeTLB pages
+> > 
+> > Supported values:
+> > 
+> >     0 - Soft offline is disabled
+> >     1 - Soft offline is enabled
+> >     3 - Soft offline is enabled (disabled for HugeTLB pages)
+> > 
+> > Existing behavior is preserved.
+> > 
+> > Update documentation and HugeTLB soft offline selftests.
+> 
+> This is adding a lot of user interfaces to control something you can
+> disable by config option for an admin only functionality.
 
-Is there a term for this yet?  Cylon paranoia?
+I may be missing it, but I'm not aware of a config option that disables soft
+offline specifically for HugeTLB pages.
 
---=20
-Thanks,
-~Nick Desaulniers
+> I fail to to see any actual justification for all of that. If an admin
+> can disolve a hugetlb page it has power to allocate a new one as well.
+
+Allocating HugeTLB pages after boot is not guaranteed.
+
+> Not to menation that the whole soft offlining is mostly a testing
+> feature so adding a lot of fine grained configuration space seems
+> excessive to me.
+
+Can you elaborate on "mostly a testing feature"? For example, how does that
+apply to the BIOS/GHES path discussed here?
+
+https://lore.kernel.org/all/aMkOCmGBhZKhKPrI@hpe.com
+
+If you think this should be handled differently, I'm open to suggestions.
+
+Thanks for the feedback,
+Kyle Meyer
