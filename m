@@ -1,166 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E6B390C9E;
-	Tue, 15 Sep 2026 11:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC0949E5ED;
+	Tue, 15 Sep 2026 11:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789471848; cv=none; b=utPHLQR3LLq5yIP/v/ZJoXwshSEURCOFpVY1bovCBK6RcityVrmCOngfPOibPi7sBa/C6Srx5wiY5Xg3TCfXdyv3N08AXKg1YsIeV5kWtYMXA0T2/bvDgXrgLnYXigVDiHsFmYp0gMeb3KzZLqpFLhUDkI+VR+5dLDmv/lHTR4Y=
+	t=1789471957; cv=none; b=ZXr3p+o78iV1O6PiKEfP/aOlpSsgy4/BMSMPEI6nEq6fO4NP8J1k0DhTCoE5Ln7IEdOiHbAjFfFpo0tiCaMSPXqtBJ4q2eFKs+LlAkBOvRjjknG8ZjhVciqmxIMrUdhaq4IpLiNBrJP7s5riMBhzkirOZrX0kH3/0xag5xRekGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789471848; c=relaxed/simple;
-	bh=odVPNm+7LRHp0tjKuPnp4sfEi1fdkqz/WFeeAWo6QFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VeW9ZZAzP4bC1O7cEf+b6GEwn6NlkNd/hDJGI5XBWERlf5er0YmIZyywF8QIJzx0+lxei5AOoxicSt8wllxAfo/Mi1cZMBGSPP3w4rCf5TsP7BRNbptxfOZUGROjIMqBD/6Bs8XosE5qtaZ3aj5XZs96NiKjkBPHcc0rJADR+X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jgHCyQAl; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1789471957; c=relaxed/simple;
+	bh=67KRdlHJTtCCvUQ3abaX4uEN0RtScY8ogWpXP0rzNDQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=b0bTVNOr+7AfpLXrE4e/aNjcylRoGcVxZIkSgrfsFgwQvxqdqrvfv1IVORgQqESyuf58jf0Ca2P9b0qt6EFf+yVS09X3/5CD4F6XM9vW8v2wfA89SQwi9KyW6hCMEGHaKL/pW3Uni0CQC1EjWiSLsqgnnaBH/fh4doq7/M/sGts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kbvaAp8m; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgHCyQAl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kbvaAp8m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789471846; x=1821007846;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=odVPNm+7LRHp0tjKuPnp4sfEi1fdkqz/WFeeAWo6QFA=;
-  b=jgHCyQAlFd1IU9RO337FWJ/aIZIL1T92wdb5MGeVEEBjnHEcpa381rG8
-   eBTyPiL3i6KidPS4IQI9MRL8T6I6Gx74yOPN7OLZsSgfhwmzbOL1E6mTK
-   pF+0YafUzr6swhjCVA9mNEAlnhk9HUHTZvogTue6Ggb3nyxfn4fN+YBFN
-   GshiPEr6+BVI64iklwU+7kK4aMjKSJZkRx5IV4FGPCngGevo2oA/6qakB
-   AD0tYH839L80Qw03RzhNEdx9zrqkpu/v6WYYj5vbRRb0bDoH8Uo5eNMfB
-   EznSjpPqDfSaSefzlATMxtidycSL7ky9FopJGhqRHYtEauHNCA4qDALf/
-   Q==;
-X-CSE-ConnectionGUID: 6i3y18k2RPK5hlGN1nLxAQ==
-X-CSE-MsgGUID: Bs9oq7zsR0SBmqPiWAan5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100495589"
+  t=1789471955; x=1821007955;
+  h=from:to:cc:in-reply-to:references:subject:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=67KRdlHJTtCCvUQ3abaX4uEN0RtScY8ogWpXP0rzNDQ=;
+  b=kbvaAp8mh7Y+kqVczbZF6satGmnmUlt26Ubw1LpIZEN9rnVCS0WPaFf5
+   tHtpQwkc9oZqll2NMqKt3VfwDjwuhqf+2yn4YJ5X3sbTU1WkkapVNl/Dx
+   VWmbtNHrEDX3fuHmBN8X3ci/VBVRBibt9VhTXtrLCFC5t3kpcORry727i
+   JZz0UXLzfKZdNV8wzgs1YDNunNufQ2dGPpvtX2mdGXTrF08MJ6G1vqhvs
+   HkDFxoCFDb+OPLueAFUAa7RvY6WxrORDUyGy9pkhoJ0uIq87+J4UfYqVM
+   lMLIrFe8Ol9LIvbaKbdkIfFajH9JouxPqPFnXSw/+iiwnbtlus/sYNir+
+   A==;
+X-CSE-ConnectionGUID: prY/0r0GTEuEnRrCuSpQlg==
+X-CSE-MsgGUID: oD8mJ7ktQCKTpRMbpadR2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100428316"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="100495589"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 04:30:45 -0700
-X-CSE-ConnectionGUID: qWT5UoJmQryOQlPvSltQgg==
-X-CSE-MsgGUID: EEBG6GS1QbCdK3y/0gtbZw==
+   d="scan'208";a="100428316"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 04:32:34 -0700
+X-CSE-ConnectionGUID: /CzOd16QRhm4IxPrFWNuOA==
+X-CSE-MsgGUID: oHba7CFNTh20gGqwuYSNnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="270348266"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.253])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 04:30:40 -0700
-Date: Tue, 15 Sep 2026 14:30:36 +0300
-From: Tony Lindgren <tony.lindgren@linux.intel.com>
-To: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Liam Merwick <liam.merwick@oracle.com>,
-	Vishal Annapurve <vannapurve@google.com>,
-	Ninad Naik <ninadnaik07@gmail.com>,
-	Joerg Roedel <joerg.roedel@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	coconut-svsm@lists.linux.dev
-Subject: Re: [PATCH v2 6/8] KVM: SEV: Add SNP vCPU state get and set commands
-Message-ID: <aqksXLLcmFDkM9Xj@tlindgre-MOBL1>
-References: <20260908103338.427254-1-joro@8bytes.org>
- <20260908103338.427254-7-joro@8bytes.org>
+   d="scan'208";a="1380268"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.24])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 04:32:30 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: hansg@kernel.org, Pit Henrich <pithenrichmail@googlemail.com>
+Cc: hmh@hmh.eng.br, mpearson-lenovo@squebb.ca, derekjohn.clark@gmail.com, 
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+ platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Pit Henrich <pithenrich2d@gmail.com>
+In-Reply-To: <20260825191210.55090-1-pithenrich2d@gmail.com>
+References: <20260825191210.55090-1-pithenrich2d@gmail.com>
+Subject: Re: [PATCH v4] platform/x86: thinkpad-acpi: Add X1 Fold keyboard
+ attachment detection
+Message-Id: <178947194489.31094.3187386530887461716.b4-ty@b4>
+Date: Tue, 15 Sep 2026 14:32:24 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260908103338.427254-7-joro@8bytes.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
 
-On Tue, Sep 08, 2026 at 12:33:36PM +0200, Jörg Rödel wrote:
-> From: Joerg Roedel <joerg.roedel@amd.com>
-> --- a/arch/x86/kvm/svm/sev.c
-> +++ b/arch/x86/kvm/svm/sev.c
-...
-> +static int snp_get_vcpu_state(struct kvm_vcpu *vcpu,
-> +			      struct kvm_sev_cmd *argp)
-> +{
-> +	struct vcpu_svm *svm = to_svm(vcpu);
-> +	struct kvm *kvm = vcpu->kvm;
-> +	struct kvm_sev_snp_vcpu_state state = {};
-> +
-> +	if (!is_sev_snp_guest(vcpu))
-> +		return -ENOTTY;
-> +	if (!to_kvm_sev_info(kvm)->snp_context)
-> +		return -EINVAL;
-> +
-> +	guard(mutex)(&svm->sev_es.snp_vmsa_mutex);
-> +
-> +	if (VALID_PAGE(svm->sev_es.snp_guest_vmsa_gpa) &&
-> +	    VALID_PAGE(svm->vmcb->control.vmsa_pa)) {
-> +		state.vmsa_gpa = svm->sev_es.snp_guest_vmsa_gpa;
-> +		state.valid_fields |= KVM_SEV_SNP_VCPU_STATE_VMSA_VALID;
-> +	}
-> +
-> +	if (VALID_PAGE(svm->vmcb->control.ghcb_gpa)) {
-> +		state.ghcb_gpa = svm->vmcb->control.ghcb_gpa;
-> +		state.valid_fields |= KVM_SEV_SNP_VCPU_STATE_GHCB_VALID;
-> +	}
-> +
-> +	if (copy_to_user(u64_to_user_ptr(argp->data), &state, sizeof(state)))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
-> +static int snp_set_vcpu_state(struct kvm_vcpu *vcpu,
-> +			      struct kvm_sev_cmd *argp)
-> +{
-> +	struct vcpu_svm *svm = to_svm(vcpu);
-> +	struct kvm *kvm = vcpu->kvm;
-> +	struct kvm_sev_info *sev = to_kvm_sev_info(kvm);
-> +	struct kvm_sev_snp_vcpu_state state;
-> +	int ret;
-> +
-> +	if (!is_sev_snp_guest(vcpu))
-> +		return -ENOTTY;
-> +	if (!sev->snp_direct_vmsa)
-> +		return -EINVAL;
-> +	if (!sev->snp_context || kvm->arch.pre_fault_allowed)
-> +		return -EINVAL;
-> +
-> +	if (copy_from_user(&state, u64_to_user_ptr(argp->data), sizeof(state)))
-> +		return -EFAULT;
-> +
-> +	if (memchr_inv(state.pad, 0, sizeof(state.pad)) ||
-> +	    state.valid_fields & ~(KVM_SEV_SNP_VCPU_STATE_VMSA_VALID |
-> +				   KVM_SEV_SNP_VCPU_STATE_GHCB_VALID))
-> +		return -EINVAL;
-> +
-> +	if (state.valid_fields & KVM_SEV_SNP_VCPU_STATE_VMSA_VALID) {
-> +		if (!PAGE_ALIGNED(state.vmsa_gpa) ||
-> +		    !page_address_valid(vcpu, state.vmsa_gpa) ||
-> +		    IS_ALIGNED(state.vmsa_gpa, PMD_SIZE))
-> +			return -EINVAL;
-> +	}
-> +
-> +	guard(mutex)(&svm->sev_es.snp_vmsa_mutex);
-> +
-> +	if (state.valid_fields & KVM_SEV_SNP_VCPU_STATE_VMSA_VALID) {
-> +		ret = sev_snp_install_guest_vmsa(svm, state.vmsa_gpa);
-> +		if (ret)
-> +			return ret;
-> +	} else {
-> +		svm->sev_es.snp_has_guest_vmsa = true;
-> +		svm->sev_es.snp_guest_vmsa_gpa = INVALID_PAGE;
-> +		svm->vmcb->control.vmsa_pa = INVALID_PAGE;
-> +	}
-> +
-> +	if (state.valid_fields & KVM_SEV_SNP_VCPU_STATE_GHCB_VALID)
-> +		svm->vmcb->control.ghcb_gpa = state.ghcb_gpa;
-> +	else
-> +		svm->vmcb->control.ghcb_gpa = INVALID_PAGE;
-> +
-> +	vmcb_mark_all_dirty(svm->vmcb);
-> +	return 0;
-> +}
-> +
+On Tue, 25 Aug 2026 21:12:10 +0200, Pit Henrich wrote:
 
-Nice, looks like snp_get/set_vcpu_state() could quite easily make use
-of KVM_EXPORT/IMPORT_VCPU?
+> ThinkPad X1 Fold 16 Gen 1 firmware reports whether the keyboard is
+> magnetically attached (on the screen), but thinkpad-acpi does not expose
+> this to userspace. The state can be obtained via ACPI methods: GDST (get
+> device state).
+> 
+> Add a read-only keyboard_attached_on_screen sysfs attribute, gated by
+> a DMI match.
+> 
+> [...]
+
+Thank you for your contribution, it has been applied to my local
+review-ilpo-next branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo-next branch only once I've pushed my
+local branch there, which might take a while.
+
+FYI [if applicable to your patch], as per Linus' policy change, also
+fixes are mostly routed through for-next unless the fix is for a
+commit introduced in the most recent cycle or is clearly a regression
+fix.
+
+The list of commits applied:
+[1/1] platform/x86: thinkpad-acpi: Add X1 Fold keyboard attachment detection
+      commit: ab0b68221ea686085a146736569ac32d773affcb
+
+--
+ i.
+
