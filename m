@@ -1,67 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-169.mta0.migadu.com [91.218.175.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDDA43E9DF
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 05:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9D943E095
+	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 05:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789451117; cv=none; b=Ma9VHfBgB/2mY/7VIOfMZUS7Kus2wXj4WFVPLGD8LftGgKIzOCKQtzpUiCHIIgrD5twErbXymIgTISUH2H/6TEzlwNtqh5x22a9JIaXyGOfffu0xGclem821+65XRcil4JDhtS2nMmmsVxSUnfj0FVa2EnvtVZhPP6F6gLGbq/c=
+	t=1789451297; cv=none; b=synCWCrnHIyeG++s6XN6Smu68STz4lObEpCf8a3Sh/ZTb04RmCjaVS9qMBD5Wq7507YauYPPUk+lkfyC6iT5Fsz+FfvjM2S91bFCxgVv14uL5dUe+dTpHYNVIDUDNMf7ppLnmnELZuWlAOJIQ+aw+J4/YB+FIgre2GEJV2gSFUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789451117; c=relaxed/simple;
-	bh=FMcmyRQ2dhYp6L0Dmwp9VeiYleNOB9zWYqKgMPgSNA8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iiXMVdrcuIo6FoY5PI2HsO10BXWQ58u9e0KqbJi9CyiV1XUO02y1/xXKSmzeeeUke2c5zvcCy3E9fW25dEUuOzmlea9FLwxyx6JZgB7X2xkVF6gZit2q6kOxadnjsh3AEvz4V2q3Tsm2M52Th80sZ1aQYYb/tuqEdKbvEetHai4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ecXFsIvV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789451297; c=relaxed/simple;
+	bh=1SMCEB2g0ru+dqQbzOuDzgyYF3rYputEIdw/bgUlvZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OOTWJ8VwaiBtTBiu2F5g3MOUa8/ECH2ZLmGSNjqNpy6l8wLx3CMQrBTLObZQPhrhrx1DD9nDXelkB8KGP9Jstv929XKOR6KEvludQLpAkb2HjJv2jBz6RZxLYFIffnrA+udqx/EtClTtwHtuVnsvb/ujEftBJjGjTRd4Ie1EtWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=P0N2JM8j; arc=none smtp.client-ip=91.218.175.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ecXFsIvV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D4FE1F000FF;
-	Tue, 15 Sep 2026 05:45:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789451113;
-	bh=BkH5OQM9J/Q/GhLi+Du+nLfiLe24ZwtlQQhnR2ApN4A=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ecXFsIvVk1QMUhpvZieAX2h7WytAJzaDxJ8bGv0LTBj6wL7iaBRSO4jevBYmidcrH
-	 k+jQTvZQcHHAAC8sumGKPyTnJAF7tEBwjkZx9ZN0iLMfXxVPhdZz5IoGgrsSxa1zbl
-	 mjtYTGW1+qSP01Hj7DZCNNeiz6BsTwUUmCcxSbK1fGc2U0RcDDusrlMScc7MsJS5DZ
-	 7JbjEngauqhEdfj6KoCIoaL+cz1Kv4JmRnS4/P/KdJ1FV3NDxu/aeCxoOD2tSNFVKn
-	 rReDMjmZh9VZ2vd0TOgCZ3armPR9dTp1VnfIB98cD39/d1kFE6oDw3AmNFQs0ZRcsc
-	 g+WdZP1XC8kxw==
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- Jonathan Corbet <corbet@lwn.net>, Sang-Heon Jeon <ekffu200098@gmail.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, linux-doc@vger.kernel.org, 
- linux-mm@kvack.org, Pratyush Yadav <pratyush@kernel.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260905141526.1546478-1-ekffu200098@gmail.com>
-References: <20260905141526.1546478-1-ekffu200098@gmail.com>
-Subject: Re: [PATCH v2] memblock: reject non-page-aligned reserve_mem
- regions
-Message-Id: <178945110677.43585.11156052528524749779.b4-ty@b4>
-Date: Tue, 15 Sep 2026 08:45:06 +0300
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="P0N2JM8j"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=1SMCEB2g0ru+dqQbzOuDzgyYF3rYputEIdw/bgUlvZg=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789451292; v=1; x=1790056092;
+ b=P0N2JM8jBAMAw6rEN9c03+yVfqQ0gHCf9zJCW4aiHnxNmCBMZkivhfBHad5/qSSnJgaYU5EO
+ Pf6qio/eXiBcPLnZUuBtSf91txLIS28C+SKkOePm5xfspolIkq0vY8RXmF6fVxVBAOVTD7Qhz82
+ iLnRyJjETaAs+CYesPH4trHs=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta12.migadu.com with ESMTPS id 789024df115dfd94;
+	Tue, 15 Sep 2026 05:48:11 +0000
+X-Mizu-Trace-ID: 789024df115dfd94
+X-Migadu-Flow: FLOW_OUT
+Date: Tue, 15 Sep 2026 13:48:05 +0800
+From: Baoquan He <baoquan.he@linux.dev>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>,
+	Chris Li <chrisl@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Yosry Ahmed <yosry@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Barry Song <baohua@kernel.org>,
+	YoungJun Park <youngjun.park@lge.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>,
+	Wenchao Hao <haowenchao22@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Kunwu Chan <kunwu.chan@linux.dev>,
+	Meta kernel team <kernel-team@meta.com>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org,
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kairui Song <ryncsn@gmail.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <aqjcFb6MFNiA6n4V@fedora>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora>
+ <aqLZ5TVDAqEbIeMN@linux.dev>
+ <aqP81aqNbwAbs2P0@fedora>
+ <aqQrPLPXHXiuKup0@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqQrPLPXHXiuKup0@linux.dev>
 
-On Sat, 05 Sep 2026 23:15:24 +0900, Sang-Heon Jeon wrote:
-> memblock: reject non-page-aligned reserve_mem regions
+On 09/11/26 at 09:45am, Shakeel Butt wrote:
+> On Fri, Sep 11, 2026 at 09:06:29PM +0800, Baoquan He wrote:
+> > On 09/10/26 at 09:39am, Shakeel Butt wrote:
+> > > On Thu, Sep 10, 2026 at 03:09:59PM +0800, Baoquan He wrote:
+> > > > Hi Nhat,
+> > > > 
+> > > > On 09/04/26 at 02:14pm, Nhat Pham wrote:
+> > > > .....snip...
+> > > 
+> > > [...]
+> > > 
+> > > > With VM_SPARSE, xswap's cluster access is exactly the plain-array line the
+> > > > rest of swap already uses:
+> > > > 
+> > > >     return &si->cluster_info[offset / SWAPFILE_CLUSTER];
+> > > > 
+> > > > no branch, no RCU discipline, no tear-down state machine, and no NULL
+> > > > return. So VM_SPARSE doesn't add complexity to close a gap; it lets the
+> > > > cluster layer stay as simple as it already is, which is precisely the
+> > > > part later work (writeback, rmap lookup, memcg charging, THP) has to sit
+> > > > on.
+> > > > 
+> > > > I'm not going to claim xswap wins on throughput. I measured it:
+> > > > on a 64G/64-thread swapout, xswap, vswap and plain swap+zswap are all
+> > > > within ~2-3% of each other, effectively identical. 
+> > > 
+> > > So the claim is VM_SPARSE is simpler than xarray based approach. I feel like
+> > > we are discussing implementation details before deciding the design and
+> > > architecture. So, instead of VM_SPARSE vs xarray, let's discuss and decide the
+> > > need for dynamic growth. Why we want dynamic growth upfront or can it be added
+> > > later? Once we decide that then it will be very easy to pick an implementation
+> > > that would take us there.
+> > 
+> > Hi Shakeel,
+> > 
+> > Thank you for joining the discussion and for taking the time to comment.
+> 
+> Hi Baoquan,
+> 
+> I am mainly trying to facilitate the discussion but your use of LLM is causing
+> more confusion. LLM use is fine but please at least re-read before sending that
+> the sentences flow and makes sense.
 
-Applied to for-next branch of memblock.git tree, thanks!
+Sorry, my bad. I used LLM to find Nhat's words. But I did check it by
+myself. I wrote most of them by myself. While at it ath the moment, my
+logic could be unclear.
 
-[1/1] memblock: reject non-page-aligned reserve_mem regions
-      commit: 5728d3523f12826a2b180c1c5738f74e33197e14
+As said, how swap_cluster_info[] is built is the foundation. Whatever
+you do, you have to make swap_cluster_info[] ready, then you can do
+writeback, rmap lookup, thp support, etc, on top of it.
+swap_cluster_info[] is the basement, then you continue building 2nd
+floor, 3rd floor, till a high building is done with things added. Nobody
+wants to claim he just need the high building, while no basement.
 
-tree: https://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock
-branch: for-next
+Now, the foundation has been built with the lazy vmalloc, it can grow on
+demand. It keeps swap_cluster_info accessing as swap_cluster_info[],
+a basic array semantics. And since we our target is to support a very
+large swap device with an extendable logical space, grow on demand and
+shrink becomes important. Now it is there.
 
---
-Sincerely yours,
-Mike.
+That's my understanding, not sure if there's anything I can't get so
+that writeback need be made first.
 
-
+[I type each of above by hand.]
+> 
+> > 
+> > Agreed on requirement first - but this one was already decided, and not by me. In
+> > the July ghost swapfile thread Nhat rejected exactly the shape of "grow only, can
+> > be added later":
+> > 
+> >     "Except for my virtual swap design, which does support dynamic growth AND
+> >      shrinking of capacity on demand ;) If it cannot grow (and furthermore, if it
+> >      requires userspace operation to trigger swapfile growth), why do we need this
+> >      at all? Might as well create a new swapfile with swapon?"
+> > 
+> > To me what it converged on was "dynamic growth and shrink, no writeback yet".
+> 
+> I am not getting how out of context above paragraph shows the conclusion about
+> dynamic growth/shrink and *no writeback*.
+> 
+> > So automatic growth *and* shrink is the requirement, and the simpler alternative
+> > was already on the table.
+> > 
+> > And I keep mentioning it in the cover-letter of each version of my posting. I
+> > only did the foundtation via lazy vmalloc. And Nhat will do the core
+> > part including writabck, rmap lookup, memcg accounting, zero page fill,
+> > etc.
+> 
+> I don't see any evidense of this decision. Actually this whole email thread
+> shows that there is no such decision.
+> 
+> > 
+> > What is still genuinely open, and I would like us to settle, is how large the
+> > device's address space should be, because the metadata scales with it:
+> 
+> With dynamic growth/shrink, is this really a blocker?
+> 
+> Anyways, I will let Nhat and others discuss the technical details (unless I am
+> asked for it). My main reason to join the conversation is to converge the
+> discussion to a decision and resolution.
