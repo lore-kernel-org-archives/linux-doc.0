@@ -1,76 +1,77 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5CF313E0D
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 13:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3803B27E8
+	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 13:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789479669; cv=none; b=V0kuLh1cgx34FHBhEZa/+Ip4jNyDg6/bWiFRgVq5KBpWK87vJu9MgQhbwO7icD0O9vj198eifDRq1BJVogpWEJmKDDMh9kcFTTXX5JdZc6IIV9vKyHqLU5tMquAQuMm2ISzEXEF2BabV4PkS/1+3uWGs+ougacRq9ySZ1GyELZ0=
+	t=1789480447; cv=none; b=XF5O/GH7Hj2o8967yBNbu7/vKbmrIuC8XsXK54yF0ZnAW2e9aH8EcllkceiJloflVYDSABZULPCDFuZgjgJdKOaRX0DUGvXqVds1RbAcmnOXBVphhbHx0I/aZMD+vbGbfuRmLW7cskp5zdo5PBiBedpkOPyngRNDLQ0YFc+Tjgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789479669; c=relaxed/simple;
-	bh=B5rz/HvywjwIe0LUBJ1IJyXaj9n79ASijN34ANZfpEQ=;
+	s=arc-20240116; t=1789480447; c=relaxed/simple;
+	bh=ZPy0MYfemx91GQNlEr2gCQvz8mUG8eRkhPLLNC+7LNE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JHEMkaeAbDANOENqP63+yDCi6WYexWK38TFjy89I02G5/GZIFjs8bfIqb+KVyOqsm35rAm7qc1cWfz5K7VRG6DSbOOpU3Sy3nf+UlW+fLR6RfeIbF4K7o8R6CY1Vu3KEiEk24PpDydMti0QE8/pYmFs4SFV/4qLIwcqJ/jPiFOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rPIdmwnb; arc=none smtp.client-ip=74.125.227.141
+	 Content-Type:Content-Disposition:In-Reply-To; b=k8Xro/j9A3GMrWZrppg9cN5GpeMVh44jd66jmhqZ1uKtLPSypXHvFFxA/X4YAmyOTYuZtGfh7cvQ78mv0qWhJXxrnwNxCpsLz/4aadECdO7VIbHQjqIw74VYBO6ihgzUCROUWjF1qdE4HMU+loA8wqHjdOKyjqjIp/sPkCQQihI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kMNDUciz; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rPIdmwnb"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d6ff2b8503so1755555ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 06:41:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kMNDUciz"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d6ff23d82eso5379375ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 06:54:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789479667; x=1790084467; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789480443; x=1790085243; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=s2vjAIuglDzNtvLvUN1SnWxls+9kNR302LnOw/HxEJQ=;
-        b=rPIdmwnbS/JISWDC99dOEGKcKTbgboHy8Nop+C2aqxiH4N0PQXyJkpIq173379jvFj
-         8zDXsglYUIb93lcYgM+GpK7RbQl1nneLQiz1rGeEtJJRbsYCExVCRK8aLoYy1peKxzHb
-         sCybGoYw6AYQXjPbLPl/HUrWYdVRmH2hYhkD2Y4ldqI6IbSLW/FdenD8N1I5yshrMkmp
-         ZgIemKMXJYqE8+uTlqJMlqyOncAJsBRA2JProfPLyYn5MHgYM5BaJvBAKNcctfTmYgM3
-         HQaqhsgWYiNvxohlc9dToBtyOtRccziAvdR2U4Glo6WNCbmjwBe3XfBeNwR9kl6NQsIX
-         hgLA==
+        bh=CNZydljm1VGomtR27o8PI9pWGF1nMXphYRYTsDo2lS4=;
+        b=kMNDUcizv8BOzXFp9YJlY9/PmhTypN0sks0kG85oAlGBjRyX8icsoFPO+o4g1RFFxl
+         b+uVNUzLru1++CIAWL0HOtKxiBCLXWKFvLXB8PiQJQDpHYhNrseL6MIki8yk7IeRQ1zz
+         Dcp574WuTP7ERQpddrbhWUHUvskmWzmUcttOSpcOVAeNrVLVMOtt4Z5Jgs2Ym8xsMvrW
+         0LyqvhBBIRQEgj32vrKdeNqy0JMmtNWOdyJ3fHlWxeQ9DIc+hVh2GibZqfmxDIP9/ihI
+         yyI25sEVLIJnN79SSTAPwIn3rm6UV7LjdX5s6ecY66w06TMP8/7in9Gv/96Ei9SiVjx0
+         KXHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789479667; x=1790084467;
+        d=1e100.net; s=20260707; t=1789480443; x=1790085243;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=s2vjAIuglDzNtvLvUN1SnWxls+9kNR302LnOw/HxEJQ=;
-        b=HuExM8f6bFrJjX6oQ/tgiT1ULe8P+Kb6AGuIOCMN0oKvIyg72euwajtqF5IGbFtVXN
-         QPTEYgj1+INrtx72SdMn2pR7lEHfqNAgWgOHZabOtxRQrnEPVESZuQfy+8A0K/MQtZ36
-         YP4fsPpya75W4lyhUycxSQmqRqaIpqgnSToTTi22KJ7TmXOslIYlrhlEPpvpQ4a9+IAv
-         BUPLJDl9UL5jGdGaG+4KsSMau9Pu0J/RIyWC31FkcqHZBHlOxRdK4lJHcxncqsRsargp
-         gumHD3DVopCXap/G2WcZ3sjS+JsxDwQuEhHg8cjAflQ0Sogz5cSq5+g5uXZztBEq2t8h
-         YLCw==
-X-Forwarded-Encrypted: i=1; AKwUvBzl+LK/LvapVmFjo6yuNE/Uc3k6bbAPD8i7wfZGP9u+hUMeGGN2BY++5XmKX7UE+P4lVZTwCz/pEV4=@vger.kernel.org
-X-Gm-Message-State: AFuF++n91Gv6BU7Xn5CN9b6mEZk639XF5lOKxYXCwhqGHhlW7lItncQ4
-	9Rc4MHx7Ma4CdzNipBvQbDPi1qzsrvht4891L3kKeLDnpwhw/aSRswvm
-X-Gm-Gg: AYBFou2B0cvJhQsi1AyeHrBSzM3LPcTzUBPsbC72T7ttghV1J8YaNY1wDfgMIK6Ac5D
-	33iWQbOEMKwMCaLmiU/g1GVwlg5ODtnd6b9jGoNMZfyg7MBJw2vevisHDQ7FNF13tceUSG/pZts
-	LPnybfEIDhtjFzoJUuLqJRTFcmh4oi7DEFxAYmYr6HEguVL+GRGrGo7Hjh6Gn5ez5pYAy1zCRBp
-	pCe43jsEiqsTWkt379sXK/P+Fh2Sq+eCMmE4KGJV/xI5suiSBUXHD4nuWYPz00ABB3ckjn00k7g
-	hAoW+I+K1AL6o/2NvkJphn9vLUdY1Hl3o352XBjp3po2qOqIGr+DaAJdpAw69OtdYjlRI1WiuXx
-	/21//B6fJUAgGyPTqwkJ3tV7jy/3wgE7ICh5e0x0L5Y08oueXoZuAO87/UlJj0LrK+7C6/1iHAE
-	wkuk+iYn64Le38Kf8f+aa517wpBi8F6lDVuukRSWsQVZPHAOlcwbqbW5RQrq+eNUTeTFTj0g==
-X-Received: by 2002:a17:902:8642:b0:2dd:7671:3101 with SMTP id d9443c01a7336-2dd76713155mr39390835ad.3.1789479667073;
-        Tue, 15 Sep 2026 06:41:07 -0700 (PDT)
+        bh=CNZydljm1VGomtR27o8PI9pWGF1nMXphYRYTsDo2lS4=;
+        b=isfgZNkF0cmZ1iv6eWGf4g0nmjpvJ7R4Z4WcdojUpNatTtDHaiteWyLOZ6DyMFeop7
+         y/7SYh+Um8FNIY49/4lkhoS5IHRHkXr+Nx8ilOyURgxK+chFIozce/x/YvdJ2M7/ScdX
+         cYkboFSmEEfhqWBnnOSJ0Cg3J2yEOEEj5XctdtzDLjpndXrAtyHKz2q+OCNhn9jdImJJ
+         LrQH1oO7ZuIn0NqeYi4ztgiDJPQ38Y+qmDOSKHE09+p0bWdgCk6LmM8Psf42B0fhO1Ss
+         B5ES8V26K8yBFcP/+aLIn+oZ6peaWIhrjmdQuna6jRBF/ORiETHDy9sRMn2QDQVbrfLj
+         19LQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwiqz4IIRucG8ViW3elI18U2lnWBlQ4IYzGXXQUHRZ5+7T+Bq5IhZhDDwMHaRnHvg6CZjNZv3tVJ6c=@vger.kernel.org
+X-Gm-Message-State: AFuF++nKWhqDSiQP4TrGx3B6rAHA4yZaTfttf984BmOYHrp32YOZN8Vl
+	pNEOZVkqlaTlJXOG0WriolHLG4drNTLLmKC4WqA/7jZdjUg5LLXKUhNu
+X-Gm-Gg: AYBFou1/isvVRzZHs+VFxXZr7pW8hVrSkqyfmvCMNT9AoKwnlIa0yO/TUW5OCcq/4Y9
+	wVO0jfJWTZlakVlvg3ZWJigzXeLyACo5yNnAqn/mtA1lT24YCYfAlFLkfv8RyCkqbNzYEUzv/pJ
+	9nixYOFFFIoEiOcTpLbUpq1q12BJgeicT8Nf/RTSUpWcJsHLEyo+70c1MQw9gJqqOBoP8YV8hGX
+	sU0uJ8EiHt5OGvP7QiTOgZdeNu3vOF24OUHhYb42JMpj/O8TJsGPpUSNPs6MJtx3flk6Ski73X5
+	xw4aY7nyDyOFsyG+7mNE7xggtozvfQBk+3OmTnTDYN2XbW9NdrDYRUCGV+oKoFGe/lOgYp+gaVL
+	jNMFZ57WuWAQ5DdrfomxUdWme/WsnZv15R91E3rcCvGClA0sy5CMxaUAOM6ms5tsiUYKyfhcK9m
+	MKwSwZ1aguT0D9LASmqXk2wwXpCJzSFnr25g3lhYkadAoryWZ+LJyx5uKSzoncehJJTGxuAw==
+X-Received: by 2002:a17:903:b0e:b0:2d6:3c1a:85ef with SMTP id d9443c01a7336-2dd6c848391mr104355525ad.4.1789480443559;
+        Tue, 15 Sep 2026 06:54:03 -0700 (PDT)
 Received: from elitemini ([2400:4050:d860:9700:75bf:9e2e:8ac9:3001])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd2cfce707sm68398605ad.55.2026.09.15.06.41.04
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd6f120c5dsm28157935ad.57.2026.09.15.06.54.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 06:41:06 -0700 (PDT)
-Date: Tue, 15 Sep 2026 22:41:01 +0900
+        Tue, 15 Sep 2026 06:54:02 -0700 (PDT)
+Date: Tue, 15 Sep 2026 22:53:58 +0900
 From: Masaharu Noguchi <nogunix@gmail.com>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Chen Miao <chenmiao.ku@gmail.com>, 
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Akira Yokosawa <akiyks@gmail.com>, Chen Miao <chenmiao.ku@gmail.com>, 
 	Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
 	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
 Subject: Re: [PATCH v2] docs: sphinx-pre-install: warn about unsupported
  Docutils versions
-Message-ID: <aqlKnXHFVqO6baEW@elitemini>
+Message-ID: <aqlNvld2LINsWSSe@elitemini>
 References: <20260914-docs-sphinx-pre-install-docutils-v2-1-6a2a6deedd19@gmail.com>
  <b5df5eee-661e-4f46-9abf-1bd9cec8069d@gmail.com>
+ <20260915101638.76e3bf1c@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -79,43 +80,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b5df5eee-661e-4f46-9abf-1bd9cec8069d@gmail.com>
+In-Reply-To: <20260915101638.76e3bf1c@foz.lan>
 
-Hi Akira,
+Hi Mauro,
 
-On Tue, 15 Sep 2026 16:52:03 +0900, Akira Yokosawa wrote:
-> I think this can annoy people who only care HTML docs.
->
-> Why not do this check after the PDF doc builds have actually failed.
->
-> That is what sphinx-build-wrapper is doing with LatexFontChecker().check()
-> (see line 557 of tools/docs/sphinx-build-wrapper)
+On Tue, 15 Sep 2026 10:16:38 +0200, Mauro Carvalho Chehab wrote:
+> Fedora 44 EOL is still in at least 7 months from now (e.g. when Fedora
+> 46 will be launched), so, it could still be worth.
 
-You are right, and that is a better place for it.  v3 follows it: the
-check moves into tools/lib/python/kdoc/docutils_version.py, shaped like
-latex_fonts.py, and sphinx-build-wrapper calls it from the same two
-build_failed branches, next to LatexFontChecker.  sphinx-pre-install is
-left untouched.
+Thank you.  And it is not only Fedora: Akira pointed at Ubuntu 26.04 LTS,
+which holds up -- it ships Sphinx 8.2.3 with Docutils 0.22.4, and its
+python3-sphinx depends on "python3-docutils (>= 0.20)" with no upper bound
+at all.  Both fail identically here, and an LTS carries this a good deal
+further than seven months.
 
-Measured on a broken pair: htmldocs now prints nothing new and still
-exits 0, and the message appears only when pdfdocs has actually failed,
-just above the error.  A working pair stays quiet in both.
+> Indeed it sounds a better approach on my eyes.
 
-Thank you for pointing at Ubuntu 26.04 LTS; that turned out to be the
-strongest case for having this at all, so I checked it.  It has Sphinx
-8.2.3 with Docutils 0.22.4, and its python3-sphinx depends on
-"python3-docutils (>= 0.20)" with no upper bound at all, where Fedora 44
-arrives at the same pair by patching the "<0.22" that Sphinx declares.
-Both fail the same way here:
+Taken -- v3 moves the check into tools/lib/python/kdoc/docutils_version.py
+and calls it from sphinx-build-wrapper next to LatexFontChecker, only
+once a PDF build has failed.  sphinx-pre-install is left untouched, which
+also drops the overlap with Chen Miao's series.
 
-	              core-api            admin-guide
-	---------------------------------------------------------
-	Ubuntu 26.04  FAILS 26x Dim       FAILS capacity, 13 p
-	Fedora 44     FAILS 26x Dim       FAILS capacity, 13 p
+> On a separate but related issue, has anyone tried to use rst2pdf
+> lately (https://github.com/rst2pdf/rst2pdf)?
 
-An LTS makes this a good deal less transient than Fedora 44 alone.
-
-v3 follows shortly.
+I have not tried it myself, but not having to go through LaTeX at all is
+an appealing idea.  I would like to look at porting your branch once this
+one has settled.
 
 Thanks,
 Masaharu
