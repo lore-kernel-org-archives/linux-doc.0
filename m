@@ -1,517 +1,205 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1352C478E25
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 09:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B259367B9B;
+	Tue, 15 Sep 2026 10:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789464548; cv=none; b=AM++CHN/Z3EztJHZvOmE45/1kH+qnm9wlaolXaZoytyjhhvi/nXUtvnUzow163TjqrkIB5L0wiJmoD/5G14L3hM0uEs5mxFs9j4YQ8KGGgfmG3IEd22MIG66LuuPYFaVqMLk3Du+S7UxtZtWg41wj6sxU/lDfhXPrhAxcL3sO2Q=
+	t=1789466461; cv=none; b=IHOSpKCddpS00T2cfpuNUr1Q0+gzE176aARMum+uyvjFqmQIIhUom4bNxSkbXcFS0eD+LqIkH+QpNpvLdXuNS+L3IRhFTFcsMPeS0hkwBfc/IhndgWV0TI0/2L9utTpN/MBEnsIHCTNkx2gfFiuHFKZpoLQAt3BbK45DQWeev2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789464548; c=relaxed/simple;
-	bh=vWQtMyp87j9Ha9llCugJJq5zN1XmecNf27SupPSieNg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mMMij+TOFMePDanROL7W/2wtGT6/6zLQBsd1LKft9VF1dfSlcacZbuKBLCcMaDVwbzZi63btFRkX/BGleL0AwBEB737KOTlLnrx51cpffbWetczFT+BdshdGdCCklB2tWrAIXJLS+7c2I75PtEGi4W8jaNzx39BargBW5M9948E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=efn0Ba0k; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jqkdldKu; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1789466461; c=relaxed/simple;
+	bh=mJtqF0akeBth2Sl9iZuCy+gFA4rdG0CXsbPQUV/+rKY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=VvWebPQwZ9qT7Y3r2ubqimRV3F9nzP1pn6xindH10URVBAfvAW/aWtGZUafEkNExG9bBZLoy26E7kQvp30JinwRqISO1WWMSQKMPZAfauGIfqL1zoKudXeaHJC6XSBkjlR5ltOXwD4k/848DaYcq6akvVH/uBGLIBV73RBAmHII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CgLTN6qU; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="efn0Ba0k";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jqkdldKu"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68F8uiMK3111161
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 09:29:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	z+kAMgubwvTeTdhpoS7fqfi1QF01vPTRr11UVCilXDU=; b=efn0Ba0kxOcA2NwR
-	3VY9xp4DE4smGs4ZWe/ZJ/AUJU24BbNwa5KA9Hez06Y7Y9Pqg59Vc2kdWrfB+GwR
-	SRIbVXDfyz8EkkEERpNR0bJX14lMrfKVwuYxSDHjBKyAgCQJKub0OGQAoI7eGPCr
-	FTi52JXTU/Aa//DxDjgRJoE8RB38/9w1PNFhtZD+1J5TH5O9YZuv0tOJgApzIU0u
-	L7thxy5aArP89g4M/HussbGDuJjyX0AeKvo3EyBgtpyBvzlargzVzvLGGcmLvVGH
-	JfJ0Lblb7LOJOwYCB3CyzeHxXyKzgb7qGAT1BAj9MOgurRg0JQO0woAIbzhp87r5
-	iJ2blQ==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gq2y2g4qp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 09:29:01 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-39e087a18deso698953a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 02:29:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789464540; x=1790069340; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=z+kAMgubwvTeTdhpoS7fqfi1QF01vPTRr11UVCilXDU=;
-        b=jqkdldKuHh4rXgu6CHB9DVVjghuIyk0vgEI9ndLQhq2CDyEN3u1HuAn6EtRBrSPOKJ
-         DUecSQyqpetgGpeMAtHyilVppesmIuyKhPaSzmR+j0pnja3YCJp/k/K+Z8PiHE7CTciO
-         lnnpmMhhET/ucI96rIerxI1cP6qqXBVA7OH9LtNNNfiQB4cHxVkhOpCr0rkImJaPg/I3
-         jQsoNtT5oaBjAcxVvSi3E+9xwhF++5+W1SUF6Xwhb/efLc/fA+c9sx45Za0Tfh14pRrH
-         qFgftEtVTCaAc5HUg0nJtLtK9LOoBCtfOanhbtAK4QJPNV7NFEwHY0dtuEqRtWAtvrjY
-         gKDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789464540; x=1790069340;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=z+kAMgubwvTeTdhpoS7fqfi1QF01vPTRr11UVCilXDU=;
-        b=jCbVelIICZPjn/K/n0SnQBiLVQMQ/TVbnKUj1yTjU5UnQy5qVg3HDFHsX/yF8Y7x9P
-         HFxuMLsNCGOeTXpQHrHV7wV6hyn+UTPlteg3Ag/rD27Rx0Q6/1tbf4iz7TLhcXmwh7bJ
-         /A2xB8BAQOGy/bOCRmk3KLpqnEpaJ+KmABj3/XTPtAy+wbgDfn2bTxuIwBi83dMMe4Qj
-         /J4vUuCG1wmv+aMoMx+Hl4aWRORCtIHjdRR5hZkiuOwznE6tPcW/iLF12PVwSnrxw/IA
-         eOs9Jv1ylPLXLsNp9xDxPK3f/550LwDTdX3cmEAdc6iBEhqeirl4mnHjMsGfTMCrDPfp
-         l4Bw==
-X-Forwarded-Encrypted: i=1; AKwUvBzYeGi/M5jcvtDDpVSL67daniiDwhMkYi5bPjaZyDrj9iGbHbiUReEhW4n0BXjGr4/VwLn/CUUNBss=@vger.kernel.org
-X-Gm-Message-State: AFuF++nlWHzXXuJrJBi2gt52JdtN1X58wJtxgnXlB36gsQ4En9IHycr7
-	j8Mx7ZoupzDLE47Ml3IREBTWpia4LC4hHGk/3KZf4LXYEKjZLFn1NjcI4ZRtmeZ/Huo1+cR1Nki
-	qF0ezxHM5yZdOeXTJjV5DbKqPn2V9TiyUqrckKSLwvFcvILUVCPDyLeysXJeV1Mc=
-X-Gm-Gg: AYBFou1auc/2zW4Lcs3G44ShI8uU7sbVIO7YkTmZr3RdUE5ptYP2LYxdCDgiq1ZI33Z
-	V81NPNSowtlJRexJEi8rFENOjZmtYmWP3ms7DKaXHKNkNSFG9QxV8UTaQcugB6mcai3wljSLhlh
-	gunIpPy06yF4fohgHW8/QvVXzYzUWTPDfu/W405Z28b2xXyfHpEhhYA12yD1GfZODxIMW7pd+uR
-	wyhQA7CehYkt4yePY9JsG0ATmEn+yC+uPcM4t1CB17vxuZSdRD1lqcUVpoaFRsHa6TKl5Xt/44w
-	9K5byrxV3BtrW+7BBuP9G8ap87WTIZd8f/32DFhNzj7z5P2WWj1bJxFpStf43F7/rOjPHFVwL6o
-	z0bPv+KYQoEOzdsM3K6kAc44=
-X-Received: by 2002:a17:90b:5865:b0:39e:433:23b5 with SMTP id 98e67ed59e1d1-39e04332517mr3852816a91.5.1789464539953;
-        Tue, 15 Sep 2026 02:28:59 -0700 (PDT)
-X-Received: by 2002:a17:90b:5865:b0:39e:433:23b5 with SMTP id 98e67ed59e1d1-39e04332517mr3852771a91.5.1789464539348;
-        Tue, 15 Sep 2026 02:28:59 -0700 (PDT)
-Received: from [192.168.1.6] ([171.76.86.190])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4e9b359sm32526381eec.14.2026.09.15.02.28.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2026 02:28:58 -0700 (PDT)
-Message-ID: <7bfe0e0d-3fd4-4955-8b26-9feb1a8aef98@oss.qualcomm.com>
-Date: Tue, 15 Sep 2026 14:58:52 +0530
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CgLTN6qU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=mJtqF0akeBth2Sl9iZuCy+gFA4rdG0CXsbPQUV/+rKY=; b=CgLTN6qUsvQU3LZHCLU/Hx8aAk
+	r0ayIaQc2TMtLMYqT+XXCoO4lgTiQooD/ZeIhrCKPmq2L+QPw0UxeG7xJmFxwUbU9xwD5d76+cqZG
+	JoaNhgR752uVG8EF+FHQL/bB6BijNX9hY1ELH3Ci2dH9uqiMd/KDZCxQajrdeG7CvXFvajpyS8i2q
+	vCZ5WrB8OTEzN01Sp570KJQtiF0u1+2sn89YdGahInEtVNeZoMavhOTCvfP/tdp6AbB6EBP7oGBxI
+	WQlc+rT2mU7HgaQA/xGk0vanb/GB1moMXcX+7hPzqV+S93XJsTZUdGMuL1kKJMPLwqt/gu0igNXg5
+	kDhvoCFA==;
+Received: from [2a07:aa00:8c:e0:f5f0:c897:58f9:83f5] (helo=u09cd745991455d.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x6Py5-0000000FZex-1k79;
+	Tue, 15 Sep 2026 10:00:49 +0000
+Message-ID: <fcfea4a5e25a9f828de317cc2c0b133eabd91745.camel@infradead.org>
+Subject: Re: [EXTERNAL] [PATCH v10 00/28] KVM: Enable FRED support with KVM
+ VMX
+From: David Woodhouse <dwmw2@infradead.org>
+To: Sohil Mehta <sohil.mehta@intel.com>, kvm@vger.kernel.org,
+ x86@kernel.org,  Andrew Cooper <andrew.cooper3@citrix.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>,  Jonathan Corbet	 <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Thomas Gleixner	 <tglx@kernel.org>, Ingo
+ Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,  Dave Hansen
+ <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, Xin Li
+ <xin@zytor.com>,  Andy Lutomirski	 <luto@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Andrew Cooper	 <andrew.cooper3@citrix.com>, Tom
+ Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
+ Shivansh Dhiman <shivansh.dhiman@amd.com>, Chao Gao <chao.gao@intel.com>, 
+ Binbin Wu <binbin.wu@linux.intel.com>, Zhao Liu <zhao1.liu@intel.com>,
+ Yosry Ahmed <yosry@kernel.org>,  David Matlack <dmatlack@google.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Date: Tue, 15 Sep 2026 12:00:47 +0200
+In-Reply-To: <20260911213659.2025974-1-sohil.mehta@intel.com>
+References: <20260911213659.2025974-1-sohil.mehta@intel.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-DV84bj5nHdySjIGUqmkS"
+User-Agent: Evolution 3.62.0-0ubuntu1~ppa1~24.04 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 1/2] platform: arm64: qcom-hamoa-ec: monitor Slim
- 7x legacy sensors
-To: Birk Skyum <birk.skyum@pm.me>, Sibi Sankar
- <sibi.sankar@oss.qualcomm.com>,
-        Hans de Goede <hansg@kernel.org>,
-        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap
- <rdunlap@infradead.org>,
-        Daniel J Blueman <daniel@quora.org>,
-        Maya Matuszczyk <maccraft123mc@gmail.com>,
-        linux-arm-msm@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20260908135801.81436-1-birk.skyum@pm.me>
- <20260908135801.81436-2-birk.skyum@pm.me>
-Content-Language: en-US
-From: Anvesh Jain P <anvesh.p@oss.qualcomm.com>
-In-Reply-To: <20260908135801.81436-2-birk.skyum@pm.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: 8Nft0RkRp1MwoWdkbgWJiPKPniGNRYFA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDEzNiBTYWx0ZWRfX5YEDRsAS7pCU
- U5rJAfG06a0W5TlTtQndOM/A2B7P8aczVr5cPksW9IPexaGiw9rlt2LlITTINjoS2LEbnn+tBLj
- NZpLVkCJwHiVuXZF0ZnckG9SORTErPR5MfM6kChcTMZ5dOKnmZq4qjTU2foRKnlQKOvTX/QMPX5
- V+uMIU6QOSMJvgADJRQgZEGIYtbczF18QvABQigK8vJdkjsA0bhqug64iB2wQgIKmiwV1jAghqv
- GyGlnMljeTRlvxQNR/guPV8kzlbn+JUvmQ//EipkeiP+k5toBQHCW38MRCppEhqzlrclnkF/v5C
- N0/hysZSF3OzNmtwaQYP0CzlODHbkD+h2ENnFB+sNSZKsJRAEAMOCxXtrX6K6un1/Y+kb5go6td
- SrMzUHmNBpI0Cg3XnjEjqmdBnrETGjF9WPLNqb7ipMV/jxdBwZ8YoxeCJeJ9j9hug1b9UoqGpjH
- D8t795HW/DrB7FsWBTw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDEzNiBTYWx0ZWRfX/hhbGlwFfzEl
- RT4Ss+/MEdXW4AHzdIn+w4wZJuREA+3RuZkvQGGz1SDy3jWXFAtnPyXQ8h6HUY/yftk9ifc7uE4
- icRvKcnnEjTVZhJfKc+wU1yRVqYEgpo=
-X-Proofpoint-GUID: 8Nft0RkRp1MwoWdkbgWJiPKPniGNRYFA
-X-Authority-Analysis: v=2.4 cv=IcISymqa c=1 sm=1 tr=0 ts=6aa90fdd cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=YsbRjcmUuq6dkflYeO58cw==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=dfw2BTyuAAAA:20 a=IA0wh2spAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
- a=BybPU-h1rPuJRbRll4sA:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
- a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-15_02,2026-09-14_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609150136
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
+--=-DV84bj5nHdySjIGUqmkS
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/8/2026 7:28 PM, Birk Skyum wrote:
-> The Yoga Slim 7x EC returns an all-zero response to the reference-board
-> thermal capability command. Probe fails even though its legacy RPM and
-> thermistor queries work and firmware controls the fan automatically.
-> 
-> Select a read-only path for the Lenovo compatible. Expose its first RPM
-> channel and thermistor through hwmon, validating the transfer length and
-> RPM payload count and treating the thermistor's 0xff sentinel as ENODATA.
-> Do not enable SCI, register manual cooling controls or send standby
-> commands on this path. Keep the reference-board behavior and strict
-> capability validation unchanged.
-> 
-> The transactions are documented by the Yoga's FC22 and FC29/TZ39 DSDT
-> methods and Maya Matuszczyk's EC protocol notes. Anvesh Jain P's pending
-> fan-profile series also documents the RPM query. This change does not
-> include its calibration, LUT programming or temperature reporting.
-> 
-> Link: https://github.com/aarch64-laptops/build/blob/2e58842f5fa2f87771c2df017ae4d8c65225ef10/misc/lenovo-yoga-slim-7x/acpi/dsdt.dsl
-> Link: https://lkml.iu.edu/hypermail/linux/kernel/2607.3/08806.html
-> Signed-off-by: Birk Skyum <birk.skyum@pm.me>
-> ---
-> Changes in v2:
-> - Move the platform-driver documentation to the laptop-driver guide and
->   update its index and MAINTAINERS entry, following Guenter's review.
-> - No driver code changes.
-> 
->  Documentation/admin-guide/laptops/index.rst   |   1 +
->  Documentation/admin-guide/laptops/qcom-ec.rst |  40 +++++
->  MAINTAINERS                                   |   1 +
->  drivers/platform/arm64/Kconfig                |   4 +-
->  drivers/platform/arm64/qcom-hamoa-ec.c        | 153 +++++++++++++++++-
->  5 files changed, 194 insertions(+), 5 deletions(-)
->  create mode 100644 Documentation/admin-guide/laptops/qcom-ec.rst
-> 
-> diff --git a/Documentation/admin-guide/laptops/index.rst b/Documentation/admin-guide/laptops/index.rst
-> index c0b911d05..44c9c7c08 100644
-> --- a/Documentation/admin-guide/laptops/index.rst
-> +++ b/Documentation/admin-guide/laptops/index.rst
-> @@ -11,6 +11,7 @@ Laptop Drivers
->     asus-laptop
->     disk-shock-protection
->     lg-laptop
-> +   qcom-ec
->     samsung-galaxybook
->     sony-laptop
->     sonypi
-> diff --git a/Documentation/admin-guide/laptops/qcom-ec.rst b/Documentation/admin-guide/laptops/qcom-ec.rst
-> new file mode 100644
-> index 000000000..11f9f2347
-> --- /dev/null
-> +++ b/Documentation/admin-guide/laptops/qcom-ec.rst
-> @@ -0,0 +1,40 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +Kernel driver qcom-hamoa-ec
-> +==========================
-> +
-> +Supported systems:
-> +
-> +  * Lenovo Yoga Slim 7x (14Q8X9)
-> +
-> +    Prefix: 'qcom_ec'
-> +
-> +    I2C address: 0x76, instantiated from the device tree. No scanning.
-> +
-> +Description
-> +-----------
-> +
-> +The Yoga Slim 7x embedded controller provides a fan speed channel and a
-> +thermistor through a legacy interface. It does not provide the thermal
-> +capability response used by the Qualcomm reference-board interface.
-> +
-> +On this system the driver only reads sensors. Cooling remains under firmware
-> +control, including when the driver is unloaded. The driver does not change
-> +fan curves, fan profiles, PWM settings, SCI events or EC standby state.
-> +The exposed RPM channel does not establish the number of physical fans.
-> +
-> +The hwmon interface is selected by the ``lenovo,yoga-slim7x-ec`` compatible.
-> +It is not exposed on Qualcomm reference boards by this driver.
-> +
-> +Sysfs attributes
-> +----------------
-> +
-> +All attributes below are read-only.
-> +
-> +=============== ======================================================
-> +fan1_input      Fan speed in RPM. Zero is valid when the fan is stopped.
-> +temp1_input     EC thermistor temperature in millidegrees Celsius.
-> +=============== ======================================================
-> +
-> +An unavailable thermistor reading returns ``ENODATA``. A malformed fan
-> +response or an incomplete bus transfer returns an error, not a zero speed.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6215fcb07..c3c208602 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -22440,6 +22440,7 @@ M:	Anvesh Jain P <anvesh.p@oss.qualcomm.com>
->  M:	Sibi Sankar <sibi.sankar@oss.qualcomm.com>
->  L:	linux-arm-msm@vger.kernel.org
->  S:	Maintained
-> +F:	Documentation/admin-guide/laptops/qcom-ec.rst
->  F:	Documentation/devicetree/bindings/embedded-controller/qcom,hamoa-crd-ec.yaml
->  F:	drivers/platform/arm64/qcom-hamoa-ec.c
->  
-> diff --git a/drivers/platform/arm64/Kconfig b/drivers/platform/arm64/Kconfig
-> index e32e01b2a..4f338c715 100644
-> --- a/drivers/platform/arm64/Kconfig
-> +++ b/drivers/platform/arm64/Kconfig
-> @@ -94,6 +94,7 @@ config EC_QCOM_HAMOA
->  	tristate "Embedded Controller driver for Qualcomm Hamoa/Glymur reference devices"
->  	depends on ARCH_QCOM || COMPILE_TEST
->  	depends on I2C
-> +	depends on HWMON
->  	depends on THERMAL || THERMAL=n
->  	help
->  	  Say M or Y here to enable the Embedded Controller driver for Qualcomm
-> @@ -101,6 +102,7 @@ config EC_QCOM_HAMOA
->  	  control, temperature sensors, access to EC state changes and supports
->  	  reporting suspend entry/exit to the EC.
->  
-> -	  This driver currently supports Hamoa/Purwa/Glymur reference devices.
-> +	  This driver supports Hamoa/Purwa/Glymur reference devices and read-only
-> +	  fan speed and temperature monitoring on the Lenovo Yoga Slim 7x.
->  
->  endif # ARM64_PLATFORM_DEVICES
-> diff --git a/drivers/platform/arm64/qcom-hamoa-ec.c b/drivers/platform/arm64/qcom-hamoa-ec.c
-> index 4d2ad042a..3a4ca8a0d 100644
-> --- a/drivers/platform/arm64/qcom-hamoa-ec.c
-> +++ b/drivers/platform/arm64/qcom-hamoa-ec.c
-> @@ -9,6 +9,7 @@
->  #include <linux/device.h>
->  #include <linux/dev_printk.h>
->  #include <linux/err.h>
-> +#include <linux/hwmon.h>
->  #include <linux/i2c.h>
->  #include <linux/interrupt.h>
->  #include <linux/kernel.h>
-> @@ -16,10 +17,13 @@
->  #include <linux/pm.h>
->  #include <linux/slab.h>
->  #include <linux/thermal.h>
-> +#include <linux/unaligned.h>
->  
->  #define EC_SCI_EVT_READ_CMD	0x05
->  #define EC_FW_VERSION_CMD	0x0e
-> +#define EC_FAN_RPM_QUERY_CMD	0x22
->  #define EC_MODERN_STANDBY_CMD	0x23
-> +#define EC_THERMISTOR1_CMD	0x29
->  #define EC_FAN_DBG_CONTROL_CMD	0x30
->  #define EC_SCI_EVT_CONTROL_CMD	0x35
->  #define EC_THERMAL_CAP_CMD	0x42
-> @@ -76,13 +80,126 @@ struct qcom_ec_cooling_dev {
->  	u8 state;
->  };
->  
-> +struct qcom_ec_variant {
-> +	bool monitor_only;
-> +};
-> +
->  struct qcom_ec {
-> +	const struct qcom_ec_variant *variant;
->  	struct qcom_ec_cooling_dev *ec_cdev;
->  	struct qcom_ec_thermal_cap thermal_cap;
->  	struct qcom_ec_version version;
->  	struct i2c_client *client;
->  };
->  
-> +/* FC22 in the Slim 7x DSDT: command, fan ID; count, little-endian RPM. */
-> +static int qcom_ec_read_fan_rpm(struct qcom_ec *ec, long *val)
-> +{
-> +	struct i2c_client *client = ec->client;
-> +	u8 request[] = { EC_FAN_RPM_QUERY_CMD, 1 };
-> +	u8 response[3];
-> +	struct i2c_msg messages[] = {
-> +		{
-> +			.addr = client->addr,
-> +			.len = sizeof(request),
-> +			.buf = request,
-> +		}, {
-> +			.addr = client->addr,
-> +			.flags = I2C_M_RD,
-> +			.len = sizeof(response),
-> +			.buf = response,
-> +		},
-> +	};
-> +	int ret;
-> +
-> +	ret = i2c_transfer(client->adapter, messages, ARRAY_SIZE(messages));
-> +	if (ret < 0)
-> +		return ret;
-> +	if (ret != ARRAY_SIZE(messages))
-> +		return -EIO;
-> +	if (response[0] != sizeof(response) - 1)
-> +		return -EPROTO;
-> +
-> +	*val = get_unaligned_le16(&response[1]);
-> +
-> +	return 0;
-> +}
-> +
-> +static umode_t qcom_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_types type,
-> +					u32 attr, int channel)
-> +{
-> +	if (channel)
-> +		return 0;
-> +	if ((type == hwmon_fan && attr == hwmon_fan_input) ||
-> +	    (type == hwmon_temp && attr == hwmon_temp_input))
-> +		return 0444;
-> +
-> +	return 0;
-> +}
-> +
-> +static int qcom_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-> +			      u32 attr, int channel, long *val)
-> +{
-> +	struct qcom_ec *ec = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	if (channel)
-> +		return -EOPNOTSUPP;
-> +
-> +	if (type == hwmon_fan && attr == hwmon_fan_input)
-> +		return qcom_ec_read_fan_rpm(ec, val);
-> +
-> +	if (type != hwmon_temp || attr != hwmon_temp_input)
-> +		return -EOPNOTSUPP;
-> +
-> +	/* FC29/TZ39 report degrees Celsius, or 0xff if unavailable. */
-> +	ret = i2c_smbus_read_byte_data(ec->client, EC_THERMISTOR1_CMD);
+On Fri, 2026-09-11 at 14:36 -0700, Sohil Mehta wrote:
+> Opens
+> -----
+> INT1 event type: David Woodhouse shared a selftest which shows [2] KVM
+> re-injects an intercepted ICEBP (INT1) #DB as a hardware exception, so a
+> FRED guest reads event type 3 instead of 5. IIUC, the issue is not FRED
+> specific but it becomes visible due to FRED. Is that understanding
+> correct? Also, I am unsure of where the fix should reside or if a
+> generic fix is already in the works. Any insights here would be helpful.
 
-For the thermistor, it may be better to expose it as a thermal sensor
-and create a thermal zone instead of exposing it as a hwmon temperature
-attribute. The fan RPM can remain under hwmon.
+That's my understanding too, yes. It doesn't *matter* what type it's
+re-injected as, until the guest has FRED support and can actually see
+the difference.
 
-> +	if (ret < 0)
-> +		return ret;
-> +	if (ret == 0xff)
-> +		return -ENODATA;
-> +
-> +	*val = ret * 1000;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct hwmon_ops qcom_ec_hwmon_ops = {
-> +	.is_visible = qcom_ec_hwmon_is_visible,
-> +	.read = qcom_ec_hwmon_read,
-> +};
-> +
-> +static const struct hwmon_channel_info * const qcom_ec_hwmon_info[] = {
-> +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
-> +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
-> +	NULL,
-> +};
-> +
-> +static const struct hwmon_chip_info qcom_ec_hwmon_chip_info = {
-> +	.ops = &qcom_ec_hwmon_ops,
-> +	.info = qcom_ec_hwmon_info,
-> +};
-> +
-> +static int qcom_ec_hwmon_probe(struct qcom_ec *ec)
-> +{
-> +	struct device *dev = &ec->client->dev;
-> +	struct device *hwmon;
-> +	long rpm;
-> +	int ret;
-> +
-> +	if (!i2c_check_functionality(ec->client->adapter,
-> +				     I2C_FUNC_I2C | I2C_FUNC_SMBUS_READ_BYTE_DATA))
-> +		return -EOPNOTSUPP;
-> +
-> +	ret = qcom_ec_read_fan_rpm(ec, &rpm);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to read fan RPM\n");
-> +
-> +	hwmon = devm_hwmon_device_register_with_info(dev, "qcom_ec", ec,
-> +						     &qcom_ec_hwmon_chip_info, NULL);
-> +	return PTR_ERR_OR_ZERO(hwmon);
-> +}
-> +
->  static int qcom_ec_read(struct qcom_ec *ec, u8 cmd, u8 resp_len, u8 *resp)
->  {
->  	int ret;
-> @@ -331,6 +448,10 @@ static const struct thermal_cooling_device_ops qcom_ec_thermal_ops = {
->  static int qcom_ec_resume(struct device *dev)
->  {
->  	struct i2c_client *client = to_i2c_client(dev);
-> +	struct qcom_ec *ec = i2c_get_clientdata(client);
-> +
-> +	if (ec->variant->monitor_only)
-> +		return 0;
->  
->  	return i2c_smbus_write_byte_data(client, EC_MODERN_STANDBY_CMD,
->  					 EC_MODERN_STANDBY_EXIT);
-> @@ -339,6 +460,10 @@ static int qcom_ec_resume(struct device *dev)
->  static int qcom_ec_suspend(struct device *dev)
->  {
->  	struct i2c_client *client = to_i2c_client(dev);
-> +	struct qcom_ec *ec = i2c_get_clientdata(client);
-> +
-> +	if (ec->variant->monitor_only)
-> +		return 0;
->  
->  	return i2c_smbus_write_byte_data(client, EC_MODERN_STANDBY_CMD,
->  					 EC_MODERN_STANDBY_ENTER);
-> @@ -356,14 +481,24 @@ static int qcom_ec_probe(struct i2c_client *client)
->  		return -ENOMEM;
->  
->  	ec->client = client;
-> +	ec->variant = i2c_get_match_data(client);
-> +	if (!ec->variant)
-> +		return -ENODEV;
-> +	i2c_set_clientdata(client, ec);
-> +
-> +	/*
-> +	 * The Slim 7x does not implement the reference-board capability command.
-> +	 * Its firmware controls cooling autonomously. Only expose its legacy
-> +	 * sensors; do not enable SCI, fan debug control or standby notifications.
-> +	 */
-> +	if (ec->variant->monitor_only)
-> +		return qcom_ec_hwmon_probe(ec);
->  
->  	ret = devm_request_threaded_irq(dev, client->irq, NULL, qcom_ec_irq,
->  					IRQF_ONESHOT, "qcom_ec", ec);
->  	if (ret < 0)
->  		return ret;
->  
-> -	i2c_set_clientdata(client, ec);
-> -
->  	ret = qcom_ec_read_fw_version(dev);
->  	if (ret < 0)
->  		return dev_err_probe(dev, ret, "Failed to read EC firmware version\n");
-> @@ -410,6 +545,9 @@ static void qcom_ec_remove(struct i2c_client *client)
->  	struct device *dev = &client->dev;
->  	int ret;
->  
-> +	if (ec->variant->monitor_only)
-> +		return;
-> +
->  	ret = qcom_ec_sci_evt_control(dev, false);
->  	if (ret < 0)
->  		dev_err(dev, "Failed to disable SCI events: %d\n", ret);
-> @@ -421,14 +559,21 @@ static void qcom_ec_remove(struct i2c_client *client)
->  	}
->  }
->  
-> +static const struct qcom_ec_variant qcom_ec_reference = {};
-> +
-> +static const struct qcom_ec_variant qcom_ec_slim7x = {
-> +	.monitor_only = true,
-> +};
-> +
->  static const struct of_device_id qcom_ec_of_match[] = {
-> -	{ .compatible = "qcom,hamoa-crd-ec" },
-> +	{ .compatible = "lenovo,yoga-slim7x-ec", .data = &qcom_ec_slim7x },
-> +	{ .compatible = "qcom,hamoa-crd-ec", .data = &qcom_ec_reference },
->  	{}
->  };
->  MODULE_DEVICE_TABLE(of, qcom_ec_of_match);
->  
->  static const struct i2c_device_id qcom_ec_i2c_id_table[] = {
-> -	{ "qcom-hamoa-ec", },
-> +	{ "qcom-hamoa-ec", (kernel_ulong_t)&qcom_ec_reference },
->  	{}
->  };
->  MODULE_DEVICE_TABLE(i2c, qcom_ec_i2c_id_table);
+So while the issue is pre-existing, it's only actually a *bug* in KVM
+once your series lands. So I think you need to plumb the event type
+through the KVM exception queue as an explicit field.
 
--- 
-Best Regards,
-Anvesh
+--=-DV84bj5nHdySjIGUqmkS
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
+ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
+MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
+AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
+DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
+q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
+S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
+Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
+72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
+CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
+mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
+h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
+CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
+GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
+AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
+v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
+CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
+b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
+Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
+A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
+vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
+0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
+jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
+FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
+HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
+IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
+MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
+MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
+sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
+tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
+EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
+6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
+ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
+bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
+Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
+02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
+sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
+ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
+JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
+LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
+BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
+LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
+hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
+SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
+c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
+RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
+AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
+EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
+ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
++3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
++icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
+McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
+LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
+nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
+gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
+Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
+CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
+QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
+Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
+SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
+YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
+kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
+pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
+v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
+vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
+PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
+REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
+lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
+aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
+D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
+bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
+MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
+oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
+TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
+bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
+BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
+MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
+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
+12mBXJGAs9y7SXYmvfeI66wAAAAAAAA=
+
+
+--=-DV84bj5nHdySjIGUqmkS--
