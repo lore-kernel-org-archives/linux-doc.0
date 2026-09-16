@@ -1,52 +1,52 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013011.outbound.protection.outlook.com [40.93.201.11])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011015.outbound.protection.outlook.com [52.101.52.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDFE4DAF8C;
-	Wed, 16 Sep 2026 20:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750BD4C33D1;
+	Wed, 16 Sep 2026 20:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789591547; cv=fail; b=m6y5oacHneUb5uEGESUludzBe2SfRhVXiZ0f5jHIQvOoRtbS2J+hPyy7TLL4E9HQaXMTY15udNsZlGi29Ak0+Fu88HxF5OWxqD+x664zjRMWDLVdIiqqpWrCbrRIRLw+ckIbfGAk289xGVpyRDcXzROahjhrI9HCadmXRs+cGCU=
+	t=1789591645; cv=fail; b=TZfkAMAjS2lk1FTddiN4LYWSTeuDiTMSheKb5Sp97TuTguIIsHS0QB1eZItXPQcLLzrGQTELZerIBw/c5ucrz+ZeEspckuwdV+v/37rEU7DFKIIV7L+C8gTQ2SHS7BaAD7HXeQDkzKrlmpyFVVqZ2e/UWCthjQlM20QnCM4mCEM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789591547; c=relaxed/simple;
-	bh=KYeFwBpFtmKDa0gwG6/DgNuIhhyFLqAYEZz0yWaLuW0=;
+	s=arc-20240116; t=1789591645; c=relaxed/simple;
+	bh=3t0LH1MspGB/JmbolheVleei8G25L/TSt/1U3XKhuJ4=;
 	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=VwZwYS8xrfsi6e6+cO08ZXbNeUqnwW6FZgTROADitVLTpZz/b5e83JYTGNfBwchUdNTNt+r5byuxL26ShF8E79Bue6/31wLn6lhIdItAgKAfMOk69C7/3WV+p6cC4XRkcpMJgEEymL6KddLymcYI8FncYgQAQSPvHhJoCRRA718=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=KAxaRrIF; arc=fail smtp.client-ip=40.93.201.11
+	 Content-Type:MIME-Version; b=T+hCtdAgOE6XuH6fJlJa0D4yggWSkMgffJnPhTR8BsuTl97BYEsx46DlVDE7raLFekMKA7P5jI6sHLqtHbBQ5MLXU4e/fN8JQMKjgUjbcR0FUYYZqVkqIKJCo6ehVnlXvCdeS5ddsggeA/nYQgwFXZ2qGyWTGCKZb65f8SZvKUA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=BO66fMXw; arc=fail smtp.client-ip=52.101.52.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="KAxaRrIF"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="BO66fMXw"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oAToHui9+asQ5HrxganK6e9GqjY5v5UbWcnSlLbHVfUx6bR8AN9ikA5wNxDNEEtu+WeyzHkw+hhUeyfOV9tFRYDNMG7/2PQFm+pG/JC5K/EWcmDLf1vyxTvkTKJZ6UH4mtTgBFmuPYfY9gBWW4m0iauhcLSEb+oEadegO8QtTW9ixmvnYnLnaZfEzWoljkguNAJHx6orb8DOzvjfYh2nX29DVBdNY5kUGtf6cEal4mZlfwtDj37R7SE8SXFtjvHCk0yFQ/XW2N5xk6S5uxmA4thffIMoydxRahfUPgQuZJLdTvk5hsMnvZrG+tFWn45xLYhIopnMoIb8iQpZ7MbMpQ==
+ b=sKGoMJEx+3246rgcAdN2fMa3URw1gCr4YT6H33Le12tl7a6zymfxH9bnMMzunnwBpd0jzO8uyCaS51GLvsnhgNOJd4Rpl7ZttxK//9WxAyCfdPWOv/lNLZYep0PhcNuHr6NtTS9PA16oBCIHQ7kEBp/P8ZDBZnsPCaDTgC4sS4FqSIbeq89MFCo/3EHDCSNBmadsN+NbDuAhwgU18OzRNroddQrIlRjTGnTVrKm7GB+S+c4/AyhTL0KVmBgu+QO9nwbBMcM1QXjWs8fMSM2zK0MYnK4rwlDgErE2to+4zWYRK4AKooKwLC03E8ETCvhgqQKODguQCHMsyf5bAF1CDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MG3ld6VcXqYkMoH/XOL0AclURW5xWJNY96Ip5AMITXE=;
- b=jaWZw++PEM/cgYlvfRqgiFeDDMj0HfGx2FpAIIbQGzYmEo0XD6RzHXZaR5dB3WjVZhvK3LL4hYXCiI44R/hxGp3kY88uL/roF45Brwd9acpvEjTbunsoTyTOLiSTYECs44oPMk2VWiWJfjPQn9qBJpQvqWwAjpRSR0C7F577UZjNa9okqcwDY+A84HHA0b3c5aIgF7AFu6KVJz4jAI/9BnrCuBvNBLtN3YYMIY1Rtt3jfN+yA7qp3KnUgggVCleENyGZ/3XeevPugYTaPFyX7NPZ5tESkct5gcVajlVMwKgpiQslK6ULqfHc0z51/M0aCr60f2ccakX5+GjZCOMx6w==
+ bh=jf0cWG63jCa/vFTDcCkZ5ZZRtg9g7ASW+1J/rxSuz1o=;
+ b=KaozMngQdvYUQSLB79YhJ/OPQPOvlZZda1NYzRLR5l9y4eaFiJZVJ0agDz/VUGhvB0140BGQKjrx5E5Oo3VL4fSI3lehjJyeb/vHPlDAZ/ZEK9YEIG821Fn/jdHLKmhIfU35LBwbaVikDZGfoP6iNgA3m/w/9tpdj7bi80C+szmKpFqa1M1jhbYEZg6sgju8yX/n45ltTFagHBHOJ1kqGHV3Oh25tENsvfmIIs2fWS7ObZIymM9cbQT5zjuelJ4U06IcFUbbZrLOMcS58rES5dEMLJgqi4SfYAetKA5wLHt0OZ8+fYhZnyuomtePBqeTrsZjYopW03TcytmwCpOSQA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MG3ld6VcXqYkMoH/XOL0AclURW5xWJNY96Ip5AMITXE=;
- b=KAxaRrIFVdSuA+yKC8ZCPdYzSJx9UWtXiJsD+0EgUOgSrq3sN45XhZr4e+nKE7iXlajZ9lQRfxZdQ9U9mxSTd9T7dib+OK2i8X1lIXzVO2HjeDuLZcPVQCsXVKnsnHw2J8D5GgOA8L2A/IBXOClDVPrWdbGbxN20BmTAUF/euAY=
+ bh=jf0cWG63jCa/vFTDcCkZ5ZZRtg9g7ASW+1J/rxSuz1o=;
+ b=BO66fMXw8Az3DWgS8k1U7efl7I/RLZNZvxVcuSYsweux/JCgRSyW+uSPbZXh6+pdhljdaq6U37WbY4yAnxUW0Q2egiX7fH6S7m+Z1BoWM4cVMYMIayhUpZ3RVCm3vr+kJcVOnnuk+gag63Rc6LUkl8WRaggQ6Uk6M9/D90o5gsI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15) with
+ by DS8PR12MB854423.namprd12.prod.outlook.com (2603:10b6:8:446::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.9; Wed, 16 Sep
- 2026 20:45:34 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Wed, 16 Sep
+ 2026 20:45:12 +0000
 Received: from BL1PR12MB5320.namprd12.prod.outlook.com
  ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
  ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0428.009; Wed, 16 Sep 2026
- 20:45:33 +0000
-Message-ID: <6be71f8d-579b-4673-865c-f8ab1c0ae379@amd.com>
-Date: Wed, 16 Sep 2026 15:45:30 -0500
+ 20:45:12 +0000
+Message-ID: <d528fe23-3c1d-4eab-99ba-567983dd805d@amd.com>
+Date: Wed, 16 Sep 2026 15:45:09 -0500
 User-Agent: Mozilla Thunderbird Beta
 From: Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH v5 02/16] x86/resctrl: Add PLZA support to command-line
- options
+Subject: Re: [PATCH v5 01/16] x86/cpufeatures: Support Privilege Level Zero
+ Association (PLZA)
 To: Reinette Chatre <reinette.chatre@intel.com>, tony.luck@intel.com,
  Dave.Martin@arm.com, james.morse@arm.com, bp@alien8.de, ben.horgan@arm.com
 Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
@@ -61,14 +61,14 @@ Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
  elena.reshetova@intel.com, darwi@linutronix.de, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, x86@kernel.org
 References: <cover.1787772750.git.babu.moger@amd.com>
- <e669cb9aa6a2a4f4c1720d627278bb287cb20479.1787772750.git.babu.moger@amd.com>
- <07d90b5d-d512-4059-898f-42531fc649a7@intel.com>
+ <1e7f4c3b0cb570f6e501a01d361745b180271f30.1787772750.git.babu.moger@amd.com>
+ <0b4f2242-c22f-4557-99cc-ff622be9ee2c@intel.com>
 Content-Language: en-US
-In-Reply-To: <07d90b5d-d512-4059-898f-42531fc649a7@intel.com>
+In-Reply-To: <0b4f2242-c22f-4557-99cc-ff622be9ee2c@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0232.namprd03.prod.outlook.com
- (2603:10b6:610:e7::27) To BL1PR12MB5320.namprd12.prod.outlook.com
+X-ClientProxiedBy: CH0PR03CA0228.namprd03.prod.outlook.com
+ (2603:10b6:610:e7::23) To BL1PR12MB5320.namprd12.prod.outlook.com
  (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -77,93 +77,136 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|DM4PR12MB8476:EE_
-X-MS-Office365-Filtering-Correlation-Id: f4e81c9c-c86e-4efd-a112-08df14337455
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|DS8PR12MB854423:EE_
+X-MS-Office365-Filtering-Correlation-Id: ab3b2fa3-dba6-4701-e9eb-08df1433679d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|7416014|4143699003|56012099006|10067099003|22082099003|18002099003|11063799006|6133799003;
+	BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|56012099006|11063799006|4143699003|10067099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	+RN0C9wtMmBOMaW/zJB3J/ltuUvUDjQV8ekz7hfxK8JnDV5aDjQnWuZfRNxDbzY5rE3y+9u5KyZUQQ2r/wv75Cdiq1qb55mPWfP4ht7lSHPy0RNdbCFmUhMpRKnq5DW+l+jYmmQFdt/9mwXbEDTfBtThnH64F02nv5HM68e4XgCM7bBeoVTRvF/BJqHTa/a9SojnByhJts8ybV0xQ6LsQbQ1yFAfddP33ZRJ1Yw3shbJhtMHIBnb7OzbRkuyLu8KLtCU/fJyZ8KVc7hYuyVvFtjlBfcIo7qgVA8S0mV+B6hHlwOoud1g8HxCQItDtWYSSkNdS28DoWVyraELbGA8Vfx9Lh5GhkGyPHm9ncG39Gg+iTorvQtLhyTvw6FkJuvQV8D6E6shN6xu2VXDBfSKFSMXVbRkx3V9/5bCWIx8jlCF5vdgccyCSaV488877o4ezHAaTJKTHD7UKLp22zu22t/AL/fDfSse2VOCVkhpzacawP4Vrx2JorY8rvobq2VpJMlq41AyGIzSFTxfwl1dyanNAqsJbdVaRUFWJE77zaYa3veAYYRRDKEd7PGvAyVM+JcOXbx7F6PvHMBJebL6iLImHM6opNzGgb0+rAZdYjUbe5w+pnkG+4nZRfq3veLMssgjqOQ1/6s3dG7jkoVa+ojRM/Fq4UXNeJm2HOdlQiw=
+	1SjtDsggLgVlf9Lo0tg3HGOoDiBejBFlvRpnQHT/0CVRIdEEwDeEhLbkn+IXpDXuF+fq3GPWFESYpEdw9zX1ototkuQTn5dshkHmZCCSjteIrrxzCwtoVMZdQ/+EFta8nQx/eSePCH8cq+XLrf8gEfWrmSQ8r+ye38hW+fH25fkDuzFDxML3YjRu6WEjQCaIHEBhvcpvGCdnw9v7kziBGBt2iq5pZFEzDyHovRVMhIkzyL6B+fbr5DROIB/McXHL9jtJEuypqf5Rs3Sji9k0XHjnNITqZheMjNbvm16bu0294OOHO/w7yCZbPJqiKYbdbMx3nbXRR9cNIqylRAzHljCc5hq1ydwzX2d4Rh402TBBVQT3lEZ9gaWqAmHQcP2CBzx0TLfylRJ9WJDMqEGkciGpF2maW5fRfn/8UBOEi2LEZOmY/PQZyrJo4cYyPrim4zqkO4+mqKXyf2QMJVbxzXF4IMR9f+3OEk/9h0yM9+NMjHY9R/pvsPdwnJZL9eJo3Cq6Ysx6m1TF+KJ5cGfcLqmm7UJ8eeyhZE47gIvdjmIBLQ+RFoh3xgOb31l+EDUrxjqlKYXm0Yo7U6lPaBoQuw5N1Rvkh1W7eYRt3FX0vIPj6BTeZUze3Ou9PemWwiqBo3djOtzxPr3Td/b1JGNCE8Dv5lyfd7Mwhvez3lLTsW0=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(7416014)(4143699003)(56012099006)(10067099003)(22082099003)(18002099003)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(56012099006)(11063799006)(4143699003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SkhiNTRkcE9ZZ21EUE5jRzZyMkV2MVU3aGlyZVd6RmpvcThUZ0w4dVFhU0Qw?=
- =?utf-8?B?R1pGeW1yRmwyRmJscUNzZFVOeVBUV0QxTmUyKzBBdHFOcHJUQWxEVDVpSkgy?=
- =?utf-8?B?MjhMYjZKY2xkYnE2bGVGUTcvRW1NaVB5aFdyNGxMSEZFZ1BUOW1LSHJZWjFk?=
- =?utf-8?B?OWtsZzNWVjVPNWJ4aUx4WWZrNXJsbllhUmQ2OEw2TGErTTlsZjdWQVBuMEtF?=
- =?utf-8?B?VEE1UktPbWZoWFJoOTR1YXF2b0dHaTVERndUb2JjWXZXTHpQOCtyNXR3WjBO?=
- =?utf-8?B?RE1UR0xxYXRMNUlZTW5OUWwrbkZNd0RQNnJYdzdYQWdkZzU0T3E1WW1ndzVP?=
- =?utf-8?B?TG1iY1l3YlV0enlmdTRWa0YraGF5Y2lDTUk5bERhMGtwWEJkb1c1N2RoMUQy?=
- =?utf-8?B?U3M4RmsxckZqck03NlVrYkFQWWlmdmlvY1Y0cm80L2NwZWdiQzY4Z0VCazFM?=
- =?utf-8?B?OXI0aS9hblB4Q04rY1JJMkozSTlkZHdCQWllQU1MRktZTmhLRmNWYy9jVzRH?=
- =?utf-8?B?UnBZZi91a3RvTDJac0k1eDg3TlA1aUdTc05KWmlNWVpoMVlWdzVtY3FRVWRo?=
- =?utf-8?B?L2FiZnNVSVB2MXZIbnNiU3pySS9mSHdpV0h3N0U1SzVlb0VqRVYyQVZGRFI3?=
- =?utf-8?B?T1h0cm1NellFU3NxYzJTU1I0M2ROVERWYVpQK01EVGl1c0Jac0RER0FOMW5S?=
- =?utf-8?B?TWE1WDdJaXNaWDFiMllCVFFaN1RqL2JKNmtXQjhnc2FkTjNDQktUbnhrSWhE?=
- =?utf-8?B?Zm96dURMbHg1VHJlQk9RNjhqWVRJT29HSGxpWUZUTmp3WGpIeDBERzhObENJ?=
- =?utf-8?B?emN4cE5qcXVKY0VnczJCaHdab0FCNGVPeUVuK0hrYk1GamcrdUUxTnptQS8v?=
- =?utf-8?B?YnB4RlUvcUtpeTJEeGxqNGlqLy9OV2NaZllVUU1JaEZMb3VBZmFGcmMrM1VP?=
- =?utf-8?B?cXNTRTZaY2x2ZlVmc1Y4cVVDazhGcnUwVVcvNHpubFdSeThwbnRHMGdWRy9C?=
- =?utf-8?B?SVROeTNwNEpaRXJKYksyVDZhTkMxMFRmZ2Y0d3BLQ1N6cWJqYUk4UTBaS3Qv?=
- =?utf-8?B?WjVlUlhZR1IvTGZIdUxiTy9yUElyVFRlSFlPUmUySk9JalhGaUxUZER0U1Ur?=
- =?utf-8?B?U0NMK3hGYWRmM0VIRThoYk5PUCs2RDBtT09EMUVzMDFSdWlNNitNMjAwNUND?=
- =?utf-8?B?b1MxOW1OemxBV1BNWDBpL1ZmTXJFNjhQTS94UURhMzlvbGNNQzRxeGJoMTdv?=
- =?utf-8?B?UXBqTE1YWjhJWmp5ckZwV2tXV0tXMVBrTzYyK2pwWHYrbVZQdGJycWIwdWtL?=
- =?utf-8?B?Yk1OS2JBd1ZudEtLRlQwamVrSDRCa2ZOcHMrcnRXWkFDY1ZYMXdGL0d2ZThY?=
- =?utf-8?B?UkVGcW41eHlLWnVZdWdVZFlZRGFtMGdnZkVKV29Ka3VXZTNHSXhVeUQ5dWEw?=
- =?utf-8?B?bnV5SnB4VjBJc2cvN29jdHNyR2ZNVkFqMUwraWJTVjlEZnJIZkFXbWlPRWxl?=
- =?utf-8?B?MU92aXVxODdzcnBQQWhqNktqNmVwdDl6M3dJMGs5RzA2Yk1BZ3hkcmRCN21m?=
- =?utf-8?B?TTJZUnRrcUY3QzBKRVV1b0NjNXRwaFBHbGUvbXVlQmdNK0xvd25ueUExcDB5?=
- =?utf-8?B?K3F1citMTVhRamtOSWZkUVdacFBTZTdEMFc1NXlTSU5wV3VSc2tPclZjRHR5?=
- =?utf-8?B?Zk0zNHFGSTEvakxBd09OTTRpUEpQWThNK2JuVjcxQkVOZFMydklNVkcwK2Y4?=
- =?utf-8?B?eDMrOVJZZk5RajYzTW93d3ZCMm93bndVNVMxR2Z3b2hiM2gwd3MwTnovZEpa?=
- =?utf-8?B?NnA3em9PcVdJTUU2MS9JY2hHWDFWL2wvWFFMdjNxcG5ndGNkZHljS3Yya2NS?=
- =?utf-8?B?aVJ0cG13Uml6bkNGQ2RKcERwbHFyMVR1OHU1RzQvUzBCQVJ5KzVmQXZ2MEFx?=
- =?utf-8?B?WE42M3hOS3hBcndjVElWMFEwRmJHOTdjYnI5Tk4xbDVLWk8vTi9rdkExdG5k?=
- =?utf-8?B?ZHFJVGtlNlQrR1AzelZxa0hFWFp1ODc5S2hwL0RUZThEWHVaVHVQVDZjZzdO?=
- =?utf-8?B?MnhaZzJ0dlgvR2pUaXhMbW50dnFmYitMV3kyWnVwTkZETDlNcHpDNGJpNm5w?=
- =?utf-8?B?ajdZaWgwZ2YyWG1oSEdkRm1HOVdyaysxY2lwRTJNeFg4WXdDTit1T2hOckhK?=
- =?utf-8?B?T25Yckh6dnNPblZQZXNVYTM1UkFaSmhZMTB2ZC9JK1FiNzBUZEIzU3hPTU56?=
- =?utf-8?B?N2MrZnF1Y0kyN3R2K3BBNVpHZmFqdzIzYUFlT0paUVRxQnluTnk3WGZlbzVy?=
- =?utf-8?Q?N922zPjRFLA0RyqvUZ?=
+	=?utf-8?B?M2M4OWc2UXAzN0hOc3orR01ITnpCZTYzM3o4OVRnS2lOcVpRU2xCU2JxUHk1?=
+ =?utf-8?B?ZjM1SGhvVFFBYWlwdVJSbzBablNoTXVnZ0NXaFRZWmFVOG0rU1h3SXRVczJL?=
+ =?utf-8?B?OXVWcEh5M2pEM1MwN3YzRnZ2dnoyWktpSEJ3S1RVRlRDT3A5V3Z5djBmODQy?=
+ =?utf-8?B?bTZGRTZvWC84NWJuMFZ4YkFHNFIweDVoR2x4ZzI3OXNWT0ZHMzdncStWTkk2?=
+ =?utf-8?B?bmRwRzFOb3NHb0Q3SEljb1gzL3lBU3l1MVBvN3BwcVJtWnVlV2hvWkc3N2Vp?=
+ =?utf-8?B?dTUvbjhXRjc4SEk3bnI5MERwUDA5S1hSNU9IZmcwQ1JXVHRXWUw1Y0N6ZHdM?=
+ =?utf-8?B?QXJ5ZFVEMUJEeldlY25GQnFNUWsxUFI4UWVCek04ZzVIeFFsNFhxM3VTNWlE?=
+ =?utf-8?B?TWkxaEhRMjZNRVlQMmIzbjdFejJMKzVZMmpsc3lqb3F2bDNyNnMwMk05aThl?=
+ =?utf-8?B?cy9hdEg0RUJxTnQxcjlCT2w2NmlUNE5seDJzZVpYRTRaMHlodThZd2RFWE83?=
+ =?utf-8?B?WktmZkIxSmhoY0FPQXBQd3liMHM1dHd5Ny9GWEptRlNkckxvaldFWXVjb2tq?=
+ =?utf-8?B?RkdJR3BEaDhEZXdCU2RJcUYxZXBJMnVDQ09IZ2RRL2c3QVJPd1kydnFJVWcz?=
+ =?utf-8?B?cFJnK0FZSmZhTnJJV0ZBYXhneWFrUGF1YWhqS1JvK3hnT0F3UkFqSk9LMHM1?=
+ =?utf-8?B?OG5UQkZPRC9IR3dVUDN4WlJWVjhkYXVKT1Jia1YvY0NBOWtFcGJ4UFpPSzVt?=
+ =?utf-8?B?bmxINnRTdzZ6QWJzTnJoUU84ajV0SWR1bFRKbFkyd0w3SDY4OElNNWkrdlE3?=
+ =?utf-8?B?ZkdWSlk3aWdNY0tpMHc5eGhScnpUKzZTM1FrdXdjZG1oZ1A3ejZyaTc2V2Z2?=
+ =?utf-8?B?NThXOXB3Ny9OQmVHd3pUekNsaVlMWk9Tbk0zNWpXQ3RlK3lUTXNRQ0pNdUhE?=
+ =?utf-8?B?WlpEZTltR0h1M0h4cXFDNFExZXpJOG5qVkt4aHNOVG9VdGNIa2NYZ1lCTllh?=
+ =?utf-8?B?QzhSZTl1cnNjaDhzYjU0S04wbUtCSjhyRm9WT1hLbUNqREVySTdyTXp2WnFN?=
+ =?utf-8?B?NWw0WGpVaU9oUk51QVBwcGd1UzUrVmMvTHoyL2QzS0NiRFlBZDhjMEdnQmJa?=
+ =?utf-8?B?R21ISlFicldvQTBtZHFkOG9IMkVOVGRRbTNZRnZFcldNMFNIazc4TFZXM1BH?=
+ =?utf-8?B?blVHcFRlNzRsNFVBeGRDR2hJSGJ6YVoxNkdIMkwxZWg5NkpENmZiNnNidXFB?=
+ =?utf-8?B?RXhudDdMeUhxQ2tTWUl1aVdITDA3alhjS0RiTFBlZk9DTk11bFV6SnBSd2x5?=
+ =?utf-8?B?ZzF4VDM2L3N2N1h3N2pCZ2E3ejJ2UTlXbXpnSEV0Q01ZSnhsN3BoOGkvWGtY?=
+ =?utf-8?B?b1h5cTVkZVd0dStsVmcyYm1wRmk3azcvcnd6RjZuUTIycUZ6c2xOQUg2Rmw1?=
+ =?utf-8?B?dk9sNzNCVXJ1TVlsbENDbWNGaDluQitTdGxWREowa3NLK21IRXpjK2tDRmJX?=
+ =?utf-8?B?QW4wOWxtY3FQMm5BSlFlV1RIZU5VcVNGcitrZGJQY3Z1Z2s3eUZzVk9JdVZ5?=
+ =?utf-8?B?djlCbi81ZFNZcEVxaWVlakxMcWdnN2NWRkJydXprWXhud2VtVWh4dFVxTmRQ?=
+ =?utf-8?B?U1YzTTl6cHRYdTZXV0l4V1lKbHkzSzR0Y2FibU0yUjNUQ0NLRkxhQ2F5S2V2?=
+ =?utf-8?B?SWU4SkNLNVp3T2dFbDMvZ1FVUFE3RGVqWUg2dVhQQS9rV3pTNjdIM2pwVzM0?=
+ =?utf-8?B?a2dqOW9wK0llUm4xV3NrUDhEbEhpbGFWT0V0d3BZNlEvSmJSbk5RSmtnLzNH?=
+ =?utf-8?B?aUZEZjh6M0VKQ2ZvVXlvdGEzcjdFU2lJVnMxbisvcGRXL3RObzdsRW9QOC9D?=
+ =?utf-8?B?a1FoQWl1TEdEOWdNNWtDRHRrc0llT1YzQ01TZy91QnVzWXFkREF4Y2h4eWVa?=
+ =?utf-8?B?VU9qSWUxUHQ4OU55T2h6YXNJMWNSeWptcCtuV3pVUitrL2ZqYmZ2L1l0cjJj?=
+ =?utf-8?B?SG94UnVHVkh3bUJFd2xZYUFRY2tkejA1VWUrempuK3ZmTWdWQi9PdFlON1Iy?=
+ =?utf-8?B?UVZKeVhiSlo0bXRVaTJhdXVEWjRPWWZldng4ZWZXSzIwcmdZckpLY1ZFZkV5?=
+ =?utf-8?B?Q2hVNUc3TEluM2k4YnRoSjNtKzl4Y0V2OXB5bS9rb0dOMXkySlJZbGVadVFM?=
+ =?utf-8?B?YzV6ekJQOG1uMXhiOXRCUVU2SytXd1JhRnFxSC8xMjAxMytoYUJKemY0OUFo?=
+ =?utf-8?B?a1JFald1aEYzcUF1VWNUTFNEaGlzSjBFc05QbUh2cjJvSEJTczlEZjZNaXhw?=
+ =?utf-8?Q?6b1zYQ2uUEeHd1sCga?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4e81c9c-c86e-4efd-a112-08df14337455
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab3b2fa3-dba6-4701-e9eb-08df1433679d
 X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2026 20:45:33.8718
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2026 20:45:12.5621
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z3D2DWt7Y8imjLb1KzJX1qqQMth88jR3OFlf4XByKOgHS2aHx/ltR5dMTWXyUIc0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8476
+X-MS-Exchange-CrossTenant-UserPrincipalName: yI18XxFxMBeKFOXUj5om/qn2kpgW1Jk3g7dw7hj1dI0PX34cnjyOQouZWh0VvkdW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS8PR12MB854423
 
 Hi Reinette,
+
+Thanks for the feedback for the series.
 
 On 9/16/26 00:12, Reinette Chatre wrote:
 > Hi Babu,
 > 
 > On 8/26/26 12:32 PM, Babu Moger wrote:
->> Add a kernel command-line parameter to enable or disable the exposure of
->> the PLZA (Privilege Level Zero Association) feature to resctrl.
+>> When memory bandwidth associated with a CLOSID is aggressively throttled,
+>> and a task with that CLOSID moves into kernel mode, the kernel operations
+>> are also aggressively throttled. This can stall forward progress and
+>> eventually degrade overall system performance.
 >>
->> This allows administrators to control PLZA visibility at boot time via the
->> rdt= option (e.g. rdt=plza or rdt=!plza).
+>> AMD hardware supports a feature Privilege Level Zero Association (PLZA),
+>> which allows the CPU's CLOSID association to be changed during the
+> 
+> CLOSID -> CLOSID and/or RMID?
+> 
+
+Sure.
+
+>> transition from user mode to kernel mode. This allows the kernel to run
+>> using a different CLOSID than user space, which can improve system
+> 
+> CLOSID -> CLOSID and/or RMID?
+
+Sure.
+
+>> performance.
+> 
+> "... and/or separately monitor the work done in kernel mode."?
+
+Sure.
+
+> 
 >>
->> Resctrl exposes PLZA by default without requiring any explicit rdt= option
->> if supported. The rdt=!plza parameter can be used to disable PLZA exposure
->> to resctrl, while rdt=plza explicitly enables it.
+>> PLZA also applies to cache allocation and monitoring features and provides
+>> flexibility to manage allocation and monitoring associations independently.
 > 
-> There is a lot of repetition. How about something like:
-> 
-> 	Add "plza" to the rdt= command-line parameter so PLZA exposure to resctrl
-> 	can be enabled or disabled at boot. PLZA is exposed by default when
-> 	supported; rdt=!plza suppresses it.
-> 
-> Patch looks good.
-> 
+> This reads like an afterthought. Are users expected to use cache allocation
+> while PLZA is enabled? Since only one resource group can be assigned I expect
+> there to be quite a few sharp corners when both are in use. Kernel work done
+> on behalf of high as well as low priority work will use the same cache allocations
+> and thus neither could actually get full benefit from having dedicated cache
+> portions?
+
+The best-known use case today is to leave both cache allocation and 
+memory bandwidth allocation at their default (maximum) settings and 
+enable PLZA on all CPUs.
+
+Users can, however, configure both cache allocation and memory bandwidth 
+limits. In those cases, there can be corner-case behaviors and trade-offs.
+
+If you think the current wording is misleading, I can drop that text and 
+rephrase it along these lines to include both cache and memory.
+
+"When cache and/or memory bandwidth associated with a CLOSID is 
+aggressively throttled, and a task with that CLOSID moves into kernel 
+mode, the kernel operations are also aggressively throttled. This can 
+stall forward progress and eventually degrade overall system performance.
+
+AMD hardware supports the Privilege Level Zero Association (PLZA) 
+feature, which allows the CPU's CLOSID and/or RMID association to be 
+changed during transitions from user mode to kernel mode. This enables 
+the kernel to run with a different CLOSID and/or RMID than user space, 
+improving system performance and/or allowing kernel work to be monitored 
+separately."
 
 Thanks
 Babu
