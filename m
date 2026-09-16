@@ -1,227 +1,272 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA88F37AA83;
-	Wed, 16 Sep 2026 14:40:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789569618; cv=none; b=j8yteKoff4AJ54a9TSzORfOIa01OEu1jcXipIdaQKlCm58tVmdYpGfiHhrY3jwIqZWkj3YuMVI7jhVrISaeMhdm71F3KaPvP+FPpcbuk1Fb8To8BNPnM2xwTAtyaMtlx10A3KjPs3lcJo6E8ndcRsfjkZMi1yJ79jsmvDkzesEU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789569618; c=relaxed/simple;
-	bh=C6w+GzIt7txqTC9jLSWAFz1X88rbaR5OrUf0AekqJWA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=POyHmvA5S01VnHGDb1FNS6Xzn5Pdxul6OGdsbj0Dec1AQ/2yWhU545Bbh0DPBxUwt2e7owgoR8s7nuKNx0nxxdSqwO38aMDXTu44J1n3Ey3YhV2juVZqzPWdlrdM8ra9v3dv1UNts/gvWaFaDXpTAPUAqOS6bWr29b3bdRsq820=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ivXZVu9l; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABB654A7E7;
+	Wed, 16 Sep 2026 14:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789569754; cv=fail; b=LIExn7oIZoJcTAAsC2dCPzKKJUX8uWfGDI5T6GZKpej3ZoKBNhml9WcdyKKSuduZlP7GqD3GaftD/CstcMauroSJMk/lw0pzyO//LsjfQE/AB8D8s7w7lVI6zS88vYZ90n7XSIQLWP2xYHwEYKM0pX9NFWld2VV0/UOoA1ttm7I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789569754; c=relaxed/simple;
+	bh=9dmWElhd9aP4uiDu+l1cDkbujHv1zoo4zA/M84iP8OM=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=svb3rkB5UJHSfePv2Zioa++9QcIYOuykOhQ9b84Uk8AtXUqvhMPtb9ko25Ox4gU++kwvMzUBdPCG7q0eEYmwoq2RELxax9J7x/vQF4SkwpIo5FGZtz7MBnX63kbAUu84wBCvbjVWtytpSepcv5iYw/Qg9UsdZ/87YZy9T97ptkA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jT+AZB7D; arc=fail smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ivXZVu9l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 701451F000FF;
-	Wed, 16 Sep 2026 14:40:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789569616;
-	bh=WVezKAbdpjiJy/+Hx0xq2+pq04gpzdt4BxILI2ordk8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ivXZVu9luWu6E+lU/3CJM5ULkUy8R5oVFsS1OFXx3keqcFidn8fsX/QKKu2sClGEf
-	 4Bhk1VDn3aU7DELtvVbfOqkv2T61/drhZag8bXv/9N5ZVPylQ6v1hIMpbprrrWM7GM
-	 rDYKrKU0uadpz7ZMpGv3xctF0I9r1fxj6YaYZWdWoYbksv05s5JxOGtOADes52ws7D
-	 nP7pm7i8R2ZhiSBjHmuP3qd0gagDjdKk1Uhd2omrac0dpJfZtHYlJn8R3uQKkQyW94
-	 HtRxy8gLa3S4UxVXlxw+d+bsxLWyDmd0cqgKBJwdjB23lTpK9Yu62JAcklDfXA8Tub
-	 MjCgk7EEAsPkQ==
-Date: Wed, 16 Sep 2026 15:40:01 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 21/21] kbuild: use pigz for gzip compression if
- available
-Message-ID: <aqqowKg8F6wi61Zf@gremlin>
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
- <20260914-build-speedup-v2-21-39817ec5db23@kernel.org>
- <202609140844.FA7E848A@keescook>
- <aqk9gakQhxToLnDI@gremlin>
- <202609150955.A51C9F7A20@keescook>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jT+AZB7D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789569753; x=1821105753;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=9dmWElhd9aP4uiDu+l1cDkbujHv1zoo4zA/M84iP8OM=;
+  b=jT+AZB7DBO0HFtt0UIYEabd7/fD7pqqP8BFNhx1jMmzEpoTwhrcNVW6a
+   KA1C+VzjxnbFS1BEipyWbZb2K7CvRrXoyHtuHST1hpxs+B/eXe16r6ynw
+   f0s0RZ75evB7zYMlwGS0il75dzaJs33p51QiAv/2xWTLMpiJDgPt1Ow1i
+   bfDFTIRA45ABvsgAlYwXoZIhJxVASTT08cuQ5lcz9E/4eBJLRd7B0/MIO
+   EWfqB+r/XF2TJjXXfiKkYiSTQ2bu3VFLsZN0zPLV7KwV1V3rT/MAxNIgX
+   gjPGNku2e90S3nL5jVKSjTEo4U4XT3ZQA2yZikaoSvWbH/+e+0Oxukuyb
+   Q==;
+X-CSE-ConnectionGUID: 8dtj2/9vTnWu4MSDGEDw7g==
+X-CSE-MsgGUID: u8sX0FCFSSOXYw3BxYlnbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="112713593"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="112713593"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 07:42:32 -0700
+X-CSE-ConnectionGUID: VnQW+TCZSCyB7ANg6BH0wg==
+X-CSE-MsgGUID: VvtH3AxARtO7FAGSk3VNDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="273335029"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 07:42:31 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Wed, 16 Sep 2026 07:42:30 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46 via Frontend Transport; Wed, 16 Sep 2026 07:42:30 -0700
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.8) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Wed, 16 Sep 2026 07:42:29 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jbEEX01scK37IMrNCNcYJ4ub+i0XggEem57z4PBHMnYkeHAenR4e058oNzz6bawQlvSBhgm+XXLQnOQnUxqrB5SEMsLEdwU+Rwck4RlkgQ1oGfl6cNOhFeiPIBiIn2O1L64fOd5NuIiD49PUWpzjeaTaG75r8ADud1GcHE/kJ0q0QxVxgz3cJa6yaFcmhql/weuBzlC1NDsJprR4O7gTzuNbqYa7iLbRxmj4NA7lWRC7xSDdVLW7ukDgZovwtkFqc6yQNIAiOUu3BKsz3Z5nQSjxmWgnpPUdQdRs25xB8DrYkNIgXtQTUjYhfef0ZTaJb8ok+sW/kqimbTODI9Fddw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Tmg7XwPeVBaVcZtwpzXxPCHHHj93inpaZe1mmK8eqV0=;
+ b=xAPfujNeBMcuC9UUX3sStxF5gOXIoLlyjQyBgzRqwasrNERfaEiExy+RvMt17ZhXfbRW4nS0o26vPzyyfJ6jN+D22SeuyjXsVLvWTh5Xs3InQRmWC35x4TXeMgqf+Kg+BuQNl1qVHiY/Xa7absSlvbFEkbBAUAmhP/INdVYN7zOjGqV/PFgPHKVgLubqVuJLb60iD7wgqEUbKlXe77klMvLL2Lxbljo6Voz3MDypDpmtB2q29mAMXgJjP1AIWiu1Ay/9Q4Vx1EWPNZpS1odBabuXJgcmOibafY4IghMpOa7OnShlXOKtFWMqk3y9Lyrn5scVAdvYOdism5gM99eolg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
+ by PH0PR11MB7587.namprd11.prod.outlook.com (2603:10b6:510:26d::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Wed, 16 Sep
+ 2026 14:42:19 +0000
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc%5]) with mapi id 15.21.0428.008; Wed, 16 Sep 2026
+ 14:42:19 +0000
+Message-ID: <6d89b319-f5e4-4314-9970-a7762d3f3bee@intel.com>
+Date: Wed, 16 Sep 2026 07:42:16 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] x86/resctrl: Keep mbm_assign_mode in default mode
+ at boot
+To: Babu Moger <babu.moger@amd.com>, "Moger, Babu" <bmoger@amd.com>,
+	<tony.luck@intel.com>, <bp@alien8.de>
+CC: <x86@kernel.org>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
+	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <dave.hansen@linux.intel.com>, <hpa@zytor.com>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<eranian@google.com>, <peternewman@google.com>
+References: <cover.1788545152.git.babu.moger@amd.com>
+ <176d53626058ae97c4003f77ff47371628da9f1f.1788545152.git.babu.moger@amd.com>
+ <69044bcb-e606-4f7c-be83-2188169ddb51@intel.com>
+ <e5d60b04-6bd4-49db-aee9-49983be17c71@amd.com>
+ <5e8c02f6-4352-42e5-83a8-f6d589278568@intel.com>
+ <02254e94-35de-406e-a40f-f2a566d1c4ec@amd.com>
+ <2b2c5fed-0a4e-4549-977a-4eb9b6f27b70@amd.com>
+Content-Language: en-US
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <2b2c5fed-0a4e-4549-977a-4eb9b6f27b70@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR04CA0060.namprd04.prod.outlook.com
+ (2603:10b6:303:6a::35) To SJ2PR11MB8370.namprd11.prod.outlook.com
+ (2603:10b6:a03:540::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202609150955.A51C9F7A20@keescook>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|PH0PR11MB7587:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82b5b748-04f1-4e64-42b7-08df1400b5cd
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|23010399003|366016|13003099007|3023799007|6133799003|56012099006|11063799006|4143699003|18002099003|22082099003|10067099003;
+X-Microsoft-Antispam-Message-Info: m7ULyjbKSepiMidVpB+g1E4bS3S8Nvod0wp7jlsr/ckgw+9PXfLx9O7yTMqWp/m9N3bJmUg7gMLtZxhO0yptBmVuNnPeCu3ZoLUZq53l1moHh3dqIK+Pc4dXc8Nhyu0Rym5V/6hInuuj/ptJFTtnIt3tl5z5G4VBabQXUI0a1dMLWsYVLpR0R+9mVEHf4AGjAUuGfjFED1cak9SO7r+6NosRnGnTDAv+a7R+aCxGijUg+8J8pkxR/6ECuDJwIht/rJFSkC2+qM89gdAI3qNynjrXm577FTP5pk5kvKsuQyrHSFRrDNjwXe0AXsefO0FXT0q+W/YjqI5d/xeQlM7cxakf3wuJpOfUTzvanYeDDjlICefBxD5hl9LDIxWyuIDh0ma06lp7fbRHbZ0ZqfCr8sYZVPRmtSJqlaYSOodaje/Xxjim0CL2K0nPWKDy0Ttd4C5a98rfthUF6cHaBZCBCDgQNnPbuMMcipnovPCRiIpCMKU5VYOVt1NbC42hnizteYRYvIn2BtJ42w++eWsTbOqzZRhJQwiRSrO/AvmGOqE3rQUO1cZxI4AAaDZCNQ0Oe0BSC8imWKSaxz/Hij36HsWuuu1hV4LQA8Po/TfnGL8xfdzgml4HhKrD5Gf4P+2M5pzVQssJlhIPunisRoRxFKu/S730IGZU8Lc9BdT7RuE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(23010399003)(366016)(13003099007)(3023799007)(6133799003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OS9xOXN6eGMzaFNDSWppekwwN2YyRnBnM3FZUFNJODY2R3RZZGd6SWg5NmMr?=
+ =?utf-8?B?YmVTKzJuUDRVV3c3ajRNS1o1aTludFVEVlpvOE5HTFc5SlFLMm1JcTdtQ1VN?=
+ =?utf-8?B?QWRNbUFaSkNDRGVBNHFESE8yNWZBVGRzMkx2V1ltTkxLY2FHNGNTeHN1U0F0?=
+ =?utf-8?B?SXcrcmdtNUV3Zm5jWEdZM3Rlb0pscXFYTVkzK1liMGNjeUl4cUszSVQ5a2FC?=
+ =?utf-8?B?YjNwblBMQTRVWW5wVFhWZCtUdHNkYUx5YTVxRU9LN1Q1RGZsQk8wbURzd1h2?=
+ =?utf-8?B?RGN1MzlTQlNWalFXakU5dFZOdkFGRFZWSTNXbWd1aElOMXJzUnhvS3lCeFd2?=
+ =?utf-8?B?QTdvMjlZMldGZ1k3N2g2ZzRvL2swOHRDNjFvWm0rRE91ZGVXc1pPYlY2bjJT?=
+ =?utf-8?B?T2N6eXYyc29XS2gveXNWVHJiS0oyYW1ER1l5MFpzdTBwbzcyY0ZwU1Q4SVAx?=
+ =?utf-8?B?MlJSYmFLR2NxN3ZJZ1psd2x4Z0NJdTE5cFZRUkFnTG9vR1NQUGNSYVF6UDdH?=
+ =?utf-8?B?TDJqd0tVWjdNL2dIdkMzRU1HbDVtSUltRG5YeDV2SUF2cmtXUmRLMWZKdTVw?=
+ =?utf-8?B?blYzbTJrakdkRG5aUGYrMXZhUjBBQ2dLd0c3eDdoTEVyaVRnTkp3d2JHVUQv?=
+ =?utf-8?B?UDNsRWFVL00rMENGc0NFbGg1NXllS0d1TU5oVHE1VzVkRllwaDdlYnBJVlhB?=
+ =?utf-8?B?RE1VTVhTZVVYbzlGdGw3T25CNkQ4R3BDKzVUK0VkaDdsM2lGZU11WVBIY1J5?=
+ =?utf-8?B?UTM1VVl0aytCTWphRzRBNDJrVzkybHZIejhJejJCaU1GbjJDVzlyK1Vtc0Jy?=
+ =?utf-8?B?SERrdllySGtKbERPRjYxc1NvMHc2SU5tVzFJeDlySUQ2QjJjUGJ5bzZWK2xt?=
+ =?utf-8?B?V0l1aG9KM09jbEhSYlpHWVJLU29tdG9kYW05YUhaTVZZOGxUQVlrSnFScGcy?=
+ =?utf-8?B?MVNKdHRBemU4b2U2eWovRGpjTXFBTW5qUjZ2c3g3V1E3b1g0Z1Q3Mk9ISjFS?=
+ =?utf-8?B?TFk3dmw4VVFjMVozaVJOWEI2dDZHc2Myb0FMS3kveGx1YW8vTFBzVzFwWCtx?=
+ =?utf-8?B?a0pKS3QzYit2djRYcXRENUdQeXZRU2VRTkdCNmRjdDRYRHpOMjFjdWcwZ2VG?=
+ =?utf-8?B?Y0svZ1RJWlpBVlZaMEtDSmpla1U5TmV3N3BDNTFtOWFJYlpFVFQwTGMzbitr?=
+ =?utf-8?B?QUt3Z3NCZlpTMXp3UUR5OFZBdEFQR3pDK0cxaVlBUklLeTEyaUNVazNmQTMr?=
+ =?utf-8?B?bFZMQVAvTTRsUkJNcy9vajdNSGFROW8wdXdQMy82Q0lZRUJuYmVqM3J4UnBp?=
+ =?utf-8?B?MWVNU3lqcTRzN1RpRFpGc21RRVZkbVVKbm9jRkFKVnRLUWdYVTZZVjZROHZW?=
+ =?utf-8?B?S294U0ZXaDAwNWlUTXJGWHJjU3N6T0xYNGQ5NXJxQnMyQ29TYVh0UzV1Si9o?=
+ =?utf-8?B?T3hmVVBNU1FFLzF0SFRyME1NOGlUaUJ6UHd1ejZvZjNNSXlWcmVvRmYxUWNS?=
+ =?utf-8?B?YnNCZ2szRmM3UGhUbUtpSWg0SFZuTGlyMnpwTU9pd09hcHRsMEZ4Tk9VT004?=
+ =?utf-8?B?Uzh1UnRTdUFTQzZNS1B3eUk0YWh5ajBjVUFUcmlsNjFIeWxRQnB5WTliN0ZL?=
+ =?utf-8?B?YXVNK0huekMxeWVhNTlMZ05SUEF6dmdFTnRRVTVucUpuQ0dpWjNXQVBnclBF?=
+ =?utf-8?B?K0xteTZXWkp5NFA1djAzZGYxSzRDM21xeW5MOW1nbmJxM0k1SmxMZzJyMFRz?=
+ =?utf-8?B?cUNTdHNuVTZRV0h6L3h5Vm9GRFNSRDQvMVZJWFVQV3RPQWMzc2FSNG1OVHEw?=
+ =?utf-8?B?YXJScGpQWjdtWStDcTFOcXVBNHZ1RTVYaUx6VEJPQlVzM3hJeStub3BhdG5L?=
+ =?utf-8?B?V2l3NnZyMmhBZDQvbDgzRGxEL3lYWTFFSGNhRmRYbUpXSCtNeUl0TzVEWUx4?=
+ =?utf-8?B?UkVURHFpckwrU0FvZGFOOFYvSjRINk44QnBNZ1lVeXZ5TDFXUWpIS0EzSzFQ?=
+ =?utf-8?B?MlAvNi9vQ2JLazZ2RU5adkgvZGtCbkwxTUlqVVdLTlhmc1Axa1EwOFRFbWM0?=
+ =?utf-8?B?VGFtdGpFbXAxTEVma1c4b25HVm5lSzViU2QxNWY4V1lZcnEvWVVSMkFLTVFv?=
+ =?utf-8?B?b2ludU5pN1czam5JUUcvQk9abjV0cHA4TUN1UXVpTS9EUnlzVjdBMFR5TFZO?=
+ =?utf-8?B?OElONm9tMmRoWWtBSnY5ZFloSW9kRnIwbkdyYUlKSDQxSkVPSU93RU0yVEZN?=
+ =?utf-8?B?N1BxR3d3MzlZckZpWGUwaHcwVCtKTjZOVXNGdm5hOTFIK2V6R1NKTjlmem5q?=
+ =?utf-8?B?TVlwYkdvZ1NoN0tLbUVFTWxaVEdiZ1ZpYWpBTWVwT2J1S1V4TGJiTWg3TmUr?=
+ =?utf-8?Q?Xj3zzxgNvjSA2CNo=3D?=
+X-Exchange-RoutingPolicyChecked: MjfDo9xoXUhRJZY986wET3MxtQJzfU39eZTGb6gHmeAJVRCMbFO4x0YCgmZ+CFrMYvhR5GzO4sMk8QRztjUH1G+rwQDNrW2gu897NXueumdlYFbFtBScV560w6wtAo9bCh2QLYOAOzg2K2qCZu0CUDlKyN7nUyeuoMgXL4iQtsR+vSUbopB9U1M3/9drqyHym6yUYyYTd+84hPaT5qzPB0T1Zm8Rn6QutVSc3cQXzwHSfpQNTwxKTFLJPR2oH9LmYodBuGIFiL/10QxC3vHW0HQLbp9KCdpWKGMdlxTBgH87aaXCMXfzfLsUixH7alf339oMcXBrHsSV0mgnNavyVg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82b5b748-04f1-4e64-42b7-08df1400b5cd
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2026 14:42:19.4742
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yZNQVFPIWS9S6d8ay8jrNbW099EDTld+fVQGYdE/WNu++0+8+azGPwd26S7nqfwagehmCYtFyWRoRLH4u0LABF4/jOimT030MfAKvmw35KQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7587
+X-OriginatorOrg: intel.com
 
-On Tue, Sep 15, 2026 at 10:31:20AM -0700, Kees Cook wrote:
-> On Tue, Sep 15, 2026 at 03:30:43PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > On Mon, Sep 14, 2026 at 09:39:07AM -0700, Kees Cook wrote:
-> > > On Mon, Sep 14, 2026 at 10:22:20AM +0100, Lorenzo Stoakes (ARM) wrote:
-> > > > On a 128-core Threadripper, gzip -9 of a 36 MiB x86-64 vmlinux.bin takes
-> > > > 1.6s, and with pigz it takes 0.09s, so the performance increase is
-> > > > significant.
-> > >
-> > > Neat! I wanna go learn how pigz accomplishes this -- I thought the
-> > > problem with gzip was a common lookup table. Anyway...
-> >
-> > Yeah not sure on the details :)
->
-> Things I have now learned about a DEFLATE stream (RFC 1951):
->
-> - The Huffman tables are per-block, so emitting multiple tables in a
->   single stream is already required. (I only just knew about ZIP indexes
->   being singular, but I was confused: that's about the container not
->   the compression.)
-> - Each pigz thread keeps a 32K back-reference window for its tables so
->   it isn't starting a fresh table each block.
->
-> Very cool! The first makes parallelism possible at all, and the second
-> makes it work well: it's not just restarting the compression at every
-> block boundary.
+Hi Babu,
 
-Nice!
+On 9/15/26 12:59 PM, Babu Moger wrote:
+> On 9/14/26 20:11, Moger, Babu wrote:
+>> On 9/14/2026 4:31 PM, Reinette Chatre wrote:
+>>> On 9/14/26 1:45 PM, Babu Moger wrote:
+>>>> On 9/11/26 17:25, Reinette Chatre wrote:
+>>>>> On 9/4/26 11:06 AM, Babu Moger wrote:
+>>>
+>>> ...>>> systems with limited MBM counters and breaks existing userspace that
+>>>>>> assumes the historical default mode, including the pqos tool from
+>>>>>> intel-cmt-cat [1].
+>>>>>
+>>>>> There is no record of this breaking pqos. *you* created [1] *after* you
+>>>>> submitted v1. What a strategy! I mentioned a couple of times that this is
+>>>>
+>>>> Agreed.
+>>>>
+>>>>> misleading. Since you insist on proclaiming "we cannot break pqos!" as
+>>>>> motivation for this change you have to also disclose the consequence of
+>>>>> this change on pqos followed by motivation why that is acceptable. Specifically:
+>>>>>
+>>>>>      https://lore.kernel.org/lkml/77f77d02-fae7-401d-9bb5- c62b244d23cd@intel.com/
+>>>>
+>>>> I can provide output that demonstrates the issue, where the event counters report zeros. However, we won't observe the large counter values because the hardware resets the counters after reallocation.
+>>>>
+>>>> Will that be ok?
+>>>
+>>> No. This is not about hardware resetting the counters. This is about pqos not handling
+>>> text return values, for example "Unavailable" and "Unassigned". This patch only
+>>> focuses on pqos treating "Unassigned" as 0, but in "default" mode "Unavailable" will
+>>> be encountered and pqos treating it as 0 is more severe.
+>>>
+>>> Consider a scenario where a counter is re-assigned. When user space reads the event
+>>> value then it may see:
+>>>
+>>> <return A>, <return "Unavailable">, <return B (larger than A)>, <return "Unavailable">, ...
+>>>
+>>> "B" is computed by adding the new hardware counter value to A. As you indicate, hardware
+>>> did reset the counter after re-allocation but that only means that "B" is no longer
+>>> accurate. "B" is still returned and it is still larger than "A".
+>>>
+>>> Based on above, pqos sees:
+>>> A, 0, B, 0, ...
+>>>
+>>> These jumps between bandwidth counts and zero is what pqos perceives as wraparound that is
+>>> presented in the example:
+>>>
+>>>     https://lore.kernel.org/lkml/77f77d02-fae7-401d-9bb5- c62b244d23cd@intel.com/
+>>
+>> Got it. I can add the output of the issue. Something like this.
+>>
+>> TIME 2026-09-15 00:53:46
+>> CORE     IPC      MISSES     LLC[KB]   MBL[MB/s]   MBR[MB/s]
+>> 0        0.76         60k        32.0         0.0         0.0
+>> 1        0.45          1k        32.0         0.0         0.0
+>> 2        1.57        107k        64.0         0.0 17592186044184.9
+>> 3        1.62        276k      4928.0         3.2         0.5
+>> 4        0.53          1k       160.0         0.0         0.0
+>> 5        0.63         39k      1664.0         0.2         0.0
+>> 6        0.44          6k       128.0         0.0         0.0
+>> 7        0.50          1k       320.0         0.0         0.0
 
->
-> > > I think the more idiomatic way to do this is:
-> > >
-> > > KGZIP := $(call try-run,command -v pigz,pigz,gzip)
-> >
-> > try-run is defined in scripts/Makefile.compiler which is only included ~200
-> > lines after KGZIP is set.
-> >
-> > That'll also set up and tear down a temp dir for a probe that doesn't need
-> > that, so I think it's fine as it is.
->
-> Yeah, good points. What you have is quite simple.
->
-> > > However, parallelism needs to be set. We can't let it eat all CPUs: it
-> > > needs to respect the -j make option (and make its CPU reservation known
-> > > to "make"), which we already have a solution for in
-> > > scripts/jobserver-exec.
-> >
-> > The only place where it's invoked is vmlinux.bin at the end of the serial
-> > tail, where all the tokens would be free anyway.
-> >
-> > So I don't think it really buys anything at all?
->
-> There are 2 things I'm thinking about:
->
-> a)
-> My main concern is the lack of respecting the -j make argument. In my
-> mind, this is a blocker, because it means a build will now _always_ spin
-> up max CPUs (not what -j has limited it to), and for CIs, shared compute
-> systems, or whatever, this violates the requested parallelism level. For
-> example, if I'm doing a long-running Coccinelle replacement in one tree
-> (which uses half the CPUs), any builds I launch I'm asking for the other
-> half of my CPUs to be used so they don't thrash my cache.
->
-> This is the kind of "why are all the CPUs spinning up?" question I
-> helped track down with commit 51e46c7a4007 ("docs, parallelism: Rearrange
-> how jobserver reservations are made") forever ago.
+This would demonstrate how the change impacts pqos. Since the spirit of the
+changelog continues to be "resctrl should not break pqos" it should motivate
+why incorrect wraparound like above is more acceptable than returning 0 MB/s
+when counters are not assigned.
 
-Yeah that's fair enough and Arnd makes a good point about O(n^2) too.
+...
 
->
-> The next is kind of a special-case version of the above concern:
->
-> b)
-> There's nothing that ties KGZIP to only being used for final images
-> (and in fact, it also does modules, as you show), and it's defined as
-> part of "cmd_gzip", so it could be used at any moment in the build:
->
-> $ git grep call.*,gzip | wc -l
-> 23
->
-> And it does have one use outside of the (presumed) final image build in
-> the per-arch /boot/ rules besides modules, for config_data:
->
-> $ git grep call.*,gzip | grep -v /boot/
-> Documentation/kbuild/makefiles.rst:            $(call if_changed,gzip)
-> kernel/Makefile:        $(call if_changed,gzip)
-> scripts/Makefile.modinst:       $(call cmd,gzip)
->
-> So I'm nervous about a general-purpose tool and Kbuild infrastructure
-> suddenly going max parallel in the middle of a build some day when
-> another gzip use is added.
+>>>>> Although, the earlier text is "up to 64" so above attempt at guidance may not
+>>>>> be correct and there is no knowing how many monitoring groups are guaranteed
+>>>>> to receive accurate counts?
+>>>>
+>>>> That is correct. We can get this count by assigning counters
+>>>> iteratively until an "unavailable" response is returned. However,
+>>>> the specification does not mention this behavior.
+>>>
+>>> This is about determining the "magic" number of RMIDs, not about counter assignment.
+>>> User space does not do any counter assignment here. In this case user space can create
+>>> monitoring groups up to the maximum number of RMIDs supported.
+>>
+>> Little bit confused here. How about we revisit this text again in v3?
 
-Hmm yeah. Splitting this off seems sensible then. As you suggest in your
-other reply which I shall reply to (it seems the right way forward tbh!).
+Sure.
 
->
-> > Using jobserver-exec would also put python3 and two wrapper scripts in
-> > front of every gzip in the build including tar -I "$(KGZIP)" when packaging
-> > and some arm and m68k scripts too.
->
-> Does that impact wall-clock results meaningfully? I'd really like to
-> avoid losing correctness in favor of speed here, especially when we
-> already have a solution at hand for exactly this problem.
+>>>
+>>> This would only be useful if all hardware support the same number of magic RMID though.
+>>
+>> It
+> 
+> Sorry. Response cut short.
+> 
+> How about we revisit in v3?
+Sure.
 
-No (LLM says ~.01s per build for jobserve-exec, once) so actually that big
-of a deal.
+Reinette
 
->
-> > Overall I think it's less complexity and really no delta to just invoke it
-> > as normal.
-> >
-> > It's designed as drop-in so it makes sense to use it as that.
->
-> It is possible that it is so fast no one will notice, but I really worry
-> that there are going to be many sysadmins driven to figuring out why
-> their build systems suddenly spike the CPU use, and then waste their
-> time tracking it down and reporting it to us, but we can solve it today.
-
-Yeah that's a fair point also.
-
->
-> > > Only RHEL appears a little glitchy, but likely they would trivially move
-> > > it to base since it's already packaged, but off in EPEL.
-> >
-> > Definitely not something for this series, the fallback is one invocation of
-> > command -v and I don't really want to break RHEL either :)
-> >
-> > If, once this has landed, we want to go that way then it's simple enough
-> > for us to change it.
->
-> Fair enough, though I do worry that this is vaguely "undiscoverable" in
-> the sense that if you happen to have pigz installed, suddenly it gets
-> used. (We have other such "try to use this other tool first" logic,
-
-Yup that's a thing but I think this is a very worthwhile case!
-
-> really; we have Kconfig stuff for detecting all sorts of capabilities,
-> but I couldn't find examples like this one. Maybe I missed it.)
->
-> So the "make it the default" suggestion is more about having better
-> determinism in the build requirements. Perhaps add pigz to changes.rst
-> and/or ver_linux so it is seen/recorded somewhere?
-
-Ack!
-
-(Will reply on your suggestion separately ofc)
-
->
-> -Kees
->
-> --
-> Kees Cook
-
---
-Cheers, Lorenzo
