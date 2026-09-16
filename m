@@ -1,126 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E08937CD53;
-	Wed, 16 Sep 2026 13:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1C34FB9D5;
+	Wed, 16 Sep 2026 13:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789565291; cv=none; b=oLAdL63SHg0skNVhxIEynVxNelxnRXdHApEiAxNVakWRtXv/AEYDQhfGjHiWupuYbtmPg8YQzW1LU11c2n82WCBV2guACd8i9LNfU1i2uoXWor34Re4Lgzx1MA5XegSywvKlQegFRmULCf1GwBh7k1WTSPWhJZZcPWxHWyoanqI=
+	t=1789565464; cv=none; b=oih3I5wsOmSVAoOnT5QNojs3vRiWdeeBPx29XL8ARjCqim8PmajDSL/JJUZdjzyIpeQVGgHbH4mcJXJyZ5segDikkUxwPTkQtxl08DBPBIawXGClDjV01CmyfoUeHaMOAwyTWHgP8n/guD6ZmkgQbQOLCWWpqHYwd7Ta3as8GTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789565291; c=relaxed/simple;
-	bh=YdHSYudCjLtB9BQajl1W2vF7++bTRpKZvAa96IWUaVc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HMP7j8jjf5rMtkPb6WAxTXRFWRTBx+yRZRxtE/nG6CQh+qU8jdv9o+6tvLJq2HpzVEtIiwrg2h4YTiLY4uV+3Rhu0v2jB3GmcHTBWoB6SltOQqXGCusWxxG1GcRqq3EVGX53MDDH6MxXG1fn+3ANIgdlQRnBfXIeYa29lP4CxbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rd3UjnUT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789565464; c=relaxed/simple;
+	bh=6UM4aQiJqDDqz5Gu89HtFV/WtcHwQElzcbryzcKjffs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=SxIZtAzQsW2q5sUs66ml2/AjCh4/MGpJhZJJ3YzjfMHLjmkkaPXBLYIcQmfQ8Cw7dvCVtOLn2yN5r9cNvx1taXqyg/ArNZ1iP6nncSOuQYCKS89L++pOmiqVoES/7jj/q1LdQvw6vwiCIaMSP5VAdsVrArIsHt2sI3IdU2zEyZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WRHzbOPh; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rd3UjnUT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B45701F000FF;
-	Wed, 16 Sep 2026 13:28:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789565289;
-	bh=5j6rnx+mCo8gZ3esGUeGF9jFOvp+62a04sJQH5jFRdk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Rd3UjnUTcvpqRiaaowqjEmO3ozv8vavlwqVS5OfoAf8TapeUXK0yvEM0CrFG92Zdd
-	 TFTdyD8mvwM6jFpN4Vnu4C8eaav3iumlt7jzB35F0bwihU6EG4vLoPnAkIAQIrdkIW
-	 zNWQcRLFo25SSjf5fkZVBGVFCGQwPhc53AdpvCAXn2uGoOJSCLCM/plU3r5bxXysiS
-	 ohAV4KTlEStwISQMdEVQtutcphPSzETZDeavREp9kkBAwJuiYnvJHVLKIsAb/k2ALw
-	 83ucoZOzANwOa/7u0qmGFh01siZWiahoSm5hvkwKHLNpeKZWscncwflvEyEmeVZiSC
-	 ki41kZ3naXcqQ==
-Message-ID: <36480c86-fc59-4387-91a4-cad839f502f2@kernel.org>
-Date: Wed, 16 Sep 2026 15:28:01 +0200
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WRHzbOPh"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4CFE5408DB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1789565447; bh=6UM4aQiJqDDqz5Gu89HtFV/WtcHwQElzcbryzcKjffs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=WRHzbOPhRgQyZ/XTVpuuHrHmPVJnMgYYMZuXsOLgShr6rQyjjQZE/ING/0qeoARmH
+	 sOqkS5BGtYy4+i/3XiA+J5Ggvvj01aSV1W65zdcx96tPuwFEpxRH3YOwExXyJV5do3
+	 5QXurQSLx3y1BckBM6PFf22BJA6pDiWqsVsF+3z3TI0wajHjlc47AM7ltmm9mLEJHC
+	 haMvhvkAJhLX8W91G7ANDirhK+tEX61KkeLvfs/vb5eR5IctHG+oHXWoTbNr5Fdl2H
+	 kqd0UFREGMpETBSPj13z153jTRTky9Bxwr0KPNr8h53VAZ2x+kCu/fgr4ChYtESswu
+	 Ck07IbFnkxK+A==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4CFE5408DB;
+	Wed, 16 Sep 2026 13:30:47 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Daniel Pereira <danielmaraboo@gmail.com>, Lucas Adryell Ramalho
+ <lucasadramalho@gmail.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] docs: translations: pt_BR: translate
+ stable-api-nonsense.rst
+In-Reply-To: <CAMAsx6dyL3o6LsG_VAhKi6DKS5LTPXHMFnBaS6QhA_zYCOROJQ@mail.gmail.com>
+References: <20260831-ptbr-stable-api-nonsense-v4-1-0ef5e58504cc@gmail.com>
+ <CAMAsx6dyL3o6LsG_VAhKi6DKS5LTPXHMFnBaS6QhA_zYCOROJQ@mail.gmail.com>
+Date: Wed, 16 Sep 2026 07:30:46 -0600
+Message-ID: <8733v95nnd.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] mm/memory-failure: Support disabling soft offline for
- HugeTLB pages
-To: Michal Hocko <mhocko@suse.com>
-Cc: Kyle Meyer <kyle.meyer@hpe.com>, akpm@linux-foundation.org,
- corbet@lwn.net, linmiaohe@huawei.com, shuah@kernel.org, tony.luck@intel.com,
- jane.chu@oracle.com, jiaqiyan@google.com, Liam.Howlett@oracle.com,
- bp@alien8.de, hannes@cmpxchg.org, jack@suse.cz, joel.granados@kernel.org,
- laoar.shao@gmail.com, lorenzo.stoakes@oracle.com, mclapinski@google.com,
- nao.horiguchi@gmail.com, osalvador@suse.de, rafael.j.wysocki@intel.com,
- rppt@kernel.org, russ.anderson@hpe.com, shawn.fan@intel.com,
- surenb@google.com, vbabka@suse.cz, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-References: <aqiIEkrc6aDBOqRg@hpe.com> <aqkCbgHmMGxI_GLG@tiehlicka>
- <aqmGd0GGUCkbZpkZ@hpe.com> <aqpYxAktjexhaMGc@tiehlicka>
- <ad36cd54-7319-4bb4-bf8f-9fcc7b009158@kernel.org>
- <aqqXbwglwYTyTuUG@tiehlicka>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aqqXbwglwYTyTuUG@tiehlicka>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 9/16/26 15:19, Michal Hocko wrote:
-> On Wed 16-09-26 15:08:45, David Hildenbrand wrote:
+Daniel Pereira <danielmaraboo@gmail.com> writes:
+
+> Em seg., 31 de ago. de 2026 =C3=A0s 20:26, Lucas Adryell Ramalho
+> <lucasadramalho@gmail.com> escreveu:
 >>
->>>
->>> OK, so apparently there are some BIOSes which abuse this feature to
->>> mimic a real HW poisoning. This doesn't change the overall picture
->>> though
+>> Translate Documentation/process/stable-api-nonsense.rst into Brazilian
+>> Portuguese.
 >>
->> Is this really abusing? We know that a page is shaky and will likely go bad in
->> the future, For now it is still accessible. Trying to migrate off that page stop
->> using it right away sounds pretty logical to me.
-> 
-> Yes, no dispute on that. But we have HW poisoning for exactly that
-> purpose, no?
+>> Assisted-by: ChatGPT:GPT-5.5
+>> Acked-by: Daniel Pereira <danielmaraboo@gmail.com>
+>> Signed-off-by: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+>
+> I'm fine with the change itself, but a note on the tag again:
+> coding-assistants.rst (line 48) asks for the literal word "LLM" rather
+> than the model name, so this would be just "Assisted-by: LLM".
 
-Well, that tells you that the page content is effectively gone and should be
-tried to be recovered / migrated away. Unless I am messing up terminology here.
+That can be fixed on the way in, no need to resend for this (but do note
+for future reference).
 
--- 
-Cheers,
+Thanks,
 
-David
+jon
