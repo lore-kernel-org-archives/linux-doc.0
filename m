@@ -1,143 +1,241 @@
-Received: from mail-ed2-f26.google.com (mail-ed2-f26.google.com [74.125.228.90])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359B251E430
-	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 15:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D7552E078;
+	Wed, 16 Sep 2026 15:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789572781; cv=none; b=V8CaR2oosw+/RwlJf9K/AmZ6lFwuO4w3d2PvxtHdEtIWz1+9TxB7qyi7ucTtcq+CmCtLBJVZY/2T62GDMLMbTjpdCZ5xiLPLC3rnZ7qbaku+95SKisP+QFuItepbCjUd7TU6qMWT/hDuVuu2B9cRFRg7RONR6Ao6eKzzdN+9uV0=
+	t=1789572782; cv=none; b=rz2e/vvVINq8Bdp23mSmGWf/niS5hDCHXcZhQNKpdYgkgNHyOcxdka4YZqHOkdsZ3vEoSCdLSSgyER94E77xS6jxKCC+HJji7RAftS9rgCmMIGWjnhK+K2k66yPjSVP+aSIThjCrC+b1g5hShwjWeRZsa1Cc3qoBaLpPMhLyLE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789572781; c=relaxed/simple;
-	bh=sUK+d0HwIPouiw4GF2YvY3hSuqBUYY7UDZVaeoPdCco=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uurboB3jWry7DR0tmXiXeGhhnISdHo5TuSPpV9aybWegPbgCq5JszzBW4JQxqvQysqPTfzUlt32K5ZQoyul/Hou+MZDW8dNWaQQfvQVpdQT5cyzPe2JGTWovRGDNzYnCKKIbX+aJ8UDelgUs3TzhtDNnKifXX6Cyb9E+EIbmgOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hrSF4YYm; arc=none smtp.client-ip=74.125.228.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789572782; c=relaxed/simple;
+	bh=NDrZE41402D/UHYSx49263+3eXhDlauLvRgsYeGLj0M=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=DKRwxjiBs+43wjnPV3l7Y0C1fsEARjNyd09OhehsArodsCXI/ne7Bg8FlFLZREk/XEPaU06di/a5EkUszgGxsF/USX44yc7jx6DXTue7XSwh755J7/1CuzZ3Z4k8Qya9V8ggpDqnl48n4Kc4X/8g3XNYVz0+lTnBbbdyYZJbOHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NHYP1n+h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hrSF4YYm"
-Received: by mail-ed2-f26.google.com with SMTP id 4fb4d7f45d1cf-6aa13e194easo1721846a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 08:32:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789572772; x=1790177572; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RCHve4KAw17DJDENoy3wdVsGPjRR9u4ySMXlBrw/K6U=;
-        b=hrSF4YYm8fCXcQzH3M9am8EXav+JsFDfD8g1Id9PWFaI/2Y5h5aNN6zy1e14NTTDD7
-         tKx++o4Rfi+r+e0riV/p7V8HJe/O7hy+oOauiuWcTpMR+MuDirgPuEdQ49Mi+9lpERr8
-         6Qx5QUjvDO0VqWGMAX3zlvGNfydi3UatZF+Xpdtq0hfVBVhIsS/aFQT5Ra0vPjP3ZGj7
-         q6Q47AkxHuy3ylx0IlWQwoxUuNQ6WB6B3j2f5BhSMngNxPzSLiTNVJpg7R2vo6f/pyAK
-         3ZmoPpCN4TBWLhQykjISERAM3ZcxoULNZTHL+B4MDcCx/KitUw4GVx6nVHtxKJDO+vfQ
-         4W+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789572772; x=1790177572;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RCHve4KAw17DJDENoy3wdVsGPjRR9u4ySMXlBrw/K6U=;
-        b=OJCpZkVLvWRV6VkJfeBSy9iIrxRYp51aQX0HLAKH7ZpUUQVrRn+M5+yf0TijsFFxMG
-         hYKN82GITpGUS0MO0CXqA+s2q4LpFqwv+xatly7rcd07jRHc8BIHVZPodDPl+A4FVkYZ
-         MpIUX/ylwi0p76DHDH5dygDnuxJPNVzM5ghKimhG9S2ajkfi3FwXydKBKP3XqTE2lb4i
-         SEq5/u1YJn1kdhmfsgHmk/lV6S8jvCK0uNdXUoOmMug45QGJMONxUzn8nadxI2Nw2Ooq
-         xi96EvA2aPu0gQ//lXclI3DTQI7X8EiO8MXn3DSIDoLGbKvjg4h0HmEiTEoDJH4WLq9b
-         YWUA==
-X-Gm-Message-State: AFuF++nhi0IcCPRTT9NWw98JVQUQqrmpoYJ67vttAsSRshL6rigWGt1V
-	3Gv8VMstXbOOBquyssBHtzpi8Dj4ojB6dxtTY+FBEr3U6C2FUJxa+YQ3
-X-Gm-Gg: AYBFou2h+0PorwpAlLl6sb2OqeeU/iW7zdiiPMWoJETf1XCQ6MnZXp+ldrQEqxQvMEI
-	E8qhmm8k1Tt6N9k3SOLsrI2992ucTeMrPatIc8ff85vk3UxhytvGycV8Y5XirMGjXY6zfEr6X3s
-	2SBpGmap1HckBd9RIrc2rszv4CR/lPWoDgSZMXvqMThXb5M5L5UsnSthudcAWnpiusMtjMW3TRc
-	wtpTPQIs6SnOg4KeS8T8FgkGmL/c8G5+HrhqNwI4Y1zTxSeZbgFBXlNpF/nnknhtYT0yh7oLYf3
-	OHUKTWsQjCJwKYcGfHKL4nAYYOSAV7mthaIoU9cDOJ6RoLGeTI4N7sJjTplKVITu1P3qccfiviz
-	4f2UrmgddS9eJorgf5X8pQ1Uarh5bUuu1JZAnOvkdNlF/TZh2BkqaPJIsaWm/s+85c3mTiI0+R/
-	os4wEI7ELYJPBtzovGskWvBIYUy42fE3BGxDDqltkiUXlmQZ7oAM80MIF9ke5z5i1L92FhtdOVR
-	SK0LRAmBE6+sm3n1FfNh3vcuWIy5ItHOiiWQJBVvrKJy4CmTk+L
-X-Received: by 2002:a05:6402:2498:b0:6a9:b87f:8ea3 with SMTP id 4fb4d7f45d1cf-6aa2244cd2amr2521242a12.45.1789572772441;
-        Wed, 16 Sep 2026 08:32:52 -0700 (PDT)
-Received: from fedora-tap.advaoptical.com ([82.166.23.19])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aa1cfe0562sm2067081a12.3.2026.09.16.08.32.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 08:32:51 -0700 (PDT)
-From: Sagi Maimon <maimon.sagi@gmail.com>
-X-Google-Original-From: Sagi Maimon <sagi.maimon@adtran.com>
-To: Richard Cochran <richardcochran@gmail.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	netdev@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sagi Maimon <maimon.sagi@gmail.com>
-Subject: [PATCH net-next v15 2/4] ptp: ocp: fix dpll cleanup on probe error
-Date: Wed, 16 Sep 2026 18:32:40 +0300
-Message-ID: <20260916153242.157171-3-sagi.maimon@adtran.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20260916153242.157171-1-sagi.maimon@adtran.com>
-References: <20260916153242.157171-1-sagi.maimon@adtran.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NHYP1n+h"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C988EC4AF15;
+	Wed, 16 Sep 2026 15:32:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1789572779;
+	bh=NDrZE41402D/UHYSx49263+3eXhDlauLvRgsYeGLj0M=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=NHYP1n+hhPY3yrKlimTlcdCg6r+xcH4jfIvEuGkAJHIPSa141vuo5aAiBQGnHBvxo
+	 CteJE2rIhRxeDM5E5xMqvb/frS7RV8ROqwUanizbxG8TLA71/WQp/6bHJ8bkN95Vl0
+	 0e4/nWgoQG6oM/l+Lz8UrLbBrAVcww3C1Ev08LrDblkAbrbnJpjnRLF6ZCo9QeiTJ8
+	 u+JXOmfzjdyENaGz1B6XaTLQlLj0vK0+TWVXyuB7+R697eleFZm1F+78pjmGdIEhRU
+	 GAfAWHZpQbPT/+lxIN+0Z4JvuwmV9djh3/ARmDrKsBQfUGKrDSimuY32D4g+KBYZBU
+	 dUHW+B69ckGsg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B01A9C982C9;
+	Wed, 16 Sep 2026 15:32:59 +0000 (UTC)
+From: Jim Cromie via B4 Relay <devnull+jim.cromie.gmail.com@kernel.org>
+Date: Wed, 16 Sep 2026 09:32:56 -0600
+Subject: [PATCH v10 04/38] vmlinux.lds.h: Fix ALIGN(8) omission causing
+ NULL ptr on i386
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260916-dd-cmap-part2-clean-v10-4-af4cf4767707@gmail.com>
+References: <20260916-dd-cmap-part2-clean-v10-0-af4cf4767707@gmail.com>
+In-Reply-To: <20260916-dd-cmap-part2-clean-v10-0-af4cf4767707@gmail.com>
+To: Jason Baron <jbaron@akamai.com>, Shuah Khan <shuah@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
+ Jonathan Corbet <corbet@net.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Len Brown <lenb@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org, 
+ linux-modules@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, linux-pm@vger.kernel.org, 
+ Jim Cromie <jim.cromie@gmail.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789572777; l=6221;
+ i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
+ bh=22WCSuGF05p8gA76uv7PlnmHWahruFec5XONc19uauM=;
+ b=0A7NnOViySI5isyLb0PtrCo6DPjCTk4HR08Sf0w8Xw7vpJ470MrK41HfHkVD1g+Fnw5ABF1Zr
+ vYt2wXH7fAyCw2U0xkGvDDUM66L3EjJsZJKnciN6d7lZQE75sb9q8DZ
+X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
+ pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
+X-Endpoint-Received: by B4 Relay for jim.cromie@gmail.com/20260203 with
+ auth_id=958
+X-Original-From: Jim Cromie <jim.cromie@gmail.com>
+Reply-To: jim.cromie@gmail.com
 
-From: Sagi Maimon <maimon.sagi@gmail.com>
+From: Jim Cromie <jim.cromie@gmail.com>
 
-Two problems on the dpll error paths in ptp_ocp_probe().
+Almost all uses of the BOUNDED_SECTION macros are ALIGN(8), either
+explicitly, or by being below an aligned section containing x*8 byte
+objects.  The noteworthy exception is BOUNDED_SECTION(__dyndbg), which
+immediately follows BOUNDED_SECTION(__dyndbg_classes).
 
-dpll_device_register() takes a second reference and stores bp as the
-registration private data, and only dpll_device_unregister() drops it.
-out_dpll dropped bp->tracker but never unregistered, so a dpll_pin_get()
-or dpll_pin_register() failure left the device registered and visible to
-userspace with a priv pointer into the storage devlink_free() releases a
-few lines later, as well as leaking the registration object.
+On i386, struct _ddebug_classmap is 28 bytes, so without an explicit
+ALIGN(8) in the macro, the following __dyndbg section gets misaligned,
+causing a NULL ptr deref in dynamic_debug_init().
 
-A failing dpll_device_register() jumped to the same label as the failing
-dpll_device_get(), so the reference taken by dpll_device_get() was never
-dropped either.  Give that case its own label.
+So fix this with an explicit ALIGN(8) in the existing BOUNDED_SECTION
+macros, and introduce _ALIGNED variants to handle the cases with an
+explicit . = ALIGN(x)
 
-Fixes: 09eeb3aecc6c ("ptp_ocp: implement DPLL ops")
-Signed-off-by: Sagi Maimon <maimon.sagi@gmail.com>
+Also add explicit alignments for: EXCEPTION_TABLE, ORC_UNWIND_TABLE,
+TRACEDATA, INIT_SETUP, and NOTES.
+
+update BOUNDED_SECTION uses inside . = ALIGN(x) stanzas to use
+_ALIGNED variants, but keep the outer ALIGNs so the symbols between
+them are not "re-aligned".
+
+In particular, scripts/sorttable.c does not tolerate sloppy padding.
+
+At the top of ORC_UNWIND_TABLE, add . = ALIGN(4) to match the struct
+orc_header __align() call in the code:
+
+commit b9f174c811e3 ("x86/unwind/orc: Add ELF section with ORC version identifier")
+
+Suggested-by: Louis Chauvet <louis.chauvet@bootlin.com>  # _ALIGNED variants.
+Link: https://lore.kernel.org/lkml/177402491426.6181.12855763650074831089.b4-review@b4/
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/ptp/ptp_ocp.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+v3:
 
-diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
-index 401b04f12d2b..f4299878c27c 100644
---- a/drivers/ptp/ptp_ocp.c
-+++ b/drivers/ptp/ptp_ocp.c
-@@ -5124,7 +5124,7 @@ ptp_ocp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+sashiko complained about NOTES and .BTF_ids.
+gemini asserts that NOTES are natively 4-byte aligned, add comment repeating it.
+.BTF_ids doesnt use BOUNDED_BY, since start/end isnt needed;
+sashiko evidently got confused by immediately preceding usage.
+
+v2:
+
+sashiko picked up 2 cases, added to the explicit list above
+https://sashiko.dev/#/patchset/20260515-asm-generic-1-v3-0-680b273666d4%40gmail.com
+---
+ include/asm-generic/bounded_sections.lds.h | 17 ++++++++++++++---
+ include/asm-generic/vmlinux.lds.h          | 18 ++++++++++--------
+ 2 files changed, 24 insertions(+), 11 deletions(-)
+
+diff --git a/include/asm-generic/bounded_sections.lds.h b/include/asm-generic/bounded_sections.lds.h
+index 268cdc34389b..8ff3e3420f60 100644
+--- a/include/asm-generic/bounded_sections.lds.h
++++ b/include/asm-generic/bounded_sections.lds.h
+@@ -3,19 +3,30 @@
+ #ifndef _ASM_GENERIC_BOUNDED_SECTIONS_H
+ #define _ASM_GENERIC_BOUNDED_SECTIONS_H
  
- 	err = dpll_device_register(bp->dpll, DPLL_TYPE_PPS, &dpll_ops, bp);
- 	if (err)
--		goto out_devlink;
-+		goto out_dpll_put;
+-#define BOUNDED_SECTION_PRE_LABEL(_sec_, _label_, _BEGIN_, _END_)	\
++#define BOUNDED_SECTION_PRE_LABEL_ALIGNED(_sec_, _label_, _BEGIN_, _END_, _ALIGNED_) \
++	. = ALIGN(_ALIGNED_);						\
+ 	_BEGIN_##_label_ = .;						\
+ 	KEEP(*(_sec_))							\
+ 	_END_##_label_ = .;
  
- 	for (i = 0; i < OCP_SMA_NUM; i++) {
- 		bp->sma[i].dpll_pin = dpll_pin_get(clkid, i, THIS_MODULE,
-@@ -5150,6 +5150,12 @@ ptp_ocp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		dpll_pin_unregister(bp->dpll, bp->sma[i].dpll_pin, &dpll_pins_ops, &bp->sma[i]);
- 		dpll_pin_put(bp->sma[i].dpll_pin, &bp->sma[i].tracker);
+-#define BOUNDED_SECTION_POST_LABEL(_sec_, _label_, _BEGIN_, _END_)	\
++#define BOUNDED_SECTION_PRE_LABEL(_sec_, _label_, _BEGIN_, _END_)	\
++	BOUNDED_SECTION_PRE_LABEL_ALIGNED(_sec_, _label_, _BEGIN_, _END_, 8)
++
++#define BOUNDED_SECTION_POST_LABEL_ALIGNED(_sec_, _label_, _BEGIN_, _END_, _ALIGNED_) \
++	. = ALIGN(_ALIGNED_);						\
+ 	_label_##_BEGIN_ = .;						\
+ 	KEEP(*(_sec_))							\
+ 	_label_##_END_ = .;
+ 
++#define BOUNDED_SECTION_POST_LABEL(_sec_, _label_, _BEGIN_, _END_)	\
++	BOUNDED_SECTION_POST_LABEL_ALIGNED(_sec_, _label_, _BEGIN_, _END_, 8)
++
+ #define BOUNDED_SECTION_BY(_sec_, _label_)				\
+ 	BOUNDED_SECTION_PRE_LABEL(_sec_, _label_, __start, __stop)
+ 
+-#define BOUNDED_SECTION(_sec)	 BOUNDED_SECTION_BY(_sec, _sec)
++#define BOUNDED_SECTION_BY_ALIGNED(_sec_, _label_, _ALIGNED_)		\
++	BOUNDED_SECTION_PRE_LABEL_ALIGNED(_sec_, _label_, __start, __stop, _ALIGNED_)
++
++#define BOUNDED_SECTION(_sec)   BOUNDED_SECTION_BY(_sec, _sec)
+ 
+ #endif /* _ASM_GENERIC_BOUNDED_SECTIONS_H */
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index b4ece391f7b1..b1a69f8af6d2 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -640,7 +640,7 @@
+ #define EXCEPTION_TABLE(align)						\
+ 	. = ALIGN(align);						\
+ 	__ex_table : AT(ADDR(__ex_table) - LOAD_OFFSET) {		\
+-		BOUNDED_SECTION_BY(__ex_table, ___ex_table)		\
++		BOUNDED_SECTION_BY_ALIGNED(__ex_table, ___ex_table, align) \
  	}
-+	/* dpll_device_register() takes a second reference and stores bp; only
-+	 * dpll_device_unregister() drops it.  Without this the device stays
-+	 * visible with a priv pointer into storage devlink_free() will release.
-+	 */
-+	dpll_device_unregister(bp->dpll, &dpll_ops, bp);
-+out_dpll_put:
- 	dpll_device_put(bp->dpll, &bp->tracker);
- out_devlink:
- 	devlink_unregister(devlink);
+ 
+ /*
+@@ -650,7 +650,7 @@
+ #define BTF								\
+ 	. = ALIGN(PAGE_SIZE);						\
+ 	.BTF : AT(ADDR(.BTF) - LOAD_OFFSET) {				\
+-		BOUNDED_SECTION_BY(.BTF, _BTF)				\
++		BOUNDED_SECTION_BY_ALIGNED(.BTF, _BTF, PAGE_SIZE)	\
+ 	}								\
+ 	. = ALIGN(PAGE_SIZE);						\
+ 	.BTF_ids : AT(ADDR(.BTF_ids) - LOAD_OFFSET) {			\
+@@ -840,16 +840,17 @@
+ 
+ #ifdef CONFIG_UNWINDER_ORC
+ #define ORC_UNWIND_TABLE						\
++	. = ALIGN(4);							\
+ 	.orc_header : AT(ADDR(.orc_header) - LOAD_OFFSET) {		\
+-		BOUNDED_SECTION_BY(.orc_header, _orc_header)		\
++		BOUNDED_SECTION_BY_ALIGNED(.orc_header, _orc_header, 4)	\
+ 	}								\
+ 	. = ALIGN(4);							\
+ 	.orc_unwind_ip : AT(ADDR(.orc_unwind_ip) - LOAD_OFFSET) {	\
+-		BOUNDED_SECTION_BY(.orc_unwind_ip, _orc_unwind_ip)	\
++		BOUNDED_SECTION_BY_ALIGNED(.orc_unwind_ip, _orc_unwind_ip, 4)\
+ 	}								\
+ 	. = ALIGN(2);							\
+ 	.orc_unwind : AT(ADDR(.orc_unwind) - LOAD_OFFSET) {		\
+-		BOUNDED_SECTION_BY(.orc_unwind, _orc_unwind)		\
++		BOUNDED_SECTION_BY_ALIGNED(.orc_unwind, _orc_unwind, 2)	\
+ 	}								\
+ 	text_size = _etext - _stext;					\
+ 	. = ALIGN(4);							\
+@@ -877,7 +878,7 @@
+ #define TRACEDATA							\
+ 	. = ALIGN(4);							\
+ 	.tracedata : AT(ADDR(.tracedata) - LOAD_OFFSET) {		\
+-		BOUNDED_SECTION_POST_LABEL(.tracedata, __tracedata, _start, _end) \
++		BOUNDED_SECTION_POST_LABEL_ALIGNED(.tracedata, __tracedata, _start, _end, 4) \
+ 	}
+ #else
+ #define TRACEDATA
+@@ -906,13 +907,14 @@
+ 		*(.note.gnu.property)					\
+ 	}								\
+ 	.notes : AT(ADDR(.notes) - LOAD_OFFSET) {			\
+-		BOUNDED_SECTION_BY(.note.*, _notes)			\
++		/* *(.note.*) are natively 4-byte aligned */		\
++		BOUNDED_SECTION_BY_ALIGNED(.note.*, _notes, 4)		\
+ 	} NOTES_HEADERS							\
+ 	NOTES_HEADERS_RESTORE
+ 
+ #define INIT_SETUP(initsetup_align)					\
+ 		. = ALIGN(initsetup_align);				\
+-		BOUNDED_SECTION_POST_LABEL(.init.setup, __setup, _start, _end)
++		BOUNDED_SECTION_POST_LABEL_ALIGNED(.init.setup, __setup, _start, _end, initsetup_align)
+ 
+ #define INIT_CALLS_LEVEL(level)						\
+ 		__initcall##level##_start = .;				\
+
 -- 
-2.47.0
+2.55.0
+
 
