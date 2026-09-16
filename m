@@ -1,71 +1,71 @@
-Received: from mail-oo2-f42.google.com (mail-oo2-f42.google.com [74.125.231.170])
+Received: from mail-oo2-f43.google.com (mail-oo2-f43.google.com [74.125.231.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C233C5013D4
-	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 17:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9329D5013C5
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 17:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789580537; cv=none; b=hRMX/jBACHRJGiBZWsFOWvsJLF9a7bWtrpwPf7no1m2o/l8qv0nh3wFd1gWJcg6XH9fJd8rD6B9zkjPMatYif7YUXuU8gtf4ZXRAOp4TACXbogFnDj6cS4QmIxcRARdg0zNQSw+tZh+yjYUFsI5mM3grBah3cxwGNlMLE9Ki7d8=
+	t=1789580544; cv=none; b=TwoFjh9ImuAv4w2Bqwj0b6i00NFk1AIjZh1hlqUEfu5ndXBikAlPwv8EvPMl7Zrfpvy2HLggXPRHpHe/VfTA0OgZHmSgyR8uWhbmOYv7gHI/3qf4IKuLDp1gk8raJjrdZ3tN+w4IBLqVlR1eqAQEAXtlKbyFp6QSZTfOYxiskEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789580537; c=relaxed/simple;
-	bh=72yNXaU4MvsT8CvyOzD6k/TZ0SUzm7ZiLXm4cEdBmFc=;
+	s=arc-20240116; t=1789580544; c=relaxed/simple;
+	bh=i5ulD/n5x5TjwK1qcPC334AH/DKNsbv6RUiQSbyiqgY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QdNaqYVmr8x/FH+/YK4q/xKpROKd5OpxGbiakLTYs3vgLzJ1+5uLmgF9Iki7LqcMC2aOWB8bLC5EbjiiiyOqJ7DXquOYlWYkZG8aHWqDHVJWQr/IGrMzaDFKnFm3Ppbcm6pNaxHNbRlgUH6mfXm698ifIGr2YEq72yJVO19K1iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HpNZLZvV; arc=none smtp.client-ip=74.125.231.170
+	 MIME-Version:Content-Type; b=UKSP0WtqLZDuvf3UiwxKxzMK5q+eIy0sMa3nuFWSvBFGTkyDVfg4XxtAy+HBtuiVIPl4rE44w4sz6UO7kofdWuB8QjotdfLrixyVGPgDUrG794wz5NPQJF1a7syyWHjj1BA8O3krQk3JGgT6x+we+iWKT7j4LO3gZ+X15lrBet4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R6V1jF87; arc=none smtp.client-ip=74.125.231.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HpNZLZvV"
-Received: by mail-oo2-f42.google.com with SMTP id 46e09a7af769-7f4f0d37f9dso699537a34.1
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 10:41:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R6V1jF87"
+Received: by mail-oo2-f43.google.com with SMTP id 46e09a7af769-7f4f0cfb33cso854328a34.0
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 10:41:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789580509; x=1790185309; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789580511; x=1790185311; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=69HbaJXxjPxjqmCrYvJqfthhUoHU32Fh0ykwYeXZaHI=;
-        b=HpNZLZvVOtO/0AyQO0BHOLN5514M9CR0yJfv26nfFsOAbxTre+J5Y9EiRr7YaumXvZ
-         uVByajH5losFboMytB0uyQ6da809SLqoCIvMUUliFkG6N84/9af1r9LP4nZ1Ls44v+Y/
-         B3XoZjh2l/GDiCLYuRS4Rm5BftO8asQ1R/9PIY15azu2dwOi7jBgnRW63EjV9sK3DCC9
-         a4LC21d3YFj/xmHWebQ1R+Fq4OLBE9ycYY8FGahjvhEI0peDP0cg8aaOKb+LRqTkhFod
-         wQnbHmH30vh8GjxEsBqXG0xpOIZP0c9tCPIMrO4zBLric5Ec52mLVr1/dQHMvtmMPDYs
-         Jxug==
+        bh=3YWwDewGm1rmxsnOyclXvg333hU0FqGVrx1tJULl5So=;
+        b=R6V1jF87N4Z+RZxwc4TD5RShtsWrfFq6CAlKpf8x0StBAU2sZzlhIgu1w85FJPPQxg
+         DfpuecEqBz1pcKqExuCW/j39BIwgU2ZgrRhu2N535byC+q3LIhshc7sZJnZgXlhF5B3e
+         bvU7kthcS9yF2720KUR4WD7fdRddu6xow4Zp/zi76i3Jqe0DOOwr481txRPigWZqDZzb
+         vYuLLYbqNBNX4x4mGJbSVoDD10QLkw8ZYvgYv1RZ7Rw7hp8AooUvhZPmCGeMV9fwij9N
+         CYa+ESNYhaefOrSjChr8g99ez6FisEbLM+JNions64DFeMWJd2Z1IPK4V/9KL1nDsQa9
+         U8Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789580509; x=1790185309;
+        d=1e100.net; s=20260707; t=1789580511; x=1790185311;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=69HbaJXxjPxjqmCrYvJqfthhUoHU32Fh0ykwYeXZaHI=;
-        b=IYp4BPBIUXzbRxt0/jBNGYHDm5+VYUgGE8Rb9ppqbb/tr1LQpkTZtV21BkJM3f27vG
-         PDK9n9mS1n8GQhvH0Xbstm8JOiLG9QnpkLfAJFkuwJCEXchshVSVW4z2kl/FYE1K3Ozy
-         Pp7FUJI4dA2rxtCgxDs/8QUkJ/w0YGoJbWwe9iAuyBd6QO0EPMR+iM4Efz38RMWj325b
-         3vedpP+n8ykBtkHwI30FaG4H1UbstG1v4OZaneCJmI/4g6Pkl7EvZFxEOr3pIYIrjunv
-         lQdFY+h5tk7ELoUS0/QCRUv02t7o5/bsRkU8nN3hl6kEH9wcNptqGdOStrVynR0CkHvX
-         G9zg==
-X-Gm-Message-State: AFuF++kuXn0iEeIj+Tl6FlzTLoi7AzOjvk58iag8YrBreGo842YeUsxW
-	/YGf/F/LT4cvpYWUiVCBXa7YJX7mD1fv5ym11MLhZOVFD0Z7inSJ3DtFElZx3RK7+n8=
-X-Gm-Gg: AYBFou2DLhcHSzNKhCFp2n2+9xwwZQA7izIO5cgEyx2hkidBsoCN5nVwhIm+gQJn+4R
-	+TnEWj5G85Qb/lRTvVLJQq/LnHxVVyL9KIlJYdbwc2A1bpWJpvg0awIZAsgtypc6mBzwIOv0798
-	z/pG3If/K01yTRUgkA+CcY+plzKYXPZjoGk17/EtVHhkpTHhQS0N4tFY7z2nAMbqgoRYVZbBTzL
-	9UI6Qlm0+WYSUEjZyhVt/ynBsZBYn21QDtrjP85CHr8RrujwzOnYoEyrm8MkxHjDRhh7ES2jpzt
-	T1jdF/ktw0bv0ZR3c1aliXuc1oRZtMRkMVD6i0LqCDF4sE0TdJhoj1HKvDu5dzdxtlv4W9QgxUp
-	2Z6wzACy7Qa0C7mXX5BsROQrtxZuYqGDHKX6U3mWmbczWtWLiT5R4izZFhuS6IroIISDLh9ZDUI
-	CwXkRe9dnxhS2QLqW+T3SJkmPv7ocezAGYDhn0ranujtccMm8LDsrs/LMaOKcBtwTlqN9de2WPD
-	kadSN53tplwwtsYADOubyxUBYftrnBm4xszDq58GFa7sMdMxZuobYBcEzObk30xskmRK8ShVXo+
-	4IsTVA1mnpto2k6aBXLzN8FRrJX9l/82ddHr5LqvKfiYXIQ=
-X-Received: by 2002:a05:6808:5190:b0:4b9:a829:f00b with SMTP id 5614622812f47-4ca4bc70415mr4185944b6e.23.1789580509141;
-        Wed, 16 Sep 2026 10:41:49 -0700 (PDT)
+        bh=3YWwDewGm1rmxsnOyclXvg333hU0FqGVrx1tJULl5So=;
+        b=uZPxejaiQPmLPeECVJ4v3soMqKjSye+sCndYa0fFPcnQJdgDkqiv4HPbmj6q9J998B
+         yKPAIxHY+rjeJO0PWTChYZiHSBf9z2s75qd51LsSBOxW0jUFaRy5P4i9Tjp8VX2Kxs8J
+         VPazgaSkS0UoYVRvWFH/RiGE7xk6SvbhrKkQh01l/XQ9B9IbnACoRdwzCqTh3fQPhhyp
+         5794tH5Xrf6RyO1rPGsAWzw47UCLwt9zXHsvpH6XvcAq9JxQ2uz7teZIHecAlqPkRsVn
+         wXbEYpxCLerrddNJUzNQTBgV/eEQlaH6/G2yJYZ3SukrlCCoMzBwq94Knx2pfIe406Qy
+         sWzg==
+X-Gm-Message-State: AFuF++nHPQWtAC+koqEcX2spnG/H0YQQY/+s0GBTX9FYxhA8hqSW7YkX
+	fbOiAyNzuamZVyrh1zP+BJPBzVibK2v0+ZDUYRXDiLyZJTSY86VEiYvXotESV66M/eU=
+X-Gm-Gg: AYBFou02tPVZx3FZr/RP00LHcJY3rRdpKkW1sZ/PYDL8dgkuDu2n8zIxAPfaGRQKHFs
+	C/6GULvLPn+EvgrXpvIwbyNBgibMf7mysGg/qWX/9ySTP48zQ2Q8nscoVCL//yUyVYeH6B/A4tU
+	iAmGEgo0abmQhOzV31Qt3bePsHgCDEGNtpLSnYUAdlfzpsahJ0hTC8Pb5gnRwR1Rg+v9E9aSzH5
+	nEDV22igArYcNRl+pb5AcUSgibHFKCKu17PORd7UD/9qInKJz5mQ+IDQ8UvvPxePrXtsDm9dvCL
+	OQQoqyZIOiwNE3iim8noQCs1ZDrVMfZF3fdeFMvEUX/Y8iEyw70IEpPKl7gjYDpLkFYCy9IWr/2
+	ZMT+vyqvc43NThV6p30kVzpL+Xij18lPhsndm00Ip8/XOWHakznv9qFZPPXV3i0EqALuKHfoJpU
+	E3URFboCUHg3IXB1dNfOIJnQoaFjrzfbgSwg619gnQrvR6CMLVDi6F+46P9KA3ZiJKnoU/ICLNs
+	khkbDLsk008fRmJNTzzFMW86g9BuT3BU9ziNry22JSlJTNAhXjQDZ8X2c50u45Eo9+sdV1p4VzZ
+	iyViCB2csfOOixCOOJEvbl2wjub4bF2l1y7L13KTQYUwhDg=
+X-Received: by 2002:a05:6808:1242:b0:4c5:a75f:c5e1 with SMTP id 5614622812f47-4ca4bf7b68fmr5899289b6e.13.1789580511236;
+        Wed, 16 Sep 2026 10:41:51 -0700 (PDT)
 Received: from localhost.localdomain (smtp.hostdime.com.br. [187.45.177.18])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4cb6d9999e8sm360668b6e.17.2026.09.16.10.41.46
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4cb6d9999e8sm360668b6e.17.2026.09.16.10.41.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 10:41:48 -0700 (PDT)
+        Wed, 16 Sep 2026 10:41:50 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Subject: [PATCH 3/5] docs: translations: pt_BR: translate admin-guide/README.rst
-Date: Wed, 16 Sep 2026 14:41:33 -0300
-Message-ID: <20260916174136.48011-4-danielmaraboo@gmail.com>
+Subject: [PATCH 4/5] docs: translations: pt_BR: translate admin-guide/devices.rst
+Date: Wed, 16 Sep 2026 14:41:34 -0300
+Message-ID: <20260916174136.48011-5-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260916174136.48011-1-danielmaraboo@gmail.com>
 References: <20260916174136.48011-1-danielmaraboo@gmail.com>
@@ -78,425 +78,318 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate the kernel README into Brazilian Portuguese and move it from
-the Todolist into the toctree of the admin-guide index.  References to
-changes.rst and applying-patches.rst point at the pt_BR translations,
-since both are already translated.
+Translate the Linux Device List document into Brazilian Portuguese and
+move it from the Todolist into the toctree of the admin-guide index.  The
+device registry itself is pulled in with a literal include of the
+original devices.txt, so the numbers stay in a single place.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
- .../translations/pt_BR/admin-guide/README.rst | 382 ++++++++++++++++++
- .../translations/pt_BR/admin-guide/index.rst  |   6 +-
- 2 files changed, 387 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/pt_BR/admin-guide/README.rst
+ .../pt_BR/admin-guide/devices.rst             | 278 ++++++++++++++++++
+ .../translations/pt_BR/admin-guide/index.rst  |   2 +-
+ 2 files changed, 279 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/devices.rst
 
-diff --git a/Documentation/translations/pt_BR/admin-guide/README.rst b/Documentation/translations/pt_BR/admin-guide/README.rst
+diff --git a/Documentation/translations/pt_BR/admin-guide/devices.rst b/Documentation/translations/pt_BR/admin-guide/devices.rst
 new file mode 100644
-index 000000000..1843f89b1
+index 000000000..614a32c33
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/admin-guide/README.rst
-@@ -0,0 +1,382 @@
++++ b/Documentation/translations/pt_BR/admin-guide/devices.rst
+@@ -0,0 +1,278 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+.. _pt_BR_readme:
-+
-+Versão 6.x do kernel Linux <http://kernel.org/>
-+===============================================
-+
-+Estas são as notas de lançamento da versão 6 do Linux. Leia-as com atenção,
-+pois elas dizem do que se trata tudo isso, explicam como instalar o kernel e
-+o que fazer se algo der errado.
-+
-+O que é o Linux?
-+----------------
-+
-+  O Linux é um clone do sistema operacional Unix, escrito do zero por Linus
-+  Torvalds com a ajuda de uma equipe pouco organizada de hackers espalhados
-+  pela Internet. Ele busca a conformidade com o POSIX e com a Single UNIX
-+  Specification.
-+
-+  Possui todos os recursos que você esperaria de um Unix moderno e completo,
-+  incluindo multitarefa real, memória virtual, bibliotecas compartilhadas,
-+  carregamento sob demanda (demand loading), executáveis compartilhados com
-+  cópia-na-escrita (copy-on-write), gerenciamento de memória adequado e rede
-+  multipilha, incluindo IPv4 e IPv6.
-+
-+  É distribuído sob a GNU General Public License v2 --- veja o arquivo
-+  COPYING que o acompanha para mais detalhes.
-+
-+Em qual hardware ele roda?
-+--------------------------
-+
-+  Embora tenha sido originalmente desenvolvido primeiro para PCs de 32 bits
-+  baseados em x86 (386 ou superior), hoje o Linux também roda (pelo menos)
-+  nas arquiteturas Compaq Alpha AXP, Sun SPARC e UltraSPARC, Motorola 68000,
-+  PowerPC, PowerPC64, ARM, Hitachi SuperH, Cell, IBM S/390, MIPS, HP PA-RISC,
-+  Intel IA-64, DEC VAX, AMD x86-64 Xtensa e ARC.
-+
-+  O Linux é facilmente portável para a maioria das arquiteturas de propósito
-+  geral de 32 ou 64 bits, desde que possuam uma unidade de gerenciamento de
-+  memória paginada (PMMU) e um port do compilador C da GNU (gcc), parte da
-+  GNU Compiler Collection (GCC). O Linux também já foi portado para diversas
-+  arquiteturas sem PMMU, embora a funcionalidade fique, obviamente, um tanto
-+  limitada.
-+  O Linux também foi portado para si mesmo. Você pode agora executar o kernel
-+  como uma aplicação de espaço de usuário --- isso se chama UserMode Linux
-+  (UML).
-+
-+Documentação
-+------------
-+
-+ - Há muita documentação disponível, tanto em formato eletrônico na Internet
-+   quanto em livros, tanto específica do Linux quanto referente a questões
-+   gerais do UNIX. Eu recomendaria procurar nos subdiretórios de documentação
-+   de qualquer site FTP do Linux pelos livros do LDP (Linux Documentation
-+   Project). Este README não pretende ser a documentação do sistema: existem
-+   fontes muito melhores disponíveis.
-+
-+ - Existem vários arquivos README no subdiretório Documentation/: eles
-+   normalmente contêm notas de instalação específicas do kernel para alguns
-+   drivers, por exemplo. Por favor, leia o arquivo
-+   Documentation/translations/pt_BR/process/changes.rst, pois ele contém
-+   informações sobre os problemas que podem resultar da atualização do seu
-+   kernel.
-+
-+Instalando o código-fonte do kernel
-+-----------------------------------
-+
-+ - Se você instalar as fontes completas, coloque o tarball do kernel em um
-+   diretório no qual você tenha permissões (por exemplo, o seu diretório
-+   pessoal) e o descompacte::
-+
-+     xz -cd linux-6.x.tar.xz | tar xvf -
-+
-+   Substitua "X" pelo número da versão do kernel mais recente.
-+
-+   NÃO use a área /usr/src/linux! Essa área possui um conjunto (geralmente
-+   incompleto) de cabeçalhos do kernel que são usados pelos arquivos de
-+   cabeçalho da biblioteca. Eles devem corresponder à biblioteca, e não ser
-+   bagunçados por qualquer que seja o kernel-do-dia.
-+
-+ - Você também pode atualizar entre versões 6.x aplicando patches. Os patches
-+   são distribuídos no formato xz. Para instalar aplicando patches, obtenha
-+   todos os arquivos de patch mais novos, entre no diretório de nível
-+   superior do código-fonte do kernel (linux-6.x) e execute::
-+
-+     xz -cd ../patch-6.x.xz | patch -p1
-+
-+   Substitua "x" para todas as versões maiores que a versão "x" da sua árvore
-+   de fontes atual, **em ordem**, e deve dar tudo certo. Talvez você queira
-+   remover os arquivos de backup (algum-nome-de-arquivo~ ou
-+   algum-nome-de-arquivo.orig) e certificar-se de que não há patches que
-+   falharam (algum-nome-de-arquivo# ou algum-nome-de-arquivo.rej). Se
-+   houver, ou você ou eu cometemos um erro.
-+
-+   Diferentemente dos patches para os kernels 6.x, os patches para os kernels
-+   6.x.y (também conhecidos como kernels -stable) não são incrementais; em vez
-+   disso, eles se aplicam diretamente ao kernel 6.x base. Por exemplo, se o
-+   seu kernel base é o 6.0 e você quer aplicar o patch 6.0.3, você não deve
-+   aplicar antes os patches 6.0.1 e 6.0.2. Da mesma forma, se você está
-+   rodando a versão 6.0.2 do kernel e quer saltar para a 6.0.3, você deve
-+   primeiro reverter o patch 6.0.2 (ou seja, patch -R) **antes** de aplicar o
-+   patch 6.0.3. Você pode ler mais sobre isso em
-+   Documentation/translations/pt_BR/process/applying-patches.rst.
++.. _pt_BR_admin_devices:
++
++Dispositivos alocados no Linux (versão 4.x+)
++============================================
 +
-+   Como alternativa, o script patch-kernel pode ser usado para automatizar
-+   esse processo. Ele determina a versão atual do kernel e aplica quaisquer
-+   patches encontrados::
++Esta lista é a Linux Device List, o registro oficial dos números de
++dispositivo alocados e dos nós do diretório ``/dev`` para o sistema
++operacional Linux.
 +
-+     linux/scripts/patch-kernel linux
++A versão deste documento em lanana.org não é mais mantida. Esta versão, no
++kernel Linux mainline, é o documento mestre. Atualizações devem ser enviadas
++como patches aos mantenedores do kernel (veja o documento
++:ref:`Documentation/translations/pt_BR/process/submitting-patches.rst <pt_BR_submittingpatches>`).
++Explore especificamente as seções intituladas "CHAR and MISC DRIVERS" e
++"BLOCK LAYER" no arquivo MAINTAINERS para encontrar os mantenedores certos
++a envolver para dispositivos de caractere e de bloco.
 +
-+   O primeiro argumento no comando acima é a localização do código-fonte do
-+   kernel. Os patches são aplicados a partir do diretório atual, mas um
-+   diretório alternativo pode ser especificado como segundo argumento.
-+
-+ - Certifique-se de que não há arquivos .o e dependências obsoletos espalhados
-+   por aí::
-+
-+     cd linux
-+     make mrproper
-+
-+   Agora você deve ter as fontes instaladas corretamente.
-+
-+Requisitos de software
-+----------------------
-+
-+   Compilar e executar os kernels 6.x exige versões atualizadas de vários
-+   pacotes de software. Consulte
-+   Documentation/translations/pt_BR/process/changes.rst para os números de
-+   versão mínimos exigidos e como obter atualizações desses pacotes. Esteja
-+   ciente de que usar versões excessivamente antigas desses pacotes pode
-+   causar erros indiretos, muito difíceis de rastrear; portanto, não presuma
-+   que basta atualizar os pacotes quando problemas óbvios surgirem durante a
-+   compilação ou a execução.
-+
-+Diretório de compilação do kernel
-+---------------------------------
-+
-+   Ao compilar o kernel, todos os arquivos de saída serão, por padrão,
-+   armazenados junto com o código-fonte do kernel.
-+   Usar a opção ``make O=output/dir`` permite especificar um local alternativo
-+   para os arquivos de saída (incluindo o .config).
-+   Exemplo::
-+
-+     código-fonte do kernel:    /usr/src/linux-6.x
-+     diretório de compilação:   /home/nome/build/kernel
-+
-+   Para configurar e compilar o kernel, use::
-+
-+     cd /usr/src/linux-6.x
-+     make O=/home/nome/build/kernel menuconfig
-+     make O=/home/nome/build/kernel
-+     sudo make O=/home/nome/build/kernel modules_install install
-+
-+   Observe: se a opção ``O=output/dir`` for usada, ela deve ser usada em todas
-+   as invocações do make.
-+
-+Configurando o kernel
-+---------------------
-+
-+   Não pule esta etapa, mesmo que você esteja atualizando apenas uma versão
-+   menor. Novas opções de configuração são adicionadas a cada lançamento, e
-+   problemas estranhos aparecerão se os arquivos de configuração não estiverem
-+   preparados como esperado. Se você quiser levar a sua configuração existente
-+   para uma nova versão com o mínimo de trabalho, use ``make oldconfig``, que
-+   perguntará apenas as respostas para as novas questões.
-+
-+ - Comandos alternativos de configuração são::
-+
-+     "make config"      Interface em texto puro.
-+
-+     "make menuconfig"  Menus coloridos, listas de seleção e diálogos, em
-+                        modo texto.
-+
-+     "make nconfig"     Menus coloridos aprimorados, em modo texto.
-+
-+     "make xconfig"     Ferramenta de configuração baseada em Qt.
-+
-+     "make gconfig"     Ferramenta de configuração baseada em GTK.
-+
-+     "make oldconfig"   Assume o padrão para todas as questões com base no
-+                        conteúdo do seu arquivo ./.config existente e
-+                        pergunta sobre os novos símbolos de configuração.
-+
-+     "make olddefconfig"
-+                        Como o anterior, mas define os novos símbolos com
-+                        seus valores padrão, sem perguntar.
-+
-+     "make defconfig"   Cria um arquivo ./.config usando os valores padrão
-+                        dos símbolos, vindos de
-+                        arch/$ARCH/configs/defconfig ou de
-+                        arch/$ARCH/configs/${PLATFORM}_defconfig,
-+                        dependendo da arquitetura.
-+
-+     "make ${PLATFORM}_defconfig"
-+                        Cria um arquivo ./.config usando os valores padrão
-+                        dos símbolos vindos de
-+                        arch/$ARCH/configs/${PLATFORM}_defconfig.
-+                        Use "make help" para obter uma lista de todas as
-+                        plataformas disponíveis para a sua arquitetura.
-+
-+     "make allyesconfig"
-+                        Cria um arquivo ./.config definindo os valores dos
-+                        símbolos como 'y' sempre que possível.
-+
-+     "make allmodconfig"
-+                        Cria um arquivo ./.config definindo os valores dos
-+                        símbolos como 'm' sempre que possível.
-+
-+     "make allnoconfig" Cria um arquivo ./.config definindo os valores dos
-+                        símbolos como 'n' sempre que possível.
-+
-+     "make randconfig"  Cria um arquivo ./.config definindo os valores dos
-+                        símbolos aleatoriamente.
-+
-+     "make localmodconfig" Cria uma configuração baseada na configuração
-+                           atual e nos módulos carregados (lsmod). Desativa
-+                           qualquer opção de módulo que não seja necessária
-+                           para os módulos carregados.
-+
-+                           Para criar um localmodconfig para outra máquina,
-+                           armazene o lsmod daquela máquina em um arquivo e
-+                           o passe como parâmetro LSMOD.
-+
-+                           Além disso, você pode preservar módulos em certas
-+                           pastas ou arquivos kconfig especificando seus
-+                           caminhos no parâmetro LMC_KEEP.
-+
-+                   alvo$ lsmod > /tmp/mylsmod
-+                   alvo$ scp /tmp/mylsmod host:/tmp
-+
-+                   host$ make LSMOD=/tmp/mylsmod \
-+                           LMC_KEEP="drivers/usb:drivers/gpu:fs" \
-+                           localmodconfig
-+
-+                           O acima também funciona em compilação cruzada.
-+
-+     "make localyesconfig" Semelhante ao localmodconfig, exceto que converte
-+                           todas as opções de módulo em opções embutidas
-+                           (=y). Você também pode preservar módulos com o
-+                           LMC_KEEP.
-+
-+     "make kvm_guest.config"   Habilita opções adicionais para suporte a
-+                               kernel convidado do kvm.
-+
-+     "make xen.config"   Habilita opções adicionais para suporte a kernel
-+                         convidado dom0 do xen.
-+
-+     "make tinyconfig"  Configura o menor kernel possível.
-+
-+   Você pode encontrar mais informações sobre o uso das ferramentas de
-+   configuração do kernel Linux em Documentation/kbuild/kconfig.rst.
-+
-+ - NOTAS sobre o ``make config``:
-+
-+    - Ter drivers desnecessários deixará o kernel maior e, em algumas
-+      circunstâncias, pode levar a problemas: sondar uma placa controladora
-+      inexistente pode confundir as suas outras controladoras.
-+
-+    - Um kernel com emulação matemática compilada ainda usará o
-+      coprocessador, se houver um presente: a emulação matemática
-+      simplesmente nunca será usada nesse caso. O kernel ficará um pouco
-+      maior, mas funcionará em máquinas diferentes, independentemente de
-+      terem ou não um coprocessador matemático.
-+
-+    - Os detalhes de configuração de "kernel hacking" normalmente resultam em
-+      um kernel maior ou mais lento (ou ambos), e podem até tornar o kernel
-+      menos estável, ao configurar algumas rotinas para tentar ativamente
-+      quebrar código ruim e encontrar problemas no kernel (kmalloc()).
-+      Portanto, você provavelmente deve responder 'n' às questões sobre
-+      recursos de "development", "experimental" ou "debugging".
-+
-+Compilando o kernel
-+-------------------
-+
-+ - Certifique-se de ter pelo menos o gcc 8.1 disponível.
-+   Para mais informações, consulte
-+   Documentation/translations/pt_BR/process/changes.rst.
-+
-+ - Execute um ``make`` para criar uma imagem compactada do kernel. Também é
-+   possível executar ``make install`` se você tiver o lilo instalado ou se a
-+   sua distribuição possuir um script de instalação reconhecido pelo
-+   instalador do kernel. A maioria das distribuições populares terá um script
-+   de instalação reconhecido. Talvez você queira verificar antes a
-+   configuração da sua distribuição.
-+
-+   Para fazer a instalação de fato, você precisa ser root, mas nada da
-+   compilação normal deve exigir isso. Não tome o nome de root em vão.
-+
-+ - Se você configurou qualquer parte do kernel como ``modules``, também terá
-+   que executar ``make modules_install``.
-+
-+ - Saída detalhada (verbose) da compilação do kernel:
-+
-+   Normalmente, o sistema de compilação do kernel roda em um modo bastante
-+   silencioso (mas não totalmente). No entanto, às vezes você ou outros
-+   desenvolvedores do kernel precisam ver os comandos de compilação, de
-+   ligação (link) ou outros exatamente como são executados. Para isso, use o
-+   modo de compilação "verbose". Isso é feito passando ``V=1`` ao comando
-+   ``make``, por exemplo::
-+
-+     make V=1 all
-+
-+   Para que o sistema de compilação também informe o motivo da recompilação
-+   de cada alvo, use ``V=2``. O padrão é ``V=0``.
-+
-+ - Mantenha um kernel de backup à mão, caso algo dê errado. Isso é
-+   especialmente verdadeiro para as versões de desenvolvimento, já que cada
-+   novo lançamento contém código novo que não foi depurado. Certifique-se de
-+   manter também um backup dos módulos correspondentes àquele kernel. Se
-+   você estiver instalando um novo kernel com o mesmo número de versão do seu
-+   kernel em funcionamento, faça um backup do seu diretório de módulos antes
-+   de executar um ``make modules_install``.
-+
-+   Como alternativa, antes de compilar, use a opção de configuração do kernel
-+   "LOCALVERSION" para acrescentar um sufixo único à versão normal do kernel.
-+   A LOCALVERSION pode ser definida no menu "General Setup".
-+
-+ - Para inicializar o seu novo kernel, você precisará copiar a imagem do
-+   kernel (por exemplo, .../linux/arch/x86/boot/bzImage após a compilação)
-+   para o local onde o seu kernel inicializável habitual se encontra.
-+
-+ - Inicializar um kernel diretamente de um dispositivo de armazenamento, sem
-+   a ajuda de um gerenciador de inicialização como o LILO ou o GRUB, não é
-+   mais suportado na BIOS (sistemas não EFI). Em sistemas UEFI/EFI, no
-+   entanto, você pode usar o EFISTUB, que permite à placa-mãe inicializar
-+   diretamente no kernel. Em estações de trabalho e desktops modernos,
-+   geralmente recomenda-se usar um gerenciador de inicialização, pois podem
-+   surgir dificuldades com múltiplos kernels e com o secure boot.
-+   Para mais detalhes sobre o EFISTUB, veja
-+   "Documentation/admin-guide/efi-stub.rst".
-+
-+ - É importante observar que, desde 2016, o LILO (LInux LOader) não está mais
-+   em desenvolvimento ativo, embora, por ter sido extremamente popular,
-+   apareça com frequência na documentação. Alternativas populares incluem
-+   GRUB2, rEFInd, Syslinux, systemd-boot ou EFISTUB. Por diversas razões, não
-+   é recomendável usar software que não esteja mais em desenvolvimento ativo.
-+
-+ - É provável que a sua distribuição inclua um script de instalação e que
-+   executar ``make install`` seja tudo o que é necessário. Caso não seja
-+   assim, você terá que identificar o seu gerenciador de inicialização e
-+   consultar a documentação dele, ou configurar a sua EFI.
-+
-+Instruções legadas do LILO
-+--------------------------
-+
-+
-+ - Se você usa o LILO, as imagens do kernel são especificadas no arquivo
-+   /etc/lilo.conf. O arquivo de imagem do kernel geralmente é /vmlinuz,
-+   /boot/vmlinuz, /bzImage ou /boot/bzImage. Para usar o novo kernel, salve
-+   uma cópia da imagem antiga e copie a nova imagem por cima da antiga.
-+   Então, você DEVE EXECUTAR O LILO NOVAMENTE para atualizar o mapa de
-+   carregamento! Se não fizer isso, não conseguirá inicializar a nova imagem
-+   do kernel.
-+
-+ - Reinstalar o LILO geralmente é uma questão de executar /sbin/lilo. Talvez
-+   você queira editar o /etc/lilo.conf para especificar uma entrada para a
-+   sua imagem antiga do kernel (digamos, /vmlinux.old), caso a nova não
-+   funcione. Veja a documentação do LILO para mais informações.
-+
-+ - Após reinstalar o LILO, deve estar tudo pronto. Desligue o sistema,
-+   reinicie e aproveite!
-+
-+ - Se algum dia você precisar alterar o dispositivo raiz padrão, o modo de
-+   vídeo, etc. na imagem do kernel, use as opções de inicialização do seu
-+   gerenciador de inicialização onde for apropriado. Não é necessário
-+   recompilar o kernel para alterar esses parâmetros.
-+
-+ - Reinicie com o novo kernel e aproveite.
-+
-+
-+Se algo der errado
-+------------------
-+
-+Se você tiver problemas que pareçam ser causados por bugs do kernel, por
-+favor, siga as instruções em
-+'Documentation/admin-guide/reporting-issues.rst'.
-+
-+Dicas sobre como entender os relatórios de bugs do kernel estão em
-+'Documentation/admin-guide/bug-hunting.rst'. Mais sobre depuração do kernel
-+com o gdb está em
-+'Documentation/process/debugging/gdb-kernel-debugging.rst' e
-+'Documentation/process/debugging/kgdb.rst'.
++Este documento é incluído por referência no Filesystem Hierarchy Standard
++(FHS). O FHS está disponível em https://www.pathname.com/fhs/.
++
++Alocações marcadas com (68k/Amiga) aplicam-se somente ao Linux/68k na
++plataforma Amiga. Alocações marcadas com (68k/Atari) aplicam-se somente ao
++Linux/68k na plataforma Atari.
++
++Este documento está em domínio público. Os autores solicitam, no entanto,
++que versões semanticamente alteradas não sejam distribuídas sem permissão
++dos autores, presumindo-se que os autores possam ser contatados sem um
++esforço desarrazoado.
++
++
++.. attention::
++
++  AUTORES DE DRIVERS DE DISPOSITIVO, POR FAVOR LEIAM ISTO
++
++  O Linux agora possui amplo suporte à alocação dinâmica de numeração de
++  dispositivos e pode usar ``sysfs`` e ``udev`` (``systemd``) para lidar com
++  as necessidades de nomenclatura. Ainda existem algumas exceções na área de
++  dispositivos seriais e de inicialização. Antes de pedir um número de
++  dispositivo, certifique-se de que você realmente precisa de um.
++
++  Para ter um número maior (major) alocado, ou um número menor (minor) nas
++  situações em que isso se aplica (por exemplo, busmice), por favor envie um
++  patch aos autores conforme indicado acima.
++
++  Mantenha a descrição do dispositivo *no mesmo formato desta lista*. A razão
++  para isso é que essa é a única maneira que encontramos de garantir que
++  temos todas as informações necessárias para publicar o seu dispositivo e
++  evitar conflitos.
++
++  Por fim, às vezes temos que bancar a "polícia do espaço de nomes". Por
++  favor, não se ofenda. Frequentemente recebemos submissões de nomes em
++  ``/dev`` que fatalmente causariam conflitos no futuro. Estamos tentando
++  evitar chegar a uma situação em que teríamos que sofrer uma mudança
++  incompatível para a frente. Portanto, por favor, consulte-nos **antes** de
++  tornar públicos, de qualquer forma, os nomes e números do seu dispositivo
++  --- pelo menos até o ponto em que seria minimamente difícil alterá-los.
++
++  Sua cooperação é apreciada.
++
++.. include:: ../../../admin-guide/devices.txt
++   :literal:
++
++Entradas adicionais do diretório ``/dev/``
++------------------------------------------
++
++Esta seção detalha as entradas adicionais que devem ou podem existir no
++diretório /dev. É preferível que os links simbólicos usem a mesma forma
++(absoluta ou relativa) indicada aqui. Os links são classificados como
++"físicos" (hard) ou "simbólicos", dependendo do tipo de link preferido; se
++possível, o tipo de link indicado deve ser usado.
++
++Links obrigatórios
++++++++++++++++++++
++
++Estes links devem existir em todos os sistemas:
++
++=============== =============== =============== ==============================
++/dev/fd         /proc/self/fd   simbólico       Descritores de arquivo
++/dev/stdin      fd/0            simbólico       Descritor de arquivo da stdin
++/dev/stdout     fd/1            simbólico       Descritor de arquivo da stdout
++/dev/stderr     fd/2            simbólico       Descritor de arquivo da stderr
++/dev/nfsd       socksys         simbólico       Exigido pelo iBCS-2
++/dev/X0R        null            simbólico       Exigido pelo iBCS-2
++=============== =============== =============== ==============================
++
++Observação: ``/dev/X0R`` é <letra X>-<dígito 0>-<letra R>.
++
++Links recomendados
++++++++++++++++++++
++
++Recomenda-se que estes links existam em todos os sistemas:
++
++
++=============== =============== =============== ==========================
++/dev/core       /proc/kcore     simbólico       Compatibilidade retroativa
++/dev/ramdisk    ram0            simbólico       Compatibilidade retroativa
++/dev/ftape      qft0            simbólico       Compatibilidade retroativa
++/dev/bttv0      video0          simbólico       Compatibilidade retroativa
++/dev/radio      radio0          simbólico       Compatibilidade retroativa
++/dev/i2o*       /dev/i2o/*      simbólico       Compatibilidade retroativa
++=============== =============== =============== ==========================
++
++Os nomes alternativos ``/dev/scd?``, sugeridos anteriormente para os
++``/dev/sr?`` de CD-ROM e outras unidades ópticas (que usam comandos SCSI),
++foram removidos na versão 174 do ``udev``, lançada em 2011.
++
++Links definidos localmente
++++++++++++++++++++++++++++
++
++Os links a seguir podem ser estabelecidos localmente para se adequar à
++configuração do sistema. Isto é meramente uma tabulação da prática
++existente, e não constitui uma recomendação. No entanto, se existirem, eles
++devem ter os seguintes usos.
++
++=============== ================= =============== ==============================
++/dev/mouse      porta de mouse    simbólico       Dispositivo de mouse atual
++/dev/tape       unidade de fita   simbólico       Dispositivo de fita atual
++/dev/cdrom      unidade de CD-ROM simbólico       Dispositivo de CD-ROM atual
++/dev/scanner    scanner           simbólico       Scanner atual
++/dev/modem      porta de modem    simbólico       Dispositivo de discagem atual
++/dev/root       dispositivo raiz  simbólico       Sistema de arquivos raiz atual
++/dev/swap       área de swap      simbólico       Dispositivo de swap atual
++=============== ================= =============== ==============================
++
++O ``/dev/modem`` não deve ser usado para um modem que suporte tanto discagem
++de entrada quanto de saída, pois isso tende a causar problemas com arquivos
++de trava (lock). Se existir, o ``/dev/modem`` deve apontar para o
++dispositivo TTY primário apropriado (o uso dos dispositivos alternativos de
++saída é obsoleto).
++
++Para dispositivos SCSI, o ``/dev/tape`` e o ``/dev/cdrom`` devem apontar
++para os dispositivos *cozidos* (*cooked*) (``/dev/st*`` e ``/dev/sr*``,
++respectivamente), enquanto o ``/dev/scanner`` deve apontar para o
++dispositivo SCSI genérico apropriado (``/dev/sg*``).
++
++O ``/dev/mouse`` pode apontar para um dispositivo TTY serial primário, um
++dispositivo de mouse em hardware, ou um socket para um programa de driver de
++mouse (por exemplo, ``/dev/gpmdata``).
++
++Sockets e pipes
+++++++++++++++++
++
++Sockets e pipes nomeados não transitórios podem existir em /dev. As entradas
++comuns são:
++
++=============== ======== =============================
++/dev/printer    socket   socket local do lpd
++/dev/log        socket   socket local do syslog
++/dev/gpmdata    socket   multiplexador de mouse do gpm
++=============== ======== =============================
++
++Pontos de montagem
++++++++++++++++++++
++
++Os nomes a seguir são reservados para a montagem de sistemas de arquivos
++especiais sob /dev. Esses sistemas de arquivos especiais fornecem interfaces
++do kernel que não podem ser fornecidas com nós de dispositivo padrão.
++
++=============== ======== ==================================================
++/dev/pts        devpts   Sistema de arquivos de escravos PTY
++/dev/shm        tmpfs    Acesso de manutenção à memória compartilhada POSIX
++=============== ======== ==================================================
++
++Dispositivos de terminal
++------------------------
++
++Dispositivos de terminal, ou TTY, são uma classe especial de dispositivos de
++caractere. Um dispositivo de terminal é qualquer dispositivo que possa atuar
++como terminal de controle de uma sessão; isso inclui consoles virtuais,
++portas seriais e pseudoterminais (PTYs).
++
++Todos os dispositivos de terminal compartilham um conjunto comum de
++capacidades conhecidas como disciplinas de linha (line disciplines); estas
++incluem a disciplina de linha de terminal comum, bem como os modos SLIP e
++PPP.
++
++Todos os dispositivos de terminal são nomeados de forma semelhante; esta
++seção explica a nomenclatura e o uso dos vários tipos de TTY. Observe que as
++convenções de nomenclatura incluem várias verrugas históricas; algumas delas
++são específicas do Linux, algumas foram herdadas de outros sistemas, e
++algumas refletem o Linux tendo superado uma convenção emprestada.
++
++Um sinal de cerquilha (``#``) em um nome de dispositivo é usado aqui para
++indicar um número decimal sem zeros à esquerda.
++
++Consoles virtuais e o dispositivo de console
++++++++++++++++++++++++++++++++++++++++++++++
++
++Consoles virtuais são telas de terminal em tela cheia no monitor de vídeo do
++sistema. Consoles virtuais são nomeados ``/dev/tty#``, com a numeração
++começando em ``/dev/tty1``; o ``/dev/tty0`` é o console virtual atual.
++O ``/dev/tty0`` é o dispositivo que deve ser usado para acessar a placa de
++vídeo do sistema naquelas arquiteturas para as quais os dispositivos de
++frame buffer (``/dev/fb*``) não são aplicáveis. Não use o ``/dev/console``
++para esse fim.
++
++O dispositivo de console, ``/dev/console``, é o dispositivo para o qual as
++mensagens do sistema devem ser enviadas, e no qual os logins devem ser
++permitidos em modo monousuário. A partir do Linux 2.1.71, o ``/dev/console``
++é gerenciado pelo kernel; para versões anteriores, ele deve ser um link
++simbólico para o ``/dev/tty0``, para um console virtual específico como o
++``/dev/tty1``, ou para um dispositivo primário de porta serial (``tty*``,
++não ``cu*``), dependendo da configuração do sistema.
++
++Portas seriais
++++++++++++++++
++
++Portas seriais são portas seriais RS-232 e qualquer dispositivo que simule
++uma, seja em hardware (como modems internos) ou em software (como o driver
++ISDN). No Linux, cada porta serial possui dois nomes de dispositivo: o
++primário, ou de chamada de entrada (callin), e o alternativo, ou de chamada
++de saída (callout). Cada tipo de dispositivo é indicado por uma letra
++diferente. Para qualquer letra X, os nomes dos dispositivos são
++``/dev/ttyX#`` e ``/dev/cux#``, respectivamente; por razões históricas, o
++``/dev/ttyS#`` e o ``/dev/ttyC#`` correspondem ao ``/dev/cua#`` e ao
++``/dev/cub#``. No futuro, deve-se esperar que múltiplas letras sejam usadas;
++todas as letras serão maiúsculas para o dispositivo "tty" (por exemplo,
++``/dev/ttyDP#``) e minúsculas para o dispositivo "cu" (por exemplo,
++``/dev/cudp#``).
++
++Os nomes ``/dev/ttyQ#`` e ``/dev/cuq#`` são reservados para uso local.
++
++Os dispositivos alternativos provêem exclusão baseada no kernel e padrões um
++tanto diferentes dos dispositivos primários. Seu principal propósito é
++permitir o uso de portas seriais com programas sem suporte inerente a portas
++seriais, ou com suporte defeituoso. Seu uso é obsoleto, e eles podem ser
++removidos em uma versão futura do Linux.
++
++A arbitragem de portas seriais é provida pelo uso de arquivos de trava com
++os nomes ``/var/lock/LCK..ttyX#``. O conteúdo do arquivo de trava deve ser o
++PID do processo que está travando, como um número ASCII.
++
++É prática comum instalar links como /dev/modem, que apontam para portas
++seriais. Para garantir o travamento adequado na presença desses links,
++recomenda-se que o software persiga os links simbólicos e trave todos os
++nomes possíveis; adicionalmente, recomenda-se que um arquivo de trava seja
++instalado com o dispositivo alternativo correspondente. Para evitar
++impasses (deadlocks), recomenda-se que as travas sejam adquiridas na
++seguinte ordem, e liberadas na ordem inversa:
++
++        1. O nome do link simbólico, se houver (``/var/lock/LCK..modem``)
++        2. O nome "tty" (``/var/lock/LCK..ttyS2``)
++        3. O nome do dispositivo alternativo (``/var/lock/LCK..cua2``)
++
++No caso de links simbólicos aninhados, os arquivos de trava devem ser
++instalados na ordem em que os links simbólicos são resolvidos.
++
++Sob nenhuma circunstância uma aplicação deve manter uma trava enquanto
++espera que outra seja liberada. Além disso, aplicações que tentam criar
++arquivos de trava para os nomes de dispositivo alternativos correspondentes
++devem levar em conta a possibilidade de serem usadas em um TTY que não seja
++de porta serial, para o qual nenhum dispositivo alternativo existiria.
++
++Pseudoterminais (PTYs)
++++++++++++++++++++++++
++
++Pseudoterminais, ou PTYs, são usados para criar sessões de login ou para
++prover outras capacidades que exijam uma disciplina de linha TTY (incluindo
++capacidade de SLIP ou PPP) a processos arbitrários geradores de dados. Cada
++PTY tem um lado mestre, nomeado ``/dev/pty[p-za-e][0-9a-f]``, e um lado
++escravo, nomeado ``/dev/tty[p-za-e][0-9a-f]``. O kernel arbitra o uso dos
++PTYs permitindo que cada lado mestre seja aberto apenas uma vez.
++
++Uma vez que o lado mestre tenha sido aberto, o dispositivo escravo
++correspondente pode ser usado da mesma maneira que qualquer dispositivo TTY.
++Os dispositivos mestre e escravo são conectados pelo kernel, gerando o
++equivalente a um pipe bidirecional com capacidades de TTY.
++
++Versões recentes dos kernels Linux e da GNU libc contêm suporte ao esquema
++de nomenclatura System V/Unix98 para PTYs, que atribui um dispositivo comum,
++``/dev/ptmx``, a todos os mestres (abri-lo lhe dará automaticamente um PTY
++não atribuído anteriormente) e um subdiretório, ``/dev/pts``, para os
++escravos; os escravos são nomeados com inteiros decimais (``/dev/pts/#`` em
++nossa notação). Isso remove o problema de esgotar o espaço de nomes e
++permite que o kernel crie automaticamente os nós de dispositivo para os
++escravos sob demanda, usando o sistema de arquivos "devpts".
 diff --git a/Documentation/translations/pt_BR/admin-guide/index.rst b/Documentation/translations/pt_BR/admin-guide/index.rst
-index a5ad5baa3..716f6c1f7 100644
+index 716f6c1f7..471b76f00 100644
 --- a/Documentation/translations/pt_BR/admin-guide/index.rst
 +++ b/Documentation/translations/pt_BR/admin-guide/index.rst
-@@ -21,9 +21,13 @@ Esta seção inicial contém informações gerais, incluindo o arquivo README qu
- descreve o kernel como um todo, documentação sobre os parâmetros do kernel,
- etc.
+@@ -25,10 +25,10 @@ etc.
+    :maxdepth: 1
  
-+.. toctree::
-+   :maxdepth: 1
-+
-+   README
-+
+    README
++   devices
+ 
  Todolist:
  
--*   README
- *   devices
+-*   devices
  *   features
  
+ Uma grande parte da interface administrativa do kernel são os sistemas de
 -- 
 2.47.3
 
