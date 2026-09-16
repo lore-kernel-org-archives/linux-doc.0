@@ -1,78 +1,85 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-232.mta0.migadu.com [91.218.175.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1C34FB9D5;
-	Wed, 16 Sep 2026 13:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BDB377558
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 13:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789565464; cv=none; b=oih3I5wsOmSVAoOnT5QNojs3vRiWdeeBPx29XL8ARjCqim8PmajDSL/JJUZdjzyIpeQVGgHbH4mcJXJyZ5segDikkUxwPTkQtxl08DBPBIawXGClDjV01CmyfoUeHaMOAwyTWHgP8n/guD6ZmkgQbQOLCWWpqHYwd7Ta3as8GTk=
+	t=1789566076; cv=none; b=O5ijqMaU3p90B2wwAtHSkcFIrnUEv5NMDFZCldh6g6s3l5hdyvJZTrEZFwJ8apmRdtsSQR0zimjgfKYEacidMEY+QpnV6hDdaheCMO6wbkWnxf9NTE7Hv9OhHB1raIyGj+CkN/lMSMWn/nckg+5VXFCu2j+tZ4kL9MQqLQnkVz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789565464; c=relaxed/simple;
-	bh=6UM4aQiJqDDqz5Gu89HtFV/WtcHwQElzcbryzcKjffs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=SxIZtAzQsW2q5sUs66ml2/AjCh4/MGpJhZJJ3YzjfMHLjmkkaPXBLYIcQmfQ8Cw7dvCVtOLn2yN5r9cNvx1taXqyg/ArNZ1iP6nncSOuQYCKS89L++pOmiqVoES/7jj/q1LdQvw6vwiCIaMSP5VAdsVrArIsHt2sI3IdU2zEyZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WRHzbOPh; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1789566076; c=relaxed/simple;
+	bh=KMVu0CcPsSRobBEZ8F9wVjzDQQHjHvDdtXmmgpo1Yvg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Im4DkWCFpsF9J3IcIYfCFBFjfuyVYfJV+JfhuT38EXVXXAnlgq3S0rFO78jzsj38iSzMbo6JPWKFc/vHq3mH4bwa0hJ8Sh4ZB/y5MIsgJvHzWp251nOH7eguL/ll9oa7GCIPznPNuZNnqvW65qObP2WrAuSfUqrEUHPTgHFC3MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VvebwdQe; arc=none smtp.client-ip=91.218.175.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WRHzbOPh"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4CFE5408DB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1789565447; bh=6UM4aQiJqDDqz5Gu89HtFV/WtcHwQElzcbryzcKjffs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=WRHzbOPhRgQyZ/XTVpuuHrHmPVJnMgYYMZuXsOLgShr6rQyjjQZE/ING/0qeoARmH
-	 sOqkS5BGtYy4+i/3XiA+J5Ggvvj01aSV1W65zdcx96tPuwFEpxRH3YOwExXyJV5do3
-	 5QXurQSLx3y1BckBM6PFf22BJA6pDiWqsVsF+3z3TI0wajHjlc47AM7ltmm9mLEJHC
-	 haMvhvkAJhLX8W91G7ANDirhK+tEX61KkeLvfs/vb5eR5IctHG+oHXWoTbNr5Fdl2H
-	 kqd0UFREGMpETBSPj13z153jTRTky9Bxwr0KPNr8h53VAZ2x+kCu/fgr4ChYtESswu
-	 Ck07IbFnkxK+A==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4CFE5408DB;
-	Wed, 16 Sep 2026 13:30:47 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Daniel Pereira <danielmaraboo@gmail.com>, Lucas Adryell Ramalho
- <lucasadramalho@gmail.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] docs: translations: pt_BR: translate
- stable-api-nonsense.rst
-In-Reply-To: <CAMAsx6dyL3o6LsG_VAhKi6DKS5LTPXHMFnBaS6QhA_zYCOROJQ@mail.gmail.com>
-References: <20260831-ptbr-stable-api-nonsense-v4-1-0ef5e58504cc@gmail.com>
- <CAMAsx6dyL3o6LsG_VAhKi6DKS5LTPXHMFnBaS6QhA_zYCOROJQ@mail.gmail.com>
-Date: Wed, 16 Sep 2026 07:30:46 -0600
-Message-ID: <8733v95nnd.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VvebwdQe"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=KMVu0CcPsSRobBEZ8F9wVjzDQQHjHvDdtXmmgpo1Yvg=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789566041; v=1; x=1790170841;
+ b=VvebwdQeMiauAqXPWChAYda54/xoW1p4zSWMyDG9EXAaUmcIEenN//knTiUSw4LaJb0fn4ZA
+ 8XcJgpU2h8XbI/Cfv+zq4DpqVgrLD+nuhuCnVxtB7juyZ8AlAJJ8s4c7bTsDupOgfznhT1ydQhp
+ lHgM0NCAGK9bV7QWr6jlRB58=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta10.migadu.com with ESMTPS id 4004ce7093c6a1de;
+	Wed, 16 Sep 2026 13:40:31 +0000
+X-Mizu-Trace-ID: 4004ce7093c6a1de
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <9fd990b5-b4fd-423a-bd80-2bb630fc5de5@linux.dev>
+Date: Wed, 16 Sep 2026 14:40:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] scsi: libsas: Fix interval notation
+To: Manuel Ebner <manuelebnerli@mailbox.org>,
+ John Garry <john.g.garry@oracle.com>, Jason Yan <yanaijie@huawei.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260916124403.315227-2-manuelebnerli@mailbox.org>
+Content-Language: en-US
+From: John Garry <john.garry@linux.dev>
+In-Reply-To: <20260916124403.315227-2-manuelebnerli@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Daniel Pereira <danielmaraboo@gmail.com> writes:
+On 9/16/26 13:44, Manuel Ebner wrote:
+> Remove needless ']' from interval boundary.
+> 
 
-> Em seg., 31 de ago. de 2026 =C3=A0s 20:26, Lucas Adryell Ramalho
-> <lucasadramalho@gmail.com> escreveu:
->>
->> Translate Documentation/process/stable-api-nonsense.rst into Brazilian
->> Portuguese.
->>
->> Assisted-by: ChatGPT:GPT-5.5
->> Acked-by: Daniel Pereira <danielmaraboo@gmail.com>
->> Signed-off-by: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
->
-> I'm fine with the change itself, but a note on the tag again:
-> coding-assistants.rst (line 48) asks for the literal word "LLM" rather
-> than the model name, so this would be just "Assisted-by: LLM".
+This documentation is wrong for this structure description (not shown) - 
+it should be for asd_sas_phy, not sas_phy
 
-That can be fixed on the way in, no need to resend for this (but do note
-for future reference).
+Same for sas_port -> asd_sas_port
 
-Thanks,
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> ---
+>   Documentation/scsi/libsas.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/scsi/libsas.rst b/Documentation/scsi/libsas.rst
+> index 305a253d5..9ebf2bf28 100644
+> --- a/Documentation/scsi/libsas.rst
+> +++ b/Documentation/scsi/libsas.rst
+> @@ -75,7 +75,7 @@ enabled
+>       - must be set (0/1)
+>   
+>   id
+> -    - must be set [0,MAX_PHYS)]
+> +    - must be set [0,MAX_PHYS)
 
-jon
+this looks ok, even though it is so trivial
+
+>   
+>   class, proto, type, role, oob_mode, linkrate
+>       - must be set
+
