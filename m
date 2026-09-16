@@ -1,58 +1,83 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E6CB40759B;
-	Wed, 16 Sep 2026 19:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9972A42376F
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 19:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789586990; cv=none; b=fQrL8mfLzmeVTj825y+TSgMNA4vBwVBOy30Q5RH9f4nDfzg14COgYDk6/EbBlKn64OuUFNtdA+557J1lXG1/xusZSEoc1j1M/raQnKWMOLt10BoCHnYUPC3+WJIFOM2oyCtDsmXph2RcHD5fMVouGQSuA8FWCrUN/hXxD26kPxY=
+	t=1789587235; cv=none; b=HJzad3xvT3ZO60MUUeKHPBPDAgdL1RPipu9qb6pw2+Ax3LRgqRSyPl/cYyNPe8nm+1J2aHmZmyBllJEEQOQbpE3p3VQQwkFjEk0FytxMQt4aBx7dRiG5UBzWd6GoxklCys7CtBWMloP9iZN66cjt/UwU1sr/3cIqmDB5z3amy1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789586990; c=relaxed/simple;
-	bh=s8CZ4Z+Sscxww6lkPElqprveC0nBjjm2iPoRU4Nrm6U=;
+	s=arc-20240116; t=1789587235; c=relaxed/simple;
+	bh=Kpo0OyWi0CO746t44DDgn1hn3lqL6Qj9kQMB/VsQdtI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QmFmZeWSjxn+N5RAKkBCsYtGyEpqNRH26EWqY/irYQ2X3AtTD+vjPZ690r/bUxJBgdO/7CH8t4Sf0k/p39Tq6I3ZreEa//cZ3dVwtGD67ckvDM2AMfl1C9zSv62Gg4LVP6xFAoCkK/n/iPb163U0CcTyM6MTyW+7sBUoc/PZZL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=TLYK2BgW; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=uGcImJi4KTg2+pWdbEGNr75O3vBycVcvktsJAjQFTu4LXXr09L9PNLF6D1OS0LtOsdVZFz6X0xKj1ShsgGDC6tdtXZt3pllertLKu7f9ecDf0Bwgw3DzyrTY6iz6RcvBcnLD+DdEvXrX3v2v3iuQR2fD9+tAlkVIXySFaFnCXAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=RSzzeEYp; arc=none smtp.client-ip=74.125.230.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="TLYK2BgW"
-Received: by linux.microsoft.com (Postfix, from userid 1223)
-	id 5F7A020B7169; Wed, 16 Sep 2026 12:28:57 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5F7A020B7169
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1789586937;
-	bh=Ej3acz1ERm1wwWX5seCa4dhXTMU8sALw08ePW6OJy/0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TLYK2BgWaSLITsSxRYxEDLQKeMXy8EEuQbRKfLSvSKuwBsnGvIcxtPfGq7bBtsd7X
-	 4GpMvqPFW7/9NjDBllUlRko6lTsxP6etk3wPbZwwpugqLwD1MP1eLWo8r6E2AEWvuI
-	 dBZ9WOUwFyEAExm2PokO+oTrOUMK0bvTFFql3HXo=
-Date: Wed, 16 Sep 2026 12:28:57 -0700
-From: Meagan Lloyd <meaganlloyd@linux.microsoft.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Meagan Lloyd <meaganlloyd@linux.microsoft.com>,
-	linux-i3c@lists.infradead.org, alexandre.belloni@bootlin.com,
-	vitor.soares@toradex.com, samagazaryan@google.com,
-	gregkh@linuxfoundation.org, arnd@arndb.de,
-	boris.brezillon@collabora.com,
-	oleksandr.shulzhenko.viktorovych@intel.com,
-	tgopinath@linux.microsoft.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, linux@roeck-us.net, Frank.Li@nxp.com,
-	jorge.marques@analog.com, pgaj@cadence.com,
-	wsa+renesas@sang-engineering.com, tommaso.merciai.xr@bp.renesas.com,
-	nuno.sa@analog.com, Michael.Hennerich@analog.com, jic23@kernel.org,
-	dlechner@baylibre.com, andy@kernel.org, lorenzo@kernel.org,
-	enelsonmoore@gmail.com, rppt@kernel.org, pratyush@kernel.org,
-	giovanni.cabiddu@intel.com, gabewhigham@gmail.com,
-	haren@linux.ibm.com, pasha.tatashin@soleen.com,
-	jirislaby@kernel.org, adrian.ho.yin.ng@altera.com,
-	ustc.gu@gmail.com, jszhang@kernel.org, adrian.hunter@intel.com,
-	akhilrajeev@nvidia.com, tze.yee.ng@altera.com,
-	manikanta.guntupalli@amd.com, shubhrajyoti.datta@amd.com,
-	jarkko.nikula@linux.intel.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux@analog.com, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 0/3] I3C character device driver using driver_override
-Message-ID: <20260916-8a117e874c96753fd704b163@linux.microsoft.com>
-References: <20260911210935.1353126-1-meaganlloyd@linux.microsoft.com>
- <aqVTBIKRP3iRDCvf@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="RSzzeEYp"
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-91059280d58so90996d6.1
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 12:33:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1789587211; x=1790192011; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eJtIecQvwkVEDPm/6dNtwM/FqSFHvdTn3Czip8ta20A=;
+        b=RSzzeEYp51xyMflEt24hgwFSPgHtW1nrLj3gzOsux+BYrVHqPq+MBJDHkgcBE0IrmV
+         qZGteJmf5nvplXr5hPFVIldhBVKQVujfnj1U+9iQEXbzQvvKfa4YBK6oEUEWTiH2t+W6
+         c0spJB+mCL0Giv46yabqNPKEWMxFk5LvvEq44AGVjebZ4mTj7r36ODIyJXG3EMKmT4aK
+         YYCCH8K4Vsj/dUt0IRddDyX02VS6nqKoGr/BxN2yWilB+Qpc408H15zR3BkT/QREp6lV
+         bqYdUZLDY16rbNFi1KO33uo7l4wDajjwgmsZo1cjyrrMI2hzEUy7UIx5CVAeFz3zIxY3
+         qE5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789587211; x=1790192011;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eJtIecQvwkVEDPm/6dNtwM/FqSFHvdTn3Czip8ta20A=;
+        b=lJjsAjqei26Kvoq5FGyODpg24RkmFb2zprrCx2nmgmUknrTzZJpc5l83tRFmdwKNw4
+         WEZ2Vpo9gsPONId1WkpgGZ+D0lmFx5kXqE1q/RlDEcyNozZWhGYzqWSpDYHtoFnatVTo
+         45T/njbOw/wi9oG2VSRoxJ+QQAtfS0QuOV9SILdk9SPcmcKS2vdcBX8VAZgkkg6RjJh9
+         T8sIs/me4MjJiKqkbn8WjZmT6Aky5zqdtLjngGlDIl37qDVY3+g6wURoOjsISxO4UnTa
+         OeDXAIp94V/dHCJ9kxOzHXsRVVnHmcCtac50HqFN4fosIEwtDvE+fb3XaCgF6UXTaMe3
+         QvhQ==
+X-Forwarded-Encrypted: i=1; AKwUvByoQY6P4yqExrBWhShrLpbY+ibOiQlO3xkZ6FRHS12mdQ7vKj7cXVWgpqCETNd/QsijCyfAYALmR38=@vger.kernel.org
+X-Gm-Message-State: AFuF++k1Ipc71JKksDY0ovR/Pa2xeHBWz/bHEUh3ePJcAlAw3K5/lilJ
+	ARgm8/QMjF/HXd/RJWPuncwwIuVnVykGwAkHO6TLExrai/xBcFL46NQp7zt9PGN0MGo=
+X-Gm-Gg: AYBFou2R8bHsjn8AYohQ+OTM/9Uc2CKzgzB+saVhEq/AIcAr2OKnuSgu1epGNFvVPYL
+	9fJOotx6BesgoaQZ2LlDmUx4p2dzP5g3DsalEY8kozME66sJ9sIAJpfM3iJeVlvCNAEqzJX1hsZ
+	P1zU4iSd/ru/8At6lXLFR5NkINZf+23K0rsvInrUkuQ9kr1CJnjrylXfFJzD8Y3LfR+R/MEgCi/
+	H2k3G30WeIRCVMordZWStUATvxKzmMx+xjZ7q9CWrdzDqCISzBTcOo5tdgkNPd8XgILFPdgZVs4
+	8hnjiLGASt7xtogsz3JPS4ZEfj+WI6Ins/Lkrj0y9cOZ/Wf41VegOvJXUq8se+FKNdBV51MdV7h
+	XARN9NN+6kagws4IAlzA4jMPUYC/PmR+ugCUQvcsdeNlWUxTp1ZK/RbHushb9JY2edBVodouq1O
+	BZb6ITh/hi0IlV+Zs5oMTEEkJDtXgyHIlmsr5e37Met041Z8/iWKEH1isR49ZIG9tKTdtQeb42Z
+	O6hW6IRR1C8E8Yzu1qXgp0wTjWhq13SDY8u/wXwjCf88KXsERRSNr4=
+X-Received: by 2002:a05:6214:448b:b0:910:31f7:3bd7 with SMTP id 6a1803df08f44-9123d7d57f2mr72582036d6.29.1789587210868;
+        Wed, 16 Sep 2026 12:33:30 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91246979f17sm6900666d6.34.2026.09.16.12.33.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 12:33:30 -0700 (PDT)
+Date: Wed, 16 Sep 2026 15:33:28 -0400
+From: Gregory Price <gourry@gourry.net>
+To: mhonap@nvidia.com
+Cc: alex@shazbot.org, jgg@ziepe.ca, ankita@nvidia.com, jic23@kernel.org, 
+	dave.jiang@intel.com, alejandro.lucero-palau@amd.com, smadhavan@nvidia.com, 
+	corbet@lwn.net, skhan@linuxfoundation.org, dave@stgolabs.net, 
+	alison.schofield@intel.com, vishal.l.verma@intel.com, iweiny@kernel.org, 
+	ming.li@zohomail.com, yishaih@nvidia.com, skolothumtho@nvidia.com, 
+	kevin.tian@intel.com, bhelgaas@google.com, dmatlack@google.com, kees@kernel.org, 
+	gustavoars@kernel.org, cjia@nvidia.com, kjaju@nvidia.com, vsethi@nvidia.com, 
+	zhiw@nvidia.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org, linux-cxl@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v5 26/27] Documentation: vfio-pci: Document CXL Type-2
+ device passthrough
+Message-ID: <aqrl_FyWEBOZundU@gourry-fedora-PF4VCD3F>
+References: <20260916183540.3813685-1-mhonap@nvidia.com>
+ <20260916183540.3813685-27-mhonap@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,112 +86,232 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aqVTBIKRP3iRDCvf@ashevche-desk.local>
+In-Reply-To: <20260916183540.3813685-27-mhonap@nvidia.com>
 
-On Sat, Sep 12, 2026 at 04:26:28PM +0300, Andy Shevchenko wrote:
-> On Fri, Sep 11, 2026 at 02:09:32PM -0700, Meagan Lloyd wrote:
-> > This is a rework and revival option for Vitor Soares' I3C character
-> > device driver patch series from 2020 [1] that I've been exploring for a
-> > few months.  Recently there was a revival posted to the list [2], so I
-> > wanted to share this design option as well.
-> > 
-> > In [1] and [2], the i3cdev driver automatically attaches and detaches
-> > depending whether another driver has attached/not. In [1], Boris was
-> > suggesting we explore a more straightforward and traditional binding
-> > method aligning with the Linux driver model. At the time, there wasn't
-> > a way to auto-bind while keeping manual binding possible as they shared
-> > the same match() hook. Now with the new driver_override feature,
+On Thu, Sep 17, 2026 at 12:05:39AM +0530, mhonap@nvidia.com wrote:
+> From: Manish Honap <mhonap@nvidia.com>
 > 
-> Where is it new? It's quite an old mechanism in the driver core...
 
-My understanding is that this support was added in March 2026 here:
-https://lore.kernel.org/all/20260303115720.48783-1-dakr@kernel.org/
+1) Thank you so much for writing documentation, i truly appreciate this.
 
-Some busses had their own version of this, but the above series made
-a general, re-usable solution available.
+2) I apologize in advance for my terseness, I know writing is hard,
+   please do not interpret this as disliking your writing or series.
 
-> 
-> > the auto-binding of i3cdev on boot can be avoided if the i3cdev driver has
-> > an empty match ID table. After boot, where specialized drivers would have
-> > already bound, user-space can explicitly opt-in by setting the
-> > driver_override sysfs file with 'i3cdev' and manually binding via sysfs
-> > (or by simply loading the driver if it's loadable). This can also be
-> > easily automated with udev rules that run whenever the I3C core exposes
-> > a new device.
-> > 
-> > One downside of the automatic attach/de-attach is that if a different
-> > driver is loaded later, the first driver could have altered something
-> > on the device, breaking any assumptions of the subsequent driver.
-> > 
-> > My series builds on [1] through:
-> > 0. Addressing code review feedback in [1] from Greg, Boris, and Randy.
-> > 1. Using actual_len for accurate read response reporting. The kernel
-> > will report actual_len received from the core to user-space via the
-> > uapi i3cdev_xfer struct.
-> > 2. Placing limits on the number of transfers and bytes in requests to
-> > prevent unlimited-sized transfers or kernel memory allocation
-> > 3. Checking inputs and descriptive return codes as guard-rails
-> > for user-space and to ease use of the i3cdev driver
-> > 4. Checking on MWL to ensure that we respect device limits
-> > 5. Proper lifetime management of i3cdev_data and underlying device
-> > 6. Addressing dangling fops in the event we have an open file descriptor
-> > when a device gets unbound.
-> > 7. Fast-path locking to ensure transfers complete before a device is
-> > unbound.
-> > 8. Allowing only one file descriptor per I3C device to avoid bugs
-> > around multiple processes interacting with the device and altering
-> > the device underneath the other. For example, without this, one process
-> > could change the device's page or address pointer register underneath
-> > the other process.
-> > 9. copy_struct_from_user to ensure struct i3cdev_xfer could be extended
-> > in a compatible way. This is to be forward-looking towards potential
-> > HDR mode expansion and code reuse.
-> > 10. Reserving the IOCTL number formally
-> > 11. Updating the Documentation to be a syntax correct example program
-> > template.
-> > 12. Preserving /dev/bus/i3c/<bus id>-<Provisional ID> naming while
-> > allowing sysfs path to be neatly named i3cdev-<minor>. This avoids
-> > repeated <bus id>-<Provisional ID> in the sysfs paths which can be
-> > confusing/circular-looking.
-> >     e.g. /sys/bus/i3c/devices/0-deadbeef001/i3cdev/0-deadbeef001 ->
-> >          /sys/bus/i3c/devices/0-deadbeef001/i3cdev/i3cdev-0
-> > 13. Updating all naming references related to i3c_priv_xfer to align
-> > with new i3c_xfer struct
-> > 14. Updating the MAINTAINERS file for the new pieces of code
-> > 
-> > Note that i3c-tools [3] or a fork of it will need small updates:
-> > 1. Update include/uapi/linux/i3c/i3cdev.h to match updated uapi structs
-> > 2. In i3ctransfer.c, use actual_len for reads
-> 
-> > I've added MODULE_VERSION("1.0.0") in the i3cdev driver, so i3c-tools
-> > could use that to determine whether to use the old out-of-tree uapi or this one.
-> 
-> Absolutely no. This is legacy macro which has no need since Git era. In Git
-> the module version is the Git SHA hash of the tip of the used tree. Nobody will
-> understand what 1.0.0 means and how it maps to the applied patches (if any of
-> them affects the behaviour of the feature in question).
-> 
-> On top of that, upstream has no clue what and how many possible custom ABIs /
-> UAPIs exists, and we do not care, to be honest.
-> 
-> > [1] https://lore.kernel.org/linux-i3c/cover.1582069402.git.vitor.soares@synopsys.com/
-> > [2] https://lore.kernel.org/linux-i3c/ap_1-gFF7S821xJT@ninjato/T/#m9107c1785a4a16b1b3cb84c3269d17fac35819c8
-> > [3] https://github.com/vitor-soares-snps/i3c-tools
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
->
+> +Address model
+> +=============
+> +
+> +The HDM memory is a coherent host physical range (HPA). The host kernel
+> +resolves that range before the guest sees the device, and owns it for the
+> +bind lifetime. The guest only chooses where the memory appears in its own
+> +physical address space (GPA), by programming a virtual endpoint HDM
+> +decoder. The guest never reprograms the physical decoder.
+> +
+> +The kernel holds the HPA and does not see the GPA. The guest programs a
+> +GPA and does not see the HPA. The VMM holds the device fd, reads the
+> +committed base from the decoder-register region described below, and maps
+> +the HPA-backed HDM region at the GPA the guest committed. The base the
+> +guest reads back is the GPA, not the HPA.
+> +
 
-My reasoning was that i3c-tools has been around for years now and it may
-be in-use assuming the UAPI from [1]. Adding MODULE_VERSION was a low
-effort, compatible, and reliable way to keep using the same i3c-tools
-repo (and accommodate a changed UAPI).
+I think this must be slightly inaccurate / imprecise wording.
 
-In any case, in Sam's thread [2], there is talk of moving i3c-tools into
-the kernel's tools directory. That's the better solution, so I can drop
-the MODULE_VERSION in future revisions.
+The host *must* provide some form of physical memory window to the guest
+at initialization time, otherwise the guest has no way to know - at boot
+time - that there's even a window of memory it can use.
 
-Thank you,
-Meagan
- 
+That's what the CFMWS is.  This is initialized by the hypervisor - which
+is controlled by the host.
+
+So the host (at least the VMM) must know, for the region the entire
+device *could* inhabit, what that GPA is - because it's the one that makes
+the CFMWS for the guest.
+
+If this is not the case, then something is missing from this
+documentation to explain why.
+
+
+If you're actually trying to say is that the GPA's programmed into the
+virtual decoders are largely symbolic - this at best feels a bit
+inaccurate and simply an implementation detail.
+
+The host's virtio device could enforce ....:
+
+Host Range:
+   CFMWS HPA - [0x10000, 0x20000]
+                   |         |
+Guest Range:       |         |
+   CFMWS GPA - [0x50000, 0x60000]
+
+In that case, you'd get the following translation...
+   vdecoder0.0 - [0x58000, 0x60000]
+   CFMWS GPA   - [0x58000, 0x60000]
+   CFMWS HPA   - [0x18000, 0x20000]
+
+Or the virtio device could not enforce that and let the host page-fault
+just hand it a random page from the actual CXL device.
+
+   vdecoder0.0 - [0x58000, 0x60000]
+   CFMWS GPA   - [0x58000, 0x60000]
+                         |
+              No discrete host mapping
+
+
+The former makes sense if the device (accelerator) requires exact
+physical placement to do its accelerator nonsense.
+
+The latter makes sense if the device (accelerator) doesn't care
+about placement (compressed memory).
+
+This is not saying we need support both out of the box, but we shouldn't
+lock ourselves into the former unless there's some reason why the latter
+is not reasonable.
+
+Can you please help document what the actual expected behavior is with
+examples in the Address model section so it's easier to understand the
+intent?  That will help quite a bit.
+
+> +Guest decoder and commit
+> +========================
+> +
+> +The guest programs its virtual endpoint decoder through the trapped
+> +region: it writes a base (a GPA), a size, and then the COMMIT bit. The
+> +host already resolved and committed the physical placement before the
+> +guest ran,
+
+So the host does know GPA, just not exact placement.
+
+> so a live read of the decoder always shows COMMITTED and the
+> +guest's commit poll completes. The physical decoder is never rewritten;
+> +the guest's writes are absorbed.
+> +
+
+Rather clunky, round-about way to say "The guest decoders are
+virtualized".   If possible, it would be nice to formalize this concept
+into "Virtual Decoders" - since that's what this is.
+
+With that concept i think you can probably generate some nice diagrams
+that show how the guest vdecoder's interact with the host drivers.
+
+> +The VMM observes the commit, reads the committed base, and maps the HDM
+> +region at that GPA.
+> +
+
+So the host does know the GPA.
+
+> +CXL Device DVSEC
+> +================
+> +
+> +The kernel virtualizes the CXL Device DVSEC body through the config-space
+> +permission hooks. Reads and writes inside the DVSEC body use a per-open
+> +shadow; a guest write stays in the shadow and does not reach hardware.
+> +Accesses outside the DVSEC body go to the device as usual.
+> +
+
+"The kernel" - what part? vfio-pci ? the vmm ?
+
+
+> +DMA and iommufd
+> +===============
+> +
+> +A Type-2 accelerator issues ATS-translated DMA to addresses inside its own
+> +HDM window, so that range must be present in the guest IOAS that backs the
+> +nested stage-2 translation.
+
+Type-2, ATS, DMA, HDM window, guest IOAS, stage-2 translation
+
+I think the only thing i don't know in this sentence is "guest IOAS" and
+it's still hurting my brain to read.
+
+Are all accelerators expect to have this particular interaction, or just
+yours?
+
+> The HDM range is struct-page-less coherent
+> +memory, which a userspace-VA ``IOMMU_IOAS_MAP`` cannot pin.
+> +
+
+The hardest part about writing about virtualization is keeping a
+consistent mental model from section to section.
+
+which userspace? guest? host?  (i presume guest here)
+
+`struct-page-less coherent memory`
+   e.g. the host never hotplugs this, it hands the entire region
+   directly to the VFIO device, right?
+
+   I think this would be nice to spell out somewhere.
+
+> +The HDM memory region is therefore exportable as a dma-buf:
+> +``VFIO_DEVICE_FEATURE_DMA_BUF`` on that region returns an fd that iommufd
+> +maps with ``IOMMU_IOAS_MAP_FILE``, mapping the physical range without a VA
+> +or a page pin. The dma-buf is revoked whenever the mapping is torn down
+> +(reset, power transition, teardown), so a stale stage-2 mapping cannot
+> +outlive the HDM window.
+> +
+
+For the sake of readers, I think either a little bit more information
+on this "stage-2 mapping" concept is needed to make sense of what's
+going on here and why it mustn't outlive the HDM window.
+
+> +Reset
+> +=====
+> +
+> +A CXL Type-2 function must not take a Function Level Reset: an FLR resets
+> +the coherent CXL.mem state and the HDM decoder. The PCI core reflects this
+> +by preferring the CXL reset over FLR, so a function reset of a CXL device
+> +runs the CXL DVSEC reset sequence, which resets the function and then
+> +restores the HDM decoder and the PCI config state.
+> +
+
+I think what you're trying to say is that FLRs are never passed to the
+device because it can cause physical device effects that defeat the
+purpose of the virtualization, yes?
+
+So we virtualize FLRs...
+
+> +A guest requests a reset by writing Initiate CXL Reset in the DVSEC. That
+> +write only stamps completion in the shadow. The real reset runs at the vfio
+> +reset points (the reset ioctl and a virtualized FLR through config space):
+
+As you describe here.
+
+So it's not that an accelerator "must not take an FLR" - it's that FLRs
+are virtualized to prevent deleterious effects on the host / hardware.
+
+Am I misunderstanding this?
+
+> +the kernel zaps the HDM mapping and revokes the dma-buf, then runs the CXL
+> +reset, which always clears the device memory, and restores and re-samples
+> +the decoder afterwards. A CXL port masks Secondary Bus Reset by default, so a
+> +``VFIO_DEVICE_PCI_HOT_RESET`` does not reach the endpoint and the HDM
+> +state is untouched. If the port has SBR unmasked the reset can decommit
+> +the decoder without restoring it, so the reset_done handler gates HDM
+> +access; a ``VFIO_DEVICE_RESET`` then runs the CXL reset sequence and
+> +restores it.
+> +
+> +The decoder register region is served by live reads of the hardware
+> +decoder with guest writes absorbed: the decoder is committed and locked by
+> +the host, so a guest can neither decommit nor reprogram it, and the kernel
+> +keeps no shadow of the decoder state.
+
+This is basically what I said at the beginning - it must either be that
+the host provides locked auto-decoders at boot, or it must provide
+proper virtualization so that the decoders settings are fully
+virtualized.
+
+Seems it's the former, and that makes sense.  Please correct me if i'm
+misunderstanding.
+
+> After a reset the kernel restores and
+> +re-samples the firmware-committed decoder, so the geometry the guest reads
+> +back is unchanged. A VMM that dropped its HDM mapping, for example across a
+> +reset or a D3hot->D0 transition, must rescan the decoder and rebuild its
+> +stage-2 mapping before it resumes HDM access.
+> +
+
+Yeah i think we need a bit more information about this stage-2 mapping
+rebuild to make sense of this.  Maybe I'm just not read-up enough on
+this particular setup - is there another part of the docs you can link
+to that talk about this, or are you able to share some details as to
+what this rebuild process looks like?
+
+~Gregory
