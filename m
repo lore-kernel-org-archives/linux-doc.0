@@ -1,395 +1,449 @@
-Received: from mail-oo2-f43.google.com (mail-oo2-f43.google.com [74.125.231.171])
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9329D5013C5
-	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 17:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6AD4DAF85
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 17:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789580544; cv=none; b=TwoFjh9ImuAv4w2Bqwj0b6i00NFk1AIjZh1hlqUEfu5ndXBikAlPwv8EvPMl7Zrfpvy2HLggXPRHpHe/VfTA0OgZHmSgyR8uWhbmOYv7gHI/3qf4IKuLDp1gk8raJjrdZ3tN+w4IBLqVlR1eqAQEAXtlKbyFp6QSZTfOYxiskEY=
+	t=1789580612; cv=none; b=XneVeQADPE3FnRLSLLU9sXtkoDcEzNcZHQd+a7+L/JtmK2y2PgWUBKcB6UwqG9Gd+9mj48zfYhT98m0mKygpQ0D7kDvsF+gibZ/5NH5IB6NiOMzRqFSbUNXQibPVNc8KIpcSMMu39vleiUJvQ5c7Bn42aBE6jPnoNrha+4nfaww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789580544; c=relaxed/simple;
-	bh=i5ulD/n5x5TjwK1qcPC334AH/DKNsbv6RUiQSbyiqgY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UKSP0WtqLZDuvf3UiwxKxzMK5q+eIy0sMa3nuFWSvBFGTkyDVfg4XxtAy+HBtuiVIPl4rE44w4sz6UO7kofdWuB8QjotdfLrixyVGPgDUrG794wz5NPQJF1a7syyWHjj1BA8O3krQk3JGgT6x+we+iWKT7j4LO3gZ+X15lrBet4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R6V1jF87; arc=none smtp.client-ip=74.125.231.171
+	s=arc-20240116; t=1789580612; c=relaxed/simple;
+	bh=/EQmlTpPWabY3NIR14EHBnf/GGPLY/Gd8xk8Z8Tii4A=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=sFG8Ip4mIxPhJyE0vzpaM0sbvMYsy7Z5qpfeiHO5Vw0bBbkb3rkZqbfIW75n2m2ss6f0VEwpqarbpyGYBYjoncIO5jfrTJsUKYkwPonq8Ux2DW4KIQUDQJCey2hUnrGvvQJ2E8E19yeBy9f6J2zovFMsCBEngVQZ26eynnrqC/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b4xNSpuX; arc=none smtp.client-ip=74.125.228.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R6V1jF87"
-Received: by mail-oo2-f43.google.com with SMTP id 46e09a7af769-7f4f0cfb33cso854328a34.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 10:41:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b4xNSpuX"
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469b35611so799250b3a.0
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 10:43:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789580511; x=1790185311; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3YWwDewGm1rmxsnOyclXvg333hU0FqGVrx1tJULl5So=;
-        b=R6V1jF87N4Z+RZxwc4TD5RShtsWrfFq6CAlKpf8x0StBAU2sZzlhIgu1w85FJPPQxg
-         DfpuecEqBz1pcKqExuCW/j39BIwgU2ZgrRhu2N535byC+q3LIhshc7sZJnZgXlhF5B3e
-         bvU7kthcS9yF2720KUR4WD7fdRddu6xow4Zp/zi76i3Jqe0DOOwr481txRPigWZqDZzb
-         vYuLLYbqNBNX4x4mGJbSVoDD10QLkw8ZYvgYv1RZ7Rw7hp8AooUvhZPmCGeMV9fwij9N
-         CYa+ESNYhaefOrSjChr8g99ez6FisEbLM+JNions64DFeMWJd2Z1IPK4V/9KL1nDsQa9
-         U8Vw==
+        d=gmail.com; s=20251104; t=1789580594; x=1790185394; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ZbW+4m7Ckt5T3Vp0i2qlknolTY3jp+RjMzIv0/DlDJ8=;
+        b=b4xNSpuXwmkzbsZ28awrx3a9n1EIPa+llNW8kvJCGPnDmKCHETbeohmM586vr+jBH8
+         5gxI/Ob0Hx4vTDFDTLD9ica7af62Q9dZcbXceIJhu5ewU+4A1ovkPkVFCJ47HSj2yzx0
+         6hY2Q0K3uSEPviQttYxhBnoZ7Ydk3yWvPVbn/QX/po4jLmSFubWZWaeOZwPLBjk7pLWG
+         54Jz6wN2EXSsKtMEqrL2IMlIf6RJiyNakQZjliLs2vod6uIA3TQlgphITZAXx4YiYVnE
+         pOfWgmYe4++elR77Hy8S7Ul2Pazi0qfcawN5fRN/DrY36dySh/p0WK6UXNXBaXkHMZUt
+         hNbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789580511; x=1790185311;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1789580594; x=1790185394;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3YWwDewGm1rmxsnOyclXvg333hU0FqGVrx1tJULl5So=;
-        b=uZPxejaiQPmLPeECVJ4v3soMqKjSye+sCndYa0fFPcnQJdgDkqiv4HPbmj6q9J998B
-         yKPAIxHY+rjeJO0PWTChYZiHSBf9z2s75qd51LsSBOxW0jUFaRy5P4i9Tjp8VX2Kxs8J
-         VPazgaSkS0UoYVRvWFH/RiGE7xk6SvbhrKkQh01l/XQ9B9IbnACoRdwzCqTh3fQPhhyp
-         5794tH5Xrf6RyO1rPGsAWzw47UCLwt9zXHsvpH6XvcAq9JxQ2uz7teZIHecAlqPkRsVn
-         wXbEYpxCLerrddNJUzNQTBgV/eEQlaH6/G2yJYZ3SukrlCCoMzBwq94Knx2pfIe406Qy
-         sWzg==
-X-Gm-Message-State: AFuF++nHPQWtAC+koqEcX2spnG/H0YQQY/+s0GBTX9FYxhA8hqSW7YkX
-	fbOiAyNzuamZVyrh1zP+BJPBzVibK2v0+ZDUYRXDiLyZJTSY86VEiYvXotESV66M/eU=
-X-Gm-Gg: AYBFou02tPVZx3FZr/RP00LHcJY3rRdpKkW1sZ/PYDL8dgkuDu2n8zIxAPfaGRQKHFs
-	C/6GULvLPn+EvgrXpvIwbyNBgibMf7mysGg/qWX/9ySTP48zQ2Q8nscoVCL//yUyVYeH6B/A4tU
-	iAmGEgo0abmQhOzV31Qt3bePsHgCDEGNtpLSnYUAdlfzpsahJ0hTC8Pb5gnRwR1Rg+v9E9aSzH5
-	nEDV22igArYcNRl+pb5AcUSgibHFKCKu17PORd7UD/9qInKJz5mQ+IDQ8UvvPxePrXtsDm9dvCL
-	OQQoqyZIOiwNE3iim8noQCs1ZDrVMfZF3fdeFMvEUX/Y8iEyw70IEpPKl7gjYDpLkFYCy9IWr/2
-	ZMT+vyqvc43NThV6p30kVzpL+Xij18lPhsndm00Ip8/XOWHakznv9qFZPPXV3i0EqALuKHfoJpU
-	E3URFboCUHg3IXB1dNfOIJnQoaFjrzfbgSwg619gnQrvR6CMLVDi6F+46P9KA3ZiJKnoU/ICLNs
-	khkbDLsk008fRmJNTzzFMW86g9BuT3BU9ziNry22JSlJTNAhXjQDZ8X2c50u45Eo9+sdV1p4VzZ
-	iyViCB2csfOOixCOOJEvbl2wjub4bF2l1y7L13KTQYUwhDg=
-X-Received: by 2002:a05:6808:1242:b0:4c5:a75f:c5e1 with SMTP id 5614622812f47-4ca4bf7b68fmr5899289b6e.13.1789580511236;
-        Wed, 16 Sep 2026 10:41:51 -0700 (PDT)
-Received: from localhost.localdomain (smtp.hostdime.com.br. [187.45.177.18])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4cb6d9999e8sm360668b6e.17.2026.09.16.10.41.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 10:41:50 -0700 (PDT)
-From: Daniel Pereira <danielmaraboo@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Subject: [PATCH 4/5] docs: translations: pt_BR: translate admin-guide/devices.rst
-Date: Wed, 16 Sep 2026 14:41:34 -0300
-Message-ID: <20260916174136.48011-5-danielmaraboo@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260916174136.48011-1-danielmaraboo@gmail.com>
-References: <20260916174136.48011-1-danielmaraboo@gmail.com>
+        bh=ZbW+4m7Ckt5T3Vp0i2qlknolTY3jp+RjMzIv0/DlDJ8=;
+        b=YW7gZWGVsLl9UmeVxDu6ZYrJ+Bcw1TWERmoMAljsnPrH+9cmtnCBOevfXyrnArXkAg
+         XpkSdh5K/Lr/BJGO82hdL2UO/oTDCKYwGIzTBySf+9i9A+VT8obBtJg90oYIf5lvFdf9
+         rQxVJRQhvK0n+4Wf1wJ9zJigCuFTRmd5vTgbBvy7Oxo0re8dx4hS4+JZMAu6itnmhRsU
+         dnwbS759YX/mH/mrpm6hmRzZB6BcqyInCMtzEUCH7jlPjZsgveVs73dKeK0LsHXbELSO
+         uaEz7QzgrcvFKonWAiD7/eusOt8MSkjSiByVJPNaHChX/v5WW6c1c4NgqYokkLoqpM4j
+         +Qfw==
+X-Forwarded-Encrypted: i=1; AKwUvBwXOcrb/ZNj+7mKhylVuoU9MZmhqpXS72qZwXsbJbcUMoGvSwdDVy0ZUkwNf8cqhqdJ7ODJJkB1lIg=@vger.kernel.org
+X-Gm-Message-State: AFuF++koeQKhEKi/GiK+VJbJlYRGk64dLCJlv1v9qLke+SKPVo6CrGZI
+	8fv1Ockcl71zoFUVMLgTRAxLjeJYZdMAcgvJTW/U0udKUND6dek4i+fL
+X-Gm-Gg: AYBFou2U2KH14MwcJp8zEKWzHjg7gITF95Fjb2o1iFAPStM7G8CHbz0b9JY2XP8eUIo
+	id+zCbiE3k4Erbjii137nw/wRwxub4FEOm6k6/2kGysyPA0oG7dbS8Q5c/OhVulqj9D4aEbGA7O
+	7YQyyS2TuzVceqa98EHl+exiHpG+J6TOpISEsv9oCmmYexd7fv0YD4ASGYb/kC0bWEqCs2RGKCJ
+	Ppoo6gwfjNHdrSAH5QD52pq1OPo0+m/AdduovcPpkJrL2E3LxoKlYjTe4IqNi08oqGBmj/adSXJ
+	tx6W1RwP0ie919JYlvKzCZyrnec7sO4qPh7z5BTqSJERXgYb48D0tAuPdgDG5v2UXYvQKqTfCQa
+	JGu+RI5dD8W/elkrqSdj6SB4tiG9Y/pQyBx3Cz4vkNGFwe6uG5HYDLl8OPOCcXJadrEPUFiT2D9
+	f/1i3c/nQWCEjfMnqcl5+kq9XceQsyrXZTQmsgwBTW7lE/h8KNBv34W4zv5uBf2dPk+Uds/Fz1r
+	D4FTuHCMQJXsnHHfQKLWGwnWg==
+X-Received: by 2002:a05:6a00:6088:b0:857:73e2:9106 with SMTP id d2e1a72fcca58-87239aa08b2mr7833547b3a.22.1789580594131;
+        Wed, 16 Sep 2026 10:43:14 -0700 (PDT)
+Received: from localhost ([13.93.150.60])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-871febde2f7sm1700356b3a.6.2026.09.16.10.43.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Sep 2026 10:43:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Wed, 16 Sep 2026 17:43:11 +0000
+Message-Id: <DLGXDIB879EO.IDZNAIRY0VFJ@gmail.com>
+Subject: Re: [PATCH net-next v2 1/2] ipv6: update NUD_FAILED neighbors from
+ NA messages
+From: "Lawrence Lee" <lfqlee314@gmail.com>
+To: "Ido Schimmel" <idosch@nvidia.com>
+Cc: "David Ahern" <dsahern@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Simon
+ Horman" <horms@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>,
+ <netdev@vger.kernel.org>, "Arun Ajith S" <aajith@arista.com>, "Roopa
+ Prabhu" <roopa@nvidia.com>, "Jaehee Park" <jhpark1013@gmail.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Shuah
+ Khan" <shuah@kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ "Alexander Aring" <alex.aring@gmail.com>, <linux-wpan@vger.kernel.org>,
+ <linux-bluetooth@vger.kernel.org>
+X-Mailer: aerc 0.17.0
+References: <cover.1789448374.git.lfqlee314@gmail.com>
+ <6596966f734f3d416bfa83722f7a595149bcc3f8.1789448374.git.lfqlee314@gmail.com> <20260916120202.GA935660@shredder>
+In-Reply-To: <20260916120202.GA935660@shredder>
 
-Translate the Linux Device List document into Brazilian Portuguese and
-move it from the Todolist into the toctree of the admin-guide index.  The
-device registry itself is pulled in with a literal include of the
-original devices.txt, so the numbers stay in a single place.
+On Wed Sep 16, 2026 at 12:02 PM UTC, Ido Schimmel wrote:
+> On Tue, Sep 15, 2026 at 05:01:31AM +0000, Lawrence Lee wrote:
+> > Transition a FAILED neighbor entry to STALE upon receipt of an NA
+> > message on routers when accept_untracked_na is enabled. This extends th=
+e
+> > RFC 9131 accept_untracked_na behavior so that FAILED entries are treate=
+d
+> > the same as non-existent entries. In the context of RFC 4861 which
+> > introduced NDP, both non-existent and FAILED entries are considered
+> > untracked since they do not have a valid neighbor cache entry.
+>
+> RFC 4861 didn't introduce NDP (RFC 1970 did), so please omit this bit.
+> But if you're going to mention RFC 4861, then cite 7.3.3 which says that
+> "If address resolution fails, the entry SHOULD be deleted". The fact
+> that Linux keeps it as FAILED is an implementation detail and treating
+> it as untracked is correct from RFC perspective.
+>
 
-Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
----
- .../pt_BR/admin-guide/devices.rst             | 278 ++++++++++++++++++
- .../translations/pt_BR/admin-guide/index.rst  |   2 +-
- 2 files changed, 279 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/pt_BR/admin-guide/devices.rst
+That's my mistake, I'll update this to mention that 4861 is just the=20
+most recent NDP standard and will cite 7.3.3.
 
-diff --git a/Documentation/translations/pt_BR/admin-guide/devices.rst b/Documentation/translations/pt_BR/admin-guide/devices.rst
-new file mode 100644
-index 000000000..614a32c33
---- /dev/null
-+++ b/Documentation/translations/pt_BR/admin-guide/devices.rst
-@@ -0,0 +1,278 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _pt_BR_admin_devices:
-+
-+Dispositivos alocados no Linux (versão 4.x+)
-+============================================
-+
-+Esta lista é a Linux Device List, o registro oficial dos números de
-+dispositivo alocados e dos nós do diretório ``/dev`` para o sistema
-+operacional Linux.
-+
-+A versão deste documento em lanana.org não é mais mantida. Esta versão, no
-+kernel Linux mainline, é o documento mestre. Atualizações devem ser enviadas
-+como patches aos mantenedores do kernel (veja o documento
-+:ref:`Documentation/translations/pt_BR/process/submitting-patches.rst <pt_BR_submittingpatches>`).
-+Explore especificamente as seções intituladas "CHAR and MISC DRIVERS" e
-+"BLOCK LAYER" no arquivo MAINTAINERS para encontrar os mantenedores certos
-+a envolver para dispositivos de caractere e de bloco.
-+
-+Este documento é incluído por referência no Filesystem Hierarchy Standard
-+(FHS). O FHS está disponível em https://www.pathname.com/fhs/.
-+
-+Alocações marcadas com (68k/Amiga) aplicam-se somente ao Linux/68k na
-+plataforma Amiga. Alocações marcadas com (68k/Atari) aplicam-se somente ao
-+Linux/68k na plataforma Atari.
-+
-+Este documento está em domínio público. Os autores solicitam, no entanto,
-+que versões semanticamente alteradas não sejam distribuídas sem permissão
-+dos autores, presumindo-se que os autores possam ser contatados sem um
-+esforço desarrazoado.
-+
-+
-+.. attention::
-+
-+  AUTORES DE DRIVERS DE DISPOSITIVO, POR FAVOR LEIAM ISTO
-+
-+  O Linux agora possui amplo suporte à alocação dinâmica de numeração de
-+  dispositivos e pode usar ``sysfs`` e ``udev`` (``systemd``) para lidar com
-+  as necessidades de nomenclatura. Ainda existem algumas exceções na área de
-+  dispositivos seriais e de inicialização. Antes de pedir um número de
-+  dispositivo, certifique-se de que você realmente precisa de um.
-+
-+  Para ter um número maior (major) alocado, ou um número menor (minor) nas
-+  situações em que isso se aplica (por exemplo, busmice), por favor envie um
-+  patch aos autores conforme indicado acima.
-+
-+  Mantenha a descrição do dispositivo *no mesmo formato desta lista*. A razão
-+  para isso é que essa é a única maneira que encontramos de garantir que
-+  temos todas as informações necessárias para publicar o seu dispositivo e
-+  evitar conflitos.
-+
-+  Por fim, às vezes temos que bancar a "polícia do espaço de nomes". Por
-+  favor, não se ofenda. Frequentemente recebemos submissões de nomes em
-+  ``/dev`` que fatalmente causariam conflitos no futuro. Estamos tentando
-+  evitar chegar a uma situação em que teríamos que sofrer uma mudança
-+  incompatível para a frente. Portanto, por favor, consulte-nos **antes** de
-+  tornar públicos, de qualquer forma, os nomes e números do seu dispositivo
-+  --- pelo menos até o ponto em que seria minimamente difícil alterá-los.
-+
-+  Sua cooperação é apreciada.
-+
-+.. include:: ../../../admin-guide/devices.txt
-+   :literal:
-+
-+Entradas adicionais do diretório ``/dev/``
-+------------------------------------------
-+
-+Esta seção detalha as entradas adicionais que devem ou podem existir no
-+diretório /dev. É preferível que os links simbólicos usem a mesma forma
-+(absoluta ou relativa) indicada aqui. Os links são classificados como
-+"físicos" (hard) ou "simbólicos", dependendo do tipo de link preferido; se
-+possível, o tipo de link indicado deve ser usado.
-+
-+Links obrigatórios
-+++++++++++++++++++
-+
-+Estes links devem existir em todos os sistemas:
-+
-+=============== =============== =============== ==============================
-+/dev/fd         /proc/self/fd   simbólico       Descritores de arquivo
-+/dev/stdin      fd/0            simbólico       Descritor de arquivo da stdin
-+/dev/stdout     fd/1            simbólico       Descritor de arquivo da stdout
-+/dev/stderr     fd/2            simbólico       Descritor de arquivo da stderr
-+/dev/nfsd       socksys         simbólico       Exigido pelo iBCS-2
-+/dev/X0R        null            simbólico       Exigido pelo iBCS-2
-+=============== =============== =============== ==============================
-+
-+Observação: ``/dev/X0R`` é <letra X>-<dígito 0>-<letra R>.
-+
-+Links recomendados
-+++++++++++++++++++
-+
-+Recomenda-se que estes links existam em todos os sistemas:
-+
-+
-+=============== =============== =============== ==========================
-+/dev/core       /proc/kcore     simbólico       Compatibilidade retroativa
-+/dev/ramdisk    ram0            simbólico       Compatibilidade retroativa
-+/dev/ftape      qft0            simbólico       Compatibilidade retroativa
-+/dev/bttv0      video0          simbólico       Compatibilidade retroativa
-+/dev/radio      radio0          simbólico       Compatibilidade retroativa
-+/dev/i2o*       /dev/i2o/*      simbólico       Compatibilidade retroativa
-+=============== =============== =============== ==========================
-+
-+Os nomes alternativos ``/dev/scd?``, sugeridos anteriormente para os
-+``/dev/sr?`` de CD-ROM e outras unidades ópticas (que usam comandos SCSI),
-+foram removidos na versão 174 do ``udev``, lançada em 2011.
-+
-+Links definidos localmente
-+++++++++++++++++++++++++++
-+
-+Os links a seguir podem ser estabelecidos localmente para se adequar à
-+configuração do sistema. Isto é meramente uma tabulação da prática
-+existente, e não constitui uma recomendação. No entanto, se existirem, eles
-+devem ter os seguintes usos.
-+
-+=============== ================= =============== ==============================
-+/dev/mouse      porta de mouse    simbólico       Dispositivo de mouse atual
-+/dev/tape       unidade de fita   simbólico       Dispositivo de fita atual
-+/dev/cdrom      unidade de CD-ROM simbólico       Dispositivo de CD-ROM atual
-+/dev/scanner    scanner           simbólico       Scanner atual
-+/dev/modem      porta de modem    simbólico       Dispositivo de discagem atual
-+/dev/root       dispositivo raiz  simbólico       Sistema de arquivos raiz atual
-+/dev/swap       área de swap      simbólico       Dispositivo de swap atual
-+=============== ================= =============== ==============================
-+
-+O ``/dev/modem`` não deve ser usado para um modem que suporte tanto discagem
-+de entrada quanto de saída, pois isso tende a causar problemas com arquivos
-+de trava (lock). Se existir, o ``/dev/modem`` deve apontar para o
-+dispositivo TTY primário apropriado (o uso dos dispositivos alternativos de
-+saída é obsoleto).
-+
-+Para dispositivos SCSI, o ``/dev/tape`` e o ``/dev/cdrom`` devem apontar
-+para os dispositivos *cozidos* (*cooked*) (``/dev/st*`` e ``/dev/sr*``,
-+respectivamente), enquanto o ``/dev/scanner`` deve apontar para o
-+dispositivo SCSI genérico apropriado (``/dev/sg*``).
-+
-+O ``/dev/mouse`` pode apontar para um dispositivo TTY serial primário, um
-+dispositivo de mouse em hardware, ou um socket para um programa de driver de
-+mouse (por exemplo, ``/dev/gpmdata``).
-+
-+Sockets e pipes
-++++++++++++++++
-+
-+Sockets e pipes nomeados não transitórios podem existir em /dev. As entradas
-+comuns são:
-+
-+=============== ======== =============================
-+/dev/printer    socket   socket local do lpd
-+/dev/log        socket   socket local do syslog
-+/dev/gpmdata    socket   multiplexador de mouse do gpm
-+=============== ======== =============================
-+
-+Pontos de montagem
-+++++++++++++++++++
-+
-+Os nomes a seguir são reservados para a montagem de sistemas de arquivos
-+especiais sob /dev. Esses sistemas de arquivos especiais fornecem interfaces
-+do kernel que não podem ser fornecidas com nós de dispositivo padrão.
-+
-+=============== ======== ==================================================
-+/dev/pts        devpts   Sistema de arquivos de escravos PTY
-+/dev/shm        tmpfs    Acesso de manutenção à memória compartilhada POSIX
-+=============== ======== ==================================================
-+
-+Dispositivos de terminal
-+------------------------
-+
-+Dispositivos de terminal, ou TTY, são uma classe especial de dispositivos de
-+caractere. Um dispositivo de terminal é qualquer dispositivo que possa atuar
-+como terminal de controle de uma sessão; isso inclui consoles virtuais,
-+portas seriais e pseudoterminais (PTYs).
-+
-+Todos os dispositivos de terminal compartilham um conjunto comum de
-+capacidades conhecidas como disciplinas de linha (line disciplines); estas
-+incluem a disciplina de linha de terminal comum, bem como os modos SLIP e
-+PPP.
-+
-+Todos os dispositivos de terminal são nomeados de forma semelhante; esta
-+seção explica a nomenclatura e o uso dos vários tipos de TTY. Observe que as
-+convenções de nomenclatura incluem várias verrugas históricas; algumas delas
-+são específicas do Linux, algumas foram herdadas de outros sistemas, e
-+algumas refletem o Linux tendo superado uma convenção emprestada.
-+
-+Um sinal de cerquilha (``#``) em um nome de dispositivo é usado aqui para
-+indicar um número decimal sem zeros à esquerda.
-+
-+Consoles virtuais e o dispositivo de console
-+++++++++++++++++++++++++++++++++++++++++++++
-+
-+Consoles virtuais são telas de terminal em tela cheia no monitor de vídeo do
-+sistema. Consoles virtuais são nomeados ``/dev/tty#``, com a numeração
-+começando em ``/dev/tty1``; o ``/dev/tty0`` é o console virtual atual.
-+O ``/dev/tty0`` é o dispositivo que deve ser usado para acessar a placa de
-+vídeo do sistema naquelas arquiteturas para as quais os dispositivos de
-+frame buffer (``/dev/fb*``) não são aplicáveis. Não use o ``/dev/console``
-+para esse fim.
-+
-+O dispositivo de console, ``/dev/console``, é o dispositivo para o qual as
-+mensagens do sistema devem ser enviadas, e no qual os logins devem ser
-+permitidos em modo monousuário. A partir do Linux 2.1.71, o ``/dev/console``
-+é gerenciado pelo kernel; para versões anteriores, ele deve ser um link
-+simbólico para o ``/dev/tty0``, para um console virtual específico como o
-+``/dev/tty1``, ou para um dispositivo primário de porta serial (``tty*``,
-+não ``cu*``), dependendo da configuração do sistema.
-+
-+Portas seriais
-+++++++++++++++
-+
-+Portas seriais são portas seriais RS-232 e qualquer dispositivo que simule
-+uma, seja em hardware (como modems internos) ou em software (como o driver
-+ISDN). No Linux, cada porta serial possui dois nomes de dispositivo: o
-+primário, ou de chamada de entrada (callin), e o alternativo, ou de chamada
-+de saída (callout). Cada tipo de dispositivo é indicado por uma letra
-+diferente. Para qualquer letra X, os nomes dos dispositivos são
-+``/dev/ttyX#`` e ``/dev/cux#``, respectivamente; por razões históricas, o
-+``/dev/ttyS#`` e o ``/dev/ttyC#`` correspondem ao ``/dev/cua#`` e ao
-+``/dev/cub#``. No futuro, deve-se esperar que múltiplas letras sejam usadas;
-+todas as letras serão maiúsculas para o dispositivo "tty" (por exemplo,
-+``/dev/ttyDP#``) e minúsculas para o dispositivo "cu" (por exemplo,
-+``/dev/cudp#``).
-+
-+Os nomes ``/dev/ttyQ#`` e ``/dev/cuq#`` são reservados para uso local.
-+
-+Os dispositivos alternativos provêem exclusão baseada no kernel e padrões um
-+tanto diferentes dos dispositivos primários. Seu principal propósito é
-+permitir o uso de portas seriais com programas sem suporte inerente a portas
-+seriais, ou com suporte defeituoso. Seu uso é obsoleto, e eles podem ser
-+removidos em uma versão futura do Linux.
-+
-+A arbitragem de portas seriais é provida pelo uso de arquivos de trava com
-+os nomes ``/var/lock/LCK..ttyX#``. O conteúdo do arquivo de trava deve ser o
-+PID do processo que está travando, como um número ASCII.
-+
-+É prática comum instalar links como /dev/modem, que apontam para portas
-+seriais. Para garantir o travamento adequado na presença desses links,
-+recomenda-se que o software persiga os links simbólicos e trave todos os
-+nomes possíveis; adicionalmente, recomenda-se que um arquivo de trava seja
-+instalado com o dispositivo alternativo correspondente. Para evitar
-+impasses (deadlocks), recomenda-se que as travas sejam adquiridas na
-+seguinte ordem, e liberadas na ordem inversa:
-+
-+        1. O nome do link simbólico, se houver (``/var/lock/LCK..modem``)
-+        2. O nome "tty" (``/var/lock/LCK..ttyS2``)
-+        3. O nome do dispositivo alternativo (``/var/lock/LCK..cua2``)
-+
-+No caso de links simbólicos aninhados, os arquivos de trava devem ser
-+instalados na ordem em que os links simbólicos são resolvidos.
-+
-+Sob nenhuma circunstância uma aplicação deve manter uma trava enquanto
-+espera que outra seja liberada. Além disso, aplicações que tentam criar
-+arquivos de trava para os nomes de dispositivo alternativos correspondentes
-+devem levar em conta a possibilidade de serem usadas em um TTY que não seja
-+de porta serial, para o qual nenhum dispositivo alternativo existiria.
-+
-+Pseudoterminais (PTYs)
-+++++++++++++++++++++++
-+
-+Pseudoterminais, ou PTYs, são usados para criar sessões de login ou para
-+prover outras capacidades que exijam uma disciplina de linha TTY (incluindo
-+capacidade de SLIP ou PPP) a processos arbitrários geradores de dados. Cada
-+PTY tem um lado mestre, nomeado ``/dev/pty[p-za-e][0-9a-f]``, e um lado
-+escravo, nomeado ``/dev/tty[p-za-e][0-9a-f]``. O kernel arbitra o uso dos
-+PTYs permitindo que cada lado mestre seja aberto apenas uma vez.
-+
-+Uma vez que o lado mestre tenha sido aberto, o dispositivo escravo
-+correspondente pode ser usado da mesma maneira que qualquer dispositivo TTY.
-+Os dispositivos mestre e escravo são conectados pelo kernel, gerando o
-+equivalente a um pipe bidirecional com capacidades de TTY.
-+
-+Versões recentes dos kernels Linux e da GNU libc contêm suporte ao esquema
-+de nomenclatura System V/Unix98 para PTYs, que atribui um dispositivo comum,
-+``/dev/ptmx``, a todos os mestres (abri-lo lhe dará automaticamente um PTY
-+não atribuído anteriormente) e um subdiretório, ``/dev/pts``, para os
-+escravos; os escravos são nomeados com inteiros decimais (``/dev/pts/#`` em
-+nossa notação). Isso remove o problema de esgotar o espaço de nomes e
-+permite que o kernel crie automaticamente os nós de dispositivo para os
-+escravos sob demanda, usando o sistema de arquivos "devpts".
-diff --git a/Documentation/translations/pt_BR/admin-guide/index.rst b/Documentation/translations/pt_BR/admin-guide/index.rst
-index 716f6c1f7..471b76f00 100644
---- a/Documentation/translations/pt_BR/admin-guide/index.rst
-+++ b/Documentation/translations/pt_BR/admin-guide/index.rst
-@@ -25,10 +25,10 @@ etc.
-    :maxdepth: 1
- 
-    README
-+   devices
- 
- Todolist:
- 
--*   devices
- *   features
- 
- Uma grande parte da interface administrativa do kernel são os sistemas de
--- 
-2.47.3
+> >=20
+> > Trying to resolve FAILED neighbors via periodic probing (e.g. using
+> > NTF_EXT_MANAGED) is more work compared to this approach which uses
+> > information in NAs that the kernel may already be receiving. Note that
+> > because this behavior in IPv6 is dependent on the accept_untracked_na
+> > sysctl setting, this approach is more conservative than IPv4 which
+> > transitions FAILED neighbors to STALE by default upon receiving GARPs.
+> >=20
+> > Link: https://lore.kernel.org/r/20260813233344.445265-1-lfqlee314@gmail=
+.com
+> > Assisted-by: LLM Sashiko sparse
+> > Signed-off-by: Lawrence Lee <lfqlee314@gmail.com>
+> > ---
+> >  Documentation/networking/ip-sysctl.rst | 28 ++++----
+> >  include/net/ndisc.h                    | 15 ++--
+> >  net/6lowpan/ndisc.c                    | 15 ++--
+> >  net/ipv6/ndisc.c                       | 94 +++++++++++++++++---------
+> >  4 files changed, 96 insertions(+), 56 deletions(-)
+>
+> The RFC was:
+>
+> 1 file changed, 11 insertions(+), 2 deletions(-)
+>
+> I'm not sure how this ballooned to this size...
+>
+
+Some of the additional size can be attributed to doc/comment changes,=20
+but a lot of it comes from changes I implemented to address issues found=20
+by the local Sashiko review I ran. It was definitely an oversight on my=20
+part to not mention these in either the commit message or comments,=20
+sorry about that.
+
+> > diff --git a/include/net/ndisc.h b/include/net/ndisc.h
+> > index 96e3bb6e83af..7fb3f10eca6c 100644
+> > --- a/include/net/ndisc.h
+> > +++ b/include/net/ndisc.h
+> > @@ -154,11 +154,13 @@ void __ndisc_fill_addr_option(struct sk_buff *skb=
+, int type, const void *data,
+> >   *     option parser will take care about that option.
+> >   *
+> >   * void (*update)(const struct net_device *dev, struct neighbour *n,
+> > - *		  u32 flags, u8 icmp6_type,
+> > + *		  u32 flags, bool failed_recovery, u8 icmp6_type,
+> >   *		  const struct ndisc_options *ndopts):
+> >   *     This function is called when IPv6 ndisc updates the neighbour c=
+ache
+> >   *     entry. Additional options which can be updated may be previousl=
+y
+> >   *     parsed by parse_opts callback and accessible over ndopts parame=
+ter.
+> > + *     failed_recovery indicates that ndisc accepted the packet to rec=
+over
+> > + *     an entry observed in NUD_FAILED.
+> >   *
+> >   * int (*opt_addr_space)(const struct net_device *dev, u8 icmp6_type,
+> >   *			 struct neighbour *neigh, u8 *ha_buf,
+> > @@ -197,7 +199,7 @@ struct ndisc_ops {
+> >  				 struct nd_opt_hdr *nd_opt,
+> >  				 struct ndisc_options *ndopts);
+> >  	void	(*update)(const struct net_device *dev, struct neighbour *n,
+> > -			  u32 flags, u8 icmp6_type,
+> > +			  u32 flags, bool failed_recovery, u8 icmp6_type,
+> >  			  const struct ndisc_options *ndopts);
+> >  	int	(*opt_addr_space)(const struct net_device *dev, u8 icmp6_type,
+> >  				  struct neighbour *neigh, u8 *ha_buf,
+> > @@ -227,12 +229,13 @@ static inline int ndisc_ops_parse_options(const s=
+truct net_device *dev,
+> >  }
+> > =20
+> >  static inline void ndisc_ops_update(const struct net_device *dev,
+> > -					  struct neighbour *n, u32 flags,
+> > -					  u8 icmp6_type,
+> > -					  const struct ndisc_options *ndopts)
+> > +				    struct neighbour *n, u32 flags,
+> > +				    bool failed_recovery, u8 icmp6_type,
+> > +				    const struct ndisc_options *ndopts)
+> >  {
+> >  	if (dev->ndisc_ops && dev->ndisc_ops->update)
+> > -		dev->ndisc_ops->update(dev, n, flags, icmp6_type, ndopts);
+> > +		dev->ndisc_ops->update(dev, n, flags, failed_recovery,
+> > +				       icmp6_type, ndopts);
+> >  }
+>
+> All the changes in this file can be dropped. See below.
+>
+
+This is tied to the lowpan changes below.
+
+> > =20
+> >  static inline int ndisc_ops_opt_addr_space(const struct net_device *de=
+v,
+> > diff --git a/net/6lowpan/ndisc.c b/net/6lowpan/ndisc.c
+> > index 868d28583c0a..8fedfef93740 100644
+> > --- a/net/6lowpan/ndisc.c
+> > +++ b/net/6lowpan/ndisc.c
+> > @@ -47,7 +47,8 @@ static int lowpan_ndisc_parse_options(const struct ne=
+t_device *dev,
+> >  	}
+> >  }
+> > =20
+> > -static void lowpan_ndisc_802154_update(struct neighbour *n, u32 flags,
+> > +static void lowpan_ndisc_802154_update(struct neighbour *n,
+> > +				       bool failed_recovery,
+> >  				       u8 icmp6_type,
+> >  				       const struct ndisc_options *ndopts)
+> >  {
+> > @@ -87,20 +88,24 @@ static void lowpan_ndisc_802154_update(struct neigh=
+bour *n, u32 flags,
+> >  		ieee802154_be16_to_le16(&neigh->short_addr, lladdr_short);
+> >  		if (!lowpan_802154_is_valid_src_short_addr(neigh->short_addr))
+> >  			neigh->short_addr =3D cpu_to_le16(IEEE802154_ADDR_SHORT_UNSPEC);
+> > +	} else if (failed_recovery) {
+> > +		neigh->short_addr =3D cpu_to_le16(IEEE802154_ADDR_SHORT_UNSPEC);
+> >  	}
+> >  	write_unlock_bh(&n->lock);
+> >  }
+> > =20
+> >  static void lowpan_ndisc_update(const struct net_device *dev,
+> > -				struct neighbour *n, u32 flags, u8 icmp6_type,
+> > +				struct neighbour *n, u32 flags,
+> > +				bool failed_recovery, u8 icmp6_type,
+> >  				const struct ndisc_options *ndopts)
+> >  {
+> >  	if (!lowpan_is_ll(dev, LOWPAN_LLTYPE_IEEE802154))
+> >  		return;
+> > =20
+> > -	/* react on overrides only. TODO check if this is really right. */
+> > -	if (flags & NEIGH_UPDATE_F_OVERRIDE)
+> > -		lowpan_ndisc_802154_update(n, flags, icmp6_type, ndopts);
+> > +	/* React to overrides or accepted FAILED-entry recovery. */
+> > +	if ((flags & NEIGH_UPDATE_F_OVERRIDE) || failed_recovery)
+> > +		lowpan_ndisc_802154_update(n, failed_recovery, icmp6_type,
+> > +					   ndopts);
+> >  }
+> > =20
+> >  static int lowpan_ndisc_opt_addr_space(const struct net_device *dev,
+>
+> I'm not sure why you added these lowpan changes to the patch. They are
+> not described in the commit message. Given that lowpan_ndisc_update()
+> already has a TODO comment about only handling overrides, I suggest to
+> ignore it. If needed, it can be modified in the future by someone who
+> can explain the use case and test the change.
+>
+
+I added the lowpan changes after my local Sashiko review run identified=20
+an issue where a FAILED neighbor can retain an outdated private short=20
+address if it's moved to STALE by a non-override NA. Happy to drop all=20
+lowpan-related changes or update comments/commit message to reflect the=20
+changes, please let me know your preference.
+
+> > diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
+> > index 90cd5d852569..84d70c09205a 100644
+> > --- a/net/ipv6/ndisc.c
+> > +++ b/net/ipv6/ndisc.c
+> > @@ -778,13 +778,23 @@ static int pndisc_is_router(const void *pkey,
+> >  	return ret;
+> >  }
+> > =20
+> > +static void __ndisc_update(const struct net_device *dev,
+> > +			   struct neighbour *neigh, const u8 *lladdr, u8 new,
+> > +			   u32 flags, bool failed_recovery, u8 icmp6_type,
+> > +			   struct ndisc_options *ndopts)
+> > +{
+> > +	neigh_update(neigh, lladdr, new, flags, 0);
+> > +	/* report ndisc ops about neighbour update */
+> > +	ndisc_ops_update(dev, neigh, flags, failed_recovery, icmp6_type,
+> > +			 ndopts);
+> > +}
+> > +
+> >  void ndisc_update(const struct net_device *dev, struct neighbour *neig=
+h,
+> >  		  const u8 *lladdr, u8 new, u32 flags, u8 icmp6_type,
+> >  		  struct ndisc_options *ndopts)
+> >  {
+> > -	neigh_update(neigh, lladdr, new, flags, 0);
+> > -	/* report ndisc ops about neighbour update */
+> > -	ndisc_ops_update(dev, neigh, flags, icmp6_type, ndopts);
+> > +	__ndisc_update(dev, neigh, lladdr, new, flags, false, icmp6_type,
+> > +		       ndopts);
+> >  }
+>
+> This hunk can be dropped.
+>
+
+Tied to the lowpan changes above.
+
+> > =20
+> >  static enum skb_drop_reason ndisc_recv_ns(struct sk_buff *skb)
+> > @@ -972,14 +982,18 @@ static enum skb_drop_reason ndisc_recv_ns(struct =
+sk_buff *skb)
+> > =20
+> >  static int accept_untracked_na(struct inet6_dev *idev, struct in6_addr=
+ *saddr)
+> >  {
+> > +    /* For any given neighbor IP address, consider it an untracked nei=
+ghbor if
+> > +     * it is absent from the neighbor cache or if it has a NUD_FAILED =
+entry in
+> > +     * the neighbor cache
+> > +     */
+>
+> Redundant given the comments in the caller and the sysctl documentation.
+> Simply modify the existing comments below to mention FAILED case.
+>
+
+Will update.
+
+> >  	switch (READ_ONCE(idev->cnf.accept_untracked_na)) {
+> > -	case 0: /* Don't accept untracked na (absent in neighbor cache) */
+> > +	case 0: /* Reject NAs for untracked neighbours */
+> >  		return 0;
+> > -	case 1: /* Create new entries from na if currently untracked */
+> > +	case 1: /* Accept NAs for untracked neighbours */
+> >  		return 1;
+> > -	case 2: /* Create new entries from untracked na only if saddr is in t=
+he
+> > +	case 2: /* Accept NAs for untracked neighbours only if saddr is in th=
+e
+> >  		 * same subnet as an address configured on the interface that
+> > -		 * received the na
+> > +		 * received the NA
+> >  		 */
+> >  		return !!ipv6_chk_prefix(saddr, idev->dev);
+> >  	default:
+> > @@ -1001,6 +1015,9 @@ static enum skb_drop_reason ndisc_recv_na(struct =
+sk_buff *skb)
+> >  	struct neigh_table *tbl;
+> >  	struct neighbour *neigh;
+> >  	struct inet6_dev *idev;
+> > +	bool neigh_failed =3D false;
+> > +	bool neigh_untracked =3D false;
+> > +	bool accept_untracked =3D false;
+>
+> Try to maintain reverse xmas tree:
+>
+> https://docs.kernel.org/next/process/maintainer-netdev.html#local-variabl=
+e-ordering-reverse-xmas-tree-rcs
+>
+
+Will fix.
+
+> >  	new_state =3D msg->icmph.icmp6_solicited ? NUD_REACHABLE :=20
+> >  	NUD_STALE;
+> > -	if (!neigh && lladdr && idev && READ_ONCE(idev->cnf.forwarding)) {
+> > -		if (accept_untracked_na(idev, saddr)) {
+> > -			neigh =3D neigh_create(tbl, &msg->target, dev);
+> > -			new_state =3D NUD_STALE;
+> > -		}
+> > -	}
+> > +	neigh_failed =3D neigh &&
+> > +		       (READ_ONCE(neigh->nud_state) & NUD_FAILED);
+> > +	neigh_untracked =3D !neigh || neigh_failed;
+> > +	if (neigh_untracked) {
+> > +		accept_untracked =3D lladdr && idev &&
+> > +				   READ_ONCE(idev->cnf.forwarding) &&
+> > +				   accept_untracked_na(idev, saddr);
+> > +		new_state =3D NUD_STALE;
+> > +	}
+> > +	if (!neigh && accept_untracked)
+> > +		neigh =3D neigh_create(tbl, &msg->target, dev);
+> > =20
+> >  	if (neigh && !IS_ERR(neigh)) {
+> > +		u32 update_flags;
+> >  		u8 old_flags =3D neigh->flags;
+> > =20
+> > -		if (READ_ONCE(neigh->nud_state) & NUD_FAILED)
+> > +		if (neigh_untracked && !accept_untracked)
+> >  			goto out;
+> > =20
+> >  		/*
+>
+> This can be simplified to:
+>
+> diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
+> index 90cd5d852569..7d114bdb263e 100644
+> --- a/net/ipv6/ndisc.c
+> +++ b/net/ipv6/ndisc.c
+> @@ -1082,19 +1082,21 @@ static enum skb_drop_reason ndisc_recv_na(struct =
+sk_buff *skb)
+>  	 * Note that we don't do a (daddr =3D=3D all-routers-mcast) check.
+>  	 */
+>  	new_state =3D msg->icmph.icmp6_solicited ? NUD_REACHABLE : NUD_STALE;
+> -	if (!neigh && lladdr && idev && READ_ONCE(idev->cnf.forwarding)) {
+> -		if (accept_untracked_na(idev, saddr)) {
+> -			neigh =3D neigh_create(tbl, &msg->target, dev);
+> -			new_state =3D NUD_STALE;
+> +	if (!neigh || (READ_ONCE(neigh->nud_state) & NUD_FAILED)) {
+> +		if (!lladdr || !idev || !READ_ONCE(idev->cnf.forwarding) ||
+> +		    !accept_untracked_na(idev, saddr)) {
+> +			if (neigh)
+> +				neigh_release(neigh);
+> +			return reason;
+>  		}
+> +		if (!neigh)
+> +			neigh =3D neigh_create(tbl, &msg->target, dev);
+> +		new_state =3D NUD_STALE;
+>  	}
+> =20
+>  	if (neigh && !IS_ERR(neigh)) {
+>  		u8 old_flags =3D neigh->flags;
+> =20
+> -		if (READ_ONCE(neigh->nud_state) & NUD_FAILED)
+> -			goto out;
+> -
+>  		/*
+>  		 * Don't update the neighbor cache entry on a proxy NA from
+>  		 * ourselves because either the proxied node is off link or it
+>
+
+Was originally unsure if I should modify the existing logical structure. =
+=20
+Thanks for the suggestion, will implement this. Is it appropriate to=20
+credit you with a commit tag?
+
+> > =20
+> >  		if ((old_flags & ~neigh->flags) & NTF_ROUTER) {
+> >  			/*
+> >  			 * Change: router to host
+> >  			 */
+> > -			rt6_clean_tohost(dev_net(dev),  saddr);
+> > +			rt6_clean_tohost(net,
+> > +					 neigh_failed ? &msg->target : saddr);
+> >  		}
+>
+> What is the reason for this change? It's also not explained in the
+> commit message and I suspect it's not needed.
+
+This was added in response to another Sashiko local review finding. =20
+Let's say we have some FAILED neighbor T with NTF_ROUTER set. If we get=20
+an NA from source address S with target address T and with the Router=20
+bit clear, existing kernel code will cleanup routes with gateway S, but=20
+IMO we should clean routes with gateway T instead since that is the=20
+neighbor which was updated by the NA. I can either update=20
+comments/commit message to reflect this or remove the change entirely,=20
+please let me know your preference.
 
