@@ -1,141 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030E1361973;
-	Wed, 16 Sep 2026 00:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E07374E42
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 00:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789520306; cv=none; b=nhejYe+2R0T2dlu0yBEE8J3wZfpMZU2Z6bzNozUPqoW0CAFRtX3M3Wv4cVSbTf3H1/8cThFY3sN8X7DJi+1G8f0YF1+Fyrj+K6WCQJD+u69WvVVkXGuJTb10VWHlvuigc1nEsjpMe1RYVKTgg17SYavqHvg9XR2+hVh1m0jsn5w=
+	t=1789520326; cv=none; b=s7wsd8prahdxvIS7e9u0i+1BNeBgVjSJgRMqcLrd9TqrEWW5yY0ZRMM17+yjC72dtgroPOCU1ZKqMj1YDHGPXW74i5qa66kGdc7V2cgHCEY9cWM6cxU8lvtiRrHeXq5IaJyMJvKs7dX61CDi+Jpl29ieQ2diq1Ol4uxp9f4Oq/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789520306; c=relaxed/simple;
-	bh=YkL2dHG2NNAhGHoLaq8TL4l3RtmhbKg16eOq7hcUi3A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BsFQX7ar26BMlv0mQ5eWNuhHHEM0Eo3rRmjpdbyWCHoVWTTWRTMB7umK812TaDDmSyY3YMXpWfvc+r2G79UK4MoiiMb8JngWCIwIe7YqtGUA83G/SMqNtLmHUUVv6w7K9jZRHDmTl7vqP7jpiC3oLUn88+OqbIecHQCV8oPB8QA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NvauvRPr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789520326; c=relaxed/simple;
+	bh=nBW4bqcmn+v9zVwrmsWHsyT2rrpkZlP9IgDlt/1GBLE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KK/Lvg3JsFnvNr/Ymq8ZoV9RQ5/VrhkBqmdkRsSxyIHvDCTNkvmUdShHUSosP7PP+cjHuwrT3L8ifrLdR5rxODDaSH3P5j7fh7aMTSm8bW6WmT5+CSrh4yIUb153waFbXPl8FzaoIxQux6/VaG78JuGJ3Qps7591eG+mApAj6m0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=at6MwSFe; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TCX7U+P0; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NvauvRPr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE6871F000FF;
-	Wed, 16 Sep 2026 00:58:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789520302;
-	bh=KwdyHdv4MnQJM3h6YHH803Ox/K0l+mlSFgFkCNPYbYY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=NvauvRPrJvajpFZpLH57aY0fnKI0MrpEwDocwhlvNxlhitzUAEG1AjRQF0oH+wQP3
-	 MWU2ycopmmE5EBaM4XTUqnGWsFjLOqf+TsnyvgN5qRbDYOFIjm7YZEy5auL/3ITcd7
-	 Cu38tdUCRb2G7X4lhYdowX2GKEUyB9YQCltLSkoWHfX2fQlUdvuoMz+7FLJkF8TCuT
-	 gXFljaNWwWacPpijchGAOBJWwo0Q0CIZOn2hjPgAQoD55QTWOU8Ef1CUAy+gUp/YeF
-	 WoVLeKCl1I9WTmtZMO9ac0uuFVwyUiRjbBn9MMpbA67DsdNCOxmnEQiTF3HiMeR5YN
-	 zUFWdJBywhiyA==
-From: SJ Park <sj@kernel.org>
-To: Lian Wang <lianux.mm@gmail.com>
-Cc: SJ Park <sj@kernel.org>,
-	Ravi Jonnalagadda <ravis.opensrc@gmail.com>,
-	akinobu.mita@gmail.com,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com,
-	rientjes@google.com,
-	weixugc@google.com,
-	jic23@kernel.org,
-	gourry@gourry.net,
-	Kunwu Chan <kunwu.chan@linux.dev>
-Subject: Re: [RFC PATCH v2 0/9] mm/damon: hardware-sampled access reports
-Date: Tue, 15 Sep 2026 17:58:09 -0700
-Message-ID: <20260916005810.101606-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260915025514.2434-1-lianux.mm@gmail.com>
-References: 
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="at6MwSFe";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TCX7U+P0"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FNZmXS1409752
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 00:58:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	LQ3DI7FftBvPAGhc+A7UsjCVB7Utq8qEnzmdR09+mfY=; b=at6MwSFeH2UU+Qbt
+	avXfJKaWEz3MTEGbhMin+yr+fjN7xJ7PuyP3Hb3VydpnW0zAtbF7e6YevQsqEw1P
+	NAj65PoZyRzBDx/sYHq9Os7fA04cm4KSnBfgztumBdzKcKxRbsyeNg7aIX9Waeu2
+	it4O/bXcLjNh37LnuIr05HJpwH/+nxPQ3hnoJqyA1hcZv2XBV79iIVqo0Nu1jZqF
+	4zFnk6hcdEycTb9RV9PYdXmgG+Nyij7pf7DA/mzWPFyJdePzVG5csnttftzPQQzg
+	HSyKR37Ta9zSwAUyxZE01GRJqsFmqGyQkCjevT9g/FuZ5cvpXl5PqNhIVGUieWZO
+	WF8BtQ==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gqftug6ms-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 00:58:38 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-39d8646b10eso5239303a91.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 17:58:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789520317; x=1790125117; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=LQ3DI7FftBvPAGhc+A7UsjCVB7Utq8qEnzmdR09+mfY=;
+        b=TCX7U+P04HTh3ufZigbbxzEbvqLHgxaMEIDOC0GJxscx867D2u7QIFZaKnuUf7BUe/
+         xi7geAD2dpAaqL4Uu2GpDmh0gFD9LJgA6JWRZzqMa5tS9hL1csBhk9yyHfKaDO0ABM9E
+         PdpqsKZWB4yWCDaGBrOa7DV6hQWfN6gwnG4AW6Zco6t40UqvBQbZWnZOirsMPIIhq/Me
+         t5oGgCeDmf3+86ONiLV+/f19y8UAy7J4R9snEg9V2eQ7YIBHdovE1gcTzfMDgCarbYXk
+         K4EsSDManwBd8iv0jtkTCuJIiWYAnlftK6cEfvTVk9C0A+DqGJJff5JAM50otOG0/l/N
+         uETg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789520317; x=1790125117;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LQ3DI7FftBvPAGhc+A7UsjCVB7Utq8qEnzmdR09+mfY=;
+        b=Tg1TgpIaNJrhiXcy2tCTMi46e0ix5AE3pn404aqcjwACuYLvr9f95HqWbSKXuQ4KnA
+         juChHPmpiLzu/Qh5lSqfLp3WnTfEa/Z9yu4th90PQxCcwqmRoyUNxj7vuvOZT8qcerEP
+         rRN5/ifoPGJEY6JamP+42jILW20KTy8DQ7IVic0g6++mcuaQTLcvuaYJpfY6hEKdPOTK
+         LgnCh5KPL2kK37TU4we+6duADH869/YjZa4sxkE2XDEFZKZ7mpz4uh1jW/FLWBbdC/n2
+         qZ9vil4xoNHMLQnBWqNNbbRS5Al3ARbLjX9QXR8o1rQTrrn9qFTIEjljQTWTiYTIMTfc
+         pVEg==
+X-Forwarded-Encrypted: i=1; AKwUvBz9uHApPXRyDg+y3JwRRl90CkEJ1XsV+A/uLcQY9fM861IGD04YBa1g1vMKdJ4xKvxM72ZicPrgl1g=@vger.kernel.org
+X-Gm-Message-State: AFuF++khSIJogle+8+4YcatXIxRV9eD2BcHDzgB8fnom/EB4x1wbvZqw
+	9aqIcnYp6IVPR7KNHukdaPlgJw/z/Eo7tjw8BCZwo6rVEktArnUtVxzLyQNwmR3im08Vze1EoRo
+	521MoeJiRjflPvi1SaqsQYvQJ2he4pjEL+wFhpCLUQvKFvCLX0Ga09/xwq3Sv16s=
+X-Gm-Gg: AYBFou3t1Kvl/wc73Hl1SPMmHe3iqUYXwXx5YrCECOX4F/zUcQ/isjbVLbtlyHQKMjJ
+	eMBB5LY15A38U0PQKfHayA6yAxgJ1JBWkigAupu0+QlToVjfaERUd9irG7ft9ro/3PYx7Z+s8JV
+	BqaaLgG3nEP1ZZJxFV5sKnlwYOFxBOb0IeIKPmpGZj30cNcbH2J7BRHEepdG+PNS07Twgag6m+H
+	V21f7ldP0scZDSCDWxgbJ2vEztAoBX9NgOfjZh+wdUdTBLGByTFPl7aZM+kVUXDbMVKa4inDY+n
+	3fSXhLgmDOVKF0892zkHSUwSdF+1Sc9K355w1wadQgyVdQX5Pxd/Tep49A==
+X-Received: by 2002:a17:90b:2803:b0:39d:ef3e:9035 with SMTP id 98e67ed59e1d1-39e1e324463mr1568482a91.10.1789520317178;
+        Tue, 15 Sep 2026 17:58:37 -0700 (PDT)
+X-Received: by 2002:a17:90b:2803:b0:39d:ef3e:9035 with SMTP id 98e67ed59e1d1-39e1e324463mr1568416a91.10.1789520316669;
+        Tue, 15 Sep 2026 17:58:36 -0700 (PDT)
+Received: from localhost ([2a12:a305:4::30fb])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e1bbe3e62sm1231229a91.10.2026.09.15.17.58.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2026 17:58:36 -0700 (PDT)
+Date: Tue, 15 Sep 2026 20:58:33 -0400
+Message-ID: <b677f038a23d6cd0572b12053acaf3ab.guodong.xu@oss.qualcomm.com>
+From: Guodong Xu <guodong.xu@oss.qualcomm.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+        Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
+        Chen Wang <chen.wang@linux.dev>, Inochi Amaoto <inochiama@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Paul Walmsley <paul.walmsley@sifive.com>, devicetree@vger.kernel.org,
+        spacemit@lists.linux.dev, sophgo@lists.linux.dev,
+        linux-kselftest@vger.kernel.org, Palmer Dabbelt <palmer@sifive.com>,
+        Andy Chiu <tchiu@tenstorrent.com>, Florian Weimer <fweimer@redhat.com>,
+        Peter Bergner <bergner@oss.tenstorrent.com>,
+        Zihong Yao <zihong.plct@isrc.iscas.ac.cn>,
+        Mark Harris <mark.hsj@gmail.com>,
+        Aurelien Jarno <aurelien@aurel32.net>,
+        Andrew Jones <andrew.jones@oss.qualcomm.com>
+Subject: Re: [PATCH v7 09/11] riscv: cpufeature: Introduce ISA bases bitmap
+ and rva23u64 detection
+In-Reply-To: <20260915-widget-defiling-e22497c228cc@spud>
+References: <20260915-rva23u64-hwprobe-v2-v7-0-aa35ebd9ae96@oss.qualcomm.com>
+ <20260915-rva23u64-hwprobe-v2-v7-9-aa35ebd9ae96@oss.qualcomm.com>
+ <20260915-widget-defiling-e22497c228cc@spud>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE2MDAxMCBTYWx0ZWRfXxs3CGH4QT+26
+ GPsLEoh0mb2nMKApCd/gKaWtGsVVZ/De3NTI5Ku5rr4lG2IdfFU0YgRTNFF2+RyG8pEODzJp5E1
+ MSHrm11La0AdlHxf2m+ktwpUnNVgG3Pw31FcKVNuK1TR5K0NoyMQO2tRW1N3umGVb/67tISqsAT
+ Z9KwL7IVV/IR5tXGbJoVLvFBX5lVUIQ8cs0+nA3szc30LmzghTatM13akqJgdq9kLzte+j1kdro
+ /z3ECh+h15YKgMn1NSROk62WIqR+cTIDhCJT2KldkE2VD8ZzPB6XP9o7YhTB9Iwe8Fezqd+TR8I
+ oscrHsEnX+PF/Ay2jctpd06v2BYIH33HpUDJ+e3mufH9h7uw9cx4NtcYtx/OEEL+RhoQygSGR/r
+ QlqmIoPIfK1hEHYRFIEp4k6c4Lu1EpDSkESCjF1p+ww3LHnZD7mz5vI50R/41D76GonYgYa7wV2
+ O83e9btghz9MXdYMrMA==
+X-Authority-Analysis: v=2.4 cv=a5ulZkSF c=1 sm=1 tr=0 ts=6aa9e9be cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8
+ a=0WmU45QFm0n7b77IdSEA:9 a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE2MDAxMCBTYWx0ZWRfX7GCeWrlMTm4p
+ T9Jkc7wL94qoARAmPpavglQBPf0emA2QtnUgT7+8D+K4wcCs/F0li5aDr+kRN5WKN0Kc94m9PNa
+ 301Yxo070vKRFjsokyOjiHPNldOQPNE=
+X-Proofpoint-GUID: B80qsw9Huqkf4K30Lek1KAGaNs85b10b
+X-Proofpoint-ORIG-GUID: B80qsw9Huqkf4K30Lek1KAGaNs85b10b
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-15_05,2026-09-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 clxscore=1015 priorityscore=1501 adultscore=0
+ impostorscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609160010
 
-Hi Lian,
+Hi Conor,
 
-On Tue, 15 Sep 2026 10:54:51 +0800 Lian Wang <lianux.mm@gmail.com> wrote:
+On Tue, 15 Sep 2026 17:52:23 +0100, Conor Dooley wrote:
+> On Tue, Sep 15, 2026 at 03:15:35AM -0400, Guodong Xu wrote:
+>> Introduce a per-hart and host-wide bitmap of conformant ISA "bases"
+>> (named profile-class sets such as IMA and RVA23U64), computed at init
+>> time by riscv_init_isa_bases().
+>>
+>> Register riscv_init_isa_bases() as an arch_initcall. That is late
+>> enough that core_initcall(tagged_addr_init) has probed senvcfg.PMM and
+>> populated have_user_pmlen_*; without that ordering,
+>> riscv_have_user_pmlen(7) would still return its default false and the
+>> RVA23U64 detection path would always bail. It is also early enough that
+>> arch_initcall_sync(init_hwprobe_vdso_data) finds the bases populated
+>> when it snapshots the hwprobe values into the vDSO data page.
+>>
+>> Consider this as the cache that subsequent consumers (hwprobe's
+>> RVA23U64 base behavior bit, /proc/cpuinfo's "isa bases" lines, etc.)
+>> can read without recomputing, which keeps them consistent with
+>> each other.
+>>
+>> Signed-off-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
+>> Signed-off-by: Guodong Xu <guodong.xu@oss.qualcomm.com>
+>
+> Something is wrong here with the signoffs here, Drew's probably missing
+> either authorship or a Co-developed-by tag?
 
-> From: "Lian Wang (ProcessMission)" <lianux.mm@gmail.com>
-> 
-> Hi Ravi and SJ,
-> 
-> Thank you for sharing this work.  The report path looks potentially useful
-> for a DAMON observation-granularity problem that we are investigating.
-> 
-> The scenario originated from an issue reported by SXF, and we are planning to
-> share and discuss it at LPC.  We have now reproduced the underlying observation
-> difference on both a local PC and an x86 server.  The server run below is our
-> larger, controlled reproduction.
-> 
-> Our test monitors a QEMU process whose guest memory is backed by a shared
-> tmpfs file.  The guest repeatedly writes one 4 KiB page in every 2 MiB range
-> of a resident 48 GiB data set.  The unique 4 KiB spatial coverage of one sweep
-> is about 96 MiB, or 0.195% of that data set.
-> 
-> Using vaddr DAMON with a 500 ms sampling interval, 20 second aggregation
-> interval, and 500--2000 regions, two opposite-order runs reported a mean hot
-> ratio of 1.751% without shmem PMD mappings and 75.836% with them.  A control
-> that writes the full 2 MiB ranges reported 75.366% with PMD mappings.  Hence,
-> in this workload the current observation does not distinguish spatially sparse
-> 4 KiB activity from dense activity once the large mappings are present.
+Thanks for the review. Yes, will fix in v8.
 
-The observation makes sense.  However, does the sparse access pattern
-realistic?  If so, what is the purpose or expected benefit of using huge page
-for workloads having such access pattern?
+I didn't look closely enough at authorship (which I should) when I
+reworked Drew's RFC into v2. His Signed-off-by was carried over, but
+clearly it needed more careful handling than that.
 
-> 
-> We are testing existing DAMON strategy mitigations first.  As a next step, we
-> plan to replay recorded access addresses through the report/probe decision
-> path, independently of a live PMU, and check whether DAMOS can distinguish the
-> sparse and dense cases.  In that experiment, raw report frequency and unique
-> 4 KiB spatial coverage will remain separate quantities; lack of reports will
-> remain unknown when source coverage or loss is insufficient.
-> 
-> If the report evidence makes the decision reliable, the response we want to
-> evaluate is an internal, bounded PMD mapping demotion (splitting the mapping
-> while retaining the underlying THP folio), rather than exposing physical folio
-> split as a DAMOS action.  We will first keep the response stat-only and archive
-> the would-act ranges.  After the replay result is repeatable, we can replace
-> the replay producer with an appropriate hardware source and share the results.
+Rechecking these three patches that came over from the RFC (09, 10, 11),
+here is what I plan to do:
 
-I'm not very sure if this is the right direction.  PMD mapping demotion sounds
-like you just don't want to use huge pages.  If so, you could disable huge
-pages.  Answers to my above questions would be helpful for me.
+- Patch 10/11 (cpuinfo) is still mostly Drew's patch; I only switched it
+  to the cached bitmap. v8 makes him the author.
+- Patch 09/11 and 11/11 were rewritten in v2 (the detection moved out of
+  hwprobe into cpufeature), but part of Drew's implementation stayed.
+  I'll adds his Co-developed-by in v8.
 
-> 
-> This seems like a useful consumer experiment for the report interface, even if
-> the vaddr and optimized transport parts belong to the later phase.  Please let
-> us know if this direction conflicts with the intended report semantics.
+Drew, please shout if you would like this split differently.
 
-I believe this doesn't conflict with the project, though.  Nevertheless,
-technically speaking, it is not the report semantics.  Reporting allows any
-information to be reported.  Page faults like information could be coarse
-grained, same to the current page table accessed-bit based one.  Only finer
-grained access primitive reports, like those from perf events, would increase
-the accuracy for the sparse access pattern monitoring.
-
-Whether sparse access pattern is realistic and using huge pages on systems
-having such access pattern makes sense are different questions, though.
-
-> 
-> We will share the strategy, replay, and mapping-decision results once they are
-> repeatable.  We are also reviewing and testing this series, and will follow up
-> with the appropriate tag(s) for the exact revision if that work justifies them.
-
-Looking forward to!  Nonetheless, it would better to make sure we are on the
-same page for the above questions before digging deeper, in my humble opinion.
-
-
-Thanks,
-SJ
-
-[...]
+Guodong
