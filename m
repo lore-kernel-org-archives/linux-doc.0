@@ -1,84 +1,59 @@
-Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E669F4B1CE0
-	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 18:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.235
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E17604E50DA;
+	Wed, 16 Sep 2026 18:54:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789584594; cv=none; b=azP3BiZs4WFcNwtblU9sKFOzd6GClFYOvmofoK2jdMiW2PGiOzYBOZqGuSRvJSMVKPHkhza4bD9p6WNS3uq7X5REuDP9nvwERGt+C9HvAsyKEA8hAOmYWRkVnuyz2UgDi1jvjDd8kAax7Yg/wNqI0OG2zYYFgWQ/kjRCTvPz40Q=
+	t=1789584880; cv=none; b=rJQNxRlP5Nol/dGGiWsu2ekPY1piHqm0BQR6awZhjz5EuMQ/NnpNsShXe87rtX3d5i0L6KAlBSLoGfGcyBDNPDU9jMg13R3+BTlqHsd/zHcCr7Y/6VTfFt/fU1vPKjLtbWkfhy3m1wE6NSe+HLFbV2misNkJWGkfX2fxrWYRpxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789584594; c=relaxed/simple;
-	bh=qjO05h8NCgW9DdH4l85dlmT24Ysl3YzDoaGNJA1xrmE=;
+	s=arc-20240116; t=1789584880; c=relaxed/simple;
+	bh=SMlESME6LzE8aWZ4w5NQ7hdeXoi4bkuAKaow3g5fvno=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bKvyVqrfn9iuJAKtTW+/PFW5Y1K9PqeHyXGZD6oJCPk6BMkhSf+YTTijDzT8ghSM9Jrj1vBcTJ8nB6yYelXYYJLhJnuH+GMyeSS7lT9twzfxlzNSJTIjRXnF1jEMhY/L0FRlbevHCk6vEzWL4sSSi70JXKdjM8K0FFQO1DZIFYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=ur49RFow; arc=none smtp.client-ip=74.125.230.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=hFgrpMinOcb1mUVl/+TIlNxRGhDQJkC5+KwNuPX5BYNbrGEYkUNC/pUXPQiadYy9hRSZ5AurSSoqD99+XYE045d+dcCzAKY6OCsvLaHuMLc7dp4y6NbYd/0/QDmyJuQ0rS27bC9ZpYVl6R+j/8diSMi+NOp+UYSYppP0SSKPMRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=cq9915zt; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="ur49RFow"
-Received: by mail-qk2-f43.google.com with SMTP id af79cd13be357-939109fafd6so115303285a.3
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 11:49:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1789584579; x=1790189379; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=c0iIgJwWQvCfxDYTtHwJ9R8OwiKsFPaAaYmGvWCYHto=;
-        b=ur49RFowrugsitDaOgTStbQHm+W6D/02S+/MOvhvMB009kC6tZjAi82Ko/N58VLPxD
-         pyXFXamCYOw+3E+3qoL6beXSB2Y+gpDfO5z9awOvcWz7nw9t2V0Xr537zaWfHFk++/Rq
-         0GuINYEzdF0e+POW4Y/Do/mCRSlGCD3kXhWFx7qIwwwqIV7ufFvS0J+Er7wZz3IiM4tn
-         TJMnvlbZZ94JK4CDfNX+/YXNcrPPNLKYtV8st/9DMgMPbLzXWFPaxS5GLdZSU4TG1PXV
-         q8FDrb8A3DsRRBqB+9r2Z6tpBjpAyMpR/lJ3LDNi14KfyPnY2vUxIrxPEgEqezIy/u6a
-         SLvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789584579; x=1790189379;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=c0iIgJwWQvCfxDYTtHwJ9R8OwiKsFPaAaYmGvWCYHto=;
-        b=nJVsjqnem0uPgnYWoUUqOnWL/SwAG/WIzlSOxsya/K2GfN5npW9MaAkmOMU8AuhMmO
-         DitqND28IE1a2RTqSMBwrLycyp/tY3vEmh/3Xq5/rrRSmwmzoWUYA6PfUc59boPXVoCj
-         Nw7C6JB14RhAaHVAk1SmH4kaO19GkmDvTnYyGkBIZJptAdFM6C+WiheVYZfAeQjUcrBD
-         4tXy5DZEZvg5uJALeyGqTPNYWpEbsWrHIpyqp3wLY9DLp9vlsi8Dm3i4QgWoZYD7Xs7Y
-         0WYkVqI6+hYuJJdh8n8sYAySrwSRe/YDYY1Clnd8Wu7iRpqB90g7nvofbfb6l4Zzi4u9
-         cA2Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzk3Ulnxq9ZEJF2hCFOIJpdBQhy6Kw4ud4Mac6tUW4n4c+7j3p4QbOqbwx5Dh8vmGd++yApbMhezNc=@vger.kernel.org
-X-Gm-Message-State: AFuF++k/IWXDzQp2LwaCPGA7f3+I54FCRTAKxqrBWvCyIfpbnBdmb0ZY
-	8ftLZXLhffLMmm4P2ZUUmMqLLltSSPnrauaBf3rxF+vuvXUUYK3Bpsi2F+uJzuLQdDM=
-X-Gm-Gg: AYBFou2zR8XWD2LE1pP9gdW+qgDN4XRTfGE2dky/9kdqBocfBHB2RW/1koAJV/3UOFk
-	Ha9X79VSG8RMkh3O7W2cn3sk2QUEk3v+DMAw/Upbsjchn0AjjNaBAEhRF6KJmCL6aCBo4lag5rU
-	0eVL7LdYxjTWrU90CYADtoBBUDDvlbk8sPH6EWjLY+Vtr0yijn7vjZrUKV/m9LGd3Of0MgnopI2
-	+THocPMjRWaAx6W6z83HZVuh1n7VSN7XHSUKOOXP2fw4V3XtEaflO9Jy4QH6XBHyZ99AjV6DS2L
-	N7Fe0hVgtEcoQyyRI5/aacsJs5mVhSc4Kfs85kdDp00B+impedi2BD7N+Xu+kLkNIC/wsnmnKD/
-	eEL9wT/TyxfZ50Z+yp28P9Lgv0964UHDb4ZLkgR6EpuQONYUXjosvM2kIyo6MMjtywGgBYXq1jG
-	F+JwaG+E6ERUeZ5zMCqoNhODqIae0WXhgL6uqwyPac1mekM3ABZg3Z3xOWR/q04s49T14cXxQy7
-	V1vnR7y+wr2NqMRh9qex52VxEAglgBIS0LV258ahKlh/vvArk+e2oY=
-X-Received: by 2002:a05:620a:17a3:b0:939:8905:ce9b with SMTP id af79cd13be357-93bb77461a9mr631916885a.17.1789584579016;
-        Wed, 16 Sep 2026 11:49:39 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93b81d147ffsm281088485a.43.2026.09.16.11.49.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 11:49:38 -0700 (PDT)
-Date: Wed, 16 Sep 2026 14:49:36 -0400
-From: Gregory Price <gourry@gourry.net>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="cq9915zt"
+Received: by linux.microsoft.com (Postfix, from userid 1223)
+	id D023720B716B; Wed, 16 Sep 2026 11:53:46 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D023720B716B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1789584826;
+	bh=NfAoFtUCX6VZ/JKK2qenkRKz/IcHyzV5zXJg6s1JGF0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cq9915ztSf7QwAOkagUlWQTmJv8Fci/xE5Y0rpERB4Vwob7sbKz0LnsPTWFYPoNsM
+	 feK1RMsy4ZoYtTQN9dNQc4misdm98EBqKMzaEVNiUfkCr/bzuTQKxVobdna3Oqd9Ra
+	 l/NfoeHO7d0GK+/c+tielE7D5cggJezH6J8drc4c=
+Date: Wed, 16 Sep 2026 11:53:46 -0700
+From: Meagan Lloyd <meaganlloyd@linux.microsoft.com>
 To: Jonathan Cameron <jic23@kernel.org>
-Cc: mhonap@nvidia.com, alex@shazbot.org, jgg@ziepe.ca, ankita@nvidia.com, 
-	dave.jiang@intel.com, alejandro.lucero-palau@amd.com, smadhavan@nvidia.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, dave@stgolabs.net, 
-	alison.schofield@intel.com, vishal.l.verma@intel.com, iweiny@kernel.org, 
-	ming.li@zohomail.com, yishaih@nvidia.com, skolothumtho@nvidia.com, 
-	kevin.tian@intel.com, bhelgaas@google.com, dmatlack@google.com, kees@kernel.org, 
-	gustavoars@kernel.org, cjia@nvidia.com, kjaju@nvidia.com, vsethi@nvidia.com, 
-	zhiw@nvidia.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-cxl@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v4 07/27] vfio/pci: Detect CXL devices and load vfio-cxl
- on demand
-Message-ID: <aqrg9AJBh0GUsP0l@gourry-fedora-PF4VCD3F>
-References: <20260813093631.2288172-1-mhonap@nvidia.com>
- <20260813093631.2288172-8-mhonap@nvidia.com>
- <20260916191659.1d3cb36b@jic23-hlaptop>
+Cc: Meagan Lloyd <meaganlloyd@linux.microsoft.com>,
+	linux-i3c@lists.infradead.org, alexandre.belloni@bootlin.com,
+	vitor.soares@toradex.com, samagazaryan@google.com,
+	gregkh@linuxfoundation.org, arnd@arndb.de,
+	boris.brezillon@collabora.com,
+	oleksandr.shulzhenko.viktorovych@intel.com,
+	tgopinath@linux.microsoft.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, linux@roeck-us.net, Frank.Li@nxp.com,
+	jorge.marques@analog.com, pgaj@cadence.com,
+	wsa+renesas@sang-engineering.com, tommaso.merciai.xr@bp.renesas.com,
+	nuno.sa@analog.com, Michael.Hennerich@analog.com,
+	dlechner@baylibre.com, andy@kernel.org, lorenzo@kernel.org,
+	enelsonmoore@gmail.com, rppt@kernel.org, pratyush@kernel.org,
+	giovanni.cabiddu@intel.com, gabewhigham@gmail.com,
+	haren@linux.ibm.com, pasha.tatashin@soleen.com,
+	jirislaby@kernel.org, adrian.ho.yin.ng@altera.com,
+	ustc.gu@gmail.com, jszhang@kernel.org, adrian.hunter@intel.com,
+	akhilrajeev@nvidia.com, tze.yee.ng@altera.com,
+	manikanta.guntupalli@amd.com, shubhrajyoti.datta@amd.com,
+	jarkko.nikula@linux.intel.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux@analog.com, linux-iio@vger.kernel.org
+Subject: Re: [PATCH 1/3] i3c: master: enable driver_override for I3C
+Message-ID: <20260916-c8d89d21698f12bf50c8b656@linux.microsoft.com>
+References: <20260911210935.1353126-1-meaganlloyd@linux.microsoft.com>
+ <20260911210935.1353126-2-meaganlloyd@linux.microsoft.com>
+ <20260913012416.165c5886@jic23-hlaptop>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,62 +62,110 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260916191659.1d3cb36b@jic23-hlaptop>
+In-Reply-To: <20260913012416.165c5886@jic23-hlaptop>
 
-On Wed, Sep 16, 2026 at 07:16:59PM +0100, Jonathan Cameron wrote:
-> > +/*
-> > + * A CXL Type-2 device advertises both CXL.cache and CXL.mem in its CXL DVSEC.
-> > + * pcie_is_cxl() is also true for Type-1 (cache only) and Type-3 (mem only)
-> > + * devices, which the vfio-cxl provider does not handle, so confirm the Type-2
-> > + * identity before engaging it.
+> > Opt-in to driver_override sysfs functionality for I3C subsystem.
+> > 
+> > Update some I3C drivers that are assuming that if their .probe is
+> > invoked that the bus match function already checked the ID table. Go
+> > ahead and verify in .probe that i3c_device_match_id() returns a valid
+> > match before using the i3c_device_id pointer.
+> > 
+> > Signed-off-by: Meagan Lloyd <meaganlloyd@linux.microsoft.com>
+> > Assisted-by: Claude:claude-opus-4.8 copilot
 > 
-> We don't expect to handle type 3 class code compliant devices, but what about
-> the things referred to sometimes as CXL Type 3+?
+> Along with splitting these up as this is the sort of change that
+> will sometimes need backporting in individual drivers because we are
+> layering something on top, I'd look at adding some helpers to skip
+> the id as that isn't much used and get the specific fields people
+> want.
 
-Dan has previously (and I think would continue) to just call that
-an accelerator - because it is.
+Yeah, I'll split these up for each individual driver.
 
-I think the Type 1/2/3 nomenclature is stale and needs to go away,
-it's outlived its usefulness.
+i3c_device_match_data() is a good idea. It would reduce the likelihood
+that future drivers make the mistake of not checking the id before
+dereferencing it for data. I'll include it in the next revision.
 
-To your point below, a compressed ram device is really an accelerator
-with CXL.io and CXL.mem.  All the spec says (used to say?) about
-"Type 2" is that it *may* support CXL.cache - it doesn't require it.
-
-> It is also plausible we'd pass a full compressed RAM device through to the
-> guest without paravirtualizing like we currently plan to do for class
-> code Type 3 devices (for DCD, sharing etc). +CC Gregory to point out where
-> I am wrong on this ;)
+Best regards,
+Meagan
+> 
+> > diff --git a/drivers/hwmon/tmp108.c b/drivers/hwmon/tmp108.c
+> > index 1c4a58855e2d..98076ae8dce8 100644
+> > --- a/drivers/hwmon/tmp108.c
+> > +++ b/drivers/hwmon/tmp108.c
+> > @@ -581,6 +581,8 @@ static int p3t1085_i3c_probe(struct i3c_device *i3cdev)
+> >  				     "Failed to register i3c regmap\n");
+> >  
+> >  	id = i3c_device_match_id(i3cdev, p3t1085_i3c_ids);
+> > +	if (!id)
+> > +		return -ENODEV;
+> >  
+> >  	return tmp108_common_probe(dev, regmap, "p3t1085_i3c", id->data);
+> 
+> Similar to below, jumping directly to an i3c_device_match_data() helper
+> in this series would avoid getting and id that these drivers don't
+> need access to.
 > 
 
-Plausible, possible, feasible - yes.
+I acknowledge and agree.
 
-Sane?  More sane than using it as a normal memory device on the host
-assuming RAS signals from the device can't overwhelm the host (unknown).
-
-> More generally, why are we controlling usecases?  A class code compliant type 3
-> device 'could' be passed through I think if someone wanted to do that.
-> I'd not encourage it but why is it a linux policy to not support it?
+> >  }
 > 
+> > diff --git a/drivers/iio/adc/ad4062.c b/drivers/iio/adc/ad4062.c
+> > index 8e5984055b15..f28b503d16eb 100644
+> > --- a/drivers/iio/adc/ad4062.c
+> > +++ b/drivers/iio/adc/ad4062.c
+> > @@ -1482,14 +1482,20 @@ MODULE_DEVICE_TABLE(i3c, ad4062_id_table);
+> >  
+> >  static int ad4062_probe(struct i3c_device *i3cdev)
+> >  {
+> > -	const struct i3c_device_id *id = i3c_device_match_id(i3cdev, ad4062_id_table);
+> > -	const struct ad4062_chip_info *chip = id->data;
+> > +	const struct i3c_device_id *id;
+> > +	const struct ad4062_chip_info *chip;
+> >  	struct device *dev = &i3cdev->dev;
+> >  	struct iio_dev *indio_dev;
+> >  	struct ad4062_state *st;
+> >  	bool ref_sel;
+> >  	int ret;
+> >  
+> > +	id = i3c_device_match_id(i3cdev, ad4062_id_table);
+> > +	if (!id)
+> > +		return -ENODEV;
+> > +
+> > +	chip = id->data;
+> 
+> This might be a good opportunity to introduce
+> 
+> i3c_device_match_data() as in many drivers we don't actually care about
+> access to the id itself.
+> 
+> > +
+> >  	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
+> >  	if (!indio_dev)
+> >  		return -ENOMEM;
+> > diff --git a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i3c.c b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i3c.c
+> > index cb5c5d7e1f3d..153a03e06801 100644
+> > --- a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i3c.c
+> > +++ b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i3c.c
+> > @@ -32,6 +32,9 @@ static int st_lsm6dsx_i3c_probe(struct i3c_device *i3cdev)
+> >  	struct device *dev = i3cdev_to_dev(i3cdev);
+> >  	struct regmap *regmap;
+> >  
+> 
+> Please bring the assignment down to above the check so
+> 
+> 	id = i3c_device_match_id(i3cdev,st_lsm6dsx_i3c_ids);
+> 
+> Which is what you did in the previous driver...
 
-The only scenario I can think of that you'd want to pass a simple
-expander all the way through to the guest would be RAS signals - which
-I think still require host plumbing anyway to avoid passing said signals
-to the wrong guest depending on how you've chopped up the region.
+You're right. It is more readable that way. Thanks!
 
-Basically if you need DPA/HPA data from the device to be interpreted by
-the kernel, the guest needs a translation mechanism.
-
-In practice I can see passing a virtualized, locked auto-decoder through
-to the guest with the same HPA/DPA values as the real device so the
-signals can be delivered quickly with limited host interposition.
-
-You would probably need on-device vitualization support to do "proper"
-passthrough so the device can route signals to the guest directly.
-
-Anyway, you could pass it through, sure, why not.
-
-We shouldn't limit it, if only because we're not clairvoyant about
-what will be useful tomorrow.
-
-~Gregory
+> > +	if (!id)
+> > +		return -ENODEV;
+> > +
+> >  	regmap = devm_regmap_init_i3c(i3cdev, &st_lsm6dsx_i3c_regmap_config);
+> >  	if (IS_ERR(regmap)) {
+> >  		dev_err(dev, "Failed to register i3c regmap %ld\n", PTR_ERR(regmap));
+> 
+> 
