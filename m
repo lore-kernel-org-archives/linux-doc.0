@@ -1,528 +1,197 @@
-Received: from mta0.migadu.com (out-88.mta0.migadu.com [91.218.175.88])
+Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0554364934
-	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 03:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E73379ED6
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 03:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789529522; cv=none; b=ocjExXxyywONyemFgFn1hn1PyhsL6rT1A5K3sMJoBIKWhV2g/aTLrQfox6rsLRLjchPe1g4ZtcL6vo49otw/iCqRV/xSkLpqhbzIugeLdpvOyVGJ+gOLvcyoWT3mv/LVv6GBVHezNYUFHw1GgOeDS9+r4zWJu7x4ez5a5QkcvaA=
+	t=1789530298; cv=none; b=fmKhpt+3td7mETE3S5l8r1mjGcLlPhtYTQ9E7RdRDtyAq56HnP/YRkJDzzOZg77+TfjSIrpZqlGskYlQnPSpVmLN2rwXGnf7DopcRdSjSfiPrMbPQCRq8c1nqJDT7xlxIHNMDVyCZGbWSROFu3nZz+RkmnBnFRVsIH72bTR5DEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789529522; c=relaxed/simple;
-	bh=/gKDc1UJUEW3gZkDgmnO4FI9/og2soBWPviRlsd2j9E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RQ59P42xnMba2ld2jm9ThvRF+y8VIu72BJCojrafGQSF6xptjeBunaynp0DA9oFkSyTZ0Jr2KftbpWRyZ7mD8fXCb43O6ces2Tf0XQxVKBsnTg0dZTCb4NHu8k1J+jp0MAnh4yOpJURoBPMdmyXrUd6aiu9tfEBE3knE/yYMMJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LwWPvvae; arc=none smtp.client-ip=91.218.175.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1789530298; c=relaxed/simple;
+	bh=PQQSm3WvKwZR0U5KrYWkeIfK2l4EGt5o9TAzNYhKkUI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hO+mphC9wgAYWONGm/5vk0RgMDsINrUBSlmJ9r6o5aA4E263R1qYVjf8cpXkp1KeL6QjQ/ooYXV4vxd4yYR9JEyzoWBiNKJ/ClR6Q4S1s1UopxtJsQFbHHe9mJMxd92OhxauXsnMYqBXj7cVSDXR1hoIN9tY2sML8Bm7z/txwno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YxFpBOtU; arc=none smtp.client-ip=74.125.228.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LwWPvvae"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=/gKDc1UJUEW3gZkDgmnO4FI9/og2soBWPviRlsd2j9E=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789529516; v=1; x=1790134316;
- b=LwWPvvaeOVIcO+QfTmpcnPfm4GG+j31VryVD+rtm579dAsPPrwrq2KsAqD0sQuVdPjJI7Ty5
- uvCli8zJ7Tm/JoeU5gFrW2h54M0MLpJZQpTaE43NaBbjwkMwjKdHpAOVafvQPxXs4TTTTujCZec
- Bauja0qz4PkkxVOvJBt7A7tM=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 0f83172af188618d;
-	Wed, 16 Sep 2026 03:31:56 +0000
-X-Mizu-Trace-ID: 0f83172af188618d
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <e099cbaf-3185-4c39-ae36-7f0e074ebff7@linux.dev>
-Date: Tue, 15 Sep 2026 20:31:45 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YxFpBOtU"
+Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc1cea4bfd1so341212a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2026 20:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789530296; x=1790135096; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MnDdBBFYGdDerxU4AbUc/Vqzv/CMmRt4z5XHr/nlcM0=;
+        b=YxFpBOtUzge3/LTLaGtqScI48+5vIUuA2krPSDR2fpGshOewAU9+bnh614unUbn4TG
+         tRBIjbpw7e5cCe8Va1szN+S16LMVB3WDaLPSzaXbPDXud5JPGcQ8UdSRM5ENpqqEtTy9
+         HuakcP9YJTawoyjn/s+QPtg3+sZ99yHuWfG+iaxEFThdf1bFXK7KB1jfQwiAHo6gPrZ8
+         pATm2jttrK2gQAw5KvI1IsitvEDcvorsC/Z28pCFQXjm06l1DzuBUf8zKLNJw2pi/0fp
+         x236Ilb1iFaTrX6NjlODjhVHdjk8tDlF0uTug6d94B1TC18IVMf784TUe8DnGM0Hw6Nv
+         CA0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789530296; x=1790135096;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MnDdBBFYGdDerxU4AbUc/Vqzv/CMmRt4z5XHr/nlcM0=;
+        b=oHAoaokS62F7GirDSKA2YSL/zcPlhQB6eVncUySmRnTXEfsnHl6SxFRbG5Gnvmg9qn
+         +1XhMuHsuLHpKCsIiUfspouffzqEsVTEpmtt+cxxizsIz/cXB1dJHL58BPB96ZyTECHR
+         jBeufZqpm//Gpa4L+ojLI9I58oUStVwp/Hsaehcnv9nptRAqYtY6aK4ArCCJndW9APzL
+         CyovIH/hOszGimJ1AMOtdqlJ8Jd7qJL42qnYMVUt3wMhJL1GTsDlCSv7FqDreTimn+6/
+         B9NQXJXJ0E5dE/Iicmi4IsZ13Bkgt4Ir3sienUboEEarXg8AprwoyNtb9s3WmcoUbb8s
+         h5eg==
+X-Forwarded-Encrypted: i=1; AKwUvBzj2cgqnCkalfPyOqh2h72hWhLjR98gfjtEubLQxL8DAzVIpV0MFRJDnbYXgRyBc1Dqjzmz9UFdD0Q=@vger.kernel.org
+X-Gm-Message-State: AFuF++ncXY52MVPW9GFzYGwi2kUwDRVFRATE39xd69+UsP3VyTgGXfiH
+	/AetRryHEojytCTS9Gulquxt8XaMP4VqgVsFDz7lcEyca889kBQv/lQv
+X-Gm-Gg: AYBFou28Tu/C8Wfxiq4MbuNuFAgNPiShF9vUs0cdyTW2EUcPL9y7pD2J0RQsEPFyvTU
+	oSWZTIIavRMtvlX0d7jo5kjBPtb5sckPNWS6IkseVnqqLeNPA8hLQQyqnp+OOcJ0SsKtl+Y+uJt
+	pAGU48fFGXGLXNC0ey/YW2ipNNnsCUlPxq+dVMjSu7SURqJ6EqRoC+39Cz+hI0d68cgaDKfZyTW
+	CKWP1349I8ZRdKKvK9HNorzZDxu5Bdx7nAcHiIeYO8UWAUG/ZEDKb3IqVbwpjZhOjXacUegHR/W
+	qpr5HSF1vYNcNZOQyJZGYMfQsxgYHHak/KiiK60f/TVqCw4kql3rRDRTWlgpjKEdcLAit1EBdtR
+	4499jVnXM58S0XpUTO7CNqJ6FpGLKSgaC6grDF21aAu/WF8/wZDUk8flpfCpA1o1BbIp1q7ogEC
+	5J43HxZR2P1vhuRPuoWFj0CxYQ9uNpebmhsXeSwe8AfPRIZfp4u9cvervIvlU1YYswb4i50ypLS
+	yX+TcZF4/bo4PmIrYbGVw/gfovXiS4g6yBFdlIZ
+X-Received: by 2002:a17:90b:3b91:b0:398:a486:81ec with SMTP id 98e67ed59e1d1-39e1e380e12mr2394470a91.11.1789530295541;
+        Tue, 15 Sep 2026 20:44:55 -0700 (PDT)
+Received: from localhost.localdomain (vmi2317699.contaboserver.net. [85.239.239.237])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e1bbfdd49sm1915990a91.11.2026.09.15.20.44.47
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 15 Sep 2026 20:44:54 -0700 (PDT)
+From: "Lian Wang (ProcessMission)" <lianux.mm@gmail.com>
+To: SJ Park <sj@kernel.org>
+Cc: Lian Wang <lianux.mm@gmail.com>,
+	Ravi Jonnalagadda <ravis.opensrc@gmail.com>,
+	akinobu.mita@gmail.com,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com,
+	rientjes@google.com,
+	weixugc@google.com,
+	jic23@kernel.org,
+	gourry@gourry.net,
+	Kunwu Chan <kunwu.chan@linux.dev>
+Subject: Re: [RFC PATCH v2 0/9] mm/damon: hardware-sampled access reports
+Date: Wed, 16 Sep 2026 11:44:30 +0800
+Message-ID: <20260916034439.28517-1-lianux.mm@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260916005810.101606-1-sj@kernel.org>
+References: <20260915025514.2434-1-lianux.mm@gmail.com> <20260916005810.101606-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 03/12] PCI: liveupdate: Track incoming preserved PCI
- devices
-To: David Matlack <dmatlack@google.com>, kexec@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org
-Cc: Adithya Jayachandran <ajayachandra@nvidia.com>,
- Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
- David Rientjes <rientjes@google.com>,
- Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
- Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
- Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pranjal Shrivastava <praan@google.com>, Pratyush Yadav
- <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>,
- Samiullah Khawaja <skhawaja@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>,
- William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
- "yanjun.zhu@linux.dev" <yanjun.zhu@linux.dev>
-References: <20260728221007.2098560-1-dmatlack@google.com>
- <20260728221007.2098560-4-dmatlack@google.com>
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <20260728221007.2098560-4-dmatlack@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-在 2026/7/28 15:09, David Matlack 写道:
-> During PCI enumeration, the previous kernel might have passed state about
-> devices that were preserved across kexec. The PCI core needs to fetch
-> this state to identify which devices are "incoming" and require special
-> handling.
-> 
-> Add pci_liveupdate_setup_device() which is called during device setup
-> to fetch the serialized state (struct pci_ser) from the Live Update
-> Orchestrator. The first time this happens, pci_flb_retrieve() will run
-> and convert the array of pci_dev_ser structs into an xarray so that it
-> can be looked up efficiently.
-> 
-> If a device is found in the xarray, the PCI core stores a pointer to its
-> state in dev->liveupdate_incoming until pci_liveupdate_finish() is
-> called by the driver. This pointer allows the PCI core and drivers to
-> apply Live Update-specific logic to incoming devices in subsequent
-> commits.
-> 
-> Drivers can check if a device is an incoming preserved device (e.g.
-> during probe) by calling pci_liveupdate_is_incoming().
-> 
-> CONFIG_64BIT is now required to enable CONFIG_PCI_LIVEUPDATE so that the
-> domain and bdf can be guaranteed to fit in an unsigned long and be used
-> as the xarray key.
-> 
-> Reviewed-by: Pranjal Shrivastava <praan@google.com>
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> ---
->   MAINTAINERS                    |   1 +
->   drivers/pci/Kconfig            |   2 +-
->   drivers/pci/liveupdate.c       | 256 ++++++++++++++++++++++++++++++++-
->   drivers/pci/liveupdate.h       |   5 +
->   drivers/pci/probe.c            |   3 +
->   include/linux/pci_liveupdate.h |  13 ++
->   6 files changed, 277 insertions(+), 3 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9cc7b9291ace..08a724b860dc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20834,6 +20834,7 @@ L:	linux-pci@vger.kernel.org
->   S:	Maintained
->   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux.git
->   F:	drivers/pci/liveupdate.c
-> +F:	drivers/pci/liveupdate.h
->   F:	include/linux/kho/abi/pci.h
->   F:	include/linux/pci_liveupdate.h
->   
-> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
-> index 3781e2b5f095..8af20f558086 100644
-> --- a/drivers/pci/Kconfig
-> +++ b/drivers/pci/Kconfig
-> @@ -273,7 +273,7 @@ config VGA_ARB_MAX_GPUS
->   
->   config PCI_LIVEUPDATE
->   	bool "PCI Live Update Support"
-> -	depends on PCI && LIVEUPDATE
-> +	depends on PCI && LIVEUPDATE && 64BIT
+Hi SJ,
 
-One question about adding 64BIT to the dependency:
+Thank you for the questions.  I mixed the original field scenario and our
+controlled reproducer in my previous mail.  I also jumped from the observation
+problem to PMD mapping demotion before explaining why the deployment needs both
+huge pages and finer-grained observation.  That made it sound as if our goal
+was simply to stop using huge pages.
 
-As I understand it, enabling CONFIG_64BIT essentially means that we are 
-building a 64-bit kernel, and a 32-bit architecture cannot normally 
-enable CONFIG_64BIT.
+> The observation makes sense.  However, does the sparse access pattern
+> realistic?  If so, what is the purpose or expected benefit of using huge page
+> for workloads having such access pattern?
 
-If that is the case, would depends on 64BIT be necessary here? Or is PCI 
-Live Update already inherently restricted to 64-bit architectures by the 
-existing LIVEUPDATE/architecture configuration, so that this dependency 
-would be redundant?
+The original case is not a lab-created request to use huge pages for a sparse
+microbenchmark.  It was reported by SXF from a KVM/QEMU deployment where the
+VM has a large memory allocation backed by a shared tmpfs file, host THP is
+enabled, and Oracle runs inside the guest.  They use host-side DAMON to measure
+the VM's hot-memory proportion.  With the same business memory use, they
+observed a much larger hot proportion when THP was enabled.
 
-If this problem has already discussed, I am very sorry about this.
+The guest tmpfs 4 KiB/2 MiB writer is their controlled diagnostic case for
+isolating that observation; it is not a claim that the Oracle workload is
+exactly a one-page-per-2-MiB loop.  We then reproduced and quantified the same
+effect on a PC and on the x86 server.
 
-Yanjun Zhu
+For this deployment, keeping large pages is a real requirement at the host
+virtualization layer.  QEMU owns a large resident guest-RAM mapping.  Host THP
+allows that mapping to use PMDs and allows KVM to use large secondary mappings,
+reducing host page-table memory, TLB and nested-page-walk pressure, and KVM
+mapping/fault overhead.  These benefits are independent of whether every 4 KiB
+page inside a particular 2 MiB range is hot at one observation time.
 
->   	help
->   	  Enable PCI core support for preserving PCI devices across Live
->   	  Update. This, in combination with support in a device's driver,
-> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
-> index b003b7069cdb..5ce5f8b36902 100644
-> --- a/drivers/pci/liveupdate.c
-> +++ b/drivers/pci/liveupdate.c
-> @@ -49,6 +49,20 @@
->    * This allows the PCI core to keep its FLB data (struct pci_ser) up to date
->    * with the list of **outgoing** preserved devices for the next kernel.
->    *
-> + * After kexec, whenever a device is enumerated, the PCI core will check if it
-> + * is an **incoming** preserved device (i.e. preserved by the previous kernel)
-> + * by checking the incoming FLB data (struct pci_ser).
-> + *
-> + * Drivers must notify the PCI core when an **incoming** device is done
-> + * participating in the incoming Live Update with the following API:
-> + *
-> + *  * ``pci_liveupdate_finish(pci_dev)``
-> + *
-> + * The PCI core does not enforce any ordering of ``pci_liveupdate_finish()`` and
-> + * ``pci_liveupdate_preserve()``. i.e. A PCI device can be **outgoing**
-> + * (preserved for next kernel) and **incoming** (preserved by previous kernel)
-> + * at the same time.
-> + *
->    * Restrictions
->    * ============
->    *
-> @@ -100,6 +114,26 @@ struct pci_flb_outgoing {
->   	struct kho_block_set block_set;
->   };
->   
-> +/**
-> + * struct pci_flb_incoming - Incoming PCI FLB object
-> + * @ser: The incoming struct pci_ser from the previous kernel.
-> + * @xa: Xarray used to quickly lookup devices in @ser.
-> + * @block_set: The KHO block set holding the incoming devices.
-> + *
-> + * This structure holds the runtime state for the incoming PCI Live Update
-> + * state. It wraps the serialized pci_ser, the block_set used to restore
-> + * the serialized entries, and an xarray for fast lookups.
-> + */
-> +struct pci_flb_incoming {
-> +	struct pci_ser *ser;
-> +	struct xarray xa;
-> +	struct kho_block_set block_set;
-> +};
-> +
-> +static unsigned long pci_ser_xa_key(u32 domain, u16 bdf)
-> +{
-> +	return (unsigned long)domain << 16 | bdf;
-> +}
->   static int pci_flb_preserve(struct liveupdate_flb_op_args *args)
->   {
->   	struct pci_flb_outgoing *outgoing __free(kfree) = NULL;
-> @@ -140,15 +174,91 @@ static void pci_flb_unpreserve(struct liveupdate_flb_op_args *args)
->   
->   static int pci_flb_retrieve(struct liveupdate_flb_op_args *args)
->   {
-> +	struct pci_ser *ser = phys_to_virt(args->data);
-> +	struct pci_flb_incoming *incoming;
-> +	struct pci_dev_ser *dev_ser;
-> +	struct kho_block_set_it it;
-> +	int ret;
-> +
->   	pr_debug("Retrieving struct pci_ser (0x%llx)\n", args->data);
-> -	args->obj = phys_to_virt(args->data);
-> +
-> +	if (ser->version != PCI_LUO_FLB_VERSION) {
-> +		pr_err("Incoming PCI FLB version (v%d) is incompatible with this kernel (v%d)\n",
-> +		       ser->version, PCI_LUO_FLB_VERSION);
-> +		ret = -EINVAL;
-> +		goto err_restore_free;
-> +	}
-> +
-> +	incoming = kzalloc_obj(*incoming);
-> +	if (!incoming) {
-> +		ret = -ENOMEM;
-> +		goto err_restore_free;
-> +	}
-> +
-> +	incoming->ser = ser;
-> +	xa_init(&incoming->xa);
-> +
-> +	kho_block_set_init(&incoming->block_set, sizeof(struct pci_dev_ser));
-> +	ret = kho_block_set_restore(&incoming->block_set, ser->devices);
-> +	if (ret)
-> +		goto err_free_incoming;
-> +
-> +	kho_block_set_it_init(&it, &incoming->block_set);
-> +	while ((dev_ser = kho_block_set_it_read_entry(&it))) {
-> +		unsigned long key;
-> +
-> +		if (!dev_ser->refcount)
-> +			continue;
-> +
-> +		key = pci_ser_xa_key(dev_ser->domain, dev_ser->bdf);
-> +		ret = xa_insert(&incoming->xa, key, dev_ser, GFP_KERNEL);
-> +		if (ret)
-> +			goto err_block_set_destroy;
-> +	}
-> +
-> +	args->obj = incoming;
->   	return 0;
-> +
-> +err_block_set_destroy:
-> +	kho_block_set_destroy(&incoming->block_set);
-> +err_free_incoming:
-> +	xa_destroy(&incoming->xa);
-> +	kfree(incoming);
-> +err_restore_free:
-> +	kho_restore_free(ser);
-> +	return ret;
-> +}
-> +
-> +static void pci_check_all_devices_finished(struct pci_flb_incoming *incoming)
-> +{
-> +	struct pci_dev *dev = NULL;
-> +
-> +	if (READ_ONCE(incoming->ser->nr_devices) == 0)
-> +		return;
-> +
-> +	for_each_pci_dev(dev) {
-> +		if (READ_ONCE(dev->liveupdate.incoming))
-> +			pci_emerg(dev, "Preserved device was never finished!\n");
-> +	}
-> +
-> +	/*
-> +	 * This should only happen if a driver violated the contract to call
-> +	 * pci_liveupdate_finish() (something is extremely broken).
-> +	 */
-> +	panic("Some preserved devices were never finished!\n");
->   }
->   
->   static void pci_flb_finish(struct liveupdate_flb_op_args *args)
->   {
-> +	struct pci_flb_incoming *incoming = args->obj;
-> +
->   	pr_debug("Finished struct pci_ser (0x%llx)\n", args->data);
-> -	kho_restore_free(args->obj);
-> +	pci_check_all_devices_finished(incoming);
-> +
-> +	xa_destroy(&incoming->xa);
-> +	kho_block_set_destroy(&incoming->block_set);
-> +	kho_restore_free(incoming->ser);
-> +	kfree(incoming);
->   }
->   
->   static struct liveupdate_flb_ops pci_liveupdate_flb_ops = {
-> @@ -325,6 +435,75 @@ void pci_liveupdate_unpreserve(struct pci_dev *dev)
->   }
->   EXPORT_SYMBOL_GPL(pci_liveupdate_unpreserve);
->   
-> +static struct pci_flb_incoming *pci_liveupdate_flb_get_incoming(void)
-> +{
-> +	struct pci_flb_incoming *incoming = NULL;
-> +	int ret;
-> +
-> +	ret = liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **)&incoming);
-> +
-> +	/* Live Update is not enabled. */
-> +	if (ret == -EOPNOTSUPP)
-> +		return NULL;
-> +
-> +	/* Live Update is enabled, but there is no incoming FLB data. */
-> +	if (ret == -ENODATA)
-> +		return NULL;
-> +
-> +	/*
-> +	 * Live Update is enabled and there is incoming FLB data, but none of it
-> +	 * matches pci_liveupdate_flb.compatible.
-> +	 */
-> +	if (ret == -ENOENT)
-> +		return NULL;
-> +
-> +	/*
-> +	 * There is incoming FLB data that matches pci_liveupdate_flb.compatible
-> +	 * but retrieve failed (pci_flb_retrieve() returned an error or LUO
-> +	 * failed to acquire a reference to pci_liveupdate_flb_ops.owner).
-> +	 */
-> +	if (ret)
-> +		panic("Failed to retrieve incoming FLB data (%d)\n", ret);
-> +
-> +	return incoming;
-> +}
-> +
-> +static void pci_liveupdate_flb_put_incoming(void)
-> +{
-> +	liveupdate_flb_put_incoming(&pci_liveupdate_flb);
-> +}
-> +
-> +void pci_liveupdate_setup_device(struct pci_dev *dev)
-> +{
-> +	struct pci_flb_incoming *incoming;
-> +	struct pci_dev_ser *dev_ser;
-> +	unsigned long key;
-> +
-> +	guard(rwsem_write)(&pci_liveupdate.rwsem);
-> +
-> +	incoming = pci_liveupdate_flb_get_incoming();
-> +	if (!incoming)
-> +		return;
-> +
-> +	key = pci_ser_xa_key(pci_domain_nr(dev->bus), pci_dev_id(dev));
-> +	dev_ser = xa_load(&incoming->xa, key);
-> +
-> +	/*
-> +	 * This device was not preserved across Live Update, or it was preserved
-> +	 * but has already been probed and gone through pci_liveupdate_finish(),
-> +	 * e.g. due to removing and re-adding the device. Either way, it's not
-> +	 * treated as incoming-preserved.
-> +	 */
-> +	if (!dev_ser || !dev_ser->refcount) {
-> +		pci_liveupdate_flb_put_incoming();
-> +		return;
-> +	}
-> +
-> +	pci_info(dev, "Device was preserved by previous kernel across Live Update\n");
-> +	dev->liveupdate.incoming = dev_ser;
-> +	pci_liveupdate_flb_put_incoming();
-> +}
-> +
->   void pci_liveupdate_cleanup_device(struct pci_dev *dev)
->   {
->   	/*
-> @@ -336,7 +515,80 @@ void pci_liveupdate_cleanup_device(struct pci_dev *dev)
->   	 */
->   	if (READ_ONCE(dev->liveupdate.outgoing))
->   		pci_WARN(dev, 1, "Destroying outgoing-preserved device!\n");
-> +
-> +	if (READ_ONCE(dev->liveupdate.incoming))
-> +		pci_WARN(dev, 1, "Destroying incoming-preserved device!\n");
-> +}
-> +
-> +static void pci_liveupdate_finish_device(struct pci_ser *ser, struct pci_dev *dev)
-> +{
-> +	if (!dev->liveupdate.incoming) {
-> +		pci_warn(dev, "Cannot finish preserving an unpreserved device\n");
-> +		return;
-> +	}
-> +
-> +	if (dev->liveupdate.incoming->refcount != 1) {
-> +		pci_WARN(dev, 1, "Preserved device has a corrupted refcount!\n");
-> +		return;
-> +	}
-> +
-> +	/*
-> +	 * Drop the refcount so this device does not get treated as an incoming
-> +	 * device again, e.g. in case pci_liveupdate_setup_device() gets called
-> +	 * again because the device is hot-plugged.
-> +	 */
-> +	dev->liveupdate.incoming->refcount = 0;
-> +
-> +	pci_info(dev, "Device is finished participating in Live Update\n");
-> +	dev->liveupdate.incoming = NULL;
-> +	ser->nr_devices--;
-> +}
-> +
-> +/**
-> + * pci_liveupdate_finish() - Finish the preservation of a PCI device
-> + * @dev: The PCI device
-> + *
-> + * pci_liveupdate_finish() notifies the PCI core that a PCI device that was
-> + * preserved across the previous Live Update has finished participating in Live
-> + * Update. Drivers must call pci_liveupdate_finish() from their struct
-> + * liveupdate_file_handler finish() callback to ensure the incoming struct
-> + * pci_ser is allocated.
-> + */
-> +void pci_liveupdate_finish(struct pci_dev *dev)
-> +{
-> +	struct pci_flb_incoming *incoming;
-> +
-> +	guard(rwsem_write)(&pci_liveupdate.rwsem);
-> +
-> +	incoming = pci_liveupdate_flb_get_incoming();
-> +	if (!incoming) {
-> +		pci_warn(dev, "Cannot finish preserving device without incoming FLB\n");
-> +		return;
-> +	}
-> +
-> +	pci_liveupdate_finish_device(incoming->ser, dev);
-> +	pci_liveupdate_flb_put_incoming();
-> +}
-> +EXPORT_SYMBOL_GPL(pci_liveupdate_finish);
-> +
-> +/**
-> + * pci_liveupdate_is_incoming() - Check if a device is incoming-preserved
-> + * @dev: The PCI device to check
-> + *
-> + * Check if a device was preserved across Live Update by the previous kernel,
-> + * i.e. the device is incoming-preserved. Note that a device is only considered
-> + * incoming-preserved prior to pci_liveupdate_finish(). It is up to drivers to
-> + * synchronize usage of pci_liveupdate_is_incoming() with their own call to
-> + * pci_liveupdate_finish() to avoid acting on stale data.
-> + *
-> + * Returns: True if the device is incoming-preserved, false otherwise.
-> + */
-> +bool pci_liveupdate_is_incoming(struct pci_dev *dev)
-> +{
-> +	guard(rwsem_read)(&pci_liveupdate.rwsem);
-> +	return dev->liveupdate.incoming;
->   }
-> +EXPORT_SYMBOL_GPL(pci_liveupdate_is_incoming);
->   
->   /**
->    * pci_liveupdate_register_flb() - Register a file handler with the PCI core
-> diff --git a/drivers/pci/liveupdate.h b/drivers/pci/liveupdate.h
-> index b2335581f8d0..eaaa3559fd77 100644
-> --- a/drivers/pci/liveupdate.h
-> +++ b/drivers/pci/liveupdate.h
-> @@ -11,8 +11,13 @@
->   #include <linux/pci.h>
->   
->   #ifdef CONFIG_PCI_LIVEUPDATE
-> +void pci_liveupdate_setup_device(struct pci_dev *dev);
->   void pci_liveupdate_cleanup_device(struct pci_dev *dev);
->   #else
-> +static inline void pci_liveupdate_setup_device(struct pci_dev *dev)
-> +{
-> +}
-> +
->   static inline void pci_liveupdate_cleanup_device(struct pci_dev *dev)
->   {
->   }
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index 14b66acbdb15..5dc9d86e3597 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -2065,6 +2065,8 @@ int pci_setup_device(struct pci_dev *dev)
->   	if (pci_early_dump)
->   		early_dump_pci_device(dev);
->   
-> +	pci_liveupdate_setup_device(dev);
-> +
->   	/* Need to have dev->class ready */
->   	dev->cfg_size = pci_cfg_space_size(dev);
->   
-> @@ -2188,6 +2190,7 @@ int pci_setup_device(struct pci_dev *dev)
->   	default:				    /* unknown header */
->   		pci_err(dev, "unknown header type %02x, ignoring device\n",
->   			dev->hdr_type);
-> +		pci_liveupdate_cleanup_device(dev);
->   		pci_release_of_node(dev);
->   		return -EIO;
->   
-> diff --git a/include/linux/pci_liveupdate.h b/include/linux/pci_liveupdate.h
-> index 894052ad6961..710026ada2d5 100644
-> --- a/include/linux/pci_liveupdate.h
-> +++ b/include/linux/pci_liveupdate.h
-> @@ -16,9 +16,11 @@
->   /**
->    * struct pci_liveupdate - PCI Live Update state for a struct pci_dev
->    * @outgoing: State preserved for the next kernel.
-> + * @incoming: State preserved by the previous kernel.
->    */
->   struct pci_liveupdate {
->   	struct pci_dev_ser *outgoing;
-> +	struct pci_dev_ser *incoming;
->   };
->   
->   struct pci_dev;
-> @@ -28,6 +30,8 @@ int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh);
->   void pci_liveupdate_unregister_flb(struct liveupdate_file_handler *fh);
->   int pci_liveupdate_preserve(struct pci_dev *dev);
->   void pci_liveupdate_unpreserve(struct pci_dev *dev);
-> +void pci_liveupdate_finish(struct pci_dev *dev);
-> +bool pci_liveupdate_is_incoming(struct pci_dev *dev);
->   #else
->   static inline int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh)
->   {
-> @@ -46,6 +50,15 @@ static inline int pci_liveupdate_preserve(struct pci_dev *dev)
->   static inline void pci_liveupdate_unpreserve(struct pci_dev *dev)
->   {
->   }
-> +
-> +static inline void pci_liveupdate_finish(struct pci_dev *dev)
-> +{
-> +}
-> +
-> +static inline bool pci_liveupdate_is_incoming(struct pci_dev *dev)
-> +{
-> +	return false;
-> +}
->   #endif
->   
->   #endif /* LINUX_PCI_LIVEUPDATE_H */
+This host configuration should also not be confused with the guest database
+page policy.  Oracle may separately use explicit HugePages for its SGA inside
+the guest; the guest policy and the host THP backing of QEMU RAM are different
+translation layers.  The requirement reported to us is to retain the host
+large-page benefit while measuring the guest working-set proportion from the
+host.  Disabling host THP merely to make DAMON's number smaller would change
+the deployed VM configuration and remove the benefit the user is trying to
+keep.
 
+The monitoring requirement is different: DAMON is expected to estimate how
+much of the guest memory is actually hot.  A host PMD is a translation unit for
+guest RAM, not a semantic hotness unit for Oracle.  Guest allocation can place
+small accessed pages across many guest-physical 2 MiB ranges, and one access
+then makes each corresponding coarse mapping look accessed.
+
+Our latest capture makes this mechanism concrete.  The sparse diagnostic
+touched 24,576 guest 4 KiB pages spread over 24,575 guest-physical 2 MiB
+buckets, while the dense control touched 12,582,912 pages.  They are 0.146%
+and 75% of the monitored 64 GiB backend, respectively, but host DAMON reported
+about 75% for both.  This is why the user needs huge-page mapping for VM
+performance and, independently, finer-grained observation for a meaningful
+hot-memory ratio.
+
+The performance requirement and monitoring use case come from the deployment,
+not from our lab model.  We will also report the measured Oracle/VM benefit and
+the production access distribution when those data are ready.  The diagnostic
+result establishes the observation mechanism, but it should not substitute for
+those workload-level measurements.
+
+> I'm not very sure if this is the right direction.  PMD mapping demotion sounds
+> like you just don't want to use huge pages.  If so, you could disable huge
+> pages.
+
+I agree.  My reasoning in the previous mail was too jumpy: I went from a coarse
+observation directly to a possible MM response, and that obscured the actual
+goal.  PMD mapping demotion is not part of our current proposed solution.  The
+current direction is to keep both the huge folio and PMD mapping unchanged and
+use a genuinely fine-grained access primitive to improve the observation and
+the stat-only decision.  We should first find out whether that is sufficient
+before discussing any mapping change at all.
+
+> technically speaking, it is not the report semantics.  Reporting allows any
+> information to be reported.  Page faults like information could be coarse
+> grained, same to the current page table accessed-bit based one.  Only finer
+> grained access primitive reports, like those from perf events, would increase
+> the accuracy for the sparse access pattern monitoring.
+
+Agreed.  The report interface is the transport, not the source of accuracy.
+Our recorded-address replay is intended only to test whether the DAMON
+consumer and decision can use complete fine-grained address evidence.  The
+eventual accuracy has to come from a fine-grained primitive such as an
+appropriate perf event source, with its coverage and loss accounted for.  We
+will use that terminology in the follow-up results.
+
+With this context clarified, we will return to the immediate work: use the
+existing IBS/perf-event proposal as the concrete strategy under test, and see
+whether its fine-grained evidence can improve the observation and DAMOS
+decision for this case.  We will use the results to test and review this series,
+report both improvements and remaining gaps, and not assume in advance that it
+is the final solution.
+
+I hope this clarifies why keeping huge pages and requesting finer-grained
+observation are not contradictory requirements in this case.
+
+If I am still misunderstanding any part of your questions, or if any part of
+this explanation remains unclear, please continue to correct me.  We will keep
+sharing our findings and would like to make sure we are aligned before going
+further.
+
+Thanks,
+Lian
