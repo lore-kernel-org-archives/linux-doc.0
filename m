@@ -1,187 +1,247 @@
-Received: from mail-vs2-f41.google.com (mail-vs2-f41.google.com [74.125.227.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2116D509EE2
-	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 13:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269E4509EE9
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 13:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789566429; cv=none; b=j+FvMi4UQmzU6wl5Vi2b4/GsbvkDSkSrM6nCcL26teJP8PCtrErMqkHW06syDCCZeYRoPj76ARWatn8SYyNfWcsJm8hLVezlxGcMMtX79qsRSbElVTFris7BR4xhghmX+Vkmq2o2dSElXtfmHCDAZ1AgMhc024GBl9iNPhSNBlc=
+	t=1789566433; cv=none; b=cDA+fTUE7LILJCNdzdMSWcMMMpnXLi4qF9mddymlx0rZfve+tyYbcQxHFdw8PgbadZZYWjmMafrtsfiAEJgphfGNw653CkvWK+zEi6pfEdy3MbmOrHrDUQBqreJHTaiERkfFSO8qtsfEOPQXFZESdd/g+lcCNmN0wLiiib99Fhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789566429; c=relaxed/simple;
-	bh=q2MfE8fZqZKi+axKsVZEfQnx8mD9rMOHxGOWTSRWUQ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Us6V/odpiBaaXzfEK1c1AxmxCGRbUrEYTTyL+A3XqtGQ0Bl3N+yghXxz3KEGPsU19xbP9V+4Azs/RWPk8bRyBWjHhI0802kvDgpZeAZ0hM1rtubs609bV71HAS36cstT0Sb1y1MztIn55RvR/xYejDfpvRRVcDJwxtPSK/ID41Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jevcf4CK; arc=none smtp.client-ip=74.125.227.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789566433; c=relaxed/simple;
+	bh=fq7rgyr2/6hlii+ZIiIhHGuSwIiMwTuP95IbVtRDoSg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=QvWXNKBc7jGGCraeAPETM0uW+GKbVgwUu8enxE+DFDZ7Wv7PY8rhYWZYWDDAhuNn6CyBDibiFa+zh1we1ugeeky+tCDcQS1v1wYMxqB3DFysJWsGCUeTA5h2qW2zwBxGyP5IboBZiKJ8+GTcIlceckj+mCB1kjZS2HTgJzCjhX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=b9FMJI36; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jevcf4CK"
-Received: by mail-vs2-f41.google.com with SMTP id ada2fe7eead31-795a0ab5227so303284137.1
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 06:47:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789566421; x=1790171221; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0+3Jj7cpp/cVunwqo7Vx/u+kyap4pULeHcjbBhPp4VQ=;
-        b=jevcf4CKB01Y57BySuUsLjw/UXdK4IoGKn1eP/s77na+dTrh+iRyd0WTDrS8v+MJVd
-         UFpakBpBWpdikzswYUhazTu3KWBz0o+DQ13hHmd30nvlgr4i/AJ0F5hElW/wFTix3zMX
-         /ub6rS713JOM0YAuBpDFtFILXciYtgYsHq7H/GLLwbWpzVB/e9ipCjmoH/eEMy9SdK3u
-         nFtKkh552Y/n1CFxshw7srIhxQdi3HTIe78n2UjI0+Uv7h0NdxrqetDRsYndGTI1rJtC
-         qsaHItm8tvthPKdn48msWIeKZM0dCuNcHqyj1ujBqtomgi9vtgKFG+FPEHNqpw+WEgkG
-         3Ndw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789566421; x=1790171221;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0+3Jj7cpp/cVunwqo7Vx/u+kyap4pULeHcjbBhPp4VQ=;
-        b=eMAD47Mx72wBg3jm8rwmnV35tcvCYKCL6kDW/D3AVRd6oEaAHFq3KGUx/jMt61e49l
-         4j6xiBY444hA0t3UjWzteAzwd5xFUTEYUSReNhFOY+opEdJIpxuUwldA9XDLX9MEKHCm
-         dhdM+iLjJ4vaycHG20dB9q9SfG0Vgcd9DIW0DzqfGSC9O5kgv5MGfuGcauUPMh47m8p2
-         PSiDpHRFv3UQU0YceQTf2VtpJ4s0ej/9JPEPcbGtA7qMruDGllSq9RsOPUJxs2SxS8Gn
-         mQsMERipbwgfudGkhqSqw4kWq7b68ElOk3F4fJC7kBnyfZ40jsIogFrT9ViNLGu4TZLZ
-         seZA==
-X-Forwarded-Encrypted: i=1; AKwUvBx5g2EtuRe7xXEMr7CEfGkfoFR5dWc+sauZE7tOR7zcvz3xohfRT31I8e9/svXQWBghJkG9vT8ZoZ0=@vger.kernel.org
-X-Gm-Message-State: AFuF++nQPmDl5NhLXBNTe6RUK2xMfdqjYTvWSD6HcSJ7p1eq1TC4MOwL
-	oWbDLOPTpZjXs0fVRd1PukIN+vVuJorKoT1nP7hPM5O4weHH7p+/jwxA
-X-Gm-Gg: AYBFou3lXwMXBqfqVo/qFpyR7/NSq6S7sc4/N3psE/qlGPZdyguFfkORZ23t4iUYkgY
-	GcS0hODRy6npZmguo4UP0e+3afa8JzMcSMFmUrVX7peTD19VGbEWjR3ArO7ehCW9wTyrO4F07mT
-	0WKFY0KYlLk3wkKID95AhN5bFQ47Jw+9hM67lhPEsBLyVIDq52c0pXEpcGrKbMHqTo3Cwsh4gOs
-	Awr4QGXqP+4uZsrtOwS7Ahohm1bpfUT0c60/fJljYvqggpnkWLJpTm9VJQpKKdUFoi7taHaDWwb
-	iqC2dWccfQOsyYRmp4N/IN668HJcTBqYI1EPODMpTqHIeYFYykOXO3nnIOJ9LW7FoY09KpDEBnc
-	UI7SXQmMbwQUB+nMUBDZ15UkLVnsQC9UWhySCZAHM5p8NusyeCQPojEoHgKY44U0ngJsKPTureh
-	sZewH/XmKUUIU4wdFQTsIqFrF6TBB3ChtQ8DfXJdQlWqZofURlY4B9X7YA7wi0qG4eYE8+
-X-Received: by 2002:a05:6102:5247:b0:777:4e99:6f84 with SMTP id ada2fe7eead31-7a0250c1000mr2583083137.1.1789566420409;
-        Wed, 16 Sep 2026 06:47:00 -0700 (PDT)
-Received: from fedora ([206.42.51.82])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-79fb2fd68f7sm3005118137.12.2026.09.16.06.46.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 06:46:59 -0700 (PDT)
-From: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lucas Adryell Ramalho <lucasadramalho@gmail.com>
-Subject: [PATCH] docs: translations: pt_BR: translate maintainer-devicetree.rst
-Date: Wed, 16 Sep 2026 10:46:34 -0300
-Message-ID: <20260916134637.216062-1-lucasadramalho@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="b9FMJI36"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 91A22C5CD63;
+	Wed, 16 Sep 2026 13:47:46 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 95CE160337;
+	Wed, 16 Sep 2026 13:47:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B423011C7B03B;
+	Wed, 16 Sep 2026 15:46:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1789566418; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=cPET2NhrdD6HSvBQlq/W5IT0tYfRgFI87leV1mZtICo=;
+	b=b9FMJI3689bW6Mbp3QP/ZTgl/CWUhb8O+HyJBznbODXELvvhwULKj8sn/RhTSRHvKohWrN
+	IoclnNC1/3J4nwYlZTnTFwM3INfHr04fEmprfB1H0qwZmdsyVA0Xio+nEQY9AYX7dByIrV
+	yzp6KnOX2F2QDWAMoOIy/ks3dPpzEZwNHvH7R9SJ6YlOL8aHTe5UmcZoEttoiXNE7o05Mh
+	D6qvEGQ5zVOsTsPfXMt71MkYGQXtedfNhSpWJ+vENj5Abz1dgOKbBANkTXr1jdPKYO0NRn
+	c9FWdb1D3hEnCMkxW9QebJz8Fh9o+t/4iSO/3myOXSqD+CBMjHhWPvghwb+94w==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Date: Wed, 16 Sep 2026 15:45:33 +0200
+Subject: [PATCH v3 09/19] drm/bridge: tc358767: don't create a panel_bridge
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260916-drm-bridge-every-panel-v3-9-83afb4f1a707@bootlin.com>
+References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
+In-Reply-To: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
+ Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
+ Paul Kocialkowski <paulk@sys-base.io>, Linus Walleij <linusw@kernel.org>, 
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, Sean Paul <sean@poorly.run>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: Albert Esteve <aesteve@redhat.com>, 
+ Anusha Srivatsa <asrivats@redhat.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-mips@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, asahi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.16.0
+X-Last-TLS-Session-Version: TLSv1.3
 
-Translate maintainer-devicetree.rst to brazilian portuguese.
+Now a panel_bridge is automatically created for every drm_panel and the
+panel-bridge API is just a deprecated wrapper to access it.
 
-Assisted-by: LLM
-Signed-off-by: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+Update and simplify the code by just getting a reference to the
+already-existing bridge using of_drm_get_bridge_by_endpoint().
+
+As of_drm_get_bridge_by_endpoint() returns a refcounted bridge, take care
+of putting the bridge reference by using bridge->next_bridge.
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- .../translations/pt_BR/process/index.rst      |  1 +
- .../pt_BR/process/maintainer-devicetree.rst   | 76 +++++++++++++++++++
- 2 files changed, 77 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/maintainer-devicetree.rst
+ drivers/gpu/drm/bridge/Kconfig    |  2 --
+ drivers/gpu/drm/bridge/tc358767.c | 64 ++++++++++++---------------------------
+ 2 files changed, 20 insertions(+), 46 deletions(-)
 
-diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
-index eda2a3fc5..a00fa52cd 100644
---- a/Documentation/translations/pt_BR/process/index.rst
-+++ b/Documentation/translations/pt_BR/process/index.rst
-@@ -88,6 +88,7 @@ mantenedores de subsistemas.
-    Processo do subsistema SoC <maintainer-soc>
-    Conformidade de DTS para SoC <maintainer-soc-clean-dts>
-    Processo do subsistema KVM x86 <maintainer-kvm-x86>
-+   Subsistema de Devicetree e Open Firmware <maintainer-devicetree>
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index 89e87460aefc..4766ae85da17 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -402,8 +402,6 @@ config DRM_TOSHIBA_TC358767
+ 	select DRM_KMS_HELPER
+ 	select REGMAP_I2C
+ 	select DRM_MIPI_DSI
+-	select DRM_PANEL
+-	select DRM_PANEL_BRIDGE
+ 	help
+ 	  Toshiba TC358767 eDP bridge chip driver.
  
- Outros materiais
- ----------------
-diff --git a/Documentation/translations/pt_BR/process/maintainer-devicetree.rst b/Documentation/translations/pt_BR/process/maintainer-devicetree.rst
-new file mode 100644
-index 000000000..be26d89de
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/maintainer-devicetree.rst
-@@ -0,0 +1,76 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================
-+Subsistema de Devicetree e Open Firmware
-+=========================================
-+
-+Outros documentos sobre o processo
-+----------------------------------
-+
-+Consulte os documentos em Documentation/devicetree/bindings/ para saber como
-+escrever bindings de Devicetree corretamente e como enviar patches.
-+
-+Revisão e tratamento de patches
-+-------------------------------
-+
-+Os patches sob responsabilidade dos mantenedores de Devicetree são processados
-+de formas distintas, conforme o tipo de patch:
-+
-+1. Código central de drivers OF, por exemplo, drivers/of/:
-+   os patches são revisados e aplicados pelos mantenedores de DT.
-+
-+2. Bindings de Devicetree:
-+   os patches são revisados pelos mantenedores de DT, mas devem ser aplicados
-+   pelos mantenedores do subsistema, exceto em alguns casos. Consulte também
-+   *Para mantenedores do kernel* em
-+   Documentation/devicetree/bindings/submitting-patches.rst.
-+
-+3. DTS e drivers:
-+   os mantenedores de DT podem fazer comentários, mas, em geral, não se espera
-+   uma revisão. Os DTS devem passar nas verificações de esquema
-+   (dtbs_check) ou, ao menos, não gerar novos avisos.
-+
-+Patchwork
-+~~~~~~~~~
-+
-+Os mantenedores de Devicetree revisam patches usando o Patchwork; portanto, o
-+status atual de um patch pode ser consultado por lá. Em submissões típicas de
-+drivers, o Patchwork recebe toda a série de patches, mas normalmente apenas
-+alguns patches são bindings de Devicetree e, assim, revisados pelos
-+mantenedores de DT.
-+
-+Explicação dos status do Patchwork:
-+
-+ - **New**: ainda não processado pelo conjunto de ferramentas de automação.
-+ - **Needs ACK**: aguardando revisão dos mantenedores de DT.
-+ - **Handled Elsewhere**: patch não relacionado a DT; não será revisado aqui.
-+ - **RFC**: o patch provavelmente foi ignorado por ser um RFC incompleto.
-+ - **Changes Requested**: o patch foi revisado e os mantenedores de DT esperam
-+   alterações.
-+ - **Accepted**: o patch foi revisado e aplicado pelos mantenedores de DT em
-+   sua árvore.
-+ - **Not Applicable**: o patch foi revisado e provavelmente está em boas
-+   condições, com uma tag *Reviewed-by* ou *Acked-by* fornecida, mas os
-+   mantenedores de DT esperam que outra pessoa o aplique.
-+
-+Nova revisão e pings de patches
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Devido ao alto volume de e-mails, os mantenedores de Devicetree não leem todas
-+as mensagens que recebem; em vez disso, eles dependem do Patchwork durante o
-+processo de revisão. Além disso, muitas vezes deixam de lado patches que já
-+foram revisados.
-+
-+Como resultado, os mantenedores podem não perceber:
-+
-+1. Perguntas sobre patches já revisados.
-+2. Pings, por exemplo, quando um patch foi revisado pelos mantenedores de DT,
-+   mas ainda não foi aplicado pelos mantenedores do subsistema.
-+
-+Esses casos podem ser tratados das seguintes formas:
-+
-+1. Enviando um ping aos mantenedores de DT no canal de IRC.
-+2. Removendo a tag *Acked-by* ou *Reviewed-by* do mantenedor de DT ao enviar
-+   uma nova versão da série de patches, junto com uma explicação no changelog
-+   do patch sobre o motivo da remoção da tag e o que se espera dos mantenedores
-+   de DT.
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index ac83af7902cd..51f4baa62a53 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -35,7 +35,6 @@
+ #include <drm/drm_edid.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_of.h>
+-#include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+ 
+@@ -370,7 +369,6 @@ struct tc_data {
+ 	struct drm_dp_aux	aux;
+ 
+ 	struct drm_bridge	bridge;
+-	struct drm_bridge	*panel_bridge;
+ 	struct drm_connector	connector;
+ 
+ 	struct mipi_dsi_device	*dsi;
+@@ -1742,8 +1740,8 @@ static int tc_connector_get_modes(struct drm_connector *connector)
+ 		return 0;
+ 	}
+ 
+-	if (tc->panel_bridge) {
+-		num_modes = drm_bridge_get_modes(tc->panel_bridge, connector);
++	if (tc->bridge.next_bridge) {
++		num_modes = drm_bridge_get_modes(tc->bridge.next_bridge, connector);
+ 		if (num_modes > 0)
+ 			return num_modes;
+ 	}
+@@ -1788,7 +1786,7 @@ tc_connector_detect(struct drm_connector *connector, bool force)
+ 	if (tc->hpd_pin >= 0)
+ 		return tc_bridge_detect(&tc->bridge, connector);
+ 
+-	if (tc->panel_bridge)
++	if (tc->bridge.next_bridge)
+ 		return connector_status_connected;
+ 	else
+ 		return connector_status_unknown;
+@@ -1809,10 +1807,10 @@ static int tc_dpi_bridge_attach(struct drm_bridge *bridge,
+ {
+ 	struct tc_data *tc = bridge_to_tc(bridge);
+ 
+-	if (!tc->panel_bridge)
++	if (!tc->bridge.next_bridge)
+ 		return 0;
+ 
+-	return drm_bridge_attach(tc->bridge.encoder, tc->panel_bridge,
++	return drm_bridge_attach(tc->bridge.encoder, tc->bridge.next_bridge,
+ 				 &tc->bridge, flags);
+ }
+ 
+@@ -1825,9 +1823,9 @@ static int tc_edp_bridge_attach(struct drm_bridge *bridge,
+ 	struct drm_device *drm = bridge->dev;
+ 	int ret;
+ 
+-	if (tc->panel_bridge) {
++	if (tc->bridge.next_bridge) {
+ 		/* If a connector is required then this driver shall create it */
+-		ret = drm_bridge_attach(tc->bridge.encoder, tc->panel_bridge,
++		ret = drm_bridge_attach(tc->bridge.encoder, tc->bridge.next_bridge,
+ 					&tc->bridge, flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ 		if (ret)
+ 			return ret;
+@@ -2318,53 +2316,31 @@ static int tc_probe_dpi_bridge_endpoint(struct tc_data *tc)
+ {
+ 	struct device *dev = tc->dev;
+ 	struct drm_bridge *bridge;
+-	struct drm_panel *panel;
+-	int ret;
+ 
+ 	/* port@1 is the DPI input/output port */
+-	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, &bridge);
+-	if (ret && ret != -ENODEV)
+-		return dev_err_probe(dev, ret,
+-				     "Could not find DPI panel or bridge\n");
+-
+-	if (panel) {
+-		bridge = devm_drm_panel_bridge_add(dev, panel);
+-		drm_panel_put(panel);
+-		if (IS_ERR(bridge))
+-			return PTR_ERR(bridge);
+-	}
+-
+-	if (bridge) {
+-		tc->panel_bridge = bridge;
+-		tc->bridge.type = DRM_MODE_CONNECTOR_DPI;
++	bridge = of_drm_get_bridge_by_endpoint(dev->of_node, 1, 0);
++	if (IS_ERR(bridge))
++		return dev_err_probe(dev, PTR_ERR(bridge),
++				     "Could not find DPI bridge\n");
+ 
+-		return 0;
+-	}
++	tc->bridge.next_bridge = bridge;
++	tc->bridge.type = DRM_MODE_CONNECTOR_DPI;
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
+ {
+ 	struct device *dev = tc->dev;
+-	struct drm_panel *panel;
+-	int ret;
++	struct drm_bridge *bridge;
+ 
+ 	/* port@2 is the output port */
+-	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &panel, NULL);
+-	if (ret && ret != -ENODEV)
+-		return dev_err_probe(dev, ret,
+-				     "Could not find DSI panel or bridge\n");
+-
+-	if (panel) {
+-		struct drm_bridge *panel_bridge;
+-
+-		panel_bridge = devm_drm_panel_bridge_add(dev, panel);
+-		drm_panel_put(panel);
+-		if (IS_ERR(panel_bridge))
+-			return PTR_ERR(panel_bridge);
++	bridge = of_drm_get_bridge_by_endpoint(dev->of_node, 2, 0);
++	if (IS_ERR(bridge) && PTR_ERR(bridge) != -ENODEV)
++		return dev_err_probe(dev, PTR_ERR(bridge), "Could not find DSI bridge\n");
+ 
+-		tc->panel_bridge = panel_bridge;
++	if (!IS_ERR(bridge)) {
++		tc->bridge.next_bridge = bridge;
+ 		tc->bridge.type = DRM_MODE_CONNECTOR_eDP;
+ 	} else {
+ 		tc->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+
 -- 
 2.55.0
 
