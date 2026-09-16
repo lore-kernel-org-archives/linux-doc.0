@@ -1,83 +1,64 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3AF35675E
-	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 14:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2253331A66;
+	Wed, 16 Sep 2026 15:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789570780; cv=none; b=mtugtHa9ONlALEGO6c88q554tgN1V8+za1Jb+vM5Bg2SwjhstjpwB/g7GKMbpgjEMEaKuGfE5nB6yKWTjDTD2IOcxpVZntlO6Yhwq6ryZ/BU3TWX/hdvK4iUDun6d1uPH6j958X8AB6j0QPkPbAsoCzU/ljDdzd71Kap3CL2E7M=
+	t=1789571035; cv=none; b=M0ZuazFoJMn8P7jD4oqHcrLPZkp/eQfCsSqnnSNpxeSmF40Zv+xO149CQ0Fp67+OhoJyplI5LyYgQ82OIyBxQkAznqgbuhLzBHLzoXb44kiu4tu7CzrvXFmAmyUfsC50mf/4R7tyWpmKK5UX4/BZp3v06j/8FF79SFhhCThpY2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789570780; c=relaxed/simple;
-	bh=4Jl2TkRe7Npn73HaXfPcA4VVvCfEz91QC5XBElprxe4=;
+	s=arc-20240116; t=1789571035; c=relaxed/simple;
+	bh=ivTw1Y0pX9s+p0MElR8MJ98H6wOFlQU6YGM/Qsoj8hI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iovbPWH9bHIXFSN/rdSWmM7IFbzVLe+rDg9BUjJcVm0adpb94mqnIgKuSR2ItoNENRIcFAotaaKGz6jpwhmb4/4bX0y6yF5KaLznCILVb51b/u96wClEAJvk2lXMgHdjOLiQOq9U21CYnnHmTV6xvawO20aupmpSjI2FdDju7LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mgTrxaY6; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=FgjWUzIG3H0MUgT18gxREKq66BC9qAg0U3jfoP9qQL3uyjiQULQzsL3ERxZ+Brbg3BJbrY8Vd0to23N3zZ7L2bYJUuaBrBD1+0ybgqpU4r/jlywuQy3fgIpx/dHdjN6HduJHO80B4FSdPwox0AShPVR8HnvLKPDO6BAETuwcpt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hNp9TR4h; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mgTrxaY6"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccd5cf02so766276a91.3
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 07:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789570776; x=1790175576; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=3xRnvj52pHagz8sqiex+4Km8FuQRJvZZV/xhDBA7TFQ=;
-        b=mgTrxaY6AZiWnAmxzZcwig+v8VuOj+GoOmPuCoYjuUhhq5IIL+2Z66c0z8BGUyNlpS
-         GC0E03q1m8DB/5qMetvoQ7lBrq82C9MkIPbwq6tLTioTeM0gs2wCRe8D1abga00n8eBQ
-         znI5azqw95s170A3Lu6JWplgLcGwNxrw7TYFGUhAyOPjUqAZyO78aFCeUuJAJOEv55Bt
-         K7daPg6vZj6QLju39pd63nVDsSdqvfvrfYnF7nleEQAjVGcebVQYb9YSfeBZ7k68hurj
-         /8rIDxaLgHq4o5iMCc9wq8Fs0If1RRvtUwp/ZViZYfo7zAcb7dRpvVjL+u6g5hZjqu78
-         RfcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789570776; x=1790175576;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3xRnvj52pHagz8sqiex+4Km8FuQRJvZZV/xhDBA7TFQ=;
-        b=wmLw7YawI5Re1Ge0mgFglAeeWG0WAI7BDYnDmoHESVqead4t0sw07HC/upyKpc9RoI
-         ITLNdAUizE+PDmRJTsB3yR1p30J5DRHsHNXrtoFP+xTXNMbSZVqUy8OcqF4wZl937Ya0
-         ey/5x3L/a2ICGpY/fMTSzxz7Ymk3ImkPy+KCq4d23b/C86KTd+bVmRb9l91FzbezMm6g
-         /UGcsXcuzO6aFqnyoX3S+guLHGaLVuOXyXsmlZTO4U4x9rwrw2rgk9gcXBBJ+noFMdOB
-         TEaDU483gE+r2z+wtg6b/XOxqjvA15W2BRzPeDotqT/Ej0rRc5JNRd2EEcorrMQOntbl
-         F0bQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzX7e90EtGs6ZGddogJnxNQwHN3RnX+hxCj+CHn/09d/A9pOzRmdImENA5MC3pR3PHOp5XG6moivkM=@vger.kernel.org
-X-Gm-Message-State: AFuF++nfurq3vdsMiPQbSvIdsmJ2SdS8sBfLd6ZxCqaXlAPH9ZVbL/rb
-	DzFHHOL67PMW37X6Qab5D7hSU4kCOt/DsyQfh3CrEELh+3rGFaVTN9PZ
-X-Gm-Gg: AYBFou2XVY1noDCKpfI2eNRCssb07QCehP3WP5Tpn/uejF4rdHtH6nplxwNeBIiO33f
-	F6VfOF5pMdBy4fWrMIC0QYjbcfzUMoPiqBbALZPIo3ND2v48apPOJ69H0wEOJwZ5gvH5zTZ+uW5
-	zFEQ5fcsVY8UWbh74/qr3qEkr6z0CK1w12Xf23FE+CAqvRjVHMJ6o+qwqT8x/AHd7Cv4d+29vqQ
-	pMLyqq+gOA3IXQNuv2mhecqwC8u4Rzj5gklwlNrd6yWlvNTRmlw+tvXymuZNZDACtrTK9q/87jU
-	6WYQHdNzLT2vQtn44tlO5F3oHgC1VUpp1ZNnFh+hbFf16cgV8cdbwMzbfPs5FGAt26CCaElAuIy
-	cYnzM9BodIhZN55h0nGlLHWa2hh+R9S0INLOHckO9xznmpWkES/iNS+y7Iti1vgfqqjvi6Nu1k4
-	tJQcgV/1x1UXs7krUuJ11ISH3aTAykPOPmSwcL1gC9Bdro36dxhMYINruJV4P2E/6BrGwfY0GlF
-	1G/y0/+6RXa
-X-Received: by 2002:a17:90b:582b:b0:39d:c3bb:98e7 with SMTP id 98e67ed59e1d1-39e1e2eb37cmr7040268a91.6.1789570775729;
-        Wed, 16 Sep 2026 07:59:35 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e1bbdfd89sm5159630a91.9.2026.09.16.07.59.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 07:59:35 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 16 Sep 2026 07:59:34 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: "Pradhan, Sanman" <sanman.pradhan@hpe.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Sanman Pradhan <psanman@juniper.net>,
-	Senthil Muniyappan <smuniyappan@juniper.net>,
-	Vaibhav Agarwal <avaibhav@juniper.net>
-Subject: Re: [PATCH v2 3/3] hwmon: (pmbus/tps53679) Add support for TPS536C7
-Message-ID: <7c73bd97-a3c5-4485-8f16-57b128aab7c2@roeck-us.net>
-References: <20260915164823.160977-1-sanman.pradhan@hpe.com>
- <20260915164823.160977-4-sanman.pradhan@hpe.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hNp9TR4h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9BFE1F00893;
+	Wed, 16 Sep 2026 15:03:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789571034;
+	bh=dOv2mUj4IfQe2urPrSpRQzq0891uSiUaHQT6Owxb4wg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hNp9TR4hNEa31Lc0OIBbkJdyzLUfzEaSCShJwRUZAyIVBedJucVpionSLbHbhuA12
+	 A4LYcd84p8E1yUX+oNnZHXrq7AxrE66qITT8dSJ5yoVQlbjgAVXl4pn9Uv35wr8WDE
+	 X6oCqN9iRGTROffI+elLc579AyLZU5pXOTmYO2A5vo4/B68mYilbKrCFbOTZbDxokz
+	 rdwtI5djw+jX5yinhipJqexpdkRFsYN21LTdQ7uhn1fk7jnwEWNsUyMLAMYEmMM61E
+	 5H7OUlp5zB0ThL+tfxTTww/QqiALf9VJCzMFbYRE6ZjfI5X7IDi/CCJt8YPEk4V11i
+	 Rrp4tMEu4icXA==
+Date: Wed, 16 Sep 2026 16:03:39 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 21/21] kbuild: use pigz for gzip compression if
+ available
+Message-ID: <aqqqZfa8Q4D5dBt5@gremlin>
+References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
+ <20260914-build-speedup-v2-21-39817ec5db23@kernel.org>
+ <202609151758.BA5732348@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,43 +67,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260915164823.160977-4-sanman.pradhan@hpe.com>
+In-Reply-To: <202609151758.BA5732348@keescook>
 
-On Tue, Sep 15, 2026 at 04:48:46PM +0000, Pradhan, Sanman wrote:
-> From: Sanman Pradhan <psanman@juniper.net>
-> 
-> TPS536C7 is a dual-channel D-CAP+ step-down controller whose channels are
-> distributed across a configurable number of phases (N+M, up to 12 total).
-> Whether channel B (PMBus page 1) exists depends on the phase configuration
-> register, so the page count is derived at probe time.
-> 
-> Factor the TPS53676 phase-map parsing into a shared helper and reuse it
-> for TPS536C7. Only aggregate per-channel telemetry is exposed: leave
-> info->phases[] unset so the PMBus core never programs the PHASE selector
-> on every read (and because TPS536C7 can place up to 12 phases on channel
-> A, exceeding PMBUS_PHASES). Report VOUT in linear format like TPS53676.
-> 
-> Since the core never programs PHASE, set it to 0xff on each populated
-> page so READ_IOUT reports the aggregate channel current, and verify it
-> (PHASE can be write-protected). Fail identification if aggregate
-> selection cannot be established, since otherwise a single phase current
-> could be reported as the channel total.
-> 
-> A configuration with no channel-A phase is rejected with -EOPNOTSUPP:
-> the PMBus core models pages as the contiguous range 0..pages-1 and
-> cannot represent a channel-A-absent topology.
-> 
-> On the tested TPS536C7 (device ID 54 49 53 6c 70 00, CAPABILITY 0xd0),
-> block reads of IC_DEVICE_ID and USER_DATA_03 return -EBADMSG with PEC
-> enabled, while retrying those two reads without PEC returns the expected
-> 6- and 24-byte payloads. Standard byte/word telemetry keeps using PEC,
-> so only those two identification reads fall back to no-PEC.
-> 
-> Co-developed-by: Senthil Muniyappan <smuniyappan@juniper.net>
-> Co-developed-by: Vaibhav Agarwal <avaibhav@juniper.net>
-> Signed-off-by: Sanman Pradhan <psanman@juniper.net>
+On Tue, Sep 15, 2026 at 06:06:05PM -0700, Kees Cook wrote:
+> On Mon, Sep 14, 2026 at 10:22:20AM +0100, Lorenzo Stoakes (ARM) wrote:
+> > diff --git a/Makefile b/Makefile
+> > index 790ef23c5e8a..38c0cdc9f591 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -561,7 +561,7 @@ PERL		= perl
+> >  PYTHON3		= python3
+> >  CHECK		= sparse
+> >  BASH		= bash
+> > -KGZIP		= gzip
+> > +KGZIP		:= $(if $(shell command -v pigz 2>/dev/null),pigz,gzip)
+> >  KBZIP2		= bzip2
+> >  KLZOP		= lzop
+> >  LZMA		= lzma
+>
+> I had another idea that I think solves both my concerns (limits
+> to parallelism, new surprise users) and your concerns (complexity,
+> single-threaded when needed)... how about:
+>
+> Makefile:
+>
+> KPGZIP	:= $(if $(shell command -v pigz 2>/dev/null),$(PYTHON3) $(abs_srctree)/scripts/jobserver-exec $(abs_srctree)/scripts/parallel-gzip,gzip)
 
-Applied.
+That's nice :) Keeps things simple, separates out the jobserver-exec execution
+(which it turns out is no big deal also), and abstracts the idea of 'parallel
+gzip'.
 
-Thanks,
-Guenter
+Let's do this.
+
+>
+> and the same scripts/parallel-gzip:
+>
+> 	#!/bin/sh
+> 	exec pigz -p ${PARALLELISM:-1} "$@"
+>
+> And then replace the /boot/ KGZIP uses with KPGZIP. Then we don't need
+> to change modules, config_data, new users, nor cmd_gzip, etc, which all
+> continue to use the regular KGZIP and the "use python" part for the
+> KPGZIP case becomes is a 1-time cost?
+
+Yeah that's really nice.
+
+This is clearly the way forward, will do that in v3, thanks! :)
+
+[Oh and on precedent, it seems the arm64 FIT image builder,
+ scripts/make_fit.py, uses pigz already if available :>)]
+
+>
+> -Kees
+>
+> --
+> Kees Cook
+
+--
+Cheers, Lorenzo
