@@ -1,89 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577B84EE85E;
-	Wed, 16 Sep 2026 10:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A5B4FECE5;
+	Wed, 16 Sep 2026 10:44:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789555236; cv=none; b=ZYS9AKoH3i7klE8vGCJjTm4I7qNaFC2tClWJDIcHQmJumj1cqHx0T9iXwT6GB5oXh7BA/4lijIqUIVKDxfiHnccPPfRceWz/Z8Mu0qiwrGyn7+PndbhGGZx2AY5p1XqwK5Aph6zbs5g2JHYr/RNa9aMsJQLv+PdzrxRMhVWhgXg=
+	t=1789555527; cv=none; b=mHcsn0oY6H4BMqvDGLRkvJV3kCzQkgl1QtPcQR4Ilp2lppTuymni9gSpkX7QuLIAAuqTrYSMik8jAkSTKtOxVXQE95tv2Ee8X5s9DBOs16d74mr+9qKoVF+DDkmdqWvpaIqkf8RpcmXLWKSe2cEYDce8dSk5nbVjb6zb4luY7P8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789555236; c=relaxed/simple;
-	bh=cyBgzkiDkuEa1lPgP4i0Xh1sLAaQLCUN2TiL7hwEUEU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Kv9UfCTCuWq9qu/bfnGHQxpAPoskcy8Bv1zH0A+KPMq+dqdWRgMm3uulgUX2L39rN43bT8ygbdFSuWjJMtmpVkoUClHW08VsxHGIuBFz0eHcp6lzHw+IgxQDyEWHRn5Vfj6pSVcKThDMSRpUoM1Rrbme/btp47vkeOBt3nupDyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f4iD+4o+; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789555527; c=relaxed/simple;
+	bh=7e8L4zD0Xm8HDCepCxOzn187CvpONJz72dR1IkEbxjQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iNnbJCoFkNYYUHS4YwDHrPSjQC+VNzsIvxcWeI5bySAWViId6/Ebo8vBTS8f8BN/9+XFqRL2vLnxLi+E+PlVBF0syFIfDUlLwxK9qzJ8BC0n1sYkhhq+TaRh7j29/TWjjs5puWvK6MgxHYKd8gkrZEPvJDXtVA3SD2Lsug2Heyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=u/8ywcwc; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=X/TyP2wJ; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f4iD+4o+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789555221; x=1821091221;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=cyBgzkiDkuEa1lPgP4i0Xh1sLAaQLCUN2TiL7hwEUEU=;
-  b=f4iD+4o+xMsLtN60TRAukz0DaluMKQVoRjTi/PrY95MtCtMTKnKpJL+H
-   roohsyVLscZXG61Darx6dEeOwdkFBd30+8l1yqNQzmM7g4zmto+/HJVmZ
-   S99TBtHjCXQgu4/k69FCvbIRwFc10+Z9izRPxtCnti0cVB9fGeFzQYcTZ
-   wIzlXRF/Y5fAWo2qPEOBzgr9gZC0maQoEUjwXLxgZdWkMPe6MNJ5K1iDI
-   LT9uVLnI0BAAvf+nuSDoM2MH5GKNU0Uslsrh22u+iFsNfuxG6R0lLIgHg
-   esNvDwYCEg3oaTK6Ppz2BlG4dyrSbUeGJZmo5cIXaFR7PxOItijV6wCPf
-   Q==;
-X-CSE-ConnectionGUID: sg2F96/qRLOT05FQrxGt+w==
-X-CSE-MsgGUID: WGvd0gDLQxiS2nqOaPpFrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="93800314"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="93800314"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 03:40:13 -0700
-X-CSE-ConnectionGUID: N49HqL73SguYA9G2ydMjEA==
-X-CSE-MsgGUID: PyT8FfHNRXivrAI7PQLxyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="311586309"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.187])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 03:40:11 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
- Hans de Goede <hansg@kernel.org>, platform-driver-x86@vger.kernel.org, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- linux-doc@vger.kernel.org
-In-Reply-To: <20260916054942.2054730-1-rdunlap@infradead.org>
-References: <20260916054942.2054730-1-rdunlap@infradead.org>
-Subject: Re: [PATCH] docs: TPMI: use literal block for commands
-Message-Id: <178955520546.1900.16871379298287316660.b4-ty@b4>
-Date: Wed, 16 Sep 2026 13:40:05 +0300
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="u/8ywcwc";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="X/TyP2wJ"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hlFrD2rHszMlCf;
+	Wed, 16 Sep 2026 12:44:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1789555468;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Uh5ymucdRi2MylCiaaFqi90by3OPOvkWAM/nLZR9o+I=;
+	b=u/8ywcwcRxzqJcryZItTzVmVzYAosjXyO7I67IAisNrKuWCwfNsJWRy2KBzA4jzUKP3m0I
+	D0XUjv850O4z29QaDFnaysvjZe6vXJ+jg4rDNbXqn/ZFyy0va7L40tveuKcDQmlUGjs8Dr
+	KwSeIMX2RDNUTuHIxTyloYMLJI1DvtEMfhROJU5gz7prnCwiN82ycK4S3LPuuR6mLAAJlF
+	fJaZjOzeBxMIobg7PYV/zfsmFbigcroeFdiIxsJ9pNTo/DVq4Zy8J0dXuXdE+Xbz7JAE6y
+	ohpoPy4chlGYIy5HZNXPPMQD1whmDwLTw3RBPLXlQPAuOKW8kPOutetANX/USw==
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1789555466;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Uh5ymucdRi2MylCiaaFqi90by3OPOvkWAM/nLZR9o+I=;
+	b=X/TyP2wJt+FRIQNxzw0qideQ/CP7dqSOTiOHDDpQ4jajzh87y782omnQokTBzgVTrCo8EA
+	QQMR/+/ef7UEtaELnlxzOn5he59XJop4WivWoW5IKkocBe6OI19fdIbuuOPUbcQxY3M32Z
+	4LxwtUGQGgSyXY4ltDnjgyV7HThpkek3P9fBennj0dpif5ss/E08U/CzT/f6r4bNzp7p0C
+	RIxj22y4fDOwoFlwGdxS0IglHDeBa26YTX9yQ6v/rk2Nqmo0LgFa3HecaF8AcXpElatuaj
+	dOcWNf9RRjQda2T5VfXng6us2z8po8K5Flyf8NFOYj35jWnOfjhbiNoBiboT3A==
+To: "Theodore Ts'o" <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Baokun Li <libaokun@linux.alibaba.com>,
+	Jan Kara <jack@suse.cz>,
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+	Zhang Yi <yi.zhang@huawei.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	linux-ext4@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ext4, doc: remove unnecessary bracket
+Date: Wed, 16 Sep 2026 12:42:52 +0200
+Message-ID: <20260916104251.296148-3-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15.2
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 7dd6d9kycmqcedz6cb59uctu6ipkj1ew
+X-MBO-RS-ID: 15f51d3f17e7961cc77
 
-On Tue, 15 Sep 2026 22:49:41 -0700, Randy Dunlap wrote:
+Fix sentence structure to improve readability
 
-> Use a literal block for 'echo' commands to separate them from
-> the surrounding text. Otherwise the lines run together, without any
-> clear break before or after the commands.
+Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+Reviewed-by: Jan Kara <jack@suse.cz>
+CC: Randy Dunlap <rdunlap@infradead.org>
+---
+@Jan Kara, is the reviewed-tag ok even though I changed the patch?
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo-next branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo-next branch only once I've pushed my
-local branch there, which might take a while.
+[v2]
+ Incorporate Randys suggestion.
 
-FYI [if applicable to your patch], as per Linus' policy change, also
-fixes are mostly routed through for-next unless the fix is for a
-commit introduced in the most recent cycle or is clearly a regression
-fix.
+[v1]
+ https://lore.kernel.org/all/20260902143254.702971-2-manuelebnerli@mailbox.org/
+---
+ Documentation/filesystems/ext4/directory.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The list of commits applied:
-[1/1] docs: TPMI: use literal block for commands
-      commit: db1d44f20e3858c85fa8bf55ced0e833ecf26034
-
---
- i.
+diff --git a/Documentation/filesystems/ext4/directory.rst b/Documentation/filesystems/ext4/directory.rst
+index 9b003a4d4..6d8021309 100644
+--- a/Documentation/filesystems/ext4/directory.rst
++++ b/Documentation/filesystems/ext4/directory.rst
+@@ -429,7 +429,7 @@ block (precisely the length of one dx_entry) are used to store a
+ ``count`` entries in the dx_root/dx_node structures are adjusted as
+ necessary to fit the dx_tail into the block. If there is no space for
+ the dx_tail, the user is notified to run e2fsck -D to rebuild the
+-directory index (which will ensure that there's space for the checksum.
++directory index, which will ensure that there's space for the checksum.
+ The dx_tail structure is 8 bytes long and looks like this:
+ 
+ .. list-table::
+-- 
+2.55.0
 
