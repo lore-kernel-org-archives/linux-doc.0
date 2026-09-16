@@ -1,301 +1,754 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9885753FD5A;
-	Wed, 16 Sep 2026 15:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69DE6526AA0
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 15:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789572785; cv=none; b=OQfVde6rp2yMkmu1oGGOMbco+HUl0XFfM8QygpsbCv3ZJfKmVR35z9KLxxrJDf+VBo+Cz4+EpqZEzDFpT76sX/7BbabW21a/2EJTqErzABlGxW47o4fkxllCO18AKgub81bG0J9x50Wb2SGdI/J5IFC3yFLgzwU9h/UTdmsJQQ0=
+	t=1789572791; cv=none; b=Tx1q9hv+iwrbkdecwNuSoNVea1Yrg308QAxt1EPWgwMcqWmxm2kE7OlRn2uP5DgVYciM9bJWyGrfZQEDuk3vRX27a0oJGEC93nI9ugzzCzShfHaq+tGhdIYUc5IOClk5e9XrCmX1s2SKQePHdcP59l0Dw90ws7/KHrZw6/315YU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789572785; c=relaxed/simple;
-	bh=PYm+5X4sXMSZ0BCGf8DR7JplIKT/UD5Enw2UHUdb8/M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=j7YUbra8OHfqwhJnCVd2FdJ5WI6c1v9PL0t7AgavCkfFS0ClOqh9y0TyolSSVPuhn0c1S4qe9jYp85D5rbcyiip/7s+HOqt7Et80NAqXgAiVqab1LlH9lYEb7IdgPM5j2enRLBPJN3eDYhy6EOnZJfsCWXzrona9q/tlebQ87rY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sCVbcvk7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1789572791; c=relaxed/simple;
+	bh=pDwkZQOkMgkJUnkKQxOkVBEmvoCZyTvl8CLttYZiq2k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=s6oqf3uZ+unjI9bm5gfVMJVrsvYooy+BZ30/YUliZHwuvn8hTg/WSrCwUtNIkLutlV2HG4JngbNf+M+dOejvmJMK6/7iA4g+u/f+m53e0VFVV0zfGwh6fN4ps030f7DSEQbAeRwE+Bp/daTacqRnjLfqFpDC4us9eH4pMaPAZMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mF3DsTUP; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sCVbcvk7"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AA760C4AF0E;
-	Wed, 16 Sep 2026 15:33:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1789572781;
-	bh=PYm+5X4sXMSZ0BCGf8DR7JplIKT/UD5Enw2UHUdb8/M=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=sCVbcvk7FVBQgx2hZBHiqdQOQnOYhLzdEdtCwq9syfqQPMZxtbCt1WYaCLH36OnbC
-	 WOqjdvDG2hXJ9kpCi5jGIjwaXNiT0X0lFG0cRU342+Wru0GNt/GmEP4FETE+SEzHy8
-	 TbiOp3rYTNUV4oRBDRwEq34rcLoeLxXWW3ZdKzJajWeO14Q0ohX3lDElseFumYIflJ
-	 B96ltUZgaz5uQGT8vbTEOMC+o5hPFLrQwxBQTQsg8qYeoxWPy5C9gUGIHBuP/27MgJ
-	 UkjHjn0ASy70Dt7MmwHZBpx4Dwaafo/pxpLU1NibdO31iyyLsNJvv7aF+uHj76eDas
-	 Cl6Apk2C59MZg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92DDEC982C9;
-	Wed, 16 Sep 2026 15:33:01 +0000 (UTC)
-From: Jim Cromie via B4 Relay <devnull+jim.cromie.gmail.com@kernel.org>
-Date: Wed, 16 Sep 2026 09:33:13 -0600
-Subject: [PATCH v10 21/38] dyndbg: move mod_name down from struct
- ddebug_table to _ddebug_info
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mF3DsTUP"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a9a2f16ed4so3338062a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 08:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789572778; x=1790177578; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=48q2r3ekm1cEhyvq/Xjpxyyg4wW+qTTRNWSDq9Z3+ZU=;
+        b=mF3DsTUPCfdyVl9nbvu3etGy6W6SCnrmV9ol3aaU22IzwMBWtnVBwr5eOIt07seYnm
+         e0nw6uD3iCyncg4wxxy+nYGqZLCrXgV3mY+whjKlHrA3SoF/Fb8zD5GNXkqVMO6pC6yT
+         KIBlcruXPk3sj8Sg40fMy/c9JqszaVIeSXyH1Rvw0FXtHTTOXOHdvwwEdB0C4b7qkBn0
+         6EXlgjBXcJz6vVuRdNtwB3zVHn+jRdnT9lO5qEVjC64IrmTPhAeszkpmpBs46Ga/u+/b
+         FOkRMhRu3MqZEVXWyrPWsof75/jkCrZlXVj0QZNV++p3E6nY0fp5l2Bi+DPjEMoiYqo7
+         WL4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789572778; x=1790177578;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=48q2r3ekm1cEhyvq/Xjpxyyg4wW+qTTRNWSDq9Z3+ZU=;
+        b=jWu7FUxVkva9AKSTAFJkL53fACBYFmuI0zxqnUvwMksrYLfEg/bhLxr1Dyfk1ANeYJ
+         m/lUFJ8CorgpIYXVn9c98m9Nf43L5fzY3AsJD4niKz+jjEtVSn1MvOjYdy0q74axXDF6
+         zd6ozWD7cbRqUDOVGzHp4ZFP8/EgfEBs1h8lxs3GtxA2YIVLRmDSGwGu3f2Rtb9wcZPB
+         vElrNVpgwYA6Exz47rS5xFPGdq2wb37UW/Xx0kmFTYvzr3ILxnc6/LystJbtQbxLvVXm
+         apCimwrSNKN42yiwWF4WqrKcuxlMArTXq+OVF73O80ac/2Ehxg4wzY5QwEVPuFDtIELY
+         dhnQ==
+X-Gm-Message-State: AFuF++mNSS2B7jUyp18R4Qz2HMH8nNwnhYufls757+TJ9ausu8AMfP+v
+	g73eG3xKJMoBeUwZYbV8HU1fszPILqT1H8B1eNGm7cyx7dXDz824K+5p
+X-Gm-Gg: AYBFou32L6AfaTMKhLmWJenLRPPHRVxiQVHtiFdynS7IlgZZZ1kB+aT3muUCFqJkptM
+	LtlW1Du+9Gk6o32WjkKbN+MU4CsBH2Gs5D0Py4oEgA2HIkDGBc8DB0LOch02yP1SPgf+PIneq2W
+	glYautjJf1ZsYDI1aIHyy05DIAy/BmJQDHyodiU760gQsN9tARqIQyYc3JjATKLCFx1Bu66TryB
+	4fo1+bMUy8SnQoYam/E5oCrBCvKnlhFQSaTJqvB5CuxaIexazXgiEsYLzwftBUcSJ+XGIP8N0as
+	63iXspjK/iZ+4yh7JpDTgKH8P5cMVQmlAuA5gcIWeEoQuHVHPPzxjFfnTU1WwTi6m/gHFqjHDCm
+	Cr34NXBPFOA0vCiWGc/Hy+2M/OPYubHS4xjqVgrju5FdjoFe04R01tOpJMseFKBEMnDG5FhvyqC
+	I6Qk9QjAwN1ZN9JGXCco2/2nbSBibHENaKHq6ejFyLv/fV45E9bGmHuVy/IgD6D1tff7Wk9Km8R
+	kMcRKUQRZ/hOsaZe5+rO69K46YkvcL7BSym1mwadQ==
+X-Received: by 2002:a05:6402:114a:b0:6a9:8c23:e0c0 with SMTP id 4fb4d7f45d1cf-6aa04039ddamr4377696a12.19.1789572777416;
+        Wed, 16 Sep 2026 08:32:57 -0700 (PDT)
+Received: from fedora-tap.advaoptical.com ([82.166.23.19])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aa1cfe0562sm2067081a12.3.2026.09.16.08.32.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 08:32:56 -0700 (PDT)
+From: Sagi Maimon <maimon.sagi@gmail.com>
+X-Google-Original-From: Sagi Maimon <sagi.maimon@adtran.com>
+To: Richard Cochran <richardcochran@gmail.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	netdev@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sagi Maimon <maimon.sagi@gmail.com>
+Subject: [PATCH net-next v15 4/4] ptp: ocp: add TAP CPLD flashing via devlink
+Date: Wed, 16 Sep 2026 18:32:42 +0300
+Message-ID: <20260916153242.157171-5-sagi.maimon@adtran.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20260916153242.157171-1-sagi.maimon@adtran.com>
+References: <20260916153242.157171-1-sagi.maimon@adtran.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260916-dd-cmap-part2-clean-v10-21-af4cf4767707@gmail.com>
-References: <20260916-dd-cmap-part2-clean-v10-0-af4cf4767707@gmail.com>
-In-Reply-To: <20260916-dd-cmap-part2-clean-v10-0-af4cf4767707@gmail.com>
-To: Jason Baron <jbaron@akamai.com>, Shuah Khan <shuah@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, 
- Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
- Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
- Jonathan Corbet <corbet@net.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Len Brown <lenb@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org, 
- linux-modules@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, linux-pm@vger.kernel.org, 
- Jim Cromie <jim.cromie@gmail.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1789572777; l=7681;
- i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
- bh=NOnh/2IbtKQJ9B2L2I6AwuYdRWo9IZfGyiCqpeyE2yA=;
- b=AIPfMdNPYMgcsOuWKEpnL4vTry2ZO5Z6dzmrXm0+1Nnzl63U9/oH/1s+PXeCCIsCZsVFf7+L+
- s5t1IDpDif8AQOTR5z0DVzo7lwFVX0yuF8/4yA1VGHFNt/jSe+5fESA
-X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
- pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
-X-Endpoint-Received: by B4 Relay for jim.cromie@gmail.com/20260203 with
- auth_id=958
-X-Original-From: Jim Cromie <jim.cromie@gmail.com>
-Reply-To: jim.cromie@gmail.com
+Content-Transfer-Encoding: 8bit
 
-From: Jim Cromie <jim.cromie@gmail.com>
+From: Sagi Maimon <maimon.sagi@gmail.com>
 
-struct _ddebug_info already has most of dyndbg's info for a module;
-push debug_table.mod_name down into it, finishing the encapsulation.
+The Lattice MachXO3 CPLD on the ADVA TimeCard X1 is programmed over I2C
+using in-system programming (ISP).  Build on the TMC bus arbitration added
+previously and expose the update path as a devlink flash component, next
+to the card flash the driver already writes through devlink.
 
-This allows refactoring several callchains, passing &_ddebug_info
-instead of &ddebug_table, and hoisting the "&dt->info" deref up
-instead of repeating it thru the callchans
+The component is named fw.cpld and reported as a running version, so
+->info_get() both publishes the USERCODE of the image currently in the
+part and lets the core accept the name:
 
-ddebug_table contains a _ddebug_info member, so code with a ptr to a
-ddebug_table still have access to mod_name, just now with "->info."
-added in.
+  devlink dev flash pci/0000:02:00.0 file adva-cpld.bin component fw.cpld
 
-In static ddebug_add_module(&di), reinforce the cursor-model by
-dropping the modname arg, and setting di->mod_name at each caller.
+Flashing acquires the bus, erases the configuration flash, programs the
+image page by page and activates it with the MachXO3 REFRESH command,
+reporting progress with the standard devlink notifications.  The CPLD is
+required to come back with DONE set, not busy and no error code before the
+update is called successful, as drivers/fpga/machxo2-spi.c does.
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+The whole sequence runs under cpld_lock and the i2c adapter lock, so an
+EEPROM read blocks for as long as programming takes; the alternative is
+reading the TMC bus instead.  Flashing is privileged:
+DEVLINK_CMD_FLASH_UPDATE carries GENL_ADMIN_PERM.
+
+Signed-off-by: Sagi Maimon <maimon.sagi@gmail.com>
 ---
-v2: move RvB after SoB
+ Documentation/ABI/testing/sysfs-timecard     |  11 +-
+ Documentation/networking/devlink/ptp_ocp.rst |  48 +-
+ drivers/ptp/ptp_ocp.c                        | 441 ++++++++++++++++++-
+ 3 files changed, 479 insertions(+), 21 deletions(-)
 
-old-v12
-. moved up 1 position in series, ahead of hoist...
----
- include/linux/dynamic_debug.h |  1 +
- lib/dynamic_debug.c           | 50 ++++++++++++++++++++++---------------------
- 2 files changed, 27 insertions(+), 24 deletions(-)
-
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index ec9b2544d537..bf6039191fa7 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -108,6 +108,7 @@ struct _ddebug_class_maps {
+diff --git a/Documentation/ABI/testing/sysfs-timecard b/Documentation/ABI/testing/sysfs-timecard
+index e58824e0cdcd..4ba45c6ee4a3 100644
+--- a/Documentation/ABI/testing/sysfs-timecard
++++ b/Documentation/ABI/testing/sysfs-timecard
+@@ -31,9 +31,14 @@ Description:	(RO, root only) The flags set in the status register of the
+ 
+ 		A read arbitrates for the shared I2C bus and reprograms the
+ 		on-card mux, so it is restricted to root.  The Lattice device
+-		ID of the CPLD is read once by the driver, shortly after
+-		probe, and reported from that cached value as the fixed
+-		"cpld.id" version by devlink dev info.
++		ID of the CPLD is read by the driver shortly after probe,
++		and again after a successful CPLD update, and reported from
++		that cached value as the fixed "cpld.id" version by
++		devlink dev info.
++
++		New CPLD firmware is programmed with devlink dev flash,
++		selecting the "fw.cpld" component; see
++		Documentation/networking/devlink/ptp_ocp.rst.
+ 
+ What:		/sys/class/timecard/ocpN/available_clock_sources
+ Date:		September 2021
+diff --git a/Documentation/networking/devlink/ptp_ocp.rst b/Documentation/networking/devlink/ptp_ocp.rst
+index 3f997cd9f3a3..f94b759d9cd6 100644
+--- a/Documentation/networking/devlink/ptp_ocp.rst
++++ b/Documentation/networking/devlink/ptp_ocp.rst
+@@ -5,7 +5,7 @@ ptp_ocp devlink support
+ ========================
+ 
+ This document describes the devlink features implemented by the ``ptp_ocp``
+-device driver.
++device driver: the info versions it reports and its flash update support.
+ 
+ Info versions
+ =============
+@@ -30,6 +30,46 @@ The ``ptp_ocp`` driver reports the following versions
+      - Lattice device ID (IDCODE) of the TAP CPLD, formatted as ``0x%08x``.
+        Only present on ADVA TimeCard X1 boards, which are the only ones
+        carrying that CPLD.  Reading it claims the shared I2C bus and
+-       reprograms the on-card mux, so the driver does that once from its
+-       own worker and reports the cached value here; the version is
+-       omitted until that read has succeeded.
++       reprograms the on-card mux, so the driver does that from its own
++       worker and reports the cached value here; the version is omitted
++       until that read has succeeded.  The read is made once per binding
++       and again after a successful CPLD update.
++   * - ``fw.cpld``
++     - running
++     - USERCODE of the image programmed into the TAP CPLD, formatted as
++       ``0x%08x``.  Read together with ``cpld.id`` and reported the same
++       way.  This is the component name to pass to ``devlink dev flash``
++       to update the CPLD.
++
++Flash update
++============
++
++The driver implements ``devlink dev flash`` for two separate targets,
++selected with the component name.
++
++.. list-table:: Flash components
++   :widths: 20 80
++
++   * - Component
++     - Description
++   * - (none)
++     - The card's own flash, written through the SPI controller the driver
++       exposes.  The card runs the new image after its next reset.
++   * - ``fw.cpld``
++     - The configuration flash of the TAP CPLD on ADVA TimeCard X1 boards,
++       programmed over I2C with the MachXO3 in-system programming commands
++       and activated with a REFRESH, so the new image runs immediately.
++       The image is the raw configuration bitstream.  The only check the
++       driver makes is that its length is a non-zero multiple of the
++       16-byte page size, so a container such as ``.jed`` has to be
++       converted first rather than passed through - one whose length
++       happens to be a multiple of 16 would be programmed as if it were
++       a bitstream.
++
++Programming the CPLD claims the shared I2C bus for the whole cycle, so
++reads of the card's EEPROM block until it completes.  Progress is reported
++with the standard devlink status notifications.
++
++Example::
++
++    $ devlink dev flash pci/0000:02:00.0 file adva-cpld.bin component fw.cpld
+diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
+index 998ea9c6b381..2802989e8494 100644
+--- a/drivers/ptp/ptp_ocp.c
++++ b/drivers/ptp/ptp_ocp.c
+@@ -20,12 +20,14 @@
+ #include <linux/spi/altera.h>
+ #include <net/devlink.h>
+ #include <linux/i2c.h>
++#include <linux/iopoll.h>
+ #include <linux/mtd/mtd.h>
+ #include <linux/nvmem-consumer.h>
+ #include <linux/crc16.h>
+ #include <linux/dpll.h>
+ #include <linux/unaligned.h>
+ #include <linux/delay.h>
++#include <linux/firmware.h>
+ 
+ #define PCI_DEVICE_ID_META_TIMECARD		0x0400
+ 
+@@ -434,12 +436,18 @@ struct ptp_ocp {
+ 	u8			*cpld_buf;
+ 	/* Lattice device ID; 0 if unread */
+ 	u32			cpld_id;
++	/* USERCODE of the image in the part; valid once cpld_usercode_ok */
++	u32			cpld_usercode;
++	/* cpld_usercode has been read since the last flash */
++	bool			cpld_usercode_ok;
+ 	/* one-shot ID read finished, successfully or not; under cpld_lock */
+ 	bool			cpld_id_tried;
+ 	/* failed ID read attempts so far; under cpld_lock */
+ 	unsigned int		cpld_id_attempts;
+ 	/* x1 TAP CPLD present */
+ 	bool			has_cpld;
++	/* EN_CFG_TP issued but not yet REFRESH'd */
++	bool			cpld_in_config_mode;
  };
  
- struct _ddebug_info {
-+	const char *mod_name;
- 	struct _ddebug_descs descs;
- 	struct _ddebug_class_maps maps;
- };
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index cc685d4a8bfe..2d507f9fc2fd 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -46,7 +46,6 @@ extern struct ddebug_class_map __stop___dyndbg_class_maps[];
+ #define OCP_REQ_TIMESTAMP	BIT(0)
+@@ -476,6 +484,13 @@ static int ptp_ocp_adva_board_init(struct ptp_ocp *bp, struct ocp_resource *r);
+ static const struct ocp_sma_op ocp_adva_sma_op;
+ static const struct ocp_sma_op ocp_adva_x1_sma_op;
  
- struct ddebug_table {
- 	struct list_head link;
--	const char *mod_name;
- 	struct _ddebug_info info;
- };
++/* Flash component naming the CPLD image, as reported by ->info_get(). */
++#define ADVA_CPLD_COMPONENT	"fw.cpld"
++
++static int adva_x1_cpld_flash(struct ptp_ocp *bp, struct devlink *devlink,
++			      const struct firmware *fw,
++			      struct netlink_ext_ack *extack);
++
+ static const struct ocp_attr_group fb_timecard_groups[];
  
-@@ -253,10 +252,11 @@ static int ddebug_change(const struct ddebug_query *query,
- 	/* search for matching ddebugs */
- 	mutex_lock(&ddebug_lock);
- 	list_for_each_entry(dt, &ddebug_tables, link) {
-+		struct _ddebug_info *di = &dt->info;
+ static const struct ocp_attr_group art_timecard_groups[];
+@@ -2158,6 +2173,21 @@ ptp_ocp_devlink_flash_update(struct devlink *devlink,
+ 	const char *msg;
+ 	int err;
  
- 		/* match against the module name */
- 		if (query->module &&
--		    !match_wildcard(query->module, dt->mod_name))
-+		    !match_wildcard(query->module, di->mod_name))
- 			continue;
- 
- 		if (query->class_string) {
-@@ -268,8 +268,8 @@ static int ddebug_change(const struct ddebug_query *query,
- 			valid_class = _DPRINTK_CLASS_DFLT;
- 		}
- 
--		for (i = 0; i < dt->info.descs.len; i++) {
--			struct _ddebug *dp = &dt->info.descs.start[i];
-+		for (i = 0; i < di->descs.len; i++) {
-+			struct _ddebug *dp = &di->descs.start[i];
- 
- 			if (!ddebug_match_desc(query, dp, valid_class))
- 				continue;
-@@ -289,7 +289,7 @@ static int ddebug_change(const struct ddebug_query *query,
- #endif
- 			v4pr_info("changed %s:%d [%s]%s %s => %s\n",
- 				  trim_prefix(dp->filename), dp->lineno,
--				  dt->mod_name, dp->function,
-+				  di->mod_name, dp->function,
- 				  ddebug_describe_flags(dp->flags, &fbuf),
- 				  ddebug_describe_flags(newflags, &nbuf));
- 			dp->flags = newflags;
-@@ -1084,12 +1084,12 @@ static bool ddebug_class_in_range(const int class_id, const struct ddebug_class_
- 		class_id < map->base + map->length);
- }
- 
--static const char *ddebug_class_name(struct ddebug_table *dt, struct _ddebug *dp)
-+static const char *ddebug_class_name(struct _ddebug_info *di, struct _ddebug *dp)
++	if (params->component) {
++		if (!bp->has_cpld ||
++		    strcmp(params->component, ADVA_CPLD_COMPONENT)) {
++			NL_SET_ERR_MSG_MOD(extack,
++					   "unsupported flash component");
++			return -EOPNOTSUPP;
++		}
++
++		err = adva_x1_cpld_flash(bp, devlink, params->fw, extack);
++		msg = err ? "Flash error" : "Flash complete";
++		devlink_flash_update_status_notify(devlink, msg,
++						   ADVA_CPLD_COMPONENT, 0, 0);
++		return err;
++	}
++
+ 	dev = ptp_ocp_find_flash(bp);
+ 	if (!dev) {
+ 		dev_err(&bp->pdev->dev, "Can't find Flash SPI adapter\n");
+@@ -2180,6 +2210,8 @@ static int
+ ptp_ocp_devlink_info_get(struct devlink *devlink, struct devlink_info_req *req,
+ 			 struct netlink_ext_ack *extack)
  {
- 	struct ddebug_class_map *map;
- 	int i;
++	enum devlink_info_version_type ver_type =
++					DEVLINK_INFO_VERSION_TYPE_COMPONENT;
+ 	struct ptp_ocp *bp = devlink_priv(devlink);
+ 	const char *fw_image;
+ 	char buf[32];
+@@ -2192,14 +2224,35 @@ ptp_ocp_devlink_info_get(struct devlink *devlink, struct devlink_info_req *req,
+ 	if (err)
+ 		return err;
  
--	for_subvec(i, map, &dt->info, maps)
-+	for_subvec(i, map, di, maps)
- 		if (ddebug_class_in_range(dp->class_id, map))
- 			return map->class_names[dp->class_id - map->base];
- 
-@@ -1117,13 +1117,13 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
- 
- 	seq_printf(m, "%s:%u [%s]%s =%s \"",
- 		   trim_prefix(dp->filename), dp->lineno,
--		   iter->table->mod_name, dp->function,
-+		   iter->table->info.mod_name, dp->function,
- 		   ddebug_describe_flags(dp->flags, &flags));
- 	seq_escape_str(m, dp->format, ESCAPE_SPACE, "\t\r\n\"");
- 	seq_putc(m, '"');
- 
- 	if (dp->class_id != _DPRINTK_CLASS_DFLT) {
--		class = ddebug_class_name(iter->table, dp);
-+		class = ddebug_class_name(&iter->table->info, dp);
- 		if (class)
- 			seq_printf(m, " class:%s", class);
- 		else
-@@ -1184,7 +1184,7 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug
- 	 * and length of the subrange at its edges.
- 	 */
- 	for_subvec(i, cm, di, maps) {
--		if (!strcmp(cm->mod_name, dt->mod_name)) {
-+		if (!strcmp(cm->mod_name, dt->info.mod_name)) {
- 			if (!nc) {
- 				v2pr_info("start subrange, class[%d]: module:%s base:%d len:%d ty:%d\n",
- 					  i, cm->mod_name, cm->base, cm->length, cm->map_type);
-@@ -1198,34 +1198,33 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug
+-	/* Read by the worker, not here: this command is unprivileged and
+-	 * reading the ID claims the I2C bus.  0 means unread - skip it
+-	 * rather than fail, devlink discards the whole reply on error.
+-	 */
+-	id = READ_ONCE(bp->cpld_id);
+-	if (bp->has_cpld && id) {
+-		sprintf(buf, "0x%08x", id);
+-		err = devlink_info_version_fixed_put(req, "cpld.id", buf);
++	if (bp->has_cpld) {
++		/* Read by the worker, not here: this command is unprivileged
++		 * and reading the ID claims the I2C bus.  0 means unread -
++		 * skip it rather than fail, devlink discards the whole reply
++		 * on error.
++		 */
++		id = READ_ONCE(bp->cpld_id);
++		if (id) {
++			sprintf(buf, "0x%08x", id);
++			err = devlink_info_version_fixed_put(req, "cpld.id",
++							     buf);
++			if (err)
++				return err;
++		}
++
++		/* The flashable component.  Naming it here is what lets
++		 * "devlink dev flash ... component fw.cpld" through, as the
++		 * core matches the name against the versions reported here,
++		 * so it is reported for every board that has the part and not
++		 * only once its USERCODE has been read: a part left holding a
++		 * bad image answers neither, and gating the component on the
++		 * read would make that state unrecoverable.
++		 */
++		if (smp_load_acquire(&bp->cpld_usercode_ok))
++			sprintf(buf, "0x%08x", READ_ONCE(bp->cpld_usercode));
++		else
++			strscpy(buf, "unknown", sizeof(buf));
++		err = devlink_info_version_running_put_ext(req, "fw.cpld", buf,
++							   ver_type);
+ 		if (err)
+ 			return err;
  	}
- 	dt->info.maps.len = nc;
- 	if (nc)
--		vpr_info("module:%s attached %d classes\n", dt->mod_name, nc);
-+		vpr_info("module:%s attached %d classes\n", dt->info.mod_name, nc);
- }
+@@ -4306,13 +4359,36 @@ static const struct ocp_attr_group art_timecard_groups[] = {
+ 
+ /* Lattice LCMXO3LF ISC command codes */
+ #define CPLD_CMD_READ_ID      0xE0000000UL
++/* The USERCODE lives in the configuration flash that ERASE wipes, and the
++ * page writes carry it: after programming an image whose JEDEC UH field is
++ * 0x00000004 the part reads back 0x00000004, not an erased value.  So there
++ * is no separate ISC_PROGRAM_USERCODE step here.
++ */
++#define CPLD_CMD_READ_USERCODE 0xC0000000UL
+ #define CPLD_CMD_READ_STATUS  0x3C000000UL
++#define CPLD_CMD_EN_CFG_TP    0x74   /* enable config, transparent mode */
++#define CPLD_CMD_DIS_CFG      0x26
++#define CPLD_CMD_ERASE        0x0E
++#define CPLD_CMD_RESET_ADDR   0x46
++#define CPLD_CMD_WRITE_PAGE   0x70
++#define CPLD_CMD_SET_DONE     0x5E
++#define CPLD_CMD_REFRESH      0x79
++#define CPLD_PAGE_SIZE        16
++#define CPLD_POLL_US          10000  /* status poll interval while busy */
++/* Bounds how long a claim can hold the i2c root lock, not image validity:
++ * far above any bitstream this part takes.
++ */
++#define CPLD_MAX_IMAGE_SZ     (256 * 1024)
++#define CPLD_EXIT_CFG_TRIES   3
++#define CPLD_ERASE_MS         15000  /* config sector erase, datasheet max */
+ #define CPLD_ID_MAX_ATTEMPTS  10     /* one per sync_work tick */
+ 
+ /* Status register bit positions (Lattice LCMXO3LF datasheet) */
+ #define CPLD_STATUS_DONE   BIT(8)
++#define CPLD_STATUS_ENAB   BIT(9)
+ #define CPLD_STATUS_BUSY   BIT(12)
+ #define CPLD_STATUS_FAILED BIT(13)
++#define CPLD_STATUS_ERR    GENMASK(25, 23)
  
  /*
-  * Allocate a new ddebug_table for the given module
-  * and add it to the global list.
-  */
--static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
-+static int ddebug_add_module(struct _ddebug_info *di)
- {
- 	struct ddebug_table *dt;
+  * Issue one I2C transaction on the TMC bus: @cmd if not negative, then
+@@ -4571,6 +4647,54 @@ static int adva_x1_mux_select(struct ptp_ocp *bp, int ch)
+ 	return adva_x1_i2c_xfer(bp, ADVA_MUX_ADDR, val, NULL, 0, NULL, 0);
+ }
  
- 	if (!di->descs.len)
- 		return 0;
- 
--	v3pr_info("add-module: %s %d sites\n", modname, di->descs.len);
-+	v3pr_info("add-module: %s %d sites\n", di->mod_name, di->descs.len);
- 
- 	dt = kzalloc_obj(*dt);
- 	if (dt == NULL) {
--		pr_err("error adding module: %s\n", modname);
-+		pr_err("error adding module: %s\n", di->mod_name);
- 		return -ENOMEM;
- 	}
- 	/*
--	 * For built-in modules, name lives in .rodata and is
--	 * immortal. For loaded modules, name points at the name[]
--	 * member of struct module, which lives at least as long as
--	 * this struct ddebug_table.
-+	 * For built-in modules, name (as supplied in di by its
-+	 * callers) lives in .rodata and is immortal. For loaded
-+	 * modules, name points at the name[] member of struct module,
-+	 * which lives at least as long as this struct ddebug_table.
- 	 */
--	dt->mod_name = modname;
- 	dt->info = *di;
- 
- 	INIT_LIST_HEAD(&dt->link);
-@@ -1237,7 +1236,7 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
- 	list_add_tail(&dt->link, &ddebug_tables);
- 	mutex_unlock(&ddebug_lock);
- 
--	vpr_info("%3u debug prints in module %s\n", di->descs.len, modname);
-+	vpr_info("%3u debug prints in module %s\n", di->descs.len, di->mod_name);
++/*
++ * Argument bytes that follow an ISC opcode.  Returns NULL with @nargs set
++ * when the arguments are all zero: adva_x1_i2c_xfer() zeroes the buffer.
++ *
++ * EN_CFG_TP, DIS_CFG and REFRESH take two operand bytes here where the SPI
++ * drivers in drivers/fpga send three.  These are the frames the part on this
++ * board answers: the sequence below has programmed and refreshed it
++ * successfully over I2C, so the counts are kept as validated rather than
++ * aligned with the SPI framing.
++ */
++static const u8 *adva_x1_cpld_args(u8 cmd, u8 *nargs)
++{
++	static const u8 en_cfg_tp[] = { 0x08, 0x00 };
++	/* cfg sector only */
++	static const u8 erase_cfg[] = { 0x04, 0x00, 0x00 };
++
++	switch (cmd) {
++	case CPLD_CMD_EN_CFG_TP:
++		*nargs = sizeof(en_cfg_tp);
++		return en_cfg_tp;
++	case CPLD_CMD_ERASE:
++		*nargs = sizeof(erase_cfg);
++		return erase_cfg;
++	case CPLD_CMD_RESET_ADDR:
++	case CPLD_CMD_SET_DONE:
++		*nargs = 3;
++		return NULL;
++	case CPLD_CMD_DIS_CFG:
++	case CPLD_CMD_REFRESH:
++		*nargs = 2;
++		return NULL;
++	default:
++		*nargs = 0;
++		return NULL;
++	}
++}
++
++/* Send an ISC command with the fixed arguments that belong to it. */
++static int adva_x1_cpld_write(struct ptp_ocp *bp, u8 cmd)
++{
++	const u8 *args;
++	u8 nargs;
++
++	args = adva_x1_cpld_args(cmd, &nargs);
++
++	return adva_x1_i2c_xfer(bp, ADVA_CPLD_ADDR, cmd, args, nargs, NULL, 0);
++}
++
+ /*
+  * Send a 4-byte command and read back without an intermediate STOP: two
+  * messages in one transfer is the Lattice write -> repeated START -> read,
+@@ -4596,11 +4720,86 @@ static int adva_x1_cpld_read_status(struct ptp_ocp *bp, u32 *status)
  	return 0;
  }
  
-@@ -1300,7 +1299,7 @@ static int ddebug_remove_module(const char *mod_name)
- 
- 	mutex_lock(&ddebug_lock);
- 	list_for_each_entry_safe(dt, nextdt, &ddebug_tables, link) {
--		if (dt->mod_name == mod_name) {
-+		if (dt->info.mod_name == mod_name) {
- 			ddebug_table_free(dt);
- 			ret = 0;
- 			break;
-@@ -1320,7 +1319,8 @@ static int ddebug_module_notify(struct notifier_block *self, unsigned long val,
- 
- 	switch (val) {
- 	case MODULE_STATE_COMING:
--		ret = ddebug_add_module(&mod->dyndbg_info, mod->name);
-+		mod->dyndbg_info.mod_name = mod->name;
-+		ret = ddebug_add_module(&mod->dyndbg_info);
- 		if (ret)
- 			WARN(1, "Failed to allocate memory: dyndbg may not work properly.\n");
- 		break;
-@@ -1416,7 +1416,8 @@ static int __init dynamic_debug_init(void)
- 		if (strcmp(modname, iter->modname)) {
- 			di.descs.len = mod_sites;
- 			di.descs.start = iter_mod_start;
--			ret = ddebug_add_module(&di, modname);
-+			di.mod_name = modname;
-+			ret = ddebug_add_module(&di);
- 			if (ret)
- 				goto out_err;
- 
-@@ -1430,7 +1431,8 @@ static int __init dynamic_debug_init(void)
- 
- 	di.descs.len = mod_sites;
- 	di.descs.start = iter_mod_start;
--	ret = ddebug_add_module(&di, modname);
-+	di.mod_name = modname;
-+	ret = ddebug_add_module(&di);
++/* Poll the status register until the CPLD goes idle, or @max_ms elapses.
++ * The deadline is on wall time, so the I2C transactions count against it,
++ * and the status is read once more after it expires before giving up.
++ */
++static int adva_x1_cpld_wait_ready(struct ptp_ocp *bp, unsigned int max_ms)
++{
++	u32 status = 0;
++	int err = 0, ret;
++
++	ret = read_poll_timeout(adva_x1_cpld_read_status, err,
++				err || (status & CPLD_STATUS_FAILED) ||
++				!(status & CPLD_STATUS_BUSY),
++				CPLD_POLL_US, max_ms * USEC_PER_MSEC, false,
++				bp, &status);
++	if (ret)
++		return ret;
++	/* Keep the transport errno so it reaches userspace as-is; -EIO is
++	 * reserved for the CPLD itself reporting FAILED.
++	 */
++	if (err)
++		return err;
++	if (status & CPLD_STATUS_FAILED)
++		return -EIO;
++
++	return 0;
++}
++
++/* Wait for BUSY to clear.  Unlike adva_x1_cpld_wait_ready() a latched FAILED
++ * status is not an error here: this is used on the exit path, where an ISC
++ * command issued while the part is still erasing or programming may not
++ * latch, so the operation has to be waited out whatever its outcome.
++ */
++static int adva_x1_cpld_wait_idle(struct ptp_ocp *bp, unsigned int max_ms)
++{
++	u32 status = 0;
++	int err = 0, ret;
++
++	ret = read_poll_timeout(adva_x1_cpld_read_status, err,
++				err || !(status & CPLD_STATUS_BUSY),
++				CPLD_POLL_US, max_ms * USEC_PER_MSEC, false,
++				bp, &status);
++	if (ret)
++		return ret;
++
++	return err;
++}
++
++/* Leave transparent configuration mode.
++ *
++ * A DIS_CFG issued while the part is still busy may not latch, so the wait
++ * has to succeed before the write is believed - an ACKed write after a
++ * timed-out wait says nothing about whether the part left the mode.  Retry
++ * a few times rather than leaving it latched on one bad attempt; there is
++ * no other caller that would try again.
++ */
++static void adva_x1_cpld_exit_config(struct ptp_ocp *bp)
++{
++	int err, i;
++
++	if (!bp->cpld_in_config_mode)
++		return;
++
++	for (i = 0; i < CPLD_EXIT_CFG_TRIES; i++) {
++		err = adva_x1_cpld_wait_idle(bp, CPLD_ERASE_MS);
++		if (!err)
++			err = adva_x1_cpld_write(bp, CPLD_CMD_DIS_CFG);
++		if (!err) {
++			bp->cpld_in_config_mode = false;
++			return;
++		}
++	}
++
++	dev_err(&bp->pdev->dev, "CPLD left in configuration mode: %d\n", err);
++}
++
+ /*
+- * Read the Lattice device ID into bp->cpld_id.  Done once, off the
+- * unprivileged devlink path, which reports the cached value.  -EBUSY means
+- * cpld_lock is held, so the caller can retry rather than wait behind a long
+- * CPLD operation.
++ * Read the Lattice device ID and the image USERCODE under one bus claim.
++ * Done once, off the unprivileged devlink path, which reports the cached
++ * values.  -EBUSY means cpld_lock is held, so the caller can retry rather
++ * than wait behind a long CPLD operation.
+  */
+ static int adva_x1_cpld_read_id(struct ptp_ocp *bp)
+ {
+@@ -4621,8 +4820,21 @@ static int adva_x1_cpld_read_id(struct ptp_ocp *bp)
  	if (ret)
- 		goto out_err;
+ 		goto deselect;
+ 	ret = adva_x1_cpld_cmd_read(bp, CPLD_CMD_READ_ID, data, 4);
+-	if (!ret)
+-		WRITE_ONCE(bp->cpld_id, get_unaligned_be32(data));
++	if (ret)
++		goto deselect;
++	/* Publish the ID before the USERCODE is attempted: a part that does
++	 * not answer 0xC0 must not cost us the device ID as well.
++	 */
++	WRITE_ONCE(bp->cpld_id, get_unaligned_be32(data));
++
++	ret = adva_x1_cpld_cmd_read(bp, CPLD_CMD_READ_USERCODE, data, 4);
++	if (ret)
++		goto deselect;
++	WRITE_ONCE(bp->cpld_usercode, get_unaligned_be32(data));
++	/* Pairs with the acquire in ptp_ocp_devlink_info_get(): the value has
++	 * to be visible before the flag that declares it valid.
++	 */
++	smp_store_release(&bp->cpld_usercode_ok, true);
+ deselect:
+ 	err = adva_x1_mux_select(bp, -1);
+ 	if (!ret)
+@@ -4694,6 +4906,207 @@ cpld_status_show(struct device *dev, struct device_attribute *attr,
+ }
+ static DEVICE_ATTR_ADMIN_RO(cpld_status);
  
-
++/*
++ * Program the CPLD configuration flash from @fw and activate it.  Selected
++ * by the "fw.cpld" flash component; the SPI flash keeps the default path.
++ * Runs under cpld_lock with the i2c adapter lock held, so an EEPROM read
++ * blocks for as long as programming takes.
++ */
++static int adva_x1_cpld_flash(struct ptp_ocp *bp, struct devlink *devlink,
++			      const struct firmware *fw,
++			      struct netlink_ext_ack *extack)
++{
++	size_t offset;
++	int err, ret;
++	u32 st;
++
++	if (!fw->size || fw->size % CPLD_PAGE_SIZE) {
++		NL_SET_ERR_MSG_MOD(extack,
++				   "image must be a whole number of 16-byte pages");
++		return -EINVAL;
++	}
++	if (fw->size > CPLD_MAX_IMAGE_SZ) {
++		NL_SET_ERR_MSG_MOD(extack, "image too large for this part");
++		return -EINVAL;
++	}
++
++	mutex_lock(&bp->cpld_lock);
++
++	err = adva_x1_bus_claim(bp);
++	if (err)
++		goto unlock;
++	/* A select reported as failed may still have been ACKed, so hand the
++	 * mux back deselected either way.
++	 */
++	err = adva_x1_mux_select(bp, ADVA_MUX_CHANNEL);
++	if (err)
++		goto deselect;
++
++	/* A previous flash may have failed to leave configuration mode.  Now
++	 * that the bus is claimed again, retry the exit before re-entering;
++	 * a no-op when the flag is already clear.
++	 */
++	adva_x1_cpld_exit_config(bp);
++
++	/* Set before EN_CFG_TP, not after: the CPLD may have entered config
++	 * mode even if the write errors or the wait times out, and only this
++	 * makes the exit path send DIS_CFG.  A stray DIS_CFG is harmless;
++	 * leaving config mode enabled is not.
++	 */
++	bp->cpld_in_config_mode = true;
++
++	err = adva_x1_cpld_write(bp, CPLD_CMD_EN_CFG_TP);
++	if (!err)
++		err = adva_x1_cpld_wait_ready(bp, 5000);
++	if (err)
++		goto exit_config;
++
++	/* Confirm the part really entered configuration mode.  An enable
++	 * frame that did not latch leaves an idle part reporting neither
++	 * BUSY nor FAILED, the erase and page writes are ignored, and DONE
++	 * is still set from the old image - so every later check passes and
++	 * the update would be reported successful with the flash untouched.
++	 */
++	err = adva_x1_cpld_read_status(bp, &st);
++	if (err)
++		goto exit_config;
++	if (!(st & CPLD_STATUS_ENAB)) {
++		dev_err(&bp->pdev->dev,
++			"CPLD did not enter configuration mode, status 0x%08x\n",
++			st);
++		NL_SET_ERR_MSG_MOD(extack,
++				   "CPLD did not enter configuration mode");
++		err = -EIO;
++		goto exit_config;
++	}
++
++	devlink_flash_update_status_notify(devlink, "Erasing",
++					   ADVA_CPLD_COMPONENT, 0, 0);
++	err = adva_x1_cpld_write(bp, CPLD_CMD_ERASE);
++	if (!err)
++		err = adva_x1_cpld_wait_ready(bp, CPLD_ERASE_MS);
++	if (err)
++		goto exit_config;
++
++	/* The old image is gone from here on, so stop reporting its
++	 * identity even if the rest of the sequence fails.  Written under
++	 * cpld_lock, which adva_x1_cpld_read_id() also holds across its own
++	 * bookkeeping, so the worker cannot resurrect any of it.
++	 */
++	WRITE_ONCE(bp->cpld_id, 0);
++	WRITE_ONCE(bp->cpld_usercode_ok, false);
++	bp->cpld_id_tried = false;
++	bp->cpld_id_attempts = 0;
++
++	err = adva_x1_cpld_write(bp, CPLD_CMD_RESET_ADDR);
++	if (err)
++		goto exit_config;
++
++	for (offset = 0; offset < fw->size; offset += CPLD_PAGE_SIZE) {
++		u8 args[3 + CPLD_PAGE_SIZE] = { 0x00, 0x00, 0x01 };
++
++		/* The loop holds cpld_lock and the i2c root lock for the
++		 * whole image, so give a dying task a way out.  The part is
++		 * left unconfigured, which is recoverable: fw.cpld stays
++		 * advertised so the image can be written again.
++		 */
++		if (fatal_signal_pending(current)) {
++			err = -EINTR;
++			goto exit_config;
++		}
++
++		memcpy(&args[3], fw->data + offset, CPLD_PAGE_SIZE);
++		err = adva_x1_i2c_xfer(bp, ADVA_CPLD_ADDR, CPLD_CMD_WRITE_PAGE,
++				       args, sizeof(args), NULL, 0);
++		if (!err)
++			err = adva_x1_cpld_wait_ready(bp, 100);
++		if (err)
++			goto exit_config;
++
++		if (!(offset % (CPLD_PAGE_SIZE * 64)))
++			devlink_flash_update_status_notify(devlink,
++							   "Programming",
++							   ADVA_CPLD_COMPONENT,
++							   offset, fw->size);
++	}
++	devlink_flash_update_status_notify(devlink, "Programming",
++					   ADVA_CPLD_COMPONENT,
++					   fw->size, fw->size);
++
++	err = adva_x1_cpld_write(bp, CPLD_CMD_SET_DONE);
++	if (!err)
++		err = adva_x1_cpld_wait_ready(bp, 1000);
++	if (err)
++		goto exit_config;
++
++	err = adva_x1_cpld_read_status(bp, &st);
++	if (err)
++		goto exit_config;
++	if (!(st & CPLD_STATUS_DONE)) {
++		dev_err(&bp->pdev->dev,
++			"CPLD SET_DONE left status 0x%08x\n", st);
++		NL_SET_ERR_MSG_MOD(extack, "CPLD did not accept the image");
++		err = -EIO;
++		goto exit_config;
++	}
++
++	devlink_flash_update_status_notify(devlink, "Activating",
++					   ADVA_CPLD_COMPONENT, 0, 0);
++	err = adva_x1_cpld_write(bp, CPLD_CMD_REFRESH);
++	if (err)
++		goto exit_config;
++
++	/* REFRESH reboots the CPLD out of configuration mode, so the exit
++	 * path must not send DIS_CFG afterwards even if a check below fails.
++	 */
++	bp->cpld_in_config_mode = false;
++
++	/* The new image is already running, so a segment that is not back
++	 * yet must not be reported as a failed update: retry the reselect
++	 * rather than sampling the mux once at a fixed delay.
++	 */
++	msleep(1500);
++	err = read_poll_timeout(adva_x1_mux_select, err, !err, CPLD_POLL_US,
++				3000 * USEC_PER_MSEC, false,
++				bp, ADVA_MUX_CHANNEL);
++	if (err)
++		goto deselect;
++
++	err = adva_x1_cpld_wait_ready(bp, 3000);
++	if (err)
++		goto deselect;
++
++	/* Require DONE set, not busy and no error code, as machxo2-spi.c does
++	 * after a refresh: without it a CRC or preamble error reads back as a
++	 * successful update.
++	 */
++	err = adva_x1_cpld_read_status(bp, &st);
++	if (err)
++		goto deselect;
++	if (!(st & CPLD_STATUS_DONE) || (st & CPLD_STATUS_BUSY) ||
++	    (st & CPLD_STATUS_ERR)) {
++		dev_err(&bp->pdev->dev,
++			"CPLD refresh left status 0x%08x\n", st);
++		NL_SET_ERR_MSG_MOD(extack, "CPLD did not come back configured");
++		err = -EIO;
++		goto deselect;
++	}
++
++exit_config:
++	adva_x1_cpld_exit_config(bp);
++deselect:
++	ret = adva_x1_mux_select(bp, -1);
++	if (!err)
++		err = ret;
++	ret = adva_x1_bus_release(bp);
++	if (!err)
++		err = ret;
++unlock:
++	mutex_unlock(&bp->cpld_lock);
++
++	return err;
++}
++
+ static struct attribute *adva_timecard_attrs[] = {
+ 	&dev_attr_serialnum.attr,
+ 	&dev_attr_gnss_sync.attr,
 -- 
-2.55.0
-
+2.47.0
 
