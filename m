@@ -1,254 +1,89 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CB54BD7B0
-	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 09:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577B84EE85E;
+	Wed, 16 Sep 2026 10:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789552325; cv=none; b=EJ8nymOywRigUxIWqE+3VfNBHRCGpg9TrCiC5CTy+mUgugUm04jx0UZuK4YFNInAvIorc4zV4Os2tXDkjFvwd7mswJCqp7lCADgB+BiL5mk5rR7zC4UUc3Tc44jfIV0EmzamkRjGW/+l/WyP+yphYyeD+Pn8QeOOXWuOLwi1nRQ=
+	t=1789555236; cv=none; b=ZYS9AKoH3i7klE8vGCJjTm4I7qNaFC2tClWJDIcHQmJumj1cqHx0T9iXwT6GB5oXh7BA/4lijIqUIVKDxfiHnccPPfRceWz/Z8Mu0qiwrGyn7+PndbhGGZx2AY5p1XqwK5Aph6zbs5g2JHYr/RNa9aMsJQLv+PdzrxRMhVWhgXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789552325; c=relaxed/simple;
-	bh=t0TvZPm4bc6UM2noQD4veZ5BAJamKZP7g/xTbhK+DRE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F7bOGec0yCFytI/BlkqLMFk6dwRS9SjUB4B6fSpaTwf6PbwK2nnHPqE+VOnkJ4Vkk9gRkE/cVfW6rlJPHtpqrO5gOOj6KfDA2P1ngSRKm2nTb5kMwQen/4Zm6/bJCha5McQDXKeu2ofISZIQbUAhw8V4zGyF3sL1M6PdDK/A85Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UMY+aq93; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1789555236; c=relaxed/simple;
+	bh=cyBgzkiDkuEa1lPgP4i0Xh1sLAaQLCUN2TiL7hwEUEU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Kv9UfCTCuWq9qu/bfnGHQxpAPoskcy8Bv1zH0A+KPMq+dqdWRgMm3uulgUX2L39rN43bT8ygbdFSuWjJMtmpVkoUClHW08VsxHGIuBFz0eHcp6lzHw+IgxQDyEWHRn5Vfj6pSVcKThDMSRpUoM1Rrbme/btp47vkeOBt3nupDyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f4iD+4o+; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UMY+aq93"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789552303;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mPzM/yoe+rotV16ewh/fuu8dlIcugVfAA9aWoS3G1cQ=;
-	b=UMY+aq93A6G8Id+i+UgY0OFteRhlbFGuqs7jv7AuhT3uJ9YT3sX8hC0SQTCaoXtC4n/DZL
-	smTsT8/7tYgjFAeli4sV5Gl1GXYA/HYGGAE7VOngFFs0g+9m27drDG+9uzcPN8WFF0KW9C
-	wkmX43Q16OstihOMzlDJhMs2pzdm9aQ=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-7-dGwiUwAuM-iXxhhOynUJ5A-1; Wed,
- 16 Sep 2026 05:51:37 -0400
-X-MC-Unique: dGwiUwAuM-iXxhhOynUJ5A-1
-X-Mimecast-MFC-AGG-ID: dGwiUwAuM-iXxhhOynUJ5A_1789552295
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 199EA195DE37;
-	Wed, 16 Sep 2026 09:51:35 +0000 (UTC)
-Received: from thuth-p1g4.redhat.corp (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 188651800446;
-	Wed, 16 Sep 2026 09:51:29 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Eric Biggers <ebiggers@kernel.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v4 13/13] lib/crypto: Add documentation about zeroization of key and context data
-Date: Wed, 16 Sep 2026 11:50:15 +0200
-Message-ID: <20260916095022.604354-14-thuth@redhat.com>
-In-Reply-To: <20260916095022.604354-1-thuth@redhat.com>
-References: <20260916095022.604354-1-thuth@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f4iD+4o+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789555221; x=1821091221;
+  h=from:to:cc:in-reply-to:references:subject:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=cyBgzkiDkuEa1lPgP4i0Xh1sLAaQLCUN2TiL7hwEUEU=;
+  b=f4iD+4o+xMsLtN60TRAukz0DaluMKQVoRjTi/PrY95MtCtMTKnKpJL+H
+   roohsyVLscZXG61Darx6dEeOwdkFBd30+8l1yqNQzmM7g4zmto+/HJVmZ
+   S99TBtHjCXQgu4/k69FCvbIRwFc10+Z9izRPxtCnti0cVB9fGeFzQYcTZ
+   wIzlXRF/Y5fAWo2qPEOBzgr9gZC0maQoEUjwXLxgZdWkMPe6MNJ5K1iDI
+   LT9uVLnI0BAAvf+nuSDoM2MH5GKNU0Uslsrh22u+iFsNfuxG6R0lLIgHg
+   esNvDwYCEg3oaTK6Ppz2BlG4dyrSbUeGJZmo5cIXaFR7PxOItijV6wCPf
+   Q==;
+X-CSE-ConnectionGUID: sg2F96/qRLOT05FQrxGt+w==
+X-CSE-MsgGUID: WGvd0gDLQxiS2nqOaPpFrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="93800314"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="93800314"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 03:40:13 -0700
+X-CSE-ConnectionGUID: N49HqL73SguYA9G2ydMjEA==
+X-CSE-MsgGUID: PyT8FfHNRXivrAI7PQLxyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="311586309"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.187])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 03:40:11 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+ Hans de Goede <hansg@kernel.org>, platform-driver-x86@vger.kernel.org, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ linux-doc@vger.kernel.org
+In-Reply-To: <20260916054942.2054730-1-rdunlap@infradead.org>
+References: <20260916054942.2054730-1-rdunlap@infradead.org>
+Subject: Re: [PATCH] docs: TPMI: use literal block for commands
+Message-Id: <178955520546.1900.16871379298287316660.b4-ty@b4>
+Date: Wed, 16 Sep 2026 13:40:05 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
 
-Add a central document about zeroization in libcrypto so we don't
-have to repeat this information in the individual kernel docs of
-the zeroization functions all over the place.
+On Tue, 15 Sep 2026 22:49:41 -0700, Randy Dunlap wrote:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .../crypto/libcrypto-zeroization.rst          | 150 ++++++++++++++++++
- Documentation/crypto/libcrypto.rst            |   1 +
- 2 files changed, 151 insertions(+)
- create mode 100644 Documentation/crypto/libcrypto-zeroization.rst
+> Use a literal block for 'echo' commands to separate them from
+> the surrounding text. Otherwise the lines run together, without any
+> clear break before or after the commands.
 
-diff --git a/Documentation/crypto/libcrypto-zeroization.rst b/Documentation/crypto/libcrypto-zeroization.rst
-new file mode 100644
-index 0000000000000..76b6506711634
---- /dev/null
-+++ b/Documentation/crypto/libcrypto-zeroization.rst
-@@ -0,0 +1,150 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Crypto Key Zeroization
-+======================
-+
-+This document describes the conventions for zeroizing crypto structures in the
-+kernel.
-+
-+Note: the kernel follows traditional cryptographic terminology by using
-+the term "zeroizing" to mean erasing sensitive parameters to prevent
-+their disclosure if the system is later compromised.  This distinguishes
-+it from zeroing memory for other purposes such as initialization.
-+
-+.. contents::
-+
-+Overview
-+--------
-+
-+Cryptographic key material and intermediate state (such as HMAC contexts) must
-+be zeroized after use to prevent sensitive data from lingering on the stack or
-+heap, where it could be leaked through memory disclosure vulnerabilities,
-+crash dumps, or cold-boot attacks.
-+
-+For memory that has been allocated with kmalloc() or a similar function,
-+kfree_sensitive() should be used instead of kfree() to release the memory.
-+
-+For other cases, the kernel provides memzero_explicit() for clearing the
-+memory.  Unlike plain memset(), memzero_explicit() is guaranteed not
-+to be optimized away by the compiler, even when the memory being cleared
-+appears to be dead.
-+
-+The crypto library builds on memzero_explicit() by providing typed
-+zeroization helpers for each key and context structure.  These helpers serve
-+two purposes:
-+
-+1. They make __cleanup() annotations possible, so that structures on
-+   the stack are automatically zeroized when they go out of scope.
-+
-+2. They improve readability by replacing ``memzero_explicit(&key, sizeof(key))``
-+   with a self-documenting call like ``aes_zeroize_key(&key)``.
-+
-+
-+What to zeroize
-+---------------
-+
-+The following types of structures hold sensitive material and should be
-+zeroized after use:
-+
-+- **Key structures** (e.g. ``struct aes_key``, ``struct hmac_sha256_key``):
-+  contain expanded round keys or prepared key material.
-+
-+- **HMAC/MAC context structures** (e.g. ``struct hmac_sha256_ctx``,
-+  ``struct aes_cmac_ctx``): contain inner and outer hash states derived from
-+  the key.
-+
-+- **Hash context structures** (e.g. ``struct sha256_ctx``): may contain
-+  sensitive data being hashed.
-+
-+Not all of these require explicit cleanup by callers.  Many ``..._final()``
-+functions already zeroize their context internally (see `Automatic vs. manual
-+zeroization`_ below).
-+
-+
-+Zeroization helpers
-+-------------------
-+
-+Each crypto structure that callers may need to zeroize should have a
-+corresponding inline helper function.  The naming convention is::
-+
-+    <algorithm>_zeroize_<type>(struct <algorithm>_<type> *p);
-+
-+For example::
-+
-+    void aes_zeroize_key(struct aes_key *key);
-+    void aes_zeroize_enckey(struct aes_enckey *key);
-+    void hmac_sha256_zeroize_ctx(struct hmac_sha256_ctx *ctx);
-+    void aes_cmac_zeroize_key(struct aes_cmac_key *key);
-+    void aes_cmac_zeroize_ctx(struct aes_cmac_ctx *ctx);
-+
-+Each helper is a ``static inline`` function in the algorithm's header that
-+wraps ``memzero_explicit()``, for example::
-+
-+    static inline void hmac_sha256_zeroize_ctx(struct hmac_sha256_ctx *ctx)
-+    {
-+            memzero_explicit(ctx, sizeof(*ctx));
-+    }
-+
-+
-+Using __cleanup for automatic zeroization
-+-----------------------------------------
-+
-+The preferred way to zeroize stack-allocated key and context structures is
-+with the __cleanup() attribute.  This ensures zeroization happens on all
-+exit paths, including error returns and early exits. For example::
-+
-+    static int my_aesxts_setkey(..., const u8 *key, unsigned int len)
-+    {
-+        struct crypto_aes_ctx aes __cleanup(aes_zeroize_ctx);
-+        ...
-+
-+        /* Only half of the key data is cipher key */
-+        keylen = (len >> 1);
-+        ret = aes_expandkey(&aes, key, keylen);
-+        if (ret)
-+                return ret;
-+
-+        ... do something with the cipher key ...
-+
-+        /* The other half is the tweak key */
-+        ret = aes_expandkey(&aes, (u8 *)(key + keylen), keylen);
-+        if (ret)
-+                return ret;  /* <-- Could leak cipher key without __cleanup */
-+
-+        ... do something with the tweak key ...
-+
-+        /* No need for memzero_explicit() at the end thanks to the __cleanup */
-+        return 0;
-+    }
-+
-+Note that __cleanup() attributes should not be used in functions that use
-+"goto" statements. The benefit of cleanup helpers is the removal of "gotos",
-+and that "goto" statements can jump between scopes, so the expectation is
-+that usage of "goto" and cleanup helpers is never mixed in the same function.
-+
-+
-+Automatic vs. manual zeroization
-+--------------------------------
-+
-+Many ``..._final()`` functions in the crypto library automatically zeroize
-+their context before returning.  When this is the case, the kernel-doc for the
-+function documents it::
-+
-+    After finishing, this zeroizes @ctx.  So the caller does not need to do it.
-+
-+In these cases, callers on simple code paths (where ``..._final()`` is always
-+reached) do not need to add __cleanup() or explicit zeroization.
-+However, __cleanup() is still recommended whenever there are error paths
-+that bypass ``..._final()``, as it ensures zeroization on all paths.
-+
-+For algorithms where ``..._final()`` does *not* zeroize the context (such as
-+the SHAKE XOFs, where ``shake_squeeze()`` can be called multiple times),
-+callers must explicitly zeroize the context by calling the appropriate helper
-+or using __cleanup(), for example::
-+
-+    struct shake_ctx ctx __cleanup(shake_zeroize_ctx);
-+
-+    shake256_init(&ctx);
-+    shake_update(&ctx, data, data_len);
-+    shake_squeeze(&ctx, out, out_len);
-+    /* ctx is automatically zeroized at end of scope */
-diff --git a/Documentation/crypto/libcrypto.rst b/Documentation/crypto/libcrypto.rst
-index e911e05215979..9533c12caa79d 100644
---- a/Documentation/crypto/libcrypto.rst
-+++ b/Documentation/crypto/libcrypto.rst
-@@ -165,4 +165,5 @@ API documentation
-    libcrypto-signature
-    libcrypto-unauth-encryption
-    libcrypto-utils
-+   libcrypto-zeroization
-    sha3
--- 
-2.55.0
+Thank you for your contribution, it has been applied to my local
+review-ilpo-next branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo-next branch only once I've pushed my
+local branch there, which might take a while.
+
+FYI [if applicable to your patch], as per Linus' policy change, also
+fixes are mostly routed through for-next unless the fix is for a
+commit introduced in the most recent cycle or is clearly a regression
+fix.
+
+The list of commits applied:
+[1/1] docs: TPMI: use literal block for commands
+      commit: db1d44f20e3858c85fa8bf55ced0e833ecf26034
+
+--
+ i.
 
