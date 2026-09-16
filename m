@@ -1,64 +1,62 @@
 Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A993B27FF;
-	Wed, 16 Sep 2026 12:38:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464513B0598;
+	Wed, 16 Sep 2026 12:44:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789562337; cv=none; b=nrpjb4VfCHaDz7lkWVjENRnQD0bk0NAbHiLa94hV6L3NmcETGER06u4qCmcKqSNmYlbNGT90O1G+olIwlQYXmGdwfBolgL/Hti41HKvYjTeaj1Ih0UC01q4QfXCbmjazYnHTlhEdvW3/cSLWYT6kRZ4Fs0B80q33iJAsJHvlXeg=
+	t=1789562685; cv=none; b=H8blJfq3RIqF1oXr8hjHVMRV6VhfOAB8fbFiWPRRo8s5zcUNG484ImHi+SkKHb8XwIpjXzZEilJXi45Zwyep3RzY0Nl2oW8L9WmF2qzNBtl6ZjSoQB1pqPa9rAlQXLEapd7ausEU1V1tCvVOiZRs1q7V0vLrdcjRd6B9O3TTf1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789562337; c=relaxed/simple;
-	bh=Wr9qrYgHpaG3kSB+9ETulq+p89xkbR101DMTpNc/Ttg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WLfUD2djm81iwEOZIrStk74PL+zdr6m/9seOm0WTkwBWsQ66ZYWUfUqkEXaKE07JiwVuNKnaHDW6JDcuzBodFqYfUcRadnRfg5+TwKQd1gpbm0lGKv75Bg1aF7/tJCsJkh2c2XD0JQwMQK79DA9j7+xgW42KY6QD+m5mB7c0/wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=EgVkeDv+; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tOm7ZwAH; arc=none smtp.client-ip=80.241.56.161
+	s=arc-20240116; t=1789562685; c=relaxed/simple;
+	bh=28h+a5ZIDW+KSk9cKWwepcCdX+f0vQ2iq6OYIrCia7w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a+gNtBevUcaUXeoSLBF4RhfyjvjbvB6NoaBImfe2/T8coWS+ytmESJ9NMsZaY36MQ2mSxwt2OWfkuL52lk9BldvF8YnKuWJPq9tVragIOejriKgn3J8Mt1DeZ6krEW0a+7pm9aHWJmFoCaiofzQnxLFnxcCQgN9lwPWBbufwLPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dCwLonHG; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=onl0Er8M; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="EgVkeDv+";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tOm7ZwAH"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dCwLonHG";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="onl0Er8M"
 Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4hlJNC6PQxzKn5g;
-	Wed, 16 Sep 2026 14:38:51 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4hlJVx20gQzKn5g;
+	Wed, 16 Sep 2026 14:44:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1789562331;
+	t=1789562681;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ey+d4DJMWaeuXF7cDRc5tsZETDDro6Vem6UKPJ12SGc=;
-	b=EgVkeDv+z96bPf740iO4dyGMixbwnCcEfyAlKr2cSxE5Y1ffq6If8BXeF+1ZdlvSvPTXXL
-	wnQrrYToYiqLj8nVmYpzhvu7X/dS8vf3SlSRQxkoQrMTw3STFuS4q60M4SY9SJpzBJ6+K3
-	468KlTrFesg4gNmVJ83Eq6Ym5J18ONm2A+f6yBaDGNYil6OmDXPaW3Ee+8cwJz840+b3rL
-	5V5Nc/M/Cs0eIWuc3SyhbUUZYgxeWsI2pNyKWksThU0+PusQQbtJ8u4q/L+/SV4c6nB+80
-	5kMjSoMTGuzn0qHVv0xWHJF8YGRXy2E08n5IdO1GIOIRaU4e8QgmjREw5hPujg==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=lUey9CroN+QLrQwK19JJ+n9O2SBbpWLy4W8bjyLufew=;
+	b=dCwLonHG7CbT6KxzYS0M2m7s5C6hPm4lyyfQlKntZku7U84+2+rI6i9f2pEtzR6ak70Q6o
+	F2aXcw5ZyyG6pywM8HvFvhKFvrNclpo1orDtxrXriy5Wfs1+ZSlV8xqqcw5Ps5U9pC3qTK
+	DtgC9+BEIyBtkCHLfhVaeCG35BxtFyg3qh+Ocn+xYw5vudiIkMdU9bTLStW2CDf7INuWA0
+	6XDsy/Sh6k1XLNVev79h+HI/1gijtOk/tc2Xetj0Lh3VFQaun8jAa9yPIzPpQlOAu3tEi6
+	DXNt9SzZ9vE9BxEXmihtcKZnMjvMwj0GwTI3E+G+JlReRk610sFdpnH9lSLVbw==
 From: Manuel Ebner <manuelebnerli@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1789562327;
+	t=1789562679;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ey+d4DJMWaeuXF7cDRc5tsZETDDro6Vem6UKPJ12SGc=;
-	b=tOm7ZwAHysem0CXsdIRL6/LVjzDU5PkIjGqQjKHwvSHmP0EhQYRmx1hzmCyZ/PVHU4C5KP
-	2wycUg0T+49kqHhSwJn42av4qM4NubSeMsGIHrsxsmkRz9To3OfxNdqgTRfhHUh6Q13pVQ
-	0lRim+WBR7NmTLOCORba568G1lZZOG8zKuMYUSJo0d/wFcCAQoSKzMNGm0ZERqcESqmKTX
-	czM3zJqxJnPP8Q2zJ5jTy+UWa2NziVXXFp9o39Egjieyok6s+h4QFr+YFyHQtUNzlmS0KS
-	4iwFJU/E2vLJa5uKazodIRBZLYZMXy8y4eGMLyDifCn4YCt961H8yRSU71PBrA==
-To: Jonathan Corbet <corbet@lwn.net>,
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=lUey9CroN+QLrQwK19JJ+n9O2SBbpWLy4W8bjyLufew=;
+	b=onl0Er8MJLSoVKUJBnPRCsR4W4oyz6oilgNdqCuzln8G2kUPTlZ48UDUfN91Qso9/RYbP8
+	ipGp/cAafNjcjfv+9P399Xwyt+KAuq68RsdBuMqInltess+w69f4IoZ9M9OnGKpyL+l4sk
+	X460sV5rvg+YUdUZL9Jzy0bWgW0T6d7UWs+hqpRhR59nc/gbu5NdxFm0vhO5xG2ljnLEaq
+	U4xk36CgggXmVO3SmgzaDz6Yc2tTkSifC8O5rGIwkqItc4WjKgNTDZ36r01R2Kdwvm4PIE
+	19p6Ny0V7q41OYbcKbUCbTlaki/odu5ZZfe/U/Eghu68kFfr99enxCujzh+Prg==
+To: John Garry <john.g.garry@oracle.com>,
+	Jason Yan <yanaijie@huawei.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>
 Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	linux-scsi@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] scsi: docs: aic: Fix brackets
-Date: Wed, 16 Sep 2026 14:35:00 +0200
-Message-ID: <20260916123458.314458-10-manuelebnerli@mailbox.org>
-In-Reply-To: <20260916123458.314458-2-manuelebnerli@mailbox.org>
-References: <20260916123458.314458-2-manuelebnerli@mailbox.org>
+Subject: [PATCH] scsi: libsas: Fix interval notation
+Date: Wed, 16 Sep 2026 14:44:03 +0200
+Message-ID: <20260916124403.315227-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,45 +64,29 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: r4muagabxzrd7kcpits48kddpyp6fagw
-X-MBO-RS-ID: 4066e8ce33c1d5ca31f
+X-MBO-RS-META: qwtzr95dhrf89rbhkuq37rjy7tpb9r97
+X-MBO-RS-ID: 964b2241810823ec1f5
 
-Add missing '}' to lines of code.
+Remove needless ']' from interval boundary.
 
 Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 ---
-Would it be better to remove the '{' and replace '{{'/'}}' with '{'/'}'?
----
- Documentation/scsi/aic79xx.rst | 2 +-
- Documentation/scsi/aic7xxx.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/scsi/libsas.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/scsi/aic79xx.rst b/Documentation/scsi/aic79xx.rst
-index 071ff5111..ba5299cb9 100644
---- a/Documentation/scsi/aic79xx.rst
-+++ b/Documentation/scsi/aic79xx.rst
-@@ -292,7 +292,7 @@ tag_info:{{value[,value...]}[,{value[,value...]}...]}
+diff --git a/Documentation/scsi/libsas.rst b/Documentation/scsi/libsas.rst
+index 305a253d5..9ebf2bf28 100644
+--- a/Documentation/scsi/libsas.rst
++++ b/Documentation/scsi/libsas.rst
+@@ -75,7 +75,7 @@ enabled
+     - must be set (0/1)
  
- 	::
+ id
+-    - must be set [0,MAX_PHYS)]
++    - must be set [0,MAX_PHYS)
  
--	    tag_info:{{16,32,32,64,8,8,,32,32,32,32,32,32,32,32,32}
-+	    tag_info:{{16,32,32,64,8,8,,32,32,32,32,32,32,32,32,32}}
- 
- 	On Controller 0
- 
-diff --git a/Documentation/scsi/aic7xxx.rst b/Documentation/scsi/aic7xxx.rst
-index bad0e5567..117cd55fd 100644
---- a/Documentation/scsi/aic7xxx.rst
-+++ b/Documentation/scsi/aic7xxx.rst
-@@ -308,7 +308,7 @@ tag_info:{{value[,value...]}[,{value[,value...]}...]}
- 
- 	    ::
- 
--	        tag_info:{{16,32,32,64,8,8,,32,32,32,32,32,32,32,32,32}
-+	        tag_info:{{16,32,32,64,8,8,,32,32,32,32,32,32,32,32,32}}
- 
- 	    On Controller 0:
- 
+ class, proto, type, role, oob_mode, linkrate
+     - must be set
 -- 
 2.55.0
 
