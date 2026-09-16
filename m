@@ -1,83 +1,61 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE4351FCC3;
-	Wed, 16 Sep 2026 16:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA8B252B1DE;
+	Wed, 16 Sep 2026 16:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789575635; cv=none; b=SvwKqG8iYPKKVmBHKjOL5OTSYozT+oiuCjZLcErQ8fctCKAB3A/rwhkVz/ttUam1pKi4CHBfc8OwS458ZB8T3HUCB4l1iwZvYwy1OqTGn7MXm0cjL8UM0V3H4bvafWsMtx+CUTc+w/gFZtYFKaNnfd04BxAzGTSH0u7IzQstY+c=
+	t=1789576288; cv=none; b=R/s/AzqHSQu+KvT6e2EjfxmaIQ5WfQm/S3wtnWGiZR6VnmGvglcC0PN6fpbjV6Cf3QeO3Z5q4Q2kGUKUhMzKJbzluodxfaW9A1NLA9aDT3J0Gq34EPBbSRK1c/O7MpxB08yTZEilRmVkKXj6XlPnobNY1aoa/3vbJz9aXbut8k8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789575635; c=relaxed/simple;
-	bh=HpbnWJEGL9NjihNHGwgBoO1lxp2f2aVoZ/arzsurXIo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=SnSiOBOC7F48GtsSy+ebwAlHsiXmeh2vE7C7OyEI4puYSQYZnuNukFAuXeFS6JrLNtWsF9Z3LUsygjddmngCUD4iRh91uUbtwP3JpR7UUrMssvHa5c/sFUDgz/smN9sBq4idiNvM2mLrYYblyiLYDnc415EvvOZZVj365x4lMNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=U4LHQ7LS; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="U4LHQ7LS"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 6B8BD1A0909;
-	Wed, 16 Sep 2026 16:20:30 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3936760337;
-	Wed, 16 Sep 2026 16:20:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E5F0D11C7B05C;
-	Wed, 16 Sep 2026 18:20:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1789575624; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=HpbnWJEGL9NjihNHGwgBoO1lxp2f2aVoZ/arzsurXIo=;
-	b=U4LHQ7LSkICNCO7ToQ5xHrfiLdcHnz2/ttaah0BkmBXIG3MqosnQEOR5X/7NxellbJcRGW
-	xAG4jSZy8VuMGs7IKTOtPPE4SyaZQJvbp8ju4uZj6C1Mid42WZB71TsfaYB9eReILV5xt9
-	dEjapsyZsOTgw6i3141Ykl6ja0onsTjXrNdltqKrdpZBCPJT065I174ymwoX/oDyH0vpk9
-	MnsZ1VaSWZuuCxP4TbPJu8s+enkrl0MToPUlPS0+ZOIDuz1v7j+i9itsMm1iuGXBTz1f/r
-	oY8nmD0cUWLykxhWvfRaeCudRkhWYXUAt2RuEXeMhPVXNZ8MGIuhYXAPo7ILIg==
-Message-ID: <9609a821-c971-491c-9436-9346c48d2ee5@bootlin.com>
-Date: Wed, 16 Sep 2026 18:20:18 +0200
+	s=arc-20240116; t=1789576288; c=relaxed/simple;
+	bh=E0sO8C0FnPRMoOQt5I4SYevkaxSUZHFuyAxd43gzVBU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lw7bci/sfY83UNdISluTtgAXR+4/XHZP+DRZJHug1wuJuuWyEQkwz6N3LTpSoMnvt8NZHF27BwgE3Qln0T0XBoB5nTg2m+q7WS0TN4ER03+PLrrE/rTS55aUzFQCT87D7ua/6uYETkjg8yer82sJW+mfQJ0H3vyZsPJ2aalHjcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
+Received: from 8bytes.org (p200300f6af404a0026c58e89ee133047.dip0.t-ipconnect.de [IPv6:2003:f6:af40:4a00:26c5:8e89:ee13:3047])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id E5BAF1C1958;
+	Wed, 16 Sep 2026 18:31:05 +0200 (CEST)
+Date: Wed, 16 Sep 2026 18:31:04 +0200
+From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
+To: Tony Lindgren <tony.lindgren@linux.intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Michael Roth <michael.roth@amd.com>, 
+	Liam Merwick <liam.merwick@oracle.com>, Vishal Annapurve <vannapurve@google.com>, 
+	Ninad Naik <ninadnaik07@gmail.com>, Joerg Roedel <joerg.roedel@amd.com>, 
+	Tom Lendacky <thomas.lendacky@amd.com>, James Bottomley <James.Bottomley@hansenpartnership.com>, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, coconut-svsm@lists.linux.dev
+Subject: Re: [PATCH v2 6/8] KVM: SEV: Add SNP vCPU state get and set commands
+Message-ID: <aqrDUgB7nfdgzXpQ@8bytes.org>
+References: <20260908103338.427254-1-joro@8bytes.org>
+ <20260908103338.427254-7-joro@8bytes.org>
+ <aqksXLLcmFDkM9Xj@tlindgre-MOBL1>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v15 00/12] net: pcs: Introduce support for fwnode
- PCS
-To: Christian Marangi <ansuelsmth@gmail.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Philipp Zabel <p.zabel@pengutronix.de>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- llvm@lists.linux.dev
-References: <20260901083001.8044-1-ansuelsmth@gmail.com>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <20260901083001.8044-1-ansuelsmth@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqksXLLcmFDkM9Xj@tlindgre-MOBL1>
 
-Hi Christian,
+Hi Tony,
 
-On 9/1/26 10:29, Christian Marangi wrote:
-> This series introduce a most awaited feature that is correctly
-> provide PCS with fwnode without having to use specific export symbol
-> and additional handling of PCS in phylink.
+On Tue, Sep 15, 2026 at 02:30:36PM +0300, Tony Lindgren wrote:
+> Nice, looks like snp_get/set_vcpu_state() could quite easily make use
+> of KVM_EXPORT/IMPORT_VCPU?
 
-I tried to re-rerun the mvpp2 prototype conversion, but it looks like the
-series doesn't apply cleanly on net-next anymore :(
+That depends on whether KVM_EXPORT/IMPORT_VCPU will migrate the confidential
+VCPU state (registers) only or hypervisor state as well. The get/set_state
+helpers here only export/import the hypervisor tracking state for the guest
+VCPUs.
 
-Maxime
+On AMD the confidential VCPU state is migrated as part of the memory image when
+guest execution has stopped on the source side.
+
+-Joerg
 
