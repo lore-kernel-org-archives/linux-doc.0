@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55DD48FF74;
-	Wed, 16 Sep 2026 16:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD594C33D2;
+	Wed, 16 Sep 2026 16:47:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789576351; cv=none; b=OgFAj1ZB9Vdm4WPu0Npo5PFbVQWUlWnGMNgGAFhbWKstqRfDDg5fg0t/XN6Va92Xxk7LsHeEWhGKYVlCXdct7Wyz62hdu5l3EKUm2oTlg3t/azkmuemCMfVL84CtEoyx6GnKMAOQ5qTEs4nYQ3E+RBfJ7oRnSkzudI47CFS3CQU=
+	t=1789577260; cv=none; b=GPrRsUK+/AK8U82BBMi9zG+IC6ilku8u+VSrb54Yxhgy26p68fbba6hnVelYw5QG+P4rUe23YhQiaGRgEgMCo8wUY9W1MsN4sV46F/+Xouew7wcV851xXaera4bMTs4h5oRuPmkZGs7RJ9/btdeJrcRc9Mvs0Z1RNOqzfa3LyGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789576351; c=relaxed/simple;
-	bh=WzXGglNQVOTmQY3/V7nXQ5QTkI3a/mwkPOJRADZYHSM=;
+	s=arc-20240116; t=1789577260; c=relaxed/simple;
+	bh=nB8I2mJHtj2LVGrzSxwkKViFkdX+jVq6NArxYJyiqP8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IxGWLEg+aPxg0XKD8K3eZ90Z1OUKkjYdwi/y5AZEfYwjfLLY6W/ruMGDGPremjbr0cSlapSvPJYEWKMYlT0e39eQvo6uh3zSMyQhNirSlGPrzeFOZIU0lrUGWuHNWqNhRpAK/xh3XHC+z97WBjXUm139zmv7lpSwaLUC0cSFpXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=E99ZSdn5; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=YRtYn7opKu0uB67onNlvBwtHet7ElLphELqXlKCjrfdnYt0mKi/xJc3/44S0OJkiUO6YiJdNGfZiQXr6G1RS04LfwSZe2JtQ4e5ZZFx3Gu4cckW4A8sZDhiO9+02rzt2HulvSnjGy6qOmsh1sckdtWOKd7IPtF93dYflQRXL9yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HcU10ct7; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="E99ZSdn5"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HcU10ct7"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=tmIphHeRA2nKyALzRWIY0v5eqHkCNdmZX159JWKJ5MQ=; b=E99ZSdn5Jv8h18MN6Op0wxTHtI
-	LMKUe9mIaXDHW4X/MxzG/uY7ubmww5VrLHEMKqFbbk9fvtWM55dUkCQbBlyhVpiwOFKaJxjt568A/
-	ZmcC5JwbBsyB27YnFfQ3IDwgBGz+NzZH8j8z+gbUWL4HhmecJpLVmj0Vzf50NJshQPEtWZFyOiOrw
-	1NfxOLDnBUOnojCjnE/M+3Y/3Gyt67lMjZoL5cTlUp2oau+5CmaBwr6CXOuezI3DuhBZiI1lp6Iol
-	QZxb/IPLECW08GGJ/vNDQ7WyXAOTaDXqlt14UBfiOVPkByqq51SsqS6k5giXz8JuwaudLeZYQ3qc5
-	e6XewzrQ==;
+	bh=m/pReaGcQBloqHwfBBNKip8dAqTAvdtGc/NR+RSFxdM=; b=HcU10ct7D0UTLMn6Sb8C271joC
+	eA4ix4s/6pKd977bC5ORjkSkFz8AIOQvZi91mF6BfbKIqhJIMAkxrfhfq9r+JBJIwh4jepaeT7baX
+	sSzKAkzyIrKvbmyd67QwANCH+JF0hK2vwjsqJaKztEcrf2OAxhLzLeGQ7topUCmx0gyDMGmtHGehu
+	TW9g/Splq75ek76OJjp+pfrIh4LYfTbMpC2wIbQA5hgx7l5NzhH7McJwk8ctMEklWAsS7UxfDMiqU
+	/h6vlBH9GtaR0mEY3r3Rcj2iZHAYL74M2woQ+LP0wv1A6Qd8LSngYyZDC2dGYeOKCg2TZmI3n7KEh
+	SE3MTP7w==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6sYO-00000009kPN-1dyu;
-	Wed, 16 Sep 2026 16:32:12 +0000
-Message-ID: <c49886f1-25b1-491f-9670-f072209c75ab@infradead.org>
-Date: Wed, 16 Sep 2026 09:32:10 -0700
+	id 1x6smx-00000009mb6-2H1s;
+	Wed, 16 Sep 2026 16:47:15 +0000
+Message-ID: <626c2b82-9890-4b4a-bf91-b028018ff8db@infradead.org>
+Date: Wed, 16 Sep 2026 09:47:14 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,60 +39,57 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ext4, doc: remove unnecessary bracket
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Theodore Ts'o <tytso@mit.edu>,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>,
- Ojaswin Mujoo <ojaswin@linux.ibm.com>,
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
- Zhang Yi <yi.zhang@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
+Subject: Re: [PATCH v3] ASoC: doc: Fix bracket
+To: Manuel Ebner <manuelebnerli@mailbox.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20260916104251.296148-3-manuelebnerli@mailbox.org>
+References: <20260916113524.304863-2-manuelebnerli@mailbox.org>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260916104251.296148-3-manuelebnerli@mailbox.org>
+In-Reply-To: <20260916113524.304863-2-manuelebnerli@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 9/16/26 3:42 AM, Manuel Ebner wrote:
-> Fix sentence structure to improve readability
+On 9/16/26 4:35 AM, Manuel Ebner wrote:
+> Remove needless '{'.
 > 
 > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> CC: Randy Dunlap <rdunlap@infradead.org>
-
-LGTM. Thanks.
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
 > ---
-> @Jan Kara, is the reviewed-tag ok even though I changed the patch?
+> [v3]
+>  - removed the change of the placeholder
 > 
 > [v2]
->  Incorporate Randys suggestion.
+>  https://lore.kernel.org/all/20260904120737.758809-2-manuelebnerli@mailbox.org/
+>  - rearrange lines in diff
+>  - fix commit message
 > 
 > [v1]
->  https://lore.kernel.org/all/20260902143254.702971-2-manuelebnerli@mailbox.org/
+>  https://lore.kernel.org/all/20260902150510.706055-2-manuelebnerli@mailbox.org/
 > ---
->  Documentation/filesystems/ext4/directory.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/sound/soc/dpcm.rst | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/Documentation/filesystems/ext4/directory.rst b/Documentation/filesystems/ext4/directory.rst
-> index 9b003a4d4..6d8021309 100644
-> --- a/Documentation/filesystems/ext4/directory.rst
-> +++ b/Documentation/filesystems/ext4/directory.rst
-> @@ -429,7 +429,7 @@ block (precisely the length of one dx_entry) are used to store a
->  ``count`` entries in the dx_root/dx_node structures are adjusted as
->  necessary to fit the dx_tail into the block. If there is no space for
->  the dx_tail, the user is notified to run e2fsck -D to rebuild the
-> -directory index (which will ensure that there's space for the checksum.
-> +directory index, which will ensure that there's space for the checksum.
->  The dx_tail structure is 8 bytes long and looks like this:
+> diff --git a/Documentation/sound/soc/dpcm.rst b/Documentation/sound/soc/dpcm.rst
+> index 7b6aeab3c..3ff13fa4c 100644
+> --- a/Documentation/sound/soc/dpcm.rst
+> +++ b/Documentation/sound/soc/dpcm.rst
+> @@ -358,7 +358,6 @@ The machine driver sets some additional parameters to the DAI link i.e.
 >  
->  .. list-table::
+>    static struct snd_soc_dai_link dais[] = {
+>  	< ... more DAI links above ... >
+> -	{
+>  		.name = "MODEM",
+>  		.stream_name = "MODEM",
+>  		.cpu_dai_name = "dai2",
+
+Looks to me like the struct needs a closing "};" instead
+of dropping the '{'.
 
 -- 
 ~Randy
+
