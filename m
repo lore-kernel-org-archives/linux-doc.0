@@ -1,342 +1,216 @@
-Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
+Received: from mail-pz2-f41.google.com (mail-pz2-f41.google.com [74.125.228.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9741448C403
-	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 21:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE38477E4B
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 21:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789593841; cv=none; b=iwkOhhOm71pAsE9uHtWqhbWHehoh8NIM1gV3GSP2V9jKNkLqjR8nGXk2yinRzxj9boHT8t8+x8lTSYjGpfe7fbDVDo/VvS5RqkL+2CFmKeBup9ylThEjMM02pf7eBXNI3iRh3C4PKWD6skKwv4tmcWXofo9JDRn6YPRm9GrI44M=
+	t=1789594913; cv=none; b=ClKoECxR5cPqEiM+CNWTEVjdUGUb9/eengzRPLj9C4P6ZyqkfCDvbpMqzD+0e+7NgQJCxv04FV85mALR+DS7tHZu0D4hhvylfVbUevHDzDKPwry2DvQU0pDtb3OLbQvT/+ghF1wfMzZSpqrt2pyJVlg8eDOBCxNEnXDpOxGYpI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789593841; c=relaxed/simple;
-	bh=2UIZhQGNlp0yvgPj2bp76HRBxinSpLpWqq5nZWfgdJU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qi3zpyFlJgsCw518V2x8eCd28N71d1KheiuLFY+A0OYteU3lB4VmrzKlGp8xbjWHWmUOLLMRM7xPLtnYgoy8blKKo9QKzFQJgrr6mdGfPdihhVL8+L4554S/CrpHKN2flrkp7I3DSesEW9JhbDPwm5Uc9haO87FsS93V3JpKw4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E8VT7AuZ; arc=none smtp.client-ip=74.125.231.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1789594913; c=relaxed/simple;
+	bh=IAptJyT5xluEqEiFzVEi/p861VpjcmGoy/sQvXBJe6U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qpX/Wzz9aB9+enW7Hddwkdqm5+ltf5W8/9S0cC+YIJSUJl+EgfXOonDdHqvy6gEozRb++nYDZa4ZZs8+2roaIdcxIekJyCVIiUfP7yIw/sGbegTXY+ftDv+1yvm6QfJP9iCamVAyBqlUBqkwFtOnhqNo2UCzCg8TN5TqyAMImUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JAnzMGfz; arc=none smtp.client-ip=74.125.228.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E8VT7AuZ"
-Received: by mail-oi2-f12.google.com with SMTP id 46e09a7af769-7f4f0c89e33so104387a34.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 14:23:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JAnzMGfz"
+Received: by mail-pz2-f41.google.com with SMTP id 41be03b00d2f7-cc50b9e8a45so90040a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 14:41:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789593833; x=1790198633; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XSIk8tJbuXToHcbml5dyAhA+YFmm4IR2Ghd4XhDQSyI=;
-        b=E8VT7AuZmtBJ/hkPO9QDNVDywR5Qo7yLPcYymOuBSrOtscddz9rTh+tODZO7CS6LFA
-         iODi/iWZecRrIoX8aX7F3t+sxGqAV1/2ZAy1/38AEENbjg+kz1A3oKFng8ULafqYw8Ba
-         QgBf/shInGbGPoLSbXxQ3SLEPB5oo0IhKjQr3YaAQFJAxboomtF//wN3CCy0DkG5iJSV
-         j/mugFRDXdYU+46JFVy5xQ8kVvSMwYS/8ex9DjWJpEMsG+p6oNzRbZtEq095Bg9Lc9Xo
-         EQlaKECYEQoIqoglicLQZb5382NnSMVgGskQ0m40IMNBeybb8O95rUNJtEmDBAR3ykIz
-         x77Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789593833; x=1790198633;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1789594897; x=1790199697; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=XSIk8tJbuXToHcbml5dyAhA+YFmm4IR2Ghd4XhDQSyI=;
-        b=xP8NTeCziD4LkqLJ7kKbchOn9ZRn3iq0ieVt+ftUrdrrVI31b3jnITpYv3oEDlL7cC
-         VaYcbaXXfTYkUP7ZRJ19XCgW2us6+Sds2qkSq1+d3J4DY/0jemKPMDcqqYcaO6AeaGCa
-         vd89siL6+kpvTyYGkxJy9Tjmgy1rHxjdtvuVytOANcYJUf0DNu6bz/yL2lyGdc4npTzl
-         3gNX94lrfW8dTmv5JA/a+14QAyasQPORb1xlp0+AoPuQb61m5BJ4/M1GtW8O/iTO169c
-         mN5SRsL06UpxFBhkIqk/XvRq0LgARRtYiqG/VVmBzi051NSjgIvdBl3bpMaKTUFWaAOD
-         5ZPQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx4t71LhW8/cmiTbqivUFrP1WndruOcaJ1TK51w7indId6ZZloDKI3+FLwIwbPhh6apgkw0oS6s3a0=@vger.kernel.org
-X-Gm-Message-State: AFuF++lveVIbemqqoi+lWUlZMsdC3tB8nccK2AVUUfsMxike7va9Eo+G
-	0eQhCyhDPnbrqgFCYhJanoOxvmSqPObB03keL5E64A3xqYrdgkkP04xu
-X-Gm-Gg: AYBFou03pw+T6NRWAe3JSf00tcoV6yzq8IVwOIFe6B3K0bqiOigzOeZPJS12PrYRmZe
-	doodg+xgJ1xozLA62yG2i/vzxjrAsYIYuWyhlq6a4hz+numdjSNliDS8rsZ0ckceO+B3fXCCAXH
-	1x+GAVLw/YVLSj8c/tBiY7IenCH5OjbCNnkd51qxhJeClq51jJEkdlKl0ieGWw8xGypl4erW90R
-	2Jr946V9Ku9Q3fYYamc2ZRTkqaCjRf+bgLNsx3EMTldMZ1cIDul4yMdyjA1pFgzvaAfMi8GwyDf
-	0bcLEKrIpsvPG0yCjrXBwtTqMZjcjKma9eusUayvHxLz/he97PlYmZPSjCzC4nL25HHoHX/bnZo
-	SpznkEkWQ6MuyEEE9SkZ8iXzQXhHD0osMy16Sbl3odUH9wDwP4tTJYd9d9xqG9OfMTl9+9FQsg8
-	ncACtnuv94T8zrqxcLvn82lG3jx2PlJ5143d4iBUi7w5MRM6qR5bct1QZj5CSKkhrR5e9+L4+jL
-	EEZ+TfLgR2imAxuXpWA
-X-Received: by 2002:a05:6830:6017:b0:7e6:ef1d:4aeb with SMTP id 46e09a7af769-80b2e0576bemr4670574a34.15.1789593833101;
-        Wed, 16 Sep 2026 14:23:53 -0700 (PDT)
-Received: from devvm29614.prn0.facebook.com ([2a03:2880:ff:43::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-80c466a2dcesm1059784a34.11.2026.09.16.14.23.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 14:23:52 -0700 (PDT)
-Date: Wed, 16 Sep 2026 14:23:48 -0700
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	virtualization@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	sargun@sargun.me, jlinbox@meta.com,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next 2/6] vsock: add IOCTL_VM_SOCKETS_ASSIGN_G2H_NETNS
-Message-ID: <aqsI5BXRB96dkIHm@devvm29614.prn0.facebook.com>
-References: <20260902-vsock-guest-ns-v1-0-9995383e9a8b@meta.com>
- <20260902-vsock-guest-ns-v1-2-9995383e9a8b@meta.com>
- <aqlTlFvQL34-WViB@sgarzare-redhat>
- <aqmTYoCMmzx1BM1v@devvm29614.prn0.facebook.com>
- <aqqPXr2LNJUM4yMW@sgarzare-redhat>
+        bh=V67/ygqzXBDTg6FpqYWmZblZ2cnQrCYnunNIZXB6fo0=;
+        b=JAnzMGfzr1pYJ8prgYf+WTUz3P97ReGXI+kkUr+abDB35a+oVXrEnS/EDQxJglSQUz
+         Udpq+qn9k2Z7oNXCC7xbYoIeY6HxH6mv0nqWS4j6up/TVfDM9ghv29WT+tcYuFpfcMqd
+         XCGcRHBdTe4QDm3R3nTtL3jllpNrIMWnoLYnNtd7CpVolxbC8401aWHo8p5oRPPPmHsa
+         L+uD4l/irpgw4sgAlE+cbaRj18MW2aud/HBktx4lNZ6QqjeFbDxVcDqe4hr7zjL3OhVd
+         QnQDbpfs6mjic3pb15mkG/NTN71P9fXWwaeqW2stxRuhk4m6ZF+t58u0yall8SGg4gsK
+         c6MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789594897; x=1790199697;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=V67/ygqzXBDTg6FpqYWmZblZ2cnQrCYnunNIZXB6fo0=;
+        b=yMXHiVW4NT/KYUIhn0q9iuD1jamTsbKHamY4Mjqcy08zocsW5Lq9Jh2V0tajSN7wX+
+         klgB9bk5jOSljzlC4S9pjFmKUde0+tu19/vsriG34aXbx3J6LXC74dSfEFQMkA/Ti+tS
+         vBfhBOH3cTf7h1SDWlDkgXbAZ44eaT7qSfRNXkXKA6CQgGr8pU1o5jWOZO0Ce5DUuc+I
+         99/P2EnOUnQrHTWYy/uR5zrqDw4qF9LcNLEG+8QVX6Dp+PUSUXhBtVMR0TOGW5uDRxFp
+         ioRMu5w2TVGK0uUTr7fbhw/NgP0sMx4WueaPbe3/ZWd/gJDwRw605/KiHxnE0z9QrKfS
+         /2Sw==
+X-Forwarded-Encrypted: i=1; AKwUvBwN3J/7Pjl0rejLwfVVpmg9vVvgr83ptPB1cz2uedF/c0Btlf65573pVw8y8wbCIQKjDsRWL4NNxAw=@vger.kernel.org
+X-Gm-Message-State: AFuF++ki8bgD1vkZAVtEcAyq6Nnj6JfM+SVaLQGfDpPG5vo6oleAeU7J
+	u0NOr53N12MXVGntq0VD7NhVsyzuYQsPdmJSRTfWTjdqSx4LBaLrkNaz
+X-Gm-Gg: AYBFou2qjaAM7T+Cbmkqfg+ZIhi+RZwEW2IjTIRZ3By7PNBDRlAa2pUKDGX75VwMTKA
+	lAwA429S+XIGBqDWSuHzGS8V4DIEjr6wDeQ4oMKupNsrRyJlJWbAAikA4uGqdpswDA6A8Z8okXM
+	PVWMVN1PdA4DpDuYAag0ctGHJm38rSdbLrNbyZrPv1ZNtOlFMnLaiVAIZZgb3+dAlumH8az5Rjs
+	ki4DQDho7pBW4ZsyDRiCNUsAnI0n1HNVSX5N3E40Xoo458CdaFUsJiyG56V1nOIGoRNKlGgfP2w
+	LnfWxP+xmAWXM93FCN5TU4K/XqRL/OroNt5A7uZR5Wsdh+dRImxVM97H5AUcd7ZIkxR1cG8l+tg
+	hX16ajVXWhGyGXRXBg8RLIGkPtC4K+XyZKrkuupyNAeR0DtBW9gTeOlW0u/BsL9kZw2OWno9XZE
+	swprrlmyd1tXyKmFLGGWyzucGUsUnuxpeAr5W2o1ClP1k5uvf+fXeuzjsHtCYFpTRABfq6t2Lw0
+	cTktJrLWb+1F2SuEpBI3hZTzZ4nmBScl1VKsfqdEqjbhcjy
+X-Received: by 2002:a17:90b:390d:b0:39d:f66e:1720 with SMTP id 98e67ed59e1d1-39e1e4907e8mr11608231a91.13.1789594897275;
+        Wed, 16 Sep 2026 14:41:37 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bf5a6a1a5sm10854497eec.5.2026.09.16.14.41.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Sep 2026 14:41:36 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <b155cdd8-54d5-49d9-b276-c24dde766dbe@roeck-us.net>
+Date: Wed, 16 Sep 2026 14:41:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqqPXr2LNJUM4yMW@sgarzare-redhat>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] hwmon: (pmbus/tps53679) Select page 0 for single-page
+ TPS53676
+To: "Pradhan, Sanman" <sanman.pradhan@hpe.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ Sanman Pradhan <psanman@juniper.net>
+References: <20260916200331.664795-1-sanman.pradhan@hpe.com>
+ <20260916200331.664795-2-sanman.pradhan@hpe.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260916200331.664795-2-sanman.pradhan@hpe.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 16, 2026 at 02:57:43PM +0200, Stefano Garzarella wrote:
-> On Tue, Sep 15, 2026 at 11:50:10AM -0700, Bobby Eshleman wrote:
-> > On Tue, Sep 15, 2026 at 05:28:25PM +0200, Stefano Garzarella wrote:
-> > > On Wed, Sep 02, 2026 at 04:00:48PM -0700, Bobby Eshleman wrote:
-> > > > From: Bobby Eshleman <bobbyeshleman@meta.com>
-> > > >
-> > > > Namespaces let a host isolate a VM's vsock traffic to a specific
-> > > > namespace, but in a guest vsock traffic cannot be isolated to a
-> > > > namespace. The vsock device is hardcoded to global mode and can't be
-> > > > moved into a local-mode namespace.
-> > > >
-> > > > Introduce ioctl IOCTL_VM_SOCKETS_ASSIGN_G2H_NETNS on /dev/vsock that
-> > > 
-> > > We already discussed about netlink, but I'm not sure how much work can
-> > > take, here just another alternative, what about adding
-> > > /proc/sys/net/vsock/g2h_owner sysctl that can be read/write where:
-> > > 0 - no owner
-> > > 1 - owner
-> > > 
-> > > 0 -> 1 transition, move the device in the new nets
-> > > 1 -> 0 transition, reset back to init_ns
-> > 
-> > That seems reasonable, but if multi-device support ever lands, this
-> > might be harder to adapt cleanly?
+Hi,
+
+On 9/16/26 13:04, Pradhan, Sanman wrote:
+> From: Sanman Pradhan <psanman@juniper.net>
 > 
-> I see, but maybe we can have a dev0/ dev1/ subfolders in that case.
+> tps53676_identify() derives the number of PMBus pages but does not
+> ensure that page 0 is selected for single-page configurations.
+> pmbus_set_page() does not update the PAGE register when info->pages is
+> 1, so if boot firmware leaves PAGE set to another value subsequent
+> register accesses may target the wrong page.
 > 
-> > 
-> > > 
-> > > > gives userspace a way to move the device to the calling pid's namespace.
-> > > > The call requires CAP_NET_ADMIN in the root user namespace. A privileged
-> > > > user wishing to "unassign" the device can move it to the init_netns,
-> > > > which is hardcoded to global mode (so no unassign call is necessary).
-> > > >
-> > > > A getter to read the current assignment back was considered, returning
-> > > > either the namespace's net_cookie or its nsfs inode number, but neither
-> > > > seemed useful enough to bake into the uAPI now. It can be added later if
-> > > > a user turns up that needs it.
-> > > >
-> > > > Add a transport hook to indicate support for guest namespacing, so that
-> > > > transports may opt in/out. A transport that opts out keeps the
-> > > > reachability rules it had before this ioctl existed.
-> > > >
-> > > > Sockets are reset when the underlying device moves to a different
-> > > > namespace, so as to prevent reachability from the previous and now
-> > > > disallowed namespace.
-> > > >
-> > > > Following the approach of netdevs, the device returns to init_net when
-> > > > its namespace is removed. Care is taken to not break flows when the
-> > > > device is inside a global namespace that is being torn down and alive
-> > > > sockets are in a different global namespace. In this scenario, the
-> > > > device's netns getter pre-emptively falls back to the init_net (always
-> > > > global) so that these flows are not disrupted. If init_netns ever
-> > > > supports local-mode in the future, this logic will have to be changed.
-> > > >
-> > > > Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
-> > > > Link: https://lore.kernel.org/all/20200427142518.uwssa6dtasrp3bfc@steredhat/
-> > > > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
-> > > > ---
-> > > > Documentation/admin-guide/sysctl/net.rst |  18 +++
-> > > > include/net/af_vsock.h                   |   7 ++
-> > > > include/uapi/linux/vm_sockets.h          |   6 +
-> > > > net/vmw_vsock/af_vsock.c                 | 198 ++++++++++++++++++++++++++++++-
-> > > > 4 files changed, 228 insertions(+), 1 deletion(-)
-> > > >
-> 
-> [...]
-> 
-> > > > +
-> > > > +static void vsock_reset_unreachable_sock(struct sock *sk)
-> > > > +{
-> > > > +	if (vsock_g2h_net_reachable(sock_net(sk)))
-> > > > +		return;
-> > > > +
-> > > > +	sk->sk_state = TCP_CLOSE;
-> > > > +	sk->sk_err = ECONNRESET;
-> > > > +	sk_error_report(sk);
-> > > 
-> > > Should we send the reset to the other peer too?
-> > > 
-> > > Or avoid to set TCP_CLOSE, so the user will see the error and close it?
-> > 
-> > Sending the reset sounds good. At least the peer won't be waiting around
-> > forever. Will work that into v2.
-> 
-> If it's too much of work, we can skip it, it's not a strong opinion on my
-> side. It was more a question of what we should do ;-)
-> 
-> > 
-> > > 
-> > > > +}
-> > > > +
-> > > > +/* Move the g2h device to @net. Returns -ENODEV if no g2h transport is loaded
-> > > > + * and -EOPNOTSUPP if the loaded one cannot be moved.
-> > > > + */
-> > > > +static int vsock_g2h_net_assign(struct net *net)
-> > > > +{
-> > > > +	int ret = 0;
-> > > > +
-> > > > +	mutex_lock(&vsock_register_mutex);
-> > > > +	if (!transport_g2h) {
-> > > > +		ret = -ENODEV;
-> > > > +	} else if (!vsock_g2h_netns_assignable()) {
-> > > > +		ret = -EOPNOTSUPP;
-> > > > +	} else {
-> > > > +		/* See vsock_maybe_set_connected() comment about synchronizing
-> > > > +		 * with connecting sockets.
-> > > > +		 */
-> > > > +		rcu_assign_pointer(vsock_g2h_net, net);
-> > > > +		vsock_for_each_connected_socket(transport_g2h,
-> > > > +						vsock_reset_unreachable_sock);
-> > > > +	}
-> > > > +	mutex_unlock(&vsock_register_mutex);
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +/* Move the g2h device back to init_net if it lives in @net, which is about to
-> > > > + * be destroyed.
-> > > > + */
-> > > > +static void vsock_g2h_net_reset(struct net *net)
-> > > > +{
-> > > > +	bool reset = false;
-> > > > +
-> > > > +	/* Avoid taking the mutex if the namespaces don't match. */
-> > > > +	if (likely(rcu_access_pointer(vsock_g2h_net) != net))
-> > > > +		return;
-> > > > +
-> > > > +	mutex_lock(&vsock_register_mutex);
-> > > > +	if (rcu_access_pointer(vsock_g2h_net) == net) {
-> > > > +		rcu_assign_pointer(vsock_g2h_net, &init_net);
-> > > > +		reset = true;
-> > > > +	}
-> > > > +	mutex_unlock(&vsock_register_mutex);
-> > > > +
-> > > > +	if (reset)
-> > > > +		synchronize_rcu();
-> > > > +}
-> > > > +
-> > > > static struct sock *vsock_dequeue_accept(struct sock *listener)
-> > > > {
-> > > > 	struct vsock_sock *vlistener;
-> > > > @@ -2745,6 +2920,15 @@ static long vsock_dev_do_ioctl(struct file *filp,
-> > > > 			retval = -EFAULT;
-> > > > 		break;
-> > > >
-> > > > +	case IOCTL_VM_SOCKETS_ASSIGN_G2H_NETNS:
-> > > > +		if (!capable(CAP_NET_ADMIN)) {
-> > > > +			retval = -EPERM;
-> > > > +			break;
-> > > > +		}
-> > > > +
-> > > > +		retval = vsock_g2h_net_assign(current->nsproxy->net_ns);
-> > > > +		break;
-> > > > +
-> > > > 	default:
-> > > > 		retval = -ENOIOCTLCMD;
-> > > > 	}
-> > > > @@ -2978,6 +3162,7 @@ static __net_init int vsock_sysctl_init_net(struct net *net)
-> > > >
-> > > > static __net_exit void vsock_sysctl_exit_net(struct net *net)
-> > > > {
-> > > > +	vsock_g2h_net_reset(net);
-> > > 
-> > > Why calling this in the sysctl_exit ?
-> > 
-> > Should we add another pernet_operations? I agree the name of
-> > vsock_sysctl_ops does not really fit as a general "do all per-net
-> > operations here" location.
-> 
-> Aaaaa, it's not really related to sysctl.
-> 
-> Maybe we can rename it or add another pernet_operations.
-> 
-> > 
-> > > 
-> > > > 	vsock_sysctl_unregister(net);
-> > > > }
-> > > >
-> > > > @@ -3104,13 +3289,21 @@ EXPORT_SYMBOL_GPL(vsock_core_register);
-> > > >
-> > > > void vsock_core_unregister(const struct vsock_transport *t)
-> > > > {
-> > > > +	bool g2h_net_reset = false;
-> > > > +
-> > > > 	mutex_lock(&vsock_register_mutex);
-> > > >
-> > > > 	if (transport_h2g == t)
-> > > > 		transport_h2g = NULL;
-> > > >
-> > > > -	if (transport_g2h == t)
-> > > > +	if (transport_g2h == t) {
-> > > > 		transport_g2h = NULL;
-> > > > +		/* The device is gone, so is its namespace assignment. */
-> > > > +		if (rcu_access_pointer(vsock_g2h_net) != &init_net) {
-> > > > +			rcu_assign_pointer(vsock_g2h_net, &init_net);
-> > > > +			g2h_net_reset = true;
-> > > > +		}
-> > > > +	}
-> > > >
-> > > > 	if (transport_dgram == t)
-> > > > 		transport_dgram = NULL;
-> > > > @@ -3119,6 +3312,9 @@ void vsock_core_unregister(const struct vsock_transport *t)
-> > > > 		transport_local = NULL;
-> > > >
-> > > > 	mutex_unlock(&vsock_register_mutex);
-> > > > +
-> > > > +	if (g2h_net_reset)
-> > > > +		synchronize_rcu();
-> > > 
-> > > Why we need this? (I'd add also a comment with the reason)
-> > 
-> > We might actually be able to drop it... I do think we need to keep it in
-> > vsock_g2h_net_reset() because it makes sure that vsock_g2h_net_get()
-> > doesn't dereference a destroyed net.
-> > 
-> > vsock_core_unregister() isn't on the teardown path, so even if we
-> > re-assign to init_net the previous net is still alive.
-> 
-> Agree.
-> 
-> > 
-> > 
-> > One thing I realized when answering your uAPI questions and looking at
-> > the code is that IOCTL_VM_SOCKETS_GET_LOCAL_CID is not namespace aware,
-> > but I think it probably should be? I remember for host ns we strived for
-> > truly strong isolation.
-> 
-> Can you elabore a bit more?
+> For single-page devices, select page 0 explicitly and verify that the
+> PAGE register was updated.
 > 
 
-I'm wondering if IOCTL_VM_SOCKETS_GET_LOCAL_CID should not reveal the
-CID of the g2h device if the device has been moved to an inaccessible
-namespace? In this case, fallback to the results of h2g/local and
-through to returning VMADDR_CID_ANY if neither of those transports are
-loaded.
+Why that complexity ? We don't read back other registers. Why would it be
+necessary or even make sense to do it here ? Following that logic one could
+argue that every single write has to be read back to verify it.
 
-I also considered whether or not /dev/vsock should even be visible from
-within an inaccessible namespace in order to not leak even the mere
-presence of the vsock device, but it seems to me that /dev/vsock's
-presence doesn't leak anything besides the presence of the vsock module.
+> Fixes: cb3d37b59012 ("hwmon: (pmbus/tps53679) Add support for TI TPS53676")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sanman Pradhan <psanman@juniper.net>
+> ---
+>   drivers/hwmon/pmbus/tps53679.c | 24 ++++++++++++++++++++++++
+>   1 file changed, 24 insertions(+)
+> 
+> diff --git a/drivers/hwmon/pmbus/tps53679.c b/drivers/hwmon/pmbus/tps53679.c
+> index dcd4250b679d..f38c19b8cc43 100644
+> --- a/drivers/hwmon/pmbus/tps53679.c
+> +++ b/drivers/hwmon/pmbus/tps53679.c
+> @@ -248,6 +248,30 @@ static int tps53676_identify(struct i2c_client *client,
+>   		info->phases[1] = phases_b;
+>   	}
+>   
 
-Best,
-Bobby
+A much simpler
+	} else {
+		/*
+		 * pmbus_set_page() does not update the PAGE register on
+		 * single-page devices, so select page 0 explicitly in case
+		 * the boot firmware left the device on another page.
+		 */
+		ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
+		if (ret < 0)
+			return ret;
+	}
+
+should do the trick. Yes, the write may be unnecessary, but it
+is cheaper than a read followed by an optional write.
+
+Thanks,
+Guenter
+> +	/*
+> +	 * pmbus_set_page() does not update the PAGE register on single-page
+> +	 * devices, so select page 0 explicitly and verify it in case the
+> +	 * boot firmware left the device on another page.
+> +	 */
+> +	if (info->pages == 1) {
+> +		ret = i2c_smbus_read_byte_data(client, PMBUS_PAGE);
+> +		if (ret < 0)
+> +			return ret;
+> +		if (ret != 0) {
+> +			ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
+> +			if (ret < 0)
+> +				return ret;
+> +			ret = i2c_smbus_read_byte_data(client, PMBUS_PAGE);
+> +			if (ret < 0)
+> +				return ret;
+> +			if (ret != 0) {
+> +				dev_err(&client->dev,
+> +					"failed to select page 0\n");
+> +				return -EIO;
+> +			}
+> +		}
+> +	}
+> +
+>   	return 0;
+>   }
+>   
+
