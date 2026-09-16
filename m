@@ -1,176 +1,141 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1186C480DCA
-	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 08:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47064A2A42
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 09:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789548752; cv=none; b=igpQpsOklWBPAkKfHnqkmybuZWFwFcgGvBvNHc4Ew8FAu6SykI7GG6c3rCPrSZZzMCDDsQmha4eZir4aFofm+zbqVOPJNd6j2jZL2wfjvjaiEGAj9rHp8hW3/T0Kfgxgr3KYysPfUZ8JF88XFWL7DYMmZD8jKvZcwdmZl4ca6K0=
+	t=1789550205; cv=none; b=Mhd2jt7tlL6JPrx4VddnboRI/eHeWaAjMCRxjt1/gSGiYnrQzrsWa0TU6ZLWXu9j5KXvTBRuoZnb88Y+NG/PH/9Xk83UM82GAEiaPs+4eQWQjxP/JgO9sVw0thuBZ+DHG0pFtdzsObYfklSJxRI4y4vsWpRGP5ZWNbFaoJpYsoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789548752; c=relaxed/simple;
-	bh=jQe43yJCJSdBQPYhkUb4CHVlXYabrmzIiAW+OtPpy4c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hU6svzlHuSGU66NzDvbORSW7buMdMj4ElqQMLhkCO6IHAWf5Z8ARG1BMapBClg1c3f1se9JsqodttMPWl3YI1KsIfmkrEp8OTSRjfCA0REcjpPt2bGkUOG1LZEMXAVZkpP37x9h0FQhg4jeXuWqG7BGy4JJKgrGlLD5ngjnHYqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=fEqDAcyK; arc=none smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1789550205; c=relaxed/simple;
+	bh=Cv3GiW+cUXijnfwKcWCdwib/ps1bMkQSsnmAAjeLFWU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jbwlr85xsYBWFdQdWGS6TPsACR6xanBgR8bPZWy+Qkh9MrOK76fzmGmIvU9o2tdJkchMzJmO3Gd70AccBqjpoRYYbW1ficW0zw1JL+BbLuG2bLSTXwjbtnIXhh/YdLMF+cM+pD6mMyzj+/4d39d/hUbCtxPjfpre+r+V/rvX4us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EiUnKXYo; arc=none smtp.client-ip=74.125.227.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="fEqDAcyK"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c29703cb470so104940766b.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 01:52:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EiUnKXYo"
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-39b350c6920so698925a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 02:16:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1789548742; x=1790153542; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2LBbelDPdAVQ0Ns+BBW49QmFOaM2BGUlkuMpM25cdq0=;
-        b=fEqDAcyKNp+DJ1SwWiq1SfYEyZRUgBbvXAUy6MDKVrcwjAIHREkhioM+ZQCirDQ4cc
-         EttlU3c2HkkbbYmFFp/uoqam1pLAKWbJhLDfnagViBSzT/WPOECIbhfWgmRgiXOQ94A5
-         NMJebi+kxBCWrfibB/+VSa0l+HkSpQ1m+HilG4QUz54rYaZ+XvY7Zni0Mcyv/Nr+gtXL
-         o7G1Esip5+5FD4/02R95+w/Rz3o0vlb3/5Gx8l6HWP4nOi4Wn4+zApWl1dUv8wuS4h6z
-         d22Cy6QopW/s7q6LcFpXqDqV0zfEHQLupfKVLuQ0IdwWWZ9r3g/4X0DtaadnCEPLmdAm
-         p1ig==
+        d=gmail.com; s=20251104; t=1789550187; x=1790154987; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VzRkWt2VZCbdlSo+rjm4taEDOl7SYR+tdxu2b2xJF3M=;
+        b=EiUnKXYo0rdaIa80f2HpK6o0H48HCzzvBQ1eIZACtQybu9ybiEj6WQRgv3ncJnT3SR
+         ppUXRtCCZYoVVhVXWZd1efkoin/yMZuMG9lsShc/Pz2JVkFIoFsL85nS/+1VnJZAwvGd
+         xd19boCLPxKrZrjJzvPsgS5Jw6+JzH89IvCX12n6qD5Vlkke0qapkNca/H8Lt6gvUh7B
+         1panIRkCnlybLoe716JegaFEgWERu79g0mxu9qrQLKUO234/9L+av+dsy1hmSAfYGaAQ
+         FxOEgxvoasqCIIMi9psSusaLn5iQTOFQ7J7ScznSymV+yxD+t9ZgCjwOqaAjCPy/PvnU
+         M1OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789548742; x=1790153542;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2LBbelDPdAVQ0Ns+BBW49QmFOaM2BGUlkuMpM25cdq0=;
-        b=EStdnIaeyqO/wZ6LTMqrq4BoZny7dyeTw5V5kqKKuBpalRRucc475z1u3WRKTEtDsU
-         fJBAPzC9932e+2eW217DAOOBBLbDpUY+MzjBJnrNWoUA5hpiObTL+5et+KBjbyNEzBrE
-         BSJh3VuseiC5Xo6QEuEmvFQmg7Nw/Y5f3zTc+PQQhPKgSmr0EqYWxpi4YLlYFS+RZOCE
-         7wGfd/a6v6h45m1JSXje5em1XR3SMLXDJbGgsHWAvpj6sFWq7956Nf2RU/uop1vaRxko
-         PQvUF17t9oTGnYbXVEz5/WKY5DMZN0Ib21lT9RfskWc8O4IOoqkxiKBOR1upJV4M31sE
-         J8Kw==
-X-Forwarded-Encrypted: i=1; AKwUvBxvpAPkPehmvucW0yfrKJtkETbq5J20Cgiw4barhEf2otIyTbI/lp6n4RUxjTMK/deWYJ4nk6vHO9A=@vger.kernel.org
-X-Gm-Message-State: AFuF++mdkr2t/rT3UNlyToWdps6KcZebQeyqP3sNhBKDtc90vVejge0z
-	G+RMld1JqaunYXkVY++HkupO9vMeEvRSI7BTwRgwP90Ks0vvZMG38YUx3FHQSxp1fZk=
-X-Gm-Gg: AYBFou1Gk/Ll8v+u+HErMqjIWwo5y3B23rdzpzHH4ZluIxX2Ft9S8qNAce2Xv7T6ggy
-	SZ3a7TLzOklcxrX0+ImTL53JHRPEsqX/puIe6AdlztOpT77Lm/ASGw2vAusFfrdZZNG35uiZjZ2
-	7+9VmWCEF8FWKY3pfiOVZwFmWJarSJXUKGzYMhLWAWxxPJgxVwc4HK8qlfc44DMHVXTYzk/yDY5
-	6Z/obVR5+ZQGLW1AILMM76dSCEsg76HDIZhJsTqsbJ5njUiVJCLm7nxzAfT+bsu6W0PQb+0bbl+
-	Ts5NeQY2IUzaZlZYC8lS/PlhuXAD3lNFnBsRbV2X8ZiD5Z3BwWbtE8b7VRlgRD3bwj8obAiGy8D
-	1YwGx020Q/Oeb/ycdpcsrXTHtttciy9siQDgpO2ikSBg93XYsnHG222BNgm/NsFXqDKqmn57R9K
-	dYup7cd5eV5IJa/RkAnOEqZl93d/0YCk67D7MRWJtnBW8UlSBKzKEHawr3DOFn
-X-Received: by 2002:a17:907:928a:b0:c29:4d81:c5f0 with SMTP id a640c23a62f3a-c29e51b1ad7mr218786066b.6.1789548741687;
-        Wed, 16 Sep 2026 01:52:21 -0700 (PDT)
-Received: from localhost ([2a02:aa7:4656:2314:c23c:9eda:81d:3])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c29de68fafdsm93069566b.63.2026.09.16.01.52.21
+        d=1e100.net; s=20260707; t=1789550187; x=1790154987;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VzRkWt2VZCbdlSo+rjm4taEDOl7SYR+tdxu2b2xJF3M=;
+        b=p1rf7dbxOWpqXs85K8Psq/gTXOOcrPxR2bss5H6GPmAl7OAvtbkRP+qy6QPG13IksR
+         rE4EDiKX7cQHZYMcRiHeKWN3XaMPTF2WwNUDS4ihxog9b41ENg5bFyNxBRkt76OchJUC
+         NOoXoEgHtuORmolSScis1VzRMQit/NJrrjJLazTShnff4VGQb+9FR01LDWiffbXLk4GQ
+         lVdMy2afO+ZndoI4iLGHokFFYweKmB6FX+bZC1299IlxTVDpEnqqnSt1ckiMTLjp3ucH
+         Io4hdxQJOEvmrzVzH5PxuC/0dlFL1ZEkB1hua7mmAPp59QBrElL8sx8PF/r0I3V9ieF5
+         50MA==
+X-Gm-Message-State: AFuF++n7QQvrqX+0kZ5PYCeuHBSa1LMTFsHGo9qC+t5zxO6ABGLa0lKv
+	qqM1o+Ou5h3MO/ntsy2uOy1wkR6CRV4CAjIhoLSmC6E35qjNPH2WItq7
+X-Gm-Gg: AYBFou3CyB9LIfDTBswrOvPxTtMfcpla5wF6PsvYLCm5+4xHLr64Od+NFHz4l2jGjZ0
+	/lOWSdO+CIHkpsCix0Yn4d+DQJgsVB2R8RrXObHZ+mIxxSrtdhNCfBx7DSrcD2ii4eGa7RfXvI+
+	yPrabbaG6RHpsQBOtrzpSdT3w2eekZ8eIF/cCYoRiDfDbSqrPgyiCKm1KKLMXPWMd2myh8Swo8l
+	n74+3Rv+qGpdrErbwS9MOsqryHGvXr1+wwmZbu1Y0RXtPIOee8Pq+MLIflGTLSiIpQ1Z23hD6NA
+	ofDxWHJ4ObiTubW5MODWLS+hPdBFVdr8NGR3rGMXf9krX/4gKKXvuOHHTTEMZEOHht59/989cjQ
+	8GrlZbyYlcFznyvNjI4mRxYSgEoN/h5U31HplpRMuDTroImOLLYyULBq3l5jd3gED9kVCteKeim
+	Z5AizRtw8iEugD/IrBQrfFJXpRulIuXDrCTmXNPCp2lTWaWHHQ2VX/3C+TI6L+U5hFZ9rfNC2Qk
+	RyNsg/SM3Ts9a6Pwg==
+X-Received: by 2002:a17:90b:4ecf:b0:398:e96a:8999 with SMTP id 98e67ed59e1d1-39e1e49a802mr4752714a91.16.1789550186814;
+        Wed, 16 Sep 2026 02:16:26 -0700 (PDT)
+Received: from kernel.tail6741c6.ts.net ([185.220.238.35])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e19a2c2dcsm1414916a91.0.2026.09.16.02.16.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 01:52:21 -0700 (PDT)
-Date: Wed, 16 Sep 2026 10:52:20 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Kyle Meyer <kyle.meyer@hpe.com>
-Cc: akpm@linux-foundation.org, corbet@lwn.net, david@redhat.com,
-	linmiaohe@huawei.com, shuah@kernel.org, tony.luck@intel.com,
-	jane.chu@oracle.com, jiaqiyan@google.com, Liam.Howlett@oracle.com,
-	bp@alien8.de, hannes@cmpxchg.org, jack@suse.cz,
-	joel.granados@kernel.org, laoar.shao@gmail.com,
-	lorenzo.stoakes@oracle.com, mclapinski@google.com,
-	nao.horiguchi@gmail.com, osalvador@suse.de,
-	rafael.j.wysocki@intel.com, rppt@kernel.org, russ.anderson@hpe.com,
-	shawn.fan@intel.com, surenb@google.com, vbabka@suse.cz,
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v3] mm/memory-failure: Support disabling soft offline for
- HugeTLB pages
-Message-ID: <aqpYxAktjexhaMGc@tiehlicka>
-References: <aqiIEkrc6aDBOqRg@hpe.com>
- <aqkCbgHmMGxI_GLG@tiehlicka>
- <aqmGd0GGUCkbZpkZ@hpe.com>
+        Wed, 16 Sep 2026 02:16:26 -0700 (PDT)
+From: Kunwu Chan <kunwu.chan@gmail.com>
+To: paulmck@kernel.org,
+	dlustig@nvidia.com,
+	joelagnelf@nvidia.com,
+	corbet@lwn.net,
+	akiyks@gmail.com,
+	luc.maranget@inria.fr,
+	j.alglave@ucl.ac.uk,
+	dhowells@redhat.com,
+	npiggin@gmail.com,
+	boqun@kernel.org,
+	peterz@infradead.org,
+	will@kernel.org,
+	parri.andrea@gmail.com,
+	stern@rowland.harvard.edu
+Cc: linux-doc@vger.kernel.org,
+	lkmm@lists.linux.dev,
+	linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org,
+	skhan@linuxfoundation.org,
+	Kunwu Chan <kunwu.chan@gmail.com>
+Subject: [PATCH v4 0/2] Documentation/litmus-tests: Add SRCU fastpath litmus tests
+Date: Wed, 16 Sep 2026 17:16:11 +0800
+Message-ID: <20260916091613.78352-1-kunwu.chan@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqmGd0GGUCkbZpkZ@hpe.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue 15-09-26 12:55:03, Kyle Meyer wrote:
-> On Tue, Sep 15, 2026 at 10:31:42AM +0200, Michal Hocko wrote:
-> > On Mon 14-09-26 18:49:38, Kyle Meyer wrote:
-> > > Soft offlining a HugeTLB page dissolves it, permanently reducing the
-> > > HugeTLB page pool. This can be problematic for workloads that depend on
-> > > a fixed number of HugeTLB pages.
-> > > 
-> > > Currently, soft offline must be disabled to prevent HugeTLB pages from
-> > > being soft offlined.
-> > > 
-> > > This patch allows soft offline to be disabled for HugeTLB pages while
-> > > remaining enabled for non-HugeTLB pages.
-> > > 
-> > > Commit 56374430c5dfc ("mm/memory-failure: userspace controls
-> > > soft-offlining pages") introduced the following sysctl interface to
-> > > control soft offline:
-> > > 
-> > > /proc/sys/vm/enable_soft_offline
-> > > 
-> > > The interface does not distinguish between page types:
-> > > 
-> > >     0 - Soft offline is disabled
-> > >     1 - Soft offline is enabled
-> > > 
-> > > Convert enable_soft_offline to a bitmask and support disabling soft
-> > > offline for HugeTLB pages:
-> > > 
-> > > Bits:
-> > > 
-> > >     0 - Enable soft offline
-> > >     1 - Disable soft offline for HugeTLB pages
-> > > 
-> > > Supported values:
-> > > 
-> > >     0 - Soft offline is disabled
-> > >     1 - Soft offline is enabled
-> > >     3 - Soft offline is enabled (disabled for HugeTLB pages)
-> > > 
-> > > Existing behavior is preserved.
-> > > 
-> > > Update documentation and HugeTLB soft offline selftests.
-> > 
-> > This is adding a lot of user interfaces to control something you can
-> > disable by config option for an admin only functionality.
-> 
-> I may be missing it, but I'm not aware of a config option that disables soft
-> offline specifically for HugeTLB pages.
+This series moves the SRCU fastpath litmus tests from
+tools/memory-model/litmus-tests/ to Documentation/litmus-tests/srcu/,
+as suggested by Paul McKenney.
 
-No, there is none. And IMHO there shouldn't be any. We do not want
-config nor runtime option for any random type of page to be soft
-offlined. You can disable the whole feature. If we need to enforce a
-boot time parameter then I can be convinced about usefulness because
-distro kernels need to enable config to be generally available but there
-are usecases where this might be better disabled during runtime.
+This series splits the two litmus-test patches from the earlier
+[PATCH 00/13] srcu: Round out atomic SRCU support series:
+https://lore.kernel.org/rcu/20260907075829.2073224-1-kunwu.chan@linux.dev/
 
-> > I fail to to see any actual justification for all of that. If an admin
-> > can disolve a hugetlb page it has power to allocate a new one as well.
-> 
-> Allocating HugeTLB pages after boot is not guaranteed.
+The two tests verify the memory ordering required by the reader-free
+synchronize_srcu_atomic() fastpath: the grace-period anchor must be
+ordered before the per-CPU lock-counter scan.
 
-yes, and so what?
+Patch 1 verifies that the anchor-before-scan ordering forbids a reader
+from being missed by the scan, while patch 2 shows that reversing the
+ordering permits the problematic outcome.
 
-> > Not to menation that the whole soft offlining is mostly a testing
-> > feature so adding a lot of fine grained configuration space seems
-> > excessive to me.
-> 
-> Can you elaborate on "mostly a testing feature"? For example, how does that
-> apply to the BIOS/GHES path discussed here?
-> 
-> https://lore.kernel.org/all/aMkOCmGBhZKhKPrI@hpe.com
+Changes in v4:
+- Remove the smp_mb() and critical-section write from P1, 
+  keep litmus tests minimal, as pointed out by Akira Yokosawa.
+- v3: https://lore.kernel.org/all/20260912024225.2872265-1-kunwu.chan@gmail.com/
 
-OK, so apparently there are some BIOSes which abuse this feature to
-mimic a real HW poisoning. This doesn't change the overall picture
-though
+Changes in v3:
+- Add a critical-section write after the smp_mb() in P1 of both
+  litmus tests, so the barrier properly models the lock-increment
+  to critical-section ordering in __srcu_read_lock().  The smp_mb()
+  was previously vacuous because P1 had no subsequent memory access.
+  Suggested by Akira Yokosawa.
+- Adjust indentation of the SRCU entries in litmus-tests/README.
+-v2: https://lore.kernel.org/all/20260912024225.2872265-1-kunwu.chan@gmail.com/
 
-> If you think this should be handled differently, I'm open to suggestions.
+Changes in v2:
+- Use a filter for the P0 scan result, as suggested by Paul McKenney.
 
-Yes, do not treat hugetlb pages any special. In case there is a HW
-related problem which decides to offline portion of the hugetlb page
-then bad for you. It wouldn't be too much different if this was handled
-through a real HW poisoning.
+Tested with herd7 7.58 using linux-kernel.cfg.
+
+Kunwu Chan (2):
+  Documentation/litmus-tests: Add SRCU fastpath anchor-before-scan test
+  Documentation/litmus-tests: Add SRCU fastpath scan-before-anchor test
+
+ Documentation/litmus-tests/README             | 19 +++++++
+ .../SRCU-fastpath-anchor-before-scan.litmus   | 55 +++++++++++++++++++
+ .../SRCU-fastpath-scan-before-anchor.litmus   | 52 ++++++++++++++++++
+ 3 files changed, 126 insertions(+)
+ create mode 100644 Documentation/litmus-tests/srcu/SRCU-fastpath-anchor-before-scan.litmus
+ create mode 100644 Documentation/litmus-tests/srcu/SRCU-fastpath-scan-before-anchor.litmus
+
 -- 
-Michal Hocko
-SUSE Labs
+2.43.0
+
