@@ -1,216 +1,187 @@
-Received: from mail-pz2-f41.google.com (mail-pz2-f41.google.com [74.125.228.41])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE38477E4B
-	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 21:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6036C4A498C
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 21:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789594913; cv=none; b=ClKoECxR5cPqEiM+CNWTEVjdUGUb9/eengzRPLj9C4P6ZyqkfCDvbpMqzD+0e+7NgQJCxv04FV85mALR+DS7tHZu0D4hhvylfVbUevHDzDKPwry2DvQU0pDtb3OLbQvT/+ghF1wfMzZSpqrt2pyJVlg8eDOBCxNEnXDpOxGYpI4=
+	t=1789595057; cv=none; b=K8Xr2v4KNEGTr7yng9f6wewnxOOE6UP9c6KLFhJ5XJdj2t99mTg5zzpiuhanmKtNc2KguLZR7VSiFjQsP9SETIxFL6e1Kk5YtkqO+5f9xXJ9hkP/QRIsUlzTurD37QFX73m3HGxVn8AnnE31zklfchglhpHE3hvNxL6POPf9HDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789594913; c=relaxed/simple;
-	bh=IAptJyT5xluEqEiFzVEi/p861VpjcmGoy/sQvXBJe6U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qpX/Wzz9aB9+enW7Hddwkdqm5+ltf5W8/9S0cC+YIJSUJl+EgfXOonDdHqvy6gEozRb++nYDZa4ZZs8+2roaIdcxIekJyCVIiUfP7yIw/sGbegTXY+ftDv+1yvm6QfJP9iCamVAyBqlUBqkwFtOnhqNo2UCzCg8TN5TqyAMImUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JAnzMGfz; arc=none smtp.client-ip=74.125.228.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1789595057; c=relaxed/simple;
+	bh=eVwAxwIHPv5sTNmzVLKDZnp4GCwOva7HQs7nyqQVR/w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vmi4Muy+ML/s5fcg3mcSRYGYSPdrwRveHNJF4LGGcTA2NduBCgK3JNr6LWcvEOhGVHc8AWTMVs3Akm3C3jcgznycYfpK7Pkw2btQ3GQtXTIf9e/375+QuKK5zc85BiDZefBvNqiHcsjOj3iavzR05hOPbqMAjiDRnS0/L37y0oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RjXdezg7; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JAnzMGfz"
-Received: by mail-pz2-f41.google.com with SMTP id 41be03b00d2f7-cc50b9e8a45so90040a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 14:41:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RjXdezg7"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b93204449so308555e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 14:44:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789594897; x=1790199697; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=V67/ygqzXBDTg6FpqYWmZblZ2cnQrCYnunNIZXB6fo0=;
-        b=JAnzMGfzr1pYJ8prgYf+WTUz3P97ReGXI+kkUr+abDB35a+oVXrEnS/EDQxJglSQUz
-         Udpq+qn9k2Z7oNXCC7xbYoIeY6HxH6mv0nqWS4j6up/TVfDM9ghv29WT+tcYuFpfcMqd
-         XCGcRHBdTe4QDm3R3nTtL3jllpNrIMWnoLYnNtd7CpVolxbC8401aWHo8p5oRPPPmHsa
-         L+uD4l/irpgw4sgAlE+cbaRj18MW2aud/HBktx4lNZ6QqjeFbDxVcDqe4hr7zjL3OhVd
-         QnQDbpfs6mjic3pb15mkG/NTN71P9fXWwaeqW2stxRuhk4m6ZF+t58u0yall8SGg4gsK
-         c6MA==
+        d=gmail.com; s=20251104; t=1789595046; x=1790199846; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FjY+yTooIwgjzGQxDpIA0K3uDvsszA1PxNKQSXHovCI=;
+        b=RjXdezg7hC3I0tRdRlyfrlijC4LDjc0TUA+UGSGqRStz6tQyGa/sXzeJtmp8eEPiu2
+         TiOer+mzoeACb2LJnI1kqqEP4mBXket7J7x0Kfeibrx+XzgfYScgk4RM+Zodip51DNGo
+         8R9czOBSJ4xLBpAfCUai9vHaDiw47aYde/SzfjTd7Razpvt/IDLFfbzS2321cmjCkJCI
+         pQiL4Fn31o11exQH5gtyQlSP4Fx3zkbLWNi1esx/pQY53XxItdlTTJKJUwiQ8+W3X6v1
+         smKsnF1gCRhJGNl9fbMNfSF4PHqbnMUmTZ+K8yJtxk/gAnmSNI8jpvva69Z5c13GohGt
+         AWMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789594897; x=1790199697;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=V67/ygqzXBDTg6FpqYWmZblZ2cnQrCYnunNIZXB6fo0=;
-        b=yMXHiVW4NT/KYUIhn0q9iuD1jamTsbKHamY4Mjqcy08zocsW5Lq9Jh2V0tajSN7wX+
-         klgB9bk5jOSljzlC4S9pjFmKUde0+tu19/vsriG34aXbx3J6LXC74dSfEFQMkA/Ti+tS
-         vBfhBOH3cTf7h1SDWlDkgXbAZ44eaT7qSfRNXkXKA6CQgGr8pU1o5jWOZO0Ce5DUuc+I
-         99/P2EnOUnQrHTWYy/uR5zrqDw4qF9LcNLEG+8QVX6Dp+PUSUXhBtVMR0TOGW5uDRxFp
-         ioRMu5w2TVGK0uUTr7fbhw/NgP0sMx4WueaPbe3/ZWd/gJDwRw605/KiHxnE0z9QrKfS
-         /2Sw==
-X-Forwarded-Encrypted: i=1; AKwUvBwN3J/7Pjl0rejLwfVVpmg9vVvgr83ptPB1cz2uedF/c0Btlf65573pVw8y8wbCIQKjDsRWL4NNxAw=@vger.kernel.org
-X-Gm-Message-State: AFuF++ki8bgD1vkZAVtEcAyq6Nnj6JfM+SVaLQGfDpPG5vo6oleAeU7J
-	u0NOr53N12MXVGntq0VD7NhVsyzuYQsPdmJSRTfWTjdqSx4LBaLrkNaz
-X-Gm-Gg: AYBFou2qjaAM7T+Cbmkqfg+ZIhi+RZwEW2IjTIRZ3By7PNBDRlAa2pUKDGX75VwMTKA
-	lAwA429S+XIGBqDWSuHzGS8V4DIEjr6wDeQ4oMKupNsrRyJlJWbAAikA4uGqdpswDA6A8Z8okXM
-	PVWMVN1PdA4DpDuYAag0ctGHJm38rSdbLrNbyZrPv1ZNtOlFMnLaiVAIZZgb3+dAlumH8az5Rjs
-	ki4DQDho7pBW4ZsyDRiCNUsAnI0n1HNVSX5N3E40Xoo458CdaFUsJiyG56V1nOIGoRNKlGgfP2w
-	LnfWxP+xmAWXM93FCN5TU4K/XqRL/OroNt5A7uZR5Wsdh+dRImxVM97H5AUcd7ZIkxR1cG8l+tg
-	hX16ajVXWhGyGXRXBg8RLIGkPtC4K+XyZKrkuupyNAeR0DtBW9gTeOlW0u/BsL9kZw2OWno9XZE
-	swprrlmyd1tXyKmFLGGWyzucGUsUnuxpeAr5W2o1ClP1k5uvf+fXeuzjsHtCYFpTRABfq6t2Lw0
-	cTktJrLWb+1F2SuEpBI3hZTzZ4nmBScl1VKsfqdEqjbhcjy
-X-Received: by 2002:a17:90b:390d:b0:39d:f66e:1720 with SMTP id 98e67ed59e1d1-39e1e4907e8mr11608231a91.13.1789594897275;
-        Wed, 16 Sep 2026 14:41:37 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bf5a6a1a5sm10854497eec.5.2026.09.16.14.41.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Sep 2026 14:41:36 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <b155cdd8-54d5-49d9-b276-c24dde766dbe@roeck-us.net>
-Date: Wed, 16 Sep 2026 14:41:35 -0700
+        d=1e100.net; s=20260707; t=1789595046; x=1790199846;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FjY+yTooIwgjzGQxDpIA0K3uDvsszA1PxNKQSXHovCI=;
+        b=gWYG2vJfmejOvNNylT4uYCidPZO737HiMEwDgtEu8nww7vo59ZWFbuZnJERcdhYeKs
+         jF+GrZXKB7Io77+a4fnIDYOlDTa750Mf+w6dYISp7S2Y9zHH6Pt+EXo1jfJUXoUVLXzp
+         lWtvL8/dpzEVwI0q8AcO3WG0zkQukgnlUMDPqFyEBQTNw37E/9pYG7PNRlv0PugTpFEP
+         LGMd/tzkRwhl4qUDp7FhI+IwEIpyOKhAKpPcOKTxfWlVsbVULPpg4TNUBfx/+6C8DN0Z
+         DZz58aBWCz4QsUGmS71CzynpayL9SCpD+Td7YV9SS+rMVHMl1auczT/eF8vWnZ4kIjIK
+         qJ3A==
+X-Gm-Message-State: AFuF++lcDgiAvTV11eoo9HIVj+urF+S1B3n9/NrTraTCHk78rDca9l65
+	eFmxwpkwxFsvL8ITG3XrLMuEmvNCk5jf9bDloPXCq/rwYYYAxIh4Qpt5lDjhcyStBGkN5KQZ
+X-Gm-Gg: AYBFou3TieExgduqbznQL/kDRSjnz8JYDOwcRB16o2O7bz4hQzvK0788ZmZDL1hgBge
+	I6ibW/2ckX0Xjt5hul5eLXP3U+fLmTW+u63Xje0RtSqHn/DQf0Pdiz5LyRiaKgb0UC77kRMRWCV
+	efiqvOf8tftAyUJ1+hwrv4wef+RZXq7uYG+WDdf9ByXkMWrelJV9Q3UanM6pbNFz96veyoyeipA
+	oYf/cpRNCXz+0/KzRQ7pFo06js61+Nq9djmR8Cd7zQi7/thtzybYE3lPxtEzvWGWhfup3K5EotS
+	WeA/xj/KhhE3ilPdid3EbwD2/f9WUhta0URlSTRXsSv1M2LJl9HA+l41yaKq0hZXxbdRr0tZWQp
+	H8p3dXIwLdybJ6VN2Tbxk/VhqbI7Ag4Hh69cpoJ2j9cr6WZvRlIr642i1oykanubd2ka1TuQgCz
+	asdksdYaGDMV3eis6+IjJpcmi6xz6BPgrscBa0BmzRLYgS01oFwD2cR/iilaE8mlF3ExpD5y639
+	f6ifQ0ayZHy1Cea32k=
+X-Received: by 2002:a05:600c:5489:b0:49c:f9b8:bae0 with SMTP id 5b1f17b1804b1-49eb732b2c8mr49393815e9.2.1789595045874;
+        Wed, 16 Sep 2026 14:44:05 -0700 (PDT)
+Received: from Nuel20.localdomain ([105.118.73.8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd32c5e1sm35176755e9.5.2026.09.16.14.44.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 14:44:04 -0700 (PDT)
+From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	mchehab@kernel.org,
+	aleksander.lobakin@intel.com,
+	aleksandr.loktionov@intel.com,
+	tudor.ambarus@linaro.org,
+	emmaonana18@gmail.com,
+	bvanassche@acm.org
+Subject: [PATCH v2] docs: kdoc: fix struct_group_tagged() parsing regression
+Date: Wed, 16 Sep 2026 22:43:57 +0100
+Message-ID: <20260916214357.22573-1-emmaonana18@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] hwmon: (pmbus/tps53679) Select page 0 for single-page
- TPS53676
-To: "Pradhan, Sanman" <sanman.pradhan@hpe.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Sanman Pradhan <psanman@juniper.net>
-References: <20260916200331.664795-1-sanman.pradhan@hpe.com>
- <20260916200331.664795-2-sanman.pradhan@hpe.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260916200331.664795-2-sanman.pradhan@hpe.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+kernel-doc reports struct_group_tagged() members as excess because
+the macro transformation rewrites it to an anonymous struct and drops their
+member names.
 
-On 9/16/26 13:04, Pradhan, Sanman wrote:
-> From: Sanman Pradhan <psanman@juniper.net>
-> 
-> tps53676_identify() derives the number of PMBus pages but does not
-> ensure that page 0 is selected for single-page configurations.
-> pmbus_set_page() does not update the PAGE register when info->pages is
-> 1, so if boot firmware leaves PAGE set to another value subsequent
-> register accesses may target the wrong page.
-> 
-> For single-page devices, select page 0 explicitly and verify that the
-> PAGE register was updated.
-> 
+Keep the tag and member name when transforming struct_group_tagged(). The
+nested members are then recorded as names such as fast.order; accept the
+existing unqualified @order documentation tag during validation.
 
-Why that complexity ? We don't read back other registers. Why would it be
-necessary or even make sense to do it here ? Following that logic one could
-argue that every single write has to be read back to verify it.
+Add a regression test based on struct page_pool_params.
 
-> Fixes: cb3d37b59012 ("hwmon: (pmbus/tps53679) Add support for TI TPS53676")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Sanman Pradhan <psanman@juniper.net>
-> ---
->   drivers/hwmon/pmbus/tps53679.c | 24 ++++++++++++++++++++++++
->   1 file changed, 24 insertions(+)
-> 
-> diff --git a/drivers/hwmon/pmbus/tps53679.c b/drivers/hwmon/pmbus/tps53679.c
-> index dcd4250b679d..f38c19b8cc43 100644
-> --- a/drivers/hwmon/pmbus/tps53679.c
-> +++ b/drivers/hwmon/pmbus/tps53679.c
-> @@ -248,6 +248,30 @@ static int tps53676_identify(struct i2c_client *client,
->   		info->phases[1] = phases_b;
->   	}
->   
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Link: https://lore.kernel.org/all/0cf8ea5f-418f-45f0-907c-3d1ed4f03e9f@infradead.org/
+Fixes: 2f07ddbd5793 ("docs: xforms_lists: better evaluate struct_group macros")
+Assisted-by: LLM
+Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+---
+Changes in v2:
+- Add Assisted-by: LLM as requested by Jonathan Corbet.
 
-A much simpler
-	} else {
-		/*
-		 * pmbus_set_page() does not update the PAGE register on
-		 * single-page devices, so select page 0 explicitly in case
-		 * the boot firmware left the device on another page.
-		 */
-		ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
-		if (ret < 0)
-			return ret;
-	}
+ tools/lib/python/kdoc/kdoc_parser.py  |  4 ++-
+ tools/lib/python/kdoc/xforms_lists.py |  2 +-
+ tools/unittests/test_kdoc_parser.py   | 37 +++++++++++++++++++++++++++
+ 3 files changed, 41 insertions(+), 2 deletions(-)
 
-should do the trick. Yes, the write may be unnecessary, but it
-is cheaper than a read followed by an optional write.
-
-Thanks,
-Guenter
-> +	/*
-> +	 * pmbus_set_page() does not update the PAGE register on single-page
-> +	 * devices, so select page 0 explicitly and verify it in case the
-> +	 * boot firmware left the device on another page.
-> +	 */
-> +	if (info->pages == 1) {
-> +		ret = i2c_smbus_read_byte_data(client, PMBUS_PAGE);
-> +		if (ret < 0)
-> +			return ret;
-> +		if (ret != 0) {
-> +			ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
-> +			if (ret < 0)
-> +				return ret;
-> +			ret = i2c_smbus_read_byte_data(client, PMBUS_PAGE);
-> +			if (ret < 0)
-> +				return ret;
-> +			if (ret != 0) {
-> +				dev_err(&client->dev,
-> +					"failed to select page 0\n");
-> +				return -EIO;
-> +			}
-> +		}
-> +	}
-> +
->   	return 0;
->   }
->   
+diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+index d9ad1ddc87dd..ced09504f3d7 100644
+--- a/tools/lib/python/kdoc/kdoc_parser.py
++++ b/tools/lib/python/kdoc/kdoc_parser.py
+@@ -635,7 +635,9 @@ class KernelDoc:
+                 continue
+             if param_name.startswith("{unnamed_"):
+                 continue
+-            if param_name in self.entry.parameterlist:
++            if param_name in self.entry.parameterlist or \
++               any(actual.endswith('.' + param_name)
++                   for actual in self.entry.parameterlist):
+                 continue
+ 
+             hint = self.get_suggestions_hint(param_name, self.entry.parameterlist)
+diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
+index e3dda2fe8a53..9e8b3a6b1da1 100644
+--- a/tools/lib/python/kdoc/xforms_lists.py
++++ b/tools/lib/python/kdoc/xforms_lists.py
+@@ -60,7 +60,7 @@ class CTransforms:
+         #
+         (CMatch("struct_group"), r"struct { \2+ };"),
+         (CMatch("struct_group_attr"), r"struct { \3+ };"),
+-        (CMatch("struct_group_tagged"), r"struct { \3+ };"),
++        (CMatch("struct_group_tagged"), r"struct \1 { \3+ } \2;"),
+         (CMatch("__struct_group"), r"struct { \4+ };"),
+     ]
+ 
+diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
+index c4a76ed13dbc..1a8287e99f2e 100755
+--- a/tools/unittests/test_kdoc_parser.py
++++ b/tools/unittests/test_kdoc_parser.py
+@@ -418,6 +418,43 @@ class TestSelfValidate(GenerateKdocItem):
+         """
+         self.run_test(self.SOURCE, [self.DEFAULT.copy()], self.EXPORTS)
+ 
++
++class TestStructGroupTagged(GenerateKdocItem):
++    def test_nested_struct_group_tagged_members(self):
++        source = """
++            /**
++             * struct page_pool_params - page pool parameters
++             * @fast: Fast path parameters.
++             * @order: Order of pages.
++             * @pool_size: Number of pages.
++             * @slow: Slow path parameters.
++             * @netdev: Net device pointer.
++             * @queue_idx: Queue index.
++             * @flags: Flags.
++             */
++            struct page_pool_params {
++                struct_group_tagged(page_pool_params_fast, fast,
++                                    unsigned int order;
++                                    unsigned int pool_size;
++                );
++                struct_group_tagged(page_pool_params_slow, slow,
++                                    struct net_device *netdev;
++                                    unsigned int queue_idx;
++                                    unsigned int flags;
++                );
++            };
++        """
++
++        kernel_doc = KernelDoc(self.config, "test.c", self.xforms)
++        patcher = patch('builtins.open', new_callable=mock_open,
++                        read_data=dedent(source))
++        with patcher:
++            _, entries = kernel_doc.parse_kdoc()
++
++        self.assertEqual(len(entries), 1)
++        self.assertEqual(entries[0].warnings, [])
++
++
+ #
+ # Class and logic to create dynamic tests from YAML
+ #
+-- 
+2.43.0
 
