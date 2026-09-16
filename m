@@ -1,136 +1,116 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05890388393;
-	Wed, 16 Sep 2026 13:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5EA3806DA
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 13:19:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789564612; cv=none; b=EdSUhbs3vrg5BhPcSYtntBhw78ZxGo8sQrF3VyQ6/tpbXB5GFXkMduyvTMFv7V82QNlojoIYEMJH072BrM1v3uYUMWledQC83d7rDPPZhDcPmWa4hOkqgRVAjpeO/EyA7ed6N6gVQBBXHUGS+bDiVbm3POdXOTCmJzelwumWhok=
+	t=1789564787; cv=none; b=kVkLy/jjIk6eX1JeeiQfEU/pRG5dn9SuWCWftOyQHWzIV/Cye3wyverEgN+NRTAHh/OfwrAEuSwa7Wz79xw3BgMQzKKmtkXekki1esifqakz9RqSzRBRXRdDNUOQB2KZjGbGnverIgxiV+AUfmtejrZtwz63xlnWq9HamDvxv24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789564612; c=relaxed/simple;
-	bh=AxW40EfCF8iZErYl8W5+AI0CzKP1ft3cVU4kgfc4iNw=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=awCwM6aC8k22Hu/Uug7Wh7Bc2zrHtnvKqCUVZVMOiWvxu/aOd1+rCfdg715FUqJsxiORKX+UenbTUK06jwM1jsUdz+0H5LDn5xU22qQgLHqSNj5Gy/nyd3VQlPsRcvoB+58QVUpYk6UlAbQwI+71y7TuI2fhhBUvvGKd94SIBIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Ap2Qh3ls; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lEjeA3Ih; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1789564787; c=relaxed/simple;
+	bh=fCWw0Trjnxse44I8g0/geXOuyNpXr43fX6tn+i6FZ7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YRfOK+so/PBZ6LGHR2dxfBnZNjjk8Mf+HpCoUdWlRszOK8RV+hKHzzNlsFsNjDa7lly0Z551DJh/gv8In7B17Hj4ICljVp5zlWPYet6abNg9trutZc8MHfBFrH2qqv1ySskP/R5bxIIvjerXnbY/ZgWa1yKytl9CgiAu9Bb40P0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=b3ddw9Uf; arc=none smtp.client-ip=74.125.228.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Ap2Qh3ls";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lEjeA3Ih"
-Received: from ams-compute-01.internal (ams-compute-01.internal [10.64.2.61])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 6A1867A0100;
-	Wed, 16 Sep 2026 09:16:48 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-01.internal (MEProxy); Wed, 16 Sep 2026 09:16:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1789564607;
-	 x=1789651007; bh=jKavffle4neT9GMaTZ2rSYi6SqO6U6tssCdaO32SjGg=; b=
-	Ap2Qh3lsL4M3EfUXfTW7gVuBEpKnY3dKxMp9Z+iqyQvb4pOksZY6Z58FU6gqKOCJ
-	QWBVy2OkVnPeYuQ6V3xOe2qyL7YbAiIE9rmUMP98oQ2O79qBKDmfru8MbT4RPqLr
-	LyrzLEUUVIWfIY167OqwFgKjiCmpCBBYLvbjfUR8KJJXSW7mCgY9YnQj+cH7Wp3C
-	QkdkZiw0fwch2mBMIYSmWNX2v/ZJ/04OvS582CUIa4JNpje7DoZnQFkxsvFsFWXt
-	t1dVHoHkesB2+v+HfUtw7LiBFyhds3jBlJ2l7hXAn++Qij8jXaPAhEM/CBHKSdTW
-	w/47aBOnx0CmHMdfkwhc6w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789564607; x=
-	1789651007; bh=jKavffle4neT9GMaTZ2rSYi6SqO6U6tssCdaO32SjGg=; b=l
-	EjeA3IhxJxD4GtJ78eF/7QPZTqfE89I0Ik7Up/wEXFwjD7Evb6a1G0CXJbX2/hd0
-	pJPu1JqCjsZO9S3hfux7iJ/dUak3WjYV5z2IVU2dPrtk14UXaFyvxH/FiaDKjdQv
-	aPa5L+T6yQdXMabLfX9t3en+BnnuaDl7Tx0FEnAQWGxuHMFDAai0kB90PRg5mkp2
-	d67UVdhgcZxb7HmjrGIrlUFjJ66bMZxrQ+aKkcTE4QxuboK00cY1O2wErtd1uSD6
-	sWLmynMWKzbRiZVjpX86SJ3sKL+iDAqXdJQmo9m5TfzrFxtWF6vlaR/oPCnpGIRl
-	l1C5ZaBms3TIyPTAvkpAw==
-X-ME-Sender: <xms:uZaqakJGpMtxTFmsF-xLuuL556T16Vyl050-Z0sg_G9xgl7--AklcQ>
-    <xme:uZaqautD07o2FuDoi-W218MTavysMbqcSxLuya3QR2FHZS7yrKnM8cPcTquuqaYG6
-    SDW_oIYKN3bAPm3dsE-nXYRvUb_UHOWsMU0whQWpWei_YTaPkRMwRAv>
-X-ME-Proxy-Cause: dmFkZTFnplgyCo8M36BD8SpLaZmp7STqRcXPok5KtM5tUgC1ZV7i/mvJqoZoGQWaQj7pMw
-    0nWk/oGrv9BgYuiSHl1wpjttdvYQ/Emrd3tM8Q/TAa4EECiIC+uIQb6kmQUm3849C0kuBn
-    o8h981T+Al4QsogzbVxkXZxhOtfKS8sC8+DxyEdhnEQ8RmknuGVsYuIz9DkMGD2N4T7zxS
-    c09z2RVKAeD+VuXdhAJObk+oAxJBBp1o5bXRH23PPvWlLQw176ixJEiA5O838te8cIiRjB
-    OQa+0bLw/hqvqkB5RZsa5cHTrDUpjkgRPQCGH29/Re0FaZgGDkXClrr64kLzWTuVHtzxJ9
-    gd7Qdja1y8K25wWnQQK6ErNwxrFwNmCvvRSlIHTrPN+XHGUOp2nQwOz+5WK6l0Ye2+tXby
-    Ll2U9gqjjb/yn/Jo1ZUpz62Nc+5FXiXb+9GByAeRmxrZowwsLJ2AsTATTJPiqvLoHj5KWF
-    SvH+BRdTbkRPz+pkHDfIpSZvYFqHhqhnD5acBq0cq7cuJzKY5tU5ZwxF2BXfssS0yEaA27
-    DtEra7+7UaGjyabi/du39U+Brvp1woct6HCRh17BHE9NBuEqg9Wy0TGiYU3PIsbq88Y9/n
-    X0y5qNnIsDd8W0xwF4DHegggig6nRRJ1+5EMXvr6h9EWgcnrFNizH6HXuBSQ
-X-ME-Proxy: <xmx:vJaqat7Auk0s5H0fK7GO-3VmhZWjLEW04eSQ_S7LhXnD7H9sSjLlyQ>
-    <xmx:vJaqasiZPEgXcpVlil7GgGazN3xDpPK3DwuWqTB2sFVGI9rTf0wJfw>
-    <xmx:vJaqaogPGc-H5IOzGwSymZ2Hidd3khEc4i1RIbAvb2N4Isgdis7q-w>
-    <xmx:vJaqaslzEbmD73QVkMSNYndfj9ffJAoN5Ib4u2dDgDHIm8OpycAHlQ>
-    <xmx:v5aqamWzwoSqWPMMiWbqSdOCGAl71oBqQ3irNw_rAHx0rWjxgjIWISoM>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id BBF9D32A0084; Wed, 16 Sep 2026 09:16:41 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="b3ddw9Uf"
+Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a99391ffb2so1718228a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 06:19:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1789564784; x=1790169584; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/g2oyb1OwyLHE2WzpJBh/jQ1AsTk6Ezgm+5y3dxq+Tw=;
+        b=b3ddw9UfrwqrjZKQdivrcL7IsRbQHVgcfyFeGHsFlpyaekr3MZ6dZJqrYetG2drAWb
+         PqjCrWOKKycNtnxpZhmY4w52K41AlzsA+Ser7/c2ufy95x1eGBC0BA1aqnStI731RFou
+         rOIvcsv/quJqQLFCpAMEp2TMKullerHStCDF4aU/Eipsc0Lm3GD/dQ4sIXsd3ZMh0RXH
+         ejmIuUU7EUFn6tXyJ2Mvr6mSv4bFIELlpywYnakWr1n1AlToDECyk5kO8hnPseBF4bV8
+         YIzaiQVqULQhlAPBXk+6afXTA4NSglZHfKxxmVGC41hjP8Msm692XGXc//25fX1s67lr
+         raLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789564784; x=1790169584;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/g2oyb1OwyLHE2WzpJBh/jQ1AsTk6Ezgm+5y3dxq+Tw=;
+        b=SljEPHmL1h9hmpTEWMYJCX18yy4oNoQraMEbCIF8ARrFB853T9qdPytR7EoNn6t2BO
+         20z4/ImADsOweumlcl+91CNbZRuW6Mf0j0n/4iJWiqNAnEVT5P6nX8XTRudRwR8oreu9
+         d3iOxoW4SpbPEzYZb4gCDTw0CIOprN8WupSCWGp8LFfZPHDNIPWdFFT7KLRkA0FbNRce
+         CmnjD6F35gNixiuWqyg5KYz7ucB37gJtWwKfp7PlXA3acNE2gMTdD27JNRbYt5PIlPcT
+         ICp+/iQCSdUA1hvmQQZb9XN5wGmnkbFlv5LHh6a3+hDtCwHXeFwkUWdrMHRhdwbU/QXF
+         lfFw==
+X-Forwarded-Encrypted: i=1; AKwUvBya0p5q/QZaPn32ruVSayrSU0l62L7q6Bg8XOxWV0cWLfk71pJzIvgg3zOoulj6v1HXYRwvEH/R6g4=@vger.kernel.org
+X-Gm-Message-State: AFuF++k0bQ1YHzIJ69u3c1Q8qicU8BOd44jRq8YF0wLqQYx89iyC5bwr
+	ACNjPHpk65k1+xnA1z4QRAkTCojVhNlU9hzr+0HNGYwVZb2HuoezUYvnl7sPhq3ovkE=
+X-Gm-Gg: AYBFou34RawVGSB9OToRelUZ+Jsmlzdo2MZ1JgxQfSENXX1A+iaGZ/Zjp2uTjvLgvec
+	DiY+mf19gMHA0v4Gx1XaxmtKum6N8O0G142EVubw91nEqj8D2zo+lawgAbpPrcvNHMJeF8ST6I2
+	HbeWpATdJCxla9JeeqC4ph7Bj6LZI76Pkae2yuH5TB+5aesWq0uwm6bm0jTwGcwbEqhzZyA2me4
+	Z8DKZe1w+TE5FiX1TtbRUokEZDL4X2wViWlNwJxddVK0pp1HaOQiCMSqyV4HHaQar5CkLdXMQlN
+	kH5tSI647lJjCZl145SUCSbmI71DjHPmPKx8Nz14mzz0sVUcf0CCCTPnUtFeG1enLTNt5tVvQpy
+	C74vcuKNpW5OCwxjRum+ReuMWDTrkWiboXnEnOotgYXpdxU55UeuJwoHPT5JlKglwx2+fksPISs
+	3k3wmm/fxKiHGpmQCt2ht5p9Wu5YBKRCZaX24OFpnNFTTRz5S+2szel3o7hZoB
+X-Received: by 2002:a05:6402:1f12:b0:6a9:a5e7:f8d3 with SMTP id 4fb4d7f45d1cf-6aa223a42b5mr1916895a12.19.1789564784428;
+        Wed, 16 Sep 2026 06:19:44 -0700 (PDT)
+Received: from localhost ([2a02:aa7:4656:2314:c23c:9eda:81d:3])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aa1cfe07e4sm1748298a12.2.2026.09.16.06.19.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 06:19:44 -0700 (PDT)
+Date: Wed, 16 Sep 2026 15:19:43 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Kyle Meyer <kyle.meyer@hpe.com>, akpm@linux-foundation.org,
+	corbet@lwn.net, linmiaohe@huawei.com, shuah@kernel.org,
+	tony.luck@intel.com, jane.chu@oracle.com, jiaqiyan@google.com,
+	Liam.Howlett@oracle.com, bp@alien8.de, hannes@cmpxchg.org,
+	jack@suse.cz, joel.granados@kernel.org, laoar.shao@gmail.com,
+	lorenzo.stoakes@oracle.com, mclapinski@google.com,
+	nao.horiguchi@gmail.com, osalvador@suse.de,
+	rafael.j.wysocki@intel.com, rppt@kernel.org, russ.anderson@hpe.com,
+	shawn.fan@intel.com, surenb@google.com, vbabka@suse.cz,
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH v3] mm/memory-failure: Support disabling soft offline for
+ HugeTLB pages
+Message-ID: <aqqXbwglwYTyTuUG@tiehlicka>
+References: <aqiIEkrc6aDBOqRg@hpe.com>
+ <aqkCbgHmMGxI_GLG@tiehlicka>
+ <aqmGd0GGUCkbZpkZ@hpe.com>
+ <aqpYxAktjexhaMGc@tiehlicka>
+ <ad36cd54-7319-4bb4-bf8f-9fcc7b009158@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AcI4sQW32jCJ
-Date: Wed, 16 Sep 2026 15:16:13 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: pankaj.gupta@oss.nxp.com, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Frank Li" <Frank.Li@nxp.com>,
- "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>,
- "Fabio Estevam" <festevam@gmail.com>, "Pankaj Gupta" <pankaj.gupta@nxp.com>,
- "Randy Dunlap" <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Message-Id: <2034fb2f-f169-46a5-85e8-fa723ddb0360@app.fastmail.com>
-In-Reply-To: <20260915-imx-se-if-v51-5-4a7dac612cb5@nxp.com>
-References: <20260915-imx-se-if-v51-0-4a7dac612cb5@nxp.com>
- <20260915-imx-se-if-v51-5-4a7dac612cb5@nxp.com>
-Subject: Re: [PATCH v51 5/7] firmware: imx: adds miscdev
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ad36cd54-7319-4bb4-bf8f-9fcc7b009158@kernel.org>
 
-On Mon, Sep 14, 2026, at 21:40, pankaj.gupta@oss.nxp.com wrote:
-> From: Pankaj Gupta <pankaj.gupta@nxp.com>
->
-> Adds the driver for communication interface to secure-enclave, that
-> enables exchanging messages with NXP secure enclave HW IP(s)
-> like EdgeLock Enclave, from:
-> - User-Space Applications via character driver.
->
-> ABI documentation for the NXP secure-enclave driver.
+On Wed 16-09-26 15:08:45, David Hildenbrand wrote:
+> 
+> > 
+> > OK, so apparently there are some BIOSes which abuse this feature to
+> > mimic a real HW poisoning. This doesn't change the overall picture
+> > though
+> 
+> Is this really abusing? We know that a page is shaky and will likely go bad in
+> the future, For now it is still accessible. Trying to migrate off that page stop
+> using it right away sounds pretty logical to me.
 
-I just saw this in linux-next, where it has caused a build failure
-for a missing include of linux/slab.h. I hadn't see the series
-before (even though it is a v51, which seems crazy), but I am
-curious about it now.
+Yes, no dispute on that. But we have HW poisoning for exactly that
+purpose, no?
 
-> User-space library using this driver:
-> - i.MX Secure Enclave library:
->   -- URL: https://github.com/nxp-imx/imx-secure-enclave.git,
-> - i.MX Secure Middle-Ware:
->   -- URL: https://github.com/nxp-imx/imx-smw.git
+> Now, the weird thing is that for hugetlb we wants a different behavior (keep
+> using the page and ignore the request to evacuate).
 
-I assume this will hit the soc tree eventually, so I want to
-make sure the reviews have covered all the important aspects here,
-and I don't see the answers in the cover letter:
+Exactly
 
-- Who has reviewed the user interface from outside of NXP?
-  Since this is not a vendor-independent API, I think we have
-  to be extra careful and make sure this does not duplicate
-  anything that is already in the standard firmware interfaces.
-
-- Why is there a low-level passthrough to the firmware from
-  userspace? This looks rather irregular, since it is the kernel's
-  job to abstract the platform and provide vendor-independent
-  interfaces. In particular the bit about shared memory and
-  the generic send/receiv ioctl look like they should not
-  be there, as those would allow side-channels from userspace.
-
-      Arnd
+-- 
+Michal Hocko
+SUSE Labs
