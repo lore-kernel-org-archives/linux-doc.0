@@ -1,143 +1,128 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E9237AA78
-	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 14:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789570735; cv=pass; b=vFydY7vK2MpUGzkN7DfbolhZYxcObBuHiMSl8vG05oFcDfJlxauTEJbuvKkNk8C+vgYLRAO+/jahNFztq+6z9PpmXoorY6Y9EGWS5wON7FPSUlR9uxvhKREJIbKHIX8ius6hAQc3c1paPDb3hSgtIxg8PLK4VpZS5DWe20hdowM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789570735; c=relaxed/simple;
-	bh=AtQrPMl91+yYtI9BLCPBjsG0Yu7Rz7PLsn3mJ6H0/pA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fMVgxP02UqDx8gDoZB6QnWpbwPtrHRio75dSfSY5JnBts3Kju8aot9XqP6ik0QpP0TO9uImpMwsThHLQAgM2hjD3jJA3+koZKsWbGjo+dpWUKw18qYinwM5smzGWjCDbg3dvOmIDLtSvatA5J0TsXsR9CCYd9ubk36wUf8psS6c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tC9vtssF; arc=pass smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3AF35675E
+	for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 14:59:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789570780; cv=none; b=mtugtHa9ONlALEGO6c88q554tgN1V8+za1Jb+vM5Bg2SwjhstjpwB/g7GKMbpgjEMEaKuGfE5nB6yKWTjDTD2IOcxpVZntlO6Yhwq6ryZ/BU3TWX/hdvK4iUDun6d1uPH6j958X8AB6j0QPkPbAsoCzU/ljDdzd71Kap3CL2E7M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789570780; c=relaxed/simple;
+	bh=4Jl2TkRe7Npn73HaXfPcA4VVvCfEz91QC5XBElprxe4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iovbPWH9bHIXFSN/rdSWmM7IFbzVLe+rDg9BUjJcVm0adpb94mqnIgKuSR2ItoNENRIcFAotaaKGz6jpwhmb4/4bX0y6yF5KaLznCILVb51b/u96wClEAJvk2lXMgHdjOLiQOq9U21CYnnHmTV6xvawO20aupmpSjI2FdDju7LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mgTrxaY6; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tC9vtssF"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c293c683202so161084966b.3
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 07:58:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789570732; cv=none;
-        d=google.com; s=arc-20260327;
-        b=R8uATgK+kghFucGd+BUMdM+mtVVnti+juJ9o1vMOST5+gx39FQMXmNOK0sii1MPo+U
-         oHqCSMQSCkaTKfovgUraRwdYOhYRq8eDZ3+ULI+KZGi8q+zot6Dnfn7XeIDpIJVzPrOr
-         EtrobObAI+lJXV1RgBbvGgyS7Ma8rlNCvuuoBk0A5W8Lte0bPA8vUCUqlZH23R2uIN+B
-         3eHywCADQp2XDaIbiNyY4m98GrScYwlW7JHrHeS90kofyHv36eA3ulVTdTTjOyY7tOPZ
-         u9Ao7XoBH9lzedHxc9ePQ0EgY7+B+HNp6ymeCmP2pvvagQuC674RMz0dmdgsNQRR9mms
-         58Ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=7B8AGM6usS6/DkOynGbVPS6pps2aTMeSLXoc/PLBLeU=;
-        fh=G8f5y0qwHx8onsZJShO675wMWrFaJ+b/30+MpWNnMqc=;
-        b=Pk+pYa/H6S7k7GQW8sZ93QyokhydrBYtzSIiJOM8BdPG3ipvZwW7F7kKgeMPWPfHAs
-         iaq4oxOuok0/DhGlU+ug/977IQg1CWtXCiZ/Bc9OKzp5TROfMGjcepRpvVbYNc+p8znK
-         DeLoIL1Bo1M1+PR7GGgmVradsQqNeT3Y+zkNwYGTyTOvKQUDsd7jP9qqu7Ts27YmXlkG
-         o90i5nVPFUkdkq2+VppY957mpUDo4C91fwUCEY4C11+Oup5NOrCWy6ve2lzg6TaoNeAh
-         7qXwy9l+r6ThFzyFDT0amikpg+8XnWES0thSlzgygGjbJ+n5ZlDX5R8+zfrVgdiz5J1m
-         lCdQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mgTrxaY6"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccd5cf02so766276a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 07:59:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789570732; x=1790175532; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=7B8AGM6usS6/DkOynGbVPS6pps2aTMeSLXoc/PLBLeU=;
-        b=tC9vtssFRHP7YED+FiQg6pv4DT0aIDonO37ZnVDyqUCZ4dDzQxv+1bkP0tBwBwz9jQ
-         cxBqDzXFyUOHth5/D5GyZH2n4VowYr+UEMZAiQLADVITanuFCLAHypEsyNrmuCIW91Vp
-         eB4V6JFk06jQsBZRm6hKm53FuYMf8BuPCD/jSFAw489qhtRtDOVL8w4kRcWtVBAbZh92
-         UiZwp39dec7eDR/ccqOp4u6GWLVGou//a8negWu75Iy57yVz1WhRHakEqjnbw2R6DpPp
-         L/vgXxGtmn4DDPDiW2UUaCPaOrtIJYiuNM9l85x36q3GS4BTJXp6DfIDMxt4OVcbUFnG
-         2eFA==
+        d=gmail.com; s=20251104; t=1789570776; x=1790175576; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=3xRnvj52pHagz8sqiex+4Km8FuQRJvZZV/xhDBA7TFQ=;
+        b=mgTrxaY6AZiWnAmxzZcwig+v8VuOj+GoOmPuCoYjuUhhq5IIL+2Z66c0z8BGUyNlpS
+         GC0E03q1m8DB/5qMetvoQ7lBrq82C9MkIPbwq6tLTioTeM0gs2wCRe8D1abga00n8eBQ
+         znI5azqw95s170A3Lu6JWplgLcGwNxrw7TYFGUhAyOPjUqAZyO78aFCeUuJAJOEv55Bt
+         K7daPg6vZj6QLju39pd63nVDsSdqvfvrfYnF7nleEQAjVGcebVQYb9YSfeBZ7k68hurj
+         /8rIDxaLgHq4o5iMCc9wq8Fs0If1RRvtUwp/ZViZYfo7zAcb7dRpvVjL+u6g5hZjqu78
+         RfcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789570732; x=1790175532;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1789570776; x=1790175576;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=7B8AGM6usS6/DkOynGbVPS6pps2aTMeSLXoc/PLBLeU=;
-        b=JwD8VLVOQsTZ5MMCa2Xp86J5VqKymsN4CeXyE0HNwrgwrn+EDI0NKoBSQsMnu7HLM5
-         BxwrgcB2sL1wwI46FPqpOnXdq1zr1Nfb4GSQ+wPRIptEP7QAX9ArwnlDMWATCgx44t/u
-         sN7QMLyr727OZkoxDbeGq5KPn/x1xKDj0sgaYp7LtR5LoZRZvsabZt9riwrBARQP7lXl
-         HR9nh45xqOt16fDp//vfWnE/hHCvWb1dKYAZiIVsdpPiIltIrJlCndzbYQaC1Pkvfk9w
-         y6x9vdWEwsxb7QG6If08F4qejKPq6WH0cw+OJq+YD7RVzL4UpBqtE+r9PsL1AU0MATQb
-         lEEQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzLo3uUVGxgHDsVWd9bQFOkfINStadkY5Ncmb/GnOnvXIU/usW3M6pWOubJK7DrrgYOk6tvh0OZdKI=@vger.kernel.org
-X-Gm-Message-State: AFuF++m7jPBEwBf8lGQ9aUzVnVgWH68LjRTUNnepUKQhw9N/769wu4FR
-	K9VRFlKRe+7Dc/+5/gLThVpgxBrIJa9JTcgvnV4DeBz2vdMmrFdfjSbcN8PV7F2EeiCzWLm7cjT
-	8WlCYtRfw+KFNH1RQtKSsfD/OBa6QQSMDdlyCnCeU
-X-Gm-Gg: AYBFou2HmzRbYC9EdL67JmgtDghbRSXD7bgD+8lP1ExRZ+cbn8LPiClVjBuIpbDaB31
-	nwwTi3RUTXb/YVrquTTL935lWB/c7ntexNrLNG/UHDpNjm8ce3Fzmr7ZASjDdBhxP5difI+QWby
-	Yn6oS8vu/efqYF8ibddkE5e68UNKi8hh5QTLv1M+TbqO38wCL0GT5Y/KPHa7rIA6oxqnyaJMmUk
-	zWtRNwqJYTIfkjf/rsN3EKwoCz/f6kery2ukD6eyRv2IPWI7IjrLDV5aSKcjjKoxg+nThFNMbR6
-	GpnNUaJqF29gonNJ4pmwetvynh1VGts8HdfsC62RTIOZQZRevN1JXK0=
-X-Received: by 2002:a17:907:c49a:b0:c28:fb3f:fe20 with SMTP id
- a640c23a62f3a-c29e52c71e0mr199279166b.30.1789570731516; Wed, 16 Sep 2026
- 07:58:51 -0700 (PDT)
+        bh=3xRnvj52pHagz8sqiex+4Km8FuQRJvZZV/xhDBA7TFQ=;
+        b=wmLw7YawI5Re1Ge0mgFglAeeWG0WAI7BDYnDmoHESVqead4t0sw07HC/upyKpc9RoI
+         ITLNdAUizE+PDmRJTsB3yR1p30J5DRHsHNXrtoFP+xTXNMbSZVqUy8OcqF4wZl937Ya0
+         ey/5x3L/a2ICGpY/fMTSzxz7Ymk3ImkPy+KCq4d23b/C86KTd+bVmRb9l91FzbezMm6g
+         /UGcsXcuzO6aFqnyoX3S+guLHGaLVuOXyXsmlZTO4U4x9rwrw2rgk9gcXBBJ+noFMdOB
+         TEaDU483gE+r2z+wtg6b/XOxqjvA15W2BRzPeDotqT/Ej0rRc5JNRd2EEcorrMQOntbl
+         F0bQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzX7e90EtGs6ZGddogJnxNQwHN3RnX+hxCj+CHn/09d/A9pOzRmdImENA5MC3pR3PHOp5XG6moivkM=@vger.kernel.org
+X-Gm-Message-State: AFuF++nfurq3vdsMiPQbSvIdsmJ2SdS8sBfLd6ZxCqaXlAPH9ZVbL/rb
+	DzFHHOL67PMW37X6Qab5D7hSU4kCOt/DsyQfh3CrEELh+3rGFaVTN9PZ
+X-Gm-Gg: AYBFou2XVY1noDCKpfI2eNRCssb07QCehP3WP5Tpn/uejF4rdHtH6nplxwNeBIiO33f
+	F6VfOF5pMdBy4fWrMIC0QYjbcfzUMoPiqBbALZPIo3ND2v48apPOJ69H0wEOJwZ5gvH5zTZ+uW5
+	zFEQ5fcsVY8UWbh74/qr3qEkr6z0CK1w12Xf23FE+CAqvRjVHMJ6o+qwqT8x/AHd7Cv4d+29vqQ
+	pMLyqq+gOA3IXQNuv2mhecqwC8u4Rzj5gklwlNrd6yWlvNTRmlw+tvXymuZNZDACtrTK9q/87jU
+	6WYQHdNzLT2vQtn44tlO5F3oHgC1VUpp1ZNnFh+hbFf16cgV8cdbwMzbfPs5FGAt26CCaElAuIy
+	cYnzM9BodIhZN55h0nGlLHWa2hh+R9S0INLOHckO9xznmpWkES/iNS+y7Iti1vgfqqjvi6Nu1k4
+	tJQcgV/1x1UXs7krUuJ11ISH3aTAykPOPmSwcL1gC9Bdro36dxhMYINruJV4P2E/6BrGwfY0GlF
+	1G/y0/+6RXa
+X-Received: by 2002:a17:90b:582b:b0:39d:c3bb:98e7 with SMTP id 98e67ed59e1d1-39e1e2eb37cmr7040268a91.6.1789570775729;
+        Wed, 16 Sep 2026 07:59:35 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e1bbdfd89sm5159630a91.9.2026.09.16.07.59.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 07:59:35 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 16 Sep 2026 07:59:34 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: "Pradhan, Sanman" <sanman.pradhan@hpe.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Sanman Pradhan <psanman@juniper.net>,
+	Senthil Muniyappan <smuniyappan@juniper.net>,
+	Vaibhav Agarwal <avaibhav@juniper.net>
+Subject: Re: [PATCH v2 3/3] hwmon: (pmbus/tps53679) Add support for TPS536C7
+Message-ID: <7c73bd97-a3c5-4485-8f16-57b128aab7c2@roeck-us.net>
+References: <20260915164823.160977-1-sanman.pradhan@hpe.com>
+ <20260915164823.160977-4-sanman.pradhan@hpe.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260728221007.2098560-1-dmatlack@google.com> <20260728221007.2098560-3-dmatlack@google.com>
- <9211b2b6-9fca-4ef7-a141-84636d56e67e@linux.dev>
-In-Reply-To: <9211b2b6-9fca-4ef7-a141-84636d56e67e@linux.dev>
-From: David Matlack <dmatlack@google.com>
-Date: Wed, 16 Sep 2026 07:58:23 -0700
-X-Gm-Features: AcwNN1V694h9Klbei55CjXCXrLccfSPzJ9ZF9qWXraB-n35v9TC4KupB_2aeuGo
-Message-ID: <CALzav=dJUiZe+Hxck9X+kKVXoRn-Ks2WxV7B5i0RHRFGy7-Mpw@mail.gmail.com>
-Subject: Re: [PATCH v8 02/12] PCI: liveupdate: Track outgoing preserved PCI devices
-To: Zhu Yanjun <yanjun.zhu@linux.dev>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
-	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
-	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
-	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
-	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260915164823.160977-4-sanman.pradhan@hpe.com>
 
-On Tue, Sep 15, 2026 at 8:10=E2=80=AFPM Zhu Yanjun <yanjun.zhu@linux.dev> w=
-rote:
->
-> =E5=9C=A8 2026/7/28 15:09, David Matlack =E5=86=99=E9=81=93:
-> > Add APIs to allow drivers to notify the PCI core of which devices are
-> > being preserved across a Live Update for the next kernel, i.e.
-> > "outgoing" devices.
-> >
-> > Drivers must notify the PCI core when devices are preserved so that the
-> > PCI core can update its FLB data (struct pci_ser) and track the list of
-> > outgoing devices. pci_liveupdate_preserve() notifies the PCI core that =
-a
-> > device must be preserved across Live Update. pci_liveupdate_unpreserve(=
-)
-> > reverses this (cancels the preservation of the device).
->
-> Hi David,
->
-> I have a question about the pci_liveupdate_preserve() and
-> pci_liveupdate_unpreserve() APIs.
->
-> Is it supported to call these APIs multiple times for the same PCI
-> device? For example, a driver could do:
->
-> pci_liveupdate_preserve(pdev) -- > pci_liveupdate_unpreserve(pdev) -- >
-> perform some operations -- > pci_liveupdate_preserve(pdev) again, before
-> the actual Live Update starts.
->
->  From the implementation, it looks like an unpreserved pci_dev_ser entry
-> can be reused, so I wanted to confirm whether this preserve -- >
-> unpreserve -- > preserve sequence is an intended and supported usage.
+On Tue, Sep 15, 2026 at 04:48:46PM +0000, Pradhan, Sanman wrote:
+> From: Sanman Pradhan <psanman@juniper.net>
+> 
+> TPS536C7 is a dual-channel D-CAP+ step-down controller whose channels are
+> distributed across a configurable number of phases (N+M, up to 12 total).
+> Whether channel B (PMBus page 1) exists depends on the phase configuration
+> register, so the page count is derived at probe time.
+> 
+> Factor the TPS53676 phase-map parsing into a shared helper and reuse it
+> for TPS536C7. Only aggregate per-channel telemetry is exposed: leave
+> info->phases[] unset so the PMBus core never programs the PHASE selector
+> on every read (and because TPS536C7 can place up to 12 phases on channel
+> A, exceeding PMBUS_PHASES). Report VOUT in linear format like TPS53676.
+> 
+> Since the core never programs PHASE, set it to 0xff on each populated
+> page so READ_IOUT reports the aggregate channel current, and verify it
+> (PHASE can be write-protected). Fail identification if aggregate
+> selection cannot be established, since otherwise a single phase current
+> could be reported as the channel total.
+> 
+> A configuration with no channel-A phase is rejected with -EOPNOTSUPP:
+> the PMBus core models pages as the contiguous range 0..pages-1 and
+> cannot represent a channel-A-absent topology.
+> 
+> On the tested TPS536C7 (device ID 54 49 53 6c 70 00, CAPABILITY 0xd0),
+> block reads of IC_DEVICE_ID and USER_DATA_03 return -EBADMSG with PEC
+> enabled, while retrying those two reads without PEC returns the expected
+> 6- and 24-byte payloads. Standard byte/word telemetry keeps using PEC,
+> so only those two identification reads fall back to no-PEC.
+> 
+> Co-developed-by: Senthil Muniyappan <smuniyappan@juniper.net>
+> Co-developed-by: Vaibhav Agarwal <avaibhav@juniper.net>
+> Signed-off-by: Sanman Pradhan <psanman@juniper.net>
 
-Yes that is a completely supported use-case. A device can be preserved
-and unpreserved any number of times up until pci_device_shutdown(),
-where the preservation status of the device is frozen (see patch 10).
+Applied.
+
+Thanks,
+Guenter
