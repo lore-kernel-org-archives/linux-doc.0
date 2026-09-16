@@ -1,193 +1,244 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A267D472521;
-	Wed, 16 Sep 2026 23:45:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2505E4FC8FA;
+	Wed, 16 Sep 2026 23:50:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789602333; cv=none; b=SALJWOO0q/j5/HEs+iYtFXwRlw0ByrHKnazVq6tBpSsL0769PTX2ZTXRiML/9h+O6zy20xKsWUD6QSJoEgpfEgL4K6VM7nO7mYgJg+KQ4fbJClsJaKfCestk2hR/r7VoTPxK8y8o29yb3rdwcmiwnng4ZhfwoaOwa1/mTx33o1Y=
+	t=1789602646; cv=none; b=kAvflkKMgxx+1PL9sPlF2NqPbbChA/H3gYWt3BYggQIn+2LCTnFSV5DcSFV9KkWwe7R5kg96pfQ5PkPkT2pcjOWzcGz1PbArQC4AWe34wtnRftjdjMZL9Hg6yOESioIJ8FNiGiER5SLZ46RvEn8gF4U7P38twIbAft8H/0LlG3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789602333; c=relaxed/simple;
-	bh=Kh3rKS1+K7TDXnwpcYYaSVeBFbOeWE/01LMZJFeCs8k=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=I3tzTN5EkEL2uAg7O5FKFbtvaKNajTQfNfMG70Zcke3R//OtbqX8ESgPzlAS78oxd4y3pIsHE90m+E5+UbEut+umlETOVEzh0sSfZ2AmSBAf6I3BApVoUtGDsHNRusIoVEBAy1wijaBYUErUmNKBvXjVc7E+Ktk2jWjLxxoQSC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HDmAf4+L; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789602646; c=relaxed/simple;
+	bh=u+p8FYdERtHvWVdvcSRK+cc0hWiqKjs0X/9In5eYdvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Z+YItmOaAwMtOuPIPIww1TiuGZG5YZZ/3yidvoxHdesGu6xUrEoxIRBJ2zjNFkD5b54QyaOfA1j9jdhZ4E3XefYm1E5TXzXyvPZEY1VFiSbfrhOT5poY0oAZjdZVGkfZyklWgVklfWy0TpNxPpNXZv3a3PRLxK4x/Ug9P0RzKpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNDtz1Rd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HDmAf4+L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E282B1F000FF;
-	Wed, 16 Sep 2026 23:45:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNDtz1Rd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4F771F000FF;
+	Wed, 16 Sep 2026 23:50:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789602332;
-	bh=Uom+5GiRwnUi0P13tTGi61WOHauRp/h8S/b2KqC1Afk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=HDmAf4+LvbmJSAoQRmaGZ2c2JeChzAbl08VlEepE6bI4BXd4YKpP0Ukb9lhdtMtTF
-	 HNUofo1oxUREMHfcP9KNAjrKP0QQlkeXuYmtD00rDEaFt9fHDKV9BsjZU76LdwXvfg
-	 la9tvag7dT8NkJOmmq0wMp1pWwz4jAtu708Bj05Kv6dYm8XdJevRGR5gyUg5t9oWwa
-	 Aeo8GeMCBIbpx3lCBZKZ8/1HDgBMuCW8G1sL9LbZ9IE0qw29fhud7UzGmUtDH8Ly20
-	 kkh2QcnFg9fsfnmEoImihNReVklcb4lNcN9crUYuyiOyFWHwyAq1J0pCyLvYIDSZ4I
-	 Zx0w60SifExYQ==
-Date: Thu, 17 Sep 2026 08:45:26 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra
- <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
- Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org, Paolo Bonzini
- <pbonzini@redhat.com>, kvm@vger.kernel.org
-Subject: Re: [PATCH v16 02/13] KVM: x86: Prevent host DR7 debug register
- leak into guest OS on NMI
-Message-Id: <20260917084526.18128cef47424990d42bb6ce@kernel.org>
-In-Reply-To: <aqgGRKOE138ePqmX@google.com>
-References: <178939017565.94750.9431053336761330458.stgit@devnote2>
-	<178939019982.94750.4441254006258061798.stgit@devnote2>
-	<aqgGRKOE138ePqmX@google.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=k20260515; t=1789602643;
+	bh=qPjQBnx2tCtJDcZHN3jf4v80iQiouYB15DSXdllYse8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=KNDtz1Rd8L8ybHdH2AUatFHyZFrKaabo/nWl7GwdrwsktV+0VCNdmH5sdmnQDqlCy
+	 PQk1Bo4tRWYYCVppruPNGHV8yXBfgLO/uU1AnCYBiHF+Nr9MMLQOPdzJwJO0pwosn1
+	 NfXI2B9gvaRRbQPiwJNLqS4uq/WlMStkiHT1Gz/IO7kl4jcmHQjWtuJy8SL5/Ud/hf
+	 xgduxSbvCIOZ+sOEpsevR2csnaXeu37YVe5e8IXBQMcaPd1d5QGpgQ4qW/vRVW5Vmh
+	 CyOFdO2lt4JxqcIikCTiKhi3yX9y0DMcdpVBcLb1M7okbv3H/hyr2yJJLovPWXg0Fo
+	 5WEtIl1deHiDA==
+Date: Wed, 16 Sep 2026 18:50:41 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Josh Hilke <jrhilke@google.com>,
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
+	Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v8 01/12] PCI: liveupdate: Set up FLB handler for the PCI
+ core
+Message-ID: <20260916235041.GA989143@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqQv0jJdT4xq6VWu@google.com>
 
-Hi Sean,
-
-Thanks for your review!
-
-On Mon, 14 Sep 2026 07:35:48 -0700
-Sean Christopherson <seanjc@google.com> wrote:
-
-> On Mon, Sep 14, 2026, Masami Hiramatsu (Google) wrote:
-> > From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+On Fri, Sep 11, 2026 at 04:44:02PM +0000, David Matlack wrote:
+> On 2026-09-10 06:48 PM, Bjorn Helgaas wrote:
+> > On Tue, Jul 28, 2026 at 10:09:55PM +0000, David Matlack wrote:
+> > > Set up a File-Lifecycle-Bound (FLB) handler for the PCI core to enable
+> > > it to participate in the preservation of PCI devices across Live Update.
+> > > Essentially, this commit enables the PCI core to allocate a struct
+> > > (struct pci_ser) and preserve it across a Live Update whenever at least
+> > > one device is preserved.
 > > 
-> > When KVM enters a guest OS, host hardware breakpoints are disabled
-> > before running the guest. However, an NMI can occur during guest
-> > execution, where local_db_save() or arch_install_hw_breakpoint()
-> > can be invoked.
+> > I assume pci_ser is the state the PCI core needs to preserve across
+> > kexec so the new kernel's enumeration doesn't interrupt the device
+> > operation.  And that whatever state the endpoint drivers need to
+> > adopt/inherit the device in the new kernel is managed without any help
+> > from the PCI core?
+> 
+> Yes.
+> 
+> > > Preserving PCI devices across Live Update is built on top of the Live
+> > > Update Orchestrator's (LUO) support for file preservation. Drivers are
+> > > expected to expose a file to userspace to represent a single PCI device
+> > > and support preservation of that file. This is intended primarily to
+> > > support preservation of PCI devices bound to VFIO drivers.
 > > 
-> > In particular, if local_db_save() or arch_install_hw_breakpoint()
-> > is executed from NMI, hardware DR7 can be modified or restored with
-> > host breakpoint settings, leaking host breakpoints into the guest OS
-> > or clobbering the guest's debug registers.
+> > Where do drivers expose this file?  sysfs?  I guess it's a file per
+> > preserved device?  Thinking like a driver writer, I'm expecting a hint
+> > about how to expose this file (should also be in the file doc somehere
+> > if it's not already).
 > 
-> Not for local_db_save(), at least not AFAICT.  On VM-Exit, both Intel and AMD
-> purge DR7, i.e. load 0x400, so local_db_save() => local_db_restore() is more or
-> less a nop.  Even if that weren't the case, actually saving/restoring DR7 would
-> be the right thing to do, in any context.
+> There is no requirement about how drivers do this from the PCI core
+> perspective. For all intents and purposes, the VFIO PCI variant drivers
+> are the only drivers that are going to be supported in the next 1-2
+> years. They expose a misc character device for each file.
 
-OK.
+If this file isn't relevant to the PCI core, maybe we don't need to
+mention it here.  It doesn't seem like it motivates this patch.
 
-> 
-> > Introduce a per-CPU flag, cpu_dr_in_guest, to indicate that the CPU
-> > is executing in guest mode. Set this flag in vcpu_enter_guest()
-> > during entering the guest with disabling host breakpoints.
-> > If this flag is set, local_db_save() and local_db_restore() return
-> > immediately, and arch_install_hw_breakpoint() returns an error.
-> > In addition, protect cpu_dr_in_guest in within_cpu_entry() to
-> > prevent recursive #DB exceptions.
+> > > This commit enables drivers to register their liveupdate_file_handler
+> > > with the PCI core so that the PCI core can do its own tracking and
+> > > enforcement of which devices are preserved.
+> > > 
+> > >   pci_liveupdate_register_flb(driver_file_handler);
+> > >   pci_liveupdate_unregister_flb(driver_file_handler);
 > > 
-> > Fixes: f85d40160691 ("KVM: X86: Disable hardware breakpoints unconditionally before kvm_x86->run()")
-> > Assisted-by: Antigravity:gemini-3.8-flash
-> > Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> > ---
-> > Changes in v16:
-> >  - Newly added.
-> > ---
-> >  arch/x86/include/asm/debugreg.h |    6 ++++++
-> >  arch/x86/kernel/hw_breakpoint.c |   10 ++++++++++
-> >  arch/x86/kvm/x86.c              |    7 +++++++
-> >  3 files changed, 23 insertions(+)
+> > So a driver calls pci_liveupdate_register_flb() once, then
+> > pci_liveupdate_preserve() once for each device it wants preserved?
+> 
+> Yes
+> 
+> > > When the first file (with a handler registered with the PCI core) is
+> > > preserved, the PCI core will be notified to allocate its tracking struct
+> > > (pci_ser).
 > > 
-> > diff --git a/arch/x86/include/asm/debugreg.h b/arch/x86/include/asm/debugreg.h
-> > index 854d82b88ff4..50f830972698 100644
-> > --- a/arch/x86/include/asm/debugreg.h
-> > +++ b/arch/x86/include/asm/debugreg.h
-> > @@ -18,6 +18,7 @@
-> >  #define DR7_FIXED_1	0x00000400
-> >  
-> >  DECLARE_PER_CPU(unsigned long, cpu_dr7);
-> > +DECLARE_PER_CPU(bool, cpu_dr_in_guest);
-> >  
-> >  #ifndef CONFIG_PARAVIRT_XXL
-> >  /*
-> > @@ -129,6 +130,9 @@ static __always_inline unsigned long local_db_save(void)
-> >  {
-> >  	unsigned long dr7;
-> >  
-> > +	if (this_cpu_read(cpu_dr_in_guest))
-> > +		return 0;
+> > The passive voice here makes the actors a bit obscure.  I guess a
+> > LIVEUPDATE_SESSION_PRESERVE_FD ioctl on some per-device file kicks
+> > this off?
 > 
-> This is broken.  If an NMI hits between KVM writing cpu_dr_in_guest and clearing
-> DR7, and there are active breakpoints, then local_db_save() won't disable breakpoints
-> as it should, and the relevant code in exc_nmi() will run with breakpoints enabled.
+> Yes. (And I will reduce the passive voice in the next version.)
 > 
-> 	kvm_load_xfeatures(vcpu, true);
+> > I guess the pci_ser allocation is in
+> > pci_liveupdate_flb_ops.preserve(), i.e., pci_flb_preserve()?
 > 
-> 	this_cpu_write(cpu_dr_in_guest, true);
-> 	barrier();
+> Yes.
 > 
->   <NMI here is problematic>
+> > So the PCI core tracker (pci_ser) isn't actually allocated at the time
+> > of pci_liveupdate_register_flb(); it's allocated on the first
+> > LIVEUPDATE_SESSION_PRESERVE_FD ioctl for a driver that has called
+> > pci_liveupdate_register_flb()?
 > 
-> 	if (unlikely(vcpu->arch.switch_db_regs &&
-> 		     !(vcpu->arch.switch_db_regs & KVM_DEBUGREG_AUTO_SWITCH))) {
-> 		set_debugreg(DR7_FIXED_1, 7);
-> 		set_debugreg(vcpu->arch.eff_db[0], 0);
+> Yes. The first device that gets preserved triggers the allocation of
+> struct pci_ser. And the last device that gets unpreserved (preservation
+> cancelled) triggers the freeing of struct pci_ser.
+> 
+> > IIUC the call tree for that ioctl looks something like this:
+> > 
+> >   <driver>
+> >     pci_liveupdate_register_flb
+> >       liveupdate_register_flb(fh, &pci_liveupdate_flb)
+> > 
+> >   luo_session_ioctl
+> >     op = &luo_session_ioctl_ops[...]
+> >     op->execute                               # eg luo_session_preserve_fd()
+> >       luo_session_preserve_fd
+> >         luo_preserve_file
+> >           luo_flb_file_preserve
+> >             luo_flb_file_preserve_one
+> >               if (outgoing_count == 0)        # only for first FLB device
+> >                 flb->ops->preserve            # eg pci_flb_preserve()
+> >                   pci_flb_preserve
+> >                     ser = kho_alloc_preserve  <-- alloc pci_ser
+> >                 outgoing.count = 1
+> >           fh->ops->preserve                   # something not included here
 
-Oops, indeed! OK, so local_db_save/restore will just work as it is,
-but modifying DR7 should directly be prohibited.
+So IIUC this part of the path looks like this, which answers my
+question below about ordering of pci_ser and
+pci_liveupdate_preserve():
 
+              fh->ops->preserve                   # eg vfio_pci_liveupdate_preserve()
+                vfio_pci_liveupdate_preserve
+                  pci_liveupdate_preserve
+                    pci_liveupdate_preserve_device
+                      dev_ser = pci_flb_alloc_dev_ser  <-- alloc per-dev PCI core serialized state
+                      dev_ser->bdf = pci_dev_id(dev)
+
+> > Seems like kind of an awkward way to allocate pci_ser.  Couldn't it be
+> > allocated on the first call to pci_liveupdate_register_flb()?  That
+> > would be a lot easier for driver writers to trace through.
 > 
-> > +
-> >  	if (cpu_feature_enabled(X86_FEATURE_HYPERVISOR) && !hw_breakpoint_active())
-> >  		return 0;
-> >  
-> > @@ -157,6 +161,8 @@ static __always_inline void local_db_restore(unsigned long dr7)
-> >  	 * not be good.
-> >  	 */
-> >  	barrier();
-> > +	if (this_cpu_read(cpu_dr_in_guest))
-> > +		return;
-> >  	if (dr7)
-> >  		set_debugreg(dr7, 7);
-> >  }
-> > diff --git a/arch/x86/kernel/hw_breakpoint.c b/arch/x86/kernel/hw_breakpoint.c
-> > index f846c15f21ca..68de7ed79d88 100644
-> > --- a/arch/x86/kernel/hw_breakpoint.c
-> > +++ b/arch/x86/kernel/hw_breakpoint.c
-> > @@ -40,6 +40,9 @@
-> >  DEFINE_PER_CPU(unsigned long, cpu_dr7);
-> >  EXPORT_PER_CPU_SYMBOL(cpu_dr7);
-> >  
-> > +DEFINE_PER_CPU(bool, cpu_dr_in_guest);
-> > +EXPORT_PER_CPU_SYMBOL_GPL(cpu_dr_in_guest);
-> > +
-> >  /* Per cpu debug address registers values */
-> >  static DEFINE_PER_CPU(unsigned long, cpu_debugreg[HBP_NUM]);
-> >  
-> > @@ -102,6 +105,9 @@ int arch_install_hw_breakpoint(struct perf_event *bp)
-> >  
-> >  	lockdep_assert_irqs_disabled();
-> >  
-> > +	if (this_cpu_read(cpu_dr_in_guest))
-> > +		return -EBUSY;
+> I agree the LUO FLB API is a bit awkward, but this is how it works.
 > 
-> If we decide this is how to fix arch_install_hw_breakpoint() clobbering DRs from
-> NMI context, I would rather have more generic flag to tell perf that KVM is about
-> to enter the guest, e.g. so that we don't have to separately solve the same problem
-> for other perf events:
+> If we allocated it during pci_liveupdate_register_flb() we would then
+> need to stash it in a global variable to hand-off the LUO later. Despite
+> the awkwardness of FLBs, it is useful to avoid globals and have LUO
+> management the lifetime.
+
+It seems like pci_ser is a singleton by design, so a global variable
+doesn't sound like it would be terrible to me.
+
+> > > When the last file is unpreserved (i.e. preservation
+> > > cancelled) the PCI core will be notified to free struct pci_ser.
+> > 
+> > There's a lot going on behind "PCI core will be notified".  I assume
+> > these refer to the first-time behavior of luo_flb_file_preserve_one()
+> > and last-time behavior of liveupdate_flb_put_outgoing(), which is
+> > honestly kind of hard to suss out.
+
+Could we say something specific and PCI-related here, to help connect
+the dots?  Most of these paths are outside the PCI core.
+
+IIUC luo_session essentially has a refcount (outgoing.count)
+incremented by each LIVEUPDATE_SESSION_PRESERVE_FD ioctl, and the 0->1
+transition in luo_flb_file_preserve_one() ends up calling
+pci_flb_preserve(), where pci_ser is allocated.
+
+And the refcount is decremented by luo_flb_file_unpreserve() (in a
+luo_session .release() function), where the 1->0 transition in
+liveupdate_flb_put_outgoing() calls pci_flb_unpreserve() where pci_ser
+is deallocated.
+
+That gets into a lot of detail, probably too much for a commit log.
+Maybe mentioning the function names by which the PCI core is notified
+to alloc/free pci_ser would be enough of a bread crumb.
+
+> > This series doesn't include a caller of pci_liveupdate_preserve() (or
+> > pci_liveupdate_register_flb()), so I can't figure out the ordering.
+> > Obviously pci_liveupdate_register_flb() must be first.
 > 
-> https://lore.kernel.org/all/3585d823-00f3-46ae-a799-b62a95743e76@linux.intel.com
+> In every version of this patch series I have sent I included a link to
+> the vfio-pci driver changes that build on top of this, rebased that
+> series on top of this one, uploaded it to my GitHub, and included a link
+> in the cover letter. Here is the relevant section from the v8 cover
+> letter:
+> 
+> . This series was tested in conjunction with v5 of the VFIO PCI driver
+> . series:
+> .
+> .   https://lore.kernel.org/kvm/20260714151505.3466855-1-vipinsh@google.com/
+> .
+> . The full set of patches used for testing can be found on GitHub.
+> .
+> .   https://github.com/dmatlack/linux/tree/liveupdate/pci/base/v8-with-vfio
+> 
+> 
+> > I first thought pci_liveupdate_preserve() would be called via the
+> > fh->ops->preserve() in the luo_session_preserve_fd() ioctl path, but
+> > it's not.  pci_liveupdate_preserve() is intended for the driver to
+> > call it directly.  But it looks like it has to be called *after* the
+> > ioctl?  Obviously I'm confused :)
+> 
+> It is called by the driver during it's fh->ops->preserve() callback. In
+> other words, it is called during the ioctl by the driver.
 
-OK, so introducing a new (someting like) cpu_in_trans_guest flag and check it
-from all affected places?
+I think the updated call tree above shows the connection?
 
-Thank you,
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> LUO just knows that a file has been preserved and what preserve()
+> callback it needs to run to preserve that file. It is has no idea which
+> files correspond to devices or which devices. The file could be a memfd
+> for all LUO knows. That's why the driver has to call into the PCI core
+> via pci_liveupdate_preserve() to let it know that a device is being
+> preserved, and which.
