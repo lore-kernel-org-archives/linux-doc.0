@@ -1,133 +1,220 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314725326BF;
-	Thu, 17 Sep 2026 17:01:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65075372F0;
+	Thu, 17 Sep 2026 17:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789664501; cv=none; b=nOWHoM4QepcOmYTo4Zb8g5mAPeUfngcfErI07kkC6G58jgl5vca9xkLrOWgO/lGEM4/K5fPZ20cHkOI+ibjuq/Hv1BNFc5B7kMRYTfKLbr03Bz6HNvkykLSU9zPfGy3Xuu8csXpL0v6k9ATaTFSSP0WJd5npUlavQ5B59WiAFaU=
+	t=1789664564; cv=none; b=UP8+sO3LY0wXaapC0GVhGY0H3CCzMTmH9ew18MIulv3L++0HNv45elSUKI8SE3eircHlDfXRqUVW6WzbiNUE9yyaq6sQCO5ZPwyPe3Dw0b1Xa8IzXolZAq4T/2PJS07exi6E5+IXbZOgVLLCA0k7ajxD9kJeAbwXrSbf7JuHUbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789664501; c=relaxed/simple;
-	bh=msP+aYCFQRejiYJEioJy/luaDngihA3wohgZTYNaII4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hg2wOPq7a7uw2WLXhubMfCpwrgosuCjV2JDr2QFMepK8sJ4ZdnnqAvznN9Fya+1HSf5ajfQH9qc+/UPQBihmKeoMAeHxZv/rTGUMNFgOb+EathsSQ19w16Dg+gC4RuBJsb2N7TMhNygx9EeGW8zRNvp5mJyHIBZoGdzY+9tPw2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jjMFDSGy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789664564; c=relaxed/simple;
+	bh=r5wQ7Q71ZnW7DtUnZFVpltScTLGufe8Rx4r69gWOfdU=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MH2wrgX1tB1pc/RsjFwzHucexemsd6e+T9bWXRCW+jRDc4E2gtXkYgBRGTMQM/D9gJeGs1yhhsPB4+fg3ugNijrhxXNgULY9sDMzCRlAjXmaAlGzHoj/idVFcW/gOL6kmTYtKD59dYYGE/szWoI5EDk3U/NwqWdZLjlAo/X/CZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F6Hia2gy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jjMFDSGy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9C7F1F000FF;
-	Thu, 17 Sep 2026 17:01:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F6Hia2gy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B0041F0089A;
+	Thu, 17 Sep 2026 17:02:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789664500;
-	bh=cMuDnpqJUB2Uf77ZbSuAlr2PpXfKCDvn1QWiL0hTFpE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jjMFDSGyVlsre2OTckTLEm8iZBL2xUblNcOIL6hTWSU7fqk30T66IbsSK2lBLpw99
-	 Li0P7WzjAKSSjpIhMssr2/0fCf0fePT4FXZNY5GuZ/FcFSms6av9+BT1r6C06UZ0B9
-	 YyiYY8EBcVeOnXLjcd6vPNwWKdPZ7Ojf8w/cOCKB6I8RSa3RsWc+cc2xiueU4LSg6Y
-	 mTS14dGRBrFfm6udeioEHK9A/Qe+EJHHb6efM8/5J03WRPVZuuozRUxr+mqbzw8IWB
-	 vGGCU1Scz8EtSVp7LCMJD1RAOQFIbsQ3d9+6UsobnTpT5OVJDcELlyNi8o09hYdcU3
-	 9Sr5bwOZ7smLA==
-Date: Thu, 17 Sep 2026 10:01:39 -0700
-From: Kees Cook <kees@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3 14/20] kbuild: batch module finalisation
-Message-ID: <202609171000.CD7797EA3@keescook>
-References: <20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org>
- <20260917-build-speedup-v3-14-9ecf4163ff36@kernel.org>
+	s=k20260515; t=1789664562;
+	bh=9gkUpcacySlNXR9m3jO0DJtl7wJBJZ8H/KILpliZ6mE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=F6Hia2gyk69p45JstMH6cQVPw3K78esP4NFUgZ/LMMw8NbZRT1xXgPuJjnfzL2+se
+	 Rc8HyLPCuPAXDUjAaKNsZ1tPyPJq/uGN2ZHbszYYVg9TYKIENl5Ps0WUd59Vzh/EEA
+	 GNJ+QLu9bpGGaS7Po28tmbTfu4ChX2IQhkcamfqs28nHAhuzjHm7fzQAc/yp8NRn8f
+	 UdUxNYpJErjyZ64/1kvWpcE+93vmi7pXJC3HN3SRe0Yvv6WVqDFuFdeXE7RoCEUy4f
+	 KMYaoBJ4bcEWXq5zhsUyfKCZOP4ZflRy5GEtr2DEFnkAcYfZBrNUlUVLyKnlnokOOo
+	 KuuXHheQmch6Q==
+Subject: Re: [PATCH net-next v2 1/2] ipv6: update NUD_FAILED neighbors from NA
+ messages
+From: netdev-bot+sashiko@kernel.org
+To: lfqlee314@gmail.com
+Cc: dsahern@kernel.org, idosch@nvidia.com, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ rdunlap@infradead.org, netdev@vger.kernel.org, aajith@arista.com,
+ roopa@nvidia.com, jhpark1013@gmail.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, shuah@kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ alex.aring@gmail.com, linux-wpan@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org
+Date: Thu, 17 Sep 2026 17:02:40 +0000
+Message-ID: <178966456087.22033.11671220306303617581@kernel.org>
+In-Reply-To:
+ <6596966f734f3d416bfa83722f7a595149bcc3f8.1789448374.git.lfqlee314@gmail.com>
+References:
+ <6596966f734f3d416bfa83722f7a595149bcc3f8.1789448374.git.lfqlee314@gmail.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260917-build-speedup-v3-14-9ecf4163ff36@kernel.org>
 
-On Thu, Sep 17, 2026 at 05:06:24PM +0100, Lorenzo Stoakes (ARM) wrote:
-> With the .mod.S change in place, module finalisation on allmodconfig builds
-> consists of a large number of very short-lived jobs.
-> 
-> For allmodconfig x86-64 this can be on the order of ~22,000 jobs of a few
-> milliseconds in duration each.
-> 
-> Each job entails processing ~22k .cmd files, so the combination of heavy
-> overhead and small individual job results in a lot of unnecessary and
-> repeated work even with all cores being utilised.
-> 
-> The solution is to batch by a number of jobs. Determining which value makes
-> sense was done empirically.
-> 
-> On a 128-thread threadripper box doing an allmodconfig build, best of
-> 2, *.ko, *.mod.o deleted each time:
-> 
->     modules per chunk    instances    wall
->     -----------------    ---------    ------
->                     1        11171    10.22s
->                     2         5586     6.72s
->                     4         2793     4.97s
->                     8         1397     4.26s
->                    16          699     4.05s
->                    32          350     4.05s
->                    64          175     4.07s
->                   128           88     4.05s
->                   256           44     4.03s
->                   512           22     4.18s
-> 
-> Wall time flattens for 16-256 module batches.
-> 
-> A slower/lower core machine will do better with fewer modules-per-batch, a
-> faster/higher core machine will do better with more modules-per-batch.
-> 
-> Therefore, take the midpoint which works in the most margin in either
-> direction - 128 modules per batch.
+Thank you for your contribution! Sashiko AI review found 3 potential
+issue(s) to consider:
 
-This is easy to tweak, so if we get negative feedback on this for
-smaller machines, it's an easy fix.
+Critical: 0 · High: 0 · Medium: 1 · Low: 2
 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+- [Medium] net/ipv6/ndisc.c:ndisc_recv_na() now passes two different
+  gateway keys to rt6_clean_tohost() for the very same "router -> host"…
+- [Low] Reported for completeness only; assessed as resolved within this
+  series.
+- [Low] The comment block added at net/ipv6/ndisc.c:985-988, at the top
+  of accept_untracked_na(), is indented with four spaces instead of…
 
-Reviewed-by: Kees Cook <kees@kernel.org>
+--
+
+ipv6: update NUD_FAILED neighbors from NA messages
+
+This teaches ndisc_recv_na() to treat a neighbour entry in NUD_FAILED the
+same way as a missing entry, so an NA with a target link-layer address
+option moves it to STALE on routers when accept_untracked_na is enabled.
+The ndisc_ops update callback gains a failed_recovery argument and the
+sysctl documentation is reworded accordingly.
+
+Link: https://lore.kernel.org/r/20260813233344.445265-1-lfqlee314@gmail.com
+
+A few questions below.
+
+> diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
+> index 90cd5d8525698..84d70c09205a2 100644
+> --- a/net/ipv6/ndisc.c
+> +++ b/net/ipv6/ndisc.c
+
+[ ... ]
+
+> @@ -972,14 +982,18 @@ static enum skb_drop_reason ndisc_recv_ns(struct sk_buff *skb)
+>  
+>  static int accept_untracked_na(struct inet6_dev *idev, struct in6_addr *saddr)
+>  {
+> +    /* For any given neighbor IP address, consider it an untracked neighbor if
+> +     * it is absent from the neighbor cache or if it has a NUD_FAILED entry in
+> +     * the neighbor cache
+> +     */
+        ^^^^
+
+[Severity: Low]
+This isn't a bug, but this comment block in accept_untracked_na() is
+indented with spaces while the switch statement right below it uses tabs,
+so checkpatch reports "ERROR: code indent should use tabs where possible".
+
+The comment also describes what the caller considers "untracked", based on
+the neighbour cache, but accept_untracked_na() only reads the sysctl value
+and never sees the neighbour entry. Would it fit better next to
+
+	neigh_untracked = !neigh || neigh_failed;
+
+in ndisc_recv_na(), where the RFC 9131 decision table already documents the
+same concept?
+
+>  	switch (READ_ONCE(idev->cnf.accept_untracked_na)) {
+> -	case 0: /* Don't accept untracked na (absent in neighbor cache) */
+> +	case 0: /* Reject NAs for untracked neighbours */
+>  		return 0;
+> -	case 1: /* Create new entries from na if currently untracked */
+> +	case 1: /* Accept NAs for untracked neighbours */
+>  		return 1;
+
+[ ... ]
+
+> @@ -1067,32 +1084,41 @@ static enum skb_drop_reason ndisc_recv_na(struct sk_buff *skb)
+
+[ ... ]
+
+>  	new_state = msg->icmph.icmp6_solicited ? NUD_REACHABLE : NUD_STALE;
+> -	if (!neigh && lladdr && idev && READ_ONCE(idev->cnf.forwarding)) {
+> -		if (accept_untracked_na(idev, saddr)) {
+> -			neigh = neigh_create(tbl, &msg->target, dev);
+> -			new_state = NUD_STALE;
+> -		}
+> -	}
+> +	neigh_failed = neigh &&
+> +		       (READ_ONCE(neigh->nud_state) & NUD_FAILED);
+> +	neigh_untracked = !neigh || neigh_failed;
+> +	if (neigh_untracked) {
+> +		accept_untracked = lladdr && idev &&
+> +				   READ_ONCE(idev->cnf.forwarding) &&
+> +				   accept_untracked_na(idev, saddr);
+> +		new_state = NUD_STALE;
+> +	}
+> +	if (!neigh && accept_untracked)
+> +		neigh = neigh_create(tbl, &msg->target, dev);
+
+[Severity: Low]
+Is the new FAILED handling covered by an in-tree test at this point in the
+series? As of this commit, ndisc_unsolicited_na_test.sh and
+arp_ndisc_untracked_subnets.sh only seed absent entries, so the whole
+FAILED to STALE half of the knob, including the mode 2 same-subnet
+qualification, would still pass if it were broken.
+
+For the record, this looks resolved later in the same series: the follow-up
+patch "selftests: net: test untracked NA recovery of FAILED neighbors"
+(7be3b5fcfd3f9adb7489aff8013c6d4beacbf20c) seeds entries with
+
+	ip neigh replace ... nud failed extern_learn
+
+and adds the failed combinations covering every row of the new table,
+including the in-prefix and out-of-prefix mode 2 cases. Mentioning it here
+only for completeness.
+
+>  
+>  	if (neigh && !IS_ERR(neigh)) {
+> +		u32 update_flags;
+>  		u8 old_flags = neigh->flags;
+>  
+> -		if (READ_ONCE(neigh->nud_state) & NUD_FAILED)
+> +		if (neigh_untracked && !accept_untracked)
+>  			goto out;
+>  
+>  		/*
+> @@ -1108,19 +1134,23 @@ static enum skb_drop_reason ndisc_recv_na(struct sk_buff *skb)
+
+[ ... ]
+
+>  		if ((old_flags & ~neigh->flags) & NTF_ROUTER) {
+>  			/*
+>  			 * Change: router to host
+>  			 */
+> -			rt6_clean_tohost(dev_net(dev),  saddr);
+> +			rt6_clean_tohost(net,
+> +					 neigh_failed ? &msg->target : saddr);
+>  		}
+
+[Severity: Medium]
+Why does the gateway address handed to rt6_clean_tohost() now depend on the
+previous NUD state of the entry? Before this patch the same "router to
+host" event always flushed routes keyed by saddr.
+
+fib6_clean_tohost() in net/ipv6/route.c matches the argument against the
+gateway of RA-installed routes and against cached exceptions:
+
+	if (((rt->fib6_flags & RTF_RA_ROUTER) == RTF_RA_ROUTER) &&
+	    nh->fib_nh_gw_family && ipv6_addr_equal(gateway, &nh->fib_nh_gw6))
+		return -1;
+
+so it expects the address of the node that stopped being a router, which is
+unrelated to whether the cache entry happened to be in NUD_FAILED.
+
+When saddr differs from msg->target, and that is allowed since RFC 4861 4.4
+only requires the NA source to be an address of the sending interface (a
+router advertising a global target from its link-local source, or the proxy
+NA case handled a few lines above via pneigh_lookup()), the FAILED recovery
+path flushes routes keyed by msg->target while every other path flushes
+routes keyed by saddr. Can both be right for the identical event?
+
+If saddr was the wrong key all along, would it make sense to fix that
+separately for all cases, with a Fixes: tag, rather than changing it only
+for the FAILED path? The changelog describes only the FAILED to STALE
+transition and does not mention this change of key.
+
+>  		reason = SKB_CONSUMED;
+>  out:
+
+Thanks for looking at these.
 
 -- 
-Kees Cook
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1789448374.git.lfqlee314%40gmail.com
