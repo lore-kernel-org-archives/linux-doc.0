@@ -1,109 +1,146 @@
-Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99034DAF98
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 11:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.205
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789645278; cv=pass; b=DCtWWiQrJcRxZzV/ewllzqfhBKGMSo9w3X7w7MhOpu9dM0rGRaZ247hRjlCEtRt5F+XEWyCCZGQ+j6jbDU55NwPqtCeIR7UWRYecS4gDC1gJG37lnvJ9K7Q5xJQhRox8oD0dvYBTUqDlqrpOGliE8ZJlfLcjKktJMkr75FaachI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789645278; c=relaxed/simple;
-	bh=gqsU4rnHrEt9APIDK67SRpz5jAPYBxPM63KhR6ySdMs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S9JBUJOsuiodb/ZF/sFdLV2o3PQNtxDgu7/ulgXliG88+HtmwsXySMHQq3GkXQtz6WS2M1YyUqVZ9YBFvRQQwsrb5RD1Do/yIxaeHePJWRjXithwGX/kYvtgqO26gJGu852pGji0g5tSkPehiOEBicTGGb7Dg/8UYSQVO9EEA3Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=prC5Grfk; arc=pass smtp.client-ip=74.125.230.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7E04CB8D3
+	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 11:54:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789646096; cv=none; b=btq4BGQXMeHF8rGKUu6Ymmwwk/AYz5e7/58NvVenjO1kS4g6Y5j/uOaNDEUSYL6Da3kpDodqXfmHJAOAWOL9ThFJd22PE43DdHNxIVRSvMsBCcAeVuNOY/Gm8ti6VhndUUbJfcKIJT5y2gbhsypk8M6oBrikVfhrBADRrcckntM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789646096; c=relaxed/simple;
+	bh=vAIdKmlOq8rM8x7TTXwKSuaj2ViCkL62qRrNagWcHuc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=H5zPAVmiG39SxI+V+dCKHbEeaYVucB9RIO0TTnnPF8ROzCoPeGikIE7MiXj4MWcjLIbj9HVMuRGOpKuNQts2YLn+lWljsxYEn38Bd2t3nOJ8wQ6fdCYAAnrq+DRQv9H1ySjz2zGrjk5tazMXrlZcdmB2u9ECjjAuv4x2c071amI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fBmD8WlS; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="prC5Grfk"
-Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-530d8a00bcdso4067721cf.2
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 04:41:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789645275; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Te6dX7KSPKaUKqdCi5yf13S80xecNmXxcprs4BoBSXzl9DAQusd7M8t+6ftrHL05lx
-         +RNHo4vHYqOx3Eng5KcepIoixwV2DmN0GZLYN/t6LzfEYVCm10XXFY7ABfrwf/XOa89e
-         thUUrk9oRrSIPzP5kYZM2ZTxD0zGyx4342bQ0uB4o0IaZXjoRxXjk0s77eoOf7x56HON
-         po1D3xvOf07vZ+d3pjFhjFvP0cm2vx+0t+tNuJyZJkHd8B6WPOs9QBtd++136cDS8ixD
-         wCjlUe3F88huVfx/qqsJ3LU36HmniPjaSrucUB2NDplVZB7Ig4zp49C1n83xOGGSnIe0
-         hG6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LnAoZqy7F+FYR9ODrFB4noNjgufaDmhavzfM0dXOaVI=;
-        fh=f9tHWxBZnQ19m/YlMcVPrtt1sAA1mkjd6WBFbtHaNb0=;
-        b=Xe1K+hhEVm42ZsL+eUDooWxP7VC+ga1EpTHuoFbKJaVr3LcYZThLc1gTCzCWdp0J+o
-         uO7oPzu+7hVxtOah8gQG/BoRv9PiNzWIEVgHfBDOa+XfQDWabevKy3AqEbkvJuz7A0t/
-         SO5oUQr+12B9ed56xUdudmjcmA+jT+mSDXJ0lDEwfrTE/2dInm+OXMCpECp+9FXmNKGE
-         jEDkiC58q8V0qp2z4cU8XPib3qd7vejW70SkgunYYV0ZDEmbd3pQFU8r50epDgwVpcP0
-         YbkUiKg3PFqOTZT7BC9BVcYxPdrdgElRsAZqO/T2E6Yw59AItKr45/SjVZinhuoqTLTQ
-         2VOA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789645275; x=1790250075; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LnAoZqy7F+FYR9ODrFB4noNjgufaDmhavzfM0dXOaVI=;
-        b=prC5GrfkOzBJlcTWtTa/gfENkB61bCSD/DawmLjq+M+o9rPhnZkVXDoBfdPxMmXr0D
-         bg2AF84xGXwOhRADYYGUXLhpDdNPqQSpddfoGEWGkBVdMByYQc088MfcRe6YA18raz5L
-         Lmya43pU5Snet79iB8XjBJ+e3Jrbr2AEF/h5Kw2Cv859Vm1aRYIryNVCCAn1tQfbss56
-         d5Sb9UxDsGz41mkoLY0hFT1psp0JYXgZf7vmZyTGf/iut9u1c6keoRZwdQ4jaDLb3qsC
-         RT+O06CacrLEbdE8gRVJU2lVveJslBEdgOl1Qysgob2LFVxkk7yhPvf+8ie2DH4LAJAp
-         O9pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789645275; x=1790250075;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LnAoZqy7F+FYR9ODrFB4noNjgufaDmhavzfM0dXOaVI=;
-        b=Dk3YCpln9Y3H7LQUQOBz/S7+bZ8qtkNYVsrV6BY7+i09zkFvLsj07f5JjpCtEOYu0G
-         iAQZH9UBUjbEKNnQySjjh4RitHnorQx/374tU84e97cgupND26YJo/fvk/+ZSjahgpKh
-         59wXwEc7mlPg+ai/mtVAViEHnaE0+4HJyssxlTSa6mDE1rUWFL5DhjOLgCFsV6TrPam2
-         2J+SH8LOHc5ZjSw0kSMx3wyzkP9i+LSuNODB/cHKEosYXnwpLJP9wzcHffzf763/P2CY
-         Jo4kpG20S5rCct5BNwtdw5TMPuQko0drytwhUtBq8w30Z2qIGZwHBFBv93qpazaHN4fF
-         MiBQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw6m/9YG2xzWoG7qP+bLH8epcP+Ky3qHNNZfg2RfyBlzNBb+1HqeoSeQ8BdYiO7aX7T8QATk6xY3wM=@vger.kernel.org
-X-Gm-Message-State: AFuF++ktiOk79roeCKYxGwlcVseRa5LSbBmBAFCViZ38+Iz3IDLoiIkb
-	LSck1aMNcc8I1GFgd7KHxBGSyauGzVN8JsqHXJHFjEV0hsdfLnGPmkl3ZxoMRKqE5LLpaxXb7b9
-	lT/G2Kr8+agj1bP88tKAmnjOxwsWr+zo=
-X-Gm-Gg: AYBFou0PmsJht3w5Pc9Ihdnw80nbDsCYM6f+5rWrl2t/nuLcpegrTlMKQ/J0ojNa93r
-	uez294D5WTiSK+s2hKCjHoipRM+GoaQHUJDg9oSSKzVLKE7V8u4N4LyerjrZi7A6J+x5vCTvNrF
-	w31CQ6KueB4EYXusnMg8xJ2Qyvw+MwTyQqoP5fU/57ECDzoH/CeVuk64Uwy/xtTU/HTnX6AfDZ9
-	u33+klDoXc3r8+/3LhHZhIdaV52g9cmyGfPvfVycpWqn2gXrJ1Kv4dbziLrrqIczT/iNs9MSJtb
-	P1O44SBiGg6ksogowwRL3RjmTF/vVin3RJyTh6uSGzFxnhihbZpl5N8FdP5lQ2//dUUlzCtJ4P+
-	/oituUXECoYBVankb5v3MBuu/7tKlt4qY+2RtitEstWl8PnXDMUXgwCtVWTehGD0fg2foMa9YlQ
-	Kw1E8=
-X-Received: by 2002:a05:622a:230c:b0:530:faa8:a51c with SMTP id
- d75a77b69052e-5327eeb8632mr114714131cf.34.1789645275229; Thu, 17 Sep 2026
- 04:41:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fBmD8WlS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789646087; x=1821182087;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=vAIdKmlOq8rM8x7TTXwKSuaj2ViCkL62qRrNagWcHuc=;
+  b=fBmD8WlSZ+GSuqu0Bmuos8Bcx3Yj66rFLJO3uI9xAFw/29hfNyakdA1U
+   MDyBw5kfVeZNdGyCmN1Im4Ok7N0H2JzgPdPQlv08A8S+S0Im3l+/jYCzO
+   CyYeY5WIDw3D2T5FlbTcIbhG2Sb0aGsfKbCxYa4V6n+X62yOQvz0EMAds
+   XVays6pJuU+fryyn5FEM8t5asyChE/KRzdz7IcFrGK63poJkPiI16MrDL
+   wgbnY+WHjIdp4ms7MmTTi8Krv2qB0WzkKBRFSnUH+BhIWp7gXVhFXq7vW
+   fGjR3aTPB1fg1vJssVbx4haahWTLJ4ZbtmuBmW/1OJPOdWtGkuboLnMzr
+   w==;
+X-CSE-ConnectionGUID: CLMzMGZNR1iHYQUs9r+c6A==
+X-CSE-MsgGUID: nFPAyOrYSoSuoIqjBmtgwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89194087"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="89194087"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 04:54:39 -0700
+X-CSE-ConnectionGUID: CIN8f1UTSt+Urk2GUf8ewQ==
+X-CSE-MsgGUID: W+XTHwFiT3+X46IR9no28Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="278961452"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.90])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 04:54:34 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Huth <thuth@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Alex
+ Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Simona Vetter <simona.vetter@ffwll.ch>, Luca
+ Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v4 1/2] drm: Rename struct drm_atomic_state to
+ drm_atomic_commit
+In-Reply-To: <c49dea95-69a7-4c74-8321-ee81f7f6fb66@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260427-drm-drm-atomic-update-v4-0-c0e713bfdf25@kernel.org>
+ <20260427-drm-drm-atomic-update-v4-1-c0e713bfdf25@kernel.org>
+ <c49dea95-69a7-4c74-8321-ee81f7f6fb66@redhat.com>
+Date: Thu, 17 Sep 2026 14:54:31 +0300
+Message-ID: <8f8a6e12fa8c0fb5485bab71749d0ac41e7b28e1@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260917002341.5938-1-silvapfabio@gmail.com>
-In-Reply-To: <20260917002341.5938-1-silvapfabio@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Thu, 17 Sep 2026 08:41:03 -0300
-X-Gm-Features: AcwNN1X4vXq6zu_2IzVT074X_iZFzewp5OcNV3K20MInyjIhH3qzCNX35C0xgAs
-Message-ID: <CAMAsx6ftA4--w-_w694G4k8y2kBmSKj39DxTcoQBVwEFC-UiuA@mail.gmail.com>
-Subject: Re: [PATCH v3] docs: translations: pt_BR: translate researcher-guidelines.rst
-To: Fabio Pereira da Silva <silvapfabio@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Em qua., 16 de set. de 2026 =C3=A0s 21:23, Fabio Pereira da Silva
-<silvapfabio@gmail.com> escreveu:
+On Thu, 17 Sep 2026, Thomas Huth <thuth@redhat.com> wrote:
+> On 27/04/2026 09.02, Maxime Ripard wrote:
+>> The KMS framework uses two slightly different definitions for the state
+>> concept. For a given object (plane, CRTC, encoder, etc., so
+>> drm_$OBJECT_state), the state is the entire state of that object.
+>> However, at the device level, drm_atomic_state refers to a state update
+>> for a limited number of objects.
+>> 
+>> Thus, drm_atomic_state isn't the entire device state, but only the full
+>> state of some objects in that device. This has been an endless source of
+>> confusion and thus bugs.
+>> 
+>> We can rename the drm_atomic_state structure to drm_atomic_commit to
+>> make it less confusing.
+>> 
+>> This patch was created using:
+>> 
+>> rg -l drm_atomic_state | \
+>> 	xargs sed -i 's/drm_atomic_state/drm_atomic_commit/g; s/drm_atomic_commit_helper/drm_atomic_state_helper/g'
+>> mv drivers/gpu/drm/tests/drm_atomic_state_test.c drivers/gpu/drm/tests/drm_atomic_commit_test.c
+>> 
+>> Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Acked-by: Jani Nikula <jani.nikula@intel.com>
+>> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>> Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>> ---
+> ...
+>> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+>> index 41c57063f3b4..4ffa057e2784 100644
+>> --- a/drivers/gpu/drm/drm_atomic.c
+>> +++ b/drivers/gpu/drm/drm_atomic.c
+> ...
+>> @@ -1764,16 +1764,16 @@ EXPORT_SYMBOL(drm_atomic_check_only);
+>>    * Note that this function can return -EDEADLK if the driver needed to acquire
+>>    * more locks but encountered a deadlock. The caller must then do the usual w/w
+>>    * backoff dance and restart. All other errors are fatal.
+>>    *
+>>    * This function will take its own reference on @state.
+>> - * Callers should always release their reference with drm_atomic_state_put().
+>> + * Callers should always release their reference with drm_atomic_commit_put().
+>>    *
+>>    * Returns:
+>>    * 0 on success, negative error code on failure.
+>>    */
+>> -int drm_atomic_commit(struct drm_atomic_state *state)
+>> +int drm_atomic_commit(struct drm_atomic_commit *state)
+> This causes now warnings when running "make htmldocs" :
 >
+> .../Documentation/gpu/drm-kms:308: .../drivers/gpu/drm/drm_atomic.c:1841: 
+> WARNING: Duplicate C declaration, also defined at gpu/drm-kms:408.
+> Declaration is '.. c:function:: int drm_atomic_commit (struct 
+> drm_atomic_commit *state)'. [duplicate_declaration.c]
+>
+> Should the function maybe be renamed now?
 
->  Documentation/translations/pt_BR/index.rst    |   1 +
->  .../pt_BR/process/researcher-guidelines.rst   | 174 ++++++++++++++++++
+No. It's a long-standing limitation in Sphinx that it doesn't support
+the namespaces C has for functions and types. The workaround is to wrap
+one or the other in an explicit Sphinx namespace in the .rst file.
 
-Why did you keep the same version as the previous patch?
+BR,
+Jani.
 
-Also, why did you modify the central index.rst instead of
-pt_BR/process/index.rst, which is the correct file?
+
+-- 
+Jani Nikula, Intel
