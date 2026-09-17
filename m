@@ -1,102 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258C73AD535;
-	Thu, 17 Sep 2026 06:27:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6426F35C699;
+	Thu, 17 Sep 2026 06:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789626477; cv=none; b=AyYYb8KJhnEbUkERyRGETuu8QVKYp4/I8AGcmS2Xb8L+1erTO3eeGhR+gCMLK/aM80Xc94l5CNAELgeXdt3KWTzkulZHyA9IVL63O9QKJuTg7Hq9cJqTE15j6CF9tijLxLIZ0MLQdmpnGg+8mAgQ7v8c+aWms6c5BDlFK+wSqCA=
+	t=1789626851; cv=none; b=se/Fvktuepi2bIVROCBjm2Jr4Mv2039dcjH1MW/2WGksoTSrtfh1n7IaNLkrNWXvH7S3hM9sj5bRn995OW2T2ZtpVjbRdKPoJ1/koyf/ArnJCbFdUsB4jfiVfyjEWbGiVnODCXhAI4cL6ZTS/lxeXiMhNRdvCe/doyg/TRiJSnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789626477; c=relaxed/simple;
-	bh=6HgOEnc9wNdaEzeo1Tl1Hz7oAQt7xSh7oQ4zoNXsuWg=;
+	s=arc-20240116; t=1789626851; c=relaxed/simple;
+	bh=oBqHdSw4oEXcx0AiqnJ/mcvv5pJ37qQbhVraLtPivcA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fjUKQOG7WoadXy4eBvdYrGOgiT0nVgz+xlaK8ZNHzuiW0pkKRHRpcbyvC8/VzxCzda5X72iTNyGZoHRyyfEqXW7zaLX5c6hWmg1SPE1YZdnbqzfgesut+hciWE0pEHqT44qkF9vW3MKt4TVyRrWdzWdMjaN5yj4YX3TTY+B/PO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LzGKa3ql; arc=none smtp.client-ip=192.198.163.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=cZRPubHV1wyTolZmCBHQuyHl44I4NzDBmsAoL0b4NKxx0SXkxtxqW9VqOG5sYaGH9uZmb7s3slppL8rRYnjrnO6kId31d96Hmr0OuhU9s7KhDj+6Sq/Qm5X+2C12aJgWQH4BPXXWfLjqKqZIgMPhTYTi3bsXF/IFzvEOKhuHWE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lKWmSjFw; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LzGKa3ql"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lKWmSjFw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789626476; x=1821162476;
+  t=1789626850; x=1821162850;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=6HgOEnc9wNdaEzeo1Tl1Hz7oAQt7xSh7oQ4zoNXsuWg=;
-  b=LzGKa3qlAlYXfYmJ08aP4Q0MOLq8Q0008vm7oym4JSfopvOfZaSE2Kiz
-   ilr4VtdthFLyI9uSiTBrOjUX1rXxyrvIxgNSMCOj7WomLSnp9VPgBMPH4
-   ZZEO8OPLKFuZBxuACO/T+6nju5TiCCiCnAeOt+m3PC3mQdwrpMbgdVy6F
-   /kCKr9wtA4He065UuAXiVYiQfkoSxbbfgSOUwriyB7jdX592ksJgvGDzI
-   9Timv+2qFsZZGggU6RovRFSeFzFci5gfBIS+ST9ajPrt2UXk608adbWwL
-   F05OcLOakq8VMTnSg9nM0LbAjbmBa+pq8qtNGjGohd6/WKGKjJpa5qdh5
-   g==;
-X-CSE-ConnectionGUID: qrzzvqNNT3O8AA+YGw2WDA==
-X-CSE-MsgGUID: ujyYDf2YT8yUlIklak9LGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="523766"
+   mime-version:in-reply-to;
+  bh=oBqHdSw4oEXcx0AiqnJ/mcvv5pJ37qQbhVraLtPivcA=;
+  b=lKWmSjFwvmpZdc2dnB5+3uSDissHJKPaHJGGzfHqH7pkO8leDNH4Z7h9
+   fYTM3QxAwaGi5nci/Ey4tHL0kLZ877D8Do4jFDqyHuEJoP7dCVzAGuN2I
+   Ym9iQeqb++4zYYf+uln6pbyvqCQbwmmB+wkHsnzMc2lwaeFk55njBPubF
+   icodjUd+f7fmyse7L6Msnj78i/RuG2xGOOVrp61f5/WS4o5SqEj41qMGV
+   yNyzzscjlGXE1oOmNwn3bzj3rLtiZFoGJHYZC8H86aLlg4+RYTmQ0E45T
+   dD+oZyhWYP8DkrFw6hHC3imtwOH36BTt3FS7cNbh1fDk6anRESSa7moyW
+   w==;
+X-CSE-ConnectionGUID: zXRzsMoQTg2B1qvuNFk3hA==
+X-CSE-MsgGUID: OpHGMfH7Ru66WCkDALI/rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="107523364"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="523766"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 23:27:55 -0700
-X-CSE-ConnectionGUID: le6Qgjs9RQ29hl1uGdEs6Q==
-X-CSE-MsgGUID: XXqs4qwTTrGWZEqFWCXwzQ==
+   d="scan'208";a="107523364"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 23:34:09 -0700
+X-CSE-ConnectionGUID: +iRCG2OhRqOjq5++DiIv0g==
+X-CSE-MsgGUID: f3VkCtQ/R7mB9nR4sp4pbQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="269896440"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.73])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 23:27:50 -0700
-Date: Thu, 17 Sep 2026 09:27:47 +0300
-From: Tony Lindgren <tony.lindgren@linux.intel.com>
-To: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Liam Merwick <liam.merwick@oracle.com>,
-	Vishal Annapurve <vannapurve@google.com>,
-	Ninad Naik <ninadnaik07@gmail.com>,
-	Joerg Roedel <joerg.roedel@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	coconut-svsm@lists.linux.dev
-Subject: Re: [PATCH v2 6/8] KVM: SEV: Add SNP vCPU state get and set commands
-Message-ID: <aquIYzwDOx6jzy3T@tlindgre-MOBL1>
-References: <20260908103338.427254-1-joro@8bytes.org>
- <20260908103338.427254-7-joro@8bytes.org>
- <aqksXLLcmFDkM9Xj@tlindgre-MOBL1>
- <aqrDUgB7nfdgzXpQ@8bytes.org>
+Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.245.11])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 23:34:06 -0700
+Date: Thu, 17 Sep 2026 09:34:04 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Nuno Sa <nuno.sa@analog.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] docs: iio: backend: use literal block for commands
+Message-ID: <aquJ3GYIZkDSkLXN@ashevche-desk.local>
+References: <20260916180739.2296401-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aqrDUgB7nfdgzXpQ@8bytes.org>
+In-Reply-To: <20260916180739.2296401-1-rdunlap@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Jörg,
-
-On Wed, Sep 16, 2026 at 06:31:04PM +0200, Jörg Rödel wrote:
-> On Tue, Sep 15, 2026 at 02:30:36PM +0300, Tony Lindgren wrote:
-> > Nice, looks like snp_get/set_vcpu_state() could quite easily make use
-> > of KVM_EXPORT/IMPORT_VCPU?
+On Wed, Sep 16, 2026 at 11:07:39AM -0700, Randy Dunlap wrote:
+> Use literal blocks for 'cat' and 'echo' commands to separate them from
+> the surrounding text. Otherwise the lines run together, without any
+> clear break before or after the commands.
 > 
-> That depends on whether KVM_EXPORT/IMPORT_VCPU will migrate the confidential
-> VCPU state (registers) only or hypervisor state as well. The get/set_state
-> helpers here only export/import the hypervisor tracking state for the guest
-> VCPUs.
+> Use shell comment style to go along with the shell commands.
 
-Oh OK, so calling for both hypervisor and confidential VCPU state would be
-needed. The difference could be specified in the struct kvm_vcpu_transfer
-flags?
- 
-> On AMD the confidential VCPU state is migrated as part of the memory image when
-> guest execution has stopped on the source side.
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
-This part for the confidential VCPU transfer matches what we are doing
-for TDX.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Regards,
 
-Tony
