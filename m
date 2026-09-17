@@ -1,125 +1,97 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E176A3B0584
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 08:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A398480DD7
+	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 08:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789633174; cv=none; b=DS4T1f5mNyRpylhhvBQnCzNEKp/sHqOOdl3ikg4eXo/ZNKLHFRC4oACy/vZut8Ygy+NAahhzq9BPwjB76Sk/Fz4yIj+X+D9KYvb2PXoiFcEXQgSt3V/TeIDSs030/nD7bbUgzSc4Uz//SVCEmTOSF4I+SwwUGnYbnH8QzFSZEn8=
+	t=1789634216; cv=none; b=IxfA5IudUNqkAQFX3FpbYf+3D7jHHwi+dRSRcvdPL6IRtitOFgefdrGlsJcDJ5ZqW9rrTLm2Kq92u2Zk3R6mGjj122ETHWDxIJUfWCVmh0Fx1H0HQ/ulW2mORitgCUF4w4V/NJTrWEFhFqaT32yiLJE7VzNKuZ9FBBHJxGW3JtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789633174; c=relaxed/simple;
-	bh=vihXrLriQOvLlnrPibh11AIJDiMSfGA+uFFnwcE7e8Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O6Xr1ScNGwxpC0+svXzYNVIfw53gRcfP0El3KJqcys7Im+CT2zhijWxTntLKD06GvicLipMh1WLgKY36sBKWfsplc+wFKIuShxV2D7D59qUW5id14QKlj95q58atG0Z28hCroaSRGfOAWGTIq5+OxkcbFqnrKN9EMncwC7Cr3yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=N13n9903; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1789634216; c=relaxed/simple;
+	bh=AjPQQ34DjEurplenLQ7sBH+VHMaZnGFbeJBQVIWEoTs=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=AgUkPgeTCn6k+OYRBWxnN9ZAHphbnjw+cIJ4eMZxTPWBRwN1RMPoDEn3B198/4jRJHFCgJhHHfH4NMTANc6CLaUeX8pVSca3NMhARoWhg2w7m4qAqsRAJcC/nr+xdpk47gCOwWZNBWVpmjoP/TzkvEJ7pz4wQ8AYTVzv1esMxJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PJlJU7DD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="N13n9903"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e7d2bb404so1381505e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 01:19:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1789633167; x=1790237967; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vihXrLriQOvLlnrPibh11AIJDiMSfGA+uFFnwcE7e8Y=;
-        b=N13n9903cRYavQDJcy/ICxyQN69MxpRL7oCeGY1RwpPRjh1rAoalWiClS8jEy2iEWO
-         pGQEQ1HxNPW78/d/1vYVNx/n/ny2tNTS6/JwKw4EcLrboBBnQXGH0w46ZU5Ac0ZdqbXk
-         TMRQSXCmdV0zSUcdYqrUF60VvbvJmCCa6Ghqu/x7+UcXMBnaSIUdvLoZ7JBO8vhWFQfg
-         UbY8BeztmRObBM7+0wflVma4PJXicoq92s2C7LZxaJOLZe3qgzIog87xnLOduqS/q5yR
-         c7uRo+3uvrqpf5n47aaoz352hF5zOHDctWhSmgBoUn8lXwN37eI1txW5pa1bdBwAhrd+
-         sxgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789633167; x=1790237967;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vihXrLriQOvLlnrPibh11AIJDiMSfGA+uFFnwcE7e8Y=;
-        b=LUo9jLlyyJdLdi2STZv5FjWpl6a0EHXgmijWK8P4bzLfcL+Pclk6dHIidpkeSgdrOe
-         yTTJ45N5Y3eMeSnq4EXHTM4hpiU25d7jyd+AJAN7U4Cos7gYSPZQnyHx23XU+vQZJbir
-         HkqxaScT/wYzwEDD78ro1lhCAUIJyc02wIWJHQ/4n5Ba8bpPdLjRBOnI1FTJ8FFKvbUN
-         /v1J0YDvjcEq8zaQhdDmKE/akKLGue9OZ3zj3lw7S6ET5KNXj/3TJYzu/h+qu9HjUu1m
-         LSU6bpljMZcpgBulw0ee4ey1YpdZJB5HtJnbR6IsnK3/gMraHCQYl4q7K1fUXEpzooqL
-         TKCg==
-X-Forwarded-Encrypted: i=1; AKwUvBxE7G2/J82oy3xFiO+x7LWXrmxwuy7WnOR6UZ38UEh5otWbIWOxhyeKJpV18le71n5L0EmO2SJOSIo=@vger.kernel.org
-X-Gm-Message-State: AFuF++n+TE5dAjFRAWfax8MPYZohIl7LkM5FKFrFyFrUaI+Q4VXiGKdA
-	IhuTqWBC3GOxiOd+LCMYZERw5C1+bRNfO7bBzl5zSIcoJjQBSeAYMmNro+TeQqfnaOA=
-X-Gm-Gg: AYBFou2Qz255G/KIOgUCphESzr6FVz93MJ+IM2yLF4RcZKGt14qCEM0OGonxF+KufE+
-	LsHlEITs/4cwZub2IjXVw56/rF2cnjwwLkJtPCMFA5F5diF/7rw3xsO0ZcqA+aR6vRjz8gDvvQG
-	Lg4uUiRByLt3N4CJjVcifjs6WjkIeegSFFhlU0VZE9YsdVXEuMhoHKQ33MZZ/rgTpKz68bAT46R
-	j6H/g4mM+TZVCZG6ATGK2NNW26rFsQySaW/iuU0f9d1b6I3h/qV4FhR3vKXrAPfe3Q6o/QKV1Px
-	ZbfRAgNRjA/78YpTBgSf0GTmuMyj6g61KeHIBsBgkt0kJSvzSFccgCKpykrx/Hr67T7FHW6dRJr
-	p2O7PkJgOOZUYKMvAhULg2UltzP1cckMVNaQokRXOsBg4PXwd7SfENEEFYLx2A0NcXh2xYOSX02
-	kTTPXs9uawh33y5nep7+BQxm00ioEW2yeKpQzuvZ1ovBW2j8DZ7DkN8LxacnZX9Q+NwluugCdc4
-	+NnhrquK+OpT6fy2StR4Pi8ICAAyvWEj4cqzhd2sb0JrL5z6dvLCgXX94gtsw==
-X-Received: by 2002:a05:600c:1d25:b0:49d:1916:2133 with SMTP id 5b1f17b1804b1-49fbd1ccc32mr42772625e9.8.1789633166769;
-        Thu, 17 Sep 2026 01:19:26 -0700 (PDT)
-Received: from localhost (p200300f65f19a904ca0f7403c08a2e26.dip0.t-ipconnect.de. [2003:f6:5f19:a904:ca0f:7403:c08a:2e26])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49fbd24a6basm59658185e9.12.2026.09.17.01.19.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 01:19:25 -0700 (PDT)
-Date: Thu, 17 Sep 2026 10:19:24 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Dominik Brodowski <linux@dominikbrodowski.net>, 
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: pcmcia: Update location of PCMCIA_DEV_ID_MATCH_*
- constants
-Message-ID: <aquiM-BdSq43WaTa@monoceros>
-References: <20260917062537.112663-2-u.kleine-koenig@baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PJlJU7DD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B64C1F0089A;
+	Thu, 17 Sep 2026 08:36:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789634212;
+	bh=AjPQQ34DjEurplenLQ7sBH+VHMaZnGFbeJBQVIWEoTs=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=PJlJU7DDZs0U7AU67YKp7s1ND4eAMf9Xw1TMWFoHATKrd5SYMuRELTVsBMxb/WAWy
+	 vfFAu4EUMIFg8eBqV4L2kgDWLA/v1vZT2plz0sPqByx1if9AlLrmUNyauepZz/NaTH
+	 g4E3gL9179z1YqYCHOSdjLossJK6fCjrVRqtuctvxkCxOS+88HY2monnOHLsqcpU10
+	 +M2Jcvhr8QtqQr2ZEi0rkF2R5i1EM1Pfq7Mj0UIk/BdHgPUwDBPaflIMqRiGeZGziV
+	 MbTDf7BGYYiEu2jQRz9L3kYoGL/uWCRIWLKTp70YvbzowJ/OOUBtbrfHLu+XHr9gjC
+	 oqxEcQJ2TlzpQ==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id BC76B198003A;
+	Thu, 17 Sep 2026 04:36:49 -0400 (EDT)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Thu, 17 Sep 2026 04:36:49 -0400
+X-ME-Sender: <xms:oKaranGauXjJYBj2OHr5Ts3ZvWM-4P-vVhEP88gSLbqJWXHSD3BNHw>
+    <xme:oKaravIbg2HlGEmoHcVv_BjVLGPcHG3OsFaw2-tJq5-Ru_f4b8y5ECjPkzp1utBBK
+    P23XCMBuaGC-H9G9AqqrsLxfuebjf2uUpS9Ra4GUy5YXVdrvKdU4dp1>
+X-ME-Proxy-Cause: dmFkZTGj/iOcN9vrW1Y04XJ/AbklSHO56cmeyUArUFrIGsnEAsW1WzgWJpdGXhSDI7lJyV
+    bdMpwFH+usjcjY7/COJk6gayth2TOAtCB2AC9NXaVyvx0FogMmVkwM1Rt5S1TRPBRm0AwW
+    Tz8HpyDOcazHAujGIOBFh6IFCRZtW425tt72Z39CVDtoa3ORSC+Ab5eZ5DsUyRSHg0b8Ac
+    RGtdgKZNiuJRaMiyAagQi6jtB/FMOuFVuHwUvCBgudqw1jy5engrVn8IUrhoE50CboVrP/
+    7XSOVhIVuwZO53XChsmGCLD65qwOHNXmjVM9BKT62ezMOPmUR/BFSF8mPh4tQ7lGprTrWa
+    9mTiQIc8wc1GAN+3Ahl2dla4xmDGYl4+yfi5TEvlPsdiC6jeqYR8W7l8UN2Ni3RsWaw+gx
+    9p4WMNomgaOJXC0V5EXrDlzDqcSepzundyrYNOynftfN4nZtOPuO3pnNw+c1JV+mvLx4PE
+    T3Hmx4bqGAmTNFStkN59JUhRUv4RulqdoOFRxmDOTL41GS96e3lSuaGGMvfG3q1KJgXLzn
+    eBMfQKYA8whbXtNdH4j9kMHopFEzSkAj3BFz3VCcZLHtjntDm0++6RnViXGiuQmVfHH4gh
+    u74N2kVAktG0wMcyiOsA3vRrJIyLrumMiHT+OH6wyx+ummuByCYwrog0GxOA
+X-ME-Proxy: <xmx:oaaraqqUsvWTVUn08_QhGUNB-TZy4cvST8lLYfiHzLuf9OGB4DDBLw>
+    <xmx:oaaraq4MIIb6MeK-bsdetCGQ8aC7D0y_JCeibS3zNQuiAnAdrvwyHQ>
+    <xmx:oaaraheWtWY6kO5-2xy6uDVF5Y2vxmU6O9oCu6BnoyOMX4mMhutvoA>
+    <xmx:oaarav7_DL630r33YPBKlyq-QbrG3RS6-Ocm81lTh_KRXnWrN7nDtA>
+    <xmx:oaaraosHZCMzFL_XVKvF4xJ_HoeSk3B6IOBOU5KxHzCCqPe1SeDBpQGu>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id F059AF80084; Thu, 17 Sep 2026 04:36:47 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qhq3bq62uv4wtksa"
-Content-Disposition: inline
-In-Reply-To: <20260917062537.112663-2-u.kleine-koenig@baylibre.com>
+Date: Thu, 17 Sep 2026 10:36:26 +0200
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Prashant Singh" <singhpra@juniper.net>, "Jeremy Kerr" <jk@ozlabs.org>
+Cc: linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Jonathan Corbet" <corbet@lwn.net>, linux-doc@vger.kernel.org
+Message-Id: <60d0b7a5-cc1f-4841-b4f2-754e1b921794@app.fastmail.com>
+In-Reply-To: <20260917071600.5587-1-singhpra@juniper.net>
+References: <20260917071600.5587-1-singhpra@juniper.net>
+Subject: Re: [PATCH] efivarfs: avoid slow QueryVariableInfo() in statfs()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+
+Hello Prashant,
+
+On Thu, 17 Sep 2026, at 09:16, Prashant Singh wrote:
+> QueryVariableInfo() is an EFI runtime service that, on some platforms,
+> takes tens of milliseconds and runs with preemption disabled, freezing
+> the CPU that services it for the whole call. efivarfs_statfs() issued
+> this call on every statfs(2) (e.g. every "df"), which produced large
+> latency spikes for unrelated latency-sensitive workloads pinned to the
+> same CPU.
+>
+> Commit b2326338dc68 ("efivarfs: Rate limit statfs() handler") already
+> bounds the firmware call to twice per second. That helps against a
+> statfs() flood, but on a real-time / dataplane system even the residual
+> 2 calls/s x ~40ms = up to ~80ms/s of preempt-disabled CPU time is
+> unacceptable: any unprivileged process (or a periodic monitoring "df")
+> can still inject ~40ms stalls into a co-located latency-sensitive task.
+>
+
+Could we instead introduce a mount option that disables used/available
+reporting entirely? Feel free to set the default to 'disabled' when
+CONFIG_PREEMPT_RT is set.
 
 
---qhq3bq62uv4wtksa
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] docs: pcmcia: Update location of PCMCIA_DEV_ID_MATCH_*
- constants
-MIME-Version: 1.0
 
-Hello,
-
-On Thu, Sep 17, 2026 at 08:25:36AM +0200, Uwe Kleine-K=F6nig wrote:
-> Recently <linux/mod_devicetable.h> was split into per-bus headers in
-> commit ad428f5811bd ("mod_devicetable.h: Split into per subsystem
-> headers"). Update the pcmcia documentation to refer to the new location
-> of the mentioned #defines.
-
-oops, I had the wrong branch checked out when I diagnosed this patch was
-necessary.
-
-https://lore.kernel.org/all/20260908070031.32833-1-kmehltretter@gmail.com/
-is the better patch, please drop this one.
-
-Best regards
-Uwe
-
---qhq3bq62uv4wtksa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqrooEACgkQj4D7WH0S
-/k76rggAoIgk2UF9wJTH0A/TXgFvN0TUsEzPMnlib5Npxev2fWawKm6NMPWTJTvr
-dEvXyoTHoNKXeR+8XDHhk25hdrAAAGWjKu6i0US8aOXhwe+QTyuzzxPhutN9jfWu
-8E1dBU9Q+abLzsaji2/0QIVHbWc5jNRCkKmkzXGZNdNZ9E4SOUz/fYc//LUJKaaJ
-eTPSnuUwPt3UjOHtxtvskdO4UVvdy1zuHupqgQBXGdKuhnlg/k/1ys+AIvb14+pg
-Tck8mVfkOutyVaxijF9PYS20R23rLGXwK3IcRubw3/oM9XVbMbSQbPNMGv5cLJgr
-kJaUF6/0my/vE3jz6WgAp5LGgsPWpA==
-=ZUpQ
------END PGP SIGNATURE-----
-
---qhq3bq62uv4wtksa--
