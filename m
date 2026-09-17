@@ -1,196 +1,130 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010048.outbound.protection.outlook.com [52.101.56.48])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFB84DA9BE;
-	Thu, 17 Sep 2026 11:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789644848; cv=fail; b=D84MofctwcfOSv1y5eibM1O/XJyoxiod5VFrk4lZyNkgsPS7PXbi1nTx/vfhGtv5j2MswEyM58ckDno7umH2cuHO3y9yXzwmBfWRbnNN99ylvWkU0S0vltIhudcktUpySEYepGd5kzvo/DTaA1W6Eyl622eajdFkFZ6+0ZQafgI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789644848; c=relaxed/simple;
-	bh=F06lQM0+A05PDbXETSgghul3irV3xuWxNG03dJmHXbk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=jRelh8gcN/GWnpi7lGt+z4v2C8r18/Hc1i/VdL+7ak2qxTbt/2OPXQN2AqeUdLWBJMTp63chW6MUJ4+ItDyVTvPDET5DvtIcEQMSTuJDxsdIgxf5tZ1298lSBuU9ktGJQSMII9t1WPB6hnhPmiFwgzmhjRlQLWFvgTzxdh5HwdM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=t8/s/xYt; arc=fail smtp.client-ip=52.101.56.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472D138F638;
+	Thu, 17 Sep 2026 11:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789645249; cv=none; b=gz16T8rTcOUVnnehN6bLPd9B+f5WeU6E8gMfZGS4E8TWhA2ueWM2eYvIliaJoVDnNKys3539tLjSqBXRWDO8OhnX3bs3qh/1PW2P6ukJa4aF8/f19zfy/LvNs2Y6GKY3bJn1w8KUejyQbZ6pjz73IeKSZ1y32/3Rgk1HJR1kydo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789645249; c=relaxed/simple;
+	bh=BApzGHIqAjiErWcRlmmivBGBfFVBONt4ktRgWMUzDCk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ksfZ0YXW8SbGflRHkz7BYirbdjoKwlsZnAW1q/kIU3Pht6wmvE9yQWOekEj0U9v/MWeaO+0DP52RO7BQ47DkE+FrRZqg5n1GZCqJN6NHBVZ3HGIbMrvlwIZUNMbbI2vFphAAeFld2nyUAzzocVZP7GKADOyZ7z0ZtFZsSO8c9RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mDBBHK/I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="t8/s/xYt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kG7mX0Kz4oo4LO3d5HJ7OVt5EmBhO/DpA6w0rEBIWQ5J6ZXuQ9WYIhWlpCFyHaiMXP+RrRd6NKhDfjYSQIyUZx4JUOIumFNpsDnF+3cMgWnXbAGnHq8mHYY3iagmn/8R1nu786YcE5s0hPbDd8Z+cgOVqCoUJK7/4MJSpq+KFWZDNvVTycEf18N7b8EMYBVO60UePbzznHRGO5qvh36kF5V0dqTZwwFB/OrGrSB+Q0yUk/Pk+NvSxik/WNx6nGZMn7cYTBAtb0ynj/oq9ayaRLX+a+npnjrcYOyh04glebJ6hRW7+7sfGWf2WmsXs8NXnSQrkfhlrz4FGhvQN7ewuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w1HHsCQJgjZgjU/XVOkQrVU9VRB87xolGHTD+JyTric=;
- b=gYpFtYjj4+U5+9R+T0KbOEA09/kunBl0S4/aF8KTCECD9fF0TvUxvuKWtgm0kroiHo5daZXkLfffERrbrmnq8SP40S59Cez4nKpo+4TIJRi20DFxAOiGK+YHW4FIj88rjc9MThJo3ydLnTNoROZWaOKZgfD7rJ7skHHVe00hn7LFaa6Civ46bborHm4mbh39ATCJkNm1SBz2X7SorPQdgJy7bNDB0LIXzMNoc7Parsa7NbDQk1S8W85Ga2uX9bjcJKReK2Y/Z1YVFEH+M4Bjqa90nd8in6quDb5yKoBs7ioPM/oosLb4HtcpWB9aYnqcd1Gcew0ibsJHRsE1ooIhSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w1HHsCQJgjZgjU/XVOkQrVU9VRB87xolGHTD+JyTric=;
- b=t8/s/xYtzqLdWoXc/t0xQne3j7ppQYRuN5z8cowhWX83OO8Z8M+R/3ebmhlRduJiAlQ2XG5G8iTojc34tVrlCCNrgFAZZ3LAyym/UqnOy+zwblY3X8RIUz+dzmfvu+eacZysUhWgP894NotAKhhOW9sq1QZTHyJjyPzDMwVNGxo=
-Received: from BY3PR03CA0030.namprd03.prod.outlook.com (2603:10b6:a03:39a::35)
- by CH3PR12MB8258.namprd12.prod.outlook.com (2603:10b6:610:128::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.12; Thu, 17 Sep
- 2026 11:33:58 +0000
-Received: from SJ1PEPF000026C7.namprd04.prod.outlook.com
- (2603:10b6:a03:39a:cafe::29) by BY3PR03CA0030.outlook.office365.com
- (2603:10b6:a03:39a::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.12 via Frontend Transport; Thu,
- 17 Sep 2026 11:33:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- SJ1PEPF000026C7.mail.protection.outlook.com (10.167.244.104) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.8 via Frontend Transport; Thu, 17 Sep 2026 11:33:58 +0000
-Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 17 Sep
- 2026 06:33:52 -0500
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb09.amd.com
- (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 17 Sep
- 2026 06:33:52 -0500
-Received: from [127.0.1.1] (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.49 via Frontend
- Transport; Thu, 17 Sep 2026 06:33:50 -0500
-From: Colin Huang <colin.huang2@amd.com>
-Date: Thu, 17 Sep 2026 19:33:39 +0800
-Subject: [PATCH v5 1/2] dt-bindings: hwmon: pmbus: Add Infineon tda38740
- and tda38725
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mDBBHK/I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A09061F000FF;
+	Thu, 17 Sep 2026 11:40:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789645243;
+	bh=BApzGHIqAjiErWcRlmmivBGBfFVBONt4ktRgWMUzDCk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mDBBHK/IhHEPd17SZQYudlv622AFtJid39i0LAeTPe5KX2n4jjfEibNrHMdEGP/lt
+	 eUgQ97JZr9jtSS+gOZV9ctH5mVpR5Wezp3sekSSbMJ5cOeo6kdk0KT15/6B49AIGEy
+	 W3xTRN8TOmbFo/L3aM1LzCnmwuDCeyPl4is4tqU7CxU3Ioxbh6x+wbfLlNfNi4Nbut
+	 a7/lNdUCvCwU4aCE2PFX04HuH+W5hEeEwQfpeBZl00atZiv1MQM4dBxsjASoERsnQh
+	 U2zQOve9t2ri7i6jgJuS/I7mx5ZPVMsb+fxhyacjpxeRyQ3wCmjEdg7jvg80HHafvW
+	 7dUndTZsEPJPw==
+Date: Thu, 17 Sep 2026 12:40:08 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v2 01/40] mm/vma: fix mmap_prepare file handling, remove
+ file_doesnt_need_get
+Message-ID: <aqvRKarObW1Zy-QD@gremlin>
+References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
+ <20260914-b4-mmap-prepare-vma-flag-sanify-v2-1-7d9781ed5361@kernel.org>
+ <aquz9Z9JrK_H_E0g@kernel.org>
+ <aqu5jtMV2gyZFrSe@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260917-add-tda38740-and-tda38725-v5-1-7fc19668ada4@gmail.com>
-References: <20260917-add-tda38740-and-tda38725-v5-0-7fc19668ada4@gmail.com>
-In-Reply-To: <20260917-add-tda38740-and-tda38725-v5-0-7fc19668ada4@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-CC: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <colin.huang2@amd.com>,
-	<linux-doc@vger.kernel.org>, Colin Huang <u8813345@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1789644825; l=2005;
- i=u8813345@gmail.com; s=20260202; h=from:subject:message-id;
- bh=R1ssmBrpneOOcBVWD/5uiubeCA6eoLBzB89Okx1mSic=;
- b=wiqJC+cqJH5XTrlGh5RSXvYL5pROfuuTYpth1vMhautAm9m/AdUPMTpYKbNxjU7ckSUrQF2lr
- T4zOV2CDmFQAO7dajzl2t486zUBr08Wa7m6D8Qj7otxpoZxCLtTVTx0
-X-Developer-Key: i=u8813345@gmail.com; a=ed25519;
- pk=Zlg0WqpCw4qbswOqamTBTXIchwR/3SnYZpy7rjaGMdQ=
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000026C7:EE_|CH3PR12MB8258:EE_
-X-MS-Office365-Filtering-Correlation-Id: fefa3543-c79d-411f-522b-08df14af9059
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|82310400026|36860700016|18002099003|22082099003|13003099007|10067099003|11063799006|56012099006|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	sScGTBqBQ44Io15zRerNLa/yki+UtquZemxzRiAuw83XfSfVxazaBRVadZFGCLHzHLLI6oTEr+PGIyGFokXS06Ilc6RFcS6FGcto21TUKhNTBXSnXaZHvgWynFx8UGLFZi8Xmk7CGCagthghdXfobYgVV8G9CdwObWpkSbzMHDRo8rAw23wppQb6C+PRMVfi+h66/luPi87C3AtCcmUc5GWnn/66ELTh9QU3ujyEQSCJozrdCQX11vFK3RSM+bDRdjhp3eTm6V7dtLK6nYDi65h5l090hcK6tjtPKweenPWcriPkSJAYlMYuEqt3fIibomSMEDTVCpyC8JGz3urIH6+LtkIEZZCBEnaJB9l5EAJyS5zTyzcvHxhEdbl6ILQr5xU+yzStbzHMr4WhVLhpkwuPE8uG//PcSlGpVoijzRMkBE+FU6omtPckHjNsfEbrLpWhR8EPUuJL/JxJz8zwg8RdmZetBOgRjbPe4GQD2Ny23brdLb/8HXtDqltyUxPGwmGGN9w6Atgy40MwtOzXwSyxZEJf8+Zq7klnmhUBssUZRXS/kz3YK6+9x2aiXitqZIGGZqCBDN6Afka52yOrdixvmDLcWnqinLk/zczXGhKtoLO7fr7F3S9UTjPBt4fT4Y3Pe0g8yfhJ5lVxEcxN8Q==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(82310400026)(36860700016)(18002099003)(22082099003)(13003099007)(10067099003)(11063799006)(56012099006)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	sWwlsvwh+x7dcPyPXoBO4NgWK258wvEjGWR8TzsPUVpBSuaEezmDnvme+X17FKO36XmCyhkRBzJ2wzm601rCti336lt7u3qBPltiF45lzWcEawOrRc8Y/ee5dmmuzHAdsIiRnNeBIicquuTgbbS6/zNGtlssKrVURgI8RI7GTfUeR8miXD38IwuQX6oklx2QPOVbk+vWGAYQlsI4shEzJjC9zXfn6YzSRGJmige034y1LXGmgVKXr9f11xrbF5R07oNxO3Z/hsaA+zFHv3lPia48a9js6P9LvEb4kOUMBh3EpvxLhWZ+Nrz4CU3ojerBLsrQ6m+cFhk+O75q1481lCmRHDKstubGcB3wld9PmM0DvxPbV0cl+72iWIfblPHq6Em4FlutpPkjqeX4oO2uXXbfPk0GUqE9x73QfirABnddTY4HtLmJHE/bNmulxFNv
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 11:33:58.2475
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fefa3543-c79d-411f-522b-08df14af9059
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF000026C7.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8258
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqu5jtMV2gyZFrSe@gremlin>
 
-From: Colin Huang <u8813345@gmail.com>
+On Thu, Sep 17, 2026 at 10:57:57AM +0100, Lorenzo Stoakes (ARM) wrote:
+> On Thu, Sep 17, 2026 at 12:33:41PM +0300, Mike Rapoport wrote:
+> > But the patch iteslf needs to be fixed :)
+> >
+> > It seems to be the change that broke the CI.
+> >
+> > The rest is from LLM, take it with a grain of salt :)
+>
+> Ack will assess + respin
 
-Add devicetree bindings for the Infineon TDA38740 and TDA38725
-single-voltage synchronous buck regulators with PMBus interface.
+Apologies to everybody's inbox but this will need a respin to resolve a conflict
+in a subsequent commit.
 
-Signed-off-by: Colin Huang <u8813345@gmail.com>
----
- .../bindings/hwmon/pmbus/infineon,tda38740.yaml    | 55 ++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
+This was to fix a sashiko report (not a bug anywhere in production, but could
+lead to bugs in future by accident), and got sashiko + [another AI]-reviewed
+before sending all of which missed it :)) the robot overloads are not quite in
+charge yet ;)
 
-diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/infineon,tda38740.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/infineon,tda38740.yaml
-new file mode 100644
-index 000000000000..6733e44c37f6
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/pmbus/infineon,tda38740.yaml
-@@ -0,0 +1,55 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/hwmon/pmbus/infineon,tda38740.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Infineon TDA38740 and TDA38725 PMBus Synchronous Buck Regulator
-+
-+maintainers:
-+  - Colin Huang <u8813345@gmail.com>
-+
-+description: |
-+  The Infineon TDA38740/TDA38725 is a 40A/25A single-voltage synchronous
-+  buck regulator with a PMBus interface designed for industrial use.
-+
-+  Datasheet:
-+  https://www.infineon.com/row/public/documents/24/49/infineon-tda38740-tda38725-datasheet-en.pdf
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: infineon,tda38740
-+      - items:
-+          - const: infineon,tda38725
-+          - const: infineon,tda38740
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        regulator@40 {
-+            compatible = "infineon,tda38725",
-+                         "infineon,tda38740";
-+            reg = <0x40>;
-+
-+            interrupt-parent = <&sgpiom0>;
-+            interrupts = <10 IRQ_TYPE_LEVEL_LOW>;
-+        };
-+    };
-+
+Fix is simple - update flags at the right time. The error was pre-empting
+setting everything rather than just map->vm_file.
 
--- 
-2.34.1
+Will look through other sashiko stuff then respin a bit later.
 
+--
+Cheers, Lorenzo
