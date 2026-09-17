@@ -1,265 +1,213 @@
-Received: from gentwo.org (gentwo.org [62.72.0.81])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010038.outbound.protection.outlook.com [52.101.85.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC6149D5BF;
-	Thu, 17 Sep 2026 19:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.72.0.81
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789672620; cv=none; b=EKM9KmXf6/iBf2lASepPPrnqvBnQ7h5F3xPi7aCqKiq9cfmYbRSP5Cg55gt2nk6oAwRV4qWOhjeeIzCM8YDfyBjOMa1fbhBNCljmOzXIyID/ieSpJY9LPhjs0aioKybJAMT39UfjsFHPwMBc9aQ2sAJv59LDBIagUQQbGKAawj0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789672620; c=relaxed/simple;
-	bh=+QvQJ+Tkg8ulkGryhPKG37cAssAhiwb20Zm7VBecE7E=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ZJ2D5iZG6spJZTNejyy+lcs9UTS/sadDbYSeHpHGbzlMLt1goL0wwIXYf2pare8y8fDngO8hFhTzO0tPF5URSVODz0nYGLeHlhdR8DFf+nvb8XkeE6v1J6SFNb3X1d9Qfmb/ds/t3VAVdddJEmXOjBWydZdtKndoQF7pygK7Xds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org; spf=pass smtp.mailfrom=gentwo.org; dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b=ksPzSYvM; arc=none smtp.client-ip=62.72.0.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentwo.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21FD4D17B2;
+	Thu, 17 Sep 2026 19:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.38
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789673154; cv=fail; b=riqyJXGWKdrVXfFVqH9AapvZDVc5nLxkkqBYMDcp9RhQdZN3YyHUkRI2QBbatWmgmJ/k9IHekHiS3dAbgQ3/hNxyvpDFxI6M7WZcaU7o/Eu9hvrzjx99vpwfvUF8CCUeMP/uBVxxtpgIKFOn9q+MLnvDm1IjPj0Q0s9XPD3JvsI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789673154; c=relaxed/simple;
+	bh=JByHGpW9gOmP00b2QE1jLXD07R3Inr44qCm2E8TGXEE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=TZCPM7h6417utKFFTCecTb3nXkI1sTc1MgKxYgI9DCfng7GeZwi0f5LmucCX9gXFGmKfOxCEPPvcagc8mFFOLaPJxd5EunyAEHol/R5NnFKX5w/BswZ1o4dP7C5a9nodoQP3KHn2Som8D1rfnsRZr/P29e68JwZC9/fc/7z4ZrU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=W1MizAK9; arc=fail smtp.client-ip=52.101.85.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b="ksPzSYvM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gentwo.org;
-	s=default; t=1789672005;
-	bh=+QvQJ+Tkg8ulkGryhPKG37cAssAhiwb20Zm7VBecE7E=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=ksPzSYvM9zDh7MKaIWcd7fHOj5WqLp5uioycxVg/Q3KCyCdvzrjmXYBG2BwBC/fZ4
-	 q2P4o+vY5uhic56uclApTMEzbVwwkWViSTzOzUGWQaEEgGQ+oMPbNXJXCj/Nd3beUs
-	 X6jiRVWfYLj8F69bspBjJvJnkDeqmyY9HxxKTFvI=
-Received: by gentwo.org (Postfix, from userid 1007)
-	id D74724027F; Thu, 17 Sep 2026 12:06:45 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-	by gentwo.org (Postfix) with ESMTP id D271B401E1;
-	Thu, 17 Sep 2026 12:06:45 -0700 (PDT)
-Date: Thu, 17 Sep 2026 12:06:45 -0700 (PDT)
-From: Shubhang <sh@gentwo.org>
-To: Madadi Vineeth Reddy <vineethr@linux.ibm.com>
-cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-    Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-    Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
-    Vincent Guittot <vincent.guittot@linaro.org>, 
-    Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-    Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
-    Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
-    K Prateek Nayak <kprateek.nayak@amd.com>, 
-    Shubhang Kaushik <shubhang@os.amperecomputing.com>, 
-    Christopher Lameter <clameter@amperecomputing.com>, 
-    Shrikanth Hegde <sshegde@linux.ibm.com>, linux-doc@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/2] sched: Document WF_SYNC wakeup placement
- semantics
-In-Reply-To: <d52d3775-ded0-4b7a-8315-6e940ba90f4a@linux.ibm.com>
-Message-ID: <40b2c45a-edbc-ec7b-1fb3-354200bffe96@gentwo.org>
-References: <20260825-sched-wf-sync-doc-v1-0-f899edb44ff5@gentwo.org> <20260825-sched-wf-sync-doc-v1-1-f899edb44ff5@gentwo.org> <d52d3775-ded0-4b7a-8315-6e940ba90f4a@linux.ibm.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="W1MizAK9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WcUECYMbc0cjHy09OUEQE1l6DIwrLo6RV8hg/H1DLXXbiTLl01UY6s+yGHm9uopjp1Pf53DfKazX6Y9R1IBToFPVhuWbzNnIVXCw58OJYSc2MgSHpEmL1h9yhw+jjU24AhfwEMhcN7R62K9iw9AlcGOr/2t6uPdeXsGD/I4BE8n6GyhinRT5E0K29CjgOaluDj+9o7fkCkAcj+fDiY98gHiEpzI+W6nWaoDdNAv9kFYJLrqSTAORD7+Ud99nwR6VPBt2educYKibCgxhAWbmZCeGpVJLSsVOuy5DQhQ2g193/IrHruadJOne6jf/akKPAvJM9nuUT3cHoaMGYekvCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vfhHutjgIyAR559tbfRSucZdzBjdT9n5KwXkS1T+CLM=;
+ b=DoQE0klxsp9fqksdE705qT0Dl3/SrZlwwwM6NU7fgVR8+zdvzzuSQeQVSlQ4whe/JP5XDNWhnWqRYDRKWTp7Riv2d352CSr9MByPWcjNVUoBGAzNEKDKuPadhRkaZLjAVewx42/DK9BSDWIoxgM8OHPN7aadBQLnbhwvfDz68MQgEzmbpVRq++Ak22RpJWDqOf/EHLLaqPUAYYCHf5cspbAE3aKxuZZqhpLgPHRZzXux31TG3jJBrwlZaXa2PSsIfOy/0DfqZzzTZTl2eveqXqKxT8VnMFDISDaqLsuyO9WVmqu7pXNuI7F8EpxscmFfwmWv39C5KpSrJV/B0byZug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vfhHutjgIyAR559tbfRSucZdzBjdT9n5KwXkS1T+CLM=;
+ b=W1MizAK9uFYx5UdlIKletmpPeY+ADyLJqSRlyhMijEfS9lAjuP8aIcOERiwY+7QKSfJNxWvXj4x2xvwwHVPx5MhpbbNDSsNtoKCb8KMTpwsa3RGtZlMesst5ede1m9kz/EaqzVrwxkV8M7FLz3GGvE24zwwDgOKMXe7bH51JFtY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by BL3PR12MB6521.namprd12.prod.outlook.com (2603:10b6:208:3bd::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Thu, 17 Sep
+ 2026 19:25:45 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0428.009; Thu, 17 Sep 2026
+ 19:25:44 +0000
+Message-ID: <45e322b2-a808-4b26-b33a-4ce7c84d5241@amd.com>
+Date: Thu, 17 Sep 2026 14:25:41 -0500
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v5 13/16] fs/resctrl: Deactivate the kernel mode
+ association when a group is removed
+To: Reinette Chatre <reinette.chatre@intel.com>, tony.luck@intel.com,
+ Dave.Martin@arm.com, james.morse@arm.com, bp@alien8.de, ben.horgan@arm.com
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ tglx@kernel.org, mingo@redhat.com, dave.hansen@linux.intel.com,
+ hpa@zytor.com, fenghuay@nvidia.com, akpm@linux-foundation.org,
+ rppt@kernel.org, dapeng1.mi@linux.intel.com, elver@google.com,
+ jlayton@kernel.org, enelsonmoore@gmail.com, kuba@kernel.org,
+ ebiggers@kernel.org, seanjc@google.com, peterz@infradead.org,
+ chao.gao@intel.com, jmattson@google.com, naveen@kernel.org,
+ ricardo.neri-calderon@linux.intel.com, tiala@microsoft.com,
+ chang.seok.bae@intel.com, prathyushi.nangia@amd.com, kim.phillips@amd.com,
+ elena.reshetova@intel.com, darwi@linutronix.de, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, x86@kernel.org
+References: <cover.1787772750.git.babu.moger@amd.com>
+ <432f0cbfb811aee3c8c51bbc42faf66174375d8b.1787772750.git.babu.moger@amd.com>
+ <9dd7905f-6180-428d-8c9d-10e9353b5091@intel.com>
+Content-Language: en-US
+From: Babu Moger <babu.moger@amd.com>
+In-Reply-To: <9dd7905f-6180-428d-8c9d-10e9353b5091@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH2PR10CA0015.namprd10.prod.outlook.com
+ (2603:10b6:610:4c::25) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|BL3PR12MB6521:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe680104-fc6d-4125-c4af-08df14f17827
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|1800799024|376014|23010399003|366016|18002099003|22082099003|3023799007|4143699003|10067099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	tfPIK+7V38YZiQWIaxIm9H1aMy2AjJ+8qSpqzCEXhLUTQ0bm55uGd2SyHOVXwj5vVDJvjywH0DHsmnx77J+CtM3BWNxo742XtqJDTCr2QazoC+fG4Js94dUORRqMvckHRUPy9F6bDzyeYi/VKkf9QxZBqykUzPqaY7V62dQGWKHE7k6HCIdM5vBy9yy4v9KjLkY8JXXtbmkNcfZX8/NoD/u0YCMuPdsF/X2Ndaq0G9dnZYBPy3bmdEKAV1Z0pzwGB/pUf+9SPafffANrRRb7Ttx13O4octzu2LoW9KBhPxVh+TXddoiPuu3K/C5jWVfkXUEbR8xV9khebGVpbsY6UwQ0/zRkweqK+5neb+EZ7niLGo4LW7lgbV/rl/7VXXcZpyXiu3vpCQy+RE8msFS7hKZOf0kAdmIA6ofsKofHZzD9qd+d0vNr3jE6WO6ULqpk0EgwlvEZuIx3MSFLpQuWEwb4iKUgv4riSnIivD5x2WDAtq4AYocPshs8jVIW2EAOVgqfm1toQaLX3mxBNOsqyO892VW34Kmkbf8BemoLn3FHl4YoJ4iHW48v7FGzXBdsmA3e+zttsz0hotxzBV0RFYUYIH3kNhQ/FmkqIZpeLef0PLiq/WjEPpEiE1OpBHQ5jh/N+Jz+aqdloBpjGhAH2wi/C/714iyRKnRYvhYvivo=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(23010399003)(366016)(18002099003)(22082099003)(3023799007)(4143699003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Ri9DL2VVU2hsVlJsQ2Rvdi9SWE93dktOdmVvWkxZNHQraUlTMXdlazlsdEVD?=
+ =?utf-8?B?M0hTOHBkMWU4TmwyT2VPWkZRS2RWbGlLQy9waVRNak85VFJGOVlzNUNYaWpv?=
+ =?utf-8?B?cC93Rkt3WXgvTVVvU1RoZDBCcXJscHYxbU5KdnhHSDM1REpwSURSK1lGYWVu?=
+ =?utf-8?B?U3Z5OHAvOUw5eERNeUVaL0RjQmhvMG9neWJFWDcvSzc1ZiswTlVVQnRFTHdG?=
+ =?utf-8?B?NnFMK0R1UjFIYmdiRVNJdU4za2NjMUdUeExwa1JxUVduaytSOGFFdy9UVk1I?=
+ =?utf-8?B?YXZaU2g3V2F5MTA1dFlKQVBOaFk2OCtFY1YyRHhGZXVJZFdkNTdHd2tkYVEv?=
+ =?utf-8?B?Rkw2NWd1Yms1R3hobnJuS09zU2t2a0w1MXA3UFNDUXZmS290dGYwdXF5TjV1?=
+ =?utf-8?B?NG1pdVZZQnh4NFBEMDlmbEFFSzdnWjNtalBFdlVxTGtYT3NYcHQ1Y0NIYkdt?=
+ =?utf-8?B?ZnBDcDVuQjdwZWpHOTVhR0NhUVhoMWR0MnFzbkZJZHZCTGVYdVJuTHMvVSt0?=
+ =?utf-8?B?c0w0WHJXUzFneVpHaU45d21DMVAxdVN1dnY3QXVXZ2toT3ZOemhSSEZOdjBu?=
+ =?utf-8?B?eFVVaWVzb0dyUjZ6SzR2Q3NINko2aFJqZVkvaFdkT0k1cnNIRkYvUVRBdHR5?=
+ =?utf-8?B?T01EN0gyczNDM2tFcTN0YlBhblpWNlRyWWgweHJnejdLV2FySENWZVp0c2Y3?=
+ =?utf-8?B?VVJ0M3JGVHFTK2t0Rk5IWlBnbHBLK1JnTmZTeFpyeDluVFQxelhCbjZMTnFB?=
+ =?utf-8?B?VGo2QWMzQzZNcXNJWTIweVMxTTZXaEhKa0tOeVl4cHNqTmZVN0N1SjFvVkh2?=
+ =?utf-8?B?b2k3eXR2UnZRclBmSGNocGhlRytPNmFja2d1S0lkcDhLZUdFVHF3N3R3V0pD?=
+ =?utf-8?B?MWdqNmYwM2lUNTFZeE5VZXlPTVlNVHUrYnRaQUhxWUtTOFpLMFpEcTlDMnIz?=
+ =?utf-8?B?dVAzc2FuUU1VYnhTOXFwSUF2T0pSdkl0NThDa09DT2txQTFSbUxRdjJpMDQv?=
+ =?utf-8?B?UXp4UTg2aE5HZWJuTFNsNFFpRzNTcUMxWGhGQ1JmRkYwbWs5cjErVTRGaDNY?=
+ =?utf-8?B?ODhzZ0w5blZrUFg2Q2NqUjZ4YnZTMDRQaURva21UNWtvb2Q0WXF1eFFvRW9T?=
+ =?utf-8?B?aUFwUzFpSnQ4TjNjUmNPLzFGUkJBdDBraXZ6WlY2aW5aUFg3Y2pkeElFNzZS?=
+ =?utf-8?B?SkxxM2hFUjJlSDd6K2RxRi9Tb0Z1ZG1laXlTQlVYa0xrODZIcjNCYWlyUUJG?=
+ =?utf-8?B?Q3VLWkxicmxjN0dzZjYxdVp1VHN6enFXSEIwajNvMkhmRUVGTkFUQ0dYSzFE?=
+ =?utf-8?B?bWw3dzROZkxqL3BTUG05NmhZbnV4ZngxSCtmTFNnUXdzaEFuVzExNDNLenRk?=
+ =?utf-8?B?Q0l4NUFmYUR0aDdlK25HL0I3YnBkU29kV2ZrMnU3Z0VFUHlTWE9GT3dHM1R2?=
+ =?utf-8?B?RmVEeDRDUzRkeVlLU2dYSU9DUE8wRnVqTVczQ25RUTd3ZkJLT01nZE5ZU1NM?=
+ =?utf-8?B?TGcvd0Y0SHJOanJqZWM1VjM1alJrdWlhV3diL3poNk1lU3p1WkVmS0JpRWF1?=
+ =?utf-8?B?bk1rK2hsSnJ1QzBjS0h2ZnNxUExNcnFOZzBua3FKcmpoOHVNY1k3L2xPUzRH?=
+ =?utf-8?B?QjhpQkt6ZVNiUUtFbFNlYjRkN2hhSER1UEFlRE9IbUx2bG10SGhneVVrRlhB?=
+ =?utf-8?B?by95ZG1SbWJYUkpqNXBOSVQwQmVBK0hhbGtOVGRaZVBHTGUreUsyaW5oWVl0?=
+ =?utf-8?B?SFBxcGwyaE1yOG0yZGtnN0hXZk5kMkNzUnpLRDVjMnpiWEdCekl3bmJqUUZr?=
+ =?utf-8?B?Q3N4aFlKZXJnc3hhSXkwTTBiZWovcWxGSlVKbXB2MEdyQ1hVaVNJeUdJTVBH?=
+ =?utf-8?B?V0l4bkZ3TGZGN2tuY25GREpJYzdJamFVQjNobmU0V0RESExRQ2xnckV2ZnBk?=
+ =?utf-8?B?Z0VlTFhGRDUvTGNjcUFORldsUGFHWUpDbGVwMVVEVGdsR3RodkhRQ3Nndlg1?=
+ =?utf-8?B?WjkwNTJ3UTY2MVRkN3hvRVAxTW0xYVpjejhpcnRxZitjWkRVSGQ4VkZPOEwv?=
+ =?utf-8?B?Yy9mK3c1UjVob1pLMXQxSlVOTlVQeTd1Z0plZFJoZnNoR0Q5VGZyMDlhWUdq?=
+ =?utf-8?B?enJUNHNrR1dlMTRxZkFBeU4zQTlxd3dXRXBrVlNyK05HdjQxVDVZWEdnRVhw?=
+ =?utf-8?B?UHVmb2JUK1hRemdFdXcyYTBubWUxckREK2dEb2ZzNHVWNmxYNEt1dmJHdUpL?=
+ =?utf-8?B?dlUxR3FsSThpYlhPTFVZVUFnYlMrZ1VGUnptdWJyUGhzbWd0NStDbWFiZmhL?=
+ =?utf-8?Q?6EymXziPlRuZgsKYHY?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe680104-fc6d-4125-c4af-08df14f17827
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 19:25:44.6641
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dW6f9JsiTxQHvLt0KptpibeGPec9xfbG9HYOFdyqCN19GQG6NWryTM4OfO1YTc8O
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6521
 
-Hi Vineeth,
+Hi Reinette,
 
-Thank you for the review.
+On 9/16/26 00:36, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 8/26/26 12:32 PM, Babu Moger wrote:
+>> +/**
+>> + * rdtgroup_kmode_detach() - Detach @rdtgrp from a kernel mode association
+>> + * @rdtgrp: Resctrl group being removed or torn down.
+>> + *
+>> + * If @rdtgrp backs the active kernel mode association, disable the
+>> + * hardware association programmed for the group's kmode_cpu_mask,
+>> + * clear the associated kernel mode state, and restore
+>> + * RESCTRL_INHERIT_USER as the active mode.
+> 
+> I am not going to keep pointing these out but please check entire series
+> and remove all these verbatim code descriptions from function comments.
 
-My intent was to document the observable WF_SYNC semantics because the
-waitqueue API currently states a stronger no-migration guarantee than
-the scheduler provides. In particular, I wanted to make clear that
-WF_SYNC is an advisory hint i.e. it can affect fair class placement and
-preemption, but it doesn't require the wakee to stay on the waker CPU,
-avoid migration, or preempt immediately.
+Ack.
 
-I included the call flow to support those conclusions and to distinguish
-them from a stronger placement policy. But I agree that reproducing helper
-names, predicates and the current ordering makes the document too
-implementation specific and likely to become stale.
+> 
+>> + */
+>> +static void rdtgroup_kmode_detach(struct rdtgroup *rdtgrp)
+> 
+> Similar to previous comments this only seems relevant to the
+> global per-CPU kernel mode so function can be made specific to it.
 
-So I will rework it to retain the detailed placement and preemption
-behavior, expressed as scheduler level policy and observable outcomes
-rather than the implementation flow.
+ok.
+
+> 
+>> +{
+>> +	if (!rdtgrp || !rdtgrp->kmode)
+>> +		return;
+>> +
+>> +	if (resctrl_kcfg.active.k_rdtgrp != rdtgrp) {
+> 
+> Related to comment in previous patch this double check of rdtgrp->kmode
+> and resctrl_kcfg.active.k_rdtgrp seems to support that only one is needed?
+
+Yes. We can remove rdtgrp->kmode field.
+
+> 
+>> +		pr_warn("resctrl: kernel mode group not valid\n");
+> 
+> Please just fix this file's pr_fmt(fmt) instead.
+
+
+Hmm... It looks like we have a pr_fmt(fmt) inconsistency across multiple 
+files.
+
+Some files use:
+
+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+
+
+while others use:
+
+#define pr_fmt(fmt) "resctrl: " fmt
+
+
+My understanding is that these will produce different log prefixes. For 
+example, KBUILD_MODNAME will typically use the object file name, whereas 
+"resctrl" provides a consistent subsystem-wide prefix.
+
+Do you think we should standardize all files to use the same prefix? If 
+so, I believe that would be better handled as a separate cleanup patch 
+rather than being mixed into this change.
 
 Thanks,
-Shubhang Kaushik
+Babu
 
-On Thu, 3 Sep 2026, Madadi Vineeth Reddy wrote:
-
-> On 26/08/26 04:16, Shubhang Kaushik (Ampere) wrote:
->> WF_SYNC is supplied by callers that expect the waker to schedule away
->> soon. The fair-class wakeup path uses it as a heuristic, but its
->> placement and preemption behavior is not documented.
->>
->> Document the current behavior from try_to_wake_up() through
->> select_task_rq_fair(), select_idle_sibling(), and preempt_sync(). In
->> particular, document that WF_SYNC does not bypass wake_wide(), does not
->> make wake_affine()'s target final, and does not require immediate wakee
->> preemption.
->>
->> This documents existing behavior only. It does not establish a new
->> WF_SYNC placement policy.
->>
->> Signed-off-by: Shubhang Kaushik (Ampere) <sh@gentwo.org>
->> ---
->>  Documentation/scheduler/index.rst               |   1 +
->>  Documentation/scheduler/sched-wake-affinity.rst | 133 ++++++++++++++++++++++++
->>  2 files changed, 134 insertions(+)
->>
->> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
->> index 17ce8d76befc1bb1dc289e9243bdca98c9ccb172..ac95c79617fd2c03564ea4a9dad362091b9d1b86 100644
->> --- a/Documentation/scheduler/index.rst
->> +++ b/Documentation/scheduler/index.rst
->> @@ -14,6 +14,7 @@ Scheduler
->>      sched-design-CFS
->>      sched-eevdf
->>      sched-domains
->> +    sched-wake-affinity
->>      sched-capacity
->>      sched-energy
->>      schedutil
->> diff --git a/Documentation/scheduler/sched-wake-affinity.rst b/Documentation/scheduler/sched-wake-affinity.rst
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..6b0dc83da537ad576130ef165a2bb1cf5abd814a
->> --- /dev/null
->> +++ b/Documentation/scheduler/sched-wake-affinity.rst
->> @@ -0,0 +1,133 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +==============================
->> +WF_SYNC Wakeup Placement Hints
->> +==============================
->> +
->> +WF_SYNC is a wakeup flag supplied by callers that expect the waking task
->> +to schedule away soon after waking another task. It is a scheduler hint,
->> +not a CPU-placement request.
->> +
->> +The synchronous waitqueue helpers pass WF_SYNC to try_to_wake_up(). The
->> +wakeup path adds WF_TTWU before invoking the scheduler. WF_SYNC itself
->> +does not block, yield, or otherwise change the state of the waker.
->> +
->> +This document describes the current behavior for the fair scheduler.
->> +Other scheduler classes may ignore WF_SYNC or apply their own policy.
->> +
->> +Wakeup paths
->> +============
->> +
->> +A successful wakeup does not always select a CPU. If the wakee is already
->> +queued, try_to_wake_up() can complete the wakeup through ttwu_runnable().
->> +That path retains the wakee's current runqueue, although it can still
->> +invoke wakeup_preempt().
->> +
->> +For a wakee that is not queued, try_to_wake_up() calls
->> +select_task_rq(). If the wakee has one allowed CPU or migration is
->> +disabled, select_task_rq() bypasses the scheduler-class CPU-selection
->> +method and selects an allowed CPU directly.
->> +
->> +Fair-class CPU selection
->> +========================
->> +
->> +For a fair-class wakee, select_task_rq_fair() derives its local sync
->> +state as::
->> +
->> +        sync = (wake_flags & WF_SYNC) &&
->> +               !(current->flags & PF_EXITING);
->> +
->> +Thus, WF_SYNC does not influence wake-affine selection when the current
->> +task is exiting.
->> +
->> +For WF_TTWU wakeups, select_task_rq_fair() first calls record_wakee().
->> +It can then return before wake-affine selection in either of these cases:
->> +
->> +* WF_CURRENT_CPU is set and the waking CPU is allowed; or
->> +* find_energy_efficient_cpu() selects a CPU while the root domain is not
->> +  overutilized.
->> +
->> +Otherwise, the fair scheduler computes::
->> +
->> +        want_affine = !wake_wide(p) &&
->> +                      cpumask_test_cpu(cpu, p->cpus_ptr);
->> +
->> +wake_wide() uses the wakee-flip state maintained by record_wakee() to
->> +identify broad wakeup relationships. WF_SYNC does not override this
->> +classification.
->> +
->> +Wake affinity is considered only when want_affine is true, the domain has
->> +SD_WAKE_AFFINE set, and the wakee's previous CPU belongs to that domain.
->> +wake_affine() considers only two CPUs: the waking CPU and the wakee's
->> +previous CPU.
->> +
->> +With WF_SYNC, wake_affine_idle() can prefer the waking CPU when::
->> +
->> +        rq->nr_running - cfs_h_nr_delayed(rq) == 1
->> +
->> +wake_affine_weight() also adjusts the effective load comparison by
->> +removing the current task's load from the waking CPU and biasing the
->> +previous-CPU effective load.
->> +
->> +The result of wake_affine() is only a candidate. For WF_TTWU wakeups,
->> +select_task_rq_fair() passes that candidate to select_idle_sibling().
->
-> This document reproduces the implementation literally like want_affine,
-> nr_running, helper names. This could quickly go stale with code changes
-> and nothing will tell us then. I think the contract doesn't need the
-> call flow.
->
-> Thanks,
-> Vineeth
->
->> +
->> +Idle CPU selection
->> +==================
->> +
->> +select_idle_sibling() first tests whether the candidate CPU is idle and
->> +can run the wakee. If not, it can select:
->> +
->> +* the previous CPU when it is cache-affine and idle;
->> +* a recently used CPU when it is cache-affine and idle;
->> +* an idle SMT sibling; or
->> +* another idle CPU in the relevant search domain.
->> +
->> +On asymmetric-capacity systems, the search uses sd_asym_cpucapacity when
->> +available. Otherwise, it uses sd_llc for the candidate CPU.
->> +
->> +Consequently, WF_SYNC does not guarantee that the wakee runs on the
->> +waker CPU, remains on its previous CPU, avoids migration, or shares a
->> +core with the waker.
->> +
->> +Fair-class wakeup preemption
->> +============================
->> +
->> +WF_SYNC can also affect wakeup_preempt_fair(). The normal fair-class
->> +preemption checks run first. In particular, a non-idle wakee can preempt
->> +an idle entity, and PREEMPT_SHORT can select the wakee before the
->> +WF_SYNC-specific path is reached.
->> +
->> +If the wakee becomes the next buddy after those checks, preempt_sync()
->> +uses WF_SYNC to decide whether to request rescheduling. The wakee must
->> +be earlier than the current entity, and the current entity must have run
->> +for at least the applicable threshold. The threshold is
->> +sysctl_sched_migration_cost, divided by four when WF_RQ_SELECTED is set.
->> +
->> +If those conditions are not met, preempt_sync() returns
->> +PREEMPT_WAKEUP_NONE. Consequently, WF_SYNC neither guarantees nor
->> +prevents immediate wakee preemption. On UP, it can avoid an unnecessary
->> +preemption when the waker is expected to schedule away.
->> +
->> +Semantics and policy
->> +====================
->> +
->> +WF_SYNC is a non-binding hint. It does not guarantee that the wakee:
->> +
->> +* runs on the waker CPU;
->> +* remains on its previous CPU;
->> +* avoids migration;
->> +* shares a core with the waker; or
->> +* immediately preempts the current task.
->> +
->> +The scheduler does not verify that the waker subsequently blocks.
->> +Callers may therefore use WF_SYNC where the waker continues to execute,
->> +or where several wakeups are issued before it schedules away.
->> +
->> +The current policy leaves the locality, parallelism, topology, load, and
->> +capacity tradeoffs to the scheduler. It does not require the wakee to
->> +remain on the waker CPU when that CPU has no other runnable task.
->> +
->> +Any future policy that strengthens WF_SYNC placement semantics must
->> +consider the different call sites, workload patterns, and hardware
->> +topologies that use the flag.
->>
->
