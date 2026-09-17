@@ -1,169 +1,117 @@
-Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224DF4D487F
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 19:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1E14E36EC;
+	Thu, 17 Sep 2026 19:42:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789673401; cv=none; b=oHulspmQcz8Uidz+M/hrYJQgn1gHNjAp1LpaZ9URBHZTV+m+6i8QyvK7zJRhnJ9x008rrHckOZm3I5VMWCgqCngt0UhMm4diknvzEvzpNmwdqLmHMrNbYN8qMc3ut4N8MGu7VptkNXa91pYTHjOU9bNZOPoKOpyX7ri3gJ5Gla8=
+	t=1789674174; cv=none; b=Z7XxIhtkGjIkF3AhYJTPjtbEV5osZVVMWilee2bfNw/SU59OfogF0glBrYtBCl4CvbzplQYwODrwg+XFLYihXKONMhdN1cXiwXYiQOsyXavD4CwnBH5txBtHor5cwk+mlgtHws0uYkaqBFx7ZMALpjtPw8qVdOq+0ilOTE8PV5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789673401; c=relaxed/simple;
-	bh=pGb3Vp3ZlWEKZyzEIIGwbv44vQfUSndTLfijg7KE4eQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IdEnebnZPJrXDKXBk0SmU9t8JDZbyXS/oGWdCrKn7QmrCUexK1/3LQftOfHLpGY54QVGmr7CssXLTQz84wC6tKBPIA3Y+S8mcud/AMI32Op3VHM1h1xW8gOnRkfUSKinmFmugBHnNMXdluvROX+O+Eylr7BP//6DZ8BLawQOZDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Une9NNSK; arc=none smtp.client-ip=74.125.231.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789674174; c=relaxed/simple;
+	bh=k2rS+F0P3MHx+9e0fz/nBmTWD9HXaB4FKGnbXf/FFgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T2/XsVxKp4I7MB77+M/3aazFfmYprxuSC44nrPZur1UJj/HceE2qCTbg2+vU1CHdgfMnq8v6GKQShYSEIrDNUxPCvWSe5q0yWNKs9SRsJurSNvEtK+ExxmRkZXi/xjKgv2d7xq9QEygnbcv8NYqx6M30nqXvnPcCs5Jj+k9R3/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QEAswLsJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Une9NNSK"
-Received: by mail-oi2-f12.google.com with SMTP id 46e09a7af769-805c194bc92so1361551a34.1
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 12:29:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789673399; x=1790278199; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SOpmSpu+1kSYFLkQThK4c6ymQH45Iak6v9IcQ+Qt0zg=;
-        b=Une9NNSK+ZcdqGGjnf9j//FSY5QqvHJNeYQx+knGBpY5wdVxrRbIOkjTXPO04/gQ76
-         tW7Q0ckubYcnZmtx1UPDWDD975VjF8Cxx51HpYcI+NIK7dxwSEsL3ecdzy+9oBzZRXkE
-         H6R5yonyjr6GL88iRcvVb+/gxM8tNoMVpD8lclIMXhDiZCNfvfifHsBouD6wbPZOAGnN
-         ma0sJNwTD/EEkgVnnCvNnw162g9WlzOr+pZGlg2C0elhEOlb9Kz5hMmK4+LqB3vbJcOt
-         3TSlQUMQMM/zIEc1PJYM2Y/LW6J/u9/NypKQbL9GV2D5VdoD8RfXPFVkJSxIn5D5Qkv5
-         AuAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789673399; x=1790278199;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SOpmSpu+1kSYFLkQThK4c6ymQH45Iak6v9IcQ+Qt0zg=;
-        b=GD6O4+8ZX+9rzzF4FuW8v6+Q7QUIHj4o0BtFYShMW4Vg6QZIG2Pnp145zjbMU/YjaV
-         0qPrfQBgQI0DqHKPI6vVnsT9zUffDj2Vp7/Z58QBoy+rbAyHddf3vQBdgR+Bdyf177pe
-         ml9OD05ZkHbh3slDTjLRjodQXKL7oSMKacHXlvqgW3lUvg87e4jTCpAp6AVJxXgqoNNW
-         c4yxKDH14/dDAfjCInYwEFD13e/EqFhNskYxagjp7DujvkL820qsv0Q6R4yb1E/7+4KW
-         1lnR66tTZ07G0shPZobUV0maE76n8f7SmgHMCvRoN8GNmY0SL1hlqwEeLze5goj5YM4t
-         HyqQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwJ1NLFQnuZuZRBrY9nbRBISutHaikdXehKR4AxH5pk0uBUY260JJeF2BvS0JGmt4dQPkFmFXj92RY=@vger.kernel.org
-X-Gm-Message-State: AFuF++mootVj9Ahby4SAg0mGc3JBlbsrSc2bO+Rw3wMuPPiCz3Ph7l+V
-	0Tw5FaV/DB3bmoqWYjsuNXKWG/Dw+WdqtG496YFRxqjf+Rt1+FMKflUp
-X-Gm-Gg: AYBFou3B7rk66+l/RqlKCIGBiFxFRbCMRhTs46fxNPctt08ZHGBlXie6Um0NIwc5Vct
-	alGeD35lP8zZhEPtyOqMEYbuGe7FOvg6vh3lt+/OsIjl6hw54XC/GeZw5CCLTd6nmQvIGl45Isf
-	tFsbifNsQFlrmWvBBlDJnIMr5wy5oyo/1QvW3EBTbwiO+kEKIElGXySJf9+sDChQSjfP8HGtukp
-	aMceBXoQX6WiuTfR6ahRFdUBh9TRnu10OFSAZRdqmmFwzLmBqR/TWp4IH1vFWi2nu7bxn68nmt0
-	oA2cLuTwM+N7afe6HMn+3rs3KgsLnz0RdbQrpDqUnvxeQQtE55R2XMgC8yYoanCPcbrRoL+uoYY
-	LxqXuw6PF1tbj1nDOOkv76F+Q9VRrRkyiieM5tIhGfMTvrpt0GIr3BkY0KN7N871lSaMGu4CsOK
-	9y+jZmDjistoi5ZRH6sPT6RjPhe/tuL5qh8rfwqHjQkzcq2XGPevtrlw8/qmCC4uBZr0OZ4ewSe
-	/emet0gTnBsvYM42xBE/IaueDGQWbUG/8TETWfH
-X-Received: by 2002:a05:6830:43ac:b0:80c:d30f:974 with SMTP id 46e09a7af769-80de21d1f84mr119151a34.21.1789673398952;
-        Thu, 17 Sep 2026 12:29:58 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:5c::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-80c474d1f0asm3732953a34.24.2026.09.17.12.29.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 12:29:58 -0700 (PDT)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: ackerleytng@google.com,
-	Alex Shi <alexs@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Hongxiang Lou <louhongxiang@huawei.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Peter Xu <peterx@redhat.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Usama Arif <usama.arif@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Wupeng Ma <mawupeng1@huawei.com>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	fvdl@google.com,
-	jthoughton@google.com,
-	rientjes@google.com,
-	vannapurve@google.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] Fix HugeTLB subpool used_hpages tracking
-Date: Thu, 17 Sep 2026 12:29:56 -0700
-Message-ID: <20260917192957.3466978-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260916201307.5618114cbac4af52d98aecfa@linux-foundation.org>
-References: 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QEAswLsJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E94031F000FF;
+	Thu, 17 Sep 2026 19:42:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789674172;
+	bh=PkRN80BoSYgUIdgeE3XHmHynLUQObuBpZsM5VGJ/hZ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QEAswLsJV5CT5idl2b0sxECKt4RBnyFOYUhJeV8VSDp7LPI5q2uG0MitNu8vlrrGj
+	 GgP3f04l+0g2WO7Dw5awGdDXIeJH1+hlD5eteCdUqsYsZsKEHJot2zsQGiqsRqy8QV
+	 SXyJCnsalvj1JC+2CD4Ia7CbcDMentUQTCRQPyjilTKQXjJF/n1wcyHIpueWwqegca
+	 iexi0eQKo1IVM6WiNYXwgSA66Y8LNUF1DQzWeuBGNKtPcG+iwHiFB2sW9lhh+LTGNT
+	 i3DhH67X4z6x+NB5d58jYolAijG3u4bGwKbJBQaaayCSIrgwL4431CwUsDA/CZgmNo
+	 sabJIf79IKUwQ==
+Date: Thu, 17 Sep 2026 20:42:36 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3 00/20] kbuild: significantly speed up kernel builds
+Message-ID: <aqxCNyxYRzN2Oher@gremlin>
+References: <20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org>
+ <CAHk-=wjwtJQPW+MRAkQCcSGA1EZWehxBTUiEUUhdACCNHSKvTQ@mail.gmail.com>
+ <aqwkk7FcQ0XWeqJW@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqwkk7FcQ0XWeqJW@gremlin>
 
-On Wed, 16 Sep 2026 20:13:07 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+On Thu, Sep 17, 2026 at 06:36:18PM +0100, Lorenzo Stoakes (ARM) wrote:
+> On Thu, Sep 17, 2026 at 10:15:26AM -0700, Linus Torvalds wrote:
+> > On Thu, 17 Sept 2026 at 09:06, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> > >
+> > >                 == defconfig FULL build ==
+> > >
+> > >                         before    after     delta
+> > >                       ----------------------------------
+> > > Threadripper, gcc        32.5s    26.3s     -6.1s (-19%)
+> > > Threadripper, clang      34.5s    27.2s     -7.3s (-21%)
+> > > EPYC, gcc                28.7s    20.6s     -8.1s (-28%)
+> > > EPYC, clang              39.8s    32.2s     -7.6s (-19%)
+> > > M2, gcc                 519.3s   512.4s     -6.9s (-1%)
+> > > M2, clang               634.5s   569.4s    -65.1s (-10%)
+> >
+> > There's something odd going on with that M2 gcc build. Why is it such
+> > an odd duck?
+>
+> Ugh dear lord I think the LLM somehow corrupted the numbers... Let me
+> re-run those myself locally and come back with the actual times!
 
-> On Wed, 16 Sep 2026 16:39:00 -0700 Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org> wrote:
-> 
-> > HugeTLB subpools currently only track used pages (used_hpages) when a
-> > maximum size limit (max_hpages) is configured on the mount.
-> > 
-> > ...
-> > 
-> > This series addresses three problem areas resulting from untracked usage
-> > and asymmetric error handling:
-> 
-> These are rather serious-sounding problems.
-> 
-> I'm seeing Fixes: for 10-year-old patches, for one last year and one
-> this year.  The fourth patch doesn't identify what to fix.
-> 
-> So if downstream people (-stable maintainers, others) follow our
-> recommendations, some kernels will get two of these patches, other
-> kernel versions will get three and some lucky kernels might get all
-> four.  Are you confident that the patches can be split apart in this
-> fashion and still produce a good result?  After all, we're sending
-> downstream some patch combinations which we didn't test.
-> 
-> Also, can you speculate about why these things took so long to
-> discover?
+OK numbers are in:
 
-Hi Andrew,
+M2, gcc			564.7s   512.1s    -52.6s (-9%)
+M2, clang		615.1s   564.1s    -51.0s (-8%)
 
-I'll be brave and admit that I knew there were hugetlb accounting issues
-for a while because I was seeing them at some ~rare~ frequency, but
-I couldn't figure out exactly what was happening and didn't report it. 
-In my defense this was before LLMs were doing a good job of finding
-bugs in code ; -)
+From the v1:
 
-So I'm very grateful that Ackerley took the time to find what was
-happening and sent the fixes. 
+M2, gcc                 564.0s   512.4s    -51.6s (-9%)
+M2, clang               616.1s   569.4s    -46.7s (-8%)
 
-> Ho hum, complicated.  Let's at least slap a Fixes: on [4/4].  My
-> trillion-dollar sidekick suggests a9e443086489 ("hugetlb: disable
-> region_add file_region coalescing").
+(Tested as per the cover letter pre-reqs, i.e. applying dependent series
+first etc.)
 
-I just reviewed the 4th part, I'm not sure if there are any
-userspace-visible changes for this. Maybe just an additional retry for
-allocating from the global subpool? 
+Not sure on the -5s delta on the clang build :) that might have been me
+being more disciplined this time to not use the laptop at the same time.
 
-> Our other little friend is talking to us:
-> 	https://sashiko.dev/#/patchset/20260916-hugetlb-subpool-always-track-used-v3-0-38aae9b5ccdd@google.com
-> 
-> I'd like to queue this up promptly because it fixes things.  But let's
-> seek additional review input and argue with Sashiko before taking that
-> step.
+But broadly in line with the original numbers.
 
-Agreed, I left my reviewed tag on 2 & 3 but it seems like Sashiko is
-raising some concerns. Ackerley, any thoughts on those?
+>
+> >
+> >              Linus
+>
+> --
+> Cheers, Lorenzo
 
-Thank you as always, Andrew!
-Joshua
+--
+Cheers, Lorenzo
