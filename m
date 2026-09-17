@@ -1,67 +1,68 @@
-Received: from mail-oo2-f40.google.com (mail-oo2-f40.google.com [74.125.231.168])
+Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBFC43F8D6
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 19:26:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224DF4D487F
+	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 19:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789673211; cv=none; b=VM4GmNe/5g4cgvyiHY+P6o9qoG4IQCHWuZCN8FCgRL6EnTjM9bYwpDdnTjUOqJ1n/Q8Iholo2fYB6bVRXpZgE2BSjvXDZ2xTs6b5YjHnM873CmvGPh+vzs1f5t6qNN2ag30aL8WV0ZCB0XqtbcQKmxMyK9IsNQhVEIi6p5o0q3o=
+	t=1789673401; cv=none; b=oHulspmQcz8Uidz+M/hrYJQgn1gHNjAp1LpaZ9URBHZTV+m+6i8QyvK7zJRhnJ9x008rrHckOZm3I5VMWCgqCngt0UhMm4diknvzEvzpNmwdqLmHMrNbYN8qMc3ut4N8MGu7VptkNXa91pYTHjOU9bNZOPoKOpyX7ri3gJ5Gla8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789673211; c=relaxed/simple;
-	bh=yNZjRUW+ehnB6kYW1BDeCn8vZ1K549OOsZwMzAzKLXk=;
+	s=arc-20240116; t=1789673401; c=relaxed/simple;
+	bh=pGb3Vp3ZlWEKZyzEIIGwbv44vQfUSndTLfijg7KE4eQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ah2iFz9CACQQB54G73L+f6KkyACNY83kgaE9wnl2y3nbppgjuQLAsEATxAMwpMK1cFSNxymNU8oMWDjuofhQH0X/twKQJF4su/CzBpvf1o71Zj/ffb7pYy0DA99urPyj7wYGv4N/bWMEVhBHElxdORgEC04IigS8PHVAndzutVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hSZ2567A; arc=none smtp.client-ip=74.125.231.168
+	 MIME-Version; b=IdEnebnZPJrXDKXBk0SmU9t8JDZbyXS/oGWdCrKn7QmrCUexK1/3LQftOfHLpGY54QVGmr7CssXLTQz84wC6tKBPIA3Y+S8mcud/AMI32Op3VHM1h1xW8gOnRkfUSKinmFmugBHnNMXdluvROX+O+Eylr7BP//6DZ8BLawQOZDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Une9NNSK; arc=none smtp.client-ip=74.125.231.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hSZ2567A"
-Received: by mail-oo2-f40.google.com with SMTP id 006d021491bc7-6bc475ffcf6so577154eaf.1
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 12:26:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Une9NNSK"
+Received: by mail-oi2-f12.google.com with SMTP id 46e09a7af769-805c194bc92so1361551a34.1
+        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 12:29:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789673208; x=1790278008; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789673399; x=1790278199; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=se2Vsxe0TSsDe42Voe/AhBhDb+5OgYc7j9RLVDJ97eE=;
-        b=hSZ2567AlgtlpEKe+Hgozv0dXX/fZjp3sZLSZQ4e2jD2sHq/bb8O8eoxJOY6aYVQcS
-         kBtl6H5yOCPRNyEPvlWYEdSLA6L7LsepJPkeWr2UvLh4DooXl0QdtyZlcnc8T3TeRzlu
-         w9TEi6DKvoAvwsZnKY0/dh6jldZM+T35mf8zcsHiw94iXDgDPejyMUUU40eL0BKtl6o/
-         PRpPeWeYOenCNPFtJ7To+FstkALrtOjhfZ42LhE2BUEVoDcjx/Bzq1vbHGdHA9fla2Ug
-         IjHlhcEXh7CShmkztE/Rk0I/V2J0TV1t4fkl7/vycvvtZty+u+FB+V575v6oT65xRNEn
-         94uQ==
+        bh=SOpmSpu+1kSYFLkQThK4c6ymQH45Iak6v9IcQ+Qt0zg=;
+        b=Une9NNSK+ZcdqGGjnf9j//FSY5QqvHJNeYQx+knGBpY5wdVxrRbIOkjTXPO04/gQ76
+         tW7Q0ckubYcnZmtx1UPDWDD975VjF8Cxx51HpYcI+NIK7dxwSEsL3ecdzy+9oBzZRXkE
+         H6R5yonyjr6GL88iRcvVb+/gxM8tNoMVpD8lclIMXhDiZCNfvfifHsBouD6wbPZOAGnN
+         ma0sJNwTD/EEkgVnnCvNnw162g9WlzOr+pZGlg2C0elhEOlb9Kz5hMmK4+LqB3vbJcOt
+         3TSlQUMQMM/zIEc1PJYM2Y/LW6J/u9/NypKQbL9GV2D5VdoD8RfXPFVkJSxIn5D5Qkv5
+         AuAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789673208; x=1790278008;
+        d=1e100.net; s=20260707; t=1789673399; x=1790278199;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=se2Vsxe0TSsDe42Voe/AhBhDb+5OgYc7j9RLVDJ97eE=;
-        b=I0h5PvpYIS4WLJFFFezIZBzAZaxGSaMbR4AUiP1vCQKziCZRtxqLzP2jhPRubedzlS
-         mJwjAY32iZ5NLy6TBV4iVjFlon/1tK9qY6sunGL09XP6l5n05a+0y76+wn6zqMl2rqXu
-         1O7psBaIXZADoa1stjau91xYWgg8gRxsAGMZlAaNob3QIGVOknLvzZW/F1l4iMcW02Xu
-         d7X7YO024Y7foarauJO9QawKnDQO5RFT2bKwf6ABwicaCeIhsSoovvzRfOy5NLV3qZnl
-         GWqcjCYH+vSuJHHWivSBTAbdjlXfsox+6IT/5NdErkcO/EphyKP0L+yQOz/biNAEygJq
-         gDjg==
-X-Forwarded-Encrypted: i=1; AKwUvBz4gbq/D1UjbUJZZzS17v8FNFhBefXIbY4uYF6UdUGJoyYVKPTgkDgWAx79xpHjX1Lsk2VjVsVsOD8=@vger.kernel.org
-X-Gm-Message-State: AFuF++m3POHeKjchx9myntU7GTCOHadjFozaOuzfX93S32P3r/n6deYU
-	fHAPGnqYgiv0wpCIYEfgeoGdOs3izqwzCTI4v7Awe2c4kpHmijBXc8Nf
-X-Gm-Gg: AYBFou1eHY2i2uJwGsZlb6oCTJE20JIhPBI96ondrDrFQLe3fn/CS6+CseF5Tgi+5vd
-	RXITQknWWkl2+nKY3QSwhzq5XcAyat4GcOD4UPqYKXdexJtF2UfpQ5Tzq5zNdcktQ0OKns3G5SK
-	vj3geZeQggbakRn00JcGaO0y6xqmRG6swTem3nHg2HP/tih3pfrlq0Hu8txyyn8vrJeE0x+Dwb1
-	eiCddx9OW2oSC1TufNVzEdGAdxbN14Mm0vokYfAKbc5kgq1z6ClWN8wd9FH8jGVbNEIWcSb4zqw
-	bwVkQ2LYJ+WvFcX3v5S5BIfUdREMe0lfTcZnr03JJgIjtV8if3VfNFOYUD8fZ9mx7VOFktAfnHi
-	wSL86bwOvJh+PnNcRleayyh5Z56IQW9sbaDm3LFL4lbTpD2RokBZ75Vr7pS5qiizBarjOaWOYjj
-	2tBs1uxpKKJl3KfVXeg75DMQUNvPM0giVodLMWOXjTzNsHYhZ7OZRPzijVZrqRmi5SBEuzgGybf
-	zcnjWQ3ErAlssQFBJc9nMb2lQGuuQ==
-X-Received: by 2002:a05:6820:7091:20b0:6c9:80d9:5f6 with SMTP id 006d021491bc7-6c980d909bcmr2173414eaf.55.1789673207394;
-        Thu, 17 Sep 2026 12:26:47 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:42::])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6c8f727fe99sm3306425eaf.12.2026.09.17.12.26.46
+        bh=SOpmSpu+1kSYFLkQThK4c6ymQH45Iak6v9IcQ+Qt0zg=;
+        b=GD6O4+8ZX+9rzzF4FuW8v6+Q7QUIHj4o0BtFYShMW4Vg6QZIG2Pnp145zjbMU/YjaV
+         0qPrfQBgQI0DqHKPI6vVnsT9zUffDj2Vp7/Z58QBoy+rbAyHddf3vQBdgR+Bdyf177pe
+         ml9OD05ZkHbh3slDTjLRjodQXKL7oSMKacHXlvqgW3lUvg87e4jTCpAp6AVJxXgqoNNW
+         c4yxKDH14/dDAfjCInYwEFD13e/EqFhNskYxagjp7DujvkL820qsv0Q6R4yb1E/7+4KW
+         1lnR66tTZ07G0shPZobUV0maE76n8f7SmgHMCvRoN8GNmY0SL1hlqwEeLze5goj5YM4t
+         HyqQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwJ1NLFQnuZuZRBrY9nbRBISutHaikdXehKR4AxH5pk0uBUY260JJeF2BvS0JGmt4dQPkFmFXj92RY=@vger.kernel.org
+X-Gm-Message-State: AFuF++mootVj9Ahby4SAg0mGc3JBlbsrSc2bO+Rw3wMuPPiCz3Ph7l+V
+	0Tw5FaV/DB3bmoqWYjsuNXKWG/Dw+WdqtG496YFRxqjf+Rt1+FMKflUp
+X-Gm-Gg: AYBFou3B7rk66+l/RqlKCIGBiFxFRbCMRhTs46fxNPctt08ZHGBlXie6Um0NIwc5Vct
+	alGeD35lP8zZhEPtyOqMEYbuGe7FOvg6vh3lt+/OsIjl6hw54XC/GeZw5CCLTd6nmQvIGl45Isf
+	tFsbifNsQFlrmWvBBlDJnIMr5wy5oyo/1QvW3EBTbwiO+kEKIElGXySJf9+sDChQSjfP8HGtukp
+	aMceBXoQX6WiuTfR6ahRFdUBh9TRnu10OFSAZRdqmmFwzLmBqR/TWp4IH1vFWi2nu7bxn68nmt0
+	oA2cLuTwM+N7afe6HMn+3rs3KgsLnz0RdbQrpDqUnvxeQQtE55R2XMgC8yYoanCPcbrRoL+uoYY
+	LxqXuw6PF1tbj1nDOOkv76F+Q9VRrRkyiieM5tIhGfMTvrpt0GIr3BkY0KN7N871lSaMGu4CsOK
+	9y+jZmDjistoi5ZRH6sPT6RjPhe/tuL5qh8rfwqHjQkzcq2XGPevtrlw8/qmCC4uBZr0OZ4ewSe
+	/emet0gTnBsvYM42xBE/IaueDGQWbUG/8TETWfH
+X-Received: by 2002:a05:6830:43ac:b0:80c:d30f:974 with SMTP id 46e09a7af769-80de21d1f84mr119151a34.21.1789673398952;
+        Thu, 17 Sep 2026 12:29:58 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:5c::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-80c474d1f0asm3732953a34.24.2026.09.17.12.29.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 12:26:46 -0700 (PDT)
+        Thu, 17 Sep 2026 12:29:58 -0700 (PDT)
 From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: ackerleytng@google.com,
+	Alex Shi <alexs@kernel.org>,
 	David Hildenbrand <david@kernel.org>,
 	Dongliang Mu <dzm91@hust.edu.cn>,
 	Hongxiang Lou <louhongxiang@huawei.com>,
@@ -93,13 +94,12 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
-	Ackerley Tng <ackerleytng@google.com>,
 	stable@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] mm: hugetlb: Avoid re-allocating global reservations on region add failure
-Date: Thu, 17 Sep 2026 12:26:44 -0700
-Message-ID: <20260917192645.3436692-1-joshua.hahnjy@gmail.com>
+Subject: Re: [PATCH v3 0/4] Fix HugeTLB subpool used_hpages tracking
+Date: Thu, 17 Sep 2026 12:29:56 -0700
+Message-ID: <20260917192957.3466978-1-joshua.hahnjy@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260916-hugetlb-subpool-always-track-used-v3-4-38aae9b5ccdd@google.com>
+In-Reply-To: <20260916201307.5618114cbac4af52d98aecfa@linux-foundation.org>
 References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -109,85 +109,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Wed, 16 Sep 2026 16:39:04 -0700 Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org> wrote:
+On Wed, 16 Sep 2026 20:13:07 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
 
-> From: Ackerley Tng <ackerleytng@google.com>
+> On Wed, 16 Sep 2026 16:39:00 -0700 Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org> wrote:
 > 
-> When reserving huge pages for a shared mapping, reservations are first
-> requested from the subpool, and any remainder is accounted in global
-> reservations. When adding the file region entries fails later in the
-> process, the reservation attempt must be rolled back.
+> > HugeTLB subpools currently only track used pages (used_hpages) when a
+> > maximum size limit (max_hpages) is configured on the mount.
+> > 
+> > ...
+> > 
+> > This series addresses three problem areas resulting from untracked usage
+> > and asymmetric error handling:
 > 
-> Previously, this error path explicitly dropped the global reservations
-> that were just acquired before jumping to the cleanup label. The cleanup
-> label then returned the pages to the subpool. If concurrent activity in
-> the subpool allowed the subpool to absorb more reservations upon return
-> than it supplied initially, the cleanup label calculated a positive
-> difference and attempted to allocate new global reservations from scratch.
+> These are rather serious-sounding problems.
 > 
-> This premature release was completely unnecessary because all requested
-> pages were already backed globally: partly by the mount guarantee and
-> partly by the global reservations just acquired. Prematurely dissolving
-> those reservations forced the cleanup path to attempt fresh buddy
-> allocations that could fail under memory pressure.
+> I'm seeing Fixes: for 10-year-old patches, for one last year and one
+> this year.  The fourth patch doesn't identify what to fix.
 > 
-> Instead, track the number of global reservations actually accounted so
-> far. In the cleanup label, subtract the already-accounted amount from the
-> difference between requested and returned reservations. This ensures
-> that when global reservations were already acquired, the adjustment is
-> purely non-positive, dropping excess reservations without ever attempting
-> fresh allocations.
+> So if downstream people (-stable maintainers, others) follow our
+> recommendations, some kernels will get two of these patches, other
+> kernel versions will get three and some lucky kernels might get all
+> four.  Are you confident that the patches can be split apart in this
+> fashion and still produce a good result?  After all, we're sending
+> downstream some patch combinations which we didn't test.
+> 
+> Also, can you speculate about why these things took so long to
+> discover?
 
-LGTM, thanks for this Ackerley!
-Reviewed-by: Joshua Hahn <joshua.hahnjy@gmail.com>
+Hi Andrew,
 
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> Cc: stable@vger.kernel.org
-> ---
->  mm/hugetlb.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+I'll be brave and admit that I knew there were hugetlb accounting issues
+for a while because I was seeing them at some ~rare~ frequency, but
+I couldn't figure out exactly what was happening and didn't report it. 
+In my defense this was before LLMs were doing a good job of finding
+bugs in code ; -)
+
+So I'm very grateful that Ackerley took the time to find what was
+happening and sent the fixes. 
+
+> Ho hum, complicated.  Let's at least slap a Fixes: on [4/4].  My
+> trillion-dollar sidekick suggests a9e443086489 ("hugetlb: disable
+> region_add file_region coalescing").
+
+I just reviewed the 4th part, I'm not sure if there are any
+userspace-visible changes for this. Maybe just an additional retry for
+allocating from the global subpool? 
+
+> Our other little friend is talking to us:
+> 	https://sashiko.dev/#/patchset/20260916-hugetlb-subpool-always-track-used-v3-0-38aae9b5ccdd@google.com
 > 
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 6589b188cf657..ee1ba9ded0ec7 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -6678,6 +6678,7 @@ long hugetlb_reserve_pages(struct inode *inode,
->  	struct hugepage_subpool *spool = subpool_inode(inode);
->  	struct resv_map *resv_map;
->  	struct hugetlb_cgroup *h_cg = NULL;
-> +	long gbl_resv_accounted = 0;
->  	long regions_needed = 0;
->  	long gbl_resv_get;
->  	long gbl_resv_put;
-> @@ -6768,6 +6769,7 @@ long hugetlb_reserve_pages(struct inode *inode,
->  	err = hugetlb_acct_memory(h, gbl_resv_get);
->  	if (err < 0)
->  		goto out_put_pages;
-> +	gbl_resv_accounted = gbl_resv_get;
->  
->  	/*
->  	 * Account for the reservations made. Shared mappings record regions
-> @@ -6784,7 +6786,6 @@ long hugetlb_reserve_pages(struct inode *inode,
->  		add = region_add(resv_map, from, to, regions_needed, h, h_cg);
->  
->  		if (unlikely(add < 0)) {
-> -			hugetlb_acct_memory(h, -gbl_resv_get);
->  			err = add;
->  			goto out_put_pages;
->  		} else if (unlikely(chg > add)) {
-> @@ -6826,9 +6827,10 @@ long hugetlb_reserve_pages(struct inode *inode,
->  	 * There may be a difference between the number of
->  	 * reservations to consume and the number to restore now if
->  	 * there are multiple threads interacting with the subpool -
-> -	 * restore the difference.
-> +	 * restore the difference, taking into account any global
-> +	 * reservations already acquired.
->  	 */
-> -	hugetlb_acct_memory(h, gbl_resv_get - gbl_resv_put);
-> +	hugetlb_acct_memory(h, gbl_resv_get - gbl_resv_put - gbl_resv_accounted);
->  
->  out_uncharge_cgroup:
->  	hugetlb_cgroup_uncharge_cgroup_rsvd(hstate_index(h),
-> 
-> -- 
-> 2.55.0.1082.g2b9226bbc0-goog
+> I'd like to queue this up promptly because it fixes things.  But let's
+> seek additional review input and argue with Sashiko before taking that
+> step.
+
+Agreed, I left my reviewed tag on 2 & 3 but it seems like Sashiko is
+raising some concerns. Ackerley, any thoughts on those?
+
+Thank you as always, Andrew!
+Joshua
