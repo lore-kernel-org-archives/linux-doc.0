@@ -1,227 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f26.google.com (mail-pj2-f26.google.com [74.125.227.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57D8370ADA;
-	Thu, 17 Sep 2026 01:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B312536AB46
+	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 01:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789608948; cv=none; b=Y4q7EtYh78XmMeknKJZhYHQ30NSswDxyk268txVwEn5rv8VWAEEwidv0L76dxgDJ4nVD38qqeFD6/1RhRYmaJY1p5IafE5QDOr3dgCEJTKzT9gnTh89GnX6CkhneER/KybdxZUpn50OSwdiczvk7xEB9tz8Jf53xMyGZ7TndU+I=
+	t=1789610172; cv=none; b=GHYOfWoqaN/tf8Z7pmUimHB99v2Nvtop+Y1qBiujzMOe6GK8VEjLIrY8fptAjxG6pOu8y8nxxmoYY4IzYc0YW16YoLlSK8PWsd2yEEUjQA9Wo2dXv5b6UDWsEgx0ef0tBD+jIMERrXHyv9UodbhLHGj7m3Trfg/jUdFPc0AQECw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789608948; c=relaxed/simple;
-	bh=/GDPtICWwYIwMuKDTMe9yj5mgaGjTtxwLwr7b1m6I7k=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=f9TxxkuwTIRPKKQ+gEICMxkzK1BUUtS+vuShBXOUGavXIQrjUL76jv/nfVYUQQOa+eOxrQB+vGriFJHmZ7r/hgByqICvUNXdwy0/2QAXnbkI87SmtOSnxdsR99FODGGEYyOEW8mUS4vE0sDIEeCVJ+VqngmI8b1jOAo7XnMbuJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=AaNPuBUa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789610172; c=relaxed/simple;
+	bh=JhlR2Z9hLGie4ycveHEZlcET4EHYzNNuAFgR0tLVmRY=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:In-Reply-To:
+	 References:MIME-Version; b=pTAOya8UY3qkLso2fH+MuwEjtH08q+LFj780jiV4ZRiFAbhvDjCbxY+r+/mo/FeVYIanOZ35/Z0L4cc3404ZfiELIih2sgU18AcnwnoGLhjKK02IeLzua99DRMY6+nLA5fx3vNzPQFKRVgGrI83WM+RoZLR35tCyWIFWR/PpwKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CsNk4cUx; arc=none smtp.client-ip=74.125.227.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="AaNPuBUa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D65DF1F000FF;
-	Thu, 17 Sep 2026 01:35:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CsNk4cUx"
+Received: by mail-pj2-f26.google.com with SMTP id d9443c01a7336-2d8fb334e72so3084455ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 18:56:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1789608946;
-	bh=xY8MXqZQKMcl2CIWuQH5x81TYqIBertgZUarW5BI/rY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=AaNPuBUaXfkXKF6L293sg4La152kF9SYon65H25RqbxF4jVF2jFvXi18CcDRwfWhi
-	 wv0130+KWysnx0l4YB6VKqwgbMFpsc9UA2OKhPkVYGqxsg8wD8LqHtZgIAVP1Owloc
-	 hfY0DHS4zqgTZSomdebsvxMCn5S9l0oD0ciFxm0Y=
-Date: Wed, 16 Sep 2026 18:35:45 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Muchun Song <songmuchun@bytedance.com>
-Cc: David Hildenbrand <david@kernel.org>, Oscar Salvador
- <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
- Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org, Muchun Song
- <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, Nicholas Piggin
- <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>
-Subject: Re: [PATCH v4 00/11] mm: Switch device DAX to section-based vmemmap
- optimization
-Message-Id: <20260916183545.b8244db6aa2caf783b1fa5e9@linux-foundation.org>
-In-Reply-To: <20260916064341.1825793-1-songmuchun@bytedance.com>
-References: <20260916064341.1825793-1-songmuchun@bytedance.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=gmail.com; s=20251104; t=1789610171; x=1790214971; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=y6mHUY7GH1xqP69TULjoYeDvGxc3p4dOZNNxR4X6kDY=;
+        b=CsNk4cUxoqozPRUcv9DHLNTMt7IX4BDeN09A6P1DxP6vnOCGTIE3WX8x3PZkh28oEM
+         SFbw7CTt9CiXEfGfaJQpeKVM3KtpuIymEMI8pVK1MhhFmB6QSPoE19feBb8xKdAcxEXK
+         XzY5P3aaGDYGfR2VEQ063K8SyvSqg470/peKrxlvspUK/dpgXNk3n4hgDXbJxCE1oy0d
+         BWH6bO0C085xZqBm00GOXE8g64rI8WePtGp6uqu+qB/I7nvmtBl8Mit+q9CmJ2f7CuyY
+         PDvAHCWMwj63oLHukFAXRMMBtNPv3KwMFjy/C85aLVpZ4p1eXXcjcT7pnbHkpWofKwQO
+         pr+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789610171; x=1790214971;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=y6mHUY7GH1xqP69TULjoYeDvGxc3p4dOZNNxR4X6kDY=;
+        b=wIu406BVrxsYYgTbKsFHSIBKkMmzkzRVGEyKWC/o8BJe37p5CzgkNbxDu3Y5+uihZn
+         I+76erBT5Am8cJeMSnma6FQrcav6f+1N+SH708ABX5EDbYeC/UPZSCsXxPWn1xKGQUiZ
+         7LWBxkGvS3k8+W0UDGVRncgAq0UEmO73gTVY56Cd6xILsU/FZ/fQIIVz0TRlIo5lOLu9
+         jZenRdartRrpmod5WWjlyVpX1hFZEqrIc2WsAaS41fFFZYluwRgEYNKus6cCJaxkFjbN
+         yB8fFt11oq2THiAK5PZQhxCemxHq7j4JB1JWHiCe9udZB+9qtI1D2k4lrIQyGhq6ZyDu
+         ZbTA==
+X-Forwarded-Encrypted: i=1; AKwUvBxpv/9FDMbhdWydvq4tvR9JqB5PAMDLKRXqHI3MFbhKDB8n3PH5TB4g0AxS6NT4aXclcNpv1Mx6ouM=@vger.kernel.org
+X-Gm-Message-State: AFuF++lJECQRE7KxgaOroZ8KcEwfd+G/vVeF0mDUpzAgkc1v/0NCtl1k
+	XicyIkW8CjDCAYS56h/qbNXhxxHlgEQlPs8u4bW36Nwu5ml0qC0YnVmh
+X-Gm-Gg: AYBFou1YvRiDhwVbPzbIM+oWIt+rVXBYx1yshoXPLex4rD/n86ZPD80pZcWGzVPfzt5
+	SlP9q52Eq/P99iWS/9NU1rPamVvbGpKh5jakZre+g69ykjVbfKFGIQzGDs3lNIvTc2cLp1N7hOa
+	EMrEUBVDHC3FFa4ndzwM3UtQWacuHU6YRgzku1LjMuaxjZcWd/mC6WTwu8qUxbH+UhWYAPbzcb3
+	1IzHHJnLbeCfJTtQtv2bh19B9yQJjBmT4k/hVbEYGsWGYj/jmw4Qi7Sz+8BwUCuc5vq9KWFYla7
+	KRNVx2BpeAUFzW79uRMBNQR1gbLJhW7nPEcjmJgyjx+UujcVlaSeM2s+0OsLqCb4VD8ONLgSIEK
+	yGOpDcgRZ4Gzw7aZBs9+IlQDZLHRM1LGqNqF36E6eHCwhqO6ntL0AGWPPmIOhlNsH3rTX6ns1SP
+	8LpglMdgRrwmoqQ75qGKzuIIZRmW5VDL1I0WU2Y+vIVMt/TWyyfQhrKZcEA4CShMgNdQRdFKxZx
+	XIfgMsAfDqnNu7uAHU866eqARL8lSnwciYnCEe1/VLbi6kN4oPOd7ubXNlc8hez3mM8ZCRWDfXi
+	W7hN
+X-Received: by 2002:a17:90b:2c88:b0:39e:26a7:7aca with SMTP id 98e67ed59e1d1-39e26a77cefmr12456976a91.23.1789610170800;
+        Wed, 16 Sep 2026 18:56:10 -0700 (PDT)
+Received: from localhost ([153.61.198.253])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e390c2984sm387496a91.0.2026.09.16.18.56.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Sep 2026 18:56:10 -0700 (PDT)
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 17 Sep 2026 01:56:09 +0000
+Message-Id: <DLH7UY9PDSQP.2AXEGNH838JS0@gmail.com>
+Cc: <yonghong.song@linux.dev>, <catalin.marinas@arm.com>, <will@kernel.org>,
+ <x86@kernel.org>, <dave.hansen@linux.intel.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <abuehaze@amazon.com>, <doebel@amazon.de>,
+ <jay.wang.upstream@gmail.com>
+Subject: Re: [PATCH bpf-next 1/1] bpf: btf: add btf=off boot parameter to
+ disable and free vmlinux BTF
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+To: "Jay Wang" <wanjay@amazon.com>, <bpf@vger.kernel.org>,
+ <daniel@iogearbox.net>, <andrii@kernel.org>
+In-Reply-To: <20260917000201.25581-2-wanjay@amazon.com>
+References: <20260917000201.25581-1-wanjay@amazon.com> <20260917000201.25581-2-wanjay@amazon.com>
+X-Mailer: mkdraft (claude review draft; edit before sending)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
 
-On Wed, 16 Sep 2026 14:43:30 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
-
-> This series is split out from the earlier, larger series "mm: Generalize
-> HVO for HugeTLB and device DAX" [1]. While the parent series generalizes
-> vmemmap optimization across HugeTLB and device DAX, this subset addresses
-> a single, self-contained step: switching device DAX to the section-based
-> sparse-vmemmap optimization infrastructure introduced for HugeTLB.
-> 
-> After the HugeTLB conversion, optimized vmemmap state is described by
-> the memory section and the sparse-vmemmap population path can allocate or
-> reuse shared tail vmemmap pages based on that metadata. Device DAX still
-> uses the older DAX-specific population model, including a separate tail
-> vmemmap page reservation and architecture-specific logic to locate or
-> populate reusable tail pages.
-> 
-> ...
+On Thu, Sep 17, 2026 at 12:02 AM Jay Wang <wanjay@amazon.com> wrote:
 >
-> This is intended to be the third smaller step toward the broader HVO
-> generalization. The wider HVO consolidation between HugeTLB and device
-> DAX is left for follow-up series.
+> Add a "btf=off" early boot parameter, similar to the existing "selinux=0"
+> parameter, so users who do not want BTF can turn it off at boot; the
+> section is then freed to save memory.
 
-Thanks, I updated mm-unstable to this version.
+tbh I'm not excited about btf=off. BTF is not debug info anymore.
+sched_ext, bpf-lsm (systemd uses it), hid-bpf, most of bcc/bpftrace
+quietly stop working, and we'll be the ones triaging "libbpf: failed
+to find valid kernel BTF" reports from people who copy-pasted a
+"save 5MB" tuning guide.
+This needs more thought.
 
-> v4:
-> - Rename CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION to
->   CONFIG_VMEMMAP_OPTIMIZATION (suggested by Mike Rapoport)
-> - Collect Acked-by tags from Mike Rapoport
-> 
+>  .../admin-guide/kernel-parameters.txt         |  14 +++
+>  arch/arm64/mm/mmu.c                           | 108 +++++++++++++++++-
+>  arch/x86/mm/init_64.c                         |  30 +++++
+>  arch/x86/mm/pat/set_memory.c                  |  28 ++++-
+>  include/linux/btf.h                           |   9 ++
+>  kernel/bpf/btf.c                              |  51 ++++++++-
+>  kernel/bpf/sysfs_btf.c 
+                       |   7 ++
+>  kernel/bpf/verifier.c                         |   2 +-
 
-Here's how v4 altered mm.git:
+This doesn't apply to bpf-next.
+Consider using Alan's approach and support CONFIG_DEBUG_INFO_BTF=m
 
- arch/x86/entry/vdso/vdso32/fake_32bit_build.h |    2 +-
- drivers/dax/Kconfig                           |    2 --
- fs/Kconfig                                    |    2 +-
- include/linux/mm.h                            |    2 +-
- include/linux/mmzone.h                        |    6 +++---
- include/linux/page-flags.h                    |    2 +-
- include/linux/vmemmap-optimization.h          |    6 +++---
- mm/Kconfig                                    |    3 ++-
- 8 files changed, 12 insertions(+), 13 deletions(-)
-
---- a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h~b
-+++ a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
-@@ -11,7 +11,7 @@
- #undef CONFIG_PGTABLE_LEVELS
- #undef CONFIG_ILLEGAL_POINTER_VALUE
- #undef CONFIG_SPARSEMEM_VMEMMAP
--#undef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
-+#undef CONFIG_VMEMMAP_OPTIMIZATION
- #undef CONFIG_NR_CPUS
- #undef CONFIG_PARAVIRT_XXL
- 
---- a/drivers/dax/Kconfig~b
-+++ a/drivers/dax/Kconfig
-@@ -8,8 +8,6 @@ if DAX
- config DEV_DAX
- 	tristate "Device DAX: direct access mapping device"
- 	depends on TRANSPARENT_HUGEPAGE
--	depends on ZONE_DEVICE
--	select SPARSEMEM_VMEMMAP_OPTIMIZATION if ARCH_WANT_OPTIMIZE_DAX_VMEMMAP
- 	help
- 	  Support raw access to differentiated (persistence, bandwidth,
- 	  latency...) memory via an mmap(2) capable character
---- a/fs/Kconfig~b
-+++ a/fs/Kconfig
-@@ -278,7 +278,7 @@ config HUGETLB_PAGE_OPTIMIZE_VMEMMAP
- 	def_bool HUGETLB_PAGE
- 	depends on ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
- 	depends on SPARSEMEM_VMEMMAP
--	select SPARSEMEM_VMEMMAP_OPTIMIZATION
-+	select VMEMMAP_OPTIMIZATION
- 
- config HUGETLB_PMD_PAGE_TABLE_SHARING
- 	def_bool HUGETLB_PAGE
---- a/include/linux/mm.h~b
-+++ a/include/linux/mm.h
-@@ -5174,7 +5174,7 @@ static inline bool __vmemmap_can_optimiz
- 	unsigned long nr_pages;
- 	unsigned long nr_vmemmap_pages;
- 
--	if (!IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION))
-+	if (!IS_ENABLED(CONFIG_VMEMMAP_OPTIMIZATION))
- 		return false;
- 
- 	if (!pgmap || !is_power_of_2(sizeof(struct page)))
---- a/include/linux/mmzone.h~b
-+++ a/include/linux/mmzone.h
-@@ -103,7 +103,7 @@
-  * HVO which is only active if the size of struct page is a power of 2.
-  */
- #define MAX_FOLIO_VMEMMAP_ALIGN					\
--	(IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION) &&	\
-+	(IS_ENABLED(CONFIG_VMEMMAP_OPTIMIZATION) &&		\
- 	 is_power_of_2(sizeof(struct page)) ?			\
- 	 MAX_FOLIO_NR_PAGES * sizeof(struct page) : 0)
- 
-@@ -117,7 +117,7 @@
- 	(MAX_FOLIO_ORDER - VMEMMAP_OPTIMIZATION_MIN_ORDER + 1)
- #define VMEMMAP_OPTIMIZATION_NR_ORDERS		\
- 	((__VMEMMAP_OPTIMIZATION_NR_ORDERS > 0 &&	\
--	  IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION)) ? __VMEMMAP_OPTIMIZATION_NR_ORDERS : 0)
-+	  IS_ENABLED(CONFIG_VMEMMAP_OPTIMIZATION)) ? __VMEMMAP_OPTIMIZATION_NR_ORDERS : 0)
- 
- enum migratetype {
- 	MIGRATE_UNMOVABLE,
-@@ -2020,7 +2020,7 @@ struct mem_section {
- 	unsigned long section_mem_map;
- 
- 	struct mem_section_usage *usage;
--#ifdef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
-+#ifdef CONFIG_VMEMMAP_OPTIMIZATION
- 	/*
- 	 * Normally, sections hold regular (order-0) pages. However, for
- 	 * sections with HVO enabled, this tracks the compound page order
---- a/include/linux/page-flags.h~b
-+++ a/include/linux/page-flags.h
-@@ -214,7 +214,7 @@ static __always_inline bool compound_inf
- 	 * but it requires validating that struct pages are naturally aligned
- 	 * for all orders up to the MAX_FOLIO_ORDER, which can be tricky.
- 	 */
--	if (!IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION))
-+	if (!IS_ENABLED(CONFIG_VMEMMAP_OPTIMIZATION))
- 		return false;
- 
- 	return is_power_of_2(sizeof(struct page));
---- a/include/linux/vmemmap-optimization.h~b
-+++ a/include/linux/vmemmap-optimization.h
-@@ -14,7 +14,7 @@
- #include <linux/mmdebug.h>
- #include <linux/mmzone.h>
- 
--#ifdef CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION
-+#ifdef CONFIG_VMEMMAP_OPTIMIZATION
- static inline unsigned int section_compound_order(const struct mem_section *section)
- {
- 	return section->compound_page_order;
-@@ -64,7 +64,7 @@ static inline unsigned int pfn_to_sectio
- {
- 	return 0;
- }
--#endif /* CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION */
-+#endif /* CONFIG_VMEMMAP_OPTIMIZATION */
- 
- static inline bool vmemmap_optimizable_pfn(unsigned long pfn)
- {
-@@ -79,7 +79,7 @@ static inline bool vmemmap_optimizable_p
- 
- static inline bool vmemmap_optimizable_order(unsigned int order)
- {
--	if (!IS_ENABLED(CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION))
-+	if (!IS_ENABLED(CONFIG_VMEMMAP_OPTIMIZATION))
- 		return false;
- 
- 	if (!is_power_of_2(sizeof(struct page)))
---- a/mm/Kconfig~b
-+++ a/mm/Kconfig
-@@ -461,7 +461,7 @@ config SPARSEMEM_VMEMMAP
- 	  pfn_to_page and page_to_pfn operations.  This is the most
- 	  efficient option when sufficient kernel resources are available.
- 
--config SPARSEMEM_VMEMMAP_OPTIMIZATION
-+config VMEMMAP_OPTIMIZATION
- 	bool
- 	depends on SPARSEMEM_VMEMMAP
- 
-@@ -1224,6 +1224,7 @@ config ZONE_DMA32
- config ZONE_DEVICE
- 	bool "Device memory (pmem, HMM, etc...) hotplug support"
- 	depends on MEMORY_HOTREMOVE
-+	select VMEMMAP_OPTIMIZATION if ARCH_WANT_OPTIMIZE_DAX_VMEMMAP
- 	select XARRAY_MULTI
- 
- 	help
-_
-
+pw-bot: cr
