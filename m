@@ -1,294 +1,294 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF08F22A4E9;
-	Thu, 17 Sep 2026 00:23:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4484830E0FC
+	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 00:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789604611; cv=none; b=sigyNMKU6K4tjH8TUeIosoAiWvSXmJ7XQSe2V2oFOZgBD+7IGfyJL3/Lwhgo6yLxFTL21yQkRgKM7UI5PrQbm+1VD7Em5+LwtMGerADF3ZM6SSZ8oLT77lNHfXfMXSeibXkyp5HPCPQkQx0CVM6SQnfI+dQQ7Dqqn2BF0DYtMGI=
+	t=1789604631; cv=none; b=OsXhnS7YQQCimKydZvb3yCHI3kl9tyIRCYID0YqC2TGTq3jgqp/OeWw4rn6uAi1vhsFCZe7HGOLJ/MR55bpUsf6uYoGmoM40Ck7nBdJD1pNjgepYjjUIyI5OBxjmehCRrkdylsewmZD7kAosha40XD8i46gzJj2KhCO+JRqKiIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789604611; c=relaxed/simple;
-	bh=45Qi8DXYwJHObfTQpek2UWQI/FH3xeNUZtUwrfo2/Co=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=TlNi42ZPzFX6N466rFS38qaAkPyaoPJjo6dkAjDVBHTsXdTqt9dnTbzTSVStZWLlrNLRtlA0lBR9MSC5dyCyG5m7YfGiPyQP5QnCkESUwsynmSFh/SQFVGq2vJcUMlqLXnIfAL3b2jbKAnd5InWVENxjP9L9v/NGV1gy8ks+O04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uaczt0oD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789604631; c=relaxed/simple;
+	bh=XPjKWsEcPmE8I8Bo1knWlZ++w34ti15+6CuUOTWdkpM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VIEqu3ZVlzCoD8PZ0cqAdhY1rDjbQlskTn7gpSoWPRyIKXoFQSyNxQqQEM9MbQCd0LilA0LFAVl4YlymwjaOUR7Ha8w7c/gQyiiBgK1u5smxeQwGmeYuT4vuw1vYb/RLzy/92xHt/+aK1MNs2U+WxGKA3oCRl++WR45yZtwat2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PJ8MngrE; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uaczt0oD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63D801F000FF;
-	Thu, 17 Sep 2026 00:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789604609;
-	bh=BYq4fZIoFhLtPEIgNGcHeKoYgNlbKrrDbCQCa193GqU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=Uaczt0oDsYk8FN3ojEgKvdY1DeqU6zoNXXMnQqPOTDXF6YL5rRKYv3Opo0gGEC4tc
-	 ir6Y2Ji9QCmt4oSSQIwBhL1kkVNOlPZFg4QXH70AOPpVZTMjLzyLWxoTVyEolXKFoM
-	 dvB/2CMnvKoj1QsigbEHWuBF9URuMwekTo1t2ZWpF2goI6+SrnjB+E2oxr8zfHcqnW
-	 LuBDyk9pdcpOmU1ah6P4J2DqtTZz08Dke/63uQa7m8a5begeSsMWIQAhwQcg0s66lB
-	 05Kvt1jFEMK08+vkOdoeScR7/E7PaagQWYerR3lQChifp0sTXGzb9eujUnyELudeB/
-	 9G3xVW7/lYrOg==
-Date: Wed, 16 Sep 2026 19:23:28 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v8 08/12] PCI: liveupdate: Adopt ACS controls in incoming
- preserved devices
-Message-ID: <20260917002328.GA994546@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PJ8MngrE"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-398c066106cso189295a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 17:23:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789604628; x=1790209428; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jw8JDp91+KaBT0Rt/XpxMAba3iLVx7q/IVL+Ob6iVx8=;
+        b=PJ8MngrEv/UtRBTOsYTxq01Dwmk/8KR4lk44FJ1cTBP5g6Q8AAdafW0/nL7nlpyKGn
+         UGzo7iAXfwZGHeJ8X5rCpBenwjzmDTeEmdRzfss9UmeLoLN5tErFxLkxIgcta/d6hWG2
+         rrTjbY5kz5YqF2Y2kNNb82hpbjks7SIQQsMsKhO6vk/asrNTSjyDx8JhNUGQZODiv5SW
+         riEoWMCdb2djox0hvHLDzPHy9Bk6eaJmkcflYLXCJjwjPVODxrB0OwaAFzMAovmIOB1P
+         NeyzWkGPZlDH3/L0osGvPAZlBg1oJKTbW38HWSNM3W9EtpTt6jdoYQOEFlzl0Q6jgl8D
+         LUSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789604628; x=1790209428;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jw8JDp91+KaBT0Rt/XpxMAba3iLVx7q/IVL+Ob6iVx8=;
+        b=q+UUrFEiJby/0+9kd1r0DTy4FcTKVsrk1yhKx54B9EZYM0AGLxVgQaXkMcdDoPxFaI
+         EYauUJ9UkZ5QOD2qkMnwLHHDM3njnA+cgZp9NLJHcU9KE4EHF69gHjhmYjTtg9zxqjRB
+         MnBbKeizmZQhslaFl2kbNvzD7JAO/i39/k+18lXYglVKOgmV54izTArzdSspaIEphqVq
+         3HRl1NoqMp6MA7Yx52ZCNAduHfzR16aznyT0ALyztGYAb0TB1MBva2jYtvMqZRjhgOj/
+         95fgenEka8anXHg38PY/aGrc93KHnYZ9vqx04V2+xhn5ExF1L0ncnPR7BcBfQuW8umDS
+         QFvA==
+X-Gm-Message-State: AFuF++nfBJBsM70pyvu64fRWVQ/xylwXcOYFsFteX5F5cCrHdAMqhD8H
+	RD+MlmaW66MQps7610/5cWB8+5s0tAhAtfIhx2Uqg5UuPDmETpIj3K6a
+X-Gm-Gg: AYBFou059o/eC/oX/2XJs4eVx5FeouhqTnUPQODZVx7LF7dBl4cUmXa+SjEmE1JuXkS
+	Cpv/sclzwhErmSn3tCeNgg7qZGZFjdvzwD/QzhDFUQJXG0mjVTUaQGFmSmgkjyd1e+gWik+qHIv
+	FhfCj5DPhnGF0fA12xSqlNqE1sbmI3rY8YeisQlk07S22hySZ8Gxf/+DRtScj8/l46Zs/Al8SQx
+	Lwa7RCGDAGPLOdJNUnhP8XBjtdUON1WYBIOf6yK2fP6D4UzLkMSs2zVIvRCbNmG1GE9vaNVKXXX
+	1owoVw+Ufqo3uyaiv2zYfkCd+JKsujYG2S9cdtgoXAN8ZWwoGLUm9YW6wMX7bvlAQ5fTEYJTO3J
+	/DDoVt5t+Xg614VFKTzTEusBZJhzDLEhL4NgtfbsNwb3tiWRtQvvthEq1kLS0WEW+P+/MybSqAa
+	AYZnuByvlLwoK4zW0ujaBuLEgDRCX1p0+k+uluaC7aXc8SOVItZJ//a+NVNqaSmFmIPCk1i+H+z
+	0z2iA==
+X-Received: by 2002:a17:90b:2ec7:b0:39d:f317:44cd with SMTP id 98e67ed59e1d1-39e1e4907f3mr14270110a91.14.1789604628249;
+        Wed, 16 Sep 2026 17:23:48 -0700 (PDT)
+Received: from x-wing ([177.181.2.143])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bf5aa1194sm12418094eec.14.2026.09.16.17.23.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 17:23:47 -0700 (PDT)
+From: Fabio Pereira da Silva <silvapfabio@gmail.com>
+To: Daniel Pereira <danielmaraboo@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Subject: [PATCH v3] docs: translations: pt_BR: translate researcher-guidelines.rst
+Date: Wed, 16 Sep 2026 21:23:41 -0300
+Message-ID: <20260917002341.5938-1-silvapfabio@gmail.com>
+X-Mailer: git-send-email 2.55.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqgkxmXlhfqsdfAa@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 14, 2026 at 04:45:58PM +0000, David Matlack wrote:
-> On 2026-09-11 06:31 PM, David Matlack wrote:
-> > On 2026-09-10 06:51 PM, Bjorn Helgaas wrote:
-> > 
-> > > > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> > > > index 77b17b13ee61..22001bdf4c97 100644
-> > > > --- a/drivers/pci/pci.c
-> > > > +++ b/drivers/pci/pci.c
-> > > > @@ -34,6 +34,8 @@
-> > > >  #include <linux/aer.h>
-> > > >  #include <linux/bitfield.h>
-> > > >  #include <linux/suspend.h>
-> > > > +
-> > > > +#include "liveupdate.h"
-> > > >  #include "pci.h"
-> > > >  
-> > > >  DEFINE_MUTEX(pci_slot_mutex);
-> > > > @@ -1008,6 +1010,9 @@ void pci_enable_acs(struct pci_dev *dev)
-> > > >  	bool enable_acs = false;
-> > > >  	int pos;
-> > > >  
-> > > > +	if (!pci_liveupdate_enable_adopted_acs_controls(dev))
-> > > > +		return;
-> > > 
-> > > Ugh.  The asymmetry between pci_save_state(), which does nothing
-> > > ACS-related, and pci_restore_state(), which enables it, is sort of
-> > > sketchy to begin with.
-> > > 
-> > > The command-line parsing in this path feels like kind of a wart (not
-> > > that you're touching it).
-> > > 
-> > > It just seems like this path is already hard to analyze, and
-> > > liveupdate is making it harder.
-> > > 
-> > > If we could save/restore the ACS state around the reset, wouldn't that
-> > > solve this without any liveupdate specials here?
-> > 
-> > Yeah that would simplify the liveupdate support greatly. Let me work on
-> > that for v9.
-> 
-> Here's the patch I have prepped for v9 to save/restore ACS controls
-> around reset:
-> 
-> From 0c69424454de0c569aca67bc69f496db915a9bcf Mon Sep 17 00:00:00 2001
-> From: David Matlack <dmatlack@google.com>
-> Date: Fri, 11 Sep 2026 20:05:04 +0000
-> Subject: [PATCH] PCI: Save and restore the ACS Control register
-> 
-> Save the ACS Control register in pci_save_state() and write it back
-> in pci_restore_state(), instead of recomputing the ACS controls from
-> scratch with pci_enable_acs().
-> 
-> This makes ACS symmetric with the rest of a device's saved state. Today
-> pci_save_state() ignores ACS entirely and pci_restore_state() re-enables
-> the ACS controls from the kernel's current ACS policy. As a result, a
-> device can come out of a reset with different ACS controls than it went
-> in with, e.g. any controls programmed outside of pci_enable_acs() are
-> silently dropped.
-> 
-> pci_enable_acs() runs when a driver binds to a device
-> (pci_dma_configure()), i.e. after pci_bus_add_device() has already saved
-> the device's state. Refresh the saved ACS Control register there as
-> well, otherwise a subsequent reset would revert ACS back to the
-> configuration left behind by firmware.
-> 
-> Devices that rely on device-specific quirks to enable an ACS equivalent
-> keep that configuration outside of the ACS Control register, so keep
-> configuring ACS from scratch for them. Do the same for devices that have
-> no saved ACS state at all.
-> 
-> Assisted-by: Claude:claude-opus-5
-> Signed-off-by: David Matlack <dmatlack@google.com>
+Translate researcher-guidelines.rst into Brazilian Portuguese and add it
+to the pt_BR process documentation index.
 
-I like this a lot, thanks!  It would be good to get Alex W's ack, too.
+Signed-off-by: Fabio Pereira da Silva <silvapfabio@gmail.com>
+---
+Changes in v3:
+- Use "adesão explícita (opt-in)" instead of "explicitamente opcionais"
+  to make it clear that participation must be actively opted into.
+- Rename "Pesquisas" section title to "Questionários" (and adjust
+  underline width) to keep "survey" and "research" as separate terms,
+  matching the body wording and the zh_CN translation.
+- Replace backticks around "Fixes:" and "Reviewed-by" tags with plain
+  double quotes, since backticks render as title_reference in RST
+  while the original English uses no markup.
 
-Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
+v2: https://lore.kernel.org/r/20260910190745.1676-1-silvapfabio@gmail.com
+v1: https://lore.kernel.org/r/20260910151145.1226-1-silvapfabio@gmail.com
+---
+ Documentation/translations/pt_BR/index.rst    |   1 +
+ .../pt_BR/process/researcher-guidelines.rst   | 174 ++++++++++++++++++
+ 2 files changed, 175 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/researcher-guidelines.rst
 
-> ---
->  drivers/pci/pci.c    | 66 +++++++++++++++++++++++++++++++++++++++++++-
->  drivers/pci/pci.h    |  5 ++++
->  drivers/pci/quirks.c |  7 +++++
->  3 files changed, 77 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index b2879a6be5f8..dd25c01736b4 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -1021,6 +1021,55 @@ static void pci_std_enable_acs(struct pci_dev *dev, struct pci_acs *caps)
->  		caps->ctrl |= (dev->acs_capabilities & PCI_ACS_TB);
->  }
->  
-> +/**
-> + * pci_save_acs_state - save the ACS Control register
-> + * @dev: the PCI device
-> + *
-> + * Record the ACS controls currently programmed in hardware so that
-> + * pci_restore_acs_state() can reapply them after a reset.
-> + */
-> +static void pci_save_acs_state(struct pci_dev *dev)
-> +{
-> +	struct pci_cap_saved_state *save_state;
-> +
-> +	if (!dev->acs_cap)
-> +		return;
-> +
-> +	save_state = pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_ACS);
-> +	if (!save_state)
-> +		return;
-> +
-> +	pci_read_config_word(dev, dev->acs_cap + PCI_ACS_CTRL,
-> +			     (u16 *)&save_state->cap.data[0]);
-> +}
-> +
-> +/**
-> + * pci_restore_acs_state - restore the ACS Control register
-> + * @dev: the PCI device
-> + */
-> +static void pci_restore_acs_state(struct pci_dev *dev)
-> +{
-> +	struct pci_cap_saved_state *save_state = NULL;
-> +
-> +	if (dev->acs_cap && !pci_need_dev_specific_enable_acs(dev))
-> +		save_state = pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_ACS);
-> +
-> +	/*
-> +	 * Devices that rely on device-specific quirks to enable an ACS
-> +	 * equivalent keep that configuration outside of the ACS Control
-> +	 * register, so there is nothing useful to restore for them. Configure
-> +	 * ACS from scratch instead, which also covers devices that have no
-> +	 * saved ACS state at all.
-> +	 */
-> +	if (!save_state) {
-> +		pci_enable_acs(dev);
-> +		return;
-> +	}
-> +
-> +	pci_write_config_word(dev, dev->acs_cap + PCI_ACS_CTRL,
-> +			      *(u16 *)&save_state->cap.data[0]);
-> +}
-> +
->  /**
->   * pci_enable_acs - enable ACS if hardware support it
->   * @dev: the PCI device
-> @@ -1057,6 +1106,15 @@ void pci_enable_acs(struct pci_dev *dev)
->  	__pci_config_acs(dev, &caps, config_acs_param, 0, 0);
->  
->  	pci_write_config_word(dev, pos + PCI_ACS_CTRL, caps.ctrl);
-> +
-> +	/*
-> +	 * pci_enable_acs() runs when a driver binds to the device, i.e. after
-> +	 * pci_bus_add_device() has already saved the device's state. Refresh
-> +	 * the saved ACS Control register so that a subsequent reset restores
-> +	 * the controls programmed here rather than the ones left behind by
-> +	 * firmware.
-> +	 */
-> +	pci_save_acs_state(dev);
->  }
->  
->  /**
-> @@ -1800,6 +1858,7 @@ int pci_save_state(struct pci_dev *dev)
->  	pci_save_aer_state(dev);
->  	pci_save_ptm_state(dev);
->  	pci_save_tph_state(dev);
-> +	pci_save_acs_state(dev);
->  	return pci_save_vc_state(dev);
->  }
->  EXPORT_SYMBOL(pci_save_state);
-> @@ -1877,7 +1936,7 @@ void pci_restore_state(struct pci_dev *dev)
->  	pci_restore_msi_state(dev);
->  
->  	/* Restore ACS and IOV configuration state */
-> -	pci_enable_acs(dev);
-> +	pci_restore_acs_state(dev);
->  	pci_restore_iov_state(dev);
->  
->  	dev->state_saved = false;
-> @@ -3532,6 +3591,11 @@ void pci_allocate_cap_save_buffers(struct pci_dev *dev)
->  	if (error)
->  		pci_err(dev, "unable to allocate suspend buffer for LTR\n");
->  
-> +	error = pci_add_ext_cap_save_buffer(dev, PCI_EXT_CAP_ID_ACS,
-> +					    sizeof(u16));
-> +	if (error)
-> +		pci_err(dev, "unable to allocate suspend buffer for ACS\n");
-> +
->  	pci_allocate_vc_save_buffers(dev);
->  }
->  
-> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> index ba3c3fddddc2..037c1674f164 100644
-> --- a/drivers/pci/pci.h
-> +++ b/drivers/pci/pci.h
-> @@ -1095,6 +1095,7 @@ void pci_acs_init(struct pci_dev *dev);
->  void pci_enable_acs(struct pci_dev *dev);
->  #ifdef CONFIG_PCI_QUIRKS
->  int pci_dev_specific_acs_enabled(struct pci_dev *dev, u16 acs_flags);
-> +bool pci_need_dev_specific_enable_acs(struct pci_dev *dev);
->  int pci_dev_specific_enable_acs(struct pci_dev *dev);
->  int pci_dev_specific_disable_acs_redir(struct pci_dev *dev);
->  void pci_disable_broken_acs_cap(struct pci_dev *pdev);
-> @@ -1105,6 +1106,10 @@ static inline int pci_dev_specific_acs_enabled(struct pci_dev *dev,
->  {
->  	return -ENOTTY;
->  }
-> +static inline bool pci_need_dev_specific_enable_acs(struct pci_dev *dev)
-> +{
-> +	return false;
-> +}
->  static inline int pci_dev_specific_enable_acs(struct pci_dev *dev)
->  {
->  	return -ENOTTY;
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index 7aee30734303..e500c202d2ec 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -5476,6 +5476,13 @@ static const struct pci_dev_acs_ops *pci_dev_acs_ops_get(struct pci_dev *dev)
->  	return NULL;
->  }
->  
-> +bool pci_need_dev_specific_enable_acs(struct pci_dev *dev)
-> +{
-> +	const struct pci_dev_acs_ops *p = pci_dev_acs_ops_get(dev);
-> +
-> +	return p && p->enable_acs;
-> +}
-> +
->  int pci_dev_specific_enable_acs(struct pci_dev *dev)
->  {
->  	const struct pci_dev_acs_ops *p = pci_dev_acs_ops_get(dev);
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+index ce2ed7a0387a..9d0c253f0256 100644
+--- a/Documentation/translations/pt_BR/index.rst
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -75,6 +75,7 @@ kernel e sobre como ver seu trabalho integrado.
+    Lista de verificação para patches <process/submit-checklist>
+    Processo de desenvolvimento <process/development-process>
+    Linguagem de programação <process/programming-language>
++   Diretrizes para pesquisadores <process/researcher-guidelines>
+    Interface de drivers do kernel Linux <process/stable-api-nonsense>
+    Conclave (Continuidade do projeto) <process/conclave>
+    Manuais dos mantenedores <process/maintainer-handbooks>
+diff --git a/Documentation/translations/pt_BR/process/researcher-guidelines.rst b/Documentation/translations/pt_BR/process/researcher-guidelines.rst
+new file mode 100644
+index 000000000000..f61e10b707d2
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/researcher-guidelines.rst
+@@ -0,0 +1,174 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Diretrizes para pesquisadores
+++++++++++++++++++++++++++++++
++
++A comunidade do kernel Linux dá boas-vindas a pesquisas transparentes sobre o
++kernel Linux, as atividades envolvidas em sua produção e quaisquer outros
++subprodutos de seu desenvolvimento. O Linux se beneficia muito desse tipo de
++pesquisa, e a maioria dos aspectos do Linux é orientada por pesquisa de uma
++forma ou de outra.
++
++A comunidade aprecia muito quando pesquisadores compartilham descobertas
++preliminares antes de tornar seus resultados públicos, especialmente quando a
++pesquisa envolve segurança. Envolver-se cedo ajuda a melhorar tanto a
++qualidade da pesquisa quanto a capacidade do Linux de se beneficiar dela. Em
++qualquer caso, recomenda-se compartilhar com a comunidade cópias de acesso
++aberto das pesquisas publicadas.
++
++Este documento procura esclarecer quais práticas a comunidade do kernel Linux
++considera aceitáveis e não aceitáveis ao realizar esse tipo de pesquisa. No
++mínimo, essa pesquisa e as atividades relacionadas devem seguir as regras
++éticas padrão de pesquisa. Para obter mais informações sobre ética em pesquisa
++em geral, ética na tecnologia e pesquisas sobre comunidades de desenvolvedores
++em particular, consulte:
++
++* `História da ética em pesquisa <https://www.unlv.edu/research/ORI-HSR/history-ethics>`_
++* `Ética do IEEE <https://www.ieee.org/about/ethics/index.html>`_
++* `Visões de desenvolvedores e pesquisadores sobre a ética de experimentos em projetos de código aberto <https://arxiv.org/pdf/2112.13217.pdf>`_
++
++A comunidade do kernel Linux espera que todos que interagem com o projeto
++participem de boa-fé para tornar o Linux melhor. Pesquisas sobre qualquer
++artefato disponível publicamente (incluindo, entre outros, o código-fonte)
++produzido pela comunidade do kernel Linux são bem-vindas, embora pesquisas
++sobre desenvolvedores devam exigir adesão explícita (opt-in) dos
++desenvolvedores.
++
++Pesquisas passivas baseadas inteiramente em fontes disponíveis publicamente,
++incluindo publicações em listas de discussão públicas e commits em
++repositórios públicos, são claramente permitidas. No entanto, como em
++qualquer pesquisa, a ética padrão ainda deve ser seguida.
++
++Pesquisas ativas sobre o comportamento de desenvolvedores, por outro lado,
++devem ser realizadas com a concordância explícita e a divulgação completa aos
++desenvolvedores envolvidos. Desenvolvedores não podem ser envolvidos ou
++submetidos a experimentos sem consentimento; isso também faz parte da ética
++padrão de pesquisa.
++
++Questionários
++=============
++
++Frequentemente, pesquisas assumem a forma de questionários enviados a
++mantenedores ou colaboradores. Como regra geral, porém, a comunidade do
++kernel obtém pouco valor desses questionários. O processo de desenvolvimento
++do kernel funciona porque cada desenvolvedor se beneficia de sua participação,
++mesmo trabalhando com outras pessoas que têm objetivos diferentes. Responder
++a um questionário, no entanto, é uma exigência unilateral colocada sobre
++desenvolvedores ocupados, sem benefício correspondente para eles ou para a
++comunidade do kernel como um todo. Por esse motivo, esse método de pesquisa é
++desencorajado.
++
++Os membros da comunidade do kernel já recebem e-mails demais e provavelmente
++perceberão solicitações de questionário como mais uma exigência sobre seu
++tempo. Enviar essas solicitações priva a comunidade de um tempo valioso dos
++colaboradores e dificilmente produzirá uma resposta estatisticamente útil.
++
++Como alternativa, pesquisadores devem considerar participar de eventos de
++desenvolvedores, organizar sessões nas quais o projeto de pesquisa e seus
++benefícios para os participantes possam ser explicados e interagir diretamente
++com a comunidade nesses espaços. As informações recebidas serão muito mais
++ricas do que as obtidas em um questionário por e-mail, e a comunidade se
++beneficiará da oportunidade de aprender com seus conhecimentos.
++
++Patches
++=======
++
++Para esclarecer: enviar patches aos desenvolvedores *é* interagir com eles,
++mas eles já consentiram em receber *contribuições de boa-fé*. O envio de
++patches intencionalmente defeituosos ou vulneráveis, ou a contribuição de
++informações enganosas para discussões, não é algo consentido. Essa
++comunicação pode prejudicar o desenvolvedor (por exemplo, consumindo tempo,
++esforço e motivação) e prejudicar o projeto ao erodir toda a confiança da
++comunidade de desenvolvedores no colaborador (e em sua organização como um
++todo), enfraquecendo os esforços para fornecer feedback construtivo aos
++colaboradores e colocando usuários finais em risco de falhas de software.
++
++A participação no próprio desenvolvimento do Linux por pesquisadores, assim
++como por qualquer outra pessoa, é bem-vinda e incentivada. Pesquisar o código
++do Linux é uma prática comum, especialmente no desenvolvimento ou na execução
++de ferramentas de análise que produzem resultados acionáveis.
++
++Ao interagir com a comunidade de desenvolvedores, enviar um patch tem sido
++tradicionalmente a melhor forma de causar impacto. O Linux já tem muitos bugs
++conhecidos; o que é muito mais útil é ter correções examinadas. Antes de
++contribuir, leia atentamente a documentação apropriada:
++
++* Documentation/process/development-process.rst
++* Documentation/process/submitting-patches.rst
++* Documentation/admin-guide/reporting-issues.rst
++* Documentation/process/security-bugs.rst
++
++Em seguida, envie um patch (incluindo um registro do commit com todos os
++detalhes listados abaixo) e acompanhe qualquer feedback de outros
++desenvolvedores.
++
++Ao enviar patches produzidos a partir de pesquisas, os registros dos commits
++devem conter pelo menos os detalhes a seguir, para que os desenvolvedores
++tenham o contexto apropriado para entender a contribuição. Responda:
++
++* Qual é o problema específico encontrado?
++* Como o problema poderia ser alcançado em um sistema em execução?
++* Que efeito o encontro do problema teria sobre o sistema?
++* Como o problema foi encontrado? Inclua especificamente detalhes sobre
++  quaisquer programas de teste, análise estática ou dinâmica e quaisquer
++  outras ferramentas ou métodos usados no trabalho.
++* Em qual versão do Linux o problema foi encontrado? É fortemente preferível
++  usar a versão mais recente ou uma branch linux-next recente (consulte
++  Documentation/process/howto.rst).
++* O que foi alterado para corrigir o problema e por que se acredita que a
++  correção está correta?
++* Como a alteração foi testada na compilação e em tempo de execução?
++* Qual commit anterior esta alteração corrige? Isso deve constar em uma tag
++  "Fixes:", conforme descrito na documentação.
++* Quem mais revisou este patch? Isso deve constar nas tags "Reviewed-by:"
++  apropriadas; veja abaixo.
++
++Por exemplo::
++
++  From: Author <author@email>
++  Subject: [PATCH] drivers/foo_bar: Add missing kfree()
++
++  The error path in foo_bar driver does not correctly free the allocated
++  struct foo_bar_info. This can happen if the attached foo_bar device
++  rejects the initialization packets sent during foo_bar_probe(). This
++  would result in a 64 byte slab memory leak once per device attach,
++  wasting memory resources over time.
++
++  This flaw was found using an experimental static analysis tool we are
++  developing, LeakMagic[1], which reported the following warning when
++  analyzing the v5.15 kernel release:
++
++   path/to/foo_bar.c:187: missing kfree() call?
++
++  Add the missing kfree() to the error path. No other references to
++  this memory exist outside the probe function, so this is the only
++  place it can be freed.
++
++  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=y using GCC
++  11.2 show no new warnings, and LeakMagic no longer warns about this
++  code path. As we don't have a FooBar device to test with, no runtime
++  testing was able to be performed.
++
++  [1] https://url/to/leakmagic/details
++
++  Reported-by: Researcher <researcher@email>
++  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar")
++  Signed-off-by: Author <author@email>
++  Reviewed-by: Reviewer <reviewer@email>
++
++Se você é um colaborador de primeira viagem, recomenda-se que o próprio patch
++seja avaliado por outras pessoas em particular antes de ser publicado nas
++listas públicas. (Isso é obrigatório se tiver sido explicitamente informado
++de que seus patches precisam de uma revisão interna mais cuidadosa.) Espera-se
++que essas pessoas incluam sua tag "Reviewed-by" no patch resultante. Encontrar
++outro desenvolvedor familiarizado com a contribuição para o Linux, especialmente
++dentro da sua própria organização, e pedir ajuda para revisar antes de enviar
++os patches às listas públicas tende a melhorar significativamente a qualidade
++dos patches resultantes e, com isso, reduzir a carga sobre os demais
++desenvolvedores.
++
++Se ninguém puder revisar os patches internamente e você precisar de ajuda para
++encontrar alguém, ou se tiver outras perguntas relacionadas a este documento e
++às expectativas da comunidade de desenvolvedores, entre em contato com a lista
++de discussão privada do Technical Advisory Board:
++<tech-board@groups.linuxfoundation.org>.
+-- 
+2.55.0.windows.2
+
