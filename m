@@ -1,217 +1,177 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011043.outbound.protection.outlook.com [40.107.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E5D4CB8A8
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 11:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789644376; cv=none; b=Ac7Jwm06FOx9ZU6Fp64kgYv4IKUFeWjbTihDJ6iQcvIyhYTQY5W2iPN2DJVHhazdStuI4VlClVxqbptH1QIdTEOkTkxsu0mB/GMFTWqL9v3jtX25zAEYTDiHeeaPd+94N4zZ1UxmBnH/B0znpMHZmlI8eZrwUqoJQcpmdT5NeWc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789644376; c=relaxed/simple;
-	bh=bZCKxO1MqB5pWx8QeDZ/iHw1wuuSVEHuO1tD5RDbccw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IG6dY9uKksVXZgq8vJo3Jp9HC7d1lIS/FYjs2Ox9vtcWjT/UHhjs30czrAiSAL3xpXJZtbOg6s//EwkiOoZh+1fmYCZ3C+FECtxF1tbLQ6gMosFUIsSvIj/sMuZNorEbbxwE6kba7ncCdR3OwdAFGwdrQbWSanqFt5B21PWvG8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NvGGvF7g; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qucvmHi3; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66584DA9A9;
+	Thu, 17 Sep 2026 11:33:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789644839; cv=fail; b=lWTK1WGiY8iZ/oeKbqGoKw3djIyL2PsORkXwVe9kXLVqAQ/MpjbK0a5iUP1X0Dl1k49oT0Yk+s+kTZJlLn3TjGQgllSqPdl4PGxNTEjjuQAmcdFyPwNYLrFAFkkVBSWRB57hLzRs/8XWhKQqyrePoN8vhVJEhjy/o9fu7djEQgo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789644839; c=relaxed/simple;
+	bh=oG3MqnMsEa4KyeaeyK6+ndFQOLwehPbfEwzkV2jAZ50=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=NSexa8CyZDUnuSxm1BYS09rFd2NKO8gK0yZ3Cd7k0kVH63JKQCFj2oBRig/acXd6FkPawIX+IZCfsSsN4Ee1Zb1IjVRE5tr6lITEfsBw3/P7A3jtkhx6gRxpDBW24mUxr+DP+6sjC/ht8++crraNDCcelhFdRZaPi7khVHsTBx8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=IAjwloY5; arc=fail smtp.client-ip=40.107.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NvGGvF7g";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qucvmHi3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789644374;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pTp5uAMGwz7Ze7rhjDg7zXrqBXA6tuBeb/gAkdeZnoE=;
-	b=NvGGvF7g778PmSfdEmhm6lhNX+Afbi9pWpFl9zy9uwmaa3Pyt9ndU6t+GZLMBdtaXmC+Aa
-	+X5FpuItWGcnB1gaL3I+9rAMhlQllGbvTarIzkoQMpLY3TBw8Y7Z6PhBQh3jctXZlWLBjY
-	sSLKlGl6alX4IQRYASd+b1cK0YPV8hI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-517-nD5adD4lNEi8ucFXOyFllw-1; Thu, 17 Sep 2026 07:26:11 -0400
-X-MC-Unique: nD5adD4lNEi8ucFXOyFllw-1
-X-Mimecast-MFC-AGG-ID: nD5adD4lNEi8ucFXOyFllw_1789644370
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-486f18da958so479929f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 04:26:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1789644370; x=1790249170; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pTp5uAMGwz7Ze7rhjDg7zXrqBXA6tuBeb/gAkdeZnoE=;
-        b=qucvmHi3LctotD+R3IYP96rHETUEbmAEhN7lbp4XVvwoNFcDKt1X8BH3aQtZ6b/HrR
-         GPk2aEv3C/EKMHFgRy4Q+nwY2+JW0k/k5nMn2WHZtDJC1r2jSXzrOM+k9ziKIvLVrNm/
-         BStshmStibezmi5CFpJ+VGAb9IsPVwwGkCLsjMLFTKdL0HlH6B8HgVzL7wcsM52fTqPV
-         xGtGWKHZQE387cFGrQiLTkep0eCD7X/GvpuA7PSViYOVD/epGtrKLEudRyzyfGEDkz2t
-         GF3lvyVvPRErXaqdDLqzpZrIKsljoO+wjnjevQEpnaHXIPhDpj4lWN/KFJb3DoEbDFx6
-         iJtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789644370; x=1790249170;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pTp5uAMGwz7Ze7rhjDg7zXrqBXA6tuBeb/gAkdeZnoE=;
-        b=TC29fhw6hUzLFF0nI7sf/EVXkujMjeGN7q3vk9qeWiXdfBduUzixFAgIwu6DjTG6gC
-         jE8NEyXYV1CMJOueMCbDwe7IdNunfg1HILDt1H5oDY56Ay1PjN+Tt6Hf1jXvQN7H2zPZ
-         LE9DsjtfdmWxDVOnzVsKqQBNTBBRv1/2z6NknV2gqM6YxS7VeNk+CDU+Yqk0Xu9xZfoN
-         Q6LVWvy/J7HBq3lntOGoAJd0+J9EQtV5AgBE8d7rlkOd+FdRn68ux1oKhTLW7sVq92Q1
-         7wc6BUhIBPdxCXdsH0SJI8eT0D29YSD8gwRRca3sMWVhshloQmBQ0cAW/gu/ACwV9EcU
-         gRHA==
-X-Forwarded-Encrypted: i=1; AKwUvBwmtEShTXFh16HDCEezSfsNJiXrhOf+dxtUrHupyg9hOCOE0lrHkfSDiis1rbMW5B7bO5lnJcMDdpE=@vger.kernel.org
-X-Gm-Message-State: AFuF++mmmxqfdSw714H5/Ye6uYRoqudN3mX9MX/iag3E4VPH/UlCQOKr
-	LKeEwf2713EQ1pLr97jlR5Wjg8kOSDyxKmSADw9IXHmVNJ2zIQ5kz3m5QJ5cBMFQRMYCycHmGCu
-	R4bTfmvVhVwM9vwWuGHbznZUYORAeVilJXXA2Tf2JptSDnguSWBBqdg3AOqrzqA==
-X-Gm-Gg: AYBFou3xbvpThwUd4s+iSMmcAl12mMUM71zR0YhMLkawKQ/vF1KLH9W/Sm0zkhS9m28
-	8+umeFwVFYbX7KtFU+RmUwG54UxgHz5FqACAvzgAniLR/Vgd2Gor9EzNisFYYDxFK2uTenHYiup
-	xNV4uEDcvZqtluhLfyuC/gsdneYov/aoZZB1pCAPxWdYg3XyX5CQxFqIAaA8uYWSB/KwHHHBm2D
-	gzKNF6SGbeycx4HbPcEY1Ufck26aNWZBgDfw3/3KNKZY1TqUyx1+qw46RgfG3JLHY8QlV2wG+jL
-	ag3Ehf9BEOxd7czDdBQW8Hs8tTiHflYy2wJ09gbW0QYbBcxeXM5gBZS7O/zS14jofMbYyYcZPg=
-	=
-X-Received: by 2002:a05:6000:4715:b0:486:62c9:5452 with SMTP id ffacd0b85a97d-48713c72068mr4609011f8f.28.1789644370073;
-        Thu, 17 Sep 2026 04:26:10 -0700 (PDT)
-X-Received: by 2002:a05:6000:4715:b0:486:62c9:5452 with SMTP id ffacd0b85a97d-48713c72068mr4608958f8f.28.1789644369555;
-        Thu, 17 Sep 2026 04:26:09 -0700 (PDT)
-Received: from [192.168.0.9] ([47.64.112.181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bf413dcsm14684512f8f.31.2026.09.17.04.26.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2026 04:26:08 -0700 (PDT)
-Message-ID: <c49dea95-69a7-4c74-8321-ee81f7f6fb66@redhat.com>
-Date: Thu, 17 Sep 2026 13:26:06 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="IAjwloY5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZzolwkEzZcyDFa1YKtv4bvMD1BTDXGtyAFH1FDclw+Grg79ecOWmuTvCcUdCj3f+2qVnyyejplrtPAgO8OrO41Vl+H6EYj1Pml+/UJ5kcslEfcd75IaWkX3dOL1N/Z0FTAP/YZ6Tetl8DXBagxhOxesTjZka8mTVgbyq8s3SycuWT+pB0KoInDRNFsMKTUJ6greSHPWLSVvf6tg2CbjpLSbWc/yh4wpsoZ0tImT0yCK7PKffI9tYW46bIO/NcWPqD71BrIU/iuV8DCmgoaoRMv/y+bp1WEAGjD5wmJVGNw475FtQ9B1QLvPObq3uU3xmja/lNj8961ZDghcyGRecGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l45OccfLtCyOBm9Z3oYxBlDR2alT6z/a/cHXrtjNJL0=;
+ b=R4B1spNv3Yffqm0Zg4knib8/IsfxRjg7/gXzxVPktvCVsqvdq/1expOp+3sBBETJjks0IGpG168+zjnyfKN59UhsbNQ0Fe/ZsP8Kz7w2oFrN5DwdXESbCeQW6i1LN2y4Vej5dCCadXRUwaXi3rBLf9oYzETASV/4b8ZOOubCzEASgSJtp7yKwu+4pucecsKF9SMTqTx1eiVWIitpjd1t6esoryfAmD55m8UqgFwq7z2PmqoguIFjN4qvj7dTFyqdzLXgAMcns9CqbYD3m9PPoan2ZJh37PPP4kQtDVkpb/PEoTYOzz9W18DgDbC8YpQl+ScgTSFwcrXpnyZk/q6umg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l45OccfLtCyOBm9Z3oYxBlDR2alT6z/a/cHXrtjNJL0=;
+ b=IAjwloY5aAXLStzabbnO7UaV+l0hzEXTsl8S+mky0I1q5tu7d3t5HNLPvKYLmb75yACq9hu1r4t+j4kpx6XiR8tMr+L0wgTMEEI4yJjw9ETTRp8/GnjGOxBs8RI44MorsAnIsOEyULf9OP9j3JWX3PRLOyJ9tSWBwRlfWOlwVEU=
+Received: from MW4PR03CA0238.namprd03.prod.outlook.com (2603:10b6:303:b9::33)
+ by LV1PR12MB999281.namprd12.prod.outlook.com (2603:10b6:408:3bd::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.11; Thu, 17 Sep
+ 2026 11:33:53 +0000
+Received: from BN3PEPF00022BC5.namprd05.prod.outlook.com
+ (2603:10b6:303:b9:cafe::87) by MW4PR03CA0238.outlook.office365.com
+ (2603:10b6:303:b9::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.11 via Frontend Transport; Thu,
+ 17 Sep 2026 11:33:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BN3PEPF00022BC5.mail.protection.outlook.com (10.167.248.217) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.451.8 via Frontend Transport; Thu, 17 Sep 2026 11:33:52 +0000
+Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 17 Sep
+ 2026 06:33:49 -0500
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb09.amd.com
+ (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 17 Sep
+ 2026 06:33:49 -0500
+Received: from [127.0.1.1] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.49 via Frontend
+ Transport; Thu, 17 Sep 2026 06:33:47 -0500
+From: Colin Huang <colin.huang2@amd.com>
+Subject: [PATCH v5 0/2] Add driver for Infineon TDA38740/TDA38725
+Date: Thu, 17 Sep 2026 19:33:38 +0800
+Message-ID: <20260917-add-tda38740-and-tda38725-v5-0-7fc19668ada4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] drm: Rename struct drm_atomic_state to
- drm_atomic_commit
-To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- Simona Vetter <simona.vetter@ffwll.ch>, Jani Nikula <jani.nikula@intel.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-References: <20260427-drm-drm-atomic-update-v4-0-c0e713bfdf25@kernel.org>
- <20260427-drm-drm-atomic-update-v4-1-c0e713bfdf25@kernel.org>
-Content-Language: en-US
-From: Thomas Huth <thuth@redhat.com>
-Autocrypt: addr=thuth@redhat.com; keydata=
- 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
-In-Reply-To: <20260427-drm-drm-atomic-update-v4-1-c0e713bfdf25@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABLQq2oC/43NQQrCMBCF4atI1kYmSZNYV95DXEw6Uw1oK20JS
+ undTQWhKIjL/8F8M4qeu8i92K1G0XGKfWybHHa9EtUZmxPLSLmFBu2gBCORSA6EZusLkNi8Q1t
+ pdAgBSk+FYpHvbx3X8f6yD8fc59gPbfd4vUpqXt+q/6EmJUGypqCCts4FtT9dMV42VXsVs5r03
+ 5LOkiKwipxBhC/JLCQFvySTJcNb74zPG7lPqfhbKrJEAdnXGCqGcilN0/QEl/D+zaABAAA=
+X-Change-ID: 20260903-add-tda38740-and-tda38725-32bbb097d41e
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+CC: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <colin.huang2@amd.com>,
+	<linux-doc@vger.kernel.org>, Colin Huang <u8813345@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789644825; l=2634;
+ i=u8813345@gmail.com; s=20260202; h=from:subject:message-id;
+ bh=oG3MqnMsEa4KyeaeyK6+ndFQOLwehPbfEwzkV2jAZ50=;
+ b=jWNBtCDl70W8Q4veWrf6kOwKgXAKes4GS/P8PZl0rMGRGwzcN8fzUI3BenNwi67PjkmxkpmXx
+ oPQ8hhhFrxBDUD8LqYtgfZV0lcHocBy+Wi3y692M5arZ5aBWjKRYQaj
+X-Developer-Key: i=u8813345@gmail.com; a=ed25519;
+ pk=Zlg0WqpCw4qbswOqamTBTXIchwR/3SnYZpy7rjaGMdQ=
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF00022BC5:EE_|LV1PR12MB999281:EE_
+X-MS-Office365-Filtering-Correlation-Id: 59971fc7-cf97-4f65-5118-08df14af8d2d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700016|82310400026|7416014|23010399003|1800799024|10067099003|3023799007|18002099003|56012099006|11063799006|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	TrTbE3milphsqm2wSL2KTceh2ZlCKwMkIS1w4uumX8M6sKLoEZP7eqs75KyQ2fG3bOVLZZSuw0OD2lDWpdxzG/y37uJwDVYJzmsyMY0x7M+b0zRaDncSWOv63wfoj7GvbpEoWKY+LSkwMWw+E03B3vpK5rxDsWzdIV068zpV0fkQtmYiT2j/EVb9IFgYwYRITrelx3mt/S7Tnm8uNcb2pqQGoO+1l2Hjvfd7giaGjlha2d7HcOqS9J4m2rXN82ZQnPC5Zogd+XNNwVR/TEV0Rlr+z6ZuXOlrh8iWVTa7gCd3kuvWPrLLddch1un0kTGs+TP7VxHrjBHrgcTZAqWy4KqEmmHGjuhpvSpEf6xRMMsGplMRLUk2dm9x4qTLN7bSwQl+U9XL951+n31zcQAMMZ3XTxEodLkEeFD0z5qk91cCmSENt653mffVnynse+qwDt1/R3ZvfN6CKzKGqREtthbFQWRj8PGisPdHEfH2N21Cfx2UUiVjtCASKMPr7FpGiYbXbYJoximhuGlYM0y/57UE+MVfOja/7Sa0NrrHO+2TBoFg2OZ0irKUeHnwflOEeZYPLE5EcYXkAiq++6Ei4JfXAc0pFd8PM2jn6tCrRNLU2/rKVqTtG6kO+ZOQTbhTX84ZrV2aRA/CJi529Av+IHQVNZ0vkBLGi3RHh7iXnSVVASkckmD3bYiM4VOdRFB7U9NGPGnc0uBN9a79w9OFXg==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(82310400026)(7416014)(23010399003)(1800799024)(10067099003)(3023799007)(18002099003)(56012099006)(11063799006)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	EnQwty2zdP+Kk0pb0lkJc7w+qh02t1VPiStoQ+QaFEur9i7TgjUwtsksMfrqqYWv5TdJATF+0p8ekV32QPFpoDpaaNVtrr5ybXcMEwe76SiYzDOMyIUFc7r+PpDzrghkCdn9dcpUvYTKHWA39YqLXJ5MgMhiz7bGrFcjIGAZ0mVDm0I8TmlFhm/eAiUzq76N0otRTIxUHfjO5niFiO3W8WjAco4wf2e/aDL/cTmmGBoG0uwHsvEiA+bbcGcLjvUsbaT5zA/wHD8Mu/FMr/oD0th5gMD0YC2D7F1P9CZC4SHhze9GkYTGS/nOVtGXoFygszd5FGUySJTiKC9ELu8yFgguDYB0q36sSPqCpMfMVjk8a4wabsa92BnBwEglHoJMp41FenpOFYc+k8yx1QdYHiOn3WGWyACj3oZXrLif4meB9stDBx+7fpYxf/B8cl75
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 11:33:52.9862
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59971fc7-cf97-4f65-5118-08df14af8d2d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF00022BC5.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV1PR12MB999281
 
-On 27/04/2026 09.02, Maxime Ripard wrote:
-> The KMS framework uses two slightly different definitions for the state
-> concept. For a given object (plane, CRTC, encoder, etc., so
-> drm_$OBJECT_state), the state is the entire state of that object.
-> However, at the device level, drm_atomic_state refers to a state update
-> for a limited number of objects.
-> 
-> Thus, drm_atomic_state isn't the entire device state, but only the full
-> state of some objects in that device. This has been an endless source of
-> confusion and thus bugs.
-> 
-> We can rename the drm_atomic_state structure to drm_atomic_commit to
-> make it less confusing.
-> 
-> This patch was created using:
-> 
-> rg -l drm_atomic_state | \
-> 	xargs sed -i 's/drm_atomic_state/drm_atomic_commit/g; s/drm_atomic_commit_helper/drm_atomic_state_helper/g'
-> mv drivers/gpu/drm/tests/drm_atomic_state_test.c drivers/gpu/drm/tests/drm_atomic_commit_test.c
-> 
-> Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
-...
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 41c57063f3b4..4ffa057e2784 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-...
-> @@ -1764,16 +1764,16 @@ EXPORT_SYMBOL(drm_atomic_check_only);
->    * Note that this function can return -EDEADLK if the driver needed to acquire
->    * more locks but encountered a deadlock. The caller must then do the usual w/w
->    * backoff dance and restart. All other errors are fatal.
->    *
->    * This function will take its own reference on @state.
-> - * Callers should always release their reference with drm_atomic_state_put().
-> + * Callers should always release their reference with drm_atomic_commit_put().
->    *
->    * Returns:
->    * 0 on success, negative error code on failure.
->    */
-> -int drm_atomic_commit(struct drm_atomic_state *state)
-> +int drm_atomic_commit(struct drm_atomic_commit *state)
-This causes now warnings when running "make htmldocs" :
+Signed-off-by: Colin Huang <u8813345@gmail.com>
+---
+Changes in v5:
+- Remove blank line in yaml header.
+- Add interrupts property in yaml file.
+- Uses a fallback compatible: infineon,tda38725 can be listed as a fallback for infineon,tda38740.
+- Removed the driver-local identify callback and its duplicate VOUT_MODE check.
+  and set format[PSC_VOLTAGE_OUT] = linear in the static driver info.
+- Dropped the per-device tda38740_data allocation/copy path, since there is no longer any runtime mutation of driver info.
+  Probe now passes the static tda38740_info directly to pmbus_do_probe().
+- Link to v4: https://lore.kernel.org/r/20260910-add-tda38740-and-tda38725-v4-0-dbae7fabce09@gmail.com
 
-.../Documentation/gpu/drm-kms:308: .../drivers/gpu/drm/drm_atomic.c:1841: 
-WARNING: Duplicate C declaration, also defined at gpu/drm-kms:408.
-Declaration is '.. c:function:: int drm_atomic_commit (struct 
-drm_atomic_commit *state)'. [duplicate_declaration.c]
+Changes in v4:
+- Fix the DT binding so that compatible only enumerates the valid
+  hardware variants and does not imply a preferred or fallback
+  selection policy.
+- Remove the vout-scale-micro property and related code.
+- Rename the example node to reflect the regulator function.
+- Link to v3: https://lore.kernel.org/r/20260910-add-tda38740-and-tda38725-v3-0-3e87637da3d6@gmail.com
 
-Should the function maybe be renamed now?
+Changes in v3:
+- Clarify that TDA38725 and TDA38740 share the same PMBus programming
+  model, with infineon,tda38740 as the preferred compatible string and
+  infineon,tda38725 as a compatibility alias.
+- The optional VOUT scaling property with a documented default
+  value of 1.0 to support devices that require output-voltage scaling.
+- Update the driver to apply the scaling for READ_VOUT.
+- Link to v2: https://lore.kernel.org/r/20260907-add-tda38740-and-tda38725-v2-0-1d051d63aa01@gmail.com
 
-  Thomas
+Changes in v2:
+- Use standard http:// URIs for $id and $schema
+- Add maintainers section.
+- Use C99 named initializers.
+- Link to v1: https://lore.kernel.org/r/20260907-add-tda38740-and-tda38725-v1-0-e2db1b2566b1@gmail.com
+
+---
+Colin Huang (2):
+      dt-bindings: hwmon: pmbus: Add Infineon tda38740 and tda38725
+      hwmon: (pmbus/tda38740) Add driver for Infineon TDA38740/TDA38725
+
+ .../bindings/hwmon/pmbus/infineon,tda38740.yaml    | 55 ++++++++++++++++++
+ Documentation/hwmon/index.rst                      |  1 +
+ Documentation/hwmon/tda38740.rst                   | 65 ++++++++++++++++++++++
+ drivers/hwmon/pmbus/Kconfig                        |  9 +++
+ drivers/hwmon/pmbus/Makefile                       |  1 +
+ drivers/hwmon/pmbus/tda38740.c                     | 64 +++++++++++++++++++++
+ 6 files changed, 195 insertions(+)
+---
+base-commit: ba08432bda66a7889d8f3d1581dabf10f59b25eb
+change-id: 20260903-add-tda38740-and-tda38725-32bbb097d41e
+
+Best regards,
+-- 
+Colin Huang <u8813345@gmail.com>
 
