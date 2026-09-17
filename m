@@ -1,183 +1,126 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B29A4E4C56
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 20:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789675384; cv=pass; b=GseHanU0JIHvG9HgvRogCQcmguRoVWzrO+TCojXKoRrH0c92mma6scpVQPQoKYcQ/HsRJd0imNjQkABwj9x7vbDcefSQEa0dPZUlUGmk6YcxyHz6ZqQ7XQ2hNZlN1vHa61efPjMlVYNTdb6Vfdf+qo+ms4/KxGkghUi9mO7l+s8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789675384; c=relaxed/simple;
-	bh=GpHjDtqu+AzW6bYVn14IR7601Ha7EtaAYwvYSeYG9jc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OHgHd/T8RsCf7Vr2JiLFM2wfNHOkwgc7oCkGQHFGIzJJbQSRui0h5TKLMVAp0B7za+03PJG9TY/oVK5hbDIIMH4pSpws5DF4kNsHRRLizKDzU6cJPG+XJAacqhcWub46W2Q1Tai27NzHvF/looCwWylli1m0agzhhiraMmxiFDY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RfRoG1si; arc=pass smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57AFD4E9C2D
+	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 20:11:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789675895; cv=none; b=JXdSJVkPl8pT7HEFAlJk+3Ct5FQ3pg7OII2pqvQqlmDKxw24JdbaN8XV3/od/72D4fBip0k/JP7F2PdK/ej6pfkqpVo2bEgSK65WQNQmc05JAOpAZR10NrFGjAIXMu6nBOsljyTM/KQF7VQFHLwgVnA5Th1yKc8tjxki4lZ1AoM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789675895; c=relaxed/simple;
+	bh=Pld+KJDf/y0brTSHAZfyNj7LwB26z/vcvvMjg82D16g=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=H2tSvTqql7iQ0ZsTITCOmMJ5piOkdtdecioQSEjYXyGuJFqX7ZHuaxRl4NEn8J8YpJGB7yozxoVxbgf+iOmX0G+Zv+A1mfov3xwulAwwSuqzwerGbXmZVdfh1lRG7UI/g4eDxK9E5lCKZ2ebrnkDfPqz4yOXPlWHU6P+2Fy2Mmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jEG1HNV1; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RfRoG1si"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccfd61ecaso244465e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 13:03:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789675380; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jGkgrhAmkzmPFi+oxhAHp1xrlpQyLdzBV+O1pqm4M4X2d5SmW5l8Q096j+AO/+V7bS
-         cgReiQGip/ijNV31sPbJXsdKWpQODfRs0064Juv4GMniw9vgO+spOZS4u2f3GdPqzw7H
-         JlxmnL8b2MC+i0WLfFvPTMRy/GkfHF3k8KElfhS6/Oe5mCyA7+3dl6KemPcUm+BizaCH
-         pzOiXf7+y78G+uPAUI45w8Myf0PL1huz+/6lnLIJrZkQJjFA/YH81uu8LolKYLaGcCJA
-         NrJmQsCoyEAPod5d/3t/YcFqLTGb7FFQzd+rG2soHpv2MlekTutiNxkBMSvVpMiGnAOE
-         YXgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=25a39fQthoJQenvf3ilsmj4we8U0R1UDFLTQO2djkUo=;
-        fh=h02v5STC9mCjrBbvF1lMs5TKXA3VcupUESAVcOQVLTk=;
-        b=qxDckaiavWa9qamQ7eDxlnXvmH0oMajug5BweHXYZNHg5APFB1mGjrhQyzRujkdgv7
-         n32qwc2ahy/P7MyTKOlEil1nwQxcA5jrLcuVQmFmq4HzL1+QdobxWJjyQnjOChfIDSzI
-         zP06tlNSpkBo7qwX8h8lP7IRau8pSKzn+76lix2KjUMP/fINhc2a6J3lymwgMGa+SXD4
-         uvYT5YeAfvPRRY7L9l+EhiKCX3CtEwz6KBZ+k+SZ/wlz7axYJ/i+eK9h9s845uy/jOgw
-         0Ysk0gTJK3osP1k/c18gCYLZWcSUx5x6p/VVJ9hcbBSBLtCO1HyawH17Gq50N1pX0EXy
-         adrg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jEG1HNV1"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4c08393dfso1063339a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 13:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789675380; x=1790280180; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=25a39fQthoJQenvf3ilsmj4we8U0R1UDFLTQO2djkUo=;
-        b=RfRoG1sioHwQsGYSkcve3ZDGfErdmSWrgCWHA2JlCBaobnXxnBfdr0TKVq27LK2zIZ
-         UOvE17R6vYGLa6zQAttig93toa0GDEpwxIgGBTum0FIhjWQ2ZvB9dyNYwvdV/otOI5vm
-         A3ZFMmlVd6uq3DhAGMGK/mu80sINzK4rP2D3RMyU2gORKLRV1tGre9kz1kts6W1QAYaT
-         9XuABFIURZMRzl1KZihvHVFw9CQ9VbWSNQiQyhE/Rv/Yb9DXy8oRagR/6b1gegQS3v8y
-         YYEboH4Y45Pq3GkmJCdeXvha1ezGt4n7sH0US7ujlIUX6kFFOMpc2oolhcFXbjqXk/zG
-         N+qw==
+        d=gmail.com; s=20251104; t=1789675884; x=1790280684; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Pld+KJDf/y0brTSHAZfyNj7LwB26z/vcvvMjg82D16g=;
+        b=jEG1HNV1nB356xIIlFyTqdaGPUUh9EjM/3PMbUs+3AGI4ehoP6+sJVH1PhlKRJdi74
+         49iLVhT9tC9NObKt7CYqbEQamlyNxL8drgZcjYZ9wTLMuI4t48nW91cDfveXf0Si7vCw
+         54dSWTEmPbs9HqyhwNdcIeab67Tty0F+QyFDkFaySQpj76fSQNllBZtFFvlb1jacOCR2
+         FmpL9hmFxdFK867OkjHeAXKI83GK8UB4CV1xuosFIQTGXxVsJUsjkAlXWhAILWlyh4HL
+         lpFK8QRjRmw0sPKGRoO7Aa3cih6io/pYDi7ISzk1TEp/o6Wckao1szsQ3Um6dWzlqWkz
+         9vEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789675380; x=1790280180;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1789675884; x=1790280684;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=25a39fQthoJQenvf3ilsmj4we8U0R1UDFLTQO2djkUo=;
-        b=UMfE4LR8qxhiZajk1XvD1Po9LHpEkehOoyddpHdTUSajH4TVl/nkB6JBOkUEmn9Hi/
-         X1Tuig/w+HhMZ+DS8LakfOli+asv+lLsmtUURU10oDG1uylMXkQ6vf6glO3zMuKoPvg7
-         qw32NBva3mqak/FHK9D4yNwJgezmJqkJUVt2Fk/2/hjm4rS9XtaLLktMAy47AL0K2S3p
-         TZ0nO6vOHiMkRro9j3nJDMUlARsRxHSk/4kbQKlP5KRr8QwFkegqOfydt3nZW1hdZYU+
-         VxLSUzE/tr+7q6fPMgLIbMnVa5zBbGhgFaEMxu93WIAVNxclLDJsXnOGearzqyG3YtLr
-         tprQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzVH0LNM9CH1W45YU/QylQEOQkVTSvySN3mu+WSFPhuBPAJEvYo5sH/8lCOCjK5yIb4yedQx9FxC6I=@vger.kernel.org
-X-Gm-Message-State: AFuF++nGUj7+y9JmmF1k6JVHHSL22iTul3dhMPhP925Ong8uYKKW4nxz
-	dpY6cjylw6dKsid+fz2vKi0BmWz4xHGULJULEW1p4upVB7dNjdMTfjEczvIu1zHpr2Upte+Hpte
-	M2lWFW6xpE+AyHpLWh0/RvMrMopFjoBHkJKaBkIZ5
-X-Gm-Gg: AYBFou3xDCPlHKdXLB+mRsWLuT5E4T2oCZvI238/14wgWuTBsJgSNPB5FK1EAbUsplE
-	wLtxA9vyrG/ngMAslptQiKVz6zuxG1Rw26pQ16mgdbZwNzn95yaX+FiSfwpOYWt/5XA7i/VCHC4
-	U6BH181C8MsXCIpMUY7D6cW1AvfqDMW2YSPxyKBLCNkp5uB9UXUpbsTayedivaY+hk15TqXoO9i
-	Dw7PQlepp+DD1lFN8Reg1SRmhJHK7zTzwU2RBk9rgJvQ2+LXngalFZssj7qCktj1RAraC3OQESd
-	6Lwqqaxy+3q3u91uArxY+Q98HmpYbC0VJEySrpZV8WREc1gGGXGRNYNDeHn4u6m/NwF4Dq4IjE5
-	pDSa0vqNOKkOCg9Bw21iYxSuQkppN5fVm60gPVduFr41qQVfwJ8W5sH429AX66T62xGImThY=
-X-Received: by 2002:a05:600c:a013:b0:49e:6891:27a8 with SMTP id
- 5b1f17b1804b1-49fc574a9bcmr72735e9.25.1789675379819; Thu, 17 Sep 2026
- 13:02:59 -0700 (PDT)
+        bh=Pld+KJDf/y0brTSHAZfyNj7LwB26z/vcvvMjg82D16g=;
+        b=NNNKD0BlnBFRxYPKL9237NTAaGWozsAEiM67qAxDp1K0My72EzvvQhypoE4YD4Cr56
+         Q/3bdaxlULaczvlnhp6iLFgrO48blrRvQmpOL3LdA3UXU9C9wb1Rxh7gq1VyAO7sXb4h
+         8KkISrjp32WRcIgjamYRktChaVPeu/Kmjxi0+7wFglh9z0vTe/2uPuvt/oouzYt8rcDQ
+         +a1HjKU+54GV3HrcqaIWSGHDvCE1OyR8cjITJOs2U81HhKSsKYaiwar32BUeH/6ChFZ6
+         BOtPcm0NPCguO/DTsjigvEMe1QdUFVUWv8C4j2iSp0ZA8WMM3S2UYiZVZ0ua1622nc76
+         mybA==
+X-Forwarded-Encrypted: i=1; AKwUvBzvcAlM0AoIpzc5AqWLUSY/UWszTIrj23l6hQR3P0ghYXhn5eXMdO1DDSMOAOHlYYCOOf638aB+cEc=@vger.kernel.org
+X-Gm-Message-State: AFuF++kFaeuqmeJT/bw7rgKwQ+MP8a/m2o7YbOJm0vsIQn8WjMiloo4Q
+	xvH8GkayHMj+/eB4Xv7UpDYpQ8e+s2lfpN1GJmbT4GfdKfhviAYZICzM
+X-Gm-Gg: AYBFou0XIzugtZga8u7e/Tjav4dG1AyQK7QL6BQAOgudi2w09ubhrB/P83CatU7ZGdX
+	dsy+yg4mnCooYTfZAbfbKkFepiYcXXDbjxHm3rr8//it42wa+tA5mjg8+k6xQa5BK4P1w7cfTxb
+	CfJwmIIHXTAuUvss2D6+jOL51BXbce44UY90hClGCwJaaB7C1fJteCtBw+uUUVtuq8H4eL2oBo5
+	+Dtg3U2WzQauYnq/4GyLblEVhMRas2aS+YFvCmDUsBq6XCbNmPeMZWkc5UxSnkgs+PMncqpeAUd
+	al1Ac8cCqm4iv8EHoZ46TKEcsDX0l8bOsk8KeXGvCrWPBCxt7sXkm7k6a+YtkkaLkHAS6ei++lC
+	NWzZlMZZlOMnjBVXKYzcNeBvXZI6LHHEk3X489dVzzE5L0tHdbz2TO1jmwmYJ/ral7sVVhXFEyf
+	LRcGTswpC7ZScLYwu/jdMNZ0Je0cv7mLmBCGoJ6gG3jHfIWeJ36a/1M1qxiBhGQCKQcsVN+hSjP
+	XvO08L0T7+siENRF4f8KtHyym4=
+X-Received: by 2002:a05:6a20:cfa2:b0:3dd:5831:ef58 with SMTP id adf61e73a8af0-3dd8c456190mr204908637.15.1789675883461;
+        Thu, 17 Sep 2026 13:11:23 -0700 (PDT)
+Received: from localhost ([13.93.150.60])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14395d13ee7sm16211287c88.8.2026.09.17.13.11.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Sep 2026 13:11:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org>
- <CAHk-=wjwtJQPW+MRAkQCcSGA1EZWehxBTUiEUUhdACCNHSKvTQ@mail.gmail.com>
- <aqwkk7FcQ0XWeqJW@gremlin> <aqxCNyxYRzN2Oher@gremlin>
-In-Reply-To: <aqxCNyxYRzN2Oher@gremlin>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Thu, 17 Sep 2026 13:02:48 -0700
-X-Gm-Features: AcwNN1XUt93HLe1Zu-oZLdknUZyAU05hxj4P7Ko_JzOHOx4U0fnT6yaI1XKYaw4
-Message-ID: <CAKwvOd=zbE8MZXCNCBJNpd2WWn7f+AOfxYcmCp7e-8uFSM+D9g@mail.gmail.com>
-Subject: Re: [PATCH v3 00/20] kbuild: significantly speed up kernel builds
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nsc@kernel.org>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 17 Sep 2026 20:11:18 +0000
+Message-Id: <DLHV5GF21AY4.3GAK241ZI2UR8@gmail.com>
+Cc: "David Ahern" <dsahern@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Simon
+ Horman" <horms@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>,
+ <netdev@vger.kernel.org>, "Arun Ajith S" <aajith@arista.com>, "Roopa
+ Prabhu" <roopa@nvidia.com>, "Jaehee Park" <jhpark1013@gmail.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Shuah
+ Khan" <shuah@kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ "Alexander Aring" <alex.aring@gmail.com>, <linux-wpan@vger.kernel.org>,
+ <linux-bluetooth@vger.kernel.org>
+Subject: Re: [PATCH net-next v2 1/2] ipv6: update NUD_FAILED neighbors from
+ NA messages
+From: "Lawrence Lee" <lfqlee314@gmail.com>
+To: "Ido Schimmel" <idosch@nvidia.com>
+X-Mailer: aerc 0.17.0
+References: <cover.1789448374.git.lfqlee314@gmail.com>
+ <6596966f734f3d416bfa83722f7a595149bcc3f8.1789448374.git.lfqlee314@gmail.com> <20260916120202.GA935660@shredder> <DLGXDIB879EO.IDZNAIRY0VFJ@gmail.com> <20260917143750.GA1332286@shredder>
+In-Reply-To: <20260917143750.GA1332286@shredder>
 
-On Thu, Sep 17, 2026 at 12:42=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.=
-org> wrote:
+On Thu Sep 17, 2026 at 2:37 PM UTC, Ido Schimmel wrote:
+> On Wed, Sep 16, 2026 at 05:43:11PM +0000, Lawrence Lee wrote:
+> > I added the lowpan changes after my local Sashiko review run=20
+> > identified an issue where a FAILED neighbor can retain an outdated=20
+> > private short address if it's moved to STALE by a non-override NA.=20
+> > Happy to drop all lowpan-related changes or update comments/commit=20
+> > message to reflect the changes, please let me know your preference.
 >
-> On Thu, Sep 17, 2026 at 06:36:18PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > On Thu, Sep 17, 2026 at 10:15:26AM -0700, Linus Torvalds wrote:
-> > > On Thu, 17 Sept 2026 at 09:06, Lorenzo Stoakes (ARM) <ljs@kernel.org>=
- wrote:
-> > > >
-> > > >                 =3D=3D defconfig FULL build =3D=3D
-> > > >
-> > > >                         before    after     delta
-> > > >                       ----------------------------------
-> > > > Threadripper, gcc        32.5s    26.3s     -6.1s (-19%)
-> > > > Threadripper, clang      34.5s    27.2s     -7.3s (-21%)
-> > > > EPYC, gcc                28.7s    20.6s     -8.1s (-28%)
-> > > > EPYC, clang              39.8s    32.2s     -7.6s (-19%)
-> > > > M2, gcc                 519.3s   512.4s     -6.9s (-1%)
-> > > > M2, clang               634.5s   569.4s    -65.1s (-10%)
-> > >
-> > > There's something odd going on with that M2 gcc build. Why is it such
-> > > an odd duck?
-> >
-> > Ugh dear lord I think the LLM somehow corrupted the numbers... Let me
-> > re-run those myself locally and come back with the actual times!
+> And if the entry is INCOMPLETE and we get a non-override NA?
+> lowpan_ndisc_update() will ignore it. It's a pre-existing issue and
+> there is a TODO comment about this:
 >
-> OK numbers are in:
+> "/* react on overrides only. TODO check if this is really right. */"
 >
-> M2, gcc                 564.7s   512.1s    -52.6s (-9%)
-> M2, clang               615.1s   564.1s    -51.0s (-8%)
+> You can mention that it's a pre-existing issue under the '---'. That
+> way, hopefully, Sashiko will not flag it and it won't clutter the git
+> log.
 >
-> From the v1:
+> > This was added in response to another Sashiko local review finding. =20
+> > Let's say we have some FAILED neighbor T with NTF_ROUTER set. If we=20
+> > get an NA from source address S with target address T and with the=20
+> > Router bit clear, existing kernel code will cleanup routes with=20
+> > gateway S, but IMO we should clean routes with gateway T instead=20
+> > since that is the neighbor which was updated by the NA. I can either=20
+> > update comments/commit message to reflect this or remove the change=20
+> > entirely, please let me know your preference.
 >
-> M2, gcc                 564.0s   512.4s    -51.6s (-9%)
-> M2, clang               616.1s   569.4s    -46.7s (-8%)
->
-> (Tested as per the cover letter pre-reqs, i.e. applying dependent series
-> first etc.)
->
-> Not sure on the -5s delta on the clang build :) that might have been me
+> And if the neighbour was in a different state than FAILED? It seems like
+> another pre-existing issue. I guess that in practice, most of the time,
+> the source address of the NA is also the target address in the payload.
+> You can mention this under the '---'.
 
-Clang is faster on Thursdays.
-
-> being more disciplined this time to not use the laptop at the same time.
->
-> But broadly in line with the original numbers.
->
-> >
-> > >
-> > >              Linus
-> >
-> > --
-> > Cheers, Lorenzo
->
-> --
-> Cheers, Lorenzo
-
-
-
---=20
-Thanks,
-~Nick Desaulniers
+I will remove both of these changes, add comments below the '---' as=20
+suggested, and resubmit.
