@@ -1,47 +1,47 @@
 Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010031.outbound.protection.outlook.com [40.93.198.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C911558E2AB;
-	Thu, 17 Sep 2026 14:08:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0576558FD04;
+	Thu, 17 Sep 2026 14:08:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.31
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789654111; cv=fail; b=H4KT+TJYAR8TpNgzkJ+4WDlD7+qCcWae4KcHqoG3VbhdeFZKRGcbQeXbfDmRJlZ1WVKQHvRXVZ9994upr2p+KmARQsHAckPIhDAeA+N+EUijqZ+52LsIA7OSn0eXs/LtDVBmlFhdB32DEGTWiSd+NoUhSBAYHCrUYS/Xnin9QxA=
+	t=1789654117; cv=fail; b=M2AWNA2mr/TibCj6tD9NpvleheZPM7LyWyw7nz3nC6Fsqpp2I88nvWI/R4/4CDtd/rJR5mC/kmdOg5tILI1vv074TWs5+xIUDO6FzS8SgiI2ggp8zNAu4685HenIQmiXW7QXqba9UJQgXYr9Ffe5Llk0BjFcOuzAOWa5rpG6l8w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789654111; c=relaxed/simple;
-	bh=8IwXRxlIIjd8E5Lb5ezjF38l+Y7t0oxG/KZBl/GDzGY=;
+	s=arc-20240116; t=1789654117; c=relaxed/simple;
+	bh=iplslCs+QjdD9fjX9BSJ8aTYkszRsOXW7pjPIY/kBDI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SOGtH9qxFC2TEyqhHruMdyfbEiE/qY4mCd615qvrcJYWlLEgWlDZfTjkh3Ra92XJqAfNsElKrdcYY6hzNSc+cgASybpuvnFd1YA6kBEHsEogWyuAu3aULAq4nsdibITrGLNXoOeE/Ueyvka/aeEs1BHekI8wqVhNvto3x1A770g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qyVM4gVf; arc=fail smtp.client-ip=40.93.198.31
+	 Content-Type:MIME-Version; b=K0z36j14YrpqzRkFXV4VAbxknXMNGrS5f9osZdrRRM9MZS0/Bf18TlPw4yALa+leutQlyuzonTFFFdx4bo3mEzWOS+D3CezaNp5AG2M46N5pwkk6g+klZbgan8ESveR1bpB5K4nc62gY7CsuTnwgOdaEufycuaLfGiMqXwA4eNA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AOh5nnns; arc=fail smtp.client-ip=40.93.198.31
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qyVM4gVf"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AOh5nnns"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e3qzKu9TeyI+kkozhPPxgGSb0D+lxfknRAaEmVtKuo4k3K1FUOnH+FROQ3R862Ykgz35YhEDSWZrNYwkjrTcwCDRaN9lUSEpCaM8QPs/XyV5Dq6bY6bVoXJEM4E1vVNIpMrNPQexmZ7zTgRfrmo7kNbx9mJEzx0Vc0A694JSshxiRhL2w4YE45OhMVYLkVc2pCpg7slb6BFoPpnnkqFwR6CRuRld05CCQm8nm1Xf0V+E3yha3dNu9lDRDjJcRNJaECtA1mah4ce91CXC7TamECcTAVjkRYPoWn3+Lz9RMLHuzc8BcR+WDvnJL2xl0Ve8ytEfZ0ARKaU+lx9mFZ1q5A==
+ b=KXTUTTiaJZ/qmqRyaRJ019rx7LzIv9qj8YWahJR8Uij8jg5SdzUl+chHmVHW5eOSnK4A/1+zQS1wXZ5e2S43zr9eQKIKhK02ZT4n1pafD83IjNl+oUjH7WUq19XQg8+6kvMpU9ca+MjgcFhzsjaY2u8BmMT42k79ukV9cmm0V3zkqSntUSdKJ5t+AOKot+YXUS0c7BhYBtLYPm8S0PVhkxXId8ZOyCjZeSmcjZC0UCrw0ySdiK59zPp7+WOgeTK+cQ/+ge+lEgYbrNuWzeBeMQFoWcCaHLRcd/mQ4Qpng8xvyZczHCm2GQCdNfNpD/Pxz/2YKX5nEK8CnsOCO7hruA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DG2UxAzUT5chIucYuNWTbGx4t/FLWSot4kyllLqhBg0=;
- b=bEJ9/1DRcIGA4QGuCaPNxJ+JD9Nq/HSdPfed4gqcJHSyDyJ4iNiP3mehndduiUVqhh1SPdDymOyzUjHtYsxbjQ45Iz75ezSDBv1GWpMgxF5zzxDUvuktS6yzgQkq6EGaGybnVXOV4Km5AVVituyO9ZGKgCAHxCQLSSfBv2o1CTEqF4nAe9Pzk+wl2Y1v0VfW26dzLs/zo5VBVXEGgvYCL0PyyE9bHM/n76eIqJjoxiHEqtrYVpo46yS6/bWf8IQi+D/+INM2azaeHUPFZQS+p5v1QPf9KKm+bUENbcvseZWynEnzWEWcGs6lDER9m1SncqvVUaYnswyWxomgEjdB3w==
+ bh=eRtHEZ8Qa4Ud4rjAOfEK3k4x1Lsymmifmhmawuca7Ko=;
+ b=hnziBkB+E0MpMVXtEBwLXe0oll4PYc1UNUDorSrTgQGb9Julp/8pG089SJ8PjikoRWjS7eFtyDvn6XvW0vRIHL5tJ6E2Nt3ZmjB1ju2SeivXCV3uj7MWU0uH0ddUrt5LCeYk4Mn4NtCIXL3L4eypwpk8bE5Vq6TyfPsoXQrOyGSBq2OzZjTFcT4rpLrIs77GoKaynKdXQlyWhaqTLpkOWOCWhvknRdK8ApId10MlVZ7btGPVAsPbAxacx4fHvkIdmFvnWenPJ/lqxX8vbd4jk1wKQ6HRdBdQznaIjEtHnXjQlZ38MK4+ZD192+4EOG4+gcd05LwN0jTsarX9OgX9SQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DG2UxAzUT5chIucYuNWTbGx4t/FLWSot4kyllLqhBg0=;
- b=qyVM4gVft1v/JkSJJoQvAnKAY3xiwE+/WerCNc/64OPUTGt4n+8GZzBid5ZfcpKVu+2hDoZZ647hVbvBhBoUaFt/MpP9YuchnjN2Dn03MABR4wMq/EagVHiEPHUV4hRCsa8+LnVAWPwt1IUxUEZdneq83vQn3Vf60GyA62R6TwzKoLCi62zSzv0Q5bSIqty/iPeWUj+qkmKgR2UYLjM0XO9prABSXAGUDQAdgi/C8YETC+d0WyvHxmcYhS3IR/Ck5A5WUbOWzoHqu2sOGoyBx4DBC6Q/OTfwFPe4McJ/tfzpKIIcNJ1qWEPOuYMbXRrIiijTJCDxPBh1MG5KWCSVYQ==
+ bh=eRtHEZ8Qa4Ud4rjAOfEK3k4x1Lsymmifmhmawuca7Ko=;
+ b=AOh5nnnsNCeBq5yGQGEf329HUpXL9Rza+cOtSqQF0fFfZ3LGDnIdXlvdhpHt0pL4+IySYEK4H1Wl+wlDkxZ3oMZxnpZlzzfTsUdSzyv9Q8sg2cpKd9Lu6EGxfD19TgIVTtylAavZSDsYkWAXqo8r+7CfFvASkhE/V82JlyOjQyRBQeuUUE2M+dcdtcP3FH1NNh9DOK5x0SxXtqw427Py6AiO332CHYPqW2C3tlvPWxWQp33i1YazfmCNr/pKG+UsceO9IMbW8JoL4GLO7SesyjlKk/uq/mXboYjy9lvA4Tj/CefQPZct1Gt36DTqeyFzWqlK8iFRevX8xcYchKHF7w==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DM6PR12MB4827.namprd12.prod.outlook.com (2603:10b6:5:1d6::14)
  by CH3PR12MB9219.namprd12.prod.outlook.com (2603:10b6:610:197::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.9; Thu, 17 Sep
- 2026 14:07:28 +0000
+ 2026 14:07:38 +0000
 Received: from DM6PR12MB4827.namprd12.prod.outlook.com
  ([fe80::6261:3040:864b:159c]) by DM6PR12MB4827.namprd12.prod.outlook.com
  ([fe80::6261:3040:864b:159c%7]) with mapi id 15.21.0428.008; Thu, 17 Sep 2026
- 14:07:26 +0000
+ 14:07:36 +0000
 From: Andrea Righi <arighi@nvidia.com>
 To: Ingo Molnar <mingo@redhat.com>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -66,16 +66,16 @@ Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>,
 	Vikram Sethi <vsethi@nvidia.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] sched/fair: Honor asymmetric SMT priority in idle selection
-Date: Thu, 17 Sep 2026 16:05:20 +0200
-Message-ID: <20260917140707.3807229-2-arighi@nvidia.com>
+Subject: [PATCH 2/2] sched/topology: Add asymmetric SMT packing override
+Date: Thu, 17 Sep 2026 16:05:21 +0200
+Message-ID: <20260917140707.3807229-3-arighi@nvidia.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260917140707.3807229-1-arighi@nvidia.com>
 References: <20260917140707.3807229-1-arighi@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MI1P293CA0006.ITAP293.PROD.OUTLOOK.COM
- (2603:10a6:290:2::16) To DM6PR12MB4827.namprd12.prod.outlook.com
+X-ClientProxiedBy: CP6P284CA0072.BRAP284.PROD.OUTLOOK.COM
+ (2603:10d6:103:1ad::16) To DM6PR12MB4827.namprd12.prod.outlook.com
  (2603:10b6:5:1d6::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -85,251 +85,173 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM6PR12MB4827:EE_|CH3PR12MB9219:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2746440c-9581-461d-3adb-08df14c500d6
+X-MS-Office365-Filtering-Correlation-Id: 957e350e-2cac-4c01-3324-08df14c506b2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|11063799006|10067099003|18002099003|22082099003|56012099006;
+	BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|11063799006|10067099003|3023799007|18002099003|22082099003|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	Qa63fbjZDf6wiQrWRvIxjTs71iXp6jcgiZYMFbmBzC/U2IpjJvI/C5w4Fx3nflgwcvwVIoDMtdd9CvfYKbR4qFCzj75P+JdpWpP91XA/WgZfYYJeazr9X9fK102Gq7gBvuWcmSzruKMRvwS2FKcEvj+eT1FfNgjBvHbM7Z6g9uNXqofrdZr5ZvbgxIBr1lcGJYJZc3cpVFA3HOd84xD7xlphAQXnnwoLu19jVTm3UGrgLmNtl96jUVog6cCLQa6Rb12ysDj0w9lNwdEcnO9xCu5Uid9TfHt7kZKeQiSJ4CWBizFo7Z8NCylfetdFPlc6835ob/93MLXiZvtAbyJm4zpuSVRXFYCEgDP8CUOWFd3LvyNWXsYusrCm6OXg7DxEyEdtoD5vcyEu/kkhcyES6p4mqdKtVINDZJS2sh3ePvth3w3ZZ2655ODL16f+n66u6BEAv4CXPWoN8MNOlyBV0UnIeZz6VpZdP3PGi665qk9nmQ+RsdvtJHqv7EnmG5euNjNqesHoHtpqhueTAAqe4q/tLTNqdhpbCD932On7jhQ44dzDfflyhfpYjLaedtzqRxg/iG4INeAPg2zyQW2EiXttX/KN0/Qa32S92bmberGuvc69gXLWq6f5CpZRp4Fn1/IHthPOqAnjcnpQ4jb6BYr31ysfIFOR8ZtCXz9Ahgg=
+	ElZhtJrlZcnex+cWQ1lO+q0I68DW4HG38DiArxYHuPyI7YH43R8yoaB5tVi6vV/5dZHj60wJvUBXQxbahucquob/w1so9OboeKlPIr7Rx/+qOk1j//iFDNkJj6QUxIKbuoV7oAcatW0JeQzAB/tT7SItlFkVUUTkKxRnY1C5CHehSSixYaxiQ2pgVN45Q2iAdNO1StTu2bFtZmi1VizuyGwI9pNbhBafoBTzErFjt4/sU5npBNJyhhfQ75F+4XSAPrV//zz/+2ZjUtd1OKl4AEumAdL9Qg/x95fwfDlNXThjOUMf1i0qG9lE/5v7iBQBthF8MyavTmC4T4jmnxsHeWE/clKpspk2lLk158uDqOAZS9uT5EVapidCkPtEimX3wbST8fmT2BkZubFYjH5dvw7hjPRV7kqS3SQG9UuAB843cQjaC8Imt8M/PL83J1XUdH0dCsruw5P6TIiqWHyWaKY7D///tYwqQLz7dPJE64sysZZgAo0xt6XUyx/o+YKV7MrBDVxs7nLMFr2v6Mad0VhVorjyWCcsFvxyrtDuFiwTOojow6f86R9ytFG+uTNgf8g07B4VJ3dmBzQIx95UZXrZD5MS8niAPHccWdIxceFsDphUhzerdZWcJNIXBI3s1Ty9symHpd2KSB3OmcEINxzW1m3PWBCyTwVtPX+YrOk=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4827.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(11063799006)(10067099003)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4827.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(11063799006)(10067099003)(3023799007)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VQXt8eUbpsn9u982pwKgysqDhD7RUsIX9sB5xZsCdl8OJpe3na79V5VYk+rV?=
- =?us-ascii?Q?nBqQAj16S9Lee4vBhY70G+C+gw6rjbE49w5TdupQZOtpDky5cCIbbTKDeSAe?=
- =?us-ascii?Q?UuGDBdvvQIb5eWAueY3/tSYLcqZG0o+hywYm0pcVUYzzA2GugS8VAggX+3jl?=
- =?us-ascii?Q?Ipq07c1IDKtLkNRrvNJsB8AYht1ZzODls2cZsb6ZjHrVtJxcBAEy4/ddc5AH?=
- =?us-ascii?Q?igBDABM0SVZ2IEVnKPb28Sq7gqpbwhZKUjdBW46SE2oWImzWKRpB2PtYEyYJ?=
- =?us-ascii?Q?/Wyapc8Vs4p6KV2QIOXf06BO406+yRdb5lcLqj0QzolG8H7eEqvqhK2RIiXS?=
- =?us-ascii?Q?HWlKJRjGAN8s/tzqykOcO/8Kuf8AaZ3y2w3jN88UqOVD3kFEc5CgPy8btQot?=
- =?us-ascii?Q?nTCZ0fvxiOz2C0pKmWzjCAuMNPEdsNAIncdixFAGdZ3L78PNBdIbnKo3cAbE?=
- =?us-ascii?Q?wiIdMu3Q95E6ZcmNM672WBfQLNt5PoQTlOSY9A6hngBERhmxHMxq4NHtcbXQ?=
- =?us-ascii?Q?OViCC2Q9FFZZAsWrWDgi9vJe20h7CJTwlBiClBfRLS5HBdiG2yLYJ/Riyq9n?=
- =?us-ascii?Q?mHkXgXhH926VDcXxhztu/TfxZTKJ+ZK/x0StLkrKzcBTeiMgbiBYNeG63Egu?=
- =?us-ascii?Q?PfVclknBpfxp/d9P9sgFXiT7/3EhHts9qykQlMK/yYKbQhPPAKCYiYCfjb0v?=
- =?us-ascii?Q?q8/VEKj8j2MUBoLSB61s80flMTtobovj7R5V525ocQ2BwyXRNNHLo/T55dwz?=
- =?us-ascii?Q?XUjPwGf7AfpkKiERDgN7V4jDng0lLHIalCduBecspZ6cVnrXq75cOzIVcRZz?=
- =?us-ascii?Q?5SNCXNgh/q7oWM3O0SRGd6B61VrSvC+PMZBQM9TjLBBxSuOCxRLqe9g1SC25?=
- =?us-ascii?Q?JdbwCSD+OROc2pgHGq6oHO1H1nbHMag3UiCHcP8S9SAeaLSQiD/lkYNe0TqC?=
- =?us-ascii?Q?aq9kT9EH+a+QJP06sFytVOqOkjK400LyD9htdHbtMArEpPWFtsZyeKUtpYMb?=
- =?us-ascii?Q?h5Cyb+sSefoL/ONugexO7MFa9kXACWaIHaWEo8ipcGAVEfdwhm9XE9brLEHh?=
- =?us-ascii?Q?2cFy1L+sqJD4YYfQH4x4kxBlSKn1dx/FMZ+PbU70y9Mzsj7zlfM8Nt6DxP42?=
- =?us-ascii?Q?37DMLknS+zhhm9KjpKaro9GLy4byrPTtIA/oE/pcMLVGm43IiMgaXCR1mLWf?=
- =?us-ascii?Q?EcXARZ6ZMJJlcRKX7F2rJvbvwMX0n+gIdwT2D9RSifZYUyQVM3BZDN/LhZo1?=
- =?us-ascii?Q?wYQmxB/NFWgOgGlLK4oZwX65ErglePfp6WGuJgDI6J9V4uQipq+dtF5q+2Im?=
- =?us-ascii?Q?X4lu1kD0Bztm6G8yKa4Zm4P0NyCbo+xYCPaEKhkIZ8SpApYhDP+fLJAGT4in?=
- =?us-ascii?Q?9x7U9MV2z29ZXd/vutvn3GZ6fNyoTr0QxXt+Zgu9/6FkwnkGI7brMDb+mwr9?=
- =?us-ascii?Q?FXecm7AID2ueROYQGAHEJgCU0Z3DkTCvqQ90j6Jm5kJDJ4n2WL7Xg1nxB/SN?=
- =?us-ascii?Q?JjJrxovioRlCFE73bKCgqnYsHj2gT7Cbow0YE2kUzMhH5ZWbsgYFcHHsf8Nc?=
- =?us-ascii?Q?diNFUedyszdH1S0RgeLPQqpKu/nXpqIGd3DcKgNfPcTKy9+Q0dKYiX2b3E70?=
- =?us-ascii?Q?xtG4jkUIqDN0b1W4s8fFHJpVcJVyr+Uxw2jGnUuV77HtusbAdLcn9s0ZFfhW?=
- =?us-ascii?Q?kWvVOdZgixxczEiJM6YTjpCVQDONrp/+iamt3YZNzakSTcGhtLmw9zBpQcrV?=
- =?us-ascii?Q?qhB5Cv+vbA=3D=3D?=
+	=?us-ascii?Q?0l12khHi0qZdHNGeiv2QPKns21XYT9H9G641iEiuA8szgsgigmG0v9fwtnTm?=
+ =?us-ascii?Q?QwdXIWVliQDTbsCoK71lauk6mi7lLRp3fTH/b2yaRfJiPshYX6/Sieez9sRz?=
+ =?us-ascii?Q?lhBmDLys5Tq8UaeI52O0Icn6jwJRp3A18wM99TMOAaSZx7fs2la80EYXRSd8?=
+ =?us-ascii?Q?UxUYq8y4faVVwPRtbEUVXidjGrREl3uF8VWyJgdO/CVHbHGCXUw07d9pdZ+K?=
+ =?us-ascii?Q?KO/AxABxD7KM1bSIHor5FBtKyWh5fGZ4YoHozRxEZCZrpSkaJlF2AzxXDaYu?=
+ =?us-ascii?Q?tH5tXyLRFIVs7LZXT2aE6mITuR76Cn3XlhBECvyEmwz+Zqyu0oUBWoMQvrOy?=
+ =?us-ascii?Q?5dqVvsLqv/A9pdxqKT3pradEV39s4NId/5vCkMOK41GLz/6pe318ySTtgzuB?=
+ =?us-ascii?Q?Q8gxOoUqe+ZpqPV5Ho/avN8xDvb8/zKDmcx5Pyb5qDEBAMDKMlaIPNZp0U4W?=
+ =?us-ascii?Q?4fVFHSMTWMtNw/cHkCQAQahO8dDfa5dAcyqf+LyaA1Hn9ASOD6iCa+INWqik?=
+ =?us-ascii?Q?15oC3G8GOBFzfqqj2UAnHLNtbdvyFr2LoK5KR+Hz0IDEk2RcTm4aq/GqDl8d?=
+ =?us-ascii?Q?c+TvAt1BtobNDvaoKGZB5UVCUa325sSezap/ujmtoVziJHo5sD+zI0wmQrzh?=
+ =?us-ascii?Q?m970nVRMsO5nEQ9D3R+agCJDUXW1x4QRn3DZog25ou/hSch9HtPzNqMGP3Bw?=
+ =?us-ascii?Q?zndW1UUbGJx4bnFzEb3ECLrEShl06oRdOkadia16MtOFIu6ElzYOzYWf5qfw?=
+ =?us-ascii?Q?rG1z10cuWZjYYkgQNGdYJr8wc8N1qNesiAt96258dXVTc0oo4YNcKEi8lCVe?=
+ =?us-ascii?Q?KMXjx7Z6ecLXEzMRtcnHlB9sN85ruzH9FbsJPO5hkYsOehliC1oMiP5PKfnf?=
+ =?us-ascii?Q?G6pjTO7lNHgLI1wmsf/ESNq52aXdebc5Xa4PXTz8ZH36YRHWH1LP+wXM7c1/?=
+ =?us-ascii?Q?JxaLmPleKquNglsgaP+EZlMOl+JMuc2xGpn3QbuNyIxGnRT4zt86Om0kkGIY?=
+ =?us-ascii?Q?gbiy/FvZ6Gj4xWIK40sHvIXgoLDygNguXizY5ni/B+eF05RyCNmnbBRMdO4/?=
+ =?us-ascii?Q?xxDTOrPbX79z4OdGOuSTPsSg85lS/z6v5xFJDUNRJY+WeeQCEMAApm4ygrPR?=
+ =?us-ascii?Q?tUpT4kzcD8pnVg1hhgwkWn/Oq5iUzkTUJakLuCFqZF3uR8I1USuE756FdsxH?=
+ =?us-ascii?Q?Vu5HrjHM/brutf1LyYTYPiF+WM14XRNsRjikWZ3QYDBruus0f/6gZVhJBBnL?=
+ =?us-ascii?Q?0IwYCJgB5bSqq8N/1tDginI1L5voddt1T55iyu+hpLFRj2G/uZc54piyEONU?=
+ =?us-ascii?Q?ilah9bPV3TG05DxRD71FNHPMJtmKFAb3KtOQRmCs/isl6mCYKo73G1F2iKxf?=
+ =?us-ascii?Q?Wk+5AdRiBO4nUKSbXZKOzTLyJjjHoMSPp1pIm7LZAjNsLiqNankGDtuwa5iJ?=
+ =?us-ascii?Q?C6Xj0gcQ3tcoz1spX3M5ZL5bG2L3M06vRgsj0/e7rvFWAtKUs/63adYzc2/j?=
+ =?us-ascii?Q?zqUwvv1wDYvV1rtcZqOCksdEpovOfRMzw1i2BS684G7FjqozdrU0U741j+QD?=
+ =?us-ascii?Q?DVGHX6+av16aCpQJCq7ntcMTKXuqk1PExzKujmh8WYLXg2VRWjVcZORo4XMx?=
+ =?us-ascii?Q?of6paAYlvE4rg9s/yU/UQg3jolWYtdN4k1ERBDjk9X7uIh30ComLY26QD/UQ?=
+ =?us-ascii?Q?hoGU5EJGgpk8+ek6WmBMP+Jubc+Alx7EovqEJAxIOEFafNLonRJFnfTJjAQD?=
+ =?us-ascii?Q?g69U/n8yhQ=3D=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2746440c-9581-461d-3adb-08df14c500d6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 957e350e-2cac-4c01-3324-08df14c506b2
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4827.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 14:07:26.6690
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 14:07:36.8264
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9f/huj2a8ydgx7alFTDyaZvVO7YvpMozmJ3AKSGNF5+KWEski2Ttm4OgQoU8fTUJR+Rfa2IMswTXtWQibt8dlA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: HPjRL5GAWJjO7/mHIJMeoB5e6MN31aaZ2Q6LvWdHgXMS9mr/O+4mXjvYHEAcLDhpUrz0LPzbZGAYjU2j62y+7Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9219
 
-POWER7 uses SD_ASYM_PACKING at the shared-capacity SMT level to order
-hardware threads, and NVIDIA Olympus benefits from the same policy. Idle
-CPU selection does not consult that order, so a task can wake on an
-arbitrary sibling and remain there until load balancing corrects the
-placement. On these systems, that initial choice can prevent the core
-from entering its preferred lower-thread resource mode and cause a large
-and persistent performance loss.
+Architectures can use SD_ASYM_PACKING to describe preferred CPU ordering
+at the SMT scheduling domain. Some systems benefit from the same policy,
+but their firmware cannot currently describe the preference. Inferring
+it from the CPU model would embed a platform-specific policy in the
+kernel.
 
-When idle selection finds an available CPU in an SMT core, choose the
-highest-priority available sibling. On SMT2 Olympus this only changes
-selection on fully idle cores. A partially idle core has only one
-available CPU. On wider SMT systems such as POWER7, it also fills
-available siblings in priority order while the core is partially busy.
+Add the sched_smt_asym_packing boot option to override SD_ASYM_PACKING
+at the SMT level. Accept auto, on and off. Auto preserves the
+architecture-provided topology and is also the default when the option
+is absent. On and off force the flag without changing asymmetric packing
+at higher topology levels.
 
-Apply the preference to idle-core and idle-CPU scans,
-asymmetric-capacity scans, target, previous, recently-used CPU fast
-paths and the slow path. Inspect the lowest scheduling domain directly,
-but require both CPUs to share its span because isolcpus can split
-hardware siblings across scheduling domains.
+Apply the override centrally to domains with SD_SHARE_CPUCAPACITY so it
+also covers architectures with custom SMT topology callbacks, including
+powerpc. When forced on, priority remains defined by
+arch_asym_cpu_priority(). The weak default prefers lower-numbered
+logical CPUs, while architecture overrides remain authoritative.
+Siblings with equal priorities remain unordered.
 
-Keep physical-core capacity selection independent from SMT sibling
-ordering. SD_ASYM_CPUCAPACITY first selects among cores with different
-maximum capacities, then SD_ASYM_PACKING selects the preferred available
-sibling inside the chosen core, whose siblings continue to share equal
-capacity.
-
-Reviewed-by: Srikar Dronamraju <srikar@linux.ibm.com>
-Reviewed-by: K Prateek Nayak <kprateek.nayak@amd.com>
-Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
 Signed-off-by: Andrea Righi <arighi@nvidia.com>
 ---
- kernel/sched/fair.c | 85 ++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 68 insertions(+), 17 deletions(-)
+ .../admin-guide/kernel-parameters.txt         | 11 +++++
+ kernel/sched/topology.c                       | 49 +++++++++++++++++++
+ 2 files changed, 60 insertions(+)
 
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 4d0b94465d19e..8e6dc3a657cca 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -8598,6 +8598,35 @@ static inline bool test_idle_cores(int cpu)
- 	return false;
- }
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 33cd30996e47e..36c3b2e563441 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6799,6 +6799,17 @@ Kernel parameters
+ 			solution to mutex-based priority inversion.
+ 			Format: <bool>
  
-+/*
-+ * Redirect a CPU to a higher-priority available sibling in its SMT domain,
-+ * subject to task affinity.
-+ */
-+static inline int select_idle_smt_cpu(struct task_struct *p, int cpu)
++	sched_smt_asym_packing= [KNL,SMP]
++			Override asymmetric packing at the SMT scheduling domain.
++			Format: { auto | on | off }
++			auto: Preserve the architecture default. This is the
++			default when the option is omitted.
++			on: Force asymmetric packing at the SMT scheduling domain.
++			Idle CPU selection prefers siblings with a higher
++			architecture-defined priority. Siblings with equal
++			priorities remain unordered.
++			off: Ignore SMT sibling priorities.
++
+ 	sched_verbose	[KNL,EARLY] Enables verbose scheduler debug messages.
+ 
+ 	schedstats=	[KNL,X86] Enable or disable scheduled statistics.
+diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+index 0248227d983a7..cdfcecf673fd7 100644
+--- a/kernel/sched/topology.c
++++ b/kernel/sched/topology.c
+@@ -32,6 +32,46 @@ static int __init sched_debug_setup(char *str)
+ }
+ early_param("sched_verbose", sched_debug_setup);
+ 
++#ifdef CONFIG_SCHED_SMT
++enum sched_smt_asym_packing_mode {
++	SCHED_SMT_ASYM_PACKING_AUTO,
++	SCHED_SMT_ASYM_PACKING_ON,
++	SCHED_SMT_ASYM_PACKING_OFF,
++	SCHED_SMT_ASYM_PACKING_NR,
++};
++
++static enum sched_smt_asym_packing_mode sched_smt_asym_packing __read_mostly =
++	SCHED_SMT_ASYM_PACKING_AUTO;
++
++static const char * const sched_smt_asym_packing_modes[SCHED_SMT_ASYM_PACKING_NR] = {
++	[SCHED_SMT_ASYM_PACKING_AUTO]	= "auto",
++	[SCHED_SMT_ASYM_PACKING_ON]	= "on",
++	[SCHED_SMT_ASYM_PACKING_OFF]	= "off",
++};
++
++static int __init sched_smt_asym_packing_parse(const char *str)
 +{
-+	struct sched_domain *sd;
-+	int best = cpu;
-+	int sibling;
-+
-+	if (!sched_smt_active())
-+		return cpu;
-+
-+	sd = rcu_dereference_all(cpu_rq(cpu)->sd);
-+	if (!sd || !(sd->flags & SD_SHARE_CPUCAPACITY) ||
-+	    !(sd->flags & SD_ASYM_PACKING))
-+		return cpu;
-+
-+	for_each_cpu_and(sibling, sched_domain_span(sd), p->cpus_ptr) {
-+		if (sibling == best || !choose_idle_cpu(sibling, p))
-+			continue;
-+
-+		if (sched_asym_prefer(sibling, best))
-+			best = sibling;
++	for (int mode = 0; mode < SCHED_SMT_ASYM_PACKING_NR; mode++) {
++		if (!strcmp(str, sched_smt_asym_packing_modes[mode]))
++			return mode;
 +	}
 +
-+	return best;
++	return -EINVAL;
 +}
 +
- /*
-  * Scans the local SMT mask to see if the entire core is idle, and records this
-  * information in sd_balance_shared->has_idle_cores.
-@@ -8982,7 +9011,7 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
- 
- 	if (choose_idle_cpu(target, p) &&
- 	    asym_fits_cpu(task_util, util_min, util_max, target))
--		return target;
-+		goto select_smt_priority;
- 
- 	/*
- 	 * If the previous CPU is cache affine and idle, don't be stupid:
-@@ -8992,8 +9021,10 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
- 	    asym_fits_cpu(task_util, util_min, util_max, prev)) {
- 
- 		if (!static_branch_unlikely(&sched_cluster_active) ||
--		    cpus_share_resources(prev, target))
--			return prev;
-+		    cpus_share_resources(prev, target)) {
-+			target = prev;
-+			goto select_smt_priority;
-+		}
- 
- 		prev_aff = prev;
- 	}
-@@ -9011,7 +9042,8 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
- 	    prev == smp_processor_id() &&
- 	    this_rq()->nr_running <= 1 &&
- 	    asym_fits_cpu(task_util, util_min, util_max, prev)) {
--		return prev;
-+		target = prev;
-+		goto select_smt_priority;
- 	}
- 
- 	/* Check a recently used CPU as a potential idle candidate: */
-@@ -9025,8 +9057,10 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
- 	    asym_fits_cpu(task_util, util_min, util_max, recent_used_cpu)) {
- 
- 		if (!static_branch_unlikely(&sched_cluster_active) ||
--		    cpus_share_resources(recent_used_cpu, target))
--			return recent_used_cpu;
-+		    cpus_share_resources(recent_used_cpu, target)) {
-+			target = recent_used_cpu;
-+			goto select_smt_priority;
-+		}
- 
- 	} else {
- 		recent_used_cpu = -1;
-@@ -9048,7 +9082,11 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
- 		 */
- 		if (sd) {
- 			i = select_idle_capacity(p, sd, target);
--			return ((unsigned)i < nr_cpumask_bits) ? i : target;
-+			if ((unsigned int)i < nr_cpumask_bits) {
-+				target = i;
-+				goto select_smt_priority;
-+			}
-+			return target;
- 		}
- 	}
- 
-@@ -9061,14 +9099,18 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
- 
- 		if (!has_idle_core && cpus_share_cache(prev, target)) {
- 			i = select_idle_smt(p, sd, prev);
--			if ((unsigned int)i < nr_cpumask_bits)
--				return i;
-+			if ((unsigned int)i < nr_cpumask_bits) {
-+				target = i;
-+				goto select_smt_priority;
-+			}
- 		}
- 	}
- 
- 	i = select_idle_cpu(p, sd, has_idle_core, target);
--	if ((unsigned)i < nr_cpumask_bits)
--		return i;
-+	if ((unsigned int)i < nr_cpumask_bits) {
-+		target = i;
-+		goto select_smt_priority;
-+	}
- 
- 	/*
- 	 * For cluster machines which have lower sharing cache like L2 or
-@@ -9076,12 +9118,19 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
- 	 * first. But prev_cpu or recent_used_cpu may also be a good candidate,
- 	 * use them if possible when no idle CPU found in select_idle_cpu().
- 	 */
--	if ((unsigned int)prev_aff < nr_cpumask_bits)
--		return prev_aff;
--	if ((unsigned int)recent_used_cpu < nr_cpumask_bits)
--		return recent_used_cpu;
-+	if ((unsigned int)prev_aff < nr_cpumask_bits) {
-+		target = prev_aff;
-+		goto select_smt_priority;
-+	}
-+	if ((unsigned int)recent_used_cpu < nr_cpumask_bits) {
-+		target = recent_used_cpu;
-+		goto select_smt_priority;
-+	}
- 
- 	return target;
++static int __init setup_sched_smt_asym_packing(char *str)
++{
++	int mode = sched_smt_asym_packing_parse(str);
 +
-+select_smt_priority:
-+	return select_idle_smt_cpu(p, target);
- }
- 
- /**
-@@ -9758,8 +9807,10 @@ select_task_rq_fair(struct task_struct *p, int prev_cpu, int wake_flags)
- 	}
- 
- 	/* Slow path */
--	if (unlikely(sd))
--		return sched_balance_find_dst_cpu(sd, p, cpu, prev_cpu, sd_flag);
-+	if (unlikely(sd)) {
-+		new_cpu = sched_balance_find_dst_cpu(sd, p, cpu, prev_cpu, sd_flag);
-+		return select_idle_smt_cpu(p, new_cpu);
++	if (mode < 0)
++		return 0;
++
++	sched_smt_asym_packing = mode;
++	return 1;
++}
++__setup("sched_smt_asym_packing=", setup_sched_smt_asym_packing);
++#endif
++
+ static inline bool sched_debug(void)
+ {
+ 	return sched_debug_verbose;
+@@ -1950,6 +1990,15 @@ sd_init(struct sched_domain_topology_level *tl,
+ 	if (WARN_ONCE(sd_flags & ~TOPOLOGY_SD_FLAGS,
+ 		      "wrong sd_flags in topology description\n"))
+ 		sd_flags &= TOPOLOGY_SD_FLAGS;
++#ifdef CONFIG_SCHED_SMT
++	if (sd_flags & SD_SHARE_CPUCAPACITY) {
++		if (sched_smt_asym_packing == SCHED_SMT_ASYM_PACKING_ON)
++			sd_flags |= SD_ASYM_PACKING;
++		else if (sched_smt_asym_packing ==
++			 SCHED_SMT_ASYM_PACKING_OFF)
++			sd_flags &= ~SD_ASYM_PACKING;
 +	}
++#endif
+ 	sd_flags |= asym_cpu_capacity_classify(sd_span, cpu_map);
  
- 	/* Fast path */
- 	if (wake_flags & WF_TTWU)
+ 	*sd = (struct sched_domain){
 -- 
 2.55.0
 
