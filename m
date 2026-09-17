@@ -1,86 +1,86 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768914AF169
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 10:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E5D4CB8A8
+	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 11:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789641959; cv=none; b=kSULWbBzZCdXYwztn1EXYZ1fPWNQSMr9RZ54LGoSbVtXVOq1+qMJ2uKNRV15yZCpZ+OsiA5E5k385UO51IxM1SyRvQbYxk8NS/crilO1/JYtb5jc13B18xSVSPLxOgF/eJkzHjNxY+3v7T0t0+IHLG8+NDU3prsVyP3uhEJhnjs=
+	t=1789644376; cv=none; b=Ac7Jwm06FOx9ZU6Fp64kgYv4IKUFeWjbTihDJ6iQcvIyhYTQY5W2iPN2DJVHhazdStuI4VlClVxqbptH1QIdTEOkTkxsu0mB/GMFTWqL9v3jtX25zAEYTDiHeeaPd+94N4zZ1UxmBnH/B0znpMHZmlI8eZrwUqoJQcpmdT5NeWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789641959; c=relaxed/simple;
-	bh=ovLCQUCDOqMhKBRej79kaKDsjzw8umfUUAGzKBcmu/8=;
+	s=arc-20240116; t=1789644376; c=relaxed/simple;
+	bh=bZCKxO1MqB5pWx8QeDZ/iHw1wuuSVEHuO1tD5RDbccw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OXtwvHvtG7viE7zWsxsjbssX9uXnJ+a03E+q1r6m0+2lE67LBQO7NxAZj5c/QjptXiqFFY4KSQ0zSRIqPnMh1bZSVFkK7p//eW/dAsiC7/EVeRFIJEfvugMj061rJmfiMjAmmZiSi/MIYAzR6rpsnWvMu+XSc6EwhXw5NnVGSJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NqFRB559; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qdRhtmaK; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=IG6dY9uKksVXZgq8vJo3Jp9HC7d1lIS/FYjs2Ox9vtcWjT/UHhjs30czrAiSAL3xpXJZtbOg6s//EwkiOoZh+1fmYCZ3C+FECtxF1tbLQ6gMosFUIsSvIj/sMuZNorEbbxwE6kba7ncCdR3OwdAFGwdrQbWSanqFt5B21PWvG8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NvGGvF7g; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qucvmHi3; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NqFRB559";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qdRhtmaK"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NvGGvF7g";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qucvmHi3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789641956;
+	s=mimecast20190719; t=1789644374;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DZXDm9UY4DlpHYYNoTlamnKULIP4yXFvx7qTD+Fjiqs=;
-	b=NqFRB559RpDHqLBJQO6ZL76UDJOfEP+K08cGuflhDZGNR3hd52u3BcHUZhfXPQ9VmFG75Q
-	0ppAMFJWju+Kb/+3MuOpk3kfI/R+ng41Y2GtcRXld+izw+Ws+hi9mghV98ev890swqrjYe
-	F0Q6mkWBOF+oAasB4S+u3IDIFTssDZw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=pTp5uAMGwz7Ze7rhjDg7zXrqBXA6tuBeb/gAkdeZnoE=;
+	b=NvGGvF7g778PmSfdEmhm6lhNX+Afbi9pWpFl9zy9uwmaa3Pyt9ndU6t+GZLMBdtaXmC+Aa
+	+X5FpuItWGcnB1gaL3I+9rAMhlQllGbvTarIzkoQMpLY3TBw8Y7Z6PhBQh3jctXZlWLBjY
+	sSLKlGl6alX4IQRYASd+b1cK0YPV8hI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-512-j8LMEYb2NA2GF2wfR1C4dA-1; Thu, 17 Sep 2026 06:45:53 -0400
-X-MC-Unique: j8LMEYb2NA2GF2wfR1C4dA-1
-X-Mimecast-MFC-AGG-ID: j8LMEYb2NA2GF2wfR1C4dA_1789641952
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-486e90b59a6so403307f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 03:45:52 -0700 (PDT)
+ us-mta-517-nD5adD4lNEi8ucFXOyFllw-1; Thu, 17 Sep 2026 07:26:11 -0400
+X-MC-Unique: nD5adD4lNEi8ucFXOyFllw-1
+X-Mimecast-MFC-AGG-ID: nD5adD4lNEi8ucFXOyFllw_1789644370
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-486f18da958so479929f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 04:26:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1789641952; x=1790246752; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1789644370; x=1790249170; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=DZXDm9UY4DlpHYYNoTlamnKULIP4yXFvx7qTD+Fjiqs=;
-        b=qdRhtmaKEtD5ZqbFoHFM3j7Py7C6eXOldaiPZnuc+G7C8YzKVgBeBVnhd0Phgnzu96
-         pxzUh+KXBmGayXd+RkvbdCLFN7SGS5/eIpXuqvhQDLFlSYQBS7w8n++FdjEd697/XQR0
-         DywPhOkJJttulcA/jJ0LZY0bgNbCHzJAWFqU7w/TEeJeCbTRUhKyRV1BjQgm134PzJFG
-         kZ+AQEkbv3HPrGIL2kedzNncChVWTieUXSMD+CaH/qF5kanRgYu3E4mC5k+F4OtY+BNM
-         MmF6dlY9iBYzvLw2SuQ4xFqMB0dF5O5S7ZnCRCTWh00oUUrFHRpwfOWXnQ88+//kP/FP
-         Rp8Q==
+        bh=pTp5uAMGwz7Ze7rhjDg7zXrqBXA6tuBeb/gAkdeZnoE=;
+        b=qucvmHi3LctotD+R3IYP96rHETUEbmAEhN7lbp4XVvwoNFcDKt1X8BH3aQtZ6b/HrR
+         GPk2aEv3C/EKMHFgRy4Q+nwY2+JW0k/k5nMn2WHZtDJC1r2jSXzrOM+k9ziKIvLVrNm/
+         BStshmStibezmi5CFpJ+VGAb9IsPVwwGkCLsjMLFTKdL0HlH6B8HgVzL7wcsM52fTqPV
+         xGtGWKHZQE387cFGrQiLTkep0eCD7X/GvpuA7PSViYOVD/epGtrKLEudRyzyfGEDkz2t
+         GF3lvyVvPRErXaqdDLqzpZrIKsljoO+wjnjevQEpnaHXIPhDpj4lWN/KFJb3DoEbDFx6
+         iJtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789641952; x=1790246752;
+        d=1e100.net; s=20260707; t=1789644370; x=1790249170;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DZXDm9UY4DlpHYYNoTlamnKULIP4yXFvx7qTD+Fjiqs=;
-        b=n3jWqx0Joihr/JTY/VrL2iw07GVdzb9MyWlfU2Usbpn5tsJ92zAdbP3jlR9F4OMx9t
-         c6TzUbY2tN4ZjJ9lsA00LnIgLvrQmEEx+d58eX0qaqQAqUwtFalaWrmvUE7IPkX+KF0i
-         e13W1DE/cxk1X4+XNY2UOZ5+8lo+LCyXP1Cbl181Hbe2N/26MBJxrqaoJlFiSPU0j7Tb
-         Ll/a7gJtOOWIYU5E6riXZD0sH5KWW6taRuu+PolUGCnV1zPX4XtGoQ+/8JPh4jlSzxEZ
-         fT66DQXKCo+a7qqQ7DVeNPLQOFwhDeI4GapDtYd7cSkH688rh7U2Cnej9xuDUQAdDOkV
-         50zg==
-X-Forwarded-Encrypted: i=1; AKwUvBxAADaUfZicz7mf4nlum/f3TlQsvpJTasjV5aqt7sqlLXeDDmSyjSJbi6sgfkelJisMgmQuRzFDOk4=@vger.kernel.org
-X-Gm-Message-State: AFuF++lUHXTwSgaluOd4jHc231LqUJ8JwpSNCgj5B+0c5T+KkQ7bNHzr
-	cQaViR5l9HZLAPyihlOdnkqDXwCOR3Ks4c0FRMDb0/wN60jDWWPZP/IOXXHRDBpeQxzWclyB5kx
-	rb34ELRFRzbcJ9l3wAY8lV3yp99LB9GvaMa/Rz4Y6IOGpPgX+99LTmgZ9EHHECw==
-X-Gm-Gg: AYBFou0lqjutYfEIWfRpNFhhEqy2I2MNLWRTtavzOhtuMqRbLxEc4w5/IAxdryOPm3O
-	FAVoC3cblwzLfrRVeFZ/nBvs6qRBf5EKeKbk1N+8bzNPfs3Ds4F8vrV66fwEsmqh/QHh5SRMT27
-	PCCbJsf5R2bD5xfmdKsqlX2WJXM5sIiwfAZHPMLpMwrSAmM69YQc4uX94q5IzEMgMmD2BP9hFuv
-	UuBS/bzo3lbJiBA5JBe2Rs4Hx6P/bc4BMcXw3yHclc0ZniM46/79LN/t9g4oev1ItVhct9d3dgB
-	T7+G99BKj+rTMtX/rnyajt4fiWQK5RIdLwg13ZnN1iNhVSU34CK+m4lwQhnrORVCU09KEYD0wQ=
+        bh=pTp5uAMGwz7Ze7rhjDg7zXrqBXA6tuBeb/gAkdeZnoE=;
+        b=TC29fhw6hUzLFF0nI7sf/EVXkujMjeGN7q3vk9qeWiXdfBduUzixFAgIwu6DjTG6gC
+         jE8NEyXYV1CMJOueMCbDwe7IdNunfg1HILDt1H5oDY56Ay1PjN+Tt6Hf1jXvQN7H2zPZ
+         LE9DsjtfdmWxDVOnzVsKqQBNTBBRv1/2z6NknV2gqM6YxS7VeNk+CDU+Yqk0Xu9xZfoN
+         Q6LVWvy/J7HBq3lntOGoAJd0+J9EQtV5AgBE8d7rlkOd+FdRn68ux1oKhTLW7sVq92Q1
+         7wc6BUhIBPdxCXdsH0SJI8eT0D29YSD8gwRRca3sMWVhshloQmBQ0cAW/gu/ACwV9EcU
+         gRHA==
+X-Forwarded-Encrypted: i=1; AKwUvBwmtEShTXFh16HDCEezSfsNJiXrhOf+dxtUrHupyg9hOCOE0lrHkfSDiis1rbMW5B7bO5lnJcMDdpE=@vger.kernel.org
+X-Gm-Message-State: AFuF++mmmxqfdSw714H5/Ye6uYRoqudN3mX9MX/iag3E4VPH/UlCQOKr
+	LKeEwf2713EQ1pLr97jlR5Wjg8kOSDyxKmSADw9IXHmVNJ2zIQ5kz3m5QJ5cBMFQRMYCycHmGCu
+	R4bTfmvVhVwM9vwWuGHbznZUYORAeVilJXXA2Tf2JptSDnguSWBBqdg3AOqrzqA==
+X-Gm-Gg: AYBFou3xbvpThwUd4s+iSMmcAl12mMUM71zR0YhMLkawKQ/vF1KLH9W/Sm0zkhS9m28
+	8+umeFwVFYbX7KtFU+RmUwG54UxgHz5FqACAvzgAniLR/Vgd2Gor9EzNisFYYDxFK2uTenHYiup
+	xNV4uEDcvZqtluhLfyuC/gsdneYov/aoZZB1pCAPxWdYg3XyX5CQxFqIAaA8uYWSB/KwHHHBm2D
+	gzKNF6SGbeycx4HbPcEY1Ufck26aNWZBgDfw3/3KNKZY1TqUyx1+qw46RgfG3JLHY8QlV2wG+jL
+	ag3Ehf9BEOxd7czDdBQW8Hs8tTiHflYy2wJ09gbW0QYbBcxeXM5gBZS7O/zS14jofMbYyYcZPg=
 	=
-X-Received: by 2002:a05:6000:2213:b0:487:11db:986c with SMTP id ffacd0b85a97d-48711db994bmr4933683f8f.51.1789641951939;
-        Thu, 17 Sep 2026 03:45:51 -0700 (PDT)
-X-Received: by 2002:a05:6000:2213:b0:487:11db:986c with SMTP id ffacd0b85a97d-48711db994bmr4933646f8f.51.1789641951396;
-        Thu, 17 Sep 2026 03:45:51 -0700 (PDT)
+X-Received: by 2002:a05:6000:4715:b0:486:62c9:5452 with SMTP id ffacd0b85a97d-48713c72068mr4609011f8f.28.1789644370073;
+        Thu, 17 Sep 2026 04:26:10 -0700 (PDT)
+X-Received: by 2002:a05:6000:4715:b0:486:62c9:5452 with SMTP id ffacd0b85a97d-48713c72068mr4608958f8f.28.1789644369555;
+        Thu, 17 Sep 2026 04:26:09 -0700 (PDT)
 Received: from [192.168.0.9] ([47.64.112.181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bef7678sm15421889f8f.2.2026.09.17.03.45.49
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bf413dcsm14684512f8f.31.2026.09.17.04.26.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2026 03:45:50 -0700 (PDT)
-Message-ID: <44324b19-6a5e-44e5-acf5-b17584610569@redhat.com>
-Date: Thu, 17 Sep 2026 12:45:48 +0200
+        Thu, 17 Sep 2026 04:26:08 -0700 (PDT)
+Message-ID: <c49dea95-69a7-4c74-8321-ee81f7f6fb66@redhat.com>
+Date: Thu, 17 Sep 2026 13:26:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -88,18 +88,27 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 16/19] HID: Add documentation for Lenovo Legion Go
- drivers
-To: Derek John Clark <derekjohn.clark@gmail.com>,
- Akira Yokosawa <akiyks@gmail.com>
-Cc: bentiss@kernel.org, hughsient@gmail.com, jikos@kernel.org,
- linux-doc@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, mario.limonciello@amd.com,
- mpearson-lenovo@squebb.ca, pgriffais@valvesoftware.com, shaohz1@lenovo.com,
- zhangzx36@lenovo.com
-References: <20260310072937.3295875-17-derekjohn.clark@gmail.com>
- <7dc9bd14-b21f-461a-9794-070f43db4826@gmail.com>
- <CAFqHKTmBBEHJgypooELKa7fU3oELnVk7bjfZwHsFD9Y0b1c3Xg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] drm: Rename struct drm_atomic_state to
+ drm_atomic_commit
+To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Simona Vetter <simona.vetter@ffwll.ch>, Jani Nikula <jani.nikula@intel.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+References: <20260427-drm-drm-atomic-update-v4-0-c0e713bfdf25@kernel.org>
+ <20260427-drm-drm-atomic-update-v4-1-c0e713bfdf25@kernel.org>
 Content-Language: en-US
 From: Thomas Huth <thuth@redhat.com>
 Autocrypt: addr=thuth@redhat.com; keydata=
@@ -144,56 +153,65 @@ Autocrypt: addr=thuth@redhat.com; keydata=
  oiT+z+/E59qj/EKfyce3sbC9XLjXv3mHMrq1tKX4G7IJGnS989E/fg6crv6NHae9Ckm7+lSs
  IQu4bBP2GxiRQ+NV3iV/KU3ebMRzqIC//DCOxzQNFNJAKldPe/bKZMCxEqtVoRkuJtNdp/5a
  yXFZ6TfE1hGKrDBYAm4vrnZ4CXFSBDllL59cFFOJCkn4Xboj/aVxxJxF30bn
-In-Reply-To: <CAFqHKTmBBEHJgypooELKa7fU3oELnVk7bjfZwHsFD9Y0b1c3Xg@mail.gmail.com>
+In-Reply-To: <20260427-drm-drm-atomic-update-v4-1-c0e713bfdf25@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-  Hi!
-
-On 12/03/2026 23.57, Derek John Clark wrote:
-> On Wed, Mar 11, 2026 at 7:44 PM Akira Yokosawa <akiyks@gmail.com> wrote:
->> On Tue, 10 Mar 2026 07:29:34 +0000, Derek J. Clark wrote:
->>> Adds ABI documentation for the hid-lenovo-go-s and hid-lenovo-go
->>> drivers.
->>>
->>> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
->>> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
->>> ---
->>> v3:
->>>    - Remove excess + from every line of patch.
->>> ---
->>>   .../ABI/testing/sysfs-driver-hid-lenovo-go    | 724 ++++++++++++++++++
->>>   .../ABI/testing/sysfs-driver-hid-lenovo-go-s  | 304 ++++++++
->>>   MAINTAINERS                                   |   2 +
->>>   3 files changed, 1030 insertions(+)
->>>   create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-lenovo-go
->>>   create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s
->>
->> This (commit 168c91839139 in next-20260311) causes a lot of new warnings
->> in "make htmldocs" such as:
->>
->> WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: /<...>/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; /<...>/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
->> WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: /<...>/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; /<...>/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
->> WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: /<...>/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; /<...>/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
->> [snip]
->>
->> Please fix.
->>
->> Thanks, Akira
+On 27/04/2026 09.02, Maxime Ripard wrote:
+> The KMS framework uses two slightly different definitions for the state
+> concept. For a given object (plane, CRTC, encoder, etc., so
+> drm_$OBJECT_state), the state is the entire state of that object.
+> However, at the device level, drm_atomic_state refers to a state update
+> for a limited number of objects.
 > 
-> Akira,
+> Thus, drm_atomic_state isn't the entire device state, but only the full
+> state of some objects in that device. This has been an endless source of
+> confusion and thus bugs.
 > 
-> What would an appropriate solution look like? There are two separate
-> drivers in this series that are modeled to provide a sysfs that is as
-> close to each other as possible. Because of that, they do end up
-> having identical attributes for many of the implemented features.
+> We can rename the drm_atomic_state structure to drm_atomic_commit to
+> make it less confusing.
+> 
+> This patch was created using:
+> 
+> rg -l drm_atomic_state | \
+> 	xargs sed -i 's/drm_atomic_state/drm_atomic_commit/g; s/drm_atomic_commit_helper/drm_atomic_state_helper/g'
+> mv drivers/gpu/drm/tests/drm_atomic_state_test.c drivers/gpu/drm/tests/drm_atomic_commit_test.c
+> 
+> Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+...
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 41c57063f3b4..4ffa057e2784 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+...
+> @@ -1764,16 +1764,16 @@ EXPORT_SYMBOL(drm_atomic_check_only);
+>    * Note that this function can return -EDEADLK if the driver needed to acquire
+>    * more locks but encountered a deadlock. The caller must then do the usual w/w
+>    * backoff dance and restart. All other errors are fatal.
+>    *
+>    * This function will take its own reference on @state.
+> - * Callers should always release their reference with drm_atomic_state_put().
+> + * Callers should always release their reference with drm_atomic_commit_put().
+>    *
+>    * Returns:
+>    * 0 on success, negative error code on failure.
+>    */
+> -int drm_atomic_commit(struct drm_atomic_state *state)
+> +int drm_atomic_commit(struct drm_atomic_commit *state)
+This causes now warnings when running "make htmldocs" :
 
-Just an idea, not sure whether it's feasible since I don't have the hardware 
-for checking: Looking at drivers/hid/hid-lenovo-go-s.c and 
-drivers/hid/hid-lenovo-go.c, it seems like they use different vendor IDs 
-(USB_VENDOR_ID_QHE vs. USB_VENDOR_ID_LENOVO), so maybe the "<vendor-id>" 
-part could be replaced with the real value in the entries to distinguish 
-them in the kerneldocs?
+.../Documentation/gpu/drm-kms:308: .../drivers/gpu/drm/drm_atomic.c:1841: 
+WARNING: Duplicate C declaration, also defined at gpu/drm-kms:408.
+Declaration is '.. c:function:: int drm_atomic_commit (struct 
+drm_atomic_commit *state)'. [duplicate_declaration.c]
+
+Should the function maybe be renamed now?
 
   Thomas
 
