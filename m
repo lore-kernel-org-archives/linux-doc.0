@@ -1,140 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955AA54CF65;
-	Thu, 17 Sep 2026 16:11:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402214E0217;
+	Thu, 17 Sep 2026 16:18:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789661495; cv=none; b=uoNhzw9STqUg0KEajQIw07xhz7H2IQexrcJ5g0nqs2CoE86yDTRHcVZvP/x7qfMsQY2be8QuiUPVgwgq0p0yLbHoJXEuV/eS8jpqgOnw2k7ha5Y21ObW346d6l9sOM6GlbTVNMI2NEIRsPbaWMuHlqhPnm2DtcVXO+fx2Q4yGEM=
+	t=1789661937; cv=none; b=jl6o12k04KfNLAZjkqIAsSNBhuYLi9R96+fF4PeMBmiyLCNHP8044+VxiTeODRmleO4Kwpbtg/p7qtPO61Z/HWMEONWGFUhVEh3Vekiro8mS0R/b4F3OCMc32RHxMndhy0TNomY0ZWniXWJVn9z/p2V8YjH8MjXsW2QbYk4QWo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789661495; c=relaxed/simple;
-	bh=jJeo2JP9SaWbQPXeXtD3y8zkSj5DZNuU6ZmQwCIHOT8=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=caDFr7d9WA22Yq9uJkQPBrQuLgsC7RZlT03NpvEzViqMs6gZaauD97iHtttVEBYHyMFF/Z7z4rE9xOEm4XjnVnNE96xg59XZG7L/gPCqDBVFf6Ejyxm3Uy1/jVliQs5l/rWUYZS2lj2ObPq28pCgV+QAjFZLFYrto5VQWJSH+bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F69TafpU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789661937; c=relaxed/simple;
+	bh=u6HdOjJJKvEyiWeOHZLWyceNA+uDaRXffMKEXkN5kDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dvI9J7N2CsnQOJf4SSaLRrqBAQKcvIBSS6uvc7weSyH42iCA6+ioZRum09+d2S/9WjWmUxNscLijlLl24pFJdeYlAIRqqw/wCRADCo2owsei3WJl3nbEdel559mxqmbRpTjUdVY86MWNKk3mzzCZv5FnC7MEPiBNWflRLCE3pOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cY3nYvCy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F69TafpU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1C8E1F00898;
-	Thu, 17 Sep 2026 16:11:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cY3nYvCy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8198A1F00893;
+	Thu, 17 Sep 2026 16:18:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789661493;
-	bh=eI/GoAMQH4rlRkEnQf+Kqi++OnBBHldEeVJUYTOlp7Y=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=F69TafpUc9kkv70mjNxTrwLdc27mVYSSOXjjEd3xSarRYgDUoarmc/2PkxOS93d1d
-	 jMSXx47yzSQJFJA2sRIC+Szpx03XCVUHWdXXwqooB22p/CY737TGxlmVgN2jQltGXo
-	 bZ+1pco0HcVtVC/QdJ5h+wbG5isZXqQAo6jpOGLCNcHeIt3hxjdyR50A727rak6J13
-	 TiyoEMm5Y551wtywOh7tJa0hNi+gEXSNq2v87hJYfQv534/yISBblT4+X9wNZX5i7Q
-	 2XexI4pfVf8ZoNnilvZiw4VTbAeE4Rf1Rcx+3SSvyotMMw+wGbCXBIAHOY4gjfHOY4
-	 g1FXficDDaVnQ==
-Subject: Re: [PATCH net-next v16 6/6] net: dsa: mxl862xx: document devlink
- flash and info support
-From: netdev-bot+sashiko@kernel.org
-To: daniel@makrotopia.org
-Cc: jiri@resnulli.us, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, gregkh@linuxfoundation.org,
- rafael@kernel.org, dakr@kernel.org, andrew@lunn.ch, olteanv@gmail.com,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Date: Thu, 17 Sep 2026 16:11:31 +0000
-Message-ID: <178966149151.22033.652158876730245736@kernel.org>
-In-Reply-To: =?utf-8?q?=3C593c60c6ebaa2526fd1e2d06cd8bd6910cd3ad92=2E1789477?=
- =?utf-8?q?568=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
-References: =?utf-8?q?=3C593c60c6ebaa2526fd1e2d06cd8bd6910cd3ad92=2E17894775?=
- =?utf-8?q?68=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1789661936;
+	bh=2jEOc3IUaWpEptPxBD1NNzuR1movYWlBS7awSPB7Q4c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cY3nYvCyD9HrXa5qVJ3PLvFVXSuFd78nKJ/jl5Z2ffitnwON9A/CvYfafWoZAWru3
+	 e1g9GT/T+mbjkk7BlzUehpjLz7Rnx3tOM/RdfmcDYLuhWYpY5fDgJSG3AFhhnkNgGq
+	 tKZChLFM8S1yKkvsAttH2HxkmC/F+jv3/yH4BQk24fxq+Dv0lGv8BFfhBqYyca3w/v
+	 jRT7MyHACmC4adgf+zAkBOcC+T1xCx0tWIgNo8E/8dL1P3uGgdXEQELZJgYPim+8iL
+	 FpjTA/TKh63AWW2wZmvRThKx708mVD9b5FabGFZwdyzHcBcza8AniDzxfvgfrPN1HL
+	 W4+Q1OOS6c/Bw==
+Date: Thu, 17 Sep 2026 09:18:54 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Atish Kumar Patra <atishp@rivosinc.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	x86@kernel.org, devicetree@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 2/5] riscv_cbqri: resctrl: Add cache allocation via
+ capacity block mask
+Message-ID: <aqwS7qgGNkSHxoSz@gen8>
+References: <20260901-dfustini-atl-sc-cbqri-dt-v7-0-ca2935d85622@kernel.org>
+ <20260901-dfustini-atl-sc-cbqri-dt-v7-2-ca2935d85622@kernel.org>
+ <8230dae2-2cb0-4b46-8cec-dc4e281d4e4a@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8230dae2-2cb0-4b46-8cec-dc4e281d4e4a@intel.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider:
+On Thu, Sep 17, 2026 at 08:37:43AM -0700, Reinette Chatre wrote:
+> Hi Drew,
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 0
+Hi Reinette,
 
-- [Medium] The new user-facing document and the in-tree driver artifacts
-  disagree on the remedy for a failed rescue recovery.
+Thanks for looking at this series. 
 
---
+> On 9/1/26 3:31 PM, Drew Fustini wrote:
+> > resctrl exposes a single cap set per rid, so when more than one capacity
+> > controller backs a cache level they must agree on those caps. A level
+> > whose controllers disagree is left unexposed. Other levels are
+> > unaffected.
+> If I understand correctly, while attempting to translate to resctrl terms,
+> this means that a cache resource with several domains may support different
+> capacity masks in the domains?
 
-net: dsa: mxl862xx: document devlink flash and info support
+Yes, each capacity controller reports its own number of capacity blocks,
+so two controllers backing the same cache level can have different
+maximum capacity masks.
 
-This adds Documentation/networking/devlink/mxl862xx.rst describing the
-devlink info versions and the flash update flow of the mxl862xx driver,
-including the MCUboot rescue mode recovery, links it from the devlink
-index and adds it to the driver's MAINTAINERS entry.
+> I believe the "single cap set per rid" you refer to is
+> /sys/fs/resctrl/info/L3/cbm_mask and /sys/fs/resctrl/info/L2/cbm_mask that
+> exposes a single capacity bitmask representing the maximum allocation.
+>
+> As you know, resctrl is in the process of changing the way in which schema
+> formats are described. The most recent PoC [1] added new bitmap description
+> files but it kept a single value "max" file to describe the highest allocation
+> possible for a bitmap schema.
+> 
+> To support asymmetrical cache instances it looks like changing the interface
+> to describe the maximum per domain (instead of one global value) could address
+> the gap?
+> 
+> For example, if there is a hypothetical system with two L2 cache instances, one
+> with a 0xFF max CBM and the other with a 0XF max CBM then resctrl could expose it
+> as:
+> 
+> 	# cat /sys/fs/resctrl/info/L2/schemata/L2/max
+> 	0=ff;1=f
+> 
+> The schemata file currently and will continue to display the allocations per domain.
+> 
+> resctrl will need more changes to support different CBM per domain internally and
+> until then all these CBMs will be the same, but adding this change to user interface now
+> may set resctrl up to support these systems in the future?
 
-> diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-> new file mode 100644
-> index 0000000000000..793f3521f505f
-> --- /dev/null
-> +++ b/Documentation/networking/devlink/mxl862xx.rst
-> @@ -0,0 +1,91 @@
+I think that would be a good change to the generic schema rfc as a max
+per domain would be helpful for CBQRI. The hardware I am working with
+right now (Tenstorrent Ascalon) does not have two controllers at one
+level, but I think it is reasonable to assume other RISC-V platforms may
+do that in the future.
 
-[ ... ]
+BTW, I have been meaning to send v8 with some unrelated minor
+improvements based on sashiko comments in v7. I will go ahead and send
+right now in case you are looking at the rest of the series.
 
-> +Flash Update
-> +============
-
-[ ... ]
-
-> +If the driver gives up on the recovery, ``devlink dev flash`` returns
-> +``-EIO`` and says so in its extack message. The drain runs once and is
-> +never resumed, so a failed MDIO transaction ends it as well. A loader
-> +that stops answering the drain needs a power cycle; a completed drain
-> +whose reprobe could not be scheduled, and a drain a bus error cut
-> +short, need only a driver rebind. The driver re-examines the switch
-> +when it binds and at no other time, so a power cycle on a board where
-> +the switch can be cycled on its own still has to be followed by an
-> +unbind and rebind for the recovered switch to be recognised.
-
-[Severity: Medium]
-
-This new text says two of the three rescue_failed causes need only a
-driver rebind, but the in-tree kernel-doc and the log message say a power
-cycle is needed in all cases.  Which of the three is right?
-
-The kernel-doc for the flag in struct mxl862xx_priv (mxl862xx.h) makes no
-distinction:
-
- * @rescue_failed:      (rescue_mode) the self-heal gave up or cannot run; the
- *                      loader needs a power cycle and no flash can be accepted
-
-and mxl862xx_setup_rescue() in mxl862xx.c prints the same advice for every
-cause:
-
-	if (priv->rescue_failed) {
-		dev_warn(ds->dev,
-			 "switch in MCUboot with an unfinishable download, power cycle it\n");
-		return;
-	}
-
-mxl862xx_rescue_heal_work_fn() in mxl862xx-fw.c sets the flag both for any
-drain error, which includes a plain SMDIO/bus write failure:
-
-		dev_err(dev, "flash: download recovery failed: %pe\n",
-			ERR_PTR(ret));
-		WRITE_ONCE(priv->rescue_failed, true);
-
-and after a fully successful drain when only the reprobe hand-off failed:
-
-	if (device_schedule_reprobe(dev, MXL862XX_FW_REPROBE_DELAY_MS))
-		WRITE_ONCE(priv->rescue_failed, true);
-
-Since rescue_failed is a plain bool in the per-binding priv, an unbind and
-rebind starts from false and re-runs mxl862xx_rescue_mode_detect(), which
-matches what the .rst says for those two cases.  Only the unfinishable
-opening handshake path in mxl862xx_rescue_mode_detect() looks like it
-genuinely needs a power cycle.
-
-Should the kernel-doc comment and the dev_warn() text be narrowed the same
-way, so an operator reading dmesg is not sent to power cycle (possibly
-physically reset) a switch that a rebind would recover?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1789477568.git.daniel%40makrotopia.org
+Thanks,
+Drew
