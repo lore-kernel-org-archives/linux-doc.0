@@ -1,196 +1,284 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010029.outbound.protection.outlook.com [40.93.198.29])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF9D51D516;
-	Thu, 17 Sep 2026 13:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789650985; cv=fail; b=Ov+mucgj6SiXioTxO/6N7vRTe3BF4wRoPHVzxGpUbMpd0RA+P1LY/CkeHrUM5tARsxOQ+OTkBiAd7TzkL+n0yw0vggQ9D2pW5ogYX0lpj5eBVY85ccCo9Jl6L3fTFmKlrgnjfeFxM7MXqIfeSCpYXgbENxWojNdAmGerFgULXDc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789650985; c=relaxed/simple;
-	bh=ZeXwZU3vS4Ri/AbgpmFPR2qXzEKXFlSN7BnI2T6qe+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=MqNpEFR0HiXu0O9E5f6EmhNmwq+w4FCGmi1uVmw4/CY+UaFfNVGwS30tFAUkMa/hvz4uigYNr6YDzMhh2zcLhY2AkNHTMy3xnH3S0LVYUQjXbiIvZkOFTFXvwxaakWGAj7NRLFm87J3XGqqRe97KekrdRb+vanRoJbMj4RFgROI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Acn6p1jT; arc=fail smtp.client-ip=40.93.198.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390C352B1C2;
+	Thu, 17 Sep 2026 13:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789652263; cv=none; b=Xd4wO+8fxuvaczEOutEEm85/oi3aE+X87npda03hIrDU2OB74q4AI9m1s4mNk9OS1WAq+EzZqJA0vq4Lhx6MCGkpojfq5eFxOo5eUaFVdZrzBE1KVT0QQU49+8mma1GXgvWjX3GEqsZUpkQledlG+lFw6rXgaH8u0isQeZM9brg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789652263; c=relaxed/simple;
+	bh=i2e28DSY9OJFMn+Yei5UTwRLlFG6pUChC039RIqj300=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DTQbp34nZDubp2DMe6R5ar8P8OZrcFNdvQnVNRvsoOWYbGGJt8L4UxyOJEmJFU4pT+o5eTi2tUNmOsoDPsreHH61aVOKrkhXxJwbAqKV7EgrfxkZSq2GFWQeB6DyqSNA070+hr6Oi1Zv0OoF+Hhl8RXM3CKYf8BDYYj3PXvR2zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CkdauEtU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Acn6p1jT"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZwsYVRpU0B01FnyX2QLqz6qhv9FXupxVw7BPxvL7oJXpuKmtK4+e1N1EIxUC1gVSKqsaYTPMC9fv34XoCH8sAku+7o42GWuU4/Wc/DZWUZUjaUIpIeEzCW3TMPlkmt4u/6nlI3n08+aE3/iiZIDS/C2zWhi1HgEo573zvsrhHEJlIH0C3UEWFKemECzlNfLsJouDyZCTmriMyVl7w5kG4gwaZCPw0Tr+VFWaDv58GQAA6oiI++TzNRcaXiIo/zbjjiVgx7ZMjmO7VD4KsviDF0WeNPjii4gyW9DpdyBur3r4v7go4uhPYiDhWrPWon9vXMldMota7QLdfAxAHfnohw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kpOhOHCfc9bKTFxzUY7VXIYrr8mcBV9v4Ztu5hq+GKM=;
- b=Gvs2AtFdnGZpSD+p1TV1CX520NbLixlSxl1526xT0QRSplU5+NchuJIAjlzo1E1z1u8tObrVbPS6S66KnUECB9rd039oPR2KWuWGxARe7fou5Kil5vZlVvKoD9AMV4QAyTH8laRobxWAuQBHNf9OMvvFXqscL016ZzjlnHUHKpByVTZ5j3Fp86WHzRxodjFuFqbLyqiBnyFB01BfjBKPmv58BiWMf+eM2XGuJ65ESwTdQkffU9o3KzUDAxqsrIvsV+qoqk2Y+SM6qHT46wc+4ep6oKyngBITqpUM+ib4iUZHx+yvScTPPkwOEWEz+7W0d60vwhL1WkyGGkTiwhSatg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kpOhOHCfc9bKTFxzUY7VXIYrr8mcBV9v4Ztu5hq+GKM=;
- b=Acn6p1jTL5uv8VK4wQWdDN3CIUmyEk2gpqw5JaaZX5pJBwiLojtdWGhCZlQPfuxYrWewLruD0IiHn7/ZFt7rb3HwPdbvhyW5hqXYq4OuzcefDhekyGvSxw3l6LSVtJlCe/gP9mQJ3xs75xhzweV8wC36myg3hHHWNZRXtb7d3SIAsWanXRCUUwTyn5mgZmdMxtbngxfEd8MmsdjgyXFpA//gPuSLhtQ1SU1Q9j+BIP3AaEnShYDOk3mq6g5Ej8WfaXLA6d5xA0BpyznEOYXZ8BjKX5eWXEMaUHaVl0DNqQnahzmkIIXcmVSkgO5jyKXlix/4jS6Mk62avfJjxV2EBQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12) by DS5PPF266051432.namprd12.prod.outlook.com
- (2603:10b6:f:fc00::648) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.11; Thu, 17 Sep
- 2026 13:16:02 +0000
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0428.011; Thu, 17 Sep 2026
- 13:16:02 +0000
-Date: Thu, 17 Sep 2026 10:16:01 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CkdauEtU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 446B01F000FF;
+	Thu, 17 Sep 2026 13:37:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789652252;
+	bh=lg/US5lY1LsQarxH6D624+fOci1ZXIwXzP/RrKKTJiE=;
+	h=From:To:Cc:Subject:Date;
+	b=CkdauEtUcuQfeCy7WW0kbl27qF96vhyPoFdaDVAo+mxfulMmOjH1zvV0/0GFY2iWI
+	 7e7gjqXqmSJr2Is6n/mAGW8EqmDWVkDtgn4Tl8bDgYF8hTpv04QRuHI9dDMLxvG3Kx
+	 qqCDYU3k3KIq64l6r+aeYJ8pU3Q2RNbwiF1BrmB0aYCGfeS9FvDsPyTM4PiLX5QL+Z
+	 B+mKCu/ILHdSa7TOXOADcfx7u3/clEXcAqxgwFgbkDzR/N78O7Uaqy2g44DA8JL8Ri
+	 mgvgoxBZML1nc6y8s4qbFKDdQWOoX0bWiytfudnh1cFE+mZHJne7pMCbm0Rw5vQdb1
+	 8jco0V6N8T4KA==
+From: Sasha Levin <sashal@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Juergen Gross <jgross@suse.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Kees Cook <kees@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Helge Deller <deller@gmx.de>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Will Deacon <will@kernel.org>, David Matlack <dmatlack@google.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
-	Pranjal Shrivastava <praan@google.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Mostafa Saleh <smostafa@google.com>, stable@vger.kernel.org,
-	Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
-Subject: Re: [PATCH v6 1/9] iommu/arm-smmu-v3: Handle ARM erratum for CONT
- under invalidation with SVA
-Message-ID: <20260917131601.GY3968357@nvidia.com>
-References: <0-v6-9cd17417d355+281836-smmu_tlbi_jgg@nvidia.com>
- <1-v6-9cd17417d355+281836-smmu_tlbi_jgg@nvidia.com>
- <aquxuBnh6pdxu4-8@J2N7QTR9R3>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aquxuBnh6pdxu4-8@J2N7QTR9R3>
-X-ClientProxiedBy: YT3PR01CA0078.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:84::9) To CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12)
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	Zhen Lei <thunder.leizhen@huawei.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v9 0/4] kallsyms: embed source file:line info in kernel stack traces
+Date: Thu, 17 Sep 2026 09:37:21 -0400
+Message-ID: <20260917133727.428546-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|DS5PPF266051432:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c082f8a-575b-4eb0-9ca1-08df14bdd248
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|366016|7416014|376014|10067099003|4143699003|22082099003|18002099003|56012099006|11063799006|5023799004;
-X-Microsoft-Antispam-Message-Info:
-	VzKh8WCCqXUzEwf60vYOz/alCT3tJ0vGJAm0xUs7NueK6pifwWHOgwC22HdV5JMCdFAUmJgNNMngFNSlza2kIZ2M2NpK28UBl3ZYmLYbKBDKglKpHGD8z9+LmM/CdOkwQlZYTLoY6v5K9H715R5z41EVZV0RD8WfJ6EhQDJCkYFKLVbifwHcgQ4lYVaqpusFpljuRdyNosnjYyXKUeAzRiKcyYvJWeoM7vnkqCkdXkH+JHtRCDiEa7r1Bsw1ZjVqFvMQO+eGAGLusiJKjtpI303jc2CDqEqfrBx2BHKpoRHAeRvWkLicrHK9hARU6ooHl4OOFsM6VresUMv9kSmSAkREJZC6VYpLv9Dl3LdIrBky+o7vL0gxCKGULOm3c6WEwTC9Nv/hHHPbR9/2V2+scm23mw2vypbx21eyhaucaHM504kxBrmStdwC9vAsdaQxvJUPecguxNJ9pLVwCyQ9Xfd/vNYV2ujVDmYY37iOzmsuvS4dQnA6fezzq4/XpcsJGqCKSKzvcwRrZLDwOE6YYmmdWJAly0r2XYbF6EBFE+zKJ8iJIdIxud6RaKAQzWx/SDGsCzho2FNebLbYb/2TCNAjHEfG3CKi9+HH0Q4dUn4duyYzmRh7rN/rxb5JIY+Dy29sqqjR+GxuKvibWozpUaspcAxhOKbLQBYV3hctV0w=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(7416014)(376014)(10067099003)(4143699003)(22082099003)(18002099003)(56012099006)(11063799006)(5023799004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VQAq+XXXbFBy1VWY4njZQCLbTw5nZht0InFyc1TNRRFGWf5lBGxegmZifKY4?=
- =?us-ascii?Q?11NGBjkYapIrxBmQDfDQG/ZkWlWDme8CB8Lkn4c9WJUxEM4OLaqZ9InhXDdX?=
- =?us-ascii?Q?hJz8ARyIkdGR8zx+9VH+/+847exwU8R7CcIqIfiLeJYMTP3u+F1Iu0uk1Ftx?=
- =?us-ascii?Q?rcaT78k1DFvyM32MhQArTAm+mcfaVbpXve6Ho1gklZ4r0ny6sWEr7oOeOoWq?=
- =?us-ascii?Q?2iE4TVh13QLU7vj4ZUo1Kxk538YPmGwtyulNUZ7pHHV03hRSC6J/iAnCJ4W5?=
- =?us-ascii?Q?IOYfhjloGe3JIt3F5Jxx4m6K3olbg9uEojiiQrXKzYMTNRIUXiV9Ns27PF23?=
- =?us-ascii?Q?M+m/MG6Jz/YD/LkKv0Raya6fyomXXXsfaMYcL4PBV/3N0u67164wLULrk3te?=
- =?us-ascii?Q?lh7Kc8NuaJnsRu5N4chyQYUA1cPJ3qcabqWh28/NUd+1H0ATEZ7n9eiBtcWf?=
- =?us-ascii?Q?0T0dyJJzeuzuifH41gU5TXpZuJ6hBBC0hq89SU3gTO+25mFbQkZ7z+ePTC6Z?=
- =?us-ascii?Q?HhRvxS9BL6r59bTaK9YIbAKgUj/fa9XUi2gZPAWlppI6UKusVF8OLADUxBXL?=
- =?us-ascii?Q?0yzhDJU87bSxqSw7FnNW9HdxLwFuzGlFRS6OJcMtmofcwX+HmqUlEs0uAgsE?=
- =?us-ascii?Q?gbGK7A54wwbZiN0Rs/+u2pqhemILY/Ruhcq7KwUcIrYSLi+bRPZ54RoPICze?=
- =?us-ascii?Q?uAXytAkHKxeilkNt57BXLzYOE7jN8Y7zANXGJRLyNWizkEZl/KtJztxE6LaZ?=
- =?us-ascii?Q?VGbWU+876mX9dWvUC/3O7kkiVPZYJipiw1NBWzvYaQMKH6/hlY9yOJkwvDO8?=
- =?us-ascii?Q?l+8J9wtMsiQjUWuLOFHH5C3Sh1PnPNBWWzFbPqeToboux4j9oeJ3Lu3PJUMR?=
- =?us-ascii?Q?seY+9kld1UmmYJbwwrNBhcS2C9188bXD6zYij+gJOFsYgTMbjJLxtMMjND1X?=
- =?us-ascii?Q?x71VdA8lWgdK/HBiXx8J+VIgYUxAaB2GDMB9kmU49l56JsUBpOqWZEPkrfXn?=
- =?us-ascii?Q?a8hHaR8PWkTS9iJ5ThbD1eSudiDCvGnPznMCKhpzd88VBFUl7n6g7sUVnA0t?=
- =?us-ascii?Q?MRY4vry8owORSKHzjP5XylRW3n1wYWR0f6GRvO3+JPVLt0K356d99DISQu/M?=
- =?us-ascii?Q?96kKBsv9HdSH871beuLoDuEJPbOUORR2fX0vxffsgb6IBFnSkjwSNDaUecjX?=
- =?us-ascii?Q?I4T/4qIJHJDLDZ0fe89+GNAz5Q5k2pNQShMIhVAP2bkNUvlQI+7cu5VVyaJZ?=
- =?us-ascii?Q?hX6KfnnTWCJ/RaN6OJuQsQPwqwVNdXbQsxEoO++rhP/jx1re1F/O29IJAxoK?=
- =?us-ascii?Q?xAIAae+TDKBJOX4aO1bna+l3jg9DTqj3sy8xLrczSX976kb4JI+7+6L4YtLy?=
- =?us-ascii?Q?cAVCdNJzyX1BNFTGFQ4zt2/FHGh0UxrDAHvViDmgzsnR588OuMCVWIE7IUi5?=
- =?us-ascii?Q?6hh5bBzZBHYaZ2FnUu391IwnD3CoceZPHBspSAMrXAp36i1s/XUNIqJzyqxj?=
- =?us-ascii?Q?NByBvdS5USEvCbaa3MqX/LqAXk7kUsZBPTJzsoFIkIKpsCR6N9b5o5iK+H0Z?=
- =?us-ascii?Q?WILsj1U31oeiAR+wJ2oEDJvyQ4Z/12N4YJZYs9XanzsE1v6A2DSHKCf12nh0?=
- =?us-ascii?Q?QomLleb9VCEzEUhWq+MLQrUkZ2N4pCy1Ojc9B3EFCAsYDv8+/jJqf7n5YLLb?=
- =?us-ascii?Q?fj9iVYYUTnV5KAIvk23UP0rzbJmpxTDOuZIDoJ4lvRIyv1tZ?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c082f8a-575b-4eb0-9ca1-08df14bdd248
-X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 13:16:02.2672
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dqF8AheJJIn6/WpjXjSZffgr9ugO5RrEu7qrvhMbT8+U4FHDJkWOEcCVkcABUF2M
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPF266051432
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 17, 2026 at 10:24:08AM +0100, Mark Rutland wrote:
-> Hi Jason,
-> 
-> Nit on terminology below.
-> 
-> On Wed, Sep 16, 2026 at 09:27:42PM -0300, Jason Gunthorpe wrote:
-> > The erratum (MMU-700: #3777127, S3: #3673557) deals with under
-> > invalidation of a CONT PTE grouping in the SMMU. The recommended work
-> > around is to use a Range Invalidate (RIL) that spans the entire CONT. The
-> > only user of CONT in the kernel right now is through SVA sharing a CPU
-> > page table that contains a CONT created by the mm.
-> 
-> As someone familiar with VMSA, I've never seen "RIL" used to describe a
-> range invalidate and I think using that in the code below is confusing.
-> I *think* "RIL" has come from "SMMUv3.2-RIL", which is the SMMU feature
-> for Range Invalidate *and* Level hint, where "RI" is Range Invalidate,
-> and "L" is Level.
+CONFIG_KALLSYMS_LINEINFO embeds a compact address-to-line lookup table in
+the kernel image so stack traces print source locations directly, without
+decode_stacktrace.sh or a vmlinux with debug info at runtime:
 
-Yes,
+  default_idle+0x9/0x10 (arch/x86/kernel/process.c:768)
+  default_idle_call+0x6e/0xb0 (kernel/sched/idle.c:122)
+  do_idle+0x38f/0x660 (kernel/sched/idle.c:199)
+  cpu_startup_entry+0x4e/0x60 (kernel/sched/idle.c:453)
+  rest_init+0x277/0x280 (init/main.c:732)
+  common_startup_64+0x13e/0x158 (arch/x86/kernel/head_64.S:418)
 
-drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h:#define IDR3_RIL                    (1 << 10)
+Patch 2 extends this to loadable modules, patch 3 delta-compresses the
+tables, patch 4 adds KUnit coverage.
 
-Unfortunately I've noticed a couple of places like this where the SMMU
-terminology and VMSA differ a little bit. In these cases we've
-historically choosen the SMMU naming in the SMMU driver to be
-consistent with its spec.. I've definately seen this gets confusing
-when talking to people familiar with the CPU spec and IP.
+Why this is useful
+==================
 
-I had guessed it ment "Rang InvaLidate", but you are right:
+A stack trace in a bug report is usually all you get.  The reporter has
+already rebooted, the machine belongs to a customer, or the failure came
+out of an automated run that tore its environment down an hour ago.  What
+lands in the report is a list of symbol+offset frames:
 
-  RIL, bit [10]
-       Range-based Invalidations and Level hint support for TLBI.
-       The value of this field is an IMPLEMENTATION DEFINED choice of:
+  ext4_do_update_inode+0x2a1/0x4c0
+  ext4_mark_iloc_dirty+0x5f/0x210
+  __ext4_mark_inode_dirty+0x9c/0x330
 
-The driver also calls it ARM_SMMU_FEAT_RANGE_INV, but I thought
-range_inv everwhere made some very long names.
+Turning that into source locations requires the exact vmlinux that
+produced it, with debug info, fed to decode_stacktrace.sh or addr2line.
+In practice that artifact is the thing that is missing:
 
-> Can we please spell that out as "range invalidate" or "range op"
-> (matching the arm64 architecture code) rather than "RIL"?
- 
-> That'll be easier to follow, especially as nothing in the code mentions
-> what "RIL" means -- that's only mentioned in this commit message.
+- Distributions strip the shipped kernel and put debug info in a separate
+  package of a few hundred megabytes that is not installed by default.
+  Fetching it after the fact only helps if it still matches the build that
+  crashed, and on a machine that has been updated since, it does not.
 
-The whole series uses ril as a shorthand for IDR3_RIL, and the spec
-often does the same:
+- A reporter who rebuilds "the same" kernel to decode the trace does not
+  get the same offsets.  A different compiler version, one changed config
+  option, or a different link order moves symbols around.  The decode then
+  yields plausible but wrong line numbers, which is worse than yielding
+  none, because nothing flags it as wrong.
 
-[25:20] SCALE Range invalidation scale.
-		  * See below for use of this field in range invalidation.
-		  * When TG == 0b00 this field is RES0.
-		  * If SMMU_IDR3.RIL == 0, this field is RES0.
-                         ^^^^^^^^^^^
+- Panics captured through pstore/ramoops, a serial console, a photograph
+  of a screen, or a customer's ticket system arrive as text.  There is no
+  binary left to go back to.
 
-So I'm certainly sympathetic, but I don't know we should diverge the
-driver from the language in it's own spec.
+The usual answer, "please rebuild with CONFIG_DEBUG_INFO and reproduce",
+quietly ends a good share of investigations: the reproducer is rare, the
+machine is in production, or the reporter has moved on.  With the table
+embedded, the trace above decodes itself at the point it is printed, on
+the machine that crashed, with no second artifact to find.
 
-Do you have a recommendation for a suitable short name? It is
-meaningful work to rename everything in this series.. Will?
+Two cases go beyond convenience, because symbol+offset cannot express
+them at all:
 
-Thanks,
-Jason
+- Inlining.  A frame names the outermost function that survived inlining,
+  so an oops inside a static helper or a header inline reports the caller.
+  The offset is the only clue about which inlined body faulted, and it is
+  not a clue anyone can follow without the binary.  A file:line points
+  into the header the code actually came from.
+
+- Assembly.  Frames in .S files have no useful decode in a plain trace;
+  here they resolve like any other, for instance
+  arch/x86/entry/entry_64.S:121.
+
+Module frames are the worst case today, since decoding them needs the
+matching .ko, built with debug info and kept from the build that ran.
+Patch 2 makes them self-annotating, which matters most for out-of-tree and
+vendor modules, where the person reading the trace rarely has that.
+
+For anyone triaging at scale, syzbot-style pipelines, distribution crash
+aggregation, kdump fleets, traces that carry file:line can be clustered by
+source location instead of by symbol+offset, which changes from build to
+build.  The same trace text stays comparable across kernel versions for
+far longer.
+
+The feature is opt-in and bounded.  On x86_64 defconfig + CONFIG_DEBUG_INFO
+the stripped image grows 8.0 MiB (52.2 -> 60.2 MiB, +15.3%) with the
+compression in 3/4.  There is no cost on any hot path: the tables are
+read-only data, consulted when formatting offset-bearing symbols, with no
+locks and no allocations, so the lookup is safe from NMI and panic
+context.  Lookups use offsets from _text, so KASLR does not disturb them,
+and nothing is needed at runtime: no debuginfod, no symbol server, no
+network.
+
+The information all of this rests on already exists at build time.  Today
+it is discarded at the end of the build and asked for again, months later,
+from whoever hit the bug.  This series keeps 8 MiB of it instead.
+
+Changes since v8
+================
+
+- Rebase on v7.3-rc3; size and entry-count figures re-measured.
+- Keep the last line-program row at an address rather than the first, so an
+  inlined call resolves to the inlined body and not to the call site.
+- Annotate %pS and %pSb as well, not only the sprint_backtrace*() forms.
+- Expand SHF_COMPRESSED debug sections before applying relocations to them.
+- Apply RISC-V and LoongArch ADD/SUB relocation pairs, and refuse an object
+  that leaves any relocation in a patched debug section unapplied.
+- Emit line-0 and end_sequence rows as "no annotation" markers instead of
+  dropping them, so an address DWARF leaves unattributed reports nothing.
+- Resolve rows sharing an address: a line-0 row wins where the line program
+  puts it last, a sequence end yields to a sequence beginning there, and
+  across compile units coverage is the union.
+- Give a function an entry at its own first byte where one row covers
+  several, which is an assembly macro; in C such a row is padding or a
+  split-out fragment, so the unit's language decides.
+- CONFIG_CPU_ENDIAN_BE8: build the table from an unconverted partial link and
+  hold back only --be8 and --build-id for the link that produces the module.
+- Guard EM_LOONGARCH and R_LARCH_*, which glibc gained only in 2.36.
+- Regenerate lineinfo when the final vmlinux link moves text.
+- Decode MIPS n64 r_info by its own layout rather than with GELF_R_*.
+- Refuse architectures with no known absolute relocation type, instead of
+  generating a table from unrelocated DWARF.
+- Fold module table generation into the link command, so a relink caused by a
+  command-line change alone cannot drop the table.
+- Relocate every debug section libdw reads: a module built from several
+  objects carried line info for the first one only.
+- Pass KBUILD_LDFLAGS to the module ld -r, without which ARCH=i386 fails at
+  its first module and 32-bit ARM warns on every one.
+- Check the actual bounds in the init-text KUnit case, which UML fails.
+- 4/4 builds the KUnit module from two objects and covers the inline-site and
+  second-object paths, neither of which a single-object module can reach.
+- From the sashiko.dev review of v8: scnprintf() in __sprint_symbol(), u64
+  sums in the blob offset helpers, and an alignment check on blocks_offset
+  and files_offset.
+
+v8: https://lore.kernel.org/all/20260801143219.3975824-1-sashal@kernel.org/
+
+Testing
+=======
+
+A distribution-style config with CONFIG_DEBUG_INFO, booted under
+QEMU/KVM:
+
+- KUnit, CONFIG_LINEINFO_KUNIT_TEST=y builtin:
+  33 passed, 0 failed, 1 skipped
+- KUnit, =m with CONFIG_KALLSYMS_LINEINFO_MODULES=y:
+  32 passed, 0 failed, 2 skipped
+- KUnit, =m with CONFIG_KALLSYMS_LINEINFO_MODULES=n:
+  8 passed, 0 failed, 26 skipped (skips rather than fails, as intended)
+- Every entry of four built modules diffed against addr2line: 100,725
+  entries agree.  16,098 addresses probed across them in the other two
+  directions: none annotated where DWARF has no location, none left
+  unannotated where it has one
+- The vmlinux table checked the same three ways: 4,000 sampled entries
+  agree with addr2line, and of 4,001 probed addresses none is wrong in
+  either direction.  Repeated on a build with -ffunction-sections, where
+  one compile unit's sequences do end up adjacent, which is the case the
+  rule above turns on
+- SysRq-l backtraces annotated, including .S frames and header inlines
+- Every .ko sub-table header 4-byte aligned, 14 modules with a blob, 9 of
+  them with two or more section descriptors
+- Multi-object coverage checked by dumping the blobs: kvm.ko now names
+  all 30 of its source files, where before it named one
+- Compressed debug info: -gz=zlib and -gz=zstd objects give tables
+  identical to an uncompressed build
+- Relinking a module with only LDFLAGS_MODULE changed keeps its table
+- A module relinked with a stale table object planted in the build tree
+  ignores it and emits the same section, byte for byte
+- MIPS64, SPARC64 and Hexagon objects checked directly: MIPS64 matches
+  llvm-addr2line, the other two are refused rather than mis-generated
+
+Builds:
+
+- Each of the four patches builds standalone on x86_64 defconfig +
+  CONFIG_DEBUG_INFO, 0 objtool warnings at every point
+- arm64 defconfig, ARCH=arm multi_v7_defconfig (943 modules), ARCH=i386
+  defconfig, and x86_64 with LLVM=1: all clean, no warnings
+
+Sasha Levin (4):
+  kallsyms: embed source file:line info in kernel stack traces
+  kallsyms: extend lineinfo to loadable modules
+  kallsyms: delta-compress lineinfo tables for ~2.7x size reduction
+  kallsyms: add KUnit tests for lineinfo feature
+
+ Documentation/admin-guide/index.rst           |    1 +
+ .../admin-guide/kallsyms-lineinfo.rst         |   99 +
+ MAINTAINERS                                   |    9 +
+ include/linux/kallsyms.h                      |   18 +-
+ include/linux/mod_lineinfo.h                  |  319 +++
+ include/linux/module.h                        |   40 +
+ init/Kconfig                                  |   35 +
+ kernel/kallsyms.c                             |  108 +-
+ kernel/kallsyms_internal.h                    |   11 +
+ kernel/module/kallsyms.c                      |  200 ++
+ kernel/module/main.c                          |   26 +
+ lib/Kconfig.debug                             |   10 +
+ lib/tests/Makefile                            |    4 +
+ lib/tests/lineinfo_kunit.c                    | 1109 ++++++++
+ lib/tests/lineinfo_kunit.h                    |   21 +
+ lib/tests/lineinfo_kunit_second.c             |   21 +
+ scripts/.gitignore                            |    1 +
+ scripts/Makefile                              |    3 +
+ scripts/Makefile.modfinal                     |   41 +-
+ scripts/empty_lineinfo.S                      |   38 +
+ scripts/gen-mod-lineinfo.sh                   |   45 +
+ scripts/gen_lineinfo.c                        | 2534 +++++++++++++++++
+ scripts/kallsyms.c                            |   11 +
+ scripts/link-vmlinux.sh                       |   88 +-
+ 24 files changed, 4780 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/admin-guide/kallsyms-lineinfo.rst
+ create mode 100644 include/linux/mod_lineinfo.h
+ create mode 100644 lib/tests/lineinfo_kunit.c
+ create mode 100644 lib/tests/lineinfo_kunit.h
+ create mode 100644 lib/tests/lineinfo_kunit_second.c
+ create mode 100644 scripts/empty_lineinfo.S
+ create mode 100755 scripts/gen-mod-lineinfo.sh
+ create mode 100644 scripts/gen_lineinfo.c
+
+-- 
+2.53.0
+
