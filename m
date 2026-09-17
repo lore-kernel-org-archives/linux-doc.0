@@ -1,133 +1,124 @@
-Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B9A592208
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 14:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3D24D37B6;
+	Thu, 17 Sep 2026 14:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789655293; cv=none; b=pdlC4VG5UXYjlVzI1dxQh8DuJvl56VGTSU6/hbIJt0x8tk4uB9aj/X86pum6EZslnG3+fE1DRlKbk95IgaEW8zPuQNW/2tx5H1vCqZo4XCq/Zn5JheMpEJGal1kz1z6/E505LXksGxE2EholnBJO52nfmk+4K7qztkVun3aXp3c=
+	t=1789655588; cv=none; b=n9kV0DMe6dm+uLPmxaSAUXOpyWhCZI9YRiqv1E2ANIa0UkS3wtvYX2BW1DJIw/LlX/dAmrvdE8/jfGw9bnAn3agXgSa8C8u7n/ubnHO4nLGuYC3ZE04bJfSXmr1TrjSRHoaUOnD7R6GQMjFXxYpoa8bnWm/MX9fTHIdDoyIGQx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789655293; c=relaxed/simple;
-	bh=zD+yqYOk9BEwYrlkE41XIJFd2WjARDFI5ce4WJxm+Ls=;
+	s=arc-20240116; t=1789655588; c=relaxed/simple;
+	bh=/7b9Dge+Xpm43JDEKx4r2OMUe578e0wRvbBLaw5dZ98=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XzWOjJcFqFqvLIlmyyXKo+j00pZZ3a9ywWna7CdEN3d0ACqARCaDhfcY2+ZFf7r82fs8YswjC39hfEPKmRZYHNT0bEJGVhln5KQYjIXodgkHxnpqeukwshzYdpUgKKsJbUSFLtEoAOgOtKY00aUZmeAJ5/laDIQVbeT1cHg4KEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=jOZBXJLw; arc=none smtp.client-ip=74.125.230.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=gBftSpmGs1LjPai13FEsalLQT5ITT+IS/JVUYCtdZ72t0H5it3r1GMEtkUHOpdaFnK964oKGOoeTdi3JuXEXo9fF6rJfQLUOcNYmQ5ri+H2QgLDnCEwcFwtggpT2EQYlrF4OUN86aFuWIakcBGoWesrbUiswJfOWbzR1yHjSvig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h4w3XnKm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="jOZBXJLw"
-Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-9106feddbdfso7299446d6.0
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 07:28:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1789655290; x=1790260090; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Jw1k2NAja1Um952Tl85LJupIp0nZbLj8NYpKbR9I6hU=;
-        b=jOZBXJLwf6JP3b19azmsQ5fLkQfodPWKCQ4sDgsm74opbQurokqxNrasGuNyOPVzvE
-         CTVWAdgBhof6iu0XiS8kaZ358Ree3L9tOC68tPaGgk6QmS7dj/CAh2cDH6Ri94YsKWYE
-         zFgjnox0YrTKuN8CziN0SVinO8YFZz6H8x2igaWxvbrgFrudFRNrFyWtefERJIZGn9WM
-         /YRBE5l7nBeTmhMKMbx56N0o1l466lNeHVloV8m2iSh8w9+kxpuV28bJDRjIUAx2mv9y
-         5MOsangOpHqTW06zyEsy1fwdV0ITN+uat3lRUftLj9jAXlHsH37VEcNIWu8qGi0F66Q2
-         koBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789655290; x=1790260090;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Jw1k2NAja1Um952Tl85LJupIp0nZbLj8NYpKbR9I6hU=;
-        b=fVCn54uUBIs9/szfKGLcTyudb47eQKhvOFdIYKKCvDcvPUdeJXRLiYWFMufb3MsyPs
-         GAs38OMUuNV+x9eJGtja6/WqWW4MErmeLqfZzGABcT93JeVR7BJ0d05/4Nq2QaJ67P02
-         kxiXeMpjHefdGRA9CCUAXW/UW/NvsGkR5SlIY8im5kRqIPEf3MDJ6sQVOQV0O0+hE0JD
-         +ATWTZVEdD7MJhuhHdoOo2qj7QCsuV/KJiR31f4DiIJPYCHrkb5LTCGeVGziUd2MOWkA
-         JjdlOkK0YgdiogQxGyywFN6BsxZy+t8UeQezC8NPdN52kyQit4nXzGerqrK/yye1JFgf
-         gzSw==
-X-Forwarded-Encrypted: i=1; AKwUvByPs/pQgVWBlyitLONEUtANMJ82wZPZybexzi8khTN6O0VcFzsB1/zfB3qeksO8/JEEBvsspyxPCKc=@vger.kernel.org
-X-Gm-Message-State: AFuF++nTTpBFOku710otVgxCnGrs/pSmDZNYhHHgmvD3IWWuH9CgNRRi
-	YiBoOrvo1wsPclNoVFU6Dmw+Rwbg9siukoiEyuAm/4tCs1SskcO0RNpVy8LQI0LZyVs=
-X-Gm-Gg: AYBFou2XVdb+MOWvEFvLEU8ghqfYbq4dQBKj3HVa3un+BSa/iRzIAxBOSUI2ScSTsZ3
-	kK2tEsJRXN8JgG4NLFGADxKVItwiq1Q76ilcKdZC9DvkSl5gbXm6SkEMmP06N4H+HdJlScUPtvZ
-	HAYONIZBdRTSiEfiWqS5qpcsZ/7Toy4umdtDCsX69OTDrfDYahDYtDs8rrlva0m7QuNAbL0SPxJ
-	dBG0FP4wAGyL5cf1Bbi/K9s2P6PRJBrUCbXrh43xFLAIthp30asVWiTOZUQcQ4ULD9AJuMNgwW3
-	6euuswv0+a7ZBdAE8DJoHeiOwe0VT9VA+xu5mfSLzv9xNiqL2MGA5x0NnSu/FoOxf5c3xfVTSJO
-	7akYh8pY9P81P1SrF3dRJ667OarccRhOTtcZplnKWXiw+OnDSTkuRFvFHDdoZeJAhGrx0zpflm0
-	zmkqvfCEBNjnFbDzBoGiSr53Wi381pBBGhLU3hgkMe8KavZdvgb1Jrn1Opj+GqZTS+nVbeHjyfg
-	SSz89HCyfZugt2YFgVmkxllDND9CqYMW/amQMCck9hTPi5ELchoPKVq
-X-Received: by 2002:a05:6214:1316:b0:912:517b:911 with SMTP id 6a1803df08f44-912517b0beamr9926716d6.48.1789655289706;
-        Thu, 17 Sep 2026 07:28:09 -0700 (PDT)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9123be9ca82sm51192626d6.32.2026.09.17.07.28.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 07:28:09 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1x7D5s-0000000CrE5-25RS;
-	Thu, 17 Sep 2026 11:28:08 -0300
-Date: Thu, 17 Sep 2026 11:28:08 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	iommu@lists.linux.dev, Tushar Dave <tdave@nvidia.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org,
-	kvm@vger.kernel.org
-Subject: Re: [PATCH v6 18/18] RDMA/mlx5: Ask P2PDMA whether ATS takes a
- direct peer-to-peer route
-Message-ID: <20260917142808.GH3196566@ziepe.ca>
-References: <20260914-fix-p2p-acs-v4-0-v6-0-5ef07ec9ef06@nvidia.com>
- <20260914-fix-p2p-acs-v4-0-v6-18-5ef07ec9ef06@nvidia.com>
- <321890690ce83d1943b2f678bd9bee9b8c895b66.camel@linux.intel.com>
- <f3708893-4760-4157-83a3-313867a94e78@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h4w3XnKm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F561F000FF;
+	Thu, 17 Sep 2026 14:32:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789655586;
+	bh=I2ExORUgMX+BoF88CQ1iPiIm+UZCCdszdxXlk48uD6I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=h4w3XnKm6CpCBPP6zxny3WxSdq5eHBOnoxot5LhCUHJeGcoeuU7IaQSIAvaInWz8g
+	 oHRzCzcN2u5rXZnA8BwBN5B5MY03vwci3WigqJqDc1kf6T86OrB4ddM/4HDTZZQWoV
+	 MP2s55Oe1E1FrVud9JJWXPXpFBCgyVUhIsI7VkIlePqbXJN52WONNSdUfXggIJ9j0N
+	 U5i9lY0iDsScv6yl2/amtlJJYtlYjnw9GuXokt+SVh3xhwljkgeUCImquvwQHO3LCD
+	 gu2VPG0CaGQHuN2mxx+azKf+oE90lG4FG0Nkd1LvBYZbZPRFv6nU4BhGP3iIyXfp05
+	 vN8bbHIolSSrQ==
+Date: Thu, 17 Sep 2026 15:32:50 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nsc@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, Linux-Arch <linux-arch@vger.kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 21/21] kbuild: use pigz for gzip compression if
+ available
+Message-ID: <aqv5_utZj5Ma76OD@gremlin>
+References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
+ <20260914-build-speedup-v2-21-39817ec5db23@kernel.org>
+ <202609151758.BA5732348@keescook>
+ <081b2b60-e295-4cd7-b201-d996a88c5f28@app.fastmail.com>
+ <202609160809.78E97DC34F@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f3708893-4760-4157-83a3-313867a94e78@amd.com>
+In-Reply-To: <202609160809.78E97DC34F@keescook>
 
-On Thu, Sep 17, 2026 at 04:00:33PM +0200, Christian König wrote:
-> > However, at least for the Intel GPUs, ATS enablement is based on the
-> > PCIe-side enable bit.
-> 
-> Yeah, I can confirm as well that this is something really exotic.
+On Wed, Sep 16, 2026 at 08:27:09AM -0700, Kees Cook wrote:
+> On Wed, Sep 16, 2026 at 08:38:33AM +0200, Arnd Bergmann wrote:
+> > On Wed, Sep 16, 2026, at 03:06, Kees Cook wrote:
+> > > On Mon, Sep 14, 2026 at 10:22:20AM +0100, Lorenzo Stoakes (ARM) wrote:
+> > >
+> > > Makefile:
+> > >
+> > > KPGZIP	:= $(if $(shell command -v pigz 2>/dev/null),$(PYTHON3)
+> > > $(abs_srctree)/scripts/jobserver-exec
+> > > $(abs_srctree)/scripts/parallel-gzip,gzip)
+> > >
+> > > and the same scripts/parallel-gzip:
+> > >
+> > > 	#!/bin/sh
+> > > 	exec pigz -p ${PARALLELISM:-1} "$@"
+> > >
+> > > And then replace the /boot/ KGZIP uses with KPGZIP. Then we don't need
+> > > to change modules, config_data, new users, nor cmd_gzip, etc, which all
+> > > continue to use the regular KGZIP and the "use python" part for the
+> > > KPGZIP case becomes is a 1-time cost?
+> >
+> > Nice, I like the idea and this this will work. I didn't know about
+> > scripts/jobserver-exec, but this does seem like a perfect fit.
+> >
+> > I checked the other compression tools we support, and found that
+> > zstd is another one that has built-in support for parallel
+> > compression, so we probably want to have it there as well.
+>
+> Follow-up idea:
+>
+> Having to make a dedicated wrapper script to use jobserver-exec is a bit
+> clunky, so maybe the ergonomics need to be improved there slightly?
+> Maybe we can add a simple template thingy to
+> tools/lib/python/jobserver.py's "run" to replace, say, '%PARALLELISM%'
+> automatically, then it becomes:
+>
+> KPGZIP	:= $(if $(shell command -v pigz 2>/dev/null),$(PYTHON3) \
+> 		$(abs_srctree)/scripts/jobserver-exec \
+> 		pigz -p %PARALLELISM%
 
-In most datacenter systems it is only the NIC that initiates the P2P
-transfers, so it should not be surprising that NIC HW has more
-optimizations for this. In real systems ATS carries such a perf cost
-that you do need to be selective about it. I would expect every
-serious NIC to have this capability or it will not be perf
-competitive.
+Nice, that seems like a good little cleanup will fold that in, do some checks
+then send the v3 out soon :)
 
-NIC and GPU are using ATS for completely different reasons.
+>
+> -Kees
+>
+> --
+> Kees Cook
 
-> Additional to that the setup that ACS seems to be disabled for some
-> bridges bit not all also sounds extremely uncommon.
-
-I'm not sure where you saw ACS disabled, you can look rdma-core now
-has a tool to help people get their RDMA NICs working in GPU systems:
-
-https://github.com/linux-rdma/rdma-core/blob/master/kernel-boot/rdma_topo
-
-I would view most of that stuff as completely normal at this point,
-people have been doing versions of this by hand for almost 10 years
-now. Especially the asymmetric translated/untranslated routing.
-
-Jason
+--
+Cheers, Lorenzo
