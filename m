@@ -1,126 +1,209 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57AFD4E9C2D
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 20:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A083349739D;
+	Thu, 17 Sep 2026 20:17:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789675895; cv=none; b=JXdSJVkPl8pT7HEFAlJk+3Ct5FQ3pg7OII2pqvQqlmDKxw24JdbaN8XV3/od/72D4fBip0k/JP7F2PdK/ej6pfkqpVo2bEgSK65WQNQmc05JAOpAZR10NrFGjAIXMu6nBOsljyTM/KQF7VQFHLwgVnA5Th1yKc8tjxki4lZ1AoM=
+	t=1789676267; cv=none; b=tBW8pgz5CMsiGHWEZlVNz2NIEL/GA3S7PiPWImjPCAap5eclo2/k3VPtqG5/Bv0SFFGoLhV2gUC7ks0u8lDjleDpo6bfSVzGLuQR9EgLFs9xa4+4uIU4hbLxS/UwC+9euK//XZbxS6OwHvXItK5FGM7JE71adOlECvb/51NG+ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789675895; c=relaxed/simple;
-	bh=Pld+KJDf/y0brTSHAZfyNj7LwB26z/vcvvMjg82D16g=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=H2tSvTqql7iQ0ZsTITCOmMJ5piOkdtdecioQSEjYXyGuJFqX7ZHuaxRl4NEn8J8YpJGB7yozxoVxbgf+iOmX0G+Zv+A1mfov3xwulAwwSuqzwerGbXmZVdfh1lRG7UI/g4eDxK9E5lCKZ2ebrnkDfPqz4yOXPlWHU6P+2Fy2Mmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jEG1HNV1; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789676267; c=relaxed/simple;
+	bh=pSHrLFOLdJhOymuWsycPX3NAKxxuihciLly/eexYdlQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Zeol2HD1K8ILBYFKSE6rH5kdQCETBRdwuw2EFzJvFndavv5STSarX3Rzzp98E8O3/hN1Pa1qmt+6hnqaDSocKMoYyaCdJt31yFmE2svcJk1JfUPp7UenYQPE7Xck+RNE5zhnrl5qNoKdeitr+x54qEdZXABbfENn6IgYymsqNew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cifno/se; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jEG1HNV1"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4c08393dfso1063339a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 13:11:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789675884; x=1790280684; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Pld+KJDf/y0brTSHAZfyNj7LwB26z/vcvvMjg82D16g=;
-        b=jEG1HNV1nB356xIIlFyTqdaGPUUh9EjM/3PMbUs+3AGI4ehoP6+sJVH1PhlKRJdi74
-         49iLVhT9tC9NObKt7CYqbEQamlyNxL8drgZcjYZ9wTLMuI4t48nW91cDfveXf0Si7vCw
-         54dSWTEmPbs9HqyhwNdcIeab67Tty0F+QyFDkFaySQpj76fSQNllBZtFFvlb1jacOCR2
-         FmpL9hmFxdFK867OkjHeAXKI83GK8UB4CV1xuosFIQTGXxVsJUsjkAlXWhAILWlyh4HL
-         lpFK8QRjRmw0sPKGRoO7Aa3cih6io/pYDi7ISzk1TEp/o6Wckao1szsQ3Um6dWzlqWkz
-         9vEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789675884; x=1790280684;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Pld+KJDf/y0brTSHAZfyNj7LwB26z/vcvvMjg82D16g=;
-        b=NNNKD0BlnBFRxYPKL9237NTAaGWozsAEiM67qAxDp1K0My72EzvvQhypoE4YD4Cr56
-         Q/3bdaxlULaczvlnhp6iLFgrO48blrRvQmpOL3LdA3UXU9C9wb1Rxh7gq1VyAO7sXb4h
-         8KkISrjp32WRcIgjamYRktChaVPeu/Kmjxi0+7wFglh9z0vTe/2uPuvt/oouzYt8rcDQ
-         +a1HjKU+54GV3HrcqaIWSGHDvCE1OyR8cjITJOs2U81HhKSsKYaiwar32BUeH/6ChFZ6
-         BOtPcm0NPCguO/DTsjigvEMe1QdUFVUWv8C4j2iSp0ZA8WMM3S2UYiZVZ0ua1622nc76
-         mybA==
-X-Forwarded-Encrypted: i=1; AKwUvBzvcAlM0AoIpzc5AqWLUSY/UWszTIrj23l6hQR3P0ghYXhn5eXMdO1DDSMOAOHlYYCOOf638aB+cEc=@vger.kernel.org
-X-Gm-Message-State: AFuF++kFaeuqmeJT/bw7rgKwQ+MP8a/m2o7YbOJm0vsIQn8WjMiloo4Q
-	xvH8GkayHMj+/eB4Xv7UpDYpQ8e+s2lfpN1GJmbT4GfdKfhviAYZICzM
-X-Gm-Gg: AYBFou0XIzugtZga8u7e/Tjav4dG1AyQK7QL6BQAOgudi2w09ubhrB/P83CatU7ZGdX
-	dsy+yg4mnCooYTfZAbfbKkFepiYcXXDbjxHm3rr8//it42wa+tA5mjg8+k6xQa5BK4P1w7cfTxb
-	CfJwmIIHXTAuUvss2D6+jOL51BXbce44UY90hClGCwJaaB7C1fJteCtBw+uUUVtuq8H4eL2oBo5
-	+Dtg3U2WzQauYnq/4GyLblEVhMRas2aS+YFvCmDUsBq6XCbNmPeMZWkc5UxSnkgs+PMncqpeAUd
-	al1Ac8cCqm4iv8EHoZ46TKEcsDX0l8bOsk8KeXGvCrWPBCxt7sXkm7k6a+YtkkaLkHAS6ei++lC
-	NWzZlMZZlOMnjBVXKYzcNeBvXZI6LHHEk3X489dVzzE5L0tHdbz2TO1jmwmYJ/ral7sVVhXFEyf
-	LRcGTswpC7ZScLYwu/jdMNZ0Je0cv7mLmBCGoJ6gG3jHfIWeJ36a/1M1qxiBhGQCKQcsVN+hSjP
-	XvO08L0T7+siENRF4f8KtHyym4=
-X-Received: by 2002:a05:6a20:cfa2:b0:3dd:5831:ef58 with SMTP id adf61e73a8af0-3dd8c456190mr204908637.15.1789675883461;
-        Thu, 17 Sep 2026 13:11:23 -0700 (PDT)
-Received: from localhost ([13.93.150.60])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14395d13ee7sm16211287c88.8.2026.09.17.13.11.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2026 13:11:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cifno/se"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67BD01F000FF;
+	Thu, 17 Sep 2026 20:17:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789676258;
+	bh=rAg/Yg/DqWx7Pxj9VVqEz4+jt8Yppr1YHw8Z6DY3rWg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=Cifno/seyID/kYnwEs9+FDv8lDl1iWkhIbTZOCPYv/Zl3U125NOEahqqxlcPptx84
+	 Lp+WwS5UwXz/cE4pxyhTPmDq18IuA97tb6+2/EXTfb40xf7gXew560HWki//BNg5Md
+	 H7BSt20m8+K0EtOHWRWg13d3vTanCYcfD/ZnAmCnqUvBVdF93rIQGxmXbUx+PpnZDU
+	 crxNVg/ZxechdqZsl3il8cA/fsemgpg3ig+1w7IAHO7YmVWbOnOqiGbOl8yoGm3Ihh
+	 Tqqfwyso+aUaiAND0Smu6s+0pb3Z1KrGeXCrJ14Q2T0e5PjzzsNNugJznZbfYTAcPi
+	 Mpe8P3u+jQcjQ==
+Date: Thu, 17 Sep 2026 15:17:37 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Josh Hilke <jrhilke@google.com>,
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
+	Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v8 10/12] PCI: liveupdate: Freeze preservation status
+ during shutdown
+Message-ID: <20260917201737.GA1047708@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 17 Sep 2026 20:11:18 +0000
-Message-Id: <DLHV5GF21AY4.3GAK241ZI2UR8@gmail.com>
-Cc: "David Ahern" <dsahern@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>, "Jakub
- Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Simon
- Horman" <horms@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>,
- <netdev@vger.kernel.org>, "Arun Ajith S" <aajith@arista.com>, "Roopa
- Prabhu" <roopa@nvidia.com>, "Jaehee Park" <jhpark1013@gmail.com>, "Jonathan
- Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Shuah
- Khan" <shuah@kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- "Alexander Aring" <alex.aring@gmail.com>, <linux-wpan@vger.kernel.org>,
- <linux-bluetooth@vger.kernel.org>
-Subject: Re: [PATCH net-next v2 1/2] ipv6: update NUD_FAILED neighbors from
- NA messages
-From: "Lawrence Lee" <lfqlee314@gmail.com>
-To: "Ido Schimmel" <idosch@nvidia.com>
-X-Mailer: aerc 0.17.0
-References: <cover.1789448374.git.lfqlee314@gmail.com>
- <6596966f734f3d416bfa83722f7a595149bcc3f8.1789448374.git.lfqlee314@gmail.com> <20260916120202.GA935660@shredder> <DLGXDIB879EO.IDZNAIRY0VFJ@gmail.com> <20260917143750.GA1332286@shredder>
-In-Reply-To: <20260917143750.GA1332286@shredder>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260728221007.2098560-11-dmatlack@google.com>
 
-On Thu Sep 17, 2026 at 2:37 PM UTC, Ido Schimmel wrote:
-> On Wed, Sep 16, 2026 at 05:43:11PM +0000, Lawrence Lee wrote:
-> > I added the lowpan changes after my local Sashiko review run=20
-> > identified an issue where a FAILED neighbor can retain an outdated=20
-> > private short address if it's moved to STALE by a non-override NA.=20
-> > Happy to drop all lowpan-related changes or update comments/commit=20
-> > message to reflect the changes, please let me know your preference.
->
-> And if the entry is INCOMPLETE and we get a non-override NA?
-> lowpan_ndisc_update() will ignore it. It's a pre-existing issue and
-> there is a TODO comment about this:
->
-> "/* react on overrides only. TODO check if this is really right. */"
->
-> You can mention that it's a pre-existing issue under the '---'. That
-> way, hopefully, Sashiko will not flag it and it won't clutter the git
-> log.
->
-> > This was added in response to another Sashiko local review finding. =20
-> > Let's say we have some FAILED neighbor T with NTF_ROUTER set. If we=20
-> > get an NA from source address S with target address T and with the=20
-> > Router bit clear, existing kernel code will cleanup routes with=20
-> > gateway S, but IMO we should clean routes with gateway T instead=20
-> > since that is the neighbor which was updated by the NA. I can either=20
-> > update comments/commit message to reflect this or remove the change=20
-> > entirely, please let me know your preference.
->
-> And if the neighbour was in a different state than FAILED? It seems like
-> another pre-existing issue. I guess that in practice, most of the time,
-> the source address of the NA is also the target address in the payload.
-> You can mention this under the '---'.
+On Tue, Jul 28, 2026 at 10:10:04PM +0000, David Matlack wrote:
+> Freeze a device's outgoing preservation status (preserved or not
+> preserved) during shutdown. This enables the PCI core and drivers to
+> safely make decisions based on the device's preservation status during
+> shutdown.
+> 
+> Note that pci_liveupdate_freeze() is triggered by the PCI core rather
+> than from drivers participating in Live Update so that all devices can
+> have their status frozen (i.e. prevent non-preserved devices from
+> getting preserved late).
 
-I will remove both of these changes, add comments below the '---' as=20
-suggested, and resubmit.
+This calls pci_liveupdate_freeze() from pci_device_shutdown(), the
+pci_bus_type .shutdown() method, which I think is only called from
+device_shutdown() in the kexec or restart paths.
+
+Since there's no error exit after we get as far as device_shutdown(),
+and this applies to all devices and dev->liveupdate.frozen is never
+set to false (at least at this point in the series), is there benefit
+to tracking this per-device?
+
+> Reviewed-by: Pranjal Shrivastava <praan@google.com>
+> Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Signed-off-by: David Matlack <dmatlack@google.com>
+
+Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
+
+> ---
+>  drivers/pci/liveupdate.c       | 16 ++++++++++++++++
+>  drivers/pci/liveupdate.h       |  4 ++++
+>  drivers/pci/pci-driver.c       |  2 ++
+>  include/linux/pci_liveupdate.h |  3 +++
+>  4 files changed, 25 insertions(+)
+> 
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> index 744513ee11ed..65bcecb1b64e 100644
+> --- a/drivers/pci/liveupdate.c
+> +++ b/drivers/pci/liveupdate.c
+> @@ -394,6 +394,11 @@ static int pci_liveupdate_unpreserve_device(struct pci_flb_outgoing *outgoing,
+>  {
+>  	struct pci_dev_ser *dev_ser = dev->liveupdate.outgoing;
+>  
+> +	if (dev->liveupdate.frozen) {
+> +		pci_warn(dev, "Cannot unpreserve device after it is frozen!\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	if (!dev_ser) {
+>  		pci_warn(dev, "Cannot unpreserve device that is not preserved\n");
+>  		return -EINVAL;
+> @@ -447,6 +452,11 @@ static int pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing,
+>  		return -EINVAL;
+>  	}
+>  
+> +	if (dev->liveupdate.frozen) {
+> +		pci_warn(dev, "Cannot preserve device after it is frozen!\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	if (dev->liveupdate.outgoing) {
+>  		if (!dev->liveupdate.outgoing->refcount) {
+>  			pci_WARN(dev, 1, "Preserved device with 0 refcount!\n");
+> @@ -718,6 +728,12 @@ void pci_liveupdate_cleanup_device(struct pci_dev *dev)
+>  		pci_WARN(dev, 1, "Destroying incoming-preserved device!\n");
+>  }
+>  
+> +void pci_liveupdate_freeze(struct pci_dev *dev)
+> +{
+> +	guard(rwsem_write)(&pci_liveupdate.rwsem);
+> +	dev->liveupdate.frozen = 1;
+
+Nit, the series assigns "true" to other booleans
+(preserve_bus_numbers, was_preserved).
+
+> +}
+> +
+>  static int pci_liveupdate_finish_device(struct pci_ser *ser, struct pci_dev *dev)
+>  {
+>  	if (!dev->liveupdate.incoming) {
+> diff --git a/drivers/pci/liveupdate.h b/drivers/pci/liveupdate.h
+> index ccc23031e99d..49d07fd02132 100644
+> --- a/drivers/pci/liveupdate.h
+> +++ b/drivers/pci/liveupdate.h
+> @@ -13,6 +13,7 @@
+>  #ifdef CONFIG_PCI_LIVEUPDATE
+>  void pci_liveupdate_setup_device(struct pci_dev *dev);
+>  void pci_liveupdate_cleanup_device(struct pci_dev *dev);
+> +void pci_liveupdate_freeze(struct pci_dev *dev);
+>  bool pci_liveupdate_preserve_bus_numbers(struct pci_bus *bus,
+>  					 struct pci_dev *dev);
+>  void pci_liveupdate_scan_bridge_end(struct pci_dev *dev);
+> @@ -28,6 +29,9 @@ static inline void pci_liveupdate_cleanup_device(struct pci_dev *dev)
+>  {
+>  }
+>  
+> +static inline void pci_liveupdate_freeze(struct pci_dev *dev)
+> +{
+> +}
+>  static inline bool pci_liveupdate_preserve_bus_numbers(struct pci_bus *bus,
+>  						       struct pci_dev *dev)
+>  {
+> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+> index f36778e62ac1..51616e4327d3 100644
+> --- a/drivers/pci/pci-driver.c
+> +++ b/drivers/pci/pci-driver.c
+> @@ -21,6 +21,7 @@
+>  #include <linux/acpi.h>
+>  #include <linux/dma-map-ops.h>
+>  #include <linux/iommu.h>
+> +#include "liveupdate.h"
+>  #include "pci.h"
+>  #include "pcie/portdrv.h"
+>  
+> @@ -536,6 +537,7 @@ static void pci_device_shutdown(struct device *dev)
+>  	struct pci_dev *pci_dev = to_pci_dev(dev);
+>  	struct pci_driver *drv = pci_dev->driver;
+>  
+> +	pci_liveupdate_freeze(pci_dev);
+>  	pm_runtime_resume(dev);
+>  
+>  	if (drv && drv->shutdown)
+> diff --git a/include/linux/pci_liveupdate.h b/include/linux/pci_liveupdate.h
+> index 04a2b2a3102a..31898685a406 100644
+> --- a/include/linux/pci_liveupdate.h
+> +++ b/include/linux/pci_liveupdate.h
+> @@ -24,6 +24,8 @@
+>   * @was_preserved: True if this struct pci_dev was preserved by the previous
+>   *                 kernel. Unlike @incoming, this field is not cleared after
+>   *                 the device is finished participating in Live Update.
+> + * @frozen: True if the outgoing preservation status of this device is frozen
+> + *          and thus cannot be changed.
+>   */
+>  struct pci_liveupdate {
+>  	struct pci_dev_ser *outgoing;
+> @@ -31,6 +33,7 @@ struct pci_liveupdate {
+>  	u16 acs_ctrl;
+>  	bool preserve_bus_numbers;
+>  	bool was_preserved;
+> +	bool frozen;
+>  };
+>  
+>  struct pci_dev;
+> -- 
+> 2.55.0.487.gaf234c4eb3-goog
+> 
