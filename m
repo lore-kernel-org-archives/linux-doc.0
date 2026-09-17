@@ -1,187 +1,114 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF5B4B1CEB
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 20:26:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888FB3064B5;
+	Thu, 17 Sep 2026 20:45:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789676804; cv=none; b=iK6wF6+P6NRDcOs/qowj2JKWSizcW9JXknT3Y7xmnHl3qyztScIJtqMDQbxAJTDDAndC4OKlkTMeCJUQ36avSWiPskEpTCu9tzJTxhazkB6Bm3D+yREDPa2BExLcSoVukq0R1CiijMAl69KE6KkF1Teb0ODFNpvSbpvIaD30+Vs=
+	t=1789677951; cv=none; b=nkTeH68Am/2Tmk4NC5biYmkszUPCTAlYebp86OybXtx65d7n8oMyD/x9Xo3yUNBmkHRfUy0IuoixEXU9RhYkIayQYfQcVcxNdWYx0cSUVPXzRlFl5FxG/h5B7tjCRUu0H7oxAcUopUaMBuns5DNt4Nhx6whojFs9uK5OlAdDth8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789676804; c=relaxed/simple;
-	bh=/wm6upxZhNKjCNldD9EE0n5yIdNuPgK9lrIwGU6QUEc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=lNsLj7UzrpoAQqh8JP+KreZXPNGB3R1u2Q/hS20OUzoSpnHVIo8I2WlmzPec9WmmmrntRTCmClbzQD4rZBDtTpg00v6TScUNJT5YVIyy1xzNJRzcZOgCatsiJ93d6FIUZLjWuqq0mmb61XA57t4w+aKtiGAZ5QU/HEepoafb7kQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yi6MDRhJ; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789677951; c=relaxed/simple;
+	bh=6h2ET/czH94AUBMIbJrqUDxH7pFf3R8w/S/LKVkMXeg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u5zsmp6FcKF+9dbexEa4VuVeXAy8jT9Avou/8wekfmhfobIxL67XmXt8eLwmb4MJXRiXwivhDvmVPb+KXj+qZxRIRec/9c+f1KWrlnSoh03gc9P7ll3whlbTq9JQwtb0CFHa4F64D0CZn1HBY0wnbd4nwvrVMNFCmwEZEssr6EQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dATjc1ny; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yi6MDRhJ"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2caced6038eso11358325ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 13:26:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789676802; x=1790281602; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=cSGFqbf3XjQKoM9IeVQurnJH7q0lWkBYjjfyEjg57UQ=;
-        b=Yi6MDRhJ9LrvWVAkj858t/31R0nZadrF8vfYStOZG6VVyMneMCehw1cRw5T1Ukg2If
-         c6/LHD1Rt9lbG6IlNFhtXa69i8tWPEYRQxfT2z4DrU1AKEejkn9mlVbRUADkQno0ixiD
-         zHCMLkudWX7+7bM1IroDrKu9LWJlrr4tO7+P7xZDnVnfQwB+qJAl9oE5GLtk4RkaEK2P
-         dTn27ty04JD/u5DcpT0EE39WRj9GQG0QeRw008o8tJuL6aCMbJv9G8aai/sH0NZpO142
-         51QUNNOYC5rwN42gTi8hK8/HWiRsgmalboFahfbRy/h9m/EiDCVKWC6U6mjXdkEgkjET
-         vgIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789676802; x=1790281602;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cSGFqbf3XjQKoM9IeVQurnJH7q0lWkBYjjfyEjg57UQ=;
-        b=IBAl6KiqkuP45SxaYGOJ33swcLteJN/rI9DFzimROJKgBEM2yQIb4SWhc1k+uKr1qL
-         qQmnHdAS/Ks5+lCkJa6ZTeneoYOIaUTlYeb+4WpQmGxF02kX42yRAH9EKaLtImz8aRug
-         S4OQD44Z/OraOXcwmqRN81MsycnA3CQgKPmTFGf14LuUhzR01SPDokkO7T1K9aC9ao0I
-         jLSfFJHU4i0JC5PcuQIR6eB8N/3OUIOJUnhqIiIo7JKw8NIlgSGLmYwaVHODWzXQQhOq
-         7zBaurn+4GPyghuYM+YYjEqW5JA2aStM2PVb4EEsz+xHeEBozmYo8fDfG2+0w8U5BTIP
-         rdZw==
-X-Forwarded-Encrypted: i=1; AKwUvBy4gcQb+1jgzbF1nXqmgW0AxNgEGW5V+M37fRp3a0VnsTjvi6aGdFxA24ANi/stTKQXSNbL6mt/cvw=@vger.kernel.org
-X-Gm-Message-State: AFuF++lJIpXoyHAul04K5r/v5lKcFFEmvARiDxQ/LBSFi/f3t+8yV9F6
-	qHgrGxuwBYQ3m4gEmWF0Fz578uP9aCZy9c4DqUkJc1mbN5/zV2cogsb0
-X-Gm-Gg: AYBFou1wXVY0M/l1IaYPUzWI+KCtbADXFhg7uBuYQvg2m4bXoCqVcI3b0fJz/uwqMBX
-	p/XHR7qcgxAFDdisHHwHwSxdspg4V76jzQiJbmHX5AgRmszrab+j2oxy/zZ77oP/MIVld5+oxui
-	Hgdu8PpQx6+ywNxhNQEfLNSK99DrGgrrZZ38b7HN+zzzeeNUZeW0ffgWnJFNrDvxt8Q88W87G8I
-	3B6J0tOeltCIaDng2aqTKI4JbuDx6Qwd23aroY0uLHQlgLI4N4FzkqL2S7Uf3P6Q2oCIa6HJI2y
-	J2aSKCuf2dpfnHIL4RA6eUcJmVfofciGkggonTsAw5AetIb87w1lyHMCVxDuxReI+CbrmsTRed1
-	l0BNcH/EDrbbmEtmCdkfFy9s63yNTCmQMa0/yIgR1qiRIgrGfUBVNJhp7rETBz3FTo3lnqNEUxU
-	4pRPyWHxYX1WnHoiWEG2PLSAz/ypg3AmEvWmj9jfvUdaVIGi+TBlcvHJdyuj6DaIgVCJP1SI9V8
-	q97ajSk1e+9+uhixMRbaNgHZMZA+OJZVhm37w==
-X-Received: by 2002:a17:903:1a4e:b0:2d8:d4d2:d13a with SMTP id d9443c01a7336-2dd9ca3f373mr62050225ad.22.1789676801756;
-        Thu, 17 Sep 2026 13:26:41 -0700 (PDT)
-Received: from localhost ([13.93.150.60])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bf5a93f1fsm17829614eec.11.2026.09.17.13.26.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2026 13:26:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dATjc1ny"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789677950; x=1821213950;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6h2ET/czH94AUBMIbJrqUDxH7pFf3R8w/S/LKVkMXeg=;
+  b=dATjc1nyJQeagVzbwaGwWKwxMUk7w3uSJvd2BRLZlEaPHKn2su028Ywq
+   yQ4nnF6O6H1cDl+e4rHb3A1+U5FnnvEQgFAHAuXzcV7C2brCP9Nd+fzPx
+   jTWjEsrA/tDZ93dIJZg6f5Wc0q9z1b34BDkjVko+97kFxqHMOVcuOWZIi
+   AtqletcfheNnhch7RbH7mBjCJVfArOV72w7Xy5TRuIdPTo4GdE7pwhdRr
+   gpB7eEGE7rMxpkbbztJYGocL8aEERkAvRVT5XEjI6QsvT6Bs4gKvjpdjp
+   u6/tpuX/tUKvsAycFpK1AqU+g35156vKMst69on8HtIKCkIHM67clJTBY
+   w==;
+X-CSE-ConnectionGUID: t/GJFjwgQ32XwTIEwNLhGw==
+X-CSE-MsgGUID: 646dFh26QsC/XZezCVRmzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100739282"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="100739282"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 13:45:48 -0700
+X-CSE-ConnectionGUID: g9BaIqJVRYyuZ5HcpWcmzw==
+X-CSE-MsgGUID: TCQXq+cTTVeKX+QyLhj3GA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="297502056"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by fmviesa002.fm.intel.com with ESMTP; 17 Sep 2026 13:45:48 -0700
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	andrew+netdev@lunn.ch,
+	netdev@vger.kernel.org
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>,
+	mheib@redhat.com,
+	przemyslaw.kitszel@intel.com,
+	jiri@resnulli.us,
+	horms@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next 0/3][pull request] i40e: add runtime-tunable ATR sample rate
+Date: Thu, 17 Sep 2026 13:45:37 -0700
+Message-ID: <20260917204541.3072415-1-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 17 Sep 2026 20:26:39 +0000
-Message-Id: <DLHVH7E0GSI7.EEUHJ5ZOUYIM@gmail.com>
-Cc: <dsahern@kernel.org>, <idosch@nvidia.com>, <davem@davemloft.net>,
- <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
- <horms@kernel.org>, <rdunlap@infradead.org>, <netdev@vger.kernel.org>,
- <aajith@arista.com>, <roopa@nvidia.com>, <jhpark1013@gmail.com>,
- <corbet@lwn.net>, <skhan@linuxfoundation.org>, <shuah@kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <alex.aring@gmail.com>,
- <linux-wpan@vger.kernel.org>, <linux-bluetooth@vger.kernel.org>
-Subject: Re: [PATCH net-next v2 1/2] ipv6: update NUD_FAILED neighbors from
- NA messages
-From: "Lawrence Lee" <lfqlee314@gmail.com>
-To: <netdev-bot+sashiko@kernel.org>
-X-Mailer: aerc 0.17.0
-References: <6596966f734f3d416bfa83722f7a595149bcc3f8.1789448374.git.lfqlee314@gmail.com> <178966456087.22033.11671220306303617581@kernel.org>
-In-Reply-To: <178966456087.22033.11671220306303617581@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu Sep 17, 2026 at 5:02 PM UTC,  wrote:
+Mohammad Heib says:
 
-> > diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
-> > index 90cd5d8525698..84d70c09205a2 100644
-> > --- a/net/ipv6/ndisc.c
-> > +++ b/net/ipv6/ndisc.c
->
-> [ ... ]
->
-> > @@ -972,14 +982,18 @@ static enum skb_drop_reason ndisc_recv_ns(struct =
-sk_buff *skb)
-> > =20
-> >  static int accept_untracked_na(struct inet6_dev *idev, struct in6_addr=
- *saddr)
-> >  {
-> > +    /* For any given neighbor IP address, consider it an untracked nei=
-ghbor if
-> > +     * it is absent from the neighbor cache or if it has a NUD_FAILED =
-entry in
-> > +     * the neighbor cache
-> > +     */
->         ^^^^
->
-> [Severity: Low]
-> This isn't a bug, but this comment block in accept_untracked_na() is
-> indented with spaces while the switch statement right below it uses tabs,
-> so checkpatch reports "ERROR: code indent should use tabs where possible"=
-.
->
-> The comment also describes what the caller considers "untracked", based o=
-n
-> the neighbour cache, but accept_untracked_na() only reads the sysctl valu=
-e
-> and never sees the neighbour entry. Would it fit better next to
->
-> 	neigh_untracked =3D !neigh || neigh_failed;
->
-> in ndisc_recv_na(), where the RFC 9131 decision table already documents t=
-he
-> same concept?
-This comment will be removed as per maintainer feedback.
+This series makes the Flow Director ATR sample rate configurable at
+runtime through a devlink parameter.
 
+On systems with many queues and high-rate TCP workloads, the fixed
+default sampling interval can cause frequent Flow Director
+reprogramming and TCP packet reordering. The optimal interval depends
+on the workload and system configuration.
 
-> [Severity: Low]
-> Is the new FAILED handling covered by an in-tree test at this point in th=
-e
-> series? As of this commit, ndisc_unsolicited_na_test.sh and
-> arp_ndisc_untracked_subnets.sh only seed absent entries, so the whole
-> FAILED to STALE half of the knob, including the mode 2 same-subnet
-> qualification, would still pass if it were broken.
->
-> For the record, this looks resolved later in the same series: the follow-=
-up
-> patch "selftests: net: test untracked NA recovery of FAILED neighbors"
-> (7be3b5fcfd3f9adb7489aff8013c6d4beacbf20c) seeds entries with
->
-> 	ip neigh replace ... nud failed extern_learn
->
-> and adds the failed combinations covering every row of the new table,
-> including the in-prefix and out-of-prefix mode 2 cases. Mentioning it her=
-e
-> only for completeness.
->
-The tests are added in the next patch of this series
+Patch 1 moves atr_sample_rate from per-ring to PF level, since it is
+a global policy.
 
-> [Severity: Medium]
-> Why does the gateway address handed to rt6_clean_tohost() now depend on t=
-he
-> previous NUD state of the entry? Before this patch the same "router to
-> host" event always flushed routes keyed by saddr.
->
-> fib6_clean_tohost() in net/ipv6/route.c matches the argument against the
-> gateway of RA-installed routes and against cached exceptions:
->
-> 	if (((rt->fib6_flags & RTF_RA_ROUTER) =3D=3D RTF_RA_ROUTER) &&
-> 	    nh->fib_nh_gw_family && ipv6_addr_equal(gateway, &nh->fib_nh_gw6))
-> 		return -1;
->
-> so it expects the address of the node that stopped being a router, which =
-is
-> unrelated to whether the cache entry happened to be in NUD_FAILED.
->
-> When saddr differs from msg->target, and that is allowed since RFC 4861 4=
-.4
-> only requires the NA source to be an address of the sending interface (a
-> router advertising a global target from its link-local source, or the pro=
-xy
-> NA case handled a few lines above via pneigh_lookup()), the FAILED recove=
-ry
-> path flushes routes keyed by msg->target while every other path flushes
-> routes keyed by saddr. Can both be right for the identical event?
->
-> If saddr was the wrong key all along, would it make sense to fix that
-> separately for all cases, with a Fixes: tag, rather than changing it only
-> for the FAILED path? The changelog describes only the FAILED to STALE
-> transition and does not mention this change of key.
-This change will be removed in the next version of the series as=20
-discussed in another thread:=20
-https://lore.kernel.org/all/DLHV5GF21AY4.3GAK241ZI2UR8@gmail.com/
+Patch 2 exposes it as a devlink runtime parameter so administrators
+can tune it without rebuilding the driver.
+
+Patch 3 fixes a pre-existing issue where re-enabling ATR via ethtool
+private flags did not trigger a ring reset, leaving fd_ena stale in
+the TX queue HW context.
+
+The following are changes since commit 26ee8cd69d46a14b37ba5e512084fe80d730127a:
+  net: qualcomm: rmnet: require CAP_NET_ADMIN in the real device netns for config ops
+and are available in the git repository at:
+  git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue 40GbE
+
+Mohammad Heib (3):
+  i40e: move ATR sample rate from ring to PF level
+  i40e: add devlink parameter for Flow Director ATR sample rate
+  i40e: trigger PF reset when re-enabling ATR via ethtool
+
+ Documentation/networking/devlink/i40e.rst     | 20 +++++++++++
+ drivers/net/ethernet/intel/i40e/i40e.h        |  1 +
+ .../net/ethernet/intel/i40e/i40e_devlink.c    | 36 +++++++++++++++++++
+ .../net/ethernet/intel/i40e/i40e_ethtool.c    |  7 ++++
+ drivers/net/ethernet/intel/i40e/i40e_main.c   |  9 ++---
+ drivers/net/ethernet/intel/i40e/i40e_txrx.c   |  6 ++--
+ drivers/net/ethernet/intel/i40e/i40e_txrx.h   |  3 +-
+ 7 files changed, 72 insertions(+), 10 deletions(-)
+
+-- 
+2.47.1
+
