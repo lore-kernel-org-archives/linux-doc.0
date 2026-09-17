@@ -1,210 +1,145 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012034.outbound.protection.outlook.com [52.101.43.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AAE3515DA
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 02:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789610830; cv=none; b=EbWYowjaqkSqyG9yfBLsx47KvKXRlsjsU5NYtdv2nDUO0WdyRYqIdKKdqneDY+vB05l4Y12RmKoa95kVS7LJ8yay+lSFNNIwFohpqvgaYd1yK1uiICBMsDAk17YZ9g5v3HKuqKs8aF4dU8yYi4mvtHJ1lOOmG3ZGyn7hX1HNrvA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789610830; c=relaxed/simple;
-	bh=2Au3LTyyde1NXe3pV1Jp5fFNXw8iKXKum8s4v/uClQA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gNBNN+PZZOWNKLnsGhfaedpeMbpCmPExbd085MavtD2bTi5y5QrCNy6yCGMxVVpTfl/4aemxp9KCCiZGdpDgtdC9zeaTsvqkN/LWDTR915txVWv/VjvwHOGFt1uysgVMJGAYwn0IHD9mx/kz7RweRsKzEnItd927pAcmj5lC73A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UXZ3VtlL; arc=none smtp.client-ip=74.125.228.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263FF39B971;
+	Thu, 17 Sep 2026 02:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.34
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789613065; cv=fail; b=dKDK/MYJR45h/fF0Ykvf5noxnizFhaTISaKDqZjd4UehwTFiTSoRId4ldedz8jTFTXw2uN9Lzn+emgcne7A4D2Q+jaiDFheDnoEFnruY2x2igSJvCoWRp2qN/XvXV19Knxn8yUiZFnIaXU4qtQyQENF/ZInbaVnjQ4YIBArHTb0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789613065; c=relaxed/simple;
+	bh=xH5ZWwTToQDdqHkaY2tiejcyckbYNSmFmKoOreMEcts=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m5ohVlpGKgWS4AyQbREghnccEKEoLJnLdmPeSGMe/UxgmxdTdoXrRyX07DFfLQ1oYKMGE6bTs2TpBLYCIaj9xJ+w1UQQIa7BAKaArGmnB18B18XApxr8olQnYLjSbr260D5eHDTYhaOBADcqk3GJm6WSkC/SRyziFHub5duWOlc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=o6yIW/38; arc=fail smtp.client-ip=52.101.43.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UXZ3VtlL"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-8692a856865so286105b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 19:07:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789610828; x=1790215628; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Veq/d5GG4sWMYx11wlD0mjBLYK1jExJiTNsjFaM3d/s=;
-        b=UXZ3VtlLJOS138+mmuu6J+6Z85nJbd5TX9QWYrmjGIqAzvfcXAct7x8E+DkPFJiXf4
-         tMNzNoHpPEanB4FVl/x/wW+UY9TCymCeU5+ycLxWc971wWm2MwC8VfFKVDGqMMPliCnm
-         IIJWLF4m0Gnv2f3/D5iGwYEcxPjGXzYaarG4F9US+sf8U67IlncoQhCeS5W+w7XrXrv5
-         XfOfMVSIxiSMNCVrAZieMshC0ygEwdZsGs6sRBOi/VuTyaZFf5nazv1iLg0Q9EfMiEpl
-         rU/tDPwIK1wY5FKm/+2y1oUVjSBsZXOeUlGaFSYxcp16QGuAaSLfKeljG7uSVsznlfbU
-         BSUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789610828; x=1790215628;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Veq/d5GG4sWMYx11wlD0mjBLYK1jExJiTNsjFaM3d/s=;
-        b=D/Dua2o1dojfWsMdpxRIDB7nSWMnI05Ic4ubICtZ3o4VjMAgB3Gu4Yfs5uHtHyuZXQ
-         o6dtsJcPUYJQXq7Ucm0c3P8234UIqr+tmpskJE5JIET70JyaffKHEa+jNMvmbEi1XEBS
-         1J1BIo4iD+gxX/dkFUVz1bKeT8ahOBTA32+rfD92A4qjLDRkE3Dx2v9cTJKItjdBeLQa
-         6SFL9mLxW+tfdXnEV+rDisdrkSpwPabHYVGwmbRdlcEeqXZzEe3Ro6BH7750m5tSarad
-         o02iknIq6B+lPUf6JzTydY574Ea7QJSaeFTvzkgR36CEEdaMTpei8x53YkQr+PI4zsr0
-         ZLRQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxz2dQz0a5LOct6VxvNAMsW6G/oXoi74dZT1tDNAXV7pQ3Olvt8LWL8eX3BJDX7qYRi0ul2/EipcCM=@vger.kernel.org
-X-Gm-Message-State: AFuF++km2XaHuI5rJikiaGeRw7QYxies/R0xR6yILE0POSR+Q+K1b91s
-	qKMIKWt4lV71z3WRV5yfXu+2zvCvWydoFMTZ6ajiCVVItoGzORqaXdzN
-X-Gm-Gg: AYBFou2RzCu+s2/0t2BXatIhqlVjeWccmDrc3XY64ciZxvAnpfQLh+2EcVeQX6Gt+f8
-	rYy8QgauduraqjOYidZ4J7KUbuPNN07RIuu0rKT91Wiw4k78druUln+wxqeEFV6SGbuCf2rQ6im
-	dRDRDU5zed2xdM4Vf8hc8JRyN3c6MIoQwhOpUuvJKQQ2aZJOm2eVZJEF+bGVfxtdAvVboSKBPWl
-	11+SPpka70f27JfheSC8BsQNRBfQAWic3OfJOwNUpEl0t7n0fhgFWqbdBihl+iD66O6LpUHncMW
-	/DMPjYOvYUXJ9/937hy1v4WS4A71sbfaoSyrqs9BlkrCX4pt7BrrS/O3e6B9FFNeaCRok2VuKRm
-	1I2oHqFqT96ReVzHMKQwgBxOmauICoKX5ZBdTGgqDc1ZobflnczJ6tixF2Y1mOWByt6V1O1/gL9
-	Ywri/YeI9KgOaFri2GCASXE9PXLRwXbVtxsnXhfQBPUx8+RlVJPy+PtMj4jlCefHpSNHip/O6q4
-	RuzRklUlVFC0+Xj7B5LsyTGFKSbJ68frNe2O0wg
-X-Received: by 2002:a17:90a:28f:b0:39e:2530:2102 with SMTP id 98e67ed59e1d1-39e253026d9mr9151823a91.11.1789610828473;
-        Wed, 16 Sep 2026 19:07:08 -0700 (PDT)
-Received: from localhost.localdomain (vmi2317699.contaboserver.net. [85.239.239.237])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e39b0399bsm383108a91.2.2026.09.16.19.07.03
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 16 Sep 2026 19:07:08 -0700 (PDT)
-From: Lian Wang <lianux.mm@gmail.com>
-To: SJ Park <sj@kernel.org>
-Cc: Ravi Jonnalagadda <ravis.opensrc@gmail.com>,
-	akinobu.mita@gmail.com,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com,
-	rientjes@google.com,
-	weixugc@google.com,
-	jic23@kernel.org,
-	gourry@gourry.net,
-	Kunwu Chan <kunwu.chan@linux.dev>
-Subject: Re: DAMON reporting more hot memory on huge pages (was: "Re: [RFC PATCH v2 0/9] mm/damon: hardware-sampled access reports")
-Date: Thu, 17 Sep 2026 10:06:37 +0800
-Message-ID: <20260917020653.46010-1-lianux.mm@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260917004533.89744-1-sj@kernel.org>
-References: <20260916051150.107931-1-sj@kernel.org> <20260917004533.89744-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="o6yIW/38"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wNizo4wEvduG8zimjRzfVXR649oghGybxgnN+AGrApSw0YLEnUlkUMlocKTC9uN4CtSurkdkt+VFbnmOhLoddawyT5a/ncpdmhBUuA+1JTNvZD73mVkCKLsWTtLDkm+4ocAZgjuBroXbxf5XEVkhLNtymDdnB6tfGn+2OmMOFJ7QWeaY7VVuUzo7UWc5yXQHGY1mRFhhGgI3p0KLGkxcyiatGIEIgHFlPAkoORLj7bdosRVCSQSbjFcrSjbpAesR978ch8tQKyulTWMJBS3xKOKwRdzjoMP2VQ/If/nXADZKaTloZjr2MuKSrDOJZYIX6nlrrpGygXBqLb+xdKasNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SgmpTeddKoYljOoFhvuONdqPI/uJeGpN5GkIusLcQoc=;
+ b=IWWHzRgdsbLBNecZ1DPEFE/yTZSfXa5as60N1SmTyD72FR354A0Sm8o19+UMuWMYMaU8+SkfDvVOCq16Dqh/C/p7sb5dNpQ87I9WBsnLDZajX1CqngThnBgU6BFSl00EHXdLVC/vAGlt8Wc9XqSoZLZ9qgPYhByBgL/AXeW+s1ixsTMx38ADPTcPwYguG41EHGXpkKRHLHfo31xumu8XVr1e5c46sjWbKTeyGjBxIRQvlDJo8sJBo5MTdX64uFYTQEkJPeZI8rMx19QpB+Pp+L8izuZE0/sDIQbpQDY1Q1+m8WYVpIlstfH2bMxX8AZKrAnekxmw6wkbV8UbSh2xRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SgmpTeddKoYljOoFhvuONdqPI/uJeGpN5GkIusLcQoc=;
+ b=o6yIW/38RF8hKv6Xm7lcScoYw05HTp5xKoM24CNJ+/XT98xb9jQE9Hiy1TL7789m8vBHzkcOAYM3L1RNh9FNeNOF+rRV4kpIMqoNyWVsGTCV9TGcfdlcoTv1fVPt5OwIdZE5Hr4jias9+2oS2O8jh+rzkJXX59+4O/THgEodUl+gsCWC3HhWOYag9spidgn16AnOFipaxsA37p8oOsDykgzwQ7mgrlnSvyE8m6Yu8h843M4d5S4iEW7Ij+4lIPlbdvca7GAFAbY9nEN9+I9yLUebazsGWpxvEYyLyVpBax5ktAE1UYZNa9TQOK70lTu3MUokoaFpgmfxB58nE6VYjQ==
+Received: from CH0P220CA0011.NAMP220.PROD.OUTLOOK.COM (2603:10b6:610:ef::13)
+ by BL1PR12MB5969.namprd12.prod.outlook.com (2603:10b6:208:398::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.11; Thu, 17 Sep
+ 2026 02:44:10 +0000
+Received: from BN1PEPF00018070.namprd04.prod.outlook.com
+ (2603:10b6:610:ef:cafe::30) by CH0P220CA0011.outlook.office365.com
+ (2603:10b6:610:ef::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.11 via Frontend Transport; Thu,
+ 17 Sep 2026 02:44:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BN1PEPF00018070.mail.protection.outlook.com (10.167.245.198) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.428.7 via Frontend Transport; Thu, 17 Sep 2026 02:44:09 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Wed, 16 Sep
+ 2026 19:43:56 -0700
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Wed, 16 Sep
+ 2026 19:43:56 -0700
+Received: from nvidia.com (10.127.8.11) by mail.nvidia.com (10.129.68.9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49 via Frontend
+ Transport; Wed, 16 Sep 2026 19:43:54 -0700
+Date: Wed, 16 Sep 2026 19:43:52 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet
+	<corbet@lwn.net>, <iommu@lists.linux.dev>, "Joerg Roedel (AMD)"
+	<joro@8bytes.org>, Jean-Philippe Brucker <jpb@kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>, "Mark
+ Rutland" <mark.rutland@arm.com>, Randy Dunlap <rdunlap@infradead.org>, "Robin
+ Murphy" <robin.murphy@arm.com>, Shuah Khan <skhan@linuxfoundation.org>, "Will
+ Deacon" <will@kernel.org>, David Matlack <dmatlack@google.com>,
+	"Jean-Philippe Brucker" <jean-philippe@linaro.org>, Jonathan Cameron
+	<Jonathan.Cameron@huawei.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
+	<patches@lists.linux.dev>, Pranjal Shrivastava <praan@google.com>, "Samiullah
+ Khawaja" <skhawaja@google.com>, Mostafa Saleh <smostafa@google.com>,
+	<stable@vger.kernel.org>, Vijayanand Jitta
+	<vijayanand.jitta@oss.qualcomm.com>
+Subject: Re: [PATCH v6 0/9] Organize the SMMUv3 invalidation flow so iommupt
+ can use it
+Message-ID: <aqtT6P1TsQk/N9dH@nvidia.com>
+References: <0-v6-9cd17417d355+281836-smmu_tlbi_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <0-v6-9cd17417d355+281836-smmu_tlbi_jgg@nvidia.com>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00018070:EE_|BL1PR12MB5969:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8be12ea5-2c6a-4c27-af33-08df14658d04
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|23010399003|376014|7416014|10067099003|56012099006|11063799006|18002099003|22082099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	IawGfcGIMVj8lmYRixAmPB0OEJtGoj7Wu9Vwa82u0RSifFtfOuZBCtAykROe3z4xk03wZPY8SZFVYpxlX+3848r9V/7gfBvv1VT7Yp+G9Spa7zm9xfya2AxoSO6m5IjVYP2+cTTZpYsXrdwoAilgOmo2W59inYJqAunvGxVq8kAPsUKWDW/wFT+lv5JRsKu4i3WP/DWP3X0suGjaWorRVbZhOZlAC0qf42UNYOQkYBZPfI7LSe38P782yBDUFkDwrL4H1ON1utyN1NxSQI4iYdJnkClT1ADmcdPhs8kQhXxuRKYS0FuLbigcUcqfYTR7GXpMbLqrg7vJfbuXYhyznQ7ZcxCU7ZUrOncRdkhxdA5mWgG9LXFc5kNYv6G/QwV8SvjQ8xndUFSH9f8Xpi8tmub09EV9X10l6HK5KywAIAE6CuzrmLbSQhURcQ/7Y14iYLh7SOOLfdASSVChNLAKFM7neE3xeB7pMSVdbynWgX90j8o9YuE//cHkQ/kaTMZRlGEK9CNmmljDQVNJN/QGdm5ea5CGC3Aw14PY7J7OGq9Jd+x+6Brknd7JHhh1U01NWqgN6oL5J4IdHQU8co1WOzZDOmsJzebocMxIP52KOxKqrhqOl/I0wbaQZAO2kxSqTq1DzGOnWQN9xg1jy3EOUNQaMFPt/ELABisRfOgorWMbGyAmRUKmk0KYP1E2Y42DyEIpwHaxoyGEyHdcGoJTDA==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(23010399003)(376014)(7416014)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	5UdHRKKRXhP0KikUbWzpX7cmE8Vyr9XfI4724KWiYsJmUdD+t1APAwZ936VVPoHg5aZLm+qkxrZ5TvvXzzUbHIuBtbxUN3qDFfx7Qna4nomJ7bhpMSZEQDGrZXrkD/2M/4Ks29uFcppHOfXbmLDlVwghmgHZfq7aDLXbY8GOIJuA/KGWtgLDb+o8OhiVnmWEedmzLDj4TkyOv0n/XRLXL+VSfH8ukTqLERWrLjxfxwA3rSZw8mKadFwGfHT2qej+0+TVlaL5pFN31HQAoyv6DCTNHBaooKULaFWLdYOI5d8fX9tcibByv0jbtHIQEVzh3SP9yaJRzkjKQX5Hz+l8jM/Vnp5qaV4VEoMmySJCw/7c+Vsxo3a3FtDWbMV/MTmd/ZPEfROJvC6bNi+zEMHAuoZ5g9j3zeJzQSrL3k0nZtrEAEwCeakJHSw3a7QISBCp
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 02:44:09.8198
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8be12ea5-2c6a-4c27-af33-08df14658d04
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF00018070.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5969
 
-Hi SJ,
+On Wed, Sep 16, 2026 at 09:27:41PM -0300, Jason Gunthorpe wrote:
+> [ This is part of the patch pile to move SMMUv3 over to the generic page
+> table, the precursor patches have been merged now:
+> 1) Organize the SMMUv3 invalidation flow so iommupt can use it
+> 2) Use the generic iommu page table for SMMUv3
+> 
+> The first patch should ideally go to -rc
+> 
+> The whole branch is here:
+>    https://github.com/jgunthorpe/linux/commits/iommu_pt_arm64/
 
-Thank you for thinking further about this and for suggesting the damon_prep
-direction.  Let me first clarify the real-world use case and correct one
-expectation that I created in my previous mail.
+> v6:
+>  - Rebase to v7.3-rc3
+>  - Add helpers arm_smmu_pt_level_to_lg2sz(), arm_smmu_pt_lg2sz_to_level(),
+>    arm_smmu_ril_calc_scale(), arm_smmu_ril_calc_num()
+>  - Remove unused leaf_only
+>  - Combine has_range_inv and range_inv_scale_max
+>  - Clarify comment on arm_smmu_iotlb_sync()
 
-SXF develops a hyperconverged infrastructure platform.  The workloads running
-in the guests are customer workloads, and their types, memory sizes and access
-distributions are not controlled by us.  Oracle is the workload in the case
-that exposed the problem, but we cannot define one Oracle access distribution
-as representative of the platform or provide one generally applicable
-workload-specific THP performance number.
+S1/S2/SVA sanity runs okay.
 
-The platform has two requirements:
-
-  1. Host THP is enabled by default.  Large mappings generally provide useful
-     translation and virtualization benefits, so disabling THP merely to make
-     monitoring easier is not an acceptable general solution.
-
-  2. We also need an estimate of each VM's active memory as an input to later
-     memory-tiering configuration.  If a small number of distributed 4 KiB
-     accesses makes many 2 MiB mappings appear fully active, the hot-tier
-     requirement can be substantially overestimated.  VM sizes vary, so the
-     absolute error can become large on a large VM when accesses are spread
-     over many huge mappings.
-
-The reported setup is a KVM/QEMU VM whose large guest-RAM allocation is backed
-by a shared tmpfs file.  Oracle runs in the guest, host THP is enabled, and
-host DAMON vaddr monitoring targets the QEMU process.  The field observation
-is that, for the same business memory-use case, the measured hot proportion is
-much higher with THP.  The guest-side tmpfs 4 KiB/2 MiB writer is a controlled
-diagnostic for isolating this mechanism, not a model of the complete Oracle
-access distribution.
-
-The DAMON setup is:
-
-  operations=vaddr
-  monitoring_attrs/nr_regions/min=500
-  monitoring_attrs/nr_regions/max=2000
-  monitoring_attrs/intervals/sample_us=500000
-  monitoring_attrs/intervals/aggr_us=20000000
-  monitoring_attrs/intervals/update_us=60000000
-  schemes/nr_schemes=1
-  schemes/0/action=stat
-  schemes/0/access_pattern/age/min=0
-  schemes/0/access_pattern/age/max=18446744073709551615
-  schemes/0/access_pattern/nr_accesses/min=1
-  schemes/0/access_pattern/nr_accesses/max=18446744073709551615
-  schemes/0/access_pattern/sz/min=0
-  schemes/0/access_pattern/sz/max=18446744073709551615
-
-The hot proportion is derived from the bytes selected by this stat-only scheme
-(at least one observed access in a 20-second aggregation window) relative to
-the monitored QEMU scope.  It is used for later configuration, not as a
-request for DAMOS to split or migrate memory.
-
-As shared in my previous mail, our controlled PC and server runs reproduced a
-large THP-off/on observation gap.  The exact-address capture also showed a
-512-times difference in unique 4 KiB spatial coverage while the two aggregate
-DAMON hot proportions remained nearly identical.  The conclusion is that the
-current coarse observation can substantially inflate active-memory estimates,
-and configuration-only tuning cannot reconstruct the missing within-PMD
-spatial information.
-
-> I still want to better understand the real world use case before digging into
-> the specific solution.  But, I was thinking perf event based monitoring might
-> not feasible for the case.
-
-We agree that perf-event feasibility should be established rather than
-assumed.  We will test the address space reported while a KVM vCPU is running,
-per-VM attribution, coverage and loss before relying on that path.  If you had
-a specific feasibility concern in mind, please let us know so that we can
-include it in the test.
-
-> That is, we can request DAMON to do some preparation action for the data
-> attribute sampling, using damon_prep.  At the moment, set_pgidle prep action is
-> supported.  Maybe we could add a new prep action, say, split_pmd?  Then, the
-> following sampling memory access check probe (would be a kind of "allow
-> pidle_unset" probe filter) will be able to show the access on exactly the pte
-> accessed bit, not the pmd accessed bit.
->
-> Breaking pmd would cause the overhead, but it would be capped by the
-> max_nr_regions.  So the user could at least consider about the tradeoff.  I
-> think this is simpler and more intuitive than DAMOS-based pmd breaking, at
-> least.
-
-This placement makes sense to us.  A split_pmd preparation for access sampling
-is clearer than exposing PMD breaking as a DAMOS action.  We understand it as
-refining the mapping used for observation, without splitting the underlying
-huge folio, and then letting the following probe observe PTE accessed bits.
-
-We will follow this idea and validate it.  In particular, we will measure the
-active-memory result and mapping cost, check whether max_nr_regions also bounds
-the cumulative number of mappings that remain PTE-mapped over time, and verify
-whether splitting the host process PMD is sufficient in the QEMU case or KVM's
-large secondary mapping remains the limiting layer.  We will compare it with
-the perf-event path, stat-only first, without proposing a user-visible DAMOS
-split action or physical folio split.
-
-Please rest assured that we see this as a long-term technical discussion and
-collaboration, not an attempt to rush one mechanism into the tree.  We will
-continue sharing both positive and negative results.  I also plan to present
-the scenario, evidence and tradeoffs in more detail at LPC.  Please feel free
-to share any concerns or ideas at any time; we are happy to keep iterating on
-them together.
-
-This topic has now become broader than Ravi's hardware-sampled report series.
-If you think it would keep the discussions clearer, I can start a separate
-thread focused on huge-page observation and the damon_prep approach, while
-keeping perf-event implementation and testing comments on Ravi's thread.
-
-Please let me know whether this clarifies the intended use and whether our
-reading of the split_pmd damon_prep proposal matches what you had in mind.
-
-Thanks,
-Lian
+Tested-by: Nicolin Chen <nicolinc@nvidia.com>
