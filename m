@@ -1,317 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6287851C05E;
-	Thu, 17 Sep 2026 16:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789663412; cv=none; b=NMQ00OK/7Qm/cK7E8+WIwVqB32ALCHoLsL1N8GRYK1BLImPPuL/ci8t9wM7rkGIYbj5VVgJ10kqzYeLncp4pv10zuV5sCxuInu2nbv0Kq9AO9kObBSn/76zl+XUoRxEB1dDguivGsN2t630fjqLSwTULCL6gyG14AHgaxHKLbhw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789663412; c=relaxed/simple;
-	bh=FUHFpGdL5KZVRVlCuvz5idqKgH6ZuHhZHuvnhxOArGo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=edfqrZaRfPT8ZYhizBokvOCCtcsYbWXVlk4V+I3wpgwuMJAvjc5kcsPfoWK31H9AyP9putb6cKGPoK4sKboxgsiaYYxYBDAGjyVoqzi4yv+InDwKl9UgkVT1hSBvRdACJ0uPQUqvCVg96M7DhKO1MN5IdQxPtfLQ1SuZHECTP9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U3VCmtam; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABA84E0B95;
+	Thu, 17 Sep 2026 16:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.147.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789663895; cv=fail; b=D3BygKkyATKVh6iLENthbRt9u/vaLbPi2ixmOlxuTbLp0qjawiHAH/J1cSnEiSn/WrtogkEu3yeCy6GqGNXrcOH2LzNs764TWnFWsq2a49sopQvMXKPbWoHXL3uc6m67hGsEz0I9waptYDxreDRLWfkSvSqTW24TWronr542KaM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789663895; c=relaxed/simple;
+	bh=CXL+P3qpw8p8LK0alTEOBCNbxPkFwDnmlm+opVcxmSg=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Tl1kobNTIbneKDwUUca7nmZJOlYgdypB3oHFqL043E5NFS7h0wH+Kxh8oWq4/OnVf8SINCp2PBMxDXGW92EnLygnk4imOz9KrmU60u/+fEZvpBUxrfifi/ZFuq1zUkZ4zh9mnUsZhLkMJKWvzKrT1s/46WWuOnmPwZJCe0zgUSE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=RYy410f0; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=afKMJyyT; arc=fail smtp.client-ip=148.163.147.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U3VCmtam"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 105461F000FF;
-	Thu, 17 Sep 2026 16:43:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789663411;
-	bh=pbe5l45SH4yx4tHTzTY7+dgPoXtouc+iallQdj0tZTM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=U3VCmtamsFZkAgO0QQp0B8Dds6bhn6Xl8VtQ3gAbfSk1DNVXLCJQTDAbPuGlRZSUh
-	 7yqpqgv9jlRUltg2fRM/WuMoVC5li2aqV4W0sThfJFNHqKLA1UFjG8WjR5M82PpMC9
-	 +nB6MzvYhPBSGwYvNXbh3ZbABwebZArPwvuGGJcg0/z/v+aWelMoyvQ7mEipMyya7f
-	 MCJU4d8pMhJWq1/5iiedVEnx2LZ8lG244dtSHttXpfGn/6yyJAzddzjz7f83DXHka4
-	 tTzX/L9mPofs45bYAVH+C2P6GDU1LY21fbwKfxmnBaQ05UE2mA2PdjvAXvUgANHmgT
-	 qi3cjLkRQFK9g==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Thu, 17 Sep 2026 17:22:49 +0100
-Subject: [PATCH v3 40/40] mm/vma: introduce and use vma[_flags]_can_gup()
+	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="RYy410f0";
+	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="afKMJyyT"
+Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
+	by mx0a-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68HDfMwk1170780;
+	Thu, 17 Sep 2026 16:50:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=jnprhpepp0429;
+	 bh=HjCJJcwC1hEJEkQYPCWEVsQqjYGpmBbhOfB7iN9kogA=; b=RYy410f0XXl3
+	mtiXWh6c8H4XWYPFwcikpqHnH3A5G5l8UGaCIAbflEy0nnQPzPA5DSAyc1KvalE/
+	wnEJUjBL8z+u2PTRYvavZ+xs86HDM+iKoQU4JMC1vlwVBqgtMNJTg/0gU2hHhTxz
+	rY4gS3ewrGuPLYcMPFU9FcAbSd2wiho3y/UxTrVCGsFRyLjkfHKcd2+xL4UgojU4
+	CgL+ihk4wpSLCcMjGPQoqwvoy2BjwkRWVgT6yfg2P8JJ0u0C2rRL5QpIZ4DPlhTz
+	iZ4rBCvoRbR1vCxBzYFXMhmEAsdte2ylg4Anliqnvj7+VxjAdUP3KVfmN04LWgtK
+	/wfgs1xbXA==
+Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011036.outbound.protection.outlook.com [52.101.57.36])
+	by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 4grggkkxq4-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 17 Sep 2026 16:50:45 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GzTc9+Gn322SnLJzrCFrI346U9bqMDzrrUYEhE5ABaiKvy6EsxPSlfz/JnuT+Oirs2gDi8rrrHT7UKgKa41PP13Kh0T85jtmm9981KDQCTWyw7Fb/osd5IDGwCK3v5nKcZsD6ouNTiJ1EO7b8GNVAYfn175g45FHDA3laoEwr7mhu2Xs8UQb02yLzRprwmlLPFRxT/vISp6azHbSiInBOdnDIIKGybg1j4OCrJecHpFgTK/eswhnm5blgupItYkn4g08FhQuNX96Aa2en9swGinah7w80wZhaCrrVTSzjAeDBgGXpyTGF43CdyEHRcBO/9DSjfkLk/22QrZdlH7bNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
+ bh=HjCJJcwC1hEJEkQYPCWEVsQqjYGpmBbhOfB7iN9kogA=;
+ b=Wsl++2bY00pkivEhs1YeKbln8+rPJI1S+0Ye7rftt4bbOjqa4fmKpb/5xyLVWae/Dgknu/oXlgJ9MtLULxD8rHByGdlbMugNY/et3cECWbNyqG+Ygm6sYapWbmxCL5QXLuJvSfAV77hGePMlGgEI7OJyMsIVQ97xvgmdtMm/vjUzPCUUqYYbo/X3PvVO2OTF9qvB6p7uzhKAzFF8dqgiubx3tZCDT3rKNcEPIMTrmfiA7tRoXZwYVM9LIlhiIMjlMcJ3uUkCGk9zdVsPuTd0QhoT8n2sNlYABVzBJb6jsDeFFM8Mmv05NktSdBTBLgMEEhzdcA88Y0/e/nLqGEKQPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
+ 66.129.239.19) smtp.rcpttodomain=kernel.org
+ smtp.mailfrom=ebf951f79306.juniper.net; dmarc=fail (p=reject sp=reject
+ pct=100) action=oreject header.from=juniper.net; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HjCJJcwC1hEJEkQYPCWEVsQqjYGpmBbhOfB7iN9kogA=;
+ b=afKMJyyTHPxpJa4ub2gYoYAdlctEEAqnIMgvEtv/io7N5ADuCuNKHQOlXZF6v76fVha7t+pF541vZmxjqgIiMtvvt9udnHNQgZrkv2fcYk4Tf1vDxOvnIaMVaQarHsarhfKEnbxJN2fBFGP2/5rQtZ28fQDuswMJpTNiE9hXmo9hwsKULGRu53QL1svshwLXojdRYIK5uTGXs+6Kd/qQCrjHd/nI73cAArkgT5Z8LLEvJhe787Vj5vx5DEaLz/ASxc+xNJPApFFbqRQ3hwKoJUNqeXnGqGeXJto4zJB7zTehEiQPSCV2gZrgCu2AukQI0a5cYkd7pr1kZqcc+Bm4NA==
+Received: from BL1P223CA0006.NAMP223.PROD.OUTLOOK.COM (2603:10b6:208:2c4::11)
+ by MW4PR05MB8796.namprd05.prod.outlook.com (2603:10b6:303:12f::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.10; Thu, 17 Sep
+ 2026 16:50:40 +0000
+Received: from BN1PEPF00018545.namprd05.prod.outlook.com
+ (2603:10b6:208:2c4:cafe::39) by BL1P223CA0006.outlook.office365.com
+ (2603:10b6:208:2c4::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.9 via Frontend Transport; Thu, 17
+ Sep 2026 16:50:40 +0000
+X-MS-Exchange-Authentication-Results: spf=none (sender IP is 66.129.239.19)
+ smtp.mailfrom=ebf951f79306.juniper.net; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=juniper.net;
+Received-SPF: None (protection.outlook.com: ebf951f79306.juniper.net does not
+ designate permitted sender hosts)
+Received: from juniper.net (66.129.239.19) by
+ BN1PEPF00018545.mail.protection.outlook.com (10.167.248.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.451.8 via Frontend Transport; Thu, 17 Sep 2026 16:50:38 +0000
+Received: from p-exchfe-eqx-03.jnpr.net (10.104.9.50) by
+ p-exchfe-eqx-04.jnpr.net (10.104.9.52) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 17 Sep 2026 09:50:35 -0700
+Received: from p-exchbe-eqx-03.jnpr.net (10.104.9.86) by
+ p-exchfe-eqx-03.jnpr.net (10.104.9.50) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 17 Sep 2026 09:50:35 -0700
+Received: from ebf951f79306.juniper.net (10.104.20.6) by
+ p-exchbe-eqx-03.jnpr.net (10.104.9.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 17 Sep 2026 09:50:35 -0700
+Received: by ebf951f79306.juniper.net (Postfix, from userid 14867)
+	id 2D8F48CF257; Thu, 17 Sep 2026 09:50:35 -0700 (PDT)
+From: Prashant Singh <singhpra@juniper.net>
+To: Ard Biesheuvel <ardb@kernel.org>, Jeremy Kerr <jk@ozlabs.org>
+CC: <linux-efi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "Jonathan
+ Corbet" <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] efivarfs: avoid slow QueryVariableInfo() in statfs()
+Date: Thu, 17 Sep 2026 09:50:35 -0700
+Message-ID: <20260917165035.15187-1-singhpra@juniper.net>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <60d0b7a5-cc1f-4841-b4f2-754e1b921794@app.fastmail.com>
+References: <20260917071600.5587-1-singhpra@juniper.net> <60d0b7a5-cc1f-4841-b4f2-754e1b921794@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-40-4583d8a23bca@kernel.org>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
-In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
- Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
- Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Janosch Frank <frankja@linux.ibm.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Andreas Larsson <andreas@gaisler.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, 
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
- Xu Xin <xu.xin@linux.dev>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
- linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
- fuse-devel@lists.linux.dev, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6501; i=ljs@kernel.org;
- h=from:subject:message-id; bh=FUHFpGdL5KZVRVlCuvz5idqKgH6ZuHhZHuvnhxOArGo=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLLWCB8N6G3hqV537OvayJ1O+u1V977sddvVJvnh5ymNY
- 438WUo6HaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZjIxDCGf+pJbLxPJRQLqx9k
- VRiK6Wznyd83Iavp9Cen9VXfUwXDLjMyTCz3M02xOsQ6/9lyJonHrud/Ol5PZfRjtf37uT/5lYE
- VIwA=
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00018545:EE_|MW4PR05MB8796:EE_
+X-MS-Office365-Filtering-Correlation-Id: 07abe786-c6fb-4b59-924b-08df14dbcd74
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|35950700016|376014|10067099003|11063799006|4143699003|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	Ii+h4WBMUubsvVqVByE6aKCSSm6hCaXZykbJn7w0+x2MnQzQMZE1mN5OfJ5/I6dhpRSVeFjH7oS+q33xTj43rspBujuRjIc33apZYbtNWbr39OiwJTS8G9QskB08Oz1yK2fe8TQMYqfVws3Zu8R+HHpIKr+6KVx3widX8zZ2u6kyaQYS20wT6hIsOQ8ngZMieiXYHoyrGRzNPEPVIHT9hNBUjFy5uAvxW4hq9m8NBghKejmvWEUoLALOYpB9wCj0XcyafQtg2BgdUhPSVg4xexuo8iaJporzr1ZiiZ1a5f75kmMf0p712SBdTb5nNaRR30b0d90OQ0MhGMTg/MsFKHx0tT+BxKvHqr0wfAaX/jrMXL0dbSI32fQxjk/YqMrvBG6ZLS/s5h3C7DIeU3uGxWBISMwLY8Wcmd6jfRnQXZYKxuOiqeWoeA4SV7LZ88BpJmk2xe9xadNoHBfdU7wpu+ZsMWIqrGrBVQJ6fsAhmfpbxQf2rkQbqhWA3rjUoTXxIBAMXt8jS5v63SL39kcqgq758joYNWQPn8zGYBCgzxBzj27SEymtJXjdr1DmMkkDJunhp97YzeKRi8Ue5MdfaI7d9s/j9gF/oDvqWD+YEBj5O0sYH8LPCY4dpGMmSYMs3dXRSCPYy4i2HrrmcadJYmodjQVIOHpcm8A10Qj8VEKDzzwUH4p6mCH68KmO3C0ByOukqyWjTy0mrD68ufi5eQ==
+X-Forefront-Antispam-Report:
+	CIP:66.129.239.19;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:juniper.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(35950700016)(376014)(10067099003)(11063799006)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	voHMZGOCtSbC9xS5zyDJbL1uHbxeufIYaPt6KjRRwrKTZDeCBGLOZZng92sBeHGiAxv8C7WqiVyrOrY9YG/84DY8bR66nvsxcVEcf6hvhROgq5U6HELH0atEZvU7IH/IgNHzOkm75uEtBmMB6v9nnBL/BAqk3T7q/is5KYKjkhMsYeJP4mp72iF+OwBVIsiOjE5ziEqtaykxJtNhXdgFyLvGIQ3ktkwyfLWF+5037IGnAf2lKwROXSuoQiDq0LwUSuQN19tyZUHb+oGtZZHQI3FWwAQoKDYrSKAKFF0jo0Yg3uIA1NHThpa0y54UVHfcHP5NWUYuRf7u8x0uyFxfdYqDNzrTVEbQqF0QBFA87zOmkh4LkWOprYU9+6cyGNJMn3IioaCqIXZjltVQBWHFJKjO9WVCiBQoNFn1yniNcmVwN4e9o8tz+lIC2Sff04cP
+X-Exchange-RoutingPolicyChecked:
+	xFbrxBh9+dyJyWJt9a8FgesPPX0cLPauNRoGpFNV3gr+GxZ3a2OGzGY5qzPzbagq2Mg96v8p/pJ/vbE40midW4GSXVl1l6M/y/2owYEZFAJvj+pC5x2omnLP3gNONpIshI4o/uEMhqvzhh/KcnvRMvZP/KsrCAJGjqEijuBVx2LZx2MBNA8jC+BE+snqZFCWtxIG/Kg7CMHF+ipiiGbM4upW4qVIRpD7G9TKT+CrKoAWEnADUW5JlFgvkA07il0u29UJxra+mKN0/Z2Uoq04E/i1jhTHAaC/DqaWYF7H50Axl78ef1ETCIcOTsmFc8/BhqqNPcsSUrUa7cfB0XWPUQ==
+X-OriginatorOrg: juniper.net
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 16:50:38.5966
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07abe786-c6fb-4b59-924b-08df14dbcd74
+X-MS-Exchange-CrossTenant-Id: bea78b3c-4cdb-4130-854a-1d193232e5f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bea78b3c-4cdb-4130-854a-1d193232e5f4;Ip=[66.129.239.19];Helo=[juniper.net]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF00018545.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR05MB8796
+X-Proofpoint-GUID: 8sRsVQZ_ubsei8REBcLREEroY2Vy_I_l
+X-Proofpoint-ORIG-GUID: 8sRsVQZ_ubsei8REBcLREEroY2Vy_I_l
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE3MDI0MCBTYWx0ZWRfX9NBRL/nYUwAz
+ EfPPcx5KXxxha5oMOpfs5ep2hIgxDyO43ko4ZvCi7s/+zWmBCcj/qcsXpxsuEMfJo8hIEgm6Rti
+ HFTYOfHF5WFK63+sT4HGmQ2Ag9S+M7g=
+X-Authority-Analysis: v=2.4 cv=NM9AaE6g c=1 sm=1 tr=0 ts=6aac1a65 cx=c_pps
+ a=9qX6K/GtqWsr64T/c6OOlw==:117 a=SKdRtqzh2DBFgDMvUaaGnA==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10
+ a=f7IdgyKtn90A:10 a=rhJc5-LppCAA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=gQcMVamqm3wCPoSYhaRC:22 a=_ZmgHqWwjZUDpi_pur5s:22 a=Bv228XLCOkDi5kGiu3cA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDI0MCBTYWx0ZWRfX4ahmaa3WLnU+
+ 3BzgbEYVFOZqXk1fm5pTuZ6HROAENiZpjoJ0amt0ElxtDmA44xqVfqn7gaGFBB1T7DT8/o8Ave9
+ PAClRfxOfHP1qg9DnTP7boDWO9q14lUZZVNPRVjR/IAIWzF5V73U31J0vxGQd6GYqKZBiz6ueju
+ JUt0XRU3fg47plsSxCbNhCU07D5ahoXCP+aUhATNAvK3vU/GdGKTU6ihKdhoonS1kS4ksMeI8WD
+ 1MlZTKKiRp2xP1U5avxd7HO2eVKWWwshBfS0sFL3aNCL+roLoWL/y08F0y3v7FmiT72dDYi6Syf
+ wGQLIlJYdyg9dmjbSD4fV56HptM9/c0uZ1Dm497DKgsNLg231tLr+eEyWYl/vPg0qKJYsRvICUA
+ v9HGLlsa1FVoOTNuRVynmKOnyi90yjXaEYdqS2NKFsShoQJ7MczKJPQCkU6COpy2pVg+8bifc9r
+ 4bqLxTipZxDh1+YUWYg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-17_03,2026-09-16_02,2025-10-01_01
+X-Proofpoint-Spam-Reason: orgsafe
+X-Proofpoint-Spam-Details: rule=outbound_safe policy=outbound score=0
+ adultscore=0 impostorscore=0 suspectscore=0 clxscore=1015 phishscore=0
+ spamscore=0 priorityscore=1501 bulkscore=0 malwarescore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=orgsafe scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609170240
 
-GUP cannot be used for VMAs which set VMA_IO_BIT - because memory-mapped
-I/O must not be accessed on the user's behalf - or VMA_PFNMAP_BIT - because
-PFN maps have no folios which the kernel is permitted to access.
+On Thu, 17 Sep 2026, at 10:36, Ard Biesheuvel wrote:
+> Could we instead introduce a mount option that disables used/available
+> reporting entirely? Feel free to set the default to 'disabled' when
+> CONFIG_PREEMPT_RT is set.
 
-Rather than keeping these checks open-coded, abstract them to
-vma_flags_can_gup() and its VMA wrapper vma_can_gup().
+Will do. I'll add a bool mount option (e.g. statfs_capacity) that, when
+disabled, skips QueryVariableInfo() in statfs() and reports 0
+used/available, defaulting to disabled under CONFIG_PREEMPT_RT.
 
-A number of other places make the same check to decide whether a mapping
-can be populated or accessed as GUP would, so update those too.
+If you'd rather df still show numbers without the per-statfs firmware
+call, I could instead prime the value once at mount and serve that
+(stale but non-zero) as a "cached" mode -- i.e. a tri-state option:
 
-While here, drop a reference to 'special' and replace a use of the
-deprecated VMA flags API in vma_dump_size().
+  statfs_capacity=live|cached|off
+    live   - current behaviour: rate-limited QueryVariableInfo() on statfs()
+    cached - prime once at mount, serve the static value (no per-statfs call)
+    off    - report 0 used/available (no firmware call at all)
 
-No functional change intended.
+  default: live on non-RT, off on CONFIG_PREEMPT_RT
 
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- fs/coredump.c      |  4 ++--
- include/linux/mm.h | 29 +++++++++++++++++++++++++++++
- mm/gup.c           |  7 +++----
- mm/hmm.c           |  3 +--
- mm/memory.c        | 14 ++++++++------
- mm/mempolicy.c     |  3 ++-
- 6 files changed, 45 insertions(+), 15 deletions(-)
+Happy either way.
 
-diff --git a/fs/coredump.c b/fs/coredump.c
-index fb21fb6703dd..9f729c594c47 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -1616,8 +1616,8 @@ static unsigned long vma_dump_size(struct vm_area_struct *vma,
- 		return 0;
- 	}
- 
--	/* Do not dump I/O mapped devices or special mappings */
--	if (vma->vm_flags & VM_IO)
-+	/* Do not dump memory-mapped I/O, which may have side effects on read. */
-+	if (vma_test(vma, VMA_IO_BIT))
- 		return 0;
- 
- 	/* By default, dump shared memory if mapped from an anonymous file. */
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 5860a3b4dba9..1249e04d7b98 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1777,6 +1777,35 @@ static inline bool vma_is_persistent(const struct vm_area_struct *vma)
- 	return vma_flags_is_persistent(&vma->flags);
- }
- 
-+/**
-+ * vma_flags_can_gup() - Do the specified VMA flags permit GUP to access the
-+ * mapping's pages?
-+ * @flags: The VMA flags to test.
-+ *
-+ * GUP cannot obtain pages from a PFN map (VMA_PFNMAP_BIT), which may have no
-+ * struct pages behind it, and must not provide access to memory-mapped I/O
-+ * (VMA_IO_BIT).
-+ *
-+ * Returns: true if GUP may access pages from the mapping, otherwise false.
-+ */
-+static inline bool vma_flags_can_gup(const vma_flags_t *flags)
-+{
-+	return !vma_flags_test_any(flags, VMA_IO_BIT, VMA_PFNMAP_BIT);
-+}
-+
-+/**
-+ * vma_can_gup() - May GUP obtain pages from @vma?
-+ * @vma: The VMA to test.
-+ *
-+ * See vma_flags_can_gup() for details.
-+ *
-+ * Returns: true if GUP may access pages from the mapping, otherwise false.
-+ */
-+static inline bool vma_can_gup(const struct vm_area_struct *vma)
-+{
-+	return vma_flags_can_gup(&vma->flags);
-+}
-+
- /**
-  * vma_kernel_pagesize - Default page size granularity for this VMA.
-  * @vma: The user mapping.
-diff --git a/mm/gup.c b/mm/gup.c
-index f166acf794e3..8e9ef5ee7498 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -1204,7 +1204,7 @@ static int check_vma_flags(struct vm_area_struct *vma, unsigned long gup_flags)
- 	int foreign = (gup_flags & FOLL_REMOTE);
- 	bool vma_anon = vma_is_anonymous(vma);
- 
--	if (vm_flags & (VM_IO | VM_PFNMAP))
-+	if (!vma_can_gup(vma))
- 		return -EFAULT;
- 
- 	if ((gup_flags & FOLL_ANON) && !vma_anon)
-@@ -1955,7 +1955,7 @@ int __mm_populate(unsigned long start, unsigned long len, int ignore_errors)
- 		 * range with the first VMA. Also, skip undesirable VMA types.
- 		 */
- 		nend = min(end, vma->vm_end);
--		if (vma->vm_flags & (VM_IO | VM_PFNMAP))
-+		if (!vma_can_gup(vma))
- 			continue;
- 		if (nstart < vma->vm_start)
- 			nstart = vma->vm_start;
-@@ -2017,8 +2017,7 @@ static long __get_user_pages_locked(struct mm_struct *mm, unsigned long start,
- 			break;
- 
- 		/* protect what we can, including chardevs */
--		if ((vma->vm_flags & (VM_IO | VM_PFNMAP)) ||
--		    !(vm_flags & vma->vm_flags))
-+		if (!vma_can_gup(vma) || !(vm_flags & vma->vm_flags))
- 			break;
- 
- 		if (pages) {
-diff --git a/mm/hmm.c b/mm/hmm.c
-index 2f1e98c6b644..e9569b82a1f0 100644
---- a/mm/hmm.c
-+++ b/mm/hmm.c
-@@ -595,8 +595,7 @@ static int hmm_vma_walk_test(unsigned long start, unsigned long end,
- 	struct hmm_range *range = hmm_vma_walk->range;
- 	struct vm_area_struct *vma = walk->vma;
- 
--	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)) &&
--	    vma->vm_flags & VM_READ)
-+	if (vma_can_gup(vma) && vma_test(vma, VMA_READ_BIT))
- 		return 0;
- 
- 	/*
-diff --git a/mm/memory.c b/mm/memory.c
-index 6c011979401a..338fce99e711 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -2417,11 +2417,11 @@ static bool vm_mixed_zeropage_allowed(struct vm_area_struct *vma)
- 	 * be problematic as soon as the zeropage gets replaced by a different
- 	 * page due to vma->vm_ops->pfn_mkwrite, because what's mapped would
- 	 * now differ to what GUP looked up. FSDAX is incompatible to
--	 * FOLL_LONGTERM and VM_IO is incompatible to GUP completely (see
--	 * check_vma_flags).
-+	 * FOLL_LONGTERM and memory-mapped I/O is incompatible to GUP completely
-+	 * (see vma_can_gup()).
- 	 */
- 	return vma->vm_ops && vma->vm_ops->pfn_mkwrite &&
--	       (vma_is_fsdax(vma) || vma->vm_flags & VM_IO);
-+	       (vma_is_fsdax(vma) || vma_test(vma, VMA_IO_BIT));
- }
- 
- static int validate_page_before_insert(struct vm_area_struct *vma,
-@@ -7116,7 +7116,8 @@ int follow_pfnmap_start(struct follow_pfnmap_args *args)
- 	if (unlikely(address < vma->vm_start || address >= vma->vm_end))
- 		goto out;
- 
--	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
-+	/* Only mappings GUP cannot handle are followed here. */
-+	if (vma_can_gup(vma))
- 		goto out;
- retry:
- 	pgdp = pgd_offset(mm, address);
-@@ -7316,8 +7317,9 @@ static int __access_remote_vm(struct mm_struct *mm, unsigned long addr,
- 			}
- 
- 			/*
--			 * Check if this is a VM_IO | VM_PFNMAP VMA, which
--			 * we can access using slightly different code.
-+			 * GUP failed, perhaps because this is a mapping it
-+			 * cannot handle (see vma_can_gup()) - such mappings may
-+			 * provide access via vm_ops->access() instead.
- 			 */
- 			bytes = 0;
- #ifdef CONFIG_HAVE_IOREMAP_PROT
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 044ffb4f4128..2fd759e348ca 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -2013,7 +2013,8 @@ SYSCALL_DEFINE5(get_mempolicy, int __user *, policy,
- 
- bool vma_migratable(struct vm_area_struct *vma)
- {
--	if (vma->vm_flags & (VM_IO | VM_PFNMAP))
-+	/* Pages which GUP cannot obtain cannot be migrated either. */
-+	if (!vma_can_gup(vma))
- 		return false;
- 
- 	/*
-
--- 
-2.55.0
-
+Thanks,
+Prashant
