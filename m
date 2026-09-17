@@ -1,124 +1,173 @@
-Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013037.outbound.protection.outlook.com [40.93.196.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69CB4F5DF0
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 17:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789665733; cv=none; b=H9Vz2tFLdzymCsRZrq0TsaLAnQYS2YjNX1DV4mEKZeTIlUig8Cs3eKO6t800+ZLj64qgYOGhfqMtEwq7rdN9xpP45mosIUorg9Tptl85nmHP/1bG0ttgJcB0KU48O/byTWb1s1oRufJ7l5QkFI9GGOd/90TYd7rmh8MmOooTP4c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789665733; c=relaxed/simple;
-	bh=biPMv+ofFeAlNkpuoiheHfcM5OSqeT3TWtGH022bAOE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kD5aj408kKIQAke8csoExvIR827yaD6Y8Ww1O93lJWUJsquCKEUCuGAY/Lbhj2kQsMqpjBxjrpnIY6Rs0TDqvJ+N2M0VoFssfv8216tl59DlK2+laKlKQoQchZAzXMAkCqzDKPu3TRAHoFQs2Bb5m5vzfxdh4ydtOsegPYnZ384=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=C9J6ioLJ; arc=none smtp.client-ip=74.125.229.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2DE4ED197;
+	Thu, 17 Sep 2026 17:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789665983; cv=fail; b=EazARMSAQwMnd6Wn2MWxze+JGYEpvBCCHpAqRFohOy58Uvjbc6Ccfk9Bc/Sh45QjviZoJU44BoSY6Y0jng2IYARmGCkqF0U6iVy1V2SmSMifG4XkS1I9LFecs5ZytDo87w9SIPF9sIjgVFYPFW28ATeh1J6N03xucEW0T5LtSf8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789665983; c=relaxed/simple;
+	bh=YT9DXBK76oFy/iaHv3WH+VVgnZno2hDc/Kx7qhwJ3YE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=b5c2sAyiLAnk9qNs1YDcsai8bavZaMT60B4OxUBir3Nwo1Bha4+A+k/0D6SZ9sb+ZOEmaAhkysjxxI1OhoQLReyIiNUhv47eSiEjUN7588Lez3R3oxBHJX+hS66k/NTM9y157il8cUq09DdwhEGmJq1gS7mD6qYSV/HrZqjtK/w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=OSZuS1Hy; arc=fail smtp.client-ip=40.93.196.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="C9J6ioLJ"
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b5e4f1b846so1407352e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 10:22:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1789665730; x=1790270530; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iCKe0geuwZYO+S2TeH6s+a22CWM7gde8UuWVtmH3l0g=;
-        b=C9J6ioLJllGR5tprMwouepuvip8IdSLNXQ1lSpdad8nXCjxBGCLadd87p2TeR+YITx
-         GgWrhEAdkZUdoS9jOZtx8rKh0B9WJJM6Ku1Z2wh3SB+2DGgrlhZW10DgpVL9moLSWAJk
-         jHG34keJ+7VHennoGMMoCpiuIZaV0Ee9qCo48=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789665730; x=1790270530;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=iCKe0geuwZYO+S2TeH6s+a22CWM7gde8UuWVtmH3l0g=;
-        b=PU+VKGa5GZpg3o4b9rzY0rNFLbUdtEHpEtu5iKDESLKQZbgcyjcc79TEICUzBKGz03
-         bsq3sQXUEMAd1gHnOKL0Xm/BjUsd7pJ7fJ1bv56KU5jiQwX7FXrXU5tQGNxM3IUU4E8g
-         Atl2TYjtfBhTmyyPI4ylTjjJSFvbBNTyoPCpPFf41wkl7Xl8kxoS2PqmM+2pq5KJDosd
-         ddHJj+m6mg0oFPy3Hq3sNxpXpk2lh2h6SheiPx2pSNVVeRHXlv6ptmohaptADNiGy6Qm
-         fpGEo+AQwPHMckch0OX4UwCqdJfJKM/qwrY52OCLHJLmruVlfbQxuipZ6qHZ2b7WVlWK
-         h2sQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxeaGwUFPuXuczOarYGuHxqoU36ZrOQopkpbLeqDGP9qZprUpuTyDkPW81dFLu8Rcmc0flpgSrYxMs=@vger.kernel.org
-X-Gm-Message-State: AFuF++k4NhBozyCOgKvBQYZyOz6Wtx81N8NRDj36mXBs2keJozsoyk8F
-	hSdTqiFOWzYY/7uf5uiK9nG08Dyra4deeAzMm7lDNBxKMjT059D5WAnjVYs/wfCZSzTFqP6/iM7
-	nw4nXV96MAA==
-X-Gm-Gg: AYBFou0jtDFayOTh3jEfWF4MBUuS0+n9whD0a01FZCnIfA5B7thSBDRJ6/U1lYwoDyx
-	Y76/BYzxmUwiqytTEyM4bs6xvIGcEG3q/AGed4lGcnRucvRU69pWESwzbswUVZjqR0MKZHdvwLv
-	9cXOFDvx2YG0hABe3VUN3qGQGkF8srtvFq0L2od4PGljdENW6DqbORVI/+CjEwZXcpNN7JhKuyG
-	sBaXnkQtPFG6Z+16Tb3Cuwha9jxPFZHViT9eWud9TRAlIEF5c+dOxaxuy7xkD+YBRnrDsVFv9uU
-	J3C0hpLPBaiWJhSQFOArFc4HFjLGFyzySd3Bc2Iy+UfIlZI/jkfFwNoO8Ko5gsSchQTOjUbBsv2
-	WlGzyUmgv9slQw4W7ieM2HAk5FzRAxgvbXS4K8DPIRfvu8JC61l4FCbvrDT3NUdDq6QY7Q7dj9K
-	tvVN8iRpZUS/AZTxTB/cexdBWburFHFMgXmTfwBGd6jJ+o8I6ISiL5ZRw4PGfDkR11CS5ladUmN
-	8zNuNy2rDmlYR+LSeLY5b9jTCc79iyGreSh+wsl1Bsn9gx9Hw==
-X-Received: by 2002:a05:6512:1287:b0:5b7:637e:f025 with SMTP id 2adb3069b0e04-5b8b6648afcmr2171707e87.48.1789665729581;
-        Thu, 17 Sep 2026 10:22:09 -0700 (PDT)
-Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com. [74.125.230.76])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8b57e0bdcsm2043140e87.58.2026.09.17.10.22.09
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2026 10:22:09 -0700 (PDT)
-Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a49c068e85so8458181fa.2
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 10:22:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByN4zdZN2BH/05olk7YrK0ODjStjoU9GS8lb+mc37sbus/GO/0teWwiXkLbF+zHI7I7REdiiOSAT3I=@vger.kernel.org
-X-Received: by 2002:a17:907:c1f:b0:c12:e178:9e68 with SMTP id
- a640c23a62f3a-c29e5237e9amr501417166b.19.1789665344119; Thu, 17 Sep 2026
- 10:15:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OSZuS1Hy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Dog7G4wVvM8Xn0MNhWMG3bjcrIU9TIwPyUn/UeYwI9kkr/pjP7tb2FLqU2tLORrAHh8nlUpv7/TmkM+SEPaSF11duCw4RUmIyE400G+w5y2v7hrhDHYbkcIjnsFtkBN3szsErashzxsbQ+KPl5caBwCPpZORTryOQVgwZKfgE5niq0Pw87u7swmsLBurgnL0dZFZFEmlQTpgigfynh/RPSN4Ip6gPiviJocmhsn6fD8NqaVmRjmm6dVbBxtB+PgpsBfvcEIBzIRH9Y9N/lFsFNdvmmsrfjJJIv6fgaGSz3g3UUWE7ZpUBPi0hZBypRoXNVnXmvDUfHfN+J/TvyaLew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/+nWuN4LMMH7HGSBvdwJv0WYpXcHAmAsbGOZqo6xO6c=;
+ b=x2EcP3HCHKiIxDmjeDumlKzGyg5zoDEKdVUXh0t00yukhM4GF/6WVuJcSQVrWCym0uYq6JVoJNzZCE2C6NU4D5Zzxn2hUexZxMEjF03/aseoFpKJ0XkPjLD9pPAe7JtGT2pjGT4RYuTymZpU0rkTtYbXCi4cRv+ZD8yRe0PrTen/5Aq9Mqb6jST9BsBBJezKPjI+zDtSCycecWcK6FbmCCQs2Bu54wLffJ5MdLRRj+Yfk9Q6dYJgPQwRH9dCvrGjZmNDj1Lp9f6qZu7Vn+b+AQlOhcXiuXmxk+wR8weRtKXEnh8lt2uiY2NwfnGW8H1VbArz3RhsG6r6H4aSi5s1PA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/+nWuN4LMMH7HGSBvdwJv0WYpXcHAmAsbGOZqo6xO6c=;
+ b=OSZuS1HyHSNyDq1lDmckpPMLJLnxJAm0QKxeOu9WcLShsm0xIvNJIDFKXuD/N0dZbYcXqweZbuBwBFzstmhGvDbwE+S31HSPuVKy3UK4AlNBNvsss73IbefFq9ZLFiQL/ZGu1Ct3TNik8AlaGlpC6MKRkaxIBQ+frVKHO5VYIlc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by IA0PR12MB8905.namprd12.prod.outlook.com (2603:10b6:208:484::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.13; Thu, 17 Sep
+ 2026 17:26:17 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0428.009; Thu, 17 Sep 2026
+ 17:26:17 +0000
+Message-ID: <948f5361-fc46-4d89-a1b1-cfbcb2ce0ff6@amd.com>
+Date: Thu, 17 Sep 2026 12:26:14 -0500
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v5 10/16] fs/resctrl: Add support for hidden resource
+ group files
+To: Reinette Chatre <reinette.chatre@intel.com>, tony.luck@intel.com,
+ Dave.Martin@arm.com, james.morse@arm.com, bp@alien8.de, ben.horgan@arm.com
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ tglx@kernel.org, mingo@redhat.com, dave.hansen@linux.intel.com,
+ hpa@zytor.com, fenghuay@nvidia.com, akpm@linux-foundation.org,
+ rppt@kernel.org, dapeng1.mi@linux.intel.com, elver@google.com,
+ jlayton@kernel.org, enelsonmoore@gmail.com, kuba@kernel.org,
+ ebiggers@kernel.org, seanjc@google.com, peterz@infradead.org,
+ chao.gao@intel.com, jmattson@google.com, naveen@kernel.org,
+ ricardo.neri-calderon@linux.intel.com, tiala@microsoft.com,
+ chang.seok.bae@intel.com, prathyushi.nangia@amd.com, kim.phillips@amd.com,
+ elena.reshetova@intel.com, darwi@linutronix.de, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, x86@kernel.org
+References: <cover.1787772750.git.babu.moger@amd.com>
+ <f7bcf19ac8113a1e3d9575739c1a6400c455ce6d.1787772750.git.babu.moger@amd.com>
+ <34aa4824-810b-4c81-8188-f2f37e1dc277@intel.com>
+Content-Language: en-US
+From: Babu Moger <babu.moger@amd.com>
+In-Reply-To: <34aa4824-810b-4c81-8188-f2f37e1dc277@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR03CA0033.namprd03.prod.outlook.com
+ (2603:10b6:610:b3::8) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org>
-In-Reply-To: <20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 17 Sep 2026 10:15:26 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjwtJQPW+MRAkQCcSGA1EZWehxBTUiEUUhdACCNHSKvTQ@mail.gmail.com>
-X-Gm-Features: AcwNN1VkAmOFPymjE_dcKSWc6Q8Z4LvlbW-9yRGSGQmATfVxYq3jdlUQ82g4gXM
-Message-ID: <CAHk-=wjwtJQPW+MRAkQCcSGA1EZWehxBTUiEUUhdACCNHSKvTQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/20] kbuild: significantly speed up kernel builds
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|IA0PR12MB8905:EE_
+X-MS-Office365-Filtering-Correlation-Id: e9dd2dff-f40b-4a2d-a31e-08df14e0c829
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|376014|7416014|1800799024|56012099006|4143699003|10067099003|5023799004|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	dvmt7AcriG20TJU7xvnybOPaXvoILxETzRaHmJSKI5o7QMUJ/aTy9zd+x/DrgkCoZKBzWt12CLIceMDAx1YvcHGc5GYj5HaJZLq9TwvP9VvYVFtIXcNnreuyFAsyMHltmrfnD+wBGLZb9fqK65eB5UL+pj72i4xnIOJ8FZNyNOj91OkREX010sPh8u/4IsYswyzzfoWXrMn5nSk5/jhKaxQ7qJfdRMissgGPSCJj+KDQ8ewrlzsmx+RK5yQDRp6x23y7Kp6M0ONcTiZ6yruiY+Hv2TUG2UBGBMr6Z3AwqNsym1l+JEJbg0xknLwmWvzd/oSPcHGg5BSVmeL4NE3fBu7kLi9TBOugbUozN+9dus93zNfO5puLekEVvCU3saTFpY3YlAHpMHBUhnb0nNA4ETnrzLoSYz/0rXtD/i6ThKd5xGuMmguEapVUWqvC48wUSuaPJ9iQ6wJCFSaM0O8rFFU6SsUGO5EX1kbcANsueyfLos7Ilqgu1bpFnDGS1aQ9xzWlMijjXLNRdbU3MOXqk9B7+it0D0Lh3XrosiSmvukoyaa2n3cw1WLlDL1LLu+bp8In4C1yxjtlhIfV+tHDfYKhAcCv5h9CpNeOaO9ofPtbfl4i0Zk9RmQGiXEOFNkDtSPyNIqW5dDafrifEdPMLsIzBGfL3E5uGEwkvHUsewM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(7416014)(1800799024)(56012099006)(4143699003)(10067099003)(5023799004)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NXBQOE1qdDdjS2FRN2lRYm4waXgyellNeFI3MGhackx1VWRLbUlPckthSjd0?=
+ =?utf-8?B?aEREZTlIUGt4dkJJSEo4aGlVZnJNV3JnalA2L0xxNnBqNHlXRUVoK0xwT0la?=
+ =?utf-8?B?VmFnQXZndWJTSm5zYUU1Q3lINXJJeS9EdksremhHc2FFT2c5NzBtQnUrQ29B?=
+ =?utf-8?B?V2QrZ2lhZHkvbkVlWk84K3Q2M1VKUHRqTEVSSUZNR25OTit2cjJMSk5zMTJi?=
+ =?utf-8?B?TDBGUXJqaXBOZzQvenVGMGpsS0d6OTl4YytLbWowZ0NPa0FxVHJVZWxwTFJH?=
+ =?utf-8?B?Q3Y3YldHUkxYRk5wNnJwU0NEMlo2UWlYWUlmZDc3SDRBT3BYbEtYcEsxQTQr?=
+ =?utf-8?B?MVp3eGZJdk12QjhmSWFnVHQ3Uy9FYlg4Q3lGOUw4NWZMQXN0VmVKSGNSUkF3?=
+ =?utf-8?B?cDZ1R1F0SERhRVZVakdLdXhKYmp1Sk5LM1YwN3R4alhGUlZaTlBWWGg4a1VM?=
+ =?utf-8?B?VkkrUjRnNEMzVjhUbkg5VTZmbGFuMG11dWY3MkRBNDZIcHNTc0R0R2xtcHhp?=
+ =?utf-8?B?N2pEQW9sYllTOHdKSnVMU1BHaGZpbHNnU3NVajkxZU1yNkdTblFjT0tJSExY?=
+ =?utf-8?B?ZnR1Ky9ma2V3OE81eDZDRkUrTVVZMWl5SVhDQXRhRjlZSE1qeUE5ZGY1R0Vt?=
+ =?utf-8?B?TURTdzVwbDE1OEU4bHMzU0h0REt6aEtDRnYxYlN6MzA3WFQ3UlNiTFNWcG0v?=
+ =?utf-8?B?VWhpWDdBVE5GZ0FqTGc1UERqV2JmdmRKTXRQVnhDOENzR2czSzB3L09pTlFh?=
+ =?utf-8?B?TURNUHFKM1R1V3lkd09Ebzhwd1VLYUgvQVlETFd5MTcyNURWdmZjVGdzTS9O?=
+ =?utf-8?B?MDNrRHJFQVFTNzhjd2VUSEZJZHhuT0UvdXo0a1hNVjkzTGtyNktRZHRVNXFt?=
+ =?utf-8?B?TkhLRnNyM0VnQ3RrYTBjdjh3MGprSVN0RTFSaStLZDllSERtOXptMjhta2Ew?=
+ =?utf-8?B?SUxFbkgrU1g4WHBhNit6RG1PVkdyc09kUzZFWnZQV0dmb2swRzBJQlNwVFpo?=
+ =?utf-8?B?aGN4dGhaZjBsVFRwcDBBUmxDK00xY2xSenpmQmpMNm9CcTFWWU40L1ZLVWVy?=
+ =?utf-8?B?UStRN3JRZjIyZ2JydCtzMTBIbTdPK0hqT1ZIWEVhMGxMMVpGOTh4NUJQMTVp?=
+ =?utf-8?B?SFArUEFMbnh6elkzK3V4Nk51Y0dSOFdZRlFNZGtsTG5PcWZBS1QvZGZVaEhY?=
+ =?utf-8?B?VDE2REFvSHhvaVNhdUdKanMxTDU4b1BiKzAwYmNVWDNNa0dmQzZuVktBSzRB?=
+ =?utf-8?B?TkpldW0zK1FzSWpwc09QV3ZHUytnd0ZBaWt1dUh1YmRtd0tyMHpyNG12SkJz?=
+ =?utf-8?B?S1VPYkRHbitKKzBpcTkzSS9jVmRoS1NqSEtwZXp5NUJtdTJUazJ6Q2tBYWxQ?=
+ =?utf-8?B?b1RZMlpnZHJqUlFocmk0V3ZyVUtnczhUUi80bTVuT1dTZ1lPRlYvQnJva3Vq?=
+ =?utf-8?B?SmtOdG1ac3hBRElESnBva0VuWmpkS05XaFR3ZXJOdXY4Z2tNWmlrenJVNnlW?=
+ =?utf-8?B?OS9PMVg3akdwaFIrakhUek1HbkovN0kvV1c0cmh5eEd1Vkd0WGk4SGFxbWdx?=
+ =?utf-8?B?QTJ1bmJxSkNjNG82MzJKdXFDcW0vOU1sZjcyTmtkcDcyR1BXSmEzZ3RETFAz?=
+ =?utf-8?B?NTZwNUpNdlZHQzlyZDBVaks0VjcxOE5qYmJTODlzQ1FJZ0U5b3RWMmp5b3oy?=
+ =?utf-8?B?TDNzMExXNmtyR2E5K2lHTWJRUzQwSUlEQUtHNmNkbGJKV0pEQTQyZUZGMWtl?=
+ =?utf-8?B?VmRiWi9id0piVk9QaHpjWTFBVmdob0hOeWREMnhjdUY5VEM5b2xuL3pyV0wy?=
+ =?utf-8?B?a2pLR0RUMmJtbXBERWRydjZqVVc0Q0E2S2ZGT1psUDFaSmFlTFBtY1ZDWVVN?=
+ =?utf-8?B?U1ZPU1pJN1FWVVpIQ2EvVGt2Vml4eTlWUXExWEVrMnNlelg5WTdQOXUyaDB5?=
+ =?utf-8?B?L1ZQOTFnbmVhUzU5S3BMQWFVM1RiMm9EbWN1aktpUWQrRlE2RzAyenpmbVJh?=
+ =?utf-8?B?ZlFiZ0Zoc2lRdWdSRmhkSWN4SVh1MWVINnBtcXJLd2JCekJwZ0F2MmdkcUVE?=
+ =?utf-8?B?QnFtVHg4RzVxNXJOQUdsOHNqcjQzSmg2eU1pdlpGcW5hTmx4ZmZzQVhDUjlp?=
+ =?utf-8?B?LzUrSHNTcStVSTAzZXhXeGxDeXFyekVIVDhxa0E2bkJiMFF2RDBKMHBvUC9u?=
+ =?utf-8?B?UDZhM1pxeXFLd1dVV3JLQ1c1ZXJTclk4L2tIUi9lQVVOcCt4Q2ZDbTJ2V29s?=
+ =?utf-8?B?bjArVWl3K2pGY21CN3BndXRnL2VFeGhUakl6OW4zQmQvZFVSTHk3VVhaMlgx?=
+ =?utf-8?Q?OD60/GbKkLJj3c4Lk8?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9dd2dff-f40b-4a2d-a31e-08df14e0c829
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 17:26:17.4366
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XQ+8Cm6DHLetx+7E95GUCrcVGqgbAUZPSzvIB3JBetKNlJ1O7jnQngfFqJckjgZ4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8905
 
-On Thu, 17 Sept 2026 at 09:06, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
->
->                 == defconfig FULL build ==
->
->                         before    after     delta
->                       ----------------------------------
-> Threadripper, gcc        32.5s    26.3s     -6.1s (-19%)
-> Threadripper, clang      34.5s    27.2s     -7.3s (-21%)
-> EPYC, gcc                28.7s    20.6s     -8.1s (-28%)
-> EPYC, clang              39.8s    32.2s     -7.6s (-19%)
-> M2, gcc                 519.3s   512.4s     -6.9s (-1%)
-> M2, clang               634.5s   569.4s    -65.1s (-10%)
+Hi Reinette,
 
-There's something odd going on with that M2 gcc build. Why is it such
-an odd duck?
 
-             Linus
+On 9/16/26 00:33, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 8/26/26 12:32 PM, Babu Moger wrote:
+>> @@ -2377,6 +2380,33 @@ static int rdtgroup_add_files(struct kernfs_node *kn, unsigned long fflags)
+>>   	return ret;
+>>   }
+>>   
+>> +/*
+>> + * resctrl_hidden_files_set_visible() - Show or hide files marked hidden
+>> + * @kn: resource group kernfs_node
+>> + * @show: whether to show or hide
+>> + *
+>> + * Iterate res_common_files entries marked hidden and show or hide the
+>> + * corresponding file under @kn.
+> 
+> As a generic helper this is not appropriate since it just blindly makes *all*
+> hidden files belonging to a resource group visible or invisible. This pretends to
+> be a generic function but then assumes that only kernel mode related files
+> are ever created with the hidden flag set because as the kernel mode changes
+> all hidden files belonging to the named parent changes visibility.
+> 
+Are you suggesting that I update the code comments to be more specific 
+about the group, or are you suggesting that the code itself should be 
+changed?
+
+Thanks,
+Babu
