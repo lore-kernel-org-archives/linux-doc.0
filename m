@@ -1,294 +1,325 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010035.outbound.protection.outlook.com [52.101.56.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4484830E0FC
-	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 00:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789604631; cv=none; b=OsXhnS7YQQCimKydZvb3yCHI3kl9tyIRCYID0YqC2TGTq3jgqp/OeWw4rn6uAi1vhsFCZe7HGOLJ/MR55bpUsf6uYoGmoM40Ck7nBdJD1pNjgepYjjUIyI5OBxjmehCRrkdylsewmZD7kAosha40XD8i46gzJj2KhCO+JRqKiIQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789604631; c=relaxed/simple;
-	bh=XPjKWsEcPmE8I8Bo1knWlZ++w34ti15+6CuUOTWdkpM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VIEqu3ZVlzCoD8PZ0cqAdhY1rDjbQlskTn7gpSoWPRyIKXoFQSyNxQqQEM9MbQCd0LilA0LFAVl4YlymwjaOUR7Ha8w7c/gQyiiBgK1u5smxeQwGmeYuT4vuw1vYb/RLzy/92xHt/+aK1MNs2U+WxGKA3oCRl++WR45yZtwat2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PJ8MngrE; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E198A231A3B;
+	Thu, 17 Sep 2026 00:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789604880; cv=fail; b=SPpiBVu4/8ISyyj5Y4Z7JQemAPZ+04c/3iQFqP+YEuSJ+SsZbCg7GaDqCMcLKG+Blnjxmnh2SjpPd19B2dUYVPmJ1qvTCKVmi4dFcfEjf/GOA3Wmqa+t+HfkrNT3KBc0BNbLMxaBMj0khpc9+jsql/FSL9lT9EiFwQtn02iY2zM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789604880; c=relaxed/simple;
+	bh=ZSL1iGkQOzkIcxnXs6aUh2u9UVg9AE5NU8lPvOb9ikg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZjrNl8N5V0oUjmCIMPvD7mrlZkXQG5IMgyIn0n0HMSdNSm4h8QRb8RY3SscgeOnSJWYFWdST9qRl3qtwZQ+XX1XIJ3ynVXxFcSlJesH/zOuImXegQD6VP67WoSJTKSDXannsBBokYfBEx9hDt9WcpVH/34TzuwLTbSko/bZqi8w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DfDHpci7; arc=fail smtp.client-ip=52.101.56.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PJ8MngrE"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-398c066106cso189295a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2026 17:23:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789604628; x=1790209428; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jw8JDp91+KaBT0Rt/XpxMAba3iLVx7q/IVL+Ob6iVx8=;
-        b=PJ8MngrEv/UtRBTOsYTxq01Dwmk/8KR4lk44FJ1cTBP5g6Q8AAdafW0/nL7nlpyKGn
-         UGzo7iAXfwZGHeJ8X5rCpBenwjzmDTeEmdRzfss9UmeLoLN5tErFxLkxIgcta/d6hWG2
-         rrTjbY5kz5YqF2Y2kNNb82hpbjks7SIQQsMsKhO6vk/asrNTSjyDx8JhNUGQZODiv5SW
-         riEoWMCdb2djox0hvHLDzPHy9Bk6eaJmkcflYLXCJjwjPVODxrB0OwaAFzMAovmIOB1P
-         NeyzWkGPZlDH3/L0osGvPAZlBg1oJKTbW38HWSNM3W9EtpTt6jdoYQOEFlzl0Q6jgl8D
-         LUSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789604628; x=1790209428;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jw8JDp91+KaBT0Rt/XpxMAba3iLVx7q/IVL+Ob6iVx8=;
-        b=q+UUrFEiJby/0+9kd1r0DTy4FcTKVsrk1yhKx54B9EZYM0AGLxVgQaXkMcdDoPxFaI
-         EYauUJ9UkZ5QOD2qkMnwLHHDM3njnA+cgZp9NLJHcU9KE4EHF69gHjhmYjTtg9zxqjRB
-         MnBbKeizmZQhslaFl2kbNvzD7JAO/i39/k+18lXYglVKOgmV54izTArzdSspaIEphqVq
-         3HRl1NoqMp6MA7Yx52ZCNAduHfzR16aznyT0ALyztGYAb0TB1MBva2jYtvMqZRjhgOj/
-         95fgenEka8anXHg38PY/aGrc93KHnYZ9vqx04V2+xhn5ExF1L0ncnPR7BcBfQuW8umDS
-         QFvA==
-X-Gm-Message-State: AFuF++nfBJBsM70pyvu64fRWVQ/xylwXcOYFsFteX5F5cCrHdAMqhD8H
-	RD+MlmaW66MQps7610/5cWB8+5s0tAhAtfIhx2Uqg5UuPDmETpIj3K6a
-X-Gm-Gg: AYBFou059o/eC/oX/2XJs4eVx5FeouhqTnUPQODZVx7LF7dBl4cUmXa+SjEmE1JuXkS
-	Cpv/sclzwhErmSn3tCeNgg7qZGZFjdvzwD/QzhDFUQJXG0mjVTUaQGFmSmgkjyd1e+gWik+qHIv
-	FhfCj5DPhnGF0fA12xSqlNqE1sbmI3rY8YeisQlk07S22hySZ8Gxf/+DRtScj8/l46Zs/Al8SQx
-	Lwa7RCGDAGPLOdJNUnhP8XBjtdUON1WYBIOf6yK2fP6D4UzLkMSs2zVIvRCbNmG1GE9vaNVKXXX
-	1owoVw+Ufqo3uyaiv2zYfkCd+JKsujYG2S9cdtgoXAN8ZWwoGLUm9YW6wMX7bvlAQ5fTEYJTO3J
-	/DDoVt5t+Xg614VFKTzTEusBZJhzDLEhL4NgtfbsNwb3tiWRtQvvthEq1kLS0WEW+P+/MybSqAa
-	AYZnuByvlLwoK4zW0ujaBuLEgDRCX1p0+k+uluaC7aXc8SOVItZJ//a+NVNqaSmFmIPCk1i+H+z
-	0z2iA==
-X-Received: by 2002:a17:90b:2ec7:b0:39d:f317:44cd with SMTP id 98e67ed59e1d1-39e1e4907f3mr14270110a91.14.1789604628249;
-        Wed, 16 Sep 2026 17:23:48 -0700 (PDT)
-Received: from x-wing ([177.181.2.143])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bf5aa1194sm12418094eec.14.2026.09.16.17.23.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 17:23:47 -0700 (PDT)
-From: Fabio Pereira da Silva <silvapfabio@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Subject: [PATCH v3] docs: translations: pt_BR: translate researcher-guidelines.rst
-Date: Wed, 16 Sep 2026 21:23:41 -0300
-Message-ID: <20260917002341.5938-1-silvapfabio@gmail.com>
-X-Mailer: git-send-email 2.55.0.windows.2
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DfDHpci7"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uPIZYfouwmXarsTeVC51uwxU8vbJnvxHQMHH+ekeGHqjFnOUE+106ozWbwlQMzjep3v43VqP80AGk4E7VMv2ak9gDGcoGMS4t7OP1OJRBOHHH8ElvFAsab2aUyUo7Gkki60ehzj9X7i/JAkLY9NuFHZQyMXId9xmsPiRfv3yDS3xnxbKWplWk3AJF6Cx4evdVNUfpLsZcCcwQypFyYOM36GYXq14YEH8iaFnSi1MPDXGtClIcdFk60jkgVnQ+90cVf9e9agtvIisexy+TL1b3k5e0ngzBrCLbFMbyxoXbhSKnmi5sRYx1yQJj3qvZ4OrKZUBhjDDGNSEy/+Qjd6xug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=opSitjy+dIlW8EzwWQLDMlp3lOjHkk9FGMcwQCXg5QA=;
+ b=fCIqBxGnLiKNkvVu8c1+uotO6X8KqhhohOGF+dMDtwSO9HNiapcvLWNRp9JIwJ302Vr0CCi8YOwnzUGO4yJAsyNtB5sd1mu00OWz8RbUTfzWjs62qSNbkVWX4kL7Gya32itvd8OS3y4nFHGqyaSAa4seqgvL/Xv8vDkaaklS1KNIAIjCmivWVmW0IE69tut487Yz9jZwEB+uJy0aHB2+GqGLFcZuP8JB2sFJtAdSmF0zZNDw8ONQ2knCGV6dYcjEymdqBCmwLTBQaFkyGxo6sIcdunmef6n5/B62rb18BjOY9Wg0pYOSR1tn0m0mWLp+561omZhgT1CYipBiXVjm/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=opSitjy+dIlW8EzwWQLDMlp3lOjHkk9FGMcwQCXg5QA=;
+ b=DfDHpci7tpn5SeTmdIw6xwLwFSc/kzOUptOUCG7m8LT08w3mqip0FZz+UYfTW8sjP4/sRDfHa5tT0khr3OvcjSr+XKLZmemgTp/SkfdpKdlsjE1c+aWd+bdmnRQAOKLgm9JTY7vW9T0HXPlGCsCxr92jn3OZSjhndd7msUxYjp2PW9pXvGHYDnED6jILPRRDK75jKl90qYP/dVeeQvsc8zpA6RU41RVsyNx+EzaXgk+1IT+Uqd+vZsrRyLxcwfOR7YWjT09uAxuujS8xLI9BfkD99fgmQR1MAQrCsv6elajtYCnn6JnKKvOqSJJ1uCRNDOmMfIq3qGsWzp/qPECGJg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CHBPR12MB731189.namprd12.prod.outlook.com
+ (2603:10b6:610:33d::12) by LV3PR12MB9188.namprd12.prod.outlook.com
+ (2603:10b6:408:19b::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.9; Thu, 17 Sep
+ 2026 00:27:55 +0000
+Received: from CHBPR12MB731189.namprd12.prod.outlook.com
+ ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
+ ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0428.011; Thu, 17 Sep 2026
+ 00:27:55 +0000
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	iommu@lists.linux.dev,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Will Deacon <will@kernel.org>
+Cc: David Matlack <dmatlack@google.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	patches@lists.linux.dev,
+	Pranjal Shrivastava <praan@google.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Mostafa Saleh <smostafa@google.com>,
+	stable@vger.kernel.org,
+	Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
+Subject: [PATCH v6 3/9] iommu/arm-smmu-v3: Move pgsize out of arm_smmu_inv
+Date: Wed, 16 Sep 2026 21:27:44 -0300
+Message-ID: <3-v6-9cd17417d355+281836-smmu_tlbi_jgg@nvidia.com>
+In-Reply-To: <0-v6-9cd17417d355+281836-smmu_tlbi_jgg@nvidia.com>
+References:
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR14CA0012.namprd14.prod.outlook.com
+ (2603:10b6:208:23e::17) To CHBPR12MB731189.namprd12.prod.outlook.com
+ (2603:10b6:610:33d::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|LV3PR12MB9188:EE_
+X-MS-Office365-Filtering-Correlation-Id: 48befd1b-7c4f-4575-14e5-08df145282d2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|23010399003|11063799006|56012099006|22082099003|18002099003|10067099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	3a8RatPIoQdP3iFKdc0toQYkL0zn43cWNLR3BJUOhq3ueTwnnhRKrJcGHFEbpNslLDtVThVH9ejPq73yobMOPiRaJbEn3rzev/KlUuLUYz38FdR/Bxk4jPqWQGqSY6eCkYfcS/1LnwaZpW+1lPWT7afX4ecGqm5xyFBvlmlgC0C+0e4gMz+wGYaYcpXargiKT/ncY1niIWwmxHMvtrYCf+qa/7Eq4gYF3ZqVtCjK2eaCpYIGVCMyLfqld1wGsBXF8P42wj+vzYVpSHG0VrAJwpl21tgr+A75xKD3Pvcm/x+6SbAOhxoTUMuKxCLlU/qmoQPRF78kaDusRzy1GGbfnyuJRC2oxBKsAkdLmpO0DBkrjentucaia6SFQBUCD8zIxTBKcaHPVdhEEQ/hOZwaNNdb2u+gi7zIMhe8mYSpCt2wnSefyEzEk3ggd7tNxa/pVBfi8UWAbo5jJPgc2Sh8rWoHfGcV1N13zxpye4NFnxhbZdzryZYY4uvCvXvbZ2lvMqH6MvNz9BH7slEhooSBifiym+QRin5yBCqEBuGVIs0UGsUNb+Tg6J+WehbPLB2ZQD7EBq9KGW1e8i9RR7g9ghTx/Qe3XFPgwLdGvC/YMGGE8b8Qx4rBr1FoOqjnU/cRHkbGSA60q+V2ecWgIBZX+RbeYF7liIXoh+gwV5gwviEmV/5ddK+CX0Yr7y1RPTfbYnbhzPLJ2RtovBmJOvUUCA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(23010399003)(11063799006)(56012099006)(22082099003)(18002099003)(10067099003)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?SaIgoFiqYekCYUC77jeyIQhgonL6ub2gqG56pmOx3nuBPSZJx5q7OUbTEYio?=
+ =?us-ascii?Q?M/oPme5WYLC/xNymDNh2n5rCz+TLyuOzj1xNreaB1gW7+TeD3TOk7pvlaJLf?=
+ =?us-ascii?Q?ROGspAOqwXHnfWFO9Zgid+HyeiaQGFYOVN9MO2lZaHo3DidbwwHXVd2Ipaig?=
+ =?us-ascii?Q?4m2mjCJbZ18LqYhZ928JDvO5rSYvFndYLp17eEPpnJuXxZxzCYlKIdu8xGe/?=
+ =?us-ascii?Q?wkdFRV9TfXHL8IAS2Kq+BmX3TLYXtlxdRjcRlJ3XPhawBcg9CMZKeXlloz/v?=
+ =?us-ascii?Q?HT+8qo9/1ah/HPVRb27DSCBKvbNkc54XtLlgof8aGViAUspluong0qMqnZlr?=
+ =?us-ascii?Q?Z1pnl6XfRKz+hXYVzTQgOPsl3isUqvYOGwghAqKzcylwM7GNKZtEb2WWoX/I?=
+ =?us-ascii?Q?oEPT/dl2hLoLjV9DUU1SkEPdDHYXDDnyZE4QzU8WjLbnUxL0R4GJ59K8Xkc3?=
+ =?us-ascii?Q?7jVfqsmodb6M/XSJivUuBGGG4H1AyfUPuXwAeZi7ll3vqB/Y/67fWIznbcQv?=
+ =?us-ascii?Q?t5/bWuu5DeGT98r6MFt1vH0yhJeVG6p+TD7qNMNe9UwoHNbTxw8GzkFyYb0b?=
+ =?us-ascii?Q?uYBEjs5ZeMVP87vJ4BDa1qoiP0PWE1kXLhE00GYloP4Uoo/lNrZi/prW8OHJ?=
+ =?us-ascii?Q?PkBjSpVWlcCTm+Ke9hVkzkA4KxFn2HeRAE+dgqarzlKNg5rIDwkxffhe0/y8?=
+ =?us-ascii?Q?9KkF7SASjHnplWEFs4zVft7mIoqCZYBjlild+7R4ombpgs8diRM84K0w/pYK?=
+ =?us-ascii?Q?XPLkmVoZzxrItZw3CIsI5uik/ZW8I/Uf9hQ3++rUCgPUWHlHJLqxDnv4cj6T?=
+ =?us-ascii?Q?1YmXBgrtuhXKUxe94TTvdha/VvoD+ozLLGasW+KfxNguKhJrcbNg3Eam8Mhh?=
+ =?us-ascii?Q?s6WFraUsUWUd2fY0SdljiZtqJqa1+mVLXx/25zWg+nYQoR4EttTrWtLwbwF3?=
+ =?us-ascii?Q?BPPLNn2HHgSh7nPf+1G3S0SOiRjOgj2WvDbVECSbgBMFxvBjHEh88dKgr/zb?=
+ =?us-ascii?Q?HfQqQ7li71mas3yXn7bMSKdZZeupb/w6ggDv/OA5ypO+gYM+fojXaI8G5VQq?=
+ =?us-ascii?Q?ynl1nyifSDhdR5XXdShGUvGrMNE+CY6BDkowbW7GbCtJe0BDuCY1IsHsFX4F?=
+ =?us-ascii?Q?HRHjYl8+k1YDQq8kc1mdR7OkNNQ6c6TIbHnRTzssHDu6//PqHZWcdlmRqF9u?=
+ =?us-ascii?Q?AzobbMTg9ydSrq+8PnDkOO7YYK2qnTlkm/9OQTh0ULG54JsjccUmN+9RLCiM?=
+ =?us-ascii?Q?p/UoRZ5TDx1iRxy7bXRJmMiOnnSImjyPORjIp+TL25vljap76PyEv+h63E+P?=
+ =?us-ascii?Q?BPz/WvTBjPeFW7ezS2rNj4/6VQprA6RWhY2H6cmM/PGlPIHoATDw5GG/eWa0?=
+ =?us-ascii?Q?NzRxfda5i/5ZqzdTKBLrtTk+cg/b4F0+X44b+QEkufTL+Xx3YMyqgwqzW+h/?=
+ =?us-ascii?Q?/JdYDKCbpQNsOnIMTLmX+dox3457PNMj3gS9q+jKfy/0QEuWJdtz7rdTjtXk?=
+ =?us-ascii?Q?rPLAKzW5+agPSGLijrowpFzd1GgSvOYSrGCG43CrB8NjIR1m/O3ANswPVF05?=
+ =?us-ascii?Q?VMUKuwL/cPC/BL4lAUoe6lX8FKnSZo31/DGPTGgStB5bOhDBGVoS7uS8g/Jv?=
+ =?us-ascii?Q?4L4xThhDv0kfrfsO6usBD5NbNhP0L8bUTF/Z2j1/xvw4qYThZ/oISOlF15Jp?=
+ =?us-ascii?Q?rW3eA3RlZ9s4+bmfiNicocGjPnlenwP1nB3T4udgp3eOHs4x?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48befd1b-7c4f-4575-14e5-08df145282d2
+X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 00:27:52.5716
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IhNYrgAmEVS8t4+sZJJf74RBGuPbQFrkdtZPcEbmRoaQj1gqdvaouiXG1seZSrJN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9188
 
-Translate researcher-guidelines.rst into Brazilian Portuguese and add it
-to the pt_BR process documentation index.
+pgsize is a constant property of the domain, it is the base translation
+granule of the page table (4k, 16k, 64k) in log2.
 
-Signed-off-by: Fabio Pereira da Silva <silvapfabio@gmail.com>
+Store it to the struct arm_smmu_domain based on how the page table was
+created.
+
+Pass it around in the tlbi.
+
+Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
+Reviewed-by: Mostafa Saleh <smostafa@google.com>
+Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
-Changes in v3:
-- Use "adesão explícita (opt-in)" instead of "explicitamente opcionais"
-  to make it clear that participation must be actively opted into.
-- Rename "Pesquisas" section title to "Questionários" (and adjust
-  underline width) to keep "survey" and "research" as separate terms,
-  matching the body wording and the zh_CN translation.
-- Replace backticks around "Fixes:" and "Reviewed-by" tags with plain
-  double quotes, since backticks render as title_reference in RST
-  while the original English uses no markup.
+ .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |  1 +
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 29 ++++++++-----------
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   | 10 ++++---
+ 3 files changed, 19 insertions(+), 21 deletions(-)
 
-v2: https://lore.kernel.org/r/20260910190745.1676-1-silvapfabio@gmail.com
-v1: https://lore.kernel.org/r/20260910151145.1226-1-silvapfabio@gmail.com
----
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../pt_BR/process/researcher-guidelines.rst   | 174 ++++++++++++++++++
- 2 files changed, 175 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/researcher-guidelines.rst
-
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index ce2ed7a0387a..9d0c253f0256 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -75,6 +75,7 @@ kernel e sobre como ver seu trabalho integrado.
-    Lista de verificação para patches <process/submit-checklist>
-    Processo de desenvolvimento <process/development-process>
-    Linguagem de programação <process/programming-language>
-+   Diretrizes para pesquisadores <process/researcher-guidelines>
-    Interface de drivers do kernel Linux <process/stable-api-nonsense>
-    Conclave (Continuidade do projeto) <process/conclave>
-    Manuais dos mantenedores <process/maintainer-handbooks>
-diff --git a/Documentation/translations/pt_BR/process/researcher-guidelines.rst b/Documentation/translations/pt_BR/process/researcher-guidelines.rst
-new file mode 100644
-index 000000000000..f61e10b707d2
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/researcher-guidelines.rst
-@@ -0,0 +1,174 @@
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
+index a0c9078646fb55..7acb70d060ec4e 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
+@@ -345,6 +345,7 @@ struct iommu_domain *arm_smmu_sva_domain_alloc(struct device *dev,
+ 	 * ARM_SMMU_FEAT_RANGE_INV is present
+ 	 */
+ 	smmu_domain->domain.pgsize_bitmap = PAGE_SIZE;
++	smmu_domain->tgsz_lg2 = PAGE_SHIFT;
+ 	smmu_domain->stage = ARM_SMMU_DOMAIN_SVA;
+ 	smmu_domain->smmu = smmu;
+ 
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+index 03723bb00de412..6413eb4021ce22 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+@@ -2463,14 +2463,13 @@ static void arm_smmu_tlb_inv_context(void *cookie)
+ static void arm_smmu_cmdq_batch_add_range(struct arm_smmu_device *smmu,
+ 					  struct arm_smmu_cmdq_batch *cmds,
+ 					  struct arm_smmu_cmd *cmd,
+-					  struct arm_smmu_tlbi *tlbi,
+-					  size_t pgsize)
++					  struct arm_smmu_tlbi *tlbi)
+ {
+ 	size_t inv_range = tlbi->iopte_size;
+ 	unsigned long iova = tlbi->iova;
+ 	unsigned long end = iova + tlbi->size;
+ 	unsigned long num_pages = 0;
+-	unsigned int tg = pgsize;
++	u8 tg = tlbi->tgsz_lg2;
+ 	u64 orig_data0 = cmd->data[0];
+ 	u8 ttl = 0, tg_enc = 0;
+ 
+@@ -2609,12 +2608,12 @@ static void arm_smmu_inv_to_cmdq_batch(struct arm_smmu_inv *inv,
+ 	    (inv->smmu->options & ARM_SMMU_OPT_FULL_CONT_RIL)) {
+ 		if (!arm_smmu_cmdq_batch_add_ril(inv->smmu, cmds, cmd,
+ 						 tlbi->iova, tlbi->size,
+-						 inv->pgsize))
++						 tlbi->tgsz_lg2))
+ 			goto full_inv;
+ 		return;
+ 	}
+ 
+-	arm_smmu_cmdq_batch_add_range(inv->smmu, cmds, cmd, tlbi, inv->pgsize);
++	arm_smmu_cmdq_batch_add_range(inv->smmu, cmds, cmd, tlbi);
+ 	return;
+ 
+ full_inv:
+@@ -2722,6 +2721,7 @@ void arm_smmu_domain_inv_range(struct arm_smmu_domain *smmu_domain,
+ 			       unsigned int granule, bool leaf)
+ {
+ 	struct arm_smmu_tlbi tlbi = {
++		.tgsz_lg2 = smmu_domain->tgsz_lg2,
+ 		.iova = iova,
+ 		.size = size,
+ 		.iopte_size = granule,
+@@ -2978,6 +2978,7 @@ static int arm_smmu_domain_finalise(struct arm_smmu_domain *smmu_domain,
+ 		return -ENOMEM;
+ 
+ 	smmu_domain->domain.pgsize_bitmap = pgtbl_cfg.pgsize_bitmap;
++	smmu_domain->tgsz_lg2 = __ffs(pgtbl_cfg.pgsize_bitmap);
+ 	smmu_domain->domain.geometry.aperture_end = (1UL << pgtbl_cfg.ias) - 1;
+ 	smmu_domain->domain.geometry.force_aperture = true;
+ 	if (enable_dirty && smmu_domain->stage == ARM_SMMU_DOMAIN_S1)
+@@ -3217,15 +3218,13 @@ static void arm_smmu_disable_iopf(struct arm_smmu_master *master,
+ 
+ static struct arm_smmu_inv *
+ arm_smmu_master_build_inv(struct arm_smmu_master *master,
+-			  enum arm_smmu_inv_type type, u32 id, ioasid_t ssid,
+-			  size_t pgsize)
++			  enum arm_smmu_inv_type type, u32 id, ioasid_t ssid)
+ {
+ 	struct arm_smmu_invs *build_invs = master->build_invs;
+ 	struct arm_smmu_inv *cur, inv = {
+ 		.smmu = master->smmu,
+ 		.type = type,
+ 		.id = id,
+-		.pgsize = pgsize,
+ 	};
+ 
+ 	if (WARN_ON(build_invs->num_invs >= build_invs->max_invs))
+@@ -3277,28 +3276,24 @@ arm_smmu_master_build_invs(struct arm_smmu_master *master, bool ats_enabled,
+ 			   ioasid_t ssid, struct arm_smmu_domain *smmu_domain)
+ {
+ 	const bool nesting = smmu_domain->nest_parent;
+-	size_t pgsize = 0, i;
++	size_t i;
+ 
+ 	iommu_group_mutex_assert(master->dev);
+ 
+ 	master->build_invs->num_invs = 0;
+ 
+-	/* Range-based invalidation requires the leaf pgsize for calculation */
+-	if (master->smmu->features & ARM_SMMU_FEAT_RANGE_INV)
+-		pgsize = __ffs(smmu_domain->domain.pgsize_bitmap);
+-
+ 	switch (smmu_domain->stage) {
+ 	case ARM_SMMU_DOMAIN_SVA:
+ 	case ARM_SMMU_DOMAIN_S1:
+ 		if (!arm_smmu_master_build_inv(master, INV_TYPE_S1_ASID,
+ 					       smmu_domain->cd.asid,
+-					       IOMMU_NO_PASID, pgsize))
++					       IOMMU_NO_PASID))
+ 			return NULL;
+ 		break;
+ 	case ARM_SMMU_DOMAIN_S2:
+ 		if (!arm_smmu_master_build_inv(master, INV_TYPE_S2_VMID,
+ 					       smmu_domain->s2_cfg.vmid,
+-					       IOMMU_NO_PASID, pgsize))
++					       IOMMU_NO_PASID))
+ 			return NULL;
+ 		break;
+ 	default:
+@@ -3310,7 +3305,7 @@ arm_smmu_master_build_invs(struct arm_smmu_master *master, bool ats_enabled,
+ 	if (nesting) {
+ 		if (!arm_smmu_master_build_inv(
+ 			    master, INV_TYPE_S2_VMID_S1_CLEAR,
+-			    smmu_domain->s2_cfg.vmid, IOMMU_NO_PASID, 0))
++			    smmu_domain->s2_cfg.vmid, IOMMU_NO_PASID))
+ 			return NULL;
+ 	}
+ 
+@@ -3321,7 +3316,7 @@ arm_smmu_master_build_invs(struct arm_smmu_master *master, bool ats_enabled,
+ 		 */
+ 		if (!arm_smmu_master_build_inv(
+ 			    master, nesting ? INV_TYPE_ATS_FULL : INV_TYPE_ATS,
+-			    master->streams[i].id, ssid, 0))
++			    master->streams[i].id, ssid))
+ 			return NULL;
+ 	}
+ 
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+index c7d64156edbba2..f5c794728fe228 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+@@ -736,10 +736,9 @@ struct arm_smmu_inv {
+ 	u8 size_opcode;
+ 	u8 nsize_opcode;
+ 	u32 id; /* ASID or VMID or SID */
+-	union {
+-		size_t pgsize; /* ARM_SMMU_FEAT_RANGE_INV */
+-		u32 ssid; /* INV_TYPE_ATS */
+-	};
 +
-+Diretrizes para pesquisadores
-++++++++++++++++++++++++++++++
-+
-+A comunidade do kernel Linux dá boas-vindas a pesquisas transparentes sobre o
-+kernel Linux, as atividades envolvidas em sua produção e quaisquer outros
-+subprodutos de seu desenvolvimento. O Linux se beneficia muito desse tipo de
-+pesquisa, e a maioria dos aspectos do Linux é orientada por pesquisa de uma
-+forma ou de outra.
-+
-+A comunidade aprecia muito quando pesquisadores compartilham descobertas
-+preliminares antes de tornar seus resultados públicos, especialmente quando a
-+pesquisa envolve segurança. Envolver-se cedo ajuda a melhorar tanto a
-+qualidade da pesquisa quanto a capacidade do Linux de se beneficiar dela. Em
-+qualquer caso, recomenda-se compartilhar com a comunidade cópias de acesso
-+aberto das pesquisas publicadas.
-+
-+Este documento procura esclarecer quais práticas a comunidade do kernel Linux
-+considera aceitáveis e não aceitáveis ao realizar esse tipo de pesquisa. No
-+mínimo, essa pesquisa e as atividades relacionadas devem seguir as regras
-+éticas padrão de pesquisa. Para obter mais informações sobre ética em pesquisa
-+em geral, ética na tecnologia e pesquisas sobre comunidades de desenvolvedores
-+em particular, consulte:
-+
-+* `História da ética em pesquisa <https://www.unlv.edu/research/ORI-HSR/history-ethics>`_
-+* `Ética do IEEE <https://www.ieee.org/about/ethics/index.html>`_
-+* `Visões de desenvolvedores e pesquisadores sobre a ética de experimentos em projetos de código aberto <https://arxiv.org/pdf/2112.13217.pdf>`_
-+
-+A comunidade do kernel Linux espera que todos que interagem com o projeto
-+participem de boa-fé para tornar o Linux melhor. Pesquisas sobre qualquer
-+artefato disponível publicamente (incluindo, entre outros, o código-fonte)
-+produzido pela comunidade do kernel Linux são bem-vindas, embora pesquisas
-+sobre desenvolvedores devam exigir adesão explícita (opt-in) dos
-+desenvolvedores.
-+
-+Pesquisas passivas baseadas inteiramente em fontes disponíveis publicamente,
-+incluindo publicações em listas de discussão públicas e commits em
-+repositórios públicos, são claramente permitidas. No entanto, como em
-+qualquer pesquisa, a ética padrão ainda deve ser seguida.
-+
-+Pesquisas ativas sobre o comportamento de desenvolvedores, por outro lado,
-+devem ser realizadas com a concordância explícita e a divulgação completa aos
-+desenvolvedores envolvidos. Desenvolvedores não podem ser envolvidos ou
-+submetidos a experimentos sem consentimento; isso também faz parte da ética
-+padrão de pesquisa.
-+
-+Questionários
-+=============
-+
-+Frequentemente, pesquisas assumem a forma de questionários enviados a
-+mantenedores ou colaboradores. Como regra geral, porém, a comunidade do
-+kernel obtém pouco valor desses questionários. O processo de desenvolvimento
-+do kernel funciona porque cada desenvolvedor se beneficia de sua participação,
-+mesmo trabalhando com outras pessoas que têm objetivos diferentes. Responder
-+a um questionário, no entanto, é uma exigência unilateral colocada sobre
-+desenvolvedores ocupados, sem benefício correspondente para eles ou para a
-+comunidade do kernel como um todo. Por esse motivo, esse método de pesquisa é
-+desencorajado.
-+
-+Os membros da comunidade do kernel já recebem e-mails demais e provavelmente
-+perceberão solicitações de questionário como mais uma exigência sobre seu
-+tempo. Enviar essas solicitações priva a comunidade de um tempo valioso dos
-+colaboradores e dificilmente produzirá uma resposta estatisticamente útil.
-+
-+Como alternativa, pesquisadores devem considerar participar de eventos de
-+desenvolvedores, organizar sessões nas quais o projeto de pesquisa e seus
-+benefícios para os participantes possam ser explicados e interagir diretamente
-+com a comunidade nesses espaços. As informações recebidas serão muito mais
-+ricas do que as obtidas em um questionário por e-mail, e a comunidade se
-+beneficiará da oportunidade de aprender com seus conhecimentos.
-+
-+Patches
-+=======
-+
-+Para esclarecer: enviar patches aos desenvolvedores *é* interagir com eles,
-+mas eles já consentiram em receber *contribuições de boa-fé*. O envio de
-+patches intencionalmente defeituosos ou vulneráveis, ou a contribuição de
-+informações enganosas para discussões, não é algo consentido. Essa
-+comunicação pode prejudicar o desenvolvedor (por exemplo, consumindo tempo,
-+esforço e motivação) e prejudicar o projeto ao erodir toda a confiança da
-+comunidade de desenvolvedores no colaborador (e em sua organização como um
-+todo), enfraquecendo os esforços para fornecer feedback construtivo aos
-+colaboradores e colocando usuários finais em risco de falhas de software.
-+
-+A participação no próprio desenvolvimento do Linux por pesquisadores, assim
-+como por qualquer outra pessoa, é bem-vinda e incentivada. Pesquisar o código
-+do Linux é uma prática comum, especialmente no desenvolvimento ou na execução
-+de ferramentas de análise que produzem resultados acionáveis.
-+
-+Ao interagir com a comunidade de desenvolvedores, enviar um patch tem sido
-+tradicionalmente a melhor forma de causar impacto. O Linux já tem muitos bugs
-+conhecidos; o que é muito mais útil é ter correções examinadas. Antes de
-+contribuir, leia atentamente a documentação apropriada:
-+
-+* Documentation/process/development-process.rst
-+* Documentation/process/submitting-patches.rst
-+* Documentation/admin-guide/reporting-issues.rst
-+* Documentation/process/security-bugs.rst
-+
-+Em seguida, envie um patch (incluindo um registro do commit com todos os
-+detalhes listados abaixo) e acompanhe qualquer feedback de outros
-+desenvolvedores.
-+
-+Ao enviar patches produzidos a partir de pesquisas, os registros dos commits
-+devem conter pelo menos os detalhes a seguir, para que os desenvolvedores
-+tenham o contexto apropriado para entender a contribuição. Responda:
-+
-+* Qual é o problema específico encontrado?
-+* Como o problema poderia ser alcançado em um sistema em execução?
-+* Que efeito o encontro do problema teria sobre o sistema?
-+* Como o problema foi encontrado? Inclua especificamente detalhes sobre
-+  quaisquer programas de teste, análise estática ou dinâmica e quaisquer
-+  outras ferramentas ou métodos usados no trabalho.
-+* Em qual versão do Linux o problema foi encontrado? É fortemente preferível
-+  usar a versão mais recente ou uma branch linux-next recente (consulte
-+  Documentation/process/howto.rst).
-+* O que foi alterado para corrigir o problema e por que se acredita que a
-+  correção está correta?
-+* Como a alteração foi testada na compilação e em tempo de execução?
-+* Qual commit anterior esta alteração corrige? Isso deve constar em uma tag
-+  "Fixes:", conforme descrito na documentação.
-+* Quem mais revisou este patch? Isso deve constar nas tags "Reviewed-by:"
-+  apropriadas; veja abaixo.
-+
-+Por exemplo::
-+
-+  From: Author <author@email>
-+  Subject: [PATCH] drivers/foo_bar: Add missing kfree()
-+
-+  The error path in foo_bar driver does not correctly free the allocated
-+  struct foo_bar_info. This can happen if the attached foo_bar device
-+  rejects the initialization packets sent during foo_bar_probe(). This
-+  would result in a 64 byte slab memory leak once per device attach,
-+  wasting memory resources over time.
-+
-+  This flaw was found using an experimental static analysis tool we are
-+  developing, LeakMagic[1], which reported the following warning when
-+  analyzing the v5.15 kernel release:
-+
-+   path/to/foo_bar.c:187: missing kfree() call?
-+
-+  Add the missing kfree() to the error path. No other references to
-+  this memory exist outside the probe function, so this is the only
-+  place it can be freed.
-+
-+  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=y using GCC
-+  11.2 show no new warnings, and LeakMagic no longer warns about this
-+  code path. As we don't have a FooBar device to test with, no runtime
-+  testing was able to be performed.
-+
-+  [1] https://url/to/leakmagic/details
-+
-+  Reported-by: Researcher <researcher@email>
-+  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar")
-+  Signed-off-by: Author <author@email>
-+  Reviewed-by: Reviewer <reviewer@email>
-+
-+Se você é um colaborador de primeira viagem, recomenda-se que o próprio patch
-+seja avaliado por outras pessoas em particular antes de ser publicado nas
-+listas públicas. (Isso é obrigatório se tiver sido explicitamente informado
-+de que seus patches precisam de uma revisão interna mais cuidadosa.) Espera-se
-+que essas pessoas incluam sua tag "Reviewed-by" no patch resultante. Encontrar
-+outro desenvolvedor familiarizado com a contribuição para o Linux, especialmente
-+dentro da sua própria organização, e pedir ajuda para revisar antes de enviar
-+os patches às listas públicas tende a melhorar significativamente a qualidade
-+dos patches resultantes e, com isso, reduzir a carga sobre os demais
-+desenvolvedores.
-+
-+Se ninguém puder revisar os patches internamente e você precisar de ajuda para
-+encontrar alguém, ou se tiver outras perguntas relacionadas a este documento e
-+às expectativas da comunidade de desenvolvedores, entre em contato com a lista
-+de discussão privada do Technical Advisory Board:
-+<tech-board@groups.linuxfoundation.org>.
++	/* Only used by INV_TYPE_ATS */
++	u32 ssid;
+ 
+ 	int users; /* users=0 to mark as a trash to be purged */
+ };
+@@ -810,6 +809,8 @@ struct arm_smmu_tlbi {
+ 	size_t size;
+ 	/* page or block size of the leaf iopte */
+ 	unsigned int iopte_size;
++	/* Base Translation Granule of the page table */
++	u8 tgsz_lg2;
+ 	bool has_cont;
+ 	bool leaf_only;
+ };
+@@ -1060,6 +1061,7 @@ struct arm_smmu_domain {
+ 	spinlock_t			devices_lock;
+ 	bool				enforce_cache_coherency : 1;
+ 	bool				nest_parent : 1;
++	u8				tgsz_lg2;
+ 
+ 	struct mmu_notifier		mmu_notifier;
+ };
 -- 
-2.55.0.windows.2
+2.43.0
 
