@@ -1,96 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510525921F9;
-	Thu, 17 Sep 2026 14:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B9A592208
+	for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 14:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789654945; cv=none; b=SX6uigBJL6R6S3MS/9LYEKbqe6L9uHp1Pc1M9oD/A51TO29HZBXYyFnb+6otEAD2bkdAD+qs5flgRsjh4Netu8Kp24dVjwahMLogoIAHcwa8FX+m0EuohaY6/MT5nySL28BJygEgGfka51gim8+3UKW6vO1FNFUpfHZnYPUyjj0=
+	t=1789655293; cv=none; b=pdlC4VG5UXYjlVzI1dxQh8DuJvl56VGTSU6/hbIJt0x8tk4uB9aj/X86pum6EZslnG3+fE1DRlKbk95IgaEW8zPuQNW/2tx5H1vCqZo4XCq/Zn5JheMpEJGal1kz1z6/E505LXksGxE2EholnBJO52nfmk+4K7qztkVun3aXp3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789654945; c=relaxed/simple;
-	bh=Eqre9EVQ7YlVbIBp2jqspJzGDFxFiz5ITzxRB7dmjSU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WOb9ZcXhiylDSypHBiPyl5sF9qRJ5lBOQOfeFhN4jHwF7K/VxaitmKKK6sxKUiB2YZgFYwSX1GDwrcabNVKR5K/n5uY6bvArE7vbdy7HhjrSfRcADg/winRN4DvFG8DTUnpxD7oXwG/gbMgQZcBoNgYi/4NIdD7J1c41xdqOmp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fbxk3B1k; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789655293; c=relaxed/simple;
+	bh=zD+yqYOk9BEwYrlkE41XIJFd2WjARDFI5ce4WJxm+Ls=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XzWOjJcFqFqvLIlmyyXKo+j00pZZ3a9ywWna7CdEN3d0ACqARCaDhfcY2+ZFf7r82fs8YswjC39hfEPKmRZYHNT0bEJGVhln5KQYjIXodgkHxnpqeukwshzYdpUgKKsJbUSFLtEoAOgOtKY00aUZmeAJ5/laDIQVbeT1cHg4KEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=jOZBXJLw; arc=none smtp.client-ip=74.125.230.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fbxk3B1k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8CD41F0089F;
-	Thu, 17 Sep 2026 14:22:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789654942;
-	bh=Mozf9eR83klndQFJraTt18kHcl1hxd6yOHCmDoYKrX8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fbxk3B1kVQa/Rmy2plmyyuHyctTxT8yCGXvhut/j2pz7uiz+QbAlLv8/6UztAXe41
-	 tLJg8cKGIynm6fLnBghsnGt6GCd+jYC7M+RYUhe1vzhfTqX3dOZ4C1BId14gforUo+
-	 Mpqj4T/S6kQMSBWZ180eQEfmNUJFLRFNss0AzQc3oQrGPO3n5O+L7sZsfgrNHslSA5
-	 aGPofrVcWeRQSeyLDDMfGqp36KBQBcc2Kpb/M1Zuol0PY0FqPB/wrkDwU9zD5C7/EA
-	 xT3EQzQInjk9Cx/S/7zF+BBGo6a7I5x/aPeqb6BVAs+d4FNyYRhwezk/i5o+sFkLYR
-	 EPfhO8Oy0rVtA==
-From: SJ Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SJ Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="jOZBXJLw"
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-9106feddbdfso7299446d6.0
+        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 07:28:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1789655290; x=1790260090; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Jw1k2NAja1Um952Tl85LJupIp0nZbLj8NYpKbR9I6hU=;
+        b=jOZBXJLwf6JP3b19azmsQ5fLkQfodPWKCQ4sDgsm74opbQurokqxNrasGuNyOPVzvE
+         CTVWAdgBhof6iu0XiS8kaZ358Ree3L9tOC68tPaGgk6QmS7dj/CAh2cDH6Ri94YsKWYE
+         zFgjnox0YrTKuN8CziN0SVinO8YFZz6H8x2igaWxvbrgFrudFRNrFyWtefERJIZGn9WM
+         /YRBE5l7nBeTmhMKMbx56N0o1l466lNeHVloV8m2iSh8w9+kxpuV28bJDRjIUAx2mv9y
+         5MOsangOpHqTW06zyEsy1fwdV0ITN+uat3lRUftLj9jAXlHsH37VEcNIWu8qGi0F66Q2
+         koBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789655290; x=1790260090;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Jw1k2NAja1Um952Tl85LJupIp0nZbLj8NYpKbR9I6hU=;
+        b=fVCn54uUBIs9/szfKGLcTyudb47eQKhvOFdIYKKCvDcvPUdeJXRLiYWFMufb3MsyPs
+         GAs38OMUuNV+x9eJGtja6/WqWW4MErmeLqfZzGABcT93JeVR7BJ0d05/4Nq2QaJ67P02
+         kxiXeMpjHefdGRA9CCUAXW/UW/NvsGkR5SlIY8im5kRqIPEf3MDJ6sQVOQV0O0+hE0JD
+         +ATWTZVEdD7MJhuhHdoOo2qj7QCsuV/KJiR31f4DiIJPYCHrkb5LTCGeVGziUd2MOWkA
+         JjdlOkK0YgdiogQxGyywFN6BsxZy+t8UeQezC8NPdN52kyQit4nXzGerqrK/yye1JFgf
+         gzSw==
+X-Forwarded-Encrypted: i=1; AKwUvByPs/pQgVWBlyitLONEUtANMJ82wZPZybexzi8khTN6O0VcFzsB1/zfB3qeksO8/JEEBvsspyxPCKc=@vger.kernel.org
+X-Gm-Message-State: AFuF++nTTpBFOku710otVgxCnGrs/pSmDZNYhHHgmvD3IWWuH9CgNRRi
+	YiBoOrvo1wsPclNoVFU6Dmw+Rwbg9siukoiEyuAm/4tCs1SskcO0RNpVy8LQI0LZyVs=
+X-Gm-Gg: AYBFou2XVdb+MOWvEFvLEU8ghqfYbq4dQBKj3HVa3un+BSa/iRzIAxBOSUI2ScSTsZ3
+	kK2tEsJRXN8JgG4NLFGADxKVItwiq1Q76ilcKdZC9DvkSl5gbXm6SkEMmP06N4H+HdJlScUPtvZ
+	HAYONIZBdRTSiEfiWqS5qpcsZ/7Toy4umdtDCsX69OTDrfDYahDYtDs8rrlva0m7QuNAbL0SPxJ
+	dBG0FP4wAGyL5cf1Bbi/K9s2P6PRJBrUCbXrh43xFLAIthp30asVWiTOZUQcQ4ULD9AJuMNgwW3
+	6euuswv0+a7ZBdAE8DJoHeiOwe0VT9VA+xu5mfSLzv9xNiqL2MGA5x0NnSu/FoOxf5c3xfVTSJO
+	7akYh8pY9P81P1SrF3dRJ667OarccRhOTtcZplnKWXiw+OnDSTkuRFvFHDdoZeJAhGrx0zpflm0
+	zmkqvfCEBNjnFbDzBoGiSr53Wi381pBBGhLU3hgkMe8KavZdvgb1Jrn1Opj+GqZTS+nVbeHjyfg
+	SSz89HCyfZugt2YFgVmkxllDND9CqYMW/amQMCck9hTPi5ELchoPKVq
+X-Received: by 2002:a05:6214:1316:b0:912:517b:911 with SMTP id 6a1803df08f44-912517b0beamr9926716d6.48.1789655289706;
+        Thu, 17 Sep 2026 07:28:09 -0700 (PDT)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9123be9ca82sm51192626d6.32.2026.09.17.07.28.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2026 07:28:09 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1x7D5s-0000000CrE5-25RS;
+	Thu, 17 Sep 2026 11:28:08 -0300
+Date: Thu, 17 Sep 2026 11:28:08 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 10/10] Docs/mm/damon/design: clarify bp is basis point
-Date: Thu, 17 Sep 2026 07:22:08 -0700
-Message-ID: <20260917142210.90829-11-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260917142210.90829-1-sj@kernel.org>
-References: <20260917142210.90829-1-sj@kernel.org>
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	iommu@lists.linux.dev, Tushar Dave <tdave@nvidia.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org,
+	kvm@vger.kernel.org
+Subject: Re: [PATCH v6 18/18] RDMA/mlx5: Ask P2PDMA whether ATS takes a
+ direct peer-to-peer route
+Message-ID: <20260917142808.GH3196566@ziepe.ca>
+References: <20260914-fix-p2p-acs-v4-0-v6-0-5ef07ec9ef06@nvidia.com>
+ <20260914-fix-p2p-acs-v4-0-v6-18-5ef07ec9ef06@nvidia.com>
+ <321890690ce83d1943b2f678bd9bee9b8c895b66.camel@linux.intel.com>
+ <f3708893-4760-4157-83a3-313867a94e78@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <f3708893-4760-4157-83a3-313867a94e78@amd.com>
 
-DAMON design document uses "bp" for "basis point" in multiple places.
-Because it is not clearly mentioned, it is difficult to understand what
-"bp" stands for.  Add the clarification.
+On Thu, Sep 17, 2026 at 04:00:33PM +0200, Christian König wrote:
+> > However, at least for the Intel GPUs, ATS enablement is based on the
+> > PCIe-side enable bit.
+> 
+> Yeah, I can confirm as well that this is something really exotic.
 
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Closes: https://lore.kernel.org/107dc6ba-697e-4b25-ba3e-8ce2499cac9a@infradead.org
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: SJ Park <sj@kernel.org>
----
- Documentation/mm/damon/design.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+In most datacenter systems it is only the NIC that initiates the P2P
+transfers, so it should not be surprising that NIC HW has more
+optimizations for this. In real systems ATS carries such a perf cost
+that you do need to be selective about it. I would expect every
+serious NIC to have this capability or it will not be perf
+competitive.
 
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index 0a86792f90a18..e82390e77a70a 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -445,7 +445,7 @@ users to set the aimed amount of access events to observe via DAMON within
- given time interval.  The target can be specified by the user as a ratio of
- DAMON-observed access events to the theoretical maximum amount of the events
- (``access_bp``) that measured within a given number of aggregations
--(``aggrs``).
-+(``aggrs``).  The ratio is in basis point (bp or 1/10,000).
- 
- The DAMON-observed access events are calculated in byte granularity based on
- DAMON :ref:`region assumption <damon_design_region_based_sampling>`.  For
-@@ -717,7 +717,8 @@ mechanism tries to make ``current_value`` of ``target_metric`` be same to
-   in microseconds that measured from last quota reset to next quota reset.
-   DAMOS does the measurement on its own, so only ``target_value`` need to be
-   set by users at the initial time.  In other words, DAMOS does self-feedback.
--- ``node_mem_used_bp``: Specific NUMA node's used memory ratio in bp (1/10,000).
-+- ``node_mem_used_bp``: Specific NUMA node's used memory ratio in basis point
-+  (bp or 1/10,000).
- - ``node_mem_free_bp``: Specific NUMA node's free memory ratio in bp (1/10,000).
- - ``node_memcg_used_bp``: Specific cgroup's node used memory ratio for a
-   specific NUMA node, in bp (1/10,000).
--- 
-2.47.3
+NIC and GPU are using ATS for completely different reasons.
+
+> Additional to that the setup that ACS seems to be disabled for some
+> bridges bit not all also sounds extremely uncommon.
+
+I'm not sure where you saw ACS disabled, you can look rdma-core now
+has a tool to help people get their RDMA NICs working in GPU systems:
+
+https://github.com/linux-rdma/rdma-core/blob/master/kernel-boot/rdma_topo
+
+I would view most of that stuff as completely normal at this point,
+people have been doing versions of this by hand for almost 10 years
+now. Especially the asymmetric translated/untranslated routing.
+
+Jason
