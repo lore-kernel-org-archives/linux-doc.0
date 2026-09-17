@@ -1,213 +1,155 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010038.outbound.protection.outlook.com [52.101.85.38])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21FD4D17B2;
-	Thu, 17 Sep 2026 19:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.38
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789673154; cv=fail; b=riqyJXGWKdrVXfFVqH9AapvZDVc5nLxkkqBYMDcp9RhQdZN3YyHUkRI2QBbatWmgmJ/k9IHekHiS3dAbgQ3/hNxyvpDFxI6M7WZcaU7o/Eu9hvrzjx99vpwfvUF8CCUeMP/uBVxxtpgIKFOn9q+MLnvDm1IjPj0Q0s9XPD3JvsI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789673154; c=relaxed/simple;
-	bh=JByHGpW9gOmP00b2QE1jLXD07R3Inr44qCm2E8TGXEE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=TZCPM7h6417utKFFTCecTb3nXkI1sTc1MgKxYgI9DCfng7GeZwi0f5LmucCX9gXFGmKfOxCEPPvcagc8mFFOLaPJxd5EunyAEHol/R5NnFKX5w/BswZ1o4dP7C5a9nodoQP3KHn2Som8D1rfnsRZr/P29e68JwZC9/fc/7z4ZrU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=W1MizAK9; arc=fail smtp.client-ip=52.101.85.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B2C3C8C5E;
+	Thu, 17 Sep 2026 19:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789673209; cv=none; b=Z+yZI0oWU6suOASWhtUl/fSlogTo0WlfxAOvSeN5EjnlogORXrHhLiOOsiiNoQMwoGjToEGL1veafMfdhhryXhlzk768zWy7AyQJWlaTqZ8vbGU8OR62hXHFUn1wqVJXJ2KLJ/z4c+TVqIxUBXQ3TymtiZ0yO7cetd4LZ/pzBkI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789673209; c=relaxed/simple;
+	bh=sLNR1VrVQrg5fZCZqzVgyN90HNPd9kpNh4iWmwIstVs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kAwNutOUaUDh3u+PZSsuw6cxRddPZCsSaL79s49Qhtm4BwCVAC6xKcQXNFxY4Vfa9NyZx7J38MjKGpbSbnPm9//9//DmCScHQPcif4q4O6EvMUVdOmnXjJcNSuhtYyr2JDI7nhK5vyqKgy795A2BVCn+d9kR8lBX1DyIRX936vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NA0+ZurD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="W1MizAK9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WcUECYMbc0cjHy09OUEQE1l6DIwrLo6RV8hg/H1DLXXbiTLl01UY6s+yGHm9uopjp1Pf53DfKazX6Y9R1IBToFPVhuWbzNnIVXCw58OJYSc2MgSHpEmL1h9yhw+jjU24AhfwEMhcN7R62K9iw9AlcGOr/2t6uPdeXsGD/I4BE8n6GyhinRT5E0K29CjgOaluDj+9o7fkCkAcj+fDiY98gHiEpzI+W6nWaoDdNAv9kFYJLrqSTAORD7+Ud99nwR6VPBt2educYKibCgxhAWbmZCeGpVJLSsVOuy5DQhQ2g193/IrHruadJOne6jf/akKPAvJM9nuUT3cHoaMGYekvCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vfhHutjgIyAR559tbfRSucZdzBjdT9n5KwXkS1T+CLM=;
- b=DoQE0klxsp9fqksdE705qT0Dl3/SrZlwwwM6NU7fgVR8+zdvzzuSQeQVSlQ4whe/JP5XDNWhnWqRYDRKWTp7Riv2d352CSr9MByPWcjNVUoBGAzNEKDKuPadhRkaZLjAVewx42/DK9BSDWIoxgM8OHPN7aadBQLnbhwvfDz68MQgEzmbpVRq++Ak22RpJWDqOf/EHLLaqPUAYYCHf5cspbAE3aKxuZZqhpLgPHRZzXux31TG3jJBrwlZaXa2PSsIfOy/0DfqZzzTZTl2eveqXqKxT8VnMFDISDaqLsuyO9WVmqu7pXNuI7F8EpxscmFfwmWv39C5KpSrJV/B0byZug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vfhHutjgIyAR559tbfRSucZdzBjdT9n5KwXkS1T+CLM=;
- b=W1MizAK9uFYx5UdlIKletmpPeY+ADyLJqSRlyhMijEfS9lAjuP8aIcOERiwY+7QKSfJNxWvXj4x2xvwwHVPx5MhpbbNDSsNtoKCb8KMTpwsa3RGtZlMesst5ede1m9kz/EaqzVrwxkV8M7FLz3GGvE24zwwDgOKMXe7bH51JFtY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by BL3PR12MB6521.namprd12.prod.outlook.com (2603:10b6:208:3bd::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Thu, 17 Sep
- 2026 19:25:45 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0428.009; Thu, 17 Sep 2026
- 19:25:44 +0000
-Message-ID: <45e322b2-a808-4b26-b33a-4ce7c84d5241@amd.com>
-Date: Thu, 17 Sep 2026 14:25:41 -0500
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH v5 13/16] fs/resctrl: Deactivate the kernel mode
- association when a group is removed
-To: Reinette Chatre <reinette.chatre@intel.com>, tony.luck@intel.com,
- Dave.Martin@arm.com, james.morse@arm.com, bp@alien8.de, ben.horgan@arm.com
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- tglx@kernel.org, mingo@redhat.com, dave.hansen@linux.intel.com,
- hpa@zytor.com, fenghuay@nvidia.com, akpm@linux-foundation.org,
- rppt@kernel.org, dapeng1.mi@linux.intel.com, elver@google.com,
- jlayton@kernel.org, enelsonmoore@gmail.com, kuba@kernel.org,
- ebiggers@kernel.org, seanjc@google.com, peterz@infradead.org,
- chao.gao@intel.com, jmattson@google.com, naveen@kernel.org,
- ricardo.neri-calderon@linux.intel.com, tiala@microsoft.com,
- chang.seok.bae@intel.com, prathyushi.nangia@amd.com, kim.phillips@amd.com,
- elena.reshetova@intel.com, darwi@linutronix.de, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, x86@kernel.org
-References: <cover.1787772750.git.babu.moger@amd.com>
- <432f0cbfb811aee3c8c51bbc42faf66174375d8b.1787772750.git.babu.moger@amd.com>
- <9dd7905f-6180-428d-8c9d-10e9353b5091@intel.com>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <9dd7905f-6180-428d-8c9d-10e9353b5091@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR10CA0015.namprd10.prod.outlook.com
- (2603:10b6:610:4c::25) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NA0+ZurD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43BEE1F00893;
+	Thu, 17 Sep 2026 19:26:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789673208;
+	bh=tKOCZwNuNXOngsboEdPOUV9vT2nY2ya3k2ROGwA7c6Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NA0+ZurDlEpVuuCDIkpnrqgQBFewSXi8OY2zE80Fn2mcwapiTZTUaN8FcSQ/8eGhH
+	 nWFnaSmZLxyBeDWmJBstaZ4rW+XEzaRpW4W/NTbFnQMUDq0gkayC9qQGfQOStZP4Nv
+	 I70w6VaTsiMRSQFspGg3kO2C8EWhdcz7aWxn0H/WkEnpaHOLr0PsISd6Re9s9ZdV2T
+	 TPmMcPMT3rBFBRFl015oY9/BHwhGxaeUASAxazYyIF5/I4vIDcAFdjGn7423mtpHl8
+	 wsQpIGdpn9W4s5uffjjCKUDDk2VijedCAfZ+MAEA0EESn/X/3FZCd4ae7lLRXVpMG9
+	 KOCbhKCUHM3+g==
+Date: Thu, 17 Sep 2026 12:26:48 -0700
+From: Kees Cook <kees@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Alexey Gladkov <legion@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3 11/20] kbuild: avoid re-running compiler and linker
+ probes
+Message-ID: <202609171154.BEA5134F7@keescook>
+References: <20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org>
+ <20260917-build-speedup-v3-11-9ecf4163ff36@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|BL3PR12MB6521:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe680104-fc6d-4125-c4af-08df14f17827
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|376014|23010399003|366016|18002099003|22082099003|3023799007|4143699003|10067099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	tfPIK+7V38YZiQWIaxIm9H1aMy2AjJ+8qSpqzCEXhLUTQ0bm55uGd2SyHOVXwj5vVDJvjywH0DHsmnx77J+CtM3BWNxo742XtqJDTCr2QazoC+fG4Js94dUORRqMvckHRUPy9F6bDzyeYi/VKkf9QxZBqykUzPqaY7V62dQGWKHE7k6HCIdM5vBy9yy4v9KjLkY8JXXtbmkNcfZX8/NoD/u0YCMuPdsF/X2Ndaq0G9dnZYBPy3bmdEKAV1Z0pzwGB/pUf+9SPafffANrRRb7Ttx13O4octzu2LoW9KBhPxVh+TXddoiPuu3K/C5jWVfkXUEbR8xV9khebGVpbsY6UwQ0/zRkweqK+5neb+EZ7niLGo4LW7lgbV/rl/7VXXcZpyXiu3vpCQy+RE8msFS7hKZOf0kAdmIA6ofsKofHZzD9qd+d0vNr3jE6WO6ULqpk0EgwlvEZuIx3MSFLpQuWEwb4iKUgv4riSnIivD5x2WDAtq4AYocPshs8jVIW2EAOVgqfm1toQaLX3mxBNOsqyO892VW34Kmkbf8BemoLn3FHl4YoJ4iHW48v7FGzXBdsmA3e+zttsz0hotxzBV0RFYUYIH3kNhQ/FmkqIZpeLef0PLiq/WjEPpEiE1OpBHQ5jh/N+Jz+aqdloBpjGhAH2wi/C/714iyRKnRYvhYvivo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(23010399003)(366016)(18002099003)(22082099003)(3023799007)(4143699003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Ri9DL2VVU2hsVlJsQ2Rvdi9SWE93dktOdmVvWkxZNHQraUlTMXdlazlsdEVD?=
- =?utf-8?B?M0hTOHBkMWU4TmwyT2VPWkZRS2RWbGlLQy9waVRNak85VFJGOVlzNUNYaWpv?=
- =?utf-8?B?cC93Rkt3WXgvTVVvU1RoZDBCcXJscHYxbU5KdnhHSDM1REpwSURSK1lGYWVu?=
- =?utf-8?B?U3Z5OHAvOUw5eERNeUVaL0RjQmhvMG9neWJFWDcvSzc1ZiswTlVVQnRFTHdG?=
- =?utf-8?B?NnFMK0R1UjFIYmdiRVNJdU4za2NjMUdUeExwa1JxUVduaytSOGFFdy9UVk1I?=
- =?utf-8?B?YXZaU2g3V2F5MTA1dFlKQVBOaFk2OCtFY1YyRHhGZXVJZFdkNTdHd2tkYVEv?=
- =?utf-8?B?Rkw2NWd1Yms1R3hobnJuS09zU2t2a0w1MXA3UFNDUXZmS290dGYwdXF5TjV1?=
- =?utf-8?B?NG1pdVZZQnh4NFBEMDlmbEFFSzdnWjNtalBFdlVxTGtYT3NYcHQ1Y0NIYkdt?=
- =?utf-8?B?ZnBDcDVuQjdwZWpHOTVhR0NhUVhoMWR0MnFzbkZJZHZCTGVYdVJuTHMvVSt0?=
- =?utf-8?B?c0w0WHJXUzFneVpHaU45d21DMVAxdVN1dnY3QXVXZ2toT3ZOemhSSEZOdjBu?=
- =?utf-8?B?eFVVaWVzb0dyUjZ6SzR2Q3NINko2aFJqZVkvaFdkT0k1cnNIRkYvUVRBdHR5?=
- =?utf-8?B?T01EN0gyczNDM2tFcTN0YlBhblpWNlRyWWgweHJnejdLV2FySENWZVp0c2Y3?=
- =?utf-8?B?VVJ0M3JGVHFTK2t0Rk5IWlBnbHBLK1JnTmZTeFpyeDluVFQxelhCbjZMTnFB?=
- =?utf-8?B?VGo2QWMzQzZNcXNJWTIweVMxTTZXaEhKa0tOeVl4cHNqTmZVN0N1SjFvVkh2?=
- =?utf-8?B?b2k3eXR2UnZRclBmSGNocGhlRytPNmFja2d1S0lkcDhLZUdFVHF3N3R3V0pD?=
- =?utf-8?B?MWdqNmYwM2lUNTFZeE5VZXlPTVlNVHUrYnRaQUhxWUtTOFpLMFpEcTlDMnIz?=
- =?utf-8?B?dVAzc2FuUU1VYnhTOXFwSUF2T0pSdkl0NThDa09DT2txQTFSbUxRdjJpMDQv?=
- =?utf-8?B?UXp4UTg2aE5HZWJuTFNsNFFpRzNTcUMxWGhGQ1JmRkYwbWs5cjErVTRGaDNY?=
- =?utf-8?B?ODhzZ0w5blZrUFg2Q2NqUjZ4YnZTMDRQaURva21UNWtvb2Q0WXF1eFFvRW9T?=
- =?utf-8?B?aUFwUzFpSnQ4TjNjUmNPLzFGUkJBdDBraXZ6WlY2aW5aUFg3Y2pkeElFNzZS?=
- =?utf-8?B?SkxxM2hFUjJlSDd6K2RxRi9Tb0Z1ZG1laXlTQlVYa0xrODZIcjNCYWlyUUJG?=
- =?utf-8?B?Q3VLWkxicmxjN0dzZjYxdVp1VHN6enFXSEIwajNvMkhmRUVGTkFUQ0dYSzFE?=
- =?utf-8?B?bWw3dzROZkxqL3BTUG05NmhZbnV4ZngxSCtmTFNnUXdzaEFuVzExNDNLenRk?=
- =?utf-8?B?Q0l4NUFmYUR0aDdlK25HL0I3YnBkU29kV2ZrMnU3Z0VFUHlTWE9GT3dHM1R2?=
- =?utf-8?B?RmVEeDRDUzRkeVlLU2dYSU9DUE8wRnVqTVczQ25RUTd3ZkJLT01nZE5ZU1NM?=
- =?utf-8?B?TGcvd0Y0SHJOanJqZWM1VjM1alJrdWlhV3diL3poNk1lU3p1WkVmS0JpRWF1?=
- =?utf-8?B?bk1rK2hsSnJ1QzBjS0h2ZnNxUExNcnFOZzBua3FKcmpoOHVNY1k3L2xPUzRH?=
- =?utf-8?B?QjhpQkt6ZVNiUUtFbFNlYjRkN2hhSER1UEFlRE9IbUx2bG10SGhneVVrRlhB?=
- =?utf-8?B?by95ZG1SbWJYUkpqNXBOSVQwQmVBK0hhbGtOVGRaZVBHTGUreUsyaW5oWVl0?=
- =?utf-8?B?SFBxcGwyaE1yOG0yZGtnN0hXZk5kMkNzUnpLRDVjMnpiWEdCekl3bmJqUUZr?=
- =?utf-8?B?Q3N4aFlKZXJnc3hhSXkwTTBiZWovcWxGSlVKbXB2MEdyQ1hVaVNJeUdJTVBH?=
- =?utf-8?B?V0l4bkZ3TGZGN2tuY25GREpJYzdJamFVQjNobmU0V0RESExRQ2xnckV2ZnBk?=
- =?utf-8?B?Z0VlTFhGRDUvTGNjcUFORldsUGFHWUpDbGVwMVVEVGdsR3RodkhRQ3Nndlg1?=
- =?utf-8?B?WjkwNTJ3UTY2MVRkN3hvRVAxTW0xYVpjejhpcnRxZitjWkRVSGQ4VkZPOEwv?=
- =?utf-8?B?Yy9mK3c1UjVob1pLMXQxSlVOTlVQeTd1Z0plZFJoZnNoR0Q5VGZyMDlhWUdq?=
- =?utf-8?B?enJUNHNrR1dlMTRxZkFBeU4zQTlxd3dXRXBrVlNyK05HdjQxVDVZWEdnRVhw?=
- =?utf-8?B?UHVmb2JUK1hRemdFdXcyYTBubWUxckREK2dEb2ZzNHVWNmxYNEt1dmJHdUpL?=
- =?utf-8?B?dlUxR3FsSThpYlhPTFVZVUFnYlMrZ1VGUnptdWJyUGhzbWd0NStDbWFiZmhL?=
- =?utf-8?Q?6EymXziPlRuZgsKYHY?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe680104-fc6d-4125-c4af-08df14f17827
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 19:25:44.6641
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dW6f9JsiTxQHvLt0KptpibeGPec9xfbG9HYOFdyqCN19GQG6NWryTM4OfO1YTc8O
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6521
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917-build-speedup-v3-11-9ecf4163ff36@kernel.org>
 
-Hi Reinette,
-
-On 9/16/26 00:36, Reinette Chatre wrote:
-> Hi Babu,
+On Thu, Sep 17, 2026 at 05:06:21PM +0100, Lorenzo Stoakes (ARM) wrote:
+> Each kernel make invocation begins with ~30 compiler and linker runs each
+> of which performs duplicate probe for a number of compiler and linker
+> options.
 > 
-> On 8/26/26 12:32 PM, Babu Moger wrote:
->> +/**
->> + * rdtgroup_kmode_detach() - Detach @rdtgrp from a kernel mode association
->> + * @rdtgrp: Resctrl group being removed or torn down.
->> + *
->> + * If @rdtgrp backs the active kernel mode association, disable the
->> + * hardware association programmed for the group's kmode_cpu_mask,
->> + * clear the associated kernel mode state, and restore
->> + * RESCTRL_INHERIT_USER as the active mode.
+> This is useless work - the compiler and its version is known, so use these
+> to determine which options are available, once.
 > 
-> I am not going to keep pointing these out but please check entire series
-> and remove all these verbatim code descriptions from function comments.
+> A convention already exists for this - CC_HAS_xxx, LD_HAS_xxx in Kconfig
+> files (for example, CC_HAS_COUNTED_BY), so convert these probes to Kconfig
+> options where appropriate.
 
-Ack.
+Yeah, I agree about the rationale here.
 
-> 
->> + */
->> +static void rdtgroup_kmode_detach(struct rdtgroup *rdtgrp)
-> 
-> Similar to previous comments this only seems relevant to the
-> global per-CPU kernel mode so function can be made specific to it.
+It does, however, now drive a long-time annoyance of mine to the top of
+mind: the repetition of the compiler command-line options in two places:
+the Kconfig and the Makefile. I dislike that pattern so much that I really
+really worked hard to use cc-option instead where ever I possibly could
+(though it continued to add to my growing concern about the repetition
+of running those checks all the time, so I'm motivated to see something
+like what you have here actually land).
 
-ok.
+But I would really like to find a way to avoid the duplication. It's
+fragile and it's weird and it's split across 2 files that don't always
+have an obvious relationship. I really don't like it. And with it being
+used for things that are "detected" (i.e. not part of always required
+builds), that fragility means typos may go unnoticed, etc.
 
-> 
->> +{
->> +	if (!rdtgrp || !rdtgrp->kmode)
->> +		return;
->> +
->> +	if (resctrl_kcfg.active.k_rdtgrp != rdtgrp) {
-> 
-> Related to comment in previous patch this double check of rdtgrp->kmode
-> and resctrl_kcfg.active.k_rdtgrp seems to support that only one is needed?
+We've had a need for some kind of kconfig "append to a list" logic that
+we've been working around in places, e.g. include/linux/lsm_count.h for
+how "count the list of enabled LSMs" got dealt with. If we could have
+had:
 
-Yes. We can remove rdtgrp->kmode field.
+config LSM_LIST
+	list
+	separator " "
 
-> 
->> +		pr_warn("resctrl: kernel mode group not valid\n");
-> 
-> Please just fix this file's pr_fmt(fmt) instead.
+config SECURITY_SELINUX
+	...
+	append_to LSM_LIST
+	...
 
+We could just parse CONFIG_LSM_LIST directly. And I think we can do the
+same with this:
 
-Hmm... It looks like we have a pr_fmt(fmt) inconsistency across multiple 
-files.
+config CC_OPTION_LIST
+	list
+	separator " "
 
-Some files use:
+config CC_OPTION_ZERO_INIT_PADDING_BITS
+	string
+	default "$(cc-option-bit,-fzero-init-padding-bits=all)"
+	append_to CC_OPTION_LIST
 
-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+And the dump all of it into the Makefile in one via CONFIG_CC_OPTION_LIST
 
+(And we'd need to implement ld-option-bit. Though really I think
+cc-option-bit should be renamed to cc-option-str or something)
 
-while others use:
+But even without the new "list" Kconfig type, it'd be nicer to use the
+cc-option-bit string default method and dump all the newly created
+CC_OPTION_... strings into the makefile manually. The "append_to" idea
+could be a follow-up.
 
-#define pr_fmt(fmt) "resctrl: " fmt
+-Kees
 
-
-My understanding is that these will produce different log prefixes. For 
-example, KBUILD_MODNAME will typically use the object file name, whereas 
-"resctrl" provides a consistent subsystem-wide prefix.
-
-Do you think we should standardize all files to use the same prefix? If 
-so, I believe that would be better handled as a separate cleanup patch 
-rather than being mixed into this change.
-
-Thanks,
-Babu
-
+-- 
+Kees Cook
