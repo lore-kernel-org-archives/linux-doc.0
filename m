@@ -1,35 +1,46 @@
-Received: from gentwo.org (gentwo.org [62.72.0.81])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27643CD8BF;
-	Thu, 17 Sep 2026 23:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.72.0.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321EC4A2054;
+	Thu, 17 Sep 2026 23:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789688815; cv=none; b=jCuIEspMZPXqSJLvopcJHtg2oxbMvfU2aZmaxCCjbFCjqmC6po6XTfsjjh50QUK5OazPX7fZ9WK4W9xMEVYNGfmiGGznutah4qpEROcmkMjYTqFfVRI3tKNLjMsyP5KXgXgbFqwwI3I0YG8Q4GjSYBJPXdMrYa5GtNNVIOKb2Uc=
+	t=1789688933; cv=none; b=Ucxwt3f2EH6FGdkQioef6c4Y+eroYE+J6czs98OtWCtRyCd8opp8HF8Srta7fs3voE0Di/Jpi723iae7meV5fNWkmrO+9dOiXZvM5G4jjN/B3DMElTlLNsY6SxBgjXmh3Ipy1067M7KJ27+pFamUqoDF8ucQvDcfHDqZsHQrnBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789688815; c=relaxed/simple;
-	bh=3Qtb2MNOmRwJ2Ei/olRj3LhnFV0DH/aL6UWUuaKYPFE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GgQQ0M++siLDoIN4LedwkCjC9GfQRIPDkU5w6t7n81ST3x4vKD2ge9aILibwUCZtsKmSij9AbpZuMoJO/8OiVbkjkgYUWOkSuJw14D91wOqADxM2hlr08ZQftioL0SeUUE/x47AlX0wiwDi1Aqm5/Hk5YZliN7/yqdkTrC3/vXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org; spf=pass smtp.mailfrom=gentwo.org; dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b=VhMFhwoD; arc=none smtp.client-ip=62.72.0.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentwo.org
+	s=arc-20240116; t=1789688933; c=relaxed/simple;
+	bh=2QI5XfqW3Fdp9U3D1RQKsGKRIOfv+kF48RCvh2y/Rkw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=p5uJZ2mL/bdWdhcplOJkz7xpoJeJmrU9JT8Wp+u2jRoKTU8Tei2rYexf/CpCx7eesdNEggVHGa1sRhjMHyXrs8coQyaF0qZwQqTgJtbq2Kkmh34snYIjdD1MKlHLf3pcodN2GNkk81XM+N0QqVLL6C4+f9dYv4LMMicQOqsZ/go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IXBuxdF+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b="VhMFhwoD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gentwo.org;
-	s=default; t=1789677806;
-	bh=3Qtb2MNOmRwJ2Ei/olRj3LhnFV0DH/aL6UWUuaKYPFE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=VhMFhwoDiEarMVP9Imvr/F+4JOvqdPFPyznTfMnLST4xsBufJZU5l9YKz8AbF8C08
-	 2/pPRBoagi+bqHE1203nT34s0dyIeFq82HdRTBPrgYP0YoSRACv8+4hrkLbuCXGo4U
-	 GuTF/tc9/dx3BJo20bYggMePhEYnwjGC43keGceM=
-Received: from sut02sys-r112.scc-lab.amperecomputing.com (localhost [127.0.0.1])
-	by gentwo.org (Postfix) with ESMTPS id 713994027F;
-	Thu, 17 Sep 2026 13:43:26 -0700 (PDT)
-From: "Shubhang Kaushik (Ampere)" <sh@gentwo.org>
-Date: Thu, 17 Sep 2026 13:43:24 -0700
-Subject: [RFC PATCH v2 1/2] sched: Document WF_SYNC wakeup placement
- semantics
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IXBuxdF+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D54EB1F000FF;
+	Thu, 17 Sep 2026 23:48:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789688931;
+	bh=IPD5K715vR2628pQ37HVcpNaeB/Rh+milt/XThMp+S8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=IXBuxdF+SjzNY3dq9+IwbTiaKzhmGpJ3gI6JnU8WALS41i7ULFjs92fdgbxb/D+Cr
+	 fSmdIBRZcldp6wJYEMyZOpGWFjvVCby+y2H0rbJYRX5+uiRgnLZfEMWvgfIeYk8PjK
+	 +9TXMXvyN/+ASN6VJ9Dk+f8iT3c0+VSSowPLy0FlzOdzJVZolhzqE5aZcoLqCHVqnx
+	 GYSq4f9LS3c7ZX0xENlLKRM1C/E8v+DmwAi/j6sgQ+dvrpBDYVJzvBlhcDL8khe5wu
+	 IAOIzUv/i1kzkBCyYXiVRNIhOc4pqHUfGW4n7ttWGZIdPlVwI1G89luDhcyyVQwxHZ
+	 E9Wa2LwpBHZNQ==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Nicolas Schier <nsc@kernel.org>, Erkan Erdem <hexvalid@gmail.com>
+Cc: Julian Braha <julianbraha@gmail.com>, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Kees Cook <kees@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+ llvm@lists.linux.dev
+In-Reply-To: <20260907103739.23212-1-hexvalid@gmail.com>
+References: <20260907103739.23212-1-hexvalid@gmail.com>
+Subject: Re: [PATCH v2] docs: kconfig: fix shell function syntax in caveats
+Message-Id: <178968892166.1576026.5095321500689226365.b4-ty@b4>
+Date: Thu, 17 Sep 2026 16:48:41 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,136 +49,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260917-sched-wf-sync-doc-v2-1-6d1f107c0596@gentwo.org>
-References: <20260917-sched-wf-sync-doc-v2-0-6d1f107c0596@gentwo.org>
-In-Reply-To: <20260917-sched-wf-sync-doc-v2-0-6d1f107c0596@gentwo.org>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
- K Prateek Nayak <kprateek.nayak@amd.com>, 
- Shubhang Kaushik <shubhang@os.amperecomputing.com>, 
- Shrikanth Hegde <sshegde@linux.ibm.com>, 
- Madadi Vineeth Reddy <vineethr@linux.ibm.com>, 
- Christopher Lameter <clameter@amperecomputing.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- "Shubhang Kaushik (Ampere)" <sh@gentwo.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1789677805; l=4087;
- i=sh@gentwo.org; s=20251010; h=from:subject:message-id;
- bh=3Qtb2MNOmRwJ2Ei/olRj3LhnFV0DH/aL6UWUuaKYPFE=;
- b=UgVnqpJxzkzmRqWgP8WyOOVqveVi4jwB6BC/AnA6bSoftng0LDYdqEBED+eiJM+8zK4GfjQAf
- oXnpTvZfPhUDniQPWCJkXGCfqt28kTZj6eipsXUjBnos5TRQwO9uuWt
-X-Developer-Key: i=sh@gentwo.org; a=ed25519;
- pk=jc8YIRvxPSyJaBRe5y+a4N0RXKBUEcAh8+OFhlROXPY=
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=726; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=2QI5XfqW3Fdp9U3D1RQKsGKRIOfv+kF48RCvh2y/Rkw=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDFlramIMC7sqXa6XH6yT7AhTe7trile1mWpG8KTaf7dqw
+ iM3dgl1lLIwiHExyIopslQ/Vj1uaDjnLOONU5Ng5rAygQxh4OIUgIkcfMTw30Nhc1DypWAOraVr
+ d7L+/Hyz6DHTDK99hSfLfhuvOVsgV83IcDzkb9Zi/mXcuyWvPlD4sfV4Z2HIWdavYgsn+G6bqeg
+ mxQsA
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-WF_SYNC is supplied by callers that expect the waker to schedule away
-soon. The fair scheduler can use it as a placement and preemption hint,
-but its semantics are not documented.
+On Mon, 07 Sep 2026 13:37:37 +0300, Erkan Erdem wrote:
+> docs: kconfig: fix shell function syntax in caveats
 
-Document the stable fair-class WF_SYNC semantics. WF_SYNC is advisory:
-it can influence placement and preemption, but does not guarantee CPU
-locality, avoidance of migration, or immediate wakee preemption.
+Applied to
 
-This documents existing behavior only. It does not establish a new
-WF_SYNC placement policy.
+  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git kbuild-next-unstable
 
-Signed-off-by: Shubhang Kaushik (Ampere) <sh@gentwo.org>
----
- Documentation/scheduler/index.rst               |  1 +
- Documentation/scheduler/sched-wake-affinity.rst | 67 +++++++++++++++++++++++++
- 2 files changed, 68 insertions(+)
+Thanks!
 
-diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
-index 17ce8d76befc1bb1dc289e9243bdca98c9ccb172..ac95c79617fd2c03564ea4a9dad362091b9d1b86 100644
---- a/Documentation/scheduler/index.rst
-+++ b/Documentation/scheduler/index.rst
-@@ -14,6 +14,7 @@ Scheduler
-     sched-design-CFS
-     sched-eevdf
-     sched-domains
-+    sched-wake-affinity
-     sched-capacity
-     sched-energy
-     schedutil
-diff --git a/Documentation/scheduler/sched-wake-affinity.rst b/Documentation/scheduler/sched-wake-affinity.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..dd82b739bb1191db57d4006a38e1ac86b614f042
---- /dev/null
-+++ b/Documentation/scheduler/sched-wake-affinity.rst
-@@ -0,0 +1,67 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================
-+WF_SYNC Wakeup Semantics
-+=========================
-+
-+WF_SYNC is a wakeup flag supplied by callers that expect the waking task
-+to schedule away soon after waking another task. It is a scheduler hint,
-+not a CPU-placement request.
-+
-+The synchronous waitqueue helpers pass WF_SYNC to their wake functions.
-+The default wake function forwards it to the scheduler. WF_SYNC itself
-+does not block, yield, or otherwise change the state of the waker.
-+
-+This document describes the current WF_SYNC semantics for the fair
-+scheduler. Other scheduler classes may ignore WF_SYNC or apply their own
-+policy.
-+
-+Custom waitqueue wake functions may ignore WF_SYNC. The following
-+describes fair-scheduler behavior when a wake function forwards the flag
-+to the scheduler.
-+
-+Placement
-+=========
-+
-+For fair-class tasks, WF_SYNC can influence CPU selection for a wakee.
-+It expresses that placing the wakee so that it can run after the waker
-+schedules away may be beneficial.
-+
-+WF_SYNC is advisory. CPU selection remains subject to the wakee's
-+affinity and migration constraints, as well as the scheduler's other
-+placement policy. The scheduler can therefore select an eligible CPU
-+other than the waker's CPU or the wakee's previous CPU.
-+
-+In particular, WF_SYNC does not guarantee that the wakee:
-+
-+* runs on the waker CPU;
-+* remains on its previous CPU;
-+* avoids migration; or
-+* shares a core with the waker.
-+
-+Preemption
-+==========
-+
-+For fair-class tasks, WF_SYNC can also influence wakeup preemption. It
-+does not guarantee either immediate preemption or non-preemption. The
-+scheduler can preempt the current task immediately or defer the wakee's
-+execution according to fair scheduling policy.
-+
-+The scheduler does not verify that the waker subsequently schedules
-+away. A caller can continue to execute after a WF_SYNC wakeup or issue
-+several WF_SYNC wakeups before scheduling away. WF_SYNC consequently
-+does not imply that the wakee will run immediately after the wakeup.
-+
-+On uniprocessor systems, WF_SYNC may avoid a preemption when the waker
-+is expected to schedule away soon.
-+
-+Policy
-+======
-+
-+WF_SYNC is a non-binding hint. It describes the caller's expectation,
-+but does not establish a placement or execution-order guarantee for the
-+wakee.
-+
-+The hint leaves placement and preemption decisions to the scheduler.
-+Any future policy that strengthens WF_SYNC semantics must define its
-+placement and preemption guarantees explicitly.
+[1/1] docs: kconfig: fix shell function syntax in caveats
+      https://git.kernel.org/kbuild/c/ff87968e4e564
 
+Please look out for regression or issue reports or other follow up
+comments, as they may result in the patch/series getting dropped or
+reverted. Patches applied to an "unstable" branch are accepted pending
+wider testing in -next and any post-commit review; they will generally
+be moved to the main branch in a week if no issues are found.
+
+Best regards,
 -- 
-2.52.0
+Cheers,
+Nathan
+
 
