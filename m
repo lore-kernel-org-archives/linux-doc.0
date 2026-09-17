@@ -1,173 +1,153 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013037.outbound.protection.outlook.com [40.93.196.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2DE4ED197;
-	Thu, 17 Sep 2026 17:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789665983; cv=fail; b=EazARMSAQwMnd6Wn2MWxze+JGYEpvBCCHpAqRFohOy58Uvjbc6Ccfk9Bc/Sh45QjviZoJU44BoSY6Y0jng2IYARmGCkqF0U6iVy1V2SmSMifG4XkS1I9LFecs5ZytDo87w9SIPF9sIjgVFYPFW28ATeh1J6N03xucEW0T5LtSf8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789665983; c=relaxed/simple;
-	bh=YT9DXBK76oFy/iaHv3WH+VVgnZno2hDc/Kx7qhwJ3YE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=b5c2sAyiLAnk9qNs1YDcsai8bavZaMT60B4OxUBir3Nwo1Bha4+A+k/0D6SZ9sb+ZOEmaAhkysjxxI1OhoQLReyIiNUhv47eSiEjUN7588Lez3R3oxBHJX+hS66k/NTM9y157il8cUq09DdwhEGmJq1gS7mD6qYSV/HrZqjtK/w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=OSZuS1Hy; arc=fail smtp.client-ip=40.93.196.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77EF0484892;
+	Thu, 17 Sep 2026 17:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789666056; cv=none; b=E1njXjmQahx89ffjub7JjiCTMiFKzzbf4xEG05fOzKUZII20aXUwHrCk75mNbrmBds6wRnpYbUJk1v7UNn05U2GK6KE8tB2WlLx3qltLvYKcHPRO0Gov2i/4uLDB1LeCRzw299rVWZzkspsKf0du/Y+lMcgiUK1oBrFq/eS6KlM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789666056; c=relaxed/simple;
+	bh=Jo9HhRUkUveWN+3cJfEeZubkgR8tj8yZu6St7ALQbKk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JmBqvilhfG6q4OxLsdfnYg+Dq9LGoA+g0nACryy05yqGBgMClPcEnKz6+xJtMvnZWT9GakoiXt/bZg0qc2a2/570SB1c8J8UFxFior6+gNSLkYdZRR6AkzVXfLimIElWeYJdCOs7jqbtqbSfTYaLEjq8azf8SpTe0r/bKud3qBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IKcDKMZp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OSZuS1Hy"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Dog7G4wVvM8Xn0MNhWMG3bjcrIU9TIwPyUn/UeYwI9kkr/pjP7tb2FLqU2tLORrAHh8nlUpv7/TmkM+SEPaSF11duCw4RUmIyE400G+w5y2v7hrhDHYbkcIjnsFtkBN3szsErashzxsbQ+KPl5caBwCPpZORTryOQVgwZKfgE5niq0Pw87u7swmsLBurgnL0dZFZFEmlQTpgigfynh/RPSN4Ip6gPiviJocmhsn6fD8NqaVmRjmm6dVbBxtB+PgpsBfvcEIBzIRH9Y9N/lFsFNdvmmsrfjJJIv6fgaGSz3g3UUWE7ZpUBPi0hZBypRoXNVnXmvDUfHfN+J/TvyaLew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/+nWuN4LMMH7HGSBvdwJv0WYpXcHAmAsbGOZqo6xO6c=;
- b=x2EcP3HCHKiIxDmjeDumlKzGyg5zoDEKdVUXh0t00yukhM4GF/6WVuJcSQVrWCym0uYq6JVoJNzZCE2C6NU4D5Zzxn2hUexZxMEjF03/aseoFpKJ0XkPjLD9pPAe7JtGT2pjGT4RYuTymZpU0rkTtYbXCi4cRv+ZD8yRe0PrTen/5Aq9Mqb6jST9BsBBJezKPjI+zDtSCycecWcK6FbmCCQs2Bu54wLffJ5MdLRRj+Yfk9Q6dYJgPQwRH9dCvrGjZmNDj1Lp9f6qZu7Vn+b+AQlOhcXiuXmxk+wR8weRtKXEnh8lt2uiY2NwfnGW8H1VbArz3RhsG6r6H4aSi5s1PA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/+nWuN4LMMH7HGSBvdwJv0WYpXcHAmAsbGOZqo6xO6c=;
- b=OSZuS1HyHSNyDq1lDmckpPMLJLnxJAm0QKxeOu9WcLShsm0xIvNJIDFKXuD/N0dZbYcXqweZbuBwBFzstmhGvDbwE+S31HSPuVKy3UK4AlNBNvsss73IbefFq9ZLFiQL/ZGu1Ct3TNik8AlaGlpC6MKRkaxIBQ+frVKHO5VYIlc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by IA0PR12MB8905.namprd12.prod.outlook.com (2603:10b6:208:484::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.13; Thu, 17 Sep
- 2026 17:26:17 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0428.009; Thu, 17 Sep 2026
- 17:26:17 +0000
-Message-ID: <948f5361-fc46-4d89-a1b1-cfbcb2ce0ff6@amd.com>
-Date: Thu, 17 Sep 2026 12:26:14 -0500
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH v5 10/16] fs/resctrl: Add support for hidden resource
- group files
-To: Reinette Chatre <reinette.chatre@intel.com>, tony.luck@intel.com,
- Dave.Martin@arm.com, james.morse@arm.com, bp@alien8.de, ben.horgan@arm.com
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- tglx@kernel.org, mingo@redhat.com, dave.hansen@linux.intel.com,
- hpa@zytor.com, fenghuay@nvidia.com, akpm@linux-foundation.org,
- rppt@kernel.org, dapeng1.mi@linux.intel.com, elver@google.com,
- jlayton@kernel.org, enelsonmoore@gmail.com, kuba@kernel.org,
- ebiggers@kernel.org, seanjc@google.com, peterz@infradead.org,
- chao.gao@intel.com, jmattson@google.com, naveen@kernel.org,
- ricardo.neri-calderon@linux.intel.com, tiala@microsoft.com,
- chang.seok.bae@intel.com, prathyushi.nangia@amd.com, kim.phillips@amd.com,
- elena.reshetova@intel.com, darwi@linutronix.de, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, x86@kernel.org
-References: <cover.1787772750.git.babu.moger@amd.com>
- <f7bcf19ac8113a1e3d9575739c1a6400c455ce6d.1787772750.git.babu.moger@amd.com>
- <34aa4824-810b-4c81-8188-f2f37e1dc277@intel.com>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <34aa4824-810b-4c81-8188-f2f37e1dc277@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0033.namprd03.prod.outlook.com
- (2603:10b6:610:b3::8) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IKcDKMZp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6ACF1F00893;
+	Thu, 17 Sep 2026 17:27:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789666052;
+	bh=qMtpgJuTFFb3pSh+VD0JmC7P3/MrF5Y7JmPuGW1JHOg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IKcDKMZp+ekNzsJWMv6ovbqCcUdMVOZ6MpkZcYayhKvAzV/c9ClPKNnre38GDO1dP
+	 VnUSB2NySbj0dzneUmt3pEDLT5bQcZzSnv2wWgRFQfbkywnOoydZxU0Fr3fXchDfM+
+	 X2W63kMbGbKmAF4/O+OGA5Py1tGRoL8F3H9HK41uSJlirs05rf7OQz9kYeUuNQab31
+	 /puM/JcNmprsid2hI9cqCt/rE31IWuwsMruvrzyf1LRUn6ltb6gw3/tiPWIJbxOlgq
+	 ZYgG+gfi+WPmnkiu9l/cZnTZCInU5er2bu9blhiS1YcACr8Q+pi1Vz/rYoY+ZwTY9w
+	 qdLoJ1G9LuZRg==
+Date: Thu, 17 Sep 2026 10:27:32 -0700
+From: Kees Cook <kees@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Alexey Gladkov <legion@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3 02/20] kallsyms: index symbols by token to speed up
+ table compression
+Message-ID: <202609171019.5DD874E@keescook>
+References: <20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org>
+ <20260917-build-speedup-v3-2-9ecf4163ff36@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|IA0PR12MB8905:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9dd2dff-f40b-4a2d-a31e-08df14e0c829
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|376014|7416014|1800799024|56012099006|4143699003|10067099003|5023799004|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	dvmt7AcriG20TJU7xvnybOPaXvoILxETzRaHmJSKI5o7QMUJ/aTy9zd+x/DrgkCoZKBzWt12CLIceMDAx1YvcHGc5GYj5HaJZLq9TwvP9VvYVFtIXcNnreuyFAsyMHltmrfnD+wBGLZb9fqK65eB5UL+pj72i4xnIOJ8FZNyNOj91OkREX010sPh8u/4IsYswyzzfoWXrMn5nSk5/jhKaxQ7qJfdRMissgGPSCJj+KDQ8ewrlzsmx+RK5yQDRp6x23y7Kp6M0ONcTiZ6yruiY+Hv2TUG2UBGBMr6Z3AwqNsym1l+JEJbg0xknLwmWvzd/oSPcHGg5BSVmeL4NE3fBu7kLi9TBOugbUozN+9dus93zNfO5puLekEVvCU3saTFpY3YlAHpMHBUhnb0nNA4ETnrzLoSYz/0rXtD/i6ThKd5xGuMmguEapVUWqvC48wUSuaPJ9iQ6wJCFSaM0O8rFFU6SsUGO5EX1kbcANsueyfLos7Ilqgu1bpFnDGS1aQ9xzWlMijjXLNRdbU3MOXqk9B7+it0D0Lh3XrosiSmvukoyaa2n3cw1WLlDL1LLu+bp8In4C1yxjtlhIfV+tHDfYKhAcCv5h9CpNeOaO9ofPtbfl4i0Zk9RmQGiXEOFNkDtSPyNIqW5dDafrifEdPMLsIzBGfL3E5uGEwkvHUsewM=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(7416014)(1800799024)(56012099006)(4143699003)(10067099003)(5023799004)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NXBQOE1qdDdjS2FRN2lRYm4waXgyellNeFI3MGhackx1VWRLbUlPckthSjd0?=
- =?utf-8?B?aEREZTlIUGt4dkJJSEo4aGlVZnJNV3JnalA2L0xxNnBqNHlXRUVoK0xwT0la?=
- =?utf-8?B?VmFnQXZndWJTSm5zYUU1Q3lINXJJeS9EdksremhHc2FFT2c5NzBtQnUrQ29B?=
- =?utf-8?B?V2QrZ2lhZHkvbkVlWk84K3Q2M1VKUHRqTEVSSUZNR25OTit2cjJMSk5zMTJi?=
- =?utf-8?B?TDBGUXJqaXBOZzQvenVGMGpsS0d6OTl4YytLbWowZ0NPa0FxVHJVZWxwTFJH?=
- =?utf-8?B?Q3Y3YldHUkxYRk5wNnJwU0NEMlo2UWlYWUlmZDc3SDRBT3BYbEtYcEsxQTQr?=
- =?utf-8?B?MVp3eGZJdk12QjhmSWFnVHQ3Uy9FYlg4Q3lGOUw4NWZMQXN0VmVKSGNSUkF3?=
- =?utf-8?B?cDZ1R1F0SERhRVZVakdLdXhKYmp1Sk5LM1YwN3R4alhGUlZaTlBWWGg4a1VM?=
- =?utf-8?B?VkkrUjRnNEMzVjhUbkg5VTZmbGFuMG11dWY3MkRBNDZIcHNTc0R0R2xtcHhp?=
- =?utf-8?B?N2pEQW9sYllTOHdKSnVMU1BHaGZpbHNnU3NVajkxZU1yNkdTblFjT0tJSExY?=
- =?utf-8?B?ZnR1Ky9ma2V3OE81eDZDRkUrTVVZMWl5SVhDQXRhRjlZSE1qeUE5ZGY1R0Vt?=
- =?utf-8?B?TURTdzVwbDE1OEU4bHMzU0h0REt6aEtDRnYxYlN6MzA3WFQ3UlNiTFNWcG0v?=
- =?utf-8?B?VWhpWDdBVE5GZ0FqTGc1UERqV2JmdmRKTXRQVnhDOENzR2czSzB3L09pTlFh?=
- =?utf-8?B?TURNUHFKM1R1V3lkd09Ebzhwd1VLYUgvQVlETFd5MTcyNURWdmZjVGdzTS9O?=
- =?utf-8?B?MDNrRHJFQVFTNzhjd2VUSEZJZHhuT0UvdXo0a1hNVjkzTGtyNktRZHRVNXFt?=
- =?utf-8?B?TkhLRnNyM0VnQ3RrYTBjdjh3MGprSVN0RTFSaStLZDllSERtOXptMjhta2Ew?=
- =?utf-8?B?SUxFbkgrU1g4WHBhNit6RG1PVkdyc09kUzZFWnZQV0dmb2swRzBJQlNwVFpo?=
- =?utf-8?B?aGN4dGhaZjBsVFRwcDBBUmxDK00xY2xSenpmQmpMNm9CcTFWWU40L1ZLVWVy?=
- =?utf-8?B?UStRN3JRZjIyZ2JydCtzMTBIbTdPK0hqT1ZIWEVhMGxMMVpGOTh4NUJQMTVp?=
- =?utf-8?B?SFArUEFMbnh6elkzK3V4Nk51Y0dSOFdZRlFNZGtsTG5PcWZBS1QvZGZVaEhY?=
- =?utf-8?B?VDE2REFvSHhvaVNhdUdKanMxTDU4b1BiKzAwYmNVWDNNa0dmQzZuVktBSzRB?=
- =?utf-8?B?TkpldW0zK1FzSWpwc09QV3ZHUytnd0ZBaWt1dUh1YmRtd0tyMHpyNG12SkJz?=
- =?utf-8?B?S1VPYkRHbitKKzBpcTkzSS9jVmRoS1NqSEtwZXp5NUJtdTJUazJ6Q2tBYWxQ?=
- =?utf-8?B?b1RZMlpnZHJqUlFocmk0V3ZyVUtnczhUUi80bTVuT1dTZ1lPRlYvQnJva3Vq?=
- =?utf-8?B?SmtOdG1ac3hBRElESnBva0VuWmpkS05XaFR3ZXJOdXY4Z2tNWmlrenJVNnlW?=
- =?utf-8?B?OS9PMVg3akdwaFIrakhUek1HbkovN0kvV1c0cmh5eEd1Vkd0WGk4SGFxbWdx?=
- =?utf-8?B?QTJ1bmJxSkNjNG82MzJKdXFDcW0vOU1sZjcyTmtkcDcyR1BXSmEzZ3RETFAz?=
- =?utf-8?B?NTZwNUpNdlZHQzlyZDBVaks0VjcxOE5qYmJTODlzQ1FJZ0U5b3RWMmp5b3oy?=
- =?utf-8?B?TDNzMExXNmtyR2E5K2lHTWJRUzQwSUlEQUtHNmNkbGJKV0pEQTQyZUZGMWtl?=
- =?utf-8?B?VmRiWi9id0piVk9QaHpjWTFBVmdob0hOeWREMnhjdUY5VEM5b2xuL3pyV0wy?=
- =?utf-8?B?a2pLR0RUMmJtbXBERWRydjZqVVc0Q0E2S2ZGT1psUDFaSmFlTFBtY1ZDWVVN?=
- =?utf-8?B?U1ZPU1pJN1FWVVpIQ2EvVGt2Vml4eTlWUXExWEVrMnNlelg5WTdQOXUyaDB5?=
- =?utf-8?B?L1ZQOTFnbmVhUzU5S3BMQWFVM1RiMm9EbWN1aktpUWQrRlE2RzAyenpmbVJh?=
- =?utf-8?B?ZlFiZ0Zoc2lRdWdSRmhkSWN4SVh1MWVINnBtcXJLd2JCekJwZ0F2MmdkcUVE?=
- =?utf-8?B?QnFtVHg4RzVxNXJOQUdsOHNqcjQzSmg2eU1pdlpGcW5hTmx4ZmZzQVhDUjlp?=
- =?utf-8?B?LzUrSHNTcStVSTAzZXhXeGxDeXFyekVIVDhxa0E2bkJiMFF2RDBKMHBvUC9u?=
- =?utf-8?B?UDZhM1pxeXFLd1dVV3JLQ1c1ZXJTclk4L2tIUi9lQVVOcCt4Q2ZDbTJ2V29s?=
- =?utf-8?B?bjArVWl3K2pGY21CN3BndXRnL2VFeGhUakl6OW4zQmQvZFVSTHk3VVhaMlgx?=
- =?utf-8?Q?OD60/GbKkLJj3c4Lk8?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9dd2dff-f40b-4a2d-a31e-08df14e0c829
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 17:26:17.4366
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XQ+8Cm6DHLetx+7E95GUCrcVGqgbAUZPSzvIB3JBetKNlJ1O7jnQngfFqJckjgZ4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8905
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917-build-speedup-v3-2-9ecf4163ff36@kernel.org>
 
-Hi Reinette,
+On Thu, Sep 17, 2026 at 05:06:12PM +0100, Lorenzo Stoakes (ARM) wrote:
+> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+> index 494852ade6d8..350d118c3b9e 100644
+> --- a/scripts/kallsyms.c
+> +++ b/scripts/kallsyms.c
+> @@ -58,12 +58,47 @@ static unsigned int table_size, table_cnt;
+>  static int all_symbols;
+>  static int pc_relative;
+>  
+> +/* A dynamic array of symbols, encoded by symbol index. */
+> +struct sym_arr {
+> +	unsigned int *sym_indexes;
+> +	unsigned int cnt, cap;
+> +};
+> +
+>  static int token_profit[0x10000];
+> +static struct sym_arr token_syms[0x10000];
+
+Nit: since you're refactoring too, can 0x10000 be a #define so it's not
+open-coded 3 places? (find_best_token() uses the value too, though
+arguably it should actually just use ARRAY_SIZE(token_profit) instead).
+
+> [...]
+> -static void compress_symbols(const unsigned char *str, int idx)
+> +static void compress_symbols(const unsigned char *str, int compressed_chr)
+>  {
+> -	unsigned int i, len, size;
+> +	const unsigned int token_idx = sym_token_index(str, 0);
+> +	struct sym_arr *arr = &token_syms[token_idx];
+> +	unsigned int sym_idx, j, len, size;
+>  	unsigned char *p1, *p2;
+>  
+> -	for (i = 0; i < table_cnt; i++) {
+> +	/* Iterate through all symbols this token is found in and compress. */
+> +	for (j = 0; j < arr->cnt; j++) {
+> +		sym_idx = arr->sym_indexes[j];
+>  
+> -		len = table[i]->len;
+> -		p1 = table[i]->sym;
+> +		len = table[sym_idx]->len;
+> +		p1 = table[sym_idx]->sym;
+>  
+> -		/* find the token on the symbol */
+
+Why drop this comment? It's a little redundant to "find_token", but I
+always question comment _removal_ when it's not solving an inaccuracy.
+
+> [...]
+> @@ -536,11 +643,14 @@ static void compress_symbols(const unsigned char *str, int idx)
+>  
+>  		} while (p2);
+>  
+> -		table[i]->len = len;
+> +		table[sym_idx]->len = len;
+>  
+> -		/* increase the counts for this symbol's new tokens */
+
+Same question here: the comment is still valid?
+
+Otherwise, looks good to me.
+
+Reviewed-by: Kees Cook <kees@kernel.org>
 
 
-On 9/16/26 00:33, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 8/26/26 12:32 PM, Babu Moger wrote:
->> @@ -2377,6 +2380,33 @@ static int rdtgroup_add_files(struct kernfs_node *kn, unsigned long fflags)
->>   	return ret;
->>   }
->>   
->> +/*
->> + * resctrl_hidden_files_set_visible() - Show or hide files marked hidden
->> + * @kn: resource group kernfs_node
->> + * @show: whether to show or hide
->> + *
->> + * Iterate res_common_files entries marked hidden and show or hide the
->> + * corresponding file under @kn.
-> 
-> As a generic helper this is not appropriate since it just blindly makes *all*
-> hidden files belonging to a resource group visible or invisible. This pretends to
-> be a generic function but then assumes that only kernel mode related files
-> are ever created with the hidden flag set because as the kernel mode changes
-> all hidden files belonging to the named parent changes visibility.
-> 
-Are you suggesting that I update the code comments to be more specific 
-about the group, or are you suggesting that the code itself should be 
-changed?
-
-Thanks,
-Babu
+-- 
+Kees Cook
