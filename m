@@ -1,101 +1,137 @@
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8C25111BB
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 17:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644DB516145
+	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 17:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789750968; cv=none; b=r5mX5eBqRDmpq11S6Jr8skgkjZi1Fr91NXVgtrmK/aqhSIQQgI1G8EY3E6i+No9tZqsXXTLPXjtvIEjwADwYMS67dXe0M/jBMdsc9Nua7rdhMkVXRgZvXsLuPRx2K3Gtx+nG/Q+6Fczwyp2l5IFeBOhc0CmTTS9cwLbxxVsm/Uk=
+	t=1789751131; cv=none; b=dx/YyDeqS/5U43TRNg13n/zyCFDq+gMuqfJTpCtlu7L/aAzQEeYolRkSW08rmqnzXo/XnVI+UczV7EjS7T9rtYvNqERTQYCAWnIZUOWBOA7YdzT9vD3kRNrzQe1vyCwqytD5U96lDTbv5PdCblSt/FhjozoZVNClyAWi9MRKMh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789750968; c=relaxed/simple;
-	bh=bDpGvspOu4nFgSreC2Aw9attytrT9KqmqH3NWl0cZ7g=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Vtz3Sbfz1P0dbMV+2c7DFvilm0bS7W8JWF54uCjK/ZVUXmLy/cOIyS1BDdaPcH3r8DXYtMojn/kpTdDjVaomkC7D3KC24ynFdCugPVU4I4NXeUeGHCYf5N+19iD1yMLGDQsf4O/qNYzlGq74mwkUkgIfv+LzM3MTTz4dAG2Ae+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gOGp/X5O; arc=none smtp.client-ip=209.85.214.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com
+	s=arc-20240116; t=1789751131; c=relaxed/simple;
+	bh=CJUtrnr9lbLTqP4H/g58GCIz+hH13m2n3S92AYR7A28=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HFSkWnlwdTv5hMPexadgCfhuSVYxrI5RSAb+Slgg4Twx9VNYUjIq5tb+z1k0mVYnpj3lGQs65HHm++ZTvhXDlr79CcNPuzbD5IGEfDZSGfIfZt+yJT09RsSeHXDPXTHbdX4x6blbVIfQNkdQ70KUwb2mmqqWJxzw7Pf+lCJ0Aw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=Zz16yMCv; arc=none smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gOGp/X5O"
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2d6f75c1219so19893075ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 10:02:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Zz16yMCv"
+Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-939695b5741so92113585a.1
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 10:05:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789750966; x=1790355766; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NSaA4/uDxQE6ypmPHF+DraAaXm7U/OoqsySVnlQHd24=;
-        b=gOGp/X5OCAeXmkvZ6r/Rs8YgHIjxwsD4iWl8xR6EtKhO+1n4tmQvRRh0oN/g1vaJFu
-         nRFnfmsKiwTaDwsW9ABmVAFhLI62xiMEqch1O0weqCakyYiHZmAujXnJ8XB4/0yelwsB
-         jiews6SI5vLdvuetGbilTiBz5P1vMAKLxeZQxPOIYz9Kt7L+4ep1QM9Z8dr6QMwqg4E1
-         FNjGrx/goyoZggC21S6a/or1wwh22RrZqZNByU7MV/Sna5n64S+9/zE+dNaRlFPS4sQ/
-         ZFAtE9e52SoSEnxFZnoicfy8e0rIJGjpXBJx8qeSdbZZbGuyGqkXQk6vU1Om/k1s/ewp
-         1leg==
+        d=ziepe.ca; s=google; t=1789751128; x=1790355928; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zQcyEtFjPBr6Six+ddaDb/CoGlSZSKi7ev20pm6BxlM=;
+        b=Zz16yMCvY0iYXnp4qSVkoFqfYheoD9f4m4mpImDpG1lBK5zjAXrDhEED+ZfgtMmKKb
+         jys1jwEN8feW5ojbOVgRO7XgWW2iy67XVyUkEePMk5Xq6LEVrQtxqWBns2aRZejZ6kJU
+         HZ3uRkD5CDOL6CSN2PRfm2xk3H9ERs6jPpBH6GG1MSBQXYB+kTGNA7u/HWhSBwG7Z8Zc
+         1GA+sGz6DLtPsTxDCzbUGJ/rXGjWsZvqLvGOJl6akUaZJu/X9tM8vqjyN91+zujqQvdc
+         QgrytW/wV/mz66H73GTtDWEYG7ooveG8Pea/yxI0TY3AjvDlYVkLOtJPGvN28tqX534d
+         oQLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789750966; x=1790355766;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NSaA4/uDxQE6ypmPHF+DraAaXm7U/OoqsySVnlQHd24=;
-        b=FZR5OxM9dtDMcGFziTgooXWS+7sS1QI5kjk+45qKq59scMMr9d83eSExJiKmu5QdZv
-         hI8lBFJWzQsPcY1opV/rckozuGM5Ngh0PgU3v91dRrqd7L91YK+pE77bWhbvI+SDCP/6
-         YtNlCsN1M6qhkU0jGEXcQKoDFGJQAeFunwbmrhPmMnLxPGmc7vcqwkMNozgU4Y9LYqsw
-         cDhn5GYVRJGw8QJlPdghRe/J4pmrg+RebvrYmfjNdd19oP858Vk4lBIJTOcAH9dz/1Ym
-         el9eU154zFCM/87O1ub4f+1kf8bKqwt7POxdXAsxNySz49HttD5V7QgVvm/mt0gBFU/w
-         zjPw==
-X-Forwarded-Encrypted: i=1; AKwUvBwM2Y4a19rH5FhWsp0qeCmVuMTpHc3j2QZoEPeQbrLSie4CovU7fGod+ErI2+WeIjOnrM8TL+kQ8mk=@vger.kernel.org
-X-Gm-Message-State: AFuF++m3CABflDHK3gK9qjc5QdzRumwDR1itpNGPrFS8FKtOjn4bO/3o
-	dKRfkZZOu38IrCybUMP2ZQnWCpSIbjilVw8couD2OombmGgkvTqQ124GyXNyvrkbzxqTgarKHKT
-	Qf+0FzPztwJQVvHutjE8vHwUi9Af26V2BZw==
-X-Received: from plld8.prod.google.com ([2002:a17:902:7288:b0:2db:60a3:afae])
- (user=rathodpriyank job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:2388:b0:2dd:ad74:ac1d with SMTP id d9443c01a7336-2ddb1bb0740mr74481335ad.24.1789750965612;
- Fri, 18 Sep 2026 10:02:45 -0700 (PDT)
-Date: Fri, 18 Sep 2026 17:02:44 +0000
-In-Reply-To: <20260904-pcie-link-endpoints-v3-0-4b9a91bd4b35@google.com>
+        d=1e100.net; s=20260707; t=1789751128; x=1790355928;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=zQcyEtFjPBr6Six+ddaDb/CoGlSZSKi7ev20pm6BxlM=;
+        b=onLs0YFWoPiQ7hgnyKajKZZKisFonm5ARhdJ7LQB2JoC2g0tlBXzv4HNADIpFjegWh
+         5mFwQRLhhQoftFyEJUzeOuQK2ak2OJv/6ZdbOYB60jKiaza2EsdALfx/oHb8zFyRVJlV
+         GFnI5uo2Adjqsiit/Xi/5L980ep6XaT9hQBZHQw5LmMQzyuRO7uKz6Ym1aIZyyyCefSD
+         OSVjoGaCYnwILgADDPNQVjzHzzdTxe6PrbhH36Uc9iPK3yYwFSu2OXy5FoWSLoWRmoqv
+         Fllf+H8x/mJvmyjtZLjjjDp+x09qPt1ES8mqusq1pwQXAlw92EeNLw03WasDEda8NX0Z
+         RPOg==
+X-Forwarded-Encrypted: i=1; AKwUvByoaMgwWH5rlBadzKx+Ww16JOsHFwLg33gCEOk4z7dBgvk6SbxnyDSrADURLHmv6l1q1xGv13TQpDg=@vger.kernel.org
+X-Gm-Message-State: AFuF++lkw3duxkSldmHLUQFA0jYh8slNsVTtfyZpkX29UphS7MfuDY+4
+	yqC7Re/BIrqq7r/kt5ZsFJbuoQzUQf+1RgCeTN0ZQJ/Hj1S8FUrFbc2sEdbjys/WT/0=
+X-Gm-Gg: AYBFou3aaEfowlk1Ntsb4u2HlLK1oXDXIvLNEG7ICFMQ2u6QgRRgGz/dbcyResjwcQi
+	sR/bjiGDf17t4fszWz+MBOql6JmXnWreXUgS3Shn0NzAIIU/2XMGZUE/VQ6Aafjmx+V2LHYXF+O
+	tG0bcl8Y7uBf4WZqm+kRx8eCNR3HXhznDEdQJRigtNMhuh8Ci9kaQny6NYTEav85WXjT8OE8StZ
+	Ek0bDm8frcIMsAFpx/YqOYn+B8CocvjkFcECmOJNr8P3XAtWT/CyAgPIwpX70+llrFGvNccSIXR
+	pZ1rqwo+DPbWD3hOk58nNwJ4SIh9IzByJIDDH+4YdNvgkWJxtNtKPJO1UvhCvFJl3yItv2MlrbN
+	9NGg5fpurv1gwVA+o/u30UhwfgAegxcDOYHoghySNZ7oTdvEZ4ordW0yHCYtyYXiM8wQnOgkywS
+	2ZqRg0UT7TLo5HIt46iPRBA+xsXfoSVnO3wqKyamKXhbA/XBdR0uUH1Ke55gZr9WfYysS1jO1ns
+	GzEZsAbXpgVss1IpFiGhaz0dEPR/wP2Em2l/Q8ErAMTRykXOtANVfXX
+X-Received: by 2002:a05:620a:440d:b0:93a:83d:1d26 with SMTP id af79cd13be357-93bdc6c7741mr490404585a.32.1789751128040;
+        Fri, 18 Sep 2026 10:05:28 -0700 (PDT)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93be0cc67e6sm187224885a.5.2026.09.18.10.05.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 10:05:25 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1x7c1c-00000001zVZ-3Nwz;
+	Fri, 18 Sep 2026 14:05:24 -0300
+Date: Fri, 18 Sep 2026 14:05:24 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [PATCH v6 18/18] RDMA/mlx5: Ask P2PDMA whether ATS takes a
+ direct peer-to-peer route
+Message-ID: <20260918170524.GH11599@ziepe.ca>
+References: <20260914-fix-p2p-acs-v4-0-v6-0-5ef07ec9ef06@nvidia.com>
+ <20260914-fix-p2p-acs-v4-0-v6-18-5ef07ec9ef06@nvidia.com>
+ <321890690ce83d1943b2f678bd9bee9b8c895b66.camel@linux.intel.com>
+ <20260918121500.GV13683@unreal>
+ <b517070d0b9236b03962fcba649faffcacda23eb.camel@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260904-pcie-link-endpoints-v3-0-4b9a91bd4b35@google.com>
-X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
-Message-ID: <20260918170244.75711-1-rathodpriyank@google.com>
-Subject: Re: [PATCH v3 0/3] PCI/pcie: Add PCIe Lane Margining at Receiver
- (LMR) support
-From: Priyank Rathod <rathodpriyank@google.com>
-To: Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Kees Cook <kees@kernel.org>, "Gustavo A . R . Silva" <gustavoars@kernel.org>
-Cc: "=?UTF-8?q?Ilpo=20J=C3=A4rvinen?=" <ilpo.jarvinen@linux.intel.com>, linux-pci@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b517070d0b9236b03962fcba649faffcacda23eb.camel@linux.intel.com>
 
-Hi Bjorn, Ilpo,
+On Fri, Sep 18, 2026 at 03:42:28PM +0200, Thomas Hellström wrote:
+> 
+> 1) Xe attachment check if pci_p2pdma_distance() returns OK for the
+> path. Then Xe always sets up dma-addresses using dma_map_resource(). 
 
-Gentle ping on this series - it has been two weeks since v3 was posted
-and I haven't seen any feedback yet.
+Open coding pci_p2pdma_distance() in drivers is a hack. Using
+dma_map_resource() like this was never "allowed".
 
-v3 restructured the original monolithic LMR driver (v7) into the 3-patch
-stack Ilpo suggested during the v7 review, moving the link endpoint
-traversal into the PCI core rather than duplicating it in the feature
-driver:
+We've fixed things so these hacks are not needed, the drivers need to
+move over to things like dma_buf_phys_vec_to_sgt() and the hmm helpers
+to use the DMA API correctly.
 
-  1/3 PCI: Add pcie_get_link_endpoints() helper
-  2/3 PCI/ASPM: Add pci_aspm_inhibit() helper for temporary link state
-      suppression
-  3/3 PCI/pcie: Add PCIe Lane Margining at Receiver (LMR) support
+> 1a) Let's say the importer (Xe) has ATS enabled, and the exporter is
+> supposed to map dma_addresses.
+> In between there is a switch that allows direct traffic.
+> Now with your patch series, How would the exporter know that Xe has ATS
+> enabled and therefore should return IOVA mappings rather than the BUS
+> addresses representing the shortcut.
 
-The LMR driver itself is now strictly self-contained in
-drivers/pci/pcie/margin.c, with no modifications to drivers/pci/pci.c,
-drivers/pci/pci-driver.c or drivers/pci/pci.h. The series builds clean
-with W=1 and is checkpatch clean on x86_64 and arm64.
+The thing that does the DMA map must be aware of what PCI TLPs the
+PCIe initiator will use to compute the proper P2P mapping mode.
 
-Feedback on patches 1 and 2 would be especially useful, since they are
-the core helpers patch 3 builds on. I'm happy to respin if the split
-isn't what you had in mind, or to rebase onto a newer base if that helps
-review.
+ATS always needs an IOVA but that still doesn't mean the P2P will
+work.
 
-Thanks,
-Priyank
+> It seems to me that a pci-device settable flag "ATS always enabled"
+> should be enough to fix both issues?
+
+It should be be per-mapping to support the NIC workflow that isn't a
+global operation.
+
+Jason
